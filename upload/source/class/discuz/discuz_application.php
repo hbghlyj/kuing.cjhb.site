@@ -78,6 +78,15 @@ class discuz_application extends discuz_base{
 
 		error_reporting(E_ERROR);
 
+		if(PHP_VERSION < '5.3.0') {
+			set_magic_quotes_runtime(0);
+		}
+
+		if (PHP_VERSION < '5.4.0') {
+			define('MAGIC_QUOTES_GPC', function_exists('get_magic_quotes_gpc') && get_magic_quotes_gpc());
+		} else {
+			define('MAGIC_QUOTES_GPC', FALSE);
+		}
 		define('ICONV_ENABLE', function_exists('iconv'));
 		define('MB_ENABLE', function_exists('mb_convert_encoding'));
 		define('EXT_OBGZIP', function_exists('ob_gzhandler'));
@@ -425,12 +434,16 @@ class discuz_application extends discuz_base{
 	private function _get_client_ip() {
 		$ip = $_SERVER['REMOTE_ADDR'];
 		if (!array_key_exists('security', $this->config) || !$this->config['security']['onlyremoteaddr']) {
+<<<<<<< HEAD
 			if (array_key_exists('ipgetter', $this->config) && !empty($this->config['ipgetter']['setting'])) {
 				$s = empty($this->config['ipgetter'][$this->config['ipgetter']['setting']]) ? array() : $this->config['ipgetter'][$this->config['ipgetter']['setting']];
 				$c = 'ip_getter_'.$this->config['ipgetter']['setting'];
 				$r = $c::get($s);
 				$ip = ip::validate_ip($r) ? $r : $ip;
 			} elseif (isset($_SERVER['HTTP_CLIENT_IP']) && ip::validate_ip($_SERVER['HTTP_CLIENT_IP'])) {
+=======
+			if (isset($_SERVER['HTTP_CLIENT_IP']) && preg_match('/^([0-9]{1,3}\.){3}[0-9]{1,3}$/', $_SERVER['HTTP_CLIENT_IP'])) {
+>>>>>>> ecd52371 (修复一部分废弃的PHP语法、函数)
 				$ip = $_SERVER['HTTP_CLIENT_IP'];
 			} elseif(isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
 				if (strpos($_SERVER['HTTP_X_FORWARDED_FOR'], ",") > 0) {
