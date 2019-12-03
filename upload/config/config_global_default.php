@@ -243,6 +243,12 @@ $_config['ipgetter']['iplist']['list']['0'] = '127.0.0.1';
 $_config['ipgetter']['dnslist']['header'] = 'HTTP_X_FORWARDED_FOR';
 $_config['ipgetter']['dnslist']['list']['0'] = 'comsenz.com';
 
+/** IP数据库扩展 **/
+/** $_config['ipdb']下除setting外均可用作自定义扩展IP库设置选项，也欢迎大家PR自己的扩展IP库 **/
+$_config['ipdb']['setting']['default'] = 'tiny';	// 系统使用的默认IP库
+$_config['ipdb']['setting']['ipv4'] = '';	// 系统使用的默认IPv4库，留空为使用默认库
+$_config['ipdb']['setting']['ipv6'] = ''; // 系统使用的默认IPv6库，留空为使用默认库
+
 // Addon Setting
 //$_config['addonsource'] = 'xx1';
 //$_config['addon'] = array(
