@@ -62,13 +62,11 @@ class control extends adminbase {
 			$dbsize += $table['Data_length'] + $table['Index_length'];
 		}
 		$dbsize = $dbsize ? $this->_sizecount($dbsize) : $lang['unknown'];
-		$magic_quote_gpc = get_magic_quotes_gpc() ? 'On' : 'Off';
 		$allow_url_fopen = ini_get('allow_url_fopen') ? 'On' : 'Off';
 		$this->view->assign('serverinfo', $serverinfo);
 		$this->view->assign('fileupload', $fileupload);
 		$this->view->assign('dbsize', $dbsize);
 		$this->view->assign('dbversion', $dbversion);
-		$this->view->assign('magic_quote_gpc', $magic_quote_gpc);
 		$this->view->assign('allow_url_fopen', $allow_url_fopen);
 
 		$this->view->display('admin_frame_main');
