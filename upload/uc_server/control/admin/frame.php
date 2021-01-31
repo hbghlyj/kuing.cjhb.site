@@ -52,8 +52,7 @@ class control extends adminbase {
 		$this->view->assign('iframe', getgpc('iframe', 'G'));
 
 		$serverinfo = PHP_OS.' / PHP v'.PHP_VERSION;
-		$serverinfo .= @ini_get('safe_mode') ? ' Safe Mode' : NULL;
-		$dbversion = $this->db->result_first("SELECT VERSION()");
+		$dbversion = $this->db->version();
 		$fileupload = @ini_get('file_uploads') ? ini_get('upload_max_filesize') : '<font color="red">'.$lang['no'].'</font>';
 		$dbsize = 0;
 		$tablepre = UC_DBTABLEPRE;
