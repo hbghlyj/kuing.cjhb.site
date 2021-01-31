@@ -134,7 +134,8 @@ if($method == 'show_license') {
 			mysqli_close($link);
 		}
 
-		if(strpos($tablepre, '.') !== false || intval($tablepre{0})) {
+		// Table prefixes must end with "_" to avoid names like "pre_1" breaking later parsing.
+		if(strpos($tablepre, '.') !== false || intval($tablepre{0}) || substr($tablepre, -1) !== '_') {
 			show_msg('tablepre_invalid', $tablepre, 0);
 		}
 
