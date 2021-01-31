@@ -480,6 +480,8 @@ function build_cache_setting() {
 
 	$data['mpsid'] = preg_replace('/[^0-9]+/', '', $data['mps']);
 
+	$data['securesiteurl'] = $_G['siteurl'];
+	
 	savecache('setting', $data);
 	$_G['setting'] = $data;
 }
@@ -613,6 +615,10 @@ function get_cachedata_setting_plugin($method = '') {
 									}
 									if($hscript == 'home' && in_array($curscript, array('space', 'spacecp'))) {
 										$curscript .= '_'.$v[1];
+									}
+									// If $funcname include __ , then before __ is $curscript.
+									if(strpos($funcname, '__') !== false) {
+										$curscript = current(explode('__', $funcname));
 									}
 									if(!@in_array($script, $data[$k][$hscript][$curscript]['module'])) {
 										$data[$k][$hscript][$curscript]['module'][$plugin['identifier']] = $script;

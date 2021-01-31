@@ -23,6 +23,7 @@ if(!empty($_GET['checkrush']) && preg_match('/[^0-9_]/', $_GET['checkrush'])) {
 }
 
 if(!$_G['forum_thread'] || !$_G['forum']) {
+	header("HTTP/1.1 404 Not Found");
 	showmessage('thread_nonexistence');
 }
 
@@ -33,7 +34,7 @@ if($page === 1 && !empty($_G['setting']['antitheft']['allow']) && empty($_G['set
 	helper_antitheft::check($_G['forum_thread']['tid'], 'tid');
 }
 
-if($_G['setting']['cachethreadlife'] && $_G['forum']['threadcaches'] && !$_G['uid'] && $page == 1 && !$_G['forum']['special'] && empty($_GET['do']) && !defined('IN_ARCHIVER') && !defined('IN_MOBILE')) {
+if($_G['setting']['cachethreadlife'] && $_G['forum']['threadcaches'] && !$_G['uid'] && $page == 1 && !$_G['forum']['special'] && empty($_GET['do']) && empty($_GET['from']) && empty($_GET['threadindex']) && !defined('IN_ARCHIVER') && !defined('IN_MOBILE')) {
 	viewthread_loadcache();
 }
 
@@ -307,9 +308,9 @@ $lastmod = viewthread_lastmod($_G['forum_thread']);
 
 $showsettings = str_pad(decbin($_G['setting']['showsettings']), 3, '0', STR_PAD_LEFT);
 
-$showsignatures = $showsettings{0};
-$showavatars = $showsettings{1};
-$_G['setting']['showimages'] = $showsettings{2};
+$showsignatures = $showsettings[0];
+$showavatars = $showsettings[1];
+$_G['setting']['showimages'] = $showsettings[2];
 
 $highlightstatus = isset($_GET['highlight']) && str_replace('+', '', $_GET['highlight']) ? 1 : 0;
 
@@ -319,7 +320,7 @@ $_G['forum']['allowpost'] = isset($_G['forum']['allowpost']) ? $_G['forum']['all
 $allowpostreply = ($_G['forum']['allowreply'] != -1) && (($_G['forum_thread']['isgroup'] || (!$_G['forum_thread']['closed'] && !checkautoclose($_G['forum_thread']))) || $_G['forum']['ismoderator']) && ((!$_G['forum']['replyperm'] && $_G['group']['allowreply']) || ($_G['forum']['replyperm'] && forumperm($_G['forum']['replyperm'])) || $_G['forum']['allowreply']);
 $fastpost = $_G['setting']['fastpost'] && !$_G['forum_thread']['archiveid'] && ($_G['forum']['status'] != 3 || $_G['isgroupuser']);
 $allowfastpost = $_G['setting']['fastpost'] && $allowpostreply;
-if(!$_G['uid'] && ($_G['setting']['need_avatar'] || $_G['setting']['need_email'] || $_G['setting']['need_friendnum']) || !$_G['adminid'] && (!cknewuser(1) || $_G['setting']['newbiespan'] && (!getuserprofile('lastpost') || TIMESTAMP - getuserprofile('lastpost') < $_G['setting']['newbiespan'] * 60) && TIMESTAMP - $_G['member']['regdate'] < $_G['setting']['newbiespan'] * 60)) {
+if(!$_G['uid'] && ($_G['setting']['need_avatar'] || $_G['setting']['need_email'] || $_G['setting']['need_friendnum']) || in_array($_G['adminid'], array(0, -1)) && (!cknewuser(1) || $_G['setting']['newbiespan'] && (!getuserprofile('lastpost') || TIMESTAMP - getuserprofile('lastpost') < $_G['setting']['newbiespan'] * 60) && TIMESTAMP - $_G['member']['regdate'] < $_G['setting']['newbiespan'] * 60)) {
 	$allowfastpost = false;
 }
 $_G['group']['allowpost'] = $_G['forum']['allowpost'] != -1 && ((!$_G['forum']['postperm'] && $_G['group']['allowpost']) || ($_G['forum']['postperm'] && forumperm($_G['forum']['postperm'])) || $_G['forum']['allowpost']);
@@ -404,6 +405,9 @@ if(empty($_GET['viewpid'])) {
 	if($_G['page'] === 1 && $_G['forum_thread']['stickreply'] && empty($_GET['authorid'])) {
 		$poststick = C::t('forum_poststick')->fetch_all_by_tid($_G['tid']);
 		foreach(C::t('forum_post')->fetch_all($posttableid, array_keys($poststick)) as $post) {
+			if($post['invisible'] != 0) {
+				continue;
+			}
 			$post['position'] = $poststick[$post['pid']]['position'];
 			$post['avatar'] = avatar($post['authorid'], 'small');
 			$post['isstick'] = true;
@@ -669,7 +673,7 @@ foreach($postarr as $post) {
 				continue;
 			}
 			$_G['forum_firstpid'] = $post['pid'];
-			if(!$_G['forum_thread']['price'] && (IS_ROBOT || $_G['adminid'] == 1)) $summary = str_replace(array("\r", "\n"), '', messagecutstr(strip_tags($post['message']), 160));
+			if(!$_G['forum_thread']['price']) $summary = str_replace(array("\r", "\n"), '', messagecutstr(strip_tags($post['message']), 160));
 			$tagarray_all = $posttag_array = array();
 			$tagarray_all = explode("\t", $post['tags']);
 			if($tagarray_all) {
@@ -1303,8 +1307,12 @@ function viewthread_loadcache() {
 			readfile($threadcache['filename']);
 			viewthread_updateviews($_G['forum_thread']['threadtableid']);
 			$updatetime = dgmdate($filemtime, 'Y-m-d H:i:s');
-			$gzip = $_G['gzipcompress'] ? ', Gzip On' : '';
-			echo '<script type="text/javascript">$("debuginfo") ? $("debuginfo").innerHTML = ", Updated at '.$updatetime.', Processed in '.sprintf("%0.6f", microtime(TRUE) - $start_time).' second(s)'.$gzip.'." : "";</script></body></html>';
+			$debuginfo = ", Updated at $updatetime";
+			if(getglobal('setting/debug')) {
+				$gzip = $_G['gzipcompress'] ? ', Gzip On' : '';
+				$debuginfo .= ', Processed in '.sprintf("%0.6f", microtime(TRUE) - $start_time).' second(s)'.$gzip;
+			}
+			echo '<script type="text/javascript">$("debuginfo") ? $("debuginfo").innerHTML = "'.$debuginfo.'." : "";</script></body></html>';
 			ob_end_flush();
 			exit();
 		}

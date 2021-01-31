@@ -65,8 +65,8 @@ function check_db($dbhost, $dbuser, $dbpw, $dbname, $tablepre) {
 	if (strpos($dbhost, ":") === FALSE) $dbhost .= ":3306";
 	$link = new mysqli($dbhost, $dbuser, $dbpw);
 	if($link->connect_errno) {
-		$errno = $link->errno;
-		$error = $link->error;
+		$errno = $link->connect_errno;
+		$error = $link->connect_error;
 		if($errno == 1045) {
 			show_msg('database_errno_1045', $error, 0);
 		} elseif($errno == 2003) {
@@ -172,12 +172,12 @@ function function_check(&$func_items) {
 	}
 }
 
-function dintval($int, $allowarray = false) {
+function dfloatval($int, $allowarray = false) {
 	$ret = floatval($int);
 	if($int == $ret || !$allowarray && is_array($int)) return $ret;
 	if($allowarray && is_array($int)) {
 		foreach($int as &$v) {
-			$v = dintval($v, true);
+			$v = dfloatval($v, true);
 		}
 		return $int;
 	} elseif($int <= 0xffffffff) {
@@ -200,8 +200,8 @@ function show_env_result(&$env_items, &$dirfile_items, &$func_items, &$filesock_
 		}
 		$status = 1;
 		if($item['r'] != 'notset') {
-			if(dintval($item['current']) && dintval($item['r'])) {
-				if(dintval($item['current']) < dintval($item['r'])) {
+			if(dfloatval($item['current']) && dfloatval($item['r'])) {
+				if(dfloatval($item['current']) < dfloatval($item['r'])) {
 					$status = 0;
 					$error_code = ENV_CHECK_ERROR;
 				}
@@ -768,16 +768,27 @@ ajax.x = function () {
 
 ajax.send = function (url, callback, method, data, async) {
     if (async === undefined) {async = true;}
-    var x = ajax.x();x.open(method, url, async);x.onreadystatechange = function () {if (x.readyState == 4) {callback(x.responseText)}};if (method == 'POST') {x.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');}
+    var x = ajax.x();x.open(method, url, async);x.onreadystatechange = function () {if ((x.readyState == 4) && (typeof callback == 'function')) {callback(x.responseText)}};if (method == 'POST') {x.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');}
     x.send(data);
 };
 
-ajax.get = function (url, data, callback, async) {
-    var query = [];for (var key in data) {query.push(encodeURIComponent(key) + '=' + encodeURIComponent(data[key]));}ajax.send(url + (query.length ? '?' + query.join('&') : ''), callback, 'GET', null, async);
+ajax.get = function (url, callback) {
+    ajax.send(url, callback, 'GET', null, true);
 };
 
 function request_do_db_init() {
-    ajax.get('index.php?method=do_db_init&allinfo=<?= $allinfo ?>');
+    ajax.get('index.php?<?= http_build_query(array('method'=>'do_db_init','allinfo'=>$allinfo)) ?>', function() {
+            append_notice("<?= lang('initsys') ?> ... ");
+
+            ajax.get("../misc.php?mod=initsys", function() {
+                append_notice("<?= lang('succeed') ?><br/>");
+                document.getElementById("laststep").value = '<?= lang("initdbresult_succ") ?>';
+                document.getElementById("laststep").disabled = false;
+                window.setTimeout(function() {
+                    window.location='index.php?method=ext_info';
+                }, 2000);
+            });
+    });
 }
 
 function set_notice(str) {
@@ -790,51 +801,36 @@ function append_notice(str) {
     document.getElementById('notice').scrollTop = 100000000;
 }
 
-var old_log_data='';
+var old_log_data = '';
 function request_log() {
-    ajax.get('index.php?method=check_db_init_progress', "", function (data) {
-
-        if(data===old_log_data){
-            setTimeout(request_log,500);
+    ajax.get('index.php?method=check_db_init_progress', function (data) {
+        if(data === old_log_data){
+            setTimeout(request_log, 1000);
             return;
         }
-        old_log_data=data;
-
+        old_log_data = data;
         set_notice(
-		data.split("\n").
-		map(function(l) {
+		data.split("\n").map(function(l) {
 			if (l.indexOf('<?= lang("failed") ?>') !== -1) {
 				return '<font color="red">' + l + '</font><br/>';
 			} else {
 				return l + '<br/>';
 			}
-		}).
-		join('')
+		}). join('')
 	);
 	if (data.indexOf('<?= lang("failed") ?>') !== -1) {
                 append_notice("<?= lang('error_quit_msg') ?><br/>");
 		return;
 	}
-        if (data.indexOf('<?= lang("initdbresult_succ") ?>') !== -1) {
-            append_notice("<?= lang('initsys') ?> ... ");
-
-            ajax.get("../misc.php?mod=initsys", "", function() {
-                append_notice("<?= lang('succeed') ?><br/>");
-                document.getElementById("laststep").value = '<?= lang("initdbresult_succ") ?>';
-                document.getElementById("laststep").disabled = false;
-                window.setTimeout(function() {
-                    window.location='index.php?method=ext_info';
-                }, 2000);
-            });
-        } else {
-            request_log();
+        if (data.indexOf('<?= lang("initdbresult_succ") ?>') === -1) {
+            setTimeout(request_log, 200);
         }
     });
 }
 
 window.onload = function() {
     request_do_db_init();
-    setTimeout(request_log,500);
+    setTimeout(request_log, 500);
 }
 </script>
 		<div id="notice"></div>
@@ -863,10 +859,10 @@ function runquery($sql) {
 	}
 	unset($sql);
 
+	$oldtablename = "";
 	foreach($ret as $query) {
 		$query = trim($query);
 		if($query) {
-
 			if(substr($query, 0, 12) == 'CREATE TABLE') {
 				$name = preg_replace("/CREATE TABLE ([a-z0-9_]+) .*/is", "\\1", $query);
 				if ($db->query(createtable($query, $db->version()))) {
@@ -878,13 +874,14 @@ function runquery($sql) {
 			} elseif(substr($query, 0, 6) == 'INSERT') {
 				$name = preg_replace("/INSERT\s+INTO\s+[\`]?([a-z0-9_]+)[\`]? .*/is", "\\1", $query);
 				if ($db->query($query)) {
-					if($oldname!=$name)
+					if($oldtablename != $name) {
 						showjsmessage(lang('init_table_data').' '.$name.'  ... '.lang('succeed') . "\n");
+						$oldtablename = $name;
+					}
 				} else {
 					showjsmessage(lang('init_table_data').' '.$name.'  ... '.lang('failed') . "\n");
 					return false;
 				}
-				$oldname=$name;
 			}else{
 				if (!$db->query($query)) {
 					showjsmessage(lang('failed') . "\n");
@@ -978,16 +975,24 @@ function fsocketopen($hostname, $port = 80, &$errno, &$errstr, $timeout = 15) {
 function dfopen($url, $limit = 0, $post = '', $cookie = '', $bysocket = FALSE, $ip = '', $timeout = 15, $block = TRUE, $encodetype  = 'URLENCODE', $allowcurl = TRUE) {
 	$return = '';
 	$matches = parse_url($url);
-	$scheme = $matches['scheme'];
+	$scheme = strtolower($matches['scheme']);
 	$host = $matches['host'];
-	$path = $matches['path'] ? $matches['path'].($matches['query'] ? '?'.$matches['query'] : '') : '/';
-	$port = !empty($matches['port']) ? $matches['port'] : ($matches['scheme'] == 'https' ? 443 : 80);
+	$path = !empty($matches['path']) ? $matches['path'].(!empty($matches['query']) ? '?'.$matches['query'] : '') : '/';
+	$port = !empty($matches['port']) ? $matches['port'] : ($scheme == 'https' ? 443 : 80);
 
 	if(function_exists('curl_init') && function_exists('curl_exec') && $allowcurl) {
 		$ch = curl_init();
 		$ip && curl_setopt($ch, CURLOPT_HTTPHEADER, array("Host: ".$host));
 		curl_setopt($ch, CURLOPT_USERAGENT, $_SERVER['HTTP_USER_AGENT']);
-		curl_setopt($ch, CURLOPT_URL, $scheme.'://'.($ip ? $ip : $host).':'.$port.$path);
+		// 在请求主机名并非一个合法 IP 地址, 且 PHP 版本 >= 5.5.0 时, 使用 CURLOPT_RESOLVE 设置固定的 IP 地址与域名关系
+		// 在不支持的 PHP 版本下, 继续采用原有不支持 SNI 的流程
+		if(!filter_var($host, FILTER_VALIDATE_IP) && version_compare(PHP_VERSION, '5.5.0', 'ge')) {
+			curl_setopt($ch, CURLOPT_DNS_USE_GLOBAL_CACHE, false);
+			curl_setopt($ch, CURLOPT_RESOLVE, array("$host:$port:$ip"));
+			curl_setopt($ch, CURLOPT_URL, $scheme.'://'.$host.':'.$port.$path);
+		} else {
+			curl_setopt($ch, CURLOPT_URL, $scheme.'://'.($ip ? $ip : $host).':'.$port.$path);
+		}
 		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -1019,6 +1024,9 @@ function dfopen($url, $limit = 0, $post = '', $cookie = '', $bysocket = FALSE, $
 		$out = "POST $path HTTP/1.0\r\n";
 		$header = "Accept: */*\r\n";
 		$header .= "Accept-Language: zh-cn\r\n";
+		if($allowcurl) {
+			$encodetype = 'URLENCODE';
+		}
 		$boundary = $encodetype == 'URLENCODE' ? '' : '; boundary='.trim(substr(trim($post), 2, strpos(trim($post), "\n") - 2));
 		$header .= $encodetype == 'URLENCODE' ? "Content-Type: application/x-www-form-urlencoded\r\n" : "Content-Type: multipart/form-data$boundary\r\n";
 		$header .= "User-Agent: $_SERVER[HTTP_USER_AGENT]\r\n";
@@ -1040,18 +1048,35 @@ function dfopen($url, $limit = 0, $post = '', $cookie = '', $bysocket = FALSE, $
 	}
 
 	$fpflag = 0;
-	if(!$fp = @fsocketopen(($scheme == 'https' ? 'ssl://' : '').($scheme == 'https' ? $host : ($ip ? $ip : $host)), $port, $errno, $errstr, $timeout)) {
-		$context = array(
-			'http' => array(
-				'method' => $post ? 'POST' : 'GET',
-				'header' => $header,
-				'content' => $post,
-				'timeout' => $timeout,
-			),
+	$context = array();
+	if($scheme == 'https') {
+		$context['ssl'] = array(
+			'verify_peer' => false,
+			'verify_peer_name' => false,
+			'peer_name' => $host
 		);
+		if(version_compare(PHP_VERSION, '5.6.0', '<')) {
+			$context['ssl']['SNI_enabled'] = true;
+			$context['ssl']['SNI_server_name'] = $host;
+		}
+	}
+	if(ini_get('allow_url_fopen')) {
+		$context['http'] = array(
+			'method' => $post ? 'POST' : 'GET',
+			'header' => $header,
+			'timeout' => $timeout
+		);
+		if($post) {
+			$context['http']['content'] = $post;
+		}
 		$context = stream_context_create($context);
-		$fp = @fopen($scheme.'://'.($scheme == 'https' ? $host : ($ip ? $ip : $host)).':'.$port.$path, 'b', false, $context);
+		$fp = @fopen($scheme.'://'.($ip ? $ip : $host).':'.$port.$path, 'b', false, $context);
 		$fpflag = 1;
+	} elseif(function_exists('stream_socket_client')) {
+		$context = stream_context_create($context);
+		$fp = @stream_socket_client(($scheme == 'https' ? 'ssl://' : '').($ip ? $ip : $host).':'.$port, $errno, $errstr, $timeout, STREAM_CLIENT_CONNECT, $context);
+	} else {
+		$fp = @fsocketopen(($scheme == 'https' ? 'ssl://' : '').($scheme == 'https' ? $host : ($ip ? $ip : $host)), $port, $errno, $errstr, $timeout);
 	}
 
 	if(!$fp) {
@@ -1059,7 +1084,9 @@ function dfopen($url, $limit = 0, $post = '', $cookie = '', $bysocket = FALSE, $
 	} else {
 		stream_set_blocking($fp, $block);
 		stream_set_timeout($fp, $timeout);
-		@fwrite($fp, $out);
+		if(!$fpflag) {
+			@fwrite($fp, $out);
+		}
 		$status = stream_get_meta_data($fp);
 		if(!$status['timed_out']) {
 			while (!feof($fp) && !$fpflag) {
@@ -1394,7 +1421,7 @@ function install_uc_server() {
 
 	$pathinfo = pathinfo($_SERVER['PHP_SELF']);
 	$pathinfo['dirname'] = substr($pathinfo['dirname'], 0, -8);
-	$isHTTPS = ($_SERVER['HTTPS'] && strtolower($_SERVER['HTTPS']) != 'off') ? true : false;
+	$isHTTPS = is_https();
 	$appurl = 'http'.($isHTTPS ? 's' : '').'://'. $_SERVER['HTTP_HOST'].$pathinfo['dirname'];
 	$ucapi = $appurl.'/uc_server';
 	$ucip = '';
@@ -1459,9 +1486,11 @@ function install_data($username, $uid) {
 
 	showjsmessage(lang('succeed') . "\n");
 }
+
 function install_testdata($username, $uid) {
 	global $_G, $db, $tablepre;
 
+	showjsmessage(lang('install_test_data')." :  \n");
 	$sqlfile = ROOT_PATH.'./install/data/common_district_{#id}.sql';
 	for($i = 1; $i < 4; $i++) {
 		$sqlfileid = str_replace('{#id}', $i, $sqlfile);
@@ -1881,14 +1910,53 @@ function format_space($space) {
 }
 
 function init_install_log_file() {
-	$file = __DIR__ . '/install.log';
-	if (file_exists($file)) unlink($file);
+	static $file = __DIR__ . '/install.log';
+	if (file_exists($file)) {
+		append_to_install_log_file("", true);
+		unlink($file);
+	}
 }
 
-function append_to_install_log_file($message) {
-	$file = __DIR__ . '/install.log';
-	file_put_contents($file, $message, FILE_APPEND);
+function append_to_install_log_file($message, $close = false) {
+	static $file = __DIR__ . '/install.log';
+	static $fh = false;
+	if (!$fh) {
+		$fh = fopen($file, "a+");
+	} 
+	if ($fh) {
+		fwrite($fh, $message);
+		if ($close) {
+			fclose($fh);
+		}
+	}
 }
+
+function read_install_log_file() {
+	$file = __DIR__ . '/install.log';
+	if (file_exists($file)) {
+		readfile($file);
+	}
+}
+
 function send_mime_type_header($type = 'application/xml') {
 	header("Content-Type: ".$type);
+}
+
+function is_https() {
+	if (isset($_SERVER["HTTPS"]) && strtolower($_SERVER["HTTPS"]) != "off") {
+		return true;
+	}
+	if (isset($_SERVER["HTTP_X_FORWARDED_PROTO"]) && strtolower($_SERVER["HTTP_X_FORWARDED_PROTO"]) == "https") {
+		return true;
+	}
+	if (isset($_SERVER["HTTP_SCHEME"]) && strtolower($_SERVER["HTTP_SCHEME"]) == "https") {
+		return true;
+	}
+	if (isset($_SERVER["HTTP_FROM_HTTPS"]) && strtolower($_SERVER["HTTP_FROM_HTTPS"]) != "off") {
+		return true;
+	}
+	if (isset($_SERVER["SERVER_PORT"]) && $_SERVER["SERVER_PORT"] == 443) {
+		return true;
+	}
+	return false;
 }
