@@ -13,7 +13,7 @@ if(!defined('IN_DISCUZ')) {
 
 class helper_seccheck {
 
-	private function _check($type) {
+	private static function _check($type) {
 		global $_G;
 		if(!isset($_G['cookie']['sec'.$type])) {
 			return false;
@@ -33,7 +33,7 @@ class helper_seccheck {
 		return $seccheck;
 	}
 
-	function _create($type, $code = '') {
+	private static function _create($type, $code = '') {
 		global $_G;
 		$ssid = C::t('common_seccheck')->insert(array(
 		    'dateline' => TIMESTAMP,
