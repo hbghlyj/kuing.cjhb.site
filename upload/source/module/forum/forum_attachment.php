@@ -235,16 +235,18 @@ if($attach['remote'] && !$_G['setting']['ftp']['hideurl'] && $isimage) {
 }
 
 $filesize = !$attach['remote'] ? filesize($filename) : $attach['filesize'];
-$attach['filename'] = '"'.(strtolower(CHARSET) == 'utf-8' && strexists($_SERVER['HTTP_USER_AGENT'], 'MSIE') ? urlencode($attach['filename']) : $attach['filename']).'"';
+// 如果range_end没有传入，更新range_end
+if ($has_range_header && !$range_end) $range_end = $filesize - 1;
+$filenameencode = strtolower(CHARSET) == 'utf-8' ? rawurlencode($attach['filename']) : rawurlencode(diconv($attach['filename'], CHARSET, 'UTF-8'));
 
 dheader('Date: '.gmdate('D, d M Y H:i:s', $attach['dateline']).' GMT');
 dheader('Last-Modified: '.gmdate('D, d M Y H:i:s', $attach['dateline']).' GMT');
 dheader('Content-Encoding: none');
 
 if($isimage && !empty($_GET['noupdate']) || !empty($_GET['request'])) {
-	dheader('Content-Disposition: inline; filename='.$attach['filename']);
+	dheader('Content-Disposition: inline; filename="'.(($attach['filename'] == $filenameencode) ? $attach['filename'].'"' : $filenameencode.'"; filename*=utf-8\'\''.$filenameencode));
 } else {
-	dheader('Content-Disposition: attachment; filename='.$attach['filename']);
+	dheader('Content-Disposition: attachment; filename="'.(($attach['filename'] == $filenameencode) ? $attach['filename'].'"' : $filenameencode.'"; filename*=utf-8\'\''.$filenameencode));
 }
 if($isimage) {
 	dheader('Content-Type: image');
