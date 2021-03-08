@@ -1920,9 +1920,6 @@ function cknewuser($return=0) {
 	return $result;
 }
 
-function manyoulog($logtype, $uids, $action, $fid = '') {
-}
-
 function useractionlog($uid, $action) {
 	return helper_log::useractionlog($uid, $action);
 }
