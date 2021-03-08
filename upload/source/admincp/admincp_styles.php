@@ -123,10 +123,10 @@ if($operation == 'admin') {
 		$tpldirs[] = realpath($row['directory']);
 	}
 
-	$defaultid = C::t('common_setting')->fetch('styleid');
-	$defaultid1 = C::t('common_setting')->fetch('styleid1');
-	$defaultid2 = C::t('common_setting')->fetch('styleid2');
-	$defaultid3 = C::t('common_setting')->fetch('styleid3');
+	$defaultid = C::t('common_setting')->fetch_setting('styleid');
+	$defaultid1 = C::t('common_setting')->fetch_setting('styleid1');
+	$defaultid2 = C::t('common_setting')->fetch_setting('styleid2');
+	$defaultid3 = C::t('common_setting')->fetch_setting('styleid3');
 
 	if(!submitcheck('stylesubmit')) {
 		$narray = array();
@@ -270,19 +270,24 @@ if($operation == 'admin') {
 			$tpl->close();
 			cpmsg('csscache_update', 'action=styles', 'succeed');
 		} else {
-
-			if(is_numeric($_GET['defaultnew']) && $defaultid != $_GET['defaultnew'] && isset($sarray[$_GET['defaultnew']])) {
-				$defaultid = $_GET['defaultnew'];
-				C::t('common_setting')->update('styleid', $defaultid);
-			}
-			if(is_numeric($_GET['defaultnew1']) && $defaultid1 != $_GET['defaultnew1'] && isset($sarray[$_GET['defaultnew1']])) {
-				C::t('common_setting')->update('styleid1', $_GET['defaultnew1']);
-			}
-			if(is_numeric($_GET['defaultnew2']) && $defaultid2 != $_GET['defaultnew2'] && isset($sarray[$_GET['defaultnew2']])) {
-				C::t('common_setting')->update('styleid2', $_GET['defaultnew2']);
-			}
-			if(is_numeric($_GET['defaultnew3']) && $defaultid3 != $_GET['defaultnew3'] && isset($sarray[$_GET['defaultnew3']])) {
-				C::t('common_setting')->update('styleid3', $_GET['defaultnew3']);
+			$defaultids = array();
+			$dfids = array('', '1', '2', '3');
+			foreach ($dfids as $dfid) {
+				$defaultnew = $_GET['defaultnew'.$dfid];
+				if(is_numeric($defaultnew) && isset($sarray[$defaultnew])) {
+					if (!in_array($defaultnew, $defaultids)) {
+						if (basename($sarray[$defaultnew]['directory']) != 'default' && ispluginkey(basename($sarray[$defaultnew]['directory']))) {
+							cpheader();
+							$addonid = basename($sarray[$defaultnew]['directory']).'.template';
+							$array = cloudaddons_getmd5($addonid);
+							if(cloudaddons_open('&mod=app&ac=validator&ver=2&addonid='.$addonid.($array !== false ? '&rid='.$array['RevisionID'].'&sn='.$array['SN'].'&rd='.$array['RevisionDateline'] : '')) === '0') {
+								cpmsg('clo'.'uda'.'ddon'.'s_gen'.'uine_'.'mes'.'sage', '', 'error', array('addonid' => $addonid));
+							}
+						}
+						$defaultids[] = $defaultnew;
+					}
+					C::t('common_setting')->update_setting('styleid'.$dfid, $defaultnew);
+				}
 			}
 
 			if(isset($_GET['namenew'])) {
@@ -320,7 +325,7 @@ if($operation == 'admin') {
 						foreach(C::t('common_template')->fetch_all($tplids) as $tpl) {
 							cloudaddons_uninstall(basename($tpl['directory']).'.template', $tpl['directory']);
 						}
-						C::t('common_template')->delete($tplids);
+						C::t('common_template')->delete_tpl($tplids);
 					}
 				}
 			}
