@@ -185,7 +185,7 @@ if($operation == 'admin') {
 				}
 			}
 			$stylelist .=
-				'<table cellspacing="0" cellpadding="0" style="margin-left: 10px; width: 250px;height: 200px;" class="left"><tr><th class="partition" colspan="2">'.$style['tplname'].'</th></tr><tr><td style="width: 130px;height:170px" valign="top">'.
+				'<table cellspacing="0" cellpadding="0" style="margin-left: 10px; width: 250px;height: 200px;" class="left"><tr><th class="partition" colspan="2">'.($isfounder && $addonids[$id] ? "<a href=\"".ADMINSCRIPT."?action=cloudaddons&frame=no&id=".basename($style['directory']).".template\" target=\"_blank\" title=\"$lang[cloudaddons_linkto]\">$style[tplname]</a>" : $style['tplname']).'</th></tr><tr><td style="width: 130px;height:170px" valign="top">'.
 				($id > 0 ? "<p style=\"margin-bottom: 12px;\"><img width=\"110\" height=\"120\" ".($previewlarge ? 'style="cursor:pointer" title="'.$lang['preview_large'].'" onclick="zoom(this, \''.$previewlarge.'\', 1)" ' : '')."src=\"$preview\" alt=\"{$lang['preview']}\"/></p>
 				<p style=\"margin: 2px 0\"><input type=\"text\" class=\"txt\" name=\"namenew[$id]\" value=\"{$style['name']}\" style=\"margin:0; width: 104px;\"></p>".
 				$updatestring[$addonids[$style['styleid']]]."</td><td valign=\"top\">
@@ -194,11 +194,11 @@ if($operation == 'admin') {
 				".($d1exists ? "<p style=\"margin: 1px 0\"><label><input type=\"radio\" class=\"radio\" name=\"defaultnew1\" value=\"$id\" $isdefault1 /> {$lang['styles_default1']}</label></p>" : "<p style=\"margin: 1px 0\" class=\"lightfont\"><label><input type=\"radio\" class=\"radio\" disabled readonly /> {$lang['styles_default1']}</label></p>")."
 				".($d2exists ? "<p style=\"margin: 1px 0\"><label><input type=\"radio\" class=\"radio\" name=\"defaultnew2\" value=\"$id\" $isdefault2 /> {$lang['styles_default2']}</label></p>" : "<p style=\"margin: 1px 0\" class=\"lightfont\"><label><input type=\"radio\" class=\"radio\" disabled readonly /> {$lang['styles_default2']}</label></p>")."
 				".($d3exists ? "<p style=\"margin: 1px 0\"><label><input type=\"radio\" class=\"radio\" name=\"defaultnew3\" value=\"$id\" $isdefault3 /> {$lang['styles_default3']}</label></p>" : "<p style=\"margin: 1px 0\" class=\"lightfont\"><label><input type=\"radio\" class=\"radio\" disabled readonly /> {$lang['styles_default3']}</label></p>")."
-				<p style=\"margin: 8px 0 0 0\"><label>".($isdefault ? '<input class="checkbox" type="checkbox" disabled="disabled" />' : '<input class="checkbox" type="checkbox" name="delete[]" value="'.$id.'" />')." {$lang['styles_uninstall']}</label></p>
+				<p style=\"margin: 8px 0 0 0\"><label>".($isdefault || $isdefault1 || $isdefault2 || $isdefault3 ? '<input class="checkbox" type="checkbox" disabled="disabled" />' : '<input class="checkbox" type="checkbox" name="delete[]" value="'.$id.'" />')." {$lang['styles_uninstall']}</label></p>
 				<p style=\"margin: 8px 0 2px 0\"><a href=\"".ADMINSCRIPT."?action=styles&operation=edit&id=$id\">{$lang['edit']}</a> &nbsp;".
-					($isplugindeveloper || !$addonids[$id] || !cloudaddons_getmd5($addonids[$id]) ? " <a href=\"".ADMINSCRIPT."?action=styles&operation=export&id=$id\">{$lang['export']}</a><br />" : '<br />').
+					(($isplugindeveloper && $isfounder) || !$addonids[$style['styleid']] || !cloudaddons_getmd5($addonids[$style['styleid']]) ? " <a href=\"".ADMINSCRIPT."?action=styles&operation=export&id=$id\">{$lang['export']}</a><br />" : '<br />').
 					"<a href=\"".ADMINSCRIPT."?action=styles&operation=copy&id=$id\">{$lang['copy']}</a> &nbsp; <a href=\"".ADMINSCRIPT."?action=styles&operation=import&dir=yes&restore=$id\">{$lang['restore']}</a>
-					".($addonids[$id] ? " &nbsp; <a href=\"".ADMINSCRIPT."?action=cloudaddons&id=".basename($style['directory']).".template\" target=\"_blank\" title=\"{$lang['cloudaddons_linkto']}\">{$lang['plugins_visit']}</a>" : '')."
+					".($isfounder && $addonids[$id] ? " &nbsp; <a href=\"".ADMINSCRIPT."?action=cloudaddons&frame=no&id=".basename($style['directory']).".template&from=comment\" target=\"_blank\" title=\"{$lang['cloudaddons_linkto']}\">{$lang['plugins_visit']}</a>" : '')."
 				</p>"
 				:
 				"<img src=\"$preview\" /></td><td valign=\"top\">
@@ -215,27 +215,6 @@ if($operation == 'admin') {
 			$stylelist .= str_repeat('<td></td>', 3 - $i);
 		}
 
-		shownav('style', 'styles_admin');
-		showsubmenu('styles_admin', array(
-			array('admin', 'styles', '1'),
-			array('import', 'styles&operation=import', '0'),
-			array('cloudaddons_style_link', 'cloudaddons')
-		), '<a href="'.ADMINSCRIPT.'?action=styles&operation=upgradecheck" class="bold" style="float:right;padding-right:40px;">'.$lang['plugins_validator'].'</a>');
-		/*search={"styles_admin":"action=styles"}*/
-		showtips('styles_admin_tips');
-		/*search*/
-		showformheader('styles');
-		showhiddenfields(array('updatecsscache' => 0));
-		showtableheader();
-		echo $stylelist;
-		showtablefooter();
-		showtableheader();
-		echo '<tr><td>'.$lang['add_new'].'</td><td><input type="text" class="txt" name="newname" size="18">&nbsp;<a href="'.ADMINSCRIPT.'?action=cloudaddons">'.cplang('cloudaddons_style_link').'</a>';
-		echo '</td><td colspan="5">&nbsp;</td></tr>';
-		showsubmit('stylesubmit', 'submit', 'del', '<input onclick="this.form.updatecsscache.value=1" type="submit" class="btn" name="stylesubmit" value="'.cplang('styles_csscache_update').'">');
-		showtablefooter();
-		showformfooter();
-
 		if(empty($_G['cookie']['addoncheck_template'])) {
 			$checkresult = dunserialize(cloudaddons_upgradecheck($addonids));
 			savecache('addoncheck_template', $checkresult);
@@ -245,12 +224,32 @@ if($operation == 'admin') {
 			$checkresult = $_G['cache']['addoncheck_template'];
 		}
 		$newvers = '';
+		$updatecount = 0;
 		foreach($checkresult as $addonid => $value) {
 			list($return, $newver) = explode(':', $value);
 			if($newver) {
-				$newvers .= "if($('update_$addonid')) $('update_$addonid').innerHTML=' <a href=\"".ADMINSCRIPT."?action=cloudaddons&id=$addonid\"><font color=\"red\">(".cplang('styles_find_newversion')." $newver)</font></a>';";
+				$updatecount++;
+				$newvers .= "if($('update_$addonid')) $('update_$addonid').innerHTML=' <a href=\"".ADMINSCRIPT."?action=cloudaddons&frame=no&id=$addonid&from=newver\" target=\"_blank\"><font color=\"red\">".cplang('styles_find_newversion')." $newver</font></a>';";
 			}
 		}
+
+		shownav('template', 'styles_list');
+		showsubmenu('styles_admin', array(
+			array('styles_list', 'styles', 1),
+			array('styles_import', 'styles&operation=import', 0),
+			$isfounder ? array('plugins_validator'.($updatecount ? '_new' : ''), 'styles&operation=upgradecheck', 0) : array(),
+			$isfounder ? array('cloudaddons_style_link', 'cloudaddons&frame=no&operation=templates&from=more', 0, 1) : array(),
+		), '<a href="https://www.dismall.com/?from=templates_question" target="_blank" class="bold" style="float:right;padding-right:40px;">'.$lang['templates_question'].'</a>', array('updatecount' => $updatecount));
+		showtips('styles_home_tips');
+		showformheader('styles');
+		showhiddenfields(array('updatecsscache' => 0));
+		showtableheader();
+		echo $stylelist;
+		showtablefooter();
+		showtableheader();
+		showsubmit('stylesubmit', 'submit', 'del', '<input onclick="this.form.updatecsscache.value=1" type="submit" class="btn" name="stylesubmit" value="'.cplang('styles_csscache_update').'">'.($isfounder ? '&nbsp;&nbsp;<a href="'.ADMINSCRIPT.'?action=cloudaddons&frame=no&operation=templates&from=more" target="_blank">'.cplang('cloudaddons_style_link').'</a>' : ''));
+		showtablefooter();
+		showformfooter();
 		if($newvers) {
 			echo '<script type="text/javascript">'.$newvers.'</script>';
 		}
@@ -350,12 +349,12 @@ if($operation == 'admin') {
 
 	if(!submitcheck('importsubmit') && !isset($_GET['dir'])) {
 
-		shownav('style', 'styles_admin');
+		shownav('template', 'styles_import');
 		showsubmenu('styles_admin', array(
-			array('admin', 'styles', '0'),
-			array('import', 'styles&operation=import', '1'),
-			array('cloudaddons_style_link', 'cloudaddons')
-		), '<a href="'.ADMINSCRIPT.'?action=styles&operation=upgradecheck" class="bold" style="float:right;padding-right:40px;">'.$lang['plugins_validator'].'</a>');
+			array('styles_list', 'styles', 0),
+			array('styles_import', 'styles&operation=import', 1),
+			$isfounder ? array('cloudaddons_style_link', 'cloudaddons&frame=no&operation=templates&from=more', 0, 1) : array(),
+		), '<a href="https://www.dismall.com/?from=templates_question" target="_blank" class="bold" style="float:right;padding-right:40px;">'.$lang['templates_question'].'</a>');
 		showformheader('styles&operation=import', 'enctype');
 		showtableheader('styles_import');
 		showimportdata();
@@ -470,8 +469,10 @@ if($operation == 'admin') {
 
 		showsubmenu(cplang('styles_admin').' - '.$style['name'], array(
 			array('admin', 'styles', 0),
-			array('import', 'styles&operation=import', 0),
-			array('edit' , 'styles&operation=edit&id='.$id, 1)
+			array('edit' , 'styles&operation=edit&id='.$id, 1),
+			$isfounder ? array('export', 'styles&operation=export&id='.$id, 0) : array(),
+			$isfounder ? array('templates_add', 'templates&operation=add', 0) : array(),
+			array('cloudaddons_style_link', 'cloudaddons&frame=no&operation=templates&from=more', 0, 1),
 		));
 
 ?>
@@ -647,9 +648,9 @@ function imgpre_switch(id) {
 	}
 	foreach($result as $id => $row) {
 		if($row['result'] == 0) {
-			$errarray[] = '<a href="'.ADMINSCRIPT.'?action=cloudaddons&id='.$id.'" target="_blank">'.$templatearray[$row['id']]['name'].'</a>';
+			$errarray[] = '<a href="'.ADMINSCRIPT.'?action=cloudaddons&frame=no&id='.$id.'&from=newver" target="_blank">'.$templatearray[$row['id']]['name'].'</a>';
 		} elseif($row['result'] == 2) {
-			$newarray[] = '<a href="'.ADMINSCRIPT.'?action=cloudaddons&id='.$id.'" target="_blank">'.$templatearray[$row['id']]['name'].($row['newver'] ? ' -> '.$row['newver'] : '').'</a>';
+			$newarray[] = '<a href="'.ADMINSCRIPT.'?action=cloudaddons&frame=no&id='.$id.'&from=newver" target="_blank">'.$templatearray[$row['id']]['name'].($row['newver'] ? ' -> '.$row['newver'] : '').'</a>';
 		}
 	}
 	if(!$newarray && !$errarray) {
@@ -657,10 +658,11 @@ function imgpre_switch(id) {
 	} else {
 		shownav('style', 'styles_admin');
 		showsubmenu('styles_admin', array(
-			array('admin', 'styles', '0'),
-			array('import', 'styles&operation=import', '0'),
-			array('cloudaddons_style_link', 'cloudaddons')
-		), '<a href="'.ADMINSCRIPT.'?action=styles&operation=upgradecheck" class="bold" style="float:right;padding-right:40px;">'.$lang['plugins_validator'].'</a>');
+			array('styles_list', 'styles', 0),
+			array('styles_import', 'styles&operation=import', 0),
+			array('plugins_validator', 'styles&operation=upgradecheck', 1),
+			array('cloudaddons_style_link', 'cloudaddons&frame=no&operation=templates&from=more', 0, 1),
+		), '<a href="https://www.dismall.com/?from=templates_question" target="_blank" class="bold" style="float:right;padding-right:40px;">'.$lang['templates_question'].'</a>');
 		showtableheader();
 		if($newarray) {
 			showtitle('styles_validator_newversion');

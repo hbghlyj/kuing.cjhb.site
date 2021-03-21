@@ -65,8 +65,6 @@ $menu['global'] = array(
 $menu['style'] = array(
 	array('menu_setting_customnav', 'nav'),
 	array('menu_setting_styles', 'setting_styles'),
-	array('menu_styles', 'styles'),
-	$isfounder ? array('menu_styles_templates', 'templates') : null,
 	array('menu_posting_smilies', 'smilies'),
 	array('menu_click', 'click'),
 	array('menu_thread_stamp', 'misc_stamp'),
@@ -170,6 +168,7 @@ $menu['safe'] = array(
 	array('menu_safe_setting', 'setting_sec'),	
 	array('menu_safe_seccheck', 'setting_seccheck'),
 	array('menu_security', 'optimizer_security'),
+	array('menu_serversec', 'optimizer_serversec'),
 	array('menu_safe_accountguard', 'setting_accountguard'),
 );
 
@@ -215,6 +214,13 @@ if($isfounder) {
 		array('menu_plugins', 'plugins'),
 	);
 }
+
+$menu['template'] = array(
+	array('menu_styles', 'styles'),
+);
+if($isfounder && isset($_G['config']['plugindeveloper']) && $_G['config']['plugindeveloper'] > 0) {
+	$menu['template'][] = array('menu_templates_add', 'templates_add');
+}
 loadcache('adminmenu');
 if(is_array($_G['cache']['adminmenu'])) {
 	foreach($_G['cache']['adminmenu'] as $row) {
@@ -252,6 +258,13 @@ if($isfounder) {
 	);
 
 	$menu['uc'] = array();
+}
+
+if($isfounder || $_G['adminid'] == 1) {
+	$topmenu['cloudaddons'] = '';
+	$menu['cloudaddons'] = array(
+		array('menu_addons', 'cloudaddons&frame=no', '_blank'),
+	);
 }
 
 if(!isfounder() && !isset($GLOBALS['admincp']->perms['all'])) {
