@@ -760,6 +760,9 @@ class discuz_application extends discuz_base{
 		}
 
 		$mobile = getgpc('mobile');
+		if(!getgpc('mobile') && getgpc('showmobile')) {
+			$mobile = getgpc('showmobile');
+		}
 		$mobileflag = isset($this->var['mobiletpl'][$mobile]);
 		if($mobile === 'no') {
 			dsetcookie('mobile', 'no', 3600);
@@ -777,6 +780,9 @@ class discuz_application extends discuz_base{
 		}
 
 		if(!$this->var['mobile'] && !$unallowmobile && $mobileflag) {
+			if(getgpc('showmobile')) {
+				dheader("Location:misc.php?mod=mobile");
+			}
 			parse_str($_SERVER['QUERY_STRING'], $query);
 			$query['mobile'] = 'no';
 			unset($query['simpletype']);
