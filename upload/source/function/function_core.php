@@ -2055,7 +2055,7 @@ function userappprompt() {
 
 function dintval($int, $allowarray = false) {
 	$ret = floatval($int);
-	if($int == $ret || !$allowarray && is_array($int)) return $ret;
+	if($int === '' || $int == $ret || !$allowarray && is_array($int)) return $ret;
 	if($allowarray && is_array($int)) {
 		foreach($int as &$v) {
 			$v = dintval($v, true);
