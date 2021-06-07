@@ -53,6 +53,10 @@ class control extends adminbase {
 
 		$serverinfo = PHP_OS.' / PHP v'.PHP_VERSION;
 		$dbversion = $this->db->version();
+		$servername = $_SERVER['SERVER_NAME'];
+		if(isset($_SERVER['SERVER_ADDR']) && isset($_SERVER['SERVER_PORT'])) {
+			$servername .= ' ('.$_SERVER['SERVER_ADDR'].':'.$_SERVER['SERVER_PORT'].')';
+		}
 		$fileupload = @ini_get('file_uploads') ? ini_get('upload_max_filesize') : '<font color="red">'.$lang['no'].'</font>';
 		$dbsize = 0;
 		$tablepre = UC_DBTABLEPRE;
@@ -66,6 +70,7 @@ class control extends adminbase {
 		$this->view->assign('fileupload', $fileupload);
 		$this->view->assign('dbsize', $dbsize);
 		$this->view->assign('dbversion', $dbversion);
+		$this->view->assign('servername', $servername);
 		$this->view->assign('allow_url_fopen', $allow_url_fopen);
 
 		$this->view->display('admin_frame_main');
