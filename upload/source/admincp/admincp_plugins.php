@@ -44,7 +44,7 @@ if(!$operation) {
 		showformheader('plugins');
 		showtableheader('', 'psetting');
 		$outputsubmit = false;
-		$plugins = $addonids = array();
+		$plugins = $addonids = $pluginlist = array();
 		$plugins = C::t('common_plugin')->fetch_all_data();
 		if(empty($_G['cookie']['addoncheck_plugin'])) {
 			foreach($plugins as $plugin) {
