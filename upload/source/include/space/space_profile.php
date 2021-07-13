@@ -23,6 +23,14 @@ space_merge($space, 'profile');
 space_merge($space, 'status');
 getonlinemember(array($space['uid']));
 
+if($_G['uid'] != $space['uid'] && !$_G['group']['allowviewprofile']) {
+	if(!$_G['uid']) {
+		showmessage('home_no_privilege', '', array(), array('login' => true));
+	} else {
+		showmessage('no_privilege_profile');
+	}
+}
+
 $space['admingroup'] = $_G['cache']['usergroups'][$space['adminid']];
 $space['admingroup']['icon'] = g_icon($space['adminid'], 1);
 
