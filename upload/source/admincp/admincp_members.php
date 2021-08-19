@@ -106,7 +106,7 @@ EOF;
 					$freezeshow = $member['freeze'] ? '<em class="lightnum">['.cplang('freeze').']</em>' : '';
 					$members .= showtablerow('', array('class="td25"', '', 'title="'.implode("\n", $memberextcredits).'"'), array(
 						"<input type=\"checkbox\" name=\"uidarray[]\" value=\"{$member['uid']}\"".($member['adminid'] == 1 ? 'disabled' : '')." class=\"checkbox\">",
-						($_G['setting']['connect']['allow'] && $member['conisbind'] ? '<img class="vmiddle" src="static/image/common/connect_qq.gif" /> ' : '')."<a href=\"home.php?mod=space&uid={$member['uid']}\" target=\"_blank\">{$member['username']}</a>",
+						($_G['setting']['connect']['allow'] && $member['conisbind'] ? '<img class="vmiddle" src="'.STATICURL.'/image/common/connect_qq.gif" /> ' : '')."<a href=\"home.php?mod=space&uid={$member['uid']}\" target=\"_blank\">{$member['username']}</a>",
 						$member['credits'],
 						$member['posts'],
 						$usergroups[$member['adminid']]['grouptitle'],
@@ -367,14 +367,14 @@ EOF;
 		if($searchmember) {
 			$ips = array();
 			foreach(array('regip', 'lastip') as $iptype) {
-				if($searchmember[$iptype] != '' && $searchmember[$iptype] != 'hidden') {
+				if($searchmember[$iptype] != '' && $searchmember[$iptype] != 'hidden' && $searchmember[$iptype] != 'Manual Acting') {
 					$ips[] = $searchmember[$iptype];
 				}
 			}
 			$ips = !empty($ips) ? array_unique($ips) : array('unknown');
 		}
-		$searchmember['username'] .= ' (IP '.dhtmlspecialchars($ids).')';
-		$membernum = !empty($ips) ? C::t('common_member_status')->count_by_ip($ips) : C::t('common_member_status')->count();
+		$searchmember['username'] .= ' (IP '.implode(',',dhtmlspecialchars($ips)).')';
+		$membernum = !empty($ips) && $ips[0] != "unknown" ? C::t('common_member_status')->count_by_ip($ips) : C::t('common_member_status')->count();
 
 		$members = '';
 		if($membernum) {
@@ -386,13 +386,10 @@ EOF;
 				}
 				$usergroups[$group['groupid']] = $group;
 			}
-
-			$uids = searchmembers($search_condition, $_G['setting']['memberperpage'], $start_limit);
-			$conditions = 'm.uid IN ('.dimplode($uids).')';
 			$_G['setting']['memberperpage'] = 100;
 			$start_limit = ($page - 1) * $_G['setting']['memberperpage'];
 			$multipage = multi($membernum, $_G['setting']['memberperpage'], $page, ADMINSCRIPT."?action=members&operation=repeat&submit=yes".$urladd);
-			$allstatus = !empty($ips) ? C::t('common_member_status')->fetch_all_by_ip($ips, $start_limit, $_G['setting']['memberperpage'])
+			$allstatus = !empty($ips) && $ips[0] != "unknown" ? C::t('common_member_status')->fetch_all_by_ip($ips, $start_limit, $_G['setting']['memberperpage'])
 					: C::t('common_member_status')->range($start_limit, $_G['setting']['memberperpage']);
 			$allcount = C::t('common_member_count')->fetch_all(array_keys($allstatus));
 			$allmember = C::t('common_member')->fetch_all(array_keys($allstatus));
@@ -422,7 +419,7 @@ EOF;
 		showsubmenu($lang['nav_repeat'].' - '.$searchmember['username']);
 		showformheader("members&operation=clean");
 		$searchadd = '';
-		if(is_array($ips)) {
+		if(is_array($ips) && $ips[0] != "unknown") {
 			foreach($ips as $ip) {
 				$searchadd .= '<a href="'.ADMINSCRIPT.'?action=members&operation=repeat&inputip='.rawurlencode($ip).'" class="act lightlink normal">'.cplang('search').'IP '.dhtmlspecialchars($ip).'</a>';
 			}
@@ -582,7 +579,7 @@ EOF;
 				if($deleteitem == 'doing') {
 					$doings = array();
 					$query = C::t('home_doing')->fetch_all_by_uid_doid($uids, '', '', 0, $pertask);
-					foreach ($query as $doings) {
+					foreach ($query as $doing) {
 						$doings[] = $doing['doid'];
 					}
 
@@ -845,8 +842,8 @@ EOF;
 				for($i=1; $i<=8; $i++) {
 					$js_extcreditids .= (isset($_G['setting']['extcredits'][$i]) ? ($js_extcreditids ? ',' : '').$i : '');
 					$creditscols[] = isset($_G['setting']['extcredits'][$i]) ? $_G['setting']['extcredits'][$i]['title'] : 'extcredits'.$i;
-					$creditsvalue[] = isset($_G['setting']['extcredits'][$i]) ? '<input type="text" class="txt" size="3" id="addextcredits['.$i.']" name="addextcredits['.$i.']" value="0"> '.$_G['setting']['extcredits']['$i']['unit'] : '<input type="text" class="txt" size="3" value="N/A" disabled>';
-					$resetcredits[] = isset($_G['setting']['extcredits'][$i]) ? '<input type="checkbox" id="resetextcredits['.$i.']" name="resetextcredits['.$i.']" value="1" class="radio" disabled> '.$_G['setting']['extcredits']['$i']['unit'] : '<input type="checkbox" disabled  class="radio">';
+					$creditsvalue[] = isset($_G['setting']['extcredits'][$i]) ? '<input type="text" class="txt" size="3" id="addextcredits['.$i.']" name="addextcredits['.$i.']" value="0"> '.$_G['setting']['extcredits'][$i]['unit'] : '<input type="text" class="txt" size="3" value="N/A" disabled>';
+					$resetcredits[] = isset($_G['setting']['extcredits'][$i]) ? '<input type="checkbox" id="resetextcredits['.$i.']" name="resetextcredits['.$i.']" value="1" class="radio" disabled> '.$_G['setting']['extcredits'][$i]['unit'] : '<input type="checkbox" disabled  class="radio">';
 				}
 				$creditsvalue = array_merge(array('<input type="radio" name="updatecredittype" id="updatecredittype0" value="0" class="radio" onclick="var extcredits = new Array('.$js_extcreditids.'); for(k in extcredits) {$(\'resetextcredits[\'+extcredits[k]+\']\').disabled = true; $(\'addextcredits[\'+extcredits[k]+\']\').disabled = false;}" checked="checked" /><label for="updatecredittype0">'.$lang['members_reward_value'].'</label>'), $creditsvalue);
 				$resetcredits = array_merge(array('<input type="radio" name="updatecredittype" id="updatecredittype1" value="1" class="radio" onclick="var extcredits = new Array('.$js_extcreditids.'); for(k in extcredits) {$(\'addextcredits[\'+extcredits[k]+\']\').disabled = true; $(\'resetextcredits[\'+extcredits[k]+\']\').disabled = false;}" /><label for="updatecredittype1">'.$lang['members_reward_clean'].'</label>'), $resetcredits);
@@ -888,9 +885,10 @@ EOF;
 
 	$medals = '';
 	foreach(C::t('forum_medal')->fetch_all_data(1) as $medal) {
+		$image = preg_match('/^https?:\/\//is', $medal['image']) ? $medal['image'] : STATICURL . 'image/common/' . $medal['image'];
 		$medals .= showtablerow('', array('class="td25"', 'class="td23"'), array(
 			"<input class=\"checkbox\" type=\"checkbox\" name=\"medals[{$medal['medalid']}]\" value=\"1\" />",
-			"<img src=\"static/image/common/{$medal['image']}\" />",
+			"<img src=\"$image\" />",
 			$medal['name']
 		), TRUE);
 	}
@@ -1203,7 +1201,7 @@ EOF;
 		/*search={"members_group":"action=members&operation=group"}*/
 		shownav('user', 'members_group');
 		showsubmenu('members_group_member', array(), '', array('username' => $member['username']));
-		echo '<script src="static/js/calendar.js" type="text/javascript"></script>';
+		echo '<script src="'.STATICURL.'/js/calendar.js" type="text/javascript"></script>';
 		showformheader("members&operation=group&uid={$member['uid']}");
 		showtableheader('usergroup', 'nobottom');
 		showsetting('members_group_group', '', '', '<select name="groupidnew" onchange="if(in_array(this.value, ['.$radmingids.'])) {$(\'relatedadminid\').style.display = \'\';$(\'adminidnew\').name=\'adminidnew[\' + this.value + \']\';} else {$(\'relatedadminid\').style.display = \'none\';$(\'adminidnew\').name=\'adminidnew[0]\';}"><optgroup label="'.$lang['usergroups_system'].'">'.$groups['system'].'<optgroup label="'.$lang['usergroups_special'].'">'.$groups['special'].'<optgroup label="'.$lang['usergroups_specialadmin'].'">'.$groups['specialadmin'].'<optgroup label="'.$lang['usergroups_member'].'">'.$groups['member'].'</select>');
@@ -1348,7 +1346,7 @@ EOF;
 		for($i = 1; $i <= 8; $i++) {
 			$jscreditsformula = str_replace('extcredits'.$i, "extcredits[$i]", $jscreditsformula);
 			$creditscols[] = isset($_G['setting']['extcredits'][$i]) ? $_G['setting']['extcredits'][$i]['title'] : 'extcredits'.$i;
-			$creditsvalue[] = isset($_G['setting']['extcredits'][$i]) ? '<input type="text" class="txt" size="3" name="extcreditsnew['.$i.']" id="extcreditsnew['.$i.']" value="'.$member['extcredits'.$i].'" onkeyup="membercredits()"> '.$_G['setting']['extcredits']['$i']['unit'] : '<input type="text" class="txt" size="3" value="N/A" disabled>';
+			$creditsvalue[] = isset($_G['setting']['extcredits'][$i]) ? '<input type="text" class="txt" size="3" name="extcreditsnew['.$i.']" id="extcreditsnew['.$i.']" value="'.$member['extcredits'.$i].'" onkeyup="membercredits()"> '.$_G['setting']['extcredits'][$i]['unit'] : '<input type="text" class="txt" size="3" value="N/A" disabled>';
 		}
 
 		echo <<<EOT
@@ -1431,9 +1429,10 @@ EOT;
 		}
 
 		foreach(C::t('forum_medal')->fetch_all_data(1) as $medal) {
+			$image = preg_match('/^https?:\/\//is', $medal['image']) ? $medal['image'] : STATICURL . 'image/common/' . $medal['image'];
 			$medals .= showtablerow('', array('class="td25"', 'class="td23"'), array(
 				"<input class=\"checkbox\" type=\"checkbox\" name=\"medals[{$medal['medalid']}]\" value=\"1\" ".(in_array($medal['medalid'], $membermedals) ? 'checked' : '')." />",
-				"<img src=\"static/image/common/{$medal['image']}\" />",
+				"<img src=\"$image\" />",
 				$medal['name']
 
 			), TRUE);
@@ -1539,7 +1538,7 @@ EOT;
 
 	if(!submitcheck('bansubmit')) {
 
-		echo '<script src="static/js/calendar.js" type="text/javascript"></script>';
+		echo '<script src="'.STATICURL.'js/calendar.js" type="text/javascript"></script>';
 		shownav('user', 'members_ban_user');
 		showsubmenu($lang['members_ban_user'].($member['username'] ? ' - '.$member['username'] : ''));
 		showtips('members_ban_tips');
@@ -1879,10 +1878,15 @@ EOF;
 			if(in_array('profile', $_GET['clear'])) {
 				C::t('common_member_profile'.$tableext)->delete($member['uid']);
 				C::t('common_member_profile'.$tableext)->insert(array('uid' => $member['uid']));
-                		C::t('common_member_field_forum'.$tableext)->update($member['uid'], array('customstatus' => '', 'sightml' => ''));
-                		C::t('common_member_field_home'.$tableext)->update($member['uid'], array('spacename' => '', 'spacedescription' => ''));
+				C::t('common_member_field_forum'.$tableext)->update($member['uid'], array('customstatus' => '', 'sightml' => ''));
+				C::t('common_member_field_home'.$tableext)->update($member['uid'], array('spacename' => '', 'spacedescription' => ''));
 			}
-            
+
+			if(in_array('follower', $_GET['clear'])) {
+				C::t('home_follow')->delete_by_uid($member['uid']);
+				C::t('home_follow')->delete_by_followuid($member['uid']);
+			}
+
 			if($membercount) {
 				DB::update('common_member_count'.$tableext, $membercount, "uid='{$member['uid']}'");
 			}
@@ -1996,7 +2000,7 @@ EOF;
 	}
 
 } elseif($operation == 'edit') {
-
+	echo '<script type="text/javascript" src="'.STATICURL.'js/home.js"></script>';
 	$uid = $member['uid'];
 	if(!empty($_G['setting']['connect']['allow']) && $do == 'bindlog') {
 		$member = array_merge($member, C::t('#qqconnect#common_member_connect')->fetch($uid));
@@ -2087,7 +2091,7 @@ EOF;
 		showtableheader();
 		$status = array($member['status'] => ' checked');
 		$freeze = array($member['freeze'] => ' checked');
-		showsetting('members_edit_username', '', '', ($_G['setting']['connect']['allow'] && $member['conisbind'] ? ' <img class="vmiddle" src="static/image/common/connect_qq.gif" />' : '').' '.$member['username']);
+		showsetting('members_edit_username', '', '', ($_G['setting']['connect']['allow'] && $member['conisbind'] ? ' <img class="vmiddle" src="'.STATICURL.'image/common/connect_qq.gif" />' : '').' '.$member['username']);
 		showsetting('members_edit_avatar', '', '', ' <img src="'.avatar($uid, 'middle', true, false, true).'?random='.random(2).'" onerror="this.onerror=null;this.src=\''.$_G['setting']['ucenterurl'].'/images/noavatar.svg\'" /><br /><br /><input name="clearavatar" class="checkbox" type="checkbox" value="1" /> '.$lang['members_edit_avatar_clear']);
 		$hrefext = "&detail=1&users={$member['username']}&searchsubmit=1&perpage=50&fromumanage=1";
 		showsetting('members_edit_statistics', '', '', "<a href=\"".ADMINSCRIPT."?action=prune$hrefext\" class=\"act\">{$lang['posts']}({$member['posts']})</a>".
@@ -2956,7 +2960,7 @@ function showsearchform($operation = '') {
 
 	/*search={"nav_members":"action=members&operation=search"}*/
 	showtagheader('div', 'searchmembers', !$_GET['submit']);
-	echo '<script src="static/js/calendar.js" type="text/javascript"></script>';
+	echo '<script src="'.STATICURL.'js/calendar.js" type="text/javascript"></script>';
 	echo '<style type="text/css">#residedistrictbox select, #birthdistrictbox select{width: auto;}</style>';
 	$formurl = "members&operation=$operation".(($_GET['do'] == 'mobile' || $_GET['do'] == 'sms') ? '&do=' . $_GET['do'] : '');
 	showformheader($formurl, "onSubmit=\"if($('updatecredittype1') && $('updatecredittype1').checked && !window.confirm('{$lang['members_reward_clean_alarm']}')){return false;} else {return true;}\"");
@@ -3514,8 +3518,8 @@ function selectday($varname, $dayarray) {
 }
 
 function accessimg($access) {
-	return $access == -1 ? '<img src="static/image/common/access_disallow.gif" />' :
-		($access == 1 ? '<img src="static/image/common/access_allow.gif" />' : '<img src="static/image/common/access_normal.gif" />');
+	return $access == -1 ? '<img src="'.STATICURL.'image/common/access_disallow.gif" />' :
+		($access == 1 ? '<img src="'.STATICURL.'image/common/access_allow.gif" />' : '<img src="'.STATICURL.'image/common/access_normal.gif" />');
 }
 
 function connectunbind($member) {
