@@ -62,7 +62,7 @@ class logging_ctl {
 			$cookietimecheck = !empty($_G['cookie']['cookietime']) || !empty($_GET['cookietime']) ? 'checked="checked"' : '';
 
 			if($seccodecheck) {
-				$seccode = random(6, 1) + $seccode{0} * 1000000;
+				$seccode = random(6, 1) + $seccode[0] * 1000000;
 			}
 
 			if($this->extrafile && file_exists($this->extrafile)) {
@@ -108,6 +108,7 @@ class logging_ctl {
 					$groupid = $this->setting['regverify'] ? 8 : $this->setting['newusergroupid'];
 
 					C::t('common_member')->insert_user($uid, $result['ucresult']['username'], md5(random(10)), $result['ucresult']['email'], $_G['clientip'], $groupid, $init_arr);
+					$_G['member']['lastvisit'] = TIMESTAMP;
 					$result['member'] = getuserbyuid($uid);
 					$result['status'] = 1;
 				}
@@ -156,7 +157,7 @@ class logging_ctl {
 				if($_G['member']['adminid'] != 1) {
 					if($this->setting['accountguard']['loginoutofdate'] && $_G['member']['lastvisit'] && TIMESTAMP - $_G['member']['lastvisit'] > ($this->setting['accountguard']['loginoutofdatenum'] >= 1 ? (int)$this->setting['accountguard']['loginoutofdatenum'] : 90) * 86400 && $_G['member']['freeze'] != -1) {
 						C::t('common_member')->update($_G['uid'], array('freeze' => 2));
-						showmessage('location_login_outofdate', 'home.php?mod=spacecp&ac=profile&op=password&resend=1', array('type' => 1), array('showdialog' => true, 'striptags' => false, 'locationtime' => true));
+						showmessage('location_login_outofdate', 'home.php?mod=spacecp&ac=profile&op=password&resend=1&formhash='.FORMHASH, array('type' => 1), array('showdialog' => true, 'striptags' => false, 'locationtime' => true));
 					}
 
 					if($this->setting['accountguard']['loginpwcheck'] && $pwold && $_G['member']['freeze'] == 0) {
@@ -233,7 +234,7 @@ class logging_ctl {
 
 				if(!$freeze || !$this->setting['accountguard']['loginpwcheck']) {
 					$loginmessage = $_G['groupid'] == 8 ? 'login_succeed_inactive_member' : 'login_succeed';
-					$location = $invite || $_G['groupid'] == 8 ? 'home.php?mod=space&do=home' : dreferer();
+					$location = $invite || $_G['groupid'] == 8 ? 'home.php?mod=spacecp&ac=profile&op=password' : dreferer();
 				} else {
 					$loginmessage = 'login_succeed_password_change';
 					$location = 'home.php?mod=spacecp&ac=profile&op=password';
@@ -534,8 +535,9 @@ class register_ctl {
 				checkemail($email);
 			}
 			if($sendurl) {
+				$mobile = $this->setting['mobile']['mobileregister'] ? '' : ($this->setting['mobile']['allowmobile'] ? '&amp;mobile=no' : '');
 				$hashstr = urlencode(authcode("{$_GET['email']}\t{$_G['timestamp']}", 'ENCODE', $_G['config']['security']['authkey']));
-				$registerurl = $_G['setting']['securesiteurl']."member.php?mod=".$this->setting['regname']."&amp;hash={$hashstr}&amp;email={$_GET['email']}";
+				$registerurl = $_G['setting']['securesiteurl']."member.php?mod=".$this->setting['regname']."&amp;hash={$hashstr}&amp;email={$email}{$mobile}";
 				$email_register_message = array(
 					'tpl' => 'email_register',
 					'var' => array(
@@ -544,8 +546,8 @@ class register_ctl {
 						'url' => $registerurl
 					)
 				);
-				if(!sendmail("{$_GET['email']} <{$_GET['email']}>", $email_register_message)) {
-					runlog('sendmail', "{$_GET['email']} sendmail failed.");
+				if(!sendmail("{$email} <{$email}>", $email_register_message)) {
+					runlog('sendmail', "{$email} sendmail failed.");
 				}
 				showmessage('register_email_send_succeed', dreferer(), array('bbname' => $this->setting['bbname']), array('showdialog' => false, 'msgtype' => 3, 'closetime' => 10));
 			}

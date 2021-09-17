@@ -146,7 +146,6 @@ if($operation == 'admin') {
 					$narray[$i] = array(
 						'styleid' => '',
 						'available' => '',
-						'name' => $entry,
 						'directory' => './template/'.$entry,
 						'name' => $entry,
 						'tplname' => $entry,

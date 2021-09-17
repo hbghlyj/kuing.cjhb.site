@@ -48,6 +48,13 @@ if(submitcheck('lostpwsubmit')) {
 		C::t('common_member'.$table_ext)->update($tmp['uid'], array('email' => $tmp['email']));
 	}
 
+	$memberauthstr = C::t('common_member_field_forum'.$table_ext)->fetch($member['uid']);
+	list($dateline, $operation, $idstring) = explode("\t", $memberauthstr['authstr']);
+	$interval = $_G['setting']['mailinterval'] > 0 ? (int)$_G['setting']['mailinterval'] : 300;
+	if($dateline && $operation == 1 && $dateline > TIMESTAMP - $interval) {
+		showmessage('getpasswd_has_send', '', array('interval' => $interval));
+	}
+
 	$idstring = random(6);
 	C::t('common_member_field_forum'.$table_ext)->update($member['uid'], array('authstr' => "{$_G['timestamp']}\t1\t$idstring"));
 	require_once libfile('function/mail');
@@ -56,7 +63,7 @@ if(submitcheck('lostpwsubmit')) {
 		'var' => array(
 			'username' => $member['username'],
 			'bbname' => $_G['setting']['bbname'],
-			'siteurl' => $_G['siteurl'],
+			'siteurl' => $_G['setting']['securesiteurl'],
 			'uid' => $member['uid'],
 			'idstring' => $idstring,
 			'clientip' => $_G['clientip'],
