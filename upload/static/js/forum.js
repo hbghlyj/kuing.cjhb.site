@@ -9,11 +9,12 @@ function saveData(ignoreempty) {
 	var ignoreempty = isUndefined(ignoreempty) ? 0 : ignoreempty;
 	var obj = $('postform') && (($('fwin_newthread') && $('fwin_newthread').style.display == '') || ($('fwin_reply') && $('fwin_reply').style.display == '')) ? $('postform') : ($('fastpostform') ? $('fastpostform') : $('postform'));
 	if(!obj) return;
+	var bbcode = (typeof wysiwyg != 'undefined' && wysiwyg == 1) ? html2bbcode(editdoc.body.innerHTML) : obj.message.value;
 	if(typeof isfirstpost != 'undefined') {
 		if(typeof wysiwyg != 'undefined' && wysiwyg == 1) {
-			var messageisnull = trim(html2bbcode(editdoc.body.innerHTML)) === '';
+			var messageisnull = trim(bbcode) === '';
 		} else {
-			var messageisnull = $('postform').message.value === '';
+			var messageisnull = bbcode === '';
 		}
 		if(isfirstpost && (messageisnull && $('postform').subject.value === '')) {
 			return;
@@ -31,7 +32,7 @@ function saveData(ignoreempty) {
 				subject = trim(elvalue);
 			} else if(el.name == 'message') {
 				if(typeof wysiwyg != 'undefined' && wysiwyg == 1) {
-					elvalue = html2bbcode(editdoc.body.innerHTML);
+					elvalue = bbcode;
 				}
 				message = trim(elvalue);
 			}
@@ -314,7 +315,7 @@ function loadData(quiet, formobj) {
 
 	if(in_array((data = trim(data)), ['', 'null', 'false', null, false])) {
 		if(!quiet) {
-			showDialog('没有可以恢复的数据！', 'info');
+			showDialog('没有可以恢复的数据！', 'notice');
 		}
 		return;
 	}
@@ -566,8 +567,13 @@ function fixed_top_nv(eleid, disbind) {
 
 			var next = this.nv;
 			try {
-				while((next = next.nextSibling).nodeType != 1 || next.style.display === 'none') {}
-				this.nvdata.next = next;
+				if(this.nv.parentNode.id.substr(-3) != '_ph') {
+					var nvparent = document.createElement('div');
+					nvparent.id = this.nv.id + '_ph';
+					this.nv.parentNode.insertBefore(nvparent,this.nv);
+					nvparent.appendChild(this.nv);
+				}
+				this.nvdata.next = this.nv.parentNode;
 				this.nvdata.height = parseInt(this.nv.offsetHeight, 10);
 				this.nvdata.width = parseInt(this.nv.offsetWidth, 10);
 				this.nvdata.left = this.nv.getBoundingClientRect().left - document.documentElement.clientLeft;
@@ -583,7 +589,7 @@ function fixed_top_nv(eleid, disbind) {
 		var fixedheight = 0;
 		if(this.openflag && this.nvdata.next){
 			var nvnexttop = document.body.scrollTop || document.documentElement.scrollTop;
-			var dofixed = nvnexttop !== 0 && document.documentElement.clientHeight >= 15 && this.nvdata.next.getBoundingClientRect().top - this.nvdata.height < 0;
+			var dofixed = nvnexttop !== 0 && document.documentElement.clientHeight >= 15 && this.nvdata.next.getBoundingClientRect().top < 0;
 			if(dofixed) {
 				if(this.nv.style.position != 'fixed') {
 					this.nv.style.borderLeftWidth = '0';
@@ -595,6 +601,7 @@ function fixed_top_nv(eleid, disbind) {
 					this.nv.style.position = 'fixed';
 					this.nv.style.zIndex = '199';
 					this.nv.style.opacity = 0.85;
+					this.nv.parentNode.style.height = this.nvdata.height + 'px';
 				}
 			} else {
 				if(this.nv.style.position != this.nvdata.position) {
@@ -615,6 +622,7 @@ function fixed_top_nv(eleid, disbind) {
 			this.nv.style.height = '';
 			this.nv.style.width = '';
 			this.nv.style.opacity = this.nvdata.opacity;
+			this.nv.parentNode.style.height = '';
 		}
 	};
 	if(!disbind && this.openflag) {
