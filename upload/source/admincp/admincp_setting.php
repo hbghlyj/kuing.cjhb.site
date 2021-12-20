@@ -1582,6 +1582,7 @@ EOF;
 							[1,'', 'td25'],
 							[1,'<input type="text" class="txt" name="newsmtp[server][]" style="width: 90%;">', 'td28'],
 							[1,'<input type="text" class="txt" name="newsmtp[port][]" value="25">', 'td28'],
+							[1,'<input type="text" class="txt" name="newsmtp[timeout][]" value="30">', 'td28'],
 							[1,'<input type="checkbox" name="newsmtp[auth][]" value="1">', 'td25'],
 							[1,'<input type="text" class="txt" name="newsmtp[from][]" style="width: 90%;">'],
 							[1,'<input type="text" class="txt" name="newsmtp[auth_username][]" style="width: 90%;">'],
@@ -1593,7 +1594,8 @@ EOF;
 						[
 							[1,'', 'td25'],
 							[1,'<input type="text" class="txt" name="newsmtp[server][]" style="width: 90%;">', 'td28'],
-							[1,'<input type="text" class="txt" name="newsmtp[port][]" value="25">', 'td28']
+							[1,'<input type="text" class="txt" name="newsmtp[port][]" value="25">', 'td28'],
+							[1,'<input type="text" class="txt" name="newsmtp[timeout][]" value="30">', 'td28']
 						]
 					];
 				}
@@ -1607,6 +1609,7 @@ EOF;
 				<th class="td25">{$lang['delete']}</th>
 				<th class="td28">{$lang['setting_mail_setting_server']}</th>
 				<th class="td28">{$lang['setting_mail_setting_port']}</th>
+				<th class="td28">{$lang['setting_mail_setting_timeout']}</th>
 			</tr>
 EOF;
 		foreach($setting['mail']['smtp'] as $id => $smtp) {
@@ -1615,7 +1618,8 @@ EOF;
 			showtablerow('', array('class="td25"', 'class="td28"', 'class="td28"'), array(
 				"<input class=\"checkbox\" type=\"checkbox\" name=\"settingnew[mail][smtp][delete][]\" value=\"$id\">",
 				"<input type=\"text\" class=\"txt\" name=\"settingnew[mail][smtp][$id][server]\" value=\"{$smtp['server']}\" style=\"width: 90%;\">",
-				"<input type=\"text\" class=\"txt\" name=\"settingnew[mail][smtp][$id][port]\" value=\"{$smtp['port']}\">"
+				"<input type=\"text\" class=\"txt\" name=\"settingnew[mail][smtp][$id][port]\" value=\"{$smtp['port']}\">",
+				"<input type=\"text\" class=\"txt\" name=\"settingnew[mail][smtp][$id][timeout]\" value=\"{$smtp['timeout']}\">"
 			));
 		}
 		echo '<tr><td colspan="7"><div><a href="###" onclick="setrowtypedata(0);addrow(this, 0);" class="addtr">'.$lang['setting_mail_setting_edit_addnew'].'</a></div></td></tr>';
@@ -1632,6 +1636,7 @@ EOF;
 				<th class="td25">{$lang['delete']}</th>
 				<th class="td28">{$lang['setting_mail_setting_server']}</th>
 				<th class="td28">{$lang['setting_mail_setting_port']}</th>
+				<th class="td28">{$lang['setting_mail_setting_timeout']}</th>
 				<th id="auth_0">{$lang['setting_mail_setting_validate']}</th>
 				<th id="from_0">{$lang['setting_mail_setting_from']}</th>
 				<th id="username_0">{$lang['setting_mail_setting_username']}</th>
@@ -1646,6 +1651,7 @@ EOF;
 			"<input class=\"checkbox\" type=\"checkbox\" name=\"settingnew[mail][esmtp][delete][]\" value=\"$id\">",
 			"<input type=\"text\" class=\"txt\" name=\"settingnew[mail][esmtp][$id][server]\" value=\"{$smtp['server']}\" style=\"width: 90%;\">",
 			"<input type=\"text\" class=\"txt\" name=\"settingnew[mail][esmtp][$id][port]\" value=\"{$smtp['port']}\">",
+			"<input type=\"text\" class=\"txt\" name=\"settingnew[mail][esmtp][$id][timeout]\" value=\"{$smtp['timeout']}\">",
 			"<input type=\"checkbox\" name=\"settingnew[mail][esmtp][$id][auth]\" value=\"1\" $checkauth>",
 			"<input type=\"text\" class=\"txt\" name=\"settingnew[mail][esmtp][$id][from]\" value=\"{$smtp['from']}\" style=\"width: 90%;\">",
 			"<input type=\"text\" class=\"txt\" name=\"settingnew[mail][esmtp][$id][auth_username]\" value=\"{$smtp['auth_username']}\" style=\"width: 90%;\">",
@@ -3191,6 +3197,7 @@ EOT;
 					$settingnew['mail']['smtp'][] = array(
 							'server' => $server,
 							'port' => $_GET['newsmtp']['port'][$id] ? intval($_GET['newsmtp']['port'][$id]) : 25,
+							'timeout' => isset($_GET['newsmtp']['timeout'][$id]) ? intval($_GET['newsmtp']['port'][$id]) : 30,
 							'auth' => $_GET['newsmtp']['auth'][$id] ? 1 : 0,
 							'from' => $_GET['newsmtp']['from'][$id],
 							'auth_username' => $_GET['newsmtp']['auth_username'][$id],
