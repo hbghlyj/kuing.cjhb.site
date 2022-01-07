@@ -13,6 +13,7 @@ error_reporting(E_ERROR | E_WARNING | E_PARSE);
 define('IN_DISCUZ', TRUE);
 define('IN_COMSENZ', TRUE);
 define('ROOT_PATH', dirname(__FILE__).'/../');
+define('INST_LOG_PATH', realpath(ROOT_PATH.'data/log/').'/install.log');
 
 require ROOT_PATH.'./source/discuz_version.php';
 require ROOT_PATH.'./install/include/install_var.php';
@@ -50,9 +51,9 @@ timezone_set();
 $uchidden = getgpc('uchidden');
 
 if(in_array($method, array('app_reg', 'ext_info'))) {
-	$isHTTPS = ($_SERVER['HTTPS'] && strtolower($_SERVER['HTTPS']) != 'off') ? true : false;
+	$isHTTPS = is_https();
 	$PHP_SELF = $_SERVER['PHP_SELF'] ? $_SERVER['PHP_SELF'] : $_SERVER['SCRIPT_NAME'];
-	# $bbserver使用的端口，不能来自于SERVER_PORT，因为dz的服务器端口不一定是用户访问的端口(比如在负载均衡后面)
+	// $bbserver使用的端口，不能来自于SERVER_PORT，因为dz的服务器端口不一定是用户访问的端口(比如在负载均衡后面)
 	$bbserver = 'http'.($isHTTPS ? 's' : '').'://'.$_SERVER['HTTP_HOST'];
 	$default_ucapi = $bbserver.'/ucenter';
 	$default_appurl = $bbserver.substr($PHP_SELF, 0, strrpos($PHP_SELF, '/') - 8);
@@ -288,8 +289,8 @@ if($method == 'show_license') {
 
 			$link = new mysqli($dbhost, $dbuser, $dbpw);
 			if($link->connect_errno) {
-				$errno = $link->errno;
-				$error = $link->error;
+				$errno = $link->connect_errno;
+				$error = $link->connect_error;
 				if($errno == 1045) {
 					show_msg('database_errno_1045', $error, 0);
 				} elseif($errno == 2003) {
@@ -362,15 +363,14 @@ if($method == 'show_license') {
 
 } elseif($method == 'ext_info') {
 	@touch($lockfile);
-	init_install_log_file();
 	if(VIEW_OFF) {
 		show_msg('ext_info_succ');
 	} else {
 		show_header();
-		echo '</div><div class="main" style="margin-top: -123px;padding-left:30px"><span id="platformIntro"></span>';
-		echo '<iframe frameborder="0" width="700" height="550" allowTransparency="true" src="https://addon.dismall.com/api/outer.php?id=installed&siteurl='.urlencode($default_appurl).'&version='.DISCUZ_VERSION.'&release='.DISCUZ_RELEASE.'"></iframe>';
-		echo '<p align="center"><a href="'.$default_appurl.'" style="padding: 10px 20px;color: #fff;background: #09C;border-radius: 4px;height: 40px;line-height: 40px;font-size: 16px;">'.$lang['install_finish'].'</a></p><br />';
-		echo '</div>';
+		echo '</div><div class="main inst_success"><div class="success_icon"></div><h2>'.$lang['install_finish'].'</h2><p>'.$lang['install_finish_next'].'</p>';
+		echo '<a href="'.$default_appurl.'/admin.php" class="btn">'.$lang['finish_btn_admin'].'</a>';
+		echo '<a href="'.$default_appurl.'/admin.php?action=cloudaddons&frame=no&from=newinstall" class="btn">'.$lang['finish_btn_cloudaddon'].'</a>';
+		echo '<a href="'.$default_appurl.'" class="btn finish">'.$lang['finish_btn_direct'].'</a>';
 		show_footer();
 	}
 
@@ -502,10 +502,10 @@ if($method == 'show_license') {
 
 	!VIEW_OFF && showjsmessage(lang('initdbresult_succ'));
 } elseif($method == 'check_db_init_progress') {
-	header("Content-Type: text/plain");
+	@set_time_limit(5);
+	send_mime_type_header("text/plain");
 	ob_start();
-	$file = __DIR__ . '/include/install.log';
-	if (file_exists($file)) readfile($file);
+	read_install_log_file();
 	ob_end_flush();
 	exit();
 }
