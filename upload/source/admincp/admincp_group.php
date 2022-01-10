@@ -1190,11 +1190,21 @@ function delete_groupimg($fidarray) {
 	}
 }
 
+<<<<<<< HEAD
 function array_flip_keys($arr) {
 	$arr2 = array();
+	$arr = is_array($arr) ? $arr : array();
 	$arrkeys = is_array($arr) ? array_keys($arr) : array();
 	$first = current(array_slice($arr, 0, 1));
 	if($first) {
+=======
+function array_flip_keys($arr) {
+	$arr2 = array();
+	$arr = is_array($arr) ? $arr : array();
+	$arrkeys = is_array($arr) ? array_keys($arr) : array();
+	$first = current(array_slice($arr, 0, 1));
+	if($first) {
+>>>>>>> c426c595 (!1405 修复 后台编辑用户组以及管理组报错的 Bug)
 		foreach($first as $k=>$v) {
 			foreach($arrkeys as $key) {
 				$arr2[$k][$key] = $arr[$key][$k];
