@@ -28,6 +28,7 @@ $topmenu = array (
 	'safe' => '',
 	'extended' => '',
 	'plugin' => $isfounder ? 'plugins' : '',
+	'template' => '',
 	'tools' => '',
 );
 
@@ -167,7 +168,7 @@ $menu['group'] = array(
 );
 
 $menu['safe'] = array(
-	array('menu_safe_setting', 'setting_sec'),	
+	array('menu_safe_setting', 'setting_sec'),
 	array('menu_safe_seccheck', 'setting_seccheck'),
 	array('menu_security', 'optimizer_security'),
 	array('menu_serversec', 'optimizer_serversec'),
@@ -213,7 +214,6 @@ if(file_exists($menudir = DISCUZ_ROOT.'./source/admincp/menu')) {
 
 if($isfounder) {
 	$menu['plugin'] = array(
-		array('menu_addons', 'cloudaddons'),
 		array('menu_plugins', 'plugins'),
 	);
 }
@@ -224,6 +224,7 @@ $menu['template'] = array(
 if($isfounder && isset($_G['config']['plugindeveloper']) && $_G['config']['plugindeveloper'] > 0) {
 	$menu['template'][] = array('menu_templates_add', 'templates_add');
 }
+
 loadcache('adminmenu');
 if(is_array($_G['cache']['adminmenu'])) {
 	foreach($_G['cache']['adminmenu'] as $row) {
@@ -245,13 +246,15 @@ $menu['tools'] = array(
 	$isfounder ? array('menu_tools_fileperms', 'tools_fileperms') : null,
 	$isfounder ? array('menu_tools_filecheck', 'checktools_filecheck') : null,
 	$isfounder ? array('menu_tools_hookcheck', 'checktools_hookcheck') : null,
+	$isfounder ? array('menu_tools_replacekey', 'checktools_replacekey') : null,
 );
+
 if($isfounder) {
 	$topmenu['founder'] = '';
 
 	$menu['founder'] = array(
 		array('menu_founder_perm', 'founder_perm'),
-		array('menu_setting_mail', 'setting_mail'),		
+		array('menu_setting_mail', 'setting_mail'),
 		array('menu_setting_uc', 'setting_uc'),
 		array('menu_db', 'db_export'),
 		array('menu_membersplit', 'membersplit_check'),

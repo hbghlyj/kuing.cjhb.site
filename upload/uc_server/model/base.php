@@ -300,8 +300,8 @@ class base {
 			$message = $lang[$message] ? str_replace(array_keys($vars), array_values($vars), $lang[$message]) : $message;
 		}
 		$this->view->assign('message', $message);
-		if(!strpos($redirect, 'sid=') && (!strpos($redirect, 'ttp://'))) {
-			if(!strpos($redirect, '?')) {
+		if($redirect != 'BACK' && !preg_match('/^https?:\/\//is', $redirect) && strpos($redirect, 'sid=') === FALSE) {
+			if(strpos($redirect, '?') === FALSE) {
 				$redirect .= '?sid='.$this->sid;
 			} else {
 				$redirect .= '&sid='.$this->sid;
@@ -468,14 +468,14 @@ class base {
 		(!defined('UC_COOKIEPATH')) && define('UC_COOKIEPATH', '/');
 		(!defined('UC_COOKIEDOMAIN')) && define('UC_COOKIEDOMAIN', '');
 
-		if($value == '' || $life < 0) {
+		if($value === '' || $life < 0) {
 			$value = '';
 			$life = -1;
 		}
 
 		$life = $life > 0 ? $this->time + $life : ($life < 0 ? $this->time - 31536000 : 0);
 		$path = $httponly && PHP_VERSION < '5.2.0' ? UC_COOKIEPATH."; HttpOnly" : UC_COOKIEPATH;
-		$secure = $_SERVER['SERVER_PORT'] == 443 ? 1 : 0;
+		$secure = is_https();
 		if(PHP_VERSION < '5.2.0') {
 			setcookie($key, $value, $life, $path, UC_COOKIEDOMAIN, $secure);
 		} else {
@@ -510,6 +510,118 @@ class base {
 			$string = stripslashes($string);
 		}
 		return $string;
+	}
+
+	function detectescape($basepath, $relativepath) {
+		// 感谢 oldhu 贡献此代码
+		// 如果base不存在，有问题
+		if(!file_exists($basepath)) {
+			return FALSE;
+		}
+
+		// 如果文件或目录不存在，有可能是创建前的检查，使用其上一级路径
+		if(!file_exists($basepath . $relativepath)) {
+			$relativepath = dirname($relativepath);
+			// 上一级还不存在，按最坏情况处理，阻止请求
+			// 不区分返回值的目的也是为了避免给攻击者有价值的信息
+			if(!file_exists($basepath . $relativepath)) {
+				return FALSE;
+			}
+		}
+
+		$real_base = realpath($basepath);
+		$real_target = realpath($basepath . $relativepath);
+
+		// $real_base与$real_target相等，表示就是在访问base目录，允许
+		// 或者
+		// $real_target的开头就是$real_base，表示在访问base之下的文件/目录，允许
+		if(strcmp($real_target, $real_base) !== 0 && strpos($real_target, $real_base . DIRECTORY_SEPARATOR) !== 0) {
+			return FALSE;
+		}
+
+		return TRUE;
+	}
+
+	function random($length, $numeric = 0) {
+		$seed = base_convert(md5(microtime().$_SERVER['DOCUMENT_ROOT']), 16, $numeric ? 10 : 35);
+		$seed = $numeric ? (str_replace('0', '', $seed).'012340567890') : ($seed.'zZ'.strtoupper($seed));
+		if($numeric) {
+			$hash = '';
+		} else {
+			$hash = chr(rand(1, 26) + rand(0, 1) * 32 + 64);
+			$length--;
+		}
+		$max = strlen($seed) - 1;
+		for($i = 0; $i < $length; $i++) {
+			$hash .= $seed[mt_rand(0, $max)];
+		}
+		return $hash;
+	}
+
+	function secrandom($length, $numeric = 0, $strong = false) {
+		// Thank you @popcorner for your strong support for the enhanced security of the function.
+		$chars = $numeric ? array('A','B','+','/','=') : array('+','/','=');
+		$num_find = str_split('CDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz');
+		$num_repl = str_split('01234567890123456789012345678901234567890123456789');
+		$isstrong = false;
+		if(function_exists('random_bytes')) {
+			$isstrong = true;
+			$random_bytes = function($length) {
+				return random_bytes($length);
+			};
+		} elseif(extension_loaded('mcrypt') && function_exists('mcrypt_create_iv')) {
+			// for lower than PHP 7.0, Please Upgrade ASAP.
+			$isstrong = true;
+			$random_bytes = function($length) {
+				$rand = mcrypt_create_iv($length, MCRYPT_DEV_URANDOM);
+				if ($rand !== false && strlen($rand) === $length) {
+					return $rand;
+				} else {
+					return false;
+				}
+			};
+		} elseif(extension_loaded('openssl') && function_exists('openssl_random_pseudo_bytes')) {
+			// for lower than PHP 7.0, Please Upgrade ASAP.
+			// openssl_random_pseudo_bytes() does not appear to cryptographically secure
+			// https://github.com/paragonie/random_compat/issues/5
+			$isstrong = true;
+			$random_bytes = function($length) {
+				$rand = openssl_random_pseudo_bytes($length, $secure);
+				if($secure === true) {
+					return $rand;
+				} else {
+					return false;
+				}
+			};
+		}
+		if(!$isstrong) {
+			return $strong ? false : random($length, $numeric);
+		}
+		$retry_times = 0;
+		$return = '';
+		while($retry_times < 128) {
+			$getlen = $length - strlen($return); // 33% extra bytes
+			$bytes = $random_bytes(max($getlen, 12));
+			if($bytes === false) {
+				return false;
+			}
+			$bytes = str_replace($chars, '', base64_encode($bytes));
+			$return .= substr($bytes, 0, $getlen);
+			if(strlen($return) == $length) {
+				return $numeric ? str_replace($num_find, $num_repl, $return) : $return;
+			}
+			$retry_times++;
+		}
+	}
+
+	function generate_key($length = 32) {
+		$random = $this->secrandom($length);
+		$info = md5($_SERVER['SERVER_SOFTWARE'].$_SERVER['SERVER_NAME'].$_SERVER['SERVER_ADDR'].$_SERVER['SERVER_PORT'].$_SERVER['HTTP_USER_AGENT'].time());
+		$return = '';
+		for($i=0; $i<$length; $i++) {
+			$return .= $random[$i].$info[$i];
+		}
+		return $return;
 	}
 
 }
