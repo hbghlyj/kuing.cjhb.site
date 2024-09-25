@@ -26,13 +26,19 @@ function attachtype($type, $returnval = 'html') {
 			10 => 'flash.gif',
 			11 => 'image.gif',
 			12 => 'pdf.gif',
-			13 => 'torrent.gif'
+			13 => 'torrent.gif',
+			14 => 'geogebra.ico',
+			15 => 'gsp.ico'
 		);
 
 	if(is_numeric($type)) {
 		$typeid = $type;
 	} else {
-		if(preg_match("/bittorrent|^torrent\t/", $type)) {
+		if(preg_match("/gsp/", $type)) {
+			$typeid = 15;
+		} elseif(preg_match("/ggb/", $type)) {
+			$typeid = 14;
+		} elseif(preg_match("/bittorrent|^torrent\t/", $type)) {
 			$typeid = 13;
 		} elseif(preg_match("/pdf|^pdf\t/", $type)) {
 			$typeid = 12;
@@ -63,7 +69,7 @@ function attachtype($type, $returnval = 'html') {
 		}
 	}
 	if($returnval == 'html') {
-		return '<img src="'.STATICURL.'image/filetype/'.$attachicons[$typeid].'" border="0" class="vm" alt="" />';
+		return '<img src="'.STATICURL.'image/filetype/'.$attachicons[$typeid].'" class="vm" width="32" height="32" alt="$type" />';
 	} elseif($returnval == 'id') {
 		return $typeid;
 	}
@@ -181,7 +187,8 @@ function parseattach($attachpids, $attachtags, &$postlist, $skipaids = array()) 
 function attachwidth($width) {
 	global $_G;
 	if($_G['setting']['imagemaxwidth'] && $width) {
-		return 'class="zoom" onclick="zoom(this, this.src, 0, 0, '.($_G['setting']['showexif'] ? 1 : 0).')" width="'.($width > $_G['setting']['imagemaxwidth'] ? $_G['setting']['imagemaxwidth'] : $width).'"';
+		//return 'class="mw100 zoom" onclick="zoom(this, this.src, 0, 0, '.($_G['setting']['showexif'] ? 1 : 0).')" width="'.($width > $_G['setting']['imagemaxwidth'] ? $_G['setting']['imagemaxwidth'] : $width).'"';// kk add mw100 
+        return 'class="mw100 zoom"';// kk test jiaz onload="this.classList.remove(\'jiaz\')"
 	} else {
 		return 'thumbImg="1"';
 	}
