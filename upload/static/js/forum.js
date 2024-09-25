@@ -103,10 +103,10 @@ function keyPageScroll(e, prev, next, url, page) {
 	var tagname = BROWSER.ie ? e.srcElement.tagName : e.target.tagName;
 	if(tagname == 'INPUT' || tagname == 'TEXTAREA') return;
 	actualCode = e.keyCode ? e.keyCode : e.charCode;
-	if(next && actualCode == 39) {
+	if(next && actualCode == 39 && !(e.shiftKey) && !(e.altKey)) {
 		window.location = url + '&page=' + (page + 1);
 	}
-	if(prev && actualCode == 37) {
+	if(prev && actualCode == 37 && !(e.shiftKey) && !(e.altKey)) {
 		window.location = url + '&page=' + (page - 1);
 	}
 }
@@ -175,7 +175,7 @@ function announcement() {
                 ann.announcementScrollnext(targetTop);
             }, 10);
         } else {
-            this.annrowcount++; 
+            this.annrowcount++;
             this.annst = setTimeout(function() {
                 ann.announcementScroll();
             }, this.anndelay);
