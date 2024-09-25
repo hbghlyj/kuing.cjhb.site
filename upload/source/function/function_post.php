@@ -587,7 +587,7 @@ function messagesafeclear($message) {
 	return $message;
 }
 
-function messagecutstr($message, $length = 0, $dot = ' ...') {
+function messagecutstr($message, $length = 0, $dot = ' ...', $html = 0) {
 	global $_G;
 	$str = messagesafeclear($message);
 	$sppos = strpos($str, chr(0).chr(0).chr(0));
@@ -596,27 +596,28 @@ function messagecutstr($message, $length = 0, $dot = ' ...') {
 	}
 	$language = lang('forum/misc');
 	loadcache(array('bbcodes_display', 'bbcodes', 'smileycodes', 'smilies', 'smileytypes', 'domainwhitelist'));
-	$bbcodes = 'b|i|u|p|color|backcolor|size|font|align|list|indent|float';
-	$bbcodesclear = 'email|code|free|table|tr|td|img|swf|flash|attach|media|audio|groupid|payto'.(!empty($_G['cache']['bbcodes_display'][$_G['groupid']]) ? '|'.implode('|', array_keys($_G['cache']['bbcodes_display'][$_G['groupid']])) : '');
-	$str = strip_tags(preg_replace(array(
+	$bbcodes = 'b|i|u|p|color|backcolor|size|font|align|list|indent|float|table|tr|td';
+	$bbcodesclear = 'email|code|free|img|swf|flash|attach|media|audio|groupid|payto'.(!empty($_G['cache']['bbcodes_display'][$_G['groupid']]) ? '|'.implode('|', array_keys($_G['cache']['bbcodes_display'][$_G['groupid']])) : '');
+	$str = preg_replace(array(
 			"/\[hide=?\d*\](.*?)\[\/hide\]/is",
-			"/\[quote](.*?)\[\/quote]/si",
+			"/\[i=s\](.*?)\[\/i\](\n\n|<br \/><br \/>)/i",
+			"/\[quote\](.*?)\[\/quote\]/si",
 			$language['post_edit_regexp'],
 			"/\[url=?.*?\](.+?)\[\/url\]/si",
 			"/\[($bbcodesclear)(=.*?)?\].+?\[\/\\1\]/si",
 			"/\[($bbcodes)(=.*?)?\]/i",
-			"/\[\/($bbcodes)\]/i",
-			"/\\\\u/i"
+			"/\[\/($bbcodes)\]/i"
 		), array(
 			$language['post_hidden'],
+			'',
 			'',
 			'',
 			'\\1',
 			'',
 			'',
-			'',
-			'%u'
-		), $str));
+			''
+		), $str);
+	$html && $str = strip_tags($str);
 	$str = preg_replace($_G['cache']['smilies']['searcharray'], '', $str);
 	if($_G['setting']['plugins']['func'][HOOKTYPE]['discuzcode']) {
 		$_G['discuzcodemessage'] = & $str;
