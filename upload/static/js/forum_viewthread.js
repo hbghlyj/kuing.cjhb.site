@@ -28,13 +28,16 @@ function attachimgshow(pid, onlyinpost) {
 			continue;
 		}
 		if(onlyinpost && !obj.getAttribute('inpost')) {
-			aimgcomplete++; 
+			aimgcomplete++;
 			continue;
-		}        
+		}
 		if(onlyinpost && obj.getAttribute('inpost') || !onlyinpost) {
 			if(!obj.status) {
 				obj.status = 1;
-				if(obj.getAttribute('file')) obj.src = obj.getAttribute('file');
+				if(obj.getAttribute('file')) {
+                    obj.src = obj.getAttribute('file');
+                    obj.setAttribute('onload',"this.parentNode.classList.add(\'jiazed\')"); // kk add (test)
+                }
 				loadingcount++;
 			} else if(obj.status == 1) {
 				if(obj.complete) {
@@ -388,8 +391,8 @@ function toggleRatelogCollapse(tarId, ctrlObj) {
 }
 
 function copyThreadUrl(obj, bbname) {
-	bbname = bbname || SITEURL;
-	setCopy($('thread_subject').innerHTML.replace(/&amp;/g, '&') + '\n' + obj.href + '\n' + '(出处: '+bbname+')' + '\n', '帖子地址已经复制到剪贴板');
+	bbname = bbname ||  SITEURL;
+	setCopy(document.querySelector('meta[name=keywords]').content + '\n' + obj.href+ '\n' + '(出处: ' + bbname + ')', '已复制帖子的标题+链接+出处');// hbghlyj edt + kk edt 
 	return false;
 }
 
