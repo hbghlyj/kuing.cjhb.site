@@ -10,29 +10,31 @@
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
-function searchkey($keyword, $field, $returnsrchtxt = 0) {
-	$srchtxt = '';
+function searchkey($keyword, $field, $returnsrchtxt = 0, $crit = 'and') {
+    $keyword = preg_replace('/\s+/', ' ', $keyword);
+	$srchtxt = $keyword;
 	if($field && $keyword) {
-		if(preg_match("(AND|\+|&|\s)", $keyword) && !preg_match("(OR|\|)", $keyword)) {
-			$andor = ' AND ';
-			$keywordsrch = '1';
-			$keyword = preg_replace("/( AND |&| )/is", "+", $keyword);
-		} else {
-			$andor = ' OR ';
-			$keywordsrch = '0';
-			$keyword = preg_replace("/( OR |\|)/is", "+", $keyword);
+		$keyword=addslashes($keyword);
+		if ($crit=='regexp') {
+			$text = trim($keyword);
+			if($text)$keywordsrch .= str_replace('%{text}%', $text, str_replace('LIKE','REGEXP',$field));
+		}else{
+			$keyword=addslashes($keyword);
 		}
-		$keyword = str_replace('*', '%', addcslashes($keyword, '%_'));
-		$srchtxt = $returnsrchtxt ? $keyword : '';
-		foreach(explode('+', $keyword) as $text) {
-			$text = trim(daddslashes($text));
-			if($text) {
-				$keywordsrch .= $andor;
-				$keywordsrch .= str_replace('{text}', $text, $field);
+		if($crit=='and'||$crit=='or'){
+			foreach(explode(' ', $keyword) as $value) {
+				if(isset($text))$keywordsrch .= " $crit ";
+				$text = trim($value);
+				if($text)$keywordsrch .= str_replace('{text}', $text, $field);
 			}
+		}
+		if ($crit=='exact') {
+			$text = trim($keyword);
+			if($text)$keywordsrch .= str_replace('{text}', $text, $field);
 		}
 		$keyword = " AND ($keywordsrch)";
 	}
+	$srchtxt || $srchtxt = '';
 	return $returnsrchtxt ? array($srchtxt, $keyword) : $keyword;
 }
 
