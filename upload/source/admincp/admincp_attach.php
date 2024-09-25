@@ -73,7 +73,7 @@ if(!submitcheck('deletesubmit')) {
 					$matched = file_exists($_G['setting']['attachdir'].'/forum/'.$attachment['attachment']) ? '' : cplang('attach_lost');
 					$attachment['url'] = $_G['setting']['attachurl'].'forum/';
 				} else {
-					@set_time_limit(0);
+					// @set_time_limit(0);
 					if(@fclose(@fopen($_G['setting']['ftp']['attachurl'].'forum/'.$attachment['attachment'], 'r'))) {
 						$matched = '';
 					} else {
@@ -190,4 +190,4 @@ EOT;
 	echo "<script type=\"text/JavaScript\">alert('$cpmsg');parent.\$('attachmentforum').searchsubmit.click();</script>";
 }
 
-?>
+?> 
