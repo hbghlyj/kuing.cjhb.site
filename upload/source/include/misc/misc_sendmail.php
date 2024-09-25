@@ -23,7 +23,7 @@ if($_G['timestamp'] - $filemtime < 5) exit();
 
 touch($lockfile);
 
-@set_time_limit(0);
+// @set_time_limit(0);
 
 $list = $sublist = $cids = $touids = array();
 foreach(C::t('common_mailcron')->fetch_all_by_sendtime($_G['timestamp'], 0, $pernum) as $value) {
@@ -69,4 +69,4 @@ foreach ($list as $cid => $value) {
 	}
 }
 
-?>
+?> 
