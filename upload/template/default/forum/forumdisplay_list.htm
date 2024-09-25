@@ -42,7 +42,7 @@
 					<!--{/if}-->
 				<td class="by">{lang author}</td>
 				<td class="num">{lang replies}</td>
-				<td class="by">{lang lastpost}</td>
+				<td class="by lastp">{lang lastpost}</td>
 				<!--{else}-->
 				<td class="by" colspan="3">
 					<a{if empty($_G['cookie']['forumdefstyle'])} href="forum.php?mod=forumdisplay&fid=$_G[fid]&forumdefstyle=yes" class="chked"{else} href="forum.php?mod=forumdisplay&fid=$_G[fid]&forumdefstyle=no" class="unchk"{/if} title="{lang view_thread_imagemode}{lang view_thread}">{lang view_thread_imagemode}</a>
@@ -98,7 +98,7 @@
 							<tbody id="$thread[id]"{if $_G['hiddenexists'] && $thread['hidden']} style='display:none'{/if}>
 								<tr>
 									<td class="icn">
-										<a href="forum.php?mod=viewthread&tid=$thread[icontid]&{if $_GET['archiveid']}archiveid={$_GET['archiveid']}&{/if}extra=$extra" title="{if $thread['displayorder'] == 1}{lang thread_type1} - {/if}
+										<a href="forum.php?mod=viewthread&tid=$thread[icontid]{if $_GET['archiveid']}&archiveid={$_GET['archiveid']}{/if}{if $extra != 'page%3D1'}&extra=$extra{/if}" title="{if $thread['displayorder'] == 1}{lang thread_type1} - {/if}
 											{if $thread['displayorder'] == 2}{lang thread_type2} - {/if}
 											{if $thread['displayorder'] == 3}{lang thread_type3} - {/if}
 											{if $thread['displayorder'] == 4}{lang thread_type4} - {/if}
@@ -160,7 +160,7 @@
 										<!--{if $thread['moved']}-->
 											{lang thread_moved}:<!--{eval $thread['tid']=$thread['closed'];}-->
 										<!--{/if}-->
-										<a href="forum.php?mod=viewthread&tid=$thread[tid]&{if $_GET['archiveid']}archiveid={$_GET['archiveid']}&{/if}extra=$extra"$thread[highlight]{if $thread['isgroup'] == 1 || $thread['forumstick']} target="_blank"{else} onclick="atarget(this)"{/if} class="s xst">$thread[subject]</a>
+										<a href="forum.php?mod=viewthread&tid=$thread[tid]{if $_GET['archiveid']}&archiveid={$_GET['archiveid']}{/if}{if $extra != 'page%3D1'}&extra=$extra{/if}"$thread[highlight]{if $thread['isgroup'] == 1 || $thread['forumstick']} target="_blank"{else} onclick="atarget(this)"{/if} class="s xst">$thread[subject]</a><!-- kk edt -->
 										<!--{if $_G['setting']['threadhidethreshold'] && $thread['hidden'] >= $_G['setting']['threadhidethreshold']}--><span class="xg1">{lang hidden}</span>&nbsp;<!--{/if}-->
 										<!--{if $thread[icon] >= 0}-->
 											<img src="{STATICURL}image/stamp/{$_G[cache][stamps][$thread[icon]][url]}" alt="{$_G[cache][stamps][$thread[icon]][text]}" class="vm" />
@@ -239,8 +239,8 @@
 										</cite>
 										<em><span{if $thread['istoday']} class="xi1"{/if}>$thread[dateline]</span></em>
 									</td>
-									<td class="num"><a href="forum.php?mod=viewthread&tid=$thread[tid]&extra=$extra" class="xi2">$thread[allreplies]</a><em><!--{if $thread['isgroup'] != 1}-->$thread[views]<!--{else}-->{$groupnames[$thread[tid]][views]}<!--{/if}--></em></td>
-									<td class="by">
+									<td class="num"><a href="forum.php?mod=viewthread&tid=$thread[tid]{if $extra != 'page%3D1'}&extra=$extra{/if}" class="xi2">$thread[allreplies]</a><em><!--{if $thread['isgroup'] != 1}-->$thread[views]<!--{else}-->{$groupnames[$thread[tid]][views]}<!--{/if}--></em></td>
+									<td class="by lastp">
 										<cite><!--{if $thread['lastposter']}--><a href="{if $thread[digest] != -2}home.php?mod=space&username=$thread[lastposterenc]{else}forum.php?mod=viewthread&tid=$thread[tid]&page={echo max(1, $thread[pages]);}{/if}" c="1">$thread[lastposter]</a><!--{else}-->$_G[setting][anonymoustext]<!--{/if}--></cite>
 										<em><a href="{if $thread[digest] != -2 && !$thread[ordertype]}forum.php?mod=redirect&tid=$thread[tid]&goto=lastpost{$highlight or ''}#lastpost{else}forum.php?mod=viewthread&tid=$thread[tid]{if !$thread[ordertype]}&page={echo max(1, $thread[pages]);}{/if}{/if}">$thread[lastpost]</a></em>
 									</td>
