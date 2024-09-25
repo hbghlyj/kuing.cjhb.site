@@ -638,7 +638,7 @@ function checkmailerror($type, $error) {
 
 function getremotefile($file) {
 	global $_G;
-	@set_time_limit(0);
+	// @set_time_limit(0);
 	$file = $file.'?'.TIMESTAMP.rand(1000, 9999);
 	if(strpos($file, 'ftp://') === 0) {
 		$str = file_get_contents($file);
@@ -696,4 +696,4 @@ function generate_key($length = 32) {
 		$return .= $random[$i].$info[$i];
 	}
 	return $return;
-}
+} 
