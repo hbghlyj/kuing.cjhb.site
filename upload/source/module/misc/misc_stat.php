@@ -15,7 +15,7 @@ define('CACHE_TIME', 18000);
 
 $op = getgpc('op');
 if(!in_array($op, array('basic', 'trade', 'team', 'trend', 'modworks', 'memberlist', 'forumstat', 'trend'))) {
-	$op = 'basic';
+	$op = 'memberlist';
 }
 if(!$_G['group']['allowstatdata'] && $op != 'trend') {
 	showmessage('group_nopermission', NULL, array('grouptitle' => $_G['group']['grouptitle']), array('login' => 1));
@@ -42,10 +42,7 @@ if($op == 'basic') {
 	extract($statvars);
 	if($_GET['exportexcel']) {
 		$filename = 'stat_modworks_'.($username ? $username.'_' : '').$starttime.'_'.$endtime.'.csv';
-		// 遵循RFC 6266国际标准，按照RFC 5987中的规则对文件名进行编码
 		$filenameencode = strtolower(CHARSET) == 'utf-8' ? rawurlencode($filename) : rawurlencode(diconv($filename, CHARSET, 'UTF-8'));
-		// 连2011年发布的国际标准都没能正确支持的浏览器厂商的黑名单列表
-		// 目前包括：UC，夸克，搜狗，百度
 		$rfc6266blacklist = strexists($_SERVER['HTTP_USER_AGENT'], 'UCBrowser') || strexists($_SERVER['HTTP_USER_AGENT'], 'Quark') || strexists($_SERVER['HTTP_USER_AGENT'], 'SogouM') || strexists($_SERVER['HTTP_USER_AGENT'], 'baidu');
 		include template('forum/stat_misc_export');
 		$csvstr = ob_get_contents();
@@ -445,7 +442,7 @@ function getstatvars_memberlist() {
 		$page = 1;
 	}
 	$start_limit = ($page - 1) * $_G['setting']['memberperpage'];
-	$statvars['memberlist'] = C::t('common_member')->fetch_all_stat_memberlist($srchmem, $_GET['order'], $_GET['asc'] ? 'ASC' : 'DESC', $start_limit, $_G['setting']['memberperpage']);
+	$statvars['memberlist'] = C::t('common_member')->fetch_all_stat_memberlist($srchmem, $_GET['order'], $_GET['asc'] ? 'DESC' : 'ASC', $start_limit, $_G['setting']['memberperpage']);
 	$num = !empty($srchmem) ?  C::t('common_member')->count_by_like_username($srchmem) :  C::t('common_member')->count();
 	$multipage = multi($num, $_G['setting']['memberperpage'], $page, 'misc.php?mod=stat&op=memberlist&srchmem='.rawurlencode($srchmem).'&order='.rawurlencode($_GET['order']).'&asc='.rawurlencode($_GET['asc']), $_G['setting']['membermaxpages']);
 	$statvars['multipage'] = $multipage;
