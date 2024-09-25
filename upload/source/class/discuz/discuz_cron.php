@@ -42,7 +42,7 @@ class discuz_cron
 				$cron['minute'] = explode("\t", $cron['minute']);
 				self::setnextime($cron);
 
-				@set_time_limit(1000);
+				// @set_time_limit(1000);
 				@ignore_user_abort(TRUE);
 
 				if(!@include $cronfile) {
@@ -172,4 +172,4 @@ class discuz_cron
 	}
 }
 
-?>
+?> 
