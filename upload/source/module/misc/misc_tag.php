@@ -104,7 +104,7 @@ if($id || $name) {
 
 } else {
 	$navtitle = $metakeywords = $metadescription = $taglang;
-	$viewthreadtags = 100;
+	$viewthreadtags = 1000;
 	$tagarray = array();
 	$query = C::t('common_tag')->fetch_all_by_status(0, '', $viewthreadtags, 0, 0, 'DESC');
 	foreach($query as $result) {
