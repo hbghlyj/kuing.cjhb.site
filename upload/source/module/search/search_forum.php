@@ -89,8 +89,8 @@ if(!submitcheck('searchsubmit', 1)) {
 			showmessage('search_id_invalid');
 		}
 
-		$keyword = dhtmlspecialchars($index['keywords']);
-		$keyword = $keyword != '' ? str_replace('+', ' ', $keyword) : '';
+		$keyword = $index['keywords'];
+		// $keyword = $keyword != '' ? str_replace('+', ' ', $keyword) : '';
 
 		$index['keywords'] = rawurlencode($index['keywords']);
 		$searchstring = explode('|', $index['searchstring']);
@@ -126,7 +126,7 @@ if(!submitcheck('searchsubmit', 1)) {
 					if($post['status'] & 1) {
 						$threadlist[$post['tid']]['message'] = lang('forum/template', 'message_single_banned');
 					} else {
-						$threadlist[$post['tid']]['message'] = bat_highlight(threadmessagecutstr($threadlist[$post['tid']], $post['message'], 200), $keyword);
+						$threadlist[$post['tid']]['message'] = bat_highlight(threadmessagecutstr($threadlist[$post['tid']], dhtmlspecialchars($post['message']), 200), $keyword);// kk add dhtmlspecialchars()
 					}
 				}
 			}
@@ -201,7 +201,7 @@ if(!submitcheck('searchsubmit', 1)) {
 				$searchindex = array('id' => $index['searchid'], 'dateline' => $index['dateline']);
 				break;
 			} elseif($_G['adminid'] != '1' && $index['flood']) {
-				showmessage('search_ctrl', 'search.php?mod=forum', array('searchctrl' => $_G['setting']['search']['forum']['searchctrl']));
+				showmessage('search_ctrl', 'search.php?mod=forum&adv=yes', array('searchctrl' => $_G['setting']['search']['forum']['searchctrl']));
 			}
 		}
 
@@ -214,16 +214,16 @@ if(!submitcheck('searchsubmit', 1)) {
 			!($_G['group']['exempt'] & 2) && checklowerlimit('search');
 
 			if(!$srchtxt && !$srchuid && !$srchuname && !$srchfrom && !in_array($srchfilter, array('digest', 'top')) && !is_array($special)) {
-				dheader('Location: search.php?mod=forum');
+				dheader('Location: search.php?mod=forum&adv=yes');
 			} elseif(isset($srchfid) && !empty($srchfid) && $srchfid != 'all' && !(is_array($srchfid) && in_array('all', $srchfid)) && empty($forumsarray)) {
-				showmessage('search_forum_invalid', 'search.php?mod=forum');
+				showmessage('search_forum_invalid', 'search.php?mod=forum&adv=yes');
 			} elseif(!$fids) {
 				showmessage('group_nopermission', NULL, array('grouptitle' => $_G['group']['grouptitle']), array('login' => 1));
 			}
 
 			if($_G['adminid'] != '1' && $_G['setting']['search']['forum']['maxspm']) {
 				if(C::t('common_searchindex')->count_by_dateline($_G['timestamp'], $srchmod) >= $_G['setting']['search']['forum']['maxspm']) {
-					showmessage('search_toomany', 'search.php?mod=forum', array('maxspm' => $_G['setting']['search']['forum']['maxspm']));
+					showmessage('search_toomany', 'search.php?mod=forum&adv=yes', array('maxspm' => $_G['setting']['search']['forum']['maxspm']));
 				}
 			}
 
@@ -360,7 +360,7 @@ if(!submitcheck('searchsubmit', 1)) {
 					}*/
 
 					if($srchtxt) {
-						$srcharr = $srchtype == 'fulltext' ? searchkey($keyword, "(p.message LIKE '%{text}%' OR p.subject LIKE '%{text}%')", true) : searchkey($keyword,"t.subject LIKE '%{text}%'", true);
+						$binary=$_GET['Aa']=='1'?'BINARY ':'';$_GET['criteria'] || $_GET['criteria'] = 'and';$srcharr = $srchtype == 'fulltext' ? searchkey($keyword, "({$binary}p.message LIKE '%{text}%' OR {$binary}p.subject LIKE '%{text}%')", true, $_GET['criteria']) : searchkey($keyword,"{$binary}t.subject LIKE '%{text}%'", true, $_GET['criteria']);
 						$srchtxt = $srcharr[0];
 						$sqlsrch .= $srcharr[1];
 					}
@@ -385,7 +385,7 @@ if(!submitcheck('searchsubmit', 1)) {
 
 				$num = $ids = 0;
 				$_G['setting']['search']['forum']['maxsearchresults'] = $_G['setting']['search']['forum']['maxsearchresults'] ? intval($_G['setting']['search']['forum']['maxsearchresults']) : 500;
-				$query = DB::query("SELECT ".($srchtype == 'fulltext' ? 'DISTINCT' : '')." t.tid, t.closed, t.author, t.authorid $sqlsrch ORDER BY tid DESC LIMIT ".$_G['setting']['search']['forum']['maxsearchresults']);
+				if($_GET['debug']=='1')exit("SELECT ".($srchtype == 'fulltext' ? 'DISTINCT' : '')." t.tid, t.closed, t.author, t.authorid $sqlsrch ORDER BY tid DESC");$query = DB::query("SELECT ".($srchtype == 'fulltext' ? 'DISTINCT' : '')." t.tid, t.closed, t.author, t.authorid $sqlsrch ORDER BY tid DESC LIMIT ".$_G['setting']['search']['forum']['maxsearchresults']);
 				while($thread = DB::fetch($query)) {
 					$ids .= ','.$thread['tid'];
 					$num++;
