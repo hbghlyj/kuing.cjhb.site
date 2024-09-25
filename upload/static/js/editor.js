@@ -277,7 +277,7 @@ function editorfull(op) {
 		control.style.top = '0px';
 		control.style.left = '0px';
 		control.style.width = '100%';
-		control.style.minWidth = '800px';
+		//control.style.minWidth = '800px';//kk del
 		area.style.backgroundColor = $(editorid + '_textarea') ? getCurrentStyle($(editorid + '_textarea'), 'backgroundColor', 'background-color') : '#fff';
 		$(editorid + '_switcher').style.paddingRight = '10px';
 		var editorheight = document.documentElement.clientHeight - control.offsetHeight - bbar.offsetHeight - parseInt(getCurrentStyle(area, 'paddingTop', 'padding-top')) - parseInt(getCurrentStyle(area, 'paddingBottom', 'padding-bottom'));
@@ -728,7 +728,6 @@ function insertSmiley(smilieid) {
 	if(wysiwyg && allowsmilies && (!$('smileyoff') || $('smileyoff').checked == false)) {
 		insertText('<img src="' + src + '" border="0" smilieid="' + smilieid + '" alt="" />', false);
 	} else {
-		code += ' ';
 		insertText(code, strlen(code), 0);
 	}
 	hideMenu();
@@ -1124,7 +1123,7 @@ function showEditorMenu(tag, params) {
 					var promptlang = custombbcodes[tag]['prompt'].split("\t");
 					for(var i = 1; i <= params; i++) {
 						if(i != params || !haveSel) {
-							str += (promptlang[i - 1] ? promptlang[i - 1] : '请输入第 ' + i + ' 个参数:') + '<br /><input type="text" id="' + ctrlid + '_param_' + i + '" style="width: 98%" value="" class="px" />' + (i < params ? '<br />' : '');
+							str += (promptlang[i - 1] ? promptlang[i - 1] : '请输入第 ' + i + ' 个参数:') + '<br /><textarea id="' + ctrlid + '_param_' + i + '" style="width: 98%; resize: vertical;" value="" rows="3"></textarea>' + (i < params ? '<br />' : '');
 						}
 					}
 				}
