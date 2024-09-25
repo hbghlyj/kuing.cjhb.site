@@ -53,8 +53,8 @@ function expirehide($expiration, $creditsrequire, $message, $dateline) {
 function codedisp($code) {
 	global $_G;
 	$_G['forum_discuzcode']['pcodecount']++;
-	$code = dhtmlspecialchars(str_replace('\\"', '"', $code));
-	$code = str_replace("\n", "<li>", $code);
+	$code = dhtmlspecialchars($code);
+	$code = str_replace("\r\n", "<li>", $code);//kk add \r
 	$_G['forum_discuzcode']['codehtml'][$_G['forum_discuzcode']['pcodecount']] = tpl_codedisp($code);
 	$_G['forum_discuzcode']['codecount']++;
 	return "[\tDISCUZ_CODE_".$_G['forum_discuzcode']['pcodecount']."\t]";
@@ -106,7 +106,7 @@ function discuzcode($message, $smileyoff = false, $bbcodeoff = false, $htmlon = 
 	if(!$htmlon) {
 		$message = dhtmlspecialchars($message);
 	} else {
-		$message = preg_replace("/<script[^\>]*?>(.*?)<\/script>/i", '', $message);
+		
 	}
 
 	if($_G['setting']['plugins']['func'][HOOKTYPE]['discuzcode']) {
@@ -280,7 +280,8 @@ function discuzcode($message, $smileyoff = false, $bbcodeoff = false, $htmlon = 
 				"/\[img\]\s*([^\[\<\r\n]+?)\s*\[\/img\]/is",
 				function ($matches) use ($allowimgcode, $lazyload, $pid, $allowbbcode) {
 					if (intval($allowimgcode)) {
-						return parseimg(0, 0, $matches[1], intval($lazyload), intval($pid), 'onmouseover="img_onmouseoverfunc(this)" '.(intval($lazyload) ? 'lazyloadthumb="1"' : 'onload="thumbImg(this)"'));
+						//return parseimg(0, 0, $matches[1], intval($lazyload), intval($pid), 'onmouseover="img_onmouseoverfunc(this)" '.(intval($lazyload) ? 'lazyloadthumb="1"' : 'onload="thumbImg(this)"'));
+                        return parseimg(0, 0, $matches[1], intval($lazyload), intval($pid), (intval($lazyload) ? 'lazyloadthumb="1"' : 'onload="this.parentNode.classList.add(\'jiazed\')"')); // kk edt
 					}
 					return (intval($allowbbcode) ? (!defined('IN_MOBILE') ? bbcodeurl($matches[1], '<a href="{url}" target="_blank">{url}</a>') : bbcodeurl($matches[1], '')) : bbcodeurl($matches[1], '{url}'));
 				},
@@ -290,7 +291,7 @@ function discuzcode($message, $smileyoff = false, $bbcodeoff = false, $htmlon = 
 				"/\[img=(\d{1,4})[x|\,](\d{1,4})\]\s*([^\[\<\r\n]+?)\s*\[\/img\]/is",
 				function ($matches) use ($allowimgcode, $lazyload, $pid, $allowbbcode) {
 					if (intval($allowimgcode))  {
-						return parseimg($matches[1], $matches[2], $matches[3], intval($lazyload), intval($pid));
+						return parseimg($matches[1], $matches[2], $matches[3], intval($lazyload), intval($pid), (intval($lazyload) ? 'lazyloadthumb="1"' : 'onload="this.parentNode.classList.add(\'jiazed\')"'));// kk add the 6th arg
 					}
 					return (intval($allowbbcode) ? (!defined('IN_MOBILE') ? bbcodeurl($matches[3], '<a href="{url}" target="_blank">{url}</a>') : bbcodeurl($matches[3], '')) : bbcodeurl($matches[3], '{url}'));
 				},
@@ -375,13 +376,18 @@ function parseurl($url, $text, $scheme) {
 	global $_G;
 	if(!$url && preg_match("/((https?|ftp|gopher|news|telnet|rtsp|mms|callto|bctp|thunder|qqdl|synacast){1}:\/\/|www\.)[^\[\"']+/i", trim($text), $matches)) {
 		$url = $matches[0];
-		$length = 65;
-		if(strlen($url) > $length) {
-			$text = substr($url, 0, intval($length * 0.5)).' ... '.substr($url, - intval($length * 0.3));
+        $text = preg_replace("/^https?:\/\/(www\.)?|^www\./i", '', $url); // kk add 
+		$length = 95; // ori:65
+		if(strlen($text) > $length) {
+			//$text = mb_substr($url, 0, intval($length * 0.5)).' ... '.mb_substr($url, - intval($length * 0.3));
+            $text = mb_substr($text, 0, 64).' ... '.mb_substr($text, -20);
 		}
 		return '<a href="'.(substr(strtolower($url), 0, 4) == 'www.' ? 'http://'.$url : $url).'" target="_blank">'.$text.'</a>';
 	} else {
 		$url = substr($url, 1);
+		if($url[0]=='#'){
+			return '<a href="'.$url.'">'.$text.'</a>';
+		}
 		if(substr(strtolower($url), 0, 4) == 'www.') {
 			$url = 'http://'.$url;
 		}
@@ -417,7 +423,6 @@ function parseattachurl($aid, $ext, $ignoretid = 0) {
 	$_G['forum_skipaidlist'][] = $aid;
 	if(!empty($ext)) {
 		$attach = C::t('forum_attachment_n')->fetch('aid:'.$aid, $aid);
-		// 如果不是音视频类附件则不允许生成无条件限制的地址, 此处不支持附件收费以及阅读权限判定
 		if(!in_array(attachtype(fileext($attach['filename'])."\t", 'id'), array(9, 10))) {
 			$ext = 0;
 		}
@@ -450,11 +455,8 @@ function parsetable($width, $bgcolor, $message) {
 		if(!preg_match("/^\[tr(?:=([\(\)\s%,#\w]+))?\]\s*\[td([=\d,%]+)?\]/", $message) && !preg_match("/^<tr[^>]*?>\s*<td[^>]*?>/", $message)) {
 			return str_replace('\\"', '"', preg_replace("/\[tr(?:=([\(\)\s%,#\w]+))?\]|\[td([=\d,%]+)?\]|\[\/td\]|\[\/tr\]/", '', $message));
 		}
-		if(substr($width, -1) == '%') {
-			$width = substr($width, 0, -1) <= 98 ? intval($width).'%' : '98%';
-		} else {
-			$width = intval($width);
-			$width = $width ? ($width <= 560 ? $width.'px' : '98%') : '';
+		if(substr($width, -1) != '%') {
+			$width .= 'px';
 		}
 		$message = preg_replace_callback("/\[tr(?:=([\(\)\s%,#\w]+))?\]\s*\[td(?:=(\d{1,4}%?))?\]/i", 'parsetable_callback_parsetrtd_12', $message);
 		$message = preg_replace_callback("/\[\/td\]\s*\[td(?:=(\d{1,4}%?))?\]/i", 'parsetable_callback_parsetrtd_1', $message);
@@ -513,7 +515,6 @@ function parsemedia($params, $url) {
 		$height = ($params[2] > 0 && $params[2] < 4096) ? intval($params[2]) : 600;
 	}
 
-	// 兼容手机版（待测试）
 	$width = defined('IN_MOBILE') ? '100%' : $width;
 	$height = defined('IN_MOBILE') ? 'auto' : $height;
 
@@ -607,7 +608,6 @@ function parseflv($url, $width = 0, $height = 0) {
 			$flv = addslashes($flv);
 			$iframe = addslashes($iframe);
 			$randomid = 'flv_'.random(3);
-			// 允许media扩展只返回其中一种播放方式，如两种都返回，则根据浏览器是否支持HTML5进行自动选择
 			$player_iframe = $iframe ? "\"<iframe src='$iframe' border='0' scrolling='no' framespacing='0' allowfullscreen='true' style='max-width: 100%' width='$width' height='$height' frameborder='no'></iframe>\"" : '';
 			$player_flv = $flv ? "AC_FL_RunContent('width', '$width', 'height', '$height', 'allowNetworking', 'internal', 'allowScriptAccess', 'never', 'src', '$flv', 'quality', 'high', 'bgcolor', '#ffffff', 'wmode', 'transparent', 'allowfullscreen', 'true')" : '';
 			$player = (!empty($player_iframe) && !empty($player_flv)) ? "detectHtml5Support() ? $player_iframe : $player_flv" : (empty($player_iframe) ? $player_flv : $player_iframe);
@@ -656,7 +656,8 @@ function parseimg($width, $height, $src, $lazyload, $pid, $extra = '') {
 		if(defined('IN_MOBILE')) {
 			$img = '<img'.($width > 0 ? ' width="'.$width.'"' : '').($height > 0 ? ' height="'.$height.'"' : '').' src="{url}" border="0" alt="" />';
 		} else {
-			$img = '<img id="aimg_'.$rimg_id.'" onclick="zoom(this, this.src, 0, 0, '.($_G['setting']['showexif'] ? 1 : 0).')" class="zoom"'.($width > 0 ? ' width="'.$width.'"' : '').($height > 0 ? ' height="'.$height.'"' : '').' '.$attrsrc.'="{url}" '.($extra ? $extra.' ' : '').'border="0" alt="" />';
+			//$img = '<img id="aimg_'.$rimg_id.'" onclick="zoom(this, this.src, 0, 0, '.($_G['setting']['showexif'] ? 1 : 0).')" class="zoom"'.($width > 0 ? ' width="'.$width.'"' : '').($height > 0 ? ' height="'.$height.'"' : '').' '.$attrsrc.'="{url}" '.($extra ? $extra.' ' : '').'border="0" alt="" />';
+            $img = '<div class="tupian"><div class="jiaz"></div><div class="tuozt" onmousedown="tuozhuai2(this.parentNode);return false;"><!--拖动--></div><div class="guiw" onclick="guiwei(this.parentNode);return false;"><!--归位--></div><img id="aimg_'.$rimg_id.'" class="zoom mw100"'.($width > 0 ? ' width="'.$width.'"' : '').($height > 0 ? ' height="'.$height.'"' : '').' '.$attrsrc.'="{url}" '.($extra ? $extra.' ' : '').'/></div>'; // kk edt
 		}
 	}
 	$code = bbcodeurl($src, $img);
