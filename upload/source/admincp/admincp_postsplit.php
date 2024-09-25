@@ -12,7 +12,7 @@ if(!defined('IN_DISCUZ') || !defined('IN_ADMINCP')) {
 }
 define('IN_DEBUG', false);
 
-@set_time_limit(0);
+// @set_time_limit(0);
 define('MAX_POSTS_MOVE', 100000);
 cpheader();
 $topicperpage = 50;
@@ -36,9 +36,7 @@ if($operation == 'manage') {
 	if(!submitcheck('postsplit_manage')) {
 
 		showsubmenu('nav_postsplit_manage');
-		/*search={"nav_postsplit":"action=postsplit&operation=manage","nav_postsplit_manage":"action=postsplit&operation=manage"}*/
 		showtips('postsplit_manage_tips');
-		/*search*/
 		showformheader('postsplit&operation=manage');
 		showtableheader();
 
@@ -101,9 +99,7 @@ if($operation == 'manage') {
 
 			if(!submitcheck('splitsubmit')) {
 				showsubmenu('nav_postsplit_manage');
-				/*search={"nav_postsplit":"action=postsplit&operation=manage","nav_postsplit_manage":"action=postsplit&operation=manage"}*/
 				showtips('postsplit_manage_tips');
-				/*search*/
 				showformheader('postsplit&operation=split&tableid='.$tableid);
 				showtableheader();
 				showsetting('postsplit_from', '', '', getposttable($tableid, true).(!empty($posttable_info[$tableid]['memo']) ? '('.$posttable_info[$tableid]['memo'].')' : ''));
@@ -366,4 +362,4 @@ function movedate($tids) {
 	cpmsg('postsplit_doing', 'action=postsplit&operation=movepost&fromtable='.$tableid.'&movesize='.$movesize.'&targettable='.$targettableid.'&hash='.$hash.'&tindex='.$tableindex, 'loadingform', array('datalength' => sizecount($status['Data_length']), 'nowdatalength' => sizecount($nowdatasize)));
 }
 
-?>
+?> 
