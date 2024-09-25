@@ -26,6 +26,42 @@
 	<!--{if $_GET['diy'] == 'yes' && check_diy_perm($topic)}-->
 		<link rel="stylesheet" type="text/css" id="diy_common" href="{$_G['setting']['csspath']}{STYLEID}_css_diy.css?{VERHASH}" />
 	<!--{/if}-->
+
+<style>
+@font-face {
+  font-family: zh;
+  src: local(SimSun);
+  font-weight: normal;
+}
+@font-face {
+  font-family: zh;
+  src: local('Microsoft Yahei Bold');
+  font-weight: bold;
+}
+body, input, button, select, textarea, .xst, .ts {
+  font-family:
+    Tahoma,zh,
+    system-ui,-apple-system,BlinkMacSystemFont,
+    sans-serif;
+}
+</style>
+<script>
+if (navigator.userAgent.match(/Windows 7|Windows 8|Windows NT 6|Windows NT 10\.0.*?Chrome\/10[0-9]/)) {
+    var tmpstyle = document.createElement("style");
+    tmpstyle.innerHTML = `
+@import url(https://fonts.googleapis.com/css2?family=Noto+Colr+Emoji+Glyf);
+body, input, button, select, textarea, .xst, .ts {
+  font-family:
+    Tahoma,zh,
+    system-ui,sans-serif,
+    "Segoe UI Emoji","Noto Colr Emoji Glyf";
+}`;
+    document.getElementsByTagName("head")[0].appendChild(tmpstyle);
+    console.log('load google noto color emoji font');
+}
+</script>
+
+
 </head>
 
 <body id="nv_{$_G[basescript]}" class="pg_{CURMODULE}{if $_G['basescript'] === 'portal' && CURMODULE === 'list' && !empty($cat)} {$cat['bodycss']}{/if}" onkeydown="if(event.keyCode==27) return false;">
@@ -54,7 +90,7 @@
 			</div>
 			<script type="text/javascript">setTimeout(setShortcut, 2000);</script>
 		<!--{/if}-->
-		<div id="toptb" class="cl">
+		<div id="toptb" class="cl" style="height:0;border:none;">
 			<!--{hook/global_cpnav_top}-->
 			<div class="wp">
 				<div class="z">
@@ -63,8 +99,8 @@
 					<!--{/loop}-->
 					<!--{hook/global_cpnav_extra1}-->
 				</div>
-				<div class="y">
-					<a id="switchblind" href="javascript:;" onclick="toggleBlind(this)" title="{lang switch_blind}" class="switchblind"></a>
+				<div class="z">
+					<a id="switchblind" style="display:none;" href="javascript:;" onclick="toggleBlind(this)" title="{lang switch_blind}" class="switchblind"></a>
 					<!--{hook/global_cpnav_extra2}-->
 					<!--{loop $_G['setting']['topnavs'][1] $nav}-->
 						<!--{if is_array($nav) && $nav['available'] && (!$nav['level'] || ($nav['level'] == 1 && $_G['uid']) || ($nav['level'] == 2 && $_G['adminid'] > 0) || ($nav['level'] == 3 && $_G['adminid'] == 1))}-->$nav[code]<!--{/if}-->
@@ -72,7 +108,7 @@
 					<!--{if empty($_G['disabledwidthauto']) && $_G['setting']['switchwidthauto']}-->
 						<a href="javascript:;" id="switchwidth" onclick="widthauto(this)" title="{if widthauto()}{lang switch_narrow}{else}{lang switch_wide}{/if}" class="switchwidth"><!--{if widthauto()}-->{lang switch_narrow}<!--{else}-->{lang switch_wide}<!--{/if}--></a>
 					<!--{/if}-->
-					<!--{if $_G['uid'] && !empty($_G['style']['extstyle'])}--><a id="sslct" href="javascript:;" onmouseover="delayShow(this, function() {showMenu({'ctrlid':'sslct','pos':'34!'})});">{lang changestyle}</a><!--{/if}-->
+					<!--{if $_G['uid'] && !empty($_G['style']['extstyle'])}--><a id="sslct" href="javascript:;" onmouseover="delayShow(this, function() {showMenu({'ctrlid':'sslct','pos':'43!'})});">{lang changestyle}</a><!--{/if}-->
 					<!--{if check_diy_perm($topic)}-->
 						$diynav
 					<!--{/if}-->
@@ -122,14 +158,14 @@
 		<!--{ad/headerbanner/wp a_h}-->
 		<div id="hd">
 			<div class="wp">
-				<div class="hdc cl">
+				<div class="cl">
 					<!--{eval $mnid = getcurrentnav();}-->
-					<h2><!--{if !isset($_G['setting']['navlogos'][$mnid])}--><a href="{if $_G['setting']['domain']['app']['default']}{$_G['scheme']}://{$_G['setting']['domain']['app']['default']}/{else}./{/if}" title="$_G['setting']['bbname']">{$_G['style']['boardlogo']}</a><!--{else}-->$_G['setting']['navlogos'][$mnid]<!--{/if}--></h2>
+					<h2 style="display:none;"><!--{if !isset($_G['setting']['navlogos'][$mnid])}--><a href="{if $_G['setting']['domain']['app']['default']}{$_G['scheme']}://{$_G['setting']['domain']['app']['default']}/{else}./{/if}" title="$_G['setting']['bbname']">{$_G['style']['boardlogo']}</a><!--{else}-->$_G['setting']['navlogos'][$mnid]<!--{/if}--></h2>
 					<!--{template common/header_userstatus}-->
 				</div>
 
 				<div id="nv">
-					<a href="javascript:;" id="qmenu" onmouseover="delayShow(this, function () {showMenu({'ctrlid':'qmenu','pos':'34!','ctrlclass':'a','duration':2});showForummenu($_G[fid]);})">{lang my_nav}</a>
+					<a href="javascript:;" id="qmenu" onmouseover="delayShow(this, function () {showMenu({'ctrlid':'qmenu','pos':'34!','ctrlclass':'a','duration':2});})">{lang my_nav}</a>
 					<ul>
 						<!--{loop $_G['setting']['navs'] $nav}-->
 							<!--{if is_array($nav) && $nav['available'] && (!$nav['level'] || ($nav['level'] == 1 && $_G['uid']) || ($nav['level'] == 2 && $_G['adminid'] > 0) || ($nav['level'] == 3 && $_G['adminid'] == 1))}--><li {if $mnid == $nav[navid] || substr($_SERVER['REQUEST_URI'], 1) == str_replace('./', '', $nav[filename])}class="a" {/if}$nav[nav]></li><!--{/if}-->
