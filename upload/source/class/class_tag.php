@@ -28,7 +28,7 @@ class tag
 		$tagcount = 0;
 		foreach($tagarray as $tagname) {
 			$tagname = trim($tagname);
-			if(preg_match('/^([\x7f-\xff_-]|\w|\s){2,20}$/', $tagname)) {
+			if(strlen($tagname)>2&&mb_strlen($tagname)<30) {
 				$status = $idtype != 'uid' ? 0 : 3;
 				$result = C::t('common_tag')->get_bytagname($tagname, $idtype);
 				if($result['tagid']) {
@@ -116,7 +116,7 @@ class tag
 		if(!$newtag) {
 			return 'tag_empty';
 		}
-		if(preg_match('/^([\x7f-\xff_-]|\w|\s){2,20}$/', $newtag)) {
+		if(strlen($newtag)>2&&mb_strlen($newtag)<30) {
 			$tidarray = $blogidarray = array();
 			$newtaginfo = $this->add_tag($newtag, 0, $idtype, 1);
 			foreach($newtaginfo as $tagid => $tagname) {
