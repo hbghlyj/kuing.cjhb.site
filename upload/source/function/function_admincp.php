@@ -11,7 +11,7 @@ if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
-@set_time_limit(0);
+// @set_time_limit(0);
 
 function istpldir($dir) {
 	return is_dir(DISCUZ_ROOT.'./'.$dir) && !in_array(substr($dir, -1, 1), array('/', '\\')) &&
@@ -1499,4 +1499,4 @@ function siteftp_upload($readfile, $writefile) {
 	}
 }
 
-?>
+?> 
