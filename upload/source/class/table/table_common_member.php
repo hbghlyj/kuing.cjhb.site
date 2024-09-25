@@ -270,7 +270,6 @@ class table_common_member extends discuz_table_archive
 	}
 
 	public function insert($data, $return_insert_id = false, $replace = false, $silent = false, $null1 = null, $null2 = null, $null3 = null, $null4 = 0, $null5 = 0) {
-		// $null 1~n 需要在取消兼容层后删除
 		if (defined('DISCUZ_DEPRECATED')) {
 			throw new Exception('NotImplementedException');
 			return parent::insert($data, $return_insert_id, $replace, $silent);
@@ -353,7 +352,7 @@ class table_common_member extends discuz_table_archive
 
 	public function split($splitnum, $iscron = false) {
 		loadcache('membersplitdata');
-		@set_time_limit(0);
+		// @set_time_limit(0);
 		discuz_database_safecheck::setconfigstatus(0);
 		$dateline = TIMESTAMP - 31536000;//60*60*24*365
 		$temptablename = DB::table('common_member_temp___');
@@ -373,7 +372,7 @@ class table_common_member extends discuz_table_archive
 				$this->switch_keys('disable');
 			}
 			$uidlist = DB::fetch_all('SELECT uid FROM '.$temptablename.' ORDER BY uid DESC', null, 'uid');
-			unset($uidlist[key($uidlist)]);// 考虑到用户分表操作的最后一个用户可能也是数据库中最后一个用户，因此在此固定扣除一个用户，保证最后一个用户不会被移动到归档表，从而避免最后一个用户被移动到归档表导致用户主表自增值异常的问题
+			unset($uidlist[key($uidlist)]);
 			$uids = dimplode(array_keys($uidlist));
 			$movesql = 'REPLACE INTO %t SELECT * FROM %t WHERE uid IN ('.$uids.')';
 			$deletesql = 'DELETE FROM %t WHERE uid IN ('.$uids.')';
@@ -534,4 +533,4 @@ class table_common_member extends discuz_table_archive
 	}
 }
 
-?>
+?> 
