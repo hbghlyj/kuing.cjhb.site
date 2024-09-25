@@ -86,18 +86,18 @@ class table_forum_postcomment extends discuz_table
 			}
 			$sql .= " AND ($sqlmessage)";
 		}
-		return DB::fetch_all('SELECT * FROM %t WHERE authorid>-1 %i ORDER BY dateline DESC '.DB::limit($start, $limit), array($this->_table, $sql));
+		return DB::fetch_all('SELECT * FROM %t WHERE authorid>-1 %i ORDER BY dateline ASC '.DB::limit($start, $limit), array($this->_table, $sql));
 	}
 
 	public function fetch_all_by_authorid($authorid, $start = 0, $limit = 0) {
-		return DB::fetch_all('SELECT * FROM %t WHERE authorid=%d ORDER BY dateline DESC '.DB::limit($start, $limit), array($this->_table, $authorid));
+		return DB::fetch_all('SELECT * FROM %t WHERE authorid=%d ORDER BY dateline ASC '.DB::limit($start, $limit), array($this->_table, $authorid));
 	}
 
 	public function fetch_all_by_pid($pids) {
 		if(empty($pids)) {
 			return array();
 		}
-		return DB::fetch_all('SELECT * FROM %t WHERE '.DB::field('pid', $pids).' ORDER BY dateline DESC', array($this->_table));
+		return DB::fetch_all('SELECT * FROM %t WHERE '.DB::field('pid', $pids).' ORDER BY dateline ASC', array($this->_table));
 	}
 
 	public function fetch_all_by_pid_score($pid, $score) {
@@ -149,7 +149,7 @@ class table_forum_postcomment extends discuz_table
 		return DB::delete($this->_table, DB::field('rpid', $rpids), null, $unbuffered);
 	}
 	public function fetch_postcomment_by_pid($pids, $postcache, $commentcount, $totalcomment, $commentnumber) {
-		$query = DB::query("SELECT * FROM ".DB::table('forum_postcomment')." WHERE pid IN (".dimplode($pids).') ORDER BY dateline DESC');
+		$query = DB::query("SELECT * FROM ".DB::table('forum_postcomment')." WHERE pid IN (".dimplode($pids).') ORDER BY dateline ASC');
 		$commentcount = $comments = array();
 		while($comment = DB::fetch($query)) {
 			if($comment['authorid'] > '-1') {
