@@ -77,6 +77,7 @@
 						var div = document.createElement('div');
 						div.innerHTML = '<table>' + nexts[i] + '</table>';
 						tableobj.replaceChild(div.childNodes[0].childNodes[0], tableobj.lastChild);
+						MathJax.typeset();
 					}
 				}
 			} else {
@@ -93,7 +94,7 @@
 
 			$('fd_page_bottom').innerHTML = pageinfo[1];
 			var pageinfo = s.match(/\<span id="fd_page_top"\>(.+?)\<\/span\>/);
-			$('fd_page_top').innerHTML = pageinfo[1];			
+			$('fd_page_top').innerHTML = pageinfo[1];
 			autopbn.style.display = 'none';
 			if (curpage + 1 <= totalpage) {
 				autopbn.innerHTML = '下一页 &raquo;';
@@ -104,5 +105,4 @@
 			loadstatus = 0;
 		});
 	}
-
 })();
