@@ -1804,7 +1804,7 @@ i.pstatus { display: block; margin-bottom: -30px; font-size: 12px; text-align: c
 			.tdats .h th { height: 24px; border-top: 1px solid {COMMONBORDER}; border-bottom: 1px solid #E5E5E5; background: linear-gradient(0deg, #efefef, #fcfcfc); color: {MIDTEXT}; zoom: 1; }
 		.tdats .tdat { float: left; width: 240px; border: none; table-layout: fixed; }
 		.tdats .tfx { width: 300px; }
-			.tdats .tfxf { width: 770px; }
+			.tdats .tfxf { /*width: 770px;*/ width: 530px; } /* kk edt */
 			.tfx th, .tfx td { border-width: 0 3px !important; background: #FFF2DF; }
 			.tfx .alt, .tfx .alt th, .tfx .alt td { background: #FAEDDA; }
 			.tfx .h th { padding: 1px 5px; }
@@ -1995,7 +1995,7 @@ body { background: none !important; }
 
 /* 重定义 */
 .xl2 { background: url({IMGDIR}/vline.png) repeat-y 50% 0; }
-	.xl2 li { margin-right: 20px; width: 482px; }
+	.xl2 li { margin-right: 20px; /*width: 482px;*/ width: 362px; } /*kk edt*/
 		.xl2 li.xl2_r { margin-right: 0; }
 
 .hasrank dl { padding-left: 110px; }
@@ -2024,12 +2024,13 @@ body { background: none !important; }
 
 
 /** forum::collection,forum::viewthread **/
-.clct_list .xld { float: left; margin-bottom: 5px; width: 49.9%; height: 105px; overflow: hidden; }
+/*.clct_list .xld { float: left; margin-bottom: 5px; width: 49.9%; height: 105px; overflow: hidden; }*/ /* kk edt to next line */
+.clct_list .xld { margin-bottom: 5px; width: 48%; overflow: hidden; display: inline-block; vertical-align: top; }
 	.clct_list .xld .m, .clct_list .xld .m a { width: 55px; height: 50px; overflow: hidden; cursor: pointer; }
 		.clct_list .xld .m { background: linear-gradient(0deg, #B2C0DC 40%, #D8DEEA 40%) no-repeat 100% 0; border-radius: 3px; }
 		.clct_list .xld .m a:hover { text-decoration: none; }
 		.clct_list .xld .m strong { display: block; height: 32px; line-height: 32px; }
-		.clct_list .xld .m span { display: block; color: #FFF; }
+		.clct_list .xld .m span { display: block; color: #FFF; font-size: 12px; } /* kk add font-size */
 .clct_flw { float: right; margin-top: 5px; height: 25px; line-height: 25px; overflow: hidden; background: #FF6F00; border-radius: 5px; }
 .clct_flw i { float: right; padding: 0 9px; text-align: center; color: #FFF; font-style: normal; }
 	.clct_flw .u { width: 66px; }
