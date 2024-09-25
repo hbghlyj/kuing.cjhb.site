@@ -12,7 +12,7 @@ if(!defined('IN_DISCUZ')) {
 }
 
 if(!$_G['group']['allowdelpost'] || empty($_GET['topiclist'])) {
-	showmessage('no_privilege_delcomment');
+	$no_privilege=1;
 }
 
 if(!submitcheck('modsubmit')) {
@@ -36,6 +36,9 @@ if(!submitcheck('modsubmit')) {
 	$postcomment = C::t('forum_postcomment')->fetch($commentid);
 	if(!$postcomment) {
 		showmessage('postcomment_not_found');
+	}
+	if($no_privilege&&$postcomment['authorid']!=$_G['uid']){
+		showmessage('no_privilege_delcomment');
 	}
 	C::t('forum_postcomment')->delete($commentid);
 	$result = C::t('forum_postcomment')->count_by_pid($postcomment['pid']);
