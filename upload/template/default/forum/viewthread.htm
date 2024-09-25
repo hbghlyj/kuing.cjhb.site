@@ -1,10 +1,16 @@
 <!--{template common/header}-->
+<link rel="stylesheet" type="text/css" href="kk/zdy3.css?{VERHASH}" />
 
 <script type="text/javascript">var fid = parseInt('$_G[fid]'), tid = parseInt('$_G[tid]');</script>
 <!--{if $modmenu['thread'] || $modmenu['post']}-->
 	<script type="text/javascript" src="{$_G['setting']['jspath']}forum_moderate.js?{VERHASH}"></script>
 <!--{/if}-->
-
+<script>function delcomment(id,pid) {
+	fetch('forum.php?mod=topicadmin&action=delcomment&modsubmit=yes&infloat=yes&modclick=yes&inajax=1', {
+		"headers": {"content-type": "application/x-www-form-urlencoded"},
+		"body": 'formhash={FORMHASH}&fid=$_G[fid]&tid=$_G[tid]&page=$_G[page]&handlekey=mods&topiclist='+id,
+		"method": "POST"}).then(()=>ajaxget('forum.php?mod=misc&action=commentmore&tid={$_G[tid]}&pid='+pid, 'comment_'+pid));
+}</script>
 <script type="text/javascript" src="{$_G['setting']['jspath']}forum_viewthread.js?{VERHASH}"></script>
 <script type="text/javascript">zoomstatus = parseInt($_G['setting']['zoomstatus']);var imagemaxwidth = '{$_G['setting']['imagemaxwidth']}';var aimgcount = new Array();</script>
 
@@ -12,7 +18,7 @@
 <!--[diy=diynavtop]--><div id="diynavtop" class="area"></div><!--[/diy]-->
 <div id="pt" class="bm cl">
 	<div class="z">
-		<a href="./" class="nvhm" title="{lang homepage}">$_G[setting][bbname]</a><em>&raquo;</em><a href="forum.php">{$_G[setting][navs][2][navname]}</a>$navigation <em>&rsaquo;</em> <a href="forum.php?mod=viewthread&tid=$_G[tid]">$_G[forum_thread][short_subject]</a>
+		<a href="./" class="nvhm" title="{lang homepage}">$_G[setting][bbname]</a><em>&raquo;</em><a href="forum.php">{$_G[setting][navs][2][navname]}</a>$navigation <em>&rsaquo;</em> <a href="forum.php?mod=viewthread&tid=$_G[tid]">$_G[forum_thread][subject]</a>
 	</div>
 </div>
 
@@ -198,7 +204,7 @@
 					<!--{/if}-->
 					<span id="thread_subject">$_G[forum_thread][subject]</span>
 				</h1>
-				<span class="xg1">
+				<span id="fzlj" class="xg1" onmouseover="showMenu({'ctrlid':this.id,'pos':'23'})"><!-- kk edt -->
 					<!--{if $_G['forum_thread'][displayorder] == -2}-->({lang moderating})
 					<!--{elseif $_G['forum_thread'][displayorder] == -3}-->({lang have_ignored})
 					<!--{elseif $_G['forum_thread'][displayorder] == -4}-->({lang draft})
@@ -219,8 +225,9 @@
 					<!--{if $_G['forum_thread']['closed'] == 1}-->
 						&nbsp;<i class="fico-lock fc-s" title="{lang close}"></i>
 					<!--{/if}-->
-					<a href="forum.php?mod=viewthread&tid=$_G[tid]$fromuid" onclick="return copyThreadUrl(this, '$_G[setting][bbname]')" {if $fromuid}title="{lang share_url_copy_comment}"{/if}>[{lang share_url_copy}]</a>
+					<a href="forum.php?mod=viewthread&tid=$_G[tid]" onclick="setCopy(this.href, '已复制帖子链接');return false;">[{lang share_url_copy}]</a><!-- kk edt -->
 				</span>
+                <div id="fzlj_menu" style="display:none; background:white; line-height:1.2; margin-left:5px;" class="xg1"><a href="forum.php?mod=viewthread&tid=$_G[tid]$fromuid" onclick="return copyThreadUrl(this, '$_G[setting][bbname]')" {if $fromuid}title="{lang share_url_copy_comment}"{/if}>[复制标题+链接+出处]</a></div><!-- kk add -->
 				<!--{hook/viewthread_title_extra}-->
 			</td>
 		</tr>
@@ -334,7 +341,7 @@
 </div>
 
 <!--{if $modmenu['thread']}-->
-	<div class="xi2 mbm pbm bbs">
+	<div id="modmenu2" class="xi2 mbm pbm bbs">
 	<script type="text/javascript">
 		$('modmenu').lastChild.style.visibility = 'hidden';
 		document.write($('modmenu').innerHTML);
@@ -367,6 +374,9 @@ $_G['forum_tagscript']
 		<a id="post_replytmp" onclick="showWindow('reply', 'forum.php?mod=post&action=reply&fid=$_G[fid]&tid=$_G[tid]')" href="javascript:;" title="{lang reply}" class="pgsbtn">{lang reply}</a>
 	<!--{/if}-->
 </div>
+
+<script src="kk/emoji.js?{VERHASH}"></script>
+<script src="kk/zdy3pc.js?{VERHASH}"></script>
 
 <!--{hook/viewthread_middle}-->
 <!--[diy=diyfastposttop]--><div id="diyfastposttop" class="area"></div><!--[/diy]-->
@@ -416,19 +426,14 @@ $_G['forum_tagscript']
 <div class="wp mtn">
 	<!--[diy=diy3]--><div id="diy3" class="area"></div><!--[/diy]-->
 </div>
-<!--{if $_G['relatedlinks'] || !empty($_GET['highlight'])}-->
-	<script type="text/javascript">
-		var relatedlink = [];
-		<!--{loop $_G['relatedlinks'] $key $link}-->
-		relatedlink.push({'sname':'$link[name]', 'surl':'$link[url]'});
-		<!--{/loop}-->
-		{eval $highlights = explode(' ', str_replace(array('\'', chr(125)), array('&#039;', '&#125;'), dhtmlspecialchars($_GET['highlight'])));}
-		<!--{loop $highlights $word}-->
-		relatedlink.push({'sname':'$word', 'surl':''});
-		<!--{/loop}-->
-		relatedlinks('postmessage_$_G[forum_firstpid]');
-	</script>
+<!--{if !empty($_GET['highlight'])}--><!-- kk edt -->
+    <script src="https://cdn.jsdelivr.net/npm/mark.js@8.11.1/dist/mark.min.js"></script>
+    <script>
+        var instance = new Mark(document.querySelectorAll(".t_f,.postmessage,.message"));
+        instance.mark('$_GET['highlight']');
+    </script>
 <!--{/if}-->
+
 
 <!--{if !empty($_G['cookie']['clearUserdata']) && $_G['cookie']['clearUserdata'] == 'forum'}-->
 	<script type="text/javascript">saveUserdata('forum_'+discuz_uid, '')</script>
