@@ -66,10 +66,11 @@
 					<div id="{$editorid}_attachn" style="display:none">!</div>
 					<a id="{$editorid}_attach" title="{lang e_attach_title}" menupos="00" menuwidth="600">{lang e_attach}</a>
 				<!--{/if}-->
+                <a id="emoji" title="emoji" href="javascript:;" style="background:none;padding:0;font-size:2em;height:42px;line-height:42px;" onclick="show_emoji_window('#{$editorid}_textarea')">😃</a>
 				<!--{if $_G['forum']['allowmediacode'] && $_G['group']['allowmediacode']}-->
 					<a id="{$editorid}_aud" title="{lang e_audio_title}">{lang e_audio}</a>
 					<a id="{$editorid}_vid" title="{lang e_video_title}">{lang e_video}</a>
-					<a id="{$editorid}_fls" title="{lang e_flash_title}">{lang e_flash}</a>
+					<!--<a id="{$editorid}_fls" title="{lang e_flash_title}">{lang e_flash}</a>-->
 				<!--{/if}-->
 				<!--{if ($_GET[action] == 'newthread' || $_GET[action] == 'reply' || $_GET[action] == 'edit') && $_G['group']['allowat']}-->
 					<a id="{$editorid}_at" title="{lang e_at_title}" menupos="43" menuwidth="600">{lang e_at}</a>
@@ -99,7 +100,7 @@
 					<a id="{$editorid}_beginning" adv="1" title="{lang e_beginning_title}" menupos="43" menuwidth="600">{lang e_beginning}</a>
 				<!--{/if}-->
 				<!--{loop $_G['cache']['bbcodes_display'][$_G['groupid']] $tag $bbcode}-->
-					<a id="{$editorid}_cst{$bbcode[params]}_$tag" class="cst" title="$bbcode[explanation]"><img src="$bbcode['icon']" title="$bbcode[explanation]" alt="$tag" /></a>
+					<a id="{$editorid}_cst{$bbcode[params]}_$tag" class="cst" title="$bbcode[explanation]"><!--{if $bbcode['icon']=="static/image/common/none"}-->$bbcode[explanation]<!--{else}--><img src="$bbcode['icon']" title="$bbcode[explanation]" alt="$tag" /><!--{/if}--></a>
 				<!--{/loop}-->
 				<!--{hook/post_editorctrl_bottom}-->
 			</div>
@@ -111,7 +112,7 @@
 	</div>
 
 	<div class="area">
-		<textarea name="$editor[textarea]" id="{$editorid}_textarea" class="pt" rows="15">$editor[value]</textarea>
+		<textarea name="$editor[textarea]" id="{$editorid}_textarea" class="pt" rows="15" oninput="if(!onbeforeunload)onbeforeunload=()=>{return 0}">$editor[value]</textarea>
 	</div>
 	<!--{subtemplate common/editor}-->
 </div>
