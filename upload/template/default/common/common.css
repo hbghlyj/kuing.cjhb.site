@@ -88,7 +88,7 @@ CSS 写作注意事项：
 	Last Modify:	Pony
 */
 	* { word-wrap: break-word; }
-	body { {BGCODE}; min-width: 1200px; }
+	body { {BGCODE}; /*min-width: 1200px;*/ }
 	body, input, button, select, textarea { font: {FONTSIZE} {FONT}; color: {TABLETEXT}; }
 		textarea { resize: none; }
 	body, ul, ol, li, dl, dd, p, h1, h2, h3, h4, h5, h6, form, fieldset, .pr, .pc { margin: 0; padding: 0; }
@@ -423,7 +423,7 @@ CSS 写作注意事项：
 	.px, .pt, .ps, select { border: 1px solid; border-color: {INPUTBORDERDARKCOLOR} {INPUTBORDER} {INPUTBORDER} {INPUTBORDERDARKCOLOR}; background: {INPUTBG}; }
 		.px:focus, .ps:focus, select:focus, .ftid a:focus { outline: 0; border-color: {MENUBGCOLOR}; box-shadow: 0 0 2px {MENUBGCOLOR}; }
 		.pt:focus { outline: 0; border-color: {MENUBGCOLOR}; }
-		.px, .pt { padding: 2px 4px; line-height: 17px; }
+		.px, .pt { padding: 2px 4px; /*line-height: 17px;*/ }/*kk del*/
 		.px { height: 17px; }
 			.pxs { width: 30px !important; }
 			.fdiy .tfm .px, .fdiy .tfm .pt { width: auto; }
@@ -449,7 +449,7 @@ CSS 写作注意事项：
 		.pn:active { background: #dbdbdb; }
 		.pn:focus { box-shadow: 0 0 0 2px rgba(153, 153, 153, 0.25); outline: 0; }
 
-		.pn em, .pn span, .pn strong { padding: 0 10px; line-height: 21px; }
+		.pn em, .pn span, .pn strong { padding: 0 10px; line-height: 21px; display: block;/*kk add */}
 			.pn em, .pn strong  { font-weight: 700; }
 
 	a.pn { height: 21px; line-height: 21px; color: {TABLETEXT} !important; }
@@ -599,17 +599,17 @@ CSS 写作注意事项：
 		.pmfl			PM friend list (Window)
 		*/
 
-/* 通用容器，定义页面宽度 */ .wp { margin: 0 auto; width: 1200px; } #wp .wp { width: auto; }
+/* 通用容器，定义页面宽度 */ .wp { margin: 0 auto; /*width: 1200px;*/ width: 960px; } /*kk edt*/ #wp .wp { width: auto; }
 
 /* 页头 */
-	#toptb { min-width: 1200px; border-bottom: 1px solid {COMMONBORDER}; background: {COMMONBG}; line-height: 28px; }
+	#toptb { /*min-width: 1200px;*/ border-bottom: 1px solid {COMMONBORDER}; background: {COMMONBG}; line-height: 28px; }
 		#toptb a { float: left; padding: 0 4px; height: 28px; }
 		#toptb a.showmenu { padding-right: 15px; }
 		#toptb a.hover { background-color: #FFF; }
 		#toptb .pipe { float: left; display: none; }
 
 	#hd { border-bottom: {HEADERBORDER} solid {SPECIALBORDER}; {HEADERBGCODE} }
-		#hd .wp { padding: 10px 0 0; }
+		/*#hd .wp { padding: 10px 0 0; }*/ /*kk del*/
 
 			.hdc { min-height: 70px; }
 			#hd h2 { padding: 0 20px 12px 0; float: left; }
@@ -644,7 +644,7 @@ CSS 写作注意事项：
 						#mu a { float: left; display: inline; margin: 5px 6px; padding: 0 10px; white-space: nowrap; }
 							#mu a:hover { margin: 4px 5px; border: 1px solid {SPECIALBORDER}; background: {SPECIALBG}; color: {HIGHLIGHTLINK}; text-decoration: none; }
 				.floatmu { position: absolute; left: 0; top: 0; }
-			#um { padding-top: 10px; padding-right: 60px; padding-bottom: 14px; line-height: 2.3; zoom: 1; }
+			#um { /*padding-top: 10px;*/ padding-right: 60px; padding-bottom: 14px; /*line-height: 2.3;*/ zoom: 1; }/*kk del*/
 				#um, #um a { color: {HEADERTEXT}; }
 				#um p { text-align: right; }
 				#um .avt { display: inline; margin-right: -60px; }
@@ -672,7 +672,7 @@ CSS 写作注意事项：
 					#qmenu::after { display: inline-block; margin-left: 0.255em; vertical-align: 0.255em; content: ""; border-top: 0.3em solid; border-right: 0.3em solid transparent; border-bottom: 0; border-left: 0.3em solid transparent; }
 					#qmenu.a { position: relative; z-index: 302;}
 					#qmenu.a::after { border-top: 0; border-bottom: 0.3em solid; }
-				#qmenu_menu { margin-top: -2px; padding: 20px 5px 10px; width: 610px; border-color: #DCE4EB; }
+				#qmenu_menu { margin-top: -2px; padding: 20px 5px 10px; /*width: 610px;*/ border-color: #DCE4EB; }/*kk del*/
 					#qmenu_menu ul.nav li { float: left; }
 					#qmenu_menu ul.nav a { margin-bottom: 10px; padding: 47px 0 0; width: 60px; border: none; border-radius: 4px; background: no-repeat 50% 5px; background-image: linear-gradient(0deg, #e8eff5, #e8eff5); background-size: 40px 40px; text-align: center; }
 						#qmenu_menu ul.nav a:hover { background-color: {SPECIALBG}; color: {HIGHLIGHTLINK}; text-shadow: none; }
@@ -693,7 +693,7 @@ CSS 写作注意事项：
 			.ct2_a_r { border: none; background-image: none; }
 			 .ct2_a h1.mt { display: none; }
 			 .ct2_a .tb { margin-top: 3px; }
-		.ct2_a .mn { float: right; display: inline; margin-right: 10px; padding-top: 10px; width: 1010px; }
+		.ct2_a .mn { float: right; display: inline; margin-right: 10px; padding-top: 10px; /*width: 1010px;*/ width: 770px; } /*kk edt*/
 
 		.ct3_a .mn { float: left; margin-left: 20px; width: 775px; }
 		.ct3_a .sd { float: right; width: 220px; }
@@ -1236,7 +1236,7 @@ CSS 写作注意事项：
 		.rfm .rq {}
 		.rfm th, .rfm td { padding: 10px 2px; vertical-align: top; line-height: 24px; }
 			.rfm .tipwide { padding-top: 0; }
-		.rfm th { padding-right: 10px; width: 10em; text-align: right; }
+		.rfm th { padding-right: 10px; width: 5em; text-align: right; }
 		.rfm .px { width: 220px; }
 		.rfm .p_tip { position: absolute; z-index: 2; display: none; padding-left: 10px; width: 390px; background: {WRAPBG}; color: {MIDTEXT}; font-style: normal; }
 		.rfm .p_chk { position: absolute; z-index: 1; padding-left: 10px; width: 390px; color: red; font-weight: 700; font-family: {FONT}; }
