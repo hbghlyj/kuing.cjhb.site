@@ -6,7 +6,7 @@ Powered by Discuz! X
 
 ::selection{ background-color: #429296; color: #FFF; }
 :focus { outline-color: #429296; }
-body { background: #FFF url(bgimg.jpg) no-repeat 50% 0; background-size: 1400px; }
+body { background: #FFF url(bgimg.jpg) no-repeat 50% 0; background-size: 1400px; background-position-y: -25px; }
 @media(min-resolution:120dpi){ body { background-image: url(bgimg2x.jpg); }}
 .fc-p { color: #429296; }
 #nv,#scbar_btn { background-color: #429296; }
