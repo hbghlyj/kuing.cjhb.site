@@ -73,5 +73,5 @@
 <!--{/if}-->
 
 <!--{if $_GET[action] == 'reply' && $quotemessage}-->
-	<div class="pbt cl">$quotemessage</div>
+	<annotation class="pbt cl" contenteditable="true" onblur="editorform.noticetrimstr.value=html2bbcode(this.innerHTML)">$quotemessage</annotation>
 <!--{/if}-->
