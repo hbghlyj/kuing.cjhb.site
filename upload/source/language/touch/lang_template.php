@@ -187,7 +187,7 @@ $lang = array (
   'mobtuijian' => '推荐',
   'mobrenqi' => '人气',
   'mobyuedu' => '查看',
-  'mobnodescription' => '暂无版块介绍',
+  'mobnodescription' => '',
   'mobposts' => '帖数',
   'mobzan' => '点赞',
   'mobpinglun' => '评论',
@@ -212,7 +212,7 @@ $lang = array (
   'home_credit_buy_rmb' => '人民币',
   'home_credit_buy_rmb_placeholder' => '请输入充值的数量',
   'home_credit_buy_card' => '充值卡',
-  
+
   'mob_required_lost' => '必填项目没有填写',
   'mob_sort_selnext' => '请选择下一级',
   'mob_sort_emailerr' => '邮件地址不正确',
