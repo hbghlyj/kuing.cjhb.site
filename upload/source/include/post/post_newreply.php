@@ -203,7 +203,7 @@ if(!submitcheck('replysubmit', 0, $seccodecheck, $secqaacheck)) {
 			}
 
 			$time = dgmdate($thaquote['dateline']);
-			$message = messagecutstr($message, 100);
+			$message = messagecutstr($message, 100,  ' ...', $thaquote['htmlon']);
 			$message = implode("\n", array_slice(explode("\n", $message), 0, 3));
 
 			$thaquote['useip'] = substr($thaquote['useip'], 0, strrpos($thaquote['useip'], '.')).'.x';
