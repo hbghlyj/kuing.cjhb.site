@@ -299,7 +299,7 @@ select {-moz-appearance:none;}
 .footer-copy img {margin:0 10px}
 
 /*----- 浮动底部导航 -----*/
-.foot {width:100%;position:fixed;bottom:0;z-index:99999;background-color:var(--dz-BG-0);border-top:1px solid var(--dz-BOR-ed);color:var(--dz-FC-999)}
+.foot {width:100vw;position:fixed;bottom:0;z-index:99999;background-color:var(--dz-BG-0);border-top:1px solid var(--dz-BOR-ed);color:var(--dz-FC-999)}
 .foot a {float:left;text-align:center;height:54px;line-height:54px;overflow:hidden;position:relative}
 .foot a span {display:block;overflow:hidden}
 .foot a span.foot-ico {height:24px;line-height:24px;overflow:hidden;margin-top:4px}
@@ -417,7 +417,7 @@ select {-moz-appearance:none;}
 .forumlist .subforumshow h2 {font-size:15px}
 .forumlist .subforumshow i {float:right;font-size:20px;color:var(--dz-FC-aaa)}
 .forumlist .sub-forum {background-color:var(--dz-BG-0)}
-.forumlist .sub-forum li a.murl {display:block;height:44px;overflow:hidden}
+.forumlist .sub-forum li a.murl {height:44px;overflow:hidden}
 .forumlist .sub-forum li .micon {float:left;height:44px;margin-right:10px}
 .forumlist .sub-forum li .micon img,.forumlist .sub-forum li .micon svg {height:44px;border-radius:4px;float:none}
 .forumlist .sub-forum li .micon img {width:48px;}
@@ -948,12 +948,12 @@ body.pg_logging, body.pg_register {background-color:var(--dz-BG-0)}
 /*----- 帖子内容页 -----*/
 .quote {padding:8px 10px;margin:8px 0;background-color:var(--dz-BG-5);font-size:14px;border-radius:4px}
 .quote a {color:var(--dz-BG-3)}
-.viewthread {background-color:var(--dz-BG-0);overflow:hidden}
+.viewthread {background-color:var(--dz-BG-0);/*overflow:hidden*/}/*kk edt*/
 .viewthread .view_tit {padding:15px 15px 0;line-height:30px;font-size:20px;font-weight:400}
 .viewthread .view_tit span {font-size:12px;color:var(--dz-BG-2)}
 .viewthread .view_reply {padding:50px 15px;line-height:30px;font-size:14px;color:var(--dz-FC-ccc);text-align:center}
 .viewthread .view_reply i {display:block;font-size:50px;line-height:50px;margin:5px auto}
-.plc {padding:0 15px;border-bottom:1px solid var(--dz-BOR-ed);overflow:hidden;position:relative}
+.plc {padding:0 15px;border-bottom:1px solid var(--dz-BOR-ed);/*overflow:hidden;*/overflow:visible;position:relative}/*kk edt*/
 .plc .avatar {position:absolute;left:15px;top:15px;display:inline}
 .plc .avatar img {width:36px;height:36px;border-radius:50%}
 .plc .pi {margin-top:5px;padding:10px 0;position:relative}
@@ -1008,6 +1008,21 @@ body.pg_logging, body.pg_register {background-color:var(--dz-BG-0)}
 .plc .pi .message .blockcode { overflow: hidden; margin: 10px 0; padding: 5px 10px 5px 43px; font-size:12px; border-radius:4px; background: var(--dz-BG-5) repeat-y 0 0;background-image: linear-gradient(90deg,#EDEDED,#EDEDED);background-size: 43px; color: var(--dz-FC-666); }
 .plc .pi .message .blockcode code { font-family: Monaco, Consolas, 'Lucida Console', 'Courier New', serif; font-size: 12px; line-height: 1.8em; }
 .plc .pi .message .blockcode ol li {padding-left: 10px;list-style-type: decimal-leading-zero;line-height: 1.8em;}
+
+/*kk add*/
+.message a:link,.message a:visited,.message a:hover { color: #0086CE; text-decoration: underline; }
+i.pstatus { display: block; font-size: 12px; text-align: center; color: #999; }
+.mw100{ max-width:100%; height:auto; }
+.tikzww{ position:fixed; z-index:201; width:500px; height:326px; 
+    left:0; right:0; top:0; bottom:0; margin:auto; 
+    border:2px green solid; background: #EDEDED;
+}
+.tikzta{ width:100%; height:300px; font-size:14px; padding:unset; border:unset;
+    font-family: Monaco, Consolas, 'Lucida Console', 'Courier New', FangSong, serif;
+    color: #444; background: #F7F7F7; 
+}
+@media screen and (max-width: 639px) {.tikzww{width:320px;}}
+
 
 /*----- 特殊主题-投票 -----*/
 .poll {margin:10px auto;padding:10px 15px;background-color:var(--dz-BG-5);font-size:14px;border-radius:6px}
