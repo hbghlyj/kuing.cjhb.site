@@ -26,7 +26,7 @@ $resultarray = $thread = array();
 $threadtableids = !empty($_G['cache']['threadtableids']) ? $_G['cache']['threadtableids'] : array();
 $specialperm = $_GET['action'] == 'stickreply' && $_G['thread']['authorid'] == $_G['uid'];
 
-if(!$specialperm && (!$_G['uid'] || !$_G['forum']['ismoderator'])) {
+if($_GET['action']!='delcomment' && !$specialperm && (!$_G['uid'] || !$_G['forum']['ismoderator'])) {
 	showmessage('admin_nopermission', NULL);
 }
 
