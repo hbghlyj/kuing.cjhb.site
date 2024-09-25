@@ -187,6 +187,7 @@ function checkpostrule_post(theform) {
 }
 
 function postsubmit(theform) {
+	onbeforeunload=null;
 	if($(editorid + '_attachlist')) {
 		$('postbox').appendChild($(editorid + '_attachlist'));
 		$(editorid + '_attachlist').style.display = 'none';
@@ -862,6 +863,7 @@ function extraCheckall() {
 function deleteThread() {
 	if(confirm('确定要删除该帖子吗？') != 0){
 		$('delete').value = '1';
+		onbeforeunload=null;
 		$('postform').submit();
 	}
 }
