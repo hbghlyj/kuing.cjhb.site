@@ -1,0 +1,277 @@
+/*.ts { font: 700 16px Tahoma, 'Microsoft Yahei', 'Hei', 'SimHei', sans-serif; }*/
+/*标题字体将 Tahoma 调上来*/
+
+dl.pil.cl,p.cp_pls.cl,.pbg2 { display: none; }
+/*隐藏积分、QQ交谈、管理、积分进度条*/
+
+.pls .o .pm2,.pls .o .addflw { font-size: 12px; }
+/*发消息保持小字号*/
+
+.pls .tns { padding: 0 10px 0; }
+/*减少头像下方帖数分数上下空*/
+
+.pls .avatar img {
+    background: none;
+    width: auto;
+    max-width: 120px;
+    padding: 0;
+}
+a.avtm {
+    display: block;
+    text-align: center;
+}
+/*头像不要白底色，用原宽，居中*/
+
+.pi {
+    padding: 6px 0;
+    height: 24px;
+}
+.pi strong a {
+    padding: 3px 6px;
+}
+#fj {
+    padding-top: 4px;
+}
+/*楼层信息那块微调*/
+
+#p_btn { padding: 0 0; }
+/*减少主楼收藏评分上下空*/
+
+#p_btn em { font-size: 1em; }
+#p_btn i { min-height: 24px; }
+/*主楼收藏评分高度（为了赞的深度）*/
+
+.replyadd:before { content: "\f110"; }
+.replysubtract { display: none !important; }
+#p_btn #recommendv_add,.replyadd { color: blue; }
+/*回帖点赞：大拇指、扔掉反对、数字颜色*/
+
+
+.pl .quote {
+    overflow: visible;
+    border: 2px #d8e7f2 dashed;
+    background-color: unset;
+    color: #444;
+}
+.pl .quote blockquote { display: block; }
+/*引用调整*/
+
+.pl .blockcode ol li { font-size: 14px; }
+code, pre {
+    font-family: Monaco, Consolas, 'Lucida Console', 'Courier New', FangSong, serif;
+    background-color: #f7f7f7;
+    padding: 2px 5px;
+}
+.blockcode { white-space: pre-wrap; }
+/*代码块调整*/
+
+.pattl { overflow: visible; }
+/*附件栏超宽可见*/
+
+#newspecial_menu {
+    width: auto;
+    padding-right: 10px;
+}
+/*发帖按钮*/
+
+i.pstatus { margin-bottom: unset; }
+/*编辑痕迹下边距*/
+
+.modact a {
+    color: #999;
+    font-size: 12px;
+}
+/*主题被分类*/
+
+#modmenu>a,#modmenu2>a {
+    color: #999;
+}
+/*主题管理面板*/
+
+.ptg { margin-top: 30px !important; }
+/*标签*/
+
+.mtw.mbw .xl.xl2.cl { line-height: 1.3; }
+.mtw.mbw .xl.xl2.cl li {
+    /*height: max-content;*/
+    height: unset;
+    float: none;
+    width: 32%;
+    margin-right: 5px;
+    display: inline-block;
+    vertical-align: top;
+    white-space: nowrap;
+    font-size: 12px;
+}
+/*相关帖子*/
+
+.t_f img[smilieid] { vertical-align: text-bottom; }
+/*表情垂直对齐微调*/
+
+.t_fsz { min-height: unset; }
+/*帖内容不设最小高度*/
+
+.reason_slct .reasonselect {
+    height: auto;
+    overflow: auto !important;
+}
+/*选择评分理由不限高，直接全展示*/
+.ratl th, .ratl td, .ratc { white-space: unset; }
+/*评分显示区域可换行*/
+
+.psth { clear: both; margin-bottom: 1em; }
+.psta { width: unset; line-height: unset; padding-right: 2em; }
+.psti { margin-left: 60px; }
+/*解决点评 bug、调整距离及排版细节*/
+
+.sign { font-size: 12px; margin-top: 10px; }
+/*签名调距离*/
+
+.hin { opacity: 1; }
+/*回复、编辑那块不要浅色*/
+
+
+details { background-color:#EEE; border-radius:10px; padding:5px 10px; }
+details summary { color:blue; cursor:pointer; }
+.mlcls { position:fixed; top:100px; font-size:12px; }
+.mlcls a { color:inherit; }
+.mlcls li { list-style:none; }
+.mlcur { color:blue; font-weight:700; }
+/*楼层目录*/
+
+
+.neiid { display:none; }
+
+.dspn{ display:none; }
+.mw100{ max-width:100%; height:auto; }
+.tikzww{ position:fixed; z-index:201; width:500px; height:326px; 
+    left:0; right:0; top:0; bottom:0; margin:auto; 
+    border:2px green solid; background: #EDEDED;
+}
+.tikzta{ width:100%; height:300px; font-size:14px; padding:unset; border:unset;
+    font-family: Monaco, Consolas, 'Lucida Console', 'Courier New', FangSong, serif;
+    color: #444; background: #F7F7F7; 
+}
+@media screen and (max-width: 639px) {.tikzww{width:320px;}}
+
+/* 加载中 test
+.jiaz { background: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40'%3e%3cpath d='M20 1a19 19 0 1 0 19 19' stroke='%23429296' stroke-width='2px' fill='none'%3e%3canimateTransform attributeName='transform' type='rotate' dur='1s' from='0 20 20' to='359 20 20' repeatCount='indefinite'%3e%3c/animateTransform%3e%3c/path%3e%3c/svg%3e") no-repeat center center; min-width: 100px; min-height: 100px; }
+.jiaz { background: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16'%3e%3cpath fill='%23429296' d='M12.2 12.2L14 14H9V9l1.8 1.8c.7-.7 1.2-1.7 1.2-2.8 0-1.9-1.3-3.4-3-3.9v-2c2.8.4 5 2.9 5 5.9 0 1.6-.7 3.1-1.8 4.2zM3.8 3.8C2.7 4.8 2 6.3 2 8c0 3 2.2 5.4 5 5.9v-2.1c-1.7-.4-3-2-3-3.9 0-1.1.5-2.1 1.2-2.8L7 7V2H2l1.8 1.8z'/%3e%3c/svg%3e") no-repeat center center; min-width: 100px; min-height: 100px; animation: dzrotate 1.2s infinite linear; }
+.jiaz { background: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='42' height='42'%3e%3cpath d='M21 1C32 1 41 10 41 21C41 32 32 41 21 41C10 41 1 32 1 21' stroke='%23429296' stroke-width='2px' fill='none'%3e%3canimateTransform attributeName='transform' type='rotate' dur='1s' from='0 21 21' to='360 21 21' repeatCount='indefinite'%3e%3c/animateTransform%3e%3c/path%3e%3c/svg%3e") no-repeat center center; min-width: 100px; min-height: 100px; }
+.jiaz { background: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='42' height='42'%3e%3cpath d='M21 1C32 1 41 10 41 21C41 32 32 41 21 41C10 41 1 32 1 21' stroke='%23429296' stroke-width='2px' fill='none'%3e%3c/path%3e%3c/svg%3e") no-repeat center center; width: 42px; height: 42px; animation: dzrotate 1.2s infinite linear; }
+*/
+.jiaz { 
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 2px solid #EDEDED;
+    border-top: 2px solid #429296;
+    animation: dzrotate 1.2s infinite linear;
+}
+.tupian {
+    display: inline-block;
+    position: relative;
+    min-width: 100px;
+    min-height: 100px;
+    font-size: 16px;
+    color: black;
+}
+.tupian .jiaz { position: absolute; margin: auto; left: 0; right: 0; top: 0; bottom: 0; }
+.tupian.jiazed { min-width: unset; min-height: unset; }
+.jiazed .jiaz { display: none; }
+.tuoing { 
+    position: fixed; 
+    box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+    z-index: 1;
+    background-color: white;
+}
+.tuozt {
+    position: absolute;
+    background: rgba(235,245,246,0.5);
+    color: gray;
+    font-size: 12px;
+    line-height: 1.3;
+    width: 100%;
+    height: 16px;
+    max-height: 10%;
+    text-align: center;
+    overflow: hidden;
+    cursor: move;
+    display: none;
+}
+.tuozt:before {
+    content: "拖动";
+}
+.guiw {
+    position: absolute;
+    right: 0;
+    /* background: #429296; */
+    font-size: 12px;
+    line-height: 1.1;
+    width: 14px;
+    max-width: 25%;
+    height: 14px;
+    max-height: 10%;
+    border-left: 2px gray solid;
+    border-top: 2px gray solid;
+    overflow: hidden;
+    cursor: pointer;
+    display: none;
+}
+.guiw:before {
+    content: "↖";
+}
+.aimginfo {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    font-size: 12px;
+    line-height: 12px;
+    text-align: center;
+    border: 2px gray solid;
+    border-radius: 50%;
+    display: none;
+}
+.aimginfo:before { content: "i"; }
+.tupian:hover .tuozt,.tupian:hover .aimginfo,.tuoing:hover .guiw { display: block; }
+.tuoing img { vertical-align: bottom; }
+
+
+
+@media screen and (orientation: portrait) {
+  #switchwidth,#diy-tg,#hd h2,#um p:last-child,.pls,.cgb,#fj { display: none; }/*宽屏切换按钮，diy按钮，logo，积分用户组，头像那列，广告（草稿），电梯*/
+  #toptb { min-width: unset; }/*顶上横条*/
+  .wp { width: 100%; }/*主体*/
+  #ls_username, #ls_password { width: 90px; }
+  #nv li a { padding: 0 5px; }/*导航栏*/
+  #scbar_txt { width: 130px; }/*搜索输入框*/
+  #pt .z a {
+    max-width: 90vw;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .neiid { display: unset; color: #429296; font-weight: 700; }
+  .plc { padding: 0 5px; }/*帖子主体*/
+  .pl .quote {
+  	padding: 5px 5px 5px 40px;
+    background: url(/static/image/common/icon_quote_s.gif) no-repeat 5px 5px;
+  }
+  .pl .quote blockquote {
+  	line-height: 1.5;
+  	padding: 0;
+  }
+  .ad .plc { height: 4px; }/*帖子分界线*/
+  .m_c { width: 90vw; }/*浮动窗口*/
+  .m_c .tedt { width: 100%; }/*浮动窗口输入框*/
+  .m_c .quote { width: 95%; }/*回帖浮动窗口引用那块*/
+  #subjecthide { max-width: 80vw; }/*回帖浮动窗口标题 RE:... 那块*/
+  .reason_slct { width: 100%; }/*评分理由选择*/
+  .reason_slct .pt, .reason_slct .px { width: 95% !important; }
+  input#tags { width: 90%; }/*管理编辑标签输入框*/
+  .mtw.mbw .xl.xl2.cl li { margin-right: 0px; }/*相关帖子*/
+}
+
+@media print { 
+    .printhides,.mlcls,#scrolltop,#modmenu2,.pgs.mtm.mbm.cl,#ft,.cgb { display:none; } 
+}
