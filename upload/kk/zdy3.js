@@ -18,7 +18,7 @@ function show_tikz_window(tikz_code){
 let tikzs = document.getElementsByTagName('tikz');
 for (let item of tikzs) {
     //var str = item.innerHTML.replace(/<br>/g, "").replace(/&nbsp;/g,' ');
-    item.innerHTML = item.innerHTML.replace(/&nbsp;/g,' ').replace(/<font color="(.*?)">/g,'[color=$1]').replace(/<font face="(.*?)">/g,'[font=$1]');
+    item.innerHTML = item.innerHTML.replace(/&nbsp;/g,' ');//.replace(/<font color="(.*?)">/g,'[color=$1]').replace(/<font face="(.*?)">/g,'[font=$1]');
     var str = item.textContent;
     var str_for_show = encodeURI(str).replace(/\'/g,'’');
     if(str.match(/\\tikz/)){str += "%\\begin{tikzpicture}";}
