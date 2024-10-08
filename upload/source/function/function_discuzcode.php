@@ -130,6 +130,10 @@ function discuzcode($message, $smileyoff = false, $bbcodeoff = false, $htmlon = 
 	}
 
 	if(!$bbcodeoff && $allowbbcode) {
+		// kk add
+		if($parsetype != 1 && strpos($message, '[/tikz]') !== FALSE) {
+			$message = preg_replace_callback("/\[tikz\](.+?)\[\/tikz\]/s", function ($matches) { return '[tikz]'.urlencode($matches[1]).'[/tikz]'; }, $message);
+		}
 		if(strpos($msglower, '[/url]') !== FALSE) {
 			$message = preg_replace_callback("/\[url(=((https?|ftp|gopher|news|telnet|rtsp|mms|callto|bctp|thunder|qqdl|synacast){1}:\/\/|www\.|mailto:|tel:|magnet:)?([^\r\n\[\"']+?))?\](.+?)\[\/url\]/is", 'discuzcode_callback_parseurl_152', $message);
 		}
@@ -222,6 +226,10 @@ function discuzcode($message, $smileyoff = false, $bbcodeoff = false, $htmlon = 
 			}
 		}
 
+		// kk add
+		if($parsetype != 1 && strpos($message, '[/tikz]') !== FALSE) {
+			$message = preg_replace_callback("/\[tikz\](.+?)\[\/tikz\]/s", function ($matches) { return '[tikz]'.urldecode($matches[1]).'[/tikz]'; }, $message);
+		}
 		if($parsetype != 1 && $allowbbcode < 0 && isset($_G['cache']['bbcodes'][-$allowbbcode])) {
 			$message = preg_replace($_G['cache']['bbcodes'][-$allowbbcode]['searcharray'], $_G['cache']['bbcodes'][-$allowbbcode]['replacearray'], $message);
 		}
