@@ -78,7 +78,15 @@ window.MathJax = {
     processHtmlClass: 'tex2jax_process',
     renderActions: {
       assistiveMml: []
+      ,
+      addTeX: [151,
+        (doc) => {for (const math of doc.math) MathJax.config.addTeX(math, doc)},
+        (math, doc) => MathJax.config.addTeX(math, doc)
+      ]
     }
+  },
+  addTeX(math, doc) {
+    if(math.math.length < 100) { doc.adaptor.setAttribute(math.typesetRoot, 'title', math.math); }
   },
   //chtml: {
   //  scale: 0.9
