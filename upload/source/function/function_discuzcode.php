@@ -59,6 +59,15 @@ function codedisp($code) {
 	$_G['forum_discuzcode']['codecount']++;
 	return "[\tDISCUZ_CODE_".$_G['forum_discuzcode']['pcodecount']."\t]";
 }
+// kk add
+function tikzcode_callback($matches) {
+    $str = str_replace(array(
+		'%21', '%28', '%29', '%2A', '%2B', '%2C', '%3A', '%3B', '%3D'
+		),array(
+		'!', '(', ')', '*', '+', ',', ':', ';', '='
+		),$matches[1]);
+    return '<tikz class="tupian"><div class="jiaz"></div><div class="tuozt" onmousedown="tuozhuai2(this.parentNode);return false;"><!--拖动--></div><div class="guiw" onclick="guiwei(this.parentNode);return false;"><!--归位--></div><img src="https://i.upmath.me/svg/'.$str.'" onclick="show_tikz_window(\''.$str.'\');" onload="this.parentNode.classList.add(\'jiazed\')" /></tikz>';
+}
 
 function karmaimg($rate, $ratetimes) {
 	$karmaimg = '';
@@ -98,6 +107,10 @@ function discuzcode($message, $smileyoff = false, $bbcodeoff = false, $htmlon = 
 	if($parsetype != 1 && !$bbcodeoff && $allowbbcode && (strpos($message, '[/code]') || strpos($message, '[/CODE]')) !== FALSE) {
 		$message = preg_replace_callback("/\s?\[code\](.+?)\[\/code\]\s?/is", 'discuzcode_callback_codedisp_1', $message);
 	}
+	// kk add
+	if($parsetype != 1 && !$bbcodeoff && $allowbbcode && strpos($message, '[/tikz]') !== FALSE) {
+		$message = preg_replace_callback("/\[tikz\](.+?)\[\/tikz\]/s", function ($matches) { return '[tikz]'.rawurlencode($matches[1]).'[/tikz]'; }, $message);
+	}
 
 	$msglower = strtolower($message);
 
@@ -130,10 +143,6 @@ function discuzcode($message, $smileyoff = false, $bbcodeoff = false, $htmlon = 
 	}
 
 	if(!$bbcodeoff && $allowbbcode) {
-		// kk add
-		if($parsetype != 1 && strpos($message, '[/tikz]') !== FALSE) {
-			$message = preg_replace_callback("/\[tikz\](.+?)\[\/tikz\]/s", function ($matches) { return '[tikz]'.urlencode($matches[1]).'[/tikz]'; }, $message);
-		}
 		if(strpos($msglower, '[/url]') !== FALSE) {
 			$message = preg_replace_callback("/\[url(=((https?|ftp|gopher|news|telnet|rtsp|mms|callto|bctp|thunder|qqdl|synacast){1}:\/\/|www\.|mailto:|tel:|magnet:)?([^\r\n\[\"']+?))?\](.+?)\[\/url\]/is", 'discuzcode_callback_parseurl_152', $message);
 		}
@@ -228,7 +237,7 @@ function discuzcode($message, $smileyoff = false, $bbcodeoff = false, $htmlon = 
 
 		// kk add
 		if($parsetype != 1 && strpos($message, '[/tikz]') !== FALSE) {
-			$message = preg_replace_callback("/\[tikz\](.+?)\[\/tikz\]/s", function ($matches) { return '[tikz]'.urldecode($matches[1]).'[/tikz]'; }, $message);
+			$message = preg_replace_callback("/\[tikz\](.+?)\[\/tikz\]/s", 'tikzcode_callback', $message);
 		}
 		if($parsetype != 1 && $allowbbcode < 0 && isset($_G['cache']['bbcodes'][-$allowbbcode])) {
 			$message = preg_replace($_G['cache']['bbcodes'][-$allowbbcode]['searcharray'], $_G['cache']['bbcodes'][-$allowbbcode]['replacearray'], $message);
