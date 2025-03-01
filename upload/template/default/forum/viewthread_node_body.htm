@@ -193,7 +193,7 @@
 					<!--{/if}-->
 				</div>
 				<div class="psti">
-					{echo nl2br(str_replace(' ', "\xc2\xa0",$comment[comment]));}&nbsp;
+					$comment[comment]&nbsp;
 					<!--{if $comment[rpid]}-->
 						<a href="forum.php?mod=redirect&goto=findpost&pid=$comment[rpid]&ptid=$_G[tid]" class="xi2">{lang detail}</a>
 						<a href="forum.php?mod=post&action=reply&fid=$_G[fid]&tid=$_G[tid]&repquote=$comment[rpid]&extra=$_GET[extra]&page=$page{if $_GET[from]}&from=$_GET[from]{/if}" class="xi2" onclick="showWindow('reply', this.href)">{lang reply}</a>
