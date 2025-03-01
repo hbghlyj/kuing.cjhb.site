@@ -20,8 +20,7 @@
 }
 /*首页四格保持小字号、细节调整（先到后台设标题截取长度足够大）、幻灯宽高调整*/
 
-.fl_by {width: 300px;}
-.fl_by div {width: 280px;}
+.fl_by div {width: 320px;}
 /*首页主题加宽*/
 
 @media screen and (orientation: portrait) {
