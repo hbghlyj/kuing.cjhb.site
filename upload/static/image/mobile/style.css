@@ -1012,6 +1012,8 @@ body.pg_logging, body.pg_register {background-color:var(--dz-BG-0)}
 /*kk add*/
 .message a:link,.message a:visited,.message a:hover { color: #0086CE; text-decoration: underline; }
 i.pstatus { display: block; font-size: 12px; text-align: center; color: #999; }
+.message ul li { list-style-type: disc; margin-left: 2em; }
+ul.litype_1 li { list-style-type: decimal; }
 .mw100{ max-width:100%; height:auto; }
 .tikzww{ position:fixed; z-index:201; width:500px; height:326px; 
     left:0; right:0; top:0; bottom:0; margin:auto; 
