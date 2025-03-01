@@ -745,3 +745,7 @@ function viewhot() {
 function clearStickThread () {
 	saveUserdata('sticktids', '[]');
 	location.reload();
+<<<<<<< HEAD
+=======
+}
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

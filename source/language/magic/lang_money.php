@@ -18,3 +18,7 @@ $lang = array
 	'money_info' => '获得的钱币数目规则：大于1且小于购买价格150%的随机数',
 );
 
+<<<<<<< HEAD
+=======
+?>
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

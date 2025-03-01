@@ -255,3 +255,7 @@ class discuz_ftp
 		return @ftp_pwd($this->connectid);
 	}
 
+<<<<<<< HEAD
+=======
+}
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

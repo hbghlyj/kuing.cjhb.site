@@ -24,3 +24,7 @@ div.quote { padding-bottom: 5px; background: #F9F9F9 url("data:image/svg+xml,%3c
 div.blockcode { border: 1px solid #CCC; background: #F7F7F7 url({IMGDIR}/codebg.gif) repeat-y 0 0; }
 	div.blockcode blockquote { margin: 0; }
 .float td { border: 0; padding: 0; }
+<<<<<<< HEAD
+=======
+img { max-width:400px; }
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

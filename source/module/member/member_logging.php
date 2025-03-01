@@ -23,3 +23,7 @@ $method = 'on_'.$_GET['action'];
 $ctl_obj->template = 'member/login';
 $ctl_obj->$method();
 
+<<<<<<< HEAD
+=======
+?>
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

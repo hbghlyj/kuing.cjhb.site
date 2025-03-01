@@ -224,3 +224,7 @@ $lang = array (
   'mob_sort_uploaderr' => '暂不支持上传图片',
 
 );
+<<<<<<< HEAD
+=======
+?>
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

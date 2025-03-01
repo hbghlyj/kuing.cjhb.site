@@ -18,3 +18,7 @@ $lang = array
 	'thunder_info' => '发布一条全站动态，通知大家自己上线了',
 );
 
+<<<<<<< HEAD
+=======
+?>
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

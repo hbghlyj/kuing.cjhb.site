@@ -148,3 +148,7 @@ jQuery.extend({
 			(s.context ? jQuery(s.context) : jQuery.event).trigger("ajaxError", [xhr, s, e]);
 		}
 	}
+<<<<<<< HEAD
+=======
+});
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

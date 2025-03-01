@@ -31,3 +31,7 @@ $metadescription = lang('ranklist/navtitle', 'ranklist_title_poll_'.$gettype);
 
 include template('diy:ranklist/poll');
 
+<<<<<<< HEAD
+=======
+?>
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

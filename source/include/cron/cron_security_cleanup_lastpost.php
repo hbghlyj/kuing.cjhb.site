@@ -18,3 +18,7 @@ foreach($queryf as $forum) {
 
 	C::t('forum_forum')->update($forum['fid'], array('lastpost' => $lastpost));
 }
+<<<<<<< HEAD
+=======
+?>
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

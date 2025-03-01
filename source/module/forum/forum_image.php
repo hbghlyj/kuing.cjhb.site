@@ -58,3 +58,7 @@ if($attach = C::t('forum_attachment_n')->fetch_attachment('aid:'.$daid, $daid, a
 	}
 }
 
+<<<<<<< HEAD
+=======
+?>
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

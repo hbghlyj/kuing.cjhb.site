@@ -45,3 +45,7 @@ if(!$_G['uid'] || !($fromuid == $_G['uid'] || $fromuser == $_G['username'])) {
 
 }
 
+<<<<<<< HEAD
+=======
+?>
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

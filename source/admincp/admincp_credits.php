@@ -215,3 +215,7 @@ EOF;
 		cpmsg('credits_update_succeed', 'action=credits&operation=list&anchor=policytable', 'succeed');
 	}
 }
+<<<<<<< HEAD
+=======
+?>
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

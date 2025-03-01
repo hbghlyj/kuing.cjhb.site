@@ -28,3 +28,7 @@ $lang = array
 	'friendlink_summarylength_comment' => '设置站点简介最大长度',
 );
 
+<<<<<<< HEAD
+=======
+?>
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

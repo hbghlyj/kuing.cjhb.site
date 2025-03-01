@@ -26,3 +26,7 @@ $lang = array
 	'anonymouspost_once_limit' => '已经是匿名状态了，不能重复使用本道具。',
 );
 
+<<<<<<< HEAD
+=======
+?>
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

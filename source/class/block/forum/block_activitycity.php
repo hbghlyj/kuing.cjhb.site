@@ -70,3 +70,7 @@ class block_activitycity extends block_activity {
 }
 
 
+<<<<<<< HEAD
+=======
+?>
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

@@ -18,3 +18,7 @@ $navtitle = $_G['setting']['plugins'][$pluginkey][$_GET['id']]['name'];
 include pluginmodule($_GET['id'], $pluginkey);
 include template('home/space_plugin');
 
+<<<<<<< HEAD
+=======
+?>
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

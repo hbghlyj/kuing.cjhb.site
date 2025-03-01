@@ -80,3 +80,7 @@ if($uid && isemail($email) && $time > TIMESTAMP - 86400) {
 	showmessage('email_check_error', 'index.php');
 }
 
+<<<<<<< HEAD
+=======
+?>
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

@@ -127,3 +127,7 @@ function getlocalfile($filename, $readmod = 2, $range = 0) {
 	@ob_flush();
 }
 
+<<<<<<< HEAD
+=======
+?>
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

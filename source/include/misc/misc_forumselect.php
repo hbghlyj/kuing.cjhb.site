@@ -83,3 +83,7 @@ foreach($_G['cache']['forums'] as $forum) {
 include template('forum/post_forumselect');
 exit;
 
+<<<<<<< HEAD
+=======
+?>
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

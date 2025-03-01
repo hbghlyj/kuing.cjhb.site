@@ -239,3 +239,7 @@ class table_common_member_archive extends table_common_member
 	}
 }
 
+<<<<<<< HEAD
+=======
+?>
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

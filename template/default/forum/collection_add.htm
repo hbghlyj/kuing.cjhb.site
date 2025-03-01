@@ -25,6 +25,39 @@ function checklen() {
 	}
 	return true;
 }
+<<<<<<< HEAD
+=======
+</script>
+ <div id="ct" class="wp cl">
+	<div class="bm">
+		<div class="bm_h">
+			<h2>
+				<!--{if $op == 'edit'}-->
+				{lang collection_edit}
+				<!--{else}-->
+				{lang collection_create}
+				<!--{/if}-->
+			</h2>
+		</div>
+		<div class="bm_c">
+			<form action="forum.php?mod=collection&action=edit" onsubmit="return checklen();" method="POST">
+				<table cellspacing="0" cellpadding="0" class="tfm">
+					<tr>
+						<th>{lang collection_title}</th>
+						<td><input type="text" value="{$_G['collection']['name']}" name="title" id="formtitle" class="px" /></td>
+					</tr>
+					<tr>
+						<th>{lang collection_desc}</th>
+						<td><textarea name="desc" id="formdesc" rows="10" class="pt">{$_G['collection']['desc']}</textarea></td>
+					</tr>
+					<tr>
+						<th>{lang collection_keywords}</th>
+						<td>
+							<input type="text" value="{$_G['collection']['keyword']}" name="keyword" id="formkeyword" class="px" />
+							<p class="xg1">{lang collection_keywords_desc}</p>
+						</td>
+					</tr>
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)
 					<tr>
 						<th></th>
 						<td>
@@ -43,6 +76,7 @@ function checklen() {
 		</div>
 	</div>
 </div>
+<<<<<<< HEAD
 <!--{template common/footer}-->					</tr>
 					<tr>
 						<th>{lang collection_keywords}</th>
@@ -53,3 +87,6 @@ function checklen() {
 					</tr>
 					</tr>
 </div>
+=======
+<!--{template common/footer}-->
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

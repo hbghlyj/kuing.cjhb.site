@@ -331,3 +331,7 @@ function init_drag2(){
 	}
 }
 function mousedown(evnt){
+<<<<<<< HEAD
+=======
+}
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

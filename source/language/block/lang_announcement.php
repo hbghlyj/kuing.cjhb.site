@@ -20,3 +20,7 @@ $lang = array
 	'announcement_summarylength' => '内容长度',
 	'announcement_startrow' => '起始位置',
 );
+<<<<<<< HEAD
+=======
+?>
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

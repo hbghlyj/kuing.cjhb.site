@@ -18,3 +18,7 @@ function updatestat($type, $primary=0, $num=1) {
 	C::t('common_stat')->updatestat($uid, $type, $primary, $num);
 }
 
+<<<<<<< HEAD
+=======
+?>
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

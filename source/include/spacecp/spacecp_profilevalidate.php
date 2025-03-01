@@ -21,3 +21,7 @@ $profilevalidate = array(
 	'qq' => '/^[1-9]*[1-9][0-9]*$/'
 );
 
+<<<<<<< HEAD
+=======
+?>
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

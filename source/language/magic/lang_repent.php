@@ -24,3 +24,7 @@ $lang = array
 	'repent_do_not_rushreply' => '不能在抢楼帖中使用此道具',
 );
 
+<<<<<<< HEAD
+=======
+?>
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

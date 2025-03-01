@@ -34,3 +34,7 @@ foreach($query as $value) {
 $_GET['ajaxtarget'] = 'albumphoto';
 $multi = multi($count, $perpage, $page, "forum.php?mod=post&action=albumphoto&aid=$aid");
 include template('forum/ajax_albumlist');
+<<<<<<< HEAD
+=======
+exit;
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

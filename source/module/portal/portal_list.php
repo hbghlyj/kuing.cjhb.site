@@ -202,3 +202,7 @@ function category_get_list_more($cat, $wheresql, $hassub = true,$hasnew = true,$
 		}
 	}
 	return $data;
+<<<<<<< HEAD
+=======
+}
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

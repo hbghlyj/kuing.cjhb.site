@@ -949,3 +949,7 @@ function setCopy(text, msg) {
 
 function copycode(obj) {
 	setCopy(obj.textContent, '代码已复制到剪贴板');
+<<<<<<< HEAD
+=======
+}
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

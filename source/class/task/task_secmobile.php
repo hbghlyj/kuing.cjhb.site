@@ -35,3 +35,7 @@ class task_secmobile {
 		return lang('task/secmobile', 'secmobile_view');
 	}
 
+<<<<<<< HEAD
+=======
+}
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

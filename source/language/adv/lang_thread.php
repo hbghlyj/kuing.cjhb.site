@@ -29,3 +29,7 @@ $lang = array
 	'thread_pnumber_all' => '全部',
 );
 
+<<<<<<< HEAD
+=======
+?>
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

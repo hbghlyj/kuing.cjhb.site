@@ -91,3 +91,7 @@ $allapplynum = $applynumbers + $noverifiednum;
 if($_G['forum']['status'] == 3) {
 	$isgroupuser = groupperm($_G['forum'], $_G['uid']);
 }
+<<<<<<< HEAD
+=======
+?>
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

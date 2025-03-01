@@ -19,3 +19,7 @@ $lang = array
 	'detector_info' => '探测(最多 {num} 个)埋了红包的会员空间',
 );
 
+<<<<<<< HEAD
+=======
+?>
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

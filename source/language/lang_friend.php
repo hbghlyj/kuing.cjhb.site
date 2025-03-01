@@ -23,3 +23,7 @@ $lang = array(
 	'friend_group_more' => '自定义{num}'
 );
 
+<<<<<<< HEAD
+=======
+?>
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

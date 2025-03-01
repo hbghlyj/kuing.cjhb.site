@@ -22,3 +22,7 @@ function errorhandle_ls(str, param) {
 	if(!param['type']) {
 		showError(str);
 	}
+<<<<<<< HEAD
+=======
+}
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

@@ -33,3 +33,7 @@ class mod_cron extends remote_service
 		$this->success('Cron work is done');
 	}
 
+<<<<<<< HEAD
+=======
+}
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

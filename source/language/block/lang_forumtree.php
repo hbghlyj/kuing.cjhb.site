@@ -19,3 +19,7 @@ $lang = array
 	'forumtree_fids_comment' => '设置允许显示的版块，留空为显示所有版块',
 );
 
+<<<<<<< HEAD
+=======
+?>
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

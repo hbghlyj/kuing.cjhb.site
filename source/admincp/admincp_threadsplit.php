@@ -450,3 +450,7 @@ function update_threadtableids() {
 	C::t('common_setting')->update_setting('threadtableids', $threadtableids);
 	savecache('threadtableids', $threadtableids);
 }
+<<<<<<< HEAD
+=======
+?> 
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

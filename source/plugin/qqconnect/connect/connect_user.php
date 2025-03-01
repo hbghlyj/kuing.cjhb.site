@@ -64,3 +64,7 @@ include template('common/footer');
 function connect_error_output($error = '') {
 	include template('common/footer');
 	exit;
+<<<<<<< HEAD
+=======
+}
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

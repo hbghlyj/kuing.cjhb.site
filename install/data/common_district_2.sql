@@ -14997,3 +14997,7 @@ INSERT INTO `pre_common_district` (`id`, `name`, `level`, `upid`) VALUES
 (29525, '王村港镇', 4, 3086),
 (29526, '覃巴镇', 4, 3086),
 (29527, '长岐镇', 4, 3086),
+<<<<<<< HEAD
+=======
+(29528, '黄坡镇', 4, 3086);
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

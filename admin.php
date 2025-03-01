@@ -68,3 +68,4 @@ if(empty($action) || $frames != null) {
 		cpmsg('action_noaccess', '', 'error');
 	}
 }
+?>

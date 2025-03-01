@@ -60,3 +60,7 @@ if(!empty($_GET['srchtxt']) && getglobal('setting/srchcensor')) {
 
 require DISCUZ_ROOT.'./source/module/search/search_'.$mod.'.php';
 
+<<<<<<< HEAD
+=======
+?>
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

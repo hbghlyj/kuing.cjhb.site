@@ -126,3 +126,7 @@ class dz_newpic extends extends_data {
 		}
 	}
 }
+<<<<<<< HEAD
+=======
+?>
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

@@ -21,3 +21,7 @@ class commonblock_html  extends discuz_block{
 		return array('html', lang('blockclass', 'blockclass_html_html'));
 	}
 
+<<<<<<< HEAD
+=======
+}
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

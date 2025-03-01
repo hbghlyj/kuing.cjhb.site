@@ -140,3 +140,7 @@ function updatersscache($num) {
 	discuz_process::unlock($processname);
 	return true;
 }
+<<<<<<< HEAD
+=======
+?>
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

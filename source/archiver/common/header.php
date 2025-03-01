@@ -36,3 +36,7 @@ ob_start();
 <center id="header">
 <?php echo adshow('headerbanner'); ?>
 <h2><?php echo $_G['setting']['bbname']; ?>'s Archiver </h2>
+<<<<<<< HEAD
+=======
+</center>
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

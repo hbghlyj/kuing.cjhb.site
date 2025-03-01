@@ -21,3 +21,7 @@ class mod_index extends remote_service {
 	function run() {
 		$this->success('Discuz! Remote Service API '.$this->version);
 	}
+<<<<<<< HEAD
+=======
+}
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

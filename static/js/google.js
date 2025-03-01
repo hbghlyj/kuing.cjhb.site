@@ -31,3 +31,7 @@ document.writeln('<option value="0"' + google_default_0 + '>网页搜索</option
 document.writeln('<option value="1"' + google_default_1 + '>站内搜索</option>');
 document.writeln('</select>');
 document.writeln('&nbsp;<button type="submit" name="sa" value="true">搜索</button>');
+<<<<<<< HEAD
+=======
+document.writeln('</form>');
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

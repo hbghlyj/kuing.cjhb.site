@@ -143,3 +143,7 @@ if($_G['uid']) {
 $actives = array($_GET['view'] => ' class="a"');
 include_once template("diy:home/space_poll");
 
+<<<<<<< HEAD
+=======
+?>
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

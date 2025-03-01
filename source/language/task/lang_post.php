@@ -37,3 +37,7 @@ $lang = array
 	'task_complete_act_newreply_author' => '回复作者“{value}”的主题 {num} 次',
 );
 
+<<<<<<< HEAD
+=======
+?>
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

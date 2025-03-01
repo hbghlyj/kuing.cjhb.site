@@ -201,3 +201,7 @@ class core
 class C extends core {}
 class DB extends discuz_database {}
 
+<<<<<<< HEAD
+=======
+?>
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

@@ -25,3 +25,7 @@ $lang = array
 	'magic_namepost_succeed' => '匿名的用户是',
 );
 
+<<<<<<< HEAD
+=======
+?>
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

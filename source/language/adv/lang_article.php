@@ -24,3 +24,7 @@ $lang = array
 	'article_category_comment' => '设置广告投放的频道分类',
 );
 
+<<<<<<< HEAD
+=======
+?>
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

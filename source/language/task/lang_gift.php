@@ -17,3 +17,7 @@ $lang = array
 	'gift_desc' => '申请此任务即可领取红包',
 );
 
+<<<<<<< HEAD
+=======
+?>
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

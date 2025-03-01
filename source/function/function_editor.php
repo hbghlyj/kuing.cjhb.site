@@ -427,3 +427,7 @@ function tdtag($attributes) {
 	return $width == '' ? ($colspan == 1 && $rowspan == 1 ? '[td]' : "[td=$colspan,$rowspan]") : "[td=$colspan,$rowspan,$width]";
 }
 
+<<<<<<< HEAD
+=======
+?>
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

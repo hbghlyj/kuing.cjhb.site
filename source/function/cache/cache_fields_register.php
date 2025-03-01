@@ -31,3 +31,7 @@ function build_cache_fields_register() {
 	savecache('fields_register', $data);
 }
 
+<<<<<<< HEAD
+=======
+?>
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

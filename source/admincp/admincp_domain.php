@@ -174,3 +174,7 @@ if($operation == 'app') {
 		cpmsg('setting_update_succeed', 'action=domain', 'succeed');
 	}
 }
+<<<<<<< HEAD
+=======
+?>
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

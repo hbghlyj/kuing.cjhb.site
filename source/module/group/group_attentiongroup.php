@@ -27,3 +27,7 @@ if(submitcheck('attentionsubmit')) {
 }
 include template('group/group_attentiongroup');
 
+<<<<<<< HEAD
+=======
+?>
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

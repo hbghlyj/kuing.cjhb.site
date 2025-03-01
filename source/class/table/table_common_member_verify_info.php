@@ -84,3 +84,7 @@ class table_common_member_verify_info extends discuz_table
 
 }
 
+<<<<<<< HEAD
+=======
+?>
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

@@ -23,3 +23,7 @@ $lang = array
 	'showip_notification' => '您被人使用了{magicname}',
 );
 
+<<<<<<< HEAD
+=======
+?>
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

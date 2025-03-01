@@ -28,3 +28,7 @@ function json_output() {
 	mobile_core::result(mobile_core::variable(array('html' => $GLOBALS['variable'])));
 }
 
+<<<<<<< HEAD
+=======
+?>
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

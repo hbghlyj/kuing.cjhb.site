@@ -40,3 +40,7 @@ $metadescription = lang('ranklist/navtitle', 'ranklist_title_forum_'.$gettype);
 
 include template('diy:ranklist/forum');
 
+<<<<<<< HEAD
+=======
+?>
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

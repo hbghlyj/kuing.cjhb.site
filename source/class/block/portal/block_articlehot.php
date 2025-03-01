@@ -54,3 +54,7 @@ class block_articlehot extends block_article {
 	}
 }
 
+<<<<<<< HEAD
+=======
+?>
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

@@ -44,3 +44,7 @@ class ultrax_cache {
 	function del_cache($key) {
 		return C::t('common_cache')->delete($key);
 	}
+<<<<<<< HEAD
+=======
+}
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

@@ -196,3 +196,7 @@ if(!getglobal('privacy')) {
 		include_once template("home/space_card");
 	}
 }
+<<<<<<< HEAD
+=======
+?>
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

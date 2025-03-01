@@ -19,3 +19,7 @@ $lang = array
 	'attackevasive_2_message' => '本站现在限制使用代理服务器访问，请去除您的代理设置，直接访问本站。',
 	'attackevasive_4_subject' => '页面重载开启',
 	'attackevasive_4_message' => '欢迎光临本站，页面正在重新载入，请稍候 ...',
+<<<<<<< HEAD
+=======
+);
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

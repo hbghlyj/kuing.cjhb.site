@@ -17,3 +17,7 @@ $lang = array
 	'vedio_width' => '视频宽度',
 	'vedio_height' => '视频高度',
 );
+<<<<<<< HEAD
+=======
+?>
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

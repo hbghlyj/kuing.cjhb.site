@@ -22,3 +22,7 @@ foreach($updateviews as $views => $tids) {
 	C::t('forum_thread')->increase($tids, array('views' => $views), true);
 }
 
+<<<<<<< HEAD
+=======
+?>
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

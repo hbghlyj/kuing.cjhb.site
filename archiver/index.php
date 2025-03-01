@@ -27,3 +27,7 @@ if(substr($querystring, 0, 3) == 'fid') {
 
 include 'forum.php';
 
+<<<<<<< HEAD
+=======
+?>
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

@@ -72,3 +72,7 @@ foreach(C::t('#myrepeats#myrepeats')->fetch_all_by_uid($_G['uid']) as $myrepeat)
 
 $_G['basescript'] = 'home';
 
+<<<<<<< HEAD
+=======
+?>
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

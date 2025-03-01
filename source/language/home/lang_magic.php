@@ -27,3 +27,7 @@ $lang = array
 	'SOFA_message' => '一道闪电划破湛蓝的天空，随着一声巨响，沙发被我抢了！哈哈！',
 );
 
+<<<<<<< HEAD
+=======
+?>
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

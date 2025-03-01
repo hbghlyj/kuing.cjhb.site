@@ -326,3 +326,7 @@ function add_comment($message, $id, $idtype, $cid = 0) {
 	return array('cid' => $cid, 'msg' => $msg, 'magvalues' => $magvalues);
 }
 
+<<<<<<< HEAD
+=======
+?>
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

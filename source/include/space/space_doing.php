@@ -173,3 +173,7 @@ $metakeywords = $navtitle;
 $metadescription = $navtitle;
 include_once template('diy:home/space_doing');
 
+<<<<<<< HEAD
+=======
+?>
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

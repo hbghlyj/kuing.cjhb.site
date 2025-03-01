@@ -262,3 +262,7 @@ function getotherinfo($aids, $pids, $tids, $taskids, $uids) {
 	}
 	return $otherinfo;
 }
+<<<<<<< HEAD
+=======
+?>
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

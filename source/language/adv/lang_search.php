@@ -17,3 +17,7 @@ $lang = array
 	'search_desc' => '展现方式: 搜索右侧广告展现于搜索结果页右侧。',
 );
 
+<<<<<<< HEAD
+=======
+?>
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

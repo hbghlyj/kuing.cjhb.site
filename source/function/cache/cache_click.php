@@ -24,3 +24,7 @@ function build_cache_click() {
 	savecache('click', $data);
 }
 
+<<<<<<< HEAD
+=======
+?>
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

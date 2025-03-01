@@ -78,3 +78,7 @@ function build_cache_usergroups_single() {
 		unset($data['type'], $data['system'], $data['creditshigher'], $data['creditslower'], $data['groupavatar'], $data['admingid']);
 		savecache('usergroup_'.$data['groupid'], $data);
 	}
+<<<<<<< HEAD
+=======
+}
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

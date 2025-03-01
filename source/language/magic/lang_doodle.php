@@ -18,3 +18,7 @@ $lang = array
 	'doodle_info' => '在日志、帖子中使用涂鸦板',
 );
 
+<<<<<<< HEAD
+=======
+?>
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

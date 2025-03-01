@@ -696,3 +696,7 @@ function generate_key($length = 32) {
 		$return .= $random[$i].$info[$i];
 	}
 	return $return;
+<<<<<<< HEAD
+=======
+} 
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

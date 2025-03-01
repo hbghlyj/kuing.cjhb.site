@@ -34,3 +34,7 @@ C::t('forum_post')->update_post('tid:'.$_G['tid'], $firstpost['pid'], array('fir
 
 showmessage('admin_repair_succeed', '', array(), array('alert' => 'right'));
 
+<<<<<<< HEAD
+=======
+?>
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

@@ -26,3 +26,7 @@ $_G['wechat']['setting'] = dunserialize($_G['setting']['mobilewechat']);
 
 require_once DISCUZ_ROOT . './source/plugin/wechat/wechat.lib.class.php';
 
+<<<<<<< HEAD
+=======
+$svr = new WeChatServer($_G['wechat']['setting']['wechat_token'], WeChatHook::getResponse($_GET['id']));
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

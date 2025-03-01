@@ -1560,3 +1560,7 @@ $lang = array (
   'payment_wxjsapi_succeed' => '支付成功',
   'payment_wx_qrcode_title' => '微信扫码支付',
 );
+<<<<<<< HEAD
+=======
+?>
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

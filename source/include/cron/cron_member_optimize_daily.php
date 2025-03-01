@@ -16,3 +16,7 @@ if(getglobal('setting/membersplit')) {
 	C::t('common_member')->split(100);
 }
 
+<<<<<<< HEAD
+=======
+?>
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

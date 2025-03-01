@@ -21,3 +21,7 @@ if(empty($ac) || !in_array($ac, $acs)) {
 $theurl = 'home.php?mod=misc&ac='.$ac;
 require_once libfile('misc/'.$ac, 'include');
 
+<<<<<<< HEAD
+=======
+?>
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

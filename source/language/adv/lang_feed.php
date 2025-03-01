@@ -17,3 +17,7 @@ $lang = array
 	'feed_desc' => '展现方式: 日志广告显示于动态的上方。',
 );
 
+<<<<<<< HEAD
+=======
+?>
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

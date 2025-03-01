@@ -22,3 +22,7 @@ Disallow: /forum.php?mod=post*
 Disallow: /home.php?mod=spacecp*
 Disallow: /*?mod=misc*
 Disallow: /*?mod=attachment*
+<<<<<<< HEAD
+=======
+Disallow: /*mobile=yes*
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

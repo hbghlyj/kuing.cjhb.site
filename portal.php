@@ -35,3 +35,7 @@ $_G['disabledwidthauto'] = 1;
 
 require_once libfile('portal/'.$_GET['mod'], 'module');
 
+<<<<<<< HEAD
+=======
+?>
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

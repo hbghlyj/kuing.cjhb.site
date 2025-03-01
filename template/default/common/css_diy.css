@@ -175,3 +175,7 @@ dl.diy dt { margin-top: -10px; margin-bottom: 10px; padding-bottom: 5px; border-
 .block .edit { background: #369; }
 .edit-menu { position: absolute; z-index: 300; border-style: solid; border-width: 0 1px 1px; border-color: #DDD #999 #999 #CCC; background: #FFF; }
 	.mitem { padding: 4px 4px 4px 14px; width: 36px; border-top: 1px solid #DDD; cursor: pointer; }
+<<<<<<< HEAD
+=======
+		.mitem:hover { background: #F2F2F2; color: #06C; }
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

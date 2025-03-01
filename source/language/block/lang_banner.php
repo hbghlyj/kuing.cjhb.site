@@ -24,3 +24,7 @@ $lang = array
 	'banner_atarget_self' => '本页面打开',
 );
 
+<<<<<<< HEAD
+=======
+?>
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

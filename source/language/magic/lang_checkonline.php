@@ -25,3 +25,7 @@ $lang = array
 	'checkonline_notification' => '有人使用了{magicname}检查您是否在线',
 );
 
+<<<<<<< HEAD
+=======
+?>
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

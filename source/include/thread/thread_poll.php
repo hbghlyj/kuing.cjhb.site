@@ -86,3 +86,7 @@ if($count = C::t('forum_polloption')->fetch_count_by_tid($_G['tid'])) {
 
 }
 
+<<<<<<< HEAD
+=======
+?>
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

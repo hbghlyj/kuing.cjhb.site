@@ -597,3 +597,7 @@ function authcode($string, $operation = 'DECODE', $key = '', $expiry = 0) {
 
 }
 
+<<<<<<< HEAD
+=======
+?>
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

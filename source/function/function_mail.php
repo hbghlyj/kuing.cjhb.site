@@ -299,3 +299,7 @@ function sendmail_touser($touid, $subject, $message, $mailtype='') {
 	return false;
 }
 
+<<<<<<< HEAD
+=======
+?> 
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

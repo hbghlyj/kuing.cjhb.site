@@ -65,3 +65,7 @@ if(!empty($_G['fid'])) {
 	}
 	$multipage = multi($reportcount, $lpp, $page, "$cpscript?mod=modcp&action=report&fid={$_G['fid']}&lpp=$lpp");
 }
+<<<<<<< HEAD
+=======
+?>
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

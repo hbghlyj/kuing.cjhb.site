@@ -74,3 +74,7 @@ if($_G['forum_attachpids'] && !defined('IN_ARCHIVER')) {
 
 include template('forum/viewthread_printable');
 
+<<<<<<< HEAD
+=======
+?>
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

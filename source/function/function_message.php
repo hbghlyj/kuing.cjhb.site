@@ -247,3 +247,7 @@ function dshowmessage($message, $url_forward = '', $values = array(), $extrapara
 	dexit();
 }
 
+<<<<<<< HEAD
+=======
+?>
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

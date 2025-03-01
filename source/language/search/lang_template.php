@@ -96,3 +96,7 @@ $lang = array (
   'thread_list_message1' => '内容隐藏需要，请点击进去查看',
 );
 
+<<<<<<< HEAD
+=======
+?>
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

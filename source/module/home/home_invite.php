@@ -151,3 +151,7 @@ foreach($query as $value) {
 $jumpurl = urlencode($jumpurl);
 include_once template('home/invite');
 
+<<<<<<< HEAD
+=======
+?>
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

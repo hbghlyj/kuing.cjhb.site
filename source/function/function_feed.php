@@ -264,3 +264,7 @@ function feed_publish($id, $idtype, $add=0) {
 	}
 
 }
+<<<<<<< HEAD
+=======
+?>
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

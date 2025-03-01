@@ -143,3 +143,7 @@ function removedir($dirname, $keepdir = FALSE) {
 	return !$keepdir ? (@rmdir($dirname) ? TRUE : FALSE) : TRUE;
 }
 
+<<<<<<< HEAD
+=======
+?>
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

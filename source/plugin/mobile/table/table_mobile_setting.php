@@ -36,3 +36,7 @@ class table_mobile_setting extends discuz_table {
 		return $return;
 	}
 
+<<<<<<< HEAD
+=======
+}
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

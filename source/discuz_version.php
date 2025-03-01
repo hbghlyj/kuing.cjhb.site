@@ -17,3 +17,7 @@ if(!defined('DISCUZ_VERSION')) {
 	define('DISCUZ_FIXBUG', '35000000');
 }
 
+<<<<<<< HEAD
+=======
+?>
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

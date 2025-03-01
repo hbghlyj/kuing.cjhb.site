@@ -47,3 +47,7 @@ class memory_driver_xcache {
 		return xcache_dec($key, $step);
 	}
 
+<<<<<<< HEAD
+=======
+}
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

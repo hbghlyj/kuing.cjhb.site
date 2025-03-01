@@ -58,3 +58,7 @@ $lang = array (
   'rulemessage' => '网站服务条款',
 );
 
+<<<<<<< HEAD
+=======
+?>
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

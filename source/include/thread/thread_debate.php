@@ -62,3 +62,7 @@ if($_G['setting']['fastpost'] && $allowpostreply && $_G['forum_thread']['closed'
 	$firststand = C::t('forum_debatepost')->get_firststand($_G['tid'], $_G['uid']);
 }
 
+<<<<<<< HEAD
+=======
+?>
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

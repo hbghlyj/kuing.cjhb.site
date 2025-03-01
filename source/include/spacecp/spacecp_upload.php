@@ -161,3 +161,7 @@ $swfconfig = getuploadconfig($_G['uid'], 0, false);
 
 include_once template("home/spacecp_upload");
 
+<<<<<<< HEAD
+=======
+?>
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

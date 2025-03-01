@@ -104,3 +104,7 @@ function switchdmvalue(ifdark, ifauto) {
 	if (document.querySelector('meta[name="color-scheme"]').content != dmmeta) {
 		document.querySelector('meta[name="color-scheme"]').content = dmmeta;
 	}
+<<<<<<< HEAD
+=======
+}
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

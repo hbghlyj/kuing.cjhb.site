@@ -45,3 +45,7 @@ $lang = array
 	'stat_pics' => '图片',
 	'stat_shares' => '分享',
 );
+<<<<<<< HEAD
+=======
+?>
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

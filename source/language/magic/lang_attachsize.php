@@ -19,3 +19,7 @@ $lang = array
 	'attachsize_addsize' => '增加容量',
 );
 
+<<<<<<< HEAD
+=======
+?>
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

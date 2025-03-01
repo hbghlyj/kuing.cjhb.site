@@ -330,3 +330,7 @@ if (submitcheck('uploadsubmit')) {
 	exit();
 }
 include_once(template('home/spacecp_index'));
+<<<<<<< HEAD
+=======
+?>
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

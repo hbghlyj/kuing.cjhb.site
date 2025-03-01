@@ -31,3 +31,7 @@ foreach($_G['setting']['extcredits'] as $key => $credit) {
 }
 
 include_once template("home/spacecp_promotion");
+<<<<<<< HEAD
+=======
+?>
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

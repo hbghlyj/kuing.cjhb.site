@@ -622,3 +622,7 @@ class model_forum_post extends discuz_model {
 	}
 
 }
+<<<<<<< HEAD
+=======
+?>
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

@@ -53,3 +53,7 @@ text-transform: none;
 .dm-tag:before { content: '\f11d'; }
 .dm-trash:before { content: '\f11e'; }
 .dm-warn:before { content: '\f11f'; }
+<<<<<<< HEAD
+=======
+.dm-x:before { content: '\f120'; }
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

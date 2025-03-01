@@ -16,3 +16,7 @@ if($_G['setting']['secqaa']['status'] > 0) {
 	updatecache('secqaa');
 }
 
+<<<<<<< HEAD
+=======
+?>
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

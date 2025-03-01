@@ -36,3 +36,7 @@ $reload = intval($_GET['reload']);
 $actives = array('avatar' =>' class="a"');
 include template("home/spacecp_avatar");
 
+<<<<<<< HEAD
+=======
+?>
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

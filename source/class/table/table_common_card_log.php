@@ -34,3 +34,7 @@ class table_common_card_log extends discuz_table_archive
 	}
 }
 
+<<<<<<< HEAD
+=======
+?>
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

@@ -46,3 +46,7 @@ $lang = array
 	'forumstat_onlinemember_default' => '在线会员:',
 );
 
+<<<<<<< HEAD
+=======
+?>
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

@@ -29,3 +29,7 @@ if($_G['setting']['regverify'] == 2 && $_G['groupid'] == 8 && submitcheck('verif
 
 }
 
+<<<<<<< HEAD
+=======
+?>
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

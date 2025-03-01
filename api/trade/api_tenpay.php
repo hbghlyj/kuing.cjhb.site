@@ -579,3 +579,7 @@ function trade_getstatus($key, $method = 2) {
 	return $method == -1 ? $status[2] : $status[$method][$key];
 }
 
+<<<<<<< HEAD
+=======
+?>
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

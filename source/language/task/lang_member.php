@@ -30,3 +30,7 @@ $lang = array
 	'task_complete_act_magic' => '使用 {value} 次道具。<br />您可以在帖子页面、日志页面、图片页面等使用道具',
 );
 
+<<<<<<< HEAD
+=======
+?>
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

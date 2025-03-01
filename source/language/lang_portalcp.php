@@ -100,3 +100,7 @@ $lang = array(
 	'itemtypename2' => '<span style="color: #00BFFF">编辑</span>',
 	'itemtypename3' => '<span style="color: #0000FF">推送</span>',
 
+<<<<<<< HEAD
+=======
+);
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

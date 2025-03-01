@@ -22,3 +22,7 @@ class mobile_api {
 		mobile_core::result(mobile_core::variable());
 	}
 }
+<<<<<<< HEAD
+=======
+?>
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

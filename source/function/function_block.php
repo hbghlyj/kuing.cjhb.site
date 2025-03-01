@@ -1143,3 +1143,7 @@ function update_template_block($targettplname, $tpldirectory, $blocks) {
 		}
 	}
 }
+<<<<<<< HEAD
+=======
+?>
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

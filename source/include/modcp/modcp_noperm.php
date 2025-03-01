@@ -12,3 +12,7 @@ if(!defined('IN_DISCUZ') || !defined('IN_MODCP')) {
 }
 
 
+<<<<<<< HEAD
+=======
+?>
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

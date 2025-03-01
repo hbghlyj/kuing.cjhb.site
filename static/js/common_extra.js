@@ -1253,3 +1253,7 @@ function _setShortcut() {
 		setTimeout(this.autozoomin, 50);
 	};
 	this.autozoomin();
+<<<<<<< HEAD
+=======
+}
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

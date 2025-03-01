@@ -190,3 +190,7 @@ EOT;
 	echo "<script type=\"text/JavaScript\">alert('$cpmsg');parent.\$('attachmentforum').searchsubmit.click();</script>";
 }
 
+<<<<<<< HEAD
+=======
+?> 
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

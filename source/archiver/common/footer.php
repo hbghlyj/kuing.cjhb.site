@@ -14,3 +14,7 @@ if(!defined('IN_DISCUZ')) {
 </center>
 </body>
 </html>
+<<<<<<< HEAD
+=======
+<?php output(); ?>
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

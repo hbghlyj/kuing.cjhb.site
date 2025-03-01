@@ -62,3 +62,7 @@ function updateadvtype() {
 	C::t('common_setting')->update_setting('advtype', $advtype);
 }
 
+<<<<<<< HEAD
+=======
+?>
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

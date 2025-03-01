@@ -80,3 +80,7 @@ function waterfall(v) {
 		parent.style.width = totalwidth + "px";
 	}
 	return {"index": index, "totalwidth": totalwidth, "totalheight": totalheight, "columnsheight" : columnsheight};
+<<<<<<< HEAD
+=======
+}
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

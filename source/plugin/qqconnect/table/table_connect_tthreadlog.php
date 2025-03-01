@@ -28,3 +28,7 @@ class table_connect_tthreadlog extends discuz_table {
 		return DB::fetch_first('SELECT * FROM %t WHERE tid=%d ORDER BY nexttime ASC LIMIT 1', array($this->_table, $tid));
 	}
 
+<<<<<<< HEAD
+=======
+}
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

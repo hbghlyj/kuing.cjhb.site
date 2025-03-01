@@ -17,3 +17,7 @@ $discuz->init();
 
 dsetcookie('testcookie', $_GET['siteid'], 600);
 
+<<<<<<< HEAD
+=======
+mobile_core::result(array());
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

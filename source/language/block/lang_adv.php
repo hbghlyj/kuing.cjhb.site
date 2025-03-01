@@ -16,3 +16,7 @@ $lang = array
 	'adv_title' => '或者输入名称',
 	'adv_adv' => '选择广告',
 );
+<<<<<<< HEAD
+=======
+?>
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

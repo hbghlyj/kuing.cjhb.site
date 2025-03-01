@@ -27,3 +27,7 @@ if(!$_G['setting']['ec_ratio'] || !$is_enable_pay) {
 include_once libfile('spacecp/payment_' . $operation, 'include');
 
 
+<<<<<<< HEAD
+=======
+?>
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

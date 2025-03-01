@@ -183,3 +183,7 @@ $navtitle = lang('core', 'title_medals_list');
 
 include template('home/space_medal');
 
+<<<<<<< HEAD
+=======
+?>
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

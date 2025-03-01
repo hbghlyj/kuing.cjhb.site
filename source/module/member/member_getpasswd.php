@@ -103,3 +103,7 @@ if($uid && $id && $sign === make_getpws_sign($uid, $id)) {
 } else {
 	showmessage('parameters_error');
 }
+<<<<<<< HEAD
+=======
+?>
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

@@ -43,3 +43,7 @@ class block_albumnew extends block_album {
 	}
 }
 
+<<<<<<< HEAD
+=======
+?>
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

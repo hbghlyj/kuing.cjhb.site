@@ -151,3 +151,7 @@ function progress_bar_reset() {
 		dom.style.borderLeftWidth = '1px';
 		dom.style.width = '400px';
 	}
+<<<<<<< HEAD
+=======
+}
+>>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)
