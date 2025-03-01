@@ -286,7 +286,8 @@ if($_GET['action'] == 'paysucceed') {
 	foreach(C::t('forum_postcomment')->fetch_all_by_search(null, $_GET['pid'], null, null, null, null, null, $start_limit, $commentlimit) as $comment) {
 		$comment['avatar'] = avatar($comment['authorid'], 'small');
 		$comment['dateline'] = dgmdate($comment['dateline'], 'u');
-		$comment['comment'] = str_replace(array('[b]', '[/b]', '[/color]'), array('<b>', '</b>', '</font>'), preg_replace("/\[color=([#\w]+?)\]/i", "<font color=\"\\1\">", $comment['comment']));
+		//$comment['comment'] = str_replace(array('[b]', '[/b]', '[/color]'), array('<b>', '</b>', '</font>'), preg_replace("/\[color=([#\w]+?)\]/i", "<font color=\"\\1\">", $comment['comment']));
+        $comment['comment'] = nl2br(str_replace(array("\t", '   ', '  ', '[b]', '[/b]', '[/color]'), array('&nbsp; &nbsp; &nbsp; &nbsp; ', '&nbsp; &nbsp;', '&nbsp;&nbsp;', '<b>', '</b>', '</font>'), preg_replace("/\[color=([#\w]+?)\]/i", "<font color=\"\\1\">", $comment['comment'])));
 		$comments[] = $comment;
 	}
 	forum_misc_commentmore_callback_1(0, 1);
@@ -437,10 +438,7 @@ IconIndex=1
 		$filename = $_G['setting']['bbname'].'.url';
 	}
 
-	// 遵循RFC 6266国际标准，按照RFC 5987中的规则对文件名进行编码
 	$filenameencode = strtolower(CHARSET) == 'utf-8' ? rawurlencode($filename) : rawurlencode(diconv($filename, CHARSET, 'UTF-8'));
-	// 连2011年发布的国际标准都没能正确支持的浏览器厂商的黑名单列表
-	// 目前包括：UC，夸克，搜狗，百度
 	$rfc6266blacklist = strexists($_SERVER['HTTP_USER_AGENT'], 'UCBrowser') || strexists($_SERVER['HTTP_USER_AGENT'], 'Quark') || strexists($_SERVER['HTTP_USER_AGENT'], 'SogouM') || strexists($_SERVER['HTTP_USER_AGENT'], 'baidu');
 	dheader('Content-type: application/octet-stream');
 	dheader('Content-Disposition: attachment; filename="'.$filenameencode.'"'.(($filename == $filenameencode || $rfc6266blacklist) ? '' : '; filename*=utf-8\'\''.$filenameencode));
