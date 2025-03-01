@@ -13,7 +13,7 @@ function show_tikz_window(tikz_code){
         tikz_window.className='tikzww';
         tikz_window.innerHTML=`<div onmousedown="tuozhuai(this.parentNode);return false;" style="width:100%;height:26px;cursor:move;">
             <a href="javascript:close_tikz_window();" class="flbc" style="float:right;margin:3px 6px 0 0;">关闭</a></div>
-            <div><textarea class="tikzta">`+decodeURI(tikz_code).replace(/’/g,'\'')+'</textarea></div>';
+            <div><textarea class="tikzta">`+decodeURIComponent(tikz_code)+'</textarea></div>';
         document.body.append(tikz_window);
 }
 function tuozhuai2(ee) {
@@ -31,18 +31,9 @@ function guiwei(ee) {
     ee.style.top=0;
     ee.style.width='unset';
 }
-let tikzs = document.getElementsByTagName('tikz');
-for (let item of tikzs) {
-    //var str = item.innerHTML.replace(/<br>/g, "").replace(/&nbsp;/g,' ');
-    item.innerHTML = item.innerHTML.replace(/&nbsp;/g,' ');//.replace(/<font color="(.*?)">/g,'[color=$1]').replace(/<font face="(.*?)">/g,'[font=$1]');
-    var str = item.textContent;
-    //console.log(str);
-    //console.log(item.innerHTML);
-    var str_for_show = encodeURI(str).replace(/\'/g,'’');
-    if(str.match(/\\tikz/)){str += "%\\begin{tikzpicture}";}
-    var str_for_link = encodeURIComponent(str);//encodeURI(str).replace(/#/g,'%23').replace(/\?/g,'%3F');
-    item.innerHTML = '<div class="jiaz"></div><div class="tuozt" onmousedown="tuozhuai2(this.parentNode);return false;"><!--拖动--></div><div class="guiw" onclick="guiwei(this.parentNode);return false;"><!--归位--></div><img src="https://i.upmath.me/svg/'+str_for_link+'" onclick="show_tikz_window(\''+str_for_show+'\');" onload="this.parentNode.classList.add(\'jiazed\')" />';
-}
+
+//这里原先的 tikz 部分已改写为 php 实现
+
 let asys = document.getElementsByTagName('asy');
 for (let item of asys) {
     //var str = item.innerHTML.replace(/<br>/g, "").replace(/&nbsp;/g,' ').replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&");
