@@ -67,6 +67,9 @@ function show_emoji_window(ele){
     addbtemoji(ele,0x1F440)//双眼
     addbtemoji(ele,0x1F64F)//合十
     addbtemoji(ele,0x1F4AF)//100分
+    addbtemoji(ele,0x1F44C,0x1F44D)//OK,强
+    emoji_window.appendChild(createbtemoji(ele,'&#x1F62E;&#x200D;&#x1F4A8;','0x1F62E+0x200D+0x1F4A8'));//黄脸叹气
+    emoji_window.appendChild(createbtemoji(ele,'&#x1F635;&#x200D;&#x1F4AB;','0x1F635+0x200D+0x1F4AB'));//黄脸晕
   }
 }
 function addbtemoji(f,a,b) {
