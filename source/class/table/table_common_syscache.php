@@ -181,4 +181,3 @@ class table_common_syscache extends discuz_table
 	}
 }
 
-?>

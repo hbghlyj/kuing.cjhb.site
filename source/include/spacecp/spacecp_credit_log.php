@@ -129,4 +129,3 @@ foreach($optypes as $type) {
 }
 $optypehtml .= '</select>';
 include template('home/spacecp_credit_log');
-?>

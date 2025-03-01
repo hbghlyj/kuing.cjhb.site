@@ -273,4 +273,3 @@ if($op == 'add') {
 	}
 }
 include template('home/spacecp_follow');
-?>

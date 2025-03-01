@@ -124,4 +124,3 @@ class magic_repent {
 
 }
 
-?>

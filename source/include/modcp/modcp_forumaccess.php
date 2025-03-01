@@ -165,4 +165,3 @@ function inwhitelist($access) {
 	return $return;
 }
 
-?>

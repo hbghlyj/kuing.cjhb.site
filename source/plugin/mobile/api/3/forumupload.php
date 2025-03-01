@@ -65,4 +65,3 @@ class forum_upload_mobile extends forum_upload {
 
 $upload = new forum_upload_mobile();
 
-?>

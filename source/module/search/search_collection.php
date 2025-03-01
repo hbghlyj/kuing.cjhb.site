@@ -143,4 +143,3 @@ if(!submitcheck('searchsubmit', 1)) {
 
 }
 
-?>

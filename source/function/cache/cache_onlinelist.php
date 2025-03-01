@@ -26,4 +26,3 @@ function build_cache_onlinelist() {
 	savecache('onlinelist', $data);
 }
 
-?>

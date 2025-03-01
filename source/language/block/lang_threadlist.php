@@ -113,4 +113,3 @@ $lang = array
 	'threadlist_highlight' => '获得高亮值',
 );
 
-?>

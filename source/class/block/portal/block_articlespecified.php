@@ -61,4 +61,3 @@ class block_articlespecified extends block_article {
 
 }
 
-?>

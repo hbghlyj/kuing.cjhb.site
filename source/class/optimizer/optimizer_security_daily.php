@@ -40,4 +40,3 @@ class optimizer_security_daily {
 	}
 }
 
-?>

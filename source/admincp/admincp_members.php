@@ -3660,4 +3660,3 @@ function get_newsletter($cachename) {
 	return $data;
 }
 
-?>

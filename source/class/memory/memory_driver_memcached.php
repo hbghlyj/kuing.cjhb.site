@@ -78,4 +78,3 @@ class memory_driver_memcached
 
 }
 
-?>

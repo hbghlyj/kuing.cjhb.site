@@ -133,4 +133,3 @@ if(empty($_GET['do']) || $_GET['do'] == 'tradeinfo') {
 	}
 }
 
-?>

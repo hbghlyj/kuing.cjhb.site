@@ -43,4 +43,3 @@ class block_membercredit extends block_member {
 	}
 }
 
-?>

@@ -629,4 +629,3 @@ function show_credit() {
 	}
 }
 
-?>

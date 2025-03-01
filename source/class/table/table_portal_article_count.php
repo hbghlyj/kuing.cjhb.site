@@ -44,4 +44,3 @@ class table_portal_article_count extends discuz_table
 	}
 }
 
-?>

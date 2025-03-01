@@ -44,4 +44,3 @@ class ultrax_cache {
 	function del_cache($key) {
 		return C::t('common_cache')->delete($key);
 	}
-}

@@ -380,4 +380,3 @@ class block_groupactivity extends discuz_block {
 }
 
 
-?>

@@ -130,4 +130,3 @@ function connect_filter_username($username) {
 	return cutstr($username, 15, '');
 }
 
-?>

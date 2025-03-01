@@ -133,4 +133,3 @@ function count_numeric_items(&$array) {
 	return is_array($array) ? count(array_filter(array_keys($array), 'is_numeric')) : 0;
 }
 
-?>

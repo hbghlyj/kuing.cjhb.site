@@ -137,4 +137,3 @@ function showcategoryrowpush($key, $level = 0, $last = '') {
 	return $return;
 }
 
-?>

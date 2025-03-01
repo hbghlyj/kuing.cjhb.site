@@ -193,4 +193,3 @@ if(submitcheck('searchsubmit') || $newlist) {
 
 }
 
-?>

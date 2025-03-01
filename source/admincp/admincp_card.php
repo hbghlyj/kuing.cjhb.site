@@ -625,4 +625,3 @@ function cardsql() {
 	}
 	return $sqladd ? ' 1 '.$sqladd : '';
 }
-?>

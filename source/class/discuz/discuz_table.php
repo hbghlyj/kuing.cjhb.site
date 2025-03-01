@@ -244,4 +244,3 @@ class discuz_table extends discuz_base
 	}
 }
 
-?>

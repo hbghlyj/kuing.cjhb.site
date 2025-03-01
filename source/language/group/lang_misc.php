@@ -20,4 +20,3 @@ $lang = array
 	'group_join' => '加入{groupname}圈子',
 );
 
-?>

@@ -773,4 +773,3 @@ function vmessage() {
 		ajaxget('forum.php?mod=ajax&action=checkpostrule&ac=reply', 'vfastpostseccheck');
 		$('vmessage').onfocus = null;
 	};
-}

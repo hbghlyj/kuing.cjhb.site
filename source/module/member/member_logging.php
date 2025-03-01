@@ -23,4 +23,3 @@ $method = 'on_'.$_GET['action'];
 $ctl_obj->template = 'member/login';
 $ctl_obj->$method();
 
-?>

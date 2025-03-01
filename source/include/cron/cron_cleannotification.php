@@ -19,4 +19,3 @@ C::t('home_pokearchive')->delete_by_dateline($deltime);
 
 C::t('home_notification')->optimize();
 
-?>

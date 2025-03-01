@@ -470,4 +470,3 @@ function checkclk(obj) {
 }
 </script>
 EOF;
-}

@@ -438,4 +438,3 @@ function versioncompatible($versions) {
 	return false;
 }
 
-?>

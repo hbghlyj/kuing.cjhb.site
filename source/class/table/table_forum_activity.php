@@ -69,4 +69,3 @@ class table_forum_activity extends discuz_table
 	}
 }
 
-?>

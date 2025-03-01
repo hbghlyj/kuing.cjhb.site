@@ -409,4 +409,3 @@ if(submitcheck('threadsubmit', 1)) {
 	showtablefooter();
 	showformfooter();
 
-}

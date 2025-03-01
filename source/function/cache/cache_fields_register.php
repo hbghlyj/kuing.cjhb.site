@@ -31,4 +31,3 @@ function build_cache_fields_register() {
 	savecache('fields_register', $data);
 }
 
-?>

@@ -47,4 +47,3 @@ class block_blogspecified extends block_blog {
 
 }
 
-?>

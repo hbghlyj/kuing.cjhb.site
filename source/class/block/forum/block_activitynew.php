@@ -58,4 +58,3 @@ class block_activitynew extends block_activity {
 	}
 }
 
-?>

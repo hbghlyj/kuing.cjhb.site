@@ -45,4 +45,3 @@ class helper_pm {
 	}
 }
 
-?>

@@ -14,4 +14,3 @@ $lang = array(
 	'delete' => '删除',
 	'email' => 'Email',
 	'user_list' => '用户列表',
-);

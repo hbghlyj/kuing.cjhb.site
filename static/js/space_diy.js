@@ -238,4 +238,3 @@ spaceDiy.extend({
 	}
 });
 
-spaceDiy.init();

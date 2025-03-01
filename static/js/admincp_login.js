@@ -5,4 +5,3 @@
 
 function init_darkmode() {
 	// todo
-}

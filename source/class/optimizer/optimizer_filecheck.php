@@ -37,4 +37,3 @@ class optimizer_filecheck {
 	}
 }
 
-?>

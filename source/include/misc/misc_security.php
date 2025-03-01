@@ -148,4 +148,3 @@ function security_ajaxshowfooter() {
 	exit();
 }
 
-?>

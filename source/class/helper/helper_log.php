@@ -84,4 +84,3 @@ class helper_log {
 
 }
 
-?>

@@ -71,4 +71,3 @@ class magic_chgusername {
 
 }
 
-?>

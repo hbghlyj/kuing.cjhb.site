@@ -42,4 +42,3 @@ class table_forum_faq extends discuz_table
 
 }
 
-?>

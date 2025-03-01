@@ -119,4 +119,3 @@ if($op == 'cancelflicker') {
 
 include_once template('home/spacecp_magic');
 
-?>

@@ -74,4 +74,3 @@ class table_home_show extends discuz_table
 
 }
 
-?>

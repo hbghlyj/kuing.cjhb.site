@@ -51,4 +51,3 @@ class control extends pluginbase {
 		return true;
 	}
 
-}

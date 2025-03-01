@@ -56,4 +56,3 @@ class friendcontrol extends base {
 	}
 }
 
-?>

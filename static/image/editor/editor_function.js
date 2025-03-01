@@ -214,4 +214,3 @@ function loadimgsize(imgurl, editor, p) {
 		}
 	};
 	s.loadCheck();
-}

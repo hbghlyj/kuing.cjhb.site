@@ -16,4 +16,3 @@ $lang = array(
 	'payment_invite' => '购买邀请码',
 );
 
-?>

@@ -100,4 +100,3 @@ class table_forum_collectionfollow extends discuz_table
 	}
 }
 
-?>

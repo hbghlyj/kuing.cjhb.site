@@ -49,4 +49,3 @@ function drawstatchart(url) {
 		}
 		myChart.setOption(option);
 	});
-}

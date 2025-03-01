@@ -64,4 +64,3 @@ class optimizer_forumstatus {
 	}
 }
 
-?>

@@ -346,4 +346,3 @@ class extend_thread_trade extends extend_thread_base {
 	}
 }
 
-?>

@@ -87,4 +87,3 @@ class table_forum_medallog extends discuz_table
 
 }
 
-?>

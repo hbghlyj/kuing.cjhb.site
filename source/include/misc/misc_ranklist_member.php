@@ -258,4 +258,3 @@ $metadescription = lang('ranklist/navtitle', 'ranklist_title_member_'.$gettype);
 
 include template('diy:ranklist/member');
 
-?>

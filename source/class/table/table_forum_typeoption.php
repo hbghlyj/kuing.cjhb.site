@@ -31,4 +31,3 @@ class table_forum_typeoption extends discuz_table
 
 }
 
-?>

@@ -57,4 +57,3 @@ class table_forum_debatepost extends discuz_table
 
 }
 
-?>

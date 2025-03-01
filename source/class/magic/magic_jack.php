@@ -113,4 +113,3 @@ class magic_jack {
 
 }
 
-?>

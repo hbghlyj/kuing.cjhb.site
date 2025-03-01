@@ -36,4 +36,3 @@ class table_mobile_setting extends discuz_table {
 		return $return;
 	}
 
-}

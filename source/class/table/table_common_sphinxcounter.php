@@ -23,4 +23,3 @@ class table_common_sphinxcounter extends discuz_table
 
 }
 
-?>

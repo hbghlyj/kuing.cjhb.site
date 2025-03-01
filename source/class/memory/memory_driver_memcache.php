@@ -80,4 +80,3 @@ class memory_driver_memcache {
 
 }
 
-?>

@@ -29,4 +29,3 @@ $lang = array
 	'thread_pnumber_all' => '全部',
 );
 
-?>

@@ -95,4 +95,3 @@ $lang = array
 	'tradelist_highlight' => '获得高亮值',
 );
 
-?>

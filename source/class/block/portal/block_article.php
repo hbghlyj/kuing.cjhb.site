@@ -340,4 +340,3 @@ class block_article extends discuz_block {
 
 }
 
-?>

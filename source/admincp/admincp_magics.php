@@ -343,4 +343,3 @@ function getmagics() {
 	return $magics;
 }
 
-?>

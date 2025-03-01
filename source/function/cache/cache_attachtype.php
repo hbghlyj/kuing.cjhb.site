@@ -21,4 +21,3 @@ function build_cache_attachtype() {
 	savecache('attachtype', $data);
 }
 
-?>

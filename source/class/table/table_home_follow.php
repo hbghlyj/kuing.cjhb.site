@@ -149,4 +149,3 @@ class table_home_follow extends discuz_table
 
 }
 
-?>

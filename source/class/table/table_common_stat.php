@@ -78,4 +78,3 @@ class table_common_stat extends discuz_table
 	}
 }
 
-?>

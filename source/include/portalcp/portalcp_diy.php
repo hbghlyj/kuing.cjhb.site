@@ -475,4 +475,3 @@ function getdiyxmlname($filename, $path) {
 	}
 	return $name;
 }
-?>

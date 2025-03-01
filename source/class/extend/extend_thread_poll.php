@@ -191,4 +191,3 @@ class extend_thread_poll extends extend_thread_base {
 	}
 }
 
-?>

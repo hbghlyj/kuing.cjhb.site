@@ -129,4 +129,3 @@ if (is_array(getgpc('types'))) {
 }
 $statuspara = "misc.php?mod=stat&op=trend&xml=1&type=$type&primarybegin=$primarybegin&primaryend=$primaryend{$types}{$merge}";
 
-include template('home/misc_stat');

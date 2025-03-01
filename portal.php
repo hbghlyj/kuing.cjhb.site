@@ -35,4 +35,3 @@ $_G['disabledwidthauto'] = 1;
 
 require_once libfile('portal/'.$_GET['mod'], 'module');
 
-?>

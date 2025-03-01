@@ -36,4 +36,3 @@ $lang = array
 	'piclist_orderby_hot' => '按热度倒序'
 );
 
-?>

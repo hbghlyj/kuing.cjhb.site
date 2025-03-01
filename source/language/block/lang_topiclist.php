@@ -31,4 +31,3 @@ $lang = array
 	'topiclist_orderby_viewnum' => '按查看数倒序',
 );
 
-?>

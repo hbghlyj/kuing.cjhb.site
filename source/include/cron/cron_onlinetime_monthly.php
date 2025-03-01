@@ -13,4 +13,3 @@ if(!defined('IN_DISCUZ')) {
 
 C::t('common_onlinetime')->update_thismonth();
 
-?>

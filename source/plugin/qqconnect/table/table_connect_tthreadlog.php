@@ -28,4 +28,3 @@ class table_connect_tthreadlog extends discuz_table {
 		return DB::fetch_first('SELECT * FROM %t WHERE tid=%d ORDER BY nexttime ASC LIMIT 1', array($this->_table, $tid));
 	}
 
-}

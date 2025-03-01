@@ -23,4 +23,3 @@ $lang = array(
 	'friend_group_more' => '自定义{num}'
 );
 
-?>

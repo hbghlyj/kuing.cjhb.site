@@ -143,4 +143,3 @@ function removedir($dirname, $keepdir = FALSE) {
 	return !$keepdir ? (@rmdir($dirname) ? TRUE : FALSE) : TRUE;
 }
 
-?>

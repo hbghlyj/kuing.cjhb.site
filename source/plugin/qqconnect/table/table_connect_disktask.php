@@ -20,4 +20,3 @@ class table_connect_disktask extends discuz_table {
 			return DB::query('DELETE FROM %t WHERE status = %d', array($this->_table, $status));
 		}
 	}
-}

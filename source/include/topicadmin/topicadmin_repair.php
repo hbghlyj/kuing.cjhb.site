@@ -34,4 +34,3 @@ C::t('forum_post')->update_post('tid:'.$_G['tid'], $firstpost['pid'], array('fir
 
 showmessage('admin_repair_succeed', '', array(), array('alert' => 'right'));
 
-?>

@@ -19,4 +19,3 @@ $lang = array
 	'friendnum_addnum' => '增加好友数',
 );
 
-?>

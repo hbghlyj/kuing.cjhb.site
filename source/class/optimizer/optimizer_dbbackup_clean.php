@@ -93,4 +93,3 @@ class optimizer_dbbackup_clean {
 	}
 }
 
-?>

@@ -43,4 +43,3 @@ class optimizer_filesafe {
 		}
 		cpmsg('optimizer_filesafe_optimizer', '', 'error');
 	}
-}

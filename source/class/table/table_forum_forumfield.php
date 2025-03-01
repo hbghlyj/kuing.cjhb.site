@@ -72,4 +72,3 @@ class table_forum_forumfield extends discuz_table
 	}
 }
 
-?>

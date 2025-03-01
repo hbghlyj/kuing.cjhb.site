@@ -696,4 +696,3 @@ function generate_key($length = 32) {
 		$return .= $random[$i].$info[$i];
 	}
 	return $return;
-} 

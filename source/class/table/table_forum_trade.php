@@ -104,4 +104,3 @@ class table_forum_trade extends discuz_table
 	}
 }
 
-?>

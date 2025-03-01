@@ -84,4 +84,3 @@ class table_common_member_verify_info extends discuz_table
 
 }
 
-?>

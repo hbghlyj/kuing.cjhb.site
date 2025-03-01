@@ -188,4 +188,3 @@ FileProgress.prototype.disappear = function () {
 		this.fileProgressWrapper.style.display = "none";
 		this.setTimer(null);
 	}
-};

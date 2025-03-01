@@ -1086,4 +1086,3 @@ function getparentviewprimaltplname($catid) {
 	}
 	return $tpl;
 }
-?>

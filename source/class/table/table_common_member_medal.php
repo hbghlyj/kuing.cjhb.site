@@ -34,4 +34,3 @@ class table_common_member_medal extends discuz_table
 	}
 }
 
-?>

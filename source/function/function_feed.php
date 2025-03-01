@@ -264,4 +264,3 @@ function feed_publish($id, $idtype, $add=0) {
 	}
 
 }
-?>

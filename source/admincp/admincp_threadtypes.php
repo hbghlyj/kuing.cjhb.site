@@ -1413,4 +1413,3 @@ EOT;
 	}
 
 	exportdata('Discuz! Threadtypes', $typevarlist[0]['typeid'], $typevarlist);
-}

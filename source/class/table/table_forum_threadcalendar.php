@@ -84,4 +84,3 @@ class table_forum_threadcalendar extends discuz_table {
 	}
 }
 
-?>

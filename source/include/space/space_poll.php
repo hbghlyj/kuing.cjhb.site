@@ -143,4 +143,3 @@ if($_G['uid']) {
 $actives = array($_GET['view'] => ' class="a"');
 include_once template("diy:home/space_poll");
 
-?>

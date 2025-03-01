@@ -110,4 +110,3 @@ $lang = array
 	'groupthread_highlight' => '获得高亮值',
 );
 
-?>

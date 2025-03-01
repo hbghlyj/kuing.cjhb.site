@@ -98,4 +98,3 @@ $lang = array(
 	'ThumbMimeType'     => '缩略图Mime格式'
 );
 
-?>

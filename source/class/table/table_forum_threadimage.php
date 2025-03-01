@@ -42,4 +42,3 @@ class table_forum_threadimage extends discuz_table
 
 }
 
-?>

@@ -267,4 +267,3 @@ class template_permission {
 
 }
 
-?>

@@ -38,4 +38,3 @@ class table_common_block_favorite extends discuz_table
 	}
 }
 
-?>

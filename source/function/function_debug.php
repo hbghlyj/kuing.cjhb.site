@@ -357,4 +357,3 @@ $_GET = debugaddslashes($_GET); ';
 }
 
 
-?>

@@ -139,4 +139,3 @@ function searchindex_cache() {
 
 	require_once libfile('function/cache');
 	writetocache('searchindex', $cachedata);
-}

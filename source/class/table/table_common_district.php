@@ -39,4 +39,3 @@ class table_common_district extends discuz_table
 
 }
 
-?>

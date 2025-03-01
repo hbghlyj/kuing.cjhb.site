@@ -130,4 +130,3 @@ class magic_namepost {
 
 }
 
-?>

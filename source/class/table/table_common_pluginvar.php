@@ -62,4 +62,3 @@ class table_common_pluginvar extends discuz_table
 
 }
 
-?>

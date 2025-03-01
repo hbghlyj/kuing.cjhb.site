@@ -38,4 +38,3 @@ class mailcontrol extends base {
 
 }
 
-?>

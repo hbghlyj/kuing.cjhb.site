@@ -25,4 +25,3 @@ $lang = array
 	'checkonline_notification' => '有人使用了{magicname}检查您是否在线',
 );
 
-?>

@@ -44,4 +44,3 @@ class block_picspecified extends block_pic {
 	}
 }
 
-?>

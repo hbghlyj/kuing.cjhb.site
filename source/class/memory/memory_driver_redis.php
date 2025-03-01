@@ -290,4 +290,3 @@ class memory_driver_redis {
 
 }
 
-?>

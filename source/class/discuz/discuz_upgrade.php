@@ -266,4 +266,3 @@ class discuz_upgrade {
 		rmdir($srcdir);
 	}
 }
-?>

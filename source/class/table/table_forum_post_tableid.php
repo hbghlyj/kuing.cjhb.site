@@ -34,4 +34,3 @@ class table_forum_post_tableid extends discuz_table
 	}
 }
 
-?>

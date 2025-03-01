@@ -116,4 +116,3 @@ class table_home_follow_feed extends discuz_table
 
 }
 
-?>

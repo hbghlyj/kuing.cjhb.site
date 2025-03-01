@@ -41,4 +41,3 @@ class appcontrol extends base {
 	}
 }
 
-?>

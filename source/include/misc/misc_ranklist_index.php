@@ -127,4 +127,3 @@ $metakeywords = $navtitle;
 $metadescription = $navtitle;
 
 include template('diy:ranklist/ranklist');
-?>

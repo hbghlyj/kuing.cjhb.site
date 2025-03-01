@@ -50,4 +50,3 @@ class optimizer_usergroup9 {
 	}
 }
 
-?>

@@ -388,4 +388,3 @@ class discuz_memory extends discuz_base
 	}
 }
 
-?>

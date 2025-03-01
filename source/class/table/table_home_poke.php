@@ -64,4 +64,3 @@ class table_home_poke extends discuz_table
 
 }
 
-?>

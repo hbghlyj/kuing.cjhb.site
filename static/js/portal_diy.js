@@ -1083,4 +1083,3 @@ function succeedhandle_diyform (url, message, values) {
 	}
 	spaceDiy.enablePreviewButton();
 	return false;
-}

@@ -708,4 +708,3 @@ function tasktimeformat($t) {
 	}
 	return '';
 }
-?>

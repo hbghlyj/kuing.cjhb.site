@@ -496,4 +496,3 @@ jQuery.extend({
 		return output;
 	},
 	_keys: 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=',
-});

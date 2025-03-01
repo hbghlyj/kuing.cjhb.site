@@ -362,4 +362,3 @@ class pmcontrol extends base {
  	}
 }
 
-?>

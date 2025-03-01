@@ -60,4 +60,3 @@ $_G['disabledwidthauto'] = 0;
 
 require_once libfile('spacecp/'.$ac, 'include');
 
-?>

@@ -28,4 +28,3 @@ class table_mobile_wsq_threadlist extends discuz_table {
 		}
 		return DB::insert($this->_table, $data, $return_insert_id, $replace, $silent);
 	}
-}

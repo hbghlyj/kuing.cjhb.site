@@ -122,4 +122,3 @@ function htmlCheckUpdate() {
 	if(html_lostmodify && html_lostmodify < timestamp - 300) {
 		$F('make_html', [SITEURL + DYNAMICURL + (DYNAMICURL.indexOf('?') < 0 ? '?' : '&') + '_makehtml'], 'makehtml');
 	}
-}

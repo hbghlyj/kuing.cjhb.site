@@ -53,4 +53,3 @@ function build_cache_plugin_mobile() {
 
 	$data = array('mobilecheck' => mobile_core::json($array));
 	writetocache('mobile', getcachevars($data));
-}

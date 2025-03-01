@@ -43,4 +43,3 @@ function build_cache_diytemplatename() {
 	}
 }
 
-?>

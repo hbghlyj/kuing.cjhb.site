@@ -91,4 +91,3 @@ class table_portal_topic extends discuz_table
 	}
 }
 
-?>

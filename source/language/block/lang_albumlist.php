@@ -30,4 +30,3 @@ $lang = array
 	'albumlist_orderby_updatetime' => '按更新时间倒序'
 );
 
-?>

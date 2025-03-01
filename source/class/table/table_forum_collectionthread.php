@@ -80,4 +80,3 @@ class table_forum_collectionthread extends discuz_table
 	}
 }
 
-?>

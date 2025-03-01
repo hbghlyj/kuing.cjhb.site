@@ -70,4 +70,3 @@ if($message != 'post_reply_mod_succeed') {
 	C::t('#mobile#mobile_wsq_threadlist')->insert_thread($_G['tid'], $data, false, true);
 }
 
-?>

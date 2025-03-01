@@ -31,4 +31,3 @@ function build_cache_fields_required() {
 	savecache('fields_required', $data);
 }
 
-?>

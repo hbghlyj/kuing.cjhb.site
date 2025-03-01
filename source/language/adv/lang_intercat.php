@@ -23,4 +23,3 @@ $lang = array
 	'intercat_position_fav' => '收藏栏',
 );
 
-?>

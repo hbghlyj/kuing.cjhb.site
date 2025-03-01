@@ -43,4 +43,3 @@ class table_common_block_pic extends discuz_table
 	}
 }
 
-?>

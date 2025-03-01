@@ -181,4 +181,3 @@ class extend_thread_allowat extends extend_thread_base {
 	}
 }
 
-?>

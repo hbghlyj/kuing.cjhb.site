@@ -872,4 +872,3 @@ function hideAttachMenu(id) {
 	if($(editorid + '_' + id + '_menu')) {
 		$(editorid + '_' + id + '_menu').style.visibility = 'hidden';
 	}
-}

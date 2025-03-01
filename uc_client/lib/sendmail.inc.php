@@ -144,4 +144,3 @@ if($mail_setting['mailsend'] == 1 && function_exists('mail')) {
 
 }
 
-?>

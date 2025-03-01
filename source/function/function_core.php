@@ -2342,4 +2342,3 @@ function dpreg_replace($pattern, $replacement, $subject, $limit = -1, &$count = 
 	}
 }
 
-?>

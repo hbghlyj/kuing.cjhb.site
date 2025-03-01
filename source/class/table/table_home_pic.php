@@ -109,4 +109,3 @@ class table_home_pic extends discuz_table
 	}
 }
 
-?>

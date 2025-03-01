@@ -200,4 +200,3 @@ class helper_notification {
 	}
 }
 
-?>

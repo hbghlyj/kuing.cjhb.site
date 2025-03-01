@@ -64,4 +64,3 @@ class block_grouptradehot extends block_grouptrade {
 	}
 }
 
-?>

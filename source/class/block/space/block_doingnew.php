@@ -41,4 +41,3 @@ class block_doingnew extends block_doing {
 	}
 }
 
-?>

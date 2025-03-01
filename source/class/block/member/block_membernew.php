@@ -59,4 +59,3 @@ class block_membernew extends block_member {
 	}
 }
 
-?>

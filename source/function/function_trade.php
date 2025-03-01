@@ -120,4 +120,3 @@ function trade_create($trade) {
 	));
 }
 
-?>

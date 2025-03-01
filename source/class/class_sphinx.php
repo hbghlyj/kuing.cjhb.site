@@ -1399,4 +1399,3 @@ class SphinxClient
 		$this->_MBPop ();
 		return $res;
 	}
-}

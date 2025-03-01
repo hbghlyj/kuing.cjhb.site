@@ -40,4 +40,3 @@ runhooks();
 require_once DISCUZ_ROOT.'/source/plugin/qqconnect/lib/Connect.php';
 $connectService = new Cloud_Service_Connect();
 require_once libfile('connect/'.$mod, 'plugin/qqconnect');
-?>

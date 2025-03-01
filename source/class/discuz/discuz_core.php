@@ -15,4 +15,3 @@ class discuz_core extends discuz_application {
 
 }
 
-?>

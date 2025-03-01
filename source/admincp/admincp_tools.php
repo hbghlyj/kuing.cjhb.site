@@ -153,4 +153,3 @@ function insertunit(text, obj) {
 
 }
 
-?>

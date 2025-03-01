@@ -68,4 +68,3 @@ class table_common_member_grouppm extends discuz_table
 	}
 }
 
-?>

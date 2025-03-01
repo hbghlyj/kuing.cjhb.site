@@ -26,4 +26,3 @@ Disallow: {path}forum.php?mod=post*
 Disallow: {path}home.php?mod=spacecp*
 Disallow: {path}*?mod=misc*
 Disallow: {path}*?mod=attachment*
-Disallow: {path}*mobile=yes*

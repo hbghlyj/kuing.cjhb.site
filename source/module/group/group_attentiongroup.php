@@ -27,4 +27,3 @@ if(submitcheck('attentionsubmit')) {
 }
 include template('group/group_attentiongroup');
 
-?>

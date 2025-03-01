@@ -73,4 +73,3 @@ $lang = array(
   'ranklist_title_app_all' => '最流行应用',
 );
 
-?>

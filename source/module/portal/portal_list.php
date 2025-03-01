@@ -202,4 +202,3 @@ function category_get_list_more($cat, $wheresql, $hassub = true,$hasnew = true,$
 		}
 	}
 	return $data;
-}

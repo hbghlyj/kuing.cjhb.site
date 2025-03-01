@@ -34,4 +34,3 @@ $lang = array
 	'couplebanner_hidden' => '隐藏',
 );
 
-?>

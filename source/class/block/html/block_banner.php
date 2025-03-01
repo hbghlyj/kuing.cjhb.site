@@ -80,4 +80,3 @@ class block_banner extends commonblock_html {
 
 }
 
-?>

@@ -745,4 +745,3 @@ function viewhot() {
 function clearStickThread () {
 	saveUserdata('sticktids', '[]');
 	location.reload();
-}

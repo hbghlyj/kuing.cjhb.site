@@ -30,4 +30,3 @@ if($bapid) {
 	$bestpost['avatar'] = avatar($bestpost['authorid'], 'small');
 }
 
-?>

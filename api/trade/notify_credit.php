@@ -70,4 +70,3 @@ EOS;
 	exit($notifydata['notify']);
 }
 
-?>

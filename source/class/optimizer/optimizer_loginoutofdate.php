@@ -33,4 +33,3 @@ class optimizer_loginoutofdate {
 	}
 }
 
-?>

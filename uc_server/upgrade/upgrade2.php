@@ -597,4 +597,3 @@ function authcode($string, $operation = 'DECODE', $key = '', $expiry = 0) {
 
 }
 
-?>

@@ -94,4 +94,3 @@ if($operation == 'admin') {
 	}
 }
 /*search*/
-?>

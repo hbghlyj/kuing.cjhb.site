@@ -88,4 +88,3 @@ foreach($query as $forum) {
 
 }
 
-?>

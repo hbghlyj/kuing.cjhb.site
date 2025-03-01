@@ -34,4 +34,3 @@ foreach($query as $value) {
 $_GET['ajaxtarget'] = 'albumphoto';
 $multi = multi($count, $perpage, $page, "forum.php?mod=post&action=albumphoto&aid=$aid");
 include template('forum/ajax_albumlist');
-exit;

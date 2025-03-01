@@ -401,4 +401,3 @@ class usermodel {
 		return true;
 	}
 
-}

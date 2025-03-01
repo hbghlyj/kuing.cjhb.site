@@ -49,4 +49,3 @@ class magic_doodle {
 
 }
 
-?>

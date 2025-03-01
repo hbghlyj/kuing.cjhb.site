@@ -316,4 +316,3 @@ class block_grouptrade extends discuz_block {
 }
 
 
-?>

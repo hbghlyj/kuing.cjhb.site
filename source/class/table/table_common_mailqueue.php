@@ -36,4 +36,3 @@ class table_common_mailqueue extends discuz_table
 	}
 }
 
-?>

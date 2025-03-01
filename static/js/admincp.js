@@ -492,4 +492,3 @@ function sethtml_color(color) {
 function uploadthreadtypexml(formobj, formaction) {
 	formobj.action = formaction;
 	formobj.submit();
-}

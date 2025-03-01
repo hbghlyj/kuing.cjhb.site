@@ -56,4 +56,3 @@ if($_GET['action'] == 'send') {
 		include template('common/secmobseccode');
 	}
 
-}

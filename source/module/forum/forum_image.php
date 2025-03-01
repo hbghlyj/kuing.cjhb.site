@@ -58,4 +58,3 @@ if($attach = C::t('forum_attachment_n')->fetch_attachment('aid:'.$daid, $daid, a
 	}
 }
 
-?>

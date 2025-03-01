@@ -2215,4 +2215,3 @@ function copy_threadclasses($threadtypes, $fid) {
 	}
 	return '';
 }
-?>

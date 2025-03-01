@@ -372,4 +372,3 @@ EOT;
 		error_log($message, 3, $file);
 	}
 
-}

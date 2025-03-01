@@ -52,4 +52,3 @@ array_splice($menu['extended'], 7, 0, array(
 	array('founder_perm_tradelog', 'tradelog'),
 ));
 
-?>

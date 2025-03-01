@@ -38,4 +38,3 @@ class table_common_member_field_home extends discuz_table_archive
 	}
 }
 
-?>

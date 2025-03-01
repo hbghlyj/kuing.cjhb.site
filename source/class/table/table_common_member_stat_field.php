@@ -42,4 +42,3 @@ class table_common_member_stat_field extends discuz_table
 	}
 }
 
-?>

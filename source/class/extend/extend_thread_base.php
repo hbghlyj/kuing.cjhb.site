@@ -28,4 +28,3 @@ class extend_thread_base extends discuz_extend {
 
 }
 
-?>

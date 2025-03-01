@@ -573,4 +573,3 @@ class block_thread extends discuz_block {
 }
 
 
-?>

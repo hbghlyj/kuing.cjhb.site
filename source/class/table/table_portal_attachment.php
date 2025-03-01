@@ -36,4 +36,3 @@ class table_portal_attachment extends discuz_table
 
 }
 
-?>

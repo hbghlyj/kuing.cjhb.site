@@ -80,4 +80,3 @@ function waterfall(v) {
 		parent.style.width = totalwidth + "px";
 	}
 	return {"index": index, "totalwidth": totalwidth, "totalheight": totalheight, "columnsheight" : columnsheight};
-}

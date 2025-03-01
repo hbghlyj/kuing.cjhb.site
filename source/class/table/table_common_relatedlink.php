@@ -23,4 +23,3 @@ class table_common_relatedlink extends discuz_table
 
 }
 
-?>

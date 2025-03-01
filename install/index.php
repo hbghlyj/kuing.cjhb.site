@@ -572,4 +572,3 @@ if($method == 'show_license') {
 	read_install_log_file();
 	ob_end_flush();
 	exit();
-}

@@ -147,4 +147,3 @@ class appcontrol extends base {
 
 }
 
-?>

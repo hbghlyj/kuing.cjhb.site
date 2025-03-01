@@ -32,4 +32,3 @@ class table_common_payment_refund extends discuz_table
 	}
 }
 
-?>

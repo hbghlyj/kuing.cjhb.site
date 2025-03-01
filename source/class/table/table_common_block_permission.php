@@ -141,4 +141,3 @@ class table_common_block_permission extends discuz_table
 	}
 }
 
-?>

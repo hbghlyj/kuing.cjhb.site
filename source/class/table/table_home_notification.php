@@ -122,4 +122,3 @@ class table_home_notification extends discuz_table
 	}
 }
 
-?>

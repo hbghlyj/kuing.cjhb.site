@@ -30,4 +30,3 @@ if($_GET['srchtxt']) {
 
 dheader('Location: '.$url);
 
-?>

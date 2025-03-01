@@ -2677,4 +2677,3 @@ class QRencode {
 
 }
 
-?>

@@ -60,4 +60,3 @@ class table_forum_polloption extends discuz_table
 	}
 }
 
-?>

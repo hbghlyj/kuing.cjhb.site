@@ -26,4 +26,3 @@ class domaincontrol extends base {
 	}
 }
 
-?>

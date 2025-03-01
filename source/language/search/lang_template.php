@@ -96,4 +96,3 @@ $lang = array (
   'thread_list_message1' => '内容隐藏需要，请点击进去查看',
 );
 
-?>

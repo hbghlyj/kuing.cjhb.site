@@ -49,4 +49,3 @@ dsetcookie('home_diymode', 1);
 
 include_once template("home/space_wall");
 
-?>

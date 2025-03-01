@@ -82,4 +82,3 @@ function updateusercredit($uid, $type, $level) {
 	C::t('common_member_status')->increase($uid, array($type=>$score));
 }
 
-?>

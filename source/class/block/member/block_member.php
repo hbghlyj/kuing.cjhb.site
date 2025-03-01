@@ -411,4 +411,3 @@ class block_member extends discuz_block {
 	}
 }
 
-?>

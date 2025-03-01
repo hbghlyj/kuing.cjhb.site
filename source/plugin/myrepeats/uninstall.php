@@ -18,4 +18,3 @@ DROP TABLE cdb_myrepeats;
 EOF;
 
 
-$finish = TRUE;

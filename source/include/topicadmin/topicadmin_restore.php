@@ -44,4 +44,3 @@ if(!submitcheck('modsubmit')) {
 	);
 }
 
-?>

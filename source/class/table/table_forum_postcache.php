@@ -27,4 +27,3 @@ class table_forum_postcache extends discuz_table
 	}
 }
 
-?>

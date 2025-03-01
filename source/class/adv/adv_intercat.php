@@ -73,4 +73,3 @@ class adv_intercat {
 
 }
 
-?>

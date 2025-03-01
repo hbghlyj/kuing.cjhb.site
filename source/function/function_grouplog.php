@@ -53,4 +53,3 @@ function updategroupcreditlog($fid, $uid) {
 		}
 		dsetcookie('groupcredit_'.$fid, $today, 86400);
 	}
-}

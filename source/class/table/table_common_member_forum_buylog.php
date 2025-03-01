@@ -49,4 +49,3 @@ class table_common_member_forum_buylog extends discuz_table
 	}
 }
 
-?>

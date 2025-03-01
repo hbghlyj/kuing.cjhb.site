@@ -35,4 +35,3 @@ class helper_attach {
 
 }
 
-?>

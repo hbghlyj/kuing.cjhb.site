@@ -249,4 +249,3 @@ if($_GET['op'] == 'delete') {
 
 include template('home/spacecp_doing');
 
-?>

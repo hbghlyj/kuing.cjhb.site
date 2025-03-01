@@ -62,4 +62,3 @@ class magic_friendnum {
 
 }
 
-?>

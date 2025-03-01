@@ -33,4 +33,3 @@ $lang = array (
   'thread_digest' => '精华',
 );
 
-?>

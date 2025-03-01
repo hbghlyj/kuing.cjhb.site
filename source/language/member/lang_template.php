@@ -58,4 +58,3 @@ $lang = array (
   'rulemessage' => '网站服务条款',
 );
 
-?>

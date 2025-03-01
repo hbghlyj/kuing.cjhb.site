@@ -1406,4 +1406,3 @@ function deletegroupcache($groupidarray) {
 }
 
 
-?>

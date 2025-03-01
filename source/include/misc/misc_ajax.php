@@ -271,4 +271,3 @@ if($op == 'comment') {
 
 include template('home/misc_ajax');
 
-?>

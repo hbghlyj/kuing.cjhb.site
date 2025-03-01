@@ -18,4 +18,3 @@ include pluginmodule($_GET['id'], $pluginkey);
 
 include template('portal/portalcp_plugin');
 
-?>

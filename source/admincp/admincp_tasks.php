@@ -741,4 +741,3 @@ function gettasks() {
 	return $tasks;
 }
 
-?>

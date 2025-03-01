@@ -165,4 +165,3 @@ class helper_page {
 	}
 }
 
-?>

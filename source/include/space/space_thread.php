@@ -367,4 +367,3 @@ $metadescription = $navtitle;
 if(!getglobal('follow')) {
 	include_once template("diy:home/space_thread");
 }
-?>

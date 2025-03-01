@@ -32,4 +32,3 @@ $metadescription = lang('ranklist/navtitle', 'ranklist_title_activity_'.$gettype
 
 include template('diy:ranklist/activity');
 
-?>

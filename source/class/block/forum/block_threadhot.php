@@ -109,4 +109,3 @@ class block_threadhot extends block_thread {
 
 }
 
-?>

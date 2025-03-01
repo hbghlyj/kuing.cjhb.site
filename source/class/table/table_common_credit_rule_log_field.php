@@ -63,4 +63,3 @@ class table_common_credit_rule_log_field extends discuz_table
 	}
 }
 
-?>

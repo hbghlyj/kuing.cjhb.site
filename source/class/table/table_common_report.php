@@ -55,4 +55,3 @@ class table_common_report extends discuz_table
 	}
 }
 
-?>

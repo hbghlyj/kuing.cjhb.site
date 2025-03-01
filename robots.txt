@@ -22,4 +22,3 @@ Disallow: /forum.php?mod=post*
 Disallow: /home.php?mod=spacecp*
 Disallow: /*?mod=misc*
 Disallow: /*?mod=attachment*
-Disallow: /*mobile=yes*

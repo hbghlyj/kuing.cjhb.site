@@ -247,4 +247,3 @@ class block_otherstat extends discuz_block {
 	}
 }
 
-?>

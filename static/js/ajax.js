@@ -262,4 +262,3 @@ function _ajaxinnerhtml(showid, s) {
 		}
 		div1.parentNode.removeChild(div1);
 	}
-}

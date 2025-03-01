@@ -307,4 +307,3 @@ class SimpleUnzipEntry {
 		} // end of the 'SimpleUnzipEntry' constructor
 } // end of the 'SimpleUnzipEntry' class
 
-?>

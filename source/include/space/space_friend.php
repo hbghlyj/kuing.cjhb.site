@@ -268,4 +268,3 @@ function getfollowflag($data) {
 	}
 	return $data;
 }
-?>

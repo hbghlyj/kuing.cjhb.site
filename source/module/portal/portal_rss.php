@@ -140,4 +140,3 @@ function updatersscache($num) {
 	discuz_process::unlock($processname);
 	return true;
 }
-?>

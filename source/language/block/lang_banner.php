@@ -24,4 +24,3 @@ $lang = array
 	'banner_atarget_self' => '本页面打开',
 );
 
-?>

@@ -174,4 +174,3 @@ class table_forum_groupuser extends discuz_table
 	}
 }
 
-?>

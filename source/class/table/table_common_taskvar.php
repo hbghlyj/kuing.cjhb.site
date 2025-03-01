@@ -50,4 +50,3 @@ class table_common_taskvar extends discuz_table
 
 }
 
-?>

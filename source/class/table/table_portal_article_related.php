@@ -48,4 +48,3 @@ class table_portal_article_related extends discuz_table
 	}
 }
 
-?>

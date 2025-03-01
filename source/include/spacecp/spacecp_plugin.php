@@ -24,4 +24,3 @@ if(!$op || $op == 'credit') {
 	include template('home/spacecp_profile');
 }
 
-?>

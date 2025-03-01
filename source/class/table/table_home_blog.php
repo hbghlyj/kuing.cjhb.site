@@ -323,4 +323,3 @@ class table_home_blog extends discuz_table
 	}
 }
 
-?>

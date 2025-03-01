@@ -88,4 +88,3 @@ class table_forum_ratelog extends discuz_table
 
 }
 
-?>

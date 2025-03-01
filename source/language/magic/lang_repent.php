@@ -24,4 +24,3 @@ $lang = array
 	'repent_do_not_rushreply' => '不能在抢楼帖中使用此道具',
 );
 
-?>

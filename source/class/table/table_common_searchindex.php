@@ -50,4 +50,3 @@ class table_common_searchindex extends discuz_table
 
 }
 
-?>

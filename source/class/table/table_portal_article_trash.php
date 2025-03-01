@@ -34,4 +34,3 @@ class table_portal_article_trash extends discuz_table
 	}
 }
 
-?>

@@ -115,4 +115,3 @@ class block_doing extends discuz_block {
 	}
 }
 
-?>

@@ -35,4 +35,3 @@ class task_secmobile {
 		return lang('task/secmobile', 'secmobile_view');
 	}
 
-}

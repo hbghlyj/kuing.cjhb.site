@@ -1253,4 +1253,3 @@ function _setShortcut() {
 		setTimeout(this.autozoomin, 50);
 	};
 	this.autozoomin();
-}

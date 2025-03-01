@@ -65,4 +65,3 @@ function setConver(attach) {
 	$('conver').value = attach;
 }
 
-addAttach();

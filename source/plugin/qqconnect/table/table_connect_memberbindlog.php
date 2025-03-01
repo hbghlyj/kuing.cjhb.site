@@ -40,4 +40,3 @@ class table_connect_memberbindlog extends discuz_table {
 		}
 		return $result;
 	}
-}

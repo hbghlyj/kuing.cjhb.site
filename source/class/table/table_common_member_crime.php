@@ -57,4 +57,3 @@ class table_common_member_crime extends discuz_table
 	}
 }
 
-?>

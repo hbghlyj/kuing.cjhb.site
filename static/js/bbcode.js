@@ -769,4 +769,3 @@ function tdtag(attributes) {
 
 if(typeof jsloaded == 'function') {
 	jsloaded('bbcode');
-}

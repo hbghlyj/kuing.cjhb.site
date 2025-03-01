@@ -101,4 +101,3 @@ $lang = array
 	'grouptrade_highlight' => '获得高亮值',
 );
 
-?>

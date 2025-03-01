@@ -18,4 +18,3 @@ $lang = array
 	'doodle_info' => '在日志、帖子中使用涂鸦板',
 );
 
-?>

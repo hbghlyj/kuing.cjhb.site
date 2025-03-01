@@ -40,4 +40,3 @@ class table_forum_sofa extends discuz_table
 
 }
 
-?>

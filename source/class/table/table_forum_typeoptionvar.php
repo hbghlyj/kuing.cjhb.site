@@ -72,4 +72,3 @@ class table_forum_typeoptionvar extends discuz_table
 
 }
 
-?>

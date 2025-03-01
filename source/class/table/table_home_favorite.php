@@ -84,4 +84,3 @@ class table_home_favorite extends discuz_table
 
 }
 
-?>

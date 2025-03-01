@@ -41,4 +41,3 @@ class table_common_onlinetime extends discuz_table
 
 }
 
-?>

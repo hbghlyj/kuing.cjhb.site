@@ -40,4 +40,3 @@ class table_common_member_count_archive extends table_common_member_count
 	}
 }
 
-?>

@@ -23,4 +23,3 @@ $lang = array
 	'portalcategory_orderby_articles' => '按文章数倒序',
 );
 
-?>

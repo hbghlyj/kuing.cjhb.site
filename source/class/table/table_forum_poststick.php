@@ -62,4 +62,3 @@ class table_forum_poststick extends discuz_table
 	}
 }
 
-?>

@@ -21,4 +21,3 @@ class mod_index extends remote_service {
 	function run() {
 		$this->success('Discuz! Remote Service API '.$this->version);
 	}
-}

@@ -449,4 +449,3 @@ function showcategoryrow($key, $type = '', $last = '') {
 	return $return;
 }
 
-?>

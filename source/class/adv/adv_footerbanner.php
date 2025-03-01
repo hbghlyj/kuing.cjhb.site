@@ -114,4 +114,3 @@ class adv_footerbanner {
 
 }
 
-?>

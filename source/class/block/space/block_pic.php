@@ -166,4 +166,3 @@ class block_pic extends discuz_block {
 	}
 }
 
-?>

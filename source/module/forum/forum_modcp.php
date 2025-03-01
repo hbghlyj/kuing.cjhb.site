@@ -202,4 +202,3 @@ function getposttableselect() {
 	return $posttableselect;
 }
 
-?>

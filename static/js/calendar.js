@@ -246,4 +246,3 @@ function zerofill(s) {
 if(!BROWSER.other) {
 	loadcss('forum_calendar');
 	loadcalendar();
-}

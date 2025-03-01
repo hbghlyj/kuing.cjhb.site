@@ -148,4 +148,3 @@ class extend_thread_sort extends extend_thread_base {
 	}
 }
 
-?>

@@ -27,4 +27,3 @@ if(substr($querystring, 0, 3) == 'fid') {
 
 include 'forum.php';
 
-?>

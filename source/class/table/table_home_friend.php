@@ -138,4 +138,3 @@ class table_home_friend extends discuz_table
 	}
 }
 
-?>

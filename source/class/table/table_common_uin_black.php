@@ -37,4 +37,3 @@ class table_common_uin_black extends discuz_table
 
 }
 
-?>

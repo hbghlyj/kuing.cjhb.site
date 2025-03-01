@@ -49,4 +49,3 @@ class block_memberspecial extends block_member {
 	}
 }
 
-?>

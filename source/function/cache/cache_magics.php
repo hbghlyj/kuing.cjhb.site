@@ -20,4 +20,3 @@ function build_cache_magics() {
 	savecache('magics', $data);
 }
 
-?>

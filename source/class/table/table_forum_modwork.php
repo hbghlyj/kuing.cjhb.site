@@ -49,4 +49,3 @@ class table_forum_modwork extends discuz_table
 	}
 }
 
-?>

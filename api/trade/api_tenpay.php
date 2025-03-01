@@ -579,4 +579,3 @@ function trade_getstatus($key, $method = 2) {
 	return $method == -1 ? $status[2] : $status[$method][$key];
 }
 
-?>

@@ -705,4 +705,3 @@ function delverifyicon($icon) {
 	}
 	return '';
 }
-?>

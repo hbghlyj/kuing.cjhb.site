@@ -55,4 +55,3 @@ class table_home_blacklist extends discuz_table
 	}
 }
 
-?>

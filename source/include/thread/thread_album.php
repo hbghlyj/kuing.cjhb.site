@@ -68,4 +68,3 @@ foreach($postlist as $key=>$subpost) {
 		unset($postlist[$key]);
 	}
 }
-?>

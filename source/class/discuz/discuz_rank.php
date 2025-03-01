@@ -53,4 +53,3 @@ class discuz_rank extends discuz_base
 
 }
 
-?>

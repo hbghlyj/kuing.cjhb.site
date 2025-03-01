@@ -40,4 +40,3 @@ class table_common_member_connect extends discuz_table {
 
 		return DB::update($this->_table, $data, DB::field('openId', $openId));
 	}
-}

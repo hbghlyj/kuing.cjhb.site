@@ -55,4 +55,3 @@ class block_tradespecified extends block_trade {
 	}
 }
 
-?>

@@ -143,4 +143,3 @@ class magic_anonymouspost {
 
 }
 
-?>

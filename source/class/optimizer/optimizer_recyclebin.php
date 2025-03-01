@@ -53,4 +53,3 @@ class optimizer_recyclebin {
 	}
 }
 
-?>

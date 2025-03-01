@@ -304,4 +304,3 @@ if(!isfounder() && !isset($GLOBALS['admincp']->perms['all'])) {
 	$menu = $menunew;
 }
 
-?>

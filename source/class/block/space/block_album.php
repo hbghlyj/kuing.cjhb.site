@@ -142,4 +142,3 @@ class block_album extends discuz_block {
 	}
 }
 
-?>

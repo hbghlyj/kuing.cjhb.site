@@ -24,4 +24,3 @@ $lang = array
 	'headerbanner_category_comment' => '设置广告投放的频道分类，当广告投放范围中包含“门户”时有效',
 );
 
-?>

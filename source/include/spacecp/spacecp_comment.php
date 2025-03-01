@@ -127,4 +127,3 @@ if($_GET['op'] == 'edit') {
 
 include template('home/spacecp_comment');
 
-?>

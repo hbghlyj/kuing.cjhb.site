@@ -18,4 +18,3 @@ $lang = array
 	'updateline_info' => '把自己日志的发布时间更新为当前时间',
 );
 
-?>

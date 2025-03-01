@@ -18,4 +18,3 @@ class table_forum_threadclosed extends discuz_table {
 	}
 }
 
-?>

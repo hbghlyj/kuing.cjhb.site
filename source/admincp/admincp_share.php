@@ -230,4 +230,3 @@ if(submitcheck('searchsubmit', 1) || $newlist) {
 
 }
 
-?>

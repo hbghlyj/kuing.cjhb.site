@@ -36,4 +36,3 @@ class optimizer_seo {
 	}
 }
 
-?>

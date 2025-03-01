@@ -418,4 +418,3 @@ $serialize_sql_setting = array (
   ),
 );
 
-?>

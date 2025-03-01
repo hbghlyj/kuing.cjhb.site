@@ -29,4 +29,3 @@ function loadcore() {
 	$discuz->init();
 }
 
-?>

@@ -50,4 +50,3 @@ if($output['uid']) {
 header("Content-Type: application/json");
 echo helper_json::encode($output);
 
-?>

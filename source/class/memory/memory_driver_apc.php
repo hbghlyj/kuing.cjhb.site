@@ -47,4 +47,3 @@ class memory_driver_apc {
 		return apc_dec($key, $step) !== false ? apc_fetch($key) : false;
 	}
 
-}

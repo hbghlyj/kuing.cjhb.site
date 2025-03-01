@@ -527,4 +527,3 @@ function runuchcount($start, $perpage) {
 
 }
 
-?>

@@ -19,4 +19,3 @@ $lang = array
 	'promotion_complete_var_iplimit_comment' => '当日推广 IP 数大于或等于此设置，才能完成任务',
 );
 
-?>

@@ -720,4 +720,3 @@ function setthreadcover($pid, $tid = 0, $aid = 0, $countimg = 0, $imgurl = '') {
 	}
 }
 
-?>

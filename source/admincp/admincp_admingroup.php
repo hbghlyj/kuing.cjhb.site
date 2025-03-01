@@ -451,4 +451,3 @@ function deletegroupcache($groupidarray) {
 	}
 }
 
-?>

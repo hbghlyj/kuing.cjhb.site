@@ -467,4 +467,3 @@ function uploadError(file, errorCode, message) {
 	} catch (ex) {
         this.debug(ex);
     }
-}

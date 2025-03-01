@@ -126,4 +126,3 @@ class adv_cornerbanner {
 
 }
 
-?>

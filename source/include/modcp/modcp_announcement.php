@@ -158,4 +158,3 @@ function save_announce($id, $starttime, $endtime, $subject, $type, $message, $di
 	}
 }
 
-?>

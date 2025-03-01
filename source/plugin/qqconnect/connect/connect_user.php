@@ -64,4 +64,3 @@ include template('common/footer');
 function connect_error_output($error = '') {
 	include template('common/footer');
 	exit;
-}

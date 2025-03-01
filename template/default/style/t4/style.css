@@ -63,4 +63,3 @@ body { background: #FFF url(bgimg.jpg) no-repeat 50% 28px; background-size: 1400
 /* 重定义下拉菜单 */
 .p_pop a { border-bottom-color: #F8EFF8; }
 	.p_pop a:hover, .p_pop a.a, #sctype_menu .sca { background-color: #F8EFF8; color: #6F099E; }
-	.blk a:hover { background-color: transparent; }

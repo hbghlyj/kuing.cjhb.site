@@ -40,4 +40,3 @@ function build_cache_forumlinks() {
 	savecache('forumlinks', $data);
 }
 
-?>

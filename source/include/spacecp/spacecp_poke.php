@@ -175,4 +175,3 @@ $actives = array($op=='send'?'send':'poke' =>' class="a"');
 
 include_once template('home/spacecp_poke');
 
-?>

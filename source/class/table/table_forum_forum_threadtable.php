@@ -78,4 +78,3 @@ class table_forum_forum_threadtable extends discuz_table
 	}
 }
 
-?>

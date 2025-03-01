@@ -219,4 +219,3 @@ $lang = array (
   'click_to_show_reason' => '点击查看原因',
 );
 
-?>

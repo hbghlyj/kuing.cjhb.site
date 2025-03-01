@@ -55,4 +55,3 @@ function build_cache_heats() {
 	discuz_process::unlock('update_heats_list');
 }
 
-?>

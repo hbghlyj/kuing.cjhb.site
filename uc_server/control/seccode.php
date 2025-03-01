@@ -49,4 +49,3 @@ class seccodecontrol extends base {
 
 }
 
-?>

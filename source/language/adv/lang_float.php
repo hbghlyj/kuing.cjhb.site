@@ -32,4 +32,3 @@ $lang = array
 	'float_hidden' => '隐藏',
 );
 
-?>

@@ -109,4 +109,3 @@ class block_threadnew extends block_thread {
 	}
 }
 
-?>

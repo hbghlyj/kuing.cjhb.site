@@ -64,4 +64,3 @@ class block_groupactivitynew extends block_groupactivity {
 	}
 }
 
-?>

@@ -44,4 +44,3 @@ runquery($sql);
 DB::query( "REPLACE INTO ".DB::table("common_credit_rule")." VALUES (NULL, '".$installlang['mobilesign']."', 'mobilesign', '1', '0', '1', '0', '0', '2', '0', '0', '0', '0', '0', '0', '');"
 );
 
-$finish = true;

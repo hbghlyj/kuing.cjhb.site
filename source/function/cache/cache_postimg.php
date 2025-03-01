@@ -37,4 +37,3 @@ function build_cache_postimg() {
 	}
 }
 
-?>

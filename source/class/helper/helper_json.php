@@ -50,4 +50,3 @@ class helper_json {
 	}
 }
 
-?>

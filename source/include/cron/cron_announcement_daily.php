@@ -19,4 +19,3 @@ if($delnum) {
 	updatecache(array('announcements', 'announcements_forum'));
 }
 
-?>

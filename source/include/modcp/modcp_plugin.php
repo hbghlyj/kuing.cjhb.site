@@ -15,4 +15,3 @@ $modtpl = $_GET['id'];
 
 include pluginmodule($_GET['id'], 'modcp_'.$op);
 
-?>

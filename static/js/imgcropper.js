@@ -624,4 +624,3 @@
 			return element.currentStyle || document.defaultView.getComputedStyle(element, null);
 		}
 	};
-})();

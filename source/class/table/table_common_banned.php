@@ -102,4 +102,3 @@ class table_common_banned extends discuz_table
 
 }
 
-?>

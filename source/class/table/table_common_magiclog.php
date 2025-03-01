@@ -86,4 +86,3 @@ class table_common_magiclog extends discuz_table_archive
 
 }
 
-?>

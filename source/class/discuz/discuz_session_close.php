@@ -171,4 +171,3 @@ class discuz_session_close {
 	}
 }
 
-?>

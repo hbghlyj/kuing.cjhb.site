@@ -35,4 +35,3 @@ threadsort_optiondata($pid, $sortid, $_G['cache']['threadsort_option_'.$sortid],
 
 
 
-?>

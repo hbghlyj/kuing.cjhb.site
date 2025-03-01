@@ -88,4 +88,3 @@ class magic_checkonline {
 
 }
 
-?>

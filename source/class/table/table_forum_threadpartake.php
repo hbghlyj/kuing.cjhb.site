@@ -49,4 +49,3 @@ class table_forum_threadpartake extends discuz_table
 
 }
 
-?>

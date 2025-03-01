@@ -56,4 +56,3 @@ class block_grouptradespecified extends block_grouptrade {
 	}
 }
 
-?>

@@ -53,4 +53,3 @@ text-transform: none;
 .dm-tag:before { content: '\f11d'; }
 .dm-trash:before { content: '\f11e'; }
 .dm-warn:before { content: '\f11f'; }
-.dm-x:before { content: '\f120'; }

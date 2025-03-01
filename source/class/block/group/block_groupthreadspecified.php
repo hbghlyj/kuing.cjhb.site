@@ -73,4 +73,3 @@ class block_groupthreadspecified extends block_groupthread {
 	}
 }
 
-?>

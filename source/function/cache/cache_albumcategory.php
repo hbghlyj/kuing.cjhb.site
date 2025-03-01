@@ -34,4 +34,3 @@ function build_cache_albumcategory() {
 	savecache('albumcategory', $data);
 }
 
-?>

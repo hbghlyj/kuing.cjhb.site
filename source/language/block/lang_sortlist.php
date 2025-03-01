@@ -79,4 +79,3 @@ $lang = array
 	'sortlist_orderby_hours_comment' => '指定时间内浏览次数倒序排序的时间值',
 );
 
-?>

@@ -102,4 +102,3 @@ class table_common_tagitem extends discuz_table
 	}
 }
 
-?>

@@ -28,4 +28,3 @@ function json_output() {
 	mobile_core::result(mobile_core::variable(array('html' => $GLOBALS['variable'])));
 }
 
-?>

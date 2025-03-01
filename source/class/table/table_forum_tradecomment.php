@@ -52,4 +52,3 @@ class table_forum_tradecomment extends discuz_table
 
 }
 
-?>

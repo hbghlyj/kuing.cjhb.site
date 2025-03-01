@@ -144,4 +144,3 @@ class extend_thread_replycredit extends extend_thread_base {
 	}
 }
 
-?>

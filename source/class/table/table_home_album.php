@@ -231,4 +231,3 @@ class table_home_album extends discuz_table
 	}
 }
 
-?>

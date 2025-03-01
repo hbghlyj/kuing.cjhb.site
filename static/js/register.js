@@ -372,4 +372,3 @@ function checkinvite() {
 	x.get('forum.php?mod=ajax&inajax=yes&infloat=register&handlekey=register&ajaxmenu=1&action=checkinvitecode&invitecode=' + invitecode, function(s) {
 		errormessage('invitecode', s);
 	});
-}

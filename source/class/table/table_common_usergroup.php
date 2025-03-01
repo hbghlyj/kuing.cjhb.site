@@ -166,4 +166,3 @@ class table_common_usergroup extends discuz_table
 	}
 }
 
-?>

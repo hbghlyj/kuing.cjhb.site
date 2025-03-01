@@ -119,4 +119,3 @@ class helper_seo {
 	}
 }
 
-?>

@@ -89,4 +89,3 @@ function build_cache_portalcategory() {
 	savecache('setting', $data);
 }
 
-?>

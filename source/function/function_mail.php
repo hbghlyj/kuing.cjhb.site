@@ -299,4 +299,3 @@ function sendmail_touser($touid, $subject, $message, $mailtype='') {
 	return false;
 }
 
-?> 

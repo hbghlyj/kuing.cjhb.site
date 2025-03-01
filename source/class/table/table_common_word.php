@@ -89,4 +89,3 @@ class table_common_word extends discuz_table
 
 }
 
-?>

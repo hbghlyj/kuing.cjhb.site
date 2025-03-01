@@ -1732,4 +1732,3 @@ class threadplugin_{PLUGINID} {
 	return $code;
 }
 
-?>

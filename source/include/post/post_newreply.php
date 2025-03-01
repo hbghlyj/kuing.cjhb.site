@@ -459,4 +459,3 @@ if(!submitcheck('replysubmit', 0, $seccodecheck, $secqaacheck)) {
 
 }
 
-?>

@@ -52,4 +52,3 @@ class table_common_patch extends discuz_table
 	}
 }
 
-?>

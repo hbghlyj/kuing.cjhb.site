@@ -24,4 +24,3 @@ function build_cache_smileytypes() {
 	savecache('smileytypes', $data);
 }
 
-?>

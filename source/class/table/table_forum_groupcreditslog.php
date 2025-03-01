@@ -31,4 +31,3 @@ class table_forum_groupcreditslog extends discuz_table
 	}
 }
 
-?>

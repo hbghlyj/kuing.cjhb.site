@@ -18,4 +18,3 @@ foreach($queryf as $forum) {
 
 	C::t('forum_forum')->update($forum['fid'], array('lastpost' => $lastpost));
 }
-?>

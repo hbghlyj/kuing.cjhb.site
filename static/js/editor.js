@@ -1787,4 +1787,3 @@ function insertPostBackground(img) {
 
 if(typeof jsloaded == 'function') {
 	jsloaded('editor');
-}

@@ -75,4 +75,3 @@ foreach($data_blog as $curblogid => $value) {
 
 echo 	"  </channel>\n".
 	"</rss>";
-?>

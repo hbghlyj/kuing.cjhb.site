@@ -158,4 +158,3 @@ function updatersscache($num) {
 	return true;
 }
 
-?>

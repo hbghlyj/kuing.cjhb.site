@@ -54,4 +54,3 @@ class block_articlehot extends block_article {
 	}
 }
 
-?>

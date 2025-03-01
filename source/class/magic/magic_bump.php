@@ -96,4 +96,3 @@ class magic_bump {
 
 }
 
-?>

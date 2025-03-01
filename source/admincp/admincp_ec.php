@@ -929,4 +929,3 @@ if($operation == 'alipay') {
 	}
 }
 
-?>

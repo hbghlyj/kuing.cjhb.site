@@ -108,4 +108,3 @@ class table_common_smiley extends discuz_table
 
 }
 
-?>

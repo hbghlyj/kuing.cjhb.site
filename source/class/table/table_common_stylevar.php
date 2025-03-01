@@ -49,4 +49,3 @@ class table_common_stylevar extends discuz_table
 
 }
 
-?>

@@ -118,4 +118,3 @@ class table_common_seccheck extends discuz_table
 
 }
 
-?>

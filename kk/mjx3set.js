@@ -73,4 +73,3 @@ window.MathJax = {
     //scale: 0.9,
     fontCache: 'global'
   }
-};

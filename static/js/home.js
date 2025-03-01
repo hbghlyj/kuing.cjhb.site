@@ -1063,4 +1063,3 @@ function spaceMusicPlayer(url, height) {
 			spaceMusicPlayer(url, height);
 		}, 50);
 	}
-}

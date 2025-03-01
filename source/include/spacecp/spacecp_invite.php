@@ -274,4 +274,3 @@ function getinviteurl($inviteid, $invitecode) {
 	return $inviteurl;
 }
 
-?>

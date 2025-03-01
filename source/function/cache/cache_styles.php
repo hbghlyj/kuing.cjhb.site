@@ -150,4 +150,3 @@ function writetocsscache_callback_1($matches, $action = 0) {
 	}
 }
 
-?>

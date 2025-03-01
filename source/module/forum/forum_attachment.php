@@ -390,4 +390,3 @@ function ext_to_mimetype($path) {
 	return $mime;
 }
 
-?>

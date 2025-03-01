@@ -106,4 +106,3 @@ if($operation == '') {
 	showformfooter();
 }
 /*search*/
-?>

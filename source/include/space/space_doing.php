@@ -173,4 +173,3 @@ $metakeywords = $navtitle;
 $metadescription = $navtitle;
 include_once template('diy:home/space_doing');
 
-?>

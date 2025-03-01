@@ -51,4 +51,3 @@ class block_memberposts extends block_member {
 	}
 }
 
-?>

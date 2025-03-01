@@ -39,4 +39,3 @@ class block_groupspecified extends block_group {
 	}
 }
 
-?>

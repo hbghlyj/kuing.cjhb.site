@@ -137,4 +137,3 @@ if (!empty($_G['forum']['threadsorts']) || !empty($_GET['debug'])) {
 }
 $variable['forum']['password'] = $variable['forum']['password'] ? '1' : '0';
 
-?>

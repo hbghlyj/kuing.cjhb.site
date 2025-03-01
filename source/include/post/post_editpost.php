@@ -527,4 +527,3 @@ if(!submitcheck('editsubmit')) {
 
 }
 
-?>

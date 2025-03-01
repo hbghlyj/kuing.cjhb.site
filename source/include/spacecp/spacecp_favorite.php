@@ -217,4 +217,3 @@ function deletefavorite($thevalue = array()){
 	}
 }
 
-?>

@@ -721,4 +721,3 @@ function uc_check_version() {
 	return is_array($data) ? $data : $return;
 }
 
-?>

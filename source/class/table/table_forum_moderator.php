@@ -103,4 +103,3 @@ class table_forum_moderator extends discuz_table
 	}
 }
 
-?>

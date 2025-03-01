@@ -33,4 +33,3 @@ class task_gift {
 }
 
 
-?>

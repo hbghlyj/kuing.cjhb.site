@@ -38,4 +38,3 @@ class table_common_member_action_log extends discuz_table
 	}
 }
 
-?>

@@ -58,4 +58,3 @@ class magic_updateline {
 
 }
 
-?>

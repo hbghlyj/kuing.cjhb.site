@@ -41,4 +41,3 @@ class table_common_statuser extends discuz_table
 	}
 }
 
-?>

@@ -50,4 +50,3 @@ class table_forum_activityapply extends discuz_table
 	}
 }
 
-?>

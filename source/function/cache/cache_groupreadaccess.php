@@ -27,4 +27,3 @@ function build_cache_groupreadaccess() {
 	savecache('groupreadaccess', $data);
 }
 
-?>

@@ -23,4 +23,3 @@ class table_home_picfield extends discuz_table
 
 }
 
-?>

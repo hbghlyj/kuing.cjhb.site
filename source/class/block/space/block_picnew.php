@@ -39,4 +39,3 @@ class block_picnew extends block_pic {
 	}
 }
 
-?>

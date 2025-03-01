@@ -54,4 +54,3 @@ class table_common_adminnote extends discuz_table
 
 }
 
-?>

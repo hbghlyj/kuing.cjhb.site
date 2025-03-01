@@ -89,4 +89,3 @@ class table_common_template_permission extends discuz_table
 	}
 }
 
-?>

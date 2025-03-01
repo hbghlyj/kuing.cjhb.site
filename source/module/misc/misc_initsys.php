@@ -89,4 +89,3 @@ foreach($plugins as $pluginid) {
 	}
 }
 
-?>

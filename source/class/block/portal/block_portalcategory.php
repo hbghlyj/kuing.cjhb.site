@@ -142,4 +142,3 @@ class block_portalcategory extends discuz_block {
 	}
 }
 
-?>

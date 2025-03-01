@@ -38,4 +38,3 @@ if(!empty($_G['setting']['magicstatus'])) {
 	}
 }
 
-?>

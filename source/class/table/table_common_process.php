@@ -27,4 +27,3 @@ class table_common_process extends discuz_table
 	}
 }
 
-?>

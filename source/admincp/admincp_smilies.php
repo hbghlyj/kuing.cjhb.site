@@ -452,4 +452,3 @@ function update_smiles($smdir, $id, &$imgextarray) {
 
 	return array('smilies'=>$smilies, 'num'=>$num);
 }
-?>

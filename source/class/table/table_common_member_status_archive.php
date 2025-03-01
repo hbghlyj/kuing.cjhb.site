@@ -68,4 +68,3 @@ class table_common_member_status_archive extends table_common_member_status
 	}
 }
 
-?>

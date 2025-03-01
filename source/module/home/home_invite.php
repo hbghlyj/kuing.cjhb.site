@@ -151,4 +151,3 @@ foreach($query as $value) {
 $jumpurl = urlencode($jumpurl);
 include_once template('home/invite');
 
-?>

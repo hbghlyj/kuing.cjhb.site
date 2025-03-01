@@ -107,4 +107,3 @@ class adv_headerbanner {
 
 }
 
-?>

@@ -48,4 +48,3 @@ class magic_money {
 
 }
 
-?>

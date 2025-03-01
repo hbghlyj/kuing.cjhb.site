@@ -358,4 +358,3 @@ function check_itemdata_lentgh(form) {
 		return false;
 	}
 	return true;
-}

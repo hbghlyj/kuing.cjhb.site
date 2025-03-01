@@ -18,4 +18,3 @@ if(!empty($_G['uid'])) {
 	echo uc_rectavatar($_G['uid']);
 } else {
 	echo uc_rectavatar(0);
-}

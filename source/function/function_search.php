@@ -74,4 +74,3 @@ function bat_highlight_callback_highlight_21($matches, $action = 0) {
 	}
 }
 
-?>

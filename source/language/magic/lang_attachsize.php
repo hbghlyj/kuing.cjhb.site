@@ -19,4 +19,3 @@ $lang = array
 	'attachsize_addsize' => '增加容量',
 );
 
-?>

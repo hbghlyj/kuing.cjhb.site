@@ -44,4 +44,3 @@ class table_forum_statlog extends discuz_table
 
 }
 
-?>

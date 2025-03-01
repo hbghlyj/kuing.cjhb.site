@@ -541,4 +541,3 @@ class table_common_moderate extends discuz_table
 
 }
 
-?>

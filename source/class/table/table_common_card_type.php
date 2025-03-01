@@ -23,4 +23,3 @@ class table_common_card_type extends discuz_table
 
 }
 
-?>

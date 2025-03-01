@@ -97,4 +97,3 @@ class block_otherfriendlink extends discuz_block {
 
 
 
-?>

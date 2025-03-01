@@ -25,4 +25,3 @@ function build_cache_userstats() {
 	savecache('userstats', $data);
 }
 
-?>

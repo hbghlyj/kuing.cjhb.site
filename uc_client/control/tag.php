@@ -82,4 +82,3 @@ class tagcontrol extends base {
 
 }
 
-?>

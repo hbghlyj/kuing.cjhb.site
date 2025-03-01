@@ -192,4 +192,3 @@ SEARCH;
 	showformfooter();
 }
 
-?>

@@ -31,4 +31,3 @@ class table_home_click extends discuz_table
 
 }
 
-?>

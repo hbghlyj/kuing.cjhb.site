@@ -409,4 +409,3 @@ if($_GET['from'] == 'space') {
 }
 if(empty($cp_mode)) include_once template("diy:home/space_home");
 
-?>

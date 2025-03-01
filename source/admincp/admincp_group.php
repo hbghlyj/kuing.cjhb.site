@@ -1238,4 +1238,3 @@ function cacherecommend($fidstr, $return = true) {
 		C::t('common_setting')->update_batch(array('group_recommend' => $group_recommend));
 	}
 }
-?>

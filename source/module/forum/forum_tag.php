@@ -66,4 +66,3 @@ if($op == 'search') {
 }
 
 include_once template("forum/tag");
-?>

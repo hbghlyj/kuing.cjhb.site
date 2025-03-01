@@ -42,4 +42,3 @@ class helper_output {
 	}
 }
 
-?>

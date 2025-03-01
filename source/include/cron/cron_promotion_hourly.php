@@ -14,4 +14,3 @@ if(!defined('IN_DISCUZ')) {
 C::t('forum_promotion')->delete_all();
 
 
-?>

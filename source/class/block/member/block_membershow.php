@@ -34,4 +34,3 @@ class block_membershow extends block_member {
 	}
 }
 
-?>

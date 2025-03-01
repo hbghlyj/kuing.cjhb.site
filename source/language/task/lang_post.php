@@ -37,4 +37,3 @@ $lang = array
 	'task_complete_act_newreply_author' => '回复作者“{value}”的主题 {num} 次',
 );
 
-?>

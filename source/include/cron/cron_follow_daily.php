@@ -17,4 +17,3 @@ foreach(C::t('home_follow_feed')->fetch_all_by_dateline($removetime, '<=') as $f
 	C::t('home_follow_feed')->delete($feed['feedid']);
 }
 
-?>

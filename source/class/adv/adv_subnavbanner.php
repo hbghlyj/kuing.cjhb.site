@@ -102,4 +102,3 @@ class adv_subnavbanner {
 
 }
 
-?>

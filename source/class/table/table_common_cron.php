@@ -37,4 +37,3 @@ class table_common_cron extends discuz_table
 
 }
 
-?>

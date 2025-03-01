@@ -106,4 +106,3 @@ class table_common_member_status extends discuz_table_archive
 	}
 }
 
-?>

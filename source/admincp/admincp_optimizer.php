@@ -326,4 +326,3 @@ END;
 	showboxfooter();
 }
 
-?>

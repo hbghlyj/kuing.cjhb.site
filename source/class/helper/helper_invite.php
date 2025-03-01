@@ -18,4 +18,3 @@ class helper_invite {
 		return substr(md5(md5($user['password']).'|'.$uid), 8, 16);
 	}
 
-}

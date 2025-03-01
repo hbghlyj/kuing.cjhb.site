@@ -456,4 +456,3 @@ function ckfriend_album($album) {
 	}
 }
 
-?>

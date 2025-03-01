@@ -52,4 +52,3 @@ if($_SERVER['HTTP_WECHATPAY_SIGNATURE']) {
 	exit();
 }
 
-?>

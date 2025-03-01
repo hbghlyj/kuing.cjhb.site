@@ -69,4 +69,3 @@ class table_common_member_profile_archive extends table_common_member_profile
 	}
 }
 
-?>

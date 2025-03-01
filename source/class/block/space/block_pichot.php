@@ -52,4 +52,3 @@ class block_pichot extends block_pic {
 	}
 }
 
-?>

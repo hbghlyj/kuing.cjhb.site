@@ -58,4 +58,3 @@ class extend_thread_comment extends extend_thread_base {
 	}
 }
 
-?>

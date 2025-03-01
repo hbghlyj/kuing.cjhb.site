@@ -112,4 +112,3 @@ class adv_thread {
 
 }
 
-?>

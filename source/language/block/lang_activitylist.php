@@ -99,4 +99,3 @@ $lang = array
 	'activitylist_highlight' => '获得高亮值',
 );
 
-?>

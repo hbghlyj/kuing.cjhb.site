@@ -1499,4 +1499,3 @@ function siteftp_upload($readfile, $writefile) {
 	}
 }
 
-?> 

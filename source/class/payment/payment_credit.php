@@ -39,4 +39,3 @@ class payment_credit {
 
 }
 
-?>

@@ -30,4 +30,3 @@ $lang = array
 	'threadlist_threadurl_comment' => '留空表示使用指定主题的 URL',
 );
 
-?>

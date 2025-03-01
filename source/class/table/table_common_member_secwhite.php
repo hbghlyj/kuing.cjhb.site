@@ -43,4 +43,3 @@ class table_common_member_secwhite extends discuz_table
 
 }
 
-?>

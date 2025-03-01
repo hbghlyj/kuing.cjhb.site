@@ -142,4 +142,3 @@ class uc_note_handler {
 			define('UC_DELAVTDIR', DISCUZ_ROOT.$_G['setting']['avatarpath'].'/');
 		}
 	}
-}

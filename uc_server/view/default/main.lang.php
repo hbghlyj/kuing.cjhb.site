@@ -66,4 +66,3 @@ $lang = array(
 	'note_send' => '补发通知',
 	'dumpfile_exists' => '备份存在',
 	'dumpfile_not_exists' => '备份不存在',
-);

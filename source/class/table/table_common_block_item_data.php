@@ -67,4 +67,3 @@ class table_common_block_item_data extends discuz_table
 	}
 }
 
-?>

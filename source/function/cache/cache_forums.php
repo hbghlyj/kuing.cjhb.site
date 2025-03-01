@@ -84,4 +84,3 @@ function formatforumdata($forum, &$pluginvalue) {
 	return $data;
 }
 
-?>

@@ -677,4 +677,3 @@ function profile_showsuccess($message = '') {
 	exit();
 }
 
-?>

@@ -17,4 +17,3 @@ class discuz_block
 		return daddslashes($parameter);
 	}
 }
-?>

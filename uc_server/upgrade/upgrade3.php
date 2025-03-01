@@ -751,4 +751,3 @@ function runquery_altertable($sql) {
 	return $successed;
 }
 
-?>

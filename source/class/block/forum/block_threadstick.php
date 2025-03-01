@@ -81,4 +81,3 @@ class block_threadstick extends block_thread {
 	}
 }
 
-?>

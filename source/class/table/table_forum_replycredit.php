@@ -23,4 +23,3 @@ class table_forum_replycredit extends discuz_table
 
 }
 
-?>

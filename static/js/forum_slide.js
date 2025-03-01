@@ -142,4 +142,3 @@ if(isUndefined(sliderun)) {
 	}
 }
 
-slide();

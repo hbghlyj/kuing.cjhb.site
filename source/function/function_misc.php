@@ -324,4 +324,3 @@ function process_ipnotice($ipconverted) {
 	return '- '.$ipconverted ;
 }
 
-?>

@@ -46,4 +46,3 @@ runhooks();
 
 include DISCUZ_ROOT.$modfile;
 
-?>

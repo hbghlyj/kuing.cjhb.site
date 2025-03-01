@@ -16,4 +16,3 @@ $lang = array
 	'adv_title' => '或者输入名称',
 	'adv_adv' => '选择广告',
 );
-?>

@@ -270,4 +270,3 @@ class block_trade extends discuz_block {
 }
 
 
-?>

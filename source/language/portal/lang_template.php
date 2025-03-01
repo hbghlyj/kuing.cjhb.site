@@ -321,4 +321,3 @@ $lang = array (
   'filename' => '文件名',
 );
 
-?>

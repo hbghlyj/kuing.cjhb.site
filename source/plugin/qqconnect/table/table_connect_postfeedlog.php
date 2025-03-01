@@ -29,4 +29,3 @@ class table_connect_postfeedlog extends discuz_table {
 		$pid = dintval($pid);
 		return DB::update($this->_table, $data, DB::field('pid', $pid));
 	}
-}

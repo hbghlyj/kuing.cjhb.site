@@ -102,4 +102,3 @@ class table_common_setting extends discuz_table
 
 }
 
-?>

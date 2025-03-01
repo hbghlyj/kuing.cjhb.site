@@ -349,4 +349,3 @@ class helper_seccheck {
 
 }
 
-?>

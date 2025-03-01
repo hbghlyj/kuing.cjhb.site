@@ -212,4 +212,3 @@ function showcategoryrow($key, $level = 0, $last = '') {
 }
 
 
-?>

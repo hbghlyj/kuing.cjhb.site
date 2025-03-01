@@ -55,4 +55,3 @@ class table_common_template extends discuz_table
 
 }
 
-?>

@@ -18,4 +18,3 @@ if(!empty($_SERVER['QUERY_STRING'])) {
 	}
 }
 
-?>

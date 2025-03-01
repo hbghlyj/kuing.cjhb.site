@@ -20,4 +20,3 @@ class table_common_connect_guest extends discuz_table {
 		parent::__construct();
 	}
 
-}

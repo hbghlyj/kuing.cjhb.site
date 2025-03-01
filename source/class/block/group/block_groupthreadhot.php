@@ -99,4 +99,3 @@ class block_groupthreadhot extends block_groupthread {
 	}
 }
 
-?>

@@ -926,4 +926,3 @@ swfobject.addDomLoadEvent(function () {
 	if (typeof(SWFUpload.onload) === "function") {
 		SWFUpload.onload.call(window);
 	}
-});

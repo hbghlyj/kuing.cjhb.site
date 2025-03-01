@@ -40,4 +40,3 @@ class table_common_member_newprompt extends discuz_table
 	}
 }
 
-?>

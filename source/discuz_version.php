@@ -17,4 +17,3 @@ if(!defined('DISCUZ_VERSION')) {
 	define('DISCUZ_FIXBUG', '35000000');
 }
 
-?>

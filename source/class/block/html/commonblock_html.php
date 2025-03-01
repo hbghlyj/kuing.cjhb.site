@@ -21,4 +21,3 @@ class commonblock_html  extends discuz_block{
 		return array('html', lang('blockclass', 'blockclass_html_html'));
 	}
 
-}

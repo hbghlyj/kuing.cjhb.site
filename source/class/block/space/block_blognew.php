@@ -55,4 +55,3 @@ class block_blognew extends block_blog {
 	}
 }
 
-?>

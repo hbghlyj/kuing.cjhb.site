@@ -39,4 +39,3 @@ class block_blank extends commonblock_html {
 	}
 }
 
-?>

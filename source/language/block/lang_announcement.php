@@ -20,4 +20,3 @@ $lang = array
 	'announcement_summarylength' => '内容长度',
 	'announcement_startrow' => '起始位置',
 );
-?>

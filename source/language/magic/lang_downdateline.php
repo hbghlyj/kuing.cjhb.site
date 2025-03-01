@@ -18,4 +18,3 @@ $lang = array
 	'downdateline_info' => '把自己日志的发布时间修改为过去',
 );
 
-?>

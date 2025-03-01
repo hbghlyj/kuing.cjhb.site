@@ -41,4 +41,3 @@ class magic_flicker {
 	}
 }
 
-?>

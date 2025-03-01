@@ -32,4 +32,3 @@ class secqaa_calcmad {
 		return $answer;
 	}
 
-}

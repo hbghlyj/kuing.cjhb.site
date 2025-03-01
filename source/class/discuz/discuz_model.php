@@ -171,4 +171,3 @@ abstract class discuz_model extends discuz_base
 	abstract protected function _init_parameters($parameters);
 
 }
-?>

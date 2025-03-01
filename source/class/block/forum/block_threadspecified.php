@@ -87,4 +87,3 @@ class block_threadspecified extends block_thread {
 	}
 }
 
-?>

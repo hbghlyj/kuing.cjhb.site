@@ -72,4 +72,3 @@ if(submitcheck('reportsubmit')) {
 }
 require_once libfile('function/misc');
 include template('common/report');
-?>

@@ -23,4 +23,3 @@ if($_G['uid'] && FORMHASH == $_GET['hash']) {
 	$variable['result'] = 1;
 }
 
-mobile_core::result(mobile_core::variable($variable));

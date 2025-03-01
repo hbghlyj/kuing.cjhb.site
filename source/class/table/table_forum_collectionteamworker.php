@@ -90,4 +90,3 @@ class table_forum_collectionteamworker extends discuz_table
 	}
 }
 
-?>

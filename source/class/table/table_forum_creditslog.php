@@ -23,4 +23,3 @@ class table_forum_creditslog extends discuz_table
 
 }
 
-?>

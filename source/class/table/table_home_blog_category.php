@@ -48,4 +48,3 @@ class table_home_blog_category extends discuz_table
 
 }
 
-?>

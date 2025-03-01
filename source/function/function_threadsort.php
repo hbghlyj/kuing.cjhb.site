@@ -770,4 +770,3 @@ function optionlistxml($input, $pre = '') {
 	return $str;
 }
 
-?>

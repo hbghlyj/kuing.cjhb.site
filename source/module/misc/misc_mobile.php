@@ -91,4 +91,3 @@ function output_preview_callback_replace_href_21($matches) {
 	return $matches[1].'misc.php?mod=mobile&view=true'.$matches[2];;
 }
 
-?>

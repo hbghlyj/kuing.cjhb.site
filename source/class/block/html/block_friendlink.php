@@ -105,4 +105,3 @@ class block_friendlink extends commonblock_html {
 	}
 }
 
-?>

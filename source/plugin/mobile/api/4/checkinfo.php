@@ -34,4 +34,3 @@ if($result) {
 }
 
 echo $result;
-exit;

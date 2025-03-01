@@ -68,4 +68,3 @@ class block_bloghot extends block_blog {
 	}
 }
 
-?>

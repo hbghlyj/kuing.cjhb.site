@@ -99,4 +99,3 @@ class optimizer_dbbackup_visit {
 			$dir->close();
 		}
 	}
-}

@@ -185,4 +185,3 @@ function upload() {
 	nowid = nid;
 	nowUid++;
 	uploadStat = 0;
-}

@@ -239,4 +239,3 @@ class table_common_member_archive extends table_common_member
 	}
 }
 
-?>

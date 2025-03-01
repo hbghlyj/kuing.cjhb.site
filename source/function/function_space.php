@@ -726,4 +726,3 @@ function check_ban_block($blockname, $space) {
 	}
 	return $return;
 }
-?>

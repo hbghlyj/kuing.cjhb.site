@@ -318,4 +318,3 @@ function block_get_favorite($uid){
 	return $blockfavorite;
 }
 
-?>

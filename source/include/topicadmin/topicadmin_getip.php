@@ -34,4 +34,3 @@ $member['useip'] = ip::to_display($member['useip']);
 
 include template('forum/topicadmin_getip');
 
-?>

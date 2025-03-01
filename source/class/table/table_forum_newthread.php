@@ -39,4 +39,3 @@ class table_forum_newthread extends discuz_table
 	}
 }
 
-?>

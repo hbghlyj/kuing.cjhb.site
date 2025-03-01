@@ -20,4 +20,3 @@ function build_cache_modreasons() {
 	}
 }
 
-?>

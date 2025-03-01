@@ -115,4 +115,3 @@ if($notifydata['location']) {
 	exit($notifydata['notify']);
 }
 
-?>

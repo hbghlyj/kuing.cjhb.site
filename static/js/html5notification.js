@@ -36,4 +36,3 @@ function Html5notification() {
 	};
 
 	return h5n;
-}

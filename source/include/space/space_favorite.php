@@ -121,4 +121,3 @@ function makeurl($id, $idtype, $spaceuid=0) {
 	return $url;
 }
 
-?>

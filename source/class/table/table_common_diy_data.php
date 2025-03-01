@@ -94,4 +94,3 @@ class table_common_diy_data extends discuz_table
 	}
 }
 
-?>

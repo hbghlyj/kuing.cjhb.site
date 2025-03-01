@@ -289,4 +289,3 @@ if ($op == 'new') {
 			$connectService->connectJsOutputMessage('', '', $weiboErrorCode);
 		}
 	}
-}

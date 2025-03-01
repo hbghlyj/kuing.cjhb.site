@@ -125,4 +125,3 @@ class control extends pluginbase {
 			}
 		}
 	}
-}

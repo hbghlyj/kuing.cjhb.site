@@ -67,4 +67,3 @@ $lang = array
 	'groupattachment_highlight' => '获得高亮值',
 );
 
-?>

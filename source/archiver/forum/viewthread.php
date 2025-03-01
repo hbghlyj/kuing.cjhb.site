@@ -51,4 +51,3 @@ function archivermessage($message) {
 		$message)));
 }
 
-?>

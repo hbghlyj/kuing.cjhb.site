@@ -62,4 +62,3 @@ if($_G['setting']['fastpost'] && $allowpostreply && $_G['forum_thread']['closed'
 	$firststand = C::t('forum_debatepost')->get_firststand($_G['tid'], $_G['uid']);
 }
 
-?>

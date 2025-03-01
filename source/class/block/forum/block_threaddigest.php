@@ -82,4 +82,3 @@ class block_threaddigest extends block_thread {
 	}
 }
 
-?>

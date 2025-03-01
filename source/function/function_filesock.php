@@ -28,4 +28,3 @@ function _dfsockopen($url, $limit = 0, $post = '', $cookie = '', $bysocket = FAL
 	return $fs->request();
 }
 
-?>

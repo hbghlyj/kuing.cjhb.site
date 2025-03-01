@@ -53,4 +53,3 @@ class table_forum_attachtype extends discuz_table
 
 }
 
-?>

@@ -85,4 +85,3 @@ class magic_showip {
 
 }
 
-?>

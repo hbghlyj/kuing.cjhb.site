@@ -1317,4 +1317,3 @@ function slowcheck($type1, $type2) {
 	return FALSE;
 }
 
-?>

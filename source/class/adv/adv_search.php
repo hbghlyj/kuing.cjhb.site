@@ -38,4 +38,3 @@ class adv_search {
 
 }
 
-?>

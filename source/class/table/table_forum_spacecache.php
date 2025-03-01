@@ -65,4 +65,3 @@ class table_forum_spacecache extends discuz_table
 
 }
 
-?>

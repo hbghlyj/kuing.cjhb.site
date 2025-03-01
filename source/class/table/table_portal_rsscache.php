@@ -26,4 +26,3 @@ class table_portal_rsscache extends discuz_table
 	}
 }
 
-?>

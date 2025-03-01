@@ -64,4 +64,3 @@ class task_promotion {
 
 }
 
-?>

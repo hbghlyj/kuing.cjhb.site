@@ -153,4 +153,3 @@ if(submitcheck('connectsubmit')) {
 	} else {
 		dheader('location: home.php?mod=spacecp&ac=plugin&id=qqconnect:spacecp');
 	}
-}

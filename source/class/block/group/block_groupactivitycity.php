@@ -75,4 +75,3 @@ class block_groupactivitycity extends block_groupactivity {
 	}
 }
 
-?>

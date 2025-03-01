@@ -125,4 +125,3 @@ function article_title_style($value = array()) {
 	}
 	return $highlight;
 
-}

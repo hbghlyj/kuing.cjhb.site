@@ -46,4 +46,3 @@ $lang = array
 	'forumstat_onlinemember_default' => '在线会员:',
 );
 
-?>

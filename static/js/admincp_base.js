@@ -104,4 +104,3 @@ function switchdmvalue(ifdark, ifauto) {
 	if (document.querySelector('meta[name="color-scheme"]').content != dmmeta) {
 		document.querySelector('meta[name="color-scheme"]').content = dmmeta;
 	}
-}

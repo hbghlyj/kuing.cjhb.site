@@ -27,4 +27,3 @@ function build_cache_focus() {
 	savecache('focus', $data);
 }
 
-?>

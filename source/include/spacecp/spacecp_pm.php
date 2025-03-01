@@ -545,4 +545,3 @@ if($_GET['op'] == 'checknewpm') {
 
 include_once template("home/spacecp_pm");
 
-?>

@@ -6,4 +6,3 @@ if(phpversion() >= '5.3') {
 	include 'zendcheck52.php';
 }
 
-?>

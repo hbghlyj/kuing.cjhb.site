@@ -484,4 +484,3 @@ class usercontrol extends base {
 
 }
 
-?>

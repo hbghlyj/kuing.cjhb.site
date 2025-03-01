@@ -17,4 +17,3 @@ $blockclass = array(
 );
 
 
-?>

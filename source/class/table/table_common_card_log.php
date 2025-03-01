@@ -34,4 +34,3 @@ class table_common_card_log extends discuz_table_archive
 	}
 }
 
-?>

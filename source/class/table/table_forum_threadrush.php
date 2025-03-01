@@ -24,4 +24,3 @@ class table_forum_threadrush extends discuz_table
 
 }
 
-?>

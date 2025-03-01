@@ -14,4 +14,3 @@ if(!defined('IN_DISCUZ')) {
 </center>
 </body>
 </html>
-<?php output(); ?>

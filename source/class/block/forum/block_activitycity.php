@@ -70,4 +70,3 @@ class block_activitycity extends block_activity {
 }
 
 
-?>

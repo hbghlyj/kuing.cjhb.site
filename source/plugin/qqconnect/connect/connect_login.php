@@ -324,4 +324,3 @@ function getErrorMessage($errroCode) {
 	$str = sprintf('connect_error_code_%d', $errroCode);
 
 	return lang('plugin/qqconnect', $str);
-}

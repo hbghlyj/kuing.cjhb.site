@@ -263,4 +263,3 @@ function recyclebinpostshowpostlist($fid, $authors, $starttime, $endtime, $keywo
 	}
 	return true;
 }
-?>

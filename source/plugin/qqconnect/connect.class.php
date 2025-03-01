@@ -301,4 +301,3 @@ class mobileplugin_qqconnect_member extends mobileplugin_qqconnect {
 			}
 		}
 	}
-}

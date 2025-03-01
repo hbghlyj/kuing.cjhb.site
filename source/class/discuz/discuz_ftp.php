@@ -255,4 +255,3 @@ class discuz_ftp
 		return @ftp_pwd($this->connectid);
 	}
 
-}

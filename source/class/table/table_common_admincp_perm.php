@@ -34,4 +34,3 @@ class table_common_admincp_perm extends discuz_table
 	}
 }
 
-?>

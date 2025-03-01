@@ -797,4 +797,3 @@ function imgpre_switch(id) {
 	}
 }
 
-?>

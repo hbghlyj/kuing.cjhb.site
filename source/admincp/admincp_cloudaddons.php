@@ -310,4 +310,3 @@ function dir_clear($dir) {
 	}
 }
 
-?>

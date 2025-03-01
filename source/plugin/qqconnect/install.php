@@ -190,4 +190,3 @@ $connect['oauth2'] = $https->ret == -1 ? 1 : 0;
 
 C::t('common_setting')->update_setting('connect', serialize($connect));
 updatecache('setting');
-$finish = true;

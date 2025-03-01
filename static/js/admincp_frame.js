@@ -207,4 +207,3 @@ function switchframedmvalue(ifdark, ifauto) {
 			this.classList.remove('show')
 		}
 	})
-})()

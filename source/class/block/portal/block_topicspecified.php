@@ -44,4 +44,3 @@ class block_topicspecified extends block_topic {
 	}
 }
 
-?>

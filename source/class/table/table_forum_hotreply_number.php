@@ -51,4 +51,3 @@ class table_forum_hotreply_number extends discuz_table {
 		return DB::query('DELETE FROM %t WHERE '.DB::field('pid', $pids), array($this->_table));
 	}
 }
-?>

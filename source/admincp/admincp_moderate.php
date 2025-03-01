@@ -301,4 +301,3 @@ function moderateswipe($type, $ids) {
 	}
 }
 
-?>

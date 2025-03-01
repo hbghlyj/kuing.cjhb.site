@@ -31,4 +31,3 @@ $lang = "
 <uploaderror>上传失败</uploaderror>
 ";
 
-?>

@@ -397,4 +397,3 @@ function recent_use_tag() {
 	return $tagarray;
 }
 
-?>

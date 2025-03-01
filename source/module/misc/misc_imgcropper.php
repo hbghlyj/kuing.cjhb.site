@@ -63,4 +63,3 @@ if(!submitcheck('imgcroppersubmit')) {
 	showmessage('do_success', dreferer(), array('icurl' => $cropfile), array('showdialog' => true, 'closetime' => true));
 }
 
-?>

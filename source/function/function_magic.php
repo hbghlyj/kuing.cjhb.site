@@ -244,4 +244,3 @@ function magic_peroid($magic, $uid) {
 	}
 }
 
-?>

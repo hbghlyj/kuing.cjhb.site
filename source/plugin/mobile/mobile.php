@@ -72,4 +72,3 @@ if(file_exists($apifile)) {
 	}
 }
 
-?>

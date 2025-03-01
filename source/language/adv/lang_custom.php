@@ -22,4 +22,3 @@ $lang = array
 	'custom_text' => '自定义广告',
 );
 
-?>

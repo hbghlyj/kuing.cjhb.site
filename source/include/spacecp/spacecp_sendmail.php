@@ -41,4 +41,3 @@ if($space['acceptemail'] && is_array($space['acceptemail'])) {
 
 include_once template("home/spacecp_sendmail");
 
-?>

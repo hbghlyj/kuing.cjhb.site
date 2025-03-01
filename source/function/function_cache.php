@@ -171,4 +171,3 @@ function cleartemplatecache() {
 	$tpl->close();
 }
 
-?>

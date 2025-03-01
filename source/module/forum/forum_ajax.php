@@ -741,4 +741,3 @@ EOF;
 
 showmessage('succeed', '', array(), array('handle' => false));
 
-?>

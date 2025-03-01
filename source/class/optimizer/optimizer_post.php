@@ -46,4 +46,3 @@ class optimizer_post {
 	}
 }
 
-?>

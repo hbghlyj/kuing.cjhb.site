@@ -57,4 +57,3 @@ class block_vedio extends commonblock_html {
 	}
 }
 
-?>

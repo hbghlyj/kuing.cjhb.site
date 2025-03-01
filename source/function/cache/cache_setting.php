@@ -1158,4 +1158,3 @@ function parsehighlight($highlight) {
 	return $style;
 }
 
-?>

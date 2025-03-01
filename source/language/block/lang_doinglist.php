@@ -25,4 +25,3 @@ $lang = array
 	'doinglist_orderby_replynum' => '按回复数倒序'
 );
 
-?>

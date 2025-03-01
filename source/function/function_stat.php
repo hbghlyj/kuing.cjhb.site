@@ -18,4 +18,3 @@ function updatestat($type, $primary=0, $num=1) {
 	C::t('common_stat')->updatestat($uid, $type, $primary, $num);
 }
 
-?>

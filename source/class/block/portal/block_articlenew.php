@@ -45,4 +45,3 @@ class block_articlenew extends block_article {
 	}
 }
 
-?>

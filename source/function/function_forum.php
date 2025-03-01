@@ -1150,4 +1150,3 @@ function safefilter(&$data) {
 	}
 }
 
-?>

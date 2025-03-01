@@ -53,4 +53,3 @@ class block_tradenew extends block_trade {
 	}
 }
 
-?>

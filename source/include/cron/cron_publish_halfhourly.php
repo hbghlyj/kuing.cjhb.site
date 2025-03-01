@@ -42,4 +42,3 @@ if (is_array($cron_publish_ids) && count($cron_publish_ids) > 0) {
 	}
 }
 
-?>

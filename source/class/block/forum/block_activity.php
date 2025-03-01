@@ -358,4 +358,3 @@ class block_activity extends discuz_block {
 }
 
 
-?>

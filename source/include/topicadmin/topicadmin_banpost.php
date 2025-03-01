@@ -86,4 +86,3 @@ if(!submitcheck('modsubmit')) {
 
 }
 
-?>

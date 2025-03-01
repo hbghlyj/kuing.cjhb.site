@@ -56,4 +56,3 @@ class table_forum_collectioninvite extends discuz_table
 	}
 }
 
-?>

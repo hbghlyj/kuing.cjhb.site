@@ -172,4 +172,3 @@ class discuz_cron
 	}
 }
 
-?> 

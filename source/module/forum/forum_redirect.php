@@ -148,4 +148,3 @@ if($_GET['goto'] == 'lastpost') {
 	showmessage('undefined_action', NULL);
 }
 
-?>

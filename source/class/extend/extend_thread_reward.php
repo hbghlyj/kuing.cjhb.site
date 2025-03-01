@@ -123,4 +123,3 @@ class extend_thread_reward extends extend_thread_base {
 	}
 }
 
-?>

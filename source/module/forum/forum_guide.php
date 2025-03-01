@@ -482,4 +482,3 @@ function update_guide_rsscache($type, $perpage) {
 	discuz_process::unlock($processname);
 	return true;
 }
-?>

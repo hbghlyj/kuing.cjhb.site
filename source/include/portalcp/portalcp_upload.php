@@ -195,4 +195,3 @@ function portal_upload_show($attach) {
 
 }
 
-?>

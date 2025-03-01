@@ -42,4 +42,3 @@ class table_common_mailcron extends discuz_table
 	}
 }
 
-?>

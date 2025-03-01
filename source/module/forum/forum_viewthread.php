@@ -1713,4 +1713,3 @@ function _checkviewgroup() {
 	}
 }
 
-?>

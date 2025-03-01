@@ -38,4 +38,3 @@ class task_avatar {
 
 }
 
-?>

@@ -99,4 +99,3 @@ class helper_mobile {
 
 }
 
-?>

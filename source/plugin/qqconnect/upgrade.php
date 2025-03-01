@@ -155,4 +155,3 @@ $newConnect['oauth2'] = $https->ret == -1 ? 1 : 0;
 $updateData = array_merge($connect, $newConnect);
 C::t('common_setting')->update_setting('connect', serialize($updateData));
 updatecache('setting');
-$finish = true;

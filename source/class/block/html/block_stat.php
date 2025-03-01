@@ -198,4 +198,3 @@ class block_stat extends commonblock_html {
 	}
 }
 
-?>

@@ -104,4 +104,3 @@ class block_announcement extends discuz_block {
 }
 
 
-?>

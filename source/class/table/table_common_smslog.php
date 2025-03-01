@@ -63,4 +63,3 @@ class table_common_smslog extends discuz_table
 
 }
 
-?>

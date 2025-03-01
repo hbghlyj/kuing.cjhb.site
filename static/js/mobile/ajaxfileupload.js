@@ -148,4 +148,3 @@ jQuery.extend({
 			(s.context ? jQuery(s.context) : jQuery.event).trigger("ajaxError", [xhr, s, e]);
 		}
 	}
-});

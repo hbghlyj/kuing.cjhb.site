@@ -45,4 +45,3 @@ if($_G['uid']) {
 	$result = implode(',', $atlist_cookie).($atlist_cookie && $atlist ? ',' : '').implode(',', $atlist);
 }
 include template('common/getatuser');
-?>

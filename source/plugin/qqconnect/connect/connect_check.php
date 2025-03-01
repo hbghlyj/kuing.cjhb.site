@@ -37,4 +37,3 @@ if ($op == 'cookie') {
 }
 
 include template('common/header_ajax');
-include template('common/footer_ajax');

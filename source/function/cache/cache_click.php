@@ -24,4 +24,3 @@ function build_cache_click() {
 	savecache('click', $data);
 }
 
-?>

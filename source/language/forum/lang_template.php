@@ -1328,4 +1328,3 @@ $lang = array (
   'content_actions' => '更多操作',
 );
 
-?>

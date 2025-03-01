@@ -83,4 +83,3 @@ class table_forum_order extends discuz_table
 
 }
 
-?>

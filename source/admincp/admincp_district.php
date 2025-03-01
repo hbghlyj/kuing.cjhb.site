@@ -161,4 +161,3 @@ SCRIPT;
 	showformfooter();
 }
 
-?>

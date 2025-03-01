@@ -371,4 +371,3 @@ if ($pluginop == 'config') {
 
 	discuz_process::unlock($processname);
 	exit;
-}

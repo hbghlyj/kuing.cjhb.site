@@ -196,4 +196,3 @@ if(!getglobal('privacy')) {
 		include_once template("home/space_card");
 	}
 }
-?>

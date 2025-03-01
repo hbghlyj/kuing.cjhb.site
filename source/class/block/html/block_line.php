@@ -45,4 +45,3 @@ class block_line extends commonblock_html {
 	}
 }
 
-?>

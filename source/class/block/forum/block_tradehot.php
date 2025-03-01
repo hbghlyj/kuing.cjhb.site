@@ -58,4 +58,3 @@ class block_tradehot extends block_trade {
 	}
 }
 
-?>

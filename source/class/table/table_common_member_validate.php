@@ -56,4 +56,3 @@ class table_common_member_validate extends discuz_table
 	}
 }
 
-?>

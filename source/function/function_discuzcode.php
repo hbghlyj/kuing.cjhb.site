@@ -742,4 +742,3 @@ function guestviewthumbstyle() {
 	}
 	return $return;
 }
-?>

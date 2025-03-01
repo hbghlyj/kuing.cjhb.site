@@ -382,4 +382,3 @@ function mobile_parseed2k($url) {
 	}
 }
 
-?>

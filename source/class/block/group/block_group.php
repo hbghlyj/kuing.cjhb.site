@@ -187,4 +187,3 @@ class block_group extends discuz_block {
 }
 
 
-?>

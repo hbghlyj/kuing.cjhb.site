@@ -29,4 +29,3 @@ class table_connect_feedlog extends discuz_table {
 		$tid = dintval($tid);
 		return DB::update($this->_table, $data, DB::field('tid', $tid));
 	}
-}

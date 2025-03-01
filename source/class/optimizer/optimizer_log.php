@@ -84,4 +84,3 @@ class optimizer_log {
 	}
 }
 
-?>

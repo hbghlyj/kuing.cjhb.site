@@ -35,4 +35,3 @@ if(!$ref && $_GET['action'] == 'get') {
 
 include_once template('portal/portal_diyhelp');
 
-?>

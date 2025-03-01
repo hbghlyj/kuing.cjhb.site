@@ -22,4 +22,3 @@ function errorhandle_ls(str, param) {
 	if(!param['type']) {
 		showError(str);
 	}
-}

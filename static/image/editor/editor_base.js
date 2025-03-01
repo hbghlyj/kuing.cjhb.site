@@ -757,4 +757,3 @@ function checkURL(obj, mod) {
 			obj.value = 'http://';
 		}
 	}
-}

@@ -59,4 +59,3 @@ class block_grouptradenew extends block_grouptrade {
 	}
 }
 
-?>

@@ -336,4 +336,3 @@ function getsmsgws() {
 	return $smsgws;
 }
 
-?>

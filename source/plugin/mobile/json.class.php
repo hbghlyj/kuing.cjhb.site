@@ -449,4 +449,3 @@ class CJSON {
 		$uni = unpack('n*',$str);
 		return self::unicodeToUTF8($uni);
 	}
-}

@@ -70,4 +70,3 @@ class table_common_payment_transfer extends discuz_table
 	}
 }
 
-?>

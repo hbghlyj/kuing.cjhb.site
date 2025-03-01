@@ -530,4 +530,3 @@ function fparsesmiles(&$message) {
 	return $message;
 }
 
-?>

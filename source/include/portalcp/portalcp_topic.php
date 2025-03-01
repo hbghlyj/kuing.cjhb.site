@@ -70,4 +70,3 @@ if(submitcheck('editsubmit')) {
 include_once template("portal/portalcp_topic");
 
 
-?>

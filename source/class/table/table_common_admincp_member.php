@@ -41,4 +41,3 @@ class table_common_admincp_member extends discuz_table
 	}
 }
 
-?>

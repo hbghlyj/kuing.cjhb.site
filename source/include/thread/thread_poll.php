@@ -86,4 +86,3 @@ if($count = C::t('forum_polloption')->fetch_count_by_tid($_G['tid'])) {
 
 }
 
-?>

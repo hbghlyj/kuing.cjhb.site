@@ -96,4 +96,3 @@ class table_common_tag extends discuz_table
 	}
 }
 
-?>

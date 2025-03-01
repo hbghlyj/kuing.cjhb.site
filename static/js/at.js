@@ -189,4 +189,3 @@ function atMenuSet(kw) {
 		selection.addRange(range);
 	}
 	checkFocus();
-}

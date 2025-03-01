@@ -108,4 +108,3 @@ class magic_stick {
 
 }
 
-?>

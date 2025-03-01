@@ -63,4 +63,3 @@ class helper_dbtool {
 	}
 }
 
-?>

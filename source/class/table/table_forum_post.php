@@ -1001,4 +1001,3 @@ class table_forum_post extends discuz_table
 	}
 
 }
-?>

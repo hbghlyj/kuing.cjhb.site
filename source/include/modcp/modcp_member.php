@@ -301,4 +301,3 @@ function ipbanadd($ipnew, $validitynew, &$error) {
 
 }
 
-?>

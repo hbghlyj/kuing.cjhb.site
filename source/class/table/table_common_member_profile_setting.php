@@ -61,4 +61,3 @@ class table_common_member_profile_setting extends discuz_table
 	}
 }
 
-?>

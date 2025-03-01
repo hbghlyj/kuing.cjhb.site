@@ -22,4 +22,3 @@ function build_cache_connect_blacklist() {
 	savecache('connect_blacklist', $data);
 }
 
-?>

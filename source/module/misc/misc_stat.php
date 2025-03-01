@@ -548,4 +548,3 @@ function getnextmonth($monthdate) {
 	}
 	$month = sprintf("%02d", $month);
 	return $year . '-' . $month;
-}

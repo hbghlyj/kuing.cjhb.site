@@ -93,4 +93,3 @@ class table_common_payment_order extends discuz_table
 	}
 }
 
-?>

@@ -207,4 +207,3 @@ if($_G['fid'] && $_G['forum']['ismoderator'] && !empty($modforums['recyclebins']
 
 }
 
-?>

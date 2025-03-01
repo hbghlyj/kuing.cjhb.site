@@ -508,4 +508,3 @@ function domain_delete($pluginid) {
 	updatecache('setting');
 }
 
-?>

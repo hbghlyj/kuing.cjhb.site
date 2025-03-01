@@ -29,4 +29,3 @@ class table_forum_threadaddviews extends discuz_table {
 	}
 }
 
-?>

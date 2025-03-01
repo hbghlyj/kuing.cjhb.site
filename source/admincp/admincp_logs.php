@@ -1221,4 +1221,3 @@ if($operation != 'credit') {
 showtablefooter();
 showformfooter();
 
-?>

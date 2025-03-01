@@ -46,4 +46,3 @@ class table_home_specialuser extends discuz_table
 	}
 }
 
-?>

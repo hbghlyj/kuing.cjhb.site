@@ -471,4 +471,3 @@ class plugin_mobile_connect extends plugin_mobile {
 
 }
 
-?>

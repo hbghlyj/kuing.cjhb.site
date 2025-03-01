@@ -166,4 +166,3 @@ function is_https() {
 	return false;
 }
 
-?>

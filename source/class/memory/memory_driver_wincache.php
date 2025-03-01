@@ -51,4 +51,3 @@ class memory_driver_wincache {
 		return wincache_ucache_dec($key, $step);
 	}
 
-}

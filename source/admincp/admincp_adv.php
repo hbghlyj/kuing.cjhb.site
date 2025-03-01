@@ -717,4 +717,3 @@ function getadvs() {
 	return $advs;
 }
 
-?>

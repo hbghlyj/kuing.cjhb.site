@@ -43,4 +43,3 @@ class block_albumspecified extends block_album {
 	}
 }
 
-?>

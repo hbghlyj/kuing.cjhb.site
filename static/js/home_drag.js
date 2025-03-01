@@ -331,4 +331,3 @@ function init_drag2(){
 	}
 }
 function mousedown(evnt){
-}

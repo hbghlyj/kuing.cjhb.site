@@ -16,4 +16,3 @@ if($_G['setting']['secqaa']['status'] > 0) {
 	updatecache('secqaa');
 }
 
-?>

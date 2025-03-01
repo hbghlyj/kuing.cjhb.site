@@ -374,4 +374,3 @@ if(!empty($orderid)) {
 
 }
 
-?>

@@ -47,4 +47,3 @@ class memory_driver_xcache {
 		return xcache_dec($key, $step);
 	}
 
-}

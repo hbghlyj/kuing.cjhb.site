@@ -47,4 +47,3 @@ function build_cache_stamps() {
 	savecache('stamps', $data);
 }
 
-?>

@@ -106,4 +106,3 @@ class discuz_process
 	}
 }
 
-?>

@@ -23,4 +23,3 @@ class table_common_block_xml extends discuz_table
 
 }
 
-?>

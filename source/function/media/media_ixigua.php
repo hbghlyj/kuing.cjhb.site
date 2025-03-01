@@ -12,4 +12,3 @@ function media_ixigua($url, $width, $height) {
 		$flv = $imgurl = '';
 	}
 	return array($flv, $iframe, $url, $imgurl);
-}

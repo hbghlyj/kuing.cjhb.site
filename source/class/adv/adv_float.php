@@ -123,4 +123,3 @@ class adv_float {
 
 }
 
-?>

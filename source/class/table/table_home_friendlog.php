@@ -29,4 +29,3 @@ class table_home_friendlog extends discuz_table
 
 }
 
-?>

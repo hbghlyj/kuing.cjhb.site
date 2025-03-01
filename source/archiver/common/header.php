@@ -36,4 +36,3 @@ ob_start();
 <center id="header">
 <?php echo adshow('headerbanner'); ?>
 <h2><?php echo $_G['setting']['bbname']; ?>'s Archiver </h2>
-</center>

@@ -189,4 +189,3 @@ class table_forum_attachment_n extends discuz_table
 
 }
 
-?>

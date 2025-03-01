@@ -250,4 +250,3 @@ Class discuz_upload{
 	}
 }
 
-?>

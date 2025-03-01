@@ -41,4 +41,3 @@ if(!in_array($action, $allowaction)) {
 require_once libfile('collection/'.$action, 'include');
 
 
-?>

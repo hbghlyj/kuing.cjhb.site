@@ -533,4 +533,3 @@ class table_common_member extends discuz_table_archive
 	}
 }
 
-?> 

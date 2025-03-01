@@ -45,4 +45,3 @@ if(!$_G['uid'] || !($fromuid == $_G['uid'] || $fromuser == $_G['username'])) {
 
 }
 
-?>

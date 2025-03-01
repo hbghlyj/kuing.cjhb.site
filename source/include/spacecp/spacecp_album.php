@@ -353,4 +353,3 @@ if($_GET['op'] == 'edit') {
 
 include_once template("home/spacecp_album");
 
-?>

@@ -490,4 +490,3 @@ class discuz_database_safecheck {
 
 }
 
-?>

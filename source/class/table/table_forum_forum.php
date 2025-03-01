@@ -335,4 +335,3 @@ class table_forum_forum extends discuz_table
 	}
 }
 
-?>

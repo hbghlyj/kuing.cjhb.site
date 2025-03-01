@@ -60,4 +60,3 @@ function build_cache_plugin() {
 	savecache('plugin', $data);
 }
 
-?>

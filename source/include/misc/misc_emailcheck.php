@@ -80,4 +80,3 @@ if($uid && isemail($email) && $time > TIMESTAMP - 86400) {
 	showmessage('email_check_error', 'index.php');
 }
 
-?>

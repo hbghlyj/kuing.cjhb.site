@@ -142,4 +142,3 @@ class block_topic extends discuz_block {
 	}
 }
 
-?>

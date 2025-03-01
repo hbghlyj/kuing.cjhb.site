@@ -17,4 +17,3 @@ $discuz->init();
 
 dsetcookie('testcookie', $_GET['siteid'], 600);
 
-mobile_core::result(array());

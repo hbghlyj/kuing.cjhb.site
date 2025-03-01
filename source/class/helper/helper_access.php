@@ -23,4 +23,3 @@ class helper_access {
 	}
 }
 
-?>

@@ -62,4 +62,3 @@ class table_home_clickuser extends discuz_table
 
 }
 
-?>

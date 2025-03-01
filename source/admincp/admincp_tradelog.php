@@ -68,4 +68,3 @@ $statusselect .= '</select>';
 showsubmit('', '', "{$lang['tradelog_order_count']} {$count['num']}, {$lang['tradelog_trade_total']} ".intval($count['pricesum'])." {$lang['rmb_yuan']}, {$lang['tradelog_trade_totalcredit']} {$_G['setting']['extcredits'][$_G['setting']['creditstransextra'][5]]['title']} {$count['creditsum']} {$_G['setting']['extcredits'][$_G['setting']['creditstransextra'][5]]['unit']}, {$lang['tradelog_fee_total']} ".intval($count['taxsum'])." {$lang['rmb_yuan']}", '', $multipage.$statusselect);
 showtablefooter();
 
-?>

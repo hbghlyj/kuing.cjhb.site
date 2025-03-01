@@ -172,4 +172,3 @@ function getblogbyid($blogidarray) {
 	}
 	return $bloglist;
 }
-?>

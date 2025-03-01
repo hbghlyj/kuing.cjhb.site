@@ -23,4 +23,3 @@ class table_common_member_security extends discuz_table
 
 }
 
-?>

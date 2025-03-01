@@ -18,4 +18,3 @@ function build_cache_domainwhitelist() {
 	savecache('domainwhitelist', $data);
 }
 
-?>

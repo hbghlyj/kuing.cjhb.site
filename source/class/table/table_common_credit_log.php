@@ -194,4 +194,3 @@ class table_common_credit_log extends discuz_table
 	}
 }
 
-?>

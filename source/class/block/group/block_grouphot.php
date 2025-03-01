@@ -53,4 +53,3 @@ class block_grouphot extends block_group {
 
 }
 
-?>

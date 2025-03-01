@@ -30,4 +30,3 @@ $lang = array
 	'cornerbanner_hidden' => '隐藏',
 );
 
-?>

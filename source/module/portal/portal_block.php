@@ -41,4 +41,3 @@ $metadescription = $blockmoreurl['seodescription'];
 $file = 'portal/block_more_'.$blocktype;
 include template('diy:'.$file);
 
-?>

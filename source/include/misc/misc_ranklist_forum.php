@@ -40,4 +40,3 @@ $metadescription = lang('ranklist/navtitle', 'ranklist_title_forum_'.$gettype);
 
 include template('diy:ranklist/forum');
 
-?>

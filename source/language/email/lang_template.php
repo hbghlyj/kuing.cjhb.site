@@ -135,4 +135,3 @@ $lang = array
 	'adv_expiration_msg' =>	'您站点的以下广告将于 {$var[\'day\']} 天后到期，请及时处理：',
 );
 
-?>

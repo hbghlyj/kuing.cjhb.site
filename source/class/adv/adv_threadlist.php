@@ -142,4 +142,3 @@ class adv_threadlist {
 
 }
 
-?>

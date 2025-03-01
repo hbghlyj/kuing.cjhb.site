@@ -82,4 +82,3 @@ $lang = array(
 	'editor_full_screen' => '全屏',
 );
 
-?>

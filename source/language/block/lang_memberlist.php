@@ -63,4 +63,3 @@ $lang = array
 	'memberlist_yes' => '是',
 );
 
-?>

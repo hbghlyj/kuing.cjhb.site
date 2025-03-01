@@ -102,4 +102,3 @@ class table_portal_category_permission extends discuz_table
 	}
 }
 
-?>

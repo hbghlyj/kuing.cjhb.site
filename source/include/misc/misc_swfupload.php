@@ -208,4 +208,3 @@ obclean();
 @header("Content-type: application/xml; charset=utf-8");
 echo $outxml;
 
-?>

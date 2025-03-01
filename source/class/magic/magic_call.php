@@ -83,4 +83,3 @@ class magic_call {
 	}
 }
 
-?>

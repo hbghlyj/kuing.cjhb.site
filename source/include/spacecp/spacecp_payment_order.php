@@ -81,4 +81,3 @@ $optypehtml .= '</select>';
 
 include template('home/spacecp_payment_order');
 
-?>

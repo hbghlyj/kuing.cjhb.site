@@ -309,4 +309,3 @@ class discuz_admincp
 			cpmsg('action_noaccess', '', 'error');
 		}
 	}
-}

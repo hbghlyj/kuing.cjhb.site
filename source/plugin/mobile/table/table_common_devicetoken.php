@@ -35,4 +35,3 @@ class table_common_devicetoken extends discuz_table {
 		return DB::query('DELETE FROM %t WHERE token=%s', array($this->_table, $deviceToken));
 	}
 
-}

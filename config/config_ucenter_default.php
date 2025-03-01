@@ -33,4 +33,3 @@ define('UC_APPID', '1');				// 当前应用的 ID
 
 define('UC_PPP', '20');
 
-?>

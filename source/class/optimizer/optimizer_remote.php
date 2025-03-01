@@ -30,4 +30,3 @@ class optimizer_remote {
 	public function optimizer() {
 		cpmsg('optimizer_remote_optimizer', '', 'error');
 	}
-}

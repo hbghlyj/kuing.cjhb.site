@@ -275,4 +275,3 @@ function friend_delete($touid) {
 	}
 }
 
-?>

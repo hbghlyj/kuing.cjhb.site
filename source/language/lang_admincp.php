@@ -7358,4 +7358,3 @@ if(file_exists($adminextendfile = DISCUZ_ROOT.'./data/sysdata/cache_adminextend.
 	}
 }
 
-?>

@@ -33,4 +33,3 @@ class mod_cron extends remote_service
 		$this->success('Cron work is done');
 	}
 
-}

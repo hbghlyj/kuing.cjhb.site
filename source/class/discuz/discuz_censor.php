@@ -108,4 +108,3 @@ class discuz_censor {
 	function modsucceed() {
 		return $this->result == DISCUZ_CENSOR_SUCCEED;
 	}
-}

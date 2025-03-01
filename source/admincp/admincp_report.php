@@ -226,4 +226,3 @@ function itemview_parse($url) {
 		}
 	}
 	return false;
-}

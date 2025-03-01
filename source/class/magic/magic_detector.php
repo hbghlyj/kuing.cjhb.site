@@ -87,4 +87,3 @@ class magic_detector {
 	}
 }
 
-?>

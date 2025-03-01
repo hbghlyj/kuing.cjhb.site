@@ -87,4 +87,3 @@ if (typeof(SWFUpload) === "function") {
 			}
 		}
 	};
-}

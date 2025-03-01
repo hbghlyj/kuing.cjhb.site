@@ -50,4 +50,3 @@ if($attachtags) {
 $thread['freemessage'] = $freemessage[$pid]['message'];
 unset($freemessage);
 
-?>

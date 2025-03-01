@@ -45,4 +45,3 @@ if($_POST['trade_status'] == 'TRADE_SUCCESS') {
 
 exit('fail');
 
-?>

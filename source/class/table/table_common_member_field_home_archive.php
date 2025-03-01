@@ -40,4 +40,3 @@ class table_common_member_field_home_archive extends table_common_member_field_h
 	}
 }
 
-?>

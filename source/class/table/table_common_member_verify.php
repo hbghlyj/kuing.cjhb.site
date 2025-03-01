@@ -76,4 +76,3 @@ class table_common_member_verify extends discuz_table
 
 }
 
-?>

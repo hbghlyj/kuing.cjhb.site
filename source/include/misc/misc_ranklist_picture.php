@@ -41,4 +41,3 @@ $nextupdate = $_G['nextupdate'];
 
 include template('diy:ranklist/picture');
 
-?>

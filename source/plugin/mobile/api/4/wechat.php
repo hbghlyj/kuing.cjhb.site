@@ -26,4 +26,3 @@ $_G['wechat']['setting'] = dunserialize($_G['setting']['mobilewechat']);
 
 require_once DISCUZ_ROOT . './source/plugin/wechat/wechat.lib.class.php';
 
-$svr = new WeChatServer($_G['wechat']['setting']['wechat_token'], WeChatHook::getResponse($_GET['id']));

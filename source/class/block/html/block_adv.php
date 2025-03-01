@@ -68,4 +68,3 @@ class block_adv extends commonblock_html {
 	}
 }
 
-?>

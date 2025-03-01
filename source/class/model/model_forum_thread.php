@@ -347,4 +347,3 @@ class model_forum_thread extends discuz_model
 
 }
 
-?>

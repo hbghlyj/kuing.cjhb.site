@@ -466,4 +466,3 @@ $lang = array (
   'm_logout' => '退出登录',
 );
 
-?>

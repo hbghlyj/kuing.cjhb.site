@@ -37,4 +37,3 @@ class table_forum_attachment_unused extends discuz_table
 
 }
 
-?>

@@ -23,4 +23,3 @@ include loadarchiver('common/header');
 	<?php echo lang('forum/archiver', 'full_version'); ?>:
 	<a href="../forum.php" target="_blank"><strong><?php echo $_G['setting']['bbname']; ?></strong></a>
 </div>
-<?php include loadarchiver('common/footer'); ?>

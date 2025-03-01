@@ -85,4 +85,3 @@ class table_forum_tradelog extends discuz_table
 
 }
 
-?>

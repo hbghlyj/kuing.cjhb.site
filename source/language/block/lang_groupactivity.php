@@ -102,4 +102,3 @@ $lang = array
 	'groupactivity_highlight' => '获得高亮值',
 );
 
-?>

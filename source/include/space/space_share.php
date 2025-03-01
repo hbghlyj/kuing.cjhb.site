@@ -139,4 +139,3 @@ if($id) {
 	include_once template("diy:home/space_share_list");
 }
 
-?>

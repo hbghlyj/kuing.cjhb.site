@@ -16,4 +16,3 @@ function build_cache_ipctrl() {
 	savecache('ipctrl', $data);
 }
 
-?>

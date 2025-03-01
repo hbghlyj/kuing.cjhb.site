@@ -234,4 +234,3 @@ class mobile_api {
 
 }
 
-?>

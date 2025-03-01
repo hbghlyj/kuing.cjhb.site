@@ -59,4 +59,3 @@ function build_cache_smilies_js() {
 
 }
 
-?>

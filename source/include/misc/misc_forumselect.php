@@ -83,4 +83,3 @@ foreach($_G['cache']['forums'] as $forum) {
 include template('forum/post_forumselect');
 exit;
 
-?>
