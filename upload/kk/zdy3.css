@@ -99,7 +99,7 @@ i.pstatus { margin-bottom: unset; }
     width: 32%;
     margin-right: 5px;
     display: inline-block;
-    vertical-align: top;
+    vertical-align: middle;
     white-space: nowrap;
     font-size: 12px;
 }
