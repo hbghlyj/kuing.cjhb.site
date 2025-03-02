@@ -278,3 +278,9 @@ details summary { color:blue; cursor:pointer; }
 
 /* 标题中的连续空格显示 */
 #thread_subject { white-space: pre-wrap; }
+
+/* 点评中的链接 */
+.psti a {
+    color: #369;
+    text-decoration: underline;
+}
