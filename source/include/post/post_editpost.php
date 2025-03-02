@@ -230,8 +230,8 @@ if(!submitcheck('editsubmit')) {
 			}
 		}
 	}
-	$language = lang('forum/misc');
-	$postinfo['message'] = preg_replace($postinfo['htmlon'] ? $language['post_edithtml_regexp'] : (!$_G['forum']['allowbbcode'] || $postinfo['bbcodeoff'] ? $language['post_editnobbcode_regexp'] : $language['post_edit_regexp']), '', $postinfo['message']);
+	// $language = lang('forum/misc');
+	// $postinfo['message'] = preg_replace($postinfo['htmlon'] ? $language['post_edithtml_regexp'] : (!$_G['forum']['allowbbcode'] || $postinfo['bbcodeoff'] ? $language['post_editnobbcode_regexp'] : $language['post_edit_regexp']), '', $postinfo['message']);
 
 	if($special == 5) {
 		$standselected = array($firststand => 'selected="selected"');

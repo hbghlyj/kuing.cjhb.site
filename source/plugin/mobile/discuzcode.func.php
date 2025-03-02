@@ -19,7 +19,7 @@ function mobile_discuzcode($param) {
 	list($message, $smileyoff, $bbcodeoff, $htmlon, $allowsmilies, $allowbbcode, $allowimgcode, $allowhtml, $jammer, $parsetype, $authorid, $allowmediacode, $pid, $lazyload, $pdateline, $first) = $param;
 	static $authorreplyexist;
 
-	$message = preg_replace(array(lang('forum/misc', 'post_edit_regexp'), lang('forum/misc', 'post_edithtml_regexp'), lang('forum/misc', 'post_editnobbcode_regexp')), '', $message);
+	// $message = preg_replace(array(lang('forum/misc', 'post_edit_regexp'), lang('forum/misc', 'post_edithtml_regexp'), lang('forum/misc', 'post_editnobbcode_regexp')), '', $message);
 
 	if($pid && strpos($message, '[/password]') !== FALSE) {
 		if($authorid != $_G['uid'] && !$_G['forum']['ismoderator']) {

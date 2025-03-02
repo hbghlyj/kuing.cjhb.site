@@ -447,11 +447,11 @@ class model_forum_post extends discuz_model {
 
 		$this->param['htmlon'] = $this->group['allowhtml'] && !empty($this->param['htmlon']) ? 1 : 0;
 
-		if($this->setting['editedby'] && (TIMESTAMP - $this->post['dateline']) > 180 /*&& $this->member['adminid'] != 1*/) {
-			$editor = $this->param['isanonymous'] && $isorigauthor ? lang('forum/misc', 'anonymous') : $this->member['username'];
-			$edittime = dgmdate(TIMESTAMP);
-			$this->param['message'] = lang('forum/misc', $this->param['htmlon'] ? 'post_edithtml' : (!$this->forum['allowbbcode'] || $this->param['bbcodeoff'] ? 'post_editnobbcode' : 'post_edit'), array('editor' => $editor, 'edittime' => $edittime)) . $this->param['message'];
-		}
+		// if($this->setting['editedby'] && (TIMESTAMP - $this->post['dateline']) > 180 /*&& $this->member['adminid'] != 1*/) {
+			// $editor = $this->param['isanonymous'] && $isorigauthor ? lang('forum/misc', 'anonymous') : $this->member['username'];
+			// $edittime = dgmdate(TIMESTAMP);
+			// $this->param['message'] = lang('forum/misc', $this->param['htmlon'] ? 'post_edithtml' : (!$this->forum['allowbbcode'] || $this->param['bbcodeoff'] ? 'post_editnobbcode' : 'post_edit'), array('editor' => $editor, 'edittime' => $edittime)) . $this->param['message'];
+		// }
 
 
 		$this->param['bbcodeoff'] = checkbbcodes($this->param['message'], !empty($this->param['bbcodeoff']));

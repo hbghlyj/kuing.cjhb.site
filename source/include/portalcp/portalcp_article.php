@@ -659,7 +659,7 @@ function portalcp_get_postmessage($post, $getauthorall = '') {
 			$forum = array_merge($forum, $group_postpolicy);
 		}
 	}
-	$post['message'] = preg_replace($language['post_edit_regexp'], '', $post['message']);
+	// $post['message'] = preg_replace($language['post_edit_regexp'], '', $post['message']);
 
 	$_message = '';
 	if($getauthorall) {
