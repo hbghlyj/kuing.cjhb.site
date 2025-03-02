@@ -90,7 +90,7 @@ class table_forum_postcomment extends discuz_table
 	}
 
 	public function fetch_all_by_authorid($authorid, $start = 0, $limit = 0) {
-		return DB::fetch_all('SELECT * FROM %t WHERE authorid=%d ORDER BY dateline ASC '.DB::limit($start, $limit), array($this->_table, $authorid));
+		return DB::fetch_all('SELECT * FROM %t WHERE authorid=%d ORDER BY dateline DESC '.DB::limit($start, $limit), array($this->_table, $authorid));
 	}
 
 	public function fetch_all_by_pid($pids) {
