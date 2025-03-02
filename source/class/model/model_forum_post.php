@@ -49,7 +49,7 @@ class model_forum_post extends discuz_model {
 			'subject', 'special', 'sortid', 'typeid', 'isanonymous', 'cronpublish', 'cronpublishdate', 'save',
 			'readperm', 'price', 'ordertype', 'hiddenreplies', 'allownoticeauthor', 'audit', 'tags', 'bbcodeoff', 'imgcontent', 'imgcontentwidth',
 			'smileyoff', 'parseurloff', 'usesig', 'htmlon', 'extramessage',
-
+			'updateuid', 'lastupdate',
 		);
 		foreach($varname as $name) {
 			if(!isset($this->param[$name]) && isset($parameters[$name])) {
@@ -489,6 +489,8 @@ class model_forum_post extends discuz_model {
 			'parseurloff' => $this->param['parseurloff'],
 			'smileyoff' => $this->param['smileyoff'],
 			'subject' => $this->param['subject'],
+			'updateuid' => $this->param['updateuid'],
+			'lastupdate' => $this->param['lastupdate'],
 			'tags' => $tagstr,
 			'port'=>getglobal('remoteport')
 		);

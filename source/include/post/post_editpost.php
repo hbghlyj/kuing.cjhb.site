@@ -427,6 +427,9 @@ if(!submitcheck('editsubmit')) {
 			'htmlon' => $_GET['htmlon'],
 
 			'extramessage' => $extramessage,
+
+			'updateuid' => $_G['uid'],
+			'lastupdate' => TIMESTAMP,
 		);
 
 		if($_G['group']['allowimgcontent']) {
