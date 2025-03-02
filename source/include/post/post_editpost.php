@@ -438,6 +438,7 @@ if(!submitcheck('editsubmit')) {
 		}
 
 		$modpost->editpost($param);
+		DB::update('forum_thread',array('lastpost'=>TIMESTAMP),array('tid'=>$_G['tid']));
 
 	} else {
 
