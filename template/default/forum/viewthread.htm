@@ -202,7 +202,7 @@
 					<!--{if !empty($threadsorts) && $_G['forum_thread']['sortid'] && $_G['forum']['threadsorts']['types']['sortid']}-->
 						<a href="forum.php?mod=forumdisplay&fid=$_G[fid]&filter=sortid&sortid=$_G[forum_thread][sortid]">[{$_G['forum']['threadsorts']['types'][$_G['forum_thread']['sortid']]}]</a>
 					<!--{/if}-->
-					<span id="thread_subject">$_G[forum_thread][subject]</span>
+					<span id="thread_subject" style="white-space: pre-wrap;">$_G[forum_thread][subject]</span>
 				</h1>
 				<span id="fzlj" class="xg1" onmouseover="showMenu({'ctrlid':this.id,'pos':'23'})"><!-- kk edt -->
 					<!--{if $_G['forum_thread'][displayorder] == -2}-->({lang moderating})
