@@ -275,3 +275,6 @@ details summary { color:blue; cursor:pointer; }
 @media print { 
     .printhides,.mlcls,#scrolltop,#modmenu2,.pgs.mtm.mbm.cl,#ft,.cgb { display:none; } 
 }
+
+/* 标题中的连续空格显示 */
+#thread_subject { white-space: pre-wrap; }
