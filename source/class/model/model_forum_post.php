@@ -519,11 +519,11 @@ class model_forum_post extends discuz_model {
 
 		$this->forum['lastpost'] = explode("\t", $this->forum['lastpost']);
 
-		if($this->post['dateline'] == $this->forum['lastpost'][2] && ($this->post['author'] == $this->forum['lastpost'][3] || ($this->forum['lastpost'][3] == '' && $this->post['anonymous']))) {
+		// if($this->post['dateline'] == $this->forum['lastpost'][2] && ($this->post['author'] == $this->forum['lastpost'][3] || ($this->forum['lastpost'][3] == '' && $this->post['anonymous']))) {
 			$lastpost = $this->thread['tid']."\t".($isfirstpost ? $this->param['subject'] : $this->thread['subject'])."\t".$this->post['dateline']."\t".($this->param['isanonymous'] ? '' : $this->post['author']);
 			C::t('forum_forum')->update($this->forum['fid'], array('lastpost' => $lastpost));
 
-		}
+		// }
 
 		if(!getglobal('forum_auditstatuson') || $this->param['audit'] != 1) {
 			if($isfirstpost && $this->param['modnewthreads']) {
