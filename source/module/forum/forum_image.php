@@ -12,18 +12,18 @@ if(!defined('IN_DISCUZ') || empty($_GET['aid']) || empty($_GET['size']) || empty
 	exit;
 }
 
-$nocache = !empty($_GET['nocache']) ? 1 : 0;
+// $nocache = !empty($_GET['nocache']) ? 1 : 0;
 $daid = intval($_GET['aid']);
-$type = !empty($_GET['type']) ? $_GET['type'] : 'fixwr';
+// $type = !empty($_GET['type']) ? $_GET['type'] : 'fixwr';
 list($w, $h) = explode('x', $_GET['size']);
 $dw = intval($w);
 $dh = intval($h);
-$thumbfile = 'image/'.helper_attach::makethumbpath($daid, $dw, $dh);$attachurl = helper_attach::attachpreurl();
-if(!$nocache) {
-	if(file_exists($_G['setting']['attachdir'].$thumbfile)) {
-		dheader('location: '.$attachurl.$thumbfile);
-	}
-}
+// $thumbfile = 'image/'.helper_attach::makethumbpath($daid, $dw, $dh);$attachurl = helper_attach::attachpreurl();
+// if(!$nocache) {
+// 	if(file_exists($_G['setting']['attachdir'].$thumbfile)) {
+// 		dheader('location: '.$attachurl.$thumbfile);
+// 	}
+// }
 
 define('NOROBOT', TRUE);
 
@@ -44,18 +44,19 @@ if($attach = C::t('forum_attachment_n')->fetch_attachment('aid:'.$daid, $daid, a
 	}
 	require_once libfile('class/image');
 	$img = new image;
-	if($img->Thumb($filename, $thumbfile, $w, $h, $type)) {
-		if($nocache) {
-			dheader('Content-Type: image');
-			@readfile($_G['setting']['attachdir'].$thumbfile);
-			@unlink($_G['setting']['attachdir'].$thumbfile);
-		} else {
-			dheader('location: '.$attachurl.$thumbfile);
-		}
-	} else {
+	// if($img->Thumb($filename, $thumbfile, $w, $h, $type)) {
+	// 	if($nocache) {
+	// 		dheader('Content-Type: image');
+	// 		@readfile($_G['setting']['attachdir'].$thumbfile);
+	// 		@unlink($_G['setting']['attachdir'].$thumbfile);
+	// 	} else {
+	// 		dheader('location: '.$attachurl.$thumbfile);
+	// 	}
+	// } else {
 		dheader('Content-Type: image');
-		@readfile($filename);
-	}
+		dheader('location: data/attachment/forum/'.$attach['attachment']);
+		// @readfile($filename);
+	// }
 }
 
 <<<<<<< HEAD
