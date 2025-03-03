@@ -225,6 +225,9 @@
 				<!--{elseif $_GET[action] == 'edit'}--><span>{lang edit_save}</span>
 				<!--{/if}-->
 				</button>
+				<!--{if $_GET[action] == 'edit'}-->
+				<label><input type="checkbox" name="bump" class="pc">顶帖</label>
+				<!--{/if}-->
 				<!--{if $_G['uid'] && $_G['group']['allowsave']}-->
 					<input type="hidden" id="postsave" name="save" value="" />
 					<!--{if $_GET[action] == 'newthread' && empty($modnewthreads) || $_GET[action] == 'edit' && $isfirstpost && empty($modnewreplies) && $thread['displayorder'] == -4}-->

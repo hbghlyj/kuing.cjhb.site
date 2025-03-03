@@ -441,7 +441,9 @@ if(!submitcheck('editsubmit')) {
 		}
 
 		$modpost->editpost($param);
-		DB::update('forum_thread',array('lastpost'=>TIMESTAMP),array('tid'=>$_G['tid']));
+		if($_GET['bump'] == 'on') {
+			C::t('forum_thread')->update($_G['tid'], array('lastpost' => TIMESTAMP));
+		}
 
 	} else {
 
