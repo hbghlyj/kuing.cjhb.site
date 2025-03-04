@@ -224,8 +224,14 @@ class logging_ctl {
 					'usergroup' => $_G['group']['grouptitle'],
 					'uid' => $_G['member']['uid'],
 					'groupid' => $_G['groupid'],
-					'syn' => $ucsynlogin ? 1 : 0
+					'syn' => $ucsynlogin ? 1 : 0,
+					'timeoffsetupdated' => ''
 				);
+
+				if(isset($_GET['timeoffset']) && is_numeric($_GET['timeoffset']) && $_GET['timeoffset'] >= -12 && $_GET['timeoffset'] <= 12 && $_GET['timeoffset'] != $_G['member']['timeoffset']) {
+					C::t('common_member')->update($_G['uid'], array('timeoffset' => $_GET['timeoffset']));
+					$param['timeoffsetupdated'] = '，已为您更新时区设置';
+				}
 
 				$extra = array(
 					'showdialog' => true,

@@ -240,7 +240,7 @@ $lang = array (
   'no_privilege_email' => '抱歉，您需要验证激活自己的邮箱后才能进行本操作，<a href="home.php?mod=spacecp&ac=profile&op=password">点击这里激活邮箱</a>',
   'no_privilege_friendnum' => '抱歉，您需要添加 {friendnum} 个好友之后才能进行本操作，<a href="home.php?mod=spacecp&ac=friend&op=find">点击这里添加好友</a>',
   'login_seccheck2' => '请输入验证码后继续登录',
-  'login_succeed' => '欢迎您回来，{usergroup} {username}，现在将转入登录前页面',
+  'login_succeed' => '欢迎您回来，{usergroup} {username}{timeoffsetupdated}，现在将转入登录前页面',
   'login_strike' => '密码错误次数过多，请 15 分钟后重新登录',
   'logout_succeed' => '您已退出站点，现在将以游客身份转入退出前页面，请稍候…… {ucsynlogout} ',
   'location_logout_succeed_mobile' => '您已退出站点，现在将以游客身份转入退出前页面，请稍候……',
