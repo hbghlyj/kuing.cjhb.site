@@ -553,7 +553,7 @@ function lang($file, $langvar = null, $vars = array(), $default = null) {
 		$key = $path == '' ? $file : $path.'_'.$file;
 		$acceptlanguage = '';
 		// if zh-HK or zh-TW is in the HTTP_ACCEPT_LANGUAGE and in front of zh-CN, then set $lang = 'TC'
-		if(!empty($_SERVER['HTTP_ACCEPT_LANGUAGE'])&&(stripos($_SERVER['HTTP_ACCEPT_LANGUAGE'], 'zh-TW') !== false || stripos($_SERVER['HTTP_ACCEPT_LANGUAGE'], 'zh-HK') !== false)&& (!stripos($_SERVER['HTTP_ACCEPT_LANGUAGE'], 'zh-CN') || stripos($_SERVER['HTTP_ACCEPT_LANGUAGE'], 'zh-TW') < stripos($_SERVER['HTTP_ACCEPT_LANGUAGE'], 'zh-CN') || stripos($_SERVER['HTTP_ACCEPT_LANGUAGE'], 'zh-HK') < stripos($_SERVER['HTTP_ACCEPT_LANGUAGE'], 'zh-CN'))) {
+		if(!empty($_SERVER['HTTP_ACCEPT_LANGUAGE'])&& (stripos($_SERVER['HTTP_ACCEPT_LANGUAGE'], 'zh-TW') !== false  && (stripos($_SERVER['HTTP_ACCEPT_LANGUAGE'], 'zh-CN') === false || stripos($_SERVER['HTTP_ACCEPT_LANGUAGE'], 'zh-TW') < stripos($_SERVER['HTTP_ACCEPT_LANGUAGE'], 'zh-CN')) || stripos($_SERVER['HTTP_ACCEPT_LANGUAGE'], 'zh-HK') !== false && (stripos($_SERVER['HTTP_ACCEPT_LANGUAGE'], 'zh-CN') === false || stripos($_SERVER['HTTP_ACCEPT_LANGUAGE'], 'zh-HK') < stripos($_SERVER['HTTP_ACCEPT_LANGUAGE'], 'zh-CN')))) {
 			$acceptlanguage = 'TC/';
 		}
 		if(!isset($_G['lang'][$key])) {
