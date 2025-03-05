@@ -225,5 +225,3 @@ window.onscroll = function() {
         }
     }
 }
-
-function showauthor(ctrlObj, menuid) {}//取消鼠标移到头像上显示卡片
