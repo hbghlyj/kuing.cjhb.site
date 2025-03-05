@@ -537,7 +537,13 @@ function avatar($uid, $size = 'middle', $returnsrc = 0, $real = FALSE, $static =
 // if zh-HK or zh-TW is in the HTTP_ACCEPT_LANGUAGE and prior to zh-CN, then set DISCUZ_LANG = 'TC/'
 if(!empty($_SERVER['HTTP_ACCEPT_LANGUAGE'])&& (stripos($_SERVER['HTTP_ACCEPT_LANGUAGE'], 'zh-TW') !== false  && (stripos($_SERVER['HTTP_ACCEPT_LANGUAGE'], 'zh-CN') === false || stripos($_SERVER['HTTP_ACCEPT_LANGUAGE'], 'zh-TW') < stripos($_SERVER['HTTP_ACCEPT_LANGUAGE'], 'zh-CN')) || stripos($_SERVER['HTTP_ACCEPT_LANGUAGE'], 'zh-HK') !== false && (stripos($_SERVER['HTTP_ACCEPT_LANGUAGE'], 'zh-CN') === false || stripos($_SERVER['HTTP_ACCEPT_LANGUAGE'], 'zh-HK') < stripos($_SERVER['HTTP_ACCEPT_LANGUAGE'], 'zh-CN')))) {
 	define('DISCUZ_LANG', 'TC/');
-}else{
+}
+// if no Chinese language detected in the HTTP_ACCEPT_LANGUAGE, then set DISCUZ_LANG = 'EN/'
+elseif(stripos($_SERVER['HTTP_ACCEPT_LANGUAGE'], 'zh') === false) {
+	define('DISCUZ_LANG', 'EN/');
+}
+else{
+// default language is simplified Chinese
 	define('DISCUZ_LANG', '');
 }
 function lang($file, $langvar = null, $vars = array(), $default = null) {
