@@ -534,6 +534,12 @@ function avatar($uid, $size = 'middle', $returnsrc = 0, $real = FALSE, $static =
 	}
 }
 
+// if zh-HK or zh-TW is in the HTTP_ACCEPT_LANGUAGE and prior to zh-CN, then set DISCUZ_LANG = 'TC/'
+if(!empty($_SERVER['HTTP_ACCEPT_LANGUAGE'])&& (stripos($_SERVER['HTTP_ACCEPT_LANGUAGE'], 'zh-TW') !== false  && (stripos($_SERVER['HTTP_ACCEPT_LANGUAGE'], 'zh-CN') === false || stripos($_SERVER['HTTP_ACCEPT_LANGUAGE'], 'zh-TW') < stripos($_SERVER['HTTP_ACCEPT_LANGUAGE'], 'zh-CN')) || stripos($_SERVER['HTTP_ACCEPT_LANGUAGE'], 'zh-HK') !== false && (stripos($_SERVER['HTTP_ACCEPT_LANGUAGE'], 'zh-CN') === false || stripos($_SERVER['HTTP_ACCEPT_LANGUAGE'], 'zh-HK') < stripos($_SERVER['HTTP_ACCEPT_LANGUAGE'], 'zh-CN')))) {
+	define('DISCUZ_LANG', 'TC/');
+}else{
+	define('DISCUZ_LANG', '');
+}
 function lang($file, $langvar = null, $vars = array(), $default = null) {
 	global $_G;
 	$fileinput = $file;
@@ -551,13 +557,8 @@ function lang($file, $langvar = null, $vars = array(), $default = null) {
 
 	if($path != 'plugin') {
 		$key = $path == '' ? $file : $path.'_'.$file;
-		$acceptlanguage = '';
-		// if zh-HK or zh-TW is in the HTTP_ACCEPT_LANGUAGE and in front of zh-CN, then set $lang = 'TC'
-		if(!empty($_SERVER['HTTP_ACCEPT_LANGUAGE'])&& (stripos($_SERVER['HTTP_ACCEPT_LANGUAGE'], 'zh-TW') !== false  && (stripos($_SERVER['HTTP_ACCEPT_LANGUAGE'], 'zh-CN') === false || stripos($_SERVER['HTTP_ACCEPT_LANGUAGE'], 'zh-TW') < stripos($_SERVER['HTTP_ACCEPT_LANGUAGE'], 'zh-CN')) || stripos($_SERVER['HTTP_ACCEPT_LANGUAGE'], 'zh-HK') !== false && (stripos($_SERVER['HTTP_ACCEPT_LANGUAGE'], 'zh-CN') === false || stripos($_SERVER['HTTP_ACCEPT_LANGUAGE'], 'zh-HK') < stripos($_SERVER['HTTP_ACCEPT_LANGUAGE'], 'zh-CN')))) {
-			$acceptlanguage = 'TC/';
-		}
 		if(!isset($_G['lang'][$key])) {
-			$loadfile = DISCUZ_ROOT.'./source/language/'.$acceptlanguage.($path == '' ? '' : $path.'/').'lang_'.$file.'.php';
+			$loadfile = DISCUZ_ROOT.'./source/language/'.DISCUZ_LANG.($path == '' ? '' : $path.'/').'lang_'.$file.'.php';
 			if(file_exists($loadfile)) {
 				include $loadfile;
 			}
@@ -774,7 +775,7 @@ function template($file, $templateid = 0, $tpldir = '', $gettplfile = 0, $primal
 		}
 	}
 
-	$cachefile = './data/template/'.(defined('STYLEID') ? STYLEID.'_' : '_').$templateid.'_'.str_replace('/', '_', $file).'.tpl.php';
+	$cachefile = './data/template/'.DISCUZ_LANG.(defined('STYLEID') ? STYLEID.'_' : '_').$templateid.'_'.str_replace('/', '_', $file).'.tpl.php';
 	if($templateid != 1 && !file_exists(DISCUZ_ROOT.$tplfile) && !file_exists(substr(DISCUZ_ROOT.$tplfile, 0, -4).'.php')
 			&& !file_exists(DISCUZ_ROOT.($tplfile = $tpldir.$filebak.'.htm'))) {
 		$tplfile = './template/default/'.$filebak.'.htm';

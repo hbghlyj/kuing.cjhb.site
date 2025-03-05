@@ -162,13 +162,13 @@ function pluginsettingvalue($type) {
 }
 
 function cleartemplatecache() {
-	$tpl = dir(DISCUZ_ROOT.'./data/template');
-	while($entry = $tpl->read()) {
-		if(preg_match("/\.tpl\.php$/", $entry)) {
-			@unlink(DISCUZ_ROOT.'./data/template/'.$entry);
+	$tpl = new RecursiveDirectoryIterator(DISCUZ_ROOT.'./data/template', RecursiveDirectoryIterator::SKIP_DOTS);
+	$files = new RecursiveIteratorIterator($tpl, RecursiveIteratorIterator::CHILD_FIRST);
+	foreach ($files as $fileinfo) {
+		if ($fileinfo->isFile() && preg_match("/\.tpl\.php$/", $fileinfo->getFilename())) {
+			@unlink($fileinfo->getRealPath());
 		}
 	}
-	$tpl->close();
 }
 
 <<<<<<< HEAD
