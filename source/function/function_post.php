@@ -178,10 +178,6 @@ function updateattach($modnewthreads, $tid, $pid, $attachnew, $attachupdate = ar
 				$newattachfile[$attach['aid']] = $attach['attachment'];
 			}
 		}
-		if($_G['setting']['watermarkstatus'] && empty($_G['forum']['disablewatermark']) || !$_G['setting']['thumbdisabledmobile']) {
-			require_once libfile('class/image');
-			$image = new image;
-		}
 		if(!empty($_GET['albumaid'])) {
 			array_unshift($_GET['albumaid'], '');
 			$_GET['albumaid'] = array_unique($_GET['albumaid']);
@@ -232,10 +228,6 @@ function updateattach($modnewthreads, $tid, $pid, $attachnew, $attachupdate = ar
 					$dh = 720;
 					$thumbfile = 'image/'.$dir1.'/'.$dir2.'/'.$dir3.'/'.substr($_daid, -2).'_'.$dw.'_'.$dh.'.jpg';
 					$image->Thumb($_G['setting']['attachdir'].'/forum/'.$newattachfile[$aid], $thumbfile, $dw, $dh, 'fixwr');
-				}
-				if($_G['setting']['watermarkstatus'] && empty($_G['forum']['disablewatermark'])) {
-					$image->Watermark($_G['setting']['attachdir'].'/forum/'.$newattachfile[$aid], '', 'forum');
-					$update['filesize'] = $image->imginfo['size'];
 				}
 			}
 			if(!empty($_GET['albumaid']) && isset($albumattach[$aid])) {
@@ -311,10 +303,6 @@ function updateattach($modnewthreads, $tid, $pid, $attachnew, $attachupdate = ar
 			$update['dateline'] = TIMESTAMP;
 			$update['remote'] = 0;
 			unset($update['aid']);
-			if($attach['isimage'] && $_G['setting']['watermarkstatus'] && empty($_G['forum']['disablewatermark'])) {
-				$image->Watermark($_G['setting']['attachdir'].'/forum/'.$attach['attachment'], '', 'forum');
-				$update['filesize'] = $image->imginfo['size'];
-			}
 			C::t('forum_attachment_n')->update('tid:'.$tid, $attachupdate[$attach['aid']], $update);
 			@unlink($_G['setting']['attachdir'].'image/'.$attach['aid'].'_100_100.jpg');
 			C::t('forum_attachment_exif')->delete($attachupdate[$attach['aid']]);

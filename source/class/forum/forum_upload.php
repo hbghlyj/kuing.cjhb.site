@@ -95,19 +95,6 @@ class forum_upload {
 			return $this->uploadmsg(7);
 		}
 
-		if($upload->attach['isimage']) {
-			$imageinfo = @getimagesize($upload->attach['tmp_name']);
-			list($width, $height, $type) = !empty($imageinfo) ? $imageinfo : array(0, 0, 0);
-			$size = $width * $height;
-			// 新增 GD 图片像素点上限服务器侧拦截
-			if((!getglobal('setting/imagelib') && $size > (getglobal('setting/gdlimit') ? getglobal('setting/gdlimit') : 16777216)) || $size < 16 ) {
-				return $this->uploadmsg(13);
-			}
-			if(!in_array($type, array(1, 2, 3, 6, 13, 18)) || ($upload->attach['ext'] == 'swf' && $type != 4 && $type != 13)) {
-				return $this->uploadmsg(7);
-			}
-		}
-
 		$upload->save();
 		if($upload->error() == -103) {
 			return $this->uploadmsg(8);
@@ -117,29 +104,11 @@ class forum_upload {
 
 		updatemembercount($_G['uid'], array('todayattachs' => 1, 'todayattachsize' => $upload->attach['size']));
 
-		$thumb = $remote = $width = 0;
-		if($upload->attach['isimage']) {
+		$thumb = $remote = 0;
+		if($upload->attach['isimage'] && $upload->attach['ext']!='svg') {
 			if($_G['setting']['showexif']) {
 				require_once libfile('function/attachment');
 				$exif = getattachexif(0, $upload->attach['target']);
-			}
-			if($_G['setting']['thumbsource'] || $_G['setting']['thumbstatus']) {
-				require_once libfile('class/image');
-				$image = new image;
-			}
-			if($_G['setting']['thumbsource'] && $_G['setting']['sourcewidth'] && $_G['setting']['sourceheight']) {
-				$thumb = $image->Thumb($upload->attach['target'], '', $_G['setting']['sourcewidth'], $_G['setting']['sourceheight'], 1, 1) ? 1 : 0;
-				$width = $image->imginfo['width'];
-				$height = $image->imginfo['height'];
-				$upload->attach['size'] = $image->imginfo['size'];
-			}
-			if($_G['setting']['thumbstatus']) {
-				$thumb = $image->Thumb($upload->attach['target'], '', $_G['setting']['thumbwidth'], $_G['setting']['thumbheight'], $_G['setting']['thumbstatus'], 0) ? 1 : 0;
-				$width = $image->imginfo['width'];
-				$height = $image->imginfo['height'];
-			}
-			if($_G['setting']['thumbsource'] || !$_G['setting']['thumbstatus']) {
-				list($width, $height) = @getimagesize($upload->attach['target']);
 			}
 		}
 		if($_GET['type'] != 'image' && $upload->attach['isimage']) {
@@ -156,8 +125,8 @@ class forum_upload {
 			'uid' => $this->uid,
 			'thumb' => $thumb,
 			'remote' => $remote,
-			'width' => $width,
-			'height' => $height
+			'width' => intval($upload->attach['imageinfo'][0]),
+			'height' => intval($upload->attach['imageinfo'][1]),
 		);
 		C::t('forum_attachment_unused')->insert($insert);
 		if($upload->attach['isimage'] && $_G['setting']['showexif']) {

@@ -42,7 +42,7 @@ function attachtype($type, $returnval = 'html') {
 			$typeid = 13;
 		} elseif(preg_match("/pdf|^pdf\t/", $type)) {
 			$typeid = 12;
-		} elseif(preg_match("/image|^(jpg|gif|png|bmp|webp)\t/", $type)) {
+		} elseif(preg_match("/image|^(jpg|gif|png|bmp|webp|svg)\t/", $type)) {
 			$typeid = 11;
 		} elseif(preg_match("/flash|^(swf|fla|flv|swi)\t/", $type)) {
 			$typeid = 10;

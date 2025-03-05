@@ -102,7 +102,7 @@ Class discuz_upload{
 	}
 
 	public static function is_image_ext($ext) {
-		static $imgext  = array('jpg', 'jpeg', 'gif', 'png', 'bmp', 'webp');
+		static $imgext  = array('jpg', 'jpeg', 'gif', 'png', 'bmp', 'webp', 'svg');
 		return in_array($ext, $imgext) ? 1 : 0;
 	}
 
@@ -113,6 +113,28 @@ Class discuz_upload{
 			return false;
 		} elseif(!is_readable($target)) {
 			return false;
+		} elseif($ext == 'svg') {
+			try {
+				$xmlget = simplexml_load_file($target);
+				$xmlattributes = $xmlget->attributes();
+				$width = $height = 0;
+				if(isset($xmlattributes->width)){
+					$width = (string) $xmlattributes->width;
+				}
+				if(isset($xmlattributes->height)) {
+					$height = (string) $xmlattributes->height;
+				}
+				if(isset($xmlattributes->viewBox)) {
+					list($originX, $originY, $width, $height) = explode(' ', $xmlattributes->viewBox);
+				}
+				// remove trailing px or pt
+				$width = preg_replace('/[^0-9\.]/', '', $width);
+				$height = preg_replace('/[^0-9\.]/', '', $height);
+				return array($width, $height);
+			} catch (Exception $e) {
+				echo 'Error loading SVG: ',  $e->getMessage(), "\n";
+				return false;
+			}
 		} elseif($imageinfo = @getimagesize($target)) {
 			list($width, $height, $type) = !empty($imageinfo) ? $imageinfo : array('', '', '');
 			$size = $width * $height;
@@ -148,10 +170,7 @@ Class discuz_upload{
 	}
 
 	public static function get_target_extension($ext) {
-		static $safeext  = array('attach', 'jpg', 'jpeg', 'gif', 'png', 'webp', 'swf', 'bmp', 'txt', 'zip', 'rar', 'mp3');
-		if(defined('IN_ADMINCP')) {
-			$safeext[] = 'svg';
-		}
+		static $safeext  = array('attach', 'jpg', 'jpeg', 'gif', 'png', 'webp', 'svg', 'swf', 'bmp', 'txt', 'zip', 'rar', 'mp3', 'mp4');
 		return strtolower(!in_array(strtolower($ext), $safeext) ? 'attach' : $ext);
 	}
 
