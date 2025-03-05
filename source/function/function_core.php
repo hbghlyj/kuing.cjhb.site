@@ -551,8 +551,13 @@ function lang($file, $langvar = null, $vars = array(), $default = null) {
 
 	if($path != 'plugin') {
 		$key = $path == '' ? $file : $path.'_'.$file;
+		$acceptlanguage = '';
+		// if zh-HK or zh-TW is in the HTTP_ACCEPT_LANGUAGE and in front of zh-CN, then set $lang = 'TC'
+		if(!empty($_SERVER['HTTP_ACCEPT_LANGUAGE'])&&(stripos($_SERVER['HTTP_ACCEPT_LANGUAGE'], 'zh-TW') !== false || stripos($_SERVER['HTTP_ACCEPT_LANGUAGE'], 'zh-HK') !== false)&& (!stripos($_SERVER['HTTP_ACCEPT_LANGUAGE'], 'zh-CN') || stripos($_SERVER['HTTP_ACCEPT_LANGUAGE'], 'zh-TW') < stripos($_SERVER['HTTP_ACCEPT_LANGUAGE'], 'zh-CN') || stripos($_SERVER['HTTP_ACCEPT_LANGUAGE'], 'zh-HK') < stripos($_SERVER['HTTP_ACCEPT_LANGUAGE'], 'zh-CN'))) {
+			$acceptlanguage = 'TC/';
+		}
 		if(!isset($_G['lang'][$key])) {
-			$loadfile = DISCUZ_ROOT.'./source/language/'.($path == '' ? '' : $path.'/').'lang_'.$file.'.php';
+			$loadfile = DISCUZ_ROOT.'./source/language/'.$acceptlanguage.($path == '' ? '' : $path.'/').'lang_'.$file.'.php';
 			if(file_exists($loadfile)) {
 				include $loadfile;
 			}
