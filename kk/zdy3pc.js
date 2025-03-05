@@ -227,29 +227,3 @@ window.onscroll = function() {
 }
 
 function showauthor(ctrlObj, menuid) {}//取消鼠标移到头像上显示卡片
-
-//document.querySelectorAll('i.pstatus').forEach(a=>{let em=a.closest('.pct').previousElementSibling.querySelector('.authi>em');em.innerText=a.innerText+'| '+em.innerText;a.remove()})//编辑痕迹放到发表时间后面
-
-//===设置打印到哪（搬自旧论坛）
-var threadads = document.querySelectorAll("tr.ad");
-for (var i=0;i<threadads.length;i++) {
-    threadads[i].setAttribute("onclick",`hidelou(${i});printto(this);print()`);
-    threadads[i].setAttribute("title","打印到此处");
-    threadads[i].style="cursor:pointer";
-}
-function hidelou(n){
-    for (var i=0;i<n+1;i++) {
-        threadads[i].parentNode.classList.remove("printhides");
-    }
-    for (var i=n+1;i<threadads.length;i++) {
-        threadads[i].parentNode.classList.add("printhides");
-    }
-}
-var st = document.createElement("style");
-st.id = "ptst";
-document.head.appendChild(st);
-function printto(ts){
-    var ww = ts.scrollWidth;
-    var hh = ts.getBoundingClientRect().bottom  + window.scrollY;
-    document.querySelector("#ptst").innerHTML = "@page{size: " + (ww + 0) + "px " + (hh + 62) + "px; margin: 0px;}";
-}
