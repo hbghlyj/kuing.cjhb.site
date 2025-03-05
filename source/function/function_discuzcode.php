@@ -156,28 +156,22 @@ function discuzcode($message, $smileyoff = false, $bbcodeoff = false, $htmlon = 
 			if(++$nest > 4) break;
 		}
 
-		$message = str_replace(array(
-			'[/color]', '[/backcolor]', '[/size]', '[/font]', '[/align]', '[b]', '[/b]', '[s]', '[/s]', '[hr]', '[/p]',
-			'[i]', '[/i]', '[u]', '[/u]', '[list]', '[list=1]', '[list=a]',
-			'[list=A]', "\r\n[*]", '[*]', '[/list]', '[indent]', '[/indent]', '[/float]'
-			), array(
-			'</font>', '</font>', '</font>', '</font>', '</div>', '<strong>', '</strong>', '<strike>', '</strike>', '<hr class="l" />', '</p>', '<i>',
-			'</i>', '<u>', '</u>', '<ul>', '<ul type="1" class="litype_1">', '<ul type="a" class="litype_2">',
-			'<ul type="A" class="litype_3">', '<li>', '<li>', '</ul>', '<blockquote>', '</blockquote>', '</span>'
-			), preg_replace(array(
+		// 先替换tikz，防止tikz代码被bbcode匹配到
+		if($parsetype != 1 && strpos($message, '[/tikz]') !== FALSE) {
+			$message = preg_replace_callback("/\[tikz\](.+?)\[\/tikz\]/s", 'tikzcode_callback', $message);
+		}
+		$message = preg_replace(array(
 			"/\[color=([#\w]+?)\]/i",
 			"/\[color=((rgb|rgba)\([\d\s,]+?\))\]/i",
 			"/\[backcolor=([#\w]+?)\]/i",
 			"/\[backcolor=((rgb|rgba)\([\d\s,]+?\))\]/i",
 			"/\[size=(\d{1,2}?)\]/i",
 			"/\[size=(\d{1,2}(\.\d{1,5})?(px|pt)+?)\]/i",
-			"/\[size=(\d+(\.\d+)?(px|pt)+?)\]/i",
 			"/\[font=([^\[\<]+?)\]/i",
 			"/\[align=(left|center|right)\]/i",
 			"/\[p=(\d{1,2}|null), (\d{1,2}|null), (left|center|right)\]/i",
 			"/\[float=left\]/i",
 			"/\[float=right\]/i"
-
 			), array(
 			"<font color=\"\\1\">",
 			"<font style=\"color:\\1\">",
@@ -185,13 +179,71 @@ function discuzcode($message, $smileyoff = false, $bbcodeoff = false, $htmlon = 
 			"<font style=\"background-color:\\1\">",
 			"<font size=\"\\1\">",
 			"<font style=\"font-size:\\1\">",
-			"<font>",
 			"<font face=\"\\1\">",
 			"<div align=\"\\1\">",
 			"<p style=\"line-height:\\1px;text-indent:\\2em;text-align:\\3\">",
 			"<span style=\"float:left;margin-right:5px\">",
 			"<span style=\"float:right;margin-left:5px\">"
-			), $message));
+			), $message);		
+			
+		$message = str_replace(array(
+			'[/color]', '[/backcolor]', '[/size]', '[/font]', '[/align]', '[hr]', '[/p]', '[/float]', '[indent]', '[/indent]'
+			), array(
+			'</font>', '</font>', '</font>', '</font>', '</div>', '<hr class="l" />', '</p>', '</span>', '<blockquote>', '</blockquote>'
+			), $message);
+
+		// if the close tag is found, replace the closest open tag before it
+		// this is to prevent the open tag from being replaced but the close tag not, which would result in invalid html
+		foreach (array('[/b]', '[/s]', '[/i]', '[/u]') as $i => $close_tag) {
+			$open_tag = array('[b]', '[s]', '[i]', '[u]')[$i];
+			$parts = explode($close_tag, $message);
+			$message = '';
+			$count = count($parts);
+			for ($j = 0; $j < $count - 1; $j++) {
+				$part = $parts[$j];
+				// for each part, using strrpos() to find the last open tag and replace it with the open tag replacement
+				$pos = strrpos($part, $open_tag);
+				if ($pos === false) {
+					// no open tag found, just append the part and the close tag as in the original
+					$message .= $part . $close_tag;
+				} else {
+					// open tag found, replace it with the open tag replacement
+					$open_tag_replace = array('<strong>', '<strike>', '<i>', '<u>')[$i];
+					$close_tag_replace = array('</strong>', '</strike>', '</i>', '</u>')[$i];
+					$message .= substr_replace($part, $open_tag_replace, $pos, strlen($open_tag)) . $close_tag_replace;
+				}
+			}
+			// append the last part
+			$message .= $parts[$count-1];
+		}
+
+		// list
+		$close_tag = '[/list]';
+		// if the close tag is found, replace the closest open tag before it
+		// this is to prevent the open tag from being replaced but the close tag not, which would result in invalid html
+		$parts = explode($close_tag, $message);
+		$message = '';
+		$count = count($parts);
+		for ($j = 0; $j < $count - 1; $j++) {
+			$part = $parts[$j];
+			// for each part, using str_pos() to find the open tag in one of [list=1], [list=a], [list=A] and replace it with the open tag replacement
+			$open_tags = array('[list]', '[list=1]', '[list=a]', '[list=A]');
+			foreach ($open_tags as $i => $open_tag) {
+				$pos = strpos($part, $open_tag);
+				if ($pos !== false) {
+					// open tag found, replace it with the open tag replacement
+					$open_tag_replace = array('<ul>', '<ul type="1" class="litype_1">', '<ul type="a" class="litype_2">', '<ul type="A" class="litype_3>')[$i];
+					$message .= substr($part, 0, $pos) . $open_tag_replace . strtr(substr($part, $pos + strlen($open_tag)),array('[*]'=>'<li>',"\r\n[*]"=>'<li>')) . '</ul>';
+					break;
+				}
+			}
+			if ($pos === false) {
+				// no open tag found, just append the part and the close tag as in the original
+				$message .= $part . $close_tag;
+			}
+		}
+		// append the last part
+		$message .= $parts[$count-1];
 
 		if($pid && !defined('IN_MOBILE')) {
 			$message = preg_replace_callback(
@@ -235,10 +287,6 @@ function discuzcode($message, $smileyoff = false, $bbcodeoff = false, $htmlon = 
 			}
 		}
 
-		// kk add
-		if($parsetype != 1 && strpos($message, '[/tikz]') !== FALSE) {
-			$message = preg_replace_callback("/\[tikz\](.+?)\[\/tikz\]/s", 'tikzcode_callback', $message);
-		}
 		if($parsetype != 1 && $allowbbcode < 0 && isset($_G['cache']['bbcodes'][-$allowbbcode])) {
 			$message = preg_replace($_G['cache']['bbcodes'][-$allowbbcode]['searcharray'], $_G['cache']['bbcodes'][-$allowbbcode]['replacearray'], $message);
 		}
