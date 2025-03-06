@@ -62,7 +62,7 @@
 						<!--{/if}-->
 					</span>
 					<h1 class="xs2">
-						<a href="forum.php?mod=forumdisplay&fid=$_G[fid]">$_G['forum'][name]</a>
+						<a href="forum.php?mod=forumdisplay&fid=$_G[fid]"><!--{if DISCUZ_LANG == 'EN/'}-->$_G[forum][name_en]<!--{else}-->$_G[forum][name]<!--{/if}--></a>
 						<!--{if !$subforumonly}--><span class="xs1 xw0 i">{lang index_today}: <strong class="xi1">$_G[forum][todayposts]</strong><!--{if $_G[forum][todayposts]}--><!--{if $_G[forum][todayposts] < $_G[forum][yesterdayposts]}--><b class="ico_fall">&nbsp;</b><!--{else}--><b class="ico_increase">&nbsp;</b><!--{/if}--><!--{/if}--><span class="pipe">|</span>{lang index_threads}: <strong class="xi1">$_G[forum][threads]</strong><!--{if $_G[forum][rank]}--><span class="pipe">|</span>{lang rank}: <strong class="xi1" title="{lang previous_rank}:$_G[forum][oldrank]">$_G[forum][rank]</strong><!--{if $_G[forum][rank] <= $_G[forum][oldrank]}--><b class="ico_increase">&nbsp;</b><!--{else}--><b class="ico_fall">&nbsp;</b><!--{/if}--><!--{/if}--></span><!--{/if}-->
 					</h1>
 				</div>
