@@ -4,7 +4,7 @@
 	<meta charset="{CHARSET}" />
 	<meta name="renderer" content="webkit" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-	<title><!--{if !empty($navtitle)}-->$navtitle - <!--{/if}--><!--{if empty($nobbname)}--> $_G['setting']['bbname']<!--{/if}--></title>
+	<title><!--{if !empty($navtitle)}-->$navtitle - <!--{/if}--><!--{if empty($nobbname)}--> <!--{if DISCUZ_LANG == 'EN/'}-->Leisure Math Forum<!--{else}-->$_G['setting']['bbname']<!--{/if}--><!--{/if}--></title>
 	$_G['setting']['seohead']
 <!-- 加载 mathjax 新方式 test at 20240926 -->
 <!--{eval include './kk/mathjax.php';}-->
