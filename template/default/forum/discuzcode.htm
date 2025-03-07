@@ -286,7 +286,7 @@ function attachinpost($attach, $post) {
 		$attach[attachicon]
 		<span style="white-space: nowrap" id="attach_$attach[aid]" {if !$_G['setting']['hideattachtips'] && $_GET['from'] != 'preview'}onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})"{/if}>
 			<!--{if !$attach['price'] || $attach['payed']}-->
-				<a href="forum.php?mod=attachment{$is_archive}&aid=$aidencode" target="_blank">$attach[filename]</a>
+				<a href="forum.php/$attach[filename]?mod=attachment{$is_archive}&aid=$aidencode" target="_blank">$attach[filename]</a>
 			<!--{else}-->
 				<a href="forum.php?mod=misc&action=attachpay&aid=$attach[aid]&tid=$attach[tid]" onclick="showWindow('attachpay', this.href)">$attach[filename]</a>
 			<!--{/if}-->
