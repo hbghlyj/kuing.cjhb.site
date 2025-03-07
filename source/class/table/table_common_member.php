@@ -534,6 +534,10 @@ class table_common_member extends discuz_table_archive
 }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 ?> 
 >>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)
+=======
+?>
+>>>>>>> 5668e039 (1. table_common_member 末尾不应该有空格)

@@ -3,6 +3,10 @@
 #
 
 User-agent: *
+Allow: /data/attachment/
+Allow: /data/avatar/
+Allow: /data/cache/
+Allow: /uc_server/data/avatar/
 Disallow: /api/
 Disallow: /data/
 Disallow: /source/
