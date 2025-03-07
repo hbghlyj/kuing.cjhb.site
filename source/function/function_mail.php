@@ -300,6 +300,10 @@ function sendmail_touser($touid, $subject, $message, $mailtype='') {
 }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 ?> 
 >>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)
+=======
+?>
+>>>>>>> 19b9c0fe (末尾不应该有空格)
