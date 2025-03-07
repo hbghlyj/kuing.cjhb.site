@@ -23,7 +23,7 @@ $lang = array (
 	'apitype_alipay'		=> 'AliPay',
 	'apitype_tenpay'		=> 'TenPay',
 	'buy_nums'			=> 'Quantity',
-	'confirms'			=> 'OK',//'确定';
+	'confirms'			=> 'OK',//'确定',
 	'copycode'			=> 'Copy all to clipboard',//'全部复制到剪贴板',
 	'copycode_invite_succeed'	=> 'Invitation code has been copied to the clipboard',//'邀请码已经复制到剪贴板',
 	'invitecode_buycode'		=> 'Obtain invitation code',//'获取邀请码',
@@ -78,7 +78,7 @@ $lang = array (
 	'my_nav'			=> 'My Center',//'我的中心',
 	'my_nav_login'			=> 'Please <a href="javascript:;" class="xi2" onclick="lsSubmit()"><strong>Login</strong></a> for use a quick navigation<br />Have no account? <a href="member.php?mod={$_G[setting][regname]}" class="xi2 xw1">Register</a>',//'请 <a href="javascript:;" class="xi2" onclick="lsSubmit()"><strong>登录</strong></a> 后使用快捷导航<br />没有帐号？<a href="member.php?mod={$_G[setting][regname]}" class="xi2 xw1">注册</a>',
 	'open_diy'			=> 'Layout Panel',//'打开 DIY 面板',
-	'pm_center'			=> 'Private Messages',//'短消息',
+	'pm_center'			=> 'PM',//'短消息',
 	'portal_block_manage'		=> 'Block Management',//'模块管理',
 	'portal_manage'			=> 'Portal management',//'门户管理',
 	'remind'			=> 'Notices',//'提醒',
