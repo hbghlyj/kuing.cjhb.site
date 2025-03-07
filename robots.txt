@@ -11,7 +11,7 @@ Disallow: /api/
 Disallow: /data/
 Disallow: /source/
 Disallow: /install/
-Disallow: /template/default/
+Disallow: /template/
 Disallow: /config/
 Disallow: /uc_client/
 Disallow: /uc_server/
@@ -24,9 +24,13 @@ Disallow: /connect.php
 Disallow: /forum.php?mod=redirect*
 Disallow: /forum.php?mod=post*
 Disallow: /home.php?mod=spacecp*
+<<<<<<< HEAD
 Disallow: /*?mod=misc*
 Disallow: /*?mod=attachment*
 <<<<<<< HEAD
 =======
 Disallow: /*mobile=yes*
 >>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)
+=======
+Disallow: /*?mod=misc*
+>>>>>>> e91955ed (附件允许爬虫下载、手机版允许爬虫访问)
