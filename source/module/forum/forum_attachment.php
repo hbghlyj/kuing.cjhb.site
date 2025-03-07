@@ -250,7 +250,7 @@ dheader('Date: '.gmdate('D, d M Y H:i:s', $attach['dateline']).' GMT');
 dheader('Last-Modified: '.gmdate('D, d M Y H:i:s', $attach['dateline']).' GMT');
 dheader('Content-Encoding: none');
 
-if($isimage && !empty($_GET['noupdate']) || !empty($_GET['request'])) {
+if($isimage && !empty($_GET['noupdate']) || !empty($_GET['request']) || $mimetype == 'application/pdf' || $mimetype == 'text/html') {
 	$cdtype = 'inline';
 } else {
 	$cdtype = 'attachment';
@@ -373,6 +373,9 @@ function ext_to_mimetype($path) {
 	$map = array(
 		'aac' => 'audio/aac',
 		'flac' => 'audio/flac',
+		'pdf' => 'application/pdf',
+		'htm' => 'text/html',
+		'html'=> 'text/html',
 		'mp3' => 'audio/mpeg',
 		'm4a' => 'audio/mp4',
 		'wav' => 'audio/wav',
