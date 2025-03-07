@@ -170,6 +170,7 @@ body, input, button, select, textarea, .xst, .ts {
 						<!--{loop $_G['setting']['navs'] $nav}-->
 							<!--{if is_array($nav) && $nav['available'] && (!$nav['level'] || ($nav['level'] == 1 && $_G['uid']) || ($nav['level'] == 2 && $_G['adminid'] > 0) || ($nav['level'] == 3 && $_G['adminid'] == 1))}--><li {if $mnid == $nav[navid] || substr($_SERVER['REQUEST_URI'], 1) == str_replace('./', '', $nav[filename])}class="a" {/if}$nav[nav]></li><!--{/if}-->
 						<!--{/loop}-->
+						<style>#nv li span[lang="{if DISCUZ_LANG=='EN/'}zh{else}en{/if}"] {display: none;}#mn_forum_menu li span[lang="{if DISCUZ_LANG=='EN/'}zh{else}en{/if}"] {display: none;}</style>
 					</ul>
 					<!--{hook/global_nav_extra}-->
 				</div>

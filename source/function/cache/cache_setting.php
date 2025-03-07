@@ -400,7 +400,7 @@ function build_cache_setting() {
 	if($data['cacheindexlife']) {
 		$cachedir = DISCUZ_ROOT.'./'.$data['cachethreaddir'];
 		$tidmd5 = substr(md5(0), 3);
-		@unlink($cachedir.'/'.$tidmd5[0].'/'.$tidmd5[1].'/'.$tidmd5[2].'/0.htm');
+		@unlink($cachedir.'/'.$tidmd5[0].'/'.$tidmd5[1].'/'.$tidmd5[2].'/'.DISCUZ_LANG.'/0.htm');
 	}
 
 	$reginputbwords = array('username', 'password', 'password2', 'email');
@@ -798,10 +798,10 @@ function get_cachedata_mainnav() {
 		$data['navs'][$id]['navname'] = $nav['name'];
 		$data['navs'][$id]['filename'] = $nav['url'];
 		$data['navs'][$id]['available'] = $nav['available'];
-		$nav['name'] = $nav['name'].($nav['title'] ? '<span>'.$nav['title'].'</span>' : '');
+		$nav['name'] = '<span lang="zh">'.$nav['name'].'</span>'.($nav['title'] ? '<span lang="en">'.$nav['title'].'</span>' : '');
 		$subnavs = '';
 		foreach(C::t('common_nav')->fetch_all_subnav($nav['id']) as $subnav) {
-			$item = "<a href=\"{$subnav['url']}\" hidefocus=\"true\" ".($subnav['title'] ? "title=\"{$subnav['title']}\" " : '').($subnav['target'] == 1 ? "target=\"_blank\" " : '').parsehighlight($subnav['highlight']).">{$subnav['name']}</a>";
+			$item = "<a href=\"{$subnav['url']}\" hidefocus=\"true\" ".($subnav['title'] ? "title=\"{$subnav['title']}\" " : '').($subnav['target'] == 1 ? "target=\"_blank\" " : '').parsehighlight($subnav['highlight'])."><span lang='zh'>{$subnav['name']}</span><span lang='en'>{$subnav['title']}</span></a>";
 			$liparam = !$nav['subtype'] || !$nav['subcols'] ? '' : ' style="width:'.sprintf('%1.1f', (1 / $nav['subcols']) * 100).'%"';
 			$subnavs .= '<li'.$liparam.'>'.$item.'</li>';
 		}
