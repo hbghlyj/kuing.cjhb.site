@@ -30,14 +30,6 @@ if($_GET['action'] == 'update') {
 
 	$message = preg_replace("/\r|\n/", '', $question);
 	$message = str_replace("'", "\'", $message);
-	if(DISCUZ_LANG == 'EN/') {
-		// if in English, then use the English secure question
-		$message = substr($message, strpos($message, '？') + 3);
-	} else {
-		// if in Chinese, then use the Chinese secure question
-		// cut $message before the first ？ character
-		$message = substr($message, 0, strpos($message, '？') + 3);
-	}
 	$seclang = lang('forum/misc');
 	header("Content-Type: application/javascript");
 echo <<<EOF
