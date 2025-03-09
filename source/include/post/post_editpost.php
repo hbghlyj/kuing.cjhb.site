@@ -427,10 +427,12 @@ if(!submitcheck('editsubmit')) {
 			'htmlon' => $_GET['htmlon'],
 
 			'extramessage' => $extramessage,
-
-			'updateuid' => $_G['uid'],
-			'lastupdate' => TIMESTAMP,
 		);
+
+		if($thread['displayorder'] != -4) {
+			$param['updateuid'] = $_G['uid'];
+			$param['lastupdate'] = TIMESTAMP;
+		}
 
 		if($_G['group']['allowimgcontent']) {
 			$param['imgcontent'] = $_GET['imgcontent'];

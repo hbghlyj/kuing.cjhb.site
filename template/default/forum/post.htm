@@ -225,7 +225,7 @@
 				<!--{elseif $_GET[action] == 'edit'}--><span>{lang edit_save}</span>
 				<!--{/if}-->
 				</button>
-				<!--{if $_GET[action] == 'edit'}-->
+				<!--{if $_GET[action] == 'edit' && $thread['displayorder'] != -4}-->
 				<label><input type="checkbox" name="bump" class="pc">顶帖</label>
 				<!--{/if}-->
 				<!--{if $_G['uid'] && $_G['group']['allowsave']}-->
