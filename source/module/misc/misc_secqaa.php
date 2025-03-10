@@ -36,10 +36,10 @@ echo <<<EOF
 if($('$showid')) {
 	var sectpl = seccheck_tpl['$idhash'] != '' ? seccheck_tpl['$idhash'].replace(/<hash>/g, 'code$idhash') : '';
 	var sectplcode = sectpl != '' ? sectpl.split('<sec>') : Array('<br />',': ','<br />','');
-	var string = '<input name="secqaahash" type="hidden" value="$idhash" />' + sectplcode[0] + '{$seclang['secqaa']}' + sectplcode[1] + '<input name="secanswer" id="secqaaverify_$idhash" type="text" autocomplete="off" style="{$imemode}width:100px" class="txt px vm" onblur="checksec(\'qaa\', \'$idhash\')" pattern="\d*" />' +
+	var string = '<input name="secqaahash" type="hidden" value="$idhash" />' + sectplcode[0] + '{$seclang['secqaa']}' + sectplcode[1] + '$message' +
+		sectplcode[2] + '<input name="secanswer" id="secqaaverify_$idhash" type="text" autocomplete="off" style="{$imemode}width:100px" class="txt px vm" onblur="checksec(\'qaa\', \'$idhash\')" pattern="\d*" />' +
 		' <a href="javascript:;" onclick="updatesecqaa(\'$idhash\');doane(event);" class="xi2">{$seclang['seccode_update']}</a>' +
-		'<span id="checksecqaaverify_$idhash"><img src="' + STATICURL + 'image/common/none.gif" width="16" height="16" class="vm" /></span>' +
-		sectplcode[2] + '$message' + sectplcode[3];
+		'<span id="checksecqaaverify_$idhash"><img src="' + STATICURL + 'image/common/none.gif" width="16" height="16" class="vm" /></span>' + sectplcode[3];
 	evalscript(string);
 	$('$showid').innerHTML = string;
 }

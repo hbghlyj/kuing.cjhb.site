@@ -148,6 +148,7 @@ $lang = array (
   'article' => '文章',
   'blog' => '日誌',
   'enter_content' => '請輸入搜索內容',
+  'fulltext' => '全文',
   'hot_search' => '熱搜',
   'search_this_forum' => '本版',
   'thread' => '帖子',

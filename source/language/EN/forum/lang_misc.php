@@ -326,9 +326,9 @@ $lang = array
 	'plugin_link'		=> 'Update Now',//'现在更新',
 
 	'seccode'		=> 'Verification code',//'验证码',
-	'seccode_update'	=> 'Renew',//'换一个',
+	'seccode_update'	=> 'Renew captcha',//'换一个',
 	'seccode_player'	=> '<span style="padding:2px"><img border="0" style="vertical-align:middle" src="static/image/common/seccodeplayer.gif" /> <a href="javascript:;" onclick="window.document.seccodeplayer_{idhash}.SetVariable(\'isPlay\', 1)">Play the verification code</a></span>',//'<span style="padding:2px"><img border="0" style="vertical-align:middle" src="static/image/common/seccodeplayer.gif" /> <a href="javascript:;" onclick="window.document.seccodeplayer_{idhash}.SetVariable(\'isPlay\', 1)">播放验证码</a></span>',
-	'secqaa'		=> 'Secure Answer',//'验证问答',
+	'secqaa'		=> 'Captcha',//'验证问答',
 
 	'mobileoem_creditrule'	=> 'Mobile Forum Registration',//'掌上论坛签到',
 
