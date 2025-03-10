@@ -540,7 +540,7 @@
 						<ul class="cl">
 						<!--{if $whosonline}-->
 							<!--{loop $whosonline $key $online}-->
-								<li title="{lang time}: $online[lastactivity]">
+								<li title="{if $online['uid']}{lang time}: $online[lastactivity]{else}$online[ip] <!--{echo ip::convert($online[ip])}-->{/if}">
 								<img src="$online['icon']" alt="icon" />
 								<!--{if $online['uid']}-->
 									<a href="home.php?mod=space&uid=$online[uid]">$online[username]</a>
