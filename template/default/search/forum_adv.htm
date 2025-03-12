@@ -37,11 +37,12 @@
 						</tr>
 
 					<tr>
-							<th>{lang search_thread_range}</th>
+							<th>{lang logical_connective}</th>
 							<td>
-								<label class="lb"><input type="radio" class="pr" name="srchfilter" value="all" $srchfilterchecked[all]/>{lang search_thread_range_all}</label>
-								<label class="lb"><input type="radio" class="pr" name="srchfilter" value="digest" $srchfilterchecked[digest]/>{lang search_thread_range_digest}</label>
-								<label class="lb"><input type="radio" class="pr" name="srchfilter" value="top" $srchfilterchecked[top] />{lang search_thread_range_top}</label>
+								<label class="lb"><input type="radio" class="pr" name="criteria" value="and"/>AND</label>
+								<label class="lb"><input type="radio" class="pr" name="criteria" value="or"/>OR</label>
+								<label class="lb"><input type="radio" class="pr" name="criteria" value="exact"/>exact</label>
+								<label class="lb"><input type="radio" class="pr" name="criteria" value="regexp"/>regexp</label>
 							</td>
 						</tr>
 

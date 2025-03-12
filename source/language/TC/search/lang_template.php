@@ -31,6 +31,7 @@ $lang = array (
   'author' => '作者',
   'dateline' => '發佈時間',
   'keywords' => '關鍵詞',
+  'logical_connective' => '邏輯符',
   'order_asc' => '按升序排列',
   'order_desc' => '按降序排列',
   'order_lastpost' => '回復時間',
