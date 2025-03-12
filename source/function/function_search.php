@@ -11,7 +11,6 @@ if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 function searchkey($keyword, $field, $returnsrchtxt = 0, $crit = 'and') {
-    $keyword = preg_replace('/\s+/', ' ', $keyword);
 	$srchtxt = $keyword;
 	if($field && $keyword) {
 		$keyword=addslashes($keyword);
@@ -22,7 +21,7 @@ function searchkey($keyword, $field, $returnsrchtxt = 0, $crit = 'and') {
 			$keyword=addslashes($keyword);
 		}
 		if($crit=='and'||$crit=='or'){
-			foreach(explode(' ', $keyword) as $value) {
+			foreach(preg_split('/\s+/', $keyword) as $value) {
 				if(isset($text))$keywordsrch .= " $crit ";
 				$text = trim($value);
 				if($text)$keywordsrch .= str_replace('{text}', $text, $field);

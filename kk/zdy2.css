@@ -1,7 +1,7 @@
 .ttp a{height:auto;}
 /*主题列表上方的分类按钮不限高*/
 
-.tl .num { width: 3em; line-height: 1.25; text-align: center;}
+.tl .num { width: 3.5em; line-height: 1.25; text-align: center;}
 .tl .by { line-height: 1.25; }
 .tl .lastp { text-align: right; }
 .tl cite { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
