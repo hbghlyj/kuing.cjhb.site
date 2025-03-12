@@ -11,7 +11,7 @@ if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
-$id = intval($_GET['id']);
+$id = explode(',',$_GET['id']);
 $type = trim($_GET['type']);
 $name = trim($_GET['name']);
 $page = intval($_GET['page']);
@@ -24,81 +24,67 @@ if($type == 'countitem') {
 	exit();
 }
 $taglang = lang('tag/template', 'tag');
-if($id || $name) {
-
+if(!empty($id) && intval($id[0]) || $name) {
 	$tpp = 20;
 	$page = max(1, intval($page));
 	$start_limit = ($page - 1) * $tpp;
-	if($id) {
-		$tag = C::t('common_tag')->fetch_info($id);
-	} else {
-		if(!preg_match('/^([\x7f-\xff_-]|\w|\s)+$/', $name) || strlen($name) > 20) {
-			showmessage('parameters_error');
+	if($name) {
+		$tagname = $name;
+		$name = array_map('trim',explode(',', $name));
+		foreach ($name as $value) {
+			if(!preg_match('/^([\x7f-\xff_-]|\w|\s)+$/', $value) || strlen($value) > 20) {
+				showmessage('parameters_error');
+			}
 		}
-		$name = addslashes($name);
-		$tag = C::t('common_tag')->fetch_info(0, $name);
+		$tags = C::t('common_tag')->fetch_info(0, $name);
+		if(count($tags) != count($name)) {
+			showmessage('label_error');
+		}
+		$id = array();
+		foreach($tags as $tag) {
+			$id[] = $tag['tagid'];
+		}
+	}else{
+		$id = array_map('intval',$id);
+		$tags = C::t('common_tag')->fetch_info($id);
+		if(count($tags) != count($id)) {
+			showmessage('label_error');
+		}
+		$tagnames = array();
+		foreach($tags as $tag) {
+			$tagnames[] = $tag['tagname'];
+		}
+		$tagname = implode(',', $tagnames);
 	}
-
-	if($tag['status'] == 1) {
-		showmessage('tag_closed');
+	foreach($tags as $tag) {
+		if($tag['status'] == 1) {
+			showmessage('tag_closed');
+		}
 	}
-	$tagname = $tag['tagname'];
-	$id = $tag['tagid'];
-	$searchtagname = $name;
 	$navtitle = $tagname ? $taglang.' - '.$tagname : $taglang;
 	$metakeywords = $tagname ? $taglang.' - '.$tagname : $taglang;
 	$metadescription = $tagname ? $taglang.' - '.$tagname : $taglang;
 
 
-	$showtype = '';
 	$count = '';
 	$summarylen = 300;
 
-	if($type == 'thread') {
-		$showtype = 'thread';
-		$tidarray = $threadlist = array();
-		$count = C::t('common_tagitem')->select($id, 0, 'tid', '', '', 0, 0, 0, 1);
-		if($count) {
-			$query = C::t('common_tagitem')->select($id, 0, 'tid', '', '', $start_limit, $tpp);
-			foreach($query as $result) {
-				$tidarray[$result['itemid']] = $result['itemid'];
-			}
-			$threadlist = getthreadsbytids($tidarray);
-			$multipage = multi($count, $tpp, $page, "misc.php?mod=tag&id={$tag['tagid']}&type=thread");
-		}
-	} elseif($type == 'blog') {
-		$showtype = 'blog';
-		$blogidarray = $bloglist = array();
-		$count = C::t('common_tagitem')->select($id, 0, 'blogid', '', '', 0, 0, 0, 1);
-		if($count) {
-			$query = C::t('common_tagitem')->select($id, 0, 'blogid', '', '', $start_limit, $tpp);
-			foreach($query as $result) {
-				$blogidarray[$result['itemid']] = $result['itemid'];
-			}
-			$bloglist = getblogbyid($blogidarray);
-
-			$multipage = multi($count, $tpp, $page, "misc.php?mod=tag&id={$tag['tagid']}&type=blog");
-		}
-	} else {
-		$shownum = 20;
-
-		$tidarray = $threadlist = array();
-		$query = C::t('common_tagitem')->select($id, 0, 'tid', '', '', $shownum);
+	$showtype = 'thread';
+	$tidarray = $threadlist = array();
+	$sql_parts = array();
+	foreach($id as $tagid) {
+		$sql_parts[] = '(SELECT itemid FROM '.DB::table('common_tagitem').' WHERE tagid='.$tagid.' AND idtype=\'tid\')';
+	}
+	$sql = implode(' INTERSECT ', $sql_parts);
+	$count = DB::result_first("SELECT count(*) FROM ($sql) t");
+	if($count) {
+		$query = DB::fetch_all($sql . ' ORDER BY itemid DESC LIMIT '.$start_limit.','.$tpp);
 		foreach($query as $result) {
 			$tidarray[$result['itemid']] = $result['itemid'];
 		}
 		$threadlist = getthreadsbytids($tidarray);
-
-		if(helper_access::check_module('blog')) {
-			$blogidarray = $bloglist = array();
-			$query = C::t('common_tagitem')->select($id, 0, 'blogid', '', '', $shownum);
-			foreach($query as $result) {
-				$blogidarray[$result['itemid']] = $result['itemid'];
-			}
-			$bloglist = getblogbyid($blogidarray);
-		}
-
 	}
+	$multipage = multi($count, $tpp, $page, 'misc.php?mod=tag&id='.implode(',',$id).'&type=thread');
 
 	include_once template('tag/tagitem');
 

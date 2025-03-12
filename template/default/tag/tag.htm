@@ -15,12 +15,14 @@
 				<label for="name">精确:</label>
 				<input type="text" name="name" class="px vm" required>&nbsp;
 				<button type="submit" class="pn"><em>{lang search}</em></button>
+				<i class="fico-help fc-n vm" tip="用,分隔多个标签可以取它们的交集" onmouseover="showTip(this)"></i>
 				<button onclick="const taglist = document.querySelector('.taglist');const anchors = Array.from(taglist.querySelectorAll('a'));anchors.sort(function(a, b) {var aValue = parseInt(a.querySelector('.xg1').textContent);var bValue = parseInt(b.querySelector('.xg1').textContent);return bValue - aValue;});anchors.forEach(function(anchor) {taglist.appendChild(anchor);});this.remove()" class="pn y"><em>按帖数排序</em></button>
 			</form>
+			<style>input.px:not(:focus)+button.pn {display: none;}</style>
 			<div class="taglist mtm mbm">
 				<!--{if $tagarray}-->
 					<!--{loop $tagarray $tag}-->
-						<a href="misc.php?mod=tag&id=$tag[tagid]" title="$tag[tagname]" target="_blank" class="xi2">$tag[tagname]<span class="xg1">{echo C::t('common_tagitem')->select($tag[tagid], 0, 'tid', '', '', 0, 0, 0, 1)}</span></a>
+						<a href="misc.php?mod=tag&id=$tag[tagid]" title="$tag[tagname]" class="xi2">$tag[tagname]<span class="xg1">{echo C::t('common_tagitem')->select($tag[tagid], 0, 'tid', '', '', 0, 0, 0, 1)}</span></a>
 					<!--{/loop}-->
 				<!--{else}-->
 					<p class="emp">{lang no_tag}</p>

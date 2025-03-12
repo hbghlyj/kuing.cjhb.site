@@ -74,15 +74,18 @@ class table_common_tag extends discuz_table
 		if(empty($tagid) && empty($tagname)) {
 			return array();
 		}
-		$addsql = $sqlglue = '';
 		if($tagid) {
-			$addsql = " tagid=".intval($tagid);
-			$sqlglue = ' AND ';
+			$addsql = implode(' OR ', array_map(function($id) {
+				return "tagid=".$id;
+			},$tagid));
+			$addsql .= ' LIMIT '.count($tagid);
+		} else {
+			$addsql = implode(' OR ', array_map(function($name) {
+				return "tagname=".DB::quote($name);
+			},$tagname));
+			$addsql .= ' LIMIT '.count($tagname);
 		}
-		if($tagname) {
-			$addsql .= $sqlglue.' '.DB::field('tagname', $tagname);
-		}
-		return DB::fetch_first("SELECT tagid,tagname,status FROM ".DB::table('common_tag')." WHERE $addsql");
+		return DB::fetch_all("SELECT tagid,tagname,status FROM ".DB::table('common_tag')." WHERE $addsql");
 	}
 
 	public function delete_byids($ids) {

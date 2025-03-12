@@ -169,7 +169,7 @@ $_config['security']['onlyremoteaddr']		= 1;		// 用户IP地址获取方式 0=�
 $_config['security']['useipban']			= 1;		// 是否开启允许/禁止IP功能，高负载站点可以将此功能疏解至HTTP Server/CDN/SLB/WAF上，降低服务器压力
 $_config['security']['querysafe']['status']	= 1;		// 是否开启SQL安全检测，可自动预防SQL注入攻击
 $_config['security']['querysafe']['dfunction']	= array('load_file','hex','substring','if','ord','char');
-$_config['security']['querysafe']['daction']	= array('@','intooutfile','intodumpfile','unionselect','(select', 'unionall', 'uniondistinct');
+$_config['security']['querysafe']['daction']	= array('@','intooutfile','intodumpfile','unionselect', 'unionall', 'uniondistinct');
 $_config['security']['querysafe']['dnote']	= array('/*','*/','#','--','"');
 $_config['security']['querysafe']['dlikehex']	= 1;
 $_config['security']['querysafe']['afullnote']	= 0;

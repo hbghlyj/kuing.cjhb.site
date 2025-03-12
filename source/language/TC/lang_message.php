@@ -50,6 +50,7 @@ $lang = array (
   'nopermission_verify' => '<p>您需要等待註冊申請審核通過後再次嘗試進行本操作，請您耐心等待管理團隊審核</p>',
   'thread_nonexistence' => '抱歉，指定的主題不存在或已被刪除或正在被審核',
   'parameters_error' => '參數錯誤',
+  'label_error' => '标签不存在',
   'thread_poll_succeed' => '投票成功 ',
   'thread_hidden_error' => '抱歉，指定的主題不能隱藏 ',
   'thread_hidden_success' => '隱藏成功 ',
