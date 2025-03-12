@@ -66,9 +66,6 @@ if(!empty($id) && intval($id[0]) || $name) {
 	$metadescription = $tagname ? $taglang.' - '.$tagname : $taglang;
 
 
-	$count = '';
-	$summarylen = 300;
-
 	$showtype = 'thread';
 	$tidarray = $threadlist = array();
 	$sql_parts = array();
@@ -78,7 +75,7 @@ if(!empty($id) && intval($id[0]) || $name) {
 	$sql = implode(' INTERSECT ', $sql_parts);
 	$count = DB::result_first("SELECT count(*) FROM ($sql) t");
 	if($count) {
-		$query = DB::fetch_all($sql . ' ORDER BY itemid DESC LIMIT '.$start_limit.','.$tpp);
+		$query = DB::fetch_all($sql . ' ORDER BY itemid DESC' . DB::limit($start_limit, $tpp));
 		foreach($query as $result) {
 			$tidarray[$result['itemid']] = $result['itemid'];
 		}
@@ -90,12 +87,23 @@ if(!empty($id) && intval($id[0]) || $name) {
 
 } else {
 	$navtitle = $metakeywords = $metadescription = $taglang;
-	$viewthreadtags = 1000;
+	$tpp = 200;
+	$page = max(1, intval($page));
+	$start_limit = ($page - 1) * $tpp;
 	$tagarray = array();
-	$query = C::t('common_tag')->fetch_all_by_status(0, '', $viewthreadtags, 0, 0, 'DESC');
+	$count = C::t('common_tag')->fetch_all_by_status(status:0,returncount:1);
+	$sql = 'SELECT tag.tagname AS tagname,tag.tagid AS tagid, count(*) AS threadnum FROM pre_common_tag AS tag LEFT JOIN pre_common_tagitem AS tagitem ON tagitem.tagid=tag.tagid WHERE tag.status=0 AND tagitem.idtype=\'tid\' GROUP BY tagitem.tagid';
+	if(isset($_GET['sortby']) && $_GET['sortby'] == 'threadnum') {
+		$sql .= ' ORDER BY threadnum DESC';
+	}else{
+		$sql .= ' ORDER BY tagid DESC';
+	}
+	$sql .= DB::limit($start_limit, $tpp);
+	$query = DB::fetch_all($sql);
 	foreach($query as $result) {
 		$tagarray[] = $result;
 	}
+	$multipage = multi($count, $tpp, $page, 'misc.php?mod=tag');
 	include_once template('tag/tag');
 }
 
@@ -128,6 +136,7 @@ function getthreadsbytids($tidarray) {
 	return $threadlist;
 }
 
+<<<<<<< HEAD
 function getblogbyid($blogidarray) {
 	global $_G, $summarylen;
 
@@ -162,3 +171,6 @@ function getblogbyid($blogidarray) {
 =======
 ?>
 >>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)
+=======
+?>
+>>>>>>> 8e651755 (Closes #38)
