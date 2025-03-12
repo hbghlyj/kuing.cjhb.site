@@ -10,24 +10,24 @@
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
-function searchkey($keyword, $field, $returnsrchtxt = 0, $crit = 'and') {
+function searchkey($keyword, $field, $returnsrchtxt = 0, $logicalconnective = 'and') {
 	$srchtxt = $keyword;
 	if($field && $keyword) {
 		$keyword=addslashes($keyword);
-		if ($crit=='regexp') {
+		if ($logicalconnective=='regexp') {
 			$text = trim($keyword);
 			if($text)$keywordsrch .= str_replace('%{text}%', $text, str_replace('LIKE','REGEXP',$field));
 		}else{
 			$keyword=addslashes($keyword);
 		}
-		if($crit=='and'||$crit=='or'){
+		if($logicalconnective=='and'||$logicalconnective=='or'){
 			foreach(preg_split('/\s+/', $keyword) as $value) {
-				if(isset($text))$keywordsrch .= " $crit ";
+				if(isset($text))$keywordsrch .= " $logicalconnective ";
 				$text = trim($value);
 				if($text)$keywordsrch .= str_replace('{text}', $text, $field);
 			}
 		}
-		if ($crit=='exact') {
+		if ($logicalconnective=='exact') {
 			$text = trim($keyword);
 			if($text)$keywordsrch .= str_replace('{text}', $text, $field);
 		}
