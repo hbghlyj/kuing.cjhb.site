@@ -85,6 +85,9 @@ function forumselect($groupselectable = FALSE, $arrayformat = 0, $selectedfid = 
 		if(!$forum['status'] && !$showhide) {
 			continue;
 		}
+		if(DISCUZ_LANG == 'EN/') {
+			$forum['name'] = $forum['name_en'];
+		}
 		$selected = '';
 		if($selectedfid) {
 			if(!is_array($selectedfid)) {

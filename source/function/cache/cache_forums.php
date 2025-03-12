@@ -17,9 +17,8 @@ function build_cache_forums() {
 	$pluginvalue = $forumlist = array();
 	$pluginvalue = pluginsettingvalue('forums');
 
-	$forumnoperms = array();
 	foreach($forums as $val) {
-		$forum = array('fid' => $val['fid'], 'type' => $val['type'], 'name' => $val['name'], 'fup' => $val['fup'], 'simple' => $val['simple'], 'status' => $val['status'], 'allowpostspecial' => $val['allowpostspecial'], 'viewperm' => $val['viewperm'], 'formulaperm' => $val['formulaperm'], 'havepassword' => $val['password'], 'postperm' => $val['postperm'], 'replyperm' => $val['replyperm'], 'getattachperm' => $val['getattachperm'], 'postattachperm' => $val['postattachperm'], 'extra' => $val['extra'], 'commentitem' => $val['commentitem'], 'uid' => $val['uid'], 'archive' => $val['archive'], 'domain' => $val['domain']);
+		$forum = array('fid' => $val['fid'], 'type' => $val['type'], 'name' => $val['name'], 'name_en' => $val['name_en'], 'fup' => $val['fup'], 'simple' => $val['simple'], 'status' => $val['status'], 'allowpostspecial' => $val['allowpostspecial'], 'viewperm' => $val['viewperm'], 'formulaperm' => $val['formulaperm'], 'havepassword' => $val['password'], 'postperm' => $val['postperm'], 'replyperm' => $val['replyperm'], 'getattachperm' => $val['getattachperm'], 'postattachperm' => $val['postattachperm'], 'extra' => $val['extra'], 'commentitem' => $val['commentitem'], 'uid' => $val['uid'], 'archive' => $val['archive'], 'domain' => $val['domain']);
 		$forum['orderby'] = bindec((($forum['simple'] & 128) ? 1 : 0).(($forum['simple'] & 64) ? 1 : 0));
 		$forum['ascdesc'] = ($forum['simple'] & 32) ? 'ASC' : 'DESC';
 		$forum['extra'] = dunserialize($forum['extra']);
@@ -67,7 +66,7 @@ function build_cache_forums() {
 }
 
 function formatforumdata($forum, &$pluginvalue) {
-	static $keys = array('fid', 'type', 'name', 'fup', 'viewperm', 'postperm', 'orderby', 'ascdesc', 'users', 'status',
+	static $keys = array('fid', 'type', 'name', 'name_en', 'fup', 'viewperm', 'postperm', 'orderby', 'ascdesc', 'users', 'status',
 		'extra', 'plugin', 'allowpostspecial', 'commentitem', 'archive', 'domain', 'havepassword');
 	static $orders = array('lastpost', 'dateline', 'replies', 'views');
 
