@@ -3,6 +3,7 @@
 	This is NOT a freeware, use is subject to license terms
 
 	$Id: common.js 36359 2017-01-20 05:06:45Z nemohou $
+	Modified by Valery Votintsev, codersclub.org
 */
 
 function $(id) {
@@ -253,7 +254,7 @@ function getcookie(name, nounescape) {
 
 function Ajax(recvType, waitId) {
 	var aj = new Object();
-	aj.loading = '请稍候...';
+/*vot*/	aj.loading = lng['wait_please'];
 	aj.recvType = recvType ? recvType : 'XML';
 	aj.waitId = waitId ? $(waitId) : null;
 	aj.resultHandle = null;
@@ -582,7 +583,7 @@ function showPreview(val, id) {
 
 function showloading(display, waiting) {
 	var display = display ? display : 'block';
-	var waiting = waiting ? waiting : '请稍候...';
+/*vot*/	var waiting = waiting ? waiting : lng['wait_please'];
 	$('ajaxwaitid').innerHTML = waiting;
 	$('ajaxwaitid').style.display = display;
 }
@@ -622,11 +623,11 @@ function loadcss(cssname) {
 			css.id = 'css_' + cssname,
 			css.type = 'text/css';
 			css.rel = 'stylesheet';
-			css.href = csspath + STYLEID + '_' + cssname + '.css?' + VERHASH;
+/*vot*/			css.href = csspath + STYLEID + '_' + cssname + RTLSUFFIX + '.css?' + VERHASH;
 			var headNode = document.getElementsByTagName("head")[0];
 			headNode.appendChild(css);
 		} else {
-			$('css_' + cssname).href = csspath + STYLEID + '_' + cssname + '.css?' + VERHASH;
+/*vot*/			$('css_' + cssname).href = csspath + STYLEID + '_' + cssname + RTLSUFFIX + '.css?' + VERHASH;
 		}
 		CSSLOADED[cssname] = 1;
 	}
@@ -1133,7 +1134,7 @@ function showDialog(msg, mode, t, func, cover, funccancel, leftmsg, confirmtxt, 
 	var menuid = 'fwin_dialog';
 	var menuObj = $(menuid);
 	var showconfirm = 1;
-	confirmtxtdefault = '确定';
+/*vot*/	confirmtxtdefault = lng['submit'];
 	closetime = isUndefined(closetime) ? '' : closetime;
 	closefunc = function () {
 		if(typeof func == 'function') func();
@@ -1146,12 +1147,12 @@ function showDialog(msg, mode, t, func, cover, funccancel, leftmsg, confirmtxt, 
 	}
 	locationtime = isUndefined(locationtime) ? '' : locationtime;
 	if(locationtime) {
-		leftmsg = locationtime + ' 秒后页面跳转';
+/*vot*/		leftmsg = locationtime + lng['sec_after_page_jump'];
 		showDialogST = setTimeout(closefunc, locationtime * 1000);
 		showconfirm = 0;
 	}
 	confirmtxt = confirmtxt ? confirmtxt : confirmtxtdefault;
-	canceltxt = canceltxt ? canceltxt : '取消';
+/*vot*/	canceltxt = canceltxt ? canceltxt : lng['cancel'];
 
 	if(menuObj) hideMenu('fwin_dialog', 'dialog');
 	menuObj = document.createElement('div');
@@ -1164,8 +1165,8 @@ function showDialog(msg, mode, t, func, cover, funccancel, leftmsg, confirmtxt, 
 		hidedom = '<style type="text/css">object{visibility:hidden;}</style>';
 	}
 	var s = hidedom + '<table cellpadding="0" cellspacing="0" class="fwin"><tr><td class="t_l"></td><td class="t_c"></td><td class="t_r"></td></tr><tr><td class="m_l">&nbsp;&nbsp;</td><td class="m_c"><h3 class="flb"><em>';
-	s += t ? t : '提示信息';
-	s += '</em><span><a href="javascript:;" id="fwin_dialog_close" class="flbc" onclick="hideMenu(\'' + menuid + '\', \'dialog\')" title="关闭">关闭</a></span></h3>';
+/*vot*/	s += t ? t : lng['reminder'];
+/*vot*/	s += '</em><span><a href="javascript:;" id="fwin_dialog_close" class="flbc" onclick="hideMenu(\'' + menuid + '\', \'dialog\')" title="'+lng['close']+'"></a></span></h3>';
 	if(mode == 'info') {
 		s += msg ? msg : '';
 	} else {
@@ -1225,7 +1226,7 @@ function showWindow(k, url, mode, cache, menuv) {
 			ajaxpost(url, 'fwin_content_' + k, '', '', '', function() {initMenu();show();});
 		}
 		if(parseInt(BROWSER.ie) != 6) {
-			loadingst = setTimeout(function() {showDialog('', 'info', '<div class="loadicon"></div> 请稍候...')}, 500);
+/*vot*/			loadingst = setTimeout(function() {showDialog('', 'info', '<div class="loadicon"></div> '+lng['wait_please'])}, 500);
 		}
 	};
 	var initMenu = function() {
@@ -1283,7 +1284,7 @@ function showError(msg) {
 	var p = /<script[^\>]*?>([^\x00]*?)<\/script>/ig;
 	msg = msg.replace(p, '');
 	if(msg !== '') {
-		showDialog(msg, 'alert', '错误信息', null, true, null, '', '', '', 3);
+/*vot*/		showDialog(msg, 'alert', lng['error_message'], null, true, null, '', '', '', 3);
 	}
 }
 
@@ -1368,7 +1369,7 @@ function simulateSelect(selectId, widthvalue) {
 	var ul = document.createElement('ul');
 	var handleKeyDown = function(e) {
 		e = BROWSER.ie ? event : e;
-		if(e.keyCode == 40 || e.keyCode == 38) doane(e);
+/*vot*/		if(e.keyCode == 40 || e.keyCode == 38) doane(e); // Up/Down
 	};
 	var selectwidth = (selectObj.getAttribute('width', i) ? selectObj.getAttribute('width', i) : widthvalue) + 'px';
 
@@ -1413,7 +1414,7 @@ function simulateSelect(selectId, widthvalue) {
 	$('append_parent').appendChild(menuObj);
 
 	$(selectId + '_ctrl').onclick = function(e) {
-		$(selectId + '_ctrl_menu').style.width = selectwidth;
+/*vot*/		$(selectId + '_ctrl_menu').style.width = 'auto';
 		showMenu({'ctrlid':(selectId == 'loginfield' ? 'account' : selectId + '_ctrl'),'menuid':selectId + '_ctrl_menu','evt':'click','pos':'43'});
 		doane(e);
 	};
@@ -1426,7 +1427,7 @@ function simulateSelect(selectId, widthvalue) {
 	$(selectId + '_ctrl').onkeyup = function(e) {
 		e = e ? e : window.event;
 		value = e.keyCode;
-		if(value == 40 || value == 38) {
+/*vot*/		if(value == 40 || value == 38) { // Up/Down
 			if(menuObj.style.display == 'none') {
 				$(selectId + '_ctrl').onclick();
 			} else {
@@ -1524,7 +1525,7 @@ function showColorBox(ctrlid, layer, k, bgcolor) {
 
 function ctrlEnter(event, btnId, onlyEnter) {
 	if(isUndefined(onlyEnter)) onlyEnter = 0;
-	if((event.ctrlKey || onlyEnter) && event.keyCode == 13) {
+/*vot*/	if((event.ctrlKey || onlyEnter) && event.keyCode == 13) { // Enter
 		$(btnId).click();
 		return false;
 	}
@@ -1668,10 +1669,10 @@ function setCopy(text, msg) {
 				showPrompt(null, null, '<span>' + msg + '</span>', 1500);
 			}
 		} else {
-			showDialog('<div class="c"><div style="width: 200px; text-align: center;">复制失败，请选择“允许访问”</div></div>', 'alert');
+/*vot*/		showDialog('<div class="c"><div style="width: 200px; text-align: center;">'+lng['copy_failed']+'</div></div>', 'alert');
 		}
 	} else {
-		var msg = '<div class="c"><div style="width: 200px; text-align: center; text-decoration:underline;">点此复制到剪贴板</div>' +
+/*vot*/		var msg = '<div class="c"><div style="width: 200px; text-align: center; text-decoration:underline;">'+lng['copy2clipboard']+'</div>' +
 		AC_FL_RunContent('id', 'clipboardswf', 'name', 'clipboardswf', 'devicefont', 'false', 'width', '200', 'height', '40', 'src', STATICURL + 'image/common/clipboard.swf', 'menu', 'false',  'allowScriptAccess', 'sameDomain', 'swLiveConnect', 'true', 'wmode', 'transparent', 'style' , 'margin-top:-20px') + '</div>';
 		showDialog(msg, 'info');
 		CLIPBOARDSWFDATA = text;
@@ -1700,27 +1701,6 @@ function initSearchmenu(searchform, cloudSearchUrl) {
 	var searchtxt = $(searchform + '_txt');
 	if(!searchtxt) {
 		searchtxt = $(searchform);
-	}
-	var tclass = searchtxt.className;
-	searchtxt.className = tclass + ' xg1';
-	if (!!("placeholder" in document.createElement("input"))) {
-		if(searchtxt.value == '请输入搜索内容') {
-			searchtxt.value = '';
-		}
-		searchtxt.placeholder = '请输入搜索内容';
-	} else {
-		searchtxt.onfocus = function () {
-			if(searchtxt.value == '请输入搜索内容') {
-				searchtxt.value = '';
-				searchtxt.className = tclass;
-			}
-		};
-		searchtxt.onblur = function () {
-			if(searchtxt.value == '' ) {
-				searchtxt.value = '请输入搜索内容';
-				searchtxt.className = tclass + ' xg1';
-			}
-		};
 	}
 	if(!$(searchform + '_type_menu')) return false;
 	var o = $(searchform + '_type');
@@ -1759,12 +1739,6 @@ function initSearchmenu(searchform, cloudSearchUrl) {
 }
 
 function searchFocus(obj) {
-	if(obj.value == '请输入搜索内容') {
-		obj.value = '';
-	}
-	if($('cloudsearchquery') != null) {
-		$('cloudsearchquery').value = obj.value;
-	}
 }
 
 function sendsecmobseccode(svctype, secmobicc, secmobile) {
@@ -1843,21 +1817,25 @@ function navShow(id) {
 }
 
 function strLenCalc(obj, checklen, maxlen) {
-	var v = obj.value, charlen = 0, maxlen = !maxlen ? 200 : maxlen, curlen = maxlen, len = strlen(v);
+	var v = obj.value, charlen = 0, maxlen = !maxlen ? 200 : maxlen, curlen = 0, len = strlen(v);
 	for(var i = 0; i < v.length; i++) {
 		if(v.charCodeAt(i) < 0 || v.charCodeAt(i) > 255) {
-			curlen -= charset == 'utf-8' ? 2 : 1;
+			curlen += 2;
+		} else {
+			curlen += 1;
 		}
 	}
-	if(curlen >= len) {
-		$(checklen).innerHTML = curlen - len;
+	if(curlen <= maxlen) {
+		$(checklen).innerHTML = maxlen - curlen;
+		return true;
 	} else {
 		obj.value = mb_cutstr(v, maxlen, 0);
+		return false;
 	}
 }
 
 function dstrLenCalc(obj, checklen, maxlen) {
-	var v = obj.value, charlen = 0, maxlen = !maxlen ? 200 : maxlen, curlen = maxlen, len = strlen(v);
+	var v = obj.value, maxlen = !maxlen ? 200 : maxlen, curlen = maxlen, len = strlen(v);
 	for(var i = 0; i < v.length; i++) {
 		value = v.charCodeAt(i);
 		if((value > 127 && value < 55296) || value > 57343) {
@@ -1895,7 +1873,7 @@ function noticeTitle() {
 
 function noticeTitleFlash() {
 	if(NOTICETITLE.flashNumber < 5 || NOTICETITLE.flashNumber > 4 && !NOTICETITLE['State']) {
-		//document.title = (NOTICETITLE['State'] ? '【　　　】' : '【新提醒】') + NOTICETITLE['oldTitle'];//kk del
+/*vot*/		document.title = (NOTICETITLE['State'] ? lng['notices_no'] : lng['notices_yes']) + NOTICETITLE['oldTitle'];
 		NOTICETITLE['State'] = !NOTICETITLE['State'];
 	}
 	NOTICETITLE.flashNumber = NOTICETITLE.flashNumber < NOTICETITLE.sleep ? ++NOTICETITLE.flashNumber : 0;
@@ -1952,7 +1930,7 @@ function addFavorite(url, title) {
 		try {
 			window.sidebar.addPanel(title, url, '');
         	} catch (e) {
-			showDialog("请按 Ctrl+D 键添加到收藏夹", 'notice');
+/*vot*/			showDialog(lng['ctrl_d_favorites'], 'notice');
 		}
 	}
 }
@@ -1962,7 +1940,7 @@ function setHomepage(sURL) {
 		document.body.style.behavior = 'url(#default#homepage)';
 		document.body.setHomePage(sURL);
 	} else {
-		showDialog("非 IE 浏览器请手动将本站设为首页", 'notice');
+/*vot*/		showDialog(lng['non_ie_manually'], 'notice');
 		doane();
 	}
 }
@@ -2018,10 +1996,12 @@ function toggleBlind(dom) {
 	if(dom) {
 		if(loadUserdata('is_blindman')) {
 			saveUserdata('is_blindman', '');
-			dom.title = '开启辅助访问';
+/*vot*/			dom.title = lng['blind_enable'];
+/*vot*/			removeClass(dom, 'active');
 		} else {
 			saveUserdata('is_blindman', '1');
-			dom.title = '关闭辅助访问';
+/*vot*/			dom.title = lng['blind_disable'];
+/*vot*/			addClass(dom, 'active');
 		}
 	}
 }
@@ -2030,9 +2010,9 @@ function checkBlind() {
 	var dom = $('switchblind');
 	if(dom) {
 		if(loadUserdata('is_blindman')) {
-			dom.title = '关闭辅助访问';
+/*vot*/			dom.title = lng['blind_disable'];
 		} else {
-			dom.title = '开启辅助访问';
+/*vot*/			dom.title = lng['blind_enable'];
 		}
 	}
 }
