@@ -4,8 +4,16 @@
 	<h1 class="mt"><i class="fico-tag fc-s" alt="tag"></i> {lang tag}</h1>
 	<div class="bm">
 		<div class="bm_c">
+			<form action="forum.php" method="get">
+				<input type="text" name="mod" value="tag" style="display:none;">
+				<input type="text" name="op" value="search" style="display:none;">
+				<label for="searchkey">包含:</label>
+				<input type="text" id="searchkey" class="px vm" name="searchkey" required>&nbsp;
+				<button type="submit" class="pn"><em>{lang search}</em></button>
+			</form>
 			<form method="post" action="misc.php?mod=tag" class="pns">
-				<input type="text" name="name" class="px vm" size="30" />&nbsp;
+				<label for="name">精确:</label>
+				<input type="text" name="name" class="px vm" required>&nbsp;
 				<button type="submit" class="pn"><em>{lang search}</em></button>
 				<button onclick="const taglist = document.querySelector('.taglist');const anchors = Array.from(taglist.querySelectorAll('a'));anchors.sort(function(a, b) {var aValue = parseInt(a.querySelector('.xg1').textContent);var bValue = parseInt(b.querySelector('.xg1').textContent);return bValue - aValue;});anchors.forEach(function(anchor) {taglist.appendChild(anchor);});this.remove()" class="pn y"><em>按帖数排序</em></button>
 			</form>
