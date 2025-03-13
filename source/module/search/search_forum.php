@@ -192,7 +192,7 @@ if(!submitcheck('searchsubmit', 1)) {
 				$searchindex = array('id' => $index['searchid'], 'dateline' => $index['dateline']);
 				break;
 			} elseif($_G['adminid'] != '1' && $index['flood']) {
-				showmessage('search_ctrl', 'search.php?mod=forum&adv=yes', array('searchctrl' => $_G['setting']['search']['forum']['searchctrl']));
+				showmessage('search_ctrl', NULL, array('searchctrl' => $_G['setting']['search']['forum']['searchctrl']));
 			}
 		}
 
@@ -207,14 +207,14 @@ if(!submitcheck('searchsubmit', 1)) {
 			if(!$srchtxt && !$srchuname && !$srchtag && !$srchfrom && !$before && !is_array($special)) {
 				dheader('Location: search.php?mod=forum&adv=yes');
 			} elseif(isset($srchfid) && !empty($srchfid) && $srchfid != 'all' && !(is_array($srchfid) && in_array('all', $srchfid)) && empty($forumsarray)) {
-				showmessage('search_forum_invalid', 'search.php?mod=forum&adv=yes');
+				showmessage('search_forum_invalid');
 			} elseif(!$fids) {
 				showmessage('group_nopermission', NULL, array('grouptitle' => $_G['group']['grouptitle']), array('login' => 1));
 			}
 
 			if($_G['adminid'] != '1' && $_G['setting']['search']['forum']['maxspm']) {
 				if(C::t('common_searchindex')->count_by_dateline($_G['timestamp'], $srchmod) >= $_G['setting']['search']['forum']['maxspm']) {
-					showmessage('search_toomany', 'search.php?mod=forum&adv=yes', array('maxspm' => $_G['setting']['search']['forum']['maxspm']));
+					showmessage('search_toomany', NULL, array('maxspm' => $_G['setting']['search']['forum']['maxspm']));
 				}
 			}
 
@@ -227,8 +227,10 @@ if(!submitcheck('searchsubmit', 1)) {
 			}
 			if($srchuname) {
 				$srchuid = array_keys(C::t('common_member')->fetch_all_by_like_username($srchuname, 0, 50));
-				if(!$srchuid) {
-					$sqlsrch .= ' AND 0';
+				if($srchuid) {
+				$sqlsrch .= ' AND '.($fulltext ? 'p' : 't').'.authorid IN ('.dimplode((array)$srchuid).')';
+				}else{
+					showmessage('username_nonexistence');
 				}
 			}
 
@@ -244,7 +246,7 @@ if(!submitcheck('searchsubmit', 1)) {
 
 			if(!empty($srchfrom)) {
 				if($srchfrom > $_G['timestamp'] || !empty($before) && $before < $srchfrom) {
-					showmessage('search_time_invalid', 'search.php?mod=forum&adv=yes');
+					showmessage('search_time_invalid');
 				}
 				$sqlsrch .= " AND t.lastpost>=$srchfrom";
 			}
@@ -257,13 +259,13 @@ if(!submitcheck('searchsubmit', 1)) {
 				$id = array();
 				foreach ($srchtag as $value) {
 					if(!preg_match('/^([\x7f-\xff_-]|\w|\s)+$/', $value) || strlen($value) > 20) {
-						showmessage('tag_does_not_exist', '', array('tag' => $value));
+						showmessage('tag_does_not_exist', NULL, array('tag' => $value));
 					}
 					$result = C::t('common_tag')->get_bytagname($value,'tid');
 					if($result) {
 						$id[] = $result['tagid'];
 					}else{
-						showmessage('tag_does_not_exist', '', array('tag' => $value));
+						showmessage('tag_does_not_exist', NULL, array('tag' => $value));
 					}
 				}
 				$sql_parts = array();
