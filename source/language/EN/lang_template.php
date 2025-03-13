@@ -150,6 +150,7 @@ $lang = array (
 	'hot_search'			=> 'Hot search',//'热搜',
 	'search_this_forum'		=> 'This Forum',//'本版块',
 	'thread'			=> 'Threads',//'帖子',
+	'tag'			=> 'Tags',//'标签',
 	'users'				=> 'Users',//'用户',
 	'input_message1'		=> 'You can enter maximum',//'还可输入',
 	'input_message2'		=> 'characters',//'个字符',

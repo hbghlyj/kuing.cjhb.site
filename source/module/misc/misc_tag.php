@@ -11,7 +11,9 @@ if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
-$id = explode(',',$_GET['id']);
+$id = array_filter(array_map('intval', explode(',',$_GET['id'])), function($value) {
+	return $value > 0;
+});
 $type = trim($_GET['type']);
 $name = trim($_GET['name']);
 $page = intval($_GET['page']);
@@ -24,41 +26,41 @@ if($type == 'countitem') {
 	exit();
 }
 $taglang = lang('tag/template', 'tag');
-if(!empty($id) && intval($id[0]) || $name) {
+if(!empty($id) || $name) {
 	$tpp = 20;
 	$page = max(1, intval($page));
 	$start_limit = ($page - 1) * $tpp;
 	if($name) {
 		$tagname = $name;
 		$name = array_map('trim',explode(',', $name));
+		$id = array();
 		foreach ($name as $value) {
 			if(!preg_match('/^([\x7f-\xff_-]|\w|\s)+$/', $value) || strlen($value) > 20) {
 				showmessage('parameters_error');
 			}
-		}
-		$tags = C::t('common_tag')->fetch_info(0, $name);
-		if(count($tags) != count($name)) {
-			showmessage('label_error');
-		}
-		$id = array();
-		foreach($tags as $tag) {
-			$id[] = $tag['tagid'];
+			$result = C::t('common_tag')->get_bytagname($value,'tid');
+			if($result) {
+				$id[] = $result['tagid'];
+			}else{
+				showmessage('tag_does_not_exist', '', array('tag' => $value));
+			}
 		}
 	}else{
-		$id = array_map('intval',$id);
-		$tags = C::t('common_tag')->fetch_info($id);
-		if(count($tags) != count($id)) {
-			showmessage('label_error');
-		}
 		$tagnames = array();
-		foreach($tags as $tag) {
-			$tagnames[] = $tag['tagname'];
+		$tags = C::t('common_tag')->get_byids($id);
+		$id_not_exist = array_diff($id, array_map(function($value) {
+			return $value['tagid'];
+		}, $tags));
+		if(!empty($id_not_exist)) {
+			showmessage('tag_does_not_exist', '', array('tag' => implode(',', $id_not_exist)));
 		}
-		$tagname = implode(',', $tagnames);
+		$tagname = implode(',', array_map(function($value) {
+			return $value['tagname'];
+		}, $tags));
 	}
 	foreach($tags as $tag) {
 		if($tag['status'] == 1) {
-			showmessage('tag_closed');
+			showmessage('tag_closed', '', array('tag' => $tag['tagname']));
 		}
 	}
 	$navtitle = $tagname ? $taglang.' - '.$tagname : $taglang;
@@ -92,7 +94,7 @@ if(!empty($id) && intval($id[0]) || $name) {
 	$start_limit = ($page - 1) * $tpp;
 	$tagarray = array();
 	$count = C::t('common_tag')->fetch_all_by_status(status:0,returncount:1);
-	$sql = 'SELECT tag.tagname AS tagname,tag.tagid AS tagid, count(*) AS threadnum FROM pre_common_tag AS tag LEFT JOIN pre_common_tagitem AS tagitem ON tagitem.tagid=tag.tagid WHERE tag.status=0 AND tagitem.idtype=\'tid\' GROUP BY tagitem.tagid';
+	$sql = 'SELECT tag.tagname AS tagname,tag.tagid AS tagid, count(*) AS threadnum FROM '. DB::table('common_tag') .' tag LEFT JOIN '. DB::table('common_tagitem') .' tagitem ON tagitem.tagid=tag.tagid WHERE tag.status=0 AND tagitem.idtype=\'tid\' GROUP BY tagitem.tagid';
 	if(isset($_GET['sortby']) && $_GET['sortby'] == 'threadnum') {
 		$sql .= ' ORDER BY threadnum DESC';
 	}else{

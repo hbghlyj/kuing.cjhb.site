@@ -70,24 +70,6 @@ class table_common_tag extends discuz_table
 		return DB::fetch_first('SELECT * FROM %t WHERE tagname=%s '.$statussql, array($this->_table, $tagname));
 	}
 
-	public function fetch_info($tagid, $tagname = '') {
-		if(empty($tagid) && empty($tagname)) {
-			return array();
-		}
-		if($tagid) {
-			$addsql = implode(' OR ', array_map(function($id) {
-				return "tagid=".$id;
-			},$tagid));
-			$addsql .= ' LIMIT '.count($tagid);
-		} else {
-			$addsql = implode(' OR ', array_map(function($name) {
-				return "tagname=".DB::quote($name);
-			},$tagname));
-			$addsql .= ' LIMIT '.count($tagname);
-		}
-		return DB::fetch_all("SELECT tagid,tagname,status FROM ".DB::table('common_tag')." WHERE $addsql");
-	}
-
 	public function delete_byids($ids) {
 		if(empty($ids)) {
 			return false;

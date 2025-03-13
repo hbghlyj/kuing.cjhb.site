@@ -11,7 +11,6 @@
 
 $lang = array (
 	'no_tag'		=> 'Have no any tags',//'还没有任何标签',
-	'tag'			=> 'Tags',//'标签',
 	'blog_read'		=> 'Views',//'次阅读',
 	'blog_replay'		=> 'Replies',//'个评论',
 	'empty_tags'		=> 'Tag not exists. You can continue to search or <a href="misc.php?mod=tag" title="Back to tag page">Back to tag page</a>',//'没有此标签，您可以继续搜索或者<a href="misc.php?mod=tag" title="返回标签首页">返回标签首页</a>',

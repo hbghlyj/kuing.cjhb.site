@@ -35,7 +35,7 @@ $lang = array (
 	'group_nopermission'		=> 'Your user group ({grouptitle}) does not allowed to do this operation.',//'您所在的用户组({grouptitle})无法进行此操作。',
 	'thread_nonexistence'		=> 'Specified thread does not exist or is under moderation.',//'指定的主题不存在或已被删除或正在被审核，请返回。',
 	'parameters_error'		=> 'Parameters error',//'参数错误',
-	'label_error' => 'Label does not exist',//'标签不存在',
+	'tag_does_not_exist' => 'Label {tag} does not exist',//'标签 {tag} 不存在',
 	'thread_poll_succeed'		=> 'Voted successfully, now redirect you to the thread page.',//'您的投票成功提交，现在将转入主题页。',
 	'thread_hidden_error'		=> 'Sorry, can not hide specified topic ',//'抱歉，指定的主题不能隐藏 ',
 	'thread_hidden_success'		=> 'Hidden Successfully ',//'隐藏成功 ',
@@ -494,7 +494,7 @@ $lang = array (
 	'report_parameters_invalid'	=> 'Page parameter error, temporarily unable to report.',//'页面参数错误，暂不能举报。',
 	'report_succeed'		=> 'Reported successfully.',//'举报成功。',
 
-	'tag_closed'			=> 'Sorry, this tag has been locked by administrator.',//'对不起，管理员锁定了此 TAG。',
+	'tag_closed'			=> 'Sorry, the tag {tag} has been locked by administrator.',//'抱歉，管理员锁定了此标签 {tag}',
 
 	'portal_attachment_noexist'		=> 'Specified attachment does not exist',//'指定下载的文件不存在',
 	'portal_attachment_nopermission_delete'	=> 'You have no permission to delete the file',//'你没有权限删除该文件',

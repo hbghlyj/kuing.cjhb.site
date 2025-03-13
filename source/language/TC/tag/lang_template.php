@@ -15,7 +15,6 @@ if(!defined('IN_DISCUZ')) {
 
 $lang = array (
   'no_tag' => '還沒有任何標籤',
-  'tag' => '標籤',
   'blog_read' => '次閱讀',
   'blog_replay' => '個評論',
   'empty_tags' => '沒有此標籤，您可以繼續搜索或者<a href="misc.php?mod=tag" title="返回標籤首頁">返回標籤首頁</a>',

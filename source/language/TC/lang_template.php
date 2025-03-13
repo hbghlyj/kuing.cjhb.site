@@ -152,6 +152,7 @@ $lang = array (
   'hot_search' => '熱搜',
   'search_this_forum' => '本版',
   'thread' => '帖子',
+  'tag'	=> '標籤',
   'users' => '用戶',
   'input_message1' => '還可輸入',
   'input_message2' => '個字符',

@@ -10,30 +10,33 @@
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
-function searchkey($keyword, $field, $returnsrchtxt = 0, $logicalconnective = 'and') {
+function searchkey($keyword = '', $field, $returnsrchtxt = 0, $logicalconnective = 'and') {
 	$srchtxt = $keyword;
 	if($field && $keyword) {
 		$keyword=addslashes($keyword);
-		if ($logicalconnective=='regexp') {
-			$text = trim($keyword);
-			if($text)$keywordsrch .= str_replace('%{text}%', $text, str_replace('LIKE','REGEXP',$field));
-		}else{
-			$keyword=addslashes($keyword);
-		}
-		if($logicalconnective=='and'||$logicalconnective=='or'){
-			foreach(preg_split('/\s+/', $keyword) as $value) {
-				if(isset($text))$keywordsrch .= " $logicalconnective ";
-				$text = trim($value);
-				if($text)$keywordsrch .= str_replace('{text}', $text, $field);
-			}
-		}
-		if ($logicalconnective=='exact') {
-			$text = trim($keyword);
-			if($text)$keywordsrch .= str_replace('{text}', $text, $field);
+		switch ($logicalconnective) {
+			case 'regexp':
+				$text = trim($keyword);
+				if ($text) $keywordsrch .= str_replace('%{text}%', $text, str_replace('LIKE', 'REGEXP', $field));
+				break;
+			case 'and':
+			case 'or':
+				$keyword = addslashes($keyword);
+				foreach (preg_split('/\s+/', $keyword) as $value) {
+					if (isset($text)) $keywordsrch .= " $logicalconnective ";
+					$text = trim($value);
+					if ($text) $keywordsrch .= str_replace('{text}', $text, $field);
+				}
+				break;
+			case 'exact':
+				$text = trim($keyword);
+				if ($text) $keywordsrch .= str_replace('{text}', $text, $field);
+				break;
+			default:
+				showmessage('search_forum_invalid');
 		}
 		$keyword = " AND ($keywordsrch)";
 	}
-	$srchtxt || $srchtxt = '';
 	return $returnsrchtxt ? array($srchtxt, $keyword) : $keyword;
 }
 

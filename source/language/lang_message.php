@@ -50,7 +50,7 @@ $lang = array (
   'nopermission_verify' => '<p>您需要等待注册申请审核通过后再次尝试进行本操作，请您耐心等待管理团队审核</p>',
   'thread_nonexistence' => '抱歉，指定的主题不存在或已被删除或正在被审核',
   'parameters_error' => '参数错误',
-  'label_error' => '标签不存在',
+  'tag_does_not_exist' => '标签 {tag} 不存在',
   'thread_poll_succeed' => '成功 ',
   'thread_hidden_error' => '抱歉，指定的主题不能隐藏 ',
   'thread_hidden_success' => '隐藏成功 ',
@@ -525,7 +525,7 @@ $lang = array (
   'report_parameters_invalid' => '页面参数错误，暂不能举报',
   'report_succeed' => '举报成功 ',
 
-  'tag_closed' => '抱歉，管理员锁定了此标签',
+  'tag_closed' => '抱歉，管理员锁定了此标签 {tag}',
 
   'portal_attachment_noexist' => '抱歉，指定下载的文件不存在',
   'portal_attachment_nopermission_delete' => '抱歉，您没有权限删除该文件',

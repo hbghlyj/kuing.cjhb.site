@@ -50,7 +50,7 @@ $lang = array (
   'nopermission_verify' => '<p>您需要等待註冊申請審核通過後再次嘗試進行本操作，請您耐心等待管理團隊審核</p>',
   'thread_nonexistence' => '抱歉，指定的主題不存在或已被刪除或正在被審核',
   'parameters_error' => '參數錯誤',
-  'label_error' => '標籤不存在',
+  'tag_does_not_exist' => '標籤 {tag} 不存在',
   'thread_poll_succeed' => '投票成功 ',
   'thread_hidden_error' => '抱歉，指定的主題不能隱藏 ',
   'thread_hidden_success' => '隱藏成功 ',
@@ -525,7 +525,7 @@ $lang = array (
   'report_parameters_invalid' => '頁面參數錯誤，暫不能舉報',
   'report_succeed' => '舉報成功 ',
 
-  'tag_closed' => '抱歉，管理員鎖定了此標籤',
+  'tag_closed' => '抱歉，管理員鎖定了此標籤 {tag}',
 
   'portal_attachment_noexist' => '抱歉，指定下載的文件不存在',
   'portal_attachment_nopermission_delete' => '抱歉，您沒有權限刪除該文件',
