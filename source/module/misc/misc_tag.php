@@ -36,7 +36,7 @@ if(!empty($id) || $name) {
 		$id = array();
 		foreach ($name as $value) {
 			if(!preg_match('/^([\x7f-\xff_-]|\w|\s)+$/', $value) || strlen($value) > 20) {
-				showmessage('parameters_error');
+				showmessage('tag_does_not_exist', '', array('tag' => $value));
 			}
 			$result = C::t('common_tag')->get_bytagname($value,'tid');
 			if($result) {
