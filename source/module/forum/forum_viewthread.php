@@ -734,7 +734,7 @@ if($_G['forum_thread']['typeid'] && $_G['forum']['threadtypes']['types'][$_G['fo
 	$metakeywords .= ($metakeywords ? ',' : '') . $_G['forum']['threadtypes']['types'][$_G['forum_thread']['typeid']];
 }
 if(!$metadescription) {
-	$metadescription = $summary.' '.strip_tags($_G['forum_thread']['subject']);
+	$metadescription = strip_tags($_G['forum_thread']['subject']).' '.$summary;
 }
 
 $_G['allblocked'] = true;

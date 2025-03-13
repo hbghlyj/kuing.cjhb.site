@@ -361,8 +361,8 @@ if(!$gid && (!defined('FORUM_INDEX_PAGE_MEMORY') || !FORUM_INDEX_PAGE_MEMORY)) {
 			}
 			if(isset($_G['cache']['onlinelist'][7]) && $_G['setting']['maxonlinelist'] > $membercount) {
 				foreach(C::app()->session->fetch_member(2, 0, $_G['setting']['maxonlinelist'] - $membercount) as $online){
-					$online['icon'] = $_G['cache']['onlinelist'][7];
-					$online['username'] = $_G['cache']['onlinelist']['guest'];
+					$online['icon'] = $_G['cache']['onlinelist'][$online['groupid']];
+					$online['username'] = $online['groupid'] == 7 ? '游客' : '机器';
 					$online['lastactivity'] = dgmdate($online['lastactivity'], 't');
 					$whosonline[] = $online;
 				}
