@@ -89,6 +89,7 @@ $lang = array (
 	'group_invite_choose_member'	=> 'Select the user to invite',//'请选择要邀请的用户',
 	'modcp_logout_succeed'		=> 'Logout from Moderator control panel successfully, redirecting to forum',//'成功退出管理面板，返回论坛',
 	'topic_edit_nopermission'	=> 'You are not allowed to create or edit topic',//'你没有权限创建或编辑专题',
+	'search_keywords_invalid' => 'The keyword is invalid',//'搜索关键词无效',
 	'search_id_invalid'		=> 'Specified search does not exist or has been expired already.',//'您指定的搜索不存在或已过期。',
 	'search_ctrl'			=> 'Sorry, you can search only once in {searchctrl} s.',//'对不起，您在 {searchctrl} 秒内只能进行一次搜索，请返回。',
 	'search_toomany'		=> 'Sorry, the system administrator set the maximum limit of searches per minute {maxspm}, please try again later.',//'对不起，管理员设置了每分钟系统最多响应搜索请求 {maxspm} 次，请返回并稍后再试。',

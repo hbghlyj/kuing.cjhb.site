@@ -104,6 +104,7 @@ $lang = array (
   'group_invite_choose_member' => '請選擇要邀請的用戶',
   'modcp_logout_succeed' => '退出成功 ',
   'topic_edit_nopermission' => '抱歉，您沒有權限創建或編輯專題',
+  'search_keywords_invalid' => '搜索關鍵字無效',
   'search_id_invalid' => '抱歉，您指定的搜索不存在或已過期',
   'search_ctrl' => '抱歉，您在 {searchctrl} 秒內只能進行一次搜索',
   'search_toomany' => '抱歉，站點設置每分鐘系統最多響應搜索請求 {maxspm} 次，請稍候再試',

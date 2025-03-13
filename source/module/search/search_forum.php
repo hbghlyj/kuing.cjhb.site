@@ -91,7 +91,6 @@ if(!submitcheck('searchsubmit', 1)) {
 		}
 
 		$keyword = $index['keywords'];
-		// $keyword = $keyword != '' ? str_replace('+', ' ', $keyword) : '';
 
 		$index['keywords'] = rawurlencode($index['keywords']);
 		$searchstring = explode('|', $index['searchstring']);
@@ -234,8 +233,13 @@ if(!submitcheck('searchsubmit', 1)) {
 			}
 
 			if($srchtxt) {
-				$binary = $Aa ? 'BINARY ' : '';
-				$sqlsrch .= $fulltext ? searchkey($keyword, "({$binary}p.message LIKE '%{text}%' OR {$binary}p.subject LIKE '%{text}%')", false, $logicalconnective) : searchkey($keyword, "{$binary}t.subject LIKE '%{text}%'", false, $logicalconnective);
+				if($logicalconnective == 'regexp') {
+					$match_type = $Aa ? '\'cm\'' : '\'im\'';// see https://dev.mysql.com/doc/refman/8.4/en/regexp.html#function_regexp-like
+					$sqlsrch .= $fulltext ? searchkey($keyword, 'REGEXP_LIKE(p.message,\'{text}\','.$match_type.') OR REGEXP_LIKE(p.subject,\'{text}\','.$match_type.')', false, $logicalconnective) : searchkey($keyword,'REGEXP_LIKE(t.subject,\'{text}\','.$match_type.')', false, $logicalconnective);
+				} else {
+					$binary = $Aa ? 'BINARY ' : '';
+					$sqlsrch .= $fulltext ? searchkey($keyword, $binary.'p.message LIKE \'%{text}%\' OR '.$binary.'p.subject LIKE \'%{text}%\'', false, $logicalconnective) : searchkey($keyword, $binary.'t.subject LIKE \'%{text}%\'', false, $logicalconnective);
+				}
 			}
 
 			if(!empty($srchfrom)) {
@@ -269,7 +273,6 @@ if(!submitcheck('searchsubmit', 1)) {
 				$sqlsrch .= ' AND t.tid IN ('.implode(' INTERSECT ', $sql_parts).')';
 			}
 
-			$keywords = str_replace('%', '+', $srchtxt);
 			$expiration = TIMESTAMP + $cachelife_text;
 			
 
@@ -288,7 +291,7 @@ if(!submitcheck('searchsubmit', 1)) {
 
 			$searchid = C::t('common_searchindex')->insert(array(
 				'srchmod' => $srchmod,
-				'keywords' => $keywords,
+				'keywords' => $keyword,
 				'searchstring' => $searchstring,
 				'useip' => $_G['clientip'],
 				'uid' => $_G['uid'],
@@ -301,7 +304,7 @@ if(!submitcheck('searchsubmit', 1)) {
 			!($_G['group']['exempt'] & 2) && updatecreditbyaction('search');
 		}
 
-		dheader("location: search.php?mod=forum&searchid=$searchid&orderby=$orderby&ascdesc=$ascdesc&searchsubmit=yes&kw=".urlencode($keyword));
+		dheader("location: search.php?mod=forum&searchid=$searchid&orderby=$orderby&ascdesc=$ascdesc&searchsubmit=yes");
 
 	}
 
