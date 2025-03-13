@@ -474,6 +474,7 @@ class discuz_application extends discuz_base{
 
 			if(IS_ROBOT) {
 				$this->var['member']['groupid'] = 8;
+				$this->var['member']['username'] = IS_ROBOT;
 			}
 
 			if($this->var['uid'] && !$sessionclose && ($this->session->isnew || ($this->session->get('lastactivity') + 600) < TIMESTAMP)) {

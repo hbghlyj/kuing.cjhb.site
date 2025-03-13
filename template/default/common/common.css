@@ -140,6 +140,7 @@ CSS 写作注意事项：
 	Last Modify:	lushnis
 */
 	.cl:after { content: "."; display: block; height: 0; clear: both; visibility: hidden; } .cl { zoom: 1; }
+	#onlinelist .cl li a:last-child { color: #369; }
 /*
 	元素获取焦点时隐藏外边框
 */
