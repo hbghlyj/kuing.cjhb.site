@@ -623,11 +623,11 @@ function loadcss(cssname) {
 			css.id = 'css_' + cssname,
 			css.type = 'text/css';
 			css.rel = 'stylesheet';
-/*vot*/			css.href = csspath + STYLEID + '_' + cssname + RTLSUFFIX + '.css?' + VERHASH;
+			css.href = csspath + STYLEID + '_' + cssname + '.css?' + VERHASH;
 			var headNode = document.getElementsByTagName("head")[0];
 			headNode.appendChild(css);
 		} else {
-/*vot*/			$('css_' + cssname).href = csspath + STYLEID + '_' + cssname + RTLSUFFIX + '.css?' + VERHASH;
+			$('css_' + cssname).href = csspath + STYLEID + '_' + cssname + '.css?' + VERHASH;
 		}
 		CSSLOADED[cssname] = 1;
 	}
