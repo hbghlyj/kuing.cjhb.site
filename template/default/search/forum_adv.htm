@@ -17,7 +17,7 @@
 		<div class="bm bw0">
 			<div class="sttl mbn"><h2>{lang search_thread_higher}</h2></div>
 			<div class="bm_c">
-				<form method="post" autocomplete="off" action="search.php?mod=forum" onsubmit="if($('srchtxt_1')) searchFocus($('srchtxt_1'));">
+				<form method="post" autocomplete="off" action="search.php?mod=forum" onsubmit="if($('srchtxt_1')) searchFocus($('srchtxt_1'));if($('srchfrom_widget').value)this.srchfrom.value = $('srchfrom_widget').valueAsNumber/1000;if($('before_widget').value)this.before.value = $('before_widget').valueAsNumber/1000;">
 					<input type="hidden" name="formhash" value="{FORMHASH}" />
 
 					<table summary="{lang search}" cellspacing="0" cellpadding="0" class="tfm">
@@ -64,18 +64,11 @@
 						<tr>
 							<th><label for="srchfrom">{lang search_time}</label></th>
 							<td>
-								<select id="srchfrom" name="srchfrom">
-									<option value="0" $srchfromselected[0]>{lang search_any_date}</option>
-									<option value="86400"$srchfromselected[86400]>{lang 1_days_ago}</option>
-									<option value="172800"$srchfromselected[172800]>{lang 2_days_ago}</option>
-									<option value="604800"$srchfromselected[604800]>{lang 7_days_ago}</option>
-									<option value="2592000"$srchfromselected[2592000]>{lang 30_days_ago}</option>
-									<option value="7776000"$srchfromselected[7776000]>{lang 90_days_ago}</option>
-									<option value="15552000"$srchfromselected[15552000]>{lang 180_days_ago}</option>
-									<option value="31536000"$srchfromselected[31536000]>{lang 365_days_ago}</option>
-								</select>
-								<label class="lb"><input type="radio" class="pr" name="before" value="" $beforechecked[0] />{lang search_newer}</label>
-								<label class="lb"><input type="radio" class="pr" name="before" value="1" $beforechecked[1]/>{lang search_older}</label>
+								<input type="hidden" name="srchfrom"/>
+								<input type="datetime-local" id="srchfrom_widget" value="<!--{echo $srchfrom ? date('Y-m-d\TH:i', $srchfrom) : ''}-->" />
+								~
+								<input type="hidden" name="before"/>
+								<input type="datetime-local" id="before_widget" value="<!--{echo $before ? date('Y-m-d\TH:i', $before) : ''}-->" />
 							</td>
 						</tr>
 

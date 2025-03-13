@@ -149,6 +149,7 @@ $lang = array (
 	'postperm_qqonly_nopermission'		=> 'To avoid unauthorized use of your account, Please post only after you have bound your QQ account. After binding, please use the QQ account for login.<br /><a href="connect.php?mod=config"><img src="'.STATICURL.'image/common/qq_bind_small.gif" /></a>',//'为避免您的帐号被盗用，请您绑定QQ帐号后发帖，绑定后请使用QQ帐号登录<br /><a href="connect.php?mod=config"><img src="'.STATICURL.'image/common/qq_bind_small.gif" /></a>',
 	'thread_flood_ctrl_threads_per_hour'	=> 'Sorry, you have reached the posted per hour thread for your usr group, please try again later',//'抱歉，您所在的用户组每小时限制发主题 {threads_per_hour} 个，请稍候再发表',
 	'search_forum_invalid'			=> 'You did not specified the scope of search forum.',//'您没有指定搜索论坛的范围，请返回重新填写。',
+	'search_time_invalid'			=> 'Time period is less than 0.',//'抱歉，您指定的时间范围有误',
 	'search_invalid'			=> 'You did not specified a search keyword or user name.',//'您没有指定要搜索的关键字或用户名，请返回重新填写。',
 	'search_redirect'			=> 'Search completed successfully, now redirecting to result page.',//'搜索成功完成，现在将转入结果页面。',
 	'to_view_the_photo_does_not_exist'	=> 'Oops, specified album does not exist',//'出问题了，您要查看的相册不存在',

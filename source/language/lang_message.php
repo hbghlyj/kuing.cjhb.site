@@ -166,6 +166,7 @@ $lang = array (
   'postperm_qqonly_nopermission' => '为避免您的账号被盗用，请您绑定QQ账号后发帖，绑定后请使用QQ账号登录<br /><a href="connect.php?mod=config"><img src="'.STATICURL.'image/common/qq_bind_small.gif" /></a>',
   'thread_flood_ctrl_threads_per_hour' => '抱歉，您所在的用户组每小时限制发主题 {threads_per_hour} 个，请稍候再发表',
   'search_forum_invalid' => '抱歉，您尚未指定搜索论坛的范围',
+  'search_time_invalid' => '抱歉，您指定的时间范围有误',
   'search_invalid' => '抱歉，您尚未指定要搜索的关键字或用户名',
   'search_redirect' => '搜索成功，现在将转入结果页面',
   'to_view_the_photo_does_not_exist' => '抱歉，您要查看的相册不存在或正在审核',
