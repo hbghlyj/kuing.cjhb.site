@@ -235,7 +235,7 @@ if(!submitcheck('searchsubmit', 1)) {
 
 			if($srchtxt) {
 				$binary = $Aa ? 'BINARY ' : '';
-				$sqlsrch .= $sqlsrch == $fulltext ? searchkey($keyword, "({$binary}p.message LIKE '%{text}%' OR {$binary}p.subject LIKE '%{text}%')", true, $logicalconnective) : searchkey($keyword, "{$binary}t.subject LIKE '%{text}%'", false, $logicalconnective);
+				$sqlsrch .= $fulltext ? searchkey($keyword, "({$binary}p.message LIKE '%{text}%' OR {$binary}p.subject LIKE '%{text}%')", false, $logicalconnective) : searchkey($keyword, "{$binary}t.subject LIKE '%{text}%'", false, $logicalconnective);
 			}
 
 			if(!empty($srchfrom)) {
