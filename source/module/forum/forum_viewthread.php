@@ -729,8 +729,9 @@ if(!$navtitle) {
 } else {
 	$nobbname = true;
 }
-if(!$metakeywords) {
-	$metakeywords = strip_tags($thread['subject']);
+$metakeywords = implode(',', $tagnames);
+if($_G['forum_thread']['typeid'] && $_G['forum']['threadtypes']['types'][$_G['forum_thread']['typeid']]){
+	$metakeywords .= ($metakeywords ? ',' : '') . $_G['forum']['threadtypes']['types'][$_G['forum_thread']['typeid']];
 }
 if(!$metadescription) {
 	$metadescription = $summary.' '.strip_tags($_G['forum_thread']['subject']);
