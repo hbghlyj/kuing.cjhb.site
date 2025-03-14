@@ -1,9 +1,9 @@
 <!--{template search/header}-->
 <div id="ct" class="cl w">
 	<div class="mw">
-		<form class="searchform" method="post" autocomplete="off" action="search.php?mod=forum" onsubmit="if($('scform_srchtxt')) searchFocus($('scform_srchtxt'));">
+<!--{if $searchid}-->
+<form class="searchform" method="post" autocomplete="off" action="search.php?mod=forum" onsubmit="if($('scform_srchtxt')) searchFocus($('scform_srchtxt'));">
 			<input type="hidden" name="formhash" value="{FORMHASH}" />
-
 			<!--{subtemplate search/pubsearch}-->
 
 			<!--{eval $policymsgs = $p = '';}-->
@@ -13,7 +13,7 @@
 			<!--{/loop}-->
 			<!--{if $policymsgs}--><p>{lang search_credit_msg}</p><!--{/if}-->
 		</form>
-
+<!--{/if}-->
 		<div class="bm bw0">
 			<div class="sttl mbn"><h2>{lang search_thread_higher}</h2></div>
 			<div class="bm_c">
