@@ -508,7 +508,7 @@
 				<!--{if $detailstatus}-->
 					<span class="o"><a href="forum.php?showoldetails=no#online" title="{lang spread}"><em class="tg_no" title="{lang spread}"></em></a></span>
 					<h3>
-						<strong><a href="home.php?mod=space&do=friend&view=online&type=member">{lang onlinemember}</a></strong>
+						<strong><a href="home.php?mod=space&do=friend&view=online&type=all">{lang onlinemember}</a></strong>
 						<span class="xs1">- <strong>$onlinenum</strong> {lang onlines}
 						- <strong>$membercount</strong> {lang index_members}(<strong>$invisiblecount</strong> {lang index_invisibles}),
 						<strong>$guestcount</strong> {lang index_guests}
@@ -523,7 +523,7 @@
 							<!--{if !empty($_G['setting']['whosonlinestatus'])}-->
 								{lang onlinemember}
 							<!--{else}-->
-								<a href="home.php?mod=space&do=friend&view=online&type=member">{lang onlinemember}</a>
+								<a href="home.php?mod=space&do=friend&view=online&type=all">{lang onlinemember}</a>
 							<!--{/if}-->
 						</strong>
 						<span class="xs1">- {lang total} <strong>$onlinenum</strong> {lang onlines}

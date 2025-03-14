@@ -342,8 +342,6 @@ if(!$gid && (!defined('FORUM_INDEX_PAGE_MEMORY') || !FORUM_INDEX_PAGE_MEMORY)) {
 		}
 
 		if($detailstatus) {
-			$actioncode = lang('action');
-
 			$_G['uid'] && updatesession();
 			$whosonline = array();
 
@@ -367,7 +365,7 @@ if(!$gid && (!defined('FORUM_INDEX_PAGE_MEMORY') || !FORUM_INDEX_PAGE_MEMORY)) {
 					$whosonline[] = $online;
 				}
 			}
-			unset($actioncode, $online);
+			unset($online);
 
 			if($onlinenum > $_G['setting']['maxonlinelist']) {
 				$membercount = C::app()->session->count(1);
