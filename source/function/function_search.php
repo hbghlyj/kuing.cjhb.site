@@ -24,7 +24,7 @@ function searchkey($keyword = '', $field, $returnsrchtxt = 0, $logicalconnective
 			case 'or':
 				$keywordsrch = implode(" $logicalconnective ",array_map(function ($value) use ($field) {
 					$text = trim($value);
-					return str_replace('{text}', addcslashes(addslashes(addslashes($text)),'%_'), $field);
+					return '('.str_replace('{text}', addcslashes(addslashes(addslashes($text)),'%_'), $field).')';
 				},preg_split('/\s+/', $keyword)));
 				break;
 			case 'exact':
