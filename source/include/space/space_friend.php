@@ -59,9 +59,11 @@ if($_GET['view'] == 'online') {
 		if(($count = C::app()->session->count_invisible(0))) {
 			$onlinedata = DB::fetch_all('SELECT s.*, f.name, t.subject FROM '.DB::table('common_session').' AS s LEFT JOIN '.DB::table('forum_forum').' AS f ON s.fid=f.fid LEFT JOIN '.DB::table('forum_thread').' AS t ON s.tid=t.tid WHERE invisible = 0 ORDER BY lastactivity DESC'.DB::limit($start, $perpage), null, 'sid');
 			$actioncode = lang('action');
+			loadcache('onlinelist');
 			foreach($onlinedata as $key => $value) {
-				$value['lastactivity'] = dgmdate($value['lastactivity'], 'u', '9999', getglobal('setting/dateformat').' H:i:s');
+				$value['lastactivity'] = dgmdate($value['lastactivity'], 't');
 				$value['action'] = $actioncode[$value['action']];
+				$value['icon'] = !empty($_G['cache']['onlinelist'][$value['groupid']]) ? $_G['cache']['onlinelist'][$value['groupid']] : $_G['cache']['onlinelist'][0];
 				$onlinedata[$key] = $value;
 			}
 			unset($actioncode);

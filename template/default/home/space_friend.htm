@@ -165,26 +165,26 @@
 						<div>
 				<!--{/if}-->
 				<!--{if $_GET['type']=='all'}-->
-					<table cellpadding="0" cellspacing="0" class="datatable">
+					<table class="dt">
 						<thead>
 							<tr>
-								<td>{lang username}</td>
-								<td class="time">{lang time}</td>
-								<td>{lang online_action}</td>
-								<td>{lang online_in_forum}</td>
-								<td>{lang online_in_thread}</td>
-								<td class="time">{lang online_ip}</td>
+								<th></th>
+								<th>{lang username}</th>
+								<th>{lang online_in_forum}</th>
+								<th>{lang online_in_thread}</th>
+								<th>{lang time}</th>
+								<th>{lang online_ip}</th>
 							</tr>
 						</thead>
 						<tbody>
 						<!--{loop $onlinedata $key $value}-->
 							<tr>
-								<td><!--{if $value['uid']}--><a href="home.php?mod=space&uid=$value[uid]">$value[username]</a><!--{elseif $value['username']}-->$value[username]<!--{else}-->{lang guest}<!--{/if}-->&nbsp;</td>
-								<td class="time">$value[lastactivity]&nbsp;</td>
-								<td>$value[action]&nbsp;</td>
-								<td><!--{if $value['fid']}--><a href="forum.php?mod=forumdisplay&fid=$value[fid]">$value[name]</a><!--{/if}-->&nbsp;</td>
-								<td><!--{if $value['tid']}--><a href="forum.php?mod=viewthread&tid=$value[tid]">$value[subject]</a><!--{/if}-->&nbsp;</td>
-								<td>$value[ip]&nbsp;</td>
+								<td align="center"><img src="$value[icon]" alt="icon" /></td>
+								<td style="padding-left:0;max-width:100px;"><!--{if $value['uid']}--><a href="home.php?mod=space&uid=$value[uid]">$value[username]</a><!--{elseif $value['username']}-->$value[username]<!--{else}-->{lang guest}<!--{/if}-->&nbsp;</td>
+								<td><!--{if $value['fid']}--><a href="forum.php?mod=forumdisplay&fid=$value[fid]">$value[name]</a><!--{else}-->$value[action]<!--{/if}-->&nbsp;</td>
+								<td><!--{if $value['tid']}--><a href="forum.php?mod=viewtdread&tid=$value[tid]">$value[subject]</a><!--{/if}-->&nbsp;</td>
+								<td>$value[lastactivity]&nbsp;</td>
+								<td style="max-width: 100px;overflow: hidden;" nowrap>$value[ip]&nbsp;</td>
 							</tr>
 						<!--{/loop}-->
 						</tbody>
