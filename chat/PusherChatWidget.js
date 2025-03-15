@@ -78,7 +78,9 @@ PusherChatWidget.prototype._chatMessageReceived = function(data) {
   
   var messageEl = PusherChatWidget._buildListItem(data);
   this._messagesEl.append(messageEl);
-  MathJax.typesetPromise([messageEl.find('.text').get(0)]);
+  if (typeof MathJax.typesetPromise === 'function') {
+    MathJax.typesetPromise([messageEl.find('.text').get(0)]);
+  }
   
   ++this._itemCount;
   
