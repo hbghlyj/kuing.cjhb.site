@@ -351,6 +351,7 @@ function cpheader() {
 <script type="text/JavaScript">
 var admincpfilename = '$basescript', IMGDIR = '$IMGDIR', STYLEID = '$STYLEID', VERHASH = '$VERHASH', IN_ADMINCP = true, ISFRAME = $frame, STATICURL='static/', SITEURL = '{$_G['siteurl']}', JSPATH = '{$_G['setting']['jspath']}';
 </script>
+<script src="/source/language/lang_js.js"></script>
 <script src="{$_G['setting']['jspath']}common.js?{$_G['style']['verhash']}" type="text/javascript"></script>
 <script src="{$_G['setting']['jspath']}admincp.js?{$_G['style']['verhash']}" type="text/javascript"></script>
 <script type="text/javascript">

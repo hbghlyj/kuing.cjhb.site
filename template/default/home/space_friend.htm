@@ -179,7 +179,7 @@
 						<tbody>
 						<!--{loop $onlinedata $key $value}-->
 							<tr>
-								<td align="center"><img src="$value[icon]" alt="icon" /></td>
+								<td align="center"><img src="$value[icon]" style="vertical-align:middle"></td>
 								<td style="padding-left:0;max-width:100px;"><!--{if $value['uid']}--><a href="home.php?mod=space&uid=$value[uid]">$value[username]</a><!--{elseif $value['username']}-->$value[username]<!--{else}-->{lang guest}<!--{/if}-->&nbsp;</td>
 								<td><!--{if $value['fid']}--><a href="forum.php?mod=forumdisplay&fid=$value[fid]">$value[name]</a><!--{else}-->$value[action]<!--{/if}-->&nbsp;</td>
 								<td><!--{if $value['tid']}--><a href="forum.php?mod=viewtdread&tid=$value[tid]">$value[subject]</a><!--{/if}-->&nbsp;</td>
