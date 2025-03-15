@@ -370,7 +370,7 @@ function checkmobile() {
 function dstrpos($string, $arr, $returnvalue = false) {
 	if(empty($string)) return false;
 	foreach((array)$arr as $v) {
-		if(str_contains($string, $v)) {
+		if(stripos($string, $v) !== false) {
 			$return = $returnvalue ? $v : true;
 			return $return;
 		}
