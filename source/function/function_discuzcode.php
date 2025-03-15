@@ -218,32 +218,42 @@ function discuzcode($message, $smileyoff = false, $bbcodeoff = false, $htmlon = 
 		}
 
 		// list
-		$close_tag = '[/list]';
-		// if the close tag is found, replace the closest open tag before it
-		// this is to prevent the open tag from being replaced but the close tag not, which would result in invalid html
-		$parts = explode($close_tag, $message);
+		$open_tags = array(
+			'[list]' => '<ul>',
+			'[list=1]' => '<ul type="1" class="litype_1">',
+			'[list=a]' => '<ul type="a" class="litype_2">',
+			'[list=A]' => '<ul type="A" class="litype_3">'
+		);
+		$close_tag = '</ul>';
+		$stack = array();
+		$parts = preg_split('/(\[list(?:=[1aA])?\]|\[\/list\]|\[\*\])/', $message, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
 		$message = '';
-		$count = count($parts);
-		for ($j = 0; $j < $count - 1; $j++) {
-			$part = $parts[$j];
-			// for each part, using str_pos() to find the open tag in one of [list=1], [list=a], [list=A] and replace it with the open tag replacement
-			$open_tags = array('[list]', '[list=1]', '[list=a]', '[list=A]');
-			foreach ($open_tags as $i => $open_tag) {
-				$pos = strpos($part, $open_tag);
-				if ($pos !== false) {
-					// open tag found, replace it with the open tag replacement
-					$open_tag_replace = array('<ul>', '<ul type="1" class="litype_1">', '<ul type="a" class="litype_2">', '<ul type="A" class="litype_3>')[$i];
-					$message .= substr($part, 0, $pos) . $open_tag_replace . strtr(substr($part, $pos + strlen($open_tag)),array('[*]'=>'<li>',"\r\n[*]"=>'<li>')) . '</ul>';
-					break;
+		foreach ($parts as $part) {
+			if (isset($open_tags[$part])) {
+				array_push($stack, $open_tags[$part]);
+				$message .= $open_tags[$part];
+			} elseif ($part === '[/list]') {
+				if (!empty($stack)) {
+					array_pop($stack);
+					$message = rtrim($message, "\r\n");
+					$message .= $close_tag;
 				}
-			}
-			if ($pos === false) {
-				// no open tag found, just append the part and the close tag as in the original
-				$message .= $part . $close_tag;
+			} elseif ($part === '[*]') {
+				if (!empty($stack)) {
+					$message = rtrim($message, "\r\n");
+					$message .= '<li>';
+				} else {
+					$message .= '[*]';
+				}
+			} else {
+				$message .= $part;
 			}
 		}
-		// append the last part
-		$message .= $parts[$count-1];
+		// close all unclosed tags
+		while (!empty($stack)) {
+			array_pop($stack);
+			$message .= $close_tag;
+		}
 
 		if($pid && !defined('IN_MOBILE')) {
 			$message = preg_replace_callback(
