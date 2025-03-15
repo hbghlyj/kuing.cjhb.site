@@ -30,6 +30,35 @@ function PusherChatWidget(pusher, options) {
       }
     }
   }
+  this._itemCount = 0;
+  this._widget = PusherChatWidget._createHTML(this.settings.appendTo);
+  this._messageInputEl = this._widget.find('textarea');
+  this._messagesEl = this._widget.find('ul');
+
+  // Read collapse/expand status from cookie
+  this.isCollapsed = document.cookie.replace(/(?:(?:^|.*;\s*)chatWidgetCollapsed\s*\=\s*([^;]*).*$)|^.*$/, "$1") === 'true';
+  if (this.isCollapsed) {
+    this._widget.find('.pusher-chat-widget-messages').hide();
+    this._widget.find('.pusher-chat-widget-input').hide();
+    this._widget.find('.toggle-icon').html('<path d="M7 14l5-5 5 5z"/>'); // Upward triangle
+    // Once event listener, expand the widget and intialize the widget
+    self._widget.find('.pusher-chat-widget-header').one('click', function() {
+      self._widget.find('.pusher-chat-widget-messages').slideToggle();
+      self._widget.find('.pusher-chat-widget-input').slideToggle();
+      document.cookie = "chatWidgetCollapsed=false; path=/";
+      self.isCollapsed = false;
+      self._widget.find('.toggle-icon').html('<path d="M7 10l5 5 5-5z"/>');
+      self._init();
+    });
+  } else {
+    this._init();
+  }
+};
+PusherChatWidget.instances = [];
+
+/* @private */
+PusherChatWidget.prototype._init = function() {
+  var self = this;
   // Fetch history messages
   jQuery.ajax({
     url: '/chat/php/history.php',
@@ -52,21 +81,25 @@ function PusherChatWidget(pusher, options) {
   
   this._chatChannel.bind('chat_message', function(data) {
     self._chatMessageReceived(data);
-    self._messagesEl.animate({ scrollTop: self._messagesEl[0].scrollHeight }, 500);
-  })
-    
-  this._itemCount = 0;
+    self._messagesEl.animate({scrollTop: self._messagesEl[0].scrollHeight}, 500);
+  });
   
-  this._widget = PusherChatWidget._createHTML(this.settings.appendTo);
-  this._messageInputEl = this._widget.find('textarea');
-  this._messagesEl = this._widget.find('ul');
-  
+  // Toggle collapse/expand status
+  self._widget.find('.pusher-chat-widget-header').click(function() {
+    self._widget.find('.pusher-chat-widget-messages').slideToggle();
+    self._widget.find('.pusher-chat-widget-input').slideToggle();
+    self.isCollapsed = !self.isCollapsed;
+    document.cookie = "chatWidgetCollapsed=" + self.isCollapsed + "; path=/";
+    self._widget.find('.toggle-icon').html(self.isCollapsed ? '<path d="M7 14l5-5 5 5z"/>' : '<path d="M7 10l5 5 5-5z"/>');
+  });
+
+  // Add send button functionality
   this._widget.find('button').click(function() {
     self._sendChatButtonClicked();
-  })  
+  });
+  // Update the UI with the current time every 10 seconds
   this._startTimeMonitor();
-};
-PusherChatWidget.instances = [];
+}
 
 /* @private */
 PusherChatWidget.prototype._chatMessageReceived = function(data) {
@@ -93,18 +126,24 @@ PusherChatWidget.prototype._chatMessageReceived = function(data) {
 };
 
 /* @private */
-PusherChatWidget.prototype._sendChatButtonClicked = function() {
-  var message = jQuery.trim(this._messageInputEl.val());
-  if(!message) {
-    alert('please supply a chat message');
-    return;
+if(discuz_uid == '0') {
+  PusherChatWidget.prototype._sendChatButtonClicked = function() {
+    showWindow('chat','member.php?mod=logging&action=login&guestmessage=yes');
   }
+} else {
+  PusherChatWidget.prototype._sendChatButtonClicked = function() {
+    var message = jQuery.trim(this._messageInputEl.val());
+    if(!message) {
+      alert('please supply a chat message');
+      return;
+    }
 
-  var chatInfo = {
-    text: message
+    var chatInfo = {
+      text: message
+    };
+    this._sendChatMessage(chatInfo);
   };
-  this._sendChatMessage(chatInfo);
-};
+}
 
 /* @private */
 PusherChatWidget.prototype._sendChatMessage = function(data) {
@@ -171,35 +210,6 @@ PusherChatWidget._createHTML = function(appendTo) {
 
   var widget = jQuery(html);
   jQuery(appendTo).append(widget);
-
-  // Add collapse/expand functionality
-  var header = widget.find('.pusher-chat-widget-header');
-  var messages = widget.find('.pusher-chat-widget-messages');
-  var input = widget.find('.pusher-chat-widget-input');
-  var toggleIcon = header.find('.toggle-icon');
-
-  // Read collapse/expand status from cookie
-  var isCollapsed = document.cookie.replace(/(?:(?:^|.*;\s*)chatWidgetCollapsed\s*\=\s*([^;]*).*$)|^.*$/, "$1") === 'true';
-  if (isCollapsed) {
-    messages.hide();
-    input.hide();
-    toggleIcon.addClass('collapsed');
-    toggleIcon.html('<path d="M7 14l5-5 5 5z"/>'); // Upward triangle
-  }
-
-  header.click(function() {
-    messages.slideToggle();
-    input.slideToggle();
-    toggleIcon.toggleClass('collapsed');
-    var collapsed = toggleIcon.hasClass('collapsed');
-    document.cookie = "chatWidgetCollapsed=" + collapsed + "; path=/";
-    if (collapsed) {
-      toggleIcon.html('<path d="M7 14l5-5 5 5z"/>'); // Upward triangle
-    } else {
-      toggleIcon.html('<path d="M7 10l5 5 5-5z"/>'); // Downward triangle
-    }
-  });
-
   return widget;
 };
 

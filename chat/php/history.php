@@ -3,18 +3,14 @@ require '../../source/class/class_core.php';
 $discuz = C::app();
 $discuz->init_cron = false;
 $discuz->init();
-if(empty($_G['uid'])) {
-    header('HTTP/1.1 401 Unauthorized');
-    exit('not_loggedin');
-}
 include '../../config/config_global.php';
 $conn = new mysqli($_config['db'][1]['dbhost'], $_config['db'][1]['dbuser'], $_config['db'][1]['dbpw'], $_config['db'][1]['dbname']);
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Delete messages older than 2 days
-$delete_sql = "DELETE FROM chat WHERE time < NOW() - INTERVAL 2 DAY";
+// Old rows beyond limit 50 will be deleted as new ones come in.
+$delete_sql = "DELETE FROM chat WHERE time < (SELECT time FROM chat ORDER BY time DESC LIMIT 50, 1)";
 $conn->query($delete_sql);
 
 
