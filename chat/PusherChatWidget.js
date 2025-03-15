@@ -13,7 +13,6 @@ function PusherChatWidget(pusher, options) {
   var self = this;
   
   this._pusher = pusher;
-  this._autoScroll = true;
   
   options = options || {};
   this.settings = jQuery.extend({
@@ -40,6 +39,7 @@ function PusherChatWidget(pusher, options) {
       data.forEach(function(message) {
         self._chatMessageReceived(message);
       });
+      self._messagesEl.scrollTop(self._messagesEl[0].scrollHeight);
     },
     error: function(xhr, status, error) {
       if (console && console.error) {
@@ -52,6 +52,7 @@ function PusherChatWidget(pusher, options) {
   
   this._chatChannel.bind('chat_message', function(data) {
     self._chatMessageReceived(data);
+    self._messagesEl.animate({ scrollTop: self._messagesEl[0].scrollHeight }, 500);
   })
     
   this._itemCount = 0;
@@ -62,15 +63,7 @@ function PusherChatWidget(pusher, options) {
   
   this._widget.find('button').click(function() {
     self._sendChatButtonClicked();
-  })
-  
-  var messageEl = this._messagesEl;
-  messageEl.scroll(function() {
-    var el = messageEl.get(0);
-    var scrollableHeight = (el.scrollHeight - messageEl.height());
-    self._autoScroll = ( scrollableHeight === messageEl.scrollTop() );
-  });
-  
+  })  
   this._startTimeMonitor();
 };
 PusherChatWidget.instances = [];
@@ -84,14 +77,8 @@ PusherChatWidget.prototype._chatMessageReceived = function(data) {
   }
   
   var messageEl = PusherChatWidget._buildListItem(data);
-  messageEl.hide();
   this._messagesEl.append(messageEl);
-  messageEl.slideDown(function() {
-    if(self._autoScroll) {
-      var messageEl = self._messagesEl.get(0);
-      self._messagesEl.scrollTop(messageEl.scrollHeight);
-    }
-  });
+  MathJax.typesetPromise([messageEl.find('.text').get(0)]);
   
   ++this._itemCount;
   
@@ -231,7 +218,7 @@ PusherChatWidget._buildListItem = function(activity) {
   
   var user = jQuery('<div class="activity-row">' +
                 '<span class="user-name">' +
-                  '<a class="screen-name" title="' + activity.actor.displayName.replace(/\\'/g, "'") + '">' + activity.actor.displayName.replace(/\\'/g, "'") + '</a>' +
+                  '<a class="screen-name">' + activity.actor.displayName.replace(/\\'/g, "'") + '</a>' +
                 '</span>' +
               '</div>');
   content.append(user);
@@ -243,7 +230,7 @@ PusherChatWidget._buildListItem = function(activity) {
   
   var time = jQuery('<div class="activity-row">' + 
                 '<a ' + (activity.link?'href="' + activity.link + '" ':'') + ' class="timestamp">' +
-                  '<span title="' + activity.published + '" data-activity-published="' + activity.published + '">' + PusherChatWidget.timeToDescription(activity.published) + '</span>' +
+                  '<span data-activity-published="' + activity.published + '">' + PusherChatWidget.timeToDescription(activity.published) + '</span>' +
                 '</a>' +
                 '<span class="activity-actions">' +
                 '</span>' +
@@ -259,15 +246,12 @@ PusherChatWidget._buildListItem = function(activity) {
  * time description.
  */
 PusherChatWidget.timeToDescription = function(time) {
-  if(time instanceof Date === false) {
-    time = new Date(Date.parse(time));
-  }
-  var desc = "dunno";
-  var now = new Date();
-  var howLongAgo = (now - time);
-  var seconds = Math.round(howLongAgo/1000);
-  var minutes = Math.round(seconds/60);
-  var hours = Math.round(minutes/60);
+  const now = new Date();
+  const howLongAgo = now - new Date(Date.parse(time));
+  let desc = "dunno";
+  const seconds = Math.round(howLongAgo/1000);
+  const minutes = Math.round(seconds/60);
+  const hours = Math.round(minutes/60);
   if(seconds === 0) {
     desc = "just now";
     if(isChinese) {

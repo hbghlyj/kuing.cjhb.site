@@ -18,14 +18,14 @@ $delete_sql = "DELETE FROM chat WHERE time < NOW() - INTERVAL 2 DAY";
 $conn->query($delete_sql);
 
 
-$sql = "SELECT time, uid, author, message FROM chat";
+$sql = "SELECT DATE_FORMAT(time, '%Y-%m-%dT%TZ') as ISO8601, uid, author, message FROM chat";
 $result = $conn->query($sql);
 $rows = array();
 if ($result->num_rows > 0) {
     while($row = $result->fetch_assoc()) {
         $rows[] = array(
             'body' => $row['message'],
-            'published' => $row['time'],
+            'published' => $row['ISO8601'],
             'actor' => array(
                 'displayName' => $row['author'],
                 'image' => array(

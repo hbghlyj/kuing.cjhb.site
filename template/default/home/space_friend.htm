@@ -23,7 +23,6 @@
 					<li{$a_actives[onlinefriend]}><a href="home.php?mod=space&do=friend&view=online&type=friend">{lang online_friend}</a></li>
 					<li{$a_actives[onlinemember]}><a href="home.php?mod=space&do=friend&view=online&type=member">{lang online_member}</a></li>
 					<!--{/if}-->
-					<li{$a_actives[onlinenear]}><a href="home.php?mod=space&do=friend&view=online&type=near">{lang online_near}</a></li>
 					<li{$a_actives[visitor]}><a href="home.php?mod=space&do=friend&view=visitor">{lang my_visitor}</a></li>
 					<li{$a_actives[trace]}><a href="home.php?mod=space&do=friend&view=trace">{lang my_trace}</a></li>
 					<li{$a_actives[blacklist]}><a href="home.php?mod=space&do=friend&view=blacklist">{lang my_blacklist}</a></li>
@@ -182,7 +181,7 @@
 								<td align="center"><img src="$value[icon]" style="vertical-align:middle"></td>
 								<td style="padding-left:0;max-width:100px;"><!--{if $value['uid']}--><a href="home.php?mod=space&uid=$value[uid]">$value[username]</a><!--{elseif $value['username']}-->$value[username]<!--{else}-->{lang guest}<!--{/if}-->&nbsp;</td>
 								<td><!--{if $value['fid']}--><a href="forum.php?mod=forumdisplay&fid=$value[fid]">$value[name]</a><!--{else}-->$value[action]<!--{/if}-->&nbsp;</td>
-								<td><!--{if $value['tid']}--><a href="forum.php?mod=viewthread&tid=$value[tid]">$value[subject]</a><!--{/if}-->&nbsp;</td>
+								<td style="max-width:300px;"><!--{if $value['tid']}--><a href="forum.php?mod=viewthread&tid=$value[tid]">$value[subject]</a><!--{/if}-->&nbsp;</td>
 								<td>$value[lastactivity]&nbsp;</td>
 								<td style="max-width: 100px;overflow: hidden;" nowrap>$value[ip]&nbsp;</td>
 							</tr>
