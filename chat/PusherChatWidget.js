@@ -36,7 +36,7 @@ function PusherChatWidget(pusher, options) {
   this._messagesEl = this._widget.find('ul');
 
   // Read collapse/expand status from cookie
-  this.isCollapsed = document.cookie.replace(/(?:(?:^|.*;\s*)chatWidgetCollapsed\s*\=\s*([^;]*).*$)|^.*$/, "$1") === 'true';
+  this.isCollapsed = document.cookie.replace(/(?:(?:^|.*;\s*)chatWidgetCollapsed\s*\=\s*([^;]*).*$)|^.*$/, "$1") !== 'false';
   if (this.isCollapsed) {
     this._widget.find('.pusher-chat-widget-messages').hide();
     this._widget.find('.pusher-chat-widget-input').hide();
@@ -259,7 +259,8 @@ PusherChatWidget._buildListItem = function(activity) {
  */
 PusherChatWidget.timeToDescription = function(time) {
   const now = new Date();
-  const howLongAgo = now - new Date(Date.parse(time));
+  const date = new Date(time);
+  const howLongAgo = now - date;
   let desc = "dunno";
   const seconds = Math.round(howLongAgo/1000);
   const minutes = Math.round(seconds/60);
@@ -295,9 +296,9 @@ PusherChatWidget.timeToDescription = function(time) {
     }
   }
   else {
-    desc = time.getDay() + " " + ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"][time.getMonth()]
+    desc = date.getDay() + " " + ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"][date.getMonth()]
     if(isChinese) {
-      desc = time.getMonth() + "月" + time.getDay() + "日";
+      desc = date.getMonth() + "月" + date.getDay() + "日";
     }
   }
   return desc;
