@@ -1,5 +1,6 @@
 (function(){
 const isChinese = navigator.languages && (navigator.languages.indexOf('zh') !== -1 || navigator.languages.indexOf('zh-CN') !== -1 || navigator.languages.indexOf('zh-TW') !== -1 || navigator.languages.indexOf('zh-HK') !== -1 || navigator.languages.indexOf('zh-SG') !== -1);
+const isMobile = location.search.startsWith('?mod=find');
 
 /**
  * Creates an instance of a PusherChatWidget, binds to a chat channel on the pusher instance and
@@ -42,14 +43,16 @@ function PusherChatWidget(pusher, options) {
     this._widget.find('.pusher-chat-widget-input').hide();
     this._widget.find('.toggle-icon').html('<path d="M7 14l5-5 5 5z"/>'); // Upward triangle
     // Once event listener, expand the widget and intialize the widget
-    self._widget.find('.pusher-chat-widget-header').one('click', function() {
-      self._widget.find('.pusher-chat-widget-messages').slideToggle();
-      self._widget.find('.pusher-chat-widget-input').slideToggle();
-      document.cookie = "chatWidgetCollapsed=false; path=/";
-      self.isCollapsed = false;
-      self._widget.find('.toggle-icon').html('<path d="M7 10l5 5 5-5z"/>');
-      self._init();
-    });
+    if(!isMobile) {
+      self._widget.find('.pusher-chat-widget-header').one('click', function() {
+        self._widget.find('.pusher-chat-widget-messages').slideToggle();
+        self._widget.find('.pusher-chat-widget-input').slideToggle();
+        document.cookie = "chatWidgetCollapsed=false; path=/";
+        self.isCollapsed = false;
+        self._widget.find('.toggle-icon').html('<path d="M7 10l5 5 5-5z"/>');
+        self._init();
+      });
+    }
   } else {
     this._init();
   }
@@ -85,13 +88,15 @@ PusherChatWidget.prototype._init = function() {
   });
   
   // Toggle collapse/expand status
-  self._widget.find('.pusher-chat-widget-header').click(function() {
-    self._widget.find('.pusher-chat-widget-messages').slideToggle();
-    self._widget.find('.pusher-chat-widget-input').slideToggle();
-    self.isCollapsed = !self.isCollapsed;
-    document.cookie = "chatWidgetCollapsed=" + self.isCollapsed + "; path=/";
-    self._widget.find('.toggle-icon').html(self.isCollapsed ? '<path d="M7 14l5-5 5 5z"/>' : '<path d="M7 10l5 5 5-5z"/>');
-  });
+  if(!isMobile) {
+    self._widget.find('.pusher-chat-widget-header').click(function() {
+      self._widget.find('.pusher-chat-widget-messages').slideToggle();
+      self._widget.find('.pusher-chat-widget-input').slideToggle();
+      self.isCollapsed = !self.isCollapsed;
+      document.cookie = "chatWidgetCollapsed=" + self.isCollapsed + "; path=/";
+      self._widget.find('.toggle-icon').html(self.isCollapsed ? '<path d="M7 14l5-5 5 5z"/>' : '<path d="M7 10l5 5 5-5z"/>');
+    });
+  }
 
   // Add send button functionality
   this._widget.find('button').click(function() {
@@ -190,11 +195,12 @@ PusherChatWidget.prototype._startTimeMonitor = function() {
 PusherChatWidget._createHTML = function(appendTo) {
   var html = '' +
   '<div class="pusher-chat-widget">' +
+  (isMobile ? '' :(
     '<div class="pusher-chat-widget-header">' +
       '<svg class="toggle-icon" width="24" height="24" viewBox="0 0 24 24">' +
         '<path d="M7 10l5 5 5-5z"/>' + // Downward triangle
       '</svg>' +
-    '</div>' +
+    '</div>')) +
     '<div class="pusher-chat-widget-messages">' +
       '<ul class="activity-stream">' +
         '<li class="waiting">' +
@@ -258,7 +264,7 @@ PusherChatWidget.timeToDescription = function(time) {
   const now = new Date();
   const date = new Date(time);
   const howLongAgo = now - date;
-  let desc = "dunno";
+  let desc;
   const seconds = Math.round(howLongAgo/1000);
   const minutes = Math.round(seconds/60);
   const hours = Math.round(minutes/60);
