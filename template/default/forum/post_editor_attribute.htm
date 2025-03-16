@@ -183,7 +183,7 @@
 						<!--{if $_GET[action] != 'edit' && helper_access::check_module('feed') && $_G['forum']['allowfeed']}-->
 							<label for="addfeed"><input type="checkbox" name="addfeed" id="addfeed" class="pc" value="1" $addfeedcheck>{lang addfeed}</label>
 						<!--{/if}-->
-						<label for="usesig"><input type="checkbox" name="usesig" id="usesig" class="pc" value="1" {if !$_G['group']['maxsigsize']}disabled {else}$usesigcheck {/if}/>{lang post_show_sig}</label>
+						<label for="usesig"><input type="checkbox" name="usesig" id="usesig" class="pc" value="1">{lang post_show_sig}</label>
 					</td>
 				</tr>
 				<tr>
