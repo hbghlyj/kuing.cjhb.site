@@ -66,9 +66,24 @@
 					<div id="{$editorid}_attachn" style="display:none">!</div>
 					<a id="{$editorid}_attach" title="{lang e_attach_title}" menupos="00" menuwidth="600">{lang e_attach}</a>
 				<!--{/if}-->
-				<!--{if str_contains($_SERVER['HTTP_USER_AGENT'],'Windows NT 10.0') == false}-->
-                <a id="emoji" title="emoji" href="javascript:;" style="background:none;padding:0;font-size:2em;height:42px;line-height:42px;" onclick="show_emoji_window('#{$editorid}_textarea')">😃</a>
-				<!--{/if}-->
+    <script>
+		if(navigator.userAgent.match(/Windows 7|Windows 8|Windows NT 6|Windows NT 10\.0.*?Chrome\/10[0-9]/)) {
+			var emojiButton = document.createElement('a');
+			emojiButton.id = 'emoji';
+			emojiButton.href = 'javascript:;';
+			emojiButton.title = 'emoji';
+			emojiButton.style.background = 'none';
+			emojiButton.style.padding = '0';
+			emojiButton.style.fontSize = '2em';
+			emojiButton.style.height = '42px';
+			emojiButton.style.lineHeight = '42px';
+			emojiButton.innerHTML = '😃';
+			emojiButton.onclick = function() {
+				show_emoji_window('#{$editorid}_textarea');
+			};
+			document.currentScript.parentElement.appendChild(emojiButton);
+		}
+    </script>
 				<!--{if $_G['forum']['allowmediacode'] && $_G['group']['allowmediacode']}-->
 					<a id="{$editorid}_aud" title="{lang e_audio_title}">{lang e_audio}</a>
 					<a id="{$editorid}_vid" title="{lang e_video_title}">{lang e_video}</a>

@@ -52,7 +52,7 @@
 
 	<!--{hook/global_footer}-->
 	<!--{if in_array(CURMODULE, array('forumdisplay', 'viewthread')) && in_array($_G[fid], array(5,6,7,14))}-->
-	<div class="wp">
+	<div class="wp" id="cgb">
 	<style>
 	#inputWrap{background:#f8f8f5;float:left;width:40%;position:sticky;top:30px;text-align:center;}
 	#inputText{background:#f8f8f5;border:solid 6px #e8ece6;padding:6px;width:100%;box-sizing:border-box;display:block;}
@@ -155,7 +155,7 @@
 		ltxenvans.push({ "o":"cha2('\\\\begin{"+v+"}\\n','\\n\\\\end{"+v+"}')" , "n":v });
 	});
 	// Windows 10, 11 has built-in emoji picker, hold the Windows key down and press either the period (.) or semicolon (;) key
-	if(navigator.userAgent.search('Windows NT 10.0') == -1) {
+	if(navigator.userAgent.match(/Windows 7|Windows 8|Windows NT 6|Windows NT 10\.0.*?Chrome\/10[0-9]/)) {
 		ltxenvans.push({ "o":"show_emoji_window('#inputText')" , "n":"&#x1F603;" });
 	}
 	var iwrap = document.getElementById("inputWrap");

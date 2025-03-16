@@ -24,17 +24,29 @@
 			<script type="text/javascript" reload="1">smilies_show('{$seditor[0]}smiliesdiv', $_G['setting']['smcols'], '$seditor[0]');</script>
 		<!--{/if}-->
 	<!--{/if}-->
-	<!--{if str_contains($_SERVER['HTTP_USER_AGENT'],'Windows NT 10.0') == false}-->
-    <a id="emoji" href="javascript:;" title="emoji" style="background:unset;text-indent:unset;text-align:center;" onclick="show_emoji_window('.tedt textarea')">😃</a>
     <script>
-    if (typeof(show_emoji_window) !== "function") { 
-      var tmpjs = document.createElement('script');
-      tmpjs.src = 'kk/emoji.js';
-      document.body.appendChild(tmpjs);
-      console.log('load emoji.js');
-    } else {console.log('emoji.js already loaded');}
+		if(navigator.userAgent.match(/Windows 7|Windows 8|Windows NT 6|Windows NT 10\.0.*?Chrome\/10[0-9]/)) {
+			var emojiButton = document.createElement('a');
+			emojiButton.id = 'emoji';
+			emojiButton.href = 'javascript:;';
+			emojiButton.title = 'emoji';
+			emojiButton.style.background = 'unset';
+			emojiButton.style.textIndent = 'unset';
+			emojiButton.style.textAlign = 'center';
+			emojiButton.innerHTML = '😃';
+			emojiButton.onclick = function() {
+				show_emoji_window('.tedt textarea');
+			};
+			document.currentScript.parentElement.appendChild(emojiButton);
+
+			if (typeof(show_emoji_window) !== "function") { 
+			  var tmpjs = document.createElement('script');
+			  tmpjs.src = 'kk/emoji.js';
+			  document.body.appendChild(tmpjs);
+			  console.log('load emoji.js');
+			} else {console.log('emoji.js already loaded');}
+		}
     </script>
-	<!--{/if}-->
 	<!--{if in_array('at', $seditor[1]) && $_G['group']['allowat']}-->
 		<script type="text/javascript" src="{$_G['setting']['jspath']}at.js?{VERHASH}"></script>
 		<a id="{$seditor[0]}at" href="javascript:;" title="{lang e_at}" class="fat"{if empty($seditor[2])} onclick="seditor_menu('$seditor[0]', 'at');doane(event);"{/if}>{lang at_friend}</a>

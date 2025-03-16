@@ -97,6 +97,12 @@ PusherChatWidget.prototype._init = function() {
   this._widget.find('button').click(function() {
     self._sendChatButtonClicked();
   });
+  // Shortcut Ctrl+Enter to send message
+  this._messageInputEl.keydown(function(e) {
+    if (e.ctrlKey && e.keyCode === 13) {
+      self._sendChatButtonClicked();
+    }
+  });
   // Update the UI with the current time every 10 seconds
   this._startTimeMonitor();
 }
@@ -230,7 +236,9 @@ PusherChatWidget._buildListItem = function(activity) {
   
   var user = jQuery('<div class="activity-row">' +
                 '<span class="user-name">' +
-                  '<a class="screen-name">' + activity.actor.displayName.replace(/\\'/g, "'") + '</a>' +
+                  '<a class="screen-name">' + activity.actor.displayName.replace(/\\'/g, "'") + '</a>' + '<a ' + (activity.link?'href="' + activity.link + '" ':'') + ' class="timestamp">' +
+                '<span data-activity-published="' + activity.published + '">' + PusherChatWidget.timeToDescription(activity.published) + '</span>' +
+              '</a>' +
                 '</span>' +
               '</div>');
   content.append(user);
@@ -239,16 +247,6 @@ PusherChatWidget._buildListItem = function(activity) {
                     '<div class="text">' + activity.body.replace(/\n/g, '<br>') + '</div>' +
                   '</div>');
   content.append(message);
-  
-  var time = jQuery('<div class="activity-row">' + 
-                '<a ' + (activity.link?'href="' + activity.link + '" ':'') + ' class="timestamp">' +
-                  '<span data-activity-published="' + activity.published + '">' + PusherChatWidget.timeToDescription(activity.published) + '</span>' +
-                '</a>' +
-                '<span class="activity-actions">' +
-                '</span>' +
-              '</div>');
-  content.append(time);
-                
   
   return li;
 };

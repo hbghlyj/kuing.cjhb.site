@@ -239,7 +239,7 @@ details summary { color:blue; cursor:pointer; }
 
 
 @media screen and (orientation: portrait) {
-  #switchwidth,#diy-tg,#hd h2,#um p:last-child,.pls,.cgb,#fj { display: none; }/*宽屏切换按钮，diy按钮，logo，积分用户组，头像那列，广告（草稿），电梯*/
+  #switchwidth,#diy-tg,#hd h2,#um p:last-child,.pls,#cgb,#fj { display: none; }/*宽屏切换按钮，diy按钮，logo，积分用户组，头像那列，广告（草稿），电梯*/
   #toptb { min-width: unset; }/*顶上横条*/
   .wp { width: 100%; }/*主体*/
   #ls_username, #ls_password { width: 90px; }
@@ -273,7 +273,7 @@ details summary { color:blue; cursor:pointer; }
 }
 
 @media print { 
-    .printhides,.mlcls,#scrolltop,#modmenu2,.pgs.mtm.mbm.cl,#ft,.cgb { display:none; } 
+    .printhides,.mlcls,#scrolltop,#modmenu2,.pgs.mtm.mbm.cl,#ft,#cgb { display:none; } 
 }
 
 /* 标题中的连续空格显示 */
