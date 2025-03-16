@@ -10,9 +10,11 @@ if ($conn->connect_error) {
 }
 
 // Old rows beyond limit 50 will be deleted as new ones come in.
-$delete_sql = "DELETE FROM chat WHERE time < (SELECT time FROM chat ORDER BY time DESC LIMIT 50, 1)";
+$delete_sql = "DELETE chat FROM chat JOIN (SELECT time FROM chat ORDER BY time DESC LIMIT 50, 1) AS subquery ON chat.time < subquery.time";
 $conn->query($delete_sql);
-
+if ($conn->error) {
+    die("Error: " . $conn->error);
+}
 
 $sql = "SELECT DATE_FORMAT(time, '%Y-%m-%dT%TZ') as ISO8601, uid, author, message FROM chat";
 $result = $conn->query($sql);
