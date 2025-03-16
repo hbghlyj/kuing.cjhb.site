@@ -178,11 +178,10 @@ PusherChatWidget.prototype._startTimeMonitor = function() {
   var self = this;
   
   setInterval(function() {
-    self._messagesEl.children('.activity').each(function(i, el) {
-      var timeEl = jQuery(el).find('a.timestamp span[data-activity-published]');
-      var time = timeEl.attr('data-activity-published');
+    self._messagesEl.find('a.timestamp span[data-activity-published]').each(function(i, el) {
+      var time = jQuery(el).attr('data-activity-published');
       var newDesc = PusherChatWidget.timeToDescription(time);
-      timeEl.text(newDesc);
+      jQuery(el).text(newDesc);
     });
   }, 10 * 1000)
 };
@@ -205,7 +204,7 @@ PusherChatWidget._createHTML = function(appendTo) {
     '</div>' +
     '<div class="pusher-chat-widget-input">' +
       '<label for="message">' +
-        (isChinese ? '消息' : 'Message') +
+        (isChinese ? '快捷键' : 'Shortcut') + ' Ctrl+Enter' +
       '</label>' +
       '<textarea name="message"></textarea>' +
       '<button class="pusher-chat-widget-send-btn">'+
@@ -221,7 +220,7 @@ PusherChatWidget._createHTML = function(appendTo) {
 
 /* @private */
 PusherChatWidget._buildListItem = function(activity) {
-  var li = jQuery('<li class="activity"></li>');
+  var li = jQuery('<li></li>');
   var item = jQuery('<div class="stream-item-content"></div>');
   li.append(item);
   
@@ -263,11 +262,8 @@ PusherChatWidget.timeToDescription = function(time) {
   const seconds = Math.round(howLongAgo/1000);
   const minutes = Math.round(seconds/60);
   const hours = Math.round(minutes/60);
-  if(seconds === 0) {
-    desc = "just now";
-    if(isChinese) {
-      desc = "刚刚";
-    }
+  if(seconds <= 0) {
+    desc = isChinese ? "刚刚" : "just now";
   }
   else if(minutes < 1) {
     desc = seconds + " second" + (seconds !== 1?"s":"") + " ago";

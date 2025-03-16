@@ -1,6 +1,9 @@
-.pusher-chat-widget{position:fixed;bottom:5px;right:5px;z-index:10000;font-size:13px;width:300px;background-color:whiteSmoke;border:1px solid #EEE;margin-bottom:0;-webkit-border-radius:6px 6px 6px 6px;-moz-border-radius:6px 6px 6px 6px;border-radius:6px 6px 6px 6px;padding-left:10px;}
+@media screen and (orientation: landscape) {
+    .pusher-chat-widget{bottom:5px;right:5px;z-index:10000;position:fixed;width:300px;}
+}
+.pusher-chat-widget{font-size:13px;background-color:whiteSmoke;border:1px solid #EEE;margin-bottom:0;-webkit-border-radius:6px 6px 6px 6px;-moz-border-radius:6px 6px 6px 6px;border-radius:6px 6px 6px 6px;padding-left:10px;}
 .pusher-chat-widget button{font-family:sans-serif;}
-.pusher-chat-widget label{display:block;font-weight:bold;text-align:left;padding-top:6px;line-height:18px;}
+.pusher-chat-widget label{display:block;text-align:left;padding-top:6px;line-height:18px;}
 .pusher-chat-widget-header{border-bottom:1px solid #EBEBEB;text-align:center;overflow:auto;}
 .pusher-chat-widget-input{position:relative;}
 .pusher-chat-widget textarea{width:230px;height:40px;border-radius: 3px;border: 1px solid #ccc;}

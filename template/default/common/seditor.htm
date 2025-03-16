@@ -26,6 +26,12 @@
 	<!--{/if}-->
     <script>
 		if(navigator.userAgent.match(/Windows 7|Windows 8|Windows NT 6|Windows NT 10\.0.*?Chrome\/10[0-9]/)) {
+			if (typeof(show_emoji_window) !== "function") { 
+			  var tmpjs = document.createElement('script');
+			  tmpjs.src = 'kk/emoji.js';
+			  document.body.appendChild(tmpjs);
+			  console.log('load emoji.js');
+			} else {console.log('emoji.js already loaded');}
 			var emojiButton = document.createElement('a');
 			emojiButton.id = 'emoji';
 			emojiButton.href = 'javascript:;';
@@ -37,14 +43,7 @@
 			emojiButton.onclick = function() {
 				show_emoji_window('.tedt textarea');
 			};
-			document.currentScript.parentElement.appendChild(emojiButton);
-
-			if (typeof(show_emoji_window) !== "function") { 
-			  var tmpjs = document.createElement('script');
-			  tmpjs.src = 'kk/emoji.js';
-			  document.body.appendChild(tmpjs);
-			  console.log('load emoji.js');
-			} else {console.log('emoji.js already loaded');}
+			document.querySelector('.fpd').appendChild(emojiButton);
 		}
     </script>
 	<!--{if in_array('at', $seditor[1]) && $_G['group']['allowat']}-->
