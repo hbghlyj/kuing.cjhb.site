@@ -145,7 +145,7 @@ if(discuz_uid == '0') {
   PusherChatWidget.prototype._sendChatButtonClicked = function() {
     var message = jQuery.trim(this._messageInputEl.val());
     if(!message) {
-      alert('please supply a chat message');
+      alert(isChinese ? '请输入聊天信息' : 'please supply a chat message');
       return;
     }
 

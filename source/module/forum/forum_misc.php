@@ -1611,40 +1611,48 @@ if($_GET['action'] == 'votepoll' && submitcheck('pollsubmit', 1)) {
 		showmessage('recommend_self_disallow', '', array('recommendc' => $thread['recommends']), array('msgtype' => 3));
 	}
 	if(C::t('forum_memberrecommend')->fetch_by_recommenduid_tid($_G['uid'], $_G['tid'])) {
-		showmessage('recommend_duplicate', '', array('recommendc' => $thread['recommends']), array('msgtype' => 3));
-	}
-
-	$recommendcount = C::t('forum_memberrecommend')->count_by_recommenduid_dateline($_G['uid'], $_G['timestamp']-86400);
-	if($_G['setting']['recommendthread']['daycount'] && $recommendcount >= $_G['setting']['recommendthread']['daycount']) {
-		showmessage('recommend_outoftimes', '', array('recommendc' => $thread['recommends']), array('msgtype' => 3));
-	}
-
-	$_G['group']['allowrecommend'] = intval($_GET['do'] == 'add' ? $_G['group']['allowrecommend'] : -$_G['group']['allowrecommend']);
-	$fieldarr = array();
-	if($_GET['do'] == 'add') {
-		$heatadd = 'recommend_add=recommend_add+1';
-		$fieldarr['recommend_add'] = 1;
-	} else {
-		$heatadd = 'recommend_sub=recommend_sub+1';
-		$fieldarr['recommend_sub'] = 1;
-	}
-
-		update_threadpartake($_G['tid']);
-		$fieldarr['heats'] = 0;
-	$fieldarr['recommends'] = $_G['group']['allowrecommend'];
-	C::t('forum_thread')->increase($_G['tid'], $fieldarr);
-	if(empty($thread['closed'])) {
-		C::t('forum_thread')->update($_G['tid'], array('lastpost' => TIMESTAMP));
-	}
-	C::t('forum_memberrecommend')->insert(array('tid'=>$_G['tid'], 'recommenduid'=>$_G['uid'], 'dateline'=>$_G['timestamp']));
-
-	dsetcookie('recommend', 1, 43200);
-	$recommendv = $_G['group']['allowrecommend'] > 0 ? '+'.$_G['group']['allowrecommend'] : $_G['group']['allowrecommend'];
-	if($_G['setting']['recommendthread']['daycount']) {
-		$daycount = $_G['setting']['recommendthread']['daycount'] - $recommendcount;
-		showmessage('recommend_daycount_succeed', '', array('recommendv' => $recommendv, 'recommendc' => $thread['recommends'], 'daycount' => $daycount), array('msgtype' => 3));
-	} else {
-		showmessage('recommend_succeed', '', array('recommendv' => $recommendv, 'recommendc' => $thread['recommends']), array('msgtype' => 3));
+		// if duplicate, cancel the recommendation
+		C::t('forum_memberrecommend')->delete_by_recommenduid_tid($_G['uid'], $_G['tid']);
+		$fieldarr = array();
+		$fieldarr['recommends'] = -1;
+		$fieldarr['recommend_add'] = -1;
+		C::t('forum_thread')->increase($_G['tid'], $fieldarr);
+		showmessage('follow_cancel_succeed');
+	}else{
+		if($_G['setting']['recommendthread']['daycount']){
+			$recommendcount = C::t('forum_memberrecommend')->count_by_recommenduid_dateline($_G['uid'], $_G['timestamp']-86400);
+			if($recommendcount >= $_G['setting']['recommendthread']['daycount']) {
+				showmessage('recommend_outoftimes', '', array('recommendc' => $thread['recommends']), array('msgtype' => 3));
+			}
+		}
+	
+		$_G['group']['allowrecommend'] = intval($_GET['do'] == 'add' ? $_G['group']['allowrecommend'] : -$_G['group']['allowrecommend']);
+		$fieldarr = array();
+		if($_GET['do'] == 'add') {
+			$heatadd = 'recommend_add=recommend_add+1';
+			$fieldarr['recommend_add'] = 1;
+		} else {
+			$heatadd = 'recommend_sub=recommend_sub+1';
+			$fieldarr['recommend_sub'] = 1;
+		}
+	
+			update_threadpartake($_G['tid']);
+			$fieldarr['heats'] = 0;
+		$fieldarr['recommends'] = $_G['group']['allowrecommend'];
+		C::t('forum_thread')->increase($_G['tid'], $fieldarr);
+		if(empty($thread['closed'])) {
+			C::t('forum_thread')->update($_G['tid'], array('lastpost' => TIMESTAMP));
+		}
+		C::t('forum_memberrecommend')->insert(array('tid'=>$_G['tid'], 'recommenduid'=>$_G['uid'], 'dateline'=>$_G['timestamp']));
+	
+		dsetcookie('recommend', 1, 43200);
+		$recommendv = $_G['group']['allowrecommend'] > 0 ? '+'.$_G['group']['allowrecommend'] : $_G['group']['allowrecommend'];
+		if($_G['setting']['recommendthread']['daycount']) {
+			$daycount = $_G['setting']['recommendthread']['daycount'] - $recommendcount;
+			showmessage('recommend_daycount_succeed', '', array('recommendv' => $recommendv, 'recommendc' => $thread['recommends'], 'daycount' => $daycount), array('msgtype' => 3));
+		} else {
+			showmessage('recommend_succeed', '', array('recommendv' => $recommendv, 'recommendc' => $thread['recommends']), array('msgtype' => 3));
+		}
 	}
 
 } elseif($_GET['action'] == 'protectsort') {
@@ -1799,8 +1807,12 @@ if($_GET['action'] == 'votepoll' && submitcheck('pollsubmit', 1)) {
 			'total' => 0,
 		), true);
 	} else {
-		if(C::t('forum_hotreply_member')->fetch_member($post['pid'], $_G['uid'])) {
-			showmessage('noreply_voted_error', '', array(), array('msgtype' => 3));
+		if($row = C::t('forum_hotreply_member')->fetch_member($post['pid'], $_G['uid'])) {
+			// if duplicate, cancel the vote
+			$typeid = $row['attitude'] == 1 ? 1 : 0;
+			C::t('forum_hotreply_number')->delete_vote_by_pid($post['pid'], $typeid);
+			C::t('forum_hotreply_member')->delete_by_uid_pid($_G['uid'], $post['pid']);
+			showmessage('follow_cancel_succeed', '', array(), array('msgtype' => 3, 'extrajs' => '<script type="text/javascript" reload="1">postreviewcancel('.$post['pid'].', '.$typeid.',"'.$_G['username'].'");</script>'));
 		}
 	}
 
@@ -1816,7 +1828,7 @@ if($_GET['action'] == 'votepoll' && submitcheck('pollsubmit', 1)) {
 
 	$hotreply[$_GET['do']]++;
 
-	showmessage('thread_poll_succeed', '', array(), array('msgtype' => 3, 'extrajs' => '<script type="text/javascript">postreviewupdate('.$post['pid'].', '.$typeid.');</script>'));
+	showmessage('thread_poll_succeed', '', array(), array('msgtype' => 3, 'extrajs' => '<script type="text/javascript" reload="1">postreviewupdate('.$post['pid'].', '.$typeid.',"'.$_G['username'].'");</script>'));
 } elseif($_GET['action'] == 'hidden') {
 	if($_GET['formhash'] != FORMHASH) {
 		showmessage('undefined_action', NULL);

@@ -29,6 +29,10 @@ class table_forum_memberrecommend extends discuz_table
 		return DB::result_first('SELECT COUNT(*) FROM %t WHERE recommenduid=%d AND dateline>%d',array($this->_table, $uid, $dateline));
 	}
 
+	public function delete_by_recommenduid_tid($uid, $tid) {
+		DB::query('DELETE FROM %t WHERE tid=%d AND recommenduid=%d LIMIT 1', array($this->_table, $tid, $uid));
+	}
+
 }
 
 <<<<<<< HEAD

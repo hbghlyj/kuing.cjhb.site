@@ -281,21 +281,32 @@ function succeedhandle_postappend(locationhref, message, param) {
 }
 
 function recommendupdate(n) {
-	if(getcookie('recommend')) {
-		var objv = n > 0 ? $('recommendv_add') : $('recommendv_subtract');
-		objv.style.display = '';
-		objv.innerHTML = parseInt(objv.innerHTML) + 1;
-		setTimeout(function () {
+	var objv = $('recommendv_add');
+	objv.style.display = '';
+	if(!$('recommentc')) {
+		n = -n;// user cancels the recommendation
+	}
+	if((objv.innerHTML = parseInt(objv.innerHTML) + n) == 0) {
+		objv.style.display = 'none';
+	}
+	if(n>0)setTimeout(function () {
+		if($('recommentc')) {
 			$('recommentc').innerHTML = parseInt($('recommentc').innerHTML) + n;
 			$('recommentv').style.display = 'none';
-		}, 1000);
-		setcookie('recommend', '');
-	}
+		}
+	}, 1000);
 }
 
-function postreviewupdate(pid, n) {
+function postreviewupdate(pid, n, username) {
 	var objv = n > 0 ? $('review_support_'+pid) : $('review_against_'+pid);
 	objv.innerHTML = parseInt(objv.innerHTML ? objv.innerHTML : 0) + 1;
+	objv.parentNode.title = objv.parentNode.title + username + '\n';
+}
+
+function postreviewcancel(pid, n, username) {
+	var objv = n > 0 ? $('review_support_'+pid) : $('review_against_'+pid);
+	objv.innerHTML = parseInt(objv.innerHTML ? objv.innerHTML : 0) - 1;
+	objv.parentNode.title = objv.parentNode.title.replace(username + '\n', '');
 }
 
 function favoriteupdate() {
