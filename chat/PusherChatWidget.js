@@ -252,7 +252,7 @@ PusherChatWidget._buildListItem = function(activity) {
   content.append(user);
   
   var message = jQuery('<div class="activity-row">' +
-                    '<div class="text">' + activity.body.replace(/\n/g, '<br>').replace(/(https?:\/\/[^\s]+)/g, '<a href="$1">$1</a>')
+                    '<div class="text">' + activity.body.replace(/(https?:\/\/[^\s]+)/g, '<a href="$1">$1</a>').replace(/\n/g, '<br>')
                     + '</div>' +
                   '</div>');
   content.append(message);
