@@ -28,7 +28,4 @@ class table_forum_threadpreview extends discuz_table
 		return DB::delete($this->_table, DB::field('tid', $tids));
 	}
 }
-<<<<<<< HEAD
-=======
 ?>
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

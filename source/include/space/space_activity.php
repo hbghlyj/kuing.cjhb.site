@@ -144,7 +144,4 @@ if($_G['uid']) {
 
 include_once template("diy:home/space_activity");
 
-<<<<<<< HEAD
-=======
 ?>
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

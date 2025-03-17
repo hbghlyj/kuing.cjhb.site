@@ -73,7 +73,4 @@ $maxinviteday = dgmdate($maxinviteday, 'Y-m-d H:i');
 $_G['setting']['inviteconfig']['invitecodeprompt'] = nl2br($_G['setting']['inviteconfig']['invitecodeprompt']);
 
 include template('common/buyinvitecode');
-<<<<<<< HEAD
-=======
 ?>
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

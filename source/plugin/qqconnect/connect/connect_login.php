@@ -324,7 +324,4 @@ function getErrorMessage($errroCode) {
 	$str = sprintf('connect_error_code_%d', $errroCode);
 
 	return lang('plugin/qqconnect', $str);
-<<<<<<< HEAD
-=======
 }
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

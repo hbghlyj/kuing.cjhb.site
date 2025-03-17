@@ -120,7 +120,4 @@ require_once libfile('function/friend');
 $isfriend = friend_check($space['uid']);
 require_once libfile('space/'.$do, 'include');
 
-<<<<<<< HEAD
-=======
 ?>
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

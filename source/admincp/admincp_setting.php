@@ -3878,7 +3878,4 @@ function showsetting_threadprfile($authorinfoitems, $template = array()) {
 		<tr><td colspan="2" class="rowform"><div class="threadprofilenode">'.$buttons.'</div><textarea name="templatenew[top]" id="ttop" class="marginbot" style="width:80%" rows="10" onkeyup="textareasize(this)" onkeydown="textareakey(this, event)">'.$template_top.'</textarea></td></tr>';
 }
 
-<<<<<<< HEAD
-=======
 ?>
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

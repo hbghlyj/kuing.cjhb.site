@@ -131,7 +131,4 @@ if(submitcheck('commentsubmit', 0, $seccodecheck, $secqaacheck)) {
 
 include_once template("portal/portalcp_comment");
 
-<<<<<<< HEAD
-=======
 ?>
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

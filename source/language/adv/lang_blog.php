@@ -17,7 +17,4 @@ $lang = array
 	'blog_desc' => '展现方式: 日志广告显示于日志右方。',
 );
 
-<<<<<<< HEAD
-=======
 ?>
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

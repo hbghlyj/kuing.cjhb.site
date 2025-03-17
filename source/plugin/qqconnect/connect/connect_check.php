@@ -37,7 +37,4 @@ if ($op == 'cookie') {
 }
 
 include template('common/header_ajax');
-<<<<<<< HEAD
-=======
 include template('common/footer_ajax');
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

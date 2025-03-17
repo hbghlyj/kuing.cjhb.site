@@ -12,7 +12,4 @@ function media_ixigua($url, $width, $height) {
 		$flv = $imgurl = '';
 	}
 	return array($flv, $iframe, $url, $imgurl);
-<<<<<<< HEAD
-=======
 }
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

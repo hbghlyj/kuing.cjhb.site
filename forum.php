@@ -70,7 +70,4 @@ $navtitle = str_replace('{bbname}', $_G['setting']['bbname'], $_G['setting']['se
 $_G['setting']['threadhidethreshold'] = 1;
 require DISCUZ_ROOT.'./source/module/forum/forum_'.$mod.'.php';
 
-<<<<<<< HEAD
-=======
 ?>
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

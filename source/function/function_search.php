@@ -78,7 +78,4 @@ function bat_highlight_callback_highlight_21($matches, $action = 0) {
 	}
 }
 
-<<<<<<< HEAD
-=======
 ?>
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

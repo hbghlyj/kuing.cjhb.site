@@ -545,7 +545,4 @@ if($_GET['op'] == 'checknewpm') {
 
 include_once template("home/spacecp_pm");
 
-<<<<<<< HEAD
-=======
 ?>
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

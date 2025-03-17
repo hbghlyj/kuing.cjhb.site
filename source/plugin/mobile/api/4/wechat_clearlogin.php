@@ -23,7 +23,4 @@ if($_G['uid'] && FORMHASH == $_GET['hash']) {
 	$variable['result'] = 1;
 }
 
-<<<<<<< HEAD
-=======
 mobile_core::result(mobile_core::variable($variable));
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

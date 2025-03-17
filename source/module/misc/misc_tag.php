@@ -138,41 +138,4 @@ function getthreadsbytids($tidarray) {
 	return $threadlist;
 }
 
-<<<<<<< HEAD
-function getblogbyid($blogidarray) {
-	global $_G, $summarylen;
-
-	$bloglist = array();
-	if(!empty($blogidarray)) {
-		$data_blog = C::t('home_blog')->fetch_all_blog($blogidarray, 'dateline', 'DESC');
-		$data_blogfield = C::t('home_blogfield')->fetch_all($blogidarray);
-
-		require_once libfile('function/spacecp');
-		require_once libfile('function/home');
-		$classarr = array();
-		foreach($data_blog as $curblogid => $result) {
-			$result = array_merge($result, (array)$data_blogfield[$curblogid]);
-			$result['dateline'] = dgmdate($result['dateline']);
-			$classarr = getclassarr($result['uid']);
-			$result['classname'] = $classarr[$result['classid']]['classname'];
-			if($result['friend'] == 4) {
-				$result['message'] = $result['pic'] = '';
-			} else {
-				$result['message'] = getstr($result['message'], $summarylen, 0, 0, 0, -1);
-			}
-			$result['message'] = preg_replace("/&[a-z]+\;/i", '', $result['message']);
-			if($result['pic']) {
-				$result['pic'] = pic_cover_get($result['pic'], $result['picflag']);
-			}
-			$bloglist[] = $result;
-		}
-	}
-	return $bloglist;
-}
-<<<<<<< HEAD
-=======
 ?>
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)
-=======
-?>
->>>>>>> 8e651755 (Closes #38)

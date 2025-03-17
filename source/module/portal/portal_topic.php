@@ -82,7 +82,4 @@ function portaltopicgetcomment($topcid, $limit = 20, $start = 0) {
 	}
 	return $data;
 }
-<<<<<<< HEAD
-=======
 ?>
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

@@ -106,7 +106,4 @@ class table_common_member_status extends discuz_table_archive
 	}
 }
 
-<<<<<<< HEAD
-=======
 ?>
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

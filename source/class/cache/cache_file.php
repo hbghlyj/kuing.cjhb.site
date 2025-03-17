@@ -82,7 +82,4 @@ class ultrax_cache {
 		return $cache_path[$key];
 	}
 
-<<<<<<< HEAD
-=======
 }
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

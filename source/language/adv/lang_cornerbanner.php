@@ -30,7 +30,4 @@ $lang = array
 	'cornerbanner_hidden' => '隐藏',
 );
 
-<<<<<<< HEAD
-=======
 ?>
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

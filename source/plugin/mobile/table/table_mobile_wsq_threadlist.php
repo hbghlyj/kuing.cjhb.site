@@ -28,7 +28,4 @@ class table_mobile_wsq_threadlist extends discuz_table {
 		}
 		return DB::insert($this->_table, $data, $return_insert_id, $replace, $silent);
 	}
-<<<<<<< HEAD
-=======
 }
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

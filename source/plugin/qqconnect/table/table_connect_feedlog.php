@@ -29,7 +29,4 @@ class table_connect_feedlog extends discuz_table {
 		$tid = dintval($tid);
 		return DB::update($this->_table, $data, DB::field('tid', $tid));
 	}
-<<<<<<< HEAD
-=======
 }
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

@@ -374,7 +374,4 @@ if(in_array($do, array('buy', 'exit'))) {
 
 include_once template("home/spacecp_usergroup");
 
-<<<<<<< HEAD
-=======
 ?>
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

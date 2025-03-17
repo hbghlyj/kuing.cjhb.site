@@ -176,7 +176,4 @@ $navtitle = lang('core', 'title_search_friend');
 $actives = array($op=>' class="a"', 'search'=>' class="a"');
 include template('home/spacecp_search');
 
-<<<<<<< HEAD
-=======
 ?>
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

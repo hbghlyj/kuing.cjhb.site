@@ -316,7 +316,4 @@ function make_getpws_sign($uid, $idstring) {
 	$link = "member.php?mod=getpasswd&uid={$uid}&id={$idstring}";
 	return dsign($link);
 }
-<<<<<<< HEAD
-=======
 ?>
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

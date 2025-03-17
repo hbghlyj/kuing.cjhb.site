@@ -1238,7 +1238,4 @@ function cacherecommend($fidstr, $return = true) {
 		C::t('common_setting')->update_batch(array('group_recommend' => $group_recommend));
 	}
 }
-<<<<<<< HEAD
-=======
 ?>
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

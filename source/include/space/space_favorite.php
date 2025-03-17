@@ -121,7 +121,4 @@ function makeurl($id, $idtype, $spaceuid=0) {
 	return $url;
 }
 
-<<<<<<< HEAD
-=======
 ?>
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

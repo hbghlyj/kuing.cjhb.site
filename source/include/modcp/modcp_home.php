@@ -53,7 +53,4 @@ foreach(C::t('common_adminnote')->fetch_all_by_access(explode(',', $access)) as 
 	}
 }
 
-<<<<<<< HEAD
-=======
 ?>
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

@@ -130,7 +130,4 @@ function connect_filter_username($username) {
 	return cutstr($username, 15, '');
 }
 
-<<<<<<< HEAD
-=======
 ?>
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

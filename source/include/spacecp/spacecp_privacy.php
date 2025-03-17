@@ -145,7 +145,4 @@ $opactives = array($operation =>' class="a"');
 
 include template('home/spacecp_privacy');
 
-<<<<<<< HEAD
-=======
 ?>
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

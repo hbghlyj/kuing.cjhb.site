@@ -2302,7 +2302,4 @@ if(typeof IN_ADMINCP == 'undefined') {
 
 if(BROWSER.ie) {
 	document.documentElement.addBehavior("#default#userdata");
-<<<<<<< HEAD
-=======
 }
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

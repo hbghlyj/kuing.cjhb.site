@@ -67,7 +67,4 @@ class table_common_block_item_data extends discuz_table
 	}
 }
 
-<<<<<<< HEAD
-=======
 ?>
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

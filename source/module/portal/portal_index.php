@@ -30,7 +30,4 @@ if(isset($_G['makehtml'])){
 }
 
 include_once template('diy:portal/index');
-<<<<<<< HEAD
-=======
 ?>
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

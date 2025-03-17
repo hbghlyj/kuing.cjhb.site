@@ -30,7 +30,4 @@ $lang = array
 	'threadlist_threadurl_comment' => '留空表示使用指定主题的 URL',
 );
 
-<<<<<<< HEAD
-=======
 ?>
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

@@ -33,7 +33,4 @@ $simplequeries = array(
 	array('comment' => cplang('quickquery_clear_userlog'), 'sql' => 'TRUNCATE {tablepre}common_credit_log'),
 );
 
-<<<<<<< HEAD
-=======
 ?>
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

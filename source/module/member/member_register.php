@@ -18,7 +18,4 @@ $ctl_obj->setting = $_G['setting'];
 $ctl_obj->template = 'member/register';
 $ctl_obj->on_register();
 
-<<<<<<< HEAD
-=======
 ?>
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

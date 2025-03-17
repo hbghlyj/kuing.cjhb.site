@@ -246,7 +246,4 @@ function zerofill(s) {
 if(!BROWSER.other) {
 	loadcss('forum_calendar');
 	loadcalendar();
-<<<<<<< HEAD
-=======
 }
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

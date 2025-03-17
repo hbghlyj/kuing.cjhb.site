@@ -18,7 +18,4 @@ $lang = array
 	'updateline_info' => '把自己日志的发布时间更新为当前时间',
 );
 
-<<<<<<< HEAD
-=======
 ?>
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

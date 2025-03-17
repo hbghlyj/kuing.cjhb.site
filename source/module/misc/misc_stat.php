@@ -548,7 +548,4 @@ function getnextmonth($monthdate) {
 	}
 	$month = sprintf("%02d", $month);
 	return $year . '-' . $month;
-<<<<<<< HEAD
-=======
 }
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

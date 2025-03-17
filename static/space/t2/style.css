@@ -17,7 +17,4 @@ body { background: #899A33 url(images/body_bg.png) repeat 0 0; }
 body#space #ft { background: url(images/ct-bottom.png) no-repeat 0 0; }
 .tl .th { background: none; }
 .bm, .bm_h { border: none; }
-<<<<<<< HEAD
-=======
 	.bm_h { background: #FFF url("images/title.png") no-repeat scroll 0 0; }
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

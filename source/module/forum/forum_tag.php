@@ -66,7 +66,4 @@ if($op == 'search') {
 }
 
 include_once template("forum/tag");
-<<<<<<< HEAD
-=======
 ?>
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

@@ -3,7 +3,4 @@
 <cross-domain-policy>
    <site-control permitted-cross-domain-policies="all" />
    <allow-access-from domain="*" to-ports="*" />
-<<<<<<< HEAD
-=======
 </cross-domain-policy>
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

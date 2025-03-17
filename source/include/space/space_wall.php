@@ -49,7 +49,4 @@ dsetcookie('home_diymode', 1);
 
 include_once template("home/space_wall");
 
-<<<<<<< HEAD
-=======
 ?>
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

@@ -926,7 +926,4 @@ swfobject.addDomLoadEvent(function () {
 	if (typeof(SWFUpload.onload) === "function") {
 		SWFUpload.onload.call(window);
 	}
-<<<<<<< HEAD
-=======
 });
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

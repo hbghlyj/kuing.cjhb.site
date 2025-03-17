@@ -188,7 +188,4 @@ FileProgress.prototype.disappear = function () {
 		this.fileProgressWrapper.style.display = "none";
 		this.setTimer(null);
 	}
-<<<<<<< HEAD
-=======
 };
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

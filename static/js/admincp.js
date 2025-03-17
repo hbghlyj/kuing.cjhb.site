@@ -492,7 +492,4 @@ function sethtml_color(color) {
 function uploadthreadtypexml(formobj, formaction) {
 	formobj.action = formaction;
 	formobj.submit();
-<<<<<<< HEAD
-=======
 }
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

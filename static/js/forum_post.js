@@ -872,7 +872,4 @@ function hideAttachMenu(id) {
 	if($(editorid + '_' + id + '_menu')) {
 		$(editorid + '_' + id + '_menu').style.visibility = 'hidden';
 	}
-<<<<<<< HEAD
-=======
 }
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

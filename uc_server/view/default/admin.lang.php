@@ -14,7 +14,4 @@ $lang = array(
 	'delete' => '删除',
 	'email' => 'Email',
 	'user_list' => '用户列表',
-<<<<<<< HEAD
-=======
 );
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

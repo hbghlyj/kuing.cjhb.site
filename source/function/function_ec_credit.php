@@ -82,7 +82,4 @@ function updateusercredit($uid, $type, $level) {
 	C::t('common_member_status')->increase($uid, array($type=>$score));
 }
 
-<<<<<<< HEAD
-=======
 ?>
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

@@ -144,7 +144,4 @@ if($mail_setting['mailsend'] == 1 && function_exists('mail')) {
 
 }
 
-<<<<<<< HEAD
-=======
 ?>
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

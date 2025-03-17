@@ -362,7 +362,4 @@ function update_usergroups($uids) {
 	}
 	return $usergroups;
 }
-<<<<<<< HEAD
-=======
 ?>
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

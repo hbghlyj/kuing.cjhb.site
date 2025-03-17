@@ -17,7 +17,4 @@ $lang = array
 	'calc_desc' => '随机显示 100 以内加减法的验证问答',
 );
 
-<<<<<<< HEAD
-=======
 ?>
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

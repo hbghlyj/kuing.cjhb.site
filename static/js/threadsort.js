@@ -231,7 +231,4 @@ function checkoption(identifier, required, checktype, checkmaxnum, checkminnum, 
 		ce.innerHTML = '<i class="fico-check_right fic4 fc-v vm"></i>';
 	}
 	return true;
-<<<<<<< HEAD
-=======
 }
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

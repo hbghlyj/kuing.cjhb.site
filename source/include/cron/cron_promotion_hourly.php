@@ -14,7 +14,4 @@ if(!defined('IN_DISCUZ')) {
 C::t('forum_promotion')->delete_all();
 
 
-<<<<<<< HEAD
-=======
 ?>
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

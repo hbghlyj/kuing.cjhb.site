@@ -18,7 +18,4 @@ $lang = array
 	'call_info' => '发通知给自己的好友，让他们来查看自己的日志',
 );
 
-<<<<<<< HEAD
-=======
 ?>
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

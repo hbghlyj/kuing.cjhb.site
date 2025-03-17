@@ -55,7 +55,4 @@ function build_cache_heats() {
 	discuz_process::unlock('update_heats_list');
 }
 
-<<<<<<< HEAD
-=======
 ?>
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

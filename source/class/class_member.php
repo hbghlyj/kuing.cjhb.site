@@ -1041,7 +1041,4 @@ class crime_action_ctl {
 		return array($count, $clist);
 	}
 }
-<<<<<<< HEAD
-=======
 ?>
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

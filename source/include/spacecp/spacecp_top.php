@@ -94,7 +94,4 @@ if(submitcheck('friendsubmit')) {
 
 	showmessage('showcredit_do_success', dreferer());
 }
-<<<<<<< HEAD
-=======
 ?>
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

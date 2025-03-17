@@ -34,7 +34,4 @@ if(!$_G['setting']['groupstatus']) {
 $navtitle = str_replace('{bbname}', $_G['setting']['bbname'], $_G['setting']['seotitle']['group']);
 
 require DISCUZ_ROOT.'./source/module/group/group_'.$mod.'.php';
-<<<<<<< HEAD
-=======
 ?>
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

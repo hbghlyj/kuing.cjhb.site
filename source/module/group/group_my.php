@@ -162,7 +162,4 @@ $navtitle = $_G['username'].lang('core', 'title_of').$_G['setting']['navs'][3]['
 
 include_once template("diy:group/group_my");
 
-<<<<<<< HEAD
-=======
 ?>
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

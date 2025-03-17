@@ -72,7 +72,4 @@ if(submitcheck('reportsubmit')) {
 }
 require_once libfile('function/misc');
 include template('common/report');
-<<<<<<< HEAD
-=======
 ?>
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

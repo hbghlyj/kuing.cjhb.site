@@ -153,7 +153,4 @@ if(submitcheck('connectsubmit')) {
 	} else {
 		dheader('location: home.php?mod=spacecp&ac=plugin&id=qqconnect:spacecp');
 	}
-<<<<<<< HEAD
-=======
 }
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

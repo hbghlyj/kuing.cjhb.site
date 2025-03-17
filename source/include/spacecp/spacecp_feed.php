@@ -138,7 +138,4 @@ if($_GET['op'] == 'delete') {
 
 include template('home/spacecp_feed');
 
-<<<<<<< HEAD
-=======
 ?>
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

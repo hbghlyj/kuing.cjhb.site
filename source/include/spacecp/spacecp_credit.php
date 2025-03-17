@@ -40,7 +40,4 @@ if($_G['setting']['ec_ratio']) {
 
 include_once libfile('spacecp/credit_'.$operation, 'include');
 
-<<<<<<< HEAD
-=======
 ?>
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

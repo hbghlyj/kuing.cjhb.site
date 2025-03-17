@@ -2371,7 +2371,4 @@ function dpreg_replace($pattern, $replacement, $subject, $limit = -1, &$count = 
 	}
 }
 
-<<<<<<< HEAD
-=======
 ?>
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

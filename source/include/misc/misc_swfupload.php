@@ -208,7 +208,4 @@ obclean();
 @header("Content-type: application/xml; charset=utf-8");
 echo $outxml;
 
-<<<<<<< HEAD
-=======
 ?>
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

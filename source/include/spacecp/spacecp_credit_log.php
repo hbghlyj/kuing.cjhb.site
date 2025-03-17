@@ -129,7 +129,4 @@ foreach($optypes as $type) {
 }
 $optypehtml .= '</select>';
 include template('home/spacecp_credit_log');
-<<<<<<< HEAD
-=======
 ?>
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

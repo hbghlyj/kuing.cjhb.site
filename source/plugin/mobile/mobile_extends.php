@@ -27,7 +27,4 @@ define('HOOKTYPE', 'hookscript');
 hookscript('common', 'global');
 hookscript('global', 'global');
 
-<<<<<<< HEAD
-=======
 ?>
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

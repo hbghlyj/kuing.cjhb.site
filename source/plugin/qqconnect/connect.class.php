@@ -301,7 +301,4 @@ class mobileplugin_qqconnect_member extends mobileplugin_qqconnect {
 			}
 		}
 	}
-<<<<<<< HEAD
-=======
 }
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

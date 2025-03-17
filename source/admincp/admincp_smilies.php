@@ -452,7 +452,4 @@ function update_smiles($smdir, $id, &$imgextarray) {
 
 	return array('smilies'=>$smilies, 'num'=>$num);
 }
-<<<<<<< HEAD
-=======
 ?>
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

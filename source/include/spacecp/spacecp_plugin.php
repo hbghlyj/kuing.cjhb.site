@@ -24,7 +24,4 @@ if(!$op || $op == 'credit') {
 	include template('home/spacecp_profile');
 }
 
-<<<<<<< HEAD
-=======
 ?>
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

@@ -130,7 +130,4 @@ $lang = array
 	'optimizer_httphost_need' => '空 HOST 访问已开启',
 	'optimizer_httphost_no_need' => '空 HOST 访问支持未开启或底层不支持',
 );
-<<<<<<< HEAD
-=======
 ?>
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

@@ -757,7 +757,4 @@ function get_expiration($tid, $action) {
 	$row = C::t('forum_threadmod')->fetch_by_tid_action_status($tid, $action);
 	return $row['expiration'] ? date('Y-m-d H:i', $row['expiration']) : '';
 }
-<<<<<<< HEAD
-=======
 ?>
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

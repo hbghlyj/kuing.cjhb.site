@@ -409,7 +409,4 @@ if($_GET['from'] == 'space') {
 }
 if(empty($cp_mode)) include_once template("diy:home/space_home");
 
-<<<<<<< HEAD
-=======
 ?>
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

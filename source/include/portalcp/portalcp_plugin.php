@@ -18,7 +18,4 @@ include pluginmodule($_GET['id'], $pluginkey);
 
 include template('portal/portalcp_plugin');
 
-<<<<<<< HEAD
-=======
 ?>
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

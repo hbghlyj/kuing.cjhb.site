@@ -31,7 +31,4 @@ $lang = array
 	'topiclist_orderby_viewnum' => '按查看数倒序',
 );
 
-<<<<<<< HEAD
-=======
 ?>
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

@@ -15,7 +15,4 @@ $removetime = TIMESTAMP - $_G['setting']['smstimelimit'] + 86400;
 foreach(C::t('common_smslog')->fetch_all_by_dateline($removetime, '<=') as $smslog) {
 	C::t('common_smslog')->insert_archiver($smslog);
 	C::t('common_smslog')->delete($smslog['smslogid']);
-<<<<<<< HEAD
-=======
 }
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

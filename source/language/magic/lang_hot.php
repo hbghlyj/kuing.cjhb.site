@@ -18,7 +18,4 @@ $lang = array
 	'hot_info' => '把自己的日志热度增加 {num} 个热点值',
 );
 
-<<<<<<< HEAD
-=======
 ?>
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

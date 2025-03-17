@@ -77,7 +77,4 @@ body { background: #FCFAF0 url(bgimg.jpg) no-repeat 50% 0; background-size: 1400
 	.blk a:hover { background-color: transparent; }
 
 /* 重定义好友列表 */
-<<<<<<< HEAD
-=======
 #nv_home .buddy li { background-color: transparent; border: none; }
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

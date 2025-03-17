@@ -29,7 +29,4 @@ $lang = array
 	'forumlist_orderby_posts' => '按帖子数倒序排序',
 );
 
-<<<<<<< HEAD
-=======
 ?>
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

@@ -70,7 +70,4 @@ if($message != 'post_reply_mod_succeed') {
 	C::t('#mobile#mobile_wsq_threadlist')->insert_thread($_G['tid'], $data, false, true);
 }
 
-<<<<<<< HEAD
-=======
 ?>
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

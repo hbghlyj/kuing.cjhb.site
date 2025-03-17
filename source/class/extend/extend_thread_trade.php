@@ -346,7 +346,4 @@ class extend_thread_trade extends extend_thread_base {
 	}
 }
 
-<<<<<<< HEAD
-=======
 ?>
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

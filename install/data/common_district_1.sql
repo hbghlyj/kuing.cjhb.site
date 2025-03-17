@@ -14997,7 +14997,4 @@ INSERT INTO `pre_common_district` (`id`, `name`, `level`, `upid`) VALUES
 (14759, '省属黄海农场', 4, 2103),
 (14760, '老舍乡', 4, 2103),
 (14761, '运河镇', 4, 2103),
-<<<<<<< HEAD
-=======
 (14762, '陈家港镇', 4, 2103);
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

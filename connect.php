@@ -40,7 +40,4 @@ runhooks();
 require_once DISCUZ_ROOT.'/source/plugin/qqconnect/lib/Connect.php';
 $connectService = new Cloud_Service_Connect();
 require_once libfile('connect/'.$mod, 'plugin/qqconnect');
-<<<<<<< HEAD
-=======
 ?>
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

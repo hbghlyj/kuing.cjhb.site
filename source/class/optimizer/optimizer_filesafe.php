@@ -43,7 +43,4 @@ class optimizer_filesafe {
 		}
 		cpmsg('optimizer_filesafe_optimizer', '', 'error');
 	}
-<<<<<<< HEAD
-=======
 }
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

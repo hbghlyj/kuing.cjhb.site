@@ -136,7 +136,4 @@ transform: rotate(45deg) scale(1); } }
 @keyframes siafter { 0% { height: 0px; }
 100% { height: 100px; } }
 @keyframes sinext { 0% { margin-bottom: -335px; }
-<<<<<<< HEAD
-=======
 100% { margin-bottom: 0; } }
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

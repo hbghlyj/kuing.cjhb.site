@@ -1328,7 +1328,4 @@ $lang = array (
   'content_actions' => '更多操作',
 );
 
-<<<<<<< HEAD
-=======
 ?>
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

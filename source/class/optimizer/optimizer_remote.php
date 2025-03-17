@@ -30,7 +30,4 @@ class optimizer_remote {
 	public function optimizer() {
 		cpmsg('optimizer_remote_optimizer', '', 'error');
 	}
-<<<<<<< HEAD
-=======
 }
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

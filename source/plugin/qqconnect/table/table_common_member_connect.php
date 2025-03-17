@@ -40,7 +40,4 @@ class table_common_member_connect extends discuz_table {
 
 		return DB::update($this->_table, $data, DB::field('openId', $openId));
 	}
-<<<<<<< HEAD
-=======
 }
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

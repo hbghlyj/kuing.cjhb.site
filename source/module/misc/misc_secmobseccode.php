@@ -56,7 +56,4 @@ if($_GET['action'] == 'send') {
 		include template('common/secmobseccode');
 	}
 
-<<<<<<< HEAD
-=======
 }
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

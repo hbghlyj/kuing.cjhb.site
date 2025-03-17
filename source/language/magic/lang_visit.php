@@ -19,7 +19,4 @@ $lang = array
 	'visit_info' => '随机访问(最多 {num} 个)好友空间/向好友打招呼/给好友留言',
 );
 
-<<<<<<< HEAD
-=======
 ?>
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

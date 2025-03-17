@@ -521,7 +521,4 @@ if($action == 'shop') {
 
 include template('home/space_magic');
 
-<<<<<<< HEAD
-=======
 ?>
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

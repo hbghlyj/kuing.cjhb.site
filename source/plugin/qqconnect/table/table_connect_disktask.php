@@ -20,7 +20,4 @@ class table_connect_disktask extends discuz_table {
 			return DB::query('DELETE FROM %t WHERE status = %d', array($this->_table, $status));
 		}
 	}
-<<<<<<< HEAD
-=======
 }
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

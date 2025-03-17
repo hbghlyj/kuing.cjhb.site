@@ -36,7 +36,4 @@ $lang = array
 	'piclist_orderby_hot' => '按热度倒序'
 );
 
-<<<<<<< HEAD
-=======
 ?>
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

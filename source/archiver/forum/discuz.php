@@ -23,7 +23,4 @@ include loadarchiver('common/header');
 	<?php echo lang('forum/archiver', 'full_version'); ?>:
 	<a href="../forum.php" target="_blank"><strong><?php echo $_G['setting']['bbname']; ?></strong></a>
 </div>
-<<<<<<< HEAD
-=======
 <?php include loadarchiver('common/footer'); ?>
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

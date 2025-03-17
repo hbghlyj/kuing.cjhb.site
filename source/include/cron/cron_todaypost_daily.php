@@ -31,7 +31,4 @@ foreach(C::t('forum_statlog')->fetch_all_rank_by_logdate($date) as $value) {
 }
 savecache('historyposts', $_G['setting']['historyposts']);
 
-<<<<<<< HEAD
-=======
 ?>
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

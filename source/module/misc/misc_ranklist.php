@@ -483,7 +483,4 @@ function getignorefid($pre = '') {
 	}
 	return $fidsql;
 }
-<<<<<<< HEAD
-=======
 ?>
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

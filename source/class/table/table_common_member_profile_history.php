@@ -24,7 +24,4 @@ class table_common_member_profile_history extends discuz_table
 	public function fetch_all_by_uid($uid) {
 		return DB::fetch_all('SELECT * FROM %t WHERE uid=%d ORDER BY dateline', array($this->_table, $uid), $this->_pk);
 	}
-<<<<<<< HEAD
-=======
 }
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

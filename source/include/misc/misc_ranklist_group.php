@@ -47,7 +47,4 @@ $metadescription = lang('ranklist/navtitle', 'ranklist_title_group_'.$gettype);
 
 include template('diy:ranklist/group');
 
-<<<<<<< HEAD
-=======
 ?>
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

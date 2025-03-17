@@ -79,7 +79,4 @@ if($_GET['action'] == 'faq') {
 
 include template('common/faq');
 
-<<<<<<< HEAD
-=======
 ?>
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

@@ -43,7 +43,4 @@ $lang = array
 	'file_upload_error_-104' => '上传失败！无法识别的图像文件格式，请返回。',
 );
 
-<<<<<<< HEAD
-=======
 ?>
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

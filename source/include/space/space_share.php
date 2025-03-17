@@ -139,7 +139,4 @@ if($id) {
 	include_once template("diy:home/space_share_list");
 }
 
-<<<<<<< HEAD
-=======
 ?>
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

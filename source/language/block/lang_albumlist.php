@@ -30,7 +30,4 @@ $lang = array
 	'albumlist_orderby_updatetime' => '按更新时间倒序'
 );
 
-<<<<<<< HEAD
-=======
 ?>
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

@@ -29,7 +29,4 @@ $lang = array
 	'google_client_comment' => '如果您加入了 Google 搜索联盟，可以在这里填写 ID',
 );
 
-<<<<<<< HEAD
-=======
 ?>
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

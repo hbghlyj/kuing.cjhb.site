@@ -41,7 +41,4 @@ if(!in_array($action, $allowaction)) {
 require_once libfile('collection/'.$action, 'include');
 
 
-<<<<<<< HEAD
-=======
 ?>
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

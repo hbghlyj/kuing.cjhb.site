@@ -45,7 +45,4 @@ function build_cache_fields_connect_register() {
 	savecache('fields_connect_register', $data);
 }
 
-<<<<<<< HEAD
-=======
 ?>
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

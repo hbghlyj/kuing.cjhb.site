@@ -362,11 +362,4 @@ function movedate($tids) {
 	cpmsg('postsplit_doing', 'action=postsplit&operation=movepost&fromtable='.$tableid.'&movesize='.$movesize.'&targettable='.$targettableid.'&hash='.$hash.'&tindex='.$tableindex, 'loadingform', array('datalength' => sizecount($status['Data_length']), 'nowdatalength' => sizecount($nowdatasize)));
 }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-?> 
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)
-=======
 ?>
->>>>>>> 19b9c0fe (末尾不应该有空格)

@@ -14,7 +14,4 @@ if(!defined('IN_DISCUZ')) {
 
 C::t('common_mytask')->delete_exceed(2592000);
 
-<<<<<<< HEAD
-=======
 ?>
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

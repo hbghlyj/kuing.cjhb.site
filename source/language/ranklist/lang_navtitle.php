@@ -73,7 +73,4 @@ $lang = array(
   'ranklist_title_app_all' => '最流行应用',
 );
 
-<<<<<<< HEAD
-=======
 ?>
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

@@ -377,7 +377,4 @@ function blog_get_stick($uid, $stickblogs, $summarylen) {
 	}
 	return $list;
 }
-<<<<<<< HEAD
-=======
 ?>
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

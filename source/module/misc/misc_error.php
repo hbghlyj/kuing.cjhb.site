@@ -12,7 +12,4 @@ if(!defined('IN_DISCUZ')) {
 }
 
 exit('Access Denied, Error mod request!')
-<<<<<<< HEAD
-=======
 ?>
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

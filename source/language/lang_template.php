@@ -474,7 +474,4 @@ $lang = array (
   'online_ip' => 'IP 地址',
 );
 
-<<<<<<< HEAD
-=======
 ?>
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

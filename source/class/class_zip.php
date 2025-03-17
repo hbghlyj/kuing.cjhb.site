@@ -307,7 +307,4 @@ class SimpleUnzipEntry {
 		} // end of the 'SimpleUnzipEntry' constructor
 } // end of the 'SimpleUnzipEntry' class
 
-<<<<<<< HEAD
-=======
 ?>
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

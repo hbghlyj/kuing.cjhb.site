@@ -39,7 +39,4 @@ if(!submitcheck('gridssubmit')) {
 	C::t('common_syscache')->delete_syscache('grids');
 	cpmsg('setting_update_succeed', 'action=grid', 'succeed');
 }
-<<<<<<< HEAD
-=======
 ?>
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

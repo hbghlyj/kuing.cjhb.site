@@ -60,7 +60,4 @@ $_G['disabledwidthauto'] = 0;
 
 require_once libfile('spacecp/'.$ac, 'include');
 
-<<<<<<< HEAD
-=======
 ?>
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

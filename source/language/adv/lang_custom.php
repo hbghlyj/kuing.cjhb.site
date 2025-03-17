@@ -22,7 +22,4 @@ $lang = array
 	'custom_text' => '自定义广告',
 );
 
-<<<<<<< HEAD
-=======
 ?>
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

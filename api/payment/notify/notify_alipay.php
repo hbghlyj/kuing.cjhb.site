@@ -45,7 +45,4 @@ if($_POST['trade_status'] == 'TRADE_SUCCESS') {
 
 exit('fail');
 
-<<<<<<< HEAD
-=======
 ?>
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

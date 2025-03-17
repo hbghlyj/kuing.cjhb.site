@@ -129,7 +129,4 @@ if (is_array(getgpc('types'))) {
 }
 $statuspara = "misc.php?mod=stat&op=trend&xml=1&type=$type&primarybegin=$primarybegin&primaryend=$primaryend{$types}{$merge}";
 
-<<<<<<< HEAD
-=======
 include template('home/misc_stat');
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

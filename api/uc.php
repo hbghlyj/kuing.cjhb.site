@@ -357,7 +357,4 @@ class uc_note {
 		}
 		return API_RETURN_SUCCEED;
 	}
-<<<<<<< HEAD
-=======
 }
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

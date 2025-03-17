@@ -95,7 +95,4 @@ $lang = array
 	'tradelist_highlight' => '获得高亮值',
 );
 
-<<<<<<< HEAD
-=======
 ?>
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

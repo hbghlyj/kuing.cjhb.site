@@ -572,7 +572,4 @@ if($method == 'show_license') {
 	read_install_log_file();
 	ob_end_flush();
 	exit();
-<<<<<<< HEAD
-=======
 }
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

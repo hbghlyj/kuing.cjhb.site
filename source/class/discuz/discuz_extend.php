@@ -49,7 +49,4 @@ class discuz_extend extends discuz_container
 
 
 }
-<<<<<<< HEAD
-=======
 ?>
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

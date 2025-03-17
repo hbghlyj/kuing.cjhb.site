@@ -44,7 +44,4 @@ runquery($sql);
 DB::query( "REPLACE INTO ".DB::table("common_credit_rule")." VALUES (NULL, '".$installlang['mobilesign']."', 'mobilesign', '1', '0', '1', '0', '0', '2', '0', '0', '0', '0', '0', '0', '');"
 );
 
-<<<<<<< HEAD
-=======
 $finish = true;
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

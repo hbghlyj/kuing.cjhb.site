@@ -65,7 +65,4 @@ class forum_upload_mobile extends forum_upload {
 
 $upload = new forum_upload_mobile();
 
-<<<<<<< HEAD
-=======
 ?>
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

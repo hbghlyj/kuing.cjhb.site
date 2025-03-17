@@ -21,7 +21,4 @@ $lang = array
 		<li>在新打开的设置页面中，将自己的安全手机真实填写，随后获取并输入验证码</li>
 		<li>输入正确的验证码后点击提交即可</li>
 		</ul>',
-<<<<<<< HEAD
-=======
 );
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

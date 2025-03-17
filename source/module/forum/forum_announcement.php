@@ -37,7 +37,4 @@ $annid = isset($_GET['id']) ? intval($_GET['id']) : 0;
 
 include template('forum/announcement');
 
-<<<<<<< HEAD
-=======
 ?>
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

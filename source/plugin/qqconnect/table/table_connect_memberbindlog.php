@@ -40,7 +40,4 @@ class table_connect_memberbindlog extends discuz_table {
 		}
 		return $result;
 	}
-<<<<<<< HEAD
-=======
 }
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

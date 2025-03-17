@@ -95,7 +95,4 @@ if ($_GET['anchor'] == 'setting') {
 		cpmsg('connect_update_succeed', 'action=plugins&operation=config&do='.$pluginid.'&identifier=qqconnect&pmod=admincp', 'succeed');
 
 	}
-<<<<<<< HEAD
-=======
 }
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

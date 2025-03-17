@@ -393,7 +393,4 @@ function ext_to_mimetype($path) {
 	return $mime;
 }
 
-<<<<<<< HEAD
-=======
 ?>
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

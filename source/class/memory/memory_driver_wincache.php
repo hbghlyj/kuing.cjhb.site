@@ -51,7 +51,4 @@ class memory_driver_wincache {
 		return wincache_ucache_dec($key, $step);
 	}
 
-<<<<<<< HEAD
-=======
 }
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

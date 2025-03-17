@@ -27,7 +27,4 @@ $lang = array
 	'gift_receive_gift' => '领取红包 {percredit} {credittype}',
 );
 
-<<<<<<< HEAD
-=======
 ?>
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

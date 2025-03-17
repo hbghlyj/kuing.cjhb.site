@@ -115,7 +115,4 @@ if($_GET['action'] == 'login') { // debug 已有账号，绑定我的账号走�
 
 }
 
-<<<<<<< HEAD
-=======
 ?>
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

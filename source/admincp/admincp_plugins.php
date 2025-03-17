@@ -1732,7 +1732,4 @@ class threadplugin_{PLUGINID} {
 	return $code;
 }
 
-<<<<<<< HEAD
-=======
 ?>
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

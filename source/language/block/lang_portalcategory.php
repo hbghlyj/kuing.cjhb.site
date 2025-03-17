@@ -23,7 +23,4 @@ $lang = array
 	'portalcategory_orderby_articles' => '按文章数倒序',
 );
 
-<<<<<<< HEAD
-=======
 ?>
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

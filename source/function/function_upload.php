@@ -134,7 +134,4 @@ function getmaxupload() {
 		return ini_get('upload_max_filesize');
 	}
 }
-<<<<<<< HEAD
-=======
 ?>
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

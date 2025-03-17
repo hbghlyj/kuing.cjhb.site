@@ -108,7 +108,4 @@ class discuz_censor {
 	function modsucceed() {
 		return $this->result == DISCUZ_CENSOR_SUCCEED;
 	}
-<<<<<<< HEAD
-=======
 }
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

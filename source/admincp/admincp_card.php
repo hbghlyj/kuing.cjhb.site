@@ -625,7 +625,4 @@ function cardsql() {
 	}
 	return $sqladd ? ' 1 '.$sqladd : '';
 }
-<<<<<<< HEAD
-=======
 ?>
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

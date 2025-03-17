@@ -171,7 +171,4 @@ abstract class discuz_model extends discuz_base
 	abstract protected function _init_parameters($parameters);
 
 }
-<<<<<<< HEAD
-=======
 ?>
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

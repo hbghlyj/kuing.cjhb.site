@@ -372,7 +372,4 @@ EOT;
 		error_log($message, 3, $file);
 	}
 
-<<<<<<< HEAD
-=======
 }
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)

@@ -53,7 +53,4 @@ function build_cache_plugin_mobile() {
 
 	$data = array('mobilecheck' => mobile_core::json($array));
 	writetocache('mobile', getcachevars($data));
-<<<<<<< HEAD
-=======
 }
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)
