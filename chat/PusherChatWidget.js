@@ -53,7 +53,6 @@ function PusherChatWidget(pusher, options) {
     });
     this._chatChannel.bind('editpost', function(data) {
       if(data.tid == tid && $(`pid${data.pid}`) !== null) {
-<<<<<<< HEAD
         ajaxget(`forum.php?mod=viewthread&tid=${tid}&viewpid=${data.pid}`, `post_${data.pid}`, 'ajaxwaitid', '', null, "if (typeof MathJax.typesetPromise === 'function') {MathJax.texReset();MathJax.typesetPromise([document.querySelector('#pid"+data.pid+" .t_f')]);}");
         if(data.subject){
           $('thread_subject').innerText=data.subject;
@@ -63,14 +62,6 @@ function PusherChatWidget(pusher, options) {
           // the edit form is open for this post, notify the user that the post has been updated
           showDialog(isChinese ? '帖子已被编辑' : 'Post has been edited');
         }
-      }
-    });
-    this._chatChannel.bind('commentadd', function(data) {
-      if(data.tid == tid && data.page == currentPage && $(`pid${data.pid}`) !== null) {
-        ajaxget('forum.php?mod=misc&action=commentmore&tid=' + tid + '&pid=' + data.pid, 'comment_' + data.pid, 'ajaxwaitid', '', null, "if (typeof MathJax.typesetPromise === 'function') {MathJax.typesetPromise([document.getElementById('comment_"+data.pid+"')]);}");
-=======
-        ajaxget(`forum.php?mod=viewthread&tid=${tid}&viewpid=${data.pid}`, `post_${data.pid}`, 'ajaxwaitid', '', null, "if (typeof MathJax.typesetPromise === 'function') {MathJax.typesetPromise([document.querySelector('#pid"+data.pid+" .t_f')]);}");
->>>>>>> 0bfc55a21 (实时点评，仿 Commit aa68f12)
       }
     });
     this._chatChannel.bind('commentadd', function(data) {
