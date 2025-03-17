@@ -54,7 +54,7 @@ function codedisp($code) {
 	global $_G;
 	$_G['forum_discuzcode']['pcodecount']++;
 	$code = dhtmlspecialchars($code);
-	$code = str_replace("\r\n", "<li>", $code);//kk add \r
+	$code = strtr($code, array("\r\n" => "<li>", "\n" => "<li>")); //kk replace both \r\n and \n
 	$_G['forum_discuzcode']['codehtml'][$_G['forum_discuzcode']['pcodecount']] = tpl_codedisp($code);
 	$_G['forum_discuzcode']['codecount']++;
 	return "[\tDISCUZ_CODE_".$_G['forum_discuzcode']['pcodecount']."\t]";
