@@ -144,26 +144,34 @@ function daddslashes($string, $force = 1) {
 }
 
 function authcode($string, $operation = 'DECODE', $key = '', $expiry = 0) {
+	// 动态密钥长度, 通过动态密钥可以让相同的 string 和 key 生成不同的密文, 提高安全性
 	$ckey_length = 4;
 	$key = md5($key != '' ? $key : getglobal('authkey'));
+	// a参与加解密, b参与数据验证, c进行密文随机变换
 	$keya = md5(substr($key, 0, 16));
 	$keyb = md5(substr($key, 16, 16));
 	$keyc = $ckey_length ? ($operation == 'DECODE' ? substr($string, 0, $ckey_length): substr(md5(microtime()), -$ckey_length)) : '';
 
+	// 参与运算的密钥组
 	$cryptkey = $keya.md5($keya.$keyc);
 	$key_length = strlen($cryptkey);
 
+	// 前 10 位用于保存时间戳验证数据有效性, 10 - 26位保存 $keyb , 解密时通过其验证数据完整性
+	// 如果是解码的话会从第 $ckey_length 位开始, 因为密文前 $ckey_length 位保存动态密匙以保证解密正确 
 	$string = $operation == 'DECODE' ? base64_decode(substr($string, $ckey_length)) : sprintf('%010d', $expiry ? $expiry + time() : 0).substr(md5($string.$keyb), 0, 16).$string;
 	$string_length = strlen($string);
 
 	$result = '';
 	$box = range(0, 255);
 
+	// 产生密钥簿
 	$rndkey = array();
 	for($i = 0; $i <= 255; $i++) {
 		$rndkey[$i] = ord($cryptkey[$i % $key_length]);
 	}
 
+	// 打乱密钥簿, 增加随机性
+	// 类似 AES 算法中的 SubBytes 步骤
 	for($j = $i = 0; $i < 256; $i++) {
 		$j = ($j + $box[$i] + $rndkey[$i]) % 256;
 		$tmp = $box[$i];
@@ -171,6 +179,7 @@ function authcode($string, $operation = 'DECODE', $key = '', $expiry = 0) {
 		$box[$j] = $tmp;
 	}
 
+	// 从密钥簿得出密钥进行异或，再转成字符 
 	for($a = $j = $i = 0; $i < $string_length; $i++) {
 		$a = ($a + 1) % 256;
 		$j = ($j + $box[$a]) % 256;
@@ -181,12 +190,16 @@ function authcode($string, $operation = 'DECODE', $key = '', $expiry = 0) {
 	}
 
 	if($operation == 'DECODE') {
+		// 这里按照算法对数据进行验证, 保证数据有效性和完整性
+		// $result 01 - 10 位是时间, 如果小于当前时间或为 0 则通过
+		// $result 10 - 26 位是加密时的 $keyb , 需要和入参的 $keyb 做比对
 		if(((int)substr($result, 0, 10) == 0 || (int)substr($result, 0, 10) - time() > 0) && substr($result, 10, 16) === substr(md5(substr($result, 26).$keyb), 0, 16)) {
 			return substr($result, 26);
 		} else {
 			return '';
 		}
 	} else {
+		// 把动态密钥保存在密文里, 并用 base64 编码保证传输时不被破坏
 		return $keyc.str_replace('=', '', base64_encode($result));
 	}
 
@@ -403,6 +416,7 @@ function random($length, $numeric = 0) {
 }
 
 function secrandom($length, $numeric = 0, $strong = false) {
+	// Thank you @popcorner for your strong support for the enhanced security of the function.
 	$chars = $numeric ? array('A','B','+','/','=') : array('+','/','=');
 	$num_find = str_split('CDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz');
 	$num_repl = str_split('01234567890123456789012345678901234567890123456789');
@@ -413,6 +427,7 @@ function secrandom($length, $numeric = 0, $strong = false) {
 			return random_bytes($length);
 		};
 	} elseif(extension_loaded('mcrypt') && function_exists('mcrypt_create_iv')) {
+		// for lower than PHP 7.0, Please Upgrade ASAP.
 		$isstrong = true;
 		$random_bytes = function($length) {
 			$rand = mcrypt_create_iv($length, MCRYPT_DEV_URANDOM);
@@ -423,6 +438,9 @@ function secrandom($length, $numeric = 0, $strong = false) {
 			}
 		};
 	} elseif(extension_loaded('openssl') && function_exists('openssl_random_pseudo_bytes')) {
+		// for lower than PHP 7.0, Please Upgrade ASAP.
+		// openssl_random_pseudo_bytes() does not appear to cryptographically secure
+		// https://github.com/paragonie/random_compat/issues/5
 		$isstrong = true;
 		$random_bytes = function($length) {
 			$rand = openssl_random_pseudo_bytes($length, $secure);
@@ -1219,6 +1237,7 @@ function output() {
 			$temp_md5 = md5(substr($_G['timestamp'], 0, -3).substr($_G['config']['security']['authkey'], 3, -3));
 			$temp_formhash = substr($temp_md5, 8, 8);
 			$content = preg_replace('/(name=[\'|\"]formhash[\'|\"] value=[\'\"]|formhash=)('.constant("FORMHASH").')/ismU', '${1}'.$temp_formhash, $content);
+			//避免siteurl伪造被缓存
 			$temp_siteurl = 'siteurl_'.substr($temp_md5, 16, 8);
 			$content = preg_replace('/("|\')('.preg_quote($_G['siteurl'], '/').')/ismU', '${1}'.$temp_siteurl, $content);
 			$content = empty($content) ? ob_get_contents() : $content;
@@ -1379,7 +1398,7 @@ function hookscriptoutput($tplfile) {
 	hookscript('global', 'global');
 	$_G['hookscriptoutput'] = true;
 	if(defined('CURMODULE')) {
-		$param = array('template' => $tplfile, 'message' => getglobal('hookscriptmessage'), 'values' => getglobal('hookscriptmessage'));
+		$param = array('template' => $tplfile, 'message' => getglobal('hookscriptmessage'), 'values' => getglobal('hookscriptvalues'));
 		hookscript(CURMODULE, $_G['basescript'], 'outputfuncs', $param);
 	}
 }
@@ -1469,6 +1488,7 @@ function formula_tokenize($formula, $operators, $tokens, $values, $funcs) {
 	foreach($fexp as $k => $val) {
 		if(is_array($val)) {
 			if(in_array($val[0], array(T_VARIABLE, T_CONSTANT_ENCAPSED_STRING, T_LNUMBER, T_DNUMBER))) {
+				// 是变量
 				if(!in_array($prevseg, array(1, 4))) {
 					return false;
 				}
@@ -1480,12 +1500,15 @@ function formula_tokenize($formula, $operators, $tokens, $values, $funcs) {
 					return false;
 				}
 			} elseif($val[0] == T_STRING && in_array($val[1], $funcs)) {
+				// 是函数
 				if(!in_array($prevseg, array(1, 4))) {
 					return false;
 				}
 				$prevseg = 5;
 			} elseif($val[0] == T_WHITESPACE || ($k == 0 && $val[0] == T_OPEN_TAG)) {
+				// 空格或文件头，忽略
 			} elseif(in_array($val[1], $op2)) {
+				// 是运算符
 				if(!in_array($prevseg, array(2, 3))) {
 					return false;
 				}
@@ -1495,12 +1518,14 @@ function formula_tokenize($formula, $operators, $tokens, $values, $funcs) {
 			}
 		} else {
 			if($val === '(') {
+				// 是左括号
 				if(!in_array($prevseg, array(1, 4, 5))) {
 					return false;
 				}
 				$prevseg = 1;
 				$isclose++;
 			} elseif($val === ')') {
+				// 是右括号
 				if(!in_array($prevseg, array(2, 3))) {
 					return false;
 				}
@@ -1510,6 +1535,7 @@ function formula_tokenize($formula, $operators, $tokens, $values, $funcs) {
 					return false;
 				}
 			} elseif(in_array($val, $op1)) {
+				// 是运算符
 				if(!in_array($prevseg, array(2, 3)) && $val !== '-') {
 					return false;
 				}
@@ -1940,6 +1966,20 @@ function getposttable($tableid = 0, $prefix = false) {
 	return table_forum_post::getposttable($tableid, $prefix);
 }
 
+/*
+ * 以下命令，$value传入的是prefix，其它命令prefix都是最后一个参数
+ * 		get, rm, scard, smembers, hgetall, zcard, exists
+ * eval 时，传入参数如下：
+ * 		$cmd = 'eval', $key = script, $value = argv, 
+ * 		$ttl = 用于存储script hash的key, $prefix 会自动成为脚本的第一个参数，其余参数序号顺延
+ * zadd 时，参数如下：
+ * 		$cmd = 'zadd', $key = key, $value = member, $ttl = score
+ * zincrby 时，参数如下：
+ * 		$cmd = 'zincrby', $key = key, $value = member, $ttl = value to increase
+ * zrevrange 和 zrevrangewithscore 时，参数如下；
+ * 		$cmd = 'zrevrange', $key = key, $value = start, $ttl = end
+ * inc, dec, incex 的 $ttl 无效
+ */
 function memory($cmd, $key='', $value='', $ttl = 0, $prefix = '') {
 	static $supported_command = array(
 		'set', 'add', 'get', 'rm', 'inc', 'dec', 'exists',
@@ -2314,6 +2354,8 @@ function strhash($string, $operation = 'DECODE', $key = '') {
 }
 
 function dunserialize($data) {
+	// 由于 Redis 驱动侧以序列化保存 array, 取出数据时会自动反序列化（导致反序列化了非Redis驱动序列化的数据），因此存在参数入参为 array 的情况.
+	// 考虑到 PHP 8 增强了类型体系, 此类数据直接送 unserialize 会导致 Fatal Error, 需要通过代码层面对此情况进行规避.
 	if(is_array($data)) {
 		$ret = $data;
 	} elseif(($ret = unserialize($data)) === false) {

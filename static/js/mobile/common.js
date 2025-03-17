@@ -1,5 +1,4 @@
 var supporttouch = "ontouchend" in document;
-!supporttouch && (window.location.href = 'forum.php?mobile=1');
 
 var platform = navigator.platform;
 var ua = navigator.userAgent;
@@ -294,7 +293,7 @@ var display = {
 						dis.attr('display', 'false');
 						$('#mask').css({'display':'block','width':'100%','height':'100%','position':'fixed','top':'0','left':'0','background':'transparent','z-index':'100'});
 					}
-					//return false;
+					return false;
 				});
 			}
 		});
@@ -880,6 +879,8 @@ function portal_flowlazyload() {
 	this.showNextPage = function() {
 		var scrollTop = Math.max(document.documentElement.scrollTop, document.body.scrollTop);
 		var offsetTop = this.getOffset(document.getElementsByClassName('page')[0]);
+		// 没有在进行的 Ajax 翻页或者 Ajax 翻页少于 10 次才翻页, 为了避免重复请求以及无限下拉导致的 DOM 问题
+		// Todo: 大数据量站点测试下拉刷新合理范围, 适度放宽限制
 		if (!processing && times <= 9 && offsetTop > document.documentElement.clientHeight && (offsetTop - scrollTop < document.documentElement.clientHeight)) {
 			processing = true;
 			times++;
@@ -940,13 +941,17 @@ function setCopy(text, msg) {
 				popup.open(msg, 'alert');
 			}
 		} else {
-			popup.open('复制失败', 'alerts');
+			popup.open('复制失败', 'alert');
 		}
 	} else {
-		popup.open('复制失败', 'alerts');
+		popup.open('复制失败', 'alert');
 	}
 }
 
 function copycode(obj) {
 	setCopy(obj.textContent, '代码已复制到剪贴板');
+}
+
+function setanswer(tid, pid, from, formhash){
+	popup.open('您确认要把该回复选为“最佳答案”吗？','confirm','forum.php?mod=misc&action=bestanswer&tid=' + tid + '&pid=' + pid + '&from=' + from + '&bestanswersubmit=yes&formhash='+formhash)
 }

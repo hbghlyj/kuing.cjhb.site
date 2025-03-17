@@ -34,7 +34,7 @@ if($page === 1 && !empty($_G['setting']['antitheft']['allow']) && empty($_G['set
 	helper_antitheft::check($_G['forum_thread']['tid'], 'tid');
 }
 
-if($_G['setting']['cachethreadlife'] && $_G['forum']['threadcaches'] && !$_G['uid'] && $page == 1 && !$_G['forum']['special'] && empty($_GET['action']) && empty($_GET['do']) && empty($_GET['from']) && empty($_GET['threadindex']) && !defined('IN_ARCHIVER') && !defined('IN_MOBILE') && !IS_ROBOT) {
+if($_G['setting']['cachethreadlife'] && $_G['forum']['threadcaches'] && !$_G['uid'] && $page == 1 && !$_G['forum']['special'] && empty($_GET['ordertype']) && empty($_GET['authorid']) && empty($_GET['action']) && empty($_GET['do']) && empty($_GET['from']) && empty($_GET['threadindex']) && !defined('IN_ARCHIVER') && !defined('IN_MOBILE') && !IS_ROBOT) {
 	viewthread_loadcache();
 }
 
@@ -379,7 +379,7 @@ if($_G['forum_thread']['special'] == 2) {
 }
 
 $onlyauthoradd = $threadplughtml = '';
-
+$postarr = array();
 $maxposition = 0;
 if(empty($_GET['viewpid'])) {
 	if(!in_array($_G['forum_thread']['special'], array(2,3,5))) {
@@ -509,7 +509,7 @@ if(empty($_GET['viewpid'])) {
 		(!empty($_GET['checkrush']) ? '&amp;checkrush='.$_GET['checkrush'] : '').
 		(!empty($_GET['modthreadkey']) ? '&amp;modthreadkey='.rawurlencode($_GET['modthreadkey']) : '').
 		$specialextra;
-	$multipage = multi($_G['forum_thread']['replies'] + 1, $_G['ppp'], $page, 'forum.php?mod=viewthread&tid='.$_G['tid'].$multipageparam);
+	$multipage = multi($_G['forum_thread']['replies'] + ($ordertype != 1 ? 1 : 0), $_G['ppp'], $page, 'forum.php?mod=viewthread&tid='.$_G['tid'].$multipageparam);
 } else {
 	$_GET['viewpid'] = intval($_GET['viewpid']);
 	$pageadd = "AND p.pid='{$_GET['viewpid']}'";
@@ -677,9 +677,9 @@ foreach($postarr as $post) {
 			}
 			$_G['forum_firstpid'] = $post['pid'];
 			if($_G['forum_thread']['price']) {
-				$summary = str_replace(array("\r", "\n"), '', messagecutstr($thread['freemessage'], 160));
+				$summary = str_replace(array("\r", "\n"), '', messagecutstr(strip_tags($thread['freemessage']), 160));
 			} else {
-				$summary = str_replace(array("\r", "\n"), '', messagecutstr($post['message'], 160));
+				$summary = str_replace(array("\r", "\n"), '', messagecutstr(strip_tags($post['message']), 160));
 			}
 			$tagarray_all = $posttag_array = array();
 			$tagarray_all = explode("\t", $post['tags']);
@@ -917,7 +917,8 @@ if($_G['forum_cachepid']) {
 	}
 
 	if($_G['forum_cachepid'] && $_G['setting']['commentnumber']) {
-		list($comments, $postcache, $commentcount, $totalcomment) = C::t('forum_postcomment')->fetch_postcomment_by_pid($_G['forum_cachepid'], $postcache, $commentcount, $totalcomment, $_G['setting']['commentnumber']);
+		list($commentsnew, $postcache, $commentcount, $totalcomment) = C::t('forum_postcomment')->fetch_postcomment_by_pid($_G['forum_cachepid'], $postcache, $commentcount, $totalcomment, $_G['setting']['commentnumber']);
+		$comments = $commentsnew + $comments;
 	}
 
 	foreach($postcache as $pid => $data) {
@@ -1025,6 +1026,7 @@ if(empty($_GET['viewpid'])) {
 		$_G['widthauto'] = 0;
 		$sufix = '_album';
 		$post = &$postlist[$_G['forum_firstpid']];
+		// 暂不确认对于 JS 类内容是否都需要添加 ignore_js_op 标签供 _relatedlinks 和只看大图模式正文摘要过滤用
 		$post['message'] = cutstr(strip_tags(preg_replace('/(<ignore_js_op>.*<\/ignore_js_op>)/is', '', $post['message'])), 200);
 		require_once libfile('thread/album', 'include');
 	}
@@ -1094,7 +1096,7 @@ function viewthread_procpost($post, $lastvisit, $ordertype, $maxposition = 0) {
 		$post['newpostanchor'] = '';
 	}
 
-	$post['lastpostanchor'] = ($ordertype != 1 && $_G['forum_numpost'] == $_G['forum_thread']['replies']) || ($ordertype == 1 && $_G['forum_numpost'] == $_G['forum_thread']['replies'] + 2) ? '<a name="lastpost"></a>' : '';
+	$post['lastpostanchor'] = ($ordertype != 1 && $_G['forum_numpost'] == $_G['forum_thread']['replies']) || ($ordertype == 1 && $_G['forum_numpost'] == $_G['forum_thread']['replies'] + 2 && (!$_G['forum_thread']['replies'] || !$post['first'])) ? '<a name="lastpost"></a>' : '';
 
 	if(empty($post['hotrecommended']) && $post['incurpage']) {
 		if($_G['forum_pagebydesc']) {
@@ -1326,14 +1328,14 @@ function viewthread_procpost($post, $lastvisit, $ordertype, $maxposition = 0) {
 
 function viewthread_loadcache() {
 	global $_G;
-	$_G['thread']['livedays'] = ceil((TIMESTAMP - $_G['thread']['dateline']) / 86400);
-	$_G['thread']['lastpostdays'] = ceil((TIMESTAMP - $_G['thread']['lastpost']) / 86400);
+	$_G['thread']['livedays'] = ceil((TIMESTAMP - $_G['thread']['dateline']) / 86400);	// 本贴子存在了多少天，最少是1天
+	$_G['thread']['lastpostdays'] = ceil((TIMESTAMP - $_G['thread']['lastpost']) / 86400);	// 最后发帖天数，最少1天
 
 	$threadcachemark = 100 - (
-		$_G['thread']['digest'] * 20 +
-		min($_G['thread']['views'] / max($_G['thread']['livedays'], 10) * 2, 50) +
-		max(-10, (15 - $_G['thread']['lastpostdays'])) +
-		min($_G['thread']['replies'] / $_G['setting']['postperpage'] * 1.5, 15));
+		$_G['thread']['digest'] * 20 +							// 精华，占20分
+		min($_G['thread']['views'] / max($_G['thread']['livedays'], 10) * 2, 50) +	// 阅读数与天数关系，占50分。阅读越多分越高，天数越久分越低
+		max(-10, (15 - $_G['thread']['lastpostdays'])) +				// 最后回复时间，占15分，超过15天开始倒扣分，最多扣10分
+		min($_G['thread']['replies'] / $_G['setting']['postperpage'] * 1.5, 15));	// 帖子页数，占15分，10页以上就是满分
 	if($threadcachemark < $_G['forum']['threadcaches']) {
 
 		$threadcache = getcacheinfo($_G['tid']);

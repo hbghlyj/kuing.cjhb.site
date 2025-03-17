@@ -1835,7 +1835,7 @@ function strLenCalc(obj, checklen, maxlen) {
 }
 
 function dstrLenCalc(obj, checklen, maxlen) {
-	var v = obj.value, maxlen = !maxlen ? 200 : maxlen, curlen = maxlen, len = strlen(v);
+	var v = obj.value, charlen = 0, maxlen = !maxlen ? 200 : maxlen, curlen = maxlen, len = strlen(v);
 	for(var i = 0; i < v.length; i++) {
 		value = v.charCodeAt(i);
 		if((value > 127 && value < 55296) || value > 57343) {

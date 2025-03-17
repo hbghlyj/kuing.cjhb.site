@@ -339,6 +339,10 @@ function deletethread($tids, $membercount = false, $credit = false, $ponly = fal
 					}
 				}
 			}
+			if($post['authorid'] > 0 && $post['first']) {
+				$feed_counts = C::t('home_follow_feed')->delete_by_uid_tid($post['authorid'], $post['tid']);
+				C::t('common_member_count')->increase($post['authorid'], array('feeds'=>-$feed_counts));
+			}
 		}
 
 		if($credit) {
@@ -864,10 +868,11 @@ function deletearticle($aids, $istrash = true) {
 		foreach($article as $key => $value) {
 			if($istrash) {
 				$trasharr[] = array('aid' => $value['aid'], 'content'=>serialize($value));
-			} elseif($value['pic']) {
-				pic_delete($value['pic'], 'portal', $value['thumb'], $value['remote']);
-				$attachaid[] = $value['aid'];
-				if($value['madehtml'] && $value['htmldir'] && $value['htmlname']) {
+			} else {
+				if($value['pic']) {
+					pic_delete($value['pic'], 'portal', $value['thumb'], $value['remote']);
+				}
+				if($value['htmlmade'] && $value['htmldir'] && $value['htmlname']) {
 					deletehtml(DISCUZ_ROOT.'/'.$value['htmldir'].$value['htmlname'], $value['contents']);
 				}
 			}

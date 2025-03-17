@@ -131,7 +131,7 @@ if($op == 'members') {
 			$member_status = C::t('common_member_status')->fetch_all($uids, false, 0);
 		}
 		foreach($member_validate as $uid => $member) {
-			$member = array_merge($member, $common_member[$uid], $member_status[$uid]);
+			$member = array_merge($member, (array)$common_member[$uid], (array)$member_status[$uid]);
 			if($member['groupid'] != 8 && !in_array($member['freeze'], array(-1, 2))) {
 				$vuids[] = $member['uid'];
 				continue;
@@ -249,7 +249,7 @@ if($op == 'replies') {
 				if($post['authorid'] && $post['authorid'] != $_G['uid']) {
 					$pmlist[] = array(
 						'act' => $_GET['reason'] ? 'modreplies_delete_reason' : 'modreplies_delete',
-						'notevar' => array('reason' => dhtmlspecialchars($_GET['reason']), 'post' => messagecutstr($post['message'], 30)),
+						'notevar' => array('modusername' => ($_G['setting']['moduser_public'] ? $_G['username'] : ''), 'reason' => dhtmlspecialchars($_GET['reason']), 'post' => messagecutstr($post['message'], 30)),
 						'authorid' => $post['authorid'],
 					);
 				}
@@ -333,7 +333,7 @@ if($op == 'replies') {
 				if($post['authorid'] && $post['authorid'] != $_G['uid']) {
 					$pmlist[] = array(
 						'act' => 'modreplies_validate',
-						'notevar' => array('reason' => dhtmlspecialchars($_GET['reason']), 'pid' => $post['pid'], 'tid' => $post['tid'], 'post' => messagecutstr($post['message'], 30), 'from_id' => 0, 'from_idtype' => 'modreplies'),
+						'notevar' => array('modusername' => ($_G['setting']['moduser_public'] ? $_G['username'] : ''), 'reason' => dhtmlspecialchars($_GET['reason']), 'pid' => $post['pid'], 'tid' => $post['tid'], 'post' => messagecutstr($post['message'], 30), 'from_id' => 0, 'from_idtype' => 'modreplies'),
 						'authorid' => $post['authorid'],
 					);
 				}

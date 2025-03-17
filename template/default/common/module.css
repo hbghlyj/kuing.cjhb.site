@@ -852,6 +852,8 @@ a.thread_mod { height: 19px; line-height: 19px; display: inline-block; color: #4
 		.plc { padding: 0 20px; }
 		.pls { width: 160px; background: {SPECIALBG}; overflow: hidden; border-right: 1px solid {CONTENTSEPARATE}; }
 		.pls .avatar { margin: 10px 15px; }
+			.pls .avatar img { padding: 5px; background: #FFF; width: 120px; box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2); }
+
 			.pls .favatar { background: transparent; height: auto; border-width: 0px; overflow: visible; }
 
 		.pls p, .pls .pil, .pls .o { margin: 5px 10px 5px 20px; }
@@ -914,9 +916,9 @@ a.thread_mod { height: 19px; line-height: 19px; display: inline-block; color: #4
 		.t_f ul { margin-left: 14px; }
 			.t_f li { margin-left: 2em; }
 			.t_f ul li { list-style-type: disc; }
-				ul.litype_1 li { list-style-type: decimal; }
-				ul.litype_2 li { list-style-type: lower-alpha; }
-				ul.litype_3 li { list-style-type: upper-alpha; }
+				ul.litype_1>li { list-style-type: decimal; }
+				ul.litype_2>li { list-style-type: lower-alpha; }
+				ul.litype_3>li { list-style-type: upper-alpha; }
 		.t_f i { font-style: italic; }
 		.sign { overflow: hidden; margin-bottom: 10px; padding-top: 16px; border-top: 1px dashed #CCC; line-height: 1.6em; }
 			.sign::before { content: "SIGNATURE"; float: left; margin-top: -20px; margin-left: -8px; color: #7FCCE5; transform: scale(0.8); letter-spacing: 2px; }

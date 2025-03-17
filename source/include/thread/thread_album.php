@@ -18,11 +18,15 @@ if($_G['forum_threadpay'] && $_G['thread']['freemessage']) {
 		$freeattachids = $matches[1];
 	}
 }
+$validpids = C::t('forum_post')->fetch_all_pid_by_tid($_G['tid'], 0);
 foreach(C::t('forum_attachment_n')->fetch_all_by_id('tid:'.$_G['tid'], 'tid', $_G['tid'], 'aid') as $attach) {
+	if(!isset($validpids[$attach['pid']])) {
+		continue;
+	}
 	if($_G['forum_threadpay'] && !in_array($attach['aid'], $freeattachids)) {
 		continue;
 	}
-	if($attach['uid'] != $_G['forum_thread']['authorid'] && defined('IN_MOBILE')&& IN_MOBILE != 2) {
+	if($attach['uid'] != $_G['forum_thread']['authorid'] && (!defined('IN_MOBILE') || IN_MOBILE != 2)) {
 		continue;
 	}
 	if($attach['isimage'] && !$_G['setting']['attachimgpost']) {

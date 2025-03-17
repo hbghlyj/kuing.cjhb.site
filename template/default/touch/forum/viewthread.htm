@@ -2,7 +2,7 @@
 <div class="header cl">
 	<div class="mz"><a href="javascript:history.back();"><i class="dm-c-left"></i></a></div>
 	<h2><a href="<!--{if $_GET['fromguid'] == 'hot' && $_G['setting']['guidestatus']}-->forum.php?mod=guide&view=hot&page=$_GET['page']<!--{else}-->forum.php?mod=forumdisplay&fid=$_G['fid']&<!--{eval echo rawurldecode($_GET['extra']);}--><!--{/if}-->"><!--{eval echo strip_tags($_G['forum']['name']) ? strip_tags($_G['forum']['name']) : $_G['forum']['name'];}--></a></h2>
-	<div class="my"><a href="<!--{if $_G['setting']['mobile']['mobilehotthread']}--><!--{if !empty($_G['setting']['grid']['showgrid'])}-->forum.php<!--{else}-->forum.php?mod=guide&view=newthread<!--{/if}--><!--{else}-->forum.php?forumlist=1<!--{/if}-->"><i class="dm-house"></i></a></div>
+	<div class="my"><a href="index.php"><i class="dm-house"></i></a></div>
 </div>
 <!--{hook/viewthread_top_mobile}-->
 <div class="viewthread">
@@ -25,12 +25,12 @@
 	<!--{hook/viewthread_posttop_mobile $postcount}-->
 	<div class="plc cl" id="pid$post['pid']">
 		<div class="avatar"><img src="<!--{if !$post['authorid'] || $post['anonymous']}--><!--{avatar(0, 'small', true)}--><!--{else}--><!--{avatar($post['authorid'], 'small', true)}--><!--{/if}-->" /></div>
-		<div class="display pi<!--{if $post['first']}--> pione<!--{/if}-->" href="#replybtn_$post['pid']">
+		<div class="display pi<!--{if $post['first']}--> pione<!--{/if}-->">
 			<ul class="authi">
 				<li class="mtit">
 					<span class="y">
 						<!--{if isset($post['isstick'])}-->
-							<img src ="{IMGDIR}/settop.png" title="{lang replystick}" class="vm" /> {lang from} {$post['number']}{$postnostick}
+							<img src ="{IMGDIR}/settop.png" class="vm" /> {lang from} {$post['number']}{$postnostick}
 						<!--{elseif $post['number'] == -1}-->
 							{lang recommend_post}
 						<!--{else}-->
@@ -44,7 +44,7 @@
 						<!--{if !$post['authorid']}-->
 						<a href="javascript:;">{lang guest} <em>$post['useip']{if $post['port']}:$post['port']{/if}</em></a>
 						<!--{elseif $post['authorid'] && $post['username'] && $post['anonymous']}-->
-						<!--{if $_G['forum']['ismoderator']}--><a href="home.php?mod=space&uid=$post['authorid']">{lang anonymous}</a><!--{else}-->{lang anonymous}<!--{/if}-->
+						<!--{if $_G['forum']['ismoderator']}--><a href="home.php?mod=space&uid=$post['authorid']">{$_G['setting']['anonymoustext']}</a><!--{else}-->{$_G['setting']['anonymoustext']}<!--{/if}-->
 						<!--{else}-->
 						$post['author'] <em>{lang member_deleted}</em>
 						<!--{/if}-->
@@ -209,7 +209,7 @@
 					<!--{elseif $post['status'] & 1}-->
 						<div class="quote">{lang admin_message_single_banned}</div>
 					<!--{/if}-->
-					<!--{if $_G['forum_thread']['price'] > 0 && $_G['forum_thread']['special'] == 0}-->
+					<!--{if $post['first'] && $_G['forum_thread']['price'] > 0 && $_G['forum_thread']['special'] == 0}-->
 						{lang pay_threads}: <strong>$_G['forum_thread']['price'] {$_G['setting']['extcredits'][$_G['setting']['creditstransextra'][1]]['unit']}{$_G['setting']['extcredits'][$_G['setting']['creditstransextra'][1]]['title']} </strong> <a href="forum.php?mod=misc&action=viewpayments&tid=$_G['tid']" >{lang pay_view}</a>
 					<!--{/if}-->
 					<!--{if $post['first'] && $threadsort && $threadsortshow}-->
@@ -265,11 +265,6 @@
 				<ul class="post_attlist">{echo showattach($post)}</ul>
 				<!--{/if}-->
 			<!--{/if}-->
-			<!--{/if}-->
-			<!--{if $_G['uid'] && $allowpostreply && !$post['first']}-->
-			<div id="replybtn_$post['pid']" class="replybtn" display="true">
-				<a class="button" href="forum.php?mod=post&action=reply&fid={$_G['fid']}&tid={$_G['tid']}&repquote={$post['pid']}&extra={$_GET['extra']}&page={$page}">{lang reply}</a>
-			</div>
 			<!--{/if}-->
 			<!--{if $post['first']}-->
 			<!--{/if}-->
@@ -372,11 +367,14 @@
 		</div>
 		<div class="threadlist_foot cl">
 			<ul>
+			<!--{if $_G['uid'] && $allowpostreply && !$post['first']}-->
+				<li><a href="forum.php?mod=post&action=reply&fid={$_G['fid']}&tid={$_G['tid']}&repquote={$post['pid']}&extra={$_GET['extra']}&page={$page}"><i class="dm-chat-s"></i>{lang reply}</a></li>
+			<!--{/if}-->
 			<!--{if $_G['group']['raterange'] && $post['authorid']}-->
 				<li><a href="forum.php?mod=misc&action=rate&tid={$_G['tid']}&pid={$post['pid']}" class="dialog"><i class="dm-heart"></i>{lang rate}</a></li>
 			<!--{/if}-->
 			<!--{if $post['invisible'] == 0}-->
-				<!--{if $allowpostreply && $post['allowcomment'] && (!$thread['closed'] || $_G['forum']['ismoderator'])}--><li><a href="forum.php?mod=misc&action=comment&tid={$post['tid']}&pid={$post['pid']}&extra={$_GET['extra']}&page={$page}{if $_G['forum_thread']['special'] == 127}&special={$specialextra}{/if}" class="dialog"><i class="dm-chat-s"></i>{lang comments}</a></li><!--{/if}-->
+				<!--{if $allowpostreply && $post['allowcomment'] && (!$thread['closed'] || $_G['forum']['ismoderator'])}--><li><a href="forum.php?mod=misc&action=comment&tid={$post['tid']}&pid={$post['pid']}&extra={$_GET['extra']}&page={$page}{if $_G['forum_thread']['special'] == 127}&special={$specialextra}{/if}" class="dialog"><i class="dm-chat-t"></i>{lang comments}</a></li><!--{/if}-->
 			<!--{/if}-->
 			<!--{if !$_G['forum_thread']['special'] && !$rushreply && !$hiddenreplies && $_G['setting']['repliesrank'] && !$post['first'] && !($post['isWater'] && $_G['setting']['filterednovote'])}-->
 				<li><a href="forum.php?mod=misc&action=postreview&do=support&tid={$_G['tid']}&pid={$post['pid']}&hash={FORMHASH}" class="dialog"><i class="dm-c-up"></i>{lang support_reply} <span id="review_support_{$post['pid']}">{$post['postreview']['support']}</span></a></li>
@@ -392,10 +390,15 @@
 					<!--{/if}-->
 				<!--{/if}-->
 			<!--{/if}-->
+			<!--{if $_G['forum_thread']['special'] == 3 && ($_G['forum']['ismoderator'] && (!$_G['setting']['rewardexpiration'] || $_G['setting']['rewardexpiration'] > 0 && ($_G[timestamp] - $_G['forum_thread']['dateline']) / 86400 > $_G['setting']['rewardexpiration']) || $_G['forum_thread']['authorid'] == $_G['uid']) && $post['authorid'] != $_G['forum_thread']['authorid'] && $post['first'] == 0 && $_G['uid'] != $post['authorid'] && $_G['forum_thread']['price'] > 0}-->
+				<li><a href="javascript:;" onclick="setanswer($post['tid'], $post['pid'], '{$_GET['from']}','{$_G['formhash']}')"><i class="dm-tag"></i>{lang reward_set_bestanswer}</a></li>
+			<!--{/if}-->
 			<!--{hook/viewthread_postfooter_mobile $postcount}-->
 			</ul>
 		</div>
-   </div>
+	</div>
+	<!--{hook/viewthread_postbottom_mobile $postcount}-->
+	<!--{eval $postcount++;}-->
 	<!--{if $post['first']}-->
 		<div class="discuz_x cl"></div>
 		<div class="txtlist cl">
@@ -462,6 +465,6 @@ $multipage
 		return false;
 	});
 </script>
-<a href="javascript:;" title="{lang scrolltop}" class="scrolltop bottom"></a>
+<a href="javascript:;" class="scrolltop bottom"></a>
 <!--{eval $nofooter = true;}-->
 <!--{template common/footer}-->

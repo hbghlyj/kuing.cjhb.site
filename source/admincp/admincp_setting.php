@@ -1327,11 +1327,22 @@ EOF;
 		$setting['guide'] = dunserialize($setting['guide']);
 		showtableheader('', 'nobottom', 'id="guide"'.($_GET['anchor'] != 'guide' ? ' style="display: none"' : ''));
 		showsetting('setting_functions_heatthread_guidelimit', 'settingnew[heatthread][guidelimit]', $setting['heatthread']['guidelimit'], 'text');
+		$indexarray = array(
+			array('index', $lang['setting_functions_guide_index_index']),
+			array('newthread', $lang['setting_functions_guide_index_newthread']),
+			array('new', $lang['setting_functions_guide_index_new']),
+			array('hot', $lang['setting_functions_guide_index_hot']),
+			array('digest', $lang['setting_functions_guide_index_digest']),
+			array('sofa', $lang['setting_functions_guide_index_sofa'])
+		);
+		showsetting('setting_functions_guide_index', array('settingnew[guide][index]', $indexarray), $setting['guide']['index'], 'select');
 		$dtarray = array(
 			array(604800, $lang['7_day']),
 			array(1209600, $lang['14_day']),
 			array(2592000, $lang['30_day']),
-			array(7776000, $lang['90_day'])
+			array(7776000, $lang['90_day']),
+			array(15552000, $lang['180_day']),
+			array(31536000, $lang['365_day'])
 		);
 		showsetting('setting_functions_guide_hotdt', array('settingnew[guide][hotdt]', $dtarray), $setting['guide']['hotdt'], 'select');
 		showsetting('setting_functions_guide_digestdt', array('settingnew[guide][digestdt]', $dtarray), $setting['guide']['digestdt'], 'select');
@@ -2691,7 +2702,7 @@ EOT;
 				unset($settingnew['report_reward']);
 			}
 			if($settingnew['report_reward']['min'] == $settingnew['report_reward']['max']) {
-				$settingnew['report_reward'] = array('min' => '', 'max' => '');
+				$settingnew['report_reward'] = array('min' => 0, 'max' => 0);
 			}
 			$settingnew['report_reward'] = serialize($settingnew['report_reward']);
 		}

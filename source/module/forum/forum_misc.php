@@ -150,7 +150,7 @@ if($_GET['action'] == 'paysucceed') {
 				if($alog >= $_G['setting']['maxincperthread']) {
 					$updateauthor = 0;
 				} else {
-					$authorEarn = min($_G['setting']['maxincperthread'] - $alog['credit'], $prices[$aid][1]);
+					$authorEarn = min($_G['setting']['maxincperthread'] - $alog, $prices[$aid][1]);
 				}
 			}
 			if($updateauthor) {
@@ -438,7 +438,10 @@ IconIndex=1
 		$filename = $_G['setting']['bbname'].'.url';
 	}
 
+	// 遵循RFC 6266国际标准，按照RFC 5987中的规则对文件名进行编码
 	$filenameencode = strtolower(CHARSET) == 'utf-8' ? rawurlencode($filename) : rawurlencode(diconv($filename, CHARSET, 'UTF-8'));
+	// 连2011年发布的国际标准都没能正确支持的浏览器厂商的黑名单列表
+	// 目前包括：UC，夸克，搜狗，百度
 	$rfc6266blacklist = strexists($_SERVER['HTTP_USER_AGENT'], 'UCBrowser') || strexists($_SERVER['HTTP_USER_AGENT'], 'Quark') || strexists($_SERVER['HTTP_USER_AGENT'], 'SogouM') || strexists($_SERVER['HTTP_USER_AGENT'], 'baidu');
 	dheader('Content-type: application/octet-stream');
 	dheader('Content-Disposition: attachment; filename="'.$filenameencode.'"'.(($filename == $filenameencode || $rfc6266blacklist) ? '' : '; filename*=utf-8\'\''.$filenameencode));
@@ -740,7 +743,7 @@ if($_GET['action'] == 'votepoll' && submitcheck('pollsubmit', 1)) {
 		require_once libfile('function/discuzcode');
 		$sqlvalues = $comma = '';
 		$sqlreason = censor(trim($_GET['reason']));
-		$sqlreason = cutstr(dhtmlspecialchars($sqlreason), 40, '.');
+		$sqlreason = cutstr(dhtmlspecialchars($sqlreason), 40);
 		foreach($creditsarray as $id => $addcredits) {
 			$insertarr = array(
 				'pid' => $_GET['pid'],
@@ -981,7 +984,7 @@ if($_GET['action'] == 'votepoll' && submitcheck('pollsubmit', 1)) {
 			if($log >= $_G['setting']['maxincperthread']) {
 				$updateauthor = false;
 			} else {
-				$authorEarn = min($_G['setting']['maxincperthread'] - $log['credit'], $thread['netprice']);
+				$authorEarn = min($_G['setting']['maxincperthread'] - $log, $thread['netprice']);
 			}
 		}
 		if($updateauthor) {
@@ -1047,7 +1050,7 @@ if($_GET['action'] == 'votepoll' && submitcheck('pollsubmit', 1)) {
 
 	include template('forum/viewthread_mod');
 
-} elseif($_GET['action'] == 'bestanswer' && $_G['tid'] && $_GET['pid'] && submitcheck('bestanswersubmit')) {
+} elseif($_GET['action'] == 'bestanswer' && $_G['tid'] && $_GET['pid'] && submitcheck('bestanswersubmit',true)) {
 
 	$forward = 'forum.php?mod=viewthread&tid='.$_G['tid'].($_GET['from'] ? '&from='.$_GET['from'] : '');
 	$post = C::t('forum_post')->fetch_post('tid:'.$_G['tid'], $_GET['pid'], false);

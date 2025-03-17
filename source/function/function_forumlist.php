@@ -470,7 +470,7 @@ function get_attach($list, $video = false, $audio = false){
 						$threadlist_data[$value['tid']]['media'] = parseaudio($value['audio'][2], 400);
 					}
 				}
-				$threadlist_data[$value['tid']]['message'] = messagecutstr($value['message'], 90);
+				$threadlist_data[$value['tid']]['message'] = messagecutstr($value['message'], defined('IN_MOBILE') ? 90 : 300);
 				if($threads[$value['tid']]['attachment'] == 2) {
 					$attachtableid_array[getattachtableid($value['tid'])][] = $value['pid'];
 				}
@@ -480,7 +480,7 @@ function get_attach($list, $video = false, $audio = false){
 	foreach($attachtableid_array as $tableid => $pids) {
 		$attachs = C::t('forum_attachment_n')->fetch_all_by_pid_width($tableid, $pids, 0);
 		foreach($attachs as $value){
-			$threadlist_data[$value['tid']]['attachment'][] = getforumimg($value['aid'], 0, 2000, 550);
+			$threadlist_data[$value['tid']]['attachment'][] = getforumimg($value['aid'], 0, 550, 350);
 		}
 	}
 	return $threadlist_data;

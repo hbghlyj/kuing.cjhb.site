@@ -70,24 +70,19 @@ $postshowavatars = !($_G['setting']['bannedmessages'] & 2 && ($post['memberstatu
 				<!--{hook/viewthread_avatartop $postcount}-->
 				<!--{if !$postshowavatars}-->
 					<div class="avatar">{lang member_avatar_banned}</div>
-				<!--{elseif $post['avatarstatus'] && $showavatars}-->
+				<!--{elseif $post['avatar'] && $showavatars}-->
 					<!--{if $post[mobiletype]}-->
 					<div class="mobile-type mobile-type-$post[mobiletype]">
 						<a></a>
 					</div>
 					<!--{/if}-->
-					<div class="avatar"><a href="home.php?mod=space&uid=$post[authorid]" class="avtm" target="_blank">$post[avatar]</a></div>
+					<div class="avatar"{if !(!empty($_G['setting']['threadguestlite']) && !$_G['uid'])} onmouseover="showauthor(this, 'userinfo$post[pid]')"{/If}><a href="home.php?mod=space&uid=$post[authorid]" class="avtm" target="_blank">$post[avatar]</a></div>
 				<!--{/if}-->
 				<!--{hook/viewthread_avatar $postcount}-->
 				</div>
 				<!--{hook/viewthread_sidetop $postcount}-->
 				<!--{if !(!empty($_G['setting']['threadguestlite']) && !$_G['uid'])}-->
 					{eval viewthread_profile_node('left', $post);}
-						<!--{if !IS_ROBOT && !$_GET['authorid'] && !$_G['forum_thread']['archiveid']}-->
-							<p style="font-size: 12px;"><a href="forum.php?mod=viewthread&tid=$post[tid]&page=$page&authorid=$post[authorid]" rel="nofollow">{lang thread_show_author}</a></p>
-						<!--{elseif !$_G['forum_thread']['archiveid']}-->
-							<p style="font-size: 12px;"><a href="forum.php?mod=viewthread&tid=$post[tid]&page=$page" rel="nofollow">{lang thread_show_all}</a></p>
-						<!--{/if}-->
 					<!--{if $post[authorid] != $_G[uid]}-->
 						<ul class="xl xl2 o cl">
 							<!--{if helper_access::check_module('follow')}-->
@@ -213,7 +208,7 @@ $postshowavatars = !($_G['setting']['bannedmessages'] & 2 && ($post['memberstatu
 					<!--{if $_self}-->
 					&nbsp;{lang thread_author}<span class="pipe">|</span>
 					<!--{/if}-->
-					<a href="home.php?mod=space&uid=$post[authorid]" target="_blank" class="xi2 neiid">$post[author]</a>$authorverifys<!-- kk edt -->
+					<!--{if !$_G['setting']['authoronleft']}--><a href="home.php?mod=space&uid=$post[authorid]" target="_blank" class="xi2">$post[author]</a>$authorverifys<!--{/if}-->
 					<!--{if $close_leftinfo}--><!--{/if}-->
 					<em id="authorposton$post[pid]">{lang poston} $post[dateline]</em>
 					<!--{if $post['status'] & 8}-->

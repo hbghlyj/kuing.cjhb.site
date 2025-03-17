@@ -18,8 +18,10 @@ if(!$_G['setting']['guidestatus']) {
 $view = $_GET['view'];
 loadcache('forum_guide');
 require_once libfile('function/forumlist');
+$setting_guide = dunserialize($_G['setting']['guide']);
+$setting_guide['index'] = $setting_guide['index'] ? $setting_guide['index'] : 'hot';
 if(!in_array($view, array('hot', 'digest', 'new', 'my', 'newthread', 'sofa', 'index'))) {
-	$view = 'hot';
+	$view = $setting_guide['index'];
 }
 $lang = lang('forum/template');
 $navtitle = $lang['guide'].'-'.$lang['guide_'.$view];
@@ -132,7 +134,7 @@ loadcache('stamps');
 $currentview[$view] = 'class="xw1 a"';
 
 $navigation = $view != 'index' ? ' <em>&rsaquo;</em> <a href="forum.php?mod=guide&view='.$view.'">'.$lang['guide_'.$view].'</a>' : '';
-include template('forum/guide');
+include template('diy:forum/guide');
 
 function get_guide_list($view, $start = 0, $num = 50, $again = 0) {
 	global $_G;
@@ -169,7 +171,7 @@ function get_guide_list($view, $start = 0, $num = 50, $again = 0) {
 		}
 		foreach($_G['cache']['forums'] as $fid => $forum) {
 			if($forum['type'] != 'group' && $forum['status'] > 0 && !$forum['viewperm'] && !$forum['havepassword']) {
-				$fids[] = $fid;
+				$fids[$fid] = $fid;
 			}
 		}
 		if(empty($fids)) {
