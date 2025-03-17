@@ -70,7 +70,7 @@ $postshowavatars = !($_G['setting']['bannedmessages'] & 2 && ($post['memberstatu
 				<!--{hook/viewthread_avatartop $postcount}-->
 				<!--{if !$postshowavatars}-->
 					<div class="avatar">{lang member_avatar_banned}</div>
-				<!--{elseif $post['avatar'] && $showavatars}-->
+				<!--{elseif $post['avatarstatus'] && $showavatars}-->
 					<!--{if $post[mobiletype]}-->
 					<div class="mobile-type mobile-type-$post[mobiletype]">
 						<a></a>
