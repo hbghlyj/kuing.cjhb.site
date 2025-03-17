@@ -852,7 +852,6 @@ a.thread_mod { height: 19px; line-height: 19px; display: inline-block; color: #4
 		.plc { padding: 0 20px; }
 		.pls { width: 160px; background: {SPECIALBG}; overflow: hidden; border-right: 1px solid {CONTENTSEPARATE}; }
 		.pls .avatar { margin: 10px 15px; }
-			.pls .avatar img { padding: 5px; background: #FFF; width: 120px; box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2); }
 
 			.pls .favatar { background: transparent; height: auto; border-width: 0px; overflow: visible; }
 
