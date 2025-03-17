@@ -281,20 +281,18 @@ function succeedhandle_postappend(locationhref, message, param) {
 }
 
 function recommendupdate(n) {
-	var objv = $('recommendv_add');
-	objv.style.display = '';
-	if(!$('recommentc')) {
-		n = -n;// user cancels the recommendation
-	}
-	if((objv.innerHTML = parseInt(objv.innerHTML) + n) == 0) {
+	const objv = $('recommendv_add');
+	if((objv.innerHTML = parseInt(objv.innerHTML) + n) == 0){
 		objv.style.display = 'none';
+	}else{
+		objv.style.display = '';
 	}
-	if(n>0)setTimeout(function () {
-		if($('recommentc')) {
+	if(n > 0){
+		setTimeout(function () {
 			$('recommentc').innerHTML = parseInt($('recommentc').innerHTML) + n;
 			$('recommentv').style.display = 'none';
-		}
-	}, 1000);
+		}, 1000);
+	}
 }
 
 function postreviewupdate(pid, n, username) {

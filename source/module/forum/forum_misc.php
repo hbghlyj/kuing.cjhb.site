@@ -1620,7 +1620,7 @@ if($_GET['action'] == 'votepoll' && submitcheck('pollsubmit', 1)) {
 		$fieldarr['recommends'] = -1;
 		$fieldarr['recommend_add'] = -1;
 		C::t('forum_thread')->increase($_G['tid'], $fieldarr);
-		showmessage('follow_cancel_succeed');
+		showmessage('follow_cancel_succeed', extraparam:array('msgtype' => 3, 'extrajs' => '<script type="text/javascript" reload="1">recommendupdate(-1);</script>'));
 	}else{
 		if($_G['setting']['recommendthread']['daycount']){
 			$recommendcount = C::t('forum_memberrecommend')->count_by_recommenduid_dateline($_G['uid'], $_G['timestamp']-86400);
@@ -1648,13 +1648,12 @@ if($_GET['action'] == 'votepoll' && submitcheck('pollsubmit', 1)) {
 		}
 		C::t('forum_memberrecommend')->insert(array('tid'=>$_G['tid'], 'recommenduid'=>$_G['uid'], 'dateline'=>$_G['timestamp']));
 	
-		dsetcookie('recommend', 1, 43200);
 		$recommendv = $_G['group']['allowrecommend'] > 0 ? '+'.$_G['group']['allowrecommend'] : $_G['group']['allowrecommend'];
 		if($_G['setting']['recommendthread']['daycount']) {
 			$daycount = $_G['setting']['recommendthread']['daycount'] - $recommendcount;
 			showmessage('recommend_daycount_succeed', '', array('recommendv' => $recommendv, 'recommendc' => $thread['recommends'], 'daycount' => $daycount), array('msgtype' => 3));
 		} else {
-			showmessage('recommend_succeed', '', array('recommendv' => $recommendv, 'recommendc' => $thread['recommends']), array('msgtype' => 3));
+			showmessage('recommend_succeed', '', array('recommendv' => $recommendv, 'recommendc' => $thread['recommends']), array('msgtype' => 3, 'extrajs' => '<script type="text/javascript" reload="1">recommendupdate(1);</script>'));
 		}
 	}
 
