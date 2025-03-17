@@ -1426,7 +1426,7 @@ CREATE TABLE pre_common_syscache (
 DROP TABLE IF EXISTS pre_common_tag;
 CREATE TABLE pre_common_tag (
   tagid mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
-  tagname char(20) NOT NULL DEFAULT '',
+  tagname char(30) NOT NULL DEFAULT '',
   `status` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (tagid),
   KEY tagname (tagname),
