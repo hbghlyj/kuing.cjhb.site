@@ -38,6 +38,9 @@ function PusherChatWidget(pusher, options) {
 
   // Read collapse/expand status from cookie
   this.isCollapsed = document.cookie.replace(/(?:(?:^|.*;\s*)chatWidgetCollapsed\s*\=\s*([^;]*).*$)|^.*$/, "$1") !== 'false';
+  if (isMobile) {
+    this.isCollapsed = false;
+  }
   if (this.isCollapsed) {
     this._widget.find('.pusher-chat-widget-messages').hide();
     this._widget.find('.pusher-chat-widget-input').hide();
