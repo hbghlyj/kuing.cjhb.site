@@ -83,6 +83,11 @@ $postshowavatars = !($_G['setting']['bannedmessages'] & 2 && ($post['memberstatu
 				<!--{hook/viewthread_sidetop $postcount}-->
 				<!--{if !(!empty($_G['setting']['threadguestlite']) && !$_G['uid'])}-->
 					{eval viewthread_profile_node('left', $post);}
+					<!--{if !IS_ROBOT && !$_GET['authorid'] && !$_G['forum_thread']['archiveid']}-->
+						<p style="font-size: 12px;"><a href="forum.php?mod=viewthread&tid=$post[tid]&page=$page&authorid=$post[authorid]" rel="nofollow">{lang thread_show_author}</a></p>
+					<!--{elseif !$_G['forum_thread']['archiveid']}-->
+						<p style="font-size: 12px;"><a href="forum.php?mod=viewthread&tid=$post[tid]&page=$page" rel="nofollow">{lang thread_show_all}</a></p>
+					<!--{/if}-->
 					<!--{if $post[authorid] != $_G[uid]}-->
 						<ul class="xl xl2 o cl">
 							<!--{if helper_access::check_module('follow')}-->
