@@ -972,7 +972,7 @@ body.pg_logging, body.pg_register {background-color:var(--dz-BG-0)}
 .plc .pi .message {line-height:26px;font-size:16px}
 .plc .pi .message .jammer {font-size:12px;color:var(--dz-BG-0)}
 .plc .pi .message  hr.l { height: 1px; border: none; background: var(--dz-BOR-ed); color:var(--dz-BOR-ed)}
-.plc .pi .message img, .plc .pi .img_one img {margin:6px 0;max-width:100%;border-radius:4px}
+.plc .pi .message img, .plc .pi .img_one img {/*margin:6px 0;*/max-width:100%;border-radius:4px}
 .plc .pi .img_list {margin:0 auto}
 .plc .pi .img_list li {width:100%;text-align:center;vertical-align:middle}
 .plc .pi .img_list li a {display:block}
@@ -1014,6 +1014,9 @@ body.pg_logging, body.pg_register {background-color:var(--dz-BG-0)}
 i.pstatus { display: block; font-size: 12px; text-align: center; color: #999; }
 .message ul li { list-style-type: disc; margin-left: 2em; }
 ul.litype_1 li { list-style-type: decimal; }
+details { background-color:#EEE; border-radius:10px; padding:5px 10px; }
+details summary { color:blue; cursor:pointer; }
+.message img[smilieid] { vertical-align: text-bottom; }
 .mw100{ max-width:100%; height:auto; }
 .tikzww{ position:fixed; z-index:201; width:500px; height:326px; 
     left:0; right:0; top:0; bottom:0; margin:auto; 
@@ -1363,4 +1366,3 @@ ul.litype_1 li { list-style-type: decimal; }
 <<<<<<< HEAD
 =======
 			.pll ol li { list-style-type: decimal; padding: 0; border-bottom: none; }
->>>>>>> 8cd3387e (migrating from https://gitee.com/kuingggg/DiscuzX/tree/test-0726)
