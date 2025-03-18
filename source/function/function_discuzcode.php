@@ -385,6 +385,21 @@ function parseurl($url, $text, $scheme) {
 		}
 		$url = !$scheme ? $_G['siteurl'].$url : $url;
 		return '<a href="'.$url.'" target="_blank">'.$text.'</a>';
+	} else {
+		$url = substr($url, 1);// remove the prefix =
+		if($url[0] == '#') {
+			if(!$text) {// destination anchor, example [url=#sec1][/url]
+				return '<a name="'.substr($url, 1).'"></a>';
+			}
+			return '<a href="'.$url.'">'.$text.'</a>';// example [url=#sec1]go to sec1[/url]
+		} else {
+			if(str_starts_with($url, 'www.')) {
+				$url = '//' . $url;// If starts with www., must be an external link, example [url=www.qq.com]qq[/url]
+			}
+			// Either an external link, example [url=http://www.qq.com]go to qq[/url]
+			// Or an internal link, example [url=forum.php?mod=viewthread&tid=1]go to thread 1[/url]
+			return '<a href="'.$url.'" target="_blank">'.$text.'</a>';
+		}
 	}
 }
 
