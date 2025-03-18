@@ -52,7 +52,7 @@ function expirehide($expiration, $creditsrequire, $message, $dateline) {
 function codedisp($code) {
 	global $_G;
 	$_G['forum_discuzcode']['pcodecount']++;
-	$code = dhtmlspecialchars(str_replace('\\"', '"', $code));
+	$code = dhtmlspecialchars($code);
 	$code = strtr($code, array("\r\n" => "<li>", "\n" => "<li>"));
 	$_G['forum_discuzcode']['codehtml'][$_G['forum_discuzcode']['pcodecount']] = tpl_codedisp($code);
 	$_G['forum_discuzcode']['codecount']++;
@@ -148,7 +148,7 @@ function discuzcode($message, $smileyoff = false, $bbcodeoff = false, $htmlon = 
 
 	if(!$bbcodeoff && $allowbbcode) {
 		if(str_contains($msglower, '[/url]')) {
-			$message = preg_replace_callback("/\[url(=((https?|ftp|gopher|news|telnet|rtsp|mms|callto|bctp|thunder|qqdl|synacast){1}:\/\/|www\.|mailto:|tel:|magnet:)?([^\r\n\[\"']+?))?\](.+?)\[\/url\]/is", 'discuzcode_callback_parseurl_152', $message);
+			$message = preg_replace_callback("/\[url(=((https?|ftp|gopher|news|telnet|rtsp|mms|callto|bctp|thunder|qqdl|synacast){1}:\/\/|www\.|mailto:|tel:|magnet:)?([^\r\n\[\"']+?))?\](.*?)\[\/url\]/is", 'discuzcode_callback_parseurl_152', $message);
 		}
 		if(str_contains($msglower, '[/email]')) {
 			$message = preg_replace_callback('/\[email(=([A-Za-z0-9\-_.+]+)@([A-Za-z0-9\-_]+[.][A-Za-z0-9\-_.]+))?\](.+?)\[\/email\]/is', 'discuzcode_callback_parseemail_14', $message);
@@ -398,13 +398,6 @@ function parseurl($url, $text, $scheme) {
 		}
 		return '<a href="'.(str_starts_with(strtolower($url), 'www.') ? 'http://'.$url : $url).'" target="_blank">'.$text.'</a>';
 	} else {
-		$url = substr($url, 1);
-		if(str_starts_with(strtolower($url), 'www.')) {
-			$url = 'http://'.$url;
-		}
-		$url = !$scheme ? $_G['siteurl'].$url : $url;
-		return '<a href="'.$url.'" target="_blank">'.$text.'</a>';
-	} else {
 		$url = substr($url, 1);// remove the prefix =
 		if($url[0] == '#') {
 			if(!$text) {// destination anchor, example [url=#sec1][/url]
@@ -412,11 +405,10 @@ function parseurl($url, $text, $scheme) {
 			}
 			return '<a href="'.$url.'">'.$text.'</a>';// example [url=#sec1]go to sec1[/url]
 		} else {
-			if(str_starts_with($url, 'www.')) {
-				$url = '//' . $url;// If starts with www., must be an external link, example [url=www.qq.com]qq[/url]
+			if(str_starts_with(strtolower($url), 'www.')) {
+				$url = 'http://'.$url;
 			}
-			// Either an external link, example [url=http://www.qq.com]go to qq[/url]
-			// Or an internal link, example [url=forum.php?mod=viewthread&tid=1]go to thread 1[/url]
+			$url = !$scheme ? $_G['siteurl'].$url : $url;
 			return '<a href="'.$url.'" target="_blank">'.$text.'</a>';
 		}
 	}
