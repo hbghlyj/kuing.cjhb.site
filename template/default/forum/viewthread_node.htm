@@ -213,7 +213,7 @@ $postshowavatars = !($_G['setting']['bannedmessages'] & 2 && ($post['memberstatu
 					<!--{if $_self}-->
 					&nbsp;{lang thread_author}<span class="pipe">|</span>
 					<!--{/if}-->
-					<!--{if !$_G['setting']['authoronleft']}--><a href="home.php?mod=space&uid=$post[authorid]" target="_blank" class="xi2">$post[author]</a>$authorverifys<!--{/if}-->
+					<a href="home.php?mod=space&uid=$post[authorid]" target="_blank" class="xi2 neiid">$post[author]</a>$authorverifys<!-- kk edt -->
 					<!--{if $close_leftinfo}--><!--{/if}-->
 					<em id="authorposton$post[pid]">{lang poston} $post[dateline]</em>
 					<!--{if $post['status'] & 8}-->
