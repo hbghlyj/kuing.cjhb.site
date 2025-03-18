@@ -15,22 +15,22 @@ function searchkey($keyword = '', $field, $returnsrchtxt = 0, $logicalconnective
 		switch ($logicalconnective) {
 			case 'regexp':
 				// check if the regular expression is valid
-				if (@preg_match('/'.addcslashes($keyword,'/').'/', '') === false) {
+				if (@preg_match('/'.preg_quote($keyword,'/').'/', '') === false) {
 					showmessage('search_keywords_invalid');
 				}
-				if ($keyword) $keywordsrch = str_replace('{text}', addslashes($keyword), $field);
+				if ($keyword) $keywordsrch = str_replace('{text}', mysqli_real_escape_string(DB::object()->curlink,$keyword), $field);
 				break;
 			case 'and':
 			case 'or':
 				$keywordsrch = implode(" $logicalconnective ",array_map(function ($value) use ($field) {
 					$text = trim($value);
-					return '('.str_replace('{text}', addcslashes(addslashes(addslashes($text)),'%_'), $field).')';
+					return '('.str_replace('{text}', addcslashes(addslashes(mysqli_real_escape_string(DB::object()->curlink,$text)),'%_'), $field).')';
 				},preg_split('/\s+/', $keyword)));
 				break;
 			case 'exact':
 				$text = trim($keyword);
 				if ($text) {
-					$keywordsrch = str_replace('{text}', addcslashes(addslashes(addslashes($text)),'%_'), $field);
+					$keywordsrch = str_replace('{text}', addcslashes(addslashes(mysqli_real_escape_string(DB::object()->curlink,$text)),'%_'), $field);
 					break;
 				} else {
 					showmessage('search_forum_invalid');

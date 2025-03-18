@@ -144,7 +144,7 @@ function discuzcode($message, $smileyoff = false, $bbcodeoff = false, $htmlon = 
 
 	if(!$bbcodeoff && $allowbbcode) {
 		if(strpos($msglower, '[/url]') !== FALSE) {
-			$message = preg_replace_callback("/\[url(=((https?|ftp|gopher|news|telnet|rtsp|mms|callto|bctp|thunder|qqdl|synacast){1}:\/\/|www\.|mailto:|tel:|magnet:)?([^\r\n\[\"]+?))?\](.+?)\[\/url\]/is", 'discuzcode_callback_parseurl_152', $message);
+			$message = preg_replace_callback("/\[url(=((https?|ftp|gopher|news|telnet|rtsp|mms|callto|bctp|thunder|qqdl|synacast){1}:\/\/|www\.|mailto:|tel:|magnet:)?([^\r\n\[\"]+?))?\](.*?)\[\/url\]/is", 'discuzcode_callback_parseurl_152', $message);
 		}
 		if(strpos($msglower, '[/email]') !== FALSE) {
 			$message = preg_replace_callback("/\[email(=([A-Za-z0-9\-_.+]+)@([A-Za-z0-9\-_]+[.][A-Za-z0-9\-_.]+))?\](.+?)\[\/email\]/is", 'discuzcode_callback_parseemail_14', $message);
@@ -449,25 +449,33 @@ function discuzcode_callback_jammer($matches) {
 
 function parseurl($url, $text, $scheme) {
 	global $_G;
-	if(!$url && preg_match("/((https?|ftp|gopher|news|telnet|rtsp|mms|callto|bctp|thunder|qqdl|synacast){1}:\/\/|www\.)[^\[\"']+/i", trim($text), $matches)) {
-		$url = $matches[0];
-        $text = preg_replace("/^https?:\/\/(www\.)?|^www\./i", '', $url); // kk add 
-		$length = 95; // ori:65
-		if(strlen($text) > $length) {
-			//$text = mb_substr($url, 0, intval($length * 0.5)).' ... '.mb_substr($url, - intval($length * 0.3));
-            $text = mb_substr($text, 0, 64).' ... '.mb_substr($text, -20);
+	if(!$url) {
+		$url = trim($text);
+		// Either an external link, example [url]http://www.qq.com[/url]
+		// Or an internal link, example [url]forum.php?mod=viewthread&tid=1[/url]
+		if(str_starts_with($url, 'www.')) {
+			$url = '//' . $url;// If starts with www., must be an external link, example [url]www.qq.com[/url]
 		}
-		return '<a href="'.(substr(strtolower($url), 0, 4) == 'www.' ? 'http://'.$url : $url).'" target="_blank">'.$text.'</a>';
-	} else {
-		$url = substr($url, 1);
-		if($url[0]=='#'){
-			return '<a href="'.$url.'">'.$text.'</a>';
+        $text = preg_replace("/^https?:\/\/(www\.)?|^www\./i", '', $text); // hide the prefix http:// or www.
+		if(strlen($text) > 95) {
+            $text = mb_substr($text, 0, 64).' &hellip; '.mb_substr($text, -20);
 		}
-		if(substr(strtolower($url), 0, 4) == 'www.') {
-			$url = 'http://'.$url;
-		}
-		$url = !$scheme ? $_G['siteurl'].$url : $url;
 		return '<a href="'.$url.'" target="_blank">'.$text.'</a>';
+	} else {
+		$url = substr($url, 1);// remove the prefix =
+		if($url[0] == '#') {
+			if(!$text) {// destination anchor, example [url=#sec1][/url]
+				return '<a name="'.substr($url, 1).'"></a>';
+			}
+			return '<a href="'.$url.'">'.$text.'</a>';// example [url=#sec1]go to sec1[/url]
+		} else {
+			if(str_starts_with($url, 'www.')) {
+				$url = '//' . $url;// If starts with www., must be an external link, example [url=www.qq.com]qq[/url]
+			}
+			// Either an external link, example [url=http://www.qq.com]go to qq[/url]
+			// Or an internal link, example [url=forum.php?mod=viewthread&tid=1]go to thread 1[/url]
+			return '<a href="'.$url.'" target="_blank">'.$text.'</a>';
+		}
 	}
 }
 
