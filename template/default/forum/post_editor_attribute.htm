@@ -171,9 +171,6 @@
 							<!--{if $_G['group']['allowanonymous'] || (!$_G['group']['allowanonymous'] && $orig['anonymous'])}--><label for="isanonymous"><input type="checkbox" name="isanonymous" id="isanonymous" class="pc" value="1" {if $orig['anonymous']}checked="checked"{/if} />{lang post_anonymous}</label><!--{/if}-->
 						<!--{/if}-->
 
-						<!--{if $_GET[action] == 'newthread' || $_GET[action] == 'edit' && $isfirstpost}-->
-							<label for="hiddenreplies"><input type="checkbox" name="hiddenreplies" id="hiddenreplies" class="pc"{if $thread['hiddenreplies']} checked="checked"{/if} value="1">{lang hiddenreplies}</label>
-						<!--{/if}-->
 						<!--{if $_G['uid'] && ($_GET[action] == 'newthread' || $_GET[action] == 'edit' && $isfirstpost) && $special != 3}-->
 							<label for="ordertype"><input type="checkbox" name="ordertype" id="ordertype" class="pc" value="1" $ordertypecheck />{lang post_descviewdefault}</label>
 						<!--{/if}-->
