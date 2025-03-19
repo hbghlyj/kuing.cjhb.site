@@ -380,9 +380,6 @@ function recent_use_tag() {
 	$i = 0;
 	$query = C::t('common_tagitem')->select(0, 0, 'tid', 'itemid', 'DESC', 10);
 	foreach($query as $result) {
-		if($i > 4) {
-			break;
-		}
 		if($tagarray[$result['tagid']] == '') {
 			$i++;
 		}
