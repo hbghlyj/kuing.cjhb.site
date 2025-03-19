@@ -44,9 +44,6 @@ if($op == 'search') {
 		$i = 0;
 		$query = C::t('common_tagitem')->select(0, 0, 'tid', 'itemid', 'DESC', 10);
 		foreach($query as $result) {
-			if($i > 4) {
-				break;
-			}
 			if($recent_use_tag[$result['tagid']] == '') {
 				$i++;
 			}
