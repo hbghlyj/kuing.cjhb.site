@@ -227,7 +227,7 @@
 						</td>
 					</tr>
 				<!--{/if}-->
-				<!--{if $_GET[action] == 'edit' && $isorigauthor && ($isfirstpost && $thread['replies'] < 1 || !$isfirstpost) && !$rushreply && $_G['setting']['editperdel']}-->
+				<!--{if $_GET[action] == 'edit' && ($_G['forum']['ismoderator'] || $isorigauthor) && !$rushreply && $_G['setting']['editperdel']}-->
 					<tr>
 						<td class="xw1" valign="top">{lang post_delpost}</td>
 						<td>
