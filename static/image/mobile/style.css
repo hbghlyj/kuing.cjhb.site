@@ -417,7 +417,7 @@ select {-moz-appearance:none;}
 .forumlist .subforumshow h2 {font-size:15px}
 .forumlist .subforumshow i {float:right;font-size:20px;color:var(--dz-FC-aaa)}
 .forumlist .sub-forum {background-color:var(--dz-BG-0)}
-.forumlist .sub-forum li a.murl {display:block;height:44px;overflow:hidden}
+.forumlist .sub-forum li a.murl {/*display:block;*/height:44px;overflow:hidden}
 .forumlist .sub-forum li .micon {float:left;height:44px;margin-right:10px}
 .forumlist .sub-forum li .micon img,.forumlist .sub-forum li .micon svg {height:44px;border-radius:4px;float:none}
 .forumlist .sub-forum li .micon img {width:48px;}
