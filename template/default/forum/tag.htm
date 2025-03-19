@@ -12,10 +12,10 @@
 	<h3 class="flb">
 		<em>{lang post_tag}</em>
 	</h3>
-	<div class="c bart">
+	<div class="c bart" style="width: 65ch;">
 		<p>
-			<input type="text" name="tags" id="tags" class="px vm" value="$tags" size="60" />
-			<i class="fico-help fc-n vm" tip="{lang posttag_comment}" onmouseover="showTip(this)"></i>
+			<input type="text" name="tags" id="tags" class="px vm" value="$tags" size="55" />
+			<a href="javascript:;" id="choosetag" class="xi2" onclick="showWindow(this.id, 'forum.php?mod=tag', 'get', 0)">{lang choosetag}</a>
 			<input type="hidden" name="tid" id="tid" value="$_GET[tid]" />
 		</p>
 		<!--{if $recent_use_tag}-->
