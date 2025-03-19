@@ -605,9 +605,9 @@ class model_forum_post extends discuz_model {
 
 		$isfirstpost = $this->post['first'] ? 1 : 0;
 
-		if($isfirstpost && $this->thread['replies'] > 0) {
+		/*if($isfirstpost && $this->thread['replies'] > 0) {
 			return $this->showmessage(($this->thread['special'] == 3 ? 'post_edit_reward_already_reply' : 'post_edit_thread_already_reply'), NULL);
-		}
+		}*/
 
 
 		if($this->thread['displayorder'] >= 0) {
