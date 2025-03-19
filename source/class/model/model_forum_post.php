@@ -560,9 +560,9 @@ class model_forum_post extends discuz_model {
 
 		$isfirstpost = $this->post['first'] ? 1 : 0;
 
-		if($isfirstpost && $this->thread['replies'] > 0) {
+		/*if($isfirstpost && $this->thread['replies'] > 0) {
 			return $this->showmessage(($this->thread['special'] == 3 ? 'post_edit_reward_already_reply' : 'post_edit_thread_already_reply'), NULL);
-		}
+		}*/
 
 
 		if($this->thread['displayorder'] >= 0) {
@@ -586,7 +586,7 @@ class model_forum_post extends discuz_model {
 
 
 		$forumcounter = array();
-		if($isfirstpost) {
+		if($isfirstpost && $this->thread['replies'] == 0) {
 			$forumcounter['threads'] = $forumcounter['posts'] = -1;
 			$tablearray = array('forum_relatedthread', 'forum_debate', 'forum_debatepost', 'forum_polloption', 'forum_poll');
 			foreach ($tablearray as $table) {
