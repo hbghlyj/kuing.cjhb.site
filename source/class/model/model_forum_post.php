@@ -609,6 +609,12 @@ class model_forum_post extends discuz_model {
 			$this->param['updatefieldarr']['lastpost'] = array($lastpost['dateline']);
 
 			C::t('forum_thread')->increase($this->thread['tid'], $this->param['updatefieldarr']);
+
+			//After deleting 1# we need to set the next post as first post and update the subject and tags
+			if($isfirstpost) {
+				$nextpost = C::t('forum_post')->fetch_visiblepost_by_tid('tid:'.$this->thread['tid'], $this->thread['tid'], 0, 0);// the top post which is not deleted
+				C::t('forum_post')->update_post($this->thread['posttableid'], $nextpost['pid'], array('first' => 1, 'subject' => $this->post['subject'], 'tags' => $this->post['tags']));
+			}
 		}
 
 		$this->forum['lastpost'] = explode("\t", $this->forum['lastpost']);
