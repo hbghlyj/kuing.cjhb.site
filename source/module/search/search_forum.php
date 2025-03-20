@@ -57,7 +57,7 @@ if(!in_array($logicalconnective, array('and', 'or', 'exact', 'regexp'))) {
 	$logicalconnective = 'and';
 }
 
-$keyword = isset($srchtxt) ? dhtmlspecialchars(trim($srchtxt)) : '';
+$keyword = isset($srchtxt) ? trim($srchtxt) : '';
 
 $forumselect = forumselect();
 if(!empty($srchfid) && !is_numeric($srchfid)) {
@@ -65,7 +65,7 @@ if(!empty($srchfid) && !is_numeric($srchfid)) {
 }
 
 if(!submitcheck('searchsubmit', 1)) {
-
+	$keyword = dhtmlspecialchars($keyword);
 	if(getgpc('adv')) {
 		include template('search/forum_adv');
 	} else {
@@ -149,6 +149,7 @@ if(!submitcheck('searchsubmit', 1)) {
 		}
 		$logicalconnectivechecked[$logicalconnective] = ' checked="checked"';
 		$advextra = '&orderby='.$orderby.'&ascdesc='.$ascdesc.'&searchid='.$searchid.'&searchsubmit=yes';
+		$keyword = dhtmlspecialchars($keyword);
 		if($_GET['adv']) {
 			include template('search/forum_adv');
 		} else {
