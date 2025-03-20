@@ -667,6 +667,11 @@ class model_forum_post extends discuz_model {
 			$this->param['updatefieldarr']['lastposter'] = [$lastpost['author']];
 
 			table_forum_thread::t()->increase($this->thread['tid'], $this->param['updatefieldarr']);
+
+			if($isfirstpost) {
+				$nextpost = table_forum_post::t()->fetch_visiblepost_by_tid('tid:'.$this->thread['tid'], $this->thread['tid'], 0, 0);
+				table_forum_post::t()->update_post($this->thread['posttableid'], $nextpost['pid'], ['first' => 1, 'subject' => $this->post['subject'], 'tags' => $this->post['tags']]);
+			}
 		}
 
 		$this->forum['lastpost'] = explode("\t", $this->forum['lastpost']);
