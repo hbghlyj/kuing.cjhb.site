@@ -586,7 +586,7 @@ class model_forum_post extends discuz_model {
 
 
 		$forumcounter = array();
-		if($isfirstpost && $this->thread['replies'] == 0) {
+		if($this->thread['replies'] == 0) {
 			$forumcounter['threads'] = $forumcounter['posts'] = -1;
 			$tablearray = array('forum_relatedthread', 'forum_debate', 'forum_debatepost', 'forum_polloption', 'forum_poll');
 			foreach ($tablearray as $table) {
