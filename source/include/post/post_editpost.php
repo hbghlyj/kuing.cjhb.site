@@ -514,7 +514,7 @@ if(!submitcheck('editsubmit')) {
 			showmessage('audit_edit_succeed', '', $param, array('alert' => 'right'));
 		}
 	} else {
-		if(!empty($_GET['delete']) && $isfirstpost) {
+		if(!empty($_GET['delete']) && $thread['replies'] == 0) {
 			showmessage('post_edit_delete_succeed', "forum.php?mod=forumdisplay&fid={$_G['fid']}", $param);
 		} elseif(!empty($_GET['delete'])) {
 			showmessage('post_edit_delete_succeed', "forum.php?mod=viewthread&tid={$_G['tid']}&page={$_GET['page']}&extra=$extra".($vid && $isfirstpost ? "&vid=$vid" : ''), $param);
