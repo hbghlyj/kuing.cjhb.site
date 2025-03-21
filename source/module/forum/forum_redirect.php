@@ -69,8 +69,11 @@ if($_GET['goto'] == 'findpost') {
 
 	if(empty($post)) {
 		if($ptid) {
-			header("HTTP/1.1 301 Moved Permanently");
-			dheader("Location: forum.php?mod=viewthread&tid=$ptid");
+			if(empty($pid)) {
+				header("HTTP/1.1 301 Moved Permanently");
+				dheader("Location: forum.php?mod=viewthread&tid=$ptid");
+			}
+			showmessage('post_nonexistence_but_thread_exist',"forum.php?mod=viewthread&tid=$ptid");
 		} else {
 			showmessage('post_check', NULL, array('tid' => $ptid));
 		}
