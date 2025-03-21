@@ -85,24 +85,6 @@ function discuzcode($message, $smileyoff = false, $bbcodeoff = false, $htmlon = 
 
 	static $authorreplyexist;
 
-	if($pid && strpos($message, '[/password]') !== FALSE) {
-		if($authorid != $_G['uid'] && !$_G['forum']['ismoderator']) {
-			$message = preg_replace_callback(
-				"/\s?\[password\](.+?)\[\/password\]\s?/i",
-				function ($matches) use ($pid) {
-					return parsepassword($matches[1], intval($pid));
-				},
-				$message
-			);
-			if($_G['forum_discuzcode']['passwordlock'][$pid]) {
-				return '';
-			}
-		} else {
-			$message = preg_replace("/\s?\[password\](.+?)\[\/password\]\s?/i", "", $message);
-			$_G['forum_discuzcode']['passwordauthor'][$pid] = 1;
-		}
-	}
-
 	$message = preg_replace('/\[\tDISCUZ_CODE_\d+\t\]/', '', $message);
 	if($parsetype != 1 && !$bbcodeoff && $allowbbcode && (strpos($message, '[/code]') || strpos($message, '[/CODE]')) !== FALSE) {
 		$message = preg_replace_callback("/\s?\[code\](.+?)\[\/code\]\s?/is", 'discuzcode_callback_codedisp_1', $message);
@@ -784,19 +766,6 @@ function parsepostbg($bgimg, $pid) {
 		$postbg[$pid] = true;
 		$_G['forum_posthtml']['header'][$pid] .= '<style type="text/css">#pid'.$pid.'{background-image:url("'.STATICURL.'image/postbg/'.$bgimg.'");}</style>';
 		break;
-	}
-	return '';
-}
-
-function parsepassword($password, $pid) {
-	global $_G;
-	static $postpw = array();
-	if($postpw[$pid]) {
-		return '';
-	}
-	$postpw[$pid] = true;
-	if(empty($_G['cookie']['postpw_'.$pid]) || $_G['cookie']['postpw_'.$pid] != md5($password)) {
-		$_G['forum_discuzcode']['passwordlock'][$pid] = 1;
 	}
 	return '';
 }
