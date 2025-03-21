@@ -118,9 +118,6 @@
 				<!--{loop $_G['cache']['bbcodes_display'][$_G['groupid']] $tag $bbcode}-->
 					<a id="{$editorid}_cst{$bbcode[params]}_$tag" class="cst" title="$bbcode[explanation]"><!--{if $bbcode['icon']=="static/image/common/none"}-->$bbcode[explanation]<!--{else}--><img src="$bbcode['icon']" title="$bbcode[explanation]" alt="$tag" /><!--{/if}--></a>
 				<!--{/loop}-->
-					
-				<a id="{$editorid}_cst1_tikz" class="cst" title="输入 TikZ 代码">tikz</a>
-				<a id="{$editorid}_cst1_asy" class="cst" title="输入 Asymptote 代码">asy</a>
 				<!--{hook/post_editorctrl_bottom}-->
 			</div>
 		</div>
@@ -131,7 +128,7 @@
 	</div>
 
 	<div class="area">
-		<textarea style="resize:none" name="$editor[textarea]" id="{$editorid}_textarea" class="pt" rows="15" oninput="if(!onbeforeunload)onbeforeunload=()=>{return 0}">$editor[value]</textarea>
+		<textarea name="$editor[textarea]" id="{$editorid}_textarea" class="pt" rows="15" oninput="if(!onbeforeunload)onbeforeunload=()=>{return 0}">$editor[value]</textarea>
 	</div>
 	<!--{subtemplate common/editor}-->
 </div>
