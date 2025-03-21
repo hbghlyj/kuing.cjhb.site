@@ -56,7 +56,6 @@ for (let item of blockcodes) {
     item.innerHTML = item.innerHTML.replace(/<\/li>/g, "\n</li>")//item.innerHTML.replace(/<br>/g, "");
     //在php那里去掉\r后没了<br>但复制代码就没了换行，加回去//代码块去除br
 }
-
 document.querySelectorAll('.t_f').forEach(post => {
     post.querySelectorAll('br').forEach(br => {
         //解决mathjax3复制多行代码多余空行
@@ -230,7 +229,9 @@ lous.forEach((lou, i) => {
     var htm = lou.innerHTML + ' ' + names[i].innerHTML;
     mlul.innerHTML += '<li id="muluid' + i + '"><a href="#' + louid + '">' + htm + '</a></li>';
     document.querySelectorAll("td.t_f > div.quote > blockquote > font > a[href$='" + louid.replace('postnum','&pid=') + "&ptid=" + tid + "']").forEach(a=>{
-        a.firstElementChild.innerHTML = lou.innerHTML + ' ' + a.firstElementChild.innerHTML;
+        if (a.firstElementChild) {
+            a.firstElementChild.innerHTML = lou.innerHTML + ' ' + a.firstElementChild.innerHTML;
+        }
     });
     document.querySelectorAll("td.t_f a[href$='" + louid.replace('postnum','&pid=') + "&ptid=" + tid + "']").forEach(a=>{
         a.removeAttribute("target");
@@ -264,7 +265,6 @@ window.onscroll = function() {
         }
     }
 }
-
 /* 点评中的回复按钮 */
 document.querySelectorAll('.psti').forEach(pstiElement => {
     const replyButton = document.createElement('button');
