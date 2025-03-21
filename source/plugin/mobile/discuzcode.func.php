@@ -19,26 +19,6 @@ function mobile_discuzcode($param) {
 	list($message, $smileyoff, $bbcodeoff, $htmlon, $allowsmilies, $allowbbcode, $allowimgcode, $allowhtml, $jammer, $parsetype, $authorid, $allowmediacode, $pid, $lazyload, $pdateline, $first) = $param;
 	static $authorreplyexist;
 
-	// $message = preg_replace(array(lang('forum/misc', 'post_edit_regexp'), lang('forum/misc', 'post_edithtml_regexp'), lang('forum/misc', 'post_editnobbcode_regexp')), '', $message);
-
-	if($pid && strpos($message, '[/password]') !== FALSE) {
-		if($authorid != $_G['uid'] && !$_G['forum']['ismoderator']) {
-			$message = preg_replace_callback(
-				"/\s?\[password\](.+?)\[\/password\]\s?/i",
-				function ($matches) use ($pid) {
-					return parsepassword($matches[1], intval($pid));
-				},
-				$message
-			);
-			if($_G['forum_discuzcode']['passwordlock'][$pid]) {
-				return '';
-			}
-		} else {
-			$message = preg_replace("/\s?\[password\](.+?)\[\/password\]\s?/i", "", $message);
-			$_G['forum_discuzcode']['passwordauthor'][$pid] = 1;
-		}
-	}
-
 	$message = preg_replace('/\[\tDISCUZ_CODE_\d+\t\]/', '', $message);
 	if($parsetype != 1 && !$bbcodeoff && $allowbbcode && (strpos($message, '[/code]') || strpos($message, '[/CODE]')) !== FALSE) {
 		$message = preg_replace_callback("/\s?\[code\](.+?)\[\/code\]\s?/is", 'mobile_discuzcode_callback_mobile_parsecode_1', $message);
