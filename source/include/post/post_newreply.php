@@ -220,9 +220,9 @@ if(!submitcheck('replysubmit', 0, $seccodecheck, $secqaacheck)) {
 			$post_reply_quote = lang('forum/misc', 'post_reply_quote', array('author' => $thaquote['author'], 'time' => $time));
 			$noticeauthormsg = dhtmlspecialchars($message);
 			if(!defined('IN_MOBILE')) {
-				$message = "[quote][size=2][url=forum.php?mod=redirect&goto=findpost&pid={$_GET['repquote']}&ptid={$_G['tid']}][color=#999999]{$post_reply_quote}[/color][/url][/size]\n{$message}[/quote]";
+				$message = "[quote][size=2][url=forum.php?mod=redirect&goto=findpost&pid={$_GET['repquote']}&ptid={$_G['tid']}][color=#999]{$post_reply_quote}[/color][/url][/size]\n{$message}[/quote]";
 			} else {
-				$message = "[quote][color=#999999]{$post_reply_quote}[/color]\n[color=#999999]{$message}[/color][/quote]";
+				$message = "[quote][color=#999]{$post_reply_quote}[/color]\n[color=#999]{$message}[/color][/quote]";
 			}
 			$quotemessage = discuzcode($message, 0, 0);
 			$noticeauthor = dhtmlspecialchars(authcode('q|'.$thaquote['authorid'], 'ENCODE'));

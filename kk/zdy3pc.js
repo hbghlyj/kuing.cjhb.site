@@ -195,11 +195,37 @@ mlx.setAttribute("onclick", "document.querySelector('.mlcls').style.display='non
 summ.appendChild(mlx);
 MULU.appendChild(summ);
 var mlul = document.createElement("ul");
+function smoothScroll(id){
+    return function() {
+        const target = document.getElementById(id);
+        const start = window.scrollY; const end = target.getBoundingClientRect().top + start;
+        const duration = 500;
+        const startTime = performance.now();
+        function scrollStep(timestamp) {
+            const elapsed = timestamp - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+            const ease = progress < 0.5 ? 2 * progress * progress : -1 + (4 - 2 * progress) * progress;
+            window.scrollTo(0, start + (end - start) * ease);
+            if (progress < 1) requestAnimationFrame(scrollStep); else {
+                location.hash = id; // Update location.hash after scrolling
+            }
+        }
+        requestAnimationFrame(scrollStep);
+    }
+}
 for (var i = 0; i < lous.length; i++) {
     var louid = lous[i].getAttribute('id');
     var htm = lous[i].innerHTML + ' ' + names[i].innerHTML;
     mlul.innerHTML += '<li id="muluid' + i + '"><a href="#' + louid + '">' + htm + '</a></li>';
-    document.querySelectorAll("td.t_f > div.quote > blockquote > font > a[href$='" + louid.replace('postnum','&pid=') + "&ptid=" + tid + "']").forEach(a=>{a.firstElementChild.innerHTML = lous[i].innerHTML + ' ' + a.firstElementChild.innerHTML;a.setAttribute("href","#"+louid);});
+    document.querySelectorAll("td.t_f > div.quote > blockquote > font > a[href$='" + louid.replace('postnum','&pid=') + "&ptid=" + tid + "']").forEach(a=>{
+        a.firstElementChild.innerHTML = lous[i].innerHTML + ' ' + a.firstElementChild.innerHTML;
+    });
+    document.querySelectorAll("td.t_f a[href$='" + louid.replace('postnum','&pid=') + "&ptid=" + tid + "']").forEach(a=>{
+        a.removeAttribute("target");
+        a.removeAttribute("href");
+        a.addEventListener("click", smoothScroll(louid));
+        a.style = "cursor:pointer;";
+    });
 }
 MULU.appendChild(mlul);
 document.body.appendChild(MULU);
