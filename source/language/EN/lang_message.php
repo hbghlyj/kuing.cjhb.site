@@ -34,6 +34,7 @@ $lang = array (
 	'postcomment_closed'		=> 'Comments are disabled',//'点评功能已关闭',
 	'group_nopermission'		=> 'Your user group ({grouptitle}) does not allowed to do this operation.',//'您所在的用户组({grouptitle})无法进行此操作。',
 	'thread_nonexistence'		=> 'Specified thread does not exist or is under moderation.',//'指定的主题不存在或已被删除或正在被审核，请返回。',
+	'post_nonexistence_but_thread_exist' => 'Sorry, the specified post does not exist, but the thread still exists, now redirecting to the thread page',//'抱歉，指定的帖子不存在，但主题依然存在，现在将转入主题页',
 	'parameters_error'		=> 'Parameters error',//'参数错误',
 	'tag_does_not_exist' => 'Label {tag} does not exist',//'标签 {tag} 不存在',
 	'thread_poll_succeed'		=> 'Voted successfully, now redirect you to the thread page.',//'您的投票成功提交，现在将转入主题页。',
