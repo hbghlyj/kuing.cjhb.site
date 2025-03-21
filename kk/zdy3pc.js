@@ -199,6 +199,7 @@ for (var i = 0; i < lous.length; i++) {
     var louid = lous[i].getAttribute('id');
     var htm = lous[i].innerHTML + ' ' + names[i].innerHTML;
     mlul.innerHTML += '<li id="muluid' + i + '"><a href="#' + louid + '">' + htm + '</a></li>';
+    document.querySelectorAll("td.t_f > div.quote > blockquote > font > a[href$='" + louid.replace('postnum','&pid=') + "&ptid=" + tid + "']").forEach(a=>{a.firstElementChild.innerHTML = lous[i].innerHTML + ' ' + a.firstElementChild.innerHTML;a.setAttribute("href","#"+louid);});
 }
 MULU.appendChild(mlul);
 document.body.appendChild(MULU);
