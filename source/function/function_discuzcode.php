@@ -16,7 +16,6 @@ $_G['forum_discuzcode'] = [
 	'pcodecount' => -1,
 	'codecount' => 0,
 	'codehtml' => [],
-	'passwordlock' => [],
 	'smiliesreplaced' => 0,
 	'seoarray' => [
 		0 => '',
