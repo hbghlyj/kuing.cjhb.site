@@ -517,7 +517,7 @@ if(!submitcheck('editsubmit')) {
 		if(!empty($_GET['delete']) && $thread['replies'] == 0) {
 			showmessage('post_edit_delete_succeed', "forum.php?mod=forumdisplay&fid={$_G['fid']}", $param);
 		} elseif(!empty($_GET['delete'])) {
-			showmessage('post_edit_delete_succeed', "forum.php?mod=viewthread&tid={$_G['tid']}&page={$_GET['page']}&extra=$extra".($vid && $isfirstpost ? "&vid=$vid" : ''), $param);
+			showmessage('article_delete_success', "forum.php?mod=viewthread&tid={$_G['tid']}&page={$_GET['page']}&extra=$extra".($vid && $isfirstpost ? "&vid=$vid" : ''), $param);
 		} else {
 			if($isfirstpost && $modpost->param('modnewthreads')) {
 				C::t('forum_post')->update_post($thread['posttableid'], $pid, array('status' => 4), false, false, null, -2, null, 0);
