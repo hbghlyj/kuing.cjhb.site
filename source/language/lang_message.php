@@ -49,6 +49,7 @@ $lang = array (
   'nopermission_email' => '<p>您需要验证激活自己的邮箱后再次尝试进行本操作，<a href="home.php?mod=spacecp&ac=profile&op=password">点击这里激活邮箱</a></p>',
   'nopermission_verify' => '<p>您需要等待注册申请审核通过后再次尝试进行本操作，请您耐心等待管理团队审核</p>',
   'thread_nonexistence' => '抱歉，指定的主题不存在或已被删除或正在被审核',
+  'post_nonexistence_but_thread_exist' => '抱歉，指定的帖子不存在，但主题依然存在，现在将转入主题页',
   'parameters_error' => '参数错误',
   'tag_does_not_exist' => '标签 {tag} 不存在',
   'thread_poll_succeed' => '成功 ',
