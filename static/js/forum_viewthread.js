@@ -269,12 +269,6 @@ function errorhandle_fastpost() {
 	$('fastpostsubmit').disabled = false;
 }
 
-function succeedhandle_comment(locationhref, message, param) {
-	ajaxget('forum.php?mod=misc&action=commentmore&tid=' + param['tid'] + '&pid=' + param['pid'], 'comment_' + param['pid']);
-	hideWindow('comment');
-	showCreditPrompt();
-}
-
 function succeedhandle_postappend(locationhref, message, param) {
 	ajaxget('forum.php?mod=viewthread&tid=' + param['tid'] + '&viewpid=' + param['pid'], 'post_' + param['pid'], 'ajaxwaitid');
 	hideWindow('postappend');
