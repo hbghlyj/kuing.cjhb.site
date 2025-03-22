@@ -53,8 +53,14 @@ function PusherChatWidget(pusher, options) {
     });
     this._chatChannel.bind('editpost', function(data) {
       if(data.tid == tid && $(`pid${data.pid}`) !== null) {
-        ajaxget(`forum.php?mod=viewthread&tid=${tid}&viewpid=${data.pid}`, `post_${data.pid}`, 'ajaxwaitid', '', null, "if (typeof MathJax.typesetPromise === 'function') {MathJax.typesetPromise([document.querySelector(`#pid"+data.pid+" .t_f`)]);}");
+        ajaxget(`forum.php?mod=viewthread&tid=${tid}&viewpid=${data.pid}`, `post_${data.pid}`, 'ajaxwaitid', '', null, "if (typeof MathJax.typesetPromise === 'function') {MathJax.typesetPromise([document.querySelector('#pid"+data.pid+" .t_f')]);}");
       }
+    });
+    this._chatChannel.bind('commentadd', function(data) {
+      if(data.tid == tid && data.page == currentPage && $(`pid${data.pid}`) !== null) {
+        ajaxget('forum.php?mod=misc&action=commentmore&tid=' + tid + '&pid=' + data.pid, 'comment_' + data.pid, 'ajaxwaitid', '', null, "if (typeof MathJax.typesetPromise === 'function') {MathJax.typesetPromise([document.getElementById('comment_"+data.pid+"')]);}");
+      }
+  hideWindow('comment');
     });
     this._chatChannel.bind('deletepost', function(data) {
       if(data.tid == tid && $(`pid${data.pid}`) !== null) {
