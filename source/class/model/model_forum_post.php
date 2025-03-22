@@ -494,6 +494,10 @@ class model_forum_post extends discuz_model {
 			'port'=>getglobal('remoteport')
 		);
 
+		if($this->param['timestamp']) {
+			$setarr['dateline'] = $this->param['timestamp'];
+		}
+
 		$setarr['status'] = $this->post['status'];
 		if($this->param['modstatus']) {
 			foreach($this->param['modstatus'] as $modbit => $modvalue) {

@@ -284,3 +284,23 @@ details summary { color:blue; cursor:pointer; }
     color: #369;
     text-decoration: underline;
 }
+/* 点评中的回复按钮 */
+.reply-btn {
+    display: none;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background: url(/static/image/mobile/images/icon_reply.png) no-repeat;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 3px;
+}
+
+.psti {
+    position: relative;
+}
+
+.psti:hover .reply-btn {
+    display: block;
+}

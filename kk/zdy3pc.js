@@ -252,3 +252,19 @@ window.onscroll = function() {
         }
     }
 }
+
+/* 点评中的回复按钮 */
+document.querySelectorAll('.psti').forEach(pstiElement => {
+    const replyButton = document.createElement('button');
+    replyButton.className = 'reply-btn';
+    replyButton.addEventListener('click', () => {
+        const author = pstiElement.previousElementSibling.lastElementChild.textContent;
+        const date_string = pstiElement.querySelector('.xg1').textContent;
+        setCopy('[quote][size=2][url=' +pstiElement.parentElement.parentElement.parentElement.parentElement.previousElementSibling.querySelector('strong>a').getAttribute('href') + '][color=#999]' + author + ' 点评' + '[/color][/url][/size]\n' + pstiElement.textContent.slice(0, -3-date_string.length) + '[/quote]', '点评引用已复制到剪贴板');
+        const reppost = pstiElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.querySelector('div.pob a.fastre').getAttribute('href').replace(/&repquote=/,'&reppost=');
+        setTimeout(() => {
+            location.href = reppost;
+        }, 500);
+    });
+    pstiElement.appendChild(replyButton);
+});
