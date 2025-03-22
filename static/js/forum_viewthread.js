@@ -771,3 +771,12 @@ function vmessage() {
 		$('vmessage').onfocus = null;
 	};
 }
+
+function delcomment(id, pid) {
+	const formhash = document.querySelector('input[name="formhash"]')?.value;
+	fetch('forum.php?mod=topicadmin&action=delcomment&modsubmit=yes&infloat=yes&modclick=yes&inajax=1', {
+		headers: {'content-type': 'application/x-www-form-urlencoded'},
+		body: `formhash=${formhash}&fid=${fid}&tid=${tid}&page=${currentPage}&handlekey=mods&topiclist=${id}`,
+		method: 'POST'
+	}).then(() => ajaxget(`forum.php?mod=misc&action=commentmore&tid=${tid}&pid=${pid}`, `comment_${pid}`));
+}

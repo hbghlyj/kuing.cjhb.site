@@ -293,7 +293,15 @@ class model_forum_post extends discuz_model {
 				table_forum_thread::t()->update($this->thread['tid'], $this->param['updatethreaddata'], false, false, 0, true);
 			}
 
+			// push "newreply" activity to Pusher
+			require_once(DISCUZ_ROOT.'/chat/php/vendor/autoload.php');
+			require_once(DISCUZ_ROOT.'/chat/php/config.php');
 
+			$pusher = new Pusher(APP_KEY,APP_SECRET,APP_ID,array(
+				'cluster' => 'eu',
+				'useTLS' => true
+			));
+			$pusher->trigger('Chat', 'newreply', array('tid' => $this->thread['tid'], 'page' => $this->param['page'], 'pid' => $this->pid));
 			return 'post_reply_succeed';
 		}
 	}
