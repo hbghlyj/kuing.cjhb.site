@@ -176,9 +176,22 @@ details summary { color:blue; cursor:pointer; }
     font-size: 16px;
     color: black;
 }
-.tupian .jiaz { position: absolute; margin: auto; left: 0; right: 0; top: 0; bottom: 0; }
-.tupian.jiazed { min-width: unset; min-height: unset; }
-.jiazed .jiaz { display: none; }
+.tupian .jiaz {
+    position: absolute;
+    margin: auto;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+}
+.tupian.jiazed {
+    display: inline;
+   min-width: unset;
+   min-height: unset;
+}
+.jiazed .jiaz {
+    display: none;
+}
 .tuoing { 
     position: fixed; 
     box-shadow: 0 5px 10px rgba(0,0,0,0.2);
