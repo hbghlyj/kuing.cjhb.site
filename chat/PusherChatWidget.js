@@ -23,19 +23,45 @@ function PusherChatWidget(pusher, options) {
     appendTo: document.body, // A jQuery selector or object. Defines where the element should be appended to
     debug: true
   }, options);
-  
-  if(this.settings.debug && !Pusher.log) {
-    Pusher.log = function(msg) {
-      if(console && console.log) {
-        console.log(msg);
-      }
-    }
-  }
+
   this._itemCount = 0;
   this._widget = PusherChatWidget._createHTML(this.settings.appendTo);
   this._messageInputEl = this._widget.find('textarea');
   this._messagesEl = this._widget.find('ul');
 
+  // Subscribe to the chat channel
+  this._chatChannel = this._pusher.subscribe(this.settings.channelName);
+  this._pusher.connection.bind('connected', function() {
+    self._widget.find('.pusher-chat-widget-input label').text(isChinese ? '已连接' : 'Connected');
+  });
+  this._pusher.connection.bind('connecting', function() {
+    self._widget.find('.pusher-chat-widget-input label').text(isChinese ? '连接中' : 'Connecting');
+  });
+  this._chatChannel.bind('pusher:subscription_succeeded', function(){
+    self._widget.find('.pusher-chat-widget-input label').text((isChinese ? '快捷键' : 'Shortcut') + ' Ctrl+Enter');
+    self._widget.find('button').prop('disabled', false);
+  });
+  this._pusher.connection.bind('unavailable', function() {
+    self._widget.find('.pusher-chat-widget-input label').text((isChinese ? '请检查网络连接' : 'Please check your network connection'));
+    self._widget.find('button').prop('disabled', true);
+  });
+  if(typeof currentPage !== 'undefined' && typeof tid !== 'undefined') {
+    this._chatChannel.bind('newreply', function(data) {
+      if(data.tid == tid && data.page == currentPage) {
+        ajaxget(`forum.php?mod=viewthread&tid=${tid}&viewpid=${data.pid}`, 'post_new', 'ajaxwaitid', '', null, 'appendreply()');
+      }
+    });
+    this._chatChannel.bind('editpost', function(data) {
+      if(data.tid == tid && $(`pid${data.pid}`) !== null) {
+        ajaxget(`forum.php?mod=viewthread&tid=${tid}&viewpid=${data.pid}`, `post_${data.pid}`, 'ajaxwaitid', '', null, "if (typeof MathJax.typesetPromise === 'function') {MathJax.typesetPromise([document.querySelector(`#pid"+data.pid+" .t_f`)]);}");
+      }
+    });
+    this._chatChannel.bind('deletepost', function(data) {
+      if(data.tid == tid && $(`pid${data.pid}`) !== null) {
+        $(`pid${data.pid}`).remove();
+      }
+    });
+  }
   // Read collapse/expand status from cookie
   this.isCollapsed = document.cookie.replace(/(?:(?:^|.*;\s*)chatWidgetCollapsed\s*\=\s*([^;]*).*$)|^.*$/, "$1") !== 'false';
   if (isMobile) {
@@ -82,8 +108,6 @@ PusherChatWidget.prototype._init = function() {
       }
     }
   });
-  // Subscribe to the chat channel
-  this._chatChannel = this._pusher.subscribe(this.settings.channelName);
   
   this._chatChannel.bind('chat_message', function(data) {
     self._chatMessageReceived(data);
@@ -172,7 +196,7 @@ PusherChatWidget.prototype._sendChatMessage = function(data) {
       'chat_info': data
     },
     complete: function(xhr, status) {
-      Pusher.log('Chat message sent. Result: ' + status + ' : ' + xhr.responseText);
+      console.log('Chat message sent.', status);
       if(xhr.status === 200) {
         self._messageInputEl.val('');
       }
@@ -212,11 +236,9 @@ PusherChatWidget._createHTML = function(appendTo) {
       '</ul>' +
     '</div>' +
     '<div class="pusher-chat-widget-input">' +
-      '<label for="message">' +
-        (isChinese ? '快捷键' : 'Shortcut') + ' Ctrl+Enter' +
-      '</label>' +
+      '<label for="message"></label>' +
       '<textarea name="message"></textarea>' +
-      '<button class="pusher-chat-widget-send-btn">'+
+      '<button class="pusher-chat-widget-send-btn" disabled>' +
         (isChinese ? '发送' : 'Send') +
       '</button>' +
     '</div>' +

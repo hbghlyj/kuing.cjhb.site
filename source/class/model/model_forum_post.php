@@ -270,7 +270,15 @@ class model_forum_post extends discuz_model {
 			}
 
 
+			// push "newreply" activity to Pusher
+			require_once(DISCUZ_ROOT.'/chat/php/vendor/autoload.php');
+			require_once(DISCUZ_ROOT.'/chat/php/config.php');
 
+			$pusher = new Pusher(APP_KEY,APP_SECRET,APP_ID,array(
+				'cluster' => 'eu',
+				'useTLS' => true
+			));
+			$pusher->trigger('Chat', 'newreply', array('tid' => $this->thread['tid'], 'page' => $this->param['page'], 'pid' => $this->pid));
 
 			return 'post_reply_succeed';
 		}
@@ -445,14 +453,6 @@ class model_forum_post extends discuz_model {
 
 
 		$this->param['htmlon'] = $this->group['allowhtml'] && !empty($this->param['htmlon']) ? 1 : 0;
-
-		// if($this->setting['editedby'] && (TIMESTAMP - $this->post['dateline']) > 180 /*&& $this->member['adminid'] != 1*/) {
-			// $editor = $this->param['isanonymous'] && $isorigauthor ? lang('forum/misc', 'anonymous') : $this->member['username'];
-			// $edittime = dgmdate(TIMESTAMP);
-			// $this->param['message'] = lang('forum/misc', $this->param['htmlon'] ? 'post_edithtml' : (!$this->forum['allowbbcode'] || $this->param['bbcodeoff'] ? 'post_editnobbcode' : 'post_edit'), array('editor' => $editor, 'edittime' => $edittime)) . $this->param['message'];
-		// }
-
-
 		$this->param['bbcodeoff'] = checkbbcodes($this->param['message'], !empty($this->param['bbcodeoff']));
 		$this->param['smileyoff'] = checksmilies($this->param['message'], !empty($this->param['smileyoff']));
 		$tagoff = $isfirstpost ? !empty($tagoff) : 0;
@@ -549,6 +549,16 @@ class model_forum_post extends discuz_model {
 		if($isfirstpost && $this->thread['displayorder'] == -4 && empty($this->param['save'])) {
 			threadpubsave($this->thread['tid']);
 		}
+
+		// push "editpost" activity to Pusher
+		require_once(DISCUZ_ROOT.'/chat/php/vendor/autoload.php');
+		require_once(DISCUZ_ROOT.'/chat/php/config.php');
+
+		$pusher = new Pusher(APP_KEY,APP_SECRET,APP_ID,array(
+			'cluster' => 'eu',
+			'useTLS' => true
+		));
+		$pusher->trigger('Chat', 'editpost', array('tid' => $this->thread['tid'], 'pid' => $this->post['pid']));
 	}
 
 	public function deletepost($parameters) {
@@ -624,6 +634,15 @@ class model_forum_post extends discuz_model {
 		}
 		C::t('forum_forum')->update_forum_counter($this->forum['fid'], $forumcounter['threads'], $forumcounter['posts']);
 
+		// push "deletepost" activity to Pusher
+		require_once(DISCUZ_ROOT.'/chat/php/vendor/autoload.php');
+		require_once(DISCUZ_ROOT.'/chat/php/config.php');
+
+		$pusher = new Pusher(APP_KEY,APP_SECRET,APP_ID,array(
+			'cluster' => 'eu',
+			'useTLS' => true
+		));
+		$pusher->trigger('Chat', 'deletepost', array('tid' => $this->thread['tid'], 'pid' => $this->post['pid']));
 	}
 
 }
