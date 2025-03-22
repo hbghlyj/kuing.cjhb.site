@@ -36,7 +36,7 @@ function attachimgshow(pid, onlyinpost) {
 				obj.status = 1;
 				if(obj.getAttribute('file')) {
                     obj.src = obj.getAttribute('file');
-                    obj.setAttribute('onload',"this.parentNode.classList.add(\'jiazed\')"); // kk add (test)
+                    obj.setAttribute('onload',"this.parentNode.classList.add(\'jiazed\');this.setAttribute(\'width\',this.width);this.parentNode.style.display=\'inline-block\';"); // kk add (test)
                 }
 				loadingcount++;
 			} else if(obj.status == 1) {

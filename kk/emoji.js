@@ -8,6 +8,12 @@ emstyle.innerHTML = `.dspn { display:none; }
 `;
 document.getElementsByTagName("head")[0].appendChild(emstyle);
 
+//emoji键盘，仿照tikz及草稿本
+function toggle_emoji_window(){
+    var emoji_window=document.getElementById('emoji_window');
+    if(emoji_window){emoji_window.classList.toggle("dspn");}
+}
+
 //拖拽（抄网上略改）
 function tuozhuai(ee) {
     //var ee = document.querySelector(ele);
@@ -31,11 +37,6 @@ function tuozhuai(ee) {
     return false;
 }
 
-//emoji键盘，仿照tikz及草稿本
-function toggle_emoji_window(){
-    var emoji_window=document.getElementById('emoji_window');
-    if(emoji_window){emoji_window.classList.toggle("dspn");}
-}
 function show_emoji_window(ele){
   if(document.getElementById('emoji_window')) { toggle_emoji_window(); } else {
     var emoji_window=document.createElement('div');

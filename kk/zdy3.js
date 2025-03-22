@@ -25,7 +25,7 @@ for (let item of asys) {
     var str = item.textContent;
     var str_for_show = encodeURI(str).replace(/\'/g,'’');
     var str_for_link = encodeURIComponent(str);
-    item.innerHTML = '<div class="jiaz"></div><img src="/asy/?format=svg&code='+str_for_link+'" onclick="show_tikz_window(\''+str_for_show+'\');" onload="this.parentNode.classList.add(\'jiazed\')" />';
+    item.innerHTML = '<div class="jiaz"></div><img src="/asy/?format=svg&code='+str_for_link+'" onclick="show_tikz_window(\''+str_for_show+'\');" onload="this.parentNode.classList.add(\'jiazed\');this.setAttribute(\'width\',this.width);this.parentNode.style.display=\'inline-block\';" />';
 }
 
 //===Html模式下用bbr免打br
