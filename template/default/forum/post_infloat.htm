@@ -113,25 +113,7 @@
 
 <script type="text/javascript" reload="1">
 function succeedhandle_$_GET[action](locationhref, message) {
-	<!--{if $_GET[action] == 'reply'}-->
-		try {
-			var pid = locationhref.lastIndexOf('#pid');
-			if(pid != -1) {
-				pid = locationhref.substr(pid + 4);
-				ajaxget('forum.php?mod=viewthread&tid=$_G[tid]&viewpid=' + pid<!--{if !empty($_GET['from'])}--> + '&from=$_GET[from]'<!--{/if}-->, 'post_new', 'ajaxwaitid', '', null, 'appendreply()');
-				if(replyreload) {
-					var reloadpids = replyreload.split(',');
-					for(var i = 1;i < reloadpids.length;i++) {
-						ajaxget('forum.php?mod=viewthread&tid=$_G[tid]&viewpid=' + reloadpids[i]<!--{if !empty($_GET['from'])}--> + '&from=$_GET[from]'<!--{/if}-->, 'post_' + reloadpids[i]);
-					}
-				}
-			} else {
-				showDialog(message, 'notice', '', 'location.href="' + locationhref + '"');
-			}
-		} catch(e) {
-			location.href = locationhref;
-		}
-	<!--{elseif $_GET[action] == 'newthread'}-->
+	<!--{if $_GET[action] == 'newthread'}-->
 		var hastid = locationhref.lastIndexOf('tid=');
 		if(hastid == -1) {
 			showDialog(message, 'notice', '', 'location.href="' + locationhref + '"');

@@ -422,14 +422,7 @@ function appendAttachDel(ids) {
 	for(id in ids) {
 		aids += '&aids[]=' + id;
 	}
-	list = document.getElementsByTagName("input");
-	formhash = null;
-	for(i=0; i<list.length; i++) {
-		if(list[i].name == "formhash") {
-			formhash = list[i].value;
-			break;
-		}
-	}
+	const formhash = document.querySelector('input[name="formhash"]')?.value;
 	if(formhash) {
 		var x = new Ajax();
 		x.get('forum.php?mod=ajax&action=deleteattach&inajax=yes&formhash=' + formhash + '&tid=' + (typeof tid == 'undefined' ? 0 : tid) + '&pid=' + (typeof pid == 'undefined' ? 0 : pid) + aids + ($('modthreadkey') ? '&modthreadkey=' + $('modthreadkey').value : ''), function() {});
