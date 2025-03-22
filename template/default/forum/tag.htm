@@ -3,7 +3,7 @@
 	<!--{if $taglist}-->
 		<!--{loop $taglist $var}-->
 			<!--{if $_G[inajax]}-->
-				<a href="javascript:;" onclick="if(this.className == 'xi2') { window.onbeforeunload = null; parent.document.getElementById('tags').value += parent.document.getElementById('tags').value == '' ? '$var[tagname]' : ',$var[tagname]'; doane(); this.className += ' marked'; }" class="xi2">$var[tagname]</a>
+				<a onclick="if(this.className == 'xi2') { window.onbeforeunload = null; addKeyword('$var[tagname]'); doane(); this.className += ' marked'; }" class="xi2">$var[tagname]</a>
 			<!--{else}-->
 				<a href="misc.php?mod=tag&id=$var[tagid]" class="xi2">$var[tagname]</a>
 			<!--{/if}-->
@@ -17,16 +17,13 @@
 		<em>{lang post_tag}</em>
 	</h3>
 	<div class="c bart" style="width: 65ch;">
-		<p>
-			<input type="text" name="tags" id="tags" class="px vm" value="$tags" size="55" />
-			<a href="javascript:;" id="choosetag" class="xi2" onclick="showWindow(this.id, 'forum.php?mod=tag', 'get', 0)">{lang choosetag}</a>
-			<input type="hidden" name="tid" id="tid" value="$_GET[tid]" />
-		</p>
+		<input type="hidden" name="tid" id="tid" value="$_GET[tid]" />
+		<!--{template forum/tag_input}-->
 		<!--{if $recent_use_tag}-->
 		<p class="mtn">{lang recent_use_tag}
 			<!--{eval $tagi = 0;}-->
 			<!--{loop $recent_use_tag $var}-->
-				<!--{if $tagi}-->, <!--{/if}--><a href="javascript:;" class="xi2" onclick="$('tags').value == '' ? $('tags').value += '$var' : $('tags').value += ',$var';">$var</a>
+				<!--{if $tagi}-->, <!--{/if}--><a class="xi2" onclick="addKeyword('$var')">$var</a>
 				<!--{eval $tagi++;}-->
 			<!--{/loop}-->
 		</p>

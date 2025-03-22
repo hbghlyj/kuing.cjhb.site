@@ -50,11 +50,5 @@ $pusher = new Pusher(APP_KEY,APP_SECRET,APP_ID,array(
     'useTLS' => true
   ));
 $data = $activity->getMessage();
-$response = $pusher->trigger($channel_name, 'chat_message', $data, null, true);
-
-header('Cache-Control: no-cache, must-revalidate');
-header('Content-type: application/json');
-
-$result = array('activity' => $data, 'pusherResponse' => $response);
-echo(json_encode($result));
+$pusher->trigger($channel_name, 'chat_message', $data, null, true);
 ?>

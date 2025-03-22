@@ -322,6 +322,9 @@ function appendreply() {
 	newpos = fetchOffset($('post_new'));
 	document.documentElement.scrollTop = newpos['top'];
 	$('post_new').style.display = '';
+	if(typeof MathJax.typesetPromise === 'function') {
+		MathJax.typesetPromise([$('postlist').appendChild($('post_new'))]);
+	}
 	$('post_new').id = '';
 	div = document.createElement('div');
 	div.id = 'post_new';
@@ -782,4 +785,13 @@ function vmessage() {
 		ajaxget('forum.php?mod=ajax&action=checkpostrule&ac=reply', 'vfastpostseccheck');
 		$('vmessage').onfocus = null;
 	};
+}
+
+function delcomment(id,pid) {
+	const formhash = document.querySelector('input[name="formhash"]')?.value;
+	fetch('forum.php?mod=topicadmin&action=delcomment&modsubmit=yes&infloat=yes&modclick=yes&inajax=1', {
+		"headers": {"content-type": "application/x-www-form-urlencoded"},
+		"body": `formhash=${formhash}&fid=${fid}&tid=${tid}&page=${currentPage}&handlekey=mods&topiclist=${id}`,
+		"method": "POST"
+	}).then(()=>ajaxget(`forum.php?mod=misc&action=commentmore&tid=${tid}&pid=${pid}`, `comment_${pid}`));
 }
