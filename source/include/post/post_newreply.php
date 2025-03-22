@@ -153,7 +153,11 @@ if($_G['setting']['commentnumber'] && !empty($_GET['comment'])) {
 	}
 	C::t('forum_postcache')->delete($post['pid']);
 
+<<<<<<< HEAD
 	// push "commentadd" activity to Pusher
+=======
+ 	// via websocket sync the comment to the users viewing the thread
+>>>>>>> 0bfc55a21 (实时点评，仿 Commit aa68f12)
  	require_once(DISCUZ_ROOT.'/chat/php/vendor/autoload.php');
  	require_once(DISCUZ_ROOT.'/chat/php/config.php');
  
@@ -162,7 +166,11 @@ if($_G['setting']['commentnumber'] && !empty($_GET['comment'])) {
  		'useTLS' => true
  	));
  	$pusher->trigger('Chat', 'commentadd', array('tid' => $post['tid'], 'page' => $_GET['page'], 'pid' => $post['pid']));
+<<<<<<< HEAD
 	showmessage('comment_add_succeed', "forum.php?mod=viewthread&tid={$post['tid']}&pid={$post['pid']}".($_GET['page']>1?"&page={$_GET['page']}":'')."&extra=$extra#pid{$post['pid']}", array('tid' => $post['tid'], 'pid' => $post['pid']));
+=======
+	showmessage('comment_add_succeed');
+>>>>>>> 0bfc55a21 (实时点评，仿 Commit aa68f12)
 }
 
 if($special == 127) {

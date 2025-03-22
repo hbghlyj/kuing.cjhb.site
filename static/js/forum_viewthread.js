@@ -268,10 +268,13 @@ function errorhandle_fastpost() {
 	$('fastpostsubmit').disabled = false;
 }
 
+<<<<<<< HEAD
 function succeedhandle_comment(locationhref, message, param) {
 	hideWindow('comment');
 }
 
+=======
+>>>>>>> 0bfc55a21 (实时点评，仿 Commit aa68f12)
 function succeedhandle_postappend(locationhref, message, param) {
 	ajaxget('forum.php?mod=viewthread&tid=' + param['tid'] + '&viewpid=' + param['pid'], 'post_' + param['pid'], 'ajaxwaitid');
 	hideWindow('postappend');
