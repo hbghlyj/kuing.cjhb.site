@@ -160,7 +160,7 @@ $postshowavatars = !($_G['setting']['bannedmessages'] & 2 && ($post['memberstatu
 					<a href="forum.php?mod=misc&action=viewwarning&tid=$_G[tid]&uid=$post[authorid]" title="{lang warn_get}" class="y warnicon" onclick="showWindow('viewwarning', this.href)"></a>
 				<!--{/if}-->
 				<strong>
-					<a href="{if $post[first]}forum.php?mod=viewthread&tid=$_G[tid]$fromuid{else}forum.php?mod=redirect&goto=findpost&ptid=$_G[tid]&pid=$post[pid]$fromuid{/if}"  {if $fromuid}title="{lang share_url_copy_comment}"{/if} id="postnum$post[pid]" onclick="setCopy(this.href, '{lang post_copied}');return false;">
+					<a href="forum.php?mod=redirect&goto=findpost&pid=$post[pid]&ptid=$_G[tid]$fromuid"  {if $fromuid}title="{lang share_url_copy_comment}"{/if} id="postnum$post[pid]" onclick="setCopy(this.href, '{lang post_copied}');return false;">
 						<!--{if isset($post[isstick])}-->
 							<em title="{lang replystick}" class="replystick vm">{lang replystick_icon}</em> {lang from} {$post[number]}{$postnostick}
 						<!--{elseif $post[number] == -1}-->
