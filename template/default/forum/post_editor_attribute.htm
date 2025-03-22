@@ -83,31 +83,17 @@
 
 			<!--{if $_G['group']['allowposttag']}-->
 				<div id="extra_tag_c" class="exfm cl" style="display: none;">
-					<table cellspacing="0" cellpadding="0">
-						<tr>
-							<td class="xw1">{lang post_tag}</td>
-							<td>
-								<input type="text" class="px vm" size="60" id="tags" name="tags" value="{$postinfo[tag] or ''}" onblur="extraCheck(4)" />
-								<a href="javascript:;" id="choosetag" class="xi2" onclick="showWindow(this.id, 'forum.php?mod=tag', 'get', 0)">{lang choosetag}</a>
-							</td>
-						</tr>
-						<tr>
-							<td></td>
-							<td>
-								<p class="xg1">{lang posttag_comment}</p>
-								<!--{eval $recent_use_tag = recent_use_tag();}-->
-								<!--{if $recent_use_tag}-->
-									<p class="mtn">{lang recent_use_tag}&nbsp;
-										<!--{eval $tagi = 0;}-->
-										<!--{loop $recent_use_tag $var}-->
-											<!--{if $tagi}-->, <!--{/if}--><a href="javascript:;" class="xi2" onclick="$('tags').value == '' ? $('tags').value += '$var' : $('tags').value += ',$var';extraCheck(4);doane();">$var</a>
-											<!--{eval $tagi++;}-->
-										<!--{/loop}-->
-									</p>
-								<!--{/if}-->
-							</td>
-						</tr>
-					</table>
+					<!--{template forum/tag_input}-->
+					<!--{eval $recent_use_tag = recent_use_tag();}-->
+					<!--{if $recent_use_tag}-->
+						<p class="mtn">{lang recent_use_tag}&nbsp;
+							<!--{eval $tagi = 0;}-->
+							<!--{loop $recent_use_tag $var}-->
+								<!--{if $tagi}-->, <!--{/if}--><a href="javascript:;" class="xi2" onclick="$('tags').value == '' ? $('tags').value += '$var' : $('tags').value += ',$var';extraCheck(4);doane();">$var</a>
+								<!--{eval $tagi++;}-->
+							<!--{/loop}-->
+						</p>
+					<!--{/if}-->
 				</div>
                 <script>showExtra('extra_tag')</script>
 			<!--{/if}-->

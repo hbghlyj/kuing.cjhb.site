@@ -594,6 +594,16 @@ class model_forum_post extends discuz_model {
 		if($isfirstpost && $this->thread['displayorder'] == -4 && empty($this->param['save'])) {
 			threadpubsave($this->thread['tid']);
 		}
+
+		// push "editpost" activity to Pusher
+		require_once(DISCUZ_ROOT.'/chat/php/vendor/autoload.php');
+		require_once(DISCUZ_ROOT.'/chat/php/config.php');
+
+		$pusher = new Pusher(APP_KEY,APP_SECRET,APP_ID,array(
+			'cluster' => 'eu',
+			'useTLS' => true
+		));
+		$pusher->trigger('Chat', 'editpost', array('tid' => $this->thread['tid'], 'pid' => $this->post['pid']));
 	}
 
 	public function deletepost($parameters) {
@@ -663,6 +673,15 @@ class model_forum_post extends discuz_model {
 		}
 		table_forum_forum::t()->update_forum_counter($this->forum['fid'], $forumcounter['threads'], $forumcounter['posts']);
 
+		// push "deletepost" activity to Pusher
+		require_once(DISCUZ_ROOT.'/chat/php/vendor/autoload.php');
+		require_once(DISCUZ_ROOT.'/chat/php/config.php');
+
+		$pusher = new Pusher(APP_KEY,APP_SECRET,APP_ID,array(
+			'cluster' => 'eu',
+			'useTLS' => true
+		));
+		$pusher->trigger('Chat', 'deletepost', array('tid' => $this->thread['tid'], 'pid' => $this->post['pid']));
 	}
 
 }

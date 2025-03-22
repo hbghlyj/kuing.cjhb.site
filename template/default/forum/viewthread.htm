@@ -1,16 +1,10 @@
 <!--{template common/header}-->
 <link rel="stylesheet" type="text/css" href="kk/zdy3.css?{VERHASH}" />
 
-<script type="text/javascript">var fid = parseInt('$_G[fid]'), tid = parseInt('$_G[tid]');</script>
+<script type="text/javascript">var fid = parseInt('$_G[fid]'), tid = parseInt('$_G[tid]'), currentPage = parseInt('$_G[page]');</script>
 <!--{if $modmenu['thread'] || $modmenu['post']}-->
 	<script type="text/javascript" src="{$_G['setting']['jspath']}forum_moderate.js?{VERHASH}"></script>
 <!--{/if}-->
-<script>function delcomment(id,pid) {
-	fetch('forum.php?mod=topicadmin&action=delcomment&modsubmit=yes&infloat=yes&modclick=yes&inajax=1', {
-		"headers": {"content-type": "application/x-www-form-urlencoded"},
-		"body": 'formhash={FORMHASH}&fid=$_G[fid]&tid=$_G[tid]&page=$_G[page]&handlekey=mods&topiclist='+id,
-		"method": "POST"}).then(()=>ajaxget('forum.php?mod=misc&action=commentmore&tid={$_G[tid]}&pid='+pid, 'comment_'+pid));
-}</script>
 <script type="text/javascript" src="{$_G['setting']['jspath']}forum_viewthread.js?{VERHASH}"></script>
 <script type="text/javascript">zoomstatus = parseInt($_G['setting']['zoomstatus']);var imagemaxwidth = '{$_G['setting']['imagemaxwidth']}';var aimgcount = new Array();</script>
 

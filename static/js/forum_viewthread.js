@@ -309,6 +309,9 @@ function appendreply() {
 	newpos = fetchOffset($('post_new'));
 	document.documentElement.scrollTop = newpos['top'];
 	$('post_new').style.display = '';
+	if(typeof MathJax.typesetPromise === 'function') {
+		MathJax.typesetPromise([$('postlist').appendChild($('post_new'))]);
+	}
 	$('post_new').id = '';
 	div = document.createElement('div');
 	div.id = 'post_new';
