@@ -374,11 +374,17 @@ function check_allow_action($action = 'allowpost') {
 		showmessage('forum_access_disallow');
 	}
 }
-function recent_use_tag() {
+function recent_use_tag($fid) {
 	$tagarray = $stringarray = array();
 	$string = '';
 	$i = 0;
-	$query = C::t('common_tagitem')->select(0, 0, 'tid', 'itemid', 'DESC', 10);
+	$query = DB::fetch_all('SELECT tagitem.tagid AS tagid, MAX(thread.lastpost) AS max_lastpost
+	FROM '.DB::table('forum_thread').' thread
+	JOIN '.DB::table('common_tagitem').' tagitem ON tagitem.itemid = thread.tid
+	WHERE thread.fid = '.$fid.' AND tagitem.idtype = \'tid\'
+	GROUP BY tagitem.tagid
+	ORDER BY max_lastpost DESC
+	LIMIT 10');
 	foreach($query as $result) {
 		if($tagarray[$result['tagid']] == '') {
 			$i++;
