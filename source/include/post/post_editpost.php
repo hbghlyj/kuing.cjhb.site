@@ -430,8 +430,13 @@ if(!submitcheck('editsubmit')) {
 		);
 
 		if($thread['displayorder'] != -4) {
-			$param['updateuid'] = $_G['uid'];
-			$param['lastupdate'] = TIMESTAMP;
+			if(TIMESTAMP - $orig['dateline'] > 300) {
+				$param['updateuid'] = $_G['uid'];
+				$param['lastupdate'] = TIMESTAMP;
+			} else {
+				$param['timestamp'] = TIMESTAMP;
+				$param['updateuid'] = $param['lastupdate'] = 0;
+			}
 		}
 
 		if($_G['group']['allowimgcontent']) {
