@@ -89,7 +89,7 @@
 						<p class="mtn">{lang recent_use_tag}&nbsp;
 							<!--{eval $tagi = 0;}-->
 							<!--{loop $recent_use_tag $var}-->
-								<!--{if $tagi}-->, <!--{/if}--><a href="javascript:;" class="xi2" onclick="$('tags').value == '' ? $('tags').value += '$var' : $('tags').value += ',$var';extraCheck(4);doane();">$var</a>
+								<!--{if $tagi}-->, <!--{/if}--><a class="xi2" onclick="addKeyword('$var')">$var</a>
 								<!--{eval $tagi++;}-->
 							<!--{/loop}-->
 						</p>
