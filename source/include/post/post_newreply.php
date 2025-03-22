@@ -143,6 +143,16 @@ if($_G['setting']['commentnumber'] && !empty($_GET['comment'])) {
 		}
 	}
 	C::t('forum_postcache')->delete($post['pid']);
+
+	// push "editpost" activity to Pusher to sync the comment to viewthread page
+	require_once(DISCUZ_ROOT.'/chat/php/vendor/autoload.php');
+	require_once(DISCUZ_ROOT.'/chat/php/config.php');
+
+	$pusher = new Pusher(APP_KEY,APP_SECRET,APP_ID,array(
+		'cluster' => 'eu',
+		'useTLS' => true
+	));
+	$pusher->trigger('Chat', 'editpost', array('tid' => $post['tid'], 'pid' => $post['pid']));
 	showmessage('comment_add_succeed', "forum.php?mod=viewthread&tid={$post['tid']}&pid={$post['pid']}&page={$_GET['page']}&extra=$extra#pid{$post['pid']}", array('tid' => $post['tid'], 'pid' => $post['pid']));
 }
 
