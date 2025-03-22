@@ -259,7 +259,7 @@ if(!submitcheck('searchsubmit', 1)) {
 				$srchtag = array_map('trim',explode(',', $srchtag));
 				$id = array();
 				foreach ($srchtag as $value) {
-					if(!preg_match('/^([\x7f-\xff_-]|\w|\s)+$/', $value) || strlen($value) > 20) {
+					if(!preg_match('/^([\x7f-\xff_-]|\w|\s)+$/', $value) || strlen($value) > 30 || strlen($value) < 3) {
 						showmessage('tag_does_not_exist', NULL, array('tag' => $value));
 					}
 					$result = C::t('common_tag')->get_bytagname($value,'tid');

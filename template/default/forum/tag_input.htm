@@ -48,9 +48,16 @@ function addKeyword(value) {
         return;
     }
 
-    if(mb_strlen(value) > 30) {
-        showError('{lang tag_max_length_exceeded}');
-        value = mb_cutstr(value,30,'');
+    if(keywords.length >= 5) {
+        showError('{lang tag_count_limit}');
+        return;
+    }
+
+    const taglength = mb_strlen(value);
+
+    if(taglength > 30 || taglength < 3) {
+        showError('{lang tag_max_length_invalid}' + taglength);
+        return;
     }
 
     if (value && !keywords.includes(value)) {
@@ -72,6 +79,13 @@ keywordInput.addEventListener('keydown', event => {
         addKeyword(keywordInput.value.trim());
         keywordInput.value = '';
         doane(event);
+    }
+});
+
+keywordInput.addEventListener('blur', () => {
+    if (keywordInput.value.trim()) {
+        addKeyword(keywordInput.value.trim());
+        keywordInput.value = '';
     }
 });
 
