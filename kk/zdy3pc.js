@@ -16,14 +16,26 @@ function show_tikz_window(tikz_code){
             <div><textarea class="tikzta">`+decodeURIComponent(tikz_code)+'</textarea></div>';
         document.body.append(tikz_window);
 }
-function tuozhuai2(ee) {
+function tuozhuai2(event,ee) {
+    //鼠标相对于盒子的位置
+    const imgOffset = ee.querySelector('img').getBoundingClientRect();
+    var offsetX = event.clientX - imgOffset.left;
+    var offsetY = event.clientY - imgOffset.top;
+    ee.style.left = event.clientX - offsetX + "px";
+    ee.style.top = event.clientY - offsetY + "px";
     if (!ee.classList.contains('tuoing')) {
-        ee.style.width = ee.getBoundingClientRect().width + "px";
-        ee.style.top = offSet(ee).top - Math.max(document.documentElement.scrollTop, document.body.scrollTop) + "px";
-        ee.style.left = offSet(ee).left - Math.max(document.documentElement.scrollLeft, document.body.scrollLeft) + "px";
         ee.classList.add('tuoing');
     }
-    tuozhuai(ee)//tuozhuai 是在 emoji.js 里定义的
+    //鼠标移动
+    document.onmousemove = function (event) {
+        ee.style.left = event.clientX - offsetX + "px";
+        ee.style.top = event.clientY - offsetY + "px";
+    }
+    //鼠标抬起
+    document.onmouseup = function () {
+        document.onmousemove = null;
+        document.onmouseup = null;
+    }
 }
 function guiwei(ee) {
     ee.classList.remove('tuoing');
@@ -41,7 +53,7 @@ for (let item of asys) {
     var str = item.textContent;
     var str_for_show = encodeURI(str).replace(/\'/g,'’');
     var str_for_link = encodeURIComponent(str);
-    item.innerHTML = '<div class="jiaz"></div><div class="tuozt" onmousedown="tuozhuai2(this.parentNode);return false;"><!--拖动--></div><div class="guiw" onclick="guiwei(this.parentNode);return false;"><!--归位--></div><img src="/asy/?format=svg&code='+str_for_link+'" onclick="show_tikz_window(\''+str_for_show+'\');" onload="this.parentNode.classList.add(\'jiazed\')" />';
+    item.innerHTML = '<div class="jiaz"></div><div class="tuozt" onmousedown="tuozhuai2(this.parentNode);return false;"><!--拖动--></div><div class="guiw" onclick="guiwei(this.parentNode);return false;"><!--归位--></div><img src="/asy/?format=svg&code='+str_for_link+'" onclick="show_tikz_window(\''+str_for_show+'\');" onload="this.parentNode.classList.add(\'jiazed\');this.setAttribute(\'width\',this.width);this.parentNode.style.display=\'inline-block\';" />';
 }
 
 //===Html模式下用bbr免打br

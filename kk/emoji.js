@@ -8,29 +8,6 @@ emstyle.innerHTML = `.dspn { display:none; }
 `;
 document.getElementsByTagName("head")[0].appendChild(emstyle);
 
-//拖拽（抄网上略改）
-function tuozhuai(ee) {
-    //var ee = document.querySelector(ele);
-    var event = event || window.event;
-    //鼠标相对于盒子的位置
-    var offsetX = event.clientX - ee.offsetLeft;
-    var offsetY = event.clientY - ee.offsetTop;
-    //鼠标移动
-    document.onmousemove = function () {
-        var event = event || window.event;
-        ee.style.left = event.clientX - offsetX + "px";
-        ee.style.top = event.clientY - offsetY + "px";
-        ee.style.right = "unset";
-        ee.style.bottom = "unset";
-    }
-    //鼠标抬起
-    document.onmouseup = function () {
-        document.onmousemove = null;
-        document.onmouseup = null;
-    }
-    return false;
-}
-
 //emoji键盘，仿照tikz及草稿本
 function toggle_emoji_window(){
     var emoji_window=document.getElementById('emoji_window');
