@@ -52,10 +52,6 @@ function setEditorTip(s) {
 }
 
 function initEditor() {
-	if(BROWSER.other) {
-		$(editorid + '_controls').style.display = 'none';
-		return;
-	}
 	var buttons = $(editorid + '_controls').getElementsByTagName('a');
 	initesbar();
 	for(var i = 0; i < buttons.length; i++) {
