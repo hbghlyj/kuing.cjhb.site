@@ -86,7 +86,7 @@
 					<!--{template forum/tag_input}-->
 					<!--{eval $recent_use_tag = recent_use_tag($_G['fid']);}-->
 					<!--{if $recent_use_tag}-->
-						<p class="mtn">{lang recent_use_tag}&nbsp;
+						<p id="recent_tags" class="mtn">{lang recent_use_tag}&nbsp;
 							<!--{eval $tagi = 0;}-->
 							<!--{loop $recent_use_tag $var}-->
 								<!--{if $tagi}-->, <!--{/if}--><a class="xi2" onclick="addKeyword('$var')">$var</a>
@@ -94,6 +94,8 @@
 							<!--{/loop}-->
 						</p>
 					<!--{/if}-->
+					<button style="width:25px;background:#eee url(/static/image/editor/editor.gif) no-repeat -220px -120px;" onclick="ajaxget('/data/list.xml?', 'recent_tags', 'ajaxwaitid');this.remove();return false" class="pn">
+					</button>
 				</div>
                 <script>showExtra('extra_tag')</script>
 			<!--{/if}-->

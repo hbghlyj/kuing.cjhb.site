@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root><![CDATA[<div id="tagsrchdiv">
+<div class="mbm" style="margin-left: 358px;">搜索: <input type="text" style="width:178px" class="px vm" /></div>
+<ul class="jump_bdl cl">
+<li><p class="bbda xg1">一级</p>
+
+<li><p class="bbda xg1">二级</p>
+
+
+</li>
+
+<li><p class="bbda xg1">三级</p>
+
+
+</li></ul></div>
+<style>
+p.selected {
+    background-color: #f2f9fc;
+    font-weight: bold;
+}
+</style>
+<script>
+!(async function () {
+    const response = await fetch('/data/data.yaml', { cache: 'no-store' });
+    const text = await response.text();
+
+    // Split the text into non-empty lines.
+    const lines = text.split('\n').filter(line => line.trim() !== '');
+
+    // We'll build a tree using a dummy root.
+    const tree = { children: [] };
+    // Each item in the stack is an object { node, indent }
+    // Start with dummy root at indent level -1.
+    const stack = [{ node: tree, indent: -1 }];
+
+    for (const line of lines) {
+        // Match leading whitespace and the rest of the text.
+        const match = line.match(/^(\s*)(.+)$/);
+        if (!match) continue;
+        const indent = match[1].length;
+        const value = match[2].trim();
+
+        // Create a new node.
+        const node = { value };
+
+        // Pop the stack until the current indent is greater than the last element.
+        while (stack.length && indent <= stack[stack.length - 1].indent) {
+            stack.pop();
+        }
+
+        // The current top of the stack is the parent node.
+        const parent = stack[stack.length - 1].node;
+        // Initialize parent's children array if needed.
+        if (!parent.children) parent.children = [];
+        parent.children.push(node);
+
+        // Push the new node along with its indent onto the stack.
+        stack.push({ node, indent });
+    }
+
+    const tagsrchdiv = document.getElementById('tagsrchdiv');
+    const firstColumn = tagsrchdiv.lastElementChild.children[0];
+    const secondColumn = tagsrchdiv.lastElementChild.children[1];
+    const thirdColumn = tagsrchdiv.lastElementChild.children[2];
+
+    // Function to clear a column while preserving its header.
+    function clearColumn(column) {
+        while (column.children.length > 1) {
+            column.removeChild(column.lastElementChild);
+        }
+    }
+
+    // Function to populate a column with nodes.
+    function populateColumn(column, nodes, onClickHandler) {
+        clearColumn(column);
+        // Check which item was selected last time
+        const firstColumnSelected = decodeURIComponent(document.cookie.replace(/(?:(?:^|.*;\s*)firstColumnSelected\s*\=\s*([^;]*).*$)|^.*$/, "$1"));
+        const secondColumnSelected = decodeURIComponent(document.cookie.replace(/(?:(?:^|.*;\s*)secondColumnSelected\s*\=\s*([^;]*).*$)|^.*$/, "$1"));
+
+        const _onClickHandler = function(node) {
+            // Remove 'selected' class from all siblings
+            [...column.children].forEach(child => child.classList.remove('selected'));
+            // Add 'selected' class to the clicked element
+            this.classList.add('selected');
+            // Save the selected item to a cookie
+            if (column === firstColumn)
+                document.cookie = `firstColumnSelected=${encodeURIComponent(node.value)}; path=/`;
+            else if(column === secondColumn)
+                document.cookie =  `secondColumnSelected=${encodeURIComponent(node.value)}; path=/`;
+            onClickHandler(node);
+        };
+        nodes.forEach(node => {
+            const p = document.createElement('p');
+            const a = document.createElement('a');
+            a.textContent = node.value;
+            a.href = 'javascript:void(0)';
+            p.appendChild(a);
+            p.onclick = _onClickHandler.bind(p, node);
+            column.appendChild(p);
+
+            // Check if this item is selected based on the cookie
+            if ((column === firstColumn && node.value === firstColumnSelected) ||
+            (column === secondColumn && node.value === secondColumnSelected)) {
+                p.classList.add('selected');
+                onClickHandler(node);
+            }
+        });
+    }
+
+    // Populate the first column with first-level nodes.
+    populateColumn(firstColumn, tree.children, firstLevelClick);
+
+    // First-level click handler.
+    function firstLevelClick(node) {
+        clearColumn(thirdColumn);
+        populateColumn(secondColumn, node.children, secondLevelClick);
+    }
+
+    // Second-level click handler.
+    function secondLevelClick(node) {
+        populateColumn(thirdColumn, node.children, (node) => addKeyword(node.value));
+    }
+
+    tagsrchdiv.getElementsByTagName('input')[0].oninput = function () {
+        const srch = this.value.trim().toLowerCase();
+        [...thirdColumn.children].slice(1).forEach(p => {
+            p.style.display = p.innerText.toLowerCase().indexOf(srch) !== -1 ? '' : 'none';
+        });
+    }
+})();
+</script>]]></root>
