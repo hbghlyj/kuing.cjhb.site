@@ -2,11 +2,7 @@
 <!--{if ($op == 'search')}-->
 	<!--{if $taglist}-->
 		<!--{loop $taglist $var}-->
-			<!--{if $_G[inajax]}-->
-				<a onclick="if(this.className == 'xi2') { window.onbeforeunload = null; addKeyword('$var[tagname]'); doane(); this.className += ' marked'; }" class="xi2">$var[tagname]</a>
-			<!--{else}-->
-				<a href="misc.php?mod=tag&id=$var[tagid]" class="xi2">$var[tagname]</a>
-			<!--{/if}-->
+			<a href="misc.php?mod=tag&id=$var[tagid]" class="xi2">$var[tagname]</a>
 		<!--{/loop}-->
 	<!--{else}-->
 		<p class="emp">{lang none_tag}</p>
@@ -36,7 +32,6 @@
 <!--{else}-->
 	<h3 class="flb">
 		<em>{lang choosetag}</em>
-		<!--{if $_G[inajax]}--><span><a href="javascript:;" onclick="hideWindow('$_GET[handlekey]');" class="flbc" title="{lang close}">{lang close}</a></span><!--{/if}-->
 	</h3>
 	<div class="c bart">
 		<div class="pns mbn cl">
@@ -51,18 +46,6 @@
 	</p>
 <!--{/if}-->
 	<script type="text/javascript">
-	function tagsearch() {
-		$('taglistarea').innerHTML = '';
-		var searchkey = $('searchkey').value;
-		var url = 'forum.php?mod=tag&op=search&inajax=1&searchkey='+searchkey;
-		var x = new Ajax();
-		x.get(url, function(s){
-			if(s) {
-				$('taglistarea').innerHTML = s;
-			}
-		});
-	}
-
 	function tagset() {
 		var tags = $('tags').value;
 		var tid = $('tid').value;
