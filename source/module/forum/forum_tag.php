@@ -25,6 +25,10 @@ if($op == 'search') {
 	foreach($query as $value) {
 		$taglist[] = $value;
 	}
+	if($_G['inajax']) {
+		echo json_encode(array_column($taglist, 'tagname'));
+		exit;
+	}
 	$searchkey = dhtmlspecialchars($searchkey);
 } elseif($op == 'match') {
 	$content = $_POST['content'];
