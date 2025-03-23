@@ -118,6 +118,10 @@
 				<!--{loop $_G['cache']['bbcodes_display'][$_G['groupid']] $tag $bbcode}-->
 					<a id="{$editorid}_cst{$bbcode[params]}_$tag" class="cst" title="$bbcode[explanation]"><!--{if $bbcode['icon']=="static/image/common/none"}-->$bbcode[explanation]<!--{else}--><img src="$bbcode['icon']" title="$bbcode[explanation]" alt="$tag" /><!--{/if}--></a>
 				<!--{/loop}-->
+					
+	//目前我们只是将这些与其他自定义 bbcode 分开，未来将添加更多功能，例如在网站上测试 tikz/asy 代码
+				<a id="{$editorid}_cst1_tikz" class="cst" title="输入 TikZ 代码">tikz</a>
+				<a id="{$editorid}_cst1_asy" class="cst" title="输入 Asymptote 代码">asy</a>
 				<!--{hook/post_editorctrl_bottom}-->
 			</div>
 		</div>
