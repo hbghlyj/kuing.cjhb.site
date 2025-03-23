@@ -94,6 +94,8 @@
 							<!--{/loop}-->
 						</p>
 					<!--{/if}-->
+					<button style="width:25px;background:#eee url(/static/image/editor/editor.gif) no-repeat -220px -120px;" onclick="ajaxget('/data/list.xml?', 'recent_tags', 'ajaxwaitid');this.remove();return false" class="pn">
+					</button>
 				</div>
                 <script>showExtra('extra_tag')</script>
 			<!--{/if}-->
