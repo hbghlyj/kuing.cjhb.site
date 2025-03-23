@@ -12,7 +12,7 @@ if(!defined('IN_DISCUZ')) {
 }
 
 global $_G;
-$op = in_array($_GET['op'], array('search', 'manage', 'set')) ? $_GET['op'] : '';
+$op = in_array($_GET['op'], array('search','match', 'manage', 'set')) ? $_GET['op'] : '';
 $taglist = array();
 $thread = & $_G['thread'];
 
@@ -24,6 +24,39 @@ if($op == 'search') {
 	}
 	$searchkey = dhtmlspecialchars($searchkey);
 
+} elseif($op == 'match') {
+	$content = $_POST['content'];
+	if (empty($content)) {
+		echo '<?xml version="1.0" encoding="utf-8"?>
+<root><![CDATA[<h3 class="flb">
+<em>提取标签</em>
+<span><a href="javascript:;" onclick="hideWindow(\'choosetag\');" class="flbc" title="关闭">关闭</a></span></h3>
+	<textarea id="content" style="margin:5px" rows="5" cols="20"></textarea>
+	<p class="o pns">
+		<button onclick="
+		let formData = new FormData();
+		formData.append(\'content\', document.querySelector(\'textarea#content\').value);
+		fetch(\'forum.php?mod=tag&op=match\', {
+			method: \'POST\',
+			body: formData
+		})
+		.then(response => response.text())
+		.then(data => {
+			const tags = data.split(\',\');
+			tags.forEach(tag => {
+					addKeyword(tag);
+			});
+		})
+		.catch(error => console.error(\'Error:\', error));" class="pn pnc"><em>提取</em></button>
+	</p>]]></root>';
+	}
+	else {
+		$taglist = DB::fetch_all("SELECT t.tagName
+			FROM " . DB::table("common_tag") . " t
+			WHERE %s LIKE CONCAT(%s, t.tagName, %s)", array($content,'%', '%'));
+		echo implode(',', array_column($taglist, 'tagName'));
+	}
+	exit;
 } elseif($op == 'manage') {
 	if($_G['tid']) {
 		$tagarray_all = $array_temp = $threadtag_array = array();
