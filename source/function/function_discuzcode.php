@@ -61,8 +61,10 @@ function codedisp($code) {
 }
 // kk add
 function asycode_callback($matches) {
-	$str_for_link = rawurlencode($matches[1]);
-	return '<asy class="tupian"><div class="jiaz"></div><div class="tuozt" onmousedown="tuozhuai2(event,this.parentNode);return false;"><!--拖动--></div><div class="guiw" onclick="guiwei(this.parentNode);return false;"><!--归位--></div><img src="/asy/?format=svg&code='.$str_for_link.'" onclick="show_tikz_window(\''.$str_for_show.'\');" onload="this.parentNode.classList.add(\'jiazed\');this.setAttribute(\'width\',this.width);this.parentNode.style.display=\'inline-block\';"></asy>';
+	$str = $matches[1];
+	return '<tikz class="tupian"><div class="jiaz"></div><div class="tuozt" onmousedown="tuozhuai2(event,this.parentNode);return false;"><!--拖动--></div><div class="guiw" onclick="guiwei(this.parentNode);return false;"><!--归位--></div><img src="/asy/?format='
+	.((str_contains($str, 'import%20graph3')||str_contains($str, 'import%20three'))? 'png' : 'svg')
+	.'&code='.$str.'" onclick="show_tikz_window(\''.$str.'\');" onload="this.parentNode.classList.add(\'jiazed\');this.setAttribute(\'width\',this.width);this.parentNode.style.display=\'inline-block\';"></tikz>';
 }
 
 function tikzcode_callback($matches) {
@@ -97,6 +99,9 @@ function discuzcode($message, $smileyoff = false, $bbcodeoff = false, $htmlon = 
 	// kk add
 	if($parsetype != 1 && !$bbcodeoff && $allowbbcode && strpos($message, '[/tikz]') !== FALSE) {
 		$message = preg_replace_callback("/\[tikz\](.+?)\[\/tikz\]/s", function ($matches) { return '[tikz]'.rawurlencode($matches[1]).'[/tikz]'; }, $message);
+	}
+	if($parsetype != 1 && !$bbcodeoff && $allowbbcode && strpos($message, '[/asy]') !== FALSE) {
+		$message = preg_replace_callback("/\[asy\](.+?)\[\/asy\]/s", function ($matches) { return '[asy]'.rawurlencode($matches[1]).'[/asy]'; }, $message);
 	}
 
 	$msglower = strtolower($message);

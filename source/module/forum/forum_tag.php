@@ -18,12 +18,14 @@ $thread = & $_G['thread'];
 
 if($op == 'search') {
 	$searchkey = stripsearchkey($_GET['searchkey']);
+	if (empty($searchkey)) {
+		exit;
+	}
 	$query = C::t('common_tag')->fetch_all_by_status(0, $searchkey, 50, 0);
 	foreach($query as $value) {
 		$taglist[] = $value;
 	}
 	$searchkey = dhtmlspecialchars($searchkey);
-
 } elseif($op == 'match') {
 	$content = $_POST['content'];
 	if (empty($content)) {
