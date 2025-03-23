@@ -83,7 +83,8 @@
 
 			<!--{if $_G['group']['allowposttag']}-->
 				<div id="extra_tag_c" class="exfm cl" style="display: none;">
-					<!--{template forum/tag_input}--> <a href="javascript:;" id="choosetag" class="xi2" onclick="showWindow(this.id, 'forum.php?mod=tag&op=match', 'get', 0)">提取标签</a>
+					<!--{template forum/tag_input}--> <a href="javascript:;" id="choosetag" class="xi2" onclick="showWindow(this.id, 'forum.php?mod=tag&op=match', 'get', 0)">提取标签</a> <button style="width:25px;background:#eee url(/static/image/editor/editor.gif) no-repeat -220px -120px;" onclick="ajaxget('/data/list.xml?', 'recent_tags', 'ajaxwaitid');this.remove();return false" class="pn">
+					</button>
 					<!--{eval $recent_use_tag = recent_use_tag($_G['fid']);}-->
 					<!--{if $recent_use_tag}-->
 						<p id="recent_tags" class="mtn">{lang recent_use_tag}&nbsp;
@@ -94,8 +95,6 @@
 							<!--{/loop}-->
 						</p>
 					<!--{/if}-->
-					<button style="width:25px;background:#eee url(/static/image/editor/editor.gif) no-repeat -220px -120px;" onclick="ajaxget('/data/list.xml?', 'recent_tags', 'ajaxwaitid');this.remove();return false" class="pn">
-					</button>
 				</div>
                 <script>showExtra('extra_tag')</script>
 			<!--{/if}-->

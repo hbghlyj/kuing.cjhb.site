@@ -94,6 +94,9 @@ function discuzcode($message, $smileyoff = false, $bbcodeoff = false, $htmlon = 
 	if($parsetype != 1 && !$bbcodeoff && $allowbbcode && (strpos($message, '[/code]') || strpos($message, '[/CODE]')) !== FALSE) {
 		$message = preg_replace_callback('/\s?\[code\](.+?)\[\/code\]\s?/is', 'discuzcode_callback_codedisp_1', $message);
 	}
+	if($parsetype != 1 && !$bbcodeoff && $allowbbcode && strpos($message, '[/asy]') !== FALSE) {
+		$message = preg_replace_callback("/\[asy\](.+?)\[\/asy\]/s", function ($matches) { return '[asy]'.rawurlencode($matches[1]).'[/asy]'; }, $message);
+	}
 
 	$msglower = strtolower($message);
 
