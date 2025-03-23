@@ -16,18 +16,6 @@ function show_tikz_window(tikz_code){
         document.body.append(tikz_window);
 }
 
-//这里原先的 tikz 部分已改写为 php 实现
-
-let asys = document.getElementsByTagName('asy');
-for (let item of asys) {
-    //var str = item.innerHTML.replace(/<br>/g, "").replace(/&nbsp;/g,' ').replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&");
-    item.innerHTML = item.innerHTML.replace(/&nbsp;/g,' ');
-    var str = item.textContent;
-    var str_for_show = encodeURI(str).replace(/\'/g,'’');
-    var str_for_link = encodeURIComponent(str);
-    item.innerHTML = '<div class="jiaz"></div><img src="/asy/?format=svg&code='+str_for_link+'" onclick="show_tikz_window(\''+str_for_show+'\');" onload="this.parentNode.classList.add(\'jiazed\');this.setAttribute(\'width\',this.width);this.parentNode.style.display=\'inline-block\';" />';
-}
-
 //===Html模式下用bbr免打br
 var bbrs=document.getElementsByTagName('bbr');
 for (let item of bbrs) {
