@@ -1,0 +1,420 @@
+	</div>
+<!--{if empty($topic) || ($topic[usefooter])}-->
+	<!--{eval $focusid = getfocus_rand($_G['basescript']);}-->
+	<!--{if $focusid !== null}-->
+		<!--{eval $focus = $_G['cache']['focus']['data'][$focusid];}-->
+		<!--{eval $focusnum = count($_G['setting']['focus'][$_G['basescript']]);}-->
+		<div class="focus" id="sitefocus">
+			<div class="bm">
+				<div class="bm_h cl">
+					<a href="javascript:;" onclick="setcookie('nofocus_$_G[basescript]', 1, $_G['cache']['focus']['cookie']*3600);$('sitefocus').style.display='none'" class="y" title="{lang close}">{lang close}</a>
+					<h2>
+						<!--{if $_G['cache']['focus']['title']}-->{$_G['cache']['focus']['title']}<!--{else}-->{lang focus_hottopics}<!--{/if}-->
+						<span id="focus_ctrl" class="fctrl"><img src="{IMGDIR}/pic_nv_prev.gif" alt="{lang footer_previous}" title="{lang footer_previous}" id="focusprev" class="cur1" onclick="showfocus('prev');" /> <em><span id="focuscur"></span>/$focusnum</em> <img src="{IMGDIR}/pic_nv_next.gif" alt="{lang footer_next}" title="{lang footer_next}" id="focusnext" class="cur1" onclick="showfocus('next')" /></span>
+					</h2>
+				</div>
+				<div class="bm_c" id="focus_con">
+				</div>
+			</div>
+		</div>
+		<!--{eval $focusi = 0;}-->
+		<!--{loop $_G['setting']['focus'][$_G[basescript]] $id}-->
+				<div class="bm_c" style="display: none" id="focus_$focusi">
+					<dl class="xld cl bbda">
+						<dt><a href="{$_G['cache']['focus']['data'][$id]['url']}" class="xi2" target="_blank">$_G['cache']['focus']['data'][$id]['subject']</a></dt>
+						<!--{if $_G['cache']['focus']['data'][$id][image]}-->
+						<dd class="m"><a href="{$_G['cache']['focus']['data'][$id]['url']}" target="_blank"><img src="{$_G['cache']['focus']['data'][$id]['image']}" alt="$_G['cache']['focus']['data'][$id]['subject']" /></a></dd>
+						<!--{/if}-->
+						<dd>$_G['cache']['focus']['data'][$id]['summary']</dd>
+					</dl>
+					<p class="ptn cl"><a href="{$_G['cache']['focus']['data'][$id]['url']}" class="xi2 y" target="_blank">{lang focus_show} &raquo;</a></p>
+				</div>
+		<!--{eval $focusi ++;}-->
+		<!--{/loop}-->
+		<script type="text/javascript">
+			var focusnum = $focusnum;
+			if(focusnum < 2) {
+				$('focus_ctrl').style.display = 'none';
+			}
+			if(!$('focuscur').innerHTML) {
+				var randomnum = parseInt(Math.round(Math.random() * focusnum));
+				$('focuscur').innerHTML = Math.max(1, randomnum);
+			}
+			showfocus();
+			var focusautoshow = window.setInterval('showfocus(\'next\', 1);', 5000);
+		</script>
+	<!--{/if}-->
+
+	<!--{ad/footerbanner/wp cgb/1}--><!--{ad/footerbanner/wp/2}--><!--{ad/footerbanner/wp/3}-->
+	<!--{ad/float/a_fl/1}--><!--{ad/float/a_fr/2}-->
+	<!--{ad/couplebanner/a_fl a_cb/1}--><!--{ad/couplebanner/a_fr a_cb/2}-->
+	<!--{ad/cornerbanner/a_cn}-->
+
+	<!--{hook/global_footer}-->
+	<!--{if in_array(CURMODULE, array('post','forumdisplay', 'viewthread')) && in_array($_G[fid], array(5,6,7,14))}-->
+	<div class="wp" id="cgb">
+	<style>
+	#inputWrap{background:#f8f8f5;float:left;width:40%;position:sticky;top:30px;text-align:center;}
+	#inputText{background:#f8f8f5;border:solid 6px #e8ece6;padding:6px;width:100%;box-sizing:border-box;display:block;}
+	#outputWrap{background:#f8f8f5;float:right;width:60%;}
+	#output{border:solid 6px #e8ece6;padding:6px;text-align:left;box-sizing:border-box;white-space:pre-wrap;}
+	.anniu{/*font-family:Tahoma,Verdana,Helvetica,Arial,sans-serif;*/white-space:nowrap;min-width:30px;}
+	::-webkit-input-placeholder{color:darkgray}
+	::-moz-placeholder{color:darkgray}
+	</style>
+	
+	<div id="inputWrap">
+	<textarea id="inputText" rows="13" placeholder="在此处输入 LaTeX 代码及文字，右边即时预览。
+	
+	大家可以用来打草稿或者调试代码。
+	
+	详尽的代码列表及输入说明请见置顶帖。">
+	</textarea>
+	</div>
+	
+	<div id="outputWrap">
+	<div id="output"></div>
+	</div>
+	
+	<div style="clear:both"></div>
+	
+	<script>
+	//mathjax3预览
+	let promise = Promise.resolve();
+	const mathArea = document.getElementById("output");
+	const input = document.getElementById("inputText");
+	function doPreview() {
+		MathJax.texReset();
+		var ltx = input.value.replace(/</g,'&lt;').replace(/>/g,'&gt;')
+							.replace(/(\\\]|\\end\{align\*?\}|\\end\{gather\*?\}|\\end\{equation\*?\}|\$\$) *\n/g,'$1')
+							;
+		promise = promise.then(() => mathArea.innerHTML=ltx)
+						.then(() => MathJax.typesetPromise([mathArea]))
+						.catch((err) => console.log('Typeset failed: ' + err.message));
+	}
+	
+	window.onload = doPreview;
+	input.oninput = doPreview;
+	
+	//按钮
+	var ctrls = [
+		{ "n":"暂停预览" , "o":"ylqh();this.innerHTML=yln;" },
+		{ "n":"清空" , "o":"tmp_input=input.value;clearinputText('')" },
+		{ "n":"示例" , "o":"tmp_input=input.value;clearinputText(shili)" },
+		{ "n":"撤销一下" , "o":"input.value=tmp_input;input.oninput()" },
+		//{ "n":"复制代码" , "o":"input.select();document.execCommand('Copy');" }
+		{ "n":"<span style='color:blue;'>加入编辑框</span>" , "o":"fangru()" }
+	];
+	var ltxans = [
+		{ "o":"cha2('$ ',' $')" , "n":"行内公式" },
+		{ "o":"cha2('\\\\[ ',' \\\\]')" , "n":"行间公式" },
+		{ "o":"cha2('\\\\frac{','}{}',2)" , "n":"分式" },
+		{ "o":"cha2('\\\\dfrac{','}{}',2)" , "n":"d分式" },
+		{ "o":"cha2('\\\\sqrt{','}')" , "n":"√▔" },
+		{ "o":"cha2('\\\\sqrt[]{','}',-2,-2)" , "n":"<sup style='margin-right:-6px;line-height:14px;'>□</sup>√▔" },
+		{ "o":"cha('\\\\geqslant ')" , "n":"⩾" },
+		{ "o":"cha('\\\\leqslant ')" , "n":"⩽" },
+		{ "o":"cha('\\\\times ')" , "n":"×" },
+		{ "o":"cha('\\\\cdot ')" , "n":"·" },
+		{ "o":"cha('\\\\cdots ')" , "n":"…" },
+		{ "o":"cha('\\\\approx ')" , "n":"≈" },
+		{ "o":"cha('\\\\equiv ')" , "n":"≡" },
+		{ "o":"cha2('\\\\pmod{','}')" , "n":"(mod )" },
+		{ "o":"cha2('\\\\lim_{x\\\\to ','}')" , "n":"lim<sub style='line-height:12px;'>x→</sub>" },
+		{ "o":"cha('\\\\infty ')" , "n":"∞" },
+		{ "o":"cha2('\\\\int ','\\\\rmd x')" , "n":"∫ dx" },
+		{ "o":"cha('\\\\log')" , "n":"log" },
+		{ "o":"cha('\\\\ln ')" , "n":"ln" },
+		{ "o":"cha('\\\\sin ')" , "n":"sin" },
+		{ "o":"cha('\\\\cos ')" , "n":"cos" },
+		{ "o":"cha('\\\\tan ')" , "n":"tan" },
+		{ "o":"cha('\\\\alpha ')" , "n":"α" },
+		{ "o":"cha('\\\\beta ')" , "n":"β" },
+		{ "o":"cha('\\\\gamma ')" , "n":"γ" },
+		{ "o":"cha('\\\\theta ')" , "n":"θ" },
+		{ "o":"cha('\\\\lambda ')" , "n":"λ" },
+		{ "o":"cha('\\\\veps ')" , "n":"ε" },
+		{ "o":"cha('\\\\varphi ')" , "n":"φ" },
+		{ "o":"cha('\\\\omega ')" , "n":"ω" },
+		{ "o":"cha('\\\\Delta ')" , "n":"Δ<span style='font-size:12px;'>(判别式)</span>" },
+		{ "o":"cha('\\\\triangle ')" , "n":"△<span style='font-size:12px;'>(三角形)</span>" },
+		{ "o":"cha('\\\\odot ')" , "n":"⊙" },
+		{ "o":"cha('\\\\angle ')" , "n":"∠" },
+		{ "o":"cha('\\\\du ')" , "n":"°" },
+		{ "o":"cha('\\\\perp ')" , "n":"⊥" },
+		{ "o":"cha('\\\\px ')" , "n":"//" },
+		{ "o":"cha('\\\\sim ')" , "n":"~" },
+		{ "o":"cha('\\\\cong ')" , "n":"≌" },
+	//  { "o":"cha('\\\\pqd ')" , "n":"<sup style='margin-right:-10px;font-size:12px;'>//</sup><sub>=</sub>" },
+		{ "o":"cha('\\\\{a_n\\\\}')" , "n":"{a<sub style='line-height:12px;'>n</sub>}" },
+		{ "o":"cha2('\\\\vv{','}')" , "n":"箭头向量" },
+		{ "o":"cha2('\\\\bm{','}')" , "n":"粗体向量" }
+	];
+	var ltxenvans = [];
+	['align*','gather*','cases'].forEach(function(v) {
+		ltxenvans.push({ "o":"cha2('\\\\begin{"+v+"}\\n','\\n\\\\end{"+v+"}')" , "n":v });
+	});
+	// Windows 10, 11 has built-in emoji picker, hold the Windows key down and press either the period (.) or semicolon (;) key
+	if(navigator.userAgent.match(/Windows 7|Windows 8|Windows NT 6|Windows NT 10\.0.*?Chrome\/10[0-9]/)) {
+		ltxenvans.push({ "o":"show_emoji_window('#inputText')" , "n":"&#x1F603;" });
+	}
+	var iwrap = document.getElementById("inputWrap");
+	function addbt(annius) {
+		for(var i = 0; i < annius.length; i++){
+		var bt=document.createElement("button");
+		bt.type="button";
+		bt.className="anniu";
+		bt.setAttribute("onclick",annius[i].o);
+		bt.innerHTML=annius[i].n;
+		iwrap.appendChild(bt);
+		}
+		iwrap.appendChild(document.createElement("div"));
+	}
+	addbt(ctrls)
+	addbt(ltxans)
+	addbt(ltxenvans)
+	
+	
+	//预览切换
+	var yl=true;
+	var yln;
+	function ylqh() {
+		if (yl) {
+		input.oninput = "";
+		yl=false;
+		yln = "继续预览";
+		} else {
+		input.oninput = doPreview;
+		yl=true;
+		yln = "暂停预览";
+		doPreview()
+		}
+	}
+	
+	//输入区赋值
+	function clearinputText(str) {
+		input.value=str;
+		input.oninput()
+	}
+	
+	//放入编辑器框
+	function fangru() {
+		var kshftxta = document.getElementById("postmessage");
+		var gjmstxta = document.getElementById("e_textarea");
+		var hfan = document.getElementById("post_reply");
+		if (kshftxta) {
+		kshftxta.value += input.value;
+		kshftxta.focus();
+		} else if (gjmstxta) {
+		gjmstxta.value += input.value;
+		gjmstxta.focus();
+		} else if (hfan) {
+		alert("请先点出回帖框，再点加入")
+		} else {alert("找不到编辑框")}
+	}
+	
+	var tmp_input = "";//撤销用
+	var shili = `行内公式：$c=\\sqrt{a^2+b^2}$
+	行间公式：\\[c=\\sqrt{a^2+b^2}\\]
+	多行公式：align* 环境（在 & 处对齐）
+	\\begin{align*}
+	f(x)&=ax^2+bx+c\\\\
+	&=a(x-x_1)(x-x_2)\\\\
+	&=\\cdots
+	\\end{align*}`;
+	
+	//光标处插入文本1——用于插入无参数命令
+	function insertAtCursor(myField, myValue) {
+		if (myField.selectionStart || myField.selectionStart == '0') {
+			var startPos = myField.selectionStart;
+			var endPos = myField.selectionEnd;
+			// save scrollTop before insert
+			var restoreTop = myField.scrollTop;
+			myField.value = myField.value.substring(0, startPos) + myValue + myField.value.substring(endPos, myField.value.length);
+			myField.focus();
+			myField.scrollTop = restoreTop;
+			myField.selectionStart = startPos + myValue.length;
+			myField.selectionEnd = startPos + myValue.length;
+		} else {
+			myField.value += myValue;
+			myField.focus();
+		}
+	}
+	//光标处插入文本2——用于插入有参数命令
+	function insertAtCursor2(myField, va, vb, n, m) {
+		if (myField.selectionStart || myField.selectionStart == '0') {
+			var startPos = myField.selectionStart;
+			var endPos = myField.selectionEnd;
+			// save scrollTop before insert
+			var restoreTop = myField.scrollTop;
+			myField.value = myField.value.substring(0, startPos) + va + myField.value.substring(startPos, endPos) + vb + myField.value.substring(endPos, myField.value.length);
+			myField.focus();
+			myField.scrollTop = restoreTop;
+			if (startPos == endPos) {
+				myField.selectionStart = startPos + va.length + m;
+				myField.selectionEnd = startPos + va.length + m;
+			} else {
+				if (n == 0) {
+					myField.selectionStart = startPos;
+					myField.selectionEnd = endPos + va.length + vb.length;
+				} else if (n > 0) {
+					myField.selectionStart = endPos + va.length + n;
+					myField.selectionEnd = endPos + va.length + n;
+				} else {
+					myField.selectionStart = startPos + va.length + n;
+					myField.selectionEnd = startPos + va.length + n;
+				}
+			}
+		} else {
+			myField.value += va + vb;
+			myField.focus();
+		}
+	}
+	//在inputText插入文本
+	function cha(codes) {
+		tmp_input = input.value;
+		insertAtCursor(input, codes);
+		input.oninput()
+	}
+	function cha2(va, vb, n, m) {
+		var n = arguments[2] ? arguments[2] : 0; //参数默认值为0
+		var m = arguments[3] ? arguments[3] : 0;
+		tmp_input = input.value;
+		insertAtCursor2(input, va, vb, n, m);
+		input.oninput()
+	}
+	
+	document.getElementById("output").style.minHeight = document.getElementById("inputWrap").offsetHeight + "px";
+	
+	if (navigator.userAgent.match(/Windows 7|Windows 8|Windows NT 6|Windows NT 10\.0.*?Chrome\/10[0-9]/)&&typeof(show_emoji_window) !== "function") { 
+		var tmpjs = document.createElement('script');
+		tmpjs.src = 'kk/emoji.js';
+		document.body.appendChild(tmpjs);
+	}
+	</script>
+	</div>
+	<!--{/if}-->
+	<div id="ft" class="wp cl">
+		<div id="flk" class="y">
+			<p>
+				<!--{if !empty($_G['setting']['site_qq'])}--><a href="//wpa.qq.com/msgrd?v=3&uin=$_G['setting']['site_qq']&site=$_G['setting']['bbname']&menu=yes&from=discuz" target="_blank" title="QQ"><img src="{IMGDIR}/site_qq.jpg" alt="QQ" /></a><span class="pipe">|</span><!--{/if}-->
+				<!--{loop $_G['setting']['footernavs'] $nav}--><!--{if is_array($nav) && $nav['available'] && ($nav['type'] && (!$nav['level'] || ($nav['level'] == 1 && $_G['uid']) || ($nav['level'] == 2 && $_G['adminid'] > 0) || ($nav['level'] == 3 && $_G['adminid'] == 1)) ||
+						!$nav['type'] && ($nav['id'] == 'stat' && $_G['group']['allowstatdata'] || $nav['id'] == 'report' && $_G['uid'] || $nav['id'] == 'archiver' || $nav['id'] == 'mobile' || $nav['id'] == 'darkroom'))}-->$nav[code]<span class="pipe">|</span><!--{/if}--><!--{/loop}-->
+						<strong><a href="$_G['setting']['siteurl']" target="_blank"><!--{if DISCUZ_LANG == 'EN/'}-->Leisure Math Forum<!--{else}-->$_G['setting']['bbname']<!--{/if}--></a></strong>
+				<!--{if $_G['setting']['icp'] || !empty($_G['setting']['mps'])}-->( <!--{if $_G['setting']['icp']}--><a href="https://beian.miit.gov.cn/" target="_blank">$_G['setting']['icp']</a><!--{/if}--><!--{if !empty($_G['setting']['mps'])}--><!--{if $_G['setting']['icp']}--><span class="pipe">|</span><!--{/if}--><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=$_G['setting']['mpsid']" target="_blank"><img width="14" height="14" src="{IMGDIR}/ico_mps.png" />$_G['setting']['mps']</a><!--{/if}--> )<!--{/if}-->
+				<!--{hook/global_footerlink}-->
+				<!--{if $_G['setting']['statcode']}-->$_G['setting']['statcode']<!--{/if}-->
+			</p>
+			<p class="xs0">
+				{lang time_now}
+				<span id="debuginfo">
+				<!--{if debuginfo()}-->, Processed in $_G[debuginfo][time] second(s), $_G[debuginfo][queries] queries
+					<!--{if $_G['gzipcompress']}-->, Gzip On<!--{/if}--><!--{if C::memory()->type}-->, <!--{echo C::memory()->type}--> On<!--{/if}-->.
+				<!--{/if}-->
+				</span>
+			</p>
+		</div>
+ 		<div id="frt">
+ 			<p>Powered by <strong><a href="https://www.discuz.vip/" target="_blank">Discuz!</a></strong></p>
+ 		</div>
+		<!--{eval updatesession();}-->
+		<!--{if $_G['uid'] && $_G['group']['allowinvisible']}-->
+			<script type="text/javascript">
+			var invisiblestatus = '<!--{if $_G['session']['invisible']}-->{lang login_invisible_mode}<!--{else}-->{lang login_normal_mode}<!--{/if}-->';
+			var loginstatusobj = $('loginstatusid');
+			if(loginstatusobj != undefined && loginstatusobj != null) loginstatusobj.innerHTML = invisiblestatus;
+			</script>
+		<!--{/if}-->
+	</div>
+<!--{/if}-->
+
+<!--{if !$_G['setting']['bbclosed'] && empty($_G['member']['freeze'] && $_G['member']['groupid'] != 5)}-->
+	<!--{if $_G[uid] && !isset($_G['cookie']['checkpm'])}-->
+	<script type="text/javascript" src="home.php?mod=spacecp&ac=pm&op=checknewpm&rand=$_G[timestamp]"></script>
+	<!--{/if}-->
+
+	<!--{if $_G[uid] && helper_access::check_module('follow') && !isset($_G['cookie']['checkfollow'])}-->
+	<script type="text/javascript" src="home.php?mod=spacecp&ac=follow&op=checkfeed&rand=$_G[timestamp]"></script>
+	<!--{/if}-->
+
+	<!--{if !isset($_G['cookie']['sendmail'])}-->
+	<script type="text/javascript" src="home.php?mod=misc&ac=sendmail&rand=$_G[timestamp]"></script>
+	<!--{/if}-->
+	
+<!--{/if}-->
+
+<!--{if $_GET['diy'] == 'yes'}-->
+	<!--{if check_diy_perm($topic) && (empty($do) || $do != 'index')}-->
+		<script type="text/javascript" src="{$_G[setting][jspath]}common_diy.js?{VERHASH}"></script>
+		<script type="text/javascript" src="{$_G[setting][jspath]}portal_diy{if !check_diy_perm($topic, 'layout')}_data{/if}.js?{VERHASH}"></script>
+	<!--{/if}-->
+	<!--{if $space['self'] && CURMODULE == 'space' && $do == 'index'}-->
+		<script type="text/javascript" src="{$_G[setting][jspath]}common_diy.js?{VERHASH}"></script>
+		<script type="text/javascript" src="{$_G[setting][jspath]}space_diy.js?{VERHASH}"></script>
+	<!--{/if}-->
+<!--{/if}-->
+<!--{if $_G['uid'] && $_G['member']['allowadmincp'] == 1 && empty($_G['cookie']['pluginnotice'])}-->
+	<div class="focus plugin" id="plugin_notice"></div>
+	<script type="text/javascript">pluginNotice();</script>
+<!--{/if}-->
+<!--{if !$_G['setting']['bbclosed'] && empty($_G['member']['freeze']) && $_G['member']['groupid'] != 5 && (empty($_G['setting']['disableipnotice']) || $_G['setting']['disableipnotice'] != 1) && $_G['uid'] && !empty($_G['cookie']['lip'])}-->
+	<div class="focus plugin" id="ip_notice"></div>
+	<script type="text/javascript">ipNotice();</script>
+<!--{/if}-->
+<!--{if !empty($_G['member']['newprompt']) && (empty($_G['cookie']['promptstate_'.$_G[uid]]) || $_G['cookie']['promptstate_'.$_G[uid]] != $_G['member']['newprompt']) && $_GET['do'] != 'notice' && empty($_G['member']['freeze']) && $_G['member']['groupid'] != 5}-->
+	<!-- <script type="text/javascript">noticeTitle();</script> -->
+<!--{/if}-->
+
+<!--{if (!empty($_G[member][newpm]) || !empty($_G[member][newprompt])) && empty($_G['cookie']['ignore_notice']) && empty($_G['member']['freeze']) && $_G['member']['groupid'] != 5}-->
+	<script type="text/javascript" src="{$_G[setting][jspath]}html5notification.js?{VERHASH}"></script>
+	<script type="text/javascript">
+	var h5n = new Html5notification();
+	if(h5n.issupport()) {
+		<!--{if $_G[member][newpm] && $_GET[do] != 'pm'}-->
+		h5n.shownotification('pm', '$_G[siteurl]home.php?mod=space&do=pm', '<!--{avatar($_G['uid'], 'small', true)}-->', '{lang newpm_subject}', '{lang newpm_notice_info}');
+		<!--{/if}-->
+		<!--{if $_G[member][newprompt] && $_GET[do] != 'notice'}-->
+				<!--{loop $_G['member']['category_num'] $key $val}-->
+					<!--{eval $noticetitle = lang('template', 'notice_'.$key);}-->
+					h5n.shownotification('notice_$key', '$_G[siteurl]home.php?mod=space&do=notice&view=$key', '<!--{avatar($_G['uid'], 'small', true)}-->', '$noticetitle ($val)', '{lang newnotice_notice_info}');
+				<!--{/loop}-->
+		<!--{/if}-->
+	}
+	</script>
+<!--{/if}-->
+
+<div id="scrolltop">
+    <a onclick="this.parentNode.style.display='none';" style="height:2ex; line-height:2ex; padding:0 5px;">×</a>
+	<!--{if $_G[fid] && $_G['mod'] == 'viewthread'}-->
+	<span><a href="forum.php?mod=post&action=reply&fid=$_G[fid]&tid=$_G[tid]&extra=$_GET[extra]&page=$page{if $_GET[from]}&from=$_GET[from]{/if}" onclick="showWindow('reply', this.href)" class="replyfast" title="{lang fastreply}"><b>{lang fastreply}</b></a></span>
+	<!--{/if}-->
+	<span hidefocus="true"><a title="{lang scrolltop}" onclick="window.scrollTo('0','0')" class="scrolltopa" ><b>{lang scrolltop}</b></a></span>
+	<!--{if $_G[fid]}-->
+	<span>
+		<!--{if $_G['mod'] == 'viewthread'}-->
+		<a href="forum.php?mod=forumdisplay&fid=$_G[fid]" hidefocus="true" class="returnlist" title="{lang return_list}"><b>{lang return_list}</b></a>
+		<!--{else}-->
+		<a href="forum.php" hidefocus="true" class="returnboard" title="{lang return_forum}"><b>{lang return_forum}</b></a>
+		<!--{/if}-->
+	</span>
+	<!--{/if}-->
+</div>
+<script type="text/javascript">_attachEvent(window, 'scroll', function () { showTopLink(); });checkBlind();</script>
+<!--{if isset($_G['makehtml'])}-->
+	<script type="text/javascript" src="{$_G[setting][jspath]}html2dynamic.js?{VERHASH}"></script>
+	<script type="text/javascript">
+		var html_lostmodify = {TIMESTAMP};
+		htmlGetUserStatus();
+		<!--{if isset($_G['htmlcheckupdate'])}-->
+		htmlCheckUpdate();
+		<!--{/if}-->
+	</script>
+<!--{/if}-->
+<!--{eval output();}-->
+<link href="/chat/pusher-chat-widget.css?{VERHASH}" rel="stylesheet" />
+<style>.pusher-chat-widget{bottom:5px;right:5px;z-index:10000;position:fixed;width:300px;}.pusher-chat-widget ul.activity-stream{max-height:400px;}</style>
+<script src="{STATICURL}js/mobile/jquery.min.js"></script><script>jQuery.noConflict();</script>
+<script src="/chat/pusher.min.js"></script>
+<script src="/chat/PusherChatWidget.js?{VERHASH}"></script>
+</body>
+</html>
