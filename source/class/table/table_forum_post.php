@@ -293,15 +293,15 @@ class table_forum_post extends discuz_table
 		}
 		if($forum_pagebydesc) {
 			if($ordertype != 1) {
-				$return['orderby'] = 'ORDER BY '.$alias.'dateline DESC';
+				$return['orderby'] = 'ORDER BY '.$alias.'position DESC';
 			} else {
-				$return['orderby'] = 'ORDER BY '.$alias.'dateline ASC';
+				$return['orderby'] = 'ORDER BY '.$alias.'position ASC';
 			}
 		} else {
 			if($ordertype != 1) {
-				$return['orderby'] = 'ORDER BY '.$alias.'dateline';
+				$return['orderby'] = 'ORDER BY '.$alias.'position';
 			} else {
-				$return['orderby'] = 'ORDER BY '.$alias.'dateline DESC';
+				$return['orderby'] = 'ORDER BY '.$alias.'position DESC';
 			}
 		}
 		return $return;
