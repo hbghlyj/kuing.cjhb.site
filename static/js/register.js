@@ -242,7 +242,6 @@ function emailMenu(e, id) {
 		menu.id = 'emailmore_menu';
 		menu.style.display = 'none';
 		menu.className = 'p_pop';
-		menu.setAttribute('disautofocus', true);
 		$('append_parent').appendChild(menu);
 	}
 	var s = '<ul>';
