@@ -37,7 +37,8 @@ if($op == 'search') {
 <root><![CDATA[<h3 class="flb">
 <em>提取标签</em>
 <span><a href="javascript:;" onclick="hideWindow(\'choosetag\');" class="flbc" title="关闭">关闭</a></span></h3>
-	<textarea id="content" style="margin:5px" rows="5" cols="20"></textarea>
+	<textarea id="content" rows="4" style="width:-webkit-fill-available;margin:5px"></textarea>
+	<div id="taglistarea" style="padding: 0 5px;width: 400px;"></div>
 	<p class="o pns">
 		<button onclick="
 		let formData = new FormData();
@@ -50,16 +51,29 @@ if($op == 'search') {
 		.then(data => {
 			const tags = data.split(\',\');
 			tags.forEach(tag => {
-					addKeyword(tag);
+				const a = document.createElement(\'a\');
+				a.className = \'xi2\';
+				a.innerHTML = tag;
+				a.onclick = function() {
+					if(this.className == \'xi2\') {
+						addKeyword(tag);
+						doane();
+						this.className += \' marked\';
+					}
+				};
+				document.querySelector(\'div#taglistarea\').appendChild(a);
+				a.insertAdjacentHTML(\'afterend\', \', \');
 			});
 		})
 		.catch(error => console.error(\'Error:\', error));" class="pn pnc"><em>提取</em></button>
-	</p>]]></root>';
+	</p>
+	<script>document.querySelector(\'textarea#content\').value = $(\'subject\').value+\'\\n\'+textobj.value;</script>
+	]]></root>';
 	}
 	else {
 		$taglist = DB::fetch_all("SELECT t.tagName
 			FROM " . DB::table("common_tag") . " t
-			WHERE %s LIKE CONCAT(%s, t.tagName, %s)", array($content,'%', '%'));
+			WHERE %s LIKE CONCAT(%s, t.tagName, %s) LIMIT 5", array($content,'%', '%'));
 		echo implode(',', array_column($taglist, 'tagName'));
 	}
 	exit;
