@@ -84,7 +84,7 @@ class SearchForm extends MakeupForm
                     
                     if(!empty($found)) { return implode($found); }
         } else {
-            header('location:'.BASE_URL);
+            header('Location:/doc.php');
             exit;
         } 
     }

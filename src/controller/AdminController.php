@@ -24,30 +24,6 @@ class AdminController extends BaseController
 		$this->view->load('Admin','admin/settings.php', ['newAppVersion' => $newAppVersion]);
 	}
 
-	public function updatePassword()
-	{
-		$form = $this->updatePasswordForm->create();
-		$this->view->load('Update Password','admin/update_password.php', ['form' => $form]);
-	}
-
-	public function updateEmail()
-	{
-		$form = $this->updateEmailForm->create();
-		$this->view->load('Update Email','admin/update_email.php', ['form' => $form]);
-	}
-
-	public function removeUser()
-	{
-		$form = $this->removeUserForm->create();
-		$this->view->load('Remove User','admin/remove_user.php', ['form' => $form]);
-	}
-		
-	public function addUser()
-	{
-		$form = $this->addUserForm->create();
-		$this->view->load('Add user','admin/add_user.php', ['form' => $form]);
-	}
-
 	public function backup()
 	{
 		$this->view->load('Backups','admin/backups.php');
