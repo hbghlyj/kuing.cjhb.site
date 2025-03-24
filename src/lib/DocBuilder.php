@@ -43,6 +43,9 @@ class DocBuilder
                 case 'title':
                     $option = $this->title($jsonVals['v1'],$jsonVals['v1']);
                     break;
+                case 'description':
+                    $option = $this->description($jsonVals['v1']);
+                    break;
                 case 'pathAdd':
                     $option = $this->pathAdd($jsonVals['v1']);
                     break;
@@ -100,6 +103,9 @@ class DocBuilder
         if (isset($values['options'])) {
             switch ($values['options']) {
                 case 'title':
+                    $option = ['key' => $values['options'], 'v1' => $values['option_content'], 'v2' => '', 'v3' => '', 'v4' => ''];
+                    break;
+                case 'description':
                     $option = ['key' => $values['options'], 'v1' => $values['option_content'], 'v2' => '', 'v3' => '', 'v4' => ''];
                     break;
                 case 'pathAdd':
@@ -178,11 +184,10 @@ class DocBuilder
 		}
 			
         $file = "<?php\n\n"
+                ."use DocPHT\Lib\DocPHT;\n\n"
                 .'$_SESSION'."['page_id'] = '".$id."';\n\n"
-                .'$html = new DocPHT\Lib\DocPHT(['.implode(',',$anchors)."]);\n"
-                .'$values'." = [\n".implode('', $values).'$html->addButton(),'."\n"."];\n"
-                .'$GLOBALS["page_author"]'." = '"
-                .$_SESSION['Username'].' '.$this->datetimeNow()."';";
+                .'$html = new DocPHT(['.implode(',',$anchors)."]);\n"
+                .'$values'." = [\n".implode('', $values).'$html->addButton(),'."\n"."];";
         
         if (!file_exists(pathinfo($path, PATHINFO_DIRNAME))) {
             mkdir(pathinfo($path, PATHINFO_DIRNAME), 0755, true);
@@ -393,6 +398,20 @@ class DocBuilder
     }
     
     /**
+     * description
+     *
+     * @param  string $val
+     *
+     * @return string
+     */
+    public function description($val)
+    {
+        $val = TextHelper::e($val);
+        $out = '$html->description'."('{$val}'), \n";
+        return $out; 
+    }
+    
+    /**
      * path
      *
      * @param  string $val
@@ -528,37 +547,11 @@ class DocBuilder
      */
     public function markdown($val)
     {
-        $identifier = $this->generateHeredocIdentifier($val);
-        $out = '$html->markdown(<<<' . "'$identifier'
-$val
-$identifier),\n";
+        $val = addcslashes($val,"\'");
+        $out = '$html->markdown'."('{$val}'), \n";
         return $out; 
     }
-
-    /**
-    * Generate a shortest identifier for a string to be used in a heredoc/nowdoc.
-    *
-    * @param string $string
-    * @return string
-    */
-    public function generateHeredocIdentifier(string $string): string
-    {
-        // Generate all possible identifiers starting with a non-digit character or underscore
-        $characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_';
-        $suffixCharacters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_';
-        $queue = str_split($characters);
     
-        while (!empty($queue)) {
-            $current = array_shift($queue);
-            if (!preg_match('/\b' . preg_quote($current, '/') . '\b/', $string)) {
-                return $current;
-            }
-            foreach (str_split($suffixCharacters) as $char) {
-                $queue[] = $current . $char;
-            }
-        }
-    }
-
     /**
      * markdownFile
      *
@@ -604,14 +597,15 @@ $identifier),\n";
     {
         return [
         'title' => T::trans('Add title'),
-    	'markdown' => T::trans('Add markdown'),
-    	'markdownFile' => T::trans('Add markdown from file'),
-    	'imageURL' => T::trans('Add image from url'),
-    	'blockquote' => T::trans('Add blockquote'),
-    	'image' => T::trans('Add image from file'),
+        'description' => T::trans('Add description'),
     	'pathAdd'  => T::trans('Add path'),
     	'codeInline' => T::trans('Add code inline'),
     	'codeFile' => T::trans('Add code from file'),
+    	'blockquote' => T::trans('Add blockquote'),
+    	'image' => T::trans('Add image from file'),
+    	'imageURL' => T::trans('Add image from url'),
+    	'markdown' => T::trans('Add markdown'),
+    	'markdownFile' => T::trans('Add markdown from file'),
     	'linkButton' => T::trans('Add link button')
     	];
     }

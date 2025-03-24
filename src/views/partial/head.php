@@ -5,9 +5,9 @@
     <base href="<?= BASE_URL ?>">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="public/assets/js/latex.js"></script>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title><?= $PageTitle ?></title>
+    <title><?= ucfirst(str_replace('-',' ',$PageTitle)) ?></title>
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="public/assets/css/bootstrap.min.css" >

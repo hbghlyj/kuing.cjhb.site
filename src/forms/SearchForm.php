@@ -44,7 +44,7 @@ class SearchForm extends MakeupForm
                                             'content' => '<div class="result-preview">
                                                     <a href="page/'.$this->pageModel->getSlug($id).'">
                                                         <h3 class="result-title">
-                                                            '.$this->pageModel->getTopic($id).' '.$this->pageModel->getFilename($id).'
+                                                            '.ucfirst(str_replace('-',' ', $this->pageModel->getTopic($id))).' '.str_replace('-',' ',$this->pageModel->getFilename($id)).'
                                                         </h3>
                                                         <p class="result-subtitle">
                                                             '.$value.'
@@ -58,9 +58,9 @@ class SearchForm extends MakeupForm
                                     } else if ($val['pages']['id'] == $id && $val['pages']['home'] === 1 && !isset($_SESSION['Active'])) {
                                     $found[] =  array(
                                             'content' => '<div class="result-preview">
-                                                    <a href="/doc.php">
+                                                    <a href="'.BASE_URL.'">
                                                         <h3 class="result-title">
-                                                            '.$this->pageModel->getTopic($id).' '.$this->pageModel->getFilename($id).'
+                                                            '.ucfirst(str_replace('-',' ', $this->pageModel->getTopic($id))).' '.str_replace('-',' ',$this->pageModel->getFilename($id)).'
                                                         </h3>
                                                         <p class="result-subtitle">
                                                             '.$value.'
@@ -84,7 +84,7 @@ class SearchForm extends MakeupForm
                     
                     if(!empty($found)) { return implode($found); }
         } else {
-            header('Location:/doc.php');
+            header('location:'.BASE_URL);
             exit;
         } 
     }

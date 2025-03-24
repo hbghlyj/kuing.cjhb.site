@@ -27,12 +27,13 @@ class LoginForm extends MakeupForm
 		$form = new Form;
 		$form->onRender[] = [$this, 'bootstrap4'];
 
-		$form->addText('Username', T::trans('Username'))
-			->setHtmlAttribute('placeholder', T::trans('Username'))
-			->setRequired(T::trans('Enter Username'));
+		$form->addEmail('Username', T::trans('Email'))
+			->setHtmlAttribute('placeholder', T::trans('Email'))
+			->setRequired(T::trans('Enter email'));
             
 		$form->addPassword('Password', T::trans('Password'))
 		    ->setHtmlAttribute('placeholder', T::trans('Password'))
+		    ->setHtmlAttribute('autocomplete','off')
 		    ->setRequired(T::trans('Enter password'));
         
         $form->addProtection(T::trans('Security token has expired, please submit the form again'));

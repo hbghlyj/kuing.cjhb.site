@@ -1,11 +1,15 @@
+@import "https://fonts.googleapis.com/css?family=Ubuntu:400,500";
 body {
-    font-family: 'Microsoft YaHei UI', 'Microsoft YaHei', sans-serif;
+    font-family: 'Ubuntu', sans-serif;
     background: #fafafa;
 }
 
 p {
+    font-family: 'Ubuntu', sans-serif;
     font-size: 1.1em;
+    font-weight: 300;
     line-height: 1.7em;
+    color: #303030;
 }
 
 a,
@@ -14,17 +18,6 @@ a:focus {
     color: inherit;
     text-decoration: none;
     transition: all 0.3s;
-}
-
-td.markdown-col a {
-    color: #007bff;
-}
-td.markdown-col a.new {
-    color: #80b700;
-}
-td.markdown-col a:hover,
-td.markdown-col a:focus {
-    text-decoration: underline;
 }
 
 .link {
@@ -159,14 +152,14 @@ i.fa.fa-arrows-v.sort {
 }
 
 .alert-success {
-    /* color: #ffffff;
-    background-color: #21bf06; */
+    color: #ffffff;
+    background-color: #21bf06;
     border-color: #21bf06;
 }
 
 .alert-danger {
-    /* color: #ffffff;
-    background-color: #dc3545; */
+    color: #ffffff;
+    background-color: #dc3545;
     border-color: #dc3545;
 }
 
@@ -208,7 +201,7 @@ i.fa.fa-arrows-v.sort {
 }
 
 .form-control-file::before {
-    font-family: sans-serif, FontAwesome;
+    font-family: 'Ubuntu', FontAwesome;
     content: '\f0ee \00a0 Select a file';
     display: inline-block;
     background: -webkit-linear-gradient(top, #f9f9f9, #ffffff);

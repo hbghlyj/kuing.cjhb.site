@@ -53,29 +53,74 @@ class AdminModel
             
         return $this->disconnect(self::USERS, $data);
     }
-
+    
     /**
-     * userExists
+     * verifyPassword
      *
-     * @param  string $user
-     * 
+     * @param  string $username
+     * @param  string $password
+     *
      * @return boolean
      */
-    public function userExists($user)
-    {
-        return in_array($user, $this->getUsernames());
-    }
- 
-    /**
-     * getUsernames
-     *
-     * @return array
-     */
-    public function getUsernames()
+    public function verifyPassword($username, $password)
     {
         $data = $this->connect();
-        $usernames = array_column($data, 'Username');        
-        return $usernames;
+        $key = array_search($username, array_column($data, 'Username'));
+        
+        return password_verify($password, $data[$key]['Password']);
+    }
+    
+    /**
+     * updatePassword
+     *
+     * @param  string $username
+     * @param  string $password
+     * 
+     * @return array
+     */
+    public function updatePassword($username, $password)
+    {
+        $data = $this->connect();
+        $key = array_search($username, array_column($data, 'Username'));
+        
+        $data[$key]['Password'] = password_hash($password, PASSWORD_DEFAULT);
+        
+        return $this->disconnect(self::USERS, $data);
+    }
+
+    /**
+     * updateEmail
+     *
+     * @param  string $username
+     * @param  string $email
+     *
+     * @return string
+     */
+    public function updateEmail($username, $email)
+    {
+        $data = $this->connect();
+        $key = array_search($username, array_column($data, 'Username'));
+        
+        $data[$key]['Username'] = $email;
+        
+        return $this->disconnect(self::USERS, $data);
+    }
+
+    /**
+     * randomPassword
+     *
+     * @return string
+     */
+    public function randomPassword() 
+    {
+        $alphabet = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
+        $pass = array();
+        $alphaLength = strlen($alphabet) - 1;
+        for ($i = 0; $i < 8; $i++) {
+            $n = rand(0, $alphaLength);
+            $pass[] = $alphabet[$n];
+        }
+        return implode($pass);
     }
 
     /**
@@ -125,6 +170,32 @@ class AdminModel
         array_splice($data, $userindex, 1); 
         
         return $this->disconnect(self::USERS, $data);
+    }
+
+    /**
+     * userExists
+     *
+     * @param  string $user
+     * 
+     * @return boolean
+     */
+    public function userExists($user)
+    {
+        return in_array($user, $this->getUsernames());
+    }
+
+    /**
+     * getUsernames
+     *
+     * @return array
+     */
+    public function getUsernames()
+    {
+        $data = $this->connect();
+
+        $usernames = array_column($data, 'Username');
+        
+        return $usernames;
     }
 
     /**
@@ -216,7 +287,7 @@ class AdminModel
      */
     public function disconnect($path, $data)
     {
-        return file_put_contents($path, json_encode($data,JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES));
+        return file_put_contents($path, json_encode($data));
     }
     
     /**
