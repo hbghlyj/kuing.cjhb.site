@@ -59,6 +59,7 @@
         'Creates a password hash' => '创建密码哈希',
         'Log in' => '登录',
         'Username' => '用户名',
+        'Password' => '密码',
         'Remember me' => '记住我',
         'or' => '或',
         'Warning! The data entered is incorrect.' => '警告！输入的数据不正确。',
