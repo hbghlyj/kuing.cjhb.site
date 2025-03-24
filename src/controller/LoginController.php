@@ -34,30 +34,33 @@ class LoginController extends BaseController
 
     public function checkLogin(string $username, string $password)
     {
-        $users = $this->adminModel->getUsers();
-        foreach ($users as $user) {
-            include 'config/config_global.php';
-            $table = $_config['db'][1]['tablepre'] . 'ucenter_members';
-            $conn = new \mysqli($_config['db'][1]['dbhost'], $_config['db'][1]['dbuser'], $_config['db'][1]['dbpw'], $_config['db'][1]['dbname']);
-            if ($conn->connect_error) {
-                die("Connection failed: " . $conn->connect_error);
+        $userExists = $this->adminModel->userExists($username);
+        include 'config/config_global.php';
+        $table = $_config['db'][1]['tablepre'] . 'ucenter_members';
+        $conn = new \mysqli($_config['db'][1]['dbhost'], $_config['db'][1]['dbuser'], $_config['db'][1]['dbpw'], $_config['db'][1]['dbname']);
+        if ($conn->connect_error) {
+            die("Connection failed: " . $conn->connect_error);
+        }
+        $stmt = $conn->prepare("SELECT password FROM $table WHERE username = ?");
+        $stmt->bind_param('s', $username);
+        $stmt->execute();
+        $stmt->bind_result($hash);
+        $stmt->fetch();
+        $stmt->close();
+        $conn->close();
+        if (password_verify($password,$hash)) {
+            session_regenerate_id(true);
+            $_SESSION['PREV_USERAGENT'] = $_SERVER['HTTP_USER_AGENT'];
+            $_SESSION['Username'] = $username;
+            $_SESSION['Active'] = true;
+            if(!$userExists) {
+                $this->adminModel->create(['username' => $username, 'password' => $password, 'translations' => (stripos($_SERVER['HTTP_ACCEPT_LANGUAGE'], 'zh') === false) ? 'en_EN' : 'zh_CN', 'admin' => false]);
             }
-            $stmt = $conn->prepare("SELECT password FROM $table WHERE username = ?");
-            $stmt->bind_param('s', $username);
-            $stmt->execute();
-            $stmt->bind_result($hash);
-            $stmt->fetch();
-            $stmt->close();
-            $conn->close();
-            if (password_verify($password,$hash)) {
-                session_regenerate_id(true);
-                $_SESSION['PREV_USERAGENT'] = $_SERVER['HTTP_USER_AGENT'];
-                $_SESSION['Username'] = $username;
-                $_SESSION['Active'] = true;
-                return true;
-            } else {
-                return false;
-            }
+            $accesslog = $this->accessLogModel->create($username);
+            return true;
+        } else {
+            $accesslog = $this->accessLogModel->create($username);
+            return false;
         }
     }
 
