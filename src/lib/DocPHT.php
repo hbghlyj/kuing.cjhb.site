@@ -12,64 +12,11 @@
  */
 
 namespace DocPHT\Lib;
-use \Izadori\ParsedownPlus\ParsedownPlus;
+
+use ParsedownCheckbox;
+use Emojione\Client;
+use Emojione\Ruleset;
 use DocPHT\Core\Translator\T;
-
-class MediaWikiParsedown extends ParsedownPlus
-{
-    public function __construct()
-    {
-        parent::__construct();
-        $this->InlineTypes['['][] = 'MediaWikiUrl';
-    }
-    protected $inlineMarkerList = '!*_&[:<`~\\';
-
-    protected function inlineMediaWikiUrl($Excerpt)
-    {
-        if (preg_match('/^\[\[([^\s#\]]+)([^\s\]]*)\]\]/', $Excerpt['text'], $matches))
-        {
-            $filename = $matches[1];
-            $requestUriParts = explode('/', $_SERVER['REQUEST_URI']);
-            end($requestUriParts);
-            $topic = urldecode(prev($requestUriParts));
-            $newPage = !file_exists('pages/' . $topic . '/' . $filename . '.php');
-            if ($newPage) { // search in all topics for the closest match
-                $closestTopic = null;
-                $shortestDistance = PHP_INT_MAX;
-
-                foreach (glob('pages/*/' . $filename . '.php') as $filePath) {
-                    $dirName = basename(dirname($filePath));
-                    $distance = levenshtein($topic, $dirName);
-
-                    if ($distance < $shortestDistance) {
-                        $shortestDistance = $distance;
-                        $closestTopic = $dirName;
-                    }
-                }
-
-                if ($closestTopic !== null) {
-                    $topic = $closestTopic;
-                    $newPage = false;
-                }
-            } else {
-                $closestTopic = $topic;
-            }
-            $url = $newPage ? '/page/create?mainfilename=' . urlencode($filename) : '/page/' . $closestTopic . '/' . $filename;
-            $Inline = array(
-                'extent' => strlen($matches[0]),
-                'element' => array(
-                    'name' => 'a',
-                    'text' => $filename,
-                    'attributes' => array(
-                        'href' => $url,
-                        'class' => $newPage ? 'new' : '',
-                    ),
-                ),
-            );
-            return $Inline;
-        }
-    }
-}
 
 class DocPHT {
 
@@ -95,6 +42,8 @@ class DocPHT {
      */
     public function title(string $title, string $anchorLinkID = null)
     {
+       $client = new Client(new Ruleset());
+       $title = $client->shortnameToUnicode($title);
        if (isset($anchorLinkID)) {
         return '<tr>'. ((isset($_SESSION['Active'])) ? '<td class="handle"><i class="fa fa-arrows-v sort"></i></td>' : '') . '<td><h2 class="mt-3 mb-3" id="'.$anchorLinkID.'">'.$title.' '.$this->insertBeforeButton().$this->removeButton().$this->modifyButton().$this->insertAfterButton().'</h2></td></tr>';
        } 
@@ -111,6 +60,8 @@ class DocPHT {
      */
     public function anchorLinks(array $anchorLinks = null)
     {
+        $client = new Client(new Ruleset());
+        
         if (isset($anchorLinks)) {
             echo '<nav class="navbar navbar-expand-lg navbar-light bg-light">
                     <div class="container-fluid">
@@ -125,7 +76,7 @@ class DocPHT {
                         <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="nav navbar-nav ml-auto">
                             '; foreach ($anchorLinks as $value) {
-                                $title = $value;
+                                $title = $client->shortnameToImage(ucfirst(str_replace('-',' ',$value)));
                                 echo '<li class="nav-item">
                                             <a class="nav-link" href="'.$_SERVER['REQUEST_URI'].'#'.$value.'">'.$title.'</a>
                                       </li>';
@@ -152,6 +103,20 @@ class DocPHT {
     }
 
     /**
+     * description
+     *
+     * @param  string $description
+     *
+     * @return string
+     */
+    public function description(string $description)
+    {
+       $client = new Client(new Ruleset());
+       $description = $client->shortnameToUnicode(nl2br($description));
+       return '<tr>'. ((isset($_SESSION['Active'])) ? '<td class="handle"><i class="fa fa-arrows-v sort"></i></td>' : '') . '<td><p>'.$description.' '.$this->insertBeforeButton().$this->removeButton().$this->modifyButton().$this->insertAfterButton().'</p></td></tr>';
+    }
+
+    /**
      * blockquote
      *
      * @param  string $blockquote
@@ -160,7 +125,8 @@ class DocPHT {
      */
     public function blockquote(string $blockquote)
     {
-       $blockquote = nl2br($blockquote);
+       $client = new Client(new Ruleset());
+       $blockquote = $client->shortnameToUnicode(nl2br($blockquote));
        return '<tr>'. ((isset($_SESSION['Active'])) ? '<td class="handle"><i class="fa fa-arrows-v sort"></i></td>' : '') . '<td><blockquote>'.$blockquote.' '.$this->insertBeforeButton().$this->removeButton().$this->modifyButton().$this->insertAfterButton().'</blockquote></td></tr>';
     }
 
@@ -253,6 +219,8 @@ class DocPHT {
      */
     public function linkButton(string $url, string $title, $target = false)
     {
+        $client = new Client(new Ruleset());
+        $title = $client->shortnameToUnicode($title);
         $setTarget = ($target) ? 'target="_blank"' : '' ;
         return '<tr>'. ((isset($_SESSION['Active'])) ? '<td class="handle"><i class="fa fa-arrows-v sort"></i></td>' : '') . '<td><span class="spinner-grow spinner-grow-sm text-secondary"></span><a href="'.$url.'" '.$setTarget.' class="link" role="button">'.$title.'</a>'.$this->insertBeforeButton().$this->removeButton().$this->modifyButton().$this->insertAfterButton().'</td></tr>';
     }
@@ -266,9 +234,10 @@ class DocPHT {
      */
     public function markdown(string $text)
     {
-        $Parsedown = new MediaWikiParsedown();
+        $Parsedown = new ParsedownCheckbox();
+        $client = new Client(new Ruleset());
         $markdown = '<tr>'. ((isset($_SESSION['Active'])) ? '<td class="handle"><i class="fa fa-arrows-v sort"></i></td>' : '') . '<td class="markdown-col">';
-        $markdown .= $Parsedown->text($text);
+        $markdown .= $Parsedown->text($client->shortnameToUnicode($text));
         $markdown .= $this->insertBeforeButton().$this->removeButton().$this->modifyButton().$this->insertAfterButton().'</td></tr>';
         return $markdown;
     }
@@ -282,9 +251,10 @@ class DocPHT {
      */
     public function markdownFile(string $filePath)
     {   
-        $Parsedown = new MediaWikiParsedown();
+        $Parsedown = new ParsedownCheckbox();
+        $client = new Client(new Ruleset());
         $markdown = '<tr>'. ((isset($_SESSION['Active'])) ? '<td class="handle"><i class="fa fa-arrows-v sort"></i></td>' : '') . '<td class="markdown-col">';
-        $markdown .= $Parsedown->text(file_get_contents('Data/'.$filePath));
+        $markdown .= $Parsedown->text($client->shortnameToUnicode(file_get_contents('Data/'.$filePath)));
         $markdown .= $this->insertBeforeButton().$this->removeButton().$this->modifyButton().$this->insertAfterButton().'</td></tr>';
         return $markdown;
     }

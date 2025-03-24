@@ -3,17 +3,17 @@
             <div class="sidebar-header text-center">
             <?php 
                 if (file_exists('Data/logo.png')) {
-                    echo '<a href="/doc.php"><img id="logo" src="Data/logo.png?'.time().'" alt="logo" class="img-fluid"></a>';
+                    echo '<a href="'.BASE_URL.'"><img id="logo" src="Data/logo.png?'.time().'" alt="logo" class="img-fluid"></a>';
                 } elseif (TITLE == 'DocPHT') {
-                    echo '<a href="/doc.php"><h3>'.TITLE.' <i class="fa fa-code" aria-hidden="true"></i></h3></a>';
+                    echo '<a href="'.BASE_URL.'"><h3>'.TITLE.' <i class="fa fa-code" aria-hidden="true"></i></h3></a>';
                 } elseif (TITLE != 'DocPHT') {
-                    echo '<a href="/doc.php"><h3>'.TITLE.'</h3></a>';
+                    echo '<a href="'.BASE_URL.'"><h3>'.TITLE.'</h3></a>';
                 }
             ?>
             <hr>
             <?php 
                 if (isset($_SESSION['Active'])) {
-                    echo '<small><i class="fa fa-user" aria-hidden="true"></i> '.$_SESSION['Username'].'</small>';
+                    echo '<small><i class="fa fa-user" aria-hidden="true"></i> '.$t->trans('Welcome&nbsp;').strstr(ucfirst($_SESSION['Username']), '@', true).'</small>';
                 }
             ?>    
             </div>
@@ -29,15 +29,9 @@
                             <a href="login" id="sk-login" class="btn btn-outline-secondary btn-sm" role="button"><i class="fa fa-sign-in" aria-hidden="true"></i></a>
                         </li>';
                 }
-                
-                $url = "$_SERVER[REQUEST_URI]";
-                $parse = rawurldecode(parse_url($url)['path']);
-                $explode = explode('/', $parse);
-                $filenameURL = array_reverse($explode)[0];
-                $topicURL = array_reverse($explode)[1];
                 if (isset($_SESSION['Active'])) {
                     echo '<li class="list-inline-item" data-toggle="tooltip" data-placement="top" title="'.$t->trans("Create new page").'">
-                    <a href="page/create?topic='. $topicURL .'" id="sk-newPage" class="btn btn-outline-secondary btn-sm" role="button"><i class="fa fa-plus-square" aria-hidden="true"></i></a>
+                    <a href="page/create" id="sk-newPage" class="btn btn-outline-secondary btn-sm" role="button"><i class="fa fa-plus-square" aria-hidden="true"></i></a>
                     </li>';
                 }
                 if (isset($_SESSION['Active'])) {
@@ -56,20 +50,7 @@
             <div id="search">
                 <button type="button" class="close">×</button>
                 <form id="form-search" action="page/search" method="post">
-                    <input type="search" name="search" value="<?php $search; ?>" placeholder="<?= $t->trans('Type the keywords here'); ?>" autocomplete="off" required />
-                    <script>
-                        document.getElementById('form-search').search.addEventListener('input', function (event) {
-                            var input = event.target;
-                            var minLength = 5;
-                            var byteLength = new TextEncoder().encode(input.value).length;
-
-                            if (byteLength < minLength) {
-                                input.setCustomValidity('The input should be at least ' + minLength + ' bytes long.');
-                            } else {
-                                input.setCustomValidity('');
-                            }
-                        });
-                    </script>
+                    <input type="search" name="search" minlength="5" value="<?php $search; ?>" placeholder="<?= $t->trans('Type the keywords here'); ?>" autocomplete="off" required />
                 </form>
             </div>
 
@@ -84,19 +65,26 @@
 
 
         (isset($_SESSION['Active'])) ? $topics = $this->pageModel->getUniqTopics() : $topics = $this->pageModel->getUniqPublishedTopics();
+                
+        $url = "$_SERVER[REQUEST_URI]";
+        $parse = parse_url($url)['path'];
+        $explode = explode('/', $parse);
+        $filenameURL = array_reverse($explode)[0];
+        $topicURL = array_reverse($explode)[1];
 
         if (!is_null($topics)) {
             if (!empty($topics)) {
                 echo '<li>';
                 foreach ($topics as $topic) {
+                    $topicTitle = str_replace('-', ' ', $topic);
                         if (isset($topicURL) && $topicURL === $topic) {
-                            $active = 'menu-active';
+                        $active = 'menu-active';
                             $show = 'show';
                         } else {
                             $active = ''; 
                             $show = '';
                         }
-                    echo '<a href="#'.$topic.'-side-navigation" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle '.$active.' ">'. $topic .'</a>';
+                    echo '<a href="#'.$topic.'-side-navigation" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle '.$active.' ">'. ucfirst($topicTitle) .'</a>';
                     echo '<ul class="collapse list-unstyled '.$show.' " id="'.$topic.'-side-navigation">';
 
                     (isset($_SESSION['Active'])) ? $pages = $this->pageModel->getPagesByTopic($topic) : $pages = $this->pageModel->getPublishedPagesByTopic($topic);
@@ -110,14 +98,14 @@
                             }
                             if ($page['published'] === 1) {
                                 $filename = $page['filename']; 
-                                $filenameTitle = $page['filename'];
+                                $filenameTitle = str_replace('-', ' ', $page['filename']);
                                 $link = 'page/'.$page['slug'];
-                                echo '<li><a href="'.$link.'" '.$active.' >'.$filenameTitle.'</a></li>';
+                                echo '<li><a href="'.$link.'" '.$active.' >'.ucfirst($filenameTitle).'</a></li>';
                             } elseif ($page['published'] === 0 && isset($_SESSION['Active'])) {
                                 $filename = $page['filename']; 
-                                $filenameTitle = $page['filename'];
+                                $filenameTitle = str_replace('-', ' ', $page['filename']);
                                 $link = 'page/'.$page['slug'];
-                                echo '<li><a href="'.$link.'" '.$active.' >'.$filenameTitle.'</a></li>';
+                                echo '<li><a href="'.$link.'" '.$active.' >'.ucfirst($filenameTitle).'</a></li>';
                             }
                         }
                     }

@@ -61,7 +61,7 @@ class DeletePageForm extends MakeupForm
         
         if (!file_exists($uPath)) {
             $this->pageModel->remove($id);
-            header("Location:/doc.php");
+            header("Location: " . BASE_URL);
         }
     }
 

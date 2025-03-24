@@ -103,9 +103,9 @@ class PageModel
     {
         $data = $this->connect();
         $id = uniqid();
-        $topic = pathinfo($topic, PATHINFO_FILENAME);
-		$filename = pathinfo($filename, PATHINFO_FILENAME);
-        $slug = trim($topic) .'/'. trim($filename);
+        $topic = strtolower(str_replace(' ', '-', pathinfo($topic, PATHINFO_FILENAME) ));
+		$filename = strtolower(str_replace(' ', '-', pathinfo($filename, PATHINFO_FILENAME)));
+        $slug = preg_replace('/[^a-z0-9]+/i', '-', trim(strtolower($topic))) .'/'. preg_replace('/[^a-z0-9]+/i', '-', trim(strtolower($filename)));
 
         if (!is_null($data)) {
             
@@ -430,7 +430,7 @@ class PageModel
     {
         $path = $this->getJsonPath($id);
 
-        return file_put_contents($path, json_encode($data,JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES));
+        return file_put_contents($path, json_encode($data));
     }
     
     /**
@@ -550,7 +550,7 @@ class PageModel
      */
     public function disconnect($path, $data)
     {
-        return file_put_contents($path, json_encode($data,JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES));
+        return file_put_contents($path, json_encode($data));
     }
     
     /**

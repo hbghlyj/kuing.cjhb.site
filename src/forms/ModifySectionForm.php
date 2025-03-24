@@ -63,8 +63,7 @@ class ModifySectionForm extends MakeupForm
                 ->addRule(Form::MIME_TYPE, 'File must be JPEG, PNG, GIF or Plain Text.', ['image/jpeg','image/gif','image/png','text/plain'])
         		->addRule(Form::MAX_FILE_SIZE, 'Maximum file size is 10 mb.', 10 * 1024 * 1024 /* size in MB */);
             	
-            $form->addTextArea('option_content', T::trans('Option content'))
-                ->setHtmlAttribute('rows', 10)
+            $form->addTextArea('option_content', T::trans('Option Content'))
                 ->setHtmlAttribute('data-parent', 'options')
                 ->setAttribute('data-autoresize'); 
             	
