@@ -55,6 +55,30 @@ class AdminModel
     }
 
     /**
+     * userExists
+     *
+     * @param  string $user
+     * 
+     * @return boolean
+     */
+    public function userExists($user)
+    {
+        return in_array($user, $this->getUsernames());
+    }
+ 
+    /**
+     * getUsernames
+     *
+     * @return array
+     */
+    public function getUsernames()
+    {
+        $data = $this->connect();
+        $usernames = array_column($data, 'Username');        
+        return $usernames;
+    }
+
+    /**
      * updateTrans
      *
      * @param  string $username
@@ -115,7 +139,7 @@ class AdminModel
         $data = $this->connect();
         $key = array_search($username, array_column($data, 'Username'));
         
-        return $key !== false ? $data[$key]['Admin'] : false;
+        return $data[$key]['Admin'];
     }
 
     /**
@@ -192,7 +216,7 @@ class AdminModel
      */
     public function disconnect($path, $data)
     {
-        return file_put_contents($path, json_encode($data));
+        return file_put_contents($path, json_encode($data,JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES));
     }
     
     /**

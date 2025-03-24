@@ -220,7 +220,7 @@
         'Last logins' => '最近登录',
         'Access date' => '访问日期',
         'IP addresses are anonymized due to privacy' => '由于隐私原因，IP 地址已匿名化',
-        'Severity' => '严重性',
+        'Severity' => '访问类型',
         'Authorized access' => '授权访问',
         'Attempt to access' => '尝试访问',
         'New version of <b>DocPHT</b> available' => '新版本的 <b>DocPHT</b> 可用',
