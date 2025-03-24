@@ -34,51 +34,31 @@ class LoginController extends BaseController
 
     public function checkLogin(string $username, string $password)
     {
-        $username = $this->usernameFilter($username);
-        $password = $this->passwordFilter($password);
-        
-        $userExists = $this->adminModel->userExists($username);
-        
-        if ($userExists) {
-
-            $users = $this->adminModel->getUsers();
-            foreach ($users as $user) {
-
-                $checkUser = $username === $user['Username'];
-                $checkPassowrd = password_verify($password, $user['Password']);
-
-                if ($checkUser && $checkPassowrd === true) {
-                    session_regenerate_id(true);
-                    $_SESSION['PREV_USERAGENT'] = $_SERVER['HTTP_USER_AGENT'];
-                    $_SESSION['Username'] = $username;
-                    $_SESSION['Active'] = true;
-                    $accesslog = $this->accessLogModel->create($username);
-                    return true;
-                } elseif($checkUser && $checkPassowrd === false) {
-                    $accesslog = $this->accessLogModel->create($username);
-                    return false;
-                }
+        $users = $this->adminModel->getUsers();
+        foreach ($users as $user) {
+            include 'config/config_global.php';
+            $table = $_config['db'][1]['tablepre'] . 'ucenter_members';
+            $conn = new \mysqli($_config['db'][1]['dbhost'], $_config['db'][1]['dbuser'], $_config['db'][1]['dbpw'], $_config['db'][1]['dbname']);
+            if ($conn->connect_error) {
+                die("Connection failed: " . $conn->connect_error);
+            }
+            $stmt = $conn->prepare("SELECT password FROM $table WHERE username = ?");
+            $stmt->bind_param('s', $username);
+            $stmt->execute();
+            $stmt->bind_result($hash);
+            $stmt->fetch();
+            $stmt->close();
+            $conn->close();
+            if (password_verify($password,$hash)) {
+                session_regenerate_id(true);
+                $_SESSION['PREV_USERAGENT'] = $_SERVER['HTTP_USER_AGENT'];
+                $_SESSION['Username'] = $username;
+                $_SESSION['Active'] = true;
+                return true;
+            } else {
+                return false;
             }
         }
-    }
-
-    public function usernameFilter($username) 
-    {
-        $username = trim($username);
-        $username = stripslashes($username);
-        $username = strip_tags($username);
-        $username = filter_var($username, FILTER_SANITIZE_EMAIL);
-        $username = filter_var($username, FILTER_VALIDATE_EMAIL);
-        return $username;
-    }
-
-    public function passwordFilter($password) 
-    {
-        $password = trim($password);
-        $password = stripslashes($password);
-        $password = strip_tags($password);
-        $password = filter_var($password, FILTER_SANITIZE_STRING);
-        return $password;
     }
 
     public function logout()
@@ -88,22 +68,5 @@ class LoginController extends BaseController
       
         header('Location:/doc.php');
         exit;
-    }
-
-    public function lostPassword()
-    {
-        $form = $this->lostPassword->sendEmail();
-        
-        $this->view->show('login/partial/head.php', ['PageTitle' => T::trans('Lost password')]);
-        $this->view->show('login/lost_password.php', ['form' => $form]);
-        $this->view->show('login/partial/footer.php');
-    }
-    
-    public function recoveryPassword($token)
-    {
-        $form = $this->recoveryPassword->create($token);
-        $this->view->show('login/partial/head.php', ['PageTitle' => T::trans('Recovery password')]);
-        $this->view->show('login/lost_password.php', ['form' => $form]);
-        $this->view->show('login/partial/footer.php');
     }
 }

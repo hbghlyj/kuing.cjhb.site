@@ -20,20 +20,6 @@ $route->get('/', 'DocPHT\Controller\HomeController@index');
 
 $route->get('/switch-theme', 'Instant\Core\Controller\BaseController@switchTheme');
 
-if (!isset($_SESSION['Active'])) {
-    $route->get_post('/lost-password', 'DocPHT\Controller\LoginController@lostPassword');
-}
-
-$route->get_post('/recovery/?', function($token){
-    if (isset($token)) {
-        $page = new LoginController();
-        $page->recoveryPassword($token);
-    } else {
-        $error = new ErrorPageController();
-        $error->getPage();
-    }
-});
-
 $route->get_post('/login', 'DocPHT\Controller\LoginController@login');
 
 if (isset($_SESSION['Active'])) {
@@ -44,18 +30,9 @@ if (isset($_SESSION['Active'])) {
     {
         // /admin/
         $this->get('/', 'DocPHT\Controller\AdminController@settings');
-
-        // /admin/update-password
-        $this->get_post('/update-password', 'DocPHT\Controller\AdminController@updatePassword');
         
         $adminModel = new AdminModel(); 
         if (isset($_SESSION['Active']) && $adminModel->checkUserIsAdmin($_SESSION['Username']) == true ) {
-             // /admin/remove-user
-            $this->get_post('/remove-user', 'DocPHT\Controller\AdminController@removeUser');
-
-            // /admin/add-user
-            $this->get_post('/add-user', 'DocPHT\Controller\AdminController@addUser');
-
             // /admin/create-home
             $this->get_post('/create-home', 'DocPHT\Controller\AdminController@createHome');
             
@@ -91,8 +68,6 @@ if (isset($_SESSION['Active'])) {
 
         }
         
-        $this->get_post('/update-email','DocPHT\Controller\AdminController@updateEmail');
-
         // /admin/translations
         $this->get_post('/translations', 'DocPHT\Controller\AdminController@translations');
 

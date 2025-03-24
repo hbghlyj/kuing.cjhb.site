@@ -17,7 +17,6 @@ namespace Instant\Core\Controller;
 use DocPHT\Form\LoginForm;
 use DocPHT\Form\SearchForm;
 use DocPHT\Model\PageModel;
-use DocPHT\Form\AddUserForm;
 use DocPHT\Model\AdminModel;
 use Instant\Core\Views\View;
 use DocPHT\Core\Translator\T;
@@ -31,32 +30,24 @@ use DocPHT\Model\VersionModel;
 use DocPHT\Form\AddSectionForm;
 use DocPHT\Form\CreatePageForm;
 use DocPHT\Form\DeletePageForm;
-use DocPHT\Form\RemoveUserForm;
 use DocPHT\Form\UpdatePageForm;
 use DocPHT\Form\UploadLogoForm;
 use DocPHT\Model\HomePageModel;
 use DocPHT\Core\Session\Session;
 use DocPHT\Form\PublishPageForm;
 use DocPHT\Form\SortSectionForm;
-use DocPHT\Form\UpdateEmailForm;
 use DocPHT\Model\AccessLogModel;
-use DocPHT\Form\LostPasswordForm;
 use DocPHT\Form\TranslationsForm;
 use DocPHT\Form\InsertSectionForm;
 use DocPHT\Form\ModifySectionForm;
 use DocPHT\Form\RemoveSectionForm;
 use DocPHT\Form\VersionSelectForm;
-use DocPHT\Form\UpdatePasswordForm;
-use DocPHT\Form\RecoveryPasswordForm;
 use Plasticbrain\FlashMessages\FlashMessages;
 
 class BaseController
 {
 	protected $view;
-	protected $removeUserForm;
-	protected $updatePasswordForm;
 	protected $translationsForm;
-	protected $addUserForm;
 	protected $createPageForm;
 	protected $adminModel;
 	protected $addSectionPageForm;
@@ -79,9 +70,6 @@ class BaseController
 	protected $backupsModel;
 	protected $versionModel;
 	protected $uploadlogo;
-	protected $lostPassword;
-	protected $recoveryPassword;
-	protected $updateEmailForm;
 	protected $accessLogModel;
 	protected $loginForm;
 	protected $session;
@@ -90,9 +78,6 @@ class BaseController
 	public function __construct()
 	{
 		$this->view = new View();
-		$this->updatePasswordForm = new UpdatePasswordForm();
-		$this->removeUserForm = new RemoveUserForm();
-		$this->addUserForm = new AddUserForm();
 		$this->translationsForm = new TranslationsForm();
 		$this->createPageForm = new CreatePageForm();
 		$this->addSectionPageForm = new AddSectionForm();
@@ -116,9 +101,6 @@ class BaseController
 		$this->backupsModel = new BackupsModel();
 		$this->versionModel = new VersionModel();
 		$this->uploadlogo = new UploadLogoForm();
-		$this->lostPassword = new LostPasswordForm();
-		$this->recoveryPassword = new RecoveryPasswordForm();
-		$this->updateEmailForm = new UpdateEmailForm();
 		$this->accessLogModel = new AccessLogModel();
 		$this->loginForm = new LoginForm();
 		$this->session = new Session();

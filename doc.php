@@ -1,4 +1,4 @@
-<?php // ini_set('display_errors', 1); // IMPORTANT not to use in production
+<?php ini_set('display_errors', 1); // IMPORTANT not to use in production
 
 use Tracy\Debugger;
 use DocPHT\Core\Session\Session;
@@ -76,10 +76,10 @@ require $configurationFile;
 
 // Debugger::enable(Debugger::DEVELOPMENT); // IMPORTANT not to use in production
 
-$controllerFiles = glob(__DIR__ . '/src/controller/*.php');
-foreach ($controllerFiles as $file) {
-    require_once $file;
-}
+$loader = new Nette\Loaders\RobotLoader;
+$loader->addDirectory(__DIR__ . '/src');
+$loader->setTempDirectory(__DIR__ . '/temp');
+$loader->register();
 
 $app            = System\App::instance();
 $app->request   = System\Request::instance();

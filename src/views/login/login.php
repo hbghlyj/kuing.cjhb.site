@@ -14,7 +14,7 @@
         <div class="card fade-in-fwd">
         <div class="card-body shadow-sm">
             <?= $form; ?>
-            <a href="<?= BASE_URL ?>lost-password" class="text-muted"><?= $t->trans('I lost my password') ?></a>
+            <a href="/member.php?mod=logging&action=login&viewlostpw=1" class="text-muted"><?= $t->trans('I lost my password') ?></a>
         </div>
     </div>
 </div>
