@@ -430,7 +430,7 @@ class PageModel
     {
         $path = $this->getJsonPath($id);
 
-        return file_put_contents($path, json_encode($data));
+        return file_put_contents($path, json_encode($data,JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES));
     }
     
     /**
@@ -550,7 +550,7 @@ class PageModel
      */
     public function disconnect($path, $data)
     {
-        return file_put_contents($path, json_encode($data));
+        return file_put_contents($path, json_encode($data,JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES));
     }
     
     /**
