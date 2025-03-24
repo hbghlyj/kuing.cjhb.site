@@ -106,7 +106,7 @@
         'Remove user' => '删除用户',
         'User password updated successfully.' => '用户密码更新成功。',
         'I\'m sorry, friend!' => '对不起，朋友！',
-        'I can\'t find this page anymore or the administrator doesn\'t want you to see it!' => '我找不到这个页面了，或者管理员不希望你看到它！',
+        'I can\'t find this page anymore or the administrator doesn\'t want you to see it!' => '我找不到这个页面了，可以向管理员询问！',
         'Don\'t despair, you can always click here' => '不要绝望，你可以点击这里',
         'With sympathy from DocPHT' => '来自 DocPHT 的同情',
         'Your account' => '您的账户',

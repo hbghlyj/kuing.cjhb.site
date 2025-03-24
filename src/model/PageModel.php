@@ -105,7 +105,7 @@ class PageModel
         $id = uniqid();
         $topic = strtolower(str_replace(' ', '-', pathinfo($topic, PATHINFO_FILENAME) ));
 		$filename = strtolower(str_replace(' ', '-', pathinfo($filename, PATHINFO_FILENAME)));
-        $slug = preg_replace('/[^a-z0-9]+/i', '-', trim(strtolower($topic))) .'/'. preg_replace('/[^a-z0-9]+/i', '-', trim(strtolower($filename)));
+        $slug = trim(strtolower($topic)) .'/'. trim(strtolower($filename));
 
         if (!is_null($data)) {
             
