@@ -1,0 +1,1 @@
+<h1><?= $t->trans('Welcome to DocPHT'); ?></h1>
