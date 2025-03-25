@@ -43,7 +43,7 @@ class UploadLogoForm extends MakeupForm
                 
         	    if(isset($file)) {
                     $this->doc->uploadLogoDocPHT($file);
-                    header('Location:'.BASE_URL.'admin');
+                    header('Location:/doc.phpadmin');
         			exit;
         	    } else {
     				$this->msg->error(T::trans('Sorry something didn\'t work!'),BASE_URL.'admin');
@@ -77,7 +77,7 @@ class UploadLogoForm extends MakeupForm
                 
         	    if(isset($file)) {
                     $this->doc->uploadFavDocPHT($file);
-                    header('Location:'.BASE_URL.'admin');
+                    header('Location:/doc.phpadmin');
         			exit;
         	    } else {
     				$this->msg->error(T::trans('Sorry something didn\'t work!'),BASE_URL.'admin');
