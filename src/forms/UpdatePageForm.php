@@ -63,7 +63,7 @@ class UpdatePageForm extends MakeupForm
                 	
                 if (isset($fields['v1']) && $fields['key'] != 'image') { $oc = $fields['v1']; } else { $oc = $fields['v2']; }
                 
-                $form->addTextArea('option_content'.$index, T::trans('Option Content'))
+                $form->addTextArea('option_content'.$index, T::trans('Option content'))
                     ->setHtmlAttribute('data-parent', 'options'.$index)
                     ->setAttribute('data-autoresize')
                 	->setDefaultValue($oc); 
