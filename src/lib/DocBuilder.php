@@ -597,15 +597,15 @@ class DocBuilder
     {
         return [
         'title' => T::trans('Add title'),
+    	'markdown' => T::trans('Add markdown'),
+    	'markdownFile' => T::trans('Add markdown from file'),
         'description' => T::trans('Add description'),
+    	'imageURL' => T::trans('Add image from url'),
+    	'blockquote' => T::trans('Add blockquote'),
+    	'image' => T::trans('Add image from file'),
     	'pathAdd'  => T::trans('Add path'),
     	'codeInline' => T::trans('Add code inline'),
     	'codeFile' => T::trans('Add code from file'),
-    	'blockquote' => T::trans('Add blockquote'),
-    	'image' => T::trans('Add image from file'),
-    	'imageURL' => T::trans('Add image from url'),
-    	'markdown' => T::trans('Add markdown'),
-    	'markdownFile' => T::trans('Add markdown from file'),
     	'linkButton' => T::trans('Add link button')
     	];
     }

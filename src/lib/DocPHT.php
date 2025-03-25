@@ -237,6 +237,7 @@ class DocPHT {
         $Parsedown = new ParsedownCheckbox();
         $client = new Client(new Ruleset());
         $markdown = '<tr>'. ((isset($_SESSION['Active'])) ? '<td class="handle"><i class="fa fa-arrows-v sort"></i></td>' : '') . '<td class="markdown-col">';
+        exit('<pre>'.print_r($Parsedown->text($client->shortnameToUnicode($text)), true).'</pre>');
         $markdown .= $Parsedown->text($client->shortnameToUnicode($text));
         $markdown .= $this->insertBeforeButton().$this->removeButton().$this->modifyButton().$this->insertAfterButton().'</td></tr>';
         return $markdown;
