@@ -1,6 +1,7 @@
 Thanks:
 * [Discuz/DiscuzX](https://gitee.com/Discuz/DiscuzX)
 * [MathJax](https://www.mathjax.org/)
+* [DocPHT](https://github.com/docpht/docpht)
 
 The following tools are used to render the mathematical diagrams in the forum. I am very grateful to the service providers for providing such a good service.
 * [Upmath LaTeX Renderer](https://github.com/parpalak/i.upmath.me)

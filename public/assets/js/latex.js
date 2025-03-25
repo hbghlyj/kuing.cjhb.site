@@ -293,9 +293,10 @@
             var eCur = eNext, sNn = eCur.nodeName;
             eNext = eNext.nextSibling;
 
-            if (eCur.nodeType === 1 && sNn !== 'SCRIPT' && sNn !== 'TEXTAREA' && sNn !== 'OBJECT') {
-                processTree(eCur);
-                continue;
+            const excludedTags = ['SCRIPT', 'TEXTAREA', 'OBJECT', 'CODE', 'PRE'];
+            if (eCur.nodeType === 1 && !excludedTags.includes(sNn)) {
+              processTree(eCur);
+              continue;
             }
 
             if (eCur.nodeType === 3) {
