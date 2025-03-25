@@ -58,7 +58,7 @@ class SearchForm extends MakeupForm
                                     } else if ($val['pages']['id'] == $id && $val['pages']['home'] === 1 && !isset($_SESSION['Active'])) {
                                     $found[] =  array(
                                             'content' => '<div class="result-preview">
-                                                    <a href="'.BASE_URL.'">
+                                                    <a href="/doc.php">
                                                         <h3 class="result-title">
                                                             '.ucfirst(str_replace('-',' ', $this->pageModel->getTopic($id))).' '.str_replace('-',' ',$this->pageModel->getFilename($id)).'
                                                         </h3>

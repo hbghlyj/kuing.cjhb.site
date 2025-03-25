@@ -6,9 +6,9 @@
 <div class="login-container text-center">
         <?php 
             if (file_exists('Data/logo.png')) {
-                echo '<a href="'.BASE_URL.'"><img id="logo" src="Data/logo.png?'.time().'" alt="logo" class="img-fluid mb-3"></a>';
+                echo '<a href="/doc.php"><img id="logo" src="Data/logo.png?'.time().'" alt="logo" class="img-fluid mb-3"></a>';
             } else {
-                echo '<a href="'.BASE_URL.'"><h3>'.TITLE.' <i class="fa fa-code" aria-hidden="true"></i></h3></a>';
+                echo '<a href="/doc.php"><h3>'.TITLE.' <i class="fa fa-code" aria-hidden="true"></i></h3></a>';
             }
         ?>
         <div class="card fade-in-fwd">
