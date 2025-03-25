@@ -1,0 +1,49 @@
+{
+    "name": "kenlog/docpht",
+    "type": "project",
+    "description": "With DocPHT you can take notes and quickly document anything and without the use of any database.",
+    "homepage": "https://docpht.org",
+    "keywords": [
+        "Docpht",
+        "Note-taking",
+        "Documentation",
+        "Markdown"
+    ],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Valentino Pesce",
+            "email": "valentino@iltuobrand.it",
+            "role": "Developer"
+        },
+        {
+            "name": "Craig Crosby",
+            "email": "creecros@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "nezamy/route": "^1.2",
+        "symfony/translation": "^4.3",
+        "nette/forms": "^3.0",
+        "erusev/parsedown":"^1.7",
+        "emojione/emojione": "^4.5",
+        "nette/robot-loader": "^3.2",
+        "plasticbrain/php-flash-messages": "^1.0",
+        "nette/mail": "^3.0",
+        "latte/latte": "^2.5",
+        "geertw/ip-anonymizer": "^1.1",
+        "cbschuld/browser.php": "^1.9",
+        "ezimuel/php-secure-session": "^1.1",
+        "php-curl-class/php-curl-class": "^8.6",
+        "benjaminhoegh/parsedown-math": "^1.2",
+        "erusev/parsedown-extra": "^0.8.1"
+    },
+    "autoload": {
+	"classmap": ["src/"]
+    },
+    "config": {
+    	"optimize-autoloader": true
+    },
+    "prefer-stable": true
+}

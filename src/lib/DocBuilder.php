@@ -43,9 +43,6 @@ class DocBuilder
                 case 'title':
                     $option = $this->title($jsonVals['v1'],$jsonVals['v1']);
                     break;
-                case 'description':
-                    $option = $this->description($jsonVals['v1']);
-                    break;
                 case 'pathAdd':
                     $option = $this->pathAdd($jsonVals['v1']);
                     break;
@@ -103,9 +100,6 @@ class DocBuilder
         if (isset($values['options'])) {
             switch ($values['options']) {
                 case 'title':
-                    $option = ['key' => $values['options'], 'v1' => $values['option_content'], 'v2' => '', 'v3' => '', 'v4' => ''];
-                    break;
-                case 'description':
                     $option = ['key' => $values['options'], 'v1' => $values['option_content'], 'v2' => '', 'v3' => '', 'v4' => ''];
                     break;
                 case 'pathAdd':
@@ -398,20 +392,6 @@ class DocBuilder
     }
     
     /**
-     * description
-     *
-     * @param  string $val
-     *
-     * @return string
-     */
-    public function description($val)
-    {
-        $val = TextHelper::e($val);
-        $out = '$html->description'."('{$val}'), \n";
-        return $out; 
-    }
-    
-    /**
      * path
      *
      * @param  string $val
@@ -599,7 +579,6 @@ class DocBuilder
         'title' => T::trans('Add title'),
     	'markdown' => T::trans('Add markdown'),
     	'markdownFile' => T::trans('Add markdown from file'),
-        'description' => T::trans('Add description'),
     	'imageURL' => T::trans('Add image from url'),
     	'blockquote' => T::trans('Add blockquote'),
     	'image' => T::trans('Add image from file'),
