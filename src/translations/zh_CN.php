@@ -34,7 +34,7 @@
         'Options:' => '选项：',
         'Select an option' => '选择一个选项',
         'Language:' => '语言：',
-        'Option Content' => '选项内容',
+        'Option content' => '选项内容',
         'Enter content' => '输入内容',
         'Security token has expired, please submit the form again' => '安全令牌已过期，请重新提交表单',
         'Create' => '创建',

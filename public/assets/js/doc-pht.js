@@ -295,25 +295,6 @@ document.addEventListener("change", function(){
             all_name[i].parentNode.parentNode.style.display = "block";
             all_trg[i].parentNode.parentNode.style.display = "block";
         } else {
-                switch(all_options[i].value) {
-                  case "title":
-                    all_option_content[i].label.innerHTML = 'Title:';
-                    break;
-                  case "description":
-                    all_option_content[i].label.innerHTML = 'Description:';
-                    break;
-                  case "pathAdd":
-                    all_option_content[i].label.innerHTML = 'Path:';
-                    break;
-                  case "path":
-                    all_option_content[i].label.innerHTML = 'Path:';
-                    break;
-                  case "blockquote":
-                    all_option_content[i].label.innerHTML = 'Block Quote:';
-                    break;
-                  default:
-                    all_option_content[i].label.innerHTML = 'Content:';
-                }
             all_languages[i].parentNode.parentNode.parentNode.style.display = "none";
             all_files[i].parentNode.parentNode.style.display = "none"; 
             all_option_content[i].parentNode.parentNode.style.display = "block"; 
