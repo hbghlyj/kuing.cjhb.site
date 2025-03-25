@@ -1,6 +1,33 @@
-@import "https://fonts.googleapis.com/css?family=Ubuntu:400,500";
+@font-face {
+    font-family: PunctCJK;
+    src: url(https://www.bananaspace.org/static/fonts/PunctCJK.woff2) format('woff2'),url(https://www.bananaspace.org/static/fonts/PunctCJK.woff) format('woff');
+    unicode-range: U+21-22,U+27-29,U+2C,U+2E,U+3A-3B,U+3F,U+2018-201A,U+201C-201E,U+2022,U+2026,U+2218,U+25AA-25AB,U+3001-3002,U+3008-300F,U+FF64
+}
+
+@font-face {
+    font-family: PunctCJK;
+    font-style: italic;
+    src: url(https://www.bananaspace.org/static/fonts/PunctCJK-Italic.woff2) format('woff2'),url(https://www.bananaspace.org/static/fonts/PunctCJK-Italic.woff) format('woff');
+    unicode-range: U+21-22,U+27-29,U+2C,U+2E,U+3A-3B,U+3F,U+2018-201A,U+201C-201E,U+2022,U+2026,U+2218,U+25AA-25AB,U+3001-3002,U+3008-300F,U+FF64
+}
+
+@font-face {
+    font-family: PunctCJK;
+    font-weight: bold;
+    src: url(https://www.bananaspace.org/static/fonts/PunctCJK-Bold.woff2) format('woff2'),url(https://www.bananaspace.org/static/fonts/PunctCJK-Bold.woff) format('woff');
+    unicode-range: U+21-22,U+27-29,U+2C,U+2E,U+3A-3B,U+3F,U+2018-201A,U+201C-201E,U+2022,U+2026,U+2218,U+25AA-25AB,U+3001-3002,U+3008-300F,U+FF64
+}
+
+@font-face {
+    font-family: PunctCJK;
+    font-weight: bold;
+    font-style: italic;
+    src: url(https://www.bananaspace.org/static/fonts/PunctCJK-BoldItalic.woff2) format('woff2'),url(https://www.bananaspace.org/static/fonts/PunctCJK-BoldItalic.woff) format('woff');
+    unicode-range: U+21-22,U+27-29,U+2C,U+2E,U+3A-3B,U+3F,U+2018-201A,U+201C-201E,U+2022,U+2026,U+2218,U+25AA-25AB,U+3001-3002,U+3008-300F,U+FF64
+}
+
 body {
-    font-family: 'Ubuntu', sans-serif;
+    font-family: PunctCJK, 'Microsoft YaHei UI', 'Microsoft YaHei', sans-serif;
     background: #262b33;
 }
 
@@ -9,9 +36,7 @@ body {
 }
 
 p {
-    font-family: 'Ubuntu', sans-serif;
     font-size: 1.1em;
-    font-weight: 300;
     line-height: 1.7em;
     color: #f5f5f5;
 }
@@ -26,6 +51,9 @@ a:focus {
 
 td.markdown-col a {
     color: #007bff;
+}
+td.markdown-col a.new {
+    color: #80b700;
 }
 td.markdown-col a:hover,
 td.markdown-col a:focus {
@@ -264,7 +292,7 @@ i.fa.fa-arrows-v.sort {
 }
 
 .form-control-file::before {
-    font-family: 'Ubuntu', FontAwesome;
+    font-family: sans-serif, FontAwesome;
     content: '\f0ee \00a0 Select a file';
     display: inline-block;
     background: -webkit-linear-gradient(top, #f9f9f9, #ffffff);

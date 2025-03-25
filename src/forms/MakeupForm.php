@@ -52,7 +52,6 @@ class MakeupForm
 		$renderer->wrappers['pair']['.error'] = 'has-danger';
 		$renderer->wrappers['control']['container'] = 'div class=col';
 		$renderer->wrappers['label']['container'] = 'div class="col col-form-label font-weight-bold"';
-		$renderer->wrappers['control']['description'] = 'span class=form-text';
 		$renderer->wrappers['control']['errorcontainer'] = 'span class=form-error';
 
 		foreach ($form->getControls() as $control) {

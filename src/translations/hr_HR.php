@@ -34,7 +34,7 @@
         'Options:' => 'Opcije:',
         'Select an option' => 'Odaberi opciju',
         'Language:' => 'Jezik:',
-        'Option Content' => 'Sadržaj opcije',
+        'Option content' => 'Sadržaj opcije',
         'Enter content' => 'Unesi sadržaj',
         'Security token has expired, please submit the form again' => 'Sigurnosni token je istekao, pošaljite obrazac ponovo',
         'Create' => 'Kreiraj',

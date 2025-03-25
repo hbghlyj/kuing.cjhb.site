@@ -34,7 +34,7 @@
         'Options:' => 'Opzioni:',
         'Select an option' => 'Seleziona un\'opzione',
         'Language:' => 'Linguaggio:',
-        'Option Content' => 'Contenuto dell\'opzione',
+        'Option content' => 'Contenuto dell\'opzione',
         'Enter content' => 'Inserisci il contenuto',
         'Security token has expired, please submit the form again' => 'Il token di sicurezza è scaduto, si prega di inviare nuovamente il modulo',
         'Create' => 'Crea',

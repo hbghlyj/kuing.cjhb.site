@@ -34,6 +34,6 @@
             echo '<link id="fav" rel="icon" type="image/png" href="Data/favicon.png?'.time().'">';
         }
     ?>
-    <title><?= ucfirst(str_replace('-',' ',$PageTitle)) ?></title>
+    <title><?= $PageTitle ?></title>
 </head>
 <body>
