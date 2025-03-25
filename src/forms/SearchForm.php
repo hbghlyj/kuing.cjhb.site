@@ -44,7 +44,7 @@ class SearchForm extends MakeupForm
                                             'content' => '<div class="result-preview">
                                                     <a href="page/'.$this->pageModel->getSlug($id).'">
                                                         <h3 class="result-title">
-                                                            '.ucfirst(str_replace('-',' ', $this->pageModel->getTopic($id))).' '.str_replace('-',' ',$this->pageModel->getFilename($id)).'
+                                                            '.$this->pageModel->getTopic($id).' '.$this->pageModel->getFilename($id).'
                                                         </h3>
                                                         <p class="result-subtitle">
                                                             '.$value.'
@@ -60,7 +60,7 @@ class SearchForm extends MakeupForm
                                             'content' => '<div class="result-preview">
                                                     <a href="/doc.php">
                                                         <h3 class="result-title">
-                                                            '.ucfirst(str_replace('-',' ', $this->pageModel->getTopic($id))).' '.str_replace('-',' ',$this->pageModel->getFilename($id)).'
+                                                            '.$this->pageModel->getTopic($id).' '.$this->pageModel->getFilename($id).'
                                                         </h3>
                                                         <p class="result-subtitle">
                                                             '.$value.'

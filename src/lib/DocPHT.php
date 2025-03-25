@@ -15,6 +15,49 @@ namespace DocPHT\Lib;
 use \Izadori\ParsedownPlus\ParsedownPlus;
 use DocPHT\Core\Translator\T;
 
+class MediaWikiParsedown extends ParsedownPlus
+{
+    protected $InlineTypes = array(
+        // Include the existing inline types
+        '!' => array('Image'),
+        '&' => array('SpecialCharacter'),
+        '*' => array('Emphasis'),
+        ':' => array('Url'),
+        '<' => array('UrlTag', 'EmailTag', 'Markup'),
+        '[' => array('Link', 'MediaWikiUrl'), // Add MediaWikiUrl here
+        '_' => array('Emphasis'),
+        '`' => array('Code'),
+        '~' => array('Strikethrough'),
+        '\\' => array('EscapeSequence'),
+    );
+
+    protected $inlineMarkerList = '!*_&[:<`~\\';
+
+    protected function inlineMediaWikiUrl($Excerpt)
+    {
+        if (preg_match('/\[\[([^\s\]]+)\]\]/', $Excerpt['text'], $matches))
+        {
+            $page = $matches[1];
+            $requestUriParts = explode('/', urldecode($_SERVER['REQUEST_URI']));
+            $topic = $requestUriParts[count($requestUriParts) - 2];
+            $newPage = !file_exists('pages/' . $topic . '/' . $page . '.php');
+            $url = $newPage ? '/page/create?mainfilename=' . urlencode($page) : '/page/' . $topic . '/' . $page;
+            $Inline = array(
+                'extent' => strlen($matches[0]),
+                'element' => array(
+                    'name' => 'a',
+                    'text' => $page,
+                    'attributes' => array(
+                        'href' => $url,
+                        'class' => $newPage ? 'new' : '',
+                    ),
+                ),
+            );
+            return $Inline;
+        }
+    }
+}
+
 class DocPHT {
 
     /**
@@ -69,7 +112,7 @@ class DocPHT {
                         <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="nav navbar-nav ml-auto">
                             '; foreach ($anchorLinks as $value) {
-                                $title = ucfirst(str_replace('-',' ',$value));
+                                $title = $value;
                                 echo '<li class="nav-item">
                                             <a class="nav-link" href="'.$_SERVER['REQUEST_URI'].'#'.$value.'">'.$title.'</a>
                                       </li>';
@@ -210,7 +253,7 @@ class DocPHT {
      */
     public function markdown(string $text)
     {
-        $Parsedown = new ParsedownPlus();
+        $Parsedown = new MediaWikiParsedown();
         $markdown = '<tr>'. ((isset($_SESSION['Active'])) ? '<td class="handle"><i class="fa fa-arrows-v sort"></i></td>' : '') . '<td class="markdown-col">';
         $markdown .= $Parsedown->text($text);
         $markdown .= $this->insertBeforeButton().$this->removeButton().$this->modifyButton().$this->insertAfterButton().'</td></tr>';
