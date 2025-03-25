@@ -224,12 +224,15 @@
 
     function createImgNode(formula, isCentered) {
         var i = d.createElement('img'),
-            path = url + '/' + ext + '/' + encodeURIComponent(formula);
+        tagMatch = formula.includes('\\tag*') ? formula.match(/\\tag\*\{(.*?)\}/) : formula.match(/\\tag\{(.*?)\}/),
+        tagLabel = tagMatch ? (formula.includes('\\tag*') ? tagMatch[1] : '(' + tagMatch[1] + ')') : '',
+        cleanedFormula = formula.replace(/\\tag\{.*?\}/g, '').replace(/\\tag\*\{.*?\}/g, ''),
+        path = url + '/' + ext + '/' + encodeURIComponent(cleanedFormula);
 
         i.setAttribute('src', path);
         i.setAttribute('class', 'latex-' + ext);
         i.setAttribute('style', 'vertical-align:middle; border:0; opacity:0;');
-        i.setAttribute('alt', formula);
+        i.setAttribute('alt', cleanedFormula);
 
         isCentered && (i.style.margin = '0 0 0 auto');
 
@@ -239,7 +242,7 @@
             i.style.opacity = '1';
         }
 
-        return i;
+        return { imgNode: i, tagLabel: tagLabel };
     }
 
     var processTree = function (eItem) {
@@ -252,12 +255,18 @@
             let lastIndex = 0;
             mathItems.forEach(item => {
                 // Create the image node for the found TeX
-                let imgNode = createImgNode(item.math, item.display);
+                let { imgNode, tagLabel } = createImgNode(item.math, item.display);
 
                 if (item.display) {
                   const wrapperDiv = d.createElement('div');
                   wrapperDiv.setAttribute('align', 'center');
                   wrapperDiv.appendChild(imgNode);
+                  if (tagLabel) {
+                    const labelSpan = d.createElement('span');
+                    labelSpan.setAttribute('style', 'float: right; margin-left: 10px;');
+                    labelSpan.textContent = tagLabel;
+                    wrapperDiv.appendChild(labelSpan);
+                  }
                   imgNode = wrapperDiv;
                 }
                 // Insert the image node before the text node
