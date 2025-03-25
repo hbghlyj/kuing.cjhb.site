@@ -103,9 +103,9 @@ class PageModel
     {
         $data = $this->connect();
         $id = uniqid();
-        $topic = strtolower(str_replace(' ', '-', pathinfo($topic, PATHINFO_FILENAME) ));
-		$filename = strtolower(str_replace(' ', '-', pathinfo($filename, PATHINFO_FILENAME)));
-        $slug = trim(strtolower($topic)) .'/'. trim(strtolower($filename));
+        $topic = pathinfo($topic, PATHINFO_FILENAME);
+		$filename = pathinfo($filename, PATHINFO_FILENAME);
+        $slug = trim($topic) .'/'. trim($filename);
 
         if (!is_null($data)) {
             
