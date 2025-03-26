@@ -258,12 +258,12 @@
           let lastIndex = 0;
           mathItems.forEach(item => {
               // Check if the item is an enumerate environment
-              if (item.open === '\\begin{enumerate}') {
+              if (item.open === '\\begin{enumerate}' || item.open === '\\begin{itemize}') {
                   // Extract the content inside the enumerate environment
                   const innerContent = item.math;
 
                   // Convert the enumerate to an HTML ordered list
-                  const ol = d.createElement('ol');
+                  const ol = d.createElement(item.open === '\\begin{enumerate}' ? 'ol' : 'ul');
 
                   // Split the content by \item and process each item
                   const items = innerContent.split('\\item').slice(1); // remove the first empty element
@@ -275,6 +275,7 @@
 
                   // Replace the TeX enumerate with the HTML ordered list
                   textNode.parentNode.insertBefore(ol, textNode);
+                  processTree(ol);
 
                   // Create a text node for the text before the TeX enumerate
                   const beforeText = textNode.nodeValue.slice(lastIndex, item.startIndex);
