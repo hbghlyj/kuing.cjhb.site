@@ -17,20 +17,11 @@ use DocPHT\Core\Translator\T;
 
 class MediaWikiParsedown extends ParsedownPlus
 {
-    protected $InlineTypes = array(
-        // Include the existing inline types
-        '!' => array('Image'),
-        '&' => array('SpecialCharacter'),
-        '*' => array('Emphasis'),
-        ':' => array('Url'),
-        '<' => array('UrlTag', 'EmailTag', 'Markup'),
-        '[' => array('Link', 'MediaWikiUrl'), // Add MediaWikiUrl here
-        '_' => array('Emphasis'),
-        '`' => array('Code'),
-        '~' => array('Strikethrough'),
-        '\\' => array('EscapeSequence'),
-    );
-
+    public function __construct()
+    {
+        parent::__construct();
+        $this->InlineTypes['['][] = 'MediaWikiUrl';
+    }
     protected $inlineMarkerList = '!*_&[:<`~\\';
 
     protected function inlineMediaWikiUrl($Excerpt)
