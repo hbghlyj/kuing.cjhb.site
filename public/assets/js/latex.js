@@ -96,9 +96,14 @@
         if (match[envIndex] !== undefined && envIndex) {
           const end = new RegExp(`\\\\end\\s*(\\{${quotePattern(match[envIndex])}\\})`, 'g');
           found = findEnd(text, match, ['{' + match[envIndex] + '}', 1, end]);
-          if (found) {
-            found.math = found.open.replace(/(equation|align|gather|alignat|multline|flalign)\b/, '$1*') + found.math + found.close.replace(/(equation|align|gather|alignat|multline|flalign)\b/, '$1*');
-            found.open = found.close = '';
+          if (found){
+            const m = found.close.match(/^\{(?:equation|align|gather|alignat|multline|flalign)(\*?)\}$/);
+            if (m) {
+              const group = m[1];
+              if (group === '') {
+                found.close = found.close.replace(/^\{(.*?)\}$/, '{$1*}');
+              }
+            }
           }
         } else if (match[subIndex] !== undefined && subIndex) {
           const mathStr = match[subIndex];
@@ -248,43 +253,70 @@
 
         // Function to process text nodes and replace TeX with images
         function processTextNode(textNode) {
-            const mathItems = findTeX(textNode.nodeValue);
+          const mathItems = findTeX(textNode.nodeValue);
 
-            let lastIndex = 0;
-            mathItems.forEach(item => {
-                // Create the image node for the found TeX
-                let { imgNode, tagLabel } = createImgNode(item.math, item.display);
+          let lastIndex = 0;
+          mathItems.forEach(item => {
+              // Check if the item is an enumerate environment
+              if (item.open === '\\begin{enumerate}') {
+                  // Extract the content inside the enumerate environment
+                  const innerContent = item.math;
 
-                if (item.display) {
-                  const wrapperDiv = d.createElement('div');
-                  wrapperDiv.setAttribute('align', 'center');
-                  wrapperDiv.appendChild(imgNode);
-                  if (tagLabel) {
-                    const labelSpan = d.createElement('span');
-                    labelSpan.setAttribute('style', 'float: right; margin-left: 10px;');
-                    labelSpan.textContent = tagLabel;
-                    wrapperDiv.appendChild(labelSpan);
+                  // Convert the enumerate to an HTML ordered list
+                  const ol = d.createElement('ol');
+
+                  // Split the content by \item and process each item
+                  const items = innerContent.split('\\item').slice(1); // remove the first empty element
+                  items.forEach(listItem => {
+                      const li = d.createElement('li');
+                      li.innerHTML = listItem.trim();
+                      ol.appendChild(li);
+                  });
+
+                  // Replace the TeX enumerate with the HTML ordered list
+                  textNode.parentNode.insertBefore(ol, textNode);
+
+                  // Create a text node for the text before the TeX enumerate
+                  const beforeText = textNode.nodeValue.slice(lastIndex, item.startIndex);
+                  const beforeTextNode = d.createTextNode(beforeText);
+                  textNode.parentNode.insertBefore(beforeTextNode, ol);
+
+                  lastIndex = item.endIndex;
+              } else {
+                  // Create the image node for the found TeX
+                  let { imgNode, tagLabel } = createImgNode(item.math, item.display);
+
+                  if (item.display) {
+                      const wrapperDiv = d.createElement('div');
+                      wrapperDiv.setAttribute('align', 'center');
+                      wrapperDiv.appendChild(imgNode);
+                      if (tagLabel) {
+                          const labelSpan = d.createElement('span');
+                          labelSpan.setAttribute('style', 'float: right; margin-left: 10px;');
+                          labelSpan.textContent = tagLabel;
+                          wrapperDiv.appendChild(labelSpan);
+                      }
+                      imgNode = wrapperDiv;
                   }
-                  imgNode = wrapperDiv;
-                }
-                // Insert the image node before the text node
-                textNode.parentNode.insertBefore(imgNode, textNode);
+                  // Insert the image node before the text node
+                  textNode.parentNode.insertBefore(imgNode, textNode);
 
-                // Create a text node for the text before the TeX
-                const beforeText = textNode.nodeValue.slice(lastIndex, item.startIndex);
-                const beforeTextNode = d.createTextNode(beforeText);
-                textNode.parentNode.insertBefore(beforeTextNode, imgNode);
+                  // Create a text node for the text before the TeX
+                  const beforeText = textNode.nodeValue.slice(lastIndex, item.startIndex);
+                  const beforeTextNode = d.createTextNode(beforeText);
+                  textNode.parentNode.insertBefore(beforeTextNode, imgNode);
 
-                lastIndex = item.endIndex;
-            });
+                  lastIndex = item.endIndex;
+              }
+          });
 
-            // Create a text node for the remaining text
-            const remainingText = textNode.nodeValue.slice(lastIndex);
-            const remainingTextNode = d.createTextNode(remainingText);
-            textNode.parentNode.insertBefore(remainingTextNode, textNode);
+          // Create a text node for the remaining text
+          const remainingText = textNode.nodeValue.slice(lastIndex);
+          const remainingTextNode = d.createTextNode(remainingText);
+          textNode.parentNode.insertBefore(remainingTextNode, textNode);
 
-            textNode.parentNode.removeChild(textNode);
-        }
+          textNode.parentNode.removeChild(textNode);
+      }
 
         // Process each node in the tree
         while (eNext) {
