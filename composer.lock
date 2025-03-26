@@ -4,59 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "163b9315c1cb69c42bddf9db778639e3",
+    "content-hash": "f32b7c3612588980ac2210368827be00",
     "packages": [
-        {
-            "name": "benjaminhoegh/parsedown-math",
-            "version": "1.2.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/BenjaminHoegh/ParsedownMath.git",
-                "reference": "ef08b37a1f4cf72c617b43f06fa404d065fcd9e2"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/BenjaminHoegh/ParsedownMath/zipball/ef08b37a1f4cf72c617b43f06fa404d065fcd9e2",
-                "reference": "ef08b37a1f4cf72c617b43f06fa404d065fcd9e2",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=7.4"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "parsedownMath": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "description": "An extension of Parsedown that adds support for LaTeX.",
-            "homepage": "https://github.com/BenjaminHoegh/ParsedownMath",
-            "keywords": [
-                "latex",
-                "markdown",
-                "parsedown",
-                "parser"
-            ],
-            "support": {
-                "issues": "https://github.com/BenjaminHoegh/ParsedownMath/issues",
-                "source": "https://github.com/BenjaminHoegh/ParsedownMath/tree/1.2.3"
-            },
-            "funding": [
-                {
-                    "url": "https://paypal.me/BenjaminHoegh",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://www.buymeacoffee.com/BenjaminHoegh",
-                    "type": "custom"
-                }
-            ],
-            "time": "2025-03-13T19:31:13+00:00"
-        },
         {
             "name": "cbschuld/browser.php",
             "version": "v1.9.6",
@@ -113,54 +62,6 @@
             "time": "2020-04-14T18:46:44+00:00"
         },
         {
-            "name": "emojione/emojione",
-            "version": "4.5.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/emojione/emojione.git",
-                "reference": "79e685356877cbb6128074a71b7f88f435b58412"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/emojione/emojione/zipball/79e685356877cbb6128074a71b7f88f435b58412",
-                "reference": "79e685356877cbb6128074a71b7f88f435b58412",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "~4.6 || ~5.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Emojione\\": "lib/php/src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "(CC-BY-4.0 and MIT)"
-            ],
-            "description": "EmojiOne is a complete set of emojis designed for the web. It includes libraries to easily convert unicode characters to shortnames (:smile:) and shortnames to our custom emoji images. PNG format provided for the emoji images.",
-            "homepage": "http://www.emojione.com",
-            "keywords": [
-                "emoji",
-                "emojione",
-                "emojis",
-                "emoticons",
-                "smileys",
-                "smilies",
-                "unicode"
-            ],
-            "support": {
-                "issues": "https://github.com/emojione/emojione/issues",
-                "source": "https://github.com/emojione/emojione/tree/4.5.0"
-            },
-            "abandoned": true,
-            "time": "2019-02-15T01:32:20+00:00"
-        },
-        {
             "name": "erusev/parsedown",
             "version": "1.7.4",
             "source": {
@@ -209,57 +110,6 @@
                 "source": "https://github.com/erusev/parsedown/tree/1.7.x"
             },
             "time": "2019-12-30T22:54:17+00:00"
-        },
-        {
-            "name": "erusev/parsedown-extra",
-            "version": "0.8.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/erusev/parsedown-extra.git",
-                "reference": "91ac3ff98f0cea243bdccc688df43810f044dcef"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/erusev/parsedown-extra/zipball/91ac3ff98f0cea243bdccc688df43810f044dcef",
-                "reference": "91ac3ff98f0cea243bdccc688df43810f044dcef",
-                "shasum": ""
-            },
-            "require": {
-                "erusev/parsedown": "^1.7.4"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^4.8.35"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "ParsedownExtra": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Emanuil Rusev",
-                    "email": "hello@erusev.com",
-                    "homepage": "http://erusev.com"
-                }
-            ],
-            "description": "An extension of Parsedown that adds support for Markdown Extra.",
-            "homepage": "https://github.com/erusev/parsedown-extra",
-            "keywords": [
-                "markdown",
-                "markdown extra",
-                "parsedown",
-                "parser"
-            ],
-            "support": {
-                "issues": "https://github.com/erusev/parsedown-extra/issues",
-                "source": "https://github.com/erusev/parsedown-extra/tree/0.8.x"
-            },
-            "time": "2019-12-30T23:20:37+00:00"
         },
         {
             "name": "ezimuel/php-secure-session",
@@ -346,6 +196,56 @@
                 "source": "https://github.com/geertw/php-ip-anonymizer/tree/master"
             },
             "time": "2017-06-24T13:15:14+00:00"
+        },
+        {
+            "name": "izadori/parsedown-plus",
+            "version": "v1.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Izadori/parsedown-plus.git",
+                "reference": "cba9929dd96608582733b308f917d83159e2af01"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Izadori/parsedown-plus/zipball/cba9929dd96608582733b308f917d83159e2af01",
+                "reference": "cba9929dd96608582733b308f917d83159e2af01",
+                "shasum": ""
+            },
+            "require": {
+                "erusev/parsedown": "^1.7"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^9.5"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Izadori\\ParsedownPlus\\": "parsedown-plus/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "izadori",
+                    "email": "izadori.trial.and.error@gmail.com"
+                }
+            ],
+            "description": "An Extension for Parsedown/ParsedownExtra",
+            "keywords": [
+                "markdown",
+                "markdown extra",
+                "parsedown",
+                "parsedownextra",
+                "parser"
+            ],
+            "support": {
+                "issues": "https://github.com/Izadori/parsedown-plus/issues",
+                "source": "https://github.com/Izadori/parsedown-plus/tree/v1.0.2"
+            },
+            "time": "2021-11-27T23:17:13+00:00"
         },
         {
             "name": "latte/latte",
