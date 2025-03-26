@@ -39,16 +39,16 @@
       }
 
       // Add inline and display math patterns
-      options.inlineMath.forEach(delims => addPattern(startPatterns, delims, false));
-      options.displayMath.forEach(delims => addPattern(startPatterns, delims, true));
+      options.inlineMath.forEach(delims => addPattern(startPatterns, delims, 0));
+      options.displayMath.forEach(delims => addPattern(startPatterns, delims, 1));
 
       const parts = [];
       if (startPatterns.length) {
         parts.push(startPatterns.sort((a, b) => b.length - a.length).join('|'));
       }
       if (options.processEnvironments) {
-        parts.push('\\\\begin\\s*\\{([^}]*)\\}');
         envIndex = parts.length;
+        parts.push('\\\\begin\\s*\\{([^}]*)\\}');
       }
       if (options.processEscapes) {
         subPatterns.push('\\\\([\\\\$])');
@@ -95,7 +95,7 @@
         let found;
         if (match[envIndex] !== undefined && envIndex) {
           const end = new RegExp(`\\\\end\\s*\\{${quotePattern(match[envIndex])}\\}`, 'g');
-          found = findEnd(text, match, ['{' + match[envIndex] + '}', true, end]);
+          found = findEnd(text, match, ['{' + match[envIndex] + '}', 1, end]);
           if (found) {
             found.math = found.open + found.math + found.close;
             found.open = found.close = '';
@@ -105,9 +105,9 @@
           const end = match.index + match[subIndex].length;
           found = {
             open: '',
-            math: mathStr.length === 2 ? mathStr.substr(1) : mathStr,
+            math: mathStr.length === 2 ? mathStr.slice(1) : mathStr,
             close: '',
-            display: false,
+            display: 0,
             startIndex: match.index,
             endIndex: end,
           };
@@ -206,9 +206,9 @@
 
     function setImgSize(eImg, isCentered, shift, x, y) {
         eImg.style.opacity = '1';
-        eImg.style.width = 'calc(var(--latex-zoom, 1)*' + x + 'pt)';
-        eImg.style.height = 'calc(var(--latex-zoom, 1)*' + y + 'pt)';
-        eImg.style.verticalAlign = (isCentered ? 'top' : 'calc(var(--latex-zoom, 1)*' + (-shift) + 'pt)');
+        eImg.style.width = x + 'pt';
+        eImg.style.height = y + 'pt';
+        eImg.style.verticalAlign = (isCentered ? 'top' : (-shift) + 'pt');
     }
 
     function setSizes(path, shift, x, y) {
@@ -239,6 +239,7 @@
         try {
             trackLoading(i, path, isCentered);
         } catch (e) {
+            console.error('Error tracking image loading:', e);
             i.style.opacity = '1';
         }
 
