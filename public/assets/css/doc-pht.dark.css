@@ -243,14 +243,14 @@ i.fa.fa-arrows-v.sort {
 }
 
 .alert-success {
-    color: #eee;
-    background-color: #353b48;
+    /* color: #eee;
+    background-color: #353b48; */
     border-color: #21bf06;
 }
 
 .alert-danger {
-    color: #eee;
-    background-color: #353b48;
+    /* color: #eee;
+    background-color: #353b48; */
     border-color: #dc3545;
 }
 

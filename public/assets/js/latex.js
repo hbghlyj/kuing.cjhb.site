@@ -296,9 +296,11 @@
           const environments = [
             'theorem',
             'lemma',
+            'proposition',
             'corollary',
             'definition',
             'proof',
+            'solution',
             'problem',
             'remark',
             'example',
@@ -312,18 +314,22 @@
 
             // Convert the environment to an HTML div with a class
             const div = d.createElement('div');
-            div.className = `latex_${envName}`;
-
-            // Add a title span if applicable
-            const span = d.createElement('span');
-            span.className = 'latex_title';
-            span.innerHTML = envName.charAt(0).toUpperCase() + envName.slice(1);
-            div.appendChild(span);
+            div.className = envName === 'theorem' ? 'alert alert-primary' : 
+              envName === 'definition' ? 'alert alert-success' :
+              (envName === 'lemma' || envName === 'corollary' || envName === 'proposition') ? 'alert alert-secondary' :
+              (envName === 'proof' || envName === 'solution') ? 'alert alert-info' :
+              envName === 'exercise' ? 'alert alert-dark' :
+              envName === 'example' ? 'alert alert-warning' : 
+              envName === 'problem' ? 'alert alert-danger' :
+              'alert alert-light';
 
             // Add the environment content
-            const content = d.createElement('div');
-            content.innerHTML = innerContent;
-            div.appendChild(content);
+            div.innerHTML = innerContent;
+            // Add a title span if applicable
+            const strong = d.createElement('strong');
+            strong.className = 'latex_title';
+            strong.innerHTML = envName.charAt(0).toUpperCase() + envName.slice(1);
+            div.insertBefore(strong, div.firstChild);
 
             // Replace the TeX environment with the HTML div
             textNode.parentNode.insertBefore(div, textNode);
