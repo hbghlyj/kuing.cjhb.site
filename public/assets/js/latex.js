@@ -94,10 +94,10 @@
       while ((match = startRegex.exec(text))) {
         let found;
         if (match[envIndex] !== undefined && envIndex) {
-          const end = new RegExp(`\\\\end\\s*\\{${quotePattern(match[envIndex])}\\}`, 'g');
+          const end = new RegExp(`\\\\end\\s*(\\{${quotePattern(match[envIndex])}\\})`, 'g');
           found = findEnd(text, match, ['{' + match[envIndex] + '}', 1, end]);
           if (found) {
-            found.math = found.open + found.math + found.close;
+            found.math = found.open.replace(/(equation|align|gather|alignat|multline|flalign)\b/, '$1*') + found.math + found.close.replace(/(equation|align|gather|alignat|multline|flalign)\b/, '$1*');
             found.open = found.close = '';
           }
         } else if (match[subIndex] !== undefined && subIndex) {
@@ -125,8 +125,7 @@
     var prtcl = location.protocol,
         ntwPath = '//i.upmath.me',
         url = (prtcl === 'http:' || prtcl === 'https:') ? ntwPath : 'http:' + ntwPath,
-        im = d.implementation,
-        ext = im && im.hasFeature("http://www.w3.org/TR/SVG11/feature#BasicStructure", "1.1") ? 'svg' : 'png';
+        ext = typeof SVGElement !== 'undefined' ? 'svg' : 'png';
 
     (function (fn) {
         var done = !1,
@@ -223,9 +222,7 @@
     }
 
     function createImgNode(formula, isCentered) {
-        var i = d.createElement('img'),
-        tagMatch = formula.includes('\\tag*') ? formula.match(/\\tag\*\{(.*?)\}/) : formula.match(/\\tag\{(.*?)\}/),
-        tagLabel = tagMatch ? (formula.includes('\\tag*') ? tagMatch[1] : '(' + tagMatch[1] + ')') : '',
+        const i = d.createElement('img'), tagLabel = formula.includes('\\tag*') ? '(' + formula.match(/\\tag\*\{(.*?)\}/)[1] + ')' : formula.includes('\\tag') ? '(' + formula.match(/\\tag\{(.*?)\}/)[1] + ')' : '',
         cleanedFormula = formula.replace(/\\tag\{.*?\}/g, '').replace(/\\tag\*\{.*?\}/g, ''),
         path = url + '/' + ext + '/' + encodeURIComponent(cleanedFormula);
 
