@@ -56,7 +56,20 @@
             <div id="search">
                 <button type="button" class="close">×</button>
                 <form id="form-search" action="page/search" method="post">
-                    <input type="search" name="search" minlength="5" value="<?php $search; ?>" placeholder="<?= $t->trans('Type the keywords here'); ?>" autocomplete="off" required />
+                    <input type="search" name="search" value="<?php $search; ?>" placeholder="<?= $t->trans('Type the keywords here'); ?>" autocomplete="off" required />
+                    <script>
+                        document.getElementById('form-search').search.addEventListener('input', function (event) {
+                            var input = event.target;
+                            var minLength = 5;
+                            var byteLength = new TextEncoder().encode(input.value).length;
+
+                            if (byteLength < minLength) {
+                                input.setCustomValidity('The input should be at least ' + minLength + ' bytes long.');
+                            } else {
+                                input.setCustomValidity('');
+                            }
+                        });
+                    </script>
                 </form>
             </div>
 
