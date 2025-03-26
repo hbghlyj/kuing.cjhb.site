@@ -188,14 +188,14 @@ i.fa.fa-arrows-v.sort {
 }
 
 .alert-success {
-    color: #ffffff;
-    background-color: #21bf06;
+    /* color: #ffffff;
+    background-color: #21bf06; */
     border-color: #21bf06;
 }
 
 .alert-danger {
-    color: #ffffff;
-    background-color: #dc3545;
+    /* color: #ffffff;
+    background-color: #dc3545; */
     border-color: #dc3545;
 }
 
