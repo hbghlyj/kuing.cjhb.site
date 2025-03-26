@@ -37,16 +37,38 @@ class MediaWikiParsedown extends ParsedownPlus
     {
         if (preg_match('/\[\[([^\s\]]+)\]\]/', $Excerpt['text'], $matches))
         {
-            $page = $matches[1];
-            $requestUriParts = explode('/', urldecode($_SERVER['REQUEST_URI']));
-            $topic = $requestUriParts[count($requestUriParts) - 2];
-            $newPage = !file_exists('pages/' . $topic . '/' . $page . '.php');
-            $url = $newPage ? '/page/create?mainfilename=' . urlencode($page) : '/page/' . $topic . '/' . $page;
+            $filename = $matches[1];
+            $requestUriParts = explode('/', $_SERVER['REQUEST_URI']);
+            end($requestUriParts);
+            $topic = urldecode(prev($requestUriParts));
+            $newPage = !file_exists('pages/' . $topic . '/' . $filename . '.php');
+            if ($newPage) { // search in all topics for the closest match
+                $closestTopic = null;
+                $shortestDistance = PHP_INT_MAX;
+
+                foreach (glob('pages/*/' . $filename . '.php') as $filePath) {
+                    $dirName = basename(dirname($filePath));
+                    $distance = levenshtein($topic, $dirName);
+
+                    if ($distance < $shortestDistance) {
+                        $shortestDistance = $distance;
+                        $closestTopic = $dirName;
+                    }
+                }
+
+                if ($closestTopic !== null) {
+                    $topic = $closestTopic;
+                    $newPage = false;
+                }
+            } else {
+                $closestTopic = $topic;
+            }
+            $url = $newPage ? '/page/create?mainfilename=' . urlencode($filename) : '/page/' . $closestTopic . '/' . $filename;
             $Inline = array(
                 'extent' => strlen($matches[0]),
                 'element' => array(
                     'name' => 'a',
-                    'text' => $page,
+                    'text' => $filename,
                     'attributes' => array(
                         'href' => $url,
                         'class' => $newPage ? 'new' : '',
