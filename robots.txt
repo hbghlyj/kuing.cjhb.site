@@ -26,3 +26,6 @@ Disallow: /forum.php?mod=redirect*
 Disallow: /forum.php?mod=post*
 Disallow: /home.php?mod=spacecp*
 Disallow: /*?mod=misc*
+
+User-agent: SemrushBot
+Disallow: /
