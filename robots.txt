@@ -27,7 +27,6 @@ Disallow: /forum.php?mod=post*
 Disallow: /home.php?mod=spacecp*
 Disallow: /*?mod=misc*
 Disallow: /*?mod=attachment*
-Disallow: /*mobile=yes*
 User-agent: SemrushBot
 Disallow: /
 Sitemap: https://kuing.cjhb.site/sitemap.xml
