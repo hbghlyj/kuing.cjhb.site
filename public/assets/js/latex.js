@@ -7,7 +7,7 @@
    * Function to find TeX expressions within a string.
    * @param {string} text - The string to search for TeX expressions.
    * @param {Object} options - The configuration options.
-   * @returns {Array} - An array of found TeX expressions.
+   * @returns {pending: string, math: Array} - The pending text and an array of TeX expressions.
    */
   function findTeX(text, options = {}) {
     // Default options
@@ -89,9 +89,9 @@
     }
 
     const math = [];
-    let match;
+    let match, pending = '';
     startRegex.lastIndex = 0;
-    while ((match = startRegex.exec(text))) {
+    while (match = startRegex.exec(text)) {
       let found;
       if (match[envIndex] !== undefined && envIndex) {
         const end = new RegExp(`\\\\end\\s*(\\{${quotePattern(match[envIndex])}\\})`, 'g');
@@ -104,6 +104,9 @@
               found.close = found.close.replace(/^\{(.*?)\}$/, '{$1*}');
             }
           }
+        } else {
+          // not found, so move \begin{env}... to the start of next text node
+          pending = text.slice(match.index);
         }
       } else if (match[subIndex] !== undefined && subIndex) {
         const mathStr = match[subIndex];
@@ -125,7 +128,7 @@
       }
     }
 
-    return math;
+    return { pending: pending, mathItem: math };
   }
 
   var prtcl = location.protocol,
@@ -169,7 +172,7 @@
       if (d.createEventObject && root.doScroll) {
         try {
           top = !w.frameElement;
-        } catch (e) {}
+        } catch (e) { }
         if (top) {
           poll();
         }
@@ -179,7 +182,9 @@
       w[add](pre + 'load', init, !1);
     }
   })(function () {
-    processTree(d.body);
+    d.body.querySelectorAll('td.markdown-col').forEach(function (e) {
+      processTree(e);
+    });
   });
 
   var imgQueue = {},
@@ -211,7 +216,6 @@
   }
 
   function setImgSize(eImg, isCentered, shift, x, y) {
-    eImg.style.opacity = '1';
     eImg.style.width = x + 'pt';
     eImg.style.height = y + 'pt';
     eImg.style.verticalAlign = isCentered ? 'top' : -shift + 'pt';
@@ -223,7 +227,7 @@
       var ao = imgQueue[path][isCentered],
         i = ao.length;
 
-      for (; i--; ) {
+      for (; i--;) {
         setImgSize(ao[i], isCentered, shift, x, y);
       }
     }
@@ -232,7 +236,7 @@
   function createImgNode(formula, isCentered) {
     const i = d.createElement('img'),
       tagLabel = formula.includes('\\tag*')
-        ? '(' + formula.match(/\\tag\*\{(.*?)\}/)[1] + ')'
+        ? formula.match(/\\tag\*\{(.*?)\}/)[1]
         : formula.includes('\\tag')
         ? '(' + formula.match(/\\tag\{(.*?)\}/)[1] + ')'
         : '',
@@ -241,160 +245,140 @@
 
     i.setAttribute('src', path);
     i.setAttribute('class', 'latex-' + ext);
-    i.setAttribute('style', 'vertical-align:middle; border:0; opacity:0;');
+    i.setAttribute('style', 'vertical-align:middle; border:0;');
     i.setAttribute('alt', cleanedFormula);
 
     isCentered && (i.style.margin = '0 0 0 auto');
 
-    try {
-      trackLoading(i, path, isCentered);
-    } catch (e) {
-      console.error('Error tracking image loading:', e);
-      i.style.opacity = '1';
-    }
+    trackLoading(i, path, isCentered);
 
     return { imgNode: i, tagLabel: tagLabel };
   }
 
-  var processTree = function (eItem) {
-    var eNext = eItem.firstChild;
 
-    // Function to process text nodes and replace TeX with images
-    function processTextNode(textNode) {
-      const mathItems = findTeX(textNode.nodeValue);
+  // Function to process text nodes and replace TeX with images
+  function processTextNode(textNode, old_pending = '') {
+    let { pending, mathItem } = findTeX(old_pending + textNode.nodeValue);
+    let lastIndex = 0;
+    mathItem.forEach(item => {
+      // Check for other environments
+      const environments = [
+        'theorem',
+        'lemma',
+        'proposition',
+        'corollary',
+        'definition',
+        'proof',
+        'solution',
+        'problem',
+        'remark',
+        'example',
+        'exercise'
+      ];
 
-      let lastIndex = 0;
-      mathItems.forEach(item => {
-        // Check if the item is an enumerate environment
-              if (item.open === '\\begin{enumerate}' || item.open === '\\begin{itemize}') {
-          // Extract the content inside the enumerate environment
-          const innerContent = item.math;
+      if (environments.includes(item.open.replace('\\begin{', '').replace('}', ''))) {
+        // Extract the content inside the environment
+        const envName = item.open.replace('\\begin{', '').replace('}', '');
+        const innerContent = item.math;
 
-          // Convert the enumerate to an HTML ordered list
-                  const ol = d.createElement(item.open === '\\begin{enumerate}' ? 'ol' : 'ul');
-
-          // Split the content by \item and process each item
-          const items = innerContent.split('\\item').slice(1); // remove the first empty element
-          items.forEach(listItem => {
-            const li = d.createElement('li');
-            li.innerHTML = listItem.trim();
-            ol.appendChild(li);
-          });
-
-          // Replace the TeX enumerate with the HTML ordered list
-          textNode.parentNode.insertBefore(ol, textNode);
-          processTree(ol);
-
-          // Create a text node for the text before the TeX enumerate
-          const beforeText = textNode.nodeValue.slice(lastIndex, item.startIndex);
-          const beforeTextNode = d.createTextNode(beforeText);
-          textNode.parentNode.insertBefore(beforeTextNode, ol);
-
-          lastIndex = item.endIndex;
-        } else {
-          // Check for other environments
-          const environments = [
-            'theorem',
-            'lemma',
-            'proposition',
-            'corollary',
-            'definition',
-            'proof',
-            'solution',
-            'problem',
-            'remark',
-            'example',
-            'exercise'
-          ];
-
-          if (environments.includes(item.open.replace('\\begin{', '').replace('}', ''))) {
-            // Extract the content inside the environment
-            const envName = item.open.replace('\\begin{', '').replace('}', '');
-            const innerContent = item.math;
-
-            // Convert the environment to an HTML div with a class
-            const div = d.createElement('div');
-            div.className = envName === 'theorem' ? 'alert alert-primary' : 
-              envName === 'definition' ? 'alert alert-success' :
-              (envName === 'lemma' || envName === 'corollary' || envName === 'proposition') ? 'alert alert-secondary' :
+        // Convert the environment to an HTML div with a class
+        const div = d.createElement('div');
+        div.className = envName === 'theorem' ? 'alert alert-primary' :
+          envName === 'definition' ? 'alert alert-success' :
+            (envName === 'lemma' || envName === 'corollary' || envName === 'proposition') ? 'alert alert-secondary' :
               (envName === 'proof' || envName === 'solution') ? 'alert alert-info' :
-              envName === 'exercise' ? 'alert alert-dark' :
-              envName === 'example' ? 'alert alert-warning' : 
-              envName === 'problem' ? 'alert alert-danger' :
-              'alert alert-light';
+                envName === 'exercise' ? 'alert alert-dark' :
+                  envName === 'example' ? 'alert alert-warning' :
+                    envName === 'problem' ? 'alert alert-danger' :
+                      'alert alert-light';
 
-            // Add the environment content
-            div.innerHTML = innerContent;
-            // Add a title span if applicable
-            const strong = d.createElement('strong');
-            strong.className = 'latex_title';
-            strong.innerHTML = envName.charAt(0).toUpperCase() + envName.slice(1);
-            div.insertBefore(strong, div.firstChild);
+        // Add the environment content
+        div.innerHTML = innerContent;
+        // Add a title span if applicable
+        const strong = d.createElement('strong');
+        strong.className = 'latex_title';
+        strong.innerHTML = envName.charAt(0).toUpperCase() + envName.slice(1);
+        textNode.parentNode.insertBefore(div, textNode);
+        processTree(div);
+        div.insertBefore(strong, div.firstChild);
+        // Create a text node for the text before the TeX environment
+        const beforeText = textNode.nodeValue.slice(lastIndex - old_pending.length, item.startIndex - old_pending.length);
+        const beforeTextNode = d.createTextNode(beforeText);
+        textNode.parentNode.insertBefore(beforeTextNode, div);
+        lastIndex = item.endIndex;
+      } else if (item.open === '\\begin{enumerate}' || item.open === '\\begin{itemize}') {
+        // Extract the content inside the enumerate environment
+        const innerContent = item.math;
 
-            // Replace the TeX environment with the HTML div
-            textNode.parentNode.insertBefore(div, textNode);
-            processTree(div);
+        // Convert the enumerate to an HTML ordered list
+        const ol = d.createElement(item.open === '\\begin{enumerate}' ? 'ol' : 'ul');
 
-            // Create a text node for the text before the TeX environment
-            const beforeText = textNode.nodeValue.slice(lastIndex, item.startIndex);
-            const beforeTextNode = d.createTextNode(beforeText);
-            textNode.parentNode.insertBefore(beforeTextNode, div);
+        // Split the content by \item and process each item
+        const items = innerContent.split('\\item').slice(1); // remove the first empty element
+        items.forEach(listItem => {
+          const li = d.createElement('li');
+          li.innerHTML = listItem.trim();
+          ol.appendChild(li);
+        });
 
-            lastIndex = item.endIndex;
-          } else {
-            // Create the image node for the found TeX
-            let { imgNode, tagLabel } = createImgNode(item.math, item.display);
+        // Replace the TeX enumerate with the HTML ordered list
+        textNode.parentNode.insertBefore(ol, textNode);
+        processTree(ol);
 
-            if (item.display) {
-              const wrapperDiv = d.createElement('div');
-              wrapperDiv.setAttribute('align', 'center');
-              wrapperDiv.appendChild(imgNode);
-              if (tagLabel) {
-                const labelSpan = d.createElement('span');
-                labelSpan.setAttribute('style', 'float: right; margin-left: 10px;');
-                labelSpan.textContent = tagLabel;
-                wrapperDiv.appendChild(labelSpan);
-              }
-              imgNode = wrapperDiv;
-            }
-            // Insert the image node before the text node
-            textNode.parentNode.insertBefore(imgNode, textNode);
-
-            // Create a text node for the text before the TeX
-            const beforeText = textNode.nodeValue.slice(lastIndex, item.startIndex);
-            const beforeTextNode = d.createTextNode(beforeText);
-            textNode.parentNode.insertBefore(beforeTextNode, imgNode);
-
-            lastIndex = item.endIndex;
+        // Create a text node for the text before the TeX enumerate
+        const beforeText = textNode.nodeValue.slice(lastIndex - old_pending.length, item.startIndex - old_pending.length);
+        const beforeTextNode = d.createTextNode(beforeText);
+        textNode.parentNode.insertBefore(beforeTextNode, ol);
+        lastIndex = item.endIndex;
+      } else if (item.startIndex - old_pending.length <= textNode.nodeValue.length - pending.length) {
+        // Create the image node for the found TeX
+        let { imgNode, tagLabel } = createImgNode(item.math, item.display);
+  
+        if (item.display) {
+          const wrapperDiv = d.createElement('div');
+          wrapperDiv.setAttribute('align', 'center');
+          wrapperDiv.appendChild(imgNode);
+          if (tagLabel) {
+            const labelSpan = d.createElement('span');
+            labelSpan.setAttribute('style', 'float: right; margin-left: 10px;');
+            labelSpan.textContent = tagLabel;
+            wrapperDiv.appendChild(labelSpan);
           }
+          imgNode = wrapperDiv;
         }
-      });
-
-      // Create a text node for the remaining text
-      const remainingText = textNode.nodeValue.slice(lastIndex);
-      const remainingTextNode = d.createTextNode(remainingText);
-      textNode.parentNode.insertBefore(remainingTextNode, textNode);
-
-      textNode.parentNode.removeChild(textNode);
-    }
-
+        // Insert the image node before the text node
+        textNode.parentNode.insertBefore(imgNode, textNode);
+  
+        // Create a text node for the text before the TeX
+        const beforeText = textNode.nodeValue.slice(lastIndex - old_pending.length, item.startIndex - old_pending.length);
+        const beforeTextNode = d.createTextNode(beforeText);
+        textNode.parentNode.insertBefore(beforeTextNode, imgNode);
+        lastIndex = item.endIndex;
+      }
+    });
+    // Create a text node for the remaining text
+    const remainingText = textNode.nodeValue.slice(lastIndex - old_pending.length, textNode.nodeValue.length - pending.length);
+    const remainingTextNode = d.createTextNode(remainingText);
+    textNode.parentNode.insertBefore(remainingTextNode, textNode);
+    textNode.remove();
+    return pending;
+  }
+  var processTree = function (eItem, pending = '') {
+    var eNext = eItem.firstChild;
+  
     // Process each node in the tree
     while (eNext) {
       var eCur = eNext,
         sNn = eCur.nodeName;
       eNext = eNext.nextSibling;
-
+  
       const excludedTags = ['SCRIPT', 'TEXTAREA', 'OBJECT', 'CODE', 'PRE'];
       if (eCur.nodeType === 1 && !excludedTags.includes(sNn)) {
-        processTree(eCur);
-        continue;
-      }
-
-      if (eCur.nodeType === 3) {
-        processTextNode(eCur);
+        pending = processTree(eCur, pending);
+      } else if (eCur.nodeType === 3) {
+        pending = processTextNode(eCur, pending);
       }
     }
+    return pending;
   };
-
-  w.S2Latex = { processTree: processTree };
 })(window, document);
