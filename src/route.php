@@ -66,6 +66,11 @@ if (isset($_SESSION['Active'])) {
             // /admin/lastlogins
             $this->get_post('/lastlogins', 'DocPHT\Controller\AdminController@lastLogin');
 
+            // /page/delete
+            $this->get_post('/delete', 'DocPHT\Controller\FormPageController@getDeletePageForm');
+
+            // /page/delete-version
+            $this->get_post('/delete-version', 'DocPHT\Controller\FormPageController@getDeleteVersionForm');
         }
         
         // /admin/translations
@@ -122,16 +127,12 @@ $route->group('/page', function()
         $this->get_post('/remove', 'DocPHT\Controller\FormPageController@getRemoveSectionForm');
         // /page/sort
         $this->get_post('/sort', 'DocPHT\Controller\FormPageController@getSortSectionForm');
-        // /page/delete
-        $this->get_post('/delete', 'DocPHT\Controller\FormPageController@getDeletePageForm');
         // /page/import-version
         $this->get_post('/import-version', 'DocPHT\Controller\FormPageController@getImportVersionForm');
         // /page/export-version
         $this->get_post('/export-version', 'DocPHT\Controller\FormPageController@getExportVersionForm');
         // /page/restore-version
         $this->get_post('/restore-version', 'DocPHT\Controller\FormPageController@getRestoreVersionForm');
-        // /page/delete-version
-        $this->get_post('/delete-version', 'DocPHT\Controller\FormPageController@getDeleteVersionForm');
         // /page/save-version
         $this->get_post('/save-version', 'DocPHT\Controller\FormPageController@getSaveVersionForm');
         // /page/publish
