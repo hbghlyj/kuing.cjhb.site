@@ -283,7 +283,7 @@ class DocPHT {
      */
     public function markdownFile(string $filePath)
     {   
-        $Parsedown = new ParsedownCheckbox();
+        $Parsedown = new MediaWikiParsedown();
         $markdown = '<tr>'. ((isset($_SESSION['Active'])) ? '<td class="handle"><i class="fa fa-arrows-v sort"></i></td>' : '') . '<td class="markdown-col">';
         $markdown .= $Parsedown->text(file_get_contents('Data/'.$filePath));
         $markdown .= $this->insertBeforeButton().$this->removeButton().$this->modifyButton().$this->insertAfterButton().'</td></tr>';
