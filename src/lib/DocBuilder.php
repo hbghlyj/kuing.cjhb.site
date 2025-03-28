@@ -178,9 +178,8 @@ class DocBuilder
 		}
 			
         $file = "<?php\n\n"
-                ."use DocPHT\Lib\DocPHT;\n\n"
                 .'$_SESSION'."['page_id'] = '".$id."';\n\n"
-                .'$html = new DocPHT(['.implode(',',$anchors)."]);\n"
+                .'$html = new DocPHT\Lib\DocPHT(['.implode(',',$anchors)."]);\n"
                 .'$values'." = [\n".implode('', $values).'$html->addButton(),'."\n"."];\n"
                 .'$GLOBALS["page_author"]'." = '"
                 .$_SESSION['Username'].' '.$this->datetimeNow()."';";
@@ -529,11 +528,37 @@ class DocBuilder
      */
     public function markdown($val)
     {
-        $val = addcslashes($val,"\'");
-        $out = '$html->markdown'."('{$val}'), \n";
+        $identifier = $this->generateHeredocIdentifier($val);
+        $out = '$html->markdown(<<<' . "'$identifier'
+$val
+$identifier),\n";
         return $out; 
     }
+
+    /**
+    * Generate a shortest identifier for a string to be used in a heredoc/nowdoc.
+    *
+    * @param string $string
+    * @return string
+    */
+    public function generateHeredocIdentifier(string $string): string
+    {
+        // Generate all possible identifiers starting with a non-digit character or underscore
+        $characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_';
+        $suffixCharacters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_';
+        $queue = str_split($characters);
     
+        while (!empty($queue)) {
+            $current = array_shift($queue);
+            if (!preg_match('/\b' . preg_quote($current, '/') . '\b/', $string)) {
+                return $current;
+            }
+            foreach (str_split($suffixCharacters) as $char) {
+                $queue[] = $current . $char;
+            }
+        }
+    }
+
     /**
      * markdownFile
      *
