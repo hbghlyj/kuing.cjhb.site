@@ -224,4 +224,5 @@
         'Authorized access' => '授权访问',
         'Attempt to access' => '尝试访问',
         'New version of <b>DocPHT</b> available' => '新版本的 <b>DocPHT</b> 可用',
+        'Related threads' => '相关主题',
     ], 'zh_CN');
