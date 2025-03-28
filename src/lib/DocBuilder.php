@@ -181,7 +181,9 @@ class DocBuilder
                 ."use DocPHT\Lib\DocPHT;\n\n"
                 .'$_SESSION'."['page_id'] = '".$id."';\n\n"
                 .'$html = new DocPHT(['.implode(',',$anchors)."]);\n"
-                .'$values'." = [\n".implode('', $values).'$html->addButton(),'."\n"."];";
+                .'$values'." = [\n".implode('', $values).'$html->addButton(),'."\n"."];\n"
+                .'$GLOBALS["page_author"]'." = '"
+                .$_SESSION['Username'].' '.$this->datetimeNow()."';";
         
         if (!file_exists(pathinfo($path, PATHINFO_DIRNAME))) {
             mkdir(pathinfo($path, PATHINFO_DIRNAME), 0755, true);
