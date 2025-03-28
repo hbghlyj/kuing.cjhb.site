@@ -54,12 +54,8 @@ class CreatePageForm extends MakeupForm
         $form->addText('mainfilename', T::trans('Page name'))
         ->setDefaultValue(isset($_GET['mainfilename']) ? $_GET['mainfilename'] : '')
         ->setHtmlAttribute('placeholder', T::trans('Enter page name'))
+        ->setAttribute('autocomplete', 'off')
         ->setRequired(T::trans('Enter page name'));
-        
-        $form->addTextarea('description', T::trans('Description'))
-            ->setHtmlAttribute('placeholder', T::trans('Enter description'))
-            ->setHtmlAttribute('rows', 8)
-        	->setAttribute('data-autoresize');
         
         $form->addProtection(T::trans('Security token has expired, please submit the form again'));
         
@@ -74,7 +70,6 @@ class CreatePageForm extends MakeupForm
                 
         	    if(isset($id)) {
             	    $this->pageModel->addPageData($id, $this->doc->valuesToArray(array('options' => 'title', 'option_content' => $values['mainfilename'])));
-                    $this->pageModel->addPageData($id, $this->doc->valuesToArray(array('options' => 'markdown', 'option_content' => $values['description'])));
             	    $this->doc->buildPhpPage($id);
         
                     header('Location:'.$this->pageModel->getTopic($id).'/'.$this->pageModel->getFilename($id));
