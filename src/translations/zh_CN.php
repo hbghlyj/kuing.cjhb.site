@@ -15,8 +15,6 @@
         'Topic' => '主题',
         'Select a topic' => '选择一个主题',
         'Enter topic' => '输入主题',
-        'Description' => '描述',
-        'Enter description' => '输入描述',
         'Filename' => '文件名',
         'Page name' => '页面名称',
         'Enter page name' => '输入页面名称',
