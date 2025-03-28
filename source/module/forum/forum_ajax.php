@@ -12,8 +12,25 @@ if(!defined('IN_DISCUZ')) {
 }
 define('NOROBOT', TRUE);
 
-if(!in_array($_GET['action'], array('checkusername', 'checkemail', 'checkinvitecode', 'checkuserexists', 'quickclear', 'setnav')) && !$_G['setting']['forumstatus']) {
+if(!in_array($_GET['action'], array('markAsRead', 'checkusername', 'checkemail', 'checkinvitecode', 'checkuserexists', 'quickclear', 'setnav')) && !$_G['setting']['forumstatus']) {
 	showmessage('forum_status_off');
+}
+
+if($_GET['action'] == 'markAsRead') {
+	echo '<?xml version="1.0" encoding="utf-8"?><root><![CDATA[';
+	// Fetch the last 5 new notices
+	foreach(C::t('home_notification')->fetch_all_by_uid($_G['uid'], -1, '', 0, 5, '') as $notice){
+		$stripped = strip_tags($notice['note'], '<div><blockquote>');
+		// Find the last <a href=""> element
+		$lastAnchor = '';
+		if (preg_match_all('/<a href="[^"]*"/', $notice['note'], $matches)) $lastAnchor = end($matches[0]);
+		if (empty($lastAnchor)) return $stripped;
+		echo '<li>',$lastAnchor,$notice['new'] ? ' style="font-weight:600;background:#f7f7f7">' : '>',$stripped,'</a></li>';
+		}
+		// Mark all notices as read
+		C::t('common_member')->update($_G['uid'], array('newprompt' => 0));
+		C::t('home_notification')->ignore($_G['uid']);
+		exit(']]></root>');
 }
 
 if($_GET['action'] == 'checkusername') {
