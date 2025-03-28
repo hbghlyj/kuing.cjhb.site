@@ -12,7 +12,7 @@ if(!defined('IN_DISCUZ')) {
 }
 define('NOROBOT', TRUE);
 
-if(!in_array($_GET['action'], array('markAsRead', 'checkusername', 'checkinvitecode', 'checkuserexists', 'quickclear', 'setnav')) && !$_G['setting']['forumstatus']) {
+if(!in_array($_GET['action'], array('markAsRead', 'checkusername', 'checkemail', 'checkinvitecode', 'checkuserexists', 'quickclear', 'setnav')) && !$_G['setting']['forumstatus']) {
 	showmessage('forum_status_off');
 }
 
@@ -29,6 +29,7 @@ if($_GET['action'] == 'markAsRead') {
 	}
 	// Mark all notices as read
 	C::t('common_member')->update($_G['uid'], array('newprompt' => 0));
+	C::t('home_notification')->ignore($_G['uid']);
 	exit(']]></root>');
 }
 
