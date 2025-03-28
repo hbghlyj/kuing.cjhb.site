@@ -1,5 +1,17 @@
 
             </div> <!-- end container -->
+            <footer class="footer">
+                <form action="/misc.php?mod=tag" method="post" class="d-sm-flex justify-content-center justify-content-sm-between">
+                    <input type="hidden" name="name" value="<?= rawurldecode(basename($_SERVER['REQUEST_URI'])) ?>">
+                    <button type="submit" class="page-link text-muted"><?= DocPHT\Core\Translator\T::trans('Related threads') ?></button>
+                    <?php if(isset($GLOBALS["page_author"])): ?>
+                        <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center text-muted">
+                            <i class="fa fa-pencil"></i> <a href="/home.php?mod=space&username=<?= $GLOBALS["page_author"]?>"><?= $GLOBALS["page_author"]?></a>
+                        </span>
+                    <?php endif; ?>
+                </form>
+            </footer>
+
             <?php if (isset($_SESSION['Active']) && $this->pageModel->hideBySlug('page/search')): ?>
             <ul class="list-inline text-left mt-4 ml-3">
                 <li class="list-inline-item">
