@@ -329,7 +329,7 @@ PusherChatWidget.timeToDescription = function(time) {
   else {
     desc = date.getDay() + " " + ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"][date.getMonth()]
     if(isChinese) {
-      desc = date.getMonth() + "月" + date.getDay() + "日";
+      desc = date.getMonth()+1 + "月" + date.getDate() + "日";
     }
   }
   return desc;
