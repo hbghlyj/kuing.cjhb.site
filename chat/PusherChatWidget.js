@@ -48,7 +48,7 @@ function PusherChatWidget(pusher, options) {
   if(typeof currentPage !== 'undefined' && typeof tid !== 'undefined') {
     this._chatChannel.bind('newreply', function(data) {
       if(data.tid == tid && data.page == currentPage) {
-        ajaxget(`forum.php?mod=viewthread&tid=${tid}&viewpid=${data.pid}`, 'post_new', 'ajaxwaitid', '', null, 'appendreply()');
+        ajaxget(`forum.php?mod=viewthread&tid=${tid}&viewpid=${data.pid}`, 'post_new', 'ajaxwaitid', '', null, appendreply);
       }
     });
     this._chatChannel.bind('editpost', function(data) {
