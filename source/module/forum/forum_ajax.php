@@ -27,7 +27,7 @@ if($_GET['action'] == 'markAsRead') {
 		if(empty($lastAnchor)) {
 			continue;
 		}
-		echo '<li>',$lastAnchor,$notice['new'] ? ' style="font-weight:600;background:#f7f7f7">' : '>',$stripped,'</a></li>';
+		echo '<li>'.$lastAnchor,$notice['new'] ? ' style="font-weight:600;background:#f7f7f7"' : '','><font',$notice['new'] ? ' color="#F26C4F"' : '',' face="dzicon"></font> '.$stripped.'</a></li>';
 	}
 	C::t('common_member')->update($_G['uid'], array('newprompt' => 0));
 	C::t('home_notification')->ignore($_G['uid']);
