@@ -425,7 +425,7 @@ function formhash($specialadd = '') {
 }
 
 function checkrobot($useragent = '') {
-	static $kw_spiders = ['bot', 'crawl', 'spider', 'slurp', 'sohu-search', 'lycos', 'robozilla'];
+	static $kw_spiders = ['bot', 'crawl', 'spider', 'slurp', 'sohu-search', 'lycos', 'robozilla', 'algolia crawler'];
 	static $kw_browsers = ['msie', 'netscape', 'opera', 'konqueror', 'mozilla'];
 
 	$useragent = strtolower(empty($useragent) ? $_SERVER['HTTP_USER_AGENT'] : $useragent);
