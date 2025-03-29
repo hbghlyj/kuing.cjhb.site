@@ -29,7 +29,6 @@ if($_GET['action'] == 'markAsRead') {
 	}
 	// Mark all notices as read
 	C::t('common_member')->update($_G['uid'], array('newprompt' => 0));
-	C::t('home_notification')->ignore($_G['uid']);
 	exit(']]></root>');
 }
 
