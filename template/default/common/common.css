@@ -618,17 +618,327 @@ CSS 写作注意事项：
 			#hd .fastlg { padding-top: 10px; }
 			#hd .fastlg .pns { margin-bottom: 10px; }
 
-			#scbar { overflow: hidden; height: 42px; line-height: 42px; border-top: 1px solid #FFF; border-bottom: 1px solid #E9EFF5; background: #E8EFF5; }
-				.scbar_icon_td { width: 15px; }
-					#scbar_txt { width: 400px; height: 18px; border: 1px solid #cfdee3; outline: none; padding: 5px 6px; }
-					.scbar_narrow #scbar_txt { width: 260px; }
-				.scbar_btn_td { width: 38px; }
-					#scbar_btn { display: block; margin: 0 0 0 8px; padding: 0 0 0 2px; border: none; height: 28px; width: 28px; {MENUBGCODE}; font-size: 18px; line-height: 28px; }
-						#scbar_btn:before { content: "\f101"; font-family: dzicon; }
-				.scbar_type_td { width: 61px; }
-					#scbar_type { display: block; padding-left: 12px; margin-left: -2px; text-align: left; text-decoration: none; height: 28px; line-height: 28px; border: 1px solid #cfdee3; border-left: 0; background: #fff; }
-				#scbar_hot { padding-left: 8px; height: 45px; overflow: hidden; }
-					#scbar_hot strong, #scbar_hot a { float: left; margin-right: 8px; white-space: nowrap; }
+			
+	#ais-wrapper {
+		display: flex;
+	}
+
+	#ais-main {
+		padding: 1rem;
+		width: 100%;
+	}
+
+	#ais-facets {
+		display: none;
+		/*not ready yet*/
+		width: 40%;
+		padding: 1rem;
+	}
+
+	.ais-facets {
+		margin-bottom: 2rem;
+		padding: 0;
+	}
+
+	.ais-facets ul {
+		list-style: none;
+		padding-left: 0;
+		margin-left: 0;
+	}
+
+	.ais-facets li {
+		margin-left: 0;
+	}
+
+	.ais-clearfix {
+		clear: both;
+	}
+
+	.algolia-search-box-wrapper {
+		position: relative;
+	}
+
+	.algolia-search-box-wrapper .search-icon {
+		position: absolute;
+		left: 0px;
+		top: 14px;
+		fill: #21a4d7;
+	}
+
+	#algolia-search-box {
+		margin-bottom: 1.5rem;
+	}
+
+	#algolia-search-box input {
+		border: none;
+		border-bottom: 2px solid #21a4d7;
+		background: transparent;
+		width: 100%;
+		line-height: 30px;
+		font-size: 22px;
+		padding: 10px 0 10px 30px;
+		font-weight: 200;
+		box-sizing: border-box;
+		outline: none;
+		box-shadow: none;
+		appearance: none;
+		-webkit-appearance: none;
+		-moz-appearance: none;
+		-ms-appearance: none;
+	}
+
+	.ais-SearchBox-form {
+		display: block;
+		position: relative;
+	}
+
+	.ais-SearchBox-submit[hidden],
+	.ais-SearchBox-reset[hidden],
+	.ais-SearchBox-loadingIndicator[hidden] {
+		display: none;
+	}
+
+	#algolia-powered-by {
+		position: absolute;
+		top: 60px;
+		right: 0;
+		font-size: 14px;
+		text-align: right;
+	}
+
+	.ais-Stats {
+		position: absolute;
+		top: 60px;
+		font-size: 14px;
+	}
+
+	.ais-Hits-list {
+		list-style: none;
+		padding-left: 0;
+		margin-left: 0;
+	}
+
+	.ais-Hits-item {
+		/* hit item */
+		margin: 0 0 2rem 0;
+	}
+
+	.ais-Hits-item h2 {
+		margin: 0;
+	}
+
+	.ais-Hits-item em,
+	.ais-Hits-item a em,
+	.ais-Hits-item mark,
+	.ais-Hits-item a mark {
+		font-style: normal;
+		background: #fffbcc;
+		border-radius: 2px;
+	}
+
+	.ais-hits--thumbnail {
+		float: left;
+		margin-right: 2rem;
+	}
+
+	.ais-hits--content {
+		overflow: hidden;
+	}
+
+	.ais-hits--thumbnail img {
+		border-radius: 3px;
+	}
+
+	.ais-Pagination {
+		margin: 0;
+	}
+
+	.ais-Pagination-list {
+		margin-left: 0;
+	}
+
+	.ais-Pagination-item {
+		/* Pagination item */
+		display: inline-block;
+		padding: 3px;
+	}
+
+	.ais-Pagination-item--disabled {
+		/* disabled Pagination item */
+		display: none;
+	}
+
+	.ais-Pagination-item--selected {
+		font-weight: bold;
+	}
+
+	.ais-Menu-item--selected {
+		/* active list item */
+		font-weight: bold;
+	}
+
+	.ais-HierarchicalMenu-item--selected {
+		/* Hierarchical Menu: Categories */
+		font-weight: bold;
+	}
+
+	.ais-Menu-count,
+	.ais-HierarchicalMenu-count,
+	.ais-RefinementList-count {
+		margin-left: 5px;
+	}
+
+	.ais-HierarchicalMenu-list--child {
+		/* item list level 1 */
+		margin-left: 10px;
+	}
+
+	.ais-RangeSlider .rheostat {
+		overflow: visible;
+		margin-top: 40px;
+		margin-bottom: 40px;
+	}
+
+	.ais-RangeSlider .rheostat-background {
+		height: 6px;
+		top: 0px;
+		width: 100%;
+	}
+
+	.ais-RangeSlider .rheostat-handle {
+		margin-left: -12px;
+		top: -7px;
+	}
+
+	.ais-RangeSlider .rheostat-background {
+		position: relative;
+		background-color: #fff;
+		border: 1px solid #003dff;
+	}
+
+	.ais-RangeSlider .rheostat-progress {
+		position: absolute;
+		top: 1px;
+		height: 4px;
+		background-color: #333;
+	}
+
+	.rheostat-handle {
+		position: relative;
+		z-index: 1;
+		width: 20px;
+		height: 20px;
+		background-color: #fff;
+		border: 1px solid #333;
+		border-radius: 50%;
+		cursor: -webkit-grab;
+		cursor: grab;
+	}
+
+	.rheostat-marker {
+		margin-left: -1px;
+		position: absolute;
+		width: 1px;
+		height: 5px;
+		background-color: #aaa;
+	}
+
+	.rheostat-marker--large {
+		height: 9px;
+	}
+
+	.rheostat-value {
+		margin-left: 50%;
+		padding-top: 15px;
+		position: absolute;
+		text-align: center;
+		-webkit-transform: translateX(-50%);
+		transform: translateX(-50%);
+	}
+
+	.rheostat-tooltip {
+		margin-left: 50%;
+		position: absolute;
+		top: -22px;
+		text-align: center;
+		-webkit-transform: translateX(-50%);
+		transform: translateX(-50%);
+	}
+
+	.ais-RatingMenu-item {
+		/* list item */
+		vertical-align: middle;
+	}
+
+	.ais-RatingMenu-item--selected {
+		/* active list item */
+		font-weight: bold;
+	}
+
+	.ais-RatingMenu-starIcon {
+		/* item star */
+		display: inline-block;
+		width: 1em;
+		height: 1em;
+	}
+
+	.ais-RatingMenu-starIcon:before {
+		content: '\2605';
+		color: #fbae00;
+	}
+
+	.ais-RatingMenu-starIcon--empty {
+		/* empty star */
+		display: inline-block;
+		width: 1em;
+		height: 1em;
+	}
+
+	.ais-RatingMenu-starIcon--empty:before {
+		content: '\2606';
+		color: #fbae00;
+	}
+
+	.ais-RatingMenu-item--disabled .ais-star-rating--star:before {
+		color: #c9c9c9;
+	}
+
+	.ais-RatingMenu-item--disabled .ais-star-rating--star__empty:before {
+		color: #c9c9c9;
+	}
+
+	.ais-root__collapsible .ais-header {
+		cursor: pointer;
+	}
+
+	.ais-root__collapsed .ais-body,
+	.ais-root__collapsed .ais-footer {
+		display: none;
+	}
+
+	/* Responsive */
+	@media only screen and (max-width: 1000px) {
+		#ais-facets {
+			display: none;
+		}
+
+		.ais-hits--thumbnail img {
+			width: 100% !important;
+		}
+
+		.ais-Hits-item {
+			border-bottom: 1px solid gainsboro;
+			padding-bottom: 23px;
+		}
+	}
+
+	@media only screen and (max-width: 500px) {
+		.ais-hits--thumbnail {
+			margin-right: 0 !important;
+			margin-bottom: 10px;
+			float: none !important;
+		}
+	}
 
 			#nv { overflow: hidden; height: 33px; {MENUBGCODE}; }
 				#nv li { float: left; padding-right: 1px; height: 33px; line-height: 33px; background: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='1' height='33'%3e%3cpath fill='%23fff' fill-opacity='0.2' d='M0 7h1v20H0z'/%3e%3c/svg%3e") no-repeat 100% 0; font-weight: 700; font-size: 14px; }
