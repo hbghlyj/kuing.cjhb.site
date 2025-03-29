@@ -25,7 +25,7 @@ if($_GET['action'] == 'markAsRead') {
 		$lastAnchor = '';
 		if (preg_match_all('/<a href="[^"]*"/', $notice['note'], $matches)) $lastAnchor = end($matches[0]);
 		if (empty($lastAnchor)) return $stripped;
-		echo '<li>',$lastAnchor,$notice['new'] ? ' style="font-weight:600;background:#f7f7f7">' : '>',$stripped,'</a></li>';
+		echo '<li>'.$lastAnchor,$notice['new'] ? ' style="font-weight:600;background:#f7f7f7"' : '','><font',$notice['new']?' color="#F26C4F"':'',' face="dzicon"></font> ',$stripped,'</a></li>';
 		}
 		// Mark all notices as read
 		C::t('common_member')->update($_G['uid'], array('newprompt' => 0));
