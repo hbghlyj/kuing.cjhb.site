@@ -28,7 +28,6 @@ if($_GET['action'] == 'markAsRead') {
 		} else echo '<li><a><font',$notice['new'] ? ' color="#F26C4F"' : '',' face="dzicon"></font> ',$stripped,'</a></li>';
 	}
 	C::t('common_member')->update($_G['uid'], array('newprompt' => 0));
-	C::t('home_notification')->ignore($_G['uid']);
 	exit(']]></root>');
 }
 if($_GET['action'] == 'getOnlineUserListHtml') {
