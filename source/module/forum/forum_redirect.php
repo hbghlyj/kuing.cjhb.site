@@ -20,6 +20,10 @@ if(empty($_GET['goto']) && $ptid) {
 }
 
 if($_GET['goto'] == 'findpost') {
+	header('Expires: 0');
+	if(isset($_GET['delnotice'])) {
+		DB::query("DELETE FROM ".DB::table('home_notification')." WHERE id=%d AND uid=%d", array(intval($_GET['delnotice']), $_G['uid']));
+	}
 
 	$post = $thread = array();
 
@@ -116,7 +120,6 @@ if($_GET['goto'] == 'findpost') {
 if(empty($_G['thread'])) {
 	showmessage('thread_nonexistence');
 }
-
 if($_GET['goto'] == 'lastpost') {
 
 	$pageadd = '';

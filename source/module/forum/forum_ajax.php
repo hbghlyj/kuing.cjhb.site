@@ -23,14 +23,13 @@ if($_GET['action'] == 'markAsRead') {
 		$stripped = strip_tags($notice['note'], '<div><blockquote>');
 		// Find the last <a href=""> element
 		$lastAnchor = '';
-		if (preg_match_all('/<a href="[^"]*"/', $notice['note'], $matches)) $lastAnchor = end($matches[0]);
+		if (preg_match_all('/<a href="[^"]*/', $notice['note'], $matches)) $lastAnchor = end($matches[0]);
 		if (empty($lastAnchor)) return $stripped;
-		echo '<li>'.$lastAnchor,$notice['new'] ? ' style="font-weight:600;background:#f7f7f7"' : '','><font',$notice['new']?' color="#F26C4F"':'',' face="dzicon"></font> ',$stripped,'</a></li>';
-		}
-		// Mark all notices as read
-		C::t('common_member')->update($_G['uid'], array('newprompt' => 0));
-		C::t('home_notification')->ignore($_G['uid']);
-		exit(']]></root>');
+		echo '<li>'.$lastAnchor,$notice['new'] ? '&delnotice='.$notice['id'] : '','"',$notice['new'] ? ' style="font-weight:600;background:#f7f7f7"' : '','><font',$notice['new']?' color="#F26C4F"':'',' face="dzicon"></font> ',$stripped,'</a></li>';
+	}
+	// Mark all notices as read
+	C::t('common_member')->update($_G['uid'], array('newprompt' => 0));
+	exit(']]></root>');
 }
 
 if($_GET['action'] == 'checkusername') {
