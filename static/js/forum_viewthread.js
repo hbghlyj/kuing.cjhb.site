@@ -269,6 +269,10 @@ function errorhandle_fastpost() {
 	$('fastpostsubmit').disabled = false;
 }
 
+function succeedhandle_comment(locationhref, message, param) {
+	hideWindow('comment');
+}
+
 function succeedhandle_postappend(locationhref, message, param) {
 	ajaxget('forum.php?mod=viewthread&tid=' + param['tid'] + '&viewpid=' + param['pid'], 'post_' + param['pid'], 'ajaxwaitid');
 	hideWindow('postappend');
