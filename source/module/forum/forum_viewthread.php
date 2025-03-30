@@ -679,7 +679,7 @@ foreach($postarr as $post) {
 			if($_G['forum_thread']['price']) {
 				$summary = str_replace(array("\r", "\n"), '', messagecutstr(strip_tags($thread['freemessage']), 160));
 			} else {
-				$summary = str_replace(array("\r", "\n"), '', messagecutstr(strip_tags($post['message']), 160));
+				$summary = str_replace(array("\r", "\n"), '', messagecutstr(strip_tags($post['message']), 200));
 			}
 			$tagarray_all = $posttag_array = array();
 			$tagarray_all = explode("\t", $post['tags']);
@@ -734,7 +734,7 @@ if($_G['forum_thread']['typeid'] && $_G['forum']['threadtypes']['types'][$_G['fo
 	$metakeywords .= ($metakeywords ? ',' : '') . $_G['forum']['threadtypes']['types'][$_G['forum_thread']['typeid']];
 }
 if(!$metadescription) {
-	$metadescription = strip_tags($_G['forum_thread']['subject']).' '.$summary;
+	$metadescription = $summary;
 }
 
 $_G['allblocked'] = true;

@@ -136,7 +136,6 @@ body, input, button, select, textarea, .xst, .ts {
 					<!--{hook/global_myitem_extra}-->
 				</ul>
 			<!--{/if}-->
-			<!--{subtemplate common/header_qmenu}-->
 		<!--{/if}-->
 
 		<!--{ad/headerbanner/wp a_h}-->
@@ -149,7 +148,11 @@ body, input, button, select, textarea, .xst, .ts {
 				</div>
 
 				<div id="nv">
-					<a href="javascript:;" id="qmenu" onmouseover="delayShow(this, function () {showMenu({'ctrlid':'qmenu','pos':'34!','ctrlclass':'a','duration':2});})">{lang my_nav}</a>
+					<div class="algolia-search-box-wrapper">
+						<div id="algolia-search-box"></div>
+						<div id="algolia-stats"></div>
+						<div id="algolia-powered-by"></div>
+					</div>
 					<ul>
 						<!--{loop $_G['setting']['navs'] $nav}-->
 							<!--{if is_array($nav) && $nav['available'] && (!$nav['level'] || ($nav['level'] == 1 && $_G['uid']) || ($nav['level'] == 2 && $_G['adminid'] > 0) || ($nav['level'] == 3 && $_G['adminid'] == 1))}--><li {if $mnid == $nav[navid] || substr($_SERVER['REQUEST_URI'], 1) == str_replace('./', '', $nav[filename])}class="a" {/if}$nav[nav]></li><!--{/if}-->
