@@ -148,3 +148,13 @@ if (!is_null($topics)) {
                 </div>
                 </div>
             </div>
+            <footer class="footer">
+                <form action="/misc.php?mod=tag" method="post" class="d-sm-flex justify-content-center justify-content-sm-between">
+                    <input type="hidden" name="name" value="<?= rawurldecode(basename($_SERVER['REQUEST_URI'])) ?>">
+                    <button type="submit" class="page-link text-muted"><?= DocPHT\Core\Translator\T::trans('Related threads') ?></button>
+                    <?php if(isset($GLOBALS["page_author"])): ?>
+                        <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center text-muted">
+                            <i class="fa fa-pencil"></i> <a href="/home.php?mod=space&do=thread&username=<?= substr($GLOBALS["page_author"], 0, -17) ?>"><?= $GLOBALS["page_author"] ?></a>              </span>
+                    <?php endif; ?>
+                </form>
+            </footer>
