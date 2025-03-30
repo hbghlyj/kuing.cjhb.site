@@ -18,7 +18,7 @@ $sitemap .= "xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n";
 $sitemap .= "xsi:schemaLocation=\"http://www.sitemaps.org/schemas/sitemap/0.9\n";
 $sitemap .= "http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd\">\n";
 
-$result = DB::fetch_all('SELECT a.tid,a.maxposition,a.lastpost FROM ' . DB::table("forum_thread") . ' a ORDER BY a.lastpost DESC '.DB::limit(0, 10000)); // 限制10000条
+$result = DB::fetch_all('SELECT a.tid,a.maxposition,a.lastpost FROM ' . DB::table("forum_thread") . ' a ORDER BY a.lastpost DESC '.DB::limit(0, 20000)); // 限制20000条
 
 if (!$result) {
     runlog('error', "Failed to fetch data from database"); // 记录错误日志
