@@ -91,34 +91,13 @@
 						item(data, { html, components }) {
 							return `<article>
 		<div class="ais-hits--content">
-			<h2 itemprop="name headline"><a href="${data.objectID}" class="ais-hits--title-link" itemprop="url">${data.title}…</a></h2>
+			<h2 itemprop="name headline"><a href="${data.objectID}" class="ais-hits--title-link" itemprop="url">${data._highlightResult.title.value}</a><span style="color: #666;font-weight:normal;"> - ${data.totalposts - 1} 个回复 - ${data.author}</span></h2>
 			<div class="excerpt">
-				<p><span class="suggestion-post-content ais-hits--content-snippet">${data.description}<br>${data._snippetResult['content'].value}</span></p>
+				<p><span class="suggestion-post-content ais-hits--content-snippet">${data._highlightResult.description.value}${data._snippetResult['content'].value}</span></p>
 			</div>
 		</div>
 		<div class="ais-clearfix"></div>
 	</article>`;
-						}
-					},
-					transformData: {
-						item: function (hit) {
-
-							function replace_highlights_recursive(item) {
-								if (item instanceof Object && item.hasOwnProperty('value')) {
-									item.value = _.escape(item.value);
-									item.value = item.value.replace(/__ais-highlight__/g, '<em>').replace(/__\/ais-highlight__/g, '</em>');
-								} else {
-									for (var key in item) {
-										item[key] = replace_highlights_recursive(item[key]);
-									}
-								}
-								return item;
-							}
-
-							hit._highlightResult = replace_highlights_recursive(hit._highlightResult);
-							hit._snippetResult = replace_highlights_recursive(hit._snippetResult);
-
-							return hit;
 						}
 					}
 				}),
