@@ -613,7 +613,7 @@ CSS 写作注意事项：
 		/*#hd .wp { padding: 10px 0 0; }*/ /*kk del*/
 
 			.hdc { min-height: 70px; }
-			#hd h2 { padding: 0 20px 12px 0; float: left; }
+			#hd h2 { padding: 0 20px 12px 0; }
 				#space #hd h2 { margin-top: 0; }
 			#hd .fastlg { padding-top: 10px; }
 			#hd .fastlg .pns { margin-bottom: 10px; }
