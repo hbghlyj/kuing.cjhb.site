@@ -472,7 +472,7 @@ class discuz_application extends discuz_base{
 				}
 			}
 
-			if(IS_ROBOT) {
+			if(IS_ROBOT && $this->session->get('groupid') == 7) {
 				$this->var['member']['groupid'] = 8;
 				$this->var['member']['username'] = IS_ROBOT;
 			}
