@@ -7,7 +7,7 @@
 .sltm { width: 100px !important; }/*主题分类选项*/
 
 @media screen and (orientation: portrait) {
-  #switchwidth,#diy-tg,#hd h2,#um p:last-child,.a_f { display: none; }/*宽屏切换按钮，diy按钮，logo，积分用户组，广告（草稿）*/
+  #switchwidth,#diy-tg,#um p:last-child,.a_f { display: none; }/*宽屏切换按钮，diy按钮，logo，积分用户组，广告（草稿）*/
   #toptb { min-width: unset; }/*顶上横条*/
   .wp { width: 100%; }/*主体*/
   #nv li a { padding: 0 5px; }/*导航栏*/

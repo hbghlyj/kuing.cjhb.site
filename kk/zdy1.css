@@ -24,7 +24,7 @@
 /*首页主题加宽*/
 
 @media screen and (orientation: portrait) {
-  #switchwidth,#diy-tg,#um p:last-child,#category_grid,.fl_i,p.xg2,#hd h2,#pt,#chart .y,#onlinelist .ptm.pbm.bbda,.frame-title { display: none; }
+  #switchwidth,#diy-tg,#um p:last-child,#category_grid,.fl_i,p.xg2,#pt,#chart .y,#onlinelist .ptm.pbm.bbda,.frame-title { display: none; }
   #toptb { min-width: unset; }
   .wp { width: 100%; }
   #ls_username, #ls_password { width: 90px; }
