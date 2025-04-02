@@ -1,0 +1,24 @@
+.edt .bar { font-size: 12px; }/*工具栏变回小字*/
+
+.edt .b1r a { font-family: inherit; font-size: inherit; }/*大按钮不用改字体*/
+
+.p_pof { min-width: 350px; }/*为表格按钮*/
+
+.sltm { width: 100px !important; }/*主题分类选项*/
+
+@media screen and (orientation: portrait) {
+  #switchwidth,#diy-tg,#um p:last-child,.a_f { display: none; }/*宽屏切换按钮，diy按钮，logo，积分用户组，广告（草稿）*/
+  #toptb { min-width: unset; }/*顶上横条*/
+  .wp { width: 100%; }/*主体*/
+  #nv li a { padding: 0 5px; }/*导航栏*/
+  #scbar_txt { width: 130px; }/*搜索输入框*/
+  #subject { width: 95% !important; }/*标题框*/
+  .edt .bbar { height: unset; }/*编辑器底下状态栏*/
+  .fwinmask { width: 100% !important; }/*浮动窗口*/
+  input#tags { width: 95%; }/*主题标签*/
+  /*编辑器工具按钮调整*/
+  #e_fontname, #e_adv_1, #e_italic, #e_underline, #e_backcolor, #e_adv_8, #e_adv_2, #e_at, #e_button>div:nth-of-type(3), #e_adv_s3>p:nth-of-type(n+2), #e_simple { display: none; }
+  #e_adv_s2 { width: 62px; }
+  .edt .b1r, .edt .b2r { padding: 0; }
+  .edt .bar a { border: none; }
+}
