@@ -332,7 +332,7 @@ if(!$gid && (!defined('FORUM_INDEX_PAGE_MEMORY') || !FORUM_INDEX_PAGE_MEMORY)) {
 		}
 		$onlineinfo[1] = dgmdate($onlineinfo[1], 'd');
 
-		$detailstatus = $showoldetails == 'yes' || (((!isset($_G['cookie']['onlineindex']) && !$_G['setting']['whosonline_contract']) || $_G['cookie']['onlineindex']) && $onlinenum < 500 && !$showoldetails);
+		$detailstatus = $showoldetails == 'yes' || (((!isset($_G['cookie']['onlineindex']) && !$_G['setting']['whosonline_contract']) || $_G['cookie']['onlineindex']) && !$showoldetails);
 
 		$guestcount = $membercount = $invisiblecount = 0;
 		if(!empty($_G['setting']['sessionclose'])) {
