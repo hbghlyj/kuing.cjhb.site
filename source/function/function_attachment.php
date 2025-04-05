@@ -69,7 +69,7 @@ function attachtype($type, $returnval = 'html') {
 		}
 	}
 	if($returnval == 'html') {
-		return '<img src="'.STATICURL.'image/filetype/'.$attachicons[$typeid].'" class="vm" width="32" height="32" alt="$type" />';
+		return '<img src="'.STATICURL.'image/filetype/'.$attachicons[$typeid].'" class="vm" height="32" alt="$type" />';
 	} elseif($returnval == 'id') {
 		return $typeid;
 	}
