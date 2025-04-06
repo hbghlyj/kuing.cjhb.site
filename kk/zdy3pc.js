@@ -56,42 +56,56 @@ for (let item of blockcodes) {
     item.innerHTML = item.innerHTML.replace(/<\/li>/g, "\n</li>")//item.innerHTML.replace(/<br>/g, "");
     //在php那里去掉\r后没了<br>但复制代码就没了换行，加回去//代码块去除br
 }
-var posts=document.getElementsByClassName('t_f');//.querySelectorAll('.t_f,.postmessage,.message');//兼容手机时的
-var post_codes = [];
-for (let item of posts) {
-    post_codes.push(item.innerHTML);
-    item.innerHTML = item.innerHTML
-        .replace(/<br>\n/g,'<br>')
-            //解决mathjax3复制多行代码多余空行
-        .replace(/(\\\]|\\end\{align\*?\}|\\end\{gather\*?\}|\\end\{equation\*?\}|\$\$)( |&nbsp;)*<br>/g,'$1')
-            //去行间公式后的1个br
-        //.replace(/([\u4E00-\u9FA5])([A-Za-z0-9\$])/g,'$1 $2')
-        //.replace(/([A-Za-z0-9\$,\.])([\u4E00-\u9FA5])/g,'$1 $2')
-            //中文与公式、英文、数字间加空格
-        .replace(/ 编辑 <\/i><br>(<br>)?/g,' 编辑 </i>')
-        .replace(/<\/blockquote><\/div><br>\n*(<br>)?/g,'</blockquote></div>')
-        .replace(/复制代码<\/em><\/div><br>/g,'复制代码</em></div>')
-            //去编辑痕迹、引用后的1-2个br，代码块后的1个br
-        //.replace(/<br><br><br>/g,'<br><br>')
-            //减少1/3的br
-    ;
-}
-var plcpi = document.querySelectorAll('.plc .pi');
-for (var i=0;i<plcpi.length;i++) {
-    var eye = document.createElement("a");
-    eye.href = `javascript:show_post_code(${i});`;
+
+document.querySelectorAll('.t_f').forEach(post => {
+    post.querySelectorAll('br').forEach(br => {
+        //解决mathjax3复制多行代码多余空行
+        if (br.nextSibling && br.nextSibling.nodeType === Node.TEXT_NODE) {
+            br.nextSibling.nodeValue = br.nextSibling.nodeValue.replace(/^\n/, '');
+        }
+        //去行间公式后的1个br
+        if (br.previousSibling && br.previousSibling.nodeType === Node.TEXT_NODE) {
+            if (/(\\\]|\\end\{align\*?\}|\\end\{gather\*?\}|\\end\{equation\*?\}|\$\$)( |&nbsp;)*$/.test(br.previousSibling.nodeValue)) {
+                // Remove <br> and any trailing spaces
+                br.previousSibling.nodeValue = br.previousSibling.nodeValue.replace(/( |&nbsp;)*$/, '');
+                br.remove();
+            }
+        }
+        //去引用后的1-2个br，代码块后的1个br
+        else if (br.previousSibling && br.previousSibling.nodeType === Node.ELEMENT_NODE && br.previousSibling.matches('div.quote,div.blockcode')) {
+            br.remove();
+        }
+    });
+});
+
+const show_math_code = function(){
+    MathJax.startup.document.getMathItemsWithin(this.parentElement.nextElementSibling).forEach(function (item) {
+        [item.math,item.typesetRoot.innerHTML]=[item.typesetRoot.innerHTML,item.math];
+        if(item.start.n){
+            item.math = item.math.slice(item.start.n);
+            item.start.n = 0;
+        }else{
+            item.typesetRoot.prepend(item.start.delim);
+            item.start.n = item.start.delim.length;
+        }
+        if(item.end.n){
+            item.math = item.math.slice(0,-item.end.n);
+            item.end.n = 0;
+        }else{
+            item.typesetRoot.append(item.end.delim);
+            item.end.n = item.end.delim.length;
+        }
+    });
+};
+document.querySelectorAll('.plc .pi').forEach(plcpi => {
+    const eye = document.createElement("a");
+    eye.addEventListener("click", show_math_code);
     eye.style = "float:right;margin-left:5px;";
     eye.innerHTML = "&#x1f441;";
     eye.title = "显示公式代码";
     eye.classList.add('printhides');
-    plcpi[i].insertBefore(eye,plcpi[i].childNodes[0]);
-}
-function show_post_code(n){
-    var tmphtml = posts[n].innerHTML;
-    posts[n].innerHTML = post_codes[n];
-    post_codes[n] = tmphtml;
-}
-
+    plcpi.insertBefore(eye,plcpi.childNodes[0]);
+});
 
 //===Shift + 鼠标滚轮缩放图片、点击图片切换原始大小
 function bbimg(e){
@@ -213,12 +227,12 @@ function smoothScroll(id){
         requestAnimationFrame(scrollStep);
     }
 }
-for (var i = 0; i < lous.length; i++) {
-    var louid = lous[i].getAttribute('id');
-    var htm = lous[i].innerHTML + ' ' + names[i].innerHTML;
+lous.forEach((lou, i) => {
+    var louid = lou.getAttribute('id');
+    var htm = lou.innerHTML + ' ' + names[i].innerHTML;
     mlul.innerHTML += '<li id="muluid' + i + '"><a href="#' + louid + '">' + htm + '</a></li>';
     document.querySelectorAll("td.t_f > div.quote > blockquote > font > a[href$='" + louid.replace('postnum','&pid=') + "&ptid=" + tid + "']").forEach(a=>{
-        a.firstElementChild.innerHTML = lous[i].innerHTML + ' ' + a.firstElementChild.innerHTML;
+        a.firstElementChild.innerHTML = lou.innerHTML + ' ' + a.firstElementChild.innerHTML;
     });
     document.querySelectorAll("td.t_f a[href$='" + louid.replace('postnum','&pid=') + "&ptid=" + tid + "']").forEach(a=>{
         a.removeAttribute("target");
@@ -226,7 +240,7 @@ for (var i = 0; i < lous.length; i++) {
         a.addEventListener("click", smoothScroll(louid));
         a.style = "cursor:pointer;";
     });
-}
+});
 MULU.appendChild(mlul);
 document.body.appendChild(MULU);
 var muleft = offSet(document.getElementById('ct')).left - MULU.offsetWidth - 20;
@@ -239,9 +253,9 @@ MULU.style = "left:" + muleft + "px;";
 window.onscroll = function() {
     let slTop = Math.max(document.documentElement.scrollTop, document.body.scrollTop);
     let arr = [];
-    for (let i = 0; i < lous.length; i++) {
-        arr.push(offSet(lous[i]).top);
-    }
+    lous.forEach(lou => {
+        arr.push(offSet(lou).top);
+    });
     arr.push(offSet(document.getElementById('postlistreply')).top); //兜底（最后一层的底部）
     for (let i = 0; i < arr.length - 1; i++) {
         let d = 200; //分界线，可考虑半窗口高 0.5*window.innerHeight;
