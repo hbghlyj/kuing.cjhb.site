@@ -57,6 +57,17 @@ document.querySelectorAll('.t_f').forEach(post => {
         if (br.nextSibling && br.nextSibling.nodeType === Node.TEXT_NODE) {
             br.nextSibling.nodeValue = br.nextSibling.nodeValue.replace(/^\n/, '');
         }
+        //去行间公式后的1个br
+        if (br.previousSibling && br.previousSibling.nodeType === Node.TEXT_NODE) {
+            if (/(\\\]|\\end\{(align|gather|equation|eqnarray|multline)\*?\}|\$\$)( |&nbsp;)*$/.test(br.previousSibling.nodeValue)) {
+                br.previousSibling.nodeValue = br.previousSibling.nodeValue.replace(/( |&nbsp;)*$/, '');
+                br.remove();
+            }
+        }
+        //去引用后的1-2个br，代码块后的1个br
+        else if (br.previousSibling && br.previousSibling.nodeType === Node.ELEMENT_NODE && br.previousSibling.matches('div.quote,div.blockcode')) {
+            br.remove();
+        }
     });
 });
 
@@ -126,7 +137,6 @@ for (let item of document.querySelectorAll('.t_fsz img.zoom,tikz img,asy img')) 
     });
 }
 document.querySelectorAll('.tupian').forEach(a=>a.addEventListener("wheel", function(e){if(e.shiftKey){this.style.width="";this.style.height="";}}));
-
 
 /* 点评中的回复按钮 */
 document.querySelectorAll('.psti').forEach(pstiElement => {
