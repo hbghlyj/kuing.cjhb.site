@@ -317,3 +317,6 @@ details summary { color:blue; cursor:pointer; }
 .psti:hover .reply-btn {
     display: block;
 }
+
+/*点击👁后，显示出来的代码中，没了换行*/
+mjx-container[jax="SVG"] { white-space: pre-wrap; }
