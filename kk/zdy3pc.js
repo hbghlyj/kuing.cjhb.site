@@ -64,7 +64,7 @@ document.querySelectorAll('.t_f').forEach(post => {
                 br.remove();
             }
         }
-        //去引用后的1-2个br，代码块后的1个br
+        //去引用后的1个br，代码块后的1个br
         else if (br.previousSibling && br.previousSibling.nodeType === Node.ELEMENT_NODE && br.previousSibling.matches('div.quote,div.blockcode')) {
             br.remove();
         }
