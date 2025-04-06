@@ -102,7 +102,7 @@ class model_forum_post extends discuz_model {
 
 
 		if(!empty($this->param['noticetrimstr'])) {
-			$this->param['message'] = $this->param['noticetrimstr']."\n\n".$this->param['message'];
+			$this->param['message'] = $this->param['noticetrimstr']."\n".$this->param['message'];
 			$bbcodeoff = false;
 		}
 
