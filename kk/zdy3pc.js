@@ -71,7 +71,7 @@ document.querySelectorAll('.t_f').forEach(post => {
                 br.remove();
             }
         }
-        //去引用后的1-2个br，代码块后的1个br
+        //去引用后的1个br，代码块后的1个br
         else if (br.previousSibling && br.previousSibling.nodeType === Node.ELEMENT_NODE && br.previousSibling.matches('div.quote,div.blockcode')) {
             br.remove();
         }
@@ -80,7 +80,7 @@ document.querySelectorAll('.t_f').forEach(post => {
 
 const show_math_code = function(){
     MathJax.startup.document.getMathItemsWithin(this.parentElement.nextElementSibling).forEach(function (item) {
-        [item.math,item.typesetRoot.innerHTML]=[item.typesetRoot.innerHTML,item.math];
+        [item.math,item.typesetRoot.innerHTML]=[item.typesetRoot[item.typesetRoot.firstElementChild ? "innerHTML" : "innerText"],item.math];
         if(item.start.n){
             item.math = item.math.slice(item.start.n);
             item.start.n = 0;
@@ -100,7 +100,7 @@ const show_math_code = function(){
 document.querySelectorAll('.plc .pi').forEach(plcpi => {
     const eye = document.createElement("a");
     eye.addEventListener("click", show_math_code);
-    eye.style = "float:right;margin-left:5px;";
+    eye.style = "float:right;margin-left:5px;cursor:pointer;";
     eye.innerHTML = "&#x1f441;";
     eye.title = "显示公式代码";
     eye.classList.add('printhides');
