@@ -76,27 +76,28 @@ document.querySelectorAll('.t_f').forEach(post => {
     });
 });
 
+const show_math_code = function(){
+    MathJax.startup.document.getMathItemsWithin(this.parentElement.nextElementSibling).forEach(function (item) {
+        [item.math,item.typesetRoot.innerHTML]=[item.typesetRoot[item.typesetRoot.firstElementChild ? "innerHTML" : "innerText"],item.math];
+        if(item.start.n){
+            item.math = item.math.slice(item.start.n);
+            item.start.n = 0;
+        }else{
+            item.typesetRoot.prepend(item.start.delim);
+            item.start.n = item.start.delim.length;
+        }
+        if(item.end.n){
+            item.math = item.math.slice(0,-item.end.n);
+            item.end.n = 0;
+        }else{
+            item.typesetRoot.append(item.end.delim);
+            item.end.n = item.end.delim.length;
+        }
+    });
+};
 document.querySelectorAll('.plc .pi').forEach(plcpi => {
     const eye = document.createElement("a");
-    eye.addEventListener("click", function(){
-        MathJax.startup.document.getMathItemsWithin(this.parentElement.nextElementSibling).forEach(function (item) {
-            [item.math,item.typesetRoot[item.typesetRoot.firstElementChild ? "innerText" : "innerHTML"]]=[item.typesetRoot[item.typesetRoot.firstElementChild ? "innerHTML" : "innerText"],item.math];
-            if(item.start.n){
-                item.math = item.math.slice(item.start.n);
-                item.start.n = 0;
-            }else{
-                item.typesetRoot.prepend(item.start.delim);
-                item.start.n = item.start.delim.length;
-            }
-            if(item.end.n){
-                item.math = item.math.slice(0,-item.end.n);
-                item.end.n = 0;
-            }else{
-                item.typesetRoot.append(item.end.delim);
-                item.end.n = item.end.delim.length;
-            }
-        });
-    });
+    eye.addEventListener("click", show_math_code);
     eye.style = "float:right;margin-left:5px;cursor:pointer;";
     eye.innerHTML = "&#x1f441;";
     eye.title = "显示公式代码";
