@@ -47,15 +47,6 @@ a.avtm {
 /*回帖点赞：大拇指、扔掉反对、数字颜色*/
 
 
-.pl .quote {
-    overflow: visible;
-    border: 2px #d8e7f2 dashed;
-    background-color: unset;
-    color: #444;
-}
-.pl .quote blockquote { display: block; }
-/*引用调整*/
-
 .pl .blockcode ol li { font-size: 14px; }
 code, pre {
     font-family: Monaco, Consolas, 'Lucida Console', 'Courier New', FangSong, serif;
