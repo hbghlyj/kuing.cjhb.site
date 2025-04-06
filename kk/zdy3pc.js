@@ -64,33 +64,37 @@ document.querySelectorAll('.t_f').forEach(post => {
                 br.remove();
             }
         }
-        //去引用后的1-2个br，代码块后的1个br
+        //去引用后的1个br，代码块后的1个br
         else if (br.previousSibling && br.previousSibling.nodeType === Node.ELEMENT_NODE && br.previousSibling.matches('div.quote,div.blockcode')) {
             br.remove();
         }
     });
 });
 
+const show_math_code = function(){
+    MathJax.startup.document.getMathItemsWithin(this.parentElement.nextElementSibling).forEach(function (item) {
+        [item.math,item.typesetRoot.innerHTML]=[item.typesetRoot[item.typesetRoot.firstElementChild ? "innerHTML" : "innerText"],item.math];
+        if(item.start.n){
+            item.math = item.math.slice(item.start.n);
+            item.start.n = 0;
+        }else{
+            item.typesetRoot.prepend(item.start.delim);
+            item.start.n = item.start.delim.length;
+        }
+        if(item.end.n){
+            item.math = item.math.slice(0,-item.end.n);
+            item.end.n = 0;
+        }else{
+            item.typesetRoot.append(item.end.delim);
+            item.end.n = item.end.delim.length;
+        }
+    });
+};
 document.querySelectorAll('.plc .pi').forEach(plcpi => {
     const eye = document.createElement("a");
     eye.addEventListener("click", function(){
-        MathJax.startup.document.getMathItemsWithin(this.parentElement.nextElementSibling).forEach(function (item) {
-            [item.math,item.typesetRoot[item.typesetRoot.firstElementChild ? "innerText" : "innerHTML"]]=[item.typesetRoot[item.typesetRoot.firstElementChild ? "innerHTML" : "innerText"],item.math];
-            if(item.start.n){
-                item.math = item.math.slice(item.start.n);
-                item.start.n = 0;
-            }else{
-                item.typesetRoot.prepend(item.start.delim);
-                item.start.n = item.start.delim.length;
-            }
-            if(item.end.n){
-                item.math = item.math.slice(0,-item.end.n);
-                item.end.n = 0;
-            }else{
-                item.typesetRoot.append(item.end.delim);
-                item.end.n = item.end.delim.length;
-            }
-        });
+        eye.classList.toggle('slashed');
+        show_math_code.call(this);
     });
     eye.style = "float:right;margin-left:5px;cursor:pointer;";
     eye.innerHTML = "&#x1f441;";

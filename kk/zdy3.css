@@ -311,3 +311,15 @@ details summary { color:blue; cursor:pointer; }
 
 /*点击👁后，显示出来的代码中，没了换行*/
 mjx-container[jax="SVG"] { white-space: pre-wrap; }
+
+.slashed {
+    position: relative;
+}
+.slashed::after {
+    content: "/";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    font-weight: 700;
+}
