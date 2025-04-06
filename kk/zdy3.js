@@ -28,24 +28,23 @@ for (let item of blockcodes) {
     item.innerHTML = item.innerHTML.replace(/<\/li>/g, "\n</li>")//item.innerHTML.replace(/<br>/g, "");
     //在php那里去掉\r后没了<br>但复制代码就没了换行，加回去//代码块去除br
 }
-var posts=document.querySelectorAll('.t_f,.postmessage,.message');//.getElementsByClassName('t_f');
-for(var i = 0; i < posts.length; i++){
-        var post = posts[i];
-        var html = post.innerHTML;
-        html = html
-        .replace(/<br>\n/g,'<br>')
-            //解决mathjax3复制多行代码多余空行
-        .replace(/(\\\]|\\end\{align\*?\}|\\end\{gather\*?\}|\\end\{equation\*?\}|\$\$)( |&nbsp;)*<br>/g,'$1')
-            //去行间公式后的1个br
-        //.replace(/([\u4E00-\u9FA5])([A-Za-z0-9\$])/g,'$1 $2')
-        //.replace(/([A-Za-z0-9\$,\.])([\u4E00-\u9FA5])/g,'$1 $2')
-            //中文与公式、英文、数字间加空格
-        .replace(/ 编辑 <\/i><br>(<br>)?/g,' 编辑 </i>')
-        .replace(/<\/blockquote><\/div><br>\n*(<br>)?/g,'</blockquote></div>')
-        .replace(/复制代码<\/em><\/div><br>/g,'复制代码</em></div>')
-            //去编辑痕迹、引用后的1-2个br，代码块后的1个br
-        //.replace(/<br><br><br>/g,'<br><br>')
-            //减少1/3的br
-        ;
-        post.innerHTML = html;
-}
+document.querySelectorAll('.t_f,.postmessage,.message').forEach(post => {
+    post.querySelectorAll('br').forEach(br => {
+        //解决mathjax3复制多行代码多余空行
+        if (br.nextSibling && br.nextSibling.nodeType === Node.TEXT_NODE) {
+            br.nextSibling.nodeValue = br.nextSibling.nodeValue.replace(/^\n/, '');
+        }
+        //去行间公式后的1个br
+        if (br.previousSibling && br.previousSibling.nodeType === Node.TEXT_NODE) {
+        if (/(\\\]|\\end\{align\*?\}|\\end\{gather\*?\}|\\end\{equation\*?\}|\$\$)( |&nbsp;)*$/.test(br.previousSibling.nodeValue)) {
+            // Remove <br> and any trailing spaces
+            br.previousSibling.nodeValue = br.previousSibling.nodeValue.replace(/( |&nbsp;)*$/, '');
+            br.remove();
+        }
+        }
+        //去引用后的1-2个br，代码块后的1个br
+        else if (br.previousSibling && br.previousSibling.nodeType === Node.ELEMENT_NODE && br.previousSibling.matches('div.quote,div.blockcode')) {
+            br.remove();
+        }
+    });
+});
