@@ -61,16 +61,20 @@ window.MathJax = {
       assistiveMml: [],
       addTeX: [151,
         (doc) => {
-            for (const math of doc.math) {
-              if (math.state() >= 200) return;
-              const spanElement = document.createElement("span");
-              spanElement.style.position = "absolute";
-              spanElement.style.left = "-9999px";
-              spanElement.style.opacity = "0";
-              spanElement.textContent = math.start.delim + math.math + math.end.delim;
-              math.typesetRoot.appendChild(spanElement);
-              if(math.math.length < 100) { doc.adaptor.setAttribute(math.typesetRoot, 'title', math.math); }
+          for (const math of doc.math) {
+            const svgRoot = math.typesetRoot.firstElementChild;
+            if (!svgRoot || svgRoot.querySelector('text[data-mjx-source="1"]')) {
+              continue;
             }
+            const svgText = document.createElementNS("http://www.w3.org/2000/svg", "text");
+            svgText.setAttribute('data-mjx-source', '1');
+            svgText.setAttribute('x', '-9999');
+            svgText.setAttribute('y', '-9999');
+            svgText.setAttribute('fill-opacity', '0');
+            svgText.textContent = math.start.delim + math.math + math.end.delim;
+            svgRoot.appendChild(svgText);
+            if(math.math.length < 100) { doc.adaptor.setAttribute(math.typesetRoot, 'title', math.math); }
+          }
         },
         ''
       ],
