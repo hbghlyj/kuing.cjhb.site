@@ -82,11 +82,17 @@ window.MathJax = {
       addTeX: [151,
         (doc) => {
             for (const math of doc.math) {
-            const svgElement = document.createElementNS("http://www.w3.org/2000/svg", "text");
-            svgElement.textContent = math.start.delim + math.math + math.end.delim;
-            math.typesetRoot.firstElementChild.appendChild(svgElement);
-            if(math.math.length < 100) { doc.adaptor.setAttribute(math.typesetRoot, 'title', math.math); }
-          }
+              if (math.state() >= 200) {
+                return;
+              }
+              const spanElement = document.createElement("span");
+              spanElement.style.position = "absolute";
+              spanElement.style.left = "-9999px";
+              spanElement.style.opacity = "0";
+              spanElement.textContent = math.start.delim + math.math + math.end.delim;
+              math.typesetRoot.appendChild(spanElement);
+              if(math.math.length < 100) { doc.adaptor.setAttribute(math.typesetRoot, 'title', math.math); }
+            }
         },
         ''
       ]
