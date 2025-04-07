@@ -80,17 +80,18 @@ window.MathJax = {
       assistiveMml: []
       ,
       addTeX: [151,
-        (doc) => {for (const math of doc.math) MathJax.config.addTeX(math, doc)},
-        (math, doc) => MathJax.config.addTeX(math, doc)
+        (doc) => {
+            for (const math of doc.math) {
+            const svgElement = document.createElementNS("http://www.w3.org/2000/svg", "text");
+            svgElement.textContent = math.start.delim + math.math + math.end.delim;
+            math.typesetRoot.firstElementChild.appendChild(svgElement);
+            if(math.math.length < 100) { doc.adaptor.setAttribute(math.typesetRoot, 'title', math.math); }
+          }
+        },
+        ''
       ]
     }
   },
-  addTeX(math, doc) {
-    if(math.math.length < 100) { doc.adaptor.setAttribute(math.typesetRoot, 'title', math.math); }
-  },
-  //chtml: {
-  //  scale: 0.9
-  //},
   loader: {
     load: ['[tex]/noerrors','[tex]/mathtools','[custom]/xypic.js'],
     //paths: {custom: '//cdn.jsdelivr.net/gh/sonoisa/XyJax-v3@3.0.1/build'}
