@@ -237,24 +237,13 @@ class ip {
 		if (!(filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_RES_RANGE) !== false)) {
 			return '- Reserved';
 		}
-		if (array_key_exists('ipdb', $_G['config']) && array_key_exists('setting', $_G['config']['ipdb'])) {
-			$s = $_G['config']['ipdb']['setting'];
-			if (!empty($s['fullstack'])) {
-				$c = 'ip_'.$s['fullstack'];
-			} else if (!empty($s['ipv4']) && filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4) !== false) {
-				$c = 'ip_'.$s['ipv4'];
-			} else if (!empty($s['ipv6']) && filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6) !== false) {
-				$c = 'ip_'.$s['ipv6'];
-			} else if (!empty($s['default'])) {
-				$c = 'ip_'.$s['default'];
-			} else {
-				$c = 'ip_tiny';
-			}
-		} else {
-			$c = 'ip_tiny';
-		}
-		$ipobject = $c::getInstance();
-		return $ipobject === NULL ? '- Error' : $ipobject->convert($ip);
+		require_once './source/class/ip/geoip2.phar';
+		static $reader = new GeoIp2\Database\Reader('./data/ipdata/GeoLite2-City.mmdb');
+		$record = $reader->city($ip);
+		return lang('country', DISCUZ_LANG == 'EN/' ?
+		 $record->continent->names['en'] . ' ' . $record->country->names['en'] . ' ' . $record->subdivisions[0]->names['en'] . ' ' . $record->city->names['en'] :
+		 $record->continent->names['zh-CN'] . ' ' . $record->country->names['zh-CN'] . ' ' . $record->subdivisions[0]->names['zh-CN'] . ' ' . $record->city->names['zh-CN']
+		);
 	}
 
 	public static function checkaccess($ip, $accesslist) {
