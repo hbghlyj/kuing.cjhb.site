@@ -118,6 +118,15 @@ $_config['ipgetter']['iplist']['header'] = 'HTTP_X_FORWARDED_FOR';
 $_config['ipgetter']['iplist']['list']['0'] = '127.0.0.1';
 $_config['ipgetter']['dnslist']['header'] = 'HTTP_X_FORWARDED_FOR';
 $_config['ipgetter']['dnslist']['list']['0'] = 'comsenz.com';
+
+##### 2.4 Cloudflare游客地理标签
+
+本分支跟进了基于 Cloudflare 请求头的游客地理标签逻辑。对于游客组(`groupid == 7`)：
+
+* 若识别为爬虫，则仍按爬虫名称显示；
+* 若不是爬虫，则会读取 `HTTP_CF_IPCOUNTRY` 与 `HTTP_CF_IPCITY`，并将游客显示名设置为“国旗 emoji + 城市名”。
+
+这意味着该功能依赖 Cloudflare 注入的请求头；如果站点未通过 Cloudflare 代理流量，或未提供上述头部，则相关显示逻辑可能不符合预期。
 ```
 
 #### 3. 缓存
