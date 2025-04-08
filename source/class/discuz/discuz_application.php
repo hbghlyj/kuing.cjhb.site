@@ -535,7 +535,7 @@ class discuz_application extends discuz_base {
 				}
 			}
 
-			if(!$this->var['uid']) {
+			if($this->session->get('groupid') == 7) {
 				if(IS_ROBOT){
 					$this->var['member']['groupid'] = 8;
 					$this->var['member']['username'] = IS_ROBOT;
@@ -544,12 +544,6 @@ class discuz_application extends discuz_base {
 						// Validate input: must be exactly 2 letters
 						if (strlen($countryCode) !== 2) {
 							return null;
-						}
-						// Handle Cloudflare special https://developers.cloudflare.com/fundamentals/reference/http-headers/#cf-ipcountry
-						if ($countryCode === 'XX') {
-							return '🌐'; // Globe emoji for unspecified country
-						} elseif ($countryCode === 'T1') {
-							return '🧅'; // Onion emoji for Tor network
 						}
 						// The regional indicator symbols start at the Unicode codepoint U+1F1E6
 						$baseCodePoint = 0x1F1E6;
