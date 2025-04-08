@@ -226,11 +226,11 @@ function dshowmessage($message, $url_forward = '', $values = array(), $extrapara
 		$param['locationtime'] = $param['locationtime'] === true ? $timedefault : $param['locationtime'];
 	}
 	if($handlekey) {
+		$st = '';
 		if($param['showdialog']) {
 			$modes = array('alert_error' => 'alert', 'alert_right' => 'right', 'alert_info' => 'notice');
 			$extra .= 'hideWindow(\''.$handlekey.'\');showDialog(\''.$show_jsmessage.'\', \''.$modes[$alerttype].'\', null, '.($param['locationtime'] !== null ? 'function () { window.location.href =\''.$url_forward_js.'\'; }' : 'null').', 0, null, null, null, null, '.($param['closetime'] ? $param['closetime'] : 'null').', '.($param['locationtime'] ? $param['locationtime'] : 'null').');';
 			$param['closetime'] = null;
-			$st = '';
 			if($param['showmsg']) {
 				$show_message = '';
 			}
