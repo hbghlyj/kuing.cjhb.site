@@ -127,6 +127,28 @@ $_config['ipgetter']['dnslist']['list']['0'] = 'comsenz.com';
 * 若不是爬虫，则会读取 `HTTP_CF_IPCOUNTRY` 与 `HTTP_CF_IPCITY`，并将游客显示名设置为“国旗 emoji + 城市名”。
 
 这意味着该功能依赖 Cloudflare 注入的请求头；如果站点未通过 Cloudflare 代理流量，或未提供上述头部，则相关显示逻辑可能不符合预期。
+
+##### 2.5 GeoIP2 与输出策略调整
+
+本分支已按上游方案切换为直接使用 MaxMind GeoIP2：
+
+* `source/class/class_ip.php` 不再走原有可插拔 IPDB 实现；
+* 直接通过 `source/class/ip/geoip2.phar` 与 `data/ipdata/GeoLite2-City.mmdb` 进行地理位置解析；
+* 旧的 `ip_tiny.php` 与 `ip_wry.php` 已移除，不再作为位置库后端使用。
+
+因此，部署时需要自行准备可用的 MaxMind GeoIP2 城市库文件，否则 IP 归属地解析将无法按该实现工作。
+
+同时，本分支已明确采用以下输出策略：
+
+```php
+$_config['output']['upgradeinsecure'] = 1;
+$_config['output']['css4legacyie'] = 0;
+```
+
+也就是说：
+
+* 在 HTTPS 环境下默认请求浏览器将 HTTP 内链升级为 HTTPS；
+* 默认不再加载兼容低版本 IE 的额外 CSS。
 ```
 
 #### 3. 缓存
