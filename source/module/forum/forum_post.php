@@ -95,14 +95,8 @@ if($_GET['action'] == 'edit' || $_GET['action'] == 'reply') {
 		$thread = array();
 	}
 	if(!empty($thread)) {
-
-		if($thread['readperm'] && $thread['readperm'] > $_G['group']['readaccess'] && !$_G['forum']['ismoderator'] && $thread['authorid'] != $_G['uid']) {
-			showmessage('thread_nopermission', NULL, array('readperm' => $thread['readperm']), array('login' => 1));
-		}
-
 		$_G['fid'] = $thread['fid'];
 		$special = $thread['special'];
-
 	} else {
 		showmessage('thread_nonexistence');
 	}

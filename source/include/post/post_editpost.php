@@ -29,8 +29,6 @@ $audit = $orig['invisible'] == -2 || $thread['displayorder'] == -2 ? $_GET['audi
 
 if(empty($orig)) {
 	showmessage('post_nonexistence');
-} elseif((!$_G['forum']['ismoderator'] || !$_G['group']['alloweditpost'] || (in_array($orig['adminid'], array(1, 2, 3)) && $_G['adminid'] > $orig['adminid'])) && !(($_G['forum']['alloweditpost'] || $orig['invisible'] == -3)&& $isorigauthor)) {
-	showmessage('post_edit_nopermission', NULL);
 } elseif($isorigauthor && !$_G['forum']['ismoderator'] && $orig['invisible'] != -3) {
 	$alloweditpost_status = getstatus($_G['setting']['alloweditpost'], $special + 1);
 	if(!$alloweditpost_status && $_G['group']['edittimelimit'] && TIMESTAMP - $orig['dateline'] > $_G['group']['edittimelimit'] * 60) {
@@ -295,6 +293,9 @@ if(!submitcheck('editsubmit')) {
 	include template('forum/post');
 
 } else {
+	if((!$_G['forum']['ismoderator'] || !$_G['group']['alloweditpost'] || (in_array($orig['adminid'], array(1, 2, 3)) && $_G['adminid'] > $orig['adminid'])) && !(($_G['forum']['alloweditpost'] || $orig['invisible'] == -3)&& $isorigauthor)) {
+		showmessage('post_edit_nopermission', NULL);
+	}
 	if($_GET['mygroupid']) {
 		$mygroupid = explode('__', $_GET['mygroupid']);
 		$mygid = intval($mygroupid[0]);
