@@ -431,7 +431,7 @@ if(!submitcheck('editsubmit')) {
 		);
 
 		if($thread['displayorder'] != -4) {
-			if(TIMESTAMP - $orig['dateline'] > 300) {
+			if(TIMESTAMP - $orig['dateline'] > 300 || !$isorigauthor) {
 				$param['updateuid'] = $_G['uid'];
 				$param['lastupdate'] = TIMESTAMP;
 			} else {
