@@ -1771,6 +1771,9 @@ function parseurl(str, mode, parsecode) {
 	});
 	if (parsecode) {
 		for (var i = 0; i <= DISCUZCODE['num']; i++) {
+	str = str.replace(/([^\w->=\]:"'\.\/]|^)(([\-\.\w]+@[\.\-\w]+(\.\w+)+))/ig, mode == 'html' ? '$1<a href="mailto:$2">$2</a>' : '$1[email]$2[/email]');
+	if (parsecode) {
+		for (var i = 0; i <= DISCUZCODE['num']; i++) {
 			str = str.replace("[\tDISCUZ_CODE_" + i + "\t]", DISCUZCODE['html'][i]);
 		}
 	}
