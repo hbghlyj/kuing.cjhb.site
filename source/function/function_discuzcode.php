@@ -451,8 +451,8 @@ function parseurl($url, $text, $scheme) {
 			$url = '//' . $url;// If starts with www., must be an external link, example [url]www.qq.com[/url]
 		}
         $text = preg_replace("/^https?:\/\/(www\.)?|^www\./i", '', $text); // hide the prefix http:// or www.
-		if(strlen($text) > 95) {
-            $text = mb_substr($text, 0, 64).' &hellip; '.mb_substr($text, -20);
+		if(strlen($text) > 65) {
+            $text = mb_substr($text, 0, 45).' &hellip; '.mb_substr($text, -20);
 		}
 		return '<a href="'.$url.'" target="_blank">'.$text.'</a>';
 	} else {
