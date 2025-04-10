@@ -1760,17 +1760,15 @@ function parseurl(str, mode, parsecode) {
 	});
 	str = str.replace(/([^\w>=\]"'\/@]|^)((www\.)([\w\-]+\.)*[:\.@\-\w\u4e00-\u9fa5]+\.([\.a-zA-Z0-9]+|\u4E2D\u56FD|\u7F51\u7EDC|\u516C\u53F8)((\?|\/|:)+[\w\.\/=\?%\-&;~`@':+!#\*]*)*)/ig, function (match, prefix, url) {
 		try {
-		    let urlObj = new URL(url.startsWith('http') ? url : 'http://' + url); // Ensure valid URL
-		    if (urlObj.host === location.host) {
+ 		    let urlObj = new URL(url.startsWith('http') ? url : 'http://' + url); // Ensure valid URL
+ 		    if (urlObj.host === location.host) {
 			url = urlObj.pathname.slice(1) + urlObj.search + urlObj.hash; // Return relative URL
-		    }
+ 		    }
 		} catch (e) {
 		    showError(e);
 		}
 		return prefix + (mode == 'html' ? '<a href="' + url + '" target="_blank">' + url + '</a>' : '[url]' + url + '[/url]');
 	});
-	if (parsecode) {
-		for (var i = 0; i <= DISCUZCODE['num']; i++) {
 	str = str.replace(/([^\w->=\]:"'\.\/]|^)(([\-\.\w]+@[\.\-\w]+(\.\w+)+))/ig, mode == 'html' ? '$1<a href="mailto:$2">$2</a>' : '$1[email]$2[/email]');
 	if (parsecode) {
 		for (var i = 0; i <= DISCUZCODE['num']; i++) {
