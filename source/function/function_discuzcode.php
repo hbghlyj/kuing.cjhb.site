@@ -376,9 +376,9 @@ function parseurl($url, $text, $scheme) {
 	global $_G;
 	if(!$url && preg_match("/((https?|ftp|gopher|news|telnet|rtsp|mms|callto|bctp|thunder|qqdl|synacast){1}:\/\/|www\.)[^\[\"']+/i", trim($text), $matches)) {
 		$url = $matches[0];
-		$length = 65;
-		if(strlen($url) > $length) {
-			$text = substr($url, 0, intval($length * 0.5)).' ... '.substr($url, -intval($length * 0.3));
+		$text = preg_replace("/^https?:\/\/(www\.)?|^www\./i", '', $text); // hide the prefix http:// or www.
+		if(strlen($text) > 65) {
+			$text = mb_substr($text, 0, 45).' &hellip; '.mb_substr($text, -20);
 		}
 		return '<a href="'.(str_starts_with(strtolower($url), 'www.') ? 'http://'.$url : $url).'" target="_blank">'.$text.'</a>';
 	} else {
