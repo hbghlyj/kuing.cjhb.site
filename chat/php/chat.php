@@ -37,9 +37,7 @@ if ($conn->connect_error) {
 }
 
 // CREATE TABLE chat (time TIMESTAMP DEFAULT CURRENT_TIMESTAMP, uid mediumint NOT NULL, author CHAR(15) NOT NULL, message TEXT NOT NULL, PRIMARY KEY (`time`) );
-$stmt = $conn->prepare(
-  "INSERT INTO chat (uid, author, message) VALUES (?, LEFT(?, 30), ?)"
-);
+$stmt = $conn->prepare("INSERT INTO chat (uid,author,message) VALUES (?, ?, ?)");
 $stmt->bind_param("iss", $_G['uid'], $_G['username'], $options['text']);
 $stmt->execute();
 $stmt->close();
