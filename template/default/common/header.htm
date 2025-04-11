@@ -38,28 +38,27 @@
   src: local('Microsoft Yahei Bold');
   font-weight: bold;
 }
-body, input, button, select, textarea, .xst, .ts {
-  font-family:
-    Tahoma,zh,
-    system-ui,-apple-system,BlinkMacSystemFont,
-    sans-serif;
-}
 #nv li span[lang="{if DISCUZ_LANG=='EN/'}zh{else}en{/if}"],#mn_forum_menu li span[lang="{if DISCUZ_LANG=='EN/'}zh{else}en{/if}"],#flk p a span[lang="{if DISCUZ_LANG=='EN/'}zh{else}en{/if}"] {display: none;}
 </style>
-<script>
-if (navigator.userAgent.match(/Windows 7|Windows 8|Windows NT 6|Windows NT 10\.0.*?Chrome\/10[0-9]/)) {
-    var tmpstyle = document.createElement("style");
-    tmpstyle.innerHTML = `
-@import url(https://fonts.googleapis.com/css2?family=Noto+Colr+Emoji+Glyf);
-body, input, button, select, textarea, .xst, .ts {
-  font-family:
-    Tahoma,zh,
-    system-ui,sans-serif,
-    "Segoe UI Emoji","Noto Colr Emoji Glyf";
-}`;
-    document.getElementsByTagName("head")[0].appendChild(tmpstyle);
-    console.log('load google noto color emoji font');
-}
+<script type="module" defer>
+	if (navigator.userAgent.includes("Windows") && navigator.userAgent.includes("Chrome")) {
+		if (navigator.userAgent.match(/Windows 7|Windows 8|Windows NT 6|Windows NT 10\.0.*?Chrome\/10[0-9]/)) {
+			var tmpstyle = document.createElement("style");
+			tmpstyle.innerHTML = `
+		@import url(https://fonts.googleapis.com/css2?family=Noto+Colr+Emoji+Glyf);
+		body, input, button, select, textarea, .xst, .ts {
+		font-family:
+			Tahoma,zh,
+			system-ui,sans-serif,
+			"Noto Colr Emoji Glyf";
+		}`;
+			document.getElementsByTagName("head")[0].appendChild(tmpstyle);
+		}else{
+			import("https://cdn.skypack.dev/country-flag-emoji-polyfill").then(module => {
+				module.polyfillCountryFlagEmojis();
+			});
+		}
+	}
 </script>
 
 

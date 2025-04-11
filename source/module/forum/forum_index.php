@@ -361,7 +361,7 @@ if(!$gid && (!defined('FORUM_INDEX_PAGE_MEMORY') || !FORUM_INDEX_PAGE_MEMORY)) {
 				foreach(C::app()->session->fetch_member(2, 0, $_G['setting']['maxonlinelist'] - $membercount) as $online){
 					$online['icon'] = $_G['cache']['onlinelist'][$online['groupid']];
 					if($online['groupid'] == 7){
-						$online['username'] = lang('forum/misc', 'guestuser') . '<font face="\'Apple Color Emoji\',\'Noto Colr Emoji Glyf\'">' . mb_substr($online['username'], 0, 2) . '</font>' . mb_substr($online['username'], 2);
+						$online['username'] = lang('forum/misc', 'guestuser') . $online['username'];
 					}
 					$online['lastactivity'] = dgmdate($online['lastactivity'], 't');
 					$whosonline[] = $online;
