@@ -482,6 +482,12 @@ class discuz_application extends discuz_base{
 						if (strlen($countryCode) !== 2) {
 							return null;
 						}
+						// Handle Cloudflare special https://developers.cloudflare.com/fundamentals/reference/http-headers/#cf-ipcountry
+						if ($countryCode === 'XX') {
+							return '🌐'; // Globe emoji for unspecified country
+						} elseif ($countryCode === 'T1') {
+							return '🧅'; // Onion emoji for Tor network
+						}
 						// The regional indicator symbols start at the Unicode codepoint U+1F1E6
 						$baseCodePoint = 0x1F1E6;
 						// Calculate the code points for each of the two letters
