@@ -1,0 +1,15 @@
+<root>
+    <plugin>
+        <identifier>googleconnect</identifier>
+        <name>Google Connect</name>
+        <version>1.0</version>
+        <copyright>Comsenz Inc.</copyright>
+        <modules>
+            <module>
+                <name>Google Login</name>
+                <menu>Google Login</menu>
+                <url>connect/connect_login.php</url>
+            </module>
+        </modules>
+    </plugin>
+</root>
