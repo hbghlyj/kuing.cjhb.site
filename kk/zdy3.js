@@ -36,8 +36,7 @@ document.querySelectorAll('.t_f,.postmessage,.message').forEach(post => {
         }
         //去行间公式后的1个br
         if (br.previousSibling && br.previousSibling.nodeType === Node.TEXT_NODE) {
-        if (/(\\\]|\\end\{align\*?\}|\\end\{gather\*?\}|\\end\{equation\*?\}|\$\$)( |&nbsp;)*$/.test(br.previousSibling.nodeValue)) {
-            // Remove <br> and any trailing spaces
+            if (/(\\\]|\\end\{(align|gather|equation|eqnarray|multline)\*?\}|\$\$)( |&nbsp;)*$/.test(br.previousSibling.nodeValue)) {
             br.previousSibling.nodeValue = br.previousSibling.nodeValue.replace(/( |&nbsp;)*$/, '');
             br.remove();
         }

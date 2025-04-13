@@ -65,7 +65,7 @@ document.querySelectorAll('.t_f').forEach(post => {
         }
         //去行间公式后的1个br
         if (br.previousSibling && br.previousSibling.nodeType === Node.TEXT_NODE) {
-            if (/(\\\]|\\end\{(align|gather|equation|eqnarray)\*?\}|\$\$)( |&nbsp;)*$/.test(br.previousSibling.nodeValue)) {
+            if (/(\\\]|\\end\{(align|gather|equation|eqnarray|multline)\*?\}|\$\$)( |&nbsp;)*$/.test(br.previousSibling.nodeValue)) {
                 br.previousSibling.nodeValue = br.previousSibling.nodeValue.replace(/( |&nbsp;)*$/, '');
                 br.remove();
             }
