@@ -34,7 +34,7 @@
 						<!--{elseif $post['number'] == -1}-->
 							{lang recommend_post}
 						<!--{else}-->
-							<!--{if !empty($postno[$post['number']])}-->$postno[$post['number']]<!--{else}-->{$post['number']}{$postno[0]}<!--{/if}-->
+							<!--{if !empty($postno[$post['number']])}-->$postno[$post['number']]<!--{else}-->{$post[position]}{$postno[0]}<!--{/if}-->
 						<!--{/if}-->
 					</span>
 					<span class="z">
