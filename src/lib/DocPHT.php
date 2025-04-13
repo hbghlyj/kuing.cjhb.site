@@ -26,7 +26,7 @@ class MediaWikiParsedown extends ParsedownPlus
 
     protected function inlineMediaWikiUrl($Excerpt)
     {
-        if (preg_match('/\[\[([^\s\]]+)\]\]/', $Excerpt['text'], $matches))
+        if (preg_match('/^\[\[([^\s#\]]+)([^\s\]]*)\]\]/', $Excerpt['text'], $matches))
         {
             $filename = $matches[1];
             $requestUriParts = explode('/', $_SERVER['REQUEST_URI']);
