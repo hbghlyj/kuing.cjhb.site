@@ -69,9 +69,9 @@ function asycode_callback($matches) {
 
 function tikzcode_callback($matches) {
     $str = str_replace(array(
-		'%21', '%28', '%29', '%2A', '%2B', '%2C', '%3A', '%3B', '%3D'
+		'%21', '%28', '%29', '%2A', '%2B', '%2C', '%3A', '%3B', '%3D','%0D'
 		),array(
-		'!', '(', ')', '*', '+', ',', ':', ';', '='
+		'!', '(', ')', '*', '+', ',', ':', ';', '=',''
 		),$matches[1]);
     return '<tikz class="tupian"><div class="jiaz"></div><div class="tuozt" onmousedown="tuozhuai2(event,this.parentNode);return false;"><!--拖动--></div><div class="guiw" onclick="guiwei(this.parentNode);return false;"><!--归位--></div><img src="//i.upmath.me/svg/'.$str.'" onclick="show_tikz_window(\''.$str.'\');" onload="this.parentNode.classList.add(\'jiazed\');this.setAttribute(\'width\',this.width);this.parentNode.style.display=\'inline-block\';"></tikz>';
 }
