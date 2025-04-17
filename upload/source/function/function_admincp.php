@@ -692,7 +692,7 @@ function showsetting($setname, $varname, $value, $type = 'radio', $disabled = ''
 	} elseif($type == 'text' || $type == 'password' || $type == 'number') {
 		$s .= '<input name="'.$varname.'" value="'.dhtmlspecialchars($value).'" type="'.$type.'" class="txt" '.$check['disabled'].' '.$extra.' />';
 	} elseif($type == 'htmltext') {
-		$id .= 'html'.random(2);
+		$id = 'html'.random(2);
 		$s .= '<div id="'.$id.'">'.$value.'</div><input id="'.$id.'_v" name="'.$varname.'" value="'.dhtmlspecialchars($value).'" type="hidden" /><script type="text/javascript">sethtml(\''.$id.'\')</script>';
 	} elseif($type == 'file') {
 		$s .= '<input name="'.$varname.'" value="" type="file" class="txt uploadbtn marginbot" '.$check['disabled'].' '.$extra.' />';
