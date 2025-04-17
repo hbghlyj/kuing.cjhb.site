@@ -1484,7 +1484,7 @@ function siteftp_check($siteftp, $dir) {
 	if(!file_exists(DISCUZ_ROOT.'./'.$dir.'/discuz_version.php')) {
 		cpmsg('cloudaddons_ftp_path_error', '', 'error');
 	}
-	$ftp->ftp_delete($typedir.'/discuz_version.php');
+	$ftp->ftp_delete($dir.'/discuz_version.php');
 	$_G['siteftp'] = $ftp;
 }
 
