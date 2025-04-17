@@ -992,7 +992,7 @@ function deletecollection($ctid) {
 
 	$collectionteamworker = C::t('forum_collectionteamworker')->fetch_all_by_ctid($ctid);
 	foreach ($collectionteamworker as $worker) {
-		notification_add($worker['uid'], "system", 'collection_removed', array('ctid'=>$collectiondata['ctid'], 'collectionname'=>$collectiondata['name']), 1);
+		notification_add($worker['uid'], "system", 'collection_removed', array('ctid'=>$worker['ctid'], 'collectionname'=>$worker['name']), 1);
 	}
 
 	C::t('forum_collectionthread')->delete_by_ctid($ctid);
