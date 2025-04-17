@@ -639,7 +639,7 @@ function showboxrow($trstyle = '', $tdstyle = array(), $tdtext = array(), $retur
 	echo $cells;
 }
 function showboxbody($class = '', $text = '', $extra = '') {
-	echo '<div class="boxbody'.($style ? (' '.$style) : '').'" '.$extra.'>'.$text.'</div>';
+	echo '<div class="boxbody'.($class ? (' '.$class) : '').'" '.$extra.'>'.$text.'</div>';
 }
 
 function showsetting($setname, $varname, $value, $type = 'radio', $disabled = '', $hidden = 0, $comment = '', $extra = '', $setid = '', $nofaq = false, $inbox = 0) {
