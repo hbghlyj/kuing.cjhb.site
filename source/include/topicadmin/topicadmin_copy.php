@@ -53,7 +53,6 @@ if(!submitcheck('modsubmit')) {
 	$thread['views'] = $thread['replies'] = $thread['highlight'] = $thread['digest'] = 0;
 	$thread['rate'] = $thread['displayorder'] = $thread['attachment'] = 0;
 	$thread['typeid'] = $_GET['threadtypeid'];
-	$thread = daddslashes($thread);
 
 	$thread['posttableid'] = 0;
 	$threadid = C::t('forum_thread')->insert($thread, true);
@@ -71,7 +70,6 @@ if(!submitcheck('modsubmit')) {
 		$post['attachment'] = 0;
 		$post['invisible'] = $post['rate'] = $post['ratetimes'] = 0;
 		$post['message'] .= "\n".lang('forum/thread', 'source').": [url=forum.php?mod=viewthread&tid={$sourcetid}]{$thread['subject']}[/url]";
-		$post = daddslashes($post);
 		$pid = insertpost($post);
 	}
 
