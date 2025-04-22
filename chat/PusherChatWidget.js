@@ -204,6 +204,10 @@ PusherChatWidget.prototype._sendChatMessage = function(data) {
       console.log('Chat message sent.', status);
       if(xhr.status === 200) {
         self._messageInputEl.val('');
+      }else if(xhr.status === 413) {
+        alert(isChinese ? '聊天信息过长' : 'Chat message too long');
+      }else{
+        alert(isChinese ? '发送失败' : 'Failed to send message');
       }
       self._messageInputEl.removeAttr('readonly');
     }

@@ -24,7 +24,7 @@ if( !isset($_POST['chat_info']) ){
 
 $options = array();
 $options['displayName'] = $_G['username'];
-$options['text'] = substr(htmlspecialchars($chat_info['text']), 0, 300);
+$options['text'] = htmlspecialchars($chat_info['text']);
 $options['image']['url'] = 'https://' . $_SERVER['HTTP_HOST'] . substr(avatar($_G['uid'], 'small', 1), 1);
 
 
@@ -50,5 +50,7 @@ $pusher = new Pusher(APP_KEY,APP_SECRET,APP_ID,array(
     'useTLS' => true
   ));
 $data = $activity->getMessage();
-$pusher->trigger($channel_name, 'chat_message', $data, null, true);
+$result = $pusher->trigger($channel_name, 'chat_message', $data, null, true);
+header('HTTP/1.1 ' . $result['status']);
+echo $result['body'];
 ?>
