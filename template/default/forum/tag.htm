@@ -12,11 +12,11 @@
 	<h3 class="flb">
 		<em>{lang post_tag}</em>
 	</h3>
-	<div class="c bart" style="width: 65ch;">
+	<div class="c">
 		<input type="hidden" name="tid" id="tid" value="$_GET[tid]" />
 		<!--{template forum/tag_input}-->
 		<!--{if $recent_use_tag}-->
-		<p class="mtn">{lang recent_use_tag}
+		<p class="mtn" style="width:300px">{lang recent_use_tag}
 			<!--{eval $tagi = 0;}-->
 			<!--{loop $recent_use_tag $var}-->
 				<!--{if $tagi}-->, <!--{/if}--><a class="xi2" onclick="addKeyword('$var')">$var</a>
