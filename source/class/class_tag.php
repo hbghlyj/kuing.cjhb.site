@@ -19,6 +19,7 @@ class tag {
 		$tags = str_replace(array(chr(0xa3).chr(0xac), chr(0xa1).chr(0x41), chr(0xef).chr(0xbc).chr(0x8c)), ',', censor($tags));
 		$tagarray = array_unique(explode(',', $tags));
 		$tagcount = 0;
+		$return = '';
 		foreach($tagarray as $tagname) {
 			$tagname = trim($tagname);
 			if(preg_match('/^([\x7f-\xff_-]|\w|\s){2,20}$/', $tagname)) {
