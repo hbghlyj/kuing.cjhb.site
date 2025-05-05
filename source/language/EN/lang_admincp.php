@@ -3735,7 +3735,6 @@ $lang = array
 	'members_add_ban_all_none' => '对不起，不允许添加禁止访问、禁止IP、游客用户组，请返回修改。',
 	'members_no_find_deluser' => '对不起，没有搜索到需要删除的用户，请返回修改搜索条件或者重新选择要删除的用户。',
 	'members_dont_contain_admin_merge' => '源用户中包含管理员身份会员，请首先将他的管理员身份解除后再进行合并操作，否则合并无法进行，请返回更改。',
-
 	'members_verify_tips' => '<li>可以批量操作</li>',
 	'members_verify_pass' => '通过',
 	'members_verify_pass_with_group' => '并升到用户组',
@@ -3771,6 +3770,7 @@ $lang = array
 	'members_verify_info' => '审核信息',
 	'members_verify_type' => '审核类型',
 	'members_verify_fieldid' => '审核项',
+	'members_verify_profile' => '资料审核',
 	'members_verify_refusal' => '拒绝',
 	'members_verify_nav_authstr' => '待审核',
 	'members_verify_nav_refusal' => '已拒绝',
