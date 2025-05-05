@@ -427,7 +427,7 @@ function cron_create($pluginid, $filename = null, $name = null, $weekday = null,
 			$minutenew = explode(',', $minute);
 			foreach($minutenew as $key => $val) {
 				$minutenew[$key] = $val = intval($val);
-				if($val < 0 || $var > 59) {
+				if($val < 0 || $val > 59) {
 					unset($minutenew[$key]);
 				}
 			}
