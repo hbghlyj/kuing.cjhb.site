@@ -620,7 +620,7 @@ class model_forum_post extends discuz_model {
 
 			$this->param['updatefieldarr']['replies'] = -1;
 			$this->param['updatefieldarr']['lastposter'] = array($lastpost['author']);
-			$this->param['updatefieldarr']['lastpost'] = array($lastpost['dateline']);
+			// $this->param['updatefieldarr']['lastpost'] = array($lastpost['dateline']);
 
 			C::t('forum_thread')->increase($this->thread['tid'], $this->param['updatefieldarr']);
 
