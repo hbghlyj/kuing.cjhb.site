@@ -26,14 +26,30 @@
 }
 /*关置顶那小叉叉*/
 
+.fl_by div {width: 320px;}
+/*子版块主题加宽*/
+
 @media screen and (orientation: portrait) {
-  #switchwidth,#diy-tg,#um p:last-child,#ct .bm.bml.pbn,#fd_page_top,#thread_types,.tl .num em,.tl .icn,.tl .th,#cgb,#separatorline td:first-child { display: none; }
+  #switchwidth,#diy-tg,#um p:last-child,.fl_i,#ct .bm.bml.pbn,#fd_page_top,#thread_types,.tl .num em,.tl .icn,.tl .th,#cgb,#separatorline td:first-child { display: none; }
   #toptb { min-width: unset; }
   .wp { width: 100%; }
   #ls_username, #ls_password { width: 90px; }
   #nv li a { padding: 0 5px; }
   #scbar_txt { width: 130px;}
   .bm_c { padding: 0; }
+  .fl_by {
+    width: 150px;
+    max-width: 150px;
+  }
+  .fl_by div {
+    width: 140px;
+    padding-left: 0;
+  }
+  .fl_by cite {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 12px;
+  }
   .tl .lastp { padding-right: 5px; }
   .tl .by {
     width: 60px;
