@@ -19,10 +19,7 @@ function getmycollection($uid) {
 function getHotCollection($number = 500, $pK = true) {
 	$collection = [];
 	if($number > 0) {
-		$collection = table_forum_collection::t()->range_collection(0, $number, 10, $pK);
-		if(!$collection || count($collection) < $number) {
-			$collection += table_forum_collection::t()->range_collection(0, $number, null, $pK);
-		}
+		$collection = C::t('forum_collection')->range_collection(0, $number, null, $pK);
 	}
 	return $collection;
 }
