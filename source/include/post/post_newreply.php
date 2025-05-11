@@ -95,7 +95,7 @@ if($_G['setting']['commentnumber'] && !empty($_GET['comment'])) {
 		'port'=> $_G['remoteport']
 	), true);
 	C::t('forum_post')->update_post('tid:'.$_G['tid'], $_GET['pid'], array('comment' => 1));
-
+	$comment = cutstr(str_replace(array('[b]', '[/b]', '[/color]'), '', preg_replace("/\[color=([#\w]+?)\]/i", "", $comment)), 200);
 	$comments = $thread['comments'] ? $thread['comments'] + 1 : C::t('forum_postcomment')->count_by_tid($_G['tid']);
 	C::t('forum_thread')->update($_G['tid'], array('comments' => $comments));
 	!empty($_G['uid']) && $thread['displayorder'] != -4 && updatepostcredits('+', $_G['uid'], 'reply', $_G['fid']);
@@ -106,9 +106,19 @@ if($_G['setting']['commentnumber'] && !empty($_GET['comment'])) {
 			'subject' => $thread['subject'],
 			'from_id' => $_G['tid'],
 			'from_idtype' => 'pcomment',
-			'commentmsg' => cutstr(str_replace(array('[b]', '[/b]', '[/color]'), '', preg_replace("/\[color=([#\w]+?)\]/i", "", $comment)), 200)
+			'commentmsg' => $comment
 		));
 	}
+	preg_match_all('/@([^\r\n]*?)\s/i', $comment.' ', $matches);
+	if (!empty($matches[1])) {
+		$atlist_tmp = array_unique($matches[1]);
+		foreach(C::t('common_member')->fetch_all_by_username($atlist_tmp) as $row) {
+			if ($row['uid'] != $_G['uid']) {
+				notification_add($row['uid'], 'at', 'at_message', array('from_id' => $_G['tid'], 'from_idtype' => 'at', 'buyerid' => $_G['uid'], 'buyer' => $_G['username'], 'tid' => $_G['tid'], 'subject' => $thread['subject'], 'pid' => $_GET['pid'], 'message' => $comment));
+			}
+		}
+	}
+
 	update_threadpartake($post['tid']);
 	$pcid = C::t('forum_postcomment')->fetch_standpoint_by_pid($_GET['pid']);
 	$pcid = $pcid['id'];
