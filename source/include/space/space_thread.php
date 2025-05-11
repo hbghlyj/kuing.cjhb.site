@@ -26,7 +26,7 @@ $_GET['order'] = in_array(getgpc('order'), array('hot', 'dateline')) ? $_GET['or
 
 $allowviewuserthread = $_G['setting']['allowviewuserthread'];
 
-$perpage = 20;
+$perpage = 40;
 $start = ($page-1)*$perpage;
 ckstart($start, $perpage);
 
