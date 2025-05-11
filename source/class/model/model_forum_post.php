@@ -642,10 +642,10 @@ class model_forum_post extends discuz_model {
 
 
 		table_forum_post::t()->delete_post('tid:'.$this->thread['tid'], $this->post['pid']);
-
+		table_forum_postcomment::t()->delete_by_pid($this->post['pid']);
 
 		$forumcounter = [];
-		if($isfirstpost) {
+		if($this->thread['replies'] == 0) {
 			$forumcounter['threads'] = $forumcounter['posts'] = -1;
 			$tablearray = ['forum_relatedthread', 'forum_debate', 'forum_debatepost', 'forum_polloption', 'forum_poll'];
 			foreach($tablearray as $table) {
