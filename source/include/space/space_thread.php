@@ -69,12 +69,13 @@ $ordersql = 't.dateline DESC';
 $need_count = true;
 $viewuserthread = false;
 $listcount = 0;
+$viewtype = in_array(getgpc('type'), array('reply', 'thread', 'postcomment')) ? $_GET['type'] : 'thread';
+$orderactives = array($viewtype => ' class="a"');
 
 if($_GET['view'] == 'me') {
 
 	if($_GET['from'] == 'space') $diymode = 1;
 	$allowview = true;
-	$viewtype = in_array(getgpc('type'), array('reply', 'thread', 'postcomment')) ? $_GET['type'] : 'thread';
 	$filter = in_array(getgpc('filter'), array('recyclebin', 'ignored', 'save', 'aduit', 'close', 'common')) ? $_GET['filter'] : '';
 	if($space['uid'] != $_G['uid'] && in_array($viewtype, array('reply', 'thread'))) {
 		if($allowviewuserthread === -1 && $_G['adminid'] != 1) {
@@ -116,7 +117,7 @@ if($_GET['view'] == 'me') {
 		$posttable = getposttable();
 		require_once libfile('function/post');
 		$pids = $tids = array();
-		$postcommentarr = C::t('forum_postcomment')->fetch_all_by_authorid($_G['uid'], $start, $perpage);
+		$postcommentarr = C::t('forum_postcomment')->fetch_all_by_authorid($_GET['from'] == 'space' ? $space['uid'] : $_G['uid'], $start, $perpage);
 		foreach($postcommentarr as $value) {
 			$pids[] = $value['pid'];
 			$tids[] = $value['tid'];
@@ -265,8 +266,6 @@ if($_GET['view'] == 'me') {
 	if(!$allowview) {
 		$need_count = false;
 	}
-	$orderactives = array($viewtype => ' class="a"');
-
 } else {
 
 	if(!$_G['setting']['friendstatus']) {
