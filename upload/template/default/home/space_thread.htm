@@ -126,14 +126,12 @@
 							<!--{/if}-->
 							<th><!--{if $viewtype == 'reply' || $viewtype == 'postcomment'}-->{lang post}<!--{else}-->{lang topic}<!--{/if}--><!--{if $viewtype != 'reply' && $viewtype != 'postcomment'}-->&nbsp; <input type="text" id="searchmypost" class="px vm" size="15" /> <button class="pn" onclick="location.href = 'search.php?mod=forum&srchtxt=' + encodeURIComponent($('searchmypost').value) + '&srchuid=$space[uid]&searchsubmit=yes';return false">{lang search}</button><!--{/if}--></th>
 							<td class="frm"><!--{if $viewtype == 'postcomment'}-->{lang forum}<!--{else}--><select name="forumlist" id="forumlist" class="ps vm" onchange="viewforumthread(this.value);" style="width: 120px; word-wrap: normal;"><option value="0">{lang follow_select_forum}</option>$forumlist</select><!--{/if}--></td>
-							<!--{if $viewtype != 'postcomment'}-->
-								<!--{if !$actives[me]}-->
-								<td class="by">{lang author}</td>
-								<!--{/if}-->
-								<td class="num">{lang replies}</td>
-								<!--{if $actives[me]}-->
-								<td class="by"><cite>{lang last_post}</cite></td>
-								<!--{/if}-->
+							<!--{if $viewtype == 'reply' || $viewtype == 'postcomment' || !$actives[me]}-->
+							<td class="by">{lang author}</td>
+							<!--{/if}-->
+							<td class="num">{lang replies}</td>
+							<!--{if $actives[me]}-->
+							<td class="by"><cite>{lang last_post}</cite></td>
 							<!--{/if}-->
 						</tr>
 
@@ -175,11 +173,7 @@
 								</td>
 							<!--{/if}-->
 							<th>
-								<!--{if $viewtype == 'postcomment'}-->
-									<a href="forum.php?mod=redirect&goto=findpost&ptid=$thread[tid]&pid=$thread[pid]" target="_blank">$thread[subject]</a>
-								<!--{else}-->
-									<a href="forum.php?mod=viewthread&tid=$thread[tid]" target="_blank" {if $thread['displayorder'] == -1}class="recy"{/if}>$thread[subject]</a>
-								<!--{/if}-->
+								<a href="forum.php?mod=viewthread&tid=$thread[tid]" target="_blank" {if $thread['displayorder'] == -1}class="recy"{/if}>$thread[subject]</a>
 								<!--{if $thread['digest'] > 0}-->
 									<span class="tbox tdigest">{lang digest}$thread[digest]</span>
 								<!--{/if}-->
@@ -201,39 +195,31 @@
 							<td>
 								<a href="forum.php?mod=forumdisplay&fid=$thread[fid]" class="xg1" target="_blank">$forums[$thread[fid]]</a>
 							</td>
-							<!--{if $viewtype != 'postcomment'}-->
-								<!--{if !$actives[me]}-->
-								<td>
-									<cite><a href="home.php?mod=space&uid=$thread[authorid]" target="_blank">$thread[author]</a></cite>
-									<em>$thread[dateline]</em>
-								</td>
-								<!--{/if}-->
+							<!--{if $viewtype == 'reply' || $viewtype == 'postcomment' || !$actives[me]}-->
+							<td>
+								<cite><a href="home.php?mod=space&uid=$thread[authorid]" target="_blank">$thread[author]</a></cite>
+								<em>$thread[dateline]</em>
+							</td>
+							<!--{/if}-->
 
-								<td class="num">
-									<a href="forum.php?mod=viewthread&tid=$thread[tid]" class="xi2" target="_blank">$thread[replies]</a>
-									<em>$thread[views]</em>
-								</td>
+							<td class="num">
+								<a href="forum.php?mod=viewthread&tid=$thread[tid]" class="xi2" target="_blank">$thread[replies]</a>
+								<em>$thread[views]</em>
+							</td>
 
-								<!--{if $actives[me]}-->
-								<td class="by">
-									<cite><a href="home.php?mod=space&username=$thread[lastposterenc]" target="_blank">$thread[lastposter]</a></cite>
-									<em><a href="forum.php?mod=redirect&tid=$thread[tid]&goto=lastpost#lastpost" target="_blank">$thread[lastpost]</a></em>
-								</td>
-								<!--{/if}-->
+							<!--{if $actives[me]}-->
+							<td class="by">
+								<cite><a href="home.php?mod=space&username=$thread[lastposterenc]" target="_blank">$thread[lastposter]</a></cite>
+								<em><a href="forum.php?mod=redirect&tid=$thread[tid]&goto=lastpost#lastpost" target="_blank">$thread[lastpost]</a></em>
+							</td>
 							<!--{/if}-->
 						</tr>
-						<!--{if $actives[me] && $viewtype=='reply'}-->
+						<!--{if $actives[me]}-->
 							<!--{loop $tids[$stid] $pid}-->
 							<tr>
-								<td colspan="5" class="xg1">&nbsp;<svg width="15" height="14" class="vm"><path fill="#ddd" d="M6 8v5H1V8C1 5 4 .5 6 .5V3C5 3 3.5 6 3.5 8zm8 0v5H9V8c0-3 3-7.5 5-7.5V3c-1 0-2.5 3-2.5 5z" /></svg> <a href="forum.php?mod=redirect&goto=findpost&ptid=$thread[tid]&pid=$pid" target="_blank">$posts[$pid][message]</a> <svg width="15" height="14" class="vm"><path fill="#ddd" d="M9 6V1h5v5c0 3-3 7.5-5 7.5V11c1 0 2.5-3 2.5-5zM1 6V1h5v5c0 3-3 7.5-5 7.5V11c1 0 2.5-3 2.5-5z" /></svg></td>
+								<td colspan="6" class="xg1">&nbsp;<svg width="15" height="14" class="vm"><path fill="#ddd" d="M6 8v5H1V8C1 5 4 .5 6 .5V3C5 3 3.5 6 3.5 8zm8 0v5H9V8c0-3 3-7.5 5-7.5V3c-1 0-2.5 3-2.5 5z" /></svg> <a href="forum.php?mod=redirect&goto=findpost&ptid=$thread[tid]&pid=$posts[$pid][pid]" target="_blank">$posts[$pid][message]</a> <svg width="15" height="14" class="vm"><path fill="#ddd" d="M9 6V1h5v5c0 3-3 7.5-5 7.5V11c1 0 2.5-3 2.5-5zM1 6V1h5v5c0 3-3 7.5-5 7.5V11c1 0 2.5-3 2.5-5z" /></svg></td>
 							</tr>
 							<!--{/loop}-->
-						<!--{/if}-->
-						<!--{if $actives[me] && $viewtype=='postcomment'}-->
-						<tr>
-							<td class="icn">&nbsp;</td>
-							<td colspan="2" class="xg1">$thread[comment]</td>
-						</tr>
 						<!--{/if}-->
 						<!--{/loop}-->
 					<!--{else}-->

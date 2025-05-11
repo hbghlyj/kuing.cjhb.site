@@ -113,52 +113,6 @@ if($_GET['view'] == 'me') {
 		}
 
 		$ordersql = 't.tid DESC';
-	} elseif($viewtype == 'postcomment') {
-		$posttable = getposttable();
-		require_once libfile('function/post');
-		$pids = $tids = array();
-		$postcommentarr = C::t('forum_postcomment')->fetch_all_by_authorid($_GET['from'] == 'space' ? $space['uid'] : $_G['uid'], $start, $perpage);
-		foreach($postcommentarr as $value) {
-			$pids[] = $value['pid'];
-			$tids[] = $value['tid'];
-		}
-		$pids = C::t('forum_post')->fetch_all_post(0, $pids);
-		$tids = C::t('forum_thread')->fetch_all($tids);
-
-		$list = $fids = array();
-		foreach($postcommentarr as $value) {
-			$value['authorid'] = $pids[$value['pid']]['authorid'];
-			$value['fid'] = $pids[$value['pid']]['fid'];
-			$value['invisible'] = $pids[$value['pid']]['invisible'];
-			$value['dateline'] = $pids[$value['pid']]['dateline'];
-			$value['message'] = $pids[$value['pid']]['message'];
-			$value['special'] = $tids[$value['tid']]['special'];
-			$value['status'] = $tids[$value['tid']]['status'];
-			$value['subject'] = $tids[$value['tid']]['subject'];
-			$value['digest'] = $tids[$value['tid']]['digest'];
-			$value['attachment'] = $tids[$value['tid']]['attachment'];
-			$value['replies'] = $tids[$value['tid']]['replies'];
-			$value['views'] = $tids[$value['tid']]['views'];
-			$value['lastposter'] = $tids[$value['tid']]['lastposter'];
-			$value['lastpost'] = $tids[$value['tid']]['lastpost'];
-			$value['tid'] = $pids[$value['pid']]['tid'];
-
-			$fids[] = $value['fid'];
-			$value['comment'] = messagecutstr($value['comment'], 100);
-			$list[] = procthread($value);
-		}
-		unset($pids, $tids, $postcommentarr);
-		if($fids) {
-			$fids = array_unique($fids);
-			$query = C::t('forum_forum')->fetch_all($fids);
-			foreach($query as $forum) {
-				$forums[$forum['fid']] = $forum['name'];
-			}
-		}
-
-		$multi = simplepage(count($list), $perpage, $page, $theurl);
-		$need_count = false;
-
 	} elseif($allowview) {
 		$invisible = null;
 
@@ -183,7 +137,7 @@ if($_GET['view'] == 'me') {
 			}
 		}
 		require_once libfile('function/post');
-		$posts = C::t('forum_post')->fetch_all_by_authorid(0, $space['uid'], true, 'DESC', $start, $perpage, 0, $invisible, $vfid);
+		$posts =  $viewtype == 'postcomment' ? C::t('forum_postcomment')->fetch_all_by_authorid($_GET['from'] == 'space' ? $space['uid'] : $_G['uid'], $start, $perpage) : C::t('forum_post')->fetch_all_by_authorid(0, $space['uid'], true, 'DESC', $start, $perpage, 0, $invisible, $vfid);
 		$listcount = count($posts);
 		foreach($posts as $pid => $post) {
 			$delrow = false;
@@ -198,7 +152,7 @@ if($_GET['view'] == 'me') {
 				unset($posts[$pid]);
 				$hiddennum++;
 			} else {
-				$posts[$pid]['message'] = $post['status'] & 1 && $_G['adminid'] != 1 ? '' : (!getstatus($post['status'], 2) || $post['authorid'] == $_G['uid'] ? (dhtmlspecialchars(messagecutstr($post['message'],100,null,$post['htmlon']))?:'......') : '');
+				$posts[$pid]['message'] = $post['status'] & 1 && $_G['adminid'] != 1 ? '' : (!getstatus($post['status'], 2) || $post['authorid'] == $_G['uid'] ? ($viewtype == 'postcomment' ? $post['comment'] : (dhtmlspecialchars(messagecutstr($post['message'],100,null,$post['htmlon']))?:'......')) : '');
 			}
 		}
 		if(!empty($posts)) {
