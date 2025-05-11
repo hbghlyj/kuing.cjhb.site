@@ -1015,10 +1015,6 @@ function checkSynSignature() {
 	}
 }
 
-function searchpostbyusername(keyword, srchuname) {
-	window.location.href = 'search.php?mod=forum&srchtxt=' + keyword + '&srchuname=' + srchuname + '&searchsubmit=yes';
-}
-
 function removeVisitor(event, uid) {
 	window.location = 'home.php?mod=space&uid='+uid+'&do=index&view=admin&additional=removevlog';
 	event.preventDefault();

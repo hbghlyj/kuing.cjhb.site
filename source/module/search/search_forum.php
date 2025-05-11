@@ -46,7 +46,13 @@ $searchid = isset($_GET['searchid']) ? intval($_GET['searchid']) : 0;
 $seltableid = intval(getgpc('seltableid'));
 
 $srchtxt = trim(getgpc('srchtxt'));
-$srchuname = isset($_GET['srchuname']) ? trim(str_replace('|', '', $_GET['srchuname'])) : '';;
+$srchuid = isset($_GET['srchuid']) ? intval($_GET['srchuid']) : 0;
+if(isset($_GET['srchuname'])) {
+	$srchuid = array_keys(C::t('common_member')->fetch_all_by_like_username(trim($_GET['srchuname']), 0, 50));
+	if(empty($srchuid)) {
+		showmessage('username_nonexistence');
+	}
+}
 $srchtag = getgpc('srchtag');
 $srchfrom = intval(getgpc('srchfrom'));
 $before = intval(getgpc('before'));
@@ -96,7 +102,7 @@ if(!submitcheck('searchsubmit', 1)) {
 		$searchstring = explode('|', $index['searchstring']);
 		$index['searchtype'] = $searchstring[0];//preg_replace("/^([a-z]+)\|.*/", "\\1", $index['searchstring']);
 		$searchstring[2] = base64_decode($searchstring[2]);
-		$srchuname = $searchstring[4];
+		$srchuid = $searchstring[4];
 		$srchtag = base64_decode($searchstring[3]);
 		$modfid = 0;
 		if($keyword) {
@@ -185,7 +191,7 @@ if(!submitcheck('searchsubmit', 1)) {
 		$special = getgpc('special');
 		$specials = $special ? implode(',', $special) : '';
 
-		$searchstring = 'forum|'.$fulltext.$Aa.'|'.base64_encode($srchtxt).'|'.base64_encode($srchtag).'|'.$srchuname.'|'.addslashes($fids).'|'.$srchfrom.'|'.$before.'|'.$logicalconnective.'|'.$specials;
+		$searchstring = 'forum|'.$fulltext.$Aa.'|'.base64_encode($srchtxt).'|'.base64_encode($srchtag).'|'.$srchuid.'|'.addslashes($fids).'|'.$srchfrom.'|'.$before.'|'.$logicalconnective.'|'.$specials;
 		$searchindex = array('id' => 0, 'dateline' => '0');
 
 		foreach(C::t('common_searchindex')->fetch_all_search($_G['setting']['search']['forum']['searchctrl'], $_G['clientip'], $_G['uid'], $_G['timestamp'], $searchstring, $srchmod) as $index) {
@@ -205,7 +211,7 @@ if(!submitcheck('searchsubmit', 1)) {
 
 			!($_G['group']['exempt'] & 2) && checklowerlimit('search');
 
-			if(!$srchtxt && !$srchuname && !$srchtag && !$srchfrom && !$before && !is_array($special)) {
+			if(!$srchtxt && !$srchuid && !$srchtag && !$srchfrom && !$before && !is_array($special)) {
 				dheader('Location: search.php?mod=forum&adv=yes');
 			} elseif(isset($srchfid) && !empty($srchfid) && $srchfid != 'all' && !(is_array($srchfid) && in_array('all', $srchfid)) && empty($forumsarray)) {
 				showmessage('search_forum_invalid');
@@ -226,15 +232,9 @@ if(!submitcheck('searchsubmit', 1)) {
 				$sqlsrch = "FROM ".DB::table('forum_thread').' t'
 				." WHERE t.fid IN ($fids)";
 			}
-			if($srchuname) {
-				$srchuid = array_keys(C::t('common_member')->fetch_all_by_like_username($srchuname, 0, 50));
-				if($srchuid) {
+			if($srchuid) {
 				$sqlsrch .= ' AND '.($fulltext ? 'p' : 't').'.authorid IN ('.dimplode((array)$srchuid).')';
-				}else{
-					showmessage('username_nonexistence');
-				}
 			}
-
 			if($srchtxt) {
 				if($logicalconnective == 'regexp') {
 					$match_type = $Aa ? '\'cm\'' : '\'im\'';// see https://dev.mysql.com/doc/refman/8.4/en/regexp.html#function_regexp-like
