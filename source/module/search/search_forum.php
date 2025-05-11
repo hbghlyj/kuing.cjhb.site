@@ -47,7 +47,7 @@ $seltableid = intval(getgpc('seltableid'));
 
 $srchtxt = trim(getgpc('srchtxt'));
 $srchuid = isset($_GET['srchuid']) ? intval($_GET['srchuid']) : 0;
-if(isset($_GET['srchuname'])) {
+if(isset($_GET['srchuname']) && $_GET['srchuname'] != '') {
 	$srchuid = array_keys(C::t('common_member')->fetch_all_by_like_username(trim($_GET['srchuname']), 0, 50));
 	if(empty($srchuid)) {
 		showmessage('username_nonexistence');
@@ -133,7 +133,7 @@ if(!submitcheck('searchsubmit', 1)) {
 					if($post['status'] & 1) {
 						$threadlist[$post['tid']]['message'] = lang('forum/template', 'message_single_banned');
 					} else {
-						$threadlist[$post['tid']]['message'] = bat_highlight(threadmessagecutstr($threadlist[$post['tid']], dhtmlspecialchars($post['message']), 200), $keyword);// kk add dhtmlspecialchars()
+						$threadlist[$post['tid']]['message'] = bat_highlight(dhtmlspecialchars(messagecutstr($post['message'],200,null,$post['htmlon'])), $keyword);
 					}
 				}
 			}
@@ -279,14 +279,15 @@ if(!submitcheck('searchsubmit', 1)) {
 			$expiration = TIMESTAMP + $cachelife_text;
 			
 
-			$num = $ids = 0;
+			$num = 0;
+			$ids = [];
 			$_G['setting']['search']['forum']['maxsearchresults'] = $_G['setting']['search']['forum']['maxsearchresults'] ? intval($_G['setting']['search']['forum']['maxsearchresults']) : 500;
 			if($_GET['debug']){
 				exit("SELECT ".($fulltext ? 'DISTINCT' : '')." t.tid, t.closed, t.author, t.authorid $sqlsrch ORDER BY tid DESC");
 			}
 			$query = DB::query("SELECT ".($fulltext ? 'DISTINCT' : '')." t.tid, t.closed, t.author, t.authorid $sqlsrch ORDER BY tid DESC LIMIT ".$_G['setting']['search']['forum']['maxsearchresults']);
 			while($thread = DB::fetch($query)) {
-				$ids .= ','.$thread['tid'];
+				$ids[] = $thread['tid'];
 				$num++;
 			}
 			DB::free_result($query);
@@ -301,7 +302,7 @@ if(!submitcheck('searchsubmit', 1)) {
 				'dateline' => $_G['timestamp'],
 				'expiration' => $expiration,
 				'num' => $num,
-				'ids' => $ids
+				'ids' => implode(',', $ids)
 			), true);
 
 			!($_G['group']['exempt'] & 2) && updatecreditbyaction('search');
