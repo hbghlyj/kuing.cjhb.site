@@ -597,7 +597,7 @@ class model_forum_post extends discuz_model {
 
 
 		C::t('forum_post')->delete_post('tid:'.$this->thread['tid'], $this->post['pid']);
-
+		C::t('forum_postcomment')->delete_by_pid($this->post['pid']);
 
 		$forumcounter = array();
 		if($this->thread['replies'] == 0) {
