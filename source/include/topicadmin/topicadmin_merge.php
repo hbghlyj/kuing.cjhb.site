@@ -83,7 +83,7 @@ if(!submitcheck('modsubmit')) {
 	}
 
 	$postsmerged = C::t('forum_post')->update_by_tid('tid:'.$_G['tid'], $othertid, array('tid' => $_G['tid']));
-
+	DB::update('forum_postcomment', array('tid' => $_G['tid']), DB::field('tid', $othertid), false, false);
 	updateattachtid('tid', array($othertid), $othertid, $_G['tid']);
 	C::t('forum_thread')->delete_by_tid($othertid);
 	C::t('forum_threadmod')->delete_by_tid($othertid);

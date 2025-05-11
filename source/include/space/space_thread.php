@@ -137,7 +137,7 @@ if($_GET['view'] == 'me') {
 			}
 		}
 		require_once libfile('function/post');
-		$posts =  $viewtype == 'postcomment' ? C::t('forum_postcomment')->fetch_all_by_authorid($_GET['from'] == 'space' ? $space['uid'] : $_G['uid'], $start, $perpage) : C::t('forum_post')->fetch_all_by_authorid(0, $space['uid'], true, 'DESC', $start, $perpage, 0, $invisible, $vfid);
+		$posts =  $viewtype == 'postcomment' ? C::t('forum_postcomment')->fetch_all_by_authorid($space['uid'], $start, $perpage) : C::t('forum_post')->fetch_all_by_authorid(0, $space['uid'], true, 'DESC', $start, $perpage, 0, $invisible, $vfid);
 		$listcount = count($posts);
 		foreach($posts as $pid => $post) {
 			$delrow = false;
@@ -159,9 +159,12 @@ if($_GET['view'] == 'me') {
 			$currentGroup = []; // This will hold the current group of posts with the same tid
 			$stid = 0;
 			foreach ($posts as $pid => &$post) {
-				// Check if the current group is empty or if the current post's tid matches the tid of the last post in the current group
+				if (empty($currentGroup)) {
+					// If the current group is empty, initialize it with the current post's tid
+					$list[$stid] = $post['tid'];
+				}
 				if (empty($currentGroup) || end($list) === $post['tid']) {
-					// If yes, add the current post to the current group
+					// If the current group is empty or if the current post's tid matches the tid of the last post in the current group, add the current post to the current group
 					$currentGroup[] = $pid;
 				} else {
 					// If the tid has changed, the current group is complete. Add it to the main result.
