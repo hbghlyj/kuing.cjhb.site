@@ -181,7 +181,7 @@ if($_GET['view'] == 'me') {
 			}
 		}
 		require_once libfile('function/post');
-		$posts =  $viewtype == 'postcomment' ? C::t('forum_postcomment')->fetch_all_by_authorid($space['uid'], $start, $perpage) : C::t('forum_post')->fetch_all_by_authorid(0, $space['uid'], true, 'DESC', $start, $perpage, 0, $invisible, $vfid);
+		$posts =  $viewtype == 'postcomment' ? C::t('forum_postcomment')->fetch_all_by_authorid($_GET['from'] == 'space' ? $space['uid'] : $_G['uid'], $start, $perpage) : C::t('forum_post')->fetch_all_by_authorid(0, $space['uid'], true, 'DESC', $start, $perpage, 0, $invisible, $vfid);
 		foreach($posts as $pid => $post) {
 			$delrow = false;
 			if($post['anonymous'] && $post['authorid'] != $_G['uid']) {
@@ -267,7 +267,7 @@ if($_GET['view'] == 'me') {
 			unset($threads);
 		}
 		if($viewtype == 'postcomment') {
-			$multi = multi(C::t('forum_postcomment')->count_by_authorid($space['uid']), $perpage, $page, $theurl);
+			$multi = multi(C::t('forum_postcomment')->count_by_authorid($_GET['from'] == 'space' ? $space['uid'] : $_G['uid']), $perpage, $page, $theurl);
 		} else {
 			space_merge($space, 'count');
 			$multi = multi($space['posts'] - $space['threads'], $perpage, $page, $theurl);
