@@ -1,0 +1,42 @@
+<!--{template common/header}-->
+<!--{if $type != 'countitem'}-->
+<div id="ct" class="wp cl">
+	<h1 class="mt"><i class="fico-tag fc-s" alt="tag"></i> {lang tag}</h1>
+	<div class="bm">
+		<div class="bm_c">
+			<form action="forum.php" method="get">
+				<input type="text" name="mod" value="tag" style="display:none;">
+				<input type="text" name="op" value="search" style="display:none;">
+				<label for="searchkey">包含:</label>
+				<input type="text" id="searchkey" class="px vm" name="searchkey" required>&nbsp;
+				<button type="submit" class="pn"><em>{lang search}</em></button>
+			</form>
+			<form method="post" action="misc.php?mod=tag" class="pns">
+				<label for="name">精确:</label>
+				<input type="text" name="name" class="px vm" required>&nbsp;
+				<button type="submit" class="pn"><em>{lang search}</em></button>
+				<i class="fico-help fc-n vm" tip="用,分隔多个标签可以取它们的交集" onmouseover="showTip(this)"></i>
+				<!--{if $_GET['sortby'] != 'threadnum'}-->
+				<button onclick="location.href='misc.php?mod=tag&sortby=threadnum'" type="button" class="pn y"><em>帖数降序</em></button>
+				<!--{else}-->
+				<button onclick="location.href='misc.php?mod=tag'" type="button" class="pn y"><em>时间降序</em></button>
+				<!--{/if}-->
+			</form>
+			<style>input.px:not(:focus)+button.pn {display: none;}</style>
+			<div class="taglist mtm mbm">
+				<!--{if $tagarray}-->
+					<!--{loop $tagarray $tag}-->
+						<a href="misc.php?mod=tag&id=$tag[tagid]" title="$tag[tagname]" class="xi2">$tag[tagname]<span class="xg1">{echo $tag[threadnum]}</span></a>
+					<!--{/loop}-->
+				<!--{else}-->
+					<p class="emp">{lang no_tag}</p>
+				<!--{/if}-->
+			</div>
+			<!--{if $multipage}--><div class="pgs mtm cl">$multipage</div><!--{/if}-->
+		</div>
+	</div>
+</div>
+<!--{else}-->
+$num
+<!--{/if}-->
+<!--{template common/footer}-->
