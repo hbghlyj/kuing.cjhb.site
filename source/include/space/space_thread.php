@@ -198,7 +198,7 @@ if($_GET['view'] == 'me') {
 				unset($posts[$pid]);
 				$hiddennum++;
 			} else {
-				$posts[$pid]['message'] = $post['status'] & 1 && $_G['adminid'] != 1 ? '' : (!getstatus($post['status'], 2) || $post['authorid'] == $_G['uid'] ? (messagecutstr($post['message'], 100)?:'......') : '');
+				$posts[$pid]['message'] = $post['status'] & 1 && $_G['adminid'] != 1 ? '' : (!getstatus($post['status'], 2) || $post['authorid'] == $_G['uid'] ? (dhtmlspecialchars(messagecutstr($post['message'],100,null,$post['htmlon']))?:'......') : '');
 			}
 		}
 		if(!empty($posts)) {
