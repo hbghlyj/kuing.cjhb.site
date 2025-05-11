@@ -173,7 +173,11 @@
 								</td>
 							<!--{/if}-->
 							<th>
+								<!--{if $viewtype == 'postcomment'}-->
+									<a href="forum.php?mod=redirect&goto=findpost&ptid=$thread[tid]&pid=$thread[pid]" target="_blank">$thread[subject]</a>
+								<!--{else}-->
 								<a href="forum.php?mod=viewthread&tid=$thread[tid]" target="_blank" {if $thread['displayorder'] == -1}class="recy"{/if}>$thread[subject]</a>
+								<!--{/if}-->
 								<!--{if $thread['digest'] > 0}-->
 									<span class="tbox tdigest">{lang digest}$thread[digest]</span>
 								<!--{/if}-->
