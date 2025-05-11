@@ -87,7 +87,6 @@
 					</span>
 				<!--{/if}-->
 				<a href="home.php?mod=space&do=thread&view=me&type=thread" $orderactives[thread]>{lang topic}</a><span class="pipe">|</span><a href="home.php?mod=space&do=thread&view=me&type=reply" $orderactives[reply]>{lang reply}</a><span class="pipe">|</span><a href="home.php?mod=space&do=thread&view=me&type=postcomment" $orderactives[postcomment]>{lang post_comment}</a>
-				<!--{if $viewtype != 'reply' && $viewtype != 'postcomment'}-->&nbsp; <input type="text" id="searchmypost" class="px vm" size="15" /> <button class="pn" onclick="searchpostbyusername($('searchmypost').value, '$_G[username]');"><em>{lang search}</em></button><!--{/if}-->
 			</p>
 			<!--{elseif $_GET['view'] == 'all'}-->
 			<p class="tbmu bw0">
@@ -125,7 +124,7 @@
 							<!--{if $_GET['view'] == 'all' && $pruneperm && !$_GET['archiveid']}-->
 								<td class="o">&nbsp;</td>
 							<!--{/if}-->
-							<th><!--{if $viewtype == 'reply' || $viewtype == 'postcomment'}-->{lang post}<!--{else}-->{lang topic}<!--{/if}--></th>
+							<th><!--{if $viewtype == 'reply' || $viewtype == 'postcomment'}-->{lang post}<!--{else}-->{lang topic}<!--{/if}--><!--{if $viewtype != 'reply' && $viewtype != 'postcomment'}-->&nbsp; <input type="text" id="searchmypost" class="px vm" size="15" /> <button class="pn" onclick="location.href = 'search.php?mod=forum&srchtxt=' + encodeURIComponent($('searchmypost').value) + '&srchuid=$space[uid]&searchsubmit=yes';return false">{lang search}</button><!--{/if}--></th>
 							<td class="frm"><!--{if $viewtype == 'postcomment'}-->{lang forum}<!--{else}--><select name="forumlist" id="forumlist" class="ps vm" onchange="viewforumthread(this.value);" style="width: 120px; word-wrap: normal;"><option value="0">{lang follow_select_forum}</option>$forumlist</select><!--{/if}--></td>
 							<!--{if $viewtype != 'postcomment'}-->
 								<!--{if !$actives[me]}-->
