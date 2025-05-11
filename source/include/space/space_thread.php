@@ -197,18 +197,32 @@ if($_GET['view'] == 'me') {
 			if($delrow) {
 				unset($posts[$pid]);
 				$hiddennum++;
-				continue;
 			} else {
-				$tids[$post['tid']][] = $pid;
-				$post['message'] = $post['status'] & 1 && $_G['adminid'] != 1 ? '' : (!getstatus($post['status'], 2) || $post['authorid'] == $_G['uid'] ? messagecutstr($post['message'], 100) : '');
-				$posts[$pid] = $post;
+				$posts[$pid]['message'] = $post['status'] & 1 && $_G['adminid'] != 1 ? '' : (!getstatus($post['status'], 2) || $post['authorid'] == $_G['uid'] ? (messagecutstr($post['message'], 100)?:'......') : '');
 			}
 		}
-
-		if(!empty($tids)) {
-
-			$threads = C::t('forum_thread')->fetch_all_by_tid_displayorder(array_keys($tids), $displayorder, $dglue, array(), $closed);
-
+		if(!empty($posts)) {
+			$currentGroup = []; // This will hold the current group of posts with the same tid
+			$stid = 0;
+			foreach ($posts as $pid => &$post) {
+				// Check if the current group is empty or if the current post's tid matches the tid of the last post in the current group
+				if (empty($currentGroup) || end($list) === $post['tid']) {
+					// If yes, add the current post to the current group
+					$currentGroup[] = $pid;
+				} else {
+					// If the tid has changed, the current group is complete. Add it to the main result.
+					$tids[$stid] = $currentGroup;
+					// Start a new group with the current post
+					$list[++$stid] = $post['tid'];
+					$currentGroup = [$pid];
+				}
+			}
+			// After the loop, there might be a current group that hasn't been added to $tids yet
+			// (this happens for the very last group of posts, or if all posts had the same tid).
+			// So, add it if it's not empty.
+			$tids[$stid] = $currentGroup;
+			unset($stid,$currentGroup);
+			$threads = C::t('forum_thread')->fetch_all_by_tid_displayorder($list, $displayorder, $dglue, array(), $closed);
 			foreach($threads as $tid => $thread) {
 				$delrow = false;
 				if($_G['adminid'] != 1 && $thread['displayorder'] < 0) {
@@ -223,11 +237,6 @@ if($_GET['view'] == 'me') {
 					}
 				}
 				if($delrow) {
-					foreach($tids[$tid] as $pid) {
-						unset($posts[$pid]);
-						$hiddennum++;
-					}
-					unset($tids[$tid]);
 					unset($threads[$tid]);
 					continue;
 				} else {
@@ -243,19 +252,19 @@ if($_GET['view'] == 'me') {
 					$forums[$fid] = $groupforums[$fid]['name'];
 				}
 			}
-			if(!empty($tids)) {
-				foreach($tids as $tid => $pids) {
-					foreach($pids as $pid) {
-						if(!isset($threads[$tid])) {
-							unset($posts[$pid]);
-							unset($tids[$tid]);
-							$hiddennum++;
-							continue;
-						}
+			foreach($list as $stid => $tid) {
+				if(isset($threads[$tid])) {
+					$list[$stid] = $threads[$tid];
+				} else {
+					unset($list[$stid]);
+					foreach($tids[$stid] as $pid) {
+						unset($posts[$pid]);
+						$hiddennum++;
 					}
+					unset($tids[$stid]);
 				}
 			}
-			$list = &$threads;
+			unset($threads);
 		}
 
 
