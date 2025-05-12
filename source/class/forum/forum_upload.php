@@ -115,7 +115,7 @@ class forum_upload {
 			return $this->uploadmsg(9);
 		}
 
-		updatemembercount($_G['uid'], ['todayattachs' => 1, 'todayattachsize' => $upload->attach['size']]);
+		updatemembercount($_G['uid'], ['todayattachs' => 1, 'todayattachsize' => $upload->attach['size'], 'attachsize' => $upload->attach['size']]);
 
 		$thumb = $remote = $width = 0;
 		if($upload->attach['isimage']) {
