@@ -48,9 +48,6 @@ if(!submitcheck('modsubmit')) {
 	if($thread['comments']) {
 		C::t('forum_thread')->update($_G['tid'], array('comments' => $thread['comments'] - 1));
 	}
-	if(!$postcomment['rpid']) {
-		updatepostcredits('-', $postcomment['authorid'], 'reply', $_G['fid']);
-	}
 
 	$totalcomment = array();
 	foreach(C::t('forum_postcomment')->fetch_all_by_pid_score($postcomment['pid'], 1) as $comment) {
