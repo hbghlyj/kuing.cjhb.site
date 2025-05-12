@@ -87,7 +87,6 @@ CSS 写作注意事项：
 	Explain:		重定义浏览器默认样式
 	Last Modify:	Pony
 */
-	* { word-wrap: break-word; }
 	body { {BGCODE}; /*min-width: 1200px;*/ }
 	body, input, button, select, textarea { font: {FONTSIZE} {FONT}; color: {TABLETEXT}; }
 		textarea { resize: none; }
