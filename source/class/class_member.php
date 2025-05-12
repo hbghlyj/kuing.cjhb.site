@@ -32,7 +32,11 @@ class logging_ctl {
 		if($_G['uid']) {
 			$referer = dreferer();
 			$ucsynlogin = $this->setting['allowsynlogin'] ? uc_user_synlogin($_G['uid']) : '';
-			$param = ['username' => $_G['member']['username'], 'usergroup' => $_G['group']['grouptitle'], 'uid' => $_G['member']['uid']];
+			$param = ['username' => $_G['member']['username'], 'usergroup' => $_G['group']['grouptitle'], 'uid' => $_G['member']['uid'], 'timeoffsetupdated' => ''];
+			if(isset($_GET['timeoffset']) && is_numeric($_GET['timeoffset']) && $_GET['timeoffset'] >= -12 && $_GET['timeoffset'] <= 12 && $_GET['timeoffset'] != $_G['member']['timeoffset']) {
+				C::t('common_member')->update($_G['uid'], ['timeoffset' => $_GET['timeoffset']]);
+				$param['timeoffsetupdated'] = '，已为您更新时区设置';
+			}
 			showmessage('login_succeed', $referer ? $referer : './', $param, ['showdialog' => 1, 'locationtime' => true, 'extrajs' => $ucsynlogin]);
 		}
 
