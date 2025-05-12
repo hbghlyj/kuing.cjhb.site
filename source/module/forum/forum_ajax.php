@@ -12,7 +12,7 @@ if(!defined('IN_DISCUZ')) {
 }
 define('NOROBOT', TRUE);
 
-if(!in_array($_GET['action'], array('markAsRead', 'checkusername', 'checkemail', 'checkinvitecode', 'checkuserexists', 'quickclear', 'setnav', 'getOnlineUserListHtml')) && !$_G['setting']['forumstatus']) {
+if(!in_array($_GET['action'], array('markAsRead', 'checkusername', 'checkinvitecode', 'checkuserexists', 'quickclear', 'setnav', 'getOnlineUserListHtml')) && !$_G['setting']['forumstatus']) {
 	showmessage('forum_status_off');
 }
 
