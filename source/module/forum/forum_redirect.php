@@ -45,7 +45,7 @@ if($_GET['goto'] == 'findpost') {
 	}
 
 	if(empty($thread)) {
-		showmessage('thread_nonexistence');
+		showmessage('thread_nonexistence', '', array(), array('return' => true));
 	} else {
 		$tid = $thread['tid'];
 	}
