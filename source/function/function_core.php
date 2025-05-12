@@ -439,7 +439,7 @@ function checkmobile() {
 	if(empty($_SERVER['HTTP_USER_AGENT'])) {
         return $_G['mobile'] = false;
     }
-    return $_G['mobile'] = preg_match('/android|avantgo|blackberry|bolt|boost|cricket|docomo|fone|hiptop|mini|mobi|palm|phone|pie|tablet|up\.browser|up\.link|webos|wos/i', $_SERVER['HTTP_USER_AGENT']) ? true : false;
+    return $_G['mobile'] = preg_match("/android|avantgo|blackberry|bolt|boost|cricket|docomo|fone|hiptop|mini|mobi|palm|phone|pie|tablet|up\.browser|up\.link|webos|wos/i", $_SERVER['HTTP_USER_AGENT']) ? true : false;
 }
 
 function dstrpos($string, $arr, $returnvalue = false) {
