@@ -98,7 +98,6 @@ if($_G['setting']['commentnumber'] && !empty($_GET['comment'])) {
 	$comment = cutstr(str_replace(array('[b]', '[/b]', '[/color]'), '', preg_replace("/\[color=([#\w]+?)\]/i", "", $comment)), 200);
 	$comments = $thread['comments'] ? $thread['comments'] + 1 : C::t('forum_postcomment')->count_by_tid($_G['tid']);
 	C::t('forum_thread')->update($_G['tid'], array('comments' => $comments));
-	!empty($_G['uid']) && $thread['displayorder'] != -4 && updatepostcredits('+', $_G['uid'], 'reply', $_G['fid']);
 	if(!empty($_G['uid']) && $_G['uid'] != $post['authorid']) {
 		notification_add($post['authorid'], 'pcomment', 'comment_add', array(
 			'tid' => $_G['tid'],
@@ -154,7 +153,7 @@ if($_G['setting']['commentnumber'] && !empty($_GET['comment'])) {
 	}
 	C::t('forum_postcache')->delete($post['pid']);
 
- 	// via websocket sync the comment to the users viewing the thread
+	// push "commentadd" activity to Pusher
  	require_once(DISCUZ_ROOT.'/chat/php/vendor/autoload.php');
  	require_once(DISCUZ_ROOT.'/chat/php/config.php');
  
