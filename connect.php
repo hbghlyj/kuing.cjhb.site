@@ -30,14 +30,10 @@ if(!in_array($mod, array('config', 'login', 'feed', 'check', 'user'))) {
 	showmessage('undefined_action');
 }
 
-if(!$_G['setting']['connect']['allow']) {
-	showmessage('qqconnect:qqconnect_closed');
-}
-
 define('CURMODULE', $mod);
 runhooks();
 
-require_once DISCUZ_ROOT.'/source/plugin/qqconnect/lib/Connect.php';
+require_once DISCUZ_ROOT.'/source/plugin/googleconnect/lib/Connect.php';
 $connectService = new Cloud_Service_Connect();
-require_once libfile('connect/'.$mod, 'plugin/qqconnect');
+require_once libfile('connect/'.$mod, 'plugin/googleconnect');
 ?>
