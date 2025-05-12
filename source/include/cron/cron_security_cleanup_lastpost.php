@@ -18,5 +18,8 @@ foreach($queryf as $forum) {
 	$lastpost = "{$thread['tid']}\t{$thread['shortsubject']}\t{$thread['lastpost']}\t{$thread['lastposter']}";
 
 	C::t('forum_forum')->update($forum['fid'], array('lastpost' => $lastpost));
+	if($forum['type'] == 'sub') {
+		C::t('forum_forum')->update($forum['fup'], array('lastpost' => $lastpost));
+	}
 }
 ?>
