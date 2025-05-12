@@ -4,7 +4,7 @@
  * https://license.discuz.vip
  */
 
-var lastusername = '', lastpassword = '', lastinvitecode = '', stmp = new Array(), modifypwd = false, profileTips = $L('profile_tip');
+var lastusername = '', lastpassword = '', lastinvitecode = '', lastemail = '', stmp = new Array(), modifypwd = false, profileTips = $L('profile_tip');
 
 function errormessage(id, msg) {
 	if($(id)) {
@@ -335,7 +335,20 @@ function checkpassword(id1, id2) {
 }
 
 function checkemail(id) {
-	errormessage(id, trim($(id).value).match(/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/) ? 'succeed' : $L('email_invalid'));
+	errormessage(id);
+	var email = trim($(id).value);
+	if($(id).parentNode.className.match(/ p_right/) && (email == '' || email == lastemail)) {
+		return;
+	} else {
+		lastemail = email;
+	}
+	if(!email.match(
+		/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+	  )) {
+		errormessage(id, $L('email_invalid'));
+		return;
+	}
+	$('tip_' + id).parentNode.className = $('tip_' + id).parentNode.className.replace(/ p_right/, '');
 }
 
 function checkinvite() {
