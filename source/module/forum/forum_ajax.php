@@ -378,7 +378,6 @@ if($_GET['action'] == 'checkusername') {
 	if(!$_G['group']['allowdownremoteimg']) {
 		dexit();
 	}
-	$_GET['message'] = str_replace(array("\r", "\n"), array($_GET['wysiwyg'] ? '<br />' : '', "\\n"), $_GET['message']);
 	preg_match_all("/\[img\]\s*([^\[\<\r\n]+?)\s*\[\/img\]|\[img=\d{1,4}[x|\,]\d{1,4}\]\s*([^\[\<\r\n]+?)\s*\[\/img\]/is", $_GET['message'], $image1, PREG_SET_ORDER);
 	preg_match_all("/\<img.+\bsrc\b\s*=('|\"|)(.*)('|\"|)([\s].*)?\>/ismU", $_GET['message'], $image2, PREG_SET_ORDER);
 	$temp = $aids = $existentimg = array();
@@ -496,14 +495,13 @@ if($_GET['action'] == 'checkusername') {
 		}
 		$_GET['message'] = str_replace($imagereplace['oldimageurl'], $imagereplace['newimageurl'], $_GET['message']);
 	}
-	$_GET['message'] = addcslashes($_GET['message'], '/"\'');
-	print <<<EOF
-		<script type="text/javascript">
-			parent.ATTACHORIMAGE = 1;
-			parent.updateDownImageList('{$_GET['message']}');
-		</script>
-EOF;
-	dexit();
+    ?>
+    <script type="text/javascript">
+      parent.ATTACHORIMAGE = 1;
+      parent.updateDownImageList(<?= json_encode($_GET['message']) ?>);
+    </script>
+    <?php
+    dexit();
 } elseif($_GET['action'] == 'exif') {
 	$exif = C::t('forum_attachment_exif')->fetch($_GET['aid']);
 	$s = $exif['exif'];
