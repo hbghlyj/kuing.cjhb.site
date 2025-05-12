@@ -174,9 +174,6 @@ function trim(str) {
 
 var emailMenuST = null, emailMenui = 0, emaildomains = ['qq.com', '163.com', 'sina.com', 'sohu.com', 'yahoo.com', 'gmail.com', 'hotmail.com'];
 function emailMenuOp(op, e, id) {
-	if(op == 3 && BROWSER.ie && BROWSER.ie < 7) {
-		checkemail(id);
-	}
 	if(!$('emailmore_menu')) {
 		return;
 	}
@@ -343,12 +340,14 @@ function checkemail(id) {
 	} else {
 		lastemail = email;
 	}
-	if(email.match(/<|"/ig)) {
-		errormessage(id, $L('email_illegal'));
+	if(!email.match(
+		/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+	  )) {
+		errormessage(id, $L('email_invalid'));
 		return;
 	}
-	var x = new Ajax();
 	$('tip_' + id).parentNode.className = $('tip_' + id).parentNode.className.replace(/ p_right/, '');
+	var x = new Ajax();
 	x.get('forum.php?mod=ajax&inajax=yes&infloat=register&handlekey=register&ajaxmenu=1&action=checkemail&email=' + email, function(s) {
 		errormessage(id, s);
 	});
