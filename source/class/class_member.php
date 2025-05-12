@@ -33,7 +33,11 @@ class logging_ctl {
 		if($_G['uid']) {
 			$referer = dreferer();
 			$ucsynlogin = $this->setting['allowsynlogin'] ? uc_user_synlogin($_G['uid']) : '';
-			$param = array('username' => $_G['member']['username'], 'usergroup' => $_G['group']['grouptitle'], 'uid' => $_G['member']['uid']);
+			$param = array('username' => $_G['member']['username'], 'usergroup' => $_G['group']['grouptitle'], 'uid' => $_G['member']['uid'], 'timeoffsetupdated' => '');
+			if(isset($_GET['timeoffset']) && is_numeric($_GET['timeoffset']) && $_GET['timeoffset'] >= -12 && $_GET['timeoffset'] <= 12 && $_GET['timeoffset'] != $_G['member']['timeoffset']) {
+				C::t('common_member')->update($_G['uid'], array('timeoffset' => $_GET['timeoffset']));
+				$param['timeoffsetupdated'] = '，已为您更新时区设置';
+			}
 			showmessage('login_succeed', $referer ? $referer : './', $param, array('showdialog' => 1, 'locationtime' => true, 'extrajs' => $ucsynlogin));
 		}
 
@@ -360,7 +364,7 @@ class register_ctl {
 			if(strpos($url_forward, $this->setting['regname']) !== false) {
 				$url_forward = 'forum.php';
 			}
-			showmessage('login_succeed', $url_forward ? $url_forward : './', array('username' => $_G['member']['username'], 'usergroup' => $_G['group']['grouptitle'], 'uid' => $_G['uid']), array('extrajs' => $ucsynlogin));
+			showmessage('login_succeed', $url_forward ? $url_forward : './', array('username' => $_G['member']['username'], 'usergroup' => $_G['group']['grouptitle'], 'uid' => $_G['uid'], 'timeoffsetupdated' => ''), array('extrajs' => $ucsynlogin));
 		} elseif(!$this->setting['regclosed'] && (!$this->setting['regstatus'] || !$this->setting['ucactivation'])) {
 			if($_GET['action'] == 'activation' || $_GET['activationauth']) {
 				if(!$this->setting['ucactivation'] && !$this->setting['closedallowactivation']) {
