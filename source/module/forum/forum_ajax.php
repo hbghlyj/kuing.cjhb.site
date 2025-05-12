@@ -12,7 +12,7 @@ if(!defined('IN_DISCUZ')) {
 }
 define('NOROBOT', TRUE);
 
-if(!in_array($_GET['action'], array('markAsRead', 'checkusername', 'checkemail', 'checkinvitecode', 'checkuserexists', 'quickclear', 'setnav')) && !$_G['setting']['forumstatus']) {
+if(!in_array($_GET['action'], array('markAsRead', 'checkusername', 'checkinvitecode', 'checkuserexists', 'quickclear', 'setnav')) && !$_G['setting']['forumstatus']) {
 	showmessage('forum_status_off');
 }
 
@@ -62,11 +62,6 @@ if($_GET['action'] == 'checkusername') {
 	if($_G['setting']['censoruser'] && @preg_match($censorexp, $username)) {
 		showmessage('profile_username_protect', '', array(), array('handle' => false));
 	}
-
-} elseif($_GET['action'] == 'checkemail') {
-
-	require_once libfile('function/member');
-	checkemail($_GET['email']);
 
 } elseif($_GET['action'] == 'checkinvitecode') {
 
