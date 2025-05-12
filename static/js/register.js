@@ -176,9 +176,6 @@ function trim(str) {
 
 /*vot*/ var emailMenuST = null, emailMenui = 0; // emaildomains MOVED to lang_js.js
 function emailMenuOp(op, e, id) {
-	if(op == 3 && BROWSER.ie && BROWSER.ie < 7) {
-		checkemail(id);
-	}
 	if(!$('emailmore_menu')) {
 		return;
 	}
@@ -242,6 +239,7 @@ function emailMenu(e, id) {
 		menu.id = 'emailmore_menu';
 		menu.style.display = 'none';
 		menu.className = 'p_pop';
+		menu.setAttribute('disautofocus', true);
 		$('append_parent').appendChild(menu);
 	}
 	var s = '<ul>';
@@ -348,15 +346,13 @@ function checkemail(id) {
 	} else {
 		lastemail = email;
 	}
-	if(email.match(/<|"/ig)) {
+	if(!email.match(
+		/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+	  )) {
 /*vot*/		errormessage(id, lng['email_invalid']);
 		return;
 	}
-	var x = new Ajax();
 	$('tip_' + id).parentNode.className = $('tip_' + id).parentNode.className.replace(/ p_right/, '');
-	x.get('forum.php?mod=ajax&inajax=yes&infloat=register&handlekey=register&ajaxmenu=1&action=checkemail&email=' + email, function(s) {
-		errormessage(id, s);
-	});
 }
 
 function checkinvite() {
