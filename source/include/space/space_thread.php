@@ -28,7 +28,6 @@ $allowviewuserthread = $_G['setting']['allowviewuserthread'];
 
 $perpage = 40;
 $start = ($page-1)*$perpage;
-ckstart($start, $perpage);
 
 $list = array();
 $userlist = array();
@@ -68,7 +67,6 @@ $f_index = '';
 $ordersql = 't.dateline DESC';
 $need_count = true;
 $viewuserthread = false;
-$listcount = 0;
 $viewtype = in_array(getgpc('type'), array('reply', 'thread', 'postcomment')) ? $_GET['type'] : 'thread';
 $orderactives = array($viewtype => ' class="a"');
 
@@ -138,7 +136,6 @@ if($_GET['view'] == 'me') {
 		}
 		require_once libfile('function/post');
 		$posts =  $viewtype == 'postcomment' ? C::t('forum_postcomment')->fetch_all_by_authorid($space['uid'], $start, $perpage) : C::t('forum_post')->fetch_all_by_authorid(0, $space['uid'], true, 'DESC', $start, $perpage, 0, $invisible, $vfid);
-		$listcount = count($posts);
 		foreach($posts as $pid => $post) {
 			$delrow = false;
 			if($post['anonymous'] && $post['authorid'] != $_G['uid']) {
@@ -223,10 +220,12 @@ if($_GET['view'] == 'me') {
 			}
 			unset($threads);
 		}
-
-
-		$multi = simplepage($listcount, $perpage, $page, $theurl);
-
+		if($viewtype == 'postcomment') {
+			$multi = multi(C::t('forum_postcomment')->count_by_authorid($space['uid']), $perpage, $page, $theurl);
+		} else {
+			space_merge($space, 'count');
+			$multi = multi($space['posts'] - $space['threads'], $perpage, $page, $theurl);
+		}
 		$need_count = false;
 	}
 	if(!$allowview) {
@@ -305,12 +304,8 @@ if($need_count) {
 	}
 
 	$threads = &$list;
-
-
-	if($_GET['view'] != 'all') {
-		$listcount = count($list)+$hiddennum;
-		$multi = simplepage($listcount, $perpage, $page, $theurl);
-	}
+	space_merge($space, 'count');
+	$multi = multi($space['threads'], $perpage, $page, $theurl);
 }
 
 require_once libfile('function/forumlist');
