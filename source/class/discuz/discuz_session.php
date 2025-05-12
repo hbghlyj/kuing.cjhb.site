@@ -53,14 +53,10 @@ class discuz_session {
 		}
 	}
 
-	public function init($sid, $ip, $uid) {
+	public function init($sid, $ip, $uid, $username = false) {
 		$this->old = array('sid' =>  $sid, 'ip' =>  $ip, 'uid' =>  $uid);
-		$session = array();
-		if($sid) {
-			$session = $this->table->fetch($sid, $ip, $uid);
-		}
-
-		if(empty($session) || $session['uid'] != $uid) {
+		$session = $username ? DB::fetch_first('SELECT * FROM %t WHERE groupid=8 AND username=%s', array('common_session', $username)) : ($sid ? $this->table->fetch_by_uid($uid) : array());
+		if(empty($session)) {
 			$session = $this->create($ip, $uid);
 		}
 

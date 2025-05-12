@@ -446,36 +446,14 @@ class discuz_application extends discuz_base{
 	}
 
 	private function _init_session() {
-
 		$sessionclose = !empty($this->var['setting']['sessionclose']);
 		$this->session = $sessionclose ? new discuz_session_close() : new discuz_session();
 
 		if($this->init_session)	{
-			$this->session->init($this->var['cookie']['sid'], $this->var['clientip'], $this->var['uid']);
-			$this->var['sid'] = $this->session->sid;
-			$this->var['session'] = $this->session->var;
-
-			if(isset($this->var['sid']) && $this->var['sid'] !== $this->var['cookie']['sid']) {
-				dsetcookie('sid', $this->var['sid'], 86400);
-			}
-
-			if(ip::checkbanned($this->var['clientip'])) {
-				$this->session->set('groupid', 6);
-			}
-
-			if($this->session->get('groupid') == 6) {
-				$this->var['member']['groupid'] = 6;
-				if(!defined('IN_MOBILE_API')) {
-					sysmessage('user_banned');
-				} else {
-					mobile_core::result(array('error' => 'user_banned'));
-				}
-			}
-
-			if(!$this->var['uid']) {
+			if($this->var['uid']==0) {
 				if(IS_ROBOT){
 					$this->var['member']['groupid'] = 8;
-					$this->var['member']['username'] = IS_ROBOT;
+					$this->session->init($this->var['cookie']['sid'], $this->var['clientip'], 0, $this->var['member']['username'] = IS_ROBOT);
 				}else{
 					function getFlagEmoji($countryCode) {
 						// Validate input: must be exactly 2 letters
@@ -499,6 +477,28 @@ class discuz_application extends discuz_base{
 						return $firstEmoji . $secondEmoji;
 					}
 					$this->var['member']['username'] = getFlagEmoji($_SERVER["HTTP_CF_IPCOUNTRY"]) . $_SERVER["HTTP_CF_IPCITY"];
+					$this->session->init($this->var['cookie']['sid'], $this->var['clientip'], 0);
+				}
+			}else{
+				$this->session->init($this->var['cookie']['sid'], $this->var['clientip'], $this->var['uid']);
+			}
+			$this->var['sid'] = $this->session->sid;
+			$this->var['session'] = $this->session->var;
+
+			if(isset($this->var['sid']) && $this->var['sid'] !== $this->var['cookie']['sid']) {
+				dsetcookie('sid', $this->var['sid'], 86400);
+			}
+
+			if(ip::checkbanned($this->var['clientip'])) {
+				$this->session->set('groupid', 6);
+			}
+
+			if($this->session->get('groupid') == 6) {
+				$this->var['member']['groupid'] = 6;
+				if(!defined('IN_MOBILE_API')) {
+					sysmessage('user_banned');
+				} else {
+					mobile_core::result(array('error' => 'user_banned'));
 				}
 			}
 
