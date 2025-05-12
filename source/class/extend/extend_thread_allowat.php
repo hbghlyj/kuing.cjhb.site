@@ -150,7 +150,7 @@ class extend_thread_allowat extends extend_thread_base {
 	public function after_editpost() {
 		if($this->group['allowat'] && $this->atlist) {
 			foreach($this->atlist as $atuid => $atusername) {
-				notification_add($atuid, 'at', 'at_message', array('from_id' => $this->thread['tid'], 'from_idtype' => 'at', 'buyerid' => $this->member['uid'], 'buyer' => $this->member['username'], 'tid' => $this->thread['tid'], 'subject' => $this->thread['subject'], 'pid' => $this->post['pid'], 'message' => messagecutstr($this->param['message'], 150)));
+				notification_add($atuid, 'at', 'at_message', array('from_id' => $this->thread['tid'], 'from_idtype' => 'at', 'buyerid' => $this->post['authorid'], 'buyer' => $this->post['author'], 'tid' => $this->thread['tid'], 'subject' => $this->thread['subject'], 'pid' => $this->post['pid'], 'message' => messagecutstr($this->param['message'], 150)));
 			}
 			set_atlist_cookie(array_keys($this->atlist));
 		}

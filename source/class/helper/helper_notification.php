@@ -99,8 +99,8 @@ class helper_notification {
 			'uid' => $touid,
 			'type' => $type,
 			'new' => 1,
-			'authorid' => $uid,
-			'author' => $_G['username'],
+			'authorid' => $notevars['buyerid'] ?? $_G['uid'],
+			'author' => $notevars['buyer'] ?? $_G['username'],
 			'note' => $notestring,
 			'dateline' => $_G['timestamp'],
 			'from_id' => $notevars['from_id'] ?? 0,
@@ -108,6 +108,9 @@ class helper_notification {
 			'from_num' => ($oldnote['from_num'] + $notevars['from_num']),
 			'category' => $category
 		];
+		if($setarr['authorid'] == $touid) {
+			return false;
+		}
 		if($system) {
 			$setarr['authorid'] = 0;
 			$setarr['author'] = '';

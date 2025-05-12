@@ -119,7 +119,6 @@ if(submitcheck('forumsubmit', 1)) {
 		} else {
 			$postcount += C::t('forum_post')->count_by_authorid(0, $mem['uid']);
 		}
-		$postcount += C::t('forum_postcomment')->count_by_authorid($mem['uid']);
 		$threadcount = C::t('forum_thread')->count_by_authorid($mem['uid']);
 		foreach($threadtableids as $tableid) {
 			if(!$tableid) {
@@ -304,7 +303,6 @@ if(submitcheck('forumsubmit', 1)) {
 		} else {
 			$postcount += C::t('forum_post')->count_by_authorid(0, $mem['uid']);
 		}
-		$postcount += C::t('forum_postcomment')->count_by_authorid($mem['uid']);
 		$threadcount = C::t('forum_thread')->count_by_authorid($mem['uid']);
 		C::t('common_member_count')->update($mem['uid'], array('posts' => $postcount, 'threads' => $threadcount));
 	}
