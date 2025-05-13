@@ -29,7 +29,7 @@ if ($payload) {
 if($op == 'callback') {
 	global $_G;
 	
-	if(!($member = DB::fetch_first("SELECT * FROM %t WHERE email=%s", array('common_member',$gmail)))) {
+	if(!($member = C::t('common_member')->fetch_by_email($gmail, 1))) {
 		showmessage('No user found with this email: '.$gmail, $referer);
 	} else {
 		if(isset($member['_inarchive'])) {
