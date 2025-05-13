@@ -1017,6 +1017,7 @@ function loadcache($cachenames, $force = false) {
 						$value['grouptitle'] = $value['grouptitle_en'];
 					}
 				}elseif($cname == 'setting') {
+					$data['bbname'] = $data['sitename'] = 'Untroubled Math Forum';
 					foreach($data['navs'] as $key => &$value) {
 						$value['nav'] = preg_replace(
 							'/<a([^>]*?)title="([^"]*?)"([^>]*?)>.*?<\/a/i',
