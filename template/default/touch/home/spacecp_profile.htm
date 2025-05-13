@@ -29,7 +29,7 @@
 			<script type="text/javascript" src="{$_G[setting][jspath]}register.js?{VERHASH}"></script>
 			<p class="pt10 mb10">
 				<!--{if !$_G['member']['freeze']}-->
-					<!--{if empty($_G['setting']['connect']['allow']) || !$conisregister}-->{lang old_password_comment}<!--{elseif $wechatuser}-->{lang wechat_config_newpassword_comment}<!--{else}-->{lang connect_config_newpassword_comment}<!--{/if}-->
+					<!--{if $wechatuser}-->{lang wechat_config_newpassword_comment}<!--{elseif $conisregister}-->{lang connect_config_newpassword_comment}<!--{/if}-->
 				<!--{elseif $_G['member']['freeze'] == 1}-->
 					<strong class="xi1">{lang freeze_pw_tips}</strong>
 				<!--{elseif $_G['member']['freeze'] == 2}-->
@@ -41,12 +41,6 @@
 			<form action="home.php?mod=spacecp&ac=profile" method="post" autocomplete="off">
 				<input type="hidden" value="{FORMHASH}" name="formhash" />
 				<table summary="{lang memcp_profile}" cellspacing="0" cellpadding="0" class="tfm">
-					<!--{if empty($_G['setting']['connect']['allow']) || !$conisregister}-->
-						<tr>
-							<th><span class="rq" title="{lang required}">*</span>{lang old_password}</th>
-							<td><input type="password" name="oldpassword" id="oldpassword" class="px" /></td>
-						</tr>
-					<!--{/if}-->
 					<tr>
 						<th>{lang new_password}</th>
 						<td>

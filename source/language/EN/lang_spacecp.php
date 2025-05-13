@@ -334,7 +334,6 @@ $lang = array(
 						<span class="xi1">New E-mail ({newemail}) wait for validation ...</span><br />
 						The system has sent a verification email to you, please check your mailbox for activate this e-mail.<br>
 						If you did not receive the verification message, you can replace a mailbox, or <a href="home.php?mod=spacecp&ac=profile&op=password&resend=1" class="xi2">Re-send the verification message</a>',
-	'qq_set_status'		=> 'I set my QQ online status',//'设置我的QQ在线状态',
 	'qq_dialog'		=> 'Start QQ chat',//'发起QQ聊天',
 
 );
