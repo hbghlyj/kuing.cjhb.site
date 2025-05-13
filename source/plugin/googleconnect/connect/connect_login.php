@@ -76,6 +76,6 @@ if($op == 'callback') {
 	$usergroups = $_G['cache']['usergroups'][$_G['groupid']]['grouptitle'];
 	$param = array('username' => $_G['member']['username'], 'usergroup' => $_G['group']['grouptitle'], 'timeoffsetupdated' => '');
 
-	C::t('common_member_status')->update($connect_member['uid'], array('lastip'=>$_G['clientip'], 'lastvisit'=>TIMESTAMP, 'lastactivity' => TIMESTAMP));
+	C::t('common_member_status')->update($member['uid'], array('lastip'=>$_G['clientip'], 'lastvisit'=>TIMESTAMP, 'lastactivity' => TIMESTAMP));
 	showmessage('login_succeed', $referer, $param);
 }

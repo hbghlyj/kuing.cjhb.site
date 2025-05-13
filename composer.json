@@ -35,7 +35,8 @@
         "cbschuld/browser.php": "^1.9",
         "ezimuel/php-secure-session": "^1.1",
         "php-curl-class/php-curl-class": "^8.6",
-        "izadori/parsedown-plus": "^1.0"
+        "izadori/parsedown-plus": "^1.0",
+        "google/apiclient": "^2.18"
     },
     "autoload": {
 	"classmap": ["src/"]
