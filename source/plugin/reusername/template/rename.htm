@@ -1,0 +1,43 @@
+					<!--{if $showcredit}-->
+					<tr>
+						<th>$showcredit['title']</th>
+						<td>
+							<span class="xi1">$showcredit['num']</span>
+							<span class="xg1" style="margin-left:30px;">( $showcredit['tip'] )</span>
+						</td>
+					</tr>
+					<!--{/if}-->
+					<tr>
+						<th>{lang reusername:newusername}</th>
+						<td>
+							<input type="text" name="newusername" id="newusername" class="px" />
+							<p class="d" id="chk_newusername">{lang reusername:newusername_comment}</p>
+						</td>
+					</tr>
+					<!--{if $setconfig['need_password']}-->
+					<tr>
+						<th>{lang reusername:password}</th>
+						<td>
+							<input type="password" name="password" id="password" class="px" />
+							<p class="d" id="chk_password">{lang reusername:password_comment}</p>
+						</td>
+					</tr>
+					<!--{/if}-->
+					<!--{eval $seccodecheck = $setconfig['open_seccode'];}-->
+					<!--{if $seccodecheck}-->
+					</table>
+						<!--{eval $sectpl = '<table cellspacing="0" cellpadding="0" class="tfm"><tr><th><sec></th><td><sec><p class="d"><sec></p></td></tr></table>';}-->
+						<!--{subtemplate common/seccheck}-->
+					<table summary="" cellspacing="0" cellpadding="0" class="tfm">
+					<!--{/if}-->
+					<tr>
+						<th>&nbsp;</th>
+						<td>
+							<input type="hidden" name="savesubmit" value="true" />
+							<input type="hidden" name="handlekey" value="renamepost" />
+							<button type="button" name="savesubmit" value="true" class="pn pnc" onclick="this.form.id='renameform';ajaxpost('renameform', 'return_renamepost', 'return_renamepost', 'onerror');"><strong>{lang save}</strong></button>
+							<!--{if $setconfig['change_limit']}-->
+							<span style="margin-left:10px;color:#f00;">{lang reusername:left_time}</span>
+							<!--{/if}-->
+						</td>
+					</tr>

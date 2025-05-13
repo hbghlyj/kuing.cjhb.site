@@ -1,0 +1,67 @@
+<!--{template common/header}-->
+<link rel="stylesheet" type="text/css" href="{$csspath}touch/common.css?{VERHASH}" />
+<!-- header start -->
+<header class="header">
+	<div class="nav">
+		<a href="home.php?mod=space&uid=1&do=profile&mycenter=1&mobile=2" class="z"><img src="{STATICURL}image/mobile/images/icon_back.png" /></a>
+		<span class="name">{lang reusername:reusername}</span>
+	</div>
+</header>
+<!-- header end -->
+<div class="rename-form mtm">
+	<form id="renameform" name="renameform" action="plugin.php?id=reusername:rename&mobile=2" method="post" autocomplete="off">
+		<input type="hidden" name="formhash" value="{FORMHASH}" />
+		<input type="hidden" name="savesubmit" value="true" />
+		<input type="hidden" name="handlekey" value="renamepost" />
+		<div class="hd">
+			<div class="user_avatar">
+				<div class="avatar_m"><span><img src="<!--{avatar($_G[uid], small, true)}-->" /></span></div>
+				<h2 class="name">$_G[username]</h2>
+			</div>
+		</div>
+		<div class="bd">
+			<!--{if $showcredit}-->
+			<div class="line">
+				<label class="label">$showcredit['title']:</label>
+				<div class="y">
+					<span class="blue">$showcredit['num']</span>
+					<span class="grey" style="margin-left:20px;">( $showcredit['tip'] )</span>
+				</div>
+			</div>
+			<!--{/if}-->
+			<div class="line">
+				<label class="label">{lang reusername:newusername}:</label>
+				<div class="y">
+					<input class="txt px" type="text" name="newusername" size="30">
+					<p class="grey" style="line-height: 1.6;margin-top:10px;" id="chk_newusername">{lang reusername:newusername_comment}</p>
+				</div>
+			</div>
+			<!--{if $setconfig['need_password']}-->
+			<div class="line">
+				<label class="label">{lang reusername:password}:</label>
+				<div class="y">
+					<input class="txt px" type="password" name="password" size="30">
+					<p class="grey" style="line-height: 1.6;margin-top:10px;">{lang reusername:password_comment}</p>
+				</div>
+			</div>
+			<!--{/if}-->
+			<!--{eval $seccodecheck = $setconfig['open_seccode'];}-->
+			<!--{if $seccodecheck}-->
+			<div class="line">
+				<label class="label">{lang seccode}:</label>
+				<div class="y">
+					<!--{subtemplate common/seccheck}-->
+				</div>
+			</div>
+			<!--{/if}-->
+			<div class="btn">
+				<button class="formdialog pn pnc" type="submit"><strong>{lang submit}</strong></button>
+			</div>
+			<!--{if $setconfig['change_limit']}-->
+			<div class="left_time">{lang reusername:left_time}</div>
+			<!--{/if}-->
+		</div>
+	</form>
+</div>
+    		  	  		  	  		     	  	 			    		   		     		       	   	 		    		   		     		       	   	 		    		   		     		       	   				    		   		     		       	   		      		   		     		       	   	 	    		   		     		       	 	        		   		     		       	 	        		   		     		       	  	 	      		   		     		       	   	 	     		   		     		       	  	 		     		   		     		       	  	   	    		   		     		       	  		       		   		     		       	 	   	    		   		     		       	  			      		   		     		       	  	 	 	    		   		     		       	  	 			    		   		     		       	  			 	    		   		     		       	 	   	    		   		     		       	   		      		   		     		       	  	 		     		   		     		       	   	 		    		   		     		       	  		 	     		   		     		       	 	        		 	      	  		  	  		     	
+<!--{template common/footer}-->
