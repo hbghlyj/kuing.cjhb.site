@@ -853,11 +853,35 @@ function loadcache($cachenames, $force = false) {
 				if($cname == 'onlinelist'){
 					$data['legend'] = $data['legend_en'];
 				}elseif($cname == 'forums'){
-					foreach($data as $key => &$value) {
+					foreach($data as &$value) {
 						$value['name'] = $value['name_en'];
 					}
 				}elseif(str_starts_with($cname, 'usergroup_')) {
 					$data['grouptitle'] = $data['grouptitle_en'];
+				}elseif($cname == 'usergroups') {
+					foreach($data as &$value) {
+						$value['grouptitle'] = $value['grouptitle_en'];
+					}
+				}elseif($cname == 'setting') {
+					foreach($data['navs'] as $key => &$value) {
+						$value['nav'] = preg_replace(
+							'/<a([^>]*?)title="([^"]*?)"([^>]*?)>.*?<\/a/i',
+							'<a$1title="$2"$3>$2</a',
+							$value['nav']
+						);
+					}
+					$data['menunavs'] = preg_replace(
+						'/<a([^>]*?)title="([^"]*?)"([^>]*?)>.*?<\/a/i',
+						'<a$1title="$2"$3>$2</a',
+						$data['menunavs']
+					);
+					foreach($data['footernavs'] as $key => &$value) {
+						$value['code'] = preg_replace(
+							'/<a([^>]*?)>.*?<\/a>/i',
+							'<a$1>'.$value['navname'].'</a>',
+							$value['code']
+						);
+					}
 				}
 			}
 			if($cname == 'setting') {
