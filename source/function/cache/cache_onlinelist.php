@@ -13,10 +13,11 @@ if(!defined('IN_DISCUZ')) {
 
 function build_cache_onlinelist() {
 	$data = array();
-	$data['legend'] = '';
+	$data['legend_en'] = $data['legend'] = '';
 	foreach(C::t('forum_onlinelist')->fetch_all_order_by_displayorder() as $list) {
-		$url = preg_match('/^https?:\/\//is', $list['url']) ? $list['url'] : STATICURL.'image/common/'.$list['url'];
+		$url = STATICURL.'image/common/online_'.$list['url'].'.svg';
 		$data[$list['groupid']] = $url;
+		$data['legend_en'] .= !empty($url) ? "<img src=\"".$url."\" /> {$list['url']} &nbsp; &nbsp; &nbsp; " : '';
 		$data['legend'] .= !empty($url) ? "<img src=\"".$url."\" /> {$list['title']} &nbsp; &nbsp; &nbsp; " : '';
 		if($list['groupid'] == 7) {
 			$data['guest'] = $list['title'];

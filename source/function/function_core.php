@@ -849,23 +849,26 @@ function loadcache($cachenames, $force = false) {
 	if(!empty($caches)) {
 		$cachedata = C::t('common_syscache')->fetch_all_syscache($caches);
 		foreach($cachedata as $cname => $data) {
+			if(DISCUZ_LANG == 'EN/') {
+				if($cname == 'onlinelist'){
+					$data['legend'] = $data['legend_en'];
+				}elseif($cname == 'forums'){
+					foreach($data as $key => &$value) {
+						$value['name'] = $value['name_en'];
+					}
+				}elseif(str_starts_with($cname, 'usergroup_')) {
+					$data['grouptitle'] = $data['grouptitle_en'];
+				}
+			}
 			if($cname == 'setting') {
 				$_G['setting'] = $data;
 			} elseif($cname == 'usergroup_'.$_G['groupid']) {
-				if(DISCUZ_LANG == 'EN/')$data['grouptitle'] = $data['grouptitle_en'];
 				$_G['cache'][$cname] = $_G['group'] = $data;
 			} elseif($cname == 'style_default') {
 				$_G['cache'][$cname] = $_G['style'] = $data;
 			} elseif($cname == 'grouplevels') {
 				$_G['grouplevels'] = $data;
 			} else {
-				if($cname == 'forums'){
-					if(DISCUZ_LANG == 'EN/') {
-						foreach($data as $key => $value) {
-							$data[$key]['name'] = $value['name_en'];
-						}
-					}
-				}
 				$_G['cache'][$cname] = $data;
 			}
 		}
