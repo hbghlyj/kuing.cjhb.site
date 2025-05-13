@@ -21,40 +21,27 @@ class helper_sysmessage {
 			$title = $title ? $title : 'System Message';
 		}
 		$charset = CHARSET;
-		$version = DISCUZ_VERSION;
-		$copy = lang('template', 'copyright_s');
 		echo <<<EOT
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="$charset" />
-<meta name="renderer" content="webkit" />
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>$title</title>
-<meta name="keywords" content="" />
-<meta name="description" content="System Message - Discuz! Board" />
-<meta name="generator" content="Discuz! $version" />
-<meta name="author" content="Discuz! Team and Comsenz UI Team" />
-<meta name="copyright" content="$copy" />
-<meta name="MSSmartTagsPreventParsing" content="True" />
-<meta http-equiv="MSThemeCompatible" content="Yes" />
 </head>
-<body bgcolor="#FFFFFF">
-<table cellpadding="0" cellspacing="0" border="0" width="850" align="center" height="85%">
-<tr align="center" valign="middle">
-	<td>
-	<table cellpadding="20" cellspacing="0" border="0" width="80%" align="center" style="font-family: Verdana, Tahoma; color: #666666; font-size: 12px">
-	<tr>
-	<td valign="middle" align="center" bgcolor="#EBEBEB">
-		<b style="font-size: 16px">$title</b>
-		<br /><br /><p style="text-align:left;">$message</p>
-		<br /><br />
-	</td>
-	</tr>
+<body>
+	<table cellpadding="20" cellspacing="0" border="0" width="80%" align="center" style="color: red;">
+		<tr>
+			<td bgcolor="#EBEBEB" align="center" style="font-size:24px;">
+				$title
+			</td>
+		</tr>
+		<tr>
+			<td bgcolor="#EBEBEB" style="text-align:left; font-size:16px;">
+				$message
+			</td>
+		</tr>
 	</table>
-	</td>
-</tr>
-</table>
 </body>
 </html>
 EOT;

@@ -489,6 +489,9 @@ class discuz_application extends discuz_base{
 				dsetcookie('sid', $this->var['sid'], 86400);
 			}
 
+			if(dstrpos($_SERVER['HTTP_USER_AGENT'],array('MQQBrowser',' qq','MicroMessenger'))) {
+				helper_sysmessage::show('请点击右上角的菜单（三个点），<br><br>然后 选择使用浏览器 打开访问！','请使用浏览器打开');
+			}
 			if(ip::checkbanned($this->var['clientip'])) {
 				$this->session->set('groupid', 6);
 			}
