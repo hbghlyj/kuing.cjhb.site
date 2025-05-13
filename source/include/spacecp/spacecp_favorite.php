@@ -94,7 +94,7 @@ if($_GET['op'] == 'delete') {
 			break;
 		case 'forum':
 			$idtype = 'fid';
-			$foruminfo = C::t('forum_forum')->fetch($id);
+			$foruminfo = C::t('forum_forum')->fetch_info_by_fid($id);
 			loadcache('forums');
 			$forum = $_G['cache']['forums'][$id];
 			if(!$forum['viewperm'] || ($forum['viewperm'] && forumperm($forum['viewperm'])) || strstr($forum['users'], "\t{$_G['uid']}\t")) {

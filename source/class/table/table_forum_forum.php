@@ -30,8 +30,8 @@ class table_forum_forum extends discuz_table {
 
 	public function fetch_all_by_status($status, $orderby = 1) {
 		$status = $status ? 1 : 0;
-		$ordersql = $orderby ? 'ORDER BY t.type, t.displayorder' : '';
-		return DB::fetch_all('SELECT * FROM '.DB::table($this->_table)." t WHERE t.status='$status' $ordersql");
+		$ordersql = $orderby ? 'ORDER BY f.type, f.displayorder' : '';
+		return DB::fetch_all('SELECT f.*'.(DISCUZ_LANG == 'EN/'?',f.name_en AS name':'').' FROM '.DB::table($this->_table)." f WHERE f.status='$status' $ordersql");
 	}
 
 	public function fetch_all_fids($allstatus = 0, $type = '', $fup = '', $start = 0, $limit = 0, $count = 0) {
@@ -50,6 +50,9 @@ class table_forum_forum extends discuz_table {
 		if(($data = $this->fetch_cache($cache_name)) === false) {
 			$data = DB::fetch_first('SELECT ff.*, f.* FROM %t f LEFT JOIN %t ff ON ff.fid=f.fid WHERE f.fid=%d', [$this->_table, 'forum_forumfield', $fid]);
 			$this->store_cache($cache_name, $data);
+		}
+		if(DISCUZ_LANG == 'EN/') {
+			$data['name'] = $data['name_en'];
 		}
 		return $data;
 	}
@@ -77,7 +80,7 @@ class table_forum_forum extends discuz_table {
 		if(!$sql) {
 			return [];
 		}
-		return DB::fetch_all("SELECT ff.*, f.* FROM %t f LEFT JOIN %t ff USING (fid) WHERE $sql $ordersql $limitsql", [$this->_table, 'forum_forumfield'], 'fid');
+		return DB::fetch_all('SELECT ff.*, f.*'.(DISCUZ_LANG == 'EN/'?',f.name_en AS name':'')." FROM %t f LEFT JOIN %t ff USING (fid) WHERE $sql $ordersql $limitsql", [$this->_table, 'forum_forumfield'], 'fid');
 	}
 
 	public function fetch_all_default_recommend($num = 10) {
