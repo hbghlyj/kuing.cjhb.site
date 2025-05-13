@@ -315,7 +315,7 @@ PusherChatWidget.timeToDescription = function(time) {
     }
   }
   else if(minutes < 60) {
-    desc = "about " + minutes + " minute" + (minutes !== 1?"s":"") + " ago";
+    desc = minutes + " minute" + (minutes !== 1?"s":"") + " ago";
     if(isChinese) {
       desc = minutes +
         (minutes < 10 ? " 分" : " 分钟") +
@@ -323,7 +323,7 @@ PusherChatWidget.timeToDescription = function(time) {
     }
   }
   else if(hours < 24) {
-    desc = "about " + hours + " hour"  + (hours !== 1?"s":"") + " ago";
+    desc = hours + " hour"  + (hours !== 1?"s":"") + " ago";
     if(isChinese) {
       desc = hours +
         (hours < 10 ? " 小时" : " 小时") +
