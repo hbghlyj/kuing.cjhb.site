@@ -16,7 +16,11 @@ if(!in_array($op, array('init', 'callback', 'change'))) {
 	showmessage('undefined_action');
 }
 $referer = dreferer();
-$referer = $referer && (strpos($referer, 'mod=register') === false) && (strpos($referer, 'mod=login') === false) ? $referer : 'index.php';
+$referer = $referer
+	&& (strpos($referer, 'mod=register') === false)
+	&& (strpos($referer, 'mod=login') === false)
+	&& (strpos($referer, 'connect.php?mod=login') === false)
+	? $referer : 'index.php';
 
 require_once 'vendor/autoload.php';
 $client = new Google_Client(['client_id' => $_G['setting']['connectappid']]);
