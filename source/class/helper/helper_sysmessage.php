@@ -25,26 +25,22 @@ class helper_sysmessage {
 <html>
 <head>
 <meta charset="$charset" />
-<meta name="renderer" content="webkit" />
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>$title</title>
 </head>
-<body bgcolor="#FFFFFF">
-<table cellpadding="0" cellspacing="0" border="0" width="850" align="center" height="85%">
-<tr align="center" valign="middle">
-	<td>
-	<table cellpadding="20" cellspacing="0" border="0" width="80%" align="center" style="font-family: Verdana, Tahoma; color: #666666; font-size: 12px">
-	<tr>
-	<td valign="middle" align="center" bgcolor="#EBEBEB">
-		<b style="font-size: 16px">$title</b>
-		<br /><br /><p style="text-align:left;">$message</p>
-		<br /><br />
-	</td>
-	</tr>
+<body>
+	<table cellpadding="20" cellspacing="0" border="0" width="80%" align="center" style="color: red;">
+		<tr>
+			<td bgcolor="#EBEBEB" align="center" style="font-size:24px;">
+				$title
+			</td>
+		</tr>
+		<tr>
+			<td bgcolor="#EBEBEB" style="text-align:left; font-size:16px;">
+				$message
+			</td>
+		</tr>
 	</table>
-	</td>
-</tr>
-</table>
 </body>
 </html>
 EOT;
