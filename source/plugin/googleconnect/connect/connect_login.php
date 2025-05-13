@@ -45,5 +45,5 @@ if($op == 'callback') {
 	$param = array('username' => $_G['member']['username'], 'usergroup' => $_G['group']['grouptitle'], 'timeoffsetupdated' => '');
 
 	C::t('common_member_status')->update($connect_member['uid'], array('lastip'=>$_G['clientip'], 'lastvisit'=>TIMESTAMP, 'lastactivity' => TIMESTAMP));
-	showmessage('login_succeed', $referer, $param);
+	showmessage('login_succeed', './', $param);
 }
