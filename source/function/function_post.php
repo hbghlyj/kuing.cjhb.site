@@ -572,8 +572,6 @@ function messagesafeclear($message) {
 	if(strpos($message, '[/groupid]') !== FALSE) {
 		$message = preg_replace("/\[groupid=\d+\].*\[\/groupid\]/i", '', $message);
 	}
-	// $language = lang('forum/misc');
-	// $message = preg_replace(array($language['post_edithtml_regexp'],$language['post_editnobbcode_regexp'],$language['post_edit_regexp']), '', $message);
 	return $message;
 }
 
@@ -590,9 +588,7 @@ function messagecutstr($message, $length = 0, $dot = ' ...', $html = 0) {
 	$bbcodesclear = 'tikz|asy|email|code|free|img|swf|flash|attach|media|audio|groupid|payto'.(!empty($_G['cache']['bbcodes_display'][$_G['groupid']]) ? '|'.implode('|', array_keys($_G['cache']['bbcodes_display'][$_G['groupid']])) : '');
 	$str = preg_replace(array(
 			"/\[hide=?\d*\](.*?)\[\/hide\]/is",
-			"/\[i=s\](.*?)\[\/i\](\n\n|<br \/><br \/>)/i",
 			"/\[quote\](.*?)\[\/quote\]/si",
-			// $language['post_edit_regexp'],
 			"/\[url=?.*?\](.+?)\[\/url\]/si",
 			"/\[($bbcodesclear)(=.*?)?\].+?\[\/\\1\]/si",
 			"/\[($bbcodes)(=.*?)?\]/i",
@@ -600,8 +596,6 @@ function messagecutstr($message, $length = 0, $dot = ' ...', $html = 0) {
 		), array(
 			$language['post_hidden'],
 			'',
-			'',
-			// '',
 			'\\1',
 			'',
 			'',

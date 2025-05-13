@@ -53,10 +53,6 @@ function followcode($message, $tid = 0, $pid = 0, $length = 0, $allowimg = true)
 	if(strpos($msglower, 'ed2k://') !== FALSE) {
 		$message = preg_replace("/ed2k:\/\/(.+?)\//", '', $message);
 	}
-	if(strpos($msglower, '[/i]') !== FALSE) {
-		$message = preg_replace("/\s*\[i=s\][\n\r]*(.+?)[\n\r]*\[\/i\]\s*/is", '', $message);
-	}
-
 	$message = str_replace('[/p]', "\n", $message);
 	$message = str_replace(array(
 		'[/color]', '[/backcolor]', '[/size]', '[/font]', '[/align]', '[b]', '[/b]', '[s]', '[/s]', '[hr]',
