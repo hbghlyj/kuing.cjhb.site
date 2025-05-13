@@ -73,12 +73,12 @@ function sendmail($toemail, $subject, $message = '', $from = '') {
 	if($_G['setting']['mail']['mailsend'] == 3) {
 		$email_from = empty($from) ? $_G['setting']['adminemail'] : $from;
 	} else {
-		$email_from = $from == '' ? '=?'.CHARSET.'?B?'.base64_encode(DISCUZ_LANG == 'EN/' ? 'Leisure Math Forum' : $_G['setting']['sitename'])."?= <".$_G['setting']['adminemail'].">" : (preg_match('/^(.+?) \<(.+?)\>$/',$from, $mats) ? '=?'.CHARSET.'?B?'.base64_encode($mats[1])."?= <$mats[2]>" : $from);
+		$email_from = $from == '' ? '=?'.CHARSET.'?B?'.base64_encode($_G['setting']['sitename'])."?= <".$_G['setting']['adminemail'].">" : (preg_match('/^(.+?) \<(.+?)\>$/',$from, $mats) ? '=?'.CHARSET.'?B?'.base64_encode($mats[1])."?= <$mats[2]>" : $from);
 	}
 
 	$email_to = preg_match('/^(.+?) \<(.+?)\>$/',$toemail, $mats) ? ($mailusername ? '=?'.CHARSET.'?B?'.base64_encode($mats[1])."?= <$mats[2]>" : $mats[2]) : $toemail;
 
-	$email_subject = '=?'.CHARSET.'?B?'.base64_encode(preg_replace("/[\r|\n]/", '', '['.(DISCUZ_LANG == 'EN/' ? 'Leisure Math Forum' : $_G['setting']['sitename']).'] '.$subject)).'?=';
+	$email_subject = '=?'.CHARSET.'?B?'.base64_encode(preg_replace("/[\r|\n]/", '', '['.$_G['setting']['sitename'].'] '.$subject)).'?=';
 	$email_message = chunk_split(base64_encode(str_replace("\n", "\r\n", str_replace("\r", "\n", str_replace("\r\n", "\n", str_replace("\n\r", "\r", $message))))));
 	$host = parse_url('http://'.$_SERVER['HTTP_HOST'], PHP_URL_HOST);
 	$version = $_G['setting']['version'];

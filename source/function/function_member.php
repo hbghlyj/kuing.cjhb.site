@@ -211,8 +211,8 @@ function getinvite() {
 function replacesitevar($string, $replaces = array()) {
 	global $_G;
 	$sitevars = array(
-		'{sitename}' => DISCUZ_LANG == 'EN/' ? 'Leisure Math Forum' : $_G['setting']['sitename'],
-		'{bbname}' => DISCUZ_LANG == 'EN/' ? 'Leisure Math Forum' : $_G['setting']['bbname'],
+		'{sitename}' => $_G['setting']['sitename'],
+		'{bbname}' => $_G['setting']['bbname'],
 		'{time}' => dgmdate(TIMESTAMP, 'Y-n-j H:i'),
 		'{adminemail}' => $_G['setting']['adminemail'],
 		'{username}' => $_G['member']['username'],
