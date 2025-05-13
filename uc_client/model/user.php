@@ -63,7 +63,15 @@ class usermodel {
 		$guestexp .= '|^Guest';
 
 		$len = $this->dstrlen($username);
-		if($len > 15 || $len < 3 || preg_match("/\s+|^c:\\con\\con|[%,\*\"\s\<\>\&\(\)']|$guestexp/is", $username)) {
+		if ($len > 15 || $len < 3
+			|| preg_match(
+				"/(^\s+|\s+$)"                     // 禁止首尾空格，但允许中间空格
+				. "|^c:\\\\con\\\\con"             // 禁止系统设备名
+				. "|[%,\\*\"\\<\\>\\&\\(\\)']"     // 禁止特殊字符
+				. "|$guestexp/is",
+				$username
+			)
+		) {
 			return FALSE;
 		} else {
 			return TRUE;

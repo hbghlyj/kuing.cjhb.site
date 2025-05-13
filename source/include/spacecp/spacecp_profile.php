@@ -339,18 +339,7 @@ if(submitcheck('profilesubmit')) {
 	$secmobiccnew = $_GET['secmobiccnew'];
 	$secmobilenew = $_GET['secmobilenew'];
 	$secmobseccode = $_GET['secmobseccodenew'];
-	$ignorepassword = 0;
-	if($_G['setting']['connect']['allow']) {
-		$connect = C::t('#qqconnect#common_member_connect')->fetch($_G['uid']);
-		if($connect['conisregister']) {
-			$_GET['oldpassword'] = '';
-			$ignorepassword = 1;
-			if(empty($_GET['newpassword'])) {
-				showmessage('profile_passwd_empty');
-			}
-		}
-	}
-
+	$ignorepassword = 1;
 	if(in_array('mobile', $_G['setting']['plugins']['available']) && $wechatuser['isregister']) {
 		$_GET['oldpassword'] = '';
 		$ignorepassword = 1;
