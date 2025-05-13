@@ -61,6 +61,8 @@ if($op == 'callback') {
 			'password' => '', // Password is unset for Google login
 			'groupid' => $_G['setting']['newusergroupid']
 		);
+		require_once libfile('cache/userstats', 'function');
+		build_cache_userstats();
 		include_once libfile('function/stat');
 		updatestat('register');
 	} else {
