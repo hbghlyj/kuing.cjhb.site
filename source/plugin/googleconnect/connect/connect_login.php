@@ -15,66 +15,35 @@ $op = !empty($_GET['op']) ? $_GET['op'] : '';
 if(!in_array($op, array('init', 'callback', 'change'))) {
 	showmessage('undefined_action');
 }
-
 $referer = dreferer();
 
-require_once DISCUZ_ROOT.'/source/plugin/googleconnect/lib/GoogleOAuth.php';
-
-try {
-	$googleOAuthClient = new Cloud_Service_Client_GoogleOAuth();
-} catch(Exception $e) {
-	showmessage('googleconnect:connect_app_invalid');
+require_once 'vendor/autoload.php';
+$client = new Google_Client(['client_id' => $_G['setting']['connectappid']]);
+$payload = $client->verifyIdToken($_POST['credential']);
+if ($payload) {
+  $gmail = $payload['email'];
+} else {
+  showmessage('Invalid ID token', $referer);
 }
 
-if($op == 'init') {
-
-	$callback = $_G['connect']['callback_url'] . '&referer=' . urlencode($_GET['referer']);
-
-	try {
-		dsetcookie('google_request_uri', $callback);
-		$redirect = $googleOAuthClient->getOAuthAuthorizeURL($callback);
-		if(defined('IN_MOBILE') || $_GET['oauth_style'] == 'mobile') {
-			$redirect .= '&display=mobile';
+if($op == 'callback') {
+	global $_G;
+	
+	if(!($member = DB::fetch_first("SELECT * FROM %t WHERE email=%s", array('common_member',$gmail)))) {
+		showmessage('No user found with this email: '.$gmail, $referer);
+	} else {
+		if(isset($member['_inarchive'])) {
+			C::t('common_member_archive')->move_to_master($member['uid']);
 		}
-	} catch(Exception $e) {
-		showmessage('googleconnect:connect_get_request_token_failed_code', $referer, array('codeMessage' => $e->getMessage()));
 	}
+	
+	require_once libfile('function/member');
+	$cookietime = 1296000;
+	setloginstatus($member, $cookietime);
+	loadcache('usergroups');
+	$usergroups = $_G['cache']['usergroups'][$_G['groupid']]['grouptitle'];
+	$param = array('username' => $_G['member']['username'], 'usergroup' => $_G['group']['grouptitle'], 'timeoffsetupdated' => '');
 
-	dheader('Location:' . $redirect);
-
-} elseif($op == 'callback') {
-
-	$params = $_GET;
-
-	if($_GET['state'] != md5(FORMHASH)) {
-		showmessage('googleconnect:connect_get_access_token_failed', $referer);
-	}
-	try {
-		$response = $googleOAuthClient->getAccessToken($_GET['code']);
-	} catch(Exception $e) {
-		showmessage('googleconnect:connect_get_access_token_failed_code', $referer, array('codeMessage' => $e->getMessage()));
-	}
-
-	$googleToken = $response['access_token'];
-	$googleId = $response['id'];
-	if(!$googleToken || !$googleId) {
-		showmessage('googleconnect:connect_get_access_token_failed', $referer);
-	}
-
-	// Additional logic for handling Google login...
-
-} elseif($op == 'change') {
-	$callback = $_G['connect']['callback_url'] . '&referer=' . urlencode($_GET['referer']);
-
-	try {
-		dsetcookie('google_request_uri', $callback);
-		$redirect = $googleOAuthClient->getOAuthAuthorizeURL($callback);
-		if(defined('IN_MOBILE') || $_GET['oauth_style'] == 'mobile') {
-			$redirect .= '&display=mobile';
-		}
-	} catch(Exception $e) {
-		showmessage('googleconnect:connect_get_request_token_failed_code', $referer, array('codeMessage' => $e->getMessage()));
-	}
-
-	dheader('Location:' . $redirect);
+	C::t('common_member_status')->update($connect_member['uid'], array('lastip'=>$_G['clientip'], 'lastvisit'=>TIMESTAMP, 'lastactivity' => TIMESTAMP));
+	showmessage('login_succeed', $referer, $param);
 }
