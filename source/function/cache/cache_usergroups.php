@@ -17,8 +17,8 @@ function build_cache_usergroups() {
 
 	$data = [];
 	foreach(table_common_usergroup::t()->range_orderby_creditshigher() as $key => $value) {
-		$group = array_merge(['groupid' => $value['groupid'], 'upgroupid' => $value['upgroupid'], 'type' => $value['type'], 'grouptitle' => $value['grouptitle'], 'creditshigher' => $value['creditshigher'], 'creditslower' => $value['creditslower'], 'stars' => $value['stars'], 'color' => $value['color'], 'icon' => $value['icon'], 'system' => $value['system']], $data_uf[$key]);
-		if($group['type'] == 'special') {
+		$group = array_merge(['groupid' => $value['groupid'], 'upgroupid' => $value['upgroupid'], 'type' => $value['type'], 'grouptitle' => $value['grouptitle'], 'grouptitle_en' => $value['grouptitle_en'], 'creditshigher' => $value['creditshigher'], 'creditslower' => $value['creditslower'], 'stars' => $value['stars'], 'color' => $value['color'], 'icon' => $value['icon'], 'system' => $value['system']], $data_uf[$key]);
+	    if($group['type'] == 'special') {
 			if($group['system'] != 'private') {
 				list($dailyprice) = explode("\t", $group['system']);
 				$group['pubtype'] = $dailyprice > 0 ? 'buy' : 'free';
