@@ -852,12 +852,20 @@ function loadcache($cachenames, $force = false) {
 			if($cname == 'setting') {
 				$_G['setting'] = $data;
 			} elseif($cname == 'usergroup_'.$_G['groupid']) {
+				if(DISCUZ_LANG == 'EN/')$data['grouptitle'] = $data['grouptitle_en'];
 				$_G['cache'][$cname] = $_G['group'] = $data;
 			} elseif($cname == 'style_default') {
 				$_G['cache'][$cname] = $_G['style'] = $data;
 			} elseif($cname == 'grouplevels') {
 				$_G['grouplevels'] = $data;
 			} else {
+				if($cname == 'forums'){
+					if(DISCUZ_LANG == 'EN/') {
+						foreach($data as $key => $value) {
+							$data[$key]['name'] = $value['name_en'];
+						}
+					}
+				}
 				$_G['cache'][$cname] = $data;
 			}
 		}

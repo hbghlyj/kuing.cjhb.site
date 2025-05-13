@@ -54,20 +54,26 @@ if($op == 'callback') {
 		}
 		C::t('common_member')->insert_user($uid, $username, '', $gmail, $_G['clientip'], $_G['setting']['newusergroupid'], array('emailstatus'=>1), 0, $_G['remoteport']);
 		C::t('common_member')->update($uid, array('conisbind' => '1'));
-		$param = array('bbname' => $_G['setting']['bbname'], 'username' => $username, 'usergroup' =>  $_G['cache']['usergroups'][$_G['setting']['newusergroupid']]['grouptitle'], 'uid' => $uid);
-		showmessage('register_succeed', $referer, $param);
+		$member = array(
+			'uid' => $uid,
+			'username' => $username,
+			'adminid' => 0,
+			'password' => '', // Password is unset for Google login
+			'groupid' => $_G['setting']['newusergroupid']
+		);
+		include_once libfile('function/stat');
+		updatestat('register');
 	} else {
 		if(isset($member['_inarchive'])) {
 			C::t('common_member_archive')->move_to_master($member['uid']);
 		}
-		require_once libfile('function/member');
-		$cookietime = 1296000;
-		setloginstatus($member, $cookietime);
-		loadcache('usergroups');
-		$usergroups = $_G['cache']['usergroups'][$_G['groupid']]['grouptitle'];
-		$param = array('username' => $_G['member']['username'], 'usergroup' => $_G['group']['grouptitle'], 'timeoffsetupdated' => '');
-	
-		C::t('common_member_status')->update($connect_member['uid'], array('lastip'=>$_G['clientip'], 'lastvisit'=>TIMESTAMP, 'lastactivity' => TIMESTAMP));
-		showmessage('login_succeed', $referer, $param);
 	}
+	require_once libfile('function/member');
+	$cookietime = 1296000;
+	setloginstatus($member, $cookietime);
+	$usergroups = $_G['cache']['usergroups'][$_G['groupid']]['grouptitle'];
+	$param = array('username' => $_G['member']['username'], 'usergroup' => $_G['group']['grouptitle'], 'timeoffsetupdated' => '');
+
+	C::t('common_member_status')->update($connect_member['uid'], array('lastip'=>$_G['clientip'], 'lastvisit'=>TIMESTAMP, 'lastactivity' => TIMESTAMP));
+	showmessage('login_succeed', $referer, $param);
 }
