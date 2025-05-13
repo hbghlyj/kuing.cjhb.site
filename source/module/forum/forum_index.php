@@ -60,11 +60,10 @@ if($_G['uid'] && empty($_G['cookie']['nofavfid'])) {
 		$favfids[] = $favorite['id'];
 	}
 	if($favfids) {
-		$favforumlist = C::t('forum_forum')->fetch_all($favfids);
-		$favforumlist_fields = C::t('forum_forumfield')->fetch_all($favfids);
+		$favforumlist = C::t('forum_forum')->fetch_all_info_by_fids($favfids);
 		foreach($favforumlist as $id => $forum) {
-			if($favforumlist_fields[$forum['fid']]['fid']) {
-				$favforumlist[$id] = array_merge($forum, $favforumlist_fields[$forum['fid']]);
+			if($favforumlist[$forum['fid']]['fid']) {
+				$favforumlist[$id] = array_merge($forum, $favforumlist[$forum['fid']]);
 			}
 			$favforumlist[$id]['extra'] = empty($favforumlist[$id]['extra']) ? array() : dunserialize($favforumlist[$id]['extra']);
 			if(!is_array($favforumlist[$id]['extra'])) {
