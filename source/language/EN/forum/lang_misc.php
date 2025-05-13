@@ -29,12 +29,6 @@ $lang = array
 	'post_single_banned'	=> '**** This post was banned ****',//'**** 该帖被屏蔽 ****',
 	'message_ishidden_hiddenreplies'	=> 'This post is visible only to author of the thread',//'此帖仅作者可见',
 	'post_reply_quote'		=> '{author} posted at {time}',//'{author} 发表于 {time}',
-	'post_edit'			=> "[i=s] Edited by {editor} at {edittime} [/i]\n\n",//"[i=s] 本帖最后由 {editor} 于 {edittime} 编辑 [/i]\n\n",
-	'post_edit_regexp'		=> '/^\[i=s\] Edited by .*? at .*? \[\/i\]\n\n/s',//'/^\[i=s\] 本帖最后由 .*? 于 .*? 编辑 \[\/i\]\n\n/s',
-	'post_edithtml'			=> '[i=s] Edited by {editor} at {edittime} [/i]<br /><br />',//'[i=s] 本帖最后由 {editor} 于 {edittime} 编辑 [/i]<br /><br />',
-	'post_edithtml_regexp'		=> '/^\[i=s\] Edited by .*? at .*? \[\/i\]&lt;br \/&gt;&lt;br \/&gt;/s',//'/^\[i=s\] 本帖最后由 .*? 于 .*? 编辑 \[\/i\]&lt;br \/&gt;&lt;br \/&gt;/s',
-	'post_editnobbcode'		=> '[ Post edited by {editor} at {edittime} ]\n\n',//'[ 本帖最后由 {editor} 于 {edittime} 编辑 ]\n\n',
-	'post_editnobbcode_regexp'	=> '/^\[ Post edited by .*? at .*? \]\n\n/s',//'/^\[ 本帖最后由 .*? 于 .*? 编辑 \]\n\n/s',
 	'post_reply'			=> 'Reply',//'回复',
 	'post_thread'			=> 'Add Thread',//'的帖子',
 
