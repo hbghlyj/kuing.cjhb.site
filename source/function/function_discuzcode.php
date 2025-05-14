@@ -454,11 +454,10 @@ function parseurl($url, $text, $scheme) {
 		// 2. Hide the prefix http:// or www.
 		$text = preg_replace("/^https?:\/\/(www\.)?|^www\./i", '', $text);
 		// 3. Truncate if too long (multibyte safe)
-		if(mb_strlen($text, 'UTF-8') > 95) {
-			$text = mb_substr($text, 0, 64, 'UTF-8') . ' &hellip; ' . mb_substr($text, -20, 'UTF-8');
+		if(mb_strlen($text) > 65) {
+			$text = mb_substr($text, 0, 45) . ' &hellip; ' . mb_substr($text, -20);
 		}
-		// 4. HTML-escape the display text
-		return '<a href="' . $url . '" target="_blank">' . htmlspecialchars($text) . '</a>';
+		return '<a href="' . $url . '" target="_blank">' . $text . '</a>';
 	} else {
 		$url = substr($url, 1);// remove the prefix =
 		if($url[0] == '#') {
