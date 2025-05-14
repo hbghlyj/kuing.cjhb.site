@@ -21,6 +21,6 @@ $lang = array (
 	'personal_category'	=> 'Personal category',//'个人分类',
 	'related_blog'		=> 'Related blogs',//'相关日志',
 	'related_thread'	=> 'Related threads',//'相关帖子',
-	'replies'		=> 'Replies/Views',//'回复/查看',
+	'replies'		=> '<small>Replies<br>Views</small>',//'回复/查看',
 );
 
