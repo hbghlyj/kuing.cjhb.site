@@ -444,17 +444,21 @@ function discuzcode_callback_jammer($matches) {
 function parseurl($url, $text, $scheme) {
 	global $_G;
 	if(!$url) {
-		$url = trim($text);
 		// Either an external link, example [url]http://www.qq.com[/url]
 		// Or an internal link, example [url]forum.php?mod=viewthread&tid=1[/url]
+		// 1. Decode percent-encoded characters
+		$text = urldecode($url = $text);
 		if(str_starts_with($url, 'www.')) {
-			$url = '//' . $url;// If starts with www., must be an external link, example [url]www.qq.com[/url]
+			$url = '//' . $url;
 		}
-        $text = preg_replace("/^https?:\/\/(www\.)?|^www\./i", '', $text); // hide the prefix http:// or www.
-		if(strlen($text) > 65) {
-            $text = mb_substr($text, 0, 45).' &hellip; '.mb_substr($text, -20);
+		// 2. Hide the prefix http:// or www.
+		$text = preg_replace("/^https?:\/\/(www\.)?|^www\./i", '', $text);
+		// 3. Truncate if too long (multibyte safe)
+		if(mb_strlen($text, 'UTF-8') > 95) {
+			$text = mb_substr($text, 0, 64, 'UTF-8') . ' &hellip; ' . mb_substr($text, -20, 'UTF-8');
 		}
-		return '<a href="'.$url.'" target="_blank">'.$text.'</a>';
+		// 4. HTML-escape the display text
+		return '<a href="' . $url . '" target="_blank">' . htmlspecialchars($text) . '</a>';
 	} else {
 		$url = substr($url, 1);// remove the prefix =
 		if($url[0] == '#') {
