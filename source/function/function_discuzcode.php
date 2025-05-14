@@ -376,8 +376,8 @@ function parseurl($url, $text, $scheme) {
 		$url = $matches[0];
 		$text = urldecode($text);
 		$text = preg_replace("/^https?:\/\/(www\.)?|^www\./i", '', $text);
-		if(mb_strlen($text, 'UTF-8') > 95) {
-			$text = mb_substr($text, 0, 64, 'UTF-8').' &hellip; '.mb_substr($text, -20, 'UTF-8');
+		if(mb_strlen($text) > 65) {
+			$text = mb_substr($text, 0, 45) . ' &hellip; ' . mb_substr($text, -20);
 		}
 		return '<a href="'.(str_starts_with(strtolower($url), 'www.') ? 'http://'.$url : $url).'" target="_blank">'.htmlspecialchars($text).'</a>';
 	} else {
