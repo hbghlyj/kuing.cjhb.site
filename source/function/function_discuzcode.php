@@ -315,7 +315,7 @@ function discuzcode($message, $smileyoff = false, $bbcodeoff = false, $htmlon = 
 		}
 
 	}
-	return $htmlon ? $message : nl2br(str_replace(["\t", '   ', '  '], ['&nbsp; &nbsp; &nbsp; &nbsp; ', '&nbsp; &nbsp;', '&nbsp;&nbsp;'], $message));
+	return $htmlon ? $message : nl2br(str_replace(["\t", '   ', '  '], ['&nbsp; &nbsp; &nbsp; &nbsp; ', '&nbsp; &nbsp;', '&nbsp;&nbsp;'], preg_replace(['/(\<div\b[^>]*\>)\r?\n/', '/(\<\/div\>)\r?\n/'], '$1', $message)));
 }
 
 function discuzcode_callback_codedisp_1($matches) {
