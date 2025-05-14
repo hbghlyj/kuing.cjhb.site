@@ -325,6 +325,12 @@ function Ajax(recvType, waitId) {
 		setTimeout(function(){aj.showLoading()}, 250);
 		aj.targetUrl = targetUrl;
 		aj.XMLHttpRequest.onreadystatechange = aj.processHandle;
+		aj.XMLHttpRequest.onerror = function() { // Added error handler
+			showDialog('Network error occurred.');
+			if(aj.waitId) {
+				aj.waitId.style.display = 'none';
+			}
+		};
 		aj.resultHandle = resultHandle;
 		var attackevasive = isUndefined(attackevasive) ? 0 : attackevasive;
 		if(window.XMLHttpRequest) {
