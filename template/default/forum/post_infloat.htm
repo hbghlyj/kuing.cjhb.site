@@ -1,7 +1,7 @@
 <!--{template common/header}-->
 <h3 class="flb">
 	<em id="return_$_GET['handlekey']">
-		<!--{if $_GET[action] == 'newthread'}-->{lang post_newthread}<!--{elseif $_GET[action] == 'reply'}-->{lang join_thread}<!--{/if}-->
+		<!--{if $_GET[action] == 'newthread'}-->{lang post_newthread}<!--{elseif $_GET[action] == 'reply'}-->{lang join_thread}<!--{elseif $_GET['action'] == 'edit'}-->{lang edit_thread}<!--{/if}-->
 	</em>
 	<!--{if $_GET[action] == 'newthread' && $modnewthreads}--><span class="needverify">{lang approve}</span><!--{/if}-->
 	<!--{if $_GET[action] == 'reply' && !empty($modnewreplies)}--><span class="needverify">{lang approve}</span><!--{/if}-->
@@ -9,11 +9,14 @@
 		<a href="javascript:;" class="flbc" onclick="hideWindow('$_GET['handlekey']')" title="{lang close}">{lang close}</a>
 	</span>
 </h3>
-
-<form method="post" autocomplete="off" id="postform" action="forum.php?mod=post&infloat=yes&action=$_GET[action]&fid=$_G[fid]&extra=$extra{if $_GET[action] == 'newthread'}&topicsubmit=yes{elseif $_GET[action] == 'reply'}&tid=$_G[tid]&replysubmit=yes{/if}" onsubmit="this.message.value = parseurl(this.message.value);{if !empty($_GET['infloat'])}ajaxpost('postform', 'return_$_GET['handlekey']', 'return_$_GET['handlekey']', 'onerror');return false;{/if}">
+<!--{if $_GET[action] == 'edit'}--><!--{eval $message = $postinfo['message'];}--><!--{/if}-->
+<form method="post" autocomplete="off" id="postform" action="forum.php?mod=post&infloat=yes&action=$_GET[action]&fid=$_G[fid]&extra=$extra{if $_GET[action] == 'newthread'}&topicsubmit=yes{elseif $_GET[action] == 'reply'}&tid=$_G[tid]&replysubmit=yes{elseif $_GET[action] == 'edit'}&editsubmit=yes{/if}" onsubmit="this.message.value = parseurl(this.message.value);{if !empty($_GET['infloat'])}ajaxpost('postform', 'return_$_GET['handlekey']', 'return_$_GET['handlekey']', 'onerror');return false;{/if}">
 	<div class="c" id="floatlayout_$_GET[action]">
 		<div class="p_c">
 			<input type="hidden" name="formhash" id="formhash" value="{FORMHASH}" />
+			<!--{if $_GET['action'] == 'edit'}-->
+			<input type="hidden" name="delattachop" id="delattachop" value="0" />
+			<!--{/if}-->	
 			<input type="hidden" name="handlekey" value="$_GET['handlekey']" />
 			<!--{if $_GET[action] == 'reply'}-->
 				<input type="hidden" name="noticeauthor" value="$noticeauthor" />
@@ -28,6 +31,12 @@
 				<!--{elseif !empty($_GET['repquote'])}-->
 					<input type="hidden" name="reppost" value="$_GET[repquote]" />
 				<!--{/if}-->
+			<!--{/if}-->
+			<!--{if $_GET[action] == 'edit'}-->
+				<input type="hidden" name="fid" id="fid" value="$_G[fid]" />
+				<input type="hidden" name="tid" value="$_G[tid]" />
+				<input type="hidden" name="pid" value="$pid" />
+				<input type="hidden" name="page" value="$_GET[page]" />
 			<!--{/if}-->
 			<!--{hook/post_infloat_top}-->
 			<div class="pbt cl">
@@ -57,7 +66,7 @@
 					</div>
 					<script type="text/javascript" reload="1">simulateSelect('typeid_float');</script>
 				<!--{/if}-->
-				<!--{if $_GET[action] != 'reply'}-->
+				<!--{if $_GET[action] != 'reply' && $postinfo['subject'] != ''}-->
 					<span><input name="subject" id="subject" class="px" value="$postinfo[subject]" style="width: 25em" /></span>
 				<!--{else}-->
 					<span id="subjecthide" class="z">RE: $thread[subject] [<a href="javascript:;" onclick="display('subjecthide');display('subjectbox');">{lang modify}</a>]</span>
@@ -84,7 +93,7 @@
 			<div class="tedt">
 				<div class="bar">
 					<span class="y">
-						<a href="forum.php?mod=post&action=$_GET[action]&fid=$_G[fid]&extra=$extra{if $_GET[action] == 'reply'}&tid=$_G[tid]{if !empty($_GET[reppost])}&reppost=$_GET[reppost]{/if}{if !empty($_GET[repquote])}&repquote=$_GET[repquote]{/if}{if !empty($page)}&page=$page{/if}{/if}{if !empty($stand)}&stand=$stand{/if}" onclick="switchAdvanceMode(this.href);doane(event);">{lang post_advancemode}</a>
+						<a href="forum.php?mod=post&action=$_GET[action]&fid=$_G[fid]&extra=$extra{if $_GET[action] == 'reply' || $_GET[action] == 'edit'}&tid=$_G[tid]{if !empty($_GET[reppost])}&reppost=$_GET[reppost]{/if}{if !empty($_GET[repquote])}&repquote=$_GET[repquote]{/if}{if !empty($page)}&page=$page{/if}{/if}{if !empty($stand)}&stand=$stand{/if}" onclick="switchAdvanceMode(this.href);doane(event);">{lang post_advancemode}</a>
 					</span>
 					<!--{eval $seditor = array('post', array('bold', 'color', 'img', 'link', 'quote', 'code', 'smilies', 'at'));}-->
 					<!--{subtemplate common/seditor}-->
@@ -106,7 +115,16 @@
 			<a href="javascript:;" id="custominfo" class="y" style="margin-left:5px"><i class="fico-info fic4 fc-p" alt="{lang faq}"></i></a>
 		<!--{/if}-->
 		<a href="forum.php?mod=viewthread&tid=5" class="y" target="_blank">LaTeX 公式输入教程</a>
-		<button type="submit" id="postsubmit" class="pn pnc z" value="true"{if !$seccodecheck && !$secqaacheck} onmouseover="checkpostrule('seccheck_$_GET[action]', 'ac=$_GET[action]&infloat=yes&handlekey=$_GET[handlekey]');this.onmouseover=null"{/if} name="{if $_GET[action] == 'newthread'}topicsubmit{elseif $_GET[action] == 'reply'}replysubmit{/if}"><span><!--{if $_GET[action] == 'newthread'}-->{lang post_newthread}<!--{elseif $_GET[action] == 'reply'}-->{lang join_thread}<!--{/if}--></span></button>
+		<button type="submit" id="postsubmit" class="pn pnc z" value="true"{if !$seccodecheck && !$secqaacheck} onmouseover="checkpostrule('seccheck_$_GET[action]', 'ac=$_GET[action]&infloat=yes&handlekey=$_GET[handlekey]');this.onmouseover=null"{/if} name="{if $_GET[action] == 'newthread'}topicsubmit{elseif $_GET[action] == 'reply'}replysubmit{elseif $_GET[action] == 'edit'}editsubmit{/if}"><span><!--{if $_GET[action] == 'newthread'}-->{lang post_newthread}<!--{elseif $_GET[action] == 'reply'}-->{lang join_thread}<!--{elseif $_GET[action] == 'edit' && $isfirstpost && $thread['displayorder'] == -4}-->{lang post_newthread}<!--{elseif $_GET['action'] == 'edit'}-->{lang edit_save}<!--{/if}--></span></button>
+		<!--{if $_GET[action] == 'edit' && $thread['displayorder'] != -4}-->
+		<label class="z"><input type="checkbox" name="bump" class="pc">{lang bump}</label>
+		<!--{/if}-->
+		<!--{if $_G['uid'] && $_G['group']['allowsave']}-->
+			<input type="hidden" id="postsave" name="save" value="" />
+			<!--{if $_GET[action] == 'newthread' && empty($modnewthreads) || $_GET[action] == 'edit' && $isfirstpost && empty($modnewreplies) && $thread['displayorder'] == -4}-->
+				<button type="button" id="postsubmit" class="pn" value="true" onclick="$('postsave').value = 1;$('postsubmit').click();"><em>{lang save_draft}</em></button>
+			<!--{/if}-->
+		<!--{/if}-->
 		<!--{hook/post_infloat_btn_extra}-->
 	</div>
 </form>
@@ -126,13 +144,14 @@ function succeedhandle_$_GET[action](locationhref, message) {
 <!--{if $_GET[action] == 'newthread' && $_G['setting']['sitemessage'][newthread] || $_GET[action] == 'reply' && $_G['setting']['sitemessage'][reply]}-->
 	showPrompt('custominfo', 'mouseover', '<!--{if $_GET[action] == 'newthread'}--><!--{echo trim($_G['setting']['sitemessage'][newthread][array_rand($_G['setting']['sitemessage'][newthread])])}--><!--{elseif $_GET[action] == 'reply'}--><!--{echo trim($_G['setting']['sitemessage'][reply][array_rand($_G['setting']['sitemessage'][reply])])}--><!--{/if}-->', $_G['setting']['sitemessage'][time]);
 <!--{/if}-->
-
+<!--{if $_GET[action] != 'edit'}-->
 	if($('subjectbox')) {
 		$('postmessage').focus();
 	} else if($('subject')) {
 		$('subject').select();
 		$('subject').focus();
 	}
+<!--{/if}-->
 </script>
 
 <!--{template common/footer}-->

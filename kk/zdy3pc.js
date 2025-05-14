@@ -259,6 +259,7 @@ window.onscroll = function() {
         let d = 200; //分界线，可考虑半窗口高 0.5*window.innerHeight;
         if (slTop >= arr[i] - d && slTop <= arr[i + 1] - d) {
             document.getElementById('muluid' + i).classList.add("mlcur");
+            document.querySelector('#scrolltop a.editp').setAttribute("href", lous[i].closest('table').querySelector('a.editp').getAttribute('href'));
         } else {
             document.getElementById('muluid' + i).classList.remove("mlcur");
         }
