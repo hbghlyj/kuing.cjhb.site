@@ -1,0 +1,18 @@
+<?php
+
+$_SESSION['page_id'] = '67fb44a7b09ae';
+
+$html = new DocPHT\Lib\DocPHT(['有理数在实数中稠密']);
+$values = [
+$html->title('有理数在实数中稠密','有理数在实数中稠密'), 
+$html->markdown(<<<'d'
+\begin{theorem}
+有理数在实数中稠密，即对任意的$a,b\in\mathbb{R},a<b$，都存在$c\in\mathbb{Q}$使得$a<c<b$。
+\end{theorem}
+\begin{proof}
+将$a,b$写为小数形式，不妨设$a=\overline{a_0.a_1a_2\cdots},b=\overline{b_0.b_1b_2\cdots}$，其中$a_i,b_i$为$0$到$9$的整数。依次比较$a_i,b_i,(i=0,1,\cdots)$。由于$a\neq b$，所以总存在$a_j\neq b_j$，不妨设$j$是从小到大的第一个使得$a_j\neq b_j$的下标。设$\bar{a}=\overline{a_0.a_1a_2\cdots a_{j-1}a_j9},\bar{b}=\overline{b_0.b_1b_2\cdots b_{j-1}b_j0}$，由于$a<b$，由$a_i,b_i$的构造知$a\le\bar{a}<\bar{b}\le b$，显然$\bar{a},\bar{b}\in\mathbb{Q}$，令$c=\frac{\bar{a}+\bar{b}}{2}$，则显然$c\in\mathbb{Q}$，经计算有$a<c<b$。
+\end{proof}
+d),
+$html->addButton(),
+];
+$GLOBALS["page_author"] = 'abababa 2025-04-13 07:44';
