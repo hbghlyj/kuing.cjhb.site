@@ -736,7 +736,7 @@ function discuzcode(cmd, arg) {
 
 	checkFocus();
 
-	if(in_array(cmd, ['sml', 'inserthorizontalrule', 'url', 'quote', 'code', 'free', 'hide', 'aud', 'vid', 'fls', 'beginning', 'attach', 'image', 'pasteword', 'index', 'postbg', 'password']) || typeof EXTRAFUNC['showEditorMenu'][cmd] != 'undefined' || cmd == 'tbl' || in_array(cmd, ['fontname', 'fontsize', 'forecolor', 'backcolor']) && !arg) {
+	if(in_array(cmd, ['sml', 'insertorderedlist', 'inserthorizontalrule', 'url', 'quote', 'code', 'free', 'hide', 'aud', 'vid', 'fls', 'beginning', 'attach', 'image', 'pasteword', 'index', 'postbg', 'password']) || typeof EXTRAFUNC['showEditorMenu'][cmd] != 'undefined' || cmd == 'tbl' || in_array(cmd, ['fontname', 'fontsize', 'forecolor', 'backcolor']) && !arg) {
 		showEditorMenu(cmd);
 		return;
 	} else if(cmd.substr(0, 3) == 'cst') {
@@ -786,9 +786,8 @@ function discuzcode(cmd, arg) {
 				editdoc.value = str;
 			}
 		}
-	} else if(!wysiwyg && in_array(cmd, ['insertorderedlist', 'insertunorderedlist'])) {
-		var listtype = cmd == 'insertorderedlist' ? '1' : '';
-		var opentag = '[list' + (listtype ? ('=' + listtype) : '') + ']\n';
+	} else if(!wysiwyg && cmd == 'insertunorderedlist') {
+		var opentag = '[list]\n';
 		var closetag = '[/list]';
 
 		if(txt = getSel()) {
@@ -870,7 +869,7 @@ function discuzcode(cmd, arg) {
 	if(wysiwyg) {
 		setContext(cmd);
 	}
-	if(in_array(cmd, ['bold', 'italic', 'underline', 'strikethrough', 'fontname', 'fontsize', 'forecolor', 'backcolor', 'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist', 'insertunorderedlist', 'floatleft', 'floatright', 'removeformat', 'unlink', 'undo', 'redo'])) {
+	if(in_array(cmd, ['bold', 'italic', 'underline', 'strikethrough', 'fontname', 'fontsize', 'forecolor', 'backcolor', 'justifyleft', 'justifycenter', 'justifyright', 'insertunorderedlist', 'floatleft', 'floatright', 'removeformat', 'unlink', 'undo', 'redo'])) {
 		hideMenu();
 	}
 	doane();
@@ -879,7 +878,7 @@ function discuzcode(cmd, arg) {
 
 function setContext(cmd) {
 	var cmd = !cmd ? '' : cmd;
-	var contextcontrols = new Array('bold', 'italic', 'underline', 'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist', 'insertunorderedlist');
+	var contextcontrols = new Array('bold', 'italic', 'underline', 'justifyleft', 'justifycenter', 'justifyright', 'insertunorderedlist');
 	for(var i in contextcontrols) {
 		var controlid = contextcontrols[i];
 		var obj = $(editorid + '_' + controlid);
@@ -1035,6 +1034,13 @@ function showEditorMenu(tag, params) {
 			case 'backcolor':
 				showColorBox(ctrlid, 1, '', 1);
 				return;
+			case 'insertorderedlist':
+				str = '<p class="pbn">编号样式:</p><p class="pbn">'
+					+ '<label><input type="radio" name="' + ctrlid + '_param_1" value="1" checked="checked" />1.2.3.</label> '
+					+ '<label><input type="radio" name="' + ctrlid + '_param_1" value="A" />A.B.C.</label> '
+					+ '<label><input type="radio" name="' + ctrlid + '_param_1" value="a" />a.b.c.</label>'
+					+ '</p>';
+				break;
 			case 'inserthorizontalrule':
 				showHrBox(ctrlid);
 				break;
@@ -1225,6 +1231,26 @@ function showEditorMenu(tag, params) {
 				}
 				str = opentag + str + closetag;
 				insertText(str, strlen(opentag), strlen(closetag), false, sel);
+				break;
+			case 'insertorderedlist':
+				var listtype = document.querySelector('input[name="' + ctrlid + '_param_1"]:checked').value;
+				if(wysiwyg) {
+					str = '<ol type="' + listtype + '">';
+					if(selection) {
+						str += '<li>' + selection + '</li>';
+					} else {
+						str += '<li></li>';
+					}
+					str += '</ol>';
+				} else {
+					str = '[list=' + listtype + ']';
+					if(selection) {
+						str += '[*]' + selection + '[/list]';
+					} else {
+						str += '[*]\n[/list]';
+					}
+				}
+				insertText(str, str.length - 8, 8, false);
 				break;
 			case 'password':
 				str = $(ctrlid + '_param_1') && $(ctrlid + '_param_1').value ? $(ctrlid + '_param_1').value : (selection ? selection : '');
