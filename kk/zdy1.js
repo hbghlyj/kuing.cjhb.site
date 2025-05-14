@@ -7,8 +7,10 @@ document.addEventListener("DOMContentLoaded", function() {
         const parentTd = link.closest('td');
         if (parentTd) {
             // Add an onclick event to the <td>
-            parentTd.onclick = function() {
-                // Simulate a click on the forum link
+            parentTd.onclick = function(e) {
+                // If a child link (or anything inside it) was clicked, let the link handle it
+                if (e.target.closest('a')) return;
+                // Otherwise, simulate a click on the forum link
                 window.location.href = link.href;
             };
 
