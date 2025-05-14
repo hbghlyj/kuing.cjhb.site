@@ -1018,6 +1018,7 @@ function loadcache($cachenames, $force = false) {
 					}
 				}elseif($cname == 'setting') {
 					$data['bbname'] = $data['sitename'] = 'Untroubled Math Forum';
+					$data['navs'][2]['navname'] = 'Forum';
 					foreach($data['navs'] as $key => &$value) {
 						$value['nav'] = preg_replace(
 							'/<a([^>]*?)title="([^"]*?)"([^>]*?)>.*?<\/a/i',
