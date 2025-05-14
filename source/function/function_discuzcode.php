@@ -423,12 +423,14 @@ function discuzcode_callback_jammer($matches) {
 
 function parseurl($url, $text, $scheme) {
 	global $_G;
-	if(!$url && preg_match("/((https?|ftp|gopher|news|telnet|rtsp|mms|callto|bctp|thunder|qqdl|synacast){1}:\/\/|www\.)[^\[\"']+/i", trim($text), $matches)) {
-		$url = $matches[0];
-		$text = urldecode($text);
+	if(!$url) {
+		$text = urldecode($url = $text);
+		if(str_starts_with($url, 'www.')) {
+			$url = '//' . $url;
+		}
 		$text = preg_replace("/^https?:\/\/(www\.)?|^www\./i", '', $text);
-		if(mb_strlen($text) > 65) {
-			$text = mb_substr($text, 0, 45) . ' &hellip; ' . mb_substr($text, -20);
+		if(mb_strlen($text, 'UTF-8') > 95) {
+			$text = mb_substr($text, 0, 64, 'UTF-8') . ' &hellip; ' . mb_substr($text, -20, 'UTF-8');
 		}
 		return '<a href="'.$url.'" target="_blank">'.$text.'</a>';
 	} else {
