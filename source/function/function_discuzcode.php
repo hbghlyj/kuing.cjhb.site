@@ -386,7 +386,31 @@ function discuzcode($message, $smileyoff = false, $bbcodeoff = false, $htmlon = 
 		}
 
 	}
-	return $htmlon ? $message : nl2br(str_replace(array("\t", '   ', '  '), array('&nbsp; &nbsp; &nbsp; &nbsp; ', '&nbsp; &nbsp;', '&nbsp;&nbsp;'), preg_replace(array('/(<div\b[^>]*>)\r?\n/','/(<\/div>)\r?\n/'),'$1',$message)));
+	if($htmlon) {
+		return $message;
+	}
+
+	$segments = preg_split('/(<style>.*?<\/style>)/is', $message, -1, PREG_SPLIT_DELIM_CAPTURE);
+	$result = '';
+	foreach($segments as $seg) {
+		// leave [style]…[/style] blocks untouched
+		if(preg_match('/^<style>.*<\/style>$/is', $seg)) {
+			$result .= $seg;
+		} else {
+			$seg = preg_replace(
+				['/(<div\b[^>]*>)\r?\n/','/(<\/div>)\r?\n/'],
+				'$1',
+				$seg
+			);
+			$seg = str_replace(
+				["\t", '   ', '  '],
+				['&nbsp; &nbsp; &nbsp; &nbsp; ', '&nbsp; &nbsp;', '&nbsp;&nbsp;'],
+				$seg
+			);
+			$result .= nl2br($seg);
+		}
+	}
+	return $result;
 }
 
 function discuzcode_callback_codedisp_1($matches) {
