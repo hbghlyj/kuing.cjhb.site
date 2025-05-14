@@ -290,7 +290,7 @@ if(!submitcheck('editsubmit')) {
 
 	$imgattachs['unused'] = !$sortid ? (isset($imgattachs['unused']) ? $imgattachs['unused'] : '') : '';
 
-	include template('forum/post');
+	getgpc('infloat') ? include template('forum/post_infloat') : include template('forum/post');
 
 } else {
 	if((!$_G['forum']['ismoderator'] || !$_G['group']['alloweditpost'] || (in_array($orig['adminid'], array(1, 2, 3)) && $_G['adminid'] > $orig['adminid'])) && !(($_G['forum']['alloweditpost'] || $orig['invisible'] == -3)&& $isorigauthor)) {
