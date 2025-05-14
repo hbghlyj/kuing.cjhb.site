@@ -374,11 +374,12 @@ function parseurl($url, $text, $scheme) {
 	global $_G;
 	if(!$url && preg_match("/((https?|ftp|gopher|news|telnet|rtsp|mms|callto|bctp|thunder|qqdl|synacast){1}:\/\/|www\.)[^\[\"']+/i", trim($text), $matches)) {
 		$url = $matches[0];
-		$text = preg_replace("/^https?:\/\/(www\.)?|^www\./i", '', $text); // hide the prefix http:// or www.
-		if(strlen($text) > 65) {
-			$text = mb_substr($text, 0, 45).' &hellip; '.mb_substr($text, -20);
+		$text = urldecode($text);
+		$text = preg_replace("/^https?:\/\/(www\.)?|^www\./i", '', $text);
+		if(mb_strlen($text, 'UTF-8') > 95) {
+			$text = mb_substr($text, 0, 64, 'UTF-8').' &hellip; '.mb_substr($text, -20, 'UTF-8');
 		}
-		return '<a href="'.(str_starts_with(strtolower($url), 'www.') ? 'http://'.$url : $url).'" target="_blank">'.$text.'</a>';
+		return '<a href="'.(str_starts_with(strtolower($url), 'www.') ? 'http://'.$url : $url).'" target="_blank">'.htmlspecialchars($text).'</a>';
 	} else {
 		$url = substr($url, 1);// remove the prefix =
 		if(!$text) {// destination anchor, example [url=sec1][/url]
