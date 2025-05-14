@@ -675,7 +675,7 @@ if(!submitcheck('modsubmit')) {
 					}
 				}
 				if(!$moderatetids = implode(',', $moderate)) {
-					showmessage('admin_succeed', $_G['referer']);
+					showmessage('admin_succeed', 'forum.php?mod=viewthread&tid='.$newtid);
 				}
 				$modaction = 'REG';
 			}
