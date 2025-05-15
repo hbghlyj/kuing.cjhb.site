@@ -491,6 +491,82 @@ EOF;
 
 	}
 
+} elseif($operation == 'merge') {
+	if(!submitcheck('mergesubmit', 1)) {
+		shownav('user', 'nav_members');
+		showformheader("members&operation=merge");
+		showtableheader();
+		showsetting('members_merge_source', 'source', '', 'text');
+		showsetting('members_merge_target', 'target', '', 'text');
+		showsubmit('mergesubmit');
+		showtablefooter();
+		showformfooter();
+	} else {
+		$source = trim($_GET['source']);
+		$target = trim($_GET['target']);
+		if($source == $target) {
+			cpmsg('members_sameness', '', 'error');
+		}
+		$member = C::t('common_member')->fetch_by_username($source,1);
+		if($member['adminid'] == 1 || $member['groupid'] == 1) {
+			cpmsg('members_dont_contain_admin_merge', '', 'error');
+		}
+		$suid = $member['uid'];
+		$sourcemember = $member['username'];
+		$member = C::t('common_member')->fetch_by_username($target,1);
+		if(!$member || !$suid) {
+			cpmsg('members_merge_invalid', '', 'error');
+		}
+
+		$tuid = $member['uid'];
+		$targetmember = $member['username'];
+
+		if(!submitcheck('confirmed')) {
+
+			cpmsg('members_merge_confirm', "action=members&operation=merge&mergesubmit=yes&confirmed=yes", 'form', array('sourcemember' => $sourcemember, 'targetmember' => $targetmember), '<input type="hidden" name="target" value="'.dhtmlspecialchars($target).'"><input type="hidden" name="source" value="'.dhtmlspecialchars($source).'">');
+
+		} else {
+			DB::query("DELETE FROM ".DB::table('forum_access')." WHERE uid = $suid");
+			DB::query("UPDATE ".DB::table('common_adminnote')." SET admin='$targetmember' WHERE admin ='$sourcemember'");
+			DB::query("UPDATE ".DB::table('common_admincp_session')." SET uid=$tuid WHERE uid = $suid");
+			DB::query("UPDATE ".DB::table('forum_moderator')." SET uid=$tuid WHERE uid = $suid");
+			DB::query("UPDATE ".DB::table('forum_modwork')." SET uid=$tuid WHERE uid = $suid");
+			DB::query("UPDATE ".DB::table('forum_announcement')." SET author='$targetmember' WHERE author ='$sourcemember'");
+			DB::query("UPDATE ".DB::table('common_banned')." SET admin='$targetmember' WHERE admin ='$sourcemember'");
+			DB::query("UPDATE ".DB::table('home_favorite')." SET uid=$tuid WHERE uid = $suid");
+			DB::query("DELETE FROM ".DB::table('common_member_field_forum')." WHERE uid = $suid");
+			DB::query("DELETE FROM ".DB::table('common_member_field_home')." WHERE uid = $suid");
+			DB::query("UPDATE ".DB::table('common_member_grouppm')." SET uid=$tuid WHERE uid = $suid");
+			DB::query("UPDATE ".DB::table('ucenter_newpm')." SET uid=$tuid WHERE uid = $suid");
+			DB::query("UPDATE ".DB::table('ucenter_pm_members')." SET uid=$tuid WHERE uid = $suid");
+			DB::query("UPDATE ".DB::table('ucenter_pm_lists')." SET authorid=$tuid WHERE authorid = $suid");
+			for($i = 0; $i <= 9; $i++) {
+				DB::query(
+					"UPDATE ".DB::table('ucenter_pm_messages_'.$i).
+					" SET authorid=$tuid WHERE authorid=$suid"
+				);
+			}
+			DB::query("UPDATE ".DB::table('forum_post')." SET author='$targetmember', authorid=$tuid WHERE authorid = $suid");
+			DB::query("UPDATE ".DB::table('forum_ratelog')." SET uid=$tuid, username='$targetmember' WHERE uid = $suid");
+			DB::query("UPDATE ".DB::table('forum_threadmod')." SET uid=$tuid, username='$targetmember' WHERE uid = $suid");
+			DB::query("UPDATE ".DB::table('forum_thread')." SET author='$targetmember', authorid=$tuid WHERE authorid = $suid");
+			DB::query("UPDATE ".DB::table('forum_thread')." SET lastposter='$targetmember' WHERE lastposter ='$sourcemember'");
+			DB::query("DELETE FROM ".DB::table('common_member_validate')." WHERE uid = $suid");
+			DB::query("UPDATE ".DB::table('common_member_validate')." SET admin='$targetmember' WHERE admin ='$sourcemember'");
+			DB::query("DELETE FROM ".DB::table('common_onlinetime')." WHERE uid = $suid");
+			DB::query("DELETE FROM ".DB::table('forum_spacecache')." WHERE uid = $suid");
+
+			$member = array_merge(DB::fetch_first("SELECT credits FROM ".DB::table('common_member')." WHERE uid = $suid"), DB::fetch_first("SELECT extcredits1, extcredits2, extcredits3, extcredits4, extcredits5, extcredits6, extcredits7, extcredits8, posts, threads, digestposts, attachsize, views, oltime, todayattachs, todayattachsize FROM ".DB::table('common_member_count')." WHERE uid = $suid"));
+			DB::query("UPDATE ".DB::table('common_member')." SET credits=credits+$member[credits] WHERE uid=$tuid");
+			DB::query("UPDATE ".DB::table('common_member_count')." SET extcredits1=extcredits1+$member[extcredits1], extcredits2=extcredits2+$member[extcredits2], extcredits3=extcredits3+$member[extcredits3], extcredits4=extcredits4+$member[extcredits4], extcredits5=extcredits5+$member[extcredits5], extcredits6=extcredits6+$member[extcredits6], extcredits7=extcredits7+$member[extcredits7], extcredits8=extcredits8+$member[extcredits8], posts=posts+$member[posts], threads=threads+$member[threads], digestposts=digestposts+$member[digestposts], attachsize=attachsize+$member[attachsize], views=views+$member[views], oltime=oltime+$member[oltime], todayattachs=todayattachs+$member[todayattachs], todayattachsize=todayattachsize+$member[todayattachsize] WHERE uid=$tuid");
+			DB::query("DELETE FROM ".DB::table('common_member')." WHERE uid = $suid");
+			DB::query("DELETE FROM ".DB::table('common_member_count')." WHERE uid = $suid");
+
+			updatecache('setting');
+
+			cpmsg('members_merge_succeed', '', 'succeed', array('sourcemember' => $sourcemember, 'targetmember' => $targetmember));
+		}
+	}
 } elseif($operation == 'clean') {
 
 	if(!submitcheck('submit', 1) && !submitcheck('deletesubmit', 1)) {

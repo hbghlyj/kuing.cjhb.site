@@ -126,6 +126,7 @@ $menu['user'] = array(
 	array('menu_members_sms', 'members_newsletter_sms'),
 	array('menu_usertag', 'usertag'),
 	array('menu_members_edit_ban_user', 'members_ban'),
+	array('menu_members_merge', 'members_merge'),
 	array('menu_members_ipban', 'members_ipban'),
 	array('menu_members_credits', 'members_reward'),
 	array('menu_moderate_modmembers', 'moderate_members'),

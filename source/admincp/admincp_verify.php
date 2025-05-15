@@ -70,7 +70,7 @@ if($operation == 'verify') {
 		require_once libfile('function/profile');
 		if(!submitcheck('verifysubmit', true)) {
 
-			$menutitle = $vid ? $_G['setting']['verify'][$vid]['title'] : $lang['members_verify_profile'];
+			$menutitle = $vid ? $_G['setting']['verify'][$vid]['title'] : $lang['members_verify_verify'];
 			$navmenu[0] = array('members_verify_nav_authstr', 'verify&operation=verify&anchor=authstr&do='.$vid, $current['authstr']);
 			$navmenu[1] = array('members_verify_nav_refusal', 'verify&operation=verify&anchor=refusal&do='.$vid, $current['refusal']);
 			if($vid) {
@@ -282,7 +282,7 @@ EOF;
 					$value['username'] = '<a href="home.php?mod=space&uid='.$value['uid'].'&do=profile" target="_blank">'.avatar($value['uid'], "small").'<br/>'.$value['username'].'</a>';
 					if($anchor != 'pass') {
 						$fields = $anchor != 'pass' ? dunserialize($value['field']) : $_G['setting']['verify'][$vid]['field'];
-						$verifytype = $value['verifytype'] ? $_G['setting']['verify'][$value['verifytype']]['title'] : $lang['members_verify_profile'];
+						$verifytype = $value['verifytype'] ? $_G['setting']['verify'][$value['verifytype']]['title'] : $lang['members_verify_verify'];
 						$fieldstr = '<table width="96%">';
 						$i = 0;
 						$fieldstr .= '<tr>'.($anchor == 'authstr' ? '<td width="26">'.$lang['members_verify_refusal'].'</td>' : '').'<td width="100">'.$lang['members_verify_fieldid'].'</td><td>'.$lang['members_verify_newvalue'].'</td></tr><tbody id="verifyitem_'.$value['vid'].'">';
@@ -317,7 +317,7 @@ EOF;
 						showtablerow("id=\"mod_{$value['vid']}_row\" verifyid=\"{$value['vid']}}\"", $cssarr, $valuearr);
 					} else {
 						$fields = $_G['setting']['verify'][$vid]['field'];
-						$verifytype = $vid ? $_G['setting']['verify'][$vid]['title'] : $lang['members_verify_profile'];
+						$verifytype = $vid ? $_G['setting']['verify'][$vid]['title'] : $lang['members_verify_verify'];
 
 						$fieldstr = '<table width="96%">';
 						$fieldstr .= '<tr><td width="100">'.$lang['members_verify_fieldid'].'</td><td>'.$lang['members_verify_newvalue'].'</td></tr>';
