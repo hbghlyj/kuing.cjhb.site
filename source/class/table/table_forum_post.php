@@ -146,7 +146,7 @@ class table_forum_post extends discuz_table
 	}
 
 	public function fetch_visiblepost_by_tid($tableid, $tid, $start = 0, $order = 0) {
-		return DB::fetch_first('SELECT * FROM %t WHERE tid=%d AND invisible=0 ORDER BY dateline '. ($order ? 'DESC' : '').' '. DB::limit($start, 1),
+		return DB::fetch_first('SELECT * FROM %t WHERE tid=%d AND invisible=0 ORDER BY position '. ($order ? 'DESC' : '').' '. DB::limit($start, 1),
 				array(self::get_tablename($tableid), $tid));
 	}
 
@@ -365,7 +365,7 @@ class table_forum_post extends discuz_table
 		if($fid !== null) {
 			$sql[] = DB::field('fid', $fid);
 		}
-		$query = DB::query('SELECT * FROM %t WHERE '.DB::field('tid', $tids).' %i '.($order ? 'ORDER BY dateline '.$order : '').' '.DB::limit($start, $limit),
+		$query = DB::query('SELECT * FROM %t WHERE '.DB::field('tid', $tids).' %i '.($order ? 'ORDER BY position '.$order : '').' '.DB::limit($start, $limit),
 				array(self::get_tablename($tableid), ($sql ? 'AND '.implode(' AND ', $sql) : '')));
 		while($post = DB::fetch($query)) {
 			if(!$outmsg) {
@@ -396,7 +396,7 @@ class table_forum_post extends discuz_table
 		} elseif($invisible !== null) {
 			$sql[] = DB::field('invisible', $invisible);
 		}
-		$query = DB::query('SELECT * FROM %t WHERE '.DB::field('fid', $fid).' %i '.($order ? 'ORDER BY dateline '.$order : '').' '.DB::limit($start, $limit),
+		$query = DB::query('SELECT * FROM %t WHERE '.DB::field('fid', $fid).' %i '.($order ? 'ORDER BY position '.$order : '').' '.DB::limit($start, $limit),
 				array(self::get_tablename($tableid), ($sql ? 'AND '.implode(' AND ', $sql) : '')));
 		while($post = DB::fetch($query)) {
 			if(!$outmsg) {
@@ -415,7 +415,7 @@ class table_forum_post extends discuz_table
 		if($invisible !== null) {
 			$sql[] = DB::field('invisible', $invisible);
 		}
-		$query = DB::query('SELECT * FROM %t WHERE '.DB::field('pid', $pids).' %i '.($order ? 'ORDER BY dateline '.$order : '').' '.DB::limit($start, $limit),
+		$query = DB::query('SELECT * FROM %t WHERE '.DB::field('pid', $pids).' %i '.($order ? 'ORDER BY position '.$order : '').' '.DB::limit($start, $limit),
 				array(self::get_tablename($tableid), ($sql ? 'AND '.implode(' AND ', $sql) : '')));
 		while($post = DB::fetch($query)) {
 			if(!$outmsg) {
@@ -436,7 +436,7 @@ class table_forum_post extends discuz_table
 	}
 
 	public function fetch_all_visiblepost_by_tid_groupby_authorid($tableid, $tid) {
-		return DB::fetch_all('SELECT pid, tid, authorid, subject, dateline FROM %t WHERE tid=%d AND invisible=0 GROUP BY authorid ORDER BY dateline',
+		return DB::fetch_all('SELECT pid, tid, authorid, subject, dateline FROM %t WHERE tid=%d AND invisible=0 GROUP BY authorid ORDER BY position',
 				array(self::get_tablename($tableid), $tid));
 	}
 
@@ -836,7 +836,7 @@ class table_forum_post extends discuz_table
 			$sql .= " AND ($sqlkeywords)";
 		}
 		if($sql) {
-			return DB::fetch_all('SELECT * FROM %t WHERE 1 %i ORDER BY dateline DESC %i', array(self::get_tablename($tableid), $sql, DB::limit($start, $limit)));
+			return DB::fetch_all('SELECT * FROM %t WHERE 1 %i ORDER BY position DESC %i', array(self::get_tablename($tableid), $sql, DB::limit($start, $limit)));
 		} else {
 			return array();
 		}
