@@ -85,6 +85,7 @@ $lang = array
 	'menu_members_credits' => '積分獎懲',
 	'menu_members_profile' => '用戶欄目',
 	'menu_members_profile_group' => '用戶欄目分組',
+	'menu_members_verify_verify' => '審核資料',
 	'menu_members_verify_setting' => '認證設置',
 	'menu_members_stat' => '資料統計',
 	'menu_moderate_modmembers' => '審核用戶',
