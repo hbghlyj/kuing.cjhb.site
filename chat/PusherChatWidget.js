@@ -63,6 +63,10 @@ function PusherChatWidget(pusher, options) {
           showDialog(isChinese ? '帖子已被编辑' : 'Post has been edited');
         }
       }
+      if(data.subject){
+        $('thread_subject').innerText=data.subject;
+        if (typeof MathJax.typesetPromise === 'function') {MathJax.typesetPromise([$('thread_subject')]);}
+      }
     });
     this._chatChannel.bind('commentadd', function(data) {
       if(data.tid == tid && data.page == currentPage && $(`pid${data.pid}`) !== null) {
