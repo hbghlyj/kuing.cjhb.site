@@ -493,7 +493,7 @@ CSS 写作注意事项：
 	Explain:		模拟下拉菜单样式
 	Last Modify:	Pony
 */
-.ftid { float: left; margin-right: 6px; }
+.ftid { float: left; margin-right: 6px; text-wrap: nowrap; }
 	.ftid select { float: left; height: 23px; }
 	.ftid a { display: block; overflow: hidden; padding: 0 17px 0 4px; height: 21px; line-height: 21px; text-decoration: none !important; font-size: 12px; font-weight: 400; color: {TABLETEXT} !important; border: 1px solid; border-color: {INPUTBORDERDARKCOLOR} {INPUTBORDER} {INPUTBORDER} {INPUTBORDERDARKCOLOR}; background: {WRAPBG} url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='17' height='13'%3e%3cpath fill='%23999' d='M10 5 h-7 l3.5 4z'/%3e%3c/svg%3e") no-repeat 100% 4px; }
 		.ftid a:hover, .ftid a:focus { background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='17' height='13'%3e%3cpath fill='%23999' d='M10 5 h-7 l3.5 4zM11 0c1.1 0 2 .9 2 2v9c0 1.1-.9 2-2 2H2c-1.1 0-2-.9-2-2V2c0-.9 .9-2 2-2z'/%3e%3c/svg%3e"); }
