@@ -617,7 +617,7 @@ CSS 写作注意事项：
 			#hd .fastlg { padding-top: 10px; }
 			#hd .fastlg .pns { margin-bottom: 10px; }
 
-			
+/* 页头Algolia搜索 */
 	#ais-wrapper {
 		display: flex;
 	}
@@ -628,8 +628,6 @@ CSS 写作注意事项：
 	}
 
 	#ais-facets {
-		display: none;
-		/*not ready yet*/
 		width: 40%;
 		padding: 1rem;
 	}
@@ -681,20 +679,6 @@ CSS 写作注意事项：
 	.ais-SearchBox-reset[hidden],
 	.ais-SearchBox-loadingIndicator[hidden] {
 		display: none;
-	}
-
-	#algolia-powered-by {
-		position: absolute;
-		top: 60px;
-		right: 0;
-		font-size: 14px;
-		text-align: right;
-	}
-
-	.ais-Stats {
-		position: absolute;
-		top: 60px;
-		font-size: 14px;
 	}
 
 	.ais-Hits-list {
@@ -771,6 +755,15 @@ CSS 写作注意事项：
 	.ais-HierarchicalMenu-count,
 	.ais-RefinementList-count {
 		margin-left: 5px;
+		/* have a circle */
+		display: inline-block;
+		color: rgb(90, 94, 154);
+		font-size: 0.8em;
+		padding-left: .25rem;
+		padding-right: .25rem;
+		line-height: 1.2em;
+		border-radius: 50%;
+		background: #eee;
 	}
 
 	.ais-HierarchicalMenu-list--child {
