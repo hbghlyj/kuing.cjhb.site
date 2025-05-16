@@ -620,20 +620,22 @@ CSS 写作注意事项：
 /* 页头Algolia搜索 */
 	#ais-wrapper {
 		display: flex;
+		flex-direction: row;
 	}
 
 	#ais-main {
 		padding: 1rem;
-		width: 100%;
 	}
 
 	#ais-facets {
 		width: 40%;
-		padding: 1rem;
+		padding-left: 1rem;
 	}
 
+	.widgettitle {
+		margin-top: 2rem;
+	}
 	.ais-facets {
-		margin-bottom: 2rem;
 		padding: 0;
 	}
 
@@ -904,10 +906,6 @@ CSS 写作注意事项：
 
 	/* Responsive */
 	@media only screen and (max-width: 1000px) {
-		#ais-facets {
-			display: none;
-		}
-
 		.ais-hits--thumbnail img {
 			width: 100% !important;
 		}
