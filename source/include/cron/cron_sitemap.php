@@ -6,7 +6,7 @@ if (!defined('IN_DISCUZ')) {
 $filename = 'sitemap.xml';
 // 以下五项根据具体情况修改即可
 $cfg_updateperi = '60'; // 协议文件更新周期的上限，单位为分钟
-$web_root = $_G['setting']['siteurl']; // 根网址
+$web_root = $_G['setting']['siteurl'].'/'; // 根网址
 $CHARSET = 'utf-8'; // or gbk // 选择编码方式
 
 /***********************************************************************************************/
