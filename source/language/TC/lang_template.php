@@ -154,6 +154,7 @@ $lang = array (
   'replies' => '篇回復',
   'less' => '更少',
   'no_results' => '沒有找到相關結果',
+  'post_count' => '帖子數',
   'thread' => '帖子',
   'tag'	=> '標籤',
   'users' => '用戶',
