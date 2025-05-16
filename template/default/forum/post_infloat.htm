@@ -15,6 +15,7 @@
 		<div class="p_c">
 			<input type="hidden" name="formhash" id="formhash" value="{FORMHASH}" />
 			<!--{if $_GET['action'] == 'edit'}-->
+			<input name="tags" type="hidden" id="tags" value="<!--{echo $postinfo['tag']}-->">
 			<input type="hidden" name="delattachop" id="delattachop" value="0" />
 			<!--{/if}-->	
 			<input type="hidden" name="handlekey" value="$_GET['handlekey']" />
