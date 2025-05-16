@@ -94,7 +94,7 @@ function discuzcode($message, $smileyoff = false, $bbcodeoff = false, $htmlon = 
 
 	$message = preg_replace('/\[\tDISCUZ_CODE_\d+\t\]/', '', $message);
 	if($parsetype != 1 && !$bbcodeoff && $allowbbcode && (strpos($message, '[/code]') || strpos($message, '[/CODE]')) !== FALSE) {
-		$message = preg_replace_callback("/\s?\[code\](.+?)\[\/code\]\s?/is", 'discuzcode_callback_codedisp_1', $message);
+		$message = preg_replace_callback("/\[code\](.+?)\[\/code\]/is", 'discuzcode_callback_codedisp_1', $message);
 	}
 	// kk add
 	if($parsetype != 1 && !$bbcodeoff && $allowbbcode && strpos($message, '[/tikz]') !== FALSE) {
@@ -263,10 +263,10 @@ function discuzcode($message, $smileyoff = false, $bbcodeoff = false, $htmlon = 
 
 		if($parsetype != 1) {
 			if(strpos($msglower, '[/quote]') !== FALSE) {
-				$message = preg_replace("/\s?\[quote\][\n\r]*(.+?)[\n\r]*\[\/quote\]\s?/is", tpl_quote(), $message);
+				$message = preg_replace("/\[quote\](.+?)\[\/quote\]/is", tpl_quote(), $message);
 			}
 			if(strpos($msglower, '[/free]') !== FALSE) {
-				$message = preg_replace("/\s*\[free\][\n\r]*(.+?)[\n\r]*\[\/free\]\s*/is", tpl_free(), $message);
+				$message = preg_replace("/\[free\](.+?)\[\/free\]/is", tpl_free(), $message);
 			}
 		}
 		if(!defined('IN_MOBILE') || !in_array(constant('IN_MOBILE'), array('1', '3', '4'))) {
