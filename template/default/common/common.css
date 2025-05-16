@@ -623,6 +623,14 @@ CSS 写作注意事项：
 		flex-direction: row;
 	}
 
+	.ais-ClearRefinements-button {
+		width: 30px;
+        height: 30px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+	}
+
 	#ais-main {
 		width: 60%;
 		padding: 1rem;
