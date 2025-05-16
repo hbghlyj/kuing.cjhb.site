@@ -624,6 +624,7 @@ CSS 写作注意事项：
 	}
 
 	#ais-main {
+		width: 60%;
 		padding: 1rem;
 	}
 
@@ -647,10 +648,6 @@ CSS 写作注意事项：
 
 	.ais-facets li {
 		margin-left: 0;
-	}
-
-	.ais-clearfix {
-		clear: both;
 	}
 
 	.algolia-search-box-wrapper {
@@ -902,26 +899,6 @@ CSS 写作注意事项：
 	.ais-root__collapsed .ais-body,
 	.ais-root__collapsed .ais-footer {
 		display: none;
-	}
-
-	/* Responsive */
-	@media only screen and (max-width: 1000px) {
-		.ais-hits--thumbnail img {
-			width: 100% !important;
-		}
-
-		.ais-Hits-item {
-			border-bottom: 1px solid gainsboro;
-			padding-bottom: 23px;
-		}
-	}
-
-	@media only screen and (max-width: 500px) {
-		.ais-hits--thumbnail {
-			margin-right: 0 !important;
-			margin-bottom: 10px;
-			float: none !important;
-		}
 	}
 
 	#ais-main { padding:0; }

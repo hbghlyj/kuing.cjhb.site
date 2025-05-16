@@ -33,7 +33,5 @@ if(!in_array($mod, array('config', 'login', 'feed', 'check', 'user'))) {
 define('CURMODULE', $mod);
 runhooks();
 
-require_once DISCUZ_ROOT.'/source/plugin/googleconnect/lib/Connect.php';
-$connectService = new Cloud_Service_Connect();
 require_once libfile('connect/'.$mod, 'plugin/googleconnect');
 ?>
