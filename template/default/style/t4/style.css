@@ -3,17 +3,17 @@
 [iconbgcolor]#9934B7[/iconbgcolor]
 Powered by Discuz! X
 */
-
+:root { --dise: #9934B7; }
 body { background: #FFF url(bgimg.jpg) no-repeat 50% 28px; background-size: 1400px; }
 @media(min-resolution:120dpi){ body { background-image: url(bgimg2x.jpg); }}
-.fc-p { color: #9934B7; }
-#nv { background-color: #9934B7; }
+.fc-p { color: var(--dise); }
+#nv { background-color: var(--dise); }
 	#nv li.a { background-color: #6C1992; }
 	#nv li a:hover, #nv li.hover a:hover, #nv li.hover a { background-color: #5C127D; }
-	#scbar_btn { background-color: #9934B7; }
-#scform_srchtxt { border-color: #9934B7; }
-#scform_tb .a::before { border-bottom-color: #9934B7; }
-#scform_submit { background-color: #9934B7; }
+	#scbar_btn { background-color: var(--dise); }
+#scform_srchtxt { border-color: var(--dise); }
+#scform_tb .a::before { border-bottom-color: var(--dise); }
+#scform_submit { background-color: var(--dise); }
 
 .bm_h, .tl th, .tl td { border-bottom-color: #CDCDCD; }
 .fl .bm_h { border-color: #DFCDDE; background: #F8EFF8; }
@@ -28,7 +28,7 @@ body { background: #FFF url(bgimg.jpg) no-repeat 50% 28px; background-size: 1400
 /* 重定义 {SPECIALBORDER} */
 .bmn, .pg a, .pgb a, .pg strong, .card, .card .o, div.exfm  { border-color: #DFCDDE; }
 .pg strong { background-color: #DFCDDE; }
-.pnc, .tb .o, .tb .o a { background-color: #9934B7; }
+.pnc, .tb .o, .tb .o a { background-color: var(--dise); }
 	.pnc, a.pnc, .tb .o { border-color: #609; }
 	.pnc:active { background: #6C1992; }
 	.pnc:focus { box-shadow: 0 0 0 2px rgba(108, 25, 146, 0.25); }
@@ -36,7 +36,7 @@ body { background: #FFF url(bgimg.jpg) no-repeat 50% 28px; background-size: 1400
 .mi #moodfm.hover textarea { border-color: #DFCDDE; }
 
 .ad td.pls { background-color: #DFCDDE; }
-.side_btn a svg { fill: #9934B7; }
+.side_btn a svg { fill: var(--dise); }
 
 /* 重定义字体 */
 #qmenu, .fl .bm_h h2 a, .xi1, #um .new, .topnav .new, .sch .new, .el .ec .hot em, .pll .s a.joins, #diy_backup_tip .xi2 { color: #6F099E; }
@@ -44,7 +44,7 @@ body { background: #FFF url(bgimg.jpg) no-repeat 50% 28px; background-size: 1400
 .xi2, .xi2 a { color: #000; }
 
 /* 重定义按钮 */
-.pgsbtn { background-color: #9934B7; }
+.pgsbtn { background-color: var(--dise); }
 	.pgsbtn:hover { background-color: #6C1992; }
 	.pgsbtn:active { box-shadow: 0 0 0 3px rgba(108, 25, 146, 0.25); }
 .el .ec .hot, .clct_list .xld .m { background-image: linear-gradient(0deg,#CBA4D3 40%,#E6CEE5 40%); }
