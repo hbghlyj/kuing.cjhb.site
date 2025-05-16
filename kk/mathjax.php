@@ -1,4 +1,4 @@
-<script src="/kk/mathjax-config.js?{$_G['style']['verhash']}"></script>
+<script src="/kk/mathjax-config.js?<?= $_G['style']['verhash']?>"></script>
 <?php if(!empty($_GET['highlight'])): ?>
 <script>
   window.MathJax.startup = {
