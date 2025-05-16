@@ -4,6 +4,7 @@
 		<div id="algolia-pagination"></div>
 	</main>
 	<aside id="ais-facets" style="display: none;">
+		<div id="ais-clear-refinements"></div>
 		<div>
 			<h3 class="widgettitle">
 				Keywords
@@ -37,112 +38,117 @@
 <script>
 	const { liteClient: algoliasearch } = window['algoliasearch/lite'];
 	window.addEventListener('load', function () {
-		if (document.getElementById("algolia-search-box")) {
-			/* Instantiate instantsearch.js */
-			var search = instantsearch({
-				searchFunction: function (helper) {
-					if (helper.state.query === '' && /* doesn't have focus' */
-						!document.querySelector("#algolia-search-box input[type='search']").matches(':focus')) {
-						return;
-					}
-					document.getElementById('ais-facets').style.display = '';
-					helper.search();
-				},
-				indexName: 'kuing',
-				searchClient: algoliasearch('KZZUGXICHQ', 'cfaa3668ecea0bce830d62fc30f4d0dd'),
-				routing: {
-					router: instantsearch.routers.history({ writeDelay: 1000 }),
-					stateMapping: {
-						stateToRoute(indexUiState) {
-							return {
-								s: indexUiState['kuing'].query,
-								page: indexUiState['kuing'].page
-							}
-						},
-						routeToState(routeState) {
-							const indexUiState = {};
-							indexUiState['kuing'] = {
-								query: routeState.s,
-								page: routeState.page
-							};
-							return indexUiState;
+		var search = instantsearch({
+			searchFunction: function (helper) {
+				helper.search();
+			},
+			indexName: 'kuing',
+			searchClient: algoliasearch('KZZUGXICHQ', 'cfaa3668ecea0bce830d62fc30f4d0dd'),
+			routing: {
+				router: instantsearch.routers.history({ writeDelay: 1000 }),
+				stateMapping: {
+					stateToRoute(indexUiState) {
+						return {
+							s: indexUiState['kuing'].query,
+							page: indexUiState['kuing'].page
 						}
+					},
+					routeToState(routeState) {
+						const indexUiState = {};
+						indexUiState['kuing'] = {
+							query: routeState.s,
+							page: routeState.page
+						};
+						return indexUiState;
 					}
 				}
-			});
+			}
+		});
 
-			search.addWidgets([
-				/* Search box widget */
-				instantsearch.widgets.searchBox({
-					container: '#algolia-search-box',
-					placeholder: 'Search for...',
-					showReset: false,
-					showSubmit: false,
-					showLoadingIndicator: false,
-				}),
+		search.addWidgets([
+			/* Search box widget */
+			instantsearch.widgets.searchBox({
+				container: '#algolia-search-box',
+				placeholder: 'Search for...',
+				showReset: false,
+				showSubmit: false,
+				showLoadingIndicator: false,
+			}),
 
-				instantsearch.widgets.configure({
-					hitsPerPage: 15,
-				}),
+			instantsearch.widgets.configure({
+				hitsPerPage: 15,
+			}),
 
-				/* Hits widget */
-				instantsearch.widgets.hits({
-					container: '#algolia-hits',
-					templates: {
-						empty(results, { html }) { return '未找到与 <strong>' + results.query + '</strong> 相关的结果。'; },
-						item(data, { html, components }) {
-							return `<article>
-		<div class="ais-hits--content">
-			<h2 itemprop="name headline"><a href="/forum.php?mod=redirect&goto=findpost&pid=${data.objectID}" class="ais-hits--title-link" itemprop="url">${data._highlightResult.title.value}</a><span style="color: #666;font-weight:normal;"> - ${data.totalposts - 1} 个回复 - ${data.author}</span></h2>
-			<div class="excerpt">
-				<p><span class="suggestion-post-content ais-hits--content-snippet">${data._snippetResult['content'].value}</span></p>
-			</div>
+			/* Hits widget */
+			instantsearch.widgets.hits({
+				container: '#algolia-hits',
+				templates: {
+					empty(results, { html }) { return 'No results'; },
+					item(data, { html, components }) {
+						return `<article>
+	<div class="ais-hits--content">
+		<h2 itemprop="name headline"><a href="/forum.php?mod=redirect&goto=findpost&pid=${data.objectID}" class="ais-hits--title-link" itemprop="url">${data._highlightResult.title.value}</a><span style="color: #666;font-weight:normal;"> - ${data.totalposts - 1} 个回复 - ${data.author}</span></h2>
+		<div class="excerpt">
+			<p><span class="suggestion-post-content ais-hits--content-snippet">${data._snippetResult['content'].value}</span></p>
 		</div>
-		<div class="ais-clearfix"></div>
-	</article>`;
-						}
+	</div>
+	<div class="ais-clearfix"></div>
+</article>`;
 					}
-				}),
+				}
+			}),
 
-				/* Pagination widget */
-				instantsearch.widgets.pagination({
-					container: '#algolia-pagination'
-				}),
+			/* Pagination widget */
+			instantsearch.widgets.pagination({
+				container: '#algolia-pagination'
+			}),
 
-				/* Keywords refinement widget */
-				instantsearch.widgets.refinementList({
-					container: '#facet-keywords',
-					attribute: 'keywords',
-					searchable: true
-				}),
+			/* Keywords refinement widget */
+			instantsearch.widgets.refinementList({
+				container: '#facet-keywords',
+				attribute: 'keywords',
+				operator: 'and',
+				searchable: true,
+				showMore: true,
+				showMoreLimit: 100
+			}),
 
-				/* Author refinement widget */
-				instantsearch.widgets.menu({
-					container: '#facet-author',
-					attribute: 'author',
-					searchable: true
-				}),
+			/* Author refinement widget */
+			instantsearch.widgets.refinementList({
+				container: '#facet-author',
+				attribute: 'author',
+				searchable: true,
+				showMore: true,
+				showMoreLimit: 100
+			}),
 
-				/* Forum refinement widget */
-				instantsearch.widgets.refinementList({
-					container: '#facet-forum',
-					attribute: 'forum'
-				}),
+			/* Forum refinement widget */
+			instantsearch.widgets.refinementList({
+				container: '#facet-forum',
+				attribute: 'forum'
+			}),
 
-				/* Total posts range input widget */
-				instantsearch.widgets.rangeInput({
-					container: '#facet-totalposts',
-					attribute: 'totalposts',
-					min: 0,
-					max: 10000
-				})
-			]);
+			/* Total posts range input widget */
+			instantsearch.widgets.rangeInput({
+				container: '#facet-totalposts',
+				attribute: 'totalposts',
+				min: 0,
+				max: 10000
+			}),
 
-			/* Start */
+			/* Clear all filters button */
+			instantsearch.widgets.clearRefinements({
+				container: '#ais-clear-refinements',
+				cssClasses: {
+					root: 'ais-clear-refinements'
+				}
+			})
+		]);
+
+		document.querySelector("#algolia-search-box").addEventListener('click', function () {
+			document.getElementById('ais-facets').style.display = '';
 			search.start();
-
-			// This needs work
-			// document.querySelector("#algolia-search-box input[type='search']").select()
-		}
+			document.querySelector("#algolia-search-box input[type='search']").select()
+		}, {once: true});
 	});
 </script>
