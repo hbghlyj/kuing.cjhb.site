@@ -91,7 +91,7 @@
 						item(data, { html, components }) {
 							return `<article>
 		<div class="ais-hits--content">
-			<h2 itemprop="name headline"><a href="${data.objectID}" class="ais-hits--title-link" itemprop="url">${data._highlightResult.title.value}</a><span style="color: #666;font-weight:normal;"> - ${data.totalposts - 1} 个回复 - ${data.author}</span></h2>
+			<h2 itemprop="name headline"><a href="https://kuing.cjhb.site/forum.php?mod=redirect&goto=findpost&pid=${data.objectID}" class="ais-hits--title-link" itemprop="url">${data._highlightResult.title.value}</a><span style="color: #666;font-weight:normal;"> - ${data.totalposts - 1} 个回复 - ${data.author}</span></h2>
 			<div class="excerpt">
 				<p><span class="suggestion-post-content ais-hits--content-snippet">${data._highlightResult.description.value}${data._snippetResult['content'].value}</span></p>
 			</div>
