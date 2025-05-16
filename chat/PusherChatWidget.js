@@ -286,10 +286,22 @@ PusherChatWidget._buildListItem = function(activity) {
               '</div>');
   content.append(user);
   
-  var message = jQuery('<div class="activity-row">' +
-                    '<div class="text">' + activity.body.replace(/(https?:\/\/[^\s]+)/g, '<a href="$1">$1</a>').replace(/\n/g, '<br>')
-                    + '</div>' +
-                  '</div>');
+  var textHtml = activity.body
+    // Replace URLs: render images for image URLs and links otherwise
+    .replace(/(https?:\/\/\S+\b)/g, function(match) {
+      if (/\.(png|jpe?g|gif|bmp|svg|webp)$/i.test(match)) {
+        return '<img src="' + match + '" />';
+      }
+      return '<a href="' + match + '">' + match + '</a>';
+    })
+    // Preserve line breaks
+    .replace(/\n/g, '<br>');
+
+  var message = jQuery(
+    '<div class="activity-row">' +
+      '<div class="text">' + textHtml + '</div>' +
+    '</div>'
+  );
   content.append(message);
   
   return li;
