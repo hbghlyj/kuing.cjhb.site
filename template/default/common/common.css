@@ -631,15 +631,21 @@ Last Modify:	Pony
 /* 页头Algolia搜索 */
 	#ais-wrapper {
 		display: flex;
+		flex-direction: row;
 	}
 
-	#ais-facets {
-		width: 40%;
+	#ais-main {
 		padding: 1rem;
 	}
+	#ais-facets {
+		width: 40%;
+		padding-left: 1rem;
+	}
 
+	.widgettitle {
+		margin-top: 2rem;
+	}
 	.ais-facets {
-		margin-bottom: 2rem;
 		padding: 0;
 	}
 
@@ -902,10 +908,6 @@ Last Modify:	Pony
 
 	/* Responsive */
 	@media only screen and (max-width: 1000px) {
-		#ais-facets {
-			display: none;
-		}
-
 		.ais-hits--thumbnail img {
 			width: 100% !important;
 		}
