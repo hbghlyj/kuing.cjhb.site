@@ -375,7 +375,6 @@ PusherChatWidget.prototype._sendChatButtonClicked = function() {
     this._messageInputEl.focus();
     return;
   }
-
   var chatInfo = {
     text: message
   };
