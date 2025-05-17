@@ -173,24 +173,19 @@ PusherChatWidget.prototype._chatMessageReceived = function(data) {
 };
 
 /* @private */
-if(discuz_uid == '0') {
-  PusherChatWidget.prototype._sendChatButtonClicked = function() {
-    showWindow('chat','member.php?mod=logging&action=login&guestmessage=yes');
+PusherChatWidget.prototype._sendChatButtonClicked = function() {
+  var message = jQuery.trim(this._messageInputEl.val());
+  if(!message) {
+    showPrompt(null, null, isChinese ? '请输入聊天信息' : 'Please enter a chat message', 1000, 'popuptext');
+    this._messageInputEl.focus();
+    return;
   }
-} else {
-  PusherChatWidget.prototype._sendChatButtonClicked = function() {
-    var message = jQuery.trim(this._messageInputEl.val());
-    if(!message) {
-      alert(isChinese ? '请输入聊天信息' : 'please supply a chat message');
-      return;
-    }
 
-    var chatInfo = {
-      text: message
-    };
-    this._sendChatMessage(chatInfo);
+  var chatInfo = {
+    text: message
   };
-}
+  this._sendChatMessage(chatInfo);
+};
 
 /* @private */
 PusherChatWidget.prototype._sendChatMessage = function(data) {
@@ -209,9 +204,9 @@ PusherChatWidget.prototype._sendChatMessage = function(data) {
       if(xhr.status === 200) {
         self._messageInputEl.val('');
       }else if(xhr.status === 413) {
-        alert(isChinese ? '聊天信息过长' : 'Chat message too long');
+        showPrompt(null, null,isChinese ? '聊天信息过长' : 'Chat message too long', 1000, 'popuptext');
       }else{
-        alert(isChinese ? '发送失败' : 'Failed to send message');
+        showPrompt(null, null,isChinese ? '发送失败' : 'Failed to send message', 1000, 'popuptext');
       }
       self._messageInputEl.removeAttr('readonly');
     }

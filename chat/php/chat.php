@@ -3,10 +3,7 @@ require '../../source/class/class_core.php';
 $discuz = C::app();
 $discuz->init_cron = false;
 $discuz->init();
-if(empty($_G['uid'])) {
-  header('HTTP/1.1 401 Unauthorized');
-  exit('not_loggedin');
-}
+
 require_once('./vendor/autoload.php');
 require_once('Activity.php');
 require_once('config.php');
@@ -20,6 +17,10 @@ $channel_name = 'Chat';
 if( !isset($_POST['chat_info']) ){
   header("HTTP/1.0 400 Bad Request");
   echo('chat_info must be provided');
+}
+if(empty($_G['uid'])) {
+  $_G['uid'] = 0;
+  $_G['username'] = $_G['member']['username'].' '.$_SERVER['REMOTE_ADDR'];
 }
 
 $options = array();
@@ -36,7 +37,9 @@ if ($conn->connect_error) {
 }
 
 // CREATE TABLE chat (time TIMESTAMP DEFAULT CURRENT_TIMESTAMP, uid mediumint NOT NULL, author CHAR(15) NOT NULL, message TEXT NOT NULL, PRIMARY KEY (`time`) );
-$stmt = $conn->prepare("INSERT INTO chat (uid,author,message) VALUES (?, ?, ?)");
+$stmt = $conn->prepare(
+  "INSERT INTO chat (uid, author, message) VALUES (?, LEFT(?, 30), ?)"
+);
 $stmt->bind_param("iss", $_G['uid'], $_G['username'], $options['text']);
 $stmt->execute();
 $stmt->close();
