@@ -376,12 +376,12 @@
 			<!--{if $post['invisible'] == 0}-->
 				<!--{if $allowpostreply && $post['allowcomment'] && (!$thread['closed'] || $_G['forum']['ismoderator'])}--><li><a href="forum.php?mod=misc&action=comment&tid={$post['tid']}&pid={$post['pid']}&extra={$_GET['extra']}&page={$page}{if $_G['forum_thread']['special'] == 127}&special={$specialextra}{/if}" class="dialog"><i class="dm-chat-t"></i>{lang comments}</a></li><!--{/if}-->
 			<!--{/if}-->
-			<!--{if !$_G['forum_thread']['special'] && !$rushreply && !$hiddenreplies && $_G['setting']['repliesrank'] && !$post['first'] && !($post['isWater'] && $_G['setting']['filterednovote'])}-->
+			<!--{if $_G['uid'] && !$_G['forum_thread']['special'] && !$rushreply && !$hiddenreplies && $_G['setting']['repliesrank'] && !$post['first'] && !($post['isWater'] && $_G['setting']['filterednovote'])}-->
 				<li><a href="forum.php?mod=misc&action=postreview&do=support&tid={$_G['tid']}&pid={$post['pid']}&hash={FORMHASH}" class="dialog"><i class="dm-c-up"></i>{lang support_reply} <span id="review_support_{$post['pid']}">{$post['postreview']['support']}</span></a></li>
 				<li><a href="forum.php?mod=misc&action=postreview&do=against&tid={$_G['tid']}&pid={$post['pid']}&hash={FORMHASH}" class="dialog"><i class="dm-c-down"></i>{lang against_reply} <span id="review_against_{$post['pid']}">{$post['postreview']['against']}</span></a></li>
 			<!--{/if}-->
 			<!--{if $post['first']}-->
-				<!--{if ($_G['group']['allowrecommend'] || !$_G['uid']) && !empty($_G['setting']['recommendthread']['status'])}-->
+				<!--{if $_G['group']['allowrecommend'] && !empty($_G['setting']['recommendthread']['status'])}-->
 					<!--{if !empty($_G['setting']['recommendthread']['addtext'])}-->
 					<li><a href="forum.php?mod=misc&action=recommend&do=add&tid={$_G['tid']}&hash={FORMHASH}" class="dialog"><i></i><i class="dm-c-up"></i>{$_G['setting']['recommendthread']['addtext']}<span id="recommendv_add"{if !$_G['forum_thread']['recommend_add']} style="display:none"{/if}>{$_G['forum_thread']['recommend_add']}</span></a></li>
 					<!--{/if}-->
