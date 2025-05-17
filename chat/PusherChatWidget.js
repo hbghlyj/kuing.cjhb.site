@@ -74,6 +74,8 @@ function PusherChatWidget(pusher, options) {
   // Read collapse/expand status from cookie
  if(document.cookie.replace(/(?:(?:^|.*;\s*)isCollapsed\s*\=\s*([^;]*).*$)|^.*$/, "$1") == ''){
     document.cookie = "isCollapsed=true; path=/forum.php";
+    document.cookie = "isCollapsed=true; path=/member.php";
+    document.cookie = "isCollapsed=true; path=/connect.php";
     document.cookie = "isCollapsed=true; path=/misc.php";
     document.cookie = "isCollapsed=true; path=/home.php";
   }
