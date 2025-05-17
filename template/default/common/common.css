@@ -667,14 +667,15 @@ CSS 写作注意事项：
 		height: 29px;
 		margin-top: 2px;
 		margin-right: 2px;
-		border-radius: 4px;
+		border-radius: 14px;
 	}
 	#algolia-search-box:empty {
-		background: #fff url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='79' height='24'><g transform='translate(55,0)'><path fill='%23444' d='M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z'/></g><line x1='5' y1='22' x2='72' y2='22' stroke='%23000' stroke-width='1'/></svg>") no-repeat right center;
+		background: #fff url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='79' height='24'><g transform='translate(55,0)'><path fill='%23444' d='M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z'/></g><line x1='5' y1='22' x2='72' y2='22' stroke='%23777' stroke-width='1'/></svg>") no-repeat right center;
 		width: 29px;
 		padding-left: 50px;
 		padding-right: 2px;
 		cursor: text;
+		box-shadow: inset 4px 4px 6px 0px rgba(0, 0, 0, 0.4);
 	}
 	#algolia-search-box input {
 		background: #fff url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24'%3e%3cpath fill='%23444' d='M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z'/%3e%3c/svg%3e") no-repeat right 50%;
