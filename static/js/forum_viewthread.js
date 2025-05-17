@@ -792,3 +792,19 @@ function bumpthread() {
 			});
 		});
 }
+function bumpthread() {
+	const formhash = document.querySelector('input[name="formhash"]')?.value;
+	fetch('forum.php?mod=topicadmin&action=moderate&optgroup=3&modsubmit=yes&infloat=yes&inajax=1', {
+		"headers": {"content-type": "application/x-www-form-urlencoded"},
+		"body": `fid=${fid}&moderate%5B%5D=${tid}&redirect=1&operations%5B%5D=bump&formhash=${formhash}&handlekey=mods`,
+		"method": "POST"
+		}).then(response => {
+			response.text().then(text => {
+				if (text.includes('succeedhandle_mods')) {
+					showDialog('提升成功', 'right', '提升成功', 'window.location.reload();');
+				} else {
+					showDialog(text.match(/errorhandle_mods\\('([^']+)/)[1], 'error', '提升失败');
+				}
+			});
+		});
+}
