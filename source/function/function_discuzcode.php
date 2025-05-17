@@ -546,7 +546,7 @@ function parseemail($email, $text) {
 }
 
 function parsetable($width, $bgcolor, $message) {
-	if(strpos($message, '[/tr]') === FALSE && strpos($message, '[/td]') === FALSE) {
+	if(strpos($message, '[/tr]') === FALSE && strpos($message, '[/td]') === FALSE && strpos($message, '[/th]') === FALSE) {
 		$rows = explode("\n", $message);
 		$s = !defined('IN_MOBILE') ? '<table cellspacing="0" class="t_table" '.
 			($width == '' ? NULL : 'style="width:'.$width.'"').
@@ -557,17 +557,17 @@ function parsetable($width, $bgcolor, $message) {
 		$s .= '</table>';
 		return $s;
 	} else {
-		if(!preg_match("/^\[tr(?:=([\(\)\s%,#\w]+))?\]\s*\[td([=\d,%]+)?\]/", $message) && !preg_match("/^<tr[^>]*?>\s*<td[^>]*?>/", $message)) {
-			return str_replace('\\"', '"', preg_replace("/\[tr(?:=([\(\)\s%,#\w]+))?\]|\[td([=\d,%]+)?\]|\[\/td\]|\[\/tr\]/", '', $message));
+		if(!preg_match("/^\[tr(?:=([\(\)\s%,#\w]+))?\]\s*\[(td|th)([=\d,%]+)?\]/", $message) && !preg_match("/^<tr[^>]*?>\s*<(td|th)[^>]*?>/", $message)) {
+			return str_replace('\\"', '"', preg_replace("/\[tr(?:=([\(\)\s%,#\w]+))?\]|\[(td|th)([=\d,%]+)?\]|\[\/(td|th)\]|\[\/tr\]/", '', $message));
 		}
 		if(substr($width, -1) != '%') {
 			$width .= 'px';
 		}
-		$message = preg_replace_callback("/\[tr(?:=([\(\)\s%,#\w]+))?\]\s*\[td(?:=(\d{1,4}%?))?\]/i", 'parsetable_callback_parsetrtd_12', $message);
-		$message = preg_replace_callback("/\[\/td\]\s*\[td(?:=(\d{1,4}%?))?\]/i", 'parsetable_callback_parsetrtd_1', $message);
-		$message = preg_replace_callback("/\[tr(?:=([\(\)\s%,#\w]+))?\]\s*\[td(?:=(\d{1,2}),(\d{1,2})(?:,(\d{1,4}%?))?)?\]/i", 'parsetable_callback_parsetrtd_1234', $message);
-		$message = preg_replace_callback("/\[\/td\]\s*\[td(?:=(\d{1,2}),(\d{1,2})(?:,(\d{1,4}%?))?)?\]/i", 'parsetable_callback_parsetrtd_123', $message);
-		$message = preg_replace("/\[\/td\]\s*\[\/tr\]\s*/i", '</td></tr>', $message);
+		$message = preg_replace_callback("/\[tr(?:=([\(\)\s%,#\w]+))?\]\s*\[(td|th)(?:=(\d{1,4}%?))?\]/i", 'parsetable_callback_open_simple', $message);
+		$message = preg_replace_callback("/\[\/(td|th)\]\s*\[(td|th)(?:=(\d{1,4}%?))?\]/i", 'parsetable_callback_replace_simple', $message);
+		$message = preg_replace_callback("/\[tr(?:=([\(\)\s%,#\w]+))?\]\s*\[(td|th)(?:=(\d{1,2}),(\d{1,2})(?:,(\d{1,4}%?))?)?\]/i", 'parsetable_callback_open_complex', $message);
+		$message = preg_replace_callback("/\[\/(td|th)\]\s*\[(td|th)(?:=(\d{1,2}),(\d{1,2})(?:,(\d{1,4}%?))?)?\]/i", 'parsetable_callback_replace_complex', $message);
+		$message = preg_replace("/\[\/(td|th)\]\s*\[\/tr\]\s*/i", '</$1></tr>', $message);
 		return (!defined('IN_MOBILE') ? '<table cellspacing="0" class="t_table" '.
 			($width == '' ? NULL : 'style="width:'.$width.'"').
 			($bgcolor ? ' bgcolor="'.$bgcolor.'">' : '>') : '<table>').
@@ -575,82 +575,79 @@ function parsetable($width, $bgcolor, $message) {
 	}
 }
 
-function parsetable_callback_parsetrtd_12($matches) {
-	return parsetrtd($matches[1], 0, 0, $matches[2]);
+function parsetable_callback_open_simple($matches) {
+    return _parsetable_cell_generator(
+        isset($matches[1]) ? $matches[1] : null,
+        0,
+        0,
+        isset($matches[3]) ? $matches[3] : null,
+        strtolower($matches[2]),
+        'open'
+    );
 }
 
-function parsetable_callback_parsetrtd_1($matches) {
-	return parsetrtd('td', 0, 0, $matches[1]);
+function parsetable_callback_replace_simple($matches) {
+    return _parsetable_cell_generator(
+        strtolower($matches[1]),
+        0,
+        0,
+        isset($matches[3]) ? $matches[3] : null,
+        strtolower($matches[2]),
+        'replace'
+    );
 }
 
-function parsetable_callback_parsetrtd_1234($matches) {
-	return parsetrtd($matches[1], $matches[2], $matches[3], $matches[4]);
+function parsetable_callback_open_complex($matches) {
+    return _parsetable_cell_generator(
+        isset($matches[1]) ? $matches[1] : null,
+        isset($matches[3]) && $matches[3] !== '' ? $matches[3] : 0,
+        isset($matches[4]) && $matches[4] !== '' ? $matches[4] : 0,
+        isset($matches[5]) ? $matches[5] : null,
+        strtolower($matches[2]),
+        'open'
+    );
 }
 
-function parsetable_callback_parsetrtd_123($matches) {
-	return parsetrtd('td', $matches[1], $matches[2], $matches[3]);
+function parsetable_callback_replace_complex($matches) {
+    return _parsetable_cell_generator(
+        strtolower($matches[1]),
+        isset($matches[3]) && $matches[3] !== '' ? $matches[3] : 0,
+        isset($matches[4]) && $matches[4] !== '' ? $matches[4] : 0,
+        isset($matches[5]) ? $matches[5] : null,
+        strtolower($matches[2]),
+        'replace'
+    );
 }
 
-function parsetrtd($bgcolor, $colspan, $rowspan, $width) {
-	return ($bgcolor == 'td' ? '</td>' : '<tr'.($bgcolor && !defined('IN_MOBILE') ? ' style="background-color:'.$bgcolor.'"' : '').'>').'<td'.($colspan > 1 ? ' colspan="'.$colspan.'"' : '').($rowspan > 1 ? ' rowspan="'.$rowspan.'"' : '').($width && !defined('IN_MOBILE') ? ' width="'.$width.'"' : '').'>';
-}
+function _parsetable_cell_generator($param1, $colspan, $rowspan, $width, $current_cell_tag, $mode) {
+    $output = '';
+    if ($mode == 'open') {
+        $tr_style = $param1;
+        $output .= '<tr'.($tr_style && !defined('IN_MOBILE') ? ' style="background-color:'.$tr_style.'"' : '').'>';
+    } elseif ($mode == 'replace') {
+        $prev_cell_tag = $param1;
+        if ($prev_cell_tag !== 'td' && $prev_cell_tag !== 'th') {
+            $prev_cell_tag = 'td'; // Default to closing td if invalid
+        }
+        $output .= '</'.$prev_cell_tag.'>';
+    }
 
-function parseaudio($url, $width = 400) {
-	$url = addslashes($url);
-        if(!in_array(strtolower(substr($url, 0, 6)), array('http:/', 'https:', 'ftp://', 'rtsp:/', 'mms://')) && !preg_match('/^static\//', $url) && !preg_match('/^data\//', $url)) {
-		return dhtmlspecialchars($url);
-	}
-	$type = fileext($url);
-	$randomid = random(3);
-	return '<ignore_js_op><div id="'.$type.'_'.$randomid.'" class="media"><div id="'.$type.'_'.$randomid.'_container" class="media_container"></div><div id="'.$type.'_'.$randomid.'_tips" class="media_tips"><a href="'.$url.'" target="_blank">'.lang('template', 'parse_av_tips').'</a></div></div><script type="text/javascript">detectPlayer("'.$type.'_'.$randomid.'", "'.$type.'", "'.$url.'", "'.$width.'", "66");</script></ignore_js_op>';
-}
+    if ($current_cell_tag !== 'td' && $current_cell_tag !== 'th') {
+        $current_cell_tag = 'td'; // Default to td if invalid
+    }
 
-function parsemedia($params, $url) {
-	$params = explode(',', $params);
-
-	if(preg_match('/^(auto|100%|[0-9]{1,2}%)$/', $params[1], $matches)) {
-		$width = $matches[1];
-	} else {
-		$width = ($params[1] > 0 && $params[1] < 8192) ? intval($params[1]) : 800;
-	}
-
-	if(preg_match('/^(auto|100%|[0-9]{1,2}%)$/', $params[2], $matches)) {
-		$height = $matches[1];
-	} else {
-		$height = ($params[2] > 0 && $params[2] < 4096) ? intval($params[2]) : 600;
-	}
-
-	// 兼容手机版（待测试）
-	$width = defined('IN_MOBILE') ? '100%' : $width;
-	$height = defined('IN_MOBILE') ? 'auto' : $height;
-
-	$url = addslashes($url);
-	if(!in_array(strtolower(substr($url, 0, 6)), array('http:/', 'https:', 'ftp://', 'rtsp:/', 'mms://')) && !preg_match('/^static\//', $url) && !preg_match('/^data\//', $url)) {
-		return dhtmlspecialchars($url);
-	}
-
-	if($flv = parseflv($url, $width, $height)) {
-		return $flv;
-	}
-	if(in_array(count($params), array(3, 4))) {
-		$type = fileext($url);
-		$url = str_replace(array('<', '>'), '', str_replace('\\"', '\"', $url));
-		if(in_array($params[0], array('rtsp', 'mms'))) {
-			$mediaid = 'media_'.random(3);
-			return $params[0] == 'rtsp' ? '<object classid="clsid:CFCDAA03-8BE4-11cf-B84B-0020AFBBCCFA" width="'.$width.'" height="'.$height.'"><param name="autostart" value="0" /><param name="src" value="'.$url.'" /><param name="controls" value="imagewindow" /><param name="console" value="'.$mediaid.'_" /><embed src="'.$url.'" autostart="0" type="audio/x-pn-realaudio-plugin" controls="imagewindow" console="'.$mediaid.'_" width="'.$width.'" height="'.$height.'"></embed></object><br /><object classid="clsid:CFCDAA03-8BE4-11CF-B84B-0020AFBBCCFA" width="'.$width.'" height="32"><param name="src" value="'.$url.'" /><param name="controls" value="controlpanel" /><param name="console" value="'.$mediaid.'_" /><embed src="'.$url.'" autostart="0" type="audio/x-pn-realaudio-plugin" controls="controlpanel" console="'.$mediaid.'_" width="'.$width.'" height="32"></embed></object>' : '<object classid="clsid:6BF52A52-394A-11d3-B153-00C04F79FAA6" width="'.$width.'" height="'.$height.'"><param name="invokeURLs" value="0"><param name="autostart" value="0" /><param name="url" value="'.$url.'" /><embed src="'.$url.'" autostart="0" type="application/x-mplayer2" width="'.$width.'" height="'.$height.'"></embed></object>';
-		}
-		$audio = array('aac', 'flac', 'ogg', 'mp3', 'm4a', 'weba', 'wma', 'mid', 'wav', 'ra', 'ram');
-		$video = array('rm', 'rmvb', 'flv', 'swf', 'asf', 'asx', 'wmv', 'avi', 'mpg', 'mpeg', 'mp4', 'm4v', '3gp', 'ogv', 'webm', 'mov');
-		if (in_array($type, $audio)) {
-			return parseaudio($url, $width);
-		} else if (in_array($type, $video)) {
-			$randomid = random(3);
-			return '<ignore_js_op><div id="'.$type.'_'.$randomid.'" class="media"><div id="'.$type.'_'.$randomid.'_container" class="media_container"></div><div id="'.$type.'_'.$randomid.'_tips" class="media_tips"><a href="'.$url.'" target="_blank">'.lang('template', 'parse_av_tips').'</a></div></div><script type="text/javascript">detectPlayer("'.$type.'_'.$randomid.'", "'.$type.'", "'.$url.'", "'.$width.'", "'.$height.'");</script></ignore_js_op>';
-		} else {
-			return '<a href="'.$url.'" target="_blank">'.$url.'</a>';
-		}
-	}
-	return;
+    $output .= '<'.$current_cell_tag;
+    if ($colspan > 1) {
+        $output .= ' colspan="'.$colspan.'"';
+    }
+    if ($rowspan > 1) {
+        $output .= ' rowspan="'.$rowspan.'"';
+    }
+    if ($width && $width !== '' && !defined('IN_MOBILE')) {
+        $output .= ' width="'.$width.'"';
+    }
+    $output .= '>';
+    return $output;
 }
 
 function bbcodeurl($url, $tags) {

@@ -1324,9 +1324,10 @@ i.pstatus { display: block; margin-bottom: -30px; font-size: 12px; text-align: c
 		.tatt em { color: {LIGHTTEXT}; }
 		.t_attachinsert{ margin:1em 0; font-size: 12px; }
 		.t_attachinsert p img{ margin-bottom: -4px; }
-	.t_table{ border: 1px solid #E3EDF5; empty-cells: show; border-collapse: collapse; }
+	.t_table{ border: 1px solid rgba(0,0,0,.1); empty-cells: show; border-collapse: collapse; }
 		.pl table.t_table { table-layout: auto; }
-		.t_table td { padding: 4px; border: 1px solid #E3EDF5; overflow: hidden; overflow-wrap: anywhere; }
+		.t_table td,.t_table th { padding: 4px; border: 1px solid rgba(0,0,0,.1); overflow: hidden; overflow-wrap: anywhere; text-align: center; }
+		.t_table th { font-weight: 700; border-bottom-width: 2px; }
 	.tattl { float: left; overflow: hidden; padding: 10px 10px 10px 0; width: 45%; height: 64px; }
 		.tattl a { color: {HIGHLIGHTLINK}; text-decoration: underline; }
 		.tattl dt { float: left; width: 40px; font-weight: 700; }
