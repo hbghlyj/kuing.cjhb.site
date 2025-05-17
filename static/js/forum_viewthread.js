@@ -802,9 +802,9 @@ function bumpthread() {
 		}).then(response => {
 			response.text().then(text => {
 				if (text.includes('succeedhandle_mods')) {
-					showDialog('提升成功', 'right', '提升成功', 'window.location.reload();');
+					showPrompt(null,null,'提升成功',1000);
 				} else {
-					showDialog(text.match(/errorhandle_mods\('([^']+)/)[1], 'error', '提升失败');
+					showPrompt(null,null,text.match(/errorhandle_mods\('([^']+)/)[1],1000,'popuptext');
 				}
 			});
 		});
