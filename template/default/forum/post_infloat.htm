@@ -117,9 +117,6 @@
 		<!--{/if}-->
 		<a href="forum.php?mod=viewthread&tid=5" class="y" target="_blank">LaTeX 公式输入教程</a>
 		<button type="submit" id="postsubmit" class="pn pnc z" value="true"{if !$seccodecheck && !$secqaacheck} onmouseover="checkpostrule('seccheck_$_GET[action]', 'ac=$_GET[action]&infloat=yes&handlekey=$_GET[handlekey]');this.onmouseover=null"{/if} name="{if $_GET[action] == 'newthread'}topicsubmit{elseif $_GET[action] == 'reply'}replysubmit{elseif $_GET[action] == 'edit'}editsubmit{/if}"><span><!--{if $_GET[action] == 'newthread'}-->{lang post_newthread}<!--{elseif $_GET[action] == 'reply'}-->{lang join_thread}<!--{elseif $_GET[action] == 'edit' && $isfirstpost && $thread['displayorder'] == -4}-->{lang post_newthread}<!--{elseif $_GET['action'] == 'edit'}-->{lang edit_save}<!--{/if}--></span></button>
-		<!--{if $_GET[action] == 'edit' && $thread['displayorder'] != -4}-->
-		<label class="z"><input type="checkbox" name="bump" class="pc">{lang bump}</label>
-		<!--{/if}-->
 		<!--{if $_G['uid'] && $_G['group']['allowsave']}-->
 			<input type="hidden" id="postsave" name="save" value="" />
 			<!--{if $_GET[action] == 'newthread' && empty($modnewthreads) || $_GET[action] == 'edit' && $isfirstpost && empty($modnewreplies) && $thread['displayorder'] == -4}-->

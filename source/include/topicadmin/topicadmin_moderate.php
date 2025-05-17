@@ -343,9 +343,6 @@ if(!submitcheck('modsubmit')) {
 				$stampstatus = 3;
 
 			} elseif($operation == 'bump') {
-				if(!$_G['group']['allowbumpthread']) {
-					showmessage('no_privilege_bumpthread');
-				}
 				$modaction = 'BMP';
 				$thread = $threadlist;
 				$thread = array_pop($thread);
