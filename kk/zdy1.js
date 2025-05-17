@@ -1,21 +1,29 @@
 document.addEventListener("DOMContentLoaded", function() {
     // Find all forum links within the table
-    const forumLinks = document.querySelectorAll('table.fl_tb h2 a[href^="forum.php?mod=forumdisplay&fid="],table.fl_tb td.fl_by a[href^="forum.php?mod=redirect&tid="]');
+    const forumLinks = document.querySelectorAll(
+        'table.fl_tb h2 a[href^="forum.php?mod=forumdisplay&fid="],' +
+        'table.fl_tb td.fl_by a[href^="forum.php?mod=redirect&tid="]'
+    );
 
     forumLinks.forEach(link => {
-        // Get the parent <td> of the link
         const parentTd = link.closest('td');
-        if (parentTd) {
-            // Add an onclick event to the <td>
-            parentTd.onclick = function(e) {
-                // If a child link (or anything inside it) was clicked, let the link handle it
-                if (e.target.closest('a')) return;
-                // Otherwise, simulate a click on the forum link
-                window.location.href = link.href;
-            };
+        if (!parentTd) return;
 
-            // Change the cursor to a pointer to indicate clickable behavior
-            parentTd.style.cursor = 'pointer';
-        }
+        // make the entire cell clickable
+        parentTd.onclick = e => {
+            if (e.target.closest('a')) return;
+            window.location.href = link.href;
+        };
+
+        // indicate clickable
+        parentTd.style.cursor = 'pointer';
+
+        // hover background
+        parentTd.addEventListener('mouseenter', () => {
+            parentTd.style.backgroundColor = '#ffe';
+        });
+        parentTd.addEventListener('mouseleave', () => {
+            parentTd.style.backgroundColor = '';
+        });
     });
 });
