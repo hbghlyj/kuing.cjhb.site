@@ -174,6 +174,11 @@
 	</script>
 <!--{/if}-->
 
+<link href="/chat/pusher-chat-widget.css?{VERHASH}" rel="stylesheet" />
+<style>.pusher-chat-widget{bottom:5px;right:5px;z-index:10000;position:fixed;width:300px;}.pusher-chat-widget ul.activity-stream{max-height:400px;}</style>
+<script src="{STATICURL}js/mobile/jquery.min.js"></script><script>jQuery.noConflict();</script>
+<script src="/chat/pusher.min.js"></script>
+<script src="/chat/PusherChatWidget.js?{VERHASH}"></script>
 <div id="scrolltop">
     <a onclick="this.parentNode.style.display='none';" style="height:2ex; line-height:2ex; padding:0 5px;">×</a>
 	<!--{if $_G[fid] && $_G['mod'] == 'viewthread'}-->
@@ -202,10 +207,5 @@
 	</script>
 <!--{/if}-->
 <!--{eval output();}-->
-<link href="/chat/pusher-chat-widget.css?{VERHASH}" rel="stylesheet" />
-<style>.pusher-chat-widget{bottom:5px;right:5px;z-index:10000;position:fixed;width:300px;}.pusher-chat-widget ul.activity-stream{max-height:400px;}</style>
-<script src="{STATICURL}js/mobile/jquery.min.js"></script><script>jQuery.noConflict();</script>
-<script src="/chat/pusher.min.js"></script>
-<script src="/chat/PusherChatWidget.js?{VERHASH}"></script>
 </body>
 </html>

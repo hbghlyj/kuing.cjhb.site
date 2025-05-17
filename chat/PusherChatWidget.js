@@ -72,7 +72,13 @@ function PusherChatWidget(pusher, options) {
     });
   }
   // Read collapse/expand status from cookie
-  this.isCollapsed = document.cookie.replace(/(?:(?:^|.*;\s*)chatWidgetCollapsed\s*\=\s*([^;]*).*$)|^.*$/, "$1") !== 'false';
+ if(document.cookie.replace(/(?:(?:^|.*;\s*)isCollapsed\s*\=\s*([^;]*).*$)|^.*$/, "$1") == ''){
+    document.cookie = "isCollapsed=true; path=/forum.php";
+    document.cookie = "isCollapsed=true; path=/search.php";
+    document.cookie = "isCollapsed=true; path=/misc.php";
+    document.cookie = "isCollapsed=true; path=/home.php";
+  }
+  this.isCollapsed = document.cookie.replace(/(?:(?:^|.*;\s*)isCollapsed\s*\=\s*([^;]*).*$)|^.*$/, "$1") == 'true';
   if (isMobile) {
     this.isCollapsed = false;
   }
@@ -85,7 +91,7 @@ function PusherChatWidget(pusher, options) {
       self._widget.find('.pusher-chat-widget-header').one('click', function() {
         self._widget.find('.pusher-chat-widget-messages').slideToggle();
         self._widget.find('.pusher-chat-widget-input').slideToggle();
-        document.cookie = "chatWidgetCollapsed=false; path=/";
+        document.cookie = "isCollapsed=false; path=/forum.php";
         self.isCollapsed = false;
         self._widget.find('.toggle-icon').html('<path d="M7 10l5 5 5-5z"/>');
         self._init();
@@ -129,7 +135,7 @@ PusherChatWidget.prototype._init = function() {
       self._widget.find('.pusher-chat-widget-messages').slideToggle();
       self._widget.find('.pusher-chat-widget-input').slideToggle();
       self.isCollapsed = !self.isCollapsed;
-      document.cookie = "chatWidgetCollapsed=" + self.isCollapsed + "; path=/";
+      document.cookie = "isCollapsed=" + self.isCollapsed + "; path=" + location.pathname;
       self._widget.find('.toggle-icon').html(self.isCollapsed ? '<path d="M7 14l5-5 5 5z"/>' : '<path d="M7 10l5 5 5-5z"/>');
     });
   }
