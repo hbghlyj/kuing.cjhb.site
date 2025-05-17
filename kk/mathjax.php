@@ -19,12 +19,4 @@
   }
 </script>
 <?php endif; ?>
-<!--<script src="//polyfill.io/v3/polyfill.min.js?features=es6"></script>-->
-<!--<script src="//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>-->
-<!--<script src="//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>-->
-<script src="mathjax3/es5/tex-svg.js"></script>
-<!--<script src="mathjax3/es5/tex-chtml.js"></script>-->
-<!--<script src="//unpkg.com/mathjax@3.2.2/es5/tex-svg.js"></script>-->
-<!--<script src="//unpkg.com/mathjax@3.2.2/es5/tex-chtml.js"></script>-->
-<!--<script src="//cdn.bootcdn.net/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js"></script>-->
-<!--<script src="//cdn.bootcdn.net/ajax/libs/mathjax/3.2.2/es5/tex-chtml.js"></script>-->
+<script src="/static/mathjax3/es5/tex-svg.js"></script>
