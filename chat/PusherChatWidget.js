@@ -185,7 +185,7 @@ PusherChatWidget.prototype._chatMessageReceived = function(data) {
 PusherChatWidget.prototype._sendChatButtonClicked = function() {
   var message = jQuery.trim(this._messageInputEl.val());
   if(!message) {
-    showError(isChinese ? '请输入聊天信息' : 'Please enter a chat message');
+    showPrompt(null, null, isChinese ? '请输入聊天信息' : 'Please enter a chat message', 1000, 'popuptext');
     this._messageInputEl.focus();
     return;
   }
@@ -217,9 +217,9 @@ PusherChatWidget.prototype._sendChatMessage = function(data) {
       if(xhr.status === 200) {
         self._messageInputEl.val('');
       }else if(xhr.status === 413) {
-        showError(isChinese ? '聊天信息过长' : 'Chat message too long');
+        showPrompt(null, null,isChinese ? '聊天信息过长' : 'Chat message too long', 1000, 'popuptext');
       }else{
-        showError(isChinese ? '发送失败' : 'Failed to send message');
+        showPrompt(null, null,isChinese ? '发送失败' : 'Failed to send message', 1000, 'popuptext');
       }
       self._messageInputEl.removeAttr('readonly');
       // Re-enable button and clear loading image
