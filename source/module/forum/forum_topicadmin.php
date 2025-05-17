@@ -27,7 +27,7 @@ $threadtableids = !empty($_G['cache']['threadtableids']) ? $_G['cache']['threadt
 $specialperm = $_GET['action'] == 'stickreply' && $_G['thread']['authorid'] == $_G['uid'];
 
 if($_GET['action']!='delcomment' && 
-!($_POST['operations']==['bump'] && $_G['uid']) &&
+!($_POST['operations']==['bump'] && $_G['groupid'] != 7) &&
 !$specialperm && (!$_G['uid'] || !$_G['forum']['ismoderator'])) {
 	showmessage('admin_nopermission', NULL);
 }
