@@ -27,6 +27,7 @@
 /*关置顶那小叉叉*/
 
 .fl_by div {width: 320px;}
+.fl_i { width: 280px; }
 /*子版块主题加宽*/
 
 @media screen and (orientation: portrait) {
