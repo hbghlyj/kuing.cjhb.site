@@ -77,7 +77,7 @@ class helper_mobile {
 			}
 			$content = str_replace($_G['setting']['output']['str']['search'], $_G['setting']['output']['str']['replace'], $content);
 		}
-		if(!empty($_G['setting']['output']['preg']['search']) && (empty($_G['setting']['rewriteguest']) || empty($_G['uid'])) && !empty($_G['setting']['rewritemobile'])) {
+		if(!empty($_G['setting']['output']['preg']['search']) && (empty($_G['setting']['rewriteguest']) || IS_ROBOT) && !empty($_G['setting']['rewritemobile'])) {
 			if(empty($_G['setting']['domain']['app']['default'])) {
 				$_G['setting']['output']['preg']['search'] = str_replace('\{CURHOST\}', preg_quote($_G['siteurl'], '/'), $_G['setting']['output']['preg']['search']);
 				$_G['setting']['output']['preg']['replace'] = str_replace('{CURHOST}', $_G['siteurl'], $_G['setting']['output']['preg']['replace']);
