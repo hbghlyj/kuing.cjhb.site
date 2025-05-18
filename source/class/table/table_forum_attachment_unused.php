@@ -30,7 +30,7 @@ class table_forum_attachment_unused extends discuz_table {
 	public function clear() {
 		require_once libfile('function/forum');
 		$delaids = [];
-		$query = DB::query('SELECT aid, attachment, thumb FROM %t WHERE %i', [$this->_table, DB::field('dateline', TIMESTAMP - 86400)]);
+		$query = DB::query('SELECT aid, attachment, thumb FROM %t WHERE %i', [$this->_table, DB::field('dateline', TIMESTAMP - 86400, '<')]);
 		while($attach = DB::fetch($query)) {
 			updatemembercount($attach['uid'], array('todayattachs' => -1, 'todayattachsize' => -$attach['filesize'], 'attachsize' => -$attach['filesize']), false);
 			dunlink($attach);
@@ -38,7 +38,7 @@ class table_forum_attachment_unused extends discuz_table {
 		}
 		if($delaids) {
 			DB::query('DELETE FROM %t WHERE %i', ['forum_attachment', DB::field('aid', $delaids)], false, true);
-			DB::query('DELETE FROM %t WHERE %i', [$this->_table, DB::field('dateline', TIMESTAMP - 86400)], false, true);
+			DB::query('DELETE FROM %t WHERE %i', [$this->_table, DB::field('dateline', TIMESTAMP - 86400, '<')], false, true);
 		}
 	}
 
