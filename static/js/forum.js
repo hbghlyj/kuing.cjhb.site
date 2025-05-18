@@ -329,7 +329,12 @@ function loadData(quiet, formobj) {
 		var el = formobj.elements[i];
 		if(el.name != '' && (el.tagName == 'SELECT' || el.tagName == 'TEXTAREA' || el.tagName == 'INPUT' && (el.type == 'text' || el.type == 'checkbox' || el.type == 'radio' || el.type == 'hidden'))) {
 			for(var j = 0; j < data.length; j++) {
-				var ele = data[j].split(/\x09/);
+				var parts = data[j].split(/\x09/);
+				var ele = parts.slice(0, 4);
+				if (parts.length > 4) {
+					// append any leftover tabs back onto ele[3]
+					ele[3] += '\x09' + parts.slice(4).join('\x09');
+				}
 				if(ele[0] == el.name) {
 					elvalue = !isUndefined(ele[3]) ? ele[3] : '';
 					if(ele[1] == 'INPUT') {
