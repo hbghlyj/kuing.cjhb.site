@@ -14,31 +14,29 @@
 	<div class="c" id="floatlayout_$_GET[action]">
 		<div class="p_c">
 			<input type="hidden" name="formhash" id="formhash" value="{FORMHASH}" />
-			<!--{if $_GET['action'] == 'edit'}-->
-			<input name="tags" type="hidden" id="tags" value="<!--{echo $postinfo['tag']}-->">
-			<input type="hidden" name="delattachop" id="delattachop" value="0" />
-			<!--{/if}-->	
-			<input type="hidden" name="handlekey" value="$_GET['handlekey']" />
-			<!--{if $_GET[action] == 'reply'}-->
-				<input type="hidden" name="noticeauthor" value="$noticeauthor" />
-				<input type="hidden" name="noticetrimstr" value="$noticetrimstr" />
-				<input type="hidden" name="noticeauthormsg" value="{$noticeauthormsg or ''}" />
-				<input type="hidden" name="usesig" value="{if $_G['group']['maxsigsize']}1{else}0{/if}"/>
-				<!--{if !empty($reppid)}-->
-					<input type="hidden" name="reppid" value="$reppid" />
-				<!--{/if}-->
-				<!--{if !empty($_GET['reppost'])}-->
-					<input type="hidden" name="reppost" value="$_GET[reppost]" />
-				<!--{elseif !empty($_GET['repquote'])}-->
-					<input type="hidden" name="reppost" value="$_GET[repquote]" />
-				<!--{/if}-->
-			<!--{/if}-->
 			<!--{if $_GET[action] == 'edit'}-->
-				<input type="hidden" name="fid" id="fid" value="$_G[fid]" />
-				<input type="hidden" name="tid" value="$_G[tid]" />
-				<input type="hidden" name="pid" value="$pid" />
-				<input type="hidden" name="page" value="$_GET[page]" />
+			<input name="tags" type="hidden" id="tags" value="$postinfo[tag]" />
+			<input type="hidden" name="delattachop" id="delattachop" value="0" />
+			<input type="hidden" name="htmlon" value="{if $postinfo['htmlon']}1{else}0{/if}" />
+			<input type="hidden" name="fid" id="fid" value="$_G[fid]" />
+			<input type="hidden" name="tid" value="$_G[tid]" />
+			<input type="hidden" name="pid" value="$pid" />
+			<input type="hidden" name="page" value="$_GET[page]" />
+			<!--{elseif $_GET[action] == 'reply'}-->
+			<input type="hidden" name="noticeauthor" value="$noticeauthor" />
+			<input type="hidden" name="noticetrimstr" value="$noticetrimstr" />
+			<input type="hidden" name="noticeauthormsg" value="{$noticeauthormsg or ''}" />
+			<input type="hidden" name="usesig" value="{if $_G['group']['maxsigsize']}1{else}0{/if}"/>
+			<!--{if !empty($reppid)}-->
+			<input type="hidden" name="reppid" value="$reppid" />
 			<!--{/if}-->
+			<!--{if !empty($_GET['reppost'])}-->
+			<input type="hidden" name="reppost" value="$_GET[reppost]" />
+			<!--{elseif !empty($_GET['repquote'])}-->
+				<input type="hidden" name="reppost" value="$_GET[repquote]" />
+			<!--{/if}-->
+			<!--{/if}-->
+			<input type="hidden" name="handlekey" value="$_GET['handlekey']" />
 			<!--{hook/post_infloat_top}-->
 			<div class="pbt cl">
 				<!--{if $_GET[action] == 'newthread' && ($threadsorts = $_G['forum'][threadsorts])}-->
