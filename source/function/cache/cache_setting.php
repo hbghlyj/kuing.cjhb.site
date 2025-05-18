@@ -882,7 +882,7 @@ function get_cachedata_mainnav() {
 
 		$data['navs'][$id]['navid'] = $navid;
 		$data['navs'][$id]['level'] = $nav['level'];
-		$data['navs'][$id]['nav'] = "id=\"$navid\" ".($onmouseover ? 'onmouseover="'.$onmouseover.'"' : '')."><a href=\"$nav[url]\" hidefocus=\"true\" title=\"$nav[title]\" ".($nav['target'] == 1 ? "target=\"_blank\" " : '')." $nav[style]>$nav[name]".($nav['identifier'] == 5 && $nav['type'] == 0 ? '<b class="icon_down"></b>' : '')."</a";
+		$data['navs'][$id]['nav'] = "id=\"$navid\" ".($onmouseover ? 'onmouseover="'.$onmouseover.'"' : '')."><a href=\"".($nav['url']==$_G['setting']['defaultindex']?'/':$nav['url'])."\" hidefocus=\"true\" title=\"$nav[title]\" ".($nav['target'] == 1 ? "target=\"_blank\" " : '')." $nav[style]>$nav[name]".($nav['identifier'] == 5 && $nav['type'] == 0 ? '<b class="icon_down"></b>' : '')."</a";
 	}
 	$data['menunavs'] = implode('', $data['menunavs']);
 
