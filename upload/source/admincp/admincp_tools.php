@@ -59,7 +59,11 @@ if($operation == 'updatecache') {
 			blockclass_cache();
 		}
 		if(in_array('csscache', $type)) {
-			updatecache(array('setting', 'styles'));
+			if(in_array('data', $type)) {
+				updatecache(array('styles'));
+			}else{
+				updatecache(array('setting', 'styles'));
+			}
 			loadcache('style_default', true);
 			updatecache('updatediytemplate');
 		}
