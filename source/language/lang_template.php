@@ -156,6 +156,7 @@ $lang = [
 	'enter_content' => '请输入搜索内容',
 	'hot_search' => '热搜',
 	'forum' => '版块',
+	'replies' => '篇回复',
 	'post_count' => '回复数',
 	'less' => '更少',
 	'no_results' => '没有找到相关结果',
