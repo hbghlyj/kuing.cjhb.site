@@ -97,13 +97,8 @@ if($_GET['goto'] == 'findpost') {
 		$thread['replies'] = $maxposition;
 		$curpostnum = $post['position'];
 	}
-	if($ordertype != 1) {
-		$page = ceil($curpostnum / $_G['ppp']);
-	} elseif($curpostnum > 1) {
-		$page = ceil(($thread['replies'] - $curpostnum + 3) / $_G['ppp']);
-	} else {
-		$page = 1;
-	}
+	$page = ceil($ordertype > 1 ? ($thread['replies'] - $curpostnum + 3) : $curpostnum / $_G['ppp']);
+	$pageadd = $page > 1 ? '&page='.$page : '';
 
 	if($thread['special'] == 2 && C::t('forum_trade')->check_goods($pid)) {
 		header("HTTP/1.1 301 Moved Permanently");
@@ -113,7 +108,7 @@ if($_GET['goto'] == 'findpost') {
 	$authoridurl = $authorid ? '&authorid='.$authorid : '';
 	$ordertypeurl = $ordertype ? '&ordertype='.$ordertype : '';
 	header("HTTP/1.1 301 Moved Permanently");
-	dheader("Location: forum.php?mod=viewthread&tid=$tid&page=$page$authoridurl$ordertypeurl".(isset($_GET['modthreadkey']) && ($modthreadkey = modauthkey($tid)) ? "&modthreadkey=$modthreadkey": '')."#pid$pid");
+	dheader("Location: forum.php?mod=viewthread&tid=$tid$pageadd$authoridurl$ordertypeurl".(isset($_GET['modthreadkey']) && ($modthreadkey = modauthkey($tid)) ? "&modthreadkey=$modthreadkey": '')."#pid$pid");
 }
 
 

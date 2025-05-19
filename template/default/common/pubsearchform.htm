@@ -18,7 +18,7 @@
 			<section class="ais-facets" id="facet-forum"></section>
 		</div>
 		<div>
-			<h3 class="widgettitle">{lang post_count}</h3>
+			<h3 class="widgettitle">{lang replies}</h3>
 			<section class="ais-facets" id="facet-totalposts"></section>
 		</div>
 	</aside>
@@ -28,7 +28,7 @@
 <script src="https://cdn.jsdelivr.net/npm/instantsearch.js@4.78.1/dist/instantsearch.production.min.js"
 	integrity="sha256-ev+/eO2lcqeanteOezwkK4FfnLtzCtiM8QhExgHoxeM=" crossorigin="anonymous"></script>
 <script src="/kk/algolia-search.js?{VERHASH}"></script>
-<script>initSearch({search:"{lang search}", no_results:"{lang no_results}", less:"{lang less}", more:"{lang more}", post_count:"{lang post_count}"},{
+<script>initSearch({search:"{lang search}", no_results:"{lang no_results}", less:"{lang less}", more:"{lang more}", replies:"{lang replies}"},{
 <!--{eval loadcache('forums');}-->
 <!--{loop $_G['cache']['forums'] $value}-->
 	<!--{if $value['type'] == 'sub' || $value['type'] == 'forum'}-->
