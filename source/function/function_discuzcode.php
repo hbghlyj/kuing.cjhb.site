@@ -77,9 +77,12 @@ function discuzcode($message, $smileyoff = false, $bbcodeoff = false, $htmlon = 
 		$message = preg_replace_callback('/\s?\[code\](.+?)\[\/code\]\s?/is', 'discuzcode_callback_codedisp_1', $message);
 	}
 	// parse [tikz] and [asy]
+	$code_arr = array();
 	if($parsetype != 1 && !$bbcodeoff && $allowbbcode && strpos($message, '[/tikz]') !== FALSE) {
 		$message = preg_replace_callback("/\[tikz\](.+?)\[\/tikz\]/s", function($matches) {
+		$message = preg_replace_callback("/\[tikz\](.+?)\[\/tikz\]/s", function($matches) use (&$code_arr) {
 			$code = $matches[1];
+			$code_arr[] = $code;
 			// Remove comments: only unescaped '%' and the rest of the line
 			$code = preg_replace('/(?<!\\\\)%.*$/m', '', $code);
 			// Remove lines that are white space only
@@ -91,14 +94,17 @@ function discuzcode($message, $smileyoff = false, $bbcodeoff = false, $htmlon = 
 		}, $message);
 	}
 	if($parsetype != 1 && !$bbcodeoff && $allowbbcode && strpos($message, '[/asy]') !== FALSE) {
-		// Remove comments: double slashes and the rest of the line
-		$message = preg_replace('/(?<!\\\\)\/\/.*$/m', '', $message);
-		// Remove lines that are white space only
-		$message = preg_replace('/^\s*$/m', '', $message);
-		$message = preg_replace_callback("/\[asy\](.+?)\[\/asy\]/s", function ($matches) {
-			$str = rawurlencode($matches[1]);
-			return '[img]asy/?code='.$str.'&format='
-			.((str_contains($str, 'import%20graph3')||str_contains($str, 'import%20three'))? 'png' : 'svg').'[/img]';
+		$message = preg_replace_callback("/\[asy\](.+?)\[\/asy\]/s", function ($matches) use (&$code_arr) {
+			$code = $matches[1];
+			$code_arr[] = $code;
+			// Remove comments: double slashes and the rest of the line
+			$code = preg_replace('/(?<!\\\\)\/\/.*$/m', '', $code);
+			// Remove lines that are white space only
+			$code = preg_replace('/^\s*$/m', '', $code);
+			// Remove leading and trailing white space from each line
+			$code = preg_replace('/^\s+|\s+$/m', '', $code);
+			$format = (str_contains($code, 'import graph3')||str_contains($code, 'import three'))? 'png' : 'svg';
+			return '[img]asy/?code='.rawurlencode($code).'&format='.$format.'[/img]';
 		}, $message);
 	}
 
@@ -283,9 +289,9 @@ function discuzcode($message, $smileyoff = false, $bbcodeoff = false, $htmlon = 
 		if(str_contains($msglower, '[/img]')) {
 			$message = preg_replace_callback(
 				"/\[img\]\s*([^\[\<\r\n]+?)\s*\[\/img\]/is",
-				function($matches) use ($allowimgcode, $lazyload, $pid, $allowbbcode) {
+				function($matches) use ($allowimgcode, $lazyload, $pid, $allowbbcode, &$code_arr) {
 					if(intval($allowimgcode)) {
-						return parseimg(0, 0, $matches[1], intval($lazyload), intval($pid), (intval($lazyload) ? 'lazyloadthumb="1"' : 'onload="this.parentNode.classList.add(\'jiazed\');this.setAttribute(\'width\',this.width);this.parentNode.style.display=\'inline-block\';"'));
+						return parseimg(0, 0, $matches[1], intval($lazyload), intval($pid), (intval($lazyload) ? 'lazyloadthumb="1"' : 'onload="this.parentNode.classList.add(\'jiazed\');this.setAttribute(\'width\',this.width);this.parentNode.style.display=\'inline-block\';"').(str_starts_with($matches[1], '//i.upmath.me/svgb/') || str_starts_with($matches[1], 'asy/?code=') ? ' onclick=\'show_tikz_window('.json_encode(array_pop($code_arr)).')\'' : ''));
 					}
 					return (intval($allowbbcode) ? (!defined('IN_MOBILE') ? bbcodeurl($matches[1], '<a href="{url}" target="_blank">{url}</a>') : bbcodeurl($matches[1], '')) : bbcodeurl($matches[1], '{url}'));
 				},
@@ -295,7 +301,7 @@ function discuzcode($message, $smileyoff = false, $bbcodeoff = false, $htmlon = 
 				"/\[img=(\d{1,4})[x|\,](\d{1,4})\]\s*([^\[\<\r\n]+?)\s*\[\/img\]/is",
 				function($matches) use ($allowimgcode, $lazyload, $pid, $allowbbcode) {
 					if(intval($allowimgcode)) {
-						return parseimg($matches[1], $matches[2], $matches[3], intval($lazyload), intval($pid));
+						return parseimg($matches[1], $matches[2], $matches[3], intval($lazyload), intval($pid), (intval($lazyload) ? 'lazyloadthumb="1"' : 'onload="this.parentNode.classList.add(\'jiazed\');this.setAttribute(\'width\',this.width);this.parentNode.style.display=\'inline-block\';"'));
 					}
 					return (intval($allowbbcode) ? (!defined('IN_MOBILE') ? bbcodeurl($matches[3], '<a href="{url}" target="_blank">{url}</a>') : bbcodeurl($matches[3], '')) : bbcodeurl($matches[3], '{url}'));
 				},
