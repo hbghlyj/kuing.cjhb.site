@@ -49,7 +49,7 @@ function show_emoji_window(ele){
     emoji_window.style.bottom = "unset";
     emoji_window.innerHTML=`<div onmousedown="tuozhuai(this.parentNode);return false;" style="width:100%;height:26px;cursor:move;">
         <a href="javascript:;" style="margin-left:6px;" onclick="document.getElementById('emoji_window').style.cssText+='display:initial;';this.innerHTML='Locked';">Lock</a>
-        <a href="javascript:;" class="flbc" style="float:right;margin:3px 6px 0 0;" onclick="this.parentNode.parentNode.remove();">关闭</a></div>`;
+        <a href="javascript:;" class="flbc" style="float:right;margin:3px 6px 0 0;" onclick="this.parentNode.parentNode.remove();"></a></div>`;
     document.body.append(emoji_window);
     addbtemoji(ele,0x1F600,0x1F637)//黄脸常用一堆
     addbtemoji(ele,0x1F641,0x1F644)//黄脸x4小难过--白眼
