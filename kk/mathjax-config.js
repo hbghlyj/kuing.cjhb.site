@@ -89,11 +89,15 @@ window.MathJax = {
   },
   loader: {
     load: ['[tex]/noerrors','[tex]/mathtools','[custom]/xypic.js'],
+    failed: function (error) {
+      showError(`MathJax(${error.package || '?'}): ${error.message}`);
+    },
     //paths: {custom: '//cdn.jsdelivr.net/gh/sonoisa/XyJax-v3@3.0.1/build'}
     paths: {custom: 'kk'}
   },
   svg: {
     fontCache: 'global',
+    mtextInheritFont: true,
     scale: /android|avantgo|blackberry|bolt|boost|cricket|docomo|fone|hiptop|mini|mobi|palm|phone|pie|tablet|up\.browser|up\.link|webos|wos/i.test(navigator.userAgent) ? 0.9 : 1.1,
   }
 };
