@@ -99,13 +99,6 @@ Last Modify:	Pony
 */
 body { {BGCODE}; /*min-width: 1200px;*/ }
 body, input, button, select, textarea { font: {FONTSIZE} {FONT}; color: {TABLETEXT}; }
-/* PC browsers */
-@media only screen and (orientation: landscape) {
-	body{
-		font-family: "Latin Modern Roman",{FONT};
-		text-shadow: 0 0 .5px currentColor;
-	}
-}
 textarea { resize: none; }
 	body, ul, ol, li, dl, dd, p, h1, h2, h3, h4, h5, h6, form, fieldset, .pr, .pc { margin: 0; padding: 0; }
 	table { empty-cells: show; border-collapse: collapse; }

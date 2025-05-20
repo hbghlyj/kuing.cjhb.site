@@ -832,15 +832,13 @@ class discuz_application extends discuz_base{
 			$mobile = getgpc('showmobile');
 		}
 		$mobileflag = isset($this->var['mobiletpl'][$mobile]);
+		$mobile_=checkmobile();
 		if($mobile === 'no') {
 			dsetcookie('mobile', 'no', 31536000);
 			$nomobile = true;
 		} elseif(isset($this->var['cookie']['mobile']) && $this->var['cookie']['mobile'] == 'no' && $mobileflag) {
-			checkmobile();
 			dsetcookie('mobile', '');
 		} elseif(isset($this->var['cookie']['mobile']) && $this->var['cookie']['mobile'] == 'no') {
-			$nomobile = true;
-		} elseif(!($mobile_ = checkmobile())) {
 			$nomobile = true;
 		}
 		if(!$mobile || $mobile == 'yes') {
