@@ -80,6 +80,18 @@ CSS 写作注意事项：
 	IE8 专用：			.ie8 .foo { ... }
 
 ---------------------------------- */
+@import url("https://lalten.github.io/lmweb/style/latinmodern-roman.css");
+@import url("https://lalten.github.io/lmweb/style/latinmodern-sans.css");
+@font-face {
+  font-family: zh;
+  src: local(SimSun);
+  font-weight: normal;
+}
+@font-face {
+  font-family: zh;
+  src: local('Microsoft Yahei Bold');
+  font-weight: bold;
+}
 
 /*
 	Name:			mod_reset
@@ -88,13 +100,13 @@ CSS 写作注意事项：
 	Last Modify:	Pony
 */
 	body { {BGCODE}; /*min-width: 1200px;*/ }
-	body, input, button, select, textarea { font: {FONTSIZE} {FONT}; color: {TABLETEXT}; }
+	body, input, button, select, textarea { font: {FONTSIZE} {FONT}; color: {TABLETEXT}; text-shadow: 0 0 .5px currentColor; }
 		textarea { resize: none; }
 	body, ul, ol, li, dl, dd, p, h1, h2, h3, h4, h5, h6, form, fieldset, .pr, .pc { margin: 0; padding: 0; }
 	table { empty-cells: show; border-collapse: collapse; }
 		caption, th { text-align: left; font-weight: 400; }
 	ul li, .xl li { list-style: none; }
-	h1, h2, h3, h4, h5, h6 { font-size: 1em; font-family: {SMFONT}; }
+	h1, h2, h3, h4, h5, h6 { font-size: 1em; font-family: {SMFONT}; text-shadow: none; }
 	em, cite, i { font-style: normal; }
 	a { color: {LINK}; text-decoration: none; }
 		a:hover { text-decoration: underline; }
