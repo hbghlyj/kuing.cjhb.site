@@ -18,5 +18,6 @@
     }
   }
   <?php endif; ?>
+  window.MathJax.svg.scale = <?php if ($_G['mobile']):?>0.9<?php else: ?>1.1<?php endif;?>;
 </script>
 <script src="/static/mathjax3/es5/tex-svg.js"></script>

@@ -81,7 +81,6 @@ CSS 写作注意事项：
 
 ---------------------------------- */
 @import url("https://lalten.github.io/lmweb/style/latinmodern-roman.css");
-@import url("https://lalten.github.io/lmweb/style/latinmodern-sans.css");
 @font-face {
   font-family: zh;
   src: local(SimSun);
@@ -100,7 +99,10 @@ Last Modify:	Pony
 */
 	body { {BGCODE}; }
 	textarea { resize: vertical; font: {FONTSIZE} monospace,zh, 'Noto Colr Emoji Glyf'; color: {TABLETEXT}; }
-	body, input, button, select { font: {FONTSIZE} {FONT}; color: {TABLETEXT}; text-shadow: 0 0 .5px currentColor; }
+	body, input, button, select { font: {FONTSIZE} {FONT}; color: {TABLETEXT}; }
+	@media only screen and (orientation: landscape) {
+		body { font-family: "Latin Modern Roman",{FONT}; text-shadow: 0 0 .5px currentColor; }
+	}
 	* { word-wrap: break-word; }
 	body, ul, ol, li, dl, dd, p, h1, h2, h3, h4, h5, h6, form, fieldset, .pr, .pc { margin: 0; padding: 0; }
 	table { empty-cells: show; border-collapse: collapse; }
