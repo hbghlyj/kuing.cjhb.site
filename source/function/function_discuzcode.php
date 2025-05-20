@@ -76,14 +76,25 @@ function discuzcode($message, $smileyoff = false, $bbcodeoff = false, $htmlon = 
 	if($parsetype != 1 && !$bbcodeoff && $allowbbcode && (strpos($message, '[/code]') || strpos($message, '[/CODE]')) !== FALSE) {
 		$message = preg_replace_callback('/\s?\[code\](.+?)\[\/code\]\s?/is', 'discuzcode_callback_codedisp_1', $message);
 	}
-	// kk add
+	// parse [tikz] and [asy]
 	if($parsetype != 1 && !$bbcodeoff && $allowbbcode && strpos($message, '[/tikz]') !== FALSE) {
 		$message = preg_replace_callback("/\[tikz\](.+?)\[\/tikz\]/s", function($matches) {
-			$strb = strtr(base64_encode(gzdeflate($matches[1])), '+/', '-_');
+			$code = $matches[1];
+			// Remove comments: only unescaped '%' and the rest of the line
+			$code = preg_replace('/(?<!\\\\)%.*$/m', '', $code);
+			// Remove lines that are white space only
+			$code = preg_replace('/^\s*$/m', '', $code);
+			// Remove leading and trailing white space from each line
+			$code = preg_replace('/^\s+|\s+$/m', '', $code);
+			$strb = rtrim(strtr(base64_encode(gzdeflate($code)), '+/', '-_'), '=');
 			return '[img]//i.upmath.me/svgb/'.$strb.'[/img]';
 		}, $message);
 	}
 	if($parsetype != 1 && !$bbcodeoff && $allowbbcode && strpos($message, '[/asy]') !== FALSE) {
+		// Remove comments: double slashes and the rest of the line
+		$message = preg_replace('/(?<!\\\\)\/\/.*$/m', '', $message);
+		// Remove lines that are white space only
+		$message = preg_replace('/^\s*$/m', '', $message);
 		$message = preg_replace_callback("/\[asy\](.+?)\[\/asy\]/s", function ($matches) {
 			$str = rawurlencode($matches[1]);
 			return '[img]asy/?code='.$str.'&format='
