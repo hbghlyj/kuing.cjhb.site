@@ -1,20 +1,12 @@
-
-//===tikz支持 + asy
-function close_tikz_window(){
-        var tikz_window=document.getElementById('tikz_window');
-        if(tikz_window){
-                tikz_window.remove();
-        }
-}
-function show_tikz_window(tikz_code){
-        close_tikz_window();
-        var tikz_window=document.createElement('div');
-        tikz_window.id='tikz_window';
-        tikz_window.className='tikzww';
-        tikz_window.innerHTML=`<div onmousedown="tuozhuai(this.parentNode);return false;" style="width:100%;height:26px;cursor:move;">
-            <a href="javascript:close_tikz_window();" class="flbc" style="float:right;margin:3px 6px 0 0;">关闭</a></div>
-            <div><textarea class="tikzta">`+decodeURIComponent(tikz_code)+'</textarea></div>';
-        document.body.append(tikz_window);
+//===支持tikz + asymptote
+function show_tikz_window(code){
+    document.getElementById('tikz_window')?.remove();
+    var tikz_window=document.createElement('div');
+    tikz_window.id='tikz_window';
+    tikz_window.className='tikzww';
+    tikz_window.innerHTML='<div onmousedown="tuozhuai(this.parentNode);return false;" style="width:100%;height:26px;cursor:move;"><a href="javascript:document.getElementById(\'tikz_window\')?.remove();" class="flbc" style="float:right;margin:3px 6px 0 0;"></a></div><div><textarea class="tikzta"></textarea></div>';
+    tikz_window.querySelector('textarea').value=code;
+    document.body.append(tikz_window);
 }
 function tuozhuai2(event,ee) {
     //鼠标相对于盒子的位置
@@ -107,26 +99,48 @@ function bbimg(e){
     ev.preventDefault();
 }
 function togglemw100(){
-    //this.removeAttribute('width');
-    //this.removeAttribute('height');
-    //this.classList.toggle('mw100');
-    if(this.getAttribute('width')) {
-        this.setAttribute('savewidth',this.getAttribute('width'));
-        this.removeAttribute('width');
-        this.classList.remove('mw100');
-    } else if(this.getAttribute('savewidth')) {
-        this.setAttribute('width',this.getAttribute('savewidth'));
-        this.removeAttribute('savewidth');
-        this.classList.add('mw100');
-    } else {
-        this.classList.toggle('mw100');
-    }
-    if(this.getAttribute('height')) {
-        this.setAttribute('saveheight',this.getAttribute('height'));
-        this.removeAttribute('height');
-    } else if(this.getAttribute('saveheight')) {
-        this.setAttribute('height',this.getAttribute('saveheight'));
-        this.removeAttribute('saveheight');
+    if(this.getAttribute('src').startsWith('asy/?code=')) {
+        show_tikz_window(new URL(this.src).searchParams.get('code'));
+    }else if(this.getAttribute('src').startsWith('//i.upmath.me/svgb/')) {
+        return (async function(base64) {
+            // Convert URL-safe base64 back to standard base64
+            // Pad base64 string if necessary
+            while (base64.length % 4) base64 += '=';
+
+            // Decode base64 to byte array
+            var binaryString = atob(base64);
+            var len = binaryString.length;
+            var bytes = new Uint8Array(len);
+            for (var i = 0; i < len; i++) {
+                bytes[i] = binaryString.charCodeAt(i);
+            }
+
+            // Decompress using DecompressionStream
+            var compressedStream = new Blob([bytes]).stream();
+            var decompressedStream = compressedStream.pipeThrough(new DecompressionStream('deflate-raw'));
+            var decompressedBlob = await new Response(decompressedStream).blob();
+            var decompressedText = await decompressedBlob.text();
+            show_tikz_window(decompressedText);
+        })(this.getAttribute('src').slice(19).replace(/-/g, '+').replace(/_/g, '/'));
+    }else{
+        if(this.getAttribute('width')) {
+            this.setAttribute('savewidth',this.getAttribute('width'));
+            this.removeAttribute('width');
+            this.classList.remove('mw100');
+        }else if(this.getAttribute('savewidth')) {
+            this.setAttribute('width',this.getAttribute('savewidth'));
+            this.removeAttribute('savewidth');
+            this.classList.add('mw100');
+        } else {
+            this.classList.toggle('mw100');
+        }
+        if(this.getAttribute('height')) {
+            this.setAttribute('saveheight',this.getAttribute('height'));
+            this.removeAttribute('height');
+        } else if(this.getAttribute('saveheight')) {
+            this.setAttribute('height',this.getAttribute('saveheight'));
+            this.removeAttribute('saveheight');
+        }
     }
 }
 var images=document.querySelectorAll('.t_fsz img.zoom');
