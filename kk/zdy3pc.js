@@ -99,57 +99,28 @@ function bbimg(e){
     ev.preventDefault();
 }
 function togglemw100(){
-    if(this.getAttribute('src').startsWith('asy/?code=')) {
-        show_tikz_window(new URL(this.src).searchParams.get('code'));
-    }else if(this.getAttribute('src').startsWith('//i.upmath.me/svgb/')) {
-        return (async function(base64) {
-            // Convert URL-safe base64 back to standard base64
-            // Pad base64 string if necessary
-            while (base64.length % 4) base64 += '=';
-
-            // Decode base64 to byte array
-            var binaryString = atob(base64);
-            var len = binaryString.length;
-            var bytes = new Uint8Array(len);
-            for (var i = 0; i < len; i++) {
-                bytes[i] = binaryString.charCodeAt(i);
-            }
-
-            // Decompress using DecompressionStream
-            var compressedStream = new Blob([bytes]).stream();
-            var decompressedStream = compressedStream.pipeThrough(new DecompressionStream('deflate-raw'));
-            var decompressedBlob = await new Response(decompressedStream).blob();
-            var decompressedText = await decompressedBlob.text();
-            show_tikz_window(decompressedText);
-        })(this.getAttribute('src').slice(19).replace(/-/g, '+').replace(/_/g, '/'));
-    }else{
-        if(this.getAttribute('width')) {
-            this.setAttribute('savewidth',this.getAttribute('width'));
-            this.removeAttribute('width');
-            this.classList.remove('mw100');
-        }else if(this.getAttribute('savewidth')) {
-            this.setAttribute('width',this.getAttribute('savewidth'));
-            this.removeAttribute('savewidth');
-            this.classList.add('mw100');
-        } else {
-            this.classList.toggle('mw100');
-        }
-        if(this.getAttribute('height')) {
-            this.setAttribute('saveheight',this.getAttribute('height'));
-            this.removeAttribute('height');
-        } else if(this.getAttribute('saveheight')) {
-            this.setAttribute('height',this.getAttribute('saveheight'));
-            this.removeAttribute('saveheight');
-        }
+    if(this.getAttribute('width')) {
+        this.setAttribute('savewidth',this.getAttribute('width'));
+        this.removeAttribute('width');
+        this.classList.remove('mw100');
+    }else if(this.getAttribute('savewidth')) {
+        this.setAttribute('width',this.getAttribute('savewidth'));
+        this.removeAttribute('savewidth');
+        this.classList.add('mw100');
+    } else {
+        this.classList.toggle('mw100');
+    }
+    if(this.getAttribute('height')) {
+        this.setAttribute('saveheight',this.getAttribute('height'));
+        this.removeAttribute('height');
+    } else if(this.getAttribute('saveheight')) {
+        this.setAttribute('height',this.getAttribute('saveheight'));
+        this.removeAttribute('saveheight');
     }
 }
 var images=document.querySelectorAll('.t_fsz img.zoom');
 for (let item of images) {
-    //togglemw100.call(item);
-    //item.removeAttribute("alt");
-    //item.classList.add('mw100');
-    //item.removeAttribute("onclick");
-    item.addEventListener("click", togglemw100);
+    item.hasAttribute('onclick') || item.addEventListener("click", togglemw100);
     item.addEventListener("wheel", bbimg);
 }
 document.querySelectorAll('tikz img,asy img').forEach(a=>a.addEventListener("wheel", bbimg));

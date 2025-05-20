@@ -1,3 +1,13 @@
+//===支持tikz + asymptote
+function show_tikz_window(){
+    document.getElementById('tikz_window')?.remove();
+    var tikz_window=document.createElement('div');
+    tikz_window.id='tikz_window';
+    tikz_window.className='tikzww';
+    tikz_window.innerHTML='<div onmousedown="tuozhuai(this.parentNode);return false;" style="width:100%;height:26px;cursor:move;"><a href="javascript:document.getElementById(\'tikz_window\')?.remove();" class="flbc" style="float:right;margin:3px 6px 0 0;"></a></div><div><textarea class="tikzta"></textarea></div>';
+    tikz_window.querySelector('textarea').value=this;
+    document.body.append(tikz_window);
+}
 //===Html模式下用bbr免打br
 var bbrs=document.getElementsByTagName('bbr');
 for (let item of bbrs) {
