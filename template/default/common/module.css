@@ -564,9 +564,8 @@ Created & Modified by Alice, Monkey, Lushnis, Pony, Dfox & DragonLee.
 	.xst { font: {THREADTITLEFONTSIZE} {THREADTITLEFONT}; }
 	/* PC browsers */
 @media only screen and (orientation: landscape) {
-	.xst{
+	#thread_subject,.xst{
 		font-family: "Latin Modern Roman",{THREADTITLEFONT};
-		text-shadow: 0 0 .5px currentColor;
 	}
 }
 		.xst i { font-style: italic; }
@@ -1090,7 +1089,7 @@ i.pstatus { display: block; margin-bottom: -30px; font-size: 12px; text-align: c
 	.pl .quote { padding-bottom: 5px; background: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='28' height='27'%3e%3cpath fill='%23d8e7f2' d='M11 16v10H1V16C1 10 7 1 11 1v5c-2 0-5 6-5 10h5zm16 0v10H17V16c0-6 6-15 10-15v5c-2 0-5 6-5 10h5z'/%3e%3c/svg%3e") no-repeat 20px 6px; overflow: visible; border: 2px #d8e7f2 dashed; }
 		.pl .quote blockquote { margin: 0; padding: 0 65px 5px 0; background: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='28' height='27'%3e%3cpath fill='%23d8e7f2' d='M17 11V1h10v10c0 6-6 15-10 15v-5c2 0 5-6 5-10h-5zM1 11V1h10v10c0 6-6 15-10 15v-5c2 0 5-6 5-10H1z'/%3e%3c/svg%3e") no-repeat 100% 100%; line-height: 1.6; zoom: 1; }
 
-	.pl .blockcode { padding: 10px 0 5px 10px; border: 1px solid {WRAPBORDERCOLOR}; background: #F7F7F7 repeat-y 0 0; background-image: linear-gradient(90deg, #EDEDED, #EDEDED); background-size: 43px; overflow: hidden; }
+	.pl .blockcode { padding: 10px 0 5px 10px; border: 1px solid {WRAPBORDERCOLOR}; background: #F7F7F7 repeat-y 0 0; background-image: linear-gradient(90deg, #EDEDED, #EDEDED); background-size: 43px; overflow: hidden; text-shadow: none; }
 		.pl .blockcode ol { margin: 0 0 0 10px !important; padding: 0 !important; }
 			.pl .blockcode ol li { padding-left: 10px; list-style-type: decimal-leading-zero; font-family: Monaco,Consolas,'Lucida Console','Courier New',serif; font-size: 12px; line-height: 1.8em; }
 				.pl .blockcode ol li:hover { background: {WRAPBG}; color: {HIGHLIGHTLINK}; }

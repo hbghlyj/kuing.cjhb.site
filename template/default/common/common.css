@@ -111,7 +111,7 @@ textarea { resize: none; }
 	table { empty-cells: show; border-collapse: collapse; }
 		caption, th { text-align: left; font-weight: 400; }
 	ul li, .xl li { list-style: none; }
-	h1, h2, h3, h4, h5, h6 { font-size: 1em; font-family: {SMFONT}; text-shadow: none; }
+	h1, h2, h3, h4, h5, h6 { font-size: 1em; font-family: {FONT}; text-shadow: none; }
 	em, cite, i { font-style: normal; }
 	a { color: {LINK}; text-decoration: none; }
 		a:hover { text-decoration: underline; }
@@ -253,7 +253,7 @@ textarea { resize: none; }
 	Last Modify:	lushnis
 */
 	.xw0 { font-weight: 400; }
-	.xw1 { font-weight: 700; }
+	.xw1 { font-weight: 700; text-shadow: none; }
 /*
 	Name:			mod_border
 	Level:			Global
