@@ -100,7 +100,6 @@ window.MathJax = {
     paths: {custom: 'kk'}
   },
   svg: {
-    scale: 1.1,
     fontCache: 'global',
     mtextInheritFont: true
   }
