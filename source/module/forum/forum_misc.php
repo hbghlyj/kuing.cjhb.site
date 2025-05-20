@@ -327,7 +327,7 @@ if($_GET['action'] == 'paysucceed') {
 			'bbcodeoff' => $bbcodeoff,
 			'port' => $_G['remoteport']
 		));
-		showmessage('postappend_add_succeed', "forum.php?mod=viewthread&tid={$post['tid']}&pid={$post['pid']}&page={$_GET['page']}&extra={$_GET['extra']}#pid{$post['pid']}", array('tid' => $post['tid'], 'pid' => $post['pid']));
+		showmessage('postappend_add_succeed', "forum.php?mod=viewthread&tid={$post['tid']}&pid={$post['pid']}".($_GET['page']>1?"&page={$_GET['page']}":'')."&extra={$_GET['extra']}#pid{$post['pid']}", array('tid' => $post['tid'], 'pid' => $post['pid']));
 	} else {
 		include template('forum/postappend');
 	}
