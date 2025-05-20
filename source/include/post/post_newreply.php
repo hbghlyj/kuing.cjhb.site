@@ -162,7 +162,7 @@ if($_G['setting']['commentnumber'] && !empty($_GET['comment'])) {
  		'useTLS' => true
  	));
  	$pusher->trigger('Chat', 'commentadd', array('tid' => $post['tid'], 'page' => $_GET['page'], 'pid' => $post['pid']));
-	showmessage('comment_add_succeed', "forum.php?mod=viewthread&tid={$post['tid']}&pid={$post['pid']}&page={$_GET['page']}&extra=$extra#pid{$post['pid']}", array('tid' => $post['tid'], 'pid' => $post['pid']));
+	showmessage('comment_add_succeed', "forum.php?mod=viewthread&tid={$post['tid']}&pid={$post['pid']}".($_GET['page']>1?"&page={$_GET['page']}":'')."&extra=$extra#pid{$post['pid']}", array('tid' => $post['tid'], 'pid' => $post['pid']));
 }
 
 if($special == 127) {
