@@ -58,22 +58,6 @@ function codedisp($code) {
 	$_G['forum_discuzcode']['codecount']++;
 	return "[\tDISCUZ_CODE_".$_G['forum_discuzcode']['pcodecount']."\t]";
 }
-// kk add
-function asycode_callback($matches) {
-	$str = $matches[1];
-	return '<tikz class="tupian"><div class="jiaz"></div><div class="tuozt" onmousedown="tuozhuai2(event,this.parentNode);return false;"><!--拖动--></div><div class="guiw" onclick="guiwei(this.parentNode);return false;"><!--归位--></div><img src="/asy/?format='
-	.((str_contains($str, 'import%20graph3')||str_contains($str, 'import%20three'))? 'png' : 'svg')
-	.'&code='.$str.'" onclick="show_tikz_window(\''.$str.'\');" onload="this.parentNode.classList.add(\'jiazed\');this.setAttribute(\'width\',this.width);this.parentNode.style.display=\'inline-block\';"></tikz>';
-}
-
-function tikzcode_callback($matches) {
-    $str = str_replace(array(
-		'%21', '%28', '%29', '%2A', '%2B', '%2C', '%3A', '%3B', '%3D','%0D'
-		),array(
-		'!', '(', ')', '*', '+', ',', ':', ';', '=',''
-		),$matches[1]);
-    return '<tikz class="tupian"><div class="jiaz"></div><div class="tuozt" onmousedown="tuozhuai2(event,this.parentNode);return false;"><!--拖动--></div><div class="guiw" onclick="guiwei(this.parentNode);return false;"><!--归位--></div><img src="//i.upmath.me/svg/'.$str.'" onclick="show_tikz_window(\''.$str.'\');" onload="this.parentNode.classList.add(\'jiazed\');this.setAttribute(\'width\',this.width);this.parentNode.style.display=\'inline-block\';"></tikz>';
-}
 
 function karmaimg($rate, $ratetimes) {
 	if($rate && $ratetimes) {
@@ -92,8 +76,19 @@ function discuzcode($message, $smileyoff = false, $bbcodeoff = false, $htmlon = 
 	if($parsetype != 1 && !$bbcodeoff && $allowbbcode && (strpos($message, '[/code]') || strpos($message, '[/CODE]')) !== FALSE) {
 		$message = preg_replace_callback('/\s?\[code\](.+?)\[\/code\]\s?/is', 'discuzcode_callback_codedisp_1', $message);
 	}
+	// kk add
+	if($parsetype != 1 && !$bbcodeoff && $allowbbcode && strpos($message, '[/tikz]') !== FALSE) {
+		$message = preg_replace_callback("/\[tikz\](.+?)\[\/tikz\]/s", function($matches) {
+			$strb = strtr(base64_encode(gzdeflate($matches[1])), '+/', '-_');
+			return '[img]//i.upmath.me/svgb/'.$strb.'[/img]';
+		}, $message);
+	}
 	if($parsetype != 1 && !$bbcodeoff && $allowbbcode && strpos($message, '[/asy]') !== FALSE) {
-		$message = preg_replace_callback("/\[asy\](.+?)\[\/asy\]/s", function ($matches) { return '[asy]'.rawurlencode($matches[1]).'[/asy]'; }, $message);
+		$message = preg_replace_callback("/\[asy\](.+?)\[\/asy\]/s", function ($matches) {
+			$str = rawurlencode($matches[1]);
+			return '[img]asy/?code='.$str.'&format='
+			.((str_contains($str, 'import%20graph3')||str_contains($str, 'import%20three'))? 'png' : 'svg').'[/img]';
+		}, $message);
 	}
 
 	$msglower = strtolower($message);
@@ -279,7 +274,7 @@ function discuzcode($message, $smileyoff = false, $bbcodeoff = false, $htmlon = 
 				"/\[img\]\s*([^\[\<\r\n]+?)\s*\[\/img\]/is",
 				function($matches) use ($allowimgcode, $lazyload, $pid, $allowbbcode) {
 					if(intval($allowimgcode)) {
-						return parseimg(0, 0, $matches[1], intval($lazyload), intval($pid), 'onmouseover="img_onmouseoverfunc(this)" '.(intval($lazyload) ? 'lazyloadthumb="1"' : 'onload="thumbImg(this)"'));
+						return parseimg(0, 0, $matches[1], intval($lazyload), intval($pid), (intval($lazyload) ? 'lazyloadthumb="1"' : 'onload="this.parentNode.classList.add(\'jiazed\');this.setAttribute(\'width\',this.width);this.parentNode.style.display=\'inline-block\';"'));
 					}
 					return (intval($allowbbcode) ? (!defined('IN_MOBILE') ? bbcodeurl($matches[1], '<a href="{url}" target="_blank">{url}</a>') : bbcodeurl($matches[1], '')) : bbcodeurl($matches[1], '{url}'));
 				},
@@ -581,11 +576,12 @@ function _parsetable_cell_generator($param1, $colspan, $rowspan, $width, $curren
 function bbcodeurl($url, $tags) {
 	if(preg_match('/<.+?>/s', $url)) {
 		return '&nbsp;'.$url;
-	} else {
-		if(str_starts_with($url, 'data:image')) {
-		} elseif(!in_array(strtolower(substr($url, 0, 6)), ['http:/', 'https:', 'ftp://', 'rtsp:/', 'mms://']) && !preg_match('/^static\//', $url) && !preg_match('/^data\//', $url)) {
-			$url = 'http://'.$url;
-		}
+	}
+	if(str_starts_with($url, 'data:image')) {
+	} elseif(str_starts_with($url, 'www.')) {
+		$url = '//'.$url;
+	} elseif(!in_array(strtolower(substr($url, 0, 8)), ['http://', 'https://']) && !in_array(strtolower(substr($url, 0, 6)), ['ftp://', 'rtsp:/', 'mms://']) && !str_starts_with($url, '//') && !preg_match('/^static\//', $url) && !preg_match('/^data\//', $url)) {
+		$url = 'http://'.$url;
 	}
 	return str_replace(['submit', 'member.php?mod=logging'], ['', ''], str_replace('{url}', addslashes($url), $tags));
 }
@@ -693,7 +689,7 @@ function parseimg($width, $height, $src, $lazyload, $pid, $extra = '') {
 		if(defined('IN_MOBILE') || defined('IN_RESTFUL')) {
 			$img = '<img'.($width > 0 ? ' width="'.$width.'"' : '').($height > 0 ? ' height="'.$height.'"' : '').' src="{url}" border="0" alt="" />';
 		} else {
-			$img = '<div class="tupian"><div class="jiaz"></div><div class="tuozt" onmousedown="tuozhuai2(event,this.parentNode);return false;"><!--拖动--></div><div class="guiw" onclick="guiwei(this.parentNode);return false;"><!--归位--></div><img id="aimg_'.$rimg_id.'" class="zoom mw100"'.($width > 0 ? ' width="'.$width.'"' : '').($height > 0 ? ' height="'.$height.'"' : '').' '.$attrsrc.'="{url}" '.($extra ? $extra.' ' : '')."/></div>\n";
+			$img = '<div class="tupian"><div class="jiaz"></div><div class="tuozt" onmousedown="tuozhuai2(event,this.parentNode);return false;"></div><div class="guiw" onclick="guiwei(this.parentNode);return false;"></div><img id="aimg_'.$rimg_id.'" class="zoom mw100"'.($width > 0 ? ' width="'.$width.'"' : '').($height > 0 ? ' height="'.$height.'"' : '').' '.$attrsrc.'="{url}" '.($extra ? $extra.' ' : '')."/></div>\n";
 		}
 	}
 	$code = bbcodeurl($src, $img);
