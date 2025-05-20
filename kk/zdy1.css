@@ -1,7 +1,6 @@
 .lk .x li {width: 10em;}
 /*友情链接加宽*/
 
-#category_grid {font-size:12px;}
 .category_newlist li {
     height: auto;
     line-height: 20px;
@@ -18,7 +17,7 @@
 .newimgbox>.slidebox_grid>table img{
     height: auto;
 }
-/*首页四格保持小字号、细节调整（先到后台设标题截取长度足够大）、幻灯宽高调整*/
+/*首页四格细节调整（先到后台设标题截取长度足够大）、幻灯宽高调整*/
 
 .fl_by div {width: 320px;}
 /*首页主题加宽*/
