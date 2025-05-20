@@ -1,3 +1,4 @@
+<link rel="stylesheet" href="https://cdn.mathpix.com/fonts/cmu.css">
 <script src="/kk/mathjax-config.js?<?= $_G['style']['verhash']?>"></script>
 <?php if(!empty($_GET['highlight'])): ?>
 <script>
