@@ -177,7 +177,7 @@ if($_G['setting']['commentnumber'] && !empty($_GET['comment'])) {
  		'cluster' => 'eu',
  		'useTLS' => true
  	));
- 	$pusher->trigger('Chat', 'commentadd', array('tid' => $post['tid'], 'pid' => $post['pid']));
+	$pusher->trigger('Chat', 'commentadd', array('tid' => $post['tid'], 'pid' => $post['pid']));
 	showmessage('comment_add_succeed', "forum.php?mod=redirect&goto=findpost&tid={$post['tid']}&pid={$post['pid']}", array('tid' => $post['tid'], 'pid' => $post['pid']));
 }
 
