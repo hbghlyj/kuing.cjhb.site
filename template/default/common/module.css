@@ -564,7 +564,10 @@ Created & Modified by Alice, Monkey, Lushnis, Pony, Dfox & DragonLee.
 	.xst { font: {THREADTITLEFONTSIZE} {THREADTITLEFONT}; }
 	/* PC browsers */
 	@media only screen and (orientation: landscape) {
-		.xst { text-shadow: 0 0 .5px currentColor; }
+		#thread_subject, .xst {
+			font-family: "Latin Modern Roman",{THREADTITLEFONT};
+			text-shadow: 0 0 .5px currentColor;
+		}
 	}
 		.xst i { font-style: italic; }
 
