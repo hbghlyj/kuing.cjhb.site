@@ -5,6 +5,7 @@ function show_tikz_window(code){
     tikz_window.id='tikz_window';
     tikz_window.className='tikzww';
     tikz_window.innerHTML='<div onmousedown="tuozhuai(this.parentNode);return false;" style="width:100%;height:26px;cursor:move;"><a href="javascript:document.getElementById(\'tikz_window\')?.remove();" class="flbc" style="float:right;margin:3px 6px 0 0;"></a></div><div><textarea class="tikzta"></textarea></div>';
+    code=code.replace(/\u00a0/g,' ');
     tikz_window.querySelector('textarea').value=code;
     document.body.append(tikz_window);
 }
