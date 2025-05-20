@@ -36,7 +36,7 @@ if($op == 'search') {
 		echo '<?xml version="1.0" encoding="utf-8"?>
 <root><![CDATA[<h3 class="flb">
 <em>提取标签</em>
-<span><a href="javascript:;" onclick="hideWindow(\'choosetag\');" class="flbc" title="关闭">关闭</a></span></h3>
+<span><a href="javascript:;" onclick="hideWindow(\'choosetag\');" class="flbc"></a></span></h3>
 	<textarea id="content" rows="4" style="width:-webkit-fill-available;margin:5px"></textarea>
 	<div id="taglistarea" style="padding: 0 5px;width: 400px;"></div>
 	<p class="o pns">

@@ -6,7 +6,7 @@
 	<!--{if $_GET[action] == 'newthread' && $modnewthreads}--><span class="needverify">{lang approve}</span><!--{/if}-->
 	<!--{if $_GET[action] == 'reply' && !empty($modnewreplies)}--><span class="needverify">{lang approve}</span><!--{/if}-->
 	<span>
-		<a href="javascript:;" class="flbc" onclick="hideWindow('$_GET['handlekey']')" title="{lang close}">{lang close}</a>
+		<a href="javascript:;" class="flbc" onclick="hideWindow('$_GET['handlekey']')" title="{lang close}"></a>
 	</span>
 </h3>
 <!--{if $_GET[action] == 'edit'}--><!--{eval $message = $postinfo['message'];}--><!--{/if}-->
