@@ -561,7 +561,14 @@ Created & Modified by Alice, Monkey, Lushnis, Pony, Dfox & DragonLee.
 			#fh .h .y { float: right; }
 			#fh .o a { float: left; margin-right: 10px; }
 	#fh.m { padding-top: 0; background-color: {COMMONBG}; }
-	.xst { font-family: {THREADTITLEFONT}; font-size: {THREADTITLEFONTSIZE}; }
+	.xst { font: {THREADTITLEFONTSIZE} {THREADTITLEFONT}; }
+	/* PC browsers */
+@media only screen and (orientation: landscape) {
+	.xst{
+		font-family: "Latin Modern Roman",{THREADTITLEFONT};
+		text-shadow: 0 0 .5px currentColor;
+	}
+}
 		.xst i { font-style: italic; }
 
 	/* threadtype 帖子类型 */
