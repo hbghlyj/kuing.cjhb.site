@@ -100,8 +100,8 @@ window.MathJax = {
     paths: {custom: 'kk'}
   },
   svg: {
-    scale: 1.1,
     fontCache: 'global',
+    scale: /android|avantgo|blackberry|bolt|boost|cricket|docomo|fone|hiptop|mini|mobi|palm|phone|pie|tablet|up\.browser|up\.link|webos|wos/i.test(navigator.userAgent) ? 0.9 : 1.1,
     mtextInheritFont: true
   }
 };
