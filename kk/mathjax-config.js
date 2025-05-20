@@ -93,7 +93,7 @@ window.MathJax = {
     paths: {custom: 'kk'}
   },
   svg: {
-    scale: 0.9,
+    scale: 1.1,
     fontCache: 'global'
   }
 };
