@@ -592,6 +592,8 @@ if(!submitcheck('modsubmit')) {
 				$_G['toforum'] = $toforum;
 				updateforumcount($moveto);
 				updateforumcount($_G['fid']);
+				C::t('forum_forum')->update_forum_counter($_G['fid'], 0, 0, -1);
+				C::t('forum_forum')->update_forum_counter($moveto, 0, 0, 1);
 			} elseif($operation == 'type') {
 				if(!$_G['group']['allowedittypethread']) {
 					showmessage('no_privilege_edittypethread');
