@@ -39,11 +39,11 @@ function PusherChatWidget(pusher, options) {
   });
   this._chatChannel.bind('pusher:subscription_succeeded', function(){
     self._widget.find('.pusher-chat-widget-input label').text((isChinese ? '快捷键' : 'Shortcut') + ' Ctrl+Enter');
-    self._widget.find('button').prop('disabled', false);
+    self._widget.find('.pusher-chat-widget-send-btn').prop('disabled', false);
   });
   this._pusher.connection.bind('unavailable', function() {
     self._widget.find('.pusher-chat-widget-input label').text((isChinese ? '请检查网络连接' : 'Please check your network connection'));
-    self._widget.find('button').prop('disabled', true);
+    self._widget.find('.pusher-chat-widget-send-btn').prop('disabled', true);
   });
   if(typeof currentPage !== 'undefined' && typeof tid !== 'undefined') {
     this._chatChannel.bind('newreply', function(data) {
@@ -142,7 +142,7 @@ PusherChatWidget.prototype._init = function() {
   }
 
   // Add send button functionality
-  this._widget.find('button').click(function() {
+  this._widget.find('.pusher-chat-widget-send-btn').click(function() {
     self._sendChatButtonClicked();
   });
   // Shortcut Ctrl+Enter to send message
@@ -199,6 +199,16 @@ PusherChatWidget.prototype._sendChatMessage = function(data) {
   var self = this;
   
   this._messageInputEl.attr('readonly', 'readonly');
+  // Get button and disable it
+  var $sendBtn = this._widget.find('.pusher-chat-widget-send-btn');
+  $sendBtn.prop('disabled', true);
+  $sendBtn.css({
+    'background-image': 'url(https://kuing.cjhb.site/static/image/common/loading.gif)',
+    'background-repeat': 'no-repeat',
+    'background-position': 'center',
+    'background-size': '16px'
+  });
+
   jQuery.ajax({
     url: this.settings.chatEndPoint,
     type: 'post',
@@ -216,6 +226,11 @@ PusherChatWidget.prototype._sendChatMessage = function(data) {
         showPrompt(null, null,isChinese ? '发送失败' : 'Failed to send message', 1000, 'popuptext');
       }
       self._messageInputEl.removeAttr('readonly');
+      // Re-enable button and clear loading image
+      $sendBtn.prop('disabled', false);
+      $sendBtn.css({
+        'background-image': 'none'
+      });
     }
   })
 };
