@@ -1,0 +1,139 @@
+<style>
+.bm_h, .tl th, .tl td { border-bottom-color: {$styleconfig['lightcolor']}; }
+.fl .bm_h { border-color: {$styleconfig['lightcolor']}; background:{$styleconfig['bmhcolor']} url("{$styleconfig['bmhimg']}") left top repeat-x; }
+.bm_h a{color:{$styleconfig['bmhtextcolor']}}
+.bm_h {color:{$styleconfig['bmhtextcolor']}}
+.bm_h h2 a{color:{$styleconfig['bmhtextcolor']} !important}
+.bm_h .xw1 a{color:{$styleconfig['bmhtextcolor']} !important}
+a,link {color:{$styleconfig['urlcolor']}}
+.tbmu .pnc{background:{$styleconfig['darkcolor']} !important}
+.pnc{background:{$styleconfig['darkcolor']} !important}
+.pnc:hover{background:{$styleconfig['midcolor']} !important}
+.postbtn {
+	padding: 10px 20px;
+	font-size: 16px;
+	background: linear-gradient(60deg, {$styleconfig['darkcolor']} 0%, {$styleconfig['midcolor']} 100%);
+	border-radius: 10px;
+	color: #FFF;
+	float: left;
+}
+
+.postbtn:hover {
+	background: {$styleconfig['darkcolor']};
+}
+{if $styleconfig['sidewidth']}
+<!--{eval $styleconfig['width'] = $styleconfig['width']?$styleconfig['width']:1080;}-->
+.ct2 .mn {width:{echo $styleconfig['width']-$styleconfig['sidewidth']-10}px;}
+.ct2 .sd {width:{$styleconfig['sidewidth']}px;}
+{/if}
+
+{if $styleconfig['width']}
+#toptb {min-width: {$styleconfig['width']}px;}
+.wp {width: {$styleconfig['width']}px;}	
+
+.ct2_a .mn {
+	min-height: 500px;
+	background: #FFF;
+	padding: 20px;
+	padding-left: 20px;
+	width: {echo (800+{$styleconfig['width']}-1080)}px;
+	margin-right: 0px;
+}
+
+@media (max-width: 1080px) {
+.header,.ftx {
+	width: {$styleconfig['width']}px;
+}
+.header .hdc {margin:20px;}
+.header #topnav {margin:0px 20px;}
+.ftx #frt {margin:0px 20px;}
+.ftx #flk {margin:0px 20px;}
+#toptb .z{padding-left:20px;}
+#wp {width:{echo ($styleconfig['width']-40)}px;margin:0px 20px;}
+.appl {width:160px;}
+#switchwidth {display:none;}
+}
+
+{/if}
+.header {
+{if !$styleconfig['topbg']}
+background: linear-gradient(60deg, {$styleconfig['color1']} 0%, {$styleconfig['color2']} 100%);
+{else}
+background: url({$styleconfig['topbg']}) no-repeat;
+background-size: 100% auto;
+{/if}
+{if $styleconfig['topheight']}
+height:{echo $styleconfig['topheight'] + $styleconfig['logoheight']}px;
+{/if}
+}
+
+@media (max-width: 1080px) {
+.header {margin-bottom:-110px;}
+}
+
+{if $styleconfig['topheight']}	
+#topnav {margin-top:{echo $styleconfig['topheight']-250}px !important;}
+@media (max-width: 1080px) {
+#topnav {margin-top:{echo $styleconfig['topheight']-250}px !important;}
+.waves {margin-top:5px;}
+}
+{/if}
+
+
+{if $styleconfig['topheight']}
+
+@media (max-width: 1080px) {
+.ct2 .sd {width:260px;}
+.waves{margin-top:50px;width:{$styleconfig['width']}px}
+}
+{/if}
+
+{if $styleconfig['hideqmenu']}
+#qmenu {display:none;}
+{/if}
+
+#um,#um a {
+	color: {$styleconfig['usercolor']}
+}
+
+.gtc {color:{$styleconfig['usercolor']} !important}
+
+#um .a {
+	background: #FFF;
+	color: #000;
+	border: 0px;
+}
+
+#um a {text-decoration: none}
+#topnav li a{color:{$styleconfig['menucolor']};}
+#topnav li:hover a{color:#FFF;}
+#topnav .a a{color:#FFF;font-weight:800}
+
+#uhd, #flw_header .bar, .flw_replybox { background-color:{$styleconfig['lightcolor']}; }
+#uhd .tb a, #flw_header .bar { border-top-color: {$styleconfig['lightcolor']}; }
+#flw_post_extra .sec { border-color: {$styleconfig['lightcolor']}; background-color:{$styleconfig['lightcolor']} }
+
+.ftx {
+	background: {$styleconfig['bottombgcolor']};
+	color:{$styleconfig['bottomtxtcolor']};
+	margin-top: 10px;
+	border-top: 1px solid #DDD;
+	padding-top: 30px;
+	font-size:14px;
+}
+
+.ftx *{
+	color:{$styleconfig['bottomtxtcolor']};
+}
+
+.ftx a{
+	color:{$styleconfig['bottomtxtcolor']};
+}
+
+.ftx a:hover{
+	color:{$styleconfig['bottomtxtcolor']};
+}
+
+
+{$styleconfig['morecss']}
+</style>
