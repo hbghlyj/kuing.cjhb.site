@@ -81,6 +81,7 @@ CSS 写作注意事项：
 
 ---------------------------------- */
 @import url("https://lalten.github.io/lmweb/style/latinmodern-roman.css");
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@200..900&display=swap');
 @font-face {
   font-family: zh;
   src: local(SimSun);
