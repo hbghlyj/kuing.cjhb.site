@@ -28,13 +28,14 @@
 	<!--{/if}-->
 <!--{if $_G['mobile']===false}-->
 <script type="module" defer>
-	const currentFontFamily = window.getComputedStyle(document.body).fontFamily;
+	let currentFontFamily = window.getComputedStyle(document.body).fontFamily;
 	const tmpstyle = document.createElement("style");
 	document.getElementsByTagName("head")[0].appendChild(tmpstyle);
 	if (navigator.userAgent.includes("Windows") && navigator.userAgent.includes("Chrome")) {
 		if (navigator.userAgent.match(/Windows 7|Windows 8|Windows NT 6|Windows NT 10\.0.*?Chrome\/10[0-9]/)) {
 			if(!currentFontFamily.includes('Noto Colr Emoji Glyf')){
 				tmpstyle.innerHTML = '@import url("https://fonts.googleapis.com/css2?family=Noto+Colr+Emoji+Glyf");body, input, button, select, textarea, .xst, .ts{font-family:'+currentFontFamily+', \'Noto Colr Emoji Glyf\'}';
+				currentFontFamily += ',\'Noto Colr Emoji Glyf\'';
 			}
 		}else{
 			import("https://cdn.skypack.dev/country-flag-emoji-polyfill").then(module => {
