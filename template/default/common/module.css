@@ -562,12 +562,6 @@ Created & Modified by Alice, Monkey, Lushnis, Pony, Dfox & DragonLee.
 			#fh .o a { float: left; margin-right: 10px; }
 	#fh.m { padding-top: 0; background-color: {COMMONBG}; }
 	.xst { font: {THREADTITLEFONTSIZE} {THREADTITLEFONT}; }
-	/* PC browsers */
-@media only screen and (orientation: landscape) {
-	#thread_subject,.xst{
-		font-family: "Latin Modern Roman",{THREADTITLEFONT};
-	}
-}
 		.xst i { font-style: italic; }
 
 	/* threadtype 帖子类型 */

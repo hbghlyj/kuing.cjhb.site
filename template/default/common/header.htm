@@ -42,7 +42,8 @@
 			});
 		}
 	}
-	tmpstyle.innerHTML += 'body { text-shadow: 0 0 .5px currentColor; font-family:"Latin Modern Roman",'+currentFontFamily+'}';
+	tmpstyle.innerHTML += 'body {text-shadow: 0 0 .5px currentColor;}body,.xs0,#thread_subject,.xst{font-family: "Latin Modern Roman",'+currentFontFamily+';}';
+
 	document.getElementsByTagName("head")[0].appendChild(tmpstyle);
 </script>
 <!--{/if}-->
