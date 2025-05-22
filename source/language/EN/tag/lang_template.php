@@ -14,7 +14,7 @@ $lang = array (
 	'blog_read'		=> 'Views',//'次阅读',
 	'blog_replay'		=> 'Replies',//'个评论',
 	'empty_tags'		=> 'Tag not exists. You can continue to search or <a href="misc.php?mod=tag" title="Back to tag page">Back to tag page</a>',//'没有此标签，您可以继续搜索或者<a href="misc.php?mod=tag" title="返回标签首页">返回标签首页</a>',
-	'forum'			=> 'Forum',//'版块',
+	'forum'			=> 'Board',//'版块',
 	'hot'			=> 'Hot',//'热度',
 	'lastpost'		=> 'Last Post',//'最后发表',
 	'no_content'		=> 'No relevant content',//'没有相关内容',

@@ -10,7 +10,7 @@
  */
 
 $lang = array (
-	'forum'			=> 'Forum',//'版块',
+	'forum'			=> 'Board',//'版块',
 	'homepage'		=> 'Home',//'首页',
 	'no_content'		=> 'Sorry, this module does not have more content',
 	'portal'		=> 'Portal',//'{$_G[setting][navs][1][navname]}',
