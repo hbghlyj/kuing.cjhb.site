@@ -46,7 +46,7 @@ to woff.
 }
 
 body, input, button, select, textarea, .xst, .ts,#thread_subject {
-    font-family: "NewComputerModern10",Twemoji Country Flags,Noto Colr Emoji Glyf,zh;
+    font-family: "NewComputerModern10",Twemoji Country Flags,zh,Noto Colr Emoji Glyf;
 }
 m|math {
     font-family: NewComputerModernMath;

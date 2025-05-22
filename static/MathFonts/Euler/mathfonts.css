@@ -18,7 +18,7 @@ converted to WOFF.
 }
 
 body, input, button, select, textarea, .xst, .ts,#thread_subject {
-    font-family: Euler,Twemoji Country Flags,Noto Colr Emoji Glyf,zh;
+    font-family: Euler,Twemoji Country Flags,zh,Noto Colr Emoji Glyf;
 }
 m|math {
     font-family: Euler;

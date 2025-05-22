@@ -33,7 +33,7 @@ for details. This fonts is available on most Linux distributions.
 }
 
 body, input, button, select, textarea, .xst, .ts,#thread_subject {
-    font-family: DejaVu Serif,Twemoji Country Flags,Noto Colr Emoji Glyf,zh;
+    font-family: DejaVu Serif,Twemoji Country Flags,zh,Noto Colr Emoji Glyf;
 }
 m|math {
     font-family: DejaVu Math TeX Gyre;

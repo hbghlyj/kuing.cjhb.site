@@ -38,7 +38,7 @@ Some Web services may also provide them as Web fonts. For details, see
 */
 
 body, input, button, select, textarea, .xst, .ts,#thread_subject {
-    font-family: Cambria,Twemoji Country Flags,Noto Colr Emoji Glyf,zh;
+    font-family: Cambria,Twemoji Country Flags,zh,Noto Colr Emoji Glyf;
 }
 m|math {
     font-family: Cambria Math;

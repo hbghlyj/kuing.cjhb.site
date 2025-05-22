@@ -47,7 +47,7 @@ http://downloads.sourceforge.net/project/stixfonts/
 }
 
 body, input, button, select, textarea, .xst, .ts,#thread_subject {
-    font-family: STIX Two Text,Twemoji Country Flags,Noto Colr Emoji Glyf,zh;
+    font-family: STIX Two Text,Twemoji Country Flags,zh,Noto Colr Emoji Glyf;
 }
 m|math {
     font-family: STIX Two Math;

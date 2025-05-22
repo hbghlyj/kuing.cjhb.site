@@ -44,7 +44,7 @@ http://www.gust.org.pl/projects/e-foundry/
 }
 
 body, input, button, select, textarea, .xst, .ts,#thread_subject {
-    font-family: TeX Gyre Bonum,Twemoji Country Flags,Noto Colr Emoji Glyf,zh;
+    font-family: TeX Gyre Bonum,Twemoji Country Flags,zh,Noto Colr Emoji Glyf;
 }
 m|math {
     font-family: TeX Gyre Bonum Math;

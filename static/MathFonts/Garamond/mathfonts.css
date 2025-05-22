@@ -28,7 +28,7 @@ in this directory for details.
 }
 
 body, input, button, select, textarea, .xst, .ts,#thread_subject {
-    font-family: EB Garamond,Twemoji Country Flags,Noto Colr Emoji Glyf,zh;
+    font-family: EB Garamond,Twemoji Country Flags,zh,Noto Colr Emoji Glyf;
 }
 m|math {
     font-family: Garamond Math;

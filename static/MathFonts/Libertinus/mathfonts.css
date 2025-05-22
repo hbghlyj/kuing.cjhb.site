@@ -43,7 +43,7 @@ the files in this directory for details.
 }
 
 body, input, button, select, textarea, .xst, .ts,#thread_subject {
-    font-family: Libertinus Serif,Twemoji Country Flags,Noto Colr Emoji Glyf,zh;
+    font-family: Libertinus Serif,Twemoji Country Flags,zh,Noto Colr Emoji Glyf;
 }
 m|math {
     font-family: Libertinus Math;
