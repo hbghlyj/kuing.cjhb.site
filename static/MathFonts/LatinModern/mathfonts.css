@@ -35,7 +35,7 @@ http://www.gust.org.pl/projects/e-foundry/
 }
 
 body, input, button, select, textarea, .xst, .ts,#thread_subject {
-    font-family: Latin Modern Roman, LMRoman12,Twemoji Country Flags,Noto Colr Emoji Glyf,zh;
+    font-family: LMRoman12,Twemoji Country Flags,zh,Noto Colr Emoji Glyf;
 }
 m|math {
     font-family: Latin Modern Math;

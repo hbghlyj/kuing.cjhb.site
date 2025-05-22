@@ -19,7 +19,7 @@ be added to make this work correctly.
 */
 
 body, input, button, select, textarea, .xst, .ts,#thread_subject {
-    font-family: Minion Math,Twemoji Country Flags,Noto Colr Emoji Glyf,zh;
+    font-family: Minion Math,Twemoji Country Flags,zh,Noto Colr Emoji Glyf;
 }
 m|math {
     font-family: Minion Math;

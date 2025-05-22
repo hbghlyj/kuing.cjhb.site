@@ -22,7 +22,8 @@ const mathfont_list = {
     "TeXGyreSchola": "TeX Gyre Schola",
     "TeXGyreTermes": "TeX Gyre Termes",
     "XITS": "XITS"};
-const sansSerifFonts = ["Arial", "Verdana", "Helvetica", "Tahoma", "TrebuchetMS"];
+const localFonts = ["Georgia","Arial", "Verdana", "Helvetica", "Tahoma", "TrebuchetMS"];
+
 
 function setCookie(name, value, days) {
 	var expires = "";
@@ -67,14 +68,14 @@ document.addEventListener("DOMContentLoaded", () => {
 	if (mathfont_select) {
 		function updateMathFont() {
 			let mathfont = mathfont_select.value;
-			if (mathfont == "Default" || sansSerifFonts.includes(mathfont))
+			if (mathfont == "Default" || localFonts.includes(mathfont))
 				mathfont_link.removeAttribute("href");
 			else
 				mathfont_link.setAttribute("href",
 										   `/static/MathFonts/${mathfont}/mathfonts.css`);
-			if (sansSerifFonts.includes(mathfont)) {
+			if (localFonts.includes(mathfont)) {
 				let style = document.createElement('style');
-				style.textContent = `body, input, button, select, textarea, .xst, .ts, #thread_subject { font-family: ${mathfont}, "Noto Colr Emoji Glyf","Twemoji Country Flags",zh; }`;
+				style.textContent = `body, input, button, select, textarea, .xst, .ts, #thread_subject { font-family: ${mathfont}, "Twemoji Country Flags",zh,"Noto Colr Emoji Glyf"; }`;
 				document.head.appendChild(style);
 			}
 			updateCookies();
@@ -88,7 +89,7 @@ document.addEventListener("DOMContentLoaded", () => {
 			}
 			mathfont_select.appendChild(option);
 		}
-		for (let font of sansSerifFonts) {
+		for (let font of localFonts) {
 			let option = document.createElement("option");
 			option.value = font;
 			option.innerHTML = '<span style="font-family: ' + font + '">' + font + '</span>';
@@ -107,6 +108,7 @@ document.addEventListener("DOMContentLoaded", () => {
 		"SimSun","NSimSun","Microsoft YaHei","SimHei","KaiTi","FangSong",
 		"PingFang SC","Heiti SC","STHeiti","STXihei","Hiragino Sans GB",
 		"Source Han Sans SC","Noto Sans SC","WenQuanYi Zen Hei","WenQuanYi Micro Hei",
+		"Droid Sans Fallback",
 		// Traditional
 		"MingLiU","PMingLiU","Microsoft JhengHei","DFKai-SB",
 		"PingFang TC","PingFang HK","Heiti TC","LiHei Pro Medium","LiSong Pro Light",
