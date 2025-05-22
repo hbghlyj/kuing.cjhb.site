@@ -82,31 +82,29 @@ CSS 写作注意事项：
 ---------------------------------- */
 @font-face {
     font-family: 'Latin Modern Roman';
-    src: url('/static/webfont/lmroman-bolditalic-webfont.woff') format('woff');
+	src: url('/static/webfont/NewCM10-Bold.otf') format('opentype');
+    font-weight: bold;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Latin Modern Roman';
+	src: url('/static/webfont/NewCM10-BookItalic.otf') format('opentype');
+    font-weight: normal;
+    font-style: italic;
+}
+@font-face {
+    font-family: 'Latin Modern Roman';
+	src: url('/static/webfont/NewCM08-Book.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Latin Modern Roman';
+    src: url('/static/webfont/NewCM10-BoldItalic.otf') format('opentype');
     font-weight: bold;
     font-style: italic;
 }
 
-@font-face {
-    font-family: 'Latin Modern Roman';
-    src: url('/static/webfont/lmroman-bold-webfont.woff') format('woff');
-    font-weight: bold;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: 'Latin Modern Roman';
-    src: url('/static/webfont/lmroman-italic-webfont.woff') format('woff');
-    font-weight: normal;
-    font-style: italic;
-}
-
-@font-face {
-    font-family: 'Latin Modern Roman';
-    src: url('/static/webfont/lmroman-regular-webfont.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-}
 @font-face {
 	font-family: zh;
 	src: local('SimSun'),local('PingFang SC'),local('宋体');
@@ -135,7 +133,7 @@ textarea { resize: none; }
 	table { empty-cells: show; border-collapse: collapse; }
 		caption, th { text-align: left; font-weight: 400; }
 	ul li, .xl li { list-style: none; }
-	h1, h2, h3, h4, h5, h6 { font-size: 1em; font-family: {FONT}; text-shadow: none; }
+	h1, h2, h3, h4, h5, h6 { font-size: 1em; font-family: {FONT}; }
 	em, cite, i { font-style: normal; }
 	a { color: {LINK}; text-decoration: none; }
 		a:hover { text-decoration: underline; }
@@ -277,7 +275,7 @@ textarea { resize: none; }
 	Last Modify:	lushnis
 */
 	.xw0 { font-weight: 400; }
-	.xw1 { font-weight: 700; text-shadow: none; }
+	.xw1 { font-weight: 700; }
 /*
 	Name:			mod_border
 	Level:			Global
