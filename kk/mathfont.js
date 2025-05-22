@@ -22,6 +22,7 @@ const mathfont_list = {
     "TeXGyreSchola": "TeX Gyre Schola",
     "TeXGyreTermes": "TeX Gyre Termes",
     "XITS": "XITS"};
+const sansSerifFonts = ["Arial", "Verdana", "Helvetica", "Tahoma", "TrebuchetMS"];
 
 function setCookie(name, value, days) {
 	var expires = "";
@@ -64,25 +65,39 @@ document.addEventListener("DOMContentLoaded", () => {
 	}
 
 	if (mathfont_select) {
-		function updateMathFont()
-		{
+		function updateMathFont() {
 			let mathfont = mathfont_select.value;
-			if (mathfont == "Default")
+			if (mathfont == "Default" || sansSerifFonts.includes(mathfont))
 				mathfont_link.removeAttribute("href");
 			else
 				mathfont_link.setAttribute("href",
 										   `/static/MathFonts/${mathfont}/mathfonts.css`);
+			if (sansSerifFonts.includes(mathfont)) {
+				let style = document.createElement('style');
+				style.textContent = `body, input, button, select, textarea, .xst, .ts, #thread_subject { font-family: ${mathfont}, "Noto Colr Emoji Glyf","Twemoji Country Flags",zh; }`;
+				document.head.appendChild(style);
+			}
 			updateCookies();
 		}
-		for (let value in mathfont_list) {
+		for (let font in mathfont_list) {
 			let option = document.createElement("option");
-			option.value = value;
-			option.innerText = mathfont_list[value];
-			if (value === fontFamilyCookie) {
+			option.value = font;
+			option.innerText = mathfont_list[font];
+			if (font === fontFamilyCookie) {
 			  option.selected = true;
 			}
 			mathfont_select.appendChild(option);
 		}
+		for (let font of sansSerifFonts) {
+			let option = document.createElement("option");
+			option.value = font;
+			option.innerHTML = '<span style="font-family: ' + font + '">' + font + '</span>';
+			mathfont_select.appendChild(option);
+			if (font === fontFamilyCookie) {
+			  option.selected = true;
+			}
+		}
+
 		updateMathFont();
 		mathfont_select.addEventListener("change", updateMathFont);
 	}
