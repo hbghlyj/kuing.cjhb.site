@@ -81,31 +81,37 @@ CSS 写作注意事项：
 
 ---------------------------------- */
 @font-face {
-    font-family: 'Latin Modern Roman';
-    src: url('/static/webfont/lmroman-bolditalic-webfont.woff') format('woff');
-    font-weight: bold;
-    font-style: italic;
+	font-family: 'Latin Modern Roman';
+	src: url('/static/webfont/NewCM08-Book.woff2') format('woff2');
+	font-weight: normal;
+	font-style: normal;
+}
+@font-face {
+	font-family: 'Latin Modern Roman';
+	src: url('/static/webfont/NewCM10-Bold.woff2') format('woff2');
+	font-weight: bold;
+	font-style: normal;
 }
 
 @font-face {
-    font-family: 'Latin Modern Roman';
-    src: url('/static/webfont/lmroman-bold-webfont.woff') format('woff');
-    font-weight: bold;
-    font-style: normal;
+	font-family: 'Latin Modern Roman';
+	src: url('/static/webfont/NewCM08-BookItalic.woff2') format('woff2');
+	font-weight: normal;
+	font-style: italic;
 }
 
 @font-face {
-    font-family: 'Latin Modern Roman';
-    src: url('/static/webfont/lmroman-italic-webfont.woff') format('woff');
-    font-weight: normal;
-    font-style: italic;
+	font-family: 'Latin Modern Roman';
+	src: url('/static/webfont/NewCM10-BoldItalic.woff2') format('woff2');
+	font-weight: bold;
+	font-style: italic;
 }
 
 @font-face {
-    font-family: 'Latin Modern Roman';
-    src: url('/static/webfont/lmroman-regular-webfont.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
+	font-family: 'Latin Modern Roman';
+	src: url('/static/webfont/NewCM08-Book.woff2') format('woff2');
+	font-weight: normal;
+	font-style: normal;
 }
 @font-face {
 	font-family: zh;
