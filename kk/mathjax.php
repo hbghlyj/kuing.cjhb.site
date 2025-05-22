@@ -1,6 +1,6 @@
 <script src="/kk/mathjax-config.js?<?= $_G['style']['verhash']?>"></script>
-<?php if(!empty($_GET['highlight'])): ?>
 <script>
+  <?php if(!empty($_GET['highlight'])): ?>
   window.MathJax.startup = {
     ready: function() {
       const {HTMLDomStrings} = MathJax._.handlers.html.HTMLDomStrings;
@@ -17,6 +17,7 @@
       MathJax.startup.defaultReady();
     }
   }
+  <?php endif; ?>
+  window.MathJax.svg.scale = <?php if(defined("IN_MOBILE")) { ?>0.9<?php } else { ?>1.1<?php } ?>;
 </script>
-<?php endif; ?>
 <script src="/static/mathjax3/es5/tex-svg.js"></script>

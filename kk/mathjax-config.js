@@ -97,7 +97,6 @@ window.MathJax = {
   },
   svg: {
     fontCache: 'global',
-    mtextInheritFont: true,
-    scale: /android|avantgo|blackberry|bolt|boost|cricket|docomo|fone|hiptop|mini|mobi|palm|phone|pie|tablet|up\.browser|up\.link|webos|wos/i.test(navigator.userAgent) ? 0.9 : 1.1,
+    mtextInheritFont: true
   }
 };
