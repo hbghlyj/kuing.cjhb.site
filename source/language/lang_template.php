@@ -471,7 +471,6 @@ $lang = array (
   'm_logout' => '退出登录',
 
   'time' => '时间',
-  'online_action' => '当前动作',
   'online_in_forum' => '所在版块',
   'online_in_thread' => '所在主题',
   'online_ip' => 'IP 地址',
