@@ -874,7 +874,6 @@ $lang = array (
   'temporarily_to_remind' => '暂不提醒',
   'myitem' => '我的',
   'mypost' => '帖子',
->>>>>>> c9cc590e0 (translation)
 
 	'm_loading' => '正在加载...',
 	'm_its_all' => '已显示全部',
