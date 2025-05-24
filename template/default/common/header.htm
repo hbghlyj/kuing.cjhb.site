@@ -88,6 +88,7 @@
 					<!--{if check_diy_perm($topic)}-->
 						$diynav
 					<!--{/if}-->
+					<a id="change_font" href="javascript:;" onmouseover="delayShow(this, function() {showMenu({'ctrlid':'change_font','pos':'43!'})});" style="color:#999;margin-left:5px;">T</a>
 				</div>
 			</div>
 		</div>
@@ -101,11 +102,9 @@
 					<!--{loop $_G['style']['extstyle'] $extstyle}-->
 						<span class="sslct_btn" onclick="extstyle('$extstyle[0]')" title="$extstyle[1]"><i style='background:$extstyle[2]'></i></span>
 					<!--{/loop}-->
-					<span class="cl"></span>
-					<select class="mathfont"></select>
-					<span class="cl"></span>
-					<select class="chinesefont"></select>
-					<script src="/kk/mathfont.js?{VERHASH}"></script>
+				</div>
+				<div id="change_font_menu" class="cl p_pop" style="display: none;">
+					Change font:<span class="cl"></span>EN: <select style="width: 200px" class="mathfont"></select><span class="cl"></span>ZH: <select style="width: 200px" class="chinesefont"></select><script src="/kk/mathfont.js?{VERHASH}"></script>
 				</div>
 			<!--{/if}-->
 			<!--{if $_G['uid']}-->
