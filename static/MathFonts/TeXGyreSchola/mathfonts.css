@@ -42,7 +42,7 @@ http://www.gust.org.pl/projects/e-foundry/
          url('texgyreschola-math.woff2'), url('texgyreschola-math.woff');
 }
 
-body, input, button, select, textarea, .xst, .ts,#thread_subject {
+body, input, button, select, .xst, .ts,#thread_subject {
     font-family: TeX Gyre Schola,Twemoji Country Flags,zh,Noto Colr Emoji Glyf;
 }
 m|math {

@@ -46,7 +46,7 @@ http://downloads.sourceforge.net/project/stixfonts/
          url('STIXTwoMath-Regular.woff');
 }
 
-body, input, button, select, textarea, .xst, .ts,#thread_subject {
+body, input, button, select, .xst, .ts,#thread_subject {
     font-family: STIX Two Text,Twemoji Country Flags,zh,Noto Colr Emoji Glyf;
 }
 m|math {

@@ -42,7 +42,7 @@ files in this directory for details.
          url('GFSNeohellenicMath.woff');
 }
 
-body, input, button, select, textarea, .xst, .ts,#thread_subject {
+body, input, button, select, .xst, .ts,#thread_subject {
     font-family: GFS Neohellenic,Twemoji Country Flags,zh,Noto Colr Emoji Glyf;
 }
 m|math {
