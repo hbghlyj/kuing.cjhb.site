@@ -1150,7 +1150,7 @@ function viewthread_procpost($post, $lastvisit, $ordertype, $maxposition = 0) {
 	$_G['forum_postcount']++;
 
 	$post['dbdateline'] = $post['dateline'];
-	$post['dateline'] = dgmdate($post['dateline'], 'u', '9999', getglobal('setting/dateformat').' H:i:s');
+	$post['dateline'] = dgmdate($post['dateline'], 'u');
 	$post['groupid'] = $_G['cache']['usergroups'][$post['groupid']] ? $post['groupid'] : 7;
 
 	if($post['username']) {
@@ -1312,9 +1312,9 @@ function viewthread_procpost($post, $lastvisit, $ordertype, $maxposition = 0) {
 	$post['mobiletype'] = getstatus($post['status'], 4) ? base_convert(getstatus($post['status'], 10).getstatus($post['status'], 9).getstatus($post['status'], 8), 2, 10) : 0;
 	if($_G['setting']['editedby'] && ($post['lastupdate'] && $post['lastupdate'] - $post['dbdateline'] > 300 || $post['updateuid'] && $post['updateuid'] != $post['authorid'])) {
 		if (DISCUZ_LANG == 'EN/') {
-			$post['message'] = ' '.dgmdate($post['lastupdate'], 'u', '9999', getglobal('setting/dateformat').' H:i:s').'</i>'.$post['message'];
+			$post['message'] = ' '.dgmdate($post['lastupdate'], 'u').'</i>'.$post['message'];
 		} else {
-			$post['message'] = ' 于 '.dgmdate($post['lastupdate'], 'u', '9999', getglobal('setting/dateformat').' H:i:s').' 编辑 </i>'.$post['message'];
+			$post['message'] = ' 于 '.dgmdate($post['lastupdate'], 'u').' 编辑 </i>'.$post['message'];
 		}
 		$post['message'] = DB::fetch_first('SELECT username FROM '.DB::table('common_member').' WHERE uid='.$post['updateuid'])['username'].$post['message'];
 		if (DISCUZ_LANG == 'EN/') {
