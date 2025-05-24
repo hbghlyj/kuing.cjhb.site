@@ -119,9 +119,7 @@ PusherChatWidget.prototype._init = function() {
       self._messagesEl.scrollTop(self._messagesEl[0].scrollHeight);
     },
     error: function(xhr, status, error) {
-      if (console && console.error) {
-        console.error('Failed to fetch chat history:', status, error);
-      }
+      self._messagesEl.html('<li class="error">' + (isChinese ? '无法获取聊天历史:' : 'Failed to fetch chat history:') + error + '</li>');
     }
   });
   
@@ -183,7 +181,7 @@ PusherChatWidget.prototype._chatMessageReceived = function(data) {
 PusherChatWidget.prototype._sendChatButtonClicked = function() {
   var message = jQuery.trim(this._messageInputEl.val());
   if(!message) {
-    showPrompt(null, null, isChinese ? '请输入聊天信息' : 'Please enter a chat message', 1000, 'popuptext');
+    showError(isChinese ? '请输入聊天信息' : 'Please enter a chat message');
     this._messageInputEl.focus();
     return;
   }
@@ -202,12 +200,7 @@ PusherChatWidget.prototype._sendChatMessage = function(data) {
   // Get button and disable it
   var $sendBtn = this._widget.find('.pusher-chat-widget-send-btn');
   $sendBtn.prop('disabled', true);
-  $sendBtn.css({
-    'background-image': 'url(https://kuing.cjhb.site/static/image/common/loading.gif)',
-    'background-repeat': 'no-repeat',
-    'background-position': 'center',
-    'background-size': '16px'
-  });
+  $sendBtn.addClass('loading');
 
   jQuery.ajax({
     url: this.settings.chatEndPoint,
@@ -217,20 +210,23 @@ PusherChatWidget.prototype._sendChatMessage = function(data) {
       'chat_info': data
     },
     complete: function(xhr, status) {
-      console.log('Chat message sent.', status);
       if(xhr.status === 200) {
         self._messageInputEl.val('');
       }else if(xhr.status === 413) {
-        showPrompt(null, null,isChinese ? '聊天信息过长' : 'Chat message too long', 1000, 'popuptext');
+        showError(isChinese ? '聊天信息过长' : 'Chat message too long');
       }else{
-        showPrompt(null, null,isChinese ? '发送失败' : 'Failed to send message', 1000, 'popuptext');
+        showError(isChinese ? '发送失败' : 'Failed to send message');
       }
       self._messageInputEl.removeAttr('readonly');
       // Re-enable button and clear loading image
       $sendBtn.prop('disabled', false);
-      $sendBtn.css({
-        'background-image': 'none'
-      });
+      $sendBtn.removeClass('loading');
+    },
+    error: function(xhr, status, error) {
+      showError(isChinese ? ('网络错误: ' + error) : ('Network error: ' + error));
+      self._messageInputEl.removeAttr('readonly');
+      $sendBtn.prop('disabled', false);
+      $sendBtn.removeClass('loading');
     }
   })
 };

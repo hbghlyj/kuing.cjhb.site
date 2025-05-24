@@ -929,46 +929,6 @@ function _showTip(ctrlobj) {
 	showMenu({'mtype':'prompt','ctrlid':ctrlobj.id,'pos':'12!','duration':2,'zindex':JSMENU['zIndex']['prompt']});
 }
 
-function _showPrompt(ctrlid, evt, msg, timeout, classname) {
-	var menuid = ctrlid ? ctrlid + '_pmenu' : 'ntcwin';
-	var duration = timeout ? 0 : 3;
-	if($(menuid)) {
-		$(menuid).parentNode.removeChild($(menuid));
-	}
-	var div = document.createElement('div');
-	div.id = menuid;
-	div.className = !classname ? (ctrlid ? 'tip tip_js' : 'ntcwin') : classname;
-	div.style.display = 'none';
-	$('append_parent').appendChild(div);
-	if(ctrlid) {
-		msg = '<div id="' + ctrlid + '_prompt"><div class="tip_horn"></div><div class="tip_c">' + msg + '</div>';
-	} else {
-		msg = '<div class="pc_inner">' + msg + '</div>';
-	}
-	div.innerHTML = msg;
-	if(ctrlid) {
-		if(!timeout) {
-			evt = 'click';
-		}
-		if($(ctrlid)) {
-			if($(ctrlid).evt !== false) {
-				var prompting = function() {
-					showMenu({'mtype':'prompt','ctrlid':ctrlid,'evt':evt,'menuid':menuid,'pos':'210'});
-				};
-				if(evt == 'click') {
-					$(ctrlid).onclick = prompting;
-				} else {
-					$(ctrlid).onmouseover = prompting;
-				}
-			}
-			showMenu({'mtype':'prompt','ctrlid':ctrlid,'evt':evt,'menuid':menuid,'pos':'210','duration':duration,'timeout':timeout,'zindex':JSMENU['zIndex']['prompt']});
-			$(ctrlid).unselectable = false;
-		}
-	} else {
-		showMenu({'mtype':'prompt','pos':'00','menuid':menuid,'duration':duration,'timeout':timeout,'zindex':JSMENU['zIndex']['prompt']});
-		$(menuid).style.top = (parseInt($(menuid).style.top) - 100) + 'px';
-	}
-}
 function _showCreditPrompt() {
 	var notice = getcookie('creditnotice').split('D');
 	var basev = getcookie('creditbase').split('D');
