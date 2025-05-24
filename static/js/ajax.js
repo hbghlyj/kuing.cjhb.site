@@ -57,10 +57,10 @@ function _ajaxpost(formid, showid, waitid, showidclass, submitbtn, recall) {
 
 		showloading('none');
 		try {
-			s = $(ajaxframeid).contentWindow.document.XMLDocument.text;
+			s = $(ajaxframeid).contentWindow.document.documentElement.firstChild.wholeText;
 		} catch(e) {
 			try {
-				s = $(ajaxframeid).contentWindow.document.documentElement.firstChild.wholeText;
+				s = $(ajaxframeid).contentWindow.document.documentElement.firstChild.nodeValue;
 			} catch(e) {
 				try {
 					s = $(ajaxframeid).contentWindow.document.documentElement.firstChild.nodeValue;
