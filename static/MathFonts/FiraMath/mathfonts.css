@@ -12,7 +12,7 @@ this directory for details.
          url('FiraMath-Regular.woff2'), url('FiraMath-Regular.woff');
 }
 
-.htmlmathparagraph, m|mtext {
+body, input, button, select, .xst, .ts,#thread_subject {
     /* TODO: use FiraGO instead? */
     font-family: Fira Math;
 }
