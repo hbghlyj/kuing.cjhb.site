@@ -102,16 +102,18 @@ document.addEventListener("DOMContentLoaded", () => {
 		mathfont_select.addEventListener("change", updateMathFont);
 	}
 
-	const commonChineseFonts = [
+	const localChineseFonts = [
 		// Simplified
 		"SimSun","NSimSun","Microsoft YaHei","SimHei","KaiTi","FangSong",
 		"PingFang SC","Heiti SC","STHeiti","STXihei","Hiragino Sans GB",
-		"Source Han Sans SC","Noto Sans SC","WenQuanYi Zen Hei","WenQuanYi Micro Hei",
-		"Droid Sans Fallback",
+		"Source Han Sans SC","WenQuanYi Zen Hei","WenQuanYi Micro Hei",
 		// Traditional
 		"MingLiU","PMingLiU","Microsoft JhengHei","DFKai-SB",
-		"PingFang TC","PingFang HK","Heiti TC","LiHei Pro Medium","LiSong Pro Light",
-		"Source Han Sans TC","Noto Sans TC","Noto Sans HK"
+		"PingFang TC","PingFang HK","Heiti TC","LiHei Pro Medium","LiSong Pro Light","Source Han Sans TC"
+	];
+	const googleChineseFonts = [
+		// Google Fonts
+		"Noto Sans SC","Noto Serif TC","Noto Serif HK"
 	];
 	async function getAvailableChineseFonts() {
 		if (!('queryLocalFonts' in window)) {
@@ -120,18 +122,21 @@ document.addEventListener("DOMContentLoaded", () => {
 		}
 		try {
 			const available = await window.queryLocalFonts();
-			const found = new Set();
+			const found = new Set(); // Use a Set to avoid duplicates
+			// Add Google Fonts
+			googleChineseFonts.forEach(font => found.add(font));
+			// Add local Chinese fonts
 			for (const { family, fullName } of available) {
 				const fam = family.toLowerCase(), full = fullName.toLowerCase();
-				for (const name of commonChineseFonts) {
+				for (const name of localChineseFonts) {
 					const key = name.toLowerCase();
 					if (fam.includes(key) || full.includes(key)) {
 						found.add(name);
-						break;
+						break; // Only add once
 					}
 				}
 			}
-			return Array.from(found);
+			return Array.from(found); // Convert Set to Array
 		} catch (e) {
 			console.error('Error querying local fonts:', e);
 			return [];
@@ -146,21 +151,30 @@ document.addEventListener("DOMContentLoaded", () => {
 		
 		function updateChineseCookies() {
 			if (chinesefont_select.value !== "Default")
-				setCookie("chineseFont", chinesefont_select.value, 30);
+				setCookie("chineseFont", chinesefont_select.value, 365);
 			else
 				setCookie("chineseFont", "", -1);
 		}
-		function updateChineseFont() {
-			const v = chinesefont_select.value;
-			document.body.style.removeProperty("font-family");
-			const computedStyle = window.getComputedStyle(document.body);
-			let currentFontFamily = computedStyle.fontFamily;
-			if (v != "Default") {
-				let zhIndex = currentFontFamily.indexOf(", zh");
-				currentFontFamily = (zhIndex > 0 ? currentFontFamily.substring(0, zhIndex) : "") + `,"${v}", zh` + currentFontFamily.substring(zhIndex + 4);
-				document.body.style.fontFamily = currentFontFamily;
+		const updateChineseFont = () => {
+			const v = chinesefont_select.value, style = document.getElementById('chinese-font-style');
+			if (v === "Default")
+				if(style) {
+					// Remove existing style if it exists
+					style.remove();
+					updateChineseCookies();
+				}
+				return; // No need to create style if Default and no style exists
 			}
-			updateChineseCookies();
+			if (!style) {
+				style = document.createElement('style');
+				style.id = 'chinese-font-style';
+				document.head.appendChild(style);
+			}
+			if (googleChineseFonts.includes(v)) {
+				// For Google Fonts, use @import in the stylesheet
+				style.textContent = `@import url('https://fonts.googleapis.com/css2?family=${v.replace(/ /g, '+')}:wght@400;700&display=swap');`;
+			}
+			style.textContent += `body, input, button, select, .xst, .ts, #thread_subject { font-family: "${v}", zh,"Noto Colr Emoji Glyf"; }`;
 		}
 		const populateOptions = (installed) => {
 			// Default option
@@ -182,10 +196,10 @@ document.addEventListener("DOMContentLoaded", () => {
 		if (initial) {
 			// Initial population with common fonts (no API call yet)
 			chinesefont_select.addEventListener("change", updateChineseFont);
-			populateOptions(commonChineseFonts);
+			populateOptions(true);
 		} else {
 			getAvailableChineseFonts().then(installed => {
-				populateOptions(installed);
+				populateOptions();
 			});
 		}
 	};
