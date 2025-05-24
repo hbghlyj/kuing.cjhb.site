@@ -81,7 +81,7 @@ function PusherChatWidget(pusher, options) {
         }
         if(document.querySelector("input[name=pid]")?.value == data.pid && discuz_uid != data.uid) {
           // the edit form is open for this post, notify the user that the post has been updated
-          showError(isChinese ? '帖子已被编辑' : 'Post has been edited');
+          showDialog(isChinese ? '帖子已被编辑' : 'Post has been edited');
         }
       }
     });
