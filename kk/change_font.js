@@ -30,7 +30,9 @@ const localChineseFonts = [
 	"Source Han Sans SC","WenQuanYi Zen Hei","WenQuanYi Micro Hei",
 	// Traditional
 	"MingLiU","PMingLiU","Microsoft JhengHei","DFKai-SB",
-	"PingFang TC","PingFang HK","Heiti TC","LiHei Pro Medium","LiSong Pro Light","Source Han Sans TC",
+	"PingFang TC","PingFang HK","Heiti TC","LiHei Pro Medium","LiSong Pro Light","Source Han Sans TC"
+];
+const googleChineseFonts = [
 	// Google Fonts
 	"Noto Sans SC","Noto Serif TC","Noto Serif HK"
 ];
@@ -77,7 +79,7 @@ for (let font of localFonts) {
 	option.value = option.innerText = font;
 	en_font_select.appendChild(option);
 }
-for (let font of ["Default", ...localChineseFonts]) {
+for (let font of ["Default", ...localChineseFonts, ...googleChineseFonts]) {
 	let option = document.createElement("option");
 	option.value = option.innerText = font;
 	zh_font_select.appendChild(option);
@@ -122,6 +124,9 @@ function update_zh_font() {
 		zh_font_style.textContent = default_zh_font_style;
 	} else if (localChineseFonts.includes(v)) {
 		zh_font_style.textContent = `@font-face {font-family: 'zh';src: local('${v}');}`;
+	} else if (googleChineseFonts.includes(v)) {
+		const fontStack = getComputedStyle(document.body).fontFamily.replace(/\bzh\b/g, `"${v}"`);
+		zh_font_style.textContent = `@import url('https://fonts.googleapis.com/css2?family=${v.replace(/ /g, '+')}:wght@400;700&display=swap');\nbody, input, button, select, textarea, .xst, .ts, #thread_subject { font-family: ${fontStack}; }`;
 	} else {
 		zh_font_style.textContent = default_zh_font_style;
 	}
@@ -130,6 +135,9 @@ zh_font_select.addEventListener('click', async () => {
 	try {
 		const available = await window.queryLocalFonts();
 		const found = new Set(["Default"]); // Use a Set to avoid duplicates
+		// Add Google Fonts
+		googleChineseFonts.forEach(font => found.add(font));
+		// Add local Chinese fonts
 		for (const { family, fullName } of available) {
 			const fam = family.toLowerCase(), full = fullName.toLowerCase();
 			for (const name of localChineseFonts) {
