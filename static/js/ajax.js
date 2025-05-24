@@ -58,16 +58,12 @@ function _ajaxpost(formid, showid, waitid, showidclass, submitbtn, recall) {
 
 		showloading('none');
 		try {
-			s = $(ajaxframeid).contentWindow.document.XMLDocument.text;
+			s = $(ajaxframeid).contentWindow.document.documentElement.firstChild.wholeText;
 		} catch(e) {
 			try {
-				s = $(ajaxframeid).contentWindow.document.documentElement.firstChild.wholeText;
+				s = $(ajaxframeid).contentWindow.document.documentElement.firstChild.nodeValue;
 			} catch(e) {
-				try {
-					s = $(ajaxframeid).contentWindow.document.documentElement.firstChild.nodeValue;
-				} catch(e) {
-					s = '内部错误，无法显示此内容';
-				}
+				s = '内部错误，无法显示此内容';
 			}
 		}
 		if(s != '' && s.indexOf('ajaxerror') != -1) {

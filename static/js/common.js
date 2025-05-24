@@ -1325,6 +1325,8 @@ function showWindow(k, url, mode, cache, menuv) {
 }
 
 function showError(msg) {
+	var p = /<script[^\>]*?>([^\x00]*?)<\/script>/ig;
+	msg = msg.replace(p, '');
 	if(msg !== '') {
 /*vot*/		showDialog(msg, 'alert', lng['error_message'], null, true, null, '', '', '', 3);
 	}

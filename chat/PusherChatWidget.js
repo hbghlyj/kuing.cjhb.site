@@ -58,9 +58,9 @@ function PusherChatWidget(pusher, options) {
           $('thread_subject').innerText=data.subject;
           if (typeof MathJax.typesetPromise === 'function') {MathJax.typesetPromise([$('thread_subject')]);}
         }
-        if(document.querySelector("#floatlayout_edit input[name=pid]")?.value == data.pid) {
+        if(document.querySelector("input[name=pid]")?.value == data.pid && discuz_uid != data.uid) {
           // the edit form is open for this post, notify the user that the post has been updated
-          showError(isChinese ? '帖子已被编辑' : 'Post has been edited');
+          showDialog(isChinese ? '帖子已被编辑' : 'Post has been edited');
         }
       }
     });
