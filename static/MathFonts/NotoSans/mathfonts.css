@@ -3,45 +3,8 @@ The Noto font family is released under the SIL Open Font License, Version 1.1.
 See the files in this directory for details. The font can be obtained from several
 TeX distributions or package managers.
 */
-
-@namespace url('http://www.w3.org/1999/xhtml');
-@namespace m url('http://www.w3.org/1998/Math/MathML');
-
-@font-face {
-    font-family: Noto Sans Math;
-    src: local('Noto Sans Math Regular'), local('NotoSansMath-Regular'),
-         url('NotoSansMath-Regular.woff2'), url('NotoSansMath-Regular.woff');
-}
-
-@font-face {
-    font-family: Noto Sans;
-    src: local('Noto Sans Regular'), local('NotoSans-Regular'),
-         url('NotoSans-Regular.woff2'), url('NotoSans-Regular.woff');
-}
-@font-face {
-    font-family: Noto Sans;
-    src: local('Noto Sans Bold'), local('NotoSans-Bold'), 
-         url('NotoSans-Bold.woff2'), url('NotoSans-Bold.woff');
-    font-weight: bold;
-}
-@font-face {
-    font-family: Noto Sans;
-    src: local('Noto Sans Italic'), local('NotoSans-Italic'),
-         url('NotoSans-Italic.woff2'), url('NotoSans-Italic.woff');
-    font-style: italic;
-}
-@font-face {
-    font-family: Noto Sans;
-    src: local('Noto Sans Bold Italic'), local('NotoSans-BoldItalic'),
-         url('NotoSans-BoldItalic.woff2'), url('NotoSans-BoldItalic.woff');
-    font-weight: bold;
-    font-style: italic;
-}
+@import url(https://fonts.googleapis.com/css2?family=Noto+Sans+Math&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap);
 
 body, input, button, select, .xst, .ts,#thread_subject {
-    font-family: "Noto Sans",Twemoji Country Flags,zh,Noto Colr Emoji Glyf;
+    font-family: "Noto Sans Math","Noto Sans",Twemoji Country Flags,zh,Noto Colr Emoji Glyf;
 }
-m|math {
-    font-family: "Noto Sans Math";
-}
-
