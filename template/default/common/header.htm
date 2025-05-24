@@ -30,6 +30,49 @@
 <!--{eval $is_old_chrome = preg_match('/Windows 7|Windows 8|Windows NT 6|Windows NT 10\.0.*?Chrome\/10[0-9]/', $_SERVER['HTTP_USER_AGENT']);}-->
 <!--{eval $current_font_family = 'Twemoji Country Flags,zh'}-->
 <style><!--{if $is_old_chrome}-->@import url(https://fonts.googleapis.com/css2?family=Noto+Colr+Emoji+Glyf);<!--{/if}-->body, input, button, select, .xst, .ts,#thread_subject{font-family: Latin Modern Roman,<!--{if $is_old_chrome}-->Noto Colr Emoji Glyf,<!--{/if}--><!--{echo $current_font_family}-->;}</style>
+<style id="en_font_style">
+@font-face {
+	font-family: 'Latin Modern Roman';
+	src: url('/static/webfont/NewCM08-Book.woff2') format('woff2');
+	font-weight: normal;
+	font-style: normal;
+}
+@font-face {
+    font-family: 'Latin Modern Roman';
+	src: url('/static/webfont/NewCM10-Bold.woff2') format('woff2');
+    font-weight: bold;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Latin Modern Roman';
+	src: url('/static/webfont/NewCM08-BookItalic.woff2') format('woff2');
+    font-weight: normal;
+    font-style: italic;
+}
+@font-face {
+    font-family: 'Latin Modern Roman';
+    src: url('/static/webfont/NewCM10-BoldItalic.woff2') format('woff2');
+    font-weight: bold;
+    font-style: italic;
+}
+</style>
+<style id="zh_font_style">
+@font-face {
+	font-family: zh;
+	src: local('SimSun'),local('PingFang SC'),local('宋体');
+	font-weight: 300;
+}
+@font-face {
+	font-family: zh;
+	src: local('SimSun'),local('PingFang SC'),local('宋体');
+	font-weight: 400;
+}
+@font-face {
+  font-family: zh;
+  src: local('Microsoft Yahei Bold');
+  font-weight: bold;
+}
+</style>
 <!--{if $is_windows_chrome && !$is_old_chrome}-->
 <script type="module" defer>
 	import("https://cdn.skypack.dev/country-flag-emoji-polyfill").then(module => {
@@ -104,7 +147,7 @@
 					<!--{/loop}-->
 				</div>
 				<div id="change_font_menu" class="cl p_pop" style="display: none;">
-					Change font:<span class="cl"></span>EN: <select style="width: 200px" class="mathfont"></select><span class="cl"></span>ZH: <select style="width: 200px" class="chinesefont"></select><script src="/kk/mathfont.js?{VERHASH}"></script>
+					Change font:<span class="cl"></span>EN: <select style="width: 200px" id="en_font_select"></select><span class="cl"></span>ZH: <select style="width: 200px" id="zh_font_select"></select><script src="/kk/change_font.js?{VERHASH}"></script>
 				</div>
 			<!--{/if}-->
 			<!--{if $_G['uid']}-->
