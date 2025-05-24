@@ -91,8 +91,7 @@ document.addEventListener("DOMContentLoaded", () => {
 		}
 		for (let font of localFonts) {
 			let option = document.createElement("option");
-			option.value = font;
-			option.innerHTML = '<span style="font-family: ' + font + '">' + font + '</span>';
+			option.value = option.innerText = font;
 			mathfont_select.appendChild(option);
 			if (font === fontFamilyCookie) {
 			  option.selected = true;
