@@ -29,7 +29,7 @@
 <!--{eval $is_windows_chrome = strpos($_SERVER['HTTP_USER_AGENT'], 'Windows') !== false && strpos($_SERVER['HTTP_USER_AGENT'], 'Chrome') !== false;}-->
 <!--{eval $is_old_chrome = preg_match('/Windows 7|Windows 8|Windows NT 6|Windows NT 10\.0.*?Chrome\/10[0-9]/', $_SERVER['HTTP_USER_AGENT']);}-->
 <!--{eval $current_font_family = 'Twemoji Country Flags,zh'}-->
-<style><!--{if $is_old_chrome}-->@import url(https://fonts.googleapis.com/css2?family=Noto+Colr+Emoji+Glyf);<!--{/if}-->body, input, button, select, textarea, .xst, .ts,#thread_subject{font-family: Latin Modern Roman,<!--{if $is_old_chrome}-->Noto Colr Emoji Glyf,<!--{/if}--><!--{echo $current_font_family}-->;}</style>
+<style><!--{if $is_old_chrome}-->@import url(https://fonts.googleapis.com/css2?family=Noto+Colr+Emoji+Glyf);<!--{/if}-->body, input, button, select, .xst, .ts,#thread_subject{font-family: Latin Modern Roman,<!--{if $is_old_chrome}-->Noto Colr Emoji Glyf,<!--{/if}--><!--{echo $current_font_family}-->;}</style>
 <!--{if $is_windows_chrome && !$is_old_chrome}-->
 <script type="module" defer>
 	import("https://cdn.skypack.dev/country-flag-emoji-polyfill").then(module => {

@@ -38,7 +38,7 @@ TeX distributions or package managers.
     font-style: italic;
 }
 
-body, input, button, select, textarea, .xst, .ts,#thread_subject {
+body, input, button, select, .xst, .ts,#thread_subject {
     font-family: "Noto Sans",Twemoji Country Flags,zh,Noto Colr Emoji Glyf;
 }
 m|math {

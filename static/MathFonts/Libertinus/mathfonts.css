@@ -42,7 +42,7 @@ the files in this directory for details.
          url('libertinusmath-regular.woff');
 }
 
-body, input, button, select, textarea, .xst, .ts,#thread_subject {
+body, input, button, select, .xst, .ts,#thread_subject {
     font-family: Libertinus Serif,Twemoji Country Flags,zh,Noto Colr Emoji Glyf;
 }
 m|math {

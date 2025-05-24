@@ -43,7 +43,7 @@ http://www.gust.org.pl/projects/e-foundry/
          url('texgyrebonum-math.woff');
 }
 
-body, input, button, select, textarea, .xst, .ts,#thread_subject {
+body, input, button, select, .xst, .ts,#thread_subject {
     font-family: TeX Gyre Bonum,Twemoji Country Flags,zh,Noto Colr Emoji Glyf;
 }
 m|math {

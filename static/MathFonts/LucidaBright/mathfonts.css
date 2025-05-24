@@ -39,7 +39,7 @@ Warning: The CSS rules below have not been tested.
 }
 */
 
-body, input, button, select, textarea, .xst, .ts,#thread_subject {
+body, input, button, select, .xst, .ts,#thread_subject {
     font-family: Lucida Bright,Twemoji Country Flags,zh,Noto Colr Emoji Glyf;
 }
 m|math {
