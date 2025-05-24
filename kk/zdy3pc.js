@@ -1,13 +1,15 @@
 //===支持tikz + asymptote
 function show_tikz_window(code){
-    document.getElementById('tikz_window')?.remove();
+    $('tikz_window')?.remove();
     var tikz_window=document.createElement('div');
     tikz_window.id='tikz_window';
     tikz_window.className='tikzww';
-    tikz_window.innerHTML='<div onmousedown="tuozhuai(this.parentNode);return false;" style="width:100%;height:26px;cursor:move;"><a href="javascript:document.getElementById(\'tikz_window\')?.remove();" class="flbc" style="float:right;margin:3px 6px 0 0;"></a></div><div><textarea class="tikzta"></textarea></div>';
-    code=code.replace(/\u00a0/g,' ');
-    tikz_window.querySelector('textarea').value=code;
+    tikz_window.innerHTML='<div style="width:100%;height:26px;cursor:move;"><a href="javascript:$(\'tikz_window\')?.remove();" class="flbc" style="float:right;margin:3px 6px 0 0;"></a></div><div><textarea class="tikzta"></textarea></div>';
+    tikz_window.querySelector('textarea').value=code.replace(/\u00a0/g,' ');
+    tikz_window.setAttribute("onmousedown", "dragMenu($(\'tikz_window\'), event, 1)");
     document.body.append(tikz_window);
+    tikz_window.style.left = (document.body.clientWidth - tikz_window.clientWidth) / 2 + 'px';
+    tikz_window.style.top = (document.documentElement.clientHeight - tikz_window.clientHeight) / 2 + 'px';
 }
 function tuozhuai2(event,ee) {
     //鼠标相对于盒子的位置
@@ -136,7 +138,7 @@ function sNC(n) {
   range.selectNodeContents(n);
   selection.addRange(range);
 }
-var ztbt=document.getElementById('thread_subject');//主题标题
+var ztbt=$('thread_subject');//主题标题
 ztbt.setAttribute("ondblclick", "sNC(this)");
 
 //===楼层目录
@@ -184,7 +186,7 @@ MULU.appendChild(summ);
 var mlul = document.createElement("ul");
 function smoothScroll(id){
     return function() {
-        const target = document.getElementById(id);
+        const target = $(id);
         const start = window.scrollY; const end = target.getBoundingClientRect().top + start;
         const duration = 500;
         const startTime = performance.now();
@@ -216,7 +218,7 @@ lous.forEach((lou, i) => {
 });
 MULU.appendChild(mlul);
 document.body.appendChild(MULU);
-var muleft = offSet(document.getElementById('ct')).left - MULU.offsetWidth - 20;
+var muleft = offSet($('ct')).left - MULU.offsetWidth - 20;
 if (muleft < 0) {
     MULU.removeAttribute("open");
     muleft = 0;
@@ -229,14 +231,14 @@ window.onscroll = function() {
     lous.forEach(lou => {
         arr.push(offSet(lou).top);
     });
-    arr.push(offSet(document.getElementById('postlistreply')).top); //兜底（最后一层的底部）
+    arr.push(offSet($('postlistreply')).top); //兜底（最后一层的底部）
     for (let i = 0; i < arr.length - 1; i++) {
         let d = 200; //分界线，可考虑半窗口高 0.5*window.innerHeight;
         if (slTop >= arr[i] - d && slTop <= arr[i + 1] - d) {
-            document.getElementById('muluid' + i).classList.add("mlcur");
+            $('muluid' + i).classList.add("mlcur");
             document.querySelector('#scrolltop a.editp')&&document.querySelector('#scrolltop a.editp').setAttribute("href", lous[i].closest('table').querySelector('a.editp').getAttribute('href'));
         } else {
-            document.getElementById('muluid' + i).classList.remove("mlcur");
+            $('muluid' + i).classList.remove("mlcur");
         }
     }
 }

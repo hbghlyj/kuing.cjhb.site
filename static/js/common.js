@@ -884,8 +884,9 @@ function dragMenu(menuObj, e, op) {
 			return;
 		}
 		JSMENU['drag'] = [e.clientX, e.clientY];
-		JSMENU['drag'][2] = parseInt(menuObj.style.left);
-		JSMENU['drag'][3] = parseInt(menuObj.style.top);
+		var rect = menuObj.getBoundingClientRect();
+		JSMENU['drag'][2] = parseInt(rect.left);
+		JSMENU['drag'][3] = parseInt(rect.top);
 		document.onmousemove = function(e) {try{dragMenu(menuObj, e, 2);}catch(err){}};
 		document.onmouseup = function(e) {try{dragMenu(menuObj, e, 3);}catch(err){}};
 		doane(e);
