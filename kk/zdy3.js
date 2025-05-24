@@ -1,13 +1,15 @@
 //===支持tikz + asymptote
 function show_tikz_window(code){
-    document.getElementById('tikz_window')?.remove();
+    $('tikz_window')?.remove();
     var tikz_window=document.createElement('div');
     tikz_window.id='tikz_window';
     tikz_window.className='tikzww';
-    tikz_window.innerHTML='<div onmousedown="tuozhuai(this.parentNode);return false;" style="width:100%;height:26px;cursor:move;"><a href="javascript:document.getElementById(\'tikz_window\')?.remove();" class="flbc" style="float:right;margin:3px 6px 0 0;"></a></div><div><textarea class="tikzta"></textarea></div>';
-    code=code.replace(/\u00a0/g,' ');
-    tikz_window.querySelector('textarea').value=code;
+    tikz_window.innerHTML='<div style="width:100%;height:26px;cursor:move;"><a href="javascript:$(\'tikz_window\')?.remove();" class="flbc" style="float:right;margin:3px 6px 0 0;"></a></div><div><textarea class="tikzta"></textarea></div>';
+    tikz_window.querySelector('textarea').value=code.replace(/\u00a0/g,' ');
+    tikz_window.setAttribute("onmousedown", "dragMenu($(\'tikz_window\'), event, 1)");
     document.body.append(tikz_window);
+    tikz_window.style.left = (document.body.clientWidth - tikz_window.clientWidth) / 2 + 'px';
+    tikz_window.style.top = (document.documentElement.clientHeight - tikz_window.clientHeight) / 2 + 'px';
 }
 //===Html模式下用bbr免打br
 var bbrs=document.getElementsByTagName('bbr');
