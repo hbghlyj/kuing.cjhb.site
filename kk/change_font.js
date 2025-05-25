@@ -61,12 +61,15 @@ function getCookie(name) {
 
 const en_font_style = document.getElementById("en_font_style");
 default_en_font_style = en_font_style.textContent;
+document.head.appendChild(en_font_style);
 const zh_font_style = document.getElementById("zh_font_style");
 default_zh_font_style = zh_font_style.textContent;
 const en_font_select = document.getElementById("en_font_select");
 const zh_font_select = document.getElementById("zh_font_select");
+const zh_bold_select = document.getElementById("zh_bold_select");
 const en_font_cookie = getCookie("en_font");
 const zh_font_cookie  = getCookie("zh_font");
+const zh_bold_cookie = getCookie("zh_bold");
 
 for (let font in mathfont_list) {
 	let option = document.createElement("option");
@@ -106,26 +109,35 @@ zh_font_select.addEventListener("change", () => {
 		setCookie("zh_font", "", -1);
 	update_zh_font();
 });
+zh_bold_select.addEventListener("change", () => {
+	if (zh_bold_select.value !== "Default")
+		setCookie("zh_bold", zh_bold_select.value, 365);
+	else
+		setCookie("zh_bold", "", -1);
+	update_zh_font();
+});
 function update_en_font() {
 	const v = en_font_select.value;
 	if (v == "Default") {
 		en_font_style.textContent = default_en_font_style;
 	} else if (localFonts.includes(v)) {
-		en_font_style.textContent = `body, input, button, select, textarea, .xst, .ts, #thread_subject { font-family: ${v}, "Twemoji Country Flags",zh,"Noto Colr Emoji Glyf"; }`;
+		en_font_style.textContent = `:root { --common-font: "${v}"; }`;
 	} else if (mathfont_list[v]) {
-		en_font_style.textContent = `@import url(/static/MathFonts/${v}/mathfonts.css);`;
+		en_font_style.textContent = `@import url(/static/MathFonts/${v}/mathfonts.css);:root { --common-font: "${v}"; }`;
 	} else {
 		en_font_style.textContent = default_en_font_style;
 	}
 }
 function update_zh_font() {
 	const v = zh_font_select.value;
-	if (v == "Default") {
-		zh_font_style.textContent = default_zh_font_style;
-	} else if (localChineseFonts.includes(v)) {
-		zh_font_style.textContent = `@font-face {font-family: 'zh';src: local('${v}');}`;
+	if (v!="Default" && localChineseFonts.includes(v)) {
+		zh_font_style.textContent = `@font-face {font-family: zh; src: local("${v}"); font-weight: normal; }`;
 	} else {
 		zh_font_style.textContent = default_zh_font_style;
+	}
+	const bold = zh_bold_select.value;
+	if (bold != "Default" && localChineseFonts.includes(bold)) {
+		zh_font_style.textContent += `@font-face {font-family: zh; src: local("${bold}"); font-weight: bold; }`;
 	}
 }
 zh_font_select.addEventListener('click', async () => {
@@ -156,15 +168,16 @@ zh_font_select.addEventListener('click', async () => {
 				found.push(name);
 			}
 		}
-		zh_font_select.innerHTML = ''; // Clear existing options
+		zh_font_select.innerHTML = zh_bold_select.innerHTML = ''; // Clear existing options
 		for (const font of found) {
 			const option = document.createElement('option');
 			option.value = option.innerText = font;
 			zh_font_select.appendChild(option);
+			zh_bold_select.appendChild(option.cloneNode(true));
 		}
-		if(zh_font_cookie && found.includes(zh_font_cookie)) {
-			zh_font_select.value = zh_font_cookie;
-		}
+		zh_font_select.value = (zh_font_cookie && found.includes(zh_font_cookie)) ? zh_font_cookie : "Default";
+		zh_bold_select.value = (zh_bold_cookie && found.includes(zh_bold_cookie)) ? zh_bold_cookie : "Default";
+		zh_bold_select.style.display = '';
 	} catch (e) {
 		showError('Error checking local fonts:', e);
 	}

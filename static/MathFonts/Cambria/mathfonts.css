@@ -9,34 +9,6 @@ Some Web services may also provide them as Web fonts. For details, see
 @namespace url('http://www.w3.org/1999/xhtml');
 @namespace m url('http://www.w3.org/1998/Math/MathML');
 
-/* Uncomment and complete the URLs if you wish to use Web fonts */
-/*
-@font-face {
-    font-family: Cambria;
-    src: local('Cambria'), url('...');
-}
-@font-face {
-    font-family: Cambria;
-    src: local('Cambria Bold'), url('...');
-    font-weight: bold;
-}
-@font-face {
-    font-family: Cambria;
-    src: local('Cambria Italic'), url('...');
-    font-style: italic;
-}
-@font-face {
-    font-family: Cambria;
-    src: local('Cambria Bold Italic'), url('...');
-    font-weight: bold;
-    font-style: italic;
-}
-@font-face {
-    font-family: Cambria Math;
-    src: local('Cambria Math'), url('...');
-}
-*/
-
 body, input, button, select, .xst, .ts,#thread_subject {
     font-family: Cambria,Twemoji Country Flags,zh,Noto Colr Emoji Glyf;
 }

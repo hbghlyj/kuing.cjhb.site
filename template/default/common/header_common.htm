@@ -6,6 +6,63 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 	<title><!--{if !empty($navtitle)}-->$navtitle<!--{/if}--><!--{if empty($nobbname)}--> - $_G['setting']['bbname']<!--{/if}--></title>
 	$_G['setting']['seohead']
+<!--{eval $is_windows_chrome = strpos($_SERVER['HTTP_USER_AGENT'], 'Windows') !== false && strpos($_SERVER['HTTP_USER_AGENT'], 'Chrome') !== false;}-->
+<!--{eval $is_old_chrome = preg_match('/Windows 7|Windows 8|Windows NT 6|Windows NT 10\.0.*?Chrome\/10[0-9]/', $_SERVER['HTTP_USER_AGENT']);}-->
+<!--{if $is_old_chrome}--><link href="https://fonts.googleapis.com/css2?family=Noto+Colr+Emoji+Glyf" rel="stylesheet"><!--{/if}-->
+<style id="en_font_style">
+	:root {
+		--common-font: 'Latin Modern Roman';
+	}
+@font-face {
+	font-family: 'Latin Modern Roman';
+	src: url('/static/webfont/NewCM08-Book.woff2') format('woff2');
+	font-weight: normal;
+	font-style: normal;
+}
+@font-face {
+    font-family: 'Latin Modern Roman';
+	src: url('/static/webfont/NewCM10-Bold.woff2') format('woff2');
+    font-weight: bold;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Latin Modern Roman';
+	src: url('/static/webfont/NewCM08-BookItalic.woff2') format('woff2');
+    font-weight: normal;
+    font-style: italic;
+}
+@font-face {
+    font-family: 'Latin Modern Roman';
+    src: url('/static/webfont/NewCM10-BoldItalic.woff2') format('woff2');
+    font-weight: bold;
+    font-style: italic;
+}
+</style>
+<style id="zh_font_style">
+@font-face {
+font-family: zh;
+src: local('PingFang SC'), /* macOS Simplified Chinese, modern */
+local('Songti SC'),   /* macOS Simplified Chinese, older/alternative */
+local('NSimSun'),     /* Windows Simplified Chinese, often paired with SimSun */
+local('SimSun'),      /* Windows Simplified Chinese (very common) */
+local('STSong'),      /* SinoType Song, on Windows/macOS */
+local('Noto Serif CJK SC'), /* Google open-source Simplified Chinese */
+local('Source Han Serif SC'), /* Adobe's name for the same open-source font */
+local('MingLiU'),     /* 細明體, Windows Traditional Chinese default */
+local('PMingLiU'),    /* 新細明體, Windows Traditional Chinese  */
+local('Songti TC'),   /* 宋体 TC, macOS Traditional Chinese */
+local('Apple LiSung Light'), /* 蘋果儷細宋, macOS Traditional Chinese */
+local('LiSong Pro Light'), /* 儷宋 Pro, macOS Traditional Chinese */
+local('Noto Serif CJK TC'); /* Google open-source Traditional Chinese */
+}
+</style>
+<!--{if $is_windows_chrome && !$is_old_chrome}-->
+<script type="module" defer>
+	import("https://cdn.skypack.dev/country-flag-emoji-polyfill").then(module => {
+		module.polyfillCountryFlagEmojis();
+	});
+</script>
+<!--{/if}-->
 <!--{eval include './kk/mathjax.php';}-->
 
 	<meta name="keywords" content="{if !empty($metakeywords)}{echo dhtmlspecialchars($metakeywords)}{/if}" />
