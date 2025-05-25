@@ -234,13 +234,13 @@ class table_common_member extends discuz_table_archive
 	}
 
 	public function fetch_all_stat_memberlist($username, $orderby = '', $sort = '', $start = 0, $limit =  0) {
-		$orderby = in_array($orderby, array('uid','credits','regdate', 'gender','username','posts','lastvisit'), true) ? $orderby : 'uid';
+		$orderby = in_array($orderby, array('uid','credits','regdate', 'lastpost','username','posts','lastvisit'), true) ? $orderby : 'uid';
 		$sql = '';
 
 		$sql = !empty($username) ? " WHERE username LIKE '".addslashes(stripsearchkey($username))."%'" : '';
 
 		$memberlist = array();
-		$query = DB::query("SELECT m.uid, m.username, mp.gender, m.email, m.regdate, ms.lastvisit, mc.posts, m.credits
+		$query = DB::query("SELECT m.uid, m.username, ms.lastpost, m.email, m.regdate, ms.lastvisit, mc.posts, m.credits
 			FROM ".DB::table($this->_table)." m
 			LEFT JOIN ".DB::table('common_member_profile')." mp ON mp.uid=m.uid
 			LEFT JOIN ".DB::table('common_member_status')." ms ON ms.uid=m.uid
@@ -249,6 +249,7 @@ class table_common_member extends discuz_table_archive
 		while($member = DB::fetch($query)) {
 			$member['usernameenc'] = rawurlencode($member['username']);
 			$member['regdate'] = dgmdate($member['regdate']);
+			$member['lastpost'] = $member['lastpost'] ? dgmdate($member['lastpost']) : lang('forum/template','never');
 			$member['lastvisit'] = dgmdate($member['lastvisit']);
 			$memberlist[$member['uid']] = $member;
 		}
