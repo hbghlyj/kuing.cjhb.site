@@ -562,7 +562,7 @@ class model_forum_post extends discuz_model {
 			'cluster' => 'eu',
 			'useTLS' => true
 		));
-		$pusher->trigger('Chat', 'editpost', array('tid' => $this->thread['tid'], 'pid' => $this->post['pid'], 'subject' => $isfirstpost && $this->param['subject'] != $this->thread['subject'] ? $this->param['subject'] : '', 'uid' => $this->param['updateuid']));
+		$pusher->trigger('Chat', 'editpost', array('tid' => $this->thread['tid'], 'pid' => $this->post['pid'], 'subject' => $isfirstpost && $this->param['subject'] != $this->thread['subject'] ? $this->param['subject'] : '', 'uid' => $this->member['uid']));
 	}
 
 	public function deletepost($parameters) {
