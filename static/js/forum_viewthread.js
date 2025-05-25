@@ -316,14 +316,14 @@ function switchrecommendv() {
 	display('recommendav');
 }
 
-function appendreply() {
+function appendreply(pid) {
 	newpos = fetchOffset($('post_new'));
 	document.documentElement.scrollTop = newpos['top'];
 	$('post_new').style.display = '';
 	if(typeof MathJax.typesetPromise === 'function') {
 		MathJax.typesetPromise([$('postlist').appendChild($('post_new'))]);
 	}
-	$('post_new').id = '';
+	$('post_new').id = `post_${pid}`;
 	div = document.createElement('div');
 	div.id = 'post_new';
 	div.style.display = 'none';
