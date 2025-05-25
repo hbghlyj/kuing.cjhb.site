@@ -245,14 +245,14 @@ function throttle(func, limit) {
 
 window.onscroll = throttle(function() {
     let slTop = Math.max(document.documentElement.scrollTop, document.body.scrollTop);
+    const screenMid = slTop + window.innerHeight / 2;
     let arr = [];
     lous.forEach(lou => {
         arr.push(offSet(lou).top);
     });
     arr.push(offSet($('postlistreply')).top); //兜底（最后一层的底部）
     for (let i = 0; i < arr.length - 1; i++) {
-        let d = 200; //分界线，可考虑半窗口高 0.5*window.innerHeight;
-        if (slTop >= arr[i] - d && slTop <= arr[i + 1] - d) {
+        if (screenMid >= arr[i] && screenMid <= arr[i + 1]) {
             $('muluid' + i).classList.add("mlcur");
             document.querySelector('#scrolltop a.editp')&&document.querySelector('#scrolltop a.editp').setAttribute("href", lous[i].closest('table').querySelector('a.editp').getAttribute('href'));
         } else {
