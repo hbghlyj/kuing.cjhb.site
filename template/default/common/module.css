@@ -844,8 +844,8 @@ a.thread_mod { height: 19px; line-height: 19px; display: inline-block; color: #4
 #a_magic_doodle { padding-left: 20px; background: url({STATICURL}image/magic/doodle.small.gif) 0 50% no-repeat; }
 
 .pl {}
-	.pl table { table-layout: fixed; width: 100%; }
-		.pl .dt { width: 100%; }
+	.pl table:not(.t_table) { table-layout: fixed; width: 100%; }
+	.pl .dt { width: 100%; }
 	.plm { vertical-align: bottom !important; }
 	.plc, .pls { vertical-align: top; }
 		.plc { padding: 0 20px; }
@@ -1325,7 +1325,6 @@ i.pstatus { display: block; margin-bottom: -30px; font-size: 12px; text-align: c
 		.t_attachinsert{ margin:1em 0; font-size: 12px; }
 		.t_attachinsert p img{ margin-bottom: -4px; }
 	.t_table{ border: 1px solid rgba(0,0,0,.1); empty-cells: show; border-collapse: collapse; }
-		.pl table.t_table { table-layout: auto; }
 		.t_table td,.t_table th { padding: 4px; border: 1px solid rgba(0,0,0,.1); overflow: hidden; overflow-wrap: anywhere; text-align: center; }
 		.t_table th { font-weight: 700; border-bottom-width: 2px; }
 	.tattl { float: left; overflow: hidden; padding: 10px 10px 10px 0; width: 45%; height: 64px; }
