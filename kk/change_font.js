@@ -25,9 +25,12 @@ const mathfont_list = {
 const localFonts = ["Georgia","Arial", "Verdana", "Helvetica", "Tahoma", "TrebuchetMS"];
 const localChineseFonts = [
 	// Simplified
-	"SimSun","NSimSun","Microsoft YaHei","DengXian","SimHei","KaiTi","FangSong",
-	"PingFang SC","Heiti SC","STCaiyun","STFangsong","STHupo","STKaiti","STLiti","STSong","STXingkai","STXinwei","STZhongsong","STHeiti","STXihei","Hiragino Sans GB",
-	"Source Han Sans SC","WenQuanYi Zen Hei","WenQuanYi Micro Hei","YouYuan","LiSu","Yu Gothic",
+	"SimSun","STZhongsong","NSimSun","STSong","STFangsong",
+	"SimHei","STHeiti","STXihei","Heiti SC","WenQuanYi Zen Hei","WenQuanYi Micro Hei",
+	"Microsoft YaHei","DengXian","PingFang SC","Source Han Sans SC",
+	"KaiTi","FangSong","STKaiti","STXingkai",
+	"STCaiyun","STHupo","STXinwei",
+	"STLiti","LiSu","Yu Gothic","YouYuan",
 	// Traditional
 	"MingLiU","PMingLiU","Microsoft JhengHei","DFKai-SB",
 	"PingFang TC","PingFang HK","Heiti TC","LiHei Pro Medium","LiSong Pro Light","Source Han Sans TC",
