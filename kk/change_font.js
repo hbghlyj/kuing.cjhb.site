@@ -25,9 +25,9 @@ const mathfont_list = {
 const localFonts = ["Georgia","Arial", "Verdana", "Helvetica", "Tahoma", "TrebuchetMS"];
 const localChineseFonts = [
 	// Simplified
-	"SimSun","NSimSun","Microsoft YaHei","SimHei","KaiTi","FangSong",
-	"PingFang SC","Heiti SC","STHeiti","STXihei","Hiragino Sans GB",
-	"Source Han Sans SC","WenQuanYi Zen Hei","WenQuanYi Micro Hei",
+	"SimSun","NSimSun","Microsoft YaHei","DengXian","SimHei","KaiTi","FangSong",
+	"PingFang SC","Heiti SC","STCaiyun","STFangsong","STHupo","STKaiti","STLiti","STSong","STXingkai","STXinwei","STZhongsong","STHeiti","STXihei","Hiragino Sans GB",
+	"Source Han Sans SC","WenQuanYi Zen Hei","WenQuanYi Micro Hei","YouYuan","LiSu","Yu Gothic",
 	// Traditional
 	"MingLiU","PMingLiU","Microsoft JhengHei","DFKai-SB",
 	"PingFang TC","PingFang HK","Heiti TC","LiHei Pro Medium","LiSong Pro Light","Source Han Sans TC",
@@ -35,6 +35,29 @@ const localChineseFonts = [
 	"Noto Sans SC","Noto Serif TC","Noto Serif HK"
 ];
 
+function isFontAvailable(fontName) {
+    const text = "床前明月光，疑是地上霜。举头望明月，低头思故乡。"; // reliable detection for Chinese fonts
+    const canvas = document.createElement("canvas");
+    const context = canvas.getContext("2d");
+
+    // Measure text with a generic fallback font
+    context.font = "72px serif"; // Using serif as a generic fallback
+    const defaultMetrics = context.measureText(text);
+
+    // Measure text with the target font, falling back to serif
+    context.font = `72px "${fontName}", serif`;
+    const testMetrics = context.measureText(text);
+
+    // Compare a set of TextMetrics properties
+    // If any of these differ, the font is considered available and distinct
+    if (defaultMetrics.width !== testMetrics.width) return true;
+    if (defaultMetrics.actualBoundingBoxAscent !== testMetrics.actualBoundingBoxAscent) return true;
+    if (defaultMetrics.actualBoundingBoxDescent !== testMetrics.actualBoundingBoxDescent) return true;
+    if (defaultMetrics.actualBoundingBoxLeft !== testMetrics.actualBoundingBoxLeft) return true;
+    if (defaultMetrics.actualBoundingBoxRight !== testMetrics.actualBoundingBoxRight) return true;
+
+    return false; // If all compared metrics are the same, assume font is not available or not distinct enough
+}
 
 function setCookie(name, value, days) {
 	var expires = "";
@@ -128,16 +151,10 @@ function update_zh_font() {
 }
 zh_font_select.addEventListener('click', async () => {
 	try {
-		const available = await window.queryLocalFonts();
-		const found = new Set(["Default"]); // Use a Set to avoid duplicates
-		for (const { family, fullName } of available) {
-			const fam = family.toLowerCase(), full = fullName.toLowerCase();
-			for (const name of localChineseFonts) {
-				const key = name.toLowerCase();
-				if (fam.includes(key) || full.includes(key)) {
-					found.add(name);
-					break;
-				}
+		const found = ["Default"];
+		for (const name of localChineseFonts) {
+			if (isFontAvailable(name)) {
+				found.push(name);
 			}
 		}
 		zh_font_select.innerHTML = ''; // Clear existing options
@@ -146,10 +163,10 @@ zh_font_select.addEventListener('click', async () => {
 			option.value = option.innerText = font;
 			zh_font_select.appendChild(option);
 		}
-		if(zh_font_cookie && found.has(zh_font_cookie)) {
+		if(zh_font_cookie && found.includes(zh_font_cookie)) {
 			zh_font_select.value = zh_font_cookie;
 		}
 	} catch (e) {
-		showError('Error querying local fonts:', e);
+		showError('Error checking local fonts:', e);
 	}
 }, { once: true });
