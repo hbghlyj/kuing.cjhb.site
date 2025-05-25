@@ -58,19 +58,20 @@
 </style>
 <style id="zh_font_style">
 @font-face {
-	font-family: zh;
-	src: local('SimSun'),local('PingFang SC'),local('宋体');
-	font-weight: 300;
-}
-@font-face {
-	font-family: zh;
-	src: local('SimSun'),local('PingFang SC'),local('宋体');
-	font-weight: 400;
-}
-@font-face {
   font-family: zh;
-  src: local('Microsoft Yahei Bold');
-  font-weight: bold;
+src: local('PingFang SC'), /* macOS Simplified Chinese, modern */
+local('Songti SC'),   /* macOS Simplified Chinese, older/alternative */
+local('NSimSun'),     /* Windows Simplified Chinese, often paired with SimSun */
+local('SimSun'),      /* Windows Simplified Chinese (very common) */
+local('STSong'),      /* SinoType Song, on Windows/macOS */
+local('Noto Serif CJK SC'), /* Google open-source Simplified Chinese */
+local('Source Han Serif SC'), /* Adobe's name for the same open-source font */
+local('MingLiU'),     /* 細明體, Windows Traditional Chinese default */
+local('PMingLiU'),    /* 新細明體, Windows Traditional Chinese  */
+local('Songti TC'),   /* 宋体 TC, macOS Traditional Chinese */
+local('Apple LiSung Light'), /* 蘋果儷細宋, macOS Traditional Chinese */
+local('LiSong Pro Light'), /* 儷宋 Pro, macOS Traditional Chinese */
+local('Noto Serif CJK TC'); /* Google open-source Traditional Chinese */
 }
 </style>
 <!--{if $is_windows_chrome && !$is_old_chrome}-->
