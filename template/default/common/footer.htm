@@ -188,7 +188,7 @@
 	<!--{if $_G[fid]}-->
 	<span>
 		<!--{if $_G['mod'] == 'viewthread'}-->
-		<a href="forum.php?mod=forumdisplay&fid=$_G[fid]" hidefocus="true" class="editp" onclick="showWindow('edit',this.href)" title="{lang edit}"><b>{lang edit}</b></a>
+		<a hidefocus="true" class="editp" onclick="showWindow('edit',this.href,'get',0)" title="{lang edit}"><b>{lang edit}</b></a>
 		<!--{else}-->
 		<a href="forum.php" hidefocus="true" class="returnboard" title="{lang return_forum}"><b>{lang return_forum}</b></a>
 		<!--{/if}-->
