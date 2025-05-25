@@ -163,27 +163,35 @@ $('thread_subject').ondblclick=function() {//选择主题标题
 
 //楼层目录
 const MULU = document.createElement("div");
-MULU.id = "mulu";
-const close = document.createElement("div");
-close.innerText = '×';
-close.onclick = function() {
-    MULU.style.display = 'none';
-};
-MULU.appendChild(close);
+MULU.className = "mlcls";
+const summ = document.createElement("div");
+summ.align = "center";
+summ.innerText = document.querySelector('#fj > label')?.innerText || '目录';
+const mlx = document.createElement("a");
+mlx.innerHTML = '×';
+mlx.style.float = 'left';
+mlx.href = "javascript:MULU.remove()";
+summ.appendChild(mlx);
+MULU.appendChild(summ);
 const MULUSELECT = document.createElement("select");
+MULUSELECT.style = 'padding: 0;overflow-y: hidden;border: none;box-shadow: 0 0 2px #2B7ACD;';
 MULUSELECT.size = 0;
 function addLou(elem) {
-    elem.querySelectorAll('#postlist > div[id^="post_"]').forEach(lou => {
+    elem.querySelectorAll('#postlist > div[id^="post_"]').forEach((lou, index) => {
         const option = document.createElement('option');
         option.value = lou.id;
-        option.text = lou.querySelector('td.plc>div.pi>strong>a').firstChild.textContent + ' ' + lou.querySelector('div.authi>a.neiid').innerText;
+        option.innerHTML = `${index + 1} ${lou.querySelector('div.authi>a.neiid')?.innerHTML || ''}`;
         MULUSELECT.appendChild(option);
-        document.querySelectorAll("td.t_f > div.quote > blockquote > font > a[href$='" + lou.id.replace('post_','&pid=') + "&ptid=" + tid + "']").forEach(a=>{//将引用的楼层链接改为锚点
-            a.firstElementChild.innerHTML = lou.querySelector('td.plc>div.pi>strong>a').innerHTML + ' ' + a.firstElementChild.innerHTML;
+        const pidRef = lou.id.replace('post_', '&pid=');
+        document.querySelectorAll("td.t_f > div.quote > blockquote > font > a[href$='" + pidRef + "&ptid=" + tid + "']").forEach(a => {
+            if (a.firstElementChild) {
+                a.firstElementChild.innerHTML = lou.querySelector('td.plc>div.pi>strong>a').innerHTML + ' ' + a.firstElementChild.innerHTML;
+            }
         });
-        document.querySelectorAll("td.t_f a[href$='" + lou.id.replace('post_','&pid=') + "&ptid=" + tid + "']").forEach(a=>{//将楼层链接改为锚点
+        document.querySelectorAll("td.t_f a[href$='" + pidRef + "&ptid=" + tid + "']").forEach(a => {
             a.removeAttribute("target");
-            a.setAttribute("href", '#'+lou.id);
+            a.setAttribute("href", "#" + lou.id);
+            a.style.cursor = 'pointer';
         });
         ++MULUSELECT.size;
     });
@@ -195,34 +203,42 @@ function addLou(elem) {
     }
 }
 MULUSELECT.addEventListener("change", function() {//楼层目录选择跳转
-    location.hash = '#' + this.value;
+    $(this.value).scrollIntoView({
+        behavior: 'auto',
+        block: 'center',
+        inline: 'center'
+    });
 });
 MULU.appendChild(MULUSELECT);
 $('ct').appendChild(MULU);
 addLou($('postlist'));
 
-window.addEventListener('scroll', debounce(function() {
+window.addEventListener('scroll', throttle(function() {
     const posts = document.querySelectorAll('#postlist > div[id^="post_"]');
     let targetPost = null;
     for (const post of posts) {
         const rect = post.getBoundingClientRect();
-        if (rect.top <= window.innerHeight/2 && rect.bottom >= window.innerHeight/2 || parseInt(rect.top) >= 0) {
+        if (rect.top <= window.innerHeight / 2 && rect.bottom >= window.innerHeight / 2) {
             targetPost = post;
             break;
         }
     }
     if (targetPost) {
         MULUSELECT.value = targetPost.id;
+        const editLink = $('scrolltop')?.querySelector('a.editp');
+        const sourceEdit = targetPost.querySelector('a.editp');
+        if (editLink && sourceEdit) {
+            editLink.href = sourceEdit.href;
+        }
     }
-}, 200));
-function debounce(func, delay) {
-    let timeoutId;
+}));
+function throttle(func) {
+    let inThrottle;
     return function() {
-        const context = this;
-        const args = arguments;
-        clearTimeout(timeoutId);
-        timeoutId = setTimeout(() => {
-            func.apply(context, args);
-        }, delay);
-    }
+        if (!inThrottle) {
+            func.apply(this, arguments);
+            inThrottle = true;
+            setTimeout(() => inThrottle = false, 200);
+        }
+    };
 }
