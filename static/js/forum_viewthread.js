@@ -323,6 +323,7 @@ function appendreply(pid) {
 	if(typeof MathJax.typesetPromise === 'function') {
 		MathJax.typesetPromise([$('postlist').appendChild($('post_new'))]);
 	}
+	addLou($('post_new'));
 	$('post_new').id = `post_${pid}`;
 	div = document.createElement('div');
 	div.id = 'post_new';

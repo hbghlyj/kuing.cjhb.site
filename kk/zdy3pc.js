@@ -132,7 +132,7 @@ $('thread_subject').setAttribute("ondblclick",function() {//选择主题标题
 
 //楼层目录
 const MULU = document.createElement("div");
-MULU.className = "mlcls";
+MULU.id = "mulu";
 const summ = document.createElement("div");
 summ.align = "center";
 summ.innerText = document.querySelector('#fj > label').innerText;

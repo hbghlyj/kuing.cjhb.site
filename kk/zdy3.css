@@ -121,8 +121,8 @@ i.pstatus { margin-bottom: unset; }
 
 details { background-color:#EEE; border-radius:10px; padding:5px 10px; }
 details summary { color:blue; cursor:pointer; }
-.mlcls { position:fixed; top: 50%; font-size:12px; transform: translate(calc(-100% - 4px), -50%);}
-    .mlcls>select { font-family: sans-serif; }
+#mulu { position:fixed; top: 50%; font-size:12px; transform: translate(calc(-100% - 4px), -50%);}
+    #mulu>select { font-family: sans-serif; }
 /*楼层目录*/
 
 
@@ -237,7 +237,7 @@ details summary { color:blue; cursor:pointer; }
 
 
 @media screen and (orientation: portrait) {
-  #switchwidth,#diy-tg,#um p:last-child,.pls,#cgb,#fj,.mlcls { display: none; }/*宽屏切换按钮，diy按钮，logo，积分用户组，头像那列，广告（草稿），电梯*/
+  #switchwidth,#diy-tg,#um p:last-child,.pls,#cgb,#fj,#mulu { display: none; }/*宽屏切换按钮，diy按钮，logo，积分用户组，头像那列，广告（草稿），电梯*/
   #toptb { min-width: unset; }/*顶上横条*/
   .wp { width: 100%; }/*主体*/
   #ls_username, #ls_password { width: 90px; }
@@ -271,7 +271,7 @@ details summary { color:blue; cursor:pointer; }
 }
 
 @media print { 
-    .printhides,.mlcls,#scrolltop,#modmenu2,.pgs.mtm.mbm.cl,#ft,#cgb { display:none; } 
+    .printhides,#mulu,#scrolltop,#modmenu2,.pgs.mtm.mbm.cl,#ft,#cgb { display:none; } 
 }
 
 /* 标题中的连续空格显示 */

@@ -72,6 +72,7 @@ function PusherChatWidget(pusher, options) {
     this._chatChannel.bind('deletepost', function(data) {
       if(data.tid == tid && $(`pid${data.pid}`) !== null) {
         $(`pid${data.pid}`).remove();
+        $('mulu').querySelector(`option[value="post_${data.pid}"]`)?.remove();
       }
     });
   }
