@@ -306,22 +306,37 @@ class table_common_member extends discuz_table_archive {
 		return DB::result_first('SELECT COUNT(*) FROM %t WHERE regdate>%d', [$this->_table, $timestamp]);
 	}
 
+<<<<<<< HEAD
 	public function fetch_all_stat_memberlist($username, $orderby = '', $sort = '', $start = 0, $limit = 0) {
-		$orderby = in_array($orderby, ['uid', 'credits', 'regdate', 'gender', 'username', 'posts', 'lastvisit'], true) ? $orderby : 'uid';
+		$orderby = in_array($orderby, ['uid', 'credits', 'regdate', 'lastpost', 'username', 'posts', 'lastvisit'], true) ? $orderby : 'uid';
+=======
+	public function fetch_all_stat_memberlist($username, $orderby = '', $sort = '', $start = 0, $limit =  0) {
+		$orderby = in_array($orderby, array('uid','credits','regdate', 'lastpost','username','posts','lastvisit'), true) ? $orderby : 'uid';
+>>>>>>> 811958137 (站点统计会员列表 在 注册日期、上次访问 的旁边添加：最后发表)
 		$sql = '';
 
 		$sql = !empty($username) ? " WHERE username LIKE '".addslashes(stripsearchkey($username))."%'" : '';
 
+<<<<<<< HEAD
 		$memberlist = [];
-		$query = DB::query('SELECT m.uid, m.username, mp.gender, m.email, m.regdate, ms.lastvisit, mc.posts, m.credits
+		$query = DB::query('SELECT m.uid, m.username, ms.lastpost, m.email, m.regdate, ms.lastvisit, mc.posts, m.credits
 			FROM '.DB::table($this->_table).' m
 			LEFT JOIN '.DB::table('common_member_profile').' mp ON mp.uid=m.uid
 			LEFT JOIN '.DB::table('common_member_status').' ms ON ms.uid=m.uid
 			LEFT JOIN '.DB::table('common_member_count')." mc ON mc.uid=m.uid
+=======
+		$memberlist = array();
+		$query = DB::query("SELECT m.uid, m.username, ms.lastpost, m.email, m.regdate, ms.lastvisit, mc.posts, m.credits
+			FROM ".DB::table($this->_table)." m
+			LEFT JOIN ".DB::table('common_member_profile')." mp ON mp.uid=m.uid
+			LEFT JOIN ".DB::table('common_member_status')." ms ON ms.uid=m.uid
+			LEFT JOIN ".DB::table('common_member_count')." mc ON mc.uid=m.uid
+>>>>>>> 811958137 (站点统计会员列表 在 注册日期、上次访问 的旁边添加：最后发表)
 			$sql ORDER BY ".DB::order($orderby, $sort).DB::limit($start, $limit));
 		while($member = DB::fetch($query)) {
 			$member['usernameenc'] = rawurlencode($member['username']);
 			$member['regdate'] = dgmdate($member['regdate']);
+			$member['lastpost'] = $member['lastpost'] ? dgmdate($member['lastpost']) : lang('forum/template','never');
 			$member['lastvisit'] = dgmdate($member['lastvisit']);
 			$memberlist[$member['uid']] = $member;
 		}
