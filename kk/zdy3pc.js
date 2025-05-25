@@ -175,7 +175,7 @@ function offSet(curEle) {
 var lous = document.querySelectorAll("a[id^=postnum]");
 var names = document.querySelectorAll(".favatar .pi .authi a");
 var MULU = document.createElement("details");
-MULU.className = "mlcls";
+MULU.id = "mulu";
 MULU.setAttribute("open", "");
 //MULU.insertAdjacentHTML('beforeend', '<summary>目录</summary>');
 var summ = document.createElement("summary");
@@ -183,7 +183,7 @@ summ.innerText = '目录';
 var mlx = document.createElement("a");
 mlx.innerHTML = '×';
 mlx.style = 'margin-left:1em';
-mlx.setAttribute("onclick", "document.querySelector('.mlcls').style.display='none';");
+mlx.setAttribute("onclick", "document.querySelector('#mulu').style.display='none';");
 summ.appendChild(mlx);
 MULU.appendChild(summ);
 var mlul = document.createElement("ul");
