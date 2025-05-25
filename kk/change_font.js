@@ -35,30 +35,6 @@ const localChineseFonts = [
 	"Noto Sans SC","Noto Serif TC","Noto Serif HK"
 ];
 
-function isFontAvailable(fontName) {
-    const text = "床前明月光，疑是地上霜。举头望明月，低头思故乡。"; // reliable detection for Chinese fonts
-    const canvas = document.createElement("canvas");
-    const context = canvas.getContext("2d");
-
-    // Measure text with a generic fallback font
-    context.font = "72px serif"; // Using serif as a generic fallback
-    const defaultMetrics = context.measureText(text);
-
-    // Measure text with the target font, falling back to serif
-    context.font = `72px "${fontName}", serif`;
-    const testMetrics = context.measureText(text);
-
-    // Compare a set of TextMetrics properties
-    // If any of these differ, the font is considered available and distinct
-    if (defaultMetrics.width !== testMetrics.width) return true;
-    if (defaultMetrics.actualBoundingBoxAscent !== testMetrics.actualBoundingBoxAscent) return true;
-    if (defaultMetrics.actualBoundingBoxDescent !== testMetrics.actualBoundingBoxDescent) return true;
-    if (defaultMetrics.actualBoundingBoxLeft !== testMetrics.actualBoundingBoxLeft) return true;
-    if (defaultMetrics.actualBoundingBoxRight !== testMetrics.actualBoundingBoxRight) return true;
-
-    return false; // If all compared metrics are the same, assume font is not available or not distinct enough
-}
-
 function setCookie(name, value, days) {
 	var expires = "";
 	if (days) {
@@ -151,9 +127,29 @@ function update_zh_font() {
 }
 zh_font_select.addEventListener('click', async () => {
 	try {
+		const text = "床前明月光，疑是地上霜。举头望明月，低头思故乡。"; // reliable detection for Chinese fonts
+		const canvas = document.createElement("canvas");
+		const context = canvas.getContext("2d");
+
+		// Measure text with a generic fallback font (once)
+		context.font = "72px serif"; // Using serif as a generic fallback
+		const defaultMetrics = context.measureText(text);
+
 		const found = ["Default"];
 		for (const name of localChineseFonts) {
-			if (isFontAvailable(name)) {
+			// Measure text with the target font, falling back to serif
+			context.font = `72px "${name}", serif`;
+			const testMetrics = context.measureText(text);
+
+			// Compare a set of TextMetrics properties
+			let isAvailable = false;
+			if (defaultMetrics.width !== testMetrics.width) isAvailable = true;
+			else if (defaultMetrics.actualBoundingBoxAscent !== testMetrics.actualBoundingBoxAscent) isAvailable = true;
+			else if (defaultMetrics.actualBoundingBoxDescent !== testMetrics.actualBoundingBoxDescent) isAvailable = true;
+			else if (defaultMetrics.actualBoundingBoxLeft !== testMetrics.actualBoundingBoxLeft) isAvailable = true;
+			else if (defaultMetrics.actualBoundingBoxRight !== testMetrics.actualBoundingBoxRight) isAvailable = true;
+
+			if (isAvailable) {
 				found.push(name);
 			}
 		}
