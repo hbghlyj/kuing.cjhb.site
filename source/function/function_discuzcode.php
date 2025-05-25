@@ -547,7 +547,7 @@ function parsetable($width, $bgcolor, $message) {
 	if(strpos($message, '[/tr]') === FALSE && strpos($message, '[/td]') === FALSE && strpos($message, '[/th]') === FALSE) {
 		$rows = explode("\n", $message);
 		$s = !defined('IN_MOBILE') ? '<table cellspacing="0" class="t_table" '.
-			($width == '' ? NULL : 'style="width:'.$width.'"').
+			($width == '' ? NULL : 'width="'.$width.'"').
 			($bgcolor ? ' bgcolor="'.$bgcolor.'">' : '>') : '<table>';
 		foreach($rows as $row) {
 			$s .= '<tr><td>'.str_replace(array('\|', '|', '\n'), array('&#124;', '</td><td>', "\n"), $row).'</td></tr>';
@@ -558,16 +558,13 @@ function parsetable($width, $bgcolor, $message) {
 		if(!preg_match("/^\[tr(?:=([\(\)\s%,#\w]+))?\]\s*\[(td|th)([=\d,%]+)?\]/", $message) && !preg_match("/^<tr[^>]*?>\s*<(td|th)[^>]*?>/", $message)) {
 			return str_replace('\\"', '"', preg_replace("/\[tr(?:=([\(\)\s%,#\w]+))?\]|\[(td|th)([=\d,%]+)?\]|\[\/(td|th)\]|\[\/tr\]/", '', $message));
 		}
-		if(substr($width, -1) != '%') {
-			$width .= 'px';
-		}
 		$message = preg_replace_callback("/\[tr(?:=([\(\)\s%,#\w]+))?\]\s*\[(td|th)(?:=(\d{1,4}%?))?\]/i", 'parsetable_callback_open_simple', $message);
 		$message = preg_replace_callback("/\[\/(td|th)\]\s*\[(td|th)(?:=(\d{1,4}%?))?\]/i", 'parsetable_callback_replace_simple', $message);
 		$message = preg_replace_callback("/\[tr(?:=([\(\)\s%,#\w]+))?\]\s*\[(td|th)(?:=(\d{1,2}),(\d{1,2})(?:,(\d{1,4}%?))?)?\]/i", 'parsetable_callback_open_complex', $message);
 		$message = preg_replace_callback("/\[\/(td|th)\]\s*\[(td|th)(?:=(\d{1,2}),(\d{1,2})(?:,(\d{1,4}%?))?)?\]/i", 'parsetable_callback_replace_complex', $message);
 		$message = preg_replace("/\[\/(td|th)\]\s*\[\/tr\]\s*/i", '</$1></tr>', $message);
 		return (!defined('IN_MOBILE') ? '<table cellspacing="0" class="t_table" '.
-			($width == '' ? NULL : 'style="width:'.$width.'"').
+			($width == '' ? NULL : 'width="'.$width.'"').
 			($bgcolor ? ' bgcolor="'.$bgcolor.'">' : '>') : '<table>').
 			str_replace('\\"', '"', $message).'</table>';
 	}
