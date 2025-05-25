@@ -224,8 +224,21 @@ if (muleft < 0) {
     muleft = 0;
 }
 MULU.style = "left:" + muleft + "px;";
-//滚动监听
-window.onscroll = function() {
+// Throttle function
+function throttle(func, limit) {
+    let inThrottle;
+    return function() {
+        const args = arguments;
+        const context = this;
+        if (!inThrottle) {
+            func.apply(context, args);
+            inThrottle = true;
+            setTimeout(() => inThrottle = false, limit);
+        }
+    }
+}
+
+window.onscroll = throttle(function() {
     let slTop = Math.max(document.documentElement.scrollTop, document.body.scrollTop);
     let arr = [];
     lous.forEach(lou => {
@@ -241,7 +254,7 @@ window.onscroll = function() {
             $('muluid' + i).classList.remove("mlcur");
         }
     }
-}
+}, 200); // Throttle with a 200ms limit
 
 /* 点评中的回复按钮 */
 document.querySelectorAll('.psti').forEach(pstiElement => {
