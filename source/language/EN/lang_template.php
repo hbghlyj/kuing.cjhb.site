@@ -355,7 +355,7 @@ $lang = array (
 	'connect_member_login_tip'	=> 'Welcome to {$_G[setting][bbname]} logged with QQ account',//'欢迎使用QQ帐号登录  {$_G[setting][bbname]}',
 	'connect_config_newpassword_comment'	=> 'You are currently use a Google account to login. Here you can set up an independent password in order to use the corresponding function.',//'您目前使用的是Google帐号绑定本站，您可以在这里设置独立密码，只有设置了独立密码后本站需要填写密码的相应功能才可使用',
 /*3.2*/	'wechat_config_newpassword_comment'	=> 'You are currently using the micro-channel account binding to the site, Here you can set separate password. Only after setting up an independent site requires a password to enter a password in order to use the corresponding function.',//'您目前使用的是微信帐号绑定本站，您可以在这里设置独立密码，只有设置了独立密码后本站需要填写密码的相应功能才可使用',
-	'email'				=> 'E-mail',
+	'email'				=> 'Email',
 	'security_question'		=> 'Security Question (Please ignore if not set)',//'安全提问(未设置请忽略)',
 	'security_question_0'		=> 'Security Question',//'安全提问',
 	'security_question_1'		=> 'Your Mother\'s Name',//'母亲的名字',
@@ -434,78 +434,39 @@ $lang = array (
 	'myitem'			=> 'My',//'我的',
 	'mypost'			=> 'Posts',//'帖子',
 
-//---------------------------
-// Added by Valery Votintsev
+'m_loading' => 'Loading...',//'正在加载...',
+'m_its_all' => 'All displayed',//'已显示全部',
+'m_view_his' => 'View history messages',//'查看历史消息',
+'m_login_user' => 'Account:',//'账 号：',
+'m_login_user_ph' => 'Please enter account',//'请输入账户',
+'m_login_pw' => 'Password:',//'密 码：',
+'m_login_pw_ph' => 'Please enter password',//'请输入密码',
+'m_login_q' => 'Security Question:',//'安全提问：',
+'m_login_q_ph' => 'Security Question (Please ignore if not set)',//'安全提问(未设置请忽略)',
+'m_login_a' => 'Answer:',//'答 案：',
+'m_login_a_ph' => 'Please enter answer',//'请输入答案',
+'m_login_submit' => 'Login',//'登录',
+'m_login_orQQ' => 'Or use the bound QQ account to log in',//'或使用已绑定的QQ账号登录',
+'m_login_QQ' => 'QQ account login',//'QQ账号登录',
+'m_login_orWX' => 'Or use the bound WeChat account to log in',//'或使用已绑定的微信账号登录',
+'m_login_WX' => 'WeChat account login',//'微信账号登录',
+'m_login_reg' => 'Register account',//'注册账户',
+'m_new_t' => 'New post',//'发帖',
+'m_new_submit' => 'Send',//'发送',
+'m_new_subject_ph' => 'Title (required)',//'标题（必填）',
+'m_new_memo_ph' => 'Say something',//'说两句吧',
+'m_new_upload' => 'Up to 8 pictures can be uploaded',//'最多可上传8张图片',
+'m_new_ttype' => 'Topic category:',//'主题分类：',
+'m_new_tsel' => 'Select',//'选择',
+'m_my_send_pm' => 'Send private message',//'发送私信',
+'m_my_ntc' => 'My reminders',//'我的提醒',
+'m_my_pm' => 'My private messages',//'我的私信',
+'m_my_t' => 'My topics',//'我的话题',
+'m_my_r' => 'My replies',//'我的回复',
+'m_stickt' => 'Sticky post',//'置顶帖',
+'m_share' => 'If you like this topic, please click the icon in the upper right corner to share',//'如果喜欢这个话题，请点击右上角图标分享',
+'m_logout' => 'Logout',//'退出登录',
 
-	'follow_view_follow'	=> 'I follow',//'我关注的',
-	'follow_stop'		=> 'Stop follow',//'不收听',
-	'follow_start'		=> 'Follow',//'收听TA',
-
-	'e_full_screen'		=> 'Full Screen',//'全屏',
-	'e_restore_size'	=> 'Restore size',//'恢复',
-	'e_simple'		=> 'General Mode',//'常用',
-	'e_advanced'		=> 'Advanced Mode',//'高级',
-
-//static/space/t1/style.css
-	'default_style'	=> 'Default style',//'[name]默认风格[/name]',
-
-//---------------------------
-//static/space/t2/style.css
-	'nature'	=> 'Nature',//'[name]自然[/name]',
-
-//---------------------------
-//static/space/t3/style.css
-	'sky'		=> 'Sky',//'[name]天空[/name]',
-
-//---------------------------
-//static/space/t4/style.css
-	'cat'		=> 'Cat',//'[name]猫猫[/name]',
-
-//---------------------------
-//static/space/t5/style.css
-	'courtyard'	=> 'Courtyard',//'[name]庭院[/name]',
-
-//---------------------------
-//static/space/t6/style.css
-	'green_wall'	=> 'Green Wall',//'[name]绿墙[/name]',
-
-//---------------------------
-//static/space/t7/style.css
-	'cowboy'	=> 'Cowboy',//'[name]牛仔[/name]',
-
-//---------------------------
-//static/space/t8/style.css
-	'christmas'	=> 'Christmas',//'[name]圣诞[/name]',
-
-//---------------------------
-//static/topic/t1/style.css
-	'default_skin'	=> 'Default Skin',//'[name]默认皮肤[/name]',
-
-//---------------------------
-//static/topic/t2/style.css
-	'skin_2'	=> 'Skin 2',//'[name]皮肤2[/name]',
-
-//---------------------------
-//Change Language
-	'change_language'	=> '',//'Change language:',
-	'change_language_title'	=> 'Change language',
-	'changestyle_title'	=> 'Change Style',//'切换风格',
-
-//vot:
-	'new'		=> 'New',//'全新',
-
-	'register'	=> 'Register',//'注册',
-
-	'or'		=> 'or',//'或者',
-
-// Google Maps
-	'e_map'		=> 'Map',//'地图',
-	'e_map_insert'	=> 'Insert Google Map',//'插入google地图',
-	'e_map_address'	=> 'Enter address for search: ',//'地址： ',
-
-	'processed_in'			=> 'Processed in',
-	'seconds'			=> 'sec.',//'second(s)',
-	'queries'			=> 'queries',
 
 //Space online user list
 	'time' => 'Last seen',

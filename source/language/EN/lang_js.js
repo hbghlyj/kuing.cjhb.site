@@ -135,7 +135,7 @@ var lng = {
 
 //---------------------------
 //upload/static/js/at.js
-//	'enter_username'	: 'Please enter the user name',//'请输用户名',
+//	'enter_username'	: 'Please enter the Username',//'请输用户名',
 
 //--------------------------------
 //static/js/calendar.js
@@ -629,16 +629,16 @@ var lng = {
 //--------------------------------
 //static/js/register.js
 
-	'username_invalid'	: 'User name contains invalid characters',//'用户名包含敏感字符',
-	'username_short'	: 'User name is shorter than 2 characters',//'用户名小于 3 个字符',
-	'username_long'		: 'User name is longer than 15 characters',//'用户名超过 15 个字符',
+	'username_invalid'	: 'Username contains invalid characters',//'用户名包含敏感字符',
+	'username_short'	: 'Username is shorter than 2 characters',//'用户名小于 3 个字符',
+	'username_long'		: 'Username is longer than 15 characters',//'用户名超过 15 个字符',
 	'passwords_not_equal'	: 'Two passwords does not match',//'两次输入的密码不一致',
 	'email_invalid'		: 'Email contains invalid characters',//'Email 包含敏感字符',
 	'invite_code_invalid'	: 'Invitation code contains invalid characters',//'邀请码包含敏感字符',
-	'password_fill'		: 'Please fill the password',//'请填写密码',
-	'password_again'	: 'Please enter the password again',//'请再次输入密码',
-	'email_fill'		: 'Please enter email address',//'请输入邮箱地址',
-	'length_min'		: ', Minimum length',//', 最小长度为 '
+	'password_fill'		: 'Enter a password',//'请填写密码',
+	'password_again'	: 'Enter the password again',//'请再次输入密码',
+	'email_fill'		: 'Enter email address',//'请输入邮箱地址',
+	'length_min'		: ', longer than ',//', 最小长度为 '
 	'chars'			: ' characters',//' 个字符',
 	'password_strength'	: 'Password strength: ',//'密码强度:',
 	'pw_weak'		: 'Weak',//'弱',
@@ -654,7 +654,7 @@ var lng = {
 
 //--------------------------------
 //static/js/seditor.js
-	'enter_username'	: 'Please enter the user name',//'请输用户名',
+	'enter_username'	: 'Please enter the Username',//'请输用户名',
 	'at_friend'		: '@user, you can remind him to view the post',//'@朋友账号，就能提醒他来看帖子',
 
 //--------------------------------
