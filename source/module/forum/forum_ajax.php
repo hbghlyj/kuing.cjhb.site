@@ -22,10 +22,12 @@ if($_GET['action'] == 'markAsRead') {
 	foreach(C::t('home_notification')->fetch_all_by_uid($_G['uid'], -1, '', 0, 5, '') as $notice){
 		$stripped = strip_tags($notice['note'], '<div><blockquote>');
 		// Find the last <a href=""> element
-		$lastAnchor = '';
-		if (preg_match_all('/<a href="[^"]*/', $notice['note'], $matches)) $lastAnchor = end($matches[0]);
-		if (empty($lastAnchor)) return $stripped;
-		echo '<li>'.$lastAnchor,$notice['new'] ? '&delnotice='.$notice['id'] : '','"',$notice['new'] ? ' style="font-weight:600;background:#f7f7f7"' : '','><font',$notice['new']?' color="#F26C4F"':'',' face="dzicon"></font> ',$stripped,'</a></li>';
+		if (preg_match_all('/(<a href="[^"]*)"([^>]*>)/', $notice['note'], $matches)) {
+			echo '<li>'.end($matches[1]),$notice['new'] ? '&delnotice='.$notice['id'] : '','"',
+			$notice['new'] ? ' style="font-weight:bold;background:#f7f7f7"' : '',
+			end($matches[2]),
+			'<font',$notice['new']?' color="#F26C4F"':'',' face="dzicon"></font> ',$stripped,'</a></li>';
+		} else echo '<li><a><font',$notice['new']?' color="#F26C4F"':'',' face="dzicon"></font> ',$stripped,'</a></li>';
 	}
 	// Mark all notices as read
 	C::t('common_member')->update($_G['uid'], array('newprompt' => 0));
