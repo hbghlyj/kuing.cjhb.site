@@ -122,13 +122,13 @@ document.querySelectorAll('.psti').forEach(pstiElement => {//点评中的回复�
     });
     pstiElement.appendChild(replyButton);
 });
-$('thread_subject').setAttribute("ondblclick",function() {//选择主题标题
+$('thread_subject').ondblclick=function() {//选择主题标题
   const selection = window.getSelection();
   selection.removeAllRanges();
   const range = document.createRange();
   range.selectNodeContents(this);
   selection.addRange(range);
-});
+};
 
 //楼层目录
 const MULU = document.createElement("div");
@@ -148,7 +148,6 @@ function addLou(elem) {
     elem.querySelectorAll('#postlist > div[id^="post_"]').forEach(lou => {
         const option = document.createElement('option');
         option.value = lou.id;
-        ++MULUSELECT.size;
         option.text = lou.querySelector('td.plc>div.pi>strong>a').firstChild.textContent + ' ' + lou.querySelector('div.authi>a.neiid').innerText;
         MULUSELECT.appendChild(option);
         document.querySelectorAll("td.t_f > div.quote > blockquote > font > a[href$='" + lou.id.replace('post_','&pid=') + "&ptid=" + tid + "']").forEach(a=>{//将引用的楼层链接改为锚点
@@ -158,7 +157,9 @@ function addLou(elem) {
             a.removeAttribute("target");
             a.setAttribute("href", '#'+lou.id);
         });
+        ++MULUSELECT.size;
     });
+    MULUSELECT.style.height = MULUSELECT.lastChild.offsetHeight + MULUSELECT.lastChild.offsetTop - MULUSELECT.firstChild.offsetTop + 'px';
     if (MULUSELECT.size < 2 || $('postlist').clientHeight < window.innerHeight) {
         MULU.style.display = 'none';
     }
@@ -182,7 +183,6 @@ window.addEventListener('scroll', throttle(function() {
     }
     if (targetPost) {
         MULUSELECT.value = targetPost.id;
-        if($('scrolltop'))$('scrolltop').querySelector('a.editp').href = targetPost.querySelector('a.editp').href;
     }
 }));
 function throttle(func) {//ensures that func is only executed once within 200ms, even if func is called multiple times

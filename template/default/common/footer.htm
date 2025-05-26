@@ -184,11 +184,11 @@
 	<!--{if $_G[fid] && $_G['mod'] == 'viewthread'}-->
 	<span><a href="forum.php?mod=post&action=reply&fid=$_G[fid]&tid=$_G[tid]&extra=$_GET[extra]&page=$page{if $_GET[from]}&from=$_GET[from]{/if}" onclick="showWindow('reply', this.href)" class="replyfast" title="{lang fastreply}"><b>{lang fastreply}</b></a></span>
 	<!--{/if}-->
-	<span hidefocus="true"><a title="{lang scrolltop}" onclick="window.scrollTo('0','0')" class="scrolltopa" ><b>{lang scrolltop}</b></a></span>
+	<span hidefocus="true"><a title="{lang scrolltop}" onclick="window.scrollTo('0','0')" class="scrolltopa"><b>{lang scrolltop}</b></a></span>
 	<!--{if $_G[fid]}-->
 	<span>
 		<!--{if $_G['mod'] == 'viewthread'}-->
-		<a hidefocus="true" class="editp" onclick="showWindow('edit',this.href,'get',0)" title="{lang edit}"><b>{lang edit}</b></a>
+		<a hidefocus="true" class="editp" onclick="showWindow('edit',$(MULUSELECT.value).querySelector('a.editp').href,'get',0)" title="{lang edit}"><b>{lang edit}</b></a>
 		<!--{else}-->
 		<a href="forum.php" hidefocus="true" class="returnboard" title="{lang return_forum}"><b>{lang return_forum}</b></a>
 		<!--{/if}-->
