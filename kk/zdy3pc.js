@@ -180,7 +180,7 @@ function addLou(elem) {
     elem.querySelectorAll('#postlist > div[id^="post_"]').forEach((lou, index) => {
         const option = document.createElement('option');
         option.value = lou.id;
-        option.innerHTML = `${index + 1} ${lou.querySelector('div.authi>a.neiid')?.innerHTML || ''}`;
+        option.text = lou.querySelector('td.plc>div.pi>strong>a').firstChild.textContent + ' ' + lou.querySelector('div.authi>a.neiid').innerText;
         MULUSELECT.appendChild(option);
         const pidRef = lou.id.replace('post_', '&pid=');
         document.querySelectorAll("td.t_f > div.quote > blockquote > font > a[href$='" + pidRef + "&ptid=" + tid + "']").forEach(a => {
@@ -195,6 +195,7 @@ function addLou(elem) {
         });
         ++MULUSELECT.size;
     });
+    MULUSELECT.style.height = MULUSELECT.lastChild.offsetHeight + MULUSELECT.lastChild.offsetTop - MULUSELECT.firstChild.offsetTop + 'px';
     if (MULUSELECT.size < 2 || $('postlist').clientHeight < window.innerHeight) {
         MULU.style.display = 'none';
     } else {
