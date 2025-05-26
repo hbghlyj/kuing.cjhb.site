@@ -147,27 +147,22 @@ MULUSELECT.style='padding: 0;overflow-y: hidden;border: none;box-shadow: 0 0 2px
 MULUSELECT.size = 0;
 function addLou(elem) {
     elem.querySelectorAll('#postlist > div[id^="post_"]').forEach(lou => {
-        const id = lou.id;
         const option = document.createElement('option');
-        option.value = id;
-        option.innerHTML = ++MULUSELECT.size + ' ' + lou.querySelector('div.authi>a.neiid').innerHTML;
+        option.value = lou.id;
+        ++MULUSELECT.size;
+        option.text = lou.querySelector('td.plc>div.pi>strong>a>em').innerText + ' ' + lou.querySelector('div.authi>a.neiid').innerText;
         MULUSELECT.appendChild(option);
-        document.querySelectorAll("td.t_f > div.quote > blockquote > font > a[href$='" + id.replace('postnum','&pid=') + "&ptid=" + tid + "']").forEach(a=>{//将引用的楼层链接改为锚点
-            a.firstElementChild.innerHTML = lou.innerHTML + ' ' + a.firstElementChild.innerHTML;
+        document.querySelectorAll("td.t_f > div.quote > blockquote > font > a[href$='" + lou.id.replace('post_','&pid=') + "&ptid=" + tid + "']").forEach(a=>{//将引用的楼层链接改为锚点
+            a.firstElementChild.innerHTML = lou.querySelector('td.plc>div.pi>strong>a').innerText + ' ' + a.firstElementChild.innerHTML;
         });
-        document.querySelectorAll("td.t_f a[href$='" + id.replace('postnum','&pid=') + "&ptid=" + tid + "']").forEach(a=>{//将楼层链接改为锚点
+        document.querySelectorAll("td.t_f a[href$='" + lou.id.replace('post_','&pid=') + "&ptid=" + tid + "']").forEach(a=>{//将楼层链接改为锚点
             a.removeAttribute("target");
-            a.setAttribute("href", "#" + id);
-            a.style.cursor = 'pointer';
+            a.setAttribute("href", '#'+lou.id);
         });
     });
 }
 MULUSELECT.addEventListener("change", function() {//楼层目录选择跳转
-    $(this.value).scrollIntoView({
-            behavior: 'auto',
-            block: 'center',
-            inline: 'center'
-        });
+    location.hash = '#' + this.value;
 });
 MULU.appendChild(MULUSELECT);
 $('ct').appendChild(MULU);
@@ -178,14 +173,14 @@ window.addEventListener('scroll', throttle(function() {
     let targetPost = null;
     for (const post of posts) {
         const rect = post.getBoundingClientRect();
-        if (rect.top <= window.innerHeight/2 && rect.bottom >= window.innerHeight/2) {
+        if (rect.top <= window.innerHeight/2 && rect.bottom >= window.innerHeight/2 || parseInt(rect.top) >= 0) {
             targetPost = post;
             break;
         }
     }
     if (targetPost) {
         MULUSELECT.value = targetPost.id;
-        $('scrolltop').querySelector('a.editp').href = targetPost.querySelector('a.editp').href;
+        if($('scrolltop'))$('scrolltop').querySelector('a.editp').href = targetPost.querySelector('a.editp').href;
     }
 }));
 function throttle(func) {//ensures that func is only executed once within 200ms, even if func is called multiple times
