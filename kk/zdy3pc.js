@@ -159,9 +159,11 @@ function addLou(elem) {
         });
         ++MULUSELECT.size;
     });
-    MULUSELECT.style.height = MULUSELECT.lastChild.offsetHeight + MULUSELECT.lastChild.offsetTop - MULUSELECT.firstChild.offsetTop + 'px';
     if (MULUSELECT.size < 2 || $('postlist').clientHeight < window.innerHeight) {
         MULU.style.display = 'none';
+    } else {
+        MULU.style.display = '';
+        MULUSELECT.style.height = MULUSELECT.lastChild.offsetHeight + MULUSELECT.lastChild.offsetTop - MULUSELECT.firstChild.offsetTop + 'px';
     }
 }
 MULUSELECT.addEventListener("change", function() {//楼层目录选择跳转
