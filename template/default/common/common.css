@@ -1598,10 +1598,8 @@ span.login_slct,td.tipcol a {white-space: nowrap;}
 	Last Modify:	Pony 11061011
 */
 .fastlg { line-height: 24px; }
-	.fastlg td { padding: 2px 0 2px 4px; }
 	.fastlg_fm { margin-right: 5px; padding-right: 5px; border-right: 1px solid {COMMONBORDER}; }
 	#ls_fastloginfield_ctrl { white-space: nowrap; line-height: 20px; border: none; background-color: transparent; background-position: 100% 3px; }
-	.psw_w { padding-left: 5px; }
 
 	.fastlg_l { padding-right: 4px !important; border-right: 1px solid {SPECIALBG}; }
 
