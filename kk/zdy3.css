@@ -122,7 +122,7 @@ i.pstatus { margin-bottom: unset; }
 details { background-color:#EEE; border-radius:10px; padding:5px 10px; }
 details summary { color:blue; cursor:pointer; }
 #mulu { position:fixed; top: 50%; font-size:12px; transform: translate(calc(-100% - 4px), -50%);}
-    #mulu>select { font-family: sans-serif; }
+    #mulu>select{ font-family: sans-serif;padding: 0;overflow: hidden;border: none;box-shadow: 0 0 2px #2B7ACD; }
 /*楼层目录*/
 
 

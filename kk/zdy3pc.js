@@ -139,11 +139,10 @@ summ.innerText = document.querySelector('#fj > label').innerText;
 var mlx = document.createElement("a");
 mlx.innerHTML = '×';
 mlx.style.float = 'left';
-mlx.href="javascript:MULU.remove()";
+mlx.href="javascript:MULU.style.setProperty('display','none');";
 summ.appendChild(mlx);
 MULU.appendChild(summ);
 const MULUSELECT = document.createElement("select");
-MULUSELECT.style='padding: 0;overflow-y: hidden;border: none;box-shadow: 0 0 2px #2B7ACD;'
 MULUSELECT.size = 0;
 function addLou(elem) {
     elem.querySelectorAll('#postlist > div[id^="post_"]').forEach(lou => {
@@ -160,6 +159,9 @@ function addLou(elem) {
             a.setAttribute("href", '#'+lou.id);
         });
     });
+    if (MULUSELECT.size < 2 || $('postlist').clientHeight < window.innerHeight) {
+        MULU.style.display = 'none';
+    }
 }
 MULUSELECT.addEventListener("change", function() {//楼层目录选择跳转
     location.hash = '#' + this.value;
