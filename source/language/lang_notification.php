@@ -101,20 +101,16 @@ $lang =
 	'modthreads_delete' => '您发表的主题 {threadsubject} 已由管理团队 {modusername} 审核拒绝，现已被删除！',
 
 	'modthreads_delete_reason' => '您发表的主题 {threadsubject} 已由管理团队 {modusername} 审核拒绝，现已被删除！<div class="quote"><blockquote>{reason}</blockquote></div>',
-	'modthreads_dismiss' => '您发表的主题 <a href="forum.php?mod=viewthread&tid={tid}" target="_blank">{threadsubject}</a> 已由管理团队 {modusername} 驳回，现已存入草稿箱，请修改后重新提交！',
-
-	'modthreads_dismiss_reason' => '您发表的主题 <a href="forum.php?mod=viewthread&tid={tid}" target="_blank">{threadsubject}</a> 已由管理团队 {modusername} 驳回，现已存入草稿箱，请修改后重新提交！<div class="quote"><blockquote>{reason}</blockquote></div>',
-	'modthreads_validate' => '您发表的主题 <a href="forum.php?mod=viewthread&tid={tid}" target="_blank">{threadsubject}</a> 已由管理团队 {modusername} 审核通过！ &nbsp; <a href="forum.php?mod=viewthread&tid={tid}" target="_blank" class="lit">查看 &rsaquo;</a>',
+	'modthreads_validate' => '您发表的主题 <a href="forum.php?mod=viewthread&tid={tid}">{threadsubject}</a> 已由管理团队 {modusername} 审核通过！ &nbsp; <a href="forum.php?mod=viewthread&tid={tid}" class="lit">查看 &rsaquo;</a>',
+	'modthreads_dismiss' => '您发表的主题 <a href="forum.php?mod=viewthread&tid={tid}">{threadsubject}</a> 已由管理团队 {modusername} 驳回，现已存入草稿箱，请修改后重新提交！',
+	'modthreads_dismiss_reason' => '您发表的主题 <a href="forum.php?mod=viewthread&tid={tid}">{threadsubject}</a> 已由管理团队 {modusername} 驳回，现已存入草稿箱，请修改后重新提交！<div class="quote"><blockquote>{reason}</blockquote></div>',
 
 	'modreplies_delete' => '您发表的回复已由管理团队 {modusername} 审核拒绝，现已被删除！ <p class="summary">回复内容：<span>{post}</span></p>',
 
 	'modreplies_delete_reason' => '您发表的回复已由管理团队 {modusername} 审核拒绝，现已被删除！ <p class="summary">回复内容：<span>{post}</span></p><div class="quote"><blockquote>{reason}</blockquote></div>',
-
-	'modreplies_dismiss' => '您发表的回复已由管理团队 {modusername} 驳回！ &nbsp; <a href="forum.php?mod=post&action=edit&fid={fid}&pid={pid}&tid={tid}" target="_blank" class="lit">重新编辑 &rsaquo;</a> <p class="summary">回复内容：<span>{post}</span></p>',
-
-	'modreplies_dismiss_reason' => '您发表的回复已由管理团队 {modusername} 驳回！ &nbsp; <a href="forum.php?mod=post&action=edit&fid={fid}&pid={pid}&tid={tid}" target="_blank" class="lit">重新编辑 &rsaquo;</a> <p class="summary">回复内容：<span>{post}</span></p><div class="quote"><blockquote>{reason}</blockquote></div>',
-
-	'modreplies_validate' => '您发表的回复已由管理团队 {modusername} 审核通过！ &nbsp; <a href="forum.php?mod=redirect&goto=findpost&pid={pid}&ptid={tid}" target="_blank" class="lit">查看 &rsaquo;</a> <p class="summary">回复内容：<span>{post}</span></p>',
+	'modreplies_validate' => '您发表的回复已由管理团队 {modusername} 审核通过！ &nbsp; <a href="forum.php?mod=redirect&goto=findpost&pid={pid}&ptid={tid}" class="lit">查看 &rsaquo;</a> <p class="summary">回复内容：<span>{post}</span></p>',
+	'modreplies_dismiss' => '您发表的回复已由管理团队 {modusername} 驳回！ &nbsp; <a href="forum.php?mod=post&action=edit&fid={fid}&pid={pid}&tid={tid}" class="lit">重新编辑 &rsaquo;</a> <p class="summary">回复内容：<span>{post}</span></p>',
+	'modreplies_dismiss_reason' => '您发表的回复已由管理团队 {modusername} 驳回！ &nbsp; <a href="forum.php?mod=post&action=edit&fid={fid}&pid={pid}&tid={tid}" class="lit">重新编辑 &rsaquo;</a> <p class="summary">回复内容：<span>{post}</span></p><div class="quote"><blockquote>{reason}</blockquote></div>',
 
 	'transfer' => '您收到一笔来自 {actor} 的积分转账 {credit} &nbsp; <a href="home.php?mod=spacecp&ac=credit&op=log&suboperation=creditslog" class="lit">查看 &rsaquo;</a>
 <p class="summary">{actor} 说：<span>{transfermessage}</span></p>',
