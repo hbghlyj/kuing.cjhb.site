@@ -149,10 +149,10 @@ function addLou(elem) {
         const option = document.createElement('option');
         option.value = lou.id;
         ++MULUSELECT.size;
-        option.text = lou.querySelector('td.plc>div.pi>strong>a>em').innerText + ' ' + lou.querySelector('div.authi>a.neiid').innerText;
+        option.text = lou.querySelector('td.plc>div.pi>strong>a').firstChild.textContent + ' ' + lou.querySelector('div.authi>a.neiid').innerText;
         MULUSELECT.appendChild(option);
         document.querySelectorAll("td.t_f > div.quote > blockquote > font > a[href$='" + lou.id.replace('post_','&pid=') + "&ptid=" + tid + "']").forEach(a=>{//将引用的楼层链接改为锚点
-            a.firstElementChild.innerHTML = lou.querySelector('td.plc>div.pi>strong>a').innerText + ' ' + a.firstElementChild.innerHTML;
+            a.firstElementChild.innerHTML = lou.querySelector('td.plc>div.pi>strong>a').innerHTML + ' ' + a.firstElementChild.innerHTML;
         });
         document.querySelectorAll("td.t_f a[href$='" + lou.id.replace('post_','&pid=') + "&ptid=" + tid + "']").forEach(a=>{//将楼层链接改为锚点
             a.removeAttribute("target");

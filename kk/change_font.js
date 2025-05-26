@@ -25,20 +25,20 @@ const mathfont_list = {
 const localFonts = ["Georgia","Arial", "Verdana", "Helvetica", "Tahoma", "TrebuchetMS"];
 const localChineseFonts = [
 	// Simplified
-	"SimSun","STZhongsong","NSimSun","STSong","STFangsong",
-	"SimHei","STHeiti","STXihei","Heiti SC",
-	"Microsoft YaHei","DengXian","PingFang SC",
+	"SimSun","STZhongsong","STSong","STFangsong",
+	"SimHei","STHeiti","STXihei","HeitiSC",
+	"Microsoft YaHei","DengXian","PingFangSC",
 	"KaiTi","FangSong","STKaiti","STXingkai",
 	"STCaiyun","STHupo","STXinwei",
-	"STLiti","LiSu","Yu Gothic","YouYuan",
+	"STLiti","LiSu","YouYuan",
 	//Traditional
 	"MingLiU","PMingLiU","Microsoft JhengHei","DFKai-SB",
-	"PingFang TC","PingFang HK","Heiti TC",
+	"PingFangTC","PingFangHK","HeitiTC","MS Gothic",
 	//GoogleFonts
 	"Noto Sans SC","Noto Serif TC","Noto Serif HK"
 ];
 const localChineseFontsWithBold = [
-	"Microsoft YaHei Bold","Microsoft JhengHei Bold","MingLiU Bold","Yu Gothic Bold"
+	"Microsoft YaHei Bold","Microsoft JhengHei Bold","MingLiU Bold","PingFangSC-Semibold"
 ];
 
 function setCookie(name, value, days) {
@@ -67,6 +67,8 @@ default_en_font_style = en_font_style.textContent;
 document.head.appendChild(en_font_style);
 const zh_font_style = document.getElementById("zh_font_style");
 default_zh_font_style = zh_font_style.textContent;
+const zh_bold_style = document.getElementById("zh_bold_style");
+default_zh_bold_style = zh_bold_style.textContent;
 const en_font_select = document.getElementById("en_font_select");
 const zh_font_select = document.getElementById("zh_font_select");
 const zh_bold_select = document.getElementById("zh_bold_select");
@@ -99,13 +101,14 @@ if (en_font_cookie) {
 	en_font_select.value = en_font_cookie;
 	update_en_font();
 }
-if (zh_font_cookie || zh_bold_cookie) {
+if (zh_font_cookie) {
 	zh_font_select.value = zh_font_cookie;
-	if (zh_bold_cookie){
-		zh_bold_select.style.display = '';
-		zh_bold_select.value = zh_bold_cookie;
-	}
 	update_zh_font();
+}
+if (zh_bold_cookie) {
+	zh_bold_select.style.display = '';
+	zh_bold_select.value = zh_bold_cookie;
+	update_zh_bold();
 }
 en_font_select.addEventListener("change", () => {
 	if (en_font_select.value !== "Default")
@@ -126,7 +129,7 @@ zh_bold_select.addEventListener("change", () => {
 		setCookie("zh_bold", zh_bold_select.value, 365);
 	else
 		setCookie("zh_bold", "", -1);
-	update_zh_font();
+	update_zh_bold();
 });
 function update_en_font() {
 	const v = en_font_select.value;
@@ -142,59 +145,50 @@ function update_en_font() {
 }
 function update_zh_font() {
 	const v = zh_font_select.value;
-	const bold = zh_bold_select.value;
-	if (v!="Default" && localChineseFonts.includes(v)) {
+	if (localChineseFonts.includes(v)) {
 		zh_font_style.textContent = `@font-face {font-family: zh; src: local("${v}"); font-weight: normal;}`;
 	} else {
 		zh_font_style.textContent = default_zh_font_style;
 	}
+}
+function update_zh_bold() {
+	const bold = zh_bold_select.value;
 	if (localChineseFontsWithBold.includes(bold)) {
-		zh_font_style.textContent += `@font-face {font-family: zh; src: local("${bold}"); font-weight: bold; }`;
+		zh_bold_style.textContent = `@font-face {font-family: zh; src: local("${bold}"); font-weight: bold;}`;
 	} else {
-		zh_font_style.textContent += `@font-face {font-family: zh; font-weight: bold; src: local("Microsoft YaHei Bold"), local("Microsoft JhengHei Bold"), local("MingLiU Bold"), local("Yu Gothic Bold"); }`;
+		zh_bold_style.textContent = default_zh_bold_style;
 	}
 }
 zh_font_select.addEventListener('click', async () => {
 	try {
-		const text = "床前明月光，疑是地上霜。举头望明月，低头思故乡。"; // reliable detection for Chinese fonts
+		const text = "你好";
 		const canvas = document.createElement("canvas");
 		const context = canvas.getContext("2d");
 
 		// Measure text with a generic fallback font (once)
 		context.font = "72px serif"; // Using serif as a generic fallback
 		const defaultMetrics = context.measureText(text);
-
-		const found = ["Default"];
-		for (const name of localChineseFonts) {
+		function isAvailable(fontName) {
 			// Measure text with the target font, falling back to serif
-			context.font = `72px "${name}", serif`;
+			context.font = `72px "${fontName}", serif`;
 			const testMetrics = context.measureText(text);
 
 			// Compare a set of TextMetrics properties
-			let isAvailable = false;
-			if (defaultMetrics.width !== testMetrics.width) isAvailable = true;
-			else if (defaultMetrics.actualBoundingBoxAscent !== testMetrics.actualBoundingBoxAscent) isAvailable = true;
-			else if (defaultMetrics.actualBoundingBoxDescent !== testMetrics.actualBoundingBoxDescent) isAvailable = true;
-			else if (defaultMetrics.actualBoundingBoxLeft !== testMetrics.actualBoundingBoxLeft) isAvailable = true;
-			else if (defaultMetrics.actualBoundingBoxRight !== testMetrics.actualBoundingBoxRight) isAvailable = true;
-
-			if (isAvailable) {
-				found.push(name);
-			}
+			return defaultMetrics.width !== testMetrics.width || defaultMetrics.actualBoundingBoxAscent !== testMetrics.actualBoundingBoxAscent || defaultMetrics.actualBoundingBoxDescent !== testMetrics.actualBoundingBoxDescent || defaultMetrics.actualBoundingBoxLeft !== testMetrics.actualBoundingBoxLeft || defaultMetrics.actualBoundingBoxRight !== testMetrics.actualBoundingBoxRight;
 		}
-		zh_font_select.innerHTML = zh_bold_select.innerHTML = ''; // Clear existing options
-		for (const font of found) {
+		zh_font_select.innerHTML = zh_bold_select.innerHTML = '';
+		for (const font of localChineseFonts.filter(isAvailable)) {
 			const option = document.createElement('option');
 			option.value = option.innerText = font;
 			zh_font_select.appendChild(option);
 		}
-		for (const font of localChineseFontsWithBold) {
+		for (const font of localChineseFontsWithBold.filter(isAvailable)) {
 			const option = document.createElement('option');
 			option.value = option.innerText = font;
 			zh_bold_select.appendChild(option);
 		}
-		zh_font_select.value = (zh_font_cookie && found.includes(zh_font_cookie)) ? zh_font_cookie : "Default";
-		zh_bold_select.value = (zh_bold_cookie && found.includes(zh_bold_cookie)) ? zh_bold_cookie : "Default";
+		if(zh_font_cookie) zh_font_select.value = zh_font_cookie;
+		if(zh_bold_cookie) zh_bold_select.value = zh_bold_cookie;
 		zh_bold_select.style.display = '';
 	} catch (e) {
 		showError('Error checking local fonts:', e);
