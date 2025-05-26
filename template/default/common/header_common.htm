@@ -41,23 +41,17 @@
 <style id="zh_font_style">
 @font-face {
 font-family: zh;
-src: local('PingFang SC'), /* macOS Simplified Chinese, modern */
+src: local('Noto Serif CJK SC'),local('Noto Sans CJK SC'),local('Noto Serif SC'),local('Noto Sans SC'), /* Google open-source Simplified Chinese */
+local('PingFang SC'), /* macOS Simplified Chinese, modern */
 local('Songti SC'),   /* macOS Simplified Chinese, older/alternative */
-local('SimSun'),      /* Windows Simplified Chinese (very common) */
+local('DengXian'),local('SimSun'),      /* Windows Simplified Chinese (very common) */
 local('STSong'),      /* SinoType Song, on Windows/macOS */
-local('Noto Serif CJK SC'), /* Google open-source Simplified Chinese */
 local('MingLiU'),     /* 細明體, Windows Traditional Chinese default */
 local('PMingLiU'),    /* 新細明體, Windows Traditional Chinese  */
-local('Songti TC'),   /* 宋体 TC, macOS Traditional Chinese */
-local('Apple LiSung Light'), /* 蘋果儷細宋, macOS Traditional Chinese */
-local('LiSong Pro Light'), /* 儷宋 Pro, macOS Traditional Chinese */
-local('Noto Serif CJK TC'); /* Google open-source Traditional Chinese */
-font-weight: normal;
+local('Songti TC');   /* 宋体 TC, macOS Traditional Chinese */
 }
 </style>
-<style id="zh_bold_style">
-@font-face {font-family: zh; font-weight: bold; src: local("PingFangSC-Semibold"), local("Noto Sans SC Bold"), local("Microsoft YaHei Bold"), local("Microsoft JhengHei Bold"), local("MingLiU Bold");}
-</style>
+<style id="zh_bold_style"></style>
 <!--{if $is_windows_chrome && !$is_old_chrome}-->
 <script type="module" defer>
 	import("https://cdn.skypack.dev/country-flag-emoji-polyfill").then(module => {
