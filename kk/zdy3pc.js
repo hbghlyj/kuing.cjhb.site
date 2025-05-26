@@ -223,6 +223,9 @@ lous.forEach((lou, i) => {
 });
 MULU.appendChild(mlul);
 document.body.appendChild(MULU);
+if (lous.length < 2 || $('postlist').clientHeight < window.innerHeight) {
+    MULU.style.display = 'none';
+}
 var muleft = offSet($('ct')).left - MULU.offsetWidth - 20;
 if (muleft < 0) {
     MULU.removeAttribute("open");
@@ -275,3 +278,79 @@ document.querySelectorAll('.psti').forEach(pstiElement => {
     });
     pstiElement.appendChild(replyButton);
 });
+<<<<<<< HEAD
+=======
+$('thread_subject').setAttribute("ondblclick",function() {//选择主题标题
+  const selection = window.getSelection();
+  selection.removeAllRanges();
+  const range = document.createRange();
+  range.selectNodeContents(this);
+  selection.addRange(range);
+});
+
+//楼层目录
+const MULU = document.createElement("div");
+MULU.id = "mulu";
+const summ = document.createElement("div");
+summ.align = "center";
+summ.innerText = document.querySelector('#fj > label').innerText;
+var mlx = document.createElement("a");
+mlx.innerHTML = '×';
+mlx.style.float = 'left';
+mlx.href="javascript:MULU.style.setProperty('display','none');";
+summ.appendChild(mlx);
+MULU.appendChild(summ);
+const MULUSELECT = document.createElement("select");
+MULUSELECT.size = 0;
+function addLou(elem) {
+    elem.querySelectorAll('#postlist > div[id^="post_"]').forEach(lou => {
+        const option = document.createElement('option');
+        option.value = lou.id;
+        ++MULUSELECT.size;
+        option.text = lou.querySelector('td.plc>div.pi>strong>a>em').innerText + ' ' + lou.querySelector('div.authi>a.neiid').innerText;
+        MULUSELECT.appendChild(option);
+        document.querySelectorAll("td.t_f > div.quote > blockquote > font > a[href$='" + lou.id.replace('post_','&pid=') + "&ptid=" + tid + "']").forEach(a=>{//将引用的楼层链接改为锚点
+            a.firstElementChild.innerHTML = lou.querySelector('td.plc>div.pi>strong>a').innerText + ' ' + a.firstElementChild.innerHTML;
+        });
+        document.querySelectorAll("td.t_f a[href$='" + lou.id.replace('post_','&pid=') + "&ptid=" + tid + "']").forEach(a=>{//将楼层链接改为锚点
+            a.removeAttribute("target");
+            a.setAttribute("href", '#'+lou.id);
+        });
+    });
+    if (MULUSELECT.size < 2 || $('postlist').clientHeight < window.innerHeight) {
+        MULU.style.display = 'none';
+    }
+}
+MULUSELECT.addEventListener("change", function() {//楼层目录选择跳转
+    location.hash = '#' + this.value;
+});
+MULU.appendChild(MULUSELECT);
+$('ct').appendChild(MULU);
+addLou($('postlist'));
+
+window.addEventListener('scroll', throttle(function() {
+    const posts = document.querySelectorAll('#postlist > div[id^="post_"]');
+    let targetPost = null;
+    for (const post of posts) {
+        const rect = post.getBoundingClientRect();
+        if (rect.top <= window.innerHeight/2 && rect.bottom >= window.innerHeight/2 || parseInt(rect.top) >= 0) {
+            targetPost = post;
+            break;
+        }
+    }
+    if (targetPost) {
+        MULUSELECT.value = targetPost.id;
+        if($('scrolltop'))$('scrolltop').querySelector('a.editp').href = targetPost.querySelector('a.editp').href;
+    }
+}));
+function throttle(func) {//ensures that func is only executed once within 200ms, even if func is called multiple times
+    let inThrottle;
+    return function() {
+        if (!inThrottle) {
+            func.apply(this, arguments);
+            inThrottle = true;
+            setTimeout(() => inThrottle = false, 200);
+        }
+    }
+}
+>>>>>>> 988692d3e (楼层少于2个时不显示目录)
