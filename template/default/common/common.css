@@ -1340,12 +1340,12 @@ body, input, button, select { font: {FONTSIZE} {FONT}; color: {TABLETEXT}; }
 			.sslct_btn i { float: left; display: inline; margin: 1px; width: 10px; height: 10px; background: #2E80D1; overflow: hidden; font-style: normal; }
 	#toptb a.switchblind{ width: 10px; background-image: none; text-indent: -9999px; }
 /* 弹出菜单、弹出层及弹出窗口 */
-	.p_pop, .p_pof, .sllt { padding: 4px; border: 1px solid; min-width: 60px; border-color: {DROPMENUBORDER}; {DROPMENUBGCODE}; box-shadow: 2px 4px 4px rgba(0,0,0,0.2); }
+	.p_pop, .p_pof, .sllt { padding: 4px; border: 1px solid; min-width: 60px; border-color: {DROPMENUBORDER}; {DROPMENUBGCODE}; box-shadow: 2px 4px 4px rgba(0,0,0,0.2); max-width: 400px;}
 		.p_pof .p_pop { padding: 0; border: none; box-shadow: none; }
 		.p_pof { width: 500px; }
 		.p_opt { padding: 10px; }
 		.p_pop li { display: inline; }
-		.p_pop a { display: block; padding: 3px 5px; border-bottom: 1px solid {SPECIALBG}; white-space: nowrap; }
+		.p_pop a { display: block; padding: 3px 5px; border-bottom: 1px solid {SPECIALBG}; }
 			.p_pop li:last-child a { border: none; }
 			.p_pop a:hover, .p_pop a.a, #sctype_menu .sca { background-color: {SPECIALBG}; color: {HIGHLIGHTLINK}; text-decoration: none; }
 			.prompt_news, .prompt_follower,.prompt_news_0, .prompt_follower_0, .ignore_notice, .prompt_concern { float: left; width: 18px; height: 14px; line-height: 14px; font-family: dzicon; font-size: 18px; margin: 3px 3px 5px 0; display: inline; }

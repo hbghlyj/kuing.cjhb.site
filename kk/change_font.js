@@ -24,8 +24,10 @@ const mathfont_list = {
     "XITS": "XITS"};
 const localFonts = ["Georgia","Arial", "Verdana", "Helvetica", "Tahoma", "TrebuchetMS"];
 const localChineseFonts = [
+	//GoogleFonts
+	"Noto Serif CJK SC","Noto Sans CJK SC","Noto Serif SC","Noto Sans SC",
 	// Simplified
-	"SimSun","DengXian","PingFangSC","Microsoft YaHei",
+	"DengXian","SimSun","PingFangSC","Microsoft YaHei",
 	"STZhongsong","STSong","STFangsong",
 	"SimHei","STHeiti","STXihei","HeitiSC",
 	"KaiTi","FangSong","STKaiti","STXingkai",
@@ -33,18 +35,12 @@ const localChineseFonts = [
 	"STLiti","LiSu","YouYuan",
 	//Traditional
 	"MingLiU","PMingLiU","Microsoft JhengHei","DFKai-SB",
-	"PingFangTC","PingFangHK","HeitiTC","MS Gothic",
-	//GoogleFonts
-	"Noto Sans CJK SC","Noto Serif CJK SC","Noto Sans SC","Noto Serif SC"
+	"PingFangTC","PingFangHK","HeitiTC","MS Gothic"
 ];
 const boldChineseFonts = new Map([
 	['Microsoft YaHei', 'Microsoft YaHei Bold'],
 	['Microsoft JhengHei', 'Microsoft JhengHei Bold'],
 	['DengXian', 'DengXian-Bold'],
-	['Noto Sans CJK SC', 'Noto-Sans-CJK-SC-Bold'],
-	['Noto Serif CJK SC', 'Noto-Serif-CJK-SC-Bold'],
-	['Noto Sans SC', 'Noto-Sans-SC-Bold'],
-	['Noto Serif SC', 'Noto-Serif-SC-Bold'],
 	['PingFangSC', 'PingFangSC-Bold']
 ]);
 
@@ -75,7 +71,6 @@ document.head.appendChild(en_font_style);
 const zh_font_style = document.getElementById("zh_font_style");
 default_zh_font_style = zh_font_style.textContent;
 const zh_bold_style = document.getElementById("zh_bold_style");
-default_zh_bold_style = zh_bold_style.textContent;
 const en_font_select = document.getElementById("en_font_select");
 const zh_font_select = document.getElementById("zh_font_select");
 const zh_bold_select = document.getElementById("zh_bold_select");
@@ -151,7 +146,7 @@ function update_en_font() {
 function update_zh_font() {
 	const v = zh_font_select.value;
 	if (v) {
-		zh_font_style.textContent = `@font-face {font-family: zh; src: local("${v}"); font-weight: normal;}`;
+		zh_font_style.textContent = `@font-face {font-family: zh; src: local("${v}"); `+(zh_bold_select.value?"font-weight: normal;":"")+"}";
 	} else {
 		zh_font_style.textContent = default_zh_font_style;
 	}
@@ -161,7 +156,7 @@ function update_zh_bold() {
 	if (bold) {
 		zh_bold_style.textContent = `@font-face {font-family: zh; src: local("${bold}"); font-weight: bold;}`;
 	} else {
-		zh_bold_style.textContent = default_zh_bold_style;
+		zh_bold_style.textContent = "";
 	}
 }
 zh_font_select.addEventListener('click', async () => {
@@ -175,7 +170,7 @@ zh_font_select.addEventListener('click', async () => {
 		const textElementSVG = document.createElementNS("http://www.w3.org/2000/svg", 'text');
 		textElementSVG.setAttribute('x', 0);
 		textElementSVG.setAttribute('y', 100);
-		textElementSVG.textContent = '(a1';
+		textElementSVG.textContent = '(中文测试)';
 		textElementSVG.style.fontSize = '72px';
 		textElementSVG.style['font-synthesis-weight'] = 'none';
 		svg.appendChild(textElementSVG);
@@ -183,12 +178,13 @@ zh_font_select.addEventListener('click', async () => {
 		// Add the SVG element to the DOM to make `measureText` work
 		document.body.appendChild(svg);
 		// Measure text with a generic fallback font in SVG
+		textElementSVG.setAttribute('font-family','monospace');
 		const defaultWidth = textElementSVG.getComputedTextLength();
 		
 		zh_font_select.innerHTML = zh_bold_select.innerHTML = '';
 		for (const fontName of localChineseFonts) {
 			// Test normal font weight
-			textElementSVG.setAttribute('font-family', fontName);
+			textElementSVG.setAttribute('font-family', `${fontName}, monospace`);
 			const testWidth = textElementSVG.getComputedTextLength();
 			if (testWidth == defaultWidth) continue;
 			
@@ -200,18 +196,24 @@ zh_font_select.addEventListener('click', async () => {
 			}
 			
 			// Test bold font weight
-			if(!boldChineseFonts.has(fontName)) continue;
-			const normalExtent = textElementSVG.getExtentOfChar(0);
-			let boldFontName = boldChineseFonts.get(fontName);
-			textElementSVG.setAttribute('font-family', boldFontName);
-			const boldExtent = textElementSVG.getExtentOfChar(0);
-			if (boldExtent.width != normalExtent.width) {
-				const boldOption = document.createElement('option');
-				boldOption.value = boldOption.innerText = boldFontName;
-				zh_bold_select.appendChild(boldOption);
-				if (zh_bold_cookie && zh_bold_cookie == boldFontName) {
-					boldOption.selected = true;
-				}
+			let boldFontName = fontName;
+			const boldOption = document.createElement('option');
+			if(fontName.startsWith('Noto')){
+				// For Noto fonts, the bold font is the same as the normal font since they are variable fonts
+				boldOption.value = '';
+			}else{
+				if(!boldChineseFonts.has(fontName)) continue;
+				boldFontName = boldChineseFonts.get(fontName);
+				const normalExtent = textElementSVG.getExtentOfChar(0);
+				textElementSVG.setAttribute('font-family', boldFontName);
+				const boldExtent = textElementSVG.getExtentOfChar(0);
+				if (boldExtent.width != normalExtent.width) continue;
+				boldOption.value = boldFontName;
+			}
+			boldOption.innerText = boldFontName;
+			zh_bold_select.appendChild(boldOption);
+			if (zh_bold_cookie && zh_bold_cookie == boldFontName) {
+				boldOption.selected = true;
 			}
 		}
 		document.body.removeChild(svg);
