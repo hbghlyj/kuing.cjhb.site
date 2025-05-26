@@ -27,7 +27,33 @@ var ctrls = [[
 	{ "n":"{}", "o":"input.setSelectionRange((function(){let brace=-1,i=input.selectionStart;do{switch(input.value[--i]){case '{':brace++;break;case '}':brace--;}}while(brace!=0&&i>0)return i})(),(function(){let brace=1,i=input.selectionEnd;do{switch(input.value[i++]){case '{':brace++;break;case '}':brace--;}}while(brace!=0&&i<input.value.length)return i})());input.focus()" },
 	//{ "n":"复制代码", "o":"input.select();document.execCommand('Copy');" }
 	{ "n":"<span style='color:blue;'>加入编辑框</span>", "o":"input.fangru()" }
-],[],['align*','gather*','cases'].map(v=>{ return{"o":'input.cha(["\\\\begin{'+v+'}\\n","\\n\\\\end{'+v+'}",0,0])', "n":v} })];
+],[],['align*','gather*','cases'].map(v=>{ return{"n":v,"o":'input.cha(["\\\\begin{'+v+'}\\n","\\n\\\\end{'+v+'}",0,0])'} })];
+ctrls[2].push({ "n":'array',"o":String.raw`const numRows = prompt("Enter the number of rows:");
+	const numCols = prompt("Enter the number of columns:");
+	if (numRows === null || numCols === null || isNaN(numRows) || isNaN(numCols) || parseInt(numRows) <= 0 || parseInt(numCols) <= 0) {
+		alert("Invalid input. Please enter valid positive numbers for rows and columns.");
+		return "";
+	}
+	let latexCode = "\\begin{array}{",n = 0;
+	for (let i = 0; i < parseInt(numCols); i++) {
+		latexCode += "|c";
+	}
+	latexCode += "|}\\hline\n";
+	for (let i = 0; i < parseInt(numRows); i++) {
+		for (let j = 0; j < parseInt(numCols); j++) {
+			if (i === 0 && j === 0) {
+				n = latexCode.length;
+			}
+			if (j !== parseInt(numCols) - 1) {
+				latexCode += " & ";
+			} else {
+				latexCode += " \\\\ \n";
+			}
+		}
+		latexCode += "\\hline\n";
+	}
+	latexCode += "\\end{array}";
+input.cha([latexCode.slice(0,n),latexCode.slice(n),0,0]);` })
 for(v of [
 	{ "o":["$ "," $"], "n":"行内公式" },
 	{ "o":["\\\\[ "," \\\\]"], "n":"行间公式" },
