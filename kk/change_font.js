@@ -1,5 +1,5 @@
 const mathfont_list = {
-    "Default":  "Default",
+    "Default": "Default",
     "Asana": "Asana",
     "Cambria": "Cambria (local only)",
     "DejaVu": "DejaVu",
@@ -21,7 +21,8 @@ const mathfont_list = {
     "TeXGyrePagella": "TeX Gyre Pagella",
     "TeXGyreSchola": "TeX Gyre Schola",
     "TeXGyreTermes": "TeX Gyre Termes",
-    "XITS": "XITS"};
+    "XITS": "XITS"
+};
 const localFonts = ["Georgia", "Arial", "Verdana", "Helvetica", "Tahoma", "TrebuchetMS"];
 const localChineseFonts = [
 	// Simplified
@@ -36,12 +37,15 @@ const localChineseFonts = [
 	"PingFang TC", "PingFang HK", "Heiti TC", "LiHei Pro Medium", "LiSong Pro Light", "Source Han Sans TC"
 ];
 const googleChineseFonts = [
-	// Google Fonts
 	"Noto Sans SC", "Noto Serif TC", "Noto Serif HK"
 ];
-const localChineseFontsWithBold = [
-	"Microsoft YaHei Bold", "Microsoft JhengHei Bold", "MingLiU Bold", "PingFangSC-Semibold"
-];
+const boldChineseFonts = new Map([
+	["Microsoft YaHei", "Microsoft YaHei Bold"],
+	["Microsoft JhengHei", "Microsoft JhengHei Bold"],
+	["DengXian", "DengXian-Bold"],
+	["MingLiU", "MingLiU Bold"],
+	["PingFangSC", "PingFangSC-Semibold"]
+]);
 
 function setCookie(name, value, days) {
 	var expires = "";
@@ -55,13 +59,22 @@ function setCookie(name, value, days) {
 
 function getCookie(name) {
 	var nameEQ = name + "=";
-	var ca = document.cookie.split(';');
+	var ca = document.cookie.split(";");
 	for (var i = 0; i < ca.length; i++) {
 		var c = ca[i];
-		while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+		while (c.charAt(0) == " ") c = c.substring(1, c.length);
 		if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
 	}
 	return null;
+}
+
+function addOptions(select, fonts) {
+	select.innerHTML = "";
+	for (let font of fonts) {
+		let option = document.createElement("option");
+		option.value = option.innerText = font;
+		select.appendChild(option);
+	}
 }
 
 const en_font_style = document.getElementById("en_font_style");
@@ -89,16 +102,9 @@ for (let font of localFonts) {
 	option.value = option.innerText = font;
 	en_font_select.appendChild(option);
 }
-for (let font of ["Default", ...localChineseFonts, ...googleChineseFonts]) {
-	let option = document.createElement("option");
-	option.value = option.innerText = font;
-	zh_font_select.appendChild(option);
-}
-for (let font of ["Default", ...localChineseFontsWithBold]) {
-	let option = document.createElement("option");
-	option.value = option.innerText = font;
-	zh_bold_select.appendChild(option);
-}
+addOptions(zh_font_select, ["Default", ...localChineseFonts, ...googleChineseFonts]);
+addOptions(zh_bold_select, ["Default", ...new Set(boldChineseFonts.values())]);
+
 if (en_font_cookie) {
 	en_font_select.value = en_font_cookie;
 	update_en_font();
@@ -108,29 +114,35 @@ if (zh_font_cookie) {
 	update_zh_font();
 }
 if (zh_bold_cookie) {
-	zh_bold_select.style.display = '';
+	zh_bold_select.style.display = "";
 	zh_bold_select.value = zh_bold_cookie;
 	update_zh_bold();
 }
+
 en_font_select.addEventListener("change", () => {
-	if (en_font_select.value !== "Default")
+	if (en_font_select.value !== "Default") {
 		setCookie("en_font", en_font_select.value, 365);
-	else
+	} else {
 		setCookie("en_font", "", -1);
+	}
 	update_en_font();
 });
+
 zh_font_select.addEventListener("change", () => {
-	if (zh_font_select.value !== "Default")
+	if (zh_font_select.value !== "Default") {
 		setCookie("zh_font", zh_font_select.value, 365);
-	else
+	} else {
 		setCookie("zh_font", "", -1);
+	}
 	update_zh_font();
 });
+
 zh_bold_select.addEventListener("change", () => {
-	if (zh_bold_select.value !== "Default")
+	if (zh_bold_select.value !== "Default") {
 		setCookie("zh_bold", zh_bold_select.value, 365);
-	else
+	} else {
 		setCookie("zh_bold", "", -1);
+	}
 	update_zh_bold();
 });
 
@@ -152,10 +164,10 @@ function update_zh_font() {
 	if (v == "Default") {
 		zh_font_style.textContent = default_zh_font_style;
 	} else if (localChineseFonts.includes(v)) {
-		zh_font_style.textContent = `@font-face {font-family: zh; src: local("${v}"); font-weight: normal; }`;
+		zh_font_style.textContent = `@font-face {font-family: zh; src: local("${v}"); font-weight: normal;}`;
 	} else if (googleChineseFonts.includes(v)) {
 		const fontStack = getComputedStyle(document.body).fontFamily.replace(/\bzh\b/g, `"${v}"`);
-		zh_font_style.textContent = `@import url('https://fonts.googleapis.com/css2?family=${v.replace(/ /g, '+')}:wght@400;700&display=swap');\nbody, input, button, select, .xst, .ts,#thread_subject { font-family: ${fontStack}; }`;
+		zh_font_style.textContent = `@import url('https://fonts.googleapis.com/css2?family=${v.replace(/ /g, "+")}:wght@400;700&display=swap');\nbody, input, button, select, .xst, .ts,#thread_subject { font-family: ${fontStack}; }`;
 	} else {
 		zh_font_style.textContent = default_zh_font_style;
 	}
@@ -165,42 +177,65 @@ function update_zh_bold() {
 	const bold = zh_bold_select.value;
 	if (bold == "Default") {
 		zh_bold_style.textContent = default_zh_bold_style;
-	} else if (localChineseFontsWithBold.includes(bold)) {
-		zh_bold_style.textContent = `@font-face {font-family: zh; src: local("${bold}"); font-weight: bold;}`;
 	} else {
-		zh_bold_style.textContent = default_zh_bold_style;
+		zh_bold_style.textContent = `@font-face {font-family: zh; src: local("${bold}"); font-weight: bold;}`;
 	}
 }
 
 zh_font_select.addEventListener("click", async () => {
 	try {
-		const text = "你好";
-		const canvas = document.createElement("canvas");
-		const context = canvas.getContext("2d");
-		context.font = "72px serif";
-		const defaultMetrics = context.measureText(text);
-		function isAvailable(fontName) {
-			context.font = `72px "${fontName}", serif`;
-			const testMetrics = context.measureText(text);
-			return defaultMetrics.width !== testMetrics.width || defaultMetrics.actualBoundingBoxAscent !== testMetrics.actualBoundingBoxAscent || defaultMetrics.actualBoundingBoxDescent !== testMetrics.actualBoundingBoxDescent || defaultMetrics.actualBoundingBoxLeft !== testMetrics.actualBoundingBoxLeft || defaultMetrics.actualBoundingBoxRight !== testMetrics.actualBoundingBoxRight;
-		}
-		const availableLocalFonts = localChineseFonts.filter(isAvailable);
-		const availableBoldFonts = localChineseFontsWithBold.filter(isAvailable);
+		const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+		svg.setAttribute("width", "500");
+		svg.setAttribute("height", "200");
+		svg.style.visibility = "hidden";
+
+		const textElementSVG = document.createElementNS("http://www.w3.org/2000/svg", "text");
+		textElementSVG.setAttribute("x", "0");
+		textElementSVG.setAttribute("y", "100");
+		textElementSVG.textContent = "你好";
+		textElementSVG.style.fontSize = "72px";
+		textElementSVG.style.setProperty("font-synthesis-weight", "none");
+		svg.appendChild(textElementSVG);
+		document.body.appendChild(svg);
+
+		textElementSVG.setAttribute("font-family", "serif");
+		const defaultWidth = textElementSVG.getComputedTextLength();
 		const currentZhFont = zh_font_select.value;
 		const currentZhBold = zh_bold_select.value;
-		zh_font_select.innerHTML = zh_bold_select.innerHTML = "";
-		for (const font of ["Default", ...availableLocalFonts, ...googleChineseFonts]) {
-			const option = document.createElement("option");
-			option.value = option.innerText = font;
-			zh_font_select.appendChild(option);
+		const availableLocalFonts = [];
+		const availableBoldFonts = [];
+
+		for (const fontName of localChineseFonts) {
+			textElementSVG.setAttribute("font-family", fontName);
+			const testWidth = textElementSVG.getComputedTextLength();
+			if (testWidth === defaultWidth) {
+				continue;
+			}
+			availableLocalFonts.push(fontName);
+
+			if (!boldChineseFonts.has(fontName)) {
+				continue;
+			}
+			const normalExtent = textElementSVG.getExtentOfChar(0);
+			const boldFontName = boldChineseFonts.get(fontName);
+			textElementSVG.setAttribute("font-family", boldFontName);
+			const boldExtent = textElementSVG.getExtentOfChar(0);
+			if (boldExtent.width !== normalExtent.width || boldExtent.height !== normalExtent.height) {
+				availableBoldFonts.push(boldFontName);
+			}
 		}
-		for (const font of ["Default", ...availableBoldFonts]) {
-			const option = document.createElement("option");
-			option.value = option.innerText = font;
-			zh_bold_select.appendChild(option);
-		}
+
+		document.body.removeChild(svg);
+		addOptions(zh_font_select, ["Default", ...availableLocalFonts, ...googleChineseFonts]);
+		addOptions(zh_bold_select, ["Default", ...availableBoldFonts]);
 		zh_font_select.value = zh_font_cookie || currentZhFont || "Default";
+		if (!zh_font_select.value) {
+			zh_font_select.value = "Default";
+		}
 		zh_bold_select.value = zh_bold_cookie || currentZhBold || "Default";
+		if (!zh_bold_select.value) {
+			zh_bold_select.value = "Default";
+		}
 		zh_bold_select.style.display = "";
 	} catch (e) {
 		showError("Error checking local fonts:", e);
