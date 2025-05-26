@@ -177,6 +177,7 @@ class model_forum_post extends discuz_model {
 						'from_uid' => $this->member['uid'],
 						'from_id' => $this->pid,
 						'from_idtype' => 'quote',
+						'message' => messagecutstr($this->param['message'], 150, null, $htmlon)
 					]];
 				} elseif($ac == 'r') {
 					$func_params = [$nauthorid, 'post', 'reppost_noticeauthor', [
@@ -187,6 +188,7 @@ class model_forum_post extends discuz_model {
 						'from_uid' => $this->member['uid'],
 						'from_id' => $this->thread['tid'],
 						'from_idtype' => 'post',
+						'message' => messagecutstr($this->param['message'], 150, null, $htmlon)
 					]];
 				}
 				if($func_params) {
@@ -206,6 +208,7 @@ class model_forum_post extends discuz_model {
 				'from_uid' => $this->member['uid'],
 				'from_id' => $this->thread['tid'],
 				'from_idtype' => 'post',
+				'message' => messagecutstr($this->param['message'], 150, null, $htmlon)
 			]]];
 		}
 

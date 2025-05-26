@@ -156,7 +156,7 @@ $lang = array
 
 	'comment_add' => '{actor} 點評了您曾經在主題 <a href="forum.php?mod=viewthread&tid={tid}">{subject}</a> 發表的帖子 &nbsp; <a href="forum.php?mod=redirect&goto=findpost&pid={pid}&ptid={tid}" class="lit">查看 &rsaquo;</a>',
 
-	'reppost_noticeauthor' => '{actor} 回復了您的帖子 <a href="forum.php?mod=redirect&goto=findpost&ptid={tid}&pid={pid}">{subject}</a> &nbsp; <a href="forum.php?mod=redirect&goto=findpost&pid={pid}&ptid={tid}" class="lit">查看</a>',
+	'reppost_noticeauthor' => '{actor} 回復了您的帖子 <a href="forum.php?mod=redirect&goto=findpost&ptid={tid}&pid={pid}">{subject}</a><div class="quote"><blockquote>{message}</blockquote></div><a href="forum.php?mod=redirect&goto=findpost&pid={pid}&ptid={tid}" class="lit">查看</a>',
 
 	'task_reward_credit' => '恭喜您完成任務：<a href="home.php?mod=task&do=view&id={taskid}">{name}</a>，獲得積分 {creditbonus} &nbsp; <a href="home.php?mod=spacecp&ac=credit&op=base" class="lit">查看我的積分 &rsaquo;</a></p>',
 
