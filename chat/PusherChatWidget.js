@@ -538,6 +538,9 @@ PusherChatWidget.prototype._addSwipeToDeleteHandlers = function(liElement, publi
         liElement.slideUp(function() {
           jQuery(this).remove();
           widgetInstance._itemCount--;
+          if (widgetInstance._itemCount === 0) {
+            widgetInstance._messagesEl.html('<li class="waiting">' + (isChinese ? '暂无聊天信息' : 'No chat messages yet.') + '</li>');
+          }
         });
       },
       error: function(xhr, status, error) {

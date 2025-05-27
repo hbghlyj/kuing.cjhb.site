@@ -15,6 +15,7 @@
 .pusher-chat-widget-send-btn.loading {background: url(/static/image/common/loading.gif) no-repeat center / cover}
 .pusher-chat-widget ul.activity-stream li.pusher-chat-widget-load-more{line-height: 200%; font-weight: bold; cursor: pointer; border-bottom: 1px solid #EBEBEB;text-align: center;color: #808080;}
 .pusher-chat-widget ul.activity-stream{overflow:auto;}
+.pusher-chat-widget ul.activity-stream li.message-item.waiting{height:100%;font-weight:bold;text-align:center;color:#808080;}
 .pusher-chat-widget ul.activity-stream li.message-item{position:relative;border-bottom:1px solid #EBEBEB;clear:both;display:block;outline:none;margin-top:-1px;border-top:1px solid transparent;overflow: hidden;}
 .pusher-chat-widget ul.activity-stream li.message-item div.message-content-wrapper{padding: 5px 0 5px 10px;font-size:12px;position: relative;transition: transform 0.3s ease-out;}
 .pusher-chat-widget ul.activity-stream li.message-item .image{float:left;height:24px;overflow:hidden;width:24px;margin-top:3px;}
