@@ -127,7 +127,7 @@ PusherChatWidget.prototype._init = function() {
       data.forEach(function(message) {
         self._chatMessageReceived(message);
       });
-      self._messagesEl.scrollTop(self._messagesEl[0].scrollHeight);
+      self._messagesEl.scrollTop(self._messagesEl.prop("scrollHeight"));
     },
     error: function(xhr, status, error) {
       self._messagesEl.html('<li class="error">' + (isChinese ? '无法获取聊天历史:' : 'Failed to fetch chat history:') + error + '</li>');
@@ -136,7 +136,7 @@ PusherChatWidget.prototype._init = function() {
   
   this._chatChannel.bind('chat_message', function(data) {
     self._chatMessageReceived(data);
-    self._messagesEl.animate({scrollTop: self._messagesEl[0].scrollHeight}, 500);
+    self._messagesEl.animate({scrollTop: self._messagesEl.prop("scrollHeight")}, 500);
   });
   
   // Toggle collapse/expand status
@@ -172,6 +172,11 @@ PusherChatWidget.prototype._chatMessageReceived = function(data) {
   
   var messageEl = PusherChatWidget._buildListItem(data);
   this._messagesEl.append(messageEl);
+
+  if (isMobile) {
+    this._addSwipeToDeleteHandlers(messageEl, data);
+  }
+
   if (typeof MathJax.typesetPromise === 'function') {
     MathJax.typesetPromise([messageEl.find('.text').get(0)]);
   }
@@ -286,47 +291,81 @@ PusherChatWidget._createHTML = function(appendTo) {
 
 /* @private */
 PusherChatWidget._buildListItem = function(activity) {
-  var li = jQuery('<li></li>');
-  var item = jQuery('<div class="stream-item-content"></div>');
-  li.append(item);
+  var li = jQuery('<li></li>').addClass('message-item');
+  var contentWrapper = jQuery('<div class="message-content-wrapper"></div>');
   
   var imageInfo = activity.actor.image;
-  var image = jQuery('<div class="image">' +
-                  '<img src="' + imageInfo.url + '" width="24" height="24" />' +
-                '</div>');
-  item.append(image);
-  
+  var image = jQuery('<div class="image"><img src="' + imageInfo.url + '" width="24" height="24" /></div>');
   var content = jQuery('<div class="content"></div>');
-  item.append(content);
   
-  var user = jQuery('<div class="activity-row">' +
-                '<span class="user-name">' +
-                  '<a class="screen-name">' + activity.actor.displayName.replace(/\\'/g, "'") + '</a>' + '<a ' + (activity.link?'href="' + activity.link + '" ':'') + ' class="timestamp">' +
-                '<span data-activity-published="' + activity.published + '">' + PusherChatWidget.timeToDescription(activity.published) + '</span>' +
-              '</a>' +
-                '</span>' +
-              '</div>');
+  var user = jQuery('<div class="activity-row"><span class="user-name"><a class="screen-name">' + activity.actor.displayName.replace(/\\'/g, "'") + '</a><a ' + (activity.link ? 'href="' + activity.link + '" ' : '') + 'class="timestamp"><span data-activity-published="' + activity.published + '">' + PusherChatWidget.timeToDescription(activity.published) + '</span></a></span></div>');
   content.append(user);
   
-  var textHtml = activity.body
-    // Replace URLs: render images for image URLs and links otherwise
-    .replace(/(https?:\/\/\S+\b)/g, function(match) {
-      if (/\.(png|jpe?g|gif|bmp|svg|webp)$/i.test(match)) {
-        return '<img src="' + match + '" />';
-      }
-      return '<a href="' + match + '">' + match + '</a>';
-    })
-    // Preserve line breaks
-    .replace(/\n/g, '<br>');
+  var textHtml = activity.body.replace(/(https?:\/\/\S+\b)/g, function(match) {
+    return /\.(png|jpe?g|gif|bmp|svg|webp)$/i.test(match) ? '<img src="' + match + '" />' : '<a href="' + match + '">' + match + '</a>';
+  }).replace(/\n/g, '<br>');
 
-  var message = jQuery(
-    '<div class="activity-row">' +
-      '<div class="text">' + textHtml + '</div>' +
-    '</div>'
-  );
+  var message = jQuery('<div class="activity-row"><div class="text">' + textHtml + '</div></div>');
   content.append(message);
   
+  contentWrapper.append(image).append(content);
+  var deleteAction = jQuery('<div class="delete-action"><button class="delete-button">' + (isChinese ? '删除' : 'Delete') + '</button></div>');
+
+  li.append(contentWrapper).append(deleteAction);
   return li;
+};
+
+/* @private */
+PusherChatWidget.prototype._addSwipeToDeleteHandlers = function(liElement, activityData) {
+  var widgetInstance = this;
+  let touchStartX = 0;
+  const swipeThreshold = 50;
+
+  liElement.on('touchstart', function(e) {
+    widgetInstance._messagesEl.find('li.slide-active').not(this).removeClass('slide-active');
+    touchStartX = e.originalEvent.touches[0].clientX;
+    jQuery(this).data('touchStartX', touchStartX);
+  });
+
+  liElement.on('touchend', function(e) {
+    touchStartX = jQuery(this).data('touchStartX');
+    if (typeof touchStartX === 'undefined') return;
+
+    const touchEndX = e.originalEvent.changedTouches[0].clientX;
+    const deltaX = touchEndX - touchStartX;
+    const $thisLi = jQuery(this);
+
+    if (jQuery(e.target).closest('.delete-button').length) {
+      $thisLi.removeData('touchStartX');
+      return;
+    }
+
+    if (deltaX < -swipeThreshold) {
+      $thisLi.addClass('slide-active');
+    } else if (deltaX > swipeThreshold) {
+      $thisLi.removeClass('slide-active');
+    }
+    $thisLi.removeData('touchStartX');
+  });
+
+  liElement.find('.delete-button').on('click', function(e) {
+    e.stopPropagation();
+    liElement.slideUp(function() {
+      jQuery(this).remove();
+      widgetInstance._itemCount--;
+      if (widgetInstance._itemCount === 0) {
+        widgetInstance._messagesEl.html('<li class="waiting">' + (isChinese ? '暂无聊天信息' : 'No chat messages yet.') + '</li>');
+      }
+    });
+    // TODO: Add logic to delete the message from the server
+    // e.g.
+  //   if (typeof currentPage !== 'undefined' && typeof tid !== 'undefined') {
+  //     widgetInstance._pusher.trigger(widgetInstance.settings.channelName, 'deletepost', {
+  //       tid: tid,
+  //       pid: activityData.id
+  //     });
+  //   }
+  });
 };
 
 /**
