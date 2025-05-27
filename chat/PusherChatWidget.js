@@ -166,8 +166,6 @@ PusherChatWidget.prototype._init = function() {
 
 /* @private */
 PusherChatWidget.prototype._chatMessageReceived = function(data) {
-  var self = this;
-  
   if(this._itemCount === 0) {
     this._messagesEl.html('');
   }
