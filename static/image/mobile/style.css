@@ -269,8 +269,13 @@ select {-moz-appearance:none;}
 .foot a span {display:block;overflow:hidden}
 .foot a span.foot-ico {height:24px;line-height:24px;overflow:hidden;margin-top:4px}
 .foot a span.foot-ico em {display:block;margin:2px auto 0;width:24px;height:24px;line-height:24px;position:relative;background:no-repeat 0 0}
-.foot a.mon span.foot-ico img { transform: translateX(-200px); filter: drop-shadow(var(--dz-BG-color) 200px 0) }
-.foot a i.ico_msg {position:absolute;background:var(--dz-BG-2);width:7px;height:7px;display:inline-block;top:-1px;z-index:510;border:1px solid var(--dz-BG-0);border-radius:50%}
+.foot a span.foot-ico em.ma {background-image:url(./touch/home.svg)}
+.foot a span.foot-ico em.mb {background-image:url(./touch/forum.svg)}
+.foot a span.foot-ico em.md {background-image:url(./touch/group_chat.svg)}
+.foot a span.foot-ico em.me {background-image:url(./touch/space.svg)}
+.foot a span.foot-ico em.mf {background-image:url(./touch/space.svg)}
+.foot a span.foot-ico em i.ico_msg {position:absolute;background:var(--dz-BG-2);width:7px;height:7px;display:block;top:-1px;right:-1px;z-index:510;border:1px solid var(--dz-BG-0);border-radius:50%}
+>>>>>>> 319783389 (手机版聊天室图标)
 .foot a span.foot-txt {height:22px;line-height:22px;font-size:12px;color:var(--dz-FC-999)}
 .foot a.mon span.foot-txt {color:var(--dz-FC-color)}
 .foot a.mon span.foot-ico em {background-position:100% 0}
