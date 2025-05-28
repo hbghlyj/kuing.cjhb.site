@@ -133,15 +133,12 @@ $('thread_subject').ondblclick=function() {//选择主题标题
 //楼层目录
 const MULU = document.createElement("div");
 MULU.id = "mulu";
-const summ = document.createElement("div");
-summ.align = "center";
-summ.innerText = document.querySelector('#fj > label').innerText;
-var mlx = document.createElement("a");
-mlx.innerHTML = '×';
-mlx.style.float = 'left';
-mlx.href="javascript:MULU.style.setProperty('display','none');";
-summ.appendChild(mlx);
-MULU.appendChild(summ);
+const close = document.createElement("div");
+close.innerText = '×';
+close.onclick = function() {
+    MULU.style.display = 'none';
+};
+MULU.appendChild(close);
 const MULUSELECT = document.createElement("select");
 MULUSELECT.size = 0;
 function addLou(elem) {
@@ -173,7 +170,7 @@ MULU.appendChild(MULUSELECT);
 $('ct').appendChild(MULU);
 addLou($('postlist'));
 
-window.addEventListener('scroll', throttle(function() {
+window.addEventListener('scroll', debounce(function() {
     const posts = document.querySelectorAll('#postlist > div[id^="post_"]');
     let targetPost = null;
     for (const post of posts) {
@@ -186,14 +183,15 @@ window.addEventListener('scroll', throttle(function() {
     if (targetPost) {
         MULUSELECT.value = targetPost.id;
     }
-}));
-function throttle(func) {//ensures that func is only executed once within 200ms, even if func is called multiple times
-    let inThrottle;
+}, 200));
+function debounce(func, delay) {
+    let timeoutId;
     return function() {
-        if (!inThrottle) {
-            func.apply(this, arguments);
-            inThrottle = true;
-            setTimeout(() => inThrottle = false, 200);
-        }
+        const context = this;
+        const args = arguments;
+        clearTimeout(timeoutId);
+        timeoutId = setTimeout(() => {
+            func.apply(context, args);
+        }, delay);
     }
 }
