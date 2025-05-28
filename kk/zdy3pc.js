@@ -213,7 +213,7 @@ MULU.appendChild(MULUSELECT);
 $('ct').appendChild(MULU);
 addLou($('postlist'));
 
-window.addEventListener('scroll', throttle(function() {
+window.addEventListener('scroll', debounce(function() {
     const posts = document.querySelectorAll('#postlist > div[id^="post_"]');
     let targetPost = null;
     for (const post of posts) {
@@ -231,14 +231,15 @@ window.addEventListener('scroll', throttle(function() {
             editLink.href = sourceEdit.href;
         }
     }
-}));
-function throttle(func) {
-    let inThrottle;
+}, 200));
+function debounce(func, delay) {
+    let timeoutId;
     return function() {
-        if (!inThrottle) {
-            func.apply(this, arguments);
-            inThrottle = true;
-            setTimeout(() => inThrottle = false, 200);
-        }
-    };
+        const context = this;
+        const args = arguments;
+        clearTimeout(timeoutId);
+        timeoutId = setTimeout(() => {
+            func.apply(context, args);
+        }, delay);
+    }
 }
