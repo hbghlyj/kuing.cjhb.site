@@ -52,7 +52,7 @@ function PusherChatWidget(pusher, options) {
       }
     });
     this._chatChannel.bind('editpost', function(data) {
-      if(data.tid == tid && $(`pid${data.pid}`) !== null) {
+      if(data.tid == tid && $(`pid${data.pid}`)) {
         ajaxget(`forum.php?mod=viewthread&tid=${tid}&viewpid=${data.pid}`, `post_${data.pid}`, 'ajaxwaitid', '', null, "if (typeof MathJax.typesetPromise === 'function') {MathJax.texReset();MathJax.typesetPromise([document.querySelector('#pid"+data.pid+" .t_f')]);}");
         if(data.subject){
           $('thread_subject').innerText=data.subject;
@@ -65,13 +65,13 @@ function PusherChatWidget(pusher, options) {
       }
     });
     this._chatChannel.bind('commentadd', function(data) {
-      if(data.tid == tid && data.page == currentPage && $(`pid${data.pid}`) !== null) {
+      if(data.tid == tid && data.page == currentPage && $(`pid${data.pid}`)) {
         ajaxget('forum.php?mod=misc&action=commentmore&tid=' + tid + '&pid=' + data.pid, 'comment_' + data.pid, 'ajaxwaitid', '', null, "if (typeof MathJax.typesetPromise === 'function') {MathJax.typesetPromise([document.getElementById('comment_"+data.pid+"')]);}");
       }
     });
     this._chatChannel.bind('deletepost', function(data) {
-      if(data.tid == tid && $(`pid${data.pid}`) !== null) {
-        $(`pid${data.pid}`).remove();
+      if(data.tid == tid && $(`post_${data.pid}`)) {
+        $(`post_${data.pid}`).remove();
         MULUSELECT.querySelector(`option[value="post_${data.pid}"]`).remove();
         MULUSELECT.size--;
         if(MULUSELECT.size < 2 || $('postlist').clientHeight < window.innerHeight) {
