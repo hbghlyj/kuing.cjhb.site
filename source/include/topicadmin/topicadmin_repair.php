@@ -23,7 +23,7 @@ $attachcount = C::t('forum_attachment_n')->count_by_id('tid:'.$_G['tid'], 'tid',
 $attachment = $attachcount ? (C::t('forum_attachment_n')->count_image_by_id('tid:'.$_G['tid'], 'tid', $_G['tid']) ? 2 : 1) : 0;
 
 $firstpost = C::t('forum_post')->fetch_visiblepost_by_tid('tid:'.$_G['tid'], $_G['tid'], 0);
-$firstpost['subject'] = addslashes(cutstr($firstpost['subject'], 79));
+$firstpost['subject'] = cutstr($firstpost['subject'], 79);
 $firstpost['rate'] = intval(abs($firstpost['rate']) ? ($firstpost['rate'] / abs($firstpost['rate'])) : 0);
 
 $lastpost = C::t('forum_post')->fetch_visiblepost_by_tid('tid:'.$_G['tid'], $_G['tid'], 0, 1);
