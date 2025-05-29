@@ -149,7 +149,7 @@ if(submitcheck('profilesubmit')) {
 				C::t('common_member')->update($_G['uid'], array('timeoffset' => intval($value)));
 			}
 		} elseif($key == 'site') {
-			if(!in_array(strtolower(substr($value, 0, 6)), array('http:/', 'https:', 'ftp://', 'rtsp:/', 'mms://')) && !preg_match('/^static\//', $value) && !preg_match('/^data\//', $value)) {
+			if(!in_array(strtolower(substr($value, 0, 6)), array('http:/', 'https:', 'ftp://', 'rtsp:/', 'mms://')) && !empty($value)) {
 				$value = 'http://'.$value;
 			}
 		}
