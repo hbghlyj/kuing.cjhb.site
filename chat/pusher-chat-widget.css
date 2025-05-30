@@ -45,3 +45,4 @@
   cursor: pointer;
   padding: 10px;
 }
+mjx-container[jax="SVG"][display="true"]{overflow-x:auto}
