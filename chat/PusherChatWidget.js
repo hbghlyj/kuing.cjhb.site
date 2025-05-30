@@ -32,17 +32,17 @@ function PusherChatWidget(pusher, options) {
   // Subscribe to the chat channel
   this._chatChannel = this._pusher.subscribe(this.settings.channelName);
   this._pusher.connection.bind('connected', function() {
-    self._widget.find('.pusher-chat-widget-input label').text(isChinese ? '已连接' : 'Connected');
+    self._widget.find('label').text(isChinese ? '已连接' : 'Connected');
   });
   this._pusher.connection.bind('connecting', function() {
-    self._widget.find('.pusher-chat-widget-input label').text(isChinese ? '连接中' : 'Connecting');
+    self._widget.find('label').text(isChinese ? '连接中' : 'Connecting');
   });
   this._chatChannel.bind('pusher:subscription_succeeded', function(){
-    self._widget.find('.pusher-chat-widget-input label').text((isChinese ? '快捷键' : 'Shortcut') + ' Ctrl+Enter');
+    self._widget.find('label').text((isChinese ? '快捷键' : 'Shortcut') + ' Ctrl+Enter');
     self._widget.find('.pusher-chat-widget-send-btn').prop('disabled', false);
   });
   this._pusher.connection.bind('unavailable', function() {
-    self._widget.find('.pusher-chat-widget-input label').text((isChinese ? '请检查网络连接' : 'Please check your network connection'));
+    self._widget.find('label').text((isChinese ? '请检查网络连接' : 'Please check your network connection'));
     self._widget.find('.pusher-chat-widget-send-btn').prop('disabled', true);
   });
   if(typeof currentPage !== 'undefined' && typeof tid !== 'undefined') {
@@ -275,8 +275,8 @@ PusherChatWidget._createHTML = function(appendTo) {
         '</li>' +
       '</ul>' +
     '</div>' +
+    '<label for="message"></label>' +
     '<div class="pusher-chat-widget-input">' +
-      '<label for="message"></label>' +
       '<textarea name="message"></textarea>' +
       '<button class="pusher-chat-widget-send-btn" disabled>' +
         (isChinese ? '发送' : 'Send') +
