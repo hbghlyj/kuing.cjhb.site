@@ -1,24 +1,24 @@
-.pusher-chat-widget{font-size:13px;background-color:whiteSmoke;border:1px solid #EEE;margin-bottom:0;-webkit-border-radius:6px 6px 6px 6px;-moz-border-radius:6px 6px 6px 6px;border-radius:6px 6px 6px 6px;padding-left:10px;}
+.pusher-chat-widget{font-size:13px;background-color:whiteSmoke;border:1px solid #EEE;margin-bottom:0;border-radius:6px;padding-left:10px;}
 .pusher-chat-widget button{font-family:sans-serif;}
-.pusher-chat-widget label{display:block;text-align:left;padding-top:6px;line-height:18px;}
+.pusher-chat-widget label{display:block;padding-top:6px;line-height:18px;user-select: none;}
 .pusher-chat-widget-header{border-bottom:1px solid #EBEBEB;text-align:center;overflow:auto;}
-.pusher-chat-widget-input{position:relative;}
-.pusher-chat-widget textarea{width:230px;height:40px;border-radius: 3px;border: 1px solid #ccc;}
+.pusher-chat-widget-input{display:flex;}
+.pusher-chat-widget textarea{border: 1px solid #ccc;flex-grow:1;border-radius: 3px;}
 .pusher-chat-widget-send-btn{width:50px;height:40px;font-size:11px;line-height:normal;padding:5px 10px 5px;-webkit-border-radius:6px;-moz-border-radius:6px;border-radius:6px;vertical-align:top;color:white;background-color:#0064CD;-webkit-box-shadow:inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);-moz-box-shadow:inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);box-shadow:inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);border:1px solid #CCC;}
-.pusher-chat-widget ul.activity-stream{list-style:none;margin:0;padding:0;background-color:white;min-height:100px;margin-right:10px;}
+.pusher-chat-widget ul.activity-stream{list-style:none;margin:0;padding:0;background-color:white;min-height:100px;}
 .pusher-chat-widget-send-btn.loading {background: url(/static/image/common/loading.gif) no-repeat center / cover}
 .pusher-chat-widget ul.activity-stream li.message-item.waiting{height:100%;font-weight:bold;text-align:center;color:#808080;}
 .pusher-chat-widget ul.activity-stream{overflow:auto;}
 .pusher-chat-widget ul.activity-stream li.message-item{position:relative;border-bottom:1px solid #EBEBEB;clear:both;display:block;outline:none;margin-top:-1px;border-top:1px solid transparent;overflow: hidden;}
-.pusher-chat-widget ul.activity-stream li.message-item div.message-content-wrapper{padding:5px 15px;font-size:12px;position: relative;transition: transform 0.3s ease-out;}
+.pusher-chat-widget ul.activity-stream li.message-item div.message-content-wrapper{padding: 5px 0 5px 10px;font-size:12px;position: relative;transition: transform 0.3s ease-out;}
 .pusher-chat-widget ul.activity-stream li.message-item .image{float:left;height:24px;overflow:hidden;width:24px;margin-top:3px;}
 .pusher-chat-widget ul.activity-stream li.message-item .screen-name{font-weight:bold;color:#333!important;}
 .pusher-chat-widget ul.activity-stream li.message-item .content{margin-left:30px;}
 .pusher-chat-widget ul.activity-stream li.message-item .text img{max-width:100%}
-.pusher-chat-widget ul.activity-stream li.message-item .text,.pusher-chat-widget textarea{padding:0;font-family:Arial,"Helvetica Neue",sans-serif,"Noto Colr Emoji Glyf";line-height:19px;word-wrap:break-word;}
+.pusher-chat-widget ul.activity-stream li.message-item .text,.pusher-chat-widget textarea{padding:0;font-family:sans-serif,"Noto Colr Emoji Glyf";line-height:19px;word-wrap:break-word;}
 .pusher-chat-widget ul.activity-stream li.message-item .timestamp{color:#999!important;font-size:9px;float:right;}
 .pusher-chat-widget ul.activity-stream li.message-item .activity-actions{color:#999!important;font-size:9px;}
-.pusher-chat-widget .activity-stream .message-item .delete-action {
+.pusher-chat-widget ul.activity-stream li.message-item .delete-action {
   position: absolute;
   top: 0;
   right: 0;
@@ -32,13 +32,13 @@
   transition: transform 0.3s ease-out;
   z-index: 0;
 }
-.pusher-chat-widget .activity-stream .message-item.slide-active .message-content-wrapper {
+.pusher-chat-widget ul.activity-stream li.message-item.slide-active .message-content-wrapper {
   transform: translateX(-80px); /* Slide content left by button width */
 }
-.pusher-chat-widget .activity-stream .message-item.slide-active .delete-action {
+.pusher-chat-widget ul.activity-stream li.message-item.slide-active .delete-action {
   transform: translateX(0); /* Bring delete button into view */
 }
-.pusher-chat-widget .activity-stream .message-item .delete-button {
+.pusher-chat-widget ul.activity-stream li.message-item .delete-button {
   color: white;
   background: none;
   border: none;

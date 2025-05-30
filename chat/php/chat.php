@@ -27,33 +27,29 @@ $options = array();
 $options['displayName'] = $_G['username'];
 $options['text'] = htmlspecialchars($chat_info['text']);
 $options['image']['url'] = 'https://' . $_SERVER['HTTP_HOST'] . substr(avatar($_G['uid'], 'small', 1), 1);
-
-
-
-include '../../config/config_global.php';
-$conn = new mysqli($_config['db'][1]['dbhost'], $_config['db'][1]['dbuser'], $_config['db'][1]['dbpw'], $_config['db'][1]['dbname']);
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-
-// CREATE TABLE chat (time TIMESTAMP DEFAULT CURRENT_TIMESTAMP, uid mediumint NOT NULL, author CHAR(15) NOT NULL, message TEXT NOT NULL, PRIMARY KEY (`time`) );
-$stmt = $conn->prepare(
-  "INSERT INTO chat (uid, author, message) VALUES (?, LEFT(?, 30), ?)"
-);
-$stmt->bind_param("iss", $_G['uid'], $_G['username'], $options['text']);
-$stmt->execute();
-$stmt->close();
-$conn->close();
-
-
 $activity = new Activity('chat-message', $options['text'], $options);
 
 $pusher = new Pusher(APP_KEY,APP_SECRET,APP_ID,array(
-    'cluster' => 'eu',
-    'useTLS' => true
-  ));
+  'cluster' => 'eu',
+  'useTLS' => true
+));
 $data = $activity->getMessage();
 $result = $pusher->trigger($channel_name, 'chat_message', $data, null, true);
+if ($result['status'] == 200) {
+  include '../../config/config_global.php';
+  $conn = new mysqli($_config['db'][1]['dbhost'], $_config['db'][1]['dbuser'], $_config['db'][1]['dbpw'], $_config['db'][1]['dbname']);
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+  // CREATE TABLE chat (time TIMESTAMP DEFAULT CURRENT_TIMESTAMP, uid mediumint NOT NULL, author CHAR(15) NOT NULL, message TEXT NOT NULL, PRIMARY KEY (`time`) );
+  $stmt = $conn->prepare(
+    "INSERT INTO chat (uid, author, message) VALUES (?, LEFT(?, 30), ?)"
+  );
+  $stmt->bind_param("iss", $_G['uid'], $_G['username'], $options['text']);
+  $stmt->execute();
+  $stmt->close();
+  $conn->close();
+}
 header('HTTP/1.1 ' . $result['status']);
 echo $result['body'];
 ?>
