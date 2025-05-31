@@ -19,8 +19,8 @@ function build_cache_onlinelist() {
 		}
 		$url = STATICURL.'image/common/online_'.$list['url'].'.svg';
 		$data[$list['groupid']] = $url;
-		$data['legend_en'] .= !empty($url) ? "<img src=\"".$url."\" /> {$list['url']} &nbsp; &nbsp; &nbsp; " : '';
-		$data['legend'] .= !empty($url) ? "<img src=\"".$url."\" /> {$list['title']} &nbsp; &nbsp; &nbsp; " : '';
+		$data['legend_en'] .= !empty($url) ? "<li><img src=\"".$url."\" /> {$list['url']}</li>" : '';
+		$data['legend'] .= !empty($url) ? "<li><img src=\"".$url."\" /> {$list['title']}</li>" : '';
 		if($list['groupid'] == 7) {
 			$data['guest'] = $list['title'];
 		}
