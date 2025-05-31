@@ -137,6 +137,7 @@ $lang = array (
   'logout_mobile' => '退出登錄',
   'myfavorite' => '我的收藏',
   'mythread' => '我的主題',
+  'mycollection' => '我的淘帖',
   'mypm' => '我的消息',
   'sendpm' => '發送',
   'inputyourname' => '請輸入用戶名',
