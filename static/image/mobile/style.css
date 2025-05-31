@@ -474,7 +474,7 @@ select {-moz-appearance:none;}
 .imglist li {overflow:hidden;padding:10px 15px;border-bottom:1px solid var(--dz-BOR-ed)}
 .imglist li a {display:block;height:44px;overflow:hidden}
 .imglist li .mimg {float:left;width:44px;height:44px;margin-right:10px}
-.imglist li .mimg img {width:44px;height:44px;border-radius:50%}
+.imglist li .mimg img {width:44px;height:44px}
 .imglist li .mtit {height:20px;line-height:20px;font-size:16px;overflow:hidden}
 .imglist li .mtit .mtime {float:right;font-size:12px;color:var(--dz-FC-bbb)}
 .imglist li .mico {float:right;margin-left:5px;height:20px;padding:0 6px;line-height:20px;font-size:12px;background-color:var(--dz-BG-3);color:var(--dz-FC-fff);border-radius:4px}
