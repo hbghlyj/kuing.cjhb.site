@@ -1,10 +1,14 @@
 (function(){
 const isChinese = navigator.languages && navigator.languages.some(lang => ['zh', 'zh-CN', 'zh-TW', 'zh-HK', 'zh-SG'].includes(lang));
-const isMobile = typeof popup == 'object';
-if(isMobile) {
-  function showError(msg) {
+const isMobile = typeof popup === 'object';
+function showError(msg) {
+  if (typeof popup !== 'undefined' && popup && typeof popup.open === 'function') {
     popup.open(msg, 'alert');
-  };
+  } else if (typeof showPrompt === 'function') {
+    showPrompt(null, null, msg, 1000, 'popuptext');
+  } else {
+    alert(msg);
+  }
 }
 /**
  * Creates an instance of a PusherChatWidget, binds to a chat channel on the pusher instance and
