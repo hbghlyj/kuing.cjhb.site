@@ -240,7 +240,6 @@ details summary { color:blue; cursor:pointer; }
   #switchwidth,#diy-tg,#um p:last-child,.pls,#cgb,#fj,#mulu { display: none; }/*宽屏切换按钮，diy按钮，logo，积分用户组，头像那列，广告（草稿），电梯*/
   #toptb { min-width: unset; }/*顶上横条*/
   .wp { width: 100%; }/*主体*/
-  #ls_username, #ls_password { width: 90px; }
   #nv li a { padding: 0 5px; }/*导航栏*/
   #scbar_txt { width: 130px; }/*搜索输入框*/
   #pt .z a {

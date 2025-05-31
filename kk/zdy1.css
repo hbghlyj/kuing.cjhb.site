@@ -29,7 +29,6 @@
 @media screen and (orientation: portrait) {
   #switchwidth,#diy-tg,#um p:last-child,#category_grid,.fl_i,p.xg2,#pt,#chart .y,#onlinelist .ptm.pbm.bbda,.frame-title { display: none; }
   #toptb { min-width: unset; }
-  #ls_username, #ls_password { width: 90px; }
   .fl_by {
     width: 150px;
     max-width: 150px;

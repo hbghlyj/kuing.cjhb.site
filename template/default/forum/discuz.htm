@@ -504,33 +504,26 @@
 		</div>
 
 		<!--{if empty($gid) && $_G['setting']['whosonlinestatus']}-->
-			<div id="online" class="bm oll">
+			<div id="online" class="bm oll fl">
 				<div class="bm_h">
 				<!--{if $detailstatus}-->
 					<span class="o"><a href="forum.php?showoldetails=no#online" title="{lang spread}"><em class="tg_no" title="{lang spread}"></em></a></span>
-					<h3>
-						<strong><a href="home.php?mod=space&do=friend&view=online&type=all">{lang onlinemember}</a></strong>
-						<span class="xs1">- <strong>$onlinenum</strong> {lang onlines}
-						- <strong>$membercount</strong> {lang index_members}(<strong>$invisiblecount</strong> {lang index_invisibles}),
-						<strong>$guestcount</strong> {lang index_guests}
-						- {lang index_mostonlines} <strong>$onlineinfo[0]</strong> {lang on} <strong>$onlineinfo[1]</strong>.</span>
-					</h3>
+					<h2>
+						<strong><a href="home.php?mod=space&do=friend&view=online&type=all">$onlinenum {lang onlines}</a></strong>
+						<span class="xs1">
+						<!--{if $membercount}-->- <strong>$membercount</strong> {lang index_members}<!--{if $invisiblecount}-->(<strong>$invisiblecount</strong> {lang index_invisibles})<!--{/if}--><!--{/if}--><!--{if $guestcount}-->,<strong>$guestcount</strong> {lang index_guests}<!--{/if}--> - {lang index_mostonlines} <strong>$onlineinfo[0]</strong> {lang on} <strong>$onlineinfo[1]</strong></span>
+					</h2>
 				<!--{else}-->
 					<!--{if empty($_G['setting']['sessionclose'])}-->
 						<span class="o"><a href="forum.php?showoldetails=yes#online" title="{lang spread}"><em class="tg_yes" title="{lang spread}"></em></a></span>
 					<!--{/if}-->
-					<h3>
+					<h2>
 						<strong>
-							<!--{if !empty($_G['setting']['whosonlinestatus'])}-->
-								{lang onlinemember}
-							<!--{else}-->
-								<a href="home.php?mod=space&do=friend&view=online&type=all">{lang onlinemember}</a>
-							<!--{/if}-->
+							<a href="home.php?mod=space&do=friend&view=online&type=all"><strong>$onlinenum</strong> {lang onlines}</a>
 						</strong>
-						<span class="xs1">- {lang total} <strong>$onlinenum</strong> {lang onlines}
-						<!--{if $membercount}-->- <strong>$membercount</strong> {lang index_members},<strong>$guestcount</strong> {lang index_guests}<!--{/if}-->
-						- {lang index_mostonlines} <strong>$onlineinfo[0]</strong> {lang on} <strong>$onlineinfo[1]</strong>.</span>
-					</h3>
+						<span class="xs1">
+						<!--{if $membercount}-->- <strong>$membercount</strong> {lang index_members}<!--{/if}--><!--{if $guestcount}-->,<strong>$guestcount</strong> {lang index_guests}<!--{/if}--> - {lang index_mostonlines} <strong>$onlineinfo[0]</strong> {lang on} <strong>$onlineinfo[1]</strong></span>
+					</h2>
 				<!--{/if}-->
 				</div>
 			<!--{if $_G['setting']['whosonlinestatus'] && $detailstatus}-->
