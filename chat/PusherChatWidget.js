@@ -1,7 +1,11 @@
 (function(){
 const isChinese = navigator.languages && (navigator.languages.indexOf('zh') !== -1 || navigator.languages.indexOf('zh-CN') !== -1 || navigator.languages.indexOf('zh-TW') !== -1 || navigator.languages.indexOf('zh-HK') !== -1 || navigator.languages.indexOf('zh-SG') !== -1);
 const isMobile = location.search.startsWith('?mod=find');
-
+if(typeof popup !== 'undefined') {
+  function showError(msg) {
+    popup.open(msg, 'alert');
+  };
+}
 /**
  * Creates an instance of a PusherChatWidget, binds to a chat channel on the pusher instance and
  * and creates the UI for the chat widget.
