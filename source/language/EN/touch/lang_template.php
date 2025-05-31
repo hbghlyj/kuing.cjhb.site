@@ -136,6 +136,7 @@ $lang = array (
   'logout_mobile' => 'Logout',
   'myfavorite' => 'My favorites',
   'mythread' => 'My threads',
+  'mycollection' => 'My collections',
   'mypm' => 'My PM',
   'sendpm' => 'Send',
   'inputyourname' => 'Please enter your username',

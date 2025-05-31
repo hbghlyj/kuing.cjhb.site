@@ -344,8 +344,7 @@ if(!$gid && (!defined('FORUM_INDEX_PAGE_MEMORY') || !FORUM_INDEX_PAGE_MEMORY)) {
 			$_G['uid'] && updatesession();
 			$whosonline = array();
 
-			$_G['setting']['maxonlinelist'] = $_G['setting']['maxonlinelist'] ? $_G['setting']['maxonlinelist'] : 500;
-			foreach(C::app()->session->fetch_member(1, 0, $_G['setting']['maxonlinelist']) as $online){
+			foreach(C::app()->session->fetch_member(1, 0) as $online){
 				$membercount ++;
 				if($online['invisible']) {
 					$invisiblecount++;
@@ -356,29 +355,17 @@ if(!$gid && (!defined('FORUM_INDEX_PAGE_MEMORY') || !FORUM_INDEX_PAGE_MEMORY)) {
 				$online['lastactivity'] = dgmdate($online['lastactivity'], 't');
 				$whosonline[] = $online;
 			}
-			if(isset($_G['cache']['onlinelist'][7]) && $_G['setting']['maxonlinelist'] > $membercount) {
-				foreach(C::app()->session->fetch_member(2, 0, $_G['setting']['maxonlinelist'] - $membercount) as $online){
-					$online['icon'] = $_G['cache']['onlinelist'][$online['groupid']];
-					$online['lastactivity'] = dgmdate($online['lastactivity'], 't');
-					$whosonline[] = $online;
-				}
+			foreach(C::app()->session->fetch_member(2, 0) as $online){
+				$guestcount ++;
+				$online['icon'] = $_G['cache']['onlinelist'][$online['groupid']];
+				$online['lastactivity'] = dgmdate($online['lastactivity'], 't');
+				$whosonline[] = $online;
 			}
 			unset($online);
 
-			if($onlinenum > $_G['setting']['maxonlinelist']) {
-				$membercount = C::app()->session->count(1);
-				$invisiblecount = C::app()->session->count_invisible();
-			}
-
-			if($onlinenum < $membercount) {
-				$onlinenum = C::app()->session->count();
-				dsetcookie('onlineusernum', intval($onlinenum), 300);
-			}
-
+			$onlinenum = $membercount + $guestcount;
+			dsetcookie('onlineusernum', intval($onlinenum), 300);
 			$invisiblecount = intval($invisiblecount);
-			$guestcount = $onlinenum - $membercount;
-
-			unset($online);
 		}
 
 	} else {
