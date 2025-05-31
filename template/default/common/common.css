@@ -244,7 +244,7 @@ body, input, button, select { font: {FONTSIZE} {FONT}; color: {TABLETEXT}; }
 	Explain:		边框样式，该模块仅作用于元素的下边框，分为虚线和实线两种，宽度均为 1px
 	Last Modify:	lushnis
 */
-	.bbda { border-bottom: 1px dashed {COMMONBORDER}; }
+	.bbda { border-bottom: 1px dashed {COMMONBORDER};text-transform: capitalize; }
 	.btda { border-top: 1px dashed {COMMONBORDER}; }
 	.bbs { border-bottom: 1px solid {COMMONBORDER} !important; }
 	.bts { border-top: 1px dashed {COMMONBORDER} !important; }
