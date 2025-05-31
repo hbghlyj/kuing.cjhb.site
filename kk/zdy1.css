@@ -27,7 +27,7 @@
   overflow-y: scroll;
 }
 @media screen and (orientation: portrait) {
-  #switchwidth,#diy-tg,#um p:last-child,#category_grid,.fl_i,p.xg2,#pt,#chart .y,#onlinelist .ptm.pbm.bbda,.frame-title { display: none; }
+  #switchwidth,#diy-tg,#um p:last-child,#category_grid,.fl_i,p.xg2,#pt,#chart .y,.frame-title { display: none; }
   #toptb { min-width: unset; }
   .fl_by {
     width: 150px;

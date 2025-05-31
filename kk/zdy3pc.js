@@ -96,7 +96,7 @@ document.querySelectorAll('.plc .pi').forEach(plcpi => {
         eye.classList.toggle('slashed');
         show_math_code.call(this);
     });
-    eye.style = "float:right;margin-left:5px;cursor:pointer;";
+    eye.style = "float:right;margin-left:5px;cursor:pointer;position:relative;"
     eye.innerHTML = "&#x1f441;";
     eye.title = "显示公式代码";
     eye.classList.add('printhides');
