@@ -181,7 +181,7 @@ PusherChatWidget.prototype._chatMessageReceived = function(data) {
   this._messagesEl.append(messageEl);
 
   if (isMobile) {
-    this._addSwipeToDeleteHandlers(messageEl, data);
+    this._addSwipeToDeleteHandlers(messageEl, data.published);
   }
 
   if (typeof MathJax.typesetPromise === 'function') {
@@ -323,7 +323,7 @@ PusherChatWidget._buildListItem = function(activity) {
 };
 
 /* @private */
-PusherChatWidget.prototype._addSwipeToDeleteHandlers = function(liElement, activityData) {
+PusherChatWidget.prototype._addSwipeToDeleteHandlers = function(liElement, published) {
   var widgetInstance = this;
   let touchStartX = 0;
   const swipeThreshold = 50;
@@ -362,7 +362,7 @@ PusherChatWidget.prototype._addSwipeToDeleteHandlers = function(liElement, activ
       url: '/chat/php/delete.php', // Endpoint to delete the message
       type: 'POST',
       data: {
-        'published_time': activityData.published // Send the timestamp of the message to be deleted
+        'published_time': published // Send the timestamp of the message to be deleted
       },
       success: function(response) {
         // On success, remove the message from the UI
