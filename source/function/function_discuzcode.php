@@ -465,21 +465,29 @@ function discuzcode_callback_jammer($matches) {
 
 function parseurl($url, $text, $scheme) {
 	global $_G;
+	$link_rel_attribute = '';
 	if(!$url) {
 		// Either an external link, example [url]http://www.qq.com[/url]
 		// Or an internal link, example [url]forum.php?mod=viewthread&tid=1[/url]
 		// 1. Decode percent-encoded characters
 		$text = urldecode($url = $text);
-		if(str_starts_with($url, 'www.')) {
+		// Determine if the link is external based on $text (before stripping its prefix for display)
+		// $text at this point holds the full URL like "http://example.com" or "www.example.com"
+		if (preg_match("/^https?:\/\//i", $text)) {
+			// It's an external link, set the rel attribute.
+			// This variable $link_rel_attribute should be used in the return statement later.
+			$link_rel_attribute = '" rel="external nofollow';
+		}elseif(str_starts_with($url, 'www.')) {
 			$url = '//' . $url;
+			$link_rel_attribute = '" rel="external nofollow';
 		}
-		// 2. Hide the prefix http:// or www.
+		// 2. Hide the prefix http:// or www. from $text for display
 		$text = preg_replace("/^https?:\/\/(www\.)?|^www\./i", '', $text);
 		// 3. Truncate if too long (multibyte safe)
 		if(mb_strlen($text) > 65) {
 			$text = mb_substr($text, 0, 45) . ' &hellip; ' . mb_substr($text, -20);
 		}
-		return '<a href="' . $url . '" target="_blank">' . $text . '</a>';
+		return '<a href="' . $url . $link_rel_attribute . '" target="_blank">' . $text . '</a>';
 	} else {
 		$url = substr($url, 1);// remove the prefix =
 		if($url[0] == '#') {
@@ -488,12 +496,15 @@ function parseurl($url, $text, $scheme) {
 			}
 			return '<a href="'.$url.'">'.$text.'</a>';// example [url=#sec1]go to sec1[/url]
 		} else {
-			if(str_starts_with($url, 'www.')) {
-				$url = '//' . $url;// If starts with www., must be an external link, example [url=www.qq.com]qq[/url]
-			}
 			// Either an external link, example [url=http://www.qq.com]go to qq[/url]
 			// Or an internal link, example [url=forum.php?mod=viewthread&tid=1]go to thread 1[/url]
-			return '<a href="'.$url.'" target="_blank">'.$text.'</a>';
+			if (preg_match("/^https?:\/\//i", $url)) {
+				$link_rel_attribute = '" rel="external nofollow';
+			}elseif(str_starts_with($url, 'www.')) {
+				$url = '//' . $url;// If starts with www., must be an external link, example [url=www.qq.com]qq[/url]
+				$link_rel_attribute = '" rel="external nofollow';
+			}
+			return '<a href="' . $url . $link_rel_attribute . '" target="_blank">'.$text.'</a>';
 		}
 	}
 }
