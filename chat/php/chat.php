@@ -41,9 +41,10 @@ if ($result['status'] == 200) {
   if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
   }
-  // Old rows beyond limit 50 will be deleted as new ones come in.
-  $delete_sql = "DELETE chat FROM chat JOIN (SELECT time FROM chat ORDER BY time DESC LIMIT 50, 1) AS subquery ON chat.time < subquery.time";
+  // Delete messages older than 2 days.
+  $delete_sql = "DELETE FROM chat WHERE time < DATE_SUB(NOW(), INTERVAL 2 DAY)";
   $conn->query($delete_sql);
+
   $stmt = $conn->prepare(
     "INSERT INTO chat (uid, author, message) VALUES (?, LEFT(?, 30), ?)"
   );
