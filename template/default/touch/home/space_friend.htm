@@ -18,7 +18,7 @@
 			<ul>
 				<!--{loop $onlinedata $key $value}-->
 				<li>
-					<span class="mimg"><img src="<!--{if $value['uid']}--><!--{avatar($value['uid'], 'small', true)}--><!--{else}-->$value[icon]<!--{/if}-->"></span>
+					<span class="mimg"><!--{if $value['uid']}--><a href="home.php?mod=space&uid=$value[uid]"><img src="<!--{avatar($value['uid'], 'small', true)}-->"></a><!--{else}--><img src="$value[icon]"><!--{/if}--></span>
 					<p class="mtit">
 						<!--{if $value['uid']}--><a href="home.php?mod=space&do=pm&subop=view&touid=$value['uid']" class="mico">{lang send_pm}</a>
 						<a href="home.php?mod=space&uid=$value[uid]">$value[username]</a><!--{elseif $value['username']}-->$value[username]<!--{else}-->{lang guest}<!--{/if}-->
