@@ -11,23 +11,24 @@ if (!isset($_POST['published_time'])) {
     echo('published_time must be provided');
     exit;
 }
+if(empty($_G['uid'])) {
+  $_G['uid'] = 0;
+  $_G['username'] = $_G['member']['username'].' '.$_SERVER['REMOTE_ADDR'];
+}
 
 $published_time = $_POST['published_time'];
-
-// Validate the timestamp format if necessary. MySQL is generally flexible with ISO 8601.
 
 $conn = new mysqli($_config['db'][1]['dbhost'], $_config['db'][1]['dbuser'], $_config['db'][1]['dbpw'], $_config['db'][1]['dbname']);
 
 if ($conn->connect_error) {
     header("HTTP/1.0 500 Internal Server Error");
-    error_log("Database connection failed: " . $conn->connect_error); // Log detailed error
-    echo("Failed to connect to the database."); // User-friendly message
+    error_log("Database connection failed: " . $conn->connect_error);
+    echo("Failed to connect to the database.");
     exit;
 }
 
-// The 'time' column in your 'chat' table is TIMESTAMP.
-// MySQL can typically parse ISO 8601 formatted strings for TIMESTAMP comparison.
-$stmt = $conn->prepare("DELETE FROM chat WHERE time = ? AND uid = ?");
+$stmt = $conn->prepare("DELETE FROM chat WHERE time = STR_TO_DATE(?, '%Y-%m-%dT%TZ') AND author = ?");
+$stmt->bind_param("ss", $published_time, $_G['username']);
 if (!$stmt) {
     header("HTTP/1.0 500 Internal Server Error");
     error_log("Prepare statement failed: (" . $conn->errno . ") " . $conn->error);
@@ -36,15 +37,12 @@ if (!$stmt) {
     exit;
 }
 
-// Assuming $_G['uid'] is set and represents the user ID of the message author.
-$stmt->bind_param("is", $_G['uid'], $published_time);
 if ($stmt->execute()) {
     if ($stmt->affected_rows > 0) {
         header("HTTP/1.0 200 OK");
         echo "Message deleted successfully.";
     } else {
-        // This could be 200 OK with a specific message, or 404 if preferred.
-        header("HTTP/1.0 200 OK"); // Or use 404 Not Found
+        header("HTTP/1.0 403 Forbidden");
         echo "No message was deleted.";
     }
 } else {
