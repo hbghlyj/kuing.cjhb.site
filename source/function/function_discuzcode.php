@@ -89,7 +89,7 @@ function discuzcode($message, $smileyoff = false, $bbcodeoff = false, $htmlon = 
 			// Remove comments: only unescaped '%' and the rest of the line
 			$code = preg_replace('/(?<!\\\\)%.*$/m', '', $code);
 			// Remove lines that are white space only
-			$code = preg_replace('/^\s*$/m', '', $code);
+			$code = preg_replace('/^\s*$\n/m', '', $code);
 			// Remove leading and trailing white space from each line
 			$code = preg_replace('/^\s+|\s+$/m', '', $code);
 			$strb = rtrim(strtr(base64_encode(gzdeflate($code)), '+/', '-_'), '=');
@@ -103,7 +103,7 @@ function discuzcode($message, $smileyoff = false, $bbcodeoff = false, $htmlon = 
 			// Remove comments: double slashes and the rest of the line
 			$code = preg_replace('/(?<!\\\\)\/\/.*$/m', '', $code);
 			// Remove lines that are white space only
-			$code = preg_replace('/^\s*$/m', '', $code);
+			$code = preg_replace('/^\s*$\n/m', '', $code);
 			// Remove leading and trailing white space from each line
 			$code = preg_replace('/^\s+|\s+$/m', '', $code);
 			$format = (str_contains($code, 'import graph3')||str_contains($code, 'import three'))? 'png' : 'svg';

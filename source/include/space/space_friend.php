@@ -47,15 +47,9 @@ if($_GET['view'] == 'online') {
 			$onlinedata = C::app()->session->fetch_all_by_uid(explode(',', $space['feedfriend']), $start, $perpage);
 		}
 		$count = count($onlinedata);
-	} elseif($_GET['type']=='member') {
-		$theurl = "home.php?mod=space&uid={$space['uid']}&do=friend&view=online&type=member";
-		$wheresql = " WHERE uid>0";
-		if(($count = C::app()->session->count(1))) {
-			$onlinedata = C::app()->session->fetch_member(1, 2, $start, $perpage);
-		}
 	} else {
-		$_GET['type']='all';
-		$theurl = "home.php?mod=space&uid={$space['uid']}&do=friend&view=online&type=all";
+		$_GET['type']='member';
+		$theurl = "home.php?mod=space&uid={$space['uid']}&do=friend&view=online&type=member";
 		if(($count = C::app()->session->count_invisible(0))) {
 			$onlinedata = DB::fetch_all('SELECT s.*, f.name, t.subject FROM '.DB::table('common_session').' AS s LEFT JOIN '.DB::table('forum_forum').' AS f ON s.fid=f.fid LEFT JOIN '.DB::table('forum_thread').' AS t ON s.tid=t.tid WHERE invisible = 0 ORDER BY (groupid NOT IN (7, 8)) DESC,lastactivity DESC'.DB::limit($start, $perpage), null, 'sid');
 			$actioncode = lang('action');
