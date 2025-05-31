@@ -599,6 +599,7 @@ body, input, button, select { font: {FONTSIZE} {FONT}; color: {TABLETEXT}; }
 		*/
 
 /* 通用容器，定义页面宽度 */ .wp { margin: 0 auto; /*width: 1200px;*/ width: 960px; } /*kk edt*/ #wp .wp { width: auto; }
+@media screen and (orientation: portrait) {.wp { width: 100%; }}
 
 /* 页头 */
 	#toptb { /*min-width: 1200px;*/ border-bottom: 1px solid {COMMONBORDER}; background: {COMMONBG}; line-height: 28px; }
