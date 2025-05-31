@@ -52,6 +52,7 @@ document.querySelectorAll('.t_f').forEach(post => {//解决mathjax3复制多行�
 document.querySelectorAll('.plc .pi').forEach(plcpi => {//在帖子信息栏添加显示公式代码按钮
     const eye = document.createElement("a");
     eye.addEventListener("click", function(){
+        eye.classList.toggle('slashed');
         MathJax.startup.document.getMathItemsWithin(this.parentElement.nextElementSibling).forEach(function (item) {
             [item.math,item.typesetRoot[item.typesetRoot.firstElementChild ? "innerText" : "innerHTML"]]=[item.typesetRoot[item.typesetRoot.firstElementChild ? "innerHTML" : "innerText"],item.math];
             if(item.start.n){
@@ -70,7 +71,7 @@ document.querySelectorAll('.plc .pi').forEach(plcpi => {//在帖子信息栏添�
             }
         });
     });
-    eye.style = "float:right;margin-left:5px;cursor:pointer;";
+    eye.style = "float:right;margin-left:5px;cursor:pointer;position:relative;"
     eye.innerHTML = "&#x1f441;";
     eye.title = "显示公式代码";
     eye.classList.add('printhides');

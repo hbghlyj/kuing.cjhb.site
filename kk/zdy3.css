@@ -304,3 +304,14 @@ details summary { color:blue; cursor:pointer; }
 
 /*点击👁后，显示出来的代码中，没了换行*/
 mjx-container[jax="SVG"] { white-space: pre-wrap; }
+a.slashed::before{
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: currentColor;
+    transform: translateY(-50%) rotate(45deg);
+    pointer-events: none;
+}
