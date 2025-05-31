@@ -239,7 +239,11 @@ class ip {
 		}
 		require_once './source/class/ip/geoip2.phar';
 		static $reader = new GeoIp2\Database\Reader('./data/ipdata/GeoLite2-City.mmdb');
-		$record = $reader->city($ip);
+		try {
+			$record = $reader->city($ip);
+		} catch (\GeoIp2\Exception\AddressNotFoundException $e) {
+			return null;
+		}
 		return lang('country', DISCUZ_LANG == 'EN/' ?
 		 $record->continent->names['en'] . ' ' . $record->country->names['en'] . ' ' . $record->subdivisions[0]->names['en'] . ' ' . $record->city->names['en'] :
 		 $record->continent->names['zh-CN'] . ' ' . $record->country->names['zh-CN'] . ' ' . $record->subdivisions[0]->names['zh-CN'] . ' ' . $record->city->names['zh-CN']
