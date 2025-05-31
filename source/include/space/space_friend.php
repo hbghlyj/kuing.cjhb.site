@@ -48,8 +48,8 @@ if($_GET['view'] == 'online') {
 		}
 		$count = count($onlinedata);
 	} else {
-		$_GET['type']='all';
-		$theurl = "home.php?mod=space&uid={$space['uid']}&do=friend&view=online&type=all";
+		$_GET['type']='member';
+		$theurl = "home.php?mod=space&uid={$space['uid']}&do=friend&view=online&type=member";
 		if(($count = C::app()->session->count_invisible(0))) {
 			$onlinedata = DB::fetch_all('SELECT s.*, '.(DISCUZ_LANG == 'EN/' ? 'f.name_en AS name' : 'f.name').', t.subject FROM '.DB::table('common_session').' AS s LEFT JOIN '.DB::table('forum_forum').' AS f ON s.fid=f.fid LEFT JOIN '.DB::table('forum_thread').' AS t ON s.tid=t.tid WHERE invisible = 0 ORDER BY (groupid NOT IN (7, 8)) DESC,lastactivity DESC'.DB::limit($start, $perpage), null, 'sid');
 			$actioncode = lang('action');
