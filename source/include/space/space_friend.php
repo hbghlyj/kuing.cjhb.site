@@ -57,6 +57,9 @@ if($_GET['view'] == 'online') {
 			foreach($onlinedata as $key => $value) {
 				$value['lastactivity'] = dgmdate($value['lastactivity'], 't');
 				$value['action'] = $actioncode[$value['action']];
+				if($value['groupid'] == 7){
+					$value['username'] = lang('forum/misc', 'guestuser') . $value['username'];
+				}
 				$value['icon'] = !empty($_G['cache']['onlinelist'][$value['groupid']]) ? $_G['cache']['onlinelist'][$value['groupid']] : $_G['cache']['onlinelist'][0];
 				$onlinedata[$key] = $value;
 			}
