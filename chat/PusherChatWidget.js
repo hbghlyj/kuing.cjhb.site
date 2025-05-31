@@ -275,8 +275,8 @@ PusherChatWidget._createHTML = function(appendTo) {
         '</li>' +
       '</ul>' +
     '</div>' +
-    '<label for="message"></label>' +
     '<div class="pusher-chat-widget-input">' +
+      '<label for="message"></label>' +
       '<textarea name="message"></textarea>' +
       '<button class="pusher-chat-widget-send-btn" disabled>' +
         (isChinese ? '发送' : 'Send') +
