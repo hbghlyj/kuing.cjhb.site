@@ -39,9 +39,11 @@ if ($result['status'] == 200) {
   include '../../config/config_global.php';
   $conn = new mysqli($_config['db'][1]['dbhost'], $_config['db'][1]['dbuser'], $_config['db'][1]['dbpw'], $_config['db'][1]['dbname']);
   if ($conn->connect_error) {
-      die("Connection failed: " . $conn->connect_error);
+    die("Connection failed: " . $conn->connect_error);
   }
-  // CREATE TABLE chat (time TIMESTAMP DEFAULT CURRENT_TIMESTAMP, uid mediumint NOT NULL, author CHAR(15) NOT NULL, message TEXT NOT NULL, PRIMARY KEY (`time`) );
+  // Old rows beyond limit 50 will be deleted as new ones come in.
+  $delete_sql = "DELETE chat FROM chat JOIN (SELECT time FROM chat ORDER BY time DESC LIMIT 50, 1) AS subquery ON chat.time < subquery.time";
+  $conn->query($delete_sql);
   $stmt = $conn->prepare(
     "INSERT INTO chat (uid, author, message) VALUES (?, LEFT(?, 30), ?)"
   );

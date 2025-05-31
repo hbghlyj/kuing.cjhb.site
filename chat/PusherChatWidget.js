@@ -350,21 +350,29 @@ PusherChatWidget.prototype._addSwipeToDeleteHandlers = function(liElement, activ
 
   liElement.find('.delete-button').on('click', function(e) {
     e.stopPropagation();
-    liElement.slideUp(function() {
-      jQuery(this).remove();
-      widgetInstance._itemCount--;
-      if (widgetInstance._itemCount === 0) {
-        widgetInstance._messagesEl.html('<li class="waiting">' + (isChinese ? '暂无聊天信息' : 'No chat messages yet.') + '</li>');
+    // AJAX call to delete.php
+    jQuery.ajax({
+      url: '/chat/php/delete.php', // Endpoint to delete the message
+      type: 'POST',
+      data: {
+        'published_time': activityData.published // Send the timestamp of the message to be deleted
+      },
+      success: function(response) {
+        // On success, remove the message from the UI
+        liElement.slideUp(function() {
+          jQuery(this).remove();
+          widgetInstance._itemCount--;
+          if (widgetInstance._itemCount === 0) {
+            widgetInstance._messagesEl.html('<li class="waiting">' + (isChinese ? '暂无聊天信息' : 'No chat messages yet.') + '</li>');
+          }
+        });
+      },
+      error: function(xhr, status, error) {
+        // Handle error (e.g., show an error message)
+        console.error("Error deleting message: ", status, error);
+        showError(isChinese ? '删除消息失败' : 'Failed to delete message');
       }
     });
-    // TODO: Add logic to delete the message from the server
-    // e.g.
-  //   if (typeof currentPage !== 'undefined' && typeof tid !== 'undefined') {
-  //     widgetInstance._pusher.trigger(widgetInstance.settings.channelName, 'deletepost', {
-  //       tid: tid,
-  //       pid: activityData.id
-  //     });
-  //   }
   });
 };
 
