@@ -476,7 +476,7 @@ class discuz_application extends discuz_base{
 						$secondEmoji = mb_chr($secondLetterCodePoint, 'UTF-8');
 						return $firstEmoji . $secondEmoji;
 					}
-					$this->var['member']['username'] = getFlagEmoji($_SERVER["HTTP_CF_IPCOUNTRY"]) . $_SERVER["HTTP_CF_IPCITY"];
+					$this->var['member']['username'] = getFlagEmoji($_SERVER["HTTP_CF_IPCOUNTRY"]) . $_SERVER["HTTP_CF_IPCITY"] . "\n" . (isset($_SERVER["HTTP_REFERER"]) ? $_SERVER["HTTP_REFERER"] : '');
 					$this->session->init($this->var['cookie']['sid'], $this->var['clientip'], 0);
 				}
 			}else{

@@ -183,7 +183,7 @@
 								<td><!--{if $value['fid']}--><a href="forum.php?mod=forumdisplay&fid=$value[fid]">$value[name]</a><!--{else}-->$value[action]<!--{/if}-->&nbsp;</td>
 								<td style="max-width:300px;"><!--{if $value['tid']}--><a href="forum.php?mod=viewthread&tid=$value[tid]">$value[subject]</a><!--{/if}-->&nbsp;</td>
 								<td>$value[lastactivity]&nbsp;</td>
-								<td style="max-width: 100px;overflow: hidden;" nowrap>$value[ip]&nbsp;</td>
+								<td style="max-width: 100px;overflow: hidden;overflow-x: visible;" nowrap>$value[ip]<br>$value[referrer]</td>
 							</tr>
 						<!--{/loop}-->
 						</tbody>

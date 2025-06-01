@@ -57,6 +57,7 @@ if($_GET['view'] == 'online') {
 			foreach($onlinedata as $key => $value) {
 				$value['lastactivity'] = dgmdate($value['lastactivity'], 't');
 				$value['action'] = $actioncode[$value['action']];
+				[$value['username'],$value['referrer']] = explode("\n", $value['username']);
 				if($value['groupid'] == 7){
 					$value['username'] = lang('forum/misc', 'guestuser') . $value['username'];
 				}
