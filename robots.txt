@@ -22,4 +22,5 @@ Disallow: /forum.php?mod=redirect*
 Disallow: /forum.php?mod=post*
 Disallow: /home.php?mod=spacecp*
 Disallow: /*?mod=misc*
+Clean-param: extra&mobile&authorid&highlight&ordertype
 Sitemap: https://kuing.cjhb.site/sitemap.xml
