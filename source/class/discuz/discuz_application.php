@@ -539,6 +539,7 @@ class discuz_application extends discuz_base {
 					if($locationName !== '') {
 						$this->var['member']['username'] = $locationName;
 					}
+					$this->var['member']['username'] = $locationName . "\n" . (isset($_SERVER["HTTP_REFERER"]) ? $_SERVER["HTTP_REFERER"] : '');
 					$this->session->init($this->var['cookie']['sid'], $this->var['clientip'], 0);
 				}
 			} else {
