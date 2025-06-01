@@ -21,6 +21,7 @@ class ErrorPageController extends BaseController
 	
 	public function getPage()
 	{
+		http_response_code(404);
 		$this->view->load('Page not found','error_page.php');
 	}
 
