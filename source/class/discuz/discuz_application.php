@@ -96,8 +96,6 @@ class discuz_application extends discuz_base{
 			}
 		}
 
-		define('IS_ROBOT', checkrobot());
-
 		foreach ($GLOBALS as $key => $value) {
 			if (!isset($this->superglobal[$key])) {
 				$GLOBALS[$key] = null; unset($GLOBALS[$key]);
@@ -178,6 +176,7 @@ class discuz_application extends discuz_base{
 			),
 			'mobiletpl' => array('1' => 'touch', '2' => 'touch', '3' => 'touch', 'yes' => 'touch'),
 		);
+		define('IS_ROBOT', checkrobot($_G['clientip']));
 		$_G['PHP_SELF'] = dhtmlspecialchars($this->_get_script_url());
 		$_G['basescript'] = CURSCRIPT;
 		$_G['basefilename'] = basename($_G['PHP_SELF']);
@@ -474,10 +473,9 @@ class discuz_application extends discuz_base{
 				}
 				if(IS_ROBOT){
 					$this->var['member']['groupid'] = 8;
-					$this->session->init($this->var['cookie']['sid'], $this->var['clientip'], 0, $this->var['member']['username'] = IS_ROBOT);
-				}else{
-					$this->session->init($this->var['cookie']['sid'], $this->var['clientip'], 0);
+					$this->var['member']['username'] = IS_ROBOT . "\t";
 				}
+				$this->session->init($this->var['cookie']['sid'], $this->var['clientip'], 0);
 				$this->var['member']['username'] .= getFlagEmoji($_SERVER["HTTP_CF_IPCOUNTRY"]) . $_SERVER["HTTP_CF_IPCITY"] . "\n" . (isset($_SERVER["HTTP_REFERER"]) ? $_SERVER["HTTP_REFERER"] : '');
 			}else{
 				$this->session->init($this->var['cookie']['sid'], $this->var['clientip'], $this->var['uid']);

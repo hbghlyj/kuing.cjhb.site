@@ -22,9 +22,9 @@
 .fl_by div {width: 320px;}
 /*首页主题加宽*/
 
-#online .bm_c {
-  max-height: 192px;
-  overflow-y: scroll;
+#onlinelist>dd>ul {
+  max-height: 120px;
+  overflow-y: auto;
 }
 @media screen and (orientation: portrait) {
   #switchwidth,#diy-tg,#um p:last-child,#category_grid,.fl_i,p.xg2,#pt,#chart .y,.frame-title { display: none; }
