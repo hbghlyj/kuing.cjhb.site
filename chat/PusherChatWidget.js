@@ -310,7 +310,7 @@ PusherChatWidget.prototype._actuallyAppendMessage = function(entry, oldScrollHei
   // Scroll handling
   if (entry.isLiveMessage) {
     if (!this.isCollapsed && (this._messagesEl.scrollTop() + this._messagesEl.innerHeight() >= this._messagesEl[0].scrollHeight - entry.messageEl.outerHeight() * 1.5)) {
-      this._messagesEl.scrollTop(this._messagesEl[0].scrollHeight);
+      this._messagesEl.animate({scrollTop: this._messagesEl[0].scrollHeight}, 500);
     }
   } else if (entry.isPrepending) {
     // Restore scroll position after prepending new content
