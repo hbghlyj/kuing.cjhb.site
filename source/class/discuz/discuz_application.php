@@ -122,8 +122,6 @@ class discuz_application extends discuz_base {
 			}
 		}
 
-		define('IS_ROBOT', checkrobot());
-
 		foreach($GLOBALS as $key => $value) {
 			if(!isset($this->superglobal[$key])) {
 				$GLOBALS[$key] = null;
@@ -211,6 +209,7 @@ class discuz_application extends discuz_base {
 			],
 			'mobiletpl' => ['1' => 'touch', '2' => 'touch', '3' => 'touch', 'yes' => 'touch'],
 		];
+		define('IS_ROBOT', checkrobot($_G['clientip']));
 		$_G['PHP_SELF'] = dhtmlspecialchars($this->_get_script_url());
 		$_G['basescript'] = CURSCRIPT;
 		$_G['basefilename'] = basename($_G['PHP_SELF']);
