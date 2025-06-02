@@ -41,9 +41,7 @@ class Activity {
   
   private function set_default_options($options) {
     $defaults = array ( 'displayName' => null,
-                        'image' => array(
-                            'url' => 'http://www.gravatar.com/avatar/00000000000000000000000000000000?d=wavatar&s=24',
-                         )
+                        'image' => '/data/avatar/noavatar.svg',
                       );
     foreach ($defaults as $key => $value) {
       if(!isset($options[$key])) {

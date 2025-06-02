@@ -21,7 +21,7 @@
 .pusher-chat-widget ul.activity-stream li.message-item .screen-name{font-weight:bold;color:#333!important;}
 .pusher-chat-widget ul.activity-stream li.message-item .content{margin-left:30px;}
 .pusher-chat-widget ul.activity-stream li.message-item .text img{max-width:100%}
-.pusher-chat-widget ul.activity-stream li.message-item .text,.pusher-chat-widget textarea{padding:0;font-family:sans-serif,"Noto Colr Emoji Glyf";line-height:19px;word-wrap:break-word;}
+.pusher-chat-widget ul.activity-stream li.message-item .text,.pusher-chat-widget textarea{padding:0;font-family:Twemoji Country Flags,sans-serif,"Noto Colr Emoji Glyf";line-height:19px;word-wrap:break-word;}
 .pusher-chat-widget ul.activity-stream li.message-item .timestamp{color:#999!important;font-size:9px;float:right;}
 .pusher-chat-widget ul.activity-stream li.message-item .activity-actions{color:#999!important;font-size:9px;}
 .pusher-chat-widget ul.activity-stream li.message-item .delete-action {
