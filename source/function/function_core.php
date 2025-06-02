@@ -441,6 +441,16 @@ function checkrobot() {
 	if(str_contains($_SERVER['HTTP_USER_AGENT'], 'https://')) {
 		return $_SERVER['HTTP_USER_AGENT'];
 	}
+	// Check for missing or unusual headers
+	foreach (array('ACCEPT_LANGUAGE', 'ACCEPT_ENCODING', 'USER_AGENT', 'ACCEPT') as $header) {
+		if (strlen($_SERVER['HTTP_'.$header]) < 2) {
+			return 'Missing ' . $header;
+		}
+	}
+	// Check for unusual Accept header (e.g., very short or missing common types like text/html or */*)
+	if(strlen($_SERVER['HTTP_ACCEPT']) < 10 || (stripos($_SERVER['HTTP_ACCEPT'], 'text/html') === false && stripos($_SERVER['HTTP_ACCEPT'], '*/*') === false)) {
+		return 'UnusualAcceptHeader';
+	}
 }
 function checkmobile() {
     global $_G;
@@ -2743,6 +2753,7 @@ function dpreg_replace($pattern, $replacement, $subject, $limit = -1, &$count = 
 	}
 }
 
+<<<<<<< HEAD
 function delay_task($op, $key, $func = [], $ttl = 86400) {
 	$key = 'dzDt_'.$key;
 	switch($op) {
@@ -2895,4 +2906,3 @@ function getimportfilename($fn) {
 		return false;
 	}
 }
-
