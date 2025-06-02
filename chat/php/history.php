@@ -9,8 +9,23 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-$sql = "SELECT DATE_FORMAT(time, '%Y-%m-%dT%TZ') as ISO8601, uid, author, message FROM chat";
-$result = $conn->query($sql);
+$limit = isset($_GET['limit']) ? (int)$_GET['limit'] : 20;
+$offset = isset($_GET['offset']) ? (int)$_GET['offset'] : 0;
+
+// Get total count of messages
+$count_sql = "SELECT COUNT(*) as total FROM chat";
+$count_result = $conn->query($count_sql);
+$total_rows = 0;
+if ($count_result) {
+    $total_rows = $count_result->fetch_assoc()['total'];
+}
+
+$sql = "SELECT DATE_FORMAT(time, '%Y-%m-%dT%TZ') as ISO8601, uid, author, message FROM chat ORDER BY time DESC LIMIT ? OFFSET ?";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("ii", $limit, $offset);
+$stmt->execute();
+$result = $stmt->get_result();
+
 $rows = array();
 if ($result->num_rows > 0) {
     while($row = $result->fetch_assoc()) {
@@ -23,9 +38,15 @@ if ($result->num_rows > 0) {
             )
         );
     }
-    echo json_encode($rows);
-} else {
-    echo json_encode([]);
 }
+
+// Return messages in chronological order for display
+$response = array(
+    'messages' => array_reverse($rows), // Reverse to show oldest first within the current batch
+    'total' => (int)$total_rows
+);
+
+echo json_encode($response);
+
 $conn->close();
 ?>

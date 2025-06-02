@@ -321,6 +321,13 @@ $page = $_G['page'];
 $subforumonly = $_G['forum']['simple'] & 1;
 $simplestyle = !$_G['forum']['allowside'] || $page > 1 ? true : false;
 
+if(is_array($_G['setting']['rewritestatus']) && in_array('forum_forumdisplay', $_G['setting']['rewritestatus'])) {
+	$canonical = rewriteoutput('forum_forumdisplay', 1, '', $_G['fid'], $page, '', '');
+} else {
+	$canonical = 'forum.php?mod=forum_forumdisplay&fid='.$_G['fid'].'&page='.$page;
+}
+$_G['setting']['seohead'] .= '<link href="'.$_G['setting']['siteurl'].'/'.$canonical.'" rel="canonical" />';
+
 if($subforumonly) {
 	$_G['setting']['fastpost'] = false;
 	$_GET['orderby'] = '';
