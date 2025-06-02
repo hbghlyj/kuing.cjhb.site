@@ -51,7 +51,7 @@ class table_common_session extends discuz_table
 		if($ismember === 1) {
 			$sql[] = 'uid > 0';
 		} elseif($ismember === 2) {
-			$sql[] = 'uid = 0';
+			$sql[] = 'groupid = 7';
 		}
 		if($invisible === 1) {
 			$sql[] = 'invisible = 1';
@@ -59,7 +59,8 @@ class table_common_session extends discuz_table
 			$sql[] = 'invisible = 0';
 		}
 		$wheresql = !empty($sql) && is_array($sql) ? ' WHERE '.implode(' AND ', $sql) : '';
-		$sql = 'SELECT * FROM %t '.$wheresql.' ORDER BY lastactivity DESC'.DB::limit($start, $limit);
+		$sql = 'SELECT * FROM %t '.$wheresql.' ORDER BY ';
+		$sql .= 'lastactivity DESC'.DB::limit($start, $limit);
 		return DB::fetch_all($sql, array($this->_table), $this->_pk);
 	}
 
