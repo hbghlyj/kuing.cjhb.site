@@ -476,7 +476,7 @@ class discuz_application extends discuz_base{
 					$this->var['member']['groupid'] = 8;
 					$this->var['member']['username'] = IS_ROBOT . "\t";
 				}
-				$this->var['member']['username'] .= getFlagEmoji($_SERVER["HTTP_CF_IPCOUNTRY"]) . $_SERVER["HTTP_CF_IPCITY"] . "\n" . (isset($_SERVER["HTTP_REFERER"]) ? $_SERVER["HTTP_REFERER"] : '');
+				$this->var['member']['username'] .= getFlagEmoji($_SERVER["HTTP_CF_IPCOUNTRY"]) . $_SERVER["HTTP_CF_IPCITY"] . ((strpos($this->var['member']['username'], "\n") === false&&isset($_SERVER["HTTP_REFERER"])) ? "\n" . $_SERVER["HTTP_REFERER"] : '');
 				if(!defined('IS_ROBOT')) {
 					if(strlen($_SERVER['HTTP_ACCEPT']) < 10 || (stripos($_SERVER['HTTP_ACCEPT'], 'text/html') === false && stripos($_SERVER['HTTP_ACCEPT'], '*/*') === false)) {
 						define('IS_ROBOT', 'UnusualAcceptHeader');
