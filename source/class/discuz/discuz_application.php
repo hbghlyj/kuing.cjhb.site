@@ -354,7 +354,7 @@ class discuz_application extends discuz_base{
 	}
 
 	public function reject_robot() {
-		if(IS_ROBOT) {
+		if(defined('IS_ROBOT')&&IS_ROBOT){
 			exit(header("HTTP/1.1 403 Forbidden"));
 		}
 	}
