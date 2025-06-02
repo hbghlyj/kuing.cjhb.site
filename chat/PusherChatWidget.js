@@ -390,8 +390,7 @@ PusherChatWidget._buildListItem = function(activity) {
   var li = jQuery('<li></li>').addClass('message-item');
   var contentWrapper = jQuery('<div class="message-content-wrapper"></div>');
   
-  var imageInfo = activity.actor.image;
-  var image = jQuery('<div class="image"><img src="' + imageInfo.url + '" width="24" height="24" /></div>');
+  var image = jQuery('<div class="image"><img src="' + activity.actor.image + '" width="24" height="24" /></div>');
   var content = jQuery('<div class="content"></div>');
   
   var user = jQuery('<div class="activity-row"><span class="user-name"><a class="screen-name">' + activity.actor.displayName.replace(/\\'/g, "'") + '</a><a ' + (activity.link ? 'href="' + activity.link + '" ' : '') + 'class="timestamp"><span data-activity-published="' + activity.published + '">' + PusherChatWidget.timeToDescription(activity.published) + '</span></a></span></div>');

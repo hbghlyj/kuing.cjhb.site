@@ -19,9 +19,7 @@ if ($result->num_rows > 0) {
             'published' => $row['ISO8601'],
             'actor' => array(
                 'displayName' => $row['author'],
-                'image' => array(
-                    'url' => avatar($row['uid'], 'small', 1),
-                )
+                'image' => avatar($row['uid'], 'small', 1)
             )
         );
     }
