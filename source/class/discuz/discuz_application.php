@@ -514,34 +514,32 @@ class discuz_application extends discuz_base {
 
 		if($this->init_session) {
 			if($this->var['uid'] == 0) {
+				$getFlagEmoji = static function($countryCode) {
+					$countryCode = strtoupper((string)$countryCode);
+					if ($countryCode === 'XX') {
+						return '🌐';
+					} elseif ($countryCode === 'T1') {
+						return '🧅';
+					} elseif (!preg_match('/^[A-Z]{2}$/', $countryCode)) {
+						return '';
+					}
+					$baseCodePoint = 0x1F1E6;
+					$firstLetterCodePoint = $baseCodePoint + (ord($countryCode[0]) - ord('A'));
+					$secondLetterCodePoint = $baseCodePoint + (ord($countryCode[1]) - ord('A'));
+					return mb_chr($firstLetterCodePoint, 'UTF-8') . mb_chr($secondLetterCodePoint, 'UTF-8');
+				};
+				$countryCode = $_SERVER['HTTP_CF_IPCOUNTRY'] ?? '';
+				$city = trim((string)($_SERVER['HTTP_CF_IPCITY'] ?? ''));
+				$flag = $getFlagEmoji($countryCode);
+				$locationName = trim($flag.' '.$city);
+				$referrer = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '';
 				if(IS_ROBOT){
 					$this->var['member']['groupid'] = 8;
 					$this->session->init($this->var['cookie']['sid'], $this->var['clientip'], 0, $this->var['member']['username'] = IS_ROBOT);
 				} else {
-					$getFlagEmoji = static function($countryCode) {
-						$countryCode = strtoupper((string)$countryCode);
-						if ($countryCode === 'XX') {
-							return '🌐';
-						} elseif ($countryCode === 'T1') {
-							return '🧅';
-						} elseif (!preg_match('/^[A-Z]{2}$/', $countryCode)) {
-							return '';
-						}
-						$baseCodePoint = 0x1F1E6;
-						$firstLetterCodePoint = $baseCodePoint + (ord($countryCode[0]) - ord('A'));
-						$secondLetterCodePoint = $baseCodePoint + (ord($countryCode[1]) - ord('A'));
-						return mb_chr($firstLetterCodePoint, 'UTF-8') . mb_chr($secondLetterCodePoint, 'UTF-8');
-					};
-					$countryCode = $_SERVER['HTTP_CF_IPCOUNTRY'] ?? '';
-					$city = trim((string)($_SERVER['HTTP_CF_IPCITY'] ?? ''));
-					$flag = $getFlagEmoji($countryCode);
-					$locationName = trim($flag.' '.$city);
-					if($locationName !== '') {
-						$this->var['member']['username'] = $locationName;
-					}
-					$this->var['member']['username'] = $locationName . "\n" . (isset($_SERVER["HTTP_REFERER"]) ? $_SERVER["HTTP_REFERER"] : '');
 					$this->session->init($this->var['cookie']['sid'], $this->var['clientip'], 0);
 				}
+				$this->var['member']['username'] .= $locationName . "\n" . $referrer;
 			} else {
 				$this->session->init($this->var['cookie']['sid'], $this->var['clientip'], $this->var['uid']);
 			}
