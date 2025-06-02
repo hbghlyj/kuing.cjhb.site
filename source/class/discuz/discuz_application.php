@@ -451,34 +451,34 @@ class discuz_application extends discuz_base{
 
 		if($this->init_session)	{
 			if($this->var['uid']==0) {
+				function getFlagEmoji($countryCode) {
+					// Validate input: must be exactly 2 letters
+					if (strlen($countryCode) !== 2) {
+						return null;
+					}
+					// Handle Cloudflare special https://developers.cloudflare.com/fundamentals/reference/http-headers/#cf-ipcountry
+					if ($countryCode === 'XX') {
+						return '🌐'; // Globe emoji for unspecified country
+					} elseif ($countryCode === 'T1') {
+						return '🧅'; // Onion emoji for Tor network
+					}
+					// The regional indicator symbols start at the Unicode codepoint U+1F1E6
+					$baseCodePoint = 0x1F1E6;
+					// Calculate the code points for each of the two letters
+					$firstLetterCodePoint = $baseCodePoint + (ord($countryCode[0]) - ord('A'));
+					$secondLetterCodePoint = $baseCodePoint + (ord($countryCode[1]) - ord('A'));
+					// Convert the code points into UTF-8 characters
+					$firstEmoji = mb_chr($firstLetterCodePoint, 'UTF-8');
+					$secondEmoji = mb_chr($secondLetterCodePoint, 'UTF-8');
+					return $firstEmoji . $secondEmoji;
+				}
 				if(IS_ROBOT){
 					$this->var['member']['groupid'] = 8;
 					$this->session->init($this->var['cookie']['sid'], $this->var['clientip'], 0, $this->var['member']['username'] = IS_ROBOT);
 				}else{
-					function getFlagEmoji($countryCode) {
-						// Validate input: must be exactly 2 letters
-						if (strlen($countryCode) !== 2) {
-							return null;
-						}
-						// Handle Cloudflare special https://developers.cloudflare.com/fundamentals/reference/http-headers/#cf-ipcountry
-						if ($countryCode === 'XX') {
-							return '🌐'; // Globe emoji for unspecified country
-						} elseif ($countryCode === 'T1') {
-							return '🧅'; // Onion emoji for Tor network
-						}
-						// The regional indicator symbols start at the Unicode codepoint U+1F1E6
-						$baseCodePoint = 0x1F1E6;
-						// Calculate the code points for each of the two letters
-						$firstLetterCodePoint = $baseCodePoint + (ord($countryCode[0]) - ord('A'));
-						$secondLetterCodePoint = $baseCodePoint + (ord($countryCode[1]) - ord('A'));
-						// Convert the code points into UTF-8 characters
-						$firstEmoji = mb_chr($firstLetterCodePoint, 'UTF-8');
-						$secondEmoji = mb_chr($secondLetterCodePoint, 'UTF-8');
-						return $firstEmoji . $secondEmoji;
-					}
-					$this->var['member']['username'] = getFlagEmoji($_SERVER["HTTP_CF_IPCOUNTRY"]) . $_SERVER["HTTP_CF_IPCITY"] . "\n" . (isset($_SERVER["HTTP_REFERER"]) ? $_SERVER["HTTP_REFERER"] : '');
 					$this->session->init($this->var['cookie']['sid'], $this->var['clientip'], 0);
 				}
+				$this->var['member']['username'] .= getFlagEmoji($_SERVER["HTTP_CF_IPCOUNTRY"]) . $_SERVER["HTTP_CF_IPCITY"] . "\n" . (isset($_SERVER["HTTP_REFERER"]) ? $_SERVER["HTTP_REFERER"] : '');
 			}else{
 				$this->session->init($this->var['cookie']['sid'], $this->var['clientip'], $this->var['uid']);
 			}
