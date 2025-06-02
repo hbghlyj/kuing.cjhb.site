@@ -163,7 +163,7 @@ if(is_array($_G['setting']['rewritestatus']) && in_array('forum_viewthread', $_G
 } else {
 	$canonical = 'forum.php?mod=viewthread&tid='.$_G['tid'].'&page='.$page;
 }
-$_G['setting']['seohead'] .= '<link href="'.$_G['siteurl'].$canonical.'" rel="canonical" />';
+$_G['setting']['seohead'] .= '<link href="'.$_G['setting']['siteurl'].'/'.$canonical.'" rel="canonical" />';
 
 $_G['forum_tagscript'] = '';
 

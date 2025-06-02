@@ -1,7 +1,7 @@
 (function(){
 const isChinese = navigator.languages && navigator.languages.some(lang => ['zh', 'zh-CN', 'zh-TW', 'zh-HK', 'zh-SG'].includes(lang));
-const isMobile = location.search.startsWith('?mod=find');
-if(typeof popup !== 'undefined') {
+const isMobile = typeof popup == 'object';
+if(isMobile) {
   function showError(msg) {
     popup.open(msg, 'alert');
   };
@@ -26,16 +26,16 @@ function PusherChatWidget(pusher, options) {
   
   options = options || {};
   this.settings = jQuery.extend({
-    chatEndPoint: '/chat/php/chat.php', // the end point where chat messages should be sanitized and then triggered
-    channelName: 'Chat', // the name of the channel the chat will take place on
-    appendTo: document.body, // A jQuery selector or object. Defines where the element should be appended to
-    debug: true
+    chatEndPoint: '/chat/php/chat.php',    channelName: 'Chat',    appendTo: document.body,    debug: true
   }, options);
 
   this._itemCount = 0;
+  this._totalMessages = 0; // To store the total number of messages available on the server
+  this._messagesLoaded = 0; // To track how many messages have been loaded
   this._widget = PusherChatWidget._createHTML(this.settings.appendTo);
   this._messageInputEl = this._widget.find('textarea');
   this._messagesEl = this._widget.find('ul');
+  this._loadMoreButton = this._widget.find('.pusher-chat-widget-load-more');
 
   // Subscribe to the chat channel
   this._chatChannel = this._pusher.subscribe(this.settings.channelName);
@@ -111,7 +111,7 @@ function PusherChatWidget(pusher, options) {
       self._widget.find('.pusher-chat-widget-header').one('click', function() {
         self._widget.find('.pusher-chat-widget-messages').slideToggle();
         self._widget.find('.pusher-chat-widget-input').slideToggle();
-        document.cookie = "isCollapsed=false; path=/forum.php";
+        document.cookie = "isCollapsed=false; path=" + location.pathname;
         self.isCollapsed = false;
         self._widget.find('.toggle-icon').html('<path d="M7 10l5 5 5-5z"/>');
         self._init();
@@ -126,32 +126,11 @@ PusherChatWidget.instances = [];
 /* @private */
 PusherChatWidget.prototype._init = function() {
   var self = this;
-  // Fetch history messages
-  jQuery.ajax({
-    url: '/chat/php/history.php',
-    type: 'get',
-    dataType: 'json',
-    success: function(data) {
-      data.forEach(function(message) {
-        // Pass false for isLiveMessage for history messages
-        self._chatMessageReceived(message, false);
-      });
-      // Process the queue and scroll to bottom when all history messages are rendered
-      self._processPendingMessages(function() {
-        if (self._messagesEl.children().length > 0 && self._pendingMessages.length === 0) {
-          self._messagesEl.scrollTop(self._messagesEl.prop("scrollHeight"));
-        }
-      });
-    },
-    error: function(xhr, status, error) {
-      self._messagesEl.html('<li class="error">' + (isChinese ? '无法获取聊天历史:' : 'Failed to fetch chat history:') + error + '</li>');
-    }
-  });
+  this._loadHistory(); // Initial load of messages
   
   this._chatChannel.bind('chat_message', function(data) {
-    // Pass true for isLiveMessage for new messages
-    self._chatMessageReceived(data, true);
-    // Scrolling is now handled in _actuallyAppendMessage for live messages
+    self._chatMessageReceived(data, true /* isLiveMessage */);
+    self._processPendingMessages();
   });
   
   // Toggle collapse/expand status
@@ -171,115 +150,174 @@ PusherChatWidget.prototype._init = function() {
   });
   // Shortcut Ctrl+Enter to send message
   this._messageInputEl.keydown(function(e) {
-    if (e.ctrlKey && e.keyCode === 13) {
+    if (e.ctrlKey && e.keyCode == 13) {
       self._sendChatButtonClicked();
     }
   });
   // Update the UI with the current time every 10 seconds
   this._startTimeMonitor();
-}
+
+  // Load more messages button functionality
+  this._loadMoreButton.click(function() {
+    self._loadHistory(true);
+  });
+};
+
+/* @private */
+// NEW: Method to load message history with pagination
+PusherChatWidget.prototype._loadHistory = function(isLoadingMore) {
+  var self = this;
+
+  // Show loading indicator on button if loading more
+  if (isLoadingMore) {
+    self._loadMoreButton.text(isChinese ? '加载中...' : 'Loading...').prop('disabled', true);
+  }
+
+  jQuery.ajax({
+    url: '/chat/php/history.php',
+    type: 'get',
+    dataType: 'json',
+    data: {
+      offset: self._messagesLoaded
+    },
+    success: function(response) {
+      var data = response.messages;
+      self._totalMessages = response.total;
+
+      if (data && data.length > 0) {
+        // Add messages to the queue, ensuring they are added at the beginning if loading more
+        for (var i = 0; i < data.length; ++i) {
+          self._chatMessageReceived(data[i], false /* isLiveMessage */, isLoadingMore /* isPrepending */);
+        }
+        // Scroll to bottom for initial load, or maintain position for load more
+        if (!isLoadingMore) {
+          self._onQueueDrainedCallback = function() {
+            self._messagesEl.scrollTop(self._messagesEl[0].scrollHeight);
+            self._onQueueDrainedCallback = null; // Reset callback
+          };
+        }
+        self._processPendingMessages();
+        self._messagesLoaded += data.length;
+        // Update load more button state
+        if (self._messagesLoaded >= self._totalMessages) {
+          self._loadMoreButton.hide();
+        } else {
+          self._loadMoreButton.show().text(isChinese ? '加载更多' : 'Load More').prop('disabled', false);
+        }
+      } else if (!isLoadingMore) {
+        // No messages at all
+        self._loadMoreButton.hide();
+      }
+
+    },
+    error: function(xhr, status, error) {
+      if (self.settings.debug && window.console) {
+        console.log("Error fetching history:", status, error);
+      }
+      if (isLoadingMore) {
+        self._loadMoreButton.text(isChinese ? '加载失败' : 'Failed to load').prop('disabled', false);
+      }
+    }
+  });
+};
 
 /* @private */
 // MODIFIED: This function now adds messages to a queue.
-PusherChatWidget.prototype._chatMessageReceived = function(data, isLiveMessage) {
+PusherChatWidget.prototype._chatMessageReceived = function(data, isLiveMessage, isPrepending) {
   var messageEl = PusherChatWidget._buildListItem(data);
-  this._pendingMessages.push({ 
-    data: data, // Keep original data for swipe handlers etc.
-    messageEl: messageEl, 
-    isLiveMessage: isLiveMessage 
-  });
-  this._processPendingMessages();
+  var entry = { 
+    data: data,    messageEl: messageEl, 
+    isLiveMessage: isLiveMessage,
+    isPrepending: isPrepending || false // New flag
+  };
+  if (isPrepending) {
+    this._pendingMessages.unshift(entry); // Add to the beginning for older messages
+  } else {
+    this._pendingMessages.push(entry);
+  }
 };
 
 /* @private */
 // NEW: Processes messages from the queue one by one.
-PusherChatWidget.prototype._processPendingMessages = function(optionalOnQueueDrainedCallback) {
+PusherChatWidget.prototype._processPendingMessages = function() {
   var self = this;
-
-  if (optionalOnQueueDrainedCallback) {
-    this._onQueueDrainedCallback = optionalOnQueueDrainedCallback;
-  }
+  var oldScrollHeight = 0;
+  var oldScrollTop = 0;
 
   if (this._isProcessingPendingMessages) {
-    return; // Already processing, new items will be picked up in order
+    return;
   }
 
   if (this._pendingMessages.length === 0) {
-    this._isProcessingPendingMessages = false; // Ensure it's false
-    if (this._onQueueDrainedCallback) {
-      const cb = this._onQueueDrainedCallback;
-      delete this._onQueueDrainedCallback; // Consume the callback
-      cb();
+    if (this._onQueueDrainedCallback && this._chatMessageReceived) {
+      this._onQueueDrainedCallback();
     }
-    return; // Nothing to process
+    return;
   }
 
   this._isProcessingPendingMessages = true;
   
-  let currentEntry = this._pendingMessages[0]; // Peek at the first message
-  let messageEl = currentEntry.messageEl;
+  let currentEntry = this._pendingMessages[0];  let messageEl = currentEntry.messageEl;
   let imagesInMessage = messageEl.find('img');
 
+  // Store scroll position if prepending to restore it later
+  if (currentEntry.isPrepending) {
+    oldScrollHeight = this._messagesEl[0].scrollHeight;
+    oldScrollTop = this._messagesEl.scrollTop();
+  }
+
   if (imagesInMessage.length === 0) {
-    // No images, proceed to append
-    this._actuallyAppendMessage(currentEntry);
+    this._actuallyAppendMessage(currentEntry, oldScrollHeight, oldScrollTop);
   } else {
-    // Images found, wait for them to load/error
-    let imagesToLoadCount = imagesInMessage.length;
-    
+    var loadedCount = 0;
     imagesInMessage.each(function() {
-      let originalImgElement = this; // The <img> element within messageEl
-      let tempImg = new Image(); // Use a temporary Image object for reliable events
-
-      const imageHandledCallback = function() {
-        // Unbind to prevent multiple calls
-        jQuery(tempImg).off('load error', imageHandledCallback);
-        
-        imagesToLoadCount--;
-        if (imagesToLoadCount === 0) {
-          // All images in this message have been handled (loaded or errored)
-          self._actuallyAppendMessage(currentEntry);
+      jQuery(this).on('load error', function() {
+        loadedCount++;
+        if (loadedCount === imagesInMessage.length) {
+          self._actuallyAppendMessage(currentEntry, oldScrollHeight, oldScrollTop);
         }
-      };
-
-      jQuery(tempImg).on('load error', imageHandledCallback);
-      tempImg.src = originalImgElement.src; // Set src to trigger load/error
-
-      // If the image is already complete (e.g. cached or broken),
-      // the browser might fire the event synchronously or very quickly.
-      // The handlers should still capture this.
+      });
+      // If an image is already loaded (e.g. from cache), trigger the load event manually
+      if (this.complete || this.naturalWidth > 0) {
+        jQuery(this).trigger('load');
+      }
     });
   }
 };
 
 /* @private */
 // NEW: Handles the actual DOM appending and post-processing logic.
-PusherChatWidget.prototype._actuallyAppendMessage = function(entry) {
-  this._pendingMessages.shift(); // Remove the processed message from the queue
-
-  if (this._itemCount === 0) {
-    this._messagesEl.html(''); // Clear "No chat messages yet"
+PusherChatWidget.prototype._actuallyAppendMessage = function(entry, oldScrollHeight, oldScrollTop) {
+  this._pendingMessages.shift();
+  if (entry.isPrepending) {
+    entry.messageEl.insertAfter(this._loadMoreButton); // Prepend for older messages
+  } else {
+    this._messagesEl.append(entry.messageEl);
   }
-  
-  this._messagesEl.append(entry.messageEl);
 
   if (isMobile) {
-    // Pass original data's published timestamp for swipe to delete
     this._addSwipeToDeleteHandlers(entry.messageEl, entry.data.published);
   }
 
   if (typeof MathJax.typesetPromise === 'function') {
-    MathJax.typesetPromise([entry.messageEl.find('.text').get(0)]);
+    MathJax.typesetPromise([entry.messageEl[0]]).catch(function (err) {
+      console.error('MathJax typesetting error:', err);
+    });
   }
   
   ++this._itemCount;
 
   // Scroll handling
   if (entry.isLiveMessage) {
-    // Animate scroll for new "live" messages
-    this._messagesEl.animate({scrollTop: this._messagesEl.prop("scrollHeight")}, 500);
+    if (!this.isCollapsed && (this._messagesEl.scrollTop() + this._messagesEl.innerHeight() >= this._messagesEl[0].scrollHeight - entry.messageEl.outerHeight() * 1.5)) {
+      this._messagesEl.scrollTop(this._messagesEl[0].scrollHeight);
+    }
+  } else if (entry.isPrepending) {
+    // Restore scroll position after prepending new content
+    var newScrollHeight = this._messagesEl[0].scrollHeight;
+    this._messagesEl.scrollTop(oldScrollTop + (newScrollHeight - oldScrollHeight));
   }
-  // For history, scrolling is handled by the _onQueueDrainedCallback after all are processed.
+  // For initial history load, scrolling is handled by the _onQueueDrainedCallback after all are processed.
   
   this._isProcessingPendingMessages = false;
   // Process the next message in the queue, or trigger drained callback if empty
@@ -356,24 +394,21 @@ PusherChatWidget.prototype._startTimeMonitor = function() {
 
 /* @private */
 PusherChatWidget._createHTML = function(appendTo) {
-  var html = '' +
-  '<div class="pusher-chat-widget">' +
+  var html = '<div class="pusher-chat-widget">' +
   (isMobile ? '' :(
     '<div class="pusher-chat-widget-header">' +
-      '<svg class="toggle-icon" width="24" height="24" viewBox="0 0 24 24">' +
-        '<path d="M7 10l5 5 5-5z"/>' + // Downward triangle
-      '</svg>' +
+      '<svg class="toggle-icon" width="24" height="24" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg>' +
     '</div>')) +
     '<div class="pusher-chat-widget-messages">' +
       '<ul class="activity-stream">' +
-        '<li class="waiting">' +
-          (isChinese ? '暂无聊天信息' : 'No chat messages yet.') +       
+        '<li class="pusher-chat-widget-load-more" style="display:none;">' + // Initially hidden
+          (isChinese ? '加载更多' : 'Load More') +
         '</li>' +
       '</ul>' +
     '</div>' +
     '<div class="pusher-chat-widget-input">' +
       '<label for="message"></label>' +
-      '<textarea name="message"></textarea>' +
+      '<textarea id="message"></textarea>' +
       '<button class="pusher-chat-widget-send-btn" disabled>' +
         (isChinese ? '发送' : 'Send') +
       '</button>' +
@@ -457,9 +492,6 @@ PusherChatWidget.prototype._addSwipeToDeleteHandlers = function(liElement, publi
         liElement.slideUp(function() {
           jQuery(this).remove();
           widgetInstance._itemCount--;
-          if (widgetInstance._itemCount === 0) {
-            widgetInstance._messagesEl.html('<li class="waiting">' + (isChinese ? '暂无聊天信息' : 'No chat messages yet.') + '</li>');
-          }
         });
       },
       error: function(xhr, status, error) {

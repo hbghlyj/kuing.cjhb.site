@@ -413,7 +413,11 @@ if($gid && !empty($catlist)) {
 		$nobbname = true;
 	}
 	$_G['fid'] = $gid;
+	$canonical = 'forum.php?gid='.$gid;
+}else{
+	$canonical = '';
 }
+$_G['setting']['seohead'] .= '<link href="'.$_G['setting']['siteurl'].'/'.$canonical.'" rel="canonical" />';
 
 include template('diy:forum/discuz:'.$gid);
 
