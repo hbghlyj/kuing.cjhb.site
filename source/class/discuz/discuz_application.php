@@ -200,7 +200,6 @@ class discuz_application extends discuz_base {
 			],
 
 			'mobile' => '',
-<<<<<<< HEAD
 			'notice_structure' => [
 				'mypost' => ['post', 'rate', 'pcomment', 'activity', 'reward', 'goods', 'at'],
 				'interactive' => ['poke', 'friend', 'wall', 'comment', 'click', 'sharenotice'],
@@ -210,18 +209,7 @@ class discuz_application extends discuz_base {
 			],
 			'mobiletpl' => ['1' => 'touch', '2' => 'touch', '3' => 'touch', 'yes' => 'touch'],
 		];
-=======
-			'notice_structure' => array(
-				'mypost' => array('post','rate','pcomment','activity','reward','goods','at'),
-				'interactive' => array('poke','friend','wall','comment','click','sharenotice'),
-				'system' => array('system','credit','group','verify','magic','task','show','group','pusearticle','mod_member','blog','article'),
-				'manage' => array('mod_member','report','pmreport'),
-				'app' => array(),
-			),
-			'mobiletpl' => array('1' => 'touch', '2' => 'touch', '3' => 'touch', 'yes' => 'touch'),
-		);
 		define('IS_ROBOT', checkrobot($_G['clientip']));
->>>>>>> 52f8bc956 (Site slow due to mass scraping / DDOS from Alibaba Singapore datacenter https://www.secretprojects.co.uk/threads/site-slow-due-to-mass-scraping-ddos-from-alibaba-singapore-datacenter.46205/)
 		$_G['PHP_SELF'] = dhtmlspecialchars($this->_get_script_url());
 		$_G['basescript'] = CURSCRIPT;
 		$_G['basefilename'] = basename($_G['PHP_SELF']);

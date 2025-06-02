@@ -83,7 +83,9 @@ Created & Modified by Alice, Monkey, Lushnis, Pony, Dfox & DragonLee.
 			#anc i { font-style: italic; }
 
 /* 在线会员列表 */
-	.oll li { float: left; overflow: hidden; white-space: nowrap; width: 19.9%; height: 24px; line-height: 24px; overflow-x: visible; scrollbar-width: none; }
+	.oll li { float: left; overflow: hidden; white-space: nowrap; width: 19.9%; height: 24px; line-height: 24px; }
+		.oll li:hover {overflow: visible;}	
+		.oll li:hover>span { position: relative; background: #fff; background-color: #EBF5F6; border: solid 1px #C5E6DF; padding-right: 5px;}
 		.oll img { vertical-align: middle; }
 
 /* 论坛首页热点 by Pony */

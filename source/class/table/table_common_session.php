@@ -57,7 +57,7 @@ class table_common_session extends discuz_table {
 		if($ismember === 1) {
 			$sql[] = 'uid > 0';
 		} elseif($ismember === 2) {
-			$sql[] = 'uid = 0';
+			$sql[] = 'groupid = 7';
 		}
 		if($invisible === 1) {
 			$sql[] = 'invisible = 1';

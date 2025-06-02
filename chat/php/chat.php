@@ -20,7 +20,7 @@ if( !isset($_POST['chat_info']) ){
 }
 if(empty($_G['uid'])) {
   $_G['uid'] = 0;
-  $_G['username'] = $_G['member']['username'].' '.$_SERVER['REMOTE_ADDR'];
+  $_G['username'] = explode("\n",$_G['member']['username'])[0].' '.$_SERVER['REMOTE_ADDR'];
 }
 
 $options = array();
