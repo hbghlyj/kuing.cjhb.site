@@ -530,7 +530,7 @@
 				<dl id="onlinelist" class="bm_c">
 					<ul style="text-transform: capitalize" class="cl ptm pbm bbda">$_G[cache][onlinelist][legend]</ul>
 					<!--{if $detailstatus}-->
-						<dd class="ptm pbm">
+						<dd class="ptm pbm cl">
 						<ul>
 						<!--{if $whosonline}-->
 							<!--{loop $whosonline $key $online}-->
@@ -538,7 +538,7 @@
 								<span><!--{if $online['uid']}--><a href="home.php?mod=space&uid=$online[uid]"><!--{/if}-->
 								<img src="$online['icon']" alt="icon" />
 								<!--{if $online['uid']}--></a><!--{/if}-->
-								<!--{if $online['tid']}--><a href="https://kuing.cjhb.site/forum.php?mod=redirect&tid=$online[tid]&goto=lastpost#newpost">$online[username]</a><!--{else}-->$online[username]<!--{/if}--></span>
+								<!--{if $online['tid']}--><a href="forum.php?mod=redirect&tid=$online[tid]&goto=lastpost#newpost">$online[username]</a><!--{else}-->$online[username]<!--{/if}--></span>
 								</li>
 							<!--{/loop}-->
 						<!--{else}-->
