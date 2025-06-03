@@ -211,9 +211,7 @@ PusherChatWidget.prototype._loadHistory = function(isLoadingMore) {
 
     },
     error: function(xhr, status, error) {
-      if (self.settings.debug && window.console) {
-        console.log("Error fetching history:", status, error);
-      }
+      showError("Error fetching history:"+status+error);
       if (isLoadingMore) {
         self._loadMoreButton.text(isChinese ? '加载失败' : 'Failed to load').prop('disabled', false);
       }
@@ -301,7 +299,7 @@ PusherChatWidget.prototype._actuallyAppendMessage = function(entry, oldScrollHei
 
   if (typeof MathJax.typesetPromise === 'function') {
     MathJax.typesetPromise([entry.messageEl[0]]).catch(function (err) {
-      console.error('MathJax typesetting error:', err);
+      showError('MathJax typesetting error:'+err);
     });
   }
   
@@ -496,8 +494,7 @@ PusherChatWidget.prototype._addSwipeToDeleteHandlers = function(liElement, publi
       },
       error: function(xhr, status, error) {
         // Handle error (e.g., show an error message)
-        console.error("Error deleting message: ", status, error);
-        showError(isChinese ? '删除消息失败' : 'Failed to delete message');
+        showError((isChinese ? '删除消息失败' : "Error deleting message: ")+status+error);
       }
     });
   });
