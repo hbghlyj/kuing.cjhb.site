@@ -376,62 +376,11 @@ function checkrobot($client_ip) {
 		define('IS_ROBOT', 'UnusualAcceptLanguageHeader');
 	}elseif(strlen($_SERVER['HTTP_ACCEPT_ENCODING']) < 2){
 		define('IS_ROBOT', 'UnusualAcceptEncodingHeader');
-	}elseif($_SERVER['REQUEST_METHOD'] != 'POST'&&empty($_GET['inajax']) && !issecFetchModeCorrectlySet()) {
+	}elseif($_SERVER['REQUEST_METHOD'] != 'POST'&&empty($_GET['inajax']) && $_SERVER['HTTP_SEC_FETCH_MODE'] != 'navigate') {
 		define('IS_ROBOT', 'UnusualsecFetchModeHeader');
 	}else{
 		define('IS_ROBOT', false);
 	}
-}
-function issecFetchModeCorrectlySet() {
-    $secFetchMode = $_SERVER['HTTP_SEC_FETCH_MODE'] ?? null;
-    $userAgent = $_SERVER['HTTP_USER_AGENT'] ?? '';
-
-    // 1. Check for Sec-Fetch-User header
-    $secFetchModeIsCorrect = ($secFetchMode === 'navigate');
-
-    // 2. Identify Safari browser and extract version
-    $isSafari = false;
-    $safariVersion = null;
-
-    // Regex to capture Safari version.
-    // It looks for 'Version/X.Y.Z' followed by either 'Safari/' or 'Mobile/... Safari/'.
-    // The (?:\s+Mobile\/\S+)? makes the ' Mobile/...' part optional.
-    if (preg_match('/Version\/(\d+\.\d+(?:\.\d+)?)(?:\s+Mobile\/\S+)?\s+Safari\//i', $userAgent, $safariMatches)) {
-        // Double-check to ensure it's not a Chrome/Chromium-based browser masquerading
-        // Chrome/Chromium often contains 'Safari' in UA, but usually 'Chrome' or 'CriOS' will be present too.
-        // Also exclude other non-Safari browsers like Edge and Firefox that might have 'Safari' for compatibility.
-        if (!preg_match('/Chrome|CriOS|Edg|Firefox|Opera|OPR\//i', $userAgent)) {
-            $isSafari = true;
-            $safariVersion = $safariMatches[1];
-        }
-    }
-
-    // 3. Apply exemption logic for Safari 13.1.2 up to 16.3
-    $exemptSafari = false;
-    if ($isSafari && $safariVersion !== null) {
-        // Convert version strings to comparable numbers (e.g., 13.1.2 becomes 13001002)
-        // This is a common way to compare version strings numerically, ensuring correct ordering.
-        $versionParts = array_map('intval', explode('.', $safariVersion));
-        $major = $versionParts[0] ?? 0;
-        $minor = $versionParts[1] ?? 0;
-        $patch = $versionParts[2] ?? 0; // Patch version might be missing, default to 0
-        $currentSafariVersionNumeric = $major * 1000000 + $minor * 1000 + $patch;
-
-        // Define the exemption range (13.1.2 to 16.3)
-        // 13.1.2 -> 13001002
-        // 16.3.0 -> 16003000
-        $minExemptVersionNumeric = 13001002;
-        $maxExemptVersionNumeric = 16003000;
-
-        if ($currentSafariVersionNumeric >= $minExemptVersionNumeric && $currentSafariVersionNumeric <= $maxExemptVersionNumeric) {
-            $exemptSafari = true;
-        }
-    }
-
-    if ($exemptSafari || $secFetchModeIsCorrect) {
-        return true;
-    }
-	return false;
 }
 
 function checkmobile() {
