@@ -1030,9 +1030,6 @@ function dgmdate($timestamp, $format = 'dt', $timeoffset = 9999, $uformat = '') 
 			} else {
 				$return = $s;
 			}
-			if($time >=0 && !defined('IN_MOBILE')) {
-				$return = '<span title="'.$s.'">'.$return.'</span>';
-			}
 		} elseif(($days = intval(($todaytimestamp - $timestamp) / 86400)) >= 0 && $days < 7) {
 			if($days == 0) {
 				$return = $lang['yday'].'&nbsp;'.gmdate($tformat, $timestamp);
@@ -1040,9 +1037,6 @@ function dgmdate($timestamp, $format = 'dt', $timeoffset = 9999, $uformat = '') 
 				$return = $lang['byday'].'&nbsp;'.gmdate($tformat, $timestamp);
 			} else {
 				$return = ($days + 1).'&nbsp;'.$lang['day'].$lang['before'];
-			}
-			if(!defined('IN_MOBILE')) {
-				$return = '<span title="'.$s.'">'.$return.'</span>';
 			}
 		} else {
 			$return = $s;

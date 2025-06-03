@@ -339,7 +339,7 @@ if(!$gid && (!defined('FORUM_INDEX_PAGE_MEMORY') || !FORUM_INDEX_PAGE_MEMORY)) {
 				} else {
 					$online['icon'] = !empty($_G['cache']['onlinelist'][$online['groupid']]) ? $_G['cache']['onlinelist'][$online['groupid']] : $_G['cache']['onlinelist'][0];
 					$online['action'] = $actioncode[$online['action']];
-					$online['lastactivity'] = dgmdate($online['lastactivity'], 't');
+					$online['lastactivity'] = dgmdate($online['lastactivity'],'u');
 					$whosonline[] = $online;
 				}
 			}
@@ -347,7 +347,7 @@ if(!$gid && (!defined('FORUM_INDEX_PAGE_MEMORY') || !FORUM_INDEX_PAGE_MEMORY)) {
 				$guestcount ++;
 				$online['icon'] = $_G['cache']['onlinelist'][$online['groupid']];
 				$online['action'] = $actioncode[$online['action']];
-				$online['lastactivity'] = dgmdate($online['lastactivity'], 't');
+				$online['lastactivity'] = dgmdate($online['lastactivity'],'u');
 				$whosonline[] = $online;
 			}
 			unset($actioncode);
