@@ -55,7 +55,7 @@ class discuz_session {
 
 	public function init($sid, $ip, $uid) {
 		$this->old = array('sid' =>  $sid, 'ip' =>  $ip, 'uid' =>  $uid);
-		$session = strpos(IS_ROBOT,"\t") ? DB::fetch_first('SELECT * FROM %t WHERE groupid=8 AND username LIKE %s', array('common_session', IS_ROBOT.'%')) : ($sid ? $this->table->fetch($sid,$ip,$uid) : array());
+		$session = strpos(IS_ROBOT,"\t") ? DB::fetch_first('SELECT * FROM %t WHERE groupid=8 AND username LIKE %s', array('common_session', IS_ROBOT.'%')) : ($sid ? $this->table->fetch_session($sid,$ip,$uid) : array());
 		if(empty($session) || $session['uid'] != $uid) {
 			$session = $this->create($ip, $uid);
 		}
