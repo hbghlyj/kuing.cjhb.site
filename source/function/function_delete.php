@@ -750,7 +750,7 @@ function deletepics($picids) {
 	if($sizes) {
 		foreach ($sizes as $uid => $setarr) {
 			$attachsize = intval($sizes[$uid]);
-			updatemembercount($uid, array('todayattachs' => -1,'todayattachsize' => -$attachsize,'attachsize' => -$attachsize), false);
+			updatemembercount($uid, array('todayattachs' => -1, 'todayattachsize' => -$attachsize, 'attachsize' => -$attachsize), false);
 		}
 	}
 

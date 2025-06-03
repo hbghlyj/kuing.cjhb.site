@@ -442,7 +442,7 @@ function keyMenu(code, func) {
 	var km = 'kM' + Math.random();
 	var hs = '<span id="' + km + '">' + code + '</span>';
 	if(BROWSER.ie) {
-		var range = document.selection.createRange();
+		var range = window.getSelection().createRange();
 		range.pasteHTML(hs);
 		range.moveToElementText(editdoc.getElementById(km));
 		range.moveStart("character");
@@ -991,7 +991,7 @@ function showEditorMenu(tag, params) {
 	var menutype = 'menu';
 
 	try {
-		sel = wysiwyg ? editdoc.selection.createRange() : document.selection.createRange();
+		sel = wysiwyg ? editdoc.selection.createRange() : window.getSelection().createRange();
 		selection = wysiwyg ? sel.htmlText : sel.text;
 	} catch(e) {
 		if (wysiwyg) {
@@ -1390,7 +1390,7 @@ function showEditorMenu(tag, params) {
 function autoTypeset() {
 	var sel;
 	if(BROWSER.ie) {
-		sel = wysiwyg ? editdoc.selection.createRange() : document.selection.createRange();
+		sel = wysiwyg ? editdoc.selection.createRange() : window.getSelection().createRange();
 	}
 	var selection = sel ? (wysiwyg ? sel.htmlText.replace(/<\/?p>/ig, '<br />') : sel.text) : getSel();
 	selection = trim(selection);
@@ -1427,8 +1427,8 @@ function getSel() {
 	} else {
 		if(!isUndefined(editdoc.selectionStart)) {
 			return editdoc.value.substr(editdoc.selectionStart, editdoc.selectionEnd - editdoc.selectionStart);
-		} else if(document.selection && document.selection.createRange) {
-			return document.selection.createRange().text;
+		} else if(window.getSelection() && window.getSelection().createRange) {
+			return window.getSelection().createRange().text;
 		} else if(window.getSelection) {
 			return window.getSelection() + '';
 		} else {
@@ -1498,9 +1498,9 @@ function insertText(text, movestart, moveend, select, sel) {
 				editdoc.selectionStart = opn;
 				editdoc.selectionEnd = opn + strlen(text);
 			}
-		} else if(document.selection && document.selection.createRange) {
+		} else if(window.getSelection() && window.getSelection().createRange) {
 			if(isUndefined(sel)) {
-				sel = document.selection.createRange();
+				sel = window.getSelection().createRange();
 			}
 			if(editbox.sel) {
 				sel = editbox.sel;
