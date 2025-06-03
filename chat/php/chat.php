@@ -39,17 +39,32 @@ if ($result['status'] == 200) {
   include '../../config/config_global.php';
   $conn = new mysqli($_config['db'][1]['dbhost'], $_config['db'][1]['dbuser'], $_config['db'][1]['dbpw'], $_config['db'][1]['dbname']);
   if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+    header('HTTP/1.1 500 Internal Server Error');
+    exit("Connection failed: " . $conn->connect_error);
   }
+
   // Delete messages older than 2 days.
   $delete_sql = "DELETE FROM chat WHERE time < DATE_SUB(NOW(), INTERVAL 2 DAY)";
-  $conn->query($delete_sql);
+  if (!$conn->query($delete_sql)) {
+    header('HTTP/1.1 500 Internal Server Error');
+    exit("Delete failed: " . $conn->error);
+  }
 
   $stmt = $conn->prepare(
     "INSERT INTO chat (uid, author, message) VALUES (?, LEFT(?, 30), ?)"
   );
-  $stmt->bind_param("iss", $_G['uid'], $_G['username'], $options['text']);
-  $stmt->execute();
+  if (!$stmt) {
+    header('HTTP/1.1 500 Internal Server Error');
+    exit("Prepare failed: " . $conn->error);
+  }
+  if (!$stmt->bind_param("iss", $_G['uid'], $_G['username'], $options['text'])) {
+    header('HTTP/1.1 500 Internal Server Error');
+    exit("Bind failed: " . $stmt->error);
+  }
+  if (!$stmt->execute()) {
+    header('HTTP/1.1 500 Internal Server Error');
+    exit("Execute failed: " . $stmt->error);
+  }
   $stmt->close();
   $conn->close();
 }
