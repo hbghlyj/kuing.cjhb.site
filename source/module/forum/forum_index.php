@@ -331,24 +331,26 @@ if(!$gid && (!defined('FORUM_INDEX_PAGE_MEMORY') || !FORUM_INDEX_PAGE_MEMORY)) {
 		if($detailstatus) {
 			$_G['uid'] && updatesession();
 			$whosonline = array();
-
+			$actioncode = lang('action');
 			foreach(C::app()->session->fetch_member(1, 0) as $online){
 				$membercount ++;
 				if($online['invisible']) {
 					$invisiblecount++;
-					continue;
 				} else {
 					$online['icon'] = !empty($_G['cache']['onlinelist'][$online['groupid']]) ? $_G['cache']['onlinelist'][$online['groupid']] : $_G['cache']['onlinelist'][0];
+					$online['action'] = $actioncode[$online['action']];
+					$online['lastactivity'] = dgmdate($online['lastactivity'], 't');
+					$whosonline[] = $online;
 				}
-				$online['lastactivity'] = dgmdate($online['lastactivity'], 't');
-				$whosonline[] = $online;
 			}
 			foreach(C::app()->session->fetch_member(2, 0) as $online){
 				$guestcount ++;
 				$online['icon'] = $_G['cache']['onlinelist'][$online['groupid']];
+				$online['action'] = $actioncode[$online['action']];
 				$online['lastactivity'] = dgmdate($online['lastactivity'], 't');
 				$whosonline[] = $online;
 			}
+			unset($actioncode);
 			unset($online);
 
 			$onlinenum = $membercount + $guestcount;
