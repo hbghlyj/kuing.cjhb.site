@@ -56,8 +56,8 @@ class discuz_session {
 		$this->old = ['sid' => $sid, 'ip' => $ip, 'uid' => $uid];
 		$session = $username
 			? DB::fetch_first('SELECT * FROM %t WHERE groupid=8 AND (username=%s OR username LIKE CONCAT(%s, \'\t\', %s))', ['common_session', $username, $username, '%'])
-			: ($sid ? $this->table->fetch_by_uid($uid) : []);
-		if(empty($session)) {
+			: ($sid ? $this->table->fetch($sid, $ip, $uid) : []);
+		if(empty($session) || ($username === false && (int)$session['uid'] !== (int)$uid)) {
 			$session = $this->create($ip, $uid);
 		}
 
