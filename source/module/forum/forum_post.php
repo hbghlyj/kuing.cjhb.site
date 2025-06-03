@@ -183,7 +183,7 @@ if($_G['group']['allowpostattach'] || $_G['group']['allowpostimage']) {
 		if(!$allowuploadsize) {
 			$allowuploadtoday = false;
 		}
-		$allowuploadsize = $allowuploadsize / 1048576 >= 1 ? round(($allowuploadsize / 1048576), 1).'MB' : round(($allowuploadsize / 1024)).'KB';
+		$allowuploadsize = $allowuploadsize / 1048576 >= 1 ? number_format(($allowuploadsize / 1048576),2).'MB' : number_format(($allowuploadsize / 1024),2).'KB';
 	}
 }
 $allowpostimg = $_G['group']['allowpostimage'] && $imgexts;
