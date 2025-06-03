@@ -354,7 +354,7 @@ class discuz_application extends discuz_base{
 	}
 
 	public function reject_robot() {
-		if(defined('IS_ROBOT')&&IS_ROBOT){
+		if(IS_ROBOT){
 			exit(header("HTTP/1.1 403 Forbidden"));
 		}
 	}
@@ -472,30 +472,11 @@ class discuz_application extends discuz_base{
 					return $firstEmoji . $secondEmoji;
 				}
 				$this->session->init($this->var['cookie']['sid'], $this->var['clientip'], 0);
-				if(defined('IS_ROBOT')){
+				if(IS_ROBOT){
 					$this->var['member']['groupid'] = 8;
-					$this->var['member']['username'] = IS_ROBOT . "\t";
+					$this->var['member']['username'] = IS_ROBOT;
 				}
 				$this->var['member']['username'] .= getFlagEmoji($_SERVER["HTTP_CF_IPCOUNTRY"]) . $_SERVER["HTTP_CF_IPCITY"] . ((strpos($this->var['member']['username'], "\n") === false&&isset($_SERVER["HTTP_REFERER"])) ? "\n" . $_SERVER["HTTP_REFERER"] : '');
-				if(!defined('IS_ROBOT')) {
-					if(strlen($_SERVER['HTTP_ACCEPT']) < 10 || (stripos($_SERVER['HTTP_ACCEPT'], 'text/html') === false && stripos($_SERVER['HTTP_ACCEPT'], '*/*') === false)) {
-						define('IS_ROBOT', 'UnusualAcceptHeader');
-					}elseif(strlen($_SERVER['HTTP_ACCEPT_LANGUAGE']) < 2){
-						define('IS_ROBOT', 'UnusualAcceptLanguageHeader');
-					}elseif(strlen($_SERVER['HTTP_USER_AGENT']) < 2){
-						define('IS_ROBOT', 'UnusualUserAgentHeader');
-					}elseif(strlen($_SERVER['HTTP_ACCEPT_ENCODING']) < 2){
-						define('IS_ROBOT', 'UnusualAcceptEncodingHeader');
-					}elseif(!isset($_SERVER['HTTP_SEC_FETCH_USER']) || $_SERVER['HTTP_SEC_FETCH_USER'] != '?1'){
-						define('IS_ROBOT', 'UnusualSecFetchUserHeader');
-					}else{
-						define('IS_ROBOT', false);
-					}
-					if(IS_ROBOT){
-						$this->var['member']['groupid'] = 8;
-						$this->var['member']['username'] .= ' '.IS_ROBOT;
-					}
-				}
 			}else{
 				define('IS_ROBOT', false);
 				$this->session->init($this->var['cookie']['sid'], $this->var['clientip'], $this->var['uid']);
