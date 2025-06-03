@@ -12,7 +12,7 @@ if(!defined('IN_DISCUZ')) {
 }
 define('NOROBOT', TRUE);
 
-if(!in_array($_GET['action'], array('markAsRead', 'checkusername', 'checkinvitecode', 'checkuserexists', 'quickclear', 'setnav')) && !$_G['setting']['forumstatus']) {
+if(!in_array($_GET['action'], array('markAsRead', 'checkusername', 'checkinvitecode', 'checkuserexists', 'quickclear', 'setnav', 'getOnlineUserListHtml')) && !$_G['setting']['forumstatus']) {
 	showmessage('forum_status_off');
 }
 
@@ -33,7 +33,42 @@ if($_GET['action'] == 'markAsRead') {
 	C::t('common_member')->update($_G['uid'], array('newprompt' => 0));
 	exit(']]></root>');
 }
+if($_GET['action'] == 'getOnlineUserListHtml') {
+	$whosonline = array();
+	if($_G['setting']['whosonlinestatus'] == 1 || $_G['setting']['whosonlinestatus'] == 3) {
+		$_G['uid'] && updatesession();
 
+		$actioncode = lang('action');
+		loadcache('onlinelist');
+
+		$sessions = C::app()->session->fetch_member(1, 0); // Fetch members
+		foreach($sessions as $online) {
+			if(!$online['invisible']) {
+				$online_user = array();
+				$online_user['uid'] = $online['uid'];
+				$online_user['username'] = htmlspecialchars($online['username']);
+				$online_user['icon'] = !empty($_G['cache']['onlinelist'][$online['groupid']]) ? $_G['cache']['onlinelist'][$online['groupid']] : $_G['cache']['onlinelist'][0];
+				$online_user['tid'] = $online['tid'];
+				$online_user['title_attr'] = htmlspecialchars($actioncode[$online['action']]).'&#013;'.$online['ip'].'&#013;'.ip::convert($online['ip']).'&#013;'.lang('template', 'time').': '.dgmdate($online['lastactivity'],'u');				
+				$whosonline[] = $online_user;
+			}
+		}
+
+		$sessions_guests = C::app()->session->fetch_member(2, 0); // Fetch guests
+		foreach($sessions_guests as $online) {
+			$online_user = array();
+			$online_user['uid'] = 0;
+			$online_user['username'] = htmlspecialchars($online['username']);
+			$online_user['icon'] = $_G['cache']['onlinelist'][7];
+			$online_user['tid'] = $online['tid'];
+			$online_user['title_attr'] = htmlspecialchars($actioncode[$online['action']]).'&#013;'.$online['ip'].'&#013;'. ip::convert($online['ip']) .'&#013;'.lang('template', 'time').': '.dgmdate($online['lastactivity'],'u');
+			$whosonline[] = $online_user;
+		}
+	}
+
+	include template('forum/ajax_whosonline_list');
+	exit();
+}
 if($_GET['action'] == 'checkusername') {
 
 

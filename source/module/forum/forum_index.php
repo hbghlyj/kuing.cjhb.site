@@ -315,56 +315,19 @@ if(!$gid && (!defined('FORUM_INDEX_PAGE_MEMORY') || !FORUM_INDEX_PAGE_MEMORY)) {
 
 	if(!IS_ROBOT && ($_G['setting']['whosonlinestatus'] == 1 || $_G['setting']['whosonlinestatus'] == 3)) {
 		$_G['setting']['whosonlinestatus'] = 1;
-
 		$onlineinfo = explode("\t", $_G['cache']['onlinerecord']);
 		$onlineinfo[1] = dgmdate($onlineinfo[1], 'd');
-
+		$membercount = C::app()->session->count(1);
+		$guestcount = C::app()->session->count(2);
+		$invisiblecount = C::app()->session->count_invisible();
+		$onlinenum = $membercount + $guestcount;
+		if($onlinenum > $onlineinfo[0]) {
+			$onlinerecord = "$onlinenum\t".TIMESTAMP;
+			C::t('common_setting')->update_setting('onlinerecord', $onlinerecord);
+			savecache('onlinerecord', $onlinerecord);
+			$onlineinfo = array($onlinenum, dgmdate(TIMESTAMP, 'd'));
+		}
 		$detailstatus = $showoldetails == 'yes' || (((!isset($_G['cookie']['onlineindex']) && !$_G['setting']['whosonline_contract']) || $_G['cookie']['onlineindex']) && !$showoldetails);
-
-		$guestcount = $membercount = $invisiblecount = 0;
-		if(!empty($_G['setting']['sessionclose'])) {
-			$detailstatus = false;
-			$membercount = C::app()->session->count(1);
-			$guestcount = $onlinenum - $membercount;
-		}
-
-		if($detailstatus) {
-			$_G['uid'] && updatesession();
-			$whosonline = array();
-			$actioncode = lang('action');
-			foreach(C::app()->session->fetch_member(1, 0) as $online){
-				$membercount ++;
-				if($online['invisible']) {
-					$invisiblecount++;
-				} else {
-					$online['icon'] = !empty($_G['cache']['onlinelist'][$online['groupid']]) ? $_G['cache']['onlinelist'][$online['groupid']] : $_G['cache']['onlinelist'][0];
-					$online['action'] = $actioncode[$online['action']];
-					$online['lastactivity'] = dgmdate($online['lastactivity'],'u');
-					$whosonline[] = $online;
-				}
-			}
-			foreach(C::app()->session->fetch_member(2, 0) as $online){
-				$guestcount ++;
-				$online['icon'] = $_G['cache']['onlinelist'][$online['groupid']];
-				$online['action'] = $actioncode[$online['action']];
-				$online['lastactivity'] = dgmdate($online['lastactivity'],'u');
-				$whosonline[] = $online;
-			}
-			unset($actioncode);
-			unset($online);
-
-			$onlinenum = $membercount + $guestcount;
-			dsetcookie('onlineusernum', intval($onlinenum), 300);
-			if($onlinenum > $onlineinfo[0]) {
-				$onlinerecord = "$onlinenum\t".TIMESTAMP;
-				C::t('common_setting')->update_setting('onlinerecord', $onlinerecord);
-				savecache('onlinerecord', $onlinerecord);
-				$onlineinfo = array($onlinenum, dgmdate($onlineinfo[1], 'd'));
-			}
-
-			$invisiblecount = intval($invisiblecount);
-		}
-
 	} else {
 		$_G['setting']['whosonlinestatus'] = 0;
 	}
@@ -375,7 +338,7 @@ if(!$gid && (!defined('FORUM_INDEX_PAGE_MEMORY') || !FORUM_INDEX_PAGE_MEMORY)) {
 			'catlist' => $catlist,
 			'forumlist' => $forumlist,
 			'sublist' => $sublist,
-			'whosonline' => $whosonline,
+			// 'whosonline' => $whosonline, // REMOVED from memory cache as it's dynamic now
 			'onlinenum' => $onlinenum,
 			'membercount' => $membercount,
 			'guestcount' => $guestcount,

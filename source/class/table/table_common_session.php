@@ -69,7 +69,7 @@ class table_common_session extends discuz_table
 	}
 
 	public function count($type = 0) {
-		$condition = $type == 1 ? ' WHERE uid>0 ' : ($type == 2 ? ' WHERE uid=0 ' : '');
+		$condition = $type == 1 ? ' WHERE uid>0 ' : ($type == 2 ? ' WHERE groupid=7 ' : '');
 		return DB::result_first("SELECT count(*) FROM ".DB::table($this->_table).$condition);
 
 	}

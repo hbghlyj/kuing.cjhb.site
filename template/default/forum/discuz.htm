@@ -507,7 +507,7 @@
 			<div id="online" class="bm oll fl">
 				<div class="bm_h">
 				<!--{if $detailstatus}-->
-					<span class="o"><a href="forum.php?showoldetails=no#online" title="{lang spread}"><em class="tg_no" title="{lang spread}"></em></a></span>
+					<span class="o"><a href="?showoldetails=no#online" title="{lang spread}"><em class="tg_no" title="{lang spread}"></em></a></span>
 					<h2>
 						<strong><a href="home.php?mod=space&do=friend&view=online"><style>@keyframes radarPulse {0% {transform: scale(1);opacity: 1;}50% {transform: scale(1.2);opacity: 0.8;}100% {transform: scale(1);opacity: 1;}}</style><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" style="margin-right: 5px;vertical-align: middle;animation: radarPulse 1.5s infinite ease-in-out;transform-origin: center;"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"></circle><circle cx="12" cy="12" r="4" fill="currentColor"></circle></svg>$onlinenum {lang onlines}</a></strong>
 						<span class="xs1">
@@ -515,7 +515,7 @@
 					</h2>
 				<!--{else}-->
 					<!--{if empty($_G['setting']['sessionclose'])}-->
-						<span class="o"><a href="forum.php?showoldetails=yes#online" title="{lang spread}"><em class="tg_yes" title="{lang spread}"></em></a></span>
+						<span class="o"><a href="?showoldetails=yes#online" title="{lang spread}"><em class="tg_yes" title="{lang spread}"></em></a></span>
 					<!--{/if}-->
 					<h2>
 						<strong>
@@ -531,21 +531,37 @@
 					<ul style="text-transform: capitalize" class="cl ptm pbm bbda">$_G[cache][onlinelist][legend]</ul>
 					<!--{if $detailstatus}-->
 						<dd class="ptm pbm cl">
-						<ul>
-						<!--{if $whosonline}-->
-							<!--{loop $whosonline $key $online}-->
-								<li title="{if $online['fid']}$forumlist[$online[fid]][name]{else}$online[action]{/if}&#013;$online[ip]&#013;{echo ip::convert($online[ip])}&#013;{lang time}: $online[lastactivity]">
-								<span><!--{if $online['uid']}--><a href="home.php?mod=space&uid=$online[uid]"><!--{/if}-->
-								<img src="$online['icon']" alt="icon" />
-								<!--{if $online['uid']}--></a><!--{/if}-->
-								<!--{if $online['tid']}--><a href="forum.php?mod=redirect&tid=$online[tid]&goto=lastpost#newpost">$online[username]</a><!--{else}-->$online[username]<!--{/if}--></span>
-								</li>
-							<!--{/loop}-->
-						<!--{else}-->
-							<li style="width: auto">{lang online_only_guests}</li>
-						<!--{/if}-->
-						</ul>
-					</dd>
+						    <ul id="whosonline_list_container">
+						        <li style="width: auto">Loading online users...</li>
+						    </ul>
+						</dd>
+						<script type="text/javascript">
+						    function fetchWhosOnlineList() {
+						        var ajaxurl = 'forum.php?mod=ajax&action=getOnlineUserListHtml&inajax=1&t=' + new Date().getTime();
+						        var x = new XMLHttpRequest();
+						        x.open('GET', ajaxurl, true);
+						        x.onreadystatechange = function () {
+						            if (x.readyState == 4 && x.status == 200) {
+						                var listContainer = document.getElementById('whosonline_list_container');
+						                if (listContainer) {
+						                    listContainer.innerHTML = x.responseText;
+						                }
+						            } else if (x.readyState == 4) {
+						                console.error('Error fetching online list. Status: ' + x.status);
+                                        var listContainer = document.getElementById('whosonline_list_container');
+                                        if (listContainer) {
+                                            listContainer.innerHTML = '<li style="width: auto">Could not load online users list.</li>';
+                                        }
+						            }
+						        };
+						        x.send();
+						    }
+
+						    if (document.getElementById('whosonline_list_container')) {
+						        fetchWhosOnlineList(); // Initial fetch
+						        setInterval(fetchWhosOnlineList, 30000); // Fetch every 30 seconds
+						    }
+						</script>
 					<!--{/if}-->
 				</dl>
 			<!--{/if}-->
