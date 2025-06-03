@@ -37,8 +37,21 @@ if($_GET['action'] == 'getOnlineUserListHtml') {
 
 		$actioncode = lang('action');
 		loadcache('onlinelist');
-
 		$sessions = C::app()->session->fetch_member(1, 0); // Fetch members
+		$sessions_guests = C::app()->session->fetch_member(2, 0); // Fetch guests
+		$forumIds = array();
+		foreach($sessions as $online) {
+			if(!empty($online['fid'])) {
+				$forumIds[$online['fid']] = $online['fid'];
+			}
+		}
+		foreach($sessions_guests as $online) {
+			if(!empty($online['fid'])) {
+				$forumIds[$online['fid']] = $online['fid'];
+			}
+		}
+		$forumlist = $forumIds ? C::t('forum_forum')->fetch_all_info_by_fids(array_values($forumIds)) : array();
+
 		foreach($sessions as $online) {
 			if(!$online['invisible']) {
 				$online_user = array();
@@ -46,19 +59,34 @@ if($_GET['action'] == 'getOnlineUserListHtml') {
 				$online_user['username'] = htmlspecialchars($online['username']);
 				$online_user['icon'] = !empty($_G['cache']['onlinelist'][$online['groupid']]) ? $_G['cache']['onlinelist'][$online['groupid']] : $_G['cache']['onlinelist'][0];
 				$online_user['tid'] = $online['tid'];
-				$online_user['title_attr'] = htmlspecialchars($actioncode[$online['action']]).'&#013;'.$online['ip'].'&#013;'.ip::convert($online['ip']).'&#013;'.lang('template', 'time').': '.dgmdate($online['lastactivity'],'u');				
+				$titleLabel = '';
+				if(!empty($online['fid']) && !empty($forumlist[$online['fid']])) {
+					$titleLabel = DISCUZ_LANG == 'EN/' && !empty($forumlist[$online['fid']]['name_en'])
+						? $forumlist[$online['fid']]['name_en']
+						: $forumlist[$online['fid']]['name'];
+				} elseif(!empty($actioncode[$online['action']])) {
+					$titleLabel = $actioncode[$online['action']];
+				}
+				$online_user['title_attr'] = htmlspecialchars($titleLabel).'&#013;'.$online['ip'].'&#013;'.ip::convert($online['ip']).'&#013;'.lang('template', 'time').': '.dgmdate($online['lastactivity'],'u');				
 				$whosonline[] = $online_user;
 			}
 		}
 
-		$sessions_guests = C::app()->session->fetch_member(2, 0); // Fetch guests
 		foreach($sessions_guests as $online) {
 			$online_user = array();
 			$online_user['uid'] = 0;
 			$online_user['username'] = htmlspecialchars($online['username']);
 			$online_user['icon'] = $_G['cache']['onlinelist'][7];
 			$online_user['tid'] = $online['tid'];
-			$online_user['title_attr'] = htmlspecialchars($actioncode[$online['action']]).'&#013;'.$online['ip'].'&#013;'. ip::convert($online['ip']) .'&#013;'.lang('template', 'time').': '.dgmdate($online['lastactivity'],'u');
+			$titleLabel = '';
+			if(!empty($online['fid']) && !empty($forumlist[$online['fid']])) {
+				$titleLabel = DISCUZ_LANG == 'EN/' && !empty($forumlist[$online['fid']]['name_en'])
+					? $forumlist[$online['fid']]['name_en']
+					: $forumlist[$online['fid']]['name'];
+			} elseif(!empty($actioncode[$online['action']])) {
+				$titleLabel = $actioncode[$online['action']];
+			}
+			$online_user['title_attr'] = htmlspecialchars($titleLabel).'&#013;'.$online['ip'].'&#013;'. ip::convert($online['ip']) .'&#013;'.lang('template', 'time').': '.dgmdate($online['lastactivity'],'u');
 			$whosonline[] = $online_user;
 		}
 	}
