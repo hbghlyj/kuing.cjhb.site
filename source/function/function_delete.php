@@ -497,6 +497,7 @@ function deleteattach($ids, $idtype = 'aid') {
 			if($attach['picid']) {
 				$pics[] = $attach['picid'];
 			}
+			updatemembercount($attach['uid'], array('todayattachs' => -1, 'todayattachsize' => -$attach['filesize'], 'attachsize' => -$attach['filesize']), false);
 			dunlink($attach);
 		}
 		C::t('forum_attachment_exif')->delete($aids);

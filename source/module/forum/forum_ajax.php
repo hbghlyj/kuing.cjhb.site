@@ -167,6 +167,7 @@ if($_GET['action'] == 'checkusername') {
 			if($attach && ($attach['pid'] && $attach['pid'] == $_GET['pid'] && $_G['uid'] == $attach['uid'] || $_G['forum']['ismoderator'] || !$attach['pid'] && $_G['uid'] == $attach['uid'])) {
 				C::t('forum_attachment_n')->delete_attachment('aid:'.$aid, $aid);
 				C::t('forum_attachment')->delete($aid);
+				updatemembercount($attach['uid'], array('todayattachs' => -1, 'todayattachsize' => -$attach['filesize'], 'attachsize' => -$attach['filesize']), false);
 				dunlink($attach);
 				$count++;
 			}
