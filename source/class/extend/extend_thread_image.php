@@ -125,6 +125,7 @@ class extend_thread_image extends extend_thread_base {
 				if($this->thread['displayorder'] >= 0) {
 					$post_attachment++;
 				}
+				updatemembercount($attach['uid'], array('todayattachs' => -1, 'todayattachsize' => -$attach['filesize'], 'attachsize' => -$attach['filesize']), false);
 				dunlink($attach);
 			} else {
 				if($attach['isimage']) {

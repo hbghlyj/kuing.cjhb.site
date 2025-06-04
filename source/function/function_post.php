@@ -288,6 +288,7 @@ function updateattach($modnewthreads, $tid, $pid, $attachnew, $attachupdate = ar
 		$attachs = C::t('forum_attachment_n')->fetch_all_by_id('tid:'.$tid, 'aid', array_keys($attachupdate));
 		foreach($attachs as $attach) {
 			if(array_key_exists($attach['aid'], $attachupdate) && $attachupdate[$attach['aid']]) {
+				updatemembercount($attach['uid'], array('todayattachs' => -1, 'todayattachsize' => -$attach['filesize'], 'attachsize' => -$attach['filesize']), false);
 				dunlink($attach);
 			}
 		}

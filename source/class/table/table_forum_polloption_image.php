@@ -33,6 +33,7 @@ class table_forum_polloption_image extends discuz_table
 		$deltids = array();
 		$query = DB::query("SELECT tid, attachment, thumb FROM %t WHERE tid=0 AND dateline<=%d", array($this->_table, TIMESTAMP - 86400));
 		while($attach = DB::fetch($query)) {
+			updatemembercount($attach['uid'], array('todayattachs' => -1, 'todayattachsize' => -$attach['filesize'], 'attachsize' => -$attach['filesize']), false);
 			dunlink($attach);
 			$deltids[] = $attach['tid'];
 		}
