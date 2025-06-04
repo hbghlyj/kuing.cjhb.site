@@ -10,7 +10,6 @@ const ESCAPE_SEQ_FOR_SINGLE_TAB = ESCAPE_CHAR + '\u0001';  // SO + SOH
 
 const SINGLE_TAB = '\t';
 const DOUBLE_TAB = '\t\t';
-
 /**
  * Escapes special characters in a string to prevent conflicts with delimiters.
  * Order of replacement is important:
