@@ -4,7 +4,52 @@
 
 	$Id: forum.js 33824 2013-08-19 08:26:11Z nemohou $
 */
+{
+const ESCAPE_CHAR = '\u000E'; // Shift Out (SO)
+const ESCAPE_SEQ_FOR_ESCAPE_CHAR = ESCAPE_CHAR + '\u0000'; // SO + NUL
+const ESCAPE_SEQ_FOR_DOUBLE_TAB = ESCAPE_CHAR + '\u0002';  // SO + STX
+const ESCAPE_SEQ_FOR_SINGLE_TAB = ESCAPE_CHAR + '\u0001';  // SO + SOH
 
+const SINGLE_TAB = '\t';
+const DOUBLE_TAB = '\t\t';
+
+/**
+ * Escapes special characters in a string to prevent conflicts with delimiters.
+ * Order of replacement is important:
+ * 1. Escape the escape character itself.
+ * 2. Escape the longest delimiter sequence.
+ * 3. Escape the shorter delimiter sequence.
+ */
+function escapeDataString(str) {
+    if (typeof str !== 'string') return str;
+    let escapedStr = str;
+    // Escape the escape character itself first
+    escapedStr = escapedStr.replace(new RegExp(ESCAPE_CHAR.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&"), 'g'), ESCAPE_SEQ_FOR_ESCAPE_CHAR);
+    // Escape double tabs next
+    escapedStr = escapedStr.replace(new RegExp(DOUBLE_TAB.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&"), 'g'), ESCAPE_SEQ_FOR_DOUBLE_TAB);
+    // Escape single tabs last
+    escapedStr = escapedStr.replace(new RegExp(SINGLE_TAB.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&"), 'g'), ESCAPE_SEQ_FOR_SINGLE_TAB);
+    return escapedStr;
+}
+
+/**
+ * Unescapes special characters in a string retrieved from storage.
+ * Order of replacement is important (reverse of escaping specific sequences):
+ * 1. Unescape single tab sequences.
+ * 2. Unescape double tab sequences.
+ * 3. Unescape the escape character itself.
+ */
+function unescapeDataString(str) {
+    if (typeof str !== 'string') return str;
+    let unescapedStr = str;
+    // Unescape single tab sequences
+    unescapedStr = unescapedStr.replace(new RegExp(ESCAPE_SEQ_FOR_SINGLE_TAB.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&"), 'g'), SINGLE_TAB);
+    // Unescape double tab sequences
+    unescapedStr = unescapedStr.replace(new RegExp(ESCAPE_SEQ_FOR_DOUBLE_TAB.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&"), 'g'), DOUBLE_TAB);
+    // Unescape the escape character itself
+    unescapedStr = unescapedStr.replace(new RegExp(ESCAPE_SEQ_FOR_ESCAPE_CHAR.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&"), 'g'), ESCAPE_CHAR);
+    return unescapedStr;
+}
 function saveData(ignoreempty) {
 	var ignoreempty = isUndefined(ignoreempty) ? 0 : ignoreempty;
 	var obj = $('postform') && (($('fwin_newthread') && $('fwin_newthread').style.display == '') || ($('fwin_reply') && $('fwin_reply').style.display == '') || ($('fwin_edit') && $('fwin_edit').style.display == '')) ? $('postform') : ($('fastpostform') ? $('fastpostform') : $('postform'));
@@ -27,25 +72,29 @@ function saveData(ignoreempty) {
 	for(var i = 0; i < obj.elements.length; i++) {
 		var el = obj.elements[i];
 		if(el.name != '' && (el.tagName == 'SELECT' || el.tagName == 'TEXTAREA' || el.tagName == 'INPUT' && (el.type == 'text' || el.type == 'checkbox' || el.type == 'radio' || el.type == 'hidden' || el.type == 'select')) && el.name.substr(0, 6) != 'attach') {
-			var elvalue = el.value;
+			var elvalue = el.value; // This is the raw value from the form element
 			if(el.name == 'subject') {
 				subject = trim(elvalue);
 			} else if(el.name == 'message') {
 				if(typeof wysiwyg != 'undefined' && wysiwyg == 1) {
-					elvalue = bbcode;
+					elvalue = bbcode; // Use bbcode if wysiwyg editor
 				}
 				message = trim(elvalue);
 			}
+			// Note: 'elvalue' at this point is the actual string content for the field.
+			// It might have been updated (e.g., if it was 'message' and wysiwyg was on).
+
 			if((el.type == 'checkbox' || el.type == 'radio') && !el.checked) {
 				continue;
 			} else if(el.tagName == 'SELECT') {
-				elvalue = el.value;
+				// elvalue is already el.value
 			} else if(el.type == 'hidden') {
 				if(el.id) {
 					eval('var check = typeof ' + el.id + '_upload == \'function\'');
 					if(check) {
-						elvalue = elvalue;
+						// elvalue is el.value (which is aid)
 						if($(el.id + '_url')) {
+							// Append URL, separated by char(1)
 							elvalue += String.fromCharCode(1) + $(el.id + '_url').value;
 						}
 					} else {
@@ -55,17 +104,130 @@ function saveData(ignoreempty) {
 					continue;
 				}
 			}
-			if(trim(elvalue)) {
-				data += el.name + String.fromCharCode(9) + el.tagName + String.fromCharCode(9) + el.type + String.fromCharCode(9) + elvalue + String.fromCharCode(9, 9);
+
+			// Before concatenating, escape the elvalue
+			var value_to_check_for_emptiness = elvalue; // Use original value for emptiness check logic
+			var value_to_serialize = escapeDataString(elvalue); // Escape the value for storage
+
+			if(trim(value_to_check_for_emptiness)) { // Check original value's emptiness
+				data += el.name + String.fromCharCode(9) + el.tagName + String.fromCharCode(9) + el.type + String.fromCharCode(9) + value_to_serialize + String.fromCharCode(9, 9);
 			}
 		}
 	}
 
-	if(!subject && !message && !ignoreempty) {
+	if(!subject && !message && !ignoreempty) { // This logic uses 'subject' and 'message' which are trimmed versions. It's likely fine.
 		return;
 	}
 
 	saveUserdata('forum_'+discuz_uid, data);
+}
+function loadData(quiet, formobj) {
+
+	var evalevent = function (obj) {
+		var script = obj.parentNode.innerHTML;
+		var re = /onclick="(.+?)["|>]/ig;
+		var matches = re.exec(script);
+		if(matches != null) {
+			matches[1] = matches[1].replace(/this\./ig, 'obj.');
+			eval(matches[1]);
+		}
+	};
+
+	var data = '';
+	data = loadUserdata('forum_'+discuz_uid);
+	var formobj = !formobj ? $('postform') : formobj;
+
+	if(in_array((data = trim(data)), ['', 'null', 'false', null, false])) {
+		if(!quiet) {
+			showDialog('没有可以恢复的数据！', 'notice');
+		}
+		return;
+	}
+
+	if(!quiet && !confirm('此操作将覆盖当前帖子内容，确定要恢复数据吗？')) {
+		return;
+	}
+
+	var records = data.split(/\x09\x09/); // Changed variable name for clarity
+	for(var i = 0; i < formobj.elements.length; i++) {
+		var el = formobj.elements[i];
+		if(el.name != '' && (el.tagName == 'SELECT' || el.tagName == 'TEXTAREA' || el.tagName == 'INPUT' && (el.type == 'text' || el.type == 'checkbox' || el.type == 'radio' || el.type == 'hidden'))) {
+			for(var j = 0; j < records.length; j++) { // Iterate over records
+				if (records[j] === '') continue; // Skip empty strings that might result from trailing delimiters
+				var ele = records[j].split(/\x09/); // name, tagName, type, value
+				if(ele[0] == el.name) {
+					var escaped_elvalue = !isUndefined(ele[3]) ? ele[3] : '';
+					var elvalue = unescapeDataString(escaped_elvalue); // Unescape the value
+
+					// Now proceed with the original logic using the unescaped elvalue
+					if(ele[1] == 'INPUT') {
+						if(ele[2] == 'text') {
+							el.value = elvalue;
+						} else if((ele[2] == 'checkbox' || ele[2] == 'radio') && elvalue == el.value) { // Compare unescaped value
+							el.checked = true;
+							evalevent(el);
+						} else if(ele[2] == 'hidden') {
+							eval('var check = typeof ' + el.id + '_upload == \'function\'');
+							if(check) {
+								var v = elvalue.split(/\x01/); // Original separator for hidden field data
+								el.value = v[0];
+								if(el.value) {
+									if($(el.id + '_url') && v[1]) {
+										$(el.id + '_url').value = v[1];
+									}
+									// Ensure eval arguments are properly quoted if they can contain special chars
+									eval(el.id + '_upload(\'' + (v[0] ? v[0].replace(/'/g, "\\'") : '') + '\', \'' + (v[1] ? v[1].replace(/'/g, "\\'") : '') + '\')');
+									if($('unused' + v[0])) {
+										var attachtype = $('unused' + v[0]).parentNode.parentNode.parentNode.parentNode.id.substr(11);
+										$('unused' + v[0]).parentNode.parentNode.outerHTML = '';
+										$('unusednum_' + attachtype).innerHTML = parseInt($('unusednum_' + attachtype).innerHTML) - 1;
+										if($('unusednum_' + attachtype).innerHTML == 0 && $('attachnotice_' + attachtype)) {
+											$('attachnotice_' + attachtype).style.display = 'none';
+										}
+									}
+								}
+							}
+
+						}
+					} else if(ele[1] == 'TEXTAREA') {
+						if(ele[0] == 'message') { // Check original name
+							if(!wysiwyg) {
+								// Assuming 'textobj' is 'el' or similar for message textarea
+								el.value = elvalue;
+							} else {
+								editdoc.body.innerHTML = bbcode2html(elvalue);
+							}
+						} else {
+							el.value = elvalue;
+						}
+					} else if(ele[1] == 'SELECT') {
+						if($(el.id + '_ctrl_menu')) {
+							var lis = $(el.id + '_ctrl_menu').getElementsByTagName('li');
+							for(var k = 0; k < lis.length; k++) {
+								if(elvalue == lis[k].k_value) { // Compare unescaped value
+									lis[k].onclick();
+									break;
+								}
+							}
+						} else {
+							for(var k = 0; k < el.options.length; k++) {
+								if(elvalue == el.options[k].value) { // Compare unescaped value
+									el.options[k].selected = true;
+									break;
+								}
+							}
+						}
+					}
+					break;
+				}
+			}
+		}
+	}
+	if($('rstnotice')) {
+		$('rstnotice').style.display = 'none';
+	}
+	extraCheckall();
+}
 }
 
 function fastUload() {
@@ -295,113 +457,6 @@ function setatarget(v) {
 	$('atarget').className = 'y atarget_' + v;
 	$('atarget').onclick = function() {setatarget(v == 1 ? -1 : 1);};
 	setcookie('atarget', v, 2592000);
-}
-
-function loadData(quiet, formobj) {
-
-	var evalevent = function (obj) {
-		var script = obj.parentNode.innerHTML;
-		var re = /onclick="(.+?)["|>]/ig;
-		var matches = re.exec(script);
-		if(matches != null) {
-			matches[1] = matches[1].replace(/this\./ig, 'obj.');
-			eval(matches[1]);
-		}
-	};
-
-	var data = '';
-	data = loadUserdata('forum_'+discuz_uid);
-	var formobj = !formobj ? $('postform') : formobj;
-
-	if(in_array((data = trim(data)), ['', 'null', 'false', null, false])) {
-		if(!quiet) {
-			showDialog('没有可以恢复的数据！', 'notice');
-		}
-		return;
-	}
-
-	if(!quiet && !confirm('此操作将覆盖当前帖子内容，确定要恢复数据吗？')) {
-		return;
-	}
-
-	var data = data.split(/\x09\x09/);
-	for(var i = 0; i < formobj.elements.length; i++) {
-		var el = formobj.elements[i];
-		if(el.name != '' && (el.tagName == 'SELECT' || el.tagName == 'TEXTAREA' || el.tagName == 'INPUT' && (el.type == 'text' || el.type == 'checkbox' || el.type == 'radio' || el.type == 'hidden'))) {
-			for(var j = 0; j < data.length; j++) {
-				var parts = data[j].split(/\x09/);
-				var ele = parts.slice(0, 4);
-				if (parts.length > 4) {
-					// append any leftover tabs back onto ele[3]
-					ele[3] += '\x09' + parts.slice(4).join('\x09');
-				}
-				if(ele[0] == el.name) {
-					elvalue = !isUndefined(ele[3]) ? ele[3] : '';
-					if(ele[1] == 'INPUT') {
-						if(ele[2] == 'text') {
-							el.value = elvalue;
-						} else if((ele[2] == 'checkbox' || ele[2] == 'radio') && ele[3] == el.value) {
-							el.checked = true;
-							evalevent(el);
-						} else if(ele[2] == 'hidden') {
-							eval('var check = typeof ' + el.id + '_upload == \'function\'');
-							if(check) {
-								var v = elvalue.split(/\x01/);
-								el.value = v[0];
-								if(el.value) {
-									if($(el.id + '_url') && v[1]) {
-										$(el.id + '_url').value = v[1];
-									}
-									eval(el.id + '_upload(\'' + v[0] + '\', \'' + v[1] + '\')');
-									if($('unused' + v[0])) {
-										var attachtype = $('unused' + v[0]).parentNode.parentNode.parentNode.parentNode.id.substr(11);
-										$('unused' + v[0]).parentNode.parentNode.outerHTML = '';
-										$('unusednum_' + attachtype).innerHTML = parseInt($('unusednum_' + attachtype).innerHTML) - 1;
-										if($('unusednum_' + attachtype).innerHTML == 0 && $('attachnotice_' + attachtype)) {
-											$('attachnotice_' + attachtype).style.display = 'none';
-										}
-									}
-								}
-							}
-
-						}
-					} else if(ele[1] == 'TEXTAREA') {
-						if(ele[0] == 'message') {
-							if(!wysiwyg) {
-								textobj.value = elvalue;
-							} else {
-								editdoc.body.innerHTML = bbcode2html(elvalue);
-							}
-						} else {
-							el.value = elvalue;
-						}
-					} else if(ele[1] == 'SELECT') {
-						if($(el.id + '_ctrl_menu')) {
-							var lis = $(el.id + '_ctrl_menu').getElementsByTagName('li');
-							for(var k = 0; k < lis.length; k++) {
-								if(ele[3] == lis[k].k_value) {
-									lis[k].onclick();
-									break;
-								}
-							}
-						} else {
-							for(var k = 0; k < el.options.length; k++) {
-								if(ele[3] == el.options[k].value) {
-									el.options[k].selected = true;
-									break;
-								}
-							}
-						}
-					}
-					break;
-				}
-			}
-		}
-	}
-	if($('rstnotice')) {
-		$('rstnotice').style.display = 'none';
-	}
-	extraCheckall();
 }
 
 var checkForumcount = 0, checkForumtimeout = 30000, checkForumnew_handle;
