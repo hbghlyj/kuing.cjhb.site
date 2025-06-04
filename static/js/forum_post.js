@@ -171,16 +171,18 @@ function validate(theform) {
 
 function checkpostrule_post(theform) {
 	if(!seccodecheck && !secqaacheck && !theform.sechash) {
-		var x = new Ajax();
-		x.get('forum.php?mod=ajax&action=checkpostrule&ac=' + postaction + '&inajax=yes', function(s) {
-			if(s) {
-				ajaxinnerhtml($('seccheck'), s);
-				evalscript(s);
-				seccodecheck = true;
-			} else {
+		// Todo: the server side should check the title is not duplicated, and does not exceed the length limit
+
+		// var x = new Ajax();
+		// x.get('forum.php?mod=ajax&action=checkpostrule&ac=' + postaction + '&inajax=yes', function(s) {
+		// 	if(s) {
+		// 		ajaxinnerhtml($('seccheck'), s);
+		// 		evalscript(s);
+		// 		seccodecheck = true;
+		// 	} else {
 				postsubmit(theform);
-			}
-		});
+		// 	}
+		// });
 	} else {
 		postsubmit(theform);
 	}

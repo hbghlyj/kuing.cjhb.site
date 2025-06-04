@@ -307,7 +307,7 @@ if(!submitcheck('editsubmit')) {
 	}
 	$modpost = C::m('forum_post', $_G['tid'], $pid);
 
-	$modpost->param('redirecturl', "forum.php?mod=viewthread&tid={$_G['tid']}".($_GET['page']>1?"&page={$_GET['page']}":'')."&extra=$extra#pid$pid");
+	$modpost->param('redirecturl', "forum.php?mod=viewthread&tid={$_G['tid']}".($_GET['page']==1?'':"&page={$_GET[page]}")."&extra=$extra#pid$pid");
 
 	if(empty($_GET['delete'])) {
 
