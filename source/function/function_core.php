@@ -370,14 +370,14 @@ function checkrobot($client_ip) {
 		define('IS_ROBOT', "Internet Archive\t");
 		return;
 	}
-	if(strpos($_SERVER['HTTP_ACCEPT'], '*/*') === false || empty($_GET['inajax'])&&$_SERVER['REQUEST_METHOD'] != 'POST'&&stripos($_SERVER['HTTP_ACCEPT'], 'text/html') === false) {
+	if(empty($_SERVER['HTTP_SEC_FETCH_MODE'])) {
+		define('IS_ROBOT', 'UnusualSecFetchModeHeader');
+	}elseif(strpos($_SERVER['HTTP_ACCEPT'], '*/*') === false || $_SERVER['HTTP_SEC_FETCH_MODE'] != 'cors' && stripos($_SERVER['HTTP_ACCEPT'], 'text/html') === false) {
 		define('IS_ROBOT', 'UnusualAcceptHeader');
 	}elseif(strlen($_SERVER['HTTP_ACCEPT_LANGUAGE']) < 2){
 		define('IS_ROBOT', 'UnusualAcceptLanguageHeader');
 	}elseif(strlen($_SERVER['HTTP_ACCEPT_ENCODING']) < 2){
 		define('IS_ROBOT', 'UnusualAcceptEncodingHeader');
-	}elseif($_SERVER['REQUEST_METHOD'] != 'POST'&&empty($_GET['inajax']) && $_SERVER['HTTP_SEC_FETCH_MODE'] != 'navigate') {
-		define('IS_ROBOT', 'UnusualsecFetchModeHeader');
 	}else{
 		define('IS_ROBOT', false);
 	}
