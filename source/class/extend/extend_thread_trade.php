@@ -307,6 +307,7 @@ class extend_thread_trade extends extend_thread_base {
 					$attach = C::t('forum_attachment_n')->fetch_attachment('tid:'.$this->thread['tid'], $trade['aid']);
 					C::t('forum_attachment')->delete($trade['aid']);
 					C::t('forum_attachment_n')->delete_attachment('tid:'.$this->thread['tid'], $trade['aid']);
+					updatemembercount($attach['uid'], array('todayattachs' => -1, 'todayattachsize' => -$attach['filesize'], 'attachsize' => -$attach['filesize']), false);
 					dunlink($attach);
 					$this->param['threadimageaid'] = $_GET['tradeaid'];
 					convertunusedattach($_GET['tradeaid'], $this->thread['tid'], $this->post['pid']);

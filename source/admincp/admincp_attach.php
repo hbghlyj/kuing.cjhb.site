@@ -150,6 +150,7 @@ EOT;
 		$tids = $pids = array();
 		for($attachi = 0;$attachi < 10;$attachi++) {
 			foreach(C::t('forum_attachment_n')->fetch_all_attachment($attachi, $_GET['delete']) as $attach) {
+				updatemembercount($attach['uid'], array('todayattachs' => -1, 'todayattachsize' => -$attach['filesize'], 'attachsize' => -$attach['filesize']), false);
 				dunlink($attach);
 				$tids[$attach['tid']] = $attach['tid'];
 				$pids[$attach['pid']] = $attach['pid'];
