@@ -1096,7 +1096,7 @@ function viewthread_procpost($post, $lastvisit, $ordertype, $maxposition = 0) {
 		$post['newpostanchor'] = '';
 	}
 
-	$post['lastpostanchor'] = ($ordertype != 1 && $_G['forum_numpost'] == $_G['forum_thread']['replies']) || ($ordertype == 1 && $_G['forum_numpost'] == $_G['forum_thread']['replies'] + 2 && (!$_G['forum_thread']['replies'] || !$post['first'])) ? '<a name="lastpost"></a>' : '';
+	$post['lastpostanchor'] = $post['position'] == $_G['forum_thread']['maxposition'] ? '<a name="lastpost"></a>' : '';
 
 	if(empty($post['hotrecommended']) && $post['incurpage']) {
 		if($_G['forum_pagebydesc']) {
