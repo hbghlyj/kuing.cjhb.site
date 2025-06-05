@@ -84,9 +84,9 @@ $postshowavatars = !($_G['setting']['bannedmessages'] & 2 && ($post['memberstatu
 				<!--{if !(!empty($_G['setting']['threadguestlite']) && !$_G['uid'])}-->
 					{eval viewthread_profile_node('left', $post);}
 					<!--{if !IS_ROBOT && !$_GET['authorid'] && !$_G['forum_thread']['archiveid']}-->
-						<p style="font-size: 12px;"><a href="forum.php?mod=viewthread&tid=$post[tid]&page=$page&authorid=$post[authorid]" rel="nofollow">{lang thread_show_author}</a></p>
+						<p style="font-size: 12px;"><a href="forum.php?mod=viewthread&tid=$post[tid]{if $page>1}&page=$page{/if}&authorid=$post[authorid]" rel="nofollow">{lang thread_show_author}</a></p>
 					<!--{elseif !$_G['forum_thread']['archiveid']}-->
-						<p style="font-size: 12px;"><a href="forum.php?mod=viewthread&tid=$post[tid]&page=$page" rel="nofollow">{lang thread_show_all}</a></p>
+						<p style="font-size: 12px;"><a href="forum.php?mod=viewthread&tid=$post[tid]{if $page>1}&page=$page{/if}" rel="nofollow">{lang thread_show_all}</a></p>
 					<!--{/if}-->
 					<!--{if $post[authorid] != $_G[uid]}-->
 						<ul class="xl xl2 o cl">
@@ -386,16 +386,16 @@ $postshowavatars = !($_G['setting']['bannedmessages'] & 2 && ($post['memberstatu
 			<div class="pob cl">
 				<em>
 					<!--{if $post['invisible'] == 0}-->
-						<!--{if $allowpostreply && $post['allowcomment'] && (!$thread['closed'] || $_G['forum']['ismoderator'])}--><a class="cmmnt" href="forum.php?mod=misc&action=comment&tid=$post[tid]&pid=$post[pid]&extra=$_GET[extra]&page=$page{if $_G['forum_thread']['special'] == 127}&special=$specialextra{/if}" onclick="showWindow('comment', this.href, 'get', 0)">{lang comments}</a><!--{/if}-->
+						<!--{if $allowpostreply && $post['allowcomment'] && (!$thread['closed'] || $_G['forum']['ismoderator'])}--><a class="cmmnt" href="forum.php?mod=misc&action=comment&tid=$post[tid]&pid=$post[pid]&extra=$_GET[extra]{if $page>1}&page=$page{/if}{if $_G['forum_thread']['special'] == 127}&special=$specialextra{/if}" onclick="showWindow('comment', this.href, 'get', 0)">{lang comments}</a><!--{/if}-->
 					<!--{if (!$_G['uid'] || $allowpostreply) && !$needhiddenreply}-->
 						<!--{if $post['first'] && $_G['forum_thread']['replies'] < 3}-->
-							<a class="fastre" href="forum.php?mod=post&action=reply&fid=$_G[fid]&tid=$_G[tid]&reppost=$post[pid]&extra=$_GET[extra]&page=$page" onclick="showWindow('reply', this.href)">{lang reply}</a>
+							<a class="fastre" href="forum.php?mod=post&action=reply&fid=$_G[fid]&tid=$_G[tid]&reppost=$post[pid]&extra=$_GET[extra]{if $page>1}&page=$page{/if}" onclick="showWindow('reply', this.href)">{lang reply}</a>
 						<!--{else}-->
-							<a class="fastre" href="forum.php?mod=post&action=reply&fid=$_G[fid]&tid=$_G[tid]&repquote=$post[pid]&extra=$_GET[extra]&page=$page" onclick="showWindow('reply', this.href)">{lang reply}</a>
+							<a class="fastre" href="forum.php?mod=post&action=reply&fid=$_G[fid]&tid=$_G[tid]&repquote=$post[pid]&extra=$_GET[extra]{if $page>1}&page=$page{/if}" onclick="showWindow('reply', this.href)">{lang reply}</a>
 						<!--{/if}-->
 					<!--{/if}-->
 					<!--{/if}-->
-					<a class="editp" href="forum.php?mod=post&action=edit&fid=$_G[fid]&tid=$_G[tid]&pid=$post[pid]{if !empty($_GET[modthreadkey])}&modthreadkey=$_GET[modthreadkey]{/if}&page=$page" onclick="showWindow('edit', this.href, 'get', 0)"><!--{if $_G['forum_thread']['special'] == 2 && !$post['message']}-->{lang post_add_aboutcounter}<!--{else}-->{lang edit}<!--{/if}--></a>
+					<a class="editp" href="forum.php?mod=post&action=edit&fid=$_G[fid]&tid=$_G[tid]&pid=$post[pid]{if !empty($_GET[modthreadkey])}&modthreadkey=$_GET[modthreadkey]{/if}{if $page>1}&page=$page{/if}" onclick="showWindow('edit', this.href, 'get', 0)"><!--{if $_G['forum_thread']['special'] == 2 && !$post['message']}-->{lang post_add_aboutcounter}<!--{else}-->{lang edit}<!--{/if}--></a>
 					<!--{if $post['first'] && $post['invisible'] == -3}-->
 						<!--<a class="psave" href="forum.php?mod=misc&action=pubsave&tid=$_G[tid]">{lang published}</a>-->
 					<!--{/if}-->
@@ -425,7 +425,7 @@ $postshowavatars = !($_G['setting']['bannedmessages'] & 2 && ($post['memberstatu
 						<!--{/if}-->
 
 						<!--{if !empty($postlist[$post[pid]]['totalrate']) && $_G['forum']['ismoderator']}-->
-							<a href="forum.php?mod=misc&action=removerate&tid=$_G[tid]&pid=$post[pid]&page=$page" onclick="showWindow('rate', this.href, 'get', -1)">{lang removerate}</a>
+							<a href="forum.php?mod=misc&action=removerate&tid=$_G[tid]&pid=$post[pid]{if $page>1}&page=$page{/if}" onclick="showWindow('rate', this.href, 'get', -1)">{lang removerate}</a>
 						<!--{/if}-->
 					<!--{/if}-->
 					<!--{hook/viewthread_postaction $postcount}-->
