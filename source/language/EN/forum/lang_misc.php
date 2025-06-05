@@ -328,7 +328,7 @@ $lang = array
 
 // Added by Valery Votintsev, codersclub.org
 	'poll_reply_no_perms'	=> 'You can not reply the poll',//'您不能对自己的回帖进行投票',
-	'poll_replyed_already'	=> 'You have already replied this poll',//'您已经对此回帖投过票了',
+	'poll_replyed_already'	=> 'You have voted already',//'您已经对此回帖投过票了',
 	'poll_voted_ok'		=> 'You have voted successfully',//'投票成功',
 );
 
