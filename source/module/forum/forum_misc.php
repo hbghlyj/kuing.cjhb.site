@@ -1646,9 +1646,6 @@ if($_GET['action'] == 'votepoll' && submitcheck('pollsubmit', 1)) {
 			$fieldarr['heats'] = 0;
 		$fieldarr['recommends'] = $_G['group']['allowrecommend'];
 		C::t('forum_thread')->increase($_G['tid'], $fieldarr);
-		if(empty($thread['closed'])) {
-			C::t('forum_thread')->update($_G['tid'], array('lastpost' => TIMESTAMP));
-		}
 		C::t('forum_memberrecommend')->insert(array('tid'=>$_G['tid'], 'recommenduid'=>$_G['uid'], 'dateline'=>$_G['timestamp']));
 		$recommendv = $_G['group']['allowrecommend'] > 0 ? '+'.$_G['group']['allowrecommend'] : $_G['group']['allowrecommend'];
 		if($_G['setting']['recommendthread']['daycount']) {
