@@ -434,12 +434,6 @@ function appendAttachDel(ids) {
 		if($('delattachop')) {
 			$('delattachop').value = 1;
 		}
-		if (typeof imgUpload !== 'undefined' && imgUpload.customSettings) {
-			imgUpload.customSettings.maxAttachNum++;
-		}
-		if (typeof upload !== 'undefined' && upload.customSettings) {
-			upload.customSettings.maxAttachNum++;
-		}
 	} else {
 		showError($L('attach_del_error'));
 	}
