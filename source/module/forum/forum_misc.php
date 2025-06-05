@@ -1620,6 +1620,7 @@ if($_GET['action'] == 'votepoll' && submitcheck('pollsubmit', 1)) {
 		$fieldarr['recommends'] = -1;
 		$fieldarr['recommend_add'] = -1;
 		C::t('forum_thread')->increase($_G['tid'], $fieldarr);
+		updatemembercount($thread['authorid'], array('extcredits1' => -1));
 		showmessage('follow_cancel_succeed', extraparam:array('msgtype' => 3, 'extrajs' => '<script type="text/javascript" reload="1">recommendupdate(-1);</script>'));
 	}else{
 		if($_G['setting']['recommendthread']['daycount']){
@@ -1634,9 +1635,11 @@ if($_GET['action'] == 'votepoll' && submitcheck('pollsubmit', 1)) {
 		if($_GET['do'] == 'add') {
 			$heatadd = 'recommend_add=recommend_add+1';
 			$fieldarr['recommend_add'] = 1;
+			updatemembercount($thread['authorid'], array('extcredits1' => 1));
 		} else {
 			$heatadd = 'recommend_sub=recommend_sub+1';
 			$fieldarr['recommend_sub'] = 1;
+			updatemembercount($thread['authorid'], array('extcredits1' => -1));
 		}
 	
 			update_threadpartake($_G['tid']);
@@ -1647,7 +1650,6 @@ if($_GET['action'] == 'votepoll' && submitcheck('pollsubmit', 1)) {
 			C::t('forum_thread')->update($_G['tid'], array('lastpost' => TIMESTAMP));
 		}
 		C::t('forum_memberrecommend')->insert(array('tid'=>$_G['tid'], 'recommenduid'=>$_G['uid'], 'dateline'=>$_G['timestamp']));
-	
 		$recommendv = $_G['group']['allowrecommend'] > 0 ? '+'.$_G['group']['allowrecommend'] : $_G['group']['allowrecommend'];
 		if($_G['setting']['recommendthread']['daycount']) {
 			$daycount = $_G['setting']['recommendthread']['daycount'] - $recommendcount;
@@ -1814,6 +1816,7 @@ if($_GET['action'] == 'votepoll' && submitcheck('pollsubmit', 1)) {
 			$typeid = $row['attitude'] == 1 ? 1 : 0;
 			C::t('forum_hotreply_number')->delete_vote_by_pid($post['pid'], $typeid);
 			C::t('forum_hotreply_member')->delete_by_uid_pid($_G['uid'], $post['pid']);
+			updatemembercount($post['authorid'], array('extcredits1' => -$typeid));
 			showmessage('follow_cancel_succeed', '', array(), array('msgtype' => 3, 'extrajs' => '<script type="text/javascript" reload="1">postreviewcancel('.$post['pid'].', '.$typeid.',"'.$_G['username'].'");</script>'));
 		}
 	}
@@ -1830,6 +1833,7 @@ if($_GET['action'] == 'votepoll' && submitcheck('pollsubmit', 1)) {
 
 	$hotreply[$_GET['do']]++;
 
+	updatemembercount($post['authorid'], array('extcredits1' => $typeid));
 	showmessage('thread_poll_succeed', '', array(), array('msgtype' => 3, 'extrajs' => '<script type="text/javascript" reload="1">postreviewupdate('.$post['pid'].', '.$typeid.',"'.$_G['username'].'");</script>'));
 } elseif($_GET['action'] == 'hidden') {
 	if($_GET['formhash'] != FORMHASH) {
