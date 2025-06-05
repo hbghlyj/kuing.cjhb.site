@@ -940,8 +940,9 @@ a.thread_mod { height: 19px; line-height: 19px; display: inline-block; color: #4
 			.appendp:before { content: "\f120"; }
 			.psave { background: url({IMGDIR}/pubsave.gif) no-repeat 4px 50%; padding: 3px 10px 3px 25px; border:1px dotted {COMMONBORDER}; margin-left:5px; }
 			.push:before { content: "\f10f"; }
-			.replyadd:before { content: "\f124"; }
-			.replysubtract:before { content: "\f125"; }
+			.pob em a.replyadd:before { content: "\f110"; font-size: smaller; }
+			.pob em a.replysubtract:before { content: "\f111"; font-size: smaller; }
+			em:not(:hover)>.replysubtract { display: none; }
 		.modact { display: block; height: 32px; text-align: center; padding:30px 0 0; }
 			.modact, .modact a { line-height: 32px !important; }
 		/* 按钮 by alice */

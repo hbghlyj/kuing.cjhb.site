@@ -38,12 +38,6 @@ a.avtm {
 #p_btn i { min-height: 24px; }
 /*主楼收藏评分高度（为了赞的深度）*/
 
-.replyadd:before { content: "\f110"; }
-.replysubtract { display: none !important; }
-#p_btn #recommendv_add,.replyadd { color: blue; }
-/*回帖点赞：大拇指、扔掉反对、数字颜色*/
-
-
 .pl .blockcode ol li { font-size: 14px; }
 code, pre {
     font-family: Monaco, Consolas, 'Lucida Console', 'Courier New', FangSong, serif;
