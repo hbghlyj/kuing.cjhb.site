@@ -432,7 +432,7 @@ Created & Modified by Alice, Monkey, Lushnis, Pony, Dfox & DragonLee.
 .fl {}
 	.fl_tb { width: 100%; }
 		.fl_tb td { padding: 10px 0; }
-		.fl_icn { padding-right: 10px !important; width: 31px; }
+		.fl_tb td.fl_icn { padding: 10px; width: 31px; }
 		.fl_by { width: 220px; }
 			.fl_by div { margin-left: 10px; width: 210px; padding-left: 8px; word-wrap: normal; white-space: nowrap; }
 				.fl_by div .xi2 { zoom: 1; }
