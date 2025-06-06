@@ -22,22 +22,19 @@ color: red;
 <input id="keyword-input" size="30" placeholder="{lang input_a_new_tag_press_enter_submit}" list="tag-suggestions">
 <datalist id="tag-suggestions"></datalist>
 <script>
-    const keywordInput = document.getElementById('keyword-input');
-    const tagSuggestions = document.getElementById('tag-suggestions');
-
-    keywordInput.addEventListener('input', async () => {
-        const query = keywordInput.value.trim();
+    $('keyword-input').addEventListener('input', async function() {
+        const query = this.value.trim();
         if (mb_strlen(query) < 2) return; // Only fetch suggestions for queries longer than 1 character
 
         try {
             const response = await fetch(`forum.php?mod=tag&op=search&inajax=1&searchkey=${encodeURIComponent(query)}`);
             const suggestions = await response.json();
 
-            tagSuggestions.innerHTML = ''; // Clear previous suggestions
+            $('tag-suggestions').innerHTML = ''; // Clear previous suggestions
             suggestions.forEach(tag => {
                 const option = document.createElement('option');
                 option.value = tag;
-                tagSuggestions.appendChild(option);
+                $('tag-suggestions').appendChild(option);
             });
         } catch (error) {
             console.error('Error fetching tag suggestions:', error);
