@@ -46,27 +46,22 @@ if(!empty($id) || $name) {
 			}
 		}
 	}else{
-		$tagnames = array();
 		$tags = C::t('common_tag')->get_byids($id);
-		$id_not_exist = array_diff($id, array_map(function($value) {
-			return $value['tagid'];
-		}, $tags));
+		$id_not_exist = array_diff($id, array_column($tags,'tagid'));
 		if(!empty($id_not_exist)) {
 			showmessage('tag_does_not_exist', '', array('tag' => implode(',', $id_not_exist)));
 		}
-		$tagname = implode(',', array_map(function($value) {
-			return $value['tagname'];
-		}, $tags));
+		$tagname = implode(',', array_column($tags,'tagname'));
 	}
+	$html_title = array();
 	foreach($tags as $tag) {
 		if($tag['status'] == 1) {
 			showmessage('tag_closed', '', array('tag' => $tag['tagname']));
 		}
+		$html_title[] = "<a href=\"misc.php?mod=tag&id=$tag[tagid]\">$tag[tagname]</a>";
 	}
-	$navtitle = $tagname ? $taglang.' - '.$tagname : $taglang;
-	$metakeywords = $tagname ? $taglang.' - '.$tagname : $taglang;
-	$metadescription = $tagname ? $taglang.' - '.$tagname : $taglang;
-
+	$html_title = implode(', ', $html_title);
+	$navtitle = $metakeywords = $metadescription = $tagname ? $taglang.' - '.$tagname : $taglang;
 
 	$showtype = 'thread';
 	$tidarray = $threadlist = array();

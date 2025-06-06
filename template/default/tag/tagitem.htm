@@ -5,17 +5,16 @@
 		<a href="./" class="nvhm" title="{lang homepage}">$_G[setting][bbname]</a> <em>&rsaquo;</em>
 		<a href="misc.php?mod=tag">{lang tag}</a>
 		<em>&rsaquo;</em>
-		<a href="misc.php?mod=tag&id=$id">$tagname</a>
 		<!--{if $showtype == 'thread'}-->
-			<em>&rsaquo;</em> {lang related_thread}
+			{lang related_thread}
 		<!--{/if}-->
 		<!--{if $showtype == 'blog'}-->
-			<em>&rsaquo;</em> {lang related_blog}
+			{lang related_blog}
 		<!--{/if}-->
 	</div>
 </div>
 <div id="ct" class="wp cl">
-	<h1 class="mt"><i class="fico-tag fc-s" alt="tag"></i> {lang tag}: $tagname</h1>
+	<h1 class="mt"><i class="fico-tag fc-s" alt="tag"></i> {lang tag}: $html_title</h1>
 	<!--{if empty($showtype) || $showtype == 'thread'}-->
 		<div class="bm tl">
 			<div class="th">
