@@ -18,7 +18,7 @@ $sitemap .= "xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n";
 $sitemap .= "xsi:schemaLocation=\"http://www.sitemaps.org/schemas/sitemap/0.9\n";
 $sitemap .= "http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd\">\n";
 
-$result = DB::fetch_all('SELECT tid,replies,lastpost FROM ' . DB::table("forum_thread") . ' WHERE fid NOT IN (2,9,10) ORDER BY lastpost DESC');
+$result = DB::fetch_all('SELECT tid,replies,lastpost,fid IN (2,9,10) as excl FROM ' . DB::table("forum_thread") . ' ORDER BY lastpost DESC');
 
 if (!$result) {
     runlog('error', "Failed to fetch data from database"); // 记录错误日志
@@ -36,7 +36,9 @@ foreach ($result as $row) {
         $sitemap .= "<url>\n";
         $sitemap .= "<loc>$link</loc>\n";
         $sitemap .= "<lastmod>$lastmod</lastmod>\n";
-        if ($row['replies'] > 4) {
+        if ($row['excl']) {
+            $sitemap .= "<priority>0</priority>\n";
+        } elseif ($row['replies'] > 4) {
             $sitemap .= "<priority>0.9</priority>\n";
         } elseif ($row['replies'] > 3) {
             $sitemap .= "<priority>0.8</priority>\n";

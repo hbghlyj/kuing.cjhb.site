@@ -1063,6 +1063,7 @@ if(empty($_GET['viewpid'])) {
 function viewthread_updateviews($tableid) {
 	global $_G;
 
+	if(IS_ROBOT)return;
 	if(!$_G['setting']['preventrefresh'] || getcookie('viewid') != 'tid_'.$_G['tid']) {
 		if(!$tableid && getglobal('setting/optimizeviews')) {
 			if(isset($_G['forum_thread']['addviews'])) {
