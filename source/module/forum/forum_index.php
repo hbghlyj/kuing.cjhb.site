@@ -164,8 +164,7 @@ if($_G['setting']['grid']['showgrid']) {
 		$grids['newthread'] = C::t('forum_thread')->fetch_all_for_guide('newthread', 0, array(), 0, 0, 0, 10, $_G['setting']['grid']['fids']);
 
 		$grids['newreply'] = C::t('forum_thread')->fetch_all_for_guide('reply', 0, array(), 0, 0, 0, 10, $_G['setting']['grid']['fids']);
-		//$grids['hot'] = C::t('forum_thread')->fetch_all_for_guide('hot', 0, array(), 3, 0, 0, 10, $_G['setting']['grid']['fids']);
-        $grids['hot'] = DB::fetch_all("SELECT * FROM ".DB::table('forum_thread')." WHERE heats>=10 AND displayorder>=0 ORDER BY lastpost DESC LIMIT 10");//test
+        $grids['hot'] = DB::fetch_all("SELECT * FROM ".DB::table('forum_threadaddviews')." v LEFT JOIN ".DB::table('forum_thread')." t ON t.tid=v.tid WHERE t.displayorder>=0 ORDER BY v.addviews DESC LIMIT 10");
 		$_G['forum_colorarray'] = array('', '#EE1B2E', '#EE5023', '#996600', '#3C9D40', '#2897C5', '#2B65B7', '#8F2A90', '#EC1282');
 		foreach($grids as $type => $gridthreads) {
 			foreach($gridthreads as $key => $gridthread) {
