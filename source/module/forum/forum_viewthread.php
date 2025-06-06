@@ -1066,7 +1066,7 @@ function viewthread_updateviews($tableid) {
 	if(!$_G['setting']['preventrefresh'] || getcookie('viewid') != 'tid_'.$_G['tid']) {
 		if(!$tableid && getglobal('setting/optimizeviews')) {
 			if(isset($_G['forum_thread']['addviews'])) {
-				if($_G['forum_thread']['addviews'] < 100) {
+				if($_G['forum_thread']['addviews'] < 1000) {
 					C::t('forum_threadaddviews')->update_by_tid($_G['tid']);
 				} else {
 					if(!discuz_process::islocked('update_thread_view')) {
