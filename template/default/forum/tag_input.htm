@@ -96,7 +96,7 @@ function removeKeyword(keyword) {
 
 $('keyword-input').addEventListener('keydown', function(e) {
     if (e.key === 'Enter') {
-        addKeyword(keywordInput.value.trim());
+        addKeyword(this.value.trim());
         this.value = '';
         doane(e);
     }

@@ -53,41 +53,14 @@ class tag {
 	}
 
 	public function update_field($tags, $itemid, $idtype = 'tid', $typeinfo = []) {
-
-		if($idtype == 'tid') {
-			$tagstr = table_forum_post::t()->fetch_threadpost_by_tid_invisible($itemid);
-			$tagstr = $tagstr['tags'];
-
-		} elseif($idtype == 'blogid') {
-			$tagstr = table_home_blogfield::t()->fetch_tag_by_blogid($itemid);
-
-		} else {
-			return '';
-		}
-
-		$tagarray = $tagidarray = $tagarraynew = [];
-		$results = table_common_tagitem::t()->select(0, $itemid, $idtype);
-		foreach($results as $result) {
-			$tagidarray[] = $result['tagid'];
-		}
-		if($tagidarray) {
-			$results = table_common_tag::t()->get_byids($tagidarray);
-			foreach($results as $result) {
-				$tagarray[$result['tagid']] = $result['tagname'];
-			}
-		}
-		$tags = $this->add_tag($tags, $itemid, $idtype, 1);
+		$tagidarray = array_column(table_common_tagitem::t()->select(0, $itemid, $idtype), 'tagid');
+		$tags = $this->add_tag($tags, $itemid, $idtype, 1) ?? [];
+		$tagstr = '';
 		foreach($tags as $tagid => $tagname) {
-			$tagarraynew[] = $tagname;
-			if(empty($tagarray[$tagid])) {
-				$tagstr = $tagstr.$tagid.','.$tagname."\t";
-			}
+			$tagstr .= $tagid.','.$tagname."\t";
 		}
-		foreach($tagarray as $tagid => $tagname) {
-			if(!in_array($tagname, $tagarraynew)) {
-				table_common_tagitem::t()->delete_tagitem($tagid, $itemid, $idtype);
-				$tagstr = str_replace("$tagid,$tagname\t", '', $tagstr);
-			}
+		foreach(array_diff($tagidarray, array_keys($tags)) as $tagid) {
+			table_common_tagitem::t()->delete_tagitem($tagid, $itemid, $idtype);
 		}
 		return $tagstr;
 	}
