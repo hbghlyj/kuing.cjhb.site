@@ -97,7 +97,7 @@ if($_G['setting']['commentnumber'] && !empty($_GET['comment'])) {
 	C::t('forum_post')->update_post('tid:'.$_G['tid'], $_GET['pid'], array('comment' => 1));
 	$comment = cutstr(str_replace(array('[b]', '[/b]', '[/color]'), '', preg_replace("/\[color=([#\w]+?)\]/i", "", $comment)), 200);
 	$comments = $thread['comments'] ? $thread['comments'] + 1 : C::t('forum_postcomment')->count_by_tid($_G['tid']);
-	C::t('forum_thread')->update($_G['tid'], array('comments' => $comments));
+	C::t('forum_thread')->update($_G['tid'], array('comments' => $comments, 'lastpost' => TIMESTAMP));
 	if(!empty($_G['uid']) && $_G['uid'] != $post['authorid']) {
 		notification_add($post['authorid'], 'pcomment', 'comment_add', array(
 			'tid' => $_G['tid'],
