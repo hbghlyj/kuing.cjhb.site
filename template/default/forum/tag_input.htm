@@ -94,18 +94,18 @@ function removeKeyword(keyword) {
     }
 }
 
-keywordInput.addEventListener('keydown', event => {
-    if (event.key === 'Enter') {
+$('keyword-input').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') {
         addKeyword(keywordInput.value.trim());
-        keywordInput.value = '';
-        doane(event);
+        this.value = '';
+        doane(e);
     }
 });
 
-keywordInput.addEventListener('blur', () => {
-    if (keywordInput.value.trim()) {
-        addKeyword(keywordInput.value.trim());
-        keywordInput.value = '';
+$('keyword-input').addEventListener('blur', function() {
+    if (this.value.trim()) {
+        addKeyword(this.value.trim());
+        this.value = '';
     }
 });
 
