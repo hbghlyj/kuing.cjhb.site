@@ -78,14 +78,10 @@ if($uid && empty($member)) {
 }
 
 if(empty($space)) {
-	if(in_array($do, array('doing', 'blog', 'album', 'share', 'home', 'trade', 'poll', 'activity', 'debate', 'reward', 'group'))) {
-		if(empty($_GET['view']) || $_GET['view'] == 'online') {
-			$_GET['view'] = 'online';
-			$space['uid'] = 0;
-			$space['self'] = 0;
-		} else {
-			showmessage('login_before_enter_home', null, array(), array('showmsg' => true, 'login' => 1));
-		}
+	if(in_array($do, array('doing', 'blog', 'friend', 'album', 'share', 'home', 'trade', 'poll', 'activity', 'debate', 'reward', 'group'))) {
+		if(empty($_GET['view'])) $_GET['view'] = 'all';
+		$space['uid'] = 0;
+		$space['self'] = 0;
 	} else {
 		showmessage('login_before_enter_home', null, array(), array('showmsg' => true, 'login' => 1));
 	}

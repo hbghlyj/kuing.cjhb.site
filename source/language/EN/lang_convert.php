@@ -27,10 +27,10 @@ $lang = array(
 	'config_usergroup'	=> 'User group configuration',//'用户组配置',
 	'config_from_usergroup'	=> 'Source user group',//'来源用户组',
 	'config_target_usergroup'	=> 'Target user group',//'目标用户组',
-	'config_extcredits'	=> 'Extended points configuration',//'积分配置',
-	'config_credit'		=> 'points',//'积分',
-	'config_from_credit'	=> 'Source points',//'来源积分',
-	'config_target_credit'	=> 'Target points',//'目标积分',
+	'config_extcredits'	=> 'Extended exp configuration',//'积分配置',
+	'config_credit'		=> 'exp',//'积分',
+	'config_from_credit'	=> 'Source exp',//'来源积分',
+	'config_target_credit'	=> 'Target exp',//'目标积分',
 	'config_experience'	=> 'Experience value',//'经验值',
 	'config_convert_forum'	=> 'Forum data conversion configuration',//'数据转换配置',
 	'config_from_data'	=> 'Source data',//'源数据',
@@ -44,7 +44,7 @@ $lang = array(
 
 	'message_return'	=> 'Go back',//'返回上一步',
 	'message_stop'		=> 'Stop',//'停止运行',
-	'message_not_enabled_extcredit'	=> 'In the new system should be open at least points features, otherwise the next step can not be converted',//'新系统中至少应开启一个积分,否则无法进行下一步转换',
+	'message_not_enabled_extcredit'	=> 'In the new system should be open at least exp features, otherwise the next step can not be converted',//'新系统中至少应开启一个积分,否则无法进行下一步转换',
 
 	'ok'			=> '&nbsp;&nbsp;OK&nbsp;&nbsp;',//'&nbsp;确&nbsp;&nbsp;定&nbsp;',
 	'cancel'		=> '&nbsp;Cancel&nbsp;',//'&nbsp;取&nbsp;消&nbsp;',
@@ -222,5 +222,5 @@ $lang = array(
 //---------------------------
 //convert/source/uch2.0_x1.0/table/home_space.php++
 
-	'space_home_error'	=> 'Error: empty space points. Configure the space corresponding points info',//'发生错误,请配置积分对应关系信息',
+	'space_home_error'	=> 'Error: empty space exp. Configure the space corresponding exp info',//'发生错误,请配置积分对应关系信息',
 );
