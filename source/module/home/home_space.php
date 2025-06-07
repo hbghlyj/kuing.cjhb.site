@@ -79,8 +79,8 @@ if($uid && empty($member)) {
 
 if(empty($space)) {
 	if(in_array($do, array('doing', 'blog', 'album', 'share', 'home', 'trade', 'poll', 'activity', 'debate', 'reward', 'group'))) {
-		if(empty($_GET['view']) || $_GET['view'] == 'all') {
-			$_GET['view'] = 'all';
+		if(empty($_GET['view']) || $_GET['view'] == 'online') {
+			$_GET['view'] = 'online';
 			$space['uid'] = 0;
 			$space['self'] = 0;
 		} else {
