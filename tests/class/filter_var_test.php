@@ -21,7 +21,7 @@ class TestFilterVar
         assertFalse(is_valid("[::1]:8080"));
     }
 
-    function testScopped()
+    function testScoped()
     {
         assertFalse(is_valid("fe80::8902:43d1:fa45:d468/64"));
         assertFalse(is_valid("fe80::8902:43d1:fa45:d468%10"));
