@@ -1125,7 +1125,7 @@ function getreplybg($replybg = '') {
 			}
 		}
 		if($bgurl) {
-			$style = ' style="background-image: url('.$bgurl.');"';
+			$style = '<style>#fastpostmessage:invalid{background-image: url('.$bgurl.');}</style>';
 		}
 	}
 	return $style;
