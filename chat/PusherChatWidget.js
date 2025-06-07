@@ -257,7 +257,7 @@ PusherChatWidget.prototype._fetchMissedMessages = function() {
       }
       if (newMessages.length > 0) {
         for (var j = 0; j < newMessages.length; ++j) {
-          self._chatMessageReceived(newMessages[j], false);
+          self._chatMessageReceived(newMessages[j], true);
         }
         self._processPendingMessages();
       }
@@ -267,12 +267,12 @@ PusherChatWidget.prototype._fetchMissedMessages = function() {
 
 /* @private */
 // MODIFIED: This function now adds messages to a queue.
-PusherChatWidget.prototype._chatMessageReceived = function(data, isLiveMessage, isPrepending) {
+PusherChatWidget.prototype._chatMessageReceived = function(data, isLiveMessage, isPrepending = false) {
   var messageEl = PusherChatWidget._buildListItem(data);
   var entry = { 
     data: data,    messageEl: messageEl, 
     isLiveMessage: isLiveMessage,
-    isPrepending: isPrepending || false // New flag
+    isPrepending: isPrepending
   };
   if (isPrepending) {
     this._pendingMessages.unshift(entry); // Add to the beginning for older messages
@@ -354,11 +354,9 @@ PusherChatWidget.prototype._actuallyAppendMessage = function(entry, oldScrollHei
   
   ++this._itemCount;
 
-  // Scroll handling
   if (entry.isLiveMessage) {
-    if (!this.isCollapsed && (this._messagesEl.scrollTop() + this._messagesEl.innerHeight() >= this._messagesEl[0].scrollHeight - entry.messageEl.outerHeight() * 1.5)) {
-      this._messagesEl.animate({scrollTop: this._messagesEl[0].scrollHeight}, 500);
-    }
+    // Scroll to the bottom for new messages
+    this._messagesEl.animate({scrollTop: this._messagesEl[0].scrollHeight}, 500);
   } else if (entry.isPrepending) {
     // Restore scroll position after prepending new content
     var newScrollHeight = this._messagesEl[0].scrollHeight;
