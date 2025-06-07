@@ -114,7 +114,7 @@
 			<a href="javascript:;" id="custominfo" class="y" style="margin-left:5px"><i class="fico-info fic4 fc-p" alt="{lang faq}"></i></a>
 		<!--{/if}-->
 		<!--{if $_GET[action] == 'edit'}-->
-			<label class="y"><input type="checkbox" name="minor" value="1">{lang admin_merge}{lang edit}{lang time}</label>
+			<label class="y"><input type="checkbox" name="minor">{lang admin_merge}{lang edit}{lang time}</label>
 		<!--{/if}-->
 		<button type="submit" id="postsubmit" class="pn pnc z" value="true"{if !$seccodecheck && !$secqaacheck} onmouseover="checkpostrule('seccheck_$_GET[action]', 'ac=$_GET[action]&infloat=yes&handlekey=$_GET[handlekey]');this.onmouseover=null"{/if} name="{if $_GET[action] == 'newthread'}topicsubmit{elseif $_GET[action] == 'reply'}replysubmit{elseif $_GET[action] == 'edit'}editsubmit{/if}"><span><!--{if $_GET[action] == 'newthread'}-->{lang post_newthread}<!--{elseif $_GET[action] == 'reply'}-->{lang join_thread}<!--{elseif $_GET[action] == 'edit' && $isfirstpost && $thread['displayorder'] == -4}-->{lang post_newthread}<!--{elseif $_GET['action'] == 'edit'}-->{lang edit_save}<!--{/if}--></span></button>
 		<!--{if $_G['uid'] && $_G['group']['allowsave']}-->

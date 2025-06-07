@@ -53,7 +53,8 @@ var disablepostctrl = parseInt('{$_G['group']['disablepostctrl']}');
 				</div>
 				<div class="area">
 					<!--{if $allowfastpost}-->
-						<textarea rows="6" cols="80" name="message" id="fastpostmessage" onKeyDown="seditor_ctlent(event, {if $_GET['ordertype'] != 1}'fastpostvalidate($(\'fastpostform\'))'{else}'$(\'fastpostform\').submit()'{/if});" class="pt"{eval echo getreplybg($_G['forum']['replybg']);}></textarea>
+						<textarea rows="6" cols="80" name="message" id="fastpostmessage" onKeyDown="seditor_ctlent(event, {if $_GET['ordertype'] != 1}'fastpostvalidate($(\'fastpostform\'))'{else}'$(\'fastpostform\').submit()'{/if});" class="pt" required></textarea>
+						{eval echo getreplybg($_G['forum']['replybg']);}
 					<!--{else}-->
 						<div class="pt hm">
 							<!--{if !$_G['uid']}-->
