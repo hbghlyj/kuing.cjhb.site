@@ -49,7 +49,7 @@ class Session
 
     public function preventStealingSession()
     {
-        // Interesting stuff 
+        // Check previous user agent to detect session hijacking 
         // Prevent malicious users from stealing sessions
         if (isset($_SESSION['PREV_USERAGENT'])) {
             if ($_SERVER['HTTP_USER_AGENT'] != $_SESSION['PREV_USERAGENT']) {
