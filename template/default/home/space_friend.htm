@@ -15,7 +15,7 @@
 	<div class="mn">
 		<!--[diy=diycontenttop]--><div id="diycontenttop" class="area"></div><!--[/diy]-->
 		<div class="bm bw0">
-			<!--{if $space[self]}-->
+			<!--{if $space[uid] && $space[self]}-->
 				<h1 class="mt"><i class="fico-group fic4 fc-p vm"></i>{lang friend_list}</h1>
 				<ul class="tb cl">
 					<li{$a_actives[me]}><a href="home.php?mod=space&do=friend">{lang all_friend_list}</a></li>
@@ -172,7 +172,7 @@
 								<th>{lang online_in_forum}</th>
 								<th>{lang online_in_thread}</th>
 								<th>{lang time}</th>
-								<th>{lang online_ip}</th>
+								<!--{if $space[uid]}--><th>{lang online_ip}</th><!--{/if}-->
 							</tr>
 						</thead>
 						<tbody>
@@ -183,7 +183,7 @@
 								<td><!--{if $value['fid']}--><a href="forum.php?mod=forumdisplay&fid=$value[fid]">$value[name]</a><!--{else}-->$value[action]<!--{/if}-->&nbsp;</td>
 								<td style="max-width:300px;"><!--{if $value['tid']}--><a href="forum.php?mod=viewthread&tid=$value[tid]">$value[subject]</a><!--{/if}-->&nbsp;</td>
 								<td>$value[lastactivity]&nbsp;</td>
-								<td style="max-width: 100px;overflow: hidden;overflow-x: visible;" nowrap>$value[ip]<br>$value[referrer]</td>
+								<!--{if $space[uid]}--><td style="max-width: 100px;overflow: hidden;overflow-x: visible;" nowrap>$value[ip]<br>$value[referrer]</td><!--{/if}-->
 							</tr>
 						<!--{/loop}-->
 						</tbody>
