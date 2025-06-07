@@ -115,7 +115,8 @@ class usermodel {
 	}
 
 	function check_usernameexists($username) {
-		$data = $this->db->result_first("SELECT username FROM ".UC_DBTABLEPRE."members WHERE username='$username'");
+		$stripped_username = str_replace(' ', '', $username);
+		$data = $this->db->result_first("SELECT username FROM ".UC_DBTABLEPRE."members WHERE REPLACE(username, ' ', '')='$stripped_username'");
 		return $data;
 	}
 
