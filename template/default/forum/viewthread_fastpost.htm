@@ -8,7 +8,7 @@ var disablepostctrl = parseInt('{$_G['group']['disablepostctrl']}');
 
 <div id="f_pst" class="pl{if empty($_GET[from])} bm{/if}">
 <div class="bm_h">
-	<h2>{lang quick_post}</h2>
+	<h2>{lang fastreply}</h2>
 </div>
 <form method="post" autocomplete="off" id="fastpostform" action="forum.php?mod=post&action=reply&fid=$_G[fid]&tid=$_G[tid]&extra=$_GET[extra]&replysubmit=yes{if $_GET['ordertype'] != 1}&infloat=yes&handlekey=fastpost{/if}{if $_GET[from]}&from=$_GET[from]{/if}"{if $_GET['ordertype'] != 1} onSubmit="return fastpostvalidate(this)"{/if}>
 	<!--{if empty($_GET[from])}-->
