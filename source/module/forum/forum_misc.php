@@ -1797,33 +1797,27 @@ if($_GET['action'] == 'votepoll' && submitcheck('pollsubmit', 1)) {
 	if($_G['uid'] == $post['authorid']) {
 		showmessage('noreply_yourself_error', '', array(), array('msgtype' => 3));
 	}
-
+	$typeid = $_GET['do'] == 'support' ? 1 : 0;
+	$typename = $typeid ? 'support' : 'against';
 	if($row = C::t('forum_hotreply_member')->fetch_member($post['pid'], $_G['uid'])) {
-		$newtype = $_GET['do'] == 'support' ? 1 : 0;
 		$oldtype = $row['attitude'];
-		if($oldtype == $newtype) {
+		if($oldtype == $typeid) {
 			// same vote, cancel it
-			C::t('forum_hotreply_number')->delete_vote_by_pid($post['pid'], $newtype);
+			DB::query('UPDATE '.DB::table('forum_hotreply_number').' SET '.$typename.'='.$typename.'-1, total=total-1 WHERE pid='.$post['pid'].' AND tid='.$post['tid']);
+			DB::query('DELETE FROM '.DB::table('forum_hotreply_number')." WHERE pid='$post[pid]' AND tid='$post[tid]' AND total=0");
 			C::t('forum_hotreply_member')->delete_by_uid_pid($_G['uid'], $post['pid']);
-			updatemembercount($post['authorid'], array('extcredits1' => -$newtype));
-			showmessage('follow_cancel_succeed', '', array(), array('msgtype' => 3, 'extrajs' => '<script type="text/javascript" reload="1">postreviewcancel('.$post['pid'].', '.$newtype.',"'.$_G['username'].'");</script>'));
+			updatemembercount($post['authorid'], array('extcredits1' => -$typeid));
+			showmessage('follow_cancel_succeed', '', array(), array('msgtype' => 3, 'extrajs' => '<script type="text/javascript" reload="1">postreviewcancel('.$post['pid'].', '.$typeid.',"'.$_G['username'].'");</script>'));
 		} else {
 			// changing vote from old attitude to new
-			C::t('forum_hotreply_number')->update_num($post['pid'], $newtype);
-			C::t('forum_hotreply_number')->update_num($post['pid'], $newtype);
-			DB::query('UPDATE '.DB::table('forum_hotreply_member')." SET attitude='$newtype' WHERE pid='$post[pid]' AND uid='$_G[uid]'");
-			updatemembercount($post['authorid'], array('extcredits1' => $newtype - $oldtype));
-			showmessage('thread_poll_succeed', '', array(), array('msgtype' => 3, 'extrajs' => '<script type="text/javascript" reload="1">postreviewupdate('.$post['pid'].', '.$newtype.',"'.$_G['username'].'");</script>'));
+			$oldtypename = $support ? 'against' : 'support';
+			DB::query('UPDATE '.DB::table('forum_hotreply_number').' SET '.$typename.'='.$typename.'+1, '.$oldtypename.'='.$oldtypename.'-1 WHERE pid='.$post['pid'].' AND tid='.$post['tid']);
+			DB::query('UPDATE '.DB::table('forum_hotreply_member')." SET attitude='$typeid' WHERE pid='$post[pid]' AND uid='$_G[uid]'");
+			updatemembercount($post['authorid'], array('extcredits1' => $typeid - $oldtype));
+			showmessage('thread_poll_succeed', '', array(), array('msgtype' => 3, 'extrajs' => '<script type="text/javascript" reload="1">postreviewcancel('.$post['pid'].',"'.$oldtypename.'","'.$_G['username'].'");postreviewupdate('.$post['pid'].', '.$typeid.',"'.$_G['username'].'");</script>'));
 		}
 	} else {
-		$typeid = $_GET['do'] == 'support' ? 1 : 0;
-		C::t('forum_hotreply_number')->insert(array(
-			'pid' => $post['pid'],
-			'tid' => $post['tid'],
-			'support' => $typeid,
-			'against' => 1 - $typeid,
-			'total' => 1
-		), true);
+		DB::query("INSERT INTO " . DB::table('forum_hotreply_number') . " (pid, tid, $typename, total) VALUES ('{$post['pid']}', '{$post['tid']}', 1, 1) ON DUPLICATE KEY UPDATE total = total + 1, $typename = $typename + 1");
 
 		C::t('forum_hotreply_member')->insert(array(
 			'tid' => $post['tid'],
@@ -1832,7 +1826,7 @@ if($_GET['action'] == 'votepoll' && submitcheck('pollsubmit', 1)) {
 			'attitude' => $typeid,
 		));
 
-		updatemembercount($post['authorid'], array('extcredits1' => $typeid));
+		updatemembercount($post['authorid'], array('extcredits1' => $typeid ? 1 : -1));
 		showmessage('thread_poll_succeed', '', array(), array('msgtype' => 3, 'extrajs' => '<script type="text/javascript" reload="1">postreviewupdate('.$post['pid'].', '.$typeid.',"'.$_G['username'].'");</script>'));
 	}
 } elseif($_GET['action'] == 'hidden') {

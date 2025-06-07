@@ -822,11 +822,16 @@ if($_G['setting']['repliesrank'] && $postlist) {
 		foreach(C::t('forum_hotreply_number')->fetch_all_by_pids(array_keys($postlist)) as $pid => $post) {
 			if($postlist[$pid]['postreview']['support'] = dintval($post['support'])){
 				$postlist[$pid]['postreview']['support_member'] = '';
-				foreach(DB::fetch_all('SELECT uid FROM '.DB::table('forum_hotreply_member').' WHERE pid='.$pid) as $row){
+				foreach(DB::fetch_all('SELECT uid FROM '.DB::table('forum_hotreply_member').' WHERE attitude=1 AND pid='.$pid) as $row){
 					$postlist[$pid]['postreview']['support_member'] .= DB::fetch_first('SELECT username FROM '.DB::table('common_member').' WHERE uid='.$row['uid'])['username']."\n";
 				}
 			}
-			$postlist[$pid]['postreview']['against'] = dintval($post['against']);
+			if($postlist[$pid]['postreview']['against'] = dintval($post['against'])) {
+				$postlist[$pid]['postreview']['against_member'] = '';
+				foreach(DB::fetch_all('SELECT uid FROM '.DB::table('forum_hotreply_member').' WHERE attitude=0 AND pid='.$pid) as $row){
+					$postlist[$pid]['postreview']['against_member'] .= DB::fetch_first('SELECT username FROM '.DB::table('common_member').' WHERE uid='.$row['uid'])['username']."\n";
+				}
+			}
 		}
 	}
 }
