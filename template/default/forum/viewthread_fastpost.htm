@@ -8,7 +8,7 @@ var disablepostctrl = parseInt('{$_G['group']['disablepostctrl']}');
 
 <div id="f_pst" class="pl{if empty($_GET[from])} bm{/if}">
 <div class="bm_h">
-	<h2>{lang fastreply}</h2>
+	<h2>{lang quick_post}</h2>
 </div>
 <form method="post" autocomplete="off" id="fastpostform" action="forum.php?mod=post&action=reply&fid=$_G[fid]&tid=$_G[tid]&extra=$_GET[extra]&replysubmit=yes{if $_GET['ordertype'] != 1}&infloat=yes&handlekey=fastpost{/if}{if $_GET[from]}&from=$_GET[from]{/if}"{if $_GET['ordertype'] != 1} onSubmit="return fastpostvalidate(this)"{/if}>
 	<!--{if empty($_GET[from])}-->
@@ -174,7 +174,7 @@ var disablepostctrl = parseInt('{$_G['group']['disablepostctrl']}');
 		<label class="lb"><input type="checkbox" name="adddynamic" class="pc" value="1"/>{lang post_reply_relay}</label>
 		<!--{/if}-->
 		<!--{if $_GET['ordertype'] != 1 && empty($_GET[from])}-->
-		<label for="fastpostrefresh"><input id="fastpostrefresh" type="checkbox" class="pc" />{lang post_fastreply_gotolast}</label>
+		<label for="fastpostrefresh"><input id="fastpostrefresh" type="checkbox" class="pc" checked />{lang post_fastreply_gotolast}</label>
 		<script type="text/javascript">if(getcookie('fastpostrefresh') == 1) {$('fastpostrefresh').checked=true;}</script>
 		<!--{/if}-->
 	</p>
