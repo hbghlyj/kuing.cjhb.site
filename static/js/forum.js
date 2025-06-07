@@ -726,7 +726,7 @@ function previewThread(tid, tbody) {
 			});
 		} else {
 			newTd.innerHTML += '<div id="threadPreview_'+tid+'"></div>';
-			ajaxget('forum.php?mod=viewthread&tid='+tid+'&from=preview', 'threadPreview_'+tid, null, null, null, function() {newTr.style.display = '';});
+			ajaxget('forum.php?mod=viewthread&tid='+tid+'&from=preview', 'threadPreview_'+tid, null, null, null, function() {MathJax.typesetPromise([newTd]);newTr.style.display = '';});
 		}
 	} else {
 		$(tbody).removeChild($('threadPreviewTR_'+tid));

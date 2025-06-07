@@ -77,7 +77,7 @@
 						var div = document.createElement('div');
 						div.innerHTML = '<table>' + nexts[i] + '</table>';
 						tableobj.replaceChild(div.childNodes[0].childNodes[0], tableobj.lastChild);
-						MathJax.typeset();
+						MathJax.typesetPromise([tableobj.lastChild]);
 					}
 				}
 			} else {

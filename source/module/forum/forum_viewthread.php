@@ -1307,7 +1307,7 @@ function viewthread_procpost($post, $lastvisit, $ordertype, $maxposition = 0) {
 	$_G['forum_firstpid'] = intval($_G['forum_firstpid']);
 	$post['numbercard'] = viewthread_numbercard($post);
 	$post['mobiletype'] = getstatus($post['status'], 4) ? base_convert(getstatus($post['status'], 10).getstatus($post['status'], 9).getstatus($post['status'], 8), 2, 10) : 0;
-	if($_G['setting']['editedby'] && ($post['lastupdate'] && $post['lastupdate'] - $post['dbdateline'] > 300 || $post['updateuid'] && $post['updateuid'] != $post['authorid'])) {
+	if($_GET['from'] != 'preview' && ($_G['setting']['editedby'] && ($post['lastupdate'] && $post['lastupdate'] - $post['dbdateline'] > 300 || $post['updateuid'] && $post['updateuid'] != $post['authorid']))) {
 		if (DISCUZ_LANG == 'EN/') {
 			$post['message'] = ' '.dgmdate($post['lastupdate'], 'u').'</i>'.$post['message'];
 		} else {
@@ -1317,7 +1317,7 @@ function viewthread_procpost($post, $lastvisit, $ordertype, $maxposition = 0) {
 		if (DISCUZ_LANG == 'EN/') {
 			$post['message'] = '<i class="pstatus">Last edited by '.$post['message'];
 		} else {
-		$post['message'] = '<i class="pstatus">本帖最后由 '.$post['message'];
+			$post['message'] = '<i class="pstatus">本帖最后由 '.$post['message'];
 		}
 	}
 	return $post;
