@@ -234,7 +234,7 @@ class table_common_member extends discuz_table_archive
 	}
 
 	public function fetch_all_stat_memberlist($username, $orderby = '', $sort = '', $start = 0, $limit =  0) {
-		$orderby = in_array($orderby, array('uid','credits','regdate', 'lastpost','username','posts','lastvisit'), true) ? $orderby : 'uid';
+		$orderby = in_array($orderby, array('uid','credits','regdate', 'lastpost','username','posts','lastvisit'), true) ? $orderby : 'lastvisit';
 		$sql = '';
 
 		$sql = !empty($username) ? " WHERE username LIKE '".addslashes(stripsearchkey($username))."%'" : '';
