@@ -138,7 +138,7 @@ body, input, button, select { font: {FONTSIZE} {FONT}; color: {TABLETEXT}; }
 	Last Modify:	lushnis
 */
 	.cl:after { content: "."; display: block; height: 0; clear: both; visibility: hidden; } .cl { zoom: 1; }
-	#onlinelist .cl li a:last-child { color: #369; }
+	#onlinelist .cl li a:last-child { color: revert; }
 /*
 	元素获取焦点时隐藏外边框
 */
