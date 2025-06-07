@@ -448,7 +448,7 @@ class discuz_application extends discuz_base{
 			define('IS_ROBOT', 'UnusualUserAgentHeader');
 		} else {
 			$robot_entry = DB::fetch_first(
-				"SELECT id, user_agent_keyword, category FROM common_robot_user_agents WHERE %s LIKE CONCAT(%s, user_agent_keyword, %s) ORDER BY LENGTH(user_agent_keyword) DESC, seen_count DESC LIMIT 1",
+				"SELECT id, user_agent_keyword FROM common_robot_user_agents WHERE %s LIKE CONCAT(%s, user_agent_keyword, %s) ORDER BY LENGTH(user_agent_keyword) DESC, seen_count DESC LIMIT 1",
 				array($_SERVER['HTTP_USER_AGENT'], '%', '%')
 			);
 
@@ -458,6 +458,7 @@ class discuz_application extends discuz_base{
 					DB::query('UPDATE common_robot_user_agents SET last_seen_at = CURRENT_TIMESTAMP(), seen_count = seen_count + 1, category = ' . DB::quote($_SERVER['HTTP_X_KNOWN_BOT']) .
 					($robot_entry['first_seen_at'] ? '' : ', first_seen_at = CURRENT_TIMESTAMP()').
 					' WHERE id = ' . $robot_entry['id']);
+					define('IS_ROBOT', $robot_entry['user_agent_keyword'] . "\t");
 				} else {
 					DB::insert('common_robot_user_agents', array(
 						'user_agent_keyword' => $_SERVER['HTTP_USER_AGENT'],
@@ -466,8 +467,8 @@ class discuz_application extends discuz_base{
 						'last_seen_at' => TIMESTAMP,
 						'seen_count' => 1
 					), false, true); // silent insert, true for replace/ignore based on unique key
+					define('IS_ROBOT', $_SERVER['HTTP_X_KNOWN_BOT'] . "\t");
 				}
-				define('IS_ROBOT', $_SERVER['HTTP_X_KNOWN_BOT'] . "\t");
 			} elseif ($robot_entry) {
 				DB::query('UPDATE common_robot_user_agents SET last_seen_at=CURRENT_TIMESTAMP(), seen_count = seen_count + 1'.
 				($robot_entry['first_seen_at'] ? '' : ', first_seen_at = CURRENT_TIMESTAMP()').
