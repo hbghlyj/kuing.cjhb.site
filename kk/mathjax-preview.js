@@ -176,17 +176,10 @@ for(annius of ctrls) {
 
 //放入编辑器框
 input.fangru=function() {
-	var kshftxta = $("postmessage");
-	var gjmstxta = $("e_textarea");
-	var hfan = $("post_reply");
-	if (kshftxta) {
-	kshftxta.value += input.value;
-	kshftxta.focus();
-	} else if (gjmstxta) {
-	gjmstxta.value += input.value;
-	gjmstxta.focus();
-	} else if (hfan) {
-	alert("请先点出回帖框，再点加入")
+	var textarea = document.querySelector("#postmessage,#e_textarea,#fastpostmessage");
+	if (textarea) {
+		textarea.value += input.value;
+		textarea.focus();
 	} else {alert("找不到编辑框")}
 }
 

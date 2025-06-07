@@ -6,7 +6,10 @@ var postmaxsubjectchars = parseInt('$_G['setting']['maxsubjectsize']');
 var disablepostctrl = parseInt('{$_G['group']['disablepostctrl']}');
 </script>
 
-<div id="f_pst" class="pl{if empty($_GET[from])} bm bmw{/if}">
+<div id="f_pst" class="pl{if empty($_GET[from])} bm{/if}">
+<div class="bm_h">
+	<h2>{lang quick_post}</h2>
+</div>
 <form method="post" autocomplete="off" id="fastpostform" action="forum.php?mod=post&action=reply&fid=$_G[fid]&tid=$_G[tid]&extra=$_GET[extra]&replysubmit=yes{if $_GET['ordertype'] != 1}&infloat=yes&handlekey=fastpost{/if}{if $_GET[from]}&from=$_GET[from]{/if}"{if $_GET['ordertype'] != 1} onSubmit="return fastpostvalidate(this)"{/if}>
 	<!--{if empty($_GET[from])}-->
 	<table cellspacing="0" cellpadding="0">
@@ -163,14 +166,14 @@ var disablepostctrl = parseInt('{$_G['group']['disablepostctrl']}');
 	<input type="hidden" name="usesig" value="$usesigcheck" />
 	<input type="hidden" name="subject" value="  " />
 	<p class="ptm pnpost">
-		<a href="home.php?mod=spacecp&ac=credit&op=rule&fid=$_G[fid]" class="y" target="_blank">{lang post_credits_rule}</a>
+		<a href="forum.php?mod=viewthread&tid=5" class="y" target="_blank">{lang post_credits_rule}</a>
 		<button {if $allowpostreply}type="submit" {elseif !$_G['uid']}type="button" onclick="showWindow('login', 'member.php?mod=logging&action=login&guestmessage=yes')" {/if}{if !$seccodecheck && !$secqaacheck} onmouseover="checkpostrule('seccheck_fastpost', 'ac=reply');this.onmouseover=null" {/if}name="replysubmit" id="fastpostsubmit" class="pn pnc vm" value="replysubmit"><strong>{lang post_newreply}</strong></button>
 		<!--{hook/viewthread_fastpost_btn_extra}-->
 		<!--{if helper_access::check_module('follow')}-->
-		<label class="lb"><input type="checkbox" name="adddynamic" class="pc" value="1" />{lang post_reply_relay}</label>
+		<label class="lb"><input type="checkbox" name="adddynamic" class="pc" value="1"/>{lang post_reply_relay}</label>
 		<!--{/if}-->
 		<!--{if $_GET['ordertype'] != 1 && empty($_GET[from])}-->
-		<label for="fastpostrefresh"><input id="fastpostrefresh" type="checkbox" class="pc" />{lang post_fastreply_gotolast}</label>
+		<label for="fastpostrefresh"><input id="fastpostrefresh" type="checkbox" class="pc" checked />{lang post_fastreply_gotolast}</label>
 		<script type="text/javascript">if(getcookie('fastpostrefresh') == 1) {$('fastpostrefresh').checked=true;}</script>
 		<!--{/if}-->
 	</p>
