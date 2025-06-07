@@ -174,7 +174,7 @@ $lang = array(
 	'to_index'			=> 'Temporarily not open',//'暂不开通',
 
 	'init_credits_karma'	=> 'Reputation',//'威望',//!!! The same in install_var.php
-	'init_credits_money'	=> 'Points',//'金钱',//!!! The same in install_var.php
+	'init_credits_money'	=> 'Exp',//'金钱',//!!! The same in install_var.php
 
 	'init_postno0'		=> '#1',//'楼主',//!!! The same in install_var.php 
 	'init_postno1'		=> '#2',//'沙发',    //!!! The same in install_var.php
