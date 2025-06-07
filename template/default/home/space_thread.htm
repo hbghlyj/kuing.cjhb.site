@@ -124,7 +124,7 @@
 							<!--{if $_GET['view'] == 'all' && $pruneperm && !$_GET['archiveid']}-->
 								<td class="o">&nbsp;</td>
 							<!--{/if}-->
-							<th><!--{if $viewtype == 'reply' || $viewtype == 'postcomment'}-->{lang post}<!--{else}-->{lang topic}<!--{/if}--><!--{if $viewtype != 'reply' && $viewtype != 'postcomment'}-->&nbsp; <input type="text" id="searchmypost" class="px vm" size="15" /> <button class="pn" onclick="location.href = 'search.php?mod=forum&srchtxt=' + encodeURIComponent($('searchmypost').value) + '&srchuid=$space[uid]&searchsubmit=yes';return false">{lang search}</button><!--{/if}--></th>
+							<th><!--{if $viewtype == 'reply' || $viewtype == 'postcomment'}-->{lang post}<!--{else}-->{lang topic}<!--{/if}--><!--{if $viewtype != 'reply' && $viewtype != 'postcomment'}-->&nbsp; <input type="text" id="searchmypost" class="px vm" size="15" /> <button class="pn" onclick="location.href = 'search.php?mod=forum&srchtxt=' + encodeURIComponent($('searchmypost').value) + '&srchuid=$space[uid]&searchsubmit=yes';return false"><span>{lang search}</span></button><!--{/if}--></th>
 							<td class="frm"><!--{if $viewtype == 'postcomment'}-->{lang forum}<!--{else}--><select name="forumlist" id="forumlist" class="ps vm" onchange="viewforumthread(this.value);" style="width: 120px; word-wrap: normal;"><option value="0">{lang follow_select_forum}</option>$forumlist</select><!--{/if}--></td>
 							<!--{if $viewtype == 'reply' || $viewtype == 'postcomment' || !$actives[me]}-->
 							<td class="by">{lang author}</td>
