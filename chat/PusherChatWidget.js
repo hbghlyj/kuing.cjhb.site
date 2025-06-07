@@ -53,9 +53,11 @@ function PusherChatWidget(pusher, options) {
     self._widget.find('label').text((isChinese ? '请检查网络连接' : 'Please check your network connection'));
     self._widget.find('.pusher-chat-widget-send-btn').prop('disabled', true);
   });
-  if(typeof currentPage !== 'undefined' && typeof tid !== 'undefined') {
+  if(typeof tid !== 'undefined') {
     this._chatChannel.bind('newreply', function(data) {
-      if(data.tid == tid && data.page == currentPage) {
+      const pageNumberElement = document.querySelector('div.pg>strong');
+      const pageNumber = pageNumberElement ? pageNumberElement.textContent.trim() : 1;
+      if(data.tid == tid && data.page == pageNumber) {
         ajaxget(`forum.php?mod=viewthread&tid=${tid}&viewpid=${data.pid}`, 'post_new', 'ajaxwaitid', '', null, `appendreply(${data.pid})`);
       }
     });
@@ -73,7 +75,7 @@ function PusherChatWidget(pusher, options) {
       }
     });
     this._chatChannel.bind('commentadd', function(data) {
-      if(data.tid == tid && data.page == currentPage && $(`pid${data.pid}`)) {
+      if(data.tid == tid && $(`pid${data.pid}`)) {
         ajaxget('forum.php?mod=misc&action=commentmore&tid=' + tid + '&pid=' + data.pid, 'comment_' + data.pid, 'ajaxwaitid', '', null, "if (typeof MathJax.typesetPromise === 'function') {MathJax.typesetPromise([document.getElementById('comment_"+data.pid+"')]);}");
       }
     });
