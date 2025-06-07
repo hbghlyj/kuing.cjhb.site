@@ -950,11 +950,11 @@ function get_push_item($block, $blockstyle, $id, $idtype, $blockclass = '', $scr
 		$obj = block_script($blockclass, $script);
 	}
 	if($obj && is_object($obj)) {
-		$paramter = array($idtype => intval($id));
-		if(isset($block['param']['picrequired'])) {
-			$paramter['picrequired'] = $block['param']['picrequired'];
-		}
-		$return = $obj->getData($blockstyle, $paramter);
+               $parameter = array($idtype => intval($id));
+               if(isset($block['param']['picrequired'])) {
+                       $parameter['picrequired'] = $block['param']['picrequired'];
+               }
+               $return = $obj->getData($blockstyle, $parameter);
 		if($return['data']) {
 			$item = array_shift($return['data']);
 		}
