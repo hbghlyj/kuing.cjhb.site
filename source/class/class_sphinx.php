@@ -316,7 +316,7 @@ class SphinxClient
 	var $_mode;			///< query matching mode (default is SPH_MATCH_ALL)
 	var $_weights;		///< per-field weights (default is 1 for all fields)
 	var $_sort;			///< match sorting mode (default is SPH_SORT_RELEVANCE)
-	var $_sortby;		///< attribute to sort by (defualt is "")
+	var $_sortby;		///< attribute to sort by (default is "")
 	var $_min_id;		///< min ID to match (default is 0, which means no limit)
 	var $_max_id;		///< max ID to match (default is 0, which means no limit)
 	var $_filters;		///< search filters
