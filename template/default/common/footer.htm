@@ -96,17 +96,17 @@
 				<!--{hook/global_footerlink}-->
 				<!--{if $_G['setting']['statcode']}-->$_G['setting']['statcode']<!--{/if}-->
 			</p>
-			<p class="xs0">
-				{lang time_now}
-				<span id="debuginfo">
-				<!--{if debuginfo()}-->, Processed in $_G[debuginfo][time] second(s), $_G[debuginfo][queries] queries
-					<!--{if $_G['gzipcompress']}-->, Gzip On<!--{/if}--><!--{if C::memory()->type}-->, <!--{echo C::memory()->type}--> On<!--{/if}-->.
-				<!--{/if}-->
-				</span>
-			</p>
+			<p class="xs0">{lang time_now}</p>
 		</div>
  		<div id="frt">
  			<p>Powered by <strong><a href="https://www.discuz.vip/" target="_blank">Discuz!</a></strong></p>
+			<p class="xs0">
+				<span id="debuginfo">
+				<!--{if debuginfo()}-->Processed in $_G[debuginfo][time] second(s), $_G[debuginfo][queries] queries
+					<!--{if $_G['gzipcompress']}-->, Gzip On<!--{/if}--><!--{if C::memory()->type}-->, <!--{echo C::memory()->type}--> On<!--{/if}-->
+				<!--{/if}-->
+				</span>
+			</p>
  		</div>
 		<!--{eval updatesession();}-->
 		<!--{if $_G['uid'] && $_G['group']['allowinvisible']}-->
