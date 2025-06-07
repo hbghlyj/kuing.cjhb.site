@@ -306,13 +306,8 @@ class table_common_member extends discuz_table_archive {
 		return DB::result_first('SELECT COUNT(*) FROM %t WHERE regdate>%d', [$this->_table, $timestamp]);
 	}
 
-<<<<<<< HEAD
 	public function fetch_all_stat_memberlist($username, $orderby = '', $sort = '', $start = 0, $limit = 0) {
-		$orderby = in_array($orderby, ['uid', 'credits', 'regdate', 'lastpost', 'username', 'posts', 'lastvisit'], true) ? $orderby : 'uid';
-=======
-	public function fetch_all_stat_memberlist($username, $orderby = '', $sort = '', $start = 0, $limit =  0) {
-		$orderby = in_array($orderby, array('uid','credits','regdate', 'lastpost','username','posts','lastvisit'), true) ? $orderby : 'uid';
->>>>>>> 811958137 (站点统计会员列表 在 注册日期、上次访问 的旁边添加：最后发表)
+		$orderby = in_array($orderby, ['uid', 'credits', 'regdate', 'lastpost', 'username', 'posts', 'lastvisit'], true) ? $orderby : 'lastvisit';
 		$sql = '';
 
 		$sql = !empty($username) ? " WHERE username LIKE '".addslashes(stripsearchkey($username))."%'" : '';
