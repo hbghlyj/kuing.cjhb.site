@@ -257,9 +257,7 @@ if($fuids) {
 if($list) {
 	$list = getfollowflag($list);
 }
-$navtitle = lang('core', 'title_friend_list');
-
-$navtitle = lang('space', 'sb_friend', array('who' => $space['username']));
+$navtitle = $_GET['view'] == 'online' ? ($_GET['type'] == 'friend' ? lang('home/template','online_friend') : lang('home/template','online_member')) : lang('space', 'sb_friend', array('who' => $space['username']));
 $metakeywords = lang('space', 'sb_friend', array('who' => $space['username']));
 $metadescription = lang('space', 'sb_share', array('who' => $space['username']));
 
