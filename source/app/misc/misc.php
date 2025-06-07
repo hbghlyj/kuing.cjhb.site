@@ -51,6 +51,7 @@ const APPTYPEID = 100;
 require './source/class/class_core.php';
 
 $discuz = C::app();
+$discuz->init();
 
 if(isset($_GET['mod']) && $_GET['mod'] != 'tag') {
 	$discuz->reject_robot();
@@ -88,8 +89,6 @@ switch($mod) {
 	default:
 		break;
 }
-
-$discuz->init();
 
 define('CURMODULE', $mod);
 runhooks();
