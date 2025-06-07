@@ -509,20 +509,18 @@
 				<!--{if $detailstatus}-->
 					<span class="o"><a href="?showoldetails=no#online" title="{lang spread}"><em class="tg_no" title="{lang spread}"></em></a></span>
 					<h2>
-						<strong><a href="home.php?mod=space&do=friend&view=online"><style>@keyframes radarPulse {0% {transform: scale(1);opacity: 1;}50% {transform: scale(1.2);opacity: 0.8;}100% {transform: scale(1);opacity: 1;}}</style><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" style="margin-right: 5px;vertical-align: middle;animation: radarPulse 1.5s infinite ease-in-out;transform-origin: center;"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"></circle><circle cx="12" cy="12" r="4" fill="currentColor"></circle></svg>$onlinenum {lang onlines}</a></strong>
+						<style>@keyframes radarPulse {0% {transform: scale(1);opacity: 1;}50% {transform: scale(1.2);opacity: 0.8;}100% {transform: scale(1);opacity: 1;}}</style>
+						<a href="home.php?mod=space&do=friend&view=online"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" style="margin-right: 5px;vertical-align: middle;animation: radarPulse 1.5s infinite ease-in-out;transform-origin: center;"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"></circle><circle cx="12" cy="12" r="4" fill="currentColor"></circle></svg><strong>$onlinenum</strong> {lang onlines}
 						<span class="xs1">
-						<!--{if $membercount}-->- <strong>$membercount</strong> {lang index_members}<!--{if $invisiblecount}-->(<strong>$invisiblecount</strong> {lang index_invisibles})<!--{/if}--><!--{/if}--><!--{if $guestcount}-->,<strong>$guestcount</strong> {lang index_guests}<!--{/if}--> - {lang index_mostonlines} <strong>$onlineinfo[0]</strong> {lang on} <strong>$onlineinfo[1]</strong></span>
+						<!--{if $membercount}-->- <strong>$membercount</strong> {lang index_members}<!--{if $invisiblecount}-->(<strong>$invisiblecount</strong> {lang index_invisibles})<!--{/if}--><!--{/if}--><!--{if $guestcount}-->, <strong>$guestcount</strong> {lang index_guests}<!--{/if}--> - {lang index_mostonlines} <strong>$onlineinfo[0]</strong> {lang on} <strong>$onlineinfo[1]</strong></span></a>
 					</h2>
 				<!--{else}-->
 					<!--{if empty($_G['setting']['sessionclose'])}-->
 						<span class="o"><a href="?showoldetails=yes#online" title="{lang spread}"><em class="tg_yes" title="{lang spread}"></em></a></span>
 					<!--{/if}-->
 					<h2>
-						<strong>
-							<a href="home.php?mod=space&do=friend&view=online"><strong>$onlinenum</strong> {lang onlines}</a>
-						</strong>
-						<span class="xs1">
-						<!--{if $membercount}-->- <strong>$membercount</strong> {lang index_members}<!--{/if}--><!--{if $guestcount}-->,<strong>$guestcount</strong> {lang index_guests}<!--{/if}--> - {lang index_mostonlines} <strong>$onlineinfo[0]</strong> {lang on} <strong>$onlineinfo[1]</strong></span>
+						<a href="home.php?mod=space&do=friend&view=online"><strong>$onlinenum</strong> {lang onlines}
+						<span class="xs1"><!--{if $membercount}-->- <strong>$membercount</strong> {lang index_members}<!--{/if}--><!--{if $guestcount}-->,<strong>$guestcount</strong> {lang index_guests}<!--{/if}--> - {lang index_mostonlines} <strong>$onlineinfo[0]</strong> {lang on} <strong>$onlineinfo[1]</strong></span></a>
 					</h2>
 				<!--{/if}-->
 				</div>
