@@ -25,7 +25,7 @@ if (!$result) {
 }
 foreach ($result as $row) {
     //页面伪静态规则是：thread-{tid}-{page}-{prevpage}.html即规则为：thread-{帖子ID}-{帖子翻页ID}-{当前帖子所在的列表页ID}.html
-    for ($i = 1; $i <= ceil($row['replies'] / 20); $i++) {
+    for ($i = 1; $i <= ceil(($row['replies'] + 1)/ 20); $i++) {
         //帖子翻页ID用于页头页尾的"上一页/下一页"的链接
         //在这里进行循环生成生成了第i页的地址，i最大是replies除以20向上取整，因为每页20个帖子
         $url = $web_root . 'thread-' . $row['tid'] . '-' . $i . '-1.html';
