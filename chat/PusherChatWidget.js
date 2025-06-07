@@ -32,6 +32,8 @@ function PusherChatWidget(pusher, options) {
   this._itemCount = 0;
   this._totalMessages = 0; // To store the total number of messages available on the server
   this._messagesLoaded = 0; // To track how many messages have been loaded
+  this._lastMessageTimestamp = null; // Track timestamp of the newest message
+  this._wasDisconnected = false; // Track disconnection state
   this._widget = PusherChatWidget._createHTML(this.settings.appendTo);
   this._messageInputEl = this._widget.find('textarea');
   this._messagesEl = this._widget.find('ul');
@@ -52,6 +54,15 @@ function PusherChatWidget(pusher, options) {
   this._pusher.connection.bind('unavailable', function() {
     self._widget.find('label').text((isChinese ? '请检查网络连接' : 'Please check your network connection'));
     self._widget.find('.pusher-chat-widget-send-btn').prop('disabled', true);
+  });
+  // Detect reconnection to fetch missed messages
+  this._pusher.connection.bind('state_change', function(states) {
+    if(states.current === 'disconnected' || states.current === 'unavailable') {
+      self._wasDisconnected = true;
+    } else if(states.current === 'connected' && self._wasDisconnected) {
+      self._fetchMissedMessages();
+      self._wasDisconnected = false;
+    }
   });
   if(typeof tid !== 'undefined') {
     this._chatChannel.bind('newreply', function(data) {
@@ -222,6 +233,39 @@ PusherChatWidget.prototype._loadHistory = function(isLoadingMore) {
 };
 
 /* @private */
+// Fetch messages that may have been missed during disconnection
+PusherChatWidget.prototype._fetchMissedMessages = function() {
+  var self = this;
+  if(!self._lastMessageTimestamp) {
+    return;
+  }
+  jQuery.ajax({
+    url: '/chat/php/history.php',
+    type: 'get',
+    dataType: 'json',
+    data: {
+      offset: 0,
+      limit: 100
+    },
+    success: function(response) {
+      var data = response.messages || [];
+      var newMessages = [];
+      for (var i = 0; i < data.length; ++i) {
+        if (new Date(data[i].published) > new Date(self._lastMessageTimestamp)) {
+          newMessages.push(data[i]);
+        }
+      }
+      if (newMessages.length > 0) {
+        for (var j = 0; j < newMessages.length; ++j) {
+          self._chatMessageReceived(newMessages[j], false);
+        }
+        self._processPendingMessages();
+      }
+    }
+  });
+};
+
+/* @private */
 // MODIFIED: This function now adds messages to a queue.
 PusherChatWidget.prototype._chatMessageReceived = function(data, isLiveMessage, isPrepending) {
   var messageEl = PusherChatWidget._buildListItem(data);
@@ -294,6 +338,9 @@ PusherChatWidget.prototype._actuallyAppendMessage = function(entry, oldScrollHei
   } else {
     this._messagesEl.append(entry.messageEl);
   }
+
+  // Update last seen timestamp
+  this._lastMessageTimestamp = entry.data.published;
 
   if (isMobile) {
     this._addSwipeToDeleteHandlers(entry.messageEl, entry.data.published);
