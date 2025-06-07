@@ -34,6 +34,7 @@ if(!empty($id) || $name) {
 		$tagname = $name;
 		$name = array_map('trim',explode(',', $name));
 		$id = array();
+		$html_title = array();
 		foreach ($name as $value) {
 			if(!preg_match('/^([\x7f-\xff_-]|\w|\s)+$/', $value) || strlen($value) > 30 || strlen($value) < 3) {
 				showmessage('tag_does_not_exist', '', array('tag' => $value));
@@ -41,6 +42,7 @@ if(!empty($id) || $name) {
 			$result = C::t('common_tag')->get_bytagname($value,'tid');
 			if($result) {
 				$id[] = $result['tagid'];
+				$html_title[] = "<a href=\"misc.php?mod=tag&id=$result[tagid]\">$result[tagname]</a>";
 			}else{
 				showmessage('tag_does_not_exist', '', array('tag' => $value));
 			}
@@ -52,13 +54,13 @@ if(!empty($id) || $name) {
 			showmessage('tag_does_not_exist', '', array('tag' => implode(',', $id_not_exist)));
 		}
 		$tagname = implode(',', array_column($tags,'tagname'));
-	}
-	$html_title = array();
-	foreach($tags as $tag) {
-		if($tag['status'] == 1) {
-			showmessage('tag_closed', '', array('tag' => $tag['tagname']));
+		$html_title = array();
+		foreach($tags as $tag) {
+			if($tag['status'] == 1) {
+				showmessage('tag_closed', '', array('tag' => $tag['tagname']));
+			}
+			$html_title[] = "<a href=\"misc.php?mod=tag&id=$tag[tagid]\">$tag[tagname]</a>";
 		}
-		$html_title[] = "<a href=\"misc.php?mod=tag&id=$tag[tagid]\">$tag[tagname]</a>";
 	}
 	$html_title = implode(', ', $html_title);
 	$navtitle = $metakeywords = $metadescription = $tagname ? $taglang.' - '.$tagname : $taglang;
