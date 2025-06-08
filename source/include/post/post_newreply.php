@@ -111,9 +111,25 @@ if($_G['setting']['commentnumber'] && !empty($_GET['comment'])) {
 	preg_match_all('/@([^\r\n]*?)\s/i', $comment.' ', $matches);
 	if (!empty($matches[1])) {
 		$atlist_tmp = array_unique($matches[1]);
-		foreach(C::t('common_member')->fetch_all_by_username($atlist_tmp) as $row) {
-			if ($row['uid'] != $_G['uid']) {
-				notification_add($row['uid'], 'at', 'at_message', array('from_id' => $_G['tid'], 'from_idtype' => 'at', 'buyerid' => $_G['uid'], 'buyer' => $_G['username'], 'tid' => $_G['tid'], 'subject' => $thread['subject'], 'pid' => $_GET['pid'], 'message' => $comment));
+		foreach ($atlist_tmp as $username) {
+			$stripped_username = str_replace(' ', '', $username);
+			$uid = DB::result_first("SELECT uid FROM ".DB::table('common_member')." WHERE REPLACE(username, ' ', '')='$stripped_username'");
+			if ($uid && $uid != $_G['uid']) {
+				notification_add(
+					$uid,
+					'at',
+					'at_message',
+					array(
+						'from_id' => $_G['tid'],
+						'from_idtype' => 'at',
+						'buyerid' => $_G['uid'],
+						'buyer' => $_G['username'],
+						'tid' => $_G['tid'],
+						'subject' => $thread['subject'],
+						'pid' => $_GET['pid'],
+						'message' => $comment
+					)
+				);
 			}
 		}
 	}

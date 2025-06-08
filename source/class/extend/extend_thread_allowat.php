@@ -34,8 +34,10 @@ class extend_thread_allowat extends extend_thread_base {
 						}
 					}
 				} else {
-					foreach(C::t('common_member')->fetch_all_by_username($atlist_tmp) as $row) {
-						$this->atlist[$row['uid']] = $row['username'];
+					foreach ($atlist_tmp as $username) {
+						$stripped_username = str_replace(' ', '', $username);
+						$uid = DB::result_first("SELECT uid FROM ".DB::table('common_member')." WHERE REPLACE(username, ' ', '')='$stripped_username'");
+						$this->atlist[$uid] = $username;
 					}
 				}
 			}
