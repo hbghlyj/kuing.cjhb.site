@@ -44,12 +44,13 @@ var fid = parseInt('$_G[fid]');
 						</div>
 						<div class="area">
 							<!--{if $allowfastpost}-->
-								<textarea rows="6" cols="80" name="message" id="fastpostmessage" onKeyDown="seditor_ctlent(event, '$(\'fastpostsubmit\').click()');" tabindex="12" class="pt"{eval echo getreplybg($_G['forum']['replybg']);}></textarea>
+								{echo getreplybg($_G['forum']['replybg'])}
+								<textarea rows="6" cols="80" name="message" id="fastpostmessage" onKeyDown="seditor_ctlent(event, '$(\'fastpostsubmit\').click()');" tabindex="12" class="pt"></textarea>
 							<!--{else}-->
 								<div class="pt hm">
 									<!--{if !$_G['uid']}-->
 										<!--{if !$_G['connectguest']}-->
-											{lang login_to_post} <a href="member.php?mod=logging&action=login" onclick="showWindow('login', this.href)" class="xi2">{lang login}</a> | <a href="member.php?mod={$_G[setting][regname]}" class="xi2">$_G['setting']['reglinkname']</a>
+											{lang login_to_post} <a href="member.php?mod=logging&action=login" onclick="showWindow('login', this.href)" class="xi2">{lang login}</a> | {lang login_guest}
 										<!--{else}-->
 											{lang connect_fill_profile_to_post}
 										<!--{/if}-->
