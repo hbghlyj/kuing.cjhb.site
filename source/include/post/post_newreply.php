@@ -248,8 +248,6 @@ if(!submitcheck('replysubmit', 0, $seccodecheck, $secqaacheck)) {
 				$thaquote['author'] = lang('forum/misc', 'anonymoususer');
 			} elseif(!$thaquote['author']) {
 				$thaquote['author'] = lang('forum/misc', 'guestuser').' '.$thaquote['useip'];
-			} else {
-				$thaquote['author'] = $thaquote['author'];
 			}
 
 			$post_reply_quote = lang('forum/misc', 'post_reply_quote', array('author' => $thaquote['author'], 'time' => $time));

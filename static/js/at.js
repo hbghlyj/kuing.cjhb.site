@@ -44,7 +44,24 @@ function extrafunc_atMenuKeyUp() {
 			$('at_menu').style.display = 'none';
 			ctlent_enable[13] = 1;
 		} else {
-			atFilter(keyMenuObj.innerHTML.substr(1), 'at_menu', 'atMenuSet', EXTRAEVENT);
+			if(!wysiwyg) {
+				var currentVal = textobj.value;
+				var cursorPos = textobj.selectionStart;
+
+				// Attempt to find the starting '@' of the current mention
+				var textBeforeCursor = currentVal.substring(0, cursorPos);
+				var atSymbolPos = -1;
+				// Search backwards for '@' not preceded by a word character (e.g. not part of an email)
+				for (var i = textBeforeCursor.length - 1; i >= 0; i--) {
+					if (textBeforeCursor[i] === '@') {
+						if (i === 0 || !/\\w/.test(textBeforeCursor[i-1])) {
+							atSymbolPos = i;
+							break;
+						}
+					}
+				}
+			}
+			atFilter(wysiwyg ? keyMenuObj.innerHTML.substr(1) : currentVal.substr(atSymbolPos + 1, cursorPos - atSymbolPos - 1), 'at_menu', 'atMenuSet', EXTRAEVENT);
 		}
 	}
 	atkeypress = 0;
@@ -83,8 +100,10 @@ function atMenu(x, y) {
 		div.className = 'p_pop';
 		div.style.zIndex = '100000';
 	}
-	$('at_menu').style.marginTop = (keyMenuObj.offsetHeight + 2) + 'px';
-	$('at_menu').style.marginLeft = (keyMenuObj.offsetWidth + 2) + 'px';
+	if(wysiwyg) {
+		$('at_menu').style.marginTop = (keyMenuObj.offsetHeight + 2) + 'px';
+		$('at_menu').style.marginLeft = (keyMenuObj.offsetWidth + 2) + 'px';
+	}
 	$('at_menu').style.left = x + 'px';
 	$('at_menu').style.top = y + 'px';
 	$('at_menu').style.display = '';
@@ -176,11 +195,11 @@ function atListSet(kw) {
 }
 
 function atMenuSet(kw) {
-	keyMenuObj.innerHTML = '@' + kw + (wysiwyg ? '&nbsp;' : ' ');
 	$('at_menu').style.display = 'none';
 	ctlent_enable[13] = 1;
 	curatli = 0;
 	if(wysiwyg) {
+		keyMenuObj.innerHTML = '@' + kw + (wysiwyg ? '&nbsp;' : ' ');
 		var selection = editwin.getSelection();
 		var range = selection.getRangeAt(0);
 		var tmp = keyMenuObj.firstChild;
@@ -189,8 +208,6 @@ function atMenuSet(kw) {
 		selection.removeAllRanges();
 		selection.addRange(range);
 	} else {
-		// we are in plain text mode, keyMenuObj is the textarea, we need to set the cursor position after the inserted text
-		var textobj = keyMenuObj; // keyMenuObj is the textarea in non-wysiwyg mode
 		var currentVal = textobj.value;
 		var cursorPos = textobj.selectionStart;
 

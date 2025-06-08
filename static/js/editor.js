@@ -456,28 +456,127 @@ function keyMenu(code, func) {
 		var b = fetchOffset(editbox);
 		var o = fetchOffset(keyMenuObj);
 	}else{
-		// insert code into textarea, then get the position of the cursor
 		var textobjval = textobj.value;
 		var selectionStart = textobj.selectionStart;
 		var selectionEnd = textobj.selectionEnd;
-		// Directly insert the code without wrapping in a span
 		var beforeText = textobjval.substring(0, selectionStart);
 		var afterText = textobjval.substring(selectionEnd);
 		textobj.value = beforeText + code + afterText;
-		// Adjust selection to be after the inserted code
 		textobj.selectionStart = selectionStart + code.length;
 		textobj.selectionEnd = textobj.selectionStart;
-		keyMenuObj = textobj; 
-		var b = fetchOffset(editbox);
-		var o = { left: 0, top: 0 };
-		var textLines = textobjval.substring(0, selectionStart).split('\\n');
-		var lastLine = textLines[textLines.length - 1];
-		var charWidth = 8; // This is an approximation, depends on font
-		var lineHeight = parseInt(getComputedStyle(textobj).lineHeight) || 20; // Approx line height
-		o.left = lastLine.length * charWidth;
-		o.top = (textLines.length -1) * lineHeight;
 
-		// Adjust for scroll position of the textarea
+		var b = fetchOffset(textobj); // editbox is textobj in non-wysiwyg mode
+		var o = { left: 0, top: 0 };
+
+		// Definitions for cursor calculation input
+		var textUpToCursor = textobj.value.substring(0, textobj.selectionStart);
+		var numPreviousNewlines = (textUpToCursor.match(/\\n/g) || []).length;
+		var lastNewlineIndex = textUpToCursor.lastIndexOf('\\n');
+		var currentLineTextAtCursor = textUpToCursor.substring(lastNewlineIndex + 1);
+		// ==== Inserted/Restored Code: End ====
+
+		// Inside the else block for textarea // User's existing comment
+		const computedStyles = getComputedStyle(textobj); // User's existing line
+		const fontSize = parseFloat(computedStyles.fontSize);
+		const fontFamily = computedStyles.fontFamily;
+		const lineHeight = parseFloat(computedStyles.lineHeight);
+
+		// Measure the width of a single typical monospace character
+		var tempSpanMono = document.createElement('span');
+		tempSpanMono.style.cssText = `
+			position: absolute;
+			visibility: hidden;
+			white-space: pre;
+			font-size: ${fontSize}px;
+			font-family: ${fontFamily};
+			padding: 0;
+			border: 0;
+			box-sizing: content-box;
+		`;
+		tempSpanMono.textContent = 'X'; // Use a common monospace character
+		document.body.appendChild(tempSpanMono);
+		var measuredMonospaceCharWidth = tempSpanMono.getBoundingClientRect().width;
+		document.body.removeChild(tempSpanMono);
+
+		// Measure the width of a single typical full-width character (e.g., a CJK character)
+		// This assumes a full-width character exists and is rendered by one of the fonts.
+		// You might need to pick a character that is reliably full-width in your expected fonts.
+		var tempSpanFull = document.createElement('span');
+		tempSpanFull.style.cssText = `
+			position: absolute;
+			visibility: hidden;
+			white-space: pre;
+			font-size: ${fontSize}px;
+			font-family: ${fontFamily};
+			padding: 0;
+			border: 0;
+			box-sizing: content-box;
+		`;
+		tempSpanFull.textContent = '字'; // Example CJK character
+		document.body.appendChild(tempSpanFull);
+		var measuredFullCharWidth = tempSpanFull.getBoundingClientRect().width;
+		document.body.removeChild(tempSpanFull);
+
+
+		// Calculate the usable width of the textarea content area
+		const paddingLeft = parseFloat(computedStyles.paddingLeft);
+		const paddingRight = parseFloat(computedStyles.paddingRight);
+		// Using clientWidth is often more reliable for inner content width
+		let maxLineWidthInPixels = textobj.clientWidth - paddingLeft - paddingRight;
+
+		if (isNaN(maxLineWidthInPixels) || maxLineWidthInPixels <= 0) {
+			// Fallback if clientWidth is not available or zero
+			console.warn("Could not determine accurate textarea content width using clientWidth. Using getBoundingClientRect fallback.");
+			const borderLeft = parseFloat(computedStyles.borderLeftWidth);
+			const borderRight = parseFloat(computedStyles.borderRightWidth);
+			maxLineWidthInPixels = textobj.getBoundingClientRect().width - paddingLeft - paddingRight - borderLeft - borderRight;
+			if (isNaN(maxLineWidthInPixels) || maxLineWidthInPixels <= 0) {
+				console.warn("Could not determine accurate textarea content width. Using hardcoded fallback.");
+				maxLineWidthInPixels = 800; // Risky fallback
+			}
+		}
+
+
+		var currentVisualOffsetOnLine = 0;
+		var wrappedLinesForCurrentLogicalLine = 0;
+
+		for (var i = 0; i < currentLineTextAtCursor.length; i++) {
+			var char = currentLineTextAtCursor[i];
+			var charCode = char.charCodeAt(0);
+
+			// Check for common full-width character ranges
+			var charIsFullWidth =
+				(charCode >= 0x3000 && charCode <= 0x303F) ||
+				(charCode >= 0x4E00 && charCode <= 0x9FFF) ||
+				(charCode >= 0x3040 && charCode <= 0x309F) ||
+				(charCode >= 0x30A0 && charCode <= 0x30FF) ||
+				(charCode >= 0xFF00 && charCode <= 0xFFEF) ||
+				(charCode >= 0xAC00 && charCode <= 0xD7AF);
+
+			var charPixelWidth = charIsFullWidth ? measuredFullCharWidth : measuredMonospaceCharWidth;
+
+			if (currentVisualOffsetOnLine + charPixelWidth > maxLineWidthInPixels) {
+				wrappedLinesForCurrentLogicalLine++;
+				currentVisualOffsetOnLine = charPixelWidth;
+				// Handle cases where a single character is wider than the line
+				while (currentVisualOffsetOnLine > maxLineWidthInPixels) {
+					wrappedLinesForCurrentLogicalLine++;
+					currentVisualOffsetOnLine -= maxLineWidthInPixels;
+				}
+			} else {
+				currentVisualOffsetOnLine += charPixelWidth;
+			}
+		}
+
+		o.left = currentVisualOffsetOnLine;
+		if (isNaN(lineHeight) || lineHeight <= 0) {
+			// Handle cases where line-height is 'normal' or invalid
+			lineHeight = fontSize * 1.2; // Example fallback
+			console.warn("Could not determine accurate line-height. Using fallback.");
+		}
+		o.top = (numPreviousNewlines + wrappedLinesForCurrentLogicalLine + 1) * lineHeight;
+
+		// Adjust for scroll position
 		o.left -= textobj.scrollLeft;
 		o.top -= textobj.scrollTop;
 	}
