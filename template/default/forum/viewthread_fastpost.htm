@@ -174,7 +174,7 @@ var disablepostctrl = parseInt('{$_G['group']['disablepostctrl']}');
 		<label class="lb"><input type="checkbox" name="adddynamic" class="pc" value="1"/>{lang post_reply_relay}</label>
 		<!--{/if}-->
 		<!--{if $_GET['ordertype'] != 1 && empty($_GET[from])}-->
-		<label for="fastpostrefresh"><input id="fastpostrefresh" type="checkbox" class="pc" checked />{lang post_fastreply_gotolast}</label>
+		<label for="fastpostrefresh"><input id="fastpostrefresh" type="checkbox" class="pc" />{lang post_fastreply_gotolast}</label>
 		<script type="text/javascript">if(getcookie('fastpostrefresh') == 1) {$('fastpostrefresh').checked=true;}</script>
 		<!--{/if}-->
 	</p>
