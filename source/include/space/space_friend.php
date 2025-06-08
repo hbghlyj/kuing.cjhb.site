@@ -51,7 +51,7 @@ if($_GET['view'] == 'online') {
 		$_GET['type']='member';
 		$theurl = "home.php?mod=space&uid={$space['uid']}&do=friend&view=online&type=member";
 		if(($count = C::app()->session->count_invisible(0))) {
-			$onlinedata = DB::fetch_all('SELECT s.*, f.name, t.subject FROM '.DB::table('common_session').' AS s LEFT JOIN '.DB::table('forum_forum').' AS f ON s.fid=f.fid LEFT JOIN '.DB::table('forum_thread').' AS t ON s.tid=t.tid WHERE invisible = 0 ORDER BY groupid=8 ASC,groupid=7 ASC,lastactivity DESC'.DB::limit($start, $perpage), null, 'sid');
+			$onlinedata = DB::fetch_all('SELECT s.*, '.(DISCUZ_LANG == 'EN/'?'f.name_en AS name':'f.name').', t.subject FROM '.DB::table('common_session').' AS s LEFT JOIN '.DB::table('forum_forum').' AS f ON s.fid=f.fid LEFT JOIN '.DB::table('forum_thread').' AS t ON s.tid=t.tid WHERE invisible = 0 ORDER BY groupid=8 ASC,groupid=7 ASC,lastactivity DESC'.DB::limit($start, $perpage), null, 'sid');
 			$actioncode = lang('action');
 			loadcache('onlinelist');
 			foreach($onlinedata as $key => $value) {
