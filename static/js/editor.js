@@ -233,7 +233,7 @@ function editorresize(e, op) {
 		document.onmousemove = function(e) {try{editorresize(e, 2);}catch(err){}};
 		document.onmouseup = function(e) {try{editorresize(e, 3);}catch(err){}};
 		doane(e);
-	}else if(op == 2 && editorsizepos !== []) {
+	}else if(op == 2) {
 		var dragnow = e.clientY;
 		editorsize('', editorsizepos[1] + dragnow - editorsizepos[0]);
 		doane(e);
@@ -439,20 +439,48 @@ function keyBackspace() {
 }
 
 function keyMenu(code, func) {
-	var km = 'kM' + Math.random();
-	var hs = '<span id="' + km + '">' + code + '</span>';
-	var selection = editwin.getSelection();
-	var range = selection.getRangeAt(0);
-	var fragment = range.createContextualFragment(hs);
-	range.insertNode(fragment);
-	var tmp = editdoc.getElementById(km).firstChild;
-	range.setStart(tmp, 1);
-	range.setEnd(tmp, 1);
-	selection.removeAllRanges();
-	selection.addRange(range);
-	keyMenuObj = editdoc.getElementById(km);
-	var b = fetchOffset(editbox);
-	var o = fetchOffset(keyMenuObj);
+	if(wysiwyg){
+		// insert code into wysiwyg editor, then get the position of the cursor
+		var km = 'kM' + Math.random();
+		var hs = '<span id="' + km + '">' + code + '</span>';
+		var selection = editwin.getSelection();
+		var range = selection.getRangeAt(0);
+		var fragment = range.createContextualFragment(hs);
+		range.insertNode(fragment);
+		var tmp = editdoc.getElementById(km).firstChild;
+		range.setStart(tmp, 1);
+		range.setEnd(tmp, 1);
+		selection.removeAllRanges();
+		selection.addRange(range);
+		keyMenuObj = editdoc.getElementById(km);
+		var b = fetchOffset(editbox);
+		var o = fetchOffset(keyMenuObj);
+	}else{
+		// insert code into textarea, then get the position of the cursor
+		var textobjval = textobj.value;
+		var selectionStart = textobj.selectionStart;
+		var selectionEnd = textobj.selectionEnd;
+		// Directly insert the code without wrapping in a span
+		var beforeText = textobjval.substring(0, selectionStart);
+		var afterText = textobjval.substring(selectionEnd);
+		textobj.value = beforeText + code + afterText;
+		// Adjust selection to be after the inserted code
+		textobj.selectionStart = selectionStart + code.length;
+		textobj.selectionEnd = textobj.selectionStart;
+		keyMenuObj = textobj; 
+		var b = fetchOffset(editbox);
+		var o = { left: 0, top: 0 };
+		var textLines = textobjval.substring(0, selectionStart).split('\\n');
+		var lastLine = textLines[textLines.length - 1];
+		var charWidth = 8; // This is an approximation, depends on font
+		var lineHeight = parseInt(getComputedStyle(textobj).lineHeight) || 20; // Approx line height
+		o.left = lastLine.length * charWidth;
+		o.top = (textLines.length -1) * lineHeight;
+
+		// Adjust for scroll position of the textarea
+		o.left -= textobj.scrollLeft;
+		o.top -= textobj.scrollTop;
+	}
 	var scrollTop = Math.max(document.documentElement.scrollTop, document.body.scrollTop);
 	func(b.left + o.left, b.top + o.top - scrollTop);
 }
@@ -1358,7 +1386,7 @@ function showEditorMenu(tag, params) {
 				if(!str) {
 					str = '';
 					var first = $(ctrlid + '_param_1').value;
-					if($(ctrlid + '_param_2')) var second = $(ctrlid + '_param_2').value;
+									if($(ctrlid + '_param_2')) var second = $(ctrlid + '_param_2').value;
 					if($(ctrlid + '_param_3')) var third = $(ctrlid + '_param_3').value;
 					if((params == 1 && first) || (params == 2 && first && (haveSel || second)) || (params == 3 && first && second && (haveSel || third))) {
 						if(params == 1) {

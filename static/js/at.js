@@ -18,7 +18,7 @@ function extrafunc_atMenu() {
 	if(BROWSER.opera) {
 		return;
 	}
-	if(wysiwyg && EXTRAEVENT.shiftKey && EXTRAEVENT.keyCode == 50 && postaction && (postaction == 'newthread' || postaction == 'reply' || postaction == 'edit')) {
+	if(EXTRAEVENT.shiftKey && EXTRAEVENT.keyCode == 50 && postaction && (postaction == 'newthread' || postaction == 'reply' || postaction == 'edit')) {
 		keyMenu('@', atMenu);
 		ctlent_enable[13] = 0;
 		doane(EXTRAEVENT);
@@ -33,13 +33,13 @@ function extrafunc_atMenuKeyUp() {
 	if(BROWSER.opera) {
 		return;
 	}
-	if(wysiwyg && EXTRAEVENT.shiftKey && EXTRAEVENT.keyCode == 50 && postaction && (postaction == 'newthread' || postaction == 'reply' || postaction == 'edit') && !atkeypress) {
+	if(EXTRAEVENT.shiftKey && EXTRAEVENT.keyCode == 50 && postaction && (postaction == 'newthread' || postaction == 'reply' || postaction == 'edit') && !atkeypress) {
 		keyBackspace();
 		keyMenu('@', atMenu);
 		ctlent_enable[13] = 0;
 		doane(EXTRAEVENT);
 	}
-	if(wysiwyg && $('at_menu') && $('at_menu').style.display == '' && postaction && (postaction == 'newthread' || postaction == 'reply' || postaction == 'edit')) {
+	if($('at_menu') && $('at_menu').style.display == '' && postaction && (postaction == 'newthread' || postaction == 'reply' || postaction == 'edit')) {
 		if(EXTRAEVENT.keyCode == 32 || EXTRAEVENT.keyCode == 9 || EXTRAEVENT.keyCode == 8 && !keyMenuObj.innerHTML.substr(1).length) {
 			$('at_menu').style.display = 'none';
 			ctlent_enable[13] = 1;
@@ -180,7 +180,7 @@ function atMenuSet(kw) {
 	$('at_menu').style.display = 'none';
 	ctlent_enable[13] = 1;
 	curatli = 0;
-	if(BROWSER.firefox) {
+	if(wysiwyg) {
 		var selection = editwin.getSelection();
 		var range = selection.getRangeAt(0);
 		var tmp = keyMenuObj.firstChild;
@@ -188,6 +188,42 @@ function atMenuSet(kw) {
 		range.setEnd(tmp, keyMenuObj.innerHTML.length - 5);
 		selection.removeAllRanges();
 		selection.addRange(range);
+	} else {
+		// we are in plain text mode, keyMenuObj is the textarea, we need to set the cursor position after the inserted text
+		var textobj = keyMenuObj; // keyMenuObj is the textarea in non-wysiwyg mode
+		var currentVal = textobj.value;
+		var cursorPos = textobj.selectionStart;
+
+		// Attempt to find the starting '@' of the current mention
+		var textBeforeCursor = currentVal.substring(0, cursorPos);
+		var atSymbolPos = -1;
+		// Search backwards for '@' not preceded by a word character (e.g. not part of an email)
+		for (var i = textBeforeCursor.length - 1; i >= 0; i--) {
+			if (textBeforeCursor[i] === '@') {
+				if (i === 0 || !/\\w/.test(textBeforeCursor[i-1])) {
+					atSymbolPos = i;
+					break;
+				}
+			}
+		}
+
+		var finalText = '@' + kw + ' ';
+
+		if (atSymbolPos !== -1) {
+			// Found a plausible '@', replace from there to current cursor
+			var prefix = currentVal.substring(0, atSymbolPos);
+			var suffix = currentVal.substring(cursorPos); // Text that was after the partial @mention
+
+			textobj.value = prefix + finalText + suffix;
+			textobj.selectionStart = textobj.selectionEnd = atSymbolPos + finalText.length;
+		} else {
+			// Fallback: If no suitable '@' is found, insert the text at the current cursor position,
+			// replacing any selected text. This might be less accurate for replacing partial input.
+			var selStart = textobj.selectionStart;
+			var selEnd = textobj.selectionEnd;
+			textobj.value = currentVal.substring(0, selStart) + finalText + currentVal.substring(selEnd);
+			textobj.selectionStart = textobj.selectionEnd = selStart + finalText.length;
+		}
 	}
 	checkFocus();
 }

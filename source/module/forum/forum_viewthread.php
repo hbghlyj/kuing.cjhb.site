@@ -1278,7 +1278,7 @@ function viewthread_procpost($post, $lastvisit, $ordertype, $maxposition = 0) {
 				if(strpos($post['message'], '[/begin]') !== FALSE) {
 					$post['message'] = preg_replace_callback(
 						"/\[begin(=\s*([^\[\<\r\n]*?)\s*,(\d*),(\d*),(\d*),(\d*))?\]\s*([^\[\<\r\n]+?)\s*\[\/begin\]/is",
-						function ($matches) {
+						function ($matches) use ($_G, $post) {
 							if (!intval($_G['cache']['usergroups'][$post['groupid']]['allowbegincode'])) {
 								return '';
 							}
