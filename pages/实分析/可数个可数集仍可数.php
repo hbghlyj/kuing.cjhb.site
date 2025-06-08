@@ -5,7 +5,7 @@ $_SESSION['page_id'] = '67fb5902bdcac';
 $html = new DocPHT\Lib\DocPHT(['可数个可数集仍可数']);
 $values = [
 $html->title('可数个可数集仍可数','可数个可数集仍可数'), 
-$html->markdown(<<<'a'
+$html->markdown(<<<'k'
 \begin{theorem}
 可数个可数集仍可数。
 \end{theorem}
@@ -35,7 +35,7 @@ a_{30} & ~ & a_{31} & ~ & a_{32} & ~ & a_{33} & \cdots \\
 $$
 按对角线法，能将$S=\bigcup_{i=0}^{\infty}S_i$排列成序列$a_{00},a_{01},a_{10},a_{02},a_{11},a_{20},\cdots$，所以$S$是可数集。
 \end{proof}
-a),
+k),
 $html->addButton(),
 ];
-$GLOBALS["page_author"] = 'hbghlyj 2025-04-13 07:39';
+$GLOBALS["page_author"] = 'hbghlyj 2025-06-08 14:53';

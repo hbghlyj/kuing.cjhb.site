@@ -199,7 +199,7 @@ class usermodel {
 				$sqladd .= ($sqladd ? ',' : '')." secques=''";
 			}
 		}
-		if($sqladd || $emailadd) {
+		if($sqladd || $email) {
 			$this->db->query("UPDATE ".UC_DBTABLEPRE."members SET $sqladd WHERE username='$username'");
 			return $this->db->affected_rows();
 		} else {

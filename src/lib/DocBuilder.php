@@ -550,7 +550,7 @@ $identifier),\n";
     
         while (!empty($queue)) {
             $current = array_shift($queue);
-            if (!preg_match('/\b' . preg_quote($current, '/') . '\b/', $string)) {
+            if (!preg_match('/' . preg_quote($current, '/') . '/', $string)) {
                 return $current;
             }
             foreach (str_split($suffixCharacters) as $char) {
