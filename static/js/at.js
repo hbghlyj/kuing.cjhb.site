@@ -95,7 +95,7 @@ function atSearch(kw, call) {
 	if(atKeywords === null) {
 		atKeywords = '';
 		var x = new Ajax();
-		x.get('misc.php?mod=getatuser&inajax=1', function(s) {
+		x.get('misc.php?mod=getatuser&inajax=1&tid=' + tid, function(s) {
 			if(s) {
 				atKeywords = s.split(',');
 			}

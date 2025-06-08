@@ -441,23 +441,15 @@ function keyBackspace() {
 function keyMenu(code, func) {
 	var km = 'kM' + Math.random();
 	var hs = '<span id="' + km + '">' + code + '</span>';
-	if(BROWSER.ie) {
-		var range = window.getSelection().createRange();
-		range.pasteHTML(hs);
-		range.moveToElementText(editdoc.getElementById(km));
-		range.moveStart("character");
-		range.select();
-	} else {
-		var selection = editwin.getSelection();
-		var range = selection.getRangeAt(0);
-		var fragment = range.createContextualFragment(hs);
-		range.insertNode(fragment);
-		var tmp = editdoc.getElementById(km).firstChild;
-		range.setStart(tmp, 1);
-		range.setEnd(tmp, 1);
-		selection.removeAllRanges();
-		selection.addRange(range);
-	}
+	var selection = editwin.getSelection();
+	var range = selection.getRangeAt(0);
+	var fragment = range.createContextualFragment(hs);
+	range.insertNode(fragment);
+	var tmp = editdoc.getElementById(km).firstChild;
+	range.setStart(tmp, 1);
+	range.setEnd(tmp, 1);
+	selection.removeAllRanges();
+	selection.addRange(range);
 	keyMenuObj = editdoc.getElementById(km);
 	var b = fetchOffset(editbox);
 	var o = fetchOffset(keyMenuObj);
@@ -991,7 +983,7 @@ function showEditorMenu(tag, params) {
 	var menutype = 'menu';
 
 	try {
-		sel = wysiwyg ? editdoc.selection.createRange() : window.getSelection().createRange();
+		sel = wysiwyg ? editdoc.selection.createRange() : window.getSelection().getRangeAt(0);
 		selection = wysiwyg ? sel.htmlText : sel.text;
 	} catch(e) {
 		if (wysiwyg) {
@@ -1388,11 +1380,7 @@ function showEditorMenu(tag, params) {
 }
 
 function autoTypeset() {
-	var sel;
-	if(BROWSER.ie) {
-		sel = wysiwyg ? editdoc.selection.createRange() : window.getSelection().createRange();
-	}
-	var selection = sel ? (wysiwyg ? sel.htmlText.replace(/<\/?p>/ig, '<br />') : sel.text) : getSel();
+	var selection = getSel();
 	selection = trim(selection);
 	selection = wysiwyg ? selection.replace(/<br( \/)?>(<br( \/)?>)+/ig, '</p>\n<p style="line-height: 30px; text-indent: 2em;">') : selection.replace(/\n\n+/g, '[/p]\n[p=30, 2, left]');
 	opentag = wysiwyg ? '<p style="line-height: 30px; text-indent: 2em;">' : '[p=30, 2, left]';
@@ -1427,8 +1415,8 @@ function getSel() {
 	} else {
 		if(!isUndefined(editdoc.selectionStart)) {
 			return editdoc.value.substr(editdoc.selectionStart, editdoc.selectionEnd - editdoc.selectionStart);
-		} else if(window.getSelection() && window.getSelection().createRange) {
-			return window.getSelection().createRange().text;
+		} else if(window.getSelection()) {
+			return window.getSelection().getRangeAt(0).toString();
 		} else if(window.getSelection) {
 			return window.getSelection() + '';
 		} else {
@@ -1498,9 +1486,9 @@ function insertText(text, movestart, moveend, select, sel) {
 				editdoc.selectionStart = opn;
 				editdoc.selectionEnd = opn + strlen(text);
 			}
-		} else if(window.getSelection() && window.getSelection().createRange) {
+		} else if(window.getSelection()) {
 			if(isUndefined(sel)) {
-				sel = window.getSelection().createRange();
+				sel = window.getSelection().getRangeAt(0);
 			}
 			if(editbox.sel) {
 				sel = editbox.sel;

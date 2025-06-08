@@ -12,7 +12,23 @@ if(!defined('IN_DISCUZ')) {
 }
 $result = '';
 $search_str = getgpc('search_str');
-if($_G['uid']) {
+if($tid = intval($_GET['tid'])){
+	// If tid is provided, we will fetch the participants from table 'forum_post' and 'forum_postcomment'
+	$atlist_tid = array();
+	// Fetch from forum_post
+	foreach(C::t('forum_post')->fetch_all_by_tid('tid:'.$tid, $tid, true, '', 0, 0, null, 0) as $post) {
+		if(!empty($post['authorid']) && $post['authorid'] != $_G['uid'] && !isset($atlist_tid[$post['authorid']])) {
+			$atlist_tid[$post['authorid']] = $post['author'];
+		}
+	}
+	// Fetch from forum_postcomment
+	foreach(C::t('forum_postcomment')->fetch_all_by_search($tid, null, null, null, null, null, null, 0, 0) as $comment) {
+		if(!empty($comment['authorid']) && $comment['authorid'] != $_G['uid'] && !isset($atlist_tid[$comment['authorid']])) {
+			$atlist_tid[$comment['authorid']] = $comment['author'];
+		}
+	}
+	$result = implode(',', array_values($atlist_tid));
+}elseif($_G['uid']) {
 	$atlist = $atlist_cookie = array();
 	$limit = 200;
 	if(getcookie('atlist')) {
