@@ -86,6 +86,24 @@
 	}
 	</script>
 	<div id="ft" class="wp cl">
+		<div style="position: absolute; left: 100%;">
+			<div id="scrolltop">
+				<a onclick="this.parentNode.style.display='none';" style="height:2ex; line-height:2ex; padding:0 5px;">×</a>
+				<!--{if $_G[fid] && $_G['mod'] == 'viewthread'}-->
+				<span><a href="forum.php?mod=post&action=reply&fid=$_G[fid]&tid=$_G[tid]&extra=$_GET[extra]&page=$page{if $_GET[from]}&from=$_GET[from]{/if}" onclick="showWindow('reply', this.href)" class="replyfast" title="{lang fastreply}"><b>{lang fastreply}</b></a></span>
+				<!--{/if}-->
+				<span hidefocus="true"><a title="{lang scrolltop}" onclick="window.scrollTo('0','0')" class="scrolltopa"><b>{lang scrolltop}</b></a></span>
+				<!--{if $_G[fid]}-->
+				<span>
+					<!--{if $_G['mod'] == 'viewthread'}-->
+					<a hidefocus="true" class="editp" onclick="showWindow('edit',$(MULUSELECT.value).querySelector('a.editp').href,'get',0)" title="{lang edit}"><b>{lang edit}</b></a>
+					<!--{else}-->
+					<a href="forum.php" hidefocus="true" class="returnboard" title="{lang return_forum}"><b>{lang return_forum}</b></a>
+					<!--{/if}-->
+				</span>
+				<!--{/if}-->
+			</div>
+		</div>
 		<div id="flk" class="y">
 			<p>
 				<!--{if !empty($_G['setting']['site_qq'])}--><a href="//wpa.qq.com/msgrd?v=3&uin=$_G['setting']['site_qq']&site=$_G['setting']['bbname']&menu=yes&from=discuz" target="_blank" title="QQ"><img src="{IMGDIR}/site_qq.jpg" alt="QQ" /></a><span class="pipe">|</span><!--{/if}-->
@@ -177,22 +195,6 @@
 <script src="{STATICURL}js/mobile/jquery.min.js"></script><script>jQuery.noConflict();</script>
 <script src="/chat/pusher.min.js"></script>
 <script src="/chat/PusherChatWidget.js?{VERHASH}"></script>
-<div id="scrolltop">
-    <a onclick="this.parentNode.style.display='none';" style="height:2ex; line-height:2ex; padding:0 5px;">×</a>
-	<!--{if $_G[fid] && $_G['mod'] == 'viewthread'}-->
-	<span><a href="forum.php?mod=post&action=reply&fid=$_G[fid]&tid=$_G[tid]&extra=$_GET[extra]&page=$page{if $_GET[from]}&from=$_GET[from]{/if}" onclick="showWindow('reply', this.href)" class="replyfast" title="{lang fastreply}"><b>{lang fastreply}</b></a></span>
-	<!--{/if}-->
-	<span hidefocus="true"><a title="{lang scrolltop}" onclick="window.scrollTo('0','0')" class="scrolltopa"><b>{lang scrolltop}</b></a></span>
-	<!--{if $_G[fid]}-->
-	<span>
-		<!--{if $_G['mod'] == 'viewthread'}-->
-		<a hidefocus="true" class="editp" onclick="showWindow('edit',$(MULUSELECT.value).querySelector('a.editp').href,'get',0)" title="{lang edit}"><b>{lang edit}</b></a>
-		<!--{else}-->
-		<a href="forum.php" hidefocus="true" class="returnboard" title="{lang return_forum}"><b>{lang return_forum}</b></a>
-		<!--{/if}-->
-	</span>
-	<!--{/if}-->
-</div>
 <script type="text/javascript">checkBlind();</script>
 <!--{if isset($_G['makehtml'])}-->
 	<script type="text/javascript" src="{$_G[setting][jspath]}html2dynamic.js?{VERHASH}"></script>
