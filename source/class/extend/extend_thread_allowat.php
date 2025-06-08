@@ -47,7 +47,7 @@ class extend_thread_allowat extends extend_thread_base {
 	public function after_newthread() {
 		if($this->group['allowat'] && $this->atlist) {
 			foreach($this->atlist as $atuid => $atusername) {
-				notification_add($atuid, 'at', 'at_message', array('from_id' => $this->tid, 'from_idtype' => 'at', 'buyerid' => $this->member['uid'], 'buyer' => $this->member['username'], 'tid' => $this->tid, 'subject' => $this->param['subject'], 'pid' => $this->pid, 'message' => messagecutstr($this->param['message'], 150)));
+				notification_add($atuid, 'at', 'at_message', array('from_id' => $this->tid, 'from_idtype' => 'at', 'buyerid' => $this->member['uid'], 'buyer' => $this->member['username'], 'tid' => $this->tid, 'subject' => $this->param['subject'], 'pid' => $this->pid, 'message' => dhtmlspecialchars(messagecutstr($this->param['message'], 150, $this->param['htmlon']))));
 			}
 			set_atlist_cookie(array_keys($this->atlist));
 		}
@@ -84,12 +84,14 @@ class extend_thread_allowat extends extend_thread_base {
 						}
 					}
 				} else {
-					foreach(C::t('common_member')->fetch_all_by_username($atlist_tmp) as $row) {
-						if(!in_array($row['uid'], $ateduids)) {
-							$this->atlist[$row['uid']] = $row['username'];
-						}
-						if(count($this->atlist) == $maxselect) {
-							break;
+					foreach ($atlist_tmp as $username) {
+						$stripped_username = str_replace(' ', '', $username);
+						$uid = DB::result_first("SELECT uid FROM ".DB::table('common_member')." WHERE REPLACE(username, ' ', '')='$stripped_username'");
+						if(!in_array($uid, $ateduids)) {
+							$this->atlist[$uid] = $username;
+							if(count($this->atlist) == $maxselect) {
+								break;
+							}
 						}
 					}
 				}
@@ -100,7 +102,7 @@ class extend_thread_allowat extends extend_thread_base {
 	public function after_newreply() {
 		if($this->group['allowat'] && $this->atlist) {
 			foreach($this->atlist as $atuid => $atusername) {
-				notification_add($atuid, 'at', 'at_message', array('from_id' => $this->thread['tid'], 'from_idtype' => 'at', 'buyerid' => $this->member['uid'], 'buyer' => $this->member['username'], 'tid' => $this->thread['tid'], 'subject' => $this->thread['subject'], 'pid' => $this->pid, 'message' => messagecutstr($this->param['message'], 150)));
+				notification_add($atuid, 'at', 'at_message', array('from_id' => $this->thread['tid'], 'from_idtype' => 'at', 'buyerid' => $this->member['uid'], 'buyer' => $this->member['username'], 'tid' => $this->thread['tid'], 'subject' => $this->thread['subject'], 'pid' => $this->pid, 'message' => dhtmlspecialchars(messagecutstr($this->param['message'], 150, $this->param['htmlon']))));
 			}
 			set_atlist_cookie(array_keys($this->atlist));
 		}
@@ -136,12 +138,14 @@ class extend_thread_allowat extends extend_thread_base {
 						}
 					}
 				} else {
-					foreach(C::t('common_member')->fetch_all_by_username($atlist_tmp) as $row) {
-						if(!in_array($row['uid'], $ateduids)) {
-							$this->atlist[$row['uid']] = $row['username'];
-						}
-						if(count($this->atlist) == $maxselect) {
-							break;
+					foreach ($atlist_tmp as $username) {
+						$stripped_username = str_replace(' ', '', $username);
+						$uid = DB::result_first("SELECT uid FROM ".DB::table('common_member')." WHERE REPLACE(username, ' ', '')='$stripped_username'");
+						if(!in_array($uid, $ateduids)) {
+							$this->atlist[$uid] = $username;
+							if(count($this->atlist) == $maxselect) {
+								break;
+							}
 						}
 					}
 				}
@@ -152,7 +156,7 @@ class extend_thread_allowat extends extend_thread_base {
 	public function after_editpost() {
 		if($this->group['allowat'] && $this->atlist) {
 			foreach($this->atlist as $atuid => $atusername) {
-				notification_add($atuid, 'at', 'at_message', array('from_id' => $this->thread['tid'], 'from_idtype' => 'at', 'buyerid' => $this->post['authorid'], 'buyer' => $this->post['author'], 'tid' => $this->thread['tid'], 'subject' => $this->thread['subject'], 'pid' => $this->post['pid'], 'message' => messagecutstr($this->param['message'], 150)));
+				notification_add($atuid, 'at', 'at_message', array('from_id' => $this->thread['tid'], 'from_idtype' => 'at', 'buyerid' => $this->post['authorid'], 'buyer' => $this->post['author'], 'tid' => $this->thread['tid'], 'subject' => $this->thread['subject'], 'pid' => $this->post['pid'], 'message' => dhtmlspecialchars(messagecutstr($this->param['message'], 150, $this->param['htmlon']))));
 			}
 			set_atlist_cookie(array_keys($this->atlist));
 		}
