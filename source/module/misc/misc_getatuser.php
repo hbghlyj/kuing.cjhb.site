@@ -18,13 +18,13 @@ if($tid = intval($_GET['tid'])){
 	// Fetch from forum_post
 	foreach(C::t('forum_post')->fetch_all_by_tid('tid:'.$tid, $tid, true, '', 0, 0, null, 0) as $post) {
 		if(!empty($post['authorid']) && $post['authorid'] != $_G['uid'] && !isset($atlist_tid[$post['authorid']])) {
-			$atlist_tid[$post['authorid']] = $post['author'];
+			$atlist_tid[$post['authorid']] = str_replace(' ', '', $post['author']);
 		}
 	}
 	// Fetch from forum_postcomment
 	foreach(C::t('forum_postcomment')->fetch_all_by_search($tid, null, null, null, null, null, null, 0, 0) as $comment) {
 		if(!empty($comment['authorid']) && $comment['authorid'] != $_G['uid'] && !isset($atlist_tid[$comment['authorid']])) {
-			$atlist_tid[$comment['authorid']] = $comment['author'];
+			$atlist_tid[$comment['authorid']] = str_replace(' ', '', $comment['author']);
 		}
 	}
 	$result = implode(',', array_values($atlist_tid));
@@ -35,7 +35,7 @@ if($tid = intval($_GET['tid'])){
 		$cookies = explode(',', $_G['cookie']['atlist']);
 		foreach(C::t('common_member')->fetch_all($cookies, false) as $row) {
 			if ($row['uid'] != $_G['uid'] && in_array($row['uid'], $cookies)) {
-				$atlist_cookie[$row['uid']] = $row['username'];
+				$atlist_cookie[$row['uid']] = str_replace(' ', '', $row['username']);
 			}
 		}
 	}
@@ -43,7 +43,7 @@ if($tid = intval($_GET['tid'])){
 		if($atlist_cookie[$row['followuid']]) {
 			continue;
 		}
-		$atlist[$row['followuid']] = $row['fusername'];
+		$atlist[$row['followuid']] = str_replace(' ', '', $row['fusername']);
 	}
 	$num = count($atlist);
 	if($num < $limit) {
@@ -55,7 +55,7 @@ if($tid = intval($_GET['tid'])){
 			if($atlist_cookie[$row['fuid']]) {
 				continue;
 			}
-			$atlist[$row['fuid']] = $row['fusername'];
+			$atlist[$row['fuid']] = str_replace(' ', '', $row['fusername']);
 		}
 	}
 	$result = implode(',', $atlist_cookie).($atlist_cookie && $atlist ? ',' : '').implode(',', $atlist);
