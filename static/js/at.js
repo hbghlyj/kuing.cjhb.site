@@ -109,9 +109,10 @@ function atSearch(kw, call) {
 		});
 	}
 	var lsi = 0;
+	var lowerKw = kw.toLowerCase(); // Convert keyword to lowercase
 	for(i in atKeywords) {
-		if(atKeywords[i].indexOf(kw) !== -1 || kw === '') {
-			atResult[lsi] = kw !== '' ? atKeywords[i].replace(kw, '<b>' + kw + '</b>') : atKeywords[i];
+		if(atKeywords[i].toLowerCase().indexOf(lowerKw) !== -1 || kw === '') { // Convert item to lowercase before indexOf
+			atResult[lsi] = kw !== '' ? atKeywords[i].replace(new RegExp(kw.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'ig'), '<b>$&</b>') : atKeywords[i]; // Use RegExp for case-insensitive replace and escape special characters
 			lsi++;
 			if(lsi > 10) {
 				break;
