@@ -19,12 +19,12 @@ document.addEventListener("DOMContentLoaded", function() {
 
         // hover background
         parentTd.addEventListener('mouseenter', () => {
-            parentTd.style.backgroundColor = '#f9f9f9';
-            parentTd.style.boxShadow = 'inset 0px 0px 5px #c1c1c1';
+            parentTd.style.boxShadow = 'rgba(0, 0, 0, 0.3) 0px 2px 4px inset';
+            link.style.textDecoration = 'underline';
         });
         parentTd.addEventListener('mouseleave', () => {
-            parentTd.style.backgroundColor = '';
             parentTd.style.boxShadow = '';
+            link.style.textDecoration = 'none';
         });
     });
 });
