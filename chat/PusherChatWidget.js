@@ -93,13 +93,9 @@ function PusherChatWidget(pusher, options) {
     this._chatChannel.bind('deletepost', function(data) {
       if(data.tid == tid && $(`post_${data.pid}`)) {
         $(`post_${data.pid}`).remove();
+        MULUSELECT.style.height = MULUSELECT.lastChild.offsetTop - MULUSELECT.firstChild.offsetTop + 'px';
         MULUSELECT.querySelector(`option[value="post_${data.pid}"]`).remove();
         MULUSELECT.size--;
-        if(MULUSELECT.size < 2 || $('postlist').clientHeight < window.innerHeight) {
-          MULUSELECT.style.display = 'none';
-        } else {
-          MULUSELECT.style.height = MULUSELECT.lastChild.offsetHeight + MULUSELECT.lastChild.offsetTop - MULUSELECT.firstChild.offsetTop + 'px';
-        }
       }
     });
   }
