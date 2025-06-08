@@ -212,8 +212,8 @@ function clearContent() {
 }
 
 function uploadNextAttach() {
-	var str = $('attachframe').contentWindow.document.body.innerHTML;
-	if(str == '') return;
+	var str = $('attachframe').contentWindow?.document.body.innerHTML;
+	if(!str) return;
 	var arr = str.split('|');
 	var att = CURRENTATTACH.split('|');
 	var sizelimit = '';
