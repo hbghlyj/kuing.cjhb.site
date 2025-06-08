@@ -933,7 +933,7 @@ a.thread_mod { height: 19px; line-height: 19px; display: inline-block; color: #4
 			.pob em { float: left;}
 				.pob em a { display: block; float: left; height: 36px; margin-right: 14px; }
 				.pob em a:before { font-family: dzicon; display: inline-block; height: 36px; width: 16px; transform: scale(1.3); margin-left: 2px; margin-right: 4px; color: #FF9C00; }
-			.cmmnt:before { content: "\f120"; }
+			.cmmnt { background: url({IMGDIR}/cmmnt.gif) no-repeat 0 50%; padding-left: 25px; }
 			.fastre:before { content: "\f10d"; }
 			.followp { background: url({IMGDIR}/rt.png) no-repeat 0 50%; }
 			.sharep { background: url({IMGDIR}/oshr.png) no-repeat 0 50%; }
