@@ -475,14 +475,82 @@ function keyMenu(code, func) {
 		textobj.selectionStart = selectionStart + code.length;
 		textobj.selectionEnd = textobj.selectionStart;
 		keyMenuObj = textobj;
-		var b = fetchOffset(editbox);
+		var b = fetchOffset(textobj);
 		var o = { left: 0, top: 0 };
-		var textLines = textobjval.substring(0, selectionStart).split('\\n');
-		var lastLine = textLines[textLines.length - 1];
-		var charWidth = 8;
-		var lineHeight = parseInt(getComputedStyle(textobj).lineHeight) || 20;
-		o.left = lastLine.length * charWidth;
-		o.top = (textLines.length -1) * lineHeight;
+		var textUpToCursor = textobj.value.substring(0, textobj.selectionStart);
+		var numPreviousNewlines = (textUpToCursor.match(/\n/g) || []).length;
+		var lastNewlineIndex = textUpToCursor.lastIndexOf('\n');
+		var currentLineTextAtCursor = textUpToCursor.substring(lastNewlineIndex + 1);
+		var computedStyles = getComputedStyle(textobj);
+		var fontSize = parseFloat(computedStyles.fontSize);
+		var fontFamily = computedStyles.fontFamily;
+		var lineHeight = parseFloat(computedStyles.lineHeight);
+		var tempSpanMono = document.createElement('span');
+		tempSpanMono.style.position = 'absolute';
+		tempSpanMono.style.visibility = 'hidden';
+		tempSpanMono.style.whiteSpace = 'pre';
+		tempSpanMono.style.fontSize = fontSize + 'px';
+		tempSpanMono.style.fontFamily = fontFamily;
+		tempSpanMono.style.padding = 0;
+		tempSpanMono.style.border = 0;
+		tempSpanMono.style.boxSizing = 'content-box';
+		tempSpanMono.textContent = 'X';
+		document.body.appendChild(tempSpanMono);
+		var measuredMonospaceCharWidth = tempSpanMono.getBoundingClientRect().width;
+		document.body.removeChild(tempSpanMono);
+		var tempSpanFull = document.createElement('span');
+		tempSpanFull.style.position = 'absolute';
+		tempSpanFull.style.visibility = 'hidden';
+		tempSpanFull.style.whiteSpace = 'pre';
+		tempSpanFull.style.fontSize = fontSize + 'px';
+		tempSpanFull.style.fontFamily = fontFamily;
+		tempSpanFull.style.padding = 0;
+		tempSpanFull.style.border = 0;
+		tempSpanFull.style.boxSizing = 'content-box';
+		tempSpanFull.textContent = '字';
+		document.body.appendChild(tempSpanFull);
+		var measuredFullCharWidth = tempSpanFull.getBoundingClientRect().width;
+		document.body.removeChild(tempSpanFull);
+		var paddingLeft = parseFloat(computedStyles.paddingLeft);
+		var paddingRight = parseFloat(computedStyles.paddingRight);
+		var maxLineWidthInPixels = textobj.clientWidth - paddingLeft - paddingRight;
+		if (isNaN(maxLineWidthInPixels) || maxLineWidthInPixels <= 0) {
+			var borderLeft = parseFloat(computedStyles.borderLeftWidth);
+			var borderRight = parseFloat(computedStyles.borderRightWidth);
+			maxLineWidthInPixels = textobj.getBoundingClientRect().width - paddingLeft - paddingRight - borderLeft - borderRight;
+			if (isNaN(maxLineWidthInPixels) || maxLineWidthInPixels <= 0) {
+				maxLineWidthInPixels = 800;
+			}
+		}
+		var currentVisualOffsetOnLine = 0;
+		var wrappedLinesForCurrentLogicalLine = 0;
+		for (var i = 0; i < currentLineTextAtCursor.length; i++) {
+			var char = currentLineTextAtCursor[i];
+			var charCode = char.charCodeAt(0);
+			var charIsFullWidth =
+				(charCode >= 0x3000 && charCode <= 0x303F) ||
+				(charCode >= 0x4E00 && charCode <= 0x9FFF) ||
+				(charCode >= 0x3040 && charCode <= 0x309F) ||
+				(charCode >= 0x30A0 && charCode <= 0x30FF) ||
+				(charCode >= 0xFF00 && charCode <= 0xFFEF) ||
+				(charCode >= 0xAC00 && charCode <= 0xD7AF);
+			var charPixelWidth = charIsFullWidth ? measuredFullCharWidth : measuredMonospaceCharWidth;
+			if (currentVisualOffsetOnLine + charPixelWidth > maxLineWidthInPixels) {
+				wrappedLinesForCurrentLogicalLine++;
+				currentVisualOffsetOnLine = charPixelWidth;
+				while (currentVisualOffsetOnLine > maxLineWidthInPixels) {
+					wrappedLinesForCurrentLogicalLine++;
+					currentVisualOffsetOnLine -= maxLineWidthInPixels;
+				}
+			} else {
+				currentVisualOffsetOnLine += charPixelWidth;
+			}
+		}
+		o.left = currentVisualOffsetOnLine;
+		if (isNaN(lineHeight) || lineHeight <= 0) {
+			lineHeight = fontSize * 1.2;
+		}
+		o.top = (numPreviousNewlines + wrappedLinesForCurrentLogicalLine + 1) * lineHeight;
 		o.left -= textobj.scrollLeft;
 		o.top -= textobj.scrollTop;
 	}
