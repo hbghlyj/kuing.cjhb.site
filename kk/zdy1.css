@@ -27,7 +27,7 @@
   overflow-y: auto;
 }
 @media screen and (orientation: portrait) {
-  #switchwidth,#diy-tg,#um p:last-child,#category_grid,.fl_i,p.xg2,#pt,#chart .y,.frame-title { display: none; }
+  #switchwidth,#diy-tg,#um p:last-child,.fl_i { display: none; }
   #toptb { min-width: unset; }
   .fl_by {
     width: 150px;
@@ -43,7 +43,6 @@
     font-size: 12px;
   }
   #nv li a { padding: 0 5px; }
-  #scbar_txt { width: 130px;}
   #onlinelist dd ul li {
     width: 10em;
   }
