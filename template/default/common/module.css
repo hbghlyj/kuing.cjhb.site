@@ -933,7 +933,7 @@ a.thread_mod { height: 19px; line-height: 19px; display: inline-block; color: #4
 			.pob em { float: left;}
 				.pob em a { display: block; float: left; height: 36px; margin-right: 14px; }
 				.pob em a:before { font-family: dzicon; display: inline-block; height: 36px; width: 16px; transform: scale(1.3); margin-left: 2px; margin-right: 4px; color: #FF9C00; }
-			.cmmnt { background: url({IMGDIR}/cmmnt.gif) no-repeat 0 50%; padding-left: 25px; }
+			.cmmnt { background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23FF9C00' stroke-width='1' stroke-linecap='round' stroke-linejoin='round'%3E%3C!-- Pale, curly steam --%3E%3Cpath d='M6 5 C6 3, 8 3, 8 5 C8 7, 6 7, 6 9' stroke='%23ccc' fill='none'/%3E%3Cpath d='M10 5 C10 3, 12 3, 12 5 C12 7, 10 7, 10 9' stroke='%23ccc' fill='none'/%3E%3C!-- Cup top rim (wider ellipse) --%3E%3Cellipse cx='9' cy='11' rx='6' ry='2' fill='none'/%3E%3C!-- Tapered cup sides (short, mug-like) --%3E%3Cline x1='3' y1='11' x2='5' y2='18'/%3E%3Cline x1='15' y1='11' x2='13' y2='18'/%3E%3C!-- Cup bottom arc (narrower) --%3E%3Cpath d='M5 18 A4 1 0 0 0 13 18' fill='none'/%3E%3C!-- Handle (lower end shifted right to join body) --%3E%3Cpath d='M15 13 C19 13, 19 17, 14 17' fill='none'/%3E%3C!-- Tray moved closer to cup bottom --%3E%3Cline x1='3' y1='20' x2='15' y2='20'/%3E%3C/svg%3E") no-repeat 0 50%; padding-left: 25px; }
 			.fastre:before { content: "\f10d"; }
 			.followp { background: url({IMGDIR}/rt.png) no-repeat 0 50%; }
 			.sharep { background: url({IMGDIR}/oshr.png) no-repeat 0 50%; }
