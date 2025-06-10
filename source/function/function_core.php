@@ -1192,7 +1192,7 @@ function output() {
 	if(defined('IN_MOBILE')) {
 		mobileoutput();
 	}
-	$havedomain = implode('', $_G['setting']['domain']['app']);
+       $havedomain = implode('', $_G['setting']['domain']['app']);
 	if($_G['setting']['rewritestatus'] || !empty($havedomain)) {
 		$content = ob_get_contents();
 		$content = output_replace($content);
@@ -1271,7 +1271,7 @@ function output_ajax() {
 	if(defined('DISCUZ_DEBUG') && DISCUZ_DEBUG && @include(libfile('function/debug'))) {
 		function_exists('debugmessage') && $s .= debugmessage(1);
 	}
-	$havedomain = implode('', $_G['setting']['domain']['app']);
+       $havedomain = implode('', $_G['setting']['domain']['app']);
 	if($_G['setting']['rewritestatus'] || !empty($havedomain)) {
         $s = output_replace($s);
 	}
