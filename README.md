@@ -107,3 +107,27 @@ Bitwise flags for post state:
 |-4|N/A|
 |-5|Recycle bin reply|
 
+## JavaScript helper functions
+
+`static/js/common.js` provides several utility functions used across the site.
+
+### `ajaxget(url, showid, waitid, loading, display, recall)`
+Performs a GET request and injects the result into `showid`. `waitid` shows a loading message. `display` controls whether the element is shown (`''`), hidden (`'none'`), or toggled (`'auto'`). The optional `recall` callback runs after completion.
+
+### `ajaxpost(formid, showid, waitid, showidclass, submitbtn, recall)`
+Submits a form asynchronously. The response is written into `showid` and the submit button is disabled during the request. `recall` executes once data is received.
+
+### `ajaxmenu(ctrlObj, timeout, cache, duration, pos, recall)`
+Displays a menu near `ctrlObj`. The menu can be cached and is hidden after `timeout` milliseconds depending on `duration`. `pos` defines the positioning and `recall` runs when the menu is shown.
+
+### `showDialog(msg, mode, t, func, cover)`
+Opens a dialog box where `mode` can be `info`, `notice`, `alert`, or `confirm`. If confirmed, `func` is called. Set `cover` to block the page with an overlay.
+
+### `showWindow(k, url, mode, cache, v)`
+Opens a floating window identified by `k`. Content is loaded via GET or POST according to `mode`. Only one window with the same key is displayed at a time.
+
+### `showMenu(v)`
+Shows a configurable menu. The object `v` can include keys such as `ctrlid`, `showid`, `pos`, `duration`, and `timeout`.
+
+### `setMenuPosition(showid, menuid, pos)`
+Positions the menu element `menuid` relative to `showid` using the two-digit `pos` code denoting anchor and direction.
