@@ -139,9 +139,10 @@ class model_forum_thread extends discuz_model
 			'moderated' => $this->param['moderated'],
 			'status' => $this->param['tstatus'],
 			'isgroup' => $this->param['isgroup'],
-			'replycredit' => $this->param['replycredit'],
-			'closed' => $this->param['closed'] ? 1 : 0
-		);
+                       'replycredit' => $this->param['replycredit'],
+                       'closed' => $this->param['closed'] ? 1 : 0,
+                       'tags' => $this->param['tagstr']
+               );
 		$this->tid = C::t('forum_thread')->insert($newthread, true);
 		C::t('forum_newthread')->insert(array(
 		    'tid' => $this->tid,
@@ -211,11 +212,10 @@ class model_forum_thread extends discuz_model
 			'bbcodeoff' => $this->param['bbcodeoff'],
 			'smileyoff' => $this->param['smileyoff'],
 			'parseurloff' => $this->param['parseurloff'],
-			'attachment' => '0',
-			'tags' => $this->param['tagstr'],
-			'replycredit' => 0,
-			'status' => $this->param['pstatus']
-		));
+                       'attachment' => '0',
+                       'replycredit' => 0,
+                       'status' => $this->param['pstatus']
+               ));
 
 		$statarr = array(0 => 'thread', 1 => 'poll', 2 => 'trade', 3 => 'reward', 4 => 'activity', 5 => 'debate', 127 => 'thread');
 		include_once libfile('function/stat');

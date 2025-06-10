@@ -11,11 +11,37 @@ This repository contains the source code for the kuing.cjhb.site forum and docum
    ```
 3. Copy `config/config_global_default.php` to `config/config_global.php` and configure the database connection.
 4. Import the database schema from the `install` directory. If you need to rerun the Discuz installer, make sure to remove the `data/install.lock` file first so the setup can proceed.
+
+### Migrating thread tags
+If you are upgrading from an older version where tags were stored in the `pre_forum_post` table,
+execute the following SQL statements:
+
+```sql
+ALTER TABLE `pre_forum_thread` ADD COLUMN `tags` varchar(255) NOT NULL DEFAULT '' AFTER `closed`;
+UPDATE `pre_forum_thread` t
+  INNER JOIN `pre_forum_post` p ON t.tid=p.tid AND p.first=1
+  SET t.tags=p.tags;
+ALTER TABLE `pre_forum_post` DROP COLUMN `tags`;
+```
 5. Launch the site locally:
    ```bash
    php -S localhost:8080
    ```
    Then open `http://localhost:8080` in your browser.
+
+### Restoring the Monday backup
+If you wish to populate your local installation with sample data, download the
+`backup_monday.sql.gz` archive from the project site:
+
+```bash
+wget -O backup.sql.gz https://kuing.cjhb.site/uc_server/data/backup_monday.sql.gz
+gunzip backup.sql.gz
+sed -i 's/utf8mb4_0900_ai_ci/utf8mb4_general_ci/g' backup.sql
+mysql -u root ultrax < backup.sql
+```
+
+This converts the unsupported `utf8mb4_0900_ai_ci` collation and imports the
+contents into the `ultrax` database.
 
 ## Acknowledgements
 
