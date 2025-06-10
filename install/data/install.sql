@@ -18,7 +18,14 @@ ALTER TABLE `common_robot_user_agents`
 ALTER TABLE `common_robot_user_agents`
   MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
-CREATE TABLE chat (time TIMESTAMP DEFAULT CURRENT_TIMESTAMP, uid mediumint NOT NULL, author CHAR(15) NOT NULL, message TEXT NOT NULL, PRIMARY KEY (`time`) );
+CREATE TABLE `chat` (
+  `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `uid` mediumint NOT NULL,
+  `author` char(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `message` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+ALTER TABLE `chat`
+  ADD PRIMARY KEY (`time`);
 
 DROP TABLE IF EXISTS pre_common_admincp_cmenu;
 CREATE TABLE pre_common_admincp_cmenu (
