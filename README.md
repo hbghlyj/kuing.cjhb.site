@@ -29,3 +29,81 @@ The following services are relied upon for mathematical content:
 * [Asymptote Command-Line Interface](https://asymptote.sourceforge.io/doc/Command_002dLine-Interface.html)
 
 
+
+## Database field reference
+
+Below are some common enumerations used in the DiscuzX database schema.
+
+### `forum_thread.status`
+Bitwise flags controlling thread behaviour:
+
+| Bit | Meaning |
+|----|---------|
+|0x0001|Cache post positions|
+|0x0002|Replies visible only to managers and author|
+|0x0004|Rush thread|
+|0x0008|View replies in reverse order|
+|0x0010|Has a thread stamp|
+|0x0020|Notify author on reply|
+|0x0040|Push to QQ Zone|
+|0x0080|Push to Tencent Weibo|
+|0x0100|Collected to an album|
+|0x0200|Rebroadcast|
+|0x0400|Mobile text|
+|0x0800|Mobile geo/photo|
+|0x1000|Mobile recording|
+|0x2000|Pushed to Tencent Weibo successfully|
+|0x4000|Generated thread image|
+|0x8000|Pushed to mobile forum successfully|
+
+### `forum_thread` / `forum_post`.attachment
+
+| Value | Meaning |
+|------|---------|
+|0|No attachment|
+|1|Has attachment|
+|2|Image attachment|
+
+### `forum_thread.displayorder`
+
+| Value | Meaning |
+|------|---------|
+|4|Global sticky|
+|3|Sticky level 3|
+|2|Sticky level 2|
+|1|Sticky level 1|
+|0|Normal|
+|-1|Recycle bin|
+|-2|Under moderation|
+|-3|Moderation ignored|
+|-4|Draft|
+
+### `forum_post.status`
+Bitwise flags for post state:
+
+| Bit | Meaning |
+|----|---------|
+|0x00000001|Post shielded|
+|0x00000002|Post warned|
+|0x00000004|Edited after moderation|
+|0x00000008|Posted from mobile|
+|0x00000010|Weibo backflow|
+|0x00000020|Show location on mobile|
+|0x00000040|Contains mobile recording|
+|0x00000080|Mobile model iOS|
+|0x00000100|Mobile model Android/WindowsPhone|
+|0x00000200|Mobile model Symbian/WeChat|
+|0x00000400|Marked as spam|
+|0x00000800|Returned from mobile forum|
+
+### `forum_post.invisible`
+
+| Value | Meaning |
+|------|---------|
+|0|Normal|
+|-1|Recycle bin|
+|-2|Pending moderation|
+|-3|Ignored/Draft|
+|-4|N/A|
+|-5|Recycle bin reply|
+
