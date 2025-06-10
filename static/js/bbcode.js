@@ -371,26 +371,30 @@ function html2bbcode(str) {
 			'(<t[dh]([^>]*(left|center|right)[^>]*)>)\\\s*([\\\s\\\S]+?)\\\s*(<\/t[dh]>)',
 			'<t[dh]([^>]*(width|colspan|rowspan)[^>]*)>',
 			'<t[dh][^>]*>',
-			'<\/t[dh]>',
-			'<\/tr>',
-			'<\/table>',
-			'<h\\\d[^>]*>',
-			'<\/h\\\d>'
-		], [
-			function($1, $2, $3) {return '[float=' + $2 + ']' + $3 + '[/float]';},
-			function($1, $2) {return tabletag($2);},
-			'[table]\n',
-			function($1, $2, $3) {return '[tr=' + $3 + ']';},
-			'[tr]',
-			function($1, $2, $3, $4, $5, $6) {return $2 + '[align=' + $4 + ']' + $5 + '[/align]' + $6},
-			function($1, $2) {return tdtag($2);},
-			'[td]',
-			'[/td]',
-			'[/tr]\n',
-			'[/table]',
-			'[b]',
-			'[/b]'
-		], str);
+                       '<\/t[dh]>',
+                       '<\/tr>',
+                       '<\/table>',
+                       '<h[23][^>]*>',
+                       '<\/h[23]>',
+                       '<h\\\d[^>]*>',
+                       '<\/h\\\d>'
+               ], [
+                       function($1, $2, $3) {return '[float=' + $2 + ']' + $3 + '[/float]';},
+                       function($1, $2) {return tabletag($2);},
+                       '[table]\n',
+                       function($1, $2, $3) {return '[tr=' + $3 + ']';},
+                       '[tr]',
+                       function($1, $2, $3, $4, $5, $6) {return $2 + '[align=' + $4 + ']' + $5 + '[/align]' + $6},
+                       function($1, $2) {return tdtag($2);},
+                       '[td]',
+                       '[/td]',
+                       '[/tr]\n',
+                       '[/table]',
+                       '[b]',
+                       '[/b]\n',
+                       '[b]',
+                       '[/b]'
+               ], str);
 
 		str = str.replace(/<h([0-9]+)[^>]*>([\s\S]*?)<\/h\1>/ig, function($1, $2, $3) {return "[size=" + (7 - $2) + "]" + $3 + "[/size]\n\n";});
 		str = str.replace(/<hr[^>]*>/ig, "[hr]");
