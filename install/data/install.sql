@@ -7,11 +7,11 @@
 CREATE TABLE `common_robot_user_agents` (
   `id` int NOT NULL,
   `user_agent_keyword` varchar(255) NOT NULL,
-  `category` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `category` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `first_seen_at` int UNSIGNED NOT NULL DEFAULT '0',
   `last_seen_at` int UNSIGNED NOT NULL DEFAULT '0',
   `seen_count` int UNSIGNED NOT NULL DEFAULT '0'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 ALTER TABLE `common_robot_user_agents`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `unique_ua_keyword` (`user_agent_keyword`);
@@ -21,9 +21,9 @@ ALTER TABLE `common_robot_user_agents`
 CREATE TABLE `chat` (
   `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `uid` mediumint NOT NULL,
-  `author` char(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `author` char(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `message` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 ALTER TABLE `chat`
   ADD PRIMARY KEY (`time`);
 
