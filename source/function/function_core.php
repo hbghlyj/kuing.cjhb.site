@@ -512,16 +512,16 @@ function avatar($uid, $size = 'middle', $returnsrc = 0, $real = FALSE, $static =
 }
 
 // if zh-HK or zh-TW is in the HTTP_ACCEPT_LANGUAGE and prior to zh-CN, then set DISCUZ_LANG = 'TC/'
-if(!empty($_SERVER['HTTP_ACCEPT_LANGUAGE'])&& (stripos($_SERVER['HTTP_ACCEPT_LANGUAGE'], 'zh-TW') !== false  && (stripos($_SERVER['HTTP_ACCEPT_LANGUAGE'], 'zh-CN') === false || stripos($_SERVER['HTTP_ACCEPT_LANGUAGE'], 'zh-TW') < stripos($_SERVER['HTTP_ACCEPT_LANGUAGE'], 'zh-CN')) || stripos($_SERVER['HTTP_ACCEPT_LANGUAGE'], 'zh-HK') !== false && (stripos($_SERVER['HTTP_ACCEPT_LANGUAGE'], 'zh-CN') === false || stripos($_SERVER['HTTP_ACCEPT_LANGUAGE'], 'zh-HK') < stripos($_SERVER['HTTP_ACCEPT_LANGUAGE'], 'zh-CN')))) {
-	define('DISCUZ_LANG', 'TC/');
+$acceptLang = $_SERVER['HTTP_ACCEPT_LANGUAGE'] ?? '';
+if($acceptLang && (stripos($acceptLang, 'zh-TW') !== false  && (stripos($acceptLang, 'zh-CN') === false || stripos($acceptLang, 'zh-TW') < stripos($acceptLang, 'zh-CN')) || stripos($acceptLang, 'zh-HK') !== false && (stripos($acceptLang, 'zh-CN') === false || stripos($acceptLang, 'zh-HK') < stripos($acceptLang, 'zh-CN')))) {
+       define('DISCUZ_LANG', 'TC/');
 }
 // if no Chinese language detected in the HTTP_ACCEPT_LANGUAGE, then set DISCUZ_LANG = 'EN/'
-elseif(stripos($_SERVER['HTTP_ACCEPT_LANGUAGE'], 'zh') === false) {
-	define('DISCUZ_LANG', 'EN/');
-}
-else{
-// default language is simplified Chinese
-	define('DISCUZ_LANG', '');
+elseif($acceptLang && stripos($acceptLang, 'zh') === false) {
+       define('DISCUZ_LANG', 'EN/');
+} else {
+       // default language is simplified Chinese
+       define('DISCUZ_LANG', '');
 }
 function lang($file, $langvar = null, $vars = array(), $default = null) {
 	global $_G;
@@ -1192,7 +1192,11 @@ function output() {
 	if(defined('IN_MOBILE')) {
 		mobileoutput();
 	}
-	$havedomain = implode('', $_G['setting']['domain']['app']);
+       $domainApp = [];
+       if (isset($_G['setting']['domain']['app']) && is_array($_G['setting']['domain']['app'])) {
+               $domainApp = $_G['setting']['domain']['app'];
+       }
+       $havedomain = implode('', $domainApp);
 	if($_G['setting']['rewritestatus'] || !empty($havedomain)) {
 		$content = ob_get_contents();
 		$content = output_replace($content);

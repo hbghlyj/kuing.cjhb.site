@@ -3,3 +3,5 @@ config/config_ucenter.php
 vendor/
 src/config/
 .vscode/
+data/
+uc_server/data/
