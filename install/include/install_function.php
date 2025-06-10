@@ -1727,9 +1727,10 @@ function uc_write_config($config, $file, $password) {
 	$config .= "define('UC_PPP', 20);\r\n";
 	$config .= "define('UC_ONLYREMOTEADDR', 1);\r\n";
 	$config .= "define('UC_IPGETTER', 'header');\r\n";
-	$config .= "// define('UC_IPGETTER_HEADER', serialize(array('header' => 'HTTP_X_FORWARDED_FOR')));\r\n";
+       $config .= "// define('UC_IPGETTER_HEADER', serialize(array('header' => 'HTTP_X_FORWARDED_FOR')));\r\n";
 
-	file_put_contents($file, $config);
+       dmkdir(dirname($file));
+       file_put_contents($file, $config);
 }
 
 function install_uc_server() {
@@ -2122,12 +2123,16 @@ function getframeblock($data) {
 }
 
 function import_diy($importfile, $primaltplname, $targettplname) {
-	global $_G;
+        global $_G;
 
-	$css = $html = '';
-	$arr = array();
+        $css = $html = '';
+        $arr = array();
 
-	$content = file_get_contents(realpath($importfile));
+        if(empty($importfile) || !file_exists($importfile)) {
+                return $arr;
+        }
+
+        $content = file_get_contents(realpath($importfile));
 	require_once ROOT_PATH.'./source/class/class_xml.php';
 	if (empty($content)) return $arr;
 	$diycontent = xml2array($content);
