@@ -4,6 +4,22 @@
 --
 -- Create: 2013-08-27 16:12:45
 --
+CREATE TABLE `common_robot_user_agents` (
+  `id` int NOT NULL,
+  `user_agent_keyword` varchar(255) NOT NULL,
+  `category` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `first_seen_at` int UNSIGNED NOT NULL DEFAULT '0',
+  `last_seen_at` int UNSIGNED NOT NULL DEFAULT '0',
+  `seen_count` int UNSIGNED NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+ALTER TABLE `common_robot_user_agents`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `unique_ua_keyword` (`user_agent_keyword`);
+ALTER TABLE `common_robot_user_agents`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+
+CREATE TABLE chat (time TIMESTAMP DEFAULT CURRENT_TIMESTAMP, uid mediumint NOT NULL, author CHAR(15) NOT NULL, message TEXT NOT NULL, PRIMARY KEY (`time`) );
+
 DROP TABLE IF EXISTS pre_common_admincp_cmenu;
 CREATE TABLE pre_common_admincp_cmenu (
   id smallint(6) unsigned NOT NULL AUTO_INCREMENT,
