@@ -511,17 +511,15 @@ function avatar($uid, $size = 'middle', $returnsrc = 0, $real = FALSE, $static =
 	}
 }
 
-// if zh-HK or zh-TW is in the HTTP_ACCEPT_LANGUAGE and prior to zh-CN, then set DISCUZ_LANG = 'TC/'
 $acceptLang = $_SERVER['HTTP_ACCEPT_LANGUAGE'] ?? '';
 if($acceptLang && (stripos($acceptLang, 'zh-TW') !== false  && (stripos($acceptLang, 'zh-CN') === false || stripos($acceptLang, 'zh-TW') < stripos($acceptLang, 'zh-CN')) || stripos($acceptLang, 'zh-HK') !== false && (stripos($acceptLang, 'zh-CN') === false || stripos($acceptLang, 'zh-HK') < stripos($acceptLang, 'zh-CN')))) {
+	// zh-HK or zh-TW is in the HTTP_ACCEPT_LANGUAGE and prior to zh-CN
        define('DISCUZ_LANG', 'TC/');
-}
-// if no Chinese language detected in the HTTP_ACCEPT_LANGUAGE, then set DISCUZ_LANG = 'EN/'
-elseif($acceptLang && stripos($acceptLang, 'zh') === false) {
-       define('DISCUZ_LANG', 'EN/');
-} else {
-       // default language is simplified Chinese
+} elseif($acceptLang && stripos($acceptLang, 'zh') === false) {
        define('DISCUZ_LANG', '');
+} else {
+       // default language is English
+       define('DISCUZ_LANG', 'EN/');
 }
 function lang($file, $langvar = null, $vars = array(), $default = null) {
 	global $_G;
