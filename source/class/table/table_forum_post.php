@@ -150,10 +150,17 @@ class table_forum_post extends discuz_table
 				array(self::get_tablename($tableid), $tid));
 	}
 
-	public function fetch_threadpost_by_tid_invisible($tid, $invisible = null) {
-		return DB::fetch_first('SELECT * FROM %t WHERE tid=%d AND first=1'.($invisible !== null ? ' AND '.DB::field('invisible', $invisible) : ''),
-				array(self::get_tablename('tid:'.$tid), $tid));
-	}
+        public function fetch_threadpost_by_tid_invisible($tid, $invisible = null) {
+                $post = DB::fetch_first('SELECT * FROM %t WHERE tid=%d AND first=1'.($invisible !== null ? ' AND '.DB::field('invisible', $invisible) : ''),
+                                array(self::get_tablename('tid:'.$tid), $tid));
+                if($post) {
+                        $thread = C::t('forum_thread')->fetch($tid);
+                        if($thread && isset($thread['tags'])) {
+                                $post['tags'] = $thread['tags'];
+                        }
+                }
+                return $post;
+        }
 
 	public function fetch_pid_by_tid_authorid($tid, $authorid) {
 		return DB::result_first('SELECT pid FROM %t WHERE tid=%d AND authorid=%d LIMIT 1', array(self::get_tablename('tid:'.$tid), $tid, $authorid));
@@ -493,9 +500,13 @@ class table_forum_post extends discuz_table
 		return $return;
 	}
 
-	public function update_by_tid($tableid, $tid, $data, $unbuffered = false, $low_priority = false, $first = null, $invisible = null, $status = null) {
-		$where = array();
-		$where[] = DB::field('tid', $tid);
+        public function update_by_tid($tableid, $tid, $data, $unbuffered = false, $low_priority = false, $first = null, $invisible = null, $status = null) {
+                if(isset($data['tags'])) {
+                        C::t('forum_thread')->update($tid, array('tags' => $data['tags']));
+                        unset($data['tags']);
+                }
+                $where = array();
+                $where[] = DB::field('tid', $tid);
 		if($first !== null) {
 			$where[] = DB::field('first', $first);
 		}
@@ -505,12 +516,15 @@ class table_forum_post extends discuz_table
 		if($status !== null) {
 			$where[] = DB::field('status', $status);
 		}
-		$return = DB::update(self::get_tablename($tableid), $data, implode(' AND ', $where), $unbuffered, $low_priority);
-		if($return && $this->_allowmem) {
-			$this->update_cache(0, $tid, 'tid', $data, array('first' => $first, 'invisible' => $invisible, 'status' => $status));
-		}
-		return $return;
-	}
+                $return = 0;
+                if($data) {
+                        $return = DB::update(self::get_tablename($tableid), $data, implode(' AND ', $where), $unbuffered, $low_priority);
+                        if($return && $this->_allowmem) {
+                                $this->update_cache(0, $tid, 'tid', $data, array('first' => $first, 'invisible' => $invisible, 'status' => $status));
+                        }
+                }
+                return $return;
+        }
 
 	public function update_fid_by_fid($tableid, $fid, $newfid, $unbuffered = false, $low_priority = false) {
 		$where = array();
@@ -614,13 +628,9 @@ class table_forum_post extends discuz_table
 		}
 	}
 
-	public function concat_threadtags_by_tid($tid, $tags) {
-		$return = DB::query('UPDATE %t SET tags=concat(tags, %s) WHERE tid=%d AND first=1', array(self::get_tablename('tid:'.$tid), $tags, $tid));
-		if($return && $this->_allowmem) {
-			$this->update_cache(0, $tid, 'tid', array('tags' => $tags), array('first' => 1), '.');
-		}
-		return $return;
-	}
+        public function concat_threadtags_by_tid($tid, $tags) {
+                return C::t('forum_thread')->concat_tags_by_tid($tid, $tags);
+        }
 
 
 	public function increase_rate_by_pid($tableid, $pid, $rate, $ratetimes) {
