@@ -2122,12 +2122,16 @@ function getframeblock($data) {
 }
 
 function import_diy($importfile, $primaltplname, $targettplname) {
-	global $_G;
+        global $_G;
 
-	$css = $html = '';
-	$arr = array();
+        $css = $html = '';
+        $arr = array();
 
-	$content = file_get_contents(realpath($importfile));
+        if(empty($importfile) || !file_exists($importfile)) {
+                return $arr;
+        }
+
+        $content = file_get_contents(realpath($importfile));
 	require_once ROOT_PATH.'./source/class/class_xml.php';
 	if (empty($content)) return $arr;
 	$diycontent = xml2array($content);
