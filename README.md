@@ -10,7 +10,7 @@ This repository contains the source code for the kuing.cjhb.site forum and docum
    composer install
    ```
 3. Copy `config/config_global_default.php` to `config/config_global.php` and configure the database connection.
-4. Import the database schema from the `install` directory.
+4. Import the database schema from the `install` directory. If you need to rerun the Discuz installer, make sure to remove the `data/install.lock` file first so the setup can proceed.
 5. Launch the site locally:
    ```bash
    php -S localhost:8080
