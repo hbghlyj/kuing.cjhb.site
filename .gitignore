@@ -4,3 +4,5 @@ data/
 vendor/
 src/config/
 .vscode/
+data/
+uc_server/data/
