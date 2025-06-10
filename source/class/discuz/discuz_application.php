@@ -496,7 +496,7 @@ class discuz_application extends discuz_base{
 					define('IS_ROBOT', $_SERVER['HTTP_USER_AGENT'] . "\t");
 				}elseif(empty($_SERVER['HTTP_SEC_FETCH_MODE'])) {
 					define('IS_ROBOT', 'UnusualSecFetchModeHeader');
-				}elseif(strpos($_SERVER['HTTP_ACCEPT'], '*/*') === false || $_SERVER['HTTP_SEC_FETCH_MODE'] != 'cors' && stripos($_SERVER['HTTP_ACCEPT'], 'text/html') === false) {
+				}elseif(strpos($_SERVER['HTTP_ACCEPT'], '*/*') === false || $_SERVER['HTTP_SEC_FETCH_MODE'] != 'cors' && $_SERVER['HTTP_SEC_FETCH_MODE'] != 'no-cors' && stripos($_SERVER['HTTP_ACCEPT'], 'text/html') === false) {
 					define('IS_ROBOT', 'UnusualAcceptHeader');
 				}elseif(strlen($_SERVER['HTTP_ACCEPT_LANGUAGE']) < 2){
 					define('IS_ROBOT', 'UnusualAcceptLanguageHeader');

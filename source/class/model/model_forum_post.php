@@ -490,11 +490,17 @@ class model_forum_post extends discuz_model {
 			'parseurloff' => $this->param['parseurloff'],
 			'smileyoff' => $this->param['smileyoff'],
 			'subject' => $this->param['subject'],
-			'updateuid' => $this->param['updateuid'],
 			'tags' => $tagstr,
 			'port'=>getglobal('remoteport')
 		);
-		$setarr[empty($_GET['minor']) ? 'lastupdate' : 'dateline'] = $this->param['lastupdate'];
+		if(empty($_GET['minor'])){
+			$setarr['lastupdate'] = $this->param['lastupdate'];
+			$setarr['updateuid'] = $this->param['updateuid'];
+		}else {
+			$setarr['lastupdate'] = 0;
+			$setarr['updateuid'] = 0;
+			$setarr['dateline'] = $this->param['lastupdate'];
+		}
 
 		if($this->param['timestamp']) {
 			$setarr['dateline'] = $this->param['timestamp'];
