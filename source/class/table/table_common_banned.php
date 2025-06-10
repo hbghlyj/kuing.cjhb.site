@@ -78,9 +78,12 @@ class table_common_banned extends discuz_table
 		);
 	}
 
-	public function check_banned($time_to_check, $ip) {
-		$iphex = ip::ip_to_hex_str($ip);
-		$banned = true;
+       public function check_banned($time_to_check, $ip) {
+               $iphex = ip::ip_to_hex_str($ip);
+               if ($iphex === false || $iphex === '') {
+                       return false;
+               }
+               $banned = true;
 		if ($this->_allowmem) $banned = memory('zscore', 'index', $iphex, 0, $this->_pre_cache_key);
 		if ($banned === false || !$this->_allowmem) { // 如果memory中没有值，或不使用memory，都走数据库
 			$iphex_val = '0x' . $iphex;
