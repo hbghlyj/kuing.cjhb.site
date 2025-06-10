@@ -107,7 +107,6 @@ Bitwise flags for post state:
 |-4|N/A|
 |-5|Recycle bin reply|
 
-
 ## JavaScript helper functions
 
 `static/js/common.js` provides several utility functions used across the site.
@@ -132,4 +131,3 @@ Shows a configurable menu. The object `v` can include keys such as `ctrlid`, `sh
 
 ### `setMenuPosition(showid, menuid, pos)`
 Positions the menu element `menuid` relative to `showid` using the two-digit `pos` code denoting anchor and direction.
-
