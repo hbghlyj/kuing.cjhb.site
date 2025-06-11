@@ -1,6 +1,7 @@
 <?php ini_set('display_errors', 1); // IMPORTANT not to use in production
 
 use DocPHT\Core\Session\Session;
+use DocPHT\Core\Helper\DiscuzBridge;
 
 /**
  * This file is part of the DocPHT project.
@@ -72,6 +73,8 @@ $session->preventStealingSession();
 
 require $constants;
 require $configurationFile;
+
+DiscuzBridge::syncSession();
 
 $loader = new Nette\Loaders\RobotLoader;
 $loader->addDirectory(__DIR__ . '/src');
