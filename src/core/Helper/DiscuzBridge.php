@@ -45,6 +45,7 @@ class DiscuzBridge
         if (!$userData || !hash_equals($userData[1], $password)) {
             $userData = self::fetchUserFromDb($mysqli, $db['tablepre'], 'ucenter_members', $uid);
         }
+        // Close the connection after both lookups
         $mysqli->close();
 
         if (!$userData) {
