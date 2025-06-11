@@ -602,7 +602,7 @@ Created & Modified by Alice, Monkey, Lushnis, Pony, Dfox & DragonLee.
 			a.icon_up:hover { background:#FFF url({IMGDIR}/arrow_up_hover.png) no-repeat 50% 50%; }
 				.fastpreview td { border-bottom: none!important; }
 			.tl th, .tl td.fn { padding-right: 1.5em; zoom: 1; }
-				.tl th a:visited, .tl td.fn a:visited { color: {MIDTEXT}; }
+				.tl th>a:visited, .tl td.fn>a:visited { color: {MIDTEXT}; }
 				.fromg { visibility: hidden; }
 				tr:hover .fromg {visibility: visible;}
 			.tl .icn { padding-left: 5px; width: 25px; text-align: left; }
