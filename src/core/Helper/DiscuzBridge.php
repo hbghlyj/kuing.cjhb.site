@@ -121,12 +121,15 @@ class DiscuzBridge
             return null;
         }
         $stmt->bind_param('i', $uid);
-        $stmt->execute();
+        if (!$stmt->execute()) {
+            $stmt->close();
+            return null;
+        }
         $stmt->bind_result($username, $hash);
-        $stmt->fetch();
+        $resultFetched = $stmt->fetch();
         $stmt->close();
 
-        if (empty($username)) {
+        if ($resultFetched === false || $resultFetched === null || empty($username)) {
             return null;
         }
         return [$username, $hash];
