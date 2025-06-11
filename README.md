@@ -29,7 +29,6 @@ ALTER TABLE `pre_forum_post` DROP COLUMN `tags`;
    ```
    Then open `http://localhost:8080` in your browser.
 
-
 ### Restoring the Monday backup
 If you wish to populate your local installation with sample data, download the
 `backup_monday.sql.gz` archive from the project site:
