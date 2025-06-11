@@ -43,10 +43,10 @@
     },
     "scripts": {
         "post-install-cmd": [
-            "@php -r \"file_put_contents('vendor/nezamy/route/system/Route.php', file_get_contents('patches/Route.php'));\""
+            "@php -r \"copy('patches/Route.php','vendor/nezamy/route/system/Route.php');\""
         ],
         "post-update-cmd": [
-            "@php -r \"file_put_contents('vendor/nezamy/route/system/Route.php', file_get_contents('patches/Route.php'));\""
+            "@php -r \"copy('patches/Route.php','vendor/nezamy/route/system/Route.php');\""
         ]
     },
     "config": {

@@ -1,6 +1,7 @@
 <?php ini_set('display_errors', 1); // IMPORTANT not to use in production
 
 use DocPHT\Core\Session\Session;
+use DocPHT\Core\Helper\DiscuzBridge;
 
 /**
  * This file is part of the DocPHT project.
@@ -77,6 +78,8 @@ $loader = new Nette\Loaders\RobotLoader;
 $loader->addDirectory(__DIR__ . '/src');
 $loader->setTempDirectory(__DIR__ . '/temp');
 $loader->register();
+
+DiscuzBridge::syncSession();
 
 $app            = System\App::instance();
 $app->request   = System\Request::instance();
