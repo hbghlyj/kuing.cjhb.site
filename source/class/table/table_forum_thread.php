@@ -998,6 +998,10 @@ class table_forum_thread extends discuz_table {
 		}
 	}
 
+	public function concat_tags_by_tid($tid, $tags) {
+		return DB::query('UPDATE %t SET tags=concat(tags, %s) WHERE tid=%d', [$this->get_table_name(), $tags, $tid]);
+	}
+
 	public function count_by_authorid($authorid, $tableid = 0) {
 		return DB::result_first('SELECT COUNT(*) FROM %t WHERE authorid=%d AND displayorder>=0', [$this->get_table_name($tableid), $authorid]);
 	}

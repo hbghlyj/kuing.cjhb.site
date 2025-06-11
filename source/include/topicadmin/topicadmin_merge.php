@@ -34,9 +34,27 @@ if(!submitcheck('modsubmit')) {
 	} elseif($other['special']) {
 		showmessage('special_noaction');
 	}
-	if($othertid == $_G['tid'] || ($_G['adminid'] == 3 && $other['fid'] != $_G['forum']['fid'])) {
-		showmessage('admin_merge_invalid');
-	}
+if($othertid == $_G['tid'] || ($_G['adminid'] == 3 && $other['fid'] != $_G['forum']['fid'])) {
+        showmessage('admin_merge_invalid');
+}
+
+$thread = C::t('forum_thread')->fetch($_G['tid']);
+$taglist = array();
+foreach(array($thread['tags'], $other['tags']) as $tagstr) {
+    foreach(explode("\t", $tagstr) as $var) {
+        if($var) {
+            list($id, $name) = explode(',', $var);
+            $taglist[$id] = $name;
+            C::t('common_tagitem')->replace($id, $_G['tid'], 'tid');
+        }
+    }
+}
+C::t('common_tagitem')->delete_tagitem(0, $othertid, 'tid');
+$newtagstr = '';
+foreach($taglist as $id => $name) {
+    $newtagstr .= $id.','.$name."\t";
+}
+C::t('forum_thread')->update($_G['tid'], array('tags' => $newtagstr));
 
 	$other['views'] = intval($other['views']);
 	$other['replies']++;

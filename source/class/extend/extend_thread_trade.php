@@ -75,10 +75,9 @@ class extend_thread_trade extends extend_thread_base {
 			'bbcodeoff' => 0,
 			'smileyoff' => $this->param['smileyoff'],
 			'parseurloff' => $this->param['parseurloff'],
-			'attachment' => 0,
-			'tags' => $this->param['tagstr'],
-			'status' => (defined('IN_MOBILE') ? 8 : 0)
-		));
+                       'attachment' => 0,
+                       'status' => (defined('IN_MOBILE') ? 8 : 0)
+               ));
 		if(!empty($_GET['tradeaid'])) {
 			convertunusedattach($_GET['tradeaid'], $this->tid, $pid);
 		}

@@ -198,6 +198,7 @@ class model_forum_thread extends discuz_model {
 		$this->param['usesig'] = !empty($this->param['usesig']) && $this->group['maxsigsize'] ? 1 : 0;
 		$class_tag = new tag();
 		$this->param['tagstr'] = $class_tag->add_tag($this->param['tags'], $this->tid, 'tid');
+		table_forum_thread::t()->update($this->tid, ['tags' => $this->param['tagstr']]);
 
 
 		$this->param['pinvisible'] = $this->param['modnewthreads'] ? -2 : (empty($this->param['save']) ? 0 : -3);
@@ -231,7 +232,6 @@ class model_forum_thread extends discuz_model {
 			'smileyoff' => $this->param['smileyoff'],
 			'parseurloff' => $this->param['parseurloff'],
 			'attachment' => '0',
-			'tags' => !empty($this->param['tagstr']) ? $this->param['tagstr'] : '',
 			'replycredit' => 0,
 			'status' => $this->param['pstatus']
 		]);

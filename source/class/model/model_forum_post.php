@@ -486,8 +486,9 @@ class model_forum_post extends discuz_model {
 					}
 				}
 			}
-			$class_tag = new tag();
-			$tagstr = $class_tag->update_field($this->param['tags'], $this->thread['tid'], 'tid', $this->thread);
+                        $class_tag = new tag();
+                        $tagstr = $class_tag->update_field($this->param['tags'], $this->thread['tid'], 'tid', $this->thread);
+                        C::t('forum_thread')->update($this->thread['tid'], array('tags' => $tagstr));
 
 		} else {
 			if($this->param['subject'] == '' && $this->param['message'] == '' && $this->thread['special'] != 2) {
@@ -540,7 +541,6 @@ class model_forum_post extends discuz_model {
 			'parseurloff' => $this->param['parseurloff'],
 			'smileyoff' => $this->param['smileyoff'],
 			'subject' => $this->param['subject'],
-			'tags' => $tagstr,
 			'port' => getglobal('remoteport')
 		];
 		if(empty($_GET['minor'])) {
@@ -685,7 +685,9 @@ class model_forum_post extends discuz_model {
 
 			if($isfirstpost) {
 				$nextpost = table_forum_post::t()->fetch_visiblepost_by_tid('tid:'.$this->thread['tid'], $this->thread['tid'], 0, 0);
-				table_forum_post::t()->update_post($this->thread['posttableid'], $nextpost['pid'], ['first' => 1, 'subject' => $this->post['subject'], 'tags' => $this->post['tags']]);
+				$nextpost = table_forum_post::t()->fetch_visiblepost_by_tid('tid:'.$this->thread['tid'], $this->thread['tid'], 0, 0);
+				table_forum_post::t()->update_post($this->thread['posttableid'], $nextpost['pid'], ['first' => 1, 'subject' => $this->post['subject']]);
+				table_forum_thread::t()->update($this->thread['tid'], ['tags' => $this->post['tags']]);
 			}
 		}
 

@@ -97,8 +97,8 @@ class tag {
 					if($result['idtype'] == 'tid') {
 						$itemid = $result['itemid'];
 						if(!isset($tidarray[$itemid])) {
-							$post = table_forum_post::t()->fetch_threadpost_by_tid_invisible($itemid);
-							$tidarray[$itemid] = $post['tags'];
+							$thread = C::t('forum_thread')->fetch($itemid);
+							$tidarray[$itemid] = $thread['tags'];
 						}
 						$tidarray[$itemid] = str_replace("{$result['tagid']},{$result['tagname']}\t", '', $tidarray[$itemid]);
 					} elseif($result['idtype'] == 'blogid') {
@@ -130,8 +130,8 @@ class tag {
 
 			if($tidarray) {
 				foreach($tidarray as $key => $var) {
-					table_forum_post::t()->update_by_tid('tid:'.$key, $key, ['tags' => $var], false, false, 1);
-					table_forum_post::t()->concat_threadtags_by_tid($key, "$newid,$newtag\t");
+					C::t('forum_thread')->update($key, ['tags' => $var]);
+					C::t('forum_thread')->concat_tags_by_tid($key, "$newid,$newtag\t");
 				}
 			}
 			if($blogidarray) {
@@ -158,8 +158,8 @@ class tag {
 				if($result['idtype'] == 'tid') {
 					$itemid = $result['itemid'];
 					if(!isset($tidarray[$itemid])) {
-						$post = table_forum_post::t()->fetch_threadpost_by_tid_invisible($itemid);
-						$tidarray[$itemid] = $post['tags'];
+						$thread = C::t('forum_thread')->fetch($itemid);
+						$tidarray[$itemid] = $thread['tags'];
 					}
 					$tidarray[$itemid] = str_replace("{$result['tagid']},{$result['tagname']}\t", '', $tidarray[$itemid]);
 				} elseif($result['idtype'] == 'blogid') {
@@ -175,7 +175,7 @@ class tag {
 
 		if($tidarray) {
 			foreach($tidarray as $key => $var) {
-				table_forum_post::t()->update_by_tid('tid:'.$key, $key, ['tags' => $var], false, false, 1);
+				C::t('forum_thread')->update($key, ['tags' => $var]);
 			}
 		}
 		if($blogidarray) {

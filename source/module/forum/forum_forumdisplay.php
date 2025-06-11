@@ -824,14 +824,23 @@ foreach($threadlist as $thread) {
 		$verifyuids[$thread['authorid']] = $thread['authorid'];
 	}
 	$authorids[$thread['authorid']] = $thread['authorid'];
-	$thread['mobile'] = base_convert(getstatus($thread['status'], 13).getstatus($thread['status'], 12).getstatus($thread['status'], 11), 2, 10);
-	$thread['rushreply'] = getstatus($thread['status'], 3);
-	if($thread['rushreply']) {
-		$rushtids[$thread['tid']] = $thread['tid'];
-	}
-	$threadids[$threadindex] = $thread['tid'];
-	$_G['forum_threadlist'][$threadindex] = $thread;
-	$threadindex++;
+        $thread['mobile'] = base_convert(getstatus($thread['status'], 13).getstatus($thread['status'], 12).getstatus($thread['status'], 11), 2, 10);
+        $thread['rushreply'] = getstatus($thread['status'], 3);
+        if($thread['rushreply']) {
+                $rushtids[$thread['tid']] = $thread['tid'];
+        }
+        $thread['taglist'] = array();
+        if(!empty($thread['tags'])) {
+                foreach(explode("\t", $thread['tags']) as $var) {
+                        if($var) {
+                                list($tagid, $tagname) = explode(',', $var);
+                                $thread['taglist'][] = array('tagid' => $tagid, 'tagname' => $tagname);
+                        }
+                }
+        }
+        $threadids[$threadindex] = $thread['tid'];
+        $_G['forum_threadlist'][$threadindex] = $thread;
+        $threadindex++;
 
 }
 
