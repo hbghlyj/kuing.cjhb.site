@@ -39,10 +39,18 @@
         "google/apiclient": "^2.18"
     },
     "autoload": {
-	"classmap": ["src/"]
+        "classmap": ["src/"]
+    },
+    "scripts": {
+        "post-install-cmd": [
+            "@php -r \"copy('patches/Route.php','vendor/nezamy/route/system/Route.php');\""
+        ],
+        "post-update-cmd": [
+            "@php -r \"copy('patches/Route.php','vendor/nezamy/route/system/Route.php');\""
+        ]
     },
     "config": {
-    	"optimize-autoloader": true
+        "optimize-autoloader": true
     },
     "prefer-stable": true
 }
