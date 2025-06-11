@@ -27,7 +27,8 @@ class DiscuzBridge
             return;
         }
         $authkey = md5($_config['security']['authkey'] . $_COOKIE[$saltCookie]);
-        $data = self::authcode($_COOKIE[$authCookie], 'DECODE', $authkey);
+        $rawAuth = rawurldecode($_COOKIE[$authCookie]);
+        $data = self::authcode($rawAuth, 'DECODE', $authkey);
         if (empty($data) || strpos($data, "\t") === false) {
             return;
         }
@@ -57,11 +58,12 @@ class DiscuzBridge
         }
         $adminModel = new AdminModel();
         if (!$adminModel->userExists($username)) {
+            $langHeader = $_SERVER['HTTP_ACCEPT_LANGUAGE'] ?? '';
             $adminModel->create([
                 'username' => $username,
                 // generate a cryptographically secure placeholder password
                 'password' => bin2hex(random_bytes(16)),
-                'translations' => (stripos($_SERVER['HTTP_ACCEPT_LANGUAGE'], 'zh') === false) ? 'en_EN' : 'zh_CN',
+                'translations' => (stripos($langHeader, 'zh') === false) ? 'en_EN' : 'zh_CN',
                 'admin' => false
             ]);
         }
@@ -69,6 +71,36 @@ class DiscuzBridge
         $_SESSION['PREV_USERAGENT'] = $_SERVER['HTTP_USER_AGENT'];
         $_SESSION['Username'] = $username;
         $_SESSION['Active'] = true;
+    }
+
+    /**
+     * Clear Discuz cookies to log out from the forum
+     */
+    public static function clearCookies(): void
+    {
+        $configPath = __DIR__ . '/../../../config/config_global.php';
+        if (!file_exists($configPath)) {
+            return;
+        }
+        require $configPath;
+        if (!isset($_config['cookie']['cookiepre'])) {
+            return;
+        }
+        $cookiePre = $_config['cookie']['cookiepre'] .
+            substr(md5($_config['cookie']['cookiepath'] . '|' . $_config['cookie']['cookiedomain']), 0, 4) .
+            '_';
+        $domain = $_config['cookie']['cookiedomain'] ?: $_SERVER['HTTP_HOST'];
+        $path = $_config['cookie']['cookiepath'] ?: '/';
+        $cookies = [
+            $cookiePre . 'auth',
+            $cookiePre . 'saltkey',
+            $cookiePre . 'sid',
+            $cookiePre . 'lastvisit',
+            $cookiePre . 'lastact'
+        ];
+        foreach ($cookies as $name) {
+            setcookie($name, '', time() - 3600, $path, $domain);
+        }
     }
 
     // Implementation derived from Discuz! authcode() helper

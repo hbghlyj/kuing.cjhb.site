@@ -25,6 +25,13 @@ class AdminModel
      */
     public function connect()
     {
+        $dir = dirname(self::USERS);
+        if (!is_dir($dir)) {
+            mkdir($dir, 0775, true);
+        }
+        if (!is_writable($dir)) {
+            error_log('Directory not writable: ' . $dir);
+        }
         if (!file_exists(self::USERS)) {
             file_put_contents(self::USERS, '[]');
         }

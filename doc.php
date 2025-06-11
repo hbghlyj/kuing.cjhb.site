@@ -26,18 +26,18 @@ $installFolder = 'install';
 if (file_exists($configurationFile) && file_exists($installFolder)) {
     $files = glob($installFolder.'/partial/*');
     foreach($files as $file){
-        if(is_file($file)) {
+        if(is_file($file) && is_writable($file)) {
             unlink($file);
         }
-        if (is_dir_empty($installFolder.'/partial')) 
+        if (is_dir_empty($installFolder.'/partial') && is_writable($installFolder.'/partial'))
          rmdir($installFolder.'/partial');
     }
     $files = glob($installFolder.'/*');
     foreach($files as $file){
-        if(is_file($file)) {
+        if(is_file($file) && is_writable($file)) {
             unlink($file);
         }
-        if (is_dir_empty($installFolder)) 
+        if (is_dir_empty($installFolder) && is_writable($installFolder))
          rmdir($installFolder);
     }
     if (file_exists($installFolder.'/partial') && file_exists($installFolder)) {
