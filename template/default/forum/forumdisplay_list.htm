@@ -159,12 +159,7 @@
 										<!--{if $thread['moved']}-->
 											{lang thread_moved}:<!--{eval $thread['tid']=$thread['closed'];}-->
 										<!--{/if}-->
-                                                                        <a href="forum.php?mod=viewthread&tid=$thread[tid]{if $_GET['archiveid']}&archiveid={$_GET['archiveid']}{/if}{if $extra != 'page%3D1'}&extra=$extra{/if}"$thread[highlight]{if $thread['isgroup'] == 1 || $thread['forumstick']} target="_blank"{else} onclick="atarget(this)"{/if} class="s xst">$thread[subject]</a><!-- kk edt -->
-                                                                        <!--{if $thread[taglist]}-->
-                                                                        <div class="thread-tags">
-                                                                                <!--{loop $thread[taglist] $tag}--><span class="tag-item"><a href="misc.php?mod=tag&id=$tag[tagid]&name={echo urlencode($tag[tagname])}" target="_blank">$tag[tagname]</a></span><!--{/loop}-->
-                                                                        </div>
-                                                                        <!--{/if}-->
+										<a href="forum.php?mod=viewthread&tid=$thread[tid]{if $_GET['archiveid']}&archiveid={$_GET['archiveid']}{/if}{if $extra != 'page%3D1'}&extra=$extra{/if}"$thread[highlight]{if $thread['isgroup'] == 1 || $thread['forumstick']} target="_blank"{else} onclick="atarget(this)"{/if} class="s xst">$thread[subject]</a>
 										<!--{if $_G['setting']['threadhidethreshold'] && $thread['hidden'] >= $_G['setting']['threadhidethreshold']}--><span class="xg1">{lang hidden}</span>&nbsp;<!--{/if}-->
 										<!--{if $thread[icon] >= 0}-->
 											<img src="{STATICURL}image/stamp/{$_G[cache][stamps][$thread[icon]][url]}" alt="{$_G[cache][stamps][$thread[icon]][text]}" class="vm" />
@@ -227,6 +222,11 @@
 											<!--{if $groupnames[$thread[tid]]}-->
 												<span class="fromg xg1"> [{lang from}: <a href="forum.php?mod={if $groupnames[$thread['tid']]['status'] == 3}group{else}forumdisplay{/if}&fid={$groupnames[$thread[tid]][fid]}" target="_blank" class="xg1">{$groupnames[$thread[tid]][name]}</a>]</span>
 											<!--{/if}-->
+										<!--{/if}-->
+										<!--{if $thread[taglist]}-->
+										<div class="thread-tags">
+												<!--{loop $thread[taglist] $tag}--><span class="tag-item"><a href="misc.php?mod=tag&id=$tag[tagid]&name={echo urlencode($tag[tagname])}" target="_blank">$tag[tagname]</a></span><!--{/loop}-->
+										</div>
 										<!--{/if}-->
 									</th>
 									<!--{if CURMODULE == 'guide'}-->
