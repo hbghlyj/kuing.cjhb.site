@@ -41,19 +41,26 @@ class DiscuzBridge
         if ($mysqli->connect_error) {
             return;
         }
-        $table = $db['tablepre'] . 'common_member';
-        $stmt = $mysqli->prepare("SELECT username,password FROM $table WHERE uid = ?");
-        if (!$stmt) {
-            $mysqli->close();
+        $result = self::fetchUserFromDb($mysqli, $db['tablepre'], 'common_member', $uid);
+        if (!$result) {
+            $result = self::fetchUserFromDb($mysqli, $db['tablepre'], 'ucenter_members', $uid);
+        }
+        if ($result) {
+            [$username, $hash] = $result;
+        }
+        $mysqli->close();
+
+        if (empty($username)) {
             return;
         }
-        $stmt->bind_param('i', $uid);
-        $stmt->execute();
-        $stmt->bind_result($username, $hash);
-        $stmt->fetch();
-        $stmt->close();
-        $mysqli->close();
-        if ($hash !== $password) {
+
+        // Discuz! stores the user's hashed password directly in the auth cookie.
+        // Therefore the cookie value should exactly match the value from the
+        // database regardless of whether Discuz! uses the legacy md5+salt
+        // algorithm or the newer password_hash() format.
+        // Compare both hashes using hash_equals() for timing-safe validation.
+        $valid = hash_equals($hash, $password);
+        if (!$valid) {
             return;
         }
         $adminModel = new AdminModel();
@@ -101,6 +108,28 @@ class DiscuzBridge
         foreach ($cookies as $name) {
             setcookie($name, '', time() - 3600, $path, $domain);
         }
+    }
+
+    /**
+     * Fetch username and password hash from the specified Discuz! table.
+     */
+    private static function fetchUserFromDb(\mysqli $mysqli, string $prefix, string $suffix, int $uid): ?array
+    {
+        $table = $prefix . $suffix;
+        $stmt = $mysqli->prepare("SELECT username,password FROM $table WHERE uid = ?");
+        if (!$stmt) {
+            return null;
+        }
+        $stmt->bind_param('i', $uid);
+        $stmt->execute();
+        $stmt->bind_result($username, $hash);
+        $stmt->fetch();
+        $stmt->close();
+
+        if (empty($username)) {
+            return null;
+        }
+        return [$username, $hash];
     }
 
     // Implementation derived from Discuz! authcode() helper
