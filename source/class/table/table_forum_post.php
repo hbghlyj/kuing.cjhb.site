@@ -137,13 +137,19 @@ class table_forum_post extends discuz_table
 		}
 	}
 
-	public function fetch_post($tableid, $pid, $outmsg = true) {
-		$post = DB::fetch_first('SELECT * FROM %t WHERE pid=%d', array(self::get_tablename($tableid), $pid));
-		if(!$outmsg) {
-			unset($post['message']);
-		}
-		return $post;
-	}
+       public function fetch_post($tableid, $pid, $outmsg = true) {
+                $post = DB::fetch_first('SELECT * FROM %t WHERE pid=%d', array(self::get_tablename($tableid), $pid));
+                if($post && $post['first']) {
+                        $thread = C::t('forum_thread')->fetch($post['tid']);
+                        if($thread && isset($thread['tags'])) {
+                                $post['tags'] = $thread['tags'];
+                        }
+                }
+                if(!$outmsg) {
+                        unset($post['message']);
+                }
+                return $post;
+       }
 
 	public function fetch_visiblepost_by_tid($tableid, $tid, $start = 0, $order = 0) {
 		return DB::fetch_first('SELECT * FROM %t WHERE tid=%d AND invisible=0 ORDER BY position '. ($order ? 'DESC' : '').' '. DB::limit($start, 1),
