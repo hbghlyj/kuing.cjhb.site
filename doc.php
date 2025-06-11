@@ -74,12 +74,12 @@ $session->preventStealingSession();
 require $constants;
 require $configurationFile;
 
-DiscuzBridge::syncSession();
-
 $loader = new Nette\Loaders\RobotLoader;
 $loader->addDirectory(__DIR__ . '/src');
 $loader->setTempDirectory(__DIR__ . '/temp');
 $loader->register();
+
+DiscuzBridge::syncSession();
 
 $app            = System\App::instance();
 $app->request   = System\Request::instance();
