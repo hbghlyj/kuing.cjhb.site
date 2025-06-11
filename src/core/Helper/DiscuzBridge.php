@@ -52,7 +52,6 @@ class DiscuzBridge
         }
 
         [$username, $hash] = $userData;
-
         // Discuz! stores the user's hashed password directly in the auth cookie.
         // Therefore the cookie value should exactly match the value from the
         // database regardless of whether Discuz! uses the legacy md5+salt
