@@ -17,7 +17,7 @@ If you are upgrading from an older version where tags were stored in the `pre_fo
 execute the following SQL statements:
 
 ```sql
-ALTER TABLE `pre_forum_thread` ADD COLUMN `tags` varchar(255) NOT NULL DEFAULT '' AFTER `closed`;
+ALTER TABLE `pre_forum_thread` ADD COLUMN `tags` varchar(255) NOT NULL DEFAULT "" AFTER `closed`;
 UPDATE `pre_forum_thread` t
   INNER JOIN `pre_forum_post` p ON t.tid=p.tid AND p.first=1
   SET t.tags=p.tags;
@@ -39,8 +39,7 @@ gunzip backup.sql.gz
 sed -i 's/utf8mb4_0900_ai_ci/utf8mb4_general_ci/g' backup.sql
 mysql -u root ultrax < backup.sql
 # migrate thread tags if your schema hasn't been updated
-mysql -u root ultrax -e "UPDATE pre_forum_thread t INNER JOIN pre_forum_post p ON t.tid=p.tid AND p.first=1 SET t.tags=p.tags;"
-mysql -u root ultrax -e "ALTER TABLE pre_forum_post DROP COLUMN tags;"
+mysql -u root ultrax -e "ALTER TABLE `pre_forum_thread` ADD COLUMN `tags` varchar(255) NOT NULL DEFAULT "" AFTER `closed`;UPDATE pre_forum_thread t INNER JOIN pre_forum_post p ON t.tid=p.tid AND p.first=1 SET t.tags=p.tags;ALTER TABLE pre_forum_post DROP COLUMN tags;"
 ```
 
 This converts the unsupported `utf8mb4_0900_ai_ci` collation and imports the
