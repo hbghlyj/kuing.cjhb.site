@@ -14,7 +14,7 @@ class DiscuzBridge
         if (!file_exists($configPath)) {
             return;
         }
-        include $configPath;
+        require $configPath;
         if (!isset($_config['cookie']['cookiepre']) || !isset($_config['security']['authkey'])) {
             return;
         }
@@ -36,7 +36,7 @@ class DiscuzBridge
             return;
         }
         $db = $_config['db'][1];
-        $mysqli = @new \mysqli($db['dbhost'], $db['dbuser'], $db['dbpw'], $db['dbname']);
+        $mysqli = new \mysqli($db['dbhost'], $db['dbuser'], $db['dbpw'], $db['dbname']);
         if ($mysqli->connect_error) {
             return;
         }
@@ -59,7 +59,8 @@ class DiscuzBridge
         if (!$adminModel->userExists($username)) {
             $adminModel->create([
                 'username' => $username,
-                'password' => uniqid(),
+                // generate a cryptographically secure placeholder password
+                'password' => bin2hex(random_bytes(16)),
                 'translations' => (stripos($_SERVER['HTTP_ACCEPT_LANGUAGE'], 'zh') === false) ? 'en_EN' : 'zh_CN',
                 'admin' => false
             ]);
@@ -70,6 +71,7 @@ class DiscuzBridge
         $_SESSION['Active'] = true;
     }
 
+    // Implementation derived from Discuz! authcode() helper
     private static function authcode($string, $operation = 'DECODE', $key = '', $expiry = 0)
     {
         $ckey_length = 4;
