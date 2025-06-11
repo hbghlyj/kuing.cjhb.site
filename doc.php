@@ -20,6 +20,7 @@ $constants = 'src/core/constants.php';
 
 $configurationFile = 'src/config/config.php';
 
+$configLoaded = false;
 $installFolder = 'install';
 
 if (file_exists($configurationFile) && file_exists($installFolder)) {
@@ -41,10 +42,10 @@ if (file_exists($configurationFile) && file_exists($installFolder)) {
     }
     if (file_exists($installFolder.'/partial') && file_exists($installFolder)) {
         include 'install/error.php';
-    } else {
-        require $configurationFile;
-        header('Location:'.BASE_URL.'login');
+        return;
     }
+    require $configurationFile;
+    $configLoaded = true;
 } elseif (!file_exists($configurationFile) && !file_exists($installFolder)) {
     mkdir($installFolder, 0755, true);
     mkdir($installFolder.'/partial', 0755, true);
@@ -64,11 +65,15 @@ if (file_exists($configurationFile) && file_exists($installFolder)) {
     include 'install/config.php';
 } elseif (!file_exists($configurationFile)) {
     include 'install/config.php';
-} elseif (file_exists($autoload)) {
+}
+if (file_exists($autoload)) {
 require $autoload;
 
 require $constants;
-require $configurationFile;
+if (!$configLoaded) {
+    require $configurationFile;
+    $configLoaded = true;
+}
 
 $session = new Session();
 $session->sessionExpiration();
