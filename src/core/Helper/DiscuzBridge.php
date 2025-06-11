@@ -75,7 +75,7 @@ class DiscuzBridge
             ]);
         }
         session_regenerate_id(true);
-        $_SESSION['PREV_USERAGENT'] = $_SERVER['HTTP_USER_AGENT'];
+        $_SESSION['PREV_USERAGENT'] = $_SERVER['HTTP_USER_AGENT'] ?? '';
         $_SESSION['Username'] = $username;
         $_SESSION['Active'] = true;
     }
@@ -118,10 +118,12 @@ class DiscuzBridge
         $table = $prefix . $suffix;
         $stmt = $mysqli->prepare("SELECT username,password FROM $table WHERE uid = ?");
         if (!$stmt) {
+            error_log("DiscuzBridge: Failed to prepare statement for table '$table': " . $mysqli->error);
             return null;
         }
         $stmt->bind_param('i', $uid);
         if (!$stmt->execute()) {
+            error_log("DiscuzBridge: Failed to execute statement for table '$table': " . $stmt->error);
             $stmt->close();
             return null;
         }
