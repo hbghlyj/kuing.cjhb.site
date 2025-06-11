@@ -41,19 +41,26 @@ class DiscuzBridge
         if ($mysqli->connect_error) {
             return;
         }
-        $table = $db['tablepre'] . 'common_member';
-        $stmt = $mysqli->prepare("SELECT username,password FROM $table WHERE uid = ?");
-        if (!$stmt) {
-            $mysqli->close();
+        $userData = self::fetchUserFromDb($mysqli, $db['tablepre'], 'common_member', $uid);
+        if (!$userData || !hash_equals($userData[1], $password)) {
+            $userData = self::fetchUserFromDb($mysqli, $db['tablepre'], 'ucenter_members', $uid);
+        }
+        // Close the connection after both lookups
+        $mysqli->close();
+
+        if (!$userData) {
             return;
         }
-        $stmt->bind_param('i', $uid);
-        $stmt->execute();
-        $stmt->bind_result($username, $hash);
-        $stmt->fetch();
-        $stmt->close();
-        $mysqli->close();
-        if ($hash !== $password) {
+
+        [$username, $hash] = $userData;
+
+        // Discuz! stores the user's hashed password directly in the auth cookie.
+        // Therefore the cookie value should exactly match the value from the
+        // database regardless of whether Discuz! uses the legacy md5+salt
+        // algorithm or the newer password_hash() format.
+        // Compare both hashes using hash_equals() for timing-safe validation.
+        $valid = hash_equals($hash, $password);
+        if (!$valid) {
             return;
         }
         $adminModel = new AdminModel();
@@ -68,7 +75,7 @@ class DiscuzBridge
             ]);
         }
         session_regenerate_id(true);
-        $_SESSION['PREV_USERAGENT'] = $_SERVER['HTTP_USER_AGENT'];
+        $_SESSION['PREV_USERAGENT'] = $_SERVER['HTTP_USER_AGENT'] ?? '';
         $_SESSION['Username'] = $username;
         $_SESSION['Active'] = true;
     }
@@ -101,6 +108,40 @@ class DiscuzBridge
         foreach ($cookies as $name) {
             setcookie($name, '', time() - 3600, $path, $domain);
         }
+    }
+
+    /**
+     * Fetch username and password hash from the specified Discuz! table.
+     *
+     * @param mysqli $mysqli   Active database connection
+     * @param string $prefix   Table prefix from config
+     * @param string $suffix   Table name without prefix
+     * @param int    $uid      Discuz UID to lookup
+     *
+     * @return array{0:string,1:string}|null  [$username, $hash] on success, null otherwise
+     */
+    private static function fetchUserFromDb(\mysqli $mysqli, string $prefix, string $suffix, int $uid): ?array
+    {
+        $table = $prefix . $suffix;
+        $stmt = $mysqli->prepare("SELECT username,password FROM $table WHERE uid = ?");
+        if (!$stmt) {
+            error_log("DiscuzBridge: Failed to prepare statement for table '$table': " . $mysqli->error);
+            return null;
+        }
+        $stmt->bind_param('i', $uid);
+        if (!$stmt->execute()) {
+            error_log("DiscuzBridge: Failed to execute statement for table '$table': " . $stmt->error);
+            $stmt->close();
+            return null;
+        }
+        $stmt->bind_result($username, $hash);
+        $resultFetched = $stmt->fetch();
+        $stmt->close();
+
+        if ($resultFetched === false || $resultFetched === null || empty($username)) {
+            return null;
+        }
+        return [$username, $hash];
     }
 
     // Implementation derived from Discuz! authcode() helper

@@ -34,7 +34,15 @@ class Session
             ini_set('session.entropy_file', '/dev/urandom');
             ini_set('session.entropy_length', '256');
             session_name('ID');
-            session_start();
+            try {
+                session_start();
+            } catch (\PHPSecureSession\Exception\AuthenticationFailedException $e) {
+                // Clear the invalid cookie and start a fresh session
+                $params = session_get_cookie_params();
+                setcookie(session_name(), '', time() - 3600, $params['path'], $params['domain'], $params['secure'], $params['httponly']);
+                session_id(bin2hex(random_bytes(16)));
+                session_start();
+            }
         }
     }
 
