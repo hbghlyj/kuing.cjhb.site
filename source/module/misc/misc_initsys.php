@@ -14,16 +14,9 @@ if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
-if(file_exists(DISCUZ_ROOT.'./data/install.lock') && file_exists(DISCUZ_ROOT.'./data/update.lock')) {
-    exit('Access Denied');
-}
-
 @touch(DISCUZ_ROOT.'./data/install.lock');
 @touch(DISCUZ_ROOT.'./data/update.lock');
 
-if(!($_G['adminid'] == 1 && $_GET['formhash'] == formhash()) && $_G['setting']) {
-	exit('Access Denied');
-}
 
 require_once libfile('function/cache');
 updatecache();

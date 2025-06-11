@@ -1591,27 +1591,26 @@ function getrelateitem($tagarray, $tid, $relatenum, $relatetime, $relatecache = 
 	} else {
 		$updatecache = 1;
 	}
-	if($updatecache) {
-		$query = C::t('common_tagitem')->select($tagidarray, $tid, $type, 'itemid', 'DESC', $limit, 0, '<>');
-		foreach($query as $result) {
-			if($result['itemid']) {
-				$relatearray[] = $result['itemid'];
-			}
-		}
-		if($relatearray) {
-			$relatebytag = implode(',', $relatearray);
-		}
-		C::t('forum_thread')->update($tid, array('relatebytag'=>TIMESTAMP."\t".$relatebytag));
-	}
+       if($updatecache) {
+               $query = DB::query('SELECT itemid, COUNT(*) AS tagnum FROM %t WHERE tagid IN (%n) AND itemid<>%d AND idtype=%s GROUP BY itemid ORDER BY tagnum DESC, itemid DESC LIMIT %d', array('common_tagitem', $tagidarray, $tid, $type, $limit));
+               while($result = DB::fetch($query)) {
+                       if($result["itemid"]) {
+                               $relatearray[] = $result["itemid"];
+                       }
+               }
+               if($relatearray) {
+                       $relatebytag = implode(',', $relatearray);
+               }
+               C::t('forum_thread')->update($tid, array('relatebytag'=>TIMESTAMP."\t".$relatebytag));
+       }
 
 
-	if(!empty($relatearray)) {
-		rsort($relatearray);
-		foreach(C::t('forum_thread')->fetch_all_by_tid($relatearray) as $result) {
-			if($result['displayorder'] >= 0) {
-				$relateitem[] = $result;
-			}
-		}
+       if(!empty($relatearray)) {
+               foreach(C::t('forum_thread')->fetch_all_by_tid($relatearray) as $result) {
+                       if($result['displayorder'] >= 0) {
+                               $relateitem[] = $result;
+                       }
+               }
 	}
 	return $relateitem;
 }
