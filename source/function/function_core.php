@@ -515,7 +515,7 @@ $acceptLang = $_SERVER['HTTP_ACCEPT_LANGUAGE'] ?? '';
 if($acceptLang && (stripos($acceptLang, 'zh-TW') !== false  && (stripos($acceptLang, 'zh-CN') === false || stripos($acceptLang, 'zh-TW') < stripos($acceptLang, 'zh-CN')) || stripos($acceptLang, 'zh-HK') !== false && (stripos($acceptLang, 'zh-CN') === false || stripos($acceptLang, 'zh-HK') < stripos($acceptLang, 'zh-CN')))) {
 	// zh-HK or zh-TW is in the HTTP_ACCEPT_LANGUAGE and prior to zh-CN
        define('DISCUZ_LANG', 'TC/');
-} elseif($acceptLang && stripos($acceptLang, 'zh') != false) {
+} elseif($acceptLang && stripos($acceptLang, 'zh') !== false) {
        define('DISCUZ_LANG', '');
 } else {
        // default language is English
