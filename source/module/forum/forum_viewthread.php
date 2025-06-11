@@ -681,8 +681,8 @@ foreach($postarr as $post) {
 			} else {
 				$summary = str_replace(array("\r", "\n"), '', messagecutstr(strip_tags($post['message']), 200));
 			}
-			$tagarray_all = $posttag_array = array();
-			$tagarray_all = explode("\t", $post['tags']);
+                        $tagarray_all = $posttag_array = array();
+                        $tagarray_all = explode("\t", $_G['forum_thread']['tags']);
 			if($tagarray_all) {
 				foreach($tagarray_all as $var) {
 					if($var) {
