@@ -112,6 +112,13 @@ class DiscuzBridge
 
     /**
      * Fetch username and password hash from the specified Discuz! table.
+     *
+     * @param mysqli $mysqli   Active database connection
+     * @param string $prefix   Table prefix from config
+     * @param string $suffix   Table name without prefix
+     * @param int    $uid      Discuz UID to lookup
+     *
+     * @return array{0:string,1:string}|null  [$username, $hash] on success, null otherwise
      */
     private static function fetchUserFromDb(\mysqli $mysqli, string $prefix, string $suffix, int $uid): ?array
     {
