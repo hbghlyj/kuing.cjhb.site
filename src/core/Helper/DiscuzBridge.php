@@ -52,8 +52,30 @@ class DiscuzBridge
         $stmt->bind_result($username, $hash);
         $stmt->fetch();
         $stmt->close();
+
+        // Fallback to ucenter table if record is missing
+        if (!$username) {
+            $table = $db['tablepre'] . 'ucenter_members';
+            $stmt = $mysqli->prepare("SELECT username,password FROM $table WHERE uid = ?");
+            if (!$stmt) {
+                $mysqli->close();
+                return;
+            }
+            $stmt->bind_param('i', $uid);
+            $stmt->execute();
+            $stmt->bind_result($username, $hash);
+            $stmt->fetch();
+            $stmt->close();
+        }
         $mysqli->close();
-        if ($hash !== $password) {
+
+        if (!$username) {
+            return;
+        }
+
+        // Support legacy MD5 hashes and modern password_hash values
+        $valid = $hash === $password || password_verify($password, $hash);
+        if (!$valid) {
             return;
         }
         $adminModel = new AdminModel();
