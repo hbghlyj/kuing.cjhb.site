@@ -27,7 +27,7 @@ class DiscuzBridge
             return;
         }
         $authkey = md5($_config['security']['authkey'] . $_COOKIE[$saltCookie]);
-        $data = self::authcode(urldecode($_COOKIE[$authCookie]), 'DECODE', $authkey);
+        $data = self::authcode($_COOKIE[$authCookie], 'DECODE', $authkey);
         if (empty($data) || strpos($data, "\t") === false) {
             return;
         }
