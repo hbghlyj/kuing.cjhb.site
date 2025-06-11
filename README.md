@@ -12,7 +12,6 @@ This repository contains the source code for the kuing.cjhb.site forum and docum
 3. Copy `config/config_global_default.php` to `config/config_global.php` and configure the database connection.
 4. Import the database schema from the `install` directory. If you need to rerun the Discuz installer, make sure to remove the `data/install.lock` file first so the setup can proceed.
 
-
 ### Migrating thread tags
 If you are upgrading from an older version where tags were stored in the `pre_forum_post` table,
 execute the following SQL statements:
@@ -160,3 +159,4 @@ Shows a configurable menu. The object `v` can include keys such as `ctrlid`, `sh
 
 ### `setMenuPosition(showid, menuid, pos)`
 Positions the menu element `menuid` relative to `showid` using the two-digit `pos` code denoting anchor and direction.
+
