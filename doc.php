@@ -67,12 +67,12 @@ if (file_exists($configurationFile) && file_exists($installFolder)) {
 } elseif (file_exists($autoload)) {
 require $autoload;
 
+require $constants;
+require $configurationFile;
+
 $session = new Session();
 $session->sessionExpiration();
 $session->preventStealingSession();
-
-require $constants;
-require $configurationFile;
 
 $loader = new Nette\Loaders\RobotLoader;
 $loader->addDirectory(__DIR__ . '/src');

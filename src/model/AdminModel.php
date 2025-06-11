@@ -25,12 +25,15 @@ class AdminModel
      */
     public function connect()
     {
-		if(!file_exists(self::USERS))
-		{
-		    file_put_contents(self::USERS,[]);
-		} 
-		
-		return json_decode(file_get_contents(self::USERS),true);
+        if (!file_exists(self::USERS)) {
+            file_put_contents(self::USERS, '[]');
+        }
+
+        $contents = file_get_contents(self::USERS);
+        if ($contents === false || $contents === '') {
+            $contents = '[]';
+        }
+        return json_decode($contents, true);
     }
 
     /**
