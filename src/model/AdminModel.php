@@ -25,12 +25,23 @@ class AdminModel
      */
     public function connect()
     {
-		if(!file_exists(self::USERS))
-		{
-		    file_put_contents(self::USERS,[]);
-		} 
-		
-		return json_decode(file_get_contents(self::USERS),true);
+        $dir = dirname(self::USERS);
+        if (!is_dir($dir)) {
+            mkdir($dir, 0775, true);
+        }
+        if (!is_writable($dir)) {
+            error_log('Directory not writable: ' . $dir);
+        }
+
+        if (!file_exists(self::USERS)) {
+            file_put_contents(self::USERS, '[]');
+        }
+
+        $contents = file_get_contents(self::USERS);
+        if ($contents === false || $contents === '') {
+            $contents = '[]';
+        }
+        return json_decode($contents, true);
     }
 
     /**

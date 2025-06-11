@@ -15,6 +15,7 @@ namespace DocPHT\Controller;
 
 use DocPHT\Core\Translator\T;
 use Instant\Core\Controller\BaseController;
+use DocPHT\Core\Helper\DiscuzBridge;
 
 class LoginController extends BaseController
 {
@@ -65,10 +66,11 @@ class LoginController extends BaseController
     }
 
     public function logout()
-    { 
+    {
+        DiscuzBridge::clearCookies();
         session_unset();
         session_destroy();
-      
+
         header('Location:/doc.php');
         exit;
     }
