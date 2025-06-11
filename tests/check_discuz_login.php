@@ -1,7 +1,6 @@
 <?php
 // Quick script to verify Discuz login status
 require __DIR__ . '/../config/config_global.php';
-define('IN_DISCUZ', true);
 require_once __DIR__ . '/../source/class/class_core.php';
 
 $discuz = C::app();
