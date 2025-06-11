@@ -17,9 +17,7 @@
     margin-right: 4px;
     font-size: 12px;
 }
-
-.tl th a:visited { color: unset; }
-/*访问过的链接不要变浅*/
+/*主题列表的标签*/
 
 #newspecial_menu {
     width: auto;
