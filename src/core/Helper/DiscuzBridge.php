@@ -41,19 +41,17 @@ class DiscuzBridge
         if ($mysqli->connect_error) {
             return;
         }
-        $result = self::fetchUserFromDb($mysqli, $db['tablepre'], 'common_member', $uid);
-        if (!$result) {
-            $result = self::fetchUserFromDb($mysqli, $db['tablepre'], 'ucenter_members', $uid);
-        }
-        if ($result) {
-            [$username, $hash] = $result;
+        $userData = self::fetchUserFromDb($mysqli, $db['tablepre'], 'common_member', $uid);
+        if (!$userData || !hash_equals($userData[1], $password)) {
+            $userData = self::fetchUserFromDb($mysqli, $db['tablepre'], 'ucenter_members', $uid);
         }
         $mysqli->close();
 
-        if (empty($username)) {
+        if (!$userData) {
             return;
         }
 
+        [$username, $hash] = $userData;
         // Discuz! stores the user's hashed password directly in the auth cookie.
         // Therefore the cookie value should exactly match the value from the
         // database regardless of whether Discuz! uses the legacy md5+salt
