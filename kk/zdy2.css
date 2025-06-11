@@ -7,6 +7,17 @@
 .tl cite { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 /*主题列表作者、回复数、最后发表调整*/
 
+.thread-tags { margin-top: 5px; clear: both; }
+.thread-tags .tag-item {
+    display: inline-block;
+    background-color: #e1ecf4;
+    color: #39739d;
+    padding: 2px 6px;
+    border-radius: 3px;
+    margin-right: 4px;
+    font-size: 12px;
+}
+
 .tl th a:visited { color: unset; }
 /*访问过的链接不要变浅*/
 
