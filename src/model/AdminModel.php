@@ -32,7 +32,6 @@ class AdminModel
         if (!is_writable($dir)) {
             error_log('Directory not writable: ' . $dir);
         }
-
         if (!file_exists(self::USERS)) {
             file_put_contents(self::USERS, '[]');
         }
