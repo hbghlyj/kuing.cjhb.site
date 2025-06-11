@@ -1606,13 +1606,14 @@ function getrelateitem($tagarray, $tid, $relatenum, $relatetime, $relatecache = 
 
 
        if(!empty($relatearray)) {
-               foreach(C::t('forum_thread')->fetch_all_by_tid($relatearray) as $result) {
-                       if($result['displayorder'] >= 0) {
+               foreach($relatearray as $rtid) {
+                       $result = C::t('forum_thread')->fetch($rtid);
+                       if($result && $result['displayorder'] >= 0) {
                                $relateitem[] = $result;
                        }
                }
-	}
-	return $relateitem;
+       }
+       return $relateitem;
 }
 
 function rushreply_rule () {
