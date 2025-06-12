@@ -134,9 +134,23 @@ class table_forum_attachment_n extends discuz_table
 		return $this->_check_id($idtype, $id) ? DB::result_first('SELECT COUNT(*) FROM %t WHERE %i', array($this->_get_table($tableid), DB::field($idtype, $id))) : 0;
 	}
 
-	public function count_image_by_id($tableid, $idtype, $id){
-		return $this->_check_id($idtype, $id) ? DB::result_first('SELECT COUNT(*) FROM %t WHERE %i AND isimage IN (1, -1)', array($this->_get_table($tableid), DB::field($idtype, $id))) : 0;
-	}
+       public function count_image_by_id($tableid, $idtype, $id){
+               return $this->_check_id($idtype, $id) ? DB::result_first('SELECT COUNT(*) FROM %t WHERE %i AND isimage IN (1, -1)', array($this->_get_table($tableid), DB::field($idtype, $id))) : 0;
+       }
+
+       public function count_image_by_tids($tableid, $tids) {
+               if($this->_check_id('tid', $tids)) {
+                       $counts = array();
+                       $query = DB::query('SELECT tid, COUNT(*) AS num FROM %t WHERE tid IN(%n) AND isimage IN (1,-1) GROUP BY tid', array(
+                               $this->_get_table($tableid), (array)$tids
+                       ));
+                       while($row = DB::fetch($query)) {
+                               $counts[$row['tid']] = $row['num'];
+                       }
+                       return $counts;
+               }
+               return array();
+       }
 
 	public function fetch_all_attachment($tableid, $aids, $remote = false, $isimage = false){
 		$remote = $remote === false ? '' : ' AND '.DB::field('remote', $remote);

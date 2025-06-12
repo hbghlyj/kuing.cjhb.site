@@ -263,11 +263,11 @@ if($_GET['action'] == 'checkusername') {
 		if(setthreadcover($pid, $tid, $aid, 0, $imgurl)) {
 			if(empty($imgurl)) {
 				C::t('forum_threadimage')->delete_by_tid($threadimage['tid']);
-				C::t('forum_threadimage')->insert(array(
-					'tid' => $threadimage['tid'],
-					'attachment' => $threadimage['attachment'],
-					'remote' => $threadimage['remote'],
-				));
+                                C::t('forum_threadimage')->insert(array(
+                                        'tid' => $threadimage['tid'],
+                                        'attachment' => $threadimage['attachment'],
+                                        'remote' => $threadimage['remote'],
+                                ), false, true);
 			}
 			if($_GET['newthread']) {
 				showmessage('set_cover_succeed', '', array(), array('msgtype' => 3));
