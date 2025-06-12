@@ -748,11 +748,6 @@ function changecontentdivid(tid) {
 	postnewdiv[postnewdiv.length-1].id = 'post_new';
 }
 
-function showmobilebbs(obj) {
-	var content = '<h3 class="flb" style="cursor:move;"><em>下载掌上论坛</em><span><a href="javascript:;" class="flbc" onclick="hideWindow(\'mobilebbs\')" title="{lang close}">{lang close}</a></span></h3><div class="c"><h4>Andriod版本，扫描二维码可以直接下载到手机</h4><p class="mtm mbm vm"><span class="code_bg"><img src="'+ STATICURL +'image/common/zslt_andriod.png" alt="" /></span><img src="'+ STATICURL +'image/common/andriod.png" alt="适用于装有安卓系统的三星/HTC/小米等手机" /></p><h4>iPhone版本，扫描二维码可以直接下载到手机</h4><p class="mtm mbm vm"><span class="code_bg"><img src="'+ STATICURL +'image/common/zslt_ios.png" alt="" /></span><img src="'+ STATICURL +'image/common/ios.png" alt="适用于苹果手机" /></p></div>';
-	showWindow('mobilebbs', content, 'html');
-}
-
 function succeedhandle_vfastpost(url, message, param) {
 	$('vmessage').value = '';
 	succeedhandle_fastpost(url, message, param);
