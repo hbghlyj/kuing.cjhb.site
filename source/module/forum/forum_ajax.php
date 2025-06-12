@@ -164,13 +164,21 @@ if($_GET['action'] == 'checkusername') {
 			if($attach && ($attach['pid'] && $attach['pid'] == $_GET['pid'] && $_G['uid'] == $attach['uid'])) {
 				updatecreditbyaction('postattach', $attach['uid'], array(), '', -1, 1, $_G['fid']);
 			}
-			if($attach && ($attach['pid'] && $attach['pid'] == $_GET['pid'] && $_G['uid'] == $attach['uid'] || $_G['forum']['ismoderator'] || !$attach['pid'] && $_G['uid'] == $attach['uid'])) {
-				C::t('forum_attachment_n')->delete_attachment('aid:'.$aid, $aid);
-				C::t('forum_attachment')->delete($aid);
-				updatemembercount($attach['uid'], array('todayattachs' => -1, 'todayattachsize' => -$attach['filesize'], 'attachsize' => -$attach['filesize']), false);
-				dunlink($attach);
-				$count++;
-			}
+                        if($attach && ($attach['pid'] && $attach['pid'] == $_GET['pid'] && $_G['uid'] == $attach['uid'] || $_G['forum']['ismoderator'] || !$attach['pid'] && $_G['uid'] == $attach['uid'])) {
+                                C::t('forum_attachment_n')->delete_attachment('aid:'.$aid, $aid);
+                                C::t('forum_attachment')->delete($aid);
+                                updatemembercount($attach['uid'], array('todayattachs' => -1, 'todayattachsize' => -$attach['filesize'], 'attachsize' => -$attach['filesize']), false);
+                                dunlink($attach);
+
+                                if($attach['tid'] && $attach['isimage'] != 0) {
+                                        $tableid = getattachtableid($attach['tid']);
+                                        if(!C::t('forum_attachment_n')->count_image_by_id($tableid, 'tid', $attach['tid'])) {
+                                                C::t('forum_threadimage')->delete_by_tid($attach['tid']);
+                                        }
+                                }
+
+                                $count++;
+                        }
 		}
 	}
 	include template('common/header_ajax');
