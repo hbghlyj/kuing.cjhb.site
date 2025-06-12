@@ -1880,20 +1880,27 @@ function navShow(id) {
 }
 
 function strLenCalc(obj, checklen, maxlen) {
-	var v = obj.value, charlen = 0, maxlen = !maxlen ? 200 : maxlen, curlen = 0, len = strlen(v);
-	for(var i = 0; i < v.length; i++) {
-		if(v.charCodeAt(i) < 0 || v.charCodeAt(i) > 255) {
-			curlen += 2;
-		} else {
-			curlen += 1;
-		}
-	}
+	var v = obj.value;
+	var maxlen = !maxlen ? 200 : maxlen; // Default maxlen to 200 if not provided
+	var curlen = mb_strlen(v);
+
+	var checklenElem = document.getElementById(checklen);
+
 	if(curlen <= maxlen) {
-		$(checklen).innerHTML = maxlen - curlen;
-		return true;
+		// Input is within the allowed length
+		if (checklenElem) {
+			checklenElem.innerHTML = maxlen - curlen; // Update remaining characters display
+			checklenElem.style.color = ''; // Reset text color (if it was previously red)
+		}
+		return true; // Validation passes
 	} else {
-		obj.value = mb_cutstr(v, maxlen, 0);
-		return false;
+		// Input exceeds the allowed length
+		if (checklenElem) {
+			checklenElem.innerHTML = maxlen - curlen; // Display how much it's over (negative number)
+			checklenElem.style.color = 'red';       // Change text color to red to indicate an error
+		}
+		showDialog(lng['content_long']);
+		return false; // Validation fails (input is too long)
 	}
 }
 
