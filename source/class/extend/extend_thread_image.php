@@ -42,12 +42,12 @@ class extend_thread_image extends extend_thread_base {
 				$threadimage = C::t('forum_attachment_n')->fetch_attachment('tid:'.$tid, $threadimageaid);
 			}
 			$threadimage = daddslashes($threadimage);
-			C::t('forum_threadimage')->insert(array(
-				'tid' => $tid,
-				'attachment' => $threadimage['attachment'],
-				'remote' => $threadimage['remote'],
-			));
-		}
+                        C::t('forum_threadimage')->insert(array(
+                                'tid' => $tid,
+                                'attachment' => $threadimage['attachment'],
+                                'remote' => $threadimage['remote'],
+                        ), false, true);
+                }
 
 		$this->param['values'] = array_merge((array)$this->param['values'], $values);
 		$this->param['param'] = array_merge((array)$this->param['param'], $param);
@@ -109,14 +109,14 @@ class extend_thread_image extends extend_thread_base {
 					$this->param['threadimage'] = C::t('forum_attachment_n')->fetch_max_image('tid:'.$this->thread['tid'], 'tid', $this->thread['tid']);
 				}
 				C::t('forum_threadimage')->delete_by_tid($this->thread['tid']);
-				C::t('forum_threadimage')->insert(array(
-					'tid' => $this->thread['tid'],
-					'attachment' => $this->param['threadimage']['attachment'],
-					'remote' => $this->param['threadimage']['remote'],
-				));
-			}
-		}
-	}
+                                C::t('forum_threadimage')->insert(array(
+                                        'tid' => $this->thread['tid'],
+                                        'attachment' => $this->param['threadimage']['attachment'],
+                                        'remote' => $this->param['threadimage']['remote'],
+                                ), false, true);
+                        }
+                }
+        }
 
 	public function before_deletepost($parameters) {
 		$thread_attachment = $post_attachment = 0;

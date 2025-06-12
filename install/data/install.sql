@@ -3129,7 +3129,7 @@ CREATE TABLE pre_forum_threadimage (
   tid int(10) unsigned NOT NULL DEFAULT '0',
   attachment varchar(255) NOT NULL DEFAULT '',
   remote tinyint(1) NOT NULL DEFAULT '0',
-  KEY tid (tid)
+  UNIQUE KEY tid (tid)
 ) ENGINE=InnoDB;
 
 DROP TABLE IF EXISTS pre_forum_threadmod;
