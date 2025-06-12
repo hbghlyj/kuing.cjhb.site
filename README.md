@@ -135,6 +135,18 @@ Bitwise flags for post state:
 |-4|N/A|
 |-5|Recycle bin reply|
 
+### `forum_attachment_n.isimage`
+
+`pre_forum_attachment_n` tables (where `n` ranges from 0 to 9) store post attachments. The `isimage` column indicates how the file should be treated:
+
+| Value | Meaning |
+|------|---------|
+|1|File is an image and used as a standard picture|
+|0|File is not an image|
+|-1|File is an image but handled like a generic attachment|
+
+See [issue #232](https://github.com/hbghlyj/kuing.cjhb.site/issues/232) for background on these values.
+
 
 ## JavaScript helper functions
 
