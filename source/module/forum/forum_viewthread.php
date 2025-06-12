@@ -49,6 +49,14 @@ $threadtable = $thread['threadtable'];
 $posttableid = $thread['posttableid'];
 $posttable = $thread['posttable'];
 
+// fetch thread cover image url for Open Graph
+$_G['threadimage_url'] = '';
+$cover = C::t('forum_threadimage')->fetch_by_tid($_G['tid']);
+if($cover) {
+    $baseurl = $cover['remote'] ? $_G['setting']['ftp']['attachurl'] : $_G['setting']['attachurl'];
+    $_G['threadimage_url'] = $baseurl.'forum/'.$cover['attachment'];
+}
+
 
 $_G['action']['fid'] = $_G['fid'];
 $_G['action']['tid'] = $_G['tid'];
