@@ -504,17 +504,25 @@ function deleteattach($ids, $idtype = 'aid') {
 		C::t('forum_attachment_n')->delete_attachment($attachtable, $aids);
 	}
 	C::t('forum_attachment')->delete_by_id($idtype, $ids);
-	if($pics) {
-		$albumids = array();
-		C::t('home_pic')->delete($pics);
-		$query = C::t('home_pic')->fetch_all($pics);
-		foreach($query as $album) {
-			if(!in_array($album['albumid'], $albumids)) {
-				C::t('home_album')->update($album['albumid'], array('picnum' => C::t('home_pic')->check_albumpic($album['albumid'])));
-				$albumids[] = $album['albumid'];
-			}
-		}
-	}
+        if($pics) {
+                $albumids = array();
+                C::t('home_pic')->delete($pics);
+                $query = C::t('home_pic')->fetch_all($pics);
+                foreach($query as $album) {
+                        if(!in_array($album['albumid'], $albumids)) {
+                                C::t('home_album')->update($album['albumid'], array('picnum' => C::t('home_pic')->check_albumpic($album['albumid'])));
+                                $albumids[] = $album['albumid'];
+                        }
+                }
+        }
+
+        if($idtype == 'tid') {
+                foreach((array)$ids as $tid) {
+                        if(!C::t('forum_attachment')->count_by_tid($tid)) {
+                                C::t('forum_threadimage')->delete_by_tid($tid);
+                        }
+                }
+        }
 }
 
 function deletecomments($cids) {
