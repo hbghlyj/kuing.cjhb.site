@@ -224,10 +224,13 @@
 											<!--{/if}-->
 										<!--{/if}-->
 										<!--{if $thread[taglist]}-->
-										<div class="thread-tags">
-												<!--{loop $thread[taglist] $tag}--><span class="tag-item"><a href="misc.php?mod=tag&id=$tag[tagid]&name={echo urlencode($tag[tagname])}" target="_blank">$tag[tagname]</a></span><!--{/loop}-->
-										</div>
-										<!--{/if}-->
+                                        <div class="thread-tags">
+                                        <!--{loop $thread[taglist] $tag}--><span class="tag-item"><a href="misc.php?mod=tag&id=$tag[tagid]&name={echo urlencode($tag[tagname])}" target="_blank">$tag[tagname]</a></span><!--{/loop}-->
+                                        </div>
+                                        <!--{/if}-->
+                                        <!--{if $threadlist_data[$thread['tid']]['message']}-->
+                                        <p class="xg1">{$threadlist_data[$thread['tid']]['message']}</p>
+                                        <!--{/if}-->
 									</th>
 									<!--{if CURMODULE == 'guide'}-->
 										<td class="by"><a href="forum.php?mod=forumdisplay&fid=$thread[fid]" target="_blank">$forumnames[$thread[fid]]['name']</a></td>
@@ -294,8 +297,11 @@
 								<h3 class="xw0">
 									<!--{hook/forumdisplay_thread $key}-->
 									<a href="forum.php?mod=viewthread&tid=$thread[tid]&{if $_GET['archiveid']}archiveid={$_GET['archiveid']}&{/if}extra=$extra"$thread[highlight]{if $thread['isgroup'] == 1 || $thread['forumstick']} target="_blank"{else} onclick="atarget(this)"{/if} title="$thread[subject]">$thread[subject]</a>
-								</h3>
-								<div class="auth cl">
+                                                                </h3>
+                                                                <!--{if $threadlist_data[$thread['tid']]['message']}-->
+                                                                <p class="xg1">{$threadlist_data[$thread['tid']]['message']}</p>
+                                                                <!--{/if}-->
+                                                                <div class="auth cl">
 									<cite class="xg1 y">
 										{lang like}: <!--{if $thread[recommends]}-->$thread[recommends]<!--{else}-->0<!--{/if}-->
 										 &nbsp; {lang reply}: <a href="forum.php?mod=viewthread&tid=$thread[tid]&extra=$extra" title="$thread[replies] {lang reply}">$thread[replies]</a>
