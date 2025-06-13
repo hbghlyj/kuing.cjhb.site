@@ -992,8 +992,9 @@ if($_G['forum']['status'] == 3) {
 }
 
 $threadlist_data = array();
-if(defined('IN_MOBILE') && $_G['forum_threadcount']) {
-	$threadlist_data = get_attach($_G['forum_threadlist']);
+if($_G['forum_threadcount']) {
+        // Desktop thread list only needs excerpts, skip fetching attachments
+        $threadlist_data = get_attach($_G['forum_threadlist'], false, false, false);
 }
 if(!defined('IN_ARCHIVER')) {
 	include template($template);
