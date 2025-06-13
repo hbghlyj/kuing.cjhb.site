@@ -881,7 +881,6 @@ class discuz_application extends discuz_base{
 
 		if(!$this->var['setting'] || !$this->var['setting']['mobile']['allowmobile'] || !is_array($this->var['setting']['mobile'])) {
 			$nomobile = true;
-			$unallowmobile = true;
 		}
 
 		if(getgpc('forcemobile')) {
@@ -890,7 +889,7 @@ class discuz_application extends discuz_base{
 
 		$mobile = getgpc('mobile');
 		$mobileflag = isset($this->var['mobiletpl'][$mobile]);
-		if($mobile == 'no') {
+		if($mobile == 'no' || IS_ROBOT) {
 			dsetcookie('mobile', 'no', 31536000);
 			$nomobile = true;
 		} elseif(isset($this->var['cookie']['mobile']) && $this->var['cookie']['mobile'] == 'no' && $mobileflag) {

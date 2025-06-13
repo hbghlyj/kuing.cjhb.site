@@ -92,6 +92,7 @@ window.MathJax = {
     failed: function (error) {
       showError(`MathJax(${error.package || '?'}): ${error.message}`);
     },
+    versionWarnings: false,
     //paths: {custom: '//cdn.jsdelivr.net/gh/sonoisa/XyJax-v3@3.0.1/build'}
     paths: {custom: 'kk'}
   },
