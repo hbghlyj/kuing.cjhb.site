@@ -467,7 +467,7 @@ function get_attach($list, $video = false, $audio = false){
 						$threadlist_data[$value['tid']]['media'] = parseaudio($value['audio'][2], 400);
 					}
 				}
-				$threadlist_data[$value['tid']]['message'] = messagecutstr($value['message'], defined('IN_MOBILE') ? 90 : 300);
+				$threadlist_data[$value['tid']]['message'] = dhtmlspecialchars(messagecutstr($value['message'], 300, null, $firstpost['htmlon']));
 				if($threads[$value['tid']]['attachment'] == 2) {
 					$attachtableid_array[getattachtableid($value['tid'])][] = $value['pid'];
 				}
