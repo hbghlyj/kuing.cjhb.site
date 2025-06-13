@@ -228,7 +228,7 @@
                                         <!--{loop $thread[taglist] $tag}--><span class="tag-item"><a href="misc.php?mod=tag&id=$tag[tagid]&name={echo urlencode($tag[tagname])}" target="_blank">$tag[tagname]</a></span><!--{/loop}-->
                                         </div>
                                         <!--{/if}-->
-                                        <!--{if $threadlist_data[$thread['tid']]['message']}-->
+                                        <!--{if $threadlist_data[$thread['tid']]['message'] && !in_array($thread['displayorder'], array(1,2,3,4))}-->
                                         <p class="xg1">{$threadlist_data[$thread['tid']]['message']}</p>
                                         <!--{/if}-->
 									</th>
@@ -298,7 +298,7 @@
 									<!--{hook/forumdisplay_thread $key}-->
 									<a href="forum.php?mod=viewthread&tid=$thread[tid]&{if $_GET['archiveid']}archiveid={$_GET['archiveid']}&{/if}extra=$extra"$thread[highlight]{if $thread['isgroup'] == 1 || $thread['forumstick']} target="_blank"{else} onclick="atarget(this)"{/if} title="$thread[subject]">$thread[subject]</a>
                                                                 </h3>
-                                                                <!--{if $threadlist_data[$thread['tid']]['message']}-->
+                                                                <!--{if $threadlist_data[$thread['tid']]['message'] && !in_array($thread['displayorder'], array(1,2,3,4))}-->
                                                                 <p class="xg1">{$threadlist_data[$thread['tid']]['message']}</p>
                                                                 <!--{/if}-->
                                                                 <div class="auth cl">
