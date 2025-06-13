@@ -14,9 +14,9 @@ define('UC_STANDALONE', 1);				// 独立模式开关，0=关闭, 1=打开，开�
 define('UC_DBHOST', 'localhost');			// UCenter 数据库主机
 define('UC_DBUSER', 'root');				// UCenter 数据库用户名
 define('UC_DBPW', 'root');				// UCenter 数据库密码
-define('UC_DBNAME', 'ucenter');				// UCenter 数据库名称
+define('UC_DBNAME', 'ultrax');				// UCenter 数据库名称
 define('UC_DBCHARSET', 'utf8mb4');				// UCenter 数据库字符集
-define('UC_DBTABLEPRE', '`ucenter`.uc_');		// UCenter 数据库表前缀
+define('UC_DBTABLEPRE', '`ultrax`.pre_ucenter_');		// UCenter 数据库表前缀
 define('UC_DBCONNECT', '0');				// UCenter 数据库持久连接 0=关闭, 1=打开
 // 头像相关
 define('UC_AVTURL', '');		// 头像服务的基础路径，为空则为默认值，可以设置为独立域名/路径（结尾不能有/），配合CDN使用更佳。如涉及 avatar.php 需在其中再配置一次。
