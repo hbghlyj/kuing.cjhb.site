@@ -229,7 +229,7 @@
                                         </div>
                                         <!--{/if}-->
                                         <!--{if $threadlist_data[$thread['tid']]['message'] && !in_array($thread['displayorder'], array(1,2,3,4))}-->
-                                        <p class="xg1">{$threadlist_data[$thread['tid']]['message']}</p>
+                                        <p class="xg1"><a href="forum.php?mod=viewthread&tid=$thread[tid]{if $_GET['archiveid']}&archiveid={$_GET['archiveid']}{/if}{if $extra != 'page%3D1'}&extra=$extra{/if}"{if $thread['isgroup'] == 1 || $thread['forumstick']} target="_blank"{else} onclick="atarget(this)"{/if}>{$threadlist_data[$thread['tid']]['message']}</a></p>
                                         <!--{/if}-->
 									</th>
 									<!--{if CURMODULE == 'guide'}-->
@@ -299,7 +299,7 @@
 									<a href="forum.php?mod=viewthread&tid=$thread[tid]&{if $_GET['archiveid']}archiveid={$_GET['archiveid']}&{/if}extra=$extra"$thread[highlight]{if $thread['isgroup'] == 1 || $thread['forumstick']} target="_blank"{else} onclick="atarget(this)"{/if} title="$thread[subject]">$thread[subject]</a>
                                                                 </h3>
                                                                 <!--{if $threadlist_data[$thread['tid']]['message'] && !in_array($thread['displayorder'], array(1,2,3,4))}-->
-                                                                <p class="xg1">{$threadlist_data[$thread['tid']]['message']}</p>
+                                                                <p class="xg1"><a href="forum.php?mod=viewthread&tid=$thread[tid]{if $_GET['archiveid']}&archiveid={$_GET['archiveid']}{/if}{if $extra != 'page%3D1'}&extra=$extra{/if}"{if $thread['isgroup'] == 1 || $thread['forumstick'] || CURMODULE == 'guide'} target="_blank"{else} onclick="atarget(this)"{/if}>{$threadlist_data[$thread['tid']]['message']}</a></p>
                                                                 <!--{/if}-->
                                                                 <div class="auth cl">
 									<cite class="xg1 y">
