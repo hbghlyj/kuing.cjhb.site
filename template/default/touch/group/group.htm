@@ -28,10 +28,10 @@
 					<input type="hidden" name="groupexit" value="1">
 					<button type="submit" class="formdialog button"><em>{lang group_exit}</em></button>
 				</form>
-			<!--{if helper_access::check_module('favorite')}-->
-				<span class="pipe y">&nbsp;</span>
-				<a href="home.php?mod=spacecp&ac=favorite&type=group&id={$_G['forum']['fid']}&handlekey=favoriteforum&formhash={FORMHASH}" id="a_favorite" class="dialog">{lang favorite}<span id="number_favorite" {if !$_G['forum']['favtimes']} style="display:none;"{/if}> +{$_G['forum']['favtimes']}</span></a>
-			<!--{/if}-->
+                        <!--{if helper_access::check_module('favorite') && $_G['uid']}-->
+                                <span class="pipe y">&nbsp;</span>
+                                <a href="home.php?mod=spacecp&ac=favorite&type=group&id={$_G['forum']['fid']}&handlekey=favoriteforum&formhash={FORMHASH}" id="a_favorite" class="dialog">{lang favorite}<span id="number_favorite" {if !$_G['forum']['favtimes']} style="display:none;"{/if}> +{$_G['forum']['favtimes']}</span></a>
+                        <!--{/if}-->
 			<!--{/if}-->
 			$_G['forum']['name']
 		</h2>
