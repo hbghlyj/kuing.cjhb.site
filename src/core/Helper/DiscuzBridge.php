@@ -7,15 +7,31 @@ class DiscuzBridge
 {
     public static function syncSession()
     {
+        $debug = defined('DISCUZ_BRIDGE_DEBUG') && DISCUZ_BRIDGE_DEBUG;
+        if ($debug) {
+            echo "[DiscuzBridge] Starting syncSession\n";
+        }
         if (isset($_SESSION['Active'])) {
+            if ($debug) {
+                echo "[DiscuzBridge] Session already active\n";
+            }
             return;
         }
         $configPath = __DIR__ . '/../../../config/config_global.php';
         if (!file_exists($configPath)) {
+            if ($debug) {
+                echo "[DiscuzBridge] Config not found: $configPath\n";
+            }
             return;
+        }
+        if ($debug) {
+            echo "[DiscuzBridge] Loading config from $configPath\n";
         }
         require $configPath;
         if (!isset($_config['cookie']['cookiepre']) || !isset($_config['security']['authkey'])) {
+            if ($debug) {
+                echo "[DiscuzBridge] Missing cookiepre or authkey in config\n";
+            }
             return;
         }
         $cookiePre = $_config['cookie']['cookiepre'] .
@@ -23,22 +39,40 @@ class DiscuzBridge
             '_';
         $authCookie = $cookiePre . 'auth';
         $saltCookie = $cookiePre . 'saltkey';
+        if ($debug) {
+            echo "[DiscuzBridge] Expecting cookies '$authCookie' and '$saltCookie'\n";
+        }
         if (empty($_COOKIE[$authCookie]) || empty($_COOKIE[$saltCookie])) {
+            if ($debug) {
+                echo "[DiscuzBridge] Required cookies not present\n";
+            }
             return;
         }
         $authkey = md5($_config['security']['authkey'] . $_COOKIE[$saltCookie]);
         $rawAuth = rawurldecode($_COOKIE[$authCookie]);
         $data = self::authcode($rawAuth, 'DECODE', $authkey);
         if (empty($data) || strpos($data, "\t") === false) {
+            if ($debug) {
+                echo "[DiscuzBridge] Failed to decode auth cookie\n";
+            }
             return;
         }
         list($password, $uid) = explode("\t", $data);
         if (!$uid) {
+            if ($debug) {
+                echo "[DiscuzBridge] UID not found in decoded cookie\n";
+            }
             return;
         }
         $db = $_config['db'][1];
+        if ($debug) {
+            echo "[DiscuzBridge] Connecting to database\n";
+        }
         $mysqli = new \mysqli($db['dbhost'], $db['dbuser'], $db['dbpw'], $db['dbname']);
         if ($mysqli->connect_error) {
+            if ($debug) {
+                echo "[DiscuzBridge] DB connection failed: {$mysqli->connect_error}\n";
+            }
             return;
         }
         $userData = self::fetchUserFromDb($mysqli, $db['tablepre'], 'common_member', $uid);
@@ -49,6 +83,9 @@ class DiscuzBridge
         $mysqli->close();
 
         if (!$userData) {
+            if ($debug) {
+                echo "[DiscuzBridge] User record not found\n";
+            }
             return;
         }
 
@@ -61,6 +98,9 @@ class DiscuzBridge
         // Compare both hashes using hash_equals() for timing-safe validation.
         $valid = hash_equals($hash, $password);
         if (!$valid) {
+            if ($debug) {
+                echo "[DiscuzBridge] Password hash mismatch\n";
+            }
             return;
         }
         $adminModel = new AdminModel();
@@ -78,6 +118,9 @@ class DiscuzBridge
         $_SESSION['PREV_USERAGENT'] = $_SERVER['HTTP_USER_AGENT'] ?? '';
         $_SESSION['Username'] = $username;
         $_SESSION['Active'] = true;
+        if ($debug) {
+            echo "[DiscuzBridge] Login sync complete for $username\n";
+        }
     }
 
     /**

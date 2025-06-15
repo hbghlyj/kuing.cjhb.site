@@ -314,7 +314,6 @@ function process_ipnotice($ipconverted) {
 		return '';
 	}
 
-	$ipconverted = substr($ipconverted, 1);
 	if(strpos($ipconverted, '-') !== false) {
 		$ipconverted = substr($ipconverted, 0, strpos($ipconverted, '-'));
 	}
