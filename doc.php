@@ -1,6 +1,7 @@
 <?php ini_set('display_errors', 1); // IMPORTANT not to use in production
 
 use DocPHT\Core\Session\Session;
+use DocPHT\Core\Helper\DiscuzBridge;
 
 /**
  * This file is part of the DocPHT project.
@@ -19,31 +20,32 @@ $constants = 'src/core/constants.php';
 
 $configurationFile = 'src/config/config.php';
 
+$configLoaded = false;
 $installFolder = 'install';
 
 if (file_exists($configurationFile) && file_exists($installFolder)) {
     $files = glob($installFolder.'/partial/*');
     foreach($files as $file){
-        if(is_file($file)) {
+        if(is_file($file) && is_writable($file)) {
             unlink($file);
         }
-        if (is_dir_empty($installFolder.'/partial')) 
+        if (is_dir_empty($installFolder.'/partial') && is_writable($installFolder.'/partial'))
          rmdir($installFolder.'/partial');
     }
     $files = glob($installFolder.'/*');
     foreach($files as $file){
-        if(is_file($file)) {
+        if(is_file($file) && is_writable($file)) {
             unlink($file);
         }
-        if (is_dir_empty($installFolder)) 
+        if (is_dir_empty($installFolder) && is_writable($installFolder))
          rmdir($installFolder);
     }
     if (file_exists($installFolder.'/partial') && file_exists($installFolder)) {
         include 'install/error.php';
-    } else {
-        require $configurationFile;
-        header('Location:'.BASE_URL.'login');
+        return;
     }
+    require $configurationFile;
+    $configLoaded = true;
 } elseif (!file_exists($configurationFile) && !file_exists($installFolder)) {
     mkdir($installFolder, 0755, true);
     mkdir($installFolder.'/partial', 0755, true);
@@ -63,20 +65,26 @@ if (file_exists($configurationFile) && file_exists($installFolder)) {
     include 'install/config.php';
 } elseif (!file_exists($configurationFile)) {
     include 'install/config.php';
-} elseif (file_exists($autoload)) {
+}
+if (file_exists($autoload)) {
 require $autoload;
+
+require $constants;
+if (!$configLoaded) {
+    require $configurationFile;
+    $configLoaded = true;
+}
 
 $session = new Session();
 $session->sessionExpiration();
 $session->preventStealingSession();
 
-require $constants;
-require $configurationFile;
-
 $loader = new Nette\Loaders\RobotLoader;
 $loader->addDirectory(__DIR__ . '/src');
 $loader->setTempDirectory(__DIR__ . '/temp');
 $loader->register();
+
+DiscuzBridge::syncSession();
 
 $app            = System\App::instance();
 $app->request   = System\Request::instance();

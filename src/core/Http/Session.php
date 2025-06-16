@@ -18,12 +18,24 @@ class Session
     public function __construct()
     {
         if(session_status() === PHP_SESSION_NONE) {
+            $domain = defined('DOMAIN_NAME') ? DOMAIN_NAME : $_SERVER['HTTP_HOST'];
+            $secure = (!empty($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) !== 'off');
+            session_set_cookie_params([
+                'lifetime' => 0,
+                'path' => '/',
+                'domain' => $domain,
+                'secure' => $secure,
+                'httponly' => true,
+                'samesite' => 'Lax'
+            ]);
             ini_set('session.cookie_httponly', 1); // XSS attack protection
             ini_set('session.use_strict_mode', 1); // Prevents an attack that forces users to use a known session ID
             // Set an additional entropy
             ini_set('session.entropy_file', '/dev/urandom');
             ini_set('session.entropy_length', '256');
-            session_name('ID'); 
+            session_name('ID');
+            // Override the SecureHandler registered by php-secure-session
+            session_set_save_handler(new \SessionHandler(), true);
             session_start();
         }
     }

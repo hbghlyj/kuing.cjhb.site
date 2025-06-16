@@ -15,6 +15,7 @@ namespace DocPHT\Controller;
 
 use DocPHT\Core\Translator\T;
 use Instant\Core\Controller\BaseController;
+use DocPHT\Core\Helper\DiscuzBridge;
 
 class LoginController extends BaseController
 {
@@ -34,7 +35,6 @@ class LoginController extends BaseController
 
     public function checkLogin(string $username, string $password)
     {
-        $userExists = $this->adminModel->userExists($username);
         include 'config/config_global.php';
         $table = $_config['db'][1]['tablepre'] . 'ucenter_members';
         $conn = new \mysqli($_config['db'][1]['dbhost'], $_config['db'][1]['dbuser'], $_config['db'][1]['dbpw'], $_config['db'][1]['dbname']);
@@ -49,26 +49,21 @@ class LoginController extends BaseController
         $stmt->close();
         $conn->close();
         if (password_verify($password,$hash)) {
-            session_regenerate_id(true);
-            $_SESSION['PREV_USERAGENT'] = $_SERVER['HTTP_USER_AGENT'];
-            $_SESSION['Username'] = $username;
-            $_SESSION['Active'] = true;
-            if(!$userExists) {
-                $this->adminModel->create(['username' => $username, 'password' => $password, 'translations' => (stripos($_SERVER['HTTP_ACCEPT_LANGUAGE'], 'zh') === false) ? 'en_EN' : 'zh_CN', 'admin' => false]);
-            }
-            $accesslog = $this->accessLogModel->create($username);
+            DiscuzBridge::startDocPhtSession($username, $password);
+            $this->accessLogModel->create($username);
             return true;
         } else {
-            $accesslog = $this->accessLogModel->create($username);
+            $this->accessLogModel->create($username);
             return false;
         }
     }
 
     public function logout()
-    { 
+    {
+        DiscuzBridge::clearCookies();
         session_unset();
         session_destroy();
-      
+
         header('Location:/doc.php');
         exit;
     }
