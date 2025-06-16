@@ -36,7 +36,19 @@ class Session
             session_name('ID');
             // Override the SecureHandler registered by php-secure-session
             session_set_save_handler(new \SessionHandler(), true);
-            session_start();
+            // Handle legacy encrypted sessions gracefully
+            $error = null;
+            set_error_handler(function($errno, $errstr) use (&$error) {
+                $error = $errstr;
+            });
+            $ok = session_start();
+            restore_error_handler();
+            if (!$ok && strpos((string)$error, 'Failed to decode session object') !== false) {
+                if (isset($_COOKIE[session_name()])) {
+                    setcookie(session_name(), '', time() - 3600, '/');
+                }
+                session_start();
+            }
         }
     }
 
