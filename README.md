@@ -1,6 +1,6 @@
 # kuing.cjhb.site
 
-This repository contains the source code for the kuing.cjhb.site forum and documentation site. The platform is based on [DiscuzX](https://gitee.com/Discuz/DiscuzX) with [DocPHT](https://github.com/docpht/docpht) used to manage static documentation. Mathematical expressions are rendered with [MathJax](https://www.mathjax.org/), and diagrams are generated through Upmath and Asymptote services.
+This repository contains the source code for the kuing.cjhb.site forum and documentation site. The platform is based on [DiscuzX](https://gitee.com/Discuz/DiscuzX) with [DocPHT](https://github.com/docpht/docpht) used to manage static documentation. Mathematical expressions are rendered with [MathJax](https://www.mathjax.org/), and diagrams are generated through [Upmath LaTeX Renderer](https://github.com/parpalak/i.upmath.me) and [Asymptote Command-Line Interface](https://asymptote.sourceforge.io/doc/Command_002dLine-Interface.html) services.
 
 ## Running locally
 
@@ -44,19 +44,6 @@ mysql -u root ultrax -e "ALTER TABLE `pre_forum_thread` ADD COLUMN `tags` varcha
 
 This converts the unsupported `utf8mb4_0900_ai_ci` collation and imports the
 contents into the `ultrax` database.
-
-## Acknowledgements
-
-The project uses the following open source tools:
-* [Discuz/DiscuzX](https://gitee.com/Discuz/DiscuzX)
-* [MathJax](https://www.mathjax.org/)
-* [DocPHT](https://github.com/docpht/docpht)
-
-The following services are relied upon for mathematical content:
-* [Upmath LaTeX Renderer](https://github.com/parpalak/i.upmath.me)
-* [Asymptote Command-Line Interface](https://asymptote.sourceforge.io/doc/Command_002dLine-Interface.html)
-
-
 
 ## Database field reference
 
@@ -134,6 +121,18 @@ Bitwise flags for post state:
 |-3|Ignored/Draft|
 |-4|N/A|
 |-5|Recycle bin reply|
+
+### `forum_attachment_n.isimage`
+
+`pre_forum_attachment_n` tables (where `n` ranges from 0 to 9) store post attachments. The `isimage` column indicates how the file should be treated:
+
+| Value | Meaning |
+|------|---------|
+|1|File is an image and used as a standard picture|
+|0|File is not an image|
+|-1|File is an image but handled like a generic attachment|
+
+See [issue #232](https://github.com/hbghlyj/kuing.cjhb.site/issues/232) for background on these values.
 
 
 ## JavaScript helper functions

@@ -262,7 +262,7 @@ class logging_ctl {
 							showmessage($loginmessage, $location, $param, $extra);
 						} else {
 							$href = str_replace("'", "\'", $location);
-							showmessage('location_login_succeed', $location, array(),
+							showmessage('location_login_succeed', $location, array('username' => $result['ucresult']['username']),
 								array(
 									'showid' => 'succeedmessage',
 									'extrajs' => '<script type="text/javascript">'.

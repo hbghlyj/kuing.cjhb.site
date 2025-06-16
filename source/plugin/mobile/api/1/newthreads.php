@@ -60,14 +60,9 @@ class mobile_api {
 				$attach_img_text = lang('forum/misc', 'attach_img');
 				$attach_words = '['.$attach_img_text.']';
 				// compile attachment placeholder
-				$firstPostMessage = preg_replace('/\[attach\](\d+)\[\/attach\]/i', $attach_words, $firstPostMessage);
-				// further removing pesedo code
-				$firstPostMessage = preg_replace('/<\/*.*?>|&nbsp;|\r\n|\[attachimg\].*?\[\/attachimg\]|\[quote\].*?\[\/quote\]|\[(?!'.$attach_words.')\/*.*?\]/ms', '', $firstPostMessage);
-				// allow a maximum 5000 words
-				$firstPostMessage = trim(threadmessagecutstr($thread, $firstPostMessage, 500));
+				$thread['message'] = dhtmlspecialchars(messagecutstr(preg_replace('/\[attach\](\d+)\[\/attach\]/i', $attach_words, $firstPostMessage), $length, null, $firstpost['htmlon']));
 				// how many images are attached here
 				// give it to user
-				$thread['message'] = $firstPostMessage;
 				$variable['data'][$thread['tid']] = mobile_core::getvalues($thread, array('tid', 'author', 'authorid', 'subject', 'subject', 'dbdateline', 'dateline', 'dblastpost', 'lastpost', 'lastposter', 'attachment', 'replies', 'readperm', 'views', 'digest', 'message', 'attachmentImageNumber', 'attachmentImagePreviewList'));
 			}
 		}

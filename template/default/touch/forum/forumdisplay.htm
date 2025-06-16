@@ -8,9 +8,9 @@
 <div class="forumdisplay-top cl">
 	<h2>
 	<!--{if $_G['forum']['icon']}--><img src="<!--{echo get_forumimg($_G['forum']['icon'])}-->" alt="$_G['forum']['name']" /><!--{else}--><svg width="48" height="44" alt="$_G['forum']['name']"><path fill="#c9c9c9" d="M48 20C48 9 37.3 0 24 0S0 8.9 0 20s10.7 20 24 20c2.4 0 4.7-.3 6.8-.8L42 44l-2.8-8.5C44.6 31.8 48 26.2 48 20z"/></svg><!--{/if}-->
-	<!--{if helper_access::check_module('favorite')}-->
-	<a href="home.php?mod=spacecp&ac=favorite&type=forum&id=$_G['fid']&handlekey=favoriteforum&formhash={FORMHASH}" id="a_favorite" class="dialog">{lang favorite}<span id="number_favorite" {if !$_G['forum']['favtimes']} style="display:none;"{/if}><span id="number_favorite_num"> +{$_G['forum']['favtimes']}</span></span></a>
-	<!--{/if}-->
+        <!--{if helper_access::check_module('favorite') && $_G['uid']}-->
+        <a href="home.php?mod=spacecp&ac=favorite&type=forum&id=$_G['fid']&handlekey=favoriteforum&formhash={FORMHASH}" id="a_favorite" class="dialog">{lang favorite}<span id="number_favorite" {if !$_G['forum']['favtimes']} style="display:none;"{/if}><span id="number_favorite_num"> +{$_G['forum']['favtimes']}</span></span></a>
+        <!--{/if}-->
 	$_G['forum']['name']
 	</h2>
 	<p>{lang index_today}: <span>$_G['forum']['todayposts']</span>{lang index_threads}: <span>$_G['forum']['threads']</span><!--{if $_G['forum']['rank']}-->{lang rank}: <span>$_G['forum']['rank']</span><!--{/if}--></p>

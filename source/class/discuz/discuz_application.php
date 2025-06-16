@@ -881,7 +881,6 @@ class discuz_application extends discuz_base{
 
 		if(!$this->var['setting'] || !$this->var['setting']['mobile']['allowmobile'] || !is_array($this->var['setting']['mobile'])) {
 			$nomobile = true;
-			$unallowmobile = true;
 		}
 
 		if(getgpc('forcemobile')) {
@@ -889,35 +888,16 @@ class discuz_application extends discuz_base{
 		}
 
 		$mobile = getgpc('mobile');
-		if(!getgpc('mobile') && getgpc('showmobile')) {
-			$mobile = getgpc('showmobile');
-		}
 		$mobileflag = isset($this->var['mobiletpl'][$mobile]);
-		$mobile_=checkmobile();
-		if($mobile === 'no') {
+		if($mobile == 'no' || IS_ROBOT) {
 			dsetcookie('mobile', 'no', 31536000);
 			$nomobile = true;
 		} elseif(isset($this->var['cookie']['mobile']) && $this->var['cookie']['mobile'] == 'no' && $mobileflag) {
 			dsetcookie('mobile', '');
 		} elseif(isset($this->var['cookie']['mobile']) && $this->var['cookie']['mobile'] == 'no') {
 			$nomobile = true;
-		} elseif(!$mobile_) {
+		} elseif(!$mobile && !checkmobile()) {
 			$nomobile = true;
-		}
-		if(!$mobile || $mobile == 'yes') {
-			$mobile = isset($mobile_) ? $mobile_ : 2;
-		}
-
-		if(!$this->var['mobile'] && empty($unallowmobile) && $mobileflag) {
-			if(getgpc('showmobile')) {
-				dheader("Location:misc.php?mod=mobile");
-			}
-			parse_str($_SERVER['QUERY_STRING'], $query);
-			$query['mobile'] = 'no';
-			unset($query['simpletype']);
-			$query_sting_tmp = http_build_query($query);
-			$redirect = ($this->var['setting']['domain']['app']['forum'] ? $this->var['scheme'].'://'.$this->var['setting']['domain']['app']['forum'].'/' : $this->var['siteurl']).$this->var['basefilename'].'?'.$query_sting_tmp;
-			dheader('Location: '.$redirect);
 		}
 
 		if($nomobile || (!$this->var['setting']['mobile']['mobileforward'] && !$mobileflag)) {

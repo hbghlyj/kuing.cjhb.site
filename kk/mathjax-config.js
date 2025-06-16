@@ -88,12 +88,11 @@ window.MathJax = {
     }
   },
   loader: {
-    load: ['[tex]/noerrors','[tex]/mathtools','[custom]/xypic.js'],
+    load: ['[tex]/noerrors','[tex]/mathtools','[static]/xypic'],
     failed: function (error) {
       showError(`MathJax(${error.package || '?'}): ${error.message}`);
     },
-    //paths: {custom: '//cdn.jsdelivr.net/gh/sonoisa/XyJax-v3@3.0.1/build'}
-    paths: {custom: 'kk'}
+    paths: {static: '/static'}
   },
   svg: {
     fontCache: 'global',

@@ -424,11 +424,13 @@ function threadclasscount($fid, $id = 0, $idtype = '', $count = null) {
 
 }
 
-function get_attach($list, $video = false, $audio = false){
+// Build post excerpts and optionally attachment thumbnails for a thread list
+// $withattach controls whether image attachments are fetched
+function get_attach($list, $video = false, $audio = false, $withattach = true){
 	global $_G;
 	require_once libfile('function/post');
 	require_once libfile('function/discuzcode');
-	$tids = $threads = $attachtableid_array = $threadlist_data = $posttableids = array();
+        $tids = $threads = $attachtableid_array = $threadlist_data = $posttableids = array();
 	foreach($list as $value) {
 		$tids[] = $value['tid'];
 		if(!in_array($value['posttableid'], $posttableids)){
@@ -467,19 +469,21 @@ function get_attach($list, $video = false, $audio = false){
 						$threadlist_data[$value['tid']]['media'] = parseaudio($value['audio'][2], 400);
 					}
 				}
-				$threadlist_data[$value['tid']]['message'] = messagecutstr($value['message'], defined('IN_MOBILE') ? 90 : 300);
-				if($threads[$value['tid']]['attachment'] == 2) {
-					$attachtableid_array[getattachtableid($value['tid'])][] = $value['pid'];
-				}
+                                $threadlist_data[$value['tid']]['message'] = dhtmlspecialchars(messagecutstr($value['message'], 300, null, $firstpost['htmlon']));
+                                if($withattach && $threads[$value['tid']]['attachment'] == 2) {
+                                        $attachtableid_array[getattachtableid($value['tid'])][] = $value['pid'];
+                                }
 			}
 		}
 	}
-	foreach($attachtableid_array as $tableid => $pids) {
-		$attachs = C::t('forum_attachment_n')->fetch_all_by_pid_width($tableid, $pids, 0);
-		foreach($attachs as $value){
-			$threadlist_data[$value['tid']]['attachment'][] = getforumimg($value['aid'], 0, 550, 350);
-		}
-	}
+        if($withattach) {
+                foreach($attachtableid_array as $tableid => $pids) {
+                        $attachs = C::t('forum_attachment_n')->fetch_all_by_pid_width($tableid, $pids, 0);
+                        foreach($attachs as $value){
+                                $threadlist_data[$value['tid']]['attachment'][] = getforumimg($value['aid'], 0, 550, 350);
+                        }
+                }
+        }
 	return $threadlist_data;
 }
 ?>
