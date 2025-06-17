@@ -58,11 +58,15 @@ if($operation == 'updatecache') {
 			include_once libfile('function/block');
 			blockclass_cache();
 		}
-		if(in_array('csscache', $type)) {
-			updatecache(array('setting', 'styles'));
-			loadcache('style_default', true);
-			updatecache('updatediytemplate');
-		}
+               if(in_array('csscache', $type)) {
+                       if(in_array('data', $type)) {
+                               updatecache(array('styles'));
+                       } else {
+                               updatecache(array('setting', 'styles'));
+                       }
+                       loadcache('style_default', true);
+                       updatecache('updatediytemplate');
+               }
 		if(in_array('searchindex', $type)) {
 			require_once libfile('function/searchindex');
 			searchindex_cache();
