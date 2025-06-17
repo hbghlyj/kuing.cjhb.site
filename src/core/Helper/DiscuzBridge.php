@@ -47,19 +47,7 @@ class DiscuzBridge
         $authCookie = $cookiePre . 'auth';
         $saltCookie = $cookiePre . 'saltkey';
         if (empty($_COOKIE[$authCookie]) || empty($_COOKIE[$saltCookie])) {
-            foreach (array_keys($_COOKIE) as $name) {
-                if (preg_match('/^(.+_)?auth$/', $name, $m)) {
-                    $prefix = $m[1] ?? '';
-                    if (isset($_COOKIE[$prefix . 'saltkey'])) {
-                        $authCookie = $prefix . 'auth';
-                        $saltCookie = $prefix . 'saltkey';
-                        break;
-                    }
-                }
-            }
-            if (empty($_COOKIE[$authCookie]) || empty($_COOKIE[$saltCookie])) {
-                return;
-            }
+            return;
         }
         $authkey = md5($_config['security']['authkey'] . $_COOKIE[$saltCookie]);
         $rawAuth = rawurldecode($_COOKIE[$authCookie]);
