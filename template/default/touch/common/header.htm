@@ -13,6 +13,11 @@ $_G['setting']['seohead']
 <!--{eval include './kk/mathjax.php';}-->
 
 <script type="text/javascript">var STYLEID = '{STYLEID}', STATICURL = '{STATICURL}', IMGDIR = '{IMGDIR}', VERHASH = '{VERHASH}', charset = '{CHARSET}', discuz_uid = '{$_G['uid']}', cookiepre = '{$_G['config']['cookie']['cookiepre']}', cookiedomain = '{$_G['config']['cookie']['cookiedomain']}', cookiepath = '{$_G['config']['cookie']['cookiepath']}', showusercard = '{$_G['setting']['showusercard']}', attackevasive = '{$_G['config']['security']['attackevasive']}', disallowfloat = '{$_G['setting']['disallowfloat']}', creditnotice = '<!--{if $_G['setting']['creditnotice']}-->$_G['setting']['creditnames']<!--{/if}-->', defaultstyle = '$_G['style']['defaultextstyle']', REPORTURL = '$_G['currenturl_encode']', SITEURL = '$_G['siteurl']', JSPATH = '$_G['setting']['jspath']';</script>
+<!--{if DISCUZ_LANG == 'EN/'}-->
+<script type="text/javascript" src="/source/language/EN/lang_js.js"></script>
+<!--{else}-->
+<script type="text/javascript" src="/source/language/lang_js.js"></script>
+<!--{/if}-->
 <link rel="stylesheet" href="{STATICURL}image/mobile/style.css?{VERHASH}" type="text/css" media="all">
 <link rel="stylesheet" href="{STATICURL}image/mobile/font/dzmicon.css?{VERHASH}" type="text/css" media="all">
 <script src="{STATICURL}js/mobile/jquery.min.js?{VERHASH}"></script>
