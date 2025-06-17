@@ -692,10 +692,18 @@ var lng = {
 	'wait_upload'		: 'Wait for upload...',//'等待上传...',
 
         'upload_selectfile'     : 'Browse',
+//---------------------------
+//upload/static/js/avatar.js
         'avatar_upload_ok'      : 'Uploaded successfully!',
         'avatar_3_sizes'        : 'These are three sizes of your avatar',
         'avatar_upload_failed'  : 'Upload failed',
+
+//---------------------------
+//upload/static/js/webuploader/webuploader.min.js
         'upload_button_error'   : 'Press button assignment error',
+
+//---------------------------
+//upload/static/js/webuploader.js
         'file_single_size_limit': 'Single file size must not exceed ',
         'file_num_limit'        : 'Can only upload at most ',
         '_files'                : ' files!',
