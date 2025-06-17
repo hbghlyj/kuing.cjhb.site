@@ -3,7 +3,6 @@
 	This is NOT a freeware, use is subject to license terms
 
 	$Id: common_diy.js 31093 2012-07-16 03:54:34Z zhangguosheng $
-//	Modified by Valery Votintsev
 */
 
 String.prototype.property2js = function(){
@@ -716,7 +715,7 @@ var Util = {
 				var dom = document.createElement('div');
 				dom.className = 'edit hide';
 				dom.id = id+'_edit';
-/*vot*/				dom.innerHTML = '<span id="'+id+'_edit_menu">'+lng['edit']+'</span>';
+				dom.innerHTML = '<span id="'+id+'_edit_menu">编辑</span>';
 				ele.appendChild(dom);
 				$(id+'_edit_menu').onclick = function (e){Drag.prototype.toggleMenu.call(_method, e, this);};
 			}
@@ -1225,7 +1224,7 @@ var Util = {
 		setClose : function () {
 			if (!this.isChange) {
 				window.onbeforeunload = function() {
-/*vot*/					return lng['warn_not_saved'];
+                                       return lng['warn_not_saved'];
 				};
 			}
 			this.isChange = true;
@@ -1873,7 +1872,7 @@ var Util = {
 		},
 		uploadSubmit : function (){
 			if (document.uploadpic.attach.value.length<3) {
-/*vot*/				alert(lng['select_image_upload']);
+                               alert(lng['select_image_upload']);
 				return false;
 			}
 			if (document.uploadpic.albumid != null) document.uploadpic.albumid.value = $('selectalbum').value;
@@ -1885,7 +1884,7 @@ var Util = {
 		cancel : function () {
 			var flag = false;
 			if (this.isChange) {
-/*vot*/				flag = confirm(this.cancelConfirm ? this.cancelConfirm : lng['confirm_exit']);
+                               flag = confirm(this.cancelConfirm ? this.cancelConfirm : lng['confirm_exit']);
 			}
 			if (!this.isChange || flag) {
 				location.href = location.href.replace(/[\?|\&]diy\=yes/g,'');

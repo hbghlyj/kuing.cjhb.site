@@ -3,8 +3,6 @@
 	This is NOT a freeware, use is subject to license terms
 
 	$Id: at.js 31619 2012-09-17 01:05:07Z monkey $
-
-	Modified by Valery Votintsev, codersclub.org
 */
 
 if(typeof EXTRAFUNC['keydown'] != "undefined") {
@@ -20,13 +18,13 @@ function extrafunc_atMenu() {
 	if(BROWSER.opera) {
 		return;
 	}
-/*vot*/	if(wysiwyg && EXTRAEVENT.shiftKey && EXTRAEVENT.keyCode == 50 && postaction && (postaction == 'newthread' || postaction == 'reply' || postaction == 'edit')) { // Shift-2
+	if(EXTRAEVENT.shiftKey && EXTRAEVENT.keyCode == 50 && postaction && (postaction == 'newthread' || postaction == 'reply' || postaction == 'edit')) {
 		keyMenu('@', atMenu);
 		ctlent_enable[13] = 0;
 		doane(EXTRAEVENT);
 		atkeypress = 1;
 	}
-/*vot*/	if($('at_menu') && $('at_menu').style.display == '' && (EXTRAEVENT.keyCode == 38 || EXTRAEVENT.keyCode == 40 || EXTRAEVENT.keyCode == 13)) { // Up/Down/Enter
+	if($('at_menu') && $('at_menu').style.display == '' && (EXTRAEVENT.keyCode == 38 || EXTRAEVENT.keyCode == 40 || EXTRAEVENT.keyCode == 13)) {
 		doane(EXTRAEVENT);
 	}
 }
@@ -35,18 +33,35 @@ function extrafunc_atMenuKeyUp() {
 	if(BROWSER.opera) {
 		return;
 	}
-/*vot*/	if(wysiwyg && EXTRAEVENT.shiftKey && EXTRAEVENT.keyCode == 50 && postaction && (postaction == 'newthread' || postaction == 'reply' || postaction == 'edit') && !atkeypress) { //Shift-2
+	if(EXTRAEVENT.shiftKey && EXTRAEVENT.keyCode == 50 && postaction && (postaction == 'newthread' || postaction == 'reply' || postaction == 'edit') && !atkeypress) {
 		keyBackspace();
 		keyMenu('@', atMenu);
 		ctlent_enable[13] = 0;
 		doane(EXTRAEVENT);
 	}
-	if(wysiwyg && $('at_menu') && $('at_menu').style.display == '' && postaction && (postaction == 'newthread' || postaction == 'reply' || postaction == 'edit')) {
-/*vot*/		if(EXTRAEVENT.keyCode == 32 || EXTRAEVENT.keyCode == 9 || EXTRAEVENT.keyCode == 8 && !keyMenuObj.innerHTML.substr(1).length) { // Space/Tab/Backspace
+	if($('at_menu') && $('at_menu').style.display == '' && postaction && (postaction == 'newthread' || postaction == 'reply' || postaction == 'edit')) {
+		if(EXTRAEVENT.keyCode == 32 || EXTRAEVENT.keyCode == 9 || EXTRAEVENT.keyCode == 8 && !keyMenuObj.innerHTML.substr(1).length) {
 			$('at_menu').style.display = 'none';
 			ctlent_enable[13] = 1;
 		} else {
-			atFilter(keyMenuObj.innerHTML.substr(1), 'at_menu', 'atMenuSet', EXTRAEVENT);
+			if(!wysiwyg) {
+				var currentVal = textobj.value;
+				var cursorPos = textobj.selectionStart;
+
+				// Attempt to find the starting '@' of the current mention
+				var textBeforeCursor = currentVal.substring(0, cursorPos);
+				var atSymbolPos = -1;
+				// Search backwards for '@' not preceded by a word character (e.g. not part of an email)
+				for (var i = textBeforeCursor.length - 1; i >= 0; i--) {
+					if (textBeforeCursor[i] === '@') {
+						if (i === 0 || !/\\w/.test(textBeforeCursor[i-1])) {
+							atSymbolPos = i;
+							break;
+						}
+					}
+				}
+			}
+			atFilter(wysiwyg ? keyMenuObj.innerHTML.substr(1) : currentVal.substr(atSymbolPos + 1, cursorPos - atSymbolPos - 1), 'at_menu', 'atMenuSet', EXTRAEVENT);
 		}
 	}
 	atkeypress = 0;
@@ -63,7 +78,7 @@ function extrafunc_atListMenu(tag, op) {
 		}
 		curatli = 0;
 		setTimeout(function() {atFilter('', 'at_list','atListSet');$('atkeyword').focus();}, 100);
-/*vot*/		return lng['enter_username']+':<br /><input type="text" id="atkeyword" style="width:240px" value="" class="px" onkeydown="atEnter(event, \'atListSet\')" onkeyup="atFilter(this.value, \'at_list\',\'atListSet\',event, true);" /><div class="p_pop" id="at_list" style="width:250px;"><ul><li>'+lng['at_friend']+'</li></ul></div>';
+               return lng['enter_username']+':<br /><input type="text" id="atkeyword" style="width:240px" value="" class="px" onkeydown="atEnter(event, \'atListSet\')" onkeyup="atFilter(this.value, \'at_list\',\'atListSet\',event, true);" /><div class="p_pop" id="at_list" style="width:250px;"><ul><li>'+lng['at_friend']+'</li></ul></div>';
 	} else {
 		if($('atkeyword').value) {
 			str = '@' + $('atkeyword').value + (wysiwyg ? '&nbsp;' : ' ');
@@ -85,19 +100,21 @@ function atMenu(x, y) {
 		div.className = 'p_pop';
 		div.style.zIndex = '100000';
 	}
-	$('at_menu').style.marginTop = (keyMenuObj.offsetHeight + 2) + 'px';
-	$('at_menu').style.marginLeft = (keyMenuObj.offsetWidth + 2) + 'px';
+	if(wysiwyg) {
+		$('at_menu').style.marginTop = (keyMenuObj.offsetHeight + 2) + 'px';
+		$('at_menu').style.marginLeft = (keyMenuObj.offsetWidth + 2) + 'px';
+	}
 	$('at_menu').style.left = x + 'px';
 	$('at_menu').style.top = y + 'px';
 	$('at_menu').style.display = '';
-/*vot*/	$('at_menu').innerHTML = '<div class="loadicon vm"></div> '+lng['wait_please'];
+       $('at_menu').innerHTML = '<div class="loadicon vm"></div> '+lng['wait_please'];
 }
 
 function atSearch(kw, call) {
 	if(atKeywords === null) {
 		atKeywords = '';
 		var x = new Ajax();
-		x.get('misc.php?mod=getatuser&inajax=1', function(s) {
+		x.get('misc.php?mod=getatuser&inajax=1&tid=' + tid, function(s) {
 			if(s) {
 				atKeywords = s.split(',');
 			}
@@ -111,9 +128,10 @@ function atSearch(kw, call) {
 		});
 	}
 	var lsi = 0;
+	var lowerKw = kw.toLowerCase(); // Convert keyword to lowercase
 	for(i in atKeywords) {
-		if(atKeywords[i].indexOf(kw) !== -1 || kw === '') {
-			atResult[lsi] = kw !== '' ? atKeywords[i].replace(kw, '<b>' + kw + '</b>') : atKeywords[i];
+		if(atKeywords[i].toLowerCase().indexOf(lowerKw) !== -1 || kw === '') { // Convert item to lowercase before indexOf
+			atResult[lsi] = kw !== '' ? atKeywords[i].replace(new RegExp(kw.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'ig'), '<b>$&</b>') : atKeywords[i]; // Use RegExp for case-insensitive replace and escape special characters
 			lsi++;
 			if(lsi > 10) {
 				break;
@@ -127,15 +145,15 @@ function atSearch(kw, call) {
 
 function atEnter(e, call) {
 	if(e) {
-/*vot*/		if(e.keyCode == 38 && curatli > 0) { // Up arrow
+		if(e.keyCode == 38 && curatli > 0) {
 			curatli--;
 			return false;
 		}
-/*vot*/		if(e.keyCode == 40 && curatli < (atResult.length -1)) { // Down arrow
+		if(e.keyCode == 40 && curatli < (atResult.length -1)) {
 			curatli++;
 			return false;
 		}
-/*vot*/		if(e.keyCode == 13) { // ENTER key
+		if(e.keyCode == 13) {
 			var call = !call ? 'insertText' : call;
 			if(curatli > -1) {
 				eval(call+'($(\'atli_'+curatli+'\').innerText)');
@@ -160,7 +178,7 @@ function atFilter(kw, id, call, e, nae) {
 				var atclass = i == curatli ? ' class="a"' : '';
 				newlist += '<li><a href="javascript:;" id="atli_'+i+'"'+atclass+' onclick="'+call+'(this.innerText)">' + atResult[i] + '</a></li>';
 			}
-/*vot*/			$(id).innerHTML = '<ul>' + newlist + '<li class="xg1">'+lng['at_friend']+'</li></ul>';
+                       $(id).innerHTML = '<ul>' + newlist + '<li class="xg1">'+lng['at_friend']+'</li></ul>';
 		} else {
 			$(id).style.visibility = 'hidden';
 		}
@@ -177,11 +195,11 @@ function atListSet(kw) {
 }
 
 function atMenuSet(kw) {
-	keyMenuObj.innerHTML = '@' + kw + (wysiwyg ? '&nbsp;' : ' ');
 	$('at_menu').style.display = 'none';
 	ctlent_enable[13] = 1;
 	curatli = 0;
-	if(BROWSER.firefox) {
+	if(wysiwyg) {
+		keyMenuObj.innerHTML = '@' + kw + (wysiwyg ? '&nbsp;' : ' ');
 		var selection = editwin.getSelection();
 		var range = selection.getRangeAt(0);
 		var tmp = keyMenuObj.firstChild;
@@ -189,6 +207,40 @@ function atMenuSet(kw) {
 		range.setEnd(tmp, keyMenuObj.innerHTML.length - 5);
 		selection.removeAllRanges();
 		selection.addRange(range);
+	} else {
+		var currentVal = textobj.value;
+		var cursorPos = textobj.selectionStart;
+
+		// Attempt to find the starting '@' of the current mention
+		var textBeforeCursor = currentVal.substring(0, cursorPos);
+		var atSymbolPos = -1;
+		// Search backwards for '@' not preceded by a word character (e.g. not part of an email)
+		for (var i = textBeforeCursor.length - 1; i >= 0; i--) {
+			if (textBeforeCursor[i] === '@') {
+				if (i === 0 || !/\\w/.test(textBeforeCursor[i-1])) {
+					atSymbolPos = i;
+					break;
+				}
+			}
+		}
+
+		var finalText = '@' + kw + ' ';
+
+		if (atSymbolPos !== -1) {
+			// Found a plausible '@', replace from there to current cursor
+			var prefix = currentVal.substring(0, atSymbolPos);
+			var suffix = currentVal.substring(cursorPos); // Text that was after the partial @mention
+
+			textobj.value = prefix + finalText + suffix;
+			textobj.selectionStart = textobj.selectionEnd = atSymbolPos + finalText.length;
+		} else {
+			// Fallback: If no suitable '@' is found, insert the text at the current cursor position,
+			// replacing any selected text. This might be less accurate for replacing partial input.
+			var selStart = textobj.selectionStart;
+			var selEnd = textobj.selectionEnd;
+			textobj.value = currentVal.substring(0, selStart) + finalText + currentVal.substring(selEnd);
+			textobj.selectionStart = textobj.selectionEnd = selStart + finalText.length;
+		}
 	}
 	checkFocus();
 }
