@@ -174,7 +174,7 @@
 					this.handleObj.parentNode.insertBefore(spanObj, this.handleObj);
 					this.showObj.style.display = 'none';
 				} else {
-					alert('已经存在'+userName);
+					alert(lng['allready_exists']+':'+userName);
 				}
 			}
 		},
@@ -284,7 +284,7 @@
 				var select = false;
 				if(typeof this.selectUser[uid] == 'undefined') {
 					if(this.maxSelectNumber && this.selectNumber >= this.maxSelectNumber) {
-			            alert('最多只允许选择'+this.maxSelectNumber+'个用户');
+			            alert(lng['select_max']+' '+this.maxSelectNumber+' '+lng['users']);
 			            return false;
 			        }
 					this.selectUser[uid] = this.dataSource[uid];
