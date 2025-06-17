@@ -500,6 +500,7 @@ $lang = array (
 	'crime_record'				=> 'Violation log',//'违规记录',
 	'crime_sightml'				=> 'Remove signature',//'清除签名',
 	'crime_warnpost'			=> 'Warn Post',//'警告帖子',
+        'members_ban_none'                      => 'Normal status',//'正常状态',
 	'expiry'				=> 'Expiry',//'期限',
 	'ip_location'				=> 'IP location',//'地理位置',
 	'mod_member_ban'			=> 'Ban user',//'禁止用户',
