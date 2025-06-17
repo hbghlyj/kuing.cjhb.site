@@ -75,7 +75,7 @@ function insertAttach(id) {
 		return;
 	}
 	if(extensions != '' && (re.exec(extensions) == null || ext == '')) {
-		alert('对不起，不支持上传此类扩展名的图片');
+		alert(lng['image_type_invalid']);
 		return;
 	}
 	attachexts[id] = inArray(ext, ['gif', 'jpg', 'jpeg', 'png']) ? 2 : 1;
