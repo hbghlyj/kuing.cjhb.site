@@ -774,6 +774,7 @@ $lang = array (
   'crime_record' => '違規記錄',
   'crime_sightml' => '清除簽名',
   'crime_warnpost' => '警告帖子',
+  'members_ban_none' => '正常狀態',
   'email_status' => '郵箱狀態',
   'group_useful_life' => '有效期至',
   'hours' => '小時',

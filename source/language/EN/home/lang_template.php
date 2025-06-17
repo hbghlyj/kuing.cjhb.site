@@ -771,6 +771,7 @@ $lang = array (
 	'crime_record'			=> 'Violation log',//'违规记录',
 	'crime_sightml'			=> 'Remove signature',//'清除签名',
 	'crime_warnpost'		=> 'Warn Post',//'警告帖子',
+        'members_ban_none'              => 'Normal status',//'正常状态',
 	'email_status'			=> 'Email status',//'邮箱状态',
 	'group_useful_life'		=> 'Valid until',//'有效期至',
 	'hours'				=> 'Hours',//'小时',
