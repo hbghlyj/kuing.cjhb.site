@@ -115,8 +115,6 @@ var lng = {
 
 //--------------------------------
 //static/js/calendar.js
-//static/js/forum_calendar.js
-//static/js/home_calendar.js
 
 	'prev_month'	: 'Prev Month',//'上一月',
 	'next_month'	: 'Next Month',//'下一月',
