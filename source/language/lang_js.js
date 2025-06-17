@@ -699,23 +699,6 @@ var lng = {
 	'wait_upload'		: '等待上传...',//'Wait for upload...',
 	'upload_selectfile'	: '浏览',//'Browse',
 
-//-------------------------------------
-//source/function/function_admincp.php
-	'version_uptodate'	: 'You are currently using an Up-to-date version of Discuz!. Please refer to the following tips to make upgrades timely.',
-
-//-------------------------------------
-//api/manyou/cloud_iframe.js
-	'add_operation'		: '&#28155;&#21152;&#21040;&#24120;&#29992;&#25805;&#20316;',
-
-//--------------------------------------------
-//static/js/googlemap.js + static/js/editor.js
-
-	'map_title'		: 'google图',//'Google Maps',
-	'map_insert'		: '插入google地图',//'Insert Google Map',
-	'map_insert_tips'	: '通过搜索插入google地图（暂只支持单点标注）！',//'Insert Google Maps by address searching (temporarily supported only single label!)',
-	'map_center_changed'	: '地图中心已经改变！',//'The map center is changed!',
-	'map_wrong_address'	: ' 地址错误，未找到当前地址',//'Wrong address! Current address was not found',
-
 //---------------------------
 //upload/static/js/avatar.js
 	'avatar_upload_ok'	: '上传成功!',//'Uploaded successfully!',
