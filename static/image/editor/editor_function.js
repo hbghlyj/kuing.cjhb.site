@@ -43,7 +43,7 @@ function backupContent(sHTML) {
 	if(sHTML.length > 11) {
 		var obj = $('uchome-ttHtmlEditor').form;
 		if(!obj) return;
-		var data = subject = message = '';
+               var data = '', subject = '', message = '';
 		for(var i = 0; i < obj.elements.length; i++) {
 			var el = obj.elements[i];
 			if(el.name != '' && (el.tagName == 'TEXTAREA' || el.tagName == 'INPUT' && (el.type == 'text' || el.type == 'checkbox' || el.type == 'radio')) && el.name.substr(0, 6) != 'attach') {
