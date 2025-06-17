@@ -295,13 +295,6 @@ var lng = {
 	'there_are'		: 'There are ',//'有',
 	'new_reply_exists'	: 'There are new thread replies, click for View',//'有新回复的主题，点击查看',
 //--------------------------------
-//static/js/forum_google.js
-
-	'search_net'	: 'Search in the Net',//'网页搜索',
-	'search_site'	: 'Search in the site',//'站内搜索',
-	'search'	: 'Search',//'搜索',
-
-//--------------------------------
 //static/js/forum_moderate.js
 
 	'choose_tread'	: 'Choose the thread to moderate',//'请选择需要操作的帖子',
