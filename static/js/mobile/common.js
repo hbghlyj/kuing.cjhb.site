@@ -58,7 +58,7 @@ var page = {
 		var pgobj = qSel('div.pg');
 		pgobj.classList.remove('pg');
 		pgobj.classList.add('page');
-               pgobj.innerHTML = '<a href="'+ prevpagehref +'">'+lng['prev_page']+'</a>'+ selector +'<a href="'+ nextpagehref +'">'+lng['prev_page']+'</a>';
+               pgobj.innerHTML = '<a href="'+ prevpagehref +'">'+lng['prev_page']+'</a>'+ selector +'<a href="'+ nextpagehref +'">'+lng['next_page']+'</a>';
 		qSel('#dumppage').addEventListener('change', function() {
 			var href = (prevpage || nextpage);
 			var newhref = href.replace(/page=\d+/, 'page=' + this.value);
