@@ -48,17 +48,17 @@ var page = {
 		if(lastpage) {
 			selector += '<a id="select_a">';
 			selector += '<select id="dumppage">';
-			for(var i=1; i<=lastpage; i++) {
-				selector += '<option value="'+i+'" '+ (i == curpage ? 'selected' : '') +'>第'+i+'页</option>';
-			}
-			selector += '</select>';
-			selector += '<span>第'+curpage+'页</span>';
+                       for(var i=1; i<=lastpage; i++) {
+                               selector += '<option value="'+i+'" '+ (i == curpage ? 'selected' : '') +'>'+lng['first']+i+lng['pages']+'</option>';
+                        }
+                        selector += '</select>';
+                        selector += '<span>'+lng['first']+curpage+lng['pages']+'</span>';
 		}
 
 		var pgobj = qSel('div.pg');
 		pgobj.classList.remove('pg');
 		pgobj.classList.add('page');
-		pgobj.innerHTML = '<a href="'+ prevpagehref +'">上一页</a>'+ selector +'<a href="'+ nextpagehref +'">下一页</a>';
+               pgobj.innerHTML = '<a href="'+ prevpagehref +'">'+lng['prev_page']+'</a>'+ selector +'<a href="'+ nextpagehref +'">'+lng['prev_page']+'</a>';
 		qSel('#dumppage').addEventListener('change', function() {
 			var href = (prevpage || nextpage);
 			var newhref = href.replace(/page=\d+/, 'page=' + this.value);
@@ -155,7 +155,7 @@ var img = {
 		if(is_err_t) {
 			var parentnode = obj.parent();
 			parentnode.find('.loading').remove();
-			parentnode.append('<div class="error_text">点击重新加载</div>');
+                       parentnode.append('<div class="error_text">'+lng['click_to_reload']+'</div>');
 			parentnode.find('.error_text').one('click', function() {
 				obj.attr('load', 0).find('.error_text').remove();
 				parentnode.append('<div class="loading" style="background:url('+ IMGDIR +'/imageloading.gif) no-repeat center center;width:'+parentnode.width()+'px;height:'+parentnode.height()+'px"></div>');
