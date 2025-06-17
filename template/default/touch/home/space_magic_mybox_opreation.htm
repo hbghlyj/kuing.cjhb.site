@@ -1,7 +1,7 @@
 <!--{template common/header}-->
 
 <div class="tip">
-	<form id="magicform" method="post" action="home.php?mod=magic&action=mybox&infloat=yes" onsubmit="ajaxpost('magicform', 'return_$_GET['handlekey']', 'return_$_GET['handlekey']', 'onerror');return false;">
+       <form id="magicform" method="post" action="home.php?mod=magic&action=mybox&infloat=yes" onsubmit="ajaxpost('magicform', 'return_magics', 'return_magics', 'onerror');return false;">
 		<div class="medal_tip_top">
 			<a href="javascript:;" class="author">
 				<img src="$magic['pic']" class="vm" alt="$magic['name']" />
@@ -9,10 +9,10 @@
 			</a>
 			<p>$magic['description']</p>
 		</div>
-		<div class="medal_tip_box" id="hkey_$_GET['handlekey']">
-			<div id="return_$_GET['handlekey']"></div>
-				<input type="hidden" name="formhash" value="{FORMHASH}" />
-				<input type="hidden" name="handlekey" value="$_GET['handlekey']" />
+               <div class="medal_tip_box" id="hkey_magics">
+                       <div id="return_magics"></div>
+                               <input type="hidden" name="formhash" value="{FORMHASH}" />
+                               <input type="hidden" name="handlekey" value="magics" />
 				<input type="hidden" name="operation" value="$operation" />
 				<input type="hidden" name="magicid" value="$magicid" />
 				<!--{if $operation == 'give'}-->
@@ -82,7 +82,7 @@
 				<!--{/if}-->
 				</div>
 
-		<div class="tip_btn" id="hbtn_$_GET['handlekey']">
+               <div class="tip_btn" id="hbtn_magics">
 			<!--{if $operation == 'give'}-->
 				<button class="button2" type="submit" name="operatesubmit" id="operatesubmit" value="true"><span>{lang magics_operation_present}</span></button>
 			<!--{elseif $operation == 'use'}-->
