@@ -197,9 +197,9 @@ function showInnerNav(){
 }
 
 function loadimgsize(imgurl, editor, p) {
-	var editor = !editor ? 'icoImg' : editor;
-	var s = new Object();
-	var p = !p ? '_image' : p;
+       editor = editor || 'icoImg';
+       var s = {};
+       p = p || '_image';
 	$(editor + p + '_param_2').value = '';
 	$(editor + p + '_param_3').value = '';
 	s.img = new Image();
