@@ -1,3 +1,4 @@
+// Modified by Valery Votintsev, codersclub.org
 function uploadEdit(obj) {
 	mainForm = obj.form;
 	forms = $('attachbody').getElementsByTagName("FORM");
@@ -72,10 +73,10 @@ function edit_insert(html) {
 	var p = window.frames['uchome-ifrHtmlEditor'];
 	var obj = p.window.frames['HtmlEditor'];
 	var status = p.document.getElementById('uchome-editstatus').value;
-	if(status != 'html') {
-		alert('本操作只在多媒体编辑模式下才有效');
-		return;
-	}
+       if(status != 'html') {
+               /*vot*/ alert(lng['wysiwyg_only']);
+               return;
+       }
 	obj.focus();
 	if(BROWSER.ie){
 		var f = obj.document.selection.createRange();
