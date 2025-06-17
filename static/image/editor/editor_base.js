@@ -41,19 +41,20 @@ function renewContent() {
 	};
 
 /*vot*/ if(window.confirm(lng['restore_last_saved'])) {
-		var data = loadUserdata('home');
-		if(in_array((data = trim(data)), ['', 'null', 'false', null, false])) {
+               var data = loadUserdata('home');
+               if(in_array((data = trim(data)), ['', 'null', 'false', null, false])) {
 /*vot*/                 parent.showDialog(lng['no_data_recover']);
-			return;
-		}
-		var data = data.split(/\x09\x09/);
-		if(parent.$('subject')) {
-			var formObj = parent.$('subject').form;
-		} else if(parent.$('title')) {
-			var formObj = parent.$('title').form;
-		} else {
-			return;
-		}
+                       return;
+               }
+               data = data.split(/\x09\x09/);
+               var formObj;
+               if(parent.$('subject')) {
+                       formObj = parent.$('subject').form;
+               } else if(parent.$('title')) {
+                       formObj = parent.$('title').form;
+               } else {
+                       return;
+               }
 		for(var i = 0; i < formObj.elements.length; i++) {
 			var el = formObj.elements[i];
 			if(el.name != '' && (el.tagName == 'TEXTAREA' || el.tagName == 'INPUT' && (el.type == 'text' || el.type == 'checkbox' || el.type == 'radio'))) {
