@@ -795,13 +795,50 @@ function bumpthread() {
 		"headers": {"content-type": "application/x-www-form-urlencoded"},
 		"body": `fid=${fid}&moderate%5B%5D=${tid}&redirect=1&operations%5B%5D=bump&formhash=${formhash}&handlekey=mods`,
 		"method": "POST"
-		}).then(response => {
-			response.text().then(text => {
-				if (text.includes('succeedhandle_mods')) {
-					showPrompt(null,null,'提升成功',1000);
-				} else {
-					showPrompt(null,null,text.match(/errorhandle_mods\('([^']+)/)[1],1000,'popuptext');
-				}
-			});
-		});
+                }).then(response => {
+                        response.text().then(text => {
+                                if (text.includes('succeedhandle_mods')) {
+                                        showPrompt(null,null,'提升成功',1000);
+                                } else {
+                                        showPrompt(null,null,text.match(/errorhandle_mods\('([^']+)/)[1],1000,'popuptext');
+                                }
+                        });
+                });
+}
+
+if($('suggestTagsButton')) {
+    $('suggestTagsButton').onclick = function() {
+        this.style.display = 'none';
+        $('suggestTagsInputArea').style.display = '';
+    };
+}
+if($('cancelSuggestTags')) {
+    $('cancelSuggestTags').onclick = function() {
+        $('suggestTagsInputArea').style.display = 'none';
+        if($('suggestTagsButton')) $('suggestTagsButton').style.display = '';
+        $('suggestedTagInput').value = '';
+        $('suggestionMessage').style.display = 'none';
+    };
+}
+if($('submitSuggestedTag')) {
+    $('submitSuggestedTag').onclick = function() {
+        var tag = trim($('suggestedTagInput').value);
+        if(!tag) return false;
+        var tid = $('sug_tid') ? $('sug_tid').value : (typeof window.tid != 'undefined' ? window.tid : 0);
+        fetch('forum.php?mod=tag&op=suggest&inajax=1', {
+            method: 'POST',
+            headers: {'Content-Type':'application/x-www-form-urlencoded'},
+            body: 'formhash='+FORMHASH+'&tid='+tid+'&tag='+encodeURIComponent(tag)
+        }).then(res => res.json()).then(d => {
+            if(d.success) {
+                $('suggestTagsInputArea').style.display = 'none';
+                $('suggestionMessage').style.display = '';
+                if($('suggestTagsButton')) $('suggestTagsButton').style.display = '';
+                $('suggestedTagInput').value = '';
+                setTimeout(function(){ $('suggestionMessage').style.display = 'none'; },3000);
+            } else if(d.message) {
+                showError(d.message);
+            }
+        });
+    };
 }

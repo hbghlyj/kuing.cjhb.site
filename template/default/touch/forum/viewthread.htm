@@ -128,12 +128,21 @@
 									<!--{if $_G['forum']['status'] == 3 && in_array($_G['adminid'], array('1','2')) && $_G['forum_thread']['closed'] < 1}-->
 										<input type="button" value="{lang modmenu_grouprecommend}" class="dialog button" href="forum.php?mod=topicadmin&action=moderate&fid={$_G['fid']}&moderate[]={$_G['tid']}&operation=recommend_group&optgroup=5&from={$_G['tid']}">
 									<!--{/if}-->
-									<!--{if $_G['group']['allowmanagetag']}-->
-										<a href="forum.php?mod=tag&op=manage&tid=$_G['tid']" class="dialog button">{lang post_tag}</a>
-									<!--{/if}-->
-									<!--{if $_G['group']['alloweditusertag']}-->
-										<a href="forum.php?mod=misc&action=usertag&tid=$_G['tid']" class="dialog button">{lang usertag}</a>
-									<!--{/if}-->
+<!--{if $_G['group']['allowmanagetag']}-->
+<a href="forum.php?mod=tag&op=manage&tid=$_G['tid']" class="dialog button">{lang post_tag}</a>
+<!--{/if}-->
+<button id="suggestTagsButton" class="button">{lang suggest_tags}</button>
+<div id="suggestTagsInputArea" style="display:none" class="p10">
+    <input type="hidden" id="sug_tid" value="$_G['tid']" />
+    <label for="suggestedTagInput">{lang suggest_tags_label}</label>
+    <input type="text" id="suggestedTagInput" class="px vm" />
+    <button id="submitSuggestedTag" class="button">{lang submit}</button>
+    <button id="cancelSuggestTags" class="button">{lang cancel}</button>
+    <div id="suggestionMessage" style="display:none">{lang thanks_for_suggestion}</div>
+</div>
+<!--{if $_G['group']['alloweditusertag']}-->
+<a href="forum.php?mod=misc&action=usertag&tid=$_G['tid']" class="dialog button">{lang usertag}</a>
+<!--{/if}-->
 								<!--{/if}-->
 								<!--{if $allowpusharticle && $allowpostarticle}-->
 									<a href="portal.php?mod=portalcp&ac=article&from_idtype=tid&from_id=$_G['tid']" class="dialog button">{lang modmenu_pusharticle}</a>
