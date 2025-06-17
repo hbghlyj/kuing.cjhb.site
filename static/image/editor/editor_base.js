@@ -40,20 +40,21 @@ function renewContent() {
 		}
 	};
 
-	if(window.confirm('您确定要恢复上次保存?')) {
-		var data = loadUserdata('home');
-		if(in_array((data = trim(data)), ['', 'null', 'false', null, false])) {
-			parent.showDialog('没有可以恢复的数据！');
-			return;
-		}
-		var data = data.split(/\x09\x09/);
-		if(parent.$('subject')) {
-			var formObj = parent.$('subject').form;
-		} else if(parent.$('title')) {
-			var formObj = parent.$('title').form;
-		} else {
-			return;
-		}
+/*vot*/ if(window.confirm(lng['restore_last_saved'])) {
+               var data = loadUserdata('home');
+               if(in_array((data = trim(data)), ['', 'null', 'false', null, false])) {
+/*vot*/                 parent.showDialog(lng['no_data_recover']);
+                       return;
+               }
+               data = data.split(/\x09\x09/);
+               var formObj;
+               if(parent.$('subject')) {
+                       formObj = parent.$('subject').form;
+               } else if(parent.$('title')) {
+                       formObj = parent.$('title').form;
+               } else {
+                       return;
+               }
 		for(var i = 0; i < formObj.elements.length; i++) {
 			var el = formObj.elements[i];
 			if(el.name != '' && (el.tagName == 'TEXTAREA' || el.tagName == 'INPUT' && (el.type == 'text' || el.type == 'checkbox' || el.type == 'radio'))) {
@@ -203,17 +204,17 @@ function format(type, para){
 	var f = window.frames["HtmlEditor"];
 	var sAlert = "";
 	if(!gIsIE){
-		switch(type){
-			case "Cut":
-				sAlert = "您的浏览器安全设置不允许编辑器自动执行剪切操作,请使用键盘快捷键(Ctrl+X)来完成";
-				break;
-			case "Copy":
-				sAlert = "您的浏览器安全设置不允许编辑器自动执行拷贝操作,请使用键盘快捷键(Ctrl+C)来完成";
-				break;
-			case "Paste":
-				sAlert = "您的浏览器安全设置不允许编辑器自动执行粘贴操作,请使用键盘快捷键(Ctrl+V)来完成";
-				break;
-		}
+                switch(type){
+                        case "Cut":
+/*vot*/                         sAlert = lng['cut_manually'];
+                                break;
+                        case "Copy":
+/*vot*/                         sAlert = lng['copy_manually'];
+                                break;
+                        case "Paste":
+/*vot*/                         sAlert = lng['paste_manually'];
+                                break;
+                }
 	}
 	if(sAlert != ""){
 		alert(sAlert);
@@ -295,7 +296,7 @@ function doodleBox(event, id) {
 	if(parent.$('uchome-ttHtmlEditor') != null) {
 		parent.showWindow(id, 'home.php?mod=magic&mid=doodle&showid=blog_doodle&target=uchome-ttHtmlEditor&from=editor');
 	} else {
-		alert("找不到涂鸦板初始化数据");
+/*vot*/         alert(lng['graffiti_no_init']);
 	}
 }
 function backColor(e){
@@ -444,10 +445,10 @@ function fSetBorderMouseDown(obj) {
 	obj.style.borderLeft="1px #cccccc solid";
 }
 function fDisplayElement(element,displayValue) {
-	if(gIEVer<=5.01 && gIsIE){
-		alert('只支持IE 5.01以上版本');
-		return;
-	}
+        if(gIEVer<=5.01 && gIsIE){
+/*vot*/         alert(lng['ie5_only']);
+                return;
+        }
 	fHideMenu();
 	if ( typeof element == "string" )
 		element = $(element);
@@ -480,9 +481,9 @@ function fSetModeTip(obj){
 		dv.id = "dvModeTip";
 		dv.style.padding = "2px";
 		dv.style.border = "1px #000000 solid";
-		dv.style.backgroundColor = "#FFFFCC";
-		dv.innerHTML = "编辑源码";
-		document.body.appendChild(dv);
+                dv.style.backgroundColor = "#FFFFCC";
+/*vot*/         dv.innerHTML = lng['edit_raw'];
+                document.body.appendChild(dv);
 	}else{
 		dvModeTip.style.display = "";
 	}
@@ -604,7 +605,7 @@ function changeEditType(flag, ev){
 			}
 			ev = ev || event;
 			if(ev){
-				if(window.confirm("转换为纯文本时将会遗失某些格式。\n您确定要继续吗？")){
+/*vot*/                         if(window.confirm(lng['plain_text_warn'])){
 					$('uchome-editstatus').value = 'text';
 					sub1();
 				}else{
@@ -621,9 +622,9 @@ function changeEditFull(flag, ev) {
 	if(parent.changeEditFull) {
 		parent.changeEditFull(flag);
 		ev = ev || event;
-		var ele = ev.target || ev.srcElement;
-		ele.innerHTML = flag ? '返回' : '全屏';
-		ele.onclick = function() {changeEditFull(!flag, ev)};
+                var ele = ev.target || ev.srcElement;
+/*vot*/         ele.innerHTML = flag ? lng['restore_size'] : lng['full_screen'];
+                ele.onclick = function() {changeEditFull(!flag, ev)};
 	}
 }
 String.prototype.stripTags = function(){

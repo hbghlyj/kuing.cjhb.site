@@ -106,30 +106,6 @@ var lng = {
 //static/js/editor_function.js
 	'wysiwyg_only'		: 'This operation is effective only for WYSIWYG mode',//'本操作只在多媒体编辑模式下才有效',
 
-//---------------------------
-//static/image/admincp/cloud/cloud.js
-	'int_cloud_test'	: 'Testing other cloud platform interface',//'云平台其他接口测试',
-	'int_roaming_test'	: 'Testing other Roaming interface',//'漫游其他接口测试',
-	'int_qq_test'		: 'Testing QQ Internet interface',//'QQ互联接口测试',
-	'server_busy'		: 'The server is busy, please try again later',//'服务器繁忙，请稍后再试',
-	'tested_ok'		: 'The test is successful, time used: ',//'测试成功，耗时 ',
-	'seconds'		: ' sec.',//' 秒',
-
-//---------------------------
-//static/image/admincp/cloud/qqgroup.js
-	'select_topic_to_push'	: 'Select at least one topic for push to Articles',//'请至少推送一条头条主题和一条列表主题',
-	'select_item_to_push'	: 'Select at least one item for push to Articles',//'请至少推送一条信息到列表区域',
-	'loading'		: 'Loading...',//'加载中...',
-	'push5reached'		: 'Push Post number has reached five, in the right to cancel a number and try again.',//'推送帖子已达到5条，请在右侧取消一些再重试。',
-	'click_left'		: 'Click on the left',//'点击左侧',
-	'push_to_list'		: 'Will push the information to the list',//'将信息推送到列表',
-	'wait_image_upload'	: 'Upload image, please wait...',//'图片上传中，请稍后...',
-
-
-
-
-
-//---------------------------
 //upload/static/js/autoloadpage.js
 	'loading_content_wait'	: 'Loading content, wait please...',//'正在加载, 请稍后...',
 
@@ -139,8 +115,6 @@ var lng = {
 
 //--------------------------------
 //static/js/calendar.js
-//static/js/forum_calendar.js
-//static/js/home_calendar.js
 
 	'prev_month'	: 'Prev Month',//'上一月',
 	'next_month'	: 'Next Month',//'下一月',
@@ -320,13 +294,6 @@ var lng = {
 	'del_thread_sure'	: 'Are you sure you want to remove this thread from hot threads?',//'您确认要把此主题从热点主题中移除么？',
 	'there_are'		: 'There are ',//'有',
 	'new_reply_exists'	: 'There are new thread replies, click for View',//'有新回复的主题，点击查看',
-//--------------------------------
-//static/js/forum_google.js
-
-	'search_net'	: 'Search in the Net',//'网页搜索',
-	'search_site'	: 'Search in the site',//'站内搜索',
-	'search'	: 'Search',//'搜索',
-
 //--------------------------------
 //static/js/forum_moderate.js
 

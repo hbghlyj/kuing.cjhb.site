@@ -108,30 +108,6 @@ var lng = {
 //static/js/editor_function.js
 	'wysiwyg_only'		: '本操作只在多媒体编辑模式下才有效',
 
-//---------------------------
-//static/image/admincp/cloud/cloud.js
-	'int_cloud_test'	: '云平台其他接口测试',
-	'int_roaming_test'	: '漫游其他接口测试',
-	'int_qq_test'		: 'QQ互联接口测试',
-	'server_busy'		: '服务器繁忙，请稍后再试',//'The server is busy, please try again later',
-	'tested_ok'		: '测试成功，耗时 ',//'The test is successful, time used: ',
-//	'seconds'		: ' 秒',//' sec.',
-
-//---------------------------
-//static/image/admincp/cloud/qqgroup.js
-	'select_topic_to_push'	: '请至少推送一条头条主题和一条列表主题',
-	'select_item_to_push'	: '请至少推送一条信息到列表区域',
-	'loading'		: '加载中...',
-	'push5reached'		: '推送帖子已达到5条，请在右侧取消一些再重试。',
-	'click_left'		: '点击左侧',
-	'push_to_list'		: '将信息推送到列表',
-	'wait_image_upload'	: '图片上传中，请稍后...',
-
-
-
-
-
-//---------------------------
 //upload/static/js/autoloadpage.js
 	'loading_content_wait'	: '正在加载, 请稍后...',//'Loading content, wait please...',
 
@@ -141,8 +117,6 @@ var lng = {
 
 //--------------------------------
 //static/js/calendar.js
-//static/js/forum_calendar.js
-//static/js/home_calendar.js
 
 	'prev_month'	: '上一月',
 	'next_month'	: '下一月',
@@ -342,13 +316,6 @@ var lng = {
 	'minutes_num'		: '分',//' minutes',
 	'seconds'		: ' 秒',//' sec.',
 	'thread_title_length_invalid'	: '您的标题长度不符合要求。',
-
-//--------------------------------
-//static/js/forum_google.js
-
-	'search_net'	: '网页搜索',
-	'search_site'	: '站内搜索',
-	'search'	: '搜索',
 
 //--------------------------------
 //static/js/forum_moderate.js

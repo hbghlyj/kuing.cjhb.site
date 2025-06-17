@@ -1224,7 +1224,7 @@ var Util = {
 		setClose : function () {
 			if (!this.isChange) {
 				window.onbeforeunload = function() {
-					return '您的数据已经修改,退出将无法保存您的修改。';
+                                       return lng['warn_not_saved'];
 				};
 			}
 			this.isChange = true;
@@ -1872,7 +1872,7 @@ var Util = {
 		},
 		uploadSubmit : function (){
 			if (document.uploadpic.attach.value.length<3) {
-				alert('请选择您要上传的图片');
+                               alert(lng['select_image_upload']);
 				return false;
 			}
 			if (document.uploadpic.albumid != null) document.uploadpic.albumid.value = $('selectalbum').value;
@@ -1884,7 +1884,7 @@ var Util = {
 		cancel : function () {
 			var flag = false;
 			if (this.isChange) {
-				flag = confirm(this.cancelConfirm ? this.cancelConfirm : '退出将不会保存您刚才的设置。是否确认退出？');
+                               flag = confirm(this.cancelConfirm ? this.cancelConfirm : lng['confirm_exit']);
 			}
 			if (!this.isChange || flag) {
 				location.href = location.href.replace(/[\?|\&]diy\=yes/g,'');
