@@ -318,13 +318,6 @@ var lng = {
 	'thread_title_length_invalid'	: '您的标题长度不符合要求。',
 
 //--------------------------------
-//static/js/forum_google.js
-
-	'search_net'	: '网页搜索',
-	'search_site'	: '站内搜索',
-	'search'	: '搜索',
-
-//--------------------------------
 //static/js/forum_moderate.js
 
 	'choose_tread'	: '请选择需要操作的帖子',
