@@ -162,6 +162,18 @@ var lng = {
 	'page_prev'		: 'Prev Page',//'上页',
 	'page_next'		: 'Next Page',//'下页',
 	'copy2clipboard'	: 'Copy to clipboard',//'点此复制到剪贴板',
+	'sms_sent_ok'           : 'Sent successfully',
+	'sms_often'             : 'The interval between sending SMS is too short, please try again later.',
+	'sms_many_total'        : 'You have sent too many text messages in a while, please try again later.',
+	'sms_many_in_period'    : 'The number group has sent too many text messages in a period of time, please try again later.',
+	'sms_many_in_site'      : 'This site has sent too many text messages in a period of time, please try again later.',
+	'sms_gate_not_available': 'There is currently no SMS gateway interface available, please try again later.',
+	'sms_gate_not_found'    : 'Gateway interface file does not exist, please try again later.',
+	'sms_class_not_found'   : 'Gateway interface class does not exist, please try again later.',
+	'sms_disabled'          : 'Text messaging has been disabled, please try again later.',
+	'sms_gate_invalid'      : 'The SMS gateway is abnormal, please try again later.',
+	'sms_exception'         : 'Unknown exception, please try again later.',
+	'sms_failed'            : 'Failed to send, error code ',
 // ATTENTION!
 // The next line must have the same value as in /template.php - 'enter_content' !!!
 	'enter_search_string'	: 'Enter search keywords',//'请输入搜索内容',
@@ -294,6 +306,12 @@ var lng = {
 	'del_thread_sure'	: 'Are you sure you want to remove this thread from hot threads?',//'您确认要把此主题从热点主题中移除么？',
 	'there_are'		: 'There are ',//'有',
 	'new_reply_exists'	: 'There are new thread replies, click for View',//'有新回复的主题，点击查看',
+        'finished'              : 'Finished',
+        'days_num'              : ' days',
+        'hours_num'             : ' hours',
+        'minutes_num'           : ' minutes',
+        'seconds'               : ' sec.',
+        'thread_title_length_invalid'   : 'Your title length does not meet the requirements.',
 //--------------------------------
 //static/js/forum_moderate.js
 
@@ -310,6 +328,9 @@ var lng = {
 	'can_not_save_attach'	: 'Can not save Attachment file',//'附件文件无法保存',
 	'invalid_file'		: 'No legitimate file was uploaded',//'没有合法的文件被上传',
 	'illegal_operation'	: 'Illegal Operation',//'非法操作',
+        'today_upload_large'    : 'Today you can not upload so much attachments',
+        'bad_words'             : 'Unable to submit because the file name contains sensitive words',
+        'high_resolution'       : 'Server restrictions prevent uploading high resolution attachments',
 	'enter_content'		: 'Enter the title or content',//'请完成标题或内容栏',
 	'select_category'	: 'Select a corresponding category for the thread',//'请选择主题对应的分类',
 	'select_category_info'	: 'Select a corresponding category for the thread information',//'请选择主题对应的分类信息',
@@ -335,6 +356,11 @@ var lng = {
 
 	'attach_big'		: 'Attachment size exceeds the allowed limit',//'服务器限制无法上传那么大的附件',
 	'attach_group_big'	: 'You user group total attachment size exceeds allowed limit',//'用户组限制无法上传那么大的附件',
+        'remote_attach_loaded'  : 'Remote attachment download is completed!',
+        'select_all'            : 'Select All',
+        'unused'                : 'Unused',
+        'award_more_total'      : 'Reply Reward Points total is too large',
+        'return'                : 'Return',
 	'attach_type_big'	: 'This file type total attachment size exceeds allowed limit',//'文件类型限制无法上传那么大的附件',
 	'attach_daily_big'	: 'Daily total attachment size exceeds allowed limit',//'本日已无法上传更多的附件',
 	'validating_q&a'	: 'Validating the Q & A, please wait',//'验证问答校验中，请稍后',
@@ -345,6 +371,7 @@ var lng = {
 	'no_remote_attach'	: 'Sorry, no remote attachment',//'抱歉，暂无远程附件',
 	'delete_post_sure'	: 'Sure you want to delete this post?',//'确定要删除该帖子吗？',
 	'feed_add_confirm'	: 'Because of you have set read permission or sell the post, do you confirm also the broadcast to your listeners to see?',//'由于您设置了阅读权限或出售帖，您确认还转播给您的听众看吗？',
+        'delete_post_failed'    : 'Sorry, the delete operation failed, please refresh the page and try again.',
 //--------------------------------
 //static/js/forum_viewthread.js
 
@@ -367,6 +394,10 @@ var lng = {
 	'pocket_forum_ios_alt'	: 'Suitable for Apple mobile phone',//'适用于苹果手机',
 	'quick_reply_here'	: '#Quick Reply Here#', //'#在这里快速回复#',
 
+        'set_cover'             : 'Set as cover',
+        'source'                : 'Source',
+        'view_all'              : 'View All',
+        'index'                 : 'Thread Index',
 //--------------------------------
 //static/js/handlers.js
 	'file_selected_exceed'	: 'You have selected too many files.',//'您选择的文件个数超过限制。',
@@ -481,6 +512,7 @@ var lng = {
 	'touch_down_refresh'	: 'Touch down to refresh',//'下拉可以刷新',
 	'touch_up_refresh'	: 'Touch UP to refresh',//'松开可以刷新',
 
+        'form_submit_error'     : 'Form submission exception, unable to complete your request',
 //--------------------------------
 //static/js/portal.js
 
@@ -600,6 +632,7 @@ var lng = {
 	'username_short'	: 'Username is shorter than 2 characters',//'用户名小于 3 个字符',
 	'username_long'		: 'Username is longer than 15 characters',//'用户名超过 15 个字符',
 	'passwords_not_equal'	: 'Two passwords does not match',//'两次输入的密码不一致',
+        'username_long_64'      : 'User name is longer than 64 bytes',
 	'email_invalid'		: 'Email contains invalid characters',//'Email 包含敏感字符',
 	'invite_code_invalid'	: 'Invitation code contains invalid characters',//'邀请码包含敏感字符',
 	'password_fill'		: 'Enter a password',//'请填写密码',
@@ -607,6 +640,7 @@ var lng = {
 	'email_fill'		: 'Enter email address',//'请输入邮箱地址',
 	'length_min'		: ', longer than ',//', 最小长度为 '
 	'chars'			: ' characters',//' 个字符',
+        'characters'            : ' characters',
 	'password_strength'	: 'Password strength: ',//'密码强度:',
 	'pw_weak'		: 'Weak',//'弱',
 	'pw_middle'		: 'Middle',//'中',
@@ -657,6 +691,26 @@ var lng = {
 	'file_not_supported'	: 'Sorry, this file type is unsupported',//'对不起，不支持上传此类文件',
 	'wait_upload'		: 'Wait for upload...',//'等待上传...',
 
+        'upload_selectfile'     : 'Browse',
+//---------------------------
+//upload/static/js/avatar.js
+        'avatar_upload_ok'      : 'Uploaded successfully!',
+        'avatar_3_sizes'        : 'These are three sizes of your avatar',
+        'avatar_upload_failed'  : 'Upload failed',
+
+//---------------------------
+//upload/static/js/webuploader/webuploader.min.js
+        'upload_button_error'   : 'Press button assignment error',
+
+//---------------------------
+//upload/static/js/webuploader.js
+        'file_single_size_limit': 'Single file size must not exceed ',
+        'file_num_limit'        : 'Can only upload at most ',
+        '_files'                : ' files!',
+        'file_size_limit'       : 'The total size of all uploaded files is exceeded ',
+        'file_invalid_type'     : 'Invalid file type, please upload the correct file format!',
+        'file_no_repeat'        : 'Please do not upload the same file repeatedly!',
+        'upload_error_try_again': 'Upload error, please refresh and try again! ',
 //-------------------------------------
 //	''	: '',//'',
 
