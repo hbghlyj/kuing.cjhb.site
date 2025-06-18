@@ -106,7 +106,20 @@ if($operation == 'admin') {
                                $class_tag = new tag();
                                $tagstr = $class_tag->add_tag($suggest['tagname'], $suggest['tid'], 'tid');
                                if($tagstr) {
-                                       C::t('forum_thread')->concat_tags_by_tid($suggest['tid'], $tagstr);
+                                       $thread_table = C::t('forum_thread');
+                                       $thread_info = $thread_table->fetch_thread($suggest['tid']);
+                                       $current_tags_on_thread = isset($thread_info['tags']) ? $thread_info['tags'] : '';
+                                       $new_tag_part = rtrim($tagstr, "\t");
+                                       $tag_already_present = false;
+                                       if ($current_tags_on_thread) {
+                                               $existing_tag_parts_array = explode("\t", rtrim($current_tags_on_thread, "\t"));
+                                               if (in_array($new_tag_part, $existing_tag_parts_array)) {
+                                                       $tag_already_present = true;
+                                               }
+                                       }
+                                       if (!$tag_already_present) {
+                                               $thread_table->concat_tags_by_tid($suggest['tid'], $tagstr);
+                                       }
                                }
                                C::t('forum_tag_suggest')->update_status($id, 1);
                        }
