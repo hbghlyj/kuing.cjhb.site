@@ -671,7 +671,7 @@ body, input, button, select { font: {FONTSIZE} {FONT}; color: {TABLETEXT}; }
 		border-radius: 14px;
 	}
 	#algolia-search-box:empty {
-		background: #fff url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='79' height='24'><g transform='translate(55,0)'><path fill='%23444' d='M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z'/></g><line x1='5' y1='22' x2='72' y2='22' stroke='%23777' stroke-width='1'/><line xmlns='http://www.w3.org/2000/svg' x1='10' y1='2' x2='10' y2='20' stroke='black' stroke-width='1'><animate attributeName='opacity' values='0;1;1;0' dur='1s' repeatCount='indefinite'/></line></svg>") no-repeat right center;
+		background: #fffc url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24'%3e%3cpath fill='%23444' d='M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z'/%3e%3c/svg%3e") no-repeat right 50%;
 		width: 29px;
 		padding-left: 50px;
 		padding-right: 2px;
@@ -910,10 +910,24 @@ body, input, button, select { font: {FONTSIZE} {FONT}; color: {TABLETEXT}; }
 	.ais-Pagination-item { border: 1px solid #CDCDCD; }
 	.ais-Pagination-link { padding: 0 8px; }
 	.ais-Pagination-item--selected { background-color: #C5E6DF; }
-
+  .algolia-search-box-wrapper {
+    width: 100%;
+  }
+  #nv {
+    display: flex;
+    gap: 20px;
+    padding-left: 20px;
+  }
+  #nv ul {
+    display: flex;
+  }
+  #algolia-search-box:empty {
+    width: 100%;
+    box-sizing: border-box;
+	border-radius: 14px;
+  }
 			#nv { overflow: hidden; height: 33px; {MENUBGCODE}; }
-				#nv ul { float:right; }
-				#nv li { float: left; padding-right: 1px; height: 33px; line-height: 33px; background: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='1' height='33'%3e%3cpath fill='%23fff' fill-opacity='0.2' d='M0 7h1v20H0z'/%3e%3c/svg%3e") no-repeat 100% 0; font-weight: 700; font-size: 14px; }
+				#nv li { padding-right: 1px; height: 33px; line-height: 33px; background: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='1' height='33'%3e%3cpath fill='%23fff' fill-opacity='0.2' d='M0 7h1v20H0z'/%3e%3c/svg%3e") no-repeat 100% 0; font-weight: 700; font-size: 14px; }
 					#nv li a { float: left; padding: 0 15px; height: 33px; }
 						#nv li a { color: {MENUTEXT}; }
 					#nv li.a { margin-left: -1px; {MENUCURBGCODE}; }
