@@ -173,7 +173,7 @@ var lng = {
 	'sms_disabled'          : 'Text messaging has been disabled, please try again later.',
 	'sms_gate_invalid'      : 'The SMS gateway is abnormal, please try again later.',
 	'sms_exception'         : 'Unknown exception, please try again later.',
-	'sms_failed'            : 'Failed to send, error code ',
+        'sms_failed'            : 'Failed to send, error code ',
 // ATTENTION!
 // The next line must have the same value as in /template.php - 'enter_content' !!!
 	'enter_search_string'	: 'Enter search keywords',//'请输入搜索内容',
@@ -310,7 +310,7 @@ var lng = {
         'days_num'              : ' days',
         'hours_num'             : ' hours',
         'minutes_num'           : ' minutes',
-        'seconds'               : ' sec.',
+        'seconds'               : ' seconds.',
         'thread_title_length_invalid'   : 'Your title length does not meet the requirements.',
 //--------------------------------
 //static/js/forum_moderate.js
@@ -328,9 +328,9 @@ var lng = {
 	'can_not_save_attach'	: 'Can not save Attachment file',//'附件文件无法保存',
 	'invalid_file'		: 'No legitimate file was uploaded',//'没有合法的文件被上传',
 	'illegal_operation'	: 'Illegal Operation',//'非法操作',
-        'today_upload_large'    : 'Today you can not upload so much attachments',
-        'bad_words'             : 'Unable to submit because the file name contains sensitive words',
-        'high_resolution'       : 'Server restrictions prevent uploading high resolution attachments',
+        'today_upload_large'    : 'Today you cannot upload so many attachments.',
+        'bad_words'             : 'Unable to submit because the file name contains sensitive words.',
+        'high_resolution'       : 'Server restrictions prevent uploading high resolution attachments.',
 	'enter_content'		: 'Enter the title or content',//'请完成标题或内容栏',
 	'select_category'	: 'Select a corresponding category for the thread',//'请选择主题对应的分类',
 	'select_category_info'	: 'Select a corresponding category for the thread information',//'请选择主题对应的分类信息',
@@ -359,7 +359,7 @@ var lng = {
         'remote_attach_loaded'  : 'Remote attachment download is completed!',
         'select_all'            : 'Select All',
         'unused'                : 'Unused',
-        'award_more_total'      : 'Reply Reward Points total is too large',
+        'award_more_total'      : 'Reply Reward Points total is too large.',
         'return'                : 'Return',
 	'attach_type_big'	: 'This file type total attachment size exceeds allowed limit',//'文件类型限制无法上传那么大的附件',
 	'attach_daily_big'	: 'Daily total attachment size exceeds allowed limit',//'本日已无法上传更多的附件',
@@ -512,7 +512,7 @@ var lng = {
 	'touch_down_refresh'	: 'Touch down to refresh',//'下拉可以刷新',
 	'touch_up_refresh'	: 'Touch UP to refresh',//'松开可以刷新',
 
-        'form_submit_error'     : 'Form submission exception, unable to complete your request',
+        'form_submit_error'     : 'Form submission exception, unable to complete your request.',
 //--------------------------------
 //static/js/portal.js
 
@@ -632,7 +632,7 @@ var lng = {
 	'username_short'	: 'Username is shorter than 2 characters',//'用户名小于 3 个字符',
 	'username_long'		: 'Username is longer than 15 characters',//'用户名超过 15 个字符',
 	'passwords_not_equal'	: 'Two passwords does not match',//'两次输入的密码不一致',
-        'username_long_64'      : 'User name is longer than 64 bytes',
+        'username_long_64'      : 'User name is longer than 64 bytes.',
 	'email_invalid'		: 'Email contains invalid characters',//'Email 包含敏感字符',
 	'invite_code_invalid'	: 'Invitation code contains invalid characters',//'邀请码包含敏感字符',
 	'password_fill'		: 'Enter a password',//'请填写密码',
@@ -695,22 +695,22 @@ var lng = {
 //---------------------------
 //upload/static/js/avatar.js
         'avatar_upload_ok'      : 'Uploaded successfully!',
-        'avatar_3_sizes'        : 'These are three sizes of your avatar',
-        'avatar_upload_failed'  : 'Upload failed',
+        'avatar_3_sizes'        : 'These are three sizes of your avatar.',
+        'avatar_upload_failed'  : 'Upload failed.',
 
 //---------------------------
 //upload/static/js/webuploader/webuploader.min.js
-        'upload_button_error'   : 'Press button assignment error',
+        'upload_button_error'   : 'Press button assignment error.',
 
 //---------------------------
 //upload/static/js/webuploader.js
         'file_single_size_limit': 'Single file size must not exceed ',
         'file_num_limit'        : 'Can only upload at most ',
         '_files'                : ' files!',
-        'file_size_limit'       : 'The total size of all uploaded files is exceeded ',
+        'file_size_limit'       : 'The total size of all uploaded files exceeds the limit.',
         'file_invalid_type'     : 'Invalid file type, please upload the correct file format!',
         'file_no_repeat'        : 'Please do not upload the same file repeatedly!',
-        'upload_error_try_again': 'Upload error, please refresh and try again! ',
+        'upload_error_try_again': 'Upload error, please refresh and try again!',
 //-------------------------------------
 //	''	: '',//'',
 
