@@ -113,7 +113,7 @@ if($op == 'search') {
         $class_tag = new tag();
         $tagstr = $class_tag->update_field($_GET['tags'], $_G['tid'], 'tid', $_G['thread']);
         C::t('forum_thread')->update($_G['tid'], array('tags' => $tagstr));
-} elseif($op == 'suggest' && $_GET['formhash'] == FORMHASH && $_G['uid']) {
+} elseif($op == 'suggest' && isset($_POST['formhash']) && $_POST['formhash'] == FORMHASH && $_G['uid']) {
         $tid = dintval($_POST['tid']);
         $tagname = trim(dhtmlspecialchars($_POST['tag']));
         if($tid && $tagname) {
