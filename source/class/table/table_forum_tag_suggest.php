@@ -11,8 +11,8 @@ class table_forum_tag_suggest extends discuz_table {
         parent::__construct();
     }
 
-    public function insert($data) {
-        return DB::insert($this->_table, $data, true);
+    public function insert($data, $return_insert_id = false, $replace = false, $silent = false) {
+        return DB::insert($this->_table, $data, $return_insert_id, $replace, $silent);
     }
 
     public function fetch_all_by_status($status, $start = 0, $limit = 0, $count = false) {
