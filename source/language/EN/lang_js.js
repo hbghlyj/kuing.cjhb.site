@@ -173,7 +173,7 @@ var lng = {
 	'sms_disabled'          : 'Text messaging has been disabled, please try again later.',
 	'sms_gate_invalid'      : 'The SMS gateway is abnormal, please try again later.',
 	'sms_exception'         : 'Unknown exception, please try again later.',
-        'sms_failed'            : 'Failed to send, error code.',
+        'sms_failed'            : 'Failed to send, error code ',
 // ATTENTION!
 // The next line must have the same value as in /template.php - 'enter_content' !!!
 	'enter_search_string'	: 'Enter search keywords',//'请输入搜索内容',
