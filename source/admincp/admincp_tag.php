@@ -10,11 +10,12 @@ if(!defined('IN_DISCUZ') || !defined('IN_ADMINCP')) {
 	exit('Access Denied');
 }
 cpheader();
-$operation = in_array($operation, array('admin')) ? $operation : 'admin';
+$operation = in_array($operation, array('admin','suggest')) ? $operation : 'admin';
 $current = array($operation => 1);
 shownav('global', 'tag');
 showsubmenu('tag', array(
-	array('search', 'tag&operation=admin', $current['admin']),
+        array('search', 'tag&operation=admin', $current['admin']),
+        array('pending_tag_suggest', 'tag&operation=suggest', $current['suggest']),
 ));
 /*search={"tag":"action=tag"}*/
 if($operation == 'admin') {
@@ -51,9 +52,9 @@ if($operation == 'admin') {
 		), TRUE), '', 'mradio');
 		showsubmit('searchsubmit');
 		showtablefooter();
-		showformfooter();
-		showtagfooter('div');
-	} else {
+        showformfooter();
+        showtagfooter('div');
+        } else {
 		$tagname = trim($_GET['tagname']);
 		$status = $_GET['status'];
 		if(!$status) {
@@ -91,7 +92,50 @@ if($operation == 'admin') {
 		showsubmit('submit', 'submit', '', '', $multipage);
 		showtablefooter();
 		showformfooter();
-	}
+        }
+} elseif($operation == 'suggest') {
+        $allowed = array('approve', 'reject');
+        if(in_array($_GET['modaction'], $allowed) && isset($_GET['id']) && $_GET['formhash'] == FORMHASH) {
+                $id = dintval($_GET['id']);
+                if($_GET['modaction'] == 'approve') {
+                        $suggest = C::t('forum_tag_suggest')->fetch($id);
+                        if($suggest) {
+                                $class_tag = new tag();
+                                $class_tag->add_tag($suggest['tagname'], $suggest['tid'], 'tid');
+                                C::t('forum_tag_suggest')->update_status($id, 1);
+                        }
+                } elseif($_GET['modaction'] == 'reject') {
+                        C::t('forum_tag_suggest')->update_status($id, 2);
+                }
+                cpmsg('tag_admin_updated', 'action=tag&operation=suggest', 'succeed');
+        }
+        $perpage = 20;
+        $start = ($page - 1) * $perpage;
+        $count = C::t('forum_tag_suggest')->fetch_all_by_status(0, 0, 0, true);
+        $multipage = multi($count, $perpage, $page, ADMINSCRIPT.'?action=tag&operation=suggest');
+        $data = C::t('forum_tag_suggest')->fetch_all_by_status(0, $start, $perpage);
+        $uids = array();
+        foreach($data as $row) {
+                $uids[] = $row['uid'];
+        }
+        $members = array();
+        if($uids) {
+                $members = C::t('common_member')->fetch_all(array_unique($uids));
+        }
+        showtableheader(cplang('pending_tag_suggest')." ($count)", 'nobottom');
+        showsubtitle(array('tagname', 'author', 'time', 'operation'));
+        foreach($data as $row) {
+                $username = isset($members[$row['uid']]) ? $members[$row['uid']]['username'] : cplang('unknown');
+                showtablerow('', array('', '', '', ''), array(
+                        $row['tagname'],
+                        $username,
+                        dgmdate($row['dateline']),
+                        '<a href="'.ADMINSCRIPT.'?action=tag&operation=suggest&modaction=approve&id='.$row['id'].'&formhash='.FORMHASH.'">'.cplang('pass').'</a> / '.
+                        '<a href="'.ADMINSCRIPT.'?action=tag&operation=suggest&modaction=reject&id='.$row['id'].'&formhash='.FORMHASH.'">'.cplang('delete').'</a>'
+                ));
+        }
+        showsubmit('', '', '', '', $multipage);
+        showtablefooter();
 }
 /*search*/
 ?>

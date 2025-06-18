@@ -1465,6 +1465,18 @@ CREATE TABLE pre_common_tagitem (
   KEY idtype (idtype,itemid)
 ) ENGINE=InnoDB;
 
+DROP TABLE IF EXISTS pre_forum_tag_suggest;
+CREATE TABLE pre_forum_tag_suggest (
+  id mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
+  tid mediumint(8) unsigned NOT NULL DEFAULT '0',
+  uid mediumint(8) unsigned NOT NULL DEFAULT '0',
+  tagname varchar(30) NOT NULL DEFAULT '',
+  status tinyint(1) NOT NULL DEFAULT '0',
+  dateline int(10) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (id),
+  KEY status (status)
+) ENGINE=InnoDB;
+
 DROP TABLE IF EXISTS pre_common_task;
 CREATE TABLE pre_common_task (
   taskid smallint(6) unsigned NOT NULL AUTO_INCREMENT,
