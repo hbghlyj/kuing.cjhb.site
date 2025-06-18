@@ -3,6 +3,7 @@
 	This is NOT a freeware, use is subject to license terms
 
 	$Id: swfupload.js 28981 2012-03-21 06:43:44Z zhengqingpeng $
+	Modified by Valery Votintsev, codersclub.org
 */
 
 var SWFUpload;
@@ -150,10 +151,10 @@ SWFUpload.prototype.initSettings = function (userSettings) {
 	this.ensureDefault("button_image_url", "");
 	this.ensureDefault("button_width", 1);
 	this.ensureDefault("button_height", 1);
-	this.ensureDefault("button_text", "");
+/*vot*/	this.ensureDefault("button_text", lng['upload_selectfile']);
 	this.ensureDefault("button_text_style", "color: #000000; font-size: 16pt;");
-	this.ensureDefault("button_text_top_padding", 0);
-	this.ensureDefault("button_text_left_padding", 0);
+/*vot*/	this.ensureDefault("button_text_top_padding", 4);
+/*vot*/	this.ensureDefault("button_text_left_padding", 16);
 	this.ensureDefault("button_action", SWFUpload.BUTTON_ACTION.SELECT_FILES);
 	this.ensureDefault("button_disabled", false);
 	this.ensureDefault("button_placeholder_id", "");
@@ -267,7 +268,7 @@ SWFUpload.prototype.getFlashHTML = function (flashVersion) {
 	if(BROWSER.ie && !BROWSER.opera) {
 		return AC_FL_RunContent('id', this.movieName, 'width', this.settings.button_width, 'height', this.settings.button_height, 'src', this.settings.flash_url, 'quality', 'high', 'wmode', this.settings.button_window_mode, 'flashvars', this.getFlashVars());
 	} else {
-		return ['<object id="', this.movieName, '" type="application/x-shockwave-flash" data="', (this.support.imageResize ? this.settings.flash_url : this.settings.flash9_url), '" width="', this.settings.button_width, '" height="', this.settings.button_height, '" class="swfupload">',
+/*vot*/		return ['<object id="', this.movieName, '" type="application/x-shockwave-flash" data="', (this.support.imageResize ? this.settings.flash_url : this.settings.flash9_url), '" width="', this.settings.button_width, '" height="', this.settings.button_height, '" class="swfupload" title="', lng['attach_file'], '">',
 					'<param name="wmode" value="', this.settings.button_window_mode, '" />',
 					'<param name="movie" value="', (this.support.imageResize ? this.settings.flash_url : this.settings.flash9_url), '" />',
 					'<param name="quality" value="high" />',
