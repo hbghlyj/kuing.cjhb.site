@@ -113,13 +113,21 @@ if($operation == 'admin') {
         $count = C::t('forum_tag_suggest')->fetch_all_by_status(0, 0, 0, true);
         $multipage = multi($count, $perpage, $page, ADMINSCRIPT.'?action=tag&operation=suggest');
         $data = C::t('forum_tag_suggest')->fetch_all_by_status(0, $start, $perpage);
+        $uids = array();
+        foreach($data as $row) {
+                $uids[] = $row['uid'];
+        }
+        $members = array();
+        if($uids) {
+                $members = C::t('common_member')->fetch_all(array_unique($uids));
+        }
         showtableheader(cplang('pending_tag_suggest')." ($count)", 'nobottom');
         showsubtitle(array('tagname', 'author', 'time', 'operation'));
         foreach($data as $row) {
-                $member = C::t('common_member')->fetch($row['uid']);
+                $username = isset($members[$row['uid']]) ? $members[$row['uid']]['username'] : cplang('unknown');
                 showtablerow('', array('', '', '', ''), array(
                         $row['tagname'],
-                        $member['username'],
+                        $username,
                         dgmdate($row['dateline']),
                         '<a href="'.ADMINSCRIPT.'?action=tag&operation=suggest&modaction=approve&id='.$row['id'].'&formhash='.FORMHASH.'">'.cplang('pass').'</a> / '.
                         '<a href="'.ADMINSCRIPT.'?action=tag&operation=suggest&modaction=reject&id='.$row['id'].'&formhash='.FORMHASH.'">'.cplang('delete').'</a>'
