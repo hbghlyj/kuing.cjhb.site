@@ -839,6 +839,9 @@ if($('submitSuggestedTag')) {
             } else if(d.message) {
                 showError(d.message);
             }
+        }).catch(function(error){
+            console.error('Error suggesting tag:', error);
+            showError(lng['network_error'] || 'A network error occurred. Please try again.');
         });
     };
 }
