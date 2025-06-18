@@ -131,15 +131,6 @@
 <!--{if $_G['group']['allowmanagetag']}-->
 <a href="forum.php?mod=tag&op=manage&tid=$_G['tid']" class="dialog button">{lang post_tag}</a>
 <!--{/if}-->
-<button id="suggestTagsButton" class="button">{lang suggest_tags}</button>
-<div id="suggestTagsInputArea" style="display:none" class="p10">
-    <input type="hidden" id="sug_tid" value="$_G['tid']" />
-    <label for="suggestedTagInput">{lang suggest_tags_label}</label>
-    <input type="text" id="suggestedTagInput" class="px vm" />
-    <button id="submitSuggestedTag" class="button">{lang submit}</button>
-    <button id="cancelSuggestTags" class="button">{lang cancel}</button>
-    <div id="suggestionMessage" style="display:none">{lang thanks_for_suggestion}</div>
-</div>
 <!--{if $_G['group']['alloweditusertag']}-->
 <a href="forum.php?mod=misc&action=usertag&tid=$_G['tid']" class="dialog button">{lang usertag}</a>
 <!--{/if}-->
@@ -434,6 +425,17 @@
 	<!--{hook/viewthread_postbottom_mobile $postcount}-->
 	<!--{eval $postcount++;}-->
 	<!--{/loop}-->
+<div id="suggestTagsWrapper" class="p10">
+    <button id="suggestTagsButton" class="button">{lang suggest_tags}</button>
+    <div id="suggestTagsInputArea" style="display:none" class="p10">
+        <input type="hidden" id="sug_tid" value="$_G['tid']" />
+        <label for="suggestedTagInput">{lang suggest_tags_label}</label>
+        <input type="text" id="suggestedTagInput" class="px vm" />
+        <button id="submitSuggestedTag" class="button">{lang submit}</button>
+        <button id="cancelSuggestTags" class="button">{lang cancel}</button>
+        <div id="suggestionMessage" style="display:none">{lang thanks_for_suggestion}</div>
+    </div>
+</div>
 </div>
 <script src="kk/zdy3.js?{VERHASH}"></script>
 $multipage
