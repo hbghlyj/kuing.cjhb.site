@@ -834,10 +834,11 @@ document.addEventListener('DOMContentLoaded', function() {
             const tag = suggestedTagInput ? trim(suggestedTagInput.value) : '';
             if(!tag) return false;
             const tid = sugTidElement ? sugTidElement.value : (typeof window.tid != 'undefined' ? window.tid : 0);
+            const formhash = document.querySelector('input[name="formhash"]')?.value;
             fetch('forum.php?mod=tag&op=suggest&inajax=1', {
                 method: 'POST',
                 headers: {'Content-Type':'application/x-www-form-urlencoded'},
-                body: 'formhash='+FORMHASH+'&tid='+tid+'&tag='+encodeURIComponent(tag)
+                body: 'formhash='+formhash+'&tid='+tid+'&tag='+encodeURIComponent(tag)
             }).then(res => res.json()).then(d => {
                 if(d.success) {
                     if(suggestTagsInputArea) suggestTagsInputArea.style.display = 'none';
