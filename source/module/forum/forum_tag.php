@@ -117,15 +117,19 @@ if($op == 'search') {
         $tid = dintval($_POST['tid']);
         $tagname = trim(dhtmlspecialchars($_POST['tag']));
         if($tid && $tagname) {
-                C::t('forum_tag_suggest')->insert(array(
-                        'tid' => $tid,
-                        'uid' => $_G['uid'],
-                        'tagname' => $tagname,
-                        'status' => 0,
-                        'dateline' => TIMESTAMP
-                ));
-                echo json_encode(array('success' => true));
-        } else {
+                if(mb_strlen($tagname, CHARSET) < 2 || mb_strlen($tagname, CHARSET) > 30) {
+                        echo json_encode(array('success' => false, 'message' => lang('forum/template', 'tag_length_invalid')));
+                } else {
+                        C::t('forum_tag_suggest')->insert(array(
+                                'tid' => $tid,
+                                'uid' => $_G['uid'],
+                                'tagname' => $tagname,
+                                'status' => 0,
+                                'dateline' => TIMESTAMP
+                        ));
+                        echo json_encode(array('success' => true));
+                }
+       } else {
                 echo json_encode(array('success' => false, 'message' => lang('forum/template', 'input_invalid')));
         }
         exit;

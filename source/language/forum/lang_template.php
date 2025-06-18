@@ -674,6 +674,7 @@ $lang = array (
   'post_rushreply_credit' => '大于此设置才能参与抢楼，可不填',
   'post_tag' => '标签',
   'tag_max_length_invalid' => '标签长度最大为 30 字节，最小为 3 字节，当前长度为 ',
+  'tag_length_invalid' => '标签长度必须在 2 到 30 个字符之间',
 	'tag_cannot_contain_comma_or_backslash'	=> '标签不能包含,或\\\\',
   'input_a_new_tag_press_enter_submit' => '输入一个新标签，按回车键添加',
   'post_timer' => '定时发布',

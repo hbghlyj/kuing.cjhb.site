@@ -94,7 +94,8 @@ if($operation == 'admin') {
 		showformfooter();
         }
 } elseif($operation == 'suggest') {
-        if($_GET['modaction'] && isset($_GET['id']) && $_GET['formhash'] == FORMHASH) {
+        $allowed = array('approve', 'reject');
+        if(in_array($_GET['modaction'], $allowed) && isset($_GET['id']) && $_GET['formhash'] == FORMHASH) {
                 $id = dintval($_GET['id']);
                 if($_GET['modaction'] == 'approve') {
                         $suggest = C::t('forum_tag_suggest')->fetch($id);

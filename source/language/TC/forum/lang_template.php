@@ -674,6 +674,7 @@ $lang = array (
   'post_rushreply_credit' => '大於此設置才能參與搶樓，可不填',
   'post_tag' => '標籤',
   'tag_max_length_invalid' => '標籤長度最大為 30 字節，最小為 3 字節，目前長度為 ',
+  'tag_length_invalid' => '標籤長度必須在 2 到 30 個字符之間',
   'tag_cannot_contain_comma_or_backslash'	=> '標籤不能包含,或\\\\',
   'input_a_new_tag_press_enter_submit' => '輸入新標籤，按回車鍵添加',
   'post_timer' => '定時發佈',
