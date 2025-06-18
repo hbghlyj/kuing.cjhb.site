@@ -174,7 +174,7 @@
 					this.handleObj.parentNode.insertBefore(spanObj, this.handleObj);
 					this.showObj.style.display = 'none';
 				} else {
-					alert(lng['allready_exists']+':'+userName);
+					alert(lng['already_exists']+':'+userName);
 				}
 			}
 		},

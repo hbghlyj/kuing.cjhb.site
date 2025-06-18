@@ -436,7 +436,7 @@ var lng = {
 
 	'select_max'		: 'You can select up to',//'最多只允许选择',
 	'users'			: 'users',//'个用户',
-	'allready_exists'       : 'Already exists',
+       'already_exists'        : 'Already exists',
 
 //--------------------------------
 //static/js/home_manage.js
