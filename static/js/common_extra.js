@@ -116,9 +116,9 @@ function _checksec(type, idhash, showmsg, recall, modid) {
 			obj.innerHTML = '<i class="fico-error fic4 fc-l fnmr vm"></i>';
 			if(showmsg) {
 				if(type == 'code') {
-					showError('验证码错误，请重新填写');
+/*vot*/                                 showError(lng['code_invalid']);
 				} else if(type == 'qaa') {
-					showError('验证问答错误，请重新填写');
+/*vot*/                                 showError(lng['q&a_invalid']);
 				}
 				recall(0);
 			}
@@ -184,7 +184,7 @@ function _copycode(obj) {
 		rng.moveToElementText(obj);
 		rng.select();
 	}
-	setCopy(BROWSER.ie ? obj.innerText.replace(/\r\n\r\n/g, '\r\n') : obj.textContent, '代码已复制到剪贴板');
+/*vot*/     setCopy(BROWSER.ie ? obj.innerText.replace(/\r\n\r\n/g, '\r\n') : obj.textContent, lng['code_clipboard']);
 }
 
 function _showselect(obj, inpid, t, rettype) {
@@ -226,27 +226,27 @@ function _showselect(obj, inpid, t, rettype) {
 		$('append_parent').appendChild(div);
 		s = '';
 		if(!t) {
-			s += showselect_row(inpid, '一天', 1, 0, rettype);
-			s += showselect_row(inpid, '一周', 7, 0, rettype);
-			s += showselect_row(inpid, '一个月', 30, 0, rettype);
-			s += showselect_row(inpid, '三个月', 90, 0, rettype);
-			s += showselect_row(inpid, '自定义', -2);
+/*vot*/                 s += showselect_row(inpid, lng['day1'], 1, 0, rettype);
+/*vot*/                 s += showselect_row(inpid, lng['week1'], 7, 0, rettype);
+/*vot*/                 s += showselect_row(inpid, lng['month1'], 30, 0, rettype);
+/*vot*/                 s += showselect_row(inpid, lng['month3'], 90, 0, rettype);
+/*vot*/                 s += showselect_row(inpid, lng['custom'], -2);
 		} else {
 			if($(t)) {
 				var lis = $(t).getElementsByTagName('LI');
 				for(i = 0;i < lis.length;i++) {
 					s += '<a href="javascript:;" onclick="$(\'' + inpid + '\').value = this.innerHTML;$(\''+obj.id+'_menu\').style.display=\'none\'">' + lis[i].innerHTML + '</a>';
 				}
-				s += showselect_row(inpid, '自定义', -1);
+/*vot*/                         s += showselect_row(inpid, lng['custom'], -1);
 			} else {
-				s += '<a href="javascript:;" onclick="$(\'' + inpid + '\').value = \'0\'">永久</a>';
-				s += showselect_row(inpid, '7 天', 7, 1, rettype);
-				s += showselect_row(inpid, '14 天', 14, 1, rettype);
-				s += showselect_row(inpid, '一个月', 30, 1, rettype);
-				s += showselect_row(inpid, '三个月', 90, 1, rettype);
-				s += showselect_row(inpid, '半年', 182, 1, rettype);
-				s += showselect_row(inpid, '一年', 365, 1, rettype);
-				s += showselect_row(inpid, '自定义', -1);
+/*vot*/                         s += '<a href="javascript:;" onclick="$(\'' + inpid + '\').value = \'0\'">'+lng['permanent']+'</a>';
+/*vot*/                         s += showselect_row(inpid, lng['days7'], 7, 1, rettype);
+/*vot*/                         s += showselect_row(inpid, lng['days14'], 14, 1, rettype);
+/*vot*/                         s += showselect_row(inpid, lng['month1'], 30, 1, rettype);
+/*vot*/                         s += showselect_row(inpid, lng['month3'], 90, 1, rettype);
+/*vot*/                         s += showselect_row(inpid, lng['month6'], 182, 1, rettype);
+/*vot*/                         s += showselect_row(inpid, lng['year1'], 365, 1, rettype);
+/*vot*/                         s += showselect_row(inpid, lng['custom'], -1);
 			}
 		}
 		$(div.id).innerHTML = s;
@@ -468,11 +468,11 @@ function _zoom(obj, zimg, nocover, pn, showexif) {
 		menu = document.createElement('div');
 		menu.id = menuid;
 		if(cover) {
-			menu.innerHTML = '<div class="zoominner" id="' + menuid + '_zoomlayer" style="display:none"><p><span class="y"><a id="' + menuid + '_imglink" class="imglink" target="_blank" title="在新窗口打开">在新窗口打开</a><a id="' + menuid + '_adjust" href="javascipt:;" class="imgadjust" title="实际大小">实际大小</a>' +
-				'<a href="javascript:;" onclick="hideMenu()" class="imgclose" title="关闭"></a></span>鼠标滚轮缩放图片</p>' +
+/*vot*/                 menu.innerHTML = '<div class="zoominner" id="' + menuid + '_zoomlayer" style="display:none"><p><span class="y"><a id="' + menuid + '_imglink" class="imglink" target="_blank" title="'+lng['open_new_win']+'">'+lng['open_new_win']+'</a><a id="' + menuid + '_adjust" href="javascipt:;" class="imgadjust" title="'+lng['actual_size']+'">'+lng['actual_size']+'</a>' +
+/*vot*/                         '<a href="javascript:;" onclick="hideMenu()" class="imgclose" title="'+lng['close']+'">'+lng['close']+'</a></span> '+lng['wheel_zoom']+'</p>' +
 				'<div class="zimg_p" id="' + menuid + '_picpage"></div><div class="hm" id="' + menuid + '_img"></div></div>';
 		} else {
-			menu.innerHTML = '<div class="popupmenu_popup" id="' + menuid + '_zoomlayer" style="width:auto"><span class="right y"><a href="javascript:;" onclick="hideMenu()" class="flbc" style="width:20px;margin:0 0 2px 0"></a></span>鼠标滚轮缩放图片<div class="zimg_p" id="' + menuid + '_picpage"></div><div class="hm" id="' + menuid + '_img"></div></div>';
+/*vot*/                 menu.innerHTML = '<div class="popupmenu_popup" id="' + menuid + '_zoomlayer" style="width:auto"><span class="right y"><a href="javascript:;" onclick="hideMenu()" class="flbc" style="width:20px;margin:0 0 2px 0">'+lng['close']+'</a></span> '+lng['wheel_zoom']+'<div class="zimg_p" id="' + menuid + '_picpage"></div><div class="hm" id="' + menuid + '_img"></div></div>';
 		}
 		if(BROWSER.ie || BROWSER.chrome){
 			menu.onmousewheel = adjust;
@@ -498,9 +498,9 @@ function _zoom(obj, zimg, nocover, pn, showexif) {
 			}
 			if(authorcurrent !== '') {
 				paid = authorcurrent > 0 ? authorimgs[authorcurrent - 1] : authorimgs[authorlength - 1];
-				picpage += ' <div id="zimg_prev" onmouseover="dragMenuDisabled=true;" onmouseout="dragMenuDisabled=false;" onclick="_zoom_page(\'' + paid + '\', ' + (showexif ? 1 : 0) + ')" class="zimg_prev"><strong>&#8249; 上一张</strong></div> ';
+/*vot*/                         picpage += ' <div id="zimg_prev" onmouseover="dragMenuDisabled=true;" onmouseout="dragMenuDisabled=false;" onclick="_zoom_page(\'' + paid + '\', ' + (showexif ? 1 : 0) + ')" class="zimg_prev"><strong>&#8249; '+lng['prev']+'</strong></div> ';
 				paid = authorcurrent < authorlength - 1 ? authorimgs[authorcurrent + 1] : authorimgs[0];
-				picpage += ' <div id="zimg_next" onmouseover="dragMenuDisabled=true;" onmouseout="dragMenuDisabled=false;" onclick="_zoom_page(\'' + paid + '\', ' + (showexif ? 1 : 0) + ')" class="zimg_next"><strong>下一张 &#8250;</strong></div> ';
+/*vot*/                         picpage += ' <div id="zimg_next" onmouseover="dragMenuDisabled=true;" onmouseout="dragMenuDisabled=false;" onclick="_zoom_page(\'' + paid + '\', ' + (showexif ? 1 : 0) + ')" class="zimg_next"><strong>'+lng['next']+' &#8250;</strong></div> ';
 			}
 			if(picpage) {
 				$(menuid + '_picpage').innerHTML = picpage;
@@ -996,13 +996,15 @@ function _showColorBox(ctrlid, layer, k, bgcolor) {
 		menu.unselectable = true;
 		menu.style.display = 'none';
 		var coloroptions = ['Black', 'Sienna', 'DarkOliveGreen', 'DarkGreen', 'DarkSlateBlue', 'Navy', 'Indigo', 'DarkSlateGray', 'DarkRed', 'DarkOrange', 'Olive', 'Green', 'Teal', 'Blue', 'SlateGray', 'DimGray', 'Red', 'SandyBrown', 'YellowGreen', 'SeaGreen', 'MediumTurquoise', 'RoyalBlue', 'Purple', 'Gray', 'Magenta', 'Orange', 'Yellow', 'Lime', 'Cyan', 'DeepSkyBlue', 'DarkOrchid', 'Silver', 'Pink', 'Wheat', 'LemonChiffon', 'PaleGreen', 'PaleTurquoise', 'LightBlue', 'Plum', 'White'];
-		var colortexts = ['黑色', '赭色', '暗橄榄绿色', '暗绿色', '暗灰蓝色', '海军色', '靛青色', '墨绿色', '暗红色', '暗桔黄色', '橄榄色', '绿色', '水鸭色', '蓝色', '灰石色', '暗灰色', '红色', '沙褐色', '黄绿色', '海绿色', '间绿宝石', '皇家蓝', '紫色', '灰色', '红紫色', '橙色', '黄色', '酸橙色', '青色', '深天蓝色', '暗紫色', '银色', '粉色', '浅黄色', '柠檬绸色', '苍绿色', '苍宝石绿', '亮蓝色', '洋李色', '白色'];
-		var str = '';
-		for(var i = 0; i < 40; i++) {
-			str += '<input type="button" style="background-color: ' + coloroptions[i] + '"' + (typeof setEditorTip == 'function' ? ' onmouseover="setEditorTip(\'' + colortexts[i] + '\')" onmouseout="setEditorTip(\'\')"' : '') + ' onclick="'
-			+ (typeof wysiwyg == 'undefined' ? 'seditor_insertunit(\'' + k + '\', \'[' + tag1 + '=' + coloroptions[i] + ']\', \'[/' + tag1 + ']\')' : (ctrlid == editorid + '_tbl_param_4' ? '$(\'' + ctrlid + '\').value=\'' + coloroptions[i] + '\';hideMenu(2)' : 'discuzcode(\'' + tag2 + '\', \'' + coloroptions[i] + '\')'))
-			+ '" title="' + colortexts[i] + '" />' + (i < 39 && (i + 1) % 8 == 0 ? '<br />' : '');
-		}
+               var str = '';
+               for (var i = 0; i < 40; i++) {
+                       str += '<input type="button" style="background-color: ' + coloroptions[i] + '"' +
+                               (typeof setEditorTip == 'function' ? ' onmouseover="setEditorTip(\'' + colortexts[coloroptions[i]] + '\')" onmouseout="setEditorTip(\'\')"' : '') +
+                               ' onclick="' +
+                               (typeof wysiwyg == 'undefined' ? 'seditor_insertunit(\'' + k + '\', \'[' + tag1 + '=' + coloroptions[i] + ']\', \'[/' + tag1 + ']\')' : (ctrlid == editorid + '_tbl_param_4' ? '$(\'' + ctrlid + '\').value=\'' + coloroptions[i] + '\';hideMenu(2)' : 'discuzcode(\'' + tag2 + '\', \'' + coloroptions[i] + '\')')) +
+                               '" title="' + colortexts[coloroptions[i]] + '" />' +
+                               (i < 39 && (i + 1) % 8 == 0 ? '<br />' : '');
+               }
 		menu.innerHTML = str;
 		$('append_parent').appendChild(menu);
 	}
@@ -1055,7 +1057,7 @@ function _extstyle(css) {
 }
 
 function _widthauto(obj) {
-	var strs = ['切换到宽版', '切换到窄版'];
+/*vot*/    var strs = [lng['wide_screen'], lng['narrow_screen']];
 	if($('css_widthauto')) {
 		CSSLOADED['widthauto'] = 1;
 	}
@@ -1085,7 +1087,7 @@ function _showCreditmenu() {
 		menu.id = 'extcreditmenu_menu';
 		menu.style.display = 'none';
 		menu.className = 'p_pop';
-		menu.innerHTML = '<div class="p_opt"><div class="loadicon vm"></div> 请稍候...</div>';
+/*vot*/         menu.innerHTML = '<div class="p_opt"><div class="loadicon vm"></div> ' + lng['wait_please'] + '</div>';
 		$('append_parent').appendChild(menu);
 		ajaxget($('extcreditmenu').href, 'extcreditmenu_menu', 'ajaxwaitid');
 	}
@@ -1098,7 +1100,7 @@ function _showUpgradeinfo() {
 		menu.id = 'g_upmine_menu';
 		menu.style.display = 'none';
 		menu.className = 'p_pop';
-		menu.innerHTML = '<div class="p_opt"><div class="loadicon vm"></div> 请稍候...</div>';
+/*vot*/         menu.innerHTML = '<div class="p_opt"><div class="loadicon vm"></div> ' + lng['wait_please'] + '</div>';
 		$('append_parent').appendChild(menu);
 		ajaxget('home.php?mod=spacecp&ac=usergroup&showextgroups=1', 'g_upmine_menu', 'ajaxwaitid');
 	}
@@ -1185,12 +1187,12 @@ function _createPalette(colorid, id, func) {
 
 function _setShortcut() {
 	$('shortcuttip').onclick = function() {
-		var msg = '1、点击"' + '<a href="javascript:;" class="xi2 xw1" ';
-		msg += 'onclick="this.href = \'forum.php?mod=misc&action=shortcut\';this.click();saveUserdata(\'setshortcut\', 1);"';
-		msg += '>下载桌面快捷</a>' + '"，下载完成后，可移动文件到系统桌面<br />';
-		msg += '2、点击"' + '<a href="forum.php?mod=misc&action=shortcut&type=ico" class="xi2 xw1">';
-		msg += '下载ICO图标</a>' + '"，下载完成后，右击桌面快捷文件->属性->更改图标，选择已下载的ICO图标即可';
-		showDialog(msg, 'notice', '添加桌面快捷');
+/*vot*/         var msg = lng['shortcut_1'] + '"<a href="javascript:;" class="xi2 xw1" ';
+                msg += 'onclick="this.href = \'forum.php?mod=misc&action=shortcut\';this.click();saveUserdata(\'setshortcut\', 1);"';
+/*vot*/         msg += '>'+lng['shortcut_1_1']+'</a>"' + lng['shortcut_1_2'] + '<br />';
+/*vot*/         msg += lng['shortcut_2'] + '<a href="forum.php?mod=misc&action=shortcut&type=ico" class="xi2 xw1">';
+/*vot*/         msg += lng['shortcut_2_1']+'</a>"' + lng['shortcut_2_2'];
+/*vot*/         showDialog(msg, 'notice', lng['shortcut_add']);
 	};
 
 	$('shortcutcloseid').onclick = function() {

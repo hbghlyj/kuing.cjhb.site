@@ -77,10 +77,10 @@ function attachimglstshow(pid, islazy, fid, showexif) {
 					continue;
 				}
 				if(fid) {
-					imagelist += '<div id="pattimg_' + aimgcount[pid][i] + '_menu" class="tip tip_4" style="display: none;"><div class="tip_horn"></div><div class="tip_c"><a href="forum.php?mod=ajax&action=setthreadcover&aid=' + aimgcount[pid][i] + '&fid=' + fid + '" class="xi2" onclick="showWindow(\'setcover' + aimgcount[pid][i] + '\', this.href)">设为封面</a></div></div>';
+					imagelist += '<div id="pattimg_' + aimgcount[pid][i] + '_menu" class="tip tip_4" style="display: none;"><div class="tip_horn"></div><div class="tip_c"><a href="forum.php?mod=ajax&action=setthreadcover&aid=' + aimgcount[pid][i] + '&fid=' + fid + '" class="xi2" onclick="showWindow(\'setcover' + aimgcount[pid][i] + '\', this.href)">'+lng['set_cover']+'</a></div></div>';
 				}
 				imagelist += '<div class="pattimg">' +
-					'<a id="pattimg_' + aimgcount[pid][i] + '" class="pattimg_zoom" href="javascript:;"' + s + ' onclick="zoom($(\'aimg_' + aimgcount[pid][i] + '\'), attachimggetsrc(\'aimg_' + aimgcount[pid][i] + '\'), 0, 0, ' + (parseInt(showexif) ? 1 : 0) + ')" title="点击放大">点击放大</a>' +
+					'<a id="pattimg_' + aimgcount[pid][i] + '" class="pattimg_zoom" href="javascript:;"' + s + ' onclick="zoom($(\'aimg_' + aimgcount[pid][i] + '\'), attachimggetsrc(\'aimg_' + aimgcount[pid][i] + '\'), 0, 0, ' + (parseInt(showexif) ? 1 : 0) + ')" title="'+lng['click_to_enlarge']+'">'+lng['click_to_enlarge']+'</a>' +
 					'<img ' + (islazy ? 'file' : 'src') + '="forum.php?mod=image&aid=' + aimgcount[pid][i] + '&size=100x100&key=' + imagelistkey + '&atid=' + tid + '" width="100" height="100" /></div>';
 			}
 			if($('imagelistthumb_' + pid)) {
@@ -176,7 +176,7 @@ function parsetag(pid) {
 }
 
 function setanswer(pid, from){
-	if(confirm('您确认要把该回复选为“最佳答案”吗？')){
+    if(confirm(lng['best_answer_sure'])){
 		if(BROWSER.ie) {
 			doane(event);
 		}
@@ -247,8 +247,8 @@ function succeedhandle_fastpost(locationhref, message, param) {
 		}
 		$('fastpostreturn').className = '';
 	} else {
-		if(!message) {
-			message = '本版回帖需要审核，您的帖子将在通过审核后显示';
+               if(!message) {
+                       message = lng['premoderated'];
 		}
 		$('post_new').style.display = $('fastpostmessage').value = $('fastpostreturn').className = '';
 		$('fastpostreturn').innerHTML = message;
@@ -393,18 +393,18 @@ function toggleRatelogCollapse(tarId, ctrlObj) {
 	if($(tarId).className == 'rate') {
 		$(tarId).className = 'rate rate_collapse';
 		setcookie('ratecollapse', 1, 2592000);
-		ctrlObj.innerHTML = '展开';
+		ctrlObj.innerHTML = lng['expand'];
 	} else {
 		$(tarId).className = 'rate';
 		setcookie('ratecollapse', 0, -2592000);
-		ctrlObj.innerHTML = '收起';
+		ctrlObj.innerHTML = lng['collapse'];
 	}
 }
 
 function copyThreadUrl(obj, bbname) {
-	bbname = bbname ||  SITEURL;
-	setCopy(document.querySelector('meta[name=keywords]').content + '\n' + obj.href+ '\n' + '(出处: ' + bbname + ')', '已复制帖子的标题+链接+出处');// hbghlyj edt + kk edt 
-	return false;
+        bbname = bbname || SITEURL;
+        /*vot*/ setCopy($('thread_subject').innerHTML.replace(/&amp;/g, '&') + '\n' + obj.href + '\n' + '('+lng['source']+': '+bbname+')' + '\n', lng['thread_to_clipboard']);
+        return false;
 }
 
 function replyNotice() {
@@ -413,11 +413,11 @@ function replyNotice() {
 	var status = replynotice.getAttribute("status");
 	if(status == 1) {
 		replynotice.href = newurl + 'receive';
-		replynotice.innerHTML = '接收回复通知';
+		replynotice.innerHTML = lng['notify_on_reply'];
 		replynotice.setAttribute("status", 0);
 	} else {
 		replynotice.href = newurl + 'ignore';
-		replynotice.innerHTML = '取消回复通知';
+		replynotice.innerHTML = lng['notify_on_reply_cancel'];
 		replynotice.setAttribute("status", 1);
 	}
 }
@@ -530,9 +530,9 @@ function show_threadpage(pid, current, maxpage, ispreview) {
 		s += '<a href="javascript:;" onclick="' + clickvalue(maxpage)+ '">... ' + maxpage + '</a>';
 	}
 	if(current < maxpage) {
-		s += '<a href="javascript:;" onclick="' + clickvalue(current + 1) + '" class="nxt">下一页</a>';
+		s += '<a href="javascript:;" onclick="' + clickvalue(current + 1) + '" class="nxt">'+lng['next_page']+'</a>';
 	}
-	s += '<a href="javascript:;" onclick="' + clickvalue('all') + '">查看所有</a>';
+       s += '<a href="javascript:;" onclick="' + clickvalue('all') + '">'+lng['view_all']+'</a>';
 	s += '</div></div>';
 	$('threadpage').innerHTML = s;
 }
@@ -540,7 +540,7 @@ function show_threadpage(pid, current, maxpage, ispreview) {
 var show_threadindex_data = '';
 function show_threadindex(pid, ispreview) {
 	if(!show_threadindex_data) {
-		var s = '<div class="tindex"><h3>目录</h3><ul>';
+               var s = '<div class="tindex"><h3>'+lng['index']+'</h3><ul>';
 		for(i in $('threadindex').childNodes) {
 			o = $('threadindex').childNodes[i];
 			if(o.tagName == 'A') {
@@ -755,7 +755,7 @@ function succeedhandle_vfastpost(url, message, param) {
 }
 
 function vmessage() {
-	var vf_tips = '#在这里快速回复#';
+       var vf_tips = lng['quick_reply_here'];
 	$('vmessage').value = vf_tips;
 	$('vmessage').style.color = '#CDCDCD';
 	$('vmessage').onclick = function() {
@@ -798,7 +798,7 @@ function bumpthread() {
                 }).then(response => {
                         response.text().then(text => {
                                 if (text.includes('succeedhandle_mods')) {
-                                        showPrompt(null,null,'提升成功',1000);
+                                        showPrompt(null,null,lng['thread_bumped'],1000);
                                 } else {
                                         showPrompt(null,null,text.match(/errorhandle_mods\('([^']+)/)[1],1000,'popuptext');
                                 }

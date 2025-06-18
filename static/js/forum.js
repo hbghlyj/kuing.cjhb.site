@@ -138,15 +138,15 @@ function loadData(quiet, formobj) {
 	var formobj = !formobj ? $('postform') : formobj;
 
 	if(in_array((data = trim(data)), ['', 'null', 'false', null, false])) {
-		if(!quiet) {
-			showDialog('没有可以恢复的数据！', 'notice');
-		}
+                if(!quiet) {
+                        showDialog(lng['no_data_recover'], 'notice');
+                }
 		return;
 	}
 
-	if(!quiet && !confirm('此操作将覆盖当前帖子内容，确定要恢复数据吗？')) {
-		return;
-	}
+        if(!quiet && !confirm(lng['content_overwrite'])) {
+                return;
+        }
 
 	var records = data.split(/\x09\x09/); // Changed variable name for clarity
 	for(var i = 0; i < formobj.elements.length; i++) {
@@ -348,7 +348,7 @@ function announcement() {
 }
 
 function removeindexheats() {
-	return confirm('您确认要把此主题从热点主题中移除么？');
+/*vot*/ return confirm(lng['del_thread_sure']);
 }
 
 function showTypes(id, mod) {
@@ -357,9 +357,9 @@ function showTypes(id, mod) {
 	var s = o.className;
 	mod = isUndefined(mod) ? 1 : mod;
 	var baseh = o.getElementsByTagName('li')[0].offsetHeight * 2;
-	var tmph = o.offsetHeight;
-	var lang = ['展开', '收起'];
-	var cls = ['unfold', 'fold'];
+        var tmph = o.offsetHeight;
+/*vot*/ var lang = [lng['expand'], lng['collapse']];
+        var cls = ['unfold', 'fold'];
 	if(tmph > baseh) {
 		var octrl = document.createElement('li');
 		octrl.className = cls[mod];
@@ -398,20 +398,20 @@ function fastpostvalidate(theform, noajaxpost) {
 			return false;
 		}
 	}
-	if(theform.message.value == '' || theform.subject.value == '') {
-		s = '抱歉，您尚未输入标题或内容';
-		theform.message.focus();
-	} else if(dstrlen(theform.subject.value) > 255) {
-		s = '您的标题超过 255 个字符的限制';
-		theform.subject.focus();
-	}
-	if(!disablepostctrl && dstrlen(trim(theform.subject.value)) && ((postminsubjectchars != 0 && dstrlen(theform.subject.value) < postminsubjectchars) || (postminsubjectchars != 0 && dstrlen(theform.subject.value) > postmaxsubjectchars))) {
-		showError('您的标题长度不符合要求。\n\n当前长度: ' + dstrlen(theform.subject.value) + ' 字\n系统限制: ' + postminsubjectchars + ' 到 ' + postmaxsubjectchars + ' 字');
-		return false;
-	}
-	if(!disablepostctrl && ((postminchars != 0 && mb_strlen(theform.message.value) < postminchars) || (postmaxchars != 0 && mb_strlen(theform.message.value) > postmaxchars))) {
-		s = '您的帖子长度不符合要求。\n\n当前长度: ' + mb_strlen(theform.message.value) + ' ' + '字节\n系统限制: ' + postminchars + ' 到 ' + postmaxchars + ' 字节';
-	}
+        if(theform.message.value == '' || theform.subject.value == '') {
+/*vot*/         s = lng['enter_content'];
+                theform.message.focus();
+        } else if(dstrlen(theform.subject.value) > 255) {
+/*vot*/         s = lng['title_long'];
+                theform.subject.focus();
+        }
+        if(!disablepostctrl && dstrlen(trim(theform.subject.value)) && ((postminsubjectchars != 0 && dstrlen(theform.subject.value) < postminsubjectchars) || (postminsubjectchars != 0 && dstrlen(theform.subject.value) > postmaxsubjectchars))) {
+/*vot*/         showError(lng['thread_title_length_invalid'] + '\n\n' + lng['current_length'] + ': ' + dstrlen(theform.subject.value) + lng['chars'] + '\n' + lng['system_limit'] + ': ' + postminsubjectchars + lng['up_to'] + postmaxsubjectchars + lng['chars']);
+                return false;
+        }
+        if(!disablepostctrl && ((postminchars != 0 && mb_strlen(theform.message.value) < postminchars) || (postmaxchars != 0 && mb_strlen(theform.message.value) > postmaxchars))) {
+/*vot*/         s = lng['content_long'] + lng['current_length'] + ': ' + mb_strlen(theform.message.value) + ' ' + lng['bytes']+'\n'+lng['system_limit']+': ' + postminchars + lng['up_to'] + postmaxchars + ' ' + lng['bytes'];
+        }
 	if(s) {
 		showError(s);
 		doane();
@@ -471,7 +471,7 @@ function checkForumnew(fid, lasttime) {
 			}
 			removetbodyrow(table, 'forumnewshow');
 			var colspan = table.getElementsByTagName('tbody')[0].rows[0].children.length;
-			var checknew = {'tid':'', 'thread':{'common':{'className':'', 'val':'<a href="javascript:void(0);" onclick="ajaxget(\'forum.php?mod=ajax&action=forumchecknew&fid=' + fid+ '&time='+lasttime+'&uncheck=1&inajax=yes\', \'forumnew\');">有新回复的主题，点击查看', 'colspan': colspan }}};
+/*vot*/                 var checknew = {'tid':'', 'thread':{'common':{'className':'', 'val':'<a href="javascript:void(0);" onclick="ajaxget(\'forum.php?mod=ajax&action=forumchecknew&fid=' + fid+ '&time='+lasttime+'&uncheck=1&inajax=yes\', \'forumnew\');">'+lng['new_reply_exists'], 'colspan': colspan }}};
 			addtbodyrow(table, ['tbody'], ['forumnewshow'], 'separatorline', checknew);
 		} else {
 			if(checkForumcount < 50) {
@@ -582,28 +582,28 @@ function settimer(timer, itemid) {
 function showtime() {
 	for(i=0; i<=DTimers.length; i++) {
 		if(DItemIDs[i]) {
-			if(DTimers[i] == 0) {
-				$(DItemIDs[i]).innerHTML = '已结束';
-				DItemIDs[i] = '';
-				continue;
-			}
+                        if(DTimers[i] == 0) {
+/*vot*/                         $(DItemIDs[i]).innerHTML = lng['finished'];
+                                DItemIDs[i] = '';
+                                continue;
+                        }
 			var timestr = '';
 			var timer_day = Math.floor(DTimers[i] / 86400);
 			var timer_hour = Math.floor((DTimers[i] % 86400) / 3600);
 			var timer_minute = Math.floor(((DTimers[i] % 86400) % 3600) / 60);
 			var timer_second = (((DTimers[i] % 86400) % 3600) % 60);
-			if(timer_day > 0) {
-				timestr += timer_day + '天';
-			}
-			if(timer_hour > 0) {
-				timestr += timer_hour + '小时'
-			}
-			if(timer_minute > 0) {
-				timestr += timer_minute + '分'
-			}
-			if(timer_second > 0) {
-				timestr += timer_second + '秒'
-			}
+                        if(timer_day > 0) {
+/*vot*/                         timestr += timer_day + lng['days_num'];
+                        }
+                        if(timer_hour > 0) {
+/*vot*/                         timestr += timer_hour + lng['hours_num'];
+                        }
+                        if(timer_minute > 0) {
+/*vot*/                         timestr += timer_minute + lng['minutes_num'];
+                        }
+                        if(timer_second > 0) {
+/*vot*/                         timestr += timer_second + lng['seconds'];
+                        }
 			DTimers[i] = DTimers[i] - 1;
 			$(DItemIDs[i]).innerHTML = timestr;
 		}
