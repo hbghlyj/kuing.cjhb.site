@@ -2603,8 +2603,9 @@ $lang = array
 	'tagname' => '标签名称',
 	'tag_status' => '标签状态',
 	'tag_recommend_comment' => '每行一个推荐标签，标签长度在3-20个字符内',
-	'tag_admin' => '标签管理',
-	'tag_result' => '符合条件的标签数',
+        'tag_admin' => '标签管理',
+        'pending_tag_suggest' => 'Pending Tag Suggestions',
+        'tag_result' => '符合条件的标签数',
 
 	'collection' => '淘帖管理',
 	'collection_date' => '发表时间',

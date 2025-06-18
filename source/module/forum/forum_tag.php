@@ -12,7 +12,7 @@ if(!defined('IN_DISCUZ')) {
 }
 
 global $_G;
-$op = in_array($_GET['op'], array('search','match', 'manage', 'set')) ? $_GET['op'] : '';
+$op = in_array($_GET['op'], array('search','match', 'manage', 'set', 'suggest')) ? $_GET['op'] : '';
 $taglist = array();
 $thread = & $_G['thread'];
 
@@ -113,6 +113,22 @@ if($op == 'search') {
         $class_tag = new tag();
         $tagstr = $class_tag->update_field($_GET['tags'], $_G['tid'], 'tid', $_G['thread']);
         C::t('forum_thread')->update($_G['tid'], array('tags' => $tagstr));
+} elseif($op == 'suggest' && $_GET['formhash'] == FORMHASH && $_G['uid']) {
+        $tid = dintval($_POST['tid']);
+        $tagname = trim(dhtmlspecialchars($_POST['tag']));
+        if($tid && $tagname) {
+                C::t('forum_tag_suggest')->insert(array(
+                        'tid' => $tid,
+                        'uid' => $_G['uid'],
+                        'tagname' => $tagname,
+                        'status' => 0,
+                        'dateline' => TIMESTAMP
+                ));
+                echo json_encode(array('success' => true));
+        } else {
+                echo json_encode(array('success' => false, 'message' => 'invalid'));
+        }
+        exit;
 }
 
 include_once template("forum/tag");
