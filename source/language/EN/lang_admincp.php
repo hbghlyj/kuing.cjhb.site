@@ -2604,7 +2604,8 @@ $lang = array
 	'tag_status' => '标签状态',
 	'tag_recommend_comment' => '每行一个推荐标签，标签长度在3-20个字符内',
         'tag_admin' => '标签管理',
-        'pending_tag_suggest' => 'Pending Tag Suggestions',
+       'pending_tag_suggest' => 'Pending Tag Suggestions',
+       'error_invalid_id' => 'Invalid suggestion ID',
         'tag_result' => '符合条件的标签数',
 
 	'collection' => '淘帖管理',

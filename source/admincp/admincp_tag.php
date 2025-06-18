@@ -94,9 +94,12 @@ if($operation == 'admin') {
 		showformfooter();
         }
 } elseif($operation == 'suggest') {
-        $allowed = array('approve', 'reject');
-        if(in_array($_GET['modaction'], $allowed) && isset($_GET['id']) && $_GET['formhash'] == FORMHASH) {
-                $id = dintval($_GET['id']);
+       $allowed = array('approve', 'reject');
+       if(in_array($_GET['modaction'], $allowed) && isset($_GET['id']) && $_GET['formhash'] == FORMHASH) {
+               $id = dintval($_GET['id']);
+               if(!$id) {
+                       cpmsg('error_invalid_id', '', 'error');
+               }
                 if($_GET['modaction'] == 'approve') {
                         $suggest = C::t('forum_tag_suggest')->fetch($id);
                         if($suggest) {

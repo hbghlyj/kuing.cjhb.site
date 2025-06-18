@@ -2604,7 +2604,8 @@ $lang = array
 	'tag_status' => '標籤狀態',
 	'tag_recommend_comment' => '每行一個推薦標籤，標籤長度在3-20個字符內',
         'tag_admin' => '標籤管理',
-        'pending_tag_suggest' => '待審核標籤建議',
+       'pending_tag_suggest' => '待審核標籤建議',
+       'error_invalid_id' => '無效的ID',
         'tag_result' => '符合條件的標籤數',
 
 	'collection' => '淘帖管理',
