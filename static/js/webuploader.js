@@ -1,4 +1,4 @@
-
+/* Modified by Valery Votintsev */
 var getBasePath = function() {
 	var els = document.getElementsByTagName('script'),
 	src;
@@ -446,7 +446,7 @@ function fileQueued(file) {
 
 		}
 		if(createQueue) {
-			progress.setStatus("等待上传...");
+/*vot*/			progress.setStatus(lng['wait_upload']);
 			this.uploader.upload(file);
 		} else {
 			this.uploader.cancelFile(file);
@@ -466,22 +466,22 @@ function fileQueueError(errorCode) {
 		var err = '';
 		switch (errorCode) {
 		case 'F_EXCEED_SIZE':
-			err = '单个文件大小不得超过' + WebUploader.Base.formatSize(this.uploader.option('fileSingleSizeLimit')) + '！';
+/*vot*/			err = lng['file_single_size_limit'] + WebUploader.Base.formatSize(this.uploader.option('fileSingleSizeLimit')) + '!';
 			break;
 		case 'Q_EXCEED_NUM_LIMIT':
-			err = '最多只能上传' + this.settings.fileNumLimit + '个！';
+/*vot*/			err = lng['file_num_limit'] + this.settings.fileNumLimit + lng['_files'];
 			break;
 		case 'Q_EXCEED_SIZE_LIMIT':
-			err = '上传文件总大小超出' + WebUploader.Base.formatSize(this.uploader.option('fileSizeLimit')) + '！';
+/*vot*/			err = lng['file_size_limit'] + WebUploader.Base.formatSize(this.uploader.option('fileSizeLimit')) + '!';
 			break;
 		case 'Q_TYPE_DENIED':
-			err = '无效文件类型，请上传正确的文件格式！';
+/*vot*/			err = lng['file_invalid_type'];
 			break;
 		case 'F_DUPLICATE':
-			err = '请不要重复上传相同文件！';
+/*vot*/			err = lng['file_no_repeat'];
 			break;
 		default:
-			err = '上传错误，请刷新重试！' + code;
+/*vot*/			err = lng['upload_error_try_again'] + code;
 			break;
 		}
 		showDialog(err, 'notice', null, null, 0, null, null, null, null, sdCloseTime);
@@ -535,7 +535,7 @@ function uploadStart(file) {
 			preObj.innerHTML = '';
 		}
 		var progress = new FileProgress(file, this.customSettings.progressTarget);
-		progress.setStatus("上传中...");
+/*vot*/		progress.setStatus(lng['uploading']);
 		progress.toggleCancel(true, this);
 		if(this.customSettings.uploadSource == 'forum') {
 			var objId = this.customSettings.uploadType == 'attach' ? 'attachlist' : 'imgattachlist';
@@ -549,7 +549,7 @@ function uploadStart(file) {
 function uploadProgress(file, percentage) {
 	try {
 		var progress = new FileProgress(file, this.customSettings.progressTarget);
-		progress.setStatus("正在上传 <progress value='" + percentage + "' max='1' style='width: 200px;'></progress> " + Math.ceil(percentage * 100) + "%");
+/*vot*/		progress.setStatus(lng['upload_progress'] + " <progress value='" + percentage + "' max='1' style='width: 200px;'></progress> " + Math.ceil(percentage * 100) + "%");
 	} catch (ex) {
 		this.debug(ex);
 	}
@@ -606,7 +606,7 @@ function uploadSuccess(file, serverData) {
 						progress.setStatus(STATUSMSG[aid]);
 						showDialog(STATUSMSG[aid], 'notice', null, null, 0, null, null, null, null, sdCloseTime);
 					} else {
-						progress.setStatus("取消上传");
+/*vot*/						progress.setStatus(lng['upload_cancelled']);
 					}
 					this.uploader.cancelFile(file);
 					progress.setCancelled();
@@ -634,11 +634,11 @@ function uploadSuccess(file, serverData) {
 				newTr.appendChild(newTd);
 				newTd = document.createElement("TD");
 				newTd.className = 'd';
-				newTd.innerHTML = '图片描述<br/><textarea name="title['+data.picid+']" cols="40" rows="2" class="pt"></textarea>';
+/*vot*/				newTd.innerHTML = lng['file_description'] + '<br/><textarea name="title['+data.picid+']" cols="40" rows="2" class="pt"></textarea>';
 				newTr.appendChild(newTd);
 				this.customSettings.imgBoxObj.appendChild(newTr);
 			} else {
-				showDialog('图片上传失败', 'notice', null, null, 0, null, null, null, null, sdCloseTime);
+/*vot*/				showDialog(lng['image_upload_failed'], 'notice', null, null, 0, null, null, null, null, sdCloseTime);
 			}
 			$(file.id).style.display = 'none';
 		} else if(this.customSettings.uploadType == 'blog') {
@@ -659,7 +659,7 @@ function uploadSuccess(file, serverData) {
 				inputObj.value= data.picid;
 				tdObj.appendChild(inputObj);
 			} else {
-				showDialog('图片上传失败', 'notice', null, null, 0, null, null, null, null, sdCloseTime);
+/*vot*/				showDialog(lng['image_upload_failed'], 'notice', null, null, 0, null, null, null, null, sdCloseTime);
 			}
 			$(file.id).style.display = 'none';
 		} else if(this.customSettings.uploadSource == 'portal') {
@@ -677,7 +677,7 @@ function uploadSuccess(file, serverData) {
 					$(file.id).style.display = 'none';
 				}
 			} else {
-				showDialog('上传失败', 'notice', null, null, 0, null, null, null, null, sdCloseTime);
+/*vot*/				showDialog(lng['upload_failed'], 'notice', null, null, 0, null, null, null, null, sdCloseTime);
 				progress.setStatus("Cancelled");
 				this.uploader.cancelFile(file);
 				progress.setCancelled();
@@ -685,7 +685,7 @@ function uploadSuccess(file, serverData) {
 			}
 		} else {
 			progress.setComplete();
-			progress.setStatus("上传完成.");
+/*vot*/			progress.setStatus(lng['upload_completed']);
 			progress.toggleCancel(false);
 		}
 	} catch (ex) {

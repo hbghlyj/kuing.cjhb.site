@@ -108,30 +108,6 @@ var lng = {
 //static/js/editor_function.js
 	'wysiwyg_only'		: '本操作只在多媒体编辑模式下才有效',
 
-//---------------------------
-//static/image/admincp/cloud/cloud.js
-	'int_cloud_test'	: '云平台其他接口测试',
-	'int_roaming_test'	: '漫游其他接口测试',
-	'int_qq_test'		: 'QQ互联接口测试',
-	'server_busy'		: '服务器繁忙，请稍后再试',//'The server is busy, please try again later',
-	'tested_ok'		: '测试成功，耗时 ',//'The test is successful, time used: ',
-//	'seconds'		: ' 秒',//' sec.',
-
-//---------------------------
-//static/image/admincp/cloud/qqgroup.js
-	'select_topic_to_push'	: '请至少推送一条头条主题和一条列表主题',
-	'select_item_to_push'	: '请至少推送一条信息到列表区域',
-	'loading'		: '加载中...',
-	'push5reached'		: '推送帖子已达到5条，请在右侧取消一些再重试。',
-	'click_left'		: '点击左侧',
-	'push_to_list'		: '将信息推送到列表',
-	'wait_image_upload'	: '图片上传中，请稍后...',
-
-
-
-
-
-//---------------------------
 //upload/static/js/autoloadpage.js
 	'loading_content_wait'	: '正在加载, 请稍后...',//'Loading content, wait please...',
 
@@ -141,8 +117,6 @@ var lng = {
 
 //--------------------------------
 //static/js/calendar.js
-//static/js/forum_calendar.js
-//static/js/home_calendar.js
 
 	'prev_month'	: '上一月',
 	'next_month'	: '下一月',
@@ -207,6 +181,8 @@ var lng = {
 // ATTENTION!
 // The next line must have the same value as in /template.php - 'enter_content' !!!
 	'enter_search_string'	: '请输入搜索内容',
+        'search_net'           : '网页搜索',
+        'search_site'          : '站内搜索',
 	'refresh_q&a'		: '刷新验证问答',
 	'refresh_code'		: '刷新验证码',
 	'code_invalid'		: '验证码错误，请重新填写',
@@ -302,6 +278,7 @@ var lng = {
 	'sec_before_saving'	: '秒后保存',
 	'insert_quote'		: '请输入要插入的引用',
 	'insert_code'		: '请输入要插入的代码',
+        'list_type'             : '编号样式',
 	'enter_item_list'	: '输入一个列表项目.\r\n留空或者点击取消完成此列表.',
 	'width'			: '宽',
 	'height'		: '高',
@@ -343,13 +320,6 @@ var lng = {
 	'minutes_num'		: '分',//' minutes',
 	'seconds'		: ' 秒',//' sec.',
 	'thread_title_length_invalid'	: '您的标题长度不符合要求。',
-
-//--------------------------------
-//static/js/forum_google.js
-
-	'search_net'	: '网页搜索',
-	'search_site'	: '站内搜索',
-	'search'	: '搜索',
 
 //--------------------------------
 //static/js/forum_moderate.js
@@ -420,6 +390,7 @@ var lng = {
 	'credit_confirm1'	: '下载需要消耗',
 	'credit_confirm2'	: '，您是否要下载？',
 	'thread_to_clipboard'	: '帖子地址已经复制到剪贴板',
+        'thread_bumped'        : '提升成功',
 	'click_to_enlarge'	: '点击放大',
 	'notify_on_reply'	: '接收回复通知',
 	'notify_on_reply_cancel'	: '取消回复通知',
@@ -469,47 +440,24 @@ var lng = {
 	'category_empty'	: '分类名不能为空！',
 
 //--------------------------------
-//static/js/home_ajax.js
-
-//	'close'			: '关闭',
-//	'wait_please'		: '请稍候...',
-
-//--------------------------------
-//static/js/home_blog.js
-
-	'title_length_invalid'	: '标题长度(1~80字符)不符合要求',
-
-//--------------------------------
-//static/js/home_common.js
-
-	'show_orig_image'	: '点击图片，在新窗口显示原始尺寸',
-	'continue_sure'		: '您确定要执行本操作吗？',
-	'select_item'		: '请选择要操作的对象',
-	'image_url_invalid'	: '图片地址不正确',
-	'audio_url_invalid'	: '音乐地址错误，不能为空',
-
-//!!!!! MayBe wrap this names!!
-	'collapse'		: '收起',
-	'expand'		: '展开',
-
-//--------------------------------
 //static/js/home_friendselector.js
 
 	'select_max'		: '最多只允许选择',
 	'users'			: '个用户',
-	'allready_exists'	: '已经存在',
+	'already_exists'	: '已经存在',
 
 //--------------------------------
 //static/js/home_manage.js
 
-	'you_friends_now'	: '你们现在是好友了，接下来，您还可以：',
-	'leave_message'		: '给TA留言',
-	'or'			: '或者',
-	'send_greeting'		: '打个招呼',
-	'reply'			: '回复',
-	'comment'		: '评论',
-	'close_list'		: '收起列表',
-	'more_feeds'		: '更多动态',
+        'you_friends_now'       : '你们现在是好友了，接下来，您还可以：',
+        'leave_message'         : '给TA留言',
+        'or'                    : '或者',
+        'send_greeting'         : '打个招呼',
+        'reply'                 : '回复',
+        'comment'               : '评论',
+        'close_list'            : '收起列表',
+        'more_feeds'            : '更多动态',
+
 
 //--------------------------------
 //static/js/home_uploadpic.js
@@ -663,10 +611,6 @@ var lng = {
 	'data_manage'		: '可直接管理模块数据',//'Direct management of the block data',
 	'quit'			: '退出',//'Quit',
 //--------------------------------
-//static/js/qshare.js
-	'from_tencent'		: "\u6211\u6765\u81EA\u4E8E\u817E\u8BAF\u5FAE\u535A\u5F00\u653E\u5E73\u53F0",
-
-//--------------------------------
 //static/js/register.js
 
 	'username_invalid'	: '用户名包含敏感字符',
@@ -681,7 +625,6 @@ var lng = {
 	'email_fill'		: '请输入邮箱地址',
 	'length_min'		: ', 最小长度为 ',//', Minimum length',
 	'chars'			: ' 个字符',//' characters',
-	'characters'		: ' 字',//' characters',
 	'password_strength'	: '密码强度:',//'Password strength: ',
 	'pw_weak'		: '弱',//'Weak',
 	'pw_middle'		: '中',//'So-so',
@@ -732,23 +675,6 @@ var lng = {
 	'file_not_supported'	: '对不起，不支持上传此类文件',
 	'wait_upload'		: '等待上传...',//'Wait for upload...',
 	'upload_selectfile'	: '浏览',//'Browse',
-
-//-------------------------------------
-//source/function/function_admincp.php
-	'version_uptodate'	: 'You are currently using an Up-to-date version of Discuz!. Please refer to the following tips to make upgrades timely.',
-
-//-------------------------------------
-//api/manyou/cloud_iframe.js
-	'add_operation'		: '&#28155;&#21152;&#21040;&#24120;&#29992;&#25805;&#20316;',
-
-//--------------------------------------------
-//static/js/googlemap.js + static/js/editor.js
-
-	'map_title'		: 'google图',//'Google Maps',
-	'map_insert'		: '插入google地图',//'Insert Google Map',
-	'map_insert_tips'	: '通过搜索插入google地图（暂只支持单点标注）！',//'Insert Google Maps by address searching (temporarily supported only single label!)',
-	'map_center_changed'	: '地图中心已经改变！',//'The map center is changed!',
-	'map_wrong_address'	: ' 地址错误，未找到当前地址',//'Wrong address! Current address was not found',
 
 //---------------------------
 //upload/static/js/avatar.js
