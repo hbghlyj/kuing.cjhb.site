@@ -807,36 +807,44 @@ function bumpthread() {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-    if($('suggestTagsButton')) {
-        $('suggestTagsButton').onclick = function() {
+    const suggestTagsButton = $('suggestTagsButton');
+    const suggestTagsInputArea = $('suggestTagsInputArea');
+    const cancelSuggestTagsButton = $('cancelSuggestTags');
+    const suggestedTagInput = $('suggestedTagInput');
+    const suggestionMessage = $('suggestionMessage');
+    const submitSuggestedTagButton = $('submitSuggestedTag');
+    const sugTidElement = $('sug_tid');
+
+    if(suggestTagsButton) {
+        suggestTagsButton.onclick = function() {
             this.style.display = 'none';
-            $('suggestTagsInputArea').style.display = '';
+            if(suggestTagsInputArea) suggestTagsInputArea.style.display = '';
         };
     }
-    if($('cancelSuggestTags')) {
-        $('cancelSuggestTags').onclick = function() {
-            $('suggestTagsInputArea').style.display = 'none';
-            if($('suggestTagsButton')) $('suggestTagsButton').style.display = '';
-            $('suggestedTagInput').value = '';
-            $('suggestionMessage').style.display = 'none';
+    if(cancelSuggestTagsButton) {
+        cancelSuggestTagsButton.onclick = function() {
+            if(suggestTagsInputArea) suggestTagsInputArea.style.display = 'none';
+            if(suggestTagsButton) suggestTagsButton.style.display = '';
+            if(suggestedTagInput) suggestedTagInput.value = '';
+            if(suggestionMessage) suggestionMessage.style.display = 'none';
         };
     }
-    if($('submitSuggestedTag')) {
-        $('submitSuggestedTag').onclick = function() {
-            var tag = trim($('suggestedTagInput').value);
+    if(submitSuggestedTagButton) {
+        submitSuggestedTagButton.onclick = function() {
+            const tag = suggestedTagInput ? trim(suggestedTagInput.value) : '';
             if(!tag) return false;
-            var tid = $('sug_tid') ? $('sug_tid').value : (typeof window.tid != 'undefined' ? window.tid : 0);
+            const tid = sugTidElement ? sugTidElement.value : (typeof window.tid != 'undefined' ? window.tid : 0);
             fetch('forum.php?mod=tag&op=suggest&inajax=1', {
                 method: 'POST',
                 headers: {'Content-Type':'application/x-www-form-urlencoded'},
                 body: 'formhash='+FORMHASH+'&tid='+tid+'&tag='+encodeURIComponent(tag)
             }).then(res => res.json()).then(d => {
                 if(d.success) {
-                    $('suggestTagsInputArea').style.display = 'none';
-                    $('suggestionMessage').style.display = '';
-                    if($('suggestTagsButton')) $('suggestTagsButton').style.display = '';
-                    $('suggestedTagInput').value = '';
-                    setTimeout(function(){ $('suggestionMessage').style.display = 'none'; },3000);
+                    if(suggestTagsInputArea) suggestTagsInputArea.style.display = 'none';
+                    if(suggestionMessage) suggestionMessage.style.display = '';
+                    if(suggestTagsButton) suggestTagsButton.style.display = '';
+                    if(suggestedTagInput) suggestedTagInput.value = '';
+                    setTimeout(function(){ if(suggestionMessage) suggestionMessage.style.display = 'none'; },3000);
                 } else if(d.message) {
                     showError(d.message);
                 }
