@@ -398,6 +398,7 @@ var lng = {
 	'qq_bind'		: '请先绑定QQ账号',
 	'quote_by'		: '本帖最后由 .*? 于 .*? 编辑',
 	'copy_code'		: '复制代码',
+        'thanks_for_suggestion' : '感谢您的建议！',
 	'download_pocket_forum'	: '下载掌上论坛',//'Download Pocket Forum',
 	'pocket_forum_android'	: 'Andriod版本，扫描二维码可以直接下载到手机',//'If Andriod version, Scan thw QR-code can be downloaded directly to the phone',
 	'pocket_forum_android_alt'	: '适用于装有安卓系统的三星/HTC/小米等手机',//'Suitable for Android-based smartphones like Samsung/HTC/etc',
