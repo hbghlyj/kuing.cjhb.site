@@ -126,7 +126,7 @@ if($op == 'search') {
                 ));
                 echo json_encode(array('success' => true));
         } else {
-                echo json_encode(array('success' => false, 'message' => 'invalid'));
+                echo json_encode(array('success' => false, 'message' => lang('forum/template', 'input_invalid')));
         }
         exit;
 }
