@@ -443,7 +443,7 @@ var lng = {
 
 	'select_max'		: '最多只允许选择',
 	'users'			: '个用户',
-	'allready_exists'	: '已经存在',
+	'already_exists'	: '已经存在',
 
 //--------------------------------
 //static/js/home_manage.js
