@@ -1155,7 +1155,7 @@ function showEditorMenu(tag, params) {
 				showColorBox(ctrlid, 1, '', 1);
 				return;
 			case 'insertorderedlist':
-				str = '<p class="pbn">编号样式:</p><p class="pbn">'
+                               str = '<p class="pbn">'+lng['list_type']+':</p><p class="pbn">'
 					+ '<label><input type="radio" name="' + ctrlid + '_param_1" value="1" checked="checked" />1.2.3.</label> '
 					+ '<label><input type="radio" name="' + ctrlid + '_param_1" value="A" />A.B.C.</label> '
 					+ '<label><input type="radio" name="' + ctrlid + '_param_1" value="a" />a.b.c.</label>'

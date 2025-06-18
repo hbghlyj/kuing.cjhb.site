@@ -170,7 +170,7 @@
 						this.selectUser[userName] = userName;
 					}
 					this.selectNumber++;
-					spanObj.innerHTML= '<a href="javascript:;" class="x" onclick="'+this.handleKey+'.delSelUser(\''+(spanObj.id)+'\');">删除</a><em class="z" title="' + userName + '">' + userName + '</em><input type="hidden" name="users[]" value="'+userName+'" uid="uid'+uid+'" />';
+                                       spanObj.innerHTML= '<a href="javascript:;" class="x" onclick="'+this.handleKey+'.delSelUser(\''+(spanObj.id)+'\');">'+lng['delete']+'</a><em class="z" title="' + userName + '">' + userName + '</em><input type="hidden" name="users[]" value="'+userName+'" uid="uid'+uid+'" />';
 					this.handleObj.parentNode.insertBefore(spanObj, this.handleObj);
 					this.showObj.style.display = 'none';
 				} else {

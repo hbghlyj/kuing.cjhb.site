@@ -191,7 +191,7 @@ spaceDiy.extend({
 			if (!$('infoedit')) {
 				var dom = document.createElement('em');
 				dom.id = 'infoedit';
-				dom.innerHTML = '编辑';
+                               dom.innerHTML = lng['edit'];
 				$('spacename').appendChild(dom);
 			}
 			$('infoedit').onmousedown = function () {spaceDiy.showEditSpaceInfo();};

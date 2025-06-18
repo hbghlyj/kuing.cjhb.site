@@ -12,8 +12,8 @@ drag.extend({
 	'blockDefaultClass' : [],
 	'frameDefaultClass' : [],
 	setSampleMenu : function () {
-		this.addMenu('block', '数据', 'drag.openBlockEdit(event,"data")');
-		this.addMenu('block', '更新', 'drag.blockForceUpdate(event)');
+               this.addMenu('block', lng['data'], 'drag.openBlockEdit(event,"data")');
+               this.addMenu('block', lng['update'], 'drag.blockForceUpdate(event)');
 	},
 	openBlockEdit : function (e,op) {
 		e = Util.event(e);
