@@ -82,7 +82,7 @@ function validate(theform) {
 		return false;
 	}
         if(!disablepostctrl && theform.subject.value != "" && ((postminsubjectchars != 0 && dstrlen(theform.subject.value) < postminsubjectchars) || (postminsubjectchars != 0 && dstrlen(theform.subject.value) > postmaxsubjectchars))) {
-                /*vot*/         showError(lng['content_long'] + dstrlen(theform.subject.value) + lng['characters'] + '\n' + lng['system_limit'] + postminsubjectchars + lng['up_to'] + postmaxsubjectchars + lng['characters']);
+                /*vot*/         showError(lng['content_long'] + dstrlen(theform.subject.value) + lng['chars'] + '\n' + lng['system_limit'] + postminsubjectchars + lng['up_to'] + postmaxsubjectchars + lng['chars']);
 		return false;
 	}
 	if(in_array($('postsubmit').name, ['topicsubmit', 'editsubmit'])) {
