@@ -181,6 +181,8 @@ var lng = {
 // ATTENTION!
 // The next line must have the same value as in /template.php - 'enter_content' !!!
 	'enter_search_string'	: '请输入搜索内容',
+        'search_net'           : '网页搜索',
+        'search_site'          : '站内搜索',
 	'refresh_q&a'		: '刷新验证问答',
 	'refresh_code'		: '刷新验证码',
 	'code_invalid'		: '验证码错误，请重新填写',
@@ -275,6 +277,7 @@ var lng = {
 	'sec_before_saving'	: '秒后保存',
 	'insert_quote'		: '请输入要插入的引用',
 	'insert_code'		: '请输入要插入的代码',
+        'list_type'             : '编号样式',
 	'enter_item_list'	: '输入一个列表项目.\r\n留空或者点击取消完成此列表.',
 	'width'			: '宽',
 	'height'		: '高',
@@ -386,6 +389,7 @@ var lng = {
 	'credit_confirm1'	: '下载需要消耗',
 	'credit_confirm2'	: '，您是否要下载？',
 	'thread_to_clipboard'	: '帖子地址已经复制到剪贴板',
+        'thread_bumped'        : '提升成功',
 	'click_to_enlarge'	: '点击放大',
 	'notify_on_reply'	: '接收回复通知',
 	'notify_on_reply_cancel'	: '取消回复通知',

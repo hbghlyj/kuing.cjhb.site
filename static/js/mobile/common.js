@@ -196,9 +196,9 @@ var popup = {
 		if(typeof pop == 'string') {
 			$('#ntcmsg').remove();
 			if(type == 'alert') {
-				pop = '<div class="tip"><dt>'+ pop +'</dt><dd><input class="button2" type="button" value="确定" onclick="popup.close();"></dd></div>'
+                               pop = '<div class="tip"><dt>'+ pop +'</dt><dd><input class="button2" type="button" value="'+lng['submit']+'" onclick="popup.close();"></dd></div>'
 			} else if(type == 'confirm') {
-				pop = '<div class="tip"><dt>'+ pop +'</dt><dd><a class="button" href="'+ url +'">确定</a> <button onclick="popup.close();" class="button">取消</a></dd></div>'
+                               pop = '<div class="tip"><dt>'+ pop +'</dt><dd><a class="button" href="'+ url +'">'+lng['submit']+'</a> <button onclick="popup.close();" class="button">'+lng['cancel']+'</button></dd></div>'
 			}
 			$('body').append('<div id="ntcmsg" style="display:none;">'+ pop +'</div>');
 			pop = $('#ntcmsg');
@@ -267,7 +267,7 @@ var formdialog = {
 				evalscript(s.lastChild.firstChild.nodeValue);
 			})
 			.error(function() {
-				popup.open('表单提交异常，无法完成您的请求', 'alert');
+                               popup.open(lng['form_submit_error'], 'alert');
 			});
 			return false;
 		});
@@ -744,7 +744,7 @@ function hostconvert(url) {
 
 function Ajax(recvType, waitId) {
 	var aj = new Object();
-	aj.loading = '请稍候...';
+       aj.loading = lng['wait_please'];
 	aj.recvType = recvType ? recvType : 'XML';
 	aj.waitId = waitId ? $(waitId) : null;
 	aj.resultHandle = null;
@@ -941,19 +941,19 @@ function setCopy(text, msg) {
 				popup.open(msg, 'alert');
 			}
 		} else {
-			popup.open('复制失败', 'alert');
+                       popup.open(lng['copy_failed'], 'alert');
 		}
 	} else {
-		popup.open('复制失败', 'alert');
+               popup.open(lng['copy_failed'], 'alert');
 	}
 }
 
 function copycode(obj) {
-	setCopy(obj.textContent, '代码已复制到剪贴板');
+       setCopy(obj.textContent, lng['code_clipboard']);
 }
 
 function setanswer(tid, pid, from, formhash){
-	popup.open('您确认要把该回复选为“最佳答案”吗？','confirm','forum.php?mod=misc&action=bestanswer&tid=' + tid + '&pid=' + pid + '&from=' + from + '&bestanswersubmit=yes&formhash='+formhash)
+       popup.open(lng['best_answer_sure'],'confirm','forum.php?mod=misc&action=bestanswer&tid=' + tid + '&pid=' + pid + '&from=' + from + '&bestanswersubmit=yes&formhash='+formhash)
 }
 
 function submitpostpw(pid, tid) {

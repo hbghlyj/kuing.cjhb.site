@@ -177,6 +177,8 @@ var lng = {
 // ATTENTION!
 // The next line must have the same value as in /template.php - 'enter_content' !!!
 	'enter_search_string'	: 'Enter search keywords',//'请输入搜索内容',
+        'search_net'           : 'Web search',
+        'search_site'          : 'Site search',
 	'refresh_q&a'		: 'Refresh Q&A',//'刷新验证问答',
 	'refresh_code'		: 'Refresh Code',//'刷新验证码',
 	'code_invalid'		: 'Wrong security code, please try again',//'验证码错误，请重新填写',
@@ -271,6 +273,7 @@ var lng = {
 	'sec_before_saving'	: 's before autosave',//'秒后保存',
 	'insert_quote'		: 'Insert the Quote',//'请输入要插入的引用',
 	'insert_code'		: 'Insert the Code',//'请输入要插入的代码',
+        'list_type'             : 'List type',
 	'enter_item_list'	: 'Enter the item list.\r\nLeave blank, or click Cancel.',//'输入一个列表项目.\r\n留空或者点击取消完成此列表.',
 	'width'			: 'Width',//'宽',
 	'height'		: 'Height',//'高',
@@ -380,6 +383,7 @@ var lng = {
 	'credit_confirm1'	: 'Download costs ',//'下载需要消耗',
 	'credit_confirm2'	: ' points, are you sure to download?',//'，您是否要下载？',
 	'thread_to_clipboard'	: 'Thread address was copied to the clipboard',//'帖子地址已经复制到剪贴板',
+        'thread_bumped'        : 'Thread bumped successfully',
 	'click_to_enlarge'	: 'Click to enlarge',//'点击放大',
 	'notify_on_reply'	: 'Receive reply notification',//'接收回复通知',
 	'notify_on_reply_cancel'	: 'Cancel reply notification',//'取消回复通知',

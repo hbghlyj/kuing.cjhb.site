@@ -247,8 +247,8 @@ function succeedhandle_fastpost(locationhref, message, param) {
 		}
 		$('fastpostreturn').className = '';
 	} else {
-		if(!message) {
-			message = '本版回帖需要审核，您的帖子将在通过审核后显示';
+               if(!message) {
+                       message = lng['premoderated'];
 		}
 		$('post_new').style.display = $('fastpostmessage').value = $('fastpostreturn').className = '';
 		$('fastpostreturn').innerHTML = message;
@@ -532,7 +532,7 @@ function show_threadpage(pid, current, maxpage, ispreview) {
 	if(current < maxpage) {
 		s += '<a href="javascript:;" onclick="' + clickvalue(current + 1) + '" class="nxt">'+lng['next_page']+'</a>';
 	}
-	s += '<a href="javascript:;" onclick="' + clickvalue('all') + '">查看所有</a>';
+       s += '<a href="javascript:;" onclick="' + clickvalue('all') + '">'+lng['view_all']+'</a>';
 	s += '</div></div>';
 	$('threadpage').innerHTML = s;
 }
@@ -540,7 +540,7 @@ function show_threadpage(pid, current, maxpage, ispreview) {
 var show_threadindex_data = '';
 function show_threadindex(pid, ispreview) {
 	if(!show_threadindex_data) {
-		var s = '<div class="tindex"><h3>目录</h3><ul>';
+               var s = '<div class="tindex"><h3>'+lng['index']+'</h3><ul>';
 		for(i in $('threadindex').childNodes) {
 			o = $('threadindex').childNodes[i];
 			if(o.tagName == 'A') {
@@ -755,7 +755,7 @@ function succeedhandle_vfastpost(url, message, param) {
 }
 
 function vmessage() {
-	var vf_tips = '#在这里快速回复#';
+       var vf_tips = lng['quick_reply_here'];
 	$('vmessage').value = vf_tips;
 	$('vmessage').style.color = '#CDCDCD';
 	$('vmessage').onclick = function() {
@@ -798,7 +798,7 @@ function bumpthread() {
 		}).then(response => {
 			response.text().then(text => {
 				if (text.includes('succeedhandle_mods')) {
-					showPrompt(null,null,'提升成功',1000);
+                                   showPrompt(null,null,lng['thread_bumped'],1000);
 				} else {
 					showPrompt(null,null,text.match(/errorhandle_mods\('([^']+)/)[1],1000,'popuptext');
 				}
