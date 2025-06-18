@@ -112,18 +112,18 @@ function getAvatarDimension() {
 }
 
 function clearAvatar() {
-    var canvas = $('avatarcanvas');
+    canvas = $('avatarcanvas');
     var cw = canvas.width;
     var ch = canvas.height;
-    var ctx = canvas.getContext('2d');
+    ctx = canvas.getContext('2d');
     ctx.clearRect(0, 0, cw, ch);
 }
 
 function refreshAvatarCanvas(uiposition) { 
-    var canvas = $('avatarcanvas');
+    canvas = $('avatarcanvas');
     var cw = canvas.width;
     var ch = canvas.height;
-    var ctx = canvas.getContext('2d');
+    ctx = canvas.getContext('2d');
     ctx.clearRect(0, 0, cw, ch);
     var ad = getAvatarDimension();
     var iw = jQuery('#avatarimage').width();
@@ -178,40 +178,40 @@ function saveAvatar() {
     var st = rt*ih;
     var sw = rw*iw;
     var sh = rh*ih;
-    var tw = sw;
-    var th = sh;
+    tw = sw;
+    th = sh;
     if (sw>200 || sh>250) {
-        var r = Math.max(sw/200, sh/250);
+        r = Math.max(sw/200, sh/250);
         tw = Math.floor(sw/r);
         th = Math.floor(sh/r);
     }          
-    var canvas = document.createElement('canvas');
+    canvas = document.createElement('canvas');
     canvas.width = tw;
     canvas.height = th;
-    var ctx = canvas.getContext("2d");
+    ctx = canvas.getContext("2d");
     ctx.fillStyle = 'white';
     ctx.fillRect(0, 0, tw, th);
     ctx.imageSmoothingQuality = 'high';
     ctx.drawImage(img, sl, st, sw, sh, 0, 0, tw, th);
-    var dataURL = canvas.toDataURL("image/jpeg", 1.0);
+    dataURL = canvas.toDataURL("image/jpeg", 1.0);
     jQuery('#avatar1').val(dataURL.substr(dataURL.indexOf(",") + 1));
 
-    var tw = sw;
-    var th = sh;
+    tw = sw;
+    th = sh;
     if (sw>120 || sh>120) {
-        var r = Math.max(sw/120, sh/120);
+        r = Math.max(sw/120, sh/120);
         tw = Math.floor(sw/r);
         th = Math.floor(sh/r);
     }     
-    var canvas = document.createElement('canvas');
+    canvas = document.createElement('canvas');
     canvas.width = tw;
     canvas.height = th;
-    var ctx = canvas.getContext("2d");
+    ctx = canvas.getContext("2d");
     ctx.fillStyle = 'white';
     ctx.fillRect(0, 0, tw, th);
     ctx.imageSmoothingQuality = 'high';
     ctx.drawImage(img, sl, st, sw, sh, 0, 0, tw, th);
-    var dataURL = canvas.toDataURL("image/jpeg", 1.0);
+    dataURL = canvas.toDataURL("image/jpeg", 1.0);
     jQuery('#avatar2').val(dataURL.substr(dataURL.indexOf(",") + 1));
 
     var mwh = Math.min(sw, sh);
@@ -223,17 +223,17 @@ function saveAvatar() {
         st += Math.floor((sh-mwh)/2);
         sh = mwh;
     }
-    var tw = 48;
-    var th = 48;
-    var canvas = document.createElement('canvas');
+    tw = 48;
+    th = 48;
+    canvas = document.createElement('canvas');
     canvas.width = tw;
     canvas.height = th;
-    var ctx = canvas.getContext("2d");
+    ctx = canvas.getContext("2d");
     ctx.fillStyle = 'white';
     ctx.fillRect(0, 0, tw, th);
     ctx.imageSmoothingQuality = 'high';
     ctx.drawImage(img, sl, st, sw, sh, 0, 0, tw, th);
-    var dataURL = canvas.toDataURL("image/jpeg", 1.0);
+    dataURL = canvas.toDataURL("image/jpeg", 1.0);
     jQuery('#avatar3').val(dataURL.substr(dataURL.indexOf(",") + 1));
 
     var src = $('avatarform').action;
@@ -243,8 +243,8 @@ function saveAvatar() {
 
 function refreshAvatarCanvasForDisplay() {
     var img = $('avatarimage');
-    var canvas = $('avatardisplaycanvas');
-    var ctx = canvas.getContext("2d");
+    canvas = $('avatardisplaycanvas');
+    ctx = canvas.getContext("2d");
     var sd = getSelectorDimention();
     var ad = getAvatarDimension();
     var rl = (sd.left-ad.left)/ad.width;
@@ -257,10 +257,10 @@ function refreshAvatarCanvasForDisplay() {
     var st = rt*ih;
     var sw = rw*iw;
     var sh = rh*ih;
-    var tw = sw;
-    var th = sh;
+    tw = sw;
+    th = sh;
     if (sw>200 || sh>250) {
-        var r = Math.max(sw/200, sh/250);
+        r = Math.max(sw/200, sh/250);
         tw = Math.floor(sw/r);
         th = Math.floor(sh/r);
     }  
@@ -270,18 +270,18 @@ function refreshAvatarCanvasForDisplay() {
     ctx.drawImage(img, sl, st, sw, sh, ctl, ctt, tw, th);
     ctl += 20 + tw;
 
-    var tw = sw;
-    var th = sh;
+    tw = sw;
+    th = sh;
     if (sw>120 || sh>120) {
-        var r = Math.max(sw/120, sh/120);
+        r = Math.max(sw/120, sh/120);
         tw = Math.floor(sw/r);
         th = Math.floor(sh/r);
     }     
     ctx.drawImage(img, sl, st, sw, sh, ctl, ctt, tw, th);
     ctl += 20 + tw;
 
-    var tw = 48;
-    var th = 48;
+    tw = 48;
+    th = 48;
     var mwh = Math.min(sw, sh);
     if (sw>mwh) {
         sl += Math.floor((sw-mwh)/2);
@@ -295,10 +295,10 @@ function refreshAvatarCanvasForDisplay() {
 
     ctx.fillStyle = "black";
     ctx.font = "bold 16px Arial";
-    ctx.fillText('上传成功!', dwidth - 160,155);
+    ctx.fillText(lng['avatar_upload_ok'], dwidth - 160,155);
     ctx.fillStyle = "grey";
     ctx.font = "bold 12px Arial";
-    ctx.fillText('以上是您头像的三种尺寸', dwidth - 200, 180);        
+    ctx.fillText(lng['avatar_3_sizes'], dwidth - 200, 180);
 }
 
 function rectAvatarDone(res) {
@@ -309,7 +309,7 @@ function rectAvatarDone(res) {
         jQuery('#avataradjuster').hide();
         jQuery('#avatarfileselector').hide();            
     } else if (res == 'failure') {
-        alert('上传失败');
+        alert(lng['avatar_upload_failed']);
     }
 }
 })();

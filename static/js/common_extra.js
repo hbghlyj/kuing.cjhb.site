@@ -996,13 +996,15 @@ function _showColorBox(ctrlid, layer, k, bgcolor) {
 		menu.unselectable = true;
 		menu.style.display = 'none';
 		var coloroptions = ['Black', 'Sienna', 'DarkOliveGreen', 'DarkGreen', 'DarkSlateBlue', 'Navy', 'Indigo', 'DarkSlateGray', 'DarkRed', 'DarkOrange', 'Olive', 'Green', 'Teal', 'Blue', 'SlateGray', 'DimGray', 'Red', 'SandyBrown', 'YellowGreen', 'SeaGreen', 'MediumTurquoise', 'RoyalBlue', 'Purple', 'Gray', 'Magenta', 'Orange', 'Yellow', 'Lime', 'Cyan', 'DeepSkyBlue', 'DarkOrchid', 'Silver', 'Pink', 'Wheat', 'LemonChiffon', 'PaleGreen', 'PaleTurquoise', 'LightBlue', 'Plum', 'White'];
-		var colortexts = ['黑色', '赭色', '暗橄榄绿色', '暗绿色', '暗灰蓝色', '海军色', '靛青色', '墨绿色', '暗红色', '暗桔黄色', '橄榄色', '绿色', '水鸭色', '蓝色', '灰石色', '暗灰色', '红色', '沙褐色', '黄绿色', '海绿色', '间绿宝石', '皇家蓝', '紫色', '灰色', '红紫色', '橙色', '黄色', '酸橙色', '青色', '深天蓝色', '暗紫色', '银色', '粉色', '浅黄色', '柠檬绸色', '苍绿色', '苍宝石绿', '亮蓝色', '洋李色', '白色'];
-		var str = '';
-		for(var i = 0; i < 40; i++) {
-			str += '<input type="button" style="background-color: ' + coloroptions[i] + '"' + (typeof setEditorTip == 'function' ? ' onmouseover="setEditorTip(\'' + colortexts[i] + '\')" onmouseout="setEditorTip(\'\')"' : '') + ' onclick="'
-			+ (typeof wysiwyg == 'undefined' ? 'seditor_insertunit(\'' + k + '\', \'[' + tag1 + '=' + coloroptions[i] + ']\', \'[/' + tag1 + ']\')' : (ctrlid == editorid + '_tbl_param_4' ? '$(\'' + ctrlid + '\').value=\'' + coloroptions[i] + '\';hideMenu(2)' : 'discuzcode(\'' + tag2 + '\', \'' + coloroptions[i] + '\')'))
-			+ '" title="' + colortexts[i] + '" />' + (i < 39 && (i + 1) % 8 == 0 ? '<br />' : '');
-		}
+               var str = '';
+               for (var i = 0; i < 40; i++) {
+                       str += '<input type="button" style="background-color: ' + coloroptions[i] + '"' +
+                               (typeof setEditorTip == 'function' ? ' onmouseover="setEditorTip(\'' + colortexts[coloroptions[i]] + '\')" onmouseout="setEditorTip(\'\')"' : '') +
+                               ' onclick="' +
+                               (typeof wysiwyg == 'undefined' ? 'seditor_insertunit(\'' + k + '\', \'[' + tag1 + '=' + coloroptions[i] + ']\', \'[/' + tag1 + ']\')' : (ctrlid == editorid + '_tbl_param_4' ? '$(\'' + ctrlid + '\').value=\'' + coloroptions[i] + '\';hideMenu(2)' : 'discuzcode(\'' + tag2 + '\', \'' + coloroptions[i] + '\')')) +
+                               '" title="' + colortexts[coloroptions[i]] + '" />' +
+                               (i < 39 && (i + 1) % 8 == 0 ? '<br />' : '');
+               }
 		menu.innerHTML = str;
 		$('append_parent').appendChild(menu);
 	}

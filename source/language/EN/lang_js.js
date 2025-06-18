@@ -162,9 +162,23 @@ var lng = {
 	'page_prev'		: 'Prev Page',//'上页',
 	'page_next'		: 'Next Page',//'下页',
 	'copy2clipboard'	: 'Copy to clipboard',//'点此复制到剪贴板',
+	'sms_sent_ok'           : 'Sent successfully',
+	'sms_often'             : 'The interval between sending SMS is too short, please try again later.',
+	'sms_many_total'        : 'You have sent too many text messages in a while, please try again later.',
+	'sms_many_in_period'    : 'The number group has sent too many text messages in a period of time, please try again later.',
+	'sms_many_in_site'      : 'This site has sent too many text messages in a period of time, please try again later.',
+	'sms_gate_not_available': 'There is currently no SMS gateway interface available, please try again later.',
+	'sms_gate_not_found'    : 'Gateway interface file does not exist, please try again later.',
+	'sms_class_not_found'   : 'Gateway interface class does not exist, please try again later.',
+	'sms_disabled'          : 'Text messaging has been disabled, please try again later.',
+	'sms_gate_invalid'      : 'The SMS gateway is abnormal, please try again later.',
+	'sms_exception'         : 'Unknown exception, please try again later.',
+        'sms_failed'            : 'Failed to send, error code ',
 // ATTENTION!
 // The next line must have the same value as in /template.php - 'enter_content' !!!
 	'enter_search_string'	: 'Enter search keywords',//'请输入搜索内容',
+        'search_net'           : 'Web search',
+        'search_site'          : 'Site search',
 	'refresh_q&a'		: 'Refresh Q&A',//'刷新验证问答',
 	'refresh_code'		: 'Refresh Code',//'刷新验证码',
 	'code_invalid'		: 'Wrong security code, please try again',//'验证码错误，请重新填写',
@@ -259,6 +273,7 @@ var lng = {
 	'sec_before_saving'	: 's before autosave',//'秒后保存',
 	'insert_quote'		: 'Insert the Quote',//'请输入要插入的引用',
 	'insert_code'		: 'Insert the Code',//'请输入要插入的代码',
+        'list_type'             : 'List type',
 	'enter_item_list'	: 'Enter the item list.\r\nLeave blank, or click Cancel.',//'输入一个列表项目.\r\n留空或者点击取消完成此列表.',
 	'width'			: 'Width',//'宽',
 	'height'		: 'Height',//'高',
@@ -294,6 +309,12 @@ var lng = {
 	'del_thread_sure'	: 'Are you sure you want to remove this thread from hot threads?',//'您确认要把此主题从热点主题中移除么？',
 	'there_are'		: 'There are ',//'有',
 	'new_reply_exists'	: 'There are new thread replies, click for View',//'有新回复的主题，点击查看',
+        'finished'              : 'Finished',
+        'days_num'              : ' days',
+        'hours_num'             : ' hours',
+        'minutes_num'           : ' minutes',
+        'seconds'               : ' seconds.',
+        'thread_title_length_invalid'   : 'Your title length does not meet the requirements.',
 //--------------------------------
 //static/js/forum_moderate.js
 
@@ -310,6 +331,9 @@ var lng = {
 	'can_not_save_attach'	: 'Can not save Attachment file',//'附件文件无法保存',
 	'invalid_file'		: 'No legitimate file was uploaded',//'没有合法的文件被上传',
 	'illegal_operation'	: 'Illegal Operation',//'非法操作',
+        'today_upload_large'    : 'Today you cannot upload so many attachments.',
+        'bad_words'             : 'Unable to submit because the file name contains sensitive words.',
+        'high_resolution'       : 'Server restrictions prevent uploading high resolution attachments.',
 	'enter_content'		: 'Enter the title or content',//'请完成标题或内容栏',
 	'select_category'	: 'Select a corresponding category for the thread',//'请选择主题对应的分类',
 	'select_category_info'	: 'Select a corresponding category for the thread information',//'请选择主题对应的分类信息',
@@ -335,6 +359,11 @@ var lng = {
 
 	'attach_big'		: 'Attachment size exceeds the allowed limit',//'服务器限制无法上传那么大的附件',
 	'attach_group_big'	: 'You user group total attachment size exceeds allowed limit',//'用户组限制无法上传那么大的附件',
+        'remote_attach_loaded'  : 'Remote attachment download is completed!',
+        'select_all'            : 'Select All',
+        'unused'                : 'Unused',
+        'award_more_total'      : 'Reply Reward Points total is too large.',
+        'return'                : 'Return',
 	'attach_type_big'	: 'This file type total attachment size exceeds allowed limit',//'文件类型限制无法上传那么大的附件',
 	'attach_daily_big'	: 'Daily total attachment size exceeds allowed limit',//'本日已无法上传更多的附件',
 	'validating_q&a'	: 'Validating the Q & A, please wait',//'验证问答校验中，请稍后',
@@ -345,6 +374,7 @@ var lng = {
 	'no_remote_attach'	: 'Sorry, no remote attachment',//'抱歉，暂无远程附件',
 	'delete_post_sure'	: 'Sure you want to delete this post?',//'确定要删除该帖子吗？',
 	'feed_add_confirm'	: 'Because of you have set read permission or sell the post, do you confirm also the broadcast to your listeners to see?',//'由于您设置了阅读权限或出售帖，您确认还转播给您的听众看吗？',
+        'delete_post_failed'    : 'Sorry, the delete operation failed, please refresh the page and try again.',
 //--------------------------------
 //static/js/forum_viewthread.js
 
@@ -353,6 +383,7 @@ var lng = {
 	'credit_confirm1'	: 'Download costs ',//'下载需要消耗',
 	'credit_confirm2'	: ' points, are you sure to download?',//'，您是否要下载？',
 	'thread_to_clipboard'	: 'Thread address was copied to the clipboard',//'帖子地址已经复制到剪贴板',
+        'thread_bumped'        : 'Thread bumped successfully',
 	'click_to_enlarge'	: 'Click to enlarge',//'点击放大',
 	'notify_on_reply'	: 'Receive reply notification',//'接收回复通知',
 	'notify_on_reply_cancel'	: 'Cancel reply notification',//'取消回复通知',
@@ -367,6 +398,10 @@ var lng = {
 	'pocket_forum_ios_alt'	: 'Suitable for Apple mobile phone',//'适用于苹果手机',
 	'quick_reply_here'	: '#Quick Reply Here#', //'#在这里快速回复#',
 
+        'set_cover'             : 'Set as cover',
+        'source'                : 'Source',
+        'view_all'              : 'View All',
+        'index'                 : 'Thread Index',
 //--------------------------------
 //static/js/handlers.js
 	'file_selected_exceed'	: 'You have selected too many files.',//'您选择的文件个数超过限制。',
@@ -397,48 +432,25 @@ var lng = {
 	'day'			: 'Day',//'日',
 	'category_empty'	: 'Category name can not be empty!',//'分类名不能为空！',
 
-//--------------------------------
-//static/js/home_ajax.js
-
-//	'close'			: 'Close',//'关闭',
-//	'wait_please'		: 'Loading ...',//'请稍候...',
-
-//--------------------------------
-//static/js/home_blog.js
-
-	'title_length_invalid'	: 'Title length (should be 1~80 characters) does not meet the requirement',//'标题长度(1~80字符)不符合要求',
-
-//--------------------------------
-//static/js/home_common.js
-
-	'show_orig_image'	: 'Show original image in a new window',//'点击图片，在新窗口显示原始尺寸',
-	'continue_sure'		: 'Are you sure to proceed?',//'您确定要执行本操作吗？',
-	'select_item'		: 'Please choose the item to operate with',//'请选择要操作的对象',
-	'image_url_invalid'	: 'Incorrect image URL',//'图片地址不正确',
-	'audio_url_invalid'	: 'Incorrect audio URL, can not be empty',//'音乐地址错误，不能为空',
-
-//!!!!! MayBe wrap this names!!
-	'collapse'		: 'Collapse',//'收起',
-	'expand'		: 'Expand',//'展开',
-
-//--------------------------------
 //static/js/home_friendselector.js
 
 	'select_max'		: 'You can select up to',//'最多只允许选择',
 	'users'			: 'users',//'个用户',
-	'allready_exists'	: 'Already exists',//'已经存在',
+       'already_exists'        : 'Already exists',
 
 //--------------------------------
 //static/js/home_manage.js
 
-	'you_friends_now'	: 'You are friends now, you can ',//'你们现在是好友了，接下来，您还可以：',
-	'leave_message'		: 'Leave a message',//'给TA留言',
-	'or'			: 'or',//'或者',
-	'send_greeting'		: 'send greeting',//'打个招呼',
-	'reply'			: 'Reply',//'回复',
-	'comment'		: 'Comment',//'评论',
-	'close_list'		: 'Close the List',//'收起列表',
-	'more_feeds'		: 'More Feeds',//'更多动态',
+        'you_friends_now'       : 'You are now friends. Next, you can:',
+        'leave_message'         : 'Leave a message',
+        'or'                    : 'or',
+        'send_greeting'         : 'Send greeting',
+        'reply'                 : 'Reply',
+        'comment'               : 'Comment',
+        'close_list'            : 'Close list',
+        'more_feeds'            : 'More feeds',
+
+
 
 //--------------------------------
 //static/js/home_uploadpic.js
@@ -481,6 +493,7 @@ var lng = {
 	'touch_down_refresh'	: 'Touch down to refresh',//'下拉可以刷新',
 	'touch_up_refresh'	: 'Touch UP to refresh',//'松开可以刷新',
 
+        'form_submit_error'     : 'Form submission exception, unable to complete your request.',
 //--------------------------------
 //static/js/portal.js
 
@@ -590,16 +603,13 @@ var lng = {
 	'data_manage'		: 'Direct management of the block data',//'可直接管理模块数据',
 	'quit'			: 'Quit',//'退出',
 //--------------------------------
-//static/js/qshare.js
-	'from_tencent'		: 'I come from Tencent microblogging an open platform',//"\u6211\u6765\u81EA\u4E8E\u817E\u8BAF\u5FAE\u535A\u5F00\u653E\u5E73\u53F0",
-
-//--------------------------------
 //static/js/register.js
 
 	'username_invalid'	: 'Username contains invalid characters',//'用户名包含敏感字符',
 	'username_short'	: 'Username is shorter than 2 characters',//'用户名小于 3 个字符',
 	'username_long'		: 'Username is longer than 15 characters',//'用户名超过 15 个字符',
 	'passwords_not_equal'	: 'Two passwords does not match',//'两次输入的密码不一致',
+        'username_long_64'      : 'User name is longer than 64 bytes.',
 	'email_invalid'		: 'Email contains invalid characters',//'Email 包含敏感字符',
 	'invite_code_invalid'	: 'Invitation code contains invalid characters',//'邀请码包含敏感字符',
 	'password_fill'		: 'Enter a password',//'请填写密码',
@@ -657,23 +667,26 @@ var lng = {
 	'file_not_supported'	: 'Sorry, this file type is unsupported',//'对不起，不支持上传此类文件',
 	'wait_upload'		: 'Wait for upload...',//'等待上传...',
 
-//-------------------------------------
-//source/function/function_admincp.php
-	'version_uptodate'	: 'You are currently using Up-to-date version of Discuz! program. Please refer to the following tips to make timely upgrades.',
+        'upload_selectfile'     : 'Browse',
+//---------------------------
+//upload/static/js/avatar.js
+        'avatar_upload_ok'      : 'Uploaded successfully!',
+        'avatar_3_sizes'        : 'These are three sizes of your avatar.',
+        'avatar_upload_failed'  : 'Upload failed.',
 
-//-------------------------------------
-//api/manyou/cloud_iframe.js
-	'add_operation'		: 'Add to common operations',//'&#28155;&#21152;&#21040;&#24120;&#29992;&#25805;&#20316;',
+//---------------------------
+//upload/static/js/webuploader/webuploader.min.js
+        'upload_button_error'   : 'Press button assignment error.',
 
-//--------------------------------------------
-//static/js/googlemap.js + static/js/editor.js
-
-	'map_title'		: 'Google Maps',//'google图',
-	'map_insert'		: 'Insert Google Map',//'插入google地图',
-	'map_insert_tips'	: 'Insert Google Maps by address searching (temporarily supported only single label!)',//'通过搜索插入google地图（暂只支持单点标注）！',
-	'map_center_changed'	: 'The map center is changed!',//'地图中心已经改变！',
-	'map_wrong_address'	: 'Wrong address! Current address was not found',//' 地址错误，未找到当前地址',
-
+//---------------------------
+//upload/static/js/webuploader.js
+        'file_single_size_limit': 'Single file size must not exceed',
+        'file_num_limit'        : 'Can only upload at most',
+        '_files'                : ' files!',
+        'file_size_limit'       : 'The total size of all uploaded files exceeds the limit.',
+        'file_invalid_type'     : 'Invalid file type, please upload the correct file format!',
+        'file_no_repeat'        : 'Please do not upload the same file repeatedly!',
+        'upload_error_try_again': 'Upload error, please refresh and try again!',
 //-------------------------------------
 //	''	: '',//'',
 
