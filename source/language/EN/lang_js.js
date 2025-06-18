@@ -640,7 +640,6 @@ var lng = {
 	'email_fill'		: 'Enter email address',//'请输入邮箱地址',
 	'length_min'		: ', longer than ',//', 最小长度为 '
 	'chars'			: ' characters',//' 个字符',
-        'characters'            : ' characters',
 	'password_strength'	: 'Password strength: ',//'密码强度:',
 	'pw_weak'		: 'Weak',//'弱',
 	'pw_middle'		: 'Middle',//'中',
