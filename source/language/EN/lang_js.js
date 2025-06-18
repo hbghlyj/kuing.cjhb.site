@@ -436,7 +436,20 @@ var lng = {
 
 	'select_max'		: 'You can select up to',//'最多只允许选择',
 	'users'			: 'users',//'个用户',
-	'allready_exists'	: 'Already exists',//'已经存在',
+	'allready_exists'       : 'Already exists',
+
+//--------------------------------
+//static/js/home_manage.js
+
+        'you_friends_now'       : 'You are now friends. Next, you can:',
+        'leave_message'         : 'Leave a message',
+        'or'                    : 'or',
+        'send_greeting'         : 'Send greeting',
+        'reply'                 : 'Reply',
+        'comment'               : 'Comment',
+        'close_list'            : 'Close list',
+        'more_feeds'            : 'More feeds',
+
 
 
 //--------------------------------

@@ -446,6 +446,19 @@ var lng = {
 	'allready_exists'	: '已经存在',
 
 //--------------------------------
+//static/js/home_manage.js
+
+        'you_friends_now'       : '你们现在是好友了，接下来，您还可以：',
+        'leave_message'         : '给TA留言',
+        'or'                    : '或者',
+        'send_greeting'         : '打个招呼',
+        'reply'                 : '回复',
+        'comment'               : '评论',
+        'close_list'            : '收起列表',
+        'more_feeds'            : '更多动态',
+
+
+//--------------------------------
 //static/js/home_uploadpic.js
 
 	'image_type_invalid'	: '对不起，不支持上传此类扩展名的图片',

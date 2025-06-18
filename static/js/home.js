@@ -622,10 +622,10 @@ function poke_send(id, result) {
 	}
 }
 function myfriend_post(uid) {
-	if($('friend_'+uid)) {
-		$('friend_'+uid).innerHTML = '<p>你们现在是好友了，接下来，您还可以：<a href="home.php?mod=space&do=wall&uid='+uid+'" class="xi2" target="_blank">给TA留言</a> ，或者 <a href="home.php?mod=spacecp&ac=poke&op=send&uid='+uid+'&handlekey=propokehk_'+uid+'" id="a_poke_'+uid+'" class="xi2" onclick="showWindow(this.id, this.href, \'get\', 0, {\'ctrlid\':this.id,\'pos\':\'13\'});">打个招呼</a></p>';
-	}
-	showCreditPrompt();
+        if($('friend_'+uid)) {
+                /*vot*/ $('friend_'+uid).innerHTML = '<p>'+lng['you_friends_now']+' <a href="home.php?mod=space&do=wall&uid='+uid+'" class="xi2" target="_blank">'+lng['leave_message']+'</a>, '+lng['or']+' <a href="home.php?mod=spacecp&ac=poke&op=send&uid='+uid+'&handlekey=propokehk_'+uid+'" id="a_poke_'+uid+'" class="xi2" onclick="showWindow(this.id, this.href, \'get\', 0, {\'ctrlid\':this.id,\'pos\':\'13\'});">'+lng['send_greeting']+'</a></p>';
+        }
+        showCreditPrompt();
 }
 function myfriend_ignore(id) {
 	var ids = explode('_', id);
@@ -741,7 +741,7 @@ function feedcomment_close(feedid) {
 	$(showid).style.display = 'none';
 	$(showid).style.className = '';
 
-	$(opid).innerHTML = '评论';
+        /*vot*/ $(opid).innerHTML = lng['comment'];
 	$(opid).onclick = function() {
 		feedcomment_get(feedid);
 	}
@@ -772,7 +772,7 @@ function feed_more_close(feedid) {
 
 	$(showid).style.display = 'none';
 
-	$(opid).innerHTML = '&raquo; 更多动态';
+        /*vot*/ $(opid).innerHTML = '&raquo; '+lng['more_feeds'];
 	$(opid).onclick = function() {
 		feed_more_show(feedid);
 	}
@@ -813,7 +813,7 @@ function showbirthday(){
 	var el = $('birthday');
 	var birthday = el.value;
 	el.length=0;
-	el.options.add(new Option('日', ''));
+        /*vot*/ el.options.add(new Option(lng['day'], ''));
 	for(var i=0;i<28;i++){
 		el.options.add(new Option(i+1, i+1));
 	}
