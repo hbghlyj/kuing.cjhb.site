@@ -811,7 +811,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const suggestTagsInputArea = $('suggestTagsInputArea');
     const cancelSuggestTagsButton = $('cancelSuggestTags');
     const suggestedTagInput = $('suggestedTagInput');
-    const suggestionMessage = $('suggestionMessage');
     const submitSuggestedTagButton = $('submitSuggestedTag');
     const sugTidElement = $('sug_tid');
 
@@ -826,7 +825,6 @@ document.addEventListener('DOMContentLoaded', function() {
             if(suggestTagsInputArea) suggestTagsInputArea.style.display = 'none';
             if(suggestTagsButton) suggestTagsButton.style.display = '';
             if(suggestedTagInput) suggestedTagInput.value = '';
-            if(suggestionMessage) suggestionMessage.style.display = 'none';
         };
     }
     if(submitSuggestedTagButton) {
@@ -842,10 +840,9 @@ document.addEventListener('DOMContentLoaded', function() {
             }).then(res => res.json()).then(d => {
                 if(d.success) {
                     if(suggestTagsInputArea) suggestTagsInputArea.style.display = 'none';
-                    if(suggestionMessage) suggestionMessage.style.display = '';
                     if(suggestTagsButton) suggestTagsButton.style.display = '';
                     if(suggestedTagInput) suggestedTagInput.value = '';
-                    setTimeout(function(){ if(suggestionMessage) suggestionMessage.style.display = 'none'; },3000);
+                    showPrompt(null, null, '<span>' + lng['thanks_for_suggestion'] + '</span>', 1500);
                 } else if(d.message) {
                     showError(d.message);
                 }

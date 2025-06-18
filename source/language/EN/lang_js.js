@@ -392,6 +392,7 @@ var lng = {
 	'qq_bind'		: 'Please bind your QQ account',//'请先绑定QQ账号',
 	'quote_by'		: 'Quote by .*? in .*? code',//'本帖最后由 .*? 于 .*? 编辑',
 	'copy_code'		: 'Copy code',//'复制代码',
+        'thanks_for_suggestion' : 'We appreciate your suggestion. Thank you!',
 	'download_pocket_forum'	: 'Download Pocket Forum',//'下载掌上论坛',
 	'pocket_forum_android'	: 'If Andriod version, Scan thw QR-code can be downloaded directly to the phone',//'Andriod版本，扫描二维码可以直接下载到手机',
 	'pocket_forum_android_alt'	: 'Suitable for Android-based smartphones like Samsung/HTC/etc',//'适用于装有安卓系统的三星/HTC/小米等手机',

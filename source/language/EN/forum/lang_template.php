@@ -682,7 +682,6 @@ $lang = array (
 	'recent_use_tag'		=> 'Recently used tags:',//'最近使用标签:',
         'suggest_tags'                  => 'Suggest Tags' ,
         'suggest_tags_label'            => 'Suggest keyword to make this page easier to find:' ,
-        'thanks_for_suggestion'         => 'We appreciate your suggestion. Thank you!' ,
 	'replycredit_empty'		=> '(leave blank or fill 0 for no reward)',//'(留空或填 0 为不奖励)',
 	'replycredit_however'		=> 'Still have replies',//'本帖尚有',
 	'replycredit_member'		=> 'up to a maximum per person',//'每人最多可获得',
