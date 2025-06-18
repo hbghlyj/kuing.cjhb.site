@@ -48,7 +48,7 @@ drag.extend({
 	},
 	init : function (sampleMode) {
 		this.initCommon();
-		$('samplepanel').innerHTML = '可直接管理模块数据 [<a href="javascript:;" onclick="spaceDiy.cancel();return false;" class="xi2">退出</a>]';
+/*vot*/         $('samplepanel').innerHTML = lng['data_manage']+' [<a href="javascript:;" onclick="spaceDiy.cancel();return false;" class="xi2">'+lng['quit']+'</a>]';
 		this.setSampleMode(sampleMode);
 		this.initSample();
 		return true;
@@ -74,13 +74,13 @@ drag.extend({
 		var height = Util.getFinallyStyle(bcontent, 'height');
 		bcontent.style.lineHeight = height == 'auto' ? '' : (height == '0px' ? '20px' : height);
 		var boldcontent = bcontent.innerHTML;
-		bcontent.innerHTML = '<center>正在加载内容...</center>';
+/*vot*/         bcontent.innerHTML = '<center>' + lng['loading_content'] + '</center>';
 		var x = new Ajax();
 		x.get('portal.php?mod=portalcp&ac=block&op=getblock&forceupdate=1&inajax=1&bid='+bid+'&tpl='+document.diyform.template.value, function(s) {
 			if(s.indexOf('errorhandle_') != -1) {
 				bcontent.innerHTML = boldcontent;
 				runslideshow();
-				showDialog('抱歉，您没有权限添加或编辑模块', 'alert');
+/*vot*/                         showDialog(lng['block_no_rights'], 'alert');
 				doane();
 			} else {
 				var obj = document.createElement('div');

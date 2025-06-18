@@ -428,48 +428,12 @@ var lng = {
 	'day'			: 'Day',//'日',
 	'category_empty'	: 'Category name can not be empty!',//'分类名不能为空！',
 
-//--------------------------------
-//static/js/home_ajax.js
-
-//	'close'			: 'Close',//'关闭',
-//	'wait_please'		: 'Loading ...',//'请稍候...',
-
-//--------------------------------
-//static/js/home_blog.js
-
-	'title_length_invalid'	: 'Title length (should be 1~80 characters) does not meet the requirement',//'标题长度(1~80字符)不符合要求',
-
-//--------------------------------
-//static/js/home_common.js
-
-	'show_orig_image'	: 'Show original image in a new window',//'点击图片，在新窗口显示原始尺寸',
-	'continue_sure'		: 'Are you sure to proceed?',//'您确定要执行本操作吗？',
-	'select_item'		: 'Please choose the item to operate with',//'请选择要操作的对象',
-	'image_url_invalid'	: 'Incorrect image URL',//'图片地址不正确',
-	'audio_url_invalid'	: 'Incorrect audio URL, can not be empty',//'音乐地址错误，不能为空',
-
-//!!!!! MayBe wrap this names!!
-	'collapse'		: 'Collapse',//'收起',
-	'expand'		: 'Expand',//'展开',
-
-//--------------------------------
 //static/js/home_friendselector.js
 
 	'select_max'		: 'You can select up to',//'最多只允许选择',
 	'users'			: 'users',//'个用户',
 	'allready_exists'	: 'Already exists',//'已经存在',
 
-//--------------------------------
-//static/js/home_manage.js
-
-	'you_friends_now'	: 'You are friends now, you can ',//'你们现在是好友了，接下来，您还可以：',
-	'leave_message'		: 'Leave a message',//'给TA留言',
-	'or'			: 'or',//'或者',
-	'send_greeting'		: 'send greeting',//'打个招呼',
-	'reply'			: 'Reply',//'回复',
-	'comment'		: 'Comment',//'评论',
-	'close_list'		: 'Close the List',//'收起列表',
-	'more_feeds'		: 'More Feeds',//'更多动态',
 
 //--------------------------------
 //static/js/home_uploadpic.js
@@ -622,10 +586,6 @@ var lng = {
 	'data_manage'		: 'Direct management of the block data',//'可直接管理模块数据',
 	'quit'			: 'Quit',//'退出',
 //--------------------------------
-//static/js/qshare.js
-	'from_tencent'		: 'I come from Tencent microblogging an open platform',//"\u6211\u6765\u81EA\u4E8E\u817E\u8BAF\u5FAE\u535A\u5F00\u653E\u5E73\u53F0",
-
-//--------------------------------
 //static/js/register.js
 
 	'username_invalid'	: 'Username contains invalid characters',//'用户名包含敏感字符',
@@ -640,7 +600,6 @@ var lng = {
 	'email_fill'		: 'Enter email address',//'请输入邮箱地址',
 	'length_min'		: ', longer than ',//', 最小长度为 '
 	'chars'			: ' characters',//' 个字符',
-        'characters'            : ' characters',
 	'password_strength'	: 'Password strength: ',//'密码强度:',
 	'pw_weak'		: 'Weak',//'弱',
 	'pw_middle'		: 'Middle',//'中',
@@ -704,8 +663,8 @@ var lng = {
 
 //---------------------------
 //upload/static/js/webuploader.js
-        'file_single_size_limit': 'Single file size must not exceed ',
-        'file_num_limit'        : 'Can only upload at most ',
+        'file_single_size_limit': 'Single file size must not exceed',
+        'file_num_limit'        : 'Can only upload at most',
         '_files'                : ' files!',
         'file_size_limit'       : 'The total size of all uploaded files exceeds the limit.',
         'file_invalid_type'     : 'Invalid file type, please upload the correct file format!',
