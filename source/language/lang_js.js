@@ -435,47 +435,11 @@ var lng = {
 	'category_empty'	: '分类名不能为空！',
 
 //--------------------------------
-//static/js/home_ajax.js
-
-//	'close'			: '关闭',
-//	'wait_please'		: '请稍候...',
-
-//--------------------------------
-//static/js/home_blog.js
-
-	'title_length_invalid'	: '标题长度(1~80字符)不符合要求',
-
-//--------------------------------
-//static/js/home_common.js
-
-	'show_orig_image'	: '点击图片，在新窗口显示原始尺寸',
-	'continue_sure'		: '您确定要执行本操作吗？',
-	'select_item'		: '请选择要操作的对象',
-	'image_url_invalid'	: '图片地址不正确',
-	'audio_url_invalid'	: '音乐地址错误，不能为空',
-
-//!!!!! MayBe wrap this names!!
-	'collapse'		: '收起',
-	'expand'		: '展开',
-
-//--------------------------------
 //static/js/home_friendselector.js
 
 	'select_max'		: '最多只允许选择',
 	'users'			: '个用户',
 	'allready_exists'	: '已经存在',
-
-//--------------------------------
-//static/js/home_manage.js
-
-	'you_friends_now'	: '你们现在是好友了，接下来，您还可以：',
-	'leave_message'		: '给TA留言',
-	'or'			: '或者',
-	'send_greeting'		: '打个招呼',
-	'reply'			: '回复',
-	'comment'		: '评论',
-	'close_list'		: '收起列表',
-	'more_feeds'		: '更多动态',
 
 //--------------------------------
 //static/js/home_uploadpic.js
@@ -628,10 +592,6 @@ var lng = {
 //static/js/portal_diy_data.js
 	'data_manage'		: '可直接管理模块数据',//'Direct management of the block data',
 	'quit'			: '退出',//'Quit',
-//--------------------------------
-//static/js/qshare.js
-	'from_tencent'		: "\u6211\u6765\u81EA\u4E8E\u817E\u8BAF\u5FAE\u535A\u5F00\u653E\u5E73\u53F0",
-
 //--------------------------------
 //static/js/register.js
 

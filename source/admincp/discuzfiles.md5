@@ -2466,7 +2466,6 @@ a902d62f1afdfb7811a0ebbf6e47547c *static/js/forum_moderate.js
 1477d83e8000f4f1fa9047525123acda *static/js/google.js
 71a7d2d60eca5316df6ce6c387170b78 *static/js/handlers.js
 a5512f6a3c0d2e39e8d57173b2806c4f *static/js/home.js
-6eed62926b1425acde87d58b0dce90bf *static/js/home_blog.js
 90502bfc88e6556f63c9bd6629dd919d *static/js/home_drag.js
 db178982a9ddcae1b41123e51599c7d7 *static/js/home_friendselector.js
 04fc72f23aed6963912e3a1d6f20a6c3 *static/js/home_uploadpic.js
@@ -2485,7 +2484,6 @@ e1288116312e4728f98923c79b034b67 *static/js/mobile/jquery.min.js
 b3f9f7ec7f8bdc48aafcafd41b3591b6 *static/js/portal_diy.js
 ef2f65e59adac73ea37927d19b2d7d06 *static/js/portal_diy_data.js
 b58718c985fec0ceb5405abae390d599 *static/js/portal_upload.js
-5c026660558d11bb0bf6079c90e1ec85 *static/js/qshare.js
 5c6d69df3fa5d32a42ad8a1f3433c190 *static/js/redef.js
 4a0a7a675870b67d294e64853e7024c3 *static/js/register.js
 992f41cb182b3208e340ffe7f90ed58f *static/js/seditor.js
