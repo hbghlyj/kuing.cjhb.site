@@ -103,10 +103,13 @@ if($operation == 'admin') {
                 if($_GET['modaction'] == 'approve') {
                         $suggest = C::t('forum_tag_suggest')->fetch($id);
                         if($suggest) {
-                                $class_tag = new tag();
-                                $class_tag->add_tag($suggest['tagname'], $suggest['tid'], 'tid');
-                                C::t('forum_tag_suggest')->update_status($id, 1);
-                        }
+                               $class_tag = new tag();
+                               $tagstr = $class_tag->add_tag($suggest['tagname'], $suggest['tid'], 'tid');
+                               if($tagstr) {
+                                       C::t('forum_thread')->concat_tags_by_tid($suggest['tid'], $tagstr);
+                               }
+                               C::t('forum_tag_suggest')->update_status($id, 1);
+                       }
                 } elseif($_GET['modaction'] == 'reject') {
                         C::t('forum_tag_suggest')->update_status($id, 2);
                 }
