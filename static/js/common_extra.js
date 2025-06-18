@@ -996,13 +996,15 @@ function _showColorBox(ctrlid, layer, k, bgcolor) {
 		menu.unselectable = true;
 		menu.style.display = 'none';
 		var coloroptions = ['Black', 'Sienna', 'DarkOliveGreen', 'DarkGreen', 'DarkSlateBlue', 'Navy', 'Indigo', 'DarkSlateGray', 'DarkRed', 'DarkOrange', 'Olive', 'Green', 'Teal', 'Blue', 'SlateGray', 'DimGray', 'Red', 'SandyBrown', 'YellowGreen', 'SeaGreen', 'MediumTurquoise', 'RoyalBlue', 'Purple', 'Gray', 'Magenta', 'Orange', 'Yellow', 'Lime', 'Cyan', 'DeepSkyBlue', 'DarkOrchid', 'Silver', 'Pink', 'Wheat', 'LemonChiffon', 'PaleGreen', 'PaleTurquoise', 'LightBlue', 'Plum', 'White'];
-               var colortexts = ['Black', 'Sienna', 'Dark Olive Green', 'Dark Green', 'Dark Gray Blue', 'Navy', 'Indigo', 'Dark Green', 'Dark Red', 'Dark Orange', 'Olive', 'Green', 'Teal', 'Blue', 'Limestone', 'Dark Gray', 'Red', 'Brown Sand', 'Yellow Green', 'Sea Green', 'Green emerald', 'Royal Blue', 'Purple', 'Gray', 'Red Purple', 'Orange', 'Yellow', 'Acid Orange', 'Blue Green', 'Deep Sky Blue', 'Dark Purple', 'Silver', 'Pink', 'Light Yellow', 'Lemon Silk', 'Cang Green', 'Cang gem Green', 'Bright blue', 'Plum color', 'White'];
-		var str = '';
-		for(var i = 0; i < 40; i++) {
-			str += '<input type="button" style="background-color: ' + coloroptions[i] + '"' + (typeof setEditorTip == 'function' ? ' onmouseover="setEditorTip(\'' + colortexts[i] + '\')" onmouseout="setEditorTip(\'\')"' : '') + ' onclick="'
-			+ (typeof wysiwyg == 'undefined' ? 'seditor_insertunit(\'' + k + '\', \'[' + tag1 + '=' + coloroptions[i] + ']\', \'[/' + tag1 + ']\')' : (ctrlid == editorid + '_tbl_param_4' ? '$(\'' + ctrlid + '\').value=\'' + coloroptions[i] + '\';hideMenu(2)' : 'discuzcode(\'' + tag2 + '\', \'' + coloroptions[i] + '\')'))
-			+ '" title="' + colortexts[i] + '" />' + (i < 39 && (i + 1) % 8 == 0 ? '<br />' : '');
-		}
+               var str = '';
+               for (var i = 0; i < 40; i++) {
+                       str += '<input type="button" style="background-color: ' + coloroptions[i] + '"' +
+                               (typeof setEditorTip == 'function' ? ' onmouseover="setEditorTip(\'' + colortexts[coloroptions[i]] + '\')" onmouseout="setEditorTip(\'\')"' : '') +
+                               ' onclick="' +
+                               (typeof wysiwyg == 'undefined' ? 'seditor_insertunit(\'' + k + '\', \'[' + tag1 + '=' + coloroptions[i] + ']\', \'[/' + tag1 + ']\')' : (ctrlid == editorid + '_tbl_param_4' ? '$(\'' + ctrlid + '\').value=\'' + coloroptions[i] + '\';hideMenu(2)' : 'discuzcode(\'' + tag2 + '\', \'' + coloroptions[i] + '\')')) +
+                               '" title="' + colortexts[coloroptions[i]] + '" />' +
+                               (i < 39 && (i + 1) % 8 == 0 ? '<br />' : '');
+               }
 		menu.innerHTML = str;
 		$('append_parent').appendChild(menu);
 	}
