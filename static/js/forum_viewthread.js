@@ -402,9 +402,9 @@ function toggleRatelogCollapse(tarId, ctrlObj) {
 }
 
 function copyThreadUrl(obj, bbname) {
-	bbname = bbname ||  SITEURL;
-	setCopy(document.querySelector('meta[name=keywords]').content + '\n' + obj.href+ '\n' + '(出处: ' + bbname + ')', lng['thread_to_clipboard']);// hbghlyj edt + kk edt 
-	return false;
+        bbname = bbname || SITEURL;
+        /*vot*/ setCopy($('thread_subject').innerHTML.replace(/&amp;/g, '&') + '\n' + obj.href + '\n' + '('+lng['source']+': '+bbname+')' + '\n', lng['thread_to_clipboard']);
+        return false;
 }
 
 function replyNotice() {
