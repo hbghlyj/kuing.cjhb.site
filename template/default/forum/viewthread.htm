@@ -353,6 +353,18 @@
 
 $_G['forum_tagscript']
 
+<div id="suggestTagsWrapper" class="mtm">
+    <button id="suggestTagsButton" class="pn"><span>{lang suggest_tags}</span></button>
+    <div id="suggestTagsInputArea" style="display:none" class="ptm">
+        <input type="hidden" id="sug_tid" value="$_G[tid]" />
+        <label for="suggestedTagInput">{lang suggest_tags_label}</label>
+        <input type="text" id="suggestedTagInput" class="px vm">
+        <button id="submitSuggestedTag" class="pn pnc"><span>{lang submit}</span></button>
+        <button id="cancelSuggestTags" class="pn"><span>{lang cancel}</span></button>
+        <div id="suggestionMessage" class="mtm" style="display:none">{lang thanks_for_suggestion}</div>
+    </div>
+</div>
+
 <!--{if $multipage && $page < $_G['setting']['threadmaxpages'] && $page < $_G['page_next']}-->
 <!--{eval $nxtpage = $page + 1;}-->
 	<div class="pgbtn"><a href="forum.php?mod=viewthread&tid=$_G[tid]{$multipageparam}&page=$nxtpage" hidefocus="true" class="bm_h">{lang next_page_extra}</a></div>
