@@ -30,25 +30,28 @@ class BackupsModel extends PageModel
      */
     public function checkBackups($file_path)
     {
-        $zipData = new \ZipArchive(); 
+        $zipData = new \ZipArchive();
         if ($zipData->open($file_path) === TRUE) {
 
-            (is_bool($zipData->locateName('json/pages.json')) === TRUE) ? $check = FALSE : $check = TRUE; 
+            $check = $zipData->locateName('json/pages.json') !== false;
             if ($check) {
-                $backupPages = json_decode(file_get_contents("zip://".$file_path."#json/pages.json"),true);
+                $backupPages = json_decode(file_get_contents("zip://".$file_path."#json/pages.json"), true);
                 foreach ($backupPages as $pages) {
                     $phpPath = 'pages/'.$pages['pages']['slug'].'.php';
                     $jsonPath = 'json/'.$pages['pages']['slug'].'.json';
-                    (is_bool($zipData->locateName($phpPath)) === TRUE || is_bool($zipData->locateName($jsonPath)) === TRUE) ? $check = FALSE : $check = TRUE;
+                    if ($zipData->locateName($phpPath) === false || $zipData->locateName($jsonPath) === false) {
+                        $check = false;
+                        break;
+                    }
                 }
             }
             $zipData->close();
-            
-            if ($check) { return TRUE; } else { return FALSE; }
+
+            return $check ? TRUE : FALSE;
         } else {
-        
+
         return FALSE;
-        
+
         }
         
     }

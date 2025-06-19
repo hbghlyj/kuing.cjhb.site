@@ -236,6 +236,10 @@ class PageModel
     {
         $slug = $this->getSlug($id);
 
+        if (empty($slug)) {
+            return null;
+        }
+
         return 'pages/'.$slug.'.php';
     }
     
@@ -251,7 +255,7 @@ class PageModel
         $data = $this->connect();
         $key = $this->findKey($data, $id);
 
-        return $data[$key]['pages']['slug'];
+        return isset($data[$key]) ? $data[$key]['pages']['slug'] : null;
     }
     
     /**
@@ -264,6 +268,10 @@ class PageModel
     public function getJsonPath($id)
     {
         $slug = $this->getSlug($id);
+
+        if (empty($slug)) {
+            return null;
+        }
 
         return 'json/'.$slug.'.json';
     }
@@ -366,6 +374,8 @@ class PageModel
                 return $value['pages']['id'];
             }
         }
+
+        return null;
     }
     
     /**
