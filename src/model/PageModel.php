@@ -122,17 +122,12 @@ class PageModel
             };
         }   
         
-		$phpPath = 'pages/'.$slug.'.php';
-        $jsonPath = 'json/'.$slug.'.json';
-        
         $data[] = array(
             'pages' => [
                     'id' => $id,
                     'slug' => $slug,
                     'topic' => $topic,
                     'filename' => $filename,
-                    'phppath' => $phpPath,
-                    'jsonpath' => $jsonPath,
                     'published' => 0,
                     'home' => 0
             ]);
@@ -239,10 +234,9 @@ class PageModel
      */
     public function getPhpPath($id)
     {
-        $data = $this->connect();
-        $key = $this->findKey($data, $id);
+        $slug = $this->getSlug($id);
 
-        return $data[$key]['pages']['phppath'];
+        return 'pages/'.$slug.'.php';
     }
     
     /**
@@ -269,13 +263,10 @@ class PageModel
      */
     public function getJsonPath($id)
     {
-        $data = $this->connect();
-        $key = $this->findKey($data, $id);
-        
-        if (isset($data[$key])) {
-            return $data[$key]['pages']['jsonpath'];
-        }
-    }    
+        $slug = $this->getSlug($id);
+
+        return 'json/'.$slug.'.json';
+    }
     
     /**
      * getAllFromKey
@@ -369,9 +360,12 @@ class PageModel
     public function getId($path)
     {
         $data = $this->connect();
-        $key = array_search($path, array_column($data, 'phppath'));
-        
-        return $data[$key]['pages']['id'];
+        foreach ($data as $value) {
+            $phpPath = 'pages/'.$value['pages']['slug'].'.php';
+            if ($phpPath === $path) {
+                return $value['pages']['id'];
+            }
+        }
     }
     
     /**

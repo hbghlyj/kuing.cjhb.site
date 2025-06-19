@@ -37,7 +37,9 @@ class BackupsModel extends PageModel
             if ($check) {
                 $backupPages = json_decode(file_get_contents("zip://".$file_path."#json/pages.json"),true);
                 foreach ($backupPages as $pages) {
-                    (is_bool($zipData->locateName($pages['pages']['phppath'])) === TRUE || is_bool($zipData->locateName($pages['pages']['jsonpath'])) === TRUE) ? $check = FALSE : $check = TRUE; 
+                    $phpPath = 'pages/'.$pages['pages']['slug'].'.php';
+                    $jsonPath = 'json/'.$pages['pages']['slug'].'.json';
+                    (is_bool($zipData->locateName($phpPath)) === TRUE || is_bool($zipData->locateName($jsonPath)) === TRUE) ? $check = FALSE : $check = TRUE;
                 }
             }
             $zipData->close();
