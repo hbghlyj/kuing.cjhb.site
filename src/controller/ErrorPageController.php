@@ -17,12 +17,19 @@ use DocPHT\Core\Translator\T;
 use Instant\Core\Controller\BaseController;
 
 class ErrorPageController extends BaseController
-{ 
-	
-	public function getPage()
-	{
-		http_response_code(404);
-		$this->view->load('Page not found','error_page.php');
-	}
+{
+
+    public function getPage($topic = null, $filename = null)
+    {
+        http_response_code(404);
+        if ($topic && $filename) {
+            $this->view->load('Page not found', 'suggest_create_page.php', [
+                'topic' => $topic,
+                'filename' => $filename
+            ]);
+        } else {
+            $this->view->load('Page not found', 'error_page.php');
+        }
+    }
 
 }

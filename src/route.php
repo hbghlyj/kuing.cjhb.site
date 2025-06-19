@@ -100,7 +100,7 @@ $route->group('/page', function()
             $page->getPage($topic, $filename);
         } else {
             $error = new ErrorPageController();
-            $error->getPage();
+            $error->getPage($topic, $filename);
         }
     });
 
