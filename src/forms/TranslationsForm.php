@@ -20,36 +20,17 @@ use Nette\Utils\Html;
 class TranslationsForm extends MakeupForm
 {
 
-	public function create()
-	{
+
+    public function create()
+    {
         $form = new Form;
         $form->onRender[] = [$this, 'bootstrap4'];
 
-        $form->addGroup(T::trans('Update translations for: ') . $_SESSION['Username']);
-            
-        $translations = json_decode(file_get_contents(realpath('src/translations/code-translations.json')), true);
-        asort($translations);
-        $form->addSelect('translations',T::trans('Language:'), $translations)
-        	->setPrompt(T::trans('Select an option'))
-        	->setHtmlAttribute('data-live-search','true')
-        	->setDefaultValue($this->adminModel->getUserTrans($_SESSION['Username']))
-        	->setRequired(T::trans('Select an option'));
-            error_log($this->adminModel->getUserTrans($_SESSION['Username']),0);
-        
-        $form->addProtection(T::trans('Security token has expired, please submit the form again'));
-        
-        $form->addSubmit('submit', T::trans('Update user translation'));
-        
-        if ($form->isSuccess()) {
-            $values = $form->getValues();
-            if (isset($_SESSION['Username']) && isset($values['translations'])) {
-                $this->adminModel->updateTrans($_SESSION['Username'], $values['translations']);
-                $this->msg->success(T::trans('Successful language change.'),BASE_URL.'admin');
-            } else {
-                $this->msg->error(T::trans('Sorry something didn\'t work!'),BASE_URL.'admin');
-            }
-            
-        }        
-		return $form;
-	}
+        $form->addGroup(T::trans('Language selection'));
+        $form->addText('info', T::trans('Current language'))
+            ->setHtmlAttribute('readonly', true)
+            ->setDefaultValue(T::detectLang());
+
+        return $form;
+    }
 }
