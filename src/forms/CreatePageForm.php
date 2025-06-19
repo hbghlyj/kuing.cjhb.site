@@ -14,7 +14,6 @@
 namespace DocPHT\Form;
 
 use DocPHT\Core\Translator\T;
-use DocPHT\Model\PageModel;
 use Nette\Forms\Form;
 use Nette\Utils\Html;
 
