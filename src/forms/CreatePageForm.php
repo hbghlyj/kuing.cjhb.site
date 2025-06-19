@@ -33,7 +33,7 @@ class CreatePageForm extends MakeupForm
     /**
      * Build the create page form.
      *
-     * @return string HTML markup
+     * @return array<string, string> Form HTML and datalist markup
      */
     public function create()
     {
@@ -152,7 +152,10 @@ class CreatePageForm extends MakeupForm
 
             $this->msg->error(T::trans('Sorry something didn\'t work!'), BASE_URL.'page/create');
         }
-        return (string) $form . (string) $dataList;
+        return [
+            'form' => (string) $form,
+            'dataList' => (string) $dataList,
+        ];
     }
 
     private function folderEmpty($dir)
