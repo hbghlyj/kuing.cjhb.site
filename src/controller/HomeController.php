@@ -23,7 +23,7 @@ class HomeController extends BaseController
 	{
 	    $home_page = $this->homePageModel->get();
 	    
-		$this->view->show('partial/head.php', ['PageTitle' => TITLE]);
+                $this->view->show('partial/head.php', ['PageTitle' => T::trans('TITLE')]);
         
 		if($home_page !== false) {
 		    $page = require_once($home_page);

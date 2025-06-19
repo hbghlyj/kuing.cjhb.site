@@ -4,10 +4,10 @@
             <?php 
                 if (file_exists('json/logo.png')) {
                     echo '<a href="/doc.php"><img id="logo" src="json/logo.png?'.time().'" alt="logo" class="img-fluid"></a>';
-                } elseif (TITLE == 'DocPHT') {
-                    echo '<a href="/doc.php"><h3>'.TITLE.' <i class="fa fa-code" aria-hidden="true"></i></h3></a>';
-                } elseif (TITLE != 'DocPHT') {
-                    echo '<a href="/doc.php"><h3>'.TITLE.'</h3></a>';
+                } elseif (DocPHT\Core\Translator\T::trans('TITLE') == 'DocPHT') {
+                    echo '<a href="/doc.php"><h3>'.DocPHT\Core\Translator\T::trans('TITLE').' <i class="fa fa-code" aria-hidden="true"></i></h3></a>';
+                } else {
+                    echo '<a href="/doc.php"><h3>'.DocPHT\Core\Translator\T::trans('TITLE').'</h3></a>';
                 }
             ?>
             <hr>

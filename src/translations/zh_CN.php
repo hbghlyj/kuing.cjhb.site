@@ -1,6 +1,7 @@
 <?php
 
     $t->addResource('array', [
+        'TITLE' => '知识库',
         'Welcome to DocPHT' => '欢迎来到 DocPHT',
         'Create new' => '创建新的',
         'Update' => '更新',
