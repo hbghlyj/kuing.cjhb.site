@@ -5,4 +5,5 @@ src/config/
 .vscode/
 data/
 uc_server/data/
-json/
+json/users.json
+json/accesslog.json
