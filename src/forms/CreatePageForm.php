@@ -160,7 +160,7 @@ class CreatePageForm extends MakeupForm
 
     private function folderEmpty($dir)
     {
-        return is_readable($dir) ? count(scandir($dir)) === 2 : null;
+        return is_readable($dir) ? count(scandir($dir)) === 2 : false;
     }
 }
 
