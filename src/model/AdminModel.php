@@ -56,7 +56,6 @@ class AdminModel
         $data[] = array(
             'Username' => $values['username'],
             'Password' => password_hash($values['password'], PASSWORD_DEFAULT),
-            'Language' => $values['translations'],
             'Token'    => '',
             'Admin'    => $values['admin']
             );
@@ -88,38 +87,6 @@ class AdminModel
         return $usernames;
     }
 
-    /**
-     * updateTrans
-     *
-     * @param  string $username
-     * @param  string $translation
-     * 
-     * @return array
-     */
-    public function updateTrans($username, $translation)
-    {
-        $data = $this->connect();
-        $key = array_search($username, array_column($data, 'Username'));
-        
-        $data[$key]['Language'] = $translation;
-        
-        return $this->disconnect(self::USERS, $data);
-    }
-    
-    /**
-     * getUserTrans
-     *
-     * @param  string $username
-     * 
-     * @return string
-     */
-    public function getUserTrans($username)
-    {
-        $data = $this->connect();
-        $key = array_search($username, array_column($data, 'Username'));
-        
-        return $data[$key]['Language'];
-    }
     
     /**
      * removeUser
