@@ -129,9 +129,35 @@ class CreatePageForm extends MakeupForm
                 exit;
             }
 
+            // Roll back the partially created page to avoid orphaned data
+            if (isset($filePath) && $filePath && file_exists($filePath)) {
+                unlink($filePath);
+            }
+
+            $json = $this->pageModel->getJsonPath($id);
+            if ($json && file_exists($json)) {
+                unlink($json);
+            }
+
+            $jsonDir = dirname($json);
+            if ($this->folderEmpty($jsonDir)) {
+                rmdir($jsonDir);
+            }
+            $phpDir = dirname($this->pageModel->getPhpPath($id));
+            if ($this->folderEmpty($phpDir)) {
+                rmdir($phpDir);
+            }
+
+            $this->pageModel->remove($id);
+
             $this->msg->error(T::trans('Sorry something didn\'t work!'), BASE_URL.'page/create');
         }
         return (string) $form . (string) $dataList;
+    }
+
+    private function folderEmpty($dir)
+    {
+        return is_readable($dir) ? count(scandir($dir)) === 2 : null;
     }
 }
 
