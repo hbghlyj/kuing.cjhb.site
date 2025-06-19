@@ -15,7 +15,7 @@
     <h1><?= $t->trans('Page not found') ?></h1>
     <p><?= $t->trans('The page you are looking for does not exist:') ?> <strong><?= htmlspecialchars($filename, ENT_QUOTES, 'UTF-8') ?></strong></p>
     <p><?= $t->trans('You can create this page:') ?></p>
-    <a href="<?= BASE_URL ?>page/create?topic=<?= urlencode($topic) ?>&filename=<?= urlencode($filename) ?>" class="btn btn-primary"><?= $t->trans('Create Page') ?></a>
+    <a href="<?= BASE_URL ?>page/create?topic=<?= urlencode($topic) ?>&filename=<?= urlencode($filename) ?>" class="btn btn-primary"><?= $t->trans('Create new page') ?></a>
     <hr>
     <p><?= $t->trans('Alternatively, you can search for the page:') ?></p>
     <form action="<?= BASE_URL ?>page/search" method="post">
