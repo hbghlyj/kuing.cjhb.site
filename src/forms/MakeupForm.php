@@ -20,7 +20,6 @@ use DocPHT\Model\VersionModel;
 use DocPHT\Model\BackupsModel;
 use DocPHT\Model\HomePageModel;
 use DocPHT\Model\AdminModel;
-use DocPHT\Core\Translator\T;
 use Plasticbrain\FlashMessages\FlashMessages;
 
 class MakeupForm

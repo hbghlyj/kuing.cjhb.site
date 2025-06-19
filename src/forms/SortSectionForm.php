@@ -13,9 +13,6 @@
 
 namespace DocPHT\Form;
 
-use Nette\Forms\Form;
-use Nette\Utils\Html;
-use DocPHT\Core\Translator\T;
 
 class SortSectionForm extends MakeupForm
 {

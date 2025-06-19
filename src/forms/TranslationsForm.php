@@ -15,7 +15,6 @@ namespace DocPHT\Form;
 
 use DocPHT\Core\Translator\T;
 use Nette\Forms\Form;
-use Nette\Utils\Html;
 
 class TranslationsForm extends MakeupForm
 {
