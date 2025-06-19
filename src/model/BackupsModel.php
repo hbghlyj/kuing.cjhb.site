@@ -30,23 +30,28 @@ class BackupsModel extends PageModel
      */
     public function checkBackups($file_path)
     {
-        $zipData = new \ZipArchive(); 
-        if ($zipData->open($file_path) === TRUE) {
+        $zipData = new \ZipArchive();
+        if ($zipData->open($file_path) === true) {
 
-            (is_bool($zipData->locateName('json/pages.json')) === TRUE) ? $check = FALSE : $check = TRUE; 
+            $check = $zipData->locateName('json/pages.json') !== false;
             if ($check) {
-                $backupPages = json_decode(file_get_contents("zip://".$file_path."#json/pages.json"),true);
+                $backupPages = json_decode(file_get_contents("zip://".$file_path."#json/pages.json"), true);
                 foreach ($backupPages as $pages) {
-                    (is_bool($zipData->locateName($pages['pages']['phppath'])) === TRUE || is_bool($zipData->locateName($pages['pages']['jsonpath'])) === TRUE) ? $check = FALSE : $check = TRUE; 
+                    $phpPath = 'pages/'.$pages['pages']['slug'].'.php';
+                    $jsonPath = 'json/'.$pages['pages']['slug'].'.json';
+                    if ($zipData->locateName($phpPath) === false || $zipData->locateName($jsonPath) === false) {
+                        $check = false;
+                        break;
+                    }
                 }
             }
             $zipData->close();
-            
-            if ($check) { return TRUE; } else { return FALSE; }
+
+            return $check;
         } else {
-        
-        return FALSE;
-        
+
+        return false;
+
         }
         
     }
@@ -61,7 +66,7 @@ class BackupsModel extends PageModel
     public function getZipList($file)
     {
         $zip = new \ZipArchive(); 
-        if ($zip->open($file) == TRUE) {
+        if ($zip->open($file) === true) {
             for ($i = 0; $i < $zip->numFiles; $i++) {
                 $filename[] = $zip->getNameIndex($i);
             }
@@ -108,7 +113,7 @@ class BackupsModel extends PageModel
             
             return $array;
         } else {
-            return FALSE;
+            return false;
         }
 
     }
@@ -168,9 +173,9 @@ class BackupsModel extends PageModel
     {
         if (file_exists($path)) {
             unlink($path);
-            return TRUE;
+            return true;
         } else {
-            return FALSE;
+            return false;
         }
         
     }

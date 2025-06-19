@@ -32,7 +32,7 @@ class HomePageModel extends PageModel
         if (!is_null($data)) {
             foreach($data as $value){
                 if($value['pages']['home'] == 1) {
-                  $path = $value['pages']['phppath'];  
+                  $path = 'pages/'.$value['pages']['slug'].'.php';
                   break;
                 }
             } 
@@ -71,8 +71,6 @@ class HomePageModel extends PageModel
                         'slug' => $value['pages']['slug'],
                         'topic' => $value['pages']['topic'],
                         'filename' => $value['pages']['filename'],
-                        'phppath' => $value['pages']['phppath'],
-                        'jsonpath' => $value['pages']['jsonpath'],
                         'published' => $published,
                         'home' => $home
                 ]

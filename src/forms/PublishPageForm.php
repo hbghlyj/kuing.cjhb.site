@@ -36,8 +36,6 @@ class PublishPageForm extends MakeupForm
                         'slug' => $value['pages']['slug'],
                         'topic' => $value['pages']['topic'],
                         'filename' => $value['pages']['filename'],
-                        'phppath' => $value['pages']['phppath'],
-                        'jsonpath' => $value['pages']['jsonpath'],
                         'published' => $published,
                         'home' => $value['pages']['home']
                     ]
