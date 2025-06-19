@@ -77,14 +77,14 @@ class AdminController extends BaseController
 	public function removeLogo()
 	{
 		unlink('json/logo.png');
-		header('Location:/doc.phpadmin');
+		header('Location:/admin');
 		exit;
 	}
 
 	public function removeFav()
 	{
 		unlink('json/favicon.png');
-		header('Location:/doc.phpadmin');
+		header('Location:/admin');
 		exit;
 	}
 
