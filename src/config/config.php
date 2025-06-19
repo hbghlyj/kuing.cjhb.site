@@ -6,7 +6,6 @@ define("BASE_PATH", __DIR__ . DS);
 define("SUBTITLE", "");
 define("DOWNLOAD", "");
 define("GITHUB", "");
-define("LANGUAGE","zh_CN");
 define("TIMEZONE","Europe/London");
 define("DATAFORMAT","Y-m-d H:i");
 define('BASE_URL', 'http://localhost/doc.php/');

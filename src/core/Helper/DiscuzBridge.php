@@ -12,11 +12,9 @@ class DiscuzBridge
     {
         $adminModel = new AdminModel();
         if (!$adminModel->userExists($username)) {
-            $langHeader = $_SERVER['HTTP_ACCEPT_LANGUAGE'] ?? '';
             $adminModel->create([
                 'username' => $username,
                 'password' => $password ?? bin2hex(random_bytes(16)),
-                'translations' => (stripos($langHeader, 'zh') === false) ? 'en_EN' : 'zh_CN',
                 'admin' => false
             ]);
         }
