@@ -150,7 +150,7 @@ class BackupsForms extends MakeupForm
     
     public function filter($files)
     {
-        $exclude = 'Data/users.json';
+        $exclude = 'json/users.json';
         $key = array_search($exclude, $files);
         unset($files[$key]);
         return $files;
@@ -162,7 +162,7 @@ class BackupsForms extends MakeupForm
         if (!empty($zip_file)) {
             if ($zipData->open($zip_file) === TRUE) {
                 $oldIds = $this->pageModel->getAllFromKey('id');
-                $new = json_decode(file_get_contents("zip://".$zip_file."#Data/pages.json"),true);
+                $new = json_decode(file_get_contents("zip://".$zip_file."#json/pages.json"),true);
                 $newIds = $this->pageModel->getAllFromDataKey($new, 'id');
                 
                 foreach($newIds as $id) {
@@ -217,8 +217,8 @@ class BackupsForms extends MakeupForm
         $zipData = new \ZipArchive();
         if (!empty($zip_file)) {
             if ($zipData->open($zip_file) === TRUE) {
-                if(file_exists('Data/users.json'))unlink('Data/users.json');
-                $zipData->extractTo('.', 'Data/users.json');
+                if(file_exists('json/users.json'))unlink('json/users.json');
+                $zipData->extractTo('.', 'json/users.json');
                 $zipData->close();
                 
                 return true;
@@ -238,7 +238,7 @@ class BackupsForms extends MakeupForm
             if(is_dir($file)) { 
                 $this->recursiveRemoveDirectory($file);
             } else {
-                if(strpos($file, 'Data/DocPHT_Backup_') === false && strpos($file, 'Data/users.json') === false)unlink($file);
+                if(strpos($file, 'json/DocPHT_Backup_') === false && strpos($file, 'json/users.json') === false)unlink($file);
             }
         }
         if($directory !== 'data' && $directory !== 'pages')rmdir($directory);

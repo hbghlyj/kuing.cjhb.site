@@ -44,7 +44,7 @@ class PublishPageForm extends MakeupForm
                 );
             }
 
-            $this->pageModel->disconnect('Data/pages.json', $pages);
+            $this->pageModel->disconnect('json/pages.json', $pages);
         }
     
         

@@ -15,7 +15,7 @@ namespace DocPHT\Model;
 
 class AdminModel
 {
-    const USERS = 'Data/users.json';
+    const USERS = 'json/users.json';
     
     /**
      * connect

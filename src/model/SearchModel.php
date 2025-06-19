@@ -35,12 +35,12 @@ class SearchModel extends PageModel
                     (!empty($page['v3'])) ? array_push($array,$this->add($value['id'], $page['v3'])) : $array;
                     (!empty($page['v4'])) ? array_push($array,$this->add($value['id'], $page['v4'])) : $array;
                     if($page['key'] === 'codeFile' || $page['key'] === 'markdownFile') {
-                        (!empty($page['v1'])) ? array_push($array, $this->add($value['id'], file_get_contents('Data/'.$page['v1']))) : $array;
+                        (!empty($page['v1'])) ? array_push($array, $this->add($value['id'], file_get_contents('json/'.$page['v1']))) : $array;
                     }
                 }
             }
         }
-        $this->disconnect('Data/search.json',$array);
+        $this->disconnect('json/search.json',$array);
     }
     
     public function add($id, $content)

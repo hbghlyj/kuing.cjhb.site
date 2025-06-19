@@ -2,8 +2,8 @@
         <nav id="sidebar">
             <div class="sidebar-header text-center">
             <?php 
-                if (file_exists('Data/logo.png')) {
-                    echo '<a href="/doc.php"><img id="logo" src="Data/logo.png?'.time().'" alt="logo" class="img-fluid"></a>';
+                if (file_exists('json/logo.png')) {
+                    echo '<a href="/doc.php"><img id="logo" src="json/logo.png?'.time().'" alt="logo" class="img-fluid"></a>';
                 } elseif (TITLE == 'DocPHT') {
                     echo '<a href="/doc.php"><h3>'.TITLE.' <i class="fa fa-code" aria-hidden="true"></i></h3></a>';
                 } elseif (TITLE != 'DocPHT') {

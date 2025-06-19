@@ -254,7 +254,7 @@ class DocBuilder
             $file_contents = $file->getContents();
             $file_name = $file->getName();
             $this->setFolderPermissions('data');
-            $file_path = 'Data/' . substr(pathinfo($path, PATHINFO_DIRNAME ), 6) . '/' . uniqid() . '_' . $file_name;
+            $file_path = 'json/' . substr(pathinfo($path, PATHINFO_DIRNAME ), 6) . '/' . uniqid() . '_' . $file_name;
             file_put_contents($file_path, $file_contents);
             return $file_path;
         } else {
@@ -278,7 +278,7 @@ class DocBuilder
             $file_contents = $file->getContents();
             $file_name = $file->getName();
             $this->setFolderPermissions('data');
-            $file_path = 'Data/' . substr(pathinfo($path, PATHINFO_DIRNAME ), 6) . '/' . $file_name;
+            $file_path = 'json/' . substr(pathinfo($path, PATHINFO_DIRNAME ), 6) . '/' . $file_name;
             file_put_contents($file_path, $file_contents);
             return $file_path;
         } else {
@@ -299,7 +299,7 @@ class DocBuilder
         if (isset($file) && $file->isOk()) {
             $file_contents = $file->getContents();
             $this->setFolderPermissions('data');
-            $file_path = 'Data/logo.png';
+            $file_path = 'json/logo.png';
             file_put_contents($file_path, $file_contents);
             return $file_path;
         } else {
@@ -320,7 +320,7 @@ class DocBuilder
         if (isset($file) && $file->isOk()) {
             $file_contents = $file->getContents();
             $this->setFolderPermissions('data');
-            $file_path = 'Data/favicon.png';
+            $file_path = 'json/favicon.png';
             file_put_contents($file_path, $file_contents);
             return $file_path;
         } else {
@@ -342,7 +342,7 @@ class DocBuilder
             $file_contents = $file->getContents();
             $file_name = $file->getName();
             $this->setFolderPermissions('data');
-            $file_path = 'Data/' . $file_name;
+            $file_path = 'json/' . $file_name;
             file_put_contents($file_path, $file_contents);
             return $file_path;
         } else {
@@ -420,7 +420,7 @@ class DocBuilder
     {
         $val = TextHelper::e($val);
         $ext = TextHelper::e($ext);
-        $out = '$html->path'."('Data/{$val}.{$ext}'), \n";
+        $out = '$html->path'."('json/{$val}.{$ext}'), \n";
         return $out; 
     }
     

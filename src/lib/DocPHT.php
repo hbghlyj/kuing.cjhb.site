@@ -197,7 +197,7 @@ class DocPHT {
         return '<tr>'. ((isset($_SESSION['Active'])) ? '<td class="handle"><i class="fa fa-arrows-v sort"></i></td>' : '') . '<td><pre>
                     <code class="language-'.$language.'">
                         <script type="prism-'.$language.'">
-                            '.file_get_contents('Data/'.$filePath).'
+                            '.file_get_contents('json/'.$filePath).'
                         </script>
                     </code>
                 </pre>'.$this->insertBeforeButton().$this->removeButton().$this->modifyButton().$this->insertAfterButton().'</td></tr>';
@@ -226,7 +226,7 @@ class DocPHT {
      */
     public function image(string $src, string $title)
     {
-        return '<tr>'. ((isset($_SESSION['Active'])) ? '<td class="handle"><i class="fa fa-arrows-v sort"></i></td>' : '') . '<td><img src="Data/'.$src.'" class="img-fluid mb-3" alt="'.$title.'">'.$this->insertBeforeButton().$this->removeButton().$this->modifyButton().$this->insertAfterButton().'</td></tr>';
+        return '<tr>'. ((isset($_SESSION['Active'])) ? '<td class="handle"><i class="fa fa-arrows-v sort"></i></td>' : '') . '<td><img src="json/'.$src.'" class="img-fluid mb-3" alt="'.$title.'">'.$this->insertBeforeButton().$this->removeButton().$this->modifyButton().$this->insertAfterButton().'</td></tr>';
     }
     
     /**
@@ -285,7 +285,7 @@ class DocPHT {
     {   
         $Parsedown = new MediaWikiParsedown();
         $markdown = '<tr>'. ((isset($_SESSION['Active'])) ? '<td class="handle"><i class="fa fa-arrows-v sort"></i></td>' : '') . '<td class="markdown-col">';
-        $markdown .= $Parsedown->text(file_get_contents('Data/'.$filePath));
+        $markdown .= $Parsedown->text(file_get_contents('json/'.$filePath));
         $markdown .= $this->insertBeforeButton().$this->removeButton().$this->modifyButton().$this->insertAfterButton().'</td></tr>';
         return $markdown;
     }

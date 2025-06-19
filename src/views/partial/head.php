@@ -30,8 +30,8 @@
     <link rel="stylesheet" href="public/assets/css/bootstrap-select.min.css">
     <!-- Favicon -->
     <?php
-        if (file_exists('Data/favicon.png')) {
-            echo '<link id="fav" rel="icon" type="image/png" href="Data/favicon.png?'.time().'">';
+        if (file_exists('json/favicon.png')) {
+            echo '<link id="fav" rel="icon" type="image/png" href="json/favicon.png?'.time().'">';
         }
     ?>
     

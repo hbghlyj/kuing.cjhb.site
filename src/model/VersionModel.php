@@ -55,11 +55,11 @@ class VersionModel extends PageModel
     {
 
         $path = $this->getPhpPath($id);
-        if ($path == 'Data/doc-pht/home.php') {
-            $zippedVersionPath = 'Data/doc-pht/';
+        if ($path == 'json/doc-pht/home.php') {
+            $zippedVersionPath = 'json/doc-pht/';
             $filePattern = '*.zip';
         } else {
-        	$zippedVersionPath = 'Data/' . substr(pathinfo($path, PATHINFO_DIRNAME ), 6) . '/';
+        	$zippedVersionPath = 'json/' . substr(pathinfo($path, PATHINFO_DIRNAME ), 6) . '/';
             $filePattern = '*.zip';
         }
     
@@ -105,7 +105,7 @@ class VersionModel extends PageModel
         $this->doc = new DocBuilder;
         $path = $this->getPhpPath($id);
         if (isset($id)) {
-        	$zippedVersionPath = 'Data/' . $this->getSlug($id) . '_' . $this->doc->datetimeNow() . '.zip';
+        	$zippedVersionPath = 'json/' . $this->getSlug($id) . '_' . $this->doc->datetimeNow() . '.zip';
         } else {
             die;
         }
@@ -140,7 +140,7 @@ class VersionModel extends PageModel
         $assets = [];
         
         foreach ($data as $fields) {
-            if ($fields['key'] == 'image' || $fields['key'] == 'codeFile' || $fields['key'] == 'markdownFile') { array_push($assets, 'Data/' . $fields['v1']); }
+            if ($fields['key'] == 'image' || $fields['key'] == 'codeFile' || $fields['key'] == 'markdownFile') { array_push($assets, 'json/' . $fields['v1']); }
         }
         
         array_push($assets, $php);

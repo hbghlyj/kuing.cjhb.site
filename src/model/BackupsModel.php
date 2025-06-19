@@ -33,9 +33,9 @@ class BackupsModel extends PageModel
         $zipData = new \ZipArchive(); 
         if ($zipData->open($file_path) === TRUE) {
 
-            (is_bool($zipData->locateName('Data/pages.json')) === TRUE) ? $check = FALSE : $check = TRUE; 
+            (is_bool($zipData->locateName('json/pages.json')) === TRUE) ? $check = FALSE : $check = TRUE; 
             if ($check) {
-                $backupPages = json_decode(file_get_contents("zip://".$file_path."#Data/pages.json"),true);
+                $backupPages = json_decode(file_get_contents("zip://".$file_path."#json/pages.json"),true);
                 foreach ($backupPages as $pages) {
                     (is_bool($zipData->locateName($pages['pages']['phppath'])) === TRUE || is_bool($zipData->locateName($pages['pages']['jsonpath'])) === TRUE) ? $check = FALSE : $check = TRUE; 
                 }
@@ -80,7 +80,7 @@ class BackupsModel extends PageModel
      */
     public function getBackups()
     {
-        $path = 'Data/';
+        $path = 'json/';
         $filePattern = 'DocPHT_Backup_*.zip';
 
         $versionList = array();
@@ -123,16 +123,16 @@ class BackupsModel extends PageModel
     {
         $this->versionModel = new VersionModel;
         $pages = $this->connect();
-        $assets = ['Data/pages.json'];
+        $assets = ['json/pages.json'];
         
-        if(file_exists('Data/users.json'))array_push($assets, 'Data/users.json');
-        if(file_exists('Data/logo.png'))array_push($assets, 'Data/logo.png');
-        if(file_exists('Data/favicon.png'))array_push($assets, 'Data/favicon.png');
-        if(file_exists('Data/search.json'))array_push($assets, 'Data/search.json');
-        if(file_exists('Data/accesslog.json'))array_push($assets, 'Data/accesslog.json');
+        if(file_exists('json/users.json'))array_push($assets, 'json/users.json');
+        if(file_exists('json/logo.png'))array_push($assets, 'json/logo.png');
+        if(file_exists('json/favicon.png'))array_push($assets, 'json/favicon.png');
+        if(file_exists('json/search.json'))array_push($assets, 'json/search.json');
+        if(file_exists('json/accesslog.json'))array_push($assets, 'json/accesslog.json');
         
         $this->doc = new DocBuilder;
-        $filename = 'Data/DocPHT_Backup_' . $this->doc->datetimeNow() . '_'.uniqid().'.zip';
+        $filename = 'json/DocPHT_Backup_' . $this->doc->datetimeNow() . '_'.uniqid().'.zip';
         
         if (is_array($pages) && count($pages) > 0) {
             foreach($pages as $page) {

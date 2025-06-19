@@ -92,7 +92,7 @@
                 </div>
                 <?php endif ?>
 
-                <?php if (file_exists('Data/doc-pht/home.json') && isset($_SESSION['Active']) && $admin == true): ?>
+                <?php if (file_exists('json/doc-pht/home.json') && isset($_SESSION['Active']) && $admin == true): ?>
                     <div class="col-md-4 grid-margin mb-4">
                         <div class="card bg-docpht d-flex align-items-left">
                             <a href="admin/create-home" class="text-white">

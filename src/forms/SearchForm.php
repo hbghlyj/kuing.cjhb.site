@@ -25,7 +25,7 @@ class SearchForm extends MakeupForm
         if(!empty($_POST["search"])) {
             $searchthis = $this->sanitizing($_POST["search"]);
 
-            $json = json_decode(file_get_contents('Data/search.json'), TRUE);
+            $json = json_decode(file_get_contents('json/search.json'), TRUE);
                     
                     foreach($json as $value)  {
                         $id = $value['id'];

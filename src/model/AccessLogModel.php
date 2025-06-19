@@ -19,7 +19,7 @@ use geertw\IpAnonymizer\IpAnonymizer;
 
 class AccessLogModel
 {
-    const ACCESSLOG = 'Data/accesslog.json';
+    const ACCESSLOG = 'json/accesslog.json';
     
     /**
      * connect
