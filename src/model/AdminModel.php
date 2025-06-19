@@ -56,7 +56,6 @@ class AdminModel
         $data[] = array(
             'Username' => $values['username'],
             'Password' => password_hash($values['password'], PASSWORD_DEFAULT),
-            'Language' => $values['translations'],
             'Token'    => '',
             'Admin'    => $values['admin']
             );
@@ -98,12 +97,8 @@ class AdminModel
      */
     public function updateTrans($username, $translation)
     {
-        $data = $this->connect();
-        $key = array_search($username, array_column($data, 'Username'));
-        
-        $data[$key]['Language'] = $translation;
-        
-        return $this->disconnect(self::USERS, $data);
+        // language preference is now detected automatically
+        return true;
     }
     
     /**
@@ -115,10 +110,7 @@ class AdminModel
      */
     public function getUserTrans($username)
     {
-        $data = $this->connect();
-        $key = array_search($username, array_column($data, 'Username'));
-        
-        return $data[$key]['Language'];
+        return \DocPHT\Core\Translator\T::detectLang();
     }
     
     /**
