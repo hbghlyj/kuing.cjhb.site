@@ -253,7 +253,7 @@ class DocBuilder
         if (isset($file) && $file->isOk()) {
             $file_contents = $file->getContents();
             $file_name = $file->getName();
-            $this->setFolderPermissions('data');
+            $this->setFolderPermissions('json');
             $file_path = 'json/' . substr(pathinfo($path, PATHINFO_DIRNAME ), 6) . '/' . uniqid() . '_' . $file_name;
             file_put_contents($file_path, $file_contents);
             return $file_path;
@@ -277,7 +277,7 @@ class DocBuilder
         if (isset($file) && $file->isOk()) {
             $file_contents = $file->getContents();
             $file_name = $file->getName();
-            $this->setFolderPermissions('data');
+            $this->setFolderPermissions('json');
             $file_path = 'json/' . substr(pathinfo($path, PATHINFO_DIRNAME ), 6) . '/' . $file_name;
             file_put_contents($file_path, $file_contents);
             return $file_path;
@@ -298,7 +298,7 @@ class DocBuilder
     {
         if (isset($file) && $file->isOk()) {
             $file_contents = $file->getContents();
-            $this->setFolderPermissions('data');
+            $this->setFolderPermissions('json');
             $file_path = 'json/logo.png';
             file_put_contents($file_path, $file_contents);
             return $file_path;
@@ -319,7 +319,7 @@ class DocBuilder
     {
         if (isset($file) && $file->isOk()) {
             $file_contents = $file->getContents();
-            $this->setFolderPermissions('data');
+            $this->setFolderPermissions('json');
             $file_path = 'json/favicon.png';
             file_put_contents($file_path, $file_contents);
             return $file_path;
@@ -341,7 +341,7 @@ class DocBuilder
         if (isset($file) && $file->isOk()) {
             $file_contents = $file->getContents();
             $file_name = $file->getName();
-            $this->setFolderPermissions('data');
+            $this->setFolderPermissions('json');
             $file_path = 'json/' . $file_name;
             file_put_contents($file_path, $file_contents);
             return $file_path;
