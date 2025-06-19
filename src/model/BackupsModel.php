@@ -31,7 +31,7 @@ class BackupsModel extends PageModel
     public function checkBackups($file_path)
     {
         $zipData = new \ZipArchive();
-        if ($zipData->open($file_path) === TRUE) {
+        if ($zipData->open($file_path) === true) {
 
             $check = $zipData->locateName('json/pages.json') !== false;
             if ($check) {
@@ -47,10 +47,10 @@ class BackupsModel extends PageModel
             }
             $zipData->close();
 
-            return $check ? TRUE : FALSE;
+            return $check;
         } else {
 
-        return FALSE;
+        return false;
 
         }
         
@@ -66,7 +66,7 @@ class BackupsModel extends PageModel
     public function getZipList($file)
     {
         $zip = new \ZipArchive(); 
-        if ($zip->open($file) == TRUE) {
+        if ($zip->open($file) === true) {
             for ($i = 0; $i < $zip->numFiles; $i++) {
                 $filename[] = $zip->getNameIndex($i);
             }
@@ -113,7 +113,7 @@ class BackupsModel extends PageModel
             
             return $array;
         } else {
-            return FALSE;
+            return false;
         }
 
     }
@@ -173,9 +173,9 @@ class BackupsModel extends PageModel
     {
         if (file_exists($path)) {
             unlink($path);
-            return TRUE;
+            return true;
         } else {
-            return FALSE;
+            return false;
         }
         
     }
