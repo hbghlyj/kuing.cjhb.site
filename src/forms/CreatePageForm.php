@@ -79,7 +79,15 @@ class CreatePageForm extends MakeupForm
 
         $form->addUpload('file', T::trans('Add an image or a code file'))
             ->setRequired(false)
-            ->addRule(Form::MIME_TYPE, T::trans('Not a valid file.'), ['image/gif,image/png,image/jpeg,image/svg+xml,application/zip,application/x-rar-compressed,application/octet-stream,text/plain,text/x-c,text/x-c++,text/x-c-header,text/x-c-source,text/x-d,text/x-pascal,text/x-fortran,text/x-asm,text/x-java-source,text/x-lisp,text/x-python,text/x-h,text/x-php,text/x-shellscript,application/json,application/xml,application/javascript,application/x-httpd-php,text/css,text/html,text/csv,text/markdown'])
+            ->addRule(Form::MIME_TYPE, T::trans('Not a valid file.'), [
+                'image/gif', 'image/png', 'image/jpeg', 'image/svg+xml',
+                'application/zip', 'application/x-rar-compressed', 'application/octet-stream',
+                'text/plain', 'text/x-c', 'text/x-c++', 'text/x-c-header', 'text/x-c-source',
+                'text/x-d', 'text/x-pascal', 'text/x-fortran', 'text/x-asm', 'text/x-java-source',
+                'text/x-lisp', 'text/x-python', 'text/x-h', 'text/x-php', 'text/x-shellscript',
+                'application/json', 'application/xml', 'application/javascript', 'application/x-httpd-php',
+                'text/css', 'text/html', 'text/csv', 'text/markdown'
+            ])
             ->addRule(Form::MAX_FILE_SIZE, T::trans('Maximum file size is 10 mb.'), 10 * 1024 * 1024);
 
         $form->addProtection(T::trans('Security token has expired, please submit the form again'));
