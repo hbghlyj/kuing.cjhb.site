@@ -35,15 +35,11 @@ class T
             $parts = explode(',', $accept);
             if (!empty($parts[0])) {
                 $locale = str_replace('-', '_', trim($parts[0]));
-                // try full locale
-                if (file_exists('src/translations/'.$locale.'.php')) {
-                    return $locale;
-                }
-                // try language only
-                $base = strtolower(substr($locale, 0, 2));
-                $candidate = $base.'_'.strtoupper($base);
-                if (file_exists('src/translations/'.$candidate.'.php')) {
-                    return $candidate;
+                if (preg_match('/^[a-zA-Z]{2}_[a-zA-Z]{2}$/', $locale)) {
+                    $locale = strtolower(substr($locale, 0, 2)) . '_' . strtoupper(substr($locale, 3, 2));
+                    if (file_exists('src/translations/'.$locale.'.php')) {
+                        return $locale;
+                    }
                 }
             }
         }
