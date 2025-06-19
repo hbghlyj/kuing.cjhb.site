@@ -63,7 +63,7 @@ local('Songti TC');   /* 宋体 TC, macOS Traditional Chinese */
 
 	<meta name="keywords" content="{if !empty($metakeywords)}{echo dhtmlspecialchars($metakeywords)}{/if}" />
 <meta name="description" content="{if !empty($metadescription)}{echo dhtmlspecialchars($metadescription)} {/if}" />
-<!--{if $_G['threadimage_url']}-->
+<!--{if isset($_G['threadimage_url'])}-->
 <meta property="og:image" content="{$_G['threadimage_url']}" />
 <!--{/if}-->
 	<!--{csstemplate}-->
