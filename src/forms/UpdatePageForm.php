@@ -119,18 +119,18 @@ class UpdatePageForm extends MakeupForm
                             );
             
                 
-                if (($page[$x]['key'] == 'image' || $page[$x]['key'] == 'codeFile' || $page[$x]['key'] == 'markdownFile') && $values['file'.$x]->hasFile()) { unlink('Data/' . $page[$x]['v1']); }
+                if (($page[$x]['key'] == 'image' || $page[$x]['key'] == 'codeFile' || $page[$x]['key'] == 'markdownFile') && $values['file'.$x]->hasFile()) { unlink('json/' . $page[$x]['v1']); }
                 
                 if(($mapped['options'] == 'image' || $mapped['options'] == 'codeFile' || $mapped['options'] == 'markdownFile') && $values['file'.$x]->hasFile()) {
                     $file = $mapped['file'];
                     $file_path = $this->doc->upload($file, $this->pageModel->getPhpPath($id));
                 } else {
                     unset($mapped['file']);
-                    $file_path = ($mapped['options'] != 'addButton') ? 'Data/'.$page[$x]['v1'] : '';
+                    $file_path = ($mapped['options'] != 'addButton') ? 'json/'.$page[$x]['v1'] : '';
                 }
                 
                 if (isset($page[$x]['v1'])) {
-                    $this->doc->removeOldFile($page[$x]['key'], $mapped['options'], 'Data/' . $page[$x]['v1']);
+                    $this->doc->removeOldFile($page[$x]['key'], $mapped['options'], 'json/' . $page[$x]['v1']);
                 }
         
             	    if(isset($id)) {

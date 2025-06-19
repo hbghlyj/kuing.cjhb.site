@@ -27,7 +27,7 @@ class DeletePageForm extends MakeupForm
         $data = $this->pageModel->getPageData($id);
     
         foreach ($data as $fields) {
-            if ($fields['key'] == 'image' || $fields['key'] == 'codeFile' || $fields['key'] == 'markdownFile') { (file_exists('Data/' . $fields['v1'])) ? unlink('Data/' . $fields['v1']) : NULL; }
+            if ($fields['key'] == 'image' || $fields['key'] == 'codeFile' || $fields['key'] == 'markdownFile') { (file_exists('json/' . $fields['v1'])) ? unlink('json/' . $fields['v1']) : NULL; }
         }
     
     
@@ -35,17 +35,17 @@ class DeletePageForm extends MakeupForm
         (file_exists($this->pageModel->getJsonPath($id))) ? unlink($this->pageModel->getJsonPath($id)) : NULL;
     
         if (isset($_SESSION['Active']) && isset($_SESSION['page_id'])) {
-            if ($uPath == 'Data/doc-pht/home.php') {
-                $zippedVersionPath = 'Data/doc-pht/';
+            if ($uPath == 'json/doc-pht/home.php') {
+                $zippedVersionPath = 'json/doc-pht/';
                 $filePattern = 'home_*.zip';
             } else {
-            	$zippedVersionPath = 'Data/' . substr(pathinfo($uPath, PATHINFO_DIRNAME ), 6) . '/';
+            	$zippedVersionPath = 'json/' . substr(pathinfo($uPath, PATHINFO_DIRNAME ), 6) . '/';
                 $filePattern = pathinfo($uPath, PATHINFO_FILENAME ) . '_*.zip';
             }
         }
         
         $dir = 'pages/'.substr(pathinfo($uPath, PATHINFO_DIRNAME), 6);
-        $indatadir = 'Data/'.substr(pathinfo($uPath, PATHINFO_DIRNAME), 6);
+        $indatadir = 'json/'.substr(pathinfo($uPath, PATHINFO_DIRNAME), 6);
         
         foreach (glob($zippedVersionPath . $filePattern) as $file) {
             (file_exists($file)) ? unlink($file) : NULL;

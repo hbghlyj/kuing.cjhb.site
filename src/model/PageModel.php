@@ -45,7 +45,7 @@ use DocPHT\Core\Translator\T;
 
 class PageModel
 {
-    const DB = 'Data/pages.json';
+    const DB = 'json/pages.json';
     
     
     /**
@@ -123,7 +123,7 @@ class PageModel
         }   
         
 		$phpPath = 'pages/'.$slug.'.php';
-        $jsonPath = 'Data/'.$slug.'.json';
+        $jsonPath = 'json/'.$slug.'.json';
         
         $data[] = array(
             'pages' => [
