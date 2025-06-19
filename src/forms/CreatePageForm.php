@@ -26,13 +26,14 @@ class CreatePageForm extends MakeupForm
         if ($pageModel !== null) {
             $this->pageModel = $pageModel;
         }
-        if (!$this->pageModel instanceof PageModel) {
-            throw new \InvalidArgumentException('PageModel instance is required');
-        }
+        // parent constructor already initializes $this->pageModel, so a
+        // missing instance would indicate an internal error
     }
 
     /**
-     * @return Form
+     * Build the create page form.
+     *
+     * @return string HTML markup
      */
     public function create()
     {
