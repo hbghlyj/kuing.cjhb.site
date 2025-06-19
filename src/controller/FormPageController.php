@@ -18,11 +18,11 @@ use Instant\Core\Controller\BaseController;
 class FormPageController extends BaseController
 {
 
-	public function getCreatePageForm()
-	{
-		$form = $this->createPageForm->create();
-		$this->view->load('Create new page','form-page/create_page.php', ['form' => $form]);
-	}
+        public function getCreatePageForm()
+        {
+                $formData = $this->createPageForm->create();
+                $this->view->load('Create new page', 'form-page/create_page.php', $formData);
+        }
 
 	public function getPage($topic, $filename)
 	{	
