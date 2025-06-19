@@ -8,7 +8,7 @@ define("DOWNLOAD", "");
 define("GITHUB", "");
 define("TIMEZONE","Europe/London");
 define("DATAFORMAT","Y-m-d H:i");
-define('BASE_URL', 'http://localhost/doc.php/');
+define('BASE_URL', $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'] . '/doc.php/');
 define('DOMAIN_NAME', $_SERVER['HTTP_HOST']);
 define("SMTPMAILER",false);
 define("SMTPHOST","");
