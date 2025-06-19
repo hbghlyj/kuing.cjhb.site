@@ -2,4 +2,5 @@
 
     $t->addResource('array', [
         
-    ], 'en_EN'); 
+    ], 'en_US');
+
