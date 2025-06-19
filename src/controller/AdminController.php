@@ -18,11 +18,20 @@ use Instant\Core\Controller\BaseController;
 class AdminController extends BaseController
 {
 
-	public function settings()
-	{
-		$newAppVersion = $this->newAppVersion->check();
-		$this->view->load('Admin','admin/settings.php', ['newAppVersion' => $newAppVersion]);
-	}
+        public function settings()
+        {
+                $newAppVersion = $this->newAppVersion->check();
+
+                $admin = false;
+                if (isset($_SESSION['Username'])) {
+                        $admin = $this->adminModel->checkUserIsAdmin($_SESSION['Username']);
+                }
+
+                $this->view->load('Admin','admin/settings.php', [
+                        'newAppVersion' => $newAppVersion,
+                        'admin' => $admin
+                ]);
+        }
 
 	public function backup()
 	{

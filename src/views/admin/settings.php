@@ -15,7 +15,7 @@
 
     <?php include 'src/views/partial/sidebar_button.php'; ?>
 
-    <?php $admin = $this->adminModel->checkUserIsAdmin($_SESSION['Username']); ?>
+    <?php $admin = $admin ?? false; ?>
 
     <div class="card fade-in-fwd">
         <div class="card-body">
