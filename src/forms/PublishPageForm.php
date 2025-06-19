@@ -13,7 +13,6 @@
 
 namespace DocPHT\Form;
 
-use DocPHT\Core\Translator\T;
 
 class PublishPageForm extends MakeupForm
 {
