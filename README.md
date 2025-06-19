@@ -4,8 +4,8 @@ This repository contains the source code for the kuing.cjhb.site forum and docum
 
 The repository root contains code from both projects:
 
-- **DocPHT:** `data/`, `pages/`, `public/`, `src/`, `temp/`, `vendor/`
-- **DiscuzX:** `api/`, `archiver/`, `config/`, `install/`, `source/`, `static/`, `template/`, `uc_client/`, `uc_server/`
+- **DocPHT:** `json/`, `pages/`, `public/`, `src/`, `temp/`, `vendor/`
+- **DiscuzX:** `api/`, `archiver/`, `config/`, `data/`, `install/`, `source/`, `static/`, `template/`, `uc_client/`, `uc_server/`
 
 ## Running locally
 
