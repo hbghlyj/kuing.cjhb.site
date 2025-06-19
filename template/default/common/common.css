@@ -661,7 +661,7 @@ body, input, button, select { font: {FONTSIZE} {FONT}; color: {TABLETEXT}; }
 
 	.algolia-search-box-wrapper {
 		position: relative;
-		float: left;
+		flex: 1;
 	}
 
 	#algolia-search-box:empty, #algolia-search-box input {
@@ -910,9 +910,6 @@ body, input, button, select { font: {FONTSIZE} {FONT}; color: {TABLETEXT}; }
 	.ais-Pagination-item { border: 1px solid #CDCDCD; }
 	.ais-Pagination-link { padding: 0 8px; }
 	.ais-Pagination-item--selected { background-color: #C5E6DF; }
-  .algolia-search-box-wrapper {
-    width: 100%;
-  }
   #nv {
     display: flex;
     gap: 20px;

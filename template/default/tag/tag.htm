@@ -4,14 +4,15 @@
 	<h1 class="mt"><i class="fico-tag fc-s" alt="tag"></i> {lang tag}</h1>
 	<div class="bm">
 		<div class="bm_c">
-			<form action="forum.php" method="get">
-				<input type="text" name="mod" value="tag" style="display:none;">
-				<input type="text" name="op" value="search" style="display:none;">
+			<form action="forum.php">
+				<input type="hidden" name="mod" value="tag">
+				<input type="hidden" name="op" value="search">
 				<label for="searchkey">包含:</label>
 				<input type="text" id="searchkey" class="px vm" name="searchkey" required>&nbsp;
 				<button type="submit" class="pn"><em>{lang search}</em></button>
 			</form>
-			<form method="post" action="misc.php?mod=tag" class="pns">
+			<form action="misc.php">
+				<input type="hidden" name="mod" value="tag">
 				<label for="name">精确:</label>
 				<input type="text" name="name" class="px vm" required>&nbsp;
 				<button type="submit" class="pn"><em>{lang search}</em></button>
