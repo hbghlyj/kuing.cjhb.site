@@ -2,6 +2,11 @@
 
 This repository contains the source code for the kuing.cjhb.site forum and documentation site. The platform is based on [DiscuzX](https://gitee.com/Discuz/DiscuzX) with [DocPHT](https://github.com/docpht/docpht) used to manage static documentation. Mathematical expressions are rendered with [MathJax](https://www.mathjax.org/), and diagrams are generated through [Upmath LaTeX Renderer](https://github.com/parpalak/i.upmath.me) and [Asymptote Command-Line Interface](https://asymptote.sourceforge.io/doc/Command_002dLine-Interface.html) services.
 
+The repository root contains code from both projects:
+
+- **DocPHT:** `data/`, `pages/`, `public/`, `src/`, `temp/`, `vendor/`
+- **DiscuzX:** `api/`, `archiver/`, `config/`, `install/`, `source/`, `static/`, `template/`, `uc_client/`, `uc_server/`
+
 ## Running locally
 
 1. Install PHP (8.0 or newer) and a MySQL-compatible database such as MariaDB.
