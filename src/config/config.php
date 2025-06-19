@@ -1,6 +1,5 @@
 <?php
 
-define("TITLE", "Knowledge base");
 define("DS", DIRECTORY_SEPARATOR);
 define("BASE_PATH", __DIR__ . DS);
 define("SUBTITLE", "");
