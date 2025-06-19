@@ -33,8 +33,13 @@ class T
         $accept = $_SERVER['HTTP_ACCEPT_LANGUAGE'] ?? '';
         if ($accept) {
             $parts = explode(',', $accept);
-            if (!empty($parts[0])) {
-                $locale = str_replace('-', '_', trim($parts[0]));
+            foreach ($parts as $raw) {
+                $raw = trim($raw);
+                if ($raw === '') {
+                    continue;
+                }
+                $raw = explode(';', $raw)[0];
+                $locale = str_replace('-', '_', $raw);
                 if (preg_match('/^[a-zA-Z]{2}(?:_[a-zA-Z]{2})?$/', $locale)) {
                     $base = strtolower(substr($locale, 0, 2));
                     $candidate = strlen($locale) > 2
