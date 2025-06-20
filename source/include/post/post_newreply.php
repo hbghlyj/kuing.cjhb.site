@@ -108,7 +108,7 @@ if($_G['setting']['commentnumber'] && !empty($_GET['comment'])) {
 			'commentmsg' => $comment
 		));
 	}
-	preg_match_all('/@([^\r\n]*?)\s/i', $comment.' ', $matches);
+        preg_match_all('/(?:^|\s)@([^\r\n@\s]+)(?=\s)/', $comment.' ', $matches);
 	if (!empty($matches[1])) {
 		$atlist_tmp = array_unique($matches[1]);
 		foreach ($atlist_tmp as $username) {
