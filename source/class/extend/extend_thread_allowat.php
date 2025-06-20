@@ -45,7 +45,7 @@ class extend_thread_allowat extends extend_thread_base {
 				} else {
                                         foreach ($atlist_tmp as $username) {
                                                 $stripped_username = str_replace(' ', '', $username);
-                                                $uid = DB::result_first('SELECT uid FROM %t WHERE REPLACE(username, " ", "")=%s', array('common_member', $stripped_username));
+            $uid = DB::result_first("SELECT uid FROM %t WHERE REPLACE(username, ' ', '')=%s", array('common_member', $stripped_username));
                                                 $this->atlist[$uid] = $username;
 					}
 				}
@@ -94,7 +94,7 @@ class extend_thread_allowat extends extend_thread_base {
 				} else {
                                         foreach ($atlist_tmp as $username) {
                                                 $stripped_username = str_replace(' ', '', $username);
-                                                $uid = DB::result_first('SELECT uid FROM %t WHERE REPLACE(username, " ", "")=%s', array('common_member', $stripped_username));
+                                                $uid = DB::result_first("SELECT uid FROM %t WHERE REPLACE(username, ' ', '')=%s", array('common_member', $stripped_username));
                                                 if(!in_array($uid, $ateduids)) {
 							$this->atlist[$uid] = $username;
 							if(count($this->atlist) == $maxselect) {
@@ -147,7 +147,7 @@ class extend_thread_allowat extends extend_thread_base {
 				} else {
                                         foreach ($atlist_tmp as $username) {
                                                 $stripped_username = str_replace(' ', '', $username);
-                                                $uid = DB::result_first('SELECT uid FROM %t WHERE REPLACE(username, " ", "")=%s', array('common_member', $stripped_username));
+                                                $uid = DB::result_first("SELECT uid FROM %t WHERE REPLACE(username, ' ', '')=%s", array('common_member', $stripped_username));
                                                 if(!in_array($uid, $ateduids)) {
 							$this->atlist[$uid] = $username;
 							if(count($this->atlist) == $maxselect) {

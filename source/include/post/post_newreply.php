@@ -118,7 +118,7 @@ if (!empty($matches)) {
 	$atlist_tmp = $matches;
                 foreach ($atlist_tmp as $username) {
                         $stripped_username = str_replace(' ', '', $username);
-                        $uid = DB::result_first('SELECT uid FROM %t WHERE REPLACE(username, " ", "")=%s', array('common_member', $stripped_username));
+        $uid = DB::result_first("SELECT uid FROM %t WHERE REPLACE(username, ' ', '')=%s", array('common_member', $stripped_username));
 			if ($uid && $uid != $_G['uid']) {
 				notification_add(
 					$uid,
