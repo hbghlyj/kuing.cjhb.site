@@ -349,7 +349,7 @@ EOT;
 		$ip = getglobal('clientip');
 
 		$user = '<b>User:</b> uid='.intval($uid).'; IP='.$ip.'; RIP:'.$_SERVER['REMOTE_ADDR'];
-		$uri = 'Request: '.dhtmlspecialchars(discuz_error::clear($_SERVER['REQUEST_URI']));
+		$uri = 'Request: '.discuz_error::clear($_SERVER['REQUEST_URI']);
 		$message = "<?PHP exit;?>\t{$time}\t$message\t$hash\t$user $uri\n";
 		if($fp = @fopen($file, 'rb')) {
 			$lastlen = 50000;
