@@ -35,7 +35,7 @@
 			<!--{if $collectionvalues['arraykeyword']}-->
 			<!--{eval $keycount=0;}-->
 			<!--{loop $collectionvalues['arraykeyword'] $unique_keyword}-->
-				<li class="mr"><a href="search.php?mod={if $_G['setting']['search']['collection']['status']}collection{else}forum{/if}&srchtxt={echo rawurlencode($unique_keyword)}&formhash={FORMHASH}&searchsubmit=true&source=collectionsearch">#$unique_keyword</a></li>
+                               <li class="mr"><a href="misc.php?mod=tag&name={echo rawurlencode($unique_keyword)}">#$unique_keyword</a></li>
 			<!--{eval $keycount++;}-->
 			<!--{/loop}-->
 			<!--{/if}-->
