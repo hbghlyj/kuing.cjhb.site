@@ -453,7 +453,7 @@ function keyMenu(code, func) {
 		range.setEnd(tmp, 1);
 		selection.removeAllRanges();
 		selection.addRange(range);
-		keyMenuObj = editdoc.getElementById(km);
+		const keyMenuObj = editdoc.getElementById(km);
 		var b = fetchOffset(editbox);
 		var o = fetchOffset(keyMenuObj);
 	}else{
@@ -476,8 +476,8 @@ function keyMenu(code, func) {
 		var currentLineTextAtCursor = textUpToCursor.substring(lastNewlineIndex + 1);
 		// ==== Inserted/Restored Code: End ====
 
-		// Inside the else block for textarea // User's existing comment
-		const computedStyles = getComputedStyle(textobj); // User's existing line
+		// Inside the else block for textarea
+		const computedStyles = getComputedStyle(textobj);
 		const fontSize = parseFloat(computedStyles.fontSize);
 		const fontFamily = computedStyles.fontFamily;
 		const lineHeight = parseFloat(computedStyles.lineHeight);
@@ -1100,27 +1100,25 @@ function formatFontsize(csssize) {
 
 function showEditorMenu(tag, params) {
 	var sel, selection;
-	var str = '', strdialog = 0, stitle = '';
+	var str = '', stitle = '';
 	var ctrlid = editorid + (params ? '_cst' + params + '_' : '_') + tag;
 	var opentag = '[' + tag + ']';
 	var closetag = '[/' + tag + ']';
 	var menu = $(ctrlid + '_menu');
-	var pos = [0, 0];
 	var menuwidth = 270;
 	var menupos = '43!';
 	var menutype = 'menu';
 
-	try {
-		sel = wysiwyg ? editdoc.selection.createRange() : window.getSelection().getRangeAt(0);
-		selection = wysiwyg ? sel.htmlText : sel.text;
-	} catch(e) {
-		if (wysiwyg) {
-			var gSel = editdoc.getSelection();
-			if (gSel.rangeCount > 0) {
-				sel = gSel.getRangeAt(0);
-			}
+	if (wysiwyg) {
+		sel = editdoc.getSelection();
+		if (sel && sel.rangeCount > 0) {
+			const range = sel.getRangeAt(0);
+			const div = editdoc.createElement('div');
+			div.appendChild(range.cloneContents());
+			selection = div.innerHTML;
 		}
-		selection = getSel();
+	} else {
+		selection = editdoc.value.substring(editdoc.selectionStart, editdoc.selectionEnd);
 	}
 
 	if(menu) {
