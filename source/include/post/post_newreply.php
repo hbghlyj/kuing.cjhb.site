@@ -109,7 +109,7 @@ if($_G['setting']['commentnumber'] && !empty($_GET['comment'])) {
 		));
 	}
 preg_match_all('/(?<!\S)@\K[^\r\n@\s]+(?=\s)/', $comment.' ', $matches);
-$matches = array_unique($matches[0] ?? $matches);
+$matches = array_unique($matches[0]);
 $matches = array_filter($matches, function($v) {
     $len = dstrlen($v);
     return $len >= 3 && $len <= 15;

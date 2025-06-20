@@ -15,7 +15,7 @@ class extend_thread_allowat extends extend_thread_base {
 
        protected function extract_mentions($message, $limit) {
                preg_match_all('/(?<!\S)@\K[^\r\n@\s]+(?=\s)/', $message.' ', $m);
-               $m = array_unique($m[0] ?? $m);
+               $m = array_unique($m[0]);
                $m = array_filter($m, function($v) {
                        $len = dstrlen($v);
                        return $len >= 3 && $len <= 15;
