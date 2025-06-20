@@ -18,6 +18,9 @@ class DiscuzBridge
                 'admin' => false
             ]);
         }
+        if (session_status() !== PHP_SESSION_ACTIVE) {
+            session_start();
+        }
         session_regenerate_id(true);
         $_SESSION['PREV_USERAGENT'] = $_SERVER['HTTP_USER_AGENT'];
         $_SESSION['Username'] = $username;
