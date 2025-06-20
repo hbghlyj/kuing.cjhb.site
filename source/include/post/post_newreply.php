@@ -108,8 +108,9 @@ if($_G['setting']['commentnumber'] && !empty($_GET['comment'])) {
 			'commentmsg' => $comment
 		));
 	}
-preg_match_all('/(?<!\S)@\K[^\r\n@\s]+(?=\s)/', $comment.' ', $matches);
-$matches = array_filter(array_unique(isset($matches[0]) ? $matches[0] : $matches), function($v) {
+preg_match_all('/(?<!\S)@[^\r\n@\s]+(?=\s)/', $comment.' ', $matches);
+$matches = array_map(function($v) { return substr($v, 1); }, array_unique($matches[0] ?? $matches));
+$matches = array_filter($matches, function($v) {
     $len = dstrlen($v);
     return $len >= 3 && $len <= 15;
 });

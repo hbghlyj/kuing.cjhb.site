@@ -35,7 +35,7 @@ if(!$permusers && $singleprem) {
 
 if($_GET['pluginop'] == 'add' && submitcheck('adduser')) {
 	if($singleprem && in_array($_GET['usernamenew'], $permusers) || !$singleprem) {
-		$usernamenew = addslashes(strip_tags($_GET['usernamenew']));
+               $usernamenew = strip_tags($_GET['usernamenew']);
 		$logindata = addslashes(authcode($_GET['passwordnew']."\t".$_GET['questionidnew']."\t".$_GET['answernew'], 'ENCODE', $_G['config']['security']['authkey']));
                 if(C::t('#myrepeats#myrepeats')->count_by_uid_username($_G['uid'], $usernamenew)) {
                         DB::query('UPDATE %t SET logindata=%s WHERE uid=%d AND username=%s', array('myrepeats', $logindata, $_G['uid'], $usernamenew));
