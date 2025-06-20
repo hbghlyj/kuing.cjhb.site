@@ -66,7 +66,7 @@ function _ajaxpost(formid, showid, waitid, showidclass, submitbtn, recall) {
                                s = lng['int_error'];
 			}
 		}
-		if(s != '' && s.indexOf('ajaxerror') != -1) {
+               if(s && s.indexOf('ajaxerror') != -1) {
 			evalscript(s);
 			evaled = true;
 		}
