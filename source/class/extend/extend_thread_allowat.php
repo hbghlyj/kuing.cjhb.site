@@ -13,15 +13,24 @@ if(!defined('IN_DISCUZ')) {
 
 class extend_thread_allowat extends extend_thread_base {
 
+       protected function extract_mentions($message, $limit) {
+               preg_match_all('/(?<!\S)@[^\r\n@\s]+(?=\s)/', $message.' ', $m);
+               $m = array_map(function($v) { return substr($v, 1); }, array_unique($m[0] ?? $m));
+               $m = array_filter($m, function($v) {
+                       $len = dstrlen($v);
+                       return $len >= 3 && $len <= 15;
+               });
+               return array_slice($m, 0, $limit);
+       }
+
 	public $atlist;
 	public $allowat;
 
 	public function before_newthread($parameters) {
 
 		if($this->group['allowat']) {
-			$this->atlist = $atlist_tmp = array();
-			preg_match_all("/@([^\r\n]*?)\s/i", $parameters['message'].' ', $atlist_tmp);
-			$atlist_tmp = array_slice(array_unique($atlist_tmp[1]), 0, $this->group['allowat']);
+                       $this->atlist = array();
+                       $atlist_tmp = $this->extract_mentions($parameters['message'], $this->group['allowat']);
 			if(!empty($atlist_tmp)) {
 				if(!$this->setting['at_anyone']) {
 					foreach(C::t('home_follow')->fetch_all_by_uid_fusername($this->member['uid'], $atlist_tmp) as $row) {
@@ -34,10 +43,10 @@ class extend_thread_allowat extends extend_thread_base {
 						}
 					}
 				} else {
-					foreach ($atlist_tmp as $username) {
-						$stripped_username = str_replace(' ', '', $username);
-						$uid = DB::result_first("SELECT uid FROM ".DB::table('common_member')." WHERE REPLACE(username, ' ', '')='$stripped_username'");
-						$this->atlist[$uid] = $username;
+                                        foreach ($atlist_tmp as $username) {
+                                                $stripped_username = str_replace(' ', '', $username);
+                                                $uid = DB::result_first('SELECT uid FROM %t WHERE REPLACE(username, " ", "")=%s', array('common_member', $stripped_username));
+                                                $this->atlist[$uid] = $username;
 					}
 				}
 			}
@@ -55,9 +64,8 @@ class extend_thread_allowat extends extend_thread_base {
 
 	public function before_newreply($parameters) {
 		if($this->group['allowat']) {
-			$this->atlist = $atlist_tmp = $ateduids = array();
-			preg_match_all("/@([^\r\n]*?)\s/i", $parameters['message'].' ', $atlist_tmp);
-			$atlist_tmp = array_slice(array_unique($atlist_tmp[1]), 0, $this->group['allowat']);
+                       $this->atlist = $ateduids = array();
+                       $atlist_tmp = $this->extract_mentions($parameters['message'], $this->group['allowat']);
 			$atnum = $maxselect = 0;
 			foreach(C::t('home_notification')->fetch_all_by_authorid_fromid($this->member['uid'], $this->thread['tid'], 'at') as $row) {
 				$atnum ++;
@@ -84,10 +92,10 @@ class extend_thread_allowat extends extend_thread_base {
 						}
 					}
 				} else {
-					foreach ($atlist_tmp as $username) {
-						$stripped_username = str_replace(' ', '', $username);
-						$uid = DB::result_first("SELECT uid FROM ".DB::table('common_member')." WHERE REPLACE(username, ' ', '')='$stripped_username'");
-						if(!in_array($uid, $ateduids)) {
+                                        foreach ($atlist_tmp as $username) {
+                                                $stripped_username = str_replace(' ', '', $username);
+                                                $uid = DB::result_first('SELECT uid FROM %t WHERE REPLACE(username, " ", "")=%s', array('common_member', $stripped_username));
+                                                if(!in_array($uid, $ateduids)) {
 							$this->atlist[$uid] = $username;
 							if(count($this->atlist) == $maxselect) {
 								break;
@@ -110,15 +118,14 @@ class extend_thread_allowat extends extend_thread_base {
 
 	public function before_editpost($parameters) {
 		if($this->group['allowat']) {
-			$this->atlist = $atlist_tmp = $ateduids = array();
-			$atnum = $maxselect = 0;
+                       $this->atlist = $ateduids = array();
+                       $atnum = $maxselect = 0;
 			foreach(C::t('home_notification')->fetch_all_by_authorid_fromid($this->member['uid'], $this->thread['tid'], 'at') as $row) {
 				$atnum ++;
 				$ateduids[$row['uid']] = $row['uid'];
 			}
 			$maxselect = $this->group['allowat'] - $atnum;
-			preg_match_all("/@([^\r\n]*?)\s/i", $parameters['message'].' ', $atlist_tmp);
-			$atlist_tmp = array_slice(array_unique($atlist_tmp[1]), 0, $this->group['allowat']);
+                       $atlist_tmp = $this->extract_mentions($parameters['message'], $this->group['allowat']);
 			if($maxselect > 0 && !empty($atlist_tmp)) {
 				if(empty($this->setting['at_anyone'])) {
 					foreach(C::t('home_follow')->fetch_all_by_uid_fusername($this->member['uid'], $atlist_tmp) as $row) {
@@ -138,10 +145,10 @@ class extend_thread_allowat extends extend_thread_base {
 						}
 					}
 				} else {
-					foreach ($atlist_tmp as $username) {
-						$stripped_username = str_replace(' ', '', $username);
-						$uid = DB::result_first("SELECT uid FROM ".DB::table('common_member')." WHERE REPLACE(username, ' ', '')='$stripped_username'");
-						if(!in_array($uid, $ateduids)) {
+                                        foreach ($atlist_tmp as $username) {
+                                                $stripped_username = str_replace(' ', '', $username);
+                                                $uid = DB::result_first('SELECT uid FROM %t WHERE REPLACE(username, " ", "")=%s', array('common_member', $stripped_username));
+                                                if(!in_array($uid, $ateduids)) {
 							$this->atlist[$uid] = $username;
 							if(count($this->atlist) == $maxselect) {
 								break;

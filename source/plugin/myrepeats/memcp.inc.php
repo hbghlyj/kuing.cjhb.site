@@ -35,13 +35,13 @@ if(!$permusers && $singleprem) {
 
 if($_GET['pluginop'] == 'add' && submitcheck('adduser')) {
 	if($singleprem && in_array($_GET['usernamenew'], $permusers) || !$singleprem) {
-		$usernamenew = addslashes(strip_tags($_GET['usernamenew']));
+               $usernamenew = strip_tags($_GET['usernamenew']);
 		$logindata = addslashes(authcode($_GET['passwordnew']."\t".$_GET['questionidnew']."\t".$_GET['answernew'], 'ENCODE', $_G['config']['security']['authkey']));
-		if(C::t('#myrepeats#myrepeats')->count_by_uid_username($_G['uid'], $usernamenew)) {
-			DB::query("UPDATE ".DB::table('myrepeats')." SET logindata='$logindata' WHERE uid='{$_G['uid']}' AND username='$usernamenew'");
-		} else {
-			$_GET['commentnew'] = addslashes($_GET['commentnew']);
-			DB::query("INSERT INTO ".DB::table('myrepeats')." (uid, username, logindata, comment) VALUES ('{$_G['uid']}', '$usernamenew', '$logindata', '".strip_tags($_GET['commentnew'])."')");
+                if(C::t('#myrepeats#myrepeats')->count_by_uid_username($_G['uid'], $usernamenew)) {
+                        DB::query('UPDATE %t SET logindata=%s WHERE uid=%d AND username=%s', array('myrepeats', $logindata, $_G['uid'], $usernamenew));
+                } else {
+                        $_GET['commentnew'] = addslashes($_GET['commentnew']);
+                        DB::query('INSERT INTO %t (uid, username, logindata, comment) VALUES (%d, %s, %s, %s)', array('myrepeats', $_G['uid'], $usernamenew, $logindata, strip_tags($_GET['commentnew'])));
 		}
 		dsetcookie('mrn', '');
 		dsetcookie('mrd', '');

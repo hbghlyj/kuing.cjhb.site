@@ -108,12 +108,17 @@ if($_G['setting']['commentnumber'] && !empty($_GET['comment'])) {
 			'commentmsg' => $comment
 		));
 	}
-	preg_match_all('/@([^\r\n]*?)\s/i', $comment.' ', $matches);
-	if (!empty($matches[1])) {
-		$atlist_tmp = array_unique($matches[1]);
-		foreach ($atlist_tmp as $username) {
-			$stripped_username = str_replace(' ', '', $username);
-			$uid = DB::result_first("SELECT uid FROM ".DB::table('common_member')." WHERE REPLACE(username, ' ', '')='$stripped_username'");
+preg_match_all('/(?<!\S)@[^\r\n@\s]+(?=\s)/', $comment.' ', $matches);
+$matches = array_map(function($v) { return substr($v, 1); }, array_unique($matches[0] ?? $matches));
+$matches = array_filter($matches, function($v) {
+    $len = dstrlen($v);
+    return $len >= 3 && $len <= 15;
+});
+if (!empty($matches)) {
+	$atlist_tmp = $matches;
+                foreach ($atlist_tmp as $username) {
+                        $stripped_username = str_replace(' ', '', $username);
+                        $uid = DB::result_first('SELECT uid FROM %t WHERE REPLACE(username, " ", "")=%s', array('common_member', $stripped_username));
 			if ($uid && $uid != $_G['uid']) {
 				notification_add(
 					$uid,
