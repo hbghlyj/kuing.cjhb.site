@@ -114,10 +114,10 @@ class usermodel {
 		}
 	}
 
-	function check_usernameexists($username) {
-		$stripped_username = str_replace(' ', '', $username);
-		$data = $this->db->result_first("SELECT username FROM ".UC_DBTABLEPRE."members WHERE REPLACE(username, ' ', '')='$stripped_username'");
-		return $data;
+        function check_usernameexists($username) {
+                $stripped_username = str_replace(' ', '', $username);
+                $data = $this->db->result_first_stmt("SELECT username FROM ".UC_DBTABLEPRE."members WHERE REPLACE(username, ' ', '')=?", array('s'), array($stripped_username));
+                return $data;
 	}
 
 	function check_emailformat($email) {
