@@ -26,9 +26,6 @@ foreach(C::t('forum_attachment_n')->fetch_all_by_id('tid:'.$_G['tid'], 'tid', $_
 	if($_G['forum_threadpay'] && !in_array($attach['aid'], $freeattachids)) {
 		continue;
 	}
-	if($attach['uid'] != $_G['forum_thread']['authorid'] && (!defined('IN_MOBILE') || IN_MOBILE != 2)) {
-		continue;
-	}
 	if($attach['isimage'] && !$_G['setting']['attachimgpost']) {
 		$attach['isimage'] = 0;
 	}
@@ -64,7 +61,7 @@ foreach($attachmentlist as $attach) {
 }
 
 if(empty($imglist)) {
-	showmessage('author_not_uploadpic');
+	showmessage('thread_no_uploadpic');
 }
 
 foreach($postlist as $key=>$subpost) {
