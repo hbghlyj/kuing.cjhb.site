@@ -159,8 +159,8 @@ if($_GET['action'] == 'checkusername') {
 
 	$count = 0;
 	if(isset($_GET['aids']) && isset($_GET['formhash']) && formhash() == $_GET['formhash']) {
-		foreach($_GET['aids'] as $aid) {
-			$attach = C::t('forum_attachment_n')->fetch_attachment('aid:'.$aid, $aid);
+               foreach($_GET['aids'] as $aid) {
+                       $attach = C::t('forum_attachment_n')->fetch_attachment('aid:'.$aid, $aid);
 			if($attach && ($attach['pid'] && $attach['pid'] == $_GET['pid'] && $_G['uid'] == $attach['uid'])) {
 				updatecreditbyaction('postattach', $attach['uid'], array(), '', -1, 1, $_G['fid']);
 			}
@@ -178,13 +178,57 @@ if($_GET['action'] == 'checkusername') {
                                 }
 
                                 $count++;
-                        }
-		}
-	}
-	include template('common/header_ajax');
-	echo $count;
-	include template('common/footer_ajax');
-	dexit();
+                       }
+               }
+               if($_GET['tid'] && $_GET['pid']) {
+                       require_once libfile('function/post');
+                       $tid = intval($_GET['tid']);
+                       $pid = intval($_GET['pid']);
+                       $thread = C::t('forum_thread')->fetch_thread($tid);
+                       if($thread) {
+                               $post = C::t('forum_post')->fetch_post($thread['posttableid'], $pid);
+                               $tableid = getattachtableid($tid);
+                               $attachcount = C::t('forum_attachment_n')->count_by_id($tableid, $post['first'] ? 'pid' : 'tid', $post['first'] ? $pid : $tid);
+                               $attachment = 0;
+                               if($attachcount) {
+                                       if(C::t('forum_attachment_n')->count_image_by_id($tableid, $post['first'] ? 'pid' : 'tid', $post['first'] ? $pid : $tid)) {
+                                               $attachment = 2;
+                                       } else {
+                                               $attachment = 1;
+                                       }
+                               }
+                               C::t('forum_thread')->update($tid, array('attachment' => $attachment));
+                               C::t('forum_post')->update_post($thread['posttableid'], $pid, array('attachment' => $attachment), true);
+                               if(!$attachment) {
+                                       C::t('forum_threadimage')->delete_by_tid($tid);
+                               }
+                               if($post['first']) {
+                                       $threadimage = C::t('forum_attachment_n')->fetch_max_image('tid:'.$tid, 'pid', $pid);
+                                       $threadimageaid = $threadimage['aid'];
+                                       if(empty($thread['cover'])) {
+                                               setthreadcover($pid, 0, $threadimageaid);
+                                       } else {
+                                               setthreadcover($pid, $tid, 0, 1);
+                                       }
+                                       if($threadimageaid) {
+                                               if(!$threadimage) {
+                                                       $threadimage = C::t('forum_attachment_n')->fetch_max_image('tid:'.$tid, 'tid', $tid);
+                                               }
+                                               C::t('forum_threadimage')->delete_by_tid($tid);
+                                               C::t('forum_threadimage')->insert(array(
+                                                       'tid' => $tid,
+                                                       'attachment' => $threadimage['attachment'],
+                                                       'remote' => $threadimage['remote'],
+                                               ), false, true);
+                                       }
+                               }
+                       }
+               }
+       }
+       include template('common/header_ajax');
+       echo $count;
+       include template('common/footer_ajax');
+       dexit();
 
 } elseif($_GET['action'] == 'secondgroup') {
 
