@@ -307,12 +307,12 @@ function switchrecommendv() {
 }
 
 function appendreply(pid) {
-	newpos = fetchOffset($('post_new'));
-	document.documentElement.scrollTop = newpos['top'];
 	$('post_new').style.display = '';
 	if(typeof MathJax.typesetPromise === 'function') {
 		MathJax.typesetPromise([$('postlist').appendChild($('post_new'))]);
 	}
+	newpos = fetchOffset($('post_new'));
+	document.documentElement.scrollTop = newpos['top'];
 	addLou($('post_new'));
 	$('post_new').id = `post_${pid}`;
 	div = document.createElement('div');
