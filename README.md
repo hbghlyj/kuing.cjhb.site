@@ -7,6 +7,17 @@ The repository root contains code from both projects:
 - **DocPHT:** `json/`, `pages/`, `public/`, `src/`, `temp/`, `vendor/`
 - **DiscuzX:** `api/`, `archiver/`, `config/`, `data/`, `install/`, `source/`, `static/`, `template/`, `uc_client/`, `uc_server/`
 
+## Attachment tables
+
+DiscuzX keeps a short index of every upload in `pre_forum_attachment`. It stores
+the attachment ID (`aid`), the thread and post it belongs to (`tid` and `pid`),
+the author (`uid`), a download counter, and a `tableid` pointing to one of the
+sharded tables `pre_forum_attachment_0`&ndash;`pre_forum_attachment_9`. These
+shards hold the full record including filename, size and image metadata. When a
+user uploads a file while composing a new post but never submits the form, the
+data goes into `pre_forum_attachment_unused` instead. Rows in that table have no
+associated thread and remain until cleaned up.
+
 ## Running locally
 
 1. Install PHP (8.0 or newer) and a MySQL-compatible database such as MariaDB.
