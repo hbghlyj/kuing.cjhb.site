@@ -206,15 +206,6 @@ function fastpostappendreply() {
 			return;
 		}
 	}
-	newpos = fetchOffset($('post_new'));
-	document.documentElement.scrollTop = newpos['top'];
-	$('post_new').style.display = '';
-	$('post_new').id = '';
-	div = document.createElement('div');
-	div.id = 'post_new';
-	div.style.display = 'none';
-	div.className = '';
-	$('postlistreply').appendChild(div);
 	$('fastpostsubmit').disabled = false;
 	if($('fastpostmessage')) {
 		$('fastpostmessage').value = '';
@@ -233,12 +224,11 @@ function fastpostappendreply() {
 }
 
 function succeedhandle_fastpost(locationhref, message, param) {
-	var pid = param['pid'];
 	var tid = param['tid'];
 	var from = param['from'];
 	var reply_mod = param['reply_mod'];
 	if(!reply_mod) {
-		ajaxget('forum.php?mod=viewthread&tid=' + tid + '&viewpid=' + pid + '&from=' + from, 'post_new', 'ajaxwaitid', '', null, 'fastpostappendreply()');
+		fastpostappendreply();
 		if(replyreload) {
 			var reloadpids = replyreload.split(',');
 			for(var i = 1;i < reloadpids.length;i++) {
@@ -247,8 +237,8 @@ function succeedhandle_fastpost(locationhref, message, param) {
 		}
 		$('fastpostreturn').className = '';
 	} else {
-               if(!message) {
-                       message = lng['premoderated'];
+		if(!message) {
+			message = lng['premoderated'];
 		}
 		$('post_new').style.display = $('fastpostmessage').value = $('fastpostreturn').className = '';
 		$('fastpostreturn').innerHTML = message;
