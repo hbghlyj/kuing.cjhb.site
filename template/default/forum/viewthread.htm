@@ -353,6 +353,7 @@
 
 $_G['forum_tagscript']
 
+<!--{if $_G['uid']}-->
 <div id="suggestTagsWrapper" class="mtm">
     <button id="suggestTagsButton" class="pn"><span>{lang suggest_tags}</span></button>
     <div id="suggestTagsInputArea" style="display:none" class="ptm">
@@ -363,6 +364,7 @@ $_G['forum_tagscript']
         <button id="cancelSuggestTags" class="pn"><span>{lang cancel}</span></button>
     </div>
 </div>
+<!--{/if}-->
 
 <!--{if $multipage && $page < $_G['setting']['threadmaxpages'] && $page < $_G['page_next']}-->
 <!--{eval $nxtpage = $page + 1;}-->
