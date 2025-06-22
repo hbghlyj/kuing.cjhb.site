@@ -1110,7 +1110,7 @@ $lang = array (
   'no_privilege_livethread' => '抱歉，您没有权限设置直播帖',
   'portal_category_has_no_folder_name' => '抱歉，文章所属的频道没有设置目录名称',
   'noreply_replynum_error' => '对不起，你已经达到本主题的回帖上限。',
-  'author_not_uploadpic' => '楼主暂时没有上传图片',
+  'thread_no_uploadpic' => '本主题暂无图片',
   'noreply_yourself_error' => '您不能对自己的回帖点赞',
   'noreply_voted_error' => '您已经对此回帖点过赞了',
 
