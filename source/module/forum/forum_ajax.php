@@ -190,7 +190,6 @@ if($_GET['action'] == 'checkusername') {
                                                 } else {
                                                         $threadimage = C::t('forum_attachment_n')->fetch_max_image('tid:'.$attach['tid'], 'tid', $attach['tid']);
                                                         if($threadimage) {
-                                                                C::t('forum_threadimage')->delete_by_tid($attach['tid']);
                                                                 C::t('forum_threadimage')->insert(array(
                                                                         'tid' => $attach['tid'],
                                                                         'attachment' => $threadimage['attachment'],
