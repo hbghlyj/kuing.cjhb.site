@@ -84,15 +84,10 @@ class extend_thread_image extends extend_thread_base {
 
 	public function before_editpost($parameters) {
 		global $_G;
-		$isfirstpost = $this->post['first'] ? 1 : 0;
-		$attachupdate = !empty($_GET['delattachop']) || ($this->group['allowpostattach'] || $this->group['allowpostimage']) && ($_GET['attachnew'] || $parameters['special'] == 2 && $_GET['tradeaid'] || $parameters['special'] == 4 && $_GET['activityaid'] || $isfirstpost && $parameters['sortid']);
+		$attachupdate = !empty($_GET['delattachop']) || ($this->group['allowpostattach'] || $this->group['allowpostimage']) && ($_GET['attachnew'] || $parameters['special'] == 2 && $_GET['tradeaid'] || $parameters['special'] == 4 && $_GET['activityaid'];
 
 		if($attachupdate) {
 			updateattach($this->thread['displayorder'] == -4 || $_G['forum_auditstatuson'], $this->thread['tid'], $this->post['pid'], $_GET['attachnew'], $_GET['attachupdate'], $this->post['authorid']);
-		}
-
-
-		if($isfirstpost && $attachupdate) {
 			if(!$this->param['threadimageaid']) {
 				$this->param['threadimage'] = C::t('forum_attachment_n')->fetch_max_image('tid:'.$this->thread['tid'], 'pid', $this->post['pid']);
 				$this->param['threadimageaid'] = $this->param['threadimage']['aid'];
