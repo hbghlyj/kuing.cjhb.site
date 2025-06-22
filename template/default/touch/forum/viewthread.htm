@@ -425,6 +425,7 @@
 	<!--{hook/viewthread_postbottom_mobile $postcount}-->
 	<!--{eval $postcount++;}-->
 	<!--{/loop}-->
+<!--{if $_G['uid']}-->
 <div id="suggestTagsWrapper" class="p10">
     <button id="suggestTagsButton" class="button">{lang suggest_tags}</button>
     <div id="suggestTagsInputArea" style="display:none">
@@ -435,6 +436,7 @@
         <button id="cancelSuggestTags" class="button">{lang cancel}</button>
     </div>
 </div>
+<!--{/if}-->
 </div>
 <script src="kk/zdy3.js?{VERHASH}"></script>
 $multipage
