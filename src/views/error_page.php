@@ -15,8 +15,7 @@
 
     <div class="jumbotron text-center fade-in-fwd">
             <b>404</b>
-            <h1><?= $t->trans('I\'m sorry, friend!'); ?></h1> 
-            <p><?= $t->trans('I can\'t find this page anymore or the administrator doesn\'t want you to see it!'); ?></p> 
+            <p><?= $t->trans('The requested page may have been moved or deleted, or you might have mistyped the URL.'); ?></p>
             ​<picture>
                     <source srcset="public/assets/img/404.svg" type="image/svg+xml">
                     <img src="public/assets/img/404.svg" width="300" class="img-fluid" alt="404">
