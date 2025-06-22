@@ -170,12 +170,34 @@ if($_GET['action'] == 'checkusername') {
                                 updatemembercount($attach['uid'], array('todayattachs' => -1, 'todayattachsize' => -$attach['filesize'], 'attachsize' => -$attach['filesize']), false);
                                 dunlink($attach);
 
-                                if($attach['tid'] && $attach['isimage'] != 0) {
-                                        $tableid = getattachtableid($attach['tid']);
-                                        if(!C::t('forum_attachment_n')->count_image_by_id($tableid, 'tid', $attach['tid'])) {
-                                                C::t('forum_threadimage')->delete_by_tid($attach['tid']);
-                                        }
-                                }
+                               if($attach['tid'] && $attach['isimage'] != 0) {
+                                       $tableid = getattachtableid($attach['tid']);
+                                       $firstpost = C::t('forum_post')->fetch_threadpost_by_tid_invisible($attach['tid']);
+                                       $threadimgcount = C::t('forum_attachment_n')->count_image_by_id($tableid, 'tid', $attach['tid']);
+                                       $firstimgcount = $firstpost ? C::t('forum_attachment_n')->count_image_by_id($tableid, 'pid', $firstpost['pid']) : 0;
+
+                                       if(!$threadimgcount) {
+                                               C::t('forum_threadimage')->delete_by_tid($attach['tid']);
+                                               $firstpost && C::t('forum_thread')->update($attach['tid'], array('cover' => 0));
+                                       } else {
+                                               $threadimage = C::t('forum_attachment_n')->fetch_max_image('tid:'.$attach['tid'], 'tid', $attach['tid']);
+                                               if($threadimage) {
+                                                       C::t('forum_threadimage')->delete_by_tid($attach['tid']);
+                                                       C::t('forum_threadimage')->insert(array(
+                                                               'tid' => $attach['tid'],
+                                                               'attachment' => $threadimage['attachment'],
+                                                               'remote' => $threadimage['remote'],
+                                                       ), false, true);
+                                               }
+                                               if($firstpost) {
+                                                       if($firstimgcount) {
+                                                               setthreadcover($firstpost['pid'], $attach['tid'], 0, 1);
+                                                       } else {
+                                                               C::t('forum_thread')->update($attach['tid'], array('cover' => 0));
+                                                       }
+                                               }
+                                       }
+                               }
 
                                 $count++;
                         }
