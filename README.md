@@ -7,6 +7,25 @@ The repository root contains code from both projects:
 - **DocPHT:** `json/`, `pages/`, `public/`, `src/`, `temp/`, `vendor/`
 - **DiscuzX:** `api/`, `archiver/`, `config/`, `data/`, `install/`, `source/`, `static/`, `template/`, `uc_client/`, `uc_server/`
 
+## Attachment tables
+
+DiscuzX handles attachments using an index table and sharded data tables.
+
+* **Index (`pre_forum_attachment`):** All uploads are indexed in this table. It
+  stores the attachment ID (`aid`), thread/post IDs (`tid`, `pid`), author ID
+  (`uid`), a download counter, and a `tableid` that identifies the data shard.
+
+* **Posted attachments:** When a post is submitted, `tableid` is set to a value
+  from `0`&ndash;`9` pointing to the sharded table
+  (`pre_forum_attachment_0`&ndash;`pre_forum_attachment_9`) that stores the full
+  record including filename, size and image metadata.
+
+* **Unused attachments:** If a file is uploaded but the post is never submitted:
+  * An index entry is created with `tid` and `pid` set to `0` and `tableid`
+    set to `127`.
+  * The full attachment data is stored in `pre_forum_attachment_unused`.
+  * Unused attachments are automatically removed after roughly 24 hours.
+
 ## Running locally
 
 1. Install PHP (8.0 or newer) and a MySQL-compatible database such as MariaDB.
