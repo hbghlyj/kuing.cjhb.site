@@ -1367,5 +1367,9 @@ details summary { color:blue; cursor:pointer; }
 		.tf .showmenu:hover { border-color: var(--dz-BOR-ed); }
 
 		.pll .c { margin: 0 84px 0 74px; }
-		.pll ol { margin: 5px 0 0 20px; }
-			.pll ol li { list-style-type: decimal; padding: 0; border-bottom: none; }
+.pll ol { margin: 5px 0 0 20px; }
+        .pll ol li { list-style-type: decimal; padding: 0; border-bottom: none; }
+
+/* 标签 .ptg */
+.ptg:before { content: "\f14a"; font-family: dzicon; font-size: 16px; line-height: 14px; color: #7DA0CC; }
+    .ptg a { color: {HIGHLIGHTLINK}; }
