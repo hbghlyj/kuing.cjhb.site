@@ -12,7 +12,7 @@ if(!defined('IN_DISCUZ')) {
 }
 
 global $_G;
-$op = in_array($_GET['op'], array('search','match', 'manage', 'set', 'suggest')) ? $_GET['op'] : '';
+$op = in_array($_GET['op'], array('search','match', 'manage', 'set', 'suggest', 'suggestform')) ? $_GET['op'] : '';
 $taglist = array();
 $thread = & $_G['thread'];
 
@@ -133,6 +133,12 @@ if($op == 'search') {
                 echo json_encode(array('success' => false, 'message' => lang('forum/template', 'input_invalid')));
         }
         exit;
+} elseif($op == 'suggestform') {
+       if(!$_G['uid']) {
+               showmessage('to_login');
+       }
+       include template('forum/tag_suggest');
+       exit;
 }
 
 include_once template("forum/tag");
