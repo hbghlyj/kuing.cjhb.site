@@ -460,61 +460,63 @@ $multipage
 <div class="foot_height_view"></div>
 <script type="text/javascript">
         $('.favbtn').on('click', function() {
-                var obj = $(this);
+               const obj = $(this);
                 $.ajax({
                         type:'POST',
                         url:obj.attr('href') + '&handlekey=favbtn&inajax=1',
                         data:{'favoritesubmit':'true', 'formhash':'{FORMHASH}'},
                         dataType:'xml',
-                })
-                .success(function(s) {
-                        popup.open(s.lastChild.firstChild.nodeValue);
-                        evalscript(s.lastChild.firstChild.nodeValue);
-                })
-                .error(function() {
-                        window.location.href = obj.attr('href');
-                        popup.close();
-                });
+               }).done(function(s) {
+                       popup.open(s.lastChild.firstChild.nodeValue);
+                       evalscript(s.lastChild.firstChild.nodeValue);
+               }).fail(function() {
+                       window.location.href = obj.attr('href');
+                       popup.close();
+               });
                 return false;
         });
-        var suggestBtn = $('#suggestTagsButton');
-        var suggestArea = $('#suggestTagsInputArea');
-        var cancelBtn = $('#cancelSuggestTags');
-        var inputTag = $('#suggestedTagInput');
-        var submitBtn = $('#submitSuggestedTag');
-        suggestBtn.on('click', function() {
-                $(this).hide();
-                suggestArea.show();
-        });
-        cancelBtn.on('click', function() {
-                suggestArea.hide();
-                suggestBtn.show();
-                inputTag.val('');
-        });
-        submitBtn.on('click', function() {
-                var tag = $.trim(inputTag.val());
-                if(!tag) return false;
-                var tid = $('#sug_tid').val() || window.tid || 0;
-                $.ajax({
-                        type:'POST',
-                        url:'forum.php?mod=tag&op=suggest&inajax=1',
-                        data:{'formhash':'{FORMHASH}', 'tid':tid, 'tag':tag},
-                        dataType:'json'
-                }).success(function(d){
-                        if(d.success) {
-                                suggestArea.hide();
-                                suggestBtn.show();
-                                inputTag.val('');
-                                $('#suggestionMessage').show();
-                                setTimeout(function(){ $('#suggestionMessage').hide(); },3000);
-                        } else if(d.message) {
-                                popup.open(d.message, 'alert');
-                        }
-                }).error(function(){
-                        popup.open(lng['network_error'] || 'Network error', 'alert');
-                });
-                return false;
-        });
+       const suggestBtn = $('#suggestTagsButton');
+       const suggestArea = $('#suggestTagsInputArea');
+       const cancelBtn = $('#cancelSuggestTags');
+       const inputTag = $('#suggestedTagInput');
+       const submitBtn = $('#submitSuggestedTag');
+       const suggestionMessage = $('#suggestionMessage');
+
+       function resetSuggestUi() {
+               suggestArea.hide();
+               suggestBtn.show();
+               inputTag.val('');
+       }
+
+       suggestBtn.on('click', function() {
+               $(this).hide();
+               suggestArea.show();
+       });
+
+       cancelBtn.on('click', resetSuggestUi);
+
+       submitBtn.on('click', function() {
+               const tag = $.trim(inputTag.val());
+               if(!tag) return false;
+               const tid = $('#sug_tid').val() || window.tid || 0;
+               $.ajax({
+                       type:'POST',
+                       url:'forum.php?mod=tag&op=suggest&inajax=1',
+                       data:{'formhash':'{FORMHASH}', 'tid':tid, 'tag':tag},
+                       dataType:'json'
+               }).done(function(d){
+                       if(d.success) {
+                               resetSuggestUi();
+                               suggestionMessage.show();
+                               setTimeout(function(){ suggestionMessage.hide(); },3000);
+                       } else if(d.message) {
+                               popup.open(d.message, 'alert');
+                       }
+               }).fail(function(){
+                       popup.open(lng['network_error'] || 'Network error', 'alert');
+               });
+               return false;
+       });
 </script>
 <a href="javascript:;" class="scrolltop bottom"></a>
 <!--{eval $nofooter = true;}-->
