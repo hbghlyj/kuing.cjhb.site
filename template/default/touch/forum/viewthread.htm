@@ -390,12 +390,15 @@
 					<!--{/if}-->
 				<!--{/if}-->
 			<!--{/if}-->
-			<!--{if $_G['forum_thread']['special'] == 3 && ($_G['forum']['ismoderator'] && (!$_G['setting']['rewardexpiration'] || $_G['setting']['rewardexpiration'] > 0 && ($_G[timestamp] - $_G['forum_thread']['dateline']) / 86400 > $_G['setting']['rewardexpiration']) || $_G['forum_thread']['authorid'] == $_G['uid']) && $post['authorid'] != $_G['forum_thread']['authorid'] && $post['first'] == 0 && $_G['uid'] != $post['authorid'] && $_G['forum_thread']['price'] > 0}-->
-				<li><a href="javascript:;" onclick="setanswer($post['tid'], $post['pid'], '{$_GET['from']}','{$_G['formhash']}')"><i class="dm-tag"></i>{lang reward_set_bestanswer}</a></li>
-			<!--{/if}-->
-			<!--{hook/viewthread_postfooter_mobile $postcount}-->
-			</ul>
-		</div>
+                        <!--{if $_G['forum_thread']['special'] == 3 && ($_G['forum']['ismoderator'] && (!$_G['setting']['rewardexpiration'] || $_G['setting']['rewardexpiration'] > 0 && ($_G[timestamp] - $_G['forum_thread']['dateline']) / 86400 > $_G['setting']['rewardexpiration']) || $_G['forum_thread']['authorid'] == $_G['uid']) && $post['authorid'] != $_G['forum_thread']['authorid'] && $post['first'] == 0 && $_G['uid'] != $post['authorid'] && $_G['forum_thread']['price'] > 0}-->
+                                <li><a href="javascript:;" onclick="setanswer($post['tid'], $post['pid'], '{$_GET['from']}','{$_G['formhash']}')"><i class="dm-tag"></i>{lang reward_set_bestanswer}</a></li>
+                        <!--{/if}-->
+                        <!--{if $_G['uid']}-->
+                                <li id="suggestTagsWrapper"><a href="javascript:;" id="suggestTagsButton"><i class="dm-tag"></i>{lang suggest_tags}</a></li>
+                        <!--{/if}-->
+                        <!--{hook/viewthread_postfooter_mobile $postcount}-->
+                        </ul>
+                </div>
 	</div>
 	<!--{hook/viewthread_postbottom_mobile $postcount}-->
 	<!--{eval $postcount++;}-->
@@ -426,16 +429,14 @@
 	<!--{eval $postcount++;}-->
 	<!--{/loop}-->
 <!--{if $_G['uid']}-->
-<div id="suggestTagsWrapper" class="p10">
-    <button id="suggestTagsButton" class="button">{lang suggest_tags}</button>
-    <div id="suggestTagsInputArea" style="display:none">
-        <input type="hidden" id="sug_tid" value="$_G['tid']" />
-        <label for="suggestedTagInput">{lang suggest_tags_label}</label>
-        <input type="text" id="suggestedTagInput" class="px vm" />
-        <button id="submitSuggestedTag" class="button">{lang submit}</button>
-        <button id="cancelSuggestTags" class="button">{lang cancel}</button>
-    </div>
+<div id="suggestTagsInputArea" class="p10" style="display:none">
+    <input type="hidden" id="sug_tid" value="$_G['tid']" />
+    <label for="suggestedTagInput">{lang suggest_tags_label}</label>
+    <input type="text" id="suggestedTagInput" class="px vm" />
+    <button id="submitSuggestedTag" class="button">{lang submit}</button>
+    <button id="cancelSuggestTags" class="button">{lang cancel}</button>
 </div>
+<div id="suggestionMessage" style="display:none">{lang thanks_for_suggestion}</div>
 <!--{/if}-->
 </div>
 <script src="kk/zdy3.js?{VERHASH}"></script>
@@ -458,24 +459,64 @@ $multipage
 </div>
 <div class="foot_height_view"></div>
 <script type="text/javascript">
-	$('.favbtn').on('click', function() {
-		var obj = $(this);
-		$.ajax({
-			type:'POST',
-			url:obj.attr('href') + '&handlekey=favbtn&inajax=1',
-			data:{'favoritesubmit':'true', 'formhash':'{FORMHASH}'},
-			dataType:'xml',
-		})
-		.success(function(s) {
-			popup.open(s.lastChild.firstChild.nodeValue);
-			evalscript(s.lastChild.firstChild.nodeValue);
-		})
-		.error(function() {
-			window.location.href = obj.attr('href');
-			popup.close();
-		});
-		return false;
-	});
+        $('.favbtn').on('click', function() {
+               const obj = $(this);
+                $.ajax({
+                        type:'POST',
+                        url:obj.attr('href') + '&handlekey=favbtn&inajax=1',
+                        data:{'favoritesubmit':'true', 'formhash':'{FORMHASH}'},
+                        dataType:'xml',
+               }).done(function(s) {
+                       popup.open(s.lastChild.firstChild.nodeValue);
+                       evalscript(s.lastChild.firstChild.nodeValue);
+               }).fail(function() {
+                       window.location.href = obj.attr('href');
+                       popup.close();
+               });
+                return false;
+        });
+       const suggestBtn = $('#suggestTagsButton');
+       const suggestArea = $('#suggestTagsInputArea');
+       const cancelBtn = $('#cancelSuggestTags');
+       const inputTag = $('#suggestedTagInput');
+       const submitBtn = $('#submitSuggestedTag');
+       const suggestionMessage = $('#suggestionMessage');
+
+       function resetSuggestUi() {
+               suggestArea.hide();
+               suggestBtn.show();
+               inputTag.val('');
+       }
+
+       suggestBtn.on('click', function() {
+               $(this).hide();
+               suggestArea.show();
+       });
+
+       cancelBtn.on('click', resetSuggestUi);
+
+       submitBtn.on('click', function() {
+               const tag = inputTag.val().trim();
+               if(!tag) return false;
+               const tid = $('#sug_tid').val() || window.tid || 0;
+               $.ajax({
+                       type:'POST',
+                       url:'forum.php?mod=tag&op=suggest&inajax=1',
+                       data:{'formhash':'{FORMHASH}', 'tid':tid, 'tag':tag},
+                       dataType:'json'
+               }).done(function(d){
+                       if(d.success) {
+                               resetSuggestUi();
+                               suggestionMessage.show();
+                               setTimeout(function(){ suggestionMessage.hide(); },3000);
+                       } else if(d.message) {
+                               popup.open(d.message, 'alert');
+                       }
+               }).fail(function(){
+                       popup.open(lng['network_error'], 'alert');
+               });
+               return false;
+       });
 </script>
 <a href="javascript:;" class="scrolltop bottom"></a>
 <!--{eval $nofooter = true;}-->
