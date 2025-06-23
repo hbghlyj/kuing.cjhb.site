@@ -1086,9 +1086,9 @@ i.pstatus { display: block; margin-bottom: -30px; font-size: 12px; text-align: c
 	.pl .quote { padding-bottom: 5px; background: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='28' height='27'%3e%3cpath fill='%23d8e7f2' d='M11 16v10H1V16C1 10 7 1 11 1v5c-2 0-5 6-5 10h5zm16 0v10H17V16c0-6 6-15 10-15v5c-2 0-5 6-5 10h5z'/%3e%3c/svg%3e") no-repeat 20px 6px; overflow: visible; border: 2px #d8e7f2 dashed; }
 		.pl .quote blockquote { margin: 0; padding: 0 65px 5px 0; background: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='28' height='27'%3e%3cpath fill='%23d8e7f2' d='M17 11V1h10v10c0 6-6 15-10 15v-5c2 0 5-6 5-10h-5zM1 11V1h10v10c0 6-6 15-10 15v-5c2 0 5-6 5-10H1z'/%3e%3c/svg%3e") no-repeat 100% 100%; line-height: 1.6; zoom: 1; display: block; }
 
-	.pl .blockcode { padding: 10px 0 5px 10px; border: 1px solid {WRAPBORDERCOLOR}; background: #F7F7F7 repeat-y 0 0; background-image: linear-gradient(90deg, #EDEDED, #EDEDED); background-size: 43px; overflow: hidden; text-shadow: none; }
-		.pl .blockcode ol { margin: 0 0 0 10px !important; padding: 0 !important; }
-			.pl .blockcode ol li { padding-left: 10px; list-style-type: decimal-leading-zero; font-family: Monaco,Consolas,'Lucida Console','Courier New',serif; font-size: 12px; line-height: 1.8em; }
+	.pl .blockcode { padding: 0 0 5px 10px; border: 1px solid {WRAPBORDERCOLOR}; background: #F7F7F7 repeat-y 0 0; background-image: linear-gradient(90deg, #EDEDED, #EDEDED); background-size: 33px; overflow: hidden; text-shadow: none; }
+		.pl .blockcode ol { padding: 0 !important; }
+			.pl .blockcode ol li { padding-left: 10px; list-style-type: decimal; font-family: Monaco,Consolas,'Lucida Console','Courier New',serif; font-size: 12px; line-height: 1.8em; }
 				.pl .blockcode ol li:hover { background: {WRAPBG}; color: {HIGHLIGHTLINK}; }
 		.pl .blockcode em { margin-left: 43px; color: {HIGHLIGHTLINK} !important; font-size: 12px; cursor: pointer; user-select: none; }
 		.pl .tindex { padding: 5px; width: 500px; line-height: 22px; border: 1px solid {WRAPBORDERCOLOR}; }
@@ -1328,7 +1328,7 @@ i.pstatus { display: block; margin-bottom: -30px; font-size: 12px; text-align: c
 		.t_attachinsert{ margin:1em 0; font-size: 12px; }
 		.t_attachinsert p img{ margin-bottom: -4px; }
 	.t_table{ border: 1px solid rgba(0,0,0,.1); empty-cells: show; border-collapse: collapse; }
-		.t_table td,.t_table th { padding: 4px; border: 1px solid rgba(0,0,0,.1); overflow: hidden; overflow-wrap: anywhere; text-align: center; }
+		.t_table td,.t_table th { padding: 4px; border: 1px solid rgba(0,0,0,.1); text-align: center; }
 		.t_table th { font-weight: 700; border-bottom-width: 2px; }
 	.tattl { float: left; overflow: hidden; padding: 10px 10px 10px 0; width: 45%; height: 64px; }
 		.tattl a { color: {HIGHLIGHTLINK}; text-decoration: underline; }
