@@ -7,6 +7,15 @@ The repository root contains code from both projects:
 - **DocPHT:** `json/`, `pages/`, `public/`, `src/`, `temp/`, `vendor/`
 - **DiscuzX:** `api/`, `archiver/`, `config/`, `data/`, `install/`, `source/`, `static/`, `template/`, `uc_client/`, `uc_server/`
 
+## DocPHT page storage
+
+Each documentation page in DocPHT is stored in two files:
+
+- **JSON file** – holds the canonical page data in a structured format used by the editing forms.
+- **PHP file** – a generated, cached representation of the page for quick loading by the site.
+
+Deleting the JSON file removes the editable source for the page, so while the existing PHP content still renders, any attempt to update the page fails because the editor cannot load its data.
+
 ## Attachment tables
 
 DiscuzX handles attachments using an index table and sharded data tables.
