@@ -20,14 +20,8 @@ if ($count_result) {
     $total_rows = $count_result->fetch_assoc()['total'];
 }
 
-$sql = "SELECT DATE_FORMAT( CONVERT_TZ(`timestamp`, @@session.time_zone, '+00:00'), '%Y-%m-%dT%TZ') as ISO8601, uid, author, message FROM chat ORDER BY time DESC LIMIT ? OFFSET ?";
+$sql = "SELECT DATE_FORMAT(CONVERT_TZ(time, @@session.time_zone, '+00:00'), '%Y-%m-%dT%TZ') as ISO8601, uid, author, message FROM chat ORDER BY time DESC LIMIT ? OFFSET ?";
 $stmt = $conn->prepare($sql);
-if ($stmt === false) {
-    error_log('Prepare failed: ' . $conn->error);
-    echo json_encode(['error' => 'Database query failed']);
-    $conn->close();
-    exit;
-}
 $stmt->bind_param("ii", $limit, $offset);
 $stmt->execute();
 $result = $stmt->get_result();
