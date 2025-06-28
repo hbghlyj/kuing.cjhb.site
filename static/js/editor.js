@@ -1243,7 +1243,7 @@ function showEditorMenu(tag, params) {
 					var promptlang = custombbcodes[tag]['prompt'].split("\t");
 					for(var i = 1; i <= params; i++) {
 						if(i != params || !haveSel) {
-                                               str += (promptlang[i - 1] ? promptlang[i - 1] : lng['enter_please']+' ' + i + lng['nth_parameter']+':') + '<br /><input type="text" id="' + ctrlid + '_param_' + i + '" style="width: 98%" value="" class="px" />' + (i < params ? '<br />' : '');
+                                               str += (promptlang[i - 1] ? promptlang[i - 1] : lng['enter_please']+' ' + i + lng['nth_parameter']+':') + '<br /><textarea id="' + ctrlid + '_param_' + i + '" style="width: 98%; resize: vertical;" rows="3"></textarea>' + (i < params ? '<br />' : '');
 						}
 					}
 				}
