@@ -21,7 +21,7 @@ color: red;
 <input name="tags" type="hidden" id="tags" value="<!--{echo $tags or $postinfo['tag']}-->">
 <input id="keyword-input" size="30" placeholder="{lang input_a_new_tag_press_enter_submit}" list="tag-suggestions">
 <datalist id="tag-suggestions"></datalist>
-<script>
+<script reload="1">
     $('keyword-input').addEventListener('input', async function() {
         const query = this.value.trim();
         if (mb_strlen(query) < 2) return; // Only fetch suggestions for queries longer than 1 character
@@ -41,7 +41,7 @@ color: red;
         }
     });
 </script>
-<script>
+<script reload="1">
 {
     const chipContainer = document.getElementById('chip-container');
     const keywords = $('tags').value ? $('tags').value.split(',') : [];
