@@ -24,8 +24,6 @@ if(UC_STANDALONE) {
 	define('UC_AVTAPI', $_G['siteurl'].'api/avatar');
 }
 $uc_avatarflash = uc_avatar($_G['uid'], 'virtual', 0);
-$uc_avatarflash[] = 'standalone';
-$uc_avatarflash[] = UC_STANDALONE;
 
 if(empty($space['avatarstatus']) && uc_check_avatar($_G['uid'], 'middle')) {
 	C::t('common_member')->update($_G['uid'], array('avatarstatus'=>'1'));

@@ -193,3 +193,9 @@ Shows a configurable menu. The object `v` can include keys such as `ctrlid`, `sh
 ### `setMenuPosition(showid, menuid, pos)`
 Positions the menu element `menuid` relative to `showid` using the two-digit `pos` code denoting anchor and direction.
 
+## JavaScript libraries
+
+The file `static/js/webuploader/webuploader.min.js` bundles **WebUploader 0.1.5**, an
+open-source uploader from the Baidu FEX team. It provides the upload runtime used
+by `static/js/webuploader.js`.
+

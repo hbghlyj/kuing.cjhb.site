@@ -645,8 +645,6 @@ var lng = {
 	'save_js'		: 'javascript saved',//'javascript脚本保存后显示',
 	'settings'		: 'Settings',//'设置',
 
-//---------------------------
-//static/js/swfupload.js
 
 	'attach_file'		: 'Attachment',
 

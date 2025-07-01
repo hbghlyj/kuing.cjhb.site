@@ -28,7 +28,6 @@ Class upload{
 			'av' => array('av', 'wmv', 'wav'),
 			'real' => array('rm', 'rmvb'),
 			'binary' => array('dat'),
-			'flash' => array('swf'),
 			'html' => array('html', 'htm'),
 			'image' => array('gif', 'jpg', 'jpeg', 'png', 'bmp', 'webp'),
 			'office' => array('doc', 'xls', 'ppt'),
