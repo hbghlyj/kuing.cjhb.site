@@ -90,7 +90,6 @@ SWFUpload.EXT_MIME_MAP = {
 	'rtf': 'application/rtf',
 	'sh': 'application/x-sh',
 	'svg': 'image/svg+xml',
-	'swf': 'application/x-shockwave-flash',
 	'tar': 'application/x-tar',
 	'tif': 'image/tiff',
 	'tiff': 'image/tiff',
@@ -252,9 +251,9 @@ SWFUpload.prototype.initSettings = function (userSettings) {
 		}).join(",");
 	}
 
-	var uploader = WebUploader.create({
-		swf: getBasePath() + 'Uploader.swf',
-		server: this.settings.upload_url,
+       var uploader = WebUploader.create({
+                runtimeOrder: 'html5',
+                server: this.settings.upload_url,
 		pick: '#' + this.settings.button_placeholder_id,
 		compress: false,
 		threads: 1,

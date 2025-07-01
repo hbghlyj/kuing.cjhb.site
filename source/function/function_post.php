@@ -586,7 +586,7 @@ function messagecutstr($message, $length = 0, $dot = ' ...', $html = 0) {
 	$language = lang('forum/misc');
 	loadcache(array('bbcodes_display', 'bbcodes', 'smileycodes', 'smilies', 'smileytypes', 'domainwhitelist'));
 	$bbcodes = 'b|i|u|p|color|backcolor|size|font|align|list|indent|float|table|tr|td';
-	$bbcodesclear = 'tikz|asy|email|code|free|img|swf|flash|attach|media|audio|groupid|payto'.(!empty($_G['cache']['bbcodes_display'][$_G['groupid']]) ? '|'.implode('|', array_keys($_G['cache']['bbcodes_display'][$_G['groupid']])) : '');
+       $bbcodesclear = 'tikz|asy|email|code|free|img|swf|attach|media|audio|groupid|payto'.(!empty($_G['cache']['bbcodes_display'][$_G['groupid']]) ? '|'.implode('|', array_keys($_G['cache']['bbcodes_display'][$_G['groupid']])) : '');
 	$str = preg_replace(array(
 			"/\[hide=?\d*\](.*?)\[\/hide\]/is",
 			"/\[quote\](.*?)\[\/quote\]/si",

@@ -815,7 +815,6 @@ $lang = array (
 	'share_all'		=> 'All',//'全部',
 	'share_article'		=> 'Articles',//'文章',
 	'share_blog'		=> 'Blogs',//'日志',
-	'share_flash'		=> 'Flash',
 	'share_link'		=> 'Links',//'网址',
 	'share_music'		=> 'Music',//'音乐',
 	'share_pic'		=> 'Images',//'图片',

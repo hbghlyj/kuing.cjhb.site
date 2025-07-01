@@ -29,7 +29,6 @@ $lang = array(
 	'editor_remove_link' => '移除链接',
 	'editor_link_image' => '添加图片',
 	'editor_link_attach' => '添加附件',
-	'editor_link_flash' => '添加视频FLASH或MP3音乐',
 	'editor_insert_smiley' => '插入表情',
 	'editor_doodle' => '涂鸦',
 	'editor_pagebreak' => '插入分页标志',

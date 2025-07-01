@@ -680,16 +680,10 @@ function portalcp_get_postmessage($post, $getauthorall = '') {
 	if(strpos($msglower, '[/audio]') !== FALSE) {
 		$post['message'] = preg_replace_callback("/\[audio(=1)*\]\s*([^\[\<\r\n]+?)\s*\[\/audio\]/is", 'portalcp_get_postmessage_callback_parsearticlemedia_2', $post['message']);
 	}
-	if(strpos($msglower, '[/flash]') !== FALSE) {
-		$post['message'] = preg_replace_callback("/\[flash(=(\d+),(\d+))?\]\s*([^\[\<\r\n]+?)\s*\[\/flash\]/is", 'portalcp_get_postmessage_callback_parsearticlemedia_4', $post['message']);
-	}
 
 	$post['message'] = discuzcode($post['message'], $post['smileyoff'], $post['bbcodeoff'], $post['htmlon'] & 1, $forum['allowsmilies'], $forum['allowbbcode'], ($forum['allowimgcode'] && $_G['setting']['showimages'] ? 1 : 0), $forum['allowhtml'], 0, 0, $post['authorid'], $forum['allowmediacode'], $post['pid']);
 	portalcp_parse_postattch($post);
 
-	if(strpos($post['message'], '[/flash1]') !== FALSE) {
-		$post['message'] = str_replace('[/flash1]', '[/flash]', $post['message']);
-	}
 	return $post['message'].$_message;
 }
 
@@ -701,9 +695,6 @@ function portalcp_get_postmessage_callback_parsearticlemedia_2($matches) {
 	return parsearticlemedia('mid,0,0', $matches[2]);
 }
 
-function portalcp_get_postmessage_callback_parsearticlemedia_4($matches) {
-	return parsearticlemedia('swf,0,0', $matches[4]);
-}
 
 function portalcp_parse_postattch(&$post) {
 	static $allpostattchs = null;
@@ -726,46 +717,20 @@ function portalcp_parse_postattch(&$post) {
 	}
 }
 function parsearticlemedia($params, $url) {
-	global $_G;
+        global $_G;
 
-	$params = explode(',', $params);
+        $params = explode(',', $params);
+       $url = addslashes($url);
+       if($result = parseiframe($url, 0, 0)) {
+               return $result['iframe'];
+       }
 
-	$url = addslashes($url);
-	if($flv = parseflv($url, 0, 0)) {
-		$url = $flv['flv'];
-		$params[0] = 'swf';
-	}
-	if(in_array(count($params), array(3, 4))) {
-		$type = $params[0];
-		$url = str_replace(array('<', '>'), '', str_replace('\\"', '\"', $url));
-		switch($type) {
-			case 'mp3':
-			case 'wma':
-			case 'ra':
-			case 'ram':
-			case 'wav':
-			case 'mid':
-				return '[flash=mp3]'.$url.'[/flash1]';
-			case 'rm':
-			case 'rmvb':
-			case 'rtsp':
-				return '[flash=real]'.$url.'[/flash1]';
-			case 'swf':
-				return '[flash]'.$url.'[/flash1]';
-			case 'asf':
-			case 'asx':
-			case 'wmv':
-			case 'mms':
-			case 'avi':
-			case 'mpg':
-			case 'mpeg':
-			case 'mov':
-				return '[flash=media]'.$url.'[/flash1]';
-			default:
-				return '<a href="'.$url.'" target="_blank">'.$url.'</a>';
-		}
-	}
-	return;
+       $url = str_replace(array('<', '>'), '', str_replace('\\"', '\\"', $url));
+       if(in_array($params[0], array('mp3','wma','ra','ram','wav','mid'))) {
+               return parseaudio($url, 400);
+       }
+
+       return '<a href="'.$url.'" target="_blank">'.$url.'</a>';
 }
 
 function portalcp_article_pre_next($catid, $aid) {

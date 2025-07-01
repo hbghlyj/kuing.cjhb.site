@@ -8,8 +8,7 @@ $checkurl = array('youtube.com/watch?');
 
 function media_youtube($url, $width, $height) {
 	if(preg_match("/^https?:\/\/(|m.|www.)youtube.com\/watch\?v=([^\/&]+)&?/i", $url, $matches)) {
-		$flv = 'https://www.youtube.com/v/'.$matches[2].'&fs=1';
-		$iframe = 'https://www.youtube.com/embed/'.$matches[2];
+                $iframe = 'https://www.youtube.com/embed/'.$matches[2];
 		if(!$width && !$height) {
 			$str = dfsockopen($url);
 			if(!empty($str) && preg_match("/'VIDEO_HQ_THUMB':\s'(.+?)'/i", $str, $image)) {
@@ -19,5 +18,5 @@ function media_youtube($url, $width, $height) {
 			}
 		}
 	}
-	return array($flv, $iframe, $url, $imgurl);
+        return array($iframe, $url, $imgurl);
 }

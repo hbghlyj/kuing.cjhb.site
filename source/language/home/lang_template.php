@@ -819,7 +819,6 @@ $lang = array (
   'share_all' => '全部',
   'share_article' => '文章',
   'share_blog' => '日志',
-  'share_flash' => 'Flash',
   'share_link' => '网址',
   'share_music' => '音乐',
   'share_pic' => '图片',
