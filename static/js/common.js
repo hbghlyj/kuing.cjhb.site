@@ -1376,9 +1376,7 @@ function AC_GetArgs(args, classid, mimeType) {
 		var currArg = args[i].toLowerCase();
 		switch (currArg){
 			case "classid":break;
-			case "pluginspage":ret.embedAttrs[args[i]] = 'http://www.macromedia.com/go/getflashplayer';break;
-			case "src":ret.embedAttrs[args[i]] = args[i+1];ret.params["movie"] = args[i+1];break;
-			case "codebase":ret.objAttrs[args[i]] = 'http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,0,0';break;
+                       case "src":ret.embedAttrs[args[i]] = args[i+1];ret.params["movie"] = args[i+1];break;
 			case "onafterupdate":case "onbeforeupdate":case "onblur":case "oncellchange":case "onclick":case "ondblclick":case "ondrag":case "ondragend":
 			case "ondragenter":case "ondragleave":case "ondragover":case "ondrop":case "onfinish":case "onfocus":case "onhelp":case "onmousedown":
 			case "onmouseup":case "onmouseover":case "onmousemove":case "onmouseout":case "onkeypress":case "onkeydown":case "onkeyup":case "onload":
@@ -1750,10 +1748,8 @@ function setCopy(text, msg) {
 		}
 	} else {
 /*vot*/		var msg = '<div class="c"><div style="width: 200px; text-align: center; text-decoration:underline;">'+lng['copy2clipboard']+'</div>' +
-		AC_FL_RunContent('id', 'clipboardswf', 'name', 'clipboardswf', 'devicefont', 'false', 'width', '200', 'height', '40', 'src', STATICURL + 'image/common/clipboard.swf', 'menu', 'false',  'allowScriptAccess', 'sameDomain', 'swLiveConnect', 'true', 'wmode', 'transparent', 'style' , 'margin-top:-20px') + '</div>';
-		showDialog(msg, 'info');
-		CLIPBOARDSWFDATA = text;
-	}
+               showDialog('<div class="c">'+lng['copy_failed']+'</div>', 'alert');
+       }
 }
 
 function copycode(obj) {

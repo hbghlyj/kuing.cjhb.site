@@ -36,7 +36,7 @@ function build_cache_styles() {
 			$flash = explode(",", $data['boardimg']);
 			$flash[0] = trim($flash[0]);
 			$flash[0] = preg_match('/^(https?:)?\/\//i', $flash[0]) ? $flash[0] : $data['styleimgdir'].'/'.$flash[0];
-			$data['boardlogo'] = "<embed src=\"".$flash[0]."\" width=\"".trim($flash[1])."\" height=\"".trim($flash[2])."\" type=\"application/x-shockwave-flash\" wmode=\"transparent\"></embed>";
+                       $data['boardlogo'] = '';
 		} else {
 			$data['boardimg'] = empty($data['boardimg']) ? $data['imgdir'].'/logo.svg' : (preg_match('/^(https?:)?\/\//i', $data['boardimg']) || file_exists(DISCUZ_ROOT.$data['boardimg']) ? '' : (file_exists(DISCUZ_ROOT.$data['styleimgdir'].'/'.$data['boardimg']) ? $data['styleimgdir'].'/' : $data['imgdir'].'/')).$data['boardimg'];
 			$data['boardlogo'] = "<img src=\"{$data['boardimg']}\" alt=\"".$_G['setting']['bbname']."\" class=\"boardlogo\" id=\"boardlogo\" border=\"0\" />";
