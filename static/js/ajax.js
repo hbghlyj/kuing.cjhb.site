@@ -6,19 +6,19 @@
 */
 
 function _ajaxget(url, showid, waitid, loading, display, recall) {
-	waitid = typeof waitid == 'undefined' || waitid === null ? showid : waitid;
-	var x = new Ajax();
-	x.setLoading(loading);
-	x.setWaitId(waitid);
-	x.display = typeof display == 'undefined' || display == null ? '' : display;
-	x.showId = $(showid);
+       waitid = typeof waitid == 'undefined' || waitid === null ? showid : waitid;
+       var x = new Ajax();
+       x.setLoading(loading);
+       x.setWaitId(waitid);
+       x.display = typeof display == 'undefined' || display == null ? '' : display;
+       x.showId = $(showid);
 
 	if(url.substr(strlen(url) - 1) == '#') {
 		url = url.substr(0, strlen(url) - 1);
 		x.autogoto = 1;
 	}
 
-	var url = url + '&inajax=1&ajaxtarget=' + showid;
+       url = url + '&inajax=1&ajaxtarget=' + showid;
 	x.get(url, function(s, x) {
 		var evaled = false;
 		if(s.indexOf('ajaxerror') != -1) {
@@ -45,8 +45,8 @@ function _ajaxget(url, showid, waitid, loading, display, recall) {
 }
 
 function _ajaxpost(formid, showid, waitid, showidclass, submitbtn, recall) {
-	var waitid = typeof waitid == 'undefined' || waitid === null ? showid : (waitid !== '' ? waitid : '');
-	var showidclass = !showidclass ? '' : showidclass;
+       waitid = typeof waitid == 'undefined' || waitid === null ? showid : (waitid !== '' ? waitid : '');
+       showidclass = !showidclass ? '' : showidclass;
 	var ajaxframeid = 'ajaxframe';
 	var ajaxframe = $(ajaxframeid);
 	var curform = $(formid);
@@ -63,7 +63,7 @@ function _ajaxpost(formid, showid, waitid, showidclass, submitbtn, recall) {
 			try {
 				s = $(ajaxframeid).contentWindow.document.documentElement.firstChild.nodeValue;
 			} catch(e) {
-                               s = lng['int_error'];
+                               s = lng.int_error;
 			}
 		}
                if(s && s.indexOf('ajaxerror') != -1) {
@@ -130,17 +130,19 @@ function _ajaxpost(formid, showid, waitid, showidclass, submitbtn, recall) {
 }
 
 function _ajaxmenu(ctrlObj, timeout, cache, duration, pos, recall, idclass, contentclass) {
-	if(!ctrlObj.getAttribute('mid')) {
-		var ctrlid = ctrlObj.id;
-		if(!ctrlid) {
-			ctrlObj.id = 'ajaxid_' + Math.random();
-		}
-	} else {
-		var ctrlid = ctrlObj.getAttribute('mid');
-		if(!ctrlObj.id) {
-			ctrlObj.id = 'ajaxid_' + Math.random();
-		}
-	}
+       var ctrlid;
+       if(!ctrlObj.getAttribute('mid')) {
+               ctrlid = ctrlObj.id;
+               if(!ctrlid) {
+                       ctrlObj.id = 'ajaxid_' + Math.random();
+                       ctrlid = ctrlObj.id;
+               }
+       } else {
+               ctrlid = ctrlObj.getAttribute('mid');
+               if(!ctrlObj.id) {
+                       ctrlObj.id = 'ajaxid_' + Math.random();
+               }
+       }
 	var menuid = ctrlid + '_menu';
 	var menu = $(menuid);
 	if(isUndefined(timeout)) timeout = 3000;
@@ -171,19 +173,19 @@ function _ajaxmenu(ctrlObj, timeout, cache, duration, pos, recall, idclass, cont
 	menu.className = idclass;
 	menu.innerHTML = '<div class="' + contentclass + '" id="' + menuid + '_content"></div>';
 	$('append_parent').appendChild(menu);
-	var url = (!isUndefined(ctrlObj.attributes['shref']) ? ctrlObj.attributes['shref'].value : (!isUndefined(ctrlObj.href) ? ctrlObj.href : ctrlObj.attributes['href'].value));
+       var url = (!isUndefined(ctrlObj.attributes.shref) ? ctrlObj.attributes.shref.value : (!isUndefined(ctrlObj.href) ? ctrlObj.href : ctrlObj.attributes.href.value));
 	url += (url.indexOf('?') != -1 ? '&' :'?') + 'ajaxmenu=1';
 	ajaxget(url, menuid + '_content', 'ajaxwaitid', '', '', func);
 	doane();
 }
 
 function _ajaxupdateevents(obj, tagName) {
-	tagName = tagName ? tagName : 'A';
-	var objs = obj.getElementsByTagName(tagName);
-	for(k in objs) {
-		var o = objs[k];
-		ajaxupdateevent(o);
-	}
+       tagName = tagName ? tagName : 'A';
+       var objs = obj.getElementsByTagName(tagName);
+       for(var k in objs) {
+               var o = objs[k];
+               ajaxupdateevent(o);
+       }
 }
 
 function _ajaxupdateevent(o) {
@@ -212,16 +214,16 @@ function _ajaxinnerhtml(showid, s) {
 		div1.id = showid.id+'_div';
 		div1.innerHTML = '<table><tbody id="'+showid.id+'_tbody">'+s+'</tbody></table>';
 		$('append_parent').appendChild(div1);
-		var trs = div1.getElementsByTagName('TR');
-		var l = trs.length;
-		for(var i=0; i<l; i++) {
-			showid.appendChild(trs[0]);
-		}
-		var inputs = div1.getElementsByTagName('INPUT');
-		var l = inputs.length;
-		for(var i=0; i<l; i++) {
-			showid.appendChild(inputs[0]);
-		}
+               var trs = div1.getElementsByTagName('TR');
+               var trsLen = trs.length;
+               for(var i = 0; i < trsLen; i++) {
+                       showid.appendChild(trs[0]);
+               }
+               var inputs = div1.getElementsByTagName('INPUT');
+               var inputsLen = inputs.length;
+               for(var j = 0; j < inputsLen; j++) {
+                       showid.appendChild(inputs[0]);
+               }
 		div1.parentNode.removeChild(div1);
 	}
 }
