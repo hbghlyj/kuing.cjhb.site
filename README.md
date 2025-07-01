@@ -172,6 +172,13 @@ See [issue #232](https://github.com/hbghlyj/kuing.cjhb.site/issues/232) for back
 
 `static/js/common.js` provides several utility functions used across the site.
 
+### `_ajaxget(url, showid, waitid, loading, display, recall)`
+### `_ajaxpost(formid, showid, waitid, showidclass, submitbtn, recall)`
+Low level helpers from `static/js/ajax.js` that fetch new content via GET or POST. Once a response is received, they call `evalscript()` to execute any `<script>` blocks contained in the returned HTML so that dynamic features remain functional.
+
+### `_appendscript(src, text, reload, charset)`
+A helper from `static/js/ajax.js` that adds a script to the document `<head>`. It hashes the script source and body to detect duplicates and only re-runs a script when the `reload` flag is set.
+
 ### `ajaxget(url, showid, waitid, loading, display, recall)`
 Performs a GET request and injects the result into `showid`. `waitid` shows a loading message. `display` controls whether the element is shown (`''`), hidden (`'none'`), or toggled (`'auto'`). The optional `recall` callback runs after completion.
 
@@ -192,12 +199,5 @@ Shows a configurable menu. The object `v` can include keys such as `ctrlid`, `sh
 
 ### `setMenuPosition(showid, menuid, pos)`
 Positions the menu element `menuid` relative to `showid` using the two-digit `pos` code denoting anchor and direction.
-
-### `_ajaxget(url, showid, waitid, loading, display, recall)`
-### `_ajaxpost(formid, showid, waitid, showidclass, submitbtn, recall)`
-Low level helpers from `static/js/ajax.js` that fetch new content via GET or POST. Once a response is received, they call `evalscript()` to execute any `<script>` blocks contained in the returned HTML so that dynamic features remain functional.
-
-### `_appendscript(src, text, reload, charset)`
-A helper from `static/js/ajax.js` that adds a script to the document `<head>`. It hashes the script source and body to detect duplicates and only re-runs a script when the `reload` flag is set.
 
 
