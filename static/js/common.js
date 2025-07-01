@@ -1577,37 +1577,48 @@ function ctrlEnter(event, btnId, onlyEnter) {
 }
 
 function parseurl(str, mode, parsecode) {
-	if(isUndefined(parsecode)) parsecode = true;
-	if(parsecode) str= str.replace(/\[code\]([\s\S]+?)\[\/code\]/ig, function($1, $2) {return codetag($2, -1);});
-	str = str.replace(/([^>=\]"'\/]|^)((((https?|ftp):\/\/)|www\.)([\w\-]+\.)*[\w\-\u4e00-\u9fa5]+\.([\.a-zA-Z0-9]+|\u4E2D\u56FD|\u7F51\u7EDC|\u516C\u53F8)((\?|\/|:)+[\w\.\/=\?%\-&;~`@':+!#\*]*)+\.(png|gif|jpg|jpeg|svg|apng|avif|webp|bmp|ico|cur|jpe|jif|jfif))/ig, '$1[img]$2[/img]');
-	str = str.replace(/([^>=\]"'\/]|^)((((https?|ftp):\/\/)|www\.)([\w\-]+\.)*[\w\-\u4e00-\u9fa5]+\.([\.a-zA-Z0-9]+|\u4E2D\u56FD|\u7F51\u7EDC|\u516C\u53F8)((\?|\/|:)+[\w\.\/=\?%\-&;~`@':+!#\*]*)+\.(mp3|wma))/ig, '$1[audio]$2[/audio]');
-	str = str.replace(/([^>=\]"'\/@]|^)((((https?|ftp|gopher|news|telnet|rtsp|mms|callto|bctp|ed2k|thunder|qqdl|synacast):\/\/))([\w\-]+\.)*[:\.@\-\w\u4e00-\u9fa5]+\.([\.a-zA-Z0-9]+|\u4E2D\u56FD|\u7F51\u7EDC|\u516C\u53F8)((\?|\/|:)+[\w\.\/=\?%\-&;~`@':+!#\*]*)*)/ig,  function (match, prefix, url) {
-		try {
-		    let urlObj = new URL(url.startsWith('http') ? url : 'http://' + url); // Ensure valid URL
-		    if (urlObj.host === location.host) {
-			url = urlObj.pathname.slice(1) + urlObj.search + urlObj.hash; // Return relative URL
-		    }
-		} catch (e) {
-		    showError(e);
-		}
-		return prefix + (mode == 'html' ? '<a href="' + url + '" target="_blank">' + url + '</a>' : '[url]' + url + '[/url]');
-	});
-	str = str.replace(/([^\w>=\]"'\/@]|^)((www\.)([\w\-]+\.)*[:\.@\-\w\u4e00-\u9fa5]+\.([\.a-zA-Z0-9]+|\u4E2D\u56FD|\u7F51\u7EDC|\u516C\u53F8)((\?|\/|:)+[\w\.\/=\?%\-&;~`@':+!#\*]*)*)/ig, function (match, prefix, url) {
-		try {
-		    let urlObj = new URL(url.startsWith('http') ? url : 'http://' + url); // Ensure valid URL
-		    if (urlObj.host === location.host) {
-			url = urlObj.pathname.slice(1) + urlObj.search + urlObj.hash; // Return relative URL
-		    }
-		} catch (e) {
-		    showError(e);
-		}
-		return prefix + (mode == 'html' ? '<a href="' + url + '" target="_blank">' + url + '</a>' : '[url]' + url + '[/url]');
-	});
-	if(parsecode) {
-		for(var i = 0; i <= DISCUZCODE['num']; i++) {
-			str = str.replace("[\tDISCUZ_CODE_" + i + "\t]", DISCUZCODE['html'][i]);
-		}
-	}
+        if(isUndefined(parsecode)) parsecode = true;
+        if(parsecode) str= str.replace(/\[code\]([\s\S]+?)\[\/code\]/ig, function($1, $2) {return codetag($2, -1);});
+       const hrefMatches = [];
+        str = str.replace(/\\href\{[^}]+\}\{[^}]*\}/g, function(match) {
+                hrefMatches.push(match);
+                return '[DISCUZ_HREF_' + (hrefMatches.length - 1) + ']';
+        });
+       const urlSuffixRegex = "(?:[\\/:?][\\w\\.\\/=\\?%\\-&;~`@':+!#\\*]*)";
+       const imgPattern = new RegExp(`([^>=\\]"'/]|^)((((https?|ftp):\\/\\/)|www\\.)([\\w\\-]+\\.)*[\\w\\-\\u4e00-\\u9fa5]+\\.([\\.a-zA-Z0-9]+|\\u4E2D\\u56FD|\\u7F51\\u7EDC|\\u516C\\u53F8)(${urlSuffixRegex})+\\.(png|gif|jpg|jpeg|svg|apng|avif|webp|bmp|ico|cur|jpe|jif|jfif))`,`ig`);
+       str = str.replace(imgPattern, '$1[img]$2[/img]');
+       const audioPattern = new RegExp(`([^>=\\]"'/]|^)((((https?|ftp):\\/\\/)|www\\.)([\\w\\-]+\\.)*[\\w\\-\\u4e00-\\u9fa5]+\\.([\\.a-zA-Z0-9]+|\\u4E2D\\u56FD|\\u7F51\\u7EDC|\\u516C\\u53F8)(${urlSuffixRegex})+\\.(mp3|wma))`,`ig`);
+       str = str.replace(audioPattern, '$1[audio]$2[/audio]');
+        str = str.replace(/([^>=\]"'\/@]|^)((((https?|ftp|gopher|news|telnet|rtsp|mms|callto|bctp|ed2k|thunder|qqdl|synacast):\/\/))([\w\-]+\.)*[:\.@\-\w\u4e00-\u9fa5]+\.([\.a-zA-Z0-9]+|\u4E2D\u56FD|\u7F51\u7EDC|\u516C\u53F8)((\?|\/|:)+[\w\.\/=\?%\-&;~`@':+!#\*]*)*)/ig,  function (match, prefix, url) {
+                try {
+                    let urlObj = new URL(url.startsWith('http') ? url : 'http://' + url); // Ensure valid URL
+                    if (urlObj.host === location.host) {
+                        url = urlObj.pathname.slice(1) + urlObj.search + urlObj.hash; // Return relative URL
+                    }
+                } catch (e) {
+                    showError(e);
+                }
+                return prefix + (mode == 'html' ? '<a href="' + url + '" target="_blank">' + url + '</a>' : '[url]' + url + '[/url]');
+        });
+        str = str.replace(/([^\w>=\]"'\/@]|^)((www\.)([\w\-]+\.)*[:\.@\-\w\u4e00-\u9fa5]+\.([\.a-zA-Z0-9]+|\u4E2D\u56FD|\u7F51\u7EDC|\u516C\u53F8)((\?|\/|:)+[\w\.\/=\?%\-&;~`@':+!#\*]*)*)/ig, function (match, prefix, url) {
+                try {
+                    let urlObj = new URL(url.startsWith('http') ? url : 'http://' + url); // Ensure valid URL
+                    if (urlObj.host === location.host) {
+                        url = urlObj.pathname.slice(1) + urlObj.search + urlObj.hash; // Return relative URL
+                    }
+                } catch (e) {
+                    showError(e);
+                }
+                return prefix + (mode == 'html' ? '<a href="' + url + '" target="_blank">' + url + '</a>' : '[url]' + url + '[/url]');
+        });
+       str = str.replace(/\[DISCUZ_HREF_(\d+)\]/g, function(match, index) {
+               return hrefMatches[parseInt(index, 10)];
+       });
+       if(parsecode) {
+               str = str.replace(/\[\tDISCUZ_CODE_(\d+)\t\]/g, function(match, index) {
+                       return DISCUZCODE['html'][parseInt(index, 10)];
+               });
+       }
 	return str;
 }
 
