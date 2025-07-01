@@ -1611,11 +1611,11 @@ function parseurl(str, mode, parsecode) {
        str = str.replace(/\[DISCUZ_HREF_(\d+)\]/g, function(match, index) {
                return hrefMatches[parseInt(index, 10)];
        });
-        if(parsecode) {
-                for(var i = 0; i <= DISCUZCODE['num']; i++) {
-                        str = str.replace("[\tDISCUZ_CODE_" + i + "\t]", DISCUZCODE['html'][i]);
-                }
-        }
+       if(parsecode) {
+               str = str.replace(/\[\tDISCUZ_CODE_(\d+)\t\]/g, function(match, index) {
+                       return DISCUZCODE['html'][parseInt(index, 10)];
+               });
+       }
 	return str;
 }
 
