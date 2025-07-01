@@ -262,14 +262,17 @@ function followcode_callback_fparsemedia_12($matches) {
 }
 
 function followcode_callback_fparseaudio_2($matches) {
-	return fparseaudio($matches[2]);
+        return fparseaudio($matches[2]);
 }
 
+function followcode_callback_highlightword_21($matches, $action = 0) {
+       static $highlightarray = array();
 
-		$highlightarray = $matches;
-	} else {
-		return highlightword($matches[2], $highlightarray, $matches[1]);
-	}
+       if($action == 1) {
+               $highlightarray = $matches;
+       } else {
+               return highlightword($matches[2], $highlightarray, $matches[1]);
+       }
 }
 
 function clearnl($message) {
