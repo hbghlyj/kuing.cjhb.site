@@ -42,72 +42,74 @@ color: red;
     });
 </script>
 <script>
-const chipContainer = document.getElementById('chip-container');
-const keywords = $('tags').value ? $('tags').value.split(',') : [];
+{
+    const chipContainer = document.getElementById('chip-container');
+    const keywords = $('tags').value ? $('tags').value.split(',') : [];
 
-function renderChips() {
-    $('tags').value = keywords.join(',');
-    chipContainer.innerHTML = '';
-    keywords.forEach(keyword => {
-    const chip = document.createElement('div');
-    chip.className = 'chip';
-    chip.textContent = keyword;
+    function renderChips() {
+        $('tags').value = keywords.join(',');
+        chipContainer.innerHTML = '';
+        keywords.forEach(keyword => {
+            const chip = document.createElement('div');
+            chip.className = 'chip';
+            chip.textContent = keyword;
 
-    const removeButton = document.createElement('button');
-    removeButton.textContent = '×';
-    removeButton.addEventListener('click', () => removeKeyword(keyword));
+            const removeButton = document.createElement('button');
+            removeButton.textContent = '×';
+            removeButton.addEventListener('click', () => removeKeyword(keyword));
 
-    chip.appendChild(removeButton);
-    chipContainer.appendChild(chip);
+            chip.appendChild(removeButton);
+            chipContainer.appendChild(chip);
+        });
+    }
+
+    function addKeyword(value) {
+        if (value.indexOf(',') !== -1 || value.indexOf('\\') !== -1) {
+            showError('{lang tag_cannot_contain_comma_or_backslash}');
+            return;
+        }
+
+        if(keywords.length >= 5) {
+            showError('{lang tag_count_limit}');
+            return;
+        }
+
+        const taglength = mb_strlen(value);
+
+        if(taglength > 30 || taglength < 3) {
+            showError('{lang tag_max_length_invalid}' + taglength);
+            return;
+        }
+
+        if (value && !keywords.includes(value)) {
+            keywords.push(value);
+            renderChips();
+        }
+    }
+
+    function removeKeyword(keyword) {
+        const index = keywords.indexOf(keyword);
+        if (index > -1) {
+            keywords.splice(index, 1);
+            renderChips();
+        }
+    }
+
+    $('keyword-input').addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') {
+            addKeyword(this.value.trim());
+            this.value = '';
+            doane(e);
+        }
     });
-}
 
-function addKeyword(value) {
-    if (value.indexOf(',') !== -1 || value.indexOf('\\') !== -1) {
-        showError('{lang tag_cannot_contain_comma_or_backslash}');
-        return;
-    }
+    $('keyword-input').addEventListener('blur', function() {
+        if (this.value.trim()) {
+            addKeyword(this.value.trim());
+            this.value = '';
+        }
+    });
 
-    if(keywords.length >= 5) {
-        showError('{lang tag_count_limit}');
-        return;
-    }
-
-    const taglength = mb_strlen(value);
-
-    if(taglength > 30 || taglength < 3) {
-        showError('{lang tag_max_length_invalid}' + taglength);
-        return;
-    }
-
-    if (value && !keywords.includes(value)) {
-        keywords.push(value);
-        renderChips();
-    }
-}
-
-function removeKeyword(keyword) {
-    const index = keywords.indexOf(keyword);
-    if (index > -1) {
-    keywords.splice(index, 1);
     renderChips();
-    }
 }
-
-$('keyword-input').addEventListener('keydown', function(e) {
-    if (e.key === 'Enter') {
-        addKeyword(this.value.trim());
-        this.value = '';
-        doane(e);
-    }
-});
-
-$('keyword-input').addEventListener('blur', function() {
-    if (this.value.trim()) {
-        addKeyword(this.value.trim());
-        this.value = '';
-    }
-});
-
-renderChips();
 </script>
