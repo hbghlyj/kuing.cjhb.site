@@ -652,10 +652,7 @@ var lng = {
 	'save_js'		: 'javascript脚本保存后显示',
 	'settings'		: '设置',
 
-//---------------------------
-//static/js/swfupload.js
 
-	'attach_file'		: 'Attachment',
 
 //---------------------------
 //static/js/threadsort.js
