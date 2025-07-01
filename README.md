@@ -193,3 +193,8 @@ Shows a configurable menu. The object `v` can include keys such as `ctrlid`, `sh
 ### `setMenuPosition(showid, menuid, pos)`
 Positions the menu element `menuid` relative to `showid` using the two-digit `pos` code denoting anchor and direction.
 
+### `_ajaxget(url, showid, waitid, loading, display, recall)`
+### `_ajaxpost(formid, showid, waitid, showidclass, submitbtn, recall)`
+Low level helpers from `static/js/ajax.js` that fetch new content via GET or POST. After receiving HTML, they call `evalscript()` which in turn uses `appendscript()` from `static/js/common.js` to inject any `<script>` blocks so dynamic features remain functional.
+
+
