@@ -1780,7 +1780,6 @@ span.login_slct,td.tipcol a {white-space: nowrap;}
 a.progressCancel { display: block; float: right; width: 14px; height: 14px; line-height: 14px; text-align: center; background: #CB3D4D; border-radius: 2px; text-decoration: none; }
 	a.progressCancel:before { content: "\d7"; color: #FFF; font-weight: 700; }
 	a.progressCancel:hover { background: #E54557; }
-.swfupload { vertical-align: top; }
 
 /* ------------------------------------------------------------------------ 拖拽及页面 DIY */
 .frame, .frame-tab { margin-bottom: 10px; border: 1px solid {WRAPBORDERCOLOR}; background: {WRAPBG}; }

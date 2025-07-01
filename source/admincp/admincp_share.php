@@ -72,7 +72,7 @@ EOT;
 	showsetting('share_search_perpage', '', $_GET['perpage'], "<select name='perpage'><option value='20'>{$lang['perpage_20']}</option><option value='50'>{$lang['perpage_50']}</option><option value='100'>{$lang['perpage_100']}</option></select>");
 	$selected[$type] = $type ? 'selected="selected"' : '';
 	showsetting('share_search_icon', '', $type, "<select name='type'><option value=''>{$lang['all']}</option><option value='link' {$selected['link']}>{$lang['link']}</option>
-			<option value='video' {$selected['video']}>{$lang['video']}</option><option value='music' {$selected['music']}>{$lang['music']}</option><option value='flash' {$selected['flash']}}>Flash</option>
+                       <option value='video' {$selected['video']}>{$lang['video']}</option><option value='music' {$selected['music']}>{$lang['music']}</option>
 			<option value='blog' {$selected['blog']}>{$lang['blogs']}</option><option value='album' {$selected['album']}>{$lang['albums']}</option><option value='pic' {$selected['pic']}>{$lang['pics']}</option>
 			<option value='space' {$selected['space']}>{$lang['members']}</option><option value='thread' {$selected['thread']}>{$lang['thread']}</option></select>");
 	showsetting('share_search_uid', 'uid', $uid, 'text');

@@ -108,7 +108,6 @@ $lang = array
 	'title_share_link'		=> 'Links',//'网址',
 	'title_share_video'		=> 'Video',//'视频',
 	'title_share_music'		=> 'Music',//'音乐',
-	'title_share_flash'		=> 'Flash',
 	'title_share_poll'		=> 'Polls',//'投票',
 	'title_share_pic'		=> 'Images',//'图片',
 	'title_share_album'		=> 'Albums',//'相册',

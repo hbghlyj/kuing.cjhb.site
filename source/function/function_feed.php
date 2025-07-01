@@ -92,9 +92,6 @@ function mkfeed($feed, $actors=array()) {
 		}
 	}
 	
-	if($feed['body_data']['flashvar']){
-		$feed['body_data']['player'] = parseflv($feed['body_data']['data'], '500', '373');
-	}
 	if($feed['body_data']['musicvar']){
 		$feed['body_data']['player'] = parseaudio($feed['body_data']['data']);
 	}

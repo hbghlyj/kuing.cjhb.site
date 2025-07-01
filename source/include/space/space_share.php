@@ -18,7 +18,7 @@ if (!$_G['setting']['sharestatus']) {
 $page = empty($_GET['page'])?1:intval($_GET['page']);
 if($page<1) $page=1;
 $id = empty($_GET['id'])?0:intval($_GET['id']);
-$_GET['type'] = in_array($_GET['type'], array('all', 'link', 'video', 'music', 'flash', 'blog', 'album', 'pic', 'poll', 'space', 'thread', 'article'))? $_GET['type'] : 'all';
+$_GET['type'] = in_array($_GET['type'], array('all', 'link', 'video', 'music', 'blog', 'album', 'pic', 'poll', 'space', 'thread', 'article'))? $_GET['type'] : 'all';
 $_GET['view'] = in_array($_GET['view'], array('we', 'me', 'all')) ? $_GET['view'] : 'we';
 if($id) {
 

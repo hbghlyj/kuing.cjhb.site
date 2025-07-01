@@ -148,8 +148,6 @@ var lng = {
 	'cancel'		: '取消',
 	'wait_please'		: '请稍候...',
 	'int_error'		: '内部错误，无法显示此内容',
-	'flash_required'	: '此内容需要 Adobe Flash Player 9.0.124 或更高版本',
-	'flash_download'	: '下载 Flash Player',
 	'day1'			: '一天',
 	'week1'			: '一周',
 	'days7'			: '7 天',
@@ -259,7 +257,6 @@ var lng = {
 	'audio_url'		: '请输入音乐文件地址',
 	'video_url'		: '请输入视频地址',
 	'auto_play'		: '是否自动播放',
-	'flash_url'		: '请输入 Flash 文件地址',
 	'enter_please'		: '请输入第',
 	'nth_parameter'		: ' 个参数',
 	'font'			: '字体',
@@ -284,7 +281,6 @@ var lng = {
 	'height'		: '高',
 	'audio_support'		: '支持 wma mp3 ra rm 等音乐格式<br />示例: http://server/audio.wma',
 	'video_support'		: '支持优酷、土豆、56、酷6等视频站的视频网址<br />支持 wmv avi rmvb mov swf flv 等视频格式<br />示例: http://server/movie.wmv',
-	'flash_support'		: '支持 swf flv 等 Flash 网址<br />示例: http://server/flash.swf',
 	'paste_from_word'	: '从 Word 粘贴内容',
 	'paste_word_tip'	: '请通过快捷键(Ctrl+V)把 Word 文件中的内容粘贴到上',
 	'show_tips'		: '友情提示',
@@ -299,14 +295,14 @@ var lng = {
 	'jump_tip_pid'		: '帖子的 TID 和 PID',//'Post TID and PID',
 	'add_indent'		: '添加行首缩进',//'Add the first line indent',
 	'enter_post_password'	: '请输入帖子密码',//'Please enter the post password',
-	'begin_flash_img'	: '请输入开头动画 Flash 或 图片 地址',//'Enter the beginning Flash or image animation URL',
+        'begin_flash_img'       : '请输入开头动画图片地址',
 	'begin_click_url'	: '点击链接地址',//'Click on the link URL',
 	'begin_stay_seconds'	: '停留秒数',//'Display seconds',
 	'begin_disappearance'	: '载入、消失的效果',//'Disappear effect after loading',
 	'none'			: '无',//'None',
 	'begin_fade'		: '淡入淡出',//'Fade',
 	'begin_explosive'	: '展开闭合',//'Explode',
-	'begin_info'		: '支持 swf flv jpg gif png 网址<br />宽高范围: 宽400~1024 高300~640<br />示例: http://server/flash.swf',//'Supported formats: swf flv jpg gif png<br/>Width range: 400~1024, Height range: 300~640<br/>Example: http://server/flash.swf',
+        'begin_info'            : '支持 jpg gif png 网址<br />宽高范围: 宽400~1024 高300~640<br />示例: http://server/image.jpg',//'Supported formats: jpg gif png<br/>Width range: 400~1024, Height range: 300~640<br/>Example: http://server/image.jpg',
 
 //--------------------------------
 //static/js/forum.js
@@ -652,10 +648,7 @@ var lng = {
 	'save_js'		: 'javascript脚本保存后显示',
 	'settings'		: '设置',
 
-//---------------------------
-//static/js/swfupload.js
 
-	'attach_file'		: 'Attachment',
 
 //---------------------------
 //static/js/threadsort.js

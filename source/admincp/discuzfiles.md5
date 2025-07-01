@@ -877,7 +877,6 @@ d09e1b7d03e908c9f0cd1b2f902b6336 *source/include/misc/misc_ranklist_picture.php
 18ee58265c971b84156cc21cad77bac8 *source/include/misc/misc_security.php
 3f2fb687c6fa491e17bafe6df652250d *source/include/misc/misc_sendmail.php
 e9f9370a455b5d634e7b0f01426e98d7 *source/include/misc/misc_stat.php
-01c5b8901bfaeb86ed42be16014d859c *source/include/misc/misc_swfupload.php
 d41d8cd98f00b204e9800998ecf8427e *source/include/modcp/index.htm
 0e14a2311f46dceaf12c38ab2a09505a *source/include/modcp/modcp_announcement.php
 f56a1f879c2930be194bf6a9bea45386 *source/include/modcp/modcp_forum.php
@@ -1058,7 +1057,6 @@ fa018d1e46f913b244d05b65673bdfab *source/language/block/lang_vedio.php
 743c52758c75147365c31f0c3db83baa *source/language/forum/lang_dz_feed.php
 2e38ab7c9a3a21f4a8c7d3f6582389ae *source/language/forum/lang_misc.php
 593b41dcb7d52041e329e2f279f4465c *source/language/forum/lang_modaction.php
-69ece8d4845daabff1df1005c6d0fa5a *source/language/forum/lang_swfupload.php
 9a57333a01e976a66e1776391f032ea8 *source/language/forum/lang_template.php
 233b2af2638a6c5da378cc237920e2a3 *source/language/forum/lang_thread.php
 d41d8cd98f00b204e9800998ecf8427e *source/language/group/index.htm
@@ -1212,7 +1210,6 @@ b06844b70785922e2cb5100b9f958685 *source/module/misc/misc_ranklist.php
 1b7b4fdeb70502cbb855b32ae3e24d55 *source/module/misc/misc_seccode.php
 4206a5bc3be20b2294752c38bcb6b0a1 *source/module/misc/misc_secqaa.php
 8c5c539ef08c4ebad727020a04352103 *source/module/misc/misc_stat.php
-f9894157f4f320c958bbb16a07101106 *source/module/misc/misc_swfupload.php
 8cff67e3f9f57d6eec68f1fada15202f *source/module/misc/misc_tag.php
 b2e980162b4365aa940f4a2675e0cf68 *source/module/misc/misc_userstatus.php
 d41d8cd98f00b204e9800998ecf8427e *source/module/portal/index.htm
@@ -1379,7 +1376,6 @@ fd5a13cf3759310934b873cff9e1b96d *static/image/common/bg_home.png
 aec354b6e4e11b4c3fb136633bd380dd *static/image/common/bigimg.png
 f423f6d805831284e24eb8965e34f30a *static/image/common/bodybg.gif
 dfa8d11616d274a7a98d707212be2517 *static/image/common/btnS.png
-e67b204587f569a6e275a20632c6a272 *static/image/common/cam.swf
 155cf77c3c0053753b9559a000e8af38 *static/image/common/cancelbutton.gif
 7b923381674d727e10329157c13918a3 *static/image/common/card.png
 d34df48384387872a14f5b4ba9857c68 *static/image/common/card_btn.png
@@ -1388,7 +1384,6 @@ d34df48384387872a14f5b4ba9857c68 *static/image/common/card_btn.png
 b247df6c12a919291ee599eb53fe620e *static/image/common/check_error.gif
 67140a21f80675f4d9a781c2b8673e2f *static/image/common/check_right.gif
 ce5d09a0d603fb1470c074fd5cfa3bcd *static/image/common/clck.gif
-c3e516e6d5977828d7586e382e9369e7 *static/image/common/clipboard.swf
 bf0c0cd816740a6369db7f554f52a355 *static/image/common/clock.gif
 4d14dad46377e02623ecac0999ba4015 *static/image/common/close-s.png
 c62559524d105e0199b3e00c8bd261b9 *static/image/common/close.gif
@@ -1422,7 +1417,6 @@ d4aac3fc1ff43224d0cf423aa5a53484 *static/image/common/debate_chart.gif
 10a45b1411bf140897bb6ef0002ac196 *static/image/common/digest_2.gif
 a116f5a28534b1d3c20435f057410df3 *static/image/common/digest_3.gif
 0914e7c617b8d06506a6ead08e92fc28 *static/image/common/disagree.gif
-32375889c1fc93dfb0f1de9e94d41301 *static/image/common/doodle.swf
 a30e58c7264d97b746f28fbd68e53c78 *static/image/common/dot.gif
 9ce6acab6f8fe7fae5672a98baa1bce5 *static/image/common/dot_c.gif
 a48bd3c0d74d48b19c09f4cc64d96233 *static/image/common/drag.gif
@@ -1440,8 +1434,6 @@ c60ae139e99832de84fd12c7d41b452f *static/image/common/fav.gif
 035dd4b394b50505a085dd0506be0ba7 *static/image/common/feed.gif
 d0bc29383cf1a98a9dee93cae05ae305 *static/image/common/fj_btn.png
 a2083480ee70858adb67f5fbb61e9115 *static/image/common/flag.gif
-5df4987aa24db026c74c4487a8b42764 *static/image/common/flash.gif
-40178d7ea9e0e84080418fd3df6e987b *static/image/common/flvplayer.swf
 f303db91e90804d1a529d9a4ebc95a6a *static/image/common/flw_allfeed.png
 a0f26af743769e3a31e5cb806dc75b5e *static/image/common/flw_attach_bg.png
 e43a683e3f02f0cd212fc677a0fed1bb *static/image/common/flw_btn.png
@@ -1563,7 +1555,6 @@ cc5c7493d1ec54200555335b4b571e01 *static/image/common/mobile-type.png
 9e1b6b2ff60af838eadb96d2ad1a62ba *static/image/common/mood_input.png
 1b6bebecbc6099d4d656d0ba78efb2de *static/image/common/mood_input_btn.png
 420105f6723d6fd1de78535db1c4942a *static/image/common/more1.png
-40178d7ea9e0e84080418fd3df6e987b *static/image/common/mp3player.swf
 6e0167d5e4faa75465a2aabc04d46817 *static/image/common/msnadd.gif
 37dc4dc91eb55f648ca3e195f8edbf58 *static/image/common/msnchat.gif
 e873da0c0ee57a6309025b8b52242182 *static/image/common/mu.png
@@ -1610,7 +1601,6 @@ d0f9d0897af71896e9677444de8f9059 *static/image/common/pin_1.gif
 859d28ebc4b631a629243002ee6be48b *static/image/common/pin_2.gif
 ac0d312e8b452c49e1846dc2c72b3a9d *static/image/common/pin_3.gif
 ce4ffcea51e07af9492b95ca24c55885 *static/image/common/pin_4.gif
-40178d7ea9e0e84080418fd3df6e987b *static/image/common/player.swf
 55d2db08364e63e2759bc59ed8e9e737 *static/image/common/pllb.png
 03e55cc8c88c96ca497a9a43e0f5ad27 *static/image/common/plus.gif
 70e1201bc3583e2225574b555bf0b3a6 *static/image/common/pm-bg1.png
@@ -1707,9 +1697,7 @@ a241d287a226e7e313b7fccf3d1144d5 *static/image/common/starlevel.gif
 82a5f212caa58cee3dafae65d5f270ec *static/image/common/star_level1.gif
 c2b41b369342326bbf016c9a97515ecc *static/image/common/star_level2.gif
 a2075b49baacb4adffa6cebe931359ea *static/image/common/star_level3.gif
-91164eb86a0eabd27a0f2cf0c67b2229 *static/image/common/stat.swf
 9280b7fd7229bbe046ec4517aab365c4 *static/image/common/status_setting.xml
-3d91814f0de228913f525e034453d778 *static/image/common/swfupload.swf
 78cd307357ae22a376ccda899d2fd57c *static/image/common/switch_style.png
 e223f548c6b313e1f52f66965d155aac *static/image/common/switch_width.png
 75331d0927ef4b626f1e03963614c63f *static/image/common/systempm.png
@@ -1956,7 +1944,6 @@ acca2b8efdb6d116afeb6745ffd7e7ff *static/image/filetype/file-image.png
 2cfd2e9eac14f03005e29d1c782ea9a3 *static/image/filetype/file-video.png
 1d40b60dbc663e1e38233976c6ca1afb *static/image/filetype/file-word.png
 9b42ecb318b634b26460724633603b04 *static/image/filetype/file-zip.png
-0abcd792fad214b15453bb7ddf6e4494 *static/image/filetype/flash.gif
 23677a21b554ca59d96132177964278e *static/image/filetype/html.gif
 10bf3598b3e1e2a86ba2b0d0c14a02d0 *static/image/filetype/image.gif
 05c8604eef60244ef86ad8db73975bc2 *static/image/filetype/image_s.gif
@@ -2160,8 +2147,6 @@ c7f2c6065a600b7d9fe7165a156222fb *static/image/seccode/background/background6.jp
 79d1cd7af101c2dddafdf1579dbcc315 *static/image/seccode/background/background7.jpg
 788995cd865110b11542752dc1f1de79 *static/image/seccode/background/background8.jpg
 7215ee9c7d9dc229d2921a40e899ec5f *static/image/seccode/background/index.htm
-6d9e65c29339beab5a27b2becef811ba *static/image/seccode/flash/flash1.swf
-44e4a4f837cee1156ada9a3a654c59bd *static/image/seccode/flash/flash2.swf
 d41d8cd98f00b204e9800998ecf8427e *static/image/seccode/flash/index.htm
 7215ee9c7d9dc229d2921a40e899ec5f *static/image/seccode/font/ch/index.htm
 4551e5ff11bce45780c17666d58d54bc *static/image/seccode/font/en/FetteSteinschrift.ttf
@@ -2341,7 +2326,6 @@ de5f3d366f8d2ded9b83b22364ab176f *static/image/smiley/grapeman/21.gif
 d41d8cd98f00b204e9800998ecf8427e *static/image/smiley/grapeman/index.htm
 7215ee9c7d9dc229d2921a40e899ec5f *static/image/smiley/index.htm
 7215ee9c7d9dc229d2921a40e899ec5f *static/image/sound/index.htm
-da16c8e10497ac225c333992abc66d91 *static/image/sound/player.swf
 12ecc0d888319c344004c28fef676bc4 *static/image/sound/pm_1.mp3
 4e458838cc252a650043312df4c43d79 *static/image/sound/pm_2.mp3
 e156f2303a7c74f594651161ff73848f *static/image/sound/pm_3.mp3
@@ -2489,11 +2473,8 @@ b58718c985fec0ceb5405abae390d599 *static/js/portal_upload.js
 992f41cb182b3208e340ffe7f90ed58f *static/js/seditor.js
 cef2527d7793ffe999764bc1f59b247c *static/js/smilies.js
 54a3e92ef02755487b763b558e0f38df *static/js/space_diy.js
-218d23eb1d5b41d04e654e912c846c03 *static/js/swfupload.js
-c6f707b6fa8f4a71e8c9ba65a33375e8 *static/js/swfupload.queue.js
 5632f65c9b56f97d45b81575d7420cd9 *static/js/threadsort.js
 9ef45d85a06cde29e0a264893afd2337 *static/js/tree.js
-576114702bafafd7c21ad948fb7991cc *static/js/upload.js
 2a540d00a7be9c4f0072cdb560ccb739 *static/js/userapp_swfobject.js
 d41d8cd98f00b204e9800998ecf8427e *static/space/index.htm
 f98fce0a9306b4d0778354c5043b06b7 *static/space/t1/images/header.jpg
@@ -2816,14 +2797,12 @@ cf208794326eec12073cd1d13feb115b *template/default/group/group_my.htm
 df3b64609daed4d683c951ce304f7abb *template/default/home/invite.htm
 ee50d4c5495554893227f5f1fe050275 *template/default/home/magic_call.htm
 e6d14c2b6f98f8eb5fbd251a3b8649f2 *template/default/home/magic_detector.htm
-885483d94b6af298c2a800265fc21cb3 *template/default/home/magic_doodle.htm
 2015bc4d526ea8e2ff21e38a021646c5 *template/default/home/magic_downdateline.htm
 5235f91b8df82c78136acaa49529ea17 *template/default/home/magic_gift.htm
 2c7b4c43f35782b6fd54b668a447e78f *template/default/home/magic_visit.htm
 a6cabe60b8b54aa777e79fb911a048f4 *template/default/home/misc_ajax.htm
 a2ef6c8789cd6ddf0e36e724861f67a0 *template/default/home/misc_inputpwd.htm
 5570af46b872d8d5fc97ab6aa65cfc3a *template/default/home/misc_stat.htm
-841af66cc4c7faffe3a0027398a8923f *template/default/home/misc_swfupload.htm
 9fd97473360fe8cd42201fb632ba537d *template/default/home/sendmail.htm
 5df4d255563a355f3cfe3f138f88607f *template/default/home/spacecp_album.htm
 9c99b969c4525231324c2ab691b3c066 *template/default/home/spacecp_avatar.htm
@@ -3247,7 +3226,6 @@ a4f51b281ebc27ba4b71408caa4f3f52 *uc_server/control/pm.php
 0d2d3e7e61f7834c5133d1151e493368 *uc_server/control/tag.php
 f2c3b025d7b58809516152b622c13ae7 *uc_server/control/user.php
 fa6e51baef21c1104e6a9c9bea515b93 *uc_server/control/version.php
-c31320fbfd680db6e410c66f208a9dd1 *uc_server/crossdomain.xml
 7215ee9c7d9dc229d2921a40e899ec5f *uc_server/data/avatar/index.htm
 7215ee9c7d9dc229d2921a40e899ec5f *uc_server/data/backup/index.htm
 d41d8cd98f00b204e9800998ecf8427e *uc_server/data/cache/index.htm
@@ -3265,7 +3243,6 @@ aca41a8eb347169d6d9f6d30bfd05760 *uc_server/images/bg_repx_h.gif
 dfceed64760a1f13574ad0aae8716d7a *uc_server/images/bg_repx_hd.gif
 5c7dc4e98f14c7fcaeb0f48c25521582 *uc_server/images/bg_repy.gif
 d749328a42f93fbb38530b3e56e9d8b7 *uc_server/images/bg_tab_line.gif
-3dea8dbe399a685950696ba4de3c81ea *uc_server/images/camera.swf
 c26b00c65530337202b3c2fb7e312a68 *uc_server/images/correct.gif
 3841a9d07dff4c2b532858e1a37e2e07 *uc_server/images/default/btnbg.gif
 6c0042d61b2fd00c1eaf8d6f235fcb8d *uc_server/images/default/citeicon.gif
