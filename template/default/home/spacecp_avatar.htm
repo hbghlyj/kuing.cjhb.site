@@ -29,13 +29,9 @@
 						<p>{lang setting_my_new_avatar_message}</p>
 					</caption>
 					<tr>
-						<td>
-							<!--{if !empty($_GET['old'])}-->
-								<script type="text/javascript">document.write(AC_FL_RunContent('<!--{echo implode("','", $uc_avatarflash);}-->'));</script>
-							<!--{else}-->							
-								<!--{template home/spacecp_avatar_body}-->
-							<!--{/if}-->							
-						</td>
+                                               <td>
+                                                        <!--{template home/spacecp_avatar_body}-->
+                                               </td>
 					</tr>
 				</table>
 				<input type="hidden" name="formhash" value="{FORMHASH}" />

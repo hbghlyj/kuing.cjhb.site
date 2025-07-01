@@ -253,7 +253,7 @@ SWFUpload.prototype.initSettings = function (userSettings) {
 	}
 
 	var uploader = WebUploader.create({
-		swf: getBasePath() + 'Uploader.swf',
+               swf: '',
 		server: this.settings.upload_url,
 		pick: '#' + this.settings.button_placeholder_id,
 		compress: false,
