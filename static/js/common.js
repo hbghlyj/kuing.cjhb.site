@@ -1584,8 +1584,8 @@ function parseurl(str, mode, parsecode) {
                 hrefMatches.push(match);
                 return '[DISCUZ_HREF_' + (hrefMatches.length - 1) + ']';
         });
-        str = str.replace(/([^>=\]"'\/]|^)((((https?|ftp):\/\/)|www\.)([\w\-]+\.)*[\w\-\u4e00-\u9fa5]+\.([\.a-zA-Z0-9]+|\u4E2D\u56FD|\u7F51\u7EDC|\u516C\u53F8)((\?|\/|:)+[\w\.\/=\?%\-&;~`@':+!#\*]*)+\.(png|gif|jpg|jpeg|svg|apng|avif|webp|bmp|ico|cur|jpe|jif|jfif))/ig, '$1[img]$2[/img]');
-        str = str.replace(/([^>=\]"'\/]|^)((((https?|ftp):\/\/)|www\.)([\w\-]+\.)*[\w\-\u4e00-\u9fa5]+\.([\.a-zA-Z0-9]+|\u4E2D\u56FD|\u7F51\u7EDC|\u516C\u53F8)((\?|\/|:)+[\w\.\/=\?%\-&;~`@':+!#\*]*)+\.(mp3|wma))/ig, '$1[audio]$2[/audio]');
+       str = str.replace(/([^>=\]"'\/]|^)((((https?|ftp):\/\/)|www\.)([\w\-]+\.)*[\w\-\u4e00-\u9fa5]+\.([\.a-zA-Z0-9]+|\u4E2D\u56FD|\u7F51\u7EDC|\u516C\u53F8)(?:[\/:?][\w\.\/=\?%\-&;~`@':+!#\*]*)+\.(png|gif|jpg|jpeg|svg|apng|avif|webp|bmp|ico|cur|jpe|jif|jfif))/ig, '$1[img]$2[/img]');
+       str = str.replace(/([^>=\]"'\/]|^)((((https?|ftp):\/\/)|www\.)([\w\-]+\.)*[\w\-\u4e00-\u9fa5]+\.([\.a-zA-Z0-9]+|\u4E2D\u56FD|\u7F51\u7EDC|\u516C\u53F8)(?:[\/:?][\w\.\/=\?%\-&;~`@':+!#\*]*)+\.(mp3|wma))/ig, '$1[audio]$2[/audio]');
         str = str.replace(/([^>=\]"'\/@]|^)((((https?|ftp|gopher|news|telnet|rtsp|mms|callto|bctp|ed2k|thunder|qqdl|synacast):\/\/))([\w\-]+\.)*[:\.@\-\w\u4e00-\u9fa5]+\.([\.a-zA-Z0-9]+|\u4E2D\u56FD|\u7F51\u7EDC|\u516C\u53F8)((\?|\/|:)+[\w\.\/=\?%\-&;~`@':+!#\*]*)*)/ig,  function (match, prefix, url) {
                 try {
                     let urlObj = new URL(url.startsWith('http') ? url : 'http://' + url); // Ensure valid URL
