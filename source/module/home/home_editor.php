@@ -13,7 +13,6 @@ if (empty($_GET['charset']) || !in_array(strtolower($_GET['charset']), array('gb
 	$_GET['charset'] = '';
 $allowhtml = empty($_GET['allowhtml']) ? 0 : 1;
 
-$doodle = empty($_GET['doodle']) ? 0 : 1;
 $isportal = empty($_GET['isportal']) ? 0 : 1;
 if (empty($_GET['op'])) {
 	?>
@@ -173,9 +172,6 @@ if (empty($_GET['op'])) {
 													<a href="javascript:;" class="icoAttach" id="icoAttach" onClick="parent.createAttachBox(<?php echo ($isportal ? 'parent.check_catid' : '')?>);return false;" title="<?php echo lang('home/editor', 'editor_link_attach'); ?>"></a>
 												<?php } ?>
 												<a href="javascript:;" class="icoFace" id="faceBox" onClick="faceBox(event);return false;" title="<?php echo lang('home/editor', 'editor_insert_smiley'); ?>"></a>
-	<?php if ($doodle) { ?>
-													<a href="javascript:;" class="icoDoodle" id="doodleBox" onClick="doodleBox(event, this.id);return false;" title="<?php echo lang('home/editor', 'editor_doodle'); ?>"></a>
-												<?php } ?>
 												<?php if ($isportal) { ?>
 													<a href="javascript:;" class="icoPage" id="icoPage" onClick="pageBreak(event, 1);return false;" title="<?php echo lang('home/editor', 'editor_pagebreak'); ?>"></a>
 													<a href="javascript:;" class="icoDown" id="icoDown" onClick="parent.downRemoteFile();return false;" title="<?php echo lang('home/editor', 'editor_download_remote'); ?>"></a>

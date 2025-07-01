@@ -119,7 +119,7 @@ if($_GET['op'] == 'edit') {
 		$seccodecheck = 0;
 		$secqaacheck = 0;
 	}
-	$config = urlencode(getsiteurl().'home.php?mod=misc&ac=swfupload&op=config&doodle=1');
+       $config = '';
 } else {
 
 	showmessage('undefined_action');

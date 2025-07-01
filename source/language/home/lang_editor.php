@@ -30,7 +30,6 @@ $lang = array(
 	'editor_link_image' => '添加图片',
 	'editor_link_attach' => '添加附件',
 	'editor_insert_smiley' => '插入表情',
-	'editor_doodle' => '涂鸦',
 	'editor_pagebreak' => '插入分页标志',
 	'editor_download_remote' => '下载远程图片',
 	'editor_restore' => '恢复内容',

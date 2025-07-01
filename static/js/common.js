@@ -1711,9 +1711,6 @@ function showdistrict(container, elems, totallevel, changelevel, containertype) 
 	$F('_showdistrict', arguments);
 }
 
-function setDoodle(fid, oid, url, tid, from) {
-	$F('_setDoodle', arguments);
-}
 
 
 function initSearchmenu(searchform, cloudSearchUrl) {

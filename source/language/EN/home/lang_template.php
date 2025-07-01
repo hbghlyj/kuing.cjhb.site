@@ -108,7 +108,6 @@ $lang = array (
 	'add_friend_max_10'		=> 'add a friend (up to 10)',//'添加好友(最多 10 个)',
 	'sent_following_friends'	=> 'notice was sent to the following friends',//'已给下列好友发送通知',
 	'no_redbag_space'		=> 'Did not detect any red envelopes in a space',//'没有探测到任何有红包的空间',
-	'done_doodle_notice'		=> 'Do not forget to "Save" the graffiti results',//'涂鸦完成记得点"保存"',
 	'modified_time'			=> 'Modified Time',//'修改时间',
 	'credits_per_part'		=> 'Exp per part',//'每份积分',
 	'credits_type'			=> 'Exp type',//'积分类型',

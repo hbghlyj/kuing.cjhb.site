@@ -291,13 +291,6 @@ function insertImg(src) {
 	format("insertHTML", '<img src="' + src + '"/>');
 }
 
-function doodleBox(event, id) {
-	if(parent.$('uchome-ttHtmlEditor') != null) {
-		parent.showWindow(id, 'home.php?mod=magic&mid=doodle&showid=blog_doodle&target=uchome-ttHtmlEditor&from=editor');
-	} else {
-/*vot*/         alert(lng['graffiti_no_init']);
-	}
-}
 function backColor(e){
 	var sColor = fDisplayColorBoard(e);
 	if(gIsIE)

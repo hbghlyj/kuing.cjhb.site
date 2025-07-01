@@ -650,9 +650,6 @@ a.flw_readfull {color: var(--dz-BG-2);}
 .do_comment .quote { padding: 10px 10px 7px 11px; margin: 5px 0; background: var(--dz-BG-5); font-size: 12px; color: var(--dz-FC-777); }
 .do_comment img { margin: 1px 1px 0; width: 26px; }
 .do_comment .quote li a {display: initial !important;}
-.wall_list .magic_doodle { line-height: 30px;}
-.wall_list .magic_doodle img { margin-right: 5px;margin-bottom: 2px;}
-.wall_magic_list .magic_doodle { margin-left: 10px;}
 
 /*----- 通用资讯类列表 -----*/
 .wzlist {background-color:var(--dz-BG-0);border-top:1px solid var(--dz-BOR-ed)}

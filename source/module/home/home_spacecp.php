@@ -15,7 +15,7 @@ require_once libfile('function/spacecp');
 require_once libfile('function/magic');
 
 $acs = array('doing', 'upload', 'comment', 'blog', 'album', 'common', 'class',
-	'swfupload', 'poke', 'friend', 'eccredit', 'favorite', 'follow',
+'poke', 'friend', 'eccredit', 'favorite', 'follow',
 	'avatar', 'profile', 'theme', 'feed', 'privacy', 'pm', 'share', 'invite','sendmail',
 	'credit', 'payment', 'usergroup', 'domain', 'click','magic', 'top', 'index', 'plugin', 'search', 'promotion');
 
