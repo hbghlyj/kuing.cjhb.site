@@ -782,7 +782,6 @@ a.thread_mod { height: 19px; line-height: 19px; display: inline-block; color: #4
 		#atarget.atarget_1:before, .chked:before { content: "\f12f";}
 		.unchk:hover, .chked:hover { text-decoration: none; }
 
-#a_magic_doodle { padding-left: 20px; background: url({STATICURL}image/magic/doodle.small.gif) 0 50% no-repeat; }
 		/* 重定义 tab 标签样式分类数字 by alice 13032514 */
 		.ttp .num { background:#999; padding:0 5px; margin-left:5px; border-radius:3px; color:#FFF !important; }
 		.ttp .a .num { background:#91BDD3; }
@@ -841,7 +840,6 @@ a.thread_mod { height: 19px; line-height: 19px; display: inline-block; color: #4
 
 
 /** forum::viewthread,group::viewthread,forum::trade,forum::misc **/
-#a_magic_doodle { padding-left: 20px; background: url({STATICURL}image/magic/doodle.small.gif) 0 50% no-repeat; }
 
 .pl {}
 	.pl table:not(.t_table) { table-layout: fixed; width: 100%; }
@@ -1763,8 +1761,6 @@ i.pstatus { display: block; margin-bottom: -30px; font-size: 12px; text-align: c
 		.up_row strong { margin-right: 5px; }
 	#creatalbum { padding-top: 1px; border-top: 1px solid {SPECIALBORDER}; }
 
-.doodle { padding-left: 3px; width: 65px; text-align: left; background: url({STATICURL}image/magic/doodle.small.gif) no-repeat 0 50%; }
-	.doodle a { padding-left: 2px; }
 
 /*
 	Name:			mod_my_credits_list

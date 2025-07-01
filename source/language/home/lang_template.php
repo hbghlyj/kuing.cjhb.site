@@ -110,7 +110,6 @@ $lang = array (
   'add_friend_max_10' => '添加好友(最多 10 个)',
   'sent_following_friends' => '已给下列好友发送通知',
   'no_redbag_space' => '没有探测到任何有红包的空间',
-  'done_doodle_notice' => '涂鸦完成记得点"保存"',
   'modified_time' => '修改时间',
   'credits_per_part' => '每份积分',
   'credits_type' => '积分类型',

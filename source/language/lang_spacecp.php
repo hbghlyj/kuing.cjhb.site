@@ -137,7 +137,6 @@ $lang = array(
 
 
 	'present_user_magics' => '您收到了管理员赠送的道具：\\1',
-	'has_not_more_doodle' => '您没有涂鸦板了',
 
 	'do_stat_login' => '来访用户',
 	'do_stat_mobilelogin' => '手机访问',

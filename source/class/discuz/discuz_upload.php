@@ -78,7 +78,7 @@ Class discuz_upload{
 			$this->errorcode = -102;
 		} elseif(!$this->save_to_local($this->attach['tmp_name'], $this->attach['target'])) {
 			$this->errorcode = -103;
-		} elseif(($this->attach['isimage'] || $this->attach['ext'] == 'swf') && (!$this->attach['imageinfo'] = $this->get_image_info($this->attach['target'], true))) {
+               } elseif($this->attach['isimage'] && (!$this->attach['imageinfo'] = $this->get_image_info($this->attach['target'], false))) {
 			$this->errorcode = -104;
 			@unlink($this->attach['target']);
 		} else {
@@ -106,13 +106,13 @@ Class discuz_upload{
 		return in_array($ext, $imgext) ? 1 : 0;
 	}
 
-	public static function get_image_info($target, $allowswf = false) {
-		$ext = discuz_upload::fileext($target);
-		$isimage = discuz_upload::is_image_ext($ext);
-		if(!$isimage && ($ext != 'swf' || !$allowswf)) {
-			return false;
-		} elseif(!is_readable($target)) {
-			return false;
+       public static function get_image_info($target, $allowswf = false) {
+               $ext = discuz_upload::fileext($target);
+               $isimage = discuz_upload::is_image_ext($ext);
+               if(!$isimage) {
+                       return false;
+               } elseif(!is_readable($target)) {
+                       return false;
 		} elseif($ext == 'svg') {
 			try {
 				$xmlget = simplexml_load_file($target);
@@ -141,13 +141,11 @@ Class discuz_upload{
 			// Imagick 不受最大大小限制, GD 限制值从数据库读取
 			if((!getglobal('setting/imagelib') && $size > (getglobal('setting/gdlimit') ? getglobal('setting/gdlimit') : 16777216)) || $size < 16 ) {
 				return false;
-			} elseif($ext == 'swf' && $type != 4 && $type != 13) {
-				return false;
-			} elseif($isimage && !in_array($type, array(1,2,3,6,13,18))) {
-				return false;
-			} elseif(!$allowswf && ($ext == 'swf' || $type == 4 || $type == 13)) {
-				return false;
-			}
+                       } elseif($isimage && !in_array($type, array(1,2,3,6,13,18))) {
+                               return false;
+                       } elseif(!$allowswf && ($type == 4 || $type == 13)) {
+                               return false;
+                       }
 			return $imageinfo;
 		} else {
 			return false;
@@ -170,7 +168,7 @@ Class discuz_upload{
 	}
 
 	public static function get_target_extension($ext) {
-		static $safeext  = array('attach', 'jpg', 'jpeg', 'gif', 'png', 'webp', 'svg', 'swf', 'bmp', 'txt', 'zip', 'rar', 'mp3', 'mp4');
+               static $safeext  = array('attach', 'jpg', 'jpeg', 'gif', 'png', 'webp', 'svg', 'bmp', 'txt', 'zip', 'rar', 'mp3', 'mp4');
 		return strtolower(!in_array(strtolower($ext), $safeext) ? 'attach' : $ext);
 	}
 

@@ -325,9 +325,9 @@ class discuz_application extends discuz_base{
 	private function _init_output() {
 
 
-		if($this->config['security']['attackevasive'] && (!defined('CURSCRIPT') || !in_array($this->var['mod'], array('seccode', 'secqaa', 'swfupload')) && !defined('DISABLEDEFENSE'))) {
-			require_once libfile('misc/security', 'include');
-		}
+               if($this->config['security']['attackevasive'] && (!defined('CURSCRIPT') || !in_array($this->var['mod'], array('seccode', 'secqaa')) && !defined('DISABLEDEFENSE'))) {
+                       require_once libfile('misc/security', 'include');
+               }
 
 		if(!empty($_SERVER['HTTP_ACCEPT_ENCODING']) && strpos($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip') === false) {
 			$this->config['output']['gzip'] = false;
