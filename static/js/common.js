@@ -1576,6 +1576,8 @@ function ctrlEnter(event, btnId, onlyEnter) {
 	return true;
 }
 
+const urlSuffixRegex = "(?:[\\/:?][\\w.=%\\-&;~`@'+!#*]*)";
+
 function parseurl(str, mode, parsecode) {
         if(isUndefined(parsecode)) parsecode = true;
         if(parsecode) str= str.replace(/\[code\]([\s\S]+?)\[\/code\]/ig, function($1, $2) {return codetag($2, -1);});
@@ -1584,13 +1586,13 @@ function parseurl(str, mode, parsecode) {
                 hrefMatches.push(match);
                 return '[DISCUZ_HREF_' + (hrefMatches.length - 1) + ']';
         });
-       const urlSuffixRegex = "(?:[\\/:?][\\w\\.\\/=\\?%\\-&;~`@':+!#\\*]*)";
        const imgPattern = new RegExp(`([^>=\\]"'/]|^)((((https?|ftp):\\/\\/)|www\\.)([\\w\\-]+\\.)*[\\w\\-\\u4e00-\\u9fa5]+\\.([\\.a-zA-Z0-9]+|\\u4E2D\\u56FD|\\u7F51\\u7EDC|\\u516C\\u53F8)(${urlSuffixRegex})+\\.(png|gif|jpg|jpeg|svg|apng|avif|webp|bmp|ico|cur|jpe|jif|jfif))`,`ig`);
        str = str.replace(imgPattern, '$1[img]$2[/img]');
        const audioPattern = new RegExp(`([^>=\\]"'/]|^)((((https?|ftp):\\/\\/)|www\\.)([\\w\\-]+\\.)*[\\w\\-\\u4e00-\\u9fa5]+\\.([\\.a-zA-Z0-9]+|\\u4E2D\\u56FD|\\u7F51\\u7EDC|\\u516C\\u53F8)(${urlSuffixRegex})+\\.(mp3|wma))`,`ig`);
        str = str.replace(audioPattern, '$1[audio]$2[/audio]');
-        str = str.replace(/([^>=\]"'\/@]|^)((((https?|ftp|gopher|news|telnet|rtsp|mms|callto|bctp|ed2k|thunder|qqdl|synacast):\/\/))([\w\-]+\.)*[:\.@\-\w\u4e00-\u9fa5]+\.([\.a-zA-Z0-9]+|\u4E2D\u56FD|\u7F51\u7EDC|\u516C\u53F8)((\?|\/|:)+[\w\.\/=\?%\-&;~`@':+!#\*]*)*)/ig,  function (match, prefix, url) {
-                try {
+       const urlPattern = new RegExp(`([^>=\\]"'/@]|^)((((https?|ftp|gopher|news|telnet|rtsp|mms|callto|bctp|ed2k|thunder|qqdl|synacast):\\/\\/))([\\w\\-]+\\.)*[:.@\\-\\w\\u4e00-\\u9fa5]+\\.([\\.a-zA-Z0-9]+|\\u4E2D\\u56FD|\\u7F51\\u7EDC|\\u516C\\u53F8)(${urlSuffixRegex})*)`,`ig`);
+       str = str.replace(urlPattern,  function (match, prefix, url) {
+               try {
                     let urlObj = new URL(url.startsWith('http') ? url : 'http://' + url); // Ensure valid URL
                     if (urlObj.host === location.host) {
                         url = urlObj.pathname.slice(1) + urlObj.search + urlObj.hash; // Return relative URL
@@ -1600,8 +1602,9 @@ function parseurl(str, mode, parsecode) {
                 }
                 return prefix + (mode == 'html' ? '<a href="' + url + '" target="_blank">' + url + '</a>' : '[url]' + url + '[/url]');
         });
-        str = str.replace(/([^\w>=\]"'\/@]|^)((www\.)([\w\-]+\.)*[:\.@\-\w\u4e00-\u9fa5]+\.([\.a-zA-Z0-9]+|\u4E2D\u56FD|\u7F51\u7EDC|\u516C\u53F8)((\?|\/|:)+[\w\.\/=\?%\-&;~`@':+!#\*]*)*)/ig, function (match, prefix, url) {
-                try {
+       const wwwPattern = new RegExp(`([^\\w>=\\]"'/@]|^)((www\\.)([\\w\\-]+\\.)*[:.@\\-\\w\\u4e00-\\u9fa5]+\\.([\\.a-zA-Z0-9]+|\\u4E2D\\u56FD|\\u7F51\\u7EDC|\\u516C\\u53F8)(${urlSuffixRegex})*)`,`ig`);
+        str = str.replace(wwwPattern, function (match, prefix, url) {
+               try {
                     let urlObj = new URL(url.startsWith('http') ? url : 'http://' + url); // Ensure valid URL
                     if (urlObj.host === location.host) {
                         url = urlObj.pathname.slice(1) + urlObj.search + urlObj.hash; // Return relative URL
