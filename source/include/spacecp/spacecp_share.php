@@ -308,34 +308,10 @@ if($_GET['op'] == 'delete') {
 
 			$arr['body_data'] = array('link'=>"<a href=\"$link\" target=\"_blank\">".$link_text."</a>", 'data'=>$link);
 			$parseLink = parse_url($link);
-			require_once libfile('function/discuzcode');
-			$flashvar = parseflv($link);
-			if(empty($flashvar) && preg_match("/\.flv$/i", $link)) {
-				$flashvar = array(
-					'flv' => $link,
-					'imgurl' => ''
-				);
-			}
-			if(!empty($flashvar)) {
-				$title = geturltitle($link);
-				if($title) {
-					$arr['body_data'] = array('link'=>"<a href=\"$link\" target=\"_blank\">".$title."</a>", 'data'=>$link);
-				}
-				$arr['title_template'] = lang('spacecp', 'share_video');
-				$type = 'video';
-				$arr['body_data']['flashvar'] = $flashvar['flv'];
-				$arr['body_data']['host'] = 'flash';
-				$arr['body_data']['imgurl'] = $flashvar['imgurl'];
-			}
 			if(preg_match("/\.(mp3|wma)$/i", $link)) {
 				$arr['title_template'] = lang('spacecp', 'share_music');
 				$arr['body_data']['musicvar'] = $link;
 				$type = 'music';
-			}
-			if(preg_match("/\.swf$/i", $link)) {
-				$arr['title_template'] = lang('spacecp', 'share_flash');
-				$arr['body_data']['flashaddr'] = $link;
-				$type = 'flash';
 			}
 			if(preg_match("/\.(mp4|m4v|3gp|ogv|webm)$/i", $link)) {
 				$arr['title_template'] = lang('spacecp', 'share_video');

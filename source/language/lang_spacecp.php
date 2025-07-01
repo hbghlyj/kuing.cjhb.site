@@ -94,7 +94,6 @@ $lang = array(
 	'share_link' => '分享了一个网址',
 	'share_video' => '分享了一个视频',
 	'share_music' => '分享了一个音乐',
-	'share_flash' => '分享了一个 Flash',
 	'share_event' => '分享了一个活动',
 	'share_poll' => '分享了一个\\1投票',
 	'event_time' => '活动时间',
