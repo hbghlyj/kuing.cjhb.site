@@ -144,8 +144,8 @@ SWFUpload.prototype.initSettings = function (userSettings) {
 	this.ensureDefault("file_upload_limit", 0);
 	this.ensureDefault("file_queue_limit", 0);
 
-	this.ensureDefault("flash_url", IMGDIR+"/swfupload.swf");
-	this.ensureDefault("flash9_url", IMGDIR+"/swfupload.swf");
+    this.ensureDefault("flash_url", "");
+    this.ensureDefault("flash9_url", "");
 	this.ensureDefault("prevent_swf_caching", true);
 
 	this.ensureDefault("button_image_url", "");
