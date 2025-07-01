@@ -1619,19 +1619,21 @@ function parseurl(str, mode, parsecode) {
        });
        if(parsecode) {
                str = str.replace(/\[\tDISCUZ_CODE_(\d+)\t\]/g, function(match, index) {
-                       return DISCUZCODE['html'][parseInt(index, 10)];
+                       return DISCUZCODE.html[parseInt(index, 10)];
                });
        }
 	return str;
 }
 
 function codetag(text, br) {
-	var br = !br ? 1 : br;
-	DISCUZCODE['num']++;
-	if(br > 0 && typeof wysiwyg != 'undefined' && wysiwyg) text = text.replace(/<br[^\>]*>/ig, '\n');
-	text = text.replace(/\$/ig, '$$$$');
-	DISCUZCODE['html'][DISCUZCODE['num']] = '[code]' + text + '[/code]';
-	return '[\tDISCUZ_CODE_' + DISCUZCODE['num'] + '\t]';
+       br = !br ? 1 : br;
+       DISCUZCODE.num++;
+       if(br > 0 && typeof wysiwyg != 'undefined' && wysiwyg) {
+               text = text.replace(/<br[^\>]*>/ig, '\n');
+       }
+       text = text.replace(/\$/ig, '$$$$');
+       DISCUZCODE.html[DISCUZCODE.num] = '[code]' + text + '[/code]';
+       return '[\tDISCUZ_CODE_' + DISCUZCODE.num + '\t]';
 }
 
 function saveUserdata(name, data) {
