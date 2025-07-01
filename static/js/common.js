@@ -1579,7 +1579,7 @@ function ctrlEnter(event, btnId, onlyEnter) {
 function parseurl(str, mode, parsecode) {
         if(isUndefined(parsecode)) parsecode = true;
         if(parsecode) str= str.replace(/\[code\]([\s\S]+?)\[\/code\]/ig, function($1, $2) {return codetag($2, -1);});
-        var hrefMatches = [];
+       const hrefMatches = [];
         str = str.replace(/\\href\{[^}]+\}\{[^}]*\}/g, function(match) {
                 hrefMatches.push(match);
                 return '[DISCUZ_HREF_' + (hrefMatches.length - 1) + ']';
@@ -1608,9 +1608,9 @@ function parseurl(str, mode, parsecode) {
                 }
                 return prefix + (mode == 'html' ? '<a href="' + url + '" target="_blank">' + url + '</a>' : '[url]' + url + '[/url]');
         });
-        for(var i = 0; i < hrefMatches.length; i++) {
-                str = str.replace('[DISCUZ_HREF_' + i + ']', hrefMatches[i]);
-        }
+       str = str.replace(/\[DISCUZ_HREF_(\d+)\]/g, function(match, index) {
+               return hrefMatches[parseInt(index, 10)];
+       });
         if(parsecode) {
                 for(var i = 0; i <= DISCUZCODE['num']; i++) {
                         str = str.replace("[\tDISCUZ_CODE_" + i + "\t]", DISCUZCODE['html'][i]);
