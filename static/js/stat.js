@@ -1,12 +1,4 @@
 function drawstatchart(url) {
-	if (BROWSER.ie && BROWSER.ie < 9) {
-		$('statchart').innerHTML = AC_FL_RunContent(
-			'width', '100%', 'height', '300',
-			'src', STATICURL + 'image/common/stat.swf?path=&settings_file=data/stat_setting.xml&data_file=' + encodeURIComponent(url),
-			'quality', 'high', 'wmode', 'transparent'
-		);
-		return;
-	}
 
 	var x = new Ajax();
 	x.recvType = 'HTML';
