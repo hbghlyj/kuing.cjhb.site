@@ -455,7 +455,7 @@ function updateforumcount($fid) {
 	//$thread['subject'] = addslashes($thread['subject']);
 	$thread['lastposter'] = $thread['author'] ? addslashes($thread['lastposter']) : lang('forum/misc', 'anonymous');
 	$tid = $thread['closed'] > 1 ? $thread['closed'] : $thread['tid'];
-	$setarr = array('posts' => $posts, 'threads' => $threads, 'lastpost' => "$tid\t{$thread['subject']}\t{$thread['lastpost']}\t${thread['lastposter']}");
+$setarr = array('posts' => $posts, 'threads' => $threads, 'lastpost' => "$tid\t{$thread['subject']}\t{$thread['lastpost']}\t{$thread['lastposter']}");
 	C::t('forum_forum')->update($fid, $setarr);
 }
 
