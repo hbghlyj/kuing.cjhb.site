@@ -240,7 +240,7 @@ if($viewself) {
 	$forumlist = forumselect();
 	$defaultforum = $_G['setting']['followforumid'] ? $_G['cache']['forums'][$_G['setting']['followforumid']] : array();
 	require_once libfile('function/upload');
-	$swfconfig = getuploadconfig($_G['uid']);
+	$uploadconfig = getuploadconfig($_G['uid']);
 }
 
 if($do == 'feed') {

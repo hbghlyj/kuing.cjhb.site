@@ -157,7 +157,7 @@ if(submitcheck('albumsubmit') && helper_access::check_module('album')) {
 
 $navtitle = lang('core', 'title_'.(!empty($_GET['op']) ? $_GET['op'] : 'normal').'_upload');
 require_once libfile('function/upload');
-$swfconfig = getuploadconfig($_G['uid'], 0, false);
+$uploadconfig = getuploadconfig($_G['uid'], 0, false);
 
 include_once template("home/spacecp_upload");
 

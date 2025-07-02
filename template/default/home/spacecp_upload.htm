@@ -46,21 +46,21 @@
 				<!--{if empty($_G['setting']['pluginhooks']['spacecp_upload_extend'])}-->
 					<!--{subtemplate common/upload}-->
 					<script type="text/javascript">
-						var upload = new SWFUpload({
+						var upload = new WebUpload({
 							// Backend Settings
-							upload_url: "{$_G[siteurl]}misc.php?mod=swfupload&action=swfupload&operation=album",
-							post_params: {"uid" : "$_G[uid]", "hash":"$swfconfig[hash]"},
+							upload_url: "{$_G[siteurl]}misc.php?mod=upload&action=upload&operation=album",
+							post_params: {"uid" : "$_G[uid]", "hash":"$uploadconfig[hash]"},
 
 							// File Upload Settings
-							file_size_limit : "$swfconfig[max]",	// 100MB
-							file_types : "$swfconfig[imageexts][ext]",
-							file_types_description : "$swfconfig[imageexts][depict]",
+							file_size_limit : "$uploadconfig[max]",	// 100MB
+							file_types : "$uploadconfig[imageexts][ext]",
+							file_types_description : "$uploadconfig[imageexts][depict]",
 							file_upload_limit : 0,
 							file_queue_limit : 0,
 
 							// Event Handler Settings (all my handlers are in the Handler.js file)
-							swfupload_preload_handler : preLoad,
-							swfupload_load_failed_handler : loadFailed,
+							webupload_preload_handler : preLoad,
+							webupload_load_failed_handler : loadFailed,
 							file_dialog_start_handler : fileDialogStart,
 							file_queued_handler : fileQueued,
 							file_queue_error_handler : fileQueueError,
@@ -76,7 +76,7 @@
 							button_placeholder_id : "imgSpanButtonPlaceholder",
 							button_width: 100,
 							button_height: 25,
-							button_cursor:SWFUpload.CURSOR.HAND,
+							button_cursor:WebUpload.CURSOR.HAND,
 							button_window_mode: "transparent",
 
 							custom_settings : {

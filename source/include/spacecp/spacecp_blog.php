@@ -186,7 +186,7 @@ if($_GET['op'] == 'delete') {
 	$menuactives = array('space'=>' class="active"');
 }
 require_once libfile('function/upload');
-$swfconfig = getuploadconfig($_G['uid'], 0, false);
+$uploadconfig = getuploadconfig($_G['uid'], 0, false);
 include_once template("home/spacecp_blog");
 
 ?>

@@ -1025,7 +1025,7 @@ if($_G['forum_thread']['replies'] > $_G['forum_thread']['views']) {
 }
 
 require_once libfile('function/upload');
-$swfconfig = getuploadconfig($_G['uid'], $_G['fid']);
+$uploadconfig = getuploadconfig($_G['uid'], $_G['fid']);
 $_G['forum_thread']['relay'] = 0;
 
 if(getstatus($_G['forum_thread']['status'], 10)) {

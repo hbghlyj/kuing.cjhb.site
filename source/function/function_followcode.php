@@ -430,10 +430,10 @@ function fparseaudio($url) {
 }
 function fmakeiframe($data) {
     $data = is_array($data) ? $data : array('iframe' => $data);
-    if(empty($data['iframe']) || !preg_match("/^((https?){1}:\/\/|www\.)[^\\[\\"']+$/i", $data['iframe'])) {
+    if(empty($data['iframe']) || !preg_match('/^((https?){1}:\\/\\/|www\\.)[^\\[\\"\']+$/i', $data['iframe'])) {
         return fcodedisp('', 'video');
     }
-    if(!empty($data['imgurl']) && preg_match("/^((https?){1}:\/\/|www\.)[^\\[\\"']+$/i", $data['imgurl'])) {
+    if(!empty($data['imgurl']) && preg_match('/^((https?){1}:\\/\\/|www\\.)[^\\[\\"\']+$/i', $data['imgurl'])) {
         $html = '<a href="'.$data['iframe'].'" target="_blank"><img src="'.$data['imgurl'].'" class="tn" alt="" /></a>';
     } else {
         $html = $data['iframe'];
