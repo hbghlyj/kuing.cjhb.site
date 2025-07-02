@@ -1658,9 +1658,6 @@ function updatestring(str1, str2, clear) {
 	return clear ? str1.replace(str2, '') : (str1.indexOf(str2) == -1 ? str1 + str2 : str1);
 }
 
-function getClipboardData() {
-	window.document.clipboardswf.SetVariable('str', CLIPBOARDSWFDATA);
-}
 
 function setCopy(text, msg) {
 	var cp = document.createElement('textarea');

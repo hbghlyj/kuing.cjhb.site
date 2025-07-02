@@ -12,8 +12,8 @@ if (!defined('IN_MOBILE_API')) {
 
 error_reporting(0);
 mobile_core::make_cors($_SERVER['REQUEST_METHOD'], REQUEST_METHOD_DOMAIN);
-$_GET['mod'] = 'swfupload';
-$_GET['action'] = 'swfupload';
+$_GET['mod'] = 'upload';
+$_GET['action'] = 'upload';
 $_GET['operation'] = 'upload';
 include_once 'misc.php';
 

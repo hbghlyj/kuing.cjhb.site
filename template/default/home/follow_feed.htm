@@ -118,18 +118,18 @@
 									<script type="text/javascript">
 										var upload = new WebUpload({
 											// Backend Settings
-											upload_url: "{$_G[siteurl]}misc.php?mod=swfupload&action=swfupload&operation=upload&fid={$dmfid}",
-											post_params: {"uid" : "$_G[uid]", "hash":"$swfconfig[hash]"},
+											upload_url: "{$_G[siteurl]}misc.php?mod=upload&action=upload&operation=upload&fid={$dmfid}",
+											post_params: {"uid" : "$_G[uid]", "hash":"$uploadconfig[hash]"},
 
 											// File Upload Settings
-											file_size_limit : "$swfconfig[max]",	// 100MB
-											file_types : "$swfconfig[attachexts][ext]",
-											file_types_description : "$swfconfig[attachexts][depict]",
-											file_upload_limit : $swfconfig['limit'],
+											file_size_limit : "$uploadconfig[max]",	// 100MB
+											file_types : "$uploadconfig[attachexts][ext]",
+											file_types_description : "$uploadconfig[attachexts][depict]",
+											file_upload_limit : $uploadconfig['limit'],
 											file_queue_limit : 0,
 											// Event Handler Settings (all my handlers are in the Handler.js file)
-											swfupload_preload_handler : preLoad,
-											swfupload_load_failed_handler : loadFailed,
+											webupload_preload_handler : preLoad,
+											webupload_load_failed_handler : loadFailed,
 											file_dialog_start_handler : fileDialogStart,
 											file_queued_handler : fileQueued,
 											file_queue_error_handler : fileQueueError,
@@ -150,11 +150,11 @@
 												progressTarget : "attachlist",
 												uploadSource: 'forum',
 												uploadType: 'attach',
-												<!--{if $swfconfig['maxsizeperday']}-->
-												maxSizePerDay: $swfconfig['maxsizeperday'],
+												<!--{if $uploadconfig['maxsizeperday']}-->
+												maxSizePerDay: $uploadconfig['maxsizeperday'],
 												<!--{/if}-->
-												<!--{if $swfconfig['maxattachnum']}-->
-												maxAttachNum: $swfconfig['maxattachnum'],
+												<!--{if $uploadconfig['maxattachnum']}-->
+												maxAttachNum: $uploadconfig['maxattachnum'],
 												<!--{/if}-->
 												uploadFrom: 'fastpost'
 											},
@@ -292,7 +292,7 @@
 							$('fastpostform').action = 'home.php?mod=spacecp&ac=follow&op=newthread&topicsubmit=yes&infloat=yes&handlekey=fastnewpost&inajax=1&fid='+mfid;
 							if(upload) {
 								fid = mfid;
-								var uploadurl = '{$_G[siteroot]}misc.php?mod=swfupload&action=swfupload&operation=upload&fid='+mfid;
+								var uploadurl = '{$_G[siteroot]}misc.php?mod=upload&action=upload&operation=upload&fid='+mfid;
 								upload.setUploadURL(uploadurl);
 							}
 							getthreadclass();

@@ -324,11 +324,11 @@
 					var tmpfiles = [];
 					tmpfiles[0] = file;
 					$.buildfileupload({
-						uploadurl:'misc.php?mod=swfupload&operation=upload&type=image&inajax=yes&infloat=yes&simple=2',
+						uploadurl:'misc.php?mod=upload&operation=upload&type=image&inajax=yes&infloat=yes&simple=2',
 						files:tmpfiles,
 						uploadformdata:{uid:"$_G['uid']", hash:"<!--{eval echo md5(substr(md5($_G['config']['security']['authkey']), 8).$_G['uid'])}-->"},
 						uploadinputname:'Filedata',
-						maxfilesize:"$swfconfig['max']",
+						maxfilesize:"$uploadconfig['max']",
 						success:uploadsuccess,
 						error:function() {
 							popup.open('{lang uploadpicfailed}', 'alert');
@@ -337,7 +337,7 @@
 				}
 			} else {
 				$.ajaxfileupload({
-					url:'misc.php?mod=swfupload&operation=upload&type=image&inajax=yes&infloat=yes&simple=2',
+					url:'misc.php?mod=upload&operation=upload&type=image&inajax=yes&infloat=yes&simple=2',
 					data:{uid:"$_G['uid']", hash:"<!--{eval echo md5(substr(md5($_G['config']['security']['authkey']), 8).$_G['uid'])}-->"},
 					dataType:'text',
 					fileElementId:'filedata',
@@ -409,11 +409,11 @@
 					var tmpfiles = [];
 					tmpfiles[0] = file;
 					$.buildfileupload({
-						uploadurl:'misc.php?mod=swfupload&operation=upload&fid={$_G['fid']}&inajax=yes&infloat=yes&simple=2',
+						uploadurl:'misc.php?mod=upload&operation=upload&fid={$_G['fid']}&inajax=yes&infloat=yes&simple=2',
 						files:tmpfiles,
 						uploadformdata:{uid:"$_G['uid']", hash:"<!--{eval echo md5(substr(md5($_G['config']['security']['authkey']), 8).$_G['uid'])}-->"},
 						uploadinputname:'Filedata',
-						maxfilesize:"$swfconfig['max']",
+						maxfilesize:"$uploadconfig['max']",
 						success:uploadsuccess,
 						error:function() {
 							popup.open('{lang uploadpicfailed}', 'alert');
@@ -422,7 +422,7 @@
 				}
 			} else {
 				$.ajaxfileupload({
-					url:'misc.php?mod=swfupload&operation=upload&fid={$_G['fid']}&inajax=yes&infloat=yes&simple=2',
+					url:'misc.php?mod=upload&operation=upload&fid={$_G['fid']}&inajax=yes&infloat=yes&simple=2',
 					data:{uid:"$_G['uid']", hash:"<!--{eval echo md5(substr(md5($_G['config']['security']['authkey']), 8).$_G['uid'])}-->"},
 					dataType:'text',
 					fileElementId:'attfiledata',

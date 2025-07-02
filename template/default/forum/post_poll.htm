@@ -80,8 +80,8 @@
 <script type="text/javascript" reload="1">
     function addUploadEvent(imgid, pollstr) {
 		new WebUpload({
-			upload_url: SITEURL + 'misc.php?mod=swfupload&action=swfupload&operation=poll&fid=$_G[fid]',
-			post_params: {"uid":"$_G[uid]", "hash":"$swfconfig[hash]"},
+			upload_url: SITEURL + 'misc.php?mod=upload&action=upload&operation=poll&fid=$_G[fid]',
+			post_params: {"uid":"$_G[uid]", "hash":"$uploadconfig[hash]"},
 
 			file_size_limit : "2048",
 			file_types : "*.jpg;*.jpeg;*.gif;*.png;*.bmp",
@@ -89,8 +89,8 @@
 			file_upload_limit : 0,
 			file_queue_limit : 1,
 
-			swfupload_preload_handler : preLoad,
-			swfupload_load_failed_handler : loadFailed,
+			webupload_preload_handler : preLoad,
+			webupload_load_failed_handler : loadFailed,
 			file_dialog_start_handler : fileDialogStart,
 			file_queued_handler : fileQueued,
 			file_queue_error_handler : fileQueueError,

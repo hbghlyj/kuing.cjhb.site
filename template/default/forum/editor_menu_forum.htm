@@ -64,7 +64,7 @@
 				</table>
 				<div class="p_tbl"><table cellpadding="0" cellspacing="0" summary="post_attachbody" border="0" width="100%"><tbody id="imgattachbody"></tbody></table></div>
 				<div class="upbk pbm bbda">
-					<div id="imgattachbtnhidden" style="display:none"><span><form name="imgattachform" id="imgattachform" method="post" autocomplete="off" action="misc.php?mod=swfupload&operation=upload&simple=1&type=image" target="attachframe" $enctype><input type="hidden" name="uid" value="$_G['uid']"><input type="hidden" name="hash" value="{echo md5(substr(md5($_G['config']['security']['authkey']), 8).$_G['uid'])}"><input type="file" name="Filedata" size="45" class="filedata" /></form></span></div>
+					<div id="imgattachbtnhidden" style="display:none"><span><form name="imgattachform" id="imgattachform" method="post" autocomplete="off" action="misc.php?mod=upload&operation=upload&simple=1&type=image" target="attachframe" $enctype><input type="hidden" name="uid" value="$_G['uid']"><input type="hidden" name="hash" value="{echo md5(substr(md5($_G['config']['security']['authkey']), 8).$_G['uid'])}"><input type="file" name="Filedata" size="45" class="filedata" /></form></span></div>
 					<div id="imgattachbtn" class="ptm pbn"></div>
 					<p id="imguploadbtn">
 						<button class="pn pnc vm" type="button" onclick="uploadAttach(0, 0, 'img')"><span>{lang upload}</span></button>
@@ -249,7 +249,7 @@
 			</table>
 			<div class="p_tbl"><table cellpadding="0" cellspacing="0" summary="post_attachbody" border="0" width="100%"><tbody id="attachbody"></tbody></table></div>
 			<div class="upbk pbm bbda">
-				<div id="attachbtnhidden" style="display:none"><span><form name="attachform" id="attachform" method="post" autocomplete="off" action="misc.php?mod=swfupload&operation=upload&simple=1" target="attachframe" $enctype><input type="hidden" name="uid" value="$_G['uid']"><input type="hidden" name="hash" value="{echo md5(substr(md5($_G['config']['security']['authkey']), 8).$_G['uid'])}"><input type="file" name="Filedata" size="45" class="fldt" /></form></span></div>
+				<div id="attachbtnhidden" style="display:none"><span><form name="attachform" id="attachform" method="post" autocomplete="off" action="misc.php?mod=upload&operation=upload&simple=1" target="attachframe" $enctype><input type="hidden" name="uid" value="$_G['uid']"><input type="hidden" name="hash" value="{echo md5(substr(md5($_G['config']['security']['authkey']), 8).$_G['uid'])}"><input type="file" name="Filedata" size="45" class="fldt" /></form></span></div>
 				<div id="attachbtn" class="ptm pbn"></div>
 				<p id="uploadbtn">
 					<button type="button" class="pn pnc vm" onclick="uploadAttach(0, 0)"><span>{lang upload}</span></button>
@@ -357,7 +357,7 @@
 			$(editorid + '_attach').evt = false;
 			updateattachnum('attach');
 		<!--{else}-->
-			switchAttachbutton('swfupload');
+			switchAttachbutton('upload');
 		<!--{/if}-->
 	<!--{/if}-->
 	<!--{if !empty($attachs['unused'])}-->

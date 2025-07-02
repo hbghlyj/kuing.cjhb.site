@@ -112,12 +112,12 @@ FileProgress.prototype.setStatus = function (status) {
 	this.fileProgressElement.childNodes[2].innerHTML = status;
 };
 
-FileProgress.prototype.toggleCancel = function (show, swfUploadInstance) {
+FileProgress.prototype.toggleCancel = function (show, webUploadInstance) {
 	this.fileProgressElement.childNodes[0].style.visibility = show ? "visible" : "hidden";
-	if (swfUploadInstance) {
+	if (webUploadInstance) {
 		var fileID = this.fileProgressID;
 		this.fileProgressElement.childNodes[0].onclick = function () {
-			swfUploadInstance.cancelUpload(fileID);
+			webUploadInstance.cancelUpload(fileID);
 			return false;
 		};
 	}

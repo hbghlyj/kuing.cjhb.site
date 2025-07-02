@@ -151,9 +151,9 @@ WebUpload.prototype.initSettings = function (userSettings) {
 
 	this.ensureDefault("debug", false);
 
-	this.ensureDefault("swfupload_preload_handler", null);
-	this.ensureDefault("swfupload_load_failed_handler", null);
-	this.ensureDefault("swfupload_loaded_handler", null);
+	this.ensureDefault("webupload_preload_handler", null);
+	this.ensureDefault("webupload_load_failed_handler", null);
+	this.ensureDefault("webupload_loaded_handler", null);
 	this.ensureDefault("file_dialog_start_handler", null);
 	this.ensureDefault("file_queued_handler", null);
 	this.ensureDefault("file_queue_error_handler", null);
@@ -863,13 +863,13 @@ FileProgress.prototype.setStatus = function(status) {
 	this.fileProgressElement.childNodes[2].innerHTML = status;
 };
 
-FileProgress.prototype.toggleCancel = function(show, swfUploadInstance) {
+FileProgress.prototype.toggleCancel = function(show, webUploadInstance) {
 	this.fileProgressElement.childNodes[0].style.display = show ? "": "none";
-	if (swfUploadInstance) {
+	if (webUploadInstance) {
 		var fileID = this.fileProgressID;
 		var oSelf = this;
 		this.fileProgressElement.childNodes[0].onclick = function() {
-			swfUploadInstance.cancelFile(fileID);
+			webUploadInstance.cancelFile(fileID);
 			oSelf.setStatus("Cancelled");
 			oSelf.setCancelled();
 			return false;

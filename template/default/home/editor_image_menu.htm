@@ -132,24 +132,24 @@
 	<script type="text/javascript">
 		var attachUpload = new WebUpload({
 			// Backend Settings
-			upload_url: "{$_G[siteurl]}misc.php?mod=swfupload&action=swfupload&operation=<!--{if $_G['basescript'] == 'portal'}-->portal<!--{else}-->album<!--{/if}-->",
-			post_params: {"uid" : "$_G[uid]", "hash":"$swfconfig[hash]"<!--{if $_G['basescript'] == 'portal'}-->,"aid":$aid,"catid":$catid<!--{/if}-->},
+			upload_url: "{$_G[siteurl]}misc.php?mod=upload&action=upload&operation=<!--{if $_G['basescript'] == 'portal'}-->portal<!--{else}-->album<!--{/if}-->",
+			post_params: {"uid" : "$_G[uid]", "hash":"$uploadconfig[hash]"<!--{if $_G['basescript'] == 'portal'}-->,"aid":$aid,"catid":$catid<!--{/if}-->},
 
 			// File Upload Settings
-			file_size_limit : "$swfconfig[max]",	// 100MB
+			file_size_limit : "$uploadconfig[max]",	// 100MB
 			<!--{if $_G['basescript'] == 'portal'}-->
-			file_types : "$swfconfig[attachexts][ext]",
-			file_types_description : "$swfconfig[attachexts][depict]",
+			file_types : "$uploadconfig[attachexts][ext]",
+			file_types_description : "$uploadconfig[attachexts][depict]",
 			<!--{else}-->
-			file_types : "$swfconfig[imageexts][ext]",
-			file_types_description : "$swfconfig[imageexts][depict]",
+			file_types : "$uploadconfig[imageexts][ext]",
+			file_types_description : "$uploadconfig[imageexts][depict]",
 			<!--{/if}-->
 			file_upload_limit : 0,
 			file_queue_limit : 0,
 
 			// Event Handler Settings (all my handlers are in the Handler.js file)
-			swfupload_preload_handler : preLoad,
-			swfupload_load_failed_handler : loadFailed,
+			webupload_preload_handler : preLoad,
+			webupload_load_failed_handler : loadFailed,
 			file_dialog_start_handler : fileDialogStart,
 			file_queued_handler : fileQueued,
 			file_queue_error_handler : fileQueueError,
@@ -183,19 +183,19 @@
 		});
 		var upload = new WebUpload({
 			// Backend Settings
-			upload_url: "{$_G[siteurl]}misc.php?mod=swfupload&action=swfupload&operation=<!--{if $_G['basescript'] == 'portal'}-->portal<!--{else}-->album<!--{/if}-->",
-			post_params: {"uid" : "$_G[uid]", "hash":"$swfconfig[hash]"<!--{if $_G['basescript'] == 'portal'}-->,"aid":$aid,"catid":$catid<!--{/if}-->},
+			upload_url: "{$_G[siteurl]}misc.php?mod=upload&action=upload&operation=<!--{if $_G['basescript'] == 'portal'}-->portal<!--{else}-->album<!--{/if}-->",
+			post_params: {"uid" : "$_G[uid]", "hash":"$uploadconfig[hash]"<!--{if $_G['basescript'] == 'portal'}-->,"aid":$aid,"catid":$catid<!--{/if}-->},
 
 			// File Upload Settings
-			file_size_limit : "$swfconfig[max]",	// 100MB
-			file_types : "$swfconfig[imageexts][ext]",
-			file_types_description : "$swfconfig[imageexts][depict]",
+			file_size_limit : "$uploadconfig[max]",	// 100MB
+			file_types : "$uploadconfig[imageexts][ext]",
+			file_types_description : "$uploadconfig[imageexts][depict]",
 			file_upload_limit : 0,
 			file_queue_limit : 0,
 
 			// Event Handler Settings (all my handlers are in the Handler.js file)
-			swfupload_preload_handler : preLoad,
-			swfupload_load_failed_handler : loadFailed,
+			webupload_preload_handler : preLoad,
+			webupload_load_failed_handler : loadFailed,
 			file_dialog_start_handler : fileDialogStart,
 			file_queued_handler : fileQueued,
 			file_queue_error_handler : fileQueueError,

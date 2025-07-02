@@ -634,7 +634,7 @@ if($op == 'delete') {
 	$tag_names = article_tagnames();
 }
 require_once libfile('function/upload');
-$swfconfig = getuploadconfig($_G['uid'], 0, false);
+$uploadconfig = getuploadconfig($_G['uid'], 0, false);
 require_once libfile('function/spacecp');
 $albums = getalbums($_G['uid']);
 include_once template("portal/portalcp_article");
