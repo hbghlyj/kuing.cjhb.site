@@ -200,5 +200,6 @@ Low level helpers from `static/js/ajax.js` that fetch new content via GET or POS
 ## JavaScript libraries
 
 The file `static/js/webuploader/webuploader.min.js` bundles **WebUploader 0.1.5**, an
-open-source uploader from the Baidu FEX team. It provides the upload runtime used
+open-source uploader from the Baidu FEX team. Download it from their [official releases](https://fex-team.github.io/webuploader/download.html) or from the
+[jsDelivr CDN](https://www.jsdelivr.com/package/npm/webuploader). This provides the upload runtime used
 by `static/js/webuploader.js`.
