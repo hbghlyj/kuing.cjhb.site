@@ -35,6 +35,20 @@ DiscuzX handles attachments using an index table and sharded data tables.
   * The full attachment data is stored in `pre_forum_attachment_unused`.
   * Unused attachments are automatically removed after roughly 24 hours.
 
+### Attachment editing workflow
+
+When a post is edited, `source/include/post/post_editpost.php` rewrites image
+attachment tags from `[attach]123[/attach]` to `[attachimg]123[/attachimg]` while
+the edit form is displayed. This lets the editor show thumbnails instead of
+plain download links. After the user submits the form, the message passes through
+`model_forum_post::editpost()` which converts those tags back to the standard
+`[attach]` form before the post is saved.
+
+Attachment cleanup is handled inside `updateattach()` in
+`source/function/function_post.php`. This function moves newly referenced
+attachments out of the `pre_forum_attachment_unused` table and removes entries
+that were left unused, ensuring orphaned files are deleted.
+
 ## Running locally
 
 1. Install PHP (8.0 or newer) and a MySQL-compatible database such as MariaDB.
