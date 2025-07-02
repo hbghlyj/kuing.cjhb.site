@@ -381,16 +381,17 @@ if(!submitcheck('editsubmit')) {
 			$modpost->attach_after_method('editpost', array('class' => 'extend_thread_follow', 'method' => 'after_editpost'));
 		}
 
-		if($_G['group']['allowat']) {
-			$modpost->attach_before_method('editpost', array('class' => 'extend_thread_allowat', 'method' => 'before_editpost'));
-			$modpost->attach_after_method('editpost', array('class' => 'extend_thread_allowat', 'method' => 'after_editpost'));
-		}
+               if($_G['group']['allowat']) {
+                       $modpost->attach_before_method('editpost', array('class' => 'extend_thread_allowat', 'method' => 'before_editpost'));
+                       $modpost->attach_after_method('editpost', array('class' => 'extend_thread_allowat', 'method' => 'after_editpost'));
+               }
 
-		$modpost->attach_before_method('editpost', array('class' => 'extend_thread_image', 'method' => 'before_editpost'));
+               $modpost->attach_before_method('editpost', array('class' => 'extend_thread_image', 'method' => 'before_editpost'));
 
-		if($special == '2' && $_G['group']['allowposttrade']) {
-			$modpost->attach_before_method('editpost', array('class' => 'extend_thread_trade', 'method' => 'before_editpost'));
-		}
+
+               if($special == '2' && $_G['group']['allowposttrade']) {
+                       $modpost->attach_before_method('editpost', array('class' => 'extend_thread_trade', 'method' => 'before_editpost'));
+               }
 
 		$modpost->attach_before_method('editpost', array('class' => 'extend_thread_filter', 'method' => 'before_editpost'));
 		$modpost->attach_after_method('editpost', array('class' => 'extend_thread_filter', 'method' => 'after_editpost'));

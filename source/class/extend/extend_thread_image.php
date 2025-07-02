@@ -77,41 +77,19 @@ class extend_thread_image extends extend_thread_base {
 			}
 		}
 	}
-	public function after_newreply() {
-		$this->mobile_upload();
-		($this->group['allowpostattach'] || $this->group['allowpostimage']) && ($_GET['attachnew'] || $this->param['special'] == 2 && $_GET['tradeaid']) && updateattach($this->thread['displayorder'] == -4 || $this->param['modnewreplies'], $this->thread['tid'], $this->pid, $_GET['attachnew']);
-	}
-
-	public function before_editpost($parameters) {
-		global $_G;
-		$attachupdate = !empty($_GET['delattachop']) || ($this->group['allowpostattach'] || $this->group['allowpostimage']) && ($_GET['attachnew'] || $parameters['special'] == 2 && $_GET['tradeaid'] || $parameters['special'] == 4 && $_GET['activityaid'];
-
-		if($attachupdate) {
-			updateattach($this->thread['displayorder'] == -4 || $_G['forum_auditstatuson'], $this->thread['tid'], $this->post['pid'], $_GET['attachnew'], $_GET['attachupdate'], $this->post['authorid']);
-			if(!$this->param['threadimageaid']) {
-				$this->param['threadimage'] = C::t('forum_attachment_n')->fetch_max_image('tid:'.$this->thread['tid'], 'pid', $this->post['pid']);
-				$this->param['threadimageaid'] = $this->param['threadimage']['aid'];
-			}
-
-			if(empty($this->thread['cover'])) {
-				setthreadcover($this->post['pid'], 0, $this->param['threadimageaid']);
-			} else {
-				setthreadcover($this->post['pid'], $this->thread['tid'], 0, 1);
-			}
-
-			if($this->param['threadimageaid']) {
-				if(!$this->param['threadimage']) {
-					$this->param['threadimage'] = C::t('forum_attachment_n')->fetch_max_image('tid:'.$this->thread['tid'], 'tid', $this->thread['tid']);
-				}
-				C::t('forum_threadimage')->delete_by_tid($this->thread['tid']);
-                                C::t('forum_threadimage')->insert(array(
-                                        'tid' => $this->thread['tid'],
-                                        'attachment' => $this->param['threadimage']['attachment'],
-                                        'remote' => $this->param['threadimage']['remote'],
-                                ), false, true);
-                        }
-                }
+        public function after_newreply() {
+                $this->mobile_upload();
+                ($this->group['allowpostattach'] || $this->group['allowpostimage']) && ($_GET['attachnew'] || $this->param['special'] == 2 && $_GET['tradeaid']) && updateattach($this->thread['displayorder'] == -4 || $this->param['modnewreplies'], $this->thread['tid'], $this->pid, $_GET['attachnew']);
         }
+
+       public function before_editpost($parameters) {
+               global $_G;
+               $attachupdate = !empty($_GET['delattachop']) || ($this->group['allowpostattach'] || $this->group['allowpostimage']) && ($_GET['attachnew'] || $parameters['special'] == 2 && $_GET['tradeaid'] || $parameters['special'] == 4 && $_GET['activityaid']);
+               if($attachupdate) {
+                       updateattach($this->thread['displayorder'] == -4 || $_G['forum_auditstatuson'], $this->thread['tid'], $this->post['pid'], $_GET['attachnew'], $_GET['attachupdate'], $this->post['authorid']);
+               }
+       }
+
 
 	public function before_deletepost($parameters) {
 		$thread_attachment = $post_attachment = 0;

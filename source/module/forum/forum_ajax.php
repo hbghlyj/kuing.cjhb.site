@@ -170,10 +170,28 @@ if($_GET['action'] == 'checkusername') {
                                 updatemembercount($attach['uid'], array('todayattachs' => -1, 'todayattachsize' => -$attach['filesize'], 'attachsize' => -$attach['filesize']), false);
                                 dunlink($attach);
 
-                                if($attach['tid'] && $attach['isimage'] != 0) {
+                                if($attach['tid']) {
+                                        require_once libfile('function/post');
+                                        $thread = C::t('forum_thread')->fetch_thread($attach['tid']);
+                                        updateattach($thread['displayorder'] == -4 || $_G['forum_auditstatuson'], $attach['tid'], $_GET['pid'], array(), array(), $attach['uid']);
+
                                         $tableid = getattachtableid($attach['tid']);
-                                        if(!C::t('forum_attachment_n')->count_image_by_id($tableid, 'tid', $attach['tid'])) {
-                                                C::t('forum_threadimage')->delete_by_tid($attach['tid']);
+                                        $threadimgcount = C::t('forum_attachment_n')->count_image_by_id($tableid, 'tid', $attach['tid']);
+
+                                        if($attach['isimage'] != 0) {
+                                                if(!$threadimgcount) {
+                                                        C::t('forum_thread')->update($attach['tid'], array('cover' => 0));
+                                                } else {
+                                                        $threadimage = C::t('forum_attachment_n')->fetch_max_image('tid:'.$attach['tid'], 'tid', $attach['tid']);
+                                                        if($threadimage) {
+                                                                C::t('forum_threadimage')->insert(array(
+                                                                        'tid' => $attach['tid'],
+                                                                        'attachment' => $threadimage['attachment'],
+                                                                        'remote' => $threadimage['remote'],
+                                                                ), false, true);
+                                                                setthreadcover($threadimage['pid'], $attach['tid'], 0, 1);
+                                                        }
+                                                }
                                         }
                                 }
 
@@ -269,8 +287,7 @@ if($_GET['action'] == 'checkusername') {
 			}
 		}
 		if(setthreadcover($pid, $tid, $aid, 0, $imgurl)) {
-			if(empty($imgurl)) {
-				C::t('forum_threadimage')->delete_by_tid($threadimage['tid']);
+                        if(empty($imgurl)) {
                                 C::t('forum_threadimage')->insert(array(
                                         'tid' => $threadimage['tid'],
                                         'attachment' => $threadimage['attachment'],
