@@ -326,7 +326,7 @@ if($operation == 'ad') {
 		}
 
 		$adtypearray = array();
-		$adtypes = array('code', 'text', 'image', 'flash');
+		$adtypes = array('code', 'text', 'image');
 		foreach($adtypes as $adtype) {
 			$displayary = array();
 			foreach($adtypes as $adtype1) {
@@ -362,4 +362,8 @@ if($operation == 'ad') {
 		showsetting('adv_edit_style_image_width', 'advnew[image][width]', $adv['parameters']['width'], 'text', '', 0, '', 'id="imagewidth" onchange="setpreview(\'image\')"');
 		showsetting('adv_edit_style_image_height', 'advnew[image][height]', $adv['parameters']['height'], 'text', '', 0, '', 'id="imageheight" onchange="setpreview(\'image\')"');
 		showtagfooter('tbody');
+
+
+}
+}
 

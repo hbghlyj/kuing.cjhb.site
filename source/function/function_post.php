@@ -111,8 +111,6 @@ function parseattachmedia($attach) {
 		case 'mpg':
 		case 'mpeg':
 		case 'mov':
-		case 'flv':
-		case 'swf':
 		case 'mp4':
 		case 'm4v':
 		case '3gp':
