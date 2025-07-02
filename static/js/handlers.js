@@ -106,7 +106,7 @@ function fileQueued(file) {
 
 function fileQueueError(file, errorCode, message) {
 	try {
-		if (errorCode === SWFUpload.QUEUE_ERROR.QUEUE_LIMIT_EXCEEDED) {
+		if (errorCode === WebUpload.QUEUE_ERROR.QUEUE_LIMIT_EXCEEDED) {
 			message = parseInt(message);
                         showDialog(lng['file_selected_exceed']+"\n"+(message === 0 ? lng['upload_number_exceed'] : lng['can_choose_more'] + message + lng['files']), 'notice', null, null, 0, null, null, null, null, sdCloseTime);
 			return;
@@ -117,19 +117,19 @@ function fileQueueError(file, errorCode, message) {
 		progress.toggleCancel(false);
 
 		switch (errorCode) {
-			case SWFUpload.QUEUE_ERROR.FILE_EXCEEDS_SIZE_LIMIT:
+			case WebUpload.QUEUE_ERROR.FILE_EXCEEDS_SIZE_LIMIT:
                                 progress.setStatus(lng['file_is_large']);
 				this.debug("Error Code: File too big, File name: " + file.name + ", File size: " + file.size + ", Message: " + message);
 				break;
-			case SWFUpload.QUEUE_ERROR.ZERO_BYTE_FILE:
+			case WebUpload.QUEUE_ERROR.ZERO_BYTE_FILE:
                                 progress.setStatus(lng['file_is_empty']);
 				this.debug("Error Code: Zero byte file, File name: " + file.name + ", File size: " + file.size + ", Message: " + message);
 				break;
-			case SWFUpload.QUEUE_ERROR.INVALID_FILETYPE:
+			case WebUpload.QUEUE_ERROR.INVALID_FILETYPE:
                                 progress.setStatus(lng['file_type_disabled']);
 				this.debug("Error Code: Invalid File Type, File name: " + file.name + ", File size: " + file.size + ", Message: " + message);
 				break;
-			case SWFUpload.QUEUE_ERROR.QUEUE_LIMIT_EXCEEDED:
+			case WebUpload.QUEUE_ERROR.QUEUE_LIMIT_EXCEEDED:
                                 alert(lng['file_selected_exceed'] + '\n' +  (message > 1 ? lng['can_choose_more'] +  message + lng['files'] : lng['upload_number_exceed']));
 				break;
 			default:
@@ -419,45 +419,45 @@ function uploadError(file, errorCode, message) {
 		progress.toggleCancel(false);
 
 		switch (errorCode) {
-			case SWFUpload.UPLOAD_ERROR.HTTP_ERROR:
+			case WebUpload.UPLOAD_ERROR.HTTP_ERROR:
 				progress.setStatus(lng['upload_error'] + message);
 				this.debug("Error Code: HTTP Error, File name: " + file.name + ", Message: " + message);
 				break;
-			case SWFUpload.UPLOAD_ERROR.MISSING_UPLOAD_URL:
+			case WebUpload.UPLOAD_ERROR.MISSING_UPLOAD_URL:
 				progress.setStatus(lng['config_error']);
 				this.debug("Error Code: No backend file, File name: " + file.name + ", Message: " + message);
 				break;
-			case SWFUpload.UPLOAD_ERROR.UPLOAD_FAILED:
+			case WebUpload.UPLOAD_ERROR.UPLOAD_FAILED:
 				progress.setStatus(lng['upload_failed']);
 				this.debug("Error Code: Upload Failed, File name: " + file.name + ", File size: " + file.size + ", Message: " + message);
 				break;
-			case SWFUpload.UPLOAD_ERROR.IO_ERROR:
+			case WebUpload.UPLOAD_ERROR.IO_ERROR:
 				progress.setStatus(lng['server_error']);
 				this.debug("Error Code: IO Error, File name: " + file.name + ", Message: " + message);
 				break;
-			case SWFUpload.UPLOAD_ERROR.SECURITY_ERROR:
+			case WebUpload.UPLOAD_ERROR.SECURITY_ERROR:
 				progress.setStatus(lng['security_error']);
 				this.debug("Error Code: Security Error, File name: " + file.name + ", Message: " + message);
 				break;
-			case SWFUpload.UPLOAD_ERROR.UPLOAD_LIMIT_EXCEEDED:
+			case WebUpload.UPLOAD_ERROR.UPLOAD_LIMIT_EXCEEDED:
 				progress.setStatus(lng['upload_limit_exceed']);
 				this.debug("Error Code: Upload Limit Exceeded, File name: " + file.name + ", File size: " + file.size + ", Message: " + message);
 				break;
-			case SWFUpload.UPLOAD_ERROR.SPECIFIED_FILE_ID_NOT_FOUND:
+			case WebUpload.UPLOAD_ERROR.SPECIFIED_FILE_ID_NOT_FOUND:
 				progress.setStatus(lng['file_not_found']);
 				this.debug("Error Code: The file was not found, File name: " + file.name + ", File size: " + file.size + ", Message: " + message);
 				break;
-			case SWFUpload.UPLOAD_ERROR.FILE_VALIDATION_FAILED:
+			case WebUpload.UPLOAD_ERROR.FILE_VALIDATION_FAILED:
 				progress.setStatus(lng['validation_failed']);
 				this.debug("Error Code: File Validation Failed, File name: " + file.name + ", File size: " + file.size + ", Message: " + message);
 				break;
-			case SWFUpload.UPLOAD_ERROR.FILE_CANCELLED:
+			case WebUpload.UPLOAD_ERROR.FILE_CANCELLED:
 				if (this.getStats().files_queued === 0) {
 				}
 				progress.setStatus(this.customSettings.alertType ? STATUSMSG[this.customSettings.alertType] : lng['upload_cancelled']);
 				progress.setCancelled();
 				break;
-			case SWFUpload.UPLOAD_ERROR.UPLOAD_STOPPED:
+			case WebUpload.UPLOAD_ERROR.UPLOAD_STOPPED:
 				progress.setStatus(lng['upload_stopped']);
 				break;
 			default:

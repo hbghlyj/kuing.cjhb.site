@@ -79,7 +79,7 @@
 <!--{if empty($_G['setting']['pluginhooks']['post_upload_extend']) && empty($_G['setting']['pluginhooks']['post_poll_upload_extend'])}-->
 <script type="text/javascript" reload="1">
     function addUploadEvent(imgid, pollstr) {
-		new SWFUpload({
+		new WebUpload({
 			upload_url: SITEURL + 'misc.php?mod=swfupload&action=swfupload&operation=poll&fid=$_G[fid]',
 			post_params: {"uid":"$_G[uid]", "hash":"$swfconfig[hash]"},
 
@@ -105,7 +105,7 @@
 			button_placeholder_id : imgid,
 			button_width: 26,
 			button_height: 26,
-			button_cursor:SWFUpload.CURSOR.HAND,
+			button_cursor:WebUpload.CURSOR.HAND,
 			button_window_mode: "transparent",
 
 			custom_settings : {

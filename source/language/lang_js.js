@@ -279,7 +279,7 @@ var lng = {
 	'width'			: '宽',
 	'height'		: '高',
 	'audio_support'		: '支持 wma mp3 ra rm 等音乐格式<br />示例: http://server/audio.wma',
-	'video_support'		: '支持优酷、土豆、56、酷6等视频站的视频网址<br />支持 wmv avi rmvb mov swf flv 等视频格式<br />示例: http://server/movie.wmv',
+	'video_support'		: '支持优酷、土豆、56、酷6等视频站的视频网址<br />支持 wmv avi rmvb mov 等视频格式<br />示例: http://server/movie.wmv',
 	'paste_from_word'	: '从 Word 粘贴内容',
 	'paste_word_tip'	: '请通过快捷键(Ctrl+V)把 Word 文件中的内容粘贴到上',
 	'show_tips'		: '友情提示',

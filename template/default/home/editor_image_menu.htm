@@ -130,7 +130,7 @@
 <!--{if $_G['basescript'] == 'home' && empty($_G['setting']['pluginhooks']['spacecp_blog_upload_extend']) || $_G['basescript'] == 'portal' && empty($_G['setting']['pluginhooks']['portalcp_top_upload_extend'])}-->
 	<!--{subtemplate common/upload}-->
 	<script type="text/javascript">
-		var attachUpload = new SWFUpload({
+		var attachUpload = new WebUpload({
 			// Backend Settings
 			upload_url: "{$_G[siteurl]}misc.php?mod=swfupload&action=swfupload&operation=<!--{if $_G['basescript'] == 'portal'}-->portal<!--{else}-->album<!--{/if}-->",
 			post_params: {"uid" : "$_G[uid]", "hash":"$swfconfig[hash]"<!--{if $_G['basescript'] == 'portal'}-->,"aid":$aid,"catid":$catid<!--{/if}-->},
@@ -165,7 +165,7 @@
 			button_placeholder_id : "spanButtonPlaceholder",
 			button_width: 100,
 			button_height: 25,
-			button_cursor:SWFUpload.CURSOR.HAND,
+			button_cursor:WebUpload.CURSOR.HAND,
 			button_window_mode: "transparent",
 
 			custom_settings : {
@@ -181,7 +181,7 @@
 			// Debug Settings
 			debug: false
 		});
-		var upload = new SWFUpload({
+		var upload = new WebUpload({
 			// Backend Settings
 			upload_url: "{$_G[siteurl]}misc.php?mod=swfupload&action=swfupload&operation=<!--{if $_G['basescript'] == 'portal'}-->portal<!--{else}-->album<!--{/if}-->",
 			post_params: {"uid" : "$_G[uid]", "hash":"$swfconfig[hash]"<!--{if $_G['basescript'] == 'portal'}-->,"aid":$aid,"catid":$catid<!--{/if}-->},
@@ -211,7 +211,7 @@
 			button_placeholder_id : "imgSpanButtonPlaceholder",
 			button_width: 100,
 			button_height: 25,
-			button_cursor:SWFUpload.CURSOR.HAND,
+			button_cursor:WebUpload.CURSOR.HAND,
 			button_window_mode: "transparent",
 
 			custom_settings : {
