@@ -56,7 +56,7 @@ if(isset($_GET['mod']) && $_GET['mod'] != 'tag'){
 	$discuz->reject_robot();
 }
 $modarray = array('seccode', 'secqaa', 'initsys', 'invite', 'faq', 'report',
-                               'stat', 'ranklist', 'buyinvitecode',
+				'upload', 'stat', 'ranklist', 'buyinvitecode',
 				'tag', 'diyhelp', 'mobile', 'patch', 'getatuser', 'imgcropper',
 				'userstatus', 'secmobseccode');
 
