@@ -171,17 +171,12 @@ if($_GET['action'] == 'checkusername') {
                                 dunlink($attach);
 
                                 if($attach['tid']) {
+                                        require_once libfile('function/post');
+                                        $thread = C::t('forum_thread')->fetch_thread($attach['tid']);
+                                        updateattach($thread['displayorder'] == -4 || $_G['forum_auditstatuson'], $attach['tid'], $_GET['pid'], array(), array(), $attach['uid']);
+
                                         $tableid = getattachtableid($attach['tid']);
-
-                                        $postcount = C::t('forum_attachment_n')->count_by_id('tid:'.$attach['tid'], 'pid', $_GET['pid']);
-                                        $postimgcount = C::t('forum_attachment_n')->count_image_by_id('tid:'.$attach['tid'], 'pid', $_GET['pid']);
-                                        $postattachment = $postcount ? ($postimgcount ? 2 : 1) : 0;
-                                        C::t('forum_post')->update_post('tid:'.$attach['tid'], $_GET['pid'], array('attachment' => $postattachment), true);
-
-                                        $threadcount = C::t('forum_attachment_n')->count_by_id($tableid, 'tid', $attach['tid']);
                                         $threadimgcount = C::t('forum_attachment_n')->count_image_by_id($tableid, 'tid', $attach['tid']);
-                                        $threadattachment = $threadcount ? ($threadimgcount ? 2 : 1) : 0;
-                                        C::t('forum_thread')->update($attach['tid'], array('attachment' => $threadattachment));
 
                                         if($attach['isimage'] != 0) {
                                                 if(!$threadimgcount) {
@@ -195,7 +190,6 @@ if($_GET['action'] == 'checkusername') {
                                                                         'attachment' => $threadimage['attachment'],
                                                                         'remote' => $threadimage['remote'],
                                                                 ), false, true);
-                                                                require_once libfile('function/post');
                                                                 setthreadcover($threadimage['pid'], $attach['tid'], 0, 1);
                                                         }
                                                 }
@@ -294,8 +288,7 @@ if($_GET['action'] == 'checkusername') {
 			}
 		}
 		if(setthreadcover($pid, $tid, $aid, 0, $imgurl)) {
-			if(empty($imgurl)) {
-				C::t('forum_threadimage')->delete_by_tid($threadimage['tid']);
+                        if(empty($imgurl)) {
                                 C::t('forum_threadimage')->insert(array(
                                         'tid' => $threadimage['tid'],
                                         'attachment' => $threadimage['attachment'],
