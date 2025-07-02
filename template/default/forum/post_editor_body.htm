@@ -87,7 +87,6 @@
 				<!--{if $_G['forum']['allowmediacode'] && $_G['group']['allowmediacode']}-->
 					<a id="{$editorid}_aud" title="{lang e_audio_title}">{lang e_audio}</a>
 					<a id="{$editorid}_vid" title="{lang e_video_title}">{lang e_video}</a>
-					<!--<a id="{$editorid}_fls" title="{lang e_flash_title}">{lang e_flash}</a>-->
 				<!--{/if}-->
 				<!--{if ($_GET[action] == 'newthread' || $_GET[action] == 'reply' || $_GET[action] == 'edit') && $_G['group']['allowat']}-->
 					<a id="{$editorid}_at" title="{lang e_at_title}" menupos="43" menuwidth="600">{lang e_at}</a>
@@ -103,13 +102,10 @@
 					<!--{if $_G['group']['allowhidecode']}--><a id="{$editorid}_hide" adv="1" title="{lang e_hide}">Hide</a><!--{/if}-->
 				<!--{/if}-->
 				<a id="{$editorid}_pasteword" adv="1" title="{lang e_pasteword_title}">{lang e_pasteword}</a>
-				<!--{if $_G['group']['allowdownremoteimg']}--><!--{if !($_G['setting']['magicstatus'] && !empty($_G['setting']['magics']['doodle']))}--><!--{/if}--><a id="{$editorid}_downremoteimg" adv="1" title="{lang e_downremoteimg_title}">{lang e_downremoteimg}</a><!--{/if}-->
+                               <!--{if $_G['group']['allowdownremoteimg']}--><a id="{$editorid}_downremoteimg" adv="1" title="{lang e_downremoteimg_title}">{lang e_downremoteimg}</a><!--{/if}-->
 				<!--{if $isfirstpost}-->
 					<a id="{$editorid}_page" adv="1" title="{lang page_separate}">Page</a>
 					<a id="{$editorid}_index" adv="1" title="{lang directory}">Index</a>
-				<!--{/if}-->
-				<!--{if $_G['setting']['magicstatus'] && !empty($_G['setting']['magics']['doodle'])}-->
-					<a id="a_magic_doodle" adv="1" href="home.php?mod=magic&mid=doodle&showid=comment_doodle&target={$editorid}_textarea&from=forumeditor" class="cst" onclick="showWindow(this.id, this.href, 'get', 0)"><img src="{STATICURL}image/magic/doodle.small.gif" alt="doodle" title="$_G['setting']['magics']['doodle']" style="margin-top:2px" /></a>
 				<!--{/if}-->
 				<a id="{$editorid}_postbg" adv="1" title="{lang replybackground}">Background</a>
 				<!--{if $_G['group']['allowbegincode'] && $isfirstpost}-->

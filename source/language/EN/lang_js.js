@@ -90,7 +90,6 @@ var lng = {
 	'cut_manually'		: 'Your browser security settings does not permit the editor to automatically execute the Cutting operation. Use the keyboard shortcut (Ctrl X) to complete this operation.',//'您的浏览器安全设置不允许编辑器自动执行剪切操作,请使用键盘快捷键(Ctrl+X)来完成',
 	'copy_manually'		: 'Your browser security settings does not permit the editor to automatically execute the Copy operation. Use the keyboard shortcut (Ctrl C) to complete this operation.',//'您的浏览器安全设置不允许编辑器自动执行拷贝操作,请使用键盘快捷键(Ctrl+C)来完成',
 	'paste_manually'	: 'Your browser security settings does not permit the editor to automatically execute the Paste operation. Use the keyboard shortcut (Ctrl V) to complete this operation.',//'您的浏览器安全设置不允许编辑器自动执行粘贴操作,请使用键盘快捷键(Ctrl+V)来完成',
-	'graffiti_no_init'	: 'Can not find the Graffiti initialization data',//'找不到涂鸦板初始化数据',
 	'ie5_only'		: 'Supported only in IE 5.01 or later',//'只支持IE 5.01以上版本',
 	'edit_raw'		: 'Edit Raw Text',//'编辑源码',
 	'plain_text_warn'	: 'Converting to the plain text will lose some formatting!\nAre you sure you want to continue?',//'转换为纯文本时将会遗失某些格式。\n您确定要继续吗？',
@@ -146,8 +145,6 @@ var lng = {
 	'cancel'		: 'Cancel',//'取消',
 	'wait_please'		: 'Loading ...',//'请稍候...',
 	'int_error'		: 'Internal Error, can not display this content',//'内部错误，无法显示此内容',
-	'flash_required'	: 'This content requires Adobe Flash Player 9.0.124 or later',//'此内容需要 Adobe Flash Player 9.0.124 或更高版本',
-	'flash_download'	: 'Download Flash Player',//'下载 Flash Player',
 	'day1'			: '1 Day',//'一天',
 	'week1'			: '1 Week',//'一周',
 	'days7'			: '7 Days',//'7 天',
@@ -255,7 +252,6 @@ var lng = {
 	'audio_url'		: 'Input URL of music file',//'请输入音乐文件地址',
 	'video_url'		: 'Input URL of video file',//'请输入视频地址',
 	'auto_play'		: 'Autoplay?',//'是否自动播放',
-	'flash_url'		: 'Please input URL of Flash file ',//'请输入 Flash 文件地址',
 	'enter_please'		: 'Please enter the',//'请输入第',
 	'nth_parameter'		: '-th parameter',//' 个参数',
 	'font'			: 'Font',//'字体',
@@ -279,8 +275,7 @@ var lng = {
 	'width'			: 'Width',//'宽',
 	'height'		: 'Height',//'高',
 	'audio_support'		: 'Supported wma, mp3, ra, rm, and other music formats<br />Example: http://server/audio.wma',//'支持 wma mp3 ra rm 等音乐格式<br />示例: http://server/audio.wma',
-	'video_support'		: 'Supported for Youku, Potatoes, 56, 6, Cool video and other video services<br />Supported video formats: wmv avi rmvb mov swf flv.<br /> Example: http://server/movie.wmv',//'支持优酷、土豆、56、酷6等视频站的视频网址<br />支持 wmv avi rmvb mov swf flv 等视频格式<br />示例: http://server/movie.wmv',
-	'flash_support'		: 'Supported Flash formats: swf flv <br /> Example: http://server/flash.swf',//'支持 swf flv 等 Flash 网址<br />示例: http://server/flash.swf',
+	'video_support'		: 'Supported for Youku, Potatoes, 56, 6, Cool video and other video services<br />Supported video formats: wmv avi rmvb mov.<br /> Example: http://server/movie.wmv',//'支持优酷、土豆、56、酷6等视频站的视频网址<br />支持 wmv avi rmvb mov 等视频格式<br />示例: http://server/movie.wmv',
 	'paste_from_word'	: 'Paste a content from Word',//'从 Word 粘贴内容',
 	'paste_word_tip'	: 'Please use shortcut (Ctrl + V) to paste the content from Word document',//'请通过快捷键(Ctrl+V)把 Word 文件中的内容粘贴到上',
 	'show_tips'		: 'Show Tips',//'友情提示',
@@ -295,14 +290,14 @@ var lng = {
 	'jump_tip_pid'		: 'Post TID and PID',//'帖子的 TID 和 PID',
 	'add_indent'		: 'Add the first line indent',//'添加行首缩进',
 	'enter_post_password'	: 'Please enter the post password',//'请输入帖子密码',
-	'begin_flash_img'	: 'Enter the beginning Flash or image animation URL',//'请输入开头动画 Flash 或 图片 地址',
+        'begin_flash_img'       : 'Enter the beginning image URL',
 	'begin_click_url'	: 'Click on the link URL',//'点击链接地址',
 	'begin_stay_seconds'	: 'Display seconds',//'停留秒数',
 	'begin_disappearance'	: 'Disappear effect after loading',//'载入、消失的效果',
 	'none'			: 'None',//'无',
 	'begin_fade'		: 'Fade',//'淡入淡出',
 	'begin_explosive'	: 'Explode',//'展开闭合',
-	'begin_info'		: 'Supported formats: swf flv jpg gif png<br/>Width range: 400~1024, Height range: 300~640<br/>Example: http://server/flash.swf',//'支持 swf flv jpg gif png 网址<br />宽高范围: 宽400~1024 高300~640<br />示例: http://server/flash.swf',
+        'begin_info'            : 'Supported formats: jpg gif png<br/>Width range: 400~1024, Height range: 300~640<br/>Example: http://server/image.jpg',//'支持 jpg gif png 网址<br />宽高范围: 宽400~1024 高300~640<br />示例: http://server/image.jpg',
 
 //--------------------------------
 //static/js/forum.js
@@ -645,10 +640,7 @@ var lng = {
 	'save_js'		: 'javascript saved',//'javascript脚本保存后显示',
 	'settings'		: 'Settings',//'设置',
 
-//---------------------------
-//static/js/swfupload.js
 
-	'attach_file'		: 'Attachment',
 
 //---------------------------
 //static/js/threadsort.js

@@ -23,7 +23,6 @@ function attachtype($type, $returnval = 'html') {
 			7 => 'html.gif',
 			8 => 'real.gif',
 			9 => 'av.gif',
-			10 => 'flash.gif',
 			11 => 'image.gif',
 			12 => 'pdf.gif',
 			13 => 'torrent.gif',
@@ -42,10 +41,8 @@ function attachtype($type, $returnval = 'html') {
 			$typeid = 13;
 		} elseif(preg_match("/pdf|^pdf\t/", $type)) {
 			$typeid = 12;
-		} elseif(preg_match("/image|^(jpg|gif|png|bmp|webp|svg)\t/", $type)) {
-			$typeid = 11;
-		} elseif(preg_match("/flash|^(swf|fla|flv|swi)\t/", $type)) {
-			$typeid = 10;
+               } elseif(preg_match("/image|^(jpg|gif|png|bmp|webp|svg)\t/", $type)) {
+                        $typeid = 11;
 		} elseif(preg_match("/audio|video|^(wav|mid|mp3|m3u|wma|asf|asx|vqf|mpg|mpeg|avi|wmv|mov|mp4|m4a|m4v|3gp|ogv|ogg|webm|weba|aac|flac)\t/", $type)) {
 			$typeid = 9;
 		} elseif(preg_match("/real|^(ra|rm|rv)\t/", $type)) {
@@ -169,12 +166,11 @@ function parseattach($attachpids, $attachtags, &$postlist, $skipaids = array()) 
 	if($attachexists) {
 		foreach($attachtags as $pid => $aids) {
 			if($findattach[$pid]) {
-				foreach($findattach[$pid] as $aid => $find) {
-					$postlist[$pid]['message'] = preg_replace($find, attachinpost($postlist[$pid]['attachments'][$aid], $postlist[$pid]), $postlist[$pid]['message'], 1);
-					$postlist[$pid]['message'] = preg_replace($find, '', $postlist[$pid]['message']);
-				}
-			}
-		}
+                               foreach($findattach[$pid] as $aid => $find) {
+                                       $postlist[$pid]['message'] = preg_replace($find, attachinpost($postlist[$pid]['attachments'][$aid], $postlist[$pid]), $postlist[$pid]['message']);
+                               }
+                       }
+               }
 	} else {
 		loadcache('posttableids');
 		$posttableids = $_G['cache']['posttableids'] ? $_G['cache']['posttableids'] : array('0');

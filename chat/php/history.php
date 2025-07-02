@@ -20,7 +20,7 @@ if ($count_result) {
     $total_rows = $count_result->fetch_assoc()['total'];
 }
 
-$sql = "SELECT DATE_FORMAT(time, '%Y-%m-%dT%TZ') as ISO8601, uid, author, message FROM chat ORDER BY time DESC LIMIT ? OFFSET ?";
+$sql = "SELECT DATE_FORMAT(CONVERT_TZ(time, @@session.time_zone, '+00:00'), '%Y-%m-%dT%TZ') as ISO8601, uid, author, message FROM chat ORDER BY time DESC LIMIT ? OFFSET ?";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("ii", $limit, $offset);
 $stmt->execute();

@@ -856,7 +856,7 @@ function discuzcode(cmd, arg) {
 
 	checkFocus();
 
-	if(in_array(cmd, ['sml', 'insertorderedlist', 'inserthorizontalrule', 'url', 'quote', 'code', 'free', 'hide', 'aud', 'vid', 'fls', 'beginning', 'attach', 'image', 'pasteword', 'index', 'postbg', 'password']) || typeof EXTRAFUNC['showEditorMenu'][cmd] != 'undefined' || cmd == 'tbl' || in_array(cmd, ['fontname', 'fontsize', 'forecolor', 'backcolor']) && !arg) {
+       if(in_array(cmd, ['sml', 'insertorderedlist', 'inserthorizontalrule', 'url', 'quote', 'code', 'free', 'hide', 'aud', 'vid', 'beginning', 'attach', 'image', 'pasteword', 'index', 'postbg', 'password']) || typeof EXTRAFUNC['showEditorMenu'][cmd] != 'undefined' || cmd == 'tbl' || in_array(cmd, ['fontname', 'fontsize', 'forecolor', 'backcolor']) && !arg) {
 		showEditorMenu(cmd);
 		return;
 	} else if(cmd.substr(0, 3) == 'cst') {
@@ -1197,9 +1197,6 @@ function showEditorMenu(tag, params) {
 			case 'vid':
                                str = '<p class="pbn">' + lng['video_url'] + ':</p><p class="pbn"><input type="text" value="" id="' + ctrlid + '_param_1" style="width: 220px;" class="px" /></p><p class="pbn">' + lng['width'] + ': <input id="' + ctrlid + '_param_2" size="5" value="500" class="px" /> &nbsp; ' + lng['height'] + ': <input id="' + ctrlid + '_param_3" size="5" value="375" class="px" /></p><p class="xg2 pbn">' + lng['video_support'] + '</p>';
 				break;
-			case 'fls':
-                               str = '<p class="pbn">' + lng['flash_url'] + ':</p><p class="pbn"><input type="text" id="' + ctrlid + '_param_1" class="px" value="" style="width: 220px;" /></p><p class="pbn">' + lng['width'] + ': <input id="' + ctrlid + '_param_2" size="5" value="" class="px" /> &nbsp; ' + lng['height'] + ': <input id="' + ctrlid + '_param_3" size="5" value="" class="px" /></p><p class="xg2 pbn">'+lng['flash_support']+'</p>';
-				break;
 			case 'beginning':
                                str = '<p class="pbn">'+lng['begin_flash_img']+':</p><p class="pbn"><input type="text" id="' + ctrlid + '_param_1" class="px" value="" style="width: 220px;" /></p>';
                                str += '<p class="pbn">'+lng['begin_click_url']+':</p><p class="pbn"><input type="text" id="' + ctrlid + '_param_2" class="px" value="" style="width: 220px;" /></p>';
@@ -1243,7 +1240,7 @@ function showEditorMenu(tag, params) {
 					var promptlang = custombbcodes[tag]['prompt'].split("\t");
 					for(var i = 1; i <= params; i++) {
 						if(i != params || !haveSel) {
-                                               str += (promptlang[i - 1] ? promptlang[i - 1] : lng['enter_please']+' ' + i + lng['nth_parameter']+':') + '<br /><input type="text" id="' + ctrlid + '_param_' + i + '" style="width: 98%" value="" class="px" />' + (i < params ? '<br />' : '');
+                                               str += (promptlang[i - 1] ? promptlang[i - 1] : lng['enter_please']+' ' + i + lng['nth_parameter']+':') + '<br /><textarea id="' + ctrlid + '_param_' + i + '" style="width: 98%; resize: vertical;" rows="3"></textarea>' + (i < params ? '<br />' : '');
 						}
 					}
 				}
@@ -1410,13 +1407,6 @@ function showEditorMenu(tag, params) {
 			case 'aud':
 				insertText('[audio]' + $(ctrlid + '_param_1').value + '[/audio]', 7, 8, false, sel);
 				break;
-			case 'fls':
-				if($(ctrlid + '_param_2').value && $(ctrlid + '_param_3').value) {
-					insertText('[flash=' + parseInt($(ctrlid + '_param_2').value) + ',' + parseInt($(ctrlid + '_param_3').value) + ']' + squarestrip($(ctrlid + '_param_1').value) + '[/flash]', 7, 8, false, sel);
-				} else {
-					insertText('[flash]' + squarestrip($(ctrlid + '_param_1').value) + '[/flash]', 7, 8, false, sel);
-				}
-				break;
 			case 'beginning':
 				if($(ctrlid + '_param_1').value) {
 					insertText('[begin=' + squarestrip($(ctrlid + '_param_2').value) + ',' +
@@ -1433,7 +1423,7 @@ function showEditorMenu(tag, params) {
 				var posque = mediaUrl.lastIndexOf('?');
 				posque = posque === -1 ? mb_strlen(mediaUrl) : posque;
 				var ext = mediaUrl.lastIndexOf('.') === -1 ? '' : mediaUrl.substring(mediaUrl.lastIndexOf('.') + 1, posque).toLowerCase();
-				ext = in_array(ext, ['mp3', 'wav', 'wma', 'ra', 'rm', 'ram', 'mid', 'asx', 'wmv', 'avi', 'mpg', 'mpeg', 'rmvb', 'asf', 'mov', 'flv', 'swf', 'mp4', 'm4a', 'm4v', '3gp', 'ogv', 'ogg', 'webm', 'weba', 'aac', 'flac']) ? ext : 'x';
+				ext = in_array(ext, ['mp3', 'wav', 'wma', 'ra', 'rm', 'ram', 'mid', 'asx', 'wmv', 'avi', 'mpg', 'mpeg', 'rmvb', 'asf', 'mov', 'mp4', 'm4a', 'm4v', '3gp', 'ogv', 'ogg', 'webm', 'weba', 'aac', 'flac']) ? ext : 'x';
 				if(ext == 'x') {
 					if(/^mms:\/\//.test(mediaUrl)) {
 						ext = 'mms';

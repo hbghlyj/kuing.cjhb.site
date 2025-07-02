@@ -1344,58 +1344,6 @@ function hideWindow(k, all, clear) {
 	}
 }
 
-function AC_FL_RunContent() {
-	var str = '';
-	var ret = AC_GetArgs(arguments, "clsid:d27cdb6e-ae6d-11cf-96b8-444553540000", "application/x-shockwave-flash");
-	if(BROWSER.ie && !BROWSER.opera) {
-		str += '<object ';
-		for (var i in ret.objAttrs) {
-			str += i + '="' + ret.objAttrs[i] + '" ';
-		}
-		str += '>';
-		for (var i in ret.params) {
-			str += '<param name="' + i + '" value="' + ret.params[i] + '" /> ';
-		}
-		str += '</object>';
-	} else {
-		str += '<embed ';
-		for (var i in ret.embedAttrs) {
-			str += i + '="' + ret.embedAttrs[i] + '" ';
-		}
-		str += '></embed>';
-	}
-	return str;
-}
-
-function AC_GetArgs(args, classid, mimeType) {
-	var ret = new Object();
-	ret.embedAttrs = new Object();
-	ret.params = new Object();
-	ret.objAttrs = new Object();
-	for (var i = 0; i < args.length; i = i + 2){
-		var currArg = args[i].toLowerCase();
-		switch (currArg){
-			case "classid":break;
-			case "pluginspage":ret.embedAttrs[args[i]] = 'http://www.macromedia.com/go/getflashplayer';break;
-			case "src":ret.embedAttrs[args[i]] = args[i+1];ret.params["movie"] = args[i+1];break;
-			case "codebase":ret.objAttrs[args[i]] = 'http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,0,0';break;
-			case "onafterupdate":case "onbeforeupdate":case "onblur":case "oncellchange":case "onclick":case "ondblclick":case "ondrag":case "ondragend":
-			case "ondragenter":case "ondragleave":case "ondragover":case "ondrop":case "onfinish":case "onfocus":case "onhelp":case "onmousedown":
-			case "onmouseup":case "onmouseover":case "onmousemove":case "onmouseout":case "onkeypress":case "onkeydown":case "onkeyup":case "onload":
-			case "onlosecapture":case "onpropertychange":case "onreadystatechange":case "onrowsdelete":case "onrowenter":case "onrowexit":case "onrowsinserted":case "onstart":
-			case "onscroll":case "onbeforeeditfocus":case "onactivate":case "onbeforedeactivate":case "ondeactivate":case "type":
-			case "id":ret.objAttrs[args[i]] = args[i+1];break;
-			case "width":case "height":case "align":case "vspace": case "hspace":case "class":case "title":case "accesskey":case "name":
-			case "tabindex":ret.embedAttrs[args[i]] = ret.objAttrs[args[i]] = args[i+1];break;
-			default:ret.embedAttrs[args[i]] = ret.params[args[i]] = args[i+1];
-		}
-	}
-	ret.objAttrs["classid"] = classid;
-	if(mimeType) {
-		ret.embedAttrs["type"] = mimeType;
-	}
-	return ret;
-}
 
 function simulateSelect(selectId, widthvalue) {
 	var selectObj = $(selectId);
@@ -1576,48 +1524,64 @@ function ctrlEnter(event, btnId, onlyEnter) {
 	return true;
 }
 
+const urlSuffixRegex = "(?:[\\/:?][\\w.=%\\-&;~`@'+!#*]*)";
+
 function parseurl(str, mode, parsecode) {
-	if(isUndefined(parsecode)) parsecode = true;
-	if(parsecode) str= str.replace(/\[code\]([\s\S]+?)\[\/code\]/ig, function($1, $2) {return codetag($2, -1);});
-	str = str.replace(/([^>=\]"'\/]|^)((((https?|ftp):\/\/)|www\.)([\w\-]+\.)*[\w\-\u4e00-\u9fa5]+\.([\.a-zA-Z0-9]+|\u4E2D\u56FD|\u7F51\u7EDC|\u516C\u53F8)((\?|\/|:)+[\w\.\/=\?%\-&;~`@':+!#\*]*)+\.(png|gif|jpg|jpeg|svg|apng|avif|webp|bmp|ico|cur|jpe|jif|jfif))/ig, '$1[img]$2[/img]');
-	str = str.replace(/([^>=\]"'\/]|^)((((https?|ftp):\/\/)|www\.)([\w\-]+\.)*[\w\-\u4e00-\u9fa5]+\.([\.a-zA-Z0-9]+|\u4E2D\u56FD|\u7F51\u7EDC|\u516C\u53F8)((\?|\/|:)+[\w\.\/=\?%\-&;~`@':+!#\*]*)+\.(mp3|wma))/ig, '$1[audio]$2[/audio]');
-	str = str.replace(/([^>=\]"'\/@]|^)((((https?|ftp|gopher|news|telnet|rtsp|mms|callto|bctp|ed2k|thunder|qqdl|synacast):\/\/))([\w\-]+\.)*[:\.@\-\w\u4e00-\u9fa5]+\.([\.a-zA-Z0-9]+|\u4E2D\u56FD|\u7F51\u7EDC|\u516C\u53F8)((\?|\/|:)+[\w\.\/=\?%\-&;~`@':+!#\*]*)*)/ig,  function (match, prefix, url) {
-		try {
-		    let urlObj = new URL(url.startsWith('http') ? url : 'http://' + url); // Ensure valid URL
-		    if (urlObj.host === location.host) {
-			url = urlObj.pathname.slice(1) + urlObj.search + urlObj.hash; // Return relative URL
-		    }
-		} catch (e) {
-		    showError(e);
-		}
-		return prefix + (mode == 'html' ? '<a href="' + url + '" target="_blank">' + url + '</a>' : '[url]' + url + '[/url]');
-	});
-	str = str.replace(/([^\w>=\]"'\/@]|^)((www\.)([\w\-]+\.)*[:\.@\-\w\u4e00-\u9fa5]+\.([\.a-zA-Z0-9]+|\u4E2D\u56FD|\u7F51\u7EDC|\u516C\u53F8)((\?|\/|:)+[\w\.\/=\?%\-&;~`@':+!#\*]*)*)/ig, function (match, prefix, url) {
-		try {
-		    let urlObj = new URL(url.startsWith('http') ? url : 'http://' + url); // Ensure valid URL
-		    if (urlObj.host === location.host) {
-			url = urlObj.pathname.slice(1) + urlObj.search + urlObj.hash; // Return relative URL
-		    }
-		} catch (e) {
-		    showError(e);
-		}
-		return prefix + (mode == 'html' ? '<a href="' + url + '" target="_blank">' + url + '</a>' : '[url]' + url + '[/url]');
-	});
-	if(parsecode) {
-		for(var i = 0; i <= DISCUZCODE['num']; i++) {
-			str = str.replace("[\tDISCUZ_CODE_" + i + "\t]", DISCUZCODE['html'][i]);
-		}
-	}
+        if(isUndefined(parsecode)) parsecode = true;
+        if(parsecode) str= str.replace(/\[code\]([\s\S]+?)\[\/code\]/ig, function($1, $2) {return codetag($2, -1);});
+       const hrefMatches = [];
+        str = str.replace(/\\href\{[^}]+\}\{[^}]*\}/g, function(match) {
+                hrefMatches.push(match);
+                return '[DISCUZ_HREF_' + (hrefMatches.length - 1) + ']';
+        });
+       const imgPattern = new RegExp(`([^>=\\]"'/]|^)((((https?|ftp):\\/\\/)|www\\.)([\\w\\-]+\\.)*[\\w\\-\\u4e00-\\u9fa5]+\\.([\\.a-zA-Z0-9]+|\\u4E2D\\u56FD|\\u7F51\\u7EDC|\\u516C\\u53F8)(${urlSuffixRegex})+\\.(png|gif|jpg|jpeg|svg|apng|avif|webp|bmp|ico|cur|jpe|jif|jfif))`,`ig`);
+       str = str.replace(imgPattern, '$1[img]$2[/img]');
+       const audioPattern = new RegExp(`([^>=\\]"'/]|^)((((https?|ftp):\\/\\/)|www\\.)([\\w\\-]+\\.)*[\\w\\-\\u4e00-\\u9fa5]+\\.([\\.a-zA-Z0-9]+|\\u4E2D\\u56FD|\\u7F51\\u7EDC|\\u516C\\u53F8)(${urlSuffixRegex})+\\.(mp3|wma))`,`ig`);
+       str = str.replace(audioPattern, '$1[audio]$2[/audio]');
+       const urlPattern = new RegExp(`([^>=\\]"'/@]|^)((((https?|ftp|gopher|news|telnet|rtsp|mms|callto|bctp|ed2k|thunder|qqdl|synacast):\\/\\/))([\\w\\-]+\\.)*[:.@\\-\\w\\u4e00-\\u9fa5]+\\.([\\.a-zA-Z0-9]+|\\u4E2D\\u56FD|\\u7F51\\u7EDC|\\u516C\\u53F8)(${urlSuffixRegex})*)`,`ig`);
+       str = str.replace(urlPattern,  function (match, prefix, url) {
+               try {
+                    let urlObj = new URL(url.startsWith('http') ? url : 'http://' + url); // Ensure valid URL
+                    if (urlObj.host === location.host) {
+                        url = urlObj.pathname.slice(1) + urlObj.search + urlObj.hash; // Return relative URL
+                    }
+                } catch (e) {
+                    showError(e);
+                }
+                return prefix + (mode == 'html' ? '<a href="' + url + '" target="_blank">' + url + '</a>' : '[url]' + url + '[/url]');
+        });
+       const wwwPattern = new RegExp(`([^\\w>=\\]"'/@]|^)((www\\.)([\\w\\-]+\\.)*[:.@\\-\\w\\u4e00-\\u9fa5]+\\.([\\.a-zA-Z0-9]+|\\u4E2D\\u56FD|\\u7F51\\u7EDC|\\u516C\\u53F8)(${urlSuffixRegex})*)`,`ig`);
+        str = str.replace(wwwPattern, function (match, prefix, url) {
+               try {
+                    let urlObj = new URL(url.startsWith('http') ? url : 'http://' + url); // Ensure valid URL
+                    if (urlObj.host === location.host) {
+                        url = urlObj.pathname.slice(1) + urlObj.search + urlObj.hash; // Return relative URL
+                    }
+                } catch (e) {
+                    showError(e);
+                }
+                return prefix + (mode == 'html' ? '<a href="' + url + '" target="_blank">' + url + '</a>' : '[url]' + url + '[/url]');
+        });
+       str = str.replace(/\[DISCUZ_HREF_(\d+)\]/g, function(match, index) {
+               return hrefMatches[parseInt(index, 10)];
+       });
+       if(parsecode) {
+               str = str.replace(/\[\tDISCUZ_CODE_(\d+)\t\]/g, function(match, index) {
+                       return DISCUZCODE.html[parseInt(index, 10)];
+               });
+       }
 	return str;
 }
 
 function codetag(text, br) {
-	var br = !br ? 1 : br;
-	DISCUZCODE['num']++;
-	if(br > 0 && typeof wysiwyg != 'undefined' && wysiwyg) text = text.replace(/<br[^\>]*>/ig, '\n');
-	text = text.replace(/\$/ig, '$$$$');
-	DISCUZCODE['html'][DISCUZCODE['num']] = '[code]' + text + '[/code]';
-	return '[\tDISCUZ_CODE_' + DISCUZCODE['num'] + '\t]';
+       br = !br ? 1 : br;
+       DISCUZCODE.num++;
+       if(br > 0 && typeof wysiwyg != 'undefined' && wysiwyg) {
+               text = text.replace(/<br[^\>]*>/ig, '\n');
+       }
+       text = text.replace(/\$/ig, '$$$$');
+       DISCUZCODE.html[DISCUZCODE.num] = '[code]' + text + '[/code]';
+       return '[\tDISCUZ_CODE_' + DISCUZCODE.num + '\t]';
 }
 
 function saveUserdata(name, data) {
@@ -1694,9 +1658,6 @@ function updatestring(str1, str2, clear) {
 	return clear ? str1.replace(str2, '') : (str1.indexOf(str2) == -1 ? str1 + str2 : str1);
 }
 
-function getClipboardData() {
-	window.document.clipboardswf.SetVariable('str', CLIPBOARDSWFDATA);
-}
 
 function setCopy(text, msg) {
 	var cp = document.createElement('textarea');
@@ -1735,11 +1696,8 @@ function setCopy(text, msg) {
 /*vot*/		showDialog('<div class="c"><div style="width: 200px; text-align: center;">'+lng['copy_failed']+'</div></div>', 'alert');
 		}
 	} else {
-/*vot*/		var msg = '<div class="c"><div style="width: 200px; text-align: center; text-decoration:underline;">'+lng['copy2clipboard']+'</div>' +
-		AC_FL_RunContent('id', 'clipboardswf', 'name', 'clipboardswf', 'devicefont', 'false', 'width', '200', 'height', '40', 'src', STATICURL + 'image/common/clipboard.swf', 'menu', 'false',  'allowScriptAccess', 'sameDomain', 'swLiveConnect', 'true', 'wmode', 'transparent', 'style' , 'margin-top:-20px') + '</div>';
-		showDialog(msg, 'info');
-		CLIPBOARDSWFDATA = text;
-	}
+               showDialog('<div class="c">'+lng['copy_failed']+'</div>', 'alert');
+       }
 }
 
 function copycode(obj) {
@@ -1750,9 +1708,6 @@ function showdistrict(container, elems, totallevel, changelevel, containertype) 
 	$F('_showdistrict', arguments);
 }
 
-function setDoodle(fid, oid, url, tid, from) {
-	$F('_setDoodle', arguments);
-}
 
 
 function initSearchmenu(searchform, cloudSearchUrl) {
@@ -2098,7 +2053,7 @@ function detectHtml5Support() {
 
 function detectPlayer(randomid, ext, src, width, height) {
 	var h5_support = new Array('aac', 'flac', 'mp3', 'm4a', 'wav', 'flv', 'mp4', 'm4v', '3gp', 'ogv', 'ogg', 'weba', 'webm');
-	var trad_support = new Array('mp3', 'wma', 'mid', 'wav', 'ra', 'ram', 'rm', 'rmvb', 'swf', 'asf', 'asx', 'wmv', 'avi', 'mpg', 'mpeg', 'mov');
+       var trad_support = new Array('mp3', 'wma', 'mid', 'wav', 'ra', 'ram', 'rm', 'rmvb', 'asf', 'asx', 'wmv', 'avi', 'mpg', 'mpeg', 'mov');
 	width = width.indexOf("%") == -1 ? width + 'px' : width;
 	height = height.indexOf("%") == -1 ? height + 'px' : height;
 	if (in_array(ext, h5_support) && detectHtml5Support()) {
@@ -2128,9 +2083,6 @@ function tradionalPlayer(randomid, ext, src, width, height) {
 		case 'rm':
 		case 'rmvb':
 			html = '<object classid="clsid:CFCDAA03-8BE4-11cf-B84B-0020AFBBCCFA" width="' + width + '" height="' + height + '"><param name="autostart" value="0" /><param name="src" value="' + src + '" /><param name="controls" value="imagewindow" /><param name="console" value="' + randomid + '_" /><embed src="' + src + '" autostart="0" type="audio/x-pn-realaudio-plugin" controls="imagewindow" console="' + randomid + '_" width="' + width + '" height="' + height + '"></embed></object><br /><object classid="clsid:CFCDAA03-8BE4-11CF-B84B-0020AFBBCCFA" width="' + width + '" height="32"><param name="src" value="' + src +'" /><param name="controls" value="controlpanel" /><param name="console" value="' + randomid + '_" /><embed src="' + src + '" autostart="0" type="audio/x-pn-realaudio-plugin" controls="controlpanel" console="' + randomid + '_" width="' + width + '" height="32"></embed></object>';
-			break;
-		case 'swf':
-			html = AC_FL_RunContent('width', width, 'height', height, 'allowNetworking', 'internal', 'allowScriptAccess', 'never', 'src', encodeURI(src), 'quality', 'high', 'bgcolor', '#ffffff', 'wmode', 'transparent', 'allowfullscreen', 'true');
 			break;
 		case 'asf':
 		case 'asx':

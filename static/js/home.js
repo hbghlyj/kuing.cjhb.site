@@ -219,20 +219,6 @@ function checkImage(url) {
 	return url.match(re);
 }
 
-function showFlash(host, flashvar, obj, shareid) {
-	// 引用前期引入的 detectPlayer 对资源播放状态进行判断
-	var re = new RegExp('.[A-Za-z0-9]+$', 'ig');
-	var ext = flashvar.match(re).pop().substr(1);
-	if (obj) {
-		var flashObj = document.createElement('div');
-		flashObj.id = 'flash_div_' + shareid;
-		obj.parentNode.insertBefore(flashObj, obj);
-		var containerObj = document.createElement('div');
-		containerObj.id = flashObj.id + '_container';
-		flashObj.appendChild(containerObj);
-		obj.style.display = 'none';
-	}
-	return detectPlayer('flash_div_' + shareid, ext, flashvar, 480, 400);
 }
 
 function startMarquee(h, speed, delay, sid) {

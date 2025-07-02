@@ -1075,7 +1075,7 @@ $lang = array (
 	'no_privilege_livethread'	=> 'Sorry, you have no permission to set live posts',//'抱歉，您没有权限设置直播帖',
 	'portal_category_has_no_folder_name'	=> 'Sorry, the article category directory name is not set',//'抱歉，文章所属的频道没有设置目录名称',
 	'noreply_replynum_error'	=> 'Sorry, you have reached the upper limit of the thread replies.',//'对不起，你已经达到本主题的回帖上限。',
-	'author_not_uploadpic'		=> 'The user have no uploaded images',//'楼主暂时没有上传图片',
+       'thread_no_uploadpic' => 'No images have been uploaded in this thread',//'本主题暂无图片',
 	'noreply_yourself_error'	=> 'You can not vote on your own posts',//'您不能对自己的回帖进行投票',
 	'noreply_voted_error'		=> 'You have already voted this poll',//'您已经对此回帖投过票了',
 

@@ -29,13 +29,9 @@
 						<p>{lang setting_my_new_avatar_message}</p>
 					</caption>
 					<tr>
-						<td>
-							<!--{if !empty($_GET['old'])}-->
-								<script type="text/javascript">document.write(AC_FL_RunContent('<!--{echo implode("','", $uc_avatarflash);}-->'));</script>
-							<!--{else}-->							
-								<!--{template home/spacecp_avatar_body}-->
-							<!--{/if}-->							
-						</td>
+                                               <td>
+                                                        <!--{template home/spacecp_avatar_body}-->
+                                               </td>
 					</tr>
 				</table>
 				<input type="hidden" name="formhash" value="{FORMHASH}" />
@@ -105,11 +101,7 @@ const ipt_avatarArr = [
 ];
 const ipt_Filedata = avatarform.querySelector('[name="Filedata"]');
 const ipt_confirm = avatarform.querySelector('[name="confirm"]');
-// Flash版本的Flash
-const swf_mycamera = avatarform.querySelector('[name="mycamera"]');
-
-const swfUrl = new URL(data ? data[data.indexOf('src')+1] : swf_mycamera.src);
-const maxSize = parseInt(swfUrl.searchParams.get('uploadSize') || 2048, 10) * 1024;
+const maxSize = parseInt(new URL(data[data.indexOf('src')+1]).searchParams.get('uploadSize') || 2048, 10) * 1024;
 
 
 const styleCss = `.discuz-avatar{
@@ -180,45 +172,6 @@ const styleCss = `.discuz-avatar{
 .submit-bar{
 	text-align:center;
 }
-/*Flash AJAX状态使用*/
-.status-bar{
-	font-size:2em;
-	background-repeat: no-repeat;
-	background-position: center;
-	margin:0px auto;
-	display:none;
-	text-align: center;
-}
-.status-bar[data-status]{
-	display:block;
-}
-@keyframes loading-animate{
-	from {
-		transform: rotate(0deg);
-	}
-	to {
-		transform: rotate(3600deg);
-	}
-}
-.status-bar[data-status="loading"]::before {
-	display: inline-block;
-	border: 4px SteelBlue dotted;
-	border-radius: 50%;
-	content:"";
-	width: 1em;
-	height: 1em;
-	animation: loading-animate 50s infinite linear;
-}
-.status-bar[data-status="success"]::before {
-	content:"✔️";
-}
-.status-bar[data-status="error"]::before {
-	content:"❌";
-}
-.progress-bar{
-	padding: 5px;
-	text-align: center;
-}`;
 
 const fragment = document.createDocumentFragment();
 

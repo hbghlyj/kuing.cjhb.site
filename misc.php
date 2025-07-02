@@ -56,7 +56,7 @@ if(isset($_GET['mod']) && $_GET['mod'] != 'tag'){
 	$discuz->reject_robot();
 }
 $modarray = array('seccode', 'secqaa', 'initsys', 'invite', 'faq', 'report',
-				'swfupload', 'stat', 'ranklist', 'buyinvitecode',
+				'upload', 'stat', 'ranklist', 'buyinvitecode',
 				'tag', 'diyhelp', 'mobile', 'patch', 'getatuser', 'imgcropper',
 				'userstatus', 'secmobseccode');
 
@@ -67,7 +67,7 @@ $modcachelist = array(
 $mod = getgpc('mod');
 $mod = (empty($mod) || !in_array($mod, $modarray)) ? 'error' : $mod;
 
-if(in_array($mod, array('seccode', 'secqaa', 'initsys', 'faq', 'swfupload', 'mobile'))) {
+if(in_array($mod, array('seccode', 'secqaa', 'initsys', 'faq', 'mobile'))) {
 	define('ALLOWGUEST', 1);
 }
 

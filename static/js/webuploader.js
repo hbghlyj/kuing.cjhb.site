@@ -12,21 +12,21 @@ var getBasePath = function() {
 	return '';
 };
 
-var SWFUpload;
+var WebUpload;
 var sdCloseTime = 2;
 
-if (SWFUpload == undefined) {
-	SWFUpload = function(settings) {
-		this.initSWFUpload(settings);
+if (WebUpload == undefined) {
+	WebUpload = function(settings) {
+		this.initWebUpload(settings);
 	};
 }
 
-SWFUpload.CURSOR = {
+WebUpload.CURSOR = {
 	ARROW: -1,
 	HAND: -2
 };
 
-SWFUpload.EXT_MIME_MAP = {
+WebUpload.EXT_MIME_MAP = {
 	'3gp': 'video/3gpp',
 	'7z': 'application/x-7z-compressed',
 	'aac': 'audio/aac',
@@ -90,7 +90,6 @@ SWFUpload.EXT_MIME_MAP = {
 	'rtf': 'application/rtf',
 	'sh': 'application/x-sh',
 	'svg': 'image/svg+xml',
-	'swf': 'application/x-shockwave-flash',
 	'tar': 'application/x-tar',
 	'tif': 'image/tiff',
 	'tiff': 'image/tiff',
@@ -114,7 +113,7 @@ SWFUpload.EXT_MIME_MAP = {
 	'zip': 'application/zip'
 };
 
-SWFUpload.prototype.initSWFUpload = function(userSettings) {
+WebUpload.prototype.initWebUpload = function(userSettings) {
 	try {
 		this.customSettings = {};	// A container where developers can place their own settings associated with this instance.
 		this.settings = {};
@@ -125,7 +124,7 @@ SWFUpload.prototype.initSWFUpload = function(userSettings) {
 	}
 };
 
-SWFUpload.prototype.initSettings = function (userSettings) {
+WebUpload.prototype.initSettings = function (userSettings) {
 	this.ensureDefault = function(settingName, defaultValue) {
 		var setting = userSettings[settingName];
 		if (setting != undefined) {
@@ -152,9 +151,9 @@ SWFUpload.prototype.initSettings = function (userSettings) {
 
 	this.ensureDefault("debug", false);
 
-	this.ensureDefault("swfupload_preload_handler", null);
-	this.ensureDefault("swfupload_load_failed_handler", null);
-	this.ensureDefault("swfupload_loaded_handler", null);
+	this.ensureDefault("webupload_preload_handler", null);
+	this.ensureDefault("webupload_load_failed_handler", null);
+	this.ensureDefault("webupload_loaded_handler", null);
 	this.ensureDefault("file_dialog_start_handler", null);
 	this.ensureDefault("file_queued_handler", null);
 	this.ensureDefault("file_queue_error_handler", null);
@@ -240,7 +239,7 @@ SWFUpload.prototype.initSettings = function (userSettings) {
 					return "." + ext;
 				}),
 				jQuery.map(extsArray, function (ext) {
-					return SWFUpload.EXT_MIME_MAP[ext];
+					return WebUpload.EXT_MIME_MAP[ext];
 				})
 			),
 			function (s) {
@@ -252,12 +251,9 @@ SWFUpload.prototype.initSettings = function (userSettings) {
 		}).join(",");
 	}
 
-	var uploader = WebUploader.create({
-		swf: getBasePath() + 'Uploader.swf',
+       var uploader = WebUploader.create({
 		server: this.settings.upload_url,
 		pick: '#' + this.settings.button_placeholder_id,
-		compress: false,
-		threads: 1,
 		accept: {
 			title: this.settings.file_types_description,
 			extensions: exts,
@@ -267,8 +263,8 @@ SWFUpload.prototype.initSettings = function (userSettings) {
 		formData: this.settings.post_params,
 		fileNumLimit: this.settings.file_upload_limit,
 		fileSingleSizeLimit: this.settings.file_size_limit * 1024,
-		duplicate: true
-	});
+		duplicate: false
+       });
 
 	this.uploader = uploader;
 
@@ -315,15 +311,15 @@ SWFUpload.prototype.initSettings = function (userSettings) {
 
 };
 
-SWFUpload.prototype.setUploadURL = function (url) {
+WebUpload.prototype.setUploadURL = function (url) {
 	this.uploader.options.server = url.toString();
 };
 
-SWFUpload.prototype.addPostParam = function (name, value) {
+WebUpload.prototype.addPostParam = function (name, value) {
 	this.uploader.options.formData[name] = value;
 };
 
-SWFUpload.prototype.queueEvent = function (handlerName, argumentArray) {
+WebUpload.prototype.queueEvent = function (handlerName, argumentArray) {
 	var self = this;
 
 	if (argumentArray == undefined) {
@@ -346,7 +342,7 @@ SWFUpload.prototype.queueEvent = function (handlerName, argumentArray) {
 	}
 };
 
-SWFUpload.prototype.executeNextEvent = function () {
+WebUpload.prototype.executeNextEvent = function () {
 
 	var  f = this.eventQueue ? this.eventQueue.shift() : null;
 	if (typeof(f) === "function") {
@@ -354,11 +350,11 @@ SWFUpload.prototype.executeNextEvent = function () {
 	}
 };
 
-SWFUpload.prototype.debug = function (message) {
+WebUpload.prototype.debug = function (message) {
 	this.queueEvent("debug_handler", message);
 };
 
-SWFUpload.prototype.debugMessage = function (message) {
+WebUpload.prototype.debugMessage = function (message) {
 	var exceptionMessage, exceptionValues, key;
 
 	if (this.settings.debug) {
@@ -373,9 +369,9 @@ SWFUpload.prototype.debugMessage = function (message) {
 			exceptionMessage = exceptionValues.join("\n") || "";
 			exceptionValues = exceptionMessage.split("\n");
 			exceptionMessage = "EXCEPTION: " + exceptionValues.join("\nEXCEPTION: ");
-			SWFUpload.Console.writeLine(exceptionMessage);
+			WebUpload.Console.writeLine(exceptionMessage);
 		} else {
-			SWFUpload.Console.writeLine(message);
+			WebUpload.Console.writeLine(message);
 		}
 	}
 };
@@ -867,13 +863,13 @@ FileProgress.prototype.setStatus = function(status) {
 	this.fileProgressElement.childNodes[2].innerHTML = status;
 };
 
-FileProgress.prototype.toggleCancel = function(show, swfUploadInstance) {
+FileProgress.prototype.toggleCancel = function(show, webUploadInstance) {
 	this.fileProgressElement.childNodes[0].style.display = show ? "": "none";
-	if (swfUploadInstance) {
+	if (webUploadInstance) {
 		var fileID = this.fileProgressID;
 		var oSelf = this;
 		this.fileProgressElement.childNodes[0].onclick = function() {
-			swfUploadInstance.cancelFile(fileID);
+			webUploadInstance.cancelFile(fileID);
 			oSelf.setStatus("Cancelled");
 			oSelf.setCancelled();
 			return false;

@@ -13,7 +13,6 @@ if (empty($_GET['charset']) || !in_array(strtolower($_GET['charset']), array('gb
 	$_GET['charset'] = '';
 $allowhtml = empty($_GET['allowhtml']) ? 0 : 1;
 
-$doodle = empty($_GET['doodle']) ? 0 : 1;
 $isportal = empty($_GET['isportal']) ? 0 : 1;
 if (empty($_GET['op'])) {
 	?>
@@ -126,7 +125,6 @@ if (empty($_GET['op'])) {
 				a.icoDoodle {background-position:-260px -60px}
 				a.icoImg{background-position:0 -20px}
 				a.icoAttach{background-position:-200px -20px}
-				a.icoSwf{background-position:-240px -20px}
 				a.icoSwitchTxt{background-position:-220px -60px;float:right}
 				a.icoFullTxt{ float: right; width: 35px; height: 20px; line-height: 20px; border: 1px solid #C2D5E3; background: url(<?php echo STATICURL; ?>image/common/card_btn.png) repeat-x 0 100%; text-align: center; color: #333; text-decoration: none; }
 				a.icoSwitchMdi{background-position:-239px -60px;float:right}
@@ -173,11 +171,7 @@ if (empty($_GET['op'])) {
 	<?php if ($isportal) { ?>
 													<a href="javascript:;" class="icoAttach" id="icoAttach" onClick="parent.createAttachBox(<?php echo ($isportal ? 'parent.check_catid' : '')?>);return false;" title="<?php echo lang('home/editor', 'editor_link_attach'); ?>"></a>
 												<?php } ?>
-												<a href="javascript:;" class="icoSwf" id="icoSwf" onClick="createFlash(event, 1);return false;" title="<?php echo lang('home/editor', 'editor_link_flash'); ?>"></a>
 												<a href="javascript:;" class="icoFace" id="faceBox" onClick="faceBox(event);return false;" title="<?php echo lang('home/editor', 'editor_insert_smiley'); ?>"></a>
-	<?php if ($doodle) { ?>
-													<a href="javascript:;" class="icoDoodle" id="doodleBox" onClick="doodleBox(event, this.id);return false;" title="<?php echo lang('home/editor', 'editor_doodle'); ?>"></a>
-												<?php } ?>
 												<?php if ($isportal) { ?>
 													<a href="javascript:;" class="icoPage" id="icoPage" onClick="pageBreak(event, 1);return false;" title="<?php echo lang('home/editor', 'editor_pagebreak'); ?>"></a>
 													<a href="javascript:;" class="icoDown" id="icoDown" onClick="parent.downRemoteFile();return false;" title="<?php echo lang('home/editor', 'editor_download_remote'); ?>"></a>
@@ -257,17 +251,6 @@ if (empty($_GET['op'])) {
 	<?php echo lang('home/editor', 'editor_prompt_imagelink'); ?>:<br/>
 								<input type="text" id="imgUrl" name="imgUrl" value="http://" onfocus="checkURL(this, 1);" onblur="checkURL(this, 0);" class="t_input" style="width: 190px;" /> <input type="button" onclick="createImg();" name="createURL" value="<?php echo lang('home/editor', 'editor_ok'); ?>" class="submit" /> <a href="javascript:;" onclick="fHide($('createImg'));return false;"><?php echo lang('home/editor', 'editor_cancel'); ?></a>
 							</div>
-							<div id="createSwf" class="eMenu" style="display:none;top:35px;left:26px;width:400px;font-size:12px">
-	<?php echo lang('home/editor', 'editor_prompt_videolink'); ?>:<br/>
-								<select name="vtype" id="vtype">
-									<option value="0"><?php echo lang('home/editor', 'editor_prompt_video_flash'); ?></option>
-									<option value="1"><?php echo lang('home/editor', 'editor_prompt_video_media'); ?></option>
-									<option value="2"><?php echo lang('home/editor', 'editor_prompt_video_real'); ?></option>
-									<option value="3"><?php echo lang('home/editor', 'editor_prompt_mp3'); ?></option>
-								</select>
-								<input type="text" id="videoUrl" name="videoUrl" value="http://" onfocus="checkURL(this, 1);" onblur="checkURL(this, 0);" class="t_input" style="width: 200px;" />
-								<input type="button" onclick="createFlash();" name="createURL" value="<?php echo lang('home/editor', 'editor_ok'); ?>" class="submit" />
-								<a href="javascript:;" onclick="fHide($('createSwf'));return false;"><?php echo lang('home/editor', 'editor_cancel'); ?></a>
 							</div>
 							<div id="createPage" class="eMenu" style="display:none;top:35px;left:26px;width:300px;font-size:12px">
 	<?php echo lang('home/editor', 'editor_prompt_pagetitle'); ?>:<br/>

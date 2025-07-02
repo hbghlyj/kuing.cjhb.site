@@ -112,9 +112,6 @@ function mobile_discuzcode($param) {
 		if(strpos($msglower, '[/audio]') !== FALSE) {
 			$message = preg_replace_callback("/\[audio(=1)*\]\s*([^\[\<\r\n]+?)\s*\[\/audio\]/is", 'mobile_discuzcode_callback_bbcodeurl_href2', $message);
 		}
-		if(strpos($msglower, '[/flash]') !== FALSE) {
-			$message = preg_replace_callback("/\[flash(=(\d+),(\d+))?\]\s*([^\[\<\r\n]+?)\s*\[\/flash\]/is", 'mobile_discuzcode_callback_bbcodeurl_4', $message);
-		}
 
 		if($parsetype != 1 && $allowbbcode < 0 && isset($_G['cache']['bbcodes'][-$allowbbcode])) {
 			$message = preg_replace($_G['cache']['bbcodes'][-$allowbbcode]['searcharray'], $_G['cache']['bbcodes'][-$allowbbcode]['replacearray'], $message);
@@ -169,9 +166,7 @@ function mobile_discuzcode($param) {
 	}
 
 	if(!$bbcodeoff) {
-		if($parsetype != 1 && strpos($msglower, '[swf]') !== FALSE) {
-			$message = preg_replace_callback("/\[swf\]\s*([^\[\<\r\n]+?)\s*\[\/swf\]/is", 'mobile_discuzcode_callback_bbcodeurl_1', $message);
-		}
+
 
 		$attrsrc = !IS_ROBOT && $lazyload ? 'file' : 'src';
 		if(strpos($msglower, '[/img]') !== FALSE) {
@@ -240,13 +235,6 @@ function mobile_discuzcode_callback_bbcodeurl_href2($matches) {
 	return bbcodeurl($matches[2], '<a href="{url}" target="_blank">{url}</a>');
 }
 
-function mobile_discuzcode_callback_bbcodeurl_4($matches) {
-	return bbcodeurl($matches[4], '<a href="{url}" target="_blank">{url}</a>');
-}
-
-function mobile_discuzcode_callback_bbcodeurl_1($matches) {
-	return bbcodeurl($matches[1], ' <img src="'.STATICURL.'image/filetype/flash.gif" align="absmiddle" alt="" /> <a href="{url}" target="_blank">Flash: {url}</a> ');
-}
 
 function mobile_parseurl($url, $text, $scheme) {
 	global $_G;

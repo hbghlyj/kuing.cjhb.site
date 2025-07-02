@@ -103,7 +103,6 @@ if($operation == 'updatecache') {
 			'data/attachment/group',
 			'data/attachment/portal',
 			'data/attachment/profile',
-			'data/attachment/swfupload',
 			'data/attachment/temp',
 			'data/cache',
 			'data/log',
