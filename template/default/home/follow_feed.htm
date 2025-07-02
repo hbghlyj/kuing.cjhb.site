@@ -116,7 +116,7 @@
 								<!--{if empty($_G['setting']['pluginhooks']['follow_upload_extend'])}-->
 									<!--{subtemplate common/upload}-->
 									<script type="text/javascript">
-										var upload = new SWFUpload({
+										var upload = new WebUpload({
 											// Backend Settings
 											upload_url: "{$_G[siteurl]}misc.php?mod=swfupload&action=swfupload&operation=upload&fid={$dmfid}",
 											post_params: {"uid" : "$_G[uid]", "hash":"$swfconfig[hash]"},
@@ -144,7 +144,7 @@
 											button_placeholder_id : "spanButtonPlaceholder",
 											button_width: 18,
 											button_height: 25,
-											button_cursor:SWFUpload.CURSOR.HAND,
+											button_cursor:WebUpload.CURSOR.HAND,
 											button_window_mode: "transparent",
 											custom_settings : {
 												progressTarget : "attachlist",

@@ -2198,21 +2198,6 @@ body { background: none !important; }
 
 #flw_bar .fpd { position: relative; zoom: 1; }
 
-/*
-	Name:			mod_follow_flashupload
-	Level:			Global
-	Explain:		重定义 follow 页面的 Flash 上传时的处理界面，结构参见 /static/js/fileprogress.js
-	Last Modify:	Pony 2012022813
-*/
-.progressWrapper { overflow: hidden; float: left; width: auto; }
-	.progressWrapper table { float: left; margin: 5px 1px 0 0; width: 209px; border:  1px solid #C3DCEA; border-radius: 4px; background: #FFF; }
-	.progressWrapper td { border-radius: 4px; }
-.attc { padding-top: 3px; width: 20px; }
-	.attc .d { background-position-y: 0 !important; }
-
-.progressContainer { overflow: hidden; margin: 5px 0 0; width: 620px; border: 1px dashed #9EB4C2; background-color: transparent; }
-.red { border: none; background-color: transparent; color: red; }
-/** end **/
 
 
 /** forum::forumdisplay,group::group **/
