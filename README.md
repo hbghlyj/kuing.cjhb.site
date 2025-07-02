@@ -44,10 +44,12 @@ plain download links. After the user submits the form, the message passes throug
 `model_forum_post::editpost()` which converts those tags back to the standard
 `[attach]` form before the post is saved.
 
-Attachment cleanup is handled inside `updateattach()` in
-`source/function/function_post.php`. This function moves newly referenced
-attachments out of the `pre_forum_attachment_unused` table and removes entries
-that were left unused, ensuring orphaned files are deleted.
+Attachment cleanup for the post being edited is handled inside `updateattach()`
+in `source/function/function_post.php`. When the edit is submitted, this
+function associates newly added attachments from the
+`pre_forum_attachment_unused` table with the post and deletes any files that
+were removed from the message. It only operates on attachments belonging to the
+current post.
 
 ## Running locally
 
