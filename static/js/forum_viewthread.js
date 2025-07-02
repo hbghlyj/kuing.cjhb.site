@@ -838,7 +838,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             }).catch(function(error){
                 console.error('Error suggesting tag:', error);
-                showError(lng['network_error'] || 'A network error occurred. Please try again.');
+                showError(lng['network_error']);
             });
         };
     }

@@ -94,7 +94,6 @@ $lang = array(
 	'share_link' => '分享了一個網址',
 	'share_video' => '分享了一個視頻',
 	'share_music' => '分享了一個音樂',
-	'share_flash' => '分享了一個 Flash',
 	'share_event' => '分享了一個活動',
 	'share_poll' => '分享了一個\\1投票',
 	'event_time' => '活動時間',
@@ -138,7 +137,6 @@ $lang = array(
 
 
 	'present_user_magics' => '您收到了管理員贈送的道具：\\1',
-	'has_not_more_doodle' => '您沒有塗鴉板了',
 
 	'do_stat_login' => '來訪用戶',
 	'do_stat_mobilelogin' => '手機訪問',

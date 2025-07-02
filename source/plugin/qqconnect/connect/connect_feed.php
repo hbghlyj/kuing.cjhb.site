@@ -55,9 +55,6 @@ if ($op == 'new') {
 		if(strpos($msglower, '[/media]') !== FALSE) {
 			$post['message'] = preg_replace("/\[media=([\w%,]+)\]\s*([^\[\<\r\n]+?)\s*\[\/media\]/is", '', $post['message']);
 		}
-		if(strpos($msglower, '[/flash]') !== FALSE) {
-			$post['message'] = preg_replace("/\[flash(=(\d+),(\d+))?\]\s*([^\[\<\r\n]+?)\s*\[\/flash\]/is", '', $post['message']);
-		}
 		if(strpos($msglower, '[/hide]') !== FALSE) {
 			$post['message'] = preg_replace("/\[hide[=]?(d\d+)?[,]?(\d+)?\]\s*(.*?)\s*\[\/hide\]/is", '', $post['message']);
 		}
@@ -218,9 +215,6 @@ if ($op == 'new') {
 		}
 		if(strpos($msglower, '[/media]') !== FALSE) {
 			$post['message'] = preg_replace("/\[media=([\w%,]+)\]\s*([^\[\<\r\n]+?)\s*\[\/media\]/is", '', $post['message']);
-		}
-		if(strpos($msglower, '[/flash]') !== FALSE) {
-			$post['message'] = preg_replace("/\[flash(=(\d+),(\d+))?\]\s*([^\[\<\r\n]+?)\s*\[\/flash\]/is", '', $post['message']);
 		}
 		$html_content = $connectService->connectParseBbcode($post['message'], $post['fid'], $post['pid'], $post['htmlon'], $attach_images);
 		$html_content = strip_tags(preg_replace('/(&nbsp;)+/', ' ', $html_content));

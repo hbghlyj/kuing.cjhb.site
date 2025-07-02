@@ -476,58 +476,6 @@ function browserVersion(types) {
 	BROWSER.other = other;
 }
 
-function AC_FL_RunContent() {
-	var str = '';
-	var ret = AC_GetArgs(arguments, "clsid:d27cdb6e-ae6d-11cf-96b8-444553540000", "application/x-shockwave-flash");
-	if(BROWSER.ie && !BROWSER.opera) {
-		str += '<object ';
-		for (var i in ret.objAttrs) {
-			str += i + '="' + ret.objAttrs[i] + '" ';
-		}
-		str += '>';
-		for (var i in ret.params) {
-			str += '<param name="' + i + '" value="' + ret.params[i] + '" /> ';
-		}
-		str += '</object>';
-	} else {
-		str += '<embed ';
-		for (var i in ret.embedAttrs) {
-			str += i + '="' + ret.embedAttrs[i] + '" ';
-		}
-		str += '></embed>';
-	}
-	return str;
-}
-
-function AC_GetArgs(args, classid, mimeType) {
-	var ret = new Object();
-	ret.embedAttrs = new Object();
-	ret.params = new Object();
-	ret.objAttrs = new Object();
-	for (var i = 0; i < args.length; i = i + 2){
-		var currArg = args[i].toLowerCase();
-		switch (currArg){
-			case "classid":break;
-			case "pluginspage":ret.embedAttrs[args[i]] = 'http://www.macromedia.com/go/getflashplayer';break;
-			case "src":ret.embedAttrs[args[i]] = args[i+1];ret.params["movie"] = args[i+1];break;
-			case "codebase":ret.objAttrs[args[i]] = 'http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,0,0';break;
-			case "onafterupdate":case "onbeforeupdate":case "onblur":case "oncellchange":case "onclick":case "ondblclick":case "ondrag":case "ondragend":
-			case "ondragenter":case "ondragleave":case "ondragover":case "ondrop":case "onfinish":case "onfocus":case "onhelp":case "onmousedown":
-			case "onmouseup":case "onmouseover":case "onmousemove":case "onmouseout":case "onkeypress":case "onkeydown":case "onkeyup":case "onload":
-			case "onlosecapture":case "onpropertychange":case "onreadystatechange":case "onrowsdelete":case "onrowenter":case "onrowexit":case "onrowsinserted":case "onstart":
-			case "onscroll":case "onbeforeeditfocus":case "onactivate":case "onbeforedeactivate":case "ondeactivate":case "type":
-			case "id":ret.objAttrs[args[i]] = args[i+1];break;
-			case "width":case "height":case "align":case "vspace": case "hspace":case "class":case "title":case "accesskey":case "name":
-			case "tabindex":ret.embedAttrs[args[i]] = ret.objAttrs[args[i]] = args[i+1];break;
-			default:ret.embedAttrs[args[i]] = ret.params[args[i]] = args[i+1];
-		}
-	}
-	ret.objAttrs["classid"] = classid;
-	if(mimeType) {
-		ret.embedAttrs["type"] = mimeType;
-	}
-	return ret;
-}
 
 function appendstyle(url) {
 	var link = document.createElement('link');
@@ -544,7 +492,7 @@ function detectHtml5Support() {
 
 function detectPlayer(randomid, ext, src, width, height) {
 	var h5_support = new Array('aac', 'flac', 'mp3', 'm4a', 'wav', 'flv', 'mp4', 'm4v', '3gp', 'ogv', 'ogg', 'weba', 'webm');
-	var trad_support = new Array('mp3', 'wma', 'mid', 'wav', 'ra', 'ram', 'rm', 'rmvb', 'swf', 'asf', 'asx', 'wmv', 'avi', 'mpg', 'mpeg', 'mov');
+	var trad_support = new Array('mp3', 'wma', 'mid', 'wav', 'ra', 'ram', 'rm', 'rmvb', 'asf', 'asx', 'wmv', 'avi', 'mpg', 'mpeg', 'mov');
 	if (in_array(ext, h5_support) && detectHtml5Support()) {
 		html5Player(randomid, ext, src, width, height);
 	} else if (in_array(ext, trad_support)) {
@@ -572,9 +520,6 @@ function tradionalPlayer(randomid, ext, src, width, height) {
 		case 'rm':
 		case 'rmvb':
 			html = '<object classid="clsid:CFCDAA03-8BE4-11cf-B84B-0020AFBBCCFA" width="' + width + '" height="' + height + '"><param name="autostart" value="0" /><param name="src" value="' + src + '" /><param name="controls" value="imagewindow" /><param name="console" value="' + randomid + '_" /><embed src="' + src + '" autostart="0" type="audio/x-pn-realaudio-plugin" controls="imagewindow" console="' + randomid + '_" width="' + width + '" height="' + height + '"></embed></object><br /><object classid="clsid:CFCDAA03-8BE4-11CF-B84B-0020AFBBCCFA" width="' + width + '" height="32"><param name="src" value="' + src +'" /><param name="controls" value="controlpanel" /><param name="console" value="' + randomid + '_" /><embed src="' + src + '" autostart="0" type="audio/x-pn-realaudio-plugin" controls="controlpanel" console="' + randomid + '_" width="' + width + '" height="32"></embed></object>';
-			break;
-		case 'swf':
-			html = AC_FL_RunContent('width', width, 'height', height, 'allowNetworking', 'internal', 'allowScriptAccess', 'never', 'src', encodeURI(src), 'quality', 'high', 'bgcolor', '#ffffff', 'wmode', 'transparent', 'allowfullscreen', 'true');
 			break;
 		case 'asf':
 		case 'asx':

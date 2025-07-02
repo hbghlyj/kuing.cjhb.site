@@ -16,7 +16,7 @@ if (!$_G['setting']['albumstatus']) {
 }
 
 $albumid = empty($_GET['albumid'])?0:intval($_GET['albumid']);
-$_GET['op'] = in_array($_GET['op'], array('recount', 'cam', 'flash', 'normal')) ? $_GET['op'] : 'normal';
+$_GET['op'] = in_array($_GET['op'], array('recount', 'cam', 'normal')) ? $_GET['op'] : 'normal';
 
 if($_GET['op'] == 'recount') {
 	$newsize = C::t('home_pic')->count_size_by_uid($_G['uid']);
@@ -125,11 +125,11 @@ if(submitcheck('albumsubmit') && helper_access::check_module('album')) {
 
 	cknewuser();
 
-	$config = urlencode($_G['siteroot'].'home.php?mod=misc&ac=swfupload&op=config'.($_GET['op'] == 'cam'? '&cam=1' : ''));
+        $config = '';
 
 	$albums = getalbums($_G['uid']);
 
-	$actives = ($_GET['op'] == 'flash' || $_GET['op'] == 'cam')?array($_GET['op']=>' class="a"'):array('js'=>' class="a"');
+        $actives = ($_GET['op'] == 'cam') ? array('cam'=>' class="a"') : array('js'=>' class="a"');
 
 	$maxspacesize = checkperm('maxspacesize');
 	if(!empty($maxspacesize)) {
@@ -157,7 +157,7 @@ if(submitcheck('albumsubmit') && helper_access::check_module('album')) {
 
 $navtitle = lang('core', 'title_'.(!empty($_GET['op']) ? $_GET['op'] : 'normal').'_upload');
 require_once libfile('function/upload');
-$swfconfig = getuploadconfig($_G['uid'], 0, false);
+$uploadconfig = getuploadconfig($_G['uid'], 0, false);
 
 include_once template("home/spacecp_upload");
 

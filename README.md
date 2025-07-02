@@ -7,6 +7,15 @@ The repository root contains code from both projects:
 - **DocPHT:** `json/`, `pages/`, `public/`, `src/`, `temp/`, `vendor/`
 - **DiscuzX:** `api/`, `archiver/`, `config/`, `data/`, `install/`, `source/`, `static/`, `template/`, `uc_client/`, `uc_server/`
 
+## DocPHT page storage
+
+Each documentation page in DocPHT is stored in two files:
+
+- **JSON file** – holds the canonical page data in a structured format used by the editing forms.
+- **PHP file** – a generated, cached representation of the page for quick loading by the site.
+
+Deleting the JSON file removes the editable source for the page, so while the existing PHP content still renders, any attempt to update the page fails because the editor cannot load its data.
+
 ## Attachment tables
 
 DiscuzX handles attachments using an index table and sharded data tables.
@@ -25,6 +34,22 @@ DiscuzX handles attachments using an index table and sharded data tables.
     set to `127`.
   * The full attachment data is stored in `pre_forum_attachment_unused`.
   * Unused attachments are automatically removed after roughly 24 hours.
+
+### Attachment editing workflow
+
+When a post is edited, `source/include/post/post_editpost.php` rewrites image
+attachment tags from `[attach]123[/attach]` to `[attachimg]123[/attachimg]` while
+the edit form is displayed. This lets the editor show thumbnails instead of
+plain download links. After the user submits the form, the message passes through
+`model_forum_post::editpost()` which converts those tags back to the standard
+`[attach]` form before the post is saved.
+
+Attachment cleanup for the post being edited is handled inside `updateattach()`
+in `source/function/function_post.php`. When the edit is submitted, this
+function associates newly added attachments from the
+`pre_forum_attachment_unused` table with the post and deletes any files that
+were removed from the message. It only operates on attachments belonging to the
+current post.
 
 ## Running locally
 
@@ -184,3 +209,13 @@ Shows a configurable menu. The object `v` can include keys such as `ctrlid`, `sh
 ### `setMenuPosition(showid, menuid, pos)`
 Positions the menu element `menuid` relative to `showid` using the two-digit `pos` code denoting anchor and direction.
 
+### `_ajaxget(url, showid, waitid, loading, display, recall)`
+### `_ajaxpost(formid, showid, waitid, showidclass, submitbtn, recall)`
+Low level helpers from `static/js/ajax.js` that fetch new content via GET or POST. After receiving HTML, the response is processed by `evalscript()` which in turn uses `appendscript()` from `static/js/common.js` to inject any `<script>` blocks so dynamic features remain functional. These functions are invoked by the global `ajaxget()` and `ajaxpost()` wrappers defined in `static/js/common.js`.
+
+## JavaScript libraries
+
+The file `static/js/webuploader/webuploader.min.js` bundles **WebUploader 0.1.5**, an
+open-source uploader from the Baidu FEX team. Download it from their [official releases](https://fex-team.github.io/webuploader/download.html) or from the
+[jsDelivr CDN](https://www.jsdelivr.com/package/npm/webuploader). This provides the upload runtime used
+by `static/js/webuploader.js`.

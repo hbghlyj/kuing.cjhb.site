@@ -166,8 +166,8 @@ $_G['forum']['allowpostimage'] = isset($_G['forum']['allowpostimage']) ? $_G['fo
 $_G['group']['allowpostimage'] = $_G['forum']['allowpostimage'] != -1 && ($_G['forum']['allowpostimage'] == 1 || (!$_G['forum']['postimageperm'] && $_G['group']['allowpostimage']) || ($_G['forum']['postimageperm'] && forumperm($_G['forum']['postimageperm'])));
 $_G['group']['attachextensions'] = $_G['forum']['attachextensions'] ? $_G['forum']['attachextensions'] : $_G['group']['attachextensions'];
 require_once libfile('function/upload');
-$swfconfig = getuploadconfig($_G['uid'], $_G['fid']);
-$imgexts = str_replace(array(';', '*.'), array(', ', ''), $swfconfig['imageexts']['ext']);
+$uploadconfig = getuploadconfig($_G['uid'], $_G['fid']);
+$imgexts = str_replace(array(';', '*.'), array(', ', ''), $uploadconfig['imageexts']['ext']);
 $allowuploadnum = $allowuploadtoday = TRUE;
 if($_G['group']['allowpostattach'] || $_G['group']['allowpostimage']) {
 	if($_G['group']['maxattachnum']) {

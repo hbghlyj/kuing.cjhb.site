@@ -180,6 +180,7 @@ if($_GET['action'] == 'checkusername') {
 
                                         if($attach['isimage'] != 0) {
                                                 if(!$threadimgcount) {
+                                                        C::t('forum_threadimage')->delete_by_tid($attach['tid']);
                                                         C::t('forum_thread')->update($attach['tid'], array('cover' => 0));
                                                 } else {
                                                         $threadimage = C::t('forum_attachment_n')->fetch_max_image('tid:'.$attach['tid'], 'tid', $attach['tid']);

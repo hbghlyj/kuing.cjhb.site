@@ -470,7 +470,7 @@ function updateattachnum(type) {
 	}
 }
 
-function swfHandler(action, type) {
+function uploadHandler(action, type) {
 	if(action == 2) {
 		if(type == 'image') {
 			updateImageList();

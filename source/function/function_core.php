@@ -1556,9 +1556,8 @@ function debuginfo() {
 	if(getglobal('setting/debug')) {
 		$_G['debuginfo'] = array(
 		    'time' => number_format((microtime(true) - $_G['starttime']), 6),
-		    'queries' => DB::object()->querynum,
-		    'memory' => ucwords(C::memory()->type)
-		    );
+                    'queries' => DB::object()->querynum,
+                    );
 		if(DB::object()->slaveid) {
 			$_G['debuginfo']['queries'] = 'Total '.DB::object()->querynum.', Slave '.DB::object()->slavequery;
 		}

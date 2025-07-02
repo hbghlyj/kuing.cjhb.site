@@ -12,7 +12,7 @@ if(!defined('IN_DISCUZ')) {
 }
 
 $ac = empty($_GET['ac']) ? '' : $_GET['ac'];
-$acs = isset($_G['group']['allowvisit']) && $_G['group']['allowvisit'] ? array('swfupload', 'inputpwd', 'ajax', 'sendmail', 'emailcheck') : array('swfupload', 'sendmail', 'emailcheck');
+$acs = isset($_G['group']['allowvisit']) && $_G['group']['allowvisit'] ? array('inputpwd', 'ajax', 'sendmail', 'emailcheck') : array('sendmail', 'emailcheck');
 
 if(empty($ac) || !in_array($ac, $acs)) {
 	showmessage('enter_the_space', 'home.php?mod=space');

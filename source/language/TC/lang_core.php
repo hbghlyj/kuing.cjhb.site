@@ -107,7 +107,6 @@ $lang = array
 	'title_share_link' => '網址',
 	'title_share_video' => '視頻',
 	'title_share_music' => '音樂',
-	'title_share_flash' => 'Flash',
 	'title_share_poll' => '投票',
 	'title_share_pic' => '圖片',
 	'title_share_album' => '相冊',

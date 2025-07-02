@@ -1758,30 +1758,7 @@ span.login_slct,td.tipcol a {white-space: nowrap;}
 
 /* 上传弹出层 */
 .upfile { width: 220px; }
-	.uploadform { padding: 0 10px; border: 1px dashed {COMMONBORDER}; background: {COMMONBG}; }
-
-/*
-	Name:			mod_flashupload
-	Level:			Global
-	Explain:		Flash 上传时的处理界面，结构参见 /static/js/fileprogress.js
-	Last Modify:	Pony 2012022813
-*/
-.progressWrapper { overflow: hidden; width: 100%; }
-.progressContainer { overflow: hidden; margin: 5px; padding: 4px; border: solid 1px #E8E8E8; background-color: #F7F7F7; }
-.message { overflow: hidden; margin: 1em 0; padding: 10px 20px; border: solid 1px #FD9; background-color: #FFC; } /* Message */
-.red { border: solid 1px #B50000; background-color: #FFEBEB; } /* Error */
-.green { border: solid 1px #DDF0DD; background-color: #EBFFEB; } /* Current */
-.blue { border: solid 1px #CEE2F2; background-color: #F0F5FF; } /* Complete */
-.progressName { overflow: hidden; white-space: nowrap; width: 323px; height: 18px; text-align: left; font-weight: 700; color: #555; }
-.progressBarInProgress, .progressBarComplete, .progressBarError { clear: both; margin-top: 2px; width: 0; height: 2px; background-color: blue; font-size: 0; }
-.progressBarComplete { visibility: hidden; width: 100%; background-color: green; }
-.progressBarError { visibility: hidden; width: 100%; background-color: red; }
-.progressBarStatus { white-space: nowrap; margin-top: 2px; width: 337px; text-align: left; }
-a.progressCancel { display: block; float: right; width: 14px; height: 14px; line-height: 14px; text-align: center; background: #CB3D4D; border-radius: 2px; text-decoration: none; }
-	a.progressCancel:before { content: "\d7"; color: #FFF; font-weight: 700; }
-	a.progressCancel:hover { background: #E54557; }
-.swfupload { vertical-align: top; }
-
+       .uploadform { padding: 0 10px; border: 1px dashed {COMMONBORDER}; background: {COMMONBG}; }
 /* ------------------------------------------------------------------------ 拖拽及页面 DIY */
 .frame, .frame-tab { margin-bottom: 10px; border: 1px solid {WRAPBORDERCOLOR}; background: {WRAPBG}; }
 	.title { padding: 0 10px; height: 32px; font-size: 14px; font-weight: 700; line-height: 32px; overflow: hidden; }

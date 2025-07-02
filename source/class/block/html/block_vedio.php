@@ -48,8 +48,8 @@ class block_vedio extends commonblock_html {
 		require_once libfile('function/discuzcode');
 		$parameter['width'] = !empty($parameter['width']) ? intval($parameter['width']) : 'auto';
 		$parameter['height'] = !empty($parameter['height']) ? intval($parameter['height']) : 'auto';
-		$parameter['url'] = addslashes($parameter['url']);
-		$return = parseflv($parameter['url'], $parameter['width'], $parameter['height']);
+                $parameter['url'] = addslashes($parameter['url']);
+                $return = parseiframe($parameter['url'], $parameter['width'], $parameter['height']);
 		if($return == false) {
 			$return = $parameter['url'];
 		}
