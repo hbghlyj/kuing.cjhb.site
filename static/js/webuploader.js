@@ -252,11 +252,8 @@ SWFUpload.prototype.initSettings = function (userSettings) {
 	}
 
        var uploader = WebUploader.create({
-                runtimeOrder: 'html5',
-                server: this.settings.upload_url,
+		server: this.settings.upload_url,
 		pick: '#' + this.settings.button_placeholder_id,
-		compress: false,
-		threads: 1,
 		accept: {
 			title: this.settings.file_types_description,
 			extensions: exts,
@@ -264,9 +261,9 @@ SWFUpload.prototype.initSettings = function (userSettings) {
 		},
 		fileVal: this.settings.file_post_name,
 		formData: this.settings.post_params,
-               fileNumLimit: this.settings.file_upload_limit,
-               fileSingleSizeLimit: this.settings.file_size_limit * 1024,
-               duplicate: false
+		fileNumLimit: this.settings.file_upload_limit,
+		fileSingleSizeLimit: this.settings.file_size_limit * 1024,
+		duplicate: false
        });
 
 	this.uploader = uploader;
