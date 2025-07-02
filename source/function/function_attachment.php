@@ -168,12 +168,11 @@ function parseattach($attachpids, $attachtags, &$postlist, $skipaids = array()) 
 	if($attachexists) {
 		foreach($attachtags as $pid => $aids) {
 			if($findattach[$pid]) {
-				foreach($findattach[$pid] as $aid => $find) {
-					$postlist[$pid]['message'] = preg_replace($find, attachinpost($postlist[$pid]['attachments'][$aid], $postlist[$pid]), $postlist[$pid]['message'], 1);
-					$postlist[$pid]['message'] = preg_replace($find, '', $postlist[$pid]['message']);
-				}
-			}
-		}
+                               foreach($findattach[$pid] as $aid => $find) {
+                                       $postlist[$pid]['message'] = preg_replace($find, attachinpost($postlist[$pid]['attachments'][$aid], $postlist[$pid]), $postlist[$pid]['message']);
+                               }
+                       }
+               }
 	} else {
 		loadcache('posttableids');
 		$posttableids = $_G['cache']['posttableids'] ? $_G['cache']['posttableids'] : array('0');

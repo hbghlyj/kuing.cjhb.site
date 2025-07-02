@@ -264,10 +264,10 @@ SWFUpload.prototype.initSettings = function (userSettings) {
 		},
 		fileVal: this.settings.file_post_name,
 		formData: this.settings.post_params,
-		fileNumLimit: this.settings.file_upload_limit,
-		fileSingleSizeLimit: this.settings.file_size_limit * 1024,
-		duplicate: true
-	});
+               fileNumLimit: this.settings.file_upload_limit,
+               fileSingleSizeLimit: this.settings.file_size_limit * 1024,
+               duplicate: false
+       });
 
 	this.uploader = uploader;
 
