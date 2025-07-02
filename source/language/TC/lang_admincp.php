@@ -2359,12 +2359,10 @@ $lang = array
 	'setting_attach_basic_save_type' => '按文件類型存入不同目錄',
 	'setting_attach_basic_save_month' => '按月份存入不同目錄',
 	'setting_attach_basic_save_day' => '按天存入不同目錄',
-	'setting_attach_basic_swfupload' => '上傳方式',
 	'setting_attach_basic_multi' => '批量上傳',
 	'setting_attach_basic_simple' => '普通上傳',
 	'setting_attach_basic_allowattachurl' => '附件 URL 地址、媒體附件播放',
 	'setting_attach_basic_allowattachurl_comment' => '開啟附件 URL 地址後，上傳附件的地址可通過 "attach://aid.ext" 方式在任何帖內引用<b>（不支持附件收費以及閱讀權限判定）</b>，並支持媒體類附件的直接播放，此項設置需要在 <a href="'.ADMINSCRIPT.'?action=usergroups">用戶組</a> - 帖子相關 中允許用戶組使用多媒體代碼，並保證 config_global.php 配置的本地文件讀取模式為 1 或 4 方可生效',
-	'setting_attach_basic_swfupload_comment' => '批量上傳採用 Flash 機制上傳，可一次上傳多個附件，上傳時還會有進度顯示',
 
 	'setting_attach_forumattach' => '論壇附件',
 	'setting_attach_image_preview' => '預覽',

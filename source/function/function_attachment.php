@@ -43,7 +43,6 @@ function attachtype($type, $returnval = 'html') {
 			$typeid = 12;
 		} elseif(preg_match("/image|^(jpg|gif|png|bmp|webp|svg)\t/", $type)) {
 			$typeid = 11;
-               } elseif(preg_match("/^(swf|fla|flv|swi)\t/", $type)) {
                        $typeid = 10;
 		} elseif(preg_match("/audio|video|^(wav|mid|mp3|m3u|wma|asf|asx|vqf|mpg|mpeg|avi|wmv|mov|mp4|m4a|m4v|3gp|ogv|ogg|webm|weba|aac|flac)\t/", $type)) {
 			$typeid = 9;
