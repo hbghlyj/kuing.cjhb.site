@@ -112,58 +112,7 @@
 							</script>
 
 							<div class="upfl{if empty($_GET[from]) && $_G[setting][fastsmilies]} hasfsl{/if}">
-								<div id="attachlist" class="fieldset flash cl"><span style="font-size:0"></span></div>
 								<!--{if empty($_G['setting']['pluginhooks']['follow_upload_extend'])}-->
-									<!--{subtemplate common/upload}-->
-									<script type="text/javascript">
-										var upload = new SWFUpload({
-											// Backend Settings
-											upload_url: "{$_G[siteurl]}misc.php?mod=swfupload&action=swfupload&operation=upload&fid={$dmfid}",
-											post_params: {"uid" : "$_G[uid]", "hash":"$swfconfig[hash]"},
-
-											// File Upload Settings
-											file_size_limit : "$swfconfig[max]",	// 100MB
-											file_types : "$swfconfig[attachexts][ext]",
-											file_types_description : "$swfconfig[attachexts][depict]",
-											file_upload_limit : $swfconfig['limit'],
-											file_queue_limit : 0,
-											// Event Handler Settings (all my handlers are in the Handler.js file)
-											swfupload_preload_handler : preLoad,
-											swfupload_load_failed_handler : loadFailed,
-											file_dialog_start_handler : fileDialogStart,
-											file_queued_handler : fileQueued,
-											file_queue_error_handler : fileQueueError,
-											file_dialog_complete_handler : fileDialogComplete,
-											upload_start_handler : uploadStart,
-											upload_progress_handler : uploadProgress,
-											upload_error_handler : uploadError,
-											upload_success_handler : uploadSuccess,
-											upload_complete_handler : uploadComplete,
-											// Button Settings
-											button_image_url : "{IMGDIR}/flw_post_attach.png",
-											button_placeholder_id : "spanButtonPlaceholder",
-											button_width: 18,
-											button_height: 25,
-											button_cursor:SWFUpload.CURSOR.HAND,
-											button_window_mode: "transparent",
-											custom_settings : {
-												progressTarget : "attachlist",
-												uploadSource: 'forum',
-												uploadType: 'attach',
-												<!--{if $swfconfig['maxsizeperday']}-->
-												maxSizePerDay: $swfconfig['maxsizeperday'],
-												<!--{/if}-->
-												<!--{if $swfconfig['maxattachnum']}-->
-												maxAttachNum: $swfconfig['maxattachnum'],
-												<!--{/if}-->
-												uploadFrom: 'fastpost'
-											},
-
-											// Debug Settings
-											debug: false
-										});
-									</script>
-								<!--{else}-->
 									<!--{hook/follow_upload_extend}-->
 								<!--{/if}-->
 								<script type="text/javascript">

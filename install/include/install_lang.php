@@ -228,7 +228,6 @@ $lang = array(
 	'init_cron_11' => '每周主题更新',
 
 	'init_bbcode_1' => '使内容横向滚动，这个效果类似 HTML 的 marquee 标签，注意：这个效果只在 Internet Explorer 浏览器下有效。',
-	'init_bbcode_2' => '嵌入 Flash 动画',
 	'init_bbcode_3' => '显示 QQ 在线状态，点这个图标可以和他（她）聊天',
 	'init_bbcode_4' => '上标',
 	'init_bbcode_5' => '下标',
