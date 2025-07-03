@@ -15,13 +15,11 @@
  * create($topic, $filename)
  * getPagesByTopic($topic)
  * getUniqTopics()
- * getUniqPublishedTopics()
  * getPhpPath($id)
  * getSlug($id)
  * getJsonPath($id)
  * getAllFromKey($key)
  * getAllFromDataKey($data, $key)
- * getAllPublishedFromKey($key)
  * getAllIndexed()
  * getId($path)
  * getTopic($id)
@@ -36,7 +34,6 @@
  * disconnect($path, $data)
  * findKey($data, $search)
  * hideBySlug($slug)
- * getStatusPublished()
  */
 namespace DocPHT\Model;
 
@@ -181,18 +178,6 @@ class PageModel
     }
 
     /**
-     * getUniqPublishedTopics
-     *
-     * @return array|bool
-     *
-     * @deprecated Published toggle removed, use getUniqTopics()
-     */
-    public function getUniqPublishedTopics()
-    {
-        return $this->getUniqTopics();
-    }
-    
-    /**
      * getPhpPath
      *
      * @param  string $id
@@ -283,19 +268,6 @@ class PageModel
         }
     }   
     
-    /**
-     * getAllPublishedFromKey
-     *
-     * @param string $key
-     *
-     * @return array|bool
-     *
-     * @deprecated Published toggle removed, use getAllFromKey()
-     */
-    public function getAllPublishedFromKey($key)
-    {
-        return $this->getAllFromKey($key);
-    }
     
     /**
      * getAllIndexed
@@ -558,19 +530,4 @@ class PageModel
         }
     }
     
-    /**
-     * getStatusPublished
-     *
-     * @return array
-     *
-     * @deprecated Published toggle removed
-     */
-    public function getStatusPublished()
-    {
-        return [
-            'page' => 'Published',
-            'btn'  => 'btn-success',
-            'icon' => 'fa-toggle-on'
-        ];
-    }
 }

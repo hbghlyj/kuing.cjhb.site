@@ -54,7 +54,7 @@ class HomePageModel extends PageModel
 
         foreach ($data as $key => $value) {
             if ($value['pages']['id'] === $id) {
-                $home = ($value['pages']['home'] === 0) ? 1 : 0;
+                $home = $value['pages']['home'];
             } else {
                 $home = 0;
             }

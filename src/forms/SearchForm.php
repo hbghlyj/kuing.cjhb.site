@@ -26,7 +26,8 @@ class SearchForm extends MakeupForm
             $searchthis = $this->sanitizing($_POST["search"]);
 
             $json = json_decode(file_get_contents('json/search.json'), TRUE);
-                    
+            $pages = $this->pageModel->connect();
+
                     foreach($json as $value)  {
                         $id = $value['id'];
                         $value = $value['content'];
@@ -37,7 +38,6 @@ class SearchForm extends MakeupForm
                             if (strlen($value) > 500)
                             $value = substr($value, 0, 100) . '...';
 
-                            $pages = $this->pageModel->connect();
                             foreach ($pages as $val) {
                                 if ($val['pages']['id'] == $id) {
                                     $link = ($val['pages']['home'] === 1 && !isset($_SESSION['Active'])) ? '/doc.php' : 'page/'.$this->pageModel->getSlug($id);
