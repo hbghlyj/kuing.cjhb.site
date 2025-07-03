@@ -16,6 +16,16 @@ Each documentation page in DocPHT is stored in two files:
 
 Deleting the JSON file removes the editable source for the page, so while the existing PHP content still renders, any attempt to update the page fails because the editor cannot load its data.
 
+### Simplified flat-file mode
+
+For small sites this repository also includes a very basic "flat" mode where
+each page lives as a single Markdown file under the `flat/` directory. The new
+`FlatPageModel` (see `src/model/FlatPageModel.php`) can read and write these
+files and `flat_doc.php` renders them directly using Parsedown.
+
+This mode drops all advanced DocPHT features such as attachments, code blocks
+and versioning so only raw Markdown is supported.
+
 ## Attachment tables
 
 DiscuzX handles attachments using an index table and sharded data tables.
