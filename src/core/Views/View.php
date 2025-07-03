@@ -17,7 +17,6 @@ namespace Instant\Core\Views;
 use DocPHT\Model\PageModel;
 use DocPHT\Core\Translator\T;
 use DocPHT\Model\BackupsModel;
-use DocPHT\Model\HomePageModel;
 use DocPHT\Form\VersionSelectForm;
 use Plasticbrain\FlashMessages\FlashMessages;
 
@@ -25,17 +24,15 @@ class View
 {
 	protected $pageModel;
 	protected $backupsModel;
-	protected $homePageModel;
-	protected $version;
+        protected $version;
 	protected $msg;
 
 	public function __construct()
 	{
-		$this->pageModel = new PageModel();
-		$this->backupsModel = new BackupsModel();
-		$this->homePageModel = new HomePageModel();
-		$this->version = new VersionSelectForm();
-		$this->msg = new FlashMessages();
+                $this->pageModel = new PageModel();
+                $this->backupsModel = new BackupsModel();
+                $this->version = new VersionSelectForm();
+                $this->msg = new FlashMessages();
 	}
 
 	public function show($file, $data = null)

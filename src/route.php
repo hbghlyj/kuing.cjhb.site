@@ -33,8 +33,6 @@ if (isset($_SESSION['Active'])) {
         
         $adminModel = new AdminModel(); 
         if (isset($_SESSION['Active']) && $adminModel->checkUserIsAdmin($_SESSION['Username']) == true ) {
-            // /admin/create-home
-            $this->get_post('/create-home', 'DocPHT\Controller\AdminController@createHome');
             
             // /admin/backup
             $this->get_post('/backup', 'DocPHT\Controller\AdminController@backup');
@@ -139,8 +137,6 @@ $route->group('/page', function()
         }
         // /page/save-version
         $this->get_post('/save-version', 'DocPHT\Controller\FormPageController@getSaveVersionForm');
-        // /page/home-set
-        $this->get_post('/home-set', 'DocPHT\Controller\FormPageController@setHome');
     } else {
         $this->any('/*', function(){
             $login = new LoginController();

@@ -92,23 +92,7 @@
                 </div>
                 <?php endif ?>
 
-                <?php if (file_exists('json/doc-pht/home.json') && isset($_SESSION['Active']) && $admin == true): ?>
-                    <div class="col-md-4 grid-margin mb-4">
-                        <div class="card bg-docpht d-flex align-items-left">
-                            <a href="admin/create-home" class="text-white">
-                                <div class="card-body shadow">
-                                    <div class="d-flex flex-row align-items-left">
-                                            <i class="fa fa-home fa-3x" aria-hidden="true"></i>
-                                        <div class="ml-3">
-                                            <h6 class="text-white"><?= $t->trans('Create home page'); ?></h6>
-                                            <p class="mt-2 text-white card-text"><small><?= $t->trans('Presentation page'); ?></small></p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                <?php endif ?>
+
 
 
                 <div class="col-md-4 grid-margin mb-4">

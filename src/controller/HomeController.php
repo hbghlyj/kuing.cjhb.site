@@ -19,19 +19,11 @@ use Instant\Core\Controller\BaseController;
 class HomeController extends BaseController
 {
     
-	public function index()
-	{
-	    $home_page = $this->homePageModel->get();
-	    
+        public function index()
+        {
                 $this->view->show('partial/head.php', ['PageTitle' => T::trans('TITLE')]);
-        
-		if($home_page !== false) {
-		    $page = require_once($home_page);
-		    $this->view->show('page/page.php', ['values' => $values]);
-		} else {
-		    $this->view->show('home.php');
-		}
-		$this->view->show('partial/footer.php');
-	}
+                $this->view->show('home.php');
+                $this->view->show('partial/footer.php');
+        }
 
 }
