@@ -39,7 +39,7 @@ class FlatPageModel
         if ($markdown === null) {
             return null;
         }
-        $Parsedown = new MediaWikiParsedown();
-        return $Parsedown->text($markdown);
+        $parsedown = new MediaWikiParsedown();
+        return $parsedown->text($markdown);
     }
 }
