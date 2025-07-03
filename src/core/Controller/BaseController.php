@@ -34,7 +34,6 @@ use DocPHT\Form\UpdatePageForm;
 use DocPHT\Form\UploadLogoForm;
 use DocPHT\Model\HomePageModel;
 use DocPHT\Core\Session\Session;
-use DocPHT\Form\PublishPageForm;
 use DocPHT\Form\SortSectionForm;
 use DocPHT\Model\AccessLogModel;
 use DocPHT\Form\TranslationsForm;
@@ -62,7 +61,6 @@ class BaseController
 	protected $backupsForms;
 	protected $version;
 	protected $search;
-	protected $publishPageForm;
 	protected $homePageForm;
 	protected $pageModel;
 	protected $searchModel;
@@ -91,9 +89,8 @@ class BaseController
 		$this->versionForms = new VersionForms();
 		$this->backupsForms = new BackupsForms();
 		$this->version = new VersionSelectForm;
-		$this->search = new SearchForm();
-		$this->publishPageForm = new PublishPageForm();
-		$this->homePageForm = new HomePageForm();
+                $this->search = new SearchForm();
+                $this->homePageForm = new HomePageForm();
 		$this->adminModel = new AdminModel();
 		$this->pageModel = new PageModel();
 		$this->searchModel = new SearchModel();

@@ -38,41 +38,27 @@ class SearchForm extends MakeupForm
                             $value = substr($value, 0, 100) . '...';
 
                             $pages = $this->pageModel->connect();
-                                foreach ($pages as $val) {
-                                    if ($val['pages']['id'] == $id && $val['pages']['published'] === 1 or $val['pages']['published'] === 0 && isset($_SESSION['Active'])) {
+                            foreach ($pages as $val) {
+                                if ($val['pages']['id'] == $id) {
+                                    $link = ($val['pages']['home'] === 1 && !isset($_SESSION['Active'])) ? '/doc.php' : 'page/'.$this->pageModel->getSlug($id);
                                     $found[] =  array(
-                                            'content' => '<div class="result-preview">
-                                                    <a href="page/'.$this->pageModel->getSlug($id).'">
-                                                        <h3 class="result-title">
-                                                            '.$this->pageModel->getTopic($id).' '.$this->pageModel->getFilename($id).'
-                                                        </h3>
-                                                        <p class="result-subtitle">
-                                                            '.$value.'
-                                                        </p>
-                                                        <small class="badge badge-success">'.T::trans('similarity').': '.round($perc, 1).'%</small>
-                                                    </a>
-                                                </div>
-                                                <hr>',
+                                            'content' => '<div class="result-preview">'
+                                                    . '<a href="'.$link.'">'
+                                                        . '<h3 class="result-title">'
+                                                            .$this->pageModel->getTopic($id).' '.$this->pageModel->getFilename($id).'
+                                                        </h3>'
+                                                        . '<p class="result-subtitle">'
+                                                            .$value
+                                                        . '</p>'
+                                                        . '<small class="badge badge-success">'.T::trans('similarity').': '.round($perc, 1).'%</small>'
+                                                    . '</a>'
+                                                . '</div>'
+                                                . '<hr>',
                                             'perc' => $perc
                                         );
-                                    } else if ($val['pages']['id'] == $id && $val['pages']['home'] === 1 && !isset($_SESSION['Active'])) {
-                                    $found[] =  array(
-                                            'content' => '<div class="result-preview">
-                                                    <a href="/doc.php">
-                                                        <h3 class="result-title">
-                                                            '.$this->pageModel->getTopic($id).' '.$this->pageModel->getFilename($id).'
-                                                        </h3>
-                                                        <p class="result-subtitle">
-                                                            '.$value.'
-                                                        </p>
-                                                        <small class="badge badge-success">'.T::trans('similarity').': '.round($perc, 1).'%</small>
-                                                    </a>
-                                                </div>
-                                                <hr>',
-                                            'perc' => $perc
-                                        );
-                                    }
                                 }
+                            }
+
                         }
                     }
                     if(!empty($found))

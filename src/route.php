@@ -139,8 +139,6 @@ $route->group('/page', function()
         }
         // /page/save-version
         $this->get_post('/save-version', 'DocPHT\Controller\FormPageController@getSaveVersionForm');
-        // /page/publish
-        $this->get_post('/publish', 'DocPHT\Controller\FormPageController@getPublish');
         // /page/home-set
         $this->get_post('/home-set', 'DocPHT\Controller\FormPageController@setHome');
     } else {
