@@ -2,12 +2,7 @@
 
 $versions = $this->version->create();
 
-$statusPage = $this->pageModel->getStatusPublished();
 $home = $this->homePageModel->getStatus($_SESSION['page_id']);
-
-if(isset($statusPage['alert']) && $home['set']) {
-    echo $statusPage['alert'];
-}
 
 if (isset($values)) {
     foreach ($values as $value) {
@@ -21,11 +16,7 @@ if (isset($_SESSION['Active']) && $versions['state'] == 0) {
             <li class="list-inline-item" data-toggle="tooltip" data-placement="bottom" title="'.$t->trans($home['page']).'">
                 <a href="page/home-set" id="sk-publish" class="btn '.$home['btn'].' btn-sm" role="button"><i class="fa '.$home['icon'].'" aria-hidden="true"></i></a>
             </li>';
-            if($home['set']){
-            echo '<li class="list-inline-item" data-toggle="tooltip" data-placement="bottom" title="'.$t->trans($statusPage['page']).'">
-                <a href="page/publish" id="sk-publish" class="btn '.$statusPage['btn'].' btn-sm" role="button"><i class="fa '.$statusPage['icon'].'" aria-hidden="true"></i></a>
-            </li>';
-            }
+            
             echo '<li class="list-inline-item" data-toggle="tooltip" data-placement="bottom" title="'.$t->trans("Update").'">
                 <a href="page/update" id="sk-update" class="btn btn-outline-info btn-sm" role="button"><i class="fa fa-pencil-square" aria-hidden="true"></i></a>
             </li>
@@ -40,11 +31,7 @@ if (isset($_SESSION['Active']) && $versions['state'] == 0) {
             <li class="list-inline-item" data-toggle="tooltip" data-placement="bottom" title="'.$t->trans($home['page']).'">
                 <a href="page/home-set" id="sk-publish" class="btn '.$home['btn'].' btn-sm" role="button"><i class="fa '.$home['icon'].'" aria-hidden="true"></i></a>
             </li>';
-            if($home['set']){
-            echo '<li class="list-inline-item" data-toggle="tooltip" data-placement="bottom" title="'.$t->trans($statusPage['page']).'">
-                <a href="page/publish" id="sk-publish" class="btn '.$statusPage['btn'].' btn-sm" role="button"><i class="fa '.$statusPage['icon'].'" aria-hidden="true"></i></a>
-            </li>';
-            }
+            
             echo '<li class="list-inline-item" data-toggle="tooltip" data-placement="bottom" title="'.$t->trans("Update").'">
                 <a href="page/update" id="sk-update" class="btn btn-outline-info btn-sm" role="button"><i class="fa fa-pencil-square" aria-hidden="true"></i></a>
             </li>
@@ -57,12 +44,12 @@ if (isset($_SESSION['Active']) && $versions['state'] == 0) {
     echo $versions['value'];
 }
 
-(isset($_SESSION['Active'])) ? $topics = $this->pageModel->getUniqTopics() : $topics = $this->pageModel->getUniqPublishedTopics();
+$topics = $this->pageModel->getUniqTopics();
 if (!is_null($topics)) {
         if (!empty($topics)) {
             $allpages = array();
             foreach ($topics as $topic) {
-                (isset($_SESSION['Active'])) ? $pages = $this->pageModel->getPagesByTopic($topic) : $pages = $this->pageModel->getPublishedPagesByTopic($topic);
+                $pages = $this->pageModel->getPagesByTopic($topic);
                 if($pages !== false)$allpages = array_merge($allpages,$pages);
             }
         }

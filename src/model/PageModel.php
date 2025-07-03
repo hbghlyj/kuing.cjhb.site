@@ -14,15 +14,12 @@
  * connectPageData($id)
  * create($topic, $filename)
  * getPagesByTopic($topic)
- * getPublishedPagesByTopic($topic)
  * getUniqTopics()
- * getUniqPublishedTopics()
  * getPhpPath($id)
  * getSlug($id)
  * getJsonPath($id)
  * getAllFromKey($key)
  * getAllFromDataKey($data, $key)
- * getAllPublishedFromKey($key)
  * getAllIndexed()
  * getId($path)
  * getTopic($id)
@@ -37,7 +34,6 @@
  * disconnect($path, $data)
  * findKey($data, $search)
  * hideBySlug($slug)
- * getStatusPublished()
  */
 namespace DocPHT\Model;
 
@@ -128,7 +124,6 @@ class PageModel
                     'slug' => $slug,
                     'topic' => $topic,
                     'filename' => $filename,
-                    'published' => 0,
                     'home' => 0
             ]);
             
@@ -165,31 +160,6 @@ class PageModel
     }
 
     /**
-     * getPublishedPagesByTopic
-     *
-     * @param  string $topic
-     *
-     * @return array|bool
-     */
-    public function getPublishedPagesByTopic($topic)
-    {
-        $data = $this->connect();
-        if (!is_null($data)) {
-            foreach($data as $value){
-                if($value['pages']['topic'] == $topic && $value['pages']['published'] == 1) {
-                  $array[] = $value['pages'];  
-                }
-            } 
-            usort($array, function($a, $b) {
-                return $a['topic'] <=> $b['topic'];
-            });
-            return (isset($array)) ? $array : false;
-        } else {
-            return false;
-        }
-    }
-
-    /**
      * getUniqTopics
      * 
      * @return array|bool
@@ -207,24 +177,6 @@ class PageModel
         } 
     }
 
-    /**
-     * getUniqPublishedTopics
-     * 
-     * @return array|bool
-     */
-    public function getUniqPublishedTopics()
-    {
-        $data = $this->connect();
-        $array = $this->getAllPublishedFromKey('topic');
-        if (is_array($array) && !is_null($array)) {
-            $array = array_unique($array);
-            sort($array);
-            return (isset($array)) ? $array : false;
-        } else {
-            return false;
-        } 
-    }
-    
     /**
      * getPhpPath
      *
@@ -316,25 +268,6 @@ class PageModel
         }
     }   
     
-    /**
-     * getAllPublishedFromKey
-     * 
-     * @param string $key
-     * 
-     * @return array|bool
-     */
-    public function getAllPublishedFromKey($key)
-    {
-        $data = $this->connect();
-        if (!is_null($data) && !empty($data)) {
-            foreach($data as $value){
-                if($value['pages']['published'] == 1) $array[] = $value['pages'][$key];
-            } 
-            return (isset($array)) ? $array : false;
-        } else {
-            return false;
-        }
-    }
     
     /**
      * getAllIndexed
@@ -597,36 +530,4 @@ class PageModel
         }
     }
     
-    /**
-     * getStatusPublished
-     *
-     * @return array
-     */
-    public function getStatusPublished()
-    {
-        $pages = $this->connect();
-        $id = $_SESSION['page_id'];
-        foreach ($pages as $value) {
-            if ($value['pages']['id'] === $id) {
-                $published = $value['pages']['published'];
-            }
-        }
-
-        if ($published === 1) {
-            $statusPage = [
-                'page' => 'Published',
-                'btn' => 'btn-success',
-                'icon' => 'fa-toggle-on'
-            ];
-        } else {
-            $statusPage = [
-                'page' => 'Draft',
-                'btn' => 'btn-outline-danger',
-                'icon' => 'fa-toggle-off blink',
-                'alert' => '<div class="alert alert-danger text-center" role="alert">'.T::trans('This page is unpublished').'</div>'
-            ];
-        }
-
-        return $statusPage;
-    }
 }

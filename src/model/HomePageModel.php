@@ -54,27 +54,19 @@ class HomePageModel extends PageModel
 
         foreach ($data as $key => $value) {
             if ($value['pages']['id'] === $id) {
-                if($value['pages']['home'] === 0) {
-                    $home = 1;
-                    $published = 0;
-                } else {
-                    $home = 0;
-                    $published = $value['pages']['published'];
-                }
+                $home = $value['pages']['home'];
             } else {
                 $home = 0;
-                $published = $value['pages']['published'];
             }
-            $pages[$key] = array(
+            $pages[$key] = [
                 'pages' => [
                         'id' => $value['pages']['id'],
                         'slug' => $value['pages']['slug'],
                         'topic' => $value['pages']['topic'],
                         'filename' => $value['pages']['filename'],
-                        'published' => $published,
                         'home' => $home
                 ]
-            );
+            ];
         }
 
         $this->disconnect(PageModel::DB, $pages);

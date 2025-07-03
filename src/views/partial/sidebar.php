@@ -83,7 +83,7 @@
 <?php 
 
 
-        (isset($_SESSION['Active'])) ? $topics = $this->pageModel->getUniqTopics() : $topics = $this->pageModel->getUniqPublishedTopics();
+        $topics = $this->pageModel->getUniqTopics();
 
         if (!is_null($topics)) {
             if (!empty($topics)) {
@@ -99,7 +99,7 @@
                     echo '<a href="#'.$topic.'-side-navigation" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle '.$active.' ">'. $topic .'</a>';
                     echo '<ul class="collapse list-unstyled '.$show.' " id="'.$topic.'-side-navigation">';
 
-                    (isset($_SESSION['Active'])) ? $pages = $this->pageModel->getPagesByTopic($topic) : $pages = $this->pageModel->getPublishedPagesByTopic($topic);
+                    $pages = $this->pageModel->getPagesByTopic($topic);
  
                     if (!empty($pages) ) {
                         foreach($pages as $page) {
@@ -108,17 +108,10 @@
                             } else {
                                 $active = ''; 
                             }
-                            if ($page['published'] === 1) {
-                                $filename = $page['filename']; 
-                                $filenameTitle = $page['filename'];
-                                $link = 'page/'.$page['slug'];
-                                echo '<li><a href="'.$link.'" '.$active.' >'.$filenameTitle.'</a></li>';
-                            } elseif ($page['published'] === 0 && isset($_SESSION['Active'])) {
-                                $filename = $page['filename']; 
-                                $filenameTitle = $page['filename'];
-                                $link = 'page/'.$page['slug'];
-                                echo '<li><a href="'.$link.'" '.$active.' >'.$filenameTitle.'</a></li>';
-                            }
+                            $filename = $page['filename'];
+                            $filenameTitle = $page['filename'];
+                            $link = 'page/'.$page['slug'];
+                            echo '<li><a href="'.$link.'" '.$active.' >'.$filenameTitle.'</a></li>';
                         }
                     }
 
