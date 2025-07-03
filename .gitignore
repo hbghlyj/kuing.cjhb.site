@@ -7,3 +7,5 @@ data/
 uc_server/data/
 json/users.json
 json/accesslog.json
+chat/php/config.php
+source/class/class_pusher.php
