@@ -14,12 +14,12 @@ class FlatPageModel
             return null;
         }
 
-        // Build the target path and resolve it if the file exists
+        // Build the target path and validate it
         $target = $base . '/' . $slug . '.md';
-        $resolved = realpath($target) ?: $target;
+        $resolved = realpath($target);
 
-        // Ensure the path is within the base directory
-        if (strpos($resolved, $base) !== 0) {
+        // If realpath fails or the resolved path escapes the base directory
+        if ($resolved === false || strpos($resolved, $base) !== 0) {
             return null;
         }
 
