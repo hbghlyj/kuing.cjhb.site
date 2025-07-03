@@ -99,9 +99,4 @@ class FormPageController extends BaseController
 		$form = $this->versionForms->save();
 	}
 
-        public function setHome()
-        {
-                $this->homePageForm->set();
-        }
-
 }

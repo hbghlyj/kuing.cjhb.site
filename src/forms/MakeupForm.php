@@ -18,14 +18,12 @@ use DocPHT\Lib\DocBuilder;
 use DocPHT\Model\PageModel;
 use DocPHT\Model\VersionModel;
 use DocPHT\Model\BackupsModel;
-use DocPHT\Model\HomePageModel;
 use DocPHT\Model\AdminModel;
 use Plasticbrain\FlashMessages\FlashMessages;
 
 class MakeupForm
 {
     protected $pageModel;
-    protected $homePageModel;
     protected $adminModel;
     protected $versionModel;
     protected $backupsModel;
@@ -35,8 +33,7 @@ class MakeupForm
 	public function __construct()
 	{
 		$this->pageModel = new PageModel();
-		$this->homePageModel = new HomePageModel();
-		$this->adminModel = new AdminModel();
+                $this->adminModel = new AdminModel();
 		$this->versionModel = new VersionModel();
 		$this->backupsModel = new BackupsModel();
 		$this->doc = new DocBuilder();
