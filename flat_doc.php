@@ -1,6 +1,5 @@
 <?php
 require __DIR__ . '/vendor/autoload.php';
-require __DIR__ . '/src/core/constants.php';
 require __DIR__ . '/src/config/config.php';
 
 use DocPHT\Core\Session\Session;

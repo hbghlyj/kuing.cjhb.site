@@ -16,8 +16,6 @@ use DocPHT\Core\Helper\DiscuzBridge;
 
 $autoload = 'vendor/autoload.php';
 
-$constants = 'src/core/constants.php';
-
 $configurationFile = 'src/config/config.php';
 
 $configLoaded = false;
@@ -69,7 +67,6 @@ if (file_exists($configurationFile) && file_exists($installFolder)) {
 if (file_exists($autoload)) {
 require $autoload;
 
-require $constants;
 if (!$configLoaded) {
     require $configurationFile;
     $configLoaded = true;
