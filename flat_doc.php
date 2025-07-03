@@ -36,13 +36,15 @@ if ($markdown === null) {
 
 // Build a minimal DocPHT page structure
 $_SESSION['page_id'] = 'flat_' . md5($slug);
+
+$view = new View();
+$view->show('partial/head.php', ['PageTitle' => htmlspecialchars($slug, ENT_QUOTES, 'UTF-8')]);
+
 $html = new DocPHT([$slug]);
 $values = [
     $html->markdown($markdown),
     $html->addButton(),
 ];
 
-$view = new View();
-$view->show('partial/head.php', ['PageTitle' => $slug]);
 $view->show('page/page.php', ['values' => $values]);
 $view->show('partial/footer.php');
