@@ -4,6 +4,7 @@ require __DIR__ . '/vendor/autoload.php';
 use DocPHT\Model\FlatPageModel;
 
 $slug = $_GET['page'] ?? 'example';
+$slug = basename($slug);
 $model = new FlatPageModel();
 
 $html = $model->render($slug);

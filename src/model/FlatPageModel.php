@@ -9,7 +9,10 @@ class FlatPageModel
 
     public function getPath(string $slug): string
     {
-        return $this->baseDir . '/' . $slug . '.md';
+        // Sanitize the slug to avoid directory traversal
+        // by stripping any path components the user might supply.
+        $safeSlug = basename($slug);
+        return $this->baseDir . '/' . $safeSlug . '.md';
     }
 
     public function get(string $slug): ?string
