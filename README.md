@@ -21,7 +21,8 @@ Deleting the JSON file removes the editable source for the page, so while the ex
 For small sites this repository also includes a very basic "flat" mode where
 each page lives as a single Markdown file under the `flat/` directory. The new
 `FlatPageModel` (see `src/model/FlatPageModel.php`) can read and write these
-files and `flat_doc.php` renders them directly using Parsedown.
+files and `flat_doc.php` renders them using the same `MediaWikiParsedown`
+parser employed by the rest of the documentation.
 
 This mode drops all advanced DocPHT features such as attachments, code blocks
 and versioning so only raw Markdown is supported.

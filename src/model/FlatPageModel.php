@@ -1,7 +1,7 @@
 <?php
 namespace DocPHT\Model;
 
-use Parsedown;
+use DocPHT\Lib\MediaWikiParsedown;
 
 class FlatPageModel
 {
@@ -39,7 +39,7 @@ class FlatPageModel
         if ($markdown === null) {
             return null;
         }
-        $Parsedown = new Parsedown();
+        $Parsedown = new MediaWikiParsedown();
         return $Parsedown->text($markdown);
     }
 }
