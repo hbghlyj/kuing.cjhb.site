@@ -7,18 +7,29 @@ class FlatPageModel
 {
     protected $baseDir = 'flat';
 
-    public function getPath(string $slug): string
+    public function getPath(string $slug): ?string
     {
-        // Sanitize the slug to avoid directory traversal
-        // by stripping any path components the user might supply.
-        $safeSlug = basename($slug);
-        return $this->baseDir . '/' . $safeSlug . '.md';
+        $base = realpath($this->baseDir);
+        if ($base === false) {
+            return null;
+        }
+
+        // Build the target path and resolve it if the file exists
+        $target = $base . '/' . $slug . '.md';
+        $resolved = realpath($target) ?: $target;
+
+        // Ensure the path is within the base directory
+        if (strpos($resolved, $base) !== 0) {
+            return null;
+        }
+
+        return $resolved;
     }
 
     public function get(string $slug): ?string
     {
         $path = $this->getPath($slug);
-        if (!file_exists($path)) {
+        if ($path === null || !file_exists($path)) {
             return null;
         }
         return file_get_contents($path);
@@ -27,6 +38,9 @@ class FlatPageModel
     public function put(string $slug, string $content): bool
     {
         $path = $this->getPath($slug);
+        if ($path === null) {
+            return false;
+        }
         if (!is_dir(dirname($path))) {
             mkdir(dirname($path), 0755, true);
         }

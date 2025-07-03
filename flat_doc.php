@@ -14,7 +14,17 @@ $session->preventStealingSession();
 DiscuzBridge::syncSession();
 
 $slug = $_GET['page'] ?? 'example';
-$slug = basename($slug);
+
+// Validate that the requested file lives under the flat/ directory
+$baseDir = realpath(__DIR__ . '/flat');
+$path = realpath($baseDir . '/' . $slug . '.md');
+if ($path === false || strpos($path, $baseDir) !== 0) {
+    http_response_code(404);
+    echo 'Page not found';
+    exit;
+}
+// Convert back to a slug relative to flat/ for page metadata
+$slug = substr($path, strlen($baseDir) + 1, -3);
 
 $model = new FlatPageModel();
 $markdown = $model->get($slug);
