@@ -745,3 +745,12 @@ img.emojione {
 td.markdown-col {
     color: #fff;
 }
+/* Range selection styles */
+.range-handle td:first-child {
+    cursor: ns-resize;
+    background-color: #444;
+}
+
+.range-middle td:first-child {
+    background-color: #555;
+}

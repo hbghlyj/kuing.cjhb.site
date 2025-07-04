@@ -152,14 +152,32 @@ function addAutoResize() {
 
 addAutoResize();
 
-$('tbody').sortable({
-    handle: ".handle",
-    placeholder: "highlight",
-    start: function(event, ui){ $(ui.item).data('startindex', ui.item.index()); },
-    update: function(event, ui){ $(ui.item).data('updateindex', ui.item.index()); },
-    deactivate: function( event, ui ) {
-        location.href='page/sort?o=' +  $(ui.item).data().startindex + '&n=' +  $(ui.item).data().updateindex;
+$('tbody').each(function(){
+    var $tb = $(this);
+    if (!$tb.find('td.handle').length) { return; }
+
+    var $start = $('<tr class="range-handle start"><td class="handle"><i class="fa fa-arrows-v sort"></i></td><td></td></tr>');
+    var $end = $('<tr class="range-handle end"><td class="handle"><i class="fa fa-arrows-v sort"></i></td><td></td></tr>');
+    $tb.prepend($start);
+    $tb.append($end);
+
+    function updateRange(){
+        var startIndex = $tb.find('tr.range-handle.start').index();
+        var endIndex = $tb.find('tr.range-handle.end').index();
+        if (startIndex > endIndex) { var t = startIndex; startIndex = endIndex; endIndex = t; }
+        $tb.find('tr').removeClass('range-middle');
+        $tb.find('tr').slice(startIndex + 1, endIndex).addClass('range-middle');
     }
+
+    $tb.sortable({
+        items: '.range-handle',
+        axis: 'y',
+        handle: '.handle',
+        placeholder: 'highlight',
+        stop: updateRange
+    });
+
+    updateRange();
 });
 
 // Forms dependent hide and show

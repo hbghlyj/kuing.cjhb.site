@@ -675,3 +675,12 @@ img.emojione {
     -moz-animation: blink 1s linear infinite;
     animation: blink 1s linear infinite;
 } 
+/* Range selection styles */
+.range-handle td:first-child {
+    cursor: ns-resize;
+    background-color: #dee2e6;
+}
+
+.range-middle td:first-child {
+    background-color: #cfe2ff;
+}
