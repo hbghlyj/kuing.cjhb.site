@@ -49,9 +49,6 @@ class DocBuilder
                 case 'codeFile':
 					$option = $this->codeFile($jsonVals['v1'], $jsonVals['v2']);
                     break;
-                case 'blockquote':
-                    $option = $this->blockquote($jsonVals['v1']);
-                    break;
                 case 'image':
 					$option = $this->image($jsonVals['v1'], $jsonVals['v2']);
                     break;
@@ -98,9 +95,6 @@ class DocBuilder
                     break;
                 case 'codeFile':
                     $option = ['key' => $values['options'], 'v1' => substr($file_path, 5), 'v2' => $values['language'], 'v3' => '', 'v4' => ''];
-                    break;
-                case 'blockquote':
-                    $option = ['key' => $values['options'], 'v1' => $values['option_content'], 'v2' => '', 'v3' => '', 'v4' => ''];
                     break;
                 case 'image':
                     $option = ['key' => $values['options'], 'v1' => substr($file_path, 5), 'v2' => $values['option_content'], 'v3' => '', 'v4' => ''];
@@ -411,19 +405,6 @@ class DocBuilder
         
     }
     
-    /**
-     * blockquote
-     *
-     * @param  string $val
-     *
-     * @return string
-     */
-    public function blockquote($val)
-    {
-        $val = TextHelper::e($val);
-        $out = '$html->blockquote'."('{$val}'), \n";
-        return $out; 
-    }
     
     /**
      * image
@@ -528,8 +509,7 @@ $identifier),\n";
         'title' => T::trans('Add title'),
     	'markdown' => T::trans('Add markdown'),
     	'markdownFile' => T::trans('Add markdown from file'),
-    	'imageURL' => T::trans('Add image from url'),
-    	'blockquote' => T::trans('Add blockquote'),
+        'imageURL' => T::trans('Add image from url'),
         'image' => T::trans('Add image from file'),
         'codeInline' => T::trans('Add code inline'),
         'codeFile' => T::trans('Add code from file')
