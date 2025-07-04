@@ -203,19 +203,19 @@ for (var i = 0; i < all_options.length; i++) {
                   case "title":
                     all_option_content[i].label.innerHTML = 'Title:';
                     break;
-                  case "description":
+                case "description":
                     all_option_content[i].label.innerHTML = 'Description:';
                     break;
-                  case "pathAdd":
+                case "pathAdd":
                     all_option_content[i].label.innerHTML = 'Path:';
                     break;
-                  case "path":
+                case "path":
                     all_option_content[i].label.innerHTML = 'Path:';
                     break;
-                  case "blockquote":
+                case "blockquote":
                     all_option_content[i].label.innerHTML = 'Block Quote:';
                     break;
-                  default:
+                default:
                     all_option_content[i].label.innerHTML = 'Content:';
             }
         all_languages[i].parentNode.parentNode.style.display = "none";
@@ -262,7 +262,11 @@ document.addEventListener("change", function(){
             all_option_content[i].parentNode.parentNode.style.display = "block"; 
             all_name[i].parentNode.parentNode.style.display = "none";        }
     }
-});
+}
+
+updateOptionFields();
+
+document.addEventListener("change", updateOptionFields);
 
 if (document.getElementById('rvselect')) {
     
