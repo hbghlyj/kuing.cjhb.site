@@ -40,10 +40,9 @@ class SearchForm extends MakeupForm
 
                             foreach ($pages as $val) {
                                 if ($val['pages']['id'] == $id) {
-                                    $link = ($val['pages']['home'] === 1 && !isset($_SESSION['Active'])) ? '/doc.php' : 'page/'.$this->pageModel->getSlug($id);
                                     $found[] =  array(
                                             'content' => '<div class="result-preview">'
-                                                    . '<a href="'.$link.'">'
+                                                    . '<a href="/page/'.$this->pageModel->getSlug($id).'">'
                                                         . '<h3 class="result-title">'
                                                             .$this->pageModel->getTopic($id).' '.$this->pageModel->getFilename($id).'
                                                         </h3>'

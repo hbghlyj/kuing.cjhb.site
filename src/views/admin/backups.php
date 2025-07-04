@@ -77,7 +77,7 @@
                                 </button>
                             </form>
                           <?php endif ?>
-                            <a href="admin/backup/save" class="btn btn-success mb-2 mr-2 text-light" role="button" data-toggle="tooltip" data-placement="bottom" title="<?= $t->trans("Save backup") ?>">
+                            <a href="/admin/backup/save" class="btn btn-success mb-2 mr-2 text-light" role="button" data-toggle="tooltip" data-placement="bottom" title="<?= $t->trans("Save backup") ?>">
                               <i class="fa fa-floppy-o" aria-hidden="true"></i>
                             </a>
                         </div>

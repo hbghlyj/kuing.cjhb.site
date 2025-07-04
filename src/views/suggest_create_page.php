@@ -15,10 +15,10 @@
     <h1><?= $t->trans('Page not found') ?></h1>
     <p><?= $t->trans('The page you are looking for does not exist:') ?> <strong><?= htmlspecialchars($filename, ENT_QUOTES, 'UTF-8') ?></strong></p>
     <p><?= $t->trans('You can create this page:') ?></p>
-    <a href="<?= BASE_URL ?>page/create?topic=<?= urlencode($topic) ?>&filename=<?= urlencode($filename) ?>" class="btn btn-primary"><?= $t->trans('Create new page') ?></a>
+    <a href="/page/create?topic=<?= urlencode($topic) ?>&filename=<?= urlencode($filename) ?>" class="btn btn-primary"><?= $t->trans('Create new page') ?></a>
     <hr>
     <p><?= $t->trans('Alternatively, you can search for the page:') ?></p>
-    <form action="<?= BASE_URL ?>page/search" method="post">
+    <form action="/page/search" method="post">
         <div class="input-group mb-3">
             <input type="text" class="form-control" name="search" placeholder="<?= $t->trans('Search for...') ?>" value="<?= htmlspecialchars($filename, ENT_QUOTES, 'UTF-8') ?>">
             <div class="input-group-append">

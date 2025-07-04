@@ -182,7 +182,7 @@ class DocPHT {
                             '; foreach ($anchorLinks as $value) {
                                 $title = $value;
                                 echo '<li class="nav-item">
-                                            <a class="nav-link" href="'.$_SERVER['REQUEST_URI'].'#'.$value.'">'.$title.'</a>
+                                            <a class="nav-link" href="#'.$value.'">'.$title.'</a>
                                       </li>';
                             };
                     echo '</ul></div>
@@ -280,7 +280,7 @@ class DocPHT {
      */
     public function image(string $src, string $title)
     {
-        return '<tr>'. ((isset($_SESSION['Active'])) ? '<td class="handle"><i class="fa fa-arrows-v sort"></i></td>' : '') . '<td><img src="json/'.$src.'" class="img-fluid mb-3" alt="'.$title.'">'.$this->insertBeforeButton().$this->removeButton().$this->modifyButton().$this->insertAfterButton().'</td></tr>';
+        return '<tr>'. ((isset($_SESSION['Active'])) ? '<td class="handle"><i class="fa fa-arrows-v sort"></i></td>' : '') . '<td><img src="/json/'.$src.'" class="img-fluid mb-3" alt="'.$title.'">'.$this->insertBeforeButton().$this->removeButton().$this->modifyButton().$this->insertAfterButton().'</td></tr>';
     }
     
     /**
@@ -293,7 +293,7 @@ class DocPHT {
      */
     public function imageURL(string $src, string $title)
     {
-        return '<tr>'. ((isset($_SESSION['Active'])) ? '<td class="handle"><i class="fa fa-arrows-v sort"></i></td>' : '') . '<td><img src="'.$src.'" class="img-fluid mb-3" alt="'.$title.'">'.$this->insertBeforeButton().$this->removeButton().$this->modifyButton().$this->insertAfterButton().'</td></tr>';
+        return '<tr>'. ((isset($_SESSION['Active'])) ? '<td class="handle"><i class="fa fa-arrows-v sort"></i></td>' : '') . '<td><img src="/'.$src.'" class="img-fluid mb-3" alt="'.$title.'">'.$this->insertBeforeButton().$this->removeButton().$this->modifyButton().$this->insertAfterButton().'</td></tr>';
     }
 
 
@@ -341,7 +341,7 @@ class DocPHT {
         if (isset($_SESSION['Active'])) {
             return '<tr><td class="handle-disabled"></td><td><ul class="list-inline text-left mt-4">
                     <li class="list-inline-item" data-toggle="tooltip" data-placement="bottom" title="'.T::trans('Add').'">
-                        <a href="page/add-section" id="sk-add" class="btn btn-outline-success btn-sm" role="button">
+                        <a href="/page/add-section" id="sk-add" class="btn btn-outline-success btn-sm" role="button">
                             <i class="fa fa-plus-square" aria-hidden="true"></i>
                         </a>
                     </li>
@@ -361,7 +361,7 @@ class DocPHT {
     {
         if (isset($_SESSION['Active'])) {
         return '<span class="text-right remove-button">
-                    <a onmouseover="setIndexRemove(this)" href="page/remove" onclick="return confirmationRemoval()" class="anchorjs-link btn btn-danger btn-sm text-right" data-toggle="tooltip" data-placement="bottom" title="'.T::trans('Remove').'" role="button">
+                    <a onmouseover="setIndexRemove(this)" href="/page/remove" onclick="return confirmationRemoval()" class="anchorjs-link btn btn-danger btn-sm text-right" data-toggle="tooltip" data-placement="bottom" title="'.T::trans('Remove').'" role="button">
                         <i class="fa fa-minus-square" aria-hidden="true" style="vertical-align: middle;"></i>
                     </a>
                 </span>';
@@ -380,7 +380,7 @@ class DocPHT {
     {
         if (isset($_SESSION['Active'])) {
         return '<span class="text-right modify-button">
-                    <a onmouseover="setIndexModify(this)" href="page/modify" class="anchorjs-link btn btn-info btn-sm text-right" data-toggle="tooltip" data-placement="bottom" title="'.T::trans('Modify').'" role="button">
+                    <a onmouseover="setIndexModify(this)" href="/page/modify" class="anchorjs-link btn btn-info btn-sm text-right" data-toggle="tooltip" data-placement="bottom" title="'.T::trans('Modify').'" role="button">
                         <i class="fa fa-pencil-square" aria-hidden="true" style="vertical-align: middle;"></i>
                     </a>
                 </span>';
@@ -399,7 +399,7 @@ class DocPHT {
     {
         if (isset($_SESSION['Active'])) {
         return '<span class="text-right modify-button">
-                    <a onmouseover="setIndexInsertB(this)" href="page/insert" class="anchorjs-link btn btn-success btn-sm text-right" data-toggle="tooltip" data-placement="bottom" title="'.T::trans('Insert Before').'" role="button">
+                    <a onmouseover="setIndexInsertB(this)" href="/page/insert" class="anchorjs-link btn btn-success btn-sm text-right" data-toggle="tooltip" data-placement="bottom" title="'.T::trans('Insert Before').'" role="button">
                         <i class="fa fa-arrow-circle-up" aria-hidden="true" style="vertical-align: middle;"></i>
                     </a>
                 </span>';
@@ -418,7 +418,7 @@ class DocPHT {
     {
         if (isset($_SESSION['Active'])) {
         return '<span class="text-right modify-button">
-                    <a onmouseover="setIndexInsertA(this)" href="page/insert" class="anchorjs-link btn btn-success btn-sm text-right" data-toggle="tooltip" data-placement="bottom" title="'.T::trans('Insert After').'" role="button">
+                    <a onmouseover="setIndexInsertA(this)" href="/page/insert" class="anchorjs-link btn btn-success btn-sm text-right" data-toggle="tooltip" data-placement="bottom" title="'.T::trans('Insert After').'" role="button">
                         <i class="fa fa-arrow-circle-down" aria-hidden="true" style="vertical-align: middle;"></i>
                     </a>
                 </span>';

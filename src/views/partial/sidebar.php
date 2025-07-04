@@ -3,7 +3,7 @@
             <div class="sidebar-header text-center">
             <?php 
                 if (file_exists('json/logo.png')) {
-                    echo '<a href="/doc.php"><img id="logo" src="json/logo.png?'.time().'" alt="logo" class="img-fluid"></a>';
+                    echo '<a href="/doc.php"><img id="logo" src="/json/logo.png?'.time().'" alt="logo" class="img-fluid"></a>';
                 } elseif (DocPHT\Core\Translator\T::trans('TITLE') == 'DocPHT') {
                     echo '<a href="/doc.php"><h3>'.DocPHT\Core\Translator\T::trans('TITLE').' <i class="fa fa-code" aria-hidden="true"></i></h3></a>';
                 } else {
@@ -22,11 +22,11 @@
                 <?php 
                 if (isset($_SESSION['Active'])) {
                     echo '<li class="list-inline-item" data-toggle="tooltip" data-placement="top" title="'.$t->trans("Logout").'">
-                            <a href="logout" id="sk-logout" class="btn btn-outline-secondary btn-sm" role="button"><i class="fa fa-sign-out" aria-hidden="true"></i></a>
+                            <a href="/logout" id="sk-logout" class="btn btn-outline-secondary btn-sm" role="button"><i class="fa fa-sign-out" aria-hidden="true"></i></a>
                         </li>';
                 } else {
                     echo '<li class="list-inline-item" data-toggle="tooltip" data-placement="top" title="'.$t->trans("Login").'">
-                            <a href="login" id="sk-login" class="btn btn-outline-secondary btn-sm" role="button"><i class="fa fa-sign-in" aria-hidden="true"></i></a>
+                            <a href="/login" id="sk-login" class="btn btn-outline-secondary btn-sm" role="button"><i class="fa fa-sign-in" aria-hidden="true"></i></a>
                         </li>';
                 }
                 
@@ -37,12 +37,12 @@
                 $topicURL = array_reverse($explode)[1];
                 if (isset($_SESSION['Active'])) {
                     echo '<li class="list-inline-item" data-toggle="tooltip" data-placement="top" title="'.$t->trans("Create new page").'">
-                    <a href="page/create?topic='. $topicURL .'" id="sk-newPage" class="btn btn-outline-secondary btn-sm" role="button"><i class="fa fa-plus-square" aria-hidden="true"></i></a>
+                    <a href="/page/create?topic='. $topicURL .'" id="sk-newPage" class="btn btn-outline-secondary btn-sm" role="button"><i class="fa fa-plus-square" aria-hidden="true"></i></a>
                     </li>';
                 }
                 if (isset($_SESSION['Active'])) {
                     echo '<li class="list-inline-item" data-toggle="tooltip" data-placement="top" title="'.$t->trans("Settings").'">
-                    <a href="admin" id="sk-admin" class="btn btn-outline-secondary btn-sm" role="button"><i class="fa fa-cog" aria-hidden="true"></i></a>
+                    <a href="/admin" id="sk-admin" class="btn btn-outline-secondary btn-sm" role="button"><i class="fa fa-cog" aria-hidden="true"></i></a>
                     </li>';
                 }
                 ?>
@@ -111,7 +111,7 @@
                             $filename = $page['filename'];
                             $filenameTitle = $page['filename'];
                             $link = 'page/'.$page['slug'];
-                            echo '<li><a href="'.$link.'" '.$active.' >'.$filenameTitle.'</a></li>';
+                            echo '<li><a href="/'.$link.'" '.$active.' >'.$filenameTitle.'</a></li>';
                         }
                     }
 
@@ -123,28 +123,6 @@
 ?>
             
             </ul>
-            
-            <!-- Not sure this should be on the release
-            <ul class="list-unstyled CTAs text-center">
-            <?php  
-            /*if (DOWNLOAD) {
-               echo '
-                    <li>
-                        <a href="'.DOWNLOAD.'" class="download">Download source</a>
-                    </li>
-                    ';
-            } 
-            
-            if (GITHUB) {
-                echo '
-                     <li>
-                        <a href="'.GITHUB.'" class="github">GitHub</a>
-                     </li>
-                     ';
-             }
-            */
-            ?>
-            </ul> -->
             <?php 
             $cssFile = (!isset($_COOKIE["theme"])) ? 'light' : $_COOKIE["theme"] ;
             ?>

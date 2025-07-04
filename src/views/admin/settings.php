@@ -26,7 +26,7 @@
 
                 <div class="col-md-4 grid-margin mb-4">
                     <div class="card bg-docpht d-flex align-items-left">
-                        <a href="admin/update-password" class="text-white">
+                        <a href="/admin/update-password" class="text-white">
                             <div class="card-body shadow">
                                 <div class="d-flex flex-row align-items-left">
                                         <i class="fa fa-lock fa-3x" aria-hidden="true"></i>
@@ -42,7 +42,7 @@
 
                 <div class="col-md-4 grid-margin mb-4">
                     <div class="card bg-docpht d-flex align-items-left">
-                        <a href="admin/update-email" class="text-white">
+                        <a href="/admin/update-email" class="text-white">
                             <div class="card-body shadow">
                                 <div class="d-flex flex-row align-items-left">
                                         <i class="fa fa-envelope fa-3x" aria-hidden="true"></i>
@@ -59,7 +59,7 @@
                 <?php if (isset($_SESSION['Active']) && $admin == true): ?>
                 <div class="col-md-4 grid-margin mb-4">
                     <div class="card bg-docpht d-flex align-items-left">
-                        <a href="admin/remove-user" class="text-white">
+                        <a href="/admin/remove-user" class="text-white">
                             <div class="card-body shadow">
                                 <div class="d-flex flex-row align-items-left">
                                         <i class="fa fa-user-times fa-3x" aria-hidden="true"></i>
@@ -77,7 +77,7 @@
                 <?php if (isset($_SESSION['Active']) && $admin == true): ?>
                 <div class="col-md-4 grid-margin mb-4">
                     <div class="card bg-docpht d-flex align-items-left">
-                        <a href="admin/add-user" class="text-white">
+                        <a href="/admin/add-user" class="text-white">
                             <div class="card-body shadow">
                                 <div class="d-flex flex-row align-items-left">
                                         <i class="fa fa-user-plus fa-3x" aria-hidden="true"></i>
@@ -97,7 +97,7 @@
 
                 <div class="col-md-4 grid-margin mb-4">
                     <div class="card bg-docpht d-flex align-items-left">
-                        <a href="admin" class="text-white" data-toggle="modal" data-target="#shortcuts">
+                        <a href="/admin" class="text-white" data-toggle="modal" data-target="#shortcuts">
                             <div class="card-body shadow">
                                 <div class="d-flex flex-row align-items-left">
                                         <i class="fa fa-bolt fa-3x" aria-hidden="true"></i>
@@ -114,7 +114,7 @@
                 <?php if (isset($_SESSION['Active']) && $admin == true): ?>
                 <div class="col-md-4 grid-margin mb-4">
                     <div class="card bg-docpht d-flex align-items-left">
-                        <a href="admin/backup" class="text-white">
+                        <a href="/admin/backup" class="text-white">
                             <div class="card-body shadow">
                                 <div class="d-flex flex-row align-items-left">
                                         <i class="fa fa-database fa-3x" aria-hidden="true"></i>
@@ -132,7 +132,7 @@
                 <?php if (isset($_SESSION['Active']) && $admin == true): ?>
                 <div class="col-md-4 grid-margin mb-4">
                     <div class="card bg-docpht d-flex align-items-left">
-                        <a href="admin/upload-logo" class="text-white">
+                        <a href="/admin/upload-logo" class="text-white">
                             <div class="card-body shadow">
                                 <div class="d-flex flex-row align-items-left">
                                         <i class="fa fa-picture-o fa-3x" aria-hidden="true"></i>
@@ -150,7 +150,7 @@
                 <?php if (isset($_SESSION['Active']) && $admin == true): ?>
                 <div class="col-md-4 grid-margin mb-4">
                     <div class="card bg-docpht d-flex align-items-left">
-                        <a href="admin/lastlogins" class="text-white">
+                        <a href="/admin/lastlogins" class="text-white">
                             <div class="card-body shadow">
                                 <div class="d-flex flex-row align-items-left">
                                         <i class="fa fa-sign-in fa-3x" aria-hidden="true"></i>
@@ -166,11 +166,6 @@
                 <?php endif ?>
                 
             </div>
-            <?php if (isset($_SESSION['Active']) && $admin == true && $newAppVersion === true): ?>
-                <div class="text-center">
-                    <a class="btn btn-outline-success" href="https://github.com/docpht/docpht/releases/latest" target="_blank" role="button"><?= $t->trans('New version of <b>DocPHT</b> available'); ?> <i class="fa fa-download" aria-hidden="true"></i></a>
-                </div>
-            <?php endif ?>
         </div>
     </div>
     <!-- Modal keyboard shortcuts -->

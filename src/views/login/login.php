@@ -6,7 +6,7 @@
 <div class="login-container text-center">
         <?php 
             if (file_exists('json/logo.png')) {
-                echo '<a href="/doc.php"><img id="logo" src="json/logo.png?'.time().'" alt="logo" class="img-fluid mb-3"></a>';
+                echo '<a href="/doc.php"><img id="logo" src="/json/logo.png?'.time().'" alt="logo" class="img-fluid mb-3"></a>';
             } else {
                 echo '<a href="/doc.php"><h3>'.DocPHT\Core\Translator\T::trans('TITLE').' <i class="fa fa-code" aria-hidden="true"></i></h3></a>';
             }

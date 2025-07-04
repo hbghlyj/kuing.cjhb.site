@@ -12,7 +12,7 @@ if (isset($_SESSION['Active']) && $versions['state'] == 0) {
     echo '<ul class="list-inline text-right mt-4">'
             .$versions['value'].
             '<li class="list-inline-item" data-toggle="tooltip" data-placement="bottom" title="'.$t->trans("Update").'">
-                <a href="page/update" id="sk-update" class="btn btn-outline-info btn-sm" role="button"><i class="fa fa-pencil-square" aria-hidden="true"></i></a>
+                <a href="/page/update" id="sk-update" class="btn btn-outline-info btn-sm" role="button"><i class="fa fa-pencil-square" aria-hidden="true"></i></a>
             </li>
             <li class="list-inline-item" data-toggle="tooltip" data-placement="bottom" title="'.$t->trans("Delete").'">
                 <button type="button" id="sk-delete" class="btn btn-outline-danger btn-sm" data-toggle="modal" data-target="#confirmDelete">
@@ -23,14 +23,14 @@ if (isset($_SESSION['Active']) && $versions['state'] == 0) {
 } else if (isset($flatSlug) && isset($_SESSION['Active'])) {
     echo '<ul class="list-inline text-right mt-4">'
         .'<li class="list-inline-item" data-toggle="tooltip" data-placement="bottom" title="Edit markdown">'
-        .'<a href="flat_edit.php?page='.htmlspecialchars($flatSlug, ENT_QUOTES, 'UTF-8').'" class="btn btn-outline-info btn-sm" role="button">'
+        .'<a href="/flat_edit.php?page='.htmlspecialchars($flatSlug, ENT_QUOTES, 'UTF-8').'" class="btn btn-outline-info btn-sm" role="button">'
         .'<i class="fa fa-pencil-square" aria-hidden="true"></i></a>'
         .'</li>'
         .'</ul>';
 } else if (isset($_SESSION['Active']) && $versions['state'] > 0){
     echo '<ul class="list-inline text-right mt-4">'
             .'<li class="list-inline-item" data-toggle="tooltip" data-placement="bottom" title="'.$t->trans("Update").'">
-                <a href="page/update" id="sk-update" class="btn btn-outline-info btn-sm" role="button"><i class="fa fa-pencil-square" aria-hidden="true"></i></a>
+                <a href="/page/update" id="sk-update" class="btn btn-outline-info btn-sm" role="button"><i class="fa fa-pencil-square" aria-hidden="true"></i></a>
             </li>
             <li class="list-inline-item" data-toggle="tooltip" data-placement="bottom" title="'.$t->trans("Delete").'">
                 <button type="button" id="sk-delete" class="btn btn-outline-danger btn-sm" data-toggle="modal" data-target="#confirmDelete">
@@ -86,19 +86,19 @@ if (!is_null($topics)) {
                         
                         <?php if (isset($next) && isset($nextPage) && $x > 1 && $x <= 2): ?>
                         <li class="page-item">    
-                            <a class="page-link text-muted" href="<?= 'page/'.$next ?>"><?= $nextPage ?></a>
+                            <a class="page-link text-muted" href="/<?= 'page/'.$next ?>"><?= $nextPage ?></a>
                         </li>
                         <?php endif; ?>
                         
                         <?php if (isset($prev) && isset($prevPage) && $x > 2): ?>
                         <li class="page-item p-1">
-                            <a class="page-link text-muted" href="<?= 'page/'.$prev ?>"><i class="fa fa-angle-double-left" ariahidden="true"></i> <?= $prevPage ?></a>
+                            <a class="page-link text-muted" href="/<?= 'page/'.$prev ?>"><i class="fa fa-angle-double-left" ariahidden="true"></i> <?= $prevPage ?></a>
                         </li>
                         <?php endif; ?>
                         
                         <?php if (isset($next) && isset($nextPage) && $x >2): ?>
                         <li class="page-item ml-auto p-1">
-                            <a class="page-link text-muted" href="<?= 'page/'.$next ?>"><?= $nextPage ?> <i class="fa fa-angle-double-right" ariahidden="true"></i></a>
+                            <a class="page-link text-muted" href="/<?= 'page/'.$next ?>"><?= $nextPage ?> <i class="fa fa-angle-double-right" ariahidden="true"></i></a>
                         </li>
                         <?php endif; ?>
                         
@@ -125,7 +125,7 @@ if (!is_null($topics)) {
                     
                     <!-- Modal footer -->
                     <div class="modal-footer">
-                    <a href="page/delete" class="btn btn-success" role="button"><?= $t->trans('Yes'); ?></a>
+                    <a href="/page/delete" class="btn btn-success" role="button"><?= $t->trans('Yes'); ?></a>
                     <button type="button" class="btn btn-danger" data-dismiss="modal"><?= $t->trans('No'); ?></button>
                     </div>
                     
