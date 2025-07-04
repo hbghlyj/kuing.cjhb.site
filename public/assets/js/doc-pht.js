@@ -1,11 +1,11 @@
 
 /*!
  * This file is part of the DocPHT project.
- * 
+ *
  * @author Valentino Pesce
  * @copyright (c) Valentino Pesce <valentino@iltuobrand.it>
  * @copyright (c) Craig Crosby <creecros@gmail.com>
- * 
+ *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
@@ -38,7 +38,7 @@ $(document).ready(function () {
     $("#sidebar").mCustomScrollbar({
         theme: "minimal"
     });
-    
+
 $(document).ready(function () {
         var sidebar = getCookie('sidebar');
         if (sidebar === 'in') {
@@ -56,20 +56,20 @@ $(document).ready(function () {
         $('a[aria-expanded=true]').attr('aria-expanded', 'false');
     });
 
-    $('[data-toggle="tooltip"]').tooltip(); 
+    $('[data-toggle="tooltip"]').tooltip();
 
     var offset = 300,
     offset_opacity = 1200,
     scroll_top_duration = 700,
     $back_to_top = $('.top');
-    
+
     $(window).scroll(function(){
         ( $(this).scrollTop() > offset ) ? $back_to_top.addClass('cd-is-visible') : $back_to_top.removeClass('cd-is-visible cd-fade-out');
-            if( $(this).scrollTop() > offset_opacity ) { 
+            if( $(this).scrollTop() > offset_opacity ) {
                 $back_to_top.addClass('cd-fade-out');
             }
     });
-    
+
     $back_to_top.on('click', function(event){
         event.preventDefault();
             $('body,html').animate({
@@ -83,7 +83,7 @@ $(document).ready(function () {
         $('#search').addClass('open');
         $('#search > form > input[type="search"]').focus();
     });
-    
+
     $('#search, #search button.close').on('click keyup', function(event) {
         if (event.target == this || event.target.className == 'close' || event.keyCode == 27) {
             $(this).removeClass('open');
@@ -98,7 +98,7 @@ $(document).ready(function () {
         var scrolled = (winScroll / height) * 100;
         document.getElementById("scrollindicator").style.width = scrolled + "%";
     }
-    
+
     $("#last-logins-search").on("keyup", function() {
         var value = $(this).val().toLowerCase();
         $("#last-logins-table tr").filter(function() {
@@ -169,14 +169,14 @@ for (var i = 0; i < labels.length; i++) {
     if (labels[i].htmlFor !== '') {
          var elem = document.getElementById(labels[i].htmlFor);
          if (elem)
-            elem.label = labels[i];         
+            elem.label = labels[i];
     }
 }
 
 
 function updateOptionFields() {
     for (var i = 0; i < all_options.length; i++) {
-        var langParent = all_languages[i].parentNode.parentNode.parentNode || all_languages[i].parentNode.parentNode;
+        var langParent = all_languages[i].parentNode.parentNode;
         if (all_options[i].value === "codeInline") {
             all_option_content[i].label.innerHTML = 'Code:';
             langParent.style.display = "block";
@@ -235,26 +235,26 @@ updateOptionFields();
 document.addEventListener("change", updateOptionFields);
 
 if (document.getElementById('rvselect')) {
-    
+
     document.getElementById('ivhidden').value = document.getElementById('rvselect').value;
-    document.getElementById('evhidden').value = document.getElementById('rvselect').value;  
-    document.getElementById('dvhidden').value = document.getElementById('rvselect').value;  
-    
+    document.getElementById('evhidden').value = document.getElementById('rvselect').value;
+    document.getElementById('dvhidden').value = document.getElementById('rvselect').value;
+
     document.getElementById('rvselect').onchange = function() {
         document.getElementById('ivhidden').value = document.getElementById('rvselect').value;
-        document.getElementById('evhidden').value = document.getElementById('rvselect').value;    
-        document.getElementById('dvhidden').value = document.getElementById('rvselect').value;    
-    };  
+        document.getElementById('evhidden').value = document.getElementById('rvselect').value;
+        document.getElementById('dvhidden').value = document.getElementById('rvselect').value;
+    };
 
 }
 
 if (document.getElementById('rbbackup')) {
-    
+
     document.getElementById('rbbackup').onchange = function() {
         document.getElementById('ibhidden').value = document.getElementById('rbbackup').value;
-        document.getElementById('ebhidden').value = document.getElementById('rbbackup').value;    
-        document.getElementById('dbhidden').value = document.getElementById('rbbackup').value;    
-        document.getElementById('rmbhidden').value = document.getElementById('rbbackup').value;    
-    };  
+        document.getElementById('ebhidden').value = document.getElementById('rbbackup').value;
+        document.getElementById('dbhidden').value = document.getElementById('rbbackup').value;
+        document.getElementById('rmbhidden').value = document.getElementById('rbbackup').value;
+    };
 
 }
