@@ -210,9 +210,6 @@ function updateOptionFields() {
                 case "title":
                     all_option_content[i].label.innerHTML = 'Title:';
                     break;
-                case "description":
-                    all_option_content[i].label.innerHTML = 'Description:';
-                    break;
                 case "pathAdd":
                     all_option_content[i].label.innerHTML = 'Path:';
                     break;
