@@ -10,7 +10,7 @@
    * @returns {range: string, math: Array} - The range text and an array of TeX expressions.
    */
   function findTeX(old_range, options = {}) {
-    const text = old_range.toString();
+    let text = old_range.toString();
     // Default options
     const defaultOptions = {
       inlineMath: [['\\(', '\\)'], ['$', '$']],
@@ -52,14 +52,14 @@
       parts.push('\\\\begin\\s*\\{([^}]*)\\}');
     }
     if (options.processEscapes) {
-      subPatterns.push('\\\\([\\\\$])');
+      subPatterns.push('\\\\[\\\\$]');
     }
     if (options.processRefs) {
       subPatterns.push('(\\\\(?:eq)?ref\\s*\\{[^}]*\\})');
     }
     if (subPatterns.length) {
-      parts.push(`(${subPatterns.join('|')})`);
       subIndex = parts.length;
+      parts.push(`(${subPatterns.join('|')})`);
     }
 
     const startRegex = new RegExp(parts.join('|'), 'g');
@@ -116,15 +116,20 @@
       } else if (subIndex && match[subIndex] !== undefined) {
         const mathStr = match[subIndex];
         const end = match.index + mathStr.length;
-        found = {
-          open: '',
-          math: mathStr.length === 2 ? mathStr.slice(1) : mathStr,
-          close: '',
-          display: 0,
-          startIndex: match.index,
-          endIndex: end,
-        };
-        found.range = shiftRangeStart(shiftRangeEnd(old_range, found.endIndex), found.startIndex);
+        if (mathStr.length == 2){
+          shiftRangeStart(shiftRangeEnd(old_range, match.index+1), match.index).deleteContents();
+          text = old_range.toString();
+        }else{
+          found = {
+            open: '',
+            math: mathStr,
+            close: '',
+            display: 0,
+            startIndex: match.index,
+            endIndex: end,
+          };
+          found.range = shiftRangeStart(shiftRangeEnd(old_range, found.endIndex), found.startIndex);
+        }
       } else {
         found = findEnd(old_range, match, endPatterns[match[0]]);
       }

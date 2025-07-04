@@ -110,6 +110,20 @@ class MediaWikiParsedown extends ParsedownPlus
 
         return $Block;
     }
+
+    // Preserve escape sequences for backslash and dollar sign so that
+    // MathJax can handle them on the frontend without double escaping
+    protected function inlineEscapeSequence($Excerpt)
+    {
+        if (isset($Excerpt['text'][1]) && in_array($Excerpt['text'][1], ['\\', '$'])) {
+            return [
+                'markup' => substr($Excerpt['text'], 0, 2),
+                'extent' => 2,
+            ];
+        }
+
+        return parent::inlineEscapeSequence($Excerpt);
+    }
 }
 
 class DocPHT {
