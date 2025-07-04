@@ -250,6 +250,7 @@
     i.setAttribute('class', 'latex-' + ext);
     i.setAttribute('style', 'vertical-align:middle; border:0;');
     i.setAttribute('alt', cleanedFormula);
+    i.setAttribute('loading', 'lazy');
 
     isCentered && (i.style.margin = '0 0 0 auto');
 
