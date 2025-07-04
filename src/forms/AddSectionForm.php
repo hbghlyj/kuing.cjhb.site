@@ -57,9 +57,6 @@ class AddSectionForm extends MakeupForm
             ->setHtmlAttribute('data-parent', 'options')
             ->setAttribute('data-autoresize');
         
-        $form->addCheckbox('trgs', T::trans('Open in New Window?'))
-            ->setHtmlAttribute('data-parent', 'options')
-            ->setAttribute('data-autoresize');
         
         $form->addProtection(T::trans('Security token has expired, please submit the form again'));
         

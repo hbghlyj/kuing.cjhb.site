@@ -64,9 +64,6 @@ class DocBuilder
                 case 'imageURL':
 					$option = $this->imageURL($jsonVals['v1'], $jsonVals['v2']);
                     break;
-                case 'linkButton':
-					$option = $this->linkButton($jsonVals['v1'], $jsonVals['v2'], $jsonVals['v3']);
-                    break;
                 case 'markdown':
 					$option = $this->markdown($jsonVals['v1']);
                     break;
@@ -119,9 +116,6 @@ class DocBuilder
                     break;
                 case 'imageURL':
 					$option = ['key' => $values['options'], 'v1' => $values['option_content'], 'v2' => $values['names'], 'v3' => '', 'v4' => ''];
-                    break;
-                case 'linkButton':
-					$option = ['key' => $values['options'], 'v1' => $values['option_content'], 'v2' => $values['names'], 'v3' => $values['trgs'], 'v4' => ''];
                     break;
                 case 'markdown':
 					$option = ['key' => $values['options'], 'v1' => $values['option_content'], 'v2' => '', 'v3' => '', 'v4' => ''];
@@ -578,22 +572,6 @@ $identifier),\n";
         
     }
     
-    /**
-     * linkButton
-     *
-     * @param  string $src
-     * @param  string $val
-     * @param  string $trg
-     *
-     * @return string
-     */
-    public function linkButton($src,$val,$trg)
-    {
-        $val = TextHelper::e($val);
-        $src = TextHelper::e($src);
-        $out = '$html->linkButton'."('{$src}','{$val}','{$trg}'), \n";
-        return $out;
-    }
     
     /**
      * getOptions
@@ -611,9 +589,8 @@ $identifier),\n";
     	'image' => T::trans('Add image from file'),
     	'pathAdd'  => T::trans('Add path'),
     	'codeInline' => T::trans('Add code inline'),
-    	'codeFile' => T::trans('Add code from file'),
-    	'linkButton' => T::trans('Add link button')
-    	];
+        'codeFile' => T::trans('Add code from file')
+        ];
     }
 
 
