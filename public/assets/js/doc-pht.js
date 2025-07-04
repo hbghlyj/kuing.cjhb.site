@@ -174,95 +174,68 @@ for (var i = 0; i < labels.length; i++) {
 }
 
 
-for (var i = 0; i < all_options.length; i++) {
-    if (all_options[i].value == "codeInline") {
-        all_option_content[i].label.innerHTML = 'Code:';
-        all_languages[i].parentNode.parentNode.style.display = "block"; 
-        all_files[i].parentNode.parentNode.style.display = "none";
-        all_option_content[i].parentNode.parentNode.style.display = "block"; 
-        all_name[i].parentNode.parentNode.style.display = "none";    } else if (all_options[i].value == "codeFile") {
-        all_languages[i].parentNode.parentNode.style.display = "block";
-        all_files[i].parentNode.parentNode.style.display = "block"; 
-        all_option_content[i].parentNode.parentNode.style.display = "none"; 
-        all_name[i].parentNode.parentNode.style.display = "none";    } else if (all_options[i].value == "markdownFile") {
-        all_languages[i].parentNode.parentNode.style.display = "none";
-        all_files[i].parentNode.parentNode.style.display = "block"; 
-        all_option_content[i].parentNode.parentNode.style.display = "none"; 
-        all_name[i].parentNode.parentNode.style.display = "none";    } else if (all_options[i].value == "image") {
-        all_option_content[i].label.innerHTML = 'Image Name';
-        all_languages[i].parentNode.parentNode.style.display = "none";
-        all_files[i].parentNode.parentNode.style.display = "block"; 
-        all_option_content[i].parentNode.parentNode.style.display = "block"; 
-        all_name[i].parentNode.parentNode.style.display = "none";    } else if (all_options[i].value == "imageURL") {
-        all_option_content[i].label.innerHTML = 'Image URL Link:';
-        all_languages[i].parentNode.parentNode.style.display = "none";
-        all_files[i].parentNode.parentNode.style.display = "none"; 
-        all_option_content[i].parentNode.parentNode.style.display = "block"; 
-        all_name[i].parentNode.parentNode.style.display = "block";    } else {
-            switch(all_options[i].value) {
-                  case "title":
+function updateOptionFields() {
+    for (var i = 0; i < all_options.length; i++) {
+        var langParent = all_languages[i].parentNode.parentNode.parentNode || all_languages[i].parentNode.parentNode;
+        if (all_options[i].value === "codeInline") {
+            all_option_content[i].label.innerHTML = 'Code:';
+            langParent.style.display = "block";
+            all_files[i].parentNode.parentNode.style.display = "none";
+            all_option_content[i].parentNode.parentNode.style.display = "block";
+            all_name[i].parentNode.parentNode.style.display = "none";
+        } else if (all_options[i].value === "codeFile") {
+            langParent.style.display = "block";
+            all_files[i].parentNode.parentNode.style.display = "block";
+            all_option_content[i].parentNode.parentNode.style.display = "none";
+            all_name[i].parentNode.parentNode.style.display = "none";
+        } else if (all_options[i].value === "markdownFile") {
+            langParent.style.display = "none";
+            all_files[i].parentNode.parentNode.style.display = "block";
+            all_option_content[i].parentNode.parentNode.style.display = "none";
+            all_name[i].parentNode.parentNode.style.display = "none";
+        } else if (all_options[i].value === "image") {
+            all_option_content[i].label.innerHTML = 'Image Name';
+            langParent.style.display = "none";
+            all_files[i].parentNode.parentNode.style.display = "block";
+            all_option_content[i].parentNode.parentNode.style.display = "block";
+            all_name[i].parentNode.parentNode.style.display = "none";
+        } else if (all_options[i].value === "imageURL") {
+            all_option_content[i].label.innerHTML = 'Image URL Link:';
+            langParent.style.display = "none";
+            all_files[i].parentNode.parentNode.style.display = "none";
+            all_option_content[i].parentNode.parentNode.style.display = "block";
+            all_name[i].parentNode.parentNode.style.display = "block";
+        } else {
+            switch (all_options[i].value) {
+                case "title":
                     all_option_content[i].label.innerHTML = 'Title:';
                     break;
-                  case "description":
+                case "description":
                     all_option_content[i].label.innerHTML = 'Description:';
                     break;
-                  case "pathAdd":
+                case "pathAdd":
                     all_option_content[i].label.innerHTML = 'Path:';
                     break;
-                  case "path":
+                case "path":
                     all_option_content[i].label.innerHTML = 'Path:';
                     break;
-                  case "blockquote":
+                case "blockquote":
                     all_option_content[i].label.innerHTML = 'Block Quote:';
                     break;
-                  default:
+                default:
                     all_option_content[i].label.innerHTML = 'Content:';
             }
-        all_languages[i].parentNode.parentNode.style.display = "none";
-        all_files[i].parentNode.parentNode.style.display = "none"; 
-        all_option_content[i].parentNode.parentNode.style.display = "block"; 
-        all_name[i].parentNode.parentNode.style.display = "none";    }
-    
+            langParent.style.display = "none";
+            all_files[i].parentNode.parentNode.style.display = "none";
+            all_option_content[i].parentNode.parentNode.style.display = "block";
+            all_name[i].parentNode.parentNode.style.display = "none";
+        }
+    }
 }
 
-document.addEventListener("change", function(){
-    var all_options = document.querySelectorAll("[id^='frm-options']");
-    var all_languages = document.querySelectorAll("[id^='frm-language']");
-    var all_files = document.querySelectorAll("[id^='frm-file']");
-    var all_option_content = document.querySelectorAll("[id^='frm-option_content']");
-    var all_name = document.querySelectorAll("[id^='frm-names']");
-    
-    for (var i = 0; i < all_options.length; i++) {
-        if (all_options[i].value == "codeInline") {
-            all_option_content[i].label.innerHTML = 'Code:';
-            all_languages[i].parentNode.parentNode.parentNode.style.display = "block"; 
-            all_files[i].parentNode.parentNode.style.display = "none";
-            all_option_content[i].parentNode.parentNode.style.display = "block"; 
-            all_name[i].parentNode.parentNode.style.display = "none";        } else if (all_options[i].value == "codeFile") {
-            all_languages[i].parentNode.parentNode.parentNode.style.display = "block";
-            all_files[i].parentNode.parentNode.style.display = "block"; 
-            all_option_content[i].parentNode.parentNode.style.display = "none"; 
-            all_name[i].parentNode.parentNode.style.display = "none";        } else if (all_options[i].value == "markdownFile") {
-            all_languages[i].parentNode.parentNode.parentNode.style.display = "none";
-            all_files[i].parentNode.parentNode.style.display = "block"; 
-            all_option_content[i].parentNode.parentNode.style.display = "none"; 
-            all_name[i].parentNode.parentNode.style.display = "none";        } else if (all_options[i].value == "image") {
-            all_option_content[i].label.innerHTML = 'Image Name:';
-            all_languages[i].parentNode.parentNode.parentNode.style.display = "none";
-            all_files[i].parentNode.parentNode.style.display = "block"; 
-            all_option_content[i].parentNode.parentNode.style.display = "block"; 
-            all_name[i].parentNode.parentNode.style.display = "none";        } else if (all_options[i].value == "imageURL") {
-            all_option_content[i].label.innerHTML = 'Image URL Link:';
-            all_languages[i].parentNode.parentNode.parentNode.style.display = "none";
-            all_files[i].parentNode.parentNode.style.display = "none"; 
-            all_option_content[i].parentNode.parentNode.style.display = "block"; 
-            all_name[i].parentNode.parentNode.style.display = "block";        } else {
-            all_languages[i].parentNode.parentNode.parentNode.style.display = "none";
-            all_files[i].parentNode.parentNode.style.display = "none"; 
-            all_option_content[i].parentNode.parentNode.style.display = "block"; 
-            all_name[i].parentNode.parentNode.style.display = "none";        }
-    }
-});
+updateOptionFields();
+
+document.addEventListener("change", updateOptionFields);
 
 if (document.getElementById('rvselect')) {
     
