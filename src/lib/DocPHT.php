@@ -65,6 +65,51 @@ class MediaWikiParsedown extends ParsedownPlus
             return $Inline;
         }
     }
+
+    // Fix greedy LaTeX block parsing by allowing closing $$ anywhere on the line
+    protected function blockMath($Line)
+    {
+        if (preg_match('/^\\$\\$(.*)$/', $Line['text'], $matches)) {
+            $Block = array(
+                'char' => $Line['text'][0],
+                'element' => array(
+                    'name' => 'p',
+                    'text' => $Line['text'],
+                    'attributes' => array(
+                        'class' => 'block-math'
+                    )
+                ),
+            );
+
+            if (strpos($matches[1], '$$') !== false) {
+                $Block['complete'] = true;
+            }
+
+            return $Block;
+        }
+    }
+
+    protected function blockMathContinue($Line, $Block)
+    {
+        if (isset($Block['complete'])) {
+            return;
+        }
+
+        if (isset($Block['interrupted'])) {
+            $Block['element']['text'] .= "\n";
+            unset($Block['interrupted']);
+        }
+
+        if (strpos($Line['text'], '$$') !== false) {
+            $Block['element']['text'] .= "\n" . $Line['text'];
+            $Block['complete'] = true;
+            return $Block;
+        }
+
+        $Block['element']['text'] .= "\n" . $Line['body'];
+
+        return $Block;
+    }
 }
 
 class DocPHT {
