@@ -21,8 +21,16 @@ class MediaWikiParsedown extends ParsedownPlus
     {
         parent::__construct();
         $this->InlineTypes['['][] = 'MediaWikiUrl';
+
+        // disable underscore for emphasis to allow LaTeX formulas
+        unset($this->InlineTypes['_']);
+        $this->inlineMarkerList = str_replace('_', '', $this->inlineMarkerList);
+        if (($k = array_search('_', $this->specialCharacters, true)) !== false) {
+            unset($this->specialCharacters[$k]);
+        }
+        unset($this->StrongRegex['_'], $this->EmRegex['_']);
     }
-    protected $inlineMarkerList = '!*_&[:<`~\\';
+    protected $inlineMarkerList = '!*&[:<`~\\';
 
     protected function inlineMediaWikiUrl($Excerpt)
     {
