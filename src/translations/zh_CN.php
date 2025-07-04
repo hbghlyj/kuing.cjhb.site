@@ -27,7 +27,6 @@
         'Add image' => '添加图片',
         'Add markdown' => '添加 Markdown',
         'Add markdown from file' => '从文件添加 Markdown',
-        'Add link button' => '添加链接按钮',
         'Options:' => '选项：',
         'Select an option' => '选择一个选项',
         'Language:' => '语言：',

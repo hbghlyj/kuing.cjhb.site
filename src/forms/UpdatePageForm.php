@@ -73,16 +73,10 @@ class UpdatePageForm extends MakeupForm
                     $form['option_content'.$index]->setDefaultValue($fields['v1']);
                 }
                 
-                if ($fields['key'] == 'imageURL' || $fields['key'] == 'linkButton') { 
-                    $name = $fields['v2']; 
-                } else { 
-                    $name = $fields['v1']; 
-                }
-                
-                if ($fields['key'] == 'linkButton') { 
-                    ($fields['v3']) ? $trg = true : $trg = false; 
-                } else { 
-                    $trg = false; 
+                if ($fields['key'] == 'imageURL') {
+                    $name = $fields['v2'];
+                } else {
+                    $name = $fields['v1'];
                 }
             
                 $form->addTextArea('names'.$index, T::trans('Name'))
@@ -90,10 +84,6 @@ class UpdatePageForm extends MakeupForm
                     ->setAttribute('data-autoresize')
                 	->setDefaultValue($name);
                 	
-                $form->addCheckbox('trgs'.$index, T::trans('Open in New Window?'))
-                    ->setHtmlAttribute('data-parent', 'options'.$index)
-                    ->setAttribute('data-autoresize')
-                	->setDefaultValue($trg);
             
         $index++;
         	
@@ -113,7 +103,6 @@ class UpdatePageForm extends MakeupForm
                             'option_content'=> (isset($values['option_content'.$x])) ? $values['option_content'.$x] : '',
                             'language'      => (isset($values['language'.$x])) ? $values['language'.$x] : '',
                             'names'         => (isset($values['names'.$x])) ? $values['names'.$x] : '',
-                            'trgs'          => (isset($values['trgs'.$x])) ? $values['trgs'.$x] : '',
                             'file'          => ($values['file'.$x]->hasFile()) ? $values['file'.$x] : $page[$x]['v1']
                             );
             
