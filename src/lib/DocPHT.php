@@ -24,7 +24,6 @@ class MediaWikiParsedown extends ParsedownPlus
 
         // disable underscore for emphasis to allow LaTeX formulas
         unset($this->InlineTypes['_']);
-        $this->inlineMarkerList = str_replace('_', '', $this->inlineMarkerList);
         if (($k = array_search('_', $this->specialCharacters, true)) !== false) {
             unset($this->specialCharacters[$k]);
         }
