@@ -31,13 +31,15 @@ if ($markdown === null) {
     $markdown = '';
 }
 
+$saveError = null;
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $content = $_POST['markdown'] ?? '';
-    if ($model->put($slug, $content)) {
+    // Use submitted content for saving and for redisplaying on failure
+    $markdown = $_POST['markdown'] ?? '';
+    if ($model->put($slug, $markdown)) {
         header('Location: flat_doc.php?page=' . rawurlencode($slug));
         exit;
     }
-    echo 'Failed to save';
+    $saveError = 'Failed to save the page. Please try again.';
 }
 
 $view = new View();
@@ -46,6 +48,11 @@ include 'src/views/partial/sidebar_button.php';
 ?>
 <div class="card fade-in-fwd">
     <div class="card-body">
+        <?php if ($saveError): ?>
+            <div class="alert alert-danger" role="alert">
+                <?= htmlspecialchars($saveError, ENT_QUOTES, 'UTF-8') ?>
+            </div>
+        <?php endif; ?>
         <form method="post">
             <div class="form-group">
                 <textarea name="markdown" class="form-control" rows="20" data-autoresize required><?php echo htmlspecialchars($markdown); ?></textarea>
