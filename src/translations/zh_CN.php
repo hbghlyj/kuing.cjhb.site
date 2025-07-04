@@ -18,7 +18,6 @@
         'Page name' => '页面名称',
         'Enter page name' => '输入页面名称',
         'Add title' => '添加标题',
-        'Add description' => '添加描述',
         'Add path' => '添加路径',
         'Aggiungi percorso' => '添加路径',
         'Add code inline' => '添加内联代码',

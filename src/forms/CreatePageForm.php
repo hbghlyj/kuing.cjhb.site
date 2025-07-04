@@ -64,9 +64,6 @@ class CreatePageForm extends MakeupForm
             ->setRequired(T::trans('Title is required.'))
             ->setDefaultValue(isset($_GET['title']) ? htmlspecialchars($_GET['title'], ENT_QUOTES, 'UTF-8') : '');
 
-        $form->addTextArea('description', T::trans('Description'))
-            ->setHtmlAttribute('placeholder', T::trans('Enter a description'))
-            ->setRequired(T::trans('Description is required.'));
 
         $form->addUpload('file', T::trans('Add an image or a code file'))
             ->setRequired(false)
@@ -92,10 +89,6 @@ class CreatePageForm extends MakeupForm
             $ok = $ok && $this->pageModel->addPageData(
                 $id,
                 $this->doc->valuesToArray(['options' => 'title', 'option_content' => $values['title']])
-            );
-            $ok = $ok && $this->pageModel->addPageData(
-                $id,
-                $this->doc->valuesToArray(['options' => 'description', 'option_content' => $values['description']])
             );
 
             $file = $values['file'];
