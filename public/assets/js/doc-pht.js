@@ -164,9 +164,12 @@ $('tbody').each(function(){
     function updateRange(){
         var startIndex = $tb.find('tr.range-handle.start').index();
         var endIndex = $tb.find('tr.range-handle.end').index();
-        if (startIndex > endIndex) { var t = startIndex; startIndex = endIndex; endIndex = t; }
-        $tb.find('tr').removeClass('range-middle');
-        $tb.find('tr').slice(startIndex + 1, endIndex).addClass('range-middle');
+        var minIndex = Math.min(startIndex, endIndex);
+        var maxIndex = Math.max(startIndex, endIndex);
+        $tb.find('tr')
+            .removeClass('range-middle')
+            .slice(minIndex + 1, maxIndex)
+            .addClass('range-middle');
     }
 
     $tb.sortable({
