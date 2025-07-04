@@ -23,8 +23,8 @@
 
     const startPatterns = [];
     const endPatterns = {};
-    let envIndex = 0;
-    let subIndex = 0;
+    let envIndex = 0; //The index of the \begin...\end pattern in the regex match array
+    let subIndex = 0; //The index of the \ref and escaped character patterns in the regex match array
     const subPatterns = [];
 
     // Function to quote a pattern for regex
@@ -70,7 +70,7 @@
       let i = pattern.lastIndex = start.index + start[0].length;
       let match, found;
       let braces = 0;
-      while ((match = pattern.exec(text))) {
+      while (match = pattern.exec(text)) {
         if ((match[1] || match[0]) === close && braces === 0) {
           found = {
             open: start[0],
@@ -80,7 +80,7 @@
             startIndex: start.index,
             endIndex: match.index + match[0].length,
           };
-          found.range = shiftRangeStart(shiftRangeEnd(old_range, found.endIndex), found.startIndex)
+          found.range = shiftRangeStart(shiftRangeEnd(old_range, found.endIndex), found.startIndex);
           return found;
         } else if (match[0] === '{') {
           braces++;
@@ -96,22 +96,24 @@
     startRegex.lastIndex = 0;
     while (match = startRegex.exec(text)) {
       let found;
-      if (match[envIndex] !== undefined && envIndex) {
+      if (envIndex && match[envIndex] !== undefined) {
         const end = new RegExp(`\\\\end\\s*(\\{${quotePattern(match[envIndex])}\\})`, 'g');
         found = findEnd(old_range, match, ['{' + match[envIndex] + '}', 1, end]);
         if (found) {
-          const m = found.close.match(/^\{(?:equation|align|gather|alignat|multline|flalign)(\*?)\}$/);
+          const m = found.close.match(/\{(?:equation|align|gather|alignat|multline|flalign)(\*?)\}$/);
           if (m) {
             const group = m[1];
             if (group === '') {
-              found.close = found.close.replace(/^\{(.*?)\}$/, '{$1*}');
+              found.open = found.open.replace(/\{(.*?)\}$/, '{$1*}');
+              found.close = found.close.replace(/\{(.*?)\}$/, '{$1*}');
             }
           }
+          found.math = found.open + found.math + found.close;
         } else {
           // not found, so move \begin{env}... to the start of next text node
           pending_startOffset = match.index;
         }
-      } else if (match[subIndex] !== undefined && subIndex) {
+      } else if (subIndex && match[subIndex] !== undefined) {
         const end = match.index + match[subIndex].length;
         found = {
           open: '',
@@ -283,7 +285,7 @@
 
       // If no next sibling, move up the DOM tree
       while (!currentNode.nextSibling) {
-        currentNode = currentNode.parentNode
+        currentNode = currentNode.parentNode;
       }
       currentNode = currentNode.nextSibling;
     }
@@ -297,7 +299,7 @@
     if (remainingOffset == 0) return newRange;
     let currentNode = range.endContainer;
     let currentOffset = range.endOffset;
-    
+
     // Traverse nodes to find the new end container and offset
     while (currentNode && remainingOffset > 0) {
       while (currentNode.lastChild) {
@@ -315,7 +317,7 @@
 
       // If no previous sibling, move up the DOM tree
       while (!currentNode.previousSibling) {
-        currentNode = currentNode.parentNode
+        currentNode = currentNode.parentNode;
       }
       currentNode = currentNode.previousSibling;
     }
