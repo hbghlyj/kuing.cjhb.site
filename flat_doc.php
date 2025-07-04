@@ -34,17 +34,51 @@ if ($markdown === null) {
     exit;
 }
 
+
+// Parse markdown to HTML and split by headers
+$parsedown = new \DocPHT\Lib\MediaWikiParsedown();
+$htmlContent = $parsedown->text($markdown);
+
+$parts = preg_split('/(<h[1-6][^>]*>.*?<\/h[1-6]>)/i', $htmlContent, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
+
+$segments = [];
+$current = '';
+$anchors = [];
+
+foreach ($parts as $part) {
+    if (preg_match('/^<h[1-6][^>]*>(.*?)<\/h[1-6]>$/is', trim($part), $m)) {
+        if ($current !== '') {
+            $segments[] = ['type' => 'markdown', 'text' => $current];
+            $current = '';
+        }
+        $titleText = strip_tags($m[1]);
+        $anchor = preg_replace('/[^a-z0-9]+/i', '-', strtolower($titleText));
+        $segments[] = ['type' => 'title', 'text' => $titleText, 'anchor' => $anchor];
+        $anchors[] = $anchor;
+    } else {
+        $current .= $part;
+    }
+}
+if ($current !== '') {
+    $segments[] = ['type' => 'markdown', 'text' => $current];
+}
+
 // Build a minimal DocPHT page structure
 $_SESSION['page_id'] = 'flat_' . md5($slug);
 
 $view = new View();
 $view->show('partial/head.php', ['PageTitle' => htmlspecialchars($slug, ENT_QUOTES, 'UTF-8')]);
 
-$html = new DocPHT([$slug]);
-$values = [
-    $html->markdown($markdown),
-    $html->addButton(),
-];
+$html = new DocPHT($anchors);
+$values = [];
+foreach ($segments as $segment) {
+    if ($segment['type'] === 'title') {
+        $values[] = $html->title($segment['text'], $segment['anchor']);
+    } else {
+        $values[] = $html->markdown($segment['text']);
+    }
+}
+$values[] = $html->addButton();
 
 $view->show('page/page.php', ['values' => $values]);
 $view->show('partial/footer.php');
