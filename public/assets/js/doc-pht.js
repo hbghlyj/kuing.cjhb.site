@@ -64,10 +64,14 @@ $(document).ready(function () {
     $back_to_top = $('.top');
 
     $(window).scroll(function(){
-        ( $(this).scrollTop() > offset ) ? $back_to_top.addClass('cd-is-visible') : $back_to_top.removeClass('cd-is-visible cd-fade-out');
-            if( $(this).scrollTop() > offset_opacity ) {
-                $back_to_top.addClass('cd-fade-out');
-            }
+        if ($(this).scrollTop() > offset) {
+            $back_to_top.addClass('cd-is-visible');
+        } else {
+            $back_to_top.removeClass('cd-is-visible cd-fade-out');
+        }
+        if ($(this).scrollTop() > offset_opacity) {
+            $back_to_top.addClass('cd-fade-out');
+        }
     });
 
     $back_to_top.on('click', function(event){
@@ -90,7 +94,9 @@ $(document).ready(function () {
         }
     });
 
-    window.onscroll = function() {pageScrollIndicator()};
+    window.onscroll = function() {
+        pageScrollIndicator();
+    };
 
     function pageScrollIndicator() {
         var winScroll = document.body.scrollTop || document.documentElement.scrollTop;
@@ -102,7 +108,7 @@ $(document).ready(function () {
     $("#last-logins-search").on("keyup", function() {
         var value = $(this).val().toLowerCase();
         $("#last-logins-table tr").filter(function() {
-        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
         });
     });
 
@@ -209,12 +215,6 @@ function updateOptionFields() {
             switch (all_options[i].value) {
                 case "title":
                     all_option_content[i].label.innerHTML = 'Title:';
-                    break;
-                case "pathAdd":
-                    all_option_content[i].label.innerHTML = 'Path:';
-                    break;
-                case "path":
-                    all_option_content[i].label.innerHTML = 'Path:';
                     break;
                 case "blockquote":
                     all_option_content[i].label.innerHTML = 'Block Quote:';
