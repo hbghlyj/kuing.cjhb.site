@@ -1,0 +1,3 @@
+# 球形邻域
+
+设$(X,\rho)$是[[度量空间]]，$a\in X$。对任意给定的$\varepsilon>0$，集合$B(a,\varepsilon)=\{x\in X: \rho(x,a)<\varepsilon\}$称为点$a$的一个$\varepsilon$<b>球形邻域</b>。
