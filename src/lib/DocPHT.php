@@ -206,18 +206,6 @@ class DocPHT {
         }
     }
 
-    /**
-     * blockquote
-     *
-     * @param  string $blockquote
-     *
-     * @return string
-     */
-    public function blockquote(string $blockquote)
-    {
-       $blockquote = nl2br($blockquote);
-       return '<tr>'. ((isset($_SESSION['Active'])) ? '<td class="handle"><i class="fa fa-arrows-v sort"></i></td>' : '') . '<td><blockquote>'.$blockquote.' '.$this->insertBeforeButton().$this->removeButton().$this->modifyButton().$this->insertAfterButton().'</blockquote></td></tr>';
-    }
 
     /**
      * codeInline

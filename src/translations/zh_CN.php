@@ -20,7 +20,6 @@
         'Add title' => '添加标题',
         'Add code inline' => '添加内联代码',
         'Add code from file' => '从文件添加代码',
-        'Add blockquote' => '添加引用块',
         'Add image' => '添加图片',
         'Add markdown' => '添加 Markdown',
         'Add markdown from file' => '从文件添加 Markdown',

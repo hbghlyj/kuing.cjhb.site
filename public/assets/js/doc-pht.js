@@ -216,9 +216,6 @@ function updateOptionFields() {
                 case "title":
                     all_option_content[i].label.innerHTML = 'Title:';
                     break;
-                case "blockquote":
-                    all_option_content[i].label.innerHTML = 'Block Quote:';
-                    break;
                 default:
                     all_option_content[i].label.innerHTML = 'Content:';
             }
