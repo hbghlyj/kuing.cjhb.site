@@ -20,6 +20,13 @@ if (isset($_SESSION['Active']) && $versions['state'] == 0) {
                 </button>
             </li>
         </ul>';
+} else if (isset($flatSlug) && isset($_SESSION['Active'])) {
+    echo '<ul class="list-inline text-right mt-4">'
+        .'<li class="list-inline-item" data-toggle="tooltip" data-placement="bottom" title="Edit markdown">'
+        .'<a href="flat_edit.php?page='.htmlspecialchars($flatSlug, ENT_QUOTES, 'UTF-8').'" class="btn btn-outline-info btn-sm" role="button">'
+        .'<i class="fa fa-pencil-square" aria-hidden="true"></i></a>'
+        .'</li>'
+        .'</ul>';
 } else if (isset($_SESSION['Active']) && $versions['state'] > 0){
     echo '<ul class="list-inline text-right mt-4">'
             .'<li class="list-inline-item" data-toggle="tooltip" data-placement="bottom" title="'.$t->trans("Update").'">
