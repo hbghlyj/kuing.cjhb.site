@@ -1,0 +1,14 @@
+# 圆锥曲线
+
+\begin{proposition}
+设$PT$是过圆锥曲线$\rho(\theta)=\frac{ep}{1-e\cos\theta}$焦点$F$的弦，若$PT$的倾斜角为$\alpha$，则有$\abs{PT}=\frac{2ep}{\abs{1-e^2\cos^2\alpha}}$。
+\end{proposition}
+\begin{proof}
+由极径的几何意义知
+$$
+\abs{PT}
+=\abs{\rho(\alpha)+\rho(\pi+\alpha)}
+=\abs{\frac{ep}{1-e\cos\alpha}+\frac{ep}{1-e\cos(\pi+\alpha)}}
+=\frac{2ep}{\abs{1-e^2\cos^2\alpha}}
+$$
+\end{proof}

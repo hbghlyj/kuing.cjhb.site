@@ -1,0 +1,3 @@
+# 开集
+
+设$A$是度量空间$X$的一个子集，若对任意的$a\in A$都存在实数$\varepsilon_a>0$使得[[球形邻域]]$B(a,\varepsilon_a)\subseteq A$，则称$A$是度量空间$X$中的一个<b>开集</b>。
