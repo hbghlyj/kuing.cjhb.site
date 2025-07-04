@@ -258,19 +258,6 @@ class DocPHT {
     }
 
     /**
-     * path
-     *
-     * @param  string $path
-     *
-     * @return string
-     */
-    public function path(string $path)
-    {
-       return '<tr>'. ((isset($_SESSION['Active'])) ? '<td class="handle"><i class="fa fa-arrows-v sort"></i></td>' : '') . '<td><p class="urlcode">'.$path.' '.$this->insertBeforeButton().$this->removeButton().$this->modifyButton().$this->insertAfterButton().'</p></td></tr>';  
-    }
-
-
-    /**
      * image
      *
      * @param  string $src

@@ -43,12 +43,6 @@ class DocBuilder
                 case 'title':
                     $option = $this->title($jsonVals['v1'],$jsonVals['v1']);
                     break;
-                case 'pathAdd':
-                    $option = $this->pathAdd($jsonVals['v1']);
-                    break;
-                case 'path':
-                    $option = $this->pathAdd($jsonVals['v1']);
-                    break;
                 case 'codeInline':
                     $option = $this->codeInline($jsonVals['v1'],$jsonVals['v2']);
                     break;
@@ -97,9 +91,6 @@ class DocBuilder
         if (isset($values['options'])) {
             switch ($values['options']) {
                 case 'title':
-                    $option = ['key' => $values['options'], 'v1' => $values['option_content'], 'v2' => '', 'v3' => '', 'v4' => ''];
-                    break;
-                case 'pathAdd':
                     $option = ['key' => $values['options'], 'v1' => $values['option_content'], 'v2' => '', 'v3' => '', 'v4' => ''];
                     break;
                 case 'codeInline':
@@ -163,13 +154,12 @@ class DocBuilder
         $anchors = [];
         $values = [];
         
-		foreach ($data as $vals) {
-		    $vals = $vals;
+                foreach ($data as $vals) {
             $values[] = $this->jsonSwitch($vals);
-    			if ($vals['key'] == "title") {
-    			    $anchors[] = "'".TextHelper::e($vals['v1'])."'";
-    			}
-		}
+                        if ($vals['key'] == "title") {
+                            $anchors[] = "'".TextHelper::e($vals['v1'])."'";
+                        }
+                }
 			
         $file = "<?php\n\n"
                 .'$_SESSION'."['page_id'] = '".$id."';\n\n"
@@ -380,58 +370,12 @@ class DocBuilder
      */
     public function title($val,$anch)
     {
-    	$val = TextHelper::e($val);
+        $val = TextHelper::e($val);
         $anch = TextHelper::e($anch);
         $out = '$html->title'."('{$val}','{$anch}'), \n";
         return $out;
     }
-    
-    /**
-     * path
-     *
-     * @param  string $val
-     * @param  string $ext
-     *
-     * @return string
-     */
-    public function path($val,$ext)
-    {
-        $val = TextHelper::e($val);
-        $ext = TextHelper::e($ext);
-        $out = '$html->path'."('pages/{$val}.{$ext}'), \n";
-        return $out; 
-    }
 
-    /**
-     * pathHome
-     *
-     * @param  string $val
-     * @param  string $ext
-     *
-     * @return string
-     */
-    public function pathHome($val,$ext)
-    {
-        $val = TextHelper::e($val);
-        $ext = TextHelper::e($ext);
-        $out = '$html->path'."('json/{$val}.{$ext}'), \n";
-        return $out; 
-    }
-    
-    /**
-     * pathAdd
-     *
-     * @param  string $val
-     *
-     * @return string
-     */
-    public function pathAdd($val)
-    {
-        $val = TextHelper::e($val);
-        $out = '$html->path'."('{$val}'), \n";
-        return $out; 
-    }
-    
     /**
      * codeInline
      *
@@ -586,9 +530,8 @@ $identifier),\n";
     	'markdownFile' => T::trans('Add markdown from file'),
     	'imageURL' => T::trans('Add image from url'),
     	'blockquote' => T::trans('Add blockquote'),
-    	'image' => T::trans('Add image from file'),
-    	'pathAdd'  => T::trans('Add path'),
-    	'codeInline' => T::trans('Add code inline'),
+        'image' => T::trans('Add image from file'),
+        'codeInline' => T::trans('Add code inline'),
         'codeFile' => T::trans('Add code from file')
         ];
     }

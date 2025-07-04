@@ -433,13 +433,6 @@ blockquote p {
     display: inline;
 }
   
-.urlcode {
-    font-size: 87.5%;
-    color: #353b48;
-    background: #eee;
-    padding: 10px;
-}
-
 code {
     font-size: 87.5%;
     color: #e83e8c;
@@ -448,14 +441,6 @@ code {
     padding: 3px;
 }
 
-.urlcode:before {
-    font-family: "FontAwesome";
-    content: "\f1c9";
-    display: inline-block;
-    padding-right: 3px;
-    vertical-align: middle;
-    font-weight: 900;
-}
   
 ::selection{background:rgba(113,113,113,0.5);color:#ffffff}::-moz-selection{background:rgba(113,113,113,0.5);color:#ffffff}
 
