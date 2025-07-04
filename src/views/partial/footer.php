@@ -11,7 +11,7 @@
             <?php endif ?>
         </div> <!-- end Page Content  -->
     </div> <!-- end wrapper -->
-    
+
     <a href="#page-top" class="top">
       <i class="fa fa-chevron-circle-up fa-2x" aria-hidden="true"></i>
     </a>
@@ -42,8 +42,7 @@
     <!-- AnchorJS -->
     <script src="public/assets/js/anchor.min.js"></script>
     <script>
-        anchors.options.placement = 'left';
-        anchors.add('h2');
+        anchors.add('h1,h2,h3,h4,h5,h6');
     </script>
 </body>
 
