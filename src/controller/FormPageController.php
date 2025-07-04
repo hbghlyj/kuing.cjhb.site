@@ -63,10 +63,6 @@ class FormPageController extends BaseController
 		$form = $this->removeSectionForm->create();
 	}
 	
-	public function getSortSectionForm()
-	{
-		$form = $this->sortSectionForm->create();
-	}
 	
 	public function getDeletePageForm()
 	{

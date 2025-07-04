@@ -2,11 +2,11 @@
 
 /**
  * This file is part of the DocPHT project.
- * 
+ *
  * @author Valentino Pesce
  * @copyright (c) Valentino Pesce <valentino@iltuobrand.it>
  * @copyright (c) Craig Crosby <creecros@gmail.com>
- * 
+ *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
@@ -151,12 +151,12 @@ class DocPHT {
     public function title(string $title, string $anchorLinkID = null)
     {
        if (isset($anchorLinkID)) {
-        return '<tr>'. ((isset($_SESSION['Active'])) ? '<td class="handle"><i class="fa fa-arrows-v sort"></i></td>' : '') . '<td><h2 class="mt-3 mb-3" id="'.$anchorLinkID.'">'.$title.' '.$this->insertBeforeButton().$this->removeButton().$this->modifyButton().$this->insertAfterButton().'</h2></td></tr>';
-       } 
-       return '<tr>'. ((isset($_SESSION['Active'])) ? '<td class="handle"><i class="fa fa-arrows-v sort"></i></td>' : '') . '<td><h2 class="mt-3 mb-3">'.$title.' '.$this->insertBeforeButton().$this->removeButton().$this->modifyButton().$this->insertAfterButton().' </h2></td></tr>';
+        return '<tr><td></td><td><h2 class="mt-3 mb-3" id="'.$anchorLinkID.'">'.$title.' '.$this->insertBeforeButton().$this->removeButton().$this->modifyButton().$this->insertAfterButton().'</h2></td></tr>';
+       }
+       return '<tr><td></td><td><h2 class="mt-3 mb-3">'.$title.' '.$this->insertBeforeButton().$this->removeButton().$this->modifyButton().$this->insertAfterButton().' </h2></td></tr>';
     }
 
-    
+
     /**
      * anchorLinks
      *
@@ -199,10 +199,13 @@ class DocPHT {
                         <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                             <i class="fa fa-align-justify"></i>
                         </button>
-                        
+
                     </div>
                 </nav>
                 <div class="table-responsive"><table class="sortable" width="100%"><tbody>';
+        }
+        if (isset($_SESSION['Active'])) {
+            echo '<tr class="range-handle start border-bottom text-muted"><td><i class="fa fa-arrow-down sort"></i></td><td>Begin Edit</td></tr>';
         }
     }
 
@@ -216,8 +219,8 @@ class DocPHT {
      * @return string
      */
     public function codeInline(string $language, string $snippet)
-    {   
-        return '<tr>'. ((isset($_SESSION['Active'])) ? '<td class="handle"><i class="fa fa-arrows-v sort"></i></td>' : '') . '<td><pre>
+    {
+        return '<tr>'. ((isset($_SESSION['Active'])) ? '<td><i class="fa fa-arrows-v sort"></i></td>' : '') . '<td><pre>
                     <code class="language-'.$language.'">
                         <script type="prism-'.$language.'">
                             '.$snippet.'
@@ -235,8 +238,8 @@ class DocPHT {
      * @return string
      */
     public function codeFile(string $language, string $filePath)
-    {   
-        return '<tr>'. ((isset($_SESSION['Active'])) ? '<td class="handle"><i class="fa fa-arrows-v sort"></i></td>' : '') . '<td><pre>
+    {
+        return '<tr><td></td><td><pre>
                     <code class="language-'.$language.'">
                         <script type="prism-'.$language.'">
                             '.file_get_contents('json/'.$filePath).'
@@ -255,9 +258,9 @@ class DocPHT {
      */
     public function image(string $src, string $title)
     {
-        return '<tr>'. ((isset($_SESSION['Active'])) ? '<td class="handle"><i class="fa fa-arrows-v sort"></i></td>' : '') . '<td><img src="/json/'.$src.'" class="img-fluid mb-3" alt="'.$title.'">'.$this->insertBeforeButton().$this->removeButton().$this->modifyButton().$this->insertAfterButton().'</td></tr>';
+        return '<tr><td></td><td><img src="/json/'.$src.'" class="img-fluid mb-3" alt="'.$title.'">'.$this->insertBeforeButton().$this->removeButton().$this->modifyButton().$this->insertAfterButton().'</td></tr>';
     }
-    
+
     /**
      * imageURL
      *
@@ -268,7 +271,7 @@ class DocPHT {
      */
     public function imageURL(string $src, string $title)
     {
-        return '<tr>'. ((isset($_SESSION['Active'])) ? '<td class="handle"><i class="fa fa-arrows-v sort"></i></td>' : '') . '<td><img src="/'.$src.'" class="img-fluid mb-3" alt="'.$title.'">'.$this->insertBeforeButton().$this->removeButton().$this->modifyButton().$this->insertAfterButton().'</td></tr>';
+        return '<tr><td></td><td><img src="/'.$src.'" class="img-fluid mb-3" alt="'.$title.'">'.$this->insertBeforeButton().$this->removeButton().$this->modifyButton().$this->insertAfterButton().'</td></tr>';
     }
 
 
@@ -283,7 +286,7 @@ class DocPHT {
     public function markdown(string $text)
     {
         $Parsedown = new MediaWikiParsedown();
-        $markdown = '<tr>'. ((isset($_SESSION['Active'])) ? '<td class="handle"><i class="fa fa-arrows-v sort"></i></td>' : '') . '<td class="markdown-col">';
+        $markdown = '<tr><td></td><td class="markdown-col">';
         $markdown .= $Parsedown->text($text);
         $markdown .= $this->insertBeforeButton().$this->removeButton().$this->modifyButton().$this->insertAfterButton().'</td></tr>';
         return $markdown;
@@ -297,9 +300,9 @@ class DocPHT {
      * @return string
      */
     public function markdownFile(string $filePath)
-    {   
+    {
         $Parsedown = new MediaWikiParsedown();
-        $markdown = '<tr>'. ((isset($_SESSION['Active'])) ? '<td class="handle"><i class="fa fa-arrows-v sort"></i></td>' : '') . '<td class="markdown-col">';
+        $markdown = '<tr><td></td><td class="markdown-col">';
         $markdown .= $Parsedown->text(file_get_contents('json/'.$filePath));
         $markdown .= $this->insertBeforeButton().$this->removeButton().$this->modifyButton().$this->insertAfterButton().'</td></tr>';
         return $markdown;
@@ -314,13 +317,15 @@ class DocPHT {
     public function addButton()
     {
         if (isset($_SESSION['Active'])) {
-            return '<tr><td class="handle-disabled"></td><td><ul class="list-inline text-left mt-4">
+            return '<tr class="range-handle end border-top text-muted"><td class="handle"><i class="fa fa-arrow-up sort"></i></td><td>End Edit</td></tr>
+            <tr><td></td><td><ul class="list-inline text-left mt-4">
                     <li class="list-inline-item" data-toggle="tooltip" data-placement="bottom" title="'.T::trans('Add').'">
                         <a href="/page/add-section" id="sk-add" class="btn btn-outline-success btn-sm" role="button">
                             <i class="fa fa-plus-square" aria-hidden="true"></i>
                         </a>
                     </li>
-                </ul></td></tr></tbody></table></div>';
+                </ul></td></tr>
+                </tbody></table></div>';
         } else {
             return '</tbody></table></div>';
         }
@@ -344,7 +349,7 @@ class DocPHT {
             return '';
         }
     }
-    
+
     /**
      * modifyButton
      *
@@ -363,7 +368,7 @@ class DocPHT {
             return '';
         }
     }
-    
+
     /**
      * insertBeforeButton
      *
@@ -382,7 +387,7 @@ class DocPHT {
             return '';
         }
     }
-    
+
     /**
      * InsertAfterButton
      *
@@ -400,7 +405,7 @@ class DocPHT {
         } else {
             return '';
         }
-    }    
+    }
 
 
 }

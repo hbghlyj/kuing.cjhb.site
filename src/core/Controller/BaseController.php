@@ -31,7 +31,6 @@ use DocPHT\Form\DeletePageForm;
 use DocPHT\Form\UpdatePageForm;
 use DocPHT\Form\UploadLogoForm;
 use DocPHT\Core\Session\Session;
-use DocPHT\Form\SortSectionForm;
 use DocPHT\Model\AccessLogModel;
 use DocPHT\Form\TranslationsForm;
 use DocPHT\Form\InsertSectionForm;
@@ -52,7 +51,6 @@ class BaseController
 	protected $insertSectionForm;
 	protected $modifySectionForm;
 	protected $removeSectionForm;
-	protected $sortSectionForm;
 	protected $msg;
 	protected $versionForms;
 	protected $backupsForms;
@@ -78,7 +76,6 @@ class BaseController
 		$this->insertSectionForm = new InsertSectionForm();
 		$this->modifySectionForm = new ModifySectionForm();
 		$this->removeSectionForm = new RemoveSectionForm();
-		$this->sortSectionForm = new SortSectionForm();
 		$this->msg = new FlashMessages();
 		$this->versionForms = new VersionForms();
 		$this->backupsForms = new BackupsForms();

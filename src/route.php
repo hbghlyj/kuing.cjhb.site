@@ -118,8 +118,6 @@ $route->group('/page', function()
         $this->get_post('/modify', 'DocPHT\Controller\FormPageController@getModifySectionForm');
         // /page/remove
         $this->get_post('/remove', 'DocPHT\Controller\FormPageController@getRemoveSectionForm');
-        // /page/sort
-        $this->get_post('/sort', 'DocPHT\Controller\FormPageController@getSortSectionForm');
         // /page/delete
         $adminModel = new AdminModel(); 
         if ($adminModel->checkUserIsAdmin($_SESSION['Username']) == true) {

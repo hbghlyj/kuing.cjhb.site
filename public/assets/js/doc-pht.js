@@ -152,18 +152,14 @@ function addAutoResize() {
 
 addAutoResize();
 
-$('tbody').sortable({
-    handle: ".handle",
-    placeholder: "highlight",
-    start: function(event, ui){ $(ui.item).data('startindex', ui.item.index()); },
-    update: function(event, ui){ $(ui.item).data('updateindex', ui.item.index()); },
-    deactivate: function( event, ui ) {
-        location.href='page/sort?o=' +  $(ui.item).data().startindex + '&n=' +  $(ui.item).data().updateindex;
-    }
+// vertical range
+$('table.sortable tbody').sortable({
+    items: 'tr',
+    cancel: 'tr:not(.range-handle)',
+    placeholder: 'highlight'
 });
 
 // Forms dependent hide and show
-
 var all_options = document.querySelectorAll("[id^='frm-options']");
 var all_languages = document.querySelectorAll("[id^='frm-language']");
 var all_files = document.querySelectorAll("[id^='frm-file']");

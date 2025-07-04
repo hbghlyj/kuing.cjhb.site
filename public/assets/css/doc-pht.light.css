@@ -42,7 +42,7 @@ textarea {
     height: 3px;
     background: transparent;
   }
-  
+
 .progress-bar {
     height: 3px;
     background: rgba(108, 117, 125, 0.5);
@@ -83,11 +83,6 @@ textarea {
     height: 1px;
     border-bottom: 1px dashed #ddd;
     margin: 40px 0;
-}
-
-i.fa.fa-arrows-v.sort {
-    font-size:x-large;
-    color: #c1c1c1;
 }
 
 .top {
@@ -232,7 +227,7 @@ i.fa.fa-arrows-v.sort {
 }
 
 .modal-content {
-    background-color: #353b48e3; 
+    background-color: #353b48e3;
     color: #ffffff;
 }
 
@@ -428,11 +423,11 @@ blockquote {
     padding: 10px;
     quotes: "\201C""\201D""\2018""\2019";
 }
-  
+
 blockquote p {
     display: inline;
 }
-  
+
 code {
     font-size: 87.5%;
     color: #e83e8c;
@@ -441,7 +436,7 @@ code {
     padding: 3px;
 }
 
-  
+
 ::selection{background:rgba(113,113,113,0.5);color:#ffffff}::-moz-selection{background:rgba(113,113,113,0.5);color:#ffffff}
 
 .show>.btn-light.dropdown-toggle {
@@ -489,7 +484,7 @@ table.sortable tr.placeholder:before {
 body.dragging, body.dragging * {
     cursor: move !important;
   }
-  
+
 .dragged {
     position: absolute;
     opacity: 0.5;
@@ -508,7 +503,7 @@ table.sortable tr.placeholder:before {
     border: 2px solid #eee;
     background-color: #f1f1f1;
     border-radius: 5px;
-    
+
 }
 
 
@@ -524,17 +519,17 @@ table.sortable tr.placeholder:before {
   .form-signin, .form-signin .checkbox {
     margin-bottom: 10px;
   }
-  
+
   .form-signin-heading {
       text-align: center;
       margin-bottom: 20px;
       color: #6c757d;
   }
-  
+
   .form-signin .checkbox {
     font-weight: normal;
   }
-  
+
   .form-signin .form-control {
     position: relative;
     height: auto;
@@ -558,15 +553,15 @@ table.sortable tr.placeholder:before {
     border-top-left-radius: 0;
     border-top-right-radius: 0;
   }
-  
+
   .form-control {
       margin-bottom: 5px;
   }
-  
+
   .login-remember {
       color: #6c757d;
   }
-  
+
   .login-container {
     position: fixed;
     top: 50%;
@@ -580,7 +575,7 @@ table.sortable tr.placeholder:before {
 .form-error {
     color: red
 }
-  
+
 /* ---------------------------------------------------
     SEARCH FORM
 ----------------------------------------------------- */
@@ -593,7 +588,7 @@ table.sortable tr.placeholder:before {
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.7);
-    
+
     -webkit-transition: all 0.5s ease-in-out;
 	-moz-transition: all 0.5s ease-in-out;
 	-o-transition: all 0.5s ease-in-out;
@@ -605,7 +600,7 @@ table.sortable tr.placeholder:before {
 	-o-transform: translate(0px, -100%) scale(0, 0);
 	-ms-transform: translate(0px, -100%) scale(0, 0);
 	transform: translate(0px, -100%) scale(0, 0);
-    
+
     opacity: 0;
 }
 
@@ -614,7 +609,7 @@ table.sortable tr.placeholder:before {
     -moz-transform: translate(0px, 0px) scale(1, 1);
 	-o-transform: translate(0px, 0px) scale(1, 1);
 	-ms-transform: translate(0px, 0px) scale(1, 1);
-	transform: translate(0px, 0px) scale(1, 1); 
+	transform: translate(0px, 0px) scale(1, 1);
     opacity: 1;
 }
 
@@ -662,7 +657,7 @@ img.emojione {
     height: auto;
 }
 
-@keyframes blink {  
+@keyframes blink {
     20% { color: #dc3545; }
     100% { color: transparent; }
   }
@@ -674,4 +669,9 @@ img.emojione {
     -webkit-animation: blink 1s linear infinite;
     -moz-animation: blink 1s linear infinite;
     animation: blink 1s linear infinite;
-} 
+}
+
+/* Range selection styles */
+.range-handle {
+    cursor: ns-resize;
+}
