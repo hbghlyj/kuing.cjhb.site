@@ -114,7 +114,8 @@
           pending_startOffset = match.index;
         }
       } else if (subIndex && match[subIndex] !== undefined) {
-        const end = match.index + match[subIndex].length;
+        const mathStr = match[subIndex];
+        const end = match.index + mathStr.length;
         found = {
           open: '',
           math: mathStr.length === 2 ? mathStr.slice(1) : mathStr,
