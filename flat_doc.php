@@ -80,5 +80,5 @@ foreach ($segments as $segment) {
 }
 $values[] = $html->addButton();
 
-$view->show('page/page.php', ['values' => $values]);
+$view->show('page/page.php', ['values' => $values, 'flatSlug' => $slug]);
 $view->show('partial/footer.php');
