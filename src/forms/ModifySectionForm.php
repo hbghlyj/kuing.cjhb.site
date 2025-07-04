@@ -73,16 +73,10 @@ class ModifySectionForm extends MakeupForm
                 $form['option_content']->setDefaultValue($page[$rowIndex]['v1']);
             }
             
-            if ($page[$rowIndex]['key'] == 'imageURL' || $page[$rowIndex]['key'] == 'linkButton') { 
-                $name = $page[$rowIndex]['v2']; 
-            } else { 
-                $name = ''; 
-            }
-            
-            if ($page[$rowIndex]['key'] == 'linkButton') { 
-                ($page[$rowIndex]['v3']) ? $trg = true : $trg = false;
-            } else { 
-                $trg = false; 
+            if ($page[$rowIndex]['key'] == 'imageURL') {
+                $name = $page[$rowIndex]['v2'];
+            } else {
+                $name = '';
             }
                 
                 $form->addTextArea('names', T::trans('Name'))
@@ -90,10 +84,6 @@ class ModifySectionForm extends MakeupForm
                     ->setAttribute('data-autoresize')
                 	->setDefaultValue($name);
                 	
-                $form->addCheckbox('trgs', T::trans('Open in New Window?'))
-                    ->setHtmlAttribute('data-parent', 'options')
-                    ->setAttribute('data-autoresize')
-                	->setDefaultValue($trg);
         	
         } 
 

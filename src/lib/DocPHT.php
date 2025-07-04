@@ -231,20 +231,6 @@ class DocPHT {
     }
 
 
-    /**
-     * linkButton
-     *
-     * @param  string $url
-     * @param  string $title
-     * @param  boolean $target
-     *
-     * @return string
-     */
-    public function linkButton(string $url, string $title, $target = false)
-    {
-        $setTarget = ($target) ? 'target="_blank"' : '' ;
-        return '<tr>'. ((isset($_SESSION['Active'])) ? '<td class="handle"><i class="fa fa-arrows-v sort"></i></td>' : '') . '<td><span class="spinner-grow spinner-grow-sm text-secondary"></span><a href="'.$url.'" '.$setTarget.' class="link" role="button">'.$title.'</a>'.$this->insertBeforeButton().$this->removeButton().$this->modifyButton().$this->insertAfterButton().'</td></tr>';
-    }
 
     /**
      * markdown
