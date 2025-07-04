@@ -16,10 +16,7 @@
     <div class="jumbotron text-center fade-in-fwd">
             <b>404</b>
             <p><?= $t->trans('The requested page may have been moved or deleted, or you might have mistyped the URL.'); ?></p>
-            ​<picture>
-                    <source srcset="public/assets/img/404.svg" type="image/svg+xml">
-                    <img src="/public/assets/img/404.svg" width="300" class="img-fluid" alt="404">
-            </picture>
+            <img src="/public/assets/img/404.svg" width="300" class="img-fluid" alt="404">
             <p><a href="/"><?= $t->trans('Don\'t despair, you can always click here'); ?></a></p>
             <small><b><?= $t->trans('With sympathy from DocPHT'); ?> <i class="fa fa-code" aria-hidden="true"></i></b></small>
     </div>
