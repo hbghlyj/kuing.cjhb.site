@@ -22,7 +22,7 @@ class VersionForms extends MakeupForm
     public function import()
     {
         $id = $_SESSION['page_slug'];
-        $aPath = $this->versionModel->getPhpPath($id);
+        $aPath = $this->versionModel->getPath($id);
 
         $form = new Form;
         $form->onRender[] = [$this, 'bootstrap4'];
@@ -108,18 +108,9 @@ class VersionForms extends MakeupForm
         if (isset($_POST['version']) && isset($_SESSION['page_slug'])) {
             $id = $_SESSION['page_slug'];
             $versionZip = $_POST['version'];
-            $aPath = $this->pageModel->getPhpPath($id);
-            $jsonPath = $this->pageModel->getJsonPath($id);
-            
-            $jsonArray = $this->pageModel->getPageData($id);
-            
-            foreach ($jsonArray as $fields) {
-                if ($fields['key'] == 'image') { (file_exists('json/' . $fields['v1'])) ? unlink('json/' . $fields['v1']) : NULL; }
-            }
-        
-        
-            unlink($aPath);
-            unlink($jsonPath);
+            $aPath = $this->pageModel->getPath($id);
+
+            @unlink($aPath);
 
             $zipData = new \ZipArchive();
         

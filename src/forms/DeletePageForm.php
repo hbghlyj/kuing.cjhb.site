@@ -20,51 +20,15 @@ class DeletePageForm extends MakeupForm
     public function delete()
     {
         $slug = $_SESSION['page_slug'];
-        $uPath = $this->pageModel->getPhpPath($slug);
-        $data = $this->pageModel->getPageData($slug);
-    
-        foreach ($data as $fields) {
-            if ($fields['key'] == 'image') { (file_exists('json/' . $fields['v1'])) ? unlink('json/' . $fields['v1']) : NULL; }
-        }
-    
-    
-        (file_exists($this->pageModel->getPhpPath($slug))) ? unlink($this->pageModel->getPhpPath($slug)) : NULL;
-        (file_exists($this->pageModel->getJsonPath($slug))) ? unlink($this->pageModel->getJsonPath($slug)) : NULL;
-    
-        if (isset($_SESSION['Active']) && isset($_SESSION['page_slug'])) {
-            if ($uPath == 'json/doc-pht/home.php') {
-                $zippedVersionPath = 'json/doc-pht/';
-                $filePattern = 'home_*.zip';
-            } else {
-            	$zippedVersionPath = 'json/' . substr(pathinfo($uPath, PATHINFO_DIRNAME ), 6) . '/';
-                $filePattern = pathinfo($uPath, PATHINFO_FILENAME ) . '_*.zip';
-            }
-        }
-        
-        $dir = 'pages/'.substr(pathinfo($uPath, PATHINFO_DIRNAME), 6);
-        $indatadir = 'json/'.substr(pathinfo($uPath, PATHINFO_DIRNAME), 6);
-        
-        foreach (glob($zippedVersionPath . $filePattern) as $file) {
-            (file_exists($file)) ? unlink($file) : NULL;
-        }
-        
-        if ($this->folderEmpty($dir)) {
-            rmdir($dir);
-        }
-        
-        if ($this->folderEmpty($indatadir)) {
-            rmdir($indatadir);
-        }
-        
-        if (!file_exists($uPath)) {
+        if ($this->pageModel->delete($slug)) {
             $this->pageModel->remove($slug);
-            header("Location:/doc.php");
+            header('Location:/doc.php');
         }
     }
 
     function folderEmpty($dir) {
-        if (!is_readable($dir)) return NULL; 
-        return (count(scandir($dir)) == 2);
+        if (!is_readable($dir)) return null;
+        return count(scandir($dir)) == 2;
     }
 
 }

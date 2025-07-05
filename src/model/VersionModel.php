@@ -29,18 +29,13 @@ class VersionModel extends PageModel
      */
     public function checkVersion($file_path, $id)
     {
-        $zipData = new \ZipArchive(); 
-        if ($zipData->open($file_path) === TRUE) {
-
-            (is_bool($zipData->locateName($this->getPhpPath($id))) === TRUE || is_bool($zipData->locateName($this->getJsonPath($id))) === TRUE) ? $check = FALSE : $check = TRUE; 
+        $zipData = new \ZipArchive();
+        if ($zipData->open($file_path) === true) {
+            $check = $zipData->locateName(basename($id) . '.md') !== false;
             $zipData->close();
-            
-            if ($check) { return TRUE; } else { return FALSE; }
-        } else {
-        
-        return FALSE;
-        
+            return $check;
         }
+        return false;
         
     }
     
@@ -54,21 +49,18 @@ class VersionModel extends PageModel
     public function getVersions($id)
     {
 
-        $path = $this->getPhpPath($id);
-        if ($path == 'json/doc-pht/home.php') {
-            $zippedVersionPath = 'json/doc-pht/';
-            $filePattern = '*.zip';
-        } else {
-        	$zippedVersionPath = 'json/' . substr(pathinfo($path, PATHINFO_DIRNAME ), 6) . '/';
-            $filePattern = '*.zip';
+        $path = $this->getPath($id);
+        if ($path === null) {
+            return false;
         }
-    
-        $versionList = array();
-        foreach (glob($zippedVersionPath . $filePattern) as $file) {
-            $addFile = $this->checkVersion($file, $id);
-            if($addFile) array_push($versionList, ['path' => $file, 'date' => filemtime($file)]);
+        $dir = dirname($path);
+        $filePattern = basename($path, '.md') . '_*.zip';
+        $versionList = [];
+        foreach (glob($dir . '/' . $filePattern) as $file) {
+            if ($this->checkVersion($file, $id)) {
+                $versionList[] = ['path' => $file, 'date' => filemtime($file)];
+            }
         }
-        
         return $this->sortVersions($versionList);
     }
         
@@ -103,27 +95,26 @@ class VersionModel extends PageModel
     public function saveVersion($id)
     {
         $this->doc = new DocBuilder;
-        $path = $this->getPhpPath($id);
-        if (isset($id)) {
-                $slug = $this->getFileSlug($id);
-                $zippedVersionPath = 'json/' . $slug . '_' . $this->doc->datetimeNow() . '.zip';
-        } else {
-            die;
+        $path = $this->getPath($id);
+        if ($path === null) {
+            return false;
         }
-        
+        $dir = dirname($path);
+        $slug = basename($path, '.md');
+        $zippedVersionPath = $dir . '/' . $slug . '_' . $this->doc->datetimeNow() . '.zip';
+
         $getAssets = $this->getAssets($id);
 
         if (!empty($getAssets)) {
             $zipData = new \ZipArchive();
             $zipData->open($zippedVersionPath, \ZipArchive::CREATE);
             foreach ($getAssets as $file) {
-                $zipData->addFile($file, $file);
+                $zipData->addFile($file, basename($file));
             }
             $zipData->close();
             return true;
-        } else {
-            return false;
         }
+        return false;
     }   
 
     /**
@@ -135,23 +126,15 @@ class VersionModel extends PageModel
      */
     public function getAssets($id)
     {
-        $data = $this->getPageData($id);
-        $php = $this->getJsonPath($id);
-        $json = $this->getPhpPath($id);
-        $assets = [];
-        
-        foreach ($data as $fields) {
-            if ($fields['key'] == 'image') { array_push($assets, 'json/' . $fields['v1']); }
-        }
-        
-        array_push($assets, $php);
-        array_push($assets, $json);
-        
-        if (!empty($assets)) {
-            return $assets;
-        } else {
+        $path = $this->getPath($id);
+        if ($path === null) {
             return false;
         }
+        $dir = dirname($path);
+        $base = basename($path, '.md');
+        $assets = glob($dir . '/' . $base . '_*.{jpg,jpeg,png,gif}', GLOB_BRACE);
+        $assets[] = $path;
+        return $assets;
     }   
     
     /**
