@@ -14,7 +14,6 @@
  */
 namespace DocPHT\Model;
 
-use DocPHT\Lib\DocBuilder;
 use DocPHT\Model\PageModel;
 
 class SearchModel extends PageModel

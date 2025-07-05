@@ -94,14 +94,13 @@ class VersionModel extends PageModel
      */
     public function saveVersion($id)
     {
-        $this->doc = new DocBuilder;
         $path = $this->getPath($id);
         if ($path === null) {
             return false;
         }
         $dir = dirname($path);
         $slug = basename($path, '.md');
-        $zippedVersionPath = $dir . '/' . $slug . '_' . $this->doc->datetimeNow() . '.zip';
+        $zippedVersionPath = $dir . '/' . $slug . '_' . DocBuilder::datetimeNow() . '.zip';
 
         $getAssets = $this->getAssets($id);
 

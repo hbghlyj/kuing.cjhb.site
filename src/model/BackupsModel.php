@@ -136,8 +136,7 @@ class BackupsModel extends PageModel
         if(file_exists('json/favicon.png'))array_push($assets, 'json/favicon.png');
         if(file_exists('json/accesslog.json'))array_push($assets, 'json/accesslog.json');
         
-        $this->doc = new DocBuilder;
-        $filename = 'json/DocPHT_Backup_' . $this->doc->datetimeNow() . '_'.uniqid().'.zip';
+        $filename = 'json/DocPHT_Backup_' . DocBuilder::datetimeNow() . '_'.uniqid().'.zip';
         
         if (is_array($pages) && count($pages) > 0) {
             foreach($pages as $page) {
