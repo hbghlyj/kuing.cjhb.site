@@ -21,7 +21,7 @@ class AddSectionForm extends MakeupForm
 
     public function create()
     {
-        $id = $_SESSION['page_slug'];
+        $slug = $_SESSION['page_slug'];
         $options = $this->doc->getOptions();
 
         $form = new Form;
@@ -57,9 +57,9 @@ class AddSectionForm extends MakeupForm
         	if (isset($values['options']) && isset($values['option_content'])) {
         	    
                 $file = $values['file'];
-                $file_path = $this->doc->upload($file, $this->pageModel->getPhpPath($id));
+                $file_path = $this->doc->upload($file, $this->pageModel->getPhpPath($slug));
 
-                    if(isset($id)) {
+                    if(isset($slug)) {
                     $data = ['key' => $values['options'], 'v1' => '', 'v2' => ''];
                     switch ($values['options']) {
                         case 'title':
@@ -71,8 +71,8 @@ class AddSectionForm extends MakeupForm
                             $data['v2'] = $values['option_content'];
                             break;
                     }
-                    $this->pageModel->addPageData($id, $data);
-                    header('Location:'.$this->pageModel->getTopic($id).'/'.$this->pageModel->getFilename($id));
+                    $this->pageModel->addPageData($slug, $data);
+                    header('Location:'.$this->pageModel->getTopic($slug).'/'.$this->pageModel->getFilename($slug));
         			exit;
         	    } else {
     				$this->msg->error(T::trans('Sorry something didn\'t work!'),BASE_URL.'page/add-section');

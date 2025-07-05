@@ -19,17 +19,17 @@ class DeletePageForm extends MakeupForm
 
     public function delete()
     {
-        $id = $_SESSION['page_slug'];
-        $uPath = $this->pageModel->getPhpPath($id);
-        $data = $this->pageModel->getPageData($id);
+        $slug = $_SESSION['page_slug'];
+        $uPath = $this->pageModel->getPhpPath($slug);
+        $data = $this->pageModel->getPageData($slug);
     
         foreach ($data as $fields) {
             if ($fields['key'] == 'image') { (file_exists('json/' . $fields['v1'])) ? unlink('json/' . $fields['v1']) : NULL; }
         }
     
     
-        (file_exists($this->pageModel->getPhpPath($id))) ? unlink($this->pageModel->getPhpPath($id)) : NULL;
-        (file_exists($this->pageModel->getJsonPath($id))) ? unlink($this->pageModel->getJsonPath($id)) : NULL;
+        (file_exists($this->pageModel->getPhpPath($slug))) ? unlink($this->pageModel->getPhpPath($slug)) : NULL;
+        (file_exists($this->pageModel->getJsonPath($slug))) ? unlink($this->pageModel->getJsonPath($slug)) : NULL;
     
         if (isset($_SESSION['Active']) && isset($_SESSION['page_slug'])) {
             if ($uPath == 'json/doc-pht/home.php') {
@@ -57,7 +57,7 @@ class DeletePageForm extends MakeupForm
         }
         
         if (!file_exists($uPath)) {
-            $this->pageModel->remove($id);
+            $this->pageModel->remove($slug);
             header("Location:/doc.php");
         }
     }

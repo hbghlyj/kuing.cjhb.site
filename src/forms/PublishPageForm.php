@@ -18,12 +18,12 @@ class PublishPageForm extends MakeupForm
 {
     public function publish()
     {
-        $id = $_SESSION['page_slug'];
+        $slug = $_SESSION['page_slug'];
         $pages = $this->pageModel->connect();
 
         foreach ($pages as $key => $value) {
 
-            if ($value['pages']['slug'] === $id) {
+            if ($value['pages']['slug'] === $slug) {
                 if ($value['pages']['published'] === 0 && $value['pages']['home'] !== 1) {
                     $published = 1;
                 } else {
@@ -44,7 +44,7 @@ class PublishPageForm extends MakeupForm
         }
     
         
-        header('Location:'.$this->pageModel->getTopic($id).'/'.$this->pageModel->getFilename($id));
+        header('Location:'.$this->pageModel->getTopic($slug).'/'.$this->pageModel->getFilename($slug));
         exit;
     }
 }

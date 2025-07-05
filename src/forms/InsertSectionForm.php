@@ -21,8 +21,8 @@ class InsertSectionForm extends MakeupForm
 
     public function create()
     {
-        $id = $_SESSION['page_slug'];
-        $uPath = $this->pageModel->getPhpPath($id);
+        $slug = $_SESSION['page_slug'];
+        $uPath = $this->pageModel->getPhpPath($slug);
         $options = $this->doc->getOptions();
 
         $form = new Form;
@@ -60,9 +60,9 @@ class InsertSectionForm extends MakeupForm
         	if (isset($values['options']) && isset($values['option_content'])) {
         	    
                 $file = $values['file'];
-                $file_path = $this->doc->upload($file, $this->pageModel->getPhpPath($id));
+                $file_path = $this->doc->upload($file, $this->pageModel->getPhpPath($slug));
 
-                    if(isset($id)) {
+                    if(isset($slug)) {
                     $data = ['key' => $values['options'], 'v1' => '', 'v2' => ''];
                     switch ($values['options']) {
                         case 'title':
@@ -74,8 +74,8 @@ class InsertSectionForm extends MakeupForm
                             $data['v2'] = $values['option_content'];
                             break;
                     }
-                    $this->pageModel->insertPageData($id, $rowIndex, $b_or_a, $data);
-                    header('Location:'.$this->pageModel->getTopic($id).'/'.$this->pageModel->getFilename($id));
+                    $this->pageModel->insertPageData($slug, $rowIndex, $b_or_a, $data);
+                    header('Location:'.$this->pageModel->getTopic($slug).'/'.$this->pageModel->getFilename($slug));
         			exit;
         	    } else {
     				$this->msg->error(T::trans('Sorry something didn\'t work!'));

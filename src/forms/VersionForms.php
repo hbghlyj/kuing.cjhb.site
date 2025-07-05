@@ -94,7 +94,10 @@ class VersionForms extends MakeupForm
                 readfile($filename);
                 exit;
             }
-            $this->msg->error(T::trans('Invalid procedure! File not found.'),BASE_URL.'page/'.$this->pageModel->getTopic($_SESSION['page_slug']).'/'.$this->pageModel->getFilename($_SESSION['page_slug']));
+            $this->msg->error(
+                T::trans('Invalid procedure! File not found.'),
+                BASE_URL . 'page/' . $_SESSION['page_slug']
+            );
         } else {
             $this->msg->error(T::trans('Invalid procedure! File not set.'),BASE_URL.'page/'.$this->pageModel->getTopic($_SESSION['page_slug']).'/'.$this->pageModel->getFilename($_SESSION['page_slug']));
         }
@@ -134,11 +137,17 @@ class VersionForms extends MakeupForm
     
     public function save()
     {
-        $id = $_SESSION['page_slug'];
-        if ($this->versionModel->saveVersion($id)) {
-        	$this->msg->success(T::trans('Version saved successfully.'),BASE_URL.'page/'.$this->pageModel->getTopic($id).'/'.$this->pageModel->getFilename($id));
+        $slug = $_SESSION['page_slug'];
+        if ($this->versionModel->saveVersion($slug)) {
+            $this->msg->success(
+                T::trans('Version saved successfully.'),
+                BASE_URL . 'page/' . $slug
+            );
         } else {
-            $this->msg->error(T::trans('Invalid procedure!'),BASE_URL.'page/'.$this->pageModel->getTopic($id).'/'.$this->pageModel->getFilename($id));
+            $this->msg->error(
+                T::trans('Invalid procedure!'),
+                BASE_URL . 'page/' . $slug
+            );
         }
     }
 }
