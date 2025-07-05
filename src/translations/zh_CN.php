@@ -133,7 +133,6 @@
         'Search' => '搜索',
         'no match found for ' => '未找到匹配项 ',
         'Matches found' => '找到匹配项',
-        'similarity' => '相似度',
         'Open in New Window?' => '在新窗口中打开？',
         'Add image from file' => '从文件添加图片',
         'Update Password' => '更新密码',

@@ -7,8 +7,6 @@ class PageModel
 {
     const DB = 'json/pages.json';
 
-    protected $baseDir = 'flat';
-
     protected function sanitizeComponent($name)
     {
         return preg_replace('/[\\\\\/:*?"<>|]/', '_', $name);
@@ -167,23 +165,7 @@ class PageModel
 
     public function getPath(string $slug): ?string
     {
-        $base = realpath($this->baseDir);
-        if ($base === false || strpos($slug, '..') !== false) {
-            return null;
-        }
-        $target = $base . '/' . $slug . '.md';
-        if (!file_exists($target)) {
-            $dir = dirname($target);
-            if (strpos(realpath($dir) ?: $dir, $base) !== 0) {
-                return null;
-            }
-            return $target;
-        }
-        $resolved = realpath($target);
-        if ($resolved === false || strpos($resolved, $base) !== 0) {
-            return null;
-        }
-        return $resolved;
+        return realpath('flat/' . $slug . '.md');
     }
 
     public function get(string $slug): ?string

@@ -26,6 +26,7 @@ class FormPageController extends BaseController
 
         public function getPage($slug)
         {
+                $_SESSION['page_slug'] = $slug;
                 $markdown = $this->pageModel->get($slug);
                 if ($markdown === null) {
                         $error = new ErrorPageController();
