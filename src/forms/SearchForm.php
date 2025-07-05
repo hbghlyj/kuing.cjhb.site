@@ -26,7 +26,7 @@ class SearchForm extends MakeupForm
             $searchthis = $this->sanitizing($_POST["search"]);
 
             $pages = $this->pageModel->connect();
-            $cmd = "grep -R -o -i --include='*.md' " . escapeshellarg($searchthis) . " flat | cut -d: -f1 | sort | uniq -c | sort -nr";
+            $cmd = "grep -R -o -i -F --include='*.md' " . escapeshellarg($searchthis) . " flat | cut -d: -f1 | sort | uniq -c | sort -nr";
             $output = shell_exec($cmd);
             $lines = array_filter(explode("\n", trim($output)));
 
