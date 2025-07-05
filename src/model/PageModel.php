@@ -165,13 +165,13 @@ class PageModel
 
     public function getPath(string $slug): ?string
     {
-        return realpath('flat/' . $slug . '.md');
+        return $_SERVER['DOCUMENT_ROOT'] . '/flat/' . $slug . '.md';
     }
 
     public function get(string $slug): ?string
     {
         $path = $this->getPath($slug);
-        if ($path === null || !file_exists($path)) {
+        if (!file_exists($path)) {
             return null;
         }
         return file_get_contents($path);
@@ -180,7 +180,7 @@ class PageModel
     public function put(string $slug, string $content): bool
     {
         $path = $this->getPath($slug);
-        if ($path === null) {
+        if (!file_exists($path)) {
             return false;
         }
         if (!is_dir(dirname($path))) {
@@ -203,7 +203,7 @@ class PageModel
     {
         $saved = [];
         $path = $this->getPath($slug);
-        if ($path === null) {
+        if (!file_exists($path)) {
             return $saved;
         }
         $dir = dirname($path);
@@ -246,7 +246,7 @@ class PageModel
     public function cleanUnusedImages(string $slug, string $markdown): void
     {
         $path = $this->getPath($slug);
-        if ($path === null) {
+        if (!file_exists($path)) {
             return;
         }
         $dir = dirname($path);
@@ -263,7 +263,7 @@ class PageModel
     public function delete(string $slug): bool
     {
         $path = $this->getPath($slug);
-        if ($path === null || !file_exists($path)) {
+        if (!file_exists($path)) {
             return false;
         }
         $dir = dirname($path);
