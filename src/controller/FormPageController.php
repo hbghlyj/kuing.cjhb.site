@@ -24,15 +24,22 @@ class FormPageController extends BaseController
                 $this->view->load('Create new page', 'form-page/create_page.php', $formData);
         }
 
-	public function getPage($topic, $filename)
-	{	
-		$this->view->show('partial/head.php', ['PageTitle' => $topic .' '. $filename]);
-		$page = require_once('pages/'.$topic.'/'.$filename.'.php');
+        public function getPage($topic, $filename)
+        {
+                $slug = $topic.'/'.$filename;
+                $id = $this->pageModel->getIdBySlug($slug);
+                if ($id === null) {
+                        $error = new ErrorPageController();
+                        $error->getPage($topic, $filename);
+                        return;
+                }
 
+                $this->view->show('partial/head.php', ['PageTitle' => $topic .' '. $filename]);
+                $path = $this->pageModel->getPhpPath($id);
+                $values = require $path;
                 $this->view->show('page/page.php', ['values' => $values]);
-
-			$this->view->show('partial/footer.php');
-		}
+                $this->view->show('partial/footer.php');
+        }
 
 	public function getAddSectionForm()
 	{

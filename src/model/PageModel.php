@@ -42,6 +42,44 @@ use DocPHT\Core\Translator\T;
 class PageModel
 {
     const DB = 'json/pages.json';
+
+    protected function sanitizeComponent($name)
+    {
+        return preg_replace('/[\\\\\/:*?"<>|]/', '_', $name);
+    }
+
+    protected function computeFileSlug($topic, $filename)
+    {
+        $topic = $this->sanitizeComponent($topic);
+        $filename = $this->sanitizeComponent($filename);
+        return trim($topic) . '/' . trim($filename);
+    }
+
+    protected function getFileSlug($id)
+    {
+        $data = $this->connect();
+        $key = $this->findKey($data, $id);
+        if ($key === false) {
+            return null;
+        }
+        if (isset($data[$key]['pages']['file_slug'])) {
+            return $data[$key]['pages']['file_slug'];
+        }
+        $topic = $data[$key]['pages']['topic'];
+        $filename = $data[$key]['pages']['filename'];
+        return $this->computeFileSlug($topic, $filename);
+    }
+
+    public function getIdBySlug($slug)
+    {
+        $data = $this->connect();
+        foreach ($data as $value) {
+            if ($value['pages']['slug'] === $slug) {
+                return $value['pages']['id'];
+            }
+        }
+        return null;
+    }
     
     
     /**
@@ -100,20 +138,22 @@ class PageModel
         $data = $this->connect();
         $id = uniqid();
         $topic = pathinfo($topic, PATHINFO_FILENAME);
-		$filename = pathinfo($filename, PATHINFO_FILENAME);
-        $slug = trim($topic) .'/'. trim($filename);
+        $filename = pathinfo($filename, PATHINFO_FILENAME);
+        $slug = trim($topic) . '/' . trim($filename);
+        $fileSlug = $this->computeFileSlug($topic, $filename);
 
         if (!is_null($data)) {
             
-            $slugs = $this->getAllFromKey('slug');
+            $slugs = $this->getAllFromKey('file_slug');
 
             if (is_array($slugs)) {
-                if(in_array($slug, $slugs))
+                if(in_array($fileSlug, $slugs))
                 {
                     $count = 1;
-                    while(in_array(($slug . '-' . ++$count ), $slugs));
+                    while(in_array(($fileSlug . '-' . ++$count ), $slugs));
                     $slug = $slug . '-' . $count;
                     $filename = $filename . '-' . $count;
+                    $fileSlug = $fileSlug . '-' . $count;
                 }
             };
         }   
@@ -186,7 +226,7 @@ class PageModel
      */
     public function getPhpPath($id)
     {
-        $slug = $this->getSlug($id);
+        $slug = $this->getFileSlug($id);
 
         if (empty($slug)) {
             return null;
@@ -219,7 +259,7 @@ class PageModel
      */
     public function getJsonPath($id)
     {
-        $slug = $this->getSlug($id);
+        $slug = $this->getFileSlug($id);
 
         if (empty($slug)) {
             return null;
@@ -240,8 +280,12 @@ class PageModel
         $data = $this->connect();
         if (!is_null($data) && !empty($data)) {
             foreach($data as $value){
-                $array[] = $value['pages'][$key];
-            } 
+                if ($key === 'file_slug') {
+                    $array[] = isset($value['pages']['file_slug']) ? $value['pages']['file_slug'] : $this->computeFileSlug($value['pages']['topic'], $value['pages']['filename']);
+                } else {
+                    $array[] = $value['pages'][$key];
+                }
+            }
             return $array;
         } else {
             return false;
@@ -260,13 +304,17 @@ class PageModel
     {
         if (!is_null($data) && !empty($data)) {
             foreach($data as $value){
-                $array[] = $value['pages'][$key];
-            } 
+                if ($key === 'file_slug') {
+                    $array[] = isset($value['pages']['file_slug']) ? $value['pages']['file_slug'] : $this->computeFileSlug($value['pages']['topic'], $value['pages']['filename']);
+                } else {
+                    $array[] = $value['pages'][$key];
+                }
+            }
             return $array;
         } else {
             return false;
         }
-    }   
+    }
     
     
     /**
@@ -302,7 +350,8 @@ class PageModel
     {
         $data = $this->connect();
         foreach ($data as $value) {
-            $phpPath = 'pages/'.$value['pages']['slug'].'.php';
+            $fileSlug = isset($value['pages']['file_slug']) ? $value['pages']['file_slug'] : $this->computeFileSlug($value['pages']['topic'], $value['pages']['filename']);
+            $phpPath = 'pages/'.$fileSlug.'.php';
             if ($phpPath === $path) {
                 return $value['pages']['id'];
             }

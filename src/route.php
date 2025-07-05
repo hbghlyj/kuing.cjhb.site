@@ -92,8 +92,10 @@ $route->group('/page', function()
 {
     // /page/topic/filename
     $this->get_post('/{topic}/{filename}', function($topic, $filename){
-        $page = 'pages/'.$topic.'/'.$filename.'.php';
-        if (file_exists($page)) {
+        $model = new \DocPHT\Model\PageModel();
+        $slug = $topic.'/'.$filename;
+        $id = $model->getIdBySlug($slug);
+        if ($id !== null) {
             $page = new FormPageController();
             $page->getPage($topic, $filename);
         } else {
