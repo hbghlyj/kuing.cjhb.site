@@ -21,21 +21,8 @@ class SearchModel extends PageModel
 {
     public function feed()
     {
-        $data = $this->getAllIndexed();
-        $array = [];
-        if ($data !== false) {
-            foreach ($data as $value) {
-                if (!empty($value['slug']) && !empty($value['topic'])) {
-                    $array[] = $this->add($value['slug'], $value['topic']);
-                    $array[] = $this->add($value['slug'], $value['filename']);
-                }
-                $markdown = $this->get($value['slug']);
-                if ($markdown !== null) {
-                    $array[] = $this->add($value['slug'], $markdown);
-                }
-            }
-        }
-        $this->disconnect('json/search.json', $array);
+        // Search indexing handled via grep; no JSON generation required.
+        return true;
     }
     
     public function add($slug, $content)
