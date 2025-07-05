@@ -64,11 +64,18 @@ class VersionForms extends MakeupForm
     }
     
     public function delete()
-    {    
-        if (isset($_POST['version']) && isset($_SESSION['page_slug'])) {
-            ($this->versionModel->deleteVersion($_POST['version'])) 
-            ? header('Location:'.$this->pageModel->getTopic($_SESSION['page_slug']).'/'.$this->pageModel->getFilename($_SESSION['page_slug'])) 
-            : $this->msg->error(T::trans('Sorry something didn\'t work!'),BASE_URL.'page/'.$this->pageModel->getTopic($_SESSION['page_slug']).'/'.$this->pageModel->getFilename($_SESSION['page_slug']));
+    {
+        if (isset($_POST['version'], $_SESSION['page_slug'])) {
+            $slug = $_SESSION['page_slug'];
+            if ($this->versionModel->deleteVersion($_POST['version'])) {
+                header('Location: ' . BASE_URL . 'page/' . $slug);
+                exit;
+            } else {
+                $this->msg->error(
+                    T::trans("Sorry something didn't work!"),
+                    BASE_URL . 'page/' . $slug
+                );
+            }
         }
     }
     
