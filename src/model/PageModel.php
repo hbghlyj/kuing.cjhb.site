@@ -42,33 +42,28 @@ class PageModel
         return false;
     }
 
-    public function create($topic, $filename, $title = '')
+    public function create($topic, $filename)
     {
         $data = $this->connect();
-        $topic = pathinfo($topic, PATHINFO_FILENAME);
-        $filename = pathinfo($filename, PATHINFO_FILENAME);
         $slug = trim($topic) . '/' . trim($filename);
-
-        if ($this->slugExists($slug)) {
-            $count = 1;
-            while ($this->slugExists($slug . '-' . $count)) {
-                $count++;
-            }
-            $slug = $slug . '-' . $count;
-            $filename = $filename . '-' . $count;
+        if (preg_match('/\.\.\/|\.\.\\\\|\/\.\.$/', $slug)) {
+            throw new \InvalidArgumentException('Invalid slug: ' . $slug);
         }
-
+        if ($this->slugExists($slug)) {
+            return false;
+        }
+        // Insert the new page to DB
         $data[] = [
             'pages' => [
                 'slug' => $slug,
                 'topic' => $topic,
-                'filename' => $filename,
-                'home' => 0
+                'filename' => $filename
             ]
         ];
         $this->disconnect(self::DB, $data);
-        $this->put($slug, '# ' . ($title ?: $filename) . "\n");
-        return $slug;
+        // Create the flat file with a header
+        $this->put($slug, '# ' . $filename . "\n");
+        return true;
     }
 
     public function getPagesByTopic($topic)
@@ -180,11 +175,8 @@ class PageModel
     public function put(string $slug, string $content): bool
     {
         $path = $this->getPath($slug);
-        if (!file_exists($path)) {
-            return false;
-        }
         if (!is_dir(dirname($path))) {
-            mkdir(dirname($path), 0755, true);
+            mkdir(dirname($path), 0666, true);
         }
         return file_put_contents($path, $content) !== false;
     }

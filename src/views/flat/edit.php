@@ -8,7 +8,7 @@
         <?php endif; ?>
         <form method="post" enctype="multipart/form-data">
             <div class="form-group">
-                <textarea name="markdown" class="form-control" rows="20" data-autoresize required><?= htmlspecialchars($markdown); ?></textarea>
+                <textarea name="markdown" class="form-control" rows="20" required><?= htmlspecialchars($markdown); ?></textarea>
             </div>
             <div class="form-group">
                 <input type="file" name="images[]" multiple class="form-control-file">

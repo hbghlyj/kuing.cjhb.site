@@ -14,9 +14,8 @@ class UpdatePageForm extends MakeupForm
         $form = new Form;
         $form->onRender[] = [$this, 'bootstrap4'];
         $form->addGroup(T::trans('Update page'));
-        $form->addTextArea('markdown', T::trans('Content'))
+        $form->addTextArea('markdown', T::trans('Enter content'))
             ->setHtmlAttribute('rows', 20)
-            ->setAttribute('data-autoresize')
             ->setDefaultValue($markdown);
         $form->addProtection(T::trans('Security token has expired, please submit the form again'));
         $form->addSubmit('submit', T::trans('Update'));

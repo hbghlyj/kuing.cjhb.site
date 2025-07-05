@@ -107,10 +107,7 @@ $route->group('/page', function()
         // /page/remove
         $this->get_post('/remove', 'DocPHT\Controller\FormPageController@getRemoveSectionForm');
         // /page/delete
-        $adminModel = new AdminModel(); 
-        if ($adminModel->checkUserIsAdmin($_SESSION['Username']) == true) {
-            $this->get_post('/delete', 'DocPHT\Controller\FormPageController@getDeletePageForm');
-        }
+        $this->get_post('/delete', 'DocPHT\Controller\FormPageController@getDeletePageForm');
         // /page/import-version
         $this->get_post('/import-version', 'DocPHT\Controller\FormPageController@getImportVersionForm');
         // /page/export-version
@@ -118,9 +115,7 @@ $route->group('/page', function()
         // /page/restore-version
         $this->get_post('/restore-version', 'DocPHT\Controller\FormPageController@getRestoreVersionForm');
         // /page/delete-version
-        if ($adminModel->checkUserIsAdmin($_SESSION['Username']) == true) {
-            $this->get_post('/delete-version', 'DocPHT\Controller\FormPageController@getDeleteVersionForm');
-        }
+        $this->get_post('/delete-version', 'DocPHT\Controller\FormPageController@getDeleteVersionForm');
         // /page/save-version
         $this->get_post('/save-version', 'DocPHT\Controller\FormPageController@getSaveVersionForm');
     }

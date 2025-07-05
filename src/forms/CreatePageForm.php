@@ -35,37 +35,24 @@ class CreatePageForm extends MakeupForm
         $getTopic = $this->pageModel->getUniqTopics();
 
         $form->addText('topic', T::trans('Topic'))
+            ->setDefaultValue(isset($_GET['topic']) ? $_GET['topic'] : '')
             ->setHtmlAttribute('placeholder', T::trans('Enter topic'))
             ->setAttribute('list', 'topicList')
             ->setAttribute('autocomplete', 'off')
-            ->setRequired(T::trans('Topic is required.'))
-            ->setAttribute('onkeyup', 'this.value = this.value.toLowerCase();')
-            ->setAttribute('pattern','[a-z0-9]+(?:-[a-z0-9]+)*')
-            ->addRule(Form::PATTERN, T::trans('Must be alphanumeric and lowercase, use a hyphen for spaces.'), '[a-z0-9]+(?:-[a-z0-9]+)*')
-            ->setDefaultValue(isset($_GET['topic']) ? htmlspecialchars($_GET['topic'], ENT_QUOTES, 'UTF-8') : '');
+            ->setRequired(T::trans('Enter topic'));
 
         $dataList = Html::el('datalist')->addAttributes(['id' => 'topicList']);
         if (is_array($getTopic)) {
             foreach ($getTopic as $value) {
-                $dataList->create('option')->addAttributes(['value' => str_replace('-', ' ', $value)]);
+                $dataList->create('option')->addAttributes(['value' => $value]);
             }
         }
 
-        $form->addText('filename', T::trans('Filename'))
-            ->setHtmlAttribute('placeholder', T::trans('Enter filename'))
-            ->setRequired(T::trans('Filename is required.'))
-            ->setAttribute('onkeyup', 'this.value = this.value.toLowerCase();')
-            ->setAttribute('pattern','[a-z0-9]+(?:-[a-z0-9]+)*')
-            ->addRule(Form::PATTERN, T::trans('Must be alphanumeric and lowercase, use a hyphen for spaces.'), '[a-z0-9]+(?:-[a-z0-9]+)*')
-            ->setDefaultValue(isset($_GET['filename']) ? htmlspecialchars($_GET['filename'], ENT_QUOTES, 'UTF-8') : '');
-
-        $form->addText('title', T::trans('Title'))
-            ->setHtmlAttribute('placeholder', T::trans('Enter title'))
-            ->setRequired(T::trans('Title is required.'))
-            ->setDefaultValue(isset($_GET['title']) ? htmlspecialchars($_GET['title'], ENT_QUOTES, 'UTF-8') : '');
-
-
-
+        $form->addText('filename', T::trans('Page name'))
+            ->setDefaultValue(isset($_GET['filename']) ? $_GET['filename'] : '')
+            ->setHtmlAttribute('placeholder', T::trans('Enter page name'))
+            ->setAttribute('autocomplete', 'off')
+            ->setRequired(T::trans('Enter page name'));
 
         $form->addProtection(T::trans('Security token has expired, please submit the form again'));
 
@@ -73,19 +60,19 @@ class CreatePageForm extends MakeupForm
 
         if ($form->isSuccess()) {
             $values = $form->getValues();
-            $id = $this->pageModel->create($values['topic'], $values['filename'], $values['title']);
-            header('Location:/page/' . $id);
-            exit;
+            if ($this->pageModel->create($values['topic'], $values['filename'])) {
+                $this->msg->success(T::trans('Created page %topic%/%filename% successfully!', [
+                    '%topic%' => $values['topic'],
+                    '%filename%' => $values['filename']
+                ]), BASE_URL . 'page/' . $values['topic'] . '/' . $values['filename']);
+            } else {
+                $this->msg->error(T::trans('There is a file with the same name!'), BASE_URL . 'page/' . $values['topic'] . '/' . $values['filename']);
+            }
         }
         return [
             'form' => (string) $form,
             'dataList' => (string) $dataList,
         ];
-    }
-
-    private function folderEmpty($dir)
-    {
-        return is_readable($dir) ? count(scandir($dir)) === 2 : false;
     }
 }
 

@@ -358,7 +358,6 @@
     mathItem.forEach(item => {
       // Check for other environments
       const environments = [
-        'definition',
         'theorem',
         'lemma',
         'corollary',
@@ -371,8 +370,7 @@
         const envName = item.open.replace('\\begin{', '').replace('}', '');
         // Convert the environment to an HTML div with a class
         const div = d.createElement('div');
-        div.className = envName == 'definition' ? 'alert alert-success' : envName == 'theorem' ? 'alert alert-primary' :
-            envName == 'proof' ? 'alert border bg-white' : 'alert alert-info';
+        div.className = envName == 'theorem' ? 'alert alert-primary' : envName == 'proof' ? 'alert border bg-white' : 'alert alert-info';
         {
           const helperRange = item.range.cloneRange();
           helperRange.setStart(item.range.startContainer, item.range.startOffset + item.open.length);
