@@ -26,9 +26,4 @@ class DeletePageForm extends MakeupForm
         }
     }
 
-    function folderEmpty($dir) {
-        if (!is_readable($dir)) return null;
-        return count(scandir($dir)) == 2;
-    }
-
 }
