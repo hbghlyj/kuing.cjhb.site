@@ -47,7 +47,7 @@ if (!is_null($topics)) {
                     $x = 0;
                     $i = 0;
                     foreach($allpages as $page) {
-                        if ($page['id'] == $_SESSION['page_id']) {
+                        if ($page['slug'] == $_SESSION['page_id']) {
                             $i = $x;
                         }
                         $x++;

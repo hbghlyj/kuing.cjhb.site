@@ -23,7 +23,7 @@ class PublishPageForm extends MakeupForm
 
         foreach ($pages as $key => $value) {
 
-            if ($value['pages']['id'] === $id) {
+            if ($value['pages']['slug'] === $id) {
                 if ($value['pages']['published'] === 0 && $value['pages']['home'] !== 1) {
                     $published = 1;
                 } else {
@@ -31,7 +31,6 @@ class PublishPageForm extends MakeupForm
                 }
                 $pages[$key] = array(
                     'pages' => [
-                        'id' => $value['pages']['id'],
                         'slug' => $value['pages']['slug'],
                         'topic' => $value['pages']['topic'],
                         'filename' => $value['pages']['filename'],

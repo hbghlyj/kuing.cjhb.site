@@ -160,9 +160,9 @@ class BackupsForms extends MakeupForm
         $zipData = new \ZipArchive();
         if (!empty($zip_file)) {
             if ($zipData->open($zip_file) === TRUE) {
-                $oldIds = $this->pageModel->getAllFromKey('id');
+                $oldIds = $this->pageModel->getAllFromKey('slug');
                 $new = json_decode(file_get_contents("zip://".$zip_file."#json/pages.json"),true);
-                $newIds = $this->pageModel->getAllFromDataKey($new, 'id');
+                $newIds = $this->pageModel->getAllFromDataKey($new, 'slug');
                 
                 foreach($newIds as $id) {
                     $this->pageModel->remove($id);
