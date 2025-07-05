@@ -21,7 +21,6 @@
  * getAllFromKey($key)
  * getAllFromDataKey($data, $key)
  * getAllIndexed()
- * getSlugByPath($path)
  * getTopic($id)
  * getFilename($id)
  * getPageData($id)
@@ -334,27 +333,6 @@ class PageModel
         } else {
             return false;
         }
-    }
-    
-    /**
-     * getSlugByPath
-     *
-     * @param  string $path
-     *
-     * @return string
-     */
-    public function getSlugByPath($path)
-    {
-        $data = $this->connect();
-        foreach ($data as $value) {
-            $fileSlug = isset($value['pages']['file_slug']) ? $value['pages']['file_slug'] : $this->computeFileSlug($value['pages']['topic'], $value['pages']['filename']);
-            $phpPath = 'pages/'.$fileSlug.'.php';
-            if ($phpPath === $path) {
-                return $value['pages']['slug'];
-            }
-        }
-
-        return null;
     }
     
     /**
