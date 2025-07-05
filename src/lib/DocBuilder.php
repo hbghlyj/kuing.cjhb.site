@@ -29,37 +29,6 @@ class DocBuilder
         $this->pageModel = new PageModel();
         $this->msg = new FlashMessages();
 	}
-    /**
-     * jsonSwitch
-     *
-     * @param array $jsonVals
-     *
-     * @return string
-     */
-    public function jsonSwitch($jsonVals)
-    {
-        if (isset($jsonVals['key'])) {
-            switch ($jsonVals['key']) {
-                case 'title':
-                    $option = $this->title($jsonVals['v1'], $jsonVals['v1']);
-                    break;
-                case 'image':
-                    $option = $this->image($jsonVals['v1'], $jsonVals['v2']);
-                    break;
-                case 'markdown':
-                    $option = $this->markdown($jsonVals['v1']);
-                    break;
-                case 'addButton':
-                    $option = '$html->addButton(),' . "\n";
-                    break;
-                    
-                default:
-                    $option = '';
-                    break;
-            }
-    }
-
-    }
     
     /**
      * startsWith
