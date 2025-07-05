@@ -23,7 +23,6 @@ class UpdatePageForm extends MakeupForm
     {
 
         $id = $_SESSION['page_id'];
-        $languages = $this->doc->listCodeLanguages();
         $options = $this->doc->getOptions();
 
         $form = new Form;
@@ -43,21 +42,9 @@ class UpdatePageForm extends MakeupForm
                 	->setDefaultValue($fields['key'])
                 	->setRequired(T::trans('Select an option'));
                 	
-                if ($fields['key'] == 'codeInline' || $fields['key'] == 'codeFile') { 
-                    $lang = $fields['v2']; 
-                } else { 
-                    $lang = 'Markup'; 
-                }
-                
-                $form->addSelect('language'.$index, T::trans('Language:'), $languages)
-                	->setPrompt(T::trans('Select an option'))
-                	->setHtmlAttribute('data-live-search','true')
-                	->setDefaultValue($lang)
-                	->setRequired(T::trans('Select an option'));
-                
                 $form->addUpload('file'.$index, 'File:')
                     ->setRequired(false)
-                    ->addRule(Form::MIME_TYPE, 'File must be JPEG, PNG, GIF or Plain Text.', ['image/jpeg','image/gif','image/png','text/plain'])
+                    ->addRule(Form::MIME_TYPE, 'File must be JPEG, PNG, GIF or SVG.', ['image/jpeg','image/gif','image/png','image/svg+xml'])
                     ->addRule(Form::MAX_FILE_SIZE, 'Maximum file size is 10 mb.', 10 * 1024 * 1024 /* size in MB */);
                 	
                 if (isset($fields['v1']) && $fields['key'] != 'image') { $oc = $fields['v1']; } else { $oc = $fields['v2']; }
@@ -73,18 +60,7 @@ class UpdatePageForm extends MakeupForm
                     $form['option_content'.$index]->setDefaultValue($fields['v1']);
                 }
                 
-                if ($fields['key'] == 'imageURL') {
-                    $name = $fields['v2'];
-                } else {
-                    $name = $fields['v1'];
-                }
-            
-                $form->addTextArea('names'.$index, T::trans('Name'))
-                    ->setHtmlAttribute('data-parent', 'options'.$index)
-                    ->setAttribute('data-autoresize')
-                	->setDefaultValue($name);
-                	
-            
+
         $index++;
         	
         }
@@ -101,15 +77,11 @@ class UpdatePageForm extends MakeupForm
                 $mapped = array(
                             'options'       => (isset($values['options'.$x])) ? $values['options'.$x] : '',
                             'option_content'=> (isset($values['option_content'.$x])) ? $values['option_content'.$x] : '',
-                            'language'      => (isset($values['language'.$x])) ? $values['language'.$x] : '',
-                            'names'         => (isset($values['names'.$x])) ? $values['names'.$x] : '',
                             'file'          => ($values['file'.$x]->hasFile()) ? $values['file'.$x] : $page[$x]['v1']
                             );
             
                 
-                if (($page[$x]['key'] == 'image' || $page[$x]['key'] == 'codeFile' || $page[$x]['key'] == 'markdownFile') && $values['file'.$x]->hasFile()) { unlink('json/' . $page[$x]['v1']); }
-                
-                if(($mapped['options'] == 'image' || $mapped['options'] == 'codeFile' || $mapped['options'] == 'markdownFile') && $values['file'.$x]->hasFile()) {
+                if($mapped['options'] == 'image' && $values['file'.$x]->hasFile()) {
                     $file = $mapped['file'];
                     $file_path = $this->doc->upload($file, $this->pageModel->getPhpPath($id));
                 } else {
@@ -117,12 +89,25 @@ class UpdatePageForm extends MakeupForm
                     $file_path = ($mapped['options'] != 'addButton') ? 'json/'.$page[$x]['v1'] : '';
                 }
                 
-                if (isset($page[$x]['v1'])) {
-                    $this->doc->removeOldFile($page[$x]['key'], $mapped['options'], 'json/' . $page[$x]['v1']);
+                if (isset($page[$x]['v1']) && $page[$x]['key'] == 'image' && ($mapped['options'] != 'image' || $values['file'.$x]->hasFile())) {
+                    if (file_exists('json/' . $page[$x]['v1'])) {
+                        unlink('json/' . $page[$x]['v1']);
+                    }
                 }
         
             	    if(isset($id)) {
-                	    $this->pageModel->modifyPageData($id, $x, $this->doc->valuesToArray($mapped, $file_path));
+                            $data = ['key' => $mapped['options'], 'v1' => '', 'v2' => ''];
+                            switch ($mapped['options']) {
+                                case 'title':
+                                case 'markdown':
+                                    $data['v1'] = $mapped['option_content'];
+                                    break;
+                                case 'image':
+                                    $data['v1'] = substr($file_path, 5);
+                                    $data['v2'] = $mapped['option_content'];
+                                    break;
+                            }
+                            $this->pageModel->modifyPageData($id, $x, $data);
                 	    $this->doc->buildPhpPage($id);
             	    }
             }

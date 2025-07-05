@@ -70,7 +70,7 @@ class CreatePageForm extends MakeupForm
             ->addRule(Form::MIME_TYPE, T::trans('Not a valid file.'), [
                 'image/gif', 'image/png', 'image/jpeg', 'image/svg+xml',
                 'application/zip', 'application/x-rar-compressed', 'application/octet-stream',
-                'text/plain', 'text/x-c', 'text/x-c++', 'text/x-c-header', 'text/x-c-source',
+                'text/x-c', 'text/x-c++', 'text/x-c-header', 'text/x-c-source',
                 'text/x-d', 'text/x-pascal', 'text/x-fortran', 'text/x-asm', 'text/x-java-source',
                 'text/x-lisp', 'text/x-python', 'text/x-h', 'text/x-php', 'text/x-shellscript',
                 'application/json', 'application/xml', 'application/javascript', 'application/x-httpd-php',
@@ -88,7 +88,7 @@ class CreatePageForm extends MakeupForm
             $ok = true;
             $ok = $ok && $this->pageModel->addPageData(
                 $id,
-                $this->doc->valuesToArray(['options' => 'title', 'option_content' => $values['title']])
+                ['key' => 'title', 'v1' => $values['title'], 'v2' => '']
             );
 
             $file = $values['file'];
@@ -96,10 +96,10 @@ class CreatePageForm extends MakeupForm
                 $filePath = $this->doc->upload($file, $this->pageModel->getPhpPath($id));
                 if ($filePath) {
                     $mime = $file->getContentType();
-                    $option = str_starts_with((string) $mime, 'image/') ? 'image' : 'codeFile';
+                    $option = 'image';
                     $ok = $ok && $this->pageModel->addPageData(
                         $id,
-                        $this->doc->valuesToArray(['options' => $option, 'option_content' => ''], $filePath)
+                        ['key' => $option, 'v1' => substr($filePath, 5), 'v2' => '']
                     );
                 } else {
                     $ok = false;
