@@ -22,9 +22,6 @@ $route->get('/switch-theme', 'Instant\Core\Controller\BaseController@switchTheme
 
 $route->get_post('/login', 'DocPHT\Controller\LoginController@login');
 
-$route->get('/page/{topic}/{filename}', 'DocPHT\\Controller\\FlatDocController@show');
-$route->get_post('/edit/{slug}', 'DocPHT\\Controller\\FlatEditController@edit');
-
 if (isset($_SESSION['Active'])) {
 
     $route->get('/logout', 'DocPHT\Controller\LoginController@logout');
@@ -129,14 +126,9 @@ $route->group('/page', function()
     }
 
     // View page
-    $this->get_post('/{slug}', function($slug){
-        if (strpos($slug, '/') !== false) {
-            $error = new ErrorPageController();
-            $error->getPage();
-            return;
-        }
+    $this->get_post('/{topic}/{filename}:*', function($topic, $filename){
         $page = new FormPageController();
-        $page->getPage($slug);
+        $page->getPage($topic.'/'.$filename);
     });
 });
 

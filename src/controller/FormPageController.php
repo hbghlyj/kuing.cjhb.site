@@ -24,9 +24,8 @@ class FormPageController extends BaseController
                 $this->view->load('Create new page', 'form-page/create_page.php', $formData);
         }
 
-        public function getPage($topic, $filename = null)
+        public function getPage($slug)
         {
-                $slug = $filename === null ? $topic : ($topic . '/' . $filename);
                 $markdown = $this->pageModel->get($slug);
                 if ($markdown === null) {
                         $error = new ErrorPageController();
