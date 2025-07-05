@@ -22,23 +22,6 @@ class RemoveSectionForm extends MakeupForm
     public function create()
     {
 
-        $slug = $_SESSION['page_slug'];
-        
-        if(isset($_GET['id'])) {
-            $rowIndex = intval($_GET['id']);
-        }
-        
-        if ($this->pageModel->getPageData($slug)[$rowIndex]['key'] == 'image') {
-            unlink('json/' . $this->pageModel->getPageData($slug)[$rowIndex]['v1']);
-        }
-
-        $this->pageModel->removePageData($slug, $rowIndex);
-
-        if(isset($slug)) {
-            header('Location:'.$this->pageModel->getTopic($slug).'/'.$this->pageModel->getFilename($slug));
-            exit;
-        } else {
-    		$this->msg->error(T::trans('Sorry something didn\'t work!'));
-        }
+        $this->msg->error(T::trans('Feature not available in flat mode.'));
     }
 }

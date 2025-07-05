@@ -23,22 +23,19 @@ class SearchModel extends PageModel
     {
         $data = $this->getAllIndexed();
         $array = [];
-        if($data !== false){
+        if ($data !== false) {
             foreach ($data as $value) {
-                if(!empty($value['slug']) && !empty($value['topic'])) {
-                    array_push($array, $this->add($value['slug'], $value['topic']));
-                    array_push($array, $this->add($value['slug'], $value['filename']));
+                if (!empty($value['slug']) && !empty($value['topic'])) {
+                    $array[] = $this->add($value['slug'], $value['topic']);
+                    $array[] = $this->add($value['slug'], $value['filename']);
                 }
-                foreach($this->getPageData($value['slug']) as $page) {
-                    for ($i = 1; $i <= 4; $i++) {
-                        if (!empty($page["v$i"])) {
-                            array_push($array, $this->add($value['slug'], $page["v$i"]));
-                        }
-                    }
+                $markdown = $this->get($value['slug']);
+                if ($markdown !== null) {
+                    $array[] = $this->add($value['slug'], $markdown);
                 }
             }
         }
-        $this->disconnect('json/search.json',$array);
+        $this->disconnect('json/search.json', $array);
     }
     
     public function add($slug, $content)

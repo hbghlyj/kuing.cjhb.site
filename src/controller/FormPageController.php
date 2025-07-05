@@ -24,18 +24,59 @@ class FormPageController extends BaseController
                 $this->view->load('Create new page', 'form-page/create_page.php', $formData);
         }
 
-        public function getPage($topic, $filename)
+        public function getPage($topic, $filename = null)
         {
-                $slug = $topic.'/'.$filename;
-                if (!$this->pageModel->slugExists($slug)) {
+                $slug = $filename === null ? $topic : ($topic . '/' . $filename);
+                $markdown = $this->pageModel->get($slug);
+                if ($markdown === null) {
                         $error = new ErrorPageController();
-                        $error->getPage($topic, $filename);
+                        $error->getPage($slug);
                         return;
                 }
 
-                $this->view->show('partial/head.php', ['PageTitle' => $topic .' '. $filename]);
-                $path = $this->pageModel->getPhpPath($slug);
-                $values = require $path;
+                $parsedown = new \DocPHT\Lib\MediaWikiParsedown();
+                $htmlContent = $parsedown->text($markdown);
+
+                $parts = preg_split('/(<h[1-6][^>]*>.*?<\\/h[1-6]>)/i', $htmlContent, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
+
+                $segments = [];
+                $current = '';
+                $anchors = [];
+                foreach ($parts as $part) {
+                        if (preg_match('/^<h[1-6][^>]*>(.*?)<\\/h[1-6]>$/is', trim($part), $m)) {
+                                if ($current !== '') {
+                                        $segments[] = ['type' => 'markdown', 'text' => $current];
+                                        $current = '';
+                                }
+                                $titleText = strip_tags($m[1]);
+                                $baseAnchor = preg_replace('/[ %\/#]/', '-', strtolower($titleText));
+                                $anchor = $baseAnchor;
+                                $counter = 2;
+                                while (in_array($anchor, $anchors, true)) {
+                                        $anchor = $baseAnchor . '-' . $counter++;
+                                }
+                                $segments[] = ['type' => 'title', 'text' => $titleText, 'anchor' => $anchor];
+                                $anchors[] = $anchor;
+                        } else {
+                                $current .= $part;
+                        }
+                }
+                if ($current !== '') {
+                        $segments[] = ['type' => 'markdown', 'text' => $current];
+                }
+
+                $this->view->show('partial/head.php', ['PageTitle' => htmlspecialchars($slug, ENT_QUOTES, 'UTF-8')]);
+                $html = new \DocPHT\Lib\DocPHT($anchors);
+                $values = [];
+                foreach ($segments as $segment) {
+                        if ($segment['type'] === 'title') {
+                                $values[] = $html->title($segment['text'], $segment['anchor']);
+                        } else {
+                                $values[] = $html->markdown($segment['text']);
+                        }
+                }
+                $values[] = $html->addButton();
+
                 $this->view->show('page/page.php', ['values' => $values]);
                 $this->view->show('partial/footer.php');
         }

@@ -65,12 +65,7 @@ class CreatePageForm extends MakeupForm
             ->setDefaultValue(isset($_GET['title']) ? htmlspecialchars($_GET['title'], ENT_QUOTES, 'UTF-8') : '');
 
 
-        $form->addUpload('file', T::trans('Add image from file'))
-            ->setRequired(false)
-            ->addRule(Form::MIME_TYPE, T::trans('Not a valid file.'), [
-                'image/gif', 'image/png', 'image/jpeg', 'image/svg+xml'
-            ])
-            ->addRule(Form::MAX_FILE_SIZE, T::trans('Maximum file size is 10 mb.'), 10 * 1024 * 1024);
+
 
         $form->addProtection(T::trans('Security token has expired, please submit the form again'));
 
@@ -78,54 +73,9 @@ class CreatePageForm extends MakeupForm
 
         if ($form->isSuccess()) {
             $values = $form->getValues();
-            $id = $this->pageModel->create($values['topic'], $values['filename']);
-            $ok = true;
-            $ok = $ok && $this->pageModel->addPageData(
-                $id,
-                ['key' => 'title', 'v1' => $values['title'], 'v2' => '']
-            );
-
-            $file = $values['file'];
-            if ($file instanceof \Nette\Http\FileUpload && $file->isOk()) {
-                $filePath = $this->doc->upload($file, $this->pageModel->getPhpPath($id));
-                if ($filePath) {
-                    $option = 'image';
-                    $ok = $ok && $this->pageModel->addPageData(
-                        $id,
-                        ['key' => $option, 'v1' => substr($filePath, 5), 'v2' => '']
-                    );
-                } else {
-                    $ok = false;
-                }
-            }
-
-            if ($ok) {
-                header('Location:'.$this->pageModel->getTopic($id).'/'.$this->pageModel->getFilename($id));
-                exit;
-            }
-
-            // Roll back the partially created page to avoid orphaned data
-            if (isset($filePath) && $filePath && file_exists($filePath)) {
-                unlink($filePath);
-            }
-
-            $json = $this->pageModel->getJsonPath($id);
-            if ($json && file_exists($json)) {
-                unlink($json);
-            }
-
-            $jsonDir = dirname($json);
-            if ($this->folderEmpty($jsonDir)) {
-                rmdir($jsonDir);
-            }
-            $phpDir = dirname($this->pageModel->getPhpPath($id));
-            if ($this->folderEmpty($phpDir)) {
-                rmdir($phpDir);
-            }
-
-            $this->pageModel->remove($id);
-
-            $this->msg->error(T::trans('Sorry something didn\'t work!'), BASE_URL.'page/create');
+            $id = $this->pageModel->create($values['topic'], $values['filename'], $values['title']);
+            header('Location:/page/' . $id);
+            exit;
         }
         return [
             'form' => (string) $form,
