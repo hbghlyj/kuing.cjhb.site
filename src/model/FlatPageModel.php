@@ -68,7 +68,7 @@ class FlatPageModel
         $base = basename($path, '.md');
 
         $index = 1;
-        foreach (glob($dir . '/' . $base . '_*.*') as $img) {
+        foreach (glob($dir . '/' . $base . '_*.{jpg,jpeg,png,gif}', GLOB_BRACE) as $img) {
             if (preg_match('/_(\d+)\.[^.]+$/', $img, $m)) {
                 $index = max($index, (int)$m[1] + 1);
             }
@@ -114,7 +114,7 @@ class FlatPageModel
         preg_match_all('/' . preg_quote($base, '/') . '_\d+\.[A-Za-z0-9]+/i', $markdown, $matches);
         $used = isset($matches[0]) ? array_unique($matches[0]) : [];
 
-        foreach (glob($dir . '/' . $base . '_*.*') as $img) {
+        foreach (glob($dir . '/' . $base . '_*.{jpg,jpeg,png,gif}', GLOB_BRACE) as $img) {
             if (!in_array(basename($img), $used)) {
                 if (!unlink($img)) {
                     error_log('Failed to delete ' . $img);
@@ -131,13 +131,19 @@ class FlatPageModel
         }
         $dir = dirname($path);
         $base = basename($path, '.md');
+
+        $images = glob($dir . '/' . $base . '_*.{jpg,jpeg,png,gif}', GLOB_BRACE);
+        if (!unlink($path)) {
+            return false;
+        }
+
         $ok = true;
-        foreach (glob($dir . '/' . $base . '_*.*') as $img) {
+        foreach ($images as $img) {
             if (!unlink($img)) {
                 error_log('Failed to delete ' . $img);
                 $ok = false;
             }
         }
-        return unlink($path) && $ok;
+        return $ok;
     }
 }
