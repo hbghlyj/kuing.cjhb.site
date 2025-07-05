@@ -105,7 +105,8 @@ class VersionModel extends PageModel
         $this->doc = new DocBuilder;
         $path = $this->getPhpPath($id);
         if (isset($id)) {
-        	$zippedVersionPath = 'json/' . $this->getSlug($id) . '_' . $this->doc->datetimeNow() . '.zip';
+                $slug = $this->getFileSlug($id);
+                $zippedVersionPath = 'json/' . $slug . '_' . $this->doc->datetimeNow() . '.zip';
         } else {
             die;
         }
