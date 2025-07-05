@@ -19,11 +19,6 @@ use DocPHT\Model\PageModel;
 
 class SearchModel extends PageModel
 {
-    public function feed()
-    {
-        // Search indexing handled via grep; no JSON generation required.
-        return true;
-    }
     
     public function add($slug, $content)
     {
