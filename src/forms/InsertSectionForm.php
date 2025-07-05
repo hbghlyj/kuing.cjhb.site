@@ -75,7 +75,6 @@ class InsertSectionForm extends MakeupForm
                             break;
                     }
                     $this->pageModel->insertPageData($id, $rowIndex, $b_or_a, $data);
-                    $this->doc->buildPhpPage($id);
                     header('Location:'.$this->pageModel->getTopic($id).'/'.$this->pageModel->getFilename($id));
         			exit;
         	    } else {

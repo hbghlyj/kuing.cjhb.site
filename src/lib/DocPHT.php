@@ -49,7 +49,7 @@ class MediaWikiParsedown extends ParsedownPlus
                 $filename = $path;
             }
 
-            $newPage = !file_exists('pages/' . $topic . '/' . $filename . '.php');
+            $newPage = !file_exists('flat/' . $topic . '/' . $filename . '.md');
             $url = $newPage ? '/page/create?mainfilename=' . urlencode($filename) : '/page/' . $topic . '/' . $filename;
             $Inline = array(
                 'extent' => strlen($matches[0]),

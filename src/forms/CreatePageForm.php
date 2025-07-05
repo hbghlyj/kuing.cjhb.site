@@ -89,7 +89,6 @@ class CreatePageForm extends MakeupForm
             if ($file instanceof \Nette\Http\FileUpload && $file->isOk()) {
                 $filePath = $this->doc->upload($file, $this->pageModel->getPhpPath($id));
                 if ($filePath) {
-                    $mime = $file->getContentType();
                     $option = 'image';
                     $ok = $ok && $this->pageModel->addPageData(
                         $id,
@@ -101,7 +100,6 @@ class CreatePageForm extends MakeupForm
             }
 
             if ($ok) {
-                $this->doc->buildPhpPage($id);
                 header('Location:'.$this->pageModel->getTopic($id).'/'.$this->pageModel->getFilename($id));
                 exit;
             }

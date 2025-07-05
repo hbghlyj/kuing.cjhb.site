@@ -22,7 +22,6 @@ class ModifySectionForm extends MakeupForm
     public function create()
     {
         $id = $_SESSION['page_id'];
-        $uPath = $this->pageModel->getPhpPath($id);
         $options = $this->doc->getOptions();
 
         $form = new Form;
@@ -99,7 +98,6 @@ class ModifySectionForm extends MakeupForm
                             break;
                     }
                     $this->pageModel->modifyPageData($id, $rowIndex, $data);
-                    $this->doc->buildPhpPage($id);
                     header('Location:'.$this->pageModel->getTopic($id).'/'.$this->pageModel->getFilename($id));
         			exit;
         	    } else {

@@ -22,6 +22,9 @@ $route->get('/switch-theme', 'Instant\Core\Controller\BaseController@switchTheme
 
 $route->get_post('/login', 'DocPHT\Controller\LoginController@login');
 
+$route->get('/page/{topic}/{filename}', 'DocPHT\\Controller\\FlatDocController@show');
+$route->get_post('/edit/{slug}', 'DocPHT\\Controller\\FlatEditController@edit');
+
 if (isset($_SESSION['Active'])) {
 
     $route->get('/logout', 'DocPHT\Controller\LoginController@logout');
@@ -68,7 +71,7 @@ if (isset($_SESSION['Active'])) {
         
         // /admin/translations
         $this->get_post('/translations', 'DocPHT\Controller\AdminController@translations');
-
+        
         // Anything else
         $this->any('/*', function(){
             $error = new ErrorPageController();
@@ -90,20 +93,6 @@ if (isset($_SESSION['Active'])) {
 // /page
 $route->group('/page', function()
 {
-    // /page/topic/filename
-    $this->get_post('/{topic}/{filename}', function($topic, $filename){
-        $model = new \DocPHT\Model\PageModel();
-        $slug = $topic.'/'.$filename;
-        $id = $model->getIdBySlug($slug);
-        if ($id !== null) {
-            $page = new FormPageController();
-            $page->getPage($topic, $filename);
-        } else {
-            $error = new ErrorPageController();
-            $error->getPage($topic, $filename);
-        }
-    });
-
     // /page/search
     $this->get_post('/search', 'Instant\Core\Controller\BaseController@search');
 
@@ -137,17 +126,12 @@ $route->group('/page', function()
         }
         // /page/save-version
         $this->get_post('/save-version', 'DocPHT\Controller\FormPageController@getSaveVersionForm');
-    } else {
-        $this->any('/*', function(){
-            $login = new LoginController();
-            $login->login();
-        });
     }
-    
-    // Anything else
-    $this->any('/*', function(){
-        $error = new ErrorPageController();
-        $error->getPage();
+
+    // /page/topic/filename
+    $this->get_post('/{slug}', function($slug){
+        $page = new FormPageController();
+        $page->getPage($slug);
     });
 });
 

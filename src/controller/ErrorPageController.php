@@ -19,10 +19,11 @@ use Instant\Core\Controller\BaseController;
 class ErrorPageController extends BaseController
 {
 
-    public function getPage($topic = null, $filename = null)
+    public function getPage($slug = null)
     {
         http_response_code(404);
-        if ($topic && $filename) {
+        if ($slug) {
+            [$topic, $filename] = explode('/', $slug, 2);
             $this->view->load('Page not found', 'suggest_create_page.php', [
                 'topic' => $topic,
                 'filename' => $filename

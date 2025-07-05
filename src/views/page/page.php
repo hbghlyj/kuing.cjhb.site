@@ -20,13 +20,6 @@ if (isset($_SESSION['Active']) && $versions['state'] == 0) {
                 </button>
             </li>
         </ul>';
-} else if (isset($flatSlug) && isset($_SESSION['Active'])) {
-    echo '<ul class="list-inline text-right mt-4">'
-        .'<li class="list-inline-item" data-toggle="tooltip" data-placement="bottom" title="Edit markdown">'
-        .'<a href="/flat_edit.php?page='.htmlspecialchars($flatSlug, ENT_QUOTES, 'UTF-8').'" class="btn btn-outline-info btn-sm" role="button">'
-        .'<i class="fa fa-pencil-square" aria-hidden="true"></i></a>'
-        .'</li>'
-        .'</ul>';
 } else if (isset($_SESSION['Active']) && $versions['state'] > 0){
     echo '<ul class="list-inline text-right mt-4">'
             .'<li class="list-inline-item" data-toggle="tooltip" data-placement="bottom" title="'.$t->trans("Update").'">
@@ -132,10 +125,3 @@ if (!is_null($topics)) {
                 </div>
                 </div>
             </div>
-            <footer class="footer d-sm-flex justify-content-center justify-content-sm-between">
-                <a href="/misc.php?mod=tag&name=<?= rawurldecode(basename($_SERVER['REQUEST_URI'])) ?>" class="page-link text-muted"><?= DocPHT\Core\Translator\T::trans('Related threads') ?></a>
-                <?php if(isset($GLOBALS["page_author"])): ?>
-                    <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center text-muted">
-                        <i class="fa fa-pencil"></i> <a href="/home.php?mod=space&do=thread&username=<?= substr($GLOBALS["page_author"], 0, -17) ?>"><?= $GLOBALS["page_author"] ?></a>              </span>
-                <?php endif; ?>
-            </footer>

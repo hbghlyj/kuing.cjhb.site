@@ -108,7 +108,6 @@ class UpdatePageForm extends MakeupForm
                                     break;
                             }
                             $this->pageModel->modifyPageData($id, $x, $data);
-                	    $this->doc->buildPhpPage($id);
             	    }
             }
             header('Location:'.$this->pageModel->getTopic($id).'/'.$this->pageModel->getFilename($id));

@@ -35,7 +35,6 @@ class RemoveSectionForm extends MakeupForm
         $this->pageModel->removePageData($id, $rowIndex);
         
         if(isset($id)) {
-            $this->doc->buildPhpPage($id);
             header('Location:'.$this->pageModel->getTopic($id).'/'.$this->pageModel->getFilename($id));
             exit;
         } else {

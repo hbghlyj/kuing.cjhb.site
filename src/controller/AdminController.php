@@ -20,15 +20,12 @@ class AdminController extends BaseController
 
         public function settings()
         {
-                $newAppVersion = $this->newAppVersion->check();
-
                 $admin = false;
                 if (isset($_SESSION['Username'])) {
                         $admin = $this->adminModel->checkUserIsAdmin($_SESSION['Username']);
                 }
 
                 $this->view->load('Admin','admin/settings.php', [
-                        'newAppVersion' => $newAppVersion,
                         'admin' => $admin
                 ]);
         }

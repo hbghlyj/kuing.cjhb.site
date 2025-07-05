@@ -72,7 +72,6 @@ class AddSectionForm extends MakeupForm
                             break;
                     }
                     $this->pageModel->addPageData($id, $data);
-                    $this->doc->buildPhpPage($id);
                     header('Location:'.$this->pageModel->getTopic($id).'/'.$this->pageModel->getFilename($id));
         			exit;
         	    } else {
