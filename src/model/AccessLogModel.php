@@ -20,6 +20,7 @@ use geertw\IpAnonymizer\IpAnonymizer;
 class AccessLogModel
 {
     const ACCESSLOG = 'json/accesslog.json';
+    const MAX_LOG_ENTRIES = 1000; // limit log size to avoid indefinite growth
     
     /**
      * connect
@@ -63,7 +64,13 @@ class AccessLogModel
                 'Alert' => true
             );
         }
-            
+
+        // Trim old entries if log exceeds maximum allowed entries
+        $excess = count($data) - self::MAX_LOG_ENTRIES;
+        if ($excess > 0) {
+            $data = array_slice($data, $excess);
+        }
+
         return $this->disconnect(self::ACCESSLOG, $data);
     }
 
