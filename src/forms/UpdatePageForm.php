@@ -43,11 +43,7 @@ class UpdatePageForm extends MakeupForm
                 	->setDefaultValue($fields['key'])
                 	->setRequired(T::trans('Select an option'));
                 	
-                if ($fields['key'] == 'codeInline' || $fields['key'] == 'codeFile') { 
-                    $lang = $fields['v2']; 
-                } else { 
-                    $lang = 'Markup'; 
-                }
+                $lang = 'Markup';
                 
                 $form->addSelect('language'.$index, T::trans('Language:'), $languages)
                 	->setPrompt(T::trans('Select an option'))
@@ -73,11 +69,7 @@ class UpdatePageForm extends MakeupForm
                     $form['option_content'.$index]->setDefaultValue($fields['v1']);
                 }
                 
-                if ($fields['key'] == 'imageURL') {
-                    $name = $fields['v2'];
-                } else {
-                    $name = $fields['v1'];
-                }
+                $name = $fields['v1'];
             
                 $form->addTextArea('names'.$index, T::trans('Name'))
                     ->setHtmlAttribute('data-parent', 'options'.$index)
@@ -107,9 +99,9 @@ class UpdatePageForm extends MakeupForm
                             );
             
                 
-                if (($page[$x]['key'] == 'image' || $page[$x]['key'] == 'codeFile' || $page[$x]['key'] == 'markdownFile') && $values['file'.$x]->hasFile()) { unlink('json/' . $page[$x]['v1']); }
-                
-                if(($mapped['options'] == 'image' || $mapped['options'] == 'codeFile' || $mapped['options'] == 'markdownFile') && $values['file'.$x]->hasFile()) {
+                if ($page[$x]['key'] == 'image' && $values['file'.$x]->hasFile()) { unlink('json/' . $page[$x]['v1']); }
+
+                if($mapped['options'] == 'image' && $values['file'.$x]->hasFile()) {
                     $file = $mapped['file'];
                     $file_path = $this->doc->upload($file, $this->pageModel->getPhpPath($id));
                 } else {

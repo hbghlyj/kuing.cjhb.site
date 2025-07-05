@@ -210,43 +210,6 @@ class DocPHT {
     }
 
 
-    /**
-     * codeInline
-     *
-     * @param  string $language
-     * @param  string $snippet
-     *
-     * @return string
-     */
-    public function codeInline(string $language, string $snippet)
-    {
-        return '<tr>'. ((isset($_SESSION['Active'])) ? '<td><i class="fa fa-arrows-v sort"></i></td>' : '') . '<td><pre>
-                    <code class="language-'.$language.'">
-                        <script type="prism-'.$language.'">
-                            '.$snippet.'
-                        </script>
-                    </code>
-                </pre></td></tr>';
-    }
-
-    /**
-     * codeFile
-     *
-     * @param  string $language
-     * @param  string $filePath
-     *
-     * @return string
-     */
-    public function codeFile(string $language, string $filePath)
-    {
-        return '<tr><td></td><td><pre>
-                    <code class="language-'.$language.'">
-                        <script type="prism-'.$language.'">
-                            '.file_get_contents('json/'.$filePath).'
-                        </script>
-                    </code>
-                </pre></td></tr>';
-    }
 
     /**
      * image
@@ -261,18 +224,6 @@ class DocPHT {
         return '<tr><td></td><td><img src="/json/'.$src.'" class="img-fluid mb-3" alt="'.$title.'"></td></tr>';
     }
 
-    /**
-     * imageURL
-     *
-     * @param  string $src
-     * @param  string $title
-     *
-     * @return string
-     */
-    public function imageURL(string $src, string $title)
-    {
-        return '<tr><td></td><td><img src="/'.$src.'" class="img-fluid mb-3" alt="'.$title.'"></td></tr>';
-    }
 
 
 
@@ -292,21 +243,6 @@ class DocPHT {
         return $markdown;
     }
 
-    /**
-     * markdownFile
-     *
-     * @param  string $filePath
-     *
-     * @return string
-     */
-    public function markdownFile(string $filePath)
-    {
-        $Parsedown = new MediaWikiParsedown();
-        $markdown = '<tr><td></td><td class="markdown-col">';
-        $markdown .= $Parsedown->text(file_get_contents('json/'.$filePath));
-        $markdown .= '</td></tr>';
-        return $markdown;
-    }
 
     /**
      * addButton

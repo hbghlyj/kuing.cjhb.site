@@ -28,9 +28,9 @@ class RemoveSectionForm extends MakeupForm
             $rowIndex = intval($_GET['id']);
         }
         
-        if ($this->pageModel->getPageData($id)[$rowIndex]['key'] == 'image' || $this->pageModel->getPageData($id)[$rowIndex]['key'] == 'codeFile' || $this->pageModel->getPageData($id)[$rowIndex]['key'] == 'markdownFile') { 
-            unlink('json/' . $this->pageModel->getPageData($id)[$rowIndex]['v1']); 
-        } 
+        if ($this->pageModel->getPageData($id)[$rowIndex]['key'] == 'image') {
+            unlink('json/' . $this->pageModel->getPageData($id)[$rowIndex]['v1']);
+        }
         
         $this->pageModel->removePageData($id, $rowIndex);
         

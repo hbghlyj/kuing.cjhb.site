@@ -104,7 +104,7 @@ class VersionForms extends MakeupForm
             $jsonArray = $this->pageModel->getPageData($id);
             
             foreach ($jsonArray as $fields) {
-                if ($fields['key'] == 'image' || $fields['key'] == 'codeFile') { (file_exists('json/' . $fields['v1'])) ? unlink('json/' . $fields['v1']) : NULL; }
+                if ($fields['key'] == 'image') { (file_exists('json/' . $fields['v1'])) ? unlink('json/' . $fields['v1']) : NULL; }
             }
         
         

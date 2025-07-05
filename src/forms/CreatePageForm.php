@@ -96,7 +96,7 @@ class CreatePageForm extends MakeupForm
                 $filePath = $this->doc->upload($file, $this->pageModel->getPhpPath($id));
                 if ($filePath) {
                     $mime = $file->getContentType();
-                    $option = str_starts_with((string) $mime, 'image/') ? 'image' : 'codeFile';
+                    $option = 'image';
                     $ok = $ok && $this->pageModel->addPageData(
                         $id,
                         $this->doc->valuesToArray(['options' => $option, 'option_content' => ''], $filePath)

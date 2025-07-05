@@ -51,11 +51,7 @@ class ModifySectionForm extends MakeupForm
             	->setHtmlAttribute('data-live-search','true')
             	->setRequired(T::trans('Select an option'));
             
-            if ($page[$rowIndex]['key'] == 'codeInline' || $page[$rowIndex]['key'] == 'codeFile') {
-                $form['language']->setDefaultValue($page[$rowIndex]['v2']); 
-            } else {
-                $form['language']->setDefaultValue('Markup');
-            }
+            $form['language']->setDefaultValue('Markup');
             
             $form->addUpload('file', 'File:')
                 ->setRequired(false)
@@ -73,11 +69,7 @@ class ModifySectionForm extends MakeupForm
                 $form['option_content']->setDefaultValue($page[$rowIndex]['v1']);
             }
             
-            if ($page[$rowIndex]['key'] == 'imageURL') {
-                $name = $page[$rowIndex]['v2'];
-            } else {
-                $name = '';
-            }
+            $name = '';
                 
                 $form->addTextArea('names', T::trans('Name'))
                     ->setHtmlAttribute('data-parent', 'options'.$rowIndex)
@@ -94,7 +86,7 @@ class ModifySectionForm extends MakeupForm
         if ($form->isSuccess()) {
             $values = $form->getValues();
             
-            if ($page[$rowIndex]['key'] == 'image' || $page[$rowIndex]['key'] == 'codeFile' || $page[$rowIndex]['key'] == 'markdownFile') { unlink('json/' . $page[$rowIndex]['v1']); }
+            if ($page[$rowIndex]['key'] == 'image') { unlink('json/' . $page[$rowIndex]['v1']); }
             $this->doc->removeOldFile($page[$rowIndex]['key'], $values['options'], 'json/' . $page[$rowIndex]['v1']);
         
         	if (!empty($values)) {
