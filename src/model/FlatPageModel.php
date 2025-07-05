@@ -74,17 +74,28 @@ class FlatPageModel
             }
         }
 
-        $names = $files['name'] ?? [];
-        $tmp   = $files['tmp_name'] ?? [];
-        $errors= $files['error'] ?? [];
+        $names  = $files['name'] ?? [];
+        $tmp    = $files['tmp_name'] ?? [];
+        $errors = $files['error'] ?? [];
+        $finfo  = new \finfo(FILEINFO_MIME_TYPE);
+
+        $allowed = [
+            'jpg'  => 'image/jpeg',
+            'jpeg' => 'image/jpeg',
+            'png'  => 'image/png',
+            'gif'  => 'image/gif'
+        ];
 
         foreach ($names as $i => $name) {
             if ($errors[$i] === UPLOAD_ERR_OK) {
-                $ext = pathinfo($name, PATHINFO_EXTENSION);
-                $target = $dir . '/' . $base . '_' . $index . '.' . $ext;
-                if (move_uploaded_file($tmp[$i], $target)) {
-                    $saved[] = basename($target);
-                    $index++;
+                $ext  = strtolower(pathinfo($name, PATHINFO_EXTENSION));
+                $mime = $finfo->file($tmp[$i]) ?: '';
+                if (isset($allowed[$ext]) && $allowed[$ext] === $mime) {
+                    $target = $dir . '/' . $base . '_' . $index . '.' . $ext;
+                    if (move_uploaded_file($tmp[$i], $target)) {
+                        $saved[] = basename($target);
+                        $index++;
+                    }
                 }
             }
         }
@@ -100,12 +111,14 @@ class FlatPageModel
         $dir = dirname($path);
         $base = basename($path, '.md');
 
-        preg_match_all('/' . preg_quote($base, '/') . '_\d+\.[A-Za-z0-9]+/', $markdown, $matches);
+        preg_match_all('/' . preg_quote($base, '/') . '_\d+\.[A-Za-z0-9]+/i', $markdown, $matches);
         $used = isset($matches[0]) ? array_unique($matches[0]) : [];
 
         foreach (glob($dir . '/' . $base . '_*.*') as $img) {
             if (!in_array(basename($img), $used)) {
-                @unlink($img);
+                if (!unlink($img)) {
+                    error_log('Failed to delete ' . $img);
+                }
             }
         }
     }
@@ -118,9 +131,13 @@ class FlatPageModel
         }
         $dir = dirname($path);
         $base = basename($path, '.md');
+        $ok = true;
         foreach (glob($dir . '/' . $base . '_*.*') as $img) {
-            @unlink($img);
+            if (!unlink($img)) {
+                error_log('Failed to delete ' . $img);
+                $ok = false;
+            }
         }
-        return unlink($path);
+        return unlink($path) && $ok;
     }
 }

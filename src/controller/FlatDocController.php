@@ -34,7 +34,12 @@ class FlatDocController extends BaseController
                     $current = '';
                 }
                 $titleText = strip_tags($m[1]);
-                $anchor = preg_replace('/[^a-z0-9]+/i', '-', strtolower($titleText));
+                $baseAnchor = preg_replace('/[^a-z0-9]+/i', '-', strtolower($titleText));
+                $anchor = $baseAnchor;
+                $counter = 2;
+                while (in_array($anchor, $anchors, true)) {
+                    $anchor = $baseAnchor . '-' . $counter++;
+                }
                 $segments[] = ['type' => 'title', 'text' => $titleText, 'anchor' => $anchor];
                 $anchors[] = $anchor;
             } else {
