@@ -23,7 +23,6 @@ class ModifySectionForm extends MakeupForm
     {
         $id = $_SESSION['page_id'];
         $uPath = $this->pageModel->getPhpPath($id);
-        $languages = $this->doc->listCodeLanguages();
         $options = $this->doc->getOptions();
 
         $form = new Form;
@@ -46,21 +45,12 @@ class ModifySectionForm extends MakeupForm
             	->setRequired(T::trans('Select an option'));
             	
             
-            $form->addSelect('language', T::trans('Language:'), $languages)
-            	->setPrompt(T::trans('Select an option'))
-            	->setHtmlAttribute('data-live-search','true')
-            	->setRequired(T::trans('Select an option'));
-            
-            if ($page[$rowIndex]['key'] == 'codeInline' || $page[$rowIndex]['key'] == 'codeFile') {
-                $form['language']->setDefaultValue($page[$rowIndex]['v2']); 
-            } else {
-                $form['language']->setDefaultValue('Markup');
-            }
+
             
             $form->addUpload('file', 'File:')
                 ->setRequired(false)
-                ->addRule(Form::MIME_TYPE, 'File must be JPEG, PNG, GIF or Plain Text.', ['image/jpeg','image/gif','image/png','text/plain'])
-        		->addRule(Form::MAX_FILE_SIZE, 'Maximum file size is 10 mb.', 10 * 1024 * 1024 /* size in MB */);
+                ->addRule(Form::MIME_TYPE, 'File must be JPEG, PNG, GIF or SVG.', ['image/jpeg','image/gif','image/png','image/svg+xml'])
+                        ->addRule(Form::MAX_FILE_SIZE, 'Maximum file size is 10 mb.', 10 * 1024 * 1024 /* size in MB */);
             	
             $form->addTextArea('option_content', T::trans('Option content'))
                 ->setHtmlAttribute('rows', 10)
@@ -73,16 +63,7 @@ class ModifySectionForm extends MakeupForm
                 $form['option_content']->setDefaultValue($page[$rowIndex]['v1']);
             }
             
-            if ($page[$rowIndex]['key'] == 'imageURL') {
-                $name = $page[$rowIndex]['v2'];
-            } else {
-                $name = '';
-            }
-                
-                $form->addTextArea('names', T::trans('Name'))
-                    ->setHtmlAttribute('data-parent', 'options'.$rowIndex)
-                    ->setAttribute('data-autoresize')
-                	->setDefaultValue($name);
+
                 	
         	
         } 
@@ -94,17 +75,31 @@ class ModifySectionForm extends MakeupForm
         if ($form->isSuccess()) {
             $values = $form->getValues();
             
-            if ($page[$rowIndex]['key'] == 'image' || $page[$rowIndex]['key'] == 'codeFile' || $page[$rowIndex]['key'] == 'markdownFile') { unlink('json/' . $page[$rowIndex]['v1']); }
-            $this->doc->removeOldFile($page[$rowIndex]['key'], $values['options'], 'json/' . $page[$rowIndex]['v1']);
+            if ($page[$rowIndex]['key'] == 'image' && ($values['options'] != 'image' || $values['file']->hasFile())) {
+                if (file_exists('json/' . $page[$rowIndex]['v1'])) {
+                    unlink('json/' . $page[$rowIndex]['v1']);
+                }
+            }
         
         	if (!empty($values)) {
         	    
                 $file = $values['file'];
                 $file_path = $this->doc->upload($file, $this->pageModel->getPhpPath($id));
-        		
-        	    if(isset($id)) {
-            	    $this->pageModel->modifyPageData($id, $rowIndex, $this->doc->valuesToArray($values, $file_path));
-            	    $this->doc->buildPhpPage($id);
+
+                    if(isset($id)) {
+                    $data = ['key' => $values['options'], 'v1' => '', 'v2' => ''];
+                    switch ($values['options']) {
+                        case 'title':
+                        case 'markdown':
+                            $data['v1'] = $values['option_content'];
+                            break;
+                        case 'image':
+                            $data['v1'] = substr($file_path, 5);
+                            $data['v2'] = $values['option_content'];
+                            break;
+                    }
+                    $this->pageModel->modifyPageData($id, $rowIndex, $data);
+                    $this->doc->buildPhpPage($id);
                     header('Location:'.$this->pageModel->getTopic($id).'/'.$this->pageModel->getFilename($id));
         			exit;
         	    } else {

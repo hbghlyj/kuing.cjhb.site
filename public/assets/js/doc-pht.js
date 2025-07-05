@@ -161,10 +161,8 @@ $('table.sortable tbody').sortable({
 
 // Forms dependent hide and show
 var all_options = document.querySelectorAll("[id^='frm-options']");
-var all_languages = document.querySelectorAll("[id^='frm-language']");
 var all_files = document.querySelectorAll("[id^='frm-file']");
 var all_option_content = document.querySelectorAll("[id^='frm-option_content']");
-var all_name = document.querySelectorAll("[id^='frm-names']");
 
 var labels = document.getElementsByTagName('LABEL');
 for (var i = 0; i < labels.length; i++) {
@@ -178,35 +176,10 @@ for (var i = 0; i < labels.length; i++) {
 
 function updateOptionFields() {
     for (var i = 0; i < all_options.length; i++) {
-        var langParent = all_languages[i].parentNode.parentNode;
-        if (all_options[i].value === "codeInline") {
-            all_option_content[i].label.innerHTML = 'Code:';
-            langParent.style.display = "block";
-            all_files[i].parentNode.parentNode.style.display = "none";
-            all_option_content[i].parentNode.parentNode.style.display = "block";
-            all_name[i].parentNode.parentNode.style.display = "none";
-        } else if (all_options[i].value === "codeFile") {
-            langParent.style.display = "block";
-            all_files[i].parentNode.parentNode.style.display = "block";
-            all_option_content[i].parentNode.parentNode.style.display = "none";
-            all_name[i].parentNode.parentNode.style.display = "none";
-        } else if (all_options[i].value === "markdownFile") {
-            langParent.style.display = "none";
-            all_files[i].parentNode.parentNode.style.display = "block";
-            all_option_content[i].parentNode.parentNode.style.display = "none";
-            all_name[i].parentNode.parentNode.style.display = "none";
-        } else if (all_options[i].value === "image") {
+        if (all_options[i].value === "image") {
             all_option_content[i].label.innerHTML = 'Image Name';
-            langParent.style.display = "none";
             all_files[i].parentNode.parentNode.style.display = "block";
             all_option_content[i].parentNode.parentNode.style.display = "block";
-            all_name[i].parentNode.parentNode.style.display = "none";
-        } else if (all_options[i].value === "imageURL") {
-            all_option_content[i].label.innerHTML = 'Image URL Link:';
-            langParent.style.display = "none";
-            all_files[i].parentNode.parentNode.style.display = "none";
-            all_option_content[i].parentNode.parentNode.style.display = "block";
-            all_name[i].parentNode.parentNode.style.display = "block";
         } else {
             switch (all_options[i].value) {
                 case "title":
@@ -215,10 +188,8 @@ function updateOptionFields() {
                 default:
                     all_option_content[i].label.innerHTML = 'Content:';
             }
-            langParent.style.display = "none";
             all_files[i].parentNode.parentNode.style.display = "none";
             all_option_content[i].parentNode.parentNode.style.display = "block";
-            all_name[i].parentNode.parentNode.style.display = "none";
         }
     }
 }
