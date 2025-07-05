@@ -19,8 +19,8 @@ class VersionSelectForm extends MakeupForm
 {
     public function create()
     {
-        if (isset($_SESSION['Active']) && isset($_SESSION['page_id'])) {
-            $id = $_SESSION['page_id'];
+        if (isset($_SESSION['Active']) && isset($_SESSION['page_slug'])) {
+            $id = $_SESSION['page_slug'];
             
             $versionList = $this->versionModel->getVersions($id);
             

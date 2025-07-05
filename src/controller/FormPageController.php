@@ -27,15 +27,14 @@ class FormPageController extends BaseController
         public function getPage($topic, $filename)
         {
                 $slug = $topic.'/'.$filename;
-                $id = $this->pageModel->getIdBySlug($slug);
-                if ($id === null) {
+                if (!$this->pageModel->slugExists($slug)) {
                         $error = new ErrorPageController();
                         $error->getPage($topic, $filename);
                         return;
                 }
 
                 $this->view->show('partial/head.php', ['PageTitle' => $topic .' '. $filename]);
-                $path = $this->pageModel->getPhpPath($id);
+                $path = $this->pageModel->getPhpPath($slug);
                 $values = require $path;
                 $this->view->show('page/page.php', ['values' => $values]);
                 $this->view->show('partial/footer.php');

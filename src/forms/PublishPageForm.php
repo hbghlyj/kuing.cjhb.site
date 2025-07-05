@@ -18,7 +18,7 @@ class PublishPageForm extends MakeupForm
 {
     public function publish()
     {
-        $id = $_SESSION['page_id'];
+        $id = $_SESSION['page_slug'];
         $pages = $this->pageModel->connect();
 
         foreach ($pages as $key => $value) {

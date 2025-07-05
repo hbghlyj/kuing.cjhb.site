@@ -22,7 +22,7 @@ class RemoveSectionForm extends MakeupForm
     public function create()
     {
 
-        $id = $_SESSION['page_id'];
+        $id = $_SESSION['page_slug'];
         
         if(isset($_GET['id'])) {
             $rowIndex = intval($_GET['id']);
