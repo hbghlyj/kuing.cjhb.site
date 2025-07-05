@@ -94,8 +94,7 @@ class BaseController
 
 	public function search()
 	{
-	    $this->searchModel->feed();
-		$results = $this->search->create();
+            $results = $this->search->create();
 		if (isset($results)) {
 			$this->view->load('Search','search_results.php', ['results' => $results]);
 		} else {

@@ -134,7 +134,6 @@ class BackupsModel extends PageModel
         if(file_exists('json/users.json'))array_push($assets, 'json/users.json');
         if(file_exists('json/logo.png'))array_push($assets, 'json/logo.png');
         if(file_exists('json/favicon.png'))array_push($assets, 'json/favicon.png');
-        if(file_exists('json/search.json'))array_push($assets, 'json/search.json');
         if(file_exists('json/accesslog.json'))array_push($assets, 'json/accesslog.json');
         
         $this->doc = new DocBuilder;

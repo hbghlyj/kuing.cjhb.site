@@ -21,57 +21,53 @@ class SearchForm extends MakeupForm
     {
         $searchthis = '';
         $found = [];
-        
+
         if(!empty($_POST["search"])) {
             $searchthis = $this->sanitizing($_POST["search"]);
 
-            $json = json_decode(file_get_contents('json/search.json'), TRUE);
             $pages = $this->pageModel->connect();
+            $cmd = "grep -R -o -i --include='*.md' " . escapeshellarg($searchthis) . " flat | cut -d: -f1 | sort | uniq -c | sort -nr";
+            $output = shell_exec($cmd);
+            $lines = array_filter(explode("\n", trim($output)));
 
-                    foreach($json as $value)  {
-                        $slug = $value['slug'];
-                        $value = $value['content'];
-                        if(!empty($searchthis) && preg_match("#($searchthis)#", strtolower($value)))  {
+            foreach ($lines as $line) {
+                if (preg_match('/^\s*(\d+)\s+(.*)$/', $line, $matches)) {
+                    $count = (int)$matches[1];
+                    $file = $matches[2];
+                    $slug = substr($file, 5); // remove 'flat/' prefix
+                    $slug = substr($slug, 0, -3); // remove '.md'
 
-                            similar_text($searchthis, $value, $perc);
-                    
-                            if (strlen($value) > 500)
-                            $value = substr($value, 0, 100) . '...';
-
-                            foreach ($pages as $val) {
-                                if ($val['pages']['slug'] == $slug) {
-                                    $found[] =  array(
-                                            'content' => '<div class="result-preview">'
-                                                    . '<a href="/page/'.$slug.'">'
-                                                        . '<h3 class="result-title">'
-                                                            .$this->pageModel->getTopic($slug).' '.$this->pageModel->getFilename($slug).'
-                                                        </h3>'
-                                                        . '<p class="result-subtitle">'
-                                                            .$value
-                                                        . '</p>'
-                                                        . '<small class="badge badge-success">'.T::trans('similarity').': '.round($perc, 1).'%</small>'
-                                                    . '</a>'
-                                                . '</div>'
-                                                . '<hr>',
-                                            'perc' => $perc
-                                        );
-                                }
-                            }
-
+                    foreach ($pages as $val) {
+                        if ($val['pages']['slug'] == $slug) {
+                            $found[] = [
+                                'content' => '<div class="result-preview">'
+                                    . '<a href="/page/'.$slug.'">'
+                                        . '<h3 class="result-title">'
+                                            .$this->pageModel->getTopic($slug).' '.$this->pageModel->getFilename($slug).'
+                                        </h3>'
+                                        . '<small class="badge badge-success">'.T::trans('Matches found').': '.$count.'</small>'
+                                    . '</a>'
+                                . '</div>'
+                                . '<hr>',
+                                'count' => $count
+                            ];
                         }
                     }
-                    if(!empty($found))
-                    usort($found, function($a, $b) {
-                        return [$b['perc']] <=> [$a['perc']];
-                    });
-                    $found = array_column($found, 'content');
-                    $found = array_unique($found);
-                    
-                    if(!empty($found)) { return implode($found); }
+                }
+            }
+
+            if(!empty($found))
+            usort($found, function($a, $b) {
+                return [$b['count']] <=> [$a['count']];
+            });
+            $found = array_column($found, 'content');
+            $found = array_unique($found);
+
+            if(!empty($found)) { return implode($found); }
         } else {
             header('Location:/doc.php');
             exit;
-        } 
+        }
     }
 
     public function filter($file)
