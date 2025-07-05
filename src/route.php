@@ -128,8 +128,13 @@ $route->group('/page', function()
         $this->get_post('/save-version', 'DocPHT\Controller\FormPageController@getSaveVersionForm');
     }
 
-    // /page/topic/filename
+    // View page
     $this->get_post('/{slug}', function($slug){
+        if (strpos($slug, '/') !== false) {
+            $error = new ErrorPageController();
+            $error->getPage();
+            return;
+        }
         $page = new FormPageController();
         $page->getPage($slug);
     });
