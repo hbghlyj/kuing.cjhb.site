@@ -162,7 +162,6 @@ class PageModel
             'pages' => [
                     'id' => $id,
                     'slug' => $slug,
-                    'file_slug' => $fileSlug,
                     'topic' => $topic,
                     'filename' => $filename,
                     'home' => 0
