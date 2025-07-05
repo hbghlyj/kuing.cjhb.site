@@ -75,7 +75,7 @@ class PageModel
         $data = $this->connect();
         foreach ($data as $value) {
             if ($value['pages']['slug'] === $slug) {
-                return $value['pages']['id'];
+                return $value['pages']['slug'];
             }
         }
         return null;
@@ -136,10 +136,10 @@ class PageModel
     public function create($topic, $filename)
     {
         $data = $this->connect();
-        $id = uniqid();
         $topic = pathinfo($topic, PATHINFO_FILENAME);
         $filename = pathinfo($filename, PATHINFO_FILENAME);
         $slug = trim($topic) . '/' . trim($filename);
+        $id = $slug;
         $fileSlug = $this->computeFileSlug($topic, $filename);
 
         if (!is_null($data)) {
@@ -160,7 +160,6 @@ class PageModel
         
         $data[] = array(
             'pages' => [
-                    'id' => $id,
                     'slug' => $slug,
                     'topic' => $topic,
                     'filename' => $filename,
@@ -353,7 +352,7 @@ class PageModel
             $fileSlug = isset($value['pages']['file_slug']) ? $value['pages']['file_slug'] : $this->computeFileSlug($value['pages']['topic'], $value['pages']['filename']);
             $phpPath = 'pages/'.$fileSlug.'.php';
             if ($phpPath === $path) {
-                return $value['pages']['id'];
+                return $value['pages']['slug'];
             }
         }
 
@@ -551,7 +550,7 @@ class PageModel
         $x = 0;
         if (isset($data)) {
             foreach ($data as $array) {
-                if ($array['pages']['id'] == $search) $key = $x;
+                if ($array['pages']['slug'] == $search) $key = $x;
                 $x++;
             }
             

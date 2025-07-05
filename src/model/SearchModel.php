@@ -25,15 +25,15 @@ class SearchModel extends PageModel
         $array = [];
         if($data !== false){
             foreach ($data as $value) {
-                if(!empty($value['id'])) {
-                    (!empty($value['topic'])) ? array_push($array, $this->add($value['id'], $value['topic'])) : $array;
-                    (!empty($value['topic'])) ? array_push($array, $this->add($value['id'], $value['filename'])) : $array;
+                if(!empty($value['slug'])) {
+                    (!empty($value['topic'])) ? array_push($array, $this->add($value['slug'], $value['topic'])) : $array;
+                    (!empty($value['topic'])) ? array_push($array, $this->add($value['slug'], $value['filename'])) : $array;
                 }
-                foreach($this->getPageData($value['id']) as $page) {
-                    (!empty($page['v1'])) ? array_push($array,$this->add($value['id'], $page['v1'])) : $array;
-                    (!empty($page['v2'])) ? array_push($array,$this->add($value['id'], $page['v2'])) : $array;
-                    (!empty($page['v3'])) ? array_push($array,$this->add($value['id'], $page['v3'])) : $array;
-                    (!empty($page['v4'])) ? array_push($array,$this->add($value['id'], $page['v4'])) : $array;
+                foreach($this->getPageData($value['slug']) as $page) {
+                    (!empty($page['v1'])) ? array_push($array,$this->add($value['slug'], $page['v1'])) : $array;
+                    (!empty($page['v2'])) ? array_push($array,$this->add($value['slug'], $page['v2'])) : $array;
+                    (!empty($page['v3'])) ? array_push($array,$this->add($value['slug'], $page['v3'])) : $array;
+                    (!empty($page['v4'])) ? array_push($array,$this->add($value['slug'], $page['v4'])) : $array;
                 }
             }
         }
@@ -43,7 +43,7 @@ class SearchModel extends PageModel
     public function add($id, $content)
     {
         return [
-                    'id' => $id,
+                    'slug' => $id,
                     'content' => $content
                 ];
     }

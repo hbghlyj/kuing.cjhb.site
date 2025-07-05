@@ -142,8 +142,8 @@ class BackupsModel extends PageModel
         
         if (is_array($pages) && count($pages) > 0) {
             foreach($pages as $page) {
-                ($this->versionModel->getAssets($page['pages']['id']) !== false) ? $asset = $this->versionModel->getAssets($page['pages']['id']) : $asset = '';
-                ($this->versionModel->getVersions($page['pages']['id']) !== false) ? $version = $this->versionModel->getVersions($page['pages']['id']) : $version = [];
+                ($this->versionModel->getAssets($page['pages']['slug']) !== false) ? $asset = $this->versionModel->getAssets($page['pages']['slug']) : $asset = '';
+                ($this->versionModel->getVersions($page['pages']['slug']) !== false) ? $version = $this->versionModel->getVersions($page['pages']['slug']) : $version = [];
                 
                 foreach($asset as $a) { array_push($assets, $a); }
                 if(!empty($version))foreach($version as $ver) { array_push($assets, $ver['path']); }
