@@ -22,13 +22,13 @@ class UpdatePageForm extends MakeupForm
     public function create()
     {
 
-        $id = $_SESSION['page_slug'];
+        $slug = $_SESSION['page_slug'];
         $options = $this->doc->getOptions();
 
         $form = new Form;
         $form->onRender[] = [$this, 'bootstrap4'];
 
-        $page = $this->pageModel->getPageData($id);
+        $page = $this->pageModel->getPageData($slug);
 
         $index = 0;
         
@@ -83,7 +83,7 @@ class UpdatePageForm extends MakeupForm
                 
                 if($mapped['options'] == 'image' && $values['file'.$x]->hasFile()) {
                     $file = $mapped['file'];
-                    $file_path = $this->doc->upload($file, $this->pageModel->getPhpPath($id));
+                    $file_path = $this->doc->upload($file, $this->pageModel->getPhpPath($slug));
                 } else {
                     unset($mapped['file']);
                     $file_path = ($mapped['options'] != 'addButton') ? 'json/'.$page[$x]['v1'] : '';
@@ -95,7 +95,7 @@ class UpdatePageForm extends MakeupForm
                     }
                 }
         
-            	    if(isset($id)) {
+                    if(isset($slug)) {
                             $data = ['key' => $mapped['options'], 'v1' => '', 'v2' => ''];
                             switch ($mapped['options']) {
                                 case 'title':
@@ -107,12 +107,12 @@ class UpdatePageForm extends MakeupForm
                                     $data['v2'] = $mapped['option_content'];
                                     break;
                             }
-                            $this->pageModel->modifyPageData($id, $x, $data);
+                            $this->pageModel->modifyPageData($slug, $x, $data);
             	    }
             }
-            header('Location:'.$this->pageModel->getTopic($id).'/'.$this->pageModel->getFilename($id));
+            header('Location:'.$this->pageModel->getTopic($slug).'/'.$this->pageModel->getFilename($slug));
             exit;
-        } elseif (!isset($id)) {
+        } elseif (!isset($slug)) {
             $this->msg->error(T::trans('Sorry something didn\'t work!'));
         }
 

@@ -22,20 +22,20 @@ class RemoveSectionForm extends MakeupForm
     public function create()
     {
 
-        $id = $_SESSION['page_slug'];
+        $slug = $_SESSION['page_slug'];
         
         if(isset($_GET['id'])) {
             $rowIndex = intval($_GET['id']);
         }
         
-        if ($this->pageModel->getPageData($id)[$rowIndex]['key'] == 'image') {
-            unlink('json/' . $this->pageModel->getPageData($id)[$rowIndex]['v1']);
+        if ($this->pageModel->getPageData($slug)[$rowIndex]['key'] == 'image') {
+            unlink('json/' . $this->pageModel->getPageData($slug)[$rowIndex]['v1']);
         }
-        
-        $this->pageModel->removePageData($id, $rowIndex);
-        
-        if(isset($id)) {
-            header('Location:'.$this->pageModel->getTopic($id).'/'.$this->pageModel->getFilename($id));
+
+        $this->pageModel->removePageData($slug, $rowIndex);
+
+        if(isset($slug)) {
+            header('Location:'.$this->pageModel->getTopic($slug).'/'.$this->pageModel->getFilename($slug));
             exit;
         } else {
     		$this->msg->error(T::trans('Sorry something didn\'t work!'));
