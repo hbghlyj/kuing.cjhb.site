@@ -56,4 +56,71 @@ class FlatPageModel
         $parsedown = new MediaWikiParsedown();
         return $parsedown->text($markdown);
     }
+
+    public function uploadImages(string $slug, array $files): array
+    {
+        $saved = [];
+        $path = $this->getPath($slug);
+        if ($path === null) {
+            return $saved;
+        }
+        $dir = dirname($path);
+        $base = basename($path, '.md');
+
+        $index = 1;
+        foreach (glob($dir . '/' . $base . '_*.*') as $img) {
+            if (preg_match('/_(\d+)\.[^.]+$/', $img, $m)) {
+                $index = max($index, (int)$m[1] + 1);
+            }
+        }
+
+        $names = $files['name'] ?? [];
+        $tmp   = $files['tmp_name'] ?? [];
+        $errors= $files['error'] ?? [];
+
+        foreach ($names as $i => $name) {
+            if ($errors[$i] === UPLOAD_ERR_OK) {
+                $ext = pathinfo($name, PATHINFO_EXTENSION);
+                $target = $dir . '/' . $base . '_' . $index . '.' . $ext;
+                if (move_uploaded_file($tmp[$i], $target)) {
+                    $saved[] = basename($target);
+                    $index++;
+                }
+            }
+        }
+        return $saved;
+    }
+
+    public function cleanUnusedImages(string $slug, string $markdown): void
+    {
+        $path = $this->getPath($slug);
+        if ($path === null) {
+            return;
+        }
+        $dir = dirname($path);
+        $base = basename($path, '.md');
+
+        preg_match_all('/' . preg_quote($base, '/') . '_\d+\.[A-Za-z0-9]+/', $markdown, $matches);
+        $used = isset($matches[0]) ? array_unique($matches[0]) : [];
+
+        foreach (glob($dir . '/' . $base . '_*.*') as $img) {
+            if (!in_array(basename($img), $used)) {
+                @unlink($img);
+            }
+        }
+    }
+
+    public function delete(string $slug): bool
+    {
+        $path = $this->getPath($slug);
+        if ($path === null || !file_exists($path)) {
+            return false;
+        }
+        $dir = dirname($path);
+        $base = basename($path, '.md');
+        foreach (glob($dir . '/' . $base . '_*.*') as $img) {
+            @unlink($img);
+        }
+        return unlink($path);
+    }
 }
