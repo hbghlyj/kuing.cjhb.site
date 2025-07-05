@@ -21,7 +21,7 @@
  * getAllFromKey($key)
  * getAllFromDataKey($data, $key)
  * getAllIndexed()
- * getId($path)
+ * getSlugByPath($path)
  * getTopic($id)
  * getFilename($id)
  * getPageData($id)
@@ -70,15 +70,15 @@ class PageModel
         return $this->computeFileSlug($topic, $filename);
     }
 
-    public function getIdBySlug($slug)
+    public function slugExists($slug)
     {
         $data = $this->connect();
         foreach ($data as $value) {
             if ($value['pages']['slug'] === $slug) {
-                return $value['pages']['slug'];
+                return true;
             }
         }
-        return null;
+        return false;
     }
     
     
@@ -339,13 +339,13 @@ class PageModel
     }
     
     /**
-     * getId
+     * getSlugByPath
      *
      * @param  string $path
      *
      * @return string
      */
-    public function getId($path)
+    public function getSlugByPath($path)
     {
         $data = $this->connect();
         foreach ($data as $value) {

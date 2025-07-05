@@ -21,7 +21,7 @@ class InsertSectionForm extends MakeupForm
 
     public function create()
     {
-        $id = $_SESSION['page_id'];
+        $id = $_SESSION['page_slug'];
         $uPath = $this->pageModel->getPhpPath($id);
         $options = $this->doc->getOptions();
 

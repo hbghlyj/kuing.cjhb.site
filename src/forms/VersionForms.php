@@ -21,7 +21,7 @@ class VersionForms extends MakeupForm
 
     public function import()
     {
-        $id = $_SESSION['page_id'];
+        $id = $_SESSION['page_slug'];
         $aPath = $this->versionModel->getPhpPath($id);
 
         $form = new Form;
@@ -65,16 +65,16 @@ class VersionForms extends MakeupForm
     
     public function delete()
     {    
-        if (isset($_POST['version']) && isset($_SESSION['page_id'])) {
+        if (isset($_POST['version']) && isset($_SESSION['page_slug'])) {
             ($this->versionModel->deleteVersion($_POST['version'])) 
-            ? header('Location:'.$this->pageModel->getTopic($_SESSION['page_id']).'/'.$this->pageModel->getFilename($_SESSION['page_id'])) 
-            : $this->msg->error(T::trans('Sorry something didn\'t work!'),BASE_URL.'page/'.$this->pageModel->getTopic($_SESSION['page_id']).'/'.$this->pageModel->getFilename($_SESSION['page_id']));
+            ? header('Location:'.$this->pageModel->getTopic($_SESSION['page_slug']).'/'.$this->pageModel->getFilename($_SESSION['page_slug'])) 
+            : $this->msg->error(T::trans('Sorry something didn\'t work!'),BASE_URL.'page/'.$this->pageModel->getTopic($_SESSION['page_slug']).'/'.$this->pageModel->getFilename($_SESSION['page_slug']));
         }
     }
     
     public function export()
     {    
-        if (isset($_POST['version']) && isset($_SESSION['page_id'])) {
+        if (isset($_POST['version']) && isset($_SESSION['page_slug'])) {
             $filename = $_POST['version'];
             if (file_exists($filename)) {
                 header('Content-Description: File Transfer');
@@ -87,16 +87,16 @@ class VersionForms extends MakeupForm
                 readfile($filename);
                 exit;
             }
-            $this->msg->error(T::trans('Invalid procedure! File not found.'),BASE_URL.'page/'.$this->pageModel->getTopic($_SESSION['page_id']).'/'.$this->pageModel->getFilename($_SESSION['page_id']));
+            $this->msg->error(T::trans('Invalid procedure! File not found.'),BASE_URL.'page/'.$this->pageModel->getTopic($_SESSION['page_slug']).'/'.$this->pageModel->getFilename($_SESSION['page_slug']));
         } else {
-            $this->msg->error(T::trans('Invalid procedure! File not set.'),BASE_URL.'page/'.$this->pageModel->getTopic($_SESSION['page_id']).'/'.$this->pageModel->getFilename($_SESSION['page_id']));
+            $this->msg->error(T::trans('Invalid procedure! File not set.'),BASE_URL.'page/'.$this->pageModel->getTopic($_SESSION['page_slug']).'/'.$this->pageModel->getFilename($_SESSION['page_slug']));
         }
     }
     
     public function restore()
     {
-        if (isset($_POST['version']) && isset($_SESSION['page_id'])) {
-            $id = $_SESSION['page_id'];
+        if (isset($_POST['version']) && isset($_SESSION['page_slug'])) {
+            $id = $_SESSION['page_slug'];
             $versionZip = $_POST['version'];
             $aPath = $this->pageModel->getPhpPath($id);
             $jsonPath = $this->pageModel->getJsonPath($id);
@@ -127,7 +127,7 @@ class VersionForms extends MakeupForm
     
     public function save()
     {
-        $id = $_SESSION['page_id'];
+        $id = $_SESSION['page_slug'];
         if ($this->versionModel->saveVersion($id)) {
         	$this->msg->success(T::trans('Version saved successfully.'),BASE_URL.'page/'.$this->pageModel->getTopic($id).'/'.$this->pageModel->getFilename($id));
         } else {

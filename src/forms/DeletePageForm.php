@@ -19,7 +19,7 @@ class DeletePageForm extends MakeupForm
 
     public function delete()
     {
-        $id = $_SESSION['page_id'];
+        $id = $_SESSION['page_slug'];
         $uPath = $this->pageModel->getPhpPath($id);
         $data = $this->pageModel->getPageData($id);
     
@@ -31,7 +31,7 @@ class DeletePageForm extends MakeupForm
         (file_exists($this->pageModel->getPhpPath($id))) ? unlink($this->pageModel->getPhpPath($id)) : NULL;
         (file_exists($this->pageModel->getJsonPath($id))) ? unlink($this->pageModel->getJsonPath($id)) : NULL;
     
-        if (isset($_SESSION['Active']) && isset($_SESSION['page_id'])) {
+        if (isset($_SESSION['Active']) && isset($_SESSION['page_slug'])) {
             if ($uPath == 'json/doc-pht/home.php') {
                 $zippedVersionPath = 'json/doc-pht/';
                 $filePattern = 'home_*.zip';

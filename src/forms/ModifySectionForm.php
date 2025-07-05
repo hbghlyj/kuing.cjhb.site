@@ -21,7 +21,7 @@ class ModifySectionForm extends MakeupForm
 
     public function create()
     {
-        $id = $_SESSION['page_id'];
+        $id = $_SESSION['page_slug'];
         $options = $this->doc->getOptions();
 
         $form = new Form;

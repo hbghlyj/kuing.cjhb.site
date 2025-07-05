@@ -25,25 +25,26 @@ class SearchModel extends PageModel
         $array = [];
         if($data !== false){
             foreach ($data as $value) {
-                if(!empty($value['slug'])) {
-                    (!empty($value['topic'])) ? array_push($array, $this->add($value['slug'], $value['topic'])) : $array;
-                    (!empty($value['topic'])) ? array_push($array, $this->add($value['slug'], $value['filename'])) : $array;
+                if(!empty($value['slug']) && !empty($value['topic'])) {
+                    array_push($array, $this->add($value['slug'], $value['topic']));
+                    array_push($array, $this->add($value['slug'], $value['filename']));
                 }
                 foreach($this->getPageData($value['slug']) as $page) {
-                    (!empty($page['v1'])) ? array_push($array,$this->add($value['slug'], $page['v1'])) : $array;
-                    (!empty($page['v2'])) ? array_push($array,$this->add($value['slug'], $page['v2'])) : $array;
-                    (!empty($page['v3'])) ? array_push($array,$this->add($value['slug'], $page['v3'])) : $array;
-                    (!empty($page['v4'])) ? array_push($array,$this->add($value['slug'], $page['v4'])) : $array;
+                    for ($i = 1; $i <= 4; $i++) {
+                        if (!empty($page["v$i"])) {
+                            array_push($array, $this->add($value['slug'], $page["v$i"]));
+                        }
+                    }
                 }
             }
         }
         $this->disconnect('json/search.json',$array);
     }
     
-    public function add($id, $content)
+    public function add($slug, $content)
     {
         return [
-                    'slug' => $id,
+                    'slug' => $slug,
                     'content' => $content
                 ];
     }

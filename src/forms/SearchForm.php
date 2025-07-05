@@ -29,7 +29,7 @@ class SearchForm extends MakeupForm
             $pages = $this->pageModel->connect();
 
                     foreach($json as $value)  {
-                        $id = $value['slug'];
+                        $slug = $value['slug'];
                         $value = $value['content'];
                         if(!empty($searchthis) && preg_match("#($searchthis)#", strtolower($value)))  {
 
@@ -39,12 +39,12 @@ class SearchForm extends MakeupForm
                             $value = substr($value, 0, 100) . '...';
 
                             foreach ($pages as $val) {
-                                if ($val['pages']['slug'] == $id) {
+                                if ($val['pages']['slug'] == $slug) {
                                     $found[] =  array(
                                             'content' => '<div class="result-preview">'
-                                                    . '<a href="/page/'.$this->pageModel->getSlug($id).'">'
+                                                    . '<a href="/page/'.$slug.'">'
                                                         . '<h3 class="result-title">'
-                                                            .$this->pageModel->getTopic($id).' '.$this->pageModel->getFilename($id).'
+                                                            .$this->pageModel->getTopic($slug).' '.$this->pageModel->getFilename($slug).'
                                                         </h3>'
                                                         . '<p class="result-subtitle">'
                                                             .$value
