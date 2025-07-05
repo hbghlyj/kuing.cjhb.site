@@ -90,60 +90,8 @@ if (isset($_SESSION['Active'])) {
 // /page
 $route->group('/page', function()
 {
-    // /page/topic/filename
-    $this->get_post('/{topic}/{filename}', function($topic, $filename){
-        $model = new \DocPHT\Model\PageModel();
-        $slug = $topic.'/'.$filename;
-        $id = $model->getIdBySlug($slug);
-        if ($id !== null) {
-            $page = new FormPageController();
-            $page->getPage($topic, $filename);
-        } else {
-            $error = new ErrorPageController();
-            $error->getPage($topic, $filename);
-        }
-    });
-
-    // /page/search
-    $this->get_post('/search', 'Instant\Core\Controller\BaseController@search');
-
-    if (isset($_SESSION['Active'])) {
-        // /page/create
-        $this->get_post('/create', 'DocPHT\Controller\FormPageController@getCreatePageForm');
-        // /page/add-section
-        $this->get_post('/add-section', 'DocPHT\Controller\FormPageController@getAddSectionForm');
-        // /page/update
-        $this->get_post('/update', 'DocPHT\Controller\FormPageController@getUpdatePageForm');
-        // /page/insert
-        $this->get_post('/insert', 'DocPHT\Controller\FormPageController@getInsertSectionForm');
-        // /page/modify
-        $this->get_post('/modify', 'DocPHT\Controller\FormPageController@getModifySectionForm');
-        // /page/remove
-        $this->get_post('/remove', 'DocPHT\Controller\FormPageController@getRemoveSectionForm');
-        // /page/delete
-        $adminModel = new AdminModel(); 
-        if ($adminModel->checkUserIsAdmin($_SESSION['Username']) == true) {
-            $this->get_post('/delete', 'DocPHT\Controller\FormPageController@getDeletePageForm');
-        }
-        // /page/import-version
-        $this->get_post('/import-version', 'DocPHT\Controller\FormPageController@getImportVersionForm');
-        // /page/export-version
-        $this->get_post('/export-version', 'DocPHT\Controller\FormPageController@getExportVersionForm');
-        // /page/restore-version
-        $this->get_post('/restore-version', 'DocPHT\Controller\FormPageController@getRestoreVersionForm');
-        // /page/delete-version
-        if ($adminModel->checkUserIsAdmin($_SESSION['Username']) == true) {
-            $this->get_post('/delete-version', 'DocPHT\Controller\FormPageController@getDeleteVersionForm');
-        }
-        // /page/save-version
-        $this->get_post('/save-version', 'DocPHT\Controller\FormPageController@getSaveVersionForm');
-    } else {
-        $this->any('/*', function(){
-            $login = new LoginController();
-            $login->login();
-        });
-    }
-    
+    $this->get('/{topic}/{filename}', 'DocPHT\\Controller\\FlatDocController@show');
+    $this->get_post('/{topic}/{filename}/edit', 'DocPHT\\Controller\\FlatEditController@edit');
     // Anything else
     $this->any('/*', function(){
         $error = new ErrorPageController();
