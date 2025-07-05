@@ -358,17 +358,12 @@
     mathItem.forEach(item => {
       // Check for other environments
       const environments = [
+        'definition',
         'theorem',
         'lemma',
-        'proposition',
         'corollary',
-        'definition',
-        'proof',
-        'solution',
-        'problem',
-        'remark',
-        'example',
-        'exercise'
+        'proposition',
+        'proof'
       ];
 
       if (environments.includes(item.open.replace('\\begin{', '').replace('}', ''))) {
@@ -376,14 +371,8 @@
         const envName = item.open.replace('\\begin{', '').replace('}', '');
         // Convert the environment to an HTML div with a class
         const div = d.createElement('div');
-        div.className = envName === 'theorem' ? 'alert alert-primary' :
-          envName === 'definition' ? 'alert alert-success' :
-            (envName === 'lemma' || envName === 'corollary' || envName === 'proposition') ? 'alert alert-secondary' :
-              (envName === 'proof' || envName === 'solution') ? 'alert alert-info' :
-                envName === 'exercise' ? 'alert alert-dark' :
-                  envName === 'example' ? 'alert alert-warning' :
-                    envName === 'problem' ? 'alert alert-danger' :
-                      'alert alert-light';
+        div.className = envName == 'definition' ? 'alert alert-success' : envName == 'theorem' ? 'alert alert-primary' :
+            envName == 'proof' ? 'alert border bg-white' : 'alert alert-info';
         {
           const helperRange = item.range.cloneRange();
           helperRange.setStart(item.range.startContainer, item.range.startOffset + item.open.length);
@@ -394,7 +383,6 @@
         item.range.insertNode(div);
         // Add a title span
         const strong = d.createElement('strong');
-        strong.className = 'latex_title';
         strong.innerHTML = envName.charAt(0).toUpperCase() + envName.slice(1);
         div.prepend(strong);
         processTree(div);
