@@ -68,7 +68,7 @@ class BackupsForms extends MakeupForm
             }
             
             if ($procedure) {
-                $this->msg->success(T::trans('Restored successfully.'),BASE_URL.'admin/backup');
+                $this->msg->success(T::trans('Version restored successfully.'),BASE_URL.'admin/backup');
             } else {
                 $this->msg->error(T::trans('Invalid procedure!'),BASE_URL.'admin/backup');
             }
