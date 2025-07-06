@@ -17,14 +17,24 @@ class UpdatePageForm extends MakeupForm
         $form->addTextArea('markdown', T::trans('Enter content'))
             ->setHtmlAttribute('rows', 20)
             ->setDefaultValue($markdown);
+        $form->addUpload('images', T::trans('Images'))
+            ->setHtmlAttribute('multiple', true)
+            ->setRequired(false);
         $form->addProtection(T::trans('Security token has expired, please submit the form again'));
         $form->addSubmit('submit', T::trans('Update'));
 
         if ($form->isSuccess()) {
             $values = $form->getValues();
-            $this->pageModel->put($slug, $values['markdown']);
-            header('Location:/page/' . $slug);
-            exit;
+            if (!empty($_FILES['images']['name'][0])) {
+                $this->pageModel->uploadImages($slug, $_FILES['images']);
+            }
+            if ($this->pageModel->put($slug, $values['markdown'])) {
+                $this->pageModel->cleanUnusedImages($slug, $values['markdown']);
+                header('Location:/page/' . $slug);
+                exit;
+            } else {
+                $this->msg->error(T::trans('Failed to save changes.'), BASE_URL . 'page/update');
+            }
         }
         return $form;
     }
