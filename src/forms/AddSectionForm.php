@@ -27,7 +27,7 @@ class AddSectionForm extends MakeupForm
         $form->onRender[] = [$this, 'bootstrap4'];
 
         $form->addGroup(T::trans('Add section'));
-        $form->addTextArea('markdown', T::trans('Content'))
+        $form->addTextArea('markdown', T::trans('Option content'))
             ->setHtmlAttribute('rows', 10)
             ->setRequired(T::trans('Enter content'));
 
@@ -42,7 +42,7 @@ class AddSectionForm extends MakeupForm
                 header('Location:/page/' . $slug);
                 exit;
             }
-            $this->msg->error(T::trans('Failed to add content.'), BASE_URL . 'page/' . $slug);
+            $this->msg->error(T::trans("Sorry something didn't work!"), BASE_URL . 'page/add-section');
         }
 
         return $form;

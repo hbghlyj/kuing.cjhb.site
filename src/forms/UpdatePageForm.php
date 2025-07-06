@@ -17,7 +17,7 @@ class UpdatePageForm extends MakeupForm
         $form->addTextArea('markdown', T::trans('Enter content'))
             ->setHtmlAttribute('rows', 20)
             ->setDefaultValue($markdown);
-        $form->addUpload('images', T::trans('Images'))
+        $form->addUpload('images', T::trans('Add image from file'))
             ->setHtmlAttribute('multiple', true)
             ->setRequired(false);
         $form->addProtection(T::trans('Security token has expired, please submit the form again'));
@@ -33,7 +33,7 @@ class UpdatePageForm extends MakeupForm
                 header('Location:/page/' . $slug);
                 exit;
             } else {
-                $this->msg->error(T::trans('Failed to save changes.'), BASE_URL . 'page/update');
+                $this->msg->error(T::trans("Sorry something didn't work!"), BASE_URL . 'page/update');
             }
         }
         return $form;
