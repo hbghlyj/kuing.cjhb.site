@@ -27,8 +27,8 @@ class LoginForm extends MakeupForm
 		$form->onRender[] = [$this, 'bootstrap4'];
 
 		$form->addText('Username', T::trans('Username'))
-			->setHtmlAttribute('placeholder', T::trans('Username'))
-			->setRequired(T::trans('Enter Username'));
+                        ->setHtmlAttribute('placeholder', T::trans('Username'))
+                        ->setRequired(T::trans('Enter username'));
             
 		$form->addPassword('Password', T::trans('Password'))
 		    ->setHtmlAttribute('placeholder', T::trans('Password'))

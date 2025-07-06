@@ -16,6 +16,8 @@ files. Pages are shown under `/page/{topic}/{filename}` and logged in users can
 edit them at `/page/update`. The controller uses the same
 `MediaWikiParsedown` parser employed by the rest of the documentation and saves
 the Markdown back to `flat/`.
+### Translation check
+Run `php tests/check_translation_keys.php` to make sure every call to `T::trans()` refers to an existing string in `src/translations/zh_CN.php`.
 
 ## Attachment tables
 

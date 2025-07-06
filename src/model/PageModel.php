@@ -2,6 +2,7 @@
 namespace DocPHT\Model;
 
 use DocPHT\Lib\MediaWikiParsedown;
+use DocPHT\Core\Translator\T;
 
 class PageModel
 {
@@ -187,8 +188,29 @@ class PageModel
         if ($markdown === null) {
             return null;
         }
+
+        $path = $this->getPath($slug);
+        $dir = dirname($path);
+        $base = basename($path, '.md');
+        preg_match_all('/' . preg_quote($base, '/') . '_\d+\.[A-Za-z0-9]+/i', $markdown, $matches);
+        $used = isset($matches[0]) ? array_unique($matches[0]) : [];
+        $unused = [];
+        foreach (glob($dir . '/' . $base . '_*.{jpg,jpeg,png,gif}', GLOB_BRACE) as $img) {
+            if (!in_array(basename($img), $used)) {
+                $unused[] = $img;
+            }
+        }
+
         $parsedown = new MediaWikiParsedown();
-        return $parsedown->text($markdown);
+        $html = $parsedown->text($markdown);
+        if ($unused) {
+            $html .= '<h3>' . T::trans('Unused images') . '</h3>';
+            foreach ($unused as $imgPath) {
+                $src = str_replace($_SERVER['DOCUMENT_ROOT'], '', $imgPath);
+                $html .= '<p><img src="' . $src . '" class="img-fluid mb-3" alt=""></p>';
+            }
+        }
+        return $html;
     }
 
     public function uploadImages(string $slug, array $files): array
