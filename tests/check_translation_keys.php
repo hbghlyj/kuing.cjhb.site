@@ -18,7 +18,7 @@ $rii = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dir));
 foreach ($rii as $file) {
     if (!$file->isFile() || $file->getExtension() !== 'php') continue;
     $php = file_get_contents($file->getPathname());
-    preg_match_all("/T::trans\(['\"]([^'\"]+)['\"]\)/", $php, $m);
+    preg_match_all("/T::trans\(['\"]([^'\"]+)/", $php, $m);
     foreach ($m[1] as $k) {
         $used[$k] = true;
         if (!in_array($k, $keys)) {
