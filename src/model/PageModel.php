@@ -236,7 +236,8 @@ class PageModel
             'jpg' => 'image/jpeg',
             'jpeg' => 'image/jpeg',
             'png' => 'image/png',
-            'gif' => 'image/gif'
+            'gif' => 'image/gif',
+            'svg' => 'image/svg+xml'
         ];
         foreach ($names as $i => $name) {
             if ($errors[$i] === UPLOAD_ERR_OK) {
