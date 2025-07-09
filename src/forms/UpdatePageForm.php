@@ -27,9 +27,6 @@ class UpdatePageForm extends MakeupForm
 
         if ($form->isSuccess()) {
             $values = $form->getValues();
-            if (!empty($_FILES['images']['name'][0])) {
-                $this->pageModel->uploadImages($slug, $_FILES['images']);
-            }
             if ($this->pageModel->put($slug, $values['markdown'])) {
                 $this->pageModel->cleanUnusedImages($slug, $values['markdown']);
                 header('Location:/page/' . $slug);

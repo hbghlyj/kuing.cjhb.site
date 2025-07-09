@@ -131,10 +131,10 @@ class VersionModel extends PageModel
         }
         $dir = dirname($path);
         $base = basename($path, '.md');
-        $assets = glob($dir . '/' . $base . '_*.{jpg,jpeg,png,gif}', GLOB_BRACE);
+        $assets = glob($dir . '/' . $base . '_*.{jpg,jpeg,png,gif,svg}', GLOB_BRACE);
         $assets[] = $path;
         return $assets;
-    }   
+    }
     
     /**
      * deleteVersion

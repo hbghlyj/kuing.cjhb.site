@@ -195,7 +195,7 @@ class PageModel
         preg_match_all('/' . preg_quote($base, '/') . '_\d+\.[A-Za-z0-9]+/i', $markdown, $matches);
         $used = isset($matches[0]) ? array_unique($matches[0]) : [];
         $unused = [];
-        foreach (glob($dir . '/' . $base . '_*.{jpg,jpeg,png,gif}', GLOB_BRACE) as $img) {
+        foreach (glob($dir . '/' . $base . '_*.{jpg,jpeg,png,gif,svg}', GLOB_BRACE) as $img) {
             if (!in_array(basename($img), $used)) {
                 $unused[] = $img;
             }
@@ -223,7 +223,7 @@ class PageModel
         $dir = dirname($path);
         $base = basename($path, '.md');
         $index = 1;
-        foreach (glob($dir . '/' . $base . '_*.{jpg,jpeg,png,gif}', GLOB_BRACE) as $img) {
+        foreach (glob($dir . '/' . $base . '_*.{jpg,jpeg,png,gif,svg}', GLOB_BRACE) as $img) {
             if (preg_match('/_(\d+)\.[^.]+$/', $img, $m)) {
                 $index = max($index, (int)$m[1] + 1);
             }
@@ -268,7 +268,7 @@ class PageModel
         $base = basename($path, '.md');
         preg_match_all('/' . preg_quote($base, '/') . '_\d+\.[A-Za-z0-9]+/i', $markdown, $matches);
         $used = isset($matches[0]) ? array_unique($matches[0]) : [];
-        foreach (glob($dir . '/' . $base . '_*.{jpg,jpeg,png,gif}', GLOB_BRACE) as $img) {
+        foreach (glob($dir . '/' . $base . '_*.{jpg,jpeg,png,gif,svg}', GLOB_BRACE) as $img) {
             if (!in_array(basename($img), $used)) {
                 @unlink($img);
             }
@@ -283,7 +283,7 @@ class PageModel
         }
         $dir = dirname($path);
         $base = basename($path, '.md');
-        $images = glob($dir . '/' . $base . '_*.{jpg,jpeg,png,gif}', GLOB_BRACE);
+        $images = glob($dir . '/' . $base . '_*.{jpg,jpeg,png,gif,svg}', GLOB_BRACE);
         if (!unlink($path)) {
             return false;
         }
