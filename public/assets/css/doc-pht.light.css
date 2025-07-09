@@ -202,7 +202,7 @@ textarea {
 }
 
 .form-control-file::before {
-    font-family: sans-serif, FontAwesome;
+    font-family: FontAwesome, sans-serif;
     content: '\f0ee \00a0 Select a file';
     display: inline-block;
     background: -webkit-linear-gradient(top, #f9f9f9, #ffffff);
