@@ -151,9 +151,9 @@ class DocPHT {
     public function title(string $title, string $anchorLinkID = null)
     {
        if (isset($anchorLinkID)) {
-        return '<tr><td></td><td><h2 class="mt-3 mb-3" id="'.$anchorLinkID.'">'.$title.' </h2></td></tr>';
+        return '<tr><td><h2 class="mt-3 mb-3" id="'.$anchorLinkID.'">'.$title.' </h2></td></tr>';
        }
-       return '<tr><td></td><td><h2 class="mt-3 mb-3">'.$title.'  </h2></td></tr>';
+       return '<tr><td><h2 class="mt-3 mb-3">'.$title.'  </h2></td></tr>';
     }
 
 
@@ -205,7 +205,7 @@ class DocPHT {
                 <div class="table-responsive"><table class="sortable" width="100%"><tbody>';
         }
         if (isset($_SESSION['Active'])) {
-            echo '<tr class="range-handle start border-bottom text-muted text-center"><td><i class="fa fa-arrow-down sort"></i></td><td>Begin Edit</td></tr>';
+            echo '<tr class="range-handle text-center text-secondary start"><td data-toggle="tooltip" title="'.T::trans('Drag downwards to set the start of edit').'"><i class="fa fa-arrow-down sort"></i></td></tr>';
         }
     }
 
@@ -221,7 +221,7 @@ class DocPHT {
      */
     public function image(string $src, string $title)
     {
-        return '<tr><td></td><td><img src="/json/'.$src.'" class="img-fluid mb-3" alt="'.$title.'"></td></tr>';
+        return '<tr><td><img src="/json/'.$src.'" class="img-fluid mb-3" alt="'.$title.'"></td></tr>';
     }
 
 
@@ -237,7 +237,7 @@ class DocPHT {
     public function markdown(string $text)
     {
         $Parsedown = new MediaWikiParsedown();
-        $markdown = '<tr><td></td><td class="markdown-col">';
+        $markdown = '<tr><td class="markdown-col">';
         $markdown .= $Parsedown->text($text);
         $markdown .= '</td></tr>';
         return $markdown;
@@ -253,10 +253,9 @@ class DocPHT {
     public function addButton()
     {
         if (isset($_SESSION['Active'])) {
-            return '<tr class="range-handle end border-top text-muted text-center"><td class="handle"><i class="fa fa-arrow-up sort"></i></td><td>End Edit</td></tr>
-            <tr><td></td><td><ul class="list-inline text-left mt-4">
-                    <li class="list-inline-item" data-toggle="tooltip" data-placement="bottom" title="'.T::trans('Add').'">
-                        <a href="/page/add-section" id="sk-add" class="btn btn-outline-success btn-sm" role="button">
+            return '<tr class="range-handle text-center text-secondary end"><td data-toggle="tooltip" title="'.T::trans('Drag upwards to set the end of edit').'"><i class="fa fa-arrow-up sort"></i></td></tr>
+            <tr><td><ul class="list-inline text-left mt-4">
+                    <li class="list-inline-item" data-toggle="tooltip" data-placement="bottom" title="'.T::trans('Add').'"><a href="/page/add-section" id="sk-add" class="btn btn-outline-success btn-sm" role="button">
                             <i class="fa fa-plus-square" aria-hidden="true"></i>
                         </a>
                     </li>
