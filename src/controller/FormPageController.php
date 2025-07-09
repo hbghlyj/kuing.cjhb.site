@@ -85,12 +85,14 @@ class FormPageController extends BaseController
 	{
 		$form = $this->addSectionPageForm->create();
 		$this->view->load('Add section','form-page/add_section.php', ['form' => $form]);
+                echo '<script src="/public/assets/js/add-section-upload.js"></script>';
 	}
 
 	public function getUpdatePageForm()
 	{
 		$form = $this->updatePageForm->create();
 		$this->view->load('Update page','form-page/update_page.php', ['form' => $form]);
+                echo '<script src="/public/assets/js/add-section-upload.js"></script>';
 	}
 	
 	public function getInsertSectionForm()
@@ -137,9 +139,8 @@ class FormPageController extends BaseController
 		$form = $this->versionForms->delete();
 	}
 	
-	public function getSaveVersionForm()
-	{
-		$form = $this->versionForms->save();
-	}
-
+        public function getSaveVersionForm()
+        {
+                $form = $this->versionForms->save();
+        }
 }
