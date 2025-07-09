@@ -5,3 +5,4 @@
             <?= $form; ?>
         </div>
     </div>
+    <script src="/public/assets/js/add-section-upload.js"></script>

@@ -43,18 +43,6 @@ class AddSectionForm extends MakeupForm
             $values = $form->getValues();
             $markdown = $this->pageModel->get($slug) ?? '';
             $newContent = $values['markdown'];
-            $image = $values['image'];
-            if ($image && $image->isOk()) {
-                $arr = [
-                    'name' => [$image->getName()],
-                    'tmp_name' => [$image->getTemporaryFile()],
-                    'error' => [$image->getError()]
-                ];
-                $uploaded = $this->pageModel->uploadImages($slug, $arr);
-                if ($uploaded) {
-                    $newContent .= "\n![](" . $uploaded[0] . ")";
-                }
-            }
             $markdown = rtrim($markdown) . "\n" . $newContent;
             if ($this->pageModel->put($slug, $markdown)) {
                 header('Location:/page/' . $slug);

@@ -137,9 +137,34 @@ class FormPageController extends BaseController
 		$form = $this->versionForms->delete();
 	}
 	
-	public function getSaveVersionForm()
-	{
-		$form = $this->versionForms->save();
-	}
+        public function getSaveVersionForm()
+        {
+                $form = $this->versionForms->save();
+        }
+
+        public function uploadImage()
+        {
+                header('Content-Type: application/json');
+                $slug = $_SESSION['page_slug'] ?? null;
+                if (!$slug || empty($_FILES['image'])) {
+                        http_response_code(400);
+                        echo json_encode(['error' => 'No file']);
+                        return;
+                }
+
+                $arr = [
+                        'name' => [$_FILES['image']['name']],
+                        'tmp_name' => [$_FILES['image']['tmp_name']],
+                        'error' => [$_FILES['image']['error']]
+                ];
+
+                $uploaded = $this->pageModel->uploadImages($slug, $arr);
+                if ($uploaded) {
+                        echo json_encode(['path' => $uploaded[0]]);
+                } else {
+                        http_response_code(400);
+                        echo json_encode(['error' => 'Upload failed']);
+                }
+        }
 
 }
