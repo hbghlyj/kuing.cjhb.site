@@ -8,8 +8,8 @@ x_{1,2} = {-b\pm\sqrt{b^2 - 4ac} \over 2a}.
 $$
 用 `\begin{align}...\end{align}` 或 `$$\begin{align}...\end{align}$$` 对齐多行公式
 \begin{align}
- y &= x^4 + 4 =\\\\
-   &= (x^2+2)^2 - 4x^2 \le\\\\
+ y &= x^4 + 4 =\\
+   &= (x^2+2)^2 - 4x^2 \le\\
    &\le (x^2+2)^2
 \end{align}
 可以用 `\tag{}` 和 `\tag*{}` 指定方程编号（但没有自动编号和引用支持）：
@@ -17,10 +17,7 @@ $$
 |\vec{A}|=\sqrt{A_x^2 + A_y^2 + A_z^2}.\tag{1}
 \end{align}
 公式编号中可以使用任何文本
-\\[
-|\vec{B}|=\sqrt{B_x^2 + B_y^2 + B_z^2}.\tag*{[2⭐]}
-\\]
-
+$$|\vec{B}|=\sqrt{B_x^2 + B_y^2 + B_z^2}.\tag*{[2⭐]}$$
 写入中文：
 \begin{CJK}{UTF8}{gbsn}
 \text{你好, 这是中文。}

@@ -55,7 +55,7 @@ class AddSectionForm extends MakeupForm
                     $newContent .= "\n![](" . $uploaded[0] . ")";
                 }
             }
-            $markdown = rtrim($markdown) . "\n" . $newContent . "\n";
+            $markdown = rtrim($markdown) . "\n" . $newContent;
             if ($this->pageModel->put($slug, $markdown)) {
                 header('Location:/page/' . $slug);
                 exit;
