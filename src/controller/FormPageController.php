@@ -43,19 +43,20 @@ class FormPageController extends BaseController
                 $current = '';
                 $anchors = [];
                 foreach ($parts as $part) {
-                        if (preg_match('/^<h[1-6][^>]*>(.*?)<\\/h[1-6]>$/is', trim($part), $m)) {
+                        if (preg_match('/^<h([1-6])[^>]*>(.*?)<\\/h[1-6]>$/is', trim($part), $m)) {
                                 if ($current !== '') {
                                         $segments[] = ['type' => 'markdown', 'text' => $current];
                                         $current = '';
                                 }
-                                $titleText = strip_tags($m[1]);
+                                $level = (int) $m[1];
+                                $titleText = strip_tags($m[2]);
                                 $baseAnchor = preg_replace('/[ %\/#]/', '-', strtolower($titleText));
                                 $anchor = $baseAnchor;
                                 $counter = 2;
                                 while (in_array($anchor, $anchors, true)) {
                                         $anchor = $baseAnchor . '-' . $counter++;
                                 }
-                                $segments[] = ['type' => 'title', 'text' => $titleText, 'anchor' => $anchor];
+                                $segments[] = ['type' => 'title', 'text' => $titleText, 'anchor' => $anchor, 'level' => $level];
                                 $anchors[] = $anchor;
                         } else {
                                 $current .= $part;
@@ -70,7 +71,7 @@ class FormPageController extends BaseController
                 $values = [];
                 foreach ($segments as $segment) {
                         if ($segment['type'] === 'title') {
-                                $values[] = $html->title($segment['text'], $segment['anchor']);
+                                $values[] = $html->title($segment['text'], $segment['anchor'], $segment['level']);
                         } else {
                                 $values[] = $html->markdown($segment['text']);
                         }
