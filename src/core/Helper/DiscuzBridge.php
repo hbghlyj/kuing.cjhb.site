@@ -2,6 +2,7 @@
 namespace DocPHT\Core\Helper;
 
 use DocPHT\Model\AdminModel;
+use DocPHT\Model\AccessLogModel;
 
 class DiscuzBridge
 {
@@ -25,6 +26,7 @@ class DiscuzBridge
         $_SESSION['PREV_USERAGENT'] = $_SERVER['HTTP_USER_AGENT'];
         $_SESSION['Username'] = $username;
         $_SESSION['Active'] = true;
+        new AccessLogModel()->create($username);
     }
 
     public static function syncSession()
