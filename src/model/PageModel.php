@@ -263,10 +263,10 @@ class PageModel
         }
         $dir = dirname($path);
         $base = basename($path, '.md');
-        preg_match_all('/' . preg_quote($base, '/') . '_\d+\.[A-Za-z0-9]+/i', $markdown, $matches);
+        preg_match_all('/' . preg_quote(str_replace(' ', '+', $base), '/') . '_\d+\.(?:jpg|jpeg|png|gif|svg)/', $markdown, $matches);
         $used = isset($matches[0]) ? array_unique($matches[0]) : [];
         foreach (glob($dir . '/' . $base . '_*.{jpg,jpeg,png,gif,svg}', GLOB_BRACE) as $img) {
-            if (!in_array(basename($img), $used)) {
+            if (!in_array(str_replace(' ', '+', basename($img)), $used)) {
                 @unlink($img);
             }
         }

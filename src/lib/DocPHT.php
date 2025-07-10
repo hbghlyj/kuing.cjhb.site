@@ -124,6 +124,17 @@ class MediaWikiParsedown extends ParsedownPlus
 
         return parent::inlineEscapeSequence($Excerpt);
     }
+
+    // Treat + in URLs as a space character
+    protected function inlineImage($Excerpt)
+    {
+        $Inline = parent::inlineImage($Excerpt);
+        if (isset($Inline['element']['attributes']['src'])) {
+            // Replace + with space in the src attribute
+            $Inline['element']['attributes']['src'] = str_replace('+', ' ', $Inline['element']['attributes']['src']);
+        }
+        return $Inline;
+    }
 }
 
 class DocPHT {

@@ -31,7 +31,7 @@
                 }
                 
                 $url = "$_SERVER[REQUEST_URI]";
-                $parse = rawurldecode(parse_url($url)['path']);
+                $parse = urldecode(parse_url($url)['path']);
                 $explode = explode('/', $parse);
                 $filenameURL = array_reverse($explode)[0];
                 $topicURL = array_reverse($explode)[1];
@@ -110,7 +110,7 @@
                             }
                             $filename = $page['filename'];
                             $filenameTitle = $page['filename'];
-                            $link = 'page/'.$page['slug'];
+                            $link = 'page/'.str_replace(' ', '+', $page['slug']);
                             echo '<li><a href="/'.$link.'" '.$active.' >'.$filenameTitle.'</a></li>';
                         }
                     }
