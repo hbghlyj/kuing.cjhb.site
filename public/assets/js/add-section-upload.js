@@ -36,7 +36,8 @@
                 dataType: 'json'
             }).done(function(res){
                 if (res.path) {
-                    insertAtCursor($textarea[0], '\n![](' + res.path + ')');
+                    var path = res.path.replace(/ /g, '+');
+                    insertAtCursor($textarea[0], '\n![](' + path + ')');
                 }
             }).always(function(){
                 $input.val('');
