@@ -63,6 +63,11 @@ class PageModel
         ];
         $this->disconnect(self::DB, $data);
         $this->put($slug, '# ' . $filename . "\n");
+
+        $log = new ChangeLogModel();
+        $username = $_SESSION['Username'] ?? 'Unknown';
+        $log->log($slug, 'create', $username);
+
         return true;
     }
 
@@ -176,7 +181,14 @@ class PageModel
         if (!is_dir(dirname($path))) {
             mkdir(dirname($path), 0666, true);
         }
-        return file_put_contents($path, $content) !== false;
+        $result = file_put_contents($path, $content) !== false;
+        if ($result) {
+            $log = new ChangeLogModel();
+            $username = $_SESSION['Username'] ?? 'Unknown';
+            $this->backupIfNecessary($slug, $log, $username);
+            $log->log($slug, 'edit', $username);
+        }
+        return $result;
     }
 
     public function render(string $slug): ?string
@@ -272,6 +284,15 @@ class PageModel
         }
     }
 
+    private function backupIfNecessary(string $slug, ChangeLogModel $log, string $username): void
+    {
+        $last = $log->getLastActor($slug);
+        if ($last !== null && $last !== $username) {
+            $version = new VersionModel();
+            $version->saveVersion($slug);
+        }
+    }
+
     public function delete(string $slug): bool
     {
         $path = $this->getPath($slug);
@@ -281,12 +302,16 @@ class PageModel
         $dir = dirname($path);
         $base = basename($path, '.md');
         $images = glob($dir . '/' . $base . '_*.{jpg,jpeg,png,gif,svg}', GLOB_BRACE);
+        $log = new ChangeLogModel();
+        $username = $_SESSION['Username'] ?? 'Unknown';
+        $this->backupIfNecessary($slug, $log, $username);
         if (!unlink($path)) {
             return false;
         }
         foreach ($images as $img) {
             @unlink($img);
         }
+        $log->log($slug, 'delete', $username);
         return true;
     }
 }
