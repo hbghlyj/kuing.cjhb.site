@@ -148,12 +148,13 @@ class DocPHT {
      *
      * @return string
      */
-    public function title(string $title, string $anchorLinkID = null)
+    public function title(string $title, string $anchorLinkID = null, int $level = 2)
     {
+       $level = max(1, min(6, $level));
        if (isset($anchorLinkID)) {
-        return '<tr><td><h2 class="mt-3 mb-3" id="'.$anchorLinkID.'">'.$title.' </h2></td></tr>';
+        return '<tr><td><h'.$level.' class="mt-3 mb-3" id="'.$anchorLinkID.'">'.$title.'</h'.$level.'></td></tr>';
        }
-       return '<tr><td><h2 class="mt-3 mb-3">'.$title.'  </h2></td></tr>';
+       return '<tr><td><h'.$level.' class="mt-3 mb-3">'.$title.'</h'.$level.'></td></tr>';
     }
 
 
