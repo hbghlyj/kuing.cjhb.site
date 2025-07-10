@@ -62,7 +62,6 @@ class PageModel
             ]
         ];
         $this->disconnect(self::DB, $data);
-        // Create the flat file with a header
         $this->put($slug, '# ' . $filename . "\n");
         return true;
     }
@@ -157,11 +156,9 @@ class PageModel
         return $protocol . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] !== BASE_URL . $slug;
     }
 
-    // -------- Flat file helpers ---------
-
     public function getPath(string $slug): ?string
     {
-        return $_SERVER['DOCUMENT_ROOT'] . '/flat/' . $slug . '.md';
+        return $_SERVER['DOCUMENT_ROOT'] . '/page/' . $slug . '.md';
     }
 
     public function get(string $slug): ?string

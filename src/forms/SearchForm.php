@@ -26,7 +26,7 @@ class SearchForm extends MakeupForm
             $searchthis = $this->sanitizing($_POST["search"]);
 
             $pages = $this->pageModel->connect();
-            $cmd = "grep -R -o -i -F --include='*.md' " . escapeshellarg($searchthis) . " flat | cut -d: -f1 | sort | uniq -c | sort -nr";
+            $cmd = "grep -R -o -i -F --include='*.md' " . escapeshellarg($searchthis) . " page | cut -d: -f1 | sort | uniq -c | sort -nr";
             $output = shell_exec($cmd);
             $lines = array_filter(explode("\n", trim($output)));
 
@@ -34,7 +34,7 @@ class SearchForm extends MakeupForm
                 if (preg_match('/^\s*(\d+)\s+(.*)$/', $line, $matches)) {
                     $count = (int)$matches[1];
                     $file = $matches[2];
-                    $slug = substr($file, 5); // remove 'flat/' prefix
+                    $slug = substr($file, 5); // remove 'page/' prefix
                     $slug = substr($slug, 0, -3); // remove '.md'
 
                     foreach ($pages as $val) {

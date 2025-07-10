@@ -10,12 +10,12 @@ The repository root contains code from both projects:
 ## DocPHT page storage
 
 This repository includes a very basic "flat" mode where
-each page lives as a single Markdown file under the `flat/` directory. The new
-`FlatPageModel` (see `src/model/FlatPageModel.php`) can read and write these
+each page lives as a single Markdown file under the `page/` directory. The new
+pageModel can read and write these
 files. Pages are shown under `/page/{topic}/{filename}` and logged in users can
 edit them at `/page/update`. The controller uses the same
 `MediaWikiParsedown` parser employed by the rest of the documentation and saves
-the Markdown back to `flat/`.
+the Markdown back to `page/`.
 ### Translation check
 Run `php tests/check_translation_keys.php` to make sure every call to `T::trans()` refers to an existing string in `src/translations/zh_CN.php`.
 

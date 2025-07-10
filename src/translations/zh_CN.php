@@ -166,7 +166,6 @@
         'Export a backup' => '导出备份',
         'Save backup' => '保存备份',
         'Restore backup' => '恢复备份',
-        'Feature not available in flat mode.' => '平面模式下该功能不可用。',
         'Import a Backup Archive' => '导入备份存档',
         'Backup Archive:' => '备份存档：',
         'Import' => '导入',

@@ -123,9 +123,9 @@ $route->group('/page', function()
     }
 
     // View page
-    $this->get_post('/{topic}/{filename}:*', function($topic, $filename){
+    $this->get_post('/{slug}:*', function($slug){
         $page = new FormPageController();
-        $page->getPage($topic.'/'.$filename);
+        $page->getPage($slug);
     });
 });
 

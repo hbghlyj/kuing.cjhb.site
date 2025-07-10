@@ -17,8 +17,7 @@ class UpdatePageForm extends MakeupForm
         $form->addTextArea('markdown', T::trans('Enter content'))
             ->setHtmlAttribute('rows', 20)
             ->setDefaultValue($markdown);
-        $form->addUpload('images', T::trans('Add image from file'))
-            ->setHtmlAttribute('multiple', true)
+        $form->addUpload('image', T::trans('Add image from file'))
             ->setRequired(false)
             ->addRule(Form::MIME_TYPE, 'File must be JPEG, PNG, GIF or SVG.', ['image/jpeg','image/gif','image/png','image/svg+xml'])
             ->addRule(Form::MAX_FILE_SIZE, 'Maximum file size is 10 mb.', 10 * 1024 * 1024);
