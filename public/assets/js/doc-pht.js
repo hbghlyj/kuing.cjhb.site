@@ -139,8 +139,8 @@ function goBack() {
 }
 
 // vertical range
-$('table.sortable tbody').sortable({
-    items: 'tr',
+$('#content>.container-fluid>.table-responsive>table').sortable({
+    items: 'tbody.sortable>tr',
     cancel: 'tr:not(.range-handle)',
     placeholder: 'highlight'
 });

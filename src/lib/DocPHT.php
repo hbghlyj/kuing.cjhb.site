@@ -189,21 +189,19 @@ class DocPHT {
                     echo '</ul></div>
                     </div>
                 </nav>
-                <div class="table-responsive"><table class="sortable" width="100%"><tbody>';
+                <div class="table-responsive"><table width="100%"><tbody class="sortable">';
         } else {
             echo '<nav class="navbar navbar-expand-lg navbar-light bg-light">
                     <div class="container-fluid">
-
                         <button type="button" id="sidebarCollapse" class="btn btn-secondary">
                             <i class="fa fa-align-left"></i>
                         </button>
                         <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                             <i class="fa fa-align-justify"></i>
                         </button>
-
                     </div>
                 </nav>
-                <div class="table-responsive"><table class="sortable" width="100%"><tbody>';
+                <div class="table-responsive"><table width="100%"><tbody class="sortable">';
         }
         if (isset($_SESSION['Active'])) {
             echo '<tr class="range-handle text-center text-secondary start"><td data-toggle="tooltip" title="'.T::trans('Drag downwards to set the start of edit').'"><i class="fa fa-arrow-down sort"></i></td></tr>';
