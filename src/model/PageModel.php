@@ -185,11 +185,7 @@ class PageModel
         if ($result) {
             $log = new ChangeLogModel();
             $username = $_SESSION['Username'] ?? 'Unknown';
-            $last = $log->getLastActor($slug);
-            if ($last !== null && $last !== $username) {
-                $version = new VersionModel();
-                $version->saveVersion($slug);
-            }
+            $this->backupIfNecessary($slug, $log, $username);
             $log->log($slug, 'edit', $username);
         }
         return $result;
@@ -288,6 +284,15 @@ class PageModel
         }
     }
 
+    private function backupIfNecessary(string $slug, ChangeLogModel $log, string $username): void
+    {
+        $last = $log->getLastActor($slug);
+        if ($last !== null && $last !== $username) {
+            $version = new VersionModel();
+            $version->saveVersion($slug);
+        }
+    }
+
     public function delete(string $slug): bool
     {
         $path = $this->getPath($slug);
@@ -299,11 +304,7 @@ class PageModel
         $images = glob($dir . '/' . $base . '_*.{jpg,jpeg,png,gif,svg}', GLOB_BRACE);
         $log = new ChangeLogModel();
         $username = $_SESSION['Username'] ?? 'Unknown';
-        $last = $log->getLastActor($slug);
-        if ($last !== null && $last !== $username) {
-            $version = new VersionModel();
-            $version->saveVersion($slug);
-        }
+        $this->backupIfNecessary($slug, $log, $username);
         if (!unlink($path)) {
             return false;
         }
