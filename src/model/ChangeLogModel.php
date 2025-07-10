@@ -48,4 +48,9 @@ class ChangeLogModel
         }
         return null;
     }
+
+    public function getLog()
+    {
+        return $this->connect();
+    }
 }

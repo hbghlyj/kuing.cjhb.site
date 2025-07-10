@@ -38,6 +38,7 @@ use DocPHT\Form\ModifySectionForm;
 use DocPHT\Form\RemoveSectionForm;
 use DocPHT\Form\VersionSelectForm;
 use Plasticbrain\FlashMessages\FlashMessages;
+use DocPHT\Model\ChangeLogModel;
 
 class BaseController
 {
@@ -60,10 +61,11 @@ class BaseController
         protected $searchModel;
 	protected $backupsModel;
 	protected $versionModel;
-	protected $uploadlogo;
-	protected $accessLogModel;
-	protected $loginForm;
-	protected $session;
+        protected $uploadlogo;
+        protected $accessLogModel;
+        protected $changeLogModel;
+        protected $loginForm;
+        protected $session;
 
 	public function __construct()
 	{
@@ -86,10 +88,11 @@ class BaseController
                 $this->searchModel = new SearchModel();
 		$this->backupsModel = new BackupsModel();
 		$this->versionModel = new VersionModel();
-		$this->uploadlogo = new UploadLogoForm();
-		$this->accessLogModel = new AccessLogModel();
-		$this->loginForm = new LoginForm();
-		$this->session = new Session();
+                $this->uploadlogo = new UploadLogoForm();
+                $this->accessLogModel = new AccessLogModel();
+                $this->changeLogModel = new ChangeLogModel();
+                $this->loginForm = new LoginForm();
+                $this->session = new Session();
 	}
 
 	public function search()

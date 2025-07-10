@@ -2,7 +2,7 @@
 
 <div class="card fade-in-fwd">
     <div class="card-body">
-        <h3 class="mb-4"><?= $t->trans('Recent changes'); ?></h3>
+        <h3 class="mb-4"><?= $t->trans('Change log'); ?></h3>
         <input class="form-control mb-4" id="change-log-search" type="text" placeholder="<?= $t->trans('Search'); ?>">
         <div class="table-responsive">
             <table class="table table-sm table-hover table-bordered table-dark">

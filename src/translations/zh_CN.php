@@ -2,7 +2,7 @@
 
     $t->addResource('array', [
         'TITLE' => '知识库',
-        'Welcome to DocPHT' => '欢迎来到 DocPHT',
+        'Recent changes' => '最近更改',
         'Create new' => '创建新的',
         'Update' => '更新',
         'Delete' => '删除',
@@ -112,6 +112,9 @@
         'Quick access' => '快速访问',
         'Combination' => '组合',
         'Action' => '操作',
+        'Date' => '日期',
+        'Page' => '页面',
+        'Change log' => '更改日志',
         'Create new topic' => '创建新主题',
         'Hide or show the sidebar' => '隐藏或显示侧边栏',
         'Go back' => '返回',

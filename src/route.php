@@ -64,6 +64,9 @@ if (isset($_SESSION['Active'])) {
             // /admin/lastlogins
             $this->get_post('/lastlogins', 'DocPHT\Controller\AdminController@lastLogin');
 
+            // /admin/changelog
+            $this->get_post('/changelog', 'DocPHT\Controller\AdminController@changeLog');
+
         }
         
         // /admin/translations

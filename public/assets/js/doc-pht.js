@@ -112,6 +112,13 @@ $(document).ready(function () {
         });
     });
 
+    $("#change-log-search").on("keyup", function() {
+        var value = $(this).val().toLowerCase();
+        $("#change-log-table tr").filter(function() {
+        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+        });
+    });
+
 });
 
 function setIndexRemove(x) {
