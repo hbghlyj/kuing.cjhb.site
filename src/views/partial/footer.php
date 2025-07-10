@@ -43,5 +43,5 @@
     <script src="/public/assets/js/anchor.min.js"></script>
     <script>
         anchors.options.placement = 'left';
-        anchors.add('h1,h2,h3,h4,h5,h6');
+        anchors.add('tr.ui-sortable-handle>td>:is(h1,h2,h3,h4,h5,h6)');
     </script>
