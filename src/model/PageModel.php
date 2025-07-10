@@ -3,6 +3,7 @@ namespace DocPHT\Model;
 
 use DocPHT\Lib\MediaWikiParsedown;
 use DocPHT\Core\Translator\T;
+use DocPHT\Model\ChangeLogModel;
 
 class PageModel
 {
@@ -63,6 +64,12 @@ class PageModel
         ];
         $this->disconnect(self::DB, $data);
         $this->put($slug, '# ' . $filename . "\n");
+        if (isset($_SESSION['Username'])) {
+            $actor = $_SESSION['Username'];
+        } else {
+            $actor = 'anonymous';
+        }
+        (new ChangeLogModel())->logAction($slug, $actor, 'create');
         return true;
     }
 
@@ -176,7 +183,12 @@ class PageModel
         if (!is_dir(dirname($path))) {
             mkdir(dirname($path), 0666, true);
         }
-        return file_put_contents($path, $content) !== false;
+        $result = file_put_contents($path, $content) !== false;
+        if ($result) {
+            $actor = isset($_SESSION['Username']) ? $_SESSION['Username'] : 'anonymous';
+            (new ChangeLogModel())->logAction($slug, $actor, 'edit');
+        }
+        return $result;
     }
 
     public function render(string $slug): ?string
@@ -287,6 +299,8 @@ class PageModel
         foreach ($images as $img) {
             @unlink($img);
         }
+        $actor = isset($_SESSION['Username']) ? $_SESSION['Username'] : 'anonymous';
+        (new ChangeLogModel())->logAction($slug, $actor, 'delete');
         return true;
     }
 }
