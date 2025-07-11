@@ -28,4 +28,8 @@ Mon, Tue, Wed, Thu
 <i class="fa fa-map-pin"></i>
 L185 Education Building
 
-<small>Focuses on the communication skills, classroom culture, and teaching strategies essential for effective classroom teaching at an American university.</small>
+## Appointment: Social Security Office
+<i class="fa fa-map-pin"></i>
+6011 ODANA RD
+<i class="fa fa-clock-o"></i>
+11:40 AM on Wednesday August 6, 2025

@@ -94,3 +94,5 @@ Algebraic manipulation.
 </td>
 </tr>
 </table>
+
+![](Math+Proof+Example_1.svg)
