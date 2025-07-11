@@ -16,6 +16,12 @@ files. Pages are shown under `/page/{topic}/{filename}` and logged in users can
 edit them at `/page/update`. The controller uses the same
 `MediaWikiParsedown` parser employed by the rest of the documentation and saves
 the Markdown back to `page/`.
+
+DocPHT stores previous revisions as ZIP archives. The archive filename uses the
+page slug combined with the page's last modification time formatted with the
+`DATAFORMAT` constant (defined as `Y-m-d H:i`). If a page is saved again within
+the same minute, the timestamp does not change so `ZipArchive::CREATE`
+overwrites the existing file and the earlier version is lost.
 ### Translation check
 Run `php tests/check_translation_keys.php` to make sure every call to `T::trans()` refers to an existing string in `src/translations/zh_CN.php`.
 
