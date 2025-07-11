@@ -111,6 +111,15 @@ class VersionForms extends MakeupForm
             $aPath = $this->pageModel->getPath($id);
             $extractDir = dirname($aPath);
 
+            // Backup the current file before restoring
+            if (!$this->versionModel->saveVersion($id)) {
+                $this->msg->error(
+                    T::trans('Invalid procedure!'),
+                    BASE_URL.'page/'.$this->pageModel->getTopic($id).'/'.$this->pageModel->getFilename($id)
+                );
+                return;
+            }
+
             @unlink($aPath);
 
             $zipData = new \ZipArchive();
