@@ -58,7 +58,7 @@
                           <?php if (!empty($backupsList)) : ?>
                             <form id="db" action="/admin/backup/delete" method="post">
                                 <input type="hidden" id="dbhidden" name="backup">
-                                <button type="submit" form="db" class="btn btn-danger mr-2 text-light" role="button" data-toggle="tooltip" data-placement="bottom" title="<?= $t->trans("Remove backup") ?>" onclick="return confirmationRemoval()">
+                                <button type="submit" form="db" class="btn btn-danger mr-2 text-light" role="button" data-toggle="tooltip" data-placement="bottom" title="<?= $t->trans("Remove backup") ?>" onclick="return confirm('Are you sure you want to delete?');">
                                     <i class="fa fa-remove" aria-hidden="true"></i>
                                 </button>
                             </form>

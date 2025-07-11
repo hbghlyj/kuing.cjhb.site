@@ -122,37 +122,6 @@ $(document).ready(function () {
 
 });
 
-function setIndexRemove(x) {
-    x.href = "page/remove?id=" + x.closest('tr').rowIndex;
-}
-
-function setIndexModify(x) {
-    x.href = "page/modify?id=" + x.closest('tr').rowIndex;
-}
-
-function setIndexInsertA(x) {
-    x.href = "page/insert?insert=a&id=" + x.closest('tr').rowIndex;
-}
-
-function setIndexInsertB(x) {
-    x.href = "page/insert?insert=b&id=" + x.closest('tr').rowIndex;
-}
-
-function confirmationRemoval() {
-    return confirm('Are you sure you want to delete?');
-}
-
-function goBack() {
-    window.history.back();
-}
-
-// vertical range
-$('#content>.container-fluid>.table-responsive>table').sortable({
-    items: 'tbody.sortable>tr',
-    cancel: 'tr:not(.range-handle)',
-    placeholder: 'highlight'
-});
-
 // Forms dependent hide and show
 var all_options = document.querySelectorAll("[id^='frm-options']");
 var all_files = document.querySelectorAll("[id^='frm-file']");

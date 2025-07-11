@@ -163,9 +163,9 @@ class DocPHT {
     {
        $level = max(1, min(6, $level));
        if (isset($anchorLinkID)) {
-        return '<tr><td><h'.$level.' class="mt-3 mb-3" id="'.$anchorLinkID.'">'.$title.'</h'.$level.'></td></tr>';
+        return '<h'.$level.' class="mt-3 mb-3" id="'.$anchorLinkID.'">'.$title.'</h'.$level.'>';
        }
-       return '<tr><td><h'.$level.' class="mt-3 mb-3">'.$title.'</h'.$level.'></td></tr>';
+       return '<h'.$level.' class="mt-3 mb-3">'.$title.'</h'.$level.'>';
     }
 
 
@@ -199,8 +199,7 @@ class DocPHT {
                             };
                     echo '</ul></div>
                     </div>
-                </nav>
-                <div class="table-responsive"><table width="100%"><tbody class="sortable">';
+                </nav>';
         } else {
             echo '<nav class="navbar navbar-expand-lg navbar-light bg-light">
                     <div class="container-fluid">
@@ -211,11 +210,7 @@ class DocPHT {
                             <i class="fa fa-align-justify"></i>
                         </button>
                     </div>
-                </nav>
-                <div class="table-responsive"><table width="100%"><tbody class="sortable">';
-        }
-        if (isset($_SESSION['Active'])) {
-            echo '<tr class="range-handle text-center text-secondary start"><td data-toggle="tooltip" title="'.T::trans('Drag downwards to set the start of edit').'"><i class="fa fa-arrow-down sort"></i></td></tr>';
+                </nav>';
         }
     }
 
@@ -231,7 +226,7 @@ class DocPHT {
      */
     public function image(string $src, string $title)
     {
-        return '<tr><td><img src="/json/'.$src.'" class="img-fluid mb-3" alt="'.$title.'"></td></tr>';
+        return '<img src="/json/'.$src.'" class="img-fluid mb-3" alt="'.$title.'">';
     }
 
 
@@ -247,10 +242,7 @@ class DocPHT {
     public function markdown(string $text)
     {
         $Parsedown = new MediaWikiParsedown();
-        $markdown = '<tr><td class="markdown-col">';
-        $markdown .= $Parsedown->text($text);
-        $markdown .= '</td></tr>';
-        return $markdown;
+        return $Parsedown->text($text);
     }
 
 
@@ -258,21 +250,17 @@ class DocPHT {
      * addButton
      *
      *
-     * @return string
+     * @return ?string
      */
     public function addButton()
     {
         if (isset($_SESSION['Active'])) {
-            return '<tr class="range-handle text-center text-secondary end"><td data-toggle="tooltip" title="'.T::trans('Drag upwards to set the end of edit').'"><i class="fa fa-arrow-up sort"></i></td></tr>
-            <tr><td><ul class="list-inline text-left mt-4">
+            return '<ul class="list-inline text-left mt-4">
                     <li class="list-inline-item" data-toggle="tooltip" data-placement="bottom" title="'.T::trans('Add').'"><a href="/page/add-section" id="sk-add" class="btn btn-outline-success btn-sm" role="button">
                             <i class="fa fa-plus-square" aria-hidden="true"></i>
                         </a>
                     </li>
-                </ul></td></tr>
-                </tbody></table></div>';
-        } else {
-            return '</tbody></table></div>';
+                </ul>';
         }
     }
 }

@@ -20,14 +20,14 @@ a:focus {
     transition: all 0.3s;
 }
 
-td.markdown-col a {
+#content a {
     color: #007bff;
 }
-td.markdown-col a.new {
+#content a.new {
     color: #80b700;
 }
-td.markdown-col a:hover,
-td.markdown-col a:focus {
+#content a:hover,
+#content a:focus {
     text-decoration: underline;
 }
 
@@ -712,7 +712,7 @@ table.sortable tr.placeholder:before {
 	font-size: 27px;
 }
 
-.markdown-col img {
+#content img {
     height: auto;
     width: auto;
     max-width: 100%;
@@ -741,6 +741,6 @@ img.emojione {
 .range-handle {
     cursor: ns-resize;
 }
-td.markdown-col {
+#content {
     color: #fff;
 }

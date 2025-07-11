@@ -193,9 +193,7 @@
       w[add](pre + 'load', init, !1);
     }
   })(function () {
-    d.body.querySelectorAll('td.markdown-col').forEach(function (e) {
-      processTree(e);
-    });
+    processTree(document.getElementById('content'));
   });
 
   var imgQueue = {},

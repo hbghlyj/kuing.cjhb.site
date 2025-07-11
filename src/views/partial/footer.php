@@ -3,7 +3,7 @@
             <?php if (isset($_SESSION['Active']) && $this->pageModel->hideBySlug('page/search')): ?>
             <ul class="list-inline text-left mt-4 ml-3">
                 <li class="list-inline-item">
-                    <button type="button" id="sk-goback" class="btn btn-outline-secondary btn-sm" onclick="goBack()">
+                    <button type="button" id="sk-goback" class="btn btn-outline-secondary btn-sm" onclick="window.history.back()">
                         <i class="fa fa-undo" aria-hidden="true"></i>
                     </button>
                 </li>
