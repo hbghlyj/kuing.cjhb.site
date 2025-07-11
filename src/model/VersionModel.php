@@ -100,7 +100,8 @@ class VersionModel extends PageModel
         }
         $dir = dirname($path);
         $slug = basename($path, '.md');
-        $zippedVersionPath = $dir . '/' . $slug . '_' . DocBuilder::datetimeNow() . '.zip';
+        $modifiedTime = filemtime($path);
+        $zippedVersionPath = $dir . '/' . $slug . '_' . date(DATAFORMAT, $modifiedTime) . '.zip';
 
         $getAssets = $this->getAssets($id);
 
