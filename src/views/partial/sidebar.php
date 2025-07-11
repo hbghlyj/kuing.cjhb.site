@@ -55,7 +55,7 @@
             <?php $search = ''; ?>
             <div id="search">
                 <button type="button" class="close">×</button>
-                <form id="form-search" action="page/search" method="post">
+                <form id="form-search" action="/page/search" method="post">
                     <input type="search" name="search" value="<?php $search; ?>" placeholder="<?= $t->trans('Type the keywords here'); ?>" autocomplete="off" required />
                     <script>
                         document.getElementById('form-search').search.addEventListener('input', function (event) {

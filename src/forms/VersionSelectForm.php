@@ -30,7 +30,7 @@ class VersionSelectForm extends MakeupForm
                   <div class="card bg-light text-dark mb-4 mt-4">
                     <div class="card-body text-center">
                     <p class="card-text">'.T::trans("Version management").'</p>
-                    <form id="rv" action="page/restore-version" method="post" class="d-flex">
+                    <form id="rv" action="/page/restore-version" method="post" class="d-flex">
             
                       <div class="input-group mb-2 mr-sm-2 mr-1">
                         <div class="input-group-prepend">
@@ -49,19 +49,19 @@ class VersionSelectForm extends MakeupForm
                         </button>
                       </form>
                       <div class="d-flex justify-content-center">
-                            <form id="dv" action="page/delete-version" method="post">
+                            <form id="dv" action="/page/delete-version" method="post">
                                 <input type="hidden" id="dvhidden" name="version">
                                 <button type="submit" form="dv" class="btn btn-danger mr-2 text-light" role="button" data-toggle="tooltip" data-placement="bottom" title="'.T::trans("Remove version").'" title="'.T::trans("Remove version").'">
                                     <i class="fa fa-remove" aria-hidden="true"></i>
                                 </button>
                             </form>
-                            <form id="iv" action="page/import-version" method="post">
+                            <form id="iv" action="/page/import-version" method="post">
                                 <input type="hidden" id="ivhidden" name="version">
                                 <button type="submit" form="iv" class="btn btn-secondary mb-2 mr-2" data-toggle="tooltip" data-placement="bottom" title="'.T::trans("Import a version").'" title="'.T::trans("Import a version").'">
                                 <i class="fa fa-upload" aria-hidden="true"></i>
                                 </button>
                             </form>
-                            <form id="ev" action="page/export-version" method="post">
+                            <form id="ev" action="/page/export-version" method="post">
                                 <input type="hidden" id="evhidden" name="version">
                                 <button type="submit" form="ev" class="btn btn-secondary mr-2" data-toggle="tooltip" data-placement="bottom" title="'.T::trans("Export a version").'" title="'.T::trans("Export a version").'">
                                 <i class="fa fa-download" aria-hidden="true"></i>
