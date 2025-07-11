@@ -4,6 +4,8 @@
  */
 namespace DocPHT\Model;
 
+use DocPHT\Lib\DocBuilder;
+
 class ChangeLogModel
 {
     const CHANGELOG = 'json/changelog.json';
@@ -29,7 +31,7 @@ class ChangeLogModel
             'slug' => $slug,
             'username' => $username,
             'action' => $action,
-            'date' => date(DATAFORMAT, time())
+            'date' => DocBuilder::datetimeNow()
         ];
         $excess = count($data) - self::MAX_LOG_ENTRIES;
         if ($excess > 0) {
