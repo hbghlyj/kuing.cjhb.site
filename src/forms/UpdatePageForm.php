@@ -6,10 +6,15 @@ use DocPHT\Core\Translator\T;
 
 class UpdatePageForm extends MakeupForm
 {
-    public function create()
+    public function create(?string $anchor = null)
     {
         $slug = $_SESSION['page_slug'];
         $markdown = $this->pageModel->get($slug) ?? '';
+        $chunkbefore = '';
+        $chunkafter = '';
+        if ($anchor) {
+            list($chunkbefore, $markdown, $chunkafter) = $this->pageModel->splitSection($markdown, $anchor);
+        }
 
         $form = new Form;
         $form->onRender[] = [$this, 'bootstrap4'];
@@ -17,6 +22,10 @@ class UpdatePageForm extends MakeupForm
         $form->addTextArea('markdown', T::trans('Enter content'))
             ->setHtmlAttribute('rows', 20)
             ->setDefaultValue($markdown);
+        if ($anchor) {
+            $form->addHidden('chunkbefore')->setDefaultValue($chunkbefore);
+            $form->addHidden('chunkafter')->setDefaultValue($chunkafter);
+        }
         $form->addUpload('image', T::trans('Add image from file'))
             ->setRequired(false)
             ->addRule(Form::MIME_TYPE, 'File must be JPEG, PNG, GIF or SVG.', ['image/jpeg','image/gif','image/png','image/svg+xml'])
@@ -26,8 +35,12 @@ class UpdatePageForm extends MakeupForm
 
         if ($form->isSuccess()) {
             $values = $form->getValues();
-            if ($this->pageModel->put($slug, $values['markdown'])) {
-                $this->pageModel->cleanUnusedImages($slug, $values['markdown']);
+            $content = $values['markdown'];
+            if ($anchor) {
+                $content = $values['chunkbefore'] . $content . $values['chunkafter'];
+            }
+            if ($this->pageModel->put($slug, $content)) {
+                $this->pageModel->cleanUnusedImages($slug, $content);
                 header('Location:/page/' . $slug);
                 exit;
             } else {

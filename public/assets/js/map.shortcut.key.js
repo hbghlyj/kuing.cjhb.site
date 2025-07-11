@@ -39,11 +39,11 @@ $.key("ctrl+alt+a", function() {
 });
 
 $.key("ctrl+alt+e", function() {
-    document.getElementById("sk-add").click();
+    document.getElementById("sk-update").click();
 });
 
 $.key("ctrl+alt+u", function() {
-    document.getElementById("sk-update").click();
+    document.getElementById("sk-add").click();
 });
 
 $.key("ctrl+alt+d", function() {

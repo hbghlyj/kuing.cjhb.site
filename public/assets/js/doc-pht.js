@@ -185,3 +185,17 @@ if (document.getElementById('rbbackup')) {
     };
 
 }
+
+// Update edit link based on current URL fragment
+if (document.getElementById('sk-update')) {
+    var updateEditLink = function() {
+        var link = document.getElementById('sk-update');
+        if (window.location.hash) {
+            link.setAttribute('href', '/page/update?section=' + encodeURIComponent(window.location.hash.substring(1)));
+        } else {
+            link.setAttribute('href', '/page/update');
+        }
+    };
+    updateEditLink();
+    window.addEventListener('hashchange', updateEditLink);
+}

@@ -284,6 +284,67 @@ class PageModel
         }
     }
 
+    public function splitSection(string $markdown, string $anchor): array
+    {
+        $pattern = '/^(#{1,6})\s*(.+)$/m';
+        preg_match_all($pattern, $markdown, $matches, PREG_OFFSET_CAPTURE);
+        $anchors = [];
+        $headings = [];
+        foreach ($matches[0] as $i => $match) {
+            $level = strlen($matches[1][$i][0]);
+            $title = $matches[2][$i][0];
+            $offset = $match[1];
+            $end = $offset + strlen($match[0]);
+            if (isset($markdown[$end]) && $markdown[$end] === "\r") {
+                $end++;
+            }
+            if (isset($markdown[$end]) && $markdown[$end] === "\n") {
+                $end++;
+            }
+            $baseAnchor = preg_replace('/[ %\/#]/', '-', strtolower($title));
+            $a = $baseAnchor;
+            $c = 2;
+            while (in_array($a, $anchors, true)) {
+                $a = $baseAnchor . '-' . $c++;
+            }
+            $anchors[] = $a;
+            $headings[] = [
+                'level' => $level,
+                'anchor' => $a,
+                'start' => $offset,
+                'after' => $end
+            ];
+        }
+        $headings[] = ['level' => 0, 'start' => strlen($markdown), 'after' => strlen($markdown), 'anchor' => null];
+
+        $index = null;
+        foreach ($headings as $i => $h) {
+            if ($h['anchor'] === $anchor) {
+                $index = $i;
+                break;
+            }
+        }
+        if ($index === null) {
+            return [$markdown, '', ''];
+        }
+
+        $level = $headings[$index]['level'];
+        $start = $headings[$index]['after'];
+        $end = strlen($markdown);
+        for ($i = $index + 1; $i < count($headings); $i++) {
+            if ($headings[$i]['level'] <= $level) {
+                $end = $headings[$i]['start'];
+                break;
+            }
+        }
+
+        $before = substr($markdown, 0, $start);
+        $section = substr($markdown, $start, $end - $start);
+        $after = substr($markdown, $end);
+
+        return [$before, $section, $after];
+    }
+
     private function backupIfNecessary(string $slug, ChangeLogModel $log, string $username): void
     {
         $last = $log->getLastActor($slug);

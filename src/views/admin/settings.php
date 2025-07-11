@@ -218,11 +218,11 @@
                             <td><?= $t->trans('Settings'); ?></td>
                         </tr>
                         <tr>
-                            <td><span class="badge badge-secondary">ctrl+alt+e</span></td>
+                            <td><span class="badge badge-secondary">ctrl+alt+u</span></td>
                             <td><?= $t->trans('Add new item to the page'); ?></td>
                         </tr>
                         <tr>
-                            <td><span class="badge badge-secondary">ctrl+alt+u</span></td>
+                            <td><span class="badge badge-secondary">ctrl+alt+e</span></td>
                             <td><?= $t->trans('Update the current page'); ?></td>
                         </tr>
                         <tr>

@@ -89,12 +89,13 @@ class FormPageController extends BaseController
                 echo '<script src="/public/assets/js/add-section-upload.js"></script>';
 	}
 
-	public function getUpdatePageForm()
-	{
-		$form = $this->updatePageForm->create();
-		$this->view->load('Update page','form-page/update_page.php', ['form' => $form]);
+        public function getUpdatePageForm()
+        {
+                $anchor = $_GET['section'] ?? null;
+                $form = $this->updatePageForm->create($anchor);
+                $this->view->load('Update page','form-page/update_page.php', ['form' => $form]);
                 echo '<script src="/public/assets/js/add-section-upload.js"></script>';
-	}
+        }
 	
 	public function getDeletePageForm()
 	{
