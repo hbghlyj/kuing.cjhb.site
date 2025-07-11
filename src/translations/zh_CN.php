@@ -10,8 +10,6 @@
         'Confirm delete?' => '确认删除？',
         'Yes' => '是',
         'No' => '否',
-        'Drag downwards to set the start of edit' => '向下拖动以设置编辑开始',
-        'Drag upwards to set the end of edit' => '向上拖动以设置编辑结束',
         'Topic' => '主题',
         'Select a topic' => '选择一个主题',
         'Enter topic' => '输入主题',
