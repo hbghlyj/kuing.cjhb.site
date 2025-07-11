@@ -10,8 +10,6 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="/public/assets/css/bootstrap.min.css" >
-    <!-- jQuery-UI CSS -->
-    <link rel="stylesheet" href="/public/assets/css/jquery-ui.min.css">
     <!-- Custom CSS -->
     <?php
     $cssFile = (!isset($_COOKIE["theme"])) ? 'light' : $_COOKIE["theme"] ;

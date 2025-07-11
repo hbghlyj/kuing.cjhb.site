@@ -21,8 +21,6 @@
     <script src="/public/assets/js/netteFormValidate.js"></script>
     <!-- jQuery -->
     <script src="/public/assets/js/jquery-3.4.1.min.js"></script>
-    <!-- jQuery-UI -->
-    <script src="/public/assets/js/jquery-ui.min.js"></script>
     <!-- Popper.JS -->
     <script src="/public/assets/js/popper.min.js"></script>
     <!-- Bootstrap JS -->
