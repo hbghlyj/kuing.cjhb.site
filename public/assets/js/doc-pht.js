@@ -54,14 +54,12 @@ $(document).ready(function () {
     updateEditLink();
     $(window).on('hashchange', updateEditLink);
 
-$(document).ready(function () {
-        var sidebar = getCookie('sidebar');
-        if (sidebar === 'in') {
-            $('#sidebar, #content').toggleClass('active');
-            $('.collapse.in').toggleClass('in');
-            $('a[aria-expanded=true]').attr('aria-expanded', 'false');
-        }
-    });
+    var sidebar = getCookie('sidebar');
+    if (sidebar === 'in') {
+        $('#sidebar, #content').toggleClass('active');
+        $('.collapse.in').toggleClass('in');
+        $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+    }
 
     $('#sidebarCollapse').on('click', function () {
         var sidebar = getCookie('sidebar');

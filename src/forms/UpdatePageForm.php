@@ -3,6 +3,7 @@ namespace DocPHT\Form;
 
 use Nette\Forms\Form;
 use DocPHT\Core\Translator\T;
+use DocPHT\Core\Helper\AnchorHelper;
 
 class UpdatePageForm extends MakeupForm
 {
@@ -18,13 +19,7 @@ class UpdatePageForm extends MakeupForm
         foreach ($matches[0] as $i => $full) {
             $level = strlen($matches[1][$i][0]);
             $title = $matches[2][$i][0];
-            $base = preg_replace('/[ %\/#]/', '-', strtolower($title));
-            $an = $base;
-            $c = 2;
-            while (in_array($an, $anchors, true)) {
-                $an = $base . '-' . $c++;
-            }
-            $anchors[] = $an;
+            $an = AnchorHelper::generate($title, $anchors);
             $sections[] = ['anchor' => $an, 'level' => $level, 'offset' => $full[1]];
         }
 
