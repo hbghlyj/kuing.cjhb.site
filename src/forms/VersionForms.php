@@ -15,6 +15,7 @@ namespace DocPHT\Form;
 
 use Nette\Forms\Form;
 use DocPHT\Core\Translator\T;
+use DocPHT\Model\ChangeLogModel;
 
 class VersionForms extends MakeupForm
 {
@@ -53,11 +54,14 @@ class VersionForms extends MakeupForm
             }
             
             if ($file_path != '') {
+                $log = new ChangeLogModel();
+                $username = $_SESSION['Username'] ?? 'Unknown';
+                $log->log($id, 'import', $username);
                 $this->msg->success(T::trans('Version imported successfully.'),BASE_URL.'page/'.$this->pageModel->getTopic($id).'/'.$this->pageModel->getFilename($id));
             } else {
                 $this->msg->error(T::trans('Version import failed.'),BASE_URL.'page/'.$this->pageModel->getTopic($id).'/'.$this->pageModel->getFilename($id));
             }
-        } 
+        }
         
         return $form;
         
@@ -68,6 +72,9 @@ class VersionForms extends MakeupForm
         if (isset($_POST['version'], $_SESSION['page_slug'])) {
             $slug = $_SESSION['page_slug'];
             if ($this->versionModel->deleteVersion($_POST['version'])) {
+                $log = new ChangeLogModel();
+                $username = $_SESSION['Username'] ?? 'Unknown';
+                $log->log($slug, 'delete', $username);
                 header('Location: ' . BASE_URL . 'page/' . $slug);
                 exit;
             } else {
@@ -84,6 +91,9 @@ class VersionForms extends MakeupForm
         if (isset($_POST['version']) && isset($_SESSION['page_slug'])) {
             $filename = $_POST['version'];
             if (file_exists($filename)) {
+                $log = new ChangeLogModel();
+                $username = $_SESSION['Username'] ?? 'Unknown';
+                $log->log($_SESSION['page_slug'], 'export', $username);
                 header('Content-Description: File Transfer');
                 header('Content-Type: application/octet-stream');
                 header('Content-Disposition: attachment; filename="'.basename($filename).'"');
@@ -127,6 +137,9 @@ class VersionForms extends MakeupForm
             if ($zipData->open($versionZip) === TRUE) {
                 $zipData->extractTo($extractDir);
                 $zipData->close();
+                $log = new ChangeLogModel();
+                $username = $_SESSION['Username'] ?? 'Unknown';
+                $log->log($id, 'restore', $username);
                 $this->msg->success(T::trans('Version restored successfully.'),BASE_URL.'page/'.$this->pageModel->getTopic($id).'/'.$this->pageModel->getFilename($id));
             } else {
                 $this->msg->error(T::trans('Invalid procedure!'),BASE_URL.'page/'.$this->pageModel->getTopic($id).'/'.$this->pageModel->getFilename($id));
@@ -140,6 +153,9 @@ class VersionForms extends MakeupForm
     {
         $slug = $_SESSION['page_slug'];
         if ($this->versionModel->saveVersion($slug)) {
+            $log = new ChangeLogModel();
+            $username = $_SESSION['Username'] ?? 'Unknown';
+            $log->log($slug, 'save', $username);
             $this->msg->success(
                 T::trans('Version saved successfully.'),
                 BASE_URL . 'page/' . $slug
