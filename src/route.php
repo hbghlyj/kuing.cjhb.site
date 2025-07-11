@@ -103,8 +103,6 @@ $route->group('/page', function()
         $this->post('/upload-image', 'DocPHT\Controller\FormPageController@uploadImage');
         // /page/update
         $this->get_post('/update', 'DocPHT\Controller\FormPageController@getUpdatePageForm');
-        // /page/modify
-        $this->get_post('/modify', 'DocPHT\Controller\FormPageController@getModifySectionForm');
         // /page/delete
         $this->get_post('/delete', 'DocPHT\Controller\FormPageController@getDeletePageForm');
         // /page/import-version

@@ -174,7 +174,7 @@ class DocPHT {
      *
      * @param  array $anchorLinks
      *
-     * @return string
+     * @return ?string
      */
     public function anchorLinks(array $anchorLinks = null)
     {
@@ -275,82 +275,4 @@ class DocPHT {
             return '</tbody></table></div>';
         }
     }
-
-    /**
-     * removeButton
-     *
-     *
-     * @return string
-     */
-    public function removeButton()
-    {
-        if (isset($_SESSION['Active'])) {
-        return '<span class="text-right remove-button">
-                    <a onmouseover="setIndexRemove(this)" href="/page/remove" onclick="return confirmationRemoval()" class="anchorjs-link btn btn-danger btn-sm text-right" data-toggle="tooltip" data-placement="bottom" title="'.T::trans('Remove').'" role="button">
-                        <i class="fa fa-minus-square" aria-hidden="true" style="vertical-align: middle;"></i>
-                    </a>
-                </span>';
-        } else {
-            return '';
-        }
-    }
-
-    /**
-     * modifyButton
-     *
-     *
-     * @return string
-     */
-    public function modifyButton()
-    {
-        if (isset($_SESSION['Active'])) {
-        return '<span class="text-right modify-button">
-                    <a onmouseover="setIndexModify(this)" href="/page/modify" class="anchorjs-link btn btn-info btn-sm text-right" data-toggle="tooltip" data-placement="bottom" title="'.T::trans('Modify').'" role="button">
-                        <i class="fa fa-pencil-square" aria-hidden="true" style="vertical-align: middle;"></i>
-                    </a>
-                </span>';
-        } else {
-            return '';
-        }
-    }
-
-    /**
-     * insertBeforeButton
-     *
-     *
-     * @return string
-     */
-    public function insertBeforeButton()
-    {
-        if (isset($_SESSION['Active'])) {
-        return '<span class="text-right modify-button">
-                    <a onmouseover="setIndexInsertB(this)" href="/page/insert" class="anchorjs-link btn btn-success btn-sm text-right" data-toggle="tooltip" data-placement="bottom" title="'.T::trans('Insert Before').'" role="button">
-                        <i class="fa fa-arrow-circle-up" aria-hidden="true" style="vertical-align: middle;"></i>
-                    </a>
-                </span>';
-        } else {
-            return '';
-        }
-    }
-
-    /**
-     * InsertAfterButton
-     *
-     *
-     * @return string
-     */
-    public function InsertAfterButton()
-    {
-        if (isset($_SESSION['Active'])) {
-        return '<span class="text-right modify-button">
-                    <a onmouseover="setIndexInsertA(this)" href="/page/insert" class="anchorjs-link btn btn-success btn-sm text-right" data-toggle="tooltip" data-placement="bottom" title="'.T::trans('Insert After').'" role="button">
-                        <i class="fa fa-arrow-circle-down" aria-hidden="true" style="vertical-align: middle;"></i>
-                    </a>
-                </span>';
-        } else {
-            return '';
-        }
-    }
-
-
 }

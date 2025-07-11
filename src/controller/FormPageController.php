@@ -96,12 +96,6 @@ class FormPageController extends BaseController
                 echo '<script src="/public/assets/js/add-section-upload.js"></script>';
 	}
 	
-	public function getModifySectionForm()
-	{
-		$form = $this->modifySectionForm->create();
-		$this->view->load('Modify section','form-page/modify_section.php', ['form' => $form]);
-	}
-	
 	public function getDeletePageForm()
 	{
 		$form = $this->deletePageForm->delete();

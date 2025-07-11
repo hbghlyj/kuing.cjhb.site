@@ -33,7 +33,6 @@ use DocPHT\Form\UploadLogoForm;
 use DocPHT\Core\Session\Session;
 use DocPHT\Model\AccessLogModel;
 use DocPHT\Form\TranslationsForm;
-use DocPHT\Form\ModifySectionForm;
 use DocPHT\Form\VersionSelectForm;
 use Plasticbrain\FlashMessages\FlashMessages;
 use DocPHT\Model\ChangeLogModel;
@@ -47,7 +46,6 @@ class BaseController
 	protected $addSectionPageForm;
 	protected $updatePageForm;
 	protected $deletePageForm;
-	protected $modifySectionForm;
 	protected $msg;
 	protected $versionForms;
 	protected $backupsForms;
@@ -71,7 +69,6 @@ class BaseController
 		$this->addSectionPageForm = new AddSectionForm();
 		$this->updatePageForm = new UpdatePageForm();
 		$this->deletePageForm = new DeletePageForm();
-		$this->modifySectionForm = new ModifySectionForm();
 		$this->msg = new FlashMessages();
 		$this->versionForms = new VersionForms();
 		$this->backupsForms = new BackupsForms();
