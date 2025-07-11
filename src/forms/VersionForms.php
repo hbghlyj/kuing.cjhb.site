@@ -109,13 +109,14 @@ class VersionForms extends MakeupForm
             $id = $_SESSION['page_slug'];
             $versionZip = $_POST['version'];
             $aPath = $this->pageModel->getPath($id);
+            $extractDir = dirname($aPath);
 
             @unlink($aPath);
 
             $zipData = new \ZipArchive();
-        
+
             if ($zipData->open($versionZip) === TRUE) {
-                $zipData->extractTo('.');
+                $zipData->extractTo($extractDir);
                 $zipData->close();
                 $this->msg->success(T::trans('Version restored successfully.'),BASE_URL.'page/'.$this->pageModel->getTopic($id).'/'.$this->pageModel->getFilename($id));
             } else {
