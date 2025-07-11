@@ -14,6 +14,7 @@
 namespace DocPHT\Controller;
 
 use Instant\Core\Controller\BaseController;
+use DocPHT\Core\Helper\AnchorHelper;
 
 class FormPageController extends BaseController
 {
@@ -50,14 +51,8 @@ class FormPageController extends BaseController
                                 }
                                 $level = (int) $m[1];
                                 $titleText = strip_tags($m[2]);
-                                $baseAnchor = preg_replace('/[ %\/#]/', '-', strtolower($titleText));
-                                $anchor = $baseAnchor;
-                                $counter = 2;
-                                while (in_array($anchor, $anchors, true)) {
-                                        $anchor = $baseAnchor . '-' . $counter++;
-                                }
+                                $anchor = AnchorHelper::generate($titleText, $anchors);
                                 $segments[] = ['type' => 'title', 'text' => $titleText, 'anchor' => $anchor, 'level' => $level];
-                                $anchors[] = $anchor;
                         } else {
                                 $current .= $part;
                         }
