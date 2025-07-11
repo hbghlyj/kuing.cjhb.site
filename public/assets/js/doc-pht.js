@@ -9,6 +9,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+/* jshint esversion: 6 */
 
 function getCookie(cname) {
   var name = cname + "=";
@@ -106,8 +107,15 @@ $(document).ready(function () {
     }
 
     $("#last-logins-search").on("keyup", function() {
-        var value = $(this).val().toLowerCase();
+        const value = $(this).val().toLowerCase();
         $("#last-logins-table tr").filter(function() {
+        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+        });
+    });
+
+    $("#change-log-search").on("keyup", function() {
+        const value = $(this).val().toLowerCase();
+        $("#change-log-table tr").filter(function() {
         $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
         });
     });
