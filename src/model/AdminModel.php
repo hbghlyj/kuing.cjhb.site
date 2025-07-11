@@ -115,7 +115,10 @@ class AdminModel
     {
         $data = $this->connect();
         $key = array_search($username, array_column($data, 'Username'));
-        
+        if ($key === false || !isset($data[$key]['Admin'])) {
+            return false;
+        }
+
         return $data[$key]['Admin'];
     }
 

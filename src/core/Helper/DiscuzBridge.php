@@ -26,7 +26,7 @@ class DiscuzBridge
         $_SESSION['PREV_USERAGENT'] = $_SERVER['HTTP_USER_AGENT'];
         $_SESSION['Username'] = $username;
         $_SESSION['Active'] = true;
-        new AccessLogModel()->create($username);
+        (new AccessLogModel())->create($username);
     }
 
     public static function syncSession()
