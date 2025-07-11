@@ -94,10 +94,10 @@ class AdminController extends BaseController
 		exit;
 	}
 
-	public function lastLogin()
-	{
-		$userList = $this->accessLogModel->getUserList();
-		$this->view->load('Last logins','admin/last_login.php', ['userList' => $userList]);
-	}
+        public function lastLogin()
+        {
+                $userList = $this->accessLogModel->getUserList();
+                $this->view->load('Last logins','admin/last_login.php', ['userList' => $userList]);
+        }
 
 }

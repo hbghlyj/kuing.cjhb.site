@@ -21,8 +21,9 @@ class HomeController extends BaseController
     
         public function index()
         {
+                $changes = $this->changeLogModel->connect();
                 $this->view->show('partial/head.php', ['PageTitle' => T::trans('TITLE')]);
-                $this->view->show('home.php');
+                $this->view->show('home.php', ['changes' => $changes]);
                 $this->view->show('partial/footer.php');
         }
 
