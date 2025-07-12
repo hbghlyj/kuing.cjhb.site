@@ -519,7 +519,7 @@ if(empty($_GET['viewpid'])) {
 		}
 	}
        $multipageparam = ($_G['forum_thread']['is_archived'] ? '&archive=' . $_G['forum_thread']['archiveid'] : '') .
-               '&extra=' . $_GET['extra'] .
+               ($_GET['extra'] ? '&extra=' . $_GET['extra'] : '') .
                ($ordertype && $ordertype != getstatus($_G['forum_thread']['status'], 4) ? '&ordertype=' . $ordertype : '') .
                (isset($_GET['highlight']) ? '&highlight=' . rawurlencode($_GET['highlight']) : '') .
                (!empty($_GET['authorid']) ? '&authorid=' . $_GET['authorid'] : '') .
