@@ -518,15 +518,15 @@ if(empty($_GET['viewpid'])) {
 			$_G['forum_numpost'] = $_G['forum_thread']['replies'] + 2 - $_G['forum_numpost'];
 		}
 	}
-	$multipageparam = ($_G['forum_thread']['is_archived'] ? '&archive='.$_G['forum_thread']['archiveid'] : '').
-		($_GET['extra'] ? '&amp;extra='.$_GET['extra'] : '').// kk edt
-		($ordertype && $ordertype != getstatus($_G['forum_thread']['status'], 4) ? '&amp;ordertype='.$ordertype : '').
-		(isset($_GET['highlight']) ? '&amp;highlight='.rawurlencode($_GET['highlight']) : '').
-		(!empty($_GET['authorid']) ? '&amp;authorid='.$_GET['authorid'] : '').
-		(!empty($_GET['from']) ? '&amp;from='.$_GET['from'] : '').
-		(!empty($_GET['checkrush']) ? '&amp;checkrush='.$_GET['checkrush'] : '').
-		(!empty($_GET['modthreadkey']) ? '&amp;modthreadkey='.rawurlencode($_GET['modthreadkey']) : '').
-		$specialextra;
+       $multipageparam = ($_G['forum_thread']['is_archived'] ? '&archive=' . $_G['forum_thread']['archiveid'] : '') .
+               '&extra=' . $_GET['extra'] .
+               ($ordertype && $ordertype != getstatus($_G['forum_thread']['status'], 4) ? '&ordertype=' . $ordertype : '') .
+               (isset($_GET['highlight']) ? '&highlight=' . rawurlencode($_GET['highlight']) : '') .
+               (!empty($_GET['authorid']) ? '&authorid=' . $_GET['authorid'] : '') .
+               (!empty($_GET['from']) ? '&from=' . $_GET['from'] : '') .
+               (!empty($_GET['checkrush']) ? '&checkrush=' . $_GET['checkrush'] : '') .
+               (!empty($_GET['modthreadkey']) ? '&modthreadkey=' . rawurlencode($_GET['modthreadkey']) : '') .
+               $specialextra;
 	$multipage = multi($_G['forum_thread']['replies'] + ($ordertype != 1 ? 1 : 0), $_G['ppp'], $page, 'forum.php?mod=viewthread&tid='.$_G['tid'].$multipageparam);
 } else {
 	$_GET['viewpid'] = intval($_GET['viewpid']);
