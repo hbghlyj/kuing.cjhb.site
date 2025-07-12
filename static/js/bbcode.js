@@ -140,9 +140,9 @@ function bbcode2html(str) {
 		}
 	}
 
-	for(var i = 0; i <= DISCUZCODE['num']; i++) {
-		str = str.replace("[\tDISCUZ_CODE_" + i + "\t]", DISCUZCODE['html'][i]);
-	}
+       str = str.replace(/\[\tDISCUZ_CODE_(\d+)\t\]/g, function(match, index) {
+               return DISCUZCODE['html'][parseInt(index, 10)];
+       });
 
 	if(!allowhtml || !fetchCheckbox('htmlon')) {
 		str = str.replace(/(^|>)([^<]+)(?=<|$)/ig, function($1, $2, $3) {
@@ -422,9 +422,9 @@ function html2bbcode(str) {
 
 	str = str.replace(/<[\/\!]*?[^<>]*?>/ig, '');
 
-	for(var i = 0; i <= DISCUZCODE['num']; i++) {
-		str = str.replace("[\tDISCUZ_CODE_" + i + "\t]", DISCUZCODE['html'][i]);
-	}
+       str = str.replace(/\[\tDISCUZ_CODE_(\d+)\t\]/g, function(match, index) {
+               return DISCUZCODE['html'][parseInt(index, 10)];
+       });
 	str = clearcode(str);
 
 	return preg_replace(['&nbsp;', '&lt;', '&gt;', '&amp;'], [' ', '<', '>', '&'], str);
@@ -508,10 +508,9 @@ function litag(listoptions, text) {
 }
 
 function parsecode(text) {
-	DISCUZCODE['num']++;
-	text = text.replace(/\$/ig, '$$$$');
-	DISCUZCODE['html'][DISCUZCODE['num']] = '<div class="blockcode"><blockquote>' + htmlspecialchars(text) + '</blockquote></div>';
-	return "[\tDISCUZ_CODE_" + DISCUZCODE['num'] + "\t]";
+       DISCUZCODE['num']++;
+       DISCUZCODE['html'][DISCUZCODE['num']] = '<div class="blockcode"><blockquote>' + htmlspecialchars(text) + '</blockquote></div>';
+       return "[\tDISCUZ_CODE_" + DISCUZCODE['num'] + "\t]";
 }
 
 function parsestyle(tagoptions, prepend, append) {
