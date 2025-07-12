@@ -37,7 +37,7 @@ class BackupsModel extends PageModel
             if ($check) {
                 $backupPages = json_decode(file_get_contents("zip://".$file_path."#json/pages.json"), true);
                 foreach ($backupPages as $pages) {
-                    $fs = $this->computeFileSlug($pages['pages']['topic'], $pages['pages']['filename']);
+                    $fs = $this->computeFileSlug($pages['topic'], $pages['filename']);
                     $phpPath = 'pages/'.$fs.'.php';
                     $jsonPath = 'json/'.$fs.'.json';
                     if ($zipData->locateName($phpPath) === false || $zipData->locateName($jsonPath) === false) {
@@ -140,8 +140,8 @@ class BackupsModel extends PageModel
         
         if (is_array($pages) && count($pages) > 0) {
             foreach($pages as $page) {
-                $asset = $this->versionModel->getAssets($page['pages']['slug']) ?: [];
-                $version = $this->versionModel->getVersions($page['pages']['slug']) ?: [];
+                $asset = $this->versionModel->getAssets($page['slug']) ?: [];
+                $version = $this->versionModel->getVersions($page['slug']) ?: [];
                 
                 foreach($asset as $a) { array_push($assets, $a); }
                 if(!empty($version))foreach($version as $ver) { array_push($assets, $ver['path']); }

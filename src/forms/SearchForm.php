@@ -38,7 +38,7 @@ class SearchForm extends MakeupForm
                     $slug = substr($slug, 0, -3); // remove '.md'
 
                     foreach ($pages as $val) {
-                        if ($val['pages']['slug'] == $slug) {
+                        if ($val['slug'] == $slug) {
                             $found[] = [
                                 'content' => '<div class="result-preview">'
                                     . '<a href="/page/'.$slug.'">'
