@@ -179,7 +179,7 @@ class PageModel
     {
         $path = $this->getPath($slug);
         if (!is_dir(dirname($path))) {
-            mkdir(dirname($path), 0666, true);
+            mkdir(dirname($path), 0777, true);
         }
         $result = file_put_contents($path, $content) !== false;
         if ($result) {
