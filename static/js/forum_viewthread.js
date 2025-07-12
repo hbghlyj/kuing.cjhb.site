@@ -513,9 +513,9 @@ function show_threadpage(pid, current, maxpage, ispreview, modthreadkey) {
         if(pstart > 1) {
                 s += '<a href="javascript:;" onclick="' + clickvalue(1, modthreadkey) + '">1 ...</a>';
 	}
-	for(i = pstart;i <= pend;i++) {
+        for (var i = pstart; i <= pend; i++) {
                 s += i == current ? '<strong>' + i + '</strong>' : '<a href="javascript:;" onclick="' + clickvalue(i, modthreadkey)+ '">' + i + '</a>';
-	}
+        }
 	if(pend < maxpage) {
                 s += '<a href="javascript:;" onclick="' + clickvalue(maxpage, modthreadkey)+ '">... ' + maxpage + '</a>';
 	}
