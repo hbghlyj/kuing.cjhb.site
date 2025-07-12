@@ -155,8 +155,6 @@
         'Version data missing!' => '版本数据丢失！',
         'Search term did not produce results' => '搜索词未产生结果',
         'Add section' => '添加部分',
-        'Insert section' => '插入部分',
-        'Modify section' => '修改部分',
         'Create new page' => '创建新页面',
         'Update page' => '更新页面',
         'Backup management' => '备份管理',
@@ -207,6 +205,4 @@
         'Severity' => '访问类型',
         'Authorized access' => '授权访问',
         'Attempt to access' => '尝试访问',
-        'New version of <b>DocPHT</b> available' => '新版本的 <b>DocPHT</b> 可用',
-        'Related threads' => '相关主题',
     ], 'zh_CN');
