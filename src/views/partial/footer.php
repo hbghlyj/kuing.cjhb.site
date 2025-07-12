@@ -31,7 +31,10 @@
     <script src="/public/assets/js/clipboard.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
     <script src="//unpkg.com/highlightjs-lean/dist/lean.min.js"></script>
+    <script src="//unpkg.com/highlightjs-copy/dist/highlightjs-copy.min.js"></script>
+    <link rel="stylesheet" href="//unpkg.com/highlightjs-copy/dist/highlightjs-copy.min.css">
     <script>
+        hljs.addPlugin(new CopyButtonPlugin());
         hljs.highlightAll();
     </script>
     <!-- bootstrap select in form -->
