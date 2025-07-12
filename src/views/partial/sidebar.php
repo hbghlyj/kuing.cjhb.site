@@ -96,8 +96,9 @@
                             $active = ''; 
                             $show = '';
                         }
-                    echo '<a href="#'.$topic.'-side-navigation" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle '.$active.' ">'. $topic .'</a>';
-                    echo '<ul class="collapse list-unstyled '.$show.' " id="'.$topic.'-side-navigation">';
+                    $topicId = str_replace(' ', '+', $topic);
+                    echo '<a href="#'.$topicId.'-side-navigation" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle '.$active.' ">'. $topic .'</a>';
+                    echo '<ul class="collapse list-unstyled '.$show.' " id="'.$topicId.'-side-navigation">';
 
                     $pages = $this->pageModel->getPagesByTopic($topic);
  
