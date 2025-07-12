@@ -30,7 +30,7 @@ class PageModel
 
     public function disconnect($path, $data)
     {
-        return file_put_contents($path, json_encode($data, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));
+        return file_put_contents($path, json_encode($data, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT));
     }
 
     public function slugExists($slug)
