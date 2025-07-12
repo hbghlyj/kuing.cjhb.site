@@ -90,28 +90,29 @@
                 echo '<li>';
                 foreach ($topics as $topic) {
                         if (isset($topicURL) && $topicURL === $topic) {
-                            $active = 'menu-active';
-                            $show = 'show';
+                            $active = ' menu-active';
+                            $show = ' show';
                         } else {
                             $active = ''; 
                             $show = '';
                         }
-                    echo '<a href="#'.$topic.'-side-navigation" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle '.$active.' ">'. $topic .'</a>';
-                    echo '<ul class="collapse list-unstyled '.$show.' " id="'.$topic.'-side-navigation">';
+                    $topicId = str_replace(' ', '_', $topic);
+                    echo '<a href="#'.$topicId.'-side-navigation" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle'.$active.'">'. $topic .'</a>';
+                    echo '<ul class="collapse list-unstyled'.$show.'" id="'.$topicId.'-side-navigation">';
 
                     $pages = $this->pageModel->getPagesByTopic($topic);
  
                     if (!empty($pages) ) {
                         foreach($pages as $page) {
                             if (isset($filenameURL) && $filenameURL === $page['filename'] and isset($topicURL) && $topicURL === $page['topic']) {
-                                $active = 'class="menu-active"';
+                                $active = ' class="menu-active"';
                             } else {
                                 $active = ''; 
                             }
                             $filename = $page['filename'];
                             $filenameTitle = $page['filename'];
                             $link = 'page/'.str_replace(' ', '+', $page['slug']);
-                            echo '<li><a href="/'.$link.'" '.$active.' >'.$filenameTitle.'</a></li>';
+                            echo '<li><a href="/'.$link.'"'.$active.'>'.$filenameTitle.'</a></li>';
                         }
                     }
 
