@@ -21,6 +21,7 @@
     <link rel="stylesheet" href="/public/assets/css/scrollbar.min.css">
     <!-- Syntax highlighting -->
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/default.min.css">
+    <link rel="stylesheet" href="//unpkg.com/highlightjs-copy/dist/highlightjs-copy.min.css">
     <!-- Most popular and easiest to use icon set -->
     <link rel="stylesheet" href="/public/assets/css/font-awesome.min.css">
     <!-- Stylesheet fro bootstrap select in form -->
