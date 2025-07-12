@@ -19,8 +19,8 @@
     <link rel="stylesheet" href="/public/assets/css/animation.css">
     <!-- Scrollbar Custom CSS -->
     <link rel="stylesheet" href="/public/assets/css/scrollbar.min.css">
-    <!-- Lightweight, robust, elegant syntax highlighting -->
-    <link rel="stylesheet" href="/public/assets/css/prism.css">
+    <!-- Syntax highlighting -->
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/default.min.css">
     <!-- Most popular and easiest to use icon set -->
     <link rel="stylesheet" href="/public/assets/css/font-awesome.min.css">
     <!-- Stylesheet fro bootstrap select in form -->

@@ -29,7 +29,11 @@
     <script src="/public/assets/js/jquery.Scrollbar.concat.min.js"></script>
     <!-- Lightweight, robust, elegant syntax highlighting -->
     <script src="/public/assets/js/clipboard.min.js"></script>
-    <script src="/public/assets/js/prism.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+    <script src="//unpkg.com/highlightjs-lean/dist/lean.min.js"></script>
+    <script>
+        hljs.highlightAll();
+    </script>
     <!-- bootstrap select in form -->
     <script src="/public/assets/js/bootstrap-select.min.js"></script>
     <!-- Shortcut key -->
