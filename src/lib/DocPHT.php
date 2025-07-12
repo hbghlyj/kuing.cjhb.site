@@ -257,7 +257,7 @@ class DocPHT {
         if (isset($_SESSION['Active'])) {
             return '<ul class="list-inline text-left mt-4">
                     <li class="list-inline-item" data-toggle="tooltip" data-placement="bottom" title="'.T::trans('Add').'"><a href="/page/add-section" id="sk-add" class="btn btn-outline-success btn-sm" role="button">
-                            <i class="fa fa-plus-square" aria-hidden="true"></i>
+                            <i class="fa fa-plus" aria-hidden="true"></i>
                         </a>
                     </li>
                 </ul>';

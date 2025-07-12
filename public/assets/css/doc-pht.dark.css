@@ -20,14 +20,14 @@ a:focus {
     transition: all 0.3s;
 }
 
-#content a {
+#content a:not([class]) {
     color: #007bff;
 }
-#content a.new {
+#content a:not([class]).new {
     color: #80b700;
 }
-#content a:hover,
-#content a:focus {
+#content a:not([class]):hover,
+#content a:not([class]):focus {
     text-decoration: underline;
 }
 
