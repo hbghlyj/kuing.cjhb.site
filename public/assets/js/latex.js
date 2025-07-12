@@ -112,6 +112,7 @@
         } else {
           // not found, so move \begin{env}... to the start of next text node
           pending_startOffset = match.index;
+          break;
         }
       } else if (subIndex && match[subIndex] !== undefined) {
         const mathStr = match[subIndex];
@@ -330,24 +331,29 @@
   }
 
   function convertToList(frag,ol) {
-    let currentLi = null;
     // Iterate through child nodes to find and process \item
-    Array.from(frag.childNodes).forEach(child => {
-      if (child.nodeType === Node.TEXT_NODE && child.textContent) {
-        const items = child.textContent.split(/\\item\s+/);
-        items.forEach((item, index) => {
-          if (index == 0) {
-            currentLi && currentLi.appendChild(d.createTextNode(item));
-          } else {
-            currentLi = d.createElement("li");
-            currentLi.textContent = item;
-            ol.appendChild(currentLi);
+    let currentLi;
+    function recurse(node) {
+      if (node.nodeType === Node.TEXT_NODE) {
+        const items = node.textContent.split(/\\item\s+/);
+        items.forEach((item,index) => {
+          if (index === 0) {
+            if (currentLi) {
+              currentLi.append(item);
+            }
+            return;
           }
+          currentLi = d.createElement("li");
+          currentLi.append(item);
+          ol.appendChild(currentLi);
         });
-      } else {
-        currentLi.appendChild(child);
+      } else if (node.childNodes.length > 0) {
+        Array.from(node.childNodes).forEach(recurse);
+      } else if (currentLi) {
+        currentLi.appendChild(node);
       }
-    });
+    }
+    Array.from(frag.childNodes).forEach(recurse);
   }
   // Function to process text nodes and replace TeX with images
   function processRange(old_range) {
