@@ -12,7 +12,7 @@ class AnchorHelper
      */
     public static function generate(string $title, array &$existing): string
     {
-        $base = preg_replace('/[ %\/#]/', '-', strtolower($title));
+        $base = preg_replace('/[ %\/#]/', '-', $title);
         $anchor = $base;
         $counter = 2;
         while (in_array($anchor, $existing, true)) {
