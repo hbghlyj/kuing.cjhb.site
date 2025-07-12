@@ -51,15 +51,20 @@ class MediaWikiParsedown extends ParsedownPlus
 
             $newPage = !file_exists('page/' . $topic . '/' . $filename . '.md');
             $url = $newPage ? '/page/create?mainfilename=' . urlencode($filename) : '/page/' . $topic . '/' . $filename;
+
+            $attributes = [
+                'href' => $url . $fragment,
+            ];
+            if ($newPage) {
+                $attributes['class'] = 'new';
+            }
+
             $Inline = array(
                 'extent' => strlen($matches[0]),
                 'element' => array(
                     'name' => 'a',
                     'text' => $filename . $fragment,
-                    'attributes' => array(
-                        'href' => $url . $fragment,
-                        'class' => $newPage ? 'new' : '',
-                    ),
+                    'attributes' => $attributes,
                 ),
             );
             return $Inline;
