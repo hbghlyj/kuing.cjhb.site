@@ -1579,7 +1579,6 @@ function codetag(text, br) {
        if(br > 0 && typeof wysiwyg != 'undefined' && wysiwyg) {
                text = text.replace(/<br[^\>]*>/ig, '\n');
        }
-       text = text.replace(/\$/ig, '$$$$');
        DISCUZCODE.html[DISCUZCODE.num] = '[code]' + text + '[/code]';
        return '[\tDISCUZ_CODE_' + DISCUZCODE.num + '\t]';
 }
