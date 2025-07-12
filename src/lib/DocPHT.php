@@ -77,13 +77,7 @@ class MediaWikiParsedown extends ParsedownPlus
         if (preg_match('/^\\$\\$(.*)$/', $Line['text'], $matches)) {
             $Block = array(
                 'char' => $Line['text'][0],
-                'element' => array(
-                    'name' => 'p',
-                    'text' => $Line['text'],
-                    'attributes' => array(
-                        'class' => 'block-math'
-                    )
-                ),
+                'markup' => $Line['text'],
             );
 
             if (strpos($matches[1], '$$') !== false) {
@@ -101,17 +95,17 @@ class MediaWikiParsedown extends ParsedownPlus
         }
 
         if (isset($Block['interrupted'])) {
-            $Block['element']['text'] .= "\n";
+            $Block['markup'] .= "\n";
             unset($Block['interrupted']);
         }
 
         if (strpos($Line['text'], '$$') !== false) {
-            $Block['element']['text'] .= "\n" . $Line['text'];
+            $Block['markup'] .= "\n" . $Line['text'];
             $Block['complete'] = true;
             return $Block;
         }
 
-        $Block['element']['text'] .= "\n" . $Line['body'];
+        $Block['markup'] .= "\n" . $Line['body'];
 
         return $Block;
     }
