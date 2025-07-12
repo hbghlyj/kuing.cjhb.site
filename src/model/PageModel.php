@@ -36,7 +36,7 @@ class PageModel
     public function slugExists($slug)
     {
         foreach ($this->connect() as $value) {
-            if ($value['pages']['slug'] === $slug) {
+            if ($value['slug'] === $slug) {
                 return true;
             }
         }
@@ -55,11 +55,9 @@ class PageModel
         }
         // Insert the new page to DB
         $data[] = [
-            'pages' => [
-                'slug' => $slug,
-                'topic' => $topic,
-                'filename' => $filename
-            ]
+            'slug' => $slug,
+            'topic' => $topic,
+            'filename' => $filename
         ];
         $this->disconnect(self::DB, $data);
         $this->put($slug, '# ' . $filename . "\n");
@@ -76,8 +74,8 @@ class PageModel
         $data = $this->connect();
         $array = [];
         foreach ($data as $value) {
-            if ($value['pages']['topic'] === $topic) {
-                $array[] = $value['pages'];
+            if ($value['topic'] === $topic) {
+                $array[] = $value;
             }
         }
         usort($array, function ($a, $b) {
@@ -102,18 +100,24 @@ class PageModel
         $data = $this->connect();
         $array = [];
         foreach ($data as $value) {
-            $array[] = $value['pages'][$key];
+            if (isset($value[$key])) {
+                $array[] = $value[$key];
+            }
         }
         return $array;
     }
 
     public function getAllIndexed()
     {
-        $data = $this->connect();
+        return $this->connect();
+    }
+
+    public function getAllFromDataKey(array $data, string $key)
+    {
         $array = [];
         foreach ($data as $value) {
-            foreach ($value as $v) {
-                $array[] = $v;
+            if (isset($value[$key])) {
+                $array[] = $value[$key];
             }
         }
         return $array;
@@ -123,14 +127,14 @@ class PageModel
     {
         $data = $this->connect();
         $key = $this->findKey($data, $id);
-        return $data[$key]['pages']['topic'] ?? null;
+        return $data[$key]['topic'] ?? null;
     }
 
     public function getFilename($id)
     {
         $data = $this->connect();
         $key = $this->findKey($data, $id);
-        return $data[$key]['pages']['filename'] ?? null;
+        return $data[$key]['filename'] ?? null;
     }
 
     public function remove($id)
@@ -147,7 +151,7 @@ class PageModel
     {
         $x = 0;
         foreach ($data as $array) {
-            if ($array['pages']['slug'] == $search) {
+            if ($array['slug'] == $search) {
                 return $x;
             }
             $x++;
