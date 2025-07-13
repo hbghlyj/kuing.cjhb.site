@@ -1,7 +1,7 @@
         <!-- Sidebar  -->
         <nav id="sidebar">
             <div class="sidebar-header text-center">
-            <?php 
+            <?php
                 if (file_exists('json/logo.png')) {
                     echo '<a href="/doc.php"><img id="logo" src="/json/logo.png?'.time().'" alt="logo" class="img-fluid"></a>';
                 } elseif (DocPHT\Core\Translator\T::trans('TITLE') == 'DocPHT') {
@@ -11,15 +11,15 @@
                 }
             ?>
             <hr>
-            <?php 
+            <?php
                 if (isset($_SESSION['Active'])) {
                     echo '<small><i class="fa fa-user" aria-hidden="true"></i> '.$_SESSION['Username'].'</small>';
                 }
-            ?>    
+            ?>
             </div>
 
             <ul class="list-inline text-center">
-                <?php 
+                <?php
                 if (isset($_SESSION['Active'])) {
                     echo '<li class="list-inline-item" data-toggle="tooltip" data-placement="top" title="'.$t->trans("Logout").'">
                             <a href="/logout" id="sk-logout" class="btn btn-outline-secondary btn-sm" role="button"><i class="fa fa-sign-out" aria-hidden="true"></i></a>
@@ -29,10 +29,8 @@
                             <a href="/login" id="sk-login" class="btn btn-outline-secondary btn-sm" role="button"><i class="fa fa-sign-in" aria-hidden="true"></i></a>
                         </li>';
                 }
-                
-                $url = "$_SERVER[REQUEST_URI]";
-                $parse = urldecode(parse_url($url)['path']);
-                $explode = explode('/', $parse);
+
+                $explode = explode('/', $_SESSION['page_slug']);
                 $filenameURL = array_reverse($explode)[0];
                 $topicURL = array_reverse($explode)[1];
                 if (isset($_SESSION['Active'])) {
@@ -80,7 +78,7 @@
                 }
             ?>
             <!-- Navigation -->
-<?php 
+<?php
 
 
         $topics = $this->pageModel->getUniqTopics();
@@ -93,7 +91,7 @@
                             $active = ' menu-active';
                             $show = ' show';
                         } else {
-                            $active = ''; 
+                            $active = '';
                             $show = '';
                         }
                     $topicId = str_replace(' ', '_', $topic);
@@ -101,13 +99,13 @@
                     echo '<ul class="collapse list-unstyled'.$show.'" id="'.$topicId.'-side-navigation">';
 
                     $pages = $this->pageModel->getPagesByTopic($topic);
- 
+
                     if (!empty($pages) ) {
                         foreach($pages as $page) {
                             if (isset($filenameURL) && $filenameURL === $page['filename'] and isset($topicURL) && $topicURL === $page['topic']) {
                                 $active = ' class="menu-active"';
                             } else {
-                                $active = ''; 
+                                $active = '';
                             }
                             $filename = $page['filename'];
                             $filenameTitle = $page['filename'];
@@ -122,9 +120,9 @@
             }
         }
 ?>
-            
+
             </ul>
-            <?php 
+            <?php
             $cssFile = (!isset($_COOKIE["theme"])) ? 'light' : $_COOKIE["theme"] ;
             ?>
             <div class="sidebar-footer-content">
@@ -156,10 +154,8 @@
             </div>
 
             <?php endif ?>
-             
+
             </div>
-            
+
 
         </nav>
-
-        
