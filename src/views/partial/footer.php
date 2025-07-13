@@ -33,8 +33,21 @@
     <script src="//unpkg.com/highlightjs-lean/dist/lean.min.js"></script>
     <script src="//unpkg.com/highlightjs-copy/dist/highlightjs-copy.min.js"></script>
     <link rel="stylesheet" href="//unpkg.com/highlightjs-copy/dist/highlightjs-copy.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.4.4/lz-string.min.js"></script>
     <script>
+        class PlaygroundPlugin {
+            "after:highlightElement"({ el, text }) {
+                const button = Object.assign(document.createElement("button"), {
+                    innerHTML: "<i class='fa fa-external-link'></i>",
+                    className: "hljs-copy-button",
+                    onclick: () => window.open(`https://live.lean-lang.org/#codez=${LZString.compressToBase64(text)}`, '_blank')
+                });
+                button.dataset.copied = true;
+                el.parentElement.lastChild.appendChild(button);
+            }
+        }
         hljs.addPlugin(new CopyButtonPlugin());
+        hljs.addPlugin(new PlaygroundPlugin());
         hljs.highlightAll();
     </script>
     <!-- bootstrap select in form -->
