@@ -185,7 +185,7 @@ class PageModel
         if (!is_dir(dirname($path))) {
             mkdir(dirname($path), 0777, true);
         }
-        $result = file_put_contents($path, $content) !== false;
+        $result = file_put_contents($path, $content, LOCK_EX) !== false;
         if ($result) {
             $log = new ChangeLogModel();
             $username = $_SESSION['Username'] ?? 'Unknown';
