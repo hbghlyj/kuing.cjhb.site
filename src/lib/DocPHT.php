@@ -100,7 +100,17 @@ class MediaWikiParsedown extends ParsedownPlus
         }
 
         if (strpos($Line['text'], '$$') !== false) {
-            $Block['markup'] .= "\n" . $Line['text'];
+            $closingPos = strpos($Line['text'], '$$', 2);
+            if ($closingPos !== false) {
+                $math = substr($Line['text'], 0, $closingPos + 2);
+                $Block['markup'] .= "\n" . $math;
+                $remainder = substr($Line['text'], $closingPos + 2);
+                if (trim($remainder) !== '') {
+                    $Block['markup'] .= "\n" . $this->line($remainder);
+                }
+            } else {
+                $Block['markup'] .= "\n" . $Line['text'];
+            }
             $Block['complete'] = true;
             return $Block;
         }
