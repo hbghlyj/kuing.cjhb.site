@@ -159,7 +159,7 @@ class DocPHT {
      *
      * @return string
      */
-    public function __construct(array $anchorLinks = null)
+    public function __construct(?array $anchorLinks = null)
     {
         return $this->anchorLinks($anchorLinks);
     }
@@ -172,7 +172,7 @@ class DocPHT {
      *
      * @return string
      */
-    public function title(string $title, string $anchorLinkID = null, int $level = 2)
+    public function title(string $title, ?string $anchorLinkID = null, int $level = 2)
     {
        $level = max(1, min(6, $level));
        if (isset($anchorLinkID)) {
@@ -189,7 +189,7 @@ class DocPHT {
      *
      * @return ?string
      */
-    public function anchorLinks(array $anchorLinks = null)
+    public function anchorLinks(?array $anchorLinks = null)
     {
         if (isset($anchorLinks)) {
             echo '<nav class="navbar navbar-expand-lg navbar-light bg-light">
