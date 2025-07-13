@@ -18,7 +18,7 @@ a:focus {
 #content a:not([class]) {
     color: #007bff;
 }
-#content a:not([class]).new {
+#content a.new {
     color: #80b700;
 }
 #content a:not([class]):hover,
