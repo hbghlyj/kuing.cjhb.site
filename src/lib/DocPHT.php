@@ -72,16 +72,26 @@ class MediaWikiParsedown extends ParsedownPlus
     }
 
     // Fix greedy LaTeX block parsing by allowing closing $$ anywhere on the line
+    // and parsing any trailing Markdown after the closing delimiter
     protected function blockMath($Line)
     {
-        if (preg_match('/^\\$\\$(.*)$/', $Line['text'], $matches)) {
-            $Block = array(
-                'char' => $Line['text'][0],
-                'markup' => $Line['text'],
-            );
+        if (substr($Line['text'], 0, 2) === '$$') {
+            $Block = [
+                'char' => '$',
+                'markup' => '',
+            ];
 
-            if (strpos($matches[1], '$$') !== false) {
+            $closePos = strpos($Line['text'], '$$', 2);
+
+            if ($closePos !== false) {
+                $Block['markup'] = substr($Line['text'], 0, $closePos + 2);
+                $remainder = substr($Line['text'], $closePos + 2);
+                if (trim($remainder) !== '') {
+                    $Block['markup'] .= "\n" . $this->line($remainder);
+                }
                 $Block['complete'] = true;
+            } else {
+                $Block['markup'] = $Line['text'];
             }
 
             return $Block;
@@ -99,8 +109,12 @@ class MediaWikiParsedown extends ParsedownPlus
             unset($Block['interrupted']);
         }
 
-        if (strpos($Line['text'], '$$') !== false) {
-            $Block['markup'] .= "\n" . $Line['text'];
+        if (($pos = strpos($Line['text'], '$$')) !== false) {
+            $Block['markup'] .= "\n" . substr($Line['text'], 0, $pos + 2);
+            $remainder = substr($Line['text'], $pos + 2);
+            if (trim($remainder) !== '') {
+                $Block['markup'] .= "\n" . $this->line($remainder);
+            }
             $Block['complete'] = true;
             return $Block;
         }
@@ -145,7 +159,7 @@ class DocPHT {
      *
      * @return string
      */
-    public function __construct(array $anchorLinks = null)
+    public function __construct(?array $anchorLinks = null)
     {
         return $this->anchorLinks($anchorLinks);
     }
@@ -158,7 +172,7 @@ class DocPHT {
      *
      * @return string
      */
-    public function title(string $title, string $anchorLinkID = null, int $level = 2)
+    public function title(string $title, ?string $anchorLinkID = null, int $level = 2)
     {
        $level = max(1, min(6, $level));
        if (isset($anchorLinkID)) {
@@ -175,7 +189,7 @@ class DocPHT {
      *
      * @return ?string
      */
-    public function anchorLinks(array $anchorLinks = null)
+    public function anchorLinks(?array $anchorLinks = null)
     {
         if (isset($anchorLinks)) {
             echo '<nav class="navbar navbar-expand-lg navbar-light bg-light">
