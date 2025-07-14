@@ -30,9 +30,11 @@
                         </li>';
                 }
 
-                $explode = explode('/', $_SESSION['page_slug']);
-                $filenameURL = array_reverse($explode)[0];
-                $topicURL = array_reverse($explode)[1];
+                if(isset($_SESSION['page_slug'])){
+                    $explode = explode('/', $_SESSION['page_slug']);
+                    $filenameURL = array_reverse($explode)[0];
+                    $topicURL = array_reverse($explode)[1];
+                }
                 if (isset($_SESSION['Active'])) {
                     echo '<li class="list-inline-item" data-toggle="tooltip" data-placement="top" title="'.$t->trans("Create new page").'">
                     <a href="/page/create?topic='. $topicURL .'" id="sk-newPage" class="btn btn-outline-secondary btn-sm" role="button"><i class="fa fa-plus-square" aria-hidden="true"></i></a>
