@@ -1,13 +1,12 @@
 # Lagrange interpolation
 \begin{theorem}
-Given distinct real numbers $x_1, \dots, x_n$ and any real numbers $y_1, \dots, y_n$, there exists a unique polynomial $P$ of degree $<n$ such that $P(x_i) = y_i\forall i$.
+Given distinct real numbers $x_1, \dots, x_n$ and any real numbers $y_1, \dots, y_n$, there exists a unique polynomial $P$ of degree $<n$ such that $\forall i,P(x_i) = y_i$.
 \end{theorem}
 ```
 import Mathlib
 open Polynomial
 
-theorem exists_unique_polynomial {n : ℕ} (x : Fin n → ℝ)
-    (hx : ∀ i j, x i = x j → i = j) (y : Fin n → ℝ) :
+theorem exists_unique_polynomial {n : ℕ} (x y : Fin n → ℝ) (hx : ∀ i j, x i = x j → i = j) :
     ∃! P : Polynomial ℝ, P.degree < n ∧ ∀ i, P.eval (x i) = y i := by
   let V := degreeLT ℝ n
   let W := Fin n → ℝ
@@ -85,7 +84,7 @@ theorem exists_unique_polynomial {n : ℕ} (x : Fin n → ℝ)
     · apply mem_degreeLT.mp
       exact Submodule.coe_mem p
     · exact fun i =>
-      Eq.symm (Real.ext_cauchy (congrArg Real.cauchy (congrFun (id (Eq.symm hp)) i)))
+      (Real.ext_cauchy (congrArg Real.cauchy (congrFun hp.symm i))).symm
   · intro ⟨left, right⟩ ⟨left_1, right_1⟩
     let Q_v : V := ⟨Q, mem_degreeLT.mpr left⟩
     let hQ_v : V := ⟨hQ, mem_degreeLT.mpr left_1⟩

@@ -1,6 +1,6 @@
 # pseudoinverse
 \begin{theorem}
-Let $V$ be a finite-dimensional vector space over a field.
+Let $V$ be a vector space over a field.
 Let $A: V \rightarrow V$ be a linear map.
 
 $\exists$ linear map $B: V \rightarrow V$ such that $A B A=A$ and $BAB=B$.
@@ -8,7 +8,9 @@ $\exists$ linear map $B: V \rightarrow V$ such that $A B A=A$ and $BAB=B$.
 \begin{proof}
 To show that there exists a linear map $B: V \to V$ such that $A B A = A$, proceed as follows.
 
-Since $V$ is finite-dimensional, the kernel $\operatorname{Ker} A$ has a complement $U$ in $V$, so $V = \operatorname{Ker} A \oplus U$. The restriction $A|_U: U \to \operatorname{Im} A$ is an isomorphism. Let $R: \operatorname{Im} A \to U$ be the inverse of $A|_U$, so $A R = \operatorname{Id}_{\operatorname{Im} A}$.
+<details><summary>The kernel $\ker A$ has a complement $U$ in $V$, so $V = \ker A \oplus U$.</summary>The existence of a complement holds true for both finite- and infinite-dimensional vector spaces. However, proving it for infinite dimensions requires the Axiom of Choice.</details>
+
+The restriction $A|_U: U \to \operatorname{Im} A$ is an isomorphism. Let $R: \operatorname{Im} A \to U$ be the inverse of $A|_U$, so $A R = \operatorname{Id}_{\operatorname{Im} A}$.
 
 The image $\operatorname{Im} A$ also has a complement $S$ in $V$, so $V = \operatorname{Im} A \oplus S$.
 
@@ -22,7 +24,7 @@ Now, $A (B v) = A (R w) = w$ (since $A R = \operatorname{Id}_{\operatorname{Im} 
 
 Then $B (A (B v)) = B w = R w$.
 
-But $R w =Bv$, so $B A Bv =Bv$ for all $v$, hence $BAB =B$.
+But $R w = B v$, so $B A B v = B v$ for all $v$, hence $B A B = B$.
 \end{proof}
 ```
 import Mathlib.LinearAlgebra.FiniteDimensional.Defs

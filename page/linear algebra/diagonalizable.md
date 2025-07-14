@@ -1,38 +1,46 @@
 # Primary Decomposition Theorem
 $F$ is a field, $V$ is a finite-dimensional vector space over $F$, and $T: V \rightarrow V$ is a linear map.
 \begin{lemma}
-Suppose that $f(T)=0$, where $f \in F[x]$. Suppose also that $f(x)=g(x) h(x)$, where $g, h \in F[x]$ and $g, h$ are coprime. Then there are $T$-invariant subspaces $U, W$ of $V$ such that $V=U \oplus W$ and $g\left(\left.T\right|_U\right)=0, h\left(\left.T\right|_W\right)=0$.
+Suppose that $f(T)=0$, where $f \in F[x]$. Suppose also that $f(x)=g(x) h(x)$, where $g, h \in F[x]$ and $g, h$ are coprime. Then there are $T$-invariant subspaces $U, W$ of $V$ such that $V=U \oplus W$ and $g(T|_U)=0, h(T|_W)=0$.
 \end{lemma}
 \begin{proof}
 Since $g$ and $h$ are coprime, by Bézout's identity there exist polynomials $r, s \in F[x]$ such that $r(x) g(x) + s(x) h(x) = 1$. Substituting $T$ gives
 $$
-r(T) g(T) + s(T) h(T) = I,
+r(T) g(T) + s(T) h(T) = I
 $$
 where $I$ is the identity transformation on $V$.
 
 Define $U = \ker g(T)$ and $W = \ker h(T)$. For any $v \in V$,
 $$
-v = I v = r(T) g(T) v + s(T) h(T) v.
+v = I v = r(T) g(T) v + s(T) h(T) v
 $$
 Let $u = s(T) h(T) v$ and $w = r(T) g(T) v$. Then $g(T) u = g(T) s(T) h(T) v = s(T) g(T) h(T) v = s(T) f(T) v = 0$, so $u \in U$. Similarly, $h(T) w = h(T) r(T) g(T) v = r(T) h(T) g(T) v = r(T) f(T) v = 0$, so $w \in W$. Thus, $V = U + W$.
 
 To show the sum is direct, suppose $v \in U \cap W$. Then $g(T) v = 0$ and $h(T) v = 0$, so
 $$
-v = r(T) g(T) v) + s(T) v = 0 + 0 = 0.
+v = r(T) (g(T) v) + s(T) (h(T) v) = 0 + 0 = 0.
 $$
 Thus, $U \cap W = \{0\}$, and $V = U \oplus W$.
 
-Now, $U$ is $T$-invariant: if $u \in U$, then $g(T) (T u) = T g(T) u = T 0 = 0$ (since polynomials in $T$ commute), so $T u \in U$. Similarly, $W$ is $T$-invariant. By construction, $g(\left.T\right|_U) = 0$ and $h(\left.T\right|_W) = 0$.
+Now, $U$ is $T$-invariant: if $u \in U$, then $g(T) (T u) = T g(T) u = T 0 = 0$ (since polynomials in $T$ commute), so $T u \in U$. Similarly, $W$ is $T$-invariant. By construction, $g(T|_U) = 0$ and $h(T|_W) = 0$.
 \end{proof}
-**Challenge.** Let $P$ be the projection of $V$ onto $U$ along $W$. Express $P$ as $p(T)$ for some $p \in F[x]$.
-
+<details><summary><b>Challenge.</b> Let $P$ be the projection of $V$ onto $U$ along $W$. Express $P$ as $p(T)$ for some $p \in F[x]$.</summary>
 From the proof, the component of $v$ in $U$ is $s(T) h(T) v$. Thus, $P = s(T) h(T) = p(T)$, where $p(x) = s(x) h(x)$.
+</details>
+```
+import Mathlib
 
+lemma decomposition_annihilating_coprime_factors: {F V : Type*} [AddCommGroup V] [Field F]
+  [Module F V] [FiniteDimensional F V] {T : V →ₗ[F] V} {f : Polynomial F}
+  (hf : f.aeval T = 0) (g h : Polynomial F) (hgh : IsCoprime g h) (hgh' : f = g * h) :
+  ∃ U W : Submodule F V, (∀ v : V, v ∈ U → T v ∈ U) ∧ (∀ v : V, v ∈ W → T v ∈ W) ∧
+  (IsCompl U W) ∧ (g.aeval T).domRestrict U = 0 ∧ (h.aeval T).domRestrict W = 0 := by sorry
+```
 \begin{lemma}
 If $m_T(x)=g(x) h(x)$ where $g, h \in F[x]$ are monic and co-prime, then $g$ is the minimal polynomial of $\left.T\right|_U$ and $h$ is the minimal polynomial of $\left.T\right|_W$.
 \end{lemma}
 \begin{proof}
-By lemma 1 (applied to $f = m_T$), there exist $T$-invariant $U, W \leq V$ with $V = U \oplus W$, $g(\left.T\right|_U) = 0$, and $h(\left.T\right|_W) = 0$. Let $\mu_U$ be the minimal polynomial of $\left.T\right|_U$ and $\mu_W$ the minimal polynomial of $\left.T\right|_W$. Then $\mu_U$ divides $g$ and $\mu_W$ divides $h$.
+By lemma 1 (applied to $f = m_T$), there exist $T$-invariant $U, W \leq V$ with $V = U \oplus W$, $g(T|_U) = 0$, and $h(T|_W) = 0$. Let $\mu_U$ be the minimal polynomial of $T|_U$ and $\mu_W$ the minimal polynomial of $\left.T\right|_W$. Then $\mu_U$ divides $g$ and $\mu_W$ divides $h$.
 
 Since $U, W$ are $T$-invariant and $V = U \oplus W$, a polynomial $q \in F[x]$ satisfies $q(T) = 0$ if and only if $q(\left.T\right|_U) = 0$ and $q(\left.T\right|_W) = 0$. Thus, $m_T$ is the monic least common multiple of $\mu_U$ and $\mu_W$: $m_T = \operatorname{lcm}(\mu_U, \mu_W)$.
 
@@ -42,9 +50,6 @@ $$
 $$
 Since all polynomials are monic, $\deg \mu_U + \deg \mu_W = \deg g + \deg h$, $\deg \mu_U \leq \deg g$, and $\deg \mu_W \leq \deg h$. Equality holds if and only if $\deg \mu_U = \deg g$ and $\deg \mu_W = \deg h$, so $\mu_U = g$ and $\mu_W = h$.
 \end{proof}
-\begin{example}
-If $m_T(x)=x^2-x$ then (as we already know) there exist $U, W \leqslant V$ such that $V=U \oplus W,\left.T\right|_U=I_U$ and $\left.T\right|_W=0_W$.
-\end{example}
 \begin{theorem}
 Suppose that
 $$
@@ -59,7 +64,7 @@ where $V_1, V_2, \ldots, V_k$ are $T$-invariant subspaces and the minimal polyno
 \begin{proof}
 Proceed by induction on $k$. If $k=1$, then $V_1 = V$ and the minimal polynomial of $\left.T\right|_{V_1}$ is $f_1^{m_1}$.
 
-Assume the result holds for decompositions with fewer than $k$ factors ($k \geq 2$). Let $g(x) = f_1(x)^{m_1}$ and $h(x) = f_2(x)^{m_2} \cdots f_k(x)^{m_k}$. Then $m_T(x) = g(x) h(x)$, and $g, h$ are coprime (since the $f_i$ are distinct irreducibles). By Mark 2, there exist $T$-invariant $U, W \leq V$ with $V = U \oplus W$ and minimal polynomials $\mu_U = g = f_1^{m_1}$, $\mu_W = h = f_2^{m_2} \cdots f_k^{m_k}$.
+Assume the result holds for decompositions with fewer than $k$ factors ($k \geq 2$). Let $g(x) = f_1(x)^{m_1}$ and $h(x) = f_2(x)^{m_2} \cdots f_k(x)^{m_k}$. Then $m_T(x) = g(x) h(x)$, and $g, h$ are coprime (since the $f_i$ are distinct irreducibles). By Lemma 2, there exist $T$-invariant $U, W \leq V$ with $V = U \oplus W$ and minimal polynomials $\mu_U = g = f_1^{m_1}$, $\mu_W = h = f_2^{m_2} \cdots f_k^{m_k}$.
 
 By the induction hypothesis applied to $W$, there exist $T$-invariant subspaces $V_2, \dots, V_k$ of $W$ such that $W = V_2 \oplus \cdots \oplus V_k$ and the minimal polynomial of $\left.T\right|_{V_i}$ is $f_i^{m_i}$ for $2 \leq i \leq k$. Thus, $V = U \oplus V_2 \oplus \cdots \oplus V_k$. Set $V_1 = U$.
 \end{proof}
