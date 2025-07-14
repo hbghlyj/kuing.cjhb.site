@@ -36,8 +36,12 @@
                     $topicURL = array_reverse($explode)[1];
                 }
                 if (isset($_SESSION['Active'])) {
+                    $createUrl = '/page/create';
+                    if (isset($topicURL)) {
+                        $createUrl .= '?topic='. $topicURL;
+                    }
                     echo '<li class="list-inline-item" data-toggle="tooltip" data-placement="top" title="'.$t->trans("Create new page").'">
-                    <a href="/page/create?topic='. $topicURL .'" id="sk-newPage" class="btn btn-outline-secondary btn-sm" role="button"><i class="fa fa-plus-square" aria-hidden="true"></i></a>
+                    <a href="'.$createUrl.'" id="sk-newPage" class="btn btn-outline-secondary btn-sm" role="button"><i class="fa fa-plus-square" aria-hidden="true"></i></a>
                     </li>';
                 }
                 if (isset($_SESSION['Active'])) {
