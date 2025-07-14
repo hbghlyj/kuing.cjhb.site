@@ -148,8 +148,22 @@ class MediaWikiParsedown extends ParsedownPlus
         }
         return $Inline;
     }
-}
 
+    protected function inlineMath($Excerpt)
+    {
+        if (isset($Excerpt['text'][1]) && $Excerpt['text'][0] === '$' && $Excerpt['text'][1] === '$') {
+            if (preg_match('/^\$\$([^\n]+?)\$\$/s', $Excerpt['text'], $matches)) {
+                $text = preg_replace('/[ ]*\n/', ' ', $matches[1]);
+                return [
+                    'markup' => '$$' . htmlspecialchars($text) . '$$',
+                    'extent' => strlen($matches[0]),
+                ];
+            }
+        }
+
+        return parent::inlineMath($Excerpt);
+    }
+}
 class DocPHT {
 
     /**
