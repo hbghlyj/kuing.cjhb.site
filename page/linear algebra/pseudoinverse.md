@@ -1,12 +1,12 @@
 # pseudoinverse
+\begin{theorem}
 Let $V$ be a finite-dimensional vector space over a field.
-Let $A: V \rightarrow V$ be a linear transformation.
-1. Show that there exists $B: V \rightarrow V$ such that $A B A=A$.
-2. Show that there exists $C: V \rightarrow V$ such that $A C A=A$ and $C A C=C$.
+Let $A: V \rightarrow V$ be a linear map.
 
-## Part 1
-
-To show that there exists a linear transformation $B: V \to V$ such that $A B A = A$, proceed as follows.
+$\exists$ linear map $B: V \rightarrow V$ such that $A B A=A$ and $BAB=B$.
+\end{theorem}
+\begin{proof}
+To show that there exists a linear map $B: V \to V$ such that $A B A = A$, proceed as follows.
 
 Since $V$ is finite-dimensional, the kernel $\operatorname{Ker} A$ has a complement $U$ in $V$, so $V = \operatorname{Ker} A \oplus U$. The restriction $A|_U: U \to \operatorname{Im} A$ is an isomorphism. Let $R: \operatorname{Im} A \to U$ be the inverse of $A|_U$, so $A R = \operatorname{Id}_{\operatorname{Im} A}$.
 
@@ -16,30 +16,17 @@ Define $B: V \to V$ by setting $B|_{\operatorname{Im} A} = R$ and $B|_S = 0$.
 
 To verify $A B A = A$, note that for any $v \in V$, $A B A v = A (B (A v))$. Since $A v \in \operatorname{Im} A$, $B (A v) = R (A v)$, and $A (R (A v)) = (A R) (A v) = A v$. Thus, $A B A = A$.
 
-## Part 2
+Next, verify $B A B = B$. For any $v \in V$, write $v = w + s$ with $w \in \operatorname{Im} A$ and $s \in S$. Then $B v = B w + B s = R w + 0 = R w$.
 
-To show that there exists a linear transformation $C: V \to V$ such that $A C A = A$ and $C A C = C$, use the same subspaces $U$ and $S$ and map $R$ as in part (a).
+Now, $A (B v) = A (R w) = w$ (since $A R = \operatorname{Id}_{\operatorname{Im} A}$).
 
-Define $C: V \to V$ by setting $C|_{\operatorname{Im} A} = R$ and $C|_S = 0$.
+Then $B (A (B v)) = B w = R w$.
 
-First, verify $A C A = A$. As in part (a), for any $v \in V$, $A C A v = A (C (A v)) = A (R (A v)) = A v$, so $A C A = A$.
-
-Next, verify $C A C = C$. For any $v \in V$, write $v = w + s$ with $w \in \operatorname{Im} A$ and $s \in S$. Then $C v = C w + C s = R w + 0 = R w$.
-
-Now, $A (C v) = A (R w) = w$ (since $A R = \operatorname{Id}_{\operatorname{Im} A}$).
-
-Then $C (A (C v)) = C w = R w$.
-
-But $R w = C v$, so $C A C v = C v$ for all $v$, hence $C A C = C$.
+But $R w =Bv$, so $B A Bv =Bv$ for all $v$, hence $BAB =B$.
+\end{proof}
 ```
 import Mathlib.LinearAlgebra.FiniteDimensional.Defs
-
-noncomputable section
-
-universe u
-
 variable {K V : Type u} [Field K] [AddCommGroup V] [Module K V]
-variable [FiniteDimensional K V]
 variable (A : V →ₗ[K] V)
 
 open LinearMap Submodule

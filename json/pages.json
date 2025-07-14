@@ -30,11 +30,6 @@
         "filename": "开集"
     },
     {
-        "slug": "test/内部链接",
-        "topic": "test",
-        "filename": "内部链接"
-    },
-    {
         "slug": "点集拓扑/拓扑基",
         "topic": "点集拓扑",
         "filename": "拓扑基"
@@ -43,11 +38,6 @@
         "slug": "解析几何/圆锥曲线",
         "topic": "解析几何",
         "filename": "圆锥曲线"
-    },
-    {
-        "slug": "实分析/集合",
-        "topic": "实分析",
-        "filename": "集合"
     },
     {
         "slug": "实分析/有理数在实数中稠密",
@@ -98,5 +88,20 @@
         "slug": "test/LaTeX测试",
         "topic": "test",
         "filename": "LaTeX测试"
+    },
+    {
+        "slug": "linear algebra/diagonalizable",
+        "topic": "linear algebra",
+        "filename": "diagonalizable"
+    },
+    {
+        "slug": "linear algebra/Lagrange interpolation",
+        "topic": "linear algebra",
+        "filename": "Lagrange interpolation"
+    },
+    {
+        "slug": "实分析/开集构造定理",
+        "topic": "实分析",
+        "filename": "开集构造定理"
     }
 ]
