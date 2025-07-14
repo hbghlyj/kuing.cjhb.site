@@ -8,6 +8,13 @@ p {
     line-height: 1.7em;
 }
 
+p:last-child,
+ul:last-child,
+ol:last-child,
+blockquote:last-child {
+    margin-bottom: 0;
+}
+
 a,
 a:hover,
 a:focus {
