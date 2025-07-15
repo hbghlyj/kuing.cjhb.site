@@ -38,7 +38,7 @@
                 if (isset($_SESSION['Active'])) {
                     $createUrl = '/page/create';
                     if (isset($topicURL)) {
-                        $createUrl .= '?topic='. $topicURL;
+                        $createUrl .= '?topic=' . urlencode($topicURL);
                     }
                     echo '<li class="list-inline-item" data-toggle="tooltip" data-placement="top" title="'.$t->trans("Create new page").'">
                     <a href="'.$createUrl.'" id="sk-newPage" class="btn btn-outline-secondary btn-sm" role="button"><i class="fa fa-plus-square" aria-hidden="true"></i></a>
