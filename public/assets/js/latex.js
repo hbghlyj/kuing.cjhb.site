@@ -2,6 +2,8 @@
  * Replaces LaTeX formulas by pictures using MathJax FindTeX function
  */
 'use strict';
+/* jshint esversion: 9 */
+/* global document, window, Node, fetch, setTimeout, location */
 (function (w, d) {
   /**
    * Function to find TeX expressions within a string.
@@ -36,16 +38,29 @@
     function addPattern(starts, delims, display) {
       const [open, close] = delims;
       starts.push(quotePattern(open));
-      endPatterns[open] = [close, display, new RegExp(`${quotePattern(close)}|\\\\(?:[a-zA-Z]|.)|[{}]`, 'g')];
+      let regex = `${quotePattern(close)}|\\\\(?:[a-zA-Z]|.)|[{}]`;
+      if (open === '$$') {
+        // Capture begin and end environments when inside $$ block math
+        regex = `${quotePattern(close)}|\\\\(?:begin|end)\\s*\\{[^}]*\\}|\\\\(?:[a-zA-Z]|.)|[{}]`;
+      }
+      endPatterns[open] = [close, display, new RegExp(regex, 'g')];
     }
 
     // Add inline and display math patterns
     options.inlineMath.forEach(delims => addPattern(startPatterns, delims, 0));
-    options.displayMath.forEach(delims => addPattern(startPatterns, delims, 1));
+    // Ensure $$ delimiter has priority among display math patterns
+    options.displayMath
+      .sort((a, b) => (a[0] === '$$' ? -1 : b[0] === '$$' ? 1 : 0))
+      .forEach(delims => addPattern(startPatterns, delims, 1));
 
     const parts = [];
     if (startPatterns.length) {
-      parts.push(startPatterns.sort((a, b) => b.length - a.length).join('|'));
+      startPatterns.sort((a, b) => {
+        if (a === '\\$\\$') return -1;
+        if (b === '\\$\\$') return 1;
+        return b.length - a.length;
+      });
+      parts.push(startPatterns.join('|'));
     }
     if (options.processEnvironments) {
       envIndex = parts.length;
@@ -70,21 +85,33 @@
       let i = pattern.lastIndex = start.index + start[0].length;
       let match, found;
       let braces = 0;
+      const envStack = [];
       while (match = pattern.exec(text)) {
-        if ((match[1] || match[0]) === close && braces === 0) {
+        const token = match[0];
+        if (token === close && braces === 0 && envStack.length === 0) {
           found = {
             open: start[0],
             math: text.slice(i, match.index),
-            close: match[0],
+            close: token,
             display,
             startIndex: start.index,
-            endIndex: match.index + match[0].length,
+            endIndex: match.index + token.length,
           };
           found.range = shiftRangeStart(shiftRangeEnd(old_range, found.endIndex), found.startIndex);
           return found;
-        } else if (match[0] === '{') {
+        } else if (/^\\begin/.test(token)) {
+          const m = token.match(/^\\begin\s*\{([^}]*)\}/);
+          if (m) {
+            envStack.push(m[1]);
+          }
+        } else if (/^\\end/.test(token)) {
+          const m = token.match(/^\\end\s*\{([^}]*)\}/);
+          if (m && envStack.length && envStack[envStack.length - 1] === m[1]) {
+            envStack.pop();
+          }
+        } else if (token === '{') {
           braces++;
-        } else if (match[0] === '}' && braces) {
+        } else if (token === '}' && braces) {
           braces--;
         }
       }
