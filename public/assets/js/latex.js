@@ -36,7 +36,10 @@
     function addPattern(starts, delims, display) {
       const [open, close] = delims;
       starts.push(quotePattern(open));
-      endPatterns[open] = [close, display, new RegExp(`${quotePattern(close)}|\\\\(?:begin|end|.)|[{}]`, 'g')];
+      endPatterns[open] = [close, display,
+        new RegExp(`${quotePattern(close)}|${quotePattern(open)}|\\\\(?:begin|end|.)|[{}]`, 'g'),
+        open
+      ];
     }
 
     // Add inline and display math patterns
@@ -66,12 +69,18 @@
 
     // Function to find the end delimiter
     function findEnd(old_range, start, end) {
-      const [close, display, pattern] = end;
+      const [close, display, pattern, openDelim] = end;
       let i = pattern.lastIndex = start.index + start[0].length;
       let match, found;
       let braces = 0;
       while (match = pattern.exec(text)) {
-        if ((match[1] || match[0]) === close && braces === 0) {
+        if (openDelim && match[0] === openDelim) {
+          const inner = findEnd(old_range, match, end);
+          if (!inner) {
+            break;
+          }
+          pattern.lastIndex = inner.endIndex;
+        } else if ((match[1] || match[0]) === close && braces === 0) {
           found = {
             open: start[0],
             math: text.slice(i, match.index),
@@ -102,7 +111,7 @@
       let found;
       if (envIndex && match[envIndex] !== undefined) {
         const end = new RegExp(`\\\\end\\s*(\\{${quotePattern(match[envIndex])}\\})`, 'g');
-        found = findEnd(old_range, match, ['{' + match[envIndex] + '}', 1, end]);
+        found = findEnd(old_range, match, ['{' + match[envIndex] + '}', 1, end, match[0]]);
         if (found) {
           const m = found.close.match(/\{(?:equation|align|gather|alignat|multline|flalign)(\*?)\}$/);
           if (m) {
