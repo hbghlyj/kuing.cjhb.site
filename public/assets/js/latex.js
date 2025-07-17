@@ -45,7 +45,11 @@
 
     const parts = [];
     if (startPatterns.length) {
-      parts.push(startPatterns.sort((a, b) => b.length - a.length).join('|'));
+      parts.push(startPatterns.sort((a, b) => {
+        if (a === '\\$\\$') return -1;
+        if (b === '\\$\\$') return 1;
+        return b.length - a.length;
+      }).join('|'));
     }
     if (options.processEnvironments) {
       envIndex = parts.length;
@@ -66,12 +70,22 @@
 
     // Function to find the end delimiter
     function findEnd(old_range, start, end) {
-      const [close, display, pattern] = end;
+      const [close, display, pattern, envName] = end;
       let i = pattern.lastIndex = start.index + start[0].length;
       let match, found;
-      let braces = 0;
+      let braces = 0, nested = 0;
       while (match = pattern.exec(text)) {
-        if ((match[1] || match[0]) === close && braces === 0) {
+        if (envName) {
+          if (match[0].startsWith('\\begin')) {
+            nested++;
+            continue;
+          }
+          if (match[0].startsWith('\\end') && nested) {
+            nested--;
+            continue;
+          }
+        }
+        if ((match[1] || match[0]) === close && braces === 0 && nested === 0) {
           found = {
             open: start[0],
             math: text.slice(i, match.index),
@@ -97,8 +111,9 @@
     while (match = startRegex.exec(text)) {
       let found;
       if (envIndex && match[envIndex] !== undefined) {
-        const end = new RegExp(`\\\\end\\s*(\\{${quotePattern(match[envIndex])}\\})`, 'g');
-        found = findEnd(old_range, match, ['{' + match[envIndex] + '}', 1, end]);
+        const envName = match[envIndex];
+        const end = new RegExp(`\\\\(?:begin|end)\\s*\\{${quotePattern(envName)}\\}|\\\\(?:[a-zA-Z]|.)|[{}]`, 'g');
+        found = findEnd(old_range, match, ['\\\\end{' + envName + '}', 1, end, envName]);
         if (found) {
           const m = found.close.match(/\{(?:equation|align|gather|alignat|multline|flalign)(\*?)\}$/);
           if (m) {
