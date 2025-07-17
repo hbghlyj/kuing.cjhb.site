@@ -68,7 +68,7 @@ class FormPageController extends BaseController
                         if ($segment['type'] === 'title') {
                                 $values[] = $html->title($segment['text'], $segment['anchor'], $segment['level']);
                         } else {
-                                $values[] = $html->markdown($segment['text']);
+                                $values[] = $segment['text'];
                         }
                 }
                 $values[] = $html->addButton();

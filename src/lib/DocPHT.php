@@ -257,22 +257,6 @@ class DocPHT {
     }
 
 
-
-
-    /**
-     * markdown
-     *
-     * @param  string $text
-     *
-     * @return string
-     */
-    public function markdown(string $text)
-    {
-        $Parsedown = new MediaWikiParsedown();
-        return $Parsedown->text($text);
-    }
-
-
     /**
      * addButton
      *
