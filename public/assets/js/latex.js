@@ -358,20 +358,20 @@
         // Create the image node for the found TeX
         const [imgNode, tagLabel] = createImgNode(item.math, item.display);
 
-        const wrapperDiv = item.display ? d.createElement('div') : imgNode;
+        const p = item.display ? d.createElement('p') : imgNode;
         if (item.display) {
-          wrapperDiv.setAttribute('align', 'center');
-          wrapperDiv.appendChild(imgNode);
+          p.setAttribute('align', 'center');
+          p.appendChild(imgNode);
           if (tagLabel) {
             const labelSpan = d.createElement('span');
             labelSpan.setAttribute('style', 'float: right; margin-left: 10px;');
             labelSpan.textContent = tagLabel;
-            wrapperDiv.appendChild(labelSpan);
+            p.appendChild(labelSpan);
           }
         }
         // Insert the image node before the text node
-        item.range.insertNode(wrapperDiv);
-        item.range.setStartAfter(wrapperDiv);
+        item.range.insertNode(p);
+        item.range.setStartAfter(p);
         item.range.deleteContents();
       }
     });
