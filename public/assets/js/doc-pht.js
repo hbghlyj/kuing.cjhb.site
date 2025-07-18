@@ -39,7 +39,7 @@ function updateEditLink() {
     if (!link) { return; }
     var hash = window.location.hash.substring(1);
     if (hash) {
-        link.href = '/page/update?section=' + encodeURIComponent(hash);
+        link.href = '/page/update?section=' + hash;
     } else {
         link.href = '/page/update';
     }
