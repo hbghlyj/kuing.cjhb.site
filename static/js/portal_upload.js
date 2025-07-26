@@ -1,9 +1,8 @@
-/*
-	[Discuz!] (C)2001-2099 Comsenz Inc.
-	This is NOT a freeware, use is subject to license terms
-
-	$Id: portal_upload.js 32590 2013-02-22 09:42:48Z monkey $
-*/
+/**
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
+ */
 
 var nowid = 0;
 
@@ -44,11 +43,11 @@ function insertAttach(id) {
 	var ext = path.lastIndexOf('.') == -1 ? '' : path.substr(path.lastIndexOf('.') + 1, path.length).toLowerCase();
 	var re = new RegExp("(^|\\s|,)" + ext + "($|\\s|,)", "ig");
 	if(extensions != '' && (re.exec(extensions) == null || ext == '')) {
-               alert(lng['file_not_supported']);
+		alert($L('upload_error_type'));
 		return;
 	}
 	var localfile = $('attach_' + id).value.substr($('attach_' + id).value.replace(/\\/g, '/').lastIndexOf('/') + 1);
-       $('localfile_' + id).innerHTML = localfile + ' '+lng['uploading'];
+	$('localfile_' + id).innerHTML = localfile + ' ' + $L('attach_uploading');
 	$('attach_' + id).style.display = 'none';
 	$('upload_' + id).action += '&attach_target_id=' + id;
 	$('upload_' + id).submit();

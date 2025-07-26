@@ -1,13 +1,12 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: class_xml.php 36311 2016-12-19 01:47:34Z nemohou $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
-if(!defined('IN_DISCUZ')) {
+if(!defined('IN_DISCUZ') && !defined('IN_API')) {
 	exit('Access Denied');
 }
 
@@ -29,7 +28,7 @@ function array2xml($arr, $htmlon = TRUE, $isnormal = FALSE, $level = 1) {
 		}
 	}
 	$s = preg_replace("/([\x01-\x08\x0b-\x0c\x0e-\x1f])+/", ' ', $s);
-	return $level == 1 ? $s."</root>" : $s;
+	return $level == 1 ? $s. '</root>' : $s;
 }
 
 class XMLparse {
@@ -40,7 +39,7 @@ class XMLparse {
 	var $data;
 	var $last_opened_tag;
 	var $isnormal;
-	var $attrs = array();
+	var $attrs = [];
 	var $failed = FALSE;
 
 	function __construct($isnormal) {
@@ -52,7 +51,7 @@ class XMLparse {
 		$this->parser = xml_parser_create('ISO-8859-1');
 		xml_parser_set_option($this->parser, XML_OPTION_CASE_FOLDING, false);
 		xml_set_object($this->parser, $this);
-		xml_set_element_handler($this->parser, 'open','close');
+		xml_set_element_handler($this->parser, 'open', 'close');
 		xml_set_character_data_handler($this->parser, 'data');
 	}
 
@@ -61,9 +60,9 @@ class XMLparse {
 	}
 
 	function parse(&$data) {
-		$this->document = array();
-		$this->stack	= array();
-		return xml_parse($this->parser, $data, true) && !$this->failed ? $this->document : array();
+		$this->document = [];
+		$this->stack = [];
+		return xml_parse($this->parser, $data, true) && !$this->failed ? $this->document : [];
 	}
 
 	function open($parser, $tag, $attributes) {
@@ -71,13 +70,13 @@ class XMLparse {
 		$this->failed = FALSE;
 		if(!$this->isnormal) {
 			if(isset($attributes['id']) && !(isset($this->document[$attributes['id']]) && is_string($this->document[$attributes['id']]))) {
-				$this->document  = &$this->document[$attributes['id']];
+				$this->document = &$this->document[$attributes['id']];
 			} else {
 				$this->failed = TRUE;
 			}
 		} else {
 			if(!isset($this->document[$tag]) || !is_string($this->document[$tag])) {
-				$this->document  = &$this->document[$tag];
+				$this->document = &$this->document[$tag];
 			} else {
 				$this->failed = TRUE;
 			}
@@ -100,10 +99,9 @@ class XMLparse {
 		}
 		array_pop($this->stack);
 		if($this->stack) {
-			$this->document = &$this->stack[count($this->stack)-1];
+			$this->document = &$this->stack[count($this->stack) - 1];
 		}
 	}
 
 }
 
-?>

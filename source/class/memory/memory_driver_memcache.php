@@ -1,12 +1,11 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: memory_driver_memcache.php 27449 2012-02-01 05:32:35Z zhangguosheng $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
-if (!defined('IN_DISCUZ')) {
+if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
@@ -21,18 +20,18 @@ class memory_driver_memcache {
 	}
 
 	public function init($config) {
-		if (!$this->env()) {
+		if(!$this->env()) {
 			$this->enable = false;
 			return;
 		}
-		if (!empty($config['server'])) {
+		if(!empty($config['server'])) {
 			$this->obj = new Memcache;
-			if ($config['pconnect']) {
+			if($config['pconnect']) {
 				$connect = @$this->obj->pconnect($config['server'], $config['port']);
 			} else {
 				$connect = @$this->obj->connect($config['server'], $config['port']);
 			}
-			$this->enable = $connect ? true : false;
+			$this->enable = (bool)$connect;
 		}
 	}
 
@@ -61,7 +60,7 @@ class memory_driver_memcache {
 	}
 
 	public function inc($key, $step = 1) {
-		if (!$this->obj->increment($key, $step)) {
+		if(!$this->obj->increment($key, $step)) {
 			$this->set($key, $step);
 		}
 	}
@@ -75,9 +74,8 @@ class memory_driver_memcache {
 	}
 
 	public function exists($key) {
-	    return $this->obj->get($key) !== FALSE;
-    }
+		return $this->obj->get($key) !== FALSE;
+	}
 
 }
 
-?>

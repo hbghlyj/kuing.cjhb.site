@@ -1,36 +1,43 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: table_common_word_type.php 27671 2012-02-09 06:56:51Z zhengqingpeng $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
-class table_common_word_type extends discuz_table
-{
+class table_common_word_type extends discuz_table {
+	public static function t() {
+		static $_instance;
+		if(!isset($_instance)) {
+			$_instance = new self();
+		}
+		return $_instance;
+	}
+
 	public function __construct() {
 
 		$this->_table = 'common_word_type';
-		$this->_pk    = 'id';
+		$this->_pk = 'id';
 
 		parent::__construct();
 	}
+
 	public function fetch_by_typename($typename) {
-		$data = array();
+		$data = [];
 		if(!empty($typename)) {
-			$data = DB::fetch_first('SELECT * FROM %t WHERE typename=%s', array($this->_table, $typename), $this->_pk);
+			$data = DB::fetch_first('SELECT * FROM %t WHERE typename=%s', [$this->_table, $typename], $this->_pk);
 		}
 		return $data;
 	}
 
-	public function fetch_all($ids = array(), $force_from_db = false) {
+	public function fetch_all($ids = [], $force_from_db = false) {
 		// $ids = array() 需要在取消兼容层后删除
-		if (defined('DISCUZ_DEPRECATED')) {
+		if(defined('DISCUZ_DEPRECATED')) {
 			throw new Exception('NotImplementedException');
 			return parent::fetch_all($ids, $force_from_db);
 		} else {
@@ -39,9 +46,8 @@ class table_common_word_type extends discuz_table
 	}
 
 	public function fetch_all_word_type() {
-		return DB::fetch_all('SELECT * FROM %t', array($this->_table), $this->_pk);
+		return DB::fetch_all('SELECT * FROM %t', [$this->_table], $this->_pk);
 	}
 
 }
 
-?>

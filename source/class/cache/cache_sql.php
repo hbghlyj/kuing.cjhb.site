@@ -1,10 +1,9 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: cache_sql.php 24721 2011-10-09 10:30:22Z zhengqingpeng $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -18,9 +17,9 @@ class ultrax_cache {
 	}
 
 	function get_cache($key) {
-		static $data = array();
+		static $data = [];
 		if(!isset($data[$key])) {
-			$cache = C::t('common_cache')->fetch($key);
+			$cache = table_common_cache::t()->fetch($key);
 			if(!$cache) {
 				return false;
 			}
@@ -33,15 +32,15 @@ class ultrax_cache {
 	}
 
 	function set_cache($key, $value, $life) {
-		$data = array(
+		$data = [
 			'cachekey' => $key,
-			'cachevalue' => serialize(array('data' => $value, 'life' => $life)),
+			'cachevalue' => serialize(['data' => $value, 'life' => $life]),
 			'dateline' => time(),
-			);
-		return C::t('common_cache')->insert($data);
+		];
+		return table_common_cache::t()->insert($data);
 	}
 
 	function del_cache($key) {
-		return C::t('common_cache')->delete($key);
+		return table_common_cache::t()->delete($key);
 	}
 }

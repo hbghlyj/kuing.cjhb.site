@@ -1,18 +1,17 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: lang_attachmentlist.php 27449 2012-02-01 05:32:35Z zhangguosheng $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
-$lang = array
-(
+$lang =
+	[
 	'attachmentlist_name' => '论坛附件列表',
 	'attachmentlist_desc' => '论坛附件列表调用',
 	'attachmentlist_fids' => '所在版块',
@@ -60,6 +59,5 @@ $lang = array
 	'attachmentlist_dateline_month' => '最近1月',
 	'attachmentlist_highlight' => '获得高亮值',
 
-);
+	];
 
-?>

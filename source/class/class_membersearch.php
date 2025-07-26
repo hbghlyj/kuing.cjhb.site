@@ -1,10 +1,9 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: class_membersearch.php 33687 2013-08-02 01:46:22Z nemohou $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -13,50 +12,51 @@ if(!defined('IN_DISCUZ')) {
 
 class membersearch {
 
-	function __construct(){}
+	function __construct() {
+	}
 
-	function getfield($fieldid='') {
-		static $fields = array(
-			'uid'=>'member', 'username'=>'member', 'groupid'=>'member', 'medalid'=>'medal','tagid'=>'tag','idtype'=>'tag',
-			'email'=>'member', 'credits'=>'member', 'regdate'=>'member',
-			'status'=>'member', 'freeze'=>'member', 'emailstatus'=>'member', 'avatarstatus'=>'member',
-			'conisbind'=>'member','uin' => 'black','sid'=>'session',
-			'extcredits1'=>'count', 'extcredits2'=>'count', 'extcredits3'=>'count', 'extcredits4'=>'count',
-			'extcredits5'=>'count',	'extcredits6'=>'count', 'extcredits7'=>'count', 'extcredits8'=>'count',
-			'posts'=>'count','threads'=>'count','friends'=>'count','oltime'=>'count',
+	function getfield($fieldid = '') {
+		static $fields = [
+			'uid' => 'member', 'loginname' => 'member', 'username' => 'member', 'groupid' => 'member', 'secmobile' => 'member', 'medalid' => 'medal', 'tagid' => 'tag', 'idtype' => 'tag',
+			'email' => 'member', 'credits' => 'member', 'regdate' => 'member',
+			'status' => 'member', 'freeze' => 'member', 'emailstatus' => 'member', 'avatarstatus' => 'member',
+			'conisbind' => 'member', 'uin' => 'black', 'sid' => 'session',
+			'extcredits1' => 'count', 'extcredits2' => 'count', 'extcredits3' => 'count', 'extcredits4' => 'count',
+			'extcredits5' => 'count', 'extcredits6' => 'count', 'extcredits7' => 'count', 'extcredits8' => 'count',
+			'posts' => 'count', 'friends' => 'count', 'oltime' => 'count',
 			'fid' => 'groupuser', 'level' => 'groupuser',
 			'verify1' => 'verify', 'verify2' => 'verify', 'verify3' => 'verify', 'verify4' => 'verify', 'verify5' => 'verify', 'verify6' => 'verify',
-			'regip'=>'status', 'lastip'=>'status', 'lastvisit'=>'status', 'lastpost' => 'status', 'realname'=>'profile',
-			'birthyear'=>'profile', 'birthmonth'=>'profile', 'birthday'=>'profile', 'gender'=>'profile',
-			'constellation'=>'profile', 'zodiac'=>'profile', 'telephone'=>'profile', 'mobile'=>'profile',
-			'idcardtype'=>'profile', 'idcard'=>'profile', 'address'=>'profile', 'zipcode'=>'profile', 'nationality'=>'profile',
-			'birthcountry'=>'profile', 'birthprovince'=>'profile', 'birthcity'=>'profile', 'residecountry'=>'profile', 'resideprovince'=>'profile',
-			'residecity'=>'profile', 'residedist'=>'profile', 'residecommunity'=>'profile',
-			'residesuite'=>'profile', 'graduateschool'=>'profile', 'education'=>'profile',
-			'occupation'=>'profile', 'company'=>'profile', 'position'=>'profile', 'revenue'=>'profile',
-			'affectivestatus'=>'profile', 'lookingfor'=>'profile', 'bloodtype'=>'profile',
-			'height'=>'profile', 'weight'=>'profile', 'alipay'=>'profile', 'icq'=>'profile',
-			'qq'=>'profile', 'yahoo'=>'profile', 'msn'=>'profile', 'taobao'=>'profile', 'site'=>'profile',
-			'bio'=>'profile', 'interest'=>'profile', 'field1'=>'profile', 'field2'=>'profile',
-			'field3'=>'profile', 'field4'=>'profile', 'field5'=>'profile', 'field6'=>'profile',
-			'field7'=>'profile', 'field8'=>'profile', 'token' => 'token');
+			'regip' => 'status', 'lastip' => 'status', 'lastvisit' => 'status', 'lastpost' => 'status', 'realname' => 'profile',
+			'birthyear' => 'profile', 'birthmonth' => 'profile', 'birthday' => 'profile', 'gender' => 'profile',
+			'constellation' => 'profile', 'zodiac' => 'profile', 'telephone' => 'profile', 'mobile' => 'profile',
+			'idcardtype' => 'profile', 'idcard' => 'profile', 'address' => 'profile', 'zipcode' => 'profile', 'nationality' => 'profile',
+			'birthcountry' => 'profile', 'birthprovince' => 'profile', 'birthcity' => 'profile', 'residecountry' => 'profile', 'resideprovince' => 'profile',
+			'residecity' => 'profile', 'residedist' => 'profile', 'residecommunity' => 'profile',
+			'residesuite' => 'profile', 'graduateschool' => 'profile', 'education' => 'profile',
+			'occupation' => 'profile', 'company' => 'profile', 'position' => 'profile', 'revenue' => 'profile',
+			'affectivestatus' => 'profile', 'lookingfor' => 'profile', 'bloodtype' => 'profile',
+			'height' => 'profile', 'weight' => 'profile', 'alipay' => 'profile', 'icq' => 'profile',
+			'qq' => 'profile', 'yahoo' => 'profile', 'msn' => 'profile', 'taobao' => 'profile', 'site' => 'profile',
+			'bio' => 'profile', 'interest' => 'profile', 'field1' => 'profile', 'field2' => 'profile',
+			'field3' => 'profile', 'field4' => 'profile', 'field5' => 'profile', 'field6' => 'profile',
+			'field7' => 'profile', 'field8' => 'profile', 'fields' => 'profile', 'token' => 'token'];
 		return $fieldid ? $fields[$fieldid] : $fields;
 	}
 
 	function gettype($fieldid) {
-		static $types = array(
-			'uid'=>'int', 'groupid'=>'int', 'medalid'=>'int', 'tagid'=>'int', 'credits'=>'int',
-			'status'=>'int', 'freeze'=>'int', 'emailstatus'=>'int', 'avatarstatus'=>'int',
-			'extcredits1'=>'int', 'extcredits2'=>'int', 'extcredits3'=>'int', 'extcredits4'=>'int',
-			'extcredits5'=>'int', 'extcredits6'=>'int', 'extcredits7'=>'int', 'extcredits8'=>'int',
-			'posts'=>'int', 'threads'=>'int', 'friends'=>'int', 'birthyear'=>'int', 'birthmonth'=>'int', 'birthday'=>'int', 'gender'=>'int',
-			'uin'=>'int', 'sid'=>'noempty', 'token' => 'noempty'
-			);
+		static $types = [
+			'uid' => 'int', 'groupid' => 'int', 'medalid' => 'int', 'tagid' => 'int', 'credits' => 'int',
+			'status' => 'int', 'freeze' => 'int', 'emailstatus' => 'int', 'avatarstatus' => 'int',
+			'extcredits1' => 'int', 'extcredits2' => 'int', 'extcredits3' => 'int', 'extcredits4' => 'int',
+			'extcredits5' => 'int', 'extcredits6' => 'int', 'extcredits7' => 'int', 'extcredits8' => 'int',
+			'posts' => 'int', 'friends' => 'int', 'birthyear' => 'int', 'birthmonth' => 'int', 'birthday' => 'int', 'gender' => 'int',
+			'uin' => 'int', 'sid' => 'noempty', 'token' => 'noempty'
+		];
 		return $types[$fieldid] ? $types[$fieldid] : 'string';
 	}
 
-	function search($condition, $maxsearch=100, $start=0){
-		$list = array();
+	function search($condition, $maxsearch = 100, $start = 0) {
+		$list = [];
 		$sql = membersearch::makesql($condition);
 		if($maxsearch) {
 			$sql .= " LIMIT $start, $maxsearch";
@@ -67,7 +67,8 @@ class membersearch {
 				while($value = DB::fetch($query)) {
 					$list[] = intval($value['uid']);
 				}
-			} catch (Exception $e) {}
+			} catch (Exception $e) {
+			}
 		} else {
 			$query = DB::query($sql);
 			while($value = DB::fetch($query)) {
@@ -82,7 +83,8 @@ class membersearch {
 		if(isset($condition['token_noempty'])) {
 			try {
 				$count = DB::result_first(membersearch::makesql($condition, true));
-			} catch (Exception $e) {}
+			} catch (Exception $e) {
+			}
 		} else {
 			$count = DB::result_first(membersearch::makesql($condition, true));
 		}
@@ -90,12 +92,12 @@ class membersearch {
 	}
 
 	function filtercondition($condition) {
-		$tablename = isset($condition['tablename']) ? $condition['tablename'] : '';
+		$tablename = $condition['tablename'] ?? '';
 		unset($condition['tablename']);
 		$fields = membersearch::getfield();
 		foreach($condition as $key => $value) {
-			$rkey = str_replace(array('_low', '_high', '_noempty', '_after', '_before'), '', $key);
-			if(!(isset($fields[$rkey]) || in_array($key, array('verify', 'fid', 'tagid')))) {
+			$rkey = str_replace(['_low', '_high', '_noempty', '_after', '_before'], '', $key);
+			if(!(isset($fields[$rkey]) || in_array($key, ['verify', 'fid', 'tagid']))) {
 				unset($condition[$key]);
 			}
 		}
@@ -103,10 +105,10 @@ class membersearch {
 		return $condition;
 	}
 
-	function makesql($condition, $onlyCount=false) {
+	function makesql($condition, $onlyCount = false) {
 
-		$tables = $wheres = array();
-		$isarchive = $condition['tablename'] === 'archive' ? true : false;
+		$tables = $wheres = [];
+		$isarchive = $condition['tablename'] === 'archive';
 		if($condition['verify']) {
 			foreach($condition['verify'] as $key => $value) {
 				$condition[$value] = 1;
@@ -121,8 +123,8 @@ class membersearch {
 		}
 
 		$fields = membersearch::getfield();
-		foreach ($fields as $key=>$value) {
-			$return = array();
+		foreach($fields as $key => $value) {
+			$return = [];
 			if(isset($condition[$key])) {
 				$return = membersearch::makeset($key, $condition[$key], membersearch::gettype($key));
 			} elseif(isset($condition[$key.'_low']) || isset($condition[$key.'_high'])) {
@@ -135,18 +137,29 @@ class membersearch {
 				$return = membersearch::makerange($key, $condition[$key.'_after'], $condition[$key.'_before'], membersearch::gettype($key));
 			}
 			if($return) {
+				if($return['table'] == 'session') {
+					static $sessionUids = null;
+					if($sessionUids === null) {
+						$sessionUids = [];
+						foreach(C::app()->session->fetch_member(1, 0, 1000) as $user) {
+							$sessionUids[] = $user['uid'];
+						}
+					}
+					$return['table'] = 'member';
+					$return['where'] = 'uid IN ('.dimplode($sessionUids).')';
+				}
 				$tables[$return['table']] = true;
 				$wheres[] = $return['where'];
 			}
 		}
 		if($tables && $wheres) {
-			$parts = array();
+			$parts = [];
 			$table1 = $asuid = '';
 			$uidfield = 'uid';
-			foreach ($tables as $key => $value) {
+			foreach($tables as $key => $value) {
 				$value = membersearch::gettable($key, $isarchive);
 				$parts[] = "$value as `$key`";
-				if(! $table1) {
+				if(!$table1) {
 					$table1 = $key;
 					if($table1 == 'tag') {
 						$uidfield = 'itemid';
@@ -163,27 +176,38 @@ class membersearch {
 			}
 
 			$selectsql = $onlyCount ? 'SELECT COUNT(DISTINCT '.$table1.'.'.$uidfield.') as cnt ' : 'SELECT DISTINCT '.$table1.'.'.$uidfield.$asuid;
-			return $selectsql.' FROM '.implode(', ', $parts).' WHERE '.implode(' AND ', $wheres)." ORDER BY ".$table1.".".$uidfield;
+			return $selectsql.' FROM '.implode(', ', $parts).' WHERE '.implode(' AND ', $wheres).' ORDER BY '.$table1.'.'.$uidfield;
 		} else {
 			$selectsql = $onlyCount ? 'SELECT COUNT(uid) as cnt ' : 'SELECT uid';
-			return $selectsql.' FROM '.DB::table('common_member'.($isarchive ? '_archive' : ''))." WHERE 1 ORDER BY uid";
+			return $selectsql.' FROM '.DB::table('common_member'.($isarchive ? '_archive' : '')).' WHERE 1 ORDER BY uid';
 		}
 	}
 
-	function makeset($field, $condition, $type='string') {
-		$return = $values = array();
+	function makeset($field, $condition, $type = 'string') {
+		$return = $values = [];
 
 		$return['table'] = membersearch::getfield($field);
-		if(! $return['table']){
-			return array();
+		if(!$return['table']) {
+			return [];
 		}
+
+		$encrypt = 0;
+		if($return['table'] == 'profile' || $field == 'secmobile') {
+			if(empty(getglobal('cache/profilesetting'))) {
+				loadcache('profilesetting');
+			}
+			$_field = $field == 'secmobile' ? 'mobile' : $field;
+			$fieldsetting = getglobal('cache/profilesetting/'.$_field);
+			$encrypt = $fieldsetting['encrypt'];
+		}
+
 		$field = $return['table'].'.'.$field;
 
 		$islikesearch = $noempty = false;
 		if(!is_array($condition)) {
 			$condition = explode(',', $condition);
 		}
-		foreach ($condition as $value) {
+		foreach($condition as $value) {
 			$value = trim($value);
 			if($type == 'int') {
 				$value = intval($value);
@@ -194,17 +218,20 @@ class membersearch {
 			}
 			if($type != 'int') $value = addslashes($value);
 			if($value !== null) {
+				if($encrypt) {
+					$value = authcode_field($encrypt, $value, 'ENCODE');
+				}
 				$values[] = $value;
 			}
 		}
 
 		if(!$values) {
-			return array();
+			return [];
 		}
 
 		if($islikesearch) {
-			$likes = array();
-			foreach ($values as $value) {
+			$likes = [];
+			foreach($values as $value) {
 				if(strexists($value, '*')) {
 					$value = str_replace('*', '%', $value);
 					$likes[] = "$field LIKE '$value'";
@@ -223,24 +250,24 @@ class membersearch {
 		return $return;
 	}
 
-	function makerange($field, $range_low=null, $range_high=null, $type='string') {
-		$return = array();
+	function makerange($field, $range_low = null, $range_high = null, $type = 'string') {
+		$return = [];
 
 		$return['table'] = membersearch::getfield($field);
-		if(!$return['table']){
-			return array();
+		if(!$return['table']) {
+			return [];
 		}
 		$field = $return['table'].'.'.$field;
 
 		if($type == 'int') {
 			$range_low = intval($range_low);
 			$range_high = intval($range_high);
-		}  else {
+		} else {
 			$range_low = addslashes(trim($range_low));
 			$range_high = addslashes(trim($range_high));
 		}
 
-		$wheres = array();
+		$wheres = [];
 		if($range_low !== null) {
 			$wheres[] = "$field >= '$range_low'";
 		}
@@ -251,17 +278,27 @@ class membersearch {
 			$return['where'] = implode(' AND ', $wheres);
 			return $return;
 		} else {
-			return array();
+			return [];
 		}
 	}
 
 
 	function gettable($alias, $isarchive = false) {
-		static $mapping = array('member'=>'common_member', 'status'=>'common_member_status', 'profile'=>'common_member_profile', 'count'=>'common_member_count', 'session'=>'common_session', 'groupuser' => 'forum_groupuser', 'verify' => 'common_member_verify', 'black'=>'common_uin_black', 'medal'=>'common_member_medal', 'tag'=>'common_tagitem', 'token' => 'common_devicetoken');
-		return DB::table($isarchive && in_array($alias, array('member', 'status', 'profile', 'count')) ? $mapping[$alias].'_archive' : $mapping[$alias]);
+		static $mapping = [
+			'member' => 'common_member',
+			'status' => 'common_member_status',
+			'profile' => 'common_member_profile',
+			'count' => 'common_member_count',
+			'groupuser' => 'forum_groupuser',
+			'verify' => 'common_member_verify',
+			'black' => 'common_uin_black',
+			'medal' => 'common_member_medal',
+			'tag' => 'common_tagitem',
+			'token' => 'common_devicetoken',
+		];
+		return DB::table($isarchive && in_array($alias, ['member', 'status', 'profile', 'count']) ? $mapping[$alias].'_archive' : $mapping[$alias]);
 	}
 
 }
 
 
-?>

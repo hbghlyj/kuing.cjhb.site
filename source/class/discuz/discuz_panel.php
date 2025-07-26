@@ -1,19 +1,18 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: discuz_panel.php 26205 2011-12-05 10:09:32Z zhangguosheng $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
-define('ADMINCP_PANEL', 1);
-define('MODCP_PANEL', 2);
-define('PORTALCP_PANEL', 3);
+const ADMINCP_PANEL = 1;
+const MODCP_PANEL = 2;
+const PORTALCP_PANEL = 3;
 
 
 class discuz_panel {
@@ -28,8 +27,8 @@ class discuz_panel {
 	var $panel;
 	var $ip;
 
-	var $storage = array();
-	var $session = array();
+	var $storage = [];
+	var $session = [];
 	var $islogin = false;
 
 	public function __construct($panel) {
@@ -50,9 +49,9 @@ class discuz_panel {
 		$this->session = $this->table->fetch($this->uid, $this->panel);
 
 		if(empty($this->session) || (time() - $this->session['dateline'] > $this->ttl)) {
-			$this->session = array();
-		} elseif($this->session['errorcount'] >=5 && (time() - $this->session['dateline'] > $this->lockttl)) {
-			$this->session = array();
+			$this->session = [];
+		} elseif($this->session['errorcount'] >= 5 && (time() - $this->session['dateline'] > $this->lockttl)) {
+			$this->session = [];
 		} elseif(!empty($this->session['storage'])) {
 			$this->storage = dunserialize(base64_decode($this->session['storage']));
 			$this->session['storage'] = '';
@@ -71,14 +70,14 @@ class discuz_panel {
 		if(!empty($storage)) {
 			$this->storage = dunserialize(base64_decode($storage));
 		} else {
-			$this->storage = array();
+			$this->storage = [];
 		}
 	}
 
 	function geturl() {
 		$url = getglobal('basefilename').'?';
 		if(!empty($_GET)) {
-			foreach ($_GET as $key => $value) {
+			foreach($_GET as $key => $value) {
 				$url .= urlencode($key).'='.urlencode($value).'&';
 			}
 		}
@@ -87,7 +86,7 @@ class discuz_panel {
 
 	function isfounder($user = '') {
 		global $_G;
-		$user = empty($user) ? array('uid' => $_G['uid'], 'adminid' => $_G['adminid'], 'username' => $_G['member']['username']) : $user;
+		$user = empty($user) ? ['uid' => $_G['uid'], 'adminid' => $_G['adminid'], 'username' => $_G['member']['username']] : $user;
 		$founders = str_replace(' ', '', $GLOBALS['forumfounders']);
 		if($user['adminid'] <> 1) {
 			return FALSE;
@@ -117,25 +116,25 @@ class discuz_panel {
 	}
 
 	function clear($updatedb = false) {
-		$this->storage = array();
+		$this->storage = [];
 		$updatedb && $this->update();
 	}
 
 	function _sesssion_creat() {
 		$this->_session_destroy();
-		$this->set('url_forward',  $this->geturl());
-		$this->session = array(
+		$this->set('url_forward', $this->geturl());
+		$this->session = [
 			'uid' => $this->uid,
 			'adminid' => $this->adminid,
 			'panel' => $this->panel,
 			'ip' => $this->ip,
 			'errorcount' => 0,
-		);
+		];
 		$this->update(true);
 	}
 
 	function update($isnew = false) {
-		$data = array();
+		$data = [];
 		$this->session['dateline'] = time();
 		$this->session['storage'] = !empty($this->storage) ? base64_encode((serialize($this->storage))) : '';
 		if($isnew) {
@@ -175,7 +174,7 @@ class discuz_panel {
 		if($ucresult[0] > 0) {
 			$this->loginsucced();
 		} else {
-			$this->session['errorcount'] ++;
+			$this->session['errorcount']++;
 		}
 		$this->update();
 		return $this->islogin;
@@ -192,19 +191,19 @@ class discuz_panel {
 		dheader('Location: '.$this->get('url_forward'));
 	}
 
-	function showmessage($message, $url_forward = '', $values =  array(), $ext = array()) {
+	function showmessage($message, $url_forward = '', $values = [], $ext = []) {
 		showmessage($message, $url_forward, $values, $ext);
 		dexit();
 	}
 
 	function _panel_locked() {
 		$unlocktime = dgmdate($this->session['dateline'] + $this->lockttl + 30);
-		$this->showmessage('admin_cpanel_locked', '', array('unlocktime' => $unlocktime));
+		$this->showmessage('admin_cpanel_locked', '', ['unlocktime' => $unlocktime]);
 	}
 
 	function _user_login() {
-		$this->showmessage('to_login', 'member.php?mod=logging&action=login', array(), array('showmsg' => true, 'login' => 1));
+		$this->showmessage('to_login', 'member.php?mod=logging&action=login', [], ['showmsg' => true, 'login' => 1]);
 	}
 
 }
-?>
+

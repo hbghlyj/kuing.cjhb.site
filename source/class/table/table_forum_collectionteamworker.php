@@ -1,22 +1,28 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: table_forum_collectionteamworker.php 27781 2012-02-14 07:38:55Z zhengqingpeng $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
-class table_forum_collectionteamworker extends discuz_table
-{
+class table_forum_collectionteamworker extends discuz_table {
+	public static function t() {
+		static $_instance;
+		if(!isset($_instance)) {
+			$_instance = new self();
+		}
+		return $_instance;
+	}
+
 	public function __construct() {
 
 		$this->_table = 'forum_collectionteamworker';
-		$this->_pk    = '';
+		$this->_pk = '';
 
 		parent::__construct();
 	}
@@ -33,7 +39,7 @@ class table_forum_collectionteamworker extends discuz_table
 			return false;
 		}
 
-		$condition = array();
+		$condition = [];
 
 		if($ctid) {
 			$condition[] = DB::field('ctid', $ctid);
@@ -50,31 +56,31 @@ class table_forum_collectionteamworker extends discuz_table
 		if(!$uid) {
 			return false;
 		}
-		return DB::query("DELETE FROM %t WHERE %i", array($this->_table, DB::field('uid', $uid)));
+		return DB::query('DELETE FROM %t WHERE %i', [$this->_table, DB::field('uid', $uid)]);
 	}
 
 	public function fetch_all_by_ctid($ctid) {
-		return DB::fetch_all("SELECT * FROM %t WHERE ctid=%d", array($this->_table, $ctid), 'uid');
+		return DB::fetch_all('SELECT * FROM %t WHERE ctid=%d', [$this->_table, $ctid], 'uid');
 	}
 
 	public function count_by_ctid($ctid) {
-		return DB::result_first("SELECT COUNT(*) FROM %t WHERE ctid=%d", array($this->_table, $ctid));
+		return DB::result_first('SELECT COUNT(*) FROM %t WHERE ctid=%d', [$this->_table, $ctid]);
 	}
 
 	public function fetch_all_by_uid($uid) {
-		return DB::fetch_all("SELECT * FROM %t WHERE uid=%d", array($this->_table, $uid), 'ctid');
+		return DB::fetch_all('SELECT * FROM %t WHERE uid=%d', [$this->_table, $uid], 'ctid');
 	}
 
 	public function update_by_ctid($ctid, $title) {
 		if(!$ctid || is_array($title)) {
 			return false;
 		}
-		return DB::update($this->_table, array('name'=>$title), DB::field('ctid', $ctid));
+		return DB::update($this->_table, ['name' => $title], DB::field('ctid', $ctid));
 	}
 
 	public function update($val, $data, $unbuffered = false, $low_priority = false, $null = false) {
 		// $null 需要在取消兼容层后删除
-		if (defined('DISCUZ_DEPRECATED')) {
+		if(defined('DISCUZ_DEPRECATED')) {
 			throw new Exception('NotImplementedException');
 			return parent::update($val, $data, $unbuffered, $low_priority);
 		} else {
@@ -90,4 +96,3 @@ class table_forum_collectionteamworker extends discuz_table
 	}
 }
 
-?>

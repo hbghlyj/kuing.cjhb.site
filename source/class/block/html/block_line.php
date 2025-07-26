@@ -1,10 +1,9 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: block_line.php 23608 2011-07-27 08:10:07Z cnteacher $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -15,7 +14,8 @@ require_once libfile('commonblock_html', 'class/block/html');
 
 class block_line extends commonblock_html {
 
-	function __construct() {}
+	function __construct() {
+	}
 
 	function name() {
 		return lang('blockclass', 'blockclass_html_script_line');
@@ -23,17 +23,17 @@ class block_line extends commonblock_html {
 
 	function getsetting() {
 		global $_G;
-		$settings = array(
-			'style' => array(
+		$settings = [
+			'style' => [
 				'title' => 'line_style',
 				'type' => 'mradio',
-				'value' => array(
-					array('dash', 'line_style_dash'),
-					array('line', 'line_style_line'),
-				),
+				'value' => [
+					['dash', 'line_style_dash'],
+					['line', 'line_style_line'],
+				],
 				'default' => 'dash'
-			)
-		);
+			]
+		];
 
 		return $settings;
 	}
@@ -41,8 +41,7 @@ class block_line extends commonblock_html {
 	function getdata($style, $parameter) {
 		$class = $parameter['style'] == 'line' ? 'l' : 'da';
 		$return = "<hr class='$class' />";
-		return array('html' => $return, 'data' => null);
+		return ['html' => $return, 'data' => null];
 	}
 }
 
-?>

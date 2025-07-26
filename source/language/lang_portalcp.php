@@ -1,17 +1,16 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: lang_portalcp.php 30107 2012-05-11 02:10:58Z svn_project_zhangjie $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
-$lang = array(
+$lang = [
 	'block_diy_nopreview' => '<p>此模块内容包含js代码，不能立即预览，请点击保存后查看</p>',
 	'block_diy_summary_html_tag' => '自定义内容错误，HTML标签：',
 	'block_diy_summary_not_closed' => ' 不匹配',
@@ -100,4 +99,4 @@ $lang = array(
 	'itemtypename2' => '<span style="color: #00BFFF">编辑</span>',
 	'itemtypename3' => '<span style="color: #0000FF">推送</span>',
 
-);
+];

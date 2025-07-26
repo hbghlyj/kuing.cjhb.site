@@ -1,18 +1,17 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: lang_gift.php 27449 2012-02-01 05:32:35Z zhangguosheng $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
-$lang = array
-(
+$lang =
+	[
 	'gift_name' => '红包卡',
 	'gift_desc' => '将自己的一部分积分埋在空间，来访者可以点击获取',
 	'gift_info' => '将积分作为红包（可分成多份）埋在自己空间，<br />每个来访者最多可以获取其中一份',
@@ -25,6 +24,5 @@ $lang = array
 	'gift_use' => '埋个红包',
 
 	'gift_receive_gift' => '领取红包 {percredit} {credittype}',
-);
+	];
 
-?>

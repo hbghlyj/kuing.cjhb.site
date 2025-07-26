@@ -1,39 +1,45 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: table_home_album.php 28041 2012-02-21 07:33:55Z chenmengshu $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
-class table_home_album extends discuz_table
-{
+class table_home_album extends discuz_table {
+	public static function t() {
+		static $_instance;
+		if(!isset($_instance)) {
+			$_instance = new self();
+		}
+		return $_instance;
+	}
+
 	public function __construct() {
 
 		$this->_table = 'home_album';
-		$this->_pk    = 'albumid';
+		$this->_pk = 'albumid';
 
 		parent::__construct();
 	}
 
 	public function count_by_catid($catid) {
-		return DB::result_first('SELECT COUNT(*) FROM %t WHERE catid = %d', array($this->_table, $catid));
+		return DB::result_first('SELECT COUNT(*) FROM %t WHERE catid = %d', [$this->_table, $catid]);
 	}
 
 	public function count_by_uid($uid) {
-		return DB::result_first('SELECT COUNT(*) FROM %t WHERE uid = %d', array($this->_table, $uid));
+		return DB::result_first('SELECT COUNT(*) FROM %t WHERE uid = %d', [$this->_table, $uid]);
 	}
 
 	public function update_num_by_albumid($albumid, $inc, $field = 'picnum', $uid = '') {
-		if(!in_array($field, array('picnum', 'favtimes', 'sharetimes'))) {
+		if(!in_array($field, ['picnum', 'favtimes', 'sharetimes'])) {
 			return null;
 		}
-		$parameter = array($this->_table, $inc, $albumid);
+		$parameter = [$this->_table, $inc, $albumid];
 		if($uid) {
 			$parameter[] = $uid;
 			$uidsql = ' AND uid = %d';
@@ -59,15 +65,24 @@ class table_home_album extends discuz_table
 		if(!$users) {
 			return null;
 		}
-		return DB::fetch_all('SELECT uid FROM %t WHERE username IN (%n)', array($this->_table, $users), 'uid');
+		$list = DB::fetch_all('SELECT uid FROM %t WHERE username IN (%n)', [$this->_table, $users], 'uid');
+		if(count($list) < count($users)) {
+			$hisList = table_common_member_username_history::t()->fetch_all($users);
+			if($hisList) {
+				foreach($hisList as $row) {
+					$list[$row['uid']] = ['uid' => $row['uid']];
+				}
+			}
+		}
+		return $list;
 	}
 
 	public function fetch_albumid_by_albumname_uid($albumname, $uid) {
-		return DB::result_first('SELECT albumid FROM %t WHERE albumname=%s AND uid=%d', array($this->_table, $albumname, $uid));
+		return DB::result_first('SELECT albumid FROM %t WHERE albumname=%s AND uid=%d', [$this->_table, $albumname, $uid]);
 	}
 
 	public function fetch_albumid_by_searchkey($searchkey, $limit) {
-		return DB::fetch_all('SELECT albumid FROM %t WHERE 1 %i ORDER BY albumid DESC %i', array($this->_table, $searchkey, DB::limit(0, $limit)));
+		return DB::fetch_all('SELECT albumid FROM %t WHERE 1 %i ORDER BY albumid DESC %i', [$this->_table, $searchkey, DB::limit(0, $limit)]);
 	}
 
 	public function fetch_uid_by_uid($uid) {
@@ -77,11 +92,11 @@ class table_home_album extends discuz_table
 		if(!$uid) {
 			return null;
 		}
-		return DB::fetch_all('SELECT uid FROM %t WHERE uid IN (%n)', array($this->_table, $uid), 'uid');
+		return DB::fetch_all('SELECT uid FROM %t WHERE uid IN (%n)', [$this->_table, $uid], 'uid');
 	}
 
 	public function fetch($id, $force_from_db = false) {
-		if (defined('DISCUZ_DEPRECATED')) {
+		if(defined('DISCUZ_DEPRECATED')) {
 			throw new Exception('NotImplementedException');
 			return parent::fetch($id, $force_from_db);
 		} else {
@@ -92,7 +107,7 @@ class table_home_album extends discuz_table
 
 	public function fetch_all($ids, $force_from_db = false, $null1 = 0, $null2 = 0) {
 		// $null 1~n 需要在取消兼容层后删除
-		if (defined('DISCUZ_DEPRECATED')) {
+		if(defined('DISCUZ_DEPRECATED')) {
 			throw new Exception('NotImplementedException');
 			return parent::fetch_all($ids, $force_from_db);
 		} else {
@@ -110,8 +125,8 @@ class table_home_album extends discuz_table
 	}
 
 	public function fetch_all_by_uid($uid, $order = false, $start = 0, $limit = 0, $albumid = '') {
-		$parameter = array($this->_table);
-		$wherearr = array();
+		$parameter = [$this->_table];
+		$wherearr = [];
 		if($albumid) {
 			$wherearr[] = DB::field('albumid', $albumid);
 		}
@@ -136,12 +151,12 @@ class table_home_album extends discuz_table
 	}
 
 	public function fetch_all_by_block($aids, $bannedids, $uids, $catid, $startrow, $items, $orderby) {
-		$wheres = array();
+		$wheres = [];
 		if($aids) {
 			$wheres[] = DB::field('albumid', $aids, 'in');
 		}
 		if($bannedids) {
-			$wheres[]  = DB::field('albumid', $bannedids, 'notin');
+			$wheres[] = DB::field('albumid', $bannedids, 'notin');
 		}
 		if($uids) {
 			$wheres[] = DB::field('uid', $uids, 'in');
@@ -152,7 +167,7 @@ class table_home_album extends discuz_table
 		$wheres[] = "friend = '0'";
 		$wheresql = $wheres ? implode(' AND ', $wheres) : '1';
 
-		if(!in_array($orderby, array('dateline', 'picnum', 'updatetime'))) {
+		if(!in_array($orderby, ['dateline', 'picnum', 'updatetime'])) {
 			$orderby = 'dateline';
 		}
 
@@ -160,15 +175,15 @@ class table_home_album extends discuz_table
 	}
 
 	public function fetch_all_by_search($fetchtype, $uids, $albumname, $searchname, $catid, $starttime, $endtime, $albumids, $friend = '', $orderfield = '', $ordersort = 'DESC', $start = 0, $limit = 0, $findex = '') {
-		$parameter = array($this->_table);
-		$wherearr = array();
+		$parameter = [$this->_table];
+		$wherearr = [];
 		if(is_array($uids) && count($uids)) {
 			$parameter[] = $uids;
 			$wherearr[] = 'uid IN(%n)';
 		}
 
 		if($albumname) {
-			if($searchname == false) {
+			if(!$searchname) {
 				$parameter[] = $albumname;
 				$wherearr[] = 'albumname=%s';
 			} else {
@@ -203,11 +218,11 @@ class table_home_album extends discuz_table
 		}
 
 		if($fetchtype == 3) {
-			$selectfield = "count(*)";
-		} elseif ($fetchtype == 2) {
-			$selectfield = "albumid";
+			$selectfield = 'count(*)';
+		} elseif($fetchtype == 2) {
+			$selectfield = 'albumid';
 		} else {
-			$selectfield = "*";
+			$selectfield = '*';
 			if(is_string($orderfield) && $order = DB::order($orderfield, $ordersort)) {
 				$ordersql = 'ORDER BY '.$order;
 			}
@@ -231,4 +246,3 @@ class table_home_album extends discuz_table
 	}
 }
 
-?>

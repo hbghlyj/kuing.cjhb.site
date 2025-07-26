@@ -1,10 +1,9 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: helper_pm.php 31440 2012-08-28 07:22:57Z zhengqingpeng $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -27,7 +26,7 @@ class helper_pm {
 				loadcache('usergroup_'.$user['groupid']);
 				$sendpmmaxnum = $_G['cache']['usergroup_'.$user['groupid']]['allowsendpmmaxnum'];
 			}
-			$currentnum = C::t('common_member_action_log')->count_day_hours(getuseraction('pmid'), $fromid);
+			$currentnum = table_common_member_action_log::t()->count_day_hours(getuseraction('pmid'), $fromid);
 			if($sendpmmaxnum && $currentnum >= $sendpmmaxnum) {
 				return -16;
 			}
@@ -45,4 +44,3 @@ class helper_pm {
 	}
 }
 
-?>

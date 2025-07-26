@@ -1,22 +1,28 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: table_common_stat.php 28051 2012-02-21 10:36:56Z zhangguosheng $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
-class table_common_stat extends discuz_table
-{
+class table_common_stat extends discuz_table {
+	public static function t() {
+		static $_instance;
+		if(!isset($_instance)) {
+			$_instance = new self();
+		}
+		return $_instance;
+	}
+
 	public function __construct() {
 
 		$this->_table = 'common_stat';
-		$this->_pk    = 'daytime';
+		$this->_pk = 'daytime';
 
 		parent::__construct();
 	}
@@ -25,33 +31,33 @@ class table_common_stat extends discuz_table
 		$nowdaytime = dgmdate(TIMESTAMP, 'Ymd');
 		$type = addslashes($type);
 		if($primary) {
-			$setarr = array(
+			$setarr = [
 				'uid' => intval($uid),
 				'daytime' => $nowdaytime,
 				'type' => $type
-			);
-			if(C::t('common_statuser')->check_exists($uid, $nowdaytime, $type)) {
+			];
+			if(table_common_statuser::t()->check_exists($uid, $nowdaytime, $type)) {
 				return false;
 			} else {
-				C::t('common_statuser')->insert($setarr);
+				table_common_statuser::t()->insert($setarr);
 			}
 		}
 		$num = abs(intval($num));
-		if(DB::result_first('SELECT COUNT(*) FROM '.DB::table($this->_table)." WHERE `daytime` = '$nowdaytime'")){
+		if(DB::result_first('SELECT COUNT(*) FROM '.DB::table($this->_table)." WHERE `daytime` = '$nowdaytime'")) {
 			DB::query('UPDATE '.DB::table($this->_table)." SET `$type`=`$type`+$num WHERE `daytime` = '$nowdaytime'");
 		} else {
-			DB::query("INSERT INTO ".DB::table($this->_table)." (`daytime`, `$type`) VALUES ('$nowdaytime', '$num') ON DUPLICATE KEY UPDATE `$type` = `$type` + '$num'");
-			C::t('common_statuser')->clear_by_daytime($nowdaytime);
+			DB::query('INSERT INTO ' .DB::table($this->_table)." (`daytime`, `$type`) VALUES ('$nowdaytime', '$num') ON DUPLICATE KEY UPDATE `$type` = `$type` + '$num'");
+			table_common_statuser::t()->clear_by_daytime($nowdaytime);
 		}
 	}
 
 	public function fetch_post_avg() {
-		return DB::result_first("SELECT AVG(post) FROM ".DB::table($this->_table));
+		return DB::result_first('SELECT AVG(post) FROM ' .DB::table($this->_table));
 	}
 
 	public function fetch_all($ids, $force_from_db = false, $null = '*') {
 		// $null 需要在取消兼容层后删除
-		if (defined('DISCUZ_DEPRECATED')) {
+		if(defined('DISCUZ_DEPRECATED')) {
 			throw new Exception('NotImplementedException');
 			return parent::fetch_all($ids, $force_from_db);
 		} else {
@@ -60,16 +66,17 @@ class table_common_stat extends discuz_table
 	}
 
 	public function fetch_all_stat($begin, $end, $field = '*') {
-		$data = array();
-		$query = DB::query('SELECT %i FROM %t WHERE daytime>=%d AND daytime<=%d ORDER BY daytime', array($field, $this->_table, $begin, $end));
+		$data = [];
+		$query = DB::query('SELECT %i FROM %t WHERE daytime>=%d AND daytime<=%d ORDER BY daytime', [$field, $this->_table, $begin, $end]);
 		while($value = DB::fetch($query)) {
 			$data[$value['daytime']] = $value;
 		}
 		return $data;
 	}
+
 	public function fetch_all_by_daytime($daytime, $start = 0, $limit = 0, $sort = 'ASC') {
 		$wheresql = '';
-		$parameter = array($this->_table);
+		$parameter = [$this->_table];
 		if($daytime) {
 			$wheresql = 'WHERE daytime>=%d';
 			$parameter[] = $daytime;
@@ -78,4 +85,3 @@ class table_common_stat extends discuz_table
 	}
 }
 
-?>

@@ -1,10 +1,9 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: block_blognew.php 25525 2011-11-14 04:39:11Z zhangguosheng $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -14,35 +13,35 @@ if(!defined('IN_DISCUZ')) {
 require_once libfile('block_blog', 'class/block/space');
 
 class block_blognew extends block_blog {
-	var $setting = array();
+	var $setting = [];
 
 	function __construct() {
-		$this->setting = array(
-			'catid' => array(
+		$this->setting = [
+			'catid' => [
 				'title' => 'bloglist_catid',
-				'type'=>'mselect',
-			),
-			'picrequired' => array(
+				'type' => 'mselect',
+			],
+			'picrequired' => [
 				'title' => 'bloglist_picrequired',
 				'type' => 'radio',
 				'default' => '0'
-			),
-			'titlelength' => array(
+			],
+			'titlelength' => [
 				'title' => 'bloglist_titlelength',
 				'type' => 'text',
 				'default' => 40
-			),
-			'summarylength'	=> array(
+			],
+			'summarylength' => [
 				'title' => 'bloglist_summarylength',
 				'type' => 'text',
 				'default' => 80
-			),
-			'startrow' => array(
+			],
+			'startrow' => [
 				'title' => 'bloglist_startrow',
 				'type' => 'text',
 				'default' => 0
-			),
-		);
+			],
+		];
 	}
 
 	function name() {
@@ -55,4 +54,3 @@ class block_blognew extends block_blog {
 	}
 }
 
-?>

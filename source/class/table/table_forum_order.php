@@ -1,22 +1,28 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: table_forum_order.php 29009 2012-03-22 07:37:36Z chenmengshu $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
-class table_forum_order extends discuz_table
-{
+class table_forum_order extends discuz_table {
+	public static function t() {
+		static $_instance;
+		if(!isset($_instance)) {
+			$_instance = new self();
+		}
+		return $_instance;
+	}
+
 	public function __construct() {
 
 		$this->_table = 'forum_order';
-		$this->_pk    = 'orderid';
+		$this->_pk = 'orderid';
 
 		parent::__construct();
 	}
@@ -34,7 +40,7 @@ class table_forum_order extends discuz_table
 		$sql .= $submit_endtime ? ' AND o.'.DB::field('submitdate', $submit_endtime, '<') : '';
 		$sql .= $confirm_starttime ? ' AND o.'.DB::field('confirmdate', $confirm_starttime, '>=') : '';
 		$sql .= $confirm_endtime ? ' AND o.'.DB::field('confirmdate', $confirm_endtime, '<') : '';
-		return DB::result_first('SELECT COUNT(*) FROM %t o'.(($uid !== 0) ? ', '.DB::table('common_member').' m WHERE o.uid=m.uid' : ' WHERE 1 ').' %i', array($this->_table, $sql));
+		return DB::result_first('SELECT COUNT(*) FROM %t o'.(($uid !== 0) ? ', '.DB::table('common_member').' m WHERE o.uid=m.uid' : ' WHERE 1 ').' %i', [$this->_table, $sql]);
 	}
 
 	public function fetch_all_by_search($uid = null, $status = null, $orderid = null, $email = null, $username = null, $buyer = null, $admin = null, $submit_starttime = null, $submit_endtime = null, $confirm_starttime = null, $confirm_endtime = null, $start = null, $limit = null) {
@@ -50,11 +56,11 @@ class table_forum_order extends discuz_table
 		$sql .= $submit_endtime ? ' AND o.'.DB::field('submitdate', $submit_endtime, '<') : '';
 		$sql .= $confirm_starttime ? ' AND o.'.DB::field('confirmdate', $confirm_starttime, '>=') : '';
 		$sql .= $confirm_endtime ? ' AND o.'.DB::field('confirmdate', $confirm_endtime, '<') : '';
-		return DB::fetch_all('SELECT o.*'.(($uid !== 0) ? ', m.username' : '').' FROM %t o'.(($uid !== 0) ? ', '.DB::table('common_member').' m WHERE o.uid=m.uid' : ' WHERE 1 ').' %i ORDER BY o.submitdate DESC '.DB::limit($start, $limit), array($this->_table, $sql));
+		return DB::fetch_all('SELECT o.*'.(($uid !== 0) ? ', m.username' : '').' FROM %t o'.(($uid !== 0) ? ', '.DB::table('common_member').' m WHERE o.uid=m.uid' : ' WHERE 1 ').' %i ORDER BY o.submitdate DESC '.DB::limit($start, $limit), [$this->_table, $sql]);
 	}
 
 	public function fetch_all($ids, $force_from_db = false) {
-		if (defined('DISCUZ_DEPRECATED')) {
+		if(defined('DISCUZ_DEPRECATED')) {
 			throw new Exception('NotImplementedException');
 			return parent::fetch_all($ids, $force_from_db);
 		} else {
@@ -65,22 +71,21 @@ class table_forum_order extends discuz_table
 
 	public function fetch_all_order($orderid, $status = '') {
 		if(empty($orderid)) {
-			return array();
+			return [];
 		}
-		return DB::fetch_all('SELECT * FROM %t WHERE '.DB::field('orderid', $orderid).' %i', array($this->_table, ($status ? ' AND '.DB::field('status', $status) : '')));
+		return DB::fetch_all('SELECT * FROM %t WHERE '.DB::field('orderid', $orderid).' %i', [$this->_table, ($status ? ' AND '.DB::field('status', $status) : '')]);
 	}
 
 	public function delete_by_submitdate($submitdate) {
-		return DB::query('DELETE FROM %t WHERE submitdate<%d', array($this->_table, $submitdate));
+		return DB::query('DELETE FROM %t WHERE submitdate<%d', [$this->_table, $submitdate]);
 	}
 
 	public function sum_amount_by_uid_submitdate_status($uid, $submitdate, $status) {
 		if(empty($status)) {
 			return 0;
 		}
-		return DB::result_first('SELECT SUM(amount) FROM %t WHERE uid=%d AND submitdate>=%d AND '.DB::field('status', $status), array($this->_table, $uid, $submitdate));
+		return DB::result_first('SELECT SUM(amount) FROM %t WHERE uid=%d AND submitdate>=%d AND '.DB::field('status', $status), [$this->_table, $uid, $submitdate]);
 	}
 
 }
 
-?>

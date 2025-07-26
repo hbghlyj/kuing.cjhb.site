@@ -1,18 +1,17 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: lang_forumlist.php 27449 2012-02-01 05:32:35Z zhangguosheng $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
-$lang = array
-(
+$lang =
+	[
 	'forumlist_fids' => '指定版块',
 	'forumlist_fids_comment' => '填入指定版块的ID(fid)，多个版块之间用逗号(,)分隔',
 	'forumlist_fups' => '上级版块',
@@ -27,6 +26,10 @@ $lang = array
 	'forumlist_orderby_threads' => '按主题数倒序排序',
 	'forumlist_orderby_todayposts' => '按今日发帖数倒序排序',
 	'forumlist_orderby_posts' => '按帖子数倒序排序',
-);
+	'forumlist_viewtype' => '访问方式',
+	'forumlist_viewtype_comment' => '设置显示特定访问方式的版块',
+	'forumlist_viewtype_all' => '所有',
+	'forumlist_viewtype_0' => '可直接访问',
+	'forumlist_viewtype_2' => '需提交申请',
+	];
 
-?>

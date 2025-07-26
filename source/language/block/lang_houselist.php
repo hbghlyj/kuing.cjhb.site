@@ -1,18 +1,17 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: lang_houselist.php 27449 2012-02-01 05:32:35Z zhangguosheng $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
-$lang = array
-(
+$lang =
+	[
 	'categorylist_fids' => '所在版块',
 	'categorylist_fids_comment' => '设置允许参与新帖调用的版块，可以按住 CTRL 多选，全选或全不选均为不做限制',
 	'categorylist_startrow' => '起始数据行数',
@@ -83,6 +82,5 @@ $lang = array
 	'categorylist_orderby_monthviews' => '按当月浏览次数倒序排序',
 	'categorylist_orderby_hours' => '指定时间(小时)',
 	'categorylist_orderby_hours_comment' => '指定时间内浏览次数倒序排序的时间值',
-);
+	];
 
-?>

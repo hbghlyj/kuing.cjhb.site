@@ -1,24 +1,30 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: table_forum_post.php 30080 2012-05-09 08:19:20Z liulanbo $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
-class table_forum_post extends discuz_table
-{
-	private static $_tableid_tablename = array();
+class table_forum_post extends discuz_table {
+	private static $_tableid_tablename = [];
+
+	public static function t() {
+		static $_instance;
+		if(!isset($_instance)) {
+			$_instance = new self();
+		}
+		return $_instance;
+	}
 
 	public function __construct() {
 
 		$this->_table = 'forum_post';
-		$this->_pk    = 'pid';
+		$this->_pk = 'pid';
 		parent::__construct();
 	}
 
@@ -35,18 +41,19 @@ class table_forum_post extends discuz_table
 	}
 
 	public function count_author_by_tid($tid) {
-		return DB::result_first('SELECT count(DISTINCT authorid) FROM %t WHERE tid=%d', array(self::get_tablename('tid:'.$tid), $tid));
+		return DB::result_first('SELECT count(DISTINCT authorid) FROM %t WHERE tid=%d', [self::get_tablename('tid:'.$tid), $tid]);
 	}
 
 	public function count_by_tid_dateline($tableid, $tid, $dateline) {
 		return DB::result_first('SELECT COUNT(*) FROM %t WHERE tid=%d AND invisible=0 AND dateline<=%d',
-				array(self::get_tablename($tableid), $tid, $dateline));
+			[self::get_tablename($tableid), $tid, $dateline]);
 	}
 
 	public function fetch_maxposition_by_tid($tableid, $tid) {
 		return DB::result_first('SELECT position FROM %t WHERE tid=%d ORDER BY position DESC LIMIT 1',
-				array(self::get_tablename($tableid), $tid));
+			[self::get_tablename($tableid), $tid]);
 	}
+
 	public function fetch_all_by_tid_range_position($tableid, $tid, $start, $end, $maxposition, $ordertype = 0) {
 		$storeflag = false;
 		if($this->_allowmem) {
@@ -74,142 +81,133 @@ class table_forum_post extends discuz_table
 				$storeflag = true;
 			}
 		}
-		$data = DB::fetch_all('SELECT * FROM %t WHERE tid=%d AND position>=%d AND position<%d ORDER BY position'.($ordertype == 1 ? ' DESC' : ''), array(self::get_tablename($tableid), $tid, $start, $end), 'pid');
+		$data = DB::fetch_all('SELECT * FROM %t WHERE tid=%d AND position>=%d AND position<%d ORDER BY position'.($ordertype == 1 ? ' DESC' : ''), [self::get_tablename($tableid), $tid, $start, $end], 'pid');
 		if($storeflag) {
 			$this->store_cache($tid, $data, $this->_cache_ttl, $this->_pre_cache_key.'tid_');
 		}
 		return $data;
 	}
+
 	public function fetch_all_by_tid_position($tableid, $tid, $position) {
-		return DB::fetch_all('SELECT * FROM %t WHERE tid=%d AND '.DB::field('position', $position), array(self::get_tablename($tableid), $tid));
+		return DB::fetch_all('SELECT * FROM %t WHERE tid=%d AND '.DB::field('position', $position), [self::get_tablename($tableid), $tid]);
 	}
+
 	public function count_by_tid_invisible_authorid($tid, $authorid) {
 		return DB::result_first('SELECT COUNT(*) FROM %t WHERE tid=%d AND invisible=0 AND authorid=%d',
-				array(self::get_tablename('tid:'.$tid), $tid, $authorid));
+			[self::get_tablename('tid:'.$tid), $tid, $authorid]);
 	}
 
 	public function count_visiblepost_by_tid($tid) {
-		return DB::result_first('SELECT COUNT(*) FROM %t WHERE tid=%d AND invisible=0', array(self::get_tablename('tid:'.$tid), $tid));
+		return DB::result_first('SELECT COUNT(*) FROM %t WHERE tid=%d AND invisible=0', [self::get_tablename('tid:'.$tid), $tid]);
 	}
 
 	public function count_by_tid_pid($tid, $pid) {
-		return DB::result_first('SELECT COUNT(*) FROM %t WHERE tid=%d AND pid<%d', array(self::get_tablename('tid:'.$tid), $tid, $pid));
+		return DB::result_first('SELECT COUNT(*) FROM %t WHERE tid=%d AND pid<%d', [self::get_tablename('tid:'.$tid), $tid, $pid]);
 	}
 
 	public function count_by_tid_authorid($tid, $authorid) {
-		return DB::result_first('SELECT COUNT(*) FROM %t WHERE tid=%d AND first=0 AND authorid=%d', array(self::get_tablename('tid:'.$tid), $tid, $authorid));
+		return DB::result_first('SELECT COUNT(*) FROM %t WHERE tid=%d AND first=0 AND authorid=%d', [self::get_tablename('tid:'.$tid), $tid, $authorid]);
 	}
 
 	public function count_by_authorid($tableid, $authorid) {
-		return DB::result_first('SELECT COUNT(*) FROM %t WHERE authorid=%d AND invisible=0', array(self::get_tablename($tableid), $authorid));
+		return DB::result_first('SELECT COUNT(*) FROM %t WHERE authorid=%d AND invisible=0', [self::get_tablename($tableid), $authorid]);
 	}
 
 	public function count_group_authorid_by_fid($tableid, $fid) {
-		return DB::fetch_all('SELECT COUNT(*) as num, authorid FROM %t WHERE fid=%d AND first=0 GROUP BY authorid', array(self::get_tablename($tableid), $fid));
+		return DB::fetch_all('SELECT COUNT(*) as num, authorid FROM %t WHERE fid=%d AND first=0 GROUP BY authorid', [self::get_tablename($tableid), $fid]);
 	}
 
 	public function count_by_first($tableid, $first) {
-		return DB::result_first('SELECT count(*) FROM %t WHERE %i', array(self::get_tablename($tableid), DB::field('first', $first)));
+		return DB::result_first('SELECT count(*) FROM %t WHERE %i', [self::get_tablename($tableid), DB::field('first', $first)]);
 	}
 
 	public function count_by_invisible($tableid, $invisible) {
-		return DB::result_first('SELECT COUNT(*) FROM %t WHERE %i', array(self::get_tablename($tableid), DB::field('invisible', $invisible)));
+		return DB::result_first('SELECT COUNT(*) FROM %t WHERE %i', [self::get_tablename($tableid), DB::field('invisible', $invisible)]);
 	}
 
 	public function count_table($tableid) {
-		return DB::result_first('SELECT COUNT(*) FROM %t', array(self::get_tablename($tableid)));
+		return DB::result_first('SELECT COUNT(*) FROM %t', [self::get_tablename($tableid)]);
 	}
 
 	public function count_by_fid_invisible($tableid, $fid, $invisible) {
-		return DB::result_first('SELECT COUNT(*) FROM %t WHERE fid=%d AND invisible=%d', array(self::get_tablename($tableid), $fid, $invisible));
+		$fid = dintval($fid, true);
+		$fidsql = is_array($fid) && $fid ? 'fid IN(%n)' : 'fid=%d';
+		return DB::result_first('SELECT COUNT(*) FROM %t WHERE '.$fidsql.' AND invisible=%d', [self::get_tablename($tableid), $fid, $invisible]);
 	}
 
 	public function count_by_dateline($tableid, $dateline) {
-		return DB::result_first('SELECT COUNT(*) FROM %t WHERE dateline>=%d AND invisible=0', array(self::get_tablename($tableid), $dateline));
+		return DB::result_first('SELECT COUNT(*) FROM %t WHERE dateline>=%d AND invisible=0', [self::get_tablename($tableid), $dateline]);
 	}
 
 	public function fetch($id, $force_from_db = false, $null = true) {
 		// $null 需要在取消兼容层后删除
-		if (defined('DISCUZ_DEPRECATED')) {
-			throw new Exception("UnsupportedOperationException");
+		if(defined('DISCUZ_DEPRECATED')) {
+			throw new Exception('UnsupportedOperationException');
 		} else {
 			return $this->fetch_post($id, $force_from_db, $null);
 		}
 	}
 
-       public function fetch_post($tableid, $pid, $outmsg = true) {
-                $post = DB::fetch_first('SELECT * FROM %t WHERE pid=%d', array(self::get_tablename($tableid), $pid));
-                if($post && $post['first']) {
-                        $thread = C::t('forum_thread')->fetch($post['tid']);
-                        if($thread && isset($thread['tags'])) {
-                                $post['tags'] = $thread['tags'];
-                        }
-                }
-                if(!$outmsg) {
-                        unset($post['message']);
-                }
-                return $post;
-       }
-
-	public function fetch_visiblepost_by_tid($tableid, $tid, $start = 0, $order = 0) {
-		return DB::fetch_first('SELECT * FROM %t WHERE tid=%d AND invisible=0 ORDER BY position '. ($order ? 'DESC' : '').' '. DB::limit($start, 1),
-				array(self::get_tablename($tableid), $tid));
+	public function fetch_post($tableid, $pid, $outmsg = true) {
+		$post = DB::fetch_first('SELECT * FROM %t WHERE pid=%d', [self::get_tablename($tableid), $pid]);
+		if(!$outmsg) {
+			unset($post['message']);
+		}
+		return $post;
 	}
 
-        public function fetch_threadpost_by_tid_invisible($tid, $invisible = null) {
-                $post = DB::fetch_first('SELECT * FROM %t WHERE tid=%d AND first=1'.($invisible !== null ? ' AND '.DB::field('invisible', $invisible) : ''),
-                                array(self::get_tablename('tid:'.$tid), $tid));
-                if($post) {
-                        $thread = C::t('forum_thread')->fetch($tid);
-                        if($thread && isset($thread['tags'])) {
-                                $post['tags'] = $thread['tags'];
-                        }
-                }
-                return $post;
-        }
+	public function fetch_visiblepost_by_tid($tableid, $tid, $start = 0, $order = 0) {
+		return DB::fetch_first('SELECT * FROM %t WHERE tid=%d AND invisible=0 ORDER BY dateline '.($order ? 'DESC' : '').' '.DB::limit($start, 1),
+			[self::get_tablename($tableid), $tid]);
+	}
+
+	public function fetch_threadpost_by_tid_invisible($tid, $invisible = null) {
+		return DB::fetch_first('SELECT * FROM %t WHERE tid=%d AND first=1'.($invisible !== null ? ' AND '.DB::field('invisible', $invisible) : ''),
+			[self::get_tablename('tid:'.$tid), $tid]);
+	}
 
 	public function fetch_pid_by_tid_authorid($tid, $authorid) {
-		return DB::result_first('SELECT pid FROM %t WHERE tid=%d AND authorid=%d LIMIT 1', array(self::get_tablename('tid:'.$tid), $tid, $authorid));
+		return DB::result_first('SELECT pid FROM %t WHERE tid=%d AND authorid=%d LIMIT 1', [self::get_tablename('tid:'.$tid), $tid, $authorid]);
 	}
 
 	public function fetch_all_pid_by_tid($tid, $invisible = null) {
-		return DB::fetch_all('SELECT pid FROM %t WHERE tid=%d'.($invisible !== null ? ' AND '.DB::field('invisible', $invisible) : ''), array(self::get_tablename('tid:'.$tid), $tid), $this->_pk);
+		return DB::fetch_all('SELECT pid FROM %t WHERE tid=%d'.($invisible !== null ? ' AND '.DB::field('invisible', $invisible) : ''), [self::get_tablename('tid:'.$tid), $tid], $this->_pk);
 	}
 
 	public function fetch_pid_by_tid_clientip($tid, $clientip) {
-		return DB::result_first('SELECT pid FROM %t WHERE tid=%d AND authorid=0 AND useip=%s LIMIT 1', array(self::get_tablename('tid:'.$tid), $tid, $clientip));
+		return DB::result_first('SELECT pid FROM %t WHERE tid=%d AND authorid=0 AND useip=%s LIMIT 1', [self::get_tablename('tid:'.$tid), $tid, $clientip]);
 	}
 
 	public function fetch_attachment_by_tid($tid) {
-		return DB::result_first('SELECT attachment FROM %t WHERE tid=%d AND invisible=0 AND attachment>0 LIMIT 1', array(self::get_tablename('tid:'.$tid), $tid));
+		return DB::result_first('SELECT attachment FROM %t WHERE tid=%d AND invisible=0 AND attachment>0 LIMIT 1', [self::get_tablename('tid:'.$tid), $tid]);
 	}
 
 	public function fetch_maxid($tableid) {
-		return DB::result_first('SELECT MAX(pid) FROM %t', array(self::get_tablename($tableid)));
+		return DB::result_first('SELECT MAX(pid) FROM %t', [self::get_tablename($tableid)]);
 	}
 
 	public function fetch_posts($tableid) {
-		return DB::fetch_first('SELECT COUNT(*) AS posts, (MAX(dateline)-MIN(dateline))/86400 AS runtime FROM %t', array(self::get_tablename($tableid)));
+		return DB::fetch_first('SELECT COUNT(*) AS posts, (MAX(dateline)-MIN(dateline))/86400 AS runtime FROM %t', [self::get_tablename($tableid)]);
 	}
 
 	public function fetch_by_pid_condition($tableid, $pid, $addcondiction = '', $fields = '*') {
 		return DB::fetch_first('SELECT %i FROM %t WHERE pid=%d %i LIMIT 1',
-			array($fields, self::get_tablename($tableid), $pid, $addcondiction));
+			[$fields, self::get_tablename($tableid), $pid, $addcondiction]);
 	}
 
 	public function fetch_all($ids, $force_from_db = false, $null = true) {
 		// $null 需要在取消兼容层后删除
-		if (defined('DISCUZ_DEPRECATED')) {
-			throw new Exception("UnsupportedOperationException");
+		if(defined('DISCUZ_DEPRECATED')) {
+			throw new Exception('UnsupportedOperationException');
 		} else {
 			return $this->fetch_all_post($ids, $force_from_db, $null);
 		}
 	}
 
 	public function fetch_all_post($tableid, $pids, $outmsg = true) {
-		$postlist = array();
+		$postlist = [];
 		if($pids) {
-			$query = DB::query('SELECT * FROM %t WHERE %i', array(self::get_tablename($tableid), DB::field($this->_pk, $pids)));
+			$query = DB::query('SELECT * FROM %t WHERE %i', [self::get_tablename($tableid), DB::field($this->_pk, $pids)]);
 			while($post = DB::fetch($query)) {
 				if(!$outmsg) {
 					unset($post['message']);
@@ -222,16 +220,16 @@ class table_forum_post extends discuz_table
 
 	public function fetch_all_tradepost_viewthread_by_tid($tid, $visibleallflag, $authorid, $pids, $forum_pagebydesc, $ordertype, $start, $limit) {
 		if(empty($pids)) {
-			return array();
+			return [];
 		}
-		$data = array();
+		$data = [];
 		$parameter = $this->handle_viewthread_parameter($visibleallflag, $authorid, $forum_pagebydesc, $ordertype);
 		$query = DB::query('SELECT * FROM %t WHERE tid=%d'.
-				($parameter['invisible'] ? ' AND '.$parameter['invisible'] : '').($parameter['authorid'] ? ' AND '.$parameter['authorid'] : '').
-				' AND pid NOT IN ('.dimplode($pids).')'.
-				' '.$parameter['orderby'].
-				' '.DB::limit($start, $limit),
-				array(self::get_tablename('tid:'.$tid), $tid));
+			($parameter['invisible'] ? ' AND '.$parameter['invisible'] : '').($parameter['authorid'] ? ' AND '.$parameter['authorid'] : '').
+			' AND pid NOT IN ('.dimplode($pids).')'.
+			' '.$parameter['orderby'].
+			' '.DB::limit($start, $limit),
+			[self::get_tablename('tid:'.$tid), $tid]);
 		while($post = DB::fetch($query)) {
 			$data[$post['pid']] = $post;
 		}
@@ -239,14 +237,14 @@ class table_forum_post extends discuz_table
 	}
 
 	public function fetch_all_debatepost_viewthread_by_tid($tid, $visibleallflag, $authorid, $stand, $forum_pagebydesc, $ordertype, $start, $limit) {
-		$data = array();
+		$data = [];
 		$parameter = $this->handle_viewthread_parameter($visibleallflag, $authorid, $forum_pagebydesc, $ordertype, 'p.');
-		$query = DB::query("SELECT dp.*, p.* FROM %t p LEFT JOIN %t dp ON p.pid=dp.pid WHERE p.tid=%d".
-				($parameter['invisible'] ? ' AND '.$parameter['invisible'] : '').($parameter['authorid'] ? ' AND '.$parameter['authorid'] : '').
-				(isset($stand) ? ($stand ? ' AND (dp.stand='.intval($stand).' OR p.first=1)' : ' AND (dp.stand=0 OR dp.stand IS NULL OR p.first=1)') : '').
-				' '.$parameter['orderby'].
-				' '.DB::limit($start, $limit),
-				array(self::get_tablename('tid:'.$tid), 'forum_debatepost', $tid));
+		$query = DB::query('SELECT dp.*, p.* FROM %t p LEFT JOIN %t dp ON p.pid=dp.pid WHERE p.tid=%d'.
+			($parameter['invisible'] ? ' AND '.$parameter['invisible'] : '').($parameter['authorid'] ? ' AND '.$parameter['authorid'] : '').
+			(isset($stand) ? ($stand ? ' AND (dp.stand='.intval($stand).' OR p.first=1)' : ' AND (dp.stand=0 OR dp.stand IS NULL OR p.first=1)') : '').
+			' '.$parameter['orderby'].
+			' '.DB::limit($start, $limit),
+			[self::get_tablename('tid:'.$tid), 'forum_debatepost', $tid]);
 		while($post = DB::fetch($query)) {
 			$data[$post['pid']] = $post;
 		}
@@ -254,7 +252,7 @@ class table_forum_post extends discuz_table
 	}
 
 	public function fetch_all_common_viewthread_by_tid($tid, $visibleallflag, $authorid, $forum_pagebydesc, $ordertype, $count, $start, $limit) {
-		$data = array();
+		$data = [];
 		$storeflag = false;
 		if($this->_allowmem) {
 			if($ordertype != 1 && !$forum_pagebydesc && !$start && $count > $limit) {
@@ -270,7 +268,7 @@ class table_forum_post extends discuz_table
 							$data[$k]['useip'] = '';
 							$data[$k]['dateline'] = 0;
 							$data[$k]['pid'] = 0;
-							$data[$k]['message'] =lang('forum/misc', 'post_deleted');
+							$data[$k]['message'] = lang('forum/misc', 'post_deleted');
 						}
 						if(isset($updatefid[$post['fid']]) && $updatefid[$post['fid']]['dateline'] > $post['dateline']) {
 							$data[$k]['fid'] = $updatefid[$post['fid']]['fid'];
@@ -283,10 +281,10 @@ class table_forum_post extends discuz_table
 		}
 		$parameter = $this->handle_viewthread_parameter($visibleallflag, $authorid, $forum_pagebydesc, $ordertype);
 		$query = DB::query('SELECT * FROM %t WHERE tid=%d'.
-				($parameter['invisible'] ? ' AND '.$parameter['invisible'] : '').($parameter['authorid'] ? ' AND '.$parameter['authorid'] : '').
-				' '.$parameter['orderby'].
-				' '.DB::limit($start, $limit),
-				array(self::get_tablename('tid:'.$tid), $tid));
+			($parameter['invisible'] ? ' AND '.$parameter['invisible'] : '').($parameter['authorid'] ? ' AND '.$parameter['authorid'] : '').
+			' '.$parameter['orderby'].
+			' '.DB::limit($start, $limit),
+			[self::get_tablename('tid:'.$tid), $tid]);
 		while($post = DB::fetch($query)) {
 			$data[$post['pid']] = $post;
 		}
@@ -297,7 +295,7 @@ class table_forum_post extends discuz_table
 	}
 
 	private function handle_viewthread_parameter($visibleallflag, $authorid, $forum_pagebydesc, $ordertype, $alias = '') {
-		$return = array();
+		$return = [];
 		if(!$visibleallflag) {
 			$return['invisible'] = $alias.DB::field('invisible', 0);
 		}
@@ -306,22 +304,22 @@ class table_forum_post extends discuz_table
 		}
 		if($forum_pagebydesc) {
 			if($ordertype != 1) {
-				$return['orderby'] = 'ORDER BY '.$alias.'position DESC';
+				$return['orderby'] = 'ORDER BY '.$alias.'dateline DESC';
 			} else {
-				$return['orderby'] = 'ORDER BY '.$alias.'position ASC';
+				$return['orderby'] = 'ORDER BY '.$alias.'dateline ASC';
 			}
 		} else {
 			if($ordertype != 1) {
-				$return['orderby'] = 'ORDER BY '.$alias.'position';
+				$return['orderby'] = 'ORDER BY '.$alias.'dateline';
 			} else {
-				$return['orderby'] = 'ORDER BY '.$alias.'position DESC';
+				$return['orderby'] = 'ORDER BY '.$alias.'dateline DESC';
 			}
 		}
 		return $return;
 	}
 
 	public function fetch_all_by_authorid($tableid, $authorid, $outmsg = true, $order = '', $start = 0, $limit = 0, $first = null, $invisible = null, $fid = null, $filterfid = null) {
-		$postlist = $sql = array();
+		$postlist = $sql = [];
 		if($first !== null && $invisible !== null) {
 			if($first == 1) {
 				$sql[] = DB::field('invisible', $invisible);
@@ -342,8 +340,8 @@ class table_forum_post extends discuz_table
 			$filterfid = dintval($filterfid, true);
 			$sql[] = DB::field('fid', $filterfid, is_array($filterfid) ? 'notin' : '<>');
 		}
-		$query = DB::query('SELECT * FROM %t WHERE '.DB::field('authorid', $authorid).' %i '.($order ? 'ORDER BY GREATEST(dateline, lastupdate) '.$order : '').' '.DB::limit($start, $limit),
-				array(self::get_tablename($tableid), ($sql ? 'AND '.implode(' AND ', $sql) : '')));
+		$query = DB::query('SELECT * FROM %t WHERE '.DB::field('authorid', $authorid).' %i '.($order ? 'ORDER BY dateline '.$order : '').' '.DB::limit($start, $limit),
+			[self::get_tablename($tableid), ($sql ? 'AND '.implode(' AND ', $sql) : '')]);
 		while($post = DB::fetch($query)) {
 			if(!$outmsg) {
 				unset($post['message']);
@@ -354,11 +352,22 @@ class table_forum_post extends discuz_table
 	}
 
 	public function fetch_all_tid_by_first($tableid, $first, $start = 0, $limit = 0) {
-		return DB::fetch_all('SELECT tid FROM %t WHERE first=%d '.DB::limit($start, $limit), array(self::get_tablename($tableid), $first));
+		return DB::fetch_all('SELECT tid FROM %t WHERE first=%d '.DB::limit($start, $limit), [self::get_tablename($tableid), $first]);
+	}
+
+	public function fetch_all_first_by_tid($tids) {
+		require_once libfile('function/post');
+		$posts = $this->fetch_all_by_tid(0, $tids, true, '', 0, 0, 1, 0);
+		$message = [];
+		foreach($posts as $post) {
+			$message[$post['tid']] = str_replace(["\n", "\r"], '',
+				messagecutstr($post['message'], 80, '...'));
+		}
+		return $message;
 	}
 
 	public function fetch_all_by_tid($tableid, $tids, $outmsg = true, $order = '', $start = 0, $limit = 0, $first = null, $invisible = null, $authorid = null, $fid = null) {
-		$postlist = $sql = array();
+		$postlist = $sql = [];
 		if($first !== null && $invisible !== null) {
 			if($first == 1) {
 				$sql[] = DB::field('first', 1);
@@ -378,8 +387,8 @@ class table_forum_post extends discuz_table
 		if($fid !== null) {
 			$sql[] = DB::field('fid', $fid);
 		}
-		$query = DB::query('SELECT * FROM %t WHERE '.DB::field('tid', $tids).' %i '.($order ? 'ORDER BY position '.$order : '').' '.DB::limit($start, $limit),
-				array(self::get_tablename($tableid), ($sql ? 'AND '.implode(' AND ', $sql) : '')));
+		$query = DB::query('SELECT * FROM %t WHERE '.DB::field('tid', $tids).' %i '.($order ? 'ORDER BY dateline '.$order : '').' '.DB::limit($start, $limit),
+			[self::get_tablename($tableid), ($sql ? 'AND '.implode(' AND ', $sql) : '')]);
 		while($post = DB::fetch($query)) {
 			if(!$outmsg) {
 				unset($post['message']);
@@ -390,12 +399,12 @@ class table_forum_post extends discuz_table
 	}
 
 	public function fetch_all_pid_by_tid_lastpid($tid, $lastpid, $round) {
-		return DB::fetch_all("SELECT pid FROM %t WHERE tid=%d AND pid>%d ORDER BY pid ASC %i",
-				array(self::get_tablename('tid:'.$tid), $tid, $lastpid, DB::limit(0, $round)));
+		return DB::fetch_all('SELECT pid FROM %t WHERE tid=%d AND pid>%d ORDER BY pid ASC %i',
+			[self::get_tablename('tid:'.$tid), $tid, $lastpid, DB::limit(0, $round)]);
 	}
 
 	public function fetch_all_by_fid($tableid, $fid, $outmsg = true, $order = '', $start = 0, $limit = 0, $first = null, $invisible = null) {
-		$postlist = $sql = array();
+		$postlist = $sql = [];
 		if($first !== null && $invisible !== null) {
 			if($first == 1) {
 				$sql[] = DB::field('first', 1);
@@ -409,8 +418,8 @@ class table_forum_post extends discuz_table
 		} elseif($invisible !== null) {
 			$sql[] = DB::field('invisible', $invisible);
 		}
-		$query = DB::query('SELECT * FROM %t WHERE '.DB::field('fid', $fid).' %i '.($order ? 'ORDER BY position '.$order : '').' '.DB::limit($start, $limit),
-				array(self::get_tablename($tableid), ($sql ? 'AND '.implode(' AND ', $sql) : '')));
+		$query = DB::query('SELECT * FROM %t WHERE '.DB::field('fid', $fid).' %i '.($order ? 'ORDER BY dateline '.$order : '').' '.DB::limit($start, $limit),
+			[self::get_tablename($tableid), ($sql ? 'AND '.implode(' AND ', $sql) : '')]);
 		while($post = DB::fetch($query)) {
 			if(!$outmsg) {
 				unset($post['message']);
@@ -421,15 +430,15 @@ class table_forum_post extends discuz_table
 	}
 
 	public function fetch_all_by_pid($tableid, $pids, $outmsg = true, $order = '', $start = 0, $limit = 0, $fid = null, $invisible = null) {
-		$postlist = $sql = array();
+		$postlist = $sql = [];
 		if($fid !== null) {
 			$sql[] = DB::field('fid', $fid);
 		}
 		if($invisible !== null) {
 			$sql[] = DB::field('invisible', $invisible);
 		}
-		$query = DB::query('SELECT * FROM %t WHERE '.DB::field('pid', $pids).' %i '.($order ? 'ORDER BY position '.$order : '').' '.DB::limit($start, $limit),
-				array(self::get_tablename($tableid), ($sql ? 'AND '.implode(' AND ', $sql) : '')));
+		$query = DB::query('SELECT * FROM %t WHERE '.DB::field('pid', $pids).' %i '.($order ? 'ORDER BY dateline '.$order : '').' '.DB::limit($start, $limit),
+			[self::get_tablename($tableid), ($sql ? 'AND '.implode(' AND ', $sql) : '')]);
 		while($post = DB::fetch($query)) {
 			if(!$outmsg) {
 				unset($post['message']);
@@ -445,20 +454,20 @@ class table_forum_post extends discuz_table
 			FROM %t p, %t dp
 			WHERE p.tid=%d AND p.anonymous=0 AND p.invisible=0 AND dp.stand=%d AND p.pid=dp.pid
 			ORDER BY p.dateline DESC %i',
-			array(self::get_tablename('tid:'.$tid), 'forum_debatepost', $tid, $stand, DB::limit($start, $limit)));
+			[self::get_tablename('tid:'.$tid), 'forum_debatepost', $tid, $stand, DB::limit($start, $limit)]);
 	}
 
 	public function fetch_all_visiblepost_by_tid_groupby_authorid($tableid, $tid) {
-		return DB::fetch_all('SELECT pid, tid, authorid, subject, dateline FROM %t WHERE tid=%d AND invisible=0 GROUP BY authorid ORDER BY position',
-				array(self::get_tablename($tableid), $tid));
+		return DB::fetch_all('SELECT pid, tid, authorid, subject, dateline FROM %t WHERE tid=%d AND invisible=0 GROUP BY authorid ORDER BY dateline',
+			[self::get_tablename($tableid), $tid]);
 	}
 
 	public function fetch_all_visiblepost_by_tid($tableid, $tid) {
-		return DB::fetch_all('SELECT * FROM %t WHERE tid=%d AND invisible=0', array(self::get_tablename($tableid), $tid));
+		return DB::fetch_all('SELECT * FROM %t WHERE tid=%d AND invisible=0', [self::get_tablename($tableid), $tid]);
 	}
 
 	public function fetch_all_pid_by_invisible_dateline($tableid, $invisible, $dateline, $start, $limit) {
-		return DB::fetch_all('SELECT pid FROM %t WHERE invisible=%d AND dateline<%d %i', array(self::get_tablename($tableid), $invisible, $dateline, DB::limit($start, $limit)));
+		return DB::fetch_all('SELECT pid FROM %t WHERE invisible=%d AND dateline<%d %i', [self::get_tablename($tableid), $invisible, $dateline, DB::limit($start, $limit)]);
 	}
 
 	public function fetch_all_top_post_author($tableid, $timelimit, $num) {
@@ -467,25 +476,25 @@ class table_forum_post extends discuz_table
 			WHERE dateline>=%d AND invisible=0 AND authorid>0
 			GROUP BY author
 			ORDER BY posts DESC %i',
-			array(self::get_tablename($tableid), $timelimit, DB::limit(0, $num)));
+			[self::get_tablename($tableid), $timelimit, DB::limit(0, $num)]);
 	}
 
 	public function fetch_all_author_posts_by_dateline($tableid, $authorid, $dateline) {
 		return DB::fetch_all('SELECT authorid, COUNT(*) AS posts FROM %t
-			WHERE dateline>=%d AND %i AND invisible=0 GROUP BY authorid', array(self::get_tablename($tableid), $dateline, DB::field('authorid', $authorid)));
+			WHERE dateline>=%d AND %i AND invisible=0 GROUP BY authorid', [self::get_tablename($tableid), $dateline, DB::field('authorid', $authorid)]);
 	}
 
 	public function update($val, $data, $unbuffered = false, $low_priority = false, $null1 = false, $null2 = null, $null3 = null, $null4 = null, $null5 = null) {
 		// $null 1~n 需要在取消兼容层后删除
-		if (defined('DISCUZ_DEPRECATED')) {
-			throw new Exception("UnsupportedOperationException");
+		if(defined('DISCUZ_DEPRECATED')) {
+			throw new Exception('UnsupportedOperationException');
 		} else {
 			return $this->update_post($val, $data, $unbuffered, $low_priority, $null1, $null2, $null3, $null4, $null5);
 		}
 	}
 
 	public function update_post($tableid, $pid, $data, $unbuffered = false, $low_priority = false, $first = null, $invisible = null, $fid = null, $status = null) {
-		$where = array();
+		$where = [];
 		$where[] = DB::field('pid', $pid);
 		if($first !== null) {
 			$where[] = DB::field('first', $first);
@@ -501,18 +510,14 @@ class table_forum_post extends discuz_table
 		}
 		$return = DB::update(self::get_tablename($tableid), $data, implode(' AND ', $where), $unbuffered, $low_priority);
 		if($return && $this->_allowmem) {
-			$this->update_cache($tableid, $pid, 'pid', $data, array('invisible' => $invisible, 'first' => $first, 'fid' => $fid, 'status' => $status));
+			$this->update_cache($tableid, $pid, 'pid', $data, ['invisible' => $invisible, 'first' => $first, 'fid' => $fid, 'status' => $status]);
 		}
 		return $return;
 	}
 
-        public function update_by_tid($tableid, $tid, $data, $unbuffered = false, $low_priority = false, $first = null, $invisible = null, $status = null) {
-                if(isset($data['tags'])) {
-                        C::t('forum_thread')->update($tid, array('tags' => $data['tags']));
-                        unset($data['tags']);
-                }
-                $where = array();
-                $where[] = DB::field('tid', $tid);
+	public function update_by_tid($tableid, $tid, $data, $unbuffered = false, $low_priority = false, $first = null, $invisible = null, $status = null) {
+		$where = [];
+		$where[] = DB::field('tid', $tid);
 		if($first !== null) {
 			$where[] = DB::field('first', $first);
 		}
@@ -522,38 +527,35 @@ class table_forum_post extends discuz_table
 		if($status !== null) {
 			$where[] = DB::field('status', $status);
 		}
-                $return = 0;
-                if($data) {
-                        $return = DB::update(self::get_tablename($tableid), $data, implode(' AND ', $where), $unbuffered, $low_priority);
-                        if($return && $this->_allowmem) {
-                                $this->update_cache(0, $tid, 'tid', $data, array('first' => $first, 'invisible' => $invisible, 'status' => $status));
-                        }
-                }
-                return $return;
-        }
+		$return = DB::update(self::get_tablename($tableid), $data, implode(' AND ', $where), $unbuffered, $low_priority);
+		if($return && $this->_allowmem) {
+			$this->update_cache(0, $tid, 'tid', $data, ['first' => $first, 'invisible' => $invisible, 'status' => $status]);
+		}
+		return $return;
+	}
 
 	public function update_fid_by_fid($tableid, $fid, $newfid, $unbuffered = false, $low_priority = false) {
-		$where = array();
+		$where = [];
 		$where[] = DB::field('fid', $fid);
-		$return = DB::update(self::get_tablename($tableid), array('fid' => $newfid), implode(' AND ', $where), $unbuffered, $low_priority);
+		$return = DB::update(self::get_tablename($tableid), ['fid' => $newfid], implode(' AND ', $where), $unbuffered, $low_priority);
 		if($return && $this->_allowmem) {
 			$updatefid = $this->fetch_cache('updatefid');
-			$updatefid[$fid] = array('fid' => $newfid, 'dateline' => TIMESTAMP);
+			$updatefid[$fid] = ['fid' => $newfid, 'dateline' => TIMESTAMP];
 			$this->store_cache('updatefid', $updatefid);
 		}
 		return $return;
 	}
 
-	public function update_cache($val, $data, $unbuffered = false, $low_priority = false, $null1 = array(), $null2 = 'merge') {
+	public function update_cache($val, $data, $unbuffered = false, $low_priority = false, $null1 = [], $null2 = 'merge') {
 		// $null 1~n 需要在取消兼容层后删除
-		if (defined('DISCUZ_DEPRECATED')) {
-			throw new Exception("UnsupportedOperationException");
+		if(defined('DISCUZ_DEPRECATED')) {
+			throw new Exception('UnsupportedOperationException');
 		} else {
 			return $this->update_cache_post($val, $data, $unbuffered, $low_priority, $null1, $null2);
 		}
 	}
 
-	public function update_cache_post($tableid, $id, $idtype, $data, $condition = array(), $glue = 'merge') {
+	public function update_cache_post($tableid, $id, $idtype, $data, $condition = [], $glue = 'merge') {
 		if(!$this->_allowmem) return;
 
 		if($idtype == 'tid') {
@@ -562,7 +564,7 @@ class table_forum_post extends discuz_table
 				return;
 			}
 			if(!is_array($id)) {
-				$memorydata = array($id => $memorydata);
+				$memorydata = [$id => $memorydata];
 				$id = (array)$id;
 			}
 			foreach($id as $v) {
@@ -592,8 +594,8 @@ class table_forum_post extends discuz_table
 				$this->store_cache($v, $memorydata[$v], $this->_cache_ttl, $this->_pre_cache_key.'tid_');
 			}
 		} elseif($idtype == 'pid') {
-			$memorytid = array();
-			$query = DB::query('SELECT pid, tid FROM %t WHERE '.DB::field('pid', $id), array(self::get_tablename($tableid)));
+			$memorytid = [];
+			$query = DB::query('SELECT pid, tid FROM %t WHERE '.DB::field('pid', $id), [self::get_tablename($tableid)]);
 			while($post = DB::fetch($query)) {
 				$memorytid[$post['pid']] = $post['tid'];
 			}
@@ -634,29 +636,34 @@ class table_forum_post extends discuz_table
 		}
 	}
 
-        public function concat_threadtags_by_tid($tid, $tags) {
-                return C::t('forum_thread')->concat_tags_by_tid($tid, $tags);
-        }
+	public function concat_threadtags_by_tid($tid, $tags) {
+		$return = DB::query('UPDATE %t SET tags=concat(tags, %s) WHERE tid=%d AND first=1', [self::get_tablename('tid:'.$tid), $tags, $tid]);
+		if($return && $this->_allowmem) {
+			$this->update_cache(0, $tid, 'tid', ['tags' => $tags], ['first' => 1], '.');
+		}
+		return $return;
+	}
 
 
 	public function increase_rate_by_pid($tableid, $pid, $rate, $ratetimes) {
 		$return = DB::query('UPDATE %t SET rate=rate+\'%d\', ratetimes=ratetimes+\'%d\' WHERE pid=%d',
-				array(self::get_tablename($tableid), $rate, $ratetimes, $pid));
+			[self::get_tablename($tableid), $rate, $ratetimes, $pid]);
 		if($return && $this->_allowmem) {
-			$this->update_cache($tableid, $pid, 'pid', array('rate' => $rate, 'ratetimes' => $ratetimes), array(), '+');
+			$this->update_cache($tableid, $pid, 'pid', ['rate' => $rate, 'ratetimes' => $ratetimes], [], '+');
 		}
 		return $return;
 	}
+
 	public function increase_position_by_tid($tableid, $tid, $position) {
 		$return = DB::query('UPDATE %t SET position=position+\'%d\' WHERE '.DB::field('tid', $tid),
-				array(self::get_tablename($tableid), $position));
+			[self::get_tablename($tableid), $position]);
 		return $return;
 	}
 
 	public function increase_status_by_pid($tableid, $pid, $status, $glue, $unbuffered = false) {
-		$return = DB::query('UPDATE %t SET %i WHERE %i', array(self::get_tablename($tableid), DB::field('status', $status, $glue), DB::field('pid', $pid)), $unbuffered);
+		$return = DB::query('UPDATE %t SET %i WHERE %i', [self::get_tablename($tableid), DB::field('status', $status, $glue), DB::field('pid', $pid)], $unbuffered);
 		if($return && $this->_allowmem) {
-			$this->update_cache($tableid, $pid, 'pid', array('status' => $status), array(), $glue);
+			$this->update_cache($tableid, $pid, 'pid', ['status' => $status], [], $glue);
 		}
 		return $return;
 	}
@@ -665,33 +672,33 @@ class table_forum_post extends discuz_table
 	// 不使用事务，如果position冲突，则插入失败，重试五次
 	private function _insert_use_db($tableid, $data, $return_insert_id = false, $replace = false, $silent = false) {
 		$tablename = self::get_tablename($tableid);
-		foreach (range(1, 5) as $try_count) {
+		foreach(range(1, 5) as $try_count) {
 			try {
 				$data['position'] = $this->_next_pos_from_db($tablename, $data['tid']);
 				$ret = DB::insert($tablename, $data, $return_insert_id, $replace, $silent);
 				return $ret;
 			} catch (Exception $e) {
-				if ($try_count >= 2) usleep(mt_rand(2, 6) * 10000); // 如果第二次还不行，停几十毫秒再试
-				if ($try_count >= 3 && $try_count <= 4) usleep(mt_rand(4, 6) * 10000); // 第三次以后再加延时
-				if ($try_count === 5) throw $e; // 如果第五次不行，抛异常
+				if($try_count >= 2) usleep(mt_rand(2, 6) * 10000); // 如果第二次还不行，停几十毫秒再试
+				if($try_count >= 3 && $try_count <= 4) usleep(mt_rand(4, 6) * 10000); // 第三次以后再加延时
+				if($try_count === 5) throw $e; // 如果第五次不行，抛异常
 			}
 		}
 	}
 
 	// 从数据库中读取最大position + 1
 	private function _next_pos_from_db($tablename, $tid) {
-		return DB::result_first("SELECT IFNULL(MAX(position), 0) + 1 FROM " . DB::table($tablename) . " WHERE tid = " . $tid);
+		return DB::result_first('SELECT IFNULL(MAX(position), 0) + 1 FROM '.DB::table($tablename).' WHERE tid = '.$tid);
 	}
 
 	// 用缓存获取下一个position
 	private function _next_pos_from_memory($key) {
-		return memory('incex', $key, 1, 0, "");
+		return memory('incex', $key, 1, 0, '');
 	}
 
 	public function insert($data, $return_insert_id = false, $replace = false, $silent = false, $null = false) {
 		// $null 需要在取消兼容层后删除
-		if (defined('DISCUZ_DEPRECATED')) {
-			throw new Exception("UnsupportedOperationException");
+		if(defined('DISCUZ_DEPRECATED')) {
+			throw new Exception('UnsupportedOperationException');
 		} else {
 			return $this->insert_post($data, $return_insert_id, $replace, $silent, $null);
 		}
@@ -702,32 +709,32 @@ class table_forum_post extends discuz_table
 	 * 在非InnoDB的时候(MyISAM)，直接插入
 	 */
 	public function insert_post($tableid, $data, $return_insert_id = false, $replace = false, $silent = false) {
-		if (strtolower(getglobal("config/db/common/engine")) !== 'innodb') { // 如果不是innodb，则是原来myisam，position是按tid自增的
+		if(strtolower(getglobal('config/db/common/engine')) !== 'innodb') { // 如果不是innodb，则是原来myisam，position是按tid自增的
 			return DB::insert(self::get_tablename($tableid), $data, $return_insert_id, $replace, $silent);
 		}
 		$tablename = self::get_tablename($tableid);
 
 		// 是否使用内存处理position, redis和memcache都可以
 		$mc = strtolower(memory('check'));
-		if ($mc !== 'memcache' && $mc !== 'redis' && $mc !== 'memcached') { // 如果不是memcache或redis，则使用数据库插入
+		if($mc !== 'memcache' && $mc !== 'redis' && $mc !== 'memcached') { // 如果不是memcache或redis，则使用数据库插入
 			return $this->_insert_use_db($tableid, $data, $return_insert_id, $replace, $silent);
 		}
 
-		$memory_position_key = "forum_post_position_" . $data['tid']; // 为每一个tid维护一个key
+		$memory_position_key = 'forum_post_position_'.$data['tid']; // 为每一个tid维护一个key
 		$next_pos = $this->_next_pos_from_memory($memory_position_key);
 
-		if (!$next_pos) { // 如果这个key不存在，则从数据库中加载，并设置到缓存中
+		if(!$next_pos) { // 如果这个key不存在，则从数据库中加载，并设置到缓存中
 			$next_pos = $this->_next_pos_from_db($tablename, $data['tid']);
-			if (!memory('add', $memory_position_key, $next_pos, 259200 /* 3天 */)) { // 用add添加到缓存中
+			if(!memory('add', $memory_position_key, $next_pos, 259200 /* 3天 */)) { // 用add添加到缓存中
 				$next_pos = $this->_next_pos_from_memory($memory_position_key); // 如果add不成功(key已存在，在上面SQL的过程中，被其它进程设置)，则直接incr
 				// 如果还是拿不到next_pos，删除key，fallback到数据库
-				if (!$next_pos) {
+				if(!$next_pos) {
 					memory('rm', $memory_position_key);
 					return $this->_insert_use_db($tableid, $data, $return_insert_id, $replace, $silent);
 				}
 			}
 		}
-		foreach (range(1, 3) as $try_count) {
+		foreach(range(1, 3) as $try_count) {
 			// 更新数据的position字段
 			$data['position'] = $next_pos;
 			try {
@@ -736,7 +743,7 @@ class table_forum_post extends discuz_table
 			} catch (Exception $e) {
 				// 插入失败，可能是position冲突，再生成一个position试一下
 				$next_pos = $this->_next_pos_from_memory($memory_position_key);
-				if (!$next_pos || $try_count === 3) { // 如果还是拿不到next_pos，或者已经重试过三次, 删除key，fallback到数据库
+				if(!$next_pos || $try_count === 3) { // 如果还是拿不到next_pos，或者已经重试过三次, 删除key，fallback到数据库
 					memory('rm', $memory_position_key);
 					return $this->_insert_use_db($tableid, $data, $return_insert_id, $replace, $silent);
 				}
@@ -746,8 +753,8 @@ class table_forum_post extends discuz_table
 
 	public function delete($val, $unbuffered = false, $null = false) {
 		// $null 需要在取消兼容层后删除
-		if (defined('DISCUZ_DEPRECATED')) {
-			throw new Exception("UnsupportedOperationException");
+		if(defined('DISCUZ_DEPRECATED')) {
+			throw new Exception('UnsupportedOperationException');
 		} else {
 			return $this->delete_post($val, $unbuffered, $null);
 		}
@@ -788,23 +795,23 @@ class table_forum_post extends discuz_table
 	}
 
 	public function show_table_by_tableid($tableid) {
-		return DB::fetch_first('SHOW CREATE TABLE %t', array(self::get_tablename($tableid)));
+		return DB::fetch_first('SHOW CREATE TABLE %t', [self::get_tablename($tableid)]);
 	}
 
 	public function drop_table($tableid) {
-		return ($tableid = dintval($tableid)) ? DB::query('DROP TABLE %t', array(self::get_tablename($tableid))) : false;
+		return ($tableid = dintval($tableid)) ? DB::query('DROP TABLE %t', [self::get_tablename($tableid)]) : false;
 	}
 
 	public function optimize_table($tableid) {
-		return DB::query('OPTIMIZE TABLE %t', array(self::get_tablename($tableid)), true);
+		return DB::query('OPTIMIZE TABLE %t', [self::get_tablename($tableid)], true);
 	}
 
 	public function move_table($tableid, $fieldstr, $fromtable, $tid) {
 		$tidsql = is_array($tid) ? 'tid IN(%n)' : 'tid=%d';
-		return DB::query("INSERT INTO %t ($fieldstr) SELECT $fieldstr FROM $fromtable WHERE $tidsql", array(self::get_tablename($tableid), $tid), true);
+		return DB::query("INSERT INTO %t ($fieldstr) SELECT $fieldstr FROM $fromtable WHERE $tidsql", [self::get_tablename($tableid), $tid], true);
 	}
 
-	public function count_by_search($tableid, $tid = null, $keywords = null, $invisible =null, $fid = null, $authorid = null, $author = null, $starttime = null, $endtime = null, $useip = null, $first = null) {
+	public function count_by_search($tableid, $tid = null, $keywords = null, $invisible = null, $fid = null, $authorid = null, $author = null, $starttime = null, $endtime = null, $useip = null, $first = null) {
 		$sql = '';
 		$sql .= $tid ? ' AND '.DB::field('tid', $tid) : '';
 		$sql .= $authorid !== null ? ' AND '.DB::field('authorid', $authorid) : '';
@@ -825,7 +832,7 @@ class table_forum_post extends discuz_table
 			$sql .= " AND ($sqlkeywords)";
 		}
 		if($sql) {
-			return DB::result_first('SELECT COUNT(*) FROM %t WHERE 1 %i', array(self::get_tablename($tableid), $sql));
+			return DB::result_first('SELECT COUNT(*) FROM %t WHERE 1 %i', [self::get_tablename($tableid), $sql]);
 		} else {
 			return 0;
 		}
@@ -852,9 +859,9 @@ class table_forum_post extends discuz_table
 			$sql .= " AND ($sqlkeywords)";
 		}
 		if($sql) {
-			return DB::fetch_all('SELECT * FROM %t WHERE 1 %i ORDER BY position DESC %i', array(self::get_tablename($tableid), $sql, DB::limit($start, $limit)));
+			return DB::fetch_all('SELECT * FROM %t WHERE 1 %i ORDER BY dateline DESC %i', [self::get_tablename($tableid), $sql, DB::limit($start, $limit)]);
 		} else {
-			return array();
+			return [];
 		}
 	}
 
@@ -872,7 +879,7 @@ class table_forum_post extends discuz_table
 			$or = '';
 			$keywords = explode(',', str_replace(' ', '', $keywords));
 			for($i = 0; $i < count($keywords); $i++) {
-				if(preg_match("/\{(\d+)\}/", $keywords[$i])) {
+				if(preg_match('/\{(\d+)\}/', $keywords[$i])) {
 					$keywords[$i] = preg_replace("/\\\{(\d+)\\\}/", ".{0,\\1}", preg_quote($keywords[$i], '/'));
 					$sqlkeywords .= " $or p.subject REGEXP '".$keywords[$i]."' OR p.message REGEXP '".addslashes(stripsearchkey($keywords[$i]))."'";
 				} else {
@@ -887,11 +894,11 @@ class table_forum_post extends discuz_table
 			if($isgroup) {
 				return DB::result_first('SELECT COUNT(*)
 					FROM %t p LEFT JOIN %t t USING(tid)
-					WHERE 1 %i', array(self::get_tablename($tableid), 'forum_thread', $sql));
+					WHERE 1 %i', [self::get_tablename($tableid), 'forum_thread', $sql]);
 			} else {
 				return DB::result_first('SELECT COUNT(*)
 					FROM %t p
-					WHERE 1 %i', array(self::get_tablename($tableid), $sql));
+					WHERE 1 %i', [self::get_tablename($tableid), $sql]);
 			}
 		} else {
 			return 0;
@@ -900,10 +907,11 @@ class table_forum_post extends discuz_table
 
 	public function fetch_all_new_post_by_pid($pid, $start = 0, $limit = 0, $tableid = 0, $glue = '>', $sort = 'ASC') {
 		return $limit ? DB::fetch_all('SELECT * FROM '.DB::table($this->get_tablename($tableid)).
-				' WHERE '.DB::field('pid', $pid, $glue).
-				' ORDER BY '.DB::order('pid', $sort).
-				DB::limit($start, $limit), $this->_pk) : array();
+			' WHERE '.DB::field('pid', $pid, $glue).
+			' ORDER BY '.DB::order('pid', $sort).
+			DB::limit($start, $limit), $this->_pk) : [];
 	}
+
 	public function fetch_all_prune_by_search($tableid, $isgroup = null, $keywords = null, $message_length = null, $fid = null, $authorid = null, $starttime = null, $endtime = null, $useip = null, $outmsg = true, $start = null, $limit = null) {
 		$sql = '';
 		$sql .= $fid ? ' AND p.'.DB::field('fid', $fid) : '';
@@ -913,13 +921,13 @@ class table_forum_post extends discuz_table
 		$sql .= $endtime ? ' AND p.'.DB::field('dateline', $endtime, '<') : '';
 		$sql .= $useip ? ' AND p.'.DB::field('useip', $useip, 'like') : '';
 		$sql .= $message_length !== null ? ' AND LENGTH(p.message) < '.intval($message_length) : '';
-		$postlist = array();
+		$postlist = [];
 		if(trim($keywords)) {
 			$sqlkeywords = '';
 			$or = '';
 			$keywords = explode(',', str_replace(' ', '', $keywords));
 			for($i = 0; $i < count($keywords); $i++) {
-				if(preg_match("/\{(\d+)\}/", $keywords[$i])) {
+				if(preg_match('/\{(\d+)\}/', $keywords[$i])) {
 					$keywords[$i] = preg_replace("/\\\{(\d+)\\\}/", ".{0,\\1}", preg_quote($keywords[$i], '/'));
 					$sqlkeywords .= " $or p.subject REGEXP '".$keywords[$i]."' OR p.message REGEXP '".addslashes(stripsearchkey($keywords[$i]))."'";
 				} else {
@@ -934,11 +942,11 @@ class table_forum_post extends discuz_table
 			if($isgroup) {
 				$query = DB::query('SELECT p.*, t.*
 					FROM %t p LEFT JOIN %t t USING(tid)
-					WHERE 1 %i %i', array(self::get_tablename($tableid), 'forum_thread', $sql, DB::limit($start, $limit)));
+					WHERE 1 %i %i', [self::get_tablename($tableid), 'forum_thread', $sql, DB::limit($start, $limit)]);
 			} else {
 				$query = DB::query('SELECT *
 					FROM %t p
-					WHERE 1 %i %i', array(self::get_tablename($tableid), $sql, DB::limit($start, $limit)));
+					WHERE 1 %i %i', [self::get_tablename($tableid), $sql, DB::limit($start, $limit)]);
 			}
 			while($post = DB::fetch($query)) {
 				if(!$outmsg) {
@@ -959,7 +967,7 @@ class table_forum_post extends discuz_table
 			if(!empty($thread) && isset($thread['posttableid']) && $tids == $thread['tid']) {
 				return 'forum_post'.(empty($thread['posttableid']) ? '' : '_'.$thread['posttableid']);
 			}
-			$tids = array(intval($tids));
+			$tids = [intval($tids)];
 			$isstring = true;
 		}
 		$tids = array_unique($tids);
@@ -967,19 +975,19 @@ class table_forum_post extends discuz_table
 		if(!$primary) {
 			loadcache('threadtableids');
 			$threadtableids = getglobal('threadtableids', 'cache');
-			empty($threadtableids) && $threadtableids = array();
+			empty($threadtableids) && $threadtableids = [];
 			if(!in_array(0, $threadtableids)) {
-				$threadtableids = array_merge(array(0), $threadtableids);
+				$threadtableids = array_merge([0], $threadtableids);
 			}
 		} else {
-			$threadtableids = array(0);
+			$threadtableids = [0];
 		}
-		$tables = array();
+		$tables = [];
 		$posttable = '';
 		foreach($threadtableids as $tableid) {
 			$threadtable = $tableid ? "forum_thread_$tableid" : 'forum_thread';
-			$query = DB::query("SELECT tid, posttableid FROM ".DB::table($threadtable)." WHERE tid IN(".dimplode(array_keys($tids)).")");
-			while ($value = DB::fetch($query)) {
+			$query = DB::query('SELECT tid, posttableid FROM '.DB::table($threadtable).' WHERE tid IN('.dimplode(array_keys($tids)).')');
+			while($value = DB::fetch($query)) {
 				$posttable = 'forum_post'.($value['posttableid'] ? "_{$value['posttableid']}" : '');
 				$tables[$posttable][$value['tid']] = $value['tid'];
 				unset($tids[$value['tid']]);
@@ -994,10 +1002,11 @@ class table_forum_post extends discuz_table
 		}
 		return $isstring ? $posttable : $tables;
 	}
+
 	public function show_table_columns($table) {
-		$data = array();
-		$db = &DB::object();
-		$query = $db->query("SHOW FULL COLUMNS FROM ".DB::table($table), 'SILENT');
+		$data = [];
+		$db = DB::object();
+		$query = $db->query('SHOW FULL COLUMNS FROM '.DB::table($table), 'SILENT');
 		while($field = @DB::fetch($query)) {
 			$data[$field['Field']] = $field;
 		}
@@ -1021,4 +1030,4 @@ class table_forum_post extends discuz_table
 	}
 
 }
-?>
+

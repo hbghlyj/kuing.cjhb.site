@@ -1,18 +1,17 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: lang_jack.php 27449 2012-02-01 05:32:35Z zhangguosheng $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
-$lang = array
-(
+$lang =
+	[
 	'jack_name' => '千斤顶',
 	'jack_desc' => '可以将主题顶起一段时间，重复使用可延长帖子被顶起的时间',
 	'jack_expiration' => '时长',
@@ -26,6 +25,5 @@ $lang = array
 	'jack_info_noperm' => '对不起，主题所在版块不允许使用本道具',
 
 	'jack_notification' => '您的主题 {subject} 被 {actor} 使用了{magicname}，<a href="forum.php?mod=viewthread&tid={tid}">快去看看吧！</a>',
-);
+	];
 
-?>

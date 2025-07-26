@@ -1,51 +1,61 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: table_forum_groupuser.php 31121 2012-07-18 06:01:56Z liulanbo $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
-class table_forum_groupuser extends discuz_table
-{
+class table_forum_groupuser extends discuz_table {
+	public static function t() {
+		static $_instance;
+		if(!isset($_instance)) {
+			$_instance = new self();
+		}
+		return $_instance;
+	}
+
 	public function __construct() {
 
 		$this->_table = 'forum_groupuser';
-		$this->_pk    = '';
+		$this->_pk = '';
 
 		parent::__construct();
 	}
+
 	public function fetch_all_fid_by_uids($uids) {
 		if(empty($uids)) {
-			return array();
+			return [];
 		}
-		$data = array();
-		$query = DB::query("SELECT fid FROM %t WHERE %i AND level>0 ORDER BY lastupdate DESC", array($this->_table, DB::field('uid', $uids)));
+		$data = [];
+		$query = DB::query('SELECT fid FROM %t WHERE %i AND level>0 ORDER BY lastupdate DESC', [$this->_table, DB::field('uid', $uids)]);
 		while($row = DB::fetch($query)) {
 			$data[] = $row['fid'];
 		}
 		return $data;
 	}
+
 	public function fetch_userinfo($uid, $fid) {
 		if(empty($uid) || empty($fid)) {
-			return array();
+			return [];
 		}
-		return DB::fetch_first("SELECT * FROM %t WHERE fid=%d AND uid=%d", array($this->_table, $fid, $uid));
+		return DB::fetch_first('SELECT * FROM %t WHERE fid=%d AND uid=%d', [$this->_table, $fid, $uid]);
 	}
+
 	public function fetch_all_userinfo($uids, $fid) {
 		if(empty($uids) || empty($fid)) {
-			return array();
+			return [];
 		}
-		return DB::fetch_all("SELECT * FROM %t WHERE fid=%d AND ".DB::field('uid', $uids), array($this->_table, $fid));
+		return DB::fetch_all('SELECT * FROM %t WHERE fid=%d AND ' .DB::field('uid', $uids), [$this->_table, $fid]);
 	}
+
 	public function fetch_all_by_fid($fid, $level = 0) {
 		if(empty($fid)) {
-			return array();
+			return [];
 		}
 		$levelsql = ' AND level>0';
 		if($level == 1) {
@@ -53,8 +63,9 @@ class table_forum_groupuser extends discuz_table
 		} elseif($level == -1) {
 			$levelsql = '';
 		}
-		return DB::fetch_all("SELECT * FROM %t WHERE fid=%d".$levelsql, array($this->_table, $fid));
+		return DB::fetch_all('SELECT * FROM %t WHERE fid=%d' .$levelsql, [$this->_table, $fid]);
 	}
+
 	public function fetch_count_by_fid($fid, $level = 0) {
 		$levelsql = ' AND level>0';
 		if($level == 1) {
@@ -62,23 +73,26 @@ class table_forum_groupuser extends discuz_table
 		} elseif($level == -1) {
 			$levelsql = '';
 		}
-		return DB::result_first("SELECT COUNT(*) FROM %t WHERE fid=%d".$levelsql, array($this->_table, $fid));
+		return DB::result_first('SELECT COUNT(*) FROM %t WHERE fid=%d' .$levelsql, [$this->_table, $fid]);
 	}
+
 	public function insert($data, $return_insert_id = false, $replace = false, $silent = false, $null1 = 0, $null2 = 0) {
 		// $null 1~n 需要在取消兼容层后删除
-		if (defined('DISCUZ_DEPRECATED')) {
+		if(defined('DISCUZ_DEPRECATED')) {
 			throw new Exception('NotImplementedException');
 			return parent::insert($data, $return_insert_id, $replace, $silent);
 		} else {
 			return $this->insert_groupuser($data, $return_insert_id, $replace, $silent, $null1, $null2);
 		}
 	}
+
 	public function insert_groupuser($fid, $uid, $username, $level, $joindateline, $lastupdate = 0) {
-		DB::query("INSERT INTO %t (fid, uid, username, level, joindateline, lastupdate) VALUES (%d,%d,%s,%d,%d,%d)", array($this->_table, $fid, $uid, addslashes($username), $level, $joindateline, $lastupdate));
+		DB::query('INSERT INTO %t (fid, uid, username, level, joindateline, lastupdate) VALUES (%d,%d,%s,%d,%d,%d)', [$this->_table, $fid, $uid, addslashes($username), $level, $joindateline, $lastupdate]);
 	}
+
 	public function update_counter_for_user($uid, $fid, $threads = 0, $replies = 0) {
 		if(empty($uid) || empty($fid)) {
-			return array();
+			return [];
 		}
 		$sql = $threads ? 'threads=threads+1' : '';
 		if($replies) {
@@ -87,8 +101,9 @@ class table_forum_groupuser extends discuz_table
 		if(empty($sql)) {
 			return false;
 		}
-		DB::query("UPDATE ".DB::table('forum_groupuser')." SET $sql, lastupdate='".TIMESTAMP."' WHERE fid=%d AND uid=%d", array($fid, $uid));
+		DB::query('UPDATE ' .DB::table('forum_groupuser')." SET $sql, lastupdate='".TIMESTAMP."' WHERE fid=%d AND uid=%d", [$fid, $uid]);
 	}
+
 	public function delete_by_fid($fids, $uid = 0) {
 		if(empty($fids)) {
 			return false;
@@ -96,11 +111,12 @@ class table_forum_groupuser extends discuz_table
 		if($uid) {
 			$sqladd = ' AND '.DB::field('uid', $uid);
 		}
-		DB::query("DELETE FROM ".DB::table('forum_groupuser')." WHERE %i ".$sqladd, array(DB::field('fid', $fids)));
+		DB::query('DELETE FROM ' .DB::table('forum_groupuser'). ' WHERE %i ' .$sqladd, [DB::field('fid', $fids)]);
 	}
+
 	public function update_for_user($uid, $fid, $threads = null, $replies = null, $level = null) {
 		if(empty($uid) || empty($fid)) {
-			return array();
+			return [];
 		}
 		$sqladd = $threads !== null ? 'threads='.intval($threads) : '';
 		if($replies !== null) {
@@ -109,10 +125,10 @@ class table_forum_groupuser extends discuz_table
 		if($level !== null) {
 			$sqladd .= ($sqladd ? ', ' : '').'level='.intval($level);
 		}
-		DB::query("UPDATE %t SET $sqladd WHERE fid=%d AND ".DB::field('uid', $uid), array($this->_table, $fid));
+		DB::query("UPDATE %t SET $sqladd WHERE fid=%d AND ".DB::field('uid', $uid), [$this->_table, $fid]);
 	}
 
-	public function groupuserlist($fid, $orderby = '', $num = 0, $start = 0, $addwhere = '', $fieldarray = array(), $onlinemember = array()) {
+	public function groupuserlist($fid, $orderby = '', $num = 0, $start = 0, $addwhere = '', $fieldarray = [], $onlinemember = []) {
 		$fid = intval($fid);
 		if($fieldarray && is_array($fieldarray)) {
 			$fieldadd = 'uid';
@@ -129,7 +145,7 @@ class table_forum_groupuser extends discuz_table
 				foreach($addwhere as $field => $value) {
 					if(is_array($value)) {
 						$levelwhere = "AND level>'0' ";
-						$sqladd .= "AND $field IN (".dimplode($value).") ";
+						$sqladd .= "AND $field IN (".dimplode($value). ') ';
 					} else {
 						$sqladd .= is_numeric($field) ? "AND $value " : "AND $field='$value' ";
 					}
@@ -140,12 +156,12 @@ class table_forum_groupuser extends discuz_table
 			}
 		}
 
-		$orderbyarray = array('level_join' => 'level ASC, joindateline ASC', 'joindateline' => 'joindateline DESC', 'lastupdate' => 'lastupdate DESC', 'threads' => 'threads DESC', 'replies' => 'replies DESC');
+		$orderbyarray = ['level_join' => 'level ASC, joindateline ASC', 'joindateline' => 'joindateline DESC', 'lastupdate' => 'lastupdate DESC', 'threads' => 'threads DESC', 'replies' => 'replies DESC'];
 		$orderby = !empty($orderbyarray[$orderby]) ? "ORDER BY $orderbyarray[$orderby]" : '';
 		$limitsql = $num ? DB::limit($start, $num) : '';
 
-		$groupuserlist = array();
-		$query = DB::query("SELECT $fieldadd FROM ".DB::table('forum_groupuser')." WHERE fid=%d $levelwhere %i $orderby $limitsql", array($fid,$sqladd));
+		$groupuserlist = [];
+		$query = DB::query("SELECT $fieldadd FROM ".DB::table('forum_groupuser')." WHERE fid=%d $levelwhere %i $orderby $limitsql", [$fid, $sqladd]);
 		while($groupuser = DB::fetch($query)) {
 			$groupuserlist[$groupuser['uid']] = $groupuser;
 			$groupuserlist[$groupuser['uid']]['online'] = !empty($onlinemember) && is_array($onlinemember) && !empty($onlinemember[$groupuser['uid']]) ? 1 : 0;
@@ -153,10 +169,11 @@ class table_forum_groupuser extends discuz_table
 
 		return $groupuserlist;
 	}
+
 	public function fetch_all_group_for_user($uid, $count = 0, $ismanager = 0, $start = 0, $num = 0) {
 		$uid = intval($uid);
 		if(empty($uid)) {
-			return array();
+			return [];
 		}
 		if(empty($ismanager)) {
 			$levelsql = '';
@@ -166,12 +183,11 @@ class table_forum_groupuser extends discuz_table
 			$levelsql = ' AND level IN(3,4)';
 		}
 		if($count == 1) {
-			return DB::result_first("SELECT count(*) FROM ".DB::table('forum_groupuser')." WHERE uid='$uid' $levelsql");
+			return DB::result_first('SELECT count(*) FROM ' .DB::table('forum_groupuser')." WHERE uid='$uid' $levelsql");
 		}
 		empty($start) && $start = 0;
 		empty($num) && $num = 100;
-		return DB::fetch_all("SELECT fid, level FROM ".DB::table('forum_groupuser')." WHERE uid='$uid' $levelsql ORDER BY lastupdate DESC ".DB::limit($start, $num));
+		return DB::fetch_all('SELECT fid, level FROM ' .DB::table('forum_groupuser')." WHERE uid='$uid' $levelsql ORDER BY lastupdate DESC ".DB::limit($start, $num));
 	}
 }
 
-?>

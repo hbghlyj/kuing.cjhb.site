@@ -1,10 +1,9 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: adv_threadlist.php 29052 2012-03-23 09:07:40Z monkey $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -17,57 +16,57 @@ class adv_threadlist {
 	var $name = 'threadlist_name';
 	var $description = 'threadlist_desc';
 	var $copyright = '<a href="https://www.discuz.vip/" target="_blank">Discuz!</a>';
-	var $targets = array('forum', 'group');
-	var $imagesizes = array('120x60', '468x40', '468x60');
+	var $targets = ['forum', 'group'];
+	var $imagesizes = ['120x60', '468x40', '468x60'];
 
 	function getsetting() {
 		global $_G;
-		$settings = array(
-			'fids' => array(
+		$settings = [
+			'fids' => [
 				'title' => 'threadlist_fids',
 				'type' => 'mselect',
-				'value' => array(),
-			),
-			'groups' => array(
+				'value' => [],
+			],
+			'groups' => [
 				'title' => 'threadlist_groups',
 				'type' => 'mselect',
-				'value' => array(),
-			),
-			'pos' => array(
+				'value' => [],
+			],
+			'pos' => [
 				'title' => 'threadlist_pos',
 				'type' => 'text',
 				'value' => '',
-			),
-			'mode' => array(
+			],
+			'mode' => [
 				'title' => 'threadlist_mode',
 				'type' => 'mradio',
-				'value' => array(
-				    array(0, 'threadlist_mode_0'),
-				    array(1, 'threadlist_mode_1'),
-				),
-			),
-			'tid' => array(
+				'value' => [
+					[0, 'threadlist_mode_0'],
+					[1, 'threadlist_mode_1'],
+				],
+			],
+			'tid' => [
 				'title' => 'threadlist_tid',
 				'type' => 'text',
 				'value' => '',
-			),
-			'threadurl' => array(
+			],
+			'threadurl' => [
 				'title' => 'threadlist_threadurl',
 				'type' => 'text',
 				'value' => '',
-			),
-		);
-		loadcache(array('forums', 'grouptype'));
-		$settings['fids']['value'][] = $settings['groups']['value'][] = array(0, '&nbsp;');
-		if(empty($_G['cache']['forums'])) $_G['cache']['forums'] = array();
+			],
+		];
+		loadcache(['forums', 'grouptype']);
+		$settings['fids']['value'][] = $settings['groups']['value'][] = [0, '&nbsp;'];
+		if(empty($_G['cache']['forums'])) $_G['cache']['forums'] = [];
 		foreach($_G['cache']['forums'] as $fid => $forum) {
-			$settings['fids']['value'][] = array($fid, ($forum['type'] == 'forum' ? str_repeat('&nbsp;', 4) : ($forum['type'] == 'sub' ? str_repeat('&nbsp;', 8) : '')).$forum['name']);
+			$settings['fids']['value'][] = [$fid, ($forum['type'] == 'forum' ? str_repeat('&nbsp;', 4) : ($forum['type'] == 'sub' ? str_repeat('&nbsp;', 8) : '')).$forum['name']];
 		}
 		foreach($_G['cache']['grouptype']['first'] as $gid => $group) {
-			$settings['groups']['value'][] = array($gid, $group['name']);
+			$settings['groups']['value'][] = [$gid, $group['name']];
 			if($group['secondlist']) {
 				foreach($group['secondlist'] as $sgid) {
-					$settings['groups']['value'][] = array($sgid, str_repeat('&nbsp;', 4).$_G['cache']['grouptype']['second'][$sgid]['name']);
+					$settings['groups']['value'][] = [$sgid, str_repeat('&nbsp;', 4).$_G['cache']['grouptype']['second'][$sgid]['name']];
 				}
 			}
 		}
@@ -81,10 +80,10 @@ class adv_threadlist {
 			$advnew['targets'] = implode("\t", $advnew['targets']);
 		}
 		if(is_array($parameters['extra']['fids']) && in_array(0, $parameters['extra']['fids'])) {
-			$parameters['extra']['fids'] = array();
+			$parameters['extra']['fids'] = [];
 		}
 		if(is_array($parameters['extra']['groups']) && in_array(0, $parameters['extra']['groups'])) {
-			$parameters['extra']['groups'] = array();
+			$parameters['extra']['groups'] = [];
 		}
 		$parameters['extra']['pos'] = $parameters['pos'];
 		$parameters['extra']['tid'] = $parameters['tid'];
@@ -92,7 +91,7 @@ class adv_threadlist {
 	}
 
 	function evalcode() {
-		return array(
+		return [
 			'check' => '
 			if($GLOBALS[\'page\'] != 1 || !empty($_GET[\'filter\'])
 			|| $_G[\'basescript\'] == \'forum\' && $parameter[\'fids\'] && !in_array($_G[\'fid\'], $parameter[\'fids\'])
@@ -137,9 +136,8 @@ class adv_threadlist {
 				\'<td class="by"><cite><a href="forum.php?mod=viewthread&tid=\'.$vt[$vttid][\'tid\'].\'">\'.$vt[$vttid][\'lastposter\'].\'</a></cite>\'.
 				\'<em><a href="forum.php?mod=redirect&tid=\'.$vt[$vttid][\'tid\'].\'&goto=lastpost#lastpost">\'.dgmdate($vt[$vttid][\'lastpost\'], \'u\').\'</a></em></td>\'.
 				\'</tr>\') : \'\';',
-		);
+		];
 	}
 
 }
 
-?>

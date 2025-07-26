@@ -1,9 +1,8 @@
-/*
-	[Discuz!] (C)2001-2099 Comsenz Inc.
-	This is NOT a freeware, use is subject to license terms
-
-	$Id: portal.js 31313 2012-08-10 03:51:03Z zhangguosheng $
-*/
+/**
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
+ */
 
 function block_get_setting(classname, script, bid) {
 	var x = new Ajax();
@@ -69,7 +68,7 @@ function block_pushitem(bid, itemid) {
 }
 
 function block_delete_item(bid, itemid, itemtype, itemfrom, from) {
-/*vot*/ var msg = itemtype==1 ? lng['delete_sure'] : lng['ignore_sure'];
+	var msg = itemtype==1 ? $L('delete_confirm') : $L('ban_confirm');
 	if(confirm(msg)) {
 		var url = 'portal.php?mod=portalcp&ac=block&op=remove&bid='+bid+'&itemid='+itemid;
 		if(itemfrom=='ajax') {
@@ -143,7 +142,7 @@ function recommenditem_check() {
 		document.forms['recommendform'].action = document.forms['recommendform'].action+'&bid='+sel.value;
 		return true;
 	} else {
-/*vot*/         alert(lng['select_block']);
+		alert($L('select_module'));
 		return false;
 	}
 }
@@ -155,7 +154,7 @@ function recommenditem_byblock(bid, id, idtype) {
 		ajaxinnerhtml(olditemeditarea, editarea.innerHTML);
 		if(!$('recommendback')) {
 			var back = document.createElement('div');
-/*vot*/                 back.innerHTML = '<em id="recommendback" onclick="recommenditem_back()" class="cur1">&nbsp;&nbsp;&laquo;'+lng['back']+'</em>';
+			back.innerHTML = '<em id="recommendback" onclick="recommenditem_back()" class="cur1">&nbsp;&nbsp;&laquo;' + $L('return') + '</em>';
 			var return_mods = $('return_mods') || $('return_recommend') || $('return_');
 			if(return_mods) {
 				return_mods.parentNode.appendChild(back.childNodes[0]);
@@ -223,27 +222,27 @@ function blockSetCacheTime(timer) {
 function toggleSettingShow() {
 	if(!$('tbody_setting').style.display) {
 		$('tbody_setting').style.display = 'none';
-/*vot*/         $('a_setting_show').innerHTML = lng['show_settings'];
+		$('a_setting_show').innerHTML = $L('unfold_setting');
 	} else {
-               $('tbody_setting').style.display = '';
-/*vot*/         $('a_setting_show').innerHTML = lng['hide_settings'];
+		$('tbody_setting').style.display = '';
+		$('a_setting_show').innerHTML = $L('fold_setting');
 	}
 	doane();
 }
 function switchSetting() {
 	var checked = $('isblank').checked;
 	if(checked) {
-               $('tbody_setting').style.display = 'none';
-/*vot*/         $('a_setting_show').innerHTML = lng['settings_expand'];
+		$('tbody_setting').style.display = 'none';
+		$('a_setting_show').innerHTML = $L('unfold_setting');
 	} else {
-               $('tbody_setting').style.display = '';
-/*vot*/         $('a_setting_show').innerHTML = lng['settings_hide'];
+		$('tbody_setting').style.display = '';
+		$('a_setting_show').innerHTML = $L('fold_setting');
 	}
 }
 
 function checkblockname(form) {
 	if(!(trim(form.name.value) > '')) {
-/*vot*/         showDialog(lng['block_name_empty'], 'error', null, function(){form.name.focus();});
+		showDialog($L('block_name_empty'), 'error', null, function(){form.name.focus();});
 		return false;
 	}
 	if(form.summary && form.summary.value) {
@@ -251,7 +250,7 @@ function checkblockname(form) {
 		if(tag) {
 			showBlockSummary();
 			form.summary.focus();
-/*vot*/                 showDialog(lng['custom_content_error']+lng['html_error']+tag+lng['tags_not_match'], 'error', null, function(){form.summary.select();});
+			showDialog($L('tag_custom_check_error', [tag]), 'error', null, function(){form.summary.select();});
 			return false;
 		}
 	}
@@ -287,7 +286,7 @@ function blockCheckTag(summary, returnValue) {
 				if(returnValue) {
 					return tag;
 				} else {
-/*vot*/                                 showDialog(lng['html_error']+tag+lng['tags_not_match'], 'error', null, fn, true, fn);
+					showDialog($L('tag_html_check_error', [tag]), 'error', null, fn, true, fn);
 					return false;
 				}
 			}
@@ -312,7 +311,7 @@ function hideBlockSummary() {
 
 function blockconver(ele,bid) {
 	if(ele && bid) {
-/*vot*/         if(confirm(lng['block_convert_sure']+' '+ele.options[0].innerHTML+' '+lng['to']+' '+ele.options[ele.selectedIndex].innerHTML)) {
+		if(confirm($L('convert_type_confirm', [ele.options[0].innerHTML, ele.options[ele.selectedIndex].innerHTML]))) {
 			ajaxget('portal.php?mod=portalcp&ac=block&op=convert&bid='+bid+'&toblockclass='+ele.value,'blockshow');
 		} else {
 			ele.selectedIndex = 0;
@@ -329,12 +328,12 @@ function blockFavorite(bid){
 function check_itemdata_lentgh(form) {
 	if(form.title && (!strLenCalc(form.title, "titlechk", form.title.getAttribute('_maxlength')) || !form.title.value)) {
 		form.title.focus();
-/*vot*/         showDialog(lng['title_length_bad'], 'error', null, function(){form.title.select();});
+		showDialog($L('title_length_error'), 'error', null, function(){form.title.select();});
 		return false;
 	}
 	if(form.summary && !strLenCalc(form.summary, "summarychk", form.summary.getAttribute('_maxlength'))) {
 		form.summary.focus();
-/*vot*/         showDialog(lng['summary_length_bad'], 'error', null, function(){form.summary.select();});
+		showDialog($L('summary_length_error'), 'error', null, function(){form.summary.select();});
 		return false;
 	}
 	return true;

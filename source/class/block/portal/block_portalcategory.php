@@ -1,39 +1,39 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: block_portalcategory.php 29236 2012-03-30 05:34:47Z chenmengshu $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
+
 class block_portalcategory extends discuz_block {
-	var $setting = array();
+	var $setting = [];
+
 	function __construct() {
-		$this->setting = array(
-			'thecatid' => array(
+		$this->setting = [
+			'thecatid' => [
 				'title' => 'portalcategory_thecatid',
 				'type' => 'text',
-			),
-			'catid' => array(
+			],
+			'catid' => [
 				'title' => 'portalcategory_catid',
 				'type' => 'mselect',
-				'value' => array(
-				),
-			),
-			'orderby' => array(
+				'value' => [],
+			],
+			'orderby' => [
 				'title' => 'portalcategory_orderby',
 				'type' => 'mradio',
-				'value' => array(
-					array('displayorder', 'portalcategory_orderby_displayorder'),
-					array('articles', 'portalcategory_orderby_articles')
-				),
+				'value' => [
+					['displayorder', 'portalcategory_orderby_displayorder'],
+					['articles', 'portalcategory_orderby_articles']
+				],
 				'default' => 'displayorder'
-			)
-		);
+			]
+		];
 	}
 
 	function name() {
@@ -41,33 +41,33 @@ class block_portalcategory extends discuz_block {
 	}
 
 	function blockclass() {
-		return array('category', lang('blockclass', 'blockclass_portal_category'));
+		return ['category', lang('blockclass', 'blockclass_portal_category')];
 	}
 
 	function fields() {
-		return array(
-				'id' => array('name' => lang('blockclass', 'blockclass_field_id'), 'formtype' => 'text', 'datatype' => 'int'),
-				'url' => array('name' => lang('blockclass', 'blockclass_category_field_url'), 'formtype' => 'text', 'datatype' => 'string'),
-				'title' => array('name' => lang('blockclass', 'blockclass_category_field_title'), 'formtype' => 'title', 'datatype' => 'title'),
-				'articles' => array('name' => lang('blockclass', 'blockclass_category_field_articles'), 'formtype' => 'text', 'datatype' => 'int'),
-			);
+		return [
+			'id' => ['name' => lang('blockclass', 'blockclass_field_id'), 'formtype' => 'text', 'datatype' => 'int'],
+			'url' => ['name' => lang('blockclass', 'blockclass_category_field_url'), 'formtype' => 'text', 'datatype' => 'string'],
+			'title' => ['name' => lang('blockclass', 'blockclass_category_field_title'), 'formtype' => 'title', 'datatype' => 'title'],
+			'articles' => ['name' => lang('blockclass', 'blockclass_category_field_articles'), 'formtype' => 'text', 'datatype' => 'int'],
+		];
 	}
 
 	function fieldsconvert() {
-		return array(
-				'forum_forum' => array(
-					'name' => lang('blockclass', 'blockclass_forum_forum'),
-					'script' => 'forum',
-					'searchkeys' => array('articles'),
-					'replacekeys' => array('threads'),
-				),
-				'group_group' => array(
-					'name' => lang('blockclass', 'blockclass_group_group'),
-					'script' => 'group',
-					'searchkeys' => array('articles'),
-					'replacekeys' => array('threads'),
-				),
-			);
+		return [
+			'forum_forum' => [
+				'name' => lang('blockclass', 'blockclass_forum_forum'),
+				'script' => 'forum',
+				'searchkeys' => ['articles'],
+				'replacekeys' => ['threads'],
+			],
+			'group_group' => [
+				'name' => lang('blockclass', 'blockclass_group_group'),
+				'script' => 'group',
+				'searchkeys' => ['articles'],
+				'replacekeys' => ['threads'],
+			],
+		];
 	}
 
 	function getsetting() {
@@ -75,19 +75,19 @@ class block_portalcategory extends discuz_block {
 		$settings = $this->setting;
 
 		if($settings['catid']) {
-			$settings['catid']['value'][] = array(0, lang('portalcp', 'block_first_category'));
+			$settings['catid']['value'][] = [0, lang('portalcp', 'block_first_category')];
 			loadcache('portalcategory');
 			foreach($_G['cache']['portalcategory'] as $value) {
 				if($value['level'] == 0) {
-					$settings['catid']['value'][] = array($value['catid'], $value['catname']);
+					$settings['catid']['value'][] = [$value['catid'], $value['catname']];
 					if($value['children']) {
 						foreach($value['children'] as $catid2) {
 							$value2 = $_G['cache']['portalcategory'][$catid2];
-							$settings['catid']['value'][] = array($value2['catid'], '-- '.$value2['catname']);
+							$settings['catid']['value'][] = [$value2['catid'], '-- '.$value2['catname']];
 							if($value2['children']) {
 								foreach($value2['children'] as $catid3) {
 									$value3 = $_G['cache']['portalcategory'][$catid3];
-									$settings['catid']['value'][] = array($value3['catid'], '---- '.$value3['catname']);
+									$settings['catid']['value'][] = [$value3['catid'], '---- '.$value3['catname']];
 								}
 							}
 						}
@@ -103,7 +103,7 @@ class block_portalcategory extends discuz_block {
 
 		$parameter = $this->cookparameter($parameter);
 		loadcache('portalcategory');
-		$thecatid = !empty($parameter['thecatid']) ? explode(',',$parameter['thecatid']) : array();
+		$thecatid = !empty($parameter['thecatid']) ? explode(',', $parameter['thecatid']) : [];
 		if(!empty($parameter['catid'])) {
 			$catid = $parameter['catid'];
 		} else {
@@ -112,19 +112,19 @@ class block_portalcategory extends discuz_block {
 		}
 		$orderby = $parameter['orderby'] == 'articles' ? ' ORDER BY articles DESC' : ' ORDER BY displayorder';
 
-		$wheres = array();
+		$wheres = [];
 		if($thecatid) {
-			$wheres[] = "catid IN (".dimplode($thecatid).")";
+			$wheres[] = 'catid IN (' .dimplode($thecatid). ')';
 		}
 		if($catid) {
-			$wheres[] = "upid IN (".dimplode($catid).")";
+			$wheres[] = 'upid IN (' .dimplode($catid). ')';
 		}
 		$wheresql = $wheres ? implode(' AND ', $wheres) : '1';
 
-		$list = array();
+		$list = [];
 		$query = DB::query('SELECT * FROM '.DB::table('portal_category')." WHERE $wheresql $orderby");
 		while($data = DB::fetch($query)) {
-			$list[] = array(
+			$list[] = [
 				'id' => $data['catid'],
 				'idtype' => 'catid',
 				'title' => dhtmlspecialchars($data['catname']),
@@ -132,14 +132,13 @@ class block_portalcategory extends discuz_block {
 				'pic' => '',
 				'picflag' => '0',
 				'summary' => '',
-				'fields' => array(
-					'dateline'=>$data['dateline'],
+				'fields' => [
+					'dateline' => $data['dateline'],
 					'articles' => $data['articles']
-				)
-			);
+				]
+			];
 		}
-		return array('html' => '', 'data' => $list);
+		return ['html' => '', 'data' => $list];
 	}
 }
 
-?>

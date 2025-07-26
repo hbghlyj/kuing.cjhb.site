@@ -1,3 +1,4 @@
+<?php exit('Access Denied');?>
 <!--{template common/header}-->
 <!--{eval $list = array();}-->
 <!--{eval $wheresql = category_get_wheresql($cat);}-->
@@ -7,6 +8,7 @@
 	<h2>$cat['catname']</h2>
 	<div class="my"><a href="index.php"><i class="dm-house"></i></a></div>
 </div>
+<!--[diy=diy1]--><div id="diy1" class="area"></div><!--[/diy]-->
 <div class="dhnav_box">
 	<div id="dhnav">
 		<div id="dhnav_li">
@@ -38,6 +40,7 @@
 		},
 	});
 </script>
+<!--[diy=diy2]--><div id="diy2" class="area"></div><!--[/diy]-->
 <!--{if $cat['subs']}-->
 <div class="dhnavs_box">
 	<div id="dhnavs">
@@ -65,6 +68,7 @@
 	});
 </script>
 <!--{/if}-->
+<!--[diy=diy3]--><div id="diy3" class="area"></div><!--[/diy]-->
 <!--{if count($list['list'])}-->
 <div class="wzlist mt10 cl">
 <!--{loop $list['list'] $value}-->
@@ -90,5 +94,7 @@
 	</div>
 </div>
 <!--{/if}-->
+<!--[diy=diy4]--><div id="diy4" class="area"></div><!--[/diy]-->
 <!--{if $list['multi']}-->{$list['multi']}<!--{/if}-->
+<!--[diy=diy5]--><div id="diy5" class="area"></div><!--[/diy]-->
 <!--{template common/footer}-->

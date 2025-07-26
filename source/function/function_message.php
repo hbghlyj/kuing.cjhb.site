@@ -1,48 +1,68 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: function_message.php 32580 2013-02-22 03:40:28Z monkey $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
-function dshowmessage($message, $url_forward = '', $values = array(), $extraparam = array(), $custom = 0) {
+function dshowmessage($message, $url_forward = '', $values = [], $extraparam = [], $custom = 0) {
 	global $_G, $show_message;
+
+	$vars = explode(':', $message);
+	if(count($vars) == 2) {
+		$show_message = lang('plugin/'.$vars[0], $vars[1], $values);
+	} else {
+		$show_message = lang('message', $message, $values);
+	}
+
 	$_G['messageparam'] = func_get_args();
+	if(defined('IN_RESTFUL')) {
+		$_G['dshowmessageParam'] = [
+			'message' => $message,
+			'show_message' => $show_message,
+			'url_forward' => $url_forward,
+			'values' => $values,
+			'extraparam' => $extraparam,
+			'custom' => $custom,
+		];
+	}
 	if(empty($_G['inhookscript']) && defined('CURMODULE')) {
-		hookscript(CURMODULE, $_G['basescript'], 'messagefuncs', array('param' => $_G['messageparam']));
+		hookscript(CURMODULE, $_G['basescript'], 'messagefuncs', ['param' => $_G['messageparam']]);
 	}
 	if(!empty($extraparam['break'])) {
 		return;
 	}
 	$_G['inshowmessage'] = true;
 
-	$param = array(
-		'header'	=> false,
-		'timeout'	=> null,
-		'refreshtime'	=> null,
-		'closetime'	=> null,
-		'locationtime'	=> null,
-		'alert'		=> null,
-		'return'	=> false,
-		'redirectmsg'	=> 0,
-		'msgtype'	=> 1,
-		'showmsg'	=> true,
-		'showdialog'	=> false,
-		'login'		=> false,
-		'handle'	=> false,
-		'extrajs'	=> '',
-		'mobileextrajs'	=> '',
-		'striptags'	=> true,
-	);
+	$param = [
+		'header' => false,
+		'timeout' => null,
+		'refreshtime' => null,
+		'closetime' => null,
+		'locationtime' => null,
+		'alert' => null,
+		'return' => false,
+		'redirectmsg' => 0,
+		'msgtype' => 1,
+		'showmsg' => true,
+		'showdialog' => false,
+		'login' => false,
+		'handle' => false,
+		'extrajs' => '',
+		'mobileextrajs' => '',
+		'striptags' => true,
+	];
+
+	if($message == 'submit_seccode_invalid' && !empty($_GET['seccodehash'])) {
+		$param['extrajs'] .= '<script type="text/javascript" reload="1">if(typeof updateseccode != \'undefined\') { updateseccode(\''.$_GET['seccodehash'].'\'); } else if(typeof updateseccode_'.$_GET['seccodehash'].' != \'undefined\') { updateseccode_'.$_GET['seccodehash'].'(\''.$_GET['seccodehash'].'\'); }</script>';
+	}
 
 	$navtitle = lang('core', 'title_board_message');
-
 	if($custom) {
 		$alerttype = 'alert_info';
 		$show_message = $message;
@@ -58,22 +78,21 @@ function dshowmessage($message, $url_forward = '', $values = array(), $extrapara
 		unset($extraparam['showdialog']);
 		unset($extraparam['closetime']);
 		unset($extraparam['extrajs']);
-		if ($extraparam['mobileextrajs']) {
-			$extraparam['extrajs'] = $extraparam['mobileextrajs'];
-		}
 
 		if(!$url_forward && dreferer() && defined('IN_MOBILE') && constant('IN_MOBILE') == 1) {
 			$url_forward = $referer = dreferer();
 		}
-		if(!empty($url_forward) && strpos($url_forward, 'mobile') === false) {
-			$url_forward_arr = explode("#", $url_forward);
-			if(strpos($url_forward_arr[0], '?') !== false) {
+		if(!empty($url_forward) && !str_contains($url_forward, 'mobile')) {
+			$url_forward_arr = explode('#', $url_forward);
+			if(str_contains($url_forward_arr[0], '?')) {
 				$url_forward_arr[0] = $url_forward_arr[0].'&mobile='.IN_MOBILE;
 			} else {
 				$url_forward_arr[0] = $url_forward_arr[0].'?mobile='.IN_MOBILE;
 			}
-			$url_forward = implode("#", $url_forward_arr);
+			$url_forward = implode('#', $url_forward_arr);
 		}
+	} else {
+		unset($extraparam['mobileextrajs']);
 	}
 
 
@@ -97,7 +116,7 @@ function dshowmessage($message, $url_forward = '', $values = array(), $extrapara
 		$param[$k] = $v;
 	}
 	if(array_key_exists('set', $extraparam)) {
-		$setdata = array('1' => array('msgtype' => 3));
+		$setdata = ['1' => ['msgtype' => 3]];
 		if($setdata[$extraparam['set']]) {
 			foreach($setdata[$extraparam['set']] as $k => $v) {
 				$param[$k] = $v;
@@ -117,15 +136,15 @@ function dshowmessage($message, $url_forward = '', $values = array(), $extrapara
 		$param['login'] = false;
 	}
 
-	$param['header'] = $url_forward && $param['header'] ? true : false;
+	$param['header'] = $url_forward && $param['header'];
 
 	if(getgpc('ajaxdata') === 'json') {
 		$param['header'] = '';
 	}
 
 	if($param['header']) {
-		header("HTTP/1.1 301 Moved Permanently");
-		dheader("location: ".str_replace('&amp;', '&', $url_forward));
+		header('HTTP/1.1 301 Moved Permanently');
+		dheader('location: '.str_replace('&amp;', '&', $url_forward));
 	}
 	$url_forward_js = addslashes(str_replace('\\', '%27', $url_forward));
 	if(!empty($param['location']) && !empty($_G['inajax'])) {
@@ -137,55 +156,34 @@ function dshowmessage($message, $url_forward = '', $values = array(), $extrapara
 
 	$_G['hookscriptmessage'] = $message;
 	$_G['hookscriptvalues'] = $values;
-	$vars = explode(':', $message);
-	if(count($vars) == 2) {
-		$show_message = lang('plugin/'.$vars[0], $vars[1], $values);
-	} else {
-		$show_message = lang('message', $message, $values);
-	}
 
 	if(isset($_GET['ajaxdata'])) {
 		if($_GET['ajaxdata'] === 'json') {
-			helper_output::json(array('message' => $show_message, 'data' => $values));
+			helper_output::json(['message' => $show_message, 'data' => $values]);
 		} else if($_GET['ajaxdata'] === 'html') {
 			helper_output::html($show_message);
 		}
 	}
 
-	if($_G['connectguest']) {
-		$param['login'] = false;
-		$param['alert'] = 'info';
-		if (defined('IN_MOBILE')) {
-			if ($message == 'postperm_login_nopermission_mobile') {
-				$show_message = lang('plugin/qqconnect', 'connect_register_mobile_bind_error');
-			}
-			$show_message = str_replace(lang('forum/misc', 'connectguest_message_mobile_search'), lang('forum/misc', 'connectguest_message_mobile_replace'), $show_message);
-		} else {
-			$show_message = str_replace(lang('forum/misc', 'connectguest_message_search'), lang('forum/misc', 'connectguest_message_replace'), $show_message);
-		}
-		if ($message == 'group_nopermission') {
-			$show_message = lang('plugin/qqconnect', 'connectguest_message_complete_or_bind');
-		}
-	}
 	if($param['msgtype'] == 2 && $param['login']) {
 		dheader('location: member.php?mod=logging&action=login&handlekey='.$handlekey.'&infloat=yes&inajax=yes&guestmessage=yes');
 	}
 
 	if(strpos($message, 'nopermission') > 0) {
-		if ($_G['member']['groupid'] == 8 && $_G['setting']['regverify'] == 1) { // 需要邮件验证
+		if($_G['member']['groupid'] == 8 && $_G['setting']['regverify'] == 1) { // 需要邮件验证
 			$show_message .= lang('message', 'nopermission_email');
-		} else if ($_G['member']['groupid'] == 8 && $_G['setting']['regverify'] == 2) { // 需要人工审核
+		} else if($_G['member']['groupid'] == 8 && $_G['setting']['regverify'] == 2) { // 需要人工审核
 			$show_message .= lang('message', 'nopermission_verify');
 		}
 	}
 
 	$show_jsmessage = str_replace("'", "\\'", $param['striptags'] ? strip_tags($show_message) : $show_message);
 
-	if((!$param['showmsg'] || !empty($param['showid'])) && !defined('IN_MOBILE') ) {
+	if((!$param['showmsg'] || !empty($param['showid'])) && !defined('IN_MOBILE')) {
 		$show_message = '';
 	}
 
-	$allowreturn = !$param['timeout'] && !$url_forward && !$param['login'] || $param['return'] ? true : false;
+	$allowreturn = !$param['timeout'] && !$url_forward && !$param['login'] || $param['return'];
 	if($param['alert'] === null) {
 		$alerttype = $url_forward ? (preg_match('/\_(succeed|success)$/', $message) ? 'alert_right' : 'alert_info') : ($allowreturn ? 'alert_error' : 'alert_info');
 	} else {
@@ -202,7 +200,7 @@ function dshowmessage($message, $url_forward = '', $values = array(), $extrapara
 			$v = daddslashes($v);
 			if(is_array($v)) {
 				$subcomma = '';
-				foreach ($v as $subk => $subv) {
+				foreach($v as $subk => $subv) {
 					$subjs .= $subcomma.'\''.$subk.'\':\''.$subv.'\'';
 					$subcomma = ',';
 				}
@@ -226,11 +224,11 @@ function dshowmessage($message, $url_forward = '', $values = array(), $extrapara
 		$param['locationtime'] = $param['locationtime'] === true ? $timedefault : $param['locationtime'];
 	}
 	if($handlekey) {
-		$st = '';
 		if($param['showdialog']) {
-			$modes = array('alert_error' => 'alert', 'alert_right' => 'right', 'alert_info' => 'notice');
+			$modes = ['alert_error' => 'alert', 'alert_right' => 'right', 'alert_info' => 'notice'];
 			$extra .= 'hideWindow(\''.$handlekey.'\');showDialog(\''.$show_jsmessage.'\', \''.$modes[$alerttype].'\', null, '.($param['locationtime'] !== null ? 'function () { window.location.href =\''.$url_forward_js.'\'; }' : 'null').', 0, null, null, null, null, '.($param['closetime'] ? $param['closetime'] : 'null').', '.($param['locationtime'] ? $param['locationtime'] : 'null').');';
 			$param['closetime'] = null;
+			$st = '';
 			if($param['showmsg']) {
 				$show_message = '';
 			}
@@ -239,7 +237,7 @@ function dshowmessage($message, $url_forward = '', $values = array(), $extrapara
 			$extra .= 'setTimeout("hideWindow(\''.$handlekey.'\')", '.($param['closetime'] * 1000).');';
 		}
 	} else {
-		$st = $param['locationtime'] !== null ?'setTimeout("window.location.href =\''.$url_forward_js.'\';", '.($param['locationtime'] * 1000).');' : '';
+		$st = $param['locationtime'] !== null ? 'setTimeout("window.location.href =\''.$url_forward_js.'\';", '.($param['locationtime'] * 1000).');' : '';
 	}
 	if(!$extra && $param['timeout'] && !defined('IN_MOBILE')) {
 		$extra .= 'setTimeout("window.location.href =\''.$url_forward_js.'\';", '.$refreshtime.');';
@@ -251,4 +249,3 @@ function dshowmessage($message, $url_forward = '', $values = array(), $extrapara
 	dexit();
 }
 
-?>

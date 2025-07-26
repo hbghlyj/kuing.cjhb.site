@@ -1,23 +1,21 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: notify_wechat.php 36342 2021-05-17 14:15:04Z dplugin $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
-define('IN_API', true);
-define('CURSCRIPT', 'api');
-define('DISABLEXSSCHECK', true);
+const IN_API = true;
+const CURSCRIPT = 'api';
+const DISABLEXSSCHECK = true;
 
 require '../../../source/class/class_core.php';
-require '../payment_wechat.php';
 
 $discuz = C::app();
 $discuz->init();
 
-$payment = new payment_wechat();
+$payment = new pay_wechat();
 if($_SERVER['HTTP_WECHATPAY_SIGNATURE']) {
 	$data = $payment->v3_wechat_sign_verify();
 	if($data && $data['code'] == 200) {
@@ -52,4 +50,3 @@ if($_SERVER['HTTP_WECHATPAY_SIGNATURE']) {
 	exit();
 }
 
-?>

@@ -1,20 +1,20 @@
 <?php
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
-abstract class discuz_model extends discuz_base
-{
+abstract class discuz_model extends discuz_base {
 
 	public $data;
 
-	public $methods = array();
+	public $methods = [];
 
 	public $showmessage = 'showmessage';
 
@@ -26,7 +26,7 @@ abstract class discuz_model extends discuz_base
 
 	public $setting;
 
-	public $param = array();
+	public $param = [];
 
 	public function __construct() {
 		$this->app = C::app();
@@ -57,7 +57,7 @@ abstract class discuz_model extends discuz_base
 			$this->app->var['cache'][$name] = $val;
 			return true;
 		} else {
-			if (!isset($this->app->var['cache'][$name])) {
+			if(!isset($this->app->var['cache'][$name])) {
 				loadcache($name);
 			}
 			if($this->app->var['cache'][$name] === null) {
@@ -68,7 +68,7 @@ abstract class discuz_model extends discuz_base
 		}
 	}
 
-	public function member($name = null, $val = null){
+	public function member($name = null, $val = null) {
 		if(isset($val)) {
 			return $this->setvar($this->member, $name, $val);
 		} else {
@@ -76,7 +76,7 @@ abstract class discuz_model extends discuz_base
 		}
 	}
 
-	public function group($name = null, $val = null){
+	public function group($name = null, $val = null) {
 		if(isset($val)) {
 			return $this->setvar($this->group, $name, $val);
 		} else {
@@ -84,7 +84,7 @@ abstract class discuz_model extends discuz_base
 		}
 	}
 
-	public function param($name = null, $val = null){
+	public function param($name = null, $val = null) {
 		if(isset($val)) {
 			return $this->setvar($this->param, $name, $val);
 		}
@@ -95,9 +95,9 @@ abstract class discuz_model extends discuz_base
 		if(isset($key)) {
 			$key = explode('/', $key);
 			$p = &$var;
-			foreach ($key as $k) {
+			foreach($key as $k) {
 				if(!isset($p[$k]) || !is_array($p[$k])) {
-					$p[$k] = array();
+					$p[$k] = [];
 				}
 				$p = &$p[$k];
 			}
@@ -111,8 +111,8 @@ abstract class discuz_model extends discuz_base
 	public function getvar(&$var, $key = null) {
 		if(isset($key)) {
 			$key = explode('/', $key);
-			foreach ($key as $k) {
-				if (!isset($var[$k])) {
+			foreach($key as $k) {
+				if(!isset($var[$k])) {
 					return null;
 				}
 				$var = &$var[$k];
@@ -127,14 +127,29 @@ abstract class discuz_model extends discuz_base
 			$p = func_get_args();
 			if(is_string($this->showmessage)) {
 				$fn = $this->showmessage;
-				switch (func_num_args()) {
-					case 0:	return $fn();break;
-					case 1:	return $fn($p[0]);break;
-					case 2:	return $fn($p[0], $p[1]);break;
-					case 3:	return $fn($p[0], $p[1], $p[2]);exit;break;
-					case 4:	return $fn($p[0], $p[1], $p[2], $p[3]);break;
-					case 5:	return $fn($p[0], $p[1], $p[2], $p[3], $p[4]);break;
-					default: return call_user_func_array($this->showmessage, $p);break;
+				switch(func_num_args()) {
+					case 0:
+						return $fn();
+						break;
+					case 1:
+						return $fn($p[0]);
+						break;
+					case 2:
+						return $fn($p[0], $p[1]);
+						break;
+					case 3:
+						return $fn($p[0], $p[1], $p[2]);
+						exit;
+						break;
+					case 4:
+						return $fn($p[0], $p[1], $p[2], $p[3]);
+						break;
+					case 5:
+						return $fn($p[0], $p[1], $p[2], $p[3], $p[4]);
+						break;
+					default:
+						return call_user_func_array($this->showmessage, $p);
+						break;
 				}
 			} else {
 				return call_user_func_array($this->showmessage, $p);
@@ -152,7 +167,7 @@ abstract class discuz_model extends discuz_base
 		$this->methods[$name][1][] = $fn;
 	}
 
-	public function attach_before_methods($name, $methods){
+	public function attach_before_methods($name, $methods) {
 		if(!empty($methods)) {
 			foreach($methods as $method) {
 				$this->methods[$name][0][] = $method;
@@ -160,7 +175,7 @@ abstract class discuz_model extends discuz_base
 		}
 	}
 
-	public function attach_after_methods($name, $methods){
+	public function attach_after_methods($name, $methods) {
 		if(!empty($methods)) {
 			foreach($methods as $method) {
 				$this->methods[$name][1][] = $method;
@@ -171,4 +186,4 @@ abstract class discuz_model extends discuz_base
 	abstract protected function _init_parameters($parameters);
 
 }
-?>
+

@@ -1,10 +1,9 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: block_friendlink.php 24531 2011-09-23 05:45:11Z chenmengshu $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -15,7 +14,8 @@ require_once libfile('commonblock_html', 'class/block/html');
 
 class block_friendlink extends commonblock_html {
 
-	function __construct() {}
+	function __construct() {
+	}
 
 	function name() {
 		return lang('blockclass', 'blockclass_html_script_friendlink');
@@ -23,47 +23,47 @@ class block_friendlink extends commonblock_html {
 
 	function getsetting() {
 		global $_G;
-		$settings = array(
-			'content' => array(
+		$settings = [
+			'content' => [
 				'title' => 'friendlink_content',
 				'type' => 'mradio',
-				'value' => array(
-					array('both', 'friendlink_content_both'),
-					array('logo', 'friendlink_content_logo'),
-					array('text', 'friendlink_content_text')
-				),
+				'value' => [
+					['both', 'friendlink_content_both'],
+					['logo', 'friendlink_content_logo'],
+					['text', 'friendlink_content_text']
+				],
 				'default' => 'both'
-			),
-			'type' => array(
+			],
+			'type' => [
 				'title' => 'friendlink_type',
 				'type' => 'mcheckbox',
-				'value' => array(
-					array('1', 'friendlink_type_group1'),
-					array('2', 'friendlink_type_group2'),
-					array('3', 'friendlink_type_group3'),
-					array('4', 'friendlink_type_group4'),
-				),
-				'default' => array('1','2','3','4')
-			)
-		);
+				'value' => [
+					['1', 'friendlink_type_group1'],
+					['2', 'friendlink_type_group2'],
+					['3', 'friendlink_type_group3'],
+					['4', 'friendlink_type_group4'],
+				],
+				'default' => ['1', '2', '3', '4']
+			]
+		];
 		return $settings;
 	}
 
 	function getdata($style, $parameter) {
-		$type = !empty($parameter['type']) && is_array($parameter) ? $parameter['type'] : array();
+		$type = !empty($parameter['type']) && is_array($parameter) ? $parameter['type'] : [];
 		$b = '0000';
-		for($i=1;$i<=4;$i++) {
+		for($i = 1; $i <= 4; $i++) {
 			if(in_array($i, $type)) {
-				$b[$i-1] = '1';
+				$b[$i - 1] = '1';
 			}
 		}
 		$type = intval($b, '2');
-		$query = C::t('common_friendlink')->fetch_all_by_displayorder($type);
-		$group1 = $group2 = $group3 = array();
-		foreach ($query as $value) {
-			if($parameter['content']=='logo') {
+		$query = table_common_friendlink::t()->fetch_all_by_displayorder($type);
+		$group1 = $group2 = $group3 = [];
+		foreach($query as $value) {
+			if($parameter['content'] == 'logo') {
 				$group2[] = $value;
-			} elseif($parameter['content']=='text') {
+			} elseif($parameter['content'] == 'text') {
 				$group3[] = $value;
 			} else {
 				if($value['description']) {
@@ -80,9 +80,9 @@ class block_friendlink extends commonblock_html {
 			$return .= '<ul class="m cl">';
 			foreach($group1 as $value) {
 				$return .= '<li class="cl">'
-					. '<div class="forumlogo"><a target="_blank" href="'.$value['url'].'"><img border="0" alt="'.$value['name'].'" src="'.$value['logo'].'"></a></div>'
-					. '<div class="forumcontent"><h5><a target="_blank" href="'.$value['url'].'">'.$value['name'].'</a></h5><p>'.$value['description'].'</p></div>'
-					. '</li>';
+					.'<div class="forumlogo"><a target="_blank" href="'.$value['url'].'"><img border="0" alt="'.$value['name'].'" src="'.$value['logo'].'"></a></div>'
+					.'<div class="forumcontent"><h5><a target="_blank" href="'.$value['url'].'">'.$value['name'].'</a></h5><p>'.$value['description'].'</p></div>'
+					.'</li>';
 			}
 			$return .= '</ul>';
 		}
@@ -101,8 +101,7 @@ class block_friendlink extends commonblock_html {
 			$return .= '</ul>';
 		}
 		$return .= '</div>';
-		return array('html' => $return, 'data' => null);
+		return ['html' => $return, 'data' => null];
 	}
 }
 
-?>

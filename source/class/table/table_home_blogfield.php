@@ -1,22 +1,28 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: table_home_blogfield.php 27740 2012-02-13 10:05:22Z chenmengshu $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
-class table_home_blogfield extends discuz_table
-{
+class table_home_blogfield extends discuz_table {
+	public static function t() {
+		static $_instance;
+		if(!isset($_instance)) {
+			$_instance = new self();
+		}
+		return $_instance;
+	}
+
 	public function __construct() {
 
 		$this->_table = 'home_blogfield';
-		$this->_pk    = 'blogid';
+		$this->_pk = 'blogid';
 
 		parent::__construct();
 	}
@@ -29,13 +35,12 @@ class table_home_blogfield extends discuz_table
 	}
 
 	public function fetch_targetids_by_blogid($blogid) {
-		return DB::fetch_first('SELECT target_ids, hotuser FROM %t WHERE blogid = %d', array($this->_table, $blogid));
+		return DB::fetch_first('SELECT target_ids, hotuser FROM %t WHERE blogid = %d', [$this->_table, $blogid]);
 	}
 
 	public function fetch_tag_by_blogid($blogid) {
-		return DB::result_first('SELECT tag FROM %t WHERE blogid = %d', array($this->_table, $blogid));
+		return DB::result_first('SELECT tag FROM %t WHERE blogid = %d', [$this->_table, $blogid]);
 	}
 
 }
 
-?>

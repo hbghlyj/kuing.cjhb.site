@@ -1,5 +1,11 @@
 .webuploader-container {
 	position: relative;
+	background-color: #06C; 
+	color: #FFF;
+	line-height: 25px;
+    border-radius: 3px;
+	padding: 0 5px;
+	text-align: center;
 }
 .webuploader-element-invisible {
 	position: absolute !important;
@@ -7,4 +13,4 @@
     clip: rect(1px,1px,1px,1px);
 }
 
-.webuploader-pick{text-indent:-999em;}
+.webuploader-pick{width: 100%;height: 100%;}

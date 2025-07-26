@@ -1,133 +1,134 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: block_member.php 32370 2013-01-07 03:00:27Z zhangguosheng $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
+
 class block_member extends discuz_block {
-	var $setting = array();
+	var $setting = [];
+
 	function __construct() {
-		$this->setting = array(
-			'uids' => array(
+		$this->setting = [
+			'uids' => [
 				'title' => 'memberlist_uids',
 				'type' => 'text'
-			),
-			'groupid' => array(
+			],
+			'groupid' => [
 				'title' => 'memberlist_groupid',
 				'type' => 'mselect',
-				'value' => array()
-			),
-			'special' => array(
+				'value' => []
+			],
+			'special' => [
 				'title' => 'memberlist_special',
 				'type' => 'mradio',
-				'value' => array(
-					array('', 'memberlist_special_nolimit'),
-					array('0', 'memberlist_special_hot'),
-					array('1', 'memberlist_special_default'),
-				),
+				'value' => [
+					['', 'memberlist_special_nolimit'],
+					['0', 'memberlist_special_hot'],
+					['1', 'memberlist_special_default'],
+				],
 				'default' => ''
-			),
-			'gender' => array(
+			],
+			'gender' => [
 				'title' => 'memberlist_gender',
 				'type' => 'mradio',
-				'value' => array(
-					array('1', 'memberlist_gender_male'),
-					array('2', 'memberlist_gender_female'),
-					array('', 'memberlist_gender_nolimit'),
-				),
+				'value' => [
+					['1', 'memberlist_gender_male'],
+					['2', 'memberlist_gender_female'],
+					['', 'memberlist_gender_nolimit'],
+				],
 				'default' => ''
-			),
-			'birthcity' => array(
+			],
+			'birthcity' => [
 				'title' => 'memberlist_birthcity',
 				'type' => 'district',
-				'value' => array('xbirthcountry', 'xbirthprovince', 'xbirthcity', 'xbirthdist', 'xbirthcommunity'),
-			),
-			'residecity' => array(
+				'value' => ['xbirthcountry', 'xbirthprovince', 'xbirthcity', 'xbirthdist', 'xbirthcommunity'],
+			],
+			'residecity' => [
 				'title' => 'memberlist_residecity',
 				'type' => 'district',
-				'value' => array('xresidecountry', 'xresideprovince', 'xresidecity', 'xresidedist', 'xresidecommunity')
-			),
-			'avatarstatus' => array(
+				'value' => ['xresidecountry', 'xresideprovince', 'xresidecity', 'xresidedist', 'xresidecommunity']
+			],
+			'avatarstatus' => [
 				'title' => 'memberlist_avatarstatus',
 				'type' => 'radio',
 				'default' => ''
-			),
-			'emailstatus' => array(
+			],
+			'emailstatus' => [
 				'title' => 'memberlist_emailstatus',
 				'type' => 'mcheckbox',
-				'value' => array(
-					array(1, 'memberlist_yes'),
-				),
+				'value' => [
+					[1, 'memberlist_yes'],
+				],
 				'default' => ''
-			),
-			'secmobilestatus' => array(
+			],
+			'secmobilestatus' => [
 				'title' => 'memberlist_secmobilestatus',
 				'type' => 'mcheckbox',
-				'value' => array(
-					array(1, 'memberlist_yes'),
-				),
+				'value' => [
+					[1, 'memberlist_yes'],
+				],
 				'default' => ''
-			),
-			'verifystatus' => array(
+			],
+			'verifystatus' => [
 				'title' => 'memberlist_verifystatus',
 				'type' => 'mcheckbox',
-				'value' => array(),
+				'value' => [],
 				'default' => '',
-			),
-			'orderby' => array(
+			],
+			'orderby' => [
 				'title' => 'memberlist_orderby',
 				'type' => 'mradio',
-				'value' => array(
-					array('credits', 'memberlist_orderby_credits'),
-					array('extcredits', 'memberlist_orderby_extcredits'),
-					array('threads', 'memberlist_orderby_threads'),
-					array('posts', 'memberlist_orderby_posts'),
-					array('blogs', 'memberlist_orderby_blogs'),
-					array('doings', 'memberlist_orderby_doings'),
-					array('albums', 'memberlist_orderby_albums'),
-					array('sharings', 'memberlist_orderby_sharings'),
-					array('digestposts', 'memberlist_orderby_digestposts'),
-					array('regdate', 'memberlist_orderby_regdate'),
-					array('show', 'memberlist_orderby_show'),
-					array('special', 'memberlist_orderby_special'),
-					array('todayposts', 'memberlist_orderby_todayposts'),
-				),
+				'value' => [
+					['credits', 'memberlist_orderby_credits'],
+					['extcredits', 'memberlist_orderby_extcredits'],
+					['threads', 'memberlist_orderby_threads'],
+					['posts', 'memberlist_orderby_posts'],
+					['blogs', 'memberlist_orderby_blogs'],
+					['doings', 'memberlist_orderby_doings'],
+					['albums', 'memberlist_orderby_albums'],
+					['sharings', 'memberlist_orderby_sharings'],
+					['digestposts', 'memberlist_orderby_digestposts'],
+					['regdate', 'memberlist_orderby_regdate'],
+					['show', 'memberlist_orderby_show'],
+					['special', 'memberlist_orderby_special'],
+					['todayposts', 'memberlist_orderby_todayposts'],
+				],
 				'default' => 'credits'
-			),
-			'extcredit' => array(
+			],
+			'extcredit' => [
 				'title' => 'memberlist_orderby_extcreditselect',
 				'type' => 'select',
-				'value' => array()
-			),
-			'lastpost' => array(
+				'value' => []
+			],
+			'lastpost' => [
 				'title' => 'memberlist_lastpost',
 				'type' => 'mradio',
-				'value' => array(
-					array('', 'memberlist_lastpost_nolimit'),
-					array('3600', 'memberlist_lastpost_hour'),
-					array('86400', 'memberlist_lastpost_day'),
-					array('604800', 'memberlist_lastpost_week'),
-					array('2592000', 'memberlist_lastpost_month'),
-				),
+				'value' => [
+					['', 'memberlist_lastpost_nolimit'],
+					['3600', 'memberlist_lastpost_hour'],
+					['86400', 'memberlist_lastpost_day'],
+					['604800', 'memberlist_lastpost_week'],
+					['2592000', 'memberlist_lastpost_month'],
+				],
 				'default' => ''
-			),
-			'startrow' => array(
+			],
+			'startrow' => [
 				'title' => 'memberlist_startrow',
 				'type' => 'text',
 				'default' => 0
-			),
-		);
+			],
+		];
 		$verifys = getglobal('setting/verify');
 		if(!empty($verifys)) {
 			foreach($verifys as $key => $value) {
 				if($value['title']) {
-					$this->setting['verifystatus']['value'][] = array($key, $value['title']);
+					$this->setting['verifystatus']['value'][] = [$key, $value['title']];
 				}
 			}
 		}
@@ -141,35 +142,38 @@ class block_member extends discuz_block {
 	}
 
 	function blockclass() {
-		return array('member', lang('blockclass', 'blockclass_member_member'));
+		return ['member', lang('blockclass', 'blockclass_member_member')];
 	}
 
 	function fields() {
 		global $_G;
-		$fields = array(
-				'id' => array('name' => lang('blockclass', 'blockclass_field_id'), 'formtype' => 'text', 'datatype' => 'int'),
-				'url' => array('name' => lang('blockclass', 'blockclass_member_field_url'), 'formtype' => 'text', 'datatype' => 'string'),
-				'title' => array('name' => lang('blockclass', 'blockclass_member_field_title'), 'formtype' => 'title', 'datatype' => 'title'),
-				'avatar' => array('name' => lang('blockclass', 'blockclass_member_field_avatar'), 'formtype' => 'text', 'datatype' => 'string'),
-				'avatar_middle' => array('name' => lang('blockclass', 'blockclass_member_field_avatar_middle'), 'formtype' => 'text', 'datatype' => 'string'),
-				'avatar_big' => array('name' => lang('blockclass', 'blockclass_member_field_avatar_big'), 'formtype' => 'text', 'datatype' => 'string'),
-				'regdate' => array('name' => lang('blockclass', 'blockclass_member_field_regdate'), 'formtype' => 'date', 'datatype' => 'date'),
-				'posts' => array('name' => lang('blockclass', 'blockclass_member_field_posts'), 'formtype' => 'text', 'datatype' => 'int'),
-				'threads' => array('name' => lang('blockclass', 'blockclass_member_field_threads'), 'formtype' => 'text', 'datatype' => 'int'),
-				'digestposts' => array('name' => lang('blockclass', 'blockclass_member_field_digestposts'), 'formtype' => 'text', 'datatype' => 'int'),
-				'credits' => array('name' => lang('blockclass', 'blockclass_member_field_credits'), 'formtype' => 'text', 'datatype' => 'int'),
-				'reason' => array('name' => lang('blockclass', 'blockclass_member_field_reason'), 'formtype' => 'text', 'datatype' => 'string'),
-				'unitprice' => array('name' => lang('blockclass', 'blockclass_member_field_unitprice'), 'formtype' => 'text', 'datatype' => 'int'),
-				'showcredit' => array('name' => lang('blockclass', 'blockclass_member_field_showcredit'), 'formtype' => 'text', 'datatype' => 'int'),
-				'shownote' => array('name' => lang('blockclass', 'blockclass_member_field_shownote'), 'formtype' => 'text', 'datatype' => 'string'),
-				);
-		foreach($_G['setting']['extcredits'] as $key=>$value) {
-			$fields['extcredits'.$key] = array('name'=>$value['title'], 'formtype'=>'text', 'datatype'=>'int');
+		$fields = [
+			'id' => ['name' => lang('blockclass', 'blockclass_field_id'), 'formtype' => 'text', 'datatype' => 'int'],
+			'url' => ['name' => lang('blockclass', 'blockclass_member_field_url'), 'formtype' => 'text', 'datatype' => 'string'],
+			'title' => ['name' => lang('blockclass', 'blockclass_member_field_title'), 'formtype' => 'title', 'datatype' => 'title'],
+			'avatar' => ['name' => lang('blockclass', 'blockclass_member_field_avatar'), 'formtype' => 'text', 'datatype' => 'string'],
+			'avatar_middle' => ['name' => lang('blockclass', 'blockclass_member_field_avatar_middle'), 'formtype' => 'text', 'datatype' => 'string'],
+			'avatar_big' => ['name' => lang('blockclass', 'blockclass_member_field_avatar_big'), 'formtype' => 'text', 'datatype' => 'string'],
+			'avatarimg' => ['name' => lang('blockclass', 'blockclass_member_field_avatar'), 'formtype' => 'text', 'datatype' => 'string'],
+			'avatarimg_middle' => ['name' => lang('blockclass', 'blockclass_member_field_avatar_middle'), 'formtype' => 'text', 'datatype' => 'string'],
+			'avatarimg_big' => ['name' => lang('blockclass', 'blockclass_member_field_avatar_big'), 'formtype' => 'text', 'datatype' => 'string'],
+			'regdate' => ['name' => lang('blockclass', 'blockclass_member_field_regdate'), 'formtype' => 'date', 'datatype' => 'date'],
+			'posts' => ['name' => lang('blockclass', 'blockclass_member_field_posts'), 'formtype' => 'text', 'datatype' => 'int'],
+			'threads' => ['name' => lang('blockclass', 'blockclass_member_field_threads'), 'formtype' => 'text', 'datatype' => 'int'],
+			'digestposts' => ['name' => lang('blockclass', 'blockclass_member_field_digestposts'), 'formtype' => 'text', 'datatype' => 'int'],
+			'credits' => ['name' => lang('blockclass', 'blockclass_member_field_credits'), 'formtype' => 'text', 'datatype' => 'int'],
+			'reason' => ['name' => lang('blockclass', 'blockclass_member_field_reason'), 'formtype' => 'text', 'datatype' => 'string'],
+			'unitprice' => ['name' => lang('blockclass', 'blockclass_member_field_unitprice'), 'formtype' => 'text', 'datatype' => 'int'],
+			'showcredit' => ['name' => lang('blockclass', 'blockclass_member_field_showcredit'), 'formtype' => 'text', 'datatype' => 'int'],
+			'shownote' => ['name' => lang('blockclass', 'blockclass_member_field_shownote'), 'formtype' => 'text', 'datatype' => 'string'],
+		];
+		foreach($_G['setting']['extcredits'] as $key => $value) {
+			$fields['extcredits'.$key] = ['name' => $value['title'], 'formtype' => 'text', 'datatype' => 'int'];
 		}
 		loadcache('profilesetting');
-		foreach($_G['cache']['profilesetting'] as $key=>$value) {
+		foreach($_G['cache']['profilesetting'] as $key => $value) {
 			if($value['available']) {
-				$fields[$key] = array('name'=>$value['title'], 'formtype'=>'text', 'datatype'=>'string');
+				$fields[$key] = ['name' => $value['title'], 'formtype' => 'text', 'datatype' => 'string'];
 			}
 		}
 		return $fields;
@@ -181,13 +185,13 @@ class block_member extends discuz_block {
 
 		if($settings['extcredit']) {
 			foreach($_G['setting']['extcredits'] as $id => $credit) {
-				$settings['extcredit']['value'][] = array($id, $credit['title']);
+				$settings['extcredit']['value'][] = [$id, $credit['title']];
 			}
 		}
 		if($settings['groupid']) {
-			$settings['groupid']['value'][] = array(0, lang('portalcp', 'block_all_group'));
-			foreach(C::t('common_usergroup')->fetch_all_by_type(array('member', 'special')) as $value) {
-				$settings['groupid']['value'][] = array($value['groupid'], $value['grouptitle']);
+			$settings['groupid']['value'][] = [0, lang('portalcp', 'block_all_group')];
+			foreach(table_common_usergroup::t()->fetch_all_by_type(['member', 'special']) as $value) {
+				$settings['groupid']['value'][] = [$value['groupid'], $value['grouptitle']];
 			}
 		}
 		return $settings;
@@ -198,32 +202,32 @@ class block_member extends discuz_block {
 
 		$parameter = $this->cookparameter($parameter);
 
-		$uids		= !empty($parameter['uids']) ? explode(',',$parameter['uids']) : array();
-		$groupid	= !empty($parameter['groupid']) && !in_array(0, $parameter['groupid']) ? $parameter['groupid'] : array();
-		$startrow	= !empty($parameter['startrow']) ? intval($parameter['startrow']) : 0;
-		$items		= !empty($parameter['items']) ? intval($parameter['items']) : 10;
-		$orderby	= isset($parameter['orderby']) && in_array($parameter['orderby'],array('credits', 'extcredits', 'threads', 'posts', 'digestposts', 'regdate', 'show', 'blogs', 'albums', 'doings', 'sharings', 'special', 'todayposts')) ? $parameter['orderby'] : '';
-		$special    = isset($parameter['special']) && strlen($parameter['special']) ? intval($parameter['special']) : null;
-		$lastpost	= !empty($parameter['lastpost']) ? intval($parameter['lastpost']) : '';
+		$uids = !empty($parameter['uids']) ? explode(',', $parameter['uids']) : [];
+		$groupid = !empty($parameter['groupid']) && !in_array(0, $parameter['groupid']) ? $parameter['groupid'] : [];
+		$startrow = !empty($parameter['startrow']) ? intval($parameter['startrow']) : 0;
+		$items = !empty($parameter['items']) ? intval($parameter['items']) : 10;
+		$orderby = isset($parameter['orderby']) && in_array($parameter['orderby'], ['credits', 'extcredits', 'threads', 'posts', 'digestposts', 'regdate', 'show', 'blogs', 'albums', 'doings', 'sharings', 'special', 'todayposts']) ? $parameter['orderby'] : '';
+		$special = isset($parameter['special']) && strlen($parameter['special']) ? intval($parameter['special']) : null;
+		$lastpost = !empty($parameter['lastpost']) ? intval($parameter['lastpost']) : '';
 		$avatarstatus = !empty($parameter['avatarstatus']) ? 1 : 0;
 		$emailstatus = !empty($parameter['emailstatus']) ? 1 : 0;
 		$secmobilestatus = !empty($parameter['secmobilestatus']) ? 1 : 0;
-		$verifystatus = !empty($parameter['verifystatus']) ? $parameter['verifystatus'] : array();
-		$profiles = array();
-		$profiles['gender']		= !empty($parameter['gender']) ? intval($parameter['gender']) : 0;
-		$profiles['residecountry']	= !empty($parameter['xresidecountry']) ? $parameter['xresidecountry'] : '';
-		$profiles['resideprovince']	= !empty($parameter['xresideprovince']) ? $parameter['xresideprovince'] : '';
-		$profiles['residecity']	= !empty($parameter['xresidecity']) ? $parameter['xresidecity'] : '';
-		$profiles['residedist']	= !empty($parameter['xresidedist']) ? $parameter['xresidedist'] : '';
-		$profiles['residecommunity']	= !empty($parameter['xresidecommunity']) ? $parameter['xresidecommunity'] : '';
-		$profiles['birthcountry']	= !empty($parameter['xbirthcountry']) ? $parameter['xbirthcountry'] : '';
-		$profiles['birthprovince']	= !empty($parameter['xbirthprovince']) ? $parameter['xbirthprovince'] : '';
-		$profiles['birthcity']	= !empty($parameter['xbirthcity']) ? $parameter['xbirthcity'] : '';
+		$verifystatus = !empty($parameter['verifystatus']) ? $parameter['verifystatus'] : [];
+		$profiles = [];
+		$profiles['gender'] = !empty($parameter['gender']) ? intval($parameter['gender']) : 0;
+		$profiles['residecountry'] = !empty($parameter['xresidecountry']) ? $parameter['xresidecountry'] : '';
+		$profiles['resideprovince'] = !empty($parameter['xresideprovince']) ? $parameter['xresideprovince'] : '';
+		$profiles['residecity'] = !empty($parameter['xresidecity']) ? $parameter['xresidecity'] : '';
+		$profiles['residedist'] = !empty($parameter['xresidedist']) ? $parameter['xresidedist'] : '';
+		$profiles['residecommunity'] = !empty($parameter['xresidecommunity']) ? $parameter['xresidecommunity'] : '';
+		$profiles['birthcountry'] = !empty($parameter['xbirthcountry']) ? $parameter['xbirthcountry'] : '';
+		$profiles['birthprovince'] = !empty($parameter['xbirthprovince']) ? $parameter['xbirthprovince'] : '';
+		$profiles['birthcity'] = !empty($parameter['xbirthcity']) ? $parameter['xbirthcity'] : '';
 
-		$bannedids = !empty($parameter['bannedids']) ? explode(',', $parameter['bannedids']) : array();
+		$bannedids = !empty($parameter['bannedids']) ? explode(',', $parameter['bannedids']) : [];
 
-		$list = $todayuids = $todayposts = array();
-		$tables = $wheres = array();
+		$list = $todayuids = $todayposts = [];
+		$tables = $wheres = [];
 		$sqlorderby = '';
 		$olditems = $items;
 		$tables[] = DB::table('common_member').' m';
@@ -257,7 +261,7 @@ class block_member extends discuz_block {
 		}
 		$tables[] = DB::table('common_member_count').' mc';
 		$wheres[] = 'mc.uid=m.uid';
-		foreach($profiles as $key=>$value) {
+		foreach($profiles as $key => $value) {
 			if($value) {
 				$tables[] = DB::table('common_member_profile').' mp';
 				$wheres[] = 'mp.uid=m.uid';
@@ -267,7 +271,7 @@ class block_member extends discuz_block {
 
 		$reason = $show = '';
 		if($special !== null) {
-			$special = in_array($special, array(-1, 0, 1)) ? $special : -1;
+			$special = in_array($special, [-1, 0, 1]) ? $special : -1;
 			$tables[] = DB::table('home_specialuser').' su';
 			if($special != -1) {
 				$wheres[] = "su.status='$special'";
@@ -277,8 +281,8 @@ class block_member extends discuz_block {
 		}
 		if($lastpost && $orderby != 'todayposts') {
 			$time = TIMESTAMP - $lastpost;
-			$tables[] = DB::table('common_member_status')." ms";
-			$wheres[] = "ms.uid=m.uid";
+			$tables[] = DB::table('common_member_status').' ms';
+			$wheres[] = 'ms.uid=m.uid';
 			$wheres[] = "ms.lastpost>'$time'";
 		}
 		switch($orderby) {
@@ -301,7 +305,7 @@ class block_member extends discuz_block {
 				break;
 			case 'show':
 				$show = ', s.unitprice, s.credit as showcredit, s.note as shownote';
-				$tables[] = DB::table('home_show')." s";
+				$tables[] = DB::table('home_show').' s';
 				$wheres[] = 's.uid=m.uid';
 				$sqlorderby = ' ORDER BY s.unitprice DESC, s.credit DESC';
 				break;
@@ -319,7 +323,7 @@ class block_member extends discuz_block {
 					$todayuids[] = $value['uid'];
 				}
 				if(empty($todayuids)) {
-					$todayuids = array(0);
+					$todayuids = [0];
 				}
 				$uids = $todayuids;
 				break;
@@ -332,13 +336,13 @@ class block_member extends discuz_block {
 
 		$tables = array_unique($tables);
 		$wheres = array_unique($wheres);
-		$tablesql = implode(',',$tables);
-		$wheresql = implode(' AND ',$wheres);
+		$tablesql = implode(',', $tables);
+		$wheresql = implode(' AND ', $wheres);
 		$query = DB::query("SELECT m.*, mc.*$reason$show FROM $tablesql WHERE $wheresql $sqlorderby LIMIT $startrow,$items");
-		$resultuids = array();
-		while($data = DB::fetch($query)){
+		$resultuids = [];
+		while($data = DB::fetch($query)) {
 			$resultuids[] = intval($data['uid']);
-			$list[] = array(
+			$list[] = [
 				'id' => $data['uid'],
 				'idtype' => 'uid',
 				'title' => $data['username'],
@@ -346,10 +350,13 @@ class block_member extends discuz_block {
 				'pic' => '',
 				'picflag' => 0,
 				'summary' => '',
-				'fields' => array(
-					'avatar' => avatar($data['uid'], 'small', true, false, false, $_G['setting']['ucenterurl']),
-					'avatar_middle' => avatar($data['uid'], 'middle', true, false, false, $_G['setting']['ucenterurl']),
-					'avatar_big' => avatar($data['uid'], 'big', true, false, false, $_G['setting']['ucenterurl']),
+				'fields' => [
+					'avatar' => avatar($data['uid'], 'small', true, false, false, $_G['setting']['ucenterurl'], avatarapi: true),
+					'avatar_middle' => avatar($data['uid'], 'middle', true, false, false, $_G['setting']['ucenterurl'], avatarapi: true),
+					'avatar_big' => avatar($data['uid'], 'big', true, false, false, $_G['setting']['ucenterurl'], avatarapi: true),
+					'avatarimg' => avatar($data['uid'], 'small', false, false, false, $_G['setting']['ucenterurl'], avatarapi: true),
+					'avatarimg_middle' => avatar($data['uid'], 'middle', false, false, false, $_G['setting']['ucenterurl'], avatarapi: true),
+					'avatarimg_big' => avatar($data['uid'], 'big', false, false, false, $_G['setting']['ucenterurl'], avatarapi: true),
 					'credits' => $data['credits'],
 					'extcredits1' => $data['extcredits1'],
 					'extcredits2' => $data['extcredits2'],
@@ -363,20 +370,20 @@ class block_member extends discuz_block {
 					'posts' => empty($todayposts[$data['uid']]) ? $data['posts'] : $todayposts[$data['uid']],
 					'threads' => $data['threads'],
 					'digestposts' => $data['digestposts'],
-					'reason' => isset($data['reason']) ? $data['reason'] : '',
-					'unitprice' => isset($data['unitprice']) ? $data['unitprice'] : '',
-					'showcredit' => isset($data['showcredit']) ? $data['showcredit'] : '',
-					'shownote' => isset($data['shownote']) ? $data['shownote'] : '',
-				)
-			);
+					'reason' => $data['reason'] ?? '',
+					'unitprice' => $data['unitprice'] ?? '',
+					'showcredit' => $data['showcredit'] ?? '',
+					'shownote' => $data['shownote'] ?? '',
+				]
+			];
 		}
 		if($resultuids) {
 			include_once libfile('function/profile');
-			$profiles = array();
-			$query = DB::query('SELECT * FROM '.DB::table('common_member_profile')." WHERE uid IN (".dimplode($resultuids).")");
+			$profiles = [];
+			$query = DB::query('SELECT * FROM '.DB::table('common_member_profile').' WHERE uid IN ('.dimplode($resultuids).')');
 			while($data = DB::fetch($query)) {
-				$profile = array();
-				foreach($data as $fieldid=>$fieldvalue) {
+				$profile = [];
+				foreach($data as $fieldid => $fieldvalue) {
 					$fieldvalue = profile_show($fieldid, $data, true);
 					if(false !== $fieldvalue) {
 						$profile[$fieldid] = $fieldvalue;
@@ -384,7 +391,7 @@ class block_member extends discuz_block {
 				}
 				$profiles[$data['uid']] = $profile;
 			}
-			for($i=0,$L=count($list); $i<$L; $i++) {
+			for($i = 0, $L = count($list); $i < $L; $i++) {
 				$uid = $list[$i]['id'];
 				if($profiles[$uid]) {
 					$list[$i]['fields'] = array_merge($list[$i]['fields'], $profiles[$uid]);
@@ -392,7 +399,7 @@ class block_member extends discuz_block {
 			}
 
 			if(!empty($todayuids)) {
-				$datalist = array();
+				$datalist = [];
 				foreach($todayuids as $uid) {
 					foreach($list as $user) {
 						if($user['id'] == $uid) {
@@ -407,8 +414,7 @@ class block_member extends discuz_block {
 				$list = $datalist;
 			}
 		}
-		return array('html' => '', 'data' => $list);
+		return ['html' => '', 'data' => $list];
 	}
 }
 
-?>

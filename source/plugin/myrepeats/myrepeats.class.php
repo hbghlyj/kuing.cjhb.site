@@ -1,10 +1,9 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: myrepeats.class.php 29558 2012-04-18 10:17:22Z monkey $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -13,7 +12,7 @@ if(!defined('IN_DISCUZ')) {
 
 class plugin_myrepeats {
 
-	var $value = array();
+	var $value = [];
 
 	function __construct() {
 		global $_G;
@@ -23,12 +22,12 @@ class plugin_myrepeats {
 
 		$myrepeatsusergroups = (array)dunserialize($_G['cache']['plugin']['myrepeats']['usergroups']);
 		if(in_array('', $myrepeatsusergroups)) {
-			$myrepeatsusergroups = array();
+			$myrepeatsusergroups = [];
 		}
-		$userlist = array();
+		$userlist = [];
 		if(!in_array($_G['groupid'], $myrepeatsusergroups)) {
 			if(!isset($_G['cookie']['myrepeat_rr'])) {
-				$users = count(C::t('#myrepeats#myrepeats')->fetch_all_by_username($_G['username']));
+				$users = count(myrepeats\table_myrepeats::t()->fetch_all_by_username($_G['username']));
 				dsetcookie('myrepeat_rr', 'R'.$users, 86400);
 			} else {
 				$users = substr($_G['cookie']['myrepeat_rr'], 1);
@@ -54,4 +53,3 @@ class plugin_myrepeats {
 
 }
 
-?>

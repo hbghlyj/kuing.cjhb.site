@@ -1,10 +1,9 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: block_groupspecified.php 23608 2011-07-27 08:10:07Z cnteacher $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -16,22 +15,22 @@ require_once libfile('block_group', 'class/block/group');
 class block_groupspecified extends block_group {
 
 	function __construct() {
-		$this->setting = array(
-			'fids' => array(
+		$this->setting = [
+			'fids' => [
 				'title' => 'grouplist_fids',
 				'type' => 'text'
-			),
-			'titlelength' => array(
+			],
+			'titlelength' => [
 				'title' => 'grouplist_titlelength',
 				'type' => 'text',
 				'default' => 40
-			),
-			'summarylength'	=> array(
+			],
+			'summarylength' => [
 				'title' => 'grouplist_summarylength',
 				'type' => 'text',
 				'default' => 80
-			)
-		);
+			]
+		];
 	}
 
 	function name() {
@@ -39,4 +38,3 @@ class block_groupspecified extends block_group {
 	}
 }
 
-?>

@@ -1,19 +1,19 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: table_common_session.php 28051 2012-02-21 10:36:56Z zhangguosheng $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
-class memory_common_session
-{
+class memory_common_session {
 	private $_pre_cache_key;
+
+	const DEFAULT_TTL = 2592000;
 
 	// 一段公用LUA代码，用于基于sids array，逐个加载数据，并返回
 	const LUA_RETURN_DATA = <<<LUA
@@ -32,14 +32,14 @@ LUA;
 	// 在memory启用的情况下，直接从memory中读取
 	public function fetch($sid, $ip = false, $uid = false) {
 		if(empty($sid)) {
-			return array();
+			return [];
 		}
 		$session = $this->get_data_by_pk($sid);
 		if($session && $ip !== false && $ip != "{$session['ip']}") {
-			$session = array();
+			$session = [];
 		}
 		if($session && $uid !== false && $uid != $session['uid']) {
-			$session = array();
+			$session = [];
 		}
 		return $session;
 	}
@@ -52,23 +52,23 @@ LUA;
 	 * 		idx_lastactivity: SortedSet, member是sid, score是lastactivity
 	 */
 	public function fetch_member($ismember = 0, $invisible = 0, $start = 0, $limit = 0) {
-		if ($ismember < 1 || $ismember > 2) $ismember = 0; // $ismember只有0, 1, 2是合法值
-		if ($invisible < 1 || $invisible > 2) $invisible = 0; // invisible只有0, 1, 2是合法值
+		if($ismember < 1 || $ismember > 2) $ismember = 0; // $ismember只有0, 1, 2是合法值
+		if($invisible < 1 || $invisible > 2) $invisible = 0; // invisible只有0, 1, 2是合法值
 
 		list($ss, $ee) = $this->get_start_and_end($start, $limit);
 		($invisible == 2) ? $inv_idx = 0 : $inv_idx = 1; // $invisible == 2，相当于sql条件 invisible = 0
 		($ismember == 2) ? $uid_idx = 0 : $uid_idx = 1; // $ismember == 2，相当于sql条件 uid = 0
 
 		// $ismember == 0，表示不使用uid条件，$invisible == 0，表示不使用invisible条件
-		if ($ismember == 0 && $invisible == 0) { // 使用idx_lastactivity
+		if($ismember == 0 && $invisible == 0) { // 使用idx_lastactivity
 			$script = <<<LUA
 			local prefix = ARGV[1]
 			local start = ARGV[2]
 			local stop = ARGV[3]
 			local sids = redis.call('ZREVRANGE', prefix..'idx_lastactivity', start, stop)
 LUA;
-			$data = memory('eval', $script . self::LUA_RETURN_DATA, array($ss, $ee), "fetch_member_1st", $this->_pre_cache_key);
-		} elseif ($ismember == 0) { // 使用idx_invisible_xx
+			$data = memory('eval', $script.self::LUA_RETURN_DATA, [$ss, $ee], 'fetch_member_1st', $this->_pre_cache_key);
+		} elseif($ismember == 0) { // 使用idx_invisible_xx
 			$script = <<<LUA
 			local prefix = ARGV[1]
 			local inv_idx = ARGV[2]
@@ -76,8 +76,8 @@ LUA;
 			local stop = ARGV[4]
 			local sids = redis.call('ZREVRANGE', prefix..'idx_invisible_'..inv_idx, start, stop)
 LUA;
-			$data = memory('eval', $script . self::LUA_RETURN_DATA, array($inv_idx, $ss, $ee), "fetch_member_2nd", $this->_pre_cache_key);
-		} elseif ($invisible == 0) { // 使用idx_uid_group_0/1
+			$data = memory('eval', $script.self::LUA_RETURN_DATA, [$inv_idx, $ss, $ee], 'fetch_member_2nd', $this->_pre_cache_key);
+		} elseif($invisible == 0) { // 使用idx_uid_group_0/1
 			$script = <<<LUA
 			local prefix = ARGV[1]
 			local uid_idx = ARGV[2]
@@ -85,7 +85,7 @@ LUA;
 			local stop = ARGV[4]
 			local sids = redis.call('ZREVRANGE', prefix..'idx_uid_group_'..uid_idx, start, stop)
 LUA;
-			$data = memory('eval', $script . self::LUA_RETURN_DATA, array($uid_idx, $ss, $ee), "fetch_member_3rd", $this->_pre_cache_key);
+			$data = memory('eval', $script.self::LUA_RETURN_DATA, [$uid_idx, $ss, $ee], 'fetch_member_3rd', $this->_pre_cache_key);
 		} else { // 对 idx_invisible_$inv_idx与idx_uid_group_$uid_idx 求交集
 			global $_G;
 			$temp_uniq = substr(md5(substr(TIMESTAMP, 0, -3).substr($_G['config']['security']['authkey'], 3, -3)), 1, 8);
@@ -101,7 +101,7 @@ LUA;
 			local sids = redis.call('ZREVRANGE', out_hash, start, stop)
 			redis.call('DEL', out_hash)
 LUA;
-			$data = memory('eval', $script . self::LUA_RETURN_DATA, array($inv_idx, $uid_idx, $temp_uniq, $ss, $ee), "fetch_member_4th", $this->_pre_cache_key);
+			$data = memory('eval', $script.self::LUA_RETURN_DATA, [$inv_idx, $uid_idx, $temp_uniq, $ss, $ee], 'fetch_member_4th', $this->_pre_cache_key);
 		}
 		return $this->array_from_memory_result($data);
 	}
@@ -110,7 +110,7 @@ LUA;
 	 * memory下，基于 idx_invisible_$invisible: SortedSet, member是sid, score是lastactivity
 	 */
 	public function count_invisible($type = 1) {
-		return memory('zcard', 'idx_invisible_' . $type, $this->_pre_cache_key);
+		return memory('zcard', 'idx_invisible_'.$type, $this->_pre_cache_key);
 	}
 
 	/*
@@ -120,14 +120,11 @@ LUA;
 	 * 		3. uid > 0: 使用 idx_uid_group_1 的大小
 	 */
 	public function count($type = 0) {
-		switch ($type) {
-			case 1:
-				return memory('zcard', 'idx_uid_group_1', $this->_pre_cache_key);
-			case 2:
-				return memory('zcard', 'idx_uid_group_0', $this->_pre_cache_key);
-			default:
-				return memory('zcard', 'idx_lastactivity', $this->_pre_cache_key);
-		}
+		return match (intval($type)) {
+			1 => memory('zcard', 'idx_uid_group_1', $this->_pre_cache_key),
+			2 => memory('zcard', 'idx_uid_group_0', $this->_pre_cache_key),
+			default => memory('zcard', 'idx_lastactivity', $this->_pre_cache_key),
+		};
 	}
 
 	/*
@@ -228,7 +225,7 @@ LUA;
 
 		return #rs
 LUA;
-		memory('eval', $script, array($session['sid'], $onlinehold, $guestspan, $session['ip'], $session['uid'] ? $session['uid'] : -1, $temp_uniq), "delete_by_session", $this->_pre_cache_key);
+		memory('eval', $script, [$session['sid'], $onlinehold, $guestspan, $session['ip'], $session['uid'] ? $session['uid'] : -1, $temp_uniq], 'delete_by_session', $this->_pre_cache_key);
 	}
 
 	// $prefix_idx_uid_$uid: Set
@@ -237,8 +234,8 @@ LUA;
 			return false;
 		}
 
-		$sids = memory('smembers', 'idx_uid_' . $uid, $this->_pre_cache_key);
-		foreach ($sids as $sid) {
+		$sids = memory('smembers', 'idx_uid_'.$uid, $this->_pre_cache_key);
+		foreach($sids as $sid) {
 			return $this->get_data_by_pk($sid); // 返回第一个
 		}
 		return false;
@@ -248,11 +245,11 @@ LUA;
 	// $uids 可能是 array，多个uid
 	public function fetch_all_by_uid($uids, $start = 0, $limit = 0) {
 		if(empty($uids)) {
-			return array();
+			return [];
 		}
 
-		if (!is_array($uids)) {
-			$uids = array($uids);
+		if(!is_array($uids)) {
+			$uids = [$uids];
 		}
 
 		$script = <<<LUA
@@ -279,7 +276,7 @@ LUA;
 		return rs
 LUA;
 		list($ss, $ee) = $this->get_start_and_end($start, $limit);
-		$data = memory('eval', $script, array_merge(array($ss, $ee), $uids), "fetch_all_by_uid", $this->_pre_cache_key);
+		$data = memory('eval', $script, array_merge([$ss, $ee], $uids), 'fetch_all_by_uid', $this->_pre_cache_key);
 		return $this->array_from_memory_result($data);
 	}
 
@@ -296,14 +293,15 @@ LUA;
 		local uid = ARGV[2]
 		local sids = redis.call('SMEMBERS', prefix..'idx_uid_'..uid)
 LUA;
-		$r = memory('eval', $script . self::LUA_RETURN_DATA, array($uid), "update_by_uid_query", $this->_pre_cache_key);
+		$r = memory('eval', $script.self::LUA_RETURN_DATA, [$uid], 'update_by_uid_query', $this->_pre_cache_key);
 		$items = $this->array_from_memory_result($r);
 
 		memory('pipeline');
-		foreach ($items as $olditem) {
+		foreach($items as $olditem) {
 			$sid = $olditem['sid'];
-			$data['sid'] = $sid; 	// $data中可能没有sid
+			$data['sid'] = $sid;        // $data中可能没有sid
 			memory('hmset', $sid, $data, 0, $this->_pre_cache_key);
+			memory('expire', $sid, self::DEFAULT_TTL, prefix: $this->_pre_cache_key);
 			$this->update_memory_index($sid, $data, $olditem);
 		}
 		memory('commit');
@@ -324,7 +322,7 @@ LUA;
 	// $prefix_idx_fid_$fid: SortedSet, member是sid, score是lastactivity
 	public function count_by_fid($fid) {
 		$fid = dintval($fid);
-		if (!$fid) return 0;
+		if(!$fid) return 0;
 		global $_G;
 		$temp_uniq = substr(md5(substr(TIMESTAMP, 0, -3).substr($_G['config']['security']['authkey'], 3, -3)), 1, 8);
 		$script = <<<LUA
@@ -338,14 +336,14 @@ LUA;
 		redis.call("DEL", out_hash)
 		return rs
 LUA;
-		$data = memory('eval', $script, array($fid, $temp_uniq), "count_by_fid", $this->_pre_cache_key);
+		$data = memory('eval', $script, [$fid, $temp_uniq], 'count_by_fid', $this->_pre_cache_key);
 		return $data;
 	}
 
 	// $prefix_idx_fid_$fid: SortedSet, member是sid, score是lastactivity
 	public function fetch_all_by_fid($fid, $limit = 12) {
 		$fid = dintval($fid);
-		if (!$fid) return array();
+		if(!$fid) return [];
 
 		global $_G;
 		$temp_uniq = substr(md5(substr(TIMESTAMP, 0, -3).substr($_G['config']['security']['authkey'], 3, -3)), 1, 8);
@@ -368,10 +366,10 @@ LUA;
 		end
 		return rs
 LUA;
-		$data = memory('eval', $script, array($fid, $limit, $temp_uniq), "fetch_all_by_fid", $this->_pre_cache_key);
-		$result = array();
-		foreach ($data as $row) {
-			$item = array();
+		$data = memory('eval', $script, [$fid, $limit, $temp_uniq], 'fetch_all_by_fid', $this->_pre_cache_key);
+		$result = [];
+		foreach($data as $row) {
+			$item = [];
 			$item['uid'] = $row[0];
 			$item['groupid'] = $row[1];
 			$item['username'] = $row[2];
@@ -384,13 +382,13 @@ LUA;
 
 	// $prefix_idx_ip_$ipaddress: SortedSet，member是sid, score是lastactivity
 	public function count_by_ip($ip) {
-		if (empty($ip)) return 0;
-		return memory('zcard', 'idx_ip_' . $ip, $this->_pre_cache_key);
+		if(empty($ip)) return 0;
+		return memory('zcard', 'idx_ip_'.$ip, $this->_pre_cache_key);
 	}
 
 	// $prefix_idx_ip_$ipaddress: SortedSet，member是sid, score是lastactivity
 	public function fetch_all_by_ip($ip, $start = 0, $limit = 0) {
-		if (empty($ip)) return array();
+		if(empty($ip)) return [];
 
 		list($ss, $ee) = $this->get_start_and_end($start, $limit);
 		$script = <<<LUA
@@ -400,7 +398,7 @@ LUA;
 		local stop = ARGV[4]
 		local sids = redis.call('ZREVRANGE', prefix..'idx_ip_'..ip, start, stop)
 LUA;
-		$data = memory('eval', $script . self::LUA_RETURN_DATA, array($ip, $ss, $ee), "fetch_all_by_ip", $this->_pre_cache_key);
+		$data = memory('eval', $script.self::LUA_RETURN_DATA, [$ip, $ss, $ee], 'fetch_all_by_ip', $this->_pre_cache_key);
 		return $this->array_from_memory_result($data);
 	}
 
@@ -408,6 +406,7 @@ LUA;
 		$id = $data['sid'];
 		memory('pipeline');
 		memory('hmset', $id, $data, 0, $this->_pre_cache_key);
+		memory('expire', $id, self::DEFAULT_TTL, prefix: $this->_pre_cache_key);
 		$this->update_memory_index($id, $data);
 		memory('commit');
 	}
@@ -416,6 +415,7 @@ LUA;
 		$olddata = $this->get_data_by_pk($val);
 		memory('pipeline');
 		memory('hmset', $val, $data, 0, $this->_pre_cache_key);
+		memory('expire', $val, self::DEFAULT_TTL, prefix: $this->_pre_cache_key);
 		$this->update_memory_index($val, $data, $olddata);
 		memory('commit');
 	}
@@ -431,54 +431,58 @@ LUA;
 	 * 		idx_lastactivity: SortedSet, member是sid, score是lastactivity
 	 * 		idx_uid_$uid: Set, member是sid
 	 */
-	private function update_memory_index($sid, $newdata, $olddata = array()) {
-		if (!empty($olddata) && !isset($olddata['lastactivity'])) { // 如果有原数据，则原数据中必须有lastactivity
+	private function update_memory_index($sid, $newdata, $olddata = []) {
+		if(!empty($olddata) && !isset($olddata['lastactivity'])) { // 如果有原数据，则原数据中必须有lastactivity
 			return;
 		}
-		if (!empty($olddata) && !isset($newdata['lastactivity'])) { // 如果有原数据，但新数据中没有lastactivity，则使用原有的lastactivity
+		if(!empty($olddata) && !isset($newdata['lastactivity'])) { // 如果有原数据，但新数据中没有lastactivity，则使用原有的lastactivity
 			$newdata['lastactivity'] = $olddata['lastactivity'];
 		}
-		foreach ($newdata as $col => $value) {
+		foreach($newdata as $col => $value) {
 			// 只针对以下建立索引
-			if (!in_array($col, array("ip", "uid", "fid", "lastactivity", "invisible"))) continue;
-			if (isset($olddata[$col])) { // 从原index中将sid删除
-				if ($olddata[$col] === $value && $olddata['lastactivity'] === $newdata['lastactivity']) { // 新旧值相等，且score也没变，则不处理
+			if(!in_array($col, ['ip', 'uid', 'fid', 'lastactivity', 'invisible'])) continue;
+			if(isset($olddata[$col])) { // 从原index中将sid删除
+				if($olddata[$col] === $value && $olddata['lastactivity'] === $newdata['lastactivity']) { // 新旧值相等，且score也没变，则不处理
 					continue;
 				}
-				switch ($col) {
+				switch($col) {
 					case 'ip':
-						memory('zrem', "idx_ip_" . $olddata[$col], $sid, 0, $this->_pre_cache_key);
+						memory('zrem', 'idx_ip_'.$olddata[$col], $sid, 0, $this->_pre_cache_key);
 						break;
 					case 'lastactivity':
 						memory('zrem', 'idx_lastactivity', $sid, 0, $this->_pre_cache_key);
 						break;
 					case 'fid':
-						memory('zrem', "idx_fid_" . $olddata[$col], $sid, 0, $this->_pre_cache_key);
+						memory('zrem', 'idx_fid_'.$olddata[$col], $sid, 0, $this->_pre_cache_key);
 						break;
 					case 'invisible':
-						memory('zrem', "idx_invisible_" . $olddata[$col], $sid, 0, $this->_pre_cache_key);
+						memory('zrem', 'idx_invisible_'.$olddata[$col], $sid, 0, $this->_pre_cache_key);
 						break;
 					case 'uid':
-						memory('zrem', "idx_uid_group_" . ($olddata[$col] == 0 ? '0' : '1'), $sid, 0, $this->_pre_cache_key);
-						memory('srem', "idx_uid_" . $olddata[$col], $sid, 0, $this->_pre_cache_key);
+						memory('zrem', 'idx_uid_group_'.($olddata[$col] == 0 ? '0' : '1'), $sid, 0, $this->_pre_cache_key);
+						memory('srem', 'idx_uid_'.$olddata[$col], $sid, 0, $this->_pre_cache_key);
 						break;
 					default:
 						continue 2;
 				}
 			}
 			// 在新index中加入sid
-			switch ($col) {
+			switch($col) {
 				case 'ip':
 				case 'fid':
 				case 'invisible':
-					memory('zadd', 'idx_' . $col . "_" . $value, $sid, $newdata['lastactivity'], $this->_pre_cache_key);
+					memory('zadd', 'idx_'.$col.'_'.$value, $sid, $newdata['lastactivity'], $this->_pre_cache_key);
+					memory('expire', 'idx_'.$col.'_'.$value, self::DEFAULT_TTL, prefix: $this->_pre_cache_key);
 					break;
 				case 'lastactivity':
 					memory('zadd', 'idx_lastactivity', $sid, $newdata['lastactivity'], $this->_pre_cache_key);
+					memory('expire', 'idx_lastactivity', self::DEFAULT_TTL, prefix: $this->_pre_cache_key);
 					break;
 				case 'uid':
-					memory('zadd', "idx_uid_group_" . ($value == 0 ? '0' : '1'), $sid, $newdata['lastactivity'], $this->_pre_cache_key);
-					memory('sadd', 'idx_uid_' . $value, $sid, 0, $this->_pre_cache_key);
+					memory('zadd', 'idx_uid_group_'.($value == 0 ? '0' : '1'), $sid, $newdata['lastactivity'], $this->_pre_cache_key);
+					memory('sadd', 'idx_uid_'.$value, $sid, 0, $this->_pre_cache_key);
+					memory('expire', 'idx_uid_group_'.($value == 0 ? '0' : '1'), self::DEFAULT_TTL, prefix: $this->_pre_cache_key);
+					memory('expire', 'idx_uid_'.$value, self::DEFAULT_TTL, prefix: $this->_pre_cache_key);
 					break;
 				default:
 					continue 2;
@@ -491,9 +495,9 @@ LUA;
 	 * 	redis.call("hmget", key, "sid", "ip", "uid", "username", "groupid", "invisible", "action", "lastactivity", "lastolupdate", "fid", "tid")
 	 */
 	private function array_from_memory_result($data) {
-		$result = array();
-		foreach ($data as $row) {
-			$item = array();
+		$result = [];
+		foreach($data as $row) {
+			$item = [];
 			$item['sid'] = $row[0];
 			$item['ip'] = $row[1];
 			$item['uid'] = $row[2];
@@ -525,16 +529,15 @@ LUA;
 	private function get_start_and_end($start, $limit) {
 		$limit = intval($limit > 0 ? $limit : 0);
 		$start = intval($start > 0 ? $start : 0);
-		if ($start > 0 && $limit > 0) {
-			return array($start, $start + $limit - 1);
-		} elseif ($limit > 0) {
-			return array(0, $limit - 1);
-		} elseif ($start > 0) {
-			return array(0, $start - 1);
+		if($start > 0 && $limit > 0) {
+			return [$start, $start + $limit - 1];
+		} elseif($limit > 0) {
+			return [0, $limit - 1];
+		} elseif($start > 0) {
+			return [0, $start - 1];
 		} else {
-			return array(0, -1);
+			return [0, -1];
 		}
 	}
 }
 
-?>

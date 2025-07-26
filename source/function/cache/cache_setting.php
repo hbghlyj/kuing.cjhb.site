@@ -1,10 +1,9 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: cache_setting.php 36353 2017-01-17 07:19:28Z nemohou $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -14,23 +13,26 @@ if(!defined('IN_DISCUZ')) {
 function build_cache_setting() {
 	global $_G;
 
-	$skipkeys = array('posttableids', 'mastermobile', 'masterqq', 'masteremail', 'closedreason',
+	$skipkeys = ['posttableids', 'mastermobile', 'masterqq', 'masteremail', 'closedreason',
 		'creditsnotify', 'backupdir', 'custombackup', 'jswizard', 'maxonlines', 'modreasons', 'newsletter',
 		'postno', 'postnocustom', 'customauthorinfo', 'domainwhitelist', 'ipregctrl',
 		'ipverifywhite', 'fastsmiley', 'defaultdoing', 'antitheftsetting',
-		);
-	$serialized = array('reginput', 'memory', 'search', 'creditspolicy', 'ftp', 'secqaa', 'ec_credit', 'qihoo', 'spacedata',
+	];
+	$serialized = ['reginput', 'memory', 'search', 'creditspolicy', 'ftp', 'secqaa', 'ec_credit', 'qihoo', 'spacedata',
 		'infosidestatus', 'uc', 'indexhot', 'relatedtag', 'sitemessage', 'uchome', 'heatthread', 'recommendthread',
 		'disallowfloat', 'allowviewuserthread', 'advtype', 'click', 'card', 'rewritestatus', 'rewriterule', 'privacy', 'focus',
 		'forumkeys', 'article_tags', 'verify', 'seotitle', 'seodescription', 'seokeywords', 'domain', 'ranklist', 'my_search_data',
-		'seccodedata', 'inviteconfig', 'advexpiration', 'allowpostcomment', /*(IN_MOBILE)*/ 'mobile', 'connect', 'upgrade', 'patch', 'strongpw',
+		'seccodedata', 'inviteconfig', 'advexpiration', 'allowpostcomment', /*(IN_MOBILE)*/
+		'mobile', 'connect', 'upgrade', 'patch', 'strongpw',
 		'posttable_info', 'threadtable_info', 'profilegroup', 'antitheft', 'makehtml', 'guestviewthumb', 'grid', 'guesttipsinthread', 'accountguard',
-		'security_usergroups_white_list', 'security_forums_white_list',
-		);
+		'security_usergroups_white_list', 'security_forums_white_list', 'account', 'oss', 'chgusername', 'cells', 'forumportal', 'log', 'upgroup_name',
+		'i18n', 'i18ns', 'i18n_custom', 'account_plugin_atypes', 'account_plugin_confs', 'mediasetting',
+	];
+	$serialized = array_merge($serialized, account_base::Interfaces);
 
-	$data = array();
+	$data = [];
 
-	foreach(C::t('common_setting')->fetch_all_not_key($skipkeys) as $setting) {
+	foreach(table_common_setting::t()->fetch_all_not_key($skipkeys) as $setting) {
 		if($setting['skey'] == 'extcredits') {
 			if(is_array($setting['svalue'] = dunserialize($setting['svalue']))) {
 				foreach($setting['svalue'] as $key => $value) {
@@ -45,7 +47,7 @@ function build_cache_setting() {
 			if(!checkformulacredits($setting['svalue'])) {
 				$setting['svalue'] = '$member[\'extcredits1\']';
 			} else {
-				$setting['svalue'] = preg_replace("/(friends|doings|blogs|albums|polls|sharings|digestposts|posts|threads|oltime|extcredits[1-8])/", "\$member['\\1']", $setting['svalue']);
+				$setting['svalue'] = preg_replace('/(friends|doings|blogs|albums|polls|sharings|digestposts|posts|threads|oltime|extcredits[1-8])/', "\$member['\\1']", $setting['svalue']);
 			}
 		} elseif($setting['skey'] == 'maxsmilies') {
 			$setting['svalue'] = $setting['svalue'] <= 0 ? -1 : $setting['svalue'];
@@ -53,10 +55,10 @@ function build_cache_setting() {
 			$setting['svalue'] = explode(',', $setting['svalue']);
 		} elseif($setting['skey'] == 'attachdir') {
 			$setting['svalue'] = preg_replace("/\.asp|\\0/i", '0', $setting['svalue']);
-			$setting['svalue'] = str_replace('\\', '/', substr($setting['svalue'], 0, 2) == './' ? DISCUZ_ROOT.$setting['svalue'] : $setting['svalue']);
-			$setting['svalue'] .= substr($setting['svalue'], -1, 1) != '/' ? '/' : '';
+			$setting['svalue'] = str_replace('\\', '/', str_starts_with($setting['svalue'], './') ? DISCUZ_ROOT.$setting['svalue'] : $setting['svalue']);
+			$setting['svalue'] .= !str_ends_with($setting['svalue'], '/') ? '/' : '';
 		} elseif($setting['skey'] == 'attachurl') {
-			$setting['svalue'] .= substr($setting['svalue'], -1, 1) != '/' ? '/' : '';
+			$setting['svalue'] .= !str_ends_with($setting['svalue'], '/') ? '/' : '';
 		} elseif($setting['skey'] == 'onlinehold') {
 			$setting['svalue'] = $setting['svalue'] * 60;
 		} elseif(in_array($setting['skey'], $serialized)) {
@@ -68,14 +70,14 @@ function build_cache_setting() {
 					}
 				}
 			} elseif($setting['skey'] == 'ftp') {
-				$setting['svalue']['attachurl'] .= substr($setting['svalue']['attachurl'], -1, 1) != '/' ? '/' : '';
+				$setting['svalue']['attachurl'] .= !str_ends_with($setting['svalue']['attachurl'], '/') ? '/' : '';
 			} elseif($setting['skey'] == 'inviteconfig') {
-				$setting['svalue']['invitecodeprompt'] = stripslashes($setting['svalue']['invitecodeprompt']);
+				$setting['svalue']['invitecodeprompt'] = !empty($setting['svalue']['invitecodeprompt']) ? stripslashes($setting['svalue']['invitecodeprompt']) : '';
 			} elseif($setting['skey'] == 'profilegroup') {
-				$profile_settings = C::t('common_member_profile_setting')->fetch_all_by_available(1);
+				$profile_settings = table_common_member_profile_setting::t()->fetch_all_by_available(1);
 				foreach($setting['svalue'] as $key => $val) {
-					$temp = array();
-					if (!empty($val['field']) && is_array($val['field'])) {
+					$temp = [];
+					if(!empty($val['field']) && is_array($val['field'])) {
 						foreach($profile_settings as $pval) {
 							if(in_array($pval['fieldid'], $val['field'])) {
 								$temp[$pval['fieldid']] = $pval['fieldid'];
@@ -89,18 +91,18 @@ function build_cache_setting() {
 					}
 					$setting['svalue'][$key]['field'] = $temp;
 				}
-				C::t('common_setting')->update_setting('profilegroup', $setting['svalue']);
+				table_common_setting::t()->update_setting('profilegroup', $setting['svalue']);
 			}
 		}
 		$_G['setting'][$setting['skey']] = $data[$setting['skey']] = $setting['svalue'];
 	}
 
-	$usergroup = C::t('common_usergroup')->fetch_by_credits($data['initcredits'], '');
+	$usergroup = table_common_usergroup::t()->fetch_by_credits($data['initcredits']);
 	$data['newusergroupid'] = $usergroup['groupid'];
-	$data['buyusergroupexists'] = C::t('common_usergroup')->buyusergroup_exists();
+	$data['buyusergroupexists'] = table_common_usergroup::t()->buyusergroup_exists();
 
 	if($data['srchhotkeywords']) {
-		$data['srchhotkeywords'] = explode("\n", str_replace("\r",'',$data['srchhotkeywords']));
+		$data['srchhotkeywords'] = explode("\n", str_replace("\r", '', $data['srchhotkeywords']));
 		$data['srchhotkeywords'] = array_filter($data['srchhotkeywords']);
 	}
 
@@ -113,7 +115,7 @@ function build_cache_setting() {
 			}
 		}
 		if(!$searchstatus) {
-			$data['search'] = array();
+			$data['search'] = [];
 		}
 	}
 
@@ -123,7 +125,7 @@ function build_cache_setting() {
 		$data['heatthread']['iconlevels'] = explode(',', $data['heatthread']['iconlevels']);
 		arsort($data['heatthread']['iconlevels']);
 	} else {
-		$data['heatthread']['iconlevels'] = array();
+		$data['heatthread']['iconlevels'] = [];
 	}
 	if($data['verify']) {
 		foreach($data['verify'] as $key => $value) {
@@ -149,10 +151,10 @@ function build_cache_setting() {
 			$data['recommendthread']['iconlevels'] = explode(',', $data['recommendthread']['iconlevels']);
 			arsort($data['recommendthread']['iconlevels']);
 		} else {
-			$data['recommendthread']['iconlevels'] = array();
+			$data['recommendthread']['iconlevels'] = [];
 		}
 	} else {
-		$data['recommendthread'] = array('allow' => 0);
+		$data['recommendthread'] = ['allow' => 0];
 	}
 
 	if($data['commentnumber'] && !$data['allowpostcomment']) {
@@ -161,12 +163,12 @@ function build_cache_setting() {
 
 	if(!empty($data['ftp'])) {
 		if(!empty($data['ftp']['allowedexts'])) {
-			$data['ftp']['allowedexts'] = str_replace(array("\r\n", "\r"), array("\n", "\n"), $data['ftp']['allowedexts']);
+			$data['ftp']['allowedexts'] = str_replace(["\r\n", "\r"], ["\n", "\n"], $data['ftp']['allowedexts']);
 			$data['ftp']['allowedexts'] = explode("\n", strtolower($data['ftp']['allowedexts']));
 			array_walk($data['ftp']['allowedexts'], 'trim');
 		}
 		if(!empty($data['ftp']['disallowedexts'])) {
-			$data['ftp']['disallowedexts'] = str_replace(array("\r\n", "\r"), array("\n", "\n"), $data['ftp']['disallowedexts']);
+			$data['ftp']['disallowedexts'] = str_replace(["\r\n", "\r"], ["\n", "\n"], $data['ftp']['disallowedexts']);
 			$data['ftp']['disallowedexts'] = explode("\n", strtolower($data['ftp']['disallowedexts']));
 			array_walk($data['ftp']['disallowedexts'], 'trim');
 		}
@@ -176,11 +178,11 @@ function build_cache_setting() {
 	if(!empty($data['forumkeys'])) {
 		$data['forumfids'] = array_flip($data['forumkeys']);
 	} else {
-		$data['forumfids'] = array();
+		$data['forumfids'] = [];
 	}
 
 	$data['commentitem'] = explode("\t", $data['commentitem']);
-	$commentitem = array();
+	$commentitem = [];
 	foreach($data['commentitem'] as $k => $v) {
 		$tmp = explode(chr(0).chr(0).chr(0), $v);
 		if(count($tmp) > 1) {
@@ -201,19 +203,19 @@ function build_cache_setting() {
 	$_G['setting']['version'] = $data['version'] = DISCUZ_VERSION;
 
 	$data['sitemessage']['time'] = !empty($data['sitemessage']['time']) ? $data['sitemessage']['time'] * 1000 : 0;
-	foreach (array('register', 'login', 'newthread', 'reply') as $type) {
-		$data['sitemessage'][$type] = !empty($data['sitemessage'][$type]) ? explode("\n", $data['sitemessage'][$type]) : array();
+	foreach(['register', 'login', 'newthread', 'reply'] as $type) {
+		$data['sitemessage'][$type] = !empty($data['sitemessage'][$type]) ? explode("\n", $data['sitemessage'][$type]) : [];
 	}
 
-	$data['cachethreadon'] = C::t('forum_forum')->fetch_threadcacheon_num() ? 1 : 0;
+	$data['cachethreadon'] = table_forum_forum::t()->fetch_threadcacheon_num() ? 1 : 0;
 	$data['disallowfloat'] = is_array($data['disallowfloat']) ? implode('|', $data['disallowfloat']) : '';
 
 	if(!$data['imagelib']) unset($data['imageimpath']);
 
 	if(is_array($data['relatedtag']['order'])) {
 		asort($data['relatedtag']['order']);
-		$relatedtag = array();
-		foreach($data['relatedtag']['order'] AS $k => $v) {
+		$relatedtag = [];
+		foreach($data['relatedtag']['order'] as $k => $v) {
 			$relatedtag['status'][$k] = $data['relatedtag']['status'][$k];
 			$relatedtag['name'][$k] = $data['relatedtag']['name'][$k];
 			$relatedtag['limit'][$k] = $data['relatedtag']['limit'][$k];
@@ -221,7 +223,7 @@ function build_cache_setting() {
 		}
 		$data['relatedtag'] = $relatedtag;
 
-		foreach((array)$data['relatedtag']['status'] AS $appid => $status) {
+		foreach((array)$data['relatedtag']['status'] as $appid => $status) {
 			if(!$status) {
 				unset($data['relatedtag']['limit'][$appid]);
 			}
@@ -230,27 +232,28 @@ function build_cache_setting() {
 	}
 
 	$data['domain']['defaultindex'] = isset($data['defaultindex']) && $data['defaultindex'] != '#' ? $data['defaultindex'] : '';
-	$data['domain']['holddomain'] = isset($data['holddomain']) ? $data['holddomain'] : '';
-	$data['domain']['list'] = array();
-	foreach(C::t('common_domain')->fetch_all_by_idtype(array('subarea', 'forum', 'topic', 'channel', 'plugin')) as $value) {
+	$data['domain']['holddomain'] = $data['holddomain'] ?? '';
+	$data['domain']['list'] = [];
+	foreach(table_common_domain::t()->fetch_all_by_idtype(['subarea', 'forum', 'topic', 'channel', 'plugin']) as $value) {
 		if($value['idtype'] == 'plugin') {
-			$plugin = C::t('common_plugin')->fetch($value['id']);
+			$plugin = table_common_plugin::t()->fetch($value['id']);
 			if(!$plugin || !$plugin['available']) {
 				continue;
 			}
 			$value['id'] = $plugin['identifier'];
 		}
-		$data['domain']['list'][$value['domain'].'.'.$value['domainroot']] = array('id' => $value['id'], 'idtype' => $value['idtype']);
+		$data['domain']['list'][$value['domain'].'.'.$value['domainroot']] = ['id' => $value['id'], 'idtype' => $value['idtype']];
 	}
-	writetocache('domain', getcachevars(array('domain' => $data['domain'])));
+	savecache('domain', $data['domain']);
+	@unlink(DISCUZ_DATA.'./sysdata/cache_domain.php');
 
-	$data['seccodedata'] = is_array($data['seccodedata']) ? $data['seccodedata'] : array();
+	$data['seccodedata'] = is_array($data['seccodedata']) ? $data['seccodedata'] : [];
 	if($data['seccodedata']['type'] == 2) {
 		if(extension_loaded('ming')) {
 			unset($data['seccodedata']['background'], $data['seccodedata']['adulterate'],
-			$data['seccodedata']['ttf'], $data['seccodedata']['angle'],
-			$data['seccodedata']['color'], $data['seccodedata']['size'],
-			$data['seccodedata']['animator']);
+				$data['seccodedata']['ttf'], $data['seccodedata']['angle'],
+				$data['seccodedata']['color'], $data['seccodedata']['size'],
+				$data['seccodedata']['animator']);
 		} else {
 			$data['seccodedata']['animator'] = 0;
 		}
@@ -259,20 +262,20 @@ function build_cache_setting() {
 		$data['seccodedata']['height'] = 24;
 	}
 
-	$data['watermarktype'] = !empty($data['watermarktype']) ? dunserialize($data['watermarktype']) : array();
-	$data['watermarktext'] = !empty($data['watermarktext']) ? dunserialize($data['watermarktext']) : array();
+	$data['watermarktype'] = !empty($data['watermarktype']) ? dunserialize($data['watermarktype']) : [];
+	$data['watermarktext'] = !empty($data['watermarktext']) ? dunserialize($data['watermarktext']) : [];
 	foreach($data['watermarktype'] as $k => $v) {
 		if($data['watermarktype'][$k] == 'text' && $data['watermarktext']['text'][$k]) {
 			if($data['watermarktext']['text'][$k] && strtoupper(CHARSET) != 'UTF-8') {
 				$data['watermarktext']['text'][$k] = diconv($data['watermarktext']['text'][$k], CHARSET, 'UTF-8', true);
 			}
 			$data['watermarktext']['text'][$k] = bin2hex($data['watermarktext']['text'][$k]);
-			if(file_exists('static/image/seccode/font/en/'.$data['watermarktext']['fontpath'][$k])) {
-				$data['watermarktext']['fontpath'][$k] = 'static/image/seccode/font/en/'.$data['watermarktext']['fontpath'][$k];
-			} elseif(file_exists('static/image/seccode/font/ch/'.$data['watermarktext']['fontpath'][$k])) {
-				$data['watermarktext']['fontpath'][$k] = 'static/image/seccode/font/ch/'.$data['watermarktext']['fontpath'][$k];
+			if(file_exists('source/data/seccode/font/en/'.$data['watermarktext']['fontpath'][$k])) {
+				$data['watermarktext']['fontpath'][$k] = 'source/data/seccode/font/en/'.$data['watermarktext']['fontpath'][$k];
+			} elseif(file_exists('source/data/seccode/font/ch/'.$data['watermarktext']['fontpath'][$k])) {
+				$data['watermarktext']['fontpath'][$k] = 'source/data/seccode/font/ch/'.$data['watermarktext']['fontpath'][$k];
 			} else {
-				$data['watermarktext']['fontpath'][$k] = 'static/image/seccode/font/'.$data['watermarktext']['fontpath'][$k];
+				$data['watermarktext']['fontpath'][$k] = 'source/data/seccode/font/'.$data['watermarktext']['fontpath'][$k];
 			}
 			$data['watermarktext']['color'][$k] = preg_replace_callback('/#?([0-9a-fA-F]{2})([0-9a-fA-F]{2})([0-9a-fA-F]{2})/', 'build_cache_setting_callback_hexdec_123', $data['watermarktext']['color'][$k]);
 			$data['watermarktext']['shadowcolor'][$k] = preg_replace_callback('/#?([0-9a-fA-F]{2})([0-9a-fA-F]{2})([0-9a-fA-F]{2})/', 'build_cache_setting_callback_hexdec_123', $data['watermarktext']['shadowcolor'][$k]);
@@ -284,12 +287,12 @@ function build_cache_setting() {
 		}
 	}
 
-	$data['styles'] = array();
-	foreach(C::t('common_style')->fetch_all_data(false, 1) as $style) {
+	$data['styles'] = [];
+	foreach(table_common_style::t()->fetch_all_data(false, 1) as $style) {
 		$data['styles'][$style['styleid']] = dhtmlspecialchars($style['name']);
 	}
 
-	$exchcredits = array();
+	$exchcredits = [];
 	$allowexchangein = $allowexchangeout = FALSE;
 	foreach((array)$data['extcredits'] as $id => $credit) {
 		$data['extcredits'][$id]['img'] = $credit['img'] ? '<img style="vertical-align:middle" src="'.$credit['img'].'" />' : '';
@@ -306,7 +309,7 @@ function build_cache_setting() {
 	$data['creditstrans'] = $creditstranssi[0];
 	unset($creditstranssi[0]);
 	$data['creditstransextra'] = $creditstranssi;
-	for($i = 1; $i < 13; $i++) {
+	for($i = 1; $i < 14; $i++) {
 		$data['creditstransextra'][$i] = $data['creditstrans'] ? (!$data['creditstransextra'][$i] ? $data['creditstrans'] : $data['creditstransextra'][$i]) : 0;
 	}
 	$data['exchangestatus'] = $allowexchangein && $allowexchangeout;
@@ -320,14 +323,14 @@ function build_cache_setting() {
 	$data['avatarurl'] = empty(UC_AVTURL) ? $data['ucenterurl'].'/data/avatar' : UC_AVTURL;
 	$data['avatarpath'] = UC_STANDALONE ? (UC_AVTPATH ? substr(realpath(DISCUZ_ROOT.str_replace('..', '', UC_AVTPATH)), strlen(DISCUZ_ROOT)).'/' : 'data/avatar/') : '';
 
-	foreach(C::t('common_magic')->fetch_all_data(1) as $magic) {
+	foreach(table_common_magic::t()->fetch_all_data(1) as $magic) {
 		$magic['identifier'] = str_replace(':', '_', $magic['identifier']);
 		$data['magics'][$magic['identifier']] = $magic['name'];
 	}
 
-	$data['tradeopen'] = C::t('common_usergroup_field')->count_by_field('allowposttrade', 1) ? 1 : 0;
+	$data['tradeopen'] = table_common_usergroup_field::t()->count_by_field('allowposttrade', 1) ? 1 : 0;
 
-	$focus = array();
+	$focus = [];
 	if($data['focus']['data']) {
 		foreach($data['focus']['data'] as $k => $v) {
 			if($v['available'] && $v['position']) {
@@ -351,11 +354,11 @@ function build_cache_setting() {
 	$data['profilenode'] = get_cachedata_threadprofile();
 	$data['mfindnavs'] = get_cachedata_mfindnav();
 
-	require_once DISCUZ_ROOT.'./uc_client/client.php';
+	loaducenter();
 	$ucapparray = uc_app_ls();
-	$data['allowsynlogin'] = isset($ucapparray[UC_APPID]['synlogin']) ? $ucapparray[UC_APPID]['synlogin'] : 1;
-	$appnamearray = array('UCHOME','XSPACE','DISCUZ','SUPESITE','SUPEV','ECSHOP','ECMALL','OTHER');
-	$data['ucapp'] = $data['ucappopen'] = array();
+	$data['allowsynlogin'] = $ucapparray[UC_APPID]['synlogin'] ?? 1;
+	$appnamearray = ['UCHOME', 'XSPACE', 'DISCUZ', 'SUPESITE', 'SUPEV', 'ECSHOP', 'ECMALL', 'OTHER'];
+	$data['ucapp'] = $data['ucappopen'] = [];
 	$data['uchomeurl'] = '';
 	$data['discuzurl'] = $_G['siteurl'];
 	$appsynlogins = 0;
@@ -395,6 +398,11 @@ function build_cache_setting() {
 		$data['jspath'] = 'static/js/';
 	}
 
+	if($data['ftp']['on'] == 2) {
+		$data['csspathv'] = $data['jspath'] = $data['ftp']['attachurl'].'cache/';
+		writetojscache();
+	}
+
 	if(!$data['csspathv']) {
 		$data['csspathv'] = 'data/cache/';
 	}
@@ -403,10 +411,10 @@ function build_cache_setting() {
 	if($data['cacheindexlife']) {
 		$cachedir = DISCUZ_ROOT.'./'.$data['cachethreaddir'];
 		$tidmd5 = substr(md5(0), 3);
-		@unlink($cachedir.'/'.$tidmd5[0].'/'.$tidmd5[1].'/'.$tidmd5[2].'/'.DISCUZ_LANG.'/0.htm');
+		@unlink($cachedir.'/'.$tidmd5[0].'/'.$tidmd5[1].'/'.$tidmd5[2].'/0.htm');
 	}
 
-	$reginputbwords = array('username', 'password', 'password2', 'email');
+	$reginputbwords = ['username', 'password', 'password2', 'email'];
 	if(in_array($data['reginput']['username'], $reginputbwords) || !preg_match('/^[A-z]\w+?$/', $data['reginput']['username'])) {
 		$data['reginput']['username'] = random(6);
 	}
@@ -421,13 +429,13 @@ function build_cache_setting() {
 	}
 
 	$defaultcurhost = empty($_G['setting']['domain']['app']['default']) ? '{CURHOST}' : $_G['setting']['domain']['app']['default'];
-	$output = array('str'=>array(), 'preg' => array()); //str为二级域名的查找和替换，preg为rewrite和默认域名的查找和替换
-	$_G['domain'] = array();
+	$output = ['str' => [], 'preg' => []]; //str为二级域名的查找和替换，preg为rewrite和默认域名的查找和替换
+	$_G['domain'] = [];
 	if(is_array($_G['setting']['domain']['app'])) {
 		$apps = $_G['setting']['domain']['app'];
 		$repflag = $apps['portal'] || $apps['forum'] || $apps['group'] || $apps['home'] || $apps['default'];
 		foreach($apps as $app => $domain) {
-			if(in_array($app, array('default', 'mobile'))) {
+			if(in_array($app, ['default', 'mobile'])) {
 				continue;
 			}
 			$appphp = "{$app}.php";
@@ -453,55 +461,55 @@ function build_cache_setting() {
 		}
 		if($output['preg']) {
 			foreach($data['footernavs'] as $id => $nav) {
-				foreach ($output['preg']['search'] as $key => $value) {
+				foreach($output['preg']['search'] as $key => $value) {
 					$data['footernavs'][$id]['code'] = preg_replace_callback(
 						$value,
-						function ($matches) use ($output, $key) {
-							return eval('return ' . $output['preg']['replace'][$key] . ';');
+						function($matches) use ($output, $key) {
+							return eval('return '.$output['preg']['replace'][$key].';');
 						},
 						$nav['code']
 					);
 				}
 			}
 			foreach($data['spacenavs'] as $id => $nav) {
-				foreach ($output['preg']['search'] as $key => $value) {
+				foreach($output['preg']['search'] as $key => $value) {
 					$data['spacenavs'][$id]['code'] = preg_replace_callback(
 						$value,
-						function ($matches) use ($output, $key) {
-							return eval('return ' . $output['preg']['replace'][$key] . ';');
+						function($matches) use ($output, $key) {
+							return eval('return '.$output['preg']['replace'][$key].';');
 						},
 						$nav['code']
 					);
 				}
 			}
 			foreach($data['mynavs'] as $id => $nav) {
-				foreach ($output['preg']['search'] as $key => $value) {
+				foreach($output['preg']['search'] as $key => $value) {
 					$data['mynavs'][$id]['code'] = preg_replace_callback(
 						$value,
-						function ($matches) use ($output, $key) {
-							return eval('return ' . $output['preg']['replace'][$key] . ';');
+						function($matches) use ($output, $key) {
+							return eval('return '.$output['preg']['replace'][$key].';');
 						},
 						$nav['code']
 					);
 				}
 			}
 			foreach($data['topnavs'] as $id => $nav) {
-				foreach ($output['preg']['search'] as $key => $value) {
+				foreach($output['preg']['search'] as $key => $value) {
 					$data['topnavs'][$id]['code'] = preg_replace_callback(
 						$value,
-						function ($matches) use ($output, $key) {
-							return eval('return ' . $output['preg']['replace'][$key] . ';');
+						function($matches) use ($output, $key) {
+							return eval('return '.$output['preg']['replace'][$key].';');
 						},
 						$nav['code']
 					);
 				}
 			}
 			foreach($data['plugins']['jsmenu'] as $id => $nav) {
-				foreach ($output['preg']['search'] as $key => $value) {
+				foreach($output['preg']['search'] as $key => $value) {
 					$data['plugins']['jsmenu'][$id]['url'] = preg_replace_callback(
 						$value,
-						function ($matches) use ($output, $key) {
-							return eval('return ' . $output['preg']['replace'][$key] . ';');
+						function($matches) use ($output, $key) {
+							return eval('return '.$output['preg']['replace'][$key].';');
 						},
 						$nav['url']
 					);
@@ -509,10 +517,12 @@ function build_cache_setting() {
 			}
 		}
 	}
-	$data['output'] = $output;
-	$data['connect'] = in_array('qqconnect', $data['plugins']['available']) ? $data['connect'] : array();
 
-	$data['parseflv'] = get_cachedata_discuzcode_parseflv();
+	$data['witframe_plugins'] = witframe_plugin::getSettingValue();
+
+	$data['output'] = $output;
+
+	$data['parseflv'] = get_cachedata_discuzcode_parseflv($data['mediasetting'], $data['plugins']);
 
 	$data['mpsid'] = preg_replace('/[^0-9]+/', '', $data['mps']);
 
@@ -525,11 +535,31 @@ function build_cache_setting() {
 	// 如果站点做过用户分表, 需要在更新缓存时判定一下用户分表是否存在, 不存在的话需要加上.
 	// 修复因站点自身问题导致用户分表丢失导致程序出错的问题.
 	if($data['membersplit']) {
-		C::t('common_member_archive')->check_table();
+		table_common_member_archive::t()->check_table();
 	}
+
+	$style = table_common_style::t()->fetch_by_styleid($data['styleid']);
+	$files = cells::getCells(DISCUZ_TEMPLATE($style['directory']).'/cells');
+	foreach($files as $file) {
+		$cellId = cells::getClass($file);
+		$c = cells::className($cellId);
+		foreach([0, 1] as $type) {
+			$template = $data['cells'][cells::getTplKey($type)][$data['styleid']][$cellId] ?: $c::getDefault($type);
+			$data['cells'][cells::getTplKey($type)][$data['styleid']][$cellId] = $template;
+			$data['cells'][cells::getUsedKey($type)][$data['styleid']][$cellId] = cells::getUsedSetting($cellId, $template);
+		}
+	}
+
+	init_i18n($data);
 
 	savecache('setting', $data);
 	$_G['setting'] = $data;
+
+	dmkdir(DISCUZ_DATA.'cache/');
+	dmkdir(DISCUZ_DATA.'diy/');
+	dmkdir(DISCUZ_DATA.'sysdata/');
+	dmkdir(DISCUZ_DATA.'template/');
+	dmkdir(DISCUZ_DATA.'attachment/');
 }
 
 function build_cache_setting_callback_hexdec_123($matches) {
@@ -537,8 +567,8 @@ function build_cache_setting_callback_hexdec_123($matches) {
 }
 
 function get_cachedata_setting_creditspolicy() {
-	$data = array();
-	foreach(C::t('common_credit_rule')->fetch_all_by_action(array('promotion_visit', 'promotion_register')) as $creditrule) {
+	$data = [];
+	foreach(table_common_credit_rule::t()->fetch_all_by_action(['promotion_visit', 'promotion_register']) as $creditrule) {
 		$ruleexist = false;
 		for($i = 1; $i <= 8; $i++) {
 			if($creditrule['extcredits'.$i]) {
@@ -550,26 +580,116 @@ function get_cachedata_setting_creditspolicy() {
 	return $data;
 }
 
+function child_data($pluginid, &$childSetting) {
+	$dir = DISCUZ_PLUGIN($pluginid).'/child';
+	if(!file_exists($dir)) {
+		return false;
+	}
+
+	$childdir = dir($dir);
+	while($filename = $childdir->read()) {
+		if(!in_array($filename, ['.', '..']) && fileext($filename) == 'php') {
+			$content = file_get_contents($dir.'/'.$filename);
+			preg_match("/childfile\:(.+?)\n/", $content, $r);
+			$childfile = trim($r[1]);
+			if(!$childfile) {
+				continue;
+			}
+			if(!empty($childSetting[$childfile])) {
+				continue;
+			}
+			$childSetting[$childfile] = [
+				'plugin' => $pluginid,
+				'file' => str_replace('.php', '', $filename),
+			];
+		}
+	}
+}
+
+function component_data($pluginid, &$componentSetting) {
+	if($pluginid) {
+		$dir = DISCUZ_PLUGIN($pluginid).'/admin/component';
+		if(!file_exists($dir)) {
+			return false;
+		}
+	} else {
+		$dir = MITFRAME_APP('admin').'/component';
+	}
+
+	$compdir = dir($dir);
+	while($filename = $compdir->read()) {
+		if(!in_array($filename, ['.', '..']) && fileext($filename) == 'php') {
+			$c = 'admin\\'.($_n = substr($filename, 0, -4));
+			if(!class_exists($class = ($pluginid ? '\\'.$pluginid : '').'\\'.$c)) {
+				continue;
+			}
+
+			$n = new $class();
+			$name = property_exists($n, 'name') ? $n->name : ($pluginid ? $pluginid.'_' : '').$_n;
+			$componentSetting[($pluginid ? $pluginid.':' : '').$_n] = [
+				'name' => $name,
+				'class' => $class,
+			];
+		}
+	}
+}
+
+function perm_data($pluginid, &$permSetting, &$permTypeSetting) {
+	$dir = DISCUZ_PLUGIN($pluginid).'/perm';
+	if(!file_exists($dir)) {
+		return false;
+	}
+	$pluginname = $_G['setting']['plugins']['name'][$pluginid] ?? $pluginid;
+	$childdir = dir($dir);
+	while($filename = $childdir->read()) {
+		if(!in_array($filename, ['.', '..']) && fileext($filename) == 'php') {
+			$c = substr($filename, 0, -4);
+			if(!class_exists($class = '\\'.$pluginid.'\\'.$c)) {
+				continue;
+			}
+
+			$n = new $class();
+			if(property_exists($n, 'typename')) {
+				$permTypeSetting[$n->typename] = [
+					'pluginid' => $pluginid,
+					'name' => $n->typename,
+				];
+			} else {
+				$name = property_exists($n, 'name') ? $n->name : $pluginid.'_'.$c;
+				$permSetting[$c] = [
+					'pluginid' => $pluginid,
+					'name' => $name,
+					'class' => $class,
+				];
+			}
+		}
+	}
+}
+
 function get_cachedata_setting_plugin($method = '') {
-	global $_G;
 	require_once libfile('function/admincp');
-	$hookfuncs = array('common', 'discuzcode', 'template', 'deletemember', 'deletethread', 'deletepost', 'avatar', 'savebanlog', 'cacheuserstats', 'undeletethreads', 'recyclebinpostundelete', 'threadpubsave', 'profile_node');
-	$data = $adminmenu = array();
-	$data['plugins'] = $data['pluginlinks'] = $data['hookscript'] = $data['hookscriptmobile'] = $data['threadplugins'] = $data['specialicon'] = array();
-	$data['plugins']['func'] = $data['plugins']['available'] = array();
-	foreach(C::t('common_plugin')->fetch_all_data() as $plugin) {
+	global $_G;
+	$hookfuncs = ['common', 'discuzcode', 'template', 'deletemember', 'deletethread', 'deletepost', 'avatar', 'savebanlog', 'cacheuserstats', 'undeletethreads', 'recyclebinpostundelete', 'threadpubsave', 'profile_node'];
+	$data = $adminmenu = $adminlog = [];
+	$data['plugins'] = $data['pluginlinks'] = $data['hookscript'] = $data['hookscriptmobile'] = $data['threadplugins'] = $data['specialicon'] = [];
+	$data['plugins']['func'] = $data['plugins']['available'] = $_G['cache']['admin']['component'] = [];
+	foreach(table_common_plugin::t()->fetch_all_data() as $plugin) {
 		$available = !$method && $plugin['available'] || $method && ($plugin['available'] || $method == $plugin['identifier']);
-		$addadminmenu = $plugin['available'] && C::t('common_pluginvar')->count_by_pluginid($plugin['pluginid']) ? TRUE : FALSE;
+		$addadminmenu = $plugin['available'] && table_common_pluginvar::t()->count_by_pluginid($plugin['pluginid']);
 		$plugin['modules'] = dunserialize($plugin['modules']);
 		if($available) {
 			$data['plugins']['available'][] = $plugin['identifier'];
 			$data['plugins']['version'][$plugin['identifier']] = $plugin['version'];
+			$data['plugins']['name'][$plugin['identifier']] = $plugin['name'];
 		}
-		$plugin['directory'] = $plugin['directory'].((!empty($plugin['directory']) && substr($plugin['directory'], -1) != '/') ? '/' : '');
+		child_data($plugin['identifier'], $data['plugins']['child']);
+		component_data($plugin['identifier'], $_G['cache']['admin']['component']);
+		perm_data($plugin['identifier'], $data['plugins']['perm'], $data['plugins']['permtype']);
+		$plugin['directory'] = $plugin['directory'].((!empty($plugin['directory']) && !str_ends_with($plugin['directory'], '/')) ? '/' : '');
 		if(!isplugindir($plugin['directory'])) {
 			if(ispluginkey($plugin['identifier'])) {
 				$plugin['directory'] = $plugin['identifier'].'/';
-				C::t('common_plugin')->update($plugin['pluginid'], array('directory' => $plugin['directory']));
+				C::t('common_plugin')->update($plugin['pluginid'], ['directory' => $plugin['directory']]);
 			} else {
 				continue;
 			}
@@ -594,19 +714,19 @@ function get_cachedata_setting_plugin($method = '') {
 						case 27:
 							if($module['type'] == 27) $navtype = 4;
 							$module['url'] = $module['url'] ? $module['url'] : 'plugin.php?id='.$plugin['identifier'].':'.$module['name'];
-							if(!(C::t('common_nav')->count_by_navtype_type_identifier($navtype, 3, $plugin['identifier']))) {
-								C::t('common_nav')->insert(array(
-								'name' => $module['menu'],
-								'title' => $module['navtitle'],
-								'url' => $module['url'],
-								'type' => 3,
-								'identifier' => $plugin['identifier'],
-								'navtype' => $navtype,
-								'available' => 1,
-								'icon' => $module['navicon'],
-								'subname' => $module['navsubname'],
-								'suburl' => $module['navsuburl'],
-								));
+							if(!(table_common_nav::t()->count_by_navtype_type_identifier($navtype, 3, $plugin['identifier']))) {
+								table_common_nav::t()->insert([
+									'name' => $module['menu'],
+									'title' => $module['navtitle'],
+									'url' => $module['url'],
+									'type' => 3,
+									'identifier' => $plugin['identifier'],
+									'navtype' => $navtype,
+									'available' => 1,
+									'icon' => $module['navicon'],
+									'subname' => $module['navsubname'],
+									'suburl' => $module['navsuburl'],
+								]);
 							}
 							break;
 						case 5:
@@ -614,7 +734,7 @@ function get_cachedata_setting_plugin($method = '') {
 							$module['url'] = $module['url'] ? $module['url'] : 'plugin.php?id='.$plugin['identifier'].':'.$module['name'];
 							list($module['menu'], $module['title']) = explode('/', $module['menu']);
 							$module['menu'] = $module['type'] == 1 ? ($module['menu'].($module['title'] ? '<span>'.$module['title'].'</span>' : '')) : $module['menu'];
-							$data['plugins'][$k][] = array('displayorder' => $module['displayorder'], 'adminid' => $module['adminid'], 'url' => "<a href=\"$module[url]\" id=\"mn_plink_$module[name]\">$module[menu]</a>");
+							$data['plugins'][$k][] = ['displayorder' => $module['displayorder'], 'adminid' => $module['adminid'], 'url' => "<a href=\"$module[url]\" id=\"mn_plink_$module[name]\">$module[menu]</a>"];
 							break;
 						case 14:
 							$k = 'faq';
@@ -632,22 +752,22 @@ function get_cachedata_setting_plugin($method = '') {
 							$k = !$k ? 'portalcp' : $k;
 						case 26:
 							$k = !$k ? 'space_thread' : $k;
-							$data['plugins'][$k][$plugin['identifier'].':'.$module['name']] = array('displayorder' => $module['displayorder'], 'adminid' => $module['adminid'], 'name' => $module['menu'], 'url' => $module['url'], 'directory' => $plugin['directory']);
+							$data['plugins'][$k][$plugin['identifier'].':'.$module['name']] = ['displayorder' => $module['displayorder'], 'adminid' => $module['adminid'], 'name' => $module['menu'], 'url' => $module['url'], 'directory' => $plugin['directory']];
 							break;
 						case 3:
 							$addadminmenu = TRUE;
 							break;
 						case 4:
-							$data['plugins']['include'][$plugin['identifier']] = array('displayorder' => $module['displayorder'], 'adminid' => $module['adminid'], 'script' => $plugin['directory'].$module['name']);
+							$data['plugins']['include'][$plugin['identifier']] = ['displayorder' => $module['displayorder'], 'adminid' => $module['adminid'], 'script' => $plugin['directory'].$module['name']];
 							break;
 						case 11:
 							$k = 'hookscript';
 						case 28:
 							$k = !$k ? 'hookscriptmobile' : $k;
 							$script = $plugin['directory'].$module['name'];
-							@include_once DISCUZ_ROOT.'./source/plugin/'.$script.'.class.php';
+							@include_once DISCUZ_PLUGIN($script).'.class.php';
 							$classes = get_declared_classes();
-							$classnames = array();
+							$classnames = [];
 							$namekey = ($k == 'hookscriptmobile' ? 'mobile' : '').'plugin_'.$plugin['identifier'];
 							$cnlen = strlen($namekey);
 							foreach($classes as $classname) {
@@ -670,11 +790,11 @@ function get_cachedata_setting_plugin($method = '') {
 									if(!$curscript || $classname == $funcname) {
 										continue;
 									}
-									if($hscript == 'home' && in_array($curscript, array('space', 'spacecp'))) {
+									if($hscript == 'home' && in_array($curscript, ['space', 'spacecp'])) {
 										$curscript .= '_'.$v[1];
 									}
 									// If $funcname include __ , then before __ is $curscript.
-									if(strpos($funcname, '__') !== false) {
+									if(str_contains($funcname, '__')) {
 										$curscript = current(explode('__', $funcname));
 									}
 									if(!is_array($data[$k][$hscript][$curscript]['module']) || !in_array($script, $data[$k][$hscript][$curscript]['module'])) {
@@ -683,19 +803,19 @@ function get_cachedata_setting_plugin($method = '') {
 									}
 									if(preg_match('/\_output$/', $funcname)) {
 										$varname = preg_replace('/\_output$/', '', $funcname);
-										$data[$k][$hscript][$curscript]['outputfuncs'][$varname][] = array('displayorder' => $module['displayorder'], 'func' => array($plugin['identifier'], $funcname));
+										$data[$k][$hscript][$curscript]['outputfuncs'][$varname][] = ['displayorder' => $module['displayorder'], 'func' => [$plugin['identifier'], $funcname]];
 									} elseif(preg_match('/\_message$/', $funcname)) {
 										$varname = preg_replace('/\_message$/', '', $funcname);
-										$data[$k][$hscript][$curscript]['messagefuncs'][$varname][] = array('displayorder' => $module['displayorder'], 'func' => array($plugin['identifier'], $funcname));
+										$data[$k][$hscript][$curscript]['messagefuncs'][$varname][] = ['displayorder' => $module['displayorder'], 'func' => [$plugin['identifier'], $funcname]];
 									} else {
-										$data[$k][$hscript][$curscript]['funcs'][$funcname][] = array('displayorder' => $module['displayorder'], 'func' => array($plugin['identifier'], $funcname));
+										$data[$k][$hscript][$curscript]['funcs'][$funcname][] = ['displayorder' => $module['displayorder'], 'func' => [$plugin['identifier'], $funcname]];
 									}
 								}
 							}
 							break;
 						case 12:
 							$script = $plugin['directory'].$module['name'];
-							@include_once DISCUZ_ROOT.'./source/plugin/'.$script.'.class.php';
+							@include_once DISCUZ_PLUGIN($script).'.class.php';
 							if(class_exists('threadplugin_'.$plugin['identifier'])) {
 								$classname = 'threadplugin_'.$plugin['identifier'];
 								$hookclass = new $classname;
@@ -711,31 +831,46 @@ function get_cachedata_setting_plugin($method = '') {
 			}
 		}
 		if($addadminmenu) {
-			$adminmenu[$plugin['modules']['system'] ? 0 : 1][] = array('url' => "plugins&operation=config&do={$plugin['pluginid']}", 'action' => 'plugins_config_'.$plugin['pluginid'], 'name' => $plugin['name']);
+			$adminmenu[$plugin['modules']['system'] ? 0 : 1][] = ['url' => "plugins&operation=config&do={$plugin['pluginid']}", 'action' => 'plugins_config_'.$plugin['pluginid'], 'name' => $plugin['name']];
+		}
+
+		$dir = DISCUZ_PLUGIN($plugin['identifier']).'/log';
+		if(file_exists($dir)) {
+			$logdir = dir($dir);
+			while($filename = $logdir->read()) {
+				if(!in_array($filename, ['.', '..']) && preg_match('/^log\_(\w+)\.php$/', $filename, $r)) {
+					$adminlog[] = $plugin['identifier'].':'.$r[1];
+				}
+			}
 		}
 	}
+
+	component_data('', $_G['cache']['admin']['component']);
+
+	savecache('adminlog', $adminlog);
+	savecache('admin', $_G['cache']['admin']);
+
 	if(!$method) {
 		$_G['setting']['plugins']['available'] = $data['plugins']['available'];
 		if($adminmenu[0]) {
 			$adminmenu[0] = array_merge(
-				array(array('name' => 'plugins_system', 'sub' => 1)),
+				[['name' => 'plugins_system', 'sub' => 1]],
 				$adminmenu[0],
-				array(array('name' => 'plugins_system', 'sub' => 2))
+				[['name' => 'plugins_system', 'sub' => 2]]
 			);
 		}
 		savecache('adminmenu', array_merge((array)$adminmenu[0], (array)$adminmenu[1]));
 	}
 
 
-
-	$data['pluginhooks'] = array();
-	foreach(array('hookscript', 'hookscriptmobile') as $hooktype) {
+	$data['pluginhooks'] = [];
+	foreach(['hookscript', 'hookscriptmobile'] as $hooktype) {
 		foreach($data[$hooktype] as $hscript => $hookscript) {
 			foreach($hookscript as $curscript => $scriptdata) {
 				if(is_array($scriptdata['funcs'])) {
 					foreach($scriptdata['funcs'] as $funcname => $funcs) {
 						usort($funcs, 'pluginmodulecmp');
-						$tmp = array();
+						$tmp = [];
 						foreach($funcs as $k => $v) {
 							$tmp[$k] = $v['func'];
 						}
@@ -745,7 +880,7 @@ function get_cachedata_setting_plugin($method = '') {
 				if(is_array($scriptdata['outputfuncs'])) {
 					foreach($scriptdata['outputfuncs'] as $funcname => $funcs) {
 						usort($funcs, 'pluginmodulecmp');
-						$tmp = array();
+						$tmp = [];
 						foreach($funcs as $k => $v) {
 							$tmp[$k] = $v['func'];
 						}
@@ -755,7 +890,7 @@ function get_cachedata_setting_plugin($method = '') {
 				if(is_array($scriptdata['messagefuncs'])) {
 					foreach($scriptdata['messagefuncs'] as $funcname => $funcs) {
 						usort($funcs, 'pluginmodulecmp');
-						$tmp = array();
+						$tmp = [];
 						foreach($funcs as $k => $v) {
 							$tmp[$k] = $v['func'];
 						}
@@ -766,9 +901,9 @@ function get_cachedata_setting_plugin($method = '') {
 		}
 	}
 
-	foreach(array('links', 'spacecp', 'include', 'jsmenu', 'space', 'spacecp', 'spacecp_profile', 'spacecp_credit', 'faq', 'modcp_base', 'modcp_member', 'modcp_forum') as $pluginkey) {
+	foreach(['links', 'spacecp', 'include', 'jsmenu', 'space', 'spacecp', 'spacecp_profile', 'spacecp_credit', 'faq', 'modcp_base', 'modcp_member', 'modcp_forum'] as $pluginkey) {
 		if(is_array($data['plugins'][$pluginkey])) {
-			if(in_array($pluginkey, array('space', 'spacecp', 'spacecp_profile', 'spacecp_credit', 'faq', 'modcp_base', 'modcp_tools'))) {
+			if(in_array($pluginkey, ['space', 'spacecp', 'spacecp_profile', 'spacecp_credit', 'faq', 'modcp_base', 'modcp_tools'])) {
 				uasort($data['plugins'][$pluginkey], 'pluginmodulecmp');
 			} else {
 				usort($data['plugins'][$pluginkey], 'pluginmodulecmp');
@@ -776,15 +911,16 @@ function get_cachedata_setting_plugin($method = '') {
 		}
 	}
 
-	return array($data['plugins'], $data['pluginlinks'], $data['hookscript'], $data['hookscriptmobile'], $data['threadplugins'], $data['specialicon']);
+	return [$data['plugins'], $data['pluginlinks'], $data['hookscript'], $data['hookscriptmobile'], $data['threadplugins'], $data['specialicon']];
 
 }
 
 function get_cachedata_mainnav() {
 	global $_G;
 
-	$data['navs'] = $data['subnavs'] = $data['menunavs'] = $data['navmns'] = $data['navmn'] = $data['navdms'] = $navids = array();
-	foreach(C::t('common_nav')->fetch_all_mainnav() as $nav) {
+	$data['navs'] = $data['subnavs'] = $data['menunavs'] = $data['navmns'] = $data['navmn'] = $data['navdms'] = $navids = [];
+	foreach(table_common_nav::t()->fetch_all_mainnav() as $nav) {
+		$_nav = $nav;
 		if($nav['available'] < 0) {
 			continue;
 		}
@@ -810,8 +946,10 @@ function get_cachedata_mainnav() {
 		$data['navs'][$id]['navname'] = $nav['name'];
 		$data['navs'][$id]['filename'] = $nav['url'];
 		$data['navs'][$id]['available'] = $nav['available'];
+		$data['navs'][$id]['icon'] = $nav['icon'];
+		$nav['name'] = $nav['name'].($nav['title'] ? '<span>'.$nav['title'].'</span>' : '');
 		$subnavs = '';
-		foreach(C::t('common_nav')->fetch_all_subnav($nav['id']) as $subnav) {
+		foreach(table_common_nav::t()->fetch_all_subnav($nav['id']) as $subnav) {
 			$item = "<a href=\"{$subnav['url']}\" hidefocus=\"true\" ".($subnav['title'] ? "title=\"{$subnav['title']}\" " : '').($subnav['target'] == 1 ? "target=\"_blank\" " : '').parsehighlight($subnav['highlight']).">{$subnav['name']}</a>";
 			$liparam = !$nav['subtype'] || !$nav['subcols'] ? '' : ' style="width:'.sprintf('%1.1f', (1 / $nav['subcols']) * 100).'%"';
 			$subnavs .= '<li'.$liparam.'>'.$item.'</li>';
@@ -857,17 +995,21 @@ function get_cachedata_mainnav() {
 
 		if($nav['logo']) {
 			$navlogo = str_replace('{STATICURL}', STATICURL, $nav['logo']);
-			if(!preg_match("/^".preg_quote(STATICURL, '/')."/i", $navlogo) && !(($valueparse = parse_url($navlogo)) && isset($valueparse['host']))) {
-				$navlogo = $_G['setting']['attachurl'].'common/'.$nav['logo'];
+			if(!preg_match('/^'.preg_quote(STATICURL, '/').'/i', $navlogo) && !(($valueparse = parse_url($navlogo)) && isset($valueparse['host']))) {
+				$navlogo = $nav['logo'];
 			}
 			$data['navlogos'][$navid] = '<a href="'.$nav['url'].'" title="'.$_G['setting']['bbname'].'"><img src="'.$navlogo.'" alt="'.$_G['setting']['bbname'].'" border="0" /></a>';
 		}
 
 		$purl = parse_url($nav['url']);
-		$getvars = array();
+		$getvars = [];
+		parse_str($purl['query'] ?? '', $getvars);
+		if($purl['path'] == 'index.php' && !empty($getvars['index'])) {
+			$purl['path'] = $getvars['index'].'.php';
+		}
+
 		if($purl['query']) {
-			parse_str($purl['query'], $getvars);
-			$data['navmns'][$purl['path']][] = array($getvars, $navid);
+			$data['navmns'][$purl['path']][] = [$getvars, $navid];
 		} elseif($purl['host']) {
 			$data['navdms'][strtolower($purl['host'].$purl['path'])] = $navid;
 		} elseif($purl['path']) {
@@ -875,26 +1017,28 @@ function get_cachedata_mainnav() {
 		}
 		if($nav['type'] == 0) {
 			$domainkey = substr($purl['path'], 0, -strlen(strrchr($purl['path'], '.')));
-			if(!empty($_G['setting']['domain']['app'][$domainkey]) && !in_array(strtolower($nav['title']), array('follow', 'guide', 'collection', 'blog', 'album', 'favorite', 'friend', 'share', 'doing'))) {
+			if(!empty($_G['setting']['domain']['app'][$domainkey]) && !in_array(strtolower($nav['title']), ['follow', 'guide', 'collection', 'blog', 'album', 'favorite', 'friend', 'share', 'doing'])) {
 				$nav['url'] = $_G['scheme'].'://'.$_G['setting']['domain']['app'][$domainkey];
 			}
 		}
 
+		$data['navs'][$id]['data'] = $_nav;
 		$data['navs'][$id]['navid'] = $navid;
 		$data['navs'][$id]['level'] = $nav['level'];
-		$data['navs'][$id]['nav'] = "id=\"$navid\" ".($onmouseover ? 'onmouseover="'.$onmouseover.'"' : '')."><a href=\"".($nav['url']==$_G['setting']['defaultindex']?'/':$nav['url'])."\" hidefocus=\"true\" title=\"$nav[title]\" ".($nav['target'] == 1 ? "target=\"_blank\" " : '')." $nav[style]>$nav[name]".($nav['identifier'] == 5 && $nav['type'] == 0 ? '<b class="icon_down"></b>' : '')."</a";
+		$data['navs'][$id]['nav'] = "id=\"$navid\" ".($onmouseover ? 'onmouseover="'.$onmouseover.'"' : '')."><a href=\"$nav[url]\" hidefocus=\"true\" ".($nav['title'] ? "title=\"$nav[title]\" " : '').($nav['target'] == 1 ? "target=\"_blank\" " : '')." $nav[style]>$nav[name]".($nav['identifier'] == 5 && $nav['type'] == 0 ? '<b class="icon_down"></b>' : '').'</a';
 	}
 	$data['menunavs'] = implode('', $data['menunavs']);
 
-	return array($data['navs'], $data['subnavs'], $data['menunavs'], $data['navmns'], $data['navmn'], $data['navdms'], $data['navlogos']);
+	return [$data['navs'], $data['subnavs'], $data['menunavs'], $data['navmns'], $data['navmn'], $data['navdms'], $data['navlogos']];
 
 }
 
 function get_cachedata_footernav() {
 	global $_G;
 
-	$data['footernavs'] = array();
-	foreach(C::t('common_nav')->fetch_all_by_navtype(1) as $nav) {
+	$data['footernavs'] = [];
+	foreach(table_common_nav::t()->fetch_all_by_navtype(1) as $nav) {
+		$_nav = $nav;
 		$nav['extra'] = '';
 		if(!$nav['type']) {
 			if($nav['identifier'] == 'report') {
@@ -909,9 +1053,9 @@ function get_cachedata_footernav() {
 				}
 			}
 		}
-		$nav['code'] = '<a href="'.$nav['url'].'" title="'.$nav['title'].'"'.($nav['target'] == 1 ? ' target="_blank"' : '').' '.parsehighlight($nav['highlight']).$nav['extra'].'>'.$nav['name'].'</a>';
+		$nav['code'] = '<a href="'.$nav['url'].'"'.($nav['title'] ? ' title="'.$nav['title'].'"' : '').($nav['target'] == 1 ? ' target="_blank"' : '').' '.parsehighlight($nav['highlight']).$nav['extra'].'>'.$nav['name'].'</a>';
 		$id = $nav['type'] == 0 ? $nav['identifier'] : 100 + $nav['id'];
-		$data['footernavs'][$id] = array('available' => $nav['available'], 'navname' => $nav['title'], 'code' => $nav['code'], 'type' => $nav['type'], 'level' => $nav['level'], 'id' => $nav['identifier']);
+		$data['footernavs'][$id] = ['data' => $_nav, 'available' => $nav['available'], 'navname' => $nav['name'], 'code' => $nav['code'], 'type' => $nav['type'], 'level' => $nav['level'], 'id' => $nav['identifier']];
 	}
 	return $data['footernavs'];
 }
@@ -919,31 +1063,33 @@ function get_cachedata_footernav() {
 function get_cachedata_mfindnav() {
 	global $_G;
 
-	$data['mfindnavs'] = array();
-	foreach(C::t('common_nav')->fetch_all_by_navtype(5) as $nav) {
+	$data['mfindnavs'] = [];
+	foreach(table_common_nav::t()->fetch_all_by_navtype(5) as $nav) {
+		$_nav = $nav;
 		$nav['extra'] = '';
 		$id = $nav['type'] == 0 ? $nav['identifier'] : 100 + $nav['id'];
-		$data['mfindnavs'][$id] = array('available' => $nav['available'], 'navname' => $nav['name'], 'url' => $nav['url'], 'name' => $nav['name'], 'type' => $nav['type'], 'level' => $nav['level'], 'id' => $nav['identifier']);
+		$data['mfindnavs'][$id] = ['data' => $_nav, 'available' => $nav['available'], 'navname' => $nav['name'], 'url' => $nav['url'], 'name' => $nav['name'], 'type' => $nav['type'], 'level' => $nav['level'], 'id' => $nav['identifier']];
 	}
-    return $data['mfindnavs'];
+	return $data['mfindnavs'];
 }
 
 function get_cachedata_spacenavs() {
 	global $_G;
-	$data['spacenavs'] = array();
-	foreach(C::t('common_nav')->fetch_all_by_navtype(2) as $nav) {
+	$data['spacenavs'] = [];
+	foreach(table_common_nav::t()->fetch_all_by_navtype(2) as $nav) {
+		$_nav = $nav;
 		if($nav['available'] < 0) {
 			continue;
 		}
 		if($nav['icon']) {
 			$navicon = str_replace('{STATICURL}', STATICURL, $nav['icon']);
-			if(!preg_match("/^".preg_quote(STATICURL, '/')."/i", $navicon) && !(($valueparse = parse_url($navicon)) && isset($valueparse['host']))) {
-				$navicon = $_G['setting']['attachurl'].'common/'.$nav['icon'].'?'.random(6);
+			if(!preg_match('/^'.preg_quote(STATICURL, '/').'/i', $navicon) && !(($valueparse = parse_url($navicon)) && isset($valueparse['host']))) {
+				$navicon = $nav['icon'].'?'.random(6);
 			}
 			$nav['icon'] = '<img src="'.$navicon.'" width="16" height="16" />';
 		}
 		$nav['allowsubnew'] = 1;
-		if(!$nav['subname'] || !$nav['suburl'] || substr($nav['subname'], 0, 1) == "\t") {
+		if(!$nav['subname'] || !$nav['suburl'] || str_starts_with($nav['subname'], "\t")) {
 			$nav['allowsubnew'] = 0;
 			$nav['subname'] = substr($nav['subname'], 1);
 		}
@@ -994,12 +1140,12 @@ function get_cachedata_spacenavs() {
 		}
 		$nav['subcode'] = $nav['allowsubnew'] ? '<span><a href="'.$nav['suburl'].'"'.($nav['target'] == 1 ? ' target="_blank"' : '').$nav['extra'].'>'.$nav['subname'].'</a></span>' : '';
 		if($nav['name'] != '{hr}') {
-				$nav['code'] = '<li>'.$nav['subcode'].'<a href="'.$nav['url'].'"'.($nav['title'] ? ' title="'.$nav['title'].'"' : '').($nav['target'] == 1 ? ' target="_blank"' : '').'>'.$nav['icon'].$nav['name'].'</a></li>';
+			$nav['code'] = '<li>'.$nav['subcode'].'<a href="'.$nav['url'].'"'.($nav['title'] ? ' title="'.$nav['title'].'"' : '').($nav['target'] == 1 ? ' target="_blank"' : '').'>'.$nav['icon'].$nav['name'].'</a></li>';
 		} else {
 			$nav['code'] = '</ul><hr class="da" /><ul>';
 		}
-		$id = $nav['type'] == 0  ? $nav['identifier'] : 100 + $nav['id'];
-		$data['spacenavs'][$id] = array('available' => $nav['available'], 'navname' => $nav['name'], 'code' => $nav['code'], 'level' => $nav['level']);
+		$id = $nav['type'] == 0 ? $nav['identifier'] : 100 + $nav['id'];
+		$data['spacenavs'][$id] = ['data' => $_nav, 'available' => $nav['available'], 'navname' => $nav['name'], 'code' => $nav['code'], 'level' => $nav['level']];
 	}
 	return $data['spacenavs'];
 }
@@ -1007,22 +1153,23 @@ function get_cachedata_spacenavs() {
 function get_cachedata_mynavs() {
 	global $_G;
 
-	$data['mynavs'] = array();
-	foreach(C::t('common_nav')->fetch_all_by_navtype(3) as $nav) {
+	$data['mynavs'] = [];
+	foreach(table_common_nav::t()->fetch_all_by_navtype(3) as $nav) {
+		$_nav = $nav;
 		if($nav['available'] < 0) {
 			continue;
 		}
 		if($nav['icon']) {
 			$navicon = str_replace('{STATICURL}', STATICURL, $nav['icon']);
-			if(!preg_match("/^".preg_quote(STATICURL, '/')."/i", $navicon) && !(($valueparse = parse_url($navicon)) && isset($valueparse['host']))) {
-				$navicon = $_G['setting']['attachurl'].'common/'.$nav['icon'].'?'.random(6);
+			if(!preg_match('/^'.preg_quote(STATICURL, '/').'/i', $navicon) && !(($valueparse = parse_url($navicon)) && isset($valueparse['host']))) {
+				$navicon = $nav['icon'].'?'.random(6);
 			}
 			$navicon = preg_match('/^(https?:)?\/\//i', $navicon) ? $navicon : $_G['siteurl'].$navicon;
 			$nav['icon'] = ' style="background-image:url('.$navicon.') !important"';
 		}
 		$nav['code'] = '<a href="'.$nav['url'].'"'.($nav['title'] ? ' title="'.$nav['title'].'"' : '').($nav['target'] == 1 ? ' target="_blank"' : '').$nav['icon'].'>'.$nav['name'].'</a>';
 		$id = $nav['type'] == 0 ? $nav['identifier'] : 100 + $nav['id'];
-		$data['mynavs'][$id] = array('available' => $nav['available'], 'navname' => $nav['name'], 'code' => $nav['code'], 'level' => $nav['level']);
+		$data['mynavs'][$id] = ['data' => $_nav, 'available' => $nav['available'], 'navname' => $nav['name'], 'code' => $nav['code'], 'level' => $nav['level'], 'icon' => $nav['icon']];
 	}
 	return $data['mynavs'];
 }
@@ -1030,8 +1177,9 @@ function get_cachedata_mynavs() {
 function get_cachedata_topnav() {
 	global $_G;
 
-	$data['topnavs'] = array();
-	foreach(C::t('common_nav')->fetch_all_by_navtype(4) as $nav) {
+	$data['topnavs'] = [];
+	foreach(table_common_nav::t()->fetch_all_by_navtype(4) as $nav) {
+		$_nav = $nav;
 		$nav['extra'] = '';
 		if(!$nav['type']) {
 			if($nav['identifier'] == 'sethomepage') {
@@ -1044,7 +1192,7 @@ function get_cachedata_topnav() {
 		}
 		$nav['code'] = '<a href="'.$nav['url'].'"'.($nav['title'] ? ' title="'.$nav['title'].'"' : '').($nav['target'] == 1 ? ' target="_blank"' : '').' '.parsehighlight($nav['highlight']).$nav['extra'].'>'.$nav['name'].'</a>';
 		$id = $nav['type'] == 0 ? $nav['identifier'] : 100 + $nav['id'];
-		$data['topnavs'][$nav['subtype']][$id] = array('available' => $nav['available'], 'navname' => $nav['name'], 'code' => $nav['code'], 'type' => $nav['type'], 'level' => $nav['level'], 'id' => $nav['identifier']);
+		$data['topnavs'][$nav['subtype']][$id] = ['data' => $_nav, 'available' => $nav['available'], 'navname' => $nav['name'], 'code' => $nav['code'], 'type' => $nav['type'], 'level' => $nav['level'], 'id' => $nav['identifier']];
 	}
 	return $data['topnavs'];
 }
@@ -1054,9 +1202,9 @@ function get_cachedata_threadprofile() {
 	if(!helper_dbtool::isexisttable('forum_threadprofile')) {
 		return;
 	}
-	$threadprofiles = C::t('forum_threadprofile')->fetch_all_threadprofile();
-	$threadprofile_group = C::t('forum_threadprofile_group')->fetch_all_threadprofile();
-	$data = array();
+	$threadprofiles = table_forum_threadprofile::t()->fetch_all_threadprofile();
+	$threadprofile_group = table_forum_threadprofile_group::t()->fetch_all_threadprofile();
+	$data = [];
 	foreach($threadprofiles as $id => $threadprofile) {
 		if($threadprofile['global']) {
 			$data['template'][0] = dunserialize($threadprofile['template']);
@@ -1077,7 +1225,7 @@ function get_cachedata_threadprofile() {
 		foreach($template as $type => $row) {
 			$data['template'][$id][$type] = preg_replace_callback(
 				'/\{([\w:]+)(=([^}]+?))?\}(([^}]+?)\{\*\}([^}]+?)\{\/\\1\})?/s',
-				function ($matches) use ($id, $type) {
+				function($matches) use ($id, $type) {
 					return get_cachedata_threadprofile_nodeparse(intval($id), ''.addslashes($type).'', $matches[1], $matches[5], $matches[6], $matches[3]);
 				},
 				$template[$type]
@@ -1089,50 +1237,160 @@ function get_cachedata_threadprofile() {
 }
 
 function get_cachedata_threadprofile_nodeparse($id, $type, $name, $s, $e, $extra) {
-	$s = stripslashes($s);
-	$e = stripslashes($e);
-	$extra = stripslashes($extra);
+	$s = $s ? stripslashes($s) : '';
+	$e = $e ? stripslashes($e) : '';
+	$extra = $extra ? stripslashes($extra) : '';
 	global $_G;
 	$hash = random(8);
-	$_G['cachedata_threadprofile_code'][$id][$type]['{'.$hash.'}'] = array($name, $s, $e, $extra);
+	$_G['cachedata_threadprofile_code'][$id][$type]['{'.$hash.'}'] = [$name, $s, $e, $extra];
 	return '{'.$hash.'}';
 }
 
-function get_cachedata_discuzcode_parseflv() {
-	$mediadir = DISCUZ_ROOT.'./source/function/media';
-	$parseflv = array();
+function get_cachedata_discuzcode_parseflv($mediasetting, $plugins) {
+	$mediadir = DISCUZ_ROOT.'./source/class/media';
+	$parseflv = [];
 	if(file_exists($mediadir)) {
 		$mediadirhandle = dir($mediadir);
 		while($entry = $mediadirhandle->read()) {
-			if(!in_array($entry, array('.', '..')) && preg_match("/^media\_([\_\w]+)\.php$/", $entry, $entryr) && substr($entry, -4) == '.php' && is_file($mediadir.'/'.$entry)) {
-				$checkurl = array();
-				@include_once libfile('media/'.$entryr[1], 'function');
-				$parseflv[$entryr[1]] = $checkurl;
+			if(!in_array($entry, ['.', '..']) && preg_match('/^media\_([\_\w]+)\.php$/', $entry, $entryr) && str_ends_with($entry, '.php') && is_file($mediadir.'/'.$entry)) {
+				if(isset($mediasetting['system']) &&
+					(empty($mediasetting['system']) || !in_array($entryr[1], $mediasetting['system']))) {
+					continue;
+				}
+				$c = 'media_'.$entryr[1];
+				if(class_exists($c) && property_exists($c, 'checkurl')) {
+					$parseflv[$entryr[1]] = $c::$checkurl;
+				}
 			}
 		}
 	}
+	if(!empty($mediasetting['plugin']) && !empty($plugins['available'])) {
+		foreach($mediasetting['plugin'] as $v) {
+			[$pluginid, $t] = explode(':', $v);
+			if(!in_array($pluginid, $plugins['available'])) {
+				continue;
+			}
+			$c = $pluginid.'\media_'.$t;
+			if(class_exists($c) && property_exists($c, 'checkurl')) {
+				$parseflv[$pluginid.':'.$t] = $c::$checkurl;
+			}
+		}
+	}
+
 	return $parseflv;
+}
+
+function init_i18n(&$data) {
+	global $_G;
+
+	$jslangs = [
+		'default' => DISCUZ_ROOT.'./source/language/lang_js.php',
+	];
+
+	foreach(glob(DISCUZ_ROOT.'./source/i18n/*') as $path) {
+		if(!is_dir($path)) {
+			continue;
+		}
+		$langkey = basename($path);
+		$data['i18n'][$langkey] = $path;
+		$jslangs[$langkey] = $path.'/lang_js.php';
+	}
+	$data['i18nLang'] = [];
+	if(!empty($data['i18ns'])) {
+		foreach($data['i18n'] as $langkey => $path) {
+			if(!in_array($langkey, $data['i18ns'])) {
+				continue;
+			}
+			$lang = i18n::getLang('lang.php', $langkey);
+			$data['i18nLang'][$langkey] = !empty($lang['name']) ? $lang['name'] : $langkey;
+			$jslangs[$langkey] = i18n::getLang('lang_js.php', $langkey);
+		}
+	}
+
+	$cachedir = DISCUZ_DATA.'./cache/';
+	if(!is_dir($cachedir)) {
+		dmkdir($cachedir);
+	}
+	foreach($jslangs as $langkey => $file) {
+		$lang_js = $lang = [];
+		if(!is_array($file)) {
+			if(!file_exists($file)) {
+				continue;
+			}
+
+			require $file;
+			$lang_js = $lang;
+		} else {
+			$lang_js = $file;
+		}
+		foreach(glob(MITFRAME_APP().'/*') as $appdir) {
+			if(!is_dir($appdir)) {
+				continue;
+			}
+			$f = $appdir.'/i18n/'.($langkey == 'default' ? currentlang() : $langkey).'/lang_js.php';
+			if(!file_exists($f)) {
+				continue;
+			}
+			$lang = [];
+			require $f;
+			$lang_js = array_merge($lang_js, $lang);
+		}
+		foreach($data['plugins']['available'] as $plugin) {
+			$f = DISCUZ_PLUGIN($plugin).'/i18n/'.($langkey == 'default' ? currentlang() : $langkey).'/lang_js.php';
+			if(!file_exists($f)) {
+				continue;
+			}
+			$lang = [];
+			require $f;
+			$lang_js = array_merge($lang_js, $lang);
+		}
+		$tpldirs = [];
+		foreach(table_common_style::t()->fetch_all_data(true) as $style) {
+			$tpldirs[$style['directory']] = $style['directory'];
+		}
+		foreach($tpldirs as $tpldir) {
+			$f = DISCUZ_TEMPLATE($tpldir).'/i18n/'.($langkey == 'default' ? currentlang() : $langkey).'/lang_js.php';
+			if(!file_exists($f)) {
+				continue;
+			}
+			$lang = [];
+			require $f;
+			$lang_js = array_merge($lang_js, $lang);
+		}
+
+		$entry = 'lang_'.$langkey.'.js';
+		$content = 'var _JSLANG_ = '.json_encode($lang_js, JSON_UNESCAPED_UNICODE).';';
+		if(file_put_contents($cachedir.$entry, $content, LOCK_EX) === false) {
+			exit('Can not write to cache files, please check directory ./data/ and ./data/cache/ .');
+		}
+		if(defined('IN_UPDATECACHE')) {
+			oss::writeCache($entry);
+		}
+		if(!empty($_G['config']['plugindeveloper'])) {
+			file_put_contents(DISCUZ_ROOT.'./static/js/'.$entry, $content, LOCK_EX);
+		}
+	}
 }
 
 function writetojscache() {
 	$dir = DISCUZ_ROOT.'static/js/';
 	$dh = opendir($dir);
-	$remove = array(
-	array(
-		'/(^|\r|\n)\/\*.+?\*\/(\r|\n)/is',
-		"/([^\\\:]{1})\/\/.+?(\r|\n)/",
-		'/\/\/note.+?(\r|\n)/i',
-		'/\/\/debug.+?(\r|\n)/i',
-		'/(^|\r|\n)(\s|\t)+/',
-		'/(\r|\n)/',
-	), array(
-		'',
-		'\1',
-		'',
-		'',
-		'',
-		'',
-	));
+	$remove = [
+		[
+			'/(^|\r|\n)\/\*.+?\*\/(\r|\n)/is',
+			"/([^\\\:]{1})\/\/.+?(\r|\n)/",
+			'/\/\/note.+?(\r|\n)/i',
+			'/\/\/debug.+?(\r|\n)/i',
+			'/(^|\r|\n)(\s|\t)+/',
+			'/(\r|\n)/',
+		], [
+			'',
+			'\1',
+			'',
+			'',
+			'',
+			'',
+		]];
 	while(($entry = readdir($dh)) !== false) {
 		if(fileext($entry) == 'js' && filesize($dir.$entry)) {
 			$jsfile = $dir.$entry;
@@ -1140,8 +1398,15 @@ function writetojscache() {
 			$jsdata = fread($fp, filesize($jsfile));
 			fclose($fp);
 			$jsdata = preg_replace($remove[0], $remove[1], $jsdata);
-			if(file_put_contents(DISCUZ_ROOT.'./data/cache/'.$entry, $jsdata, LOCK_EX) === false) {
+			$cachedir = DISCUZ_DATA.'./cache/';
+			if(!is_dir($cachedir)) {
+				dmkdir($cachedir);
+			}
+			if(file_put_contents($cachedir.$entry, $jsdata, LOCK_EX) === false) {
 				exit('Can not write to cache files, please check directory ./data/ and ./data/cache/ .');
+			}
+			if(defined('IN_UPDATECACHE')) {
+				oss::writeCache($entry);
 			}
 		}
 	}
@@ -1153,7 +1418,7 @@ function pluginmodulecmp($a, $b) {
 
 function parsehighlight($highlight) {
 	if($highlight) {
-		$colorarray = array('', 'red', 'orange', 'yellow', 'green', 'cyan', 'blue', 'purple', 'gray');
+		$colorarray = ['', 'red', 'orange', 'yellow', 'green', 'cyan', 'blue', 'purple', 'gray'];
 		$string = sprintf('%02d', $highlight);
 		$stylestr = sprintf('%03b', $string[0]);
 
@@ -1169,4 +1434,3 @@ function parsehighlight($highlight) {
 	return $style;
 }
 
-?>

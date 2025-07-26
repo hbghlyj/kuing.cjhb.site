@@ -1,6 +1,6 @@
 /*
 Editor CSS file for Discuz! X
-(C) Comsenz Inc.
+(C) Discuz! Team
 https://www.discuz.vip
 */
 .edt { border: 1px solid; border-color: #999 #CCC #CCC #999; }
@@ -86,6 +86,8 @@ https://www.discuz.vip
 	#e_password	{ background-position: -180px -120px; }
 	#e_postbg	{ background-position: -160px -120px; }
 
+	#e_fls			{ background-position: -3px -120px; }
+		.b2r #e_fls	{ background-position: -260px -20px; }
 	#e_aud			{ background-position: -43px -120px; }
 		.b2r #e_aud	{ background-position: -220px -20px; }
 	#e_vid			{ background-position: -83px -120px; }

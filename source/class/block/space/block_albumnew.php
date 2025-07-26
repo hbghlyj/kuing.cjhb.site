@@ -1,10 +1,9 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: block_albumnew.php 25525 2011-11-14 04:39:11Z zhangguosheng $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -15,22 +14,22 @@ require_once libfile('block_album', 'class/block/space');
 
 class block_albumnew extends block_album {
 	function __construct() {
-		$this->setting = array(
-			'catid' => array(
+		$this->setting = [
+			'catid' => [
 				'title' => 'albumlist_catid',
 				'type' => 'mselect',
-			),
-			'titlelength' => array(
+			],
+			'titlelength' => [
 				'title' => 'albumlist_titlelength',
 				'type' => 'text',
 				'default' => 40
-			),
-			'startrow' => array(
+			],
+			'startrow' => [
 				'title' => 'albumlist_startrow',
 				'type' => 'text',
 				'default' => 0
-			),
-		);
+			],
+		];
 	}
 
 	function name() {
@@ -43,4 +42,3 @@ class block_albumnew extends block_album {
 	}
 }
 
-?>

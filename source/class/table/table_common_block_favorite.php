@@ -1,22 +1,28 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: table_common_block_favorite.php 27846 2012-02-15 09:04:33Z zhangguosheng $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
-class table_common_block_favorite extends discuz_table
-{
+class table_common_block_favorite extends discuz_table {
+	public static function t() {
+		static $_instance;
+		if(!isset($_instance)) {
+			$_instance = new self();
+		}
+		return $_instance;
+	}
+
 	public function __construct() {
 
 		$this->_table = 'common_block_favorite';
-		$this->_pk    = 'favid';
+		$this->_pk = 'favid';
 
 		parent::__construct();
 	}
@@ -29,13 +35,12 @@ class table_common_block_favorite extends discuz_table
 		return ($bid = dintval($bid)) ? DB::delete($this->_table, DB::field('bid', $bid)) : false;
 	}
 
-	public function count_by_uid_bid($uid, $bid){
-		return ($uid = dintval($uid)) && ($bid = dintval($bid)) ? DB::result_first('SELECT count(*) FROM %t WHERE uid=%d AND bid=%d', array($this->_table, $uid, $bid)) : false;
+	public function count_by_uid_bid($uid, $bid) {
+		return ($uid = dintval($uid)) && ($bid = dintval($bid)) ? DB::result_first('SELECT count(*) FROM %t WHERE uid=%d AND bid=%d', [$this->_table, $uid, $bid]) : false;
 	}
 
 	public function fetch_all_by_uid($uid) {
-		return ($uid = dintval($uid)) ? DB::fetch_all('SELECT * FROM %t WHERE uid=%d ORDER BY dateline DESC', array($this->_table, $uid), 'bid') : array();
+		return ($uid = dintval($uid)) ? DB::fetch_all('SELECT * FROM %t WHERE uid=%d ORDER BY dateline DESC', [$this->_table, $uid], 'bid') : [];
 	}
 }
 
-?>

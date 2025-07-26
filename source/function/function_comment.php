@@ -1,10 +1,9 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: function_comment.php 33714 2013-08-07 01:42:26Z andyzheng $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -35,24 +34,24 @@ function add_comment($message, $id, $idtype, $cid = 0) {
 	$summay = getstr($message, 150, 0, 0, 0, -1);
 
 
-	$comment = array();
+	$comment = [];
 	if($cid) {
-		$comment = C::t('home_comment')->fetch_by_id_idtype($id, $idtype, $cid);
+		$comment = table_home_comment::t()->fetch_by_id_idtype($id, $idtype, $cid);
 		if($comment && $comment['authorid'] != $_G['uid']) {
 			$comment['message'] = preg_replace("/\<div class=\"quote\"\>\<blockquote\>.*?\<\/blockquote\>\<\/div\>/is", '', $comment['message']);
 			$comment['message'] = $bbcode->html2bbcode($comment['message']);
-			$message = ("<div class=\"quote\"><blockquote><b>".$comment['author']."</b>: ".getstr($comment['message'], 150, 0, 0, 2, 1).'</blockquote></div>').$message;
+			$message = ("<div class=\"quote\"><blockquote><b>".$comment['author']. '</b>: ' .getstr($comment['message'], 150, 0, 0, 2, 1).'</blockquote></div>').$message;
 			if($comment['idtype'] == 'uid') {
 				$id = $comment['authorid'];
 			}
 		} else {
-			$comment = array();
+			$comment = [];
 		}
 	}
 
-	$hotarr = array();
+	$hotarr = [];
 	$stattype = '';
-	$tospace = $pic = $blog = $album = $share = $poll = array();
+	$tospace = $pic = $blog = $album = $share = $poll = [];
 
 	switch($idtype) {
 		case 'uid':
@@ -60,19 +59,19 @@ function add_comment($message, $id, $idtype, $cid = 0) {
 			$stattype = 'wall';
 			break;
 		case 'picid':
-			$pic = C::t('home_pic')->fetch($id);
+			$pic = table_home_pic::t()->fetch($id);
 			if(empty($pic)) {
 				showmessage('view_images_do_not_exist');
 			}
-			$picfield = C::t('home_picfield')->fetch($id);
+			$picfield = table_home_picfield::t()->fetch($id);
 			$pic['hotuser'] = $picfield['hotuser'];
 			$tospace = getuserbyuid($pic['uid']);
 
-			$album = array();
+			$album = [];
 			if($pic['albumid']) {
-				$album = C::t('home_album')->fetch_album($pic['albumid']);
+				$album = table_home_album::t()->fetch_album($pic['albumid']);
 				if(!$album['albumid']) {
-					C::t('home_pic')->update_for_albumid($pic['albumid'], array('albumid' => 0));
+					table_home_pic::t()->update_for_albumid($pic['albumid'], ['albumid' => 0]);
 				}
 			}
 
@@ -80,19 +79,19 @@ function add_comment($message, $id, $idtype, $cid = 0) {
 				showmessage('no_privilege_ckfriend_pic');
 			} elseif(!$tospace['self'] && $album['friend'] == 4) {
 				$cookiename = "view_pwd_album_{$album['albumid']}";
-				$cookievalue = empty($_G['cookie'][$cookiename])?'':$_G['cookie'][$cookiename];
+				$cookievalue = empty($_G['cookie'][$cookiename]) ? '' : $_G['cookie'][$cookiename];
 				if($cookievalue != md5(md5($album['password']))) {
 					showmessage('no_privilege_ckpassword_pic');
 				}
 			}
 
-			$hotarr = array('picid', $pic['picid'], $pic['hotuser']);
+			$hotarr = ['picid', $pic['picid'], $pic['hotuser']];
 			$stattype = 'piccomment';
 			break;
 		case 'blogid':
 			$blog = array_merge(
-				C::t('home_blog')->fetch($id),
-				C::t('home_blogfield')->fetch_targetids_by_blogid($id)
+				table_home_blog::t()->fetch($id),
+				table_home_blogfield::t()->fetch_targetids_by_blogid($id)
 			);
 			if(empty($blog)) {
 				showmessage('view_to_info_did_not_exist');
@@ -104,7 +103,7 @@ function add_comment($message, $id, $idtype, $cid = 0) {
 				showmessage('no_privilege_ckfriend_blog');
 			} elseif(!$tospace['self'] && $blog['friend'] == 4) {
 				$cookiename = "view_pwd_blog_{$blog['blogid']}";
-				$cookievalue = empty($_G['cookie'][$cookiename])?'':$_G['cookie'][$cookiename];
+				$cookievalue = empty($_G['cookie'][$cookiename]) ? '' : $_G['cookie'][$cookiename];
 				if($cookievalue != md5(md5($blog['password']))) {
 					showmessage('no_privilege_ckpassword_blog');
 				}
@@ -117,18 +116,18 @@ function add_comment($message, $id, $idtype, $cid = 0) {
 				$blog['target_ids'] .= ",{$blog['uid']}";
 			}
 
-			$hotarr = array('blogid', $blog['blogid'], $blog['hotuser']);
+			$hotarr = ['blogid', $blog['blogid'], $blog['hotuser']];
 			$stattype = 'blogcomment';
 			break;
 		case 'sid':
-			$share = C::t('home_share')->fetch($id);
+			$share = table_home_share::t()->fetch($id);
 			if(empty($share)) {
 				showmessage('sharing_does_not_exist');
 			}
 
 			$tospace = getuserbyuid($share['uid']);
 
-			$hotarr = array('sid', $share['sid'], $share['hotuser']);
+			$hotarr = ['sid', $share['sid'], $share['hotuser']];
 			$stattype = 'sharecomment';
 			break;
 		default:
@@ -136,7 +135,7 @@ function add_comment($message, $id, $idtype, $cid = 0) {
 			break;
 	}
 	if(empty($tospace)) {
-		showmessage('space_does_not_exist', '', array(), array('return' => true));
+		showmessage('space_does_not_exist', '', [], ['return' => true]);
 	}
 
 	if(isblacklist($tospace['uid'])) {
@@ -147,43 +146,43 @@ function add_comment($message, $id, $idtype, $cid = 0) {
 		hot_update($hotarr[0], $hotarr[1], $hotarr[2]);
 	}
 
-	$fs = array();
+	$fs = [];
 	$fs['icon'] = 'comment';
 	$fs['target_ids'] = '';
 	$fs['friend'] = '';
 	$fs['body_template'] = '';
-	$fs['body_data'] = array();
+	$fs['body_data'] = [];
 	$fs['body_general'] = '';
-	$fs['images'] = array();
-	$fs['image_links'] = array();
+	$fs['images'] = [];
+	$fs['image_links'] = [];
 
-	switch ($idtype) {
+	switch($idtype) {
 		case 'uid':
 			$fs['icon'] = 'wall';
 			$fs['title_template'] = 'feed_comment_space';
-			$fs['title_data'] = array('touser'=>"<a href=\"home.php?mod=space&uid={$tospace['uid']}\">{$tospace['username']}</a>");
+			$fs['title_data'] = ['touser' => "<a href=\"home.php?mod=space&uid={$tospace['uid']}\">{$tospace['username']}</a>"];
 			break;
 		case 'picid':
 			$fs['title_template'] = 'feed_comment_image';
-			$fs['title_data'] = array('touser'=>"<a href=\"home.php?mod=space&uid={$tospace['uid']}\">".$tospace['username']."</a>");
+			$fs['title_data'] = ['touser' => "<a href=\"home.php?mod=space&uid={$tospace['uid']}\">".$tospace['username']. '</a>'];
 			$fs['body_template'] = '{pic_title}';
-			$fs['body_data'] = array('pic_title'=>$pic['title']);
+			$fs['body_data'] = ['pic_title' => $pic['title']];
 			$fs['body_general'] = $summay;
-			$fs['images'] = array(pic_get($pic['filepath'], 'album', $pic['thumb'], $pic['remote']));
-			$fs['image_links'] = array("home.php?mod=space&uid={$tospace['uid']}&do=album&picid={$pic['picid']}");
+			$fs['images'] = [pic_get($pic['filepath'], 'album', $pic['thumb'], $pic['remote'])];
+			$fs['image_links'] = ["home.php?mod=space&uid={$tospace['uid']}&do=album&picid={$pic['picid']}"];
 			$fs['target_ids'] = $album['target_ids'];
 			$fs['friend'] = $album['friend'];
 			break;
 		case 'blogid':
-			C::t('home_blog')->increase($id, 0, array('replynum'=>1));
+			table_home_blog::t()->increase($id, 0, ['replynum' => 1]);
 			$fs['title_template'] = 'feed_comment_blog';
-			$fs['title_data'] = array('touser'=>"<a href=\"home.php?mod=space&uid={$tospace['uid']}\">".$tospace['username']."</a>", 'blog'=>"<a href=\"home.php?mod=space&uid={$tospace['uid']}&do=blog&id=$id\">{$blog['subject']}</a>");
+			$fs['title_data'] = ['touser' => "<a href=\"home.php?mod=space&uid={$tospace['uid']}\">".$tospace['username']. '</a>', 'blog' => "<a href=\"home.php?mod=space&uid={$tospace['uid']}&do=blog&id=$id\">{$blog['subject']}</a>"];
 			$fs['target_ids'] = $blog['target_ids'];
 			$fs['friend'] = $blog['friend'];
 			break;
 		case 'sid':
 			$fs['title_template'] = 'feed_comment_share';
-			$fs['title_data'] = array('touser'=>"<a href=\"home.php?mod=space&uid={$tospace['uid']}\">".$tospace['username']."</a>", 'share'=>"<a href=\"home.php?mod=space&uid={$tospace['uid']}&do=share&id=$id\">".str_replace(lang('spacecp', 'share_action'), '', $share['title_template'])."</a>");
+			$fs['title_data'] = ['touser' => "<a href=\"home.php?mod=space&uid={$tospace['uid']}\">".$tospace['username']. '</a>', 'share' => "<a href=\"home.php?mod=space&uid={$tospace['uid']}&do=share&id=$id\">".str_replace(lang('spacecp', 'share_action'), '', $share['title_template']). '</a>'];
 			break;
 	}
 
@@ -194,7 +193,7 @@ function add_comment($message, $id, $idtype, $cid = 0) {
 		$comment_status = 0;
 	}
 
-	$setarr = array(
+	$setarr = [
 		'uid' => $tospace['uid'],
 		'id' => $id,
 		'idtype' => $idtype,
@@ -205,31 +204,31 @@ function add_comment($message, $id, $idtype, $cid = 0) {
 		'ip' => $_G['clientip'],
 		'port' => $_G['remoteport'],
 		'status' => $comment_status,
-	);
-	$cid = C::t('home_comment')->insert($setarr, true);
+	];
+	$cid = table_home_comment::t()->insert($setarr, true);
 
 	$action = 'comment';
 	$becomment = 'getcomment';
 	$note = $q_note = '';
-	$note_values = $q_values = array();
+	$note_values = $q_values = [];
 
-	switch ($idtype) {
+	switch($idtype) {
 		case 'uid':
 			$n_url = "home.php?mod=space&uid={$tospace['uid']}&do=wall&cid=$cid";
 
 			$note_type = 'wall';
 			$note = 'wall';
-			$note_values = array('url'=>$n_url);
+			$note_values = ['url' => $n_url];
 			$q_note = 'wall_reply';
-			$q_values = array('url'=>$n_url);
+			$q_values = ['url' => $n_url];
 
 			if($comment) {
 				$msg = 'note_wall_reply_success';
-				$magvalues = array('username' => $tospace['username']);
+				$magvalues = ['username' => $tospace['username']];
 				$becomment = '';
 			} else {
 				$msg = 'do_success';
-				$magvalues = array();
+				$magvalues = [];
 				$becomment = 'getguestbook';
 			}
 
@@ -240,12 +239,12 @@ function add_comment($message, $id, $idtype, $cid = 0) {
 
 			$note_type = 'comment';
 			$note = 'pic_comment';
-			$note_values = array('url'=>$n_url);
+			$note_values = ['url' => $n_url];
 			$q_note = 'pic_comment_reply';
-			$q_values = array('url'=>$n_url);
+			$q_values = ['url' => $n_url];
 
 			$msg = 'do_success';
-			$magvalues = array();
+			$magvalues = [];
 
 			break;
 		case 'blogid':
@@ -253,12 +252,12 @@ function add_comment($message, $id, $idtype, $cid = 0) {
 
 			$note_type = 'comment';
 			$note = 'blog_comment';
-			$note_values = array('url'=>$n_url, 'subject'=>$blog['subject']);
+			$note_values = ['url' => $n_url, 'subject' => $blog['subject']];
 			$q_note = 'blog_comment_reply';
-			$q_values = array('url'=>$n_url);
+			$q_values = ['url' => $n_url];
 
 			$msg = 'do_success';
-			$magvalues = array();
+			$magvalues = [];
 
 			break;
 		case 'sid':
@@ -266,12 +265,12 @@ function add_comment($message, $id, $idtype, $cid = 0) {
 
 			$note_type = 'comment';
 			$note = 'share_comment';
-			$note_values = array('url'=>$n_url);
+			$note_values = ['url' => $n_url];
 			$q_note = 'share_comment_reply';
-			$q_values = array('url'=>$n_url);
+			$q_values = ['url' => $n_url];
 
 			$msg = 'do_success';
-			$magvalues = array();
+			$magvalues = [];
 
 			break;
 	}
@@ -282,7 +281,7 @@ function add_comment($message, $id, $idtype, $cid = 0) {
 			if(ckprivacy('comment', 'feed')) {
 				require_once libfile('function/feed');
 				$fs['title_data']['hash_data'] = "{$idtype}{$id}";
-				feed_add($fs['icon'], $fs['title_template'], $fs['title_data'], $fs['body_template'], $fs['body_data'], $fs['body_general'],$fs['images'], $fs['image_links'], $fs['target_ids'], $fs['friend']);
+				feed_add($fs['icon'], $fs['title_template'], $fs['title_data'], $fs['body_template'], $fs['body_data'], $fs['body_general'], $fs['images'], $fs['image_links'], $fs['target_ids'], $fs['friend']);
 			}
 
 			$note_values['from_id'] = $id;
@@ -311,19 +310,18 @@ function add_comment($message, $id, $idtype, $cid = 0) {
 		} else {
 			$needle = $tospace['uid'];
 		}
-		updatecreditbyaction($action, 0, array(), $needle);
+		updatecreditbyaction($action, 0, [], $needle);
 		if($becomment) {
 			if($idtype == 'uid') {
 				$needle = $_G['uid'];
 			}
-			updatecreditbyaction($becomment, $tospace['uid'], array(), $needle);
+			updatecreditbyaction($becomment, $tospace['uid'], [], $needle);
 		}
 	}
 
-	C::t('common_member_status')->update($_G['uid'], array('lastpost' => $_G['timestamp']), 'UNBUFFERED');
+	table_common_member_status::t()->update($_G['uid'], ['lastpost' => $_G['timestamp']], 'UNBUFFERED');
 	$magvalues['cid'] = $cid;
 
-	return array('cid' => $cid, 'msg' => $msg, 'magvalues' => $magvalues);
+	return ['cid' => $cid, 'msg' => $msg, 'magvalues' => $magvalues];
 }
 
-?>

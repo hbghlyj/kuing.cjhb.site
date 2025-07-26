@@ -1,10 +1,9 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: class_credit.php 32967 2013-03-28 10:57:48Z zhengqingpeng $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -15,9 +14,10 @@ class credit {
 
 	var $checklowerlimit = true;
 	var $coef = 1;
-	var $extrasql = array();
+	var $extrasql = [];
 
-	function __construct() {}
+	function __construct() {
+	}
 
 	public static function &instance() {
 		static $object;
@@ -32,163 +32,221 @@ class credit {
 
 		$this->coef = $coef;
 		$uid = intval($uid ? $uid : $_G['uid']);
-		$fid = $fid ? $fid : (isset($_G['fid']) && $_G['fid'] ? $_G['fid'] : 0);
-		$rule = $this->getrule($action, $fid);
+		$rulefid = $fid ? $fid : (isset($_G['fid']) && $_G['fid'] ? $_G['fid'] : 0);
+		if($rulefid) {
+			$forumfield = table_forum_forumfield::t()->fetch($rulefid);
+			$forumpolicy = dunserialize($forumfield['creditspolicy']);
+		}
+		$groupid = $uid == $_G['uid'] ? $_G['groupid'] : table_common_member::t()->fetch($uid)['groupid'];
+		$rule = $this->getrule($action, $rulefid, $groupid);
+		if(!$rule) {
+			return [];
+		}
 		$updatecredit = false;
 
 		$enabled = false;
-		if($rule) {
-			for ($i = 1; $i<=8; $i++) {
-				if(!empty($rule['extcredits'.$i])) {
-					$enabled = true; break;
-				}
+		for($i = 1; $i <= 8; $i++) {
+			if(!empty($rule['extcredits'.$i])) {
+				$enabled = true;
+				break;
 			}
 		}
 
+		$mainRule = $rule;
+		$rules = [$rule];
+		$subExists = false;
+		loadcache('creditrule_sub');
+		if(!empty($_G['cache']['creditrule_sub'][$action])) {
+			$subExists = true;
+			$rules = array_merge($rules, $_G['cache']['creditrule_sub'][$action]);
+		}
+
 		if($enabled) {
-			$rulelog = array();
-			$fids = $rule['fids'] ? explode(',', $rule['fids']) : array();
-			$fid = in_array($fid, $fids) ? $fid : 0;
-			$rulelog = $this->getrulelog($rule['rid'], $uid, $fid);
-			if($rulelog && $rule['norepeat']) {
-				$rulelog = array_merge($rulelog, $this->getchecklogbyclid($rulelog['clid'], $uid));
-				$rulelog['norepeat'] = $rule['norepeat'];
-			}
-			if($rule['rewardnum'] && $rule['rewardnum'] < $coef) {
-				$coef = $rule['rewardnum'];
-			}
-			if(empty($rulelog)) {
-				$logarr = array(
-					'uid' => $uid,
-					'rid' => $rule['rid'],
-					'fid' => $fid,
-					'total' => $coef,
-					'cyclenum' => $coef,
-					'dateline' => $_G['timestamp']
-				);
+			$rulelog = [];
+			foreach($rules as $id => $rule) {
+				$updatecredit = false;
+				$fids = $rule['fids'] ? explode(',', $rule['fids']) : [];
+				$fid = in_array($rulefid, $fids) ? $fid : 0;
 
-				if(in_array($rule['cycletype'], array(2,3))) {
-					$logarr['starttime'] = $_G['timestamp'];
-				}
-				$logarr = $this->addlogarr($logarr, $rule, false);
-				if($update) {
-					$clid = C::t('common_credit_rule_log')->insert($logarr, 1);
-					if($rule['norepeat']) {
-						$rulelog['isnew'] = 1;
-						$rulelog['clid'] = $clid;
-						$rulelog['uid'] = $uid;
-						$rulelog['norepeat'] = $rule['norepeat'];
-						$this->updatecheating($rulelog, $needle, true);
+				if(!is_numeric($id) && $fids && $rulefid) {
+					foreach($forumpolicy as $_action => $_value) {
+						if(isset($rules[$_action])) {
+							$rule = $_value;
+						}
 					}
 				}
-				$updatecredit = true;
-			} else {
 
-				$newcycle = false;
-				$logarr = array();
-				switch($rule['cycletype']) {
-					case 0:
-						break;
-					case 1:
-					case 4:
-						if($rule['cycletype'] == 1) {
-							$today = strtotime(dgmdate($_G['timestamp'], 'Y-m-d'));
-							if($rulelog['dateline'] < $today && $rule['rewardnum']) {
-								$rulelog['cyclenum'] =  0;
+				$rulelog = $this->getrulelog($rule['rid'], $uid, $fid);
+				if($rulelog && $rule['norepeat']) {
+					$rulelog = array_merge($rulelog, $this->getchecklogbyclid($rulelog['clid'], $uid));
+					$rulelog['norepeat'] = $rule['norepeat'];
+				}
+				if($rule['rewardnum'] && $rule['rewardnum'] < $coef) {
+					$coef = $rule['rewardnum'];
+				}
+				if(empty($rulelog)) {
+					$logarr = [
+						'uid' => $uid,
+						'rid' => $rule['rid'],
+						'fid' => $fid,
+						'total' => $coef,
+						'cyclenum' => $coef,
+						'dateline' => $_G['timestamp']
+					];
+
+					if(in_array($rule['cycletype'], [2, 3])) {
+						$logarr['starttime'] = $_G['timestamp'];
+					}
+					$logarr = $this->addlogarr($logarr, $rule, false);
+					if($update) {
+						$clid = table_common_credit_rule_log::t()->insert($logarr, 1);
+						if($rule['norepeat']) {
+							$rulelog['isnew'] = 1;
+							$rulelog['clid'] = $clid;
+							$rulelog['uid'] = $uid;
+							$rulelog['norepeat'] = $rule['norepeat'];
+							$this->updatecheating($rulelog, $needle, true);
+						}
+					}
+					$updatecredit = true;
+				} else {
+
+					$newcycle = false;
+					$logarr = [];
+					switch($rule['cycletype']) {
+						case 0:
+							break;
+						case 1:
+						case 4:
+						case 5:
+						case 6:
+							if($rule['cycletype'] == 1) {
+								$today = strtotime(dgmdate($_G['timestamp'], 'Y-m-d'));
+								if($rulelog['dateline'] < $today && $rule['rewardnum']) {
+									$rulelog['cyclenum'] = 0;
+									$newcycle = true;
+								}
+							} elseif($rule['cycletype'] == 5) {
+								$lastWeek = dgmdate($rulelog['dateline'], 'YW');
+								$thisWeek = dgmdate($_G['timestamp'], 'YW');
+								if($lastWeek < $thisWeek && $rule['rewardnum']) {
+									$rulelog['cyclenum'] = 0;
+									$newcycle = true;
+								}
+							} elseif($rule['cycletype'] == 6) {
+								$lastMonth = dgmdate($rulelog['dateline'], 'Ym');
+								$thisMonth = dgmdate($_G['timestamp'], 'Ym');
+								if($lastMonth < $thisMonth && $rule['rewardnum']) {
+									$rulelog['cyclenum'] = 0;
+									$newcycle = true;
+								}
+							} elseif($rule['cycletype'] == 7) {
+								$lastMonth = dgmdate($rulelog['dateline'], 'Ym');
+								$thisMonth = dgmdate($_G['timestamp'], 'Ym');
+								if($lastMonth < $thisMonth && $rule['rewardnum']) {
+									$rulelog['cyclenum'] = 0;
+									$newcycle = true;
+								}
+							}
+							if(empty($rule['rewardnum']) || $rulelog['cyclenum'] < $rule['rewardnum']) {
+								if($rule['norepeat']) {
+									$repeat = $this->checkcheating($rulelog, $needle, $rule['norepeat']);
+									if($repeat && !$newcycle) {
+										return false;
+									}
+								}
+								if($rule['rewardnum']) {
+									$remain = $rule['rewardnum'] - $rulelog['cyclenum'];
+									if($remain < $coef) {
+										$coef = $remain;
+									}
+								}
+								$cyclenunm = $newcycle ? $coef : "cyclenum+'$coef'";
+								$logarr = [
+									'cyclenum' => "cyclenum=$cyclenunm",
+									'total' => "total=total+'$coef'",
+									'dateline' => "dateline='{$_G['timestamp']}'"
+								];
+								$updatecredit = true;
+							}
+							break;
+
+						case 2:
+						case 3:
+						case 7:
+							$nextcycle = 0;
+							if($rulelog['starttime']) {
+								if($rule['cycletype'] == 2) {
+									$start = strtotime(dgmdate($rulelog['starttime'], 'Y-m-d H:00:00'));
+									$nextcycle = $start + $rule['cycletime'] * 3600;
+								} else {
+									if($rule['cycletype'] == 7) {
+										$rule['cycletime'] = $rule['cycletime'] * 86400;
+									}
+									$nextcycle = $rulelog['starttime'] + $rule['cycletime'] * 60;
+								}
+							}
+							if($_G['timestamp'] <= $nextcycle && $rulelog['cyclenum'] < $rule['rewardnum']) {
+								if($rule['norepeat']) {
+									$repeat = $this->checkcheating($rulelog, $needle, $rule['norepeat']);
+									if($repeat && !$newcycle) {
+										return false;
+									}
+								}
+								if($rule['rewardnum']) {
+									$remain = $rule['rewardnum'] - $rulelog['cyclenum'];
+									if($remain < $coef) {
+										$coef = $remain;
+									}
+								}
+								$logarr = [
+									'cyclenum' => "cyclenum=cyclenum+'$coef'",
+									'total' => "total=total+'$coef'",
+									'dateline' => "dateline='{$_G['timestamp']}'"
+								];
+								$updatecredit = true;
+							} elseif($_G['timestamp'] >= $nextcycle) {
 								$newcycle = true;
+								$logarr = [
+									'cyclenum' => "cyclenum=$coef",
+									'total' => "total=total+'$coef'",
+									'dateline' => "dateline='{$_G['timestamp']}'",
+									'starttime' => "starttime='{$_G['timestamp']}'",
+								];
+								$updatecredit = true;
 							}
+							break;
+					}
+					if($update) {
+						if($rule['norepeat'] && $needle) {
+							$this->updatecheating($rulelog, $needle, $newcycle);
 						}
-						if(empty($rule['rewardnum']) || $rulelog['cyclenum'] < $rule['rewardnum']) {
-							if($rule['norepeat']) {
-								$repeat = $this->checkcheating($rulelog, $needle, $rule['norepeat']);
-								if($repeat && !$newcycle) {
-									return false;
-								}
-							}
-							if($rule['rewardnum']) {
-								$remain = $rule['rewardnum'] - $rulelog['cyclenum'];
-								if($remain < $coef) {
-									$coef = $remain;
-								}
-							}
-							$cyclenunm = $newcycle ? $coef : "cyclenum+'$coef'";
-							$logarr = array(
-								'cyclenum' => "cyclenum=$cyclenunm",
-								'total' => "total=total+'$coef'",
-								'dateline' => "dateline='{$_G['timestamp']}'"
-							);
-							$updatecredit = true;
+						if($logarr) {
+							$logarr = $this->addlogarr($logarr, $rule, true);
+							table_common_credit_rule_log::t()->increase($rulelog['clid'], $logarr);
 						}
-						break;
+					}
 
-					case 2:
-					case 3:
-						$nextcycle = 0;
-						if($rulelog['starttime']) {
-							if($rule['cycletype'] == 2) {
-								$start = strtotime(dgmdate($rulelog['starttime'], 'Y-m-d H:00:00'));
-								$nextcycle = $start+$rule['cycletime']*3600;
-							} else {
-								$nextcycle = $rulelog['starttime']+$rule['cycletime']*60;
-							}
-						}
-						if($_G['timestamp'] <= $nextcycle && $rulelog['cyclenum'] < $rule['rewardnum']) {
-							if($rule['norepeat']) {
-								$repeat = $this->checkcheating($rulelog, $needle, $rule['norepeat']);
-								if($repeat && !$newcycle) {
-									return false;
-								}
-							}
-							if($rule['rewardnum']) {
-								$remain = $rule['rewardnum'] - $rulelog['cyclenum'];
-								if($remain < $coef) {
-									$coef = $remain;
-								}
-							}
-							$logarr = array(
-								'cyclenum' => "cyclenum=cyclenum+'$coef'",
-								'total' => "total=total+'$coef'",
-								'dateline' => "dateline='{$_G['timestamp']}'"
-							);
-							$updatecredit = true;
-						} elseif($_G['timestamp'] >= $nextcycle) {
-							$newcycle = true;
-							$logarr = array(
-								'cyclenum' => "cyclenum=$coef",
-								'total' => "total=total+'$coef'",
-								'dateline' => "dateline='{$_G['timestamp']}'",
-								'starttime' => "starttime='{$_G['timestamp']}'",
-							);
-							$updatecredit = true;
-						}
-						break;
-				}
-				if($update) {
-					if($rule['norepeat'] && $needle) {
-						$this->updatecheating($rulelog, $needle, $newcycle);
-					}
-					if($logarr) {
-						$logarr = $this->addlogarr($logarr, $rule, true);
-						C::t('common_credit_rule_log')->increase($rulelog['clid'], $logarr);
-					}
 				}
 
+				if($subExists && !$updatecredit) {
+					break;
+				}
 			}
-
 		}
 		if($update && ($updatecredit || $this->extrasql)) {
 			if(!$updatecredit) {
 				for($i = 1; $i <= 8; $i++) {
 					if(isset($_G['setting']['extcredits'][$i])) {
-						$rule['extcredits'.$i] = 0;
+						$mainRule['extcredits'.$i] = 0;
 					}
 				}
 			}
-			$this->updatecreditbyrule($rule, $uid, $coef, $fid);
+			$this->updatecreditbyrule($mainRule, $uid, $coef, $fid);
 		}
-		$rule['updatecredit'] = $updatecredit;
+		$mainRule['updatecredit'] = $updatecredit;
 
-		return $rule;
+		return $mainRule;
 	}
 
 	function lowerlimit($rule, $uid = 0, $coef = 1, $fid = 0) {
@@ -196,9 +254,10 @@ class credit {
 
 		$uid = $uid ? $uid : intval($_G['uid']);
 		if($this->checklowerlimit && $uid && $_G['setting']['creditspolicy']['lowerlimit']) {
-			$member = C::t('common_member_count')->fetch($uid);
+			$member = table_common_member_count::t()->fetch($uid);
 			$fid = $fid ? $fid : (isset($_G['fid']) && $_G['fid'] ? $_G['fid'] : 0);
-			$rule = is_array($rule) ? $rule : $this->getrule($rule, $fid);
+			$groupid = $uid == $_G['uid'] ? $_G['groupid'] : table_common_member::t()->fetch($uid)['groupid'];
+			$rule = is_array($rule) ? $rule : $this->getrule($rule, $fid, $groupid);
 			for($i = 1; $i <= 8; $i++) {
 				if($_G['setting']['extcredits'][$i] && $rule['extcredits'.$i]) {
 					$limit = (float)$_G['setting']['creditspolicy']['lowerlimit'][$i];
@@ -218,25 +277,41 @@ class credit {
 		$this->coef = intval($coef);
 		$fid = $fid ? $fid : (isset($_G['fid']) && $_G['fid'] ? $_G['fid'] : 0);
 		$uids = $uids ? $uids : intval($_G['uid']);
-		$rule = is_array($rule) ? $rule : $this->getrule($rule, $fid);
-		$creditarr = array();
-		$updatecredit = false;
-		for($i = 1; $i <= 8; $i++) {
-			if(isset($_G['setting']['extcredits'][$i])) {
-				$creditarr['extcredits'.$i] = intval($rule['extcredits'.$i]) * $this->coef;
-				if(defined('IN_MOBILE') && $creditarr['extcredits'.$i] > 0) {
-					$creditarr['extcredits'.$i] += (int)$_G['setting']['creditspolicymobile'];
+		$checkgroup = !is_array($uids);
+		$uidgroups = [];
+		foreach((array)$uids as $uid) {
+			$groupid = $uid == $_G['uid'] ? $_G['groupid'] : table_common_member::t()->fetch($uid)['groupid'];
+			$uidgroups[$groupid][] = $uid;
+		}
+		foreach($uidgroups as $groupid => $uids) {
+			$rule = is_array($rule) ? $rule : $this->getrule($rule, $fid, $groupid);
+			$creditarr = [];
+			$updatecredit = false;
+			for($i = 1; $i <= 8; $i++) {
+				if(isset($_G['setting']['extcredits'][$i])) {
+					$creditarr['extcredits'.$i] = intval($rule['extcredits'.$i]) * $this->coef;
+					if(defined('IN_MOBILE') && $creditarr['extcredits'.$i] > 0) {
+						$creditarr['extcredits'.$i] += (int)$_G['setting']['creditspolicymobile'];
+					}
+					$updatecredit = true;
 				}
-				$updatecredit = true;
+			}
+			if($updatecredit || $this->extrasql) {
+				require_once libfile('function/credit');
+				$extra = [];
+				if($fid) {
+					$extra[] = 'fid:'.$fid;
+				}
+				if($rule['groupid']) {
+					$extra[] = 'gid:'.$rule['groupid'];
+				}
+				$extra = !empty($extra) ? '('.implode(',', $extra).')' : '';
+				credit_log($uids, 'RUL', $rule['rid'], $creditarr, $rule['rulename'].$extra);
+				$this->updatemembercount($creditarr, $uids, $checkgroup, $this->coef > 0 ? urldecode($rule['rulenameuni']) : '');
 			}
 		}
-		if($updatecredit || $this->extrasql) {
-			require_once libfile('function/credit');
-			credit_log($uids, 'RUL', $rule['rid'], $creditarr, $rule['rulename'].($fid ? '(fid:'.$fid.')' : ''));
-			$this->updatemembercount($creditarr, $uids, is_array($uids) ? false : true, $this->coef > 0 ? urldecode($rule['rulenameuni']) : '');
-		}
 	}
-	
+
 	function frequencycheck($uids) {
 		global $_G;
 		if(empty($_G['config']['security']['creditsafe']['second']) || empty($_G['config']['security']['creditsafe']['times'])) {
@@ -258,13 +333,13 @@ class credit {
 		global $_G;
 
 		if(!$uids) $uids = intval($_G['uid']);
-		$uids = is_array($uids) ? $uids : array($uids);
+		$uids = is_array($uids) ? $uids : [$uids];
 		$this->frequencycheck($uids);
 		if($uids && ($creditarr || $this->extrasql)) {
 			if($this->extrasql) $creditarr = array_merge($creditarr, $this->extrasql);
-			$sql = array();
-			$allowkey = array('extcredits1', 'extcredits2', 'extcredits3', 'extcredits4', 'extcredits5', 'extcredits6', 'extcredits7', 'extcredits8', 'friends', 'posts', 'threads', 'oltime', 'digestposts', 'doings', 'blogs', 'albums', 'sharings', 'attachsize', 'views', 'todayattachs', 'todayattachsize');
-			$creditnotice = $_G['setting']['creditnotice'] && $_G['uid'] && $uids == array($_G['uid']);
+			$sql = [];
+			$allowkey = ['extcredits1', 'extcredits2', 'extcredits3', 'extcredits4', 'extcredits5', 'extcredits6', 'extcredits7', 'extcredits8', 'friends', 'posts', 'threads', 'oltime', 'digestposts', 'doings', 'blogs', 'albums', 'sharings', 'attachsize', 'views', 'todayattachs', 'todayattachsize'];
+			$creditnotice = $_G['setting']['creditnotice'] && $_G['uid'] && $uids == [$_G['uid']];
 			if($creditnotice) {
 				if(!isset($_G['cookiecredits'])) {
 					$_G['cookiecredits'] = !empty($_COOKIE['creditnotice']) ? explode('D', $_COOKIE['creditnotice']) : array_fill(0, 9, 0);
@@ -279,7 +354,7 @@ class credit {
 			foreach($creditarr as $key => $value) {
 				if(!empty($key) && $value && in_array($key, $allowkey)) {
 					$sql[$key] = $value;
-					if($creditnotice && substr($key, 0, 10) == 'extcredits') {
+					if($creditnotice && str_starts_with($key, 'extcredits')) {
 						$i = substr($key, 10);
 						$_G['cookiecredits'][$i] += $value;
 					}
@@ -293,10 +368,27 @@ class credit {
 				}
 			}
 			if($sql) {
-				C::t('common_member_count')->increase($uids, $sql);
+				table_common_member_count::t()->increase($uids, $sql);
+
+				if($this->checklowerlimit && $_G['setting']['creditspolicy']['lowerlimit']) {
+					$members = table_common_member_count::t()->fetch_all($uids);
+					foreach($members as $member) {
+						$update = [];
+						for($i = 1; $i <= 8; $i++) {
+							if($_G['setting']['extcredits'][$i]) {
+								if($member['extcredits'.$i] < $_G['setting']['creditspolicy']['lowerlimit'][$i]) {
+									$update['extcredits'.$i] = $_G['setting']['creditspolicy']['lowerlimit'][$i];
+								}
+							}
+						}
+						if($update) {
+							table_common_member_count::t()->update($member['uid'], $update, true);
+						}
+					}
+				}
 			}
 			if($checkgroup && count($uids) == 1) $this->checkusergroup($uids[0]);
-			$this->extrasql = array();
+			$this->extrasql = [];
 		}
 	}
 
@@ -305,16 +397,35 @@ class credit {
 
 		$credits = 0;
 		if($uid && !empty($_G['setting']['creditsformula'])) {
-			$member = C::t('common_member_count')->fetch($uid);
-			eval("\$credits = round(".$_G['setting']['creditsformula'].");");
+			$member = table_common_member_count::t()->fetch($uid);
+			eval("\$credits = round(".$_G['setting']['creditsformula'].');');
 			if($uid == $_G['uid']) {
 				if($update && $_G['member']['credits'] != $credits) {
-					C::t('common_member')->update_credits($uid, $credits);
+					table_common_member::t()->update_credits($uid, $credits);
 					$_G['member']['credits'] = $credits;
 				}
 			} elseif($update) {
-				C::t('common_member')->update_credits($uid, $credits);
+				table_common_member::t()->update_credits($uid, $credits);
 			}
+		}
+		return $credits;
+	}
+
+	function countcredit_usergroup($uid, $groupid) {
+		global $_G;
+
+		if(empty($_G['cache']['usergroup_'.$groupid])) {
+			loadcache('usergroup_'.$groupid);
+		}
+
+		if(empty($_G['cache']['usergroup_'.$groupid]['creditsformula'])) {
+			return null;
+		}
+
+		$credits = 0;
+		if($uid) {
+			$member = table_common_member_count::t()->fetch($uid);
+			eval("\$credits = round(".$_G['cache']['usergroup_'.$groupid]['creditsformula'].');');
 		}
 		return $credits;
 	}
@@ -333,17 +444,17 @@ class credit {
 		if(empty($member)) return $groupid;
 
 		$credits = $this->countcredit($uid, false);
-		$updatearray = array();
+		$updatearray = [];
 		$groupid = $member['groupid'];
-		$group = C::t('common_usergroup')->fetch($member['groupid']);
+		$group = table_common_usergroup::t()->fetch($member['groupid']);
 		if($member['credits'] != $credits) {
 			$updatearray['credits'] = $credits;
 			$member['credits'] = $credits;
 		}
-		$member['credits'] = $member['credits'] == '' ? 0 : $member['credits'] ;
+		$member['credits'] = $member['credits'] == '' ? 0 : $member['credits'];
 		$sendnotify = false;
 		if(empty($group) || $group['type'] == 'member' && !($member['credits'] >= $group['creditshigher'] && $member['credits'] < $group['creditslower'])) {
-			$newgroup = C::t('common_usergroup')->fetch_by_credits($member['credits']);
+			$newgroup = table_common_usergroup::t()->fetch_by_credits($member['credits']);
 			if(!empty($newgroup)) {
 				if($member['groupid'] != $newgroup['groupid']) {
 					$updatearray['groupid'] = $groupid = $newgroup['groupid'];
@@ -354,11 +465,29 @@ class credit {
 				}
 			}
 		}
+
+		if($group['type'] == 'special' && !empty($group['upgroupid'])) {
+			$creditsext = $this->countcredit_usergroup($uid, $group['upgroupid']);
+			$checkcredit = $creditsext !== null ? $creditsext : $member['credits'];
+			if($group['creditslower'] > 0 && !($checkcredit >= $group['creditshigher'] && $checkcredit < $group['creditslower'])) {
+				$newgroup = table_common_usergroup::t()->fetch_by_credits_special($checkcredit, $group['upgroupid']);
+				if(!empty($newgroup)) {
+					if($member['groupid'] != $newgroup['groupid']) {
+						$updatearray['groupid'] = $groupid = $newgroup['groupid'];
+						if($uid == $_G['uid']) {
+							$_G['member']['groupid'] = $newgroup['groupid'];
+						}
+						$sendnotify = true;
+					}
+				}
+			}
+		}
+
 		if($updatearray) {
-			C::t('common_member')->update($uid, $updatearray);
+			table_common_member::t()->update($uid, $updatearray);
 		}
 		if($sendnotify) {
-			notification_add($uid, 'system', 'user_usergroup', array('usergroup' => '<a href="home.php?mod=spacecp&ac=credit&op=usergroup">'.$newgroup['grouptitle'].'</a>', 'from_id' => 0, 'from_idtype' => 'changeusergroup'), 1);
+			notification_add($uid, 'system', 'user_usergroup', ['usergroup' => '<a href="home.php?mod=spacecp&ac=credit&op=usergroup">'.$newgroup['grouptitle'].'</a>', 'from_id' => 0, 'from_idtype' => 'changeusergroup'], 1);
 		}
 
 		return $groupid;
@@ -369,39 +498,39 @@ class credit {
 
 		$fid = intval($fid);
 		if($rid && $fid) {
-			$lids = C::t('common_credit_rule_log')->fetch_ids_by_rid_fid($rid, $fid);
+			$lids = table_common_credit_rule_log::t()->fetch_ids_by_rid_fid($rid, $fid);
 			if($lids) {
-				C::t('common_credit_rule_log')->delete($lids);
-				C::t('common_credit_rule_log_field')->delete_clid($lids);
+				table_common_credit_rule_log::t()->delete($lids);
+				table_common_credit_rule_log_field::t()->delete_clid($lids);
 			}
 		}
 	}
 
 	function updatecheating($rulelog, $needle, $newcycle) {
 		if($needle) {
-			$logarr = array();
+			$logarr = [];
 			switch($rulelog['norepeat']) {
 				case 0:
 					break;
 				case 1:
-					$info = empty($rulelog['info'])||$newcycle ? $needle : $rulelog['info'].','.$needle;
+					$info = empty($rulelog['info']) || $newcycle ? $needle : $rulelog['info'].','.$needle;
 					$logarr['info'] = addslashes($info);
 					break;
 				case 2:
-					$user = empty($rulelog['user'])||$newcycle ? $needle : $rulelog['user'].','.$needle;
+					$user = empty($rulelog['user']) || $newcycle ? $needle : $rulelog['user'].','.$needle;
 					$logarr['user'] = addslashes($user);
 					break;
 				case 3:
-					$app = empty($rulelog['app'])||$newcycle ? $needle : $rulelog['app'].','.$needle;
+					$app = empty($rulelog['app']) || $newcycle ? $needle : $rulelog['app'].','.$needle;
 					$logarr['app'] = addslashes($app);
-				break;
+					break;
 			}
 			if($rulelog['isnew']) {
 				$logarr['clid'] = $rulelog['clid'];
 				$logarr['uid'] = $rulelog['uid'];
-				C::t('common_credit_rule_log_field')->insert($logarr);
+				table_common_credit_rule_log_field::t()->insert($logarr);
 			} elseif($logarr) {
-				C::t('common_credit_rule_log_field')->update_field($rulelog['uid'], $rulelog['clid'],$logarr);
+				table_common_credit_rule_log_field::t()->update_field($rulelog['uid'], $rulelog['clid'], $logarr);
 			}
 		}
 	}
@@ -422,7 +551,7 @@ class credit {
 		return $logarr;
 	}
 
-	function getrule($action, $fid = 0) {
+	function getrule($action, $fid = 0, $groupid = 0) {
 		global $_G;
 
 		if(empty($action)) {
@@ -441,17 +570,32 @@ class credit {
 		$rule = false;
 		if(is_array($_G['cache']['creditrule'][$action])) {
 			$rule = $_G['cache']['creditrule'][$action];
+
+			$grouprule = [];
+			if($groupid > 0 && is_array($_G['cache']['creditrule'][$groupid.'#'.$action])) {
+				$grouprule = $_G['cache']['creditrule'][$groupid.'#'.$action];
+				$rule['groupid'] = $groupid;
+				for($i = 1; $i <= 8; $i++) {
+					if(empty($_G['setting']['extcredits'][$i])) {
+						unset($rule['extcredits'.$i]);
+						continue;
+					}
+					$rule['extcredits'.$i] = intval($grouprule['extcredits'.$i]);
+				}
+			}
+
 			$rulenameuni = $rule['rulenameuni'];
 			if($rule['fids'] && $fid) {
 				$fid = intval($fid);
 				$fids = explode(',', $rule['fids']);
 				if(in_array($fid, $fids)) {
-					$forumfield = C::t('forum_forumfield')->fetch($fid);
+					$forumfield = table_forum_forumfield::t()->fetch($fid);
 					$policy = dunserialize($forumfield['creditspolicy']);
 					if(isset($policy[$action])) {
 						$rule = $policy[$action];
 						$rule['rulenameuni'] = $rulenameuni;
 						$rule['fids'] = implode(',', $fids);
+						unset($rule['groupid']);
 					}
 				}
 			}
@@ -470,10 +614,10 @@ class credit {
 	function getrulelog($rid, $uid = 0, $fid = 0) {
 		global $_G;
 
-		$log = array();
+		$log = [];
 		$uid = $uid ? $uid : $_G['uid'];
 		if($rid && $uid) {
-			$log = C::t('common_credit_rule_log')->fetch_rule_log($rid, $uid, $fid);
+			$log = table_common_credit_rule_log::t()->fetch_rule_log($rid, $uid, $fid);
 		}
 		return $log;
 	}
@@ -510,8 +654,7 @@ class credit {
 		global $_G;
 
 		$uid = $uid ? $uid : $_G['uid'];
-		return C::t('common_credit_rule_log_field')->fetch_field($uid, $clid);
+		return table_common_credit_rule_log_field::t()->fetch_field($uid, $clid);
 	}
 }
 
-?>

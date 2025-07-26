@@ -1,28 +1,34 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: table_common_mytask.php 27777 2012-02-14 07:07:26Z zhengqingpeng $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
-class table_common_mytask extends discuz_table
-{
+class table_common_mytask extends discuz_table {
+	public static function t() {
+		static $_instance;
+		if(!isset($_instance)) {
+			$_instance = new self();
+		}
+		return $_instance;
+	}
+
 	public function __construct() {
 
 		$this->_table = 'common_mytask';
-		$this->_pk    = '';
+		$this->_pk = '';
 
 		parent::__construct();
 	}
 
 	public function delete($val, $unbuffered = false) {
-		if (defined('DISCUZ_DEPRECATED')) {
+		if(defined('DISCUZ_DEPRECATED')) {
 			throw new Exception('NotImplementedException');
 			return parent::delete($val, $unbuffered);
 		} else {
@@ -31,7 +37,7 @@ class table_common_mytask extends discuz_table
 	}
 
 	public function update($val, $data, $unbuffered = false, $low_priority = false) {
-		if (defined('DISCUZ_DEPRECATED')) {
+		if(defined('DISCUZ_DEPRECATED')) {
 			throw new Exception('NotImplementedException');
 			return parent::update($val, $data, $unbuffered, $low_priority);
 		} else {
@@ -40,7 +46,7 @@ class table_common_mytask extends discuz_table
 	}
 
 	public function count($null1 = null, $null2 = false, $null3 = false) {
-		if (defined('DISCUZ_DEPRECATED')) {
+		if(defined('DISCUZ_DEPRECATED')) {
 			throw new Exception('NotImplementedException');
 			return parent::count();
 		} else {
@@ -49,7 +55,7 @@ class table_common_mytask extends discuz_table
 	}
 
 	public function fetch($id, $force_from_db = false) {
-		if (defined('DISCUZ_DEPRECATED')) {
+		if(defined('DISCUZ_DEPRECATED')) {
 			throw new Exception('NotImplementedException');
 			return parent::fetch($id, $force_from_db);
 		} else {
@@ -58,7 +64,7 @@ class table_common_mytask extends discuz_table
 	}
 
 	public function delete_mytask($uid, $taskid) {
-		$condition = array();
+		$condition = [];
 		if($uid) {
 			$condition[] = DB::field('uid', $uid);
 		}
@@ -72,7 +78,7 @@ class table_common_mytask extends discuz_table
 		if(!$data || !is_array($data)) {
 			return;
 		}
-		$condition = array();
+		$condition = [];
 		if($uid) {
 			$condition[] = DB::field('uid', $uid);
 		}
@@ -85,19 +91,19 @@ class table_common_mytask extends discuz_table
 	public function count_mytask($uid, $taskid = false, $status = false) {
 		$taskid = $taskid !== false ? 'AND taskid='.intval($taskid) : '';
 		$status = $status !== false ? 'AND status='.intval($status) : '';
-		return DB::result_first("SELECT COUNT(*) FROM %t WHERE uid=%d %i %i", array($this->_table, $uid, $taskid, $status));
+		return DB::result_first('SELECT COUNT(*) FROM %t WHERE uid=%d %i %i', [$this->_table, $uid, $taskid, $status]);
 	}
 
 	public function delete_exceed($exceedtime) {
-		DB::query("DELETE FROM %t WHERE status='-1' AND dateline<%d", array($this->_table, TIMESTAMP - intval($exceedtime)), false, true);
+		DB::query("DELETE FROM %t WHERE status='-1' AND dateline<%d", [$this->_table, TIMESTAMP - intval($exceedtime)], false, true);
 	}
 
 	public function fetch_all_by_taskid($taskid, $limit) {
-		return DB::fetch_all("SELECT * FROM %t WHERE taskid=%d ORDER BY dateline DESC LIMIT 0, %d", array($this->_table, $taskid, $limit));
+		return DB::fetch_all('SELECT * FROM %t WHERE taskid=%d ORDER BY dateline DESC LIMIT 0, %d', [$this->_table, $taskid, $limit]);
 	}
 
 	public function fetch_mytask($uid, $taskid) {
-		return DB::fetch_first("SELECT * FROM %t WHERE uid=%d AND taskid=%d", array($this->_table, $uid, $taskid));
+		return DB::fetch_first('SELECT * FROM %t WHERE uid=%d AND taskid=%d', [$this->_table, $uid, $taskid]);
 	}
 
 	public function update_to_success($uid, $taskid, $timestamp) {
@@ -106,4 +112,3 @@ class table_common_mytask extends discuz_table
 
 }
 
-?>

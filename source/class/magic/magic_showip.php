@@ -1,10 +1,9 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: magic_showip.php 29373 2012-04-09 07:55:30Z chenmengshu $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -21,8 +20,8 @@ class magic_showip {
 	var $useevent = 1;
 	var $targetgroupperm = true;
 	var $copyright = '<a href="https://www.discuz.vip/" target="_blank">Discuz!</a>';
-	var $magic = array();
-	var $parameters = array();
+	var $magic = [];
+	var $parameters = [];
 
 	function getsetting(&$magic) {
 	}
@@ -39,17 +38,17 @@ class magic_showip {
 		$member = getuserinfo($_GET['username']);
 		$this->_check($member['groupid']);
 
-		$memberstatus = C::t('common_member_status')->fetch($member['uid']);
+		$memberstatus = table_common_member_status::t()->fetch($member['uid']);
 		$ip = $memberstatus['lastip'];
 		unset($memberstatus);
 		usemagic($this->magic['magicid'], $this->magic['num']);
 		updatemagiclog($this->magic['magicid'], '2', '1', '0', 0, 'uid', $member['uid']);
 
 		if($member['uid'] != $_G['uid']) {
-			notification_add($member['uid'], 'magic', lang('magic/showip', 'showip_notification'), array('magicname' => $this->magic['name']), 1);
+			notification_add($member['uid'], 'magic', lang('magic/showip', 'showip_notification'), ['magicname' => $this->magic['name']], 1);
 		}
 
-		showmessage(lang('magic/showip', 'showip_ip_message'), '', array('username' => $_GET['username'], 'ip' => $ip), array('alert' => 'info', 'showdialog' => 1));
+		showmessage(lang('magic/showip', 'showip_ip_message'), '', ['username' => $_GET['username'], 'ip' => $ip], ['alert' => 'info', 'showdialog' => 1]);
 	}
 
 	function show() {
@@ -85,4 +84,3 @@ class magic_showip {
 
 }
 
-?>

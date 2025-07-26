@@ -1,9 +1,8 @@
-/*
-	[Discuz!] (C)2001-2099 Comsenz Inc.
-	This is NOT a freeware, use is subject to license terms
-
-	$Id: bbcode.js 36359 2017-01-20 05:06:45Z nemohou $
-*/
+/**
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
+ */
 
 var re, DISCUZCODE = [];
 DISCUZCODE['num'] = '-1';
@@ -87,7 +86,7 @@ function bbcode2html(str) {
 			}
 			return addCSS;
 		});
-		str = str.replace(/\[color=([\w#\(\),\.\s]+?)\]/ig, '<font color="$1">');
+		str = str.replace(/\[color=([\w#\(\),\.\s]+?)\]/ig, '<span style="color: $1">');
 		str = str.replace(/\[backcolor=([\w#\(\),\.\s]+?)\]/ig, '<font style="background-color:$1">');
 		str = str.replace(/\[size=(\d+?)\]/ig, '<font size="$1">');
 		str = str.replace(/\[size=(\d+(\.\d+)?(px|pt)+?)\]/ig, '<font style="font-size: $1">');
@@ -110,7 +109,7 @@ function bbcode2html(str) {
 			'\\\[i\\\]', '\\\[\\\/i\\\]', '\\\[u\\\]', '\\\[\\\/u\\\]', '\\\[s\\\]', '\\\[\\\/s\\\]', '\\\[hr\\\]', '\\\[list\\\]', '\\\[list=1\\\]', '\\\[list=a\\\]',
 			'\\\[list=A\\\]', '\\s?\\\[\\\*\\\]', '\\\[\\\/list\\\]', '\\\[indent\\\]', '\\\[\\\/indent\\\]', '\\\[\\\/float\\\]'
 			], [
-			'</font>', '</font>', '</font>', '</font>', '</div>', '</p>', '<b>', '</b>', '<i>',
+			'</span>', '</font>', '</font>', '</font>', '</div>', '</p>', '<b>', '</b>', '<i>',
 			'</i>', '<u>', '</u>', '<strike>', '</strike>', '<hr class="l" />', '<ul>', '<ul type=1 class="litype_1">', '<ul type=a class="litype_2">',
 			'<ul type=A class="litype_3">', '<li>', '</ul>', '<blockquote>', '</blockquote>', '</span>'
 			], str, 'g');
@@ -140,9 +139,9 @@ function bbcode2html(str) {
 		}
 	}
 
-       str = str.replace(/\[\tDISCUZ_CODE_(\d+)\t\]/g, function(match, index) {
-               return DISCUZCODE['html'][parseInt(index, 10)];
-       });
+	for(var i = 0; i <= DISCUZCODE['num']; i++) {
+		str = str.replace("[\tDISCUZ_CODE_" + i + "\t]", DISCUZCODE['html'][i]);
+	}
 
 	if(!allowhtml || !fetchCheckbox('htmlon')) {
 		str = str.replace(/(^|>)([^<]+)(?=<|$)/ig, function($1, $2, $3) {
@@ -371,32 +370,27 @@ function html2bbcode(str) {
 			'(<t[dh]([^>]*(left|center|right)[^>]*)>)\\\s*([\\\s\\\S]+?)\\\s*(<\/t[dh]>)',
 			'<t[dh]([^>]*(width|colspan|rowspan)[^>]*)>',
 			'<t[dh][^>]*>',
-                       '<\/t[dh]>',
-                       '<\/tr>',
-                       '<\/table>',
-                       '<h[23][^>]*>',
-                       '<\/h[23]>',
-                       '<h\\\d[^>]*>',
-                       '<\/h\\\d>'
-               ], [
-                       function($1, $2, $3) {return '[float=' + $2 + ']' + $3 + '[/float]';},
-                       function($1, $2) {return tabletag($2);},
-                       '[table]\n',
-                       function($1, $2, $3) {return '[tr=' + $3 + ']';},
-                       '[tr]',
-                       function($1, $2, $3, $4, $5, $6) {return $2 + '[align=' + $4 + ']' + $5 + '[/align]' + $6},
-                       function($1, $2) {return tdtag($2);},
-                       '[td]',
-                       '[/td]',
-                       '[/tr]\n',
-                       '[/table]',
-                       '[b]',
-                       '[/b]\n',
-                       '[b]',
-                       '[/b]'
-               ], str);
+			'<\/t[dh]>',
+			'<\/tr>',
+			'<\/table>',
+		], [
+			function($1, $2, $3) {return '[float=' + $2 + ']' + $3 + '[/float]';},
+			function($1, $2) {return tabletag($2);},
+			'[table]\n',
+			function($1, $2, $3) {return '[tr=' + $3 + ']';},
+			'[tr]',
+			function($1, $2, $3, $4, $5, $6) {return $2 + '[align=' + $4 + ']' + $5 + '[/align]' + $6},
+			function($1, $2) {return tdtag($2);},
+			'[td]',
+			'[/td]',
+			'[/tr]\n',
+			'[/table]',
+		], str);
 
-		str = str.replace(/<h([0-9]+)[^>]*>([\s\S]*?)<\/h\1>/ig, function($1, $2, $3) {return "[size=" + (7 - $2) + "]" + $3 + "[/size]\n\n";});
+		str = str.replace(/<h([1-6])[^>]*>([\s\S]*?)<\/h\1>/ig, function ($1, $2, $3) {
+			let sizeValue = 7 - parseInt($2);
+			return "[size=" + sizeValue + "]" + $3 + "[/size]\n\n";
+		});
 		str = str.replace(/<hr[^>]*>/ig, "[hr]");
 		str = str.replace(/<img[^>]+smilieid=(["']?)(\d+)(\1)[^>]*>/ig, function($1, $2, $3) {return smileycode($3);});
 		str = str.replace(/<img([^>]*src[^>]*)>/ig, function($1, $2) {return imgtag($2);});
@@ -422,9 +416,9 @@ function html2bbcode(str) {
 
 	str = str.replace(/<[\/\!]*?[^<>]*?>/ig, '');
 
-       str = str.replace(/\[\tDISCUZ_CODE_(\d+)\t\]/g, function(match, index) {
-               return DISCUZCODE['html'][parseInt(index, 10)];
-       });
+	for(var i = 0; i <= DISCUZCODE['num']; i++) {
+		str = str.replace("[\tDISCUZ_CODE_" + i + "\t]", DISCUZCODE['html'][i]);
+	}
 	str = clearcode(str);
 
 	return preg_replace(['&nbsp;', '&lt;', '&gt;', '&amp;'], [' ', '<', '>', '&'], str);
@@ -508,9 +502,10 @@ function litag(listoptions, text) {
 }
 
 function parsecode(text) {
-       DISCUZCODE['num']++;
-       DISCUZCODE['html'][DISCUZCODE['num']] = '<div class="blockcode"><blockquote>' + htmlspecialchars(text) + '</blockquote></div>';
-       return "[\tDISCUZ_CODE_" + DISCUZCODE['num'] + "\t]";
+	DISCUZCODE['num']++;
+	text = text.replace(/\$/ig, '$$$$');
+	DISCUZCODE['html'][DISCUZCODE['num']] = '<div class="blockcode"><blockquote>' + htmlspecialchars(text) + '</blockquote></div>';
+	return "[\tDISCUZ_CODE_" + DISCUZCODE['num'] + "\t]";
 }
 
 function parsestyle(tagoptions, prepend, append) {

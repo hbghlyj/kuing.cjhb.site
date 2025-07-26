@@ -1,18 +1,17 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: lang_doinglist.php 27449 2012-02-01 05:32:35Z zhangguosheng $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
-$lang = array
-(
+$lang =
+	[
 	'doinglist_uids' => '用户UID',
 	'doinglist_uids_comment' => '填入指定用户的ID(uid)，多个用户之间用逗号(,)分隔',
 	'doinglist_startrow' => '起始数据行数',
@@ -23,6 +22,5 @@ $lang = array
 	'doinglist_orderby_comment' => '设置以哪一字段或方式对动态进行排序',
 	'doinglist_orderby_dateline' => '按发布时间倒序',
 	'doinglist_orderby_replynum' => '按回复数倒序'
-);
+	];
 
-?>

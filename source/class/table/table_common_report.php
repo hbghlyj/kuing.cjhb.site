@@ -1,25 +1,32 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: table_common_report.php 27449 2012-02-01 05:32:35Z zhangguosheng $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
-class table_common_report extends discuz_table
-{
+class table_common_report extends discuz_table {
+	public static function t() {
+		static $_instance;
+		if(!isset($_instance)) {
+			$_instance = new self();
+		}
+		return $_instance;
+	}
+
 	public function __construct() {
 
 		$this->_table = 'common_report';
-		$this->_pk    = 'id';
+		$this->_pk = 'id';
 
 		parent::__construct();
 	}
+
 	public function fetch_count($operated = 0, $id = 0, $fid = 0) {
 		$where = empty($operated) ? 'opuid=0' : 'opuid>0';
 		$idsql = $id ? DB::field('id', $id).' AND ' : '';
@@ -29,7 +36,7 @@ class table_common_report extends discuz_table
 
 	public function fetch_all($ids = null, $force_from_db = false, $null1 = 0, $null2 = 0) {
 		// $null 1~n 需要在取消兼容层后删除
-		if (defined('DISCUZ_DEPRECATED')) {
+		if(defined('DISCUZ_DEPRECATED')) {
 			throw new Exception('NotImplementedException');
 			return parent::fetch_all($ids, $force_from_db);
 		} else {
@@ -43,16 +50,15 @@ class table_common_report extends discuz_table
 		$where = empty($operated) ? 'opuid=0' : 'opuid>0';
 		$order = empty($operated) ? 'num' : 'optime';
 		$fidsql = $fid ? ' AND '.DB::field('fid', $fid) : '';
-		return DB::fetch_all("SELECT * FROM %t WHERE $where.$fidsql ORDER BY $order DESC, dateline DESC LIMIT %d, %d", array($this->_table, $start, $limit));
+		return DB::fetch_all("SELECT * FROM %t WHERE $where.$fidsql ORDER BY $order DESC, dateline DESC LIMIT %d, %d", [$this->_table, $start, $limit]);
 	}
 
 	public function fetch_by_urlkey($urlkey) {
-		return DB::result_first("SELECT id FROM %t WHERE urlkey=%s AND opuid='0'", array($this->_table, $urlkey));
+		return DB::result_first("SELECT id FROM %t WHERE urlkey=%s AND opuid='0'", [$this->_table, $urlkey]);
 	}
 
 	public function update_num($id, $message) {
-		DB::query("UPDATE %t SET message=CONCAT_WS('<br>', message, %s), num=num+1 WHERE id=%d", array($this->_table, $message, $id));
+		DB::query("UPDATE %t SET message=CONCAT_WS('<br>', message, %s), num=num+1 WHERE id=%d", [$this->_table, $message, $id]);
 	}
 }
 
-?>

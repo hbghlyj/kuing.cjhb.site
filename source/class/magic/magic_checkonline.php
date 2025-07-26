@@ -1,10 +1,9 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: magic_checkonline.php 29373 2012-04-09 07:55:30Z chenmengshu $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -21,8 +20,8 @@ class magic_checkonline {
 	var $useevent = 1;
 	var $targetgroupperm = true;
 	var $copyright = '<a href="https://www.discuz.vip/" target="_blank">Discuz!</a>';
-	var $magic = array();
-	var $parameters = array();
+	var $magic = [];
+	var $parameters = [];
 
 	function getsetting(&$magic) {
 	}
@@ -45,18 +44,18 @@ class magic_checkonline {
 		updatemagiclog($this->magic['magicid'], '2', '1', '0', 0, 'uid', $member['uid']);
 
 		if($member['uid'] != $_G['uid']) {
-			notification_add($member['uid'], 'magic', lang('magic/checkonline', 'checkonline_notification'), array('magicname' => $this->magic['name']), 1);
+			notification_add($member['uid'], 'magic', lang('magic/checkonline', 'checkonline_notification'), ['magicname' => $this->magic['name']], 1);
 		}
 
 		if($online) {
 			$time = dgmdate($online['lastactivity'], 'u');
 			if($online['invisible']) {
-				showmessage(lang('magic/checkonline', 'checkonline_hidden_message'), '', array('username' => $_GET['username'], 'time' => $time), array('alert' => 'info', 'showdialog' => 1));
+				showmessage(lang('magic/checkonline', 'checkonline_hidden_message'), '', ['username' => $_GET['username'], 'time' => $time], ['alert' => 'info', 'showdialog' => 1]);
 			} else {
-				showmessage(lang('magic/checkonline', 'checkonline_online_message'), '', array('username' => $_GET['username'], 'time' => $time), array('alert' => 'info', 'showdialog' => 1));
+				showmessage(lang('magic/checkonline', 'checkonline_online_message'), '', ['username' => $_GET['username'], 'time' => $time], ['alert' => 'info', 'showdialog' => 1]);
 			}
 		} else {
-			showmessage(lang('magic/checkonline', 'checkonline_offline_message'), '', array('username' => $_GET['username']), array('alert' => 'info', 'showdialog' => 1));
+			showmessage(lang('magic/checkonline', 'checkonline_offline_message'), '', ['username' => $_GET['username']], ['alert' => 'info', 'showdialog' => 1]);
 		}
 	}
 
@@ -88,4 +87,3 @@ class magic_checkonline {
 
 }
 
-?>

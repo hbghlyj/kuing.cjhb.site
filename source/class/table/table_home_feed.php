@@ -1,33 +1,39 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: table_home_feed.php 28335 2012-02-28 04:37:47Z zhangguosheng $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
-class table_home_feed extends discuz_table
-{
+class table_home_feed extends discuz_table {
+	public static function t() {
+		static $_instance;
+		if(!isset($_instance)) {
+			$_instance = new self();
+		}
+		return $_instance;
+	}
+
 	public function __construct() {
 
 		$this->_table = 'home_feed';
-		$this->_pk    = 'feedid';
+		$this->_pk = 'feedid';
 
 		parent::__construct();
 	}
 
 	public function optimize_table() {
-		return DB::query("OPTIMIZE TABLE %t", array($this->_table), true);
+		return DB::query('OPTIMIZE TABLE %t', [$this->_table], true);
 	}
 
 	public function fetch($id, $force_from_db = false, $null1 = '', $null2 = '') {
 		// $null 1~n 需要在取消兼容层后删除
-		if (defined('DISCUZ_DEPRECATED')) {
+		if(defined('DISCUZ_DEPRECATED')) {
 			throw new Exception('NotImplementedException');
 			return parent::fetch($id, $force_from_db);
 		} else {
@@ -37,7 +43,7 @@ class table_home_feed extends discuz_table
 	}
 
 	public function fetch_feed($id, $idtype = '', $uid = '', $feedid = '') {
-		$wherearr = array();
+		$wherearr = [];
 		if($feedid) {
 			$wherearr[] = DB::field('feedid', $feedid);
 		}
@@ -61,16 +67,16 @@ class table_home_feed extends discuz_table
 		if(!($uids = dintval($uids, true))) {
 			return null;
 		}
-		return DB::fetch_all('SELECT * FROM %t '.(($findex) ? 'USE INDEX(dateline)' : '').' WHERE uid IN (%n) ORDER BY dateline desc %i', array($this->_table, $uids, DB::limit($start, $limit)));
+		return DB::fetch_all('SELECT * FROM %t '.(($findex) ? 'USE INDEX(dateline)' : '').' WHERE uid IN (%n) ORDER BY dateline desc %i', [$this->_table, $uids, DB::limit($start, $limit)]);
 	}
 
 	public function fetch_all_by_hot($hotstarttime) {
-		return DB::fetch_all('SELECT * FROM %t USE INDEX(hot) WHERE dateline>=%d ORDER BY hot DESC LIMIT 0,10', array($this->_table, $hotstarttime));
+		return DB::fetch_all('SELECT * FROM %t USE INDEX(hot) WHERE dateline>=%d ORDER BY hot DESC LIMIT 0,10', [$this->_table, $hotstarttime]);
 	}
 
 	public function update($val, $data, $unbuffered = false, $low_priority = false, $null = '') {
 		// $null 需要在取消兼容层后删除
-		if (defined('DISCUZ_DEPRECATED')) {
+		if(defined('DISCUZ_DEPRECATED')) {
 			throw new Exception('NotImplementedException');
 			return parent::update($val, $data, $unbuffered, $low_priority);
 		} else {
@@ -81,7 +87,7 @@ class table_home_feed extends discuz_table
 	}
 
 	public function update_feed($id, $data, $idtype = '', $uid = '', $feedid = '') {
-		$condition = array();
+		$condition = [];
 		if($feedid) {
 			$condition[] = DB::field('feedid', $feedid);
 		}
@@ -100,18 +106,18 @@ class table_home_feed extends discuz_table
 	}
 
 	public function update_hot_by_id($id, $idtype, $uid, $inchot) {
-		DB::query('UPDATE %t SET hot = hot+\'%d\' WHERE id = %d AND idtype = %s AND uid = %d', array($this->_table, $inchot, $id, $idtype, $uid));
+		DB::query('UPDATE %t SET hot = hot+\'%d\' WHERE id = %d AND idtype = %s AND uid = %d', [$this->_table, $inchot, $id, $idtype, $uid]);
 	}
 
 	public function update_hot_by_feedid($feedid, $inchot) {
-		DB::query('UPDATE %t SET hot = hot+\'%d\' WHERE feedid = %d', array($this->_table, $inchot, $feedid));
+		DB::query('UPDATE %t SET hot = hot+\'%d\' WHERE feedid = %d', [$this->_table, $inchot, $feedid]);
 	}
 
 	public function delete_by_dateline($dateline, $hot = 0) {
 		if(!is_numeric($dateline) || !is_numeric($hot)) {
 			return false;
 		}
-		$condition = array();
+		$condition = [];
 
 		$condition[] = DB::field('dateline', $dateline, '<');
 		$condition[] = DB::field('hot', $hot);
@@ -123,7 +129,7 @@ class table_home_feed extends discuz_table
 		if(!$ids || !$idtype) {
 			return null;
 		}
-		$condition = array();
+		$condition = [];
 
 		$condition[] = DB::field('id', $ids);
 		$condition[] = DB::field('idtype', $idtype);
@@ -135,7 +141,7 @@ class table_home_feed extends discuz_table
 		if(!$uid || !$idtype) {
 			return null;
 		}
-		$condition = array();
+		$condition = [];
 		$condition[] = DB::field('uid', $uid);
 		$condition[] = DB::field('idtype', $idtype);
 
@@ -150,7 +156,7 @@ class table_home_feed extends discuz_table
 	}
 
 	public function delete($val, $unbuffered = false) {
-		if (defined('DISCUZ_DEPRECATED')) {
+		if(defined('DISCUZ_DEPRECATED')) {
 			throw new Exception('NotImplementedException');
 			return parent::delete($val, $unbuffered);
 		} else {
@@ -158,9 +164,9 @@ class table_home_feed extends discuz_table
 			return $this->delete_feed($val, $unbuffered);
 		}
 	}
-	
+
 	public function delete_feed($feedid, $uid = '') {
-		$condition = array();
+		$condition = [];
 
 		if($feedid) {
 			$condition[] = DB::field('feedid', $feedid);
@@ -188,34 +194,43 @@ class table_home_feed extends discuz_table
 		if(!$users) {
 			return null;
 		}
-		return DB::fetch_all('SELECT uid FROM %t WHERE username IN (%n)', array($this->_table, $users), 'uid');
+		$list = DB::fetch_all('SELECT uid FROM %t WHERE username IN (%n)', [$this->_table, $users], 'uid');
+		if(count($list) < count($users)) {
+			$hisList = table_common_member_username_history::t()->fetch_all($users);
+			if($hisList) {
+				foreach($hisList as $row) {
+					$list[$row['uid']] = ['uid' => $row['uid']];
+				}
+			}
+		}
+		return $list;
 	}
 
 	public function fetch_icon_by_icon($icon) {
-		return DB::fetch_first('SELECT icon FROM %t WHERE icon=%s', array($this->_table, $icon));
+		return DB::fetch_first('SELECT icon FROM %t WHERE icon=%s', [$this->_table, $icon]);
 	}
 
 	public function fetch_feedid_by_hashdata($uid, $hash_data) {
-		return DB::fetch_first('SELECT feedid FROM %t WHERE uid=%d AND hash_data=%s LIMIT 0,1', array($this->_table, $uid, $hash_data));
+		return DB::fetch_first('SELECT feedid FROM %t WHERE uid=%d AND hash_data=%s LIMIT 0,1', [$this->_table, $uid, $hash_data]);
 	}
 
 	public function fetch_feedid_by_feedid($feedid) {
 		if(!$feedid) {
 			return null;
 		}
-		return DB::fetch_all('SELECT feedid FROM %t WHERE feedid IN (%n)', array($this->_table, $feedid), 'feedid');
+		return DB::fetch_all('SELECT feedid FROM %t WHERE feedid IN (%n)', [$this->_table, $feedid], 'feedid');
 	}
 
 	public function fetch_uid_by_uid($uid) {
 		if(!$uid) {
 			return null;
 		}
-		return DB::fetch_all('SELECT uid FROM %t WHERE uid IN (%n)', array($this->_table, $uid), 'uid');
+		return DB::fetch_all('SELECT uid FROM %t WHERE uid IN (%n)', [$this->_table, $uid], 'uid');
 	}
 
 	public function fetch_all_by_search($fetchtype, $uids, $icon, $starttime, $endtime, $feedids, $hot1, $hot2, $start = 0, $limit = 0, $findex = '') {
-		$parameter = array($this->_table);
-		$wherearr = array();
+		$parameter = [$this->_table];
+		$wherearr = [];
 		if(is_array($uids) && count($uids)) {
 			$parameter[] = $uids;
 			$wherearr[] = 'uid IN(%n)';
@@ -252,11 +267,11 @@ class table_home_feed extends discuz_table
 		}
 
 		if($fetchtype == 3) {
-			$selectfield = "count(*)";
-		} elseif ($fetchtype == 2) {
-			$selectfield = "feedid";
+			$selectfield = 'count(*)';
+		} elseif($fetchtype == 2) {
+			$selectfield = 'feedid';
 		} else {
-			$selectfield = "*";
+			$selectfield = '*';
 			$parameter[] = DB::limit($start, $limit);
 			$ordersql = ' ORDER BY dateline DESC %i';
 		}
@@ -275,4 +290,3 @@ class table_home_feed extends discuz_table
 	}
 }
 
-?>

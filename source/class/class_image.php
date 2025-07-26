@@ -1,10 +1,9 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: class_image.php 36349 2017-01-16 03:05:23Z nemohou $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -16,15 +15,15 @@ class image {
 
 	var $source = '';
 	var $target = '';
-	var $imginfo = array();
+	var $imginfo = [];
 	var $imagecreatefromfunc = '';
 	var $imagefunc = '';
 	var $tmpfile = '';
 	var $libmethod = 0;
-	var $param = array();
+	var $param = [];
 	var $errorcode = 0;
 
-	var $extension = array();
+	var $extension = [];
 
 	function __construct() {
 		global $_G;
@@ -33,18 +32,18 @@ class image {
 		$this->extension['gd'] = extension_loaded('gd');
 		$this->extension['imagick'] = extension_loaded('imagick');
 
-		$this->param = array(
-				'imagelib'		=> $_G['setting']['imagelib'],
-				'imageimpath'		=> $_G['setting']['imageimpath'],
-				'thumbquality'		=> $_G['setting']['thumbquality'],
-				'watermarkstatus'	=> dunserialize($_G['setting']['watermarkstatus']),
-				'watermarkminwidth'	=> dunserialize($_G['setting']['watermarkminwidth']),
-				'watermarkminheight'	=> dunserialize($_G['setting']['watermarkminheight']),
-				'watermarktype'		=> $_G['setting']['watermarktype'],
-				'watermarktext'		=> $_G['setting']['watermarktext'],
-				'watermarktrans'	=> dunserialize($_G['setting']['watermarktrans']),
-				'watermarkquality'	=> dunserialize($_G['setting']['watermarkquality']),
-		);
+		$this->param = [
+			'imagelib' => $_G['setting']['imagelib'],
+			'imageimpath' => $_G['setting']['imageimpath'],
+			'thumbquality' => $_G['setting']['thumbquality'],
+			'watermarkstatus' => dunserialize($_G['setting']['watermarkstatus']),
+			'watermarkminwidth' => dunserialize($_G['setting']['watermarkminwidth']),
+			'watermarkminheight' => dunserialize($_G['setting']['watermarkminheight']),
+			'watermarktype' => $_G['setting']['watermarktype'],
+			'watermarktext' => $_G['setting']['watermarktext'],
+			'watermarktrans' => dunserialize($_G['setting']['watermarktrans']),
+			'watermarkquality' => dunserialize($_G['setting']['watermarkquality']),
+		];
 	}
 
 
@@ -59,9 +58,12 @@ class image {
 		}
 		$this->param['thumbwidth'] = intval($thumbwidth);
 		if(!$thumbheight || $thumbheight > $this->imginfo['height']) {
-			$thumbheight = $thumbwidth > $this->imginfo['width'] ? $this->imginfo['height'] : $this->imginfo['height']*($thumbwidth/$this->imginfo['width']);
+			$thumbheight = $thumbwidth > $this->imginfo['width'] ? $this->imginfo['height'] : $this->imginfo['height'] * ($thumbwidth / $this->imginfo['width']);
 		}
 		$this->param['thumbheight'] = intval($thumbheight);
+		if(!$this->param['thumbheight']) {
+			return $this->returncode(0);
+		}
 		$this->param['thumbtype'] = $thumbtype;
 		if($thumbwidth < 100 && $thumbheight < 100) {
 			$this->param['thumbquality'] = 100;
@@ -101,7 +103,12 @@ class image {
 		if(!$this->param['watermarkstatus'][$type] || ($this->param['watermarkminwidth'][$type] && $this->imginfo['width'] <= $this->param['watermarkminwidth'][$type] && $this->param['watermarkminheight'][$type] && $this->imginfo['height'] <= $this->param['watermarkminheight'][$type])) {
 			return $this->returncode(0);
 		}
-		$this->param['watermarkfile'][$type] = './static/image/common/'.($this->param['watermarktype'][$type] == 'png' ? 'watermark.png' : 'watermark.gif');
+		$extension = $this->param['watermarktype'][$type] == 'png' ? 'png' : 'gif';
+		if(file_exists(DISCUZ_DATA.'./watermark.'.$extension)) {
+			$this->param['watermarkfile'][$type] = DISCUZ_DATA.'./watermark.'.$extension;
+		} else {
+			$this->param['watermarkfile'][$type] = './static/image/common/watermark.'.$extension;
+		}
 		if(!is_readable($this->param['watermarkfile'][$type]) || ($this->param['watermarktype'][$type] == 'text' && (!file_exists($this->param['watermarktext']['fontpath'][$type]) || !is_file($this->param['watermarktext']['fontpath'][$type])))) {
 			return $this->returncode(-3);
 		}
@@ -129,15 +136,27 @@ class image {
 			}
 			$data = dfsockopen($source);
 			$this->tmpfile = $source = tempnam($_G['setting']['attachdir'].'./temp/', 'tmpimg_');
+			$oss = null;
+			$oss_config = getglobal('setting/oss');
+			if(!$data && $source !== FALSE && $_G['setting']['ftp']['on'] == 2) { //如果读取不了文件内容，并且是第三方云存储,那么对方可能设置了防盗链，直接下载文件内容再试一把。
+				$oss_config['oss_key'] = authcode($oss_config['oss_key'], 'DECODE', md5(getglobal('config/security/authkey')));
+				$oss = oss::loadOSS($oss_config);
+				$object = str_starts_with($parse['path'], '/') ? substr($parse['path'], 1) : $parse['path'];
+
+				$oss->downFile($source, $object);
+				if(file_exists($source)) {
+					$data = 1;
+				}
+			}
 			if(!$data || $source === FALSE) {
 				return -2;
 			}
-			file_put_contents($source, $data);
+			empty($oss) && file_put_contents($source, $data);
 		}
 		if($method == 'thumb') {
 			$target = empty($target) ? (!$nosuffix ? getimgthumbname($source) : $source) : $_G['setting']['attachdir'].'./'.$target;
 		} elseif($method == 'watermask') {
-			$target = empty($target) ?  $source : $_G['setting']['attachdir'].'./'.$target;
+			$target = empty($target) ? $source : $_G['setting']['attachdir'].'./'.$target;
 		}
 		$targetpath = dirname($target);
 		dmkdir($targetpath);
@@ -199,7 +218,7 @@ class image {
 			}
 			$content = fread($fp, $this->imginfo['size']);
 			fclose($fp);
-			$this->imginfo['animated'] = strpos($content, 'NETSCAPE2.0') === FALSE ? 0 : 1;
+			$this->imginfo['animated'] = !str_contains($content, 'NETSCAPE2.0') ? 0 : 1;
 		} elseif(!$this->libmethod && $this->imginfo['mime'] == 'image/webp') {
 			if(!$this->imagecreatefromfunc) {
 				return -4;
@@ -207,14 +226,14 @@ class image {
 			if(!($fp = @fopen($source, 'rb'))) {
 				return -2;
 			}
-		   	$content = fread($fp, 40);
+			$content = fread($fp, 40);
 			fclose($fp);
-			if (stripos($content, 'WEBPVP8X') !== FALSE && stripos($content, 'ANIM') !== FALSE) {
+			if(stripos($content, 'WEBPVP8X') !== FALSE && stripos($content, 'ANIM') !== FALSE) {
 				$this->imginfo['animated'] = 1;
-			}else{
+			} else {
 				$this->imginfo['animated'] = 0;
 			}
-		}else {
+		} else {
 			$this->imginfo['animated'] = 0;
 		}
 
@@ -265,7 +284,7 @@ class image {
 				$h = $this->param['thumbheight'];
 			}
 		}
-		return array($x, $y, $w, $h);
+		return [$x, $y, $w, $h];
 	}
 
 	function loadsource() {
@@ -279,7 +298,7 @@ class image {
 			$contents = @fread($fp, filesize($this->source));
 			fclose($fp);
 			$im = @imagecreatefromstring($contents);
-			if($im == FALSE) {
+			if(!$im) {
 				return -1;
 			}
 		}
@@ -298,7 +317,7 @@ class image {
 		}
 		if($this->imginfo['mime'] != 'image/png') {
 			$copy_photo = imagecreatetruecolor($this->imginfo['width'], $this->imginfo['height']);
-			imagecopy($copy_photo, $attach_photo , 0, 0, 0, 0, $this->imginfo['width'], $this->imginfo['height']);
+			imagecopy($copy_photo, $attach_photo, 0, 0, 0, 0, $this->imginfo['width'], $this->imginfo['height']);
 			$attach_photo = $copy_photo;
 		}
 
@@ -307,8 +326,8 @@ class image {
 			case 'fixnone':
 			case 1:
 				if($this->imginfo['width'] >= $this->param['thumbwidth'] || $this->imginfo['height'] >= $this->param['thumbheight']) {
-					$thumb = array();
-					list(,,$thumb['width'], $thumb['height']) = $this->sizevalue(0);
+					$thumb = [];
+					list(, , $thumb['width'], $thumb['height']) = $this->sizevalue(0);
 					$cx = $this->imginfo['width'];
 					$cy = $this->imginfo['height'];
 					$thumb_photo = imagecreatetruecolor($thumb['width'], $thumb['height']);
@@ -316,7 +335,7 @@ class image {
 						imagealphablending($thumb_photo, false);
 						imagesavealpha($thumb_photo, true);
 					}
-					imagecopyresampled($thumb_photo, $attach_photo ,0, 0, 0, 0, $thumb['width'], $thumb['height'], $cx, $cy);
+					imagecopyresampled($thumb_photo, $attach_photo, 0, 0, 0, 0, $thumb['width'], $thumb['height'], $cx, $cy);
 				}
 				break;
 			case 'fixwr':
@@ -330,7 +349,7 @@ class image {
 						imagealphablending($thumb_photo, false);
 						imagesavealpha($thumb_photo, true);
 					}
-					imagecopyresampled($thumb_photo, $dst_photo ,0, 0, 0, 0, $this->param['thumbwidth'], $this->param['thumbheight'], $cutw, $cuth);
+					imagecopyresampled($thumb_photo, $dst_photo, 0, 0, 0, 0, $this->param['thumbwidth'], $this->param['thumbheight'], $cutw, $cuth);
 				} else {
 					$thumb_photo = imagecreatetruecolor($this->param['thumbwidth'], $this->param['thumbheight']);
 					if($this->imginfo['mime'] == 'image/png') {
@@ -393,8 +412,8 @@ class image {
 					$im->readImage(realpath($this->target));
 					$im->setImageCompressionQuality($this->param['thumbquality']);
 					$im->thumbnailImage($this->param['thumbwidth'], $this->param['thumbheight']);
-					$im->resizeImage($this->param['thumbwidth'], $this->param['thumbheight'], imagick::FILTER_LANCZOS, 1, true);
-					$im->setGravity(imagick::GRAVITY_CENTER );
+					$im->resizeImage($this->param['thumbwidth'], $this->param['thumbheight'], Imagick::FILTER_LANCZOS, 1, true);
+					$im->setGravity(Imagick::GRAVITY_CENTER);
 					$im->extentImage($this->param['thumbwidth'], $this->param['thumbheight'], 0, 0);
 
 					if(!$im->writeImage($this->target)) {
@@ -418,7 +437,7 @@ class image {
 					$im->readImage(realpath($this->target));
 					$im->setImageCompressionQuality($this->param['thumbquality']);
 					$im->thumbnailImage($this->param['thumbwidth'], $this->param['thumbheight']);
-					$im->setGravity(imagick::GRAVITY_CENTER );
+					$im->setGravity(Imagick::GRAVITY_CENTER);
 					$im->extentImage($this->param['thumbwidth'], $this->param['thumbheight'], 0, 0);
 					if(!$im->writeImage($this->target)) {
 						$im->destroy();
@@ -438,11 +457,12 @@ class image {
 		}
 		$newimage = imagecreatetruecolor($this->param['dstwidth'], $this->param['dstheight']);
 		imagecopyresampled($newimage, $image, 0, 0, $this->param['srcx'], $this->param['srcy'], $this->param['dstwidth'], $this->param['dstheight'], $this->param['srcwidth'], $this->param['srcheight']);
-		ImageJpeg($newimage, $this->target, 100);
+		imagejpeg($newimage, $this->target, 100);
 		imagedestroy($newimage);
 		imagedestroy($image);
 		return true;
 	}
+
 	function Cropper_IM() {
 		$im = new Imagick();
 		$im->readImage(realpath($this->source));
@@ -471,7 +491,7 @@ class image {
 			if($watermarkinfo === FALSE) {
 				return -3;
 			}
-			$watermark_logo	= $this->param['watermarktype'][$type] == 'png' ? @imageCreateFromPNG($this->param['watermarkfile'][$type]) : @imageCreateFromGIF($this->param['watermarkfile'][$type]);
+			$watermark_logo = $this->param['watermarktype'][$type] == 'png' ? @imagecreatefrompng($this->param['watermarkfile'][$type]) : @imagecreatefromgif($this->param['watermarkfile'][$type]);
 			if(!$watermark_logo) {
 				return 0;
 			}
@@ -484,7 +504,7 @@ class image {
 				include libfile('class/chinese');
 			}
 
-			$watermarktextcvt = pack("H*", $this->param['watermarktext']['text'][$type]);
+			$watermarktextcvt = pack('H*', $this->param['watermarktext']['text'][$type]);
 			$box = imagettfbbox(floatval($this->param['watermarktext']['size'][$type]), floatval($this->param['watermarktext']['angle'][$type]), $this->param['watermarktext']['fontpath'][$type], $watermarktextcvt);
 			$logo_h = max($box[1], $box[3]) - min($box[5], $box[7]);
 			$logo_w = max($box[2], $box[4]) - min($box[0], $box[6]);
@@ -543,11 +563,11 @@ class image {
 			imagealphablending($dst_photo, true);
 			imagesavealpha($dst_photo, true);
 			if($this->imginfo['mime'] != 'image/png') {
-				imageCopy($color_photo, $dst_photo, 0, 0, 0, 0, $this->imginfo['width'], $this->imginfo['height']);
+				imagecopy($color_photo, $dst_photo, 0, 0, 0, 0, $this->imginfo['width'], $this->imginfo['height']);
 				$dst_photo = $color_photo;
 			}
 			if($this->param['watermarktype'][$type] == 'png') {
-				imageCopy($dst_photo, $watermark_logo, $x, $y, 0, 0, $logo_w, $logo_h);
+				imagecopy($dst_photo, $watermark_logo, $x, $y, 0, 0, $logo_w, $logo_h);
 			} elseif($this->param['watermarktype'][$type] == 'text') {
 				if(($this->param['watermarktext']['shadowx'][$type] || $this->param['watermarktext']['shadowy'][$type]) && $this->param['watermarktext']['shadowcolor'][$type]) {
 					$shadowcolorrgb = explode(',', $this->param['watermarktext']['shadowcolor'][$type]);
@@ -559,8 +579,8 @@ class image {
 				$color = imagecolorallocate($dst_photo, intval($colorrgb[0]), intval($colorrgb[1]), intval($colorrgb[2]));
 				imagettftext($dst_photo, floatval($this->param['watermarktext']['size'][$type]), $this->param['watermarktext']['angle'][$type], $x + $ax, $y + $ay, $color, $this->param['watermarktext']['fontpath'][$type], $watermarktextcvt);
 			} else {
-				imageAlphaBlending($watermark_logo, true);
-				imageCopyMerge($dst_photo, $watermark_logo, $x, $y, 0, 0, $logo_w, $logo_h, $this->param['watermarktrans'][$type]);
+				imagealphablending($watermark_logo, true);
+				imagecopymerge($dst_photo, $watermark_logo, $x, $y, 0, 0, $logo_w, $logo_h, $this->param['watermarktrans'][$type]);
 			}
 
 			clearstatcache();
@@ -576,31 +596,31 @@ class image {
 	function Watermark_IM($type = 'forum') {
 		switch($this->param['watermarkstatus'][$type]) {
 			case 1:
-				$gravity = imagick::GRAVITY_NORTHWEST;
+				$gravity = Imagick::GRAVITY_NORTHWEST;
 				break;
 			case 2:
-				$gravity = imagick::GRAVITY_NORTH;
+				$gravity = Imagick::GRAVITY_NORTH;
 				break;
 			case 3:
-				$gravity = imagick::GRAVITY_NORTHEAST;
+				$gravity = Imagick::GRAVITY_NORTHEAST;
 				break;
 			case 4:
-				$gravity = imagick::GRAVITY_WEST;
+				$gravity = Imagick::GRAVITY_WEST;
 				break;
 			case 5:
-				$gravity = imagick::GRAVITY_CENTER;
+				$gravity = Imagick::GRAVITY_CENTER;
 				break;
 			case 6:
-				$gravity = imagick::GRAVITY_EAST;
+				$gravity = Imagick::GRAVITY_EAST;
 				break;
 			case 7:
-				$gravity = imagick::GRAVITY_SOUTHWEST;
+				$gravity = Imagick::GRAVITY_SOUTHWEST;
 				break;
 			case 8:
-				$gravity = imagick::GRAVITY_SOUTH;
+				$gravity = Imagick::GRAVITY_SOUTH;
 				break;
 			case 9:
-				$gravity = imagick::GRAVITY_SOUTHEAST;
+				$gravity = Imagick::GRAVITY_SOUTHEAST;
 				break;
 		}
 
@@ -630,7 +650,7 @@ class image {
 				return -3;
 			}
 		} else {
-			$watermarktextcvt = escapeshellcmd(pack("H*", $this->param['watermarktext']['text'][$type]));
+			$watermarktextcvt = escapeshellcmd(pack('H*', $this->param['watermarktext']['text'][$type]));
 			$angle = -$this->param['watermarktext']['angle'][$type];
 			$translate = $this->param['watermarktext']['translatex'][$type] || $this->param['watermarktext']['translatey'][$type] ? ' translate '.intval($this->param['watermarktext']['translatex'][$type]).','.intval($this->param['watermarktext']['translatey'][$type]) : '';
 			$skewX = $this->param['watermarktext']['skewx'][$type] ? ' skewX '.intval($this->param['watermarktext']['skewx'][$type]) : '';
@@ -655,7 +675,7 @@ class image {
 				if($skewY) {
 					$dw->skewY($this->param['watermarktext']['skewy'][$type]);
 				}
-				$dw->annotation($this->param['watermarktext']['shadowx'][$type], $this->param['watermarktext']['shadowy'][$type], escapeshellcmd(pack("H*", $this->param['watermarktext']['text'][$type])));
+				$dw->annotation($this->param['watermarktext']['shadowx'][$type], $this->param['watermarktext']['shadowy'][$type], escapeshellcmd(pack('H*', $this->param['watermarktext']['text'][$type])));
 				$canvas->drawImage($dw);
 
 			}
@@ -672,7 +692,7 @@ class image {
 				$dw->skewY($this->param['watermarktext']['skewy'][$type]);
 			}
 			$dw->rotate($angle);
-			$dw->annotation(0, 0, escapeshellcmd(pack("H*", $this->param['watermarktext']['text'][$type])));
+			$dw->annotation(0, 0, escapeshellcmd(pack('H*', $this->param['watermarktext']['text'][$type])));
 
 			$canvas->drawImage($dw);
 

@@ -1,9 +1,8 @@
 <?php
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: magic_flicker.php 26901 2011-12-27 07:16:24Z chenmengshu $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -19,20 +18,22 @@ class magic_flicker {
 	var $useevent = 0;
 	var $targetgroupperm = false;
 	var $copyright = '<a href="https://www.discuz.vip/" target="_blank">Discuz!</a>';
-	var $magic = array();
-	var $parameters = array();
+	var $magic = [];
+	var $parameters = [];
 
-	function getsetting(&$magic) {}
+	function getsetting(&$magic) {
+	}
 
-	function setsetting(&$magicnew, &$parameters) {}
+	function setsetting(&$magicnew, &$parameters) {
+	}
 
 	function usesubmit() {
 		global $_G;
 
-		C::t('home_comment')->update_comment($_GET['id'], array('magicflicker' => 1), $_G['uid']);
+		table_home_comment::t()->update_comment($_GET['id'], ['magicflicker' => 1], $_G['uid']);
 		usemagic($this->magic['magicid'], $this->magic['num']);
 		updatemagiclog($this->magic['magicid'], '2', '1', '0');
-		showmessage(lang('magic/flicker', 'flicker_succeed'), dreferer(), array(), array('alert' => 'right', 'showdialog' => 1, 'closetime' => true, 'locationtime' => true));
+		showmessage(lang('magic/flicker', 'flicker_succeed'), dreferer(), [], ['alert' => 'right', 'showdialog' => 1, 'closetime' => true, 'locationtime' => true]);
 	}
 
 	function show() {
@@ -41,4 +42,3 @@ class magic_flicker {
 	}
 }
 
-?>

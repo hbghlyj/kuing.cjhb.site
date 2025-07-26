@@ -1,10 +1,9 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: block_blank.php 27543 2012-02-03 08:56:21Z zhangguosheng $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -15,7 +14,8 @@ require_once libfile('commonblock_html', 'class/block/html');
 
 class block_blank extends commonblock_html {
 
-	function __construct() {}
+	function __construct() {
+	}
 
 	function name() {
 		return lang('blockclass', 'blockclass_html_script_blank');
@@ -23,20 +23,19 @@ class block_blank extends commonblock_html {
 
 	function getsetting() {
 		global $_G;
-		$settings = array(
-			'content' => array(
+		$settings = [
+			'content' => [
 				'title' => 'blank_content',
 				'type' => 'mtextarea'
-			)
-		);
+			]
+		];
 		return $settings;
 	}
 
 	function getdata($style, $parameter) {
 		require_once libfile('function/home');
 		$return = getstr($parameter['content'], '', 1, 0, 0, 1);
-		return array('html' => $return, 'data' => null);
+		return ['html' => $return, 'data' => null];
 	}
 }
 
-?>

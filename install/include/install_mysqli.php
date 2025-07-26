@@ -1,10 +1,9 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: install_mysql.php 6758 2010-03-25 09:05:10Z cnteacher $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_COMSENZ')) {
@@ -18,7 +17,7 @@ class dbstuff {
 	var $time;
 	var $tablepre;
 
-	function connect($dbhost, $dbuser, $dbpw, $dbname = '', $dbcharset = '', $pconnect = 0, $tablepre='', $time = 0) {
+	function connect($dbhost, $dbuser, $dbpw, $dbname = '', $dbcharset = '', $pconnect = 0, $tablepre = '', $time = 0) {
 		$this->time = $time;
 		$this->tablepre = $tablepre;
 
@@ -29,7 +28,7 @@ class dbstuff {
 			$this->halt('Can not connect to MySQL server');
 		}
 
-		if (version_compare($this->version(), '5.5.3', '<')) {
+		if(version_compare($this->version(), '5.5.3', '<')) {
 			$this->halt('MySQL version must be 5.5.3 or greater');
 		}
 

@@ -1,30 +1,29 @@
 <?php
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: function_upload.php 29000 2012-03-22 03:52:01Z zhengqingpeng $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
-function getuploadconfig($uid=0, $fid=0, $limit=true) {
+function getuploadconfig($uid = 0, $fid = 0, $limit = true) {
 	global $_G;
 
-	$notallow = $config = array();
+	$notallow = $config = [];
 	$config['limit'] = 0;
 	$uid = !empty($uid) ? intval($uid) : $_G['uid'];
 	$authkey = $_G['config']['security']['authkey'];
 	$config['hash'] = md5(substr(md5($authkey), 8).$uid);
 
-	$imageexts = array('jpg','jpeg','gif','png','bmp','webp','svg');
+	$imageexts = ['jpg', 'jpeg', 'gif', 'png', 'bmp', 'webp'];
 	$forumattachextensions = '';
 	$fid = intval($fid);
 	if($fid) {
-		$forum = $fid != $_G['fid'] ? C::t('forum_forum')->fetch_info_by_fid($fid) : $_G['forum'];
-		$levelinfo = C::t('forum_grouplevel')->fetch($forum['level']);
+		$forum = $fid != $_G['fid'] ? table_forum_forum::t()->fetch_info_by_fid($fid) : $_G['forum'];
+		$levelinfo = table_forum_grouplevel::t()->fetch($forum['level']);
 		if($forum['status'] == 3 && $forum['level'] && $postpolicy = $levelinfo['postpolicy']) {
 			$postpolicy = dunserialize($postpolicy);
 			$forumattachextensions = $postpolicy['attachextensions'];
@@ -36,7 +35,7 @@ function getuploadconfig($uid=0, $fid=0, $limit=true) {
 
 	loadcache('attachtype');
 	$fid = isset($_G['cache']['attachtype'][$fid]) ? $fid : 0;
-	$filter = array();
+	$filter = [];
 	if(isset($_G['cache']['attachtype'][$fid]) && is_array($_G['cache']['attachtype'][$fid])) {
 		foreach($_G['cache']['attachtype'][$fid] as $extension => $maxsize) {
 			if($maxsize == 0) {
@@ -51,8 +50,8 @@ function getuploadconfig($uid=0, $fid=0, $limit=true) {
 	}
 	$_G['group']['attachextensions'] = !$forumattachextensions ? $_G['group']['attachextensions'] : $forumattachextensions;
 
-	$config['imageexts'] = array('ext' => '', 'depict' => 'Image File');
-	$config['attachexts'] = array('ext' => '*.*', 'depict' => 'All Support Formats');
+	$config['imageexts'] = ['ext' => '', 'depict' => 'Image File'];
+	$config['attachexts'] = ['ext' => '*.*', 'depict' => 'All Support Formats'];
 
 	if($_G['group']['attachextensions'] !== '') {
 		$_G['group']['attachextensions'] = str_replace(' ', '', $_G['group']['attachextensions']);
@@ -74,11 +73,11 @@ function getuploadconfig($uid=0, $fid=0, $limit=true) {
 		$unit = strtolower(substr($config['max'], -1, 1));
 		$config['max'] = intval($config['max']);
 		if($unit == 'k') {
-			$config['max'] = $config['max']*1024;
+			$config['max'] = $config['max'] * 1024;
 		} elseif($unit == 'm') {
-			$config['max'] = $config['max']*1024*1024;
+			$config['max'] = $config['max'] * 1024 * 1024;
 		} elseif($unit == 'g') {
-			$config['max'] = $config['max']*1024*1024*1024;
+			$config['max'] = $config['max'] * 1024 * 1024 * 1024;
 		}
 	}
 	$config['max'] = $config['max'] / 1024;
@@ -91,13 +90,14 @@ function getuploadconfig($uid=0, $fid=0, $limit=true) {
 			$config['limit'] = $config['maxattachnum'] > 0 ? $config['maxattachnum'] : 0;
 		}
 		if($_G['group']['maxsizeperday']) {
-			$todayattachsize = getuserprofile('todayattachsize');
-			$config['maxsizeperday'] = (int)$_G['group']['maxsizeperday'] - (int)$todayattachsize;
+			$todayattachsize = (int)getuserprofile('todayattachsize');
+			$config['maxsizeperday'] = $_G['group']['maxsizeperday'] - $todayattachsize;
 			$config['maxsizeperday'] = $config['maxsizeperday'] > 0 ? $config['maxsizeperday'] : -1;
 		}
 	}
 	return $config;
 }
+
 function filterexts($needle, $haystack) {
 
 	foreach($needle as $key => $value) {
@@ -107,9 +107,10 @@ function filterexts($needle, $haystack) {
 	}
 	return $needle;
 }
+
 function getmaxupload() {
-	$sizeconv = array('B' => 1, 'KB' => 1024, 'MB' => 1048576, 'GB' => 1073741824);
-	$sizes = array();
+	$sizeconv = ['B' => 1, 'KB' => 1024, 'MB' => 1048576, 'GB' => 1073741824];
+	$sizes = [];
 	$sizes[] = ini_get('upload_max_filesize');
 	$sizes[] = ini_get('post_max_size');
 	$sizes[] = ini_get('memory_limit');
@@ -134,4 +135,4 @@ function getmaxupload() {
 		return ini_get('upload_max_filesize');
 	}
 }
-?>
+

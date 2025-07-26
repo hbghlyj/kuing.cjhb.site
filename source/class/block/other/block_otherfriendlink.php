@@ -1,10 +1,9 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: block_otherfriendlink.php 25525 2011-11-14 04:39:11Z zhangguosheng $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -13,32 +12,32 @@ if(!defined('IN_DISCUZ')) {
 
 class block_otherfriendlink extends discuz_block {
 
-	var $setting = array();
+	var $setting = [];
 
 	function __construct() {
-		$this->setting = array(
-			'type' => array(
+		$this->setting = [
+			'type' => [
 				'title' => 'friendlink_type',
 				'type' => 'mcheckbox',
-				'value' => array(
-					array('1', 'friendlink_type_group1'),
-					array('2', 'friendlink_type_group2'),
-					array('3', 'friendlink_type_group3'),
-					array('4', 'friendlink_type_group4'),
-				),
-				'default' => array('1','2','3','4')
-			),
-			'titlelength' => array(
+				'value' => [
+					['1', 'friendlink_type_group1'],
+					['2', 'friendlink_type_group2'],
+					['3', 'friendlink_type_group3'],
+					['4', 'friendlink_type_group4'],
+				],
+				'default' => ['1', '2', '3', '4']
+			],
+			'titlelength' => [
 				'title' => 'friendlink_titlelength',
 				'type' => 'text',
 				'default' => 40
-			),
-			'summarylength'	=> array(
+			],
+			'summarylength' => [
 				'title' => 'friendlink_summarylength',
 				'type' => 'text',
 				'default' => 80
-			),
-		);
+			],
+		];
 	}
 
 	function name() {
@@ -46,16 +45,16 @@ class block_otherfriendlink extends discuz_block {
 	}
 
 	function blockclass() {
-		return array('otherfriendlink', lang('blockclass', 'blockclass_other_friendlink'));
+		return ['otherfriendlink', lang('blockclass', 'blockclass_other_friendlink')];
 	}
 
 	function fields() {
-		return array(
-					'url' => array('name' => lang('blockclass', 'blockclass_other_friendlink_field_url'), 'formtype' => 'text', 'datatype' => 'string'),
-					'title' => array('name' => lang('blockclass', 'blockclass_other_friendlink_field_title'), 'formtype' => 'title', 'datatype' => 'title'),
-					'pic' => array('name' => lang('blockclass', 'blockclass_other_friendlink_field_pic'), 'formtype' => 'pic', 'datatype' => 'pic'),
-					'summary' => array('name' => lang('blockclass', 'blockclass_other_friendlink_field_summary'), 'formtype' => 'summary', 'datatype' => 'summary'),
-				);
+		return [
+			'url' => ['name' => lang('blockclass', 'blockclass_other_friendlink_field_url'), 'formtype' => 'text', 'datatype' => 'string'],
+			'title' => ['name' => lang('blockclass', 'blockclass_other_friendlink_field_title'), 'formtype' => 'title', 'datatype' => 'title'],
+			'pic' => ['name' => lang('blockclass', 'blockclass_other_friendlink_field_pic'), 'formtype' => 'pic', 'datatype' => 'pic'],
+			'summary' => ['name' => lang('blockclass', 'blockclass_other_friendlink_field_summary'), 'formtype' => 'summary', 'datatype' => 'summary'],
+		];
 	}
 
 	function getsetting() {
@@ -67,18 +66,18 @@ class block_otherfriendlink extends discuz_block {
 		$parameter = $this->cookparameter($parameter);
 		$titlelength = isset($parameter['titlelength']) ? intval($parameter['titlelength']) : 40;
 		$summarylength = isset($parameter['summarylength']) ? intval($parameter['summarylength']) : 80;
-		$type = !empty($parameter['type']) && is_array($parameter['type']) ? $parameter['type'] : array();
+		$type = !empty($parameter['type']) && is_array($parameter['type']) ? $parameter['type'] : [];
 		$b = '0000';
-		for($i=1;$i<=4;$i++) {
+		for($i = 1; $i <= 4; $i++) {
 			if(in_array($i, $type)) {
-				$b[$i-1] = '1';
+				$b[$i - 1] = '1';
 			}
 		}
 		$type = intval($b, '2');
-		$list = array();
-		$query = C::t('common_friendlink')->fetch_all_by_displayorder($type);
-		foreach ($query as $data) {
-			$list[] = array(
+		$list = [];
+		$query = table_common_friendlink::t()->fetch_all_by_displayorder($type);
+		foreach($query as $data) {
+			$list[] = [
 				'id' => $data['id'],
 				'idtype' => 'flid',
 				'title' => cutstr($data['name'], $titlelength),
@@ -86,15 +85,13 @@ class block_otherfriendlink extends discuz_block {
 				'pic' => $data['logo'] ? $data['logo'] : $_G['style']['imgdir'].'/nophoto.gif',
 				'picflag' => '0',
 				'summary' => $data['description'],
-				'fields' => array(
+				'fields' => [
 					'fulltitle' => $data['name'],
-				)
-			);
+				]
+			];
 		}
-		return array('html' => '', 'data' => $list);
+		return ['html' => '', 'data' => $list];
 	}
 }
 
 
-
-?>

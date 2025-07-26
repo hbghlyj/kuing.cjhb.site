@@ -1,32 +1,38 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: table_common_template_permission.php 27830 2012-02-15 07:39:23Z zhangguosheng $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
-class table_common_template_permission extends discuz_table
-{
+class table_common_template_permission extends discuz_table {
+	public static function t() {
+		static $_instance;
+		if(!isset($_instance)) {
+			$_instance = new self();
+		}
+		return $_instance;
+	}
+
 	public function __construct() {
 
 		$this->_table = 'common_template_permission';
-		$this->_pk    = '';
+		$this->_pk = '';
 
 		parent::__construct();
 	}
 
 	public function fetch_all_by_targettplname($targettplname) {
-		return DB::fetch_all('SELECT * FROM %t WHERE targettplname=%s ORDER BY inheritedtplname', array($this->_table, $targettplname), 'uid');
+		return DB::fetch_all('SELECT * FROM %t WHERE targettplname=%s ORDER BY inheritedtplname', [$this->_table, $targettplname], 'uid');
 	}
 
 	public function fetch_all_by_uid($uids, $flag = true, $sort = 'ASC', $start = 0, $limit = 0) {
-		$wherearr = array();
+		$wherearr = [];
 		$sort = $sort === 'ASC' ? 'ASC' : 'DESC';
 		if(($uids = dintval($uids, true))) {
 			$wherearr[] = DB::field('uid', $uids);
@@ -39,7 +45,7 @@ class table_common_template_permission extends discuz_table
 	}
 
 	public function count_by_uids($uids, $flag) {
-		$wherearr = array();
+		$wherearr = [];
 		if(($uids = dintval($uids, true))) {
 			$wherearr[] = DB::field('uid', $uids);
 		}
@@ -51,7 +57,7 @@ class table_common_template_permission extends discuz_table
 	}
 
 	public function delete_by_targettplname_uid_inheritedtplname($targettplname = false, $uids = false, $inheritedtplname = false) {
-		$wherearr = array();
+		$wherearr = [];
 		if($targettplname) {
 			$wherearr[] = DB::field('targettplname', $targettplname);
 		}
@@ -68,14 +74,14 @@ class table_common_template_permission extends discuz_table
 
 
 	public function insert_batch($users, $templates, $uptplname = '') {
-		$blockperms = array();
-		if(!empty($users) && !empty($templates)){
+		$blockperms = [];
+		if(!empty($users) && !empty($templates)) {
 			if(!is_array($templates)) {
-				$templates = array($templates);
+				$templates = [$templates];
 			}
 			foreach($users as $user) {
 				$inheritedtplname = $uptplname ? $uptplname : '';
-				foreach ($templates as $tpl) {
+				foreach($templates as $tpl) {
 					if($tpl) {
 						$blockperms[] = "('$tpl','{$user['uid']}','{$user['allowmanage']}','{$user['allowrecommend']}','{$user['needverify']}','$inheritedtplname')";
 						$inheritedtplname = empty($inheritedtplname) ? $tpl : $inheritedtplname;
@@ -89,4 +95,3 @@ class table_common_template_permission extends discuz_table
 	}
 }
 
-?>

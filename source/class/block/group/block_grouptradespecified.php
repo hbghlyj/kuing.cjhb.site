@@ -1,10 +1,9 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: block_grouptradespecified.php 23608 2011-07-27 08:10:07Z cnteacher $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -15,40 +14,39 @@ require_once libfile('block_grouptrade', 'class/block/group');
 
 class block_grouptradespecified extends block_grouptrade {
 	function __construct() {
-		$this->setting = array(
-			'tids' => array(
+		$this->setting = [
+			'tids' => [
 				'title' => 'grouptrade_tids',
 				'type' => 'text'
-			),
-			'uids' => array(
+			],
+			'uids' => [
 				'title' => 'grouptrade_uids',
 				'type' => 'text'
-			),
-			'keyword' => array(
+			],
+			'keyword' => [
 				'title' => 'grouptrade_keyword',
 				'type' => 'text'
-			),
-			'fids'	=> array(
+			],
+			'fids' => [
 				'title' => 'grouptrade_fids',
 				'type' => 'text'
-			),
-			'gtids' => array(
+			],
+			'gtids' => [
 				'title' => 'grouptrade_gtids',
 				'type' => 'mselect',
-				'value' => array(
-				),
-			),
-			'titlelength' => array(
+				'value' => [],
+			],
+			'titlelength' => [
 				'title' => 'grouptrade_titlelength',
 				'type' => 'text',
 				'default' => 40
-			),
-			'summarylength' => array(
+			],
+			'summarylength' => [
 				'title' => 'grouptrade_summarylength',
 				'type' => 'text',
 				'default' => 80
-			),
-		);
+			],
+		];
 	}
 
 	function name() {
@@ -56,4 +54,3 @@ class block_grouptradespecified extends block_grouptrade {
 	}
 }
 
-?>

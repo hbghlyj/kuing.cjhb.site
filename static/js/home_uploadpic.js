@@ -1,9 +1,8 @@
-/*
-	[Discuz!] (C)2001-2099 Comsenz Inc.
-	This is NOT a freeware, use is subject to license terms
-
-	$Id: home_uploadpic.js 32590 2013-02-22 09:42:48Z monkey $
-*/
+/**
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
+ */
 
 var attachexts = new Array();
 var attachwh = new Array();
@@ -75,18 +74,18 @@ function insertAttach(id) {
 		return;
 	}
 	if(extensions != '' && (re.exec(extensions) == null || ext == '')) {
-		alert(lng['image_type_invalid']);
+		alert($L('file_ext_error'));
 		return;
 	}
 	attachexts[id] = inArray(ext, ['gif', 'jpg', 'jpeg', 'png']) ? 2 : 1;
 
 	var inhtml = '<table cellspacing="0" cellpadding="0" class="up_row"><tr>';
 	if(typeof no_insert=='undefined') {
-               localfile += '&nbsp;<a href="javascript:;" class="xi2" title="'+lng['insert_to_content']+'" onclick="insertAttachimgTag(' + id + ');return false;">['+lng['insert']+']</a>';
+		localfile += '&nbsp;<a href="javascript:;" class="xi2" title="' + $L('click_here_insert') + '" onclick="insertAttachimgTag(' + id + ');return false;">[' + $L('insert') + ']</a>';
 	}
 	inhtml += '<td><strong>' + localfile +'</strong>';
-       inhtml += '</td><td class="d">'+lng['image_description']+'<br/><textarea name="pic_title" cols="40" rows="2" class="pt"></textarea>';
-       inhtml += '</td><td class="o"><span id="showmsg' + id + '"><a href="javascript:;" onclick="delAttach(' + id + ');return false;" class="xi2">['+lng['delete']+']</a></span>';
+	inhtml += '</td><td class="d">' + $L('img_desc') + '<br/><textarea name="pic_title" cols="40" rows="2" class="pt"></textarea>';
+	inhtml += '</td><td class="o"><span id="showmsg' + id + '"><a href="javascript:;" onclick="delAttach(' + id + ');return false;" class="xi2">[' + $L('delete') + ']</a></span>';
 	inhtml += '</td></tr></table>';
 
 	$('localfile_' + id).innerHTML = inhtml;
@@ -149,7 +148,7 @@ function upload() {
 	if(nowUid>0) {
 		var upobj = $('showmsg'+nowid);
 		if(uploadStat==1) {
-                       upobj.innerHTML = lng['upload_ok'];
+			upobj.innerHTML = $L('upload_success');
 			successState = true;
 			var InputNode;
 			try {
@@ -164,13 +163,13 @@ function upload() {
 			mainForm.appendChild(InputNode);
 
 		} else {
-                       upobj.style.color = "#f00";
-                       upobj.innerHTML = lng['upload_failed']+' '+uploadStat;
+			upobj.style.color = "#f00";
+			upobj.innerHTML = $L('upload_error') + ' '+uploadStat;
 		}
 	}
 
 	if($('showmsg'+nid) != null) {
-               $('showmsg'+nid).innerHTML = lng['uploading_wait']+' (<a href="javascript:;" onclick="forms[nowUid].submit();">'+lng['retry']+'</a>)';
+		$('showmsg'+nid).innerHTML = $L('attach_uploading') + '(<a href="javascript:;" onclick="forms[nowUid].submit();">' + $L('try_again') + '</a>)';
 		$('albumid_'+nid).value = albumid;
 		forms[nowUid].submit();
 	} else if(nowUid+1 == forms.length) {

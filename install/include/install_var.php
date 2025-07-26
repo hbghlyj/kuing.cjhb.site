@@ -1,17 +1,16 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: install_var.php 36324 2016-12-22 01:01:16Z nemohou $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_COMSENZ')) {
 	exit('Access Denied');
 }
 
-define('SOFT_NAME', 'Discuz!');
+define('SOFT_NAME', DISCUZ_VERSION_NAME);
 
 define('INSTALL_LANG', 'SC_UTF8');
 
@@ -19,6 +18,7 @@ define('CONFIG', './config/config_global.php');
 define('CONFIG_UC', './config/config_ucenter.php');
 
 $sqlfile = ROOT_PATH.((file_exists(ROOT_PATH.'./install/data/install_dev.sql')) ? './install/data/install_dev.sql' : './install/data/install.sql');
+$upgrade_sqlfile = ROOT_PATH.'./install/data/upgrade.sql';
 $lockfile = ROOT_PATH.'./data/install.lock';
 
 @include ROOT_PATH.CONFIG;
@@ -62,6 +62,8 @@ define('ENV_CHECK_ERROR', 31);
 define('UNDEFINE_FUNC', 32);
 define('MISSING_PARAMETER', 33);
 define('LOCK_FILE_NOT_TOUCH', 34);
+define('SITEVIP_KEY', 1);
+define('UPGRADE_FROM_VERSION', 'X3.5');
 
 $func_items = array('mysqli_connect', 'xml_parser_create', 'json_encode', 'dns_get_record');
 
@@ -70,11 +72,13 @@ $filesock_items = array('fsockopen', 'pfsockopen', 'stream_socket_client', 'curl
 $env_items = array
 (
 	'os' => array('c' => 'PHP_OS', 'r' => 'notset', 'b' => 'unix'),
-	'php' => array('c' => 'PHP_VERSION', 'r' => '5.6', 'b' => '7.4'),
+	'php' => array('c' => 'PHP_VERSION', 'r' => '8.0', 'b' => '8.1'),
 	'attachmentupload' => array('r' => 'notset', 'b' => '2M'),
 	'gdversion' => array('r' => '1.0', 'b' => '2.0'),
 	'curl' => array('r' => 'notset', 'b' => 'enable'),
 	'opcache' => array('r' => 'notset', 'b' => 'enable'),
+	'redis' => array('r' => 'notset', 'b' => 'enable'),
+	'imagick' => array('r' => 'notset', 'b' => 'enable'),
 	'diskspace' => array('r' => 30 * 1048576, 'b' => 'notset'),
 );
 
@@ -100,18 +104,10 @@ $dirfile_items = array
 	'attach_group' => array('type' => 'dir', 'path' => './data/attachment/group'),
 	'attach_portal' => array('type' => 'dir', 'path' => './data/attachment/portal'),
 	'attach_profile' => array('type' => 'dir', 'path' => './data/attachment/profile'),
+	'attach_swfupload' => array('type' => 'dir', 'path' => './data/attachment/swfupload'),
 	'attach_temp' => array('type' => 'dir', 'path' => './data/attachment/temp'),
 
 	'logs' => array('type' => 'dir', 'path' => './data/log'),
-	'uccache' => array('type' => 'dir', 'path' => './uc_client/data/cache'),
-
-	'uc_server_data' => array('type' => 'dir', 'path' => './uc_server/data/'),
-	'uc_server_data_cache' => array('type' => 'dir', 'path' => './uc_server/data/cache'),
-	'uc_server_data_avatar' => array('type' => 'dir', 'path' => './uc_server/data/avatar'),
-	'uc_server_data_backup' => array('type' => 'dir', 'path' => './uc_server/data/backup'),
-	'uc_server_data_logs' => array('type' => 'dir', 'path' => './uc_server/data/logs'),
-	'uc_server_data_tmp' => array('type' => 'dir', 'path' => './uc_server/data/tmp'),
-	'uc_server_data_view' => array('type' => 'dir', 'path' => './uc_server/data/view'),
 );
 
 
@@ -150,271 +146,270 @@ $form_db_init_items = array
 	)
 );
 
-$serialize_sql_setting = array (
-  'extcredits' =>
-  array (
-    1 =>
-    array (
-      'img' => '',
-      'title' => '威望',
-      'unit' => '',
-      'ratio' => 0,
-      'available' => '1',
-      'showinthread' => NULL,
-      'allowexchangein' => NULL,
-      'allowexchangeout' => NULL,
-    ),
-    2 =>
-    array (
-      'img' => '',
-      'title' => '金钱',
-      'unit' => '',
-      'ratio' => 0,
-      'available' => '1',
-      'showinthread' => NULL,
-      'allowexchangein' => NULL,
-      'allowexchangeout' => NULL,
-    ),
-    3 =>
-    array (
-      'img' => '',
-      'title' => '贡献',
-      'unit' => '',
-      'ratio' => 0,
-      'available' => '1',
-      'showinthread' => NULL,
-      'allowexchangein' => NULL,
-      'allowexchangeout' => NULL,
-    ),
-    4 =>
-    array (
-      'img' => '',
-      'title' => '',
-      'unit' => '',
-      'ratio' => 0,
-      'available' => NULL,
-      'showinthread' => NULL,
-      'allowexchangein' => NULL,
-      'allowexchangeout' => NULL,
-    ),
-    5 =>
-    array (
-      'img' => '',
-      'title' => '',
-      'unit' => '',
-      'ratio' => 0,
-      'available' => NULL,
-      'showinthread' => NULL,
-      'allowexchangein' => NULL,
-      'allowexchangeout' => NULL,
-    ),
-    6 =>
-    array (
-      'img' => '',
-      'title' => '',
-      'unit' => '',
-      'ratio' => 0,
-      'available' => NULL,
-      'showinthread' => NULL,
-      'allowexchangein' => NULL,
-      'allowexchangeout' => NULL,
-    ),
-    7 =>
-    array (
-      'img' => '',
-      'title' => '',
-      'unit' => '',
-      'ratio' => 0,
-      'available' => NULL,
-      'showinthread' => NULL,
-      'allowexchangein' => NULL,
-      'allowexchangeout' => NULL,
-    ),
-    8 =>
-    array (
-      'img' => '',
-      'title' => '',
-      'unit' => '',
-      'ratio' => 0,
-      'available' => NULL,
-      'showinthread' => NULL,
-      'allowexchangein' => NULL,
-      'allowexchangeout' => NULL,
-    ),
-  ),
-  'postnocustom' =>
-  array (
-    0 => '楼主',
-    1 => '沙发',
-    2 => '板凳',
-    3 => '地板',
-  ),
-  'recommendthread' =>
-  array (
-    'status' => '0',
-    'addtext' => '支持',
-    'subtracttext' => '反对',
-    'defaultshow' => '1',
-    'daycount' => '0',
-    'ownthread' => '0',
-    'iconlevels' => '50,100,200',
-  ),
-  'seotitle' =>
-  array (
-    'portal' => '门户',
-    'forum' => '论坛',
-    'group' => '圈子',
-    'home' => '家园',
-  ),
-  'activityfield' =>
-  array (
-    'realname' => '真实姓名',
-    'mobile' => '手机',
-    'qq' => 'QQ号',
-  ),
-  'article_tags' =>
-  array (
-    1 => '原创',
-    2 => '热点',
-    3 => '组图',
-    4 => '爆料',
-    5 => '头条',
-    6 => '幻灯',
-    7 => '滚动',
-    8 => '推荐',
-  ),
-  'verify' =>
-  array (
-    6 =>
-    array (
-      'title' => '实名认证',
-      'available' => '0',
-      'showicon' => '0',
-      'viewrealname' => '0',
-      'field' =>
-      array (
-        'realname' => 'realname',
-      ),
-      'icon' => false,
-    ),
-    'enabled' => false,
-    1 =>
-    array (
-      'icon' => '',
-    ),
-    2 =>
-    array (
-      'icon' => '',
-    ),
-    3 =>
-    array (
-      'icon' => '',
-    ),
-    4 =>
-    array (
-      'icon' => '',
-    ),
-    5 =>
-    array (
-      'icon' => '',
-    ),
-  ),
-  'focus' =>
-  array (
-    'title' => '站长推荐',
-    'data' =>
-    array (
-    ),
-    'cookie' => '1',
-  ),
-  'profilegroup' =>
-  array (
-    'base' =>
-    array (
-      'available' => 1,
-      'displayorder' => 0,
-      'title' => '基本资料',
-      'field' =>
-      array (
-        'realname' => 'realname',
-        'gender' => 'gender',
-        'birthday' => 'birthday',
-        'birthcity' => 'birthcity',
-        'residecity' => 'residecity',
-        'residedist' => 'residedist',
-        'affectivestatus' => 'affectivestatus',
-        'lookingfor' => 'lookingfor',
-        'bloodtype' => 'bloodtype',
-        'field1' => 'field1',
-        'field2' => 'field2',
-        'field3' => 'field3',
-        'field4' => 'field4',
-        'field5' => 'field5',
-        'field6' => 'field6',
-        'field7' => 'field7',
-        'field8' => 'field8',
-      ),
-    ),
-    'contact' =>
-    array (
-      'title' => '联系方式',
-      'available' => '1',
-      'displayorder' => '1',
-      'field' =>
-      array (
-        'telephone' => 'telephone',
-        'mobile' => 'mobile',
-        'icq' => 'icq',
-        'qq' => 'qq',
-        'yahoo' => 'yahoo',
-        'msn' => 'msn',
-        'taobao' => 'taobao',
-      ),
-    ),
-    'edu' =>
-    array (
-      'available' => 1,
-      'displayorder' => 2,
-      'title' => '教育情况',
-      'field' =>
-      array (
-        'graduateschool' => 'graduateschool',
-        'education' => 'education',
-      ),
-    ),
-    'work' =>
-    array (
-      'available' => 1,
-      'displayorder' => 3,
-      'title' => '工作情况',
-      'field' =>
-      array (
-        'occupation' => 'occupation',
-        'company' => 'company',
-        'position' => 'position',
-        'revenue' => 'revenue',
-      ),
-    ),
-    'info' =>
-    array (
-      'title' => '个人信息',
-      'available' => '1',
-      'displayorder' => '4',
-      'field' =>
-      array (
-        'idcardtype' => 'idcardtype',
-        'idcard' => 'idcard',
-        'address' => 'address',
-        'zipcode' => 'zipcode',
-        'site' => 'site',
-        'bio' => 'bio',
-        'interest' => 'interest',
-        'sightml' => 'sightml',
-        'customstatus' => 'customstatus',
-        'timeoffset' => 'timeoffset',
-      ),
-    ),
-  ),
+$serialize_sql_setting = array(
+	'extcredits' =>
+		array(
+			1 =>
+				array(
+					'img' => '',
+					'title' => '威望',
+					'unit' => '',
+					'ratio' => 0,
+					'available' => '1',
+					'showinthread' => NULL,
+					'allowexchangein' => NULL,
+					'allowexchangeout' => NULL,
+				),
+			2 =>
+				array(
+					'img' => '',
+					'title' => '金钱',
+					'unit' => '',
+					'ratio' => 0,
+					'available' => '1',
+					'showinthread' => NULL,
+					'allowexchangein' => NULL,
+					'allowexchangeout' => NULL,
+				),
+			3 =>
+				array(
+					'img' => '',
+					'title' => '贡献',
+					'unit' => '',
+					'ratio' => 0,
+					'available' => '1',
+					'showinthread' => NULL,
+					'allowexchangein' => NULL,
+					'allowexchangeout' => NULL,
+				),
+			4 =>
+				array(
+					'img' => '',
+					'title' => '',
+					'unit' => '',
+					'ratio' => 0,
+					'available' => NULL,
+					'showinthread' => NULL,
+					'allowexchangein' => NULL,
+					'allowexchangeout' => NULL,
+				),
+			5 =>
+				array(
+					'img' => '',
+					'title' => '',
+					'unit' => '',
+					'ratio' => 0,
+					'available' => NULL,
+					'showinthread' => NULL,
+					'allowexchangein' => NULL,
+					'allowexchangeout' => NULL,
+				),
+			6 =>
+				array(
+					'img' => '',
+					'title' => '',
+					'unit' => '',
+					'ratio' => 0,
+					'available' => NULL,
+					'showinthread' => NULL,
+					'allowexchangein' => NULL,
+					'allowexchangeout' => NULL,
+				),
+			7 =>
+				array(
+					'img' => '',
+					'title' => '',
+					'unit' => '',
+					'ratio' => 0,
+					'available' => NULL,
+					'showinthread' => NULL,
+					'allowexchangein' => NULL,
+					'allowexchangeout' => NULL,
+				),
+			8 =>
+				array(
+					'img' => '',
+					'title' => '',
+					'unit' => '',
+					'ratio' => 0,
+					'available' => NULL,
+					'showinthread' => NULL,
+					'allowexchangein' => NULL,
+					'allowexchangeout' => NULL,
+				),
+		),
+	'postnocustom' =>
+		array(
+			0 => '楼主',
+			1 => '沙发',
+			2 => '板凳',
+			3 => '地板',
+		),
+	'recommendthread' =>
+		array(
+			'status' => '0',
+			'addtext' => '支持',
+			'subtracttext' => '反对',
+			'defaultshow' => '1',
+			'daycount' => '0',
+			'ownthread' => '0',
+			'iconlevels' => '50,100,200',
+		),
+	'seotitle' =>
+		array(
+			'portal' => '门户',
+			'forum' => '论坛',
+			'group' => '圈子',
+			'home' => '家园',
+		),
+	'activityfield' =>
+		array(
+			'realname' => '真实姓名',
+			'mobile' => '手机',
+			'qq' => 'QQ号',
+		),
+	'article_tags' =>
+		array(
+			1 => '原创',
+			2 => '热点',
+			3 => '组图',
+			4 => '爆料',
+			5 => '头条',
+			6 => '幻灯',
+			7 => '滚动',
+			8 => '推荐',
+		),
+	'verify' =>
+		array(
+			6 =>
+				array(
+					'title' => '实名认证',
+					'available' => '0',
+					'showicon' => '0',
+					'viewrealname' => '0',
+					'field' =>
+						array(
+							'realname' => 'realname',
+						),
+					'icon' => false,
+				),
+			'enabled' => false,
+			1 =>
+				array(
+					'icon' => '',
+				),
+			2 =>
+				array(
+					'icon' => '',
+				),
+			3 =>
+				array(
+					'icon' => '',
+				),
+			4 =>
+				array(
+					'icon' => '',
+				),
+			5 =>
+				array(
+					'icon' => '',
+				),
+		),
+	'focus' =>
+		array(
+			'title' => '站长推荐',
+			'data' =>
+				array(),
+			'cookie' => '1',
+		),
+	'profilegroup' =>
+		array(
+			'base' =>
+				array(
+					'available' => 1,
+					'displayorder' => 0,
+					'title' => '基本资料',
+					'field' =>
+						array(
+							'realname' => 'realname',
+							'gender' => 'gender',
+							'birthday' => 'birthday',
+							'birthcity' => 'birthcity',
+							'residecity' => 'residecity',
+							'residedist' => 'residedist',
+							'affectivestatus' => 'affectivestatus',
+							'lookingfor' => 'lookingfor',
+							'bloodtype' => 'bloodtype',
+							'field1' => 'field1',
+							'field2' => 'field2',
+							'field3' => 'field3',
+							'field4' => 'field4',
+							'field5' => 'field5',
+							'field6' => 'field6',
+							'field7' => 'field7',
+							'field8' => 'field8',
+						),
+				),
+			'contact' =>
+				array(
+					'title' => '联系方式',
+					'available' => '1',
+					'displayorder' => '1',
+					'field' =>
+						array(
+							'telephone' => 'telephone',
+							'mobile' => 'mobile',
+							'icq' => 'icq',
+							'qq' => 'qq',
+							'yahoo' => 'yahoo',
+							'msn' => 'msn',
+							'taobao' => 'taobao',
+						),
+				),
+			'edu' =>
+				array(
+					'available' => 1,
+					'displayorder' => 2,
+					'title' => '教育情况',
+					'field' =>
+						array(
+							'graduateschool' => 'graduateschool',
+							'education' => 'education',
+						),
+				),
+			'work' =>
+				array(
+					'available' => 1,
+					'displayorder' => 3,
+					'title' => '工作情况',
+					'field' =>
+						array(
+							'occupation' => 'occupation',
+							'company' => 'company',
+							'position' => 'position',
+							'revenue' => 'revenue',
+						),
+				),
+			'info' =>
+				array(
+					'title' => '个人信息',
+					'available' => '1',
+					'displayorder' => '4',
+					'field' =>
+						array(
+							'idcardtype' => 'idcardtype',
+							'idcard' => 'idcard',
+							'address' => 'address',
+							'zipcode' => 'zipcode',
+							'site' => 'site',
+							'bio' => 'bio',
+							'interest' => 'interest',
+							'sightml' => 'sightml',
+							'customstatus' => 'customstatus',
+							'timeoffset' => 'timeoffset',
+						),
+				),
+		),
 );
 
 ?>

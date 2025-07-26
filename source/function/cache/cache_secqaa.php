@@ -1,10 +1,9 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: cache_secqaa.php 24522 2011-09-23 02:12:46Z zhengqingpeng $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -12,13 +11,18 @@ if(!defined('IN_DISCUZ')) {
 }
 
 function build_cache_secqaa() {
-	$data = array();
-	$secqaanum = C::t('common_secquestion')->count();
+	global $_G;
+
+	$data = [];
+	$secqaanum = table_common_secquestion::t()->count();
 
 	$start_limit = $secqaanum <= 10 ? 0 : mt_rand(0, $secqaanum - 10);
 	$i = 1;
-	foreach(C::t('common_secquestion')->fetch_all_secquestion($start_limit, 10) as $secqaa) {
-		if(!$secqaa['type'])  {
+	foreach(table_common_secquestion::t()->fetch_all_secquestion($start_limit) as $secqaa) {
+		if(!$secqaa['type']) {
+			if(empty($_G['setting']['secqaa']['allowqa'])) {
+				continue;
+			}
 			$secqaa['answer'] = md5($secqaa['answer']);
 		}
 		$data[$i] = $secqaa;
@@ -32,4 +36,3 @@ function build_cache_secqaa() {
 	savecache('secqaa', $data);
 }
 
-?>

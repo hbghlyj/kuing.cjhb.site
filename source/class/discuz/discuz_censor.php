@@ -1,34 +1,33 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: discuz_censor.php 31079 2012-07-13 07:03:10Z liulanbo $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
-define('DISCUZ_CENSOR_SUCCEED', 0);
-define('DISCUZ_CENSOR_BANNED', 1);
-define('DISCUZ_CENSOR_MODERATED', 2);
-define('DISCUZ_CENSOR_REPLACED', 3);
+const DISCUZ_CENSOR_SUCCEED = 0;
+const DISCUZ_CENSOR_BANNED = 1;
+const DISCUZ_CENSOR_MODERATED = 2;
+const DISCUZ_CENSOR_REPLACED = 3;
 
 class discuz_censor {
 	var $table = 'common_word';
-	var $censor_words = array();
+	var $censor_words = [];
 	var $bbcodes_display;
 	var $result;
-	var $words_found = array();
+	var $words_found = [];
 
 	var $highlight;
 
 	public function __construct() {
 		global $_G;
-		loadcache(array('censor', 'bbcodes_display'));
-		$this->censor_words = !empty($_G['cache']['censor']) ? $_G['cache']['censor'] : array();
+		loadcache(['censor', 'bbcodes_display']);
+		$this->censor_words = !empty($_G['cache']['censor']) ? $_G['cache']['censor'] : [];
 		$this->bbcodes_display = $_G['cache']['bbcodes_display'][$_G['groupid']];
 	}
 
@@ -51,11 +50,11 @@ class discuz_censor {
 
 	function check(&$message, $modword = NULL) {
 		$limitnum = 500;
-		$this->words_found = array();
+		$this->words_found = [];
 		$bbcodes = 'b|i|color|size|font|align|list|indent|email|hide|quote|code|free|table|tr|td|img|swf|attach|payto|float'.($this->bbcodes_display ? '|'.implode('|', array_keys($this->bbcodes_display)) : '');
 		if(is_array($this->censor_words['banned']) && !empty($this->censor_words['banned'])) {
 			foreach($this->censor_words['banned'] as $banned_words) {
-				if(preg_match_all($banned_words, @preg_replace(array("/\[($bbcodes)=?(.*)\]/iU", "/\[\/($bbcodes)\]/i"), array('${2}', ''), $message), $matches)) {
+				if(preg_match_all($banned_words, @preg_replace(["/\[($bbcodes)=?(.*)\]/iU", "/\[\/($bbcodes)\]/i"], ['${2}', ''], $message), $matches)) {
 					$this->words_found = $matches[0];
 					$this->result = DISCUZ_CENSOR_BANNED;
 					$this->words_found = array_unique($this->words_found);
@@ -69,7 +68,7 @@ class discuz_censor {
 				$message = preg_replace($this->censor_words['mod'], $modword, $message);
 			}
 			foreach($this->censor_words['mod'] as $mod_words) {
-				if(preg_match_all($mod_words, @preg_replace(array("/\[($bbcodes)=?(.*)\]/iU", "/\[\/($bbcodes)\]/i"), array('${2}', ''), $message), $matches)) {
+				if(preg_match_all($mod_words, @preg_replace(["/\[($bbcodes)=?(.*)\]/iU", "/\[\/($bbcodes)\]/i"], ['${2}', ''], $message), $matches)) {
 					$this->words_found = $matches[0];
 					$this->result = DISCUZ_CENSOR_MODERATED;
 					$message = $this->highlight($message, $mod_words);

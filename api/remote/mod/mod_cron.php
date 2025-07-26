@@ -1,18 +1,16 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: mod_cron.php 30364 2012-05-24 07:43:27Z zhangguosheng $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
-class mod_cron extends remote_service
-{
+class mod_cron extends remote_service {
 	function run() {
 
 		if(!$this->config['cron']) {

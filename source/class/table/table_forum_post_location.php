@@ -1,24 +1,30 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: table_forum_post_location.php 27522 2012-02-03 04:07:44Z monkey $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
-class table_forum_post_location extends discuz_table
-{
+class table_forum_post_location extends discuz_table {
+	public static function t() {
+		static $_instance;
+		if(!isset($_instance)) {
+			$_instance = new self();
+		}
+		return $_instance;
+	}
+
 	public function __construct() {
 
 		$this->_table = 'forum_post_location';
-		$this->_pk    = 'pid';
+		$this->_pk = 'pid';
 		$this->_pre_cache_key = 'forum_post_location_';
-		$this->_cache_ttl = 0;
+		$this->_cache_ttl = 604800;
 
 		parent::__construct();
 	}
@@ -32,4 +38,3 @@ class table_forum_post_location extends discuz_table
 	}
 }
 
-?>

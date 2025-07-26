@@ -1,10 +1,9 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: helper_makehtml.php 34675 2014-07-01 05:58:13Z laoguozhang $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -19,19 +18,19 @@ class helper_makehtml {
 
 	public static $htmlfilename;
 
-	public static $returndata = array();
+	public static $returndata = [];
 
 	public static $viewurl;
 
 	public static function make_html() {
 		global $_G;
 		if(self::$htmlfilename) {
-			$filepath = DISCUZ_ROOT.'/'.self::$htmlfilename.'.'.$_G['setting']['makehtml']['extendname'];
+			$filepath = DISCUZ_ROOT_STATIC.'/'.self::$htmlfilename.'.'.$_G['setting']['makehtml']['extendname'];
 			dmkdir(dirname($filepath));
 			$cend = '</body></html>';
 			$code = ob_get_clean().$cend;
 			$code = preg_replace('/language\s*=[\s|\'|\"]*php/is', '_', $code);
-			$code = str_replace(array('<?', '?>'), array('&lt;?', '?&gt;'), $code);
+			$code = str_replace(['<?', '?>'], ['&lt;?', '?&gt;'], $code);
 			if(file_put_contents($filepath, $code) !== false) {
 				$_G['gzipcompress'] ? ob_start('ob_gzhandler') : ob_start();
 				if(self::$callback && is_callable(self::$callback)) {
@@ -66,11 +65,12 @@ class helper_makehtml {
 			showmessage('portal_category_has_no_folder_name');
 		}
 	}
+
 	public static function portal_article($cat, $article, $page) {
 		global $_G;
 		if(!empty($_G['setting']['makehtml']['flag']) && $cat['fullfoldername']) {
 			$_G['dynamicurl'] = 'portal.php?mod=view&aid='.$article['aid'];
-			self::$callbackdata['data'] = array();
+			self::$callbackdata['data'] = [];
 			if(!$article['htmlmade']) {
 				self::$callbackdata['data']['htmlmade'] = 1;
 			}
@@ -98,7 +98,7 @@ class helper_makehtml {
 
 			self::$htmlfilename = $htmldir.$article['htmlname'];
 			if(self::$callbackdata['data']) {
-				self::$callback = array(get_class(), 'portal_article_success');
+				self::$callback = [get_class(), 'portal_article_success'];
 				self::$callbackdata['id'] = $article['aid'];
 			}
 			if($article['allowcomment']) {
@@ -111,8 +111,8 @@ class helper_makehtml {
 
 	public static function fetch_dir($folder, $time) {
 		global $_G;
-		$formatarr = array('/Ym/', '/Ym/d/', '/Y/m/', '/Y/m/d/');
-		$htmldirformat = isset($formatarr[$_G['setting']['makehtml']['htmldirformat']]) ? $formatarr[$_G['setting']['makehtml']['htmldirformat']] : $formatarr[0];
+		$formatarr = ['/Ym/', '/Ym/d/', '/Y/m/', '/Y/m/d/'];
+		$htmldirformat = $formatarr[$_G['setting']['makehtml']['htmldirformat']] ?? $formatarr[0];
 		$htmldir = $folder.dgmdate($time, $htmldirformat);
 		if(!empty($_G['setting']['makehtml']['articlehtmldir'])) {
 			$htmldir = $_G['setting']['makehtml']['articlehtmldir'].'/'.$htmldir;
@@ -120,9 +120,9 @@ class helper_makehtml {
 		return $htmldir;
 	}
 
-	public static function portal_article_success(){
+	public static function portal_article_success() {
 		if(!empty(self::$callbackdata['data'])) {
-			C::t('portal_article_title')->update(self::$callbackdata['id'], self::$callbackdata['data']);
+			table_portal_article_title::t()->update(self::$callbackdata['id'], self::$callbackdata['data']);
 		}
 
 	}
@@ -131,7 +131,7 @@ class helper_makehtml {
 		global $_G;
 		if(!empty($_G['setting']['makehtml']['flag']) && !empty($_G['setting']['makehtml']['topichtmldir']) && $topic['name']) {
 			$_G['dynamicurl'] = 'portal.php?mod=topic&topicid='.$topic['topicid'];
-			self::$callbackdata['data'] = array();
+			self::$callbackdata['data'] = [];
 			if(!$topic['htmlmade']) {
 				self::$callbackdata['data']['htmlmade'] = 1;
 			}
@@ -141,7 +141,7 @@ class helper_makehtml {
 			}
 			self::$htmlfilename = $_G['setting']['makehtml']['topichtmldir'].'/'.$topic['name'];
 			if(self::$callbackdata['data']) {
-				self::$callback = array(get_class(), 'portal_topic_success');
+				self::$callback = [get_class(), 'portal_topic_success'];
 				self::$callbackdata['id'] = $topic['topicid'];
 			}
 			if($topic['allowcomment']) {
@@ -151,13 +151,12 @@ class helper_makehtml {
 	}
 
 
-	public static function portal_topic_success(){
+	public static function portal_topic_success() {
 		if(!empty(self::$callbackdata['data'])) {
-			C::t('portal_topic')->update(self::$callbackdata['id'], self::$callbackdata['data']);
+			table_portal_topic::t()->update(self::$callbackdata['id'], self::$callbackdata['data']);
 		}
 
 	}
 
 }
 
-?>

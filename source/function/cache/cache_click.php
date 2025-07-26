@@ -1,10 +1,9 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: cache_click.php 24403 2011-09-16 12:32:45Z zhengqingpeng $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -12,9 +11,9 @@ if(!defined('IN_DISCUZ')) {
 }
 
 function build_cache_click() {
-	$data = $keys = array();
-	foreach(C::t('home_click')->fetch_all_by_available() as $value) {
-		$value['icon'] = preg_match('/^https?:\/\//is', $value['icon']) ? $value['icon'] : STATICURL . 'image/click/' . $value['icon'];
+	$data = $keys = [];
+	foreach(table_home_click::t()->fetch_all_by_available() as $value) {
+		$value['icon'] = preg_match('/^https?:\/\//is', $value['icon']) ? $value['icon'] : STATICURL.'image/click/'.$value['icon'];
 		if(!isset($data[$value['idtype']]) || count($data[$value['idtype']]) < 8) {
 			$keys[$value['idtype']] = $keys[$value['idtype']] ? ++$keys[$value['idtype']] : 1;
 			$data[$value['idtype']][$keys[$value['idtype']]] = $value;
@@ -24,4 +23,3 @@ function build_cache_click() {
 	savecache('click', $data);
 }
 
-?>

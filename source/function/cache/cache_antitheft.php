@@ -1,10 +1,9 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: cache_antitheft.php 32740 2013-03-05 08:32:47Z zhangguosheng $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -12,8 +11,7 @@ if(!defined('IN_DISCUZ')) {
 }
 
 function build_cache_antitheft() {
-	$data = C::t('common_setting')->fetch_setting('antitheftsetting', true);
+	$data = table_common_setting::t()->fetch_setting('antitheftsetting', true);
 	savecache('antitheft', $data);
 }
 
-?>

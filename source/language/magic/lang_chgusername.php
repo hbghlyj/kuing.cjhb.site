@@ -1,18 +1,17 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: lang_chgusername.php 1029 2020-02-16 00:00:00Z community $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
-$lang = array
-(
+$lang =
+	[
 	'chgusername_name' => '更名卡',
 	'chgusername_desc' => '可以修改当前用户的用户名',
 	'chgusername_newusername' => '请输入新用户名',
@@ -23,6 +22,5 @@ $lang = array
 	'chgusername_change_failed' => '用户名修改操作提交失败，请联系管理员',
 	'chgusername_change_success' => '用户名修改操作提交成功，请几分钟后重新登录，如出现任何问题请联系管理员',
 
-);
+	];
 
-?>

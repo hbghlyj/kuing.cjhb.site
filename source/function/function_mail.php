@@ -1,20 +1,20 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: function_mail.php 33961 2013-09-06 07:39:33Z nemohou $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
-// set_time_limit(0);
+set_time_limit(0);
 function sendmail($toemail, $subject, $message = '', $from = '') {
 	global $_G;
-	if(preg_match("/@m\.invalid$/i", $toemail)){
+	// 使用 \@m.invalid 作为保留域名
+	if(preg_match('/@m\.invalid$/i', $toemail)) {
 		return false;
 	}
 	if(!is_array($_G['setting']['mail'])) {
@@ -22,7 +22,7 @@ function sendmail($toemail, $subject, $message = '', $from = '') {
 	}
 	if($_G['setting']['mail']['mailsend'] == 4) {
 		$etype = explode(':', $_G['setting']['mail']['plugin']);
-		$codefile = DISCUZ_ROOT.'./source/plugin/'.$etype[0].'/mailsend/mailsend_'.$etype[1].'.php';
+		$codefile = DISCUZ_PLUGIN($etype[0]).'/mailsend/mailsend_'.$etype[1].'.php';
 		include_once $codefile;
 		$class = 'mailsend_'.$etype[1];
 		$code = new $class();
@@ -32,7 +32,7 @@ function sendmail($toemail, $subject, $message = '', $from = '') {
 	if($_G['setting']['mail']['mailsend'] != 1) {
 		$smtpnum = count($_G['setting']['mail']['smtp']);
 		if($smtpnum) {
-			$rid = rand(0, $smtpnum-1);
+			$rid = rand(0, $smtpnum - 1);
 			$maildomain = explode('@', $toemail);
 			foreach(array_column($_G['setting']['mail']['smtp'], 'precedence') as $smtpkey => $smtpval) {
 				$ismail = in_array($maildomain[1], explode(',', $smtpval));
@@ -56,7 +56,7 @@ function sendmail($toemail, $subject, $message = '', $from = '') {
 	if(is_array($subject) && $subject['tpl']) {
 		$tpl = $subject['tpl'];
 		$var = $subject['var'];
-		$subject = lang('email/template', $tpl.'_subject', (!empty($subject['svar']) ? $subject['svar'] : array()));
+		$subject = lang('email/template', $tpl.'_subject', (!empty($subject['svar']) ? $subject['svar'] : []));
 		include template('email/'.$tpl);
 	} else {
 		include template('email/default');
@@ -66,17 +66,17 @@ function sendmail($toemail, $subject, $message = '', $from = '') {
 
 	$message = preg_replace("/href\=\"(?!(http|https)\:\/\/)(.+?)\"/i", 'href="'.$_G['setting']['securesiteurl'].'\\2"', $message);
 
-	$mailusername = isset($_G['setting']['mail']['mailusername']) ? $_G['setting']['mail']['mailusername'] : 1;
+	$mailusername = $_G['setting']['mail']['mailusername'] ?? 1;
 	$_G['setting']['mail']['port'] = $_G['setting']['mail']['port'] ? $_G['setting']['mail']['port'] : 25;
 	$_G['setting']['mail']['mailsend'] = $_G['setting']['mail']['mailsend'] ? $_G['setting']['mail']['mailsend'] : 1;
 
 	if($_G['setting']['mail']['mailsend'] == 3) {
 		$email_from = empty($from) ? $_G['setting']['adminemail'] : $from;
 	} else {
-		$email_from = $from == '' ? '=?'.CHARSET.'?B?'.base64_encode($_G['setting']['sitename'])."?= <".$_G['setting']['adminemail'].">" : (preg_match('/^(.+?) \<(.+?)\>$/',$from, $mats) ? '=?'.CHARSET.'?B?'.base64_encode($mats[1])."?= <$mats[2]>" : $from);
+		$email_from = $from == '' ? '=?'.CHARSET.'?B?'.base64_encode($_G['setting']['sitename']). '?= <' .$_G['setting']['adminemail']. '>' : (preg_match('/^(.+?) \<(.+?)\>$/', $from, $mats) ? '=?'.CHARSET.'?B?'.base64_encode($mats[1])."?= <$mats[2]>" : $from);
 	}
 
-	$email_to = preg_match('/^(.+?) \<(.+?)\>$/',$toemail, $mats) ? ($mailusername ? '=?'.CHARSET.'?B?'.base64_encode($mats[1])."?= <$mats[2]>" : $mats[2]) : $toemail;
+	$email_to = preg_match('/^(.+?) \<(.+?)\>$/', $toemail, $mats) ? ($mailusername ? '=?'.CHARSET.'?B?'.base64_encode($mats[1])."?= <$mats[2]>" : $mats[2]) : $toemail;
 
 	$email_subject = '=?'.CHARSET.'?B?'.base64_encode(preg_replace("/[\r|\n]/", '', '['.$_G['setting']['sitename'].'] '.$subject)).'?=';
 	$email_message = chunk_split(base64_encode(str_replace("\n", "\r\n", str_replace("\r", "\n", str_replace("\r\n", "\n", str_replace("\n\r", "\r", $message))))));
@@ -97,10 +97,11 @@ function sendmail($toemail, $subject, $message = '', $from = '') {
 			return false;
 		}
 		stream_set_blocking($fp, true);
+		// 新增发送超时设置, 避免连接后无响应导致吊死
 		stream_set_timeout($fp, $_G['setting']['mail']['timeout']);
 
 		$lastmessage = fgets($fp, 512);
-		if(substr($lastmessage, 0, 3) != '220') {
+		if(!str_starts_with($lastmessage, '220')) {
 			fputs($fp, "QUIT\r\n");
 			runlog('SMTP', "{$_G['setting']['mail']['server']}:{$_G['setting']['mail']['port']} CONNECT - $lastmessage", 0);
 			return false;
@@ -156,10 +157,10 @@ function sendmail($toemail, $subject, $message = '', $from = '') {
 			$email_from = $_G['setting']['mail']['from'];
 		}
 
-		fputs($fp, "MAIL FROM: <".preg_replace("/.*\<(.+?)\>.*/", "\\1", $email_from).">\r\n");
+		fputs($fp, 'MAIL FROM: <' .preg_replace('/.*\<(.+?)\>.*/', "\\1", $email_from).">\r\n");
 		$lastmessage = fgets($fp, 512);
 		if(substr($lastmessage, 0, 3) != 250) {
-			fputs($fp, "MAIL FROM: <".preg_replace("/.*\<(.+?)\>.*/", "\\1", $email_from).">\r\n");
+			fputs($fp, 'MAIL FROM: <' .preg_replace('/.*\<(.+?)\>.*/', "\\1", $email_from).">\r\n");
 			$lastmessage = fgets($fp, 512);
 			if(substr($lastmessage, 0, 3) != 250) {
 				fputs($fp, "QUIT\r\n");
@@ -168,10 +169,10 @@ function sendmail($toemail, $subject, $message = '', $from = '') {
 			}
 		}
 
-		fputs($fp, "RCPT TO: <".preg_replace("/.*\<(.+?)\>.*/", "\\1", $toemail).">\r\n");
+		fputs($fp, 'RCPT TO: <' .preg_replace('/.*\<(.+?)\>.*/', "\\1", $toemail).">\r\n");
 		$lastmessage = fgets($fp, 512);
 		if(substr($lastmessage, 0, 3) != 250) {
-			fputs($fp, "RCPT TO: <".preg_replace("/.*\<(.+?)\>.*/", "\\1", $toemail).">\r\n");
+			fputs($fp, 'RCPT TO: <' .preg_replace('/.*\<(.+?)\>.*/', "\\1", $toemail).">\r\n");
 			$lastmessage = fgets($fp, 512);
 			fputs($fp, "QUIT\r\n");
 			runlog('SMTP', "({$_G['setting']['mail']['server']}:{$_G['setting']['mail']['port']}) RCPT TO - $lastmessage", 0);
@@ -191,14 +192,14 @@ function sendmail($toemail, $subject, $message = '', $from = '') {
 			@date_default_timezone_set('Etc/GMT'.($timeoffset > 0 ? '-' : '+').(abs($timeoffset)));
 		}
 
-		$maildomain = substr(strrchr($email_from, "@"), 1);
+		$maildomain = substr(strrchr($email_from, '@'), 1);
 		$maildelimiter = "\r\n";
 		$headers = "From: $email_from{$maildelimiter}X-Mailer: Discuz! $version {$maildelimiter}MIME-Version: 1.0{$maildelimiter}Content-type: text/html; charset=".CHARSET."{$maildelimiter}Content-Transfer-Encoding: base64{$maildelimiter}";
 		$headers .= 'Message-ID: <'.date('YmdHs').'.'.substr(md5($email_message.microtime()), 0, 6).rand(100000, 999999).'@'.$maildomain.">{$maildelimiter}";
 
-		fputs($fp, "Date: ".date('r')."\r\n");
-		fputs($fp, "To: ".$email_to."\r\n");
-		fputs($fp, "Subject: ".$email_subject."\r\n");
+		fputs($fp, 'Date: ' .date('r')."\r\n");
+		fputs($fp, 'To: ' .$email_to."\r\n");
+		fputs($fp, 'Subject: ' .$email_subject."\r\n");
 		fputs($fp, $headers."\r\n");
 		fputs($fp, "\r\n\r\n");
 		fputs($fp, "$email_message\r\n.\r\n");
@@ -230,31 +231,32 @@ function sendmail($toemail, $subject, $message = '', $from = '') {
 
 function sendmail_cron($toemail, $subject, $message) {
 	global $_G;
-	if(preg_match("/@m\.invalid$/i", $toemail)){
+	// 使用 \@m.invalid 作为保留域名
+	if(preg_match('/@m\.invalid$/i', $toemail)) {
 		return false;
 	}
 	$toemail = addslashes($toemail);
 
-	$value = C::t('common_mailcron')->fetch_all_by_email($toemail, 0, 1);
+	$value = table_common_mailcron::t()->fetch_all_by_email($toemail, 0, 1);
 	$value = $value[0];
 	if($value) {
 		$cid = $value['cid'];
 	} else {
-		$cid = C::t('common_mailcron')->insert(array('email' => $toemail), true);
+		$cid = table_common_mailcron::t()->insert(['email' => $toemail], true);
 	}
 	$message = preg_replace("/href\=\"(?!(http|https)\:\/\/)(.+?)\"/i", 'href="'.$_G['setting']['securesiteurl'].'\\1"', $message);
-	$setarr = array(
+	$setarr = [
 		'cid' => $cid,
 		'subject' => $subject,
 		'message' => $message,
 		'dateline' => $_G['timestamp']
-	);
-	C::t('common_mailqueue')->insert($setarr);
+	];
+	table_common_mailqueue::t()->insert($setarr);
 
 	return true;
 }
 
-function sendmail_touser($touid, $subject, $message, $mailtype='') {
+function sendmail_touser($touid, $subject, $message, $mailtype = '') {
 	global $_G;
 
 	if(empty($_G['setting']['sendmailday'])) return false;
@@ -267,36 +269,35 @@ function sendmail_touser($touid, $subject, $message, $mailtype='') {
 	space_merge($tospace, 'status');
 
 	$acceptemail = $tospace['acceptemail'];
-	if(!empty($acceptemail[$mailtype]) && $_G['timestamp'] - $tospace['lastvisit'] > $_G['setting']['sendmailday']*86400) {
+	if(!empty($acceptemail[$mailtype]) && $_G['timestamp'] - $tospace['lastvisit'] > $_G['setting']['sendmailday'] * 86400) {
 		if(empty($tospace['lastsendmail'])) {
 			$tospace['lastsendmail'] = $_G['timestamp'];
 		}
 		$sendtime = $tospace['lastsendmail'] + $acceptemail['frequency'];
 
-		$value = C::t('common_mailcron')->fetch_all_by_touid($touid, 0, 1);
+		$value = table_common_mailcron::t()->fetch_all_by_touid($touid, 0, 1);
 		$value = $value[0];
 		if($value) {
 			$cid = $value['cid'];
 			if($value['sendtime'] < $sendtime) $sendtime = $value['sendtime'];
-			C::t('common_mailcron')->update($cid, array('email' => $tospace['email'], 'sendtime' => $sendtime));
+			table_common_mailcron::t()->update($cid, ['email' => $tospace['email'], 'sendtime' => $sendtime]);
 		} else {
-			$cid = C::t('common_mailcron')->insert(array(
+			$cid = table_common_mailcron::t()->insert([
 				'touid' => $touid,
 				'email' => $tospace['email'],
 				'sendtime' => $sendtime,
-			), true);
+			], true);
 		}
 		$message = preg_replace("/href\=\"(?!(http|https)\:\/\/)(.+?)\"/i", 'href="'.$_G['setting']['securesiteurl'].'\\1"', $message);
-		$setarr = array(
+		$setarr = [
 			'cid' => $cid,
 			'subject' => $subject,
 			'message' => $message,
 			'dateline' => $_G['timestamp']
-		);
-		C::t('common_mailqueue')->insert($setarr);
+		];
+		table_common_mailqueue::t()->insert($setarr);
 		return true;
 	}
 	return false;
 }
 
-?>

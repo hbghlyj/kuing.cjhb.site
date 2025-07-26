@@ -1,18 +1,17 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: lang_optimizer.php 33906 2013-08-29 09:40:37Z jeffjzhang $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
-$lang = array
-(
+$lang =
+	[
 	'optimizer_dbbackup_advice' => '三个月没有进行数据备份了,建议立即备份数据',
 	'optimizer_dbbackup_lastback' => '上次数据备份于',
 	'optimizer_dbbackup_clean_safe' => '没有检测到数据库备份文件，无安全问题',
@@ -67,6 +66,9 @@ $lang = array
 	'optimizer_setting_rewriteguest' => 'Rewrite仅针对游客',
 	'optimizer_setting_rewriteguest_desc' => '开启此项，则 Rewrite功能只对游客和搜索引擎有效，可减轻服务器负担',
 	'optimizer_setting_rewriteguest_optimize_desc' => '开启此功能',
+	'optimizer_setting_chgusername_othertable' => '同步修改其他表用户名',
+	'optimizer_setting_chgusername_othertable_desc' => '关闭此项，避免改名时修改过多用户表，可减轻服务器负担',
+	'optimizer_setting_chgusername_othertable_optimize_desc' => '关闭此项',
 	'optimizer_inviteregister_tip' => '注册项中开启邀请注册后,设置不受邀请码限制的地方列表,适合地方社区设置',
 	'optimizer_iniviteregister_normal' => '检测设置正常',
 	'optimizer_emailregister_normal' => '已设置该项,请查看是否配置邮件服务器',
@@ -129,5 +131,4 @@ $lang = array
 	'optimizer_dos8p3_no_need' => 'DOS 8.3 文件名支持未开启或底层不支持',
 	'optimizer_httphost_need' => '空 HOST 访问已开启',
 	'optimizer_httphost_no_need' => '空 HOST 访问支持未开启或底层不支持',
-);
-?>
+	];

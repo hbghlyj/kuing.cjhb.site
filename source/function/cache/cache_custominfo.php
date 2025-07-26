@@ -1,10 +1,9 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: cache_custominfo.php 26112 2011-12-02 03:06:01Z zhengqingpeng $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -13,12 +12,12 @@ if(!defined('IN_DISCUZ')) {
 
 function build_cache_custominfo() {
 
-	$data = C::t('common_setting')->fetch_all_setting(array('extcredits', 'customauthorinfo', 'postno', 'postnocustom'));
+	$data = table_common_setting::t()->fetch_all_setting(['extcredits', 'customauthorinfo', 'postno', 'postnocustom']);
 	$data['customauthorinfo'] = dunserialize($data['customauthorinfo']);
 	$data['customauthorinfo'] = $data['customauthorinfo'][0];
 	$data['fieldsadd'] = '';
 	$data['extcredits'] = dunserialize($data['extcredits']);
-	$order = array();
+	$order = [];
 	if($data['customauthorinfo']) {
 		foreach($data['customauthorinfo'] as $k => $v) {
 			if($v['left']) {
@@ -37,10 +36,10 @@ function build_cache_custominfo() {
 	}
 	$data['setting'] = $order;
 
-	$profile = array();
-	foreach(C::t('common_member_profile_setting')->fetch_all_by_available_showinthread(1, 1) as $field) {
+	$profile = [];
+	foreach(table_common_member_profile_setting::t()->fetch_all_by_available_showinthread(1, 1) as $field) {
 		$data['fieldsadd'] .= ', mp.'.$field['fieldid'].' AS '.$field['fieldid'];
-		$profile['field_'.$field['fieldid']] = array($field['title'], $field['fieldid']);
+		$profile['field_'.$field['fieldid']] = [$field['title'], $field['fieldid']];
 	}
 	$data['profile'] = $profile;
 
@@ -58,4 +57,3 @@ function build_cache_custominfo() {
 	savecache('custominfo', $data);
 }
 
-?>

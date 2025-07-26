@@ -1,22 +1,28 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: table_portal_article_related.php 27833 2012-02-15 08:04:51Z zhangguosheng $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
-class table_portal_article_related extends discuz_table
-{
+class table_portal_article_related extends discuz_table {
+	public static function t() {
+		static $_instance;
+		if(!isset($_instance)) {
+			$_instance = new self();
+		}
+		return $_instance;
+	}
+
 	public function __construct() {
 
 		$this->_table = 'portal_article_related';
-		$this->_pk    = 'aid';
+		$this->_pk = 'aid';
 
 		parent::__construct();
 	}
@@ -26,7 +32,7 @@ class table_portal_article_related extends discuz_table
 	}
 
 	public function insert_batch($aid, $list) {
-		$replaces = array();
+		$replaces = [];
 		if(($aid = dintval($aid))) {
 			$displayorder = 0;
 			unset($list[$aid]);
@@ -44,8 +50,7 @@ class table_portal_article_related extends discuz_table
 	}
 
 	public function fetch_all_by_aid($aid) {
-		return ($aid = dintval($aid)) ? DB::fetch_all('SELECT * FROM %t WHERE aid=%d ORDER BY displayorder', array($this->_table, $aid), 'raid') : array();
+		return ($aid = dintval($aid)) ? DB::fetch_all('SELECT * FROM %t WHERE aid=%d ORDER BY displayorder', [$this->_table, $aid], 'raid') : [];
 	}
 }
 
-?>

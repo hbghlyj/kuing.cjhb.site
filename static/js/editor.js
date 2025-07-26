@@ -1,9 +1,8 @@
-/*
-	[Discuz!] (C)2001-2099 Comsenz Inc.
-	This is NOT a freeware, use is subject to license terms
-
-	$Id: editor.js 34614 2014-06-12 02:48:35Z nemohou $
-*/
+/**
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
+ */
 
 var editorcurrentheight = 400, editorminheight = 400, savedataInterval = 30, editbox = null, editwin = null, editdoc = null, editcss = null, savedatat = null, savedatac = 0, autosave = 1, framemObj = null, cursor = -1, stack = [], initialized = false, postSubmited = false, editorcontroltop = false, editorcontrolwidth = false, editorcontrolheight = false, editorisfull = 0, fulloldheight = 0, savesimplodemode = null;
 EXTRAFUNC['keydown'] = [];
@@ -52,17 +51,21 @@ function setEditorTip(s) {
 }
 
 function initEditor() {
+	if(BROWSER.other) {
+		$(editorid + '_controls').style.display = 'none';
+		return;
+	}
 	var buttons = $(editorid + '_controls').getElementsByTagName('a');
 	initesbar();
 	for(var i = 0; i < buttons.length; i++) {
 		if(buttons[i].id.indexOf(editorid + '_') != -1) {
 			buttons[i].href = 'javascript:;';
 			if(buttons[i].id.substr(buttons[i].id.indexOf('_') + 1) == 'fullswitcher') {
-                               buttons[i].innerHTML = !editorisfull ? lng['full_screen'] : lng['restore_size'];
-                               buttons[i].onmouseover = function(e) {setEditorTip(editorisfull ? lng['restore_size_edit'] : lng['full_screen_edit']);};
+				buttons[i].innerHTML = !editorisfull ? $L('fullscreen') : $L('return');
+				buttons[i].onmouseover = function(e) {setEditorTip(editorisfull ? $L('restore_editor_size') : $L('full_editor_size'));};
 				buttons[i].onclick = function(e) {editorfull();doane();}
 			} else if(buttons[i].id.substr(buttons[i].id.indexOf('_') + 1) == 'simple') {
-                               buttons[i].innerHTML = !simplodemode ? lng['general'] : lng['simple'];
+				buttons[i].innerHTML = !simplodemode ? $L('simple_mode') : $L('advance_mode');
 				buttons[i].onclick = function(e) {editorsimple();doane();}
 			} else {
 				_attachEvent(buttons[i], 'mouseover', function(e) {setEditorTip(BROWSER.ie ? window.event.srcElement.title : e.target.title);});
@@ -91,7 +94,7 @@ function initEditor() {
 	}
 	if($(editorid + '_fullswitcher') && BROWSER.ie && BROWSER.ie < 7) {
 		$(editorid + '_fullswitcher').onclick = function () {
-                       showDialog(lng['browser_update'], 'notice', lng['tips']);
+			showDialog($L('browser_not_support'), 'notice', $L('friendly_notice'));
 		};
 		$(editorid + '_fullswitcher').className = 'xg1';
 	}
@@ -139,7 +142,7 @@ function initesbar() {
 
 function savedataTime() {
 	if(!autosave) {
-               $(editorid + '_svdsecond').innerHTML = '<a title="'+lng['click_autosave_enable']+'" href="javascript:;" onclick="setAutosave()">'+lng['autosave_enable']+'</a> ';
+		$(editorid + '_svdsecond').innerHTML = '<a title="' + $L('click_open_autosave') + '" href="javascript:;" onclick="setAutosave()">' + $L('open_autosave') + '</a> ';
 		return;
 	}
 	if(!savedatac) {
@@ -150,15 +153,15 @@ function savedataTime() {
 		var m = d.getMinutes();
 		h = h < 10 ? '0' + h : h;
 		m = m < 10 ? '0' + m : m;
-               setEditorTip(lng['data_saved_at']+' ' + h + ':' + m + ' '+lng['saved_time']);
+		setEditorTip($L('last_save_time', [h, m]));
 	}
-       $(editorid + '_svdsecond').innerHTML = '<a title="'+lng['autosave_disable']+'" href="javascript:;" onclick="setAutosave()">' + savedatac + ' '+lng['sec_before_saving']+'</a> ';
+	$(editorid + '_svdsecond').innerHTML = '<a title="' + $L('click_close_autosave') + '" href="javascript:;" onclick="setAutosave()">' + $L('second_save', [savedatac]) + '</a> ';
 	savedatac -= 10;
 }
 
 function setAutosave() {
 	autosave = !autosave;
-       setEditorTip(autosave ? lng['autosave_enabled'] : lng['autosave_disabled']);
+	setEditorTip(autosave ? $L('autosave_open') : $L('autosave_close'));
 	setcookie('editorautosave_' + editorid, autosave ? 1 : -1, 2592000);
 	savedataTime();
 }
@@ -233,7 +236,7 @@ function editorresize(e, op) {
 		document.onmousemove = function(e) {try{editorresize(e, 2);}catch(err){}};
 		document.onmouseup = function(e) {try{editorresize(e, 3);}catch(err){}};
 		doane(e);
-	}else if(op == 2) {
+	}else if(op == 2 && editorsizepos !== []) {
 		var dragnow = e.clientY;
 		editorsize('', editorsizepos[1] + dragnow - editorsizepos[0]);
 		doane(e);
@@ -273,7 +276,7 @@ function editorfull(op) {
 		control.style.top = '0px';
 		control.style.left = '0px';
 		control.style.width = '100%';
-		//control.style.minWidth = '800px';//kk del
+		control.style.minWidth = '800px';
 		area.style.backgroundColor = $(editorid + '_textarea') ? getCurrentStyle($(editorid + '_textarea'), 'backgroundColor', 'background-color') : '#fff';
 		$(editorid + '_switcher').style.paddingRight = '10px';
 		var editorheight = document.documentElement.clientHeight - control.offsetHeight - bbar.offsetHeight - parseInt(getCurrentStyle(area, 'paddingTop', 'padding-top')) - parseInt(getCurrentStyle(area, 'paddingBottom', 'padding-bottom'));
@@ -314,15 +317,14 @@ function editorfull(op) {
 		editorisfull = 0;
 		editorcontrolpos();
 	}
-       $(editorid + '_fullswitcher').innerHTML = editorisfull ? lng['back'] : lng['full_screen'];
-       $(editorid + '_fullswitcher').title = editorisfull ? lng['back'] : lng['full_screen'];
+	$(editorid + '_fullswitcher').innerHTML = editorisfull ? $L('return') : $L('fullscreen');
 	initesbar();
 }
 
 function editorsimple() {
 	if($(editorid + '_body').className == 'edt') {
 		v = 'none';
-               $(editorid + '_simple').title = lng['simple'];
+		$(editorid + '_simple').innerHTML = $L('advance_mode');
 		$(editorid + '_body').className = 'edt simpleedt';
 		$(editorid + '_adv_s1').className = 'b2r';
 		$(editorid + '_adv_s2').className = 'b2r nbl';
@@ -333,7 +335,7 @@ function editorsimple() {
 		simplodemode = 1;
 	} else {
 		v = '';
-               $(editorid + '_simple').title = lng['general'];
+		$(editorid + '_simple').innerHTML = $L('simple_mode');
 		$(editorid + '_body').className = 'edt';
 		$(editorid + '_adv_s1').className = 'b1r';
 		$(editorid + '_adv_s2').className = 'b2r nbr nbl';
@@ -359,42 +361,54 @@ function editorsimple() {
 
 function pasteWord(str) {
 	var mstest = /<\w[^>]* class="?[MsoNormal|xl]"?/gi;
-	if(mstest.test(str)){
-		str = str.replace(/<!--\[if[\s\S]+?<!\[endif\]-->/gi, "");
-		str = str.replace(/<(\w[^>]*) class=([^ |>]*)([^>]*)/gi, "<$1$3");
-		str = str.replace(/<(\w[^>]*) style="([^"]*)"([^>]*)/gi, function ($1, $2, $3, $4) {
-			var style = '';
-			re = new RegExp('(^|[;\\s])color:\\s*([^;]+);?', 'ig');
-			match = re.exec($3);
-			if(match != null) {
-				style += 'color:' + match[2] + ';';
+	str = str.replace(/<!--\[if[\s\S]+?<!\[endif\]-->/gi, "");
+	str = str.replace(/<(\w[^>]*) class=([^ |>]*)([^>]*)/gi, "<$1$3");
+	str = str.replace(/<(\w[^>]*) style="([^"]*)"([^>]*)/gi, function ($1, $2, $3, $4) {
+		var style = '';
+		re = new RegExp('(^|[;\\s])color:\\s*([^;]+);?', 'ig');
+		match = re.exec($3);
+		if(match != null) {
+			var color = match[2];
+			if (color.length === 4) {
+				color = '#' + color[1] + color[1] + color[2] + color[2] + color[3] + color[3];
 			}
-			re = new RegExp('(^|[;\\s])text-indent:\\s*([^;]+);?', 'ig');
-			match = re.exec($3);
-			if(match != null) {
-				style += 'text-indent:' + parseInt(parseInt(match[2]) / 10) + 'em;';
+			else if (color.startsWith('rgb(')) {
+				var rgbValues = color.match(/\d+/g);
+				if (rgbValues && rgbValues.length === 3) {
+					color = '#' + rgbValues.map(function(value) {
+						var hex = parseInt(value).toString(16);
+						return hex.length === 1 ? '0' + hex : hex;
+					}).join('');
+				}
 			}
-			re = new RegExp('(^|[;\\s])font-size:\\s*([^;]+);?', 'ig');
-			match = re.exec($3);
-			if(match != null) {
-				style += 'font-size:' + match[2] + ';';
-			}
-			if(style) {
-				style = ' style="' + style + '"';
-			}
-			return '<' + $2 + style + $4;
-		});
-		str = str.replace(/<(\w[^>]*) lang=([^ |>]*)([^>]*)/gi, "<$1$3");
-		str = str.replace(/<\\?\?xml[^>]*>/gi, "");
-		str = str.replace(/<\/?\w+:[^>]*>/gi, "");
-		str = str.replace(/&nbsp;/, " ");
-		var re = new RegExp("(<P)([^>]*>.*?)(<\/P>)", 'ig');
-		str = str.replace(re, "<div$2</div>");
-		if(!wysiwyg) {
-			str = html2bbcode(str);
+			style += 'color:' + color + ';';
 		}
-		insertText(str, str.length, 0);
+		re = new RegExp('(^|[;\\s])text-indent:\\s*([^;]+);?', 'ig');
+		match = re.exec($3);
+		if(match != null) {
+			style += 'text-indent:' + parseInt(parseInt(match[2]) / 10) + 'em;';
+		}
+		re = new RegExp('(^|[;\\s])font-size:\\s*([^;]+);?', 'ig');
+		match = re.exec($3);
+		if(match != null) {
+			style += 'font-size:' + match[2] + ';';
+		}
+		if(style) {
+			style = ' style="' + style + '"';
+		}
+		return '<' + $2 + style + $4;
+	});
+	str = str.replace(/<(\w[^>]*) lang=([^ |>]*)([^>]*)/gi, "<$1$3");
+	str = str.replace(/<\\?\?xml[^>]*>/gi, "");
+	str = str.replace(/<\/?\w+:[^>]*>/gi, "");
+	str = str.replace(/&nbsp;/, " ");
+	str = str.replace(/<img[^>]*>/gi, "");
+	var re = new RegExp("(<P)([^>]*>.*?)(<\/P>)", 'ig');
+	str = str.replace(re, "<div$2</div>");
+	if(!wysiwyg) {
+		str = html2bbcode(str);
 	}
+	insertText(str, str.length, 0);
 }
 
 var ctlent_enable = {8:1,9:1,13:1};
@@ -440,10 +454,15 @@ function keyBackspace() {
 }
 
 function keyMenu(code, func) {
-	if(wysiwyg){
-		// insert code into wysiwyg editor, then get the position of the cursor
-		var km = 'kM' + Math.random();
-		var hs = '<span id="' + km + '">' + code + '</span>';
+	var km = 'kM' + Math.random();
+	var hs = '<span id="' + km + '">' + code + '</span>';
+	if(BROWSER.ie) {
+		var range = document.selection.createRange();
+		range.pasteHTML(hs);
+		range.moveToElementText(editdoc.getElementById(km));
+		range.moveStart("character");
+		range.select();
+	} else {
 		var selection = editwin.getSelection();
 		var range = selection.getRangeAt(0);
 		var fragment = range.createContextualFragment(hs);
@@ -453,134 +472,10 @@ function keyMenu(code, func) {
 		range.setEnd(tmp, 1);
 		selection.removeAllRanges();
 		selection.addRange(range);
-		const keyMenuObj = editdoc.getElementById(km);
-		var b = fetchOffset(editbox);
-		var o = fetchOffset(keyMenuObj);
-	}else{
-		var textobjval = textobj.value;
-		var selectionStart = textobj.selectionStart;
-		var selectionEnd = textobj.selectionEnd;
-		var beforeText = textobjval.substring(0, selectionStart);
-		var afterText = textobjval.substring(selectionEnd);
-		textobj.value = beforeText + code + afterText;
-		textobj.selectionStart = selectionStart + code.length;
-		textobj.selectionEnd = textobj.selectionStart;
-
-		var b = fetchOffset(textobj); // editbox is textobj in non-wysiwyg mode
-		var o = { left: 0, top: 0 };
-
-		// Definitions for cursor calculation input
-		var textUpToCursor = textobj.value.substring(0, textobj.selectionStart);
-		var numPreviousNewlines = (textUpToCursor.match(/\\n/g) || []).length;
-		var lastNewlineIndex = textUpToCursor.lastIndexOf('\\n');
-		var currentLineTextAtCursor = textUpToCursor.substring(lastNewlineIndex + 1);
-		// ==== Inserted/Restored Code: End ====
-
-		// Inside the else block for textarea
-		const computedStyles = getComputedStyle(textobj);
-		const fontSize = parseFloat(computedStyles.fontSize);
-		const fontFamily = computedStyles.fontFamily;
-		const lineHeight = parseFloat(computedStyles.lineHeight);
-
-		// Measure the width of a single typical monospace character
-		var tempSpanMono = document.createElement('span');
-		tempSpanMono.style.cssText = `
-			position: absolute;
-			visibility: hidden;
-			white-space: pre;
-			font-size: ${fontSize}px;
-			font-family: ${fontFamily};
-			padding: 0;
-			border: 0;
-			box-sizing: content-box;
-		`;
-		tempSpanMono.textContent = 'X'; // Use a common monospace character
-		document.body.appendChild(tempSpanMono);
-		var measuredMonospaceCharWidth = tempSpanMono.getBoundingClientRect().width;
-		document.body.removeChild(tempSpanMono);
-
-		// Measure the width of a single typical full-width character (e.g., a CJK character)
-		// This assumes a full-width character exists and is rendered by one of the fonts.
-		// You might need to pick a character that is reliably full-width in your expected fonts.
-		var tempSpanFull = document.createElement('span');
-		tempSpanFull.style.cssText = `
-			position: absolute;
-			visibility: hidden;
-			white-space: pre;
-			font-size: ${fontSize}px;
-			font-family: ${fontFamily};
-			padding: 0;
-			border: 0;
-			box-sizing: content-box;
-		`;
-		tempSpanFull.textContent = '字'; // Example CJK character
-		document.body.appendChild(tempSpanFull);
-		var measuredFullCharWidth = tempSpanFull.getBoundingClientRect().width;
-		document.body.removeChild(tempSpanFull);
-
-
-		// Calculate the usable width of the textarea content area
-		const paddingLeft = parseFloat(computedStyles.paddingLeft);
-		const paddingRight = parseFloat(computedStyles.paddingRight);
-		// Using clientWidth is often more reliable for inner content width
-		let maxLineWidthInPixels = textobj.clientWidth - paddingLeft - paddingRight;
-
-		if (isNaN(maxLineWidthInPixels) || maxLineWidthInPixels <= 0) {
-			// Fallback if clientWidth is not available or zero
-			console.warn("Could not determine accurate textarea content width using clientWidth. Using getBoundingClientRect fallback.");
-			const borderLeft = parseFloat(computedStyles.borderLeftWidth);
-			const borderRight = parseFloat(computedStyles.borderRightWidth);
-			maxLineWidthInPixels = textobj.getBoundingClientRect().width - paddingLeft - paddingRight - borderLeft - borderRight;
-			if (isNaN(maxLineWidthInPixels) || maxLineWidthInPixels <= 0) {
-				console.warn("Could not determine accurate textarea content width. Using hardcoded fallback.");
-				maxLineWidthInPixels = 800; // Risky fallback
-			}
-		}
-
-
-		var currentVisualOffsetOnLine = 0;
-		var wrappedLinesForCurrentLogicalLine = 0;
-
-		for (var i = 0; i < currentLineTextAtCursor.length; i++) {
-			var char = currentLineTextAtCursor[i];
-			var charCode = char.charCodeAt(0);
-
-			// Check for common full-width character ranges
-			var charIsFullWidth =
-				(charCode >= 0x3000 && charCode <= 0x303F) ||
-				(charCode >= 0x4E00 && charCode <= 0x9FFF) ||
-				(charCode >= 0x3040 && charCode <= 0x309F) ||
-				(charCode >= 0x30A0 && charCode <= 0x30FF) ||
-				(charCode >= 0xFF00 && charCode <= 0xFFEF) ||
-				(charCode >= 0xAC00 && charCode <= 0xD7AF);
-
-			var charPixelWidth = charIsFullWidth ? measuredFullCharWidth : measuredMonospaceCharWidth;
-
-			if (currentVisualOffsetOnLine + charPixelWidth > maxLineWidthInPixels) {
-				wrappedLinesForCurrentLogicalLine++;
-				currentVisualOffsetOnLine = charPixelWidth;
-				// Handle cases where a single character is wider than the line
-				while (currentVisualOffsetOnLine > maxLineWidthInPixels) {
-					wrappedLinesForCurrentLogicalLine++;
-					currentVisualOffsetOnLine -= maxLineWidthInPixels;
-				}
-			} else {
-				currentVisualOffsetOnLine += charPixelWidth;
-			}
-		}
-
-		o.left = currentVisualOffsetOnLine;
-		if (isNaN(lineHeight) || lineHeight <= 0) {
-			// Handle cases where line-height is 'normal' or invalid
-			lineHeight = fontSize * 1.2; // Example fallback
-			console.warn("Could not determine accurate line-height. Using fallback.");
-		}
-		o.top = (numPreviousNewlines + wrappedLinesForCurrentLogicalLine + 1) * lineHeight;
-
-		// Adjust for scroll position
-		o.left -= textobj.scrollLeft;
-		o.top -= textobj.scrollTop;
 	}
+	keyMenuObj = editdoc.getElementById(km);
+	var b = fetchOffset(editbox);
+	var o = fetchOffset(keyMenuObj);
 	var scrollTop = Math.max(document.documentElement.scrollTop, document.body.scrollTop);
 	func(b.left + o.left, b.top + o.top - scrollTop);
 }
@@ -602,7 +497,7 @@ function checkFocus() {
 
 function checklength(theform) {
 	var message = wysiwyg ? html2bbcode(getEditorContents()) : (!theform.parseurloff.checked ? parseurl(theform.message.value) : theform.message.value);
-       showDialog(lng['current_length']+': ' + mb_strlen(message) + ' '+lng['bytes']+', ' + (postmaxchars != 0 ? lng['system_limit']+': ' + postminchars + ' '+lng['up_to']+' ' + postmaxchars + ' '+lng['bytes']+'.' : ''), 'notice', lng['check_length']);
+	showDialog($L('length_tip_1', [mb_strlen(message)]) + (postmaxchars != 0 ? $L('length_tip_2', [postminchars, postmaxchars]) : ''), 'notice', $L('length_check'));
 }
 
 function setUnselectable(obj) {
@@ -844,6 +739,7 @@ function insertSmiley(smilieid) {
 	if(wysiwyg && allowsmilies && (!$('smileyoff') || $('smileyoff').checked == false)) {
 		insertText('<img src="' + src + '" border="0" smilieid="' + smilieid + '" alt="" />', false);
 	} else {
+		code += ' ';
 		insertText(code, strlen(code), 0);
 	}
 	hideMenu();
@@ -856,7 +752,7 @@ function discuzcode(cmd, arg) {
 
 	checkFocus();
 
-       if(in_array(cmd, ['sml', 'insertorderedlist', 'inserthorizontalrule', 'url', 'quote', 'code', 'free', 'hide', 'aud', 'vid', 'beginning', 'attach', 'image', 'pasteword', 'index', 'postbg', 'password']) || typeof EXTRAFUNC['showEditorMenu'][cmd] != 'undefined' || cmd == 'tbl' || in_array(cmd, ['fontname', 'fontsize', 'forecolor', 'backcolor']) && !arg) {
+	if(in_array(cmd, ['sml', 'inserthorizontalrule', 'url', 'quote', 'code', 'free', 'hide', 'aud', 'vid', 'fls', 'beginning', 'attach', 'image', 'pasteword', 'index', 'postbg', 'password']) || typeof EXTRAFUNC['showEditorMenu'][cmd] != 'undefined' || cmd == 'tbl' || in_array(cmd, ['fontname', 'fontsize', 'forecolor', 'backcolor']) && !arg) {
 		showEditorMenu(cmd);
 		return;
 	} else if(cmd.substr(0, 3) == 'cst') {
@@ -906,8 +802,9 @@ function discuzcode(cmd, arg) {
 				editdoc.value = str;
 			}
 		}
-	} else if(!wysiwyg && cmd == 'insertunorderedlist') {
-		var opentag = '[list]\n';
+	} else if(!wysiwyg && in_array(cmd, ['insertorderedlist', 'insertunorderedlist'])) {
+		var listtype = cmd == 'insertorderedlist' ? '1' : '';
+		var opentag = '[list' + (listtype ? ('=' + listtype) : '') + ']\n';
 		var closetag = '[/list]';
 
 		if(txt = getSel()) {
@@ -917,7 +814,7 @@ function discuzcode(cmd, arg) {
 		} else {
 			insertText(opentag + closetag, opentag.length, closetag.length);
 
-                       while(listvalue = prompt(lng['enter_item_list'], '')) {
+			while(listvalue = prompt($L('li_notice'), '')) {
 				if(BROWSER.opera > 8) {
 					listvalue = '\n' + '[*]' + listvalue;
 					insertText(listvalue, strlen(listvalue) + 1, 0);
@@ -951,18 +848,18 @@ function discuzcode(cmd, arg) {
 		}
 	} else if(cmd == 'rst') {
 		loadData();
-               setEditorTip(lng['data_restored']);
+		setEditorTip($L('data_restored'));
 	} else if(cmd == 'svd') {
 		saveData();
-               setEditorTip(lng['data_saved']);
+		setEditorTip($L('data_saved'));
 	} else if(cmd == 'chck') {
 		checklength(editorform);
 	} else if(cmd == 'tpr') {
-               if(confirm(lng['clear_all_sure'])) {
+		if(confirm($L('data_clear_confirm'))) {
 			clearContent();
 		}
 	} else if(cmd == 'downremoteimg') {
-               showDialog('<div id="remotedowninfo"><p class="mbn">'+lng['download_remote']+'</p><p><img src="' + STATICURL + 'image/common/uploading.gif" alt="" /></p></div>', 'notice', '', null, 1);
+		showDialog('<div id="remotedowninfo"><p class="mbn">' + $L('remote_downloading') + '</p><p><img src="' + STATICURL + 'image/common/uploading.gif" alt="" /></p></div>', 'notice', '', null, 1);
 		var message = wysiwyg ? html2bbcode(getEditorContents()) : (!editorform.parseurloff.checked ? parseurl(editorform.message.value) : editorform.message.value);
 		var oldValidate = editorform.onsubmit;
 		var oldAction = editorform.action;
@@ -989,7 +886,7 @@ function discuzcode(cmd, arg) {
 	if(wysiwyg) {
 		setContext(cmd);
 	}
-	if(in_array(cmd, ['bold', 'italic', 'underline', 'strikethrough', 'fontname', 'fontsize', 'forecolor', 'backcolor', 'justifyleft', 'justifycenter', 'justifyright', 'insertunorderedlist', 'floatleft', 'floatright', 'removeformat', 'unlink', 'undo', 'redo'])) {
+	if(in_array(cmd, ['bold', 'italic', 'underline', 'strikethrough', 'fontname', 'fontsize', 'forecolor', 'backcolor', 'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist', 'insertunorderedlist', 'floatleft', 'floatright', 'removeformat', 'unlink', 'undo', 'redo'])) {
 		hideMenu();
 	}
 	doane();
@@ -998,7 +895,7 @@ function discuzcode(cmd, arg) {
 
 function setContext(cmd) {
 	var cmd = !cmd ? '' : cmd;
-	var contextcontrols = new Array('bold', 'italic', 'underline', 'justifyleft', 'justifycenter', 'justifyright', 'insertunorderedlist');
+	var contextcontrols = new Array('bold', 'italic', 'underline', 'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist', 'insertunorderedlist');
 	for(var i in contextcontrols) {
 		var controlid = contextcontrols[i];
 		var obj = $(editorid + '_' + controlid);
@@ -1032,7 +929,7 @@ function setContext(cmd) {
 	} else if(fs == null) {
 		fs = '';
 	}
-       fs = fs && cmd != 'clear' ? fs : lng['font'];
+	fs = fs && cmd != 'clear' ? fs : $L('font_family');
 	if(fs != $(editorid + '_font').fontstate) {
 		thingy = fs.indexOf(',') > 0 ? fs.substr(0, fs.indexOf(',')) : fs;
 		$(editorid + '_font').innerHTML = thingy;
@@ -1049,7 +946,7 @@ function setContext(cmd) {
 			}
 		}
 	} catch(e) {
-               ss = lng['size'];
+		ss = $L('font_size');
 	}
 
 	if(ss != $(editorid + '_size').sizestate) {
@@ -1094,31 +991,33 @@ function formatFontsize(csssize) {
 		case '24pt': return 6;
 		case '48px':
 		case '36pt': return 7;
-               default: return lng['size'];
+		default: return $L('size');
 	}
 }
 
 function showEditorMenu(tag, params) {
 	var sel, selection;
-	var str = '', stitle = '';
+	var str = '', strdialog = 0, stitle = '';
 	var ctrlid = editorid + (params ? '_cst' + params + '_' : '_') + tag;
 	var opentag = '[' + tag + ']';
 	var closetag = '[/' + tag + ']';
 	var menu = $(ctrlid + '_menu');
+	var pos = [0, 0];
 	var menuwidth = 270;
 	var menupos = '43!';
 	var menutype = 'menu';
 
-	if (wysiwyg) {
-		sel = editdoc.getSelection();
-		if (sel && sel.rangeCount > 0) {
-			const range = sel.getRangeAt(0);
-			const div = editdoc.createElement('div');
-			div.appendChild(range.cloneContents());
-			selection = div.innerHTML;
+	try {
+		sel = wysiwyg ? editdoc.selection.createRange() : document.selection.createRange();
+		selection = wysiwyg ? sel.htmlText : sel.text;
+	} catch(e) {
+		if (wysiwyg) {
+			var gSel = editdoc.getSelection();
+			if (gSel.rangeCount > 0) {
+				sel = gSel.getRangeAt(0);
+			}
 		}
-	} else {
-		selection = editdoc.value.substring(editdoc.selectionStart, editdoc.selectionEnd);
+		selection = getSel();
 	}
 
 	if(menu) {
@@ -1143,8 +1042,8 @@ function showEditorMenu(tag, params) {
 	} else {
 		switch(tag) {
 			case 'url':
-                               str = lng['enter_link_url']+':<br /><input type="text" id="' + ctrlid + '_param_1" style="width: 98%" value="" class="px" />'+
-                                       (selection ? '' : '<br />'+lng['enter_link_text']+':<br /><input type="text" id="' + ctrlid + '_param_2" style="width: 98%" value="" class="px" />');
+				str = $L('input_link_href') + ':<br /><input type="text" id="' + ctrlid + '_param_1" style="width: 98%" value="" class="px" />'+
+					(selection ? '' : '<br />' + $L('input_link_text') + ':<br /><input type="text" id="' + ctrlid + '_param_2" style="width: 98%" value="" class="px" />');
 				break;
 			case 'forecolor':
 				showColorBox(ctrlid, 1);
@@ -1152,13 +1051,6 @@ function showEditorMenu(tag, params) {
 			case 'backcolor':
 				showColorBox(ctrlid, 1, '', 1);
 				return;
-			case 'insertorderedlist':
-                               str = '<p class="pbn">'+lng['list_type']+':</p><p class="pbn">'
-					+ '<label><input type="radio" name="' + ctrlid + '_param_1" value="1" checked="checked" />1.2.3.</label> '
-					+ '<label><input type="radio" name="' + ctrlid + '_param_1" value="A" />A.B.C.</label> '
-					+ '<label><input type="radio" name="' + ctrlid + '_param_1" value="a" />a.b.c.</label>'
-					+ '</p>';
-				break;
 			case 'inserthorizontalrule':
 				showHrBox(ctrlid);
 				break;
@@ -1166,7 +1058,7 @@ function showEditorMenu(tag, params) {
 				showHrBox(ctrlid, 'postbg');
 				break;
 			case 'password':
-                               str = '<p class="pbn">'+lng['enter_post_password']+': <input type="text" id="' + ctrlid + '_param_1" size="10" value="" class="px" /></p>';
+				str = '<p class="pbn">' + $L('input_password') + ': <input type="text" id="' + ctrlid + '_param_1" size="10" value="" class="px" /></p>';
 				break;
 			case 'code':
 				if(wysiwyg) {
@@ -1183,45 +1075,48 @@ function showEditorMenu(tag, params) {
 				if(selection) {
 					return insertText((opentag + selection + closetag), strlen(opentag), strlen(closetag), true, sel);
 				}
-                               var lang = {'quote' : lng['insert_quote'], 'code' : lng['insert_code'], 'hide' : lng['hide_content'], 'free' : lng['free_content']};
-                               str += lang[tag] + ':<br /><textarea id="' + ctrlid + '_param_1" style="width: 98%" cols="50" rows="5" class="txtarea"></textarea>' +
-                                       (tag == 'hide' ? '<br /><label><input type="radio" name="' + ctrlid + '_radio" id="' + ctrlid + '_radio_1" class="pc" checked="checked" />' + lng['when_thread_replied'] + '</label><br /><label><input type="radio" name="' + ctrlid + '_radio" id="' + ctrlid + '_radio_2" class="pc" />' + lng['when_points_more'] + '</label> <input type="text" size="3" id="' + ctrlid + '_param_2" class="px pxs" /> ' + lng['when_show'] + '<br /><br /><label>' + lng['expire_days'] + ':</label> <input type="text" size="3" id="' + ctrlid + '_param_3" class="px pxs" />' + '<br />' + lng['expire_days_invalid'] : '');
+				var lang = {'quote' : $L('input_quote'), 'code' : $L('input_code'), 'hide' : $L('input_hide'), 'free' : $L('input_free')};
+				str += lang[tag] + ':<br /><textarea id="' + ctrlid + '_param_1" style="width: 98%" cols="50" rows="5" class="txtarea"></textarea>' +
+					(tag == 'hide' ? '<br /><label><input type="radio" name="' + ctrlid + '_radio" id="' + ctrlid + '_radio_1" class="pc" checked="checked" />' + $L('hide_tip_1') + '</label><br /><label><input type="radio" name="' + ctrlid + '_radio" id="' + ctrlid + '_radio_2" class="pc" />' + $L('hide_tip_2') + '</label> <input type="text" size="3" id="' + ctrlid + '_param_2" class="px pxs" /> ' + $L('hide_tip_3') + '<br /><br /><label>' + $L('valid_days') + ':</label> <input type="text" size="3" id="' + ctrlid + '_param_3" class="px pxs" /> <br />' + $L('valid_days_tip') : '');
 				break;
 			case 'tbl':
-                               str = '<p class="pbn">' + lng['table_rows'] + ': <input type="text" id="' + ctrlid + '_param_1" size="2" value="2" class="px" /> &nbsp; ' + lng['table_columns'] + ': <input type="text" id="' + ctrlid + '_param_2" size="2" value="2" class="px" /></p><p class="pbn">' + lng['table_width'] + ': <input type="text" id="' + ctrlid + '_param_3" size="2" value="" class="px" /> &nbsp; ' + lng['bg_color'] + ': <input type="text" id="' + ctrlid + '_param_4" size="2" class="px" onclick="showColorBox(this.id, 2)" /></p><p class="xg2 pbn" style="cursor:pointer" onclick="showDialog($(\'tbltips_msg\').innerHTML, \'notice\', \''+lng['tips']+'\', null, 0)"><img id="tbltips" title="' + lng['tips'] + '" class="vm" src="' + IMGDIR + '/info_small.gif"> ' + lng['table_intro0'] + '</p>';
-                               str += '<div id="tbltips_msg" style="display: none">' + lng['table_intro1'] + '<div class=\'xs0\' style=\'margin:0 5px\'>' + lng['table_intro2'] + '</div>' + lng['table_intro3'] + '</div>';
+				str = '<p class="pbn">' + $L('table_rows') + ': <input type="text" id="' + ctrlid + '_param_1" size="2" value="2" class="px" /> &nbsp; ' + $L('table_cols') + ': <input type="text" id="' + ctrlid + '_param_2" size="2" value="2" class="px" /></p><p class="pbn">' + $L('table_width') + ': <input type="text" id="' + ctrlid + '_param_3" size="2" value="" class="px" /> &nbsp; ' + $L('table_bgcolor') + ': <input type="text" id="' + ctrlid + '_param_4" size="2" class="px" onclick="showColorBox(this.id, 2)" /></p><p class="xg2 pbn" style="cursor:pointer" onclick="showDialog($(\'tbltips_msg\').innerHTML, \'notice\', \'' + $L('tiny_tip') + '\', null, 0)"><img id="tbltips" title="' + $L('tiny_tip') + '" class="vm" src="' + IMGDIR + '/info_small.gif"> ' + $L('table_fast_tip') + '</p>';
+				str += '<div id="tbltips_msg" style="display: none">' + $L('table_tip') + '</div>';
 				break;
 			case 'aud':
-                               str = '<p class="pbn">' + lng['audio_url'] + ':</p><p class="pbn"><input type="text" id="' + ctrlid + '_param_1" class="px" value="" style="width: 220px;" /></p><p class="xg2 pbn">' + lng['audio_support'] + '</p>';
+				str = '<p class="pbn">' + $L('audio_url') + ':</p><p class="pbn"><input type="text" id="' + ctrlid + '_param_1" class="px" value="" style="width: 220px;" /></p><p class="xg2 pbn">' + $L('audio_tip') + '</p>';
 				break;
 			case 'vid':
-                               str = '<p class="pbn">' + lng['video_url'] + ':</p><p class="pbn"><input type="text" value="" id="' + ctrlid + '_param_1" style="width: 220px;" class="px" /></p><p class="pbn">' + lng['width'] + ': <input id="' + ctrlid + '_param_2" size="5" value="500" class="px" /> &nbsp; ' + lng['height'] + ': <input id="' + ctrlid + '_param_3" size="5" value="375" class="px" /></p><p class="xg2 pbn">' + lng['video_support'] + '</p>';
+				str = '<p class="pbn">' + $L('video_url') + ':</p><p class="pbn"><input type="text" value="" id="' + ctrlid + '_param_1" style="width: 220px;" class="px" /></p><p class="pbn">' + $L('width') + ': <input id="' + ctrlid + '_param_2" size="5" value="500" class="px" /> &nbsp; ' + $L('height') + ': <input id="' + ctrlid + '_param_3" size="5" value="375" class="px" /></p><p class="xg2 pbn">' + $L('video_tip') + '</p>';
+				break;
+			case 'fls':
+				str = '<p class="pbn">' + $L('flash_url') + ':</p><p class="pbn"><input type="text" id="' + ctrlid + '_param_1" class="px" value="" style="width: 220px;" /></p><p class="pbn">' + $L('width') + ': <input id="' + ctrlid + '_param_2" size="5" value="" class="px" /> &nbsp; ' + $L('height') + ': <input id="' + ctrlid + '_param_3" size="5" value="" class="px" /></p><p class="xg2 pbn">' + $L('flash_tip') + '</p>';
 				break;
 			case 'beginning':
-                               str = '<p class="pbn">'+lng['begin_flash_img']+':</p><p class="pbn"><input type="text" id="' + ctrlid + '_param_1" class="px" value="" style="width: 220px;" /></p>';
-                               str += '<p class="pbn">'+lng['begin_click_url']+':</p><p class="pbn"><input type="text" id="' + ctrlid + '_param_2" class="px" value="" style="width: 220px;" /></p>';
-                               str += '<p class="pbn">'+lng['width']+': <input id="' + ctrlid + '_param_3" size="5" value="" class="px" /> &nbsp; '+lng['height']+': <input id="' + ctrlid + '_param_4" size="5" value="" class="px" /></p>';
-                               str += '<p class="pbn">'+lng['begin_stay_seconds']+': <input id="' + ctrlid + '_param_8" size="5" value="" class="px" /></p>';
-                               str += '<p class="pbn">'+lng['begin_disappearance']+': </p><p class="pbn"><input id="' + ctrlid + '_param_7" type="radio" name="effect" checked />'+lng['none']+' &nbsp; <input id="' + ctrlid + '_param_5" type="radio" name="effect" />'+lng['begin_fade']+' &nbsp; <input id="' + ctrlid + '_param_6" type="radio" name="effect" />'+lng['begin_explosive']+'</p>';
-                               str += '<p class="xg2 pbn">'+lng['begin_info']+'</p>';
+				str = '<p class="pbn">' + $L('beginning_url') + ':</p><p class="pbn"><input type="text" id="' + ctrlid + '_param_1" class="px" value="" style="width: 220px;" /></p>';
+				str += '<p class="pbn">' + $L('beginning_href') + ':</p><p class="pbn"><input type="text" id="' + ctrlid + '_param_2" class="px" value="" style="width: 220px;" /></p>';
+				str += '<p class="pbn">' + $L('width') + ': <input id="' + ctrlid + '_param_3" size="5" value="" class="px" /> &nbsp; ' + $L('height') + ': <input id="' + ctrlid + '_param_4" size="5" value="" class="px" /></p>';
+				str += '<p class="pbn">' + $L('beginning_seconds') + ': <input id="' + ctrlid + '_param_8" size="5" value="" class="px" /></p>';
+				str += '<p class="pbn">' + $L('beginning_effect') + ': </p><p class="pbn"><input id="' + ctrlid + '_param_7" type="radio" name="effect" checked />' + $L('none') + ' &nbsp; <input id="' + ctrlid + '_param_5" type="radio" name="effect" />' + $L('beginning_fade') + ' &nbsp; <input id="' + ctrlid + '_param_6" type="radio" name="effect" />' + $L('beginning_openclose') + '</p>';
+				str += '<p class="xg2 pbn">' + $L('beginning_tip') + '</p>';
 				break;
 			case 'pasteword':
-                               stitle = lng['paste_from_word'];
-                               str = '<p class="px" style="height:300px"><iframe id="' + ctrlid + '_param_1" frameborder="0" style="width:100%;height:100%" onload="this.contentWindow.document.body.style.width=\'550px\';this.contentWindow.document.body.contentEditable=true;this.contentWindow.document.body.focus();this.onload=null"></iframe></p><p class="xg2 pbn">'+lng['paste_word_tip']+'</p>';
+				stitle = $L('pasteword');
+				str = '<p class="px" style="height:300px"><iframe id="' + ctrlid + '_param_1" frameborder="0" style="width:100%;height:100%" onload="this.contentWindow.document.body.style.width=\'550px\';this.contentWindow.document.body.contentEditable=true;this.contentWindow.document.body.focus();this.onload=null"></iframe></p><p class="xg2 pbn">' + $L('pasteword_tip') + '</p>';
 				menuwidth = 600;
 				menupos = '00';
 				menutype = 'win';
 				break;
 			case 'index':
-                               stitle = lng['create_post_directory'];
-                               str = '<p class="pbn">[index]<br />\n\
-                                       [#<span class="xi1">'+lng['page_number']+'</span>]<span class="xi1">'+lng['title']+'</span> &nbsp;&nbsp;<span class="xg1">'+lng['jump_to_page']+'</span><br />\n\
-                                       <span class="xi1">*</span>[#<span class="xi1">tid,pid</span>]<span class="xi1">'+lng['title']+'</span> &nbsp;&nbsp;<span class="xg1">'+lng['jump_to_post']+'</span><br />\n\
-                                       [/index]<br />\n\
-                                       <br />\n\
-                                       <span class="xi1">'+lng['page_number']+'</span> &nbsp;&nbsp;<span class="xg1">'+lng['jump_to_page_comment']+'</span><br />\n\
-                                       <span class="xi1">tid,pid</span> &nbsp;&nbsp;<span class="xg1">'+lng['jump_tip_pid']+'</span><br />\n\
-                                       <span class="xi1">*</span> &nbsp;&nbsp;<span class="xg1">'+lng['add_indent']+'</span></p>';
+				stitle = $L('index_create');
+				str = '<p class="pbn">[index]<br />\n\
+					[#<span class="xi1">' + $L('pp') + '</span>]<span class="xi1">' + $L('title') + '</span> &nbsp;&nbsp;<span class="xg1">' + $L('index_redirect_page') + '</span><br />\n\
+					<span class="xi1">*</span>[#<span class="xi1">tid,pid</span>]<span class="xi1">' + $L('title') + '</span> &nbsp;&nbsp;<span class="xg1">' + $L('index_redirect_post') + '</span><br />\n\
+					[/index]<br />\n\
+					<br />\n\
+					<span class="xi1">' + $L('pp') + '</span> &nbsp;&nbsp;<span class="xg1">' + $L('index_page_tip') + '</span><br />\n\
+					<span class="xi1">tid,pid</span> &nbsp;&nbsp;<span class="xg1">' + $L('index_id_tip') + '</span><br />\n\
+					<span class="xi1">*</span> &nbsp;&nbsp;<span class="xg1">' + $L('index_indent_tip') + '</span></p>';
 				break;
 			default:
 				for(i in EXTRAFUNC['showEditorMenu']) {
@@ -1240,7 +1135,7 @@ function showEditorMenu(tag, params) {
 					var promptlang = custombbcodes[tag]['prompt'].split("\t");
 					for(var i = 1; i <= params; i++) {
 						if(i != params || !haveSel) {
-                                               str += (promptlang[i - 1] ? promptlang[i - 1] : lng['enter_please']+' ' + i + lng['nth_parameter']+':') + '<br /><textarea id="' + ctrlid + '_param_' + i + '" style="width: 98%; resize: vertical;" rows="3"></textarea>' + (i < params ? '<br />' : '');
+							str += (promptlang[i - 1] ? promptlang[i - 1] : $L('input_param_n', [i])) + '<br /><input type="text" id="' + ctrlid + '_param_' + i + '" style="width: 98%" value="" class="px" />' + (i < params ? '<br />' : '');
 						}
 					}
 				}
@@ -1255,11 +1150,11 @@ function showEditorMenu(tag, params) {
 		if(menupos == '00') {
 			menu.className = 'fwinmask';
 			s = '<table width="100%" cellpadding="0" cellspacing="0" class="fwin"><tr><td class="t_l"></td><td class="t_c"></td><td class="t_r"></td></tr><tr><td class="m_l">&nbsp;&nbsp;</td><td class="m_c">'
-                               + '<h3 class="flb"><em>' + stitle + '</em><span><a onclick="hideMenu(\'\', \'win\');return false;" class="flbc" href="javascript:;">'+lng['close']+'</a></span></h3><div class="c">' + str + '</div>'
-                               + '<p class="o pns"><button type="submit" id="' + ctrlid + '_submit" class="pn pnc"><strong>'+lng['submit']+'</strong></button></p>'
+				+ '<h3 class="flb"><em>' + stitle + '</em><span><a onclick="hideMenu(\'\', \'win\');return false;" class="flbc" href="javascript:;">' + $L('close') + '</a></span></h3><div class="c">' + str + '</div>'
+				+ '<p class="o pns"><button type="submit" id="' + ctrlid + '_submit" class="pn pnc"><strong>' + $L('submit') + '</strong></button></p>'
 				+ '</td><td class="m_r"></td></tr><tr><td class="b_l"></td><td class="b_c"></td><td class="b_r"></td></tr></table>';
 		} else {
-                       s = '<div class="p_opt cl"><span class="y" style="margin:-10px -10px 0 0"><a onclick="hideMenu();return false;" class="flbc" href="javascript:;">'+lng['close']+'</a></span><div>' + str + '</div><div class="pns mtn"><button type="submit" id="' + ctrlid + '_submit" class="pn pnc"><strong>'+lng['submit']+'</strong></button></div></div>';
+			s = '<div class="p_opt cl"><span class="y" style="margin:-10px -10px 0 0"><a onclick="hideMenu();return false;" class="flbc" href="javascript:;">' + $L('close') + '</a></span><div>' + str + '</div><div class="pns mtn"><button type="submit" id="' + ctrlid + '_submit" class="pn pnc"><strong>' + $L('submit') + '</strong></button></div></div>';
 		}
 		menu.innerHTML = s;
 		$(editorid + '_editortoolbar').appendChild(menu);
@@ -1347,26 +1242,6 @@ function showEditorMenu(tag, params) {
 				str = opentag + str + closetag;
 				insertText(str, strlen(opentag), strlen(closetag), false, sel);
 				break;
-			case 'insertorderedlist':
-				var listtype = document.querySelector('input[name="' + ctrlid + '_param_1"]:checked').value;
-				if(wysiwyg) {
-					str = '<ol type="' + listtype + '">';
-					if(selection) {
-						str += '<li>' + selection + '</li>';
-					} else {
-						str += '<li></li>';
-					}
-					str += '</ol>';
-				} else {
-					str = '[list=' + listtype + ']';
-					if(selection) {
-						str += '[*]' + selection + '[/list]';
-					} else {
-						str += '[*]\n[/list]';
-					}
-				}
-				insertText(str, str.length - 8, 8, false);
-				break;
 			case 'password':
 				str = $(ctrlid + '_param_1') && $(ctrlid + '_param_1').value ? $(ctrlid + '_param_1').value : (selection ? selection : '');
 				str = opentag + str + closetag;
@@ -1407,6 +1282,13 @@ function showEditorMenu(tag, params) {
 			case 'aud':
 				insertText('[audio]' + $(ctrlid + '_param_1').value + '[/audio]', 7, 8, false, sel);
 				break;
+			case 'fls':
+				if($(ctrlid + '_param_2').value && $(ctrlid + '_param_3').value) {
+					insertText('[flash=' + parseInt($(ctrlid + '_param_2').value) + ',' + parseInt($(ctrlid + '_param_3').value) + ']' + squarestrip($(ctrlid + '_param_1').value) + '[/flash]', 7, 8, false, sel);
+				} else {
+					insertText('[flash]' + squarestrip($(ctrlid + '_param_1').value) + '[/flash]', 7, 8, false, sel);
+				}
+				break;
 			case 'beginning':
 				if($(ctrlid + '_param_1').value) {
 					insertText('[begin=' + squarestrip($(ctrlid + '_param_2').value) + ',' +
@@ -1423,7 +1305,7 @@ function showEditorMenu(tag, params) {
 				var posque = mediaUrl.lastIndexOf('?');
 				posque = posque === -1 ? mb_strlen(mediaUrl) : posque;
 				var ext = mediaUrl.lastIndexOf('.') === -1 ? '' : mediaUrl.substring(mediaUrl.lastIndexOf('.') + 1, posque).toLowerCase();
-				ext = in_array(ext, ['mp3', 'wav', 'wma', 'ra', 'rm', 'ram', 'mid', 'asx', 'wmv', 'avi', 'mpg', 'mpeg', 'rmvb', 'asf', 'mov', 'mp4', 'm4a', 'm4v', '3gp', 'ogv', 'ogg', 'webm', 'weba', 'aac', 'flac']) ? ext : 'x';
+				ext = in_array(ext, ['mp3', 'wav', 'wma', 'ra', 'rm', 'ram', 'mid', 'asx', 'wmv', 'avi', 'mpg', 'mpeg', 'rmvb', 'asf', 'mov', 'flv', 'swf', 'mp4', 'm4a', 'm4v', '3gp', 'ogv', 'ogg', 'webm', 'weba', 'aac', 'flac']) ? ext : 'x';
 				if(ext == 'x') {
 					if(/^mms:\/\//.test(mediaUrl)) {
 						ext = 'mms';
@@ -1474,7 +1356,7 @@ function showEditorMenu(tag, params) {
 				if(!str) {
 					str = '';
 					var first = $(ctrlid + '_param_1').value;
-									if($(ctrlid + '_param_2')) var second = $(ctrlid + '_param_2').value;
+					if($(ctrlid + '_param_2')) var second = $(ctrlid + '_param_2').value;
 					if($(ctrlid + '_param_3')) var third = $(ctrlid + '_param_3').value;
 					if((params == 1 && first) || (params == 2 && first && (haveSel || second)) || (params == 3 && first && second && (haveSel || third))) {
 						if(params == 1) {
@@ -1496,7 +1378,11 @@ function showEditorMenu(tag, params) {
 }
 
 function autoTypeset() {
-	var selection = getSel();
+	var sel;
+	if(BROWSER.ie) {
+		sel = wysiwyg ? editdoc.selection.createRange() : document.selection.createRange();
+	}
+	var selection = sel ? (wysiwyg ? sel.htmlText.replace(/<\/?p>/ig, '<br />') : sel.text) : getSel();
 	selection = trim(selection);
 	selection = wysiwyg ? selection.replace(/<br( \/)?>(<br( \/)?>)+/ig, '</p>\n<p style="line-height: 30px; text-indent: 2em;">') : selection.replace(/\n\n+/g, '[/p]\n[p=30, 2, left]');
 	opentag = wysiwyg ? '<p style="line-height: 30px; text-indent: 2em;">' : '[p=30, 2, left]';
@@ -1531,8 +1417,8 @@ function getSel() {
 	} else {
 		if(!isUndefined(editdoc.selectionStart)) {
 			return editdoc.value.substr(editdoc.selectionStart, editdoc.selectionEnd - editdoc.selectionStart);
-		} else if(window.getSelection()) {
-			return window.getSelection().getRangeAt(0).toString();
+		} else if(document.selection && document.selection.createRange) {
+			return document.selection.createRange().text;
 		} else if(window.getSelection) {
 			return window.getSelection() + '';
 		} else {
@@ -1602,9 +1488,9 @@ function insertText(text, movestart, moveend, select, sel) {
 				editdoc.selectionStart = opn;
 				editdoc.selectionEnd = opn + strlen(text);
 			}
-		} else if(window.getSelection()) {
+		} else if(document.selection && document.selection.createRange) {
 			if(isUndefined(sel)) {
-				sel = window.getSelection().getRangeAt(0);
+				sel = document.selection.createRange();
 			}
 			if(editbox.sel) {
 				sel = editbox.sel;
@@ -1821,7 +1707,7 @@ function showHrBox(ctrlid, boxtype) {
 		var scriptNode = document.createElement("script");
 		scriptNode.type = "text/javascript";
 		scriptNode.charset = charset ? charset : (BROWSER.firefox ? document.characterSet : document.charset);
-		scriptNode.src = 'data/cache/common_postimg.js?' + VERHASH;
+		scriptNode.src = JSPATH + 'common_postimg.js?' + VERHASH;
 		$('append_parent').appendChild(scriptNode);
 		if(BROWSER.ie) {
 			scriptNode.onreadystatechange = function() {

@@ -1,10 +1,9 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: task_promotion.php 24735 2011-10-10 02:45:39Z svn_project_zhangjie $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -20,48 +19,47 @@ class task_promotion {
 	var $icon = '';
 	var $period = '';
 	var $periodtype = 0;
-	var $conditions = array(
-		'num' => array(
+	var $conditions = [
+		'num' => [
 			'title' => 'promotion_complete_var_iplimit',
 			'type' => 'text',
 			'value' => '',
 			'default' => 100,
 			'sort' => 'complete',
-		),
-	);
+		],
+	];
 
 	function preprocess($task) {
 		global $_G;
 
-		$promotions = C::t('forum_promotion')->count_by_uid($_G['uid']);
-		C::t('forum_spacecache')->insert(array(
+		$promotions = table_forum_promotion::t()->count_by_uid($_G['uid']);
+		table_forum_spacecache::t()->insert([
 			'uid' => $_G['uid'],
 			'variable' => 'promotion'.$task['taskid'],
 			'value' => $promotions,
 			'expiration' => $_G['timestamp'],
-		), false, true);
+		], false, true);
 	}
 
-	function csc($task = array()) {
+	function csc($task = []) {
 		global $_G;
 
-		$promotion = C::t('forum_spacecache')->fetch_spacecache($_G['uid'], 'promotion'.$task['taskid']);
+		$promotion = table_forum_spacecache::t()->fetch_spacecache($_G['uid'], 'promotion'.$task['taskid']);
 		$promotion = $promotion['value'];
-		$num = C::t('forum_promotion')->count_by_uid($_G['uid']) - $promotion;
-		$numlimit = C::t('common_taskvar')->get_value_by_taskid($task['taskid'], 'num');
+		$num = table_forum_promotion::t()->count_by_uid($_G['uid']) - $promotion;
+		$numlimit = table_common_taskvar::t()->get_value_by_taskid($task['taskid'], 'num');
 		if($num && $num >= $numlimit) {
 			return TRUE;
 		} else {
-			return array('csc' => $num > 0 && $numlimit ? sprintf("%01.2f", $num / $numlimit * 100) : 0, 'remaintime' => 0);
+			return ['csc' => $num > 0 && $numlimit ? sprintf('%01.2f', $num / $numlimit * 100) : 0, 'remaintime' => 0];
 		}
 	}
 
 	function sufprocess($task) {
 		global $_G;
 
-		C::t('forum_spacecache')->delete_spacecache($_G['uid'], 'promotion'.$task['taskid']);
+		table_forum_spacecache::t()->delete_spacecache($_G['uid'], 'promotion'.$task['taskid']);
 	}
 
 }
 
-?>

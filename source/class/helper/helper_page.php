@@ -1,10 +1,9 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: helper_page.php 33588 2013-07-12 06:34:56Z hypowang $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -20,9 +19,9 @@ class helper_page {
 
 		$a_name = '';
 
-		$mpurl = str_replace(array("'", '"', "\\"), array('%27', '%22', '%5c'), $mpurl);
+		$mpurl = str_replace(["'", '"', "\\"], ['%27', '%22', '%5c'], $mpurl);
 
-		if(strpos($mpurl, '#') !== FALSE) {
+		if(str_contains($mpurl, '#')) {
 			$a_strs = explode('#', $mpurl);
 			$mpurl = $a_strs[0];
 			$a_name = '#'.$a_strs[1];
@@ -56,13 +55,13 @@ class helper_page {
 		}
 		if(defined('IN_MOBILE') && !defined('TPL_DEFAULT')) {
 			$dot = '..';
-			$page = intval($page) < 10 && intval($page) > 0 ? $page : 4 ;
+			$page = intval($page) < 10 && intval($page) > 0 ? $page : 4;
 		} else {
 			$dot = '...';
 		}
 		$multipage = '';
 		if($jsfunc === FALSE) {
-			$mpurl .= strpos($mpurl, '?') !== FALSE ? '&amp;' : '?';
+			$mpurl .= str_contains($mpurl, '?') ? '&amp;' : '?';
 		}
 
 		$realpages = 1;
@@ -98,22 +97,22 @@ class helper_page {
 			}
 			$_G['page_next'] = $to;
 			$multipage = ($curpage - $offset > 1 && $pages > $page ? '<a href="'.(self::mpurl($mpurl, $pagevar, 1)).$a_name.'" class="first"'.$ajaxtarget.'>1 '.$dot.'</a>' : '').
-			($curpage > 1 && !$simple ? '<a href="'.(self::mpurl($mpurl, $pagevar, $curpage - 1)).$a_name.'" class="prev"'.$ajaxtarget.'>'.$lang['prev'].'</a>' : '');
+				($curpage > 1 && !$simple ? '<a href="'.(self::mpurl($mpurl, $pagevar, $curpage - 1)).$a_name.'" class="prev"'.$ajaxtarget.'>'.$lang['prev'].'</a>' : '');
 			for($i = $from; $i <= $to; $i++) {
 				$multipage .= $i == $curpage ? '<strong>'.$i.'</strong>' :
-				'<a href="'.(self::mpurl($mpurl, $pagevar, $i)).($ajaxtarget && $i == $pages && $autogoto ? '#' : $a_name).'"'.$ajaxtarget.'>'.$i.'</a>';
+					'<a href="'.(self::mpurl($mpurl, $pagevar, $i)).($ajaxtarget && $i == $pages && $autogoto ? '#' : $a_name).'"'.$ajaxtarget.'>'.$i.'</a>';
 			}
 
 			$wml = defined('IN_MOBILE') && IN_MOBILE == 3;
 			$jsurl = '';
 			if(($showpagejump || $showkbd) && !$simple && !$ajaxtarget && !$wml) {
-				$jsurl = $mpurl.(strpos($mpurl, '{page}') !== false ? '\'.replace(\'{page}\', this.value == 1 ? \'\' : this.value)': $pagevar.'\'+this.value;').'; doane(event);';
+				$jsurl = $mpurl.(str_contains($mpurl, '{page}') ? '\'.replace(\'{page}\', this.value == 1 ? \'\' : this.value)' : $pagevar.'\'+this.value;').'; doane(event);';
 			}
 
 			$multipage .= ($to < $pages ? '<a href="'.(self::mpurl($mpurl, $pagevar, $pages)).$a_name.'" class="last"'.$ajaxtarget.'>'.$dot.' '.$pages.'</a>' : '').
-			($showpagejump && !$simple && !$ajaxtarget && !$wml ? '<label><input type="text" name="custompage" class="px" size="2" title="'.$lang['pagejumptip'].'" value="'.$curpage.'" onkeydown="if(event.keyCode==13) {window.location=\''.$jsurl.'}" /><span title="'.$lang['total'].' '.$pages.' '.$lang['pageunit'].'"> / '.$pages.' '.$lang['pageunit'].'</span></label>' : '').
-			($curpage < $pages && !$simple ? '<a href="'.(self::mpurl($mpurl, $pagevar, $curpage + 1)).$a_name.'" class="nxt"'.$ajaxtarget.'>'.$lang['next'].'</a>' : '').
-			($showkbd && !$simple && $pages > $page && !$ajaxtarget && !$wml ? '<kbd><input type="text" name="custompage" size="3" onkeydown="if(event.keyCode==13) {window.location=\''.$jsurl.'}" /></kbd>' : '');
+				($showpagejump && !$simple && !$ajaxtarget && !$wml ? '<label><input type="text" name="custompage" class="px" size="2" title="'.$lang['pagejumptip'].'" value="'.$curpage.'" onkeydown="if(event.keyCode==13) {window.location=\''.$jsurl.'}" /><span title="'.$lang['total'].' '.$pages.' '.$lang['pageunit'].'"> / '.$pages.' '.$lang['pageunit'].'</span></label>' : '').
+				($curpage < $pages && !$simple ? '<a href="'.(self::mpurl($mpurl, $pagevar, $curpage + 1)).$a_name.'" class="nxt"'.$ajaxtarget.'>'.$lang['next'].'</a>' : '').
+				($showkbd && !$simple && $pages > $page && !$ajaxtarget && !$wml ? '<kbd><input type="text" name="custompage" size="3" onkeydown="if(event.keyCode==13) {window.location=\''.$jsurl.'}" /></kbd>' : '');
 
 			if(defined('IN_MOBILE') && !defined('TPL_DEFAULT') && $multipage) {
 				$multipage_url = '';
@@ -132,17 +131,27 @@ class helper_page {
 			}
 			$multipage = $multipage ? '<div class="pg">'.($shownum && !$simple ? '<em>&nbsp;'.$num.'&nbsp;</em>' : '').$multipage.'</div>' : '';
 		}
-		$maxpage = $realpages;
+		$maxpages = $realpages;
+		if(defined('IN_RESTFUL')) {
+			$_G['_multi'] = dintval([
+				'num' => $num,
+				'perpage' => $perpage,
+				'curpage' => $curpage,
+				'maxpages' => $maxpages,
+				'page' => $page,
+			], true);
+			return '';
+		}
 		return $multipage;
 	}
 
 	public static function mpurl($mpurl, $pagevar, $page) {
-		if(strpos($mpurl, '{page}') !== false) {
+		if(str_contains($mpurl, '{page}')) {
 			return trim(str_replace('{page}', ($page == 1 ? '' : $page), $mpurl), '?');
 		} else {
 			$separator = '';
 			if($pagevar[0] !== '&' && $pagevar[0] !== '?') {
-				if(strpos($mpurl, '?') !== FALSE) {
+				if(str_contains($mpurl, '?')) {
 					$separator = '';
 				} else {
 					$separator = '?';
@@ -165,4 +174,3 @@ class helper_page {
 	}
 }
 
-?>

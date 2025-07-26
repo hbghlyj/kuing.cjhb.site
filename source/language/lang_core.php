@@ -1,25 +1,24 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: lang_core.php 28082 2012-02-22 06:58:29Z monkey $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
-$lang = array
-(
+$lang =
+	[
 	'nextpage' => '下一页',
 	'prevpage' => '上一页',
 	'pageunit' => '页',
 	'total' => '共',
 	'10k' => '万',
 	'pagejumptip' => '输入页码，按回车快速跳转',
-	'date' => array(
+	'date' => [
 		'before' => '前',
 		'day' => '天',
 		'yday' => '昨天',
@@ -29,10 +28,10 @@ $lang = array
 		'min' => '分钟',
 		'sec' => '秒',
 		'now' => '刚刚',
-	),
+	],
 	'yes' => '是',
 	'no' => '否',
-	'weeks' => array(
+	'weeks' => [
 		1 => '周一',
 		2 => '周二',
 		3 => '周三',
@@ -40,13 +39,14 @@ $lang = array
 		5 => '周五',
 		6 => '周六',
 		7 => '周日',
-	),
+	],
 	'dot' => '、',
 	'archive' => '存档',
 	'portal' => '门户',
 	'end' => '末尾',
 
 	'seccode_image_tips' => '输入下图中的字符<br />',
+	'seccode_image_shuffer_tips' => '按照“红黄蓝绿”的顺序输入字符<br />',
 	'seccode_image_ani_tips' => '请输入下面动画图片中的字符<br />',
 	'seccode_sound_tips' => '输入您听到的字符<br />',
 	'secqaa_tips' => '输入下面问题的答案<br />',
@@ -107,6 +107,7 @@ $lang = array
 	'title_share_link' => '网址',
 	'title_share_video' => '视频',
 	'title_share_music' => '音乐',
+	'title_share_flash' => 'Flash',
 	'title_share_poll' => '投票',
 	'title_share_pic' => '图片',
 	'title_share_album' => '相册',
@@ -212,6 +213,10 @@ $lang = array
 	'page' => '第{page}页',
 
 	'close' => '关闭',
-);
 
-?>
+	'title_memcp_account' => '账号管理',
+
+	'restful_auth_success' => '授权登录成功',
+	'restful_auth_error' => '授权登录失败',
+	];
+

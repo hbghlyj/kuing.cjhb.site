@@ -1,10 +1,9 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: block_activity.php 25525 2011-11-14 04:39:11Z zhangguosheng $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -13,110 +12,110 @@ if(!defined('IN_DISCUZ')) {
 
 class block_activity extends discuz_block {
 
-	var $setting = array();
+	var $setting = [];
 
-	function __construct(){
-		$this->setting = array(
-			'tids' => array(
+	function __construct() {
+		$this->setting = [
+			'tids' => [
 				'title' => 'activitylist_tids',
 				'type' => 'text'
-			),
-			'uids' => array(
+			],
+			'uids' => [
 				'title' => 'activitylist_uids',
 				'type' => 'text'
-			),
-			'keyword' => array(
+			],
+			'keyword' => [
 				'title' => 'activitylist_keyword',
 				'type' => 'text'
-			),
-			'fids'	=> array(
+			],
+			'fids' => [
 				'title' => 'activitylist_fids',
 				'type' => 'mselect',
-				'value' => array()
-			),
-			'viewmod' => array(
+				'value' => []
+			],
+			'viewmod' => [
 				'title' => 'threadlist_viewmod',
 				'type' => 'radio'
-			),
-			'digest' => array(
+			],
+			'digest' => [
 				'title' => 'activitylist_digest',
 				'type' => 'mcheckbox',
-				'value' => array(
-					array(1, 'activitylist_digest_1'),
-					array(2, 'activitylist_digest_2'),
-					array(3, 'activitylist_digest_3'),
-					array(0, 'activitylist_digest_0')
-				),
-			),
-			'stick' => array(
+				'value' => [
+					[1, 'activitylist_digest_1'],
+					[2, 'activitylist_digest_2'],
+					[3, 'activitylist_digest_3'],
+					[0, 'activitylist_digest_0']
+				],
+			],
+			'stick' => [
 				'title' => 'activitylist_stick',
 				'type' => 'mcheckbox',
-				'value' => array(
-					array(1, 'activitylist_stick_1'),
-					array(2, 'activitylist_stick_2'),
-					array(3, 'activitylist_stick_3'),
-					array(0, 'activitylist_stick_0')
-				),
-			),
-			'recommend' => array(
+				'value' => [
+					[1, 'activitylist_stick_1'],
+					[2, 'activitylist_stick_2'],
+					[3, 'activitylist_stick_3'],
+					[0, 'activitylist_stick_0']
+				],
+			],
+			'recommend' => [
 				'title' => 'activitylist_recommend',
 				'type' => 'radio'
-			),
-			'place' => array(
+			],
+			'place' => [
 				'title' => 'activitylist_place',
 				'type' => 'text'
-			),
-			'class' => array(
+			],
+			'class' => [
 				'title' => 'activitylist_class',
 				'type' => 'select',
-				'value' => array()
-			),
-			'gender' => array(
+				'value' => []
+			],
+			'gender' => [
 				'title' => 'activitylist_gender',
 				'type' => 'mradio',
-				'value' => array(
-					array('', 'activitylist_gender_0'),
-					array('1', 'activitylist_gender_1'),
-					array('2', 'activitylist_gender_2'),
-				),
+				'value' => [
+					['', 'activitylist_gender_0'],
+					['1', 'activitylist_gender_1'],
+					['2', 'activitylist_gender_2'],
+				],
 				'default' => ''
-			),
-			'orderby' => array(
+			],
+			'orderby' => [
 				'title' => 'activitylist_orderby',
-				'type'=> 'mradio',
-				'value' => array(
-					array('dateline', 'activitylist_orderby_dateline'),
-					array('weekstart', 'activitylist_orderby_weekstart'),
-					array('monthstart', 'activitylist_orderby_monthstart'),
-					array('weekexp', 'activitylist_orderby_weekexp'),
-					array('monthexp', 'activitylist_orderby_monthexp'),
-					array('weekhot', 'activitylist_orderby_weekhot'),
-					array('monthhot', 'activitylist_orderby_monthhot'),
-					array('alltimehot', 'activitylist_orderby_alltimehot'),
-				),
+				'type' => 'mradio',
+				'value' => [
+					['dateline', 'activitylist_orderby_dateline'],
+					['weekstart', 'activitylist_orderby_weekstart'],
+					['monthstart', 'activitylist_orderby_monthstart'],
+					['weekexp', 'activitylist_orderby_weekexp'],
+					['monthexp', 'activitylist_orderby_monthexp'],
+					['weekhot', 'activitylist_orderby_weekhot'],
+					['monthhot', 'activitylist_orderby_monthhot'],
+					['alltimehot', 'activitylist_orderby_alltimehot'],
+				],
 				'default' => 'dateline'
-			),
-			'highlight' => array(
+			],
+			'highlight' => [
 				'title' => 'activitylist_highlight',
 				'type' => 'radio',
 				'default' => 0,
-			),
-			'titlelength' => array(
+			],
+			'titlelength' => [
 				'title' => 'activitylist_titlelength',
 				'type' => 'text',
 				'default' => 40
-			),
-			'summarylength' => array(
+			],
+			'summarylength' => [
 				'title' => 'activitylist_summarylength',
 				'type' => 'text',
 				'default' => 80
-			),
-			'startrow' => array(
+			],
+			'startrow' => [
 				'title' => 'activitylist_startrow',
 				'type' => 'text',
 				'default' => 0
-			),
-		);
+			],
+		];
 	}
 
 	function name() {
@@ -124,38 +123,38 @@ class block_activity extends discuz_block {
 	}
 
 	function blockclass() {
-		return array('activity', lang('blockclass', 'blockclass_activity_activity'));
+		return ['activity', lang('blockclass', 'blockclass_activity_activity')];
 	}
 
 	function fields() {
-		return array(
-					'id' => array('name' => lang('blockclass', 'blockclass_field_id'), 'formtype' => 'text', 'datatype' => 'int'),
-					'url' => array('name' => lang('blockclass', 'blockclass_activity_field_url'), 'formtype' => 'text', 'datatype' => 'string'),
-					'title' => array('name' => lang('blockclass', 'blockclass_activity_field_title'), 'formtype' => 'title', 'datatype' => 'title'),
-					'pic' => array('name' => lang('blockclass', 'blockclass_activity_field_pic'), 'formtype' => 'pic', 'datatype' => 'pic'),
-					'summary' => array('name' => lang('blockclass', 'blockclass_activity_field_summary'), 'formtype' => 'summary', 'datatype' => 'summary'),
-					'time' => array('name' => lang('blockclass', 'blockclass_activity_field_time'), 'formtype' => 'text', 'datatype' => 'text'),
-					'expiration' => array('name' => lang('blockclass', 'blockclass_activity_field_expiration'), 'formtype' => 'text', 'datatype' => 'text'),
-					'author' => array('name' => lang('blockclass', 'blockclass_activity_field_author'), 'formtype' => 'text', 'datatype' => 'text'),
-					'authorid' => array('name' => lang('blockclass', 'blockclass_activity_field_authorid'), 'formtype' => 'text', 'datatype' => 'int'),
-					'cost' => array('name' => lang('blockclass', 'blockclass_activity_field_cost'), 'formtype' => 'text', 'datatype' => 'int'),
-					'place' => array('name' => lang('blockclass', 'blockclass_activity_field_place'), 'formtype' => 'text', 'datatype' => 'text'),
-					'class' => array('name' => lang('blockclass', 'blockclass_activity_field_class'), 'formtype' => 'text', 'datatype' => 'text'),
-					'gender' => array('name' => lang('blockclass', 'blockclass_activity_field_gender'), 'formtype' => 'text', 'datatype' => 'text'),
-					'number' => array('name' => lang('blockclass', 'blockclass_activity_field_number'), 'formtype' => 'text', 'datatype' => 'int'),
-					'applynumber' => array('name' => lang('blockclass', 'blockclass_activity_field_applynumber'), 'formtype' => 'text', 'datatype' => 'int'),
-				);
+		return [
+			'id' => ['name' => lang('blockclass', 'blockclass_field_id'), 'formtype' => 'text', 'datatype' => 'int'],
+			'url' => ['name' => lang('blockclass', 'blockclass_activity_field_url'), 'formtype' => 'text', 'datatype' => 'string'],
+			'title' => ['name' => lang('blockclass', 'blockclass_activity_field_title'), 'formtype' => 'title', 'datatype' => 'title'],
+			'pic' => ['name' => lang('blockclass', 'blockclass_activity_field_pic'), 'formtype' => 'pic', 'datatype' => 'pic'],
+			'summary' => ['name' => lang('blockclass', 'blockclass_activity_field_summary'), 'formtype' => 'summary', 'datatype' => 'summary'],
+			'time' => ['name' => lang('blockclass', 'blockclass_activity_field_time'), 'formtype' => 'text', 'datatype' => 'text'],
+			'expiration' => ['name' => lang('blockclass', 'blockclass_activity_field_expiration'), 'formtype' => 'text', 'datatype' => 'text'],
+			'author' => ['name' => lang('blockclass', 'blockclass_activity_field_author'), 'formtype' => 'text', 'datatype' => 'text'],
+			'authorid' => ['name' => lang('blockclass', 'blockclass_activity_field_authorid'), 'formtype' => 'text', 'datatype' => 'int'],
+			'cost' => ['name' => lang('blockclass', 'blockclass_activity_field_cost'), 'formtype' => 'text', 'datatype' => 'int'],
+			'place' => ['name' => lang('blockclass', 'blockclass_activity_field_place'), 'formtype' => 'text', 'datatype' => 'text'],
+			'class' => ['name' => lang('blockclass', 'blockclass_activity_field_class'), 'formtype' => 'text', 'datatype' => 'text'],
+			'gender' => ['name' => lang('blockclass', 'blockclass_activity_field_gender'), 'formtype' => 'text', 'datatype' => 'text'],
+			'number' => ['name' => lang('blockclass', 'blockclass_activity_field_number'), 'formtype' => 'text', 'datatype' => 'int'],
+			'applynumber' => ['name' => lang('blockclass', 'blockclass_activity_field_applynumber'), 'formtype' => 'text', 'datatype' => 'int'],
+		];
 	}
 
 	function fieldsconvert() {
-		return array(
-				'group_activity' => array(
-					'name' => lang('blockclass', 'blockclass_group_activity'),
-					'script' => 'groupactivity',
-					'searchkeys' => array(),
-					'replacekeys' => array(),
-				),
-			);
+		return [
+			'group_activity' => [
+				'name' => lang('blockclass', 'blockclass_group_activity'),
+				'script' => 'groupactivity',
+				'searchkeys' => [],
+				'replacekeys' => [],
+			],
+		];
 	}
 
 	function getsetting() {
@@ -164,16 +163,16 @@ class block_activity extends discuz_block {
 
 		if($settings['fids']) {
 			loadcache('forums');
-			$settings['fids']['value'][] = array(0, lang('portalcp', 'block_all_forum'));
+			$settings['fids']['value'][] = [0, lang('portalcp', 'block_all_forum')];
 			foreach($_G['cache']['forums'] as $fid => $forum) {
-				$settings['fids']['value'][] = array($fid, ($forum['type'] == 'forum' ? str_repeat('&nbsp;', 4) : ($forum['type'] == 'sub' ? str_repeat('&nbsp;', 8) : '')).$forum['name']);
+				$settings['fids']['value'][] = [$fid, ($forum['type'] == 'forum' ? str_repeat('&nbsp;', 4) : ($forum['type'] == 'sub' ? str_repeat('&nbsp;', 8) : '')).$forum['name']];
 			}
 		}
 		$activitytype = explode("\n", $_G['setting']['activitytype']);
-		$settings['class']['value'][] = array('', 'activitylist_class_all');
+		$settings['class']['value'][] = ['', 'activitylist_class_all'];
 		foreach($activitytype as $item) {
 			$item = trim($item);
-			$settings['class']['value'][] = array($item, $item);
+			$settings['class']['value'][] = [$item, $item];
 		}
 		return $settings;
 	}
@@ -184,24 +183,24 @@ class block_activity extends discuz_block {
 		$parameter = $this->cookparameter($parameter);
 
 		loadcache('forums');
-		$tids		= !empty($parameter['tids']) ? explode(',', $parameter['tids']) : array();
-		$uids		= !empty($parameter['uids']) ? explode(',', $parameter['uids']) : array();
-		$startrow	= !empty($parameter['startrow']) ? intval($parameter['startrow']) : 0;
-		$items		= !empty($parameter['items']) ? intval($parameter['items']) : 10;
-		$digest		= isset($parameter['digest']) ? $parameter['digest'] : 0;
-		$stick		= isset($parameter['stick']) ? $parameter['stick'] : 0;
-		$orderby	= isset($parameter['orderby']) ? (in_array($parameter['orderby'],array('dateline','weekstart','monthstart','weekexp','monthexp','weekhot','monthhot','alltimehot')) ? $parameter['orderby'] : 'dateline') : 'dateline';
-		$titlelength	= !empty($parameter['titlelength']) ? intval($parameter['titlelength']) : 40;
-		$summarylength	= !empty($parameter['summarylength']) ? intval($parameter['summarylength']) : 80;
-		$recommend	= !empty($parameter['recommend']) ? 1 : 0;
-		$keyword	= !empty($parameter['keyword']) ? $parameter['keyword'] : '';
-		$place		= !empty($parameter['place']) ? $parameter['place'] : '';
-		$class		= !empty($parameter['class']) ? trim($parameter['class']) : '';
-		$gender		= !empty($parameter['gender']) ? intval($parameter['gender']) : '';
-		$viewmod	= !empty($parameter['viewmod']) ? 1 : 0;
+		$tids = !empty($parameter['tids']) ? explode(',', $parameter['tids']) : [];
+		$uids = !empty($parameter['uids']) ? explode(',', $parameter['uids']) : [];
+		$startrow = !empty($parameter['startrow']) ? intval($parameter['startrow']) : 0;
+		$items = !empty($parameter['items']) ? intval($parameter['items']) : 10;
+		$digest = $parameter['digest'] ?? 0;
+		$stick = $parameter['stick'] ?? 0;
+		$orderby = isset($parameter['orderby']) ? (in_array($parameter['orderby'], ['dateline', 'weekstart', 'monthstart', 'weekexp', 'monthexp', 'weekhot', 'monthhot', 'alltimehot']) ? $parameter['orderby'] : 'dateline') : 'dateline';
+		$titlelength = !empty($parameter['titlelength']) ? intval($parameter['titlelength']) : 40;
+		$summarylength = !empty($parameter['summarylength']) ? intval($parameter['summarylength']) : 80;
+		$recommend = !empty($parameter['recommend']) ? 1 : 0;
+		$keyword = !empty($parameter['keyword']) ? $parameter['keyword'] : '';
+		$place = !empty($parameter['place']) ? $parameter['place'] : '';
+		$class = !empty($parameter['class']) ? trim($parameter['class']) : '';
+		$gender = !empty($parameter['gender']) ? intval($parameter['gender']) : '';
+		$viewmod = !empty($parameter['viewmod']) ? 1 : 0;
 		$highlight = !empty($parameter['highlight']) ? 1 : 0;
 
-		$fids = array();
+		$fids = [];
 		if(!empty($parameter['fids'])) {
 			if($parameter['fids'][0] == '0') {
 				unset($parameter['fids'][0]);
@@ -209,12 +208,12 @@ class block_activity extends discuz_block {
 			$fids = $parameter['fids'];
 		}
 
-		$bannedids = !empty($parameter['bannedids']) ? explode(',', $parameter['bannedids']) : array();
+		$bannedids = !empty($parameter['bannedids']) ? explode(',', $parameter['bannedids']) : [];
 
 		require_once libfile('function/post');
 		require_once libfile('function/search');
 
-		$datalist = $list = array();
+		$datalist = $list = [];
 		$keyword = $keyword ? searchkey($keyword, "t.subject LIKE '%{text}%'") : '';
 		$sql = ($fids ? ' AND t.fid IN ('.dimplode($fids).')' : '')
 			.$keyword
@@ -224,39 +223,39 @@ class block_activity extends discuz_block {
 			.($stick ? ' AND t.displayorder IN ('.dimplode($stick).')' : '')
 			." AND t.isgroup='0'";
 		$where = '';
-		if(in_array($orderby, array('weekstart','monthstart'))) {
+		if(in_array($orderby, ['weekstart', 'monthstart'])) {
 			$historytime = 0;
 			switch($orderby) {
 				case 'weekstart':
 					$historytime = TIMESTAMP + 86400 * 7;
-				break;
+					break;
 				case 'monthstart':
 					$historytime = TIMESTAMP + 86400 * 30;
-				break;
+					break;
 			}
 			$where = ' WHERE a.starttimefrom>='.TIMESTAMP.' AND a.starttimefrom<='.$historytime;
 			$orderby = 'a.starttimefrom ASC';
-		} elseif(in_array($orderby, array('weekexp','monthexp'))) {
+		} elseif(in_array($orderby, ['weekexp', 'monthexp'])) {
 			$historytime = 0;
 			switch($orderby) {
 				case 'weekexp':
 					$historytime = TIMESTAMP + 86400 * 7;
-				break;
+					break;
 				case 'monthexp':
 					$historytime = TIMESTAMP + 86400 * 30;
-				break;
+					break;
 			}
 			$where = ' WHERE a.expiration>='.TIMESTAMP.' AND a.expiration<='.$historytime;
 			$orderby = 'a.expiration ASC';
-		} elseif(in_array($orderby, array('weekhot','monthhot'))) {
+		} elseif(in_array($orderby, ['weekhot', 'monthhot'])) {
 			$historytime = 0;
 			switch($orderby) {
 				case 'weekhot':
 					$historytime = TIMESTAMP + 86400 * 7;
-				break;
+					break;
 				case 'monthhot':
 					$historytime = TIMESTAMP + 86400 * 30;
-				break;
+					break;
 			}
 			$where = ' WHERE a.expiration>='.TIMESTAMP.' AND a.expiration<='.$historytime;
 			$orderby = 'a.applynumber DESC';
@@ -273,20 +272,20 @@ class block_activity extends discuz_block {
 		if($class) {
 			$where .= " AND a.class='$class'";
 		}
-		$sqlfrom = " INNER JOIN `".DB::table('forum_thread')."` t ON t.tid=a.tid $sql AND t.displayorder>='0'";
+		$sqlfrom = ' INNER JOIN `' .DB::table('forum_thread')."` t ON t.tid=a.tid $sql AND t.displayorder>='0'";
 		$joinmethod = empty($tids) ? 'INNER' : 'LEFT';
 		if($recommend) {
-			$sqlfrom .= " $joinmethod JOIN `".DB::table('forum_forumrecommend')."` fc ON fc.tid=tr.tid";
+			$sqlfrom .= " $joinmethod JOIN `".DB::table('forum_forumrecommend'). '` fc ON fc.tid=tr.tid';
 		}
 		$sqlfield = $highlight ? ', t.highlight' : '';
 		$query = DB::query("SELECT a.*, t.tid, t.subject, t.authorid, t.author, t.posttableid$sqlfield
 			FROM ".DB::table('forum_activity')." a $sqlfrom $where
 			ORDER BY $orderby
 			LIMIT $startrow,$items;"
-			);
+		);
 		require_once libfile('block_thread', 'class/block/forum');
 		$bt = new block_thread();
-		$listtids = $threadtids = $threads = $aid2tid = $attachtables = array();
+		$listtids = $threadtids = $threads = $aid2tid = $attachtables = [];
 		while($data = DB::fetch($query)) {
 			$data['time'] = dgmdate($data['starttimefrom']);
 			if($data['starttimeto']) {
@@ -301,14 +300,14 @@ class block_activity extends discuz_block {
 				$attachtables[$attachtable][] = $data['aid'];
 			}
 			$listtids[] = $data['tid'];
-			$list[$data['tid']] = array(
+			$list[$data['tid']] = [
 				'id' => $data['tid'],
 				'idtype' => 'tid',
 				'title' => cutstr(str_replace('\\\'', '&#39;', $data['subject']), $titlelength, ''),
 				'url' => 'forum.php?mod=viewthread&tid='.$data['tid'].($viewmod ? '&from=portal' : ''),
 				'pic' => ($data['aid'] ? '' : $_G['style']['imgdir'].'/nophoto.gif'),
 				'picflag' => '0',
-				'fields' => array(
+				'fields' => [
 					'fulltitle' => str_replace('\\\'', '&#39;', addslashes($data['subject'])),
 					'time' => $data['time'],
 					'expiration' => $data['expiration'] ? dgmdate($data['expiration']) : 'N/A',
@@ -320,15 +319,15 @@ class block_activity extends discuz_block {
 					'gender' => $data['gender'],
 					'number' => $data['number'],
 					'applynumber' => $data['applynumber'],
-				)
-			);
+				]
+			];
 			if($highlight && $data['highlight']) {
 				$list[$data['tid']]['fields']['showstyle'] = $bt->getthreadstyle($data['highlight']);
 			}
 		}
 
 		if(!empty($listtids)) {
-			$query = DB::query("SELECT tid,COUNT(*) as sum FROM ".DB::table('forum_activityapply')." WHERE tid IN(".dimplode($listtids).") GROUP BY tid");
+			$query = DB::query('SELECT tid,COUNT(*) as sum FROM ' .DB::table('forum_activityapply'). ' WHERE tid IN(' .dimplode($listtids). ') GROUP BY tid');
 			while($value = DB::fetch($query)) {
 				$list[$value['tid']]['fields']['applynumber'] = $value['sum'];
 			}
@@ -353,9 +352,8 @@ class block_activity extends discuz_block {
 			}
 
 		}
-		return array('html' => '', 'data' => $datalist);
+		return ['html' => '', 'data' => $datalist];
 	}
 }
 
 
-?>

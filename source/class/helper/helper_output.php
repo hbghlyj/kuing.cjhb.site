@@ -1,10 +1,9 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: helper_output.php 31663 2012-09-19 09:56:03Z zhangguosheng $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -17,10 +16,10 @@ class helper_output {
 		global $_G;
 		ob_end_clean();
 		$_G['gzipcompress'] ? ob_start('ob_gzhandler') : ob_start();
-		@header("Expires: -1");
-		@header("Cache-Control: no-store, private, post-check=0, pre-check=0, max-age=0", FALSE);
-		@header("Pragma: no-cache");
-		@header("Content-Type: ".$type."; charset=".CHARSET);
+		@header('Expires: -1');
+		@header('Cache-Control: no-store, private, post-check=0, pre-check=0, max-age=0', FALSE);
+		@header('Pragma: no-cache');
+		@header('Content-Type: ' .$type. '; charset=' .CHARSET);
 	}
 
 	public static function xml($s) {
@@ -42,4 +41,3 @@ class helper_output {
 	}
 }
 
-?>

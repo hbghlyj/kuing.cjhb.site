@@ -1,25 +1,32 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: table_common_moderate.php 31513 2012-09-04 08:47:57Z zhangguosheng $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
-class table_common_moderate extends discuz_table
-{
-	var $_tables = array();
+class table_common_moderate extends discuz_table {
+	var $_tables = [];
+	var $_tables_status = [];
+
+	public static function t() {
+		static $_instance;
+		if(!isset($_instance)) {
+			$_instance = new self();
+		}
+		return $_instance;
+	}
 
 	public function __construct() {
 
 		$this->_table = '';
-		$this->_pk    = '';
-		$this->_tables = array(
+		$this->_pk = '';
+		$this->_tables = [
 			'tid' => 'forum_thread_moderate',
 			'pid' => 'forum_post_moderate',
 			'blogid' => 'home_blog_moderate',
@@ -33,7 +40,22 @@ class table_common_moderate extends discuz_table
 			'blogid_cid' => 'home_comment_moderate',
 			'sid_cid' => 'home_comment_moderate',
 			'picid_cid' => 'home_comment_moderate',
-		);
+		];
+		$this->_tables_status = [
+			'tid' => 'forumstatus',
+			'pid' => 'forumstatus',
+			'blogid' => 'blogstatus',
+			'picid' => 'albumstatus',
+			'doid' => 'doingstatus',
+			'sid' => 'sharestatus',
+			'aid' => 'portalstatus',
+			'aid_cid' => 'portalstatus',
+			'topicid_cid' => 'portalstatus',
+			'uid_cid' => 'wallstatus',
+			'blogid_cid' => 'blogstatus',
+			'sid_cid' => 'sharestatus',
+			'picid_cid' => 'albumstatus',
+		];
 
 		parent::__construct();
 	}
@@ -43,7 +65,7 @@ class table_common_moderate extends discuz_table
 	}
 
 	private function _is_comment_table($idtype) {
-		return in_array($this->_get_table($idtype), array('portal_comment_moderate', 'home_comment_moderate'));
+		return in_array($this->_get_table($idtype), ['portal_comment_moderate', 'home_comment_moderate']);
 	}
 
 	public function count_by_idtype($idtype, $status = 0, $dateline = 0) {
@@ -56,12 +78,12 @@ class table_common_moderate extends discuz_table
 
 	private function query_data($type, $idtype, $status = 0, $dateline = 0) {
 		if(!isset($this->_tables[$idtype])) {
-			return $type ? 0 : array();
+			return $type ? 0 : [];
 		}
-		$parameter = array($this->_get_table($idtype), $this->_is_comment_table($idtype) ? "idtype='$idtype' AND" : '', $status);
+		$parameter = [$this->_get_table($idtype), $this->_is_comment_table($idtype) ? "idtype='$idtype' AND" : '', $status];
 		$othersql = '';
 		if($dateline) {
-			$othersql = " AND dateline>=%d";
+			$othersql = ' AND dateline>=%d';
 			$parameter[] = $dateline;
 		}
 
@@ -71,6 +93,7 @@ class table_common_moderate extends discuz_table
 			return DB::fetch_all("SELECT * FROM %t WHERE %i `status`=%d $othersql ORDER BY dateline DESC", $parameter, 'id');
 		}
 	}
+
 	public function fetch_all_for_article($status, $catid = 0, $username = '', $dateline = 'all', $count = 0, $start = 0, $limit = 0) {
 		$sqlwhere = '';
 		$status = dintval($status);
@@ -84,22 +107,22 @@ class table_common_moderate extends discuz_table
 			$sqlwhere .= " AND a.dateline>'".(TIMESTAMP - dintval($dateline))."'";
 		}
 		if($count) {
-			return DB::result_first("SELECT COUNT(*)
-			FROM ".DB::table('portal_article_moderate')." m
-			LEFT JOIN ".DB::table('portal_article_title')." a ON a.aid=m.id
+			return DB::result_first('SELECT COUNT(*)
+			FROM '.DB::table('portal_article_moderate').' m
+			LEFT JOIN '.DB::table('portal_article_title')." a ON a.aid=m.id
 			WHERE m.status='$status' $sqlwhere");
 		}
-		return DB::fetch_all("SELECT a.aid, a.catid, a.uid, a.username, a.title, a.summary, a.dateline, cat.catname
-			FROM ".DB::table('portal_article_moderate')." m
-			LEFT JOIN ".DB::table('portal_article_title')." a ON a.aid=m.id
-			LEFT JOIN ".DB::table('portal_category')." cat ON cat.catid=a.catid
+		return DB::fetch_all('SELECT a.aid, a.catid, a.uid, a.username, a.title, a.summary, a.dateline, cat.catname
+			FROM '.DB::table('portal_article_moderate').' m
+			LEFT JOIN '.DB::table('portal_article_title').' a ON a.aid=m.id
+			LEFT JOIN '.DB::table('portal_category')." cat ON cat.catid=a.catid
 			WHERE m.status='$status' $sqlwhere
 			ORDER BY m.dateline DESC".DB::limit($start, $limit));
 	}
 
 	public function fetch_all_for_portalcomment($idtype, $tablename, $status, $catid = 0, $username = '', $dateline = 'all', $count = 0, $keyword = '', $start = 0, $limit = 0) {
 		if(!isset($this->_tables[$idtype.'_cid'])) {
-			return $count ? 0 : array();
+			return $count ? 0 : [];
 		}
 		if(!empty($catid)) {
 			$sqlwhere .= " AND a.catid='$catid'";
@@ -113,29 +136,33 @@ class table_common_moderate extends discuz_table
 		if(!empty($keyword)) {
 			$sqlwhere .= " AND c.message LIKE '%$keyword%'";
 		}
-		$sqlwhere .=  "AND c.idtype='$idtype'";
+		$sqlwhere .= "AND c.idtype='$idtype'";
 		if($count) {
-			return DB::result_first("SELECT COUNT(*)
-			FROM ".DB::table($this->_get_table($idtype.'_cid'))." m
-			LEFT JOIN ".DB::table('portal_comment')." c ON c.cid=m.id
-			LEFT JOIN ".DB::table($tablename)." a ON a.$idtype=c.id
+			return DB::result_first('SELECT COUNT(*)
+			FROM '.DB::table($this->_get_table($idtype.'_cid')).' m
+			LEFT JOIN '.DB::table('portal_comment').' c ON c.cid=m.id
+			LEFT JOIN '.DB::table($tablename)." a ON a.$idtype=c.id
 			WHERE m.".DB::field('idtype', $idtype.'_cid')." AND m.status='$status' $sqlwhere");
 		}
-		return DB::fetch_all("SELECT c.cid, c.uid, c.username, c.id, c.postip, c.dateline, c.message, a.title
-			FROM ".DB::table($this->_get_table($idtype.'_cid'))." m
-			LEFT JOIN ".DB::table('portal_comment')." c ON c.cid=m.id
-			LEFT JOIN ".DB::table($tablename)." a ON a.$idtype=c.id
+		return DB::fetch_all('SELECT c.cid, c.uid, c.username, c.id, c.postip, c.dateline, c.message, a.title
+			FROM '.DB::table($this->_get_table($idtype.'_cid')).' m
+			LEFT JOIN '.DB::table('portal_comment').' c ON c.cid=m.id
+			LEFT JOIN '.DB::table($tablename)." a ON a.$idtype=c.id
 			WHERE m.".DB::field('idtype', $idtype.'_cid')." AND m.status='$status' $sqlwhere
 			ORDER BY m.dateline DESC".DB::limit($start, $limit));
 	}
 
 	public function count_group_idtype_by_status($status) {
-		$return = array();
+		global $_G;
+		$return = [];
 		foreach($this->_tables as $idtype => $table) {
+			if(empty($_G['setting'][$this->_tables_status[$idtype]])) {
+				continue;
+			}
 			if($this->_is_comment_table($idtype)) {
-				$return[] = array('idtype' => $idtype, 'count' => DB::result_first('SELECT COUNT(*) FROM %t WHERE idtype=%s AND status=%d', array($table, $idtype, $status)));
+				$return[] = ['idtype' => $idtype, 'count' => DB::result_first('SELECT COUNT(*) FROM %t WHERE idtype=%s AND status=%d', [$table, $idtype, $status])];
 			} else {
-				$return[] = array('idtype' => $idtype, 'count' => DB::result_first('SELECT COUNT(*) FROM %t WHERE status=%d', array($table, $status)));
+				$return[] = ['idtype' => $idtype, 'count' => DB::result_first('SELECT COUNT(*) FROM %t WHERE status=%d', [$table, $status])];
 			}
 		}
 		return $return;
@@ -143,7 +170,7 @@ class table_common_moderate extends discuz_table
 
 	public function delete($val, $unbuffered = false, $null = false) {
 		// $null 需要在取消兼容层后删除
-		if (defined('DISCUZ_DEPRECATED')) {
+		if(defined('DISCUZ_DEPRECATED')) {
 			throw new Exception('NotImplementedException');
 			return parent::delete($val, $unbuffered);
 		} else {
@@ -153,7 +180,7 @@ class table_common_moderate extends discuz_table
 
 	public function insert($data, $return_insert_id = false, $replace = false, $silent = false, $null = false) {
 		// $null 需要在取消兼容层后删除
-		if (defined('DISCUZ_DEPRECATED')) {
+		if(defined('DISCUZ_DEPRECATED')) {
 			throw new Exception('NotImplementedException');
 			return parent::insert($data, $return_insert_id, $replace, $silent);
 		} else {
@@ -163,7 +190,7 @@ class table_common_moderate extends discuz_table
 
 	public function update($val, $data, $unbuffered = false, $low_priority = false, $null = false) {
 		// $null 需要在取消兼容层后删除
-		if (defined('DISCUZ_DEPRECATED')) {
+		if(defined('DISCUZ_DEPRECATED')) {
 			throw new Exception('NotImplementedException');
 			return parent::update($val, $data, $unbuffered, $low_priority);
 		} else {
@@ -176,7 +203,7 @@ class table_common_moderate extends discuz_table
 			return false;
 		}
 		$table = $this->_get_table($idtype);
-		$wheresql = array();
+		$wheresql = [];
 		$id && $wheresql[] = DB::field('id', $id);
 		$this->_is_comment_table($idtype) && $wheresql[] = DB::field('idtype', $idtype);
 		return DB::delete($table, implode(' AND ', $wheresql), 0, $unbuffered);
@@ -196,7 +223,7 @@ class table_common_moderate extends discuz_table
 			return false;
 		}
 		$table = $this->_get_table($idtype);
-		$wheresql = array();
+		$wheresql = [];
 		$id && $wheresql[] = DB::field('id', $id);
 		$this->_is_comment_table($idtype) && $wheresql[] = DB::field('idtype', $idtype);
 		return DB::update($table, $data, implode(' AND ', $wheresql), $unbuffered, $low_priority);
@@ -211,11 +238,11 @@ class table_common_moderate extends discuz_table
 			return 0;
 		}
 		return DB::result_first('SELECT COUNT(*) FROM %t m INNER JOIN %t t ON m.id=t.%i AND t.'.DB::field('fid', $fids).' WHERE m.status=%d',
-				array($this->_get_table($idtype), $innertable, $idtype, $status));
+			[$this->_get_table($idtype), $innertable, $idtype, $status]);
 	}
 
 	public function count_by_search_for_post($posttable, $status = null, $first = null, $fids = null, $author = null, $dateline = null, $subject = null) {
-		$wheresql = array();
+		$wheresql = [];
 		if($status !== null) {
 			$wheresql[] = 'm.'.DB::field('status', $status);
 		}
@@ -236,11 +263,11 @@ class table_common_moderate extends discuz_table
 		}
 
 		return DB::result_first('SELECT COUNT(*) FROM %t m LEFT JOIN %t p ON p.pid=m.id WHERE %i',
-				array($this->_get_table('pid'), $posttable, implode(' AND ', $wheresql)));
+			[$this->_get_table('pid'), $posttable, implode(' AND ', $wheresql)]);
 	}
 
 	public function fetch_all_by_search_for_post($posttable, $status = null, $first = null, $fids = null, $author = null, $dateline = null, $subject = null, $start = 0, $limit = 0) {
-		$wheresql = array();
+		$wheresql = [];
 		if($status !== null) {
 			$wheresql[] = 'm.'.DB::field('status', $status);
 		}
@@ -265,11 +292,11 @@ class table_common_moderate extends discuz_table
 			LEFT JOIN %t p on p.pid=m.id
 			WHERE %i
 			ORDER BY m.dateline DESC '.DB::limit($start, $limit),
-			array($this->_get_table('pid'), $posttable, implode(' AND ', $wheresql)));
+			[$this->_get_table('pid'), $posttable, implode(' AND ', $wheresql)]);
 	}
 
 	public function count_by_seach_for_thread($status = null, $fids = null) {
-		$wheresql = array();
+		$wheresql = [];
 		if($status !== null) {
 			$wheresql[] = 'm.'.DB::field('status', $status);
 		}
@@ -277,11 +304,11 @@ class table_common_moderate extends discuz_table
 			$wheresql[] = 't.'.DB::field('fid', $fids);
 		}
 		return DB::result_first('SELECT COUNT(*) FROM %t m LEFT JOIN %t t ON t.tid=m.id WHERE %i',
-			array($this->_get_table('tid'), 'forum_thread', implode(' AND ', $wheresql)));
+			[$this->_get_table('tid'), 'forum_thread', implode(' AND ', $wheresql)]);
 	}
 
 	public function fetch_all_by_search_for_thread($status = null, $fids = null, $start = 0, $limit = 0) {
-		$wheresql = array();
+		$wheresql = [];
 		if($status !== null) {
 			$wheresql[] = 'm.'.DB::field('status', $status);
 		}
@@ -293,11 +320,11 @@ class table_common_moderate extends discuz_table
 			LEFT JOIN %t t ON t.tid=m.id
 			WHERE %i
 			ORDER BY m.dateline DESC '.DB::limit($start, $limit),
-			array($this->_get_table('tid'), 'forum_thread', implode(' AND ', $wheresql)));
+			[$this->_get_table('tid'), 'forum_thread', implode(' AND ', $wheresql)]);
 	}
 
 	public function count_by_search_for_blog($status = null, $username = null, $dateline = null, $subject = null) {
-		$wheresql = array();
+		$wheresql = [];
 		if($status !== null && !(is_array($status) && empty($status))) {
 			$wheresql[] = 'm.'.DB::field('status', $status);
 		}
@@ -316,11 +343,11 @@ class table_common_moderate extends discuz_table
 			LEFT JOIN %t bf ON bf.blogid=b.blogid
 			LEFT JOIN %t c ON b.classid=c.classid
 			WHERE %i',
-			array($this->_get_table('blogid'), 'home_blog', 'home_blogfield', 'home_class', implode(' AND ', $wheresql)));
+			[$this->_get_table('blogid'), 'home_blog', 'home_blogfield', 'home_class', implode(' AND ', $wheresql)]);
 	}
 
 	public function fetch_all_by_search_for_blog($status = null, $username = null, $dateline = null, $subject = null, $start = 0, $limit = 0) {
-		$wheresql = array();
+		$wheresql = [];
 		if($status !== null && !(is_array($status) && empty($status))) {
 			$wheresql[] = 'm.'.DB::field('status', $status);
 		}
@@ -340,11 +367,11 @@ class table_common_moderate extends discuz_table
 			LEFT JOIN %t c ON b.classid=c.classid
 			WHERE %i
 			ORDER BY m.dateline DESC '.DB::limit($start, $limit),
-			array($this->_get_table('blogid'), 'home_blog', 'home_blogfield', 'home_class', implode(' AND ', $wheresql)));
+			[$this->_get_table('blogid'), 'home_blog', 'home_blogfield', 'home_class', implode(' AND ', $wheresql)]);
 	}
 
 	public function count_by_search_for_commnet($idtype = null, $status = null, $author = null, $dateline = null, $message = null) {
-		$wheresql = array();
+		$wheresql = [];
 		if($idtype) {
 			$table = $this->_get_table($idtype.'_cid');
 			$wheresql[] = 'm.'.DB::field('idtype', $idtype.'_cid');
@@ -361,15 +388,15 @@ class table_common_moderate extends discuz_table
 			$wheresql[] = 'c.'.DB::field('dateline', $dateline, '>');
 		}
 		if($message) {
-			$message = str_replace(array('_', '%'), array('\_', '\%'), $message);
+			$message = str_replace(['_', '%'], ['\_', '\%'], $message);
 			$wheresql[] = 'c.'.DB::field('message', '%'.$message.'%', 'like');
 		}
 		return DB::result_first('SELECT COUNT(*) FROM %t m LEFT JOIN %t c ON c.cid=m.id WHERE %i',
-			array($table, 'home_comment', implode(' AND ', $wheresql)));
+			[$table, 'home_comment', implode(' AND ', $wheresql)]);
 	}
 
 	public function fetch_all_by_search_for_comment($idtype = null, $status = null, $author = null, $dateline = null, $message = null, $start = 0, $limit = 0) {
-		$wheresql = array();
+		$wheresql = [];
 		if($idtype) {
 			$table = $this->_get_table($idtype.'_cid');
 			$wheresql[] = 'm.'.DB::field('idtype', $idtype.'_cid');
@@ -386,7 +413,7 @@ class table_common_moderate extends discuz_table
 			$wheresql[] = 'c.'.DB::field('dateline', $dateline, '>');
 		}
 		if($message) {
-			$message = str_replace(array('_', '%'), array('\_', '\%'), $message);
+			$message = str_replace(['_', '%'], ['\_', '\%'], $message);
 			$wheresql[] = 'c.'.DB::field('message', '%'.$message.'%', 'like');
 		}
 		return DB::fetch_all('SELECT c.cid, c.uid, c.id, c.idtype, c.authorid, c.author, c.message, c.dateline, c.ip
@@ -394,11 +421,11 @@ class table_common_moderate extends discuz_table
 			LEFT JOIN %t c ON c.cid=m.id
 			WHERE %i
 			ORDER BY c.dateline DESC '.DB::limit($start, $limit),
-			array($table, 'home_comment', implode(' AND ', $wheresql)));
+			[$table, 'home_comment', implode(' AND ', $wheresql)]);
 	}
 
 	public function count_by_search_for_doing($status = null, $username = null, $dateline = null, $message = null) {
-		$wheresql = array();
+		$wheresql = [];
 		if($status !== null && !(is_array($status) && empty($status))) {
 			$wheresql[] = 'm.'.DB::field('status', $status);
 		}
@@ -409,18 +436,18 @@ class table_common_moderate extends discuz_table
 			$wheresql[] = 'd.'.DB::field('dateline', $dateline, '>');
 		}
 		if($message) {
-			$message = str_replace(array('_', '%'), array('\_', '\%'), $message);
+			$message = str_replace(['_', '%'], ['\_', '\%'], $message);
 			$wheresql[] = 'd.'.DB::field('message', '%'.$message.'%', 'like');
 		}
 		return DB::result_first('SELECT COUNT(*)
 			FROM %t m
 			LEFT JOIN %t d ON d.doid=m.id
 			WHERE %i',
-			array($this->_get_table('doid'), 'home_doing', implode(' AND ', $wheresql)));
+			[$this->_get_table('doid'), 'home_doing', implode(' AND ', $wheresql)]);
 	}
 
 	public function fetch_all_by_search_for_doing($status = null, $username = null, $dateline = null, $message = null, $start = 0, $limit = 0) {
-		$wheresql = array();
+		$wheresql = [];
 		if($status !== null && !(is_array($status) && empty($status))) {
 			$wheresql[] = 'm.'.DB::field('status', $status);
 		}
@@ -431,7 +458,7 @@ class table_common_moderate extends discuz_table
 			$wheresql[] = 'd.'.DB::field('dateline', $dateline, '>');
 		}
 		if($message) {
-			$message = str_replace(array('_', '%'), array('\_', '\%'), $message);
+			$message = str_replace(['_', '%'], ['\_', '\%'], $message);
 			$wheresql[] = 'd.'.DB::field('message', '%'.$message.'%', 'like');
 		}
 		return DB::fetch_all('SELECT d.doid, d.uid, d.username, d.dateline, d.message, d.ip
@@ -439,11 +466,11 @@ class table_common_moderate extends discuz_table
 			LEFT JOIN %t d ON d.doid=m.id
 			WHERE %i
 			ORDER BY m.dateline DESC '.DB::limit($start, $limit),
-			array($this->_get_table('doid'), 'home_doing', implode(' AND ', $wheresql)));
+			[$this->_get_table('doid'), 'home_doing', implode(' AND ', $wheresql)]);
 	}
 
 	public function count_by_search_for_pic($status = null, $username = null, $dateline = null, $title = null) {
-		$wheresql = array();
+		$wheresql = [];
 		if($status !== null && !(is_array($status) && empty($status))) {
 			$wheresql[] = 'm.'.DB::field('status', $status);
 		}
@@ -460,11 +487,11 @@ class table_common_moderate extends discuz_table
 			FROM %t m
 			LEFT JOIN %t p ON p.picid=m.id
 			WHERE %i',
-			array($this->_get_table('picid'), 'home_pic', implode(' AND ', $wheresql)));
+			[$this->_get_table('picid'), 'home_pic', implode(' AND ', $wheresql)]);
 	}
 
 	public function fetch_all_by_search_for_pic($status = null, $username = null, $dateline = null, $title = null, $start = 0, $limit = 0) {
-		$wheresql = array();
+		$wheresql = [];
 		if($status !== null && !(is_array($status) && empty($status))) {
 			$wheresql[] = 'm.'.DB::field('status', $status);
 		}
@@ -483,7 +510,7 @@ class table_common_moderate extends discuz_table
 			LEFT JOIN %t a ON p.albumid=a.albumid
 			WHERE %i
 			ORDER BY m.dateline DESC '.DB::limit($start, $limit),
-			array($this->_get_table('picid'), 'home_pic', 'home_album', implode(' AND ', $wheresql)));
+			[$this->_get_table('picid'), 'home_pic', 'home_album', implode(' AND ', $wheresql)]);
 	}
 
 	public function delete_by_status_idtype($status, $idtype) {
@@ -492,11 +519,11 @@ class table_common_moderate extends discuz_table
 		}
 		$table = $this->_get_table($idtype);
 		$idtype = $table == 'home_comment_moderate' ? DB::field('idtype', $idtype).' AND' : '';
-		return DB::query('DELETE FROM %t WHERE %i status=%d', array($table, $idtype, $status));
+		return DB::query('DELETE FROM %t WHERE %i status=%d', [$table, $idtype, $status]);
 	}
 
 	public function count_by_search_for_share($status = null, $username = null, $dateline = null, $body_general = null) {
-		$wheresql = array();
+		$wheresql = [];
 		if($status !== null && !(is_array($status) && empty($status))) {
 			$wheresql[] = 'm.'.DB::field('status', $status);
 		}
@@ -507,18 +534,18 @@ class table_common_moderate extends discuz_table
 			$wheresql[] = 's.'.DB::field('dateline', $dateline, '>');
 		}
 		if($body_general) {
-			$body_general = str_replace(array('%', '_'), array('\%', '\_'), $body_general);
+			$body_general = str_replace(['%', '_'], ['\%', '\_'], $body_general);
 			$wheresql[] = 's.'.DB::field('body_general', '%'.$body_general.'%', 'like');
 		}
 		return DB::result_first('SELECT COUNT(*)
 			FROM %t m
 			LEFT JOIN %t s ON s.sid=m.id
 			WHERE %i',
-			array($this->_get_table('sid'), 'home_share', implode(' AND ', $wheresql)));
+			[$this->_get_table('sid'), 'home_share', implode(' AND ', $wheresql)]);
 	}
 
 	public function fetch_all_by_search_for_share($status = null, $username = null, $dateline = null, $body_general = null, $start = 0, $limit = 0) {
-		$wheresql = array();
+		$wheresql = [];
 		if($status !== null && !(is_array($status) && empty($status))) {
 			$wheresql[] = 'm.'.DB::field('status', $status);
 		}
@@ -536,9 +563,8 @@ class table_common_moderate extends discuz_table
 			LEFT JOIN %t s ON s.sid=m.id
 			WHERE %i
 			ORDER BY m.dateline DESC '.DB::limit($start, $limit),
-			array($this->_get_table('sid'), 'home_share', implode(' AND ', $wheresql)));
+			[$this->_get_table('sid'), 'home_share', implode(' AND ', $wheresql)]);
 	}
 
 }
 
-?>

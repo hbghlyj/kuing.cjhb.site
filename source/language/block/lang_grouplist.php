@@ -1,18 +1,17 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: lang_grouplist.php 27449 2012-02-01 05:32:35Z zhangguosheng $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
-$lang = array
-(
+$lang =
+	[
 	'grouplist_gtids' => '圈子类别',
 	'grouplist_gtids_comment' => '选择圈子类别',
 	'grouplist_fids' => '指定圈子',
@@ -34,6 +33,5 @@ $lang = array
 	'grouplist_orderby_activity' => '按活跃度倒序',
 	'grouplist_orderby_commoncredits' => '按共同积分倒序',
 	'grouplist_orderby_displayorder' => '按默认顺序'
-);
+	];
 
-?>

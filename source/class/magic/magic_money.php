@@ -1,10 +1,9 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: magic_money.php 26715 2011-12-21 01:35:43Z chenmengshu $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -20,8 +19,8 @@ class magic_money {
 	var $weight = '10';
 	var $useevent = 1;
 	var $copyright = '<a href="https://www.discuz.vip/" target="_blank">Discuz!</a>';
-	var $magic = array();
-	var $parameters = array();
+	var $magic = [];
+	var $parameters = [];
 
 	function getsetting(&$magic) {
 	}
@@ -32,11 +31,11 @@ class magic_money {
 	function usesubmit() {
 		global $_G;
 		$getmoney = rand(1, intval($this->magic['price'] * 1.5));
-		updatemembercount($_G['uid'], array($_G['setting']['creditstransextra'][3] => $getmoney), 1, 'MRC', $this->magic['magicid']);
+		updatemembercount($_G['uid'], [$_G['setting']['creditstransextra'][3] => $getmoney], 1, 'MRC', $this->magic['magicid']);
 
 		usemagic($this->magic['magicid'], $this->magic['num']);
 		updatemagiclog($this->magic['magicid'], '2', '1', '0', 0, 'uid', $_G['uid']);
-		showmessage('magics_credit_message', '', array('credit' => $_G['setting']['extcredits'][$_G['setting']['creditstransextra'][3]]['title'].' '.$getmoney.' '.$_G['setting']['extcredits'][$_G['setting']['creditstransextra'][3]]['unit']), array('alert' => 'right', 'showdialog' => 1));
+		showmessage('magics_credit_message', '', ['credit' => $_G['setting']['extcredits'][$_G['setting']['creditstransextra'][3]]['title'].' '.$getmoney.' '.$_G['setting']['extcredits'][$_G['setting']['creditstransextra'][3]]['unit']], ['alert' => 'right', 'showdialog' => 1]);
 	}
 
 	function show() {
@@ -48,4 +47,3 @@ class magic_money {
 
 }
 
-?>

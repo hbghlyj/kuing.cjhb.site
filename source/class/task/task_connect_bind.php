@@ -1,10 +1,9 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: task_connect_bind.php 22196 2011-04-26 02:02:52Z monkey $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -20,15 +19,15 @@ class task_connect_bind {
 	var $icon = '';
 	var $period = '';
 	var $periodtype = 0;
-	var $conditions = array();
+	var $conditions = [];
 
-	function csc($task = array()) {
+	function csc($task = []) {
 		global $_G;
 
 		if($_G['member']['conisbind']) {
 			return true;
 		}
-		return array('csc' => 0, 'remaintime' => 0);
+		return ['csc' => 0, 'remaintime' => 0];
 	}
 
 	function view() {
@@ -37,4 +36,3 @@ class task_connect_bind {
 
 }
 
-?>

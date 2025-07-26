@@ -1,10 +1,9 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: block_tradespecified.php 23608 2011-07-27 08:10:07Z cnteacher $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -15,39 +14,39 @@ require_once libfile('block_trade', 'class/block/forum');
 
 class block_tradespecified extends block_trade {
 	function __construct() {
-		$this->setting = array(
-			'tids' => array(
+		$this->setting = [
+			'tids' => [
 				'title' => 'tradelist_tids',
 				'type' => 'text'
-			),
-			'viewmod' => array(
+			],
+			'viewmod' => [
 				'title' => 'threadlist_viewmod',
 				'type' => 'radio'
-			),
-			'uids' => array(
+			],
+			'uids' => [
 				'title' => 'tradelist_uids',
 				'type' => 'text'
-			),
-			'keyword' => array(
+			],
+			'keyword' => [
 				'title' => 'tradelist_keyword',
 				'type' => 'text'
-			),
-			'fids'	=> array(
+			],
+			'fids' => [
 				'title' => 'tradelist_fids',
 				'type' => 'mselect',
-				'value' => array()
-			),
-			'titlelength' => array(
+				'value' => []
+			],
+			'titlelength' => [
 				'title' => 'tradelist_titlelength',
 				'type' => 'text',
 				'default' => 40
-			),
-			'summarylength' => array(
+			],
+			'summarylength' => [
 				'title' => 'tradelist_summarylength',
 				'type' => 'text',
 				'default' => 80
-			),
-		);
+			],
+		];
 	}
 
 	function name() {
@@ -55,4 +54,3 @@ class block_tradespecified extends block_trade {
 	}
 }
 
-?>

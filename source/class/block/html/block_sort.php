@@ -1,10 +1,9 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: block_sort.php 29557 2012-04-18 10:10:07Z svn_project_zhangjie $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -15,84 +14,84 @@ require_once libfile('commonblock_html', 'class/block/html');
 
 class block_sort extends commonblock_html {
 
-	var $setting = array();
+	var $setting = [];
 
-	function __construct(){
-		$this->setting = array(
-			'tids' => array(
+	function __construct() {
+		$this->setting = [
+			'tids' => [
 				'title' => 'sortlist_tids',
 				'type' => 'text'
-			),
-			'fids'	=> array(
+			],
+			'fids' => [
 				'title' => 'sortlist_fids',
 				'type' => 'mselect',
-				'value' => array()
-			),
-			'sortids' => array(
+				'value' => []
+			],
+			'sortids' => [
 				'title' => 'sortlist_sortids',
 				'type' => 'mradio',
-				'value' => array()
-			),
-			'digest' => array(
+				'value' => []
+			],
+			'digest' => [
 				'title' => 'sortlist_digest',
 				'type' => 'mcheckbox',
-				'value' => array(
-					array(1, 'sortlist_digest_1'),
-					array(2, 'sortlist_digest_2'),
-					array(3, 'sortlist_digest_3'),
-					array(0, 'sortlist_digest_0')
-				),
-			),
-			'stick' => array(
+				'value' => [
+					[1, 'sortlist_digest_1'],
+					[2, 'sortlist_digest_2'],
+					[3, 'sortlist_digest_3'],
+					[0, 'sortlist_digest_0']
+				],
+			],
+			'stick' => [
 				'title' => 'sortlist_stick',
 				'type' => 'mcheckbox',
-				'value' => array(
-					array(1, 'sortlist_stick_1'),
-					array(2, 'sortlist_stick_2'),
-					array(3, 'sortlist_stick_3'),
-					array(0, 'sortlist_stick_0')
-				),
-			),
-			'recommend' => array(
+				'value' => [
+					[1, 'sortlist_stick_1'],
+					[2, 'sortlist_stick_2'],
+					[3, 'sortlist_stick_3'],
+					[0, 'sortlist_stick_0']
+				],
+			],
+			'recommend' => [
 				'title' => 'sortlist_recommend',
 				'type' => 'radio'
-			),
-			'orderby' => array(
+			],
+			'orderby' => [
 				'title' => 'sortlist_orderby',
-				'type'=> 'mradio',
-				'value' => array(
-					array('lastpost', 'sortlist_orderby_lastpost'),
-					array('dateline', 'sortlist_orderby_dateline'),
-					array('replies', 'sortlist_orderby_replies'),
-					array('views', 'sortlist_orderby_views'),
-					array('heats', 'sortlist_orderby_heats'),
-					array('recommends', 'sortlist_orderby_recommends'),
-				),
+				'type' => 'mradio',
+				'value' => [
+					['lastpost', 'sortlist_orderby_lastpost'],
+					['dateline', 'sortlist_orderby_dateline'],
+					['replies', 'sortlist_orderby_replies'],
+					['views', 'sortlist_orderby_views'],
+					['heats', 'sortlist_orderby_heats'],
+					['recommends', 'sortlist_orderby_recommends'],
+				],
 				'default' => 'lastpost'
-			),
-			'lastpost' => array(
+			],
+			'lastpost' => [
 				'title' => 'sortlist_lastpost',
-				'type'=> 'mradio',
-				'value' => array(
-					array('0', 'sortlist_lastpost_nolimit'),
-					array('3600', 'sortlist_lastpost_hour'),
-					array('86400', 'sortlist_lastpost_day'),
-					array('604800', 'sortlist_lastpost_week'),
-					array('2592000', 'sortlist_lastpost_month'),
-				),
+				'type' => 'mradio',
+				'value' => [
+					['0', 'sortlist_lastpost_nolimit'],
+					['3600', 'sortlist_lastpost_hour'],
+					['86400', 'sortlist_lastpost_day'],
+					['604800', 'sortlist_lastpost_week'],
+					['2592000', 'sortlist_lastpost_month'],
+				],
 				'default' => '0'
-			),
-			'startrow' => array(
+			],
+			'startrow' => [
 				'title' => 'sortlist_startrow',
 				'type' => 'text',
 				'default' => 0
-			),
-			'showitems' => array(
+			],
+			'showitems' => [
 				'title' => 'sortlist_showitems',
 				'type' => 'text',
 				'default' => 10
-			),
-		);
+			],
+		];
 	}
 
 	function name() {
@@ -105,20 +104,20 @@ class block_sort extends commonblock_html {
 
 		if($settings['fids']) {
 			loadcache('forums');
-			$settings['fids']['value'][] = array(0, lang('portalcp', 'block_all_forum'));
+			$settings['fids']['value'][] = [0, lang('portalcp', 'block_all_forum')];
 			foreach($_G['cache']['forums'] as $fid => $forum) {
-				$settings['fids']['value'][] = array($fid, ($forum['type'] == 'forum' ? str_repeat('&nbsp;', 4) : ($forum['type'] == 'sub' ? str_repeat('&nbsp;', 8) : '')).$forum['name']);
+				$settings['fids']['value'][] = [$fid, ($forum['type'] == 'forum' ? str_repeat('&nbsp;', 4) : ($forum['type'] == 'sub' ? str_repeat('&nbsp;', 8) : '')).$forum['name']];
 			}
 		}
 		if($settings['sortids']) {
 			$defaultvalue = '';
-			$query = DB::query("SELECT typeid, name, special FROM ".DB::table('forum_threadtype')." ORDER BY typeid DESC");
+			$query = DB::query('SELECT typeid, name, special FROM '.DB::table('forum_threadtype').' ORDER BY typeid DESC');
 			while($threadtype = DB::fetch($query)) {
 				if($threadtype['special']) {
 					if(empty($defaultvalue)) {
 						$defaultvalue = $threadtype['typeid'];
 					}
-					$settings['sortids']['value'][] = array($threadtype['typeid'], $threadtype['name']);
+					$settings['sortids']['value'][] = [$threadtype['typeid'], $threadtype['name']];
 				}
 			}
 			$settings['sortids']['default'] = $defaultvalue;
@@ -132,21 +131,21 @@ class block_sort extends commonblock_html {
 		$parameter = $this->cookparameter($parameter);
 
 		loadcache('forums');
-		$tids		= !empty($parameter['tids']) ? explode(',', $parameter['tids']) : array();
-		$fids		= isset($parameter['fids']) && !in_array(0, (array)$parameter['fids']) ? $parameter['fids'] : array_keys($_G['cache']['forums']);
-		$startrow	= !empty($parameter['startrow']) ? intval($parameter['startrow']) : 0;
-		$items		= !empty($parameter['showitems']) ? intval($parameter['showitems']) : 10;
-		$digest		= isset($parameter['digest']) ? $parameter['digest'] : 0;
-		$stick		= isset($parameter['stick']) ? $parameter['stick'] : 0;
-		$orderby	= isset($parameter['orderby']) ? (in_array($parameter['orderby'],array('lastpost','dateline','replies','views','heats','recommends')) ? $parameter['orderby'] : 'lastpost') : 'lastpost';
-		$lastpost	= isset($parameter['lastpost']) ? intval($parameter['lastpost']) : 0;
-		$recommend	= !empty($parameter['recommend']) ? 1 : 0;
-		$sortid	= isset($parameter['sortids']) ? intval($parameter['sortids']) : '';
+		$tids = !empty($parameter['tids']) ? explode(',', $parameter['tids']) : [];
+		$fids = isset($parameter['fids']) && !in_array(0, (array)$parameter['fids']) ? $parameter['fids'] : array_keys($_G['cache']['forums']);
+		$startrow = !empty($parameter['startrow']) ? intval($parameter['startrow']) : 0;
+		$items = !empty($parameter['showitems']) ? intval($parameter['showitems']) : 10;
+		$digest = $parameter['digest'] ?? 0;
+		$stick = $parameter['stick'] ?? 0;
+		$orderby = isset($parameter['orderby']) ? (in_array($parameter['orderby'], ['lastpost', 'dateline', 'replies', 'views', 'heats', 'recommends']) ? $parameter['orderby'] : 'lastpost') : 'lastpost';
+		$lastpost = isset($parameter['lastpost']) ? intval($parameter['lastpost']) : 0;
+		$recommend = !empty($parameter['recommend']) ? 1 : 0;
+		$sortid = isset($parameter['sortids']) ? intval($parameter['sortids']) : '';
 
 		if($fids) {
-			$thefids = array();
+			$thefids = [];
 			foreach($fids as $fid) {
-				if($_G['cache']['forums'][$fid]['type']=='group') {
+				if($_G['cache']['forums'][$fid]['type'] == 'group') {
 					$thefids[] = $fid;
 				}
 			}
@@ -160,8 +159,8 @@ class block_sort extends commonblock_html {
 			$fids = array_unique($fids);
 		}
 
-		$datalist = $list = array();
-		$threadtypeids = array();
+		$datalist = $list = [];
+		$threadtypeids = [];
 
 		$sql = ($tids ? ' AND t.tid IN ('.dimplode($tids).')' : '')
 			.($sortid ? ' AND t.sortid='.$sortid : '')
@@ -178,35 +177,35 @@ class block_sort extends commonblock_html {
 			$heatdateline = TIMESTAMP - 86400 * $_G['setting']['indexhot']['days'];
 			$sql .= " AND t.dateline>'$heatdateline' AND t.heats>'0'";
 		}
-		$sqlfrom = "FROM `".DB::table('forum_thread')."` t";
+		$sqlfrom = 'FROM `'.DB::table('forum_thread').'` t';
 		$joinmethod = empty($tids) ? 'INNER' : 'LEFT';
 		if($recommend) {
-			$sqlfrom .= " $joinmethod JOIN `".DB::table('forum_forumrecommend')."` fc ON fc.tid=t.tid";
+			$sqlfrom .= " $joinmethod JOIN `".DB::table('forum_forumrecommend').'` fc ON fc.tid=t.tid';
 		}
 
 		require_once libfile('function/threadsort');
-		$templatearray = $sortoptionarray = array();
-		loadcache(array('threadsort_option_'.$sortid, 'threadsort_template_'.$sortid));
+		$templatearray = $sortoptionarray = [];
+		loadcache(['threadsort_option_'.$sortid, 'threadsort_template_'.$sortid]);
 		sortthreadsortselectoption($sortid);
 		$templatearray[$sortid] = $_G['cache']['threadsort_template_'.$sortid]['block'];
 		$sortoptionarray[$sortid] = $_G['cache']['threadsort_option_'.$sortid];
-		$isthreadtype = (strpos($templatearray[$sortid], '{typename}') !== false || strpos($templatearray[$sortid], '{typename_url}') !== false ) ? true : false;
-		$threadtypes = array();
+		$isthreadtype = (str_contains($templatearray[$sortid], '{typename}') || str_contains($templatearray[$sortid], '{typename_url}')) ? true : false;
+		$threadtypes = [];
 		if($isthreadtype && $fids) {
-			foreach(C::t('forum_forumfield')->fetch_all($fids) as $fid => $forum) {
+			foreach(table_forum_forumfield::t()->fetch_all($fids) as $fid => $forum) {
 				$threadtypes[$fid] = dunserialize($forum['threadtypes']);
 			}
 		}
 
 		$html = '';
-		$threadlist = $verify = $verifyuids = array();
+		$threadlist = $verify = $verifyuids = [];
 		$query = DB::query("SELECT t.*
 			$sqlfrom WHERE 1 $sql
 			AND t.readperm='0'
 			AND t.displayorder>='0'
 			ORDER BY t.$orderby DESC
 			LIMIT $startrow,$items;"
-			);
+		);
 
 		while($thread = DB::fetch($query)) {
 
@@ -215,7 +214,7 @@ class block_sort extends commonblock_html {
 			}
 
 			if($thread['highlight']) {
-				$color = array('', '#EE1B2E', '#EE5023', '#996600', '#3C9D40', '#2897C5', '#2B65B7', '#8F2A90', '#EC1282');
+				$color = ['', '#EE1B2E', '#EE5023', '#996600', '#3C9D40', '#2897C5', '#2B65B7', '#8F2A90', '#EC1282'];
 				$string = sprintf('%02d', $thread['highlight']);
 				$stylestr = sprintf('%03b', $string[0]);
 
@@ -249,7 +248,7 @@ class block_sort extends commonblock_html {
 
 		if(!empty($threadlist)) {
 			if($verifyuids) {
-				foreach(C::t('common_member_verify')->fetch_all($verifyuids) as $value) {
+				foreach(table_common_member_verify::t()->fetch_all($verifyuids) as $value) {
 					foreach($_G['setting']['verify'] as $vid => $vsetting) {
 						if($vsetting['available'] && $vsetting['showicon'] && $value['verify'.$vid] == 1) {
 							$srcurl = '';
@@ -265,10 +264,9 @@ class block_sort extends commonblock_html {
 			$html = implode('', showsortmodetemplate($sortid, $fids, $sortoptionarray, $templatearray, $threadlist, array_keys($threadlist), $verify));
 		}
 
-		return array('html' => $html, 'data' => null);
+		return ['html' => $html, 'data' => null];
 	}
 
 }
 
 
-?>

@@ -1,17 +1,16 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: lang_spacecp.php 32426 2013-01-15 10:00:21Z liulanbo $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
-$lang = array(
+$lang = [
 
 	'by' => '通过',
 	'tab_space' => ' ',
@@ -50,7 +49,7 @@ $lang = array(
 
 	'friend_subject' => '<a href="{url}" target="_blank">{username} 请求加您为好友</a>',
 	'friend_request_note' => '，附言：{note}',
-	'comment_friend' =>'<a href="\\2" target="_blank">\\1 给您留言了</a>',
+	'comment_friend' => '<a href="\\2" target="_blank">\\1 给您留言了</a>',
 	'photo_comment' => '<a href="\\2" target="_blank">\\1 评论了您的照片</a>',
 	'blog_comment' => '<a href="\\2" target="_blank">\\1 评论了您的日志</a>',
 	'poll_comment' => '<a href="\\2" target="_blank">\\1 评论了您的投票</a>',
@@ -69,7 +68,7 @@ $lang = array(
 	'event_comment_reply' => '\\1 回复了您的活动评论',
 
 	'mail_my' => '好友与我的互动提醒',
-  	'mail_system' => '系统提醒',
+	'mail_system' => '系统提醒',
 
 	'person' => '人',
 	'delete' => '删除',
@@ -86,14 +85,15 @@ $lang = array(
 	'share_article' => '分享了一篇文章',
 	'album' => '相册',
 	'share_thread' => '分享了一个帖子',
-	'mtag' => '{$_G[\'setting\'][\'navs\'][3][\'navname\']}',
-	'share_mtag' => '分享了一个{$_G[\'setting\'][\'navs\'][3][\'navname\']}',
+	'mtag' => '圈子',
+	'share_mtag' => '分享了一个圈子',
 	'share_mtag_membernum' => '现有 {membernum} 名成员',
 	'share_tag' => '分享了一个标签',
 	'share_tag_blognum' => '现有 {blognum} 篇日志',
 	'share_link' => '分享了一个网址',
 	'share_video' => '分享了一个视频',
 	'share_music' => '分享了一个音乐',
+	'share_flash' => '分享了一个 Flash',
 	'share_event' => '分享了一个活动',
 	'share_poll' => '分享了一个\\1投票',
 	'event_time' => '活动时间',
@@ -127,7 +127,6 @@ $lang = array(
 	'space_open_message' => 'hi，我今天去拜访了一下您的个人主页，发现您自己还没有打理过呢。赶快来看看吧。地址是：\\1space.php',
 
 
-
 	'apply_mtag_manager' => '想申请成为 <a href="\\1" target="_blank">\\2</a> 的圈主，理由如下:\\3。<a href="\\1" target="_blank">(点击这里进入管理)</a>',
 
 
@@ -137,10 +136,11 @@ $lang = array(
 
 
 	'present_user_magics' => '您收到了管理员赠送的道具：\\1',
+	'has_not_more_doodle' => '您没有涂鸦板了',
 
-	'do_stat_login' => '来访用户',
-	'do_stat_mobilelogin' => '手机访问',
-	'do_stat_connectlogin' => 'QQ登录访问',
+	'do_stat_login' => '登录用户',
+	'do_stat_mobilelogin' => '手机登录用户',
+	'do_stat_connectlogin' => 'QQ登录用户',
 	'do_stat_register' => '新注册用户',
 	'do_stat_invite' => '好友邀请',
 	'do_stat_add' => '信息发布',
@@ -152,10 +152,10 @@ $lang = array(
 	'do_stat_reward' => '悬赏',
 	'do_stat_debate' => '辩论',
 	'do_stat_trade' => '商品',
-	'do_stat_group' => "创建".(isset($_G['setting']['navs'][3]['navname']) ? $_G['setting']['navs'][3]['navname'] : ''),
-	'do_stat_tgroup' => (isset($_G['setting']['navs'][3]['navname']) ? $_G['setting']['navs'][3]['navname'] : ''),
-	'do_stat_home' => (isset($_G['setting']['navs'][4]['navname']) ? $_G['setting']['navs'][4]['navname'] : ''),
-	'do_stat_forum' => (isset($_G['setting']['navs'][2]['navname']) ? $_G['setting']['navs'][2]['navname'] : ''),
+	'do_stat_group' => '创建'.($_G['setting']['navs'][3]['navname'] ?? ''),
+	'do_stat_tgroup' => ($_G['setting']['navs'][3]['navname'] ?? ''),
+	'do_stat_home' => ($_G['setting']['navs'][4]['navname'] ?? ''),
+	'do_stat_forum' => ($_G['setting']['navs'][2]['navname'] ?? ''),
 	'do_stat_groupthread' => '圈子主题',
 	'do_stat_post' => '主题回复',
 	'do_stat_grouppost' => '圈子回复',
@@ -181,8 +181,8 @@ $lang = array(
 	'do_stat_friend' => '成为好友',
 	'do_stat_post_number' => '发帖量',
 	'do_stat_statistic' => '合并统计',
-	'logs_credit_update_INDEX' => array('TRC','RTC','RAC','MRC','BMC','TFR','RCV','CEC','ECU','SAC','BAC','PRC','RSC','STC','BTC','AFD','UGP','RPC','ACC','RCT','RCA','RCB','CDC','RGC','BGC','AGC','RKC','BME','RPR','RPZ','FCP','BGR'),
-	'logs_credit_update_SYS_INDEX' => array('RUL','INV'),
+	'logs_credit_update_INDEX' => ['TRC', 'RTC', 'RAC', 'MRC', 'BMC', 'TFR', 'RCV', 'CEC', 'ECU', 'SAC', 'BAC', 'PRC', 'RSC', 'STC', 'BTC', 'AFD', 'UGP', 'RPC', 'ACC', 'RCT', 'RCA', 'RCB', 'CDC', 'RGC', 'BGC', 'AGC', 'RKC', 'BME', 'RPR', 'RPZ', 'FCP', 'BGR', 'CHU'],
+	'logs_credit_update_SYS_INDEX' => ['RUL', 'INV'],
 	'logs_credit_update_TRC' => '任务奖励',
 	'logs_credit_update_RTC' => '悬赏主题',
 	'logs_credit_update_RAC' => '最佳答案',
@@ -215,6 +215,7 @@ $lang = array(
 	'logs_credit_update_RPZ' => '后台积分奖惩清零',
 	'logs_credit_update_FCP' => '付费版块',
 	'logs_credit_update_BGR' => '创建圈子',
+	'logs_credit_update_CHU' => '用户更名',
 	'logs_credit_update_RUL' => '积分规则',
 	'logs_credit_update_INV' => '购买邀请码',
 	'buildgroup' => '查看已创建的圈子',
@@ -306,6 +307,7 @@ $lang = array(
 	'email_acitve_message' => '<i class="fico-email vm fc-i" title="未验证"></i><span class="xi1 vm">新邮箱({newemail})等待验证中...</span><br />
 								系统已经向该邮箱发送了一封验证激活邮件，请查收邮件，进行验证激活。<br>
 								如果没有收到验证邮件，您可以更换一个邮箱，或者<a href="home.php?mod=spacecp&ac=profile&op=password&resend=1&formhash={formhash}" class="xi2">重新接收验证邮件</a>',
+	'qq_set_status' => '设置我的QQ在线状态',
 	'qq_dialog' => '发起QQ聊天',
 
 	'payment_alipay' => '支付宝',
@@ -316,6 +318,19 @@ $lang = array(
 	'payment_status_2' => '已过期',
 	'payment_credit' => '积分充值',
 
-);
 
-?>
+	'credits_formula_credits' => '积分',
+	'credits_formula_digestposts' => '精华帖数',
+	'credits_formula_posts' => '发帖数',
+	'credits_formula_threads' => '主题数',
+	'credits_formula_replies' => '回帖数',
+	'credits_formula_oltime' => '在线时间(小时)',
+	'credits_formula_blogs' => '日志数',
+	'credits_formula_friends' => '好友数',
+	'credits_formula_albums' => '相册数',
+	'credits_formula_doings' => '记录数',
+	'credits_formula_polls' => '投票数',
+	'credits_formula_sharings' => '分享数',
+
+];
+

@@ -1,9 +1,8 @@
-/*
-	[Discuz!] (C)2001-2099 Comsenz Inc.
-	This is NOT a freeware, use is subject to license terms
-
-	$Id: home_friendselector.js 26733 2011-12-21 07:18:01Z zhengqingpeng $
-*/
+/**
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
+ */
 
 (function() {
 	friendSelector = function(parameter) {
@@ -170,11 +169,11 @@
 						this.selectUser[userName] = userName;
 					}
 					this.selectNumber++;
-                                       spanObj.innerHTML= '<a href="javascript:;" class="x" onclick="'+this.handleKey+'.delSelUser(\''+(spanObj.id)+'\');">'+lng['delete']+'</a><em class="z" title="' + userName + '">' + userName + '</em><input type="hidden" name="users[]" value="'+userName+'" uid="uid'+uid+'" />';
+					spanObj.innerHTML= '<a href="javascript:;" class="x" onclick="'+this.handleKey+'.delSelUser(\''+(spanObj.id)+'\');">' + $L('delete') + '</a><em class="z" title="' + userName + '">' + userName + '</em><input type="hidden" name="users[]" value="'+userName+'" uid="uid'+uid+'" />';
 					this.handleObj.parentNode.insertBefore(spanObj, this.handleObj);
 					this.showObj.style.display = 'none';
 				} else {
-					alert(lng['already_exists']+':'+userName);
+					alert($L('username_exists', [userName]));
 				}
 			}
 		},
@@ -284,7 +283,7 @@
 				var select = false;
 				if(typeof this.selectUser[uid] == 'undefined') {
 					if(this.maxSelectNumber && this.selectNumber >= this.maxSelectNumber) {
-			            alert(lng['select_max']+' '+this.maxSelectNumber+' '+lng['users']);
+			            alert($L('max_select_user', [this.maxSelectNumber]));
 			            return false;
 			        }
 					this.selectUser[uid] = this.dataSource[uid];

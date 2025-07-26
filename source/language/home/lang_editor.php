@@ -1,17 +1,16 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: lang_editor.php 28113 2012-02-22 09:25:55Z svn_project_zhangjie $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
-$lang = array(
+$lang = [
 	'editor_switch_media' => '切换到多媒体',
 	'editor_cut' => '剪切',
 	'editor_copy' => '复制',
@@ -29,7 +28,9 @@ $lang = array(
 	'editor_remove_link' => '移除链接',
 	'editor_link_image' => '添加图片',
 	'editor_link_attach' => '添加附件',
+	'editor_link_flash' => '添加视频FLASH或MP3音乐',
 	'editor_insert_smiley' => '插入表情',
+	'editor_doodle' => '涂鸦',
 	'editor_pagebreak' => '插入分页标志',
 	'editor_download_remote' => '下载远程图片',
 	'editor_restore' => '恢复内容',
@@ -78,6 +79,5 @@ $lang = array(
 	'editor_prompt_video_real' => 'Real 视频',
 	'editor_prompt_mp3' => 'mp3 音乐',
 	'editor_full_screen' => '全屏',
-);
+];
 
-?>

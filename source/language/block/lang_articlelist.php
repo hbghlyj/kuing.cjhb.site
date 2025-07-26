@@ -1,18 +1,17 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: lang_articlelist.php 27449 2012-02-01 05:32:35Z zhangguosheng $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
-$lang = array
-(
+$lang =
+	[
 	'articlelist_aids' => '指定文章',
 	'articlelist_aids_comment' => '填入指定文章的ID(aid)，多篇文章之间用逗号(,)分隔',
 	'articlelist_uids' => '作者UID',
@@ -47,6 +46,5 @@ $lang = array
 	'articlelist_publishdateline_month' => '1个月内',
 	'articlelist_keyword' => '标题关键字',
 	'articlelist_keyword_comment' => '设置标题包含的关键字。注意: 留空为不进行任何过滤； 关键字中可使用通配符 *； 匹配多个关键字全部，可用空格或 AND 连接。如 win32 AND unix； 匹配多个关键字其中部分，可用 | 或 OR 连接。如 win32 OR unix',
-);
+	];
 
-?>

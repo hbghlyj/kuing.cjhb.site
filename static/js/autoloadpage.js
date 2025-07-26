@@ -1,9 +1,8 @@
-/*
-	[Discuz!] (C)2001-2099 Comsenz Inc.
-	This is NOT a freeware, use is subject to license terms
-
-	$Id: autoloadpage.js 33246 2013-05-09 02:07:17Z kamichen $
-*/
+/**
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
+ */
 
 (function() {
 
@@ -22,7 +21,7 @@
 	autopbn.onclick = function() {
 		var oldloadstatus = loadstatus;
 		loadstatus = 2;
-               autopbn.innerHTML = lng['loading_content_wait'];
+		autopbn.innerHTML = $L('loading');
 		getnextpagecontent();
 		loadstatus = oldloadstatus;
 	};
@@ -32,7 +31,7 @@
 			var curtop = Math.max(document.documentElement.scrollTop, document.body.scrollTop);
 			if(curtop + document.documentElement.clientHeight + 500 >= document.documentElement.scrollHeight && !loadstatus) {
 				loadstatus = 1;
-                               autopbn.innerHTML = lng['loading_content_wait'];
+				autopbn.innerHTML = $L('loading');
 				setTimeout(getnextpagecontent, 1000);
 			}
 		};
@@ -46,7 +45,7 @@
 			return;
 		}
 		if(loadstatus != 2 && curpage + 1 > maxpage) {
-                       autopbn.innerHTML = lng['next'] + ' &raquo;';
+			autopbn.innerHTML = $L('next_page') + ' &raquo;';
 			if(curpage + 1 > maxpage) {
 				window.onscroll = null;
 			}
@@ -77,7 +76,6 @@
 						var div = document.createElement('div');
 						div.innerHTML = '<table>' + nexts[i] + '</table>';
 						tableobj.replaceChild(div.childNodes[0].childNodes[0], tableobj.lastChild);
-						MathJax.typesetPromise([tableobj.lastChild]);
 					}
 				}
 			} else {
@@ -94,10 +92,10 @@
 
 			$('fd_page_bottom').innerHTML = pageinfo[1];
 			var pageinfo = s.match(/\<span id="fd_page_top"\>(.+?)\<\/span\>/);
-			$('fd_page_top').innerHTML = pageinfo[1];
+			$('fd_page_top').innerHTML = pageinfo[1];			
 			autopbn.style.display = 'none';
 			if (curpage + 1 <= totalpage) {
-                               autopbn.innerHTML = lng['next'] + ' &raquo;';
+				autopbn.innerHTML = $L('next_page') + ' &raquo;';
 				setTimeout(function () {
 					autopbn.style.display = 'block';
 				}, 100);
@@ -105,4 +103,5 @@
 			loadstatus = 0;
 		});
 	}
+
 })();

@@ -1,22 +1,28 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: table_common_member_security.php 27449 2012-02-01 05:32:35Z zhangguosheng $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
-class table_common_member_forum_buylog extends discuz_table
-{
+class table_common_member_forum_buylog extends discuz_table {
+	public static function t() {
+		static $_instance;
+		if(!isset($_instance)) {
+			$_instance = new self();
+		}
+		return $_instance;
+	}
+
 	public function __construct() {
 
 		$this->_table = 'common_member_forum_buylog';
-		$this->_pk    = 'uid';
+		$this->_pk = 'uid';
 		$this->_pre_cache_key = 'common_member';
 		$this->_allowmem = memory('check');
 		$this->_cache_ttl = 86400;
@@ -27,7 +33,7 @@ class table_common_member_forum_buylog extends discuz_table
 	public function get_credits($uid, $fid) {
 		$credits = $this->fetch_cache($uid.'_'.$fid, 'common_member_forum_buylog_');
 		if(!$credits) {
-			$credits = DB::result_first('SELECT credits FROM %t WHERE uid=%d AND fid=%d', array($this->_table, $uid, $fid));
+			$credits = DB::result_first('SELECT credits FROM %t WHERE uid=%d AND fid=%d', [$this->_table, $uid, $fid]);
 			$this->store_cache($uid.'_'.$fid, $credits, $this->_cache_ttl, 'common_member_forum_buylog_');
 			return $credits;
 		} else {
@@ -36,7 +42,7 @@ class table_common_member_forum_buylog extends discuz_table
 	}
 
 	public function update_credits($uid, $fid, $credits) {
-		C::t('common_member_forum_buylog')->insert(array('uid' => $uid, 'fid' => $fid, 'credits' => $credits), false, true);
+		table_common_member_forum_buylog::t()->insert(['uid' => $uid, 'fid' => $fid, 'credits' => $credits], false, true);
 		$this->store_cache($uid.'_'.$fid, $credits, $this->_cache_ttl, 'common_member_forum_buylog_');
 	}
 
@@ -49,4 +55,3 @@ class table_common_member_forum_buylog extends discuz_table
 	}
 }
 
-?>

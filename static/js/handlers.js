@@ -1,9 +1,8 @@
-/*
-	[Discuz!] (C)2001-2099 Comsenz Inc.
-	This is NOT a freeware, use is subject to license terms
-
-	$Id: handlers.js 31952 2012-10-25 09:20:40Z zhengqingpeng $
-*/
+/**
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
+ */
 
 var sdCloseTime = 2;
 function preLoad() {
@@ -49,18 +48,17 @@ function fileDialogStart() {
 function fileQueued(file) {
 	try {
 		var createQueue = true;
-                var inputObj;
-                if(this.customSettings.uploadSource == 'forum' && this.customSettings.uploadType == 'poll') {
-                        inputObj = $(this.customSettings.progressTarget+'_aid');
-                        if(inputObj && parseInt(inputObj.value)) {
-                                this.addPostParam('aid', inputObj.value);
-                        }
-                } else if(this.customSettings.uploadSource == 'portal') {
-                        inputObj = $('catid');
-                        if(inputObj && parseInt(inputObj.value)) {
-                                this.addPostParam('catid', inputObj.value);
-                        }
-                }
+		if(this.customSettings.uploadSource == 'forum' && this.customSettings.uploadType == 'poll') {
+			var inputObj = $(this.customSettings.progressTarget+'_aid');
+			if(inputObj && parseInt(inputObj.value)) {
+				this.addPostParam('aid', inputObj.value);
+			}
+		} else if(this.customSettings.uploadSource == 'portal') {
+			var inputObj = $('catid');
+			if(inputObj && parseInt(inputObj.value)) {
+				this.addPostParam('catid', inputObj.value);
+			}
+		}
 		var progress = new FileProgress(file, this.customSettings.progressTarget);
 		if(this.customSettings.uploadSource == 'forum') {
 			if(this.customSettings.maxAttachNum != undefined) {
@@ -74,7 +72,7 @@ function fileQueued(file) {
 
 			if(createQueue && this.customSettings.maxSizePerDay != undefined) {
 				if(this.customSettings.maxSizePerDay - file.size > 0) {
-					this.customSettings.maxSizePerDay = this.customSettings.maxSizePerDay - file.size;
+					this.customSettings.maxSizePerDay = this.customSettings.maxSizePerDay - file.size
 				} else {
 					this.customSettings.alertType = 11;
 					createQueue = false;
@@ -90,7 +88,7 @@ function fileQueued(file) {
 
 		}
 		if(createQueue) {
-			progress.setStatus(lng['wait_please']);
+			progress.setStatus($L('waiting_upload'));
 		} else {
 			this.cancelUpload(file.id);
 			progress.setCancelled();
@@ -106,9 +104,9 @@ function fileQueued(file) {
 
 function fileQueueError(file, errorCode, message) {
 	try {
-		if (errorCode === WebUpload.QUEUE_ERROR.QUEUE_LIMIT_EXCEEDED) {
+		if (errorCode === SWFUpload.QUEUE_ERROR.QUEUE_LIMIT_EXCEEDED) {
 			message = parseInt(message);
-                        showDialog(lng['file_selected_exceed']+"\n"+(message === 0 ? lng['upload_number_exceed'] : lng['can_choose_more'] + message + lng['files']), 'notice', null, null, 0, null, null, null, null, sdCloseTime);
+			showDialog($L('select_file_over_limit') + "\n"+(message === 0 ? $L('max_upload_limit') : $L('upload_limit', [message])), 'notice', null, null, 0, null, null, null, null, sdCloseTime);
 			return;
 		}
 
@@ -117,25 +115,25 @@ function fileQueueError(file, errorCode, message) {
 		progress.toggleCancel(false);
 
 		switch (errorCode) {
-			case WebUpload.QUEUE_ERROR.FILE_EXCEEDS_SIZE_LIMIT:
-                                progress.setStatus(lng['file_is_large']);
+			case SWFUpload.QUEUE_ERROR.FILE_EXCEEDS_SIZE_LIMIT:
+				progress.setStatus($L('file_too_large'));
 				this.debug("Error Code: File too big, File name: " + file.name + ", File size: " + file.size + ", Message: " + message);
 				break;
-			case WebUpload.QUEUE_ERROR.ZERO_BYTE_FILE:
-                                progress.setStatus(lng['file_is_empty']);
+			case SWFUpload.QUEUE_ERROR.ZERO_BYTE_FILE:
+				progress.setStatus($L('upload_zero_file'));
 				this.debug("Error Code: Zero byte file, File name: " + file.name + ", File size: " + file.size + ", Message: " + message);
 				break;
-			case WebUpload.QUEUE_ERROR.INVALID_FILETYPE:
-                                progress.setStatus(lng['file_type_disabled']);
+			case SWFUpload.QUEUE_ERROR.INVALID_FILETYPE:
+				progress.setStatus($L('disallow_upload'));
 				this.debug("Error Code: Invalid File Type, File name: " + file.name + ", File size: " + file.size + ", Message: " + message);
 				break;
-			case WebUpload.QUEUE_ERROR.QUEUE_LIMIT_EXCEEDED:
-                                alert(lng['file_selected_exceed'] + '\n' +  (message > 1 ? lng['can_choose_more'] +  message + lng['files'] : lng['upload_number_exceed']));
+			case SWFUpload.QUEUE_ERROR.QUEUE_LIMIT_EXCEEDED:
+				alert("You have selected too many files.  " +  (message > 1 ? "You may only add " +  message + " more files" : "You cannot add any more files."));
 				break;
 			default:
-                                if (file !== null) {
-                                        progress.setStatus(lng['unhandled_error']);
-                                }
+				if (file !== null) {
+					progress.setStatus("Unhandled Error");
+				}
 				this.debug("Error Code: " + errorCode + ", File name: " + file.name + ", File size: " + file.size + ", Message: " + message);
 				break;
 		}
@@ -191,7 +189,7 @@ function uploadStart(file) {
 			preObj.innerHTML = '';
 		}
 		var progress = new FileProgress(file, this.customSettings.progressTarget);
-		progress.setStatus(lng['uploading']);
+		progress.setStatus($L('uploading'));
 		progress.toggleCancel(true, this);
 		if(this.customSettings.uploadSource == 'forum') {
 			var objId = this.customSettings.uploadType == 'attach' ? 'attachlist' : 'imgattachlist';
@@ -210,7 +208,7 @@ function uploadProgress(file, bytesLoaded, bytesTotal) {
 		var percent = Math.ceil((bytesLoaded / bytesTotal) * 100);
 
 		var progress = new FileProgress(file, this.customSettings.progressTarget);
-                progress.setStatus(lng['upload_progress']+"("+percent+"%)...");
+		progress.setStatus($L('uploading_progress', [percent]));
 
 	} catch (ex) {
 		this.debug(ex);
@@ -267,7 +265,7 @@ function uploadSuccess(file, serverData) {
 						progress.setStatus(STATUSMSG[aid]);
 						showDialog(STATUSMSG[aid], 'notice', null, null, 0, null, null, null, null, sdCloseTime);
 					} else {
-						progress.setStatus(lng['upload_cancelled']);
+						progress.setStatus($L('cancel_upload'));
 					}
 					this.cancelUpload(file.id);
 					progress.setCancelled();
@@ -294,11 +292,11 @@ function uploadSuccess(file, serverData) {
 				newTr.appendChild(newTd);
 				newTd = document.createElement("TD");
 				newTd.className = 'd';
-                               newTd.innerHTML = lng['file_description']+'<br/><textarea name="title['+data.picid+']" cols="40" rows="2" class="pt"></textarea>';
+				newTd.innerHTML = $L('img_desc') + '<br/><textarea name="title['+data.picid+']" cols="40" rows="2" class="pt"></textarea>';
 				newTr.appendChild(newTd);
 				this.customSettings.imgBoxObj.appendChild(newTr);
 			} else {
-				showDialog(lng['image_upload_failed'], 'notice', null, null, 0, null, null, null, null, sdCloseTime);
+				showDialog($L('img_upload_error'), 'notice', null, null, 0, null, null, null, null, sdCloseTime);
 			}
 			$(file.id).style.display = 'none';
 		} else if(this.customSettings.uploadType == 'blog') {
@@ -318,7 +316,7 @@ function uploadSuccess(file, serverData) {
 				inputObj.value= data.picid;
 				tdObj.appendChild(inputObj);
 			} else {
-				showDialog(lng['image_upload_failed'], 'notice', null, null, 0, null, null, null, null, sdCloseTime);
+				showDialog($L('img_upload_error'), 'notice', null, null, 0, null, null, null, null, sdCloseTime);
 			}
 			$(file.id).style.display = 'none';
 		} else if(this.customSettings.uploadSource == 'portal') {
@@ -335,15 +333,15 @@ function uploadSuccess(file, serverData) {
 					$(file.id).style.display = 'none';
 				}
 			} else {
-				showDialog(lng['upload_failed'], 'notice', null, null, 0, null, null, null, null, sdCloseTime);
-				progress.setStatus(lng['upload_cancelled']);
+				showDialog($L('upload_error'), 'notice', null, null, 0, null, null, null, null, sdCloseTime);
+				progress.setStatus("Cancelled");
 				this.cancelUpload(file.id);
 				progress.setCancelled();
 				progress.toggleCancel(true, this);
 			}
 		} else {
 			progress.setComplete();
-			progress.setStatus(lng['upload_completed']);
+			progress.setStatus($L('upload_success'));
 			progress.toggleCancel(false);
 		}
 	} catch (ex) {
@@ -419,49 +417,49 @@ function uploadError(file, errorCode, message) {
 		progress.toggleCancel(false);
 
 		switch (errorCode) {
-			case WebUpload.UPLOAD_ERROR.HTTP_ERROR:
-				progress.setStatus(lng['upload_error'] + message);
+			case SWFUpload.UPLOAD_ERROR.HTTP_ERROR:
+				progress.setStatus("Upload Error: " + message);
 				this.debug("Error Code: HTTP Error, File name: " + file.name + ", Message: " + message);
 				break;
-			case WebUpload.UPLOAD_ERROR.MISSING_UPLOAD_URL:
-				progress.setStatus(lng['config_error']);
+			case SWFUpload.UPLOAD_ERROR.MISSING_UPLOAD_URL:
+				progress.setStatus("Configuration Error");
 				this.debug("Error Code: No backend file, File name: " + file.name + ", Message: " + message);
 				break;
-			case WebUpload.UPLOAD_ERROR.UPLOAD_FAILED:
-				progress.setStatus(lng['upload_failed']);
+			case SWFUpload.UPLOAD_ERROR.UPLOAD_FAILED:
+				progress.setStatus("Upload Failed.");
 				this.debug("Error Code: Upload Failed, File name: " + file.name + ", File size: " + file.size + ", Message: " + message);
 				break;
-			case WebUpload.UPLOAD_ERROR.IO_ERROR:
-				progress.setStatus(lng['server_error']);
+			case SWFUpload.UPLOAD_ERROR.IO_ERROR:
+				progress.setStatus("Server (IO) Error");
 				this.debug("Error Code: IO Error, File name: " + file.name + ", Message: " + message);
 				break;
-			case WebUpload.UPLOAD_ERROR.SECURITY_ERROR:
-				progress.setStatus(lng['security_error']);
+			case SWFUpload.UPLOAD_ERROR.SECURITY_ERROR:
+				progress.setStatus("Security Error");
 				this.debug("Error Code: Security Error, File name: " + file.name + ", Message: " + message);
 				break;
-			case WebUpload.UPLOAD_ERROR.UPLOAD_LIMIT_EXCEEDED:
-				progress.setStatus(lng['upload_limit_exceed']);
+			case SWFUpload.UPLOAD_ERROR.UPLOAD_LIMIT_EXCEEDED:
+				progress.setStatus("Upload limit exceeded.");
 				this.debug("Error Code: Upload Limit Exceeded, File name: " + file.name + ", File size: " + file.size + ", Message: " + message);
 				break;
-			case WebUpload.UPLOAD_ERROR.SPECIFIED_FILE_ID_NOT_FOUND:
-				progress.setStatus(lng['file_not_found']);
+			case SWFUpload.UPLOAD_ERROR.SPECIFIED_FILE_ID_NOT_FOUND:
+				progress.setStatus("File not found.");
 				this.debug("Error Code: The file was not found, File name: " + file.name + ", File size: " + file.size + ", Message: " + message);
 				break;
-			case WebUpload.UPLOAD_ERROR.FILE_VALIDATION_FAILED:
-				progress.setStatus(lng['validation_failed']);
+			case SWFUpload.UPLOAD_ERROR.FILE_VALIDATION_FAILED:
+				progress.setStatus("Failed Validation.  Upload skipped.");
 				this.debug("Error Code: File Validation Failed, File name: " + file.name + ", File size: " + file.size + ", Message: " + message);
 				break;
-			case WebUpload.UPLOAD_ERROR.FILE_CANCELLED:
+			case SWFUpload.UPLOAD_ERROR.FILE_CANCELLED:
 				if (this.getStats().files_queued === 0) {
 				}
-				progress.setStatus(this.customSettings.alertType ? STATUSMSG[this.customSettings.alertType] : lng['upload_cancelled']);
+				progress.setStatus(this.customSettings.alertType ? STATUSMSG[this.customSettings.alertType] : "Cancelled");
 				progress.setCancelled();
 				break;
-			case WebUpload.UPLOAD_ERROR.UPLOAD_STOPPED:
-				progress.setStatus(lng['upload_stopped']);
+			case SWFUpload.UPLOAD_ERROR.UPLOAD_STOPPED:
+				progress.setStatus("Stopped");
 				break;
 			default:
-				progress.setStatus(lng['unhandled_error']+': ' + error_code);
+				progress.setStatus("Unhandled Error: " + error_code);
 				this.debug("Error Code: " + errorCode + ", File name: " + file.name + ", File size: " + file.size + ", Message: " + message);
 				break;
 		}

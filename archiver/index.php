@@ -1,10 +1,9 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: index.php 17587 2010-10-25 01:25:10Z monkey $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 define('IN_ARCHIVER', 1);
@@ -25,6 +24,8 @@ if(substr($querystring, 0, 3) == 'fid') {
 	$_GET['tid'] = intval(substr($querystring, 4));
 }
 
-include 'forum.php';
+$_GET['app'] = 'forum';
+
+require 'index.php';
 
 ?>

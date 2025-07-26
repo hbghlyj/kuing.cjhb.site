@@ -1,10 +1,9 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: payment_credit.php 36342 2021-05-17 15:12:53Z dplugin $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -16,7 +15,7 @@ class payment_credit {
 	public function callback($data, $order) {
 
 		global $_G;
-		C::t('forum_order')->insert(array(
+		table_forum_order::t()->insert([
 			'orderid' => $order['out_biz_no'],
 			'status' => '2',
 			'buyer' => $order['id'],
@@ -29,14 +28,13 @@ class payment_credit {
 			'confirmdate' => $order['payment_time'],
 			'ip' => $data['ip'],
 			'port' => $data['port']
-		));
-		updatemembercount($order['uid'], array('extcredits' . $data['index'] => $data['value']), 1, 'AFD', $order['uid']);
-		C::t('forum_order')->delete_by_submitdate($_G['timestamp'] - 60 * 86400);
+		]);
+		updatemembercount($order['uid'], ['extcredits'.$data['index'] => $data['value']], 1, 'AFD', $order['uid']);
+		table_forum_order::t()->delete_by_submitdate($_G['timestamp'] - 60 * 86400);
 
 		$extcredits = $_G['setting']['extcredits'][$data['index']];
-		notification_add($order['uid'], 'credit', 'addfunds', array('orderid' => $order['out_biz_no'], 'price' => $order['amount'] / 100, 'value' => trim($extcredits['title'] . ' ' . $data['value'] . ' ' . $extcredits['unit'])), 1);
+		notification_add($order['uid'], 'credit', 'addfunds', ['orderid' => $order['out_biz_no'], 'price' => $order['amount'] / 100, 'value' => trim($extcredits['title'].' '.$data['value'].' '.$extcredits['unit'])], 1);
 	}
 
 }
 
-?>

@@ -1,18 +1,17 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: lang_polllist.php 27449 2012-02-01 05:32:35Z zhangguosheng $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
-$lang = array
-(
+$lang =
+	[
 	'polllist_name' => '投票列表',
 	'polllist_desc' => '投票列表调用',
 	'polllist_uids' => '用户UID',
@@ -36,6 +35,5 @@ $lang = array
 	'polllist_expirefilter_off' => '不屏蔽',
 	'polllist_expirefilter_on' => '屏蔽',
 
-);
+	];
 
-?>

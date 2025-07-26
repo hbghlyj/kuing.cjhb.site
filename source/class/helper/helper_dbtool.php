@@ -1,19 +1,18 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: helper_dbtool.php 36319 2016-12-20 02:03:23Z nemohou $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
-if (!defined('IN_DISCUZ')) {
+if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
 class helper_dbtool {
 
 	public static function dbversion() {
-		$db = & DB::object();
+		$db = DB::object();
 		return $db->version();
 	}
 
@@ -38,9 +37,9 @@ class helper_dbtool {
 	}
 
 	public static function showtablecloumn($tablename) {
-		$data = array();
-		$db = &DB::object();
-		$query = $db->query("SHOW FULL COLUMNS FROM ".DB::table($tablename), 'SILENT');
+		$data = [];
+		$db = DB::object();
+		$query = $db->query('SHOW FULL COLUMNS FROM '.DB::table($tablename), 'SILENT');
 		while($field = @DB::fetch($query)) {
 			$data[$field['Field']] = $field;
 		}
@@ -48,7 +47,7 @@ class helper_dbtool {
 	}
 
 	public static function isexisttable($tablename) {
-		$tablearr = array();
+		$tablearr = [];
 		$query = DB::query('SHOW TABLES', 'SILENT');
 		while($table = DB::fetch($query)) {
 			foreach($table as $value) {
@@ -63,4 +62,3 @@ class helper_dbtool {
 	}
 }
 
-?>

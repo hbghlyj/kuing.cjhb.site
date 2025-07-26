@@ -1,9 +1,8 @@
-/*
-	[Discuz!] (C)2001-2099 Comsenz Inc.
-	This is NOT a freeware, use is subject to license terms
-
-	$Id: imgcropper.js 30998 2012-07-06 07:22:08Z zhangguosheng $
-*/
+/**
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
+ */
 (function(){
 
 	ImgCropper = function() {
@@ -38,11 +37,18 @@
 			this._layHandle = $(handle);
 			this.url = url;
 
+			this._newResized = false;
+
 			this._layBase = this._container.appendChild(document.createElement("img"));
 			this._layCropper = this._container.appendChild(document.createElement("img"));
-			this._layCropper.onload = Util.bindApply(this, this.setPos);
+			this._layCropper.onload = function () {
+				Util.bindApply(this, this.setPos);
+			}
 			this._tempImg = document.createElement("img");
-			this._tempImg.onload = Util.bindApply(this, this.setSize);
+			this._tempImg.onload = function () {
+				Util.bindApply(this, this.setSize);
+				bgDivResize();
+			}
 
 			this.options = Util.setOptions(this.options, options || {});
 
@@ -168,6 +174,21 @@
 					this.setLayHandle = false;
 				}
 			}
+		},
+		setNewSize: function(w, h) {
+			if(this._newResized) {
+				return;
+			}
+			this._layBase.style.width = this._layCropper.style.width = w + "px";
+			this._layBase.style.height = this._layCropper.style.height = h + "px";
+			this._drag.maxRight = w; this._drag.maxBottom = h;
+			if(this.resize) {
+				this._container.style.width = this._layBase.style.width; this._container.style.height = this._layBase.style.height;
+				this._layHandle.style.left = ((w - this._layHandle.offsetWidth)/2)+"px";
+				this._layHandle.style.top = ((h - this._layHandle.offsetHeight)/2)+"px";
+				this.setPos();
+			}
+			this._newResized = true;
 		},
 		getPos: function() {
 			with(this._layHandle){

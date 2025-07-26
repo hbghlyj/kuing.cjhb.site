@@ -1,9 +1,8 @@
-/*
-	[Discuz!] (C)2001-2099 Comsenz Inc.
-	This is NOT a freeware, use is subject to license terms
-
-	$Id: common_diy.js 31093 2012-07-16 03:54:34Z zhangguosheng $
-*/
+/**
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
+ */
 
 String.prototype.property2js = function(){
 	var t = this.replace(/-([a-z])/g, function($0, $1) {return $1.toUpperCase();});
@@ -715,7 +714,7 @@ var Util = {
 				var dom = document.createElement('div');
 				dom.className = 'edit hide';
 				dom.id = id+'_edit';
-                               dom.innerHTML = '<span id="'+id+'_edit_menu">'+lng['edit']+'</span>';
+				dom.innerHTML = '<span id="'+id+'_edit_menu">' + $L('edit') + '</span>';
 				ele.appendChild(dom);
 				$(id+'_edit_menu').onclick = function (e){Drag.prototype.toggleMenu.call(_method, e, this);};
 			}
@@ -858,13 +857,13 @@ var Util = {
 			var targetObject = Util.getTarget(e,'className',this.moveableObject);
 			if (targetObject) {
 				Util.show(targetObject.id + '_edit');
-				targetObject.style.backgroundColor="#fffacd";
+				targetObject.style.boxShadow = "#DDF0DF 0 0 1px 1px";
 				this.showBlockName(targetObject);
 			} else {
 				var targetFrame = Util.getTarget(e,'className',this.frameClass);
 				if (typeof targetFrame == 'object') {
 					Util.show(targetFrame.id + '_edit');
-					targetFrame.style.backgroundColor="#fffacd";
+					targetObject.style.boxShadow = "#DDF0DF 0 0 1px 1px";
 				}
 			}
 		},
@@ -874,11 +873,11 @@ var Util = {
 			var targetFrame = Util.getTarget(e,'className',this.frameClass);
 			if (typeof targetFrame == 'object') {
 				Util.hide(targetFrame.id + '_edit');
-				targetFrame.style.backgroundColor = '';
+				targetObject.style.boxShadow = "";
 			}
 			if (typeof targetObject == 'object') {
 				Util.hide(targetObject.id + '_edit');
-				targetObject.style.backgroundColor = '';
+				targetObject.style.boxShadow = "";
 				this.hideBlockName(targetObject);
 			}
 		},
@@ -1224,7 +1223,7 @@ var Util = {
 		setClose : function () {
 			if (!this.isChange) {
 				window.onbeforeunload = function() {
-                                       return lng['warn_not_saved'];
+					return $L('diy_ischange');
 				};
 			}
 			this.isChange = true;
@@ -1278,7 +1277,6 @@ var Util = {
 			this.setDefalutMenu();
 			this.enableAdvancedStyleSheet();
 			this.showControlPanel();
-			this.initTips();
 			if(this.goonDIY) this.goonDIY();
 			this.openfn();
 		},
@@ -1361,14 +1359,6 @@ var Util = {
 				Util.hide(tipname);
 			}
 			doane();
-		},
-		initTips : function () {
-			var tips = ['diy_backup_tip'];
-			for(var i = 0; i < tips.length; i++) {
-				if(tips[i] && !loadUserdata(tips[i])) {
-					Util.show(tips[i]);
-				}
-			}
 		},
 		extend : function (obj) {
 			for (var i in obj) {
@@ -1872,7 +1862,7 @@ var Util = {
 		},
 		uploadSubmit : function (){
 			if (document.uploadpic.attach.value.length<3) {
-                               alert(lng['select_image_upload']);
+				alert($L('diy_select_pic'));
 				return false;
 			}
 			if (document.uploadpic.albumid != null) document.uploadpic.albumid.value = $('selectalbum').value;
@@ -1884,7 +1874,7 @@ var Util = {
 		cancel : function () {
 			var flag = false;
 			if (this.isChange) {
-                               flag = confirm(this.cancelConfirm ? this.cancelConfirm : lng['confirm_exit']);
+				flag = confirm(this.cancelConfirm ? this.cancelConfirm : $L('diy_cancel_confirm'));
 			}
 			if (!this.isChange || flag) {
 				location.href = location.href.replace(/[\?|\&]diy\=yes/g,'');

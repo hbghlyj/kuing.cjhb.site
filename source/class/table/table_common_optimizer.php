@@ -1,10 +1,9 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: table_common_optimizer.php 31034 2012-07-11 04:03:30Z zhangjie $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -13,16 +12,24 @@ if(!defined('IN_DISCUZ')) {
 
 class table_common_optimizer extends discuz_table {
 
+	public static function t() {
+		static $_instance;
+		if(!isset($_instance)) {
+			$_instance = new self();
+		}
+		return $_instance;
+	}
+
 	public function __construct() {
 
 		$this->_table = 'common_optimizer';
-		$this->_pk    = 'k';
+		$this->_pk = 'k';
 
 		parent::__construct();
 	}
 
 	public function fetch($id, $force_from_db = false) {
-		if (defined('DISCUZ_DEPRECATED')) {
+		if(defined('DISCUZ_DEPRECATED')) {
 			throw new Exception('NotImplementedException');
 			return parent::fetch($id, $force_from_db);
 		} else {
@@ -31,7 +38,7 @@ class table_common_optimizer extends discuz_table {
 	}
 
 	public function update($val, $data, $unbuffered = false, $low_priority = false) {
-		if (defined('DISCUZ_DEPRECATED')) {
+		if(defined('DISCUZ_DEPRECATED')) {
 			throw new Exception('NotImplementedException');
 			return parent::update($val, $data, $unbuffered, $low_priority);
 		} else {
@@ -44,9 +51,9 @@ class table_common_optimizer extends discuz_table {
 		return $auto_unserialize ? (array)dunserialize($data) : $data;
 	}
 
-	public function update_optimizer($skey, $svalue){
-		return DB::insert($this->_table, array($this->_pk => $skey, 'v' => is_array($svalue) ? serialize($svalue) : $svalue), false, true);
+	public function update_optimizer($skey, $svalue) {
+		return DB::insert($this->_table, [$this->_pk => $skey, 'v' => is_array($svalue) ? serialize($svalue) : $svalue], false, true);
 	}
 
 }
-?>
+

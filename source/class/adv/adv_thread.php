@@ -1,10 +1,9 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: adv_thread.php 23660 2011-08-02 06:59:11Z maruitao $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -17,57 +16,57 @@ class adv_thread {
 	var $name = 'thread_name';
 	var $description = 'thread_desc';
 	var $copyright = '<a href="https://www.discuz.vip/" target="_blank">Discuz!</a>';
-	var $targets = array('forum', 'group');
-	var $imagesizes = array('120x60', '120x240');
+	var $targets = ['forum', 'group'];
+	var $imagesizes = ['120x60', '120x240'];
 
 	function getsetting() {
 		global $_G;
-		$settings = array(
-			'fids' => array(
+		$settings = [
+			'fids' => [
 				'title' => 'thread_fids',
 				'type' => 'mselect',
-				'value' => array(),
-			),
-			'groups' => array(
+				'value' => [],
+			],
+			'groups' => [
 				'title' => 'thread_groups',
 				'type' => 'mselect',
-				'value' => array(),
-			),
-			'position' => array(
+				'value' => [],
+			],
+			'position' => [
 				'title' => 'thread_position',
 				'type' => 'mradio',
-				'value' => array(
-					array(2, 'thread_position_top'),
-					array(3, 'thread_position_right'),
-					array(1, 'thread_position_bottom'),
-				),
+				'value' => [
+					[2, 'thread_position_top'],
+					[3, 'thread_position_right'],
+					[1, 'thread_position_bottom'],
+				],
 				'default' => 1,
-			),
-			'pnumber' => array(
+			],
+			'pnumber' => [
 				'title' => 'thread_pnumber',
 				'type' => 'mselect',
-				'value' => array(
-					array(0, 'thread_pnumber_all'),
-				),
-				'default' => array(0),
-			),
-		);
-		loadcache(array('forums', 'grouptype'));
-		$settings['fids']['value'][] = $settings['groups']['value'][] = array(0, '&nbsp;');
-		if(empty($_G['cache']['forums'])) $_G['cache']['forums'] = array();
+				'value' => [
+					[0, 'thread_pnumber_all'],
+				],
+				'default' => [0],
+			],
+		];
+		loadcache(['forums', 'grouptype']);
+		$settings['fids']['value'][] = $settings['groups']['value'][] = [0, '&nbsp;'];
+		if(empty($_G['cache']['forums'])) $_G['cache']['forums'] = [];
 		foreach($_G['cache']['forums'] as $fid => $forum) {
-			$settings['fids']['value'][] = array($fid, ($forum['type'] == 'forum' ? str_repeat('&nbsp;', 4) : ($forum['type'] == 'sub' ? str_repeat('&nbsp;', 8) : '')).$forum['name']);
+			$settings['fids']['value'][] = [$fid, ($forum['type'] == 'forum' ? str_repeat('&nbsp;', 4) : ($forum['type'] == 'sub' ? str_repeat('&nbsp;', 8) : '')).$forum['name']];
 		}
 		foreach($_G['cache']['grouptype']['first'] as $gid => $group) {
-			$settings['groups']['value'][] = array($gid, $group['name']);
+			$settings['groups']['value'][] = [$gid, $group['name']];
 			if($group['secondlist']) {
 				foreach($group['secondlist'] as $sgid) {
-					$settings['groups']['value'][] = array($sgid, str_repeat('&nbsp;', 4).$_G['cache']['grouptype']['second'][$sgid]['name']);
+					$settings['groups']['value'][] = [$sgid, str_repeat('&nbsp;', 4).$_G['cache']['grouptype']['second'][$sgid]['name']];
 				}
 			}
 		}
-		for($i = 1;$i <= $_G['ppp'];$i++) {
-			$settings['pnumber']['value'][$i] = array($i, '> #'.$i);
+		for($i = 1; $i <= $_G['ppp']; $i++) {
+			$settings['pnumber']['value'][$i] = [$i, '> #'.$i];
 		}
 
 		return $settings;
@@ -79,18 +78,18 @@ class adv_thread {
 			$advnew['targets'] = implode("\t", $advnew['targets']);
 		}
 		if(is_array($parameters['extra']['fids']) && in_array(0, $parameters['extra']['fids'])) {
-			$parameters['extra']['fids'] = array();
+			$parameters['extra']['fids'] = [];
 		}
 		if(is_array($parameters['extra']['groups']) && in_array(0, $parameters['extra']['groups'])) {
-			$parameters['extra']['groups'] = array();
+			$parameters['extra']['groups'] = [];
 		}
 		if(is_array($parameters['extra']['pnumber']) && in_array(0, $parameters['extra']['pnumber'])) {
-			$parameters['extra']['pnumber'] = array();
+			$parameters['extra']['pnumber'] = [];
 		}
 	}
 
 	function evalcode($adv) {
-		return array(
+		return [
 			'check' => '
 			if($params[2] != $parameter[\'position\']
 			|| $parameter[\'pnumber\'] && !in_array($params[3] + 1, (array)$parameter[\'pnumber\'])
@@ -107,9 +106,8 @@ class adv_thread {
 				}
 				$adcode = $codes[$adid];
 			',
-		);
+		];
 	}
 
 }
 
-?>

@@ -1,10 +1,9 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: function_collection.php 31438 2012-08-28 06:03:08Z chenmengshu $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -12,15 +11,18 @@ if(!defined('IN_DISCUZ')) {
 }
 
 function getmycollection($uid) {
-	$collections = C::t('forum_collection')->fetch_all_by_uid($uid);
-	$collectionteamworker = C::t('forum_collectionteamworker')->fetch_all_by_uid($uid);
+	$collections = table_forum_collection::t()->fetch_all_by_uid($uid);
+	$collectionteamworker = table_forum_collectionteamworker::t()->fetch_all_by_uid($uid);
 	return $collections + $collectionteamworker;
 }
 
 function getHotCollection($number = 500, $pK = true) {
-	$collection = array();
+	$collection = [];
 	if($number > 0) {
-		$collection = C::t('forum_collection')->range_collection(0, $number, null, $pK);
+		$collection = table_forum_collection::t()->range_collection(0, $number, 10, $pK);
+		if(!$collection || count($collection) < $number) {
+			$collection += table_forum_collection::t()->range_collection(0, $number, null, $pK);
+		}
 	}
 	return $collection;
 }
@@ -34,7 +36,7 @@ function checkcollectionperm($collection, $uid, $allowteamworker = false) {
 		return true;
 	}
 	if($allowteamworker) {
-		$collectionteamworker = C::t('forum_collectionteamworker')->fetch_all_by_ctid($collection['ctid']);
+		$collectionteamworker = table_forum_collectionteamworker::t()->fetch_all_by_ctid($collection['ctid']);
 		$collectionteamworker = array_keys($collectionteamworker);
 
 		if(in_array($uid, $collectionteamworker)) {
@@ -44,13 +46,13 @@ function checkcollectionperm($collection, $uid, $allowteamworker = false) {
 	return false;
 }
 
-function processCollectionData($collection, $tf = array(), $orderby = '') {
+function processCollectionData($collection, $tf = [], $orderby = '') {
 	if(count($collection) <= 0) {
-		return array();
+		return [];
 	}
 	require_once libfile('function/discuzcode');
 
-	foreach($collection as $ctid=>&$curvalue) {
+	foreach($collection as $ctid => &$curvalue) {
 		$curvalue['updated'] = ($curvalue['lastupdate'] > $tf[$ctid]['lastvisit']) ? 1 : 0;
 		$curvalue['tflastvisit'] = $tf[$ctid]['lastvisit'];
 		$curvalue['lastupdate'] = dgmdate($curvalue['lastupdate']);
@@ -63,7 +65,7 @@ function processCollectionData($collection, $tf = array(), $orderby = '') {
 
 		$curvalue['arraykeyword'] = parse_keyword($curvalue['keyword'], false, false);
 		if($curvalue['arraykeyword']) {
-			foreach ($curvalue['arraykeyword'] as $kid=>$s_keyword) {
+			foreach($curvalue['arraykeyword'] as $kid => $s_keyword) {
 				$curvalue['urlkeyword'][$kid] = rawurlencode($s_keyword);
 			}
 		}
@@ -83,13 +85,13 @@ function collectionThread(&$threadlist, $foruminfo = false, $lastvisit = null, &
 	global $todaytime;
 
 	if($foruminfo) {
-		foreach ($threadlist as $thread) {
+		foreach($threadlist as $thread) {
 			$fids[$thread['fid']] = $thread['fid'];
 		}
-		$foruminfo = C::t('forum_forum')->fetch_all($fids);
+		$foruminfo = table_forum_forum::t()->fetch_all($fids);
 	}
 
-	foreach($threadlist as $curtid=>&$curvalue) {
+	foreach($threadlist as $curtid => &$curvalue) {
 		if($lastvisit) {
 			$curvalue['reason'] = &$collectiontids[$curtid]['reason'];
 			$curvalue['updatedthread'] = $lastvisit !== null && $lastvisit < $curvalue['dateline'] ? 1 : 0;
@@ -107,7 +109,7 @@ function collectionThread(&$threadlist, $foruminfo = false, $lastvisit = null, &
 		$curvalue['lastposterenc'] = rawurlencode($curvalue['lastposter']);
 	}
 	if($collectiontids) {
-		foreach($collectiontids as $curkey=>&$curthread) {
+		foreach($collectiontids as $curkey => &$curthread) {
 			if(!$threadlist[$curthread['tid']]) {
 				unset($collectiontids[$curkey]);
 			} else {
@@ -124,13 +126,13 @@ function imgdisplayrate($rate) {
 
 function parse_keyword($keywords, $string = false, $filter = true) {
 	if($keywords == '') {
-		return $string === true ? '' : array();
+		return $string === true ? '' : [];
 	}
 
-	$return = array();
+	$return = [];
 
 	if($filter === true) {
-		$keywords = str_replace(array(chr(0xa3).chr(0xac), chr(0xa1).chr(0x41), chr(0xef).chr(0xbc).chr(0x8c)), ',', censor($keywords));
+		$keywords = str_replace([chr(0xa3).chr(0xac), chr(0xa1).chr(0x41), chr(0xef).chr(0xbc).chr(0x8c)], ',', censor($keywords));
 	}
 
 	if(strexists($keywords, ',')) {
@@ -143,7 +145,7 @@ function parse_keyword($keywords, $string = false, $filter = true) {
 	$tagcount = 0;
 	foreach($tagarray as $tagname) {
 		$tagname = trim($tagname);
-		if(preg_match('/^([\x7f-\xff_-]|\w|\s){3,30}$/', $tagname)) {
+		if(preg_match('/^([\x7f-\xff_-]|\w|\s){3,20}$/', $tagname)) {
 			$tagcount++;
 			$return[] = $tagname;
 			if($tagcount > 4) {
@@ -158,4 +160,41 @@ function parse_keyword($keywords, $string = false, $filter = true) {
 	return $return;
 }
 
-?>
+function uploadCollectionImg($type, $ctid, $width, $height) {
+	global $_G;
+
+	if(empty($_FILES[$type]) || $_FILES[$type]['error'] || !$_FILES[$type]['size']) {
+		return -1;
+	}
+
+	[$w, $h] = getimagesize($_FILES[$type]['tmp_name']);
+	if(!$w || !$h) {
+		return 0;
+	}
+
+	$imgfile = getCollectionImgDir($type, $ctid);
+	dmkdir($_G['setting']['attachdir'].dirname($imgfile));
+
+	require_once libfile('class/image');
+	$image = new image();
+	if(!$image->Thumb($_FILES[$type]['tmp_name'], $imgfile, $width, $height, 2)) {
+		return 0;
+	}
+
+	if(ftpperm('jpg', filesize($_G['setting']['attachdir'].$imgfile))) {
+		if(ftpcmd('upload', $imgfile)) {
+			@unlink($_G['setting']['attachdir'].$imgfile);
+		}
+	}
+	return 1;
+}
+
+function getCollectionImgDir($type, $ctid) {
+	return 'forum/collection/'.$type.'/'.substr(md5($ctid), 0, 2).'/'.substr(md5($ctid), 2, 2).'/'.$ctid.'.jpg';
+}
+
+function getCollectionImgUrl($type, $ctid) {
+	global $_G;
+
+	return $_G['setting']['attachurl'].getCollectionImgDir($type, $ctid);
+}

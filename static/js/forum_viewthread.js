@@ -1,9 +1,8 @@
-/*
-	[Discuz!] (C)2001-2099 Comsenz Inc.
-	This is NOT a freeware, use is subject to license terms
-
-	$Id: forum_viewthread.js 35221 2015-02-27 08:24:39Z nemohou $
-*/
+/**
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
+ */
 
 var replyreload = '', attachimgST = new Array(), zoomgroup = new Array(), zoomgroupinit = new Array();
 
@@ -28,16 +27,13 @@ function attachimgshow(pid, onlyinpost) {
 			continue;
 		}
 		if(onlyinpost && !obj.getAttribute('inpost')) {
-			aimgcomplete++;
+			aimgcomplete++; 
 			continue;
-		}
+		}        
 		if(onlyinpost && obj.getAttribute('inpost') || !onlyinpost) {
 			if(!obj.status) {
 				obj.status = 1;
-				if(obj.getAttribute('file')) {
-                    obj.src = obj.getAttribute('file');
-                    obj.setAttribute('onload',"this.parentNode.classList.add(\'jiazed\');this.setAttribute(\'width\',this.width);this.parentNode.style.display=\'inline-block\';"); // kk add (test)
-                }
+				if(obj.getAttribute('file')) obj.src = obj.getAttribute('file');
 				loadingcount++;
 			} else if(obj.status == 1) {
 				if(obj.complete) {
@@ -77,10 +73,10 @@ function attachimglstshow(pid, islazy, fid, showexif) {
 					continue;
 				}
 				if(fid) {
-					imagelist += '<div id="pattimg_' + aimgcount[pid][i] + '_menu" class="tip tip_4" style="display: none;"><div class="tip_horn"></div><div class="tip_c"><a href="forum.php?mod=ajax&action=setthreadcover&aid=' + aimgcount[pid][i] + '&fid=' + fid + '" class="xi2" onclick="showWindow(\'setcover' + aimgcount[pid][i] + '\', this.href)">'+lng['set_cover']+'</a></div></div>';
+					imagelist += '<div id="pattimg_' + aimgcount[pid][i] + '_menu" class="tip tip_4" style="display: none;"><div class="tip_horn"></div><div class="tip_c"><a href="forum.php?mod=ajax&action=setthreadcover&aid=' + aimgcount[pid][i] + '&fid=' + fid + '" class="xi2" onclick="showWindow(\'setcover' + aimgcount[pid][i] + '\', this.href)">' + $L('set_cover') + '</a></div></div>';
 				}
 				imagelist += '<div class="pattimg">' +
-					'<a id="pattimg_' + aimgcount[pid][i] + '" class="pattimg_zoom" href="javascript:;"' + s + ' onclick="zoom($(\'aimg_' + aimgcount[pid][i] + '\'), attachimggetsrc(\'aimg_' + aimgcount[pid][i] + '\'), 0, 0, ' + (parseInt(showexif) ? 1 : 0) + ')" title="'+lng['click_to_enlarge']+'">'+lng['click_to_enlarge']+'</a>' +
+					'<a id="pattimg_' + aimgcount[pid][i] + '" class="pattimg_zoom" href="javascript:;"' + s + ' onclick="zoom($(\'aimg_' + aimgcount[pid][i] + '\'), attachimggetsrc(\'aimg_' + aimgcount[pid][i] + '\'), 0, 0, ' + (parseInt(showexif) ? 1 : 0) + ')" title="' + $L('click_zoom') + '">' + $L('click_zoom') + '</a>' +
 					'<img ' + (islazy ? 'file' : 'src') + '="forum.php?mod=image&aid=' + aimgcount[pid][i] + '&size=100x100&key=' + imagelistkey + '&atid=' + tid + '" width="100" height="100" /></div>';
 			}
 			if($('imagelistthumb_' + pid)) {
@@ -175,14 +171,14 @@ function parsetag(pid) {
 	}
 }
 
-function setanswer(pid, from){
-    if(confirm(lng['best_answer_sure'])){
-		if(BROWSER.ie) {
+function setanswer(pid, from) {
+	showDialog($L('best_answer_confirm'), 'confirm', '', function () {
+		if (BROWSER.ie) {
 			doane(event);
 		}
-		$('modactions').action='forum.php?mod=misc&action=bestanswer&tid=' + tid + '&pid=' + pid + '&from=' + from + '&bestanswersubmit=yes';
+		$('modactions').action = 'forum.php?mod=misc&action=bestanswer&tid=' + tid + '&pid=' + pid + '&from=' + from + '&bestanswersubmit=yes';
 		$('modactions').submit();
-	}
+	}, 1, null, null, $L('confirm'), $L('cancel'));
 }
 
 var authort;
@@ -206,6 +202,15 @@ function fastpostappendreply() {
 			return;
 		}
 	}
+	newpos = fetchOffset($('post_new'));
+	document.documentElement.scrollTop = newpos['top'];
+	$('post_new').style.display = '';
+	$('post_new').id = '';
+	div = document.createElement('div');
+	div.id = 'post_new';
+	div.style.display = 'none';
+	div.className = '';
+	$('postlistreply').appendChild(div);
 	$('fastpostsubmit').disabled = false;
 	if($('fastpostmessage')) {
 		$('fastpostmessage').value = '';
@@ -224,11 +229,12 @@ function fastpostappendreply() {
 }
 
 function succeedhandle_fastpost(locationhref, message, param) {
+	var pid = param['pid'];
 	var tid = param['tid'];
 	var from = param['from'];
 	var reply_mod = param['reply_mod'];
 	if(!reply_mod) {
-		fastpostappendreply();
+		ajaxget('forum.php?mod=viewthread&tid=' + tid + '&viewpid=' + pid + '&from=' + from, 'post_new', 'ajaxwaitid', '', null, 'fastpostappendreply()');
 		if(replyreload) {
 			var reloadpids = replyreload.split(',');
 			for(var i = 1;i < reloadpids.length;i++) {
@@ -238,7 +244,7 @@ function succeedhandle_fastpost(locationhref, message, param) {
 		$('fastpostreturn').className = '';
 	} else {
 		if(!message) {
-			message = lng['premoderated'];
+			message = $L('thread_mod_notice');
 		}
 		$('post_new').style.display = $('fastpostmessage').value = $('fastpostreturn').className = '';
 		$('fastpostreturn').innerHTML = message;
@@ -260,7 +266,9 @@ function errorhandle_fastpost() {
 }
 
 function succeedhandle_comment(locationhref, message, param) {
+	ajaxget('forum.php?mod=misc&action=commentmore&tid=' + param['tid'] + '&pid=' + param['pid'], 'comment_' + param['pid']);
 	hideWindow('comment');
+	showCreditPrompt();
 }
 
 function succeedhandle_postappend(locationhref, message, param) {
@@ -269,30 +277,21 @@ function succeedhandle_postappend(locationhref, message, param) {
 }
 
 function recommendupdate(n) {
-	const objv = $('recommendv_add');
-	if((objv.innerHTML = parseInt(objv.innerHTML) + n) == 0){
-		objv.style.display = 'none';
-	}else{
+	if(getcookie('recommend')) {
+		var objv = n > 0 ? $('recommendv_add') : $('recommendv_subtract');
 		objv.style.display = '';
-	}
-	if(n > 0){
+		objv.innerHTML = parseInt(objv.innerHTML) + 1;
 		setTimeout(function () {
 			$('recommentc').innerHTML = parseInt($('recommentc').innerHTML) + n;
 			$('recommentv').style.display = 'none';
 		}, 1000);
+		setcookie('recommend', '');
 	}
 }
 
-function postreviewupdate(pid, n, username) {
+function postreviewupdate(pid, n) {
 	var objv = n > 0 ? $('review_support_'+pid) : $('review_against_'+pid);
 	objv.innerHTML = parseInt(objv.innerHTML ? objv.innerHTML : 0) + 1;
-	objv.parentNode.title = objv.parentNode.title + username + '\n';
-}
-
-function postreviewcancel(pid, n, username) {
-	var objv = n > 0 ? $('review_support_'+pid) : $('review_against_'+pid);
-	objv.innerHTML = parseInt(objv.innerHTML ? objv.innerHTML : 0) - 1;
-	objv.parentNode.title = objv.parentNode.title.replace(username + '\n', '');
 }
 
 function favoriteupdate() {
@@ -306,15 +305,11 @@ function switchrecommendv() {
 	display('recommendav');
 }
 
-function appendreply(pid) {
-	$('post_new').style.display = '';
-	if(typeof MathJax.typesetPromise === 'function') {
-		MathJax.typesetPromise([$('postlist').appendChild($('post_new'))]);
-	}
+function appendreply() {
 	newpos = fetchOffset($('post_new'));
 	document.documentElement.scrollTop = newpos['top'];
-	addLou($('post_new'));
-	$('post_new').id = `post_${pid}`;
+	$('post_new').style.display = '';
+	$('post_new').id = '';
 	div = document.createElement('div');
 	div.id = 'post_new';
 	div.style.display = 'none';
@@ -383,18 +378,18 @@ function toggleRatelogCollapse(tarId, ctrlObj) {
 	if($(tarId).className == 'rate') {
 		$(tarId).className = 'rate rate_collapse';
 		setcookie('ratecollapse', 1, 2592000);
-		ctrlObj.innerHTML = lng['expand'];
+		ctrlObj.innerHTML = $L('unfold');
 	} else {
 		$(tarId).className = 'rate';
 		setcookie('ratecollapse', 0, -2592000);
-		ctrlObj.innerHTML = lng['collapse'];
+		ctrlObj.innerHTML = $L('fold');
 	}
 }
 
 function copyThreadUrl(obj, bbname) {
-        bbname = bbname || SITEURL;
-        /*vot*/ setCopy($('thread_subject').innerHTML.replace(/&amp;/g, '&') + '\n' + obj.href + '\n' + '('+lng['source']+': '+bbname+')' + '\n', lng['thread_to_clipboard']);
-        return false;
+	bbname = bbname || SITEURL;
+	setCopy($('thread_subject').innerHTML.replace(/&amp;/g, '&') + '\n' + obj.href + '\n' + '(' + $L('copy_from', [bbname]) + ')' + '\n', $L('copy_thread_notice'));
+	return false;
 }
 
 function replyNotice() {
@@ -403,11 +398,11 @@ function replyNotice() {
 	var status = replynotice.getAttribute("status");
 	if(status == 1) {
 		replynotice.href = newurl + 'receive';
-		replynotice.innerHTML = lng['notify_on_reply'];
+		replynotice.innerHTML = $L('receive_reply_notice');
 		replynotice.setAttribute("status", 0);
 	} else {
 		replynotice.href = newurl + 'ignore';
-		replynotice.innerHTML = lng['notify_on_reply_cancel'];
+		replynotice.innerHTML = $L('cancel_reply_notice');
 		replynotice.setAttribute("status", 1);
 	}
 }
@@ -502,27 +497,27 @@ function show_threadpage(pid, current, maxpage, ispreview, modthreadkey) {
 	if(!$('threadpage') || typeof tid == 'undefined') {
 		return;
 	};
-    var clickvalue = function (page, modthreadkey) {
-        return 'ajaxget(\'forum.php?mod=viewthread&tid=' + tid + '&viewpid=' + pid + '&cp=' + page + (modthreadkey ? ('&modthreadkey=' + modthreadkey) : '') + (ispreview ? '&from=preview' : '') + '\', \'post_' + pid + '\', \'ajaxwaitid\');';
+	var clickvalue = function (page, modthreadkey) {
+		return 'ajaxget(\'forum.php?mod=viewthread&tid=' + tid + '&viewpid=' + pid + '&cp=' + page + (modthreadkey ? ('&modthreadkey=' + modthreadkey) : '') + (ispreview ? '&from=preview' : '') + '\', \'post_' + pid + '\', \'ajaxwaitid\');';
 	};
 	var pstart = current - 1;
 	pstart = pstart < 1 ? 1 : pstart;
 	var pend = current + 1;
 	pend = pend > maxpage ? maxpage : pend;
 	var s = '<div class="cm pgs mtm mbm cl"><div class="pg">';
-        if(pstart > 1) {
-                s += '<a href="javascript:;" onclick="' + clickvalue(1, modthreadkey) + '">1 ...</a>';
+	if(pstart > 1) {
+		s += '<a href="javascript:;" onclick="' + clickvalue(1, modthreadkey) + '">1 ...</a>';
 	}
-        for (var i = pstart; i <= pend; i++) {
-                s += i == current ? '<strong>' + i + '</strong>' : '<a href="javascript:;" onclick="' + clickvalue(i, modthreadkey)+ '">' + i + '</a>';
-        }
+	for(i = pstart;i <= pend;i++) {
+		s += i == current ? '<strong>' + i + '</strong>' : '<a href="javascript:;" onclick="' + clickvalue(i, modthreadkey)+ '">' + i + '</a>';
+	}
 	if(pend < maxpage) {
-                s += '<a href="javascript:;" onclick="' + clickvalue(maxpage, modthreadkey)+ '">... ' + maxpage + '</a>';
+		s += '<a href="javascript:;" onclick="' + clickvalue(maxpage, modthreadkey)+ '">... ' + maxpage + '</a>';
 	}
 	if(current < maxpage) {
-                s += '<a href="javascript:;" onclick="' + clickvalue(current + 1, modthreadkey) + '" class="nxt">'+lng['next_page']+'</a>';
+		s += '<a href="javascript:;" onclick="' + clickvalue(current + 1, modthreadkey) + '" class="nxt">' + $L('next_page') + '</a>';
 	}
-       s += '<a href="javascript:;" onclick="' + clickvalue('all', modthreadkey) + '">'+lng['view_all']+'</a>';
+	s += '<a href="javascript:;" onclick="' + clickvalue('all', modthreadkey) + '">' + $L('view_all') + '</a>';
 	s += '</div></div>';
 	$('threadpage').innerHTML = s;
 }
@@ -530,7 +525,7 @@ function show_threadpage(pid, current, maxpage, ispreview, modthreadkey) {
 var show_threadindex_data = '';
 function show_threadindex(pid, ispreview) {
 	if(!show_threadindex_data) {
-               var s = '<div class="tindex"><h3>'+lng['index']+'</h3><ul>';
+		var s = '<div class="tindex"><h3>' + $L('dir') + '</h3><ul>';
 		for(i in $('threadindex').childNodes) {
 			o = $('threadindex').childNodes[i];
 			if(o.tagName == 'A') {
@@ -738,6 +733,11 @@ function changecontentdivid(tid) {
 	postnewdiv[postnewdiv.length-1].id = 'post_new';
 }
 
+function showmobilebbs(obj) {
+	var content = '<h3 class="flb" style="cursor:move;"><em>' + $L('download_mobilebbs') + '</em><span><a href="javascript:;" class="flbc" onclick="hideWindow(\'mobilebbs\')" title="{lang close}">{lang close}</a></span></h3><div class="c"><h4>' + $L('download_mobilebbs_tip_1') + '</h4><p class="mtm mbm vm"><span class="code_bg"><img src="'+ STATICURL +'image/common/zslt_andriod.png" alt="" /></span><img src="'+ STATICURL +'image/common/andriod.png" alt="' + $L('download_mobilebbs_tip_2') + '" /></p><h4>' + $L('download_mobilebbs_tip_3') + '</h4><p class="mtm mbm vm"><span class="code_bg"><img src="'+ STATICURL +'image/common/zslt_ios.png" alt="" /></span><img src="'+ STATICURL +'image/common/ios.png" alt="' + $L('download_mobilebbs_tip_4') + '" /></p></div>';
+	showWindow('mobilebbs', content, 'html');
+}
+
 function succeedhandle_vfastpost(url, message, param) {
 	$('vmessage').value = '';
 	succeedhandle_fastpost(url, message, param);
@@ -745,7 +745,7 @@ function succeedhandle_vfastpost(url, message, param) {
 }
 
 function vmessage() {
-       var vf_tips = lng['quick_reply_here'];
+	var vf_tips = '#' + $L('here_fast_reply') + '#';
 	$('vmessage').value = vf_tips;
 	$('vmessage').style.color = '#CDCDCD';
 	$('vmessage').onclick = function() {
@@ -770,76 +770,3 @@ function vmessage() {
 		$('vmessage').onfocus = null;
 	};
 }
-
-function delcomment(id,pid) {
-	const formhash = document.querySelector('input[name="formhash"]')?.value;
-	fetch('forum.php?mod=topicadmin&action=delcomment&modsubmit=yes&infloat=yes&modclick=yes&inajax=1', {
-		"headers": {"content-type": "application/x-www-form-urlencoded"},
-		"body": `formhash=${formhash}&fid=${fid}&tid=${tid}&handlekey=mods&topiclist=${id}`,
-		"method": "POST"
-	}).then(()=>ajaxget(`forum.php?mod=misc&action=commentmore&tid=${tid}&pid=${pid}`, `comment_${pid}`));
-}
-function bumpthread() {
-	const formhash = document.querySelector('input[name="formhash"]')?.value;
-	fetch('forum.php?mod=topicadmin&action=moderate&optgroup=3&modsubmit=yes&infloat=yes&inajax=1', {
-		"headers": {"content-type": "application/x-www-form-urlencoded"},
-		"body": `fid=${fid}&moderate%5B%5D=${tid}&redirect=1&operations%5B%5D=bump&formhash=${formhash}&handlekey=mods`,
-		"method": "POST"
-                }).then(response => {
-                        response.text().then(text => {
-                                if (text.includes('succeedhandle_mods')) {
-                                        showPrompt(null,null,lng['thread_bumped'],1000);
-                                } else {
-                                        showPrompt(null,null,text.match(/errorhandle_mods\('([^']+)/)[1],1000,'popuptext');
-                                }
-                        });
-                });
-}
-
-document.addEventListener('DOMContentLoaded', function() {
-    const suggestTagsButton = $('suggestTagsButton');
-    const suggestTagsInputArea = $('suggestTagsInputArea');
-    const cancelSuggestTagsButton = $('cancelSuggestTags');
-    const suggestedTagInput = $('suggestedTagInput');
-    const submitSuggestedTagButton = $('submitSuggestedTag');
-    const sugTidElement = $('sug_tid');
-
-    if(suggestTagsButton) {
-        suggestTagsButton.onclick = function() {
-            this.style.display = 'none';
-            if(suggestTagsInputArea) suggestTagsInputArea.style.display = '';
-        };
-    }
-    if(cancelSuggestTagsButton) {
-        cancelSuggestTagsButton.onclick = function() {
-            if(suggestTagsInputArea) suggestTagsInputArea.style.display = 'none';
-            if(suggestTagsButton) suggestTagsButton.style.display = '';
-            if(suggestedTagInput) suggestedTagInput.value = '';
-        };
-    }
-    if(submitSuggestedTagButton) {
-        submitSuggestedTagButton.onclick = function() {
-            const tag = suggestedTagInput ? trim(suggestedTagInput.value) : '';
-            if(!tag) return false;
-            const tid = sugTidElement ? sugTidElement.value : (typeof window.tid != 'undefined' ? window.tid : 0);
-            const formhash = document.querySelector('input[name="formhash"]')?.value;
-            fetch('forum.php?mod=tag&op=suggest&inajax=1', {
-                method: 'POST',
-                headers: {'Content-Type':'application/x-www-form-urlencoded'},
-                body: 'formhash='+formhash+'&tid='+tid+'&tag='+encodeURIComponent(tag)
-            }).then(res => res.json()).then(d => {
-                if(d.success) {
-                    if(suggestTagsInputArea) suggestTagsInputArea.style.display = 'none';
-                    if(suggestTagsButton) suggestTagsButton.style.display = '';
-                    if(suggestedTagInput) suggestedTagInput.value = '';
-                    showPrompt(null, null, '<span>' + lng['thanks_for_suggestion'] + '</span>', 1500);
-                } else if(d.message) {
-                    showError(d.message);
-                }
-            }).catch(function(error){
-                console.error('Error suggesting tag:', error);
-                showError(lng['network_error']);
-            });
-        };
-    }
-});

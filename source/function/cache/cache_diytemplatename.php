@@ -1,10 +1,9 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: cache_diytemplatename.php 24927 2011-10-17 03:13:33Z zhangguosheng $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -12,12 +11,12 @@ if(!defined('IN_DISCUZ')) {
 }
 
 function build_cache_diytemplatename() {
-	$data = array();
-	$apps = array('portal', 'forum', 'group', 'home');
+	$data = [];
+	$apps = ['portal', 'forum', 'group', 'home'];
 	$nullname = lang('portalcp', 'diytemplate_name_null');
-	$scriptarr = $lostname = array();
+	$scriptarr = $lostname = [];
 
-	foreach(C::t('common_diy_data')->range() as $datarow) {
+	foreach(table_common_diy_data::t()->range() as $datarow) {
 		$datarow['name'] = $datarow['name'] ? $datarow['name'] : lang('portalcp', $datarow['targettplname'], '', '');
 		if(empty($datarow['name'])) {
 			$lostname[$datarow['targettplname']] = $datarow['targettplname'];
@@ -43,4 +42,3 @@ function build_cache_diytemplatename() {
 	}
 }
 
-?>

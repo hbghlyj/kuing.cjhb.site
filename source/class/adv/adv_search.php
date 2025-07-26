@@ -1,10 +1,9 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: adv_search.php 22150 2011-04-22 07:36:09Z monkey $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -17,10 +16,11 @@ class adv_search {
 	var $name = 'search_name';
 	var $description = 'search_desc';
 	var $copyright = '<a href="https://www.discuz.vip/" target="_blank">Discuz!</a>';
-	var $targets = array('search');
-	var $imagesizes = array('120x60', '120x240');
+	var $targets = ['search'];
+	var $imagesizes = ['120x60', '120x240'];
 
-	function getsetting() {}
+	function getsetting() {
+	}
 
 	function setsetting(&$advnew, &$parameters) {
 		global $_G;
@@ -30,12 +30,11 @@ class adv_search {
 	}
 
 	function evalcode() {
-		return array(
+		return [
 			'check' => '',
 			'create' => '$adcode = $codes[$adids[array_rand($adids)]];',
-		);
+		];
 	}
 
 }
 
-?>

@@ -1,22 +1,28 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: table_forum_activity.php 30378 2012-05-24 09:52:46Z zhangguosheng $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
-class table_forum_activity extends discuz_table
-{
+class table_forum_activity extends discuz_table {
+	public static function t() {
+		static $_instance;
+		if(!isset($_instance)) {
+			$_instance = new self();
+		}
+		return $_instance;
+	}
+
 	public function __construct() {
 
 		$this->_table = 'forum_activity';
-		$this->_pk    = 'tid';
+		$this->_pk = 'tid';
 
 		parent::__construct();
 	}
@@ -28,20 +34,20 @@ class table_forum_activity extends discuz_table
 		if($view == 'all') {
 			if($order == 'hot') {
 				$threadsql .= " t.special='4' AND t.replies>='$minhot'";
-				$apply_sql = "INNER JOIN ".DB::table('forum_thread')." t ON t.special='4' AND t.tid = a.tid AND t.replies>='$minhot' AND t.displayorder>'-1'";
+				$apply_sql = 'INNER JOIN ' .DB::table('forum_thread')." t ON t.special='4' AND t.tid = a.tid AND t.replies>='$minhot' AND t.displayorder>'-1'";
 			}
 		} elseif($view == 'me') {
-			$type = in_array($type, array('orig', 'apply')) ? $type : 'orig';
+			$type = in_array($type, ['orig', 'apply']) ? $type : 'orig';
 			if($type == 'apply') {
-				$wheresql = "1";
-				$apply_sql = "INNER JOIN ".DB::table('forum_activityapply')." apply ON apply.uid = '$spaceuid' AND apply.tid = a.tid";
+				$wheresql = '1';
+				$apply_sql = 'INNER JOIN ' .DB::table('forum_activityapply')." apply ON apply.uid = '$spaceuid' AND apply.tid = a.tid";
 			} else {
 				$wheresql = "a.uid = '$spaceuid'";
 			}
 			$ordersql = 'DESC';
 		} else {
 			if($frienduid) {
-				$wheresql = "a.".DB::field('uid', $frienduid);
+				$wheresql = 'a.' .DB::field('uid', $frienduid);
 			}
 			$ordersql = 'DESC';
 		}
@@ -50,23 +56,23 @@ class table_forum_activity extends discuz_table
 			$ordersql = 'DESC';
 		}
 		if($searchkey) {
-			$threadsql .= " AND t.subject LIKE ".DB::quote('%'.addslashes($searchkey).'%');
+			$threadsql .= ' AND t.subject LIKE ' .DB::quote('%'.addslashes($searchkey).'%');
 		}
 		if($count) {
-			return DB::result(DB::query("SELECT COUNT(*) FROM ".DB::table('forum_activity')." a $apply_sql WHERE $wheresql"),0);
+			return DB::result(DB::query('SELECT COUNT(*) FROM ' .DB::table('forum_activity')." a $apply_sql WHERE $wheresql"), 0);
 		}
 		if($view == 'all' && $order == 'hot') {
 			$apply_sql = '';
 		}
 		$threadsql = empty($threadsql) ? '' : $threadsql.' AND ';
-		return DB::fetch_all("SELECT a.*, t.* FROM ".DB::table('forum_activity')." a $apply_sql
+		return DB::fetch_all('SELECT a.*, t.* FROM ' .DB::table('forum_activity')." a $apply_sql
 			INNER JOIN ".DB::table('forum_thread')." t ON $threadsql t.tid=a.tid
 			WHERE t.displayorder>'-1' AND $wheresql
 			ORDER BY a.starttimefrom $ordersql ".DB::limit($start, $limit));
 	}
+
 	public function delete_by_tid($tids) {
 		return DB::delete($this->_table, DB::field('tid', $tids));
 	}
 }
 
-?>

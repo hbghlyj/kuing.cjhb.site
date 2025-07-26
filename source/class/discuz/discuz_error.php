@@ -1,20 +1,18 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: discuz_error.php 33361 2013-05-31 08:59:06Z nemohou $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
-class discuz_error
-{
+class discuz_error {
 
-	public static function system_error($message, $show = true, $save = true, $halt = true) {
+	public static function system_error($message, $show = false, $save = true, $halt = true) {
 		if(!empty($message)) {
 			$message = lang('error', $message);
 		} else {
@@ -28,11 +26,16 @@ class discuz_error
 			discuz_error::write_error_log($messagesave);
 		}
 
+		if(!empty($GLOBALS['_G']['config']['security']['error']['showerror']) && $halt) {
+			$show = true;
+		}
+
 		if($show) {
 			discuz_error::show_error('system', "<li>$message</li>", $showtrace, '', md5(discuz_error::clear($messagesave)));
 		}
 
 		if($halt) {
+			header('HTTP/1.1 503 Service Unavailable');
 			exit();
 		} else {
 			return $message;
@@ -58,11 +61,11 @@ class discuz_error
 		$show = $log = '';
 		$debug_backtrace = debug_backtrace();
 		krsort($debug_backtrace);
-		foreach ($debug_backtrace as $k => $error) {
+		foreach($debug_backtrace as $k => $error) {
 			$file = str_replace(DISCUZ_ROOT, '', $error['file']);
-			$func = isset($error['class']) ? $error['class'] : '';
-			$func .= isset($error['type']) ? $error['type'] : '';
-			$func .= isset($error['function']) ? $error['function'] : '';
+			$func = $error['class'] ?? '';
+			$func .= $error['type'] ?? '';
+			$func .= $error['function'] ?? '';
 			if(in_array($func, $skipfunc)) {
 				break;
 			}
@@ -71,7 +74,7 @@ class discuz_error
 			$show .= "<li>[Line: {$error['line']}]".$file."($func)</li>";
 			$log .= (!empty($log) ? ' -> ' : '').$file.'#'.$func.':'.$error['line'];
 		}
-		return array($show, $log);
+		return [$show, $log];
 	}
 
 	public static function db_error($message, $sql) {
@@ -85,10 +88,10 @@ class discuz_error
 		$title_backtrace = lang('error', 'backtrace');
 		$title_help = lang('error', 'db_help_link');
 
-		$db = &DB::object();
+		$db = DB::object();
 		$dberrno = $db->errno();
-		$dberror = str_replace($db->tablepre,  '', $db->error());
-		$sql = dhtmlspecialchars(str_replace($db->tablepre,  '', $sql));
+		$dberror = str_replace($db->tablepre, '', $db->error());
+		$sql = dhtmlspecialchars(str_replace($db->tablepre, '', $sql));
 
 		$msg = '<li>[Type] '.$title.'</li>';
 		$msg .= $dberrno ? '<li>['.$dberrno.'] '.$dberror.'</li>' : '';
@@ -99,7 +102,7 @@ class discuz_error
 		if($sql) {
 			$errormsg .= '<b>SQL:</b> '.$sql;
 		}
-		$errormsg .= "<br />";
+		$errormsg .= '<br />';
 		$errormsg .= '<b>PHP:</b> '.$logtrace;
 
 		discuz_error::write_error_log($errormsg);
@@ -131,10 +134,10 @@ class discuz_error
 		$trace = $exception->getTrace();
 		krsort($trace);
 
-		$trace[] = array('file'=>$exception->getFile(), 'line'=>$exception->getLine(), 'function'=> 'break');
+		$trace[] = ['file' => $exception->getFile(), 'line' => $exception->getLine(), 'function' => 'break'];
 		$logmsg = '';
-		$phpmsg = array();
-		foreach ($trace as $error) {
+		$phpmsg = [];
+		foreach($trace as $error) {
 			if(!empty($error['function'])) {
 				$fun = '';
 				if(!empty($error['class'])) {
@@ -168,23 +171,24 @@ class discuz_error
 				$fun .= ')';
 				$error['function'] = $fun;
 			}
-			$phpmsg[] = array(
-			    'file' => str_replace(array(DISCUZ_ROOT, '\\'), array('', '/'), $error['file']),
-			    'line' => $error['line'],
-			    'function' => $error['function'],
-			);
-			$file = str_replace(array(DISCUZ_ROOT, '\\'), array('', '/'), $error['file']);
-			$func = isset($error['class']) ? $error['class'] : '';
-			$func .= isset($error['type']) ? $error['type'] : '';
-			$func .= isset($error['function']) ? $error['function'] : '';
+			$phpmsg[] = [
+				'file' => str_replace([DISCUZ_ROOT, '\\'], ['', '/'], $error['file']),
+				'line' => $error['line'],
+				'function' => $error['function'],
+			];
+			$file = str_replace([DISCUZ_ROOT, '\\'], ['', '/'], $error['file']);
+			$func = $error['class'] ?? '';
+			$func .= $error['type'] ?? '';
+			$func .= $error['function'] ?? '';
 			$line = sprintf('%04d', $error['line']);
 			$logmsg .= (!empty($logmsg) ? ' -> ' : '').$file.'#'.$func.':'.$line;
 		}
 
 		$messagesave = '<b>'.$errormsg.'</b><br><b>PHP:</b>'.$logmsg;
-		self::write_error_log($messagesave);
+		$backtraceid = md5(discuz_error::clear($messagesave));
+		self::write_error_log($messagesave.'<br>BackTraceID:'.$backtraceid);
 
-		self::show_error($type, $errormsg, $phpmsg, '', md5(discuz_error::clear($messagesave)));
+		self::show_error($type, $errormsg, $phpmsg, '', $backtraceid);
 		exit();
 
 	}
@@ -193,12 +197,12 @@ class discuz_error
 		global $_G;
 
 		ob_end_clean();
-		$gzip = getglobal('gzipcompress');
+		$gzip = $_G['gzipcompress'];
 		ob_start($gzip ? 'ob_gzhandler' : null);
 
-		header("HTTP/1.1 503 Service Temporarily Unavailable");
-		header("Status: 503 Service Temporarily Unavailable");
-		header("Retry-After: 3600");
+		header('HTTP/1.1 503 Service Temporarily Unavailable');
+		header('Status: 503 Service Temporarily Unavailable');
+		header('Retry-After: 3600');
 
 		$host = $_SERVER['HTTP_HOST'];
 		$title = (!isset($_G['config']['security']['error']['showerror']) || !empty($_G['config']['security']['error']['showerror'])) ? ($type == 'db' ? 'Database' : 'System') : 'General';
@@ -219,6 +223,7 @@ class discuz_error
 	#message   { max-width: 1024px; color: black; }
 
 	.red  {color: red;}
+	p { line-height: 0.5em; }
 	a:link     { font: 9pt/11pt verdana, arial, sans-serif; color: red; }
 	a:visited  { font: 9pt/11pt verdana, arial, sans-serif; color: #4e4e4e; }
 	a.guess { font: 11pt/13pt verdana, arial, sans-serif; color: blue; }
@@ -226,7 +231,7 @@ class discuz_error
 	.bg1{ background-color: #FFFFCC;}
 	.bg2{ background-color: #EEEEEE;}
 	.bg3{ background-color: #FFA66C; font-weight: bold;}
-	.table {background: #AAAAAA; font: 11pt Menlo,Consolas,"Lucida Console";}
+	.table {background: #AAAAAA; font: 9pt Menlo,Consolas,"Lucida Console";}
 	.table tbody{word-break: break-all;}
 	.info {
 	    background: none repeat scroll 0 0 #F3F3F3;
@@ -236,15 +241,14 @@ class discuz_error
 	    font-size: 11pt;
 	    line-height: 160%;
 	    margin-bottom: 1em;
-	    padding: 1em;
+	    padding: 0.5em 1em;
 	}
 	.info svg { width: 40%; min-width: 200px; display: block; margin: auto; margin-bottom: 30px; fill: #999; }
 	.info svg .xicon { fill: #d31f0d; }
 
 	.help {
-	    background: #F3F3F3;
 	    border-radius: 10px 10px 10px 10px;
-	    font: 14px verdana, arial, sans-serif;
+	    font: 12px verdana, arial, sans-serif;
 	    text-align: center;
 	    line-height: 160%;
 	    padding: 1em;
@@ -269,7 +273,7 @@ class discuz_error
 <h1>Discuz! $title Error</h1>
 EOT;
 
-		echo '<p>Time: ' . date('Y-m-d H:i:s O') .' IP: ' . getglobal('clientip') . ' BackTraceID: ' . $backtraceid . '</p>';
+		echo '<p>Time: '.date('Y-m-d H:i:s O').' IP: '.$_G['clientip'].' BackTraceID: '.$backtraceid.'</p>';
 
 		if(!empty($errormsg) && (!isset($_G['config']['security']['error']['showerror']) || !empty($_G['config']['security']['error']['showerror']))) {
 			echo '<div class="info">'.$errormsg.'</div>';
@@ -286,12 +290,12 @@ EOT;
 				echo '<tr class="bg2"><td>No.</td><td>File</td><td>Line</td><td>Code</td></tr>';
 				foreach($phpmsg as $k => $msg) {
 					$k++;
-					$explode = explode("/", $msg['file']);
-					if (isset($explode['1']) && $explode['1'] == 'plugin') {
+					$explode = explode('/', $msg['file']);
+					if(isset($explode['1']) && $explode['1'] == 'plugin') {
 						$guess = $explode['2'];
-						$bg = "bg3";
+						$bg = 'bg3';
 					} else {
-						$bg = "bg1";
+						$bg = 'bg1';
 					}
 					echo '<tr class="'.$bg.'">';
 					echo '<td>'.$k.'</td>';
@@ -304,72 +308,83 @@ EOT;
 				echo '<tr><td><ul>'.$phpmsg.'</ul></td></tr>';
 			}
 			echo '</table></div>';
-		}
 
-		echo '<div class="help">'.lang('error', 'suggestion_user').'</div>';
-
-		if (!isset($_G['config']['security']['error']['guessplugin']) || !empty($_G['config']['security']['error']['guessplugin'])) {
-			if (!empty($guess)) {
-				$suggestion = lang('error', 'suggestion_plugin', array('guess'=>$guess));
-			} else {
-				$suggestion = lang('error', 'suggestion');
+			echo '<div class="info">';
+			echo '<p><strong>System Info</strong></p>';
+			echo '<table cellpadding="2" cellspacing="1" width="100%" class="table">';
+			include_once './source/discuz_version.php';
+			if(defined('DISCUZ_VERSION') && defined('DISCUZ_RELEASE')) {
+				echo '<tr class="bg2"><td style="width: 20%">Version</td><td>'.DISCUZ_VERSION.DISCUZ_SUBVERSION.' Release '.DISCUZ_RELEASE.'</td></tr>';
 			}
-			echo '<div class="help">'.$suggestion.'</div>';
+			if(defined('PHP_OS') && function_exists('php_uname')) {
+				echo '<tr class="bg2"><td style="width: 20%">OS</td><td>'.PHP_OS.' / '.php_uname().'</td></tr>';
+			}
+			if(defined('PHP_VERSION') && defined('PHP_SAPI')) {
+				echo '<tr class="bg2"><td style="width: 20%">PHP</td><td>'.PHP_VERSION.' '.PHP_SAPI.(!empty($_SERVER['SERVER_SOFTWARE']) ? ' on '.$_SERVER['SERVER_SOFTWARE'] : '').'</td></tr>';
+			}
+			if(method_exists('helper_dbtool', 'dbversion') && class_exists('DB')) {
+				echo '<tr class="bg2"><td style="width: 20%">MySQL</td><td>'.helper_dbtool::dbversion().'</td></tr>';
+			}
+			if(function_exists('memory') && ($v = memory('check'))) {
+				echo '<tr class="bg2"><td style="width: 20%">Memory</td><td>'.$v.'</td></tr>';
+			}
+			echo '</table></div>';
 		}
 
-		$endmsg = lang('error', 'error_end_message', array('host'=>$host));
-		echo <<<EOT
-<div class="help">$endmsg</div>
-</div>
-</body>
-</html>
-EOT;
+		if(function_exists('lang')) {
+			echo '<div class="help">'.lang('error', 'suggestion_user');
 
+			if(!isset($_G['config']['security']['error']['guessplugin']) || !empty($_G['config']['security']['error']['guessplugin'])) {
+				if(!empty($guess)) {
+					$suggestion = lang('error', 'suggestion_plugin', ['guess' => $guess]);
+				} else {
+					$suggestion = lang('error', 'suggestion');
+				}
+				echo '<br />'.$suggestion;
+			}
+
+			'</div>';
+			$endmsg = lang('error', 'error_end_message', ['host' => $host]);
+		} else {
+			$endmsg = '';
+		}
+
+		echo '<div class="help">'.$endmsg.'</div></div></body></html>';
 	}
 
 	public static function clear($message) {
-		return str_replace(array("\t", "\r", "\n"), " ", $message);
+		return str_replace(["\t", "\r", "\n"], ' ', $message);
 	}
 
 	public static function sql_clear($message) {
 		$message = self::clear($message);
 		$message = str_replace(DB::object()->tablepre, '', $message);
-		$message = dhtmlspecialchars($message);
-		return $message;
+		return dhtmlspecialchars($message);
 	}
 
 	public static function write_error_log($message) {
-
+		global $_G;
 		$message = discuz_error::clear($message);
 		$time = time();
-		$file =  DISCUZ_ROOT.'./data/log/'.date("Ym").'_errorlog.php';
 		$hash = md5($message);
 
-		$uid = getglobal('uid');
-		$ip = getglobal('clientip');
+		$uid = $_G['uid'] ?? 0;
+		$ip = $_G['clientip'] ?? '';
 
 		$user = '<b>User:</b> uid='.intval($uid).'; IP='.$ip.'; RIP:'.$_SERVER['REMOTE_ADDR'];
-		$uri = 'Request: '.discuz_error::clear($_SERVER['REQUEST_URI']);
-		$message = "<?PHP exit;?>\t{$time}\t$message\t$hash\t$user $uri\n";
-		if($fp = @fopen($file, 'rb')) {
-			$lastlen = 50000;
-			$maxtime = 60 * 10;
-			$offset = filesize($file) - $lastlen;
-			if($offset > 0) {
-				fseek($fp, $offset);
-			}
-			if($data = fread($fp, $lastlen)) {
-				$array = explode("\n", $data);
-				if(is_array($array)) foreach($array as $key => $val) {
-					$row = explode("\t", $val);
-					if($row[0] != '<?PHP exit;?>') continue;
-					if($row[3] == $hash && ($row[1] > $time - $maxtime)) {
-						return;
-					}
-				}
-			}
+		$uri = 'Request: '.htmlspecialchars(discuz_error::clear($_SERVER['REQUEST_URI']));
+		if($_G['setting']['log']['error']) {
+			$errorlog = [
+				'timestamp' => TIMESTAMP,
+				'message' => $message,
+				'hash' => $hash,
+				'clientip' => $_G['clientip'],
+				'user' => $user,
+				'uri' => $uri,
+			];
+			$member_log = getuserbyuid($uid);
+			logger('error', $member_log, $uid, $errorlog);
 		}
-		error_log($message, 3, $file);
 	}
 
 }

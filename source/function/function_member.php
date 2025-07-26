@@ -1,10 +1,9 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: function_member.php 35030 2014-10-23 07:43:23Z laoguozhang $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -12,7 +11,7 @@ if(!defined('IN_DISCUZ')) {
 }
 
 function userlogin($username, $password, $questionid, $answer, $loginfield = 'username', $ip = '') {
-	$return = array();
+	$return = [];
 
 	if($loginfield == 'uid' && getglobal('setting/uidlogin')) {
 		$isuid = 1;
@@ -35,7 +34,7 @@ function userlogin($username, $password, $questionid, $answer, $loginfield = 'us
 		} elseif(isemail($username)) {
 			$return['ucresult'] = uc_user_login($username, $password, 2, 1, $questionid, $answer, $ip, 1);
 		} elseif(preg_match('/^(\d{1,12}|\d{1,3}-\d{1,12})$/', $username) && getglobal('setting/secmobilelogin')) {
-			$username = strpos($username, '-') === false ? (getglobal('setting/smsdefaultcc') . '-' . $username) : $username;
+			$username = !str_contains($username, '-') ? (getglobal('setting/smsdefaultcc').'-'.$username) : $username;
 			$return['ucresult'] = uc_user_login($username, $password, 4, 1, $questionid, $answer, $ip, 1);
 		}
 		if($return['ucresult'][0] <= 0 && $return['ucresult'][0] != -3) {
@@ -43,11 +42,11 @@ function userlogin($username, $password, $questionid, $answer, $loginfield = 'us
 		}
 	} else {
 		if($isuid == 4) {
-			$username = strpos($username, '-') === false ? (getglobal('setting/smsdefaultcc') . '-' . $username) : $username;
+			$username = !str_contains($username, '-') ? (getglobal('setting/smsdefaultcc').'-'.$username) : $username;
 		}
 		$return['ucresult'] = uc_user_login(addslashes($username), $password, $isuid, 1, $questionid, $answer, $ip);
 	}
-	$tmp = array();
+	$tmp = [];
 	$duplicate = '';
 	list($tmp['uid'], $tmp['username'], $tmp['password'], $tmp['email'], $duplicate) = $return['ucresult'];
 	$return['ucresult'] = $tmp;
@@ -64,10 +63,10 @@ function userlogin($username, $password, $questionid, $answer, $loginfield = 'us
 	$return['member'] = $member;
 	$return['status'] = 1;
 	if($member['_inarchive']) {
-		C::t('common_member_archive')->move_to_master($member['uid']);
+		table_common_member_archive::t()->move_to_master($member['uid']);
 	}
 	if($member['email'] != $return['ucresult']['email']) {
-		C::t('common_member')->update($return['ucresult']['uid'], array('email' => $return['ucresult']['email']));
+		table_common_member::t()->update($return['ucresult']['uid'], ['email' => $return['ucresult']['email']]);
 	}
 
 	return $return;
@@ -96,9 +95,6 @@ function setloginstatus($member, $cookietime) {
 	if(defined('IN_MOBILE')) {
 		updatestat('mobilelogin', 1);
 	}
-	if($_G['setting']['connect']['allow'] && $_G['member']['conisbind']) {
-		updatestat('connectlogin', 1);
-	}
 	$rule = updatecreditbyaction('daylogin', $_G['uid']);
 	if(!$rule['updatecredit']) {
 		checkusergroup($_G['uid']);
@@ -114,22 +110,22 @@ function logincheck($username) {
 	if(function_exists('uc_user_logincheck')) {
 		$return = uc_user_logincheck(addslashes($username), $_G['clientip']);
 	} else {
-		$login = C::t('common_failedlogin')->fetch_ip($_G['clientip']);
+		$login = table_common_failedlogin::t()->fetch_ip($_G['clientip']);
 		$return = (!$login || (TIMESTAMP - $login['lastupdate'] > 900)) ? 5 : max(0, 5 - $login['count']);
 
 		if(!$login) {
-			C::t('common_failedlogin')->insert(array(
+			table_common_failedlogin::t()->insert([
 				'ip' => $_G['clientip'],
 				'count' => 0,
 				'lastupdate' => TIMESTAMP
-			), false, true);
+			], false, true);
 		} elseif(TIMESTAMP - $login['lastupdate'] > 900) {
-			C::t('common_failedlogin')->insert(array(
+			table_common_failedlogin::t()->insert([
 				'ip' => $_G['clientip'],
 				'count' => 0,
 				'lastupdate' => TIMESTAMP
-			), false, true);
-			C::t('common_failedlogin')->delete_old(901);
+			], false, true);
+			table_common_failedlogin::t()->delete_old(901);
 		}
 	}
 	return $return;
@@ -142,7 +138,7 @@ function loginfailed($username) {
 	if(function_exists('uc_user_logincheck')) {
 		return;
 	}
-	C::t('common_failedlogin')->update_failed($_G['clientip']);
+	table_common_failedlogin::t()->update_failed($_G['clientip']);
 }
 
 function failedipcheck($numiptry, $timeiptry) {
@@ -150,30 +146,30 @@ function failedipcheck($numiptry, $timeiptry) {
 	if(!$numiptry) {
 		return false;
 	}
-	return $numiptry <= C::t('common_failedip')->get_ip_count($_G['clientip'], TIMESTAMP - $timeiptry);
+	return $numiptry <= table_common_failedip::t()->get_ip_count($_G['clientip'], TIMESTAMP - $timeiptry);
 }
 
 function failedip() {
 	global $_G;
-	C::t('common_failedip')->insert_ip($_G['clientip']);
+	table_common_failedip::t()->insert_ip($_G['clientip']);
 }
 
 function getinvite() {
 	global $_G;
 
-	if($_G['setting']['regstatus'] == 1) return array();
-	$result = array();
-	$cookies = empty($_G['cookie']['invite_auth']) ? array() : explode(',', $_G['cookie']['invite_auth']);
+	if($_G['setting']['regstatus'] == 1) return [];
+	$result = [];
+	$cookies = empty($_G['cookie']['invite_auth']) ? [] : explode(',', $_G['cookie']['invite_auth']);
 	$cookiecount = count($cookies);
 	$_GET['invitecode'] = trim($_GET['invitecode']);
 	if($cookiecount == 2 || $_GET['invitecode']) {
 		$id = intval($cookies[0]);
 		$code = trim($cookies[1]);
 		if($_GET['invitecode']) {
-			$invite = C::t('common_invite')->fetch_by_code($_GET['invitecode']);
+			$invite = table_common_invite::t()->fetch_by_code($_GET['invitecode']);
 			$code = trim($_GET['invitecode']);
 		} else {
-			$invite = C::t('common_invite')->fetch($id);
+			$invite = table_common_invite::t()->fetch($id);
 		}
 		if(!empty($invite)) {
 			if($invite['code'] == $code && empty($invite['fuid']) && (empty($invite['endtime']) || $_G['timestamp'] < $invite['endtime'])) {
@@ -189,10 +185,10 @@ function getinvite() {
 		if($code === $invite_code) {
 			$member = getuserbyuid($uid);
 			if($member) {
-				$usergroup = C::t('common_usergroup')->fetch($member['groupid']);
-				if(!$usergroup['allowinvite'] || $usergroup['inviteprice'] > 0) return array();
+				$usergroup = table_common_usergroup::t()->fetch($member['groupid']);
+				if(!$usergroup['allowinvite'] || $usergroup['inviteprice'] > 0) return [];
 			} else {
-				return array();
+				return [];
 			}
 			$result['uid'] = $uid;
 		}
@@ -208,16 +204,16 @@ function getinvite() {
 	return $result;
 }
 
-function replacesitevar($string, $replaces = array()) {
+function replacesitevar($string, $replaces = []) {
 	global $_G;
-	$sitevars = array(
+	$sitevars = [
 		'{sitename}' => $_G['setting']['sitename'],
 		'{bbname}' => $_G['setting']['bbname'],
 		'{time}' => dgmdate(TIMESTAMP, 'Y-n-j H:i'),
 		'{adminemail}' => $_G['setting']['adminemail'],
 		'{username}' => $_G['member']['username'],
 		'{myname}' => $_G['member']['username']
-	);
+	];
 	$replaces = array_merge($sitevars, $replaces);
 	return str_replace(array_keys($replaces), array_values($replaces), $string);
 }
@@ -238,7 +234,7 @@ function crime($fun) {
 		return false;
 	}
 	include_once libfile('class/member');
-	$crimerecord = & crime_action_ctl::instance();
+	$crimerecord = &crime_action_ctl::instance();
 	$arg_list = func_get_args();
 	if($fun == 'recordaction') {
 		list(, $uid, $action, $reason) = $arg_list;
@@ -257,6 +253,7 @@ function crime($fun) {
 	}
 	return false;
 }
+
 function checkfollowfeed() {
 	global $_G;
 
@@ -272,30 +269,31 @@ function checkfollowfeed() {
 			$lastcheckfeed = getuserprofile('lastactivity');
 		}
 		dsetcookie('lastcheckfeed', $_G['uid'].'|'.TIMESTAMP, 31536000);
-		$followuser = C::t('home_follow')->fetch_all_following_by_uid($_G['uid']);
+		$followuser = table_home_follow::t()->fetch_all_following_by_uid($_G['uid']);
 		$uids = array_keys($followuser);
 		if(!empty($uids)) {
-			$count = C::t('home_follow_feed')->count_by_uid_dateline($uids, $lastcheckfeed);
+			$count = table_home_follow_feed::t()->count_by_uid_dateline($uids, $lastcheckfeed);
 			if($count) {
-				notification_add($_G['uid'], 'follow', 'member_follow', array('count' => $count, 'from_id'=>$_G['uid'], 'from_idtype' => 'follow'), 1);
+				notification_add($_G['uid'], 'follow', 'member_follow', ['count' => $count, 'from_id' => $_G['uid'], 'from_idtype' => 'follow'], 1);
 			}
 		}
 	}
 	dsetcookie('checkfollow', 1, 30);
 }
+
 function checkemail($email) {
 	global $_G;
 
 	$email = strtolower(trim($email));
 	if(strlen($email) > 255) {
-		showmessage('profile_email_illegal', '', array(), array('handle' => false));
+		showmessage('profile_email_illegal', '', [], ['handle' => false]);
 	}
 	if($_G['setting']['regmaildomain']) {
 		$maildomainexp = '/('.str_replace("\r\n", '|', preg_quote(trim($_G['setting']['maildomainlist']), '/')).')$/i';
 		if($_G['setting']['regmaildomain'] == 1 && !preg_match($maildomainexp, $email)) {
-			showmessage('profile_email_domain_illegal', '', array(), array('handle' => false));
+			showmessage('profile_email_domain_illegal', '', [], ['handle' => false]);
 		} elseif($_G['setting']['regmaildomain'] == 2 && preg_match($maildomainexp, $email)) {
-			showmessage('profile_email_domain_illegal', '', array(), array('handle' => false));
+			showmessage('profile_email_domain_illegal', '', [], ['handle' => false]);
 		}
 	}
 
@@ -303,11 +301,11 @@ function checkemail($email) {
 	$ucresult = uc_user_checkemail($email);
 
 	if($ucresult == -4) {
-		showmessage('profile_email_illegal', '', array(), array('handle' => false));
+		showmessage('profile_email_illegal', '', [], ['handle' => false]);
 	} elseif($ucresult == -5) {
-		showmessage('profile_email_domain_illegal', '', array(), array('handle' => false));
+		showmessage('profile_email_domain_illegal', '', [], ['handle' => false]);
 	} elseif($ucresult == -6) {
-		showmessage('profile_email_duplicate', '', array(), array('handle' => false));
+		showmessage('profile_email_duplicate', '', [], ['handle' => false]);
 	}
 }
 
@@ -316,4 +314,4 @@ function make_getpws_sign($uid, $idstring) {
 	$link = "member.php?mod=getpasswd&uid={$uid}&id={$idstring}";
 	return dsign($link);
 }
-?>
+

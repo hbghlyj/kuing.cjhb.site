@@ -1,12 +1,11 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: memory_driver_redis.php 33336 2013-05-29 02:05:10Z andyzheng $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
-if (!defined('IN_DISCUZ')) {
+if(!defined('IN_DISCUZ') && !defined('IN_API')) {
 	exit('Access Denied');
 }
 
@@ -20,16 +19,26 @@ class memory_driver_redis {
 		return extension_loaded('redis');
 	}
 
+	public function info($sections) {
+		return $this->obj->info($sections);
+	}
+
 	function init($config) {
 		if(!$this->env()) {
 			$this->enable = false;
 			return;
 		}
 
-		if (!empty($config['server'])) {
+		if(!empty($_ENV['_Redis_'][$config['server']])) {
+			$this->obj = $_ENV['_Redis_'][$config['server']];
+			$this->enable = true;
+			return;
+		}
+
+		if(!empty($config['server'])) {
 			try {
 				$this->obj = new Redis();
-				if ($config['pconnect']) {
+				if($config['pconnect']) {
 					$connect = @$this->obj->pconnect($config['server'], $config['port']);
 				} else {
 					$connect = @$this->obj->connect($config['server'], $config['port']);
@@ -37,29 +46,30 @@ class memory_driver_redis {
 			} catch (RedisException $e) {
 
 			}
-			$this->enable = $connect ? true : false;
-			if ($this->enable) {
-				if ($config['requirepass']) {
+			$this->enable = (bool)$connect;
+			if($this->enable) {
+				if($config['requirepass']) {
 					$this->obj->auth($config['requirepass']);
 				}
 				@$this->obj->setOption(Redis::OPT_SERIALIZER, Redis::SERIALIZER_NONE);
-				$this->select(isset($config['db']) ? $config['db'] : 0);
+				$this->select($config['db'] ?? 0);
+				$_ENV['_Redis_'][$config['server']] = $this->obj;
 			}
 		}
 	}
 
 	function feature($feature) {
-		switch ($feature) {
+		switch($feature) {
 			case 'set':
 			case 'hash':
 			case 'sortedset':
 			case 'pipeline':
 				return true;
 			case 'eval':
-				$ret = $this->obj->eval("return 1");
+				$ret = $this->obj->eval('return 1');
 				return ($ret === 1);
 			case 'cluster':
-				$ret = $this->obj->info("cluster");
+				$ret = $this->obj->info('cluster');
 				return ($ret['cluster_enabled'] === 1);
 			default:
 				return false;
@@ -68,7 +78,7 @@ class memory_driver_redis {
 
 	public static function &instance() {
 		static $object;
-		if (empty($object)) {
+		if(empty($object)) {
 			$object = new memory_driver_redis();
 			$object->init(getglobal('config/memory/redis'));
 		}
@@ -76,7 +86,7 @@ class memory_driver_redis {
 	}
 
 	function get($key) {
-		if (is_array($key)) {
+		if(is_array($key)) {
 			return $this->getMulti($key);
 		}
 		return $this->_try_deserialize($this->obj->get($key));
@@ -84,10 +94,10 @@ class memory_driver_redis {
 
 	function getMulti($keys) {
 		$result = $this->obj->mGet($keys);
-		$newresult = array();
+		$newresult = [];
 		$index = 0;
-		foreach ($keys as $key) {
-			if ($result[$index] !== false) {
+		foreach($keys as $key) {
+			if($result[$index] !== false) {
 				$newresult[$key] = $this->_try_deserialize($result[$index]);
 			}
 			$index++;
@@ -101,10 +111,10 @@ class memory_driver_redis {
 	}
 
 	function set($key, $value, $ttl = 0) {
-		if (is_array($value)) {
+		if(is_array($value)) {
 			$value = serialize($value);
 		}
-		if ($ttl) {
+		if($ttl) {
 			return $this->obj->setex($key, $ttl, $value);
 		} else {
 			return $this->obj->set($key, $value);
@@ -112,7 +122,7 @@ class memory_driver_redis {
 	}
 
 	function add($key, $value, $ttl = 0) {
-		if ($ttl > 0) return $this->obj->set($key, $value, array('nx', 'ex' => $ttl));
+		if($ttl > 0) return $this->obj->set($key, $value, ['nx', 'ex' => $ttl]);
 		return $this->obj->setnx($key, $value);
 	}
 
@@ -121,10 +131,10 @@ class memory_driver_redis {
 	}
 
 	function setMulti($arr, $ttl = 0) {
-		if (!is_array($arr)) {
+		if(!is_array($arr)) {
 			return FALSE;
 		}
-		foreach ($arr as $key => $v) {
+		foreach($arr as $key => $v) {
 			$this->set($key, $v, $ttl);
 		}
 		return TRUE;
@@ -136,7 +146,7 @@ class memory_driver_redis {
 
 	function incex($key, $step = 1) {
 		$script = "if redis.call('exists', ARGV[1]) == 1 then return redis.call('incrby', ARGV[1], ARGV[2]) end";
-		return $this->evalscript($script, array($key, $step));
+		return $this->evalscript($script, [$key, $step]);
 	}
 
 	function dec($key, $step = 1) {
@@ -224,7 +234,7 @@ class memory_driver_redis {
 	}
 
 	function scriptexists($sha) {
-		$r =  $this->obj->script('exists', $sha);
+		$r = $this->obj->script('exists', $sha);
 		return $r[0];
 	}
 
@@ -260,7 +270,16 @@ class memory_driver_redis {
 		return $this->obj->exists($key);
 	}
 
-	function clear() {
+	function clear($key = '') {
+		if($key) {
+			$keys = $this->keys($key.'*');
+			$n = 0;
+			foreach($keys as $k) {
+				$this->rm($k);
+				$n++;
+			}
+			return $n;
+		}
 		return $this->obj->flushDb();
 	}
 
@@ -279,7 +298,7 @@ class memory_driver_redis {
 	private function _try_deserialize($data) {
 		try {
 			$ret = dunserialize($data);
-			if ($ret === FALSE) {
+			if($ret === FALSE) {
 				return $data;
 			}
 			return $ret;
@@ -290,4 +309,3 @@ class memory_driver_redis {
 
 }
 
-?>

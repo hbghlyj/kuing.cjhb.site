@@ -1,19 +1,18 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: lang_admincp_login.php 27449 2012-02-01 05:32:35Z zhangguosheng $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
-$lang = array
-(
-	'admincp_title' => '<span>Discuz!</span>管理中心',
+$lang =
+	[
+	'admincp_title' => '{bbname} 管理中心',
 	'login_title' => '登录管理中心',
 	'login_username' => '用户名',
 	'login_password' => '密码',
@@ -34,6 +33,7 @@ $lang = array
 	'security_question_5' => '您个人计算机的型号',
 	'security_question_6' => '您最喜欢的餐馆名称',
 	'security_question_7' => '驾驶执照最后四位数字',
+	'other_loginname' => '其他用户登录',
 
 	'login_tips' => 'Discuz! 是一款以社区为基础的专业建站平台，帮助网站实现一站式服务。',
 	'login_nosecques' => '您还没有使用安全登录，请在个人中心设置您的安全提问后，再访问管理中心。您可以 <a href="forum.php?mod=memcp&action=profile&typeid=1" target="_blank">点击这里</a> 进入安全提问的设置。',
@@ -42,11 +42,13 @@ $lang = array
 	'login_cp_guest' => '<h1>您尚未登录网站</h1><a href="member.php?mod=logging&action=login" class="btn">登录</a><p>站长需要强制登录时，修改 config/config_global.php 可关闭此功能。</p>',
 	'login_cplock' => '您的管理面板已经锁定！<br>请在<b> {ltime} </b>秒以后重新访问管理中心。',
 	'login_user_lock' => '由于您的登录密码错误次数过多，本次登录请求已经被拒绝。请 15 分钟后重新尝试。',
-	'login_cp_noaccess' => '<b>管理中心(或此项操作)尚未对您开放</b><br><br>您的此次操作已经记录，请勿非法尝试',
+	'login_cp_noaccess' => '<b>管理中心(或此项操作)未对当前账号开放</b><br><br>请更换有权限的账号重新登录',
 	'login_ip_noaccess' => '<a href="https://www.dismall.com/thread-17514-1-1.html" target="_blank">IP变动可能导致登录失败，查看解决办法</a>',
 	'noaccess' => '后台管理权限(或此项操作)尚未对您开放，请联系站点管理员',
 
+	'qrcode_login' => '扫码登录',
+	'pwd_login' => '账号登录',
+	'qrcode_wechat_scan' => '请使用微信扫码登录',
 
-);
+	];
 
-?>

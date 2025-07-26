@@ -1,31 +1,37 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: table_common_member_count_archive.php 28589 2012-03-05 09:54:11Z zhangguosheng $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
-class table_common_member_count_archive extends table_common_member_count
-{
+class table_common_member_count_archive extends table_common_member_count {
+	public static function t() {
+		static $_instance;
+		if(!isset($_instance)) {
+			$_instance = new self();
+		}
+		return $_instance;
+	}
+
 	public function __construct() {
 
 		parent::__construct();
 		$this->_table = 'common_member_count_archive';
-		$this->_pk    = 'uid';
+		$this->_pk = 'uid';
 	}
 
-	public function fetch($id, $force_from_db = true, $fetch_archive = 1){
-		return ($id = dintval($id)) ? DB::fetch_first('SELECT * FROM '.DB::table($this->_table).' WHERE '.DB::field($this->_pk, $id)) : array();
+	public function fetch($id, $force_from_db = true, $fetch_archive = 1) {
+		return ($id = dintval($id)) ? DB::fetch_first('SELECT * FROM '.DB::table($this->_table).' WHERE '.DB::field($this->_pk, $id)) : [];
 	}
 
 	public function fetch_all($ids, $force_from_db = true, $fetch_archive = 1) {
-		$data = array();
+		$data = [];
 		if(($ids = dintval($ids, true))) {
 			$query = DB::query('SELECT * FROM '.DB::table($this->_table).' WHERE '.DB::field($this->_pk, $ids));
 			while($value = DB::fetch($query)) {
@@ -40,4 +46,3 @@ class table_common_member_count_archive extends table_common_member_count
 	}
 }
 
-?>

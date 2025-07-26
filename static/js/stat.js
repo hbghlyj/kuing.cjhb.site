@@ -1,19 +1,33 @@
-function drawstatchart(url) {
+function drawstatchart(url, height, titleOption, obj) {
+	obj = obj || $('statchart');
+	if (BROWSER.ie && BROWSER.ie < 9) {
+		obj.innerHTML = AC_FL_RunContent(
+			'width', '100%', 'height', '300',
+			'src', STATICURL + 'image/common/stat.swf?path=&settings_file=data/stat_setting.xml&data_file=' + encodeURIComponent(url),
+			'quality', 'high', 'wmode', 'transparent'
+		);
+		return;
+	}
+
+	height = height || 400;
 
 	var x = new Ajax();
 	x.recvType = 'HTML';
-	$('statchart').style.width = '100%';
-	$('statchart').style.height = '400px';
+	obj.style.width = '100%';
+	obj.style.height = height + 'px';
 	x.get(url, function (s, x) {
-		var myChart = echarts.init($('statchart'));
+		var myChart = echarts.init(obj);
 		option = {
-			grid: { left: 60, right: 20 },
+			grid: { left: 60, right: 20, top: 20 },
 			xAxis: { type: 'category', data: [] },
 			yAxis: { type: 'value' },
 			tooltip: { trigger: 'axis', textStyle: { fontSize: 12 } },
 			series: [],
-			legend: { type: 'scroll', data: [], left: 60, bottom: 10 }
+			legend: { type: 'scroll', data: [], left: 60, bottom: 10 },
 		};
+		if(titleOption) {
+			option.title = titleOption;
+		}
 		var rex = x.XMLHttpRequest.responseXML, reax = rex.getElementsByTagName('xaxis')[0].childNodes;
 		if (!reax.length) {
 			option['title'] = {
@@ -30,6 +44,7 @@ function drawstatchart(url) {
 			option.legend.data.push(qttl);
 			qdata = {
 				type: 'line',
+				smooth: true,
 				name: qttl,
 				data: []
 			};

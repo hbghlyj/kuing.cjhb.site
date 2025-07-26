@@ -1,10 +1,9 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: helper_log.php 28822 2012-03-14 06:35:55Z zhangguosheng $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -13,12 +12,21 @@ if(!defined('IN_DISCUZ')) {
 
 class helper_log {
 
-	public static function runlog($file, $message, $halt=0) {
+	public static function runlog($file, $message, $halt = 0) {
 		global $_G;
 
-		$nowurl = $_SERVER['REQUEST_URI']?$_SERVER['REQUEST_URI']:($_SERVER['PHP_SELF']?$_SERVER['PHP_SELF']:$_SERVER['SCRIPT_NAME']);
-		$log = dgmdate($_G['timestamp'], 'Y-m-d H:i:s')."\t".$_G['clientip']."\t{$_G['uid']}\t{$nowurl}\t".str_replace(array("\r", "\n"), array(' ', ' '), trim($message))."\n";
-		helper_log::writelog($file, $log);
+		$nowurl = $_SERVER['REQUEST_URI'] ? $_SERVER['REQUEST_URI'] : ($_SERVER['PHP_SELF'] ? $_SERVER['PHP_SELF'] : $_SERVER['SCRIPT_NAME']);
+		if($_G['setting']['log'][$file]) {
+			$errorlog = [
+				'timestamp' => TIMESTAMP,
+				'clientip' => $_G['clientip'],
+				'uid' => $_G['uid'],
+				'nowurl' => $nowurl,
+				'message' => str_replace(["\r", "\n"], [' ', ' '], trim($message)),
+			];
+			$member_log = $_G['member'];
+			logger($file, $member_log, $_G['member']['uid'], $errorlog);
+		}
 		if($halt) {
 			exit();
 		}
@@ -28,14 +36,17 @@ class helper_log {
 	public static function writelog($file, $log) {
 		global $_G;
 		$yearmonth = dgmdate(TIMESTAMP, 'Ym', $_G['setting']['timeoffset']);
-		$logdir = DISCUZ_ROOT.'./data/log/';
+		$logdir = DISCUZ_DATA.'./log/';
+		if(!is_dir($logdir)) {
+			dmkdir($logdir);
+		}
 		$logfile = $logdir.$yearmonth.'_'.$file.'.php';
 		if(@filesize($logfile) > 2048000) {
 			$dir = opendir($logdir);
 			$length = strlen($file);
 			$maxid = $id = 0;
 			while($entry = readdir($dir)) {
-				if(strpos($entry, $yearmonth.'_'.$file) !== false) {
+				if(str_contains($entry, $yearmonth.'_'.$file)) {
 					$id = intval(substr($entry, $length + 8, -4));
 					$id > $maxid && $maxid = $id;
 				}
@@ -48,10 +59,10 @@ class helper_log {
 		$fp = fopen($logfile, 'a');
 		if($fp) {
 			if(!is_array($log)) {
-				$log = array($log);
+				$log = [$log];
 			}
 			foreach($log as $tmp) {
-				fwrite($fp, "<?PHP exit;?>\t".str_replace(array('<?', '?>'), '', $tmp)."\n");
+				fwrite($fp, "<?PHP exit;?>\t".str_replace(['<?', '?>'], '', $tmp)."\n");
 			}
 			fflush($fp);
 			fclose($fp);
@@ -67,15 +78,15 @@ class helper_log {
 			return false;
 		}
 		$action = getuseraction($action);
-		C::t('common_member_action_log')->insert(array('uid' => $uid, 'action' => $action, 'dateline' => TIMESTAMP));
+		table_common_member_action_log::t()->insert(['uid' => $uid, 'action' => $action, 'dateline' => TIMESTAMP]);
 		return true;
 	}
 
 	public static function getuseraction($var) {
 		$value = false;
-		$ops = array('tid', 'pid', 'blogid', 'picid', 'doid', 'sid', 'aid', 'uid_cid', 'blogid_cid', 'sid_cid', 'picid_cid', 'aid_cid', 'topicid_cid', 'pmid');
+		$ops = ['tid', 'pid', 'blogid', 'picid', 'doid', 'sid', 'aid', 'uid_cid', 'blogid_cid', 'sid_cid', 'picid_cid', 'aid_cid', 'topicid_cid', 'pmid'];
 		if(is_numeric($var)) {
-			$value = isset($ops[$var]) ? $ops[$var] : false;
+			$value = $ops[$var] ?? false;
 		} else {
 			$value = array_search($var, $ops);
 		}
@@ -84,4 +95,3 @@ class helper_log {
 
 }
 
-?>

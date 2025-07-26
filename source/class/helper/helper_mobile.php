@@ -1,10 +1,9 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: helper_mobile.php 36342 2017-01-09 01:15:30Z nemohou $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -20,7 +19,7 @@ class helper_mobile {
 			$content = ob_get_contents();
 			ob_end_clean();
 			$content = self::mobilereplace_rewrite($content);
-			$content = preg_replace_callback("/href=\"(\w+\.php)(.*?)\"/", array(__CLASS__, 'mobileoutput_callback_mobilereplace_12'), $content);
+			$content = preg_replace_callback("/href=\"(\w+\.php)(.*?)\"/", [__CLASS__, 'mobileoutput_callback_mobilereplace_12'], $content);
 
 			ob_start();
 			if('utf-8' != CHARSET) {
@@ -30,7 +29,7 @@ class helper_mobile {
 			echo $content;
 			exit();
 
-		} elseif (defined('TPL_DEFAULT') && !$_G['cookie']['dismobilemessage'] && $_G['mobile']) {
+		} elseif(defined('TPL_DEFAULT') && !$_G['cookie']['dismobilemessage'] && $_G['mobile']) {
 			ob_end_clean();
 			ob_start();
 			$_G['forcemobilemessage'] = true;
@@ -40,7 +39,7 @@ class helper_mobile {
 			$_G['setting']['mobile']['pageurl'] = $_G['siteurl'].basename($_G['PHP_SELF']).'?'.$query_sting_tmp;
 			unset($query_sting_tmp);
 			if(isset($_G['config']['templatedeveloper']) && $_G['config']['templatedeveloper']) {
-				showmessage('template_developer_not_in_mobile', '', array('file' => constant('TPL_DEFAULT_FILE')));
+				showmessage('template_developer_not_in_mobile', '', ['file' => constant('TPL_DEFAULT_FILE')]);
 			} else {
 				showmessage('not_in_mobile');
 			}
@@ -53,8 +52,8 @@ class helper_mobile {
 	}
 
 	public static function mobilereplace($file, $replace) {
-		if(strpos($replace, 'mobile=') === false) {
-			if(strpos($replace, '?') === false) {
+		if(!str_contains($replace, 'mobile=')) {
+			if(!str_contains($replace, '?')) {
 				$replace = 'href="'.$file.$replace.'?mobile='.IN_MOBILE.'"';
 			} else {
 				$replace = 'href="'.$file.$replace.'&amp;mobile='.IN_MOBILE.'"';
@@ -77,7 +76,7 @@ class helper_mobile {
 			}
 			$content = str_replace($_G['setting']['output']['str']['search'], $_G['setting']['output']['str']['replace'], $content);
 		}
-		if(!empty($_G['setting']['output']['preg']['search']) && (empty($_G['setting']['rewriteguest']) || IS_ROBOT) && !empty($_G['setting']['rewritemobile'])) {
+		if(!empty($_G['setting']['output']['preg']['search']) && (empty($_G['setting']['rewriteguest']) || empty($_G['uid'])) && !empty($_G['setting']['rewritemobile'])) {
 			if(empty($_G['setting']['domain']['app']['default'])) {
 				$_G['setting']['output']['preg']['search'] = str_replace('\{CURHOST\}', preg_quote($_G['siteurl'], '/'), $_G['setting']['output']['preg']['search']);
 				$_G['setting']['output']['preg']['replace'] = str_replace('{CURHOST}', $_G['siteurl'], $_G['setting']['output']['preg']['replace']);
@@ -86,8 +85,8 @@ class helper_mobile {
 			foreach($_G['setting']['output']['preg']['search'] as $key => $value) {
 				$content = preg_replace_callback(
 					$value,
-					function ($matches) use ($_G, $key) {
-						return eval('return ' . $_G['setting']['output']['preg']['replace'][$key] . ';');
+					function($matches) use ($_G, $key) {
+						return eval('return '.$_G['setting']['output']['preg']['replace'][$key].';');
 					},
 					$content
 				);
@@ -99,4 +98,3 @@ class helper_mobile {
 
 }
 
-?>

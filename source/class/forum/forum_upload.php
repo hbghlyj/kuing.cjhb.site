@@ -1,10 +1,9 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: forum_upload.php 32858 2013-03-15 03:36:22Z zhangjie $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -21,7 +20,7 @@ class forum_upload {
 	var $error_sizelimit;
 	var $getaid;
 
-	function __construct($getaid = 0) {
+	function __construct($getaid = 0, $ftpcmd = 1) {
 		global $_G;
 
 		$_G['uid'] = $this->uid = intval($_GET['uid']);
@@ -36,6 +35,10 @@ class forum_upload {
 
 
 		$upload = new discuz_upload();
+		if($ftpcmd && !ftpperm(fileext($_FILES['Filedata']['name']), $_FILES['Filedata']['size'])) {
+			$ftpcmd = 0;
+		}
+		$upload->ftpcmd = $ftpcmd;
 		$upload->init($_FILES['Filedata'], 'forum');
 		$this->attach = &$upload->attach;
 
@@ -43,12 +46,12 @@ class forum_upload {
 			return $this->uploadmsg(2);
 		}
 
-		$allowupload = ($_G['group']['allowpostattach'] || $_G['group']['allowpostimage']) ? (!$_G['group']['maxattachnum'] || $_G['group']['maxattachnum'] && $_G['group']['maxattachnum'] > getuserprofile('todayattachs')) : false;
+		$allowupload = (($_G['group']['allowpostattach'] || $_G['group']['allowpostimage'])) && ((!$_G['group']['maxattachnum'] || $_G['group']['maxattachnum'] && $_G['group']['maxattachnum'] > getuserprofile('todayattachs')));
 		if(!$allowupload) {
 			return $this->uploadmsg(6);
 		}
 
-		if($_G['group']['attachextensions'] && (!preg_match("/(^|\s|,)".preg_quote($upload->attach['ext'], '/')."($|\s|,)/i", $_G['group']['attachextensions']) || !$upload->attach['ext'])) {
+		if($_G['group']['attachextensions'] && (!preg_match('/(^|\s|,)'.preg_quote($upload->attach['ext'], '/').'($|\s|,)/i', $_G['group']['attachextensions']) || !$upload->attach['ext'])) {
 			return $this->uploadmsg(1);
 		}
 
@@ -95,6 +98,19 @@ class forum_upload {
 			return $this->uploadmsg(7);
 		}
 
+		if($upload->attach['isimage']) {
+			$imageinfo = @getimagesize($upload->attach['tmp_name']);
+			list($width, $height, $type) = !empty($imageinfo) ? $imageinfo : [0, 0, 0];
+			$size = $width * $height;
+			// 新增 GD 图片像素点上限服务器侧拦截
+			if((!getglobal('setting/imagelib') && $size > (getglobal('setting/gdlimit') ? getglobal('setting/gdlimit') : 16777216)) || $size < 16) {
+				return $this->uploadmsg(13);
+			}
+			if(!in_array($type, [1, 2, 3, 6, 13, 18]) || ($upload->attach['ext'] == 'swf' && $type != 4 && $type != 13)) {
+				return $this->uploadmsg(7);
+			}
+		}
+
 		$upload->save();
 		if($upload->error() == -103) {
 			return $this->uploadmsg(8);
@@ -102,20 +118,41 @@ class forum_upload {
 			return $this->uploadmsg(9);
 		}
 
-		updatemembercount($_G['uid'], array('todayattachs' => 1, 'todayattachsize' => $upload->attach['size'], 'attachsize' => $upload->attach['size']));
+		updatemembercount($_G['uid'], ['todayattachs' => 1, 'todayattachsize' => $upload->attach['size']]);
 
-		$thumb = $remote = 0;
-		if($upload->attach['isimage'] && $upload->attach['ext']!='svg') {
+		$thumb = $remote = $width = 0;
+		if($upload->attach['isimage']) {
 			if($_G['setting']['showexif']) {
 				require_once libfile('function/attachment');
 				$exif = getattachexif(0, $upload->attach['target']);
 			}
+			if($_G['setting']['thumbsource'] || $_G['setting']['thumbstatus']) {
+				require_once libfile('class/image');
+				$image = new image;
+			}
+			if($_G['setting']['thumbsource'] && $_G['setting']['sourcewidth'] && $_G['setting']['sourceheight']) {
+				$thumb = $image->Thumb($upload->attach['target'], '', $_G['setting']['sourcewidth'], $_G['setting']['sourceheight'], 1, 1) ? 1 : 0;
+				$width = $image->imginfo['width'];
+				$height = $image->imginfo['height'];
+				$upload->attach['size'] = $image->imginfo['size'];
+			}
+			if($_G['setting']['thumbstatus']) {
+				$thumb = $image->Thumb($upload->attach['target'], '', $_G['setting']['thumbwidth'], $_G['setting']['thumbheight'], $_G['setting']['thumbstatus'], 0) ? 1 : 0;
+				$width = $image->imginfo['width'];
+				$height = $image->imginfo['height'];
+			}
+			if($_G['setting']['thumbsource'] || !$_G['setting']['thumbstatus']) {
+				list($width, $height) = @getimagesize($upload->attach['target']);
+			}
+		}
+		if($thumb && $upload->ftpcmd && $_G['setting']['ftp']['on'] == 2) {
+			ftpcmd('upload', 'forum/'.getimgthumbname($upload->attach['attachment']));
 		}
 		if($_GET['type'] != 'image' && $upload->attach['isimage']) {
 			$upload->attach['isimage'] = -1;
 		}
 		$this->aid = $aid = getattachnewaid($this->uid);
-		$insert = array(
+		$insert = [
 			'aid' => $aid,
 			'dateline' => $_G['timestamp'],
 			'filename' => $filename,
@@ -125,12 +162,12 @@ class forum_upload {
 			'uid' => $this->uid,
 			'thumb' => $thumb,
 			'remote' => $remote,
-			'width' => intval($upload->attach['imageinfo'][0]),
-			'height' => intval($upload->attach['imageinfo'][1]),
-		);
-		C::t('forum_attachment_unused')->insert($insert);
+			'width' => $width,
+			'height' => $height
+		];
+		table_forum_attachment_unused::t()->insert($insert);
 		if($upload->attach['isimage'] && $_G['setting']['showexif']) {
-			C::t('forum_attachment_exif')->insert_exif($aid, $exif);
+			table_forum_attachment_exif::t()->insert_exif($aid, $exif);
 		}
 		return $this->uploadmsg(0);
 	}
@@ -153,4 +190,3 @@ class forum_upload {
 	}
 }
 
-?>

@@ -1,18 +1,17 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: lang_piclist.php 27449 2012-02-01 05:32:35Z zhangguosheng $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
-$lang = array
-(
+$lang =
+	[
 	'piclist_picids' => '指定图片',
 	'piclist_picids_comment' => '填入指定图片的ID(picid)，多个图片之间用逗号(,)分隔',
 	'piclist_aids' => '相册ID',
@@ -34,6 +33,5 @@ $lang = array
 	'piclist_orderby_comment' => '设置以哪一字段或方式对图片进行排序',
 	'piclist_orderby_dateline' => '按发布时间倒序',
 	'piclist_orderby_hot' => '按热度倒序'
-);
+	];
 
-?>

@@ -1,10 +1,9 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: block_groupactivitynew.php 25525 2011-11-14 04:39:11Z zhangguosheng $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -15,43 +14,42 @@ require_once libfile('block_groupactivity', 'class/block/group');
 
 class block_groupactivitynew extends block_groupactivity {
 	function __construct() {
-		$this->setting = array(
-			'gtids' => array(
+		$this->setting = [
+			'gtids' => [
 				'title' => 'groupactivity_gtids',
 				'type' => 'mselect',
-				'value' => array(
-				),
-			),
-			'class' => array(
+				'value' => [],
+			],
+			'class' => [
 				'title' => 'groupactivity_class',
 				'type' => 'select',
-				'value' => array()
-			),
-			'gviewperm' => array(
+				'value' => []
+			],
+			'gviewperm' => [
 				'title' => 'groupactivity_gviewperm',
 				'type' => 'mradio',
-				'value' => array(
-					array('0', 'groupactivity_gviewperm_only_member'),
-					array('1', 'groupactivity_gviewperm_all_member')
-				),
+				'value' => [
+					['0', 'groupactivity_gviewperm_only_member'],
+					['1', 'groupactivity_gviewperm_all_member']
+				],
 				'default' => '1'
-			),
-			'titlelength' => array(
+			],
+			'titlelength' => [
 				'title' => 'groupactivity_titlelength',
 				'type' => 'text',
 				'default' => 40
-			),
-			'summarylength' => array(
+			],
+			'summarylength' => [
 				'title' => 'groupactivity_summarylength',
 				'type' => 'text',
 				'default' => 80
-			),
-			'startrow' => array(
+			],
+			'startrow' => [
 				'title' => 'groupactivity_startrow',
 				'type' => 'text',
 				'default' => 0
-			),
-		);
+			],
+		];
 	}
 
 	function name() {
@@ -64,4 +62,3 @@ class block_groupactivitynew extends block_groupactivity {
 	}
 }
 
-?>

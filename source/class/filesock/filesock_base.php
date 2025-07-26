@@ -1,8 +1,9 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -21,10 +22,10 @@ class filesock_base {
 	public $block = true;
 	public $encodetype = 'URLENCODE';
 	public $position = 0;
-	public $files = array();
+	public $files = [];
 	public $unsafe = false;
 	public $useragent = '';
-	public $header = array();
+	public $header = [];
 	public $rawdata = '';
 	public $returnbody = true;
 	public $failonerror = true;
@@ -44,7 +45,7 @@ class filesock_base {
 	public $iplist;
 	public $verifypeer;
 
-	public function __construct($param = array()) {
+	public function __construct($param = []) {
 		global $_G;
 		$this->verifypeer = $_G['config']['security']['fsockopensafe']['verifypeer'];
 		if(!empty($param)) {
@@ -54,10 +55,15 @@ class filesock_base {
 
 	private function _query_safecheck($tmp) {
 		global $_G;
+		$config = $_G['config']['security']['fsockopensafe'];
+		if(empty($config['status'])) {
+			return $tmp;
+		}
+
 		$this->primaryip = '';
 		if(!$tmp || empty($tmp['host'])) return false;
 		$isip = false;
-		if(filter_var(str_replace(array('[',']'), '', $tmp['host']), FILTER_VALIDATE_IP)) {
+		if(filter_var(str_replace(['[', ']'], '', $tmp['host']), FILTER_VALIDATE_IP)) {
 			$isip = true;
 		}
 		if(isset($tmp['user']) || isset($tmp['pass'])) return false;
@@ -71,16 +77,15 @@ class filesock_base {
 				$this->primaryip = $this->ip;
 			}
 		} elseif($isip) {
-			if(!(filter_var(str_replace(array('[',']'), '', $tmp['host']), FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE) !== false)) {
+			if(!(filter_var(str_replace(['[', ']'], '', $tmp['host']), FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE) !== false)) {
 				return false;
 			} else {
 				$this->primaryip = $tmp['host'];
 			}
 		}
-		if(!in_array(strtolower($tmp['scheme']), array('http', 'https'))) {
+		if(!in_array(strtolower($tmp['scheme']), ['http', 'https'])) {
 			return false;
 		}
-		$config = $_G['config']['security']['fsockopensafe'];
 
 		if(!empty($config['port']) && isset($tmp['port'])) {
 			if(isset($_SERVER['SERVER_PORT']) && !in_array($_SERVER['SERVER_PORT'], $config['port'])) {
@@ -105,6 +110,7 @@ class filesock_base {
 
 		return $tmp;
 	}
+
 	private function _parse_url() {
 		$tmp = parse_url($this->url);
 		if(!$this->unsafe) {
@@ -129,15 +135,16 @@ class filesock_base {
 		$this->path = !empty($tmp['path']) ? $tmp['path'].(empty($tmp['query']) ? '' : '?'.$tmp['query']) : '/';
 		$this->port = empty($tmp['port']) ? ($this->scheme == 'https' ? '443' : '80') : $tmp['port'];
 	}
+
 	private function _dns_query($host) {
 		global $_G;
 		if(!$host) {
 			return;
 		}
 		$config = $_G['config']['security']['fsockopensafe'];
-		$dnsresult = [[],[]];
+		$dnsresult = [[], []];
 		$recordtype = 0;
-		$ipversion = is_array($config['ipversion']) ? $config['ipversion'] : array('ipv6', 'ipv4');
+		$ipversion = is_array($config['ipversion']) ? $config['ipversion'] : ['ipv6', 'ipv4'];
 		if(in_array('ipv4', $ipversion)) {
 			$recordtype += DNS_A;
 		}
@@ -160,6 +167,7 @@ class filesock_base {
 			$this->primaryip = '['.$dnsresult[1][0].']';
 		}
 	}
+
 	private function _connectivity_check($port) {
 		foreach($this->iplist[1] as $v) {
 			if($this->_ipcheck('['.$v.']', $port)) {
@@ -174,6 +182,7 @@ class filesock_base {
 			}
 		}
 	}
+
 	private function _ipcheck($ip, $port) {
 		$errstr = '';
 		$ch = fsocketopen($ip, $port, $errno, $errstr, 0.6);
@@ -184,6 +193,7 @@ class filesock_base {
 			return true;
 		}
 	}
+
 	private function _format_postkey($post, &$result, $key = '') {
 		foreach($post as $k => $v) {
 			$_k = $key ? $key.'['.$k.']' : $k;
@@ -194,6 +204,7 @@ class filesock_base {
 			}
 		}
 	}
+
 	private function _format_encodetype() {
 		if($this->encodetype === 'URLENCODE') {
 			$this->encodetype = 'application/x-www-form-urlencoded';
@@ -203,6 +214,7 @@ class filesock_base {
 			$this->encodetype = 'application/json';
 		}
 	}
+
 	private function _detect_method() {
 		if($this->post || $this->files) {
 			$this->method = 'POST';
@@ -210,9 +222,10 @@ class filesock_base {
 			$this->method = 'GET';
 		}
 	}
+
 	public function set($param) {
 		if(is_string($param)) {
-			$param = array('url' => $param);
+			$param = ['url' => $param];
 		}
 		foreach($param as $key => $value) {
 			if(property_exists($this, $key)) {
@@ -220,7 +233,8 @@ class filesock_base {
 			}
 		}
 	}
-	public function request($param = array()) {
+
+	public function request($param = []) {
 		if(!empty($param)) {
 			$this->set($param);
 		}
@@ -240,27 +254,33 @@ class filesock_base {
 			$this->post = $postnew;
 		}
 	}
-	public function get($param = array()) {
+
+	public function get($param = []) {
 		$this->method = 'GET';
 		return $this->request($param);
 	}
-	public function post($param = array()) {
+
+	public function post($param = []) {
 		$this->method = 'POST';
 		return $this->request($param);
 	}
-	public function head($param = array()) {
+
+	public function head($param = []) {
 		$this->method = 'HEAD';
 		return $this->request($param);
 	}
-	public function patch($param = array()) {
+
+	public function patch($param = []) {
 		$this->method = 'PATCH';
 		return $this->request($param);
 	}
-	public function put($param = array()) {
+
+	public function put($param = []) {
 		$this->method = 'PUT';
 		return $this->request($param);
 	}
-	public function delete($param = array()) {
+
+	public function delete($param = []) {
 		$this->method = 'DELETE';
 		return $this->request($param);
 	}

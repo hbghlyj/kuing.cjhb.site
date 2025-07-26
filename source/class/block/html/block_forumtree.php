@@ -1,10 +1,9 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: block_forumtree.php 25525 2011-11-14 04:39:11Z zhangguosheng $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -15,7 +14,8 @@ require_once libfile('commonblock_html', 'class/block/html');
 
 class block_forumtree extends commonblock_html {
 
-	function __construct() {}
+	function __construct() {
+	}
 
 	function name() {
 		return lang('blockclass', 'blockclass_html_script_forumtree');
@@ -23,17 +23,17 @@ class block_forumtree extends commonblock_html {
 
 	function getsetting() {
 		global $_G;
-		$settings = array(
-			'fids'	=> array(
+		$settings = [
+			'fids' => [
 				'title' => 'forumtree_fids',
 				'type' => 'mselect',
-				'value' => array()
-			),
-		);
+				'value' => []
+			],
+		];
 		loadcache('forums');
-		$settings['fids']['value'][] = array(0, lang('portalcp', 'block_all_forum'));
+		$settings['fids']['value'][] = [0, lang('portalcp', 'block_all_forum')];
 		foreach($_G['cache']['forums'] as $fid => $forum) {
-			$settings['fids']['value'][] = array($fid, ($forum['type'] == 'forum' ? str_repeat('&nbsp;', 4) : ($forum['type'] == 'sub' ? str_repeat('&nbsp;', 8) : '')).$forum['name']);
+			$settings['fids']['value'][] = [$fid, ($forum['type'] == 'forum' ? str_repeat('&nbsp;', 4) : ($forum['type'] == 'sub' ? str_repeat('&nbsp;', 8) : '')).$forum['name']];
 		}
 
 		return $settings;
@@ -44,7 +44,7 @@ class block_forumtree extends commonblock_html {
 		if(!$_G['cache']['forums']) {
 			loadcache('forums');
 		}
-		$forumlist = array();
+		$forumlist = [];
 		$parameter['fids'] = (array)$parameter['fids'];
 		$parameter['fids'] = array_map('intval', $parameter['fids']);
 		foreach($_G['cache']['forums'] as $forum) {
@@ -58,9 +58,8 @@ class block_forumtree extends commonblock_html {
 			}
 		}
 		include template('common/block_forumtree');
-		return array('html' => $return, 'data' => null);
+		return ['html' => $return, 'data' => null];
 	}
 
 }
 
-?>

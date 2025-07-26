@@ -1,10 +1,9 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: cache_file.php 6757 2010-03-25 09:01:29Z cnteacher $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -27,14 +26,14 @@ class ultrax_cache {
 
 	function set_cache($key, $value, $life) {
 		global $_G;
-		$data = array($key => array('data' => $value, 'life' => $life));
+		$data = [$key => ['data' => $value, 'life' => $life]];
 		require_once libfile('function/cache');
 		$cache_file = $this->get_cache_file_path($key);
 		dmkdir(dirname($cache_file));
 		$cachedata = "\$data = ".arrayeval($data).";\n";
 		$cachedata_save = "<?php\n//Discuz! cache file, DO NOT modify me!".
-		"\n//Created: ".date("M j, Y, G:i").
-		"\n//Identify: ".md5($cache_file.$cachedata.$_G['config']['security']['authkey'])."\n\nif(!defined('IN_DISCUZ')) {\n\texit('Access Denied');\n}\n\n$cachedata?>";
+			"\n//Created: ".date('M j, Y, G:i').
+			"\n//Identify: ".md5($cache_file.$cachedata.$_G['config']['security']['authkey'])."\n\nif(!defined('IN_DISCUZ')) {\n\texit('Access Denied');\n}\n\n$cachedata?>";
 		$fp = fopen($cache_file, 'cb');
 		if(!($fp && flock($fp, LOCK_EX) && ftruncate($fp, 0) && fwrite($fp, $cachedata_save) && fflush($fp) && flock($fp, LOCK_UN) && fclose($fp))) {
 			flock($fp, LOCK_UN);
@@ -54,7 +53,7 @@ class ultrax_cache {
 	}
 
 	function _get_cache($key) {
-		static $data = array();
+		static $data = [];
 		if(!isset($data[$key])) {
 			include $this->get_cache_file_path($key);
 		}
@@ -74,7 +73,7 @@ class ultrax_cache {
 	}
 
 	function get_cache_file_path($key) {
-		static $cache_path = array();
+		static $cache_path = [];
 		if(!isset($cache_path[$key])) {
 			$dir = hexdec($key[0].$key[1].$key[2]) % 1000;
 			$cache_path[$key] = $this->conf['path'].'/'.$dir.'/'.$key.'.php';

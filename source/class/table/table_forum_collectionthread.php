@@ -1,22 +1,28 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: table_forum_collectionthread.php 34219 2013-11-14 08:09:32Z jeffjzhang $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
-class table_forum_collectionthread extends discuz_table
-{
+class table_forum_collectionthread extends discuz_table {
+	public static function t() {
+		static $_instance;
+		if(!isset($_instance)) {
+			$_instance = new self();
+		}
+		return $_instance;
+	}
+
 	public function __construct() {
 
 		$this->_table = 'forum_collectionthread';
-		$this->_pk    = '';
+		$this->_pk = '';
 
 		parent::__construct();
 	}
@@ -26,9 +32,9 @@ class table_forum_collectionthread extends discuz_table
 			return null;
 		}
 		if($distinct == 1) {
-			$sql = " GROUP BY tid";
+			$sql = ' GROUP BY tid';
 		}
-		return DB::fetch_all('SELECT * FROM %t WHERE '.DB::field('ctid', $ctid).$sql.' ORDER BY dateline DESC '.DB::limit($start, $limit), array($this->_table), 'tid');
+		return DB::fetch_all('SELECT * FROM %t WHERE '.DB::field('ctid', $ctid).$sql.' ORDER BY dateline DESC '.DB::limit($start, $limit), [$this->_table], 'tid');
 	}
 
 	public function fetch_by_ctid_dateline($ctid) {
@@ -40,18 +46,18 @@ class table_forum_collectionthread extends discuz_table
 		if(!$tids) {
 			return null;
 		}
-		return DB::fetch_all('SELECT * FROM %t WHERE '.DB::field('tid', $tids), array($this->_table), 'ctid');
+		return DB::fetch_all('SELECT * FROM %t WHERE '.DB::field('tid', $tids), [$this->_table], 'ctid');
 	}
 
 	public function fetch_by_ctid_tid($ctid, $tid) {
-		return DB::fetch_first('SELECT * FROM %t WHERE ctid=%d AND tid=%d', array($this->_table, $ctid, $tid));
+		return DB::fetch_first('SELECT * FROM %t WHERE ctid=%d AND tid=%d', [$this->_table, $ctid, $tid]);
 	}
 
 	public function fetch_all_by_ctid_tid($ctid, $tids) {
 		if(!$ctid || !$tids) {
 			return null;
 		}
-		return DB::fetch_all('SELECT * FROM %t WHERE ctid=%d AND tid IN(%n)', array($this->_table, $ctid, $tids), 'tid');
+		return DB::fetch_all('SELECT * FROM %t WHERE ctid=%d AND tid IN(%n)', [$this->_table, $ctid, $tids], 'tid');
 	}
 
 	public function delete_by_ctid($ctid) {
@@ -66,7 +72,7 @@ class table_forum_collectionthread extends discuz_table
 			return false;
 		}
 
-		$condition = array();
+		$condition = [];
 
 		if($ctid) {
 			$condition[] = DB::field('ctid', $ctid);
@@ -80,4 +86,3 @@ class table_forum_collectionthread extends discuz_table
 	}
 }
 
-?>

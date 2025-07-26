@@ -1,43 +1,50 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: table_home_poke.php 27872 2012-02-16 04:00:07Z zhengqingpeng $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
-class table_home_poke extends discuz_table
-{
+class table_home_poke extends discuz_table {
+	public static function t() {
+		static $_instance;
+		if(!isset($_instance)) {
+			$_instance = new self();
+		}
+		return $_instance;
+	}
+
 	public function __construct() {
 
 		$this->_table = 'home_poke';
-		$this->_pk    = '';
+		$this->_pk = '';
 
 		parent::__construct();
 	}
+
 	public function fetch_all_by_uid_fromuid($uid, $fromuid) {
-		$uid = dintval($uid, is_array($uid) ? true : false);
-		$fromuid = dintval($fromuid, is_array($fromuid) ? true : false);
-		$wherearr = array();
+		$uid = dintval($uid, is_array($uid));
+		$fromuid = dintval($fromuid, is_array($fromuid));
+		$wherearr = [];
 		$wherearr[] = is_array($uid) && $uid ? 'uid IN(%n)' : 'uid=%d';
 		$wherearr[] = is_array($fromuid) && $fromuid ? 'fromuid IN(%n)' : 'fromuid=%d';
 
 		$wheresql = !empty($wherearr) && is_array($wherearr) ? ' WHERE '.implode(' AND ', $wherearr) : '';
 
-		return DB::fetch_all('SELECT * FROM %t '.$wheresql, array($this->_table, $uid, $fromuid));
+		return DB::fetch_all('SELECT * FROM %t '.$wheresql, [$this->_table, $uid, $fromuid]);
 	}
 
 	public function fetch_all_by_uid($uid, $start = 0, $limit = 0) {
-		return DB::fetch_all('SELECT * FROM %t WHERE uid=%d ORDER BY dateline DESC '.DB::limit($start, $limit), array($this->_table, $uid));
+		return DB::fetch_all('SELECT * FROM %t WHERE uid=%d ORDER BY dateline DESC '.DB::limit($start, $limit), [$this->_table, $uid]);
 	}
 
 	public function delete_by_uid_or_fromuid($uids) {
-		$uids = dintval($uids, is_array($uids) ? true : false);
+		$uids = dintval($uids, is_array($uids));
 		if($uids) {
 			return DB::delete($this->_table, DB::field('uid', $uids).' OR '.DB::field('fromuid', $uids));
 		}
@@ -45,12 +52,12 @@ class table_home_poke extends discuz_table
 	}
 
 	public function delete_by_uid_fromuid($uids, $fromuid = 0) {
-		$uids = dintval($uids, is_array($uids) ? true : false);
-		$parameter = array($this->_table, $uids);
-		$wherearr = array();
+		$uids = dintval($uids, is_array($uids));
+		$parameter = [$this->_table, $uids];
+		$wherearr = [];
 		$wherearr[] = is_array($uids) && $uids ? 'uid IN(%n)' : 'uid=%d';
 		if($fromuid) {
-			$fromuid = dintval($fromuid, is_array($fromuid) ? true : false);
+			$fromuid = dintval($fromuid, is_array($fromuid));
 			$wherearr[] = is_array($fromuid) && $fromuid ? 'fromuid IN(%n)' : 'fromuid=%d';
 			$parameter[] = $fromuid;
 		}
@@ -59,9 +66,8 @@ class table_home_poke extends discuz_table
 	}
 
 	public function count_by_uid($uid) {
-		return DB::result_first('SELECT COUNT(*) FROM %t WHERE uid=%d', array($this->_table, $uid));
+		return DB::result_first('SELECT COUNT(*) FROM %t WHERE uid=%d', [$this->_table, $uid]);
 	}
 
 }
 
-?>

@@ -1,42 +1,49 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: table_common_member_verify.php 28405 2012-02-29 03:47:50Z zhangguosheng $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
-class table_common_member_verify extends discuz_table
-{
+class table_common_member_verify extends discuz_table {
+	public static function t() {
+		static $_instance;
+		if(!isset($_instance)) {
+			$_instance = new self();
+		}
+		return $_instance;
+	}
+
 	public function __construct() {
 
 		$this->_table = 'common_member_verify';
-		$this->_pk    = 'uid';
+		$this->_pk = 'uid';
 		$this->_pre_cache_key = 'common_member_verify_';
 
 		parent::__construct();
 	}
 
-	public function fetch_all_by_vid($vid, $flag, $uids = array()) {
-		$parameter = array($this->_table);
+	public function fetch_all_by_vid($vid, $flag, $uids = []) {
+		$parameter = [$this->_table];
 		if($vid > 0 && $vid < 8) {
-			$wherearr = array();
+			$wherearr = [];
 			if($uids) {
 				$wherearr[] = is_array($uids) ? 'uid IN(%n)' : 'uid=%d';
 				$parameter[] = $uids;
 			}
 			$parameter[] = $flag;
 			$wherearr[] = "verify{$vid}=%d";
-			return DB::fetch_all("SELECT * FROM %t WHERE ".implode(' AND ', $wherearr), $parameter, $this->_pk);
+			return DB::fetch_all('SELECT * FROM %t WHERE ' .implode(' AND ', $wherearr), $parameter, $this->_pk);
 		} else {
-			return array();
+			return [];
 		}
 	}
+
 	public function fetch_all_search($uid, $vid, $username = '', $order = 'dateline', $start = 0, $limit = 0, $sort = 'DESC') {
 		$condition = $this->search_condition($uid, $vid, $username);
 		$ordersql = !empty($order) ? ' ORDER BY '.$order.' '.$sort : '';
@@ -45,7 +52,7 @@ class table_common_member_verify extends discuz_table
 	}
 
 	public function count_by_uid($uid) {
-		return DB::result_first('SELECT COUNT(*) FROM %t WHERE uid=%d', array($this->_table, $uid));
+		return DB::result_first('SELECT COUNT(*) FROM %t WHERE uid=%d', [$this->_table, $uid]);
 	}
 
 	public function count_by_search($uid, $vid, $username = '') {
@@ -54,8 +61,8 @@ class table_common_member_verify extends discuz_table
 	}
 
 	public function search_condition($uid, $vid, $username) {
-		$parameter = array($this->_table, 'common_member');
-		$wherearr = array();
+		$parameter = [$this->_table, 'common_member'];
+		$wherearr = [];
 		if($uid) {
 			$parameter[] = $uid;
 			$wherearr[] = 'v.uid=%d';
@@ -66,14 +73,13 @@ class table_common_member_verify extends discuz_table
 		}
 		if(!empty($username)) {
 			$parameter[] = '%'.$username.'%';
-			$wherearr[] = "m.username LIKE %s";
+			$wherearr[] = 'm.username LIKE %s';
 		}
-		$wherearr[] = "v.uid=m.uid";
+		$wherearr[] = 'v.uid=m.uid';
 		$wheresql = !empty($wherearr) && is_array($wherearr) ? ' WHERE '.implode(' AND ', $wherearr) : '';
-		return array($wheresql, $parameter);
+		return [$wheresql, $parameter];
 
 	}
 
 }
 
-?>

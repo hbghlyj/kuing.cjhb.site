@@ -1,10 +1,9 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: block_memberspecial.php 25525 2011-11-14 04:39:11Z zhangguosheng $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -15,23 +14,23 @@ require_once libfile('block_member', 'class/block/member');
 
 class block_memberspecial extends block_member {
 	function __construct() {
-		$this->setting = array(
-			'special' => array(
+		$this->setting = [
+			'special' => [
 				'title' => 'memberlist_special',
 				'type' => 'mradio',
-				'value' => array(
-					array('', 'memberlist_special_nolimit'),
-					array('0', 'memberlist_special_hot'),
-					array('1', 'memberlist_special_default'),
-				),
+				'value' => [
+					['', 'memberlist_special_nolimit'],
+					['0', 'memberlist_special_hot'],
+					['1', 'memberlist_special_default'],
+				],
 				'default' => ''
-			),
-			'startrow' => array(
+			],
+			'startrow' => [
 				'title' => 'memberlist_startrow',
 				'type' => 'text',
 				'default' => 0
-			),
-		);
+			],
+		];
 	}
 
 	function name() {
@@ -49,4 +48,3 @@ class block_memberspecial extends block_member {
 	}
 }
 
-?>

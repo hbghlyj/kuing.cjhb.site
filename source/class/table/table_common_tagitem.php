@@ -1,28 +1,32 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: table_common_tagitem.php 27769 2012-02-14 06:29:36Z liulanbo $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
-class table_common_tagitem extends discuz_table
-{
+class table_common_tagitem extends discuz_table {
+	public static function t() {
+		static $_instance;
+		if(!isset($_instance)) {
+			$_instance = new self();
+		}
+		return $_instance;
+	}
+
 	public function __construct() {
-
 		$this->_table = 'common_tagitem';
-		$this->_pk    = '';
-
+		$this->_pk = '';
 		parent::__construct();
 	}
 
 	public function replace($tagid, $itemid, $idtype) {
-		return DB::query('REPLACE INTO %t (tagid, itemid, idtype) VALUES (%d, %d, %s)', array($this->_table, $tagid, $itemid, $idtype));
+		return DB::query('REPLACE INTO %t (tagid, itemid, idtype, created_at) VALUES (%d, %d, %s, %d)', [$this->_table, $tagid, $itemid, $idtype, TIMESTAMP]);
 	}
 
 	public function select($tagid = 0, $itemid = 0, $idtype = '', $orderfield = '', $ordertype = 'DESC', $limit = 0, $count = 0, $itemidglue = '=', $returnnum = 0) {
@@ -46,7 +50,7 @@ class table_common_tagitem extends discuz_table
 
 	public function delete($val, $unbuffered = false, $null = '') {
 		// $null 需要在取消兼容层后删除
-		if (defined('DISCUZ_DEPRECATED')) {
+		if(defined('DISCUZ_DEPRECATED')) {
 			throw new Exception('NotImplementedException');
 			return parent::delete($val, $unbuffered);
 		} else {
@@ -66,17 +70,17 @@ class table_common_tagitem extends discuz_table
 
 	private function make_where($tagid = 0, $itemid = 0, $idtype = '', $itemidglue = '=') {
 		$wheresql = ' 1';
-		$data = array();
+		$data = [];
 		$data['data'][] = $this->_table;
 		if($tagid) {
-			$wheresql .= !is_array($tagid) ? " AND tagid=%d" : " AND tagid IN (%n)";
+			$wheresql .= !is_array($tagid) ? ' AND tagid=%d' : ' AND tagid IN (%n)';
 			$data['data'][] = $tagid;
 		}
 		if($itemid) {
-			$wheresql .= !is_array($itemid) ? " AND ".DB::field('itemid', $itemid, $itemidglue) : " AND ".DB::field('itemid', $itemid);
+			$wheresql .= !is_array($itemid) ? ' AND ' .DB::field('itemid', $itemid, $itemidglue) : ' AND ' .DB::field('itemid', $itemid);
 		}
 		if($idtype) {
-			$wheresql .= " AND idtype=%s";
+			$wheresql .= ' AND idtype=%s';
 			$data['data'][] = $idtype;
 		}
 		if($wheresql == ' 1') {
@@ -87,19 +91,39 @@ class table_common_tagitem extends discuz_table
 	}
 
 	public function unique($tagid, $itemid, $idtype) {
-		DB::query('DELETE FROM %t WHERE tagid<>%d AND itemid=%d AND idtype=%s', array($this->_table, $tagid, $itemid, $idtype));
+		DB::query('DELETE FROM %t WHERE tagid<>%d AND itemid=%d AND idtype=%s', [$this->_table, $tagid, $itemid, $idtype]);
 	}
 
 	public function merge_by_tagids($newid, $tagidarray) {
 		if(!is_array($tagidarray)) {
-			$tagidarray = array($tagidarray);
+			$tagidarray = [$tagidarray];
 		}
-		DB::query('UPDATE %t SET tagid=%d WHERE tagid IN (%n)', array($this->_table, $newid, $tagidarray));
+		DB::query('UPDATE %t SET tagid=%d WHERE tagid IN (%n)', [$this->_table, $newid, $tagidarray]);
 	}
 
 	public function count_by_tagid($tagid) {
-		return DB::result_first("SELECT count(*) FROM ".DB::table('common_tagitem')." WHERE tagid='".intval($tagid)."'");
+		return DB::result_first('SELECT count(*) FROM ' .DB::table('common_tagitem')." WHERE tagid='".intval($tagid)."'");
+	}
+
+	/**
+	 * 获取指定时间后的标签关联记录
+	 *
+	 * @param int $tagid 标签ID
+	 * @param int $time 时间戳
+	 * @return array 关联记录
+	 */
+	public function fetch_all_by_tagid_and_time($tagid, $time) {
+		return DB::fetch_all('SELECT * FROM %t WHERE tagid=%d AND created_at>=%d ORDER BY created_at DESC', [$this->_table, $tagid, $time]);
+	}
+
+	/**
+	 * 获取指定时间窗口内的热门标签
+	 *
+	 * @param int $time 时间窗口起始时间戳
+	 * @param int $limit 返回数量
+	 * @return array 热门标签ID及关联数量
+	 */
+	public function fetch_hot_tags($time, $limit = 20) {
+		return DB::fetch_all('SELECT tagid, COUNT(*) AS count FROM %t WHERE created_at>=%d GROUP BY tagid ORDER BY count DESC LIMIT %d', [$this->_table, $time, $limit]);
 	}
 }
-
-?>

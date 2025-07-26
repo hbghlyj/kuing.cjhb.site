@@ -1,22 +1,28 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: table_forum_forumrecommend.php 27745 2012-02-14 01:43:38Z monkey $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
-class table_forum_forumrecommend extends discuz_table
-{
+class table_forum_forumrecommend extends discuz_table {
+	public static function t() {
+		static $_instance;
+		if(!isset($_instance)) {
+			$_instance = new self();
+		}
+		return $_instance;
+	}
+
 	public function __construct() {
 
 		$this->_table = 'forum_forumrecommend';
-		$this->_pk    = 'tid';
+		$this->_pk = 'tid';
 
 		parent::__construct();
 	}
@@ -26,7 +32,7 @@ class table_forum_forumrecommend extends discuz_table
 			return;
 		}
 		$moderatorid = $moderatorid !== false ? ' AND moderatorid='.intval($moderatorid) : '';
-		DB::query("DELETE FROM %t WHERE %i %i", array($this->_table, DB::field('fid', $fids), $moderatorid));
+		DB::query('DELETE FROM %t WHERE %i %i', [$this->_table, DB::field('fid', $fids), $moderatorid]);
 	}
 
 	public function delete_by_tid($tids) {
@@ -37,20 +43,19 @@ class table_forum_forumrecommend extends discuz_table
 	}
 
 	public function delete_old() {
-		DB::query("DELETE FROM %t WHERE expiration>0 AND expiration<%d", array($this->_table, TIMESTAMP), false, true);
+		DB::query('DELETE FROM %t WHERE expiration>0 AND expiration<%d', [$this->_table, TIMESTAMP], false, true);
 	}
 
 	public function fetch_all_by_fid($fid, $position = false, $moderatorid = false, $start = 0, $limit = 0) {
-		$position = $position ? ' AND '.DB::field('position', array(0, $position)) : '';
-		$moderatorid = $moderatorid ? ' AND '.DB::field('moderatorid', array(0, $moderatorid)) : '';
+		$position = $position ? ' AND '.DB::field('position', [0, $position]) : '';
+		$moderatorid = $moderatorid ? ' AND '.DB::field('moderatorid', [0, $moderatorid]) : '';
 		$limit = $start && $limit ? ' LIMIT '.intval($start).', '.intval($limit) : '';
-		return DB::fetch_all('SELECT * FROM %t WHERE fid=%d %i %i ORDER BY displayorder %i', array($this->_table, $fid, $position, $moderatorid, $limit));
+		return DB::fetch_all('SELECT * FROM %t WHERE fid=%d %i %i ORDER BY displayorder %i', [$this->_table, $fid, $position, $moderatorid, $limit]);
 	}
 
 	public function count_by_fid($fid) {
-		return DB::result_first("SELECT COUNT(*) FROM %t WHERE fid=%d", array($this->_table, $fid));
+		return DB::result_first('SELECT COUNT(*) FROM %t WHERE fid=%d', [$this->_table, $fid]);
 	}
 
 }
 
-?>

@@ -1,10 +1,9 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: function_editor.php 36278 2016-12-09 07:52:35Z nemohou $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -23,12 +22,12 @@ function absoluteurl($url) {
 function atag($aoptions, $text) {
 	$href = getoptionvalue('href', $aoptions);
 
-	if(substr($href, 0, 7) == 'mailto:') {
+	if(str_starts_with($href, 'mailto:')) {
 		$tag = 'email';
 		$href = substr($href, 7);
 	} else {
 		$tag = 'url';
-		if(!preg_match("/^[a-z0-9]+:/i", $href)) {
+		if(!preg_match('/^[a-z0-9]+:/i', $href)) {
 			$href = absoluteurl($href);
 		}
 	}
@@ -53,7 +52,7 @@ function divtag($divoptions, $text) {
 
 	if($align) {
 		$prepend .= "[align=$align]";
-		$append .= "[/align]";
+		$append .= '[/align]';
 	}
 	$append .= "\n";
 
@@ -73,7 +72,7 @@ function fetchoptionvalue($option, $text) {
 		$delimloc = strpos($text, $delimchar, $delimiter + 1);
 		if($delimloc === false) {
 			$delimloc = strlen($text);
-		} elseif($delimchar == '"' OR $delimchar == '\'') {
+		} elseif($delimchar == '"' or $delimchar == '\'') {
 			$delimiter++;
 		}
 		return trim(substr($text, $delimiter, $delimloc - $delimiter));
@@ -83,7 +82,7 @@ function fetchoptionvalue($option, $text) {
 }
 
 function fonttag($fontoptions, $text) {
-	$tags = array('font' => 'face=', 'size' => 'size=', 'color' => 'color=');
+	$tags = ['font' => 'face=', 'size' => 'size=', 'color' => 'color='];
 	$prependtags = $appendtags = '';
 
 	foreach($tags as $bbcode => $locate) {
@@ -111,25 +110,25 @@ function html2bbcode($text) {
 		$text = preg_replace("/(?<!<br>|<br \/>|\r)(\r\n|\n|\r)/", ' ', $text);
 	}
 
-	$pregfind = array(
-		"/<script.*>.*<\/script>/siU",
+	$pregfind = [
+		'/<script.*>.*<\/script>/siU',
 		'/on(mousewheel|mouseover|click|load|onload|submit|focus|blur)="[^"]*"/i',
 		"/(\r\n|\n|\r)/",
-		"/<table.*>/siU",
-		"/<tr.*>/siU",
-		"/<td>/i",
-		"/<\/td>/i",
-		"/<\/tr>/i",
-		"/<\/table>/i",
+		'/<table.*>/siU',
+		'/<tr.*>/siU',
+		'/<td>/i',
+		'/<\/td>/i',
+		'/<\/tr>/i',
+		'/<\/table>/i',
 		'/<\/h([0-9]+)>/siU',
 		"/<a\s+?name=.+?\".\">(.+?)<\/a>/is",
-		"/<br.*>/siU",
+		'/<br.*>/siU',
 		"/<span\s+?style=\"float:\s+(left|right);\">(.+?)<\/span>/is",
 		"/<font\s+?style=\"background-color:\s*([#\w]+?);?\">(.+?)<\/font>/is",
 		"/<font\s+?style=\"background-color:\s*((rgb|rgba)\([\d\s\.,]+?\));?\">(.+?)<\/font>/is",
-		"/<hr\s+.*>/siU",
-	);
-	$pregreplace = array(
+		'/<hr\s+.*>/siU',
+	];
+	$pregreplace = [
 		'',
 		'',
 		'',
@@ -145,14 +144,14 @@ function html2bbcode($text) {
 		"[float=\\1]\\2[/float]",
 		"[backcolor=\\1]\\2[/backcolor]",
 		"[backcolor=\\1]\\2[/backcolor]",
-		"[hr]",
-	);
+		'[hr]',
+	];
 	$text = preg_replace($pregfind, $pregreplace, $text);
-	$text = preg_replace_callback("/<table([^>]*(width|background|background-color|bgcolor)[^>]*)>/siU", 'html2bbcode_callback_tabletag_1', $text);
-	$text = preg_replace_callback("/<td(.+)>/siU", 'html2bbcode_callback_tdtag_1', $text);
+	$text = preg_replace_callback('/<table([^>]*(width|background|background-color|bgcolor)[^>]*)>/siU', 'html2bbcode_callback_tabletag_1', $text);
+	$text = preg_replace_callback('/<td(.+)>/siU', 'html2bbcode_callback_tdtag_1', $text);
 	$text = preg_replace_callback('/<h([0-9]+)[^>]*>/siU', 'html2bbcode_callback_1', $text);
 	$text = preg_replace_callback("/<img[^>]+smilieid=\"(\d+)\".*>/siU", 'html2bbcode_callback_smileycode_1', $text);
-	$text = preg_replace_callback("/<img([^>]*src[^>]*)>/iU", 'html2bbcode_callback_imgtag_1', $text);
+	$text = preg_replace_callback('/<img([^>]*src[^>]*)>/iU', 'html2bbcode_callback_imgtag_1', $text);
 
 	$text = recursion('b', $text, 'simpletag', 'b');
 	$text = recursion('strong', $text, 'simpletag', 'b');
@@ -168,12 +167,12 @@ function html2bbcode($text) {
 	$text = recursion('span', $text, 'spantag');
 	$text = recursion('p', $text, 'ptag');
 
-	$pregfind = array("/(?<!\r|\n|^)\[(\/list|list|\*)\]/", "/<li>(.*)((?=<li>)|<\/li>)/iU", "/<p.*>/iU", "/<p><\/p>/i", "/(<a>|<\/a>|<\/li>)/is", "/<\/?(A|LI|FONT|DIV|SPAN)>/siU", "/\[url[^\]]*\]\[\/url\]/i", "/\[url=javascript:[^\]]*\](.+?)\[\/url\]/is");
-	$pregreplace = array("\n[\\1]", "\\1\n", "\n", '', '', '', '', "\\1");
+	$pregfind = ["/(?<!\r|\n|^)\[(\/list|list|\*)\]/", '/<li>(.*)((?=<li>)|<\/li>)/iU', '/<p.*>/iU', '/<p><\/p>/i', '/(<a>|<\/a>|<\/li>)/is', '/<\/?(A|LI|FONT|DIV|SPAN)>/siU', '/\[url[^\]]*\]\[\/url\]/i', '/\[url=javascript:[^\]]*\](.+?)\[\/url\]/is'];
+	$pregreplace = ["\n[\\1]", "\\1\n", "\n", '', '', '', '', "\\1"];
 	$text = preg_replace($pregfind, $pregreplace, $text);
 
-	$strfind = array('&nbsp;', '&lt;', '&gt;', '&amp;');
-	$strreplace = array(' ', '<', '>', '&');
+	$strfind = ['&nbsp;', '&lt;', '&gt;', '&amp;'];
+	$strreplace = [' ', '<', '>', '&'];
 	$text = str_replace($strfind, $strreplace, $text);
 
 	return dhtmlspecialchars(trim($text));
@@ -200,7 +199,7 @@ function html2bbcode_callback_imgtag_1($matches) {
 }
 
 function imgtag($attributes) {
-	$value = array('src' => '', 'width' => '', 'height' => '');
+	$value = ['src' => '', 'width' => '', 'height' => ''];
 	preg_match_all("/(src|width|height)=([\"|\']?)([^\"']+)(\\2)/is", dstripslashes($attributes), $matches);
 	if(is_array($matches[1])) {
 		foreach($matches[1] as $key => $attribute) {
@@ -208,7 +207,7 @@ function imgtag($attributes) {
 		}
 	}
 	@extract($value);
-	if(!preg_match("/^https?:\/\//is", $src)) {
+	if(!preg_match('/^https?:\/\//is', $src)) {
 		$src = absoluteurl($src);
 	}
 	return $src ? ($width && $height ? '[img='.$width.','.$height.']'.$src.'[/img]' : '[img]'.$src.'[/img]') : '';
@@ -216,9 +215,9 @@ function imgtag($attributes) {
 
 function ismozilla() {
 	$useragent = strtolower($_SERVER['HTTP_USER_AGENT']);
-	if(strpos($useragent, 'gecko') !== FALSE) {
-		preg_match("/gecko\/(\d+)/", $useragent, $regs);
-		return isset($regs[1]) ? $regs[1] : FALSE;
+	if(str_contains($useragent, 'gecko')) {
+		preg_match('/gecko\/(\d+)/', $useragent, $regs);
+		return $regs[1] ?? false;
 	}
 	return FALSE;
 }
@@ -234,7 +233,7 @@ function listtag($listoptions, $text, $tagname) {
 
 	if($tagname == 'ol') {
 		$listtype = fetchoptionvalue('type=', $listoptions) ? fetchoptionvalue('type=', $listoptions) : 1;
-		if(in_array($listtype, array('1', 'a', 'A'))) {
+		if(in_array($listtype, ['1', 'a', 'A'])) {
 			$opentag = '[list='.$listtype.']';
 		}
 	} else {
@@ -244,31 +243,31 @@ function listtag($listoptions, $text, $tagname) {
 }
 
 function parsestyle($tagoptions, &$prependtags, &$appendtags) {
-	$searchlist = array(
-		array('tag' => 'align', 'option' => TRUE, 'regex' => 'text-align:\s*(left);?', 'match' => 1),
-		array('tag' => 'align', 'option' => TRUE, 'regex' => 'text-align:\s*(center);?', 'match' => 1),
-		array('tag' => 'align', 'option' => TRUE, 'regex' => 'text-align:\s*(right);?', 'match' => 1),
-		array('tag' => 'color', 'option' => TRUE, 'regex' => '(?<![a-z0-9-])color:\s*([^;]+);?', 'match' => 1),
-		array('tag' => 'font', 'option' => TRUE, 'regex' => 'font-family:\s*([^;]+);?', 'match' => 1),
-		array('tag' => 'size', 'option' => TRUE, 'regex' => 'font-size:\s*(\d+(\.\d+)?(px|pt|in|cm|mm|pc|em|ex|%|));?', 'match' => 1),
-		array('tag' => 'b', 'option' => FALSE, 'regex' => 'font-weight:\s*(bold);?'),
-		array('tag' => 'i', 'option' => FALSE, 'regex' => 'font-style:\s*(italic);?'),
-		array('tag' => 'u', 'option' => FALSE, 'regex' => 'text-decoration:\s*(underline);?')
-	);
+	$searchlist = [
+		['tag' => 'align', 'option' => TRUE, 'regex' => 'text-align:\s*(left);?', 'match' => 1],
+		['tag' => 'align', 'option' => TRUE, 'regex' => 'text-align:\s*(center);?', 'match' => 1],
+		['tag' => 'align', 'option' => TRUE, 'regex' => 'text-align:\s*(right);?', 'match' => 1],
+		['tag' => 'color', 'option' => TRUE, 'regex' => '(?<![a-z0-9-])color:\s*([^;]+);?', 'match' => 1],
+		['tag' => 'font', 'option' => TRUE, 'regex' => 'font-family:\s*([^;]+);?', 'match' => 1],
+		['tag' => 'size', 'option' => TRUE, 'regex' => 'font-size:\s*(\d+(\.\d+)?(px|pt|in|cm|mm|pc|em|ex|%|));?', 'match' => 1],
+		['tag' => 'b', 'option' => FALSE, 'regex' => 'font-weight:\s*(bold);?'],
+		['tag' => 'i', 'option' => FALSE, 'regex' => 'font-style:\s*(italic);?'],
+		['tag' => 'u', 'option' => FALSE, 'regex' => 'text-decoration:\s*(underline);?']
+	];
 
 	$style = getoptionvalue('style', $tagoptions);
-	$style = preg_replace_callback("/(?<![a-z0-9-])color:\s*rgb\((\d+),\s*(\d+),\s*(\d+)\)(;?)/i", 'parsestyle_callback_sprintf_4123', $style);
+	$style = preg_replace_callback('/(?<![a-z0-9-])color:\s*rgb\((\d+),\s*(\d+),\s*(\d+)\)(;?)/i', 'parsestyle_callback_sprintf_4123', $style);
 	foreach($searchlist as $searchtag) {
 		if(preg_match('/'.$searchtag['regex'].'/i', $style, $match)) {
 			$opnvalue = $match["{$searchtag['match']}"];
-			$prependtags .= '['.$searchtag['tag'].($searchtag['option'] == TRUE ? '='.$opnvalue.']' : ']');
+			$prependtags .= '['.$searchtag['tag'].($searchtag['option'] ? '='.$opnvalue.']' : ']');
 			$appendtags = '[/'.$searchtag['tag']."]$appendtags";
 		}
 	}
 }
 
 function parsestyle_callback_sprintf_4123($matches) {
-	return sprintf("color: #%02X%02X%02X".$matches[4], $matches[1], $matches[2], $matches[3]);
+	return sprintf('color: #%02X%02X%02X'.$matches[4], $matches[1], $matches[2], $matches[3]);
 }
 
 function ptag($poptions, $text) {
@@ -287,7 +286,7 @@ function ptag($poptions, $text) {
 	parsestyle($poptions, $prepend, $append);
 	if($align) {
 		$prepend .= "[align=$align]";
-		$append .= "[/align]";
+		$append .= '[/align]';
 	}
 	$append .= "\n";
 
@@ -382,7 +381,7 @@ function smileycode($smileyid) {
 	global $_G;
 
 	if(!is_array($_G['cache']['smileycodes'])) {
-		loadcache(array('bbcodes_display', 'bbcodes', 'smileycodes', 'smilies', 'smileytypes', 'domainwhitelist'));
+		loadcache(['bbcodes_display', 'bbcodes', 'smileycodes', 'smilies', 'smileytypes', 'domainwhitelist']);
 	}
 	foreach($_G['cache']['smileycodes'] as $id => $code) {
 		if($smileyid == $id) {
@@ -402,8 +401,8 @@ function tabletag($attributes) {
 	$attributes = dstripslashes($attributes);
 	$width = '';
 	if(preg_match("/width=([\"|\']?)(\d{1,4}%?)(\\1)/is", $attributes, $matches)) {
-		$width = substr($matches[2], -1) == '%' ? (substr($matches[2], 0, -1) <= 98 ? $matches[2] : '98%') : ($matches[2] <= 560 ? $matches[2] : '560');
-	} elseif(preg_match("/width\s?:\s?(\d{1,4})([px|%])/is", $attributes, $matches)) {
+		$width = str_ends_with($matches[2], '%') ? (substr($matches[2], 0, -1) <= 98 ? $matches[2] : '98%') : ($matches[2] <= 560 ? $matches[2] : '560');
+	} elseif(preg_match('/width\s?:\s?(\d{1,4})([px|%])/is', $attributes, $matches)) {
 		$width = $matches[2] == '%' ? ($matches[1] <= 98 ? $matches[1].'%' : '98%') : ($matches[1] <= 560 ? $matches[1] : '560');
 	}
 	if(preg_match("/(?:background|background-color|bgcolor)[:=]\s*([\"']?)((rgb\(\d{1,3}%?,\s*\d{1,3}%?,\s*\d{1,3}%?\))|(#[0-9a-fA-F]{3,6})|([a-zA-Z]{1,20}))(\\1)/i", $attributes, $matches)) {
@@ -412,11 +411,11 @@ function tabletag($attributes) {
 	} else {
 		$bgcolor = '';
 	}
-	return $bgcolor ? "[table=$width,$bgcolor]" :($width ? "[table=$width]" : '[table]');
+	return $bgcolor ? "[table=$width,$bgcolor]" : ($width ? "[table=$width]" : '[table]');
 }
 
 function tdtag($attributes) {
-	$value = array('colspan' => 1, 'rowspan' => 1, 'width' => '');
+	$value = ['colspan' => 1, 'rowspan' => 1, 'width' => ''];
 	preg_match_all("/(colspan|rowspan|width)=([\"|\']?)(\d{1,4}%?)(\\2)/is", dstripslashes($attributes), $matches);
 	if(is_array($matches[1])) {
 		foreach($matches[1] as $key => $attribute) {
@@ -427,4 +426,3 @@ function tdtag($attributes) {
 	return $width == '' ? ($colspan == 1 && $rowspan == 1 ? '[td]' : "[td=$colspan,$rowspan]") : "[td=$colspan,$rowspan,$width]";
 }
 
-?>

@@ -1229,9 +1229,11 @@ body .ui-tooltip {
 #avataradjuster, #avatardisplayer{position: relative; display:none;}
 #avatardisplaycanvas{position: absolute; top: 0px; left: 0px;background:#FFF;}
 #avatarfileselector{
-    background:url(avatar_upload.gif) no-repeat;
+    background:url(avatar_lattice.png) no-repeat;
     position:relative;
+	text-align: center;
 }
+.uploadavatar{background: #06C;color: #fff;font-size: 14px; width:auto;padding: 10px 30px;border: 0;border-radius: 5px;margin-top: 87px;}
 #avatarfile{
 		font-size: 300px;
     position:absolute;
@@ -1242,22 +1244,19 @@ body .ui-tooltip {
     cursor:pointer;
 }
 .backfileselectiondiv{
-    width: 104px;
     height: 33px;
     position: absolute;
     right: 8px;
     top: 0px;
-    background:url(avatar_back.gif) no-repeat;
 }
 .backfileselection{
-	width: 104px;
     height: 33px;
-	padding: 2px;
+	padding: 2px 5px;
     position:absolute;
     right:0;
     top:0;
-    opacity: 0;
-    filter:alpha(opacity=0);
+	border-radius: 5px;
+	background: #06C;color: #fff;font-size: 14px; 
 	cursor:pointer;
 	border:none;
 }
@@ -1267,7 +1266,6 @@ body .ui-tooltip {
     position: absolute;
     right: 8px;
     top: 180px; 
-    background:url(avatar_save.gif) no-repeat;
 }
 .saveAvatar{
     width: 104px;
@@ -1276,8 +1274,8 @@ body .ui-tooltip {
     position:absolute;
     right:0;
     top:0;
-    opacity: 0;
-	filter:alpha(opacity=0);
+    border-radius: 5px;
+	background: #06C;color: #fff;font-size: 14px; 
 	border:none;
     cursor:pointer;
 }
@@ -1287,7 +1285,6 @@ body .ui-tooltip {
     position: absolute;
     right: 60px;
     top: 190px;
-	background:url(avatar_finishbutton.gif) no-repeat;
 }
 .finishbutton{
     width: 92px;
@@ -1296,8 +1293,8 @@ body .ui-tooltip {
     position:absolute;
     right:0;
     top:0;
-    opacity: 0;
-    filter:alpha(opacity=0);
+    border-radius: 5px;
+	background: #06C;color: #fff;font-size: 14px; 
     cursor:pointer;
 	border: none;
 }
@@ -1305,4 +1302,27 @@ body .ui-tooltip {
     background: white url(arrow_down_big.gif) no-repeat scroll 50% 50%;
     margin-top: -8px;
     border-width: 0px;
+}
+
+@media only screen and (max-width:600px){
+	#avatarfileselector {
+		background-position: center;
+	}
+	#avataradjuster{
+		overflow: hidden;
+		height: 228px;
+	}
+	#avataradjuster2, #avatardisplayer {
+		position: relative;
+		display: none;
+	}
+	.backfileselectiondiv, .backfileselection, .saveAvatardiv, .saveAvatar {
+		position:relative; float:left; top:unset;
+	}
+	.finishbuttondiv {
+		top:360px;
+	}
+	.saveAvatar, .backfileselection {
+		opacity: 1; width:100%;height: auto;
+	}
 }

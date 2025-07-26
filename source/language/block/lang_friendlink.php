@@ -1,18 +1,17 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: lang_friendlink.php 27449 2012-02-01 05:32:35Z zhangguosheng $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
-$lang = array
-(
+$lang =
+	[
 	'friendlink_content' => '展示样式',
 	'friendlink_content_both' => 'logo和文字',
 	'friendlink_content_logo' => '仅logo',
@@ -26,6 +25,5 @@ $lang = array
 	'friendlink_titlelength_comment' => '设置站点名称的最大长度',
 	'friendlink_summarylength' => '简介长度',
 	'friendlink_summarylength_comment' => '设置站点简介最大长度',
-);
+	];
 
-?>

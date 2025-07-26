@@ -1,10 +1,9 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: cache_grouptype.php 24236 2011-09-01 08:49:14Z liulanbo $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -12,9 +11,9 @@ if(!defined('IN_DISCUZ')) {
 }
 
 function build_cache_grouptype() {
-	$data = array();
-	$query = C::t('forum_forum')->fetch_all_group_type(1);
-	$data['second'] = $data['first'] = array();
+	$data = [];
+	$query = table_forum_forum::t()->fetch_all_group_type(1);
+	$data['second'] = $data['first'] = [];
 	foreach($query as $group) {
 		if($group['type'] == 'forum') {
 			$data['second'][$group['fid']] = $group;
@@ -29,4 +28,3 @@ function build_cache_grouptype() {
 	savecache('grouptype', $data);
 }
 
-?>

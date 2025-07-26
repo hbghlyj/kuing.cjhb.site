@@ -1,23 +1,24 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: lang_admincp_menu.php 34034 2013-09-24 01:23:05Z nemohou $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
-$lang = array
-(
+$lang =
+	[
 
 
 	'header_index' => '首页',
 	'header_global' => '全局',
+	'header_moderate' => '审核',
 	'header_forum' => '论坛',
+	'header_home' => '家园',
 	'header_user' => '用户',
 	'header_topic' => '内容',
 	'header_extended' => '运营',
@@ -30,6 +31,7 @@ $lang = array
 	'header_welcome' => '您好',
 	'header_logout' => '退出',
 	'header_bbs' => '站点首页',
+	'header_switchmenu' => '菜单模式',
 	'header_portal' => '门户',
 	'header_group' => '圈子',
 	'header_safe' => '安全',
@@ -39,6 +41,7 @@ $lang = array
 
 	'menu_home' => '管理中心首页',
 	'menu_home_clearhistorymenus' => '清空历史操作',
+	'menu_home_qrcodelogin' => '扫码登录',
 
 	'menu_setting_basic' => '站点信息',
 	'menu_setting_access' => '注册与访问控制',
@@ -73,6 +76,7 @@ $lang = array
 	'menu_forums_infotypes' => '分类信息',
 	'menu_forums_infooption' => '分类信息选项',
 	'menu_grid' => '首页四格',
+	'menu_forums_portal' => '聚合首页',
 
 	'menu_members_add' => '添加用户',
 	'menu_members_edit' => '用户管理',
@@ -81,12 +85,10 @@ $lang = array
 	'menu_members_sms' => '发送手机短信',
 	'menu_usertag' => '用户标签',
 	'menu_members_edit_ban_user' => '禁止用户',
-	'menu_members_merge' => '合并用户',
 	'menu_members_ipban' => '禁止 IP',
 	'menu_members_credits' => '积分奖惩',
 	'menu_members_profile' => '用户栏目',
 	'menu_members_profile_group' => '用户栏目分组',
-	'menu_members_verify_verify' => '审核资料',
 	'menu_members_verify_setting' => '认证设置',
 	'menu_members_stat' => '资料统计',
 	'menu_moderate_modmembers' => '审核用户',
@@ -116,7 +118,7 @@ $lang = array
 	'menu_posting_censors' => '词语过滤',
 	'menu_remoderate' => '内容重新审核',
 	'menu_maint_report' => '用户举报',
-	'menu_threads_forumstick' => '版块/圈子置顶',
+	'menu_threads_forumstick' => '多版块置顶',
 	'menu_post_position_index' => '帖子优化',
 	'menu_postcomment' => '帖子点评管理',
 	'menu_maint_doing' => '记录管理',
@@ -139,13 +141,14 @@ $lang = array
 	'menu_founder_memberperm' => '编辑团队成员 - {username}',
 
 	'menu_patch' => '安全中心',
-	'menu_upgrade' => '在线升级',
+	'menu_upgrade' => '升级补丁',
 	'menu_optimizer' => '优化大师',
 	'menu_security' => '安全大师',
 	'menu_serversec' => '底层安全',
 
 	'menu_addons' => '应用中心',
 	'menu_plugins' => '插件管理',
+	'menu_plugins_add' => '设计新插件',
 	'menu_tasks' => '站点任务',
 	'menu_magics' => '道具中心',
 	'menu_medals' => '勋章中心',
@@ -184,7 +187,7 @@ $lang = array
 	'menu_postsplit' => '帖子分表',
 	'menu_threadsplit' => '主题分表',
 	'menu_membersplit' => '用户分表',
-	'menu_logs' => '运行记录',
+	'menu_logs' => '操作日志',
 	'menu_custommenu_manage' => '常用操作管理',
 	'menu_misc_cron' => '计划任务',
 
@@ -212,10 +215,25 @@ $lang = array
 	'menu_safe_seccheck' => '验证设置',
 	'menu_safe_accountguard' => '账号保镖',
 
+	'menu_safe_account' => '账号管理',
+
 	'menu_setting_qqconnect' => 'QQ 绑定设置',
+
+	'menu_platform' => '多平台管理',
 
 	'admincp_title' => $_G['setting']['bbname'].' 管理中心',
 
-);
+	// 企飞版
+	'header_corp' => '企业',
+	'menu_setting_login' => '第三方登录',
+	'menu_setting_wechat' => '微信',
+	'menu_setting_discuz' => 'Discuz!',
+	'menu_setting_ucenter' => 'UCenter',
+	'menu_founder_restful' => 'RESTful 接口',
 
-?>
+	// 企业平台参数信息
+	'menu_setting_enterprise' => '企业平台参数',
+
+	'menu_lang' => '语言包',
+	];
+

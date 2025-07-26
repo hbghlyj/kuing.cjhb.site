@@ -1,22 +1,28 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: table_common_block_item.php 27937 2012-02-17 02:51:31Z zhangguosheng $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
-class table_common_block_item extends discuz_table
-{
+class table_common_block_item extends discuz_table {
+	public static function t() {
+		static $_instance;
+		if(!isset($_instance)) {
+			$_instance = new self();
+		}
+		return $_instance;
+	}
+
 	public function __construct() {
 
 		$this->_table = 'common_block_item';
-		$this->_pk    = 'itemid';
+		$this->_pk = 'itemid';
 
 		parent::__construct();
 	}
@@ -33,7 +39,7 @@ class table_common_block_item extends discuz_table
 	}
 
 	public function fetch_all_by_bid($bids, $sort = false) {
-		return ($bids = dintval($bids, true)) ? DB::fetch_all('SELECT * FROM '.DB::table($this->_table).' WHERE '.DB::field('bid', $bids).($sort ? ' ORDER BY displayorder, itemtype DESC' : ''), null, $this->_pk) : array();
+		return ($bids = dintval($bids, true)) ? DB::fetch_all('SELECT * FROM '.DB::table($this->_table).' WHERE '.DB::field('bid', $bids).($sort ? ' ORDER BY displayorder, itemtype DESC' : ''), null, $this->_pk) : [];
 	}
 
 	public function delete_by_itemid_bid($itemid, $bid) {
@@ -41,7 +47,7 @@ class table_common_block_item extends discuz_table
 	}
 
 	public function insert_batch($bid, $itemlist) {
-		$inserts = array();
+		$inserts = [];
 		if(($bid = dintval($bid))) {
 			foreach($itemlist as $value) {
 				if($value) {
@@ -58,4 +64,3 @@ class table_common_block_item extends discuz_table
 	}
 }
 
-?>

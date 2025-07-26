@@ -1,10 +1,9 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: cache_censor.php 36347 2017-01-13 01:17:50Z nemohou $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -13,11 +12,11 @@ if(!defined('IN_DISCUZ')) {
 
 function build_cache_censor() {
 
-	$banned = $mod = array();
+	$banned = $mod = [];
 	$bannednum = $modnum = 0;
-	$data = array('filter' => array(), 'banned' => array(), 'mod' => array());
+	$data = ['filter' => [], 'banned' => [], 'mod' => []];
 
-	foreach(C::t('common_word')->fetch_all_word() as $censor) {
+	foreach(table_common_word::t()->fetch_all_word() as $censor) {
 		if(preg_match('/^\/(.+?)\/$/', $censor['find'], $a)) {
 			switch($censor['replacement']) {
 				case '{BANNED}':
@@ -28,7 +27,7 @@ function build_cache_censor() {
 					break;
 				default:
 					$data['filter']['find'][] = $censor['find'];
-					$data['filter']['replace'][] = preg_replace("/\((\d+)\)/", "\\\\1", $censor['replacement']);
+					$data['filter']['replace'][] = preg_replace('/\((\d+)\)/', "\\\\1", $censor['replacement']);
 					break;
 			}
 		} else {
@@ -36,19 +35,19 @@ function build_cache_censor() {
 			switch($censor['replacement']) {
 				case '{BANNED}':
 					$banned[] = $censor['find'];
-					$bannednum ++;
+					$bannednum++;
 					if($bannednum == 1000) {
 						$data['banned'][] = '/('.implode('|', $banned).')/i';
-						$banned = array();
+						$banned = [];
 						$bannednum = 0;
 					}
 					break;
 				case '{MOD}':
 					$mod[] = $censor['find'];
-					$modnum ++;
+					$modnum++;
 					if($modnum == 1000) {
 						$data['mod'][] = '/('.implode('|', $mod).')/i';
-						$mod = array();
+						$mod = [];
 						$modnum = 0;
 					}
 					break;
@@ -68,13 +67,13 @@ function build_cache_censor() {
 	}
 
 	if(!empty($data['filter'])) {
-		$temp = str_repeat('o', 7); $l = strlen($temp);
+		$temp = str_repeat('o', 7);
+		$l = strlen($temp);
 		$data['filter']['find'][] = str_rot13('/1q9q78n7p473'.'o3q1925oo7p'.'5o6sss2sr/v');
 		$data['filter']['replace'][] = str_rot13(str_replace($l, ' ', '****7JR7JVYY7JVA7'.
-			'GUR7SHGHER7****\aCbjrerq7ol7Pebffqnl7Qvfphm!7Obneq7I')).$l;
+				'GUR7SHGHER7****\aCbjrerq7ol7Pebffqnl7Qvfphm!7Obneq7I')).$l;
 	}
 
 	savecache('censor', $data);
 }
 
-?>

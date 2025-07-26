@@ -1,10 +1,9 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: function_domain.php 24601 2011-09-27 12:26:41Z zhengqingpeng $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -14,21 +13,21 @@ if(!defined('IN_DISCUZ')) {
 function domaincheck($domain, $domainroot, $domainlength, $msgtype = 1) {
 
 	if(strlen($domain) < $domainlength) {
-		showmessage('domain_length_error', '', array('length' => $domainlength), array('return' => true));
+		showmessage('domain_length_error', '', ['length' => $domainlength], ['return' => true]);
 	}
 	if(strlen($domain) > 30) {
-		$msgtype ? showmessage('two_domain_length_not_more_than_30_characters', '', array(), array('return' => true)) : cpmsg('two_domain_length_not_more_than_30_characters', '', 'error');
+		$msgtype ? showmessage('two_domain_length_not_more_than_30_characters', '', [], ['return' => true]) : cpmsg('two_domain_length_not_more_than_30_characters', '', 'error');
 	}
-	if(!preg_match("/^[a-z0-9]*$/", $domain)) {
-		$msgtype ? showmessage('only_two_names_from_english_composition_and_figures', '', array(), array('return' => true)) : cpmsg('only_two_names_from_english_composition_and_figures', '', 'error');
+	if(!preg_match('/^[a-z0-9]*$/', $domain)) {
+		$msgtype ? showmessage('only_two_names_from_english_composition_and_figures', '', [], ['return' => true]) : cpmsg('only_two_names_from_english_composition_and_figures', '', 'error');
 	}
 
 	if($msgtype && isholddomain($domain)) {
-		showmessage('domain_be_retained', '', array(), array('return' => true));
+		showmessage('domain_be_retained', '', [], ['return' => true]);
 	}
 
 	if(existdomain($domain, $domainroot)) {
-		$msgtype ? showmessage('two_domain_have_been_occupied', '', array(), array('return' => true)) : cpmsg('two_domain_have_been_occupied', '', 'error');
+		$msgtype ? showmessage('two_domain_have_been_occupied', '', [], ['return' => true]) : cpmsg('two_domain_have_been_occupied', '', 'error');
 	}
 
 	return true;
@@ -38,10 +37,10 @@ function isholddomain($domain) {
 	global $_G;
 
 	$domain = strtolower($domain);
-	$holdmainarr = empty($_G['setting']['holddomain'])?array('www'):explode('|', $_G['setting']['holddomain']);
+	$holdmainarr = empty($_G['setting']['holddomain']) ? ['www'] : explode('|', $_G['setting']['holddomain']);
 	$ishold = false;
-	foreach ($holdmainarr as $value) {
-		if(strpos($value, '*') === false) {
+	foreach($holdmainarr as $value) {
+		if(!str_contains($value, '*')) {
 			if(strtolower($value) == $domain) {
 				$ishold = true;
 				break;
@@ -61,9 +60,9 @@ function existdomain($domain, $domainroot) {
 	global $_G;
 
 	$exist = false;
-	if(C::t('common_domain')->count_by_domain_domainroot($domain, $domainroot)) {
+	if(table_common_domain::t()->count_by_domain_domainroot($domain, $domainroot)) {
 		$exist = true;
 	}
 	return $exist;
 }
-?>
+

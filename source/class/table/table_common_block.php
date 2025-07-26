@@ -1,26 +1,32 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: table_common_block.php 29175 2012-03-28 04:02:34Z zhangguosheng $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
-class table_common_block extends discuz_table
-{
+class table_common_block extends discuz_table {
 
 	public $cache_ttl;
 	public $allowmem;
 
+	public static function t() {
+		static $_instance;
+		if(!isset($_instance)) {
+			$_instance = new self();
+		}
+		return $_instance;
+	}
+
 	public function __construct() {
 
 		$this->_table = 'common_block';
-		$this->_pk    = 'bid';
+		$this->_pk = 'bid';
 
 		parent::__construct();
 		$this->_allowmem = null;
@@ -31,9 +37,13 @@ class table_common_block extends discuz_table
 
 	public function fetch($bid, $force_from_db = false) {
 		if(($block = parent::fetch(dintval($bid), $force_from_db))) {
-			$block['param'] = $block['param'] ? dunserialize($block['param']) : array();
+			$block['param'] = $block['param'] ? dunserialize($block['param']) : [];
 		}
 		return $block;
+	}
+
+	public function fetch_by_name($name) {
+		return DB::fetch_first('SELECT * FROM '.DB::table($this->_table).' WHERE '.DB::field('name', $name).' LIMIT 1');
 	}
 
 	public function count_by_admincpwhere($wheresql) {
@@ -51,12 +61,12 @@ class table_common_block extends discuz_table
 	}
 
 	public function fetch_by_styleid($styleid) {
-		 return ($styleid = dintval($styleid, true)) ? DB::fetch_first('SELECT * FROM '.DB::table($this->_table).' WHERE '.DB::field('styleid', $styleid).' LIMIT 1') : array();
+		return ($styleid = dintval($styleid, true)) ? DB::fetch_first('SELECT * FROM '.DB::table($this->_table).' WHERE '.DB::field('styleid', $styleid).' LIMIT 1') : [];
 	}
 
 	public function fetch_all_bid_by_blocktype($blocktype, $limit = 1000) {
-		$data = array();
-		if ($blocktype !== null && ($data = DB::fetch_all('SELECT bid FROM '.DB::table($this->_table).' WHERE '.DB::field('blocktype', $blocktype).' ORDER BY bid DESC'.DB::limit($limit), null, $this->_pk))) {
+		$data = [];
+		if($blocktype !== null && ($data = DB::fetch_all('SELECT bid FROM '.DB::table($this->_table).' WHERE '.DB::field('blocktype', $blocktype).' ORDER BY bid DESC'.DB::limit($limit), null, $this->_pk))) {
 			$data = array_keys($data);
 		}
 		return $data;
@@ -66,8 +76,8 @@ class table_common_block extends discuz_table
 		return ($bids = dintval($bids, true)) && ($timestamp = dintval($timestamp)) ? DB::query('UPDATE '.DB::table($this->_table).' SET `dateline`='.$timestamp.'-cachetime WHERE bid IN ('.dimplode($bids).') AND cachetime>0') : false;
 	}
 
-	public function fetch_all_recommended_block($id, $idtype, $wherearr = array(), $leftjoin = '', $fields = '') {
-		$data = array();
+	public function fetch_all_recommended_block($id, $idtype, $wherearr = [], $leftjoin = '', $fields = '') {
+		$data = [];
 		if(($id = dintval($id)) && $idtype) {
 			$where = $wherearr ? ' AND '.implode(' AND ', $wherearr) : '';
 			$data = DB::fetch_all("SELECT bi.dataid,bi.uid,bi.username,bi.dateline,bi.isverified,bi.verifiedtime,b.bid,b.blockclass,b.name,b.script$fields FROM ".DB::table('common_block').' b
@@ -78,7 +88,7 @@ class table_common_block extends discuz_table
 
 
 	public function count_by_where($wheresql, $leftjoin = '') {
-		return DB::result_first("SELECT COUNT(*) FROM ".DB::table($this->_table).' b'." $leftjoin $wheresql");
+		return DB::result_first('SELECT COUNT(*) FROM ' .DB::table($this->_table).' b'." $leftjoin $wheresql");
 	}
 
 	public function fetch_all_by_where($wheresql, $start = 0, $limit = 0, $leftjoin = '', $fields = '') {
@@ -104,7 +114,7 @@ class table_common_block extends discuz_table
 	}
 
 	public function clear_cache($ids, $pre_cache_key = null) {
-		if (defined('DISCUZ_DEPRECATED')) {
+		if(defined('DISCUZ_DEPRECATED')) {
 			throw new Exception('NotImplementedException');
 			return parent::clear_cache($ids, $pre_cache_key);
 		} else {
@@ -114,11 +124,10 @@ class table_common_block extends discuz_table
 
 	public function clear_blockcache($bids) {
 		if($this->allowmem) {
-			memory('rm', $bids,'blockcache_');
+			memory('rm', $bids, 'blockcache_');
 			memory('rm', $bids, 'blockcache_htm_');
 			memory('rm', $bids, 'blockcache_js_');
 		}
 	}
 }
 
-?>

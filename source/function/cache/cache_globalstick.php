@@ -1,10 +1,9 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: cache_globalstick.php 24152 2011-08-26 10:04:08Z zhangguosheng $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -12,9 +11,9 @@ if(!defined('IN_DISCUZ')) {
 }
 
 function build_cache_globalstick() {
-	$data = array();
-	$query = C::t('forum_forum')->fetch_all_valid_forum();
-	$fuparray = $threadarray = array();
+	$data = [];
+	$query = table_forum_forum::t()->fetch_all_valid_forum();
+	$fuparray = $threadarray = [];
 	foreach($query as $forum) {
 		switch($forum['type']) {
 			case 'forum':
@@ -25,7 +24,7 @@ function build_cache_globalstick() {
 				break;
 		}
 	}
-	foreach(C::t('forum_thread')->fetch_all_by_displayorder(array(2, 3)) as $thread) {
+	foreach(table_forum_thread::t()->fetch_all_by_displayorder([2, 3]) as $thread) {
 		switch($thread['displayorder']) {
 			case 2:
 				$threadarray[$fuparray[$thread['fid']]][] = $thread['tid'];
@@ -37,18 +36,17 @@ function build_cache_globalstick() {
 	}
 	foreach(array_unique($fuparray) as $gid) {
 		if(!empty($threadarray[$gid])) {
-			$data['categories'][$gid] = array(
-				'tids'	=> dimplode($threadarray[$gid]),
-				'count'	=> intval(is_array($threadarray[$gid]) ? count($threadarray[$gid]) : 0)
-			);
+			$data['categories'][$gid] = [
+				'tids' => dimplode($threadarray[$gid]),
+				'count' => intval(is_array($threadarray[$gid]) ? count($threadarray[$gid]) : 0)
+			];
 		}
 	}
-	$data['global'] = array(
-		'tids'	=> empty($threadarray['global']) ? '' : dimplode($threadarray['global']),
-		'count'	=> intval(is_array($threadarray['global']) ? count($threadarray['global']) : 0)
-	);
+	$data['global'] = [
+		'tids' => empty($threadarray['global']) ? '' : dimplode($threadarray['global']),
+		'count' => intval(is_array($threadarray['global']) ? count($threadarray['global']) : 0)
+	];
 
 	savecache('globalstick', $data);
 }
 
-?>

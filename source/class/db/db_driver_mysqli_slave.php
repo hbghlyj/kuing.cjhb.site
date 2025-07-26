@@ -1,17 +1,16 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: db_driver_mysqli_slave.php 33959 2013-09-06 04:27:59Z nemohou $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
-class db_driver_mysqli_slave extends db_driver_mysqli
-{
+
+class db_driver_mysqli_slave extends db_driver_mysqli {
 
 	public $slaveid = null;
 
@@ -19,11 +18,11 @@ class db_driver_mysqli_slave extends db_driver_mysqli
 
 	public $slaveexcept = false;
 
-	public $excepttables = array();
+	public $excepttables = [];
 
 	public $tablename = '';
 
-	protected $_weighttable = array();
+	protected $_weighttable = [];
 
 	public $serverid = null;
 
@@ -40,7 +39,7 @@ class db_driver_mysqli_slave extends db_driver_mysqli
 		if(!$this->slaveexcept && $this->excepttables) {
 			$this->slaveexcept = in_array($tablename, $this->excepttables, true);
 		}
-		$this->serverid = isset($this->map[$this->tablename]) ? $this->map[$this->tablename] : 1;
+		$this->serverid = $this->map[$this->tablename] ?? 1;
 		return $this->tablepre.$tablename;
 	}
 
@@ -51,7 +50,7 @@ class db_driver_mysqli_slave extends db_driver_mysqli
 				if(!isset($this->link[$this->slaveid])) {
 					$this->connect($this->slaveid);
 				}
-				$this->slavequery ++;
+				$this->slavequery++;
 				$this->curlink = $this->link[$this->slaveid];
 			}
 			return true;
@@ -60,13 +59,13 @@ class db_driver_mysqli_slave extends db_driver_mysqli
 		}
 	}
 
-	protected function _choose_slave(){
+	protected function _choose_slave() {
 		if(!isset($this->_weighttable[$this->serverid])) {
-			foreach ($this->config[$this->serverid]['slave'] as $key => $value) {
+			foreach($this->config[$this->serverid]['slave'] as $key => $value) {
 				$this->_weighttable[$this->serverid] .= str_repeat($key, 1 + intval($value['weight']));
 			}
 		}
-		$sid = $this->_weighttable[$this->serverid][mt_rand(0, strlen($this->_weighttable[$this->serverid]) -1)];
+		$sid = $this->_weighttable[$this->serverid][mt_rand(0, strlen($this->_weighttable[$this->serverid]) - 1)];
 		$this->slaveid = $this->serverid.'_'.$sid;
 		if(!isset($this->config[$this->slaveid])) {
 			$this->config[$this->slaveid] = $this->config[$this->serverid]['slave'][$sid];
@@ -74,7 +73,7 @@ class db_driver_mysqli_slave extends db_driver_mysqli
 	}
 
 	protected function _master_connect() {
-		if ($this->serverid === null) {
+		if($this->serverid === null) {
 			$this->serverid = 1;
 		}
 		if(!$this->link[$this->serverid]) {
@@ -84,7 +83,7 @@ class db_driver_mysqli_slave extends db_driver_mysqli
 	}
 
 	public function query($sql, $silent = false, $unbuffered = false) {
-		if(!(!$this->slaveexcept && strtoupper(substr($sql, 0 , 6)) === 'SELECT' && strpos(strtoupper($sql), 'FOR UPDATE') === FALSE && $this->_slave_connect())) {
+		if(!(!$this->slaveexcept && strtoupper(substr($sql, 0, 6)) === 'SELECT' && !str_contains(strtoupper($sql), 'FOR UPDATE') && $this->_slave_connect())) {
 			$this->_master_connect();
 		}
 		$this->tablename = '';
@@ -93,4 +92,4 @@ class db_driver_mysqli_slave extends db_driver_mysqli
 	}
 
 }
-?>
+

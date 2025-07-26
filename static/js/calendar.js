@@ -1,9 +1,8 @@
-/*
-	[Discuz!] (C)2001-2099 Comsenz Inc.
-	This is NOT a freeware, use is subject to license terms
-
-	$Id: calendar.js 33082 2013-04-18 11:13:53Z zhengqingpeng $
-*/
+/**
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
+ */
 
 var controlid = null;
 var currdate = null;
@@ -25,18 +24,18 @@ function loadcalendar() {
 	s = '';
 	s += '<div id="calendar" style="display:none; position:absolute; z-index:100000;" onclick="doane(event)">';
 	s += '<div style="width: 260px;"><table cellspacing="0" cellpadding="0" width="100%" style="text-align: center;">';
-       s += '<tr align="center" id="calendar_week"><td onclick="refreshcalendar(yy, mm-1)" title="'+lng['prev_month']+'" style="cursor: pointer;"><a href="javascript:;">&laquo;</a></td><td colspan="5" style="text-align: center"><a href="javascript:;" onclick="showdiv(\'year\');doane(event)" class="dropmenu" title="'+lng['select_year']+'" id="year"></a>&nbsp; - &nbsp;<a id="month" class="dropmenu" title="'+lng['select_month']+'" href="javascript:;" onclick="showdiv(\'month\');doane(event)"></a></td><td onclick="refreshcalendar(yy, mm+1)" title="'+lng['next_month']+'" style="cursor: pointer;"><a href="javascript:;">&raquo;</a></td></tr>';
-       s += '<tr id="calendar_header"><td>'+lng['wday0']+'</td><td>'+lng['wday1']+'</td><td>'+lng['wday2']+'</td><td>'+lng['wday3']+'</td><td>'+lng['wday4']+'</td><td>'+lng['wday5']+'</td><td>'+lng['wday6']+'</td></tr>';
+	s += '<tr align="center" id="calendar_week"><td onclick="refreshcalendar(yy, mm-1)" title="' + $L('prev_month') + '" style="cursor: pointer;"><a href="javascript:;">&laquo;</a></td><td colspan="5" style="text-align: center"><a href="javascript:;" onclick="showdiv(\'year\');doane(event)" class="dropmenu" title="' + $L('select_year') + '" id="year"></a>&nbsp; - &nbsp;<a id="month" class="dropmenu" title="' + $L('select_month') + '" href="javascript:;" onclick="showdiv(\'month\');doane(event)"></a></td><td onclick="refreshcalendar(yy, mm+1)" title="' + $L('next_month') + '" style="cursor: pointer;"><a href="javascript:;">&raquo;</a></td></tr>';
+	s += '<tr id="calendar_header"><td>' + $L('sun') + '</td><td>' + $L('mon') + '</td><td>' + $L('tue') + '</td><td>' + $L('wed') + '</td><td>' + $L('thu') + '</td><td>' + $L('fri') + '</td><td>' + $L('sat') + '</td></tr>';
 	for(var i = 0; i < 6; i++) {
 		s += '<tr>';
 		for(var j = 1; j <= 7; j++)
 			s += "<td id=d" + (i * 7 + j) + " height=\"19\">0</td>";
 		s += "</tr>";
 	}
-       s += '<tr id="hourminute" class="pns"><td colspan="4" align="left"><input type="text" size="1" value="" id="hour" class="px vm" style="width: 40px;margin-right: 5px;" onKeyUp=\'this.value=this.value > 23 ? 23 : zerofill(this.value);controlid.value=controlid.value.replace(/\\d+(\:\\d+)/ig, this.value+"$1")\'> '+lng['hours']+' ';
-       s += '<span id="fullhourselector"><input type="text" size="1" value="" id="minute" class="px vm" style="width: 40px;margin: 0px 5px;" onKeyUp=\'this.value=this.value > 59 ? 59 : zerofill(this.value);controlid.value=controlid.value.replace(/(\\d+\:)\\d+/ig, "$1"+this.value)\'> '+lng['minutes']+'</span>';
-       s += '<span id="halfhourselector"><select id="minutehalfhourly" onchange=\'this.value=this.value > 59 ? 59 : zerofill(this.value);controlid.value=controlid.value.replace(/(\\d+\:)\\d+/ig, "$1"+this.value)\'><option value="00">00</option><option value="30">30</option></select> '+lng['minutes']+'</span>';
-       s += '</td><td align="right" colspan="3"><button class="pn" onclick="confirmcalendar();"><em>'+lng['ok']+'</em></button></td></tr>';
+	s += '<tr id="hourminute" class="pns"><td colspan="4" align="left"><input type="text" size="1" value="" id="hour" class="px vm" style="width: 40px;margin-right: 5px;" onKeyUp=\'this.value=this.value > 23 ? 23 : zerofill(this.value);controlid.value=controlid.value.replace(/\\d+(\:\\d+)/ig, this.value+"$1")\'>' + $L('hour');
+	s += '<span id="fullhourselector"><input type="text" size="1" value="" id="minute" class="px vm" style="width: 40px;margin: 0px 5px;" onKeyUp=\'this.value=this.value > 59 ? 59 : zerofill(this.value);controlid.value=controlid.value.replace(/(\\d+\:)\\d+/ig, "$1"+this.value)\'>' + $L('min') + '</span>';
+	s += '<span id="halfhourselector"><select id="minutehalfhourly" onchange=\'this.value=this.value > 59 ? 59 : zerofill(this.value);controlid.value=controlid.value.replace(/(\\d+\:)\\d+/ig, "$1"+this.value)\'><option value="00">00</option><option value="30">30</option></select>' + $L('min') + '</span>';
+	s += '</td><td align="right" colspan="3"><button class="pn" onclick="confirmcalendar();"><em>' + $L('confirm') + '</em></button></td></tr>';
 	s += '</table></div></div>';
 	s += '<div id="calendar_year" onclick="doane(event)" style="display: none;z-index:100001;"><div class="col">';
 	for(var k = 2090; k >= 2001; k--) {
@@ -46,7 +45,7 @@ function loadcalendar() {
 	s += '</div></div>';
 	s += '<div id="calendar_month" onclick="doane(event)" style="display: none;z-index:100001;">';
 	for(var k = 1; k <= 12; k++) {
-               s += '<a href="javascript:;" onclick="refreshcalendar(yy, ' + (k - 1) + ');$(\'calendar_month\').style.display=\'none\'"><span' + (today.getMonth()+1 == k ? ' class="calendar_today"' : '') + ' id="calendar_month_' + k + '">' + k + ( k < 10 ? '&nbsp;' : '') + ' '+lng['month']+'</span></a><br />';
+		s += '<a href="javascript:;" onclick="refreshcalendar(yy, ' + (k - 1) + ');$(\'calendar_month\').style.display=\'none\'"><span' + (today.getMonth()+1 == k ? ' class="calendar_today"' : '') + ' id="calendar_month_' + k + '">' + k + ( k < 10 ? '&nbsp;' : '') + ' ' + $L('month') + '</span></a><br />';
 	}
 	s += '</div>';
 	if(BROWSER.ie && BROWSER.ie < 7) {
@@ -101,6 +100,8 @@ function settime(d) {
 			$('calendariframe').style.display = 'none';
 		}
 	}
+	currday = new Date(yy, mm, parseInt(d));
+	refreshcalendar(currday.getFullYear(), currday.getMonth());
 	controlid.value = yy + "-" + zerofill(mm + 1) + "-" + zerofill(d) + (addtime ? ' ' + zerofill($('hour').value) + ':' + zerofill($((halfhour) ? 'minutehalfhourly' : 'minute').value) : '');
 	if(typeof calendarrecall == 'function') {
 		calendarrecall();
@@ -203,7 +204,7 @@ function refreshcalendar(y, m) {
 		}
 		if(x.getFullYear() == today.getFullYear() && x.getMonth() == today.getMonth() && x.getDate() == today.getDate()) {
 			dd.className = 'calendar_today';
-                       dd.firstChild.title = lng['today'];
+			dd.firstChild.title = $L('today');
 		}
 		if(x.getFullYear() == currday.getFullYear() && x.getMonth() == currday.getMonth() && x.getDate() == currday.getDate()) {
 			dd.className = 'calendar_checked';
@@ -214,6 +215,7 @@ function refreshcalendar(y, m) {
 	while(d + mv <= 42) {
 		dd = $("d" + (d + mv));
 		dd.innerHTML = "&nbsp;";
+		dd.className = 'calendar_default';
 		d++;
 	}
 
@@ -245,5 +247,6 @@ function zerofill(s) {
 
 if(!BROWSER.other) {
 	loadcss('forum_calendar');
+	_attachEvent(window, 'load', loadcalendar, document);
 	loadcalendar();
 }

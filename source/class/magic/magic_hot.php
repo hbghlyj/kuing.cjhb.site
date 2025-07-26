@@ -1,10 +1,9 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: magic_hot.php 26749 2011-12-22 07:38:37Z chenmengshu $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -21,12 +20,14 @@ class magic_hot {
 	var $useevent = 0;
 	var $targetgroupperm = false;
 	var $copyright = '<a href="https://www.discuz.vip/" target="_blank">Discuz!</a>';
-	var $magic = array();
-	var $parameters = array();
+	var $magic = [];
+	var $parameters = [];
 
-	function getsetting(&$magic) {}
+	function getsetting(&$magic) {
+	}
 
-	function setsetting(&$magicnew, &$parameters) {}
+	function setsetting(&$magicnew, &$parameters) {
+	}
 
 	function usesubmit() {
 		global $_G;
@@ -35,17 +36,17 @@ class magic_hot {
 		$idtype = $_GET['idtype'];
 		$blog = magic_check_idtype($id, $idtype);
 
-		if(C::t('common_magiclog')->count_by_action_uid_targetid_idtype_magicid(2, $_G['uid'], $id, $idtype, $this->magic['magicid'])) {
+		if(table_common_magiclog::t()->count_by_action_uid_targetid_idtype_magicid(2, $_G['uid'], $id, $idtype, $this->magic['magicid'])) {
 			showmessage('magicuse_object_once_limit');
 		}
 
 		$num = !empty($_G['setting']['feedhotmin']) ? intval($_G['setting']['feedhotmin']) : 3;
-		C::t('home_feed')->update_hot_by_id($id, $idtype, $_G['uid'], $num);
-		C::t('home_blog')->increase($id, $_G['uid'], array('hot' => $num));
+		table_home_feed::t()->update_hot_by_id($id, $idtype, $_G['uid'], $num);
+		table_home_blog::t()->increase($id, $_G['uid'], ['hot' => $num]);
 
 		usemagic($this->magic['magicid'], $this->magic['num']);
 		updatemagiclog($this->magic['magicid'], '2', '1', '0', '0', $idtype, $id);
-		showmessage('magics_use_success', '', array('magicname'=>$_G['setting']['magics']['hot']), array('alert' => 'right', 'showdialog' => 1));
+		showmessage('magics_use_success', '', ['magicname' => $_G['setting']['magics']['hot']], ['alert' => 'right', 'showdialog' => 1]);
 	}
 
 	function show() {
@@ -53,12 +54,12 @@ class magic_hot {
 		$id = intval($_GET['id']);
 		$idtype = $_GET['idtype'];
 		$blog = magic_check_idtype($id, $idtype);
-		if(C::t('common_magiclog')->count_by_action_uid_targetid_idtype_magicid(2, $_G['uid'], $id, $idtype, $this->magic['magicid'])) {
+		if(table_common_magiclog::t()->count_by_action_uid_targetid_idtype_magicid(2, $_G['uid'], $id, $idtype, $this->magic['magicid'])) {
 			showmessage('magicuse_object_once_limit');
 		}
 
 		$num = !empty($_G['setting']['feedhotmin']) ? intval($_G['setting']['feedhotmin']) : 3;
-		magicshowtips(lang('magic/hot', 'hot_info', array('num'=>$num)));
+		magicshowtips(lang('magic/hot', 'hot_info', ['num' => $num]));
 		echo <<<HTML
 <p>
 	<input type="hidden" name="id" value="'.$id.'" />
@@ -69,4 +70,3 @@ HTML;
 
 }
 
-?>

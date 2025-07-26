@@ -1,10 +1,9 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: class_portalcategory.php 27449 2012-02-01 05:32:35Z zhangguosheng $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -13,7 +12,8 @@ if(!defined('IN_DISCUZ')) {
 
 class portal_category {
 
-	function __construct() {}
+	function __construct() {
+	}
 
 	public static function &instance() {
 		static $object;
@@ -24,7 +24,7 @@ class portal_category {
 	}
 
 	function add_users_perm($catid, $users) {
-		$sqlarr = $uids = array();
+		$sqlarr = $uids = [];
 		$catid = intval($catid);
 		if(!empty($catid) && !empty($users)) {
 			$catids = $this->get_subcatids_by_catid($catid);
@@ -38,23 +38,23 @@ class portal_category {
 
 	function _update_member_allowadmincp($uids) {
 		if(!empty($uids)) {
-			$userperms = array();
-			$userperms = C::t('portal_category_permission')->fetch_permission_by_uid($uids);
-			foreach(C::t('common_member')->fetch_all($uids, false, 0) as $uid => $v) {
+			$userperms = [];
+			$userperms = table_portal_category_permission::t()->fetch_permission_by_uid($uids);
+			foreach(table_common_member::t()->fetch_all($uids, false, 0) as $uid => $v) {
 				$v['allowadmincp'] = setstatus(3, empty($userperms[$v['uid']]['allowpublish']) ? 0 : 1, $v['allowadmincp']);
 				$v['allowadmincp'] = setstatus(2, empty($userperms[$v['uid']]['allowmanage']) ? 0 : 1, $v['allowadmincp']);
-				C::t('common_member')->update($uid, array('allowadmincp'=>$v['allowadmincp']));
+				table_common_member::t()->update($uid, ['allowadmincp' => $v['allowadmincp']]);
 			}
 		}
 	}
 
 	function delete_users_perm($catid, $uids) {
 
-		$uids = !is_array($uids) ? array($uids) : $uids;
+		$uids = !is_array($uids) ? [$uids] : $uids;
 		$uids = array_map('intval', $uids);
 		$uids = array_filter($uids);
 		if($uids) {
-			C::t('portal_category_permission')->delete_by_catid_uid_inheritedcatid($catid, $uids, 0);
+			table_portal_category_permission::t()->delete_by_catid_uid_inheritedcatid($catid, $uids, 0);
 			$this->delete_inherited_perm_by_catid($catid, $catid, $uids);
 			$this->_update_member_allowadmincp($uids);
 		}
@@ -65,12 +65,12 @@ class portal_category {
 			$catids = $this->get_subcatids_by_catid($catid);
 		}
 		if($catids) {
-			$uids = is_array($uid) ? $uid : array($uid);
+			$uids = is_array($uid) ? $uid : [$uid];
 			foreach($uids as $uid_) {
 				$uid_ = intval($uid_);
-				C::t('portal_category_permission')->delete_by_catid_uid_inheritedcatid($catids, $uid_, $upid ? $upid : true);
+				table_portal_category_permission::t()->delete_by_catid_uid_inheritedcatid($catids, $uid_, $upid ? $upid : true);
 				if($uid_) {
-					$this->_update_member_allowadmincp(array($uid_));
+					$this->_update_member_allowadmincp([$uid_]);
 				}
 			}
 		}
@@ -89,24 +89,24 @@ class portal_category {
 	}
 
 	function get_perms_by_catid($catid, $uid = 0) {
-		$perms = array();
+		$perms = [];
 		$catid = intval($catid);
 		$uid = intval($uid);
 		if($catid) {
-			$perms = C::t('portal_category_permission')->fetch_all_by_catid($catid, $uid);
+			$perms = table_portal_category_permission::t()->fetch_all_by_catid($catid, $uid);
 		}
 		return $perms;
 	}
 
 
 	function _add_users_cats($users, $catids, $upid = 0) {
-		C::t('portal_category_permission')->insert_batch($users, $catids, $upid);
+		table_portal_category_permission::t()->insert_batch($users, $catids, $upid);
 	}
 
-	function delete_perm_by_inheritedcatid($catid, $uids = array()) {
-		if($uids && !is_array($uids)) $uids = array($uids);
+	function delete_perm_by_inheritedcatid($catid, $uids = []) {
+		if($uids && !is_array($uids)) $uids = [$uids];
 		if($catid) {
-			C::t('portal_category_permission')->delete_by_catid_uid_inheritedcatid(false, $uids, $catid);
+			table_portal_category_permission::t()->delete_by_catid_uid_inheritedcatid(false, $uids, $catid);
 			if($uids) {
 				$this->_update_member_allowadmincp($uids);
 			}
@@ -115,17 +115,18 @@ class portal_category {
 
 	function delete_allperm_by_catid($catid) {
 		if($catid) {
-			C::t('portal_category_permission')->delete_by_catid_uid_inheritedcatid($catid);
-			C::t('portal_category_permission')->delete_by_catid_uid_inheritedcatid(false, false, $catid);
+			table_portal_category_permission::t()->delete_by_catid_uid_inheritedcatid($catid);
+			table_portal_category_permission::t()->delete_by_catid_uid_inheritedcatid(false, false, $catid);
 		}
 	}
+
 	function get_subcatids_by_catid($catid) {
 		loadcache('portalcategory');
 		$portalcategory = getglobal('cache/portalcategory');
-		$catids = array();
+		$catids = [];
 		$catids[$catid] = $catid;
 		if(isset($portalcategory[$catid]) && !empty($portalcategory[$catid]['children'])) {
-			$children = array();
+			$children = [];
 			foreach($portalcategory[$catid]['children'] as $cid) {
 				if(!$portalcategory[$cid]['notinheritedarticle']) {
 					$catids[$cid] = $cid;
@@ -145,4 +146,4 @@ class portal_category {
 		return $catids;
 	}
 }
-?>
+

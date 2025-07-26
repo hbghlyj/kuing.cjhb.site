@@ -1,10 +1,9 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: function_misc.php 33487 2013-06-21 08:00:39Z kamichen $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -20,7 +19,7 @@ function procthread($thread, $timeformat = 'd') {
 
 	$lastvisit = $_G['member']['lastvisit'];
 	if(empty($_G['forum_colorarray'])) {
-		$_G['forum_colorarray'] = array('', '#EE1B2E', '#EE5023', '#996600', '#3C9D40', '#2897C5', '#2B65B7', '#8F2A90', '#EC1282');
+		$_G['forum_colorarray'] = ['', '#EE1B2E', '#EE5023', '#996600', '#3C9D40', '#2897C5', '#2B65B7', '#8F2A90', '#EC1282'];
 	}
 
 	if($thread['closed']) {
@@ -32,7 +31,7 @@ function procthread($thread, $timeformat = 'd') {
 		}
 	} else {
 		$thread['folder'] = 'common';
-		if($lastvisit < $thread['lastpost'] && (empty($_G['cookie']['oldtopics']) || strpos($_G['cookie']['oldtopics'], 'D'.$thread['tid'].'D') === FALSE)) {
+		if($lastvisit < $thread['lastpost'] && (empty($_G['cookie']['oldtopics']) || !str_contains($_G['cookie']['oldtopics'], 'D'.$thread['tid'].'D'))) {
 			$thread['new'] = 1;
 			$thread['folder'] = 'new';
 		} else {
@@ -55,7 +54,7 @@ function procthread($thread, $timeformat = 'd') {
 
 	$postsnum = $thread['special'] ? $thread['replies'] : $thread['replies'] + 1;
 	$pagelinks = '';
-	if($postsnum  > $_G['ppp']) {
+	if($postsnum > $_G['ppp']) {
 		if($_G['setting']['domain']['app']['forum'] || $_G['setting']['domain']['app']['default']) {
 			$domain = $_G['scheme'].'://'.($_G['setting']['domain']['app']['forum'] ? $_G['setting']['domain']['app']['forum'] : ($_G['setting']['domain']['app']['default'] ? $_G['setting']['domain']['app']['default'] : '')).'/';
 		} else {
@@ -105,7 +104,24 @@ function procthread($thread, $timeformat = 'd') {
 function modlog($thread, $action) {
 	global $_G;
 	$reason = $_GET['reason'];
-	writelog('modslog', dhtmlspecialchars("{$_G['timestamp']}\t{$_G['username']}\t{$_G['adminid']}\t{$_G['clientip']}\t".$_G['forum']['fid']."\t".$_G['forum']['name']."\t{$thread['tid']}\t{$thread['subject']}\t$action\t$reason\t".$_G['toforum']['fid']."\t".$_G['toforum']['name']));
+	if($_G['setting']['log']['mods']) {
+		$errorlog = [
+			'timestamp' => TIMESTAMP,
+			'operator_username' => $_G['username'],
+			'operator_adminid' => $_G['adminid'],
+			'clientip' => $_G['clientip'],
+			'forum_fid' => $_G['forum']['fid'],
+			'forum_name' => $_G['forum']['name'],
+			'tid' => $thread['tid'],
+			'subject' => $thread['subject'],
+			'action' => $action,
+			'reason' => $reason,
+			'toforum_fid' => $_G['toforum']['fid'],
+			'toforum_name' => $_G['toforum']['name'],
+		];
+		$member_log = $_G['member'];
+		logger('mods', $member_log, $_G['member']['uid'], $errorlog);
+	}
 }
 
 function checkreasonpm() {
@@ -133,7 +149,7 @@ function sendreasonpm($var, $item, $notevar, $notictype = '', $system = 1) {
 function modreasonselect($isadmincp = 0, $reasionkey = 'modreasons') {
 	global $_G;
 	if(!isset($_G['cache'][$reasionkey]) || !is_array($_G['cache'][$reasionkey])) {
-		loadcache(array($reasionkey, 'stamptypeid'));
+		loadcache([$reasionkey, 'stamptypeid']);
 	}
 	$select = '';
 	if(!empty($_G['cache'][$reasionkey])) {
@@ -150,13 +166,22 @@ function modreasonselect($isadmincp = 0, $reasionkey = 'modreasons') {
 }
 
 
-
 function acpmsg($message, $url = '', $type = '', $extra = '') {
 	if(defined('IN_ADMINCP')) {
+		$msg = cplang($message);
+		if($msg == $message) {
+			$msg = lang('message', $message);
+		}
 		!defined('CPHEADER_SHOWN') && cpheader();
-		cpmsg($message, $url, $type, $extra);
+		cpmsg($msg, $url, $type, $extra);
 	} else {
-		showmessage($message, $url, $extra);
+		define('ADMINSCRIPT', '');
+		require_once libfile('function/admincp');
+		$msg = lang('message', $message);
+		if($msg == $message) {
+			$msg = cplang($message);
+		}
+		showmessage($msg, $url, $extra);
 	}
 }
 
@@ -164,18 +189,32 @@ function savebanlog($username, $origgroupid, $newgroupid, $expiration, $reason) 
 	global $_G;
 	if($_G['setting']['plugins']['func'][HOOKTYPE]['savebanlog']) {
 		$param = func_get_args();
-		hookscript('savebanlog', 'global', 'funcs', array('param' => $param), 'savebanlog');
+		hookscript('savebanlog', 'global', 'funcs', ['param' => $param], 'savebanlog');
 	}
-	writelog('banlog', dhtmlspecialchars("{$_G['timestamp']}\t{$_G['member']['username']}\t{$_G['groupid']}\t{$_G['clientip']}\t$username\t$origgroupid\t$newgroupid\t$expiration\t$reason"));
+	if($_G['setting']['log']['ban']) {
+		$errorlog = [
+			'timestamp' => TIMESTAMP,
+			'operator_username' => $_G['member']['username'],
+			'operator_groupid' => $_G['groupid'],
+			'clientip' => $_G['clientip'],
+			'username' => $username,
+			'origgroupid' => $origgroupid,
+			'newgroupid' => $newgroupid,
+			'expiration' => $expiration,
+			'reason' => $reason,
+		];
+		$member_log = table_common_member::t()->fetch_by_username($username);
+		logger('ban', $member_log, $_G['member']['uid'], $errorlog);
+	}
 }
 
 function clearlogstring($str) {
 	if(!empty($str)) {
 		if(!is_array($str)) {
 			$str = dhtmlspecialchars(trim($str));
-			$str = str_replace(array("\t", "\r\n", "\n", "   ", "  "), ' ', $str);
+			$str = str_replace(["\t", "\r\n", "\n", '   ', '  '], ' ', $str);
 		} else {
-			foreach ($str as $key => $val) {
+			foreach($str as $key => $val) {
 				$str[$key] = clearlogstring($val);
 			}
 		}
@@ -183,13 +222,13 @@ function clearlogstring($str) {
 	return $str;
 }
 
-function implodearray($array, $skip = array()) {
+function implodearray($array, $skip = []) {
 	$return = '';
 	if(is_array($array) && !empty($array)) {
-		foreach ($array as $key => $value) {
+		foreach($array as $key => $value) {
 			if(empty($skip) || !in_array($key, $skip, true)) {
 				if(is_array($value)) {
-					$return .= "$key={".implodearray($value, $skip)."}; ";
+					$return .= "$key={".implodearray($value, $skip).'}; ';
 				} elseif(!empty($value)) {
 					$return .= "$key=$value; ";
 				} else {
@@ -205,19 +244,19 @@ function undeletethreads($tids) {
 	global $_G;
 	if($_G['setting']['plugins']['func'][HOOKTYPE]['undeletethreads']) {
 		$param = func_get_args();
-		hookscript('undeletethreads', 'global', 'funcs', array('param' => $param), 'undeletethreads');
+		hookscript('undeletethreads', 'global', 'funcs', ['param' => $param], 'undeletethreads');
 	}
 	$threadsundel = 0;
 	if($tids && is_array($tids)) {
 		$arrtids = $tids;
 		$tids = '\''.implode('\',\'', $tids).'\'';
 
-		$tuidarray = $ruidarray = $fidarray = $posttabletids = array();
-		foreach(C::t('forum_thread')->fetch_all_by_tid($arrtids) as $thread) {
+		$tuidarray = $ruidarray = $fidarray = $posttabletids = [];
+		foreach(table_forum_thread::t()->fetch_all_by_tid($arrtids) as $thread) {
 			$posttabletids[$thread['posttableid'] ? $thread['posttableid'] : 0][] = $thread['tid'];
 		}
 		foreach($posttabletids as $posttableid => $ptids) {
-			foreach(C::t('forum_post')->fetch_all_by_tid($posttableid, $ptids, false) as $post) {
+			foreach(table_forum_post::t()->fetch_all_by_tid($posttableid, $ptids, false) as $post) {
 				if($post['first']) {
 					$tuidarray[$post['fid']][] = $post['authorid'];
 				} else {
@@ -227,7 +266,7 @@ function undeletethreads($tids) {
 					$fidarray[] = $post['fid'];
 				}
 			}
-			C::t('forum_post')->update_by_tid($posttableid, $ptids, array('invisible' => '0'), true);
+			table_forum_post::t()->update_by_tid($posttableid, $ptids, ['invisible' => '0'], true);
 		}
 		if($tuidarray) {
 			foreach($tuidarray as $fid => $tuids) {
@@ -240,7 +279,7 @@ function undeletethreads($tids) {
 			}
 		}
 
-		$threadsundel = C::t('forum_thread')->update($arrtids, array('displayorder'=>0, 'moderated'=>1));
+		$threadsundel = table_forum_thread::t()->update($arrtids, ['displayorder' => 0, 'moderated' => 1]);
 
 		updatemodlog($tids, 'UDL');
 		updatemodworks('UDL', $threadsundel);
@@ -265,7 +304,7 @@ function recyclebinpostundelete($undeletepids, $posttableid = false) {
 	global $_G;
 	if($_G['setting']['plugins']['func'][HOOKTYPE]['recyclebinpostundelete']) {
 		$param = func_get_args();
-		hookscript('recyclebinpostundelete', 'global', 'funcs', array('param' => $param), 'recyclebinpostundelete');
+		hookscript('recyclebinpostundelete', 'global', 'funcs', ['param' => $param], 'recyclebinpostundelete');
 	}
 	$postsundel = 0;
 	if(empty($undeletepids)) {
@@ -274,11 +313,11 @@ function recyclebinpostundelete($undeletepids, $posttableid = false) {
 
 
 	loadcache('posttableids');
-	$posttableids = !empty($_G['cache']['posttableids']) ? ($posttableid !== false && in_array($posttableid, $_G['cache']['posttableids']) ? array($posttableid) : $_G['cache']['posttableids']): array('0');
+	$posttableids = !empty($_G['cache']['posttableids']) ? ($posttableid !== false && in_array($posttableid, $_G['cache']['posttableids']) ? [$posttableid] : $_G['cache']['posttableids']) : ['0'];
 
-	$postarray = $ruidarray = $fidarray = $tidarray = array();
+	$postarray = $ruidarray = $fidarray = $tidarray = [];
 	foreach($posttableids as $ptid) {
-		foreach(C::t('forum_post')->fetch_all_post($ptid, $undeletepids, false) as $post) {
+		foreach(table_forum_post::t()->fetch_all_post($ptid, $undeletepids, false) as $post) {
 			if(!$post['first']) {
 				$ruidarray[$post['fid']][] = $post['authorid'];
 			}
@@ -291,7 +330,7 @@ function recyclebinpostundelete($undeletepids, $posttableid = false) {
 		return $postsundel;
 	}
 
-	C::t('forum_post')->update_post($posttableid, $undeletepids, array('invisible' => '0'), true);
+	table_forum_post::t()->update_post($posttableid, $undeletepids, ['invisible' => '0'], true);
 
 	include_once libfile('function/post');
 	if($ruidarray) {
@@ -314,13 +353,13 @@ function process_ipnotice($ipconverted) {
 		return '';
 	}
 
-	if(strpos($ipconverted, '-') !== false) {
+	$ipconverted = substr($ipconverted, 1);
+	if(str_contains($ipconverted, '-')) {
 		$ipconverted = substr($ipconverted, 0, strpos($ipconverted, '-'));
 	}
 
 	$ipconverted = trim($ipconverted);
 
-	return '- '.$ipconverted ;
+	return '- '.$ipconverted;
 }
 
-?>

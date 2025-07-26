@@ -1,15 +1,19 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: index.php 23508 2011-07-21 06:34:40Z cnteacher $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
-define('IN_API', true);
-define('CURSCRIPT', 'api_mserver');
-define('APPTYPEID', 200);
+if(!preg_match('/cli/i', php_sapi_name())) {
+	exit;
+}
+
+const IN_API = true;
+const CURSCRIPT = 'api_mserver';
+const APPTYPEID = 200;
+const DISABLEDEFENSE = true;
 
 $_ENV['remote'] = new discuz_remote();
 $_ENV['remote']->init();
@@ -25,7 +29,7 @@ class discuz_remote {
 
 		require_once('../../source/class/class_core.php');
 
-		$cachelist = array();
+		$cachelist = [];
 		$this->core = C::app();
 
 		$this->core->cachelist = $cachelist;
@@ -44,7 +48,7 @@ class discuz_remote {
 		define('SERVICE_DIR', getglobal('config/remote/dir') ? getglobal('config/remote/dir') : 'remote');
 		$this->core->reject_robot();
 
-		if (empty($_GET['mod']) || preg_match('/[^0-9a-z]/i', $_GET['mod'])) {
+		if(empty($_GET['mod']) || preg_match('/[^0-9a-z]/i', $_GET['mod'])) {
 			$this->mod = 'index';
 		} else {
 			$this->mod = $_GET['mod'];
@@ -61,12 +65,12 @@ class discuz_remote {
 			$this->error(1, 'remote service need a appkey, please edit you config.global.php');
 		}
 
-		if ($this->mod != 'index') {
+		if($this->mod != 'index') {
 
 			$sign = $_GET['sign'];
 			unset($_GET['sign']);
 
-			if (empty($sign) || $sign != $this->sign($_GET)) {
+			if(empty($sign) || $sign != $this->sign($_GET)) {
 			}
 		}
 
@@ -74,8 +78,8 @@ class discuz_remote {
 			$this->error(5, 'your request is time out');
 		}
 
-		$modfile = DISCUZ_ROOT . './api/' . SERVICE_DIR . '/mod/mod_' . $this->mod . '.php';
-		if (!is_file($modfile)) {
+		$modfile = DISCUZ_ROOT.'./api/'.SERVICE_DIR.'/mod/mod_'.$this->mod.'.php';
+		if(!is_file($modfile)) {
 			$this->error(3, 'mod file is missing');
 		}
 
@@ -87,8 +91,7 @@ class discuz_remote {
 		}
 	}
 
-	function check_timestamp()
-	{
+	function check_timestamp() {
 		if(empty($_GET['timestamp'])) {
 			return 1;
 		}
@@ -100,14 +103,14 @@ class discuz_remote {
 
 	function sign($arg) {
 		$str = '';
-		foreach ($arg as $k => $v) {
-			$str .= $k . '=' . $v . '&';
+		foreach($arg as $k => $v) {
+			$str .= $k.'='.$v.'&';
 		}
-		return md5($str . getglobal('config/remote/appkey'));
+		return md5($str.getglobal('config/remote/appkey'));
 	}
 
 	function error($code, $msg) {
-		$code = sprintf("%04d", $code);
+		$code = sprintf('%04d', $code);
 		echo $code.':'.ucfirst($msg);
 		exit();
 	}
@@ -128,7 +131,7 @@ class remote_service {
 	}
 
 	function error($code, $msg) {
-		$code = sprintf("%04d", $code);
+		$code = sprintf('%04d', $code);
 		echo $code.':'.ucfirst($msg);
 		exit();
 	}
@@ -139,4 +142,3 @@ class remote_service {
 
 }
 
-?>

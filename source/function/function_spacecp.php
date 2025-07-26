@@ -1,10 +1,9 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: function_spacecp.php 36294 2016-12-14 03:11:30Z nemohou $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -17,11 +16,11 @@ function album_creat_by_id($albumid, $catid = 0) {
 	if(!$_G['uid']) {
 		return 0;
 	}
-	preg_match("/^new\:(.+)$/i", $albumid, $matchs);
+	preg_match('/^new\:(.+)$/i', $albumid, $matchs);
 	if(!empty($matchs[1])) {
 		$albumname = dhtmlspecialchars(trim($matchs[1]));
-		if(empty($albumname)) $albumname = dgmdate($_G['timestamp'],'Ymd');
-		$albumarr = array('albumname' => $albumname);
+		if(empty($albumname)) $albumname = dgmdate($_G['timestamp'], 'Ymd');
+		$albumarr = ['albumname' => $albumname];
 		if($catid) {
 			$albumarr['catid'] = $catid;
 		}
@@ -29,13 +28,13 @@ function album_creat_by_id($albumid, $catid = 0) {
 	} else {
 		$albumid = intval($albumid);
 		if($albumid) {
-			$value = C::t('home_album')->fetch_all_by_uid($_G['uid'], false, 0, 0, $albumid);
+			$value = table_home_album::t()->fetch_all_by_uid($_G['uid'], false, 0, 0, $albumid);
 			if($value = $value[0]) {
 				$albumname = addslashes($value['albumname']);
 				$albumfriend = $value['friend'];
 			} else {
-				$albumname = dgmdate($_G['timestamp'],'Ymd');
-				$albumarr = array('albumname' => $albumname);
+				$albumname = dgmdate($_G['timestamp'], 'Ymd');
+				$albumarr = ['albumname' => $albumname];
 				if($catid) {
 					$albumarr['catid'] = $catid;
 				}
@@ -46,26 +45,26 @@ function album_creat_by_id($albumid, $catid = 0) {
 	return $albumid;
 }
 
-function album_update_pic($albumid, $picid=0) {
+function album_update_pic($albumid, $picid = 0) {
 	global $_G;
 
-	$setarr = array();
+	$setarr = [];
 	if(!$picid) {
-		$piccount = C::t('home_pic')->check_albumpic($albumid, 0);
-		if(empty($piccount) && C::t('home_pic')->check_albumpic($albumid) == 0) {
-			C::t('home_album')->delete($albumid);
+		$piccount = table_home_pic::t()->check_albumpic($albumid, 0);
+		if(empty($piccount) && table_home_pic::t()->check_albumpic($albumid) == 0) {
+			table_home_album::t()->delete($albumid);
 			return false;
 		} else {
 			$setarr['picnum'] = $piccount;
 		}
 	}
-	$query = C::t('home_pic')->fetch_all_by_albumid($albumid, 0, 1, $picid, 1);
+	$query = table_home_pic::t()->fetch_all_by_albumid($albumid, 0, 1, $picid, 1);
 	if(!$pic = $query[0]) {
 		return false;
 	}
 	$from = $pic['remote'];
 	$pic['remote'] = $pic['remote'] > 1 ? $pic['remote'] - 2 : $pic['remote'];
-	$basedir = !getglobal('setting/attachdir') ? (DISCUZ_ROOT.'./data/attachment/') : getglobal('setting/attachdir');
+	$basedir = !getglobal('setting/attachdir') ? (DISCUZ_DATA.'./attachment/') : getglobal('setting/attachdir');
 	$picdir = 'cover/'.substr(md5($albumid), 0, 2).'/';
 	dmkdir($basedir.'./album/'.$picdir);
 	if($pic['remote']) {
@@ -89,22 +88,22 @@ function album_update_pic($albumid, $picid=0) {
 			$setarr['pic'] = $pic['thumb'] ? getimgthumbname($pic['filepath']) : $pic['filepath'];
 		}
 		if($from > 1) {
-			$setarr['picflag'] = $pic['remote'] ? 4:3;
+			$setarr['picflag'] = $pic['remote'] ? 4 : 3;
 		} else {
-			$setarr['picflag'] = $pic['remote'] ? 2:1;
+			$setarr['picflag'] = $pic['remote'] ? 2 : 1;
 		}
 	}
 	$setarr['updatetime'] = $_G['timestamp'];
-	C::t('home_album')->update($albumid, $setarr);
+	table_home_album::t()->update($albumid, $setarr);
 	return true;
 }
 
 function pic_save($FILE, $albumid, $title, $iswatermark = true, $catid = 0) {
 	global $_G, $space;
 
-	if($albumid<0) $albumid = 0;
+	if($albumid < 0) $albumid = 0;
 
-	$allowpictype = array('jpg','jpeg','gif','png');
+	$allowpictype = ['jpg', 'jpeg', 'gif', 'png'];
 
 	$upload = new discuz_upload();
 	$upload->init($FILE, 'album');
@@ -124,7 +123,7 @@ function pic_save($FILE, $albumid, $title, $iswatermark = true, $catid = 0) {
 	}
 	$_G['member'] = $space;
 
-	loadcache('usergroup_'.$space['groupid'], $oldgid != $_G['groupid'] ? true : false);
+	loadcache('usergroup_'.$space['groupid'], $oldgid != $_G['groupid']);
 	$_G['group'] = $_G['cache']['usergroup_'.$space['groupid']];
 
 	if(!checkperm('allowupload')) {
@@ -133,7 +132,7 @@ function pic_save($FILE, $albumid, $title, $iswatermark = true, $catid = 0) {
 
 	if(!cknewuser(1)) {
 		if($_G['setting']['newbiespan'] && $_G['timestamp'] - $_G['member']['regdate'] < $_G['setting']['newbiespan'] * 60) {
-			return lang('message', 'no_privilege_newbiespan', array('newbiespan' => $_G['setting']['newbiespan']));
+			return lang('message', 'no_privilege_newbiespan', ['newbiespan' => $_G['setting']['newbiespan']]);
 		}
 
 		if($_G['setting']['need_avatar'] && empty($_G['member']['avatarstatus'])) {
@@ -151,12 +150,12 @@ function pic_save($FILE, $albumid, $title, $iswatermark = true, $catid = 0) {
 		if($_G['setting']['need_friendnum']) {
 			space_merge($_G['member'], 'count');
 			if($_G['member']['friends'] < $_G['setting']['need_friendnum']) {
-				return lang('message', 'no_privilege_friendnum', array('friendnum' => $_G['setting']['need_friendnum']));
+				return lang('message', 'no_privilege_friendnum', ['friendnum' => $_G['setting']['need_friendnum']]);
 			}
 		}
 	}
 	if($_G['group']['maximagesize'] && $upload->attach['size'] > $_G['group']['maximagesize']) {
-		return lang('spacecp', 'files_can_not_exceed_size', array('extend' => $upload->attach['ext'], 'size' => sizecount($_G['group']['maximagesize'])));
+		return lang('spacecp', 'files_can_not_exceed_size', ['extend' => $upload->attach['ext'], 'size' => sizecount($_G['group']['maximagesize'])]);
 	}
 
 	$maxspacesize = checkperm('maxspacesize');
@@ -182,7 +181,7 @@ function pic_save($FILE, $albumid, $title, $iswatermark = true, $catid = 0) {
 	if($upload->error()) {
 		return lang('spacecp', 'mobile_picture_temporary_failure');
 	}
-	if(!$upload->attach['imageinfo'] || !in_array($upload->attach['imageinfo']['2'], array(1,2,3,6))) {
+	if(!$upload->attach['imageinfo'] || !in_array($upload->attach['imageinfo']['2'], [1, 2, 3, 6])) {
 		@unlink($upload->attach['target']);
 		return lang('spacecp', 'only_allows_upload_file_types');
 	}
@@ -192,7 +191,7 @@ function pic_save($FILE, $albumid, $title, $iswatermark = true, $catid = 0) {
 	require_once libfile('class/image');
 	$image = new image();
 	$result = $image->Thumb($new_name, '', 140, 140, 1);
-	$thumb = empty($result)?0:1;
+	$thumb = empty($result) ? 0 : 1;
 
 	if($_G['setting']['maxthumbwidth'] && $_G['setting']['maxthumbheight']) {
 		if($_G['setting']['maxthumbwidth'] < 300) $_G['setting']['maxthumbwidth'] = 300;
@@ -200,7 +199,7 @@ function pic_save($FILE, $albumid, $title, $iswatermark = true, $catid = 0) {
 		$image->Thumb($new_name, '', $_G['setting']['maxthumbwidth'], $_G['setting']['maxthumbheight'], 1, 1);
 	}
 
-	if ($iswatermark) {
+	if($iswatermark) {
 		$image->Watermark($new_name, '', 'album');
 	}
 	$pic_remote = 0;
@@ -238,7 +237,7 @@ function pic_save($FILE, $albumid, $title, $iswatermark = true, $catid = 0) {
 		$pic_status = 0;
 	}
 
-	$setarr = array(
+	$setarr = [
 		'albumid' => $albumid,
 		'uid' => $_G['uid'],
 		'username' => $_G['username'],
@@ -253,10 +252,10 @@ function pic_save($FILE, $albumid, $title, $iswatermark = true, $catid = 0) {
 		'thumb' => $thumb,
 		'remote' => $pic_remote,
 		'status' => $pic_status,
-	);
-	$setarr['picid'] = C::t('home_pic')->insert($setarr, 1);
+	];
+	$setarr['picid'] = table_home_pic::t()->insert($setarr, 1);
 
-	C::t('common_member_count')->increase($_G['uid'], array('attachsize' => $upload->attach['size']));
+	table_common_member_count::t()->increase($_G['uid'], ['attachsize' => $upload->attach['size']]);
 
 	include_once libfile('function/stat');
 	if($pic_status) {
@@ -267,15 +266,15 @@ function pic_save($FILE, $albumid, $title, $iswatermark = true, $catid = 0) {
 	return $setarr;
 }
 
-function stream_save($strdata, $albumid = 0, $fileext = 'jpg', $name='', $title='', $delsize=0, $from = false) {
+function stream_save($strdata, $albumid = 0, $fileext = 'jpg', $name = '', $title = '', $delsize = 0, $from = false) {
 	global $_G, $space;
 
-	if($albumid<0) $albumid = 0;
-	$allowPicType = array('jpg','jpeg','gif','png');
+	if($albumid < 0) $albumid = 0;
+	$allowPicType = ['jpg', 'jpeg', 'gif', 'png'];
 	if(!in_array($fileext, $allowPicType)) {
 		return -3;
 	}
-	$setarr = array();
+	$setarr = [];
 
 	$upload = new discuz_upload();
 
@@ -316,7 +315,7 @@ function stream_save($strdata, $albumid = 0, $fileext = 'jpg', $name='', $title=
 			require_once libfile('class/image');
 			$image = new image();
 			$result = $image->Thumb($newfilename, NULL, 140, 140, 1);
-			$thumb = empty($result)?0:1;
+			$thumb = empty($result) ? 0 : 1;
 
 			$image->Watermark($newfilename);
 
@@ -362,7 +361,7 @@ function stream_save($strdata, $albumid = 0, $fileext = 'jpg', $name='', $title=
 				$albumid = 0;
 			}
 
-			$setarr = array(
+			$setarr = [
 				'albumid' => $albumid,
 				'uid' => $_G['uid'],
 				'username' => $_G['username'],
@@ -377,10 +376,10 @@ function stream_save($strdata, $albumid = 0, $fileext = 'jpg', $name='', $title=
 				'thumb' => $thumb,
 				'remote' => $pic_remote,
 				'status' => $pic_status,
-			);
-			$setarr['picid'] = C::t('home_pic')->insert($setarr, 1);
+			];
+			$setarr['picid'] = table_home_pic::t()->insert($setarr, 1);
 
-			C::t('common_member_count')->increase($_G['uid'], array('attachsize' => $size));
+			table_common_member_count::t()->increase($_G['uid'], ['attachsize' => $size]);
 
 			include_once libfile('function/stat');
 			updatestat('pic');
@@ -396,25 +395,25 @@ function stream_save($strdata, $albumid = 0, $fileext = 'jpg', $name='', $title=
 function album_creat($arr) {
 	global $_G;
 
-	$albumid = C::t('home_album')->fetch_albumid_by_albumname_uid($arr['albumname'], $_G['uid']);
+	$albumid = table_home_album::t()->fetch_albumid_by_albumname_uid($arr['albumname'], $_G['uid']);
 	if($albumid) {
 		return $albumid;
 	} else {
 		$arr['uid'] = $_G['uid'];
 		$arr['username'] = $_G['username'];
 		$arr['dateline'] = $arr['updatetime'] = $_G['timestamp'];
-		$albumid = C::t('home_album')->insert($arr, TRUE);
+		$albumid = table_home_album::t()->insert($arr, TRUE);
 
-		C::t('common_member_count')->increase($_G['uid'], array('albums' => 1));
+		table_common_member_count::t()->increase($_G['uid'], ['albums' => 1]);
 		if(isset($arr['catid']) && $arr['catid']) {
-			C::t('home_album_category')->update_num_by_catid('1', $arr['catid']);
+			table_home_album_category::t()->update_num_by_catid('1', $arr['catid']);
 		}
 
 		return $albumid;
 	}
 }
 
-function getfilepath($fileext, $mkdir=false) {
+function getfilepath($fileext, $mkdir = false) {
 	global $_G;
 
 	$filepath = "{$_G['uid']}_{$_G['timestamp']}".random(4).".$fileext";
@@ -443,7 +442,7 @@ function getfilepath($fileext, $mkdir=false) {
 function getalbumpic($uid, $id) {
 	global $_G;
 
-	$pic = C::t('home_pic')->fetch_album_pic($id, $uid);
+	$pic = table_home_pic::t()->fetch_album_pic($id, $uid);
 	if($pic) {
 		return $pic['thumb'] ? getimgthumbname($pic['filepath']) : $pic['filepath'];
 	} else {
@@ -454,8 +453,8 @@ function getalbumpic($uid, $id) {
 function getclassarr($uid) {
 	global $_G;
 
-	$classarr = array();
-	$query = C::t('home_class')->fetch_all_by_uid($uid);
+	$classarr = [];
+	$query = table_home_class::t()->fetch_all_by_uid($uid);
 	foreach($query as $value) {
 		$classarr[$value['classid']] = $value;
 	}
@@ -465,8 +464,8 @@ function getclassarr($uid) {
 function getalbums($uid) {
 	global $_G;
 
-	$albums = array();
-	$query = C::t('home_album')->fetch_all_by_uid($uid, 'albumid');
+	$albums = [];
+	$query = table_home_album::t()->fetch_all_by_uid($uid, 'albumid');
 	foreach($query as $value) {
 		$albums[$value['albumid']] = $value;
 	}
@@ -476,7 +475,7 @@ function getalbums($uid) {
 function hot_update($idtype, $id, $hotuser) {
 	global $_G;
 
-	$hotusers = empty($hotuser)?array():explode(',', $hotuser);
+	$hotusers = empty($hotuser) ? [] : explode(',', $hotuser);
 	if($hotusers && in_array($_G['uid'], $hotusers)) {
 		return false;
 	} else {
@@ -484,7 +483,7 @@ function hot_update($idtype, $id, $hotuser) {
 		$hotuser = implode(',', $hotusers);
 	}
 	$hotuser = daddslashes($hotuser);
-	$newhot = count($hotusers)+1;
+	$newhot = count($hotusers) + 1;
 	if($newhot == $_G['setting']['feedhotmin']) {
 		$tablename = gettablebyidtype($idtype);
 		if($tablename) {
@@ -494,24 +493,24 @@ function hot_update($idtype, $id, $hotuser) {
 		}
 	}
 
-	switch ($idtype) {
+	switch($idtype) {
 		case 'blogid':
-			C::t('home_blogfield')->update($id, array('hotuser' => $hotuser));
-			C::t('home_blog')->increase($id, 0, array('hot' => 1));
+			table_home_blogfield::t()->update($id, ['hotuser' => $hotuser]);
+			table_home_blog::t()->increase($id, 0, ['hot' => 1]);
 			break;
 		case 'picid':
-			C::t('home_picfield')->insert(array('picid' => $id, 'hotuser' => $hotuser), 0, 1);
-			C::t('home_pic')->update_hot($id);
+			table_home_picfield::t()->insert(['picid' => $id, 'hotuser' => $hotuser], 0, 1);
+			table_home_pic::t()->update_hot($id);
 			break;
 		case 'sid':
-			C::t('home_share')->update_hot_by_sid($id, $hotuser);
+			table_home_share::t()->update_hot_by_sid($id, $hotuser);
 			break;
 		default:
 			return false;
 	}
-	if($feed = C::t('home_feed')->fetch_feed($id, $idtype)) {
+	if($feed = table_home_feed::t()->fetch_feed($id, $idtype)) {
 		if(empty($feed['friend'])) {
-			C::t('home_feed')->update_hot_by_feedid($feed['feedid'], 1);
+			table_home_feed::t()->update_hot_by_feedid($feed['feedid'], 1);
 		}
 	} elseif($idtype == 'picid') {
 		require_once libfile('function/feed');
@@ -536,10 +535,10 @@ function gettablebyidtype($idtype) {
 function privacy_update() {
 	global $_G, $space;
 
-	C::t('common_member_field_home')->update($_G['uid'], array('privacy'=>serialize($space['privacy'])));
+	table_common_member_field_home::t()->update($_G['uid'], ['privacy' => serialize($space['privacy'])]);
 }
 
-function ckrealname($return=0) {
+function ckrealname($return = 0) {
 	global $_G;
 
 	$result = true;
@@ -547,7 +546,7 @@ function ckrealname($return=0) {
 		space_merge($_G['member'], 'profile');
 		space_merge($_G['member'], 'verify');
 		if(empty($_G['member']['realname']) || !$_G['member']['verify6']) {
-			if(empty($return)) showmessage('no_privilege_realname', '', array(), array('return' => true));
+			if(empty($return)) showmessage('no_privilege_realname', '', [], ['return' => true]);
 			$result = false;
 		}
 	}
@@ -557,7 +556,7 @@ function ckrealname($return=0) {
 function isblacklist($touid) {
 	global $_G;
 
-	return C::t('home_blacklist')->count_by_uid_buid($touid, $_G['uid']);
+	return table_home_blacklist::t()->count_by_uid_buid($touid, $_G['uid']);
 }
 
 function emailcheck_send($uid, $email) {
@@ -565,7 +564,7 @@ function emailcheck_send($uid, $email) {
 
 	if($uid && $email) {
 		// 读取用户论坛表内的时间，限制重发间隔
-		$memberauthstr = C::t('common_member_field_forum')->fetch($uid);
+		$memberauthstr = table_common_member_field_forum::t()->fetch($uid);
 		if(!empty($memberauthstr['authstr'])) {
 			list($dateline) = explode("\t", $memberauthstr['authstr']);
 			$interval = $_G['setting']['mailinterval'] > 0 ? (int)$_G['setting']['mailinterval'] : 300;
@@ -576,19 +575,19 @@ function emailcheck_send($uid, $email) {
 		// 用户论坛字段表内authstr字段保存token和时间戳，实现邮件链接不可重复使用
 		$timestamp = $_G['timestamp'];
 		$idstring = substr(md5($email), 0, 6);
-		C::t('common_member_field_forum')->update($uid, array('authstr' => "$timestamp\t3\t$idstring"));
+		table_common_member_field_forum::t()->update($uid, ['authstr' => "$timestamp\t3\t$idstring"]);
 
 		$hash = authcode("$uid\t$email\t$timestamp", 'ENCODE', md5(substr(md5($_G['config']['security']['authkey']), 0, 16)));
 		$verifyurl = $_G['setting']['securesiteurl'].'home.php?mod=misc&amp;ac=emailcheck&amp;hash='.urlencode($hash);
-		$mailmessage = array(
+		$mailmessage = [
 			'tpl' => 'email_verify',
-			'var' => array(
+			'var' => [
 				'username' => $_G['member']['username'],
 				'bbname' => $_G['setting']['bbname'],
 				'siteurl' => $_G['setting']['securesiteurl'],
 				'url' => $verifyurl
-			)
-		);
+			]
+		];
 
 		require_once libfile('function/mail');
 		if(!sendmail($email, $mailmessage)) {
@@ -598,7 +597,7 @@ function emailcheck_send($uid, $email) {
 	return true;
 }
 
-function picurl_get($picurl, $maxlenth='200') {
+function picurl_get($picurl, $maxlenth = '200') {
 	$picurl = dhtmlspecialchars(trim($picurl));
 	if($picurl) {
 		if(preg_match("/^http\:\/\/.{5,$maxlenth}\.(jpg|gif|png)$/i", $picurl)) return $picurl;
@@ -612,7 +611,7 @@ function avatar_file($uid, $size) {
 	$var = "home_avatarfile_{$uid}_{$size}";
 	if(empty($_G[$var])) {
 		$uid = abs(intval($uid));
-		$uid = sprintf("%09d", $uid);
+		$uid = sprintf('%09d', $uid);
 		$dir1 = substr($uid, 0, 3);
 		$dir2 = substr($uid, 3, 2);
 		$dir3 = substr($uid, 5, 2);
@@ -623,7 +622,7 @@ function avatar_file($uid, $size) {
 
 function makepokeaction($iconid) {
 	global $_G;
-	$icons = array(
+	$icons = [
 		0 => lang('home/template', 'say_hi'),
 		1 => '<img alt="cyx" src="'.STATICURL.'image/poke/cyx.gif" class="vm" /> '.lang('home/template', 'poke_1'),
 		2 => '<img alt="wgs" src="'.STATICURL.'image/poke/wgs.gif" class="vm" /> '.lang('home/template', 'poke_2'),
@@ -638,8 +637,8 @@ function makepokeaction($iconid) {
 		11 => '<img alt="yw" src="'.STATICURL.'image/poke/yw.gif" class="vm" /> '.lang('home/template', 'poke_11'),
 		12 => '<img alt="ppjb" src="'.STATICURL.'image/poke/ppjb.gif" class="vm" /> '.lang('home/template', 'poke_12'),
 		13 => '<img alt="yyk" src="'.STATICURL.'image/poke/yyk.gif" class="vm" /> '.lang('home/template', 'poke_13')
-	);
-	return isset($icons[$iconid]) ? $icons[$iconid] : $icons[0];
+	];
+	return $icons[$iconid] ?? $icons[0];
 }
 
 function interval_check($type) {
@@ -704,4 +703,4 @@ function allowverify($vid = 0) {
 	}
 	return $allow;
 }
-?>
+

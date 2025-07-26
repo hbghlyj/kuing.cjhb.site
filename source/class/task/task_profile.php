@@ -1,10 +1,9 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: task_profile.php 24704 2011-10-08 10:19:11Z zhangguosheng $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -20,29 +19,29 @@ class task_profile {
 	var $icon = '';
 	var $period = '';
 	var $periodtype = 0;
-	var $conditions = array();
+	var $conditions = [];
 
-	function csc($task = array()) {
+	function csc($task = []) {
 		global $_G;
 
 		$data = $this->checkfield();
 		if(!$data[0]) {
 			return true;
 		}
-		return array('csc' => $data[1], 'remaintime' => 0);
+		return ['csc' => $data[1], 'remaintime' => 0];
 	}
 
 	function view() {
 		$data = $this->checkfield();
-		return lang('task/profile', 'profile_view', array('profiles' => implode(', ', $data[0])));
+		return lang('task/profile', 'profile_view', ['profiles' => implode(', ', $data[0])]);
 	}
 
 	function checkfield() {
 		global $_G;
 
-		$fields = array('realname', 'gender', 'birthyear', 'birthmonth', 'birthday', 'bloodtype', 'affectivestatus', 'birthcountry', 'birthprovince', 'birthcity', 'residecountry', 'resideprovince', 'residecity');
+		$fields = ['realname', 'gender', 'birthyear', 'birthmonth', 'birthday', 'bloodtype', 'affectivestatus', 'birthcountry', 'birthprovince', 'birthcity', 'residecountry', 'resideprovince', 'residecity'];
 		loadcache('profilesetting');
-		$fieldsnew = array();
+		$fieldsnew = [];
 		foreach($fields as $v) {
 			if(isset($_G['cache']['profilesetting'][$v])) {
 				$fieldsnew[$v] = $_G['cache']['profilesetting'][$v]['title'];
@@ -50,7 +49,7 @@ class task_profile {
 		}
 		if($fieldsnew) {
 			space_merge($_G['member'], 'profile');
-			$none = array();
+			$none = [];
 			foreach($_G['member'] as $k => $v) {
 				if(in_array($k, $fields, true) && !trim($v) && !empty($fieldsnew[$k])) {
 					$none[] = $fieldsnew[$k];
@@ -58,7 +57,7 @@ class task_profile {
 			}
 			$all = count($fields);
 			$csc = intval(($all - count($none)) / $all * 100);
-			return array($none, $csc);
+			return [$none, $csc];
 		} else {
 			return true;
 		}
@@ -66,4 +65,3 @@ class task_profile {
 
 }
 
-?>

@@ -1,24 +1,22 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: discuz_cron.php 30314 2012-05-22 03:12:44Z monkey $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
-class discuz_cron
-{
+class discuz_cron {
 
 	public static function run($cronid = 0) {
 		global $_G;
-		$cron = $cronid ? C::t('common_cron')->fetch($cronid) : C::t('common_cron')->fetch_nextrun(TIMESTAMP);
+		$cron = $cronid ? table_common_cron::t()->fetch($cronid) : table_common_cron::t()->fetch_nextrun(TIMESTAMP);
 
-		$processname ='DZ_CRON_'.(empty($cron) ? 'CHECKER' : $cron['cronid']);
+		$processname = 'DZ_CRON_'.(empty($cron) ? 'CHECKER' : $cron['cronid']);
 
 		if($cronid && !empty($cron)) {
 			discuz_process::unlock($processname);
@@ -30,27 +28,27 @@ class discuz_cron
 
 		if($cron) {
 
-			$cron['filename'] = str_replace(array('..', '/', '\\'), '', $cron['filename']);
+			$cron['filename'] = str_replace(['..', '/', '\\'], '', $cron['filename']);
 			$efile = explode(':', $cron['filename']);
 			if(count($efile) > 1) {
-				$cronfile = in_array($efile[0], $_G['setting']['plugins']['available']) ? DISCUZ_ROOT.'./source/plugin/'.$efile[0].'/cron/'.$efile[1] : '';
+				$cronfile = in_array($efile[0], $_G['setting']['plugins']['available']) ? DISCUZ_PLUGIN($efile[0]).'/cron/'.$efile[1] : '';
 			} else {
-				$cronfile = DISCUZ_ROOT.'./source/include/cron/'.$cron['filename'];
+				$cronfile = childfile(preg_replace('/\.php$/', '', $cron['filename']), 'global/cron');
 			}
 
 			if($cronfile) {
 				$cron['minute'] = explode("\t", $cron['minute']);
 				self::setnextime($cron);
 
-				// @set_time_limit(1000);
+				@set_time_limit(1000);
 				@ignore_user_abort(TRUE);
 
 				if(!@include $cronfile) {
 					return false;
 				}
-			}else{
-				$data = array('available' => '0');
-				C::t('common_cron')->update($cron['cronid'], $data);
+			} else {
+				$data = ['available' => '0'];
+				table_common_cron::t()->update($cron['cronid'], $data);
 			}
 
 		}
@@ -61,7 +59,7 @@ class discuz_cron
 	}
 
 	private static function nextcron() {
-		$cron = C::t('common_cron')->fetch_nextcron();
+		$cron = table_common_cron::t()->fetch_nextcron();
 		if($cron && isset($cron['nextrun'])) {
 			savecache('cronnextrun', $cron['nextrun']);
 		} else {
@@ -113,11 +111,11 @@ class discuz_cron
 		}
 
 		$nextrun = @gmmktime($cron['hour'], $cron['minute'] > 0 ? $cron['minute'] : 0, 0, $monthnow, $cron['day'], $yearnow) - getglobal('setting/timeoffset') * 3600;
-		$data = array('lastrun' => TIMESTAMP, 'nextrun' => $nextrun);
+		$data = ['lastrun' => TIMESTAMP, 'nextrun' => $nextrun];
 		if(!($nextrun > TIMESTAMP)) {
 			$data['available'] = '0';
 		}
-		C::t('common_cron')->update($cron['cronid'], $data);
+		table_common_cron::t()->update($cron['cronid'], $data);
 
 		return true;
 	}
@@ -127,7 +125,7 @@ class discuz_cron
 		$hour = $hour == -2 ? gmdate('H', TIMESTAMP + getglobal('setting/timeoffset') * 3600) : $hour;
 		$minute = $minute == -2 ? gmdate('i', TIMESTAMP + getglobal('setting/timeoffset') * 3600) : $minute;
 
-		$nexttime = array();
+		$nexttime = [];
 		if($cron['hour'] == -1 && !$cron['minute']) {
 			$nexttime['hour'] = $hour;
 			$nexttime['minute'] = $minute + 1;
@@ -172,4 +170,3 @@ class discuz_cron
 	}
 }
 
-?>

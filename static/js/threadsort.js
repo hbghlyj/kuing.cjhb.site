@@ -1,11 +1,8 @@
-/*
-	[Discuz!] (C)2001-2099 Comsenz Inc.
-	This is NOT a freeware, use is subject to license terms
-
-	$Id: threadsort.js 30962 2012-07-04 07:57:45Z zhangjie $
-
-	Modified by Valery Votintsev
-*/
+/**
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
+ */
 
 function xmlobj() {
 	var obj = new Object();
@@ -118,7 +115,7 @@ function changeselectthreadsort(selectchoiceoptionid, optionid, type) {
 	if((choicesarr[sselectchoiceoptionid]['slevel'] == 1 || type == 'search') && choicesarr[sselectchoiceoptionid]['scount'] == 1) {
 		nameid = name + ' ' + id;
 	}
-/*vot*/	var selectoption = '<select' + nameid + ' class="ps vm" onchange="changeselectthreadsort(this.value, \'' + optionid + '\'' + issearch + ');checkoption(\'' + forum_optionlist[soptionid]['sidentifier'] + '\', \'' + forum_optionlist[soptionid]['srequired'] + '\', \'' + forum_optionlist[soptionid]['stype'] + '\')" ' + ((forum_optionlist[soptionid]['sunchangeable'] == 1 && type == 'update') ? 'disabled' : '') + '><option value="0">'+lng['select_please']+'</option>';
+	var selectoption = '<select' + nameid + ' class="ps vm" onchange="changeselectthreadsort(this.value, \'' + optionid + '\'' + issearch + ');checkoption(\'' + forum_optionlist[soptionid]['sidentifier'] + '\', \'' + forum_optionlist[soptionid]['srequired'] + '\', \'' + forum_optionlist[soptionid]['stype'] + '\')" ' + ((forum_optionlist[soptionid]['sunchangeable'] == 1 && type == 'update') ? 'disabled' : '') + '><option value="0">' + $L('select') + '</option>';
 	for(var i in choicesarr) {
 		nameid = '';
 		if((choicesarr[sselectchoiceoptionid]['slevel'] == 1 || type == 'search') && choicesarr[i]['scount'] == choicesarr[sselectchoiceoptionid]['scount']) {
@@ -135,7 +132,7 @@ function changeselectthreadsort(selectchoiceoptionid, optionid, type) {
 			if(parseInt(choicesarr[i]['scount']) >= (parseInt(choicesarr[sselectchoiceoptionid]['scount']) + parseInt(choicesarr[sselectchoiceoptionid]['slevel']))) {
 				break;
 			}
-/*vot*/			selectoption += '</select>' + "\r\n" + '<select' + nameid + ' class="ps vm" onchange="changeselectthreadsort(this.value, \'' + optionid + '\'' + issearch + ');checkoption(\'' + forum_optionlist[soptionid]['sidentifier'] + '\', \'' + forum_optionlist[soptionid]['srequired'] + '\', \'' + forum_optionlist[soptionid]['stype'] + '\')" ' + ((forum_optionlist[soptionid]['sunchangeable'] == 1 && type == 'update') ? 'disabled' : '') + '><option value="0">'+lng['select_please']+'</option>';
+			selectoption += '</select>' + "\r\n" + '<select' + nameid + ' class="ps vm" onchange="changeselectthreadsort(this.value, \'' + optionid + '\'' + issearch + ');checkoption(\'' + forum_optionlist[soptionid]['sidentifier'] + '\', \'' + forum_optionlist[soptionid]['srequired'] + '\', \'' + forum_optionlist[soptionid]['stype'] + '\')" ' + ((forum_optionlist[soptionid]['sunchangeable'] == 1 && type == 'update') ? 'disabled' : '') + '><option value="0">' + $L('select') + '</option>';
 
 			lastcount = parseInt(choicesarr[i]['scount']);
 		}
@@ -168,10 +165,10 @@ function checkoption(identifier, required, checktype, checkmaxnum, checkminnum, 
 
 	if(checktype == 'select') {
 		if(required != '0' && ($('typeoption_' + identifier) == null || $('typeoption_' + identifier).value == '0')) {
-/*vot*/			warning(ce, lng['required_fill']);
+			warning(ce, $L('miss_required'));
 			return false;
 		} else if(required == '0' && ($('typeoption_' + identifier) == null || $('typeoption_' + identifier).value == '0')) {
-/*vot*/			ce.innerHTML = '<i class="fico-error fic4 fc-l vm"></i> '+lng['select_next_level'];
+			ce.innerHTML = '<i class="fico-error fic4 fc-l vm"></i> ' + $L('select_next_level');
 			ce.className = "warning";
 			return true;
 		}
@@ -188,7 +185,7 @@ function checkoption(identifier, required, checktype, checkmaxnum, checkminnum, 
 			}
 		}
 		if(!nodechecked && required != '0') {
-/*vot*/			warning(ce, lng['required_fill']);
+			warning(ce, $L('miss_required'));
 			return false;
 		}
 	}
@@ -201,7 +198,7 @@ function checkoption(identifier, required, checktype, checkmaxnum, checkminnum, 
 
 	if(required != '0') {
 		if(checkvalue == '') {
-/*vot*/			warning(ce, lng['required_fill']);
+			warning(ce, $L('miss_required'));
 			return false;
 		} else {
 			ce.innerHTML = '<i class="fico-check_right fic4 fc-v vm"></i>';
@@ -210,24 +207,24 @@ function checkoption(identifier, required, checktype, checkmaxnum, checkminnum, 
 
 	if(checkvalue) {
 		if(checktype == 'email' && !(/^[\-\.\w]+@[\.\-\w]+(\.\w+)+$/.test(checkvalue))) {
-/*vot*/			warning(ce, lng['email_invalid']);
+			warning(ce, $L('email_error'));
 			return false;
 		} else if((checktype == 'text' || checktype == 'textarea') && checkmaxlength != '0' && mb_strlen(checkvalue) > checkmaxlength) {
-/*vot*/			warning(ce, lng['text_too_long']);
+			warning(ce, $L('max_length'));
 			return false;
 		} else if((checktype == 'number' || checktype == 'range')) {
 			if(isNaN(checkvalue)) {
-/*vot*/				warning(ce, lng['numeric_invalid']);
+				warning(ce, $L('digital_error'));
 				return false;
 			} else if(checkmaxnum != '0' && parseInt(checkvalue) > parseInt(checkmaxnum)) {
-/*vot*/				warning(ce, lng['value_is_greater']);
+				warning(ce, $L('max_error'));
 				return false;
 			} else if(checkminnum != '0' && parseInt(checkvalue) < parseInt(checkminnum)) {
-/*vot*/				warning(ce, lng['value_is_less']);
+				warning(ce, $L('min_error'));
 				return false;
 			}
 		} else if(checktype == 'url' && !(/(http[s]?|ftp):\/\/[^\/\.]+?\..+\w[\/]?$/i.test(checkvalue))) {
-/*vot*/			warning(ce, lng['enter_valid_url']);
+			warning(ce, $L('http_url_error'));
 			return false;
 		}
 		ce.innerHTML = '<i class="fico-check_right fic4 fc-v vm"></i>';

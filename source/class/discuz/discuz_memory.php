@@ -1,26 +1,24 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: discuz_memory.php 36362 2017-02-04 02:02:03Z nemohou $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
-class discuz_memory extends discuz_base
-{
+class discuz_memory extends discuz_base {
 	private $config;
-	private $extension = array();
+	private $extension = [];
 	private $memory;
 	private $prefix;
 	private $userprefix;
 	public $type;
 	public $enable = false;
-	public $debug = array();
+	public $debug = [];
 
 	public $gotset = false; // 是否支持Set数据类型
 	public $gothash = false; // 是否支持Hash数据类型
@@ -70,14 +68,14 @@ class discuz_memory extends discuz_base
 				if($getmulti) {
 					$ret = $this->memory->getMulti($this->_key($key));
 					if($ret !== false && !empty($ret)) {
-						$_ret = array();
+						$_ret = [];
 						foreach((array)$ret as $_key => $value) {
 							$_ret[$this->_trim_key($_key)] = $value;
 						}
 						$ret = $_ret;
 					}
 				} else {
-					$ret = array();
+					$ret = [];
 					$_ret = false;
 					foreach($key as $id) {
 						if(($_ret = $this->memory->get($this->_key($id))) !== false && isset($_ret)) {
@@ -117,7 +115,7 @@ class discuz_memory extends discuz_base
 
 	public function exists($key, $prefix = '') {
 		$ret = false;
-		if ($this->enable && method_exists($this->memory, 'exists')) {
+		if($this->enable && method_exists($this->memory, 'exists')) {
 			$this->userprefix = $prefix;
 			$ret = $this->memory->exists($this->_key($key));
 		}
@@ -139,7 +137,7 @@ class discuz_memory extends discuz_base
 	public function clear() {
 		$ret = false;
 		if($this->enable && method_exists($this->memory, 'clear')) {
-			$ret = $this->memory->clear();
+			$ret = $this->memory->clear($this->_key(''));
 		}
 		return $ret;
 	}
@@ -162,7 +160,7 @@ class discuz_memory extends discuz_base
 	}
 
 	public function incex($key, $value, $prefix = '') {
-		if (!$this->enable || !$this->gotset) {
+		if(!$this->enable || !$this->gotset) {
 			return false;
 		}
 		$this->userprefix = $prefix;
@@ -188,7 +186,7 @@ class discuz_memory extends discuz_base
 	}
 
 	public function sadd($key, $value, $prefix = '') {
-		if (!$this->enable || !$this->gotset) {
+		if(!$this->enable || !$this->gotset) {
 			return false;
 		}
 		$this->userprefix = $prefix;
@@ -196,7 +194,7 @@ class discuz_memory extends discuz_base
 	}
 
 	public function srem($key, $value, $prefix = '') {
-		if (!$this->enable || !$this->gotset) {
+		if(!$this->enable || !$this->gotset) {
 			return false;
 		}
 		$this->userprefix = $prefix;
@@ -204,7 +202,7 @@ class discuz_memory extends discuz_base
 	}
 
 	public function sismember($key, $value, $prefix = '') {
-		if (!$this->enable || !$this->gotset) {
+		if(!$this->enable || !$this->gotset) {
 			return false;
 		}
 		$this->userprefix = $prefix;
@@ -212,7 +210,7 @@ class discuz_memory extends discuz_base
 	}
 
 	public function scard($key, $prefix = '') {
-		if (!$this->enable || !$this->gotset) {
+		if(!$this->enable || !$this->gotset) {
 			return false;
 		}
 		$this->userprefix = $prefix;
@@ -220,7 +218,7 @@ class discuz_memory extends discuz_base
 	}
 
 	public function smembers($key, $prefix = '') {
-		if (!$this->enable || !$this->gotset) {
+		if(!$this->enable || !$this->gotset) {
 			return false;
 		}
 		$this->userprefix = $prefix;
@@ -228,7 +226,7 @@ class discuz_memory extends discuz_base
 	}
 
 	public function hmset($key, $value, $prefix = '') {
-		if (!$this->enable || !$this->gothash) {
+		if(!$this->enable || !$this->gothash) {
 			return false;
 		}
 		$this->userprefix = $prefix;
@@ -236,7 +234,7 @@ class discuz_memory extends discuz_base
 	}
 
 	public function hgetall($key, $prefix = '') {
-		if (!$this->enable || !$this->gothash) {
+		if(!$this->enable || !$this->gothash) {
 			return false;
 		}
 		$this->userprefix = $prefix;
@@ -244,7 +242,7 @@ class discuz_memory extends discuz_base
 	}
 
 	public function hexists($key, $field, $prefix = '') {
-		if (!$this->enable || !$this->gothash) {
+		if(!$this->enable || !$this->gothash) {
 			return false;
 		}
 		$this->userprefix = $prefix;
@@ -252,7 +250,7 @@ class discuz_memory extends discuz_base
 	}
 
 	public function hget($key, $field, $prefix = '') {
-		if (!$this->enable || !$this->gothash) {
+		if(!$this->enable || !$this->gothash) {
 			return false;
 		}
 		$this->userprefix = $prefix;
@@ -265,37 +263,44 @@ class discuz_memory extends discuz_base
 	 * 如果没有sha_key，则eval脚本
 	 */
 	public function evalscript($script, $argv, $sha_key, $prefix = '') {
-		if (!$this->enable || !$this->goteval) {
+		if(!$this->enable || !$this->goteval) {
 			return false;
 		}
-		if (!is_array($argv)) {
-			$argv = array();
+		if(!is_array($argv)) {
+			$argv = [];
 		}
 		$this->userprefix = $prefix;
-		if ($sha_key) {
-			$sha_key = $sha_key . '_eval_sha';
+		if($sha_key) {
+			$sha_key = $sha_key.'_eval_sha';
 			$sha = $this->memory->get($this->_key($sha_key));
 			$should_load = false;
-			if (!$sha) {
-				if (!$script) return false;
+			if(!$sha) {
+				if(!$script) return false;
 				$should_load = true;
 			} else {
-				if (!$this->memory->scriptexists($sha)) { // 重启redis后，有可能sha-key存在，但script已经不存在了
+				if(!$this->memory->scriptexists($sha)) {
 					$should_load = true;
 				}
 			}
-			if ($should_load) {
+			if($should_load) {
 				$sha = $this->memory->loadscript($script);
 				$this->memory->set($this->_key($sha_key), $sha);
 			}
-			return $this->memory->evalSha($sha, array_merge(array($this->_key('')), $argv));
+			$argvs = array_merge([$this->_key('')], $argv);
+			$return = $this->memory->evalSha($sha, $argvs);
+			if(!$return) {
+				$sha = $this->memory->loadscript($script);
+				$this->memory->set($this->_key($sha_key), $sha);
+				$return = $this->memory->evalSha($sha, $argvs);
+			}
+			return $return;
 		} else {
-			return $this->memory->evalscript($script, array_merge(array($this->_key('')), $argv));
+			return $this->memory->evalscript($script, array_merge([$this->_key('')], $argv));
 		}
 	}
 
 	public function zadd($key, $value, $score, $prefix = '') {
-		if (!$this->enable || !$this->gotsortedset) {
+		if(!$this->enable || !$this->gotsortedset) {
 			return false;
 		}
 		$this->userprefix = $prefix;
@@ -303,7 +308,7 @@ class discuz_memory extends discuz_base
 	}
 
 	public function zrem($key, $value, $prefix = '') {
-		if (!$this->enable || !$this->gotsortedset) {
+		if(!$this->enable || !$this->gotsortedset) {
 			return false;
 		}
 		$this->userprefix = $prefix;
@@ -311,7 +316,7 @@ class discuz_memory extends discuz_base
 	}
 
 	public function zscore($key, $member, $prefix = '') {
-		if (!$this->enable || !$this->gotsortedset) {
+		if(!$this->enable || !$this->gotsortedset) {
 			return false;
 		}
 		$this->userprefix = $prefix;
@@ -319,7 +324,7 @@ class discuz_memory extends discuz_base
 	}
 
 	public function zcard($key, $prefix = '') {
-		if (!$this->enable || !$this->gotsortedset) {
+		if(!$this->enable || !$this->gotsortedset) {
 			return false;
 		}
 		$this->userprefix = $prefix;
@@ -327,7 +332,7 @@ class discuz_memory extends discuz_base
 	}
 
 	public function zrevrange($key, $start, $end, $prefix = '', $withscore = false) {
-		if (!$this->enable || !$this->gotsortedset) {
+		if(!$this->enable || !$this->gotsortedset) {
 			return false;
 		}
 		$this->userprefix = $prefix;
@@ -335,7 +340,7 @@ class discuz_memory extends discuz_base
 	}
 
 	public function zincrby($key, $member, $value, $prefix = '') {
-		if (!$this->enable || !$this->gotsortedset) {
+		if(!$this->enable || !$this->gotsortedset) {
 			return false;
 		}
 		$this->userprefix = $prefix;
@@ -343,24 +348,40 @@ class discuz_memory extends discuz_base
 	}
 
 	public function pipeline() {
-		if (!$this->enable || !$this->gotpipeline) {
+		if(!$this->enable || !$this->gotpipeline) {
 			return false;
 		}
 		return $this->memory->pipeline();
 	}
 
 	public function commit() {
-		if (!$this->enable || !$this->gotpipeline) {
+		if(!$this->enable || !$this->gotpipeline) {
 			return false;
 		}
 		return $this->memory->commit();
 	}
 
 	public function discard() {
-		if (!$this->enable || !$this->gotpipeline) {
+		if(!$this->enable || !$this->gotpipeline) {
 			return false;
 		}
 		return $this->memory->discard();
+	}
+
+	public function info($sections) {
+		if(!$this->enable || !$this->gotpipeline) {
+			return false;
+		}
+		return $this->memory->info($sections);
+	}
+
+	public function expire($key, $value, $prefix = '') {
+		$ret = false;
+		if($this->enable && method_exists($this->memory, 'expire')) {
+			$this->userprefix = $prefix;
+			$ret = $this->memory->expire($this->_key($key), $value);
+		}
+		return $ret;
 	}
 
 	private function _key($str) {
@@ -388,4 +409,3 @@ class discuz_memory extends discuz_base
 	}
 }
 
-?>

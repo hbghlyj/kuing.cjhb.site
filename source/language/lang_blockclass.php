@@ -1,17 +1,16 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: lang_blockclass.php 31069 2012-07-12 09:13:58Z zhangguosheng $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
-$lang = array(
+$lang = [
 	'blockclass_html' => '展示类',
 
 	'blockclass_html_html' => '静态模块',
@@ -27,6 +26,8 @@ $lang = array(
 	'blockclass_html_script_friendlink' => '友情链接',
 	'blockclass_html_script_sort' => '分类信息',
 	'blockclass_html_script_category' => '分类信息',
+	'blockclass_html_script_api' => 'HTTP接口',
+	'blockclass_html_witframe' => '云插件',
 
 	'blockclass_html_announcement' => '公告模块',
 	'blockclass_announcement_field_url' => '公告链接',
@@ -236,6 +237,7 @@ $lang = array(
 	'blockclass_member_field_field6' => '自定义字段6',
 	'blockclass_member_field_field7' => '自定义字段7',
 	'blockclass_member_field_field8' => '自定义字段8',
+	'blockclass_member_field_fields' => '更多自定义资料',
 	'blockclass_member_field_posts' => '发帖数',
 	'blockclass_member_field_threads' => '主题数',
 	'blockclass_member_field_digestposts' => '精华帖数',
@@ -452,7 +454,6 @@ $lang = array(
 	'blockclass_other_stat_shares_title' => '分享显示名',
 
 	'blockclass_field_id' => '数据ID',
-);
+];
 
 
-?>

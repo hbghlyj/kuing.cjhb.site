@@ -1,10 +1,9 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: function_debug.php 36286 2019-12-06 01:01:50Z oldhu $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -32,22 +31,19 @@ function debugmessage($ajax = 0) {
 	$sqldebug = '';
 	$ismysqli = DB::$driver == 'db_driver_mysqli' ? 1 : 0;
 	$n = $discuz_table = 0;
-	$sqlw = array('Using filesort' => 0, 'Using temporary' => 0);
+	$sqlw = ['Using filesort' => 0, 'Using temporary' => 0];
 	$db = DB::object();
 	$queries = count($db->sqldebug);
-	$links = array();
-	foreach($db->link as $k => $link) {
-		$links[$ismysqli ? $link->thread_id : (string)$link] = $k;
-	}
 	$sqltime = 0;
-	foreach ($db->sqldebug as $string) {
+	foreach($db->sqldebug as $string) {
 		$sqltime += $string[1];
 		$extra = $dt = '';
 		$n++;
 		$sql = preg_replace('/'.preg_quote($_G['config']['db']['1']['tablepre']).'[\w_]+/', '<font color=blue>\\0</font>', nl2br(dhtmlspecialchars($string[0])));
+		!empty($string[4]) && $sql .= '; // '.print_r($string[4], 1);
 		$sqldebugrow = '<div id="sql_'.$n.'" style="display:none;padding:0">';
-		if(preg_match('/^SELECT /', $string[0])) {
-			$query = $string[3]->query("EXPLAIN ".$string[0]);
+		if(str_starts_with($string[0], 'SELECT ')) {
+			$query = DB::query('EXPLAIN '.$string[0], !empty($string[4]) ? $string[4] : []);
 			$i = 0;
 			$sqldebugrow .= '<table style="border-bottom:none">';
 			while($row = DB::fetch($query)) {
@@ -69,10 +65,10 @@ function debugmessage($ajax = 0) {
 		}
 		$sqldebugrow .= '<table><tr style="border-bottom:1px dotted gray"><td width="400">File</td><td width="80">Line</td><td>Function</td></tr>';
 		foreach($string[2] as $error) {
-			$error['file'] = str_replace(array(DISCUZ_ROOT, '\\'), array('', '/'), $error['file']);
-			$error['class'] = isset($error['class']) ? $error['class'] : '';
-			$error['type'] = isset($error['type']) ? $error['type'] : '';
-			$error['function'] = isset($error['function']) ? $error['function'] : '';
+			$error['file'] = str_replace([DISCUZ_ROOT, '\\'], ['', '/'], $error['file']);
+			$error['class'] = $error['class'] ?? '';
+			$error['type'] = $error['type'] ?? '';
+			$error['function'] = $error['function'] ?? '';
 			$sqldebugrow .= "<tr><td>{$error['file']}</td><td>{$error['line']}</td><td>{$error['class']}{$error['type']}{$error['function']}()</td></tr>";
 			if(strexists($error['file'], 'discuz/discuz_table') || strexists($error['file'], 'table/table')) {
 				$dt = ' &bull; '.$error['file'];
@@ -81,7 +77,7 @@ function debugmessage($ajax = 0) {
 		}
 		$sqldebugrow .= '</table></div>'.($extra ? $extra.'<br />' : '').'<br />';
 
-		$sqldebug .= '<li><span style="cursor:pointer" onclick="document.getElementById(\'sql_'.$n.'\').style.display = document.getElementById(\'sql_'.$n.'\').style.display == \'\' ? \'none\' : \'\'"><s>'.$string[1].'s</s> &bull; DBLink '.$links[$ismysqli ? $string[3]->thread_id : (string)$string[3]].$dt.'<br />'.$sql.'</span><br /></li>'.$sqldebugrow;
+		$sqldebug .= '<li><span style="cursor:pointer" onclick="document.getElementById(\'sql_'.$n.'\').style.display = document.getElementById(\'sql_'.$n.'\').style.display == \'\' ? \'none\' : \'\'"><s>'.$string[1].'s</s> '.$dt.'<br />'.$sql.'</span><br /></li>'.$sqldebugrow;
 	}
 	$ajaxhtml = 'data/'.$debugfile.'_ajax.php';
 	if($ajax) {
@@ -90,13 +86,13 @@ function debugmessage($ajax = 0) {
 		file_put_contents(DISCUZ_ROOT.'./'.$ajaxhtml, $sqldebug, FILE_APPEND);
 		return;
 	}
-	file_put_contents(DISCUZ_ROOT.'./'.$ajaxhtml, '<?php ' . _get_addslashes() . ' if(empty($_GET[\'k\']) || $_GET[\'k\'] != \''.$akey.'\') { exit; } ?><style>body,table { font-size:12px; }table { width:90%;border:1px solid gray; }</style><a href="javascript:;" onclick="location.href=location.href">Refresh</a><br />');
+	file_put_contents(DISCUZ_ROOT.'./'.$ajaxhtml, '<?php '._get_addslashes().' if(empty($_GET[\'k\']) || $_GET[\'k\'] != \''.$akey.'\') { exit; } ?><style>body,table { font-size:12px; }table { width:90%;border:1px solid gray; }</style><a href="javascript:;" onclick="location.href=location.href">Refresh</a><br />');
 	foreach($sqlw as $k => $v) {
 		$sqlw[$k] = $k.': '.$v;
 	}
 	$sqlw = '('.($discuz_table ? 'discuz_table: '.$discuz_table.($sqlw ? ', ' : '') : '').($sqlw ? '<s>'.implode(', ', $sqlw).'</s>' : '').')';
 
-	$debug = '<?php ' . _get_addslashes() . ' if(empty($_GET[\'k\']) || $_GET[\'k\'] != \''.$akey.'\') { exit; }';  
+	$debug = '<?php '._get_addslashes().' if(empty($_GET[\'k\']) || $_GET[\'k\'] != \''.$akey.'\') { exit; }';
 	$debug .= "header('Content-Type: text/html; charset=".CHARSET."'); ?>";
 	if($_G['adminid'] == 1 && !$ajax) {
 		$debug .= '<?php
@@ -173,23 +169,17 @@ EOF;
 		foreach($_G as $k => $v) {
 			if(is_array($v)) {
 				if($k != 'lang') {
-					$_GA .= "<li><a name=\"S_$k\"></a><br />['$k'] => ".nl2br(str_replace('  ','&nbsp;', dhtmlspecialchars(print_r($v, true)))).'</li>';
+					$_GA .= "<li><a name=\"S_$k\"></a><br />['$k'] => ".nl2br(str_replace('  ', '&nbsp;', dhtmlspecialchars(print_r($v, true)))).'</li>';
 				}
 			} elseif(is_object($v)) {
-				$_GA .= "<li><br />['$k'] => <i>object of ".get_class($v)."</i></li>";
+				$_GA .= "<li><br />['$k'] => <i>object of ".get_class($v).'</i></li>';
 			} else {
-				$_GS .= "<li><br />['$k'] => ".dhtmlspecialchars($v)."</li>";
+				$_GS .= "<li><br />['$k'] => ".dhtmlspecialchars($v).'</li>';
 			}
 		}
 	}
 	$modid = $_G['basescript'].(!defined('IN_ADMINCP') ? '::'.CURMODULE : '');
 	$svn = '';
-	if(file_exists(DISCUZ_ROOT.'./.svn/entries')) {
-		$svn = @file(DISCUZ_ROOT.'./.svn/entries');
-		$time = $svn[9];
-		preg_match('/([\d\-]+)T([\d:]+)/', $time, $a);
-		$svn = '.r'.$svn[10].' (最后由 '.$svn[11].' 于 '.dgmdate(strtotime($a[1].' '.$a[2]) + $_G['setting']['timeoffset'] * 3600).' 提交)';
-	}
 	$max = 10;
 	$mc = $mco = '';
 	if(class_exists('C') && C::memory()->enable) {
@@ -227,27 +217,27 @@ EOF;
 		'<div id="__debugbarwrap__">'.
 		'<div id="__debugbar_s">
 			<table class="w" width=99%><tr><td valign=top width=50%>'.
-				'<b style="float:left;width:1em;height:4em">文件</b>'.
-					'<em>版本:</em> Discuz! '.DISCUZ_VERSION.($svn ? $svn : ' '.DISCUZ_RELEASE).'<br />'.
-					'<em>ModID:</em> <s>'.$modid.'</s><br />'.
-					'<em>包含:</em> '.
-						'<a id="__debug_3" href="#debugbar" onclick="switchTab(\'__debug\', 3, '.$max.')">[文件列表]</a>'.
-						' <s>'.(count($includes) - 1).($_G['debuginfo']['time'] ? ' in '.number_format(($_G['debuginfo']['time'] - $sqltime), 6).'s' : '').'</s><br />'.
-					'<em>执行:</em> '.
-						(isset($_ENV['analysis']['function']) ? '<a id="__debug_9" href="#debugbar" onclick="switchTab(\'__debug\', 9, '.$max.')">[函数列表]</a>'.
-						' <s>'.(count($_ENV['analysis']['function']) - 1).(' in '.number_format(($_ENV['analysis']['function']['sum'] / 1000), 6).'s').'</s>' : '').
-			'<td valign=top>'.
-				'<b style="float:left;width:1em;height:5em">服务器</b>'.
-					'<em>环境:</em> '.PHP_OS.', '.$_SERVER['SERVER_SOFTWARE'].' MySQL/'.DB::object()->version().'('.(DB::$driver).')<br />'.
-					$m.
-					'<em>SQL:</em> '.
-						'<a id="__debug_1" href="#debugbar" onclick="switchTab(\'__debug\', 1, '.$max.')">[SQL列表]</a>'.
-						'<a id="__debug_4" href="#debugbar" onclick="switchTab(\'__debug\', 4, '.$max.');sqldebug_ajax.location.href = sqldebug_ajax.location.href;">[AjaxSQL列表]</a>'.
-						' <s>'.$queries.$sqlw.($_G['debuginfo']['time'] ? ' in '.$sqltime.'s' : '').'</s><br />'.
-					'<em>内存缓存:</em> '.$mc.
-			'<tr><td valign=top colspan="2">'.
-				'<b>客户端</b> <a id="__debug_2" href="#debugbar" onclick="switchTab(\'__debug\', 2, '.$max.')">[详情]</a> <span id="__debug_b"></span>'.
-			'<tr><td colspan=2><a name="debugbar">&nbsp;</a>'.
+		'<b style="float:left;width:1em;height:4em">文件</b>'.
+		'<em>版本:</em> Discuz! '.DISCUZ_VERSION.($svn ? $svn : ' '.DISCUZ_RELEASE).'<br />'.
+		'<em>ModID:</em> <s>'.$modid.'</s><br />'.
+		'<em>包含:</em> '.
+		'<a id="__debug_3" href="#debugbar" onclick="switchTab(\'__debug\', 3, '.$max.')">[文件列表]</a>'.
+		' <s>'.(count($includes) - 1).($_G['debuginfo']['time'] ? ' in '.number_format(($_G['debuginfo']['time'] - $sqltime), 6).'s' : '').'</s><br />'.
+		'<em>执行:</em> '.
+		(isset($_ENV['analysis']['function']) ? '<a id="__debug_9" href="#debugbar" onclick="switchTab(\'__debug\', 9, '.$max.')">[函数列表]</a>'.
+			' <s>'.(count($_ENV['analysis']['function']) - 1).(' in '.number_format(($_ENV['analysis']['function']['sum'] / 1000), 6).'s').'</s>' : '').
+		'<td valign=top>'.
+		'<b style="float:left;width:1em;height:5em">服务器</b>'.
+		'<em>环境:</em> '.PHP_OS.', '.$_SERVER['SERVER_SOFTWARE'].' MySQL/'.DB::object()->version().'('.(DB::$driver).')<br />'.
+		$m.
+		'<em>SQL:</em> '.
+		'<a id="__debug_1" href="#debugbar" onclick="switchTab(\'__debug\', 1, '.$max.')">[SQL列表]</a>'.
+		'<a id="__debug_4" href="#debugbar" onclick="switchTab(\'__debug\', 4, '.$max.');sqldebug_ajax.location.href = sqldebug_ajax.location.href;">[AjaxSQL列表]</a>'.
+		' <s>'.$queries.$sqlw.($_G['debuginfo']['time'] ? ' in '.$sqltime.'s' : '').'</s><br />'.
+		'<em>内存缓存:</em> '.$mc.
+		'<tr><td valign=top colspan="2">'.
+		'<b>客户端</b> <a id="__debug_2" href="#debugbar" onclick="switchTab(\'__debug\', 2, '.$max.')">[详情]</a> <span id="__debug_b"></span>'.
+		'<tr><td colspan=2><a name="debugbar">&nbsp;</a>'.
 		'<a href="javascript:;" onclick="parent.scrollTo(0,0)" style="float:right">[TOP]&nbsp;&nbsp;&nbsp;</a>'.
 		'<img src="../static/image/common/arw_r.gif" /><a id="__debug_5" href="#debugbar" onclick="switchTab(\'__debug\', 5, '.$max.')">$_COOKIE</a>'.
 		($_G['adminid'] == 1 ? '<img src="../static/image/common/arw_r.gif" /><a id="__debug_6" href="#debugbar" onclick="switchTab(\'__debug\', 6, 6)">$_G</a>' : '').
@@ -256,7 +246,7 @@ EOF;
 			'<img src="../static/image/common/arw_r.gif" /><a href="'.$debugfile.'?k='.$akey.'&'.$mysqlplek.'" target="_blank">MySQL 进程列表</a>'.
 			'<img src="../static/image/common/arw_r.gif" /><a href="'.$debugfile.'?k='.$akey.'&'.$viewcachek.'" target="_blank">查看缓存</a>'.
 			'<img src="../static/image/common/arw_r.gif" /><a href="../misc.php?mod=initsys&formhash='.formhash().'" target="_debug_initframe" onclick="parent.$(\'_debug_initframe\').onload = function () {parent.location.href=parent.location.href;}">更新缓存</a>' : '').
-			'<img src="../static/image/common/arw_r.gif" /><a href="../install/update.php" target="_blank">执行 update.php</a>'.
+		'<img src="../static/image/common/arw_r.gif" /><a href="../install/update.php" target="_blank">执行 update.php</a>'.
 		'</table>'.
 		'</div>'.
 		'<div id="__debugbar__" style="clear:both">'.
@@ -266,8 +256,12 @@ EOF;
 		'<div id="__debug_c_4" style="display:none"><iframe id="sqldebug_ajax" name="sqldebug_ajax" src="../'.$ajaxhtml.'?k='.$akey.'" frameborder="0" width="100%" height="800"></iframe></div>'.
 		'<div id="__debug_c_2" style="display:none"><b>IP: </b>'.$_G['clientip'].'<br /><b>User Agent: </b>'.$_SERVER['HTTP_USER_AGENT'].'<br /><b>BROWSER.x: </b><script>for(BROWSERi in BROWSER) {var __s=BROWSERi+\':\'+BROWSER[BROWSERi]+\' \';$(\'__debug_b\').innerHTML+=BROWSER[BROWSERi]!==0?__s:\'\';document.write(__s);}</script></div>'.
 		'<div id="__debug_c_3" style="display:none"><ol>';
-	foreach ($includes as $fn) {
-		$fn = str_replace(array(DISCUZ_ROOT, "\\"), array('', '/'), $fn);
+	$nooutput = false;
+	foreach($includes as $fn) {
+		if(str_contains($fn, 'ajax')) {
+			$nooutput = true;
+		}
+		$fn = str_replace([DISCUZ_ROOT, "\\"], ['', '/'], $fn);
 		$debug .= '<li>';
 		if(preg_match('/^source\/plugin/', $fn)) {
 			$debug .= '[插件]';
@@ -275,9 +269,9 @@ EOF;
 			$debug .= '[脚本]';
 		} elseif(preg_match('/^data\/template\//', $fn)) {
 			$debug .= '[模板]';
-		} elseif(preg_match('/^data/', $fn)) {
+		} elseif(str_starts_with($fn, 'data')) {
 			$debug .= '[缓存]';
-		} elseif(preg_match('/^config/', $fn)) {
+		} elseif(str_starts_with($fn, 'config')) {
 			$debug .= '[配置]';
 		}
 		if(isset($_ENV['analysis']['file'][$fn]['time'])) {
@@ -289,19 +283,19 @@ EOF;
 		if(isset($_ENV['analysis']['file'][$fn])) {
 			memory_info($debug, $fn, $_ENV['analysis']['file'][$fn]);
 		} else {
-			memory_info($debug, $fn, array('start_memory_get_usage' => 0, 'stop_memory_get_usage' => 0, 'start_memory_get_real_usage' => 0, 'stop_memory_get_real_usage' => 0,'start_memory_get_peak_usage' => 0, 'stop_memory_get_peak_usage' => 0, 'start_memory_get_peak_real_usage' => 0, 'stop_memory_get_peak_real_usage' => 0));
+			memory_info($debug, $fn, ['start_memory_get_usage' => 0, 'stop_memory_get_usage' => 0, 'start_memory_get_real_usage' => 0, 'stop_memory_get_real_usage' => 0, 'start_memory_get_peak_usage' => 0, 'stop_memory_get_peak_usage' => 0, 'start_memory_get_peak_real_usage' => 0, 'stop_memory_get_peak_real_usage' => 0]);
 		}
 		$debug .= '</li>';
 	}
 	if(isset($_ENV['analysis']['file']['sum'])) {
-		$debug .= '<li style="color:red">count: '.($_ENV['analysis']['file']['sum']/1000).'s</li>';
+		$debug .= '<li style="color:red">count: '.($_ENV['analysis']['file']['sum'] / 1000).'s</li>';
 	}
 	$debug .= '<ol></div><div id="__debug_c_5" style="display:none"><ol>';
 	foreach($_COOKIE as $k => $v) {
 		if(strexists($k, $_G['config']['cookie']['cookiepre'])) {
 			$k = '<font color=blue>'.$k.'</font>';
 		}
-		$debug .= "<li><br />['$k'] => ".dhtmlspecialchars($v)."</li>";
+		$debug .= "<li><br />['$k'] => ".dhtmlspecialchars($v).'</li>';
 	}
 	if(isset($_ENV['analysis']['function'])) {
 		unset($_ENV['analysis']['function']['sum']);
@@ -327,6 +321,9 @@ EOF;
 		'<ol><a name="top"></a>'.$_GS.$_GA.'</ol></div>'.$mco.'</body></html>';
 	$fn = 'data/'.$debugfile;
 	file_put_contents(DISCUZ_ROOT.'./'.$fn, $debug);
+	if($nooutput) {
+		return;
+	}
 	echo '<iframe src="'.$fn.'?k='.$akey.'" name="_debug_iframe" id="_debug_iframe" style="border-top:1px solid gray;overflow-x:hidden;overflow-y:auto" width="100%" height="200" frameborder="0"></iframe><div id="_debug_div"></div><iframe name="_debug_initframe" id="_debug_initframe" style="display:none"></iframe>';
 }
 
@@ -357,4 +354,3 @@ $_GET = debugaddslashes($_GET); ';
 }
 
 
-?>

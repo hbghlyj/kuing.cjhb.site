@@ -1,10 +1,9 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: discuz_table.php 30321 2012-05-22 09:09:35Z zhangguosheng $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -12,12 +11,11 @@ if(!defined('IN_DISCUZ')) {
 }
 
 
-class discuz_table extends discuz_base
-{
+class discuz_table extends discuz_base {
 
-	public $data = array();
+	public $data = [];
 
-	public $methods = array();
+	public $methods = [];
 
 	protected $_table;
 	protected $_pk;
@@ -25,7 +23,7 @@ class discuz_table extends discuz_base
 	protected $_cache_ttl;
 	protected $_allowmem;
 
-	public function __construct($para = array()) {
+	public function __construct($para = []) {
 		if(!empty($para)) {
 			$this->_table = $para['table'];
 			$this->_pk = $para['pk'];
@@ -47,7 +45,7 @@ class discuz_table extends discuz_base
 	}
 
 	public function count() {
-		$count = (int) DB::result_first("SELECT count(*) FROM ".DB::table($this->_table));
+		$count = (int)DB::result_first('SELECT count(*) FROM '.DB::table($this->_table));
 		return $count;
 	}
 
@@ -74,10 +72,13 @@ class discuz_table extends discuz_base
 	}
 
 	public function truncate() {
-		DB::query("TRUNCATE ".DB::table($this->_table));
+		DB::query('TRUNCATE '.DB::table($this->_table));
 	}
 
 	public function insert($data, $return_insert_id = false, $replace = false, $silent = false) {
+		if($replace && !empty($data[$this->_pk])) {
+			$this->clear_cache($data[$this->_pk]);
+		}
 		return DB::insert($this->_table, $data, $return_insert_id, $replace, $silent);
 	}
 
@@ -87,8 +88,8 @@ class discuz_table extends discuz_base
 		}
 	}
 
-	public function fetch($id, $force_from_db = false){
-		$data = array();
+	public function fetch($id, $force_from_db = false) {
+		$data = [];
 		if(!empty($id)) {
 			if($force_from_db || ($data = $this->fetch_cache($id)) === false) {
 				$data = DB::fetch_first('SELECT * FROM '.DB::table($this->_table).' WHERE '.DB::field($this->_pk, $id));
@@ -99,13 +100,13 @@ class discuz_table extends discuz_base
 	}
 
 	public function fetch_all($ids, $force_from_db = false) {
-		$data = array();
+		$data = [];
 		if(!empty($ids)) {
-			if($force_from_db || ($data = $this->fetch_cache($ids)) === false || count($ids) != count($data)) {
+			if($force_from_db || ($data = $this->fetch_cache($ids)) === false || count((array)$ids) != count((array)$data)) {
 				if(is_array($data) && !empty($data)) {
 					$ids = array_diff($ids, array_keys($data));
 				}
-				if($data === false) $data =array();
+				if($data === false) $data = [];
 				if(!empty($ids)) {
 					$query = DB::query('SELECT * FROM '.DB::table($this->_table).' WHERE '.DB::field($this->_pk, $ids));
 					while($value = DB::fetch($query)) {
@@ -118,11 +119,11 @@ class discuz_table extends discuz_base
 		return $data;
 	}
 
-	public function fetch_all_field(){
+	public function fetch_all_field() {
 		$data = false;
 		$query = DB::query('SHOW FIELDS FROM '.DB::table($this->_table), '', 'SILENT');
 		if($query) {
-			$data = array();
+			$data = [];
 			while($value = DB::fetch($query)) {
 				$data[$value['Field']] = $value;
 			}
@@ -144,7 +145,7 @@ class discuz_table extends discuz_base
 	public function fetch_cache($ids, $pre_cache_key = null) {
 		$data = false;
 		if($this->_allowmem) {
-			if($pre_cache_key === null)	$pre_cache_key = $this->_pre_cache_key;
+			if($pre_cache_key === null) $pre_cache_key = $this->_pre_cache_key;
 			$data = memory('get', $ids, $pre_cache_key);
 		}
 		return $data;
@@ -153,8 +154,8 @@ class discuz_table extends discuz_base
 	public function store_cache($id, $data, $cache_ttl = null, $pre_cache_key = null) {
 		$ret = false;
 		if($this->_allowmem) {
-			if($pre_cache_key === null)	$pre_cache_key = $this->_pre_cache_key;
-			if($cache_ttl === null)	$cache_ttl = $this->_cache_ttl;
+			if($pre_cache_key === null) $pre_cache_key = $this->_pre_cache_key;
+			if($cache_ttl === null) $cache_ttl = $this->_cache_ttl;
 			$ret = memory('set', $id, $data, $cache_ttl, $pre_cache_key);
 		}
 		return $ret;
@@ -163,7 +164,7 @@ class discuz_table extends discuz_base
 	public function clear_cache($ids, $pre_cache_key = null) {
 		$ret = false;
 		if($this->_allowmem) {
-			if($pre_cache_key === null)	$pre_cache_key = $this->_pre_cache_key;
+			if($pre_cache_key === null) $pre_cache_key = $this->_pre_cache_key;
 			$ret = memory('rm', $ids, $pre_cache_key);
 		}
 		return $ret;
@@ -172,8 +173,8 @@ class discuz_table extends discuz_base
 	public function update_cache($id, $data, $cache_ttl = null, $pre_cache_key = null) {
 		$ret = false;
 		if($this->_allowmem) {
-			if($pre_cache_key === null)	$pre_cache_key = $this->_pre_cache_key;
-			if($cache_ttl === null)	$cache_ttl = $this->_cache_ttl;
+			if($pre_cache_key === null) $pre_cache_key = $this->_pre_cache_key;
+			if($cache_ttl === null) $cache_ttl = $this->_cache_ttl;
 			if(($_data = memory('get', $id, $pre_cache_key)) !== false) {
 				$ret = $this->store_cache($id, array_merge($_data, $data), $cache_ttl, $pre_cache_key);
 			}
@@ -184,8 +185,8 @@ class discuz_table extends discuz_base
 	public function update_batch_cache($ids, $data, $cache_ttl = null, $pre_cache_key = null) {
 		$ret = false;
 		if($this->_allowmem) {
-			if($pre_cache_key === null)	$pre_cache_key = $this->_pre_cache_key;
-			if($cache_ttl === null)	$cache_ttl = $this->_cache_ttl;
+			if($pre_cache_key === null) $pre_cache_key = $this->_pre_cache_key;
+			if($cache_ttl === null) $cache_ttl = $this->_cache_ttl;
 			if(($_data = memory('get', $ids, $pre_cache_key)) !== false) {
 				foreach($_data as $id => $value) {
 					$ret = $this->store_cache($id, array_merge($value, $data), $cache_ttl, $pre_cache_key);
@@ -198,7 +199,7 @@ class discuz_table extends discuz_base
 	public function reset_cache($ids, $pre_cache_key = null) {
 		$ret = false;
 		if($this->_allowmem) {
-			$keys = array();
+			$keys = [];
 			if(($cache_data = $this->fetch_cache($ids, $pre_cache_key)) !== false) {
 				$keys = array_intersect(array_keys($cache_data), $ids);
 				unset($cache_data);
@@ -244,4 +245,3 @@ class discuz_table extends discuz_base
 	}
 }
 
-?>

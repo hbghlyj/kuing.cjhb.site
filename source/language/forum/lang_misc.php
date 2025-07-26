@@ -1,18 +1,17 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: lang_misc.php 33974 2013-09-10 09:30:47Z nemohou $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
-$lang = array
-(
+$lang =
+	[
 	'discuz_lang' => 'misc',
 	'contact' => '联系方式:',
 	'anonymous' => '匿名',
@@ -30,6 +29,12 @@ $lang = array
 	'post_single_banned' => '**** 该帖被屏蔽 ****',
 	'message_ishidden_hiddenreplies' => '此帖仅作者可见',
 	'post_reply_quote' => '{author} 发表于 {time}',
+	'post_edit' => "[i=s] 本帖最后由 {editor} 于 {edittime} 编辑 [/i]\n\n",
+	'post_edit_regexp' => '/^\[i=s\] 本帖最后由 .*? 于 .*? 编辑 \[\/i\][\r\n][\r\n]/s',
+	'post_edithtml' => '[i=s] 本帖最后由 {editor} 于 {edittime} 编辑 [/i]<br /><br />',
+	'post_edithtml_regexp' => '/^\[i=s\] 本帖最后由 .*? 于 .*? 编辑 \[\/i\]&lt;br \/&gt;&lt;br \/&gt;/s',
+	'post_editnobbcode' => "[ 本帖最后由 {editor} 于 {edittime} 编辑 ]\n\n",
+	'post_editnobbcode_regexp' => '/^\[ 本帖最后由 .*? 于 .*? 编辑 \][\r\n][\r\n]/s',
 	'post_reply' => '回复',
 	'post_thread' => '的帖子',
 
@@ -83,7 +88,7 @@ $lang = array
 	'trade_syspayseller' => '买家确认收到货，等待支付宝打款给卖家',
 	'trade_finished' => '<font color="green">交易成功结束</font>',
 	'trade_closed' => '<font color="gray">交易中途关闭(未完成)</font>',
-	'trade_waitselleragree'  => '等待卖家同意退款',
+	'trade_waitselleragree' => '等待卖家同意退款',
 	'trade_sellerrefusebuyer' => '卖家拒绝买家条件，等待买家修改条件',
 	'trade_waitbuyerreturn' => '卖家同意退款，等待买家退货',
 	'trade_waitsellerconfirmgoods' => '等待卖家收货',
@@ -287,9 +292,9 @@ $lang = array
 	'crime_postreason' => '{reason} &nbsp; <a href="forum.php?mod=redirect&goto=findpost&pid={pid}&ptid={tid}" target="_blank" class="xi2">查看详情</a>',
 	'crime_reason' => '{reason}',
 
-	'connectguest_message_search' => array('尚未登录', '先登录'),
-	'connectguest_message_replace' => array('尚未 <a href="member.php?mod=connect" class="xi2">完善账号信息</a> 或 <a href="member.php?mod=connect&ac=bind" class="xi2">绑定已有账号</a> ', '先 <a href="member.php?mod=connect" class="xi2">完善账号信息</a> 或 <a href="member.php?mod=connect&ac=bind" class="xi2">绑定已有账号</a> '),
-	'connectguest_message_mobile_search' => array('尚未登录', '先登录'),
+	'connectguest_message_search' => ['尚未登录', '先登录'],
+	'connectguest_message_replace' => ['尚未 <a href="member.php?mod=connect" class="xi2">完善账号信息</a> 或 <a href="member.php?mod=connect&ac=bind" class="xi2">绑定已有账号</a> ', '先 <a href="member.php?mod=connect" class="xi2">完善账号信息</a> 或 <a href="member.php?mod=connect&ac=bind" class="xi2">绑定已有账号</a> '],
+	'connectguest_message_mobile_search' => ['尚未登录', '先登录'],
 	'connectguest_message_mobile_replace' => '在电脑版完善资料或绑定已有账号，',
 
 	'avatar' => '头像',
@@ -318,10 +323,9 @@ $lang = array
 	'seccode' => '验证码',
 	'seccode_update' => '换一个',
 	'seccode_player' => '<span style="padding:2px"><img border="0" style="vertical-align:middle" src="'.STATICURL.'image/common/seccodeplayer.gif" /> <a href="javascript:;" id="seccodeplay_{idhash}">播放验证码</a></span>',
-	'secqaa' => '验证问答',
+	'secqaa' => '安全验证',
 
 	'mobileoem_creditrule' => '掌上论坛签到',
 
-);
+	];
 
-?>

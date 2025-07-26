@@ -1,10 +1,9 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: task_avatar.php 16433 2010-09-07 00:04:33Z monkey $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -20,15 +19,15 @@ class task_avatar {
 	var $icon = '';
 	var $period = '';
 	var $periodtype = 0;
-	var $conditions = array();
+	var $conditions = [];
 
-	function csc($task = array()) {
+	function csc($task = []) {
 		global $_G;
 
 		if(!empty($_G['member']['avatarstatus'])) {
 			return true;
 		} else {
-			return array('csc' => 0, 'remaintime' => 0);
+			return ['csc' => 0, 'remaintime' => 0];
 		}
 	}
 
@@ -38,4 +37,3 @@ class task_avatar {
 
 }
 
-?>

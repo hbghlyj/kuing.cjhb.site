@@ -1,18 +1,17 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: lang_memberlist.php 28353 2012-02-28 06:57:02Z chenmengshu $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
-$lang = array
-(
+$lang =
+	[
 	'memberlist_uids' => '用户UID',
 	'memberlist_uids_comment' => '指定用户UID，多个UID之间用 ,分割',
 	'memberlist_special' => '特殊会员',
@@ -61,6 +60,5 @@ $lang = array
 	'memberlist_orderby_hours' => '按小时内发帖数倒序',
 	'memberlist_orderby_hours_comment' => '指定时间内发帖数倒序排序的时间值',
 	'memberlist_yes' => '是',
-);
+	];
 
-?>

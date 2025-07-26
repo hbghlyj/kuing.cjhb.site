@@ -1,10 +1,9 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: block_threaddigest.php 23608 2011-07-27 08:10:07Z cnteacher $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -16,65 +15,65 @@ require_once libfile('block_thread', 'class/block/forum');
 class block_threaddigest extends block_thread {
 
 	function __construct() {
-		$this->setting = array(
-			'fids'	=> array(
+		$this->setting = [
+			'fids' => [
 				'title' => 'threadlist_fids',
 				'type' => 'mselect',
-				'value' => array()
-			),
-			'digest' => array(
+				'value' => []
+			],
+			'digest' => [
 				'title' => 'threadlist_digest',
 				'type' => 'mcheckbox',
-				'value' => array(
-					array(1, 'threadlist_digest_1'),
-					array(2, 'threadlist_digest_2'),
-					array(3, 'threadlist_digest_3'),
-					array(0, 'threadlist_digest_0')
-				),
-			),
-			'special' => array(
+				'value' => [
+					[1, 'threadlist_digest_1'],
+					[2, 'threadlist_digest_2'],
+					[3, 'threadlist_digest_3'],
+					[0, 'threadlist_digest_0']
+				],
+			],
+			'special' => [
 				'title' => 'threadlist_special',
 				'type' => 'mcheckbox',
-				'value' => array(
-					array(1, 'threadlist_special_1'),
-					array(2, 'threadlist_special_2'),
-					array(3, 'threadlist_special_3'),
-					array(4, 'threadlist_special_4'),
-					array(5, 'threadlist_special_5'),
-					array(0, 'threadlist_special_0'),
-				),
-				'default' => array('0')
-			),
-			'viewmod' => array(
+				'value' => [
+					[1, 'threadlist_special_1'],
+					[2, 'threadlist_special_2'],
+					[3, 'threadlist_special_3'],
+					[4, 'threadlist_special_4'],
+					[5, 'threadlist_special_5'],
+					[0, 'threadlist_special_0'],
+				],
+				'default' => ['0']
+			],
+			'viewmod' => [
 				'title' => 'threadlist_viewmod',
 				'type' => 'radio'
-			),
-			'rewardstatus' => array(
+			],
+			'rewardstatus' => [
 				'title' => 'threadlist_special_reward',
 				'type' => 'mradio',
-				'value' => array(
-					array(0, 'threadlist_special_reward_0'),
-					array(1, 'threadlist_special_reward_1'),
-					array(2, 'threadlist_special_reward_2')
-				),
+				'value' => [
+					[0, 'threadlist_special_reward_0'],
+					[1, 'threadlist_special_reward_1'],
+					[2, 'threadlist_special_reward_2']
+				],
 				'default' => 0,
-			),
-			'picrequired' => array(
+			],
+			'picrequired' => [
 				'title' => 'threadlist_picrequired',
 				'type' => 'radio',
 				'value' => '0'
-			),
-			'titlelength' => array(
+			],
+			'titlelength' => [
 				'title' => 'threadlist_titlelength',
 				'type' => 'text',
 				'default' => 40
-			),
-			'summarylength' => array(
+			],
+			'summarylength' => [
 				'title' => 'threadlist_summarylength',
 				'type' => 'text',
 				'default' => 80
-			),
-		);
+			],
+		];
 	}
 
 	function name() {
@@ -82,4 +81,3 @@ class block_threaddigest extends block_thread {
 	}
 }
 
-?>

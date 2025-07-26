@@ -1,40 +1,47 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: table_home_pokearchive.php 27449 2012-02-01 05:32:35Z zhangguosheng $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
-class table_home_pokearchive extends discuz_table
-{
+class table_home_pokearchive extends discuz_table {
+	public static function t() {
+		static $_instance;
+		if(!isset($_instance)) {
+			$_instance = new self();
+		}
+		return $_instance;
+	}
+
 	public function __construct() {
 
 		$this->_table = 'home_pokearchive';
-		$this->_pk    = 'pid';
+		$this->_pk = 'pid';
 
 		parent::__construct();
 	}
 
 	public function delete_by_uid_or_fromuid($uids) {
-		$uids = dintval($uids, is_array($uids) ? true : false);
+		$uids = dintval($uids, is_array($uids));
 		if($uids) {
 			return DB::delete($this->_table, DB::field('uid', $uids).' OR '.DB::field('fromuid', $uids));
 		}
 		return 0;
 	}
+
 	public function fetch_all_by_pokeuid($pokeuid) {
-		return DB::fetch_all('SELECT * FROM %t WHERE pokeuid=%d ORDER BY dateline', array($this->_table, $pokeuid));
+		return DB::fetch_all('SELECT * FROM %t WHERE pokeuid=%d ORDER BY dateline', [$this->_table, $pokeuid]);
 	}
+
 	public function delete_by_dateline($dateline) {
-		DB::query('DELETE FROM %t WHERE dateline<%d', array($this->_table, $dateline));
+		DB::query('DELETE FROM %t WHERE dateline<%d', [$this->_table, $dateline]);
 	}
 
 }
 
-?>

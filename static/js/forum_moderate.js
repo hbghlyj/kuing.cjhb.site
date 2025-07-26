@@ -1,9 +1,8 @@
-/*
-	[Discuz!] (C)2001-2099 Comsenz Inc.
-	This is NOT a freeware, use is subject to license terms
-
-	$Id: forum_moderate.js 26484 2011-12-14 02:08:03Z svn_project_zhangjie $
-*/
+/**
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
+ */
 
 function modaction(action, pid, extra, mod) {
 	if(!action) {
@@ -24,7 +23,7 @@ function modaction(action, pid, extra, mod) {
 		var checked = 1;
 	}
 	if(!checked) {
-/*vot*/        alert(lng['choose_tread']);
+		alert($L('select_post'));
 	} else {
 		$('modactions').action = mod + '&action='+ action +'&fid=' + fid + '&tid=' + tid + '&handlekey=mods&infloat=yes&nopost=yes' + (!pid ? '' : '&topiclist[]=' + pid) + extra + '&r' + Math.random();
 		showWindow('mods', 'modactions', 'post');
@@ -120,7 +119,7 @@ function tmodthreads(optgroup, operation) {
 		}
 	}
 	if(!checked) {
-/*vot*/        alert(lng['choose_tread']);
+        alert($L('select_post'));
 	} else {
 		$('moderate').optgroup.value = optgroup;
 		$('moderate').operation.value = operation;

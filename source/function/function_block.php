@@ -1,10 +1,9 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: function_block.php 32895 2013-03-21 04:18:15Z zhangguosheng $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -38,15 +37,15 @@ function block_script($blockclass, $script) {
 
 function block_get_batch($parameter) {
 	global $_G;
-	$bids = $parameter && is_array($parameter) ? $parameter : ($parameter ? explode(',', $parameter) : array());
+	$bids = $parameter && is_array($parameter) ? $parameter : ($parameter ? explode(',', $parameter) : []);
 	$bids = array_map('intval', $bids);
 	$bids = array_unique($bids);
-	$styleids = array();
+	$styleids = [];
 
 	if($bids) {
-		if(C::t('common_block')->allowmem) {
+		if(table_common_block::t()->allowmem) {
 			if(($cachedata = memory('get', $bids, 'blockcache_')) !== false) {
-				foreach ($cachedata as $bid => $block) {
+				foreach($cachedata as $bid => $block) {
 					$_G['block'][$bid] = $block;
 					if($block['styleid']) {
 						$styleids[$block['styleid']] = $block['styleid'];
@@ -61,35 +60,35 @@ function block_get_batch($parameter) {
 			}
 		}
 
-		$items = $prelist = array();
-		foreach(C::t('common_block_item')->fetch_all_by_bid($bids) as $item) {
+		$items = $prelist = [];
+		foreach(table_common_block_item::t()->fetch_all_by_bid($bids) as $item) {
 			if($item['itemtype'] == '1' && $item['enddate'] && $item['enddate'] < TIMESTAMP) {
 				continue;
 			} elseif($item['itemtype'] == '1' && (!$item['startdate'] || $item['startdate'] <= TIMESTAMP)) {
-				if (!empty($items[$item['bid']][$item['displayorder']])) {
-					$prelist[$item['bid']] = array();
+				if(!empty($items[$item['bid']][$item['displayorder']])) {
+					$prelist[$item['bid']] = [];
 				}
 				$prelist[$item['bid']][$item['displayorder']] = $item;
 			}
 			$items[$item['bid']][$item['displayorder']] = $item;
 		}
-		foreach(C::t('common_block')->fetch_all($bids) as $bid => $block) {
+		foreach(table_common_block::t()->fetch_all($bids) as $bid => $block) {
 			if(!empty($block['styleid']) && $block['styleid'] > 0) {
 				$styleids[] = intval($block['styleid']);
 			}
 			if(!empty($items[$bid])) {
 				ksort($items[$bid]);
-				$newitem = array();
+				$newitem = [];
 				if(!empty($prelist[$bid])) {
 					$countpre = 0;
 					foreach($items[$bid] as $position => $item) {
 						if(empty($prelist[$bid][$position])) {
-							if(isset($items[$bid][$position+$countpre])) {
-								$newitem[$position+$countpre] = $item;
+							if(isset($items[$bid][$position + $countpre])) {
+								$newitem[$position + $countpre] = $item;
 							}
 						} else {
-							if ($item['itemtype']=='1') {
-								if ($prelist[$bid][$position]['startdate'] >= $item['startdate']) {
+							if($item['itemtype'] == '1') {
+								if($prelist[$bid][$position]['startdate'] >= $item['startdate']) {
 									$newitem[$position] = $prelist[$bid][$position];
 								} else {
 									$newitem[$position] = $item;
@@ -97,8 +96,8 @@ function block_get_batch($parameter) {
 							} else {
 								$newitem[$position] = $prelist[$bid][$position];
 								$countpre++;
-								if(isset($items[$bid][$position+$countpre])) {
-									$newitem[$position+$countpre] = $item;
+								if(isset($items[$bid][$position + $countpre])) {
+									$newitem[$position + $countpre] = $item;
 								}
 							}
 						}
@@ -107,11 +106,11 @@ function block_get_batch($parameter) {
 				}
 				$block['itemlist'] = empty($newitem) ? $items[$bid] : $newitem;
 			}
-			$block['param'] = $block['param'] ? dunserialize($block['param']) : array();
+			$block['param'] = $block['param'] ? dunserialize($block['param']) : [];
 			$_G['block'][$bid] = $block;
 
-			if(C::t('common_block')->allowmem) {
-				memory('set', 'blockcache_'.$bid, $_G['block'][$bid], C::t('common_block')->cache_ttl);
+			if(table_common_block::t()->allowmem) {
+				memory('set', 'blockcache_'.$bid, $_G['block'][$bid], table_common_block::t()->cache_ttl);
 			}
 
 		}
@@ -125,7 +124,7 @@ function block_display_batch($bid) {
 	echo block_fetch_content($bid);
 }
 
-function block_fetch_content($bid, $isjscall=false, $forceupdate=false) {
+function block_fetch_content($bid, $isjscall = false, $forceupdate = false) {
 	global $_G;
 	static $allowmem = null, $cachettl = null;
 	if($allowmem === null) {
@@ -133,17 +132,17 @@ function block_fetch_content($bid, $isjscall=false, $forceupdate=false) {
 	}
 
 	$str = '';
-	$block = empty($_G['block'][$bid])?array():$_G['block'][$bid];
+	$block = empty($_G['block'][$bid]) ? [] : $_G['block'][$bid];
 	if(!$block) {
 		return;
 	}
 
-	if(substr($block['blockclass'], -5) == '_real') {
-		$block = empty($_G['block'][$bid]) ? array() : $_G['block'][$bid];
+	if(str_ends_with($block['blockclass'], '_real')) {
+		$block = empty($_G['block'][$bid]) ? [] : $_G['block'][$bid];
 		if($block) {
 			$obj = block_script($block['blockclass'], $block['script']);
 			if(is_object($obj)) {
-				$return = $obj->getdata(array(), $block['param']);
+				$return = $obj->getdata([], $block['param']);
 				$block['summary'] = &$return['html'];
 				$allowmem = false;
 			}
@@ -153,8 +152,8 @@ function block_fetch_content($bid, $isjscall=false, $forceupdate=false) {
 		$block = $_G['block'][$bid];
 	} elseif($block['cachetime'] > 0 && $_G['timestamp'] - $block['dateline'] > $block['cachetime']) {
 
-		$block['cachetimerange'] = empty($block['cachetimerange']) ? (isset($_G['setting']['blockcachetimerange']) ? $_G['setting']['blockcachetimerange'] : '') : $block['cachetimerange'];
-		$inrange = empty($block['cachetimerange']) ? true : false;
+		$block['cachetimerange'] = empty($block['cachetimerange']) ? ($_G['setting']['blockcachetimerange'] ?? '') : $block['cachetimerange'];
+		$inrange = empty($block['cachetimerange']);
 		if(!$inrange) {
 			$block['cachetimerange'] = explode(',', $block['cachetimerange']);
 			$hour = date('G', TIMESTAMP);
@@ -169,7 +168,7 @@ function block_fetch_content($bid, $isjscall=false, $forceupdate=false) {
 			block_updatecache($bid, true);
 			$block = $_G['block'][$bid];
 		} elseif((empty($_G['blockupdate']) || $block['dateline'] < $_G['blockupdate']['dateline']) && $inrange) {
-			$_G['blockupdate'] = array('bid'=>$bid, 'dateline'=>$block['dateline']);
+			$_G['blockupdate'] = ['bid' => $bid, 'dateline' => $block['dateline']];
 		}
 	}
 
@@ -194,49 +193,49 @@ function block_fetch_content($bid, $isjscall=false, $forceupdate=false) {
 		}
 
 		if($allowmem && empty($block['hidedisplay']) && empty($block['nocache'])) {
-			memory('set', $_cache_key, $str, C::t('common_block')->cache_ttl);
+			memory('set', $_cache_key, $str, table_common_block::t()->cache_ttl);
 		}
 	}
 
 	if(!$hidediv) {
 		$classname = !empty($block['classname']) ? $block['classname'].' ' : '';
 		$div = "<div id=\"portal_block_$bid\" class=\"{$classname}block move-span\">";
-		if(($_GET['diy'] === 'yes' || $_GET['inajax']) && check_diy_perm()) {
+		if(($_GET['diy'] === 'yes' || $_GET['mobilediy'] === 'yes' || $_GET['inajax']) && check_diy_perm()) {
 			$div .= "<div class='block-name'>{$block['name']} (ID:$bid)</div>";
 		}
-		$str = $div.$str."</div>";
+		$str = $div.$str.'</div>';
 	}
-	if($block['blockclass'] == 'html_html' && $block['script'] == 'search') $str = strtr($str, array('{FORMHASH}'=>FORMHASH));
+	if($block['blockclass'] == 'html_html' && $block['script'] == 'search') $str = strtr($str, ['{FORMHASH}' => FORMHASH]);
 	return !empty($block['hidedisplay']) ? '' : $str;
 }
 
-function block_updatecache($bid, $forceupdate=false) {
+function block_updatecache($bid, $forceupdate = false) {
 	global $_G;
 	if((isset($_G['block'][$bid]['cachetime']) && $_G['block'][$bid]['cachetime'] < 0) || !$forceupdate && discuz_process::islocked('block_update_cache', 5)) {
 		return false;
 	}
-	C::t('common_block')->clear_blockcache($bid);
-	$block = empty($_G['block'][$bid])?array():$_G['block'][$bid];
+	table_common_block::t()->clear_blockcache($bid);
+	$block = empty($_G['block'][$bid]) ? [] : $_G['block'][$bid];
 	if(!$block) {
 		return false;
 	}
 	$obj = block_script($block['blockclass'], $block['script']);
 	if(is_object($obj)) {
-		C::t('common_block')->update($bid, array('dateline'=>TIMESTAMP));
+		table_common_block::t()->update($bid, ['dateline' => TIMESTAMP]);
 		$_G['block'][$bid]['dateline'] = TIMESTAMP;
 		$theclass = block_getclass($block['blockclass']);
 		$thestyle = !empty($block['styleid']) ? block_getstyle($block['styleid']) : dunserialize($block['blockstyle']);
 
-		if(in_array($block['blockclass'], array('forum_thread', 'group_thread', 'space_blog', 'space_pic', 'portal_article'))) {
-			$datalist = array();
-			$mapping = array('forum_thread'=>'tid', 'group_thread'=>'tid', 'space_blog'=>'blogid', 'space_blog'=>'picid', 'portal_article'=>'aid');
+		if(in_array($block['blockclass'], ['forum_thread', 'group_thread', 'space_blog', 'space_pic', 'portal_article'])) {
+			$datalist = [];
+			$mapping = ['forum_thread' => 'tid', 'group_thread' => 'tid', 'space_blog' => 'blogid', 'space_pic' => 'picid', 'portal_article' => 'aid'];
 			$idtype = $mapping[$block['blockclass']];
-			$bannedids = !empty($block['param']['bannedids']) ? explode(',', $block['param']['bannedids']) : array();
+			$bannedids = !empty($block['param']['bannedids']) ? explode(',', $block['param']['bannedids']) : [];
 			$bannedsql = $bannedids ? ' AND id NOT IN ('.dimplode($bannedids).')' : '';
 			$shownum = intval($block['shownum']);
-			$titlelength	= !empty($block['param']['titlelength']) ? intval($block['param']['titlelength']) : 40;
-			$summarylength	= !empty($block['param']['summarylength']) ? intval($block['param']['summarylength']) : 80;
-			foreach(C::t('common_block_item_data')->fetch_all_by_bid($bid, 1, 0, $shownum * 2, $bannedids, false) as $value) {
+			$titlelength = !empty($block['param']['titlelength']) ? intval($block['param']['titlelength']) : 40;
+			$summarylength = !empty($block['param']['summarylength']) ? intval($block['param']['summarylength']) : 80;
+			foreach(table_common_block_item_data::t()->fetch_all_by_bid($bid, 1, 0, $shownum * 2, $bannedids, false) as $value) {
 				$value['title'] = cutstr($value['title'], $titlelength, '');
 				$value['summary'] = cutstr($value['summary'], $summarylength, '');
 				$value['itemtype'] = '3';
@@ -247,7 +246,7 @@ function block_updatecache($bid, $forceupdate=false) {
 			if($leftnum > 0 && empty($block['isblank'])) {
 				if($leftnum != $block['param']['items']) {
 					$block['param']['items'] = $leftnum;
-					$block['param']['bannedids'] = implode(',',$bannedids);
+					$block['param']['bannedids'] = implode(',', $bannedids);
 				}
 				$return = $obj->getdata($thestyle, $block['param']);
 				$return['data'] = array_merge($datalist, (array)$return['data']);
@@ -257,22 +256,21 @@ function block_updatecache($bid, $forceupdate=false) {
 		} else {
 			$return = $obj->getdata($thestyle, $block['param']);
 		}
-
 		if($return['data'] === null) {
 			$_G['block'][$block['bid']]['summary'] = $return['html'];
-			C::t('common_block')->update($bid, array('summary'=>$return['html']));
+			table_common_block::t()->update($bid, ['summary' => $return['html']]);
 		} else {
 			$_G['block'][$block['bid']]['itemlist'] = block_updateitem($bid, $return['data']);
 		}
 	} else {
-		C::t('common_block')->update($bid, array('dateline'=>TIMESTAMP+999999, 'cachetime'=>0));
-		$_G['block'][$bid]['dateline'] = TIMESTAMP+999999;
+		table_common_block::t()->update($bid, ['dateline' => TIMESTAMP + 999999, 'cachetime' => 0]);
+		$_G['block'][$bid]['dateline'] = TIMESTAMP + 999999;
 	}
-	if(C::t('common_block')->allowmem) {
-		memory('set', 'blockcache_'.$bid, $_G['block'][$bid], C::t('common_block')->cache_ttl);
+	if(table_common_block::t()->allowmem) {
+		memory('set', 'blockcache_'.$bid, $_G['block'][$bid], table_common_block::t()->cache_ttl);
 		$styleid = $_G['block'][$bid]['styleid'];
 		if($styleid && $_G['blockstyle_'.$styleid]) {
-			memory('set', 'blockstylecache_'.$styleid, $_G['blockstyle_'.$styleid], C::t('common_block')->cache_ttl);
+			memory('set', 'blockstylecache_'.$styleid, $_G['blockstyle_'.$styleid], table_common_block::t()->cache_ttl);
 		}
 	}
 	discuz_process::unlock('block_update_cache');
@@ -281,7 +279,7 @@ function block_updatecache($bid, $forceupdate=false) {
 function block_template($bid) {
 	global $_G;
 
-	$block = empty($_G['block'][$bid]) ? array() : $_G['block'][$bid];
+	$block = empty($_G['block'][$bid]) ? [] : $_G['block'][$bid];
 
 	$theclass = block_getclass($block['blockclass'], false);
 	$thestyle = !empty($block['styleid']) ? block_getstyle($block['styleid']) : dunserialize($block['blockstyle']);
@@ -293,7 +291,7 @@ function block_template($bid) {
 		if($thestyle['moreurl']) {
 			$template = str_replace('{moreurl}', 'portal.php?mod=block&bid='.$bid, $template);
 		}
-		$fields = array('picwidth'=>array(), 'picheight'=>array(), 'target'=>array(), 'currentorder'=>array());
+		$fields = ['picwidth' => [], 'picheight' => [], 'target' => [], 'currentorder' => []];
 		if($block['hidedisplay']) {
 			$fields = array_merge($fields, $theclass['fields']);
 		} else {
@@ -306,15 +304,15 @@ function block_template($bid) {
 		}
 
 		$order = 0;
-		$dynamicparts = array();
-		foreach($block['itemlist'] as $position=>$blockitem) {
-			$blockitem = is_array($blockitem) ? $blockitem : array();
+		$dynamicparts = [];
+		foreach($block['itemlist'] as $position => $blockitem) {
+			$blockitem = is_array($blockitem) ? $blockitem : [];
 			$itemid = $blockitem['itemid'];
 			$order++;
 
-			$rkey = $rpattern = $rvalue = $rtpl = array();
+			$rkey = $rpattern = $rvalue = $rtpl = [];
 			$rkeyplug = false;
-			if(isset($thestyle['template']['index']) && is_array($thestyle['template']['index']) && isset($thestyle['template']['index'][$order])) {
+			if(isset($thestyle['template']['index'][$order]) && is_array($thestyle['template']['index'])) {
 				$rkey[] = 'index_'.$order;
 				$rpattern[] = '/\s*\[index='.$order.'\](.*?)\[\/index\]\s*/is';
 				$rvalue[] = '';
@@ -335,7 +333,7 @@ function block_template($bid) {
 				}
 			}
 			if(!empty($thestyle['template']['indexplus'])) {
-				foreach($thestyle['template']['indexplus'] as $k=>$v) {
+				foreach($thestyle['template']['indexplus'] as $k => $v) {
 					if(isset($v[$order])) {
 						$rkey[] = 'index'.$k.'='.$order;
 						$rkeyplug = true;
@@ -347,7 +345,7 @@ function block_template($bid) {
 			}
 			if(empty($rkeyplug)) {
 				if(!empty($thestyle['template']['loopplus'])) {
-					foreach($thestyle['template']['loopplus'] as $k=>$v) {
+					foreach($thestyle['template']['loopplus'] as $k => $v) {
 						$rkey[] = 'loop'.$k;
 						$rpattern[] = '/\s*\[loop'.$k.'\](.*?)\[\/loop'.$k.'\]\s*/is';
 						$rvalue[] = isset($dynamicparts['loop'.$k]) ? $dynamicparts['loop'.$k][1] : '';
@@ -364,7 +362,7 @@ function block_template($bid) {
 				}
 			}
 			$blockitem['fields'] = is_array($blockitem['fields']) ? $blockitem['fields'] : dunserialize($blockitem['fields']);
-			$blockitem['fields'] = is_array($blockitem['fields']) ? $blockitem['fields'] : array();
+			$blockitem['fields'] = is_array($blockitem['fields']) ? $blockitem['fields'] : [];
 			if(!empty($blockitem['showstyle'])) {
 				$blockitem['fields']['showstyle'] = dunserialize($blockitem['showstyle']);
 			}
@@ -376,10 +374,10 @@ function block_template($bid) {
 			$blockitem['currentorder'] = $order;
 			$blockitem['parity'] = $order % 2;
 
-			$searcharr = $replacearr = array();
+			$searcharr = $replacearr = [];
 			$searcharr[] = '{parity}';
 			$replacearr[] = $blockitem['parity'];
-			foreach($fields as $key=>$field) {
+			foreach($fields as $key => $field) {
 				$replacevalue = $blockitem[$key];
 				$field['datatype'] = !empty($field['datatype']) ? $field['datatype'] : '';
 				if($field['datatype'] == 'int') {// int
@@ -409,8 +407,18 @@ function block_template($bid) {
 						} else {
 							$replacevalue = (preg_match('/^https?:\/\//is', $replacevalue) ? '' : $_G['setting']['ftp']['attachurl']).$replacevalue;
 						}
-					} elseif ($blockitem['picflag'] == '2') {
+					} elseif($blockitem['picflag'] == '2') {
 						$replacevalue = (preg_match('/^https?:\/\//is', $replacevalue) ? '' : $_G['setting']['ftp']['attachurl']).$replacevalue;
+					}
+					if(!$blockitem['picflag'] && $blockitem['thumbpath'] && $_G['setting']['ftp']['on'] == 2) {
+						$replacevalue = $_G['setting']['attachurl'].$blockitem['thumbpath'];
+						require_once libfile('class/image');
+						if(!$blockitem['makethumb']) {
+							$image = new image();
+							$image->Thumb($blockitem['pic'], $blockitem['thumbpath'], $block['picwidth'], $block['picheight'], 2);
+							ftpcmd('upload', $blockitem['thumbpath']);
+							table_common_block_item::t()->update($itemid, ['makethumb' => 1]);
+						}
 					}
 					if($blockitem['picflag'] && $block['picwidth'] && $block['picheight'] && $block['picwidth'] != 'auto' && $block['picheight'] != 'auto') {
 						if($blockitem['makethumb'] == 1) {
@@ -420,22 +428,22 @@ function block_template($bid) {
 								} else {
 									$replacevalue = (preg_match('/^https?:\/\//is', $blockitem['thumbpath']) ? '' : $_G['setting']['ftp']['attachurl']).$blockitem['thumbpath'];
 								}
-							} elseif ($blockitem['picflag'] == '2') {
+							} elseif($blockitem['picflag'] == '2') {
 								$replacevalue = (preg_match('/^https?:\/\//is', $blockitem['thumbpath']) ? '' : $_G['setting']['ftp']['attachurl']).$blockitem['thumbpath'];
 							}
 						} elseif(!$_G['block_makethumb'] && !$blockitem['makethumb']) {
-							C::t('common_block_item')->update($itemid, array('makethumb'=>2));
+							table_common_block_item::t()->update($itemid, ['makethumb' => 2]);
 							require_once libfile('class/image');
 							$image = new image();
 							$thumbpath = block_thumbpath($block, $blockitem);
 							if($_G['setting']['ftp']['on'] && !empty($_G['setting']['ftp']['host'])) {
-								$ftp = & discuz_ftp::instance();
+								$ftp = &discuz_ftp::instance();
 								$ftp->connect();
 								if($ftp->connectid && $ftp->ftp_size($thumbpath) > 0) {
 									$picflag = 1; //common_block_pic表中的picflag标识（0本地，1远程）
 									$_G['block_makethumb'] = true;
 									@unlink($_G['setting']['attachdir'].'./'.$thumbpath);
-									C::t('common_block_item')->update($itemid, array('picflag' => 2));
+									table_common_block_item::t()->update($itemid, ['picflag' => 2]);
 									$replacevalue = (preg_match('/^https?:\/\//is', $thumbpath) ? '' : $_G['setting']['ftp']['attachurl']).$thumbpath;
 								} else {
 									$image->Thumb($replacevalue, $thumbpath, $block['picwidth'], $block['picheight'], 2);
@@ -444,7 +452,7 @@ function block_template($bid) {
 											$picflag = 1; //common_block_pic表中的picflag标识（0本地，1远程）
 											$_G['block_makethumb'] = true;
 											@unlink($_G['setting']['attachdir'].'./'.$thumbpath);
-											C::t('common_block_item')->update($itemid, array('picflag' => 2));
+											table_common_block_item::t()->update($itemid, ['picflag' => 2]);
 											$replacevalue = (preg_match('/^https?:\/\//is', $thumbpath) ? '' : $_G['setting']['ftp']['attachurl']).$thumbpath;
 										} else {
 											$picflag = 0; //common_block_pic表中的picflag标识（0本地，1远程）
@@ -457,10 +465,10 @@ function block_template($bid) {
 								$_G['block_makethumb'] = true;
 							}
 							if($_G['block_makethumb']) {
-								C::t('common_block_item')->update($itemid, array('makethumb'=>1, 'thumbpath' => $thumbpath));
-								C::t('common_block')->clear_blockcache($block['bid']);
-								$thumbdata = array('bid' => $block['bid'], 'itemid' => $itemid, 'pic' => $thumbpath, 'picflag' => $picflag, 'type' => '0');
-								C::t('common_block_pic')->insert($thumbdata);
+								table_common_block_item::t()->update($itemid, ['makethumb' => 1, 'thumbpath' => $thumbpath]);
+								table_common_block::t()->clear_blockcache($block['bid']);
+								$thumbdata = ['bid' => $block['bid'], 'itemid' => $itemid, 'pic' => $thumbpath, 'picflag' => $picflag, 'type' => '0'];
+								table_common_block_pic::t()->insert($thumbdata);
 							}
 						}
 					}
@@ -469,20 +477,20 @@ function block_template($bid) {
 				$replacearr[] = $replacevalue;
 
 				if($block['hidedisplay']) {
-					if(strpos($replacevalue, "\\") !== false) {
+					if(str_contains($replacevalue, "\\")) {
 						$replacevalue = str_replace(
-								array('\.', '\\\\', '\+', '\*', '\?', '\[', '\^', '\]', '\$', '\(', '\)', '\{', '\}', '\=', '\!', '\<', '\>', '\|', '\:', '\-'),
-								array('.', '\\', '+', '*', '?', '[', '^', ']', '$', '(', ')', '{', '}', '=', '!', '<', '>', '|', ':', '-'), $replacevalue);
+							['\.', '\\\\', '\+', '\*', '\?', '\[', '\^', '\]', '\$', '\(', '\)', '\{', '\}', '\=', '\!', '\<', '\>', '\|', '\:', '\-'],
+							['.', '\\', '+', '*', '?', '[', '^', ']', '$', '(', ')', '{', '}', '=', '!', '<', '>', '|', ':', '-'], $replacevalue);
 					}
-					$_G['block_'.$bid][$order-1][$key] = $replacevalue;
+					$_G['block_'.$bid][$order - 1][$key] = $replacevalue;
 				}
 			}
-			foreach($rtpl as $k=>$str_template) {
+			foreach($rtpl as $k => $str_template) {
 				if($str_template) {
 					$str_template = preg_replace('/title=[\'"]{title}[\'"]/', 'title="{title-title}"', $str_template);
 					$str_template = preg_replace('/alt=[\'"]{title}[\'"]/', 'alt="{alt-title}"', $str_template);
 					$rvalue[$k] .= str_replace($searcharr, $replacearr, $str_template);
-					$dynamicparts[$rkey[$k]] = array($rpattern[$k], $rvalue[$k]);
+					$dynamicparts[$rkey[$k]] = [$rpattern[$k], $rvalue[$k]];
 				}
 			}
 		}// foreach($block['itemlist'] as $itemid=>$blockitem) {
@@ -516,37 +524,37 @@ function block_showstyle($showstyle, $key) {
 }
 
 
-function block_setting($blockclass, $script, $values = array()) {
+function block_setting($blockclass, $script, $values = []) {
 	global $_G;
 
-	$return = array();
+	$return = [];
 	$obj = block_script($blockclass, $script);
 	if(!is_object($obj)) return $return;
 	return block_makeform($obj->getsetting(), $values);
 }
 
-function block_makeform($blocksetting, $values){
+function block_makeform($blocksetting, $values) {
 	global $_G;
 	static $randomid = 0, $calendar_loaded = false;
-	$return = array();
+	$return = [];
 	foreach($blocksetting as $settingvar => $setting) {
-		$varname = in_array($setting['type'], array('mradio', 'mcheckbox', 'select', 'mselect')) ?
-			($setting['type'] == 'mselect' ? array('parameter['.$settingvar.'][]', $setting['value']) : array('parameter['.$settingvar.']', $setting['value']))
+		$varname = in_array($setting['type'], ['mradio', 'mcheckbox', 'select', 'mselect']) ?
+			($setting['type'] == 'mselect' ? ['parameter['.$settingvar.'][]', $setting['value']] : ['parameter['.$settingvar.']', $setting['value']])
 			: 'parameter['.$settingvar.']';
-		$value = isset($values[$settingvar]) ? $values[$settingvar] : $setting['default'];
+		$value = $values[$settingvar] ?? $setting['default'];
 		$type = $setting['type'];
 		$s = $comment = '';
 		if(preg_match('/^([\w]+?)_[\w]+$/i', $setting['title'], $match)) {
 			$langscript = $match[1];
 			$setname = lang('block/'.$langscript, $setting['title']);
-			$comment = lang('block/'.$langscript, $setting['title'].'_comment', array(), '');
+			$comment = lang('block/'.$langscript, $setting['title'].'_comment', [], '');
 		} else {
 			$langscript = '';
 			$setname = $setting['title'];
 		}
-		$check = array();
+		$check = [];
 		if($type == 'radio') {
-			$value ? $check['true'] = "checked" : $check['false'] = "checked";
+			$value ? $check['true'] = 'checked' : $check['false'] = 'checked';
 			$value ? $check['false'] = '' : $check['true'] = '';
 			$s .= '<label for="randomid_'.(++$randomid).'" class="lb"><input type="radio" name="'.$varname.'" id="randomid_'.$randomid.'" class="pr" value="1" '.$check['true'].'>'.lang('core', 'yes').'</label>'.
 				'<label for="randomid_'.(++$randomid).'" class="lb"><input type="radio" name="'.$varname.'" id="randomid_'.$randomid.'" class="pr" value="0" '.$check['false'].'>'.lang('core', 'no').'</label>';
@@ -565,8 +573,8 @@ function block_makeform($blocksetting, $values){
 			$s .= '</select>';
 		} elseif($type == 'mradio') {
 			if(is_array($varname)) {
-				$radiocheck = array($value => ' checked');
-				$s .= '<ul'.(empty($varname[2]) ?  ' class="pr"' : '').'>';
+				$radiocheck = [$value => ' checked'];
+				$s .= '<ul'.(empty($varname[2]) ? ' class="pr"' : '').'>';
 				foreach($varname[1] as $varary) {
 					if(is_array($varary) && !empty($varary)) {
 						$s .= '<li'.($radiocheck[$varary[0]] ? ' class="checked"' : '').'><label for="randomid_'.(++$randomid).'"><input type="radio" name="'.$varname[0].'" id="randomid_'.$randomid.'" class="pr" value="'.$varary[0].'"'.$radiocheck[$varary[0]].'>'.($langscript ? lang('block/'.$langscript, $varary[1]) : $varary[1]).'</label></li>';
@@ -591,14 +599,34 @@ function block_makeform($blocksetting, $values){
 			}
 			$s .= '</select>';
 		} elseif($type == 'calendar') {
-			if(! $calendar_loaded) {
+			if(!$calendar_loaded) {
 				$s .= "<script type=\"text/javascript\" src=\"{$_G['setting']['jspath']}calendar.js?".$_G['style']['verhash']."\"></script>";
 				$calendar_loaded = true;
 			}
 			$s .= '<input type="text" name="'.$varname.'" class="px" value="'.dhtmlspecialchars($value).'" onclick="showcalendar(event, this, true)" />';
+		} elseif($type == 'color') {
+			global $stylestuff;
+			$preview_varname = str_replace('[', '_', str_replace(']', '', $varname));
+			$code = explode(' ', $value);
+			$css = '';
+			for($i = 0; $i <= 1; $i++) {
+				if($code[$i] != '') {
+					if($code[$i][0] == '#') {
+						$css .= strtoupper($code[$i]).' ';
+					} elseif(preg_match('/^(https?:)?\/\//i', $code[$i])) {
+						$css .= 'url(\''.$code[$i].'\') ';
+					} else {
+						$css .= 'url(\''.$stylestuff['imgdir']['subst'].'/'.$code[$i].'\') ';
+					}
+				}
+			}
+			$background = trim($css);
+			$colorid = ++$GLOBALS['coloridcount'];
+			$s .= "<input id=\"c{$colorid}_v\" type=\"text\" class=\"px\" style=\"float:left; width:110px;\" value=\"$value\" name=\"$varname\">\n".
+				"<input id=\"c$colorid\" onclick=\"c{$colorid}_frame.location='static/image/admincp/getcolor.htm?c{$colorid}|c{$colorid}_v';showMenu({'ctrlid':'c$colorid'})\" type=\"button\" class=\"pn colorwd\" value=\"\" style=\"background: $background\"><span id=\"c{$colorid}_menu\" style=\"display: none\"><iframe name=\"c{$colorid}_frame\" src=\"\" frameborder=\"0\" width=\"210\" height=\"148\" scrolling=\"no\"></iframe></span>\n";
 		} elseif($type == 'district') {
 			include_once libfile('function/profile');
-			$elems = $vals = array();
+			$elems = $vals = [];
 			$districthtml = '';
 			foreach($setting['value'] as $fieldid) {
 				$elems[] = 'parameter['.$fieldid.']';
@@ -607,7 +635,7 @@ function block_makeform($blocksetting, $values){
 					$districthtml .= $values[$fieldid].'<input type="hidden" name="parameter['.$fieldid.']" value="'.$values[$fieldid].'" /> ';
 				}
 			}
-			$containertype = strpos($setting['title'], 'birthcity') !== false ? 'birth' : 'reside';
+			$containertype = str_contains($setting['title'], 'birthcity') ? 'birth' : 'reside';
 			$containerid = 'randomid_'.(++$randomid);
 			if($districthtml) {
 				$s .= $districthtml;
@@ -626,25 +654,26 @@ function block_makeform($blocksetting, $values){
 		} else {
 			$s .= $type;
 		}
-		$return[] = array('title' => $setname, 'html' => $s, 'comment'=>$comment);
+		$return[] = ['title' => $setname, 'html' => $s, 'comment' => $comment];
 	}
 	return $return;
 }
-function block_updateitem($bid, $items=array()) {
+
+function block_updateitem($bid, $items = []) {
 	global $_G;
 	$block = $_G['block'][$bid];
 	if(!$block) {
-		if(!($block = C::t('common_block')->fetch($bid))) {
+		if(!($block = table_common_block::t()->fetch($bid))) {
 			return false;
 		}
 		$_G['block'][$bid] = $block;
 	}
 	$block['shownum'] = max($block['shownum'], 1);
-	$showlist = array();
-	$archivelist = array();
-	$prelist = array();
-	$oldvalue = $fixedvalue = $fixedkeys = array();
-	foreach(C::t('common_block_item')->fetch_all_by_bid($bid, true) as $value) {
+	$showlist = [];
+	$archivelist = [];
+	$prelist = [];
+	$oldvalue = $fixedvalue = $fixedkeys = [];
+	foreach(table_common_block_item::t()->fetch_all_by_bid($bid, true) as $value) {
 		$key = $value['idtype'].'_'.$value['id'];
 		if($value['itemtype'] == '1') {
 			$fixedvalue[$value['displayorder']][] = $value;
@@ -656,8 +685,7 @@ function block_updateitem($bid, $items=array()) {
 			$archivelist[$value['itemid']] = 1;
 		}
 	}
-
-	$processkeys = array();
+	$processkeys = [];
 	$itemcount = count($items);
 	for($k = 0; $k < $itemcount; $k++) {
 		$v = $items[$k];
@@ -676,7 +704,6 @@ function block_updateitem($bid, $items=array()) {
 			unset($items[$k]);
 		}
 	}
-
 	$items = array_filter($items);
 
 	foreach($oldvalue as $value) {
@@ -689,7 +716,7 @@ function block_updateitem($bid, $items=array()) {
 				if($value['startdate'] > TIMESTAMP) {
 					$prelist[] = $value;
 				} elseif((!$value['startdate'] || $value['startdate'] <= TIMESTAMP)
-						&& (!$value['enddate'] || $value['enddate'] > TIMESTAMP)) {
+					&& (!$value['enddate'] || $value['enddate'] > TIMESTAMP)) {
 					$showlist[] = $value;
 					$jump = true;
 				} else {
@@ -698,7 +725,7 @@ function block_updateitem($bid, $items=array()) {
 			}
 		}
 		if(!$jump) {
-			$curitem = array();
+			$curitem = [];
 			if(!($curitem = array_shift($items))) {
 				break;
 			}
@@ -709,7 +736,7 @@ function block_updateitem($bid, $items=array()) {
 				$thumbpath = empty($curitem['thumbpath']) ? block_thumbpath($block, $curitem) : $curitem['thumbpath'];
 				if($_G['setting']['ftp']['on'] && !empty($_G['setting']['ftp']['host'])) {
 					if(empty($ftp)) {
-						$ftp = & discuz_ftp::instance();
+						$ftp = &discuz_ftp::instance();
 						$ftp->connect();
 					}
 					if($ftp->ftp_size($thumbpath) > 0) {
@@ -721,6 +748,9 @@ function block_updateitem($bid, $items=array()) {
 					$curitem['picflag'] = 1;
 				}
 				$curitem['thumbpath'] = $thumbpath;
+			} elseif(!$curitem['picflag'] && $_G['setting']['ftp']['on'] == 2) {
+				$curitem['makethumb'] = 0;
+				$curitem['thumbpath'] = block_thumbpath($block, $curitem);
 			}
 			if(is_array($curitem['fields'])) {
 				$curitem['fields'] = serialize($curitem['fields']);
@@ -736,12 +766,12 @@ function block_updateitem($bid, $items=array()) {
 	}
 	if($archivelist) {
 		$delids = array_keys($archivelist);
-		C::t('common_block_item')->delete_by_itemid_bid($delids, $bid);
+		table_common_block_item::t()->delete_by_itemid_bid($delids, $bid);
 		block_delete_pic($bid, $delids);
 	}
-	$inserts = $itemlist = array();
+	$inserts = $itemlist = [];
 	$itemlist = array_merge($showlist, $prelist);
-	C::t('common_block_item')->insert_batch($bid, $itemlist);
+	table_common_block_item::t()->insert_batch($bid, $itemlist);
 
 	$showlist = array_filter($showlist);
 	return $showlist;
@@ -753,12 +783,12 @@ function block_thumbpath($block, $item) {
 	return 'block/'.substr($hash, 0, 2).'/'.$hash.'.jpg';
 }
 
-function block_getclass($classname, $getstyle=false) {
+function block_getclass($classname, $getstyle = false) {
 	global $_G;
 	if(!isset($_G['cache']['blockclass']) || !isset($_G['cache']['blockindex'])) {
-		loadcache(array('blockclass', 'blockindex'));
+		loadcache(['blockclass', 'blockindex']);
 	}
-	$theclass = array();
+	$theclass = [];
 	if(isset($_G['cache']['blockindex']['class'][$classname])) {
 		$c1 = $_G['cache']['blockindex']['class'][$classname];
 	} else {
@@ -767,9 +797,9 @@ function block_getclass($classname, $getstyle=false) {
 	if($c1 && is_array($_G['cache']['blockclass']) && isset($_G['cache']['blockclass'][$c1]['subs'][$classname])) {
 		$theclass = $_G['cache']['blockclass'][$c1]['subs'][$classname];
 		if($getstyle && !isset($theclass['style'])) {
-			foreach(C::t('common_block_style')->fetch_all_by_blockclass($classname) as $value) {
-				$value['template'] = !empty($value['template']) ? (array)(dunserialize($value['template'])) : array();
-				$value['fields'] = !empty($value['fields']) ? (array)(dunserialize($value['fields'])) : array();
+			foreach(table_common_block_style::t()->fetch_all_by_blockclass($classname) as $value) {
+				$value['template'] = !empty($value['template']) ? (array)(dunserialize($value['template'])) : [];
+				$value['fields'] = !empty($value['fields']) ? (array)(dunserialize($value['fields'])) : [];
 				$key = 'blockstyle_'.$value['styleid'];
 				$_G[$key] = $value;
 				$theclass['style'][$value['styleid']] = $value;
@@ -783,26 +813,26 @@ function block_getclass($classname, $getstyle=false) {
 function block_getdiyurl($tplname, $diymod = false) {
 	$mod = $id = $script = $url = '';
 	$flag = 0;
-	if (empty ($tplname)) {
+	if(empty ($tplname)) {
 		$flag = 2;
 	} else {
-		list($script,$tpl) = explode('/',$tplname);
-		if (!empty($tpl)) {
-			$arr = array();
-			preg_match_all('/(.*)\_(\d{1,9})/', $tpl,$arr);
+		list($script, $tpl) = explode('/', $tplname);
+		if(!empty($tpl)) {
+			$arr = [];
+			preg_match_all('/(.*)\_(\d{1,9})/', $tpl, $arr);
 			$mod = empty($arr[1][0]) ? $tpl : $arr[1][0];
-			$id = max(intval($arr[2][0]),0);
+			$id = max(intval($arr[2][0]), 0);
 			if($script == 'ranklist') {
 				$script = 'misc';
 				$mod = 'ranklist&type='.$mod;
 			} else {
-				switch ($mod) {
+				switch($mod) {
 					case 'index' :
 						$mod = 'index';
 						break;
 					case 'discuz' :
 						$flag = 0;
-						if($id){
+						if($id) {
 							$mod = 'index&gid='.$id;
 						} else {
 							$mod = 'index';
@@ -836,31 +866,31 @@ function block_getdiyurl($tplname, $diymod = false) {
 				}
 			}
 		}
-		$url = empty($mod) || $flag == '1' ? '' : $script.'.php?mod='.$mod.($diymod?'&diy=yes':'');
+		$url = empty($mod) || $flag == '1' ? '' : $script.'.php?mod='.$mod.($diymod ? '&diy=yes' : '');
 	}
-	return array('url'=>$url,'flag'=>$flag);
+	return ['url' => $url, 'flag' => $flag];
 }
 
 function block_clear() {
-	$uselessbids = $usingbids = $bids = array();
-	$bids = C::t('common_block')->fetch_all_bid_by_blocktype(0,1000);
-	$usingbids = array_keys(C::t('common_template_block')->fetch_all_by_bid($bids));
+	$uselessbids = $usingbids = $bids = [];
+	$bids = table_common_block::t()->fetch_all_bid_by_blocktype(0, 1000);
+	$usingbids = array_keys(table_common_template_block::t()->fetch_all_by_bid($bids));
 	$uselessbids = array_diff($bids, $usingbids);
-	if (!empty($uselessbids)) {
-		C::t('common_block_item')->delete_by_bid($uselessbids);
-		C::t('common_block_item_data')->delete_by_bid($uselessbids);
-		C::t('common_block_favorite')->delete_by_bid($uselessbids);
-		C::t('common_block_permission')->delete_by_bid_uid_inheritedtplname($uselessbids);
-		C::t('common_block')->delete($uselessbids);
-		C::t('common_block')->optimize();
-		C::t('common_block_item')->optimize();
+	if(!empty($uselessbids)) {
+		table_common_block_item::t()->delete_by_bid($uselessbids);
+		table_common_block_item_data::t()->delete_by_bid($uselessbids);
+		table_common_block_favorite::t()->delete_by_bid($uselessbids);
+		table_common_block_permission::t()->delete_by_bid_uid_inheritedtplname($uselessbids);
+		table_common_block::t()->delete($uselessbids);
+		table_common_block::t()->optimize();
+		table_common_block_item::t()->optimize();
 		block_delete_pic($uselessbids);
 	}
 }
 
-function block_getstyle($styleids = array()) {
+function block_getstyle($styleids = []) {
 	global $_G;
-	static $allowmem = null, $cachettl =null;
+	static $allowmem = null, $cachettl = null;
 	if($allowmem === null) {
 		$allowmem = ($cachettl = getglobal('setting/memory/diyblock')) !== null && memory('check');
 	}
@@ -880,7 +910,7 @@ function block_getstyle($styleids = array()) {
 	if($styleids) {
 		if($allowmem) {
 			if(($cachedata = memory('get', $styleids, $cacheprekey)) !== false) {
-				foreach ($cachedata as $styleid => $style) {
+				foreach($cachedata as $styleid => $style) {
 					$_G[$pre.$styleid] = $style;
 				}
 				if(!($styleids = array_diff($styleids, array_keys($cachedata)))) {
@@ -890,9 +920,9 @@ function block_getstyle($styleids = array()) {
 		}
 
 		if($styleids) {
-			foreach(C::t('common_block_style')->fetch_all($styleids) as $styleid => $value) {
-				$value['template'] = !empty($value['template']) ? (array)(dunserialize($value['template'])) : array();
-				$value['fields'] = !empty($value['fields']) ? (array)(dunserialize($value['fields'])) : array();
+			foreach(table_common_block_style::t()->fetch_all($styleids) as $styleid => $value) {
+				$value['template'] = !empty($value['template']) ? (array)(dunserialize($value['template'])) : [];
+				$value['fields'] = !empty($value['fields']) ? (array)(dunserialize($value['fields'])) : [];
 				$_G[$pre.$styleid] = $value;
 				if($allowmem) {
 					memory('set', $cacheprekey.$styleid, $_G[$pre.$styleid], $cachettl);
@@ -901,31 +931,31 @@ function block_getstyle($styleids = array()) {
 		}
 		return $ret ? $_G[$pre.$ret] : true;
 	}
-	return array();
+	return [];
 }
 
 function blockclass_cache() {
 	global $_G;
-	$data = $dirs = $styles = $dataconvert = $dataindex = array();
+	$data = $dirs = $styles = $dataconvert = $dataindex = [];
 	$dir = DISCUZ_ROOT.'/source/class/block/';
 	$dh = opendir($dir);
-	while(($filename=readdir($dh))) {
-		if(is_dir($dir.$filename) && substr($filename,0,1) != '.') {
+	while(($filename = readdir($dh))) {
+		if(is_dir($dir.$filename) && !str_starts_with($filename, '.')) {
 			$dirs[$filename] = $dir.$filename.'/';
 		}
 	}
 	ksort($dirs);
 	if(!empty($_G['setting']['plugins']['available'])) {
 		foreach($_G['setting']['plugins']['available'] as $key) {
-			$dir = './source/plugin/'.$key.'/block';
+			$dir = DISCUZ_PLUGIN($key).'/block';
 			if(!file_exists($dir) || !file_exists($dir.'/blockclass.php')) {
 				continue;
 			}
 			$dirs[$key] = $dir.'/';
 		}
 	}
-	foreach($dirs as $name=>$dir) {
-		$blockclass = $blockconvert = array();
+	foreach($dirs as $name => $dir) {
+		$blockclass = $blockconvert = [];
 		if(file_exists($dir.'blockclass.php')) {
 			include_once($dir.'blockclass.php');
 		}
@@ -934,11 +964,11 @@ function blockclass_cache() {
 		} else {
 			$blockclass['name'] = dhtmlspecialchars($blockclass['name']);
 		}
-		$blockclass['subs'] = array();
+		$blockclass['subs'] = [];
 
 		$dh = opendir($dir);
 		while(($filename = readdir($dh))) {
-			$match = $infos = $oneinfo = $fieldsconvert = array();
+			$match = $infos = $oneinfo = $fieldsconvert = [];
 			$scriptname = $scriptclass = '';
 			if(preg_match('/^(block_[\w]+)\.php$/i', $filename, $match)) {
 				$scriptclass = $match[1];
@@ -947,18 +977,18 @@ function blockclass_cache() {
 				if(class_exists($scriptclass, false)) {
 					$obj = new $scriptclass();
 					if(method_exists($obj, 'name') && method_exists($obj, 'blockclass') && method_exists($obj, 'fields')
-							&& method_exists($obj, 'getsetting') && method_exists($obj, 'getdata')) {
+						&& method_exists($obj, 'getsetting') && method_exists($obj, 'getdata')) {
 						if($scriptclass == 'block_xml') {
 							foreach($obj->blockdata as $one) {
 								$oneinfo['name'] = dhtmlspecialchars($one['data']['name']);
-								$oneinfo['blockclass'] = array($one['id'], $oneinfo['name']);
+								$oneinfo['blockclass'] = [$one['id'], $oneinfo['name']];
 								$oneinfo['fields'] = dhtmlspecialchars($one['data']['fields']);
 
 								foreach($one['data']['style'] as $value) {
-									$arr = array(
-										'blockclass'=>'xml_'.$one['id'],
+									$arr = [
+										'blockclass' => 'xml_'.$one['id'],
 										'name' => dhtmlspecialchars($value['name']),
-									);
+									];
 									block_parse_template($value['template'], $arr);
 									$styles[$arr['hash']] = $arr;
 								}
@@ -983,11 +1013,11 @@ function blockclass_cache() {
 					list($key, $title) = $info['blockclass'];
 					$key = $name.'_'.$key;
 					if(!isset($blockclass['subs'][$key])) {
-						$blockclass['subs'][$key] = array(
+						$blockclass['subs'][$key] = [
 							'name' => $title,
 							'fields' => $info['fields'],
-							'script' => array()
-						);
+							'script' => []
+						];
 					}
 					$dataindex['class'][$key] = $name;
 					$blockclass['subs'][$key]['script'][$scriptname] = $info['name'];
@@ -1002,16 +1032,16 @@ function blockclass_cache() {
 		if($blockclass['subs']) {
 			$data[$name] = $blockclass;
 
-			$blockstyle = array();
+			$blockstyle = [];
 			if(file_exists($dir.'blockstyle.php')) {
 				include_once($dir.'blockstyle.php');
 			}
 			if($blockstyle) {
 				foreach($blockstyle as $value) {
-					$arr = array(
-						'blockclass'=>$name.'_'.$value['blockclass'],
+					$arr = [
+						'blockclass' => $name.'_'.$value['blockclass'],
 						'name' => $value['name']
-					);
+					];
 					block_parse_template($value['template'], $arr);
 					$styles[$arr['hash']] = $arr;
 				}
@@ -1026,11 +1056,11 @@ function blockclass_cache() {
 
 	if($styles) {
 		$hashes = array_keys($styles);
-		foreach(C::t('common_block_style')->fetch_all_by_hash($hashes) as $value) {
+		foreach(table_common_block_style::t()->fetch_all_by_hash($hashes) as $value) {
 			unset($styles[$value['hash']]);
 		}
 		if($styles) {
-			C::t('common_block_style')->insert_batch($styles);
+			table_common_block_style::t()->insert_batch($styles);
 		}
 	}
 	savecache('blockclass', $data);
@@ -1048,47 +1078,47 @@ function block_parse_template($str_template, &$arr) {
 	$fields = block_parse_fields($str_template);
 	$arr['fields'] = serialize($fields);
 
-	$template = array();
+	$template = [];
 	$template['raw'] = $str_template;
 	$template['header'] = $template['footer'] = '';
-	$template['loop'] = $template['loopplus'] = $template['order'] = $template['orderplus'] = $template['index'] = $template['indexplus'] = array();
+	$template['loop'] = $template['loopplus'] = $template['order'] = $template['orderplus'] = $template['index'] = $template['indexplus'] = [];
 
-	$match = array();
+	$match = [];
 	if(preg_match('/\[loop\](.*?)\[\/loop]/is', $str_template, $match)) {
 		$template['loop'] = trim($match[1]);
 	}
-	$match = array();
+	$match = [];
 	if(preg_match_all('/\[(loop\d)\](.*?)\[\/\\1]/is', $str_template, $match)) {
-		foreach($match[1] as $key=>$value) {
+		foreach($match[1] as $key => $value) {
 			$content = trim($match[2][$key]);
 			$k = intval(str_replace('loop', '', $value));
 			$template['loopplus'][$k] = $content;
 		}
 	}
-	$match = array();
+	$match = [];
 	if(preg_match_all('/\[order=(\d+|odd|even)\](.*?)\[\/order]/is', $str_template, $match)) {
 		foreach($match[1] as $key => $order) {
 			$template['order'][$order] = trim($match[2][$key]);
 		}
 	}
-	$match = array();
+	$match = [];
 	if(preg_match_all('/\[(order\d+)=(\d+|odd|even)\](.*?)\[\/\\1]/is', $str_template, $match)) {
-		foreach($match[1] as $key=>$value) {
+		foreach($match[1] as $key => $value) {
 			$content = trim($match[3][$key]);
 			$order = $match[2][$key];
 			$k = intval(str_replace('order', '', $value));
 			$template['orderplus'][$k][$order] = $content;
 		}
 	}
-	$match = array();
+	$match = [];
 	if(preg_match_all('/\[index=(\d+)\](.*?)\[\/index]/is', $str_template, $match)) {
-		foreach($match[1] as $key=>$order) {
+		foreach($match[1] as $key => $order) {
 			$template['index'][$order] = trim($match[2][$key]);
 		}
 	}
-	$match = array();
+	$match = [];
 	if(preg_match_all('/\[(index\d+)=(\d+)\](.*?)\[\/\\1]/is', $str_template, $match)) {
-		foreach($match[1] as $key=>$value) {
+		foreach($match[1] as $key => $value) {
 			$content = trim($match[3][$key]);
 			$order = intval($match[2][$key]);
 			$k = intval(str_replace('index', '', $value));
@@ -1100,20 +1130,20 @@ function block_parse_template($str_template, &$arr) {
 }
 
 function block_parse_fields($template) {
-	$fields = array();
+	$fields = [];
 	if(preg_match_all('/\{(\w+)\}/', $template, $matches)) {
 		foreach($matches[1] as $fieldname) {
 			$fields[] = $fieldname;
 		}
 		$fields = array_unique($fields);
-		$fields = array_diff($fields, array('picwidth', 'picheight', 'target', ''));
+		$fields = array_diff($fields, ['picwidth', 'picheight', 'target', '']);
 		$fields = array_values($fields);
 	}
 	return $fields;
 }
 
 function block_build_template($template) {
-	if(! is_array($template)) {
+	if(!is_array($template)) {
 		return $template;
 	}
 	if(!empty($template['raw'])) {
@@ -1124,7 +1154,7 @@ function block_build_template($template) {
 		$str_template .= "\n[loop]\n{$template['loop']}\n[/loop]";
 	}
 	if(!empty($template['order']) && is_array($template['order'])) {
-		foreach($template['order'] as $key=>$value) {
+		foreach($template['order'] as $key => $value) {
 			$str_template .= "\n[order={$key}]\n{$value}\n[/order]";
 		}
 	}
@@ -1133,14 +1163,14 @@ function block_build_template($template) {
 }
 
 function block_isrecommendable($block) {
-	return !empty($block) && in_array($block['blockclass'], array('forum_thread', 'group_thread', 'portal_article', 'space_pic', 'space_blog')) ? true : false;
+	return !empty($block) && in_array($block['blockclass'], ['forum_thread', 'group_thread', 'portal_article', 'space_pic', 'space_blog']);
 }
 
-function block_delete_pic($bid, $itemid = array()) {
+function block_delete_pic($bid, $itemid = []) {
 	global $_G;
 	if(!empty($bid)) {
-		$picids = array();
-		foreach(C::t('common_block_pic')->fetch_all_by_bid_itemid($bid, $itemid) as $value) {
+		$picids = [];
+		foreach(table_common_block_pic::t()->fetch_all_by_bid_itemid($bid, $itemid) as $value) {
 			$picids[$value['picid']] = $value['picid'];
 			if($value['picflag']) {
 				ftpcmd('delete', $value['pic']);
@@ -1149,7 +1179,7 @@ function block_delete_pic($bid, $itemid = array()) {
 			}
 		}
 		if(!empty($picids)) {
-			C::t('common_block_pic')->delete($picids);
+			table_common_block_pic::t()->delete($picids);
 		}
 	}
 }
@@ -1157,23 +1187,23 @@ function block_delete_pic($bid, $itemid = array()) {
 function update_template_block($targettplname, $tpldirectory, $blocks) {
 	if(!empty($targettplname)) {
 		if(empty($blocks)) {
-			C::t('common_template_block')->delete_by_targettplname($targettplname, $tpldirectory);
+			table_common_template_block::t()->delete_by_targettplname($targettplname, $tpldirectory);
 		} else {
-			$oldbids = array();
-			$oldbids = array_keys(C::t('common_template_block')->fetch_all_by_targettplname($targettplname, $tpldirectory));
+			$oldbids = [];
+			$oldbids = array_keys(table_common_template_block::t()->fetch_all_by_targettplname($targettplname, $tpldirectory));
 			$newaddbids = array_diff($blocks, $oldbids);
-			C::t('common_template_block')->delete_by_targettplname($targettplname, $tpldirectory);
+			table_common_template_block::t()->delete_by_targettplname($targettplname, $tpldirectory);
 			if($tpldirectory === './template/default') {
-				C::t('common_template_block')->delete_by_targettplname($targettplname, '');
+				table_common_template_block::t()->delete_by_targettplname($targettplname, '');
 			}
 			$blocks = array_unique($blocks);
-			C::t('common_template_block')->insert_batch($targettplname, $tpldirectory, $blocks);
+			table_common_template_block::t()->insert_batch($targettplname, $tpldirectory, $blocks);
 			if(!empty($newaddbids)) {
 				require_once libfile('class/blockpermission');
-				$tplpermission = & template_permission::instance();
+				$tplpermission = &template_permission::instance();
 				$tplpermission->add_blocks($targettplname, $newaddbids);
 			}
 		}
 	}
 }
-?>
+

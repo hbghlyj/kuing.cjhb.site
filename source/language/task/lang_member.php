@@ -1,18 +1,17 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: lang_member.php 29183 2012-03-28 06:39:26Z zhengqingpeng $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
-$lang = array
-(
+$lang =
+	[
 	'member_name' => '会员类任务',
 	'member_desc' => '此类任务用来鼓励和引导会员使用论坛的某个功能，活跃论坛的氛围，例如收藏主题、使用道具等',
 	'member_complete_var_act' => '动作',
@@ -28,6 +27,5 @@ $lang = array
 	'task_complete_time_limit' => '{value} 小时内，',
 	'task_complete_act_favorite' => '收藏 {value} 个主题',
 	'task_complete_act_magic' => '使用 {value} 次道具。<br />您可以在帖子页面、日志页面、图片页面等使用道具',
-);
+	];
 
-?>

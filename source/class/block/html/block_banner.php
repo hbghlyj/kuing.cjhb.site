@@ -1,10 +1,9 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: block_banner.php 28625 2012-03-06 09:09:49Z zhangguosheng $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -15,7 +14,8 @@ require_once libfile('commonblock_html', 'class/block/html');
 
 class block_banner extends commonblock_html {
 
-	function __construct() {}
+	function __construct() {
+	}
 
 	function name() {
 		return lang('blockclass', 'blockclass_html_script_banner');
@@ -23,43 +23,43 @@ class block_banner extends commonblock_html {
 
 	function getsetting() {
 		global $_G;
-		$settings = array(
-			'pic' => array(
+		$settings = [
+			'pic' => [
 				'title' => 'banner_pic',
 				'type' => 'mfile',
 				'default' => 'http://'
-			),
-			'url' => array(
+			],
+			'url' => [
 				'title' => 'banner_url',
 				'type' => 'text',
 				'default' => ''
-			),
-			'atarget' => array(
+			],
+			'atarget' => [
 				'title' => 'banner_atarget',
 				'type' => 'select',
-				'value' => array(
-					array('_blank', 'banner_atarget_blank'),
-					array('_self', 'banner_atarget_self'),
-					array('_top', 'banner_atarget_top'),
-				),
+				'value' => [
+					['_blank', 'banner_atarget_blank'],
+					['_self', 'banner_atarget_self'],
+					['_top', 'banner_atarget_top'],
+				],
 				'default' => '_blank'
-			),
-			'width' => array(
+			],
+			'width' => [
 				'title' => 'banner_width',
 				'type' => 'text',
 				'default' => '100%'
-			),
-			'height' => array(
+			],
+			'height' => [
 				'title' => 'banner_height',
 				'type' => 'text',
 				'default' => ''
-			),
-			'text' => array(
+			],
+			'text' => [
 				'title' => 'banner_text',
 				'type' => 'textarea',
 				'default' => ''
-			),
-		);
+			],
+		];
 
 		return $settings;
 	}
@@ -72,12 +72,11 @@ class block_banner extends commonblock_html {
 			.($parameter['text'] ? ' alt="'.$parameter['text'].'" title="'.$parameter['text'].'"' : '')
 			.' />';
 		if($parameter['url']) {
-			$target = $parameter['atarget']  ? " target=\"{$parameter['atarget']}\"" : '';
+			$target = $parameter['atarget'] ? " target=\"{$parameter['atarget']}\"" : '';
 			$return = "<a href=\"{$parameter['url']}\"$target>$return</a>";
 		}
-		return array('html' => $return, 'data' => null);
+		return ['html' => $return, 'data' => null];
 	}
 
 }
 
-?>

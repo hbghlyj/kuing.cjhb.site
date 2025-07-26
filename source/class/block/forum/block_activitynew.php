@@ -1,10 +1,9 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: block_activitynew.php 25525 2011-11-14 04:39:11Z zhangguosheng $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -15,37 +14,37 @@ require_once libfile('block_activity', 'class/block/forum');
 
 class block_activitynew extends block_activity {
 	function __construct() {
-		$this->setting = array(
-			'fids'	=> array(
+		$this->setting = [
+			'fids' => [
 				'title' => 'activitylist_fids',
 				'type' => 'mselect',
-				'value' => array()
-			),
-			'viewmod' => array(
+				'value' => []
+			],
+			'viewmod' => [
 				'title' => 'threadlist_viewmod',
 				'type' => 'radio'
-			),
-			'class' => array(
+			],
+			'class' => [
 				'title' => 'activitylist_class',
 				'type' => 'select',
-				'value' => array()
-			),
-			'titlelength' => array(
+				'value' => []
+			],
+			'titlelength' => [
 				'title' => 'activitylist_titlelength',
 				'type' => 'text',
 				'default' => 40
-			),
-			'summarylength' => array(
+			],
+			'summarylength' => [
 				'title' => 'activitylist_summarylength',
 				'type' => 'text',
 				'default' => 80
-			),
-			'startrow' => array(
+			],
+			'startrow' => [
 				'title' => 'activitylist_startrow',
 				'type' => 'text',
 				'default' => 0
-			),
-		);
+			],
+		];
 	}
 
 	function name() {
@@ -58,4 +57,3 @@ class block_activitynew extends block_activity {
 	}
 }
 
-?>

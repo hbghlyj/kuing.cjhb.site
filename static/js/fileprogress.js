@@ -1,6 +1,6 @@
 /*
 	A simple class for displaying file information and progress
-	Note: This is a demonstration only and not part of WebUpload.
+	Note: This is a demonstration only and not part of SWFUpload.
 	Note: Some have had problems adapting this class in IE7. It may not be suitable for your application.
 */
 
@@ -112,12 +112,12 @@ FileProgress.prototype.setStatus = function (status) {
 	this.fileProgressElement.childNodes[2].innerHTML = status;
 };
 
-FileProgress.prototype.toggleCancel = function (show, webUploadInstance) {
+FileProgress.prototype.toggleCancel = function (show, swfUploadInstance) {
 	this.fileProgressElement.childNodes[0].style.visibility = show ? "visible" : "hidden";
-	if (webUploadInstance) {
+	if (swfUploadInstance) {
 		var fileID = this.fileProgressID;
 		this.fileProgressElement.childNodes[0].onclick = function () {
-			webUploadInstance.cancelUpload(fileID);
+			swfUploadInstance.cancelUpload(fileID);
 			return false;
 		};
 	}

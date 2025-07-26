@@ -1,10 +1,9 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: discuz_upgrade.php 31992 2012-10-30 05:44:15Z zhangjie $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -19,7 +18,7 @@ class discuz_upgrade {
 
 	public function fetch_updatefile_list($upgradeinfo) {
 
-		$file = DISCUZ_ROOT.'./data/update/Discuz! X'.$upgradeinfo['latestversion'].' Release['.$upgradeinfo['latestrelease'].']/updatelist.tmp';
+		$file = DISCUZ_DATA.'./update/Discuz! X'.$upgradeinfo['latestversion'].' Release['.$upgradeinfo['latestrelease'].']/updatelist.tmp';
 		$upgradedataflag = true;
 		$upgradedata = @file_get_contents($file);
 		if(!$upgradedata) {
@@ -27,7 +26,7 @@ class discuz_upgrade {
 			$upgradedataflag = false;
 		}
 
-		$return = array();
+		$return = [];
 		$upgradedataarr = explode("\r\n", $upgradedata);
 		foreach($upgradedataarr as $k => $v) {
 			if(!$v) {
@@ -37,14 +36,14 @@ class discuz_upgrade {
 			$return['md5'][$k] = substr($v, 0, 32);
 			if(trim(substr($v, 32, 2)) != '*') {
 				@unlink($file);
-				return array();
+				return [];
 			}
 
 		}
 		if(!$upgradedataflag) {
 			$this->mkdirs(dirname($file));
 			if(file_put_contents($file, $upgradedata) === false) {
-				return array();
+				return [];
 			}
 		}
 
@@ -52,16 +51,16 @@ class discuz_upgrade {
 	}
 
 	public function compare_basefile($upgradeinfo, $upgradefilelist) {
-		if(!$discuzfiles = @file('./source/admincp/discuzfiles.md5')) {
-			return array();
+		if(!$discuzfiles = @file('./source/data/admincp/discuzfiles.md5')) {
+			return [];
 		}
 
-		$newupgradefilelist = array();
+		$newupgradefilelist = [];
 		foreach($upgradefilelist as $v) {
 			$newupgradefilelist[$v] = md5_file(DISCUZ_ROOT.'./'.$v);
 		}
 
-		$modifylist = $showlist = $searchlist = array();
+		$modifylist = $showlist = $searchlist = [];
 		foreach($discuzfiles as $line) {
 			$file = trim(substr($line, 34));
 			$md5datanew[$file] = substr($line, 0, 32);
@@ -72,22 +71,22 @@ class discuz_upgrade {
 						$searchlist[] = "\r\n".$file;
 						continue;
 					}
-						$modifylist[$file] = $file;
+					$modifylist[$file] = $file;
 				} else {
 					$showlist[$file] = $file;
 				}
 			}
 		}
 		if($searchlist) {
-			$file = DISCUZ_ROOT.'./data/update/Discuz! X'.$upgradeinfo['latestversion'].' Release['.$upgradeinfo['latestrelease'].']/updatelist.tmp';
+			$file = DISCUZ_DATA.'./update/Discuz! X'.$upgradeinfo['latestversion'].' Release['.$upgradeinfo['latestrelease'].']/updatelist.tmp';
 			$upgradedata = file_get_contents($file);
 			$upgradedata = str_replace($searchlist, '', $upgradedata);
 			if(file_put_contents($file, $upgradedata) === false) {
-				return array();
+				return [];
 			}
 		}
 
-		return array($modifylist, $showlist, $ignorelist);
+		return [$modifylist, $showlist, $ignorelist];
 	}
 
 	public function compare_file_content($file, $remotefile) {
@@ -95,7 +94,7 @@ class discuz_upgrade {
 			return false;
 		}
 		$content = preg_replace('/\s/', '', file_get_contents($file));
-		$ctx = stream_context_create(array('http' => array('timeout' => 60)));
+		$ctx = stream_context_create(['http' => ['timeout' => 60]]);
 		$remotecontent = preg_replace('/\s/', '', file_get_contents($remotefile, false, $ctx));
 		if(strcmp($content, $remotecontent)) {
 			return false;
@@ -114,10 +113,10 @@ class discuz_upgrade {
 		$response_xml = dfsockopen($upgradefile);
 		$response = xml2array($response_xml);
 		if(isset($response['cross']) || isset($response['patch'])) {
-			C::t('common_setting')->update_setting('upgrade', $response);
+			table_common_setting::t()->update_setting('upgrade', $response);
 			$return = true;
 		} else {
-			C::t('common_setting')->update_setting('upgrade', '');
+			table_common_setting::t()->update_setting('upgrade', '');
 			$return = false;
 		}
 		updatecache('setting');
@@ -156,7 +155,7 @@ class discuz_upgrade {
 
 
 	public function download_file($upgradeinfo, $file, $folder = 'upload', $md5 = '', $position = 0, $offset = 0) {
-		$dir = DISCUZ_ROOT.'./data/update/Discuz! X'.$upgradeinfo['latestversion'].' Release['.$upgradeinfo['latestrelease'].']/';
+		$dir = DISCUZ_DATA.'./update/Discuz! X'.$upgradeinfo['latestversion'].' Release['.$upgradeinfo['latestrelease'].']/';
 		$this->mkdirs(dirname($dir.$file));
 		$downloadfileflag = true;
 
@@ -197,7 +196,8 @@ class discuz_upgrade {
 			if(!@mkdir($dir, 0777)) {
 				return false;
 			}
-			@touch($dir.'/index.htm'); @chmod($dir.'/index.htm', 0777);
+			@touch($dir.'/index.htm');
+			@chmod($dir.'/index.htm', 0777);
 		}
 		return true;
 	}
@@ -215,7 +215,7 @@ class discuz_upgrade {
 			$siteftp = $_GET['siteftp'];
 			$siteftp['on'] = 1;
 			$siteftp['password'] = authcode($siteftp['password'], 'ENCODE', md5($_G['config']['security']['authkey']));
-			$ftp = & discuz_ftp::instance($siteftp);
+			$ftp = &discuz_ftp::instance($siteftp);
 			$ftp->connect();
 			$ftp->upload($srcfile, $desfile);
 			if($ftp->error()) {
@@ -266,4 +266,4 @@ class discuz_upgrade {
 		rmdir($srcdir);
 	}
 }
-?>
+

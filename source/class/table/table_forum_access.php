@@ -1,22 +1,28 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: table_forum_access.php 27777 2012-02-14 07:07:26Z zhengqingpeng $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
-class table_forum_access extends discuz_table
-{
+class table_forum_access extends discuz_table {
+	public static function t() {
+		static $_instance;
+		if(!isset($_instance)) {
+			$_instance = new self();
+		}
+		return $_instance;
+	}
+
 	public function __construct() {
 
 		$this->_table = 'forum_access';
-		$this->_pk    = '';
+		$this->_pk = '';
 
 		parent::__construct();
 	}
@@ -30,30 +36,30 @@ class table_forum_access extends discuz_table
 			return false;
 		}
 		if($count) {
-			return DB::result_first('SELECT count(*) FROM %t WHERE '.$sql, array($this->_table));
+			return DB::result_first('SELECT count(*) FROM %t WHERE '.$sql, [$this->_table]);
 		}
 		if($limit) {
 			$sql .= " LIMIT $start, $limit";
 		}
-		return DB::fetch_all('SELECT * FROM %t WHERE '.$sql, array($this->_table));
+		return DB::fetch_all('SELECT * FROM %t WHERE '.$sql, [$this->_table]);
 	}
 
 	public function fetch_all_by_uid($uid) {
-		$data = array();
+		$data = [];
 		if($uid) {
-			$data = DB::fetch_all('SELECT * FROM %t WHERE uid=%d', array($this->_table, $uid), 'fid');
+			$data = DB::fetch_all('SELECT * FROM %t WHERE uid=%d', [$this->_table, $uid], 'fid');
 		}
 		return $data;
 	}
 
 	public function count_by_uid($uid) {
-		return $uid ? DB::result_first('SELECT count(*) FROM %t WHERE uid=%d', array($this->_table, $uid)) : 0;
+		return $uid ? DB::result_first('SELECT count(*) FROM %t WHERE uid=%d', [$this->_table, $uid]) : 0;
 	}
 
 	public function delete_by_fid($fid, $uid = 0) {
 		$uid = intval($uid);
 		$uidsql = $uid ? ' uid='.$uid.' AND ' : '';
-		DB::query("DELETE FROM %t WHERE $uidsql fid=%d", array($this->_table, $fid));
+		DB::query("DELETE FROM %t WHERE $uidsql fid=%d", [$this->_table, $fid]);
 	}
 
 	public function update_for_uid($uid, $fid, $data) {
@@ -68,4 +74,3 @@ class table_forum_access extends discuz_table
 	}
 }
 
-?>

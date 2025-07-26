@@ -1,22 +1,20 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: discuz_container.php 32457 2013-01-21 05:19:57Z zhangguosheng $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
-class discuz_container extends discuz_base
-{
+class discuz_container extends discuz_base {
 
 	protected $_obj;
 
-	protected $_objs = array();
+	protected $_objs = [];
 
 	public function __construct($obj = null) {
 		if(isset($obj)) {
@@ -54,15 +52,15 @@ class discuz_container extends discuz_base
 			if(isset($this->_obj->methods[$name][0])) {
 				$this->_call($name, $p, 0);
 			}
-			switch (count($p)) {
-				case 0:	$this->_obj->data = $this->_obj->{$name}();break;
-				case 1:	$this->_obj->data = $this->_obj->{$name}($p[0]);break;
-				case 2:	$this->_obj->data = $this->_obj->{$name}($p[0], $p[1]);break;
-				case 3:	$this->_obj->data = $this->_obj->{$name}($p[0], $p[1], $p[2]);break;
-				case 4:	$this->_obj->data = $this->_obj->{$name}($p[0], $p[1], $p[2], $p[3]);break;
-				case 5:	$this->_obj->data = $this->_obj->{$name}($p[0], $p[1], $p[2], $p[3], $p[4]);break;
-				default: $this->_obj->data = call_user_func_array(array($this->_obj, $name), $p);break;
-			}
+			$this->_obj->data = match (count($p)) {
+				0 => $this->_obj->{$name}(),
+				1 => $this->_obj->{$name}($p[0]),
+				2 => $this->_obj->{$name}($p[0], $p[1]),
+				3 => $this->_obj->{$name}($p[0], $p[1], $p[2]),
+				4 => $this->_obj->{$name}($p[0], $p[1], $p[2], $p[3]),
+				5 => $this->_obj->{$name}($p[0], $p[1], $p[2], $p[3], $p[4]),
+				default => call_user_func_array([$this->_obj, $name], $p),
+			};
 			if(isset($this->_obj->methods[$name][1])) {
 				$this->_call($name, $p, 1);
 			}
@@ -79,30 +77,30 @@ class discuz_container extends discuz_base
 			foreach($this->_obj->methods[$name][$type] as $extend) {
 				if(is_array($extend) && isset($extend['class'])) {
 					$obj = $this->_getobj($extend['class'], $this->_obj);
-					switch (count($p)) {
-						case 0:	$ret = $obj->{$extend['method']}();break;
-						case 1:	$ret = $obj->{$extend['method']}($p[0]);break;
-						case 2:	$ret = $obj->{$extend['method']}($p[0], $p[1]);break;
-						case 3:	$ret = $obj->{$extend['method']}($p[0], $p[1], $p[2]);break;
-						case 4:	$ret = $obj->{$extend['method']}($p[0], $p[1], $p[2], $p[3]);break;
-						case 5:	$ret = $obj->{$extend['method']}($p[0], $p[1], $p[2], $p[3], $p[4]);break;
-						default: $ret = call_user_func_array(array($obj, $extend['method']), $p);break;
-					}
+					$ret = match (count($p)) {
+						0 => $obj->{$extend['method']}(),
+						1 => $obj->{$extend['method']}($p[0]),
+						2 => $obj->{$extend['method']}($p[0], $p[1]),
+						3 => $obj->{$extend['method']}($p[0], $p[1], $p[2]),
+						4 => $obj->{$extend['method']}($p[0], $p[1], $p[2], $p[3]),
+						5 => $obj->{$extend['method']}($p[0], $p[1], $p[2], $p[3], $p[4]),
+						default => call_user_func_array([$obj, $extend['method']], $p),
+					};
 				} elseif(is_callable($extend, true)) {
 					if(is_array($extend)) {
 						list($obj, $method) = $extend;
 						if(method_exists($obj, $method)) {
 							if(is_object($obj)) {
 								$obj->obj = $this->_obj;
-								switch (count($p)) {
-									case 0:	$ret = $obj->{$method}();break;
-									case 1:	$ret = $obj->{$method}($p[0]);break;
-									case 2:	$ret = $obj->{$method}($p[0], $p[1]);break;
-									case 3:	$ret = $obj->{$method}($p[0], $p[1], $p[2]);break;
-									case 4:	$ret = $obj->{$method}($p[0], $p[1], $p[2], $p[3]);break;
-									case 5:	$ret = $obj->{$method}($p[0], $p[1], $p[2], $p[3], $p[4]);break;
-									default: $ret = call_user_func_array(array($obj, $method), $p);break;
-								}
+								$ret = match (count($p)) {
+									0 => $obj->{$method}(),
+									1 => $obj->{$method}($p[0]),
+									2 => $obj->{$method}($p[0], $p[1]),
+									3 => $obj->{$method}($p[0], $p[1], $p[2]),
+									4 => $obj->{$method}($p[0], $p[1], $p[2], $p[3]),
+									5 => $obj->{$method}($p[0], $p[1], $p[2], $p[3], $p[4]),
+									default => call_user_func_array([$obj, $method], $p),
+								};
 							} else {
 								$p[] = $this;
 								$ret = call_user_func_array($extend, $p);
@@ -151,4 +149,4 @@ class discuz_container extends discuz_base
 	}
 
 }
-?>
+

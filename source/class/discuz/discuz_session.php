@@ -1,10 +1,9 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: discuz_session.php 36284 2016-12-12 00:47:50Z nemohou $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -16,21 +15,21 @@ class discuz_session {
 	public $sid = null;
 	public $var;
 	public $isnew = false;
-	private $newguest = array('sid' => 0, 'ip' => '',
+	private $newguest = ['sid' => 0, 'ip' => '',
 		'uid' => 0, 'username' => '', 'groupid' => 7, 'invisible' => 0, 'action' => 0,
-		'lastactivity' => 0, 'fid' => 0, 'tid' => 0, 'lastolupdate' => 0);
+		'lastactivity' => 0, 'fid' => 0, 'tid' => 0, 'lastolupdate' => 0];
 
-	private $old =  array('sid' =>  '', 'ip' =>  '', 'uid' =>  0);
+	private $old = ['sid' => '', 'ip' => '', 'uid' => 0];
 
 	private $table;
 
 	public function __construct($sid = '', $ip = '', $uid = 0) {
-		$this->old = array('sid' =>  $sid, 'ip' =>  $ip, 'uid' =>  $uid);
+		$this->old = ['sid' => $sid, 'ip' => $ip, 'uid' => $uid];
 		$this->var = $this->newguest;
 
 		$enable_mem = !C::memory()->gotcluster && C::memory()->gotset &&
 			C::memory()->gothash && C::memory()->goteval && C::memory()->gotsortedset;
-		if ($enable_mem) {
+		if($enable_mem) {
 			$this->table = new memory_common_session();
 		} else {
 			$this->table = C::t('common_session');
@@ -54,8 +53,12 @@ class discuz_session {
 	}
 
 	public function init($sid, $ip, $uid) {
-		$this->old = array('sid' =>  $sid, 'ip' =>  $ip, 'uid' =>  $uid);
-		$session = strpos(IS_ROBOT,"\t") ? DB::fetch_first('SELECT * FROM %t WHERE groupid=8 AND username LIKE %s', array('common_session', IS_ROBOT.'%')) : ($sid ? $this->table->fetch_session($sid,$ip,$uid) : array());
+		$this->old = ['sid' => $sid, 'ip' => $ip, 'uid' => $uid];
+		$session = [];
+		if($sid) {
+			$session = $this->table->fetch($sid, $ip, $uid);
+		}
+
 		if(empty($session) || $session['uid'] != $uid) {
 			$session = $this->create($ip, $uid);
 		}
@@ -123,14 +126,14 @@ class discuz_session {
 	}
 
 	public function fetch_all_by_fid($fid, $limit = 0) {
-		$data = array();
+		$data = [];
 		if(!($fid = dintval($fid))) {
 			return $data;
 		}
 		$onlinelist = getglobal('cache/onlinelist');
 		foreach($this->table->fetch_all_by_fid($fid, $limit) as $online) {
 			if($online['uid']) {
-				$online['icon'] = isset($onlinelist[$online['groupid']]) ? $onlinelist[$online['groupid']] : $onlinelist[0];
+				$online['icon'] = $onlinelist[$online['groupid']] ?? $onlinelist[0];
 			} else {
 				$online['icon'] = $onlinelist[7];
 				$online['username'] = $onlinelist['guest'];
@@ -180,22 +183,22 @@ class discuz_session {
 			if($_G['uid'] && $oltimespan && (int)TIMESTAMP - ($lastolupdate ? $lastolupdate : $ulastactivity) > $oltimespan * 60) {
 				$isinsert = false;
 				if(C::app()->session->isnew) {
-					$oldata = C::t('common_onlinetime')->fetch($_G['uid']);
+					$oldata = table_common_onlinetime::t()->fetch($_G['uid']);
 					if(empty($oldata)) {
 						$isinsert = true;
 					} else if(TIMESTAMP - $oldata['lastupdate'] > $oltimespan * 60) {
-						C::t('common_onlinetime')->update_onlinetime($_G['uid'], $oltimespan, $oltimespan, TIMESTAMP);
+						table_common_onlinetime::t()->update_onlinetime($_G['uid'], $oltimespan, $oltimespan, TIMESTAMP);
 					}
 				} else {
-					$isinsert = !C::t('common_onlinetime')->update_onlinetime($_G['uid'], $oltimespan, $oltimespan, TIMESTAMP);
+					$isinsert = !table_common_onlinetime::t()->update_onlinetime($_G['uid'], $oltimespan, $oltimespan, TIMESTAMP);
 				}
 				if($isinsert) {
-					C::t('common_onlinetime')->insert(array(
+					table_common_onlinetime::t()->insert([
 						'uid' => $_G['uid'],
 						'thismonth' => $oltimespan,
 						'total' => $oltimespan,
 						'lastupdate' => TIMESTAMP,
-					));
+					]);
 				}
 				C::app()->session->set('lastolupdate', TIMESTAMP);
 			}
@@ -213,11 +216,11 @@ class discuz_session {
 
 			if($_G['uid'] && TIMESTAMP - $ulastactivity > 21600) {
 				if($oltimespan && TIMESTAMP - $ulastactivity > 43200) {
-					$onlinetime = C::t('common_onlinetime')->fetch($_G['uid']);
-					C::t('common_member_count')->update($_G['uid'], array('oltime' => round(intval($onlinetime['total']) / 60)));
+					$onlinetime = table_common_onlinetime::t()->fetch($_G['uid']);
+					table_common_member_count::t()->update($_G['uid'], ['oltime' => round(intval($onlinetime['total']) / 60)]);
 				}
 				dsetcookie('ulastactivity', authcode(TIMESTAMP, 'ENCODE'), 31536000);
-				C::t('common_member_status')->update($_G['uid'], array('lastip' => $_G['clientip'], 'port' => $_G['remoteport'], 'lastactivity' => TIMESTAMP, 'lastvisit' => TIMESTAMP));
+				table_common_member_status::t()->update($_G['uid'], ['lastip' => $_G['clientip'], 'port' => $_G['remoteport'], 'lastactivity' => TIMESTAMP, 'lastvisit' => TIMESTAMP]);
 			}
 			$updated = true;
 		}
@@ -225,4 +228,3 @@ class discuz_session {
 	}
 }
 
-?>

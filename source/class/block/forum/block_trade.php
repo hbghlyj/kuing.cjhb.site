@@ -1,97 +1,97 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: block_trade.php 32768 2013-03-07 09:40:05Z zhangguosheng $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
-class block_trade extends discuz_block {
-	var $setting = array();
 
-	function __construct(){
-		$this->setting = array(
-			'tids' => array(
+class block_trade extends discuz_block {
+	var $setting = [];
+
+	function __construct() {
+		$this->setting = [
+			'tids' => [
 				'title' => 'tradelist_tids',
 				'type' => 'text'
-			),
-			'uids' => array(
+			],
+			'uids' => [
 				'title' => 'tradelist_uids',
 				'type' => 'text'
-			),
-			'keyword' => array(
+			],
+			'keyword' => [
 				'title' => 'tradelist_keyword',
 				'type' => 'text'
-			),
-			'fids'	=> array(
+			],
+			'fids' => [
 				'title' => 'tradelist_fids',
 				'type' => 'mselect',
-				'value' => array()
-			),
-			'viewmod' => array(
+				'value' => []
+			],
+			'viewmod' => [
 				'title' => 'threadlist_viewmod',
 				'type' => 'radio'
-			),
-			'digest' => array(
+			],
+			'digest' => [
 				'title' => 'tradelist_digest',
 				'type' => 'mcheckbox',
-				'value' => array(
-					array(1, 'tradelist_digest_1'),
-					array(2, 'tradelist_digest_2'),
-					array(3, 'tradelist_digest_3'),
-					array(0, 'tradelist_digest_0')
-				),
-			),
-			'stick' => array(
+				'value' => [
+					[1, 'tradelist_digest_1'],
+					[2, 'tradelist_digest_2'],
+					[3, 'tradelist_digest_3'],
+					[0, 'tradelist_digest_0']
+				],
+			],
+			'stick' => [
 				'title' => 'tradelist_stick',
 				'type' => 'mcheckbox',
-				'value' => array(
-					array(1, 'tradelist_stick_1'),
-					array(2, 'tradelist_stick_2'),
-					array(3, 'tradelist_stick_3'),
-					array(0, 'tradelist_stick_0')
-				),
-			),
-			'recommend' => array(
+				'value' => [
+					[1, 'tradelist_stick_1'],
+					[2, 'tradelist_stick_2'],
+					[3, 'tradelist_stick_3'],
+					[0, 'tradelist_stick_0']
+				],
+			],
+			'recommend' => [
 				'title' => 'tradelist_recommend',
 				'type' => 'radio'
-			),
-			'orderby' => array(
+			],
+			'orderby' => [
 				'title' => 'tradelist_orderby',
-				'type'=> 'mradio',
-				'value' => array(
-					array('dateline', 'tradelist_orderby_dateline'),
-					array('todayhots', 'tradelist_orderby_todayhots'),
-					array('weekhots', 'tradelist_orderby_weekhots'),
-					array('monthhots', 'tradelist_orderby_monthhots'),
-				),
+				'type' => 'mradio',
+				'value' => [
+					['dateline', 'tradelist_orderby_dateline'],
+					['todayhots', 'tradelist_orderby_todayhots'],
+					['weekhots', 'tradelist_orderby_weekhots'],
+					['monthhots', 'tradelist_orderby_monthhots'],
+				],
 				'default' => 'dateline'
-			),
-			'highlight' => array(
+			],
+			'highlight' => [
 				'title' => 'tradelist_highlight',
 				'type' => 'radio',
 				'default' => 0,
-			),
-			'titlelength' => array(
+			],
+			'titlelength' => [
 				'title' => 'tradelist_titlelength',
 				'type' => 'text',
 				'default' => 40
-			),
-			'summarylength' => array(
+			],
+			'summarylength' => [
 				'title' => 'tradelist_summarylength',
 				'type' => 'text',
 				'default' => 80
-			),
-			'startrow' => array(
+			],
+			'startrow' => [
 				'title' => 'tradelist_startrow',
 				'type' => 'text',
 				'default' => 0
-			),
-		);
+			],
+		];
 	}
 
 	function name() {
@@ -99,32 +99,32 @@ class block_trade extends discuz_block {
 	}
 
 	function blockclass() {
-		return array('trade', lang('blockclass', 'blockclass_trade_trade'));
+		return ['trade', lang('blockclass', 'blockclass_trade_trade')];
 	}
 
 	function fields() {
-		return array(
-					'id' => array('name' => lang('blockclass', 'blockclass_field_id'), 'formtype' => 'text', 'datatype' => 'int'),
-					'url' => array('name' => lang('blockclass', 'blockclass_trade_field_url'), 'formtype' => 'text', 'datatype' => 'string'),
-					'title' => array('name' => lang('blockclass', 'blockclass_trade_field_title'), 'formtype' => 'title', 'datatype' => 'title'),
-					'pic' => array('name' => lang('blockclass', 'blockclass_trade_field_pic'), 'formtype' => 'pic', 'datatype' => 'pic'),
-					'summary' => array('name' => lang('blockclass', 'blockclass_trade_field_summary'), 'formtype' => 'summary', 'datatype' => 'summary'),
-					'totalitems' => array('name' => lang('blockclass', 'blockclass_trade_field_totalitems'), 'formtype' => 'text', 'datatype' => 'int'),
-					'author' => array('name' => lang('blockclass', 'blockclass_trade_field_author'), 'formtype' => 'text', 'datatype' => 'text'),
-					'authorid' => array('name' => lang('blockclass', 'blockclass_trade_field_authorid'), 'formtype' => 'text', 'datatype' => 'int'),
-					'price' => array('name' => lang('blockclass', 'blockclass_trade_field_price'), 'formtype' => 'text', 'datatype' => 'text'),
-				);
+		return [
+			'id' => ['name' => lang('blockclass', 'blockclass_field_id'), 'formtype' => 'text', 'datatype' => 'int'],
+			'url' => ['name' => lang('blockclass', 'blockclass_trade_field_url'), 'formtype' => 'text', 'datatype' => 'string'],
+			'title' => ['name' => lang('blockclass', 'blockclass_trade_field_title'), 'formtype' => 'title', 'datatype' => 'title'],
+			'pic' => ['name' => lang('blockclass', 'blockclass_trade_field_pic'), 'formtype' => 'pic', 'datatype' => 'pic'],
+			'summary' => ['name' => lang('blockclass', 'blockclass_trade_field_summary'), 'formtype' => 'summary', 'datatype' => 'summary'],
+			'totalitems' => ['name' => lang('blockclass', 'blockclass_trade_field_totalitems'), 'formtype' => 'text', 'datatype' => 'int'],
+			'author' => ['name' => lang('blockclass', 'blockclass_trade_field_author'), 'formtype' => 'text', 'datatype' => 'text'],
+			'authorid' => ['name' => lang('blockclass', 'blockclass_trade_field_authorid'), 'formtype' => 'text', 'datatype' => 'int'],
+			'price' => ['name' => lang('blockclass', 'blockclass_trade_field_price'), 'formtype' => 'text', 'datatype' => 'text'],
+		];
 	}
 
 	function fieldsconvert() {
-		return array(
-				'group_trade' => array(
-					'name' => lang('blockclass', 'blockclass_group_trade'),
-					'script' => 'grouptrade',
-					'searchkeys' => array(),
-					'replacekeys' => array(),
-				),
-			);
+		return [
+			'group_trade' => [
+				'name' => lang('blockclass', 'blockclass_group_trade'),
+				'script' => 'grouptrade',
+				'searchkeys' => [],
+				'replacekeys' => [],
+			],
+		];
 	}
 
 	function getsetting() {
@@ -133,9 +133,9 @@ class block_trade extends discuz_block {
 
 		if($settings['fids']) {
 			loadcache('forums');
-			$settings['fids']['value'][] = array(0, lang('portalcp', 'block_all_forum'));
+			$settings['fids']['value'][] = [0, lang('portalcp', 'block_all_forum')];
 			foreach($_G['cache']['forums'] as $fid => $forum) {
-				$settings['fids']['value'][] = array($fid, ($forum['type'] == 'forum' ? str_repeat('&nbsp;', 4) : ($forum['type'] == 'sub' ? str_repeat('&nbsp;', 8) : '')).$forum['name']);
+				$settings['fids']['value'][] = [$fid, ($forum['type'] == 'forum' ? str_repeat('&nbsp;', 4) : ($forum['type'] == 'sub' ? str_repeat('&nbsp;', 8) : '')).$forum['name']];
 			}
 		}
 		return $settings;
@@ -147,21 +147,21 @@ class block_trade extends discuz_block {
 		$parameter = $this->cookparameter($parameter);
 
 		loadcache('forums');
-		$tids		= !empty($parameter['tids']) ? explode(',', $parameter['tids']) : array();
-		$uids		= !empty($parameter['uids']) ? explode(',', $parameter['uids']) : array();
-		$startrow	= isset($parameter['startrow']) ? intval($parameter['startrow']) : 0;
-		$items		= isset($parameter['items']) ? intval($parameter['items']) : 10;
-		$digest		= isset($parameter['digest']) ? $parameter['digest'] : 0;
-		$stick		= isset($parameter['stick']) ? $parameter['stick'] : 0;
-		$orderby	= isset($parameter['orderby']) ? (in_array($parameter['orderby'],array('dateline','todayhots','weekhots','monthhots')) ? $parameter['orderby'] : 'dateline') : 'dateline';
-		$titlelength	= !empty($parameter['titlelength']) ? intval($parameter['titlelength']) : 40;
-		$summarylength	= !empty($parameter['summarylength']) ? intval($parameter['summarylength']) : 80;
-		$recommend	= !empty($parameter['recommend']) ? 1 : 0;
-		$keyword	= !empty($parameter['keyword']) ? $parameter['keyword'] : '';
-		$viewmod	= !empty($parameter['viewmod']) ? 1 : 0;
+		$tids = !empty($parameter['tids']) ? explode(',', $parameter['tids']) : [];
+		$uids = !empty($parameter['uids']) ? explode(',', $parameter['uids']) : [];
+		$startrow = isset($parameter['startrow']) ? intval($parameter['startrow']) : 0;
+		$items = isset($parameter['items']) ? intval($parameter['items']) : 10;
+		$digest = $parameter['digest'] ?? 0;
+		$stick = $parameter['stick'] ?? 0;
+		$orderby = isset($parameter['orderby']) ? (in_array($parameter['orderby'], ['dateline', 'todayhots', 'weekhots', 'monthhots']) ? $parameter['orderby'] : 'dateline') : 'dateline';
+		$titlelength = !empty($parameter['titlelength']) ? intval($parameter['titlelength']) : 40;
+		$summarylength = !empty($parameter['summarylength']) ? intval($parameter['summarylength']) : 80;
+		$recommend = !empty($parameter['recommend']) ? 1 : 0;
+		$keyword = !empty($parameter['keyword']) ? $parameter['keyword'] : '';
+		$viewmod = !empty($parameter['viewmod']) ? 1 : 0;
 		$highlight = !empty($parameter['highlight']) ? 1 : 0;
 
-		$fids = array();
+		$fids = [];
 		if(!empty($parameter['fids'])) {
 			if($parameter['fids'][0] == '0') {
 				unset($parameter['fids'][0]);
@@ -169,12 +169,12 @@ class block_trade extends discuz_block {
 			$fids = $parameter['fids'];
 		}
 
-		$bannedids = !empty($parameter['bannedids']) ? explode(',', $parameter['bannedids']) : array();
+		$bannedids = !empty($parameter['bannedids']) ? explode(',', $parameter['bannedids']) : [];
 
 		require_once libfile('function/post');
 		require_once libfile('function/search');
 
-		$datalist = $list = $listpids = $threadpids = $aid2pid = $attachtables = array();
+		$datalist = $list = $listpids = $threadpids = $aid2pid = $attachtables = [];
 		$keyword = $keyword ? searchkey($keyword, "t.subject LIKE '%{text}%'") : '';
 		$sql = ($fids ? ' AND t.fid IN ('.dimplode($fids).')' : '')
 			.($tids ? ' AND t.tid IN ('.dimplode($tids).')' : '')
@@ -182,37 +182,37 @@ class block_trade extends discuz_block {
 			.($stick ? ' AND t.displayorder IN ('.dimplode($stick).')' : '')
 			." AND t.isgroup='0'";
 		$where = '';
-		if(in_array($orderby, array('todayhots','weekhots','monthhots'))) {
+		if(in_array($orderby, ['todayhots', 'weekhots', 'monthhots'])) {
 			$historytime = 0;
 			switch($orderby) {
 				case 'todayhots':
 					$historytime = mktime(0, 0, 0, date('m', TIMESTAMP), date('d', TIMESTAMP), date('Y', TIMESTAMP));
-				break;
+					break;
 				case 'weekhots':
 					$week = gmdate('w', TIMESTAMP) - 1;
 					$week = $week != -1 ? $week : 6;
 					$historytime = mktime(0, 0, 0, date('m', TIMESTAMP), date('d', TIMESTAMP) - $week, date('Y', TIMESTAMP));
-				break;
+					break;
 				case 'monthhots':
 					$historytime = mktime(0, 0, 0, date('m', TIMESTAMP), 1, date('Y', TIMESTAMP));
-				break;
+					break;
 			}
 			$where = ' WHERE tr.dateline>='.$historytime;
 			$orderby = 'totalitems';
 		}
 		$where .= ($uids ? ' AND tr.sellerid IN ('.dimplode($uids).')' : '').$keyword;
 		$where .= ($bannedids ? ' AND tr.pid NOT IN ('.dimplode($bannedids).')' : '');
-		$sqlfrom = " INNER JOIN `".DB::table('forum_thread')."` t ON t.tid=tr.tid $sql AND t.displayorder>='0'";
+		$sqlfrom = ' INNER JOIN `' .DB::table('forum_thread')."` t ON t.tid=tr.tid $sql AND t.displayorder>='0'";
 		$joinmethod = empty($tids) ? 'INNER' : 'LEFT';
 		if($recommend) {
-			$sqlfrom .= " $joinmethod JOIN `".DB::table('forum_forumrecommend')."` fc ON fc.tid=tr.tid";
+			$sqlfrom .= " $joinmethod JOIN `".DB::table('forum_forumrecommend'). '` fc ON fc.tid=tr.tid';
 		}
 		$sqlfield = $highlight ? ', t.highlight' : '';
 		$query = DB::query("SELECT tr.pid, tr.tid, tr.aid, tr.price, tr.credit, tr.subject, tr.totalitems, tr.seller, tr.sellerid, t.posttableid$sqlfield
 			FROM ".DB::table('forum_trade')." tr $sqlfrom $where
 			ORDER BY tr.$orderby DESC
 			LIMIT $startrow,$items;"
-			);
+		);
 		require_once libfile('block_thread', 'class/block/forum');
 		$bt = new block_thread();
 		while($data = DB::fetch($query)) {
@@ -225,21 +225,21 @@ class block_trade extends discuz_block {
 				$attachtables[$attachtable][] = $data['aid'];
 			}
 			$listpids[] = $data['pid'];
-			$list[$data['pid']] = array(
+			$list[$data['pid']] = [
 				'id' => $data['pid'],
 				'idtype' => 'pid',
 				'title' => cutstr(str_replace('\\\'', '&#39;', addslashes($data['subject'])), $titlelength, ''),
 				'url' => 'forum.php?mod=viewthread&do=tradeinfo&tid='.$data['tid'].'&pid='.$data['pid'].($viewmod ? '&from=portal' : ''),
 				'pic' => ($data['aid'] ? '' : $_G['style']['imgdir'].'/nophoto.gif'),
 				'picflag' => '0',
-				'fields' => array(
+				'fields' => [
 					'fulltitle' => str_replace('\\\'', '&#39;', addslashes($data['subject'])),
 					'totalitems' => $data['totalitems'],
 					'author' => $data['seller'] ? $data['seller'] : $_G['setting']['anonymoustext'],
 					'authorid' => $data['sellerid'] ? $data['sellerid'] : 0,
 					'price' => ($data['price'] > 0 ? '&yen; '.$data['price'] : '').($data['credit'] > 0 ? ($data['price'] > 0 ? lang('block/tradelist', 'tradelist_price_add') : '').$data['credit'].' '.$_G['setting']['extcredits'][$_G['setting']['creditstransextra'][5]]['unit'].$_G['setting']['extcredits'][$_G['setting']['creditstransextra'][5]]['title'] : ''),
-				)
-			);
+				]
+			];
 			if($highlight && $data['highlight']) {
 				$list[$data['tid']]['fields']['showstyle'] = $bt->getthreadstyle($data['highlight']);
 			}
@@ -247,7 +247,7 @@ class block_trade extends discuz_block {
 		if(!empty($listpids)) {
 			foreach($threadpids as $key => $var) {
 				$posttable = $key == 0 ? 'forum_post' : 'forum_post_'.$key;
-				$query = DB::query("SELECT pid, message FROM ".DB::table($posttable)." WHERE pid IN  (".dimplode($var).")");
+				$query = DB::query('SELECT pid, message FROM ' .DB::table($posttable). ' WHERE pid IN  (' .dimplode($var). ')');
 				while($result = DB::fetch($query)) {
 					$list[$result['pid']]['summary'] = messagecutstr($result['message'], $summarylength, '');
 				}
@@ -265,9 +265,8 @@ class block_trade extends discuz_block {
 				$datalist[] = $list[$value];
 			}
 		}
-		return array('html' => '', 'data' => $datalist);
+		return ['html' => '', 'data' => $datalist];
 	}
 }
 
 
-?>

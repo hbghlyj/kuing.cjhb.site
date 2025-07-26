@@ -1,6 +1,6 @@
 <?php
 
-if(!defined('IN_DISCUZ') || (PHP_VERSION < '7.0.0')) {
+if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
@@ -8,7 +8,7 @@ function dpreg_replace_impl($pattern, $replacement, $subject, $limit, &$count) {
 	$eval = false;
 	$delimiter = $pattern[0];
 
-	if(($position_of_modifier = (int) strrpos($pattern, $delimiter)) > 0) {
+	if(($position_of_modifier = (int)strrpos($pattern, $delimiter)) > 0) {
 		if(($position_of_eval = strpos($pattern, 'e', $position_of_modifier)) !== false) {
 			$eval = true;
 			$pattern = substr($pattern, 0, $position_of_eval).substr($pattern, $position_of_eval + 1);
@@ -20,7 +20,7 @@ function dpreg_replace_impl($pattern, $replacement, $subject, $limit, &$count) {
 			$result = '';
 			$instance = false;
 
-			for($i = 0, $j = strlen($replacement); $i < $j; $i ++) {
+			for($i = 0, $j = strlen($replacement); $i < $j; $i++) {
 				if(($replacement[$i] == '$') || ($replacement[$i] == '\\')) {
 					if((($i == 0) || ($replacement[$i - 1] != '\\')) && isset($replacement[$i + 1])) {
 						$get_backref_string = substr($replacement, $i + 1);
@@ -57,9 +57,9 @@ function dpreg_replace_impl($pattern, $replacement, $subject, $limit, &$count) {
 
 			if($instance) {
 				$_this = null;
-				@$stack = (array) debug_backtrace();
+				@$stack = (array)debug_backtrace();
 
-				if(isset($stack[6]) && isset($stack[6]['object'])) {
+				if(isset($stack[6]['object'])) {
 					if(is_object($stack[6]['object'])) {
 						$_this = $stack[6]['object'];
 					}
@@ -107,7 +107,7 @@ function _dpreg_replace($pattern, $replacement, $subject, $limit = -1, &$count =
 		return preg_replace($pattern, $replacement, $subject, $limit, $count);
 
 	if(is_array($subject)) {
-		$result = array();
+		$result = [];
 
 		foreach($subject as $subject_key => $subject_value) {
 			$result[$subject_key] = dpreg_replace_in_subject($pattern, $replacement, $subject_value, $limit, $count);

@@ -39,22 +39,63 @@ function renewContent() {
 			eval(matches[1]);
 		}
 	};
-
-/*vot*/ if(window.confirm(lng['restore_last_saved'])) {
-               var data = loadUserdata('home');
-               if(in_array((data = trim(data)), ['', 'null', 'false', null, false])) {
-/*vot*/                 parent.showDialog(lng['no_data_recover']);
-                       return;
-               }
-               data = data.split(/\x09\x09/);
-               var formObj;
-               if(parent.$('subject')) {
-                       formObj = parent.$('subject').form;
-               } else if(parent.$('title')) {
-                       formObj = parent.$('title').form;
-               } else {
-                       return;
-               }
+	parent.showDialog(parent.$L('confirm_restore'), 'confirm', null, function () {
+		var data = loadUserdata('home');
+		if(in_array((data = trim(data)), ['', 'null', 'false', null, false])) {
+			parent.showError(parent.$L('no_restore'));
+			return;
+		}
+		var data = data.split(/\x09\x09/);
+		if(parent.$('subject')) {
+			var formObj = parent.$('subject').form;
+		} else if(parent.$('title')) {
+			var formObj = parent.$('title').form;
+		} else {
+			return;
+		}
+		for(var i = 0; i < formObj.elements.length; i++) {
+			var el = formObj.elements[i];
+			if(el.name != '' && (el.tagName == 'TEXTAREA' || el.tagName == 'INPUT' && (el.type == 'text' || el.type == 'checkbox' || el.type == 'radio'))) {
+				for(var j = 0; j < data.length; j++) {
+					var ele = data[j].split(/\x09/);
+					if(ele[0] == el.name) {
+						elvalue = !isUndefined(ele[3]) ? ele[3] : '';
+						if(ele[1] == 'INPUT') {
+							if(ele[2] == 'text') {
+								el.value = elvalue;
+							} else if((ele[2] == 'checkbox' || ele[2] == 'radio') && ele[3] == el.value) {
+								el.checked = true;
+								evalevent(el);
+							}
+						} else if(ele[1] == 'TEXTAREA') {
+							if(ele[0] == 'message' || ele[0] == 'content') {
+								var f = window.frames["HtmlEditor"];
+								f.document.body.innerHTML = elvalue;
+							} else {
+								el.value = elvalue;
+							}
+						}
+						break
+					}
+				}
+			}
+		}
+	}
+	, 1, null, null, parent.$L('confirm'), parent.$L('cancel'));
+	function confirm_restore() {
+		var data = loadUserdata('home');
+		if(in_array((data = trim(data)), ['', 'null', 'false', null, false])) {
+			parent.showDialog(parent.$L('no_restore'));
+			return;
+		}
+		var data = data.split(/\x09\x09/);
+		if(parent.$('subject')) {
+			var formObj = parent.$('subject').form;
+		} else if(parent.$('title')) {
+			var formObj = parent.$('title').form;
+		} else {
+			return;
+		}
 		for(var i = 0; i < formObj.elements.length; i++) {
 			var el = formObj.elements[i];
 			if(el.name != '' && (el.tagName == 'TEXTAREA' || el.tagName == 'INPUT' && (el.type == 'text' || el.type == 'checkbox' || el.type == 'radio'))) {
@@ -175,7 +216,7 @@ document.onclick = function(e){
 		}catch(e){}
 	}
 	try{
-       if(fInObj(el, "createUrl") || fInObj(el, "createImg") || fInObj(el, "createPage")){
+		if(fInObj(el, "createUrl") || fInObj(el, "createImg") || fInObj(el, "createSwf") || fInObj(el, "createPage")){
 			return;
 		}
 	}catch(e){}
@@ -197,26 +238,27 @@ var arrMatch = {
 	imgInOut:"divInOut",
 	faceBox:"editFaceBox",
 	icoUrl:"createUrl",
+	icoSwf:"createSwf",
 	icoPage:"createPage"
 }
 function format(type, para){
 	var f = window.frames["HtmlEditor"];
 	var sAlert = "";
 	if(!gIsIE){
-                switch(type){
-                        case "Cut":
-/*vot*/                         sAlert = lng['cut_manually'];
-                                break;
-                        case "Copy":
-/*vot*/                         sAlert = lng['copy_manually'];
-                                break;
-                        case "Paste":
-/*vot*/                         sAlert = lng['paste_manually'];
-                                break;
-                }
+		switch(type){
+			case "Cut":
+				sAlert = parent.$L('editor_cut');
+				break;
+			case "Copy":
+				sAlert = parent.$L('editor_copy');
+				break;
+			case "Paste":
+				sAlert = parent.$L('editor_paste');
+				break;
+		}
 	}
 	if(sAlert != ""){
-		alert(sAlert);
+		parent.showDialog(sAlert);
 		return;
 	}
 	f.focus();
@@ -291,6 +333,13 @@ function insertImg(src) {
 	format("insertHTML", '<img src="' + src + '"/>');
 }
 
+function doodleBox(event, id) {
+	if(parent.$('uchome-ttHtmlEditor') != null) {
+		parent.showWindow(id, 'home.php?mod=magic&mid=doodle&showid=blog_doodle&target=uchome-ttHtmlEditor&from=editor');
+	} else {
+		parent.showDialog(parent.$L('nofatch_scrawl_data'));
+	}
+}
 function backColor(e){
 	var sColor = fDisplayColorBoard(e);
 	if(gIsIE)
@@ -384,6 +433,35 @@ function createImg(e, show) {
 		dvImgBox.style.top = 33 + "px";
 	}
 }
+function createFlash(e, show) {
+	if(typeof show == 'undefined') {
+		var flashtag = '';
+		var vObj = $('videoUrl');
+		var sFlash = vObj.value;
+		if ((sFlash!=null) && (sFlash!="http://")){
+			setCaret();
+			var sFlashType = $('vtype').value;
+			if(sFlashType==1) {
+				flashtag = '[flash=media]';
+			} else if(sFlashType==2) {
+				flashtag = '[flash=real]';
+			} else if(sFlashType==3) {
+				flashtag = '[flash=mp3]';
+			} else {
+				flashtag = '[flash]';
+			}
+			format("insertHTML", flashtag + sFlash + '[/flash]');
+		}
+		fHide($('createSwf'));
+		vObj.value = 'http://';
+	} else {
+		if(gIsIE){
+			var e = window.event;
+		}
+		getCaret();
+		var dvSwfBox = $("createSwf");
+		var iX = e.clientX;
+		var iY = e.clientY;
 		dvSwfBox.style.display = "";
 		dvSwfBox.style.left = (iX-350) + "px";
 		dvSwfBox.style.top = 33 + "px";
@@ -408,10 +486,10 @@ function fSetBorderMouseDown(obj) {
 	obj.style.borderLeft="1px #cccccc solid";
 }
 function fDisplayElement(element,displayValue) {
-        if(gIEVer<=5.01 && gIsIE){
-/*vot*/         alert(lng['ie5_only']);
-                return;
-        }
+	if(gIEVer<=5.01 && gIsIE){
+		parent.showDialog(parent.$L('editor_ie5'), 'notice');
+		return;
+	}
 	fHideMenu();
 	if ( typeof element == "string" )
 		element = $(element);
@@ -444,9 +522,9 @@ function fSetModeTip(obj){
 		dv.id = "dvModeTip";
 		dv.style.padding = "2px";
 		dv.style.border = "1px #000000 solid";
-                dv.style.backgroundColor = "#FFFFCC";
-/*vot*/         dv.innerHTML = lng['edit_raw'];
-                document.body.appendChild(dv);
+		dv.style.backgroundColor = "#FFFFCC";
+		dv.innerHTML = parent.$L('edit_source');
+		document.body.appendChild(dv);
 	}else{
 		dvModeTip.style.display = "";
 	}
@@ -472,7 +550,7 @@ function f_GetY(e)
 }
 function fHideMenu(){
 	try{
-               var arr = ["fontface", "fontsize", "dvForeColor", "dvPortrait", "divAlign", "divList" ,"divInOut", "editFaceBox", "createUrl", "createImg", "createPage"];
+		var arr = ["fontface", "fontsize", "dvForeColor", "dvPortrait", "divAlign", "divList" ,"divInOut", "editFaceBox", "createUrl", "createImg", "createSwf", "createPage"];
 		for(var i=0;i<arr.length;i++){
 			var obj = $(arr[i]);
 			if(obj){
@@ -568,12 +646,12 @@ function changeEditType(flag, ev){
 			}
 			ev = ev || event;
 			if(ev){
-/*vot*/                         if(window.confirm(lng['plain_text_warn'])){
+				parent.showDialog(parent.$L('confirm_to_txt'), 'notice', null, set_to_txt, 1, null, null, null, null);
+				function set_to_txt() {
 					$('uchome-editstatus').value = 'text';
 					sub1();
-				}else{
-					return;
-				}
+					hideMenu('fwin_dialog', 'dialog');
+				};
 			}
 		}
 	}catch(exp){
@@ -585,9 +663,9 @@ function changeEditFull(flag, ev) {
 	if(parent.changeEditFull) {
 		parent.changeEditFull(flag);
 		ev = ev || event;
-                var ele = ev.target || ev.srcElement;
-/*vot*/         ele.innerHTML = flag ? lng['restore_size'] : lng['full_screen'];
-                ele.onclick = function() {changeEditFull(!flag, ev)};
+		var ele = ev.target || ev.srcElement;
+		ele.innerHTML = flag ? parent.$L('return') : parent.$L('fullscreen');
+		ele.onclick = function() {changeEditFull(!flag, ev)};
 	}
 }
 String.prototype.stripTags = function(){

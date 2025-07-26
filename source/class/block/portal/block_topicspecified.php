@@ -1,10 +1,9 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: block_topicspecified.php 23608 2011-07-27 08:10:07Z cnteacher $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -15,28 +14,28 @@ require_once libfile('block_topic', 'class/block/portal');
 
 class block_topicspecified extends block_topic {
 	function __construct() {
-		$this->setting = array(
-			'topicids'	=> array(
+		$this->setting = [
+			'topicids' => [
 				'title' => 'topiclist_topicids',
 				'type' => 'text',
 				'value' => ''
-			),
-			'uids'	=> array(
+			],
+			'uids' => [
 				'title' => 'topiclist_uids',
 				'type' => 'text',
 				'value' => ''
-			),
-			'titlelength' => array(
+			],
+			'titlelength' => [
 				'title' => 'topiclist_titlelength',
 				'type' => 'text',
 				'default' => 40
-			),
-			'summarylength' => array(
+			],
+			'summarylength' => [
 				'summary' => 'topiclist_summarylength',
 				'type' => 'text',
 				'default' => 80
-			)
-		);
+			]
+		];
 	}
 
 	function name() {
@@ -44,4 +43,3 @@ class block_topicspecified extends block_topic {
 	}
 }
 
-?>

@@ -1,10 +1,9 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: block_xml.php 28663 2012-03-07 05:50:37Z zhangguosheng $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -13,17 +12,17 @@ if(!defined('IN_DISCUZ')) {
 
 class block_xml extends discuz_block {
 
-	var $blockdata = array();
+	var $blockdata = [];
 
 	function __construct($xmlid = null) {
 		if(!empty($xmlid)) {
-			if(!($blockxml = C::t('common_block_xml')->fetch($xmlid))) {
+			if(!($blockxml = table_common_block_xml::t()->fetch($xmlid))) {
 				return;
 			}
 			$this->blockdata = $blockxml;
 			$this->blockdata['data'] = (array)dunserialize($blockxml['data']);
 		} else {
-			foreach(C::t('common_block_xml')->range() as $value) {
+			foreach(table_common_block_xml::t()->range() as $value) {
 				$one = $value;
 				$one['data'] = (array)dunserialize($value['data']);
 				$this->blockdata[] = $one;
@@ -49,7 +48,7 @@ class block_xml extends discuz_block {
 
 	function getdata($style, $parameter) {
 		$parameter = $this->cookparameter($parameter);
-		$array = array();
+		$array = [];
 		foreach($parameter as $key => $value) {
 			if(is_array($value)) {
 				$parameter[$key] = implode(',', $value);
@@ -66,7 +65,7 @@ class block_xml extends discuz_block {
 			require_once libfile('function/importdata');
 			$importtxt = @dfsockopen($xmlurl, 0, create_sign_url($parameter, $this->blockdata['key'], $this->blockdata['signtype']));
 		} else {
-			$ctx = stream_context_create(array('http' => array('timeout' => 20)));
+			$ctx = stream_context_create(['http' => ['timeout' => 20]]);
 			$importtxt = @file_get_contents($xmlurl, false, $ctx);
 		}
 		if($importtxt) {
@@ -74,7 +73,7 @@ class block_xml extends discuz_block {
 			$array = xml2array($importtxt);
 		}
 		$idtype = 'xml_'.$this->blockdata['id'];
-		foreach($array['data'] as $key=>$value) {
+		foreach($array['data'] as $key => $value) {
 			$value['idtype'] = $idtype;
 			$array['data'][$key] = $value;
 		}
@@ -84,4 +83,3 @@ class block_xml extends discuz_block {
 
 }
 
-?>

@@ -1,23 +1,21 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id$
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
-define('IN_API', true);
-define('CURSCRIPT', 'api');
-define('DISABLEXSSCHECK', true);
+const IN_API = true;
+const CURSCRIPT = 'api';
+const DISABLEXSSCHECK = true;
 
 require '../../../source/class/class_core.php';
-require '../payment_qpay.php';
 
 $discuz = C::app();
 $discuz->init();
 
-$payment = new payment_qpay();
+$payment = new pay_qpay();
 
 $data = $payment->qpay_sign_verify();
 if($data && $data['code'] == 200) {

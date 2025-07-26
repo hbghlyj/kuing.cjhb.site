@@ -1,18 +1,17 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: lang_threadlist.php 27449 2012-02-01 05:32:35Z zhangguosheng $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
-$lang = array
-(
+$lang =
+	[
 	'threadlist_fids' => '所在版块',
 	'threadlist_fids_comment' => '设置允许参与新帖调用的版块，可以按住 CTRL 多选，全选或全不选均为不做限制',
 	'threadlist_uids' => '楼主UID',
@@ -111,6 +110,5 @@ $lang = array
 	'threadlist_orderby_weekexp' => '按一周内报名截止时间排序',
 	'threadlist_orderby_monthexp' => '按一月内报名截止时间排序',
 	'threadlist_highlight' => '获得高亮值',
-);
+	];
 
-?>

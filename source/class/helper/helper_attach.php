@@ -1,10 +1,9 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: helper_attach.php 32531 2013-02-06 10:15:19Z zhangguosheng $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -13,10 +12,10 @@ if(!defined('IN_DISCUZ')) {
 
 class helper_attach {
 
-	public static function makethumbpath($id, $w, $h){
+	public static function makethumbpath($id, $w, $h) {
 		$dw = intval($w);
 		$dh = intval($h);
-		$_daid = sprintf("%09d", $id);
+		$_daid = sprintf('%09d', $id);
 		$dir1 = substr($_daid, 0, 3);
 		$dir2 = substr($_daid, 3, 2);
 		$dir3 = substr($_daid, 5, 2);
@@ -35,4 +34,3 @@ class helper_attach {
 
 }
 
-?>

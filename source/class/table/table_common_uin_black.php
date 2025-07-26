@@ -1,32 +1,39 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: table_common_uin_black.php 27449 2012-02-01 05:32:35Z zhangguosheng $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
-class table_common_uin_black extends discuz_table
-{
+class table_common_uin_black extends discuz_table {
+	public static function t() {
+		static $_instance;
+		if(!isset($_instance)) {
+			$_instance = new self();
+		}
+		return $_instance;
+	}
+
 	public function __construct() {
 
 		$this->_table = 'common_uin_black';
-		$this->_pk    = 'uin';
+		$this->_pk = 'uin';
 
 		parent::__construct();
 	}
 
 	public function fetch_by_uid($uid) {
-		return DB::fetch_first('SELECT * FROM %t WHERE uid=%d', array($this->_table, $uid));
+		return DB::fetch_first('SELECT * FROM %t WHERE uid=%d', [$this->_table, $uid]);
 	}
+
 	public function fetch_all_by_uin($ids = null) {
-		$parameter = array($this->_table);
-		$wherearr = array();
+		$parameter = [$this->_table];
+		$wherearr = [];
 		if($ids !== null) {
 			$parameter[] = $ids;
 			$wherearr[] = is_array($ids) ? 'uin IN(%n)' : 'uin=%d';
@@ -37,4 +44,3 @@ class table_common_uin_black extends discuz_table
 
 }
 
-?>

@@ -1,10 +1,9 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: cache_admingroups.php 24830 2011-10-12 08:23:34Z zhangguosheng $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -12,9 +11,8 @@ if(!defined('IN_DISCUZ')) {
 }
 
 function build_cache_admingroups() {
-	foreach(C::t('common_admingroup')->range() as $data) {
+	foreach(table_common_admingroup::t()->range() as $data) {
 		savecache('admingroup_'.$data['admingid'], $data);
 	}
 }
 
-?>

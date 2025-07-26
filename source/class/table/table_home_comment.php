@@ -1,22 +1,28 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: table_home_comment.php 36284 2016-12-12 00:47:50Z nemohou $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
-class table_home_comment extends discuz_table
-{
+class table_home_comment extends discuz_table {
+	public static function t() {
+		static $_instance;
+		if(!isset($_instance)) {
+			$_instance = new self();
+		}
+		return $_instance;
+	}
+
 	public function __construct() {
 
 		$this->_table = 'home_comment';
-		$this->_pk    = 'cid';
+		$this->_pk = 'cid';
 
 		parent::__construct();
 	}
@@ -25,18 +31,18 @@ class table_home_comment extends discuz_table
 		if(!$uids) {
 			return null;
 		}
-		return DB::fetch_all('SELECT * FROM %t WHERE uid IN (%n) OR authorid IN (%n) OR (id IN (%n) AND idtype=%s)  %i', array($this->_table, $uids, $uids, $uids, 'uid', DB::limit($start, $limit)));
+		return DB::fetch_all('SELECT * FROM %t WHERE uid IN (%n) OR authorid IN (%n) OR (id IN (%n) AND idtype=%s)  %i', [$this->_table, $uids, $uids, $uids, 'uid', DB::limit($start, $limit)]);
 	}
 
 	public function delete_by_uid_idtype($uid) {
-		if(!$uid){
+		if(!$uid) {
 			return null;
 		}
 		DB::delete($this->_table, DB::field('uid', $uid).' OR '.DB::field('authorid', $uid).' OR ('.DB::field('id', $uid).' AND idtype=\'uid\')');
 	}
 
 	public function delete_by_uid($uids) {
-		if(!$uids){
+		if(!$uids) {
 			return null;
 		}
 		DB::delete($this->_table, DB::field('uid', $uids).' OR ('.DB::field('id', $uids).' AND idtype=\'uid\')');
@@ -44,7 +50,7 @@ class table_home_comment extends discuz_table
 
 	public function delete($val, $unbuffered = false, $null = '') {
 		// $null 需要在取消兼容层后删除
-		if (defined('DISCUZ_DEPRECATED')) {
+		if(defined('DISCUZ_DEPRECATED')) {
 			throw new Exception('NotImplementedException');
 			return parent::delete($val, $unbuffered);
 		} else {
@@ -54,7 +60,7 @@ class table_home_comment extends discuz_table
 	}
 
 	public function delete_comment($cid = '', $id = '', $idtype = '') {
-		$condition = array();
+		$condition = [];
 
 		if($cid) {
 			$condition[] = DB::field('cid', $cid);
@@ -73,7 +79,7 @@ class table_home_comment extends discuz_table
 	}
 
 	public function update($val, $data, $unbuffered = false, $low_priority = false) {
-		if (defined('DISCUZ_DEPRECATED')) {
+		if(defined('DISCUZ_DEPRECATED')) {
 			throw new Exception('NotImplementedException');
 			return parent::update($val, $data, $unbuffered, $low_priority);
 		} else {
@@ -83,7 +89,7 @@ class table_home_comment extends discuz_table
 	}
 
 	public function update_comment($cids, $data, $authorid = '') {
-		$condition = array();
+		$condition = [];
 		if($cids) {
 			$condition[] = DB::field('cid', $cids);
 		}
@@ -100,34 +106,34 @@ class table_home_comment extends discuz_table
 
 	public function count_by_id_idtype($id, $idtype, $cid = '') {
 		if($cid) {
-			$cidsql = DB::field('cid', $cid). ' AND ';
+			$cidsql = DB::field('cid', $cid).' AND ';
 		}
-		return DB::result_first('SELECT COUNT(*) FROM %t WHERE '.$cidsql.' id=%d AND idtype=%s', array($this->_table, $id, $idtype));
+		return DB::result_first('SELECT COUNT(*) FROM %t WHERE '.$cidsql.' id=%d AND idtype=%s', [$this->_table, $id, $idtype]);
 	}
 
 	public function fetch_all_by_id_idtype($id, $idtype, $start, $limit, $cid = '', $order = '') {
 		if($cid) {
-			$cidsql = DB::field('cid', $cid). ' AND ';
+			$cidsql = DB::field('cid', $cid).' AND ';
 		}
-		return DB::fetch_all('SELECT * FROM %t WHERE '.$cidsql.' id=%d AND idtype=%s ORDER BY '.DB::order('dateline', $order).' %i', array($this->_table, $id, $idtype, DB::limit($start, $limit)));
+		return DB::fetch_all('SELECT * FROM %t WHERE '.$cidsql.' id=%d AND idtype=%s ORDER BY '.DB::order('dateline', $order).' %i', [$this->_table, $id, $idtype, DB::limit($start, $limit)]);
 	}
 
 	public function fetch_latest_by_authorid($uid, $cid) {
 		if($cid) {
-			$cidsql = DB::field('cid', $cid). ' AND ';
+			$cidsql = DB::field('cid', $cid).' AND ';
 		}
-		return DB::fetch_first('SELECT * FROM %t WHERE '.$cidsql.' authorid=%d ORDER BY dateline DESC LIMIT 0,1', array($this->_table, $uid));
+		return DB::fetch_first('SELECT * FROM %t WHERE '.$cidsql.' authorid=%d ORDER BY dateline DESC LIMIT 0,1', [$this->_table, $uid]);
 	}
 
 	public function fetch_by_id_idtype($id, $idtype, $cid = '') {
 		if($cid) {
-			$cidsql = DB::field('cid', $cid). ' AND ';
+			$cidsql = DB::field('cid', $cid).' AND ';
 		}
-		return DB::fetch_first('SELECT * FROM %t WHERE '.$cidsql.' id=%d AND idtype=%s', array($this->_table, $id, $idtype));
+		return DB::fetch_first('SELECT * FROM %t WHERE '.$cidsql.' id=%d AND idtype=%s', [$this->_table, $id, $idtype]);
 	}
 
 	public function fetch($id, $force_from_db = false) {
-		if (defined('DISCUZ_DEPRECATED')) {
+		if(defined('DISCUZ_DEPRECATED')) {
 			throw new Exception('NotImplementedException');
 			return parent::fetch($id, $force_from_db);
 		} else {
@@ -135,12 +141,12 @@ class table_home_comment extends discuz_table
 			return $this->fetch_comment($id, $force_from_db);
 		}
 	}
-	
+
 	public function fetch_comment($cid, $authorid = '') {
 		if(!$cid) {
 			return null;
 		}
-		$wherearr = array();
+		$wherearr = [];
 		$wherearr[] = DB::field('cid', $cid);
 		if($authorid) {
 			$wherearr[] = DB::field('authorid', $authorid);
@@ -152,12 +158,12 @@ class table_home_comment extends discuz_table
 	}
 
 	public function fetch_all_by_status($status = 0, $start = 0, $limit = 1000) {
-		return DB::fetch_all('SELECT * FROM %t WHERE `status` = %d ORDER BY ' . $this->_pk . ' ' . DB::limit($start, $limit), array($this->_table, $status));
+		return DB::fetch_all('SELECT * FROM %t WHERE `status` = %d ORDER BY '.$this->_pk.' '.DB::limit($start, $limit), [$this->_table, $status]);
 	}
 
 	public function fetch_all_search($fetchtype, $ids, $authorid, $uids, $useip, $keywords, $idtype, $starttime, $endtime, $start = 0, $limit = 0, $basickeywords = 0) {
-		$parameter = array($this->_table);
-		$wherearr = array();
+		$parameter = [$this->_table];
+		$wherearr = [];
 		if($ids) {
 			$parameter[] = $ids;
 			$wherearr[] = 'id IN(%n)';
@@ -189,7 +195,7 @@ class table_home_comment extends discuz_table
 				$keywords = explode(',', str_replace(' ', '', $keywords));
 
 				for($i = 0; $i < count($keywords); $i++) {
-					if(preg_match("/\{(\d+)\}/", $keywords[$i])) {
+					if(preg_match('/\{(\d+)\}/', $keywords[$i])) {
 						$keywords[$i] = preg_replace("/\\\{(\d+)\\\}/", ".{0,\\1}", preg_quote($keywords[$i], '/'));
 						$sqlkeywords .= " $or message REGEXP '".addslashes(stripsearchkey($keywords[$i]))."'";
 					} else {
@@ -209,11 +215,11 @@ class table_home_comment extends discuz_table
 			$wherearr[] = 'ip LIKE  %s';
 		}
 		if($fetchtype == 3) {
-			$selectfield = "count(*)";
-		} elseif ($fetchtype == 2) {
-			$selectfield = "cid";
+			$selectfield = 'count(*)';
+		} elseif($fetchtype == 2) {
+			$selectfield = 'cid';
 		} else {
-			$selectfield = "*";
+			$selectfield = '*';
 			$parameter[] = DB::limit($start, $limit);
 			$ordersql = ' ORDER BY dateline DESC %i';
 		}
@@ -230,4 +236,3 @@ class table_home_comment extends discuz_table
 
 }
 
-?>

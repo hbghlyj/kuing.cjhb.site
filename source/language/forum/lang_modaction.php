@@ -1,18 +1,17 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: lang_modaction.php 31651 2012-09-18 10:23:26Z zhangjie $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
-$lang = array
-(
+$lang =
+	[
 
 	'EDT' => '编辑',
 
@@ -57,6 +56,7 @@ $lang = array
 	'RFD' => '强制退款',
 
 	'MOD' => '审核通过',
+	'MDS' => '审核驳回',
 
 	'ABL' => '加入文集',
 	'RBL' => '移除文集',
@@ -90,6 +90,5 @@ $lang = array
 	'LIV' => '直播',
 	'LIC' => '取消直播',
 
-);
+	];
 
-?>

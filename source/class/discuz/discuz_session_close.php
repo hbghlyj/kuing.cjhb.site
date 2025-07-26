@@ -1,10 +1,9 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: discuz_session_close.php 33707 2013-08-06 08:22:12Z andyzheng $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -19,14 +18,14 @@ class discuz_session_close {
 	public $sid = null;
 	public $var;
 	public $isnew = false;
-	protected $newguest = array('sid' => 0, 'ip' => '',
+	protected $newguest = ['sid' => 0, 'ip' => '',
 		'uid' => 0, 'username' => '', 'groupid' => 7, 'invisible' => 0, 'action' => 0,
-		'lastactivity' => 0, 'fid' => 0, 'tid' => 0, 'lastolupdate' => 0);
+		'lastactivity' => 0, 'fid' => 0, 'tid' => 0, 'lastolupdate' => 0];
 
 	protected $table;
 
 	public function __construct($sid = '', $ip = '', $uid = 0) {
-		$this->old = array('sid' =>  $sid, 'ip' =>  $ip, 'uid' =>  $uid);
+		$this->old = ['sid' => $sid, 'ip' => $ip, 'uid' => $uid];
 		$this->var = $this->newguest;
 		$this->onlinehold = getglobal('setting/onlinehold');
 		$this->oltimestamp = TIMESTAMP - $this->onlinehold;
@@ -97,7 +96,7 @@ class discuz_session_close {
 			$count = $onlinecount['count'];
 		} else {
 			$count = $this->table->count_by_lastactivity_invisible($this->oltimestamp);
-			savecache('onlinecount', array('count' => $count, 'dateline' => TIMESTAMP));
+			savecache('onlinecount', ['count' => $count, 'dateline' => TIMESTAMP]);
 		}
 		if($type == 1) {
 			return $count;
@@ -133,14 +132,14 @@ class discuz_session_close {
 	}
 
 	public function fetch_all_by_fid($fid, $limit = 0) {
-		return array();
+		return [];
 	}
 
 	public function fetch_by_uid($uid) {
 		if(($member = $this->table->fetch($uid)) && $member['lastactivity'] >= $this->oltimestamp) {
 			return $member;
 		}
-		return array();
+		return [];
 	}
 
 	public function fetch_all_by_uid($uids, $start = 0, $limit = 0) {
@@ -156,14 +155,14 @@ class discuz_session_close {
 	}
 
 	public function fetch_all_by_ip($ip, $start = 0, $limit = 0) {
-		return array();
+		return [];
 	}
 
 	public function updatesession() {
 		static $updated = false;
 		if(!$updated && $this->isnew) {
 			global $_G;
-			C::t('common_member_status')->update($_G['uid'], array('lastip' => $_G['clientip'], 'port' => $_G['remoteport'], 'lastactivity' => TIMESTAMP, 'lastvisit' => TIMESTAMP));
+			table_common_member_status::t()->update($_G['uid'], ['lastip' => $_G['clientip'], 'port' => $_G['remoteport'], 'lastactivity' => TIMESTAMP, 'lastvisit' => TIMESTAMP]);
 			dsetcookie('ulastactivity', TIMESTAMP.'|'.getuserprofile('invisible'), 31536000);
 			$updated = true;
 		}
@@ -171,4 +170,3 @@ class discuz_session_close {
 	}
 }
 
-?>

@@ -1,10 +1,9 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: class_task.php 34346 2014-03-19 03:10:01Z hypowang $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -19,7 +18,8 @@ class task {
 	var $multipage;
 	var $listdata;
 
-	function __construct() {}
+	function __construct() {
+	}
 
 	public static function &instance() {
 		static $object;
@@ -35,18 +35,18 @@ class task {
 		$multipage = '';
 		$page = max(1, intval($_GET['page']));
 		$start_limit = ($page - 1) * $_G['tpp'];
-		$tasklist = $endtaskids = $magicids = $medalids = $groupids = array();
+		$tasklist = $endtaskids = $magicids = $medalids = $groupids = [];
 
 
 		$updated = FALSE;
 		$num = 0;
-		foreach(C::t('common_task')->fetch_all_by_status($_G['uid'], $item) as $task) {
+		foreach(table_common_task::t()->fetch_all_by_status($_G['uid'], $item) as $task) {
 			if($item == 'new' || $item == 'canapply') {
 				list($task['allowapply'], $task['t']) = $this->checknextperiod($task);
 				if($task['allowapply'] < 0) {
 					continue;
 				}
-				$task['noperm'] = $task['applyperm'] && $task['applyperm'] != 'all' && !(($task['applyperm'] == 'member' && in_array($_G['adminid'], array(0, -1))) || ($task['applyperm'] == 'admin' && $_G['adminid'] > '0') || forumperm($task['applyperm']));
+				$task['noperm'] = $task['applyperm'] && $task['applyperm'] != 'all' && !(($task['applyperm'] == 'member' && in_array($_G['adminid'], [0, -1])) || ($task['applyperm'] == 'admin' && $_G['adminid'] > '0') || forumperm($task['applyperm']));
 				$task['appliesfull'] = $task['tasklimits'] && $task['achievers'] >= $task['tasklimits'];
 				if($item == 'canapply' && ($task['noperm'] || $task['appliesfull'])) {
 					continue;
@@ -72,7 +72,7 @@ class task {
 				$updated = TRUE;
 				$escript = explode(':', $task['scriptname']);
 				if(count($escript) > 1) {
-					include_once DISCUZ_ROOT.'./source/plugin/'.$escript[0].'/task/task_'.$escript[1].'.php';
+					include_once DISCUZ_PLUGIN($escript[0]).'/task/task_'.$escript[1].'.php';
 					$taskclassname = 'task_'.$escript[1];
 				} else {
 					require_once libfile('task/'.$task['scriptname'], 'class');
@@ -83,26 +83,26 @@ class task {
 				if(method_exists($taskclass, 'csc')) {
 					$result = $taskclass->csc($task);
 				} else {
-					showmessage('task_not_found', '', array('taskclassname' => $taskclassname));
+					showmessage('task_not_found', '', ['taskclassname' => $taskclassname]);
 				}
 				if($result === TRUE) {
 					$task['csc'] = '100';
-					C::t('common_mytask')->update_mytask($_G['uid'], $task['taskid'], array('csc' => $task['csc']));
+					table_common_mytask::t()->update_mytask($_G['uid'], $task['taskid'], ['csc' => $task['csc']]);
 				} elseif($result === FALSE) {
-					C::t('common_mytask')->update_mytask($_G['uid'], $task['taskid'], array('status' => -1));
+					table_common_mytask::t()->update_mytask($_G['uid'], $task['taskid'], ['status' => -1]);
 				} else {
 					$task['csc'] = floatval($result['csc']);
-					C::t('common_mytask')->update_mytask($_G['uid'], $task['taskid'], array('csc' => $task['csc']."\t".$_G['timestamp']));
+					table_common_mytask::t()->update_mytask($_G['uid'], $task['taskid'], ['csc' => $task['csc']."\t".$_G['timestamp']]);
 				}
 			}
-			if(in_array($item, array('done', 'failed')) && $task['period']) {
+			if(in_array($item, ['done', 'failed']) && $task['period']) {
 				list($task['allowapply'], $task['t']) = $this->checknextperiod($task);
 				$task['allowapply'] = $task['allowapply'] > 0 ? 1 : 0;
 			}
 			$task['icon'] = $task['icon'] ? $task['icon'] : 'task.gif';
 			if(!preg_match('/^https?:\/\//is', $task['icon'])) {
 				$escript = explode(':', $task['scriptname']);
-				if(count($escript) > 1 && file_exists(DISCUZ_ROOT.'./source/plugin/'.$escript[0].'/task/task_'.$escript[1].'.gif')) {
+				if(count($escript) > 1 && file_exists(DISCUZ_PLUGIN($escript[0]).'/task/task_'.$escript[1].'.gif')) {
 					$task['icon'] = 'source/plugin/'.$escript[0].'/task/task_'.$escript[1].'.gif';
 				} else {
 					$task['icon'] = 'static/image/task/'.$task['icon'];
@@ -113,19 +113,19 @@ class task {
 		}
 
 		if($magicids) {
-			foreach(C::t('common_magic')->fetch_all($magicids) as $magic) {
+			foreach(table_common_magic::t()->fetch_all($magicids) as $magic) {
 				$this->listdata[$magic['magicid']] = $magic['name'];
 			}
 		}
 
 		if($medalids) {
-			foreach(C::t('forum_medal')->fetch_all($medalids) as $medal) {
+			foreach(table_forum_medal::t()->fetch_all($medalids) as $medal) {
 				$this->listdata[$medal['medalid']] = $medal['name'];
 			}
 		}
 
 		if($groupids) {
-			foreach(C::t('common_usergroup')->fetch_all_usergroup($groupids) as $group) {
+			foreach(table_common_usergroup::t()->fetch_all_usergroup($groupids) as $group) {
 				$this->listdata[$group['groupid']] = $group['grouptitle'];
 			}
 		}
@@ -139,31 +139,32 @@ class task {
 
 		return $tasklist;
 	}
+
 	function view($id) {
 		global $_G;
 
-		$this->task = C::t('common_task')->fetch_by_uid($_G['uid'], $id);
+		$this->task = table_common_task::t()->fetch_by_uid($_G['uid'], $id);
 		if(!$this->task) {
 			showmessage('task_nonexistence');
 		}
 		switch($this->task['reward']) {
 			case 'magic':
-				$this->task['rewardtext'] = C::t('common_magic')->fetch($this->task['prize']);
+				$this->task['rewardtext'] = table_common_magic::t()->fetch($this->task['prize']);
 				$this->task['rewardtext'] = $this->task['rewardtext']['name'];
 				break;
 			case 'medal':
-				$this->task['rewardtext'] = C::t('forum_medal')->fetch($this->task['prize']);
+				$this->task['rewardtext'] = table_forum_medal::t()->fetch($this->task['prize']);
 				$this->task['rewardtext'] = $this->task['rewardtext']['name'];
 				break;
 			case 'group':
-				$group = C::t('common_usergroup')->fetch($this->task['prize']);
+				$group = table_common_usergroup::t()->fetch($this->task['prize']);
 				$this->task['rewardtext'] = $group['grouptitle'];
 				break;
 		}
 		$this->task['icon'] = $this->task['icon'] ? $this->task['icon'] : 'task.gif';
 		if(!preg_match('/^https?:\/\//is', $this->task['icon'])) {
 			$escript = explode(':', $this->task['scriptname']);
-			if(count($escript) > 1 && file_exists(DISCUZ_ROOT.'./source/plugin/'.$escript[0].'/task/task_'.$escript[1].'.gif')) {
+			if(count($escript) > 1 && file_exists(DISCUZ_PLUGIN($escript[0]).'/task/task_'.$escript[1].'.gif')) {
 				$this->task['icon'] = 'source/plugin/'.$escript[0].'/task/task_'.$escript[1].'.gif';
 			} else {
 				$this->task['icon'] = 'static/image/task/'.$this->task['icon'];
@@ -172,8 +173,8 @@ class task {
 		$this->task['endtime'] = $this->task['endtime'] ? dgmdate($this->task['endtime'], 'u') : '';
 		$this->task['description'] = nl2br($this->task['description']);
 
-		$this->taskvars = array();
-		foreach(C::t('common_taskvar')->fetch_all_by_taskid($id) as $taskvar) {
+		$this->taskvars = [];
+		foreach(table_common_taskvar::t()->fetch_all_by_taskid($id) as $taskvar) {
 			if(!$taskvar['variable'] || $taskvar['value']) {
 				if(!$taskvar['variable']) {
 					$taskvar['value'] = $taskvar['description'];
@@ -190,8 +191,8 @@ class task {
 
 		$this->task['grouprequired'] = $comma = '';
 		$this->task['applyperm'] = $this->task['applyperm'] == 'all' ? '' : $this->task['applyperm'];
-		if(!in_array($this->task['applyperm'], array('', 'member', 'admin'))) {
-			$query = C::t('common_usergroup')->fetch_all_usergroup(explode(',', str_replace("\t", ',', $this->task['applyperm'])));
+		if(!in_array($this->task['applyperm'], ['', 'member', 'admin'])) {
+			$query = table_common_usergroup::t()->fetch_all_usergroup(explode(',', str_replace("\t", ',', $this->task['applyperm'])));
 			foreach($query as $group) {
 				$this->task['grouprequired'] .= $comma.$group['grouptitle'];
 				$comma = ', ';
@@ -199,18 +200,18 @@ class task {
 		}
 
 		if($this->task['relatedtaskid']) {
-			$task = C::t('common_task')->fetch($this->task['relatedtaskid']);
+			$task = table_common_task::t()->fetch($this->task['relatedtaskid']);
 			$_G['taskrequired'] = $task['name'];
 		}
 
 		if($this->task['exclusivetaskid']) {
-			$task = C::t('common_task')->fetch($this->task['exclusivetaskid']);
+			$task = table_common_task::t()->fetch($this->task['exclusivetaskid']);
 			$_G['taskexclusive'] = $task['name'];
 		}
 
 		$escript = explode(':', $this->task['scriptname']);
 		if(count($escript) > 1) {
-			include_once DISCUZ_ROOT.'./source/plugin/'.$escript[0].'/task/task_'.$escript[1].'.php';
+			include_once DISCUZ_PLUGIN($escript[0]).'/task/task_'.$escript[1].'.php';
 			$taskclassname = 'task_'.$escript[1];
 		} else {
 			require_once libfile('task/'.$this->task['scriptname'], 'class');
@@ -234,13 +235,13 @@ class task {
 				}
 				if($result === TRUE) {
 					$this->task['csc'] = '100';
-					C::t('common_mytask')->update_mytask($_G['uid'], $id, array('csc' => $this->task['csc']));
+					table_common_mytask::t()->update_mytask($_G['uid'], $id, ['csc' => $this->task['csc']]);
 				} elseif($result === FALSE) {
-					C::t('common_mytask')->update_mytask($_G['uid'], $id, array('status' => -1));
+					table_common_mytask::t()->update_mytask($_G['uid'], $id, ['status' => -1]);
 					dheader("Location: home.php?mod=task&do=view&id=$id");
 				} else {
 					$this->task['csc'] = floatval($result['csc']);
-					C::t('common_mytask')->update_mytask($_G['uid'], $id, array('csc' => $this->task['csc']."\t".$_G['timestamp']));
+					table_common_mytask::t()->update_mytask($_G['uid'], $id, ['csc' => $this->task['csc']."\t".$_G['timestamp']]);
 				}
 			}
 		} elseif($this->task['status'] == '1') {
@@ -259,7 +260,7 @@ class task {
 		}
 
 		if($allowapply > 0) {
-			if($this->task['applyperm'] && $this->task['applyperm'] != 'all' && !(($this->task['applyperm'] == 'member' && in_array($_G['adminid'], array(0, -1))) || ($this->task['applyperm'] == 'admin' && $_G['adminid'] > '0') || preg_match("/(^|\t)(".$_G['groupid'].")(\t|$)/", $this->task['applyperm']))) {
+			if($this->task['applyperm'] && $this->task['applyperm'] != 'all' && !(($this->task['applyperm'] == 'member' && in_array($_G['adminid'], [0, -1])) || ($this->task['applyperm'] == 'admin' && $_G['adminid'] > '0') || preg_match("/(^|\t)(".$_G['groupid'].")(\t|$)/", $this->task['applyperm']))) {
 				$allowapply = -2;
 			} elseif($this->task['tasklimits'] && $this->task['achievers'] >= $this->task['tasklimits']) {
 				$allowapply = -3;
@@ -313,13 +314,13 @@ class task {
 				$allowapply = 2;
 			}
 		}
-		return array($allowapply, $nextapplytime);
+		return [$allowapply, $nextapplytime];
 	}
 
 	function apply($id) {
 		global $_G;
 
-		$this->task = C::t('common_task')->fetch($id);
+		$this->task = table_common_task::t()->fetch($id);
 		if($this->task['available'] != 2) {
 			showmessage('task_nonexistence');
 		} elseif(($this->task['starttime'] && $this->task['starttime'] > TIMESTAMP) || ($this->task['endtime'] && $this->task['endtime'] <= TIMESTAMP)) {
@@ -328,17 +329,17 @@ class task {
 			showmessage('task_full');
 		}
 
-		if($this->task['relatedtaskid'] && !C::t('common_mytask')->count_mytask($_G['uid'], $this->task['relatedtaskid'], 1)) {
+		if($this->task['relatedtaskid'] && !table_common_mytask::t()->count_mytask($_G['uid'], $this->task['relatedtaskid'], 1)) {
 			return -1;
-		} elseif($this->task['exclusivetaskid'] && C::t('common_mytask')->count_mytask($_G['uid'], $this->task['exclusivetaskid'])) {
+		} elseif($this->task['exclusivetaskid'] && table_common_mytask::t()->count_mytask($_G['uid'], $this->task['exclusivetaskid'])) {
 			return -5;
-		} elseif($this->task['applyperm'] && $this->task['applyperm'] != 'all' && !(($this->task['applyperm'] == 'member' && in_array($_G['adminid'], array(0, -1))) || ($this->task['applyperm'] == 'admin' && $_G['adminid'] > '0') || preg_match("/(^|\t)(".$_G['groupid'].")(\t|$)/", $this->task['applyperm']))) {
+		} elseif($this->task['applyperm'] && $this->task['applyperm'] != 'all' && !(($this->task['applyperm'] == 'member' && in_array($_G['adminid'], [0, -1])) || ($this->task['applyperm'] == 'admin' && $_G['adminid'] > '0') || preg_match("/(^|\t)(".$_G['groupid'].")(\t|$)/", $this->task['applyperm']))) {
 			return -2;
-		} elseif(!$this->task['period'] && C::t('common_mytask')->count_mytask($_G['uid'], $id)) {
+		} elseif(!$this->task['period'] && table_common_mytask::t()->count_mytask($_G['uid'], $id)) {
 			return -3;
 		} elseif($this->task['period']) {
-			$mytask = C::t('common_mytask')->fetch_mytask($_G['uid'], $id);
-			$task = C::t('common_task')->fetch($id);
+			$mytask = table_common_mytask::t()->fetch_mytask($_G['uid'], $id);
+			$task = table_common_task::t()->fetch($id);
 			$mytask['period'] = $task['period'];
 			$mytask['periodtype'] = $task['periodtype'];
 			unset($task);
@@ -350,7 +351,7 @@ class task {
 
 		$escript = explode(':', $this->task['scriptname']);
 		if(count($escript) > 1) {
-			include_once DISCUZ_ROOT.'./source/plugin/'.$escript[0].'/task/task_'.$escript[1].'.php';
+			include_once DISCUZ_PLUGIN($escript[0]).'/task/task_'.$escript[1].'.php';
 			$taskclassname = 'task_'.$escript[1];
 		} else {
 			require_once libfile('task/'.$this->task['scriptname'], 'class');
@@ -360,14 +361,14 @@ class task {
 		if(method_exists($taskclass, 'condition')) {
 			$taskclass->condition();
 		}
-		C::t('common_mytask')->insert(array(
+		table_common_mytask::t()->insert([
 			'uid' => $_G['uid'],
 			'username' => $_G['username'],
 			'taskid' => $this->task['taskid'],
 			'csc' => '0\t'.$_G['timestamp'],
 			'dateline' => $_G['timestamp']
-		), false, true);
-		C::t('common_task')->update_applicants($this->task['taskid'], 1);
+		], false, true);
+		table_common_task::t()->update_applicants($this->task['taskid'], 1);
 		if(method_exists($taskclass, 'preprocess')) {
 			$taskclass->preprocess($this->task);
 		}
@@ -377,19 +378,19 @@ class task {
 	function draw($id) {
 		global $_G;
 
-		if(!($this->task = C::t('common_task')->fetch_by_uid($_G['uid'], $id))) {
+		if(!($this->task = table_common_task::t()->fetch_by_uid($_G['uid'], $id))) {
 			showmessage('task_nonexistence');
 		} elseif(!isset($this->task['status']) || $this->task['status'] != 0) {
 			showmessage('task_not_underway');
 		} elseif($this->task['tasklimits'] && $this->task['achievers'] >= $this->task['tasklimits']) {
 			return -1;
-		} elseif($this->task['exclusivetaskid'] && C::t('common_mytask')->count_mytask($_G['uid'], $this->task['exclusivetaskid'])) {
+		} elseif($this->task['exclusivetaskid'] && table_common_mytask::t()->count_mytask($_G['uid'], $this->task['exclusivetaskid'])) {
 			return -4;
 		}
 
 		$escript = explode(':', $this->task['scriptname']);
 		if(count($escript) > 1) {
-			include_once DISCUZ_ROOT.'./source/plugin/'.$escript[0].'/task/task_'.$escript[1].'.php';
+			include_once DISCUZ_PLUGIN($escript[0]).'/task/task_'.$escript[1].'.php';
 			$taskclassname = 'task_'.$escript[1];
 		} else {
 			require_once libfile('task/'.$this->task['scriptname'], 'class');
@@ -399,37 +400,37 @@ class task {
 		if(method_exists($taskclass, 'csc')) {
 			$result = $taskclass->csc($this->task);
 		} else {
-			showmessage('task_not_found', '', array('taskclassname' => $taskclassname));
+			showmessage('task_not_found', '', ['taskclassname' => $taskclassname]);
 		}
 
 		if($result === TRUE) {
 
-			if($this->task['reward'] && C::t('common_mytask')->update_to_success($_G['uid'], $id, $_G['timestamp']) && C::t('common_task')->update_achievers($id, 1)) {
+			if($this->task['reward'] && table_common_mytask::t()->update_to_success($_G['uid'], $id, $_G['timestamp']) && table_common_task::t()->update_achievers($id, 1)) {
 				$rewards = $this->reward();
 				$notification = $this->task['reward'];
 				if($this->task['reward'] == 'magic') {
-					$rewardtext = C::t('common_magic')->fetch($this->task['prize']);
+					$rewardtext = table_common_magic::t()->fetch($this->task['prize']);
 					$rewardtext = $rewardtext['name'];
 				} elseif($this->task['reward'] == 'medal') {
-					$rewardtext = C::t('forum_medal')->fetch($this->task['prize']);
+					$rewardtext = table_forum_medal::t()->fetch($this->task['prize']);
 					$rewardtext = $rewardtext['name'];
 					if(!$this->task['bonus']) {
 						$notification = 'medal_forever';
 					}
 				} elseif($this->task['reward'] == 'group') {
-					$group = C::t('common_usergroup')->fetch($this->task['prize']);
+					$group = table_common_usergroup::t()->fetch($this->task['prize']);
 					$rewardtext = $group['grouptitle'];
 				} elseif($this->task['reward'] == 'invite') {
 					$rewardtext = $this->task['prize'];
 				}
-				notification_add($_G['uid'], 'task', 'task_reward_'.$notification, array(
+				notification_add($_G['uid'], 'task', 'task_reward_'.$notification, [
 					'taskid' => $this->task['taskid'],
 					'name' => $this->task['name'],
 					'creditbonus' => $_G['setting']['extcredits'][$this->task['prize']]['title'].' '.$this->task['bonus'].' '.$_G['setting']['extcredits'][$this->task['prize']]['unit'],
 					'rewardtext' => $rewardtext,
 					'bonus' => $this->task['bonus'],
 					'prize' => $this->task['prize'],
-				));
+				]);
 			}
 
 			if(method_exists($taskclass, 'sufprocess')) {
@@ -437,12 +438,12 @@ class task {
 			}
 
 			if($_G['inajax']) {
-				$this->message('100', $this->task['reward'] ? 'task_reward_'.$this->task['reward'] : 'task_completed', array(
+				$this->message('100', $this->task['reward'] ? 'task_reward_'.$this->task['reward'] : 'task_completed', [
 						'creditbonus' => $_G['setting']['extcredits'][$this->task['prize']]['title'].' '.$this->task['bonus'].' '.$_G['setting']['extcredits'][$this->task['prize']]['unit'],
 						'rewardtext' => $rewardtext,
 						'bonus' => $this->task['bonus'],
 						'prize' => $this->task['prize']
-					)
+					]
 				);
 			} else {
 				return true;
@@ -450,7 +451,7 @@ class task {
 
 		} elseif($result === FALSE) {
 
-			C::t('common_mytask')->update_mytask($_G['uid'], $id, array('status' => -1));
+			table_common_mytask::t()->update_mytask($_G['uid'], $id, ['status' => -1]);
 			if($_G['inajax']) {
 				$this->message('-1', 'task_failed');
 			} else {
@@ -460,9 +461,9 @@ class task {
 		} else {
 
 			$result['t'] = $this->timeformat($result['remaintime']);
-			$this->messagevalues['values'] = array('csc' => $result['csc'], 't' => $result['t']);
+			$this->messagevalues['values'] = ['csc' => $result['csc'], 't' => $result['t']];
 			if($result['csc']) {
-				C::t('common_mytask')->update_mytask($_G['uid'], $id, array('csc' => $result['csc']."\t".$_G['timestamp']));
+				table_common_mytask::t()->update_mytask($_G['uid'], $id, ['csc' => $result['csc']."\t".$_G['timestamp']]);
 				$this->messagevalues['msg'] = $result['t'] ? 'task_doing_rt' : 'task_doing';
 			} else {
 				$this->messagevalues['msg'] = $result['t'] ? 'task_waiting_rt' : 'task_waiting';
@@ -481,19 +482,19 @@ class task {
 
 		if($_GET['formhash'] != FORMHASH) {
 			showmessage('undefined_action');
-		} elseif(!($this->task = C::t('common_task')->fetch_by_uid($_G['uid'], $id))) {
+		} elseif(!($this->task = table_common_task::t()->fetch_by_uid($_G['uid'], $id))) {
 			showmessage('task_nonexistence');
 		} elseif($this->task['status'] != '0') {
 			showmessage('task_not_underway');
 		}
 
-		C::t('common_mytask')->delete_mytask($_G['uid'], $id);
-		C::t('common_task')->update_applicants($id, -1);
+		table_common_mytask::t()->delete_mytask($_G['uid'], $id);
+		table_common_task::t()->update_applicants($id, -1);
 	}
 
 	function parter($id) {
-		$parterlist = array();
-		foreach(C::t('common_mytask')->fetch_all_by_taskid($id, 8) as $parter) {
+		$parterlist = [];
+		foreach(table_common_mytask::t()->fetch_all_by_taskid($id, 8) as $parter) {
 			$parter['avatar'] = avatar($parter['uid'], 'small');
 			$csc = explode("\t", $parter['csc']);
 			$parter['csc'] = floatval($csc[0]);
@@ -504,15 +505,15 @@ class task {
 
 	function delete($id) {
 		global $_G;
-		$mytask = C::t('common_mytask')->fetch_mytask($_G['uid'], $id);
-		$this->task = C::t('common_task')->fetch($id);
+		$mytask = table_common_mytask::t()->fetch_mytask($_G['uid'], $id);
+		$this->task = table_common_task::t()->fetch($id);
 		if($this->task['available'] != 2 || empty($mytask) || $mytask['status'] == 1) {
 			showmessage('task_nonexistence');
 		}
 
 		$escript = explode(':', $this->task['scriptname']);
 		if(count($escript) > 1) {
-			include_once DISCUZ_ROOT.'./source/plugin/'.$escript[0].'/task/task_'.$escript[1].'.php';
+			include_once DISCUZ_PLUGIN($escript[0]).'/task/task_'.$escript[1].'.php';
 			$taskclassname = 'task_'.$escript[1];
 		} else {
 			require_once libfile('task/'.$this->task['scriptname'], 'class');
@@ -523,8 +524,8 @@ class task {
 			$taskclass->delete($this->task);
 		}
 
-		C::t('common_mytask')->delete_mytask($_G['uid'], $id);
-		C::t('common_task')->update_applicants($id, -1);
+		table_common_mytask::t()->delete_mytask($_G['uid'], $id);
+		table_common_task::t()->update_applicants($id, -1);
 		return true;
 	}
 
@@ -534,7 +535,7 @@ class task {
 		loadcache('tasknext');
 		$tasknext = getglobal('cache/tasknext');
 		if(!is_array($tasknext)) {
-			$tasknext = array();
+			$tasknext = [];
 		}
 		if(!isset($tasknext['starttime']) || $tasknext['starttime'] > TIMESTAMP + 86400) {
 			$tasknext['starttime'] = 0;
@@ -547,9 +548,9 @@ class task {
 			if($update || !discuz_process::islocked($processname, 600)) {
 				if(TIMESTAMP >= $tasknext['starttime'] || $update) {
 					//上线开始的活动
-					C::t('common_task')->update_available(2);
+					table_common_task::t()->update_available(2);
 					//下个活动开始时间
-					$starttime = C::t('common_task')->fetch_next_starttime();
+					$starttime = table_common_task::t()->fetch_next_starttime();
 					//下次触发时间不超过24小时
 					$tasknext['starttime'] = $starttime ? min($starttime, TIMESTAMP + 86400) : TIMESTAMP + 86400;
 					$updatetasknext = 1;
@@ -557,9 +558,9 @@ class task {
 
 				if(TIMESTAMP >= $tasknext['endtime'] || $update) {
 					//隐藏未开始或者结束的活动
-					C::t('common_task')->update_available(1);
+					table_common_task::t()->update_available(1);
 					//下个活动结束时间
-					$endtime = C::t('common_task')->fetch_next_endtime();
+					$endtime = table_common_task::t()->fetch_next_endtime();
 					//下次触发时间不超过24小时
 					$tasknext['endtime'] = $endtime ? min($endtime, TIMESTAMP + 86400) : TIMESTAMP + 86400;
 					$updatetasknext = 1;
@@ -576,11 +577,21 @@ class task {
 
 	function reward() {
 		switch($this->task['reward']) {
-			case 'credit': return $this->reward_credit($this->task['prize'], $this->task['bonus']); break;
-			case 'magic': return $this->reward_magic($this->task['prize'], $this->task['bonus']); break;
-			case 'medal': return $this->reward_medal($this->task['prize'], $this->task['bonus']); break;
-			case 'invite': return $this->reward_invite($this->task['prize'], $this->task['bonus']); break;
-			case 'group': return $this->reward_group($this->task['prize'], $this->task['bonus']); break;
+			case 'credit':
+				$this->reward_credit($this->task['prize'], $this->task['bonus']);
+				break;
+			case 'magic':
+				$this->reward_magic($this->task['prize'], $this->task['bonus']);
+				break;
+			case 'medal':
+				$this->reward_medal($this->task['prize'], $this->task['bonus']);
+				break;
+			case 'invite':
+				$this->reward_invite($this->task['prize'], $this->task['bonus']);
+				break;
+			case 'group':
+				$this->reward_group($this->task['prize'], $this->task['bonus']);
+				break;
 		}
 	}
 
@@ -594,36 +605,36 @@ class task {
 	function reward_magic($magicid, $num) {
 		global $_G;
 
-		if(C::t('common_member_magic')->count_magic($_G['uid'], $magicid)) {
-			C::t('common_member_magic')->increase($_G['uid'], $magicid, array('num' => $num), false, true);
+		if(table_common_member_magic::t()->count_magic($_G['uid'], $magicid)) {
+			table_common_member_magic::t()->increase($_G['uid'], $magicid, ['num' => $num], false, true);
 		} else {
-			C::t('common_member_magic')->insert(array(
+			table_common_member_magic::t()->insert([
 				'uid' => $_G['uid'],
 				'magicid' => $magicid,
 				'num' => $num
-			));
+			]);
 		}
 	}
 
 	function reward_medal($medalid, $day) {
 		global $_G;
 
-		$memberfieldforum = C::t('common_member_field_forum')->fetch($_G['uid']);
+		$memberfieldforum = table_common_member_field_forum::t()->fetch($_G['uid']);
 		$medals = $memberfieldforum['medals'];
 		unset($memberfieldforum);
 		if(empty($medals) || !in_array($medalid, explode("\t", $medals))) {
 			$medalsnew = $medals ? $medals."\t".$medalid : $medalid;
-			C::t('common_member_field_forum')->update($_G['uid'], array('medals' => $medalsnew), 'UNBUFFERED');
-			C::t('common_member_medal')->insert(array('uid' => $_G['uid'], 'medalid' => $medalid), 0, 1);
-			$data = array(
+			table_common_member_field_forum::t()->update($_G['uid'], ['medals' => $medalsnew], 'UNBUFFERED');
+			table_common_member_medal::t()->insert(['uid' => $_G['uid'], 'medalid' => $medalid], 0, 1);
+			$data = [
 				'uid' => $_G['uid'],
 				'medalid' => $medalid,
 				'type' => 0,
 				'dateline' => TIMESTAMP,
 				'expiration' => $day ? TIMESTAMP + $day * 86400 : '',
 				'status' => 1,
-			);
-			C::t('forum_medallog')->insert($data);
+			];
+			table_forum_medallog::t()->insert($data);
 		}
 	}
 
@@ -631,18 +642,18 @@ class task {
 		global $_G;
 		$day = empty($day) ? 5 : $day;
 		$expiration = $_G['timestamp'] + $day * 86400;
-		$codes = array();
-		for ($i=0; $i < $num; $i++) {
+		$codes = [];
+		for($i = 0; $i < $num; $i++) {
 			$code = strtolower(random(6));
 			$codes[] = "('{$_G['uid']}', '$code', '{$_G['timestamp']}', '$expiration', '{$_G['clientip']}')";
-			$invitedata = array(
-					'uid' => $_G['uid'],
-					'code' => $code,
-					'dateline' => $_G['timestamp'],
-					'endtime' => $expiration,
-					'inviteip' => $_G['clientip']
-			);
-			C::t('common_invite')->insert($invitedata);
+			$invitedata = [
+				'uid' => $_G['uid'],
+				'code' => $code,
+				'dateline' => $_G['timestamp'],
+				'endtime' => $expiration,
+				'inviteip' => $_G['clientip']
+			];
+			table_common_invite::t()->insert($invitedata);
 		}
 
 	}
@@ -663,19 +674,19 @@ class task {
 			$_G['member']['extgroupids'] = $gid;
 		}
 
-		C::t('common_member')->update($_G['uid'], array('extgroupids' => $_G['member']['extgroupids']), 'UNBUFFERED');
+		table_common_member::t()->update($_G['uid'], ['extgroupids' => $_G['member']['extgroupids']], 'UNBUFFERED');
 
 		if($day) {
-			$memberfieldforum = C::t('common_member_field_forum')->fetch($_G['uid']);
-			$groupterms = !empty($memberfieldforum['groupterms']) ? dunserialize($memberfieldforum['groupterms']) : array();
+			$memberfieldforum = table_common_member_field_forum::t()->fetch($_G['uid']);
+			$groupterms = !empty($memberfieldforum['groupterms']) ? dunserialize($memberfieldforum['groupterms']) : [];
 			unset($memberfieldforum);
 			$groupterms['ext'][$gid] = $exists && $groupterms['ext'][$gid] ? max($groupterms['ext'][$gid], TIMESTAMP + $day * 86400) : TIMESTAMP + $day * 86400;
-			C::t('common_member_field_forum')->update($_G['uid'], array('groupterms' => serialize($groupterms)), 'UNBUFFERED');
+			table_common_member_field_forum::t()->update($_G['uid'], ['groupterms' => serialize($groupterms)], 'UNBUFFERED');
 
 		}
 	}
 
-	function message($csc, $msg, $values = array()) {
+	function message($csc, $msg, $values = []) {
 		include template('common/header_ajax');
 		$msg = lang('message', $msg, $values);
 		echo "$csc|$msg";
@@ -708,4 +719,4 @@ function tasktimeformat($t) {
 	}
 	return '';
 }
-?>
+

@@ -1,10 +1,9 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: block_threadnew.php 23608 2011-07-27 08:10:07Z cnteacher $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -15,93 +14,93 @@ require_once libfile('block_thread', 'class/block/forum');
 
 class block_threadnew extends block_thread {
 	function __construct() {
-		$this->setting = array(
-			'fids'	=> array(
+		$this->setting = [
+			'fids' => [
 				'title' => 'threadlist_fids',
 				'type' => 'mselect',
-				'value' => array()
-			),
-			'special' => array(
+				'value' => []
+			],
+			'special' => [
 				'title' => 'threadlist_special',
 				'type' => 'mcheckbox',
-				'value' => array(
-					array(1, 'threadlist_special_1'),
-					array(2, 'threadlist_special_2'),
-					array(3, 'threadlist_special_3'),
-					array(4, 'threadlist_special_4'),
-					array(5, 'threadlist_special_5'),
-					array(0, 'threadlist_special_0'),
-				),
-				'default' => array('0')
-			),
-			'viewmod' => array(
+				'value' => [
+					[1, 'threadlist_special_1'],
+					[2, 'threadlist_special_2'],
+					[3, 'threadlist_special_3'],
+					[4, 'threadlist_special_4'],
+					[5, 'threadlist_special_5'],
+					[0, 'threadlist_special_0'],
+				],
+				'default' => ['0']
+			],
+			'viewmod' => [
 				'title' => 'threadlist_viewmod',
 				'type' => 'radio'
-			),
-			'rewardstatus' => array(
+			],
+			'rewardstatus' => [
 				'title' => 'threadlist_special_reward',
 				'type' => 'mradio',
-				'value' => array(
-					array(0, 'threadlist_special_reward_0'),
-					array(1, 'threadlist_special_reward_1'),
-					array(2, 'threadlist_special_reward_2')
-				),
+				'value' => [
+					[0, 'threadlist_special_reward_0'],
+					[1, 'threadlist_special_reward_1'],
+					[2, 'threadlist_special_reward_2']
+				],
 				'default' => 0,
-			),
-			'picrequired' => array(
+			],
+			'picrequired' => [
 				'title' => 'threadlist_picrequired',
 				'type' => 'radio',
 				'value' => '0'
-			),
-			'orderby' => array(
+			],
+			'orderby' => [
 				'title' => 'threadlist_orderby',
-				'type'=> 'mradio',
-				'value' => array(
-					array('lastpost', 'threadlist_orderby_lastpost'),
-					array('dateline', 'threadlist_orderby_dateline'),
-				),
+				'type' => 'mradio',
+				'value' => [
+					['lastpost', 'threadlist_orderby_lastpost'],
+					['dateline', 'threadlist_orderby_dateline'],
+				],
 				'default' => 'lastpost'
-			),
-			'postdateline' => array(
+			],
+			'postdateline' => [
 				'title' => 'threadlist_postdateline',
-				'type'=> 'mradio',
-				'value' => array(
-					array('0', 'threadlist_postdateline_nolimit'),
-					array('3600', 'threadlist_postdateline_hour'),
-					array('86400', 'threadlist_postdateline_day'),
-					array('604800', 'threadlist_postdateline_week'),
-					array('2592000', 'threadlist_postdateline_month'),
-				),
+				'type' => 'mradio',
+				'value' => [
+					['0', 'threadlist_postdateline_nolimit'],
+					['3600', 'threadlist_postdateline_hour'],
+					['86400', 'threadlist_postdateline_day'],
+					['604800', 'threadlist_postdateline_week'],
+					['2592000', 'threadlist_postdateline_month'],
+				],
 				'default' => '0'
-			),
-			'lastpost' => array(
+			],
+			'lastpost' => [
 				'title' => 'threadlist_lastpost',
-				'type'=> 'mradio',
-				'value' => array(
-					array('0', 'threadlist_lastpost_nolimit'),
-					array('3600', 'threadlist_lastpost_hour'),
-					array('86400', 'threadlist_lastpost_day'),
-					array('604800', 'threadlist_lastpost_week'),
-					array('2592000', 'threadlist_lastpost_month'),
-				),
+				'type' => 'mradio',
+				'value' => [
+					['0', 'threadlist_lastpost_nolimit'],
+					['3600', 'threadlist_lastpost_hour'],
+					['86400', 'threadlist_lastpost_day'],
+					['604800', 'threadlist_lastpost_week'],
+					['2592000', 'threadlist_lastpost_month'],
+				],
 				'default' => '0'
-			),
-			'titlelength' => array(
+			],
+			'titlelength' => [
 				'title' => 'threadlist_titlelength',
 				'type' => 'text',
 				'default' => 40
-			),
-			'summarylength' => array(
+			],
+			'summarylength' => [
 				'title' => 'threadlist_summarylength',
 				'type' => 'text',
 				'default' => 80
-			),
-			'startrow' => array(
+			],
+			'startrow' => [
 				'title' => 'threadlist_startrow',
 				'type' => 'text',
 				'default' => 0
-			),
-		);
+			],
+		];
 	}
 
 	function name() {
@@ -109,4 +108,3 @@ class block_threadnew extends block_thread {
 	}
 }
 
-?>

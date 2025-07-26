@@ -1,10 +1,9 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: function_portal.php 33047 2013-04-12 08:46:56Z zhangguosheng $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -15,10 +14,10 @@ function category_remake($catid) {
 	global $_G;
 
 	$cat = $_G['cache']['portalcategory'][$catid];
-	if(empty($cat)) return array();
+	if(empty($cat)) return [];
 	require_once libfile('function/portalcp');
 	$categoryperm = getallowcategory($_G['uid']);
-	foreach ($_G['cache']['portalcategory'] as $value) {
+	foreach($_G['cache']['portalcategory'] as $value) {
 		if($value['catid'] == $cat['upid']) {
 			$cat['ups'][$value['catid']] = $value;
 			$upid = $value['catid'];
@@ -33,7 +32,7 @@ function category_remake($catid) {
 		} elseif($value['upid'] == $cat['catid']) {
 			$cat['subs'][$value['catid']] = $value;
 		} elseif($value['upid'] == $cat['upid']) {
-			if (!$value['closed'] || $_G['group']['allowdiy'] || $categoryperm[$value['catid']]['allowmanage']) {
+			if(!$value['closed'] || $_G['group']['allowdiy'] || $categoryperm[$value['catid']]['allowmanage']) {
 				$cat['others'][$value['catid']] = $value;
 			}
 		}
@@ -82,16 +81,16 @@ function fetch_topic_url($topic) {
 function portal_get_list($page = 1, $perpage = 15, $wheresql = '') {
 	global $_G;
 	$page = min($page, 1000);
-	$start = ($page-1) * $perpage;
+	$start = ($page - 1) * $perpage;
 	if($start < 0) {
 		$start = 0;
 	}
-	$list = array();
+	$list = [];
 	$pricount = 0;
 	$multi = '';
-	$count = C::t('portal_article_title')->fetch_all_by_sql($wheresql, '', 0, 0, 1, 'at');
+	$count = table_portal_article_title::t()->fetch_all_by_sql($wheresql, '', 0, 0, 1, 'at');
 	if($count) {
-		$query = C::t('portal_article_title')->fetch_all_by_sql($wheresql, 'ORDER BY at.dateline DESC', $start, $perpage, 0, 'at');
+		$query = table_portal_article_title::t()->fetch_all_by_sql($wheresql, 'ORDER BY at.dateline DESC', $start, $perpage, 0, 'at');
 		foreach($query as $value) {
 			$value['catname'] = $_G['cache']['portalcategory'][$value['catid']]['catname'];
 			$value['onerror'] = '';
@@ -107,12 +106,12 @@ function portal_get_list($page = 1, $perpage = 15, $wheresql = '') {
 		}
 		$multi = multi($count, $perpage, $page, 'portal.php', 1000);
 	}
-	return $return = array('list'=>$list, 'count'=>$count, 'multi'=>$multi, 'pricount'=>$pricount);
+	return $return = ['list' => $list, 'count' => $count, 'multi' => $multi, 'pricount' => $pricount];
 }
 
-function article_title_style($value = array()) {
+function article_title_style($value = []) {
 
-	$style = array();
+	$style = [];
 	$highlight = '';
 	if($value['highlight']) {
 		$style = explode('|', $value['highlight']);

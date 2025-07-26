@@ -1,18 +1,17 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: lang_grouptrade.php 27449 2012-02-01 05:32:35Z zhangguosheng $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
-$lang = array
-(
+$lang =
+	[
 	'grouptrade_fids' => '指定圈子',
 	'grouptrade_fids_comment' => '设置允许参与新帖调用的圈子，可以按住 CTRL 多选，全选或全不选均为不做限制',
 	'grouptrade_gtids' => '圈子分类',
@@ -99,6 +98,5 @@ $lang = array
 	'grouptrade_gviewperm_only_member' => '仅成员',
 	'grouptrade_gviewperm_all_member' => '所有人',
 	'grouptrade_highlight' => '获得高亮值',
-);
+	];
 
-?>

@@ -1,10 +1,9 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: task_email.php 6752 2010-03-25 08:47:54Z cnteacher $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -20,15 +19,15 @@ class task_email {
 	var $icon = '';
 	var $period = '';
 	var $periodtype = 0;
-	var $conditions = array();
+	var $conditions = [];
 
-	function csc($task = array()) {
+	function csc($task = []) {
 		global $_G;
 
 		if($_G['member']['emailstatus']) {
 			return true;
 		}
-		return array('csc' => 0, 'remaintime' => 0);
+		return ['csc' => 0, 'remaintime' => 0];
 	}
 
 	function view() {
@@ -37,4 +36,3 @@ class task_email {
 
 }
 
-?>

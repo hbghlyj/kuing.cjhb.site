@@ -1,4 +1,3 @@
-
 <?php
 
 
@@ -8,6 +7,14 @@ if(!defined('IN_DISCUZ')) {
 
 class table_forum_hotreply_member extends discuz_table {
 
+	public static function t() {
+		static $_instance;
+		if(!isset($_instance)) {
+			$_instance = new self();
+		}
+		return $_instance;
+	}
+
 	public function __construct() {
 		$this->_table = 'forum_hotreply_member';
 		$this->_pk = '';
@@ -16,7 +23,7 @@ class table_forum_hotreply_member extends discuz_table {
 	}
 
 	public function fetch($id, $force_from_db = false) {
-		if (defined('DISCUZ_DEPRECATED')) {
+		if(defined('DISCUZ_DEPRECATED')) {
 			throw new Exception('NotImplementedException');
 			return parent::fetch($id, $force_from_db);
 		} else {
@@ -25,25 +32,21 @@ class table_forum_hotreply_member extends discuz_table {
 	}
 
 	public function fetch_member($pid, $uid) {
-		return DB::fetch_first('SELECT * FROM %t WHERE pid=%d AND uid=%d', array($this->_table, $pid, $uid));
+		return DB::fetch_first('SELECT * FROM %t WHERE pid=%d AND uid=%d', [$this->_table, $pid, $uid]);
 	}
 
 	public function delete_by_tid($tid) {
 		if(empty($tid)) {
 			return false;
 		}
-		return DB::query('DELETE FROM %t WHERE tid IN (%n)', array($this->_table, $tid));
+		return DB::query('DELETE FROM %t WHERE tid IN (%n)', [$this->_table, $tid]);
 	}
 
 	public function delete_by_pid($pids) {
 		if(empty($pids)) {
 			return false;
 		}
-		return DB::query('DELETE FROM %t WHERE '.DB::field('pid', $pids), array($this->_table));
-	}
-
-	public function delete_by_uid_pid($uid, $pid) {
-		return DB::query('DELETE FROM %t WHERE uid=%d AND pid=%d', array($this->_table, $uid, $pid));
+		return DB::query('DELETE FROM %t WHERE '.DB::field('pid', $pids), [$this->_table]);
 	}
 }
-?>
+

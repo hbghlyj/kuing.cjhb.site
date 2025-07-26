@@ -1,21 +1,22 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: index.php 22348 2011-05-04 01:16:02Z monkey $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 error_reporting(E_ERROR | E_WARNING | E_PARSE);
 @set_time_limit(1000);
 
-define('IN_DISCUZ', TRUE);
-define('IN_COMSENZ', TRUE);
+define('IN_DISCUZ', true);
+define('IN_COMSENZ', true);
 define('ROOT_PATH', dirname(__DIR__).'/');
 define('INST_LOG_PATH', realpath(ROOT_PATH.'data/log/').'/install.log');
+define('DISCUZ_DATA', ROOT_PATH.'./data');
 
 require ROOT_PATH.'./source/discuz_version.php';
+require ROOT_PATH.'./source/mitframe_version.php';
 require ROOT_PATH.'./install/include/install_var.php';
 require ROOT_PATH.'./install/include/install_mysqli.php';
 require ROOT_PATH.'./install/include/install_function.php';
@@ -23,9 +24,9 @@ require ROOT_PATH.'./install/include/install_lang.php';
 
 $view_off = getgpc('view_off');
 
-define('VIEW_OFF', $view_off ? TRUE : FALSE);
+define('VIEW_OFF', $view_off ? true : false);
 
-$allow_method = array('show_license', 'env_check', 'app_reg', 'db_init', 'ext_info', 'install_check', 'tablepre_check', 'do_db_init', 'do_db_data_init', 'do_db_innodb', 'check_db_init_progress');
+$allow_method = ['show_license', 'env_check', 'app_reg', 'db_init', 'ext_info', 'install_check', 'tablepre_check', 'do_db_init', 'do_db_data_init', 'check_db_init_progress', 'upgrade_confirm', 'upgrade', 'do_db_upgrade'];
 
 $step = intval(getgpc('step', 'R')) ? intval(getgpc('step', 'R')) : 0;
 $method = getgpc('method');
@@ -50,7 +51,7 @@ timezone_set();
 
 $uchidden = getgpc('uchidden');
 
-if(in_array($method, array('app_reg', 'ext_info'))) {
+if(in_array($method, ['app_reg', 'ext_info'])) {
 	$isHTTPS = is_https();
 	$PHP_SELF = $_SERVER['PHP_SELF'] ? $_SERVER['PHP_SELF'] : $_SERVER['SCRIPT_NAME'];
 	// $bbserver使用的端口，不能来自于SERVER_PORT，因为dz的服务器端口不一定是用户访问的端口(比如在负载均衡后面)
@@ -69,7 +70,12 @@ if(isset($_COOKIE['ULTRAXINSTID']) && strpos($_COOKIE['ULTRAXINSTID'], 'ULTRAXIN
 if($method == 'show_license') {
 
 	transfer_ucinfo($_POST);
-	show_license();
+	$uchidden = getgpc('uchidden');
+	if(empty($_GET['start'])) {
+		show_version_notice();
+	} else {
+		show_license();
+	}
 
 } elseif($method == 'env_check') {
 
@@ -88,12 +94,16 @@ if($method == 'show_license') {
 	if(!defined('UC_API')) {
 		define('UC_API', '');
 	}
+	if(getgpc('install_ucenter') == 'upgrade') {
+		header("Location: index.php?step=10&install_ucenter=".getgpc('install_ucenter'));
+		die;
+	}
 	if(getgpc('install_ucenter') == 'yes' || getgpc('install_ucenter') == 'standalone') {
 		header("Location: index.php?step=3&install_ucenter=".getgpc('install_ucenter'));
 		die;
 	}
 	$submit = true;
-	$error_msg = array();
+	$error_msg = [];
 	if(isset($form_app_reg_items) && is_array($form_app_reg_items)) {
 		foreach($form_app_reg_items as $key => $items) {
 			$$key = getgpc($key, 'p');
@@ -117,7 +127,7 @@ if($method == 'show_license') {
 		$submit = false;
 	}
 
- 	$ucapi = defined('UC_API') && UC_API ? UC_API : $default_ucapi;
+	$ucapi = defined('UC_API') && UC_API ? UC_API : $default_ucapi;
 
 	if($submit) {
 
@@ -130,11 +140,11 @@ if($method == 'show_license') {
 		$ucip = isset($ucip) ? $ucip : '';
 		$ucfounderpw = $ucpw;
 		$app_tagtemplates = 'apptagtemplates[template]='.urlencode('<a href="{url}" target="_blank">{subject}</a>').'&'.
-		'apptagtemplates[fields][subject]='.urlencode($lang['tagtemplates_subject']).'&'.
-		'apptagtemplates[fields][uid]='.urlencode($lang['tagtemplates_uid']).'&'.
-		'apptagtemplates[fields][username]='.urlencode($lang['tagtemplates_username']).'&'.
-		'apptagtemplates[fields][dateline]='.urlencode($lang['tagtemplates_dateline']).'&'.
-		'apptagtemplates[fields][url]='.urlencode($lang['tagtemplates_url']);
+			'apptagtemplates[fields][subject]='.urlencode($lang['tagtemplates_subject']).'&'.
+			'apptagtemplates[fields][uid]='.urlencode($lang['tagtemplates_uid']).'&'.
+			'apptagtemplates[fields][username]='.urlencode($lang['tagtemplates_username']).'&'.
+			'apptagtemplates[fields][dateline]='.urlencode($lang['tagtemplates_dateline']).'&'.
+			'apptagtemplates[fields][url]='.urlencode($lang['tagtemplates_url']);
 
 		$ucapi = preg_replace("/\/$/", '', trim($ucapi));
 		if(empty($ucapi) || !preg_match("/^(https?:\/\/)/i", $ucapi)) {
@@ -148,10 +158,10 @@ if($method == 'show_license') {
 				}
 			}
 		}
-		include_once ROOT_PATH.'./uc_client/client.php';
+		include_once ROOT_PATH.'./source/class/uc/client.php';
 
 		$ucinfo = dfopen($ucapi.'/index.php?m=app&a=ucinfo&release='.UC_CLIENT_RELEASE, 500, '', '', 1, $ucip);
-		list($status, $ucversion, $ucrelease, $uccharset, $ucdbcharset, $apptypes) = explode('|', $ucinfo);
+		[$status, $ucversion, $ucrelease, $uccharset, $ucdbcharset, $apptypes] = explode('|', $ucinfo);
 		if($status != 'UC_STATUS_OK') {
 			show_msg('uc_url_unreachable', $ucapi, 0);
 		} else {
@@ -170,7 +180,7 @@ if($method == 'show_license') {
 			} elseif($ucconfig == '-1') {
 				show_msg('uc_admin_invalid', '', 0);
 			} else {
-				list($appauthkey, $appid) = explode('|', $ucconfig);
+				[$appauthkey, $appid] = explode('|', $ucconfig);
 				$ucconfig_array = explode('|', $ucconfig);
 				$ucconfig_array[] = $ucapi;
 				$ucconfig_array[] = $ucip;
@@ -214,7 +224,7 @@ if($method == 'show_license') {
 
 	$submit = true;
 
-	$default_config = $_config = array();
+	$default_config = $_config = [];
 	$default_configfile = './config/config_global_default.php';
 
 	if(!file_exists(ROOT_PATH.$default_configfile)) {
@@ -238,7 +248,11 @@ if($method == 'show_license') {
 
 	$adminemail = 'admin@admin.com';
 
-	$error_msg = array();
+	if($method == 'up_init') {
+		unset($form_db_init_items['admininfo']);
+	}
+
+	$error_msg = [];
 	if(isset($form_db_init_items) && is_array($form_db_init_items)) {
 		foreach($form_db_init_items as $key => $items) {
 			$$key = getgpc($key, 'p');
@@ -261,8 +275,7 @@ if($method == 'show_license') {
 	} else {
 		$submit = false;
 	}
-	// 以MyISAM方式安装，再转换为InnoDB
-	$myisam2innodb = isset($_POST['dbinfo']['myisam2innodb']) ? $_POST['dbinfo']['myisam2innodb'] : '';
+
 	if($submit && !VIEW_OFF && $_SERVER['REQUEST_METHOD'] == 'POST') {
 		if($password != $password2) {
 			$error_msg['admininfo']['password2'] = 1;
@@ -273,10 +286,8 @@ if($method == 'show_license') {
 		if(!empty($dbhost) && empty($forceinstall)) {
 			$dbname_not_exists = check_db($dbhost, $dbuser, $dbpw, $dbname, $tablepre);
 			if(!$dbname_not_exists) {
-				$form_db_init_items['dbinfo']['forceinstall'] = array('type' => 'checkbox', 'required' => 0, 'reg' => '/^.*+/');
+				$form_db_init_items['dbinfo']['forceinstall'] = ['type' => 'checkbox', 'required' => 0, 'reg' => '/^.*+/'];
 				$error_msg['dbinfo']['forceinstall'] = 1;
-				$form_db_init_items['dbinfo']['myisam2innodb'] = array('type' => 'checkbox', 'required' => 0, 'reg' => '/^.*+/');
-				$error_msg['dbinfo']['myisam2innodb'] = $_POST['dbinfo']['myisam2innodb'] = 1;
 				$submit = false;
 				$dbname_not_exists = false;
 			}
@@ -304,7 +315,7 @@ if($method == 'show_license') {
 				}
 			}
 
-			$link->query("CREATE DATABASE IF NOT EXISTS `$dbname` DEFAULT CHARACTER SET " . constant('DBCHARSET'));
+			$link->query("CREATE DATABASE IF NOT EXISTS `$dbname` DEFAULT CHARACTER SET ".constant('DBCHARSET'));
 
 			if($link->errno) {
 				show_msg('database_errno_1044', $link->error, 0);
@@ -333,7 +344,6 @@ if($method == 'show_license') {
 			show_msg('admininfo_invalid', '', 0);
 		}
 
-
 		$uid = DZUCFULL ? 1 : $adminuser['uid'];
 		$authkey = md5((isset($_SERVER['SERVER_ADDR']) ? $_SERVER['SERVER_ADDR'] : '').$_SERVER['HTTP_USER_AGENT'].$dbhost.$dbuser.$dbpw.$dbname.$username.$password.substr(time(), 0, 8)).secrandom(32);
 		$_config['db'][1]['dbhost'] = $dbhost;
@@ -351,10 +361,6 @@ if($method == 'show_license') {
 		if(!VIEW_OFF) {
 			show_header();
 			show_db_install();
-		}
-
-
-		if(!VIEW_OFF) {
 			show_footer();
 		}
 
@@ -372,7 +378,7 @@ if($method == 'show_license') {
 	} else {
 		show_header();
 		echo '</div><div class="main inst_success"><div class="success_icon"></div><h2>'.$lang['install_finish'].'</h2><p>'.$lang['install_finish_next'].'</p>';
-		echo '<a href="'.$default_appurl.'/admin.php?frames=yes&action=styles" class="btn">'.$lang['finish_btn_admin'].'</a>';
+		echo '<a href="'.$default_appurl.'/admin.php" class="btn">'.$lang['finish_btn_admin'].'</a>';
 		echo '<a href="'.$default_appurl.'/admin.php?action=cloudaddons&frame=no&from=newinstall" class="btn">'.$lang['finish_btn_cloudaddon'].'</a>';
 		echo '<a href="'.$default_appurl.'" class="btn finish">'.$lang['finish_btn_direct'].'</a>';
 		show_footer();
@@ -400,7 +406,7 @@ if($method == 'show_license') {
 	extract($allinfo_arr);
 
 	@set_time_limit(0);
-	@ignore_user_abort(TRUE);
+	@ignore_user_abort(true);
 	ini_set('max_execution_time', 0);
 	ini_set('mysql.connect_timeout', 0);
 
@@ -408,26 +414,51 @@ if($method == 'show_license') {
 	$db->connect($dbhost, $dbuser, $dbpw, $dbname, DBCHARSET);
 
 	if($dzucfull) {
-		install_uc_server();
+		install_uc_sql();
 	}
 
 	$sql = file_get_contents($sqlfile);
 	$sql = str_replace("\r\n", "\n", $sql);
-	if($myisam2innodb) {
-		$sql = str_replace('ENGINE=InnoDB', 'ENGINE=MyISAM', $sql);
-	}
-	if (!runquery($sql)) {
+	if(!runquery($sql)) {
 		exit();
 	}
+	$db->query("REPLACE INTO {$tablepre}common_setting (skey, svalue) VALUES ('sitevipkey', '".SITEVIP_KEY."')");
 
-	!VIEW_OFF && showjsmessage(lang('initdbresult_succ') . "\n");
+	!VIEW_OFF && showjsmessage(lang('initdbresult_succ')."\n");
+} elseif($method == 'do_db_upgrade') {
+	include ROOT_PATH.CONFIG;
+	$_config['memory']['redis']['server'] = '';
+	save_config_file(ROOT_PATH.CONFIG, $_config, []);
+
+	$allinfo = getgpc('allinfo');
+	$allinfo_arr = unserialize(base64_decode($allinfo));
+	extract($allinfo_arr);
+
+	@set_time_limit(0);
+	@ignore_user_abort(true);
+	ini_set('max_execution_time', 0);
+	ini_set('mysql.connect_timeout', 0);
+
+	$db = new dbstuff;
+	$db->connect($dbhost, $dbuser, $dbpw, $dbname, DBCHARSET);
+
+	$sql = file_get_contents($upgrade_sqlfile);
+	$sql = str_replace("\r\n", "\n", $sql);
+	if(!runquery($sql, true)) {
+		exit();
+	}
+	$db->query("REPLACE INTO {$tablepre}common_setting (skey, svalue) VALUES ('sitevipkey', '".SITEVIP_KEY."')");
+
+	$db->query("TRUNCATE TABLE {$tablepre}common_syscache");
+
+	!VIEW_OFF && showjsmessage(lang('initdbdataresult_succ')."\n");
 } elseif($method == 'do_db_data_init') {
 	$allinfo = getgpc('allinfo');
 	$allinfo_arr = unserialize(base64_decode($allinfo));
 	extract($allinfo_arr);
 
 	@set_time_limit(0);
-	@ignore_user_abort(TRUE);
+	@ignore_user_abort(true);
 	ini_set('max_execution_time', 0);
 	ini_set('mysql.connect_timeout', 0);
 
@@ -435,11 +466,11 @@ if($method == 'show_license') {
 	$db->connect($dbhost, $dbuser, $dbpw, $dbname, DBCHARSET);
 
 	$sql = file_get_contents(ROOT_PATH.'./install/data/install_data.sql');
-	if (file_exists(ROOT_PATH.'./install/data/install_data_appendage.sql')) {
+	if(file_exists(ROOT_PATH.'./install/data/install_data_appendage.sql')) {
 		$sql .= "\n".file_get_contents(ROOT_PATH.'./install/data/install_data_appendage.sql');
 	}
 	$sql = str_replace("\r\n", "\n", $sql);
-	if (!runquery($sql)) {
+	if(!runquery($sql)) {
 		exit();
 	}
 
@@ -457,7 +488,7 @@ if($method == 'show_license') {
 		$db->query("REPLACE INTO {$tablepre}common_setting (skey, svalue) VALUES ('backupdir', '$backupdir')");
 	}
 	$chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz';
-	$siteuniqueid = 'DX'.$chars[date('y')%60].$chars[date('n')].$chars[date('j')].$chars[date('G')].$chars[date('i')].$chars[date('s')].substr(md5($onlineip.$timestamp), 0, 4).random(4);
+	$siteuniqueid = 'DX'.$chars[date('y') % 60].$chars[date('n')].$chars[date('j')].$chars[date('G')].$chars[date('i')].$chars[date('s')].substr(md5($onlineip.$timestamp), 0, 4).random(4);
 
 	$db->query("REPLACE INTO {$tablepre}common_setting (skey, svalue) VALUES ('authkey', '')");
 	$db->query("REPLACE INTO {$tablepre}common_setting (skey, svalue) VALUES ('siteuniqueid', '$siteuniqueid')");
@@ -469,7 +500,7 @@ if($method == 'show_license') {
 
 	$password = md5(random(10));
 
-	$db->query("REPLACE INTO {$tablepre}common_member (uid, username, password, adminid, groupid, email, regdate, timeoffset) VALUES ('$uid', '$username', '$password', '1', '1', '$email', '".time()."', '9999');");
+	$db->query("REPLACE INTO {$tablepre}common_member (uid, loginname, username, password, adminid, groupid, email, regdate, timeoffset) VALUES ('$uid', '$username', '$username', '$password', '1', '1', '$email', '".time()."', '9999');");
 
 	// UID 是变量, 不做适配会导致积分操作等异常
 	if($uid) {
@@ -510,8 +541,6 @@ if($method == 'show_license') {
 	dir_clear(ROOT_PATH.'./data/template');
 	dir_clear(ROOT_PATH.'./data/cache');
 	dir_clear(ROOT_PATH.'./data/threadcache');
-	dir_clear(ROOT_PATH.'./uc_client/data');
-	dir_clear(ROOT_PATH.'./uc_client/data/cache');
 
 	foreach($serialize_sql_setting as $k => $v) {
 		$v = addslashes(serialize($v));
@@ -520,7 +549,7 @@ if($method == 'show_license') {
 
 	$query = $db->query("SELECT COUNT(*) FROM {$tablepre}common_member");
 	$totalmembers = $db->result($query, 0);
-	$userstats = array('totalmembers' => $totalmembers, 'newsetuser' => $username);
+	$userstats = ['totalmembers' => $totalmembers, 'newsetuser' => $username];
 	$ctype = 1;
 	$data = addslashes(serialize($userstats));
 	$db->query("REPLACE INTO {$tablepre}common_syscache (cname, ctype, dateline, data) VALUES ('userstats', '$ctype', '".time()."', '$data')");
@@ -529,42 +558,16 @@ if($method == 'show_license') {
 		@unlink(ROOT_PATH.'./install/data/install_data_appendage.sql');
 	}
 
-	//自动登录前台和后台
+	//自动登录前台
 	$saltkey = random(8);
 	$authkey = md5($_config['security']['authkey'].$saltkey);
 	$cookiepre = $_config['cookie']['cookiepre'].substr(md5($_config['cookie']['cookiepath'].'|'.$_config['cookie']['cookiedomain']), 0, 4).'_';
 	setcookie($cookiepre.'saltkey', $saltkey, time() + 84600, $_config['cookie']['cookiepath'], $_config['cookie']['cookiedomain'], is_https(), true);
 	setcookie($cookiepre.'auth', authcode("{$password}\t{$uid}", 'ENCODE', $authkey), time() + 84600, $_config['cookie']['cookiepath'], $_config['cookie']['cookiedomain'], is_https(), true);
+	setcookie($cookiepre.'adminauth', authcode("{$password}\t{$uid}", 'ENCODE', $authkey), 0, $_config['cookie']['cookiepath'], $_config['cookie']['cookiedomain'], is_https(), true);
 	$db->query("insert into {$tablepre}common_admincp_session SET uid='$uid', adminid=1, panel=1, dateline='$timestamp', ip='".addslashes($_SERVER['REMOTE_ADDR'])."', errorcount='-1'");
 
-	!VIEW_OFF && showjsmessage(lang('initdbdataresult_succ') . "\n");
-} elseif($method == 'do_db_innodb') {
-	$allinfo = getgpc('allinfo');
-	$allinfo_arr = unserialize(base64_decode($allinfo));
-	extract($allinfo_arr);
-
-	if($myisam2innodb) {
-		@set_time_limit(0);
-		@ignore_user_abort(TRUE);
-		ini_set('max_execution_time', 0);
-		ini_set('mysql.connect_timeout', 0);
-
-		$db = new dbstuff;
-		$db->connect($dbhost, $dbuser, $dbpw, $dbname, DBCHARSET);
-
-		$db_result = array();
-		$db->fetch_all('SHOW TABLE STATUS WHERE `Name` LIKE \''.$tablepre.'%\';', $db_result);
-		$i = intval($_GET['i']);
-		if (isset($db_result[$i])) {
-			$tb = $db_result[$i];
-			if($tb['Engine'] == 'MyISAM') {
-				showjsmessage($lang['innodb'] . ' ' . $tb['Name'] . "\n");
-				$db->query("ALTER TABLE {$tb['Name']} ENGINE=InnoDB;");
-			}
-			exit($tb['Name']);
-		}
-		!VIEW_OFF && showjsmessage(lang('initdbinnodbresult_succ') . "\n");
-	}
+	!VIEW_OFF && showjsmessage(lang('initdbdataresult_succ')."\n");
 } elseif($method == 'check_db_init_progress') {
 	@set_time_limit(5);
 	send_mime_type_header("text/plain");
@@ -572,4 +575,61 @@ if($method == 'show_license') {
 	read_install_log_file();
 	ob_end_flush();
 	exit();
+} elseif($method == 'upgrade_confirm') {
+	show_header();
+	echo '<div class="box">';
+	show_tips('upgrade_confirm');
+	echo '</div>';
+	show_setting('start');
+	show_setting('hidden', 'step', 11);
+	echo '<div class="btnbox">';
+	show_setting('', 'submitname', 'new_step', 'submit|oldbtn');
+	echo '</div>';
+	show_setting('end');
+	show_footer();
+} elseif($method == 'upgrade') {
+	define('DZUCFULL', true);
+	define('DZUCSTL', true);
+
+	if(!file_exists(ROOT_PATH.CONFIG)) {
+		show_msg('config_nonexistence', '', 0);
+	}
+	include ROOT_PATH.CONFIG;
+
+	$dbhost = $_config['db'][1]['dbhost'];
+	$dbname = $_config['db'][1]['dbname'];
+	$dbpw = $_config['db'][1]['dbpw'];
+	$dbuser = $_config['db'][1]['dbuser'];
+	$tablepre = $_config['db'][1]['tablepre'];
+
+	if(empty($dbname)) {
+		show_msg('dbname_invalid', $dbname, 0);
+	} else {
+		mysqli_report(MYSQLI_REPORT_OFF);
+
+		$link = new mysqli($dbhost, $dbuser, $dbpw);
+		if($link->connect_errno) {
+			$errno = $link->connect_errno;
+			$error = $link->connect_error;
+			if($errno == 1045) {
+				show_msg('database_errno_1045', $error, 0);
+			} elseif($errno == 2003) {
+				show_msg('database_errno_2003', $error, 0);
+			} else {
+				show_msg('database_connect_error', $error, 0);
+			}
+		}
+
+		if($link->errno) {
+			show_msg('database_errno_1044', $link->error, 0);
+		}
+
+		$link->close();
+	}
+
+	if(!VIEW_OFF) {
+		show_header();
+		show_db_install(true);
+		show_footer();
+	}
 }

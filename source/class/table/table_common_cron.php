@@ -1,22 +1,28 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: table_common_cron.php 30314 2012-05-22 03:12:44Z monkey $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
-class table_common_cron extends discuz_table
-{
+class table_common_cron extends discuz_table {
+	public static function t() {
+		static $_instance;
+		if(!isset($_instance)) {
+			$_instance = new self();
+		}
+		return $_instance;
+	}
+
 	public function __construct() {
 
 		$this->_table = 'common_cron';
-		$this->_pk    = 'cronid';
+		$this->_pk = 'cronid';
 
 		parent::__construct();
 	}
@@ -37,4 +43,3 @@ class table_common_cron extends discuz_table
 
 }
 
-?>

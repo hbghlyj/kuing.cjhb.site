@@ -1,10 +1,9 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: block_search.php 23608 2011-07-27 08:10:07Z cnteacher $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -15,7 +14,8 @@ require_once libfile('commonblock_html', 'class/block/html');
 
 class block_search extends commonblock_html {
 
-	function __construct() {}
+	function __construct() {
+	}
 
 	function name() {
 		return lang('blockclass', 'blockclass_html_script_search');
@@ -23,14 +23,14 @@ class block_search extends commonblock_html {
 
 	function getsetting() {
 		global $_G;
-		$settings = array();
+		$settings = [];
 		return $settings;
 	}
 
 	function getdata($style, $parameter) {
 		global $_G;
 		$lang = lang('template');
-		$slist = array();
+		$slist = [];
 		$checked = ' class="curtype"';
 		if($_G['setting']['search']) {
 			if($_G['setting']['search']['portal']['status']) {
@@ -41,15 +41,15 @@ class block_search extends commonblock_html {
 				$slist['forum'] = '<li><a href="javascript:;" rel="forum"'.$checked.'>'.$lang['thread'].'</a></li>';
 				$checked = '';
 			}
-			if ($_G['setting']['search']['blog']['status']) {
+			if($_G['setting']['search']['blog']['status']) {
 				$slist['blog'] = '<li><a href="javascript:;" rel="blog"'.$checked.'>'.$lang['blog'].'</a></li>';
 				$checked = '';
 			}
-			if ($_G['setting']['search']['album']['status']) {
+			if($_G['setting']['search']['album']['status']) {
 				$slist['album'] = '<li><a href="javascript:;" rel="album"'.$checked.'>'.$lang['album'].'</a></li>';
 				$checked = '';
 			}
-			if ($_G['setting']['groupstatus'] && $_G['setting']['search']['group']['status']) {
+			if($_G['setting']['groupstatus'] && $_G['setting']['search']['group']['status']) {
 				$slist['group'] = '<li><a href="javascript:;" rel="group"'.$checked.'>'.$_G['setting']['navs'][3]['navname'].'</a></li>';
 				$checked = '';
 			}
@@ -58,7 +58,7 @@ class block_search extends commonblock_html {
 		if($slist) {
 			$slist = implode('', $slist);
 			$hotsearch = '';
-			if ($_G['setting']['srchhotkeywords']) {
+			if($_G['setting']['srchhotkeywords']) {
 				$hotsearch = '<strong class="xw1 xi1">'.$lang['hot_search'].': </strong>';
 				foreach($_G['setting']['srchhotkeywords'] as $val) {
 					$val = trim($val);
@@ -92,8 +92,7 @@ class block_search extends commonblock_html {
 				<script type="text/javascript">initSearchmenu('scbar');</script>
 EOT;
 		}
-		return array('html' => $html, 'data' => null);
+		return ['html' => $html, 'data' => null];
 	}
 }
 
-?>

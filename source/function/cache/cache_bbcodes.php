@@ -1,10 +1,9 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: cache_bbcodes.php 24610 2011-09-28 03:02:49Z zhengqingpeng $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -12,15 +11,15 @@ if(!defined('IN_DISCUZ')) {
 }
 
 function build_cache_bbcodes() {
-	$data = array();
+	$data = [];
 
-	$regexp = array	(
-		1 => "/\[{bbtag}\](.*?)\[\/{bbtag}\]/is",
+	$regexp = [
+		1 => '/\[{bbtag}\](.*?)\[\/{bbtag}\]/is',
 		2 => "/\[{bbtag}=(['\"]?)(.+?)(['\"]?)\](.*?)\[\/{bbtag}\]/is",
 		3 => "/\[{bbtag}=(['\"]?)(.+?)(['\"]?),(['\"]?)(.+?)(['\"]?)\](.*?)\[\/{bbtag}\]/is"
-	);
+	];
 
-	foreach(C::t('forum_bbcode')->fetch_all_by_available_icon(0, false, '>') as $bbcode) {
+	foreach(table_forum_bbcode::t()->fetch_all_by_available_icon(0, false, '>') as $bbcode) {
 		$bbcode['perm'] = explode("\t", $bbcode['perm']);
 		if(in_array('', $bbcode['perm']) || !$bbcode['perm']) {
 			continue;
@@ -41,7 +40,7 @@ function build_cache_bbcodes() {
 				$bbcode['replacement'] = str_replace('{1}', '\\1', $bbcode['replacement']);
 				break;
 		}
-		if(preg_match("/\{(RANDOM|MD5)\}/", $bbcode['replacement'])) {
+		if(preg_match('/\{(RANDOM|MD5)\}/', $bbcode['replacement'])) {
 			$replace = str_replace('{RANDOM}', '', str_replace('{MD5}', '', $bbcode['replacement']));
 		} else {
 			$replace = $bbcode['replacement'];
@@ -58,4 +57,3 @@ function build_cache_bbcodes() {
 	savecache('bbcodes', $data);
 }
 
-?>

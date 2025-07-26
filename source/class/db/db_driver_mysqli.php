@@ -1,30 +1,28 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: db_driver_mysqli.php 36278 2016-12-09 07:52:35Z nemohou $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
-class db_driver_mysqli
-{
+class db_driver_mysqli {
 	var $tablepre;
 	var $version = '';
 	var $drivertype = 'mysqli';
 	var $querynum = 0;
 	var $slaveid = 0;
 	var $curlink;
-	var $link = array();
-	var $config = array();
-	var $sqldebug = array();
-	var $map = array();
+	var $link = [];
+	var $config = [];
+	var $sqldebug = [];
+	var $map = [];
 
-	function db_mysql($config = array()) {
+	function db_mysql($config = []) {
 		if(!empty($config)) {
 			$this->set_config($config);
 		}
@@ -43,7 +41,7 @@ class db_driver_mysqli
 					$this->map['forum_post_'.$i] = $this->map['forum_post'];
 				}
 				if(isset($this->map['forum_attachment']) && $i <= 10) {
-					$this->map['forum_attachment_'.($i-1)] = $this->map['forum_attachment'];
+					$this->map['forum_attachment_'.($i - 1)] = $this->map['forum_attachment'];
 				}
 			}
 			if(isset($this->map['common_member'])) {
@@ -72,14 +70,14 @@ class db_driver_mysqli
 			$this->config[$serverid]['dbcharset'],
 			$this->config[$serverid]['dbname'],
 			$this->config[$serverid]['pconnect']
-			);
+		);
 		$this->curlink = $this->link[$serverid];
 
 	}
 
 	function _dbconnect($dbhost, $dbuser, $dbpw, $dbcharset, $dbname, $pconnect, $halt = true) {
 		mysqli_report(MYSQLI_REPORT_OFF);
-		if (intval($pconnect) === 1) $dbhost = 'p:' . $dbhost; // 前面加p:，表示persistent connection
+		if(intval($pconnect) === 1) $dbhost = 'p:'.$dbhost; // 前面加p:，表示persistent connection
 		$link = new mysqli();
 		if(!$link->real_connect($dbhost, $dbuser, $dbpw, $dbname, null, null, MYSQLI_CLIENT_COMPRESS)) {
 			$halt && $this->halt('notconnect', $this->errno());
@@ -139,7 +137,7 @@ class db_driver_mysqli
 		$resultmode = $unbuffered ? MYSQLI_USE_RESULT : MYSQLI_STORE_RESULT;
 
 		if(!($query = $this->curlink->query($sql, $resultmode))) {
-			if(in_array($this->errno(), array(2006, 2013)) && substr($silent, 0, 5) != 'RETRY') {
+			if(in_array($this->errno(), [2006, 2013]) && !str_starts_with($silent, 'RETRY')) {
 				$this->connect();
 				return $this->query($sql, 'RETRY'.$silent);
 			}
@@ -149,7 +147,7 @@ class db_driver_mysqli
 		}
 
 		if(defined('DISCUZ_DEBUG') && DISCUZ_DEBUG) {
-			$this->sqldebug[] = array($sql, number_format((microtime(true) - $starttime), 6), debug_backtrace(), $this->curlink);
+			$this->sqldebug[] = [$sql, number_format((microtime(true) - $starttime), 6), debug_backtrace(), $this->curlink];
 		}
 
 		$this->querynum++;
@@ -191,7 +189,7 @@ class db_driver_mysqli
 	}
 
 	function insert_id() {
-		return ($id = $this->curlink->insert_id) >= 0 ? $id : $this->result($this->query("SELECT last_insert_id()"), 0);
+		return ($id = $this->curlink->insert_id) >= 0 ? $id : $this->result($this->query('SELECT last_insert_id()'), 0);
 	}
 
 	function fetch_row($query) {
@@ -223,23 +221,16 @@ class db_driver_mysqli
 	}
 
 	function begin_transaction() {
-		if (PHP_VERSION < '5.5') {
-			return $this->curlink->autocommit(false);
-		}
 		return $this->curlink->begin_transaction();
 	}
 
 	function commit() {
-		$cr = $this->curlink->commit();
-		if (PHP_VERSION < '5.5') {
-			$this->curlink->autocommit(true);
-		}
-		return $cr;
+		return $this->curlink->commit();
 	}
 
 	function rollback() {
 		$rr = $this->curlink->rollback();
-		if (PHP_VERSION < '5.5') {
+		if(PHP_VERSION < '5.5') {
 			$this->curlink->autocommit(true);
 		}
 		return $rr;
@@ -247,4 +238,3 @@ class db_driver_mysqli
 
 }
 
-?>

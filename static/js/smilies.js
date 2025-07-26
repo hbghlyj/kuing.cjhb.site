@@ -1,9 +1,8 @@
-/*
-	[Discuz!] (C)2001-2099 Comsenz Inc.
-	This is NOT a freeware, use is subject to license terms
-
-	$Id: smilies.js 29684 2012-04-25 04:00:58Z zhangguosheng $
-*/
+/**
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
+ */
 
 function _smilies_show(id, smcols, seditorkey) {
 	if(seditorkey && !$(seditorkey + 'sml_menu')) {
@@ -21,7 +20,7 @@ function _smilies_show(id, smcols, seditorkey) {
 		var scriptNode = document.createElement("script");
 		scriptNode.type = "text/javascript";
 		scriptNode.charset = charset ? charset : (BROWSER.firefox ? document.characterSet : document.charset);
-		scriptNode.src = 'data/cache/common_smilies_var.js?' + VERHASH;
+		scriptNode.src = JSPATH + 'common_smilies_var.js?' + VERHASH;
 		$('append_parent').appendChild(scriptNode);
 		if(BROWSER.ie) {
 			scriptNode.onreadystatechange = function() {
@@ -103,8 +102,8 @@ function smilies_switch(id, smcols, type, page, seditorkey) {
 	if(smilies_array[type].length > 2) {
 		prevpage = ((prevpage = parseInt(page) - 1) < 1) ? smilies_array[type].length - 1 : prevpage;
 		nextpage = ((nextpage = parseInt(page) + 1) == smilies_array[type].length) ? 1 : nextpage;
-               smiliespage = '<div class="z"><a href="javascript:;" onclick="smilies_switch(\'' + id + '\', \'' + smcols + '\', ' + type + ', ' + prevpage + ', \'' + seditorkey + '\');doane(event);">'+lng['page_prev']+'</a>' +
-                       '<a href="javascript:;" onclick="smilies_switch(\'' + id + '\', \'' + smcols + '\', ' + type + ', ' + nextpage + ', \'' + seditorkey + '\');doane(event);">'+lng['page_next']+'</a></div>' +
+		smiliespage = '<div class="z"><a href="javascript:;" onclick="smilies_switch(\'' + id + '\', \'' + smcols + '\', ' + type + ', ' + prevpage + ', \'' + seditorkey + '\');doane(event);">' + $L('prev_page_s') + '</a>' +
+			'<a href="javascript:;" onclick="smilies_switch(\'' + id + '\', \'' + smcols + '\', ' + type + ', ' + nextpage + ', \'' + seditorkey + '\');doane(event);">' + $L('next_page_s') + '</a></div>' +
 			page + '/' + (smilies_array[type].length - 1);
 	}
 	$(id + '_data').innerHTML = smiliesdata;

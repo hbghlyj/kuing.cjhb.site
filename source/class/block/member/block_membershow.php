@@ -1,10 +1,9 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: block_membershow.php 25525 2011-11-14 04:39:11Z zhangguosheng $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -15,13 +14,13 @@ require_once libfile('block_member', 'class/block/member');
 
 class block_membershow extends block_member {
 	function __construct() {
-		$this->setting = array(
-			'startrow' => array(
+		$this->setting = [
+			'startrow' => [
 				'title' => 'memberlist_startrow',
 				'type' => 'text',
 				'default' => 0
-			),
-		);
+			],
+		];
 	}
 
 	function cookparameter($parameter) {
@@ -34,4 +33,3 @@ class block_membershow extends block_member {
 	}
 }
 
-?>

@@ -1,10 +1,9 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: cache_fields_optional.php 24935 2011-10-17 07:41:48Z zhangguosheng $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -12,10 +11,10 @@ if(!defined('IN_DISCUZ')) {
 }
 
 function build_cache_fields_optional() {
-	$data = array();
+	$data = [];
 
-	foreach(C::t('common_member_profile_setting')->fetch_all_by_available_required(1, 0) as $field) {
-		$choices = array();
+	foreach(table_common_member_profile_setting::t()->fetch_all_by_available_required(1, 0) as $field) {
+		$choices = [];
 		if($field['selective']) {
 			foreach(explode("\n", $field['choices']) as $item) {
 				list($index, $choice) = explode('=', $item);
@@ -31,4 +30,3 @@ function build_cache_fields_optional() {
 	savecache('fields_optional', $data);
 }
 
-?>

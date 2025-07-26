@@ -1,10 +1,9 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: function_credit.php 36284 2016-12-12 00:47:50Z nemohou $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -15,30 +14,31 @@ function _checklowerlimit($action, $uid = 0, $coef = 1, $fid = 0, $returnonly = 
 	global $_G;
 
 	include_once libfile('class/credit');
-	$credit = & credit::instance();
+	$credit = &credit::instance();
 	$limit = $credit->lowerlimit($action, $uid, $coef, $fid);
 	if($returnonly) return $limit;
 	if($limit !== true) {
 		$GLOBALS['id'] = $limit;
 		$lowerlimit = is_array($action) && $action['extcredits'.$limit] ? abs($action['extcredits'.$limit]) + $_G['setting']['creditspolicy']['lowerlimit'][$limit] : $_G['setting']['creditspolicy']['lowerlimit'][$limit];
-		$rulecredit = array();
+		$rulecredit = [];
 		if(!is_array($action)) {
-			$rule = $credit->getrule($action, $fid);
+			$groupid = $uid == $_G['uid'] ? $_G['groupid'] : table_common_member::t()->fetch($uid)['groupid'];
+			$rule = $credit->getrule($action, $fid, $groupid);
 			foreach($_G['setting']['extcredits'] as $extcreditid => $extcredit) {
 				if($rule['extcredits'.$extcreditid]) {
 					$rulecredit[] = $extcredit['title'].($rule['extcredits'.$extcreditid] > 0 ? '+'.$rule['extcredits'.$extcreditid] : $rule['extcredits'.$extcreditid]);
 				}
 			}
 		} else {
-			$rule = array();
+			$rule = [];
 		}
-		$values = array(
+		$values = [
 			'title' => $_G['setting']['extcredits'][$limit]['title'],
 			'lowerlimit' => $lowerlimit,
 			'unit' => $_G['setting']['extcredits'][$limit]['unit'],
 			'ruletext' => $rule['rulename'],
 			'rulecredit' => implode(', ', $rulecredit)
-		);
+		];
 		if(!is_array($action)) {
 			if(!$fid) {
 				showmessage('credits_policy_lowerlimit', '', $values);
@@ -51,7 +51,7 @@ function _checklowerlimit($action, $uid = 0, $coef = 1, $fid = 0, $returnonly = 
 	}
 }
 
-function _updatemembercount($uids, $dataarr = array(), $checkgroup = true, $operation = '', $relatedid = 0, $ruletxt = '', $customtitle = '', $custommemo = '') {
+function _updatemembercount($uids, $dataarr = [], $checkgroup = true, $operation = '', $relatedid = 0, $ruletxt = '', $customtitle = '', $custommemo = '') {
 	if(empty($uids)) return;
 	if(!is_array($dataarr) || empty($dataarr)) return;
 	if($operation && $relatedid || $customtitle) {
@@ -59,7 +59,7 @@ function _updatemembercount($uids, $dataarr = array(), $checkgroup = true, $oper
 	} else {
 		$writelog = false;
 	}
-	$data = $log = array();
+	$data = $log = [];
 	foreach($dataarr as $key => $val) {
 		if(empty($val)) continue;
 		$val = intval($val);
@@ -79,7 +79,7 @@ function _updatemembercount($uids, $dataarr = array(), $checkgroup = true, $oper
 	}
 	if($data) {
 		include_once libfile('class/credit');
-		$credit = & credit::instance();
+		$credit = &credit::instance();
 		$credit->updatemembercount($data, $uids, $checkgroup, $ruletxt);
 	}
 }
@@ -88,12 +88,12 @@ function credit_log($uids, $operation, $relatedid, $data, $customtitle = '', $cu
 	if((!$operation || empty($relatedid)) && !strlen($customtitle) || empty($uids) || empty($data)) {
 		return;
 	}
-	$log = array(
+	$log = [
 		'uid' => $uids,
 		'operation' => $operation,
 		'relatedid' => $relatedid,
 		'dateline' => TIMESTAMP,
-	);
+	];
 	foreach($data as $k => $v) {
 		$log[$k] = $v;
 	}
@@ -101,16 +101,16 @@ function credit_log($uids, $operation, $relatedid, $data, $customtitle = '', $cu
 		foreach($uids as $k => $uid) {
 			$log['uid'] = $uid;
 			$log['relatedid'] = is_array($relatedid) ? $relatedid[$k] : $relatedid;
-			$insertid = C::t('common_credit_log')->insert($log, true);
-			C::t('common_credit_log_field')->insert(array('logid' => $insertid, 'title' => $customtitle, 'text' => $custommemo));
+			$insertid = table_common_credit_log::t()->insert($log, true);
+			table_common_credit_log_field::t()->insert(['logid' => $insertid, 'title' => $customtitle, 'text' => $custommemo]);
 		}
 	} else {
-		$insertid = C::t('common_credit_log')->insert($log, true);
-		C::t('common_credit_log_field')->insert(array('logid' => $insertid, 'title' => $customtitle, 'text' => $custommemo));
+		$insertid = table_common_credit_log::t()->insert($log, true);
+		table_common_credit_log_field::t()->insert(['logid' => $insertid, 'title' => $customtitle, 'text' => $custommemo]);
 	}
 }
 
-function makecreditlog($log, $otherinfo=array()) {
+function makecreditlog($log, $otherinfo = []) {
 	global $_G;
 
 	$log['dateline'] = dgmdate($log['dateline'], 'Y-m-d H:i');
@@ -137,10 +137,10 @@ function makecreditlog($log, $otherinfo=array()) {
 			$log['opinfo'] = '<a href="home.php?mod=medal" target="_blank">'.lang('spacecp', 'buy_medal').'</a>';
 			break;
 		case 'BGC':
-			$log['opinfo'] = lang('spacecp','magic_space_gift');
+			$log['opinfo'] = lang('spacecp', 'magic_space_gift');
 			break;
 		case 'RGC':
-			$log['opinfo'] = lang('spacecp','magic_space_re_gift');
+			$log['opinfo'] = lang('spacecp', 'magic_space_re_gift');
 			break;
 		case 'AGC':
 			$log['opinfo'] = lang('spacecp', 'magic_space_get_gift');
@@ -204,10 +204,8 @@ function makecreditlog($log, $otherinfo=array()) {
 		case 'RKC':
 			$log['opinfo'] = lang('spacecp', 'ranklist_top');
 			break;
-		case 'RPR':
-			$log['opinfo'] = lang('spacecp', 'admincp_op_credit');
-			break;
 		case 'RPZ':
+		case 'RPR':
 			$log['opinfo'] = lang('spacecp', 'admincp_op_credit');
 			break;
 		case 'FCP':
@@ -225,42 +223,42 @@ function makecreditlog($log, $otherinfo=array()) {
 function getotherinfo($aids, $pids, $tids, $taskids, $uids) {
 	global $_G;
 
-	$otherinfo = array('attachs' => array(), 'threads' => array(), 'tasks' => array(), 'users' => array());
+	$otherinfo = ['attachs' => [], 'threads' => [], 'tasks' => [], 'users' => []];
 	if(!empty($aids)) {
-		$attachs = C::t('forum_attachment')->fetch_all($aids);
+		$attachs = table_forum_attachment::t()->fetch_all($aids);
 		foreach($attachs as $value) {
 			$value['tableid'] = intval($value['tableid']);
 			$attachtable[$value['tableid']][] = $value['aid'];
 			$tids[$value['tid']] = $value['tid'];
 		}
 		foreach($attachtable as $id => $value) {
-			$attachs = C::t('forum_attachment_n')->fetch_all($id, $value);
+			$attachs = table_forum_attachment_n::t()->fetch_all($id, $value);
 			foreach($attachs as $value) {
 				$otherinfo['attachs'][$value['aid']] = $value;
 			}
 		}
 	}
 	if(!empty($pids)) {
-		foreach(C::t('forum_post')->fetch_all(0, $pids) as $value) {
+		foreach(table_forum_post::t()->fetch_all(0, $pids) as $value) {
 			$tids[$value['tid']] = $value['tid'];
 			$otherinfo['post'][$value['pid']] = $value['tid'];
 		}
 	}
 	if(!empty($tids)) {
-		foreach(C::t('forum_thread')->fetch_all_by_tid($tids) as $value) {
+		foreach(table_forum_thread::t()->fetch_all_by_tid($tids) as $value) {
 			$otherinfo['threads'][$value['tid']] = $value;
 		}
 	}
 	if(!empty($taskids)) {
-		foreach(C::t('common_task')->fetch_all($taskids) as $value) {
+		foreach(table_common_task::t()->fetch_all($taskids) as $value) {
 			$otherinfo['tasks'][$value['taskid']] = $value['name'];
 		}
 	}
 	if(!empty($uids)) {
-		foreach(C::t('common_member')->fetch_all($uids) as $uid => $value) {
+		foreach(table_common_member::t()->fetch_all($uids) as $uid => $value) {
 			$otherinfo['users'][$uid] = $value['username'];
 		}
 	}
 	return $otherinfo;
 }
-?>
+

@@ -1,10 +1,9 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: cache_portalcategory.php 31224 2012-07-27 03:54:18Z zhangguosheng $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -14,7 +13,7 @@ if(!defined('IN_DISCUZ')) {
 function build_cache_portalcategory() {
 	global $_G;
 
-	$data = C::t('portal_category')->range_category();
+	$data = table_portal_category::t()->range_category();
 	foreach($data as $key => $value) {
 		$upid = $value['upid'];
 		$data[$key]['level'] = 0;
@@ -36,7 +35,7 @@ function build_cache_portalcategory() {
 	} else {
 		$portaldomain = $_G['siteurl'];
 	}
-	foreach($data as $key => &$value){
+	foreach($data as $key => &$value) {
 		$url = $topid = '';
 		$foldername = $value['foldername'];
 		if($value['level']) {
@@ -54,7 +53,7 @@ function build_cache_portalcategory() {
 		}
 		$value['topid'] = $topid;
 
-		if($channelrootdomain && $data[$topid]['domain']){
+		if($channelrootdomain && $data[$topid]['domain']) {
 			$url = $_G['scheme'].'://'.$data[$topid]['domain'].'.'.$channelrootdomain.'/';
 			if($foldername) {
 
@@ -64,9 +63,9 @@ function build_cache_portalcategory() {
 			} else {
 				$url = $portaldomain.'portal.php?mod=list&catid='.$key;
 			}
-		} elseif ($foldername) {
+		} elseif($foldername) {
 			$url = $portaldomain.$foldername;
-			if(substr($url, -1, 1) != '/') $url.= '/';
+			if(!str_ends_with($url, '/')) $url .= '/';
 		} else {
 			$url = $portaldomain.'portal.php?mod=list&catid='.$key;
 		}
@@ -75,18 +74,19 @@ function build_cache_portalcategory() {
 		$value['fullfoldername'] = trim($foldername, '/');
 
 		if($value['shownav']) {
-			$rs = C::t('common_nav')->update_by_type_identifier(4, $key, array('url' => addslashes($url), 'name' =>$value['catname']));
+			$rs = table_common_nav::t()->update_by_type_identifier(4, $key, ['url' => addslashes($url), 'name' => $value['catname']]);
 		}
 	}
 
 	savecache('portalcategory', $data);
 
 	if(!function_exists('get_cachedata_mainnav')) {
-		include_once libfile('cache/setting','function');
+		include_once libfile('cache/setting', 'function');
 	}
-	$data = $_G['setting'];
+	$data = [];
 	list($data['navs'], $data['subnavs'], $data['menunavs'], $data['navmns'], $data['navmn'], $data['navdms']) = get_cachedata_mainnav();
-	savecache('setting', $data);
+	foreach($data as $key => $value) {
+		table_common_setting::t()->update_setting($key, $value);
+	}
 }
 
-?>

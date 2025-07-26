@@ -1,10 +1,9 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: cache_forumstick.php 24152 2011-08-26 10:04:08Z zhangguosheng $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -12,9 +11,9 @@ if(!defined('IN_DISCUZ')) {
 }
 
 function build_cache_forumstick() {
-	$data = array();
-	$forumstickthreads = C::t('common_setting')->fetch_setting('forumstickthreads', true);
-	$forumstickcached = array();
+	$data = [];
+	$forumstickthreads = table_common_setting::t()->fetch_setting('forumstickthreads', true);
+	$forumstickcached = [];
 	if($forumstickthreads) {
 		foreach($forumstickthreads as $forumstickthread) {
 			foreach($forumstickthread['forums'] as $fid) {
@@ -23,10 +22,9 @@ function build_cache_forumstick() {
 		}
 		$data = $forumstickcached;
 	} else {
-		$data = array();
+		$data = [];
 	}
 
 	savecache('forumstick', $data);
 }
 
-?>

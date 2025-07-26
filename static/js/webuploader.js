@@ -1,4 +1,4 @@
-/* Modified by Valery Votintsev */
+
 var getBasePath = function() {
 	var els = document.getElementsByTagName('script'),
 	src;
@@ -12,21 +12,21 @@ var getBasePath = function() {
 	return '';
 };
 
-var WebUpload;
+var SWFUpload;
 var sdCloseTime = 2;
 
-if (WebUpload == undefined) {
-	WebUpload = function(settings) {
-		this.initWebUpload(settings);
+if (SWFUpload == undefined) {
+	SWFUpload = function(settings) {
+		this.initSWFUpload(settings);
 	};
 }
 
-WebUpload.CURSOR = {
+SWFUpload.CURSOR = {
 	ARROW: -1,
 	HAND: -2
 };
 
-WebUpload.EXT_MIME_MAP = {
+SWFUpload.EXT_MIME_MAP = {
 	'3gp': 'video/3gpp',
 	'7z': 'application/x-7z-compressed',
 	'aac': 'audio/aac',
@@ -90,6 +90,7 @@ WebUpload.EXT_MIME_MAP = {
 	'rtf': 'application/rtf',
 	'sh': 'application/x-sh',
 	'svg': 'image/svg+xml',
+	'swf': 'application/x-shockwave-flash',
 	'tar': 'application/x-tar',
 	'tif': 'image/tiff',
 	'tiff': 'image/tiff',
@@ -113,7 +114,7 @@ WebUpload.EXT_MIME_MAP = {
 	'zip': 'application/zip'
 };
 
-WebUpload.prototype.initWebUpload = function(userSettings) {
+SWFUpload.prototype.initSWFUpload = function(userSettings) {
 	try {
 		this.customSettings = {};	// A container where developers can place their own settings associated with this instance.
 		this.settings = {};
@@ -124,7 +125,7 @@ WebUpload.prototype.initWebUpload = function(userSettings) {
 	}
 };
 
-WebUpload.prototype.initSettings = function (userSettings) {
+SWFUpload.prototype.initSettings = function (userSettings) {
 	this.ensureDefault = function(settingName, defaultValue) {
 		var setting = userSettings[settingName];
 		if (setting != undefined) {
@@ -145,15 +146,18 @@ WebUpload.prototype.initSettings = function (userSettings) {
 	this.ensureDefault("file_queue_limit", 0);
 
 	this.ensureDefault("button_image_url", "");
+	this.ensureDefault("button_image_text", $L('upload_pic'));
+	this.ensureDefault("button_attach_text", $L('upload_attach'));
+	this.ensureDefault("button_text", '');
 	this.ensureDefault("button_width", 1);
 	this.ensureDefault("button_height", 1);
 	this.ensureDefault("button_placeholder_id", "");
 
 	this.ensureDefault("debug", false);
 
-	this.ensureDefault("webupload_preload_handler", null);
-	this.ensureDefault("webupload_load_failed_handler", null);
-	this.ensureDefault("webupload_loaded_handler", null);
+	this.ensureDefault("swfupload_preload_handler", null);
+	this.ensureDefault("swfupload_load_failed_handler", null);
+	this.ensureDefault("swfupload_loaded_handler", null);
 	this.ensureDefault("file_dialog_start_handler", null);
 	this.ensureDefault("file_queued_handler", null);
 	this.ensureDefault("file_queue_error_handler", null);
@@ -179,9 +183,14 @@ WebUpload.prototype.initSettings = function (userSettings) {
 		}else if(typeof editorid != 'undefined' && $(editorid + '_image_menu')){
 			$(editorid + '_image_menu').style.display = '';
 		}
-		$('imgSpanButtonPlaceholder').innerHTML = 'upload';
+
+		if (this.settings.button_text) {
+			$('imgSpanButtonPlaceholder').innerHTML = this.settings.button_text;
+		}else if (this.customSettings.uploadSource == 'forum' && this.customSettings.uploadType == 'image') {
+			$('imgSpanButtonPlaceholder').innerHTML = this.settings.button_image_text;
+		}
 		$("imgSpanButtonPlaceholder").style.display = 'inline-block';
-		$("imgSpanButtonPlaceholder").style.width = this.settings.button_width + 'px';
+		$("imgSpanButtonPlaceholder").style.minWidth = this.settings.button_width + 'px';
 		$("imgSpanButtonPlaceholder").style.height = this.settings.button_height + 'px';
 		$("imgSpanButtonPlaceholder").style.backgroundImage = 'url(' + this.settings.button_image_url + ')';
 		$("imgSpanButtonPlaceholder").style.backgroundRepeat = 'no-repeat';
@@ -200,9 +209,14 @@ WebUpload.prototype.initSettings = function (userSettings) {
 		}else if(typeof editorid != 'undefined' && $(editorid + '_attach_menu')){
 			$(editorid + '_attach_menu').style.display = '';
 		}
-		$('spanButtonPlaceholder').innerHTML = 'upload';
+		if (this.settings.button_text) {
+			$('spanButtonPlaceholder').innerHTML = this.settings.button_text;
+		} else{
+			$('spanButtonPlaceholder').innerHTML = this.settings.button_attach_text;
+		}
+
 		$("spanButtonPlaceholder").style.display = 'inline-block';
-		$("spanButtonPlaceholder").style.width = this.settings.button_width + 'px';
+		$("spanButtonPlaceholder").style.minWidth = this.settings.button_width + 'px';
 		$("spanButtonPlaceholder").style.height = this.settings.button_height + 'px';
 		$("spanButtonPlaceholder").style.backgroundImage = 'url(' + this.settings.button_image_url + ')';
 		$("spanButtonPlaceholder").style.backgroundRepeat = 'no-repeat';
@@ -216,7 +230,7 @@ WebUpload.prototype.initSettings = function (userSettings) {
 	if(this.customSettings.uploadSource == 'forum' && this.customSettings.uploadType == 'poll' && $(this.settings.button_placeholder_id)){
 		$(this.settings.button_placeholder_id).innerHTML = 'upload';
 		$(this.settings.button_placeholder_id).style.display = 'inline-block';
-		$(this.settings.button_placeholder_id).style.width = this.settings.button_width + 'px';
+		$(this.settings.button_placeholder_id).style.minWidth = this.settings.button_width + 'px';
 		$(this.settings.button_placeholder_id).style.height = this.settings.button_height + 'px';
 		$(this.settings.button_placeholder_id).style.backgroundImage = 'url(' + this.settings.button_image_url + ')';
 		$(this.settings.button_placeholder_id).style.backgroundRepeat = 'no-repeat';
@@ -239,7 +253,7 @@ WebUpload.prototype.initSettings = function (userSettings) {
 					return "." + ext;
 				}),
 				jQuery.map(extsArray, function (ext) {
-					return WebUpload.EXT_MIME_MAP[ext];
+					return SWFUpload.EXT_MIME_MAP[ext];
 				})
 			),
 			function (s) {
@@ -251,9 +265,12 @@ WebUpload.prototype.initSettings = function (userSettings) {
 		}).join(",");
 	}
 
-       var uploader = WebUploader.create({
+	var uploader = WebUploader.create({
+		swf: getBasePath() + 'Uploader.swf',
 		server: this.settings.upload_url,
 		pick: '#' + this.settings.button_placeholder_id,
+		compress: false,
+		threads: 1,
 		accept: {
 			title: this.settings.file_types_description,
 			extensions: exts,
@@ -263,8 +280,8 @@ WebUpload.prototype.initSettings = function (userSettings) {
 		formData: this.settings.post_params,
 		fileNumLimit: this.settings.file_upload_limit,
 		fileSingleSizeLimit: this.settings.file_size_limit * 1024,
-		duplicate: false
-       });
+		duplicate: true
+	});
 
 	this.uploader = uploader;
 
@@ -311,15 +328,15 @@ WebUpload.prototype.initSettings = function (userSettings) {
 
 };
 
-WebUpload.prototype.setUploadURL = function (url) {
+SWFUpload.prototype.setUploadURL = function (url) {
 	this.uploader.options.server = url.toString();
 };
 
-WebUpload.prototype.addPostParam = function (name, value) {
+SWFUpload.prototype.addPostParam = function (name, value) {
 	this.uploader.options.formData[name] = value;
 };
 
-WebUpload.prototype.queueEvent = function (handlerName, argumentArray) {
+SWFUpload.prototype.queueEvent = function (handlerName, argumentArray) {
 	var self = this;
 
 	if (argumentArray == undefined) {
@@ -342,7 +359,7 @@ WebUpload.prototype.queueEvent = function (handlerName, argumentArray) {
 	}
 };
 
-WebUpload.prototype.executeNextEvent = function () {
+SWFUpload.prototype.executeNextEvent = function () {
 
 	var  f = this.eventQueue ? this.eventQueue.shift() : null;
 	if (typeof(f) === "function") {
@@ -350,11 +367,11 @@ WebUpload.prototype.executeNextEvent = function () {
 	}
 };
 
-WebUpload.prototype.debug = function (message) {
+SWFUpload.prototype.debug = function (message) {
 	this.queueEvent("debug_handler", message);
 };
 
-WebUpload.prototype.debugMessage = function (message) {
+SWFUpload.prototype.debugMessage = function (message) {
 	var exceptionMessage, exceptionValues, key;
 
 	if (this.settings.debug) {
@@ -369,9 +386,9 @@ WebUpload.prototype.debugMessage = function (message) {
 			exceptionMessage = exceptionValues.join("\n") || "";
 			exceptionValues = exceptionMessage.split("\n");
 			exceptionMessage = "EXCEPTION: " + exceptionValues.join("\nEXCEPTION: ");
-			WebUpload.Console.writeLine(exceptionMessage);
+			SWFUpload.Console.writeLine(exceptionMessage);
 		} else {
-			WebUpload.Console.writeLine(message);
+			SWFUpload.Console.writeLine(message);
 		}
 	}
 };
@@ -442,7 +459,7 @@ function fileQueued(file) {
 
 		}
 		if(createQueue) {
-/*vot*/			progress.setStatus(lng['wait_upload']);
+			progress.setStatus($L('waiting_upload'));
 			this.uploader.upload(file);
 		} else {
 			this.uploader.cancelFile(file);
@@ -462,22 +479,22 @@ function fileQueueError(errorCode) {
 		var err = '';
 		switch (errorCode) {
 		case 'F_EXCEED_SIZE':
-/*vot*/			err = lng['file_single_size_limit'] + WebUploader.Base.formatSize(this.uploader.option('fileSingleSizeLimit')) + '!';
+			err = $L('file_exceed_size', [WebUploader.Base.formatSize(this.uploader.option('fileSingleSizeLimit'))]);
 			break;
 		case 'Q_EXCEED_NUM_LIMIT':
-/*vot*/			err = lng['file_num_limit'] + this.settings.fileNumLimit + lng['_files'];
+			err = $L('file_exceed_num_limit', [this.settings.fileNumLimit]);
 			break;
 		case 'Q_EXCEED_SIZE_LIMIT':
-/*vot*/			err = lng['file_size_limit'] + WebUploader.Base.formatSize(this.uploader.option('fileSizeLimit')) + '!';
+			err = $L('file_exceed_size_limit', [WebUploader.Base.formatSize(this.uploader.option('fileSizeLimit'))]);
 			break;
 		case 'Q_TYPE_DENIED':
-/*vot*/			err = lng['file_invalid_type'];
+			err = $L('file_type_denied');
 			break;
 		case 'F_DUPLICATE':
-/*vot*/			err = lng['file_no_repeat'];
+			err = $L('file_duplicate');
 			break;
 		default:
-/*vot*/			err = lng['upload_error_try_again'] + code;
+			err = $L('file_errcode', [code]);
 			break;
 		}
 		showDialog(err, 'notice', null, null, 0, null, null, null, null, sdCloseTime);
@@ -531,7 +548,7 @@ function uploadStart(file) {
 			preObj.innerHTML = '';
 		}
 		var progress = new FileProgress(file, this.customSettings.progressTarget);
-/*vot*/		progress.setStatus(lng['uploading']);
+		progress.setStatus($L('uploading'));
 		progress.toggleCancel(true, this);
 		if(this.customSettings.uploadSource == 'forum') {
 			var objId = this.customSettings.uploadType == 'attach' ? 'attachlist' : 'imgattachlist';
@@ -545,7 +562,7 @@ function uploadStart(file) {
 function uploadProgress(file, percentage) {
 	try {
 		var progress = new FileProgress(file, this.customSettings.progressTarget);
-/*vot*/		progress.setStatus(lng['upload_progress'] + " <progress value='" + percentage + "' max='1' style='width: 200px;'></progress> " + Math.ceil(percentage * 100) + "%");
+		progress.setStatus($L('uploading_progress', ["<progress value='" + percentage + "' max='1' style='width: 200px;'></progress> " + Math.ceil(percentage * 100)]));
 	} catch (ex) {
 		this.debug(ex);
 	}
@@ -602,7 +619,7 @@ function uploadSuccess(file, serverData) {
 						progress.setStatus(STATUSMSG[aid]);
 						showDialog(STATUSMSG[aid], 'notice', null, null, 0, null, null, null, null, sdCloseTime);
 					} else {
-/*vot*/						progress.setStatus(lng['upload_cancelled']);
+						progress.setStatus($L('cancel_upload'));
 					}
 					this.uploader.cancelFile(file);
 					progress.setCancelled();
@@ -630,11 +647,11 @@ function uploadSuccess(file, serverData) {
 				newTr.appendChild(newTd);
 				newTd = document.createElement("TD");
 				newTd.className = 'd';
-/*vot*/				newTd.innerHTML = lng['file_description'] + '<br/><textarea name="title['+data.picid+']" cols="40" rows="2" class="pt"></textarea>';
+				newTd.innerHTML = $L('img_desc') + '<br/><textarea name="title['+data.picid+']" cols="40" rows="2" class="pt"></textarea>';
 				newTr.appendChild(newTd);
 				this.customSettings.imgBoxObj.appendChild(newTr);
 			} else {
-/*vot*/				showDialog(lng['image_upload_failed'], 'notice', null, null, 0, null, null, null, null, sdCloseTime);
+				showDialog($L('img_upload_error'), 'notice', null, null, 0, null, null, null, null, sdCloseTime);
 			}
 			$(file.id).style.display = 'none';
 		} else if(this.customSettings.uploadType == 'blog') {
@@ -655,7 +672,7 @@ function uploadSuccess(file, serverData) {
 				inputObj.value= data.picid;
 				tdObj.appendChild(inputObj);
 			} else {
-/*vot*/				showDialog(lng['image_upload_failed'], 'notice', null, null, 0, null, null, null, null, sdCloseTime);
+				showDialog($L('img_upload_error'), 'notice', null, null, 0, null, null, null, null, sdCloseTime);
 			}
 			$(file.id).style.display = 'none';
 		} else if(this.customSettings.uploadSource == 'portal') {
@@ -673,7 +690,7 @@ function uploadSuccess(file, serverData) {
 					$(file.id).style.display = 'none';
 				}
 			} else {
-/*vot*/				showDialog(lng['upload_failed'], 'notice', null, null, 0, null, null, null, null, sdCloseTime);
+				showDialog($L('upload_error'), 'notice', null, null, 0, null, null, null, null, sdCloseTime);
 				progress.setStatus("Cancelled");
 				this.uploader.cancelFile(file);
 				progress.setCancelled();
@@ -681,7 +698,7 @@ function uploadSuccess(file, serverData) {
 			}
 		} else {
 			progress.setComplete();
-/*vot*/			progress.setStatus(lng['upload_completed']);
+			progress.setStatus($L('upload_success'));
 			progress.toggleCancel(false);
 		}
 	} catch (ex) {
@@ -863,13 +880,13 @@ FileProgress.prototype.setStatus = function(status) {
 	this.fileProgressElement.childNodes[2].innerHTML = status;
 };
 
-FileProgress.prototype.toggleCancel = function(show, webUploadInstance) {
+FileProgress.prototype.toggleCancel = function(show, swfUploadInstance) {
 	this.fileProgressElement.childNodes[0].style.display = show ? "": "none";
-	if (webUploadInstance) {
+	if (swfUploadInstance) {
 		var fileID = this.fileProgressID;
 		var oSelf = this;
 		this.fileProgressElement.childNodes[0].onclick = function() {
-			webUploadInstance.cancelFile(fileID);
+			swfUploadInstance.cancelFile(fileID);
 			oSelf.setStatus("Cancelled");
 			oSelf.setCancelled();
 			return false;

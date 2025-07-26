@@ -1,18 +1,17 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: lang_forumstat.php 27449 2012-02-01 05:32:35Z zhangguosheng $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
-$lang = array
-(
+$lang =
+	[
 	'forumstat_name' => '论坛统计',
 	'forumstat_desc' => '论坛统计数据调用',
 	'forumstat_forums_allow' => '显示版块数统计',
@@ -44,6 +43,5 @@ $lang = array
 	'forumstat_onlinemember_order' => '在线会员统计显示顺序',
 	'forumstat_onlinemember_text' => '在线会员统计提示文字',
 	'forumstat_onlinemember_default' => '在线会员:',
-);
+	];
 
-?>

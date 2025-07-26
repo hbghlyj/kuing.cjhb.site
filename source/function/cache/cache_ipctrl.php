@@ -1,10 +1,9 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: cache_ipctrl.php 24152 2011-08-26 10:04:08Z zhangguosheng $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -12,8 +11,7 @@ if(!defined('IN_DISCUZ')) {
 }
 
 function build_cache_ipctrl() {
-	$data = C::t('common_setting')->fetch_all_setting(array('ipregctrl', 'ipverifywhite'));
+	$data = table_common_setting::t()->fetch_all_setting(['ipregctrl', 'ipverifywhite']);
 	savecache('ipctrl', $data);
 }
 
-?>

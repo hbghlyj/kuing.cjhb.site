@@ -1,10 +1,9 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: lang_email.php 35030 2014-10-23 07:43:23Z laoguozhang $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -12,8 +11,8 @@ if(!defined('IN_DISCUZ')) {
 }
 
 
-$lang = array
-(
+$lang =
+	[
 	'hello' => '您好',
 	'moderate_member_invalidate' => '否决',
 	'moderate_member_delete' => '删除',
@@ -75,7 +74,7 @@ $lang = array
 	'secmobile_reset_if_not_user_op' => '如果您没有操作安全手机号变更，请您立即登录 {$var[\'bbname\']} 检查账户情况，并进行变更密码和安全手机号变更操作。',
 	'secmobile_reset_if_not_user_op_help' => '在处理问题时如果您有任何问题或需要帮助（如冻结账户），请联系 {$var[\'bbname\']} 管理团队获取更多帮助与支持。',
 
-	'email_register_subject' =>	'论坛注册地址',
+	'email_register_subject' => '论坛注册地址',
 	'email_register_reason' => '在 {$var[\'bbname\']} 获取了新用户注册地址使用了这个邮箱地址。',
 	'email_register_explain' => '新用户注册说明',
 	'email_register_click_link' => '您只需点击下面的链接即可进行用户注册，以下链接有效期为3天。过期可以重新请求发送一封新的邮件验证：',
@@ -114,6 +113,9 @@ $lang = array
 	'invitemail_accept_invite' => '请您点击以下链接，接受好友邀请：',
 	'invitemail_viewpage' => '如果您拥有{$var[\'sitename\']}上面的账号，请点击以下链接查看我的个人主页：',
 
+	'moderate_member_invalidate' => '否决',
+	'moderate_member_delete' => '删除',
+	'moderate_member_validate' => '通过',
 	'moderate_member_subject' => '用户审核结果通知',
 	'moderate_member_reason' => '这个邮箱地址在 {$var[\'bbname\']} 被新用户注册时所使用，且管理员设置了对新用户需要进行人工审核，本邮件将通知您提交申请的审核结果。',
 	'moderate_member_info' => '注册信息与审核结果',
@@ -131,8 +133,15 @@ $lang = array
 	'moderate_member_explain2' => '否决: 您的注册信息不完整，或未满足我们对新用户的某些要求，您可以根据管理员留言，<a href="home.php?mod=spacecp&ac=profile" target="_blank">完善您的注册信息</a>，然后再次提交。',
 	'moderate_member_explain3' => '删除：您的注册由于与我们的要求偏差较大，或本站的新注册人数已超过预期，申请已被否决。您的账号已从数据库中删除，将无法再使用其登录或提交再次审核，请您谅解。',
 
-	'adv_expiration_subject' =>	'您站点的广告将于 {day} 天后到期，请及时处理',
-	'adv_expiration_msg' =>	'您站点的以下广告将于 {$var[\'day\']} 天后到期，请及时处理：',
-);
+	'adv_expiration_subject' => '您站点的广告将于 {day} 天后到期，请及时处理',
+	'adv_expiration_msg' => '您站点的以下广告将于 {$var[\'day\']} 天后到期，请及时处理：',
 
-?>
+	'invite_payment_subject' => '购买邀请码',
+	'invite_payment_msg' => '欢迎您光临{$var[\'bbname\']}（{$var[\'siteurl\']}），您的订单 {$var[\'orderid\']} 已经支付完成，订单已确认有效。',
+	'invite_payment_invitecode' => '以下是您获得的邀请码',
+
+	'email_seccode_verify_subject' => '账号身份验证',
+	'email_seccode_code' => '您的验证码为：',
+	'email_seccode_verify_msg' => '这封信是由{$var[\'bbname\']}（{$var[\'siteurl\']}）发送的邮件验证码，该验证码 {$var[\'emailinterval\']} 分钟内有效！',
+	];
+

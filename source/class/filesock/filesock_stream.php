@@ -1,8 +1,9 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -10,14 +11,14 @@ if(!defined('IN_DISCUZ')) {
 }
 
 class filesock_stream extends filesock_base {
-	public function request($param = array()) {
+	public function request($param = []) {
 		parent::request($param);
 		if(!$this->safequery) {
 			return '';
 		}
 		$boundary = $this->encodetype == 'application/x-www-form-urlencoded' ? '' : '----WebKitFormBoundary'.random(16);
 		$header = '';
-		$headerlist = array();
+		$headerlist = [];
 		$headerlist['Accept'] = '*/*';
 		$headerlist['Accept-Language'] = 'zh-CN';
 		$headerlist['User-Agent'] = $this->useragent;
@@ -55,7 +56,7 @@ class filesock_stream extends filesock_base {
 			}
 			$headerlist['Content-Length'] = strlen($data);
 			$headerlist['Cache-Control'] = 'no-cache';
-		} elseif(!in_array($this->method, array('GET', 'HEAD')) && $this->rawdata) {
+		} elseif(!in_array($this->method, ['GET', 'HEAD']) && $this->rawdata) {
 			$data = $this->rawdata;
 			$headerlist['Content-Type'] = $this->encodetype;
 			$headerlist['Content-Length'] = strlen($data);
@@ -75,15 +76,15 @@ class filesock_stream extends filesock_base {
 		if(isset($data) && $data) {
 			$out .= $data;
 		}
-	
+
 		$fpflag = 0;
-		$context = array();
+		$context = [];
 		if($this->scheme == 'https') {
-			$context['ssl'] = array(
+			$context['ssl'] = [
 				'verify_peer' => false,
 				'verify_peer_name' => false,
 				'peer_name' => $this->host,
-			);
+			];
 			if($this->verifypeer) {
 				$context['ssl']['verify_peer'] = true;
 				$context['ssl']['verify_peer_name'] = true;
@@ -94,12 +95,12 @@ class filesock_stream extends filesock_base {
 			}
 		}
 		if(ini_get('allow_url_fopen')) {
-			$context['http'] = array(
+			$context['http'] = [
 				'method' => $this->method,
 				'header' => $header,
 				'timeout' => $this->conntimeout,
 				'ignore_errors' => !$this->failonerror,
-			);
+			];
 			if(isset($data)) {
 				$context['http']['content'] = $data;
 			}
@@ -120,7 +121,7 @@ class filesock_stream extends filesock_base {
 		} else {
 			$fp = @fsocketopen(($this->scheme == 'https' ? 'ssl://' : '').($this->scheme == 'https' ? $this->host : ($this->ip ? $this->ip : $this->host)), $this->port, $errno, $errstr, $this->conntimeout);
 		}
-	
+
 		if(!$fp) {
 			$this->errno = $errno;
 			$this->errstr = $errstr;
@@ -140,24 +141,24 @@ class filesock_stream extends filesock_base {
 					while(!feof($fp) && !$fpflag) {
 						$header = @fgets($fp);
 						$headers .= $header;
-						if($this->failonerror && $header && substr($header, 0, 6) == 'HTTP/1' && intval(substr($header, 9, 3)) > 400) {
+						if($this->failonerror && $header && str_starts_with($header, 'HTTP/1') && intval(substr($header, 9, 3)) > 400) {
 							$this->errno = 2;
 							$this->errstr = 'Failed to open stream: HTTP request failed! '.$header;
 							return;
 						}
-						if($header && ($header == "\r\n" ||  $header == "\n")) {
+						if($header && ($header == "\r\n" || $header == "\n")) {
 							break;
 						}
 					}
 				}
 				$GLOBALS['filesockheader'] = $this->filesockheader = $headers;
-	
+
 				if($this->position) {
-					for($i=0; $i<$this->position; $i++) {
+					for($i = 0; $i < $this->position; $i++) {
 						fgetc($fp);
 					}
 				}
-	
+
 				if($this->limit) {
 					$return = stream_get_contents($fp, $this->limit);
 				} else {
@@ -173,6 +174,7 @@ class filesock_stream extends filesock_base {
 			}
 		}
 	}
+
 	private function _build_header($param) {
 		$output = '';
 		foreach($param as $k => $v) {

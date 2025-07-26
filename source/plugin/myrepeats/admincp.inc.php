@@ -1,10 +1,9 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: admincp.inc.php 29364 2012-04-09 02:51:41Z monkey $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ') || !defined('IN_ADMINCP')) {
@@ -14,15 +13,15 @@ if(!defined('IN_DISCUZ') || !defined('IN_ADMINCP')) {
 $Plang = $scriptlang['myrepeats'];
 
 if($_GET['op'] == 'lock') {
-	$myrepeat = C::t('#myrepeats#myrepeats')->fetch_all_by_uid_username($_GET['uid'], $_GET['username']);
+	$myrepeat = myrepeats\table_myrepeats::t()->fetch_all_by_uid_username($_GET['uid'], $_GET['username']);
 	$lock = $myrepeat[0]['locked'];
 	$locknew = $lock ? 0 : 1;
-	C::t('#myrepeats#myrepeats')->update_locked_by_uid_username($_GET['uid'], $_GET['username'], $locknew);
+	myrepeats\table_myrepeats::t()->update_locked_by_uid_username($_GET['uid'], $_GET['username'], $locknew);
 	ajaxshowheader();
 	echo $lock ? $Plang['normal'] : $Plang['lock'];
 	ajaxshowfooter();
 } elseif($_GET['op'] == 'delete') {
-	C::t('#myrepeats#myrepeats')->delete_by_uid_usernames($_GET['uid'], $_GET['username']);
+	myrepeats\table_myrepeats::t()->delete_by_uid_usernames($_GET['uid'], $_GET['username']);
 	ajaxshowheader();
 	echo $Plang['deleted'];
 	ajaxshowfooter();
@@ -36,7 +35,7 @@ if(!empty($_GET['srchuid'])) {
 	$srchuid = intval($_GET['srchuid']);
 	$srchadd = "AND uid='$srchuid'";
 } elseif(!empty($_GET['srchusername'])) {
-	$srchuid = C::t('common_member')->fetch_uid_by_username($_GET['srchusername']);
+	$srchuid = table_common_member::t()->fetch_uid_by_username($_GET['srchusername']);
 	if($srchuid) {
 		$srchadd = "AND uid='$srchuid'";
 	} else {
@@ -54,7 +53,7 @@ if($srchuid) {
 	$searchtext = $Plang['search'].' "'.$member['username'].'" '.$Plang['repeatusers'].'&nbsp;';
 }
 
-$statary = array(-1 => $Plang['status'], 0 => $Plang['normal'], 1 => $Plang['lock']);
+$statary = [-1 => $Plang['status'], 0 => $Plang['normal'], 1 => $Plang['lock']];
 $status = isset($_GET['status']) ? intval($_GET['status']) : -1;
 
 if(isset($status) && $status >= 0) {
@@ -70,7 +69,7 @@ loadcache('usergroups');
 
 showtableheader();
 showformheader('plugins&operation=config&do='.$pluginid.'&identifier=myrepeats&pmod=admincp', 'repeatsubmit');
-showsubmit('repeatsubmit', $Plang['search'], $lang['username'].': <input name="srchusername" value="'.htmlspecialchars($_GET['srchusername']).'" class="txt" />&nbsp;&nbsp;'.$Plang['repeat'].': <input name="srchrepeat" value="'.htmlspecialchars($_GET['srchrepeat']).'" class="txt" />', $searchtext);
+showsubmit('repeatsubmit', $Plang['search'], $Plang['username'].': <input name="srchusername" value="'.htmlspecialchars($_GET['srchusername']).'" class="txt" />&nbsp;&nbsp;'.$Plang['repeat'].': <input name="srchrepeat" value="'.htmlspecialchars($_GET['srchrepeat']).'" class="txt" />', $searchtext);
 showformfooter();
 
 $statselect = '<select onchange="location.href=\''.ADMINSCRIPT.'?action=plugins&operation=config&do='.$pluginid.'&identifier=myrepeats&pmod=admincp'.$extra.'&status=\' + this.value">';
@@ -81,13 +80,13 @@ $statselect .= '</select>';
 
 echo '<tr class="header"><th>'.$Plang['username'].'</th><th>'.$lang['usergroup'].'</th><th>'.$Plang['repeat'].'</th><th>'.$Plang['lastswitch'].'</th><th>'.$statselect.'</th><th></th></tr>';
 if(!$resultempty) {
-	$count = C::t('#myrepeats#myrepeats')->count_by_search($srchadd);
-	$myrepeats = C::t('#myrepeats#myrepeats')->fetch_all_by_search($srchadd, ($page - 1) * $ppp, $ppp);
-	$uids = array();
+	$count = myrepeats\table_myrepeats::t()->count_by_search($srchadd);
+	$myrepeats = myrepeats\table_myrepeats::t()->fetch_all_by_search($srchadd, ($page - 1) * $ppp, $ppp);
+	$uids = [];
 	foreach($myrepeats as $myrepeat) {
 		$uids[] = $myrepeat['uid'];
 	}
-	$users = C::t('common_member')->fetch_all($uids);
+	$users = table_common_member::t()->fetch_all($uids);
 	$i = 0;
 	foreach($myrepeats as $myrepeat) {
 		$myrepeat['lastswitch'] = $myrepeat['lastswitch'] ? dgmdate($myrepeat['lastswitch']) : '';
@@ -106,4 +105,3 @@ showtablefooter();
 
 echo multi($count, $ppp, $page, ADMINSCRIPT."?action=plugins&operation=config&do=$pluginid&identifier=myrepeats&pmod=admincp$extra");
 
-?>

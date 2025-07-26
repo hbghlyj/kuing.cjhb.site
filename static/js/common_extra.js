@@ -1,9 +1,8 @@
-/*
-	[Discuz!] (C)2001-2099 Comsenz Inc.
-	This is NOT a freeware, use is subject to license terms
-
-	$Id: common_extra.js 35187 2015-01-19 04:22:13Z nemohou $
-*/
+/**
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
+ */
 
 function _relatedlinks(rlinkmsgid) {
 	if(!$(rlinkmsgid) || $(rlinkmsgid).innerHTML.match(/<script[^\>]*?>/i)) {
@@ -116,9 +115,9 @@ function _checksec(type, idhash, showmsg, recall, modid) {
 			obj.innerHTML = '<i class="fico-error fic4 fc-l fnmr vm"></i>';
 			if(showmsg) {
 				if(type == 'code') {
-/*vot*/                                 showError(lng['code_invalid']);
+					showError($L('seccode_error'));
 				} else if(type == 'qaa') {
-/*vot*/                                 showError(lng['q&a_invalid']);
+					showError($L('secqaa_error'));
 				}
 				recall(0);
 			}
@@ -126,6 +125,30 @@ function _checksec(type, idhash, showmsg, recall, modid) {
 	});
 }
 
+function _setDoodle(fid, oid, url, tid, from) {
+	if(tid == null) {
+		hideWindow(fid);
+	} else {
+		$(tid).style.display = '';
+		$(fid).style.display = 'none';
+	}
+	var doodleText = '[img]'+url+'[/img]';
+	if($(oid) != null) {
+		if(from == "editor") {
+			insertImage(url);
+		} else if(from == "fastpost") {
+			seditor_insertunit('fastpost', doodleText);
+		} else if(from == "forumeditor") {
+			if(wysiwyg) {
+				insertText('<img src="' + url + '" border="0" alt="" />', false);
+			} else {
+				insertText(doodleText, strlen(doodleText), 0);
+			}
+		} else {
+			insertContent(oid, doodleText);
+		}
+	}
+}
 
 function _showdistrict(container, elems, totallevel, changelevel, containertype) {
 	var getdid = function(elem) {
@@ -160,7 +183,7 @@ function _copycode(obj) {
 		rng.moveToElementText(obj);
 		rng.select();
 	}
-/*vot*/     setCopy(BROWSER.ie ? obj.innerText.replace(/\r\n\r\n/g, '\r\n') : obj.textContent, lng['code_clipboard']);
+	setCopy(BROWSER.ie ? obj.innerText.replace(/\r\n\r\n/g, '\r\n') : obj.textContent, $L('copy_clipboard_success'));
 }
 
 function _showselect(obj, inpid, t, rettype) {
@@ -202,27 +225,27 @@ function _showselect(obj, inpid, t, rettype) {
 		$('append_parent').appendChild(div);
 		s = '';
 		if(!t) {
-/*vot*/                 s += showselect_row(inpid, lng['day1'], 1, 0, rettype);
-/*vot*/                 s += showselect_row(inpid, lng['week1'], 7, 0, rettype);
-/*vot*/                 s += showselect_row(inpid, lng['month1'], 30, 0, rettype);
-/*vot*/                 s += showselect_row(inpid, lng['month3'], 90, 0, rettype);
-/*vot*/                 s += showselect_row(inpid, lng['custom'], -2);
+			s += showselect_row(inpid, $L('select_1day'), 1, 0, rettype);
+			s += showselect_row(inpid, $L('select_1week'), 7, 0, rettype);
+			s += showselect_row(inpid, $L('select_1month'), 30, 0, rettype);
+			s += showselect_row(inpid, $L('select_3months'), 90, 0, rettype);
+			s += showselect_row(inpid, $L('select_custom'), -2);
 		} else {
 			if($(t)) {
 				var lis = $(t).getElementsByTagName('LI');
 				for(i = 0;i < lis.length;i++) {
 					s += '<a href="javascript:;" onclick="$(\'' + inpid + '\').value = this.innerHTML;$(\''+obj.id+'_menu\').style.display=\'none\'">' + lis[i].innerHTML + '</a>';
 				}
-/*vot*/                         s += showselect_row(inpid, lng['custom'], -1);
+				s += showselect_row(inpid, $L('select_custom'), -1);
 			} else {
-/*vot*/                         s += '<a href="javascript:;" onclick="$(\'' + inpid + '\').value = \'0\'">'+lng['permanent']+'</a>';
-/*vot*/                         s += showselect_row(inpid, lng['days7'], 7, 1, rettype);
-/*vot*/                         s += showselect_row(inpid, lng['days14'], 14, 1, rettype);
-/*vot*/                         s += showselect_row(inpid, lng['month1'], 30, 1, rettype);
-/*vot*/                         s += showselect_row(inpid, lng['month3'], 90, 1, rettype);
-/*vot*/                         s += showselect_row(inpid, lng['month6'], 182, 1, rettype);
-/*vot*/                         s += showselect_row(inpid, lng['year1'], 365, 1, rettype);
-/*vot*/                         s += showselect_row(inpid, lng['custom'], -1);
+				s += '<a href="javascript:;" onclick="$(\'' + inpid + '\').value = \'0\'">' + $L('select_forever') + '</a>';
+				s += showselect_row(inpid, $L('select_7days'), 7, 1, rettype);
+				s += showselect_row(inpid, $L('select_14days'), 14, 1, rettype);
+				s += showselect_row(inpid, $L('select_1month'), 30, 1, rettype);
+				s += showselect_row(inpid, $L('select_3months'), 90, 1, rettype);
+				s += showselect_row(inpid, $L('select_6months'), 182, 1, rettype);
+				s += showselect_row(inpid, $L('select_1year'), 365, 1, rettype);
+				s += showselect_row(inpid, $L('select_custom'), -1);
 			}
 		}
 		$(div.id).innerHTML = s;
@@ -444,11 +467,11 @@ function _zoom(obj, zimg, nocover, pn, showexif) {
 		menu = document.createElement('div');
 		menu.id = menuid;
 		if(cover) {
-/*vot*/                 menu.innerHTML = '<div class="zoominner" id="' + menuid + '_zoomlayer" style="display:none"><p><span class="y"><a id="' + menuid + '_imglink" class="imglink" target="_blank" title="'+lng['open_new_win']+'">'+lng['open_new_win']+'</a><a id="' + menuid + '_adjust" href="javascipt:;" class="imgadjust" title="'+lng['actual_size']+'">'+lng['actual_size']+'</a>' +
-/*vot*/                         '<a href="javascript:;" onclick="hideMenu()" class="imgclose" title="'+lng['close']+'">'+lng['close']+'</a></span> '+lng['wheel_zoom']+'</p>' +
+			menu.innerHTML = '<div class="zoominner" id="' + menuid + '_zoomlayer" style="display:none"><p><span class="y"><a id="' + menuid + '_imglink" class="imglink" target="_blank" title="' + $L('open_newwindow') + '">' + $L('open_newwindow') + '</a><a id="' + menuid + '_adjust" href="javascipt:;" class="imgadjust" title="' + $L('actual_size') + '">' + $L('actual_size') + '</a>' +
+				'<a href="javascript:;" onclick="hideMenu()" class="imgclose" title="' + $L('close') + '">' + $L('close') + '</a></span>' + $L('mouse_wheel_resize') + '</p>' +
 				'<div class="zimg_p" id="' + menuid + '_picpage"></div><div class="hm" id="' + menuid + '_img"></div></div>';
 		} else {
-/*vot*/                 menu.innerHTML = '<div class="popupmenu_popup" id="' + menuid + '_zoomlayer" style="width:auto"><span class="right y"><a href="javascript:;" onclick="hideMenu()" class="flbc" style="width:20px;margin:0 0 2px 0">'+lng['close']+'</a></span> '+lng['wheel_zoom']+'<div class="zimg_p" id="' + menuid + '_picpage"></div><div class="hm" id="' + menuid + '_img"></div></div>';
+			menu.innerHTML = '<div class="popupmenu_popup" id="' + menuid + '_zoomlayer" style="width:auto"><span class="right y"><a href="javascript:;" onclick="hideMenu()" class="flbc" style="width:20px;margin:0 0 2px 0">' + $L('close') + '</a></span>' + $L('mouse_wheel_resize') + '<div class="zimg_p" id="' + menuid + '_picpage"></div><div class="hm" id="' + menuid + '_img"></div></div>';
 		}
 		if(BROWSER.ie || BROWSER.chrome){
 			menu.onmousewheel = adjust;
@@ -474,9 +497,9 @@ function _zoom(obj, zimg, nocover, pn, showexif) {
 			}
 			if(authorcurrent !== '') {
 				paid = authorcurrent > 0 ? authorimgs[authorcurrent - 1] : authorimgs[authorlength - 1];
-/*vot*/                         picpage += ' <div id="zimg_prev" onmouseover="dragMenuDisabled=true;" onmouseout="dragMenuDisabled=false;" onclick="_zoom_page(\'' + paid + '\', ' + (showexif ? 1 : 0) + ')" class="zimg_prev"><strong>&#8249; '+lng['prev']+'</strong></div> ';
+				picpage += ' <div id="zimg_prev" onmouseover="dragMenuDisabled=true;" onmouseout="dragMenuDisabled=false;" onclick="_zoom_page(\'' + paid + '\', ' + (showexif ? 1 : 0) + ')" class="zimg_prev"><strong>&#8249; ' + $L('prev_img') + '</strong></div> ';
 				paid = authorcurrent < authorlength - 1 ? authorimgs[authorcurrent + 1] : authorimgs[0];
-/*vot*/                         picpage += ' <div id="zimg_next" onmouseover="dragMenuDisabled=true;" onmouseout="dragMenuDisabled=false;" onclick="_zoom_page(\'' + paid + '\', ' + (showexif ? 1 : 0) + ')" class="zimg_next"><strong>'+lng['next']+' &#8250;</strong></div> ';
+				picpage += ' <div id="zimg_next" onmouseover="dragMenuDisabled=true;" onmouseout="dragMenuDisabled=false;" onclick="_zoom_page(\'' + paid + '\', ' + (showexif ? 1 : 0) + ')" class="zimg_next"><strong>' + $L('next_img') + ' &#8250;</strong></div> ';
 			}
 			if(picpage) {
 				$(menuid + '_picpage').innerHTML = picpage;
@@ -905,6 +928,46 @@ function _showTip(ctrlobj) {
 	showMenu({'mtype':'prompt','ctrlid':ctrlobj.id,'pos':'12!','duration':2,'zindex':JSMENU['zIndex']['prompt']});
 }
 
+function _showPrompt(ctrlid, evt, msg, timeout, classname) {
+	var menuid = ctrlid ? ctrlid + '_pmenu' : 'ntcwin';
+	var duration = timeout ? 0 : 3;
+	if($(menuid)) {
+		$(menuid).parentNode.removeChild($(menuid));
+	}
+	var div = document.createElement('div');
+	div.id = menuid;
+	div.className = !classname ? (ctrlid ? 'tip tip_js' : 'ntcwin') : classname;
+	div.style.display = 'none';
+	$('append_parent').appendChild(div);
+	if(ctrlid) {
+		msg = '<div id="' + ctrlid + '_prompt"><div class="tip_horn"></div><div class="tip_c">' + msg + '</div>';
+	} else {
+		msg = '<div class="pc_inner">' + msg + '</div>';
+	}
+	div.innerHTML = msg;
+	if(ctrlid) {
+		if(!timeout) {
+			evt = 'click';
+		}
+		if($(ctrlid)) {
+			if($(ctrlid).evt !== false) {
+				var prompting = function() {
+					showMenu({'mtype':'prompt','ctrlid':ctrlid,'evt':evt,'menuid':menuid,'pos':'210'});
+				};
+				if(evt == 'click') {
+					$(ctrlid).onclick = prompting;
+				} else {
+					$(ctrlid).onmouseover = prompting;
+				}
+			}
+			showMenu({'mtype':'prompt','ctrlid':ctrlid,'evt':evt,'menuid':menuid,'pos':'210','duration':duration,'timeout':timeout,'zindex':JSMENU['zIndex']['prompt']});
+			$(ctrlid).unselectable = false;
+		}
+	} else {
+		showMenu({'mtype':'prompt','pos':'00','menuid':menuid,'duration':duration,'timeout':timeout,'zindex':JSMENU['zIndex']['prompt']});
+		$(menuid).style.top = (parseInt($(menuid).style.top) - 100) + 'px';
+	}
+}
 function _showCreditPrompt() {
 	var notice = getcookie('creditnotice').split('D');
 	var basev = getcookie('creditbase').split('D');
@@ -972,15 +1035,13 @@ function _showColorBox(ctrlid, layer, k, bgcolor) {
 		menu.unselectable = true;
 		menu.style.display = 'none';
 		var coloroptions = ['Black', 'Sienna', 'DarkOliveGreen', 'DarkGreen', 'DarkSlateBlue', 'Navy', 'Indigo', 'DarkSlateGray', 'DarkRed', 'DarkOrange', 'Olive', 'Green', 'Teal', 'Blue', 'SlateGray', 'DimGray', 'Red', 'SandyBrown', 'YellowGreen', 'SeaGreen', 'MediumTurquoise', 'RoyalBlue', 'Purple', 'Gray', 'Magenta', 'Orange', 'Yellow', 'Lime', 'Cyan', 'DeepSkyBlue', 'DarkOrchid', 'Silver', 'Pink', 'Wheat', 'LemonChiffon', 'PaleGreen', 'PaleTurquoise', 'LightBlue', 'Plum', 'White'];
-               var str = '';
-               for (var i = 0; i < 40; i++) {
-                       str += '<input type="button" style="background-color: ' + coloroptions[i] + '"' +
-                               (typeof setEditorTip == 'function' ? ' onmouseover="setEditorTip(\'' + colortexts[coloroptions[i]] + '\')" onmouseout="setEditorTip(\'\')"' : '') +
-                               ' onclick="' +
-                               (typeof wysiwyg == 'undefined' ? 'seditor_insertunit(\'' + k + '\', \'[' + tag1 + '=' + coloroptions[i] + ']\', \'[/' + tag1 + ']\')' : (ctrlid == editorid + '_tbl_param_4' ? '$(\'' + ctrlid + '\').value=\'' + coloroptions[i] + '\';hideMenu(2)' : 'discuzcode(\'' + tag2 + '\', \'' + coloroptions[i] + '\')')) +
-                               '" title="' + colortexts[coloroptions[i]] + '" />' +
-                               (i < 39 && (i + 1) % 8 == 0 ? '<br />' : '');
-               }
+		var colortexts = $L('color_texts').split(',');
+		var str = '';
+		for(var i = 0; i < 40; i++) {
+			str += '<input type="button" style="background-color: ' + coloroptions[i] + '"' + (typeof setEditorTip == 'function' ? ' onmouseover="setEditorTip(\'' + colortexts[i] + '\')" onmouseout="setEditorTip(\'\')"' : '') + ' onclick="'
+			+ (typeof wysiwyg == 'undefined' ? 'seditor_insertunit(\'' + k + '\', \'[' + tag1 + '=' + coloroptions[i] + ']\', \'[/' + tag1 + ']\')' : (ctrlid == editorid + '_tbl_param_4' ? '$(\'' + ctrlid + '\').value=\'' + coloroptions[i] + '\';hideMenu(2)' : 'discuzcode(\'' + tag2 + '\', \'' + coloroptions[i] + '\')'))
+			+ '" title="' + colortexts[i] + '" />' + (i < 39 && (i + 1) % 8 == 0 ? '<br />' : '');
+		}
 		menu.innerHTML = str;
 		$('append_parent').appendChild(menu);
 	}
@@ -1033,7 +1094,7 @@ function _extstyle(css) {
 }
 
 function _widthauto(obj) {
-/*vot*/    var strs = [lng['wide_screen'], lng['narrow_screen']];
+	var strs = [$L('switch_wide'), $L('switch_narrow')];
 	if($('css_widthauto')) {
 		CSSLOADED['widthauto'] = 1;
 	}
@@ -1063,7 +1124,7 @@ function _showCreditmenu() {
 		menu.id = 'extcreditmenu_menu';
 		menu.style.display = 'none';
 		menu.className = 'p_pop';
-/*vot*/         menu.innerHTML = '<div class="p_opt"><div class="loadicon vm"></div> ' + lng['wait_please'] + '</div>';
+		menu.innerHTML = '<div class="p_opt"><div class="loadicon vm"></div> ' + $L('waiting') + '</div>';
 		$('append_parent').appendChild(menu);
 		ajaxget($('extcreditmenu').href, 'extcreditmenu_menu', 'ajaxwaitid');
 	}
@@ -1076,7 +1137,7 @@ function _showUpgradeinfo() {
 		menu.id = 'g_upmine_menu';
 		menu.style.display = 'none';
 		menu.className = 'p_pop';
-/*vot*/         menu.innerHTML = '<div class="p_opt"><div class="loadicon vm"></div> ' + lng['wait_please'] + '</div>';
+		menu.innerHTML = '<div class="p_opt"><div class="loadicon vm"></div> ' + $L('waiting') + '</div>';
 		$('append_parent').appendChild(menu);
 		ajaxget('home.php?mod=spacecp&ac=usergroup&showextgroups=1', 'g_upmine_menu', 'ajaxwaitid');
 	}
@@ -1163,12 +1224,8 @@ function _createPalette(colorid, id, func) {
 
 function _setShortcut() {
 	$('shortcuttip').onclick = function() {
-/*vot*/         var msg = lng['shortcut_1'] + '"<a href="javascript:;" class="xi2 xw1" ';
-                msg += 'onclick="this.href = \'forum.php?mod=misc&action=shortcut\';this.click();saveUserdata(\'setshortcut\', 1);"';
-/*vot*/         msg += '>'+lng['shortcut_1_1']+'</a>"' + lng['shortcut_1_2'] + '<br />';
-/*vot*/         msg += lng['shortcut_2'] + '<a href="forum.php?mod=misc&action=shortcut&type=ico" class="xi2 xw1">';
-/*vot*/         msg += lng['shortcut_2_1']+'</a>"' + lng['shortcut_2_2'];
-/*vot*/         showDialog(msg, 'notice', lng['shortcut_add']);
+		var msg = $L('shortcut_notice');
+		showDialog(msg, 'notice', $L('add_shortcut'));
 	};
 
 	$('shortcutcloseid').onclick = function() {

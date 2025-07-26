@@ -1,10 +1,9 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: block_groupthreadspecified.php 23608 2011-07-27 08:10:07Z cnteacher $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -15,57 +14,57 @@ require_once libfile('block_groupthread', 'class/block/group');
 
 class block_groupthreadspecified extends block_groupthread {
 	function __construct() {
-		$this->setting = array(
-			'tids' => array(
+		$this->setting = [
+			'tids' => [
 				'title' => 'groupthread_tids',
 				'type' => 'text'
-			),
-			'fids'	=> array(
+			],
+			'fids' => [
 				'title' => 'groupthread_fids',
 				'type' => 'text'
-			),
-			'uids' => array(
+			],
+			'uids' => [
 				'title' => 'groupthread_uids',
 				'type' => 'text'
-			),
-			'special' => array(
+			],
+			'special' => [
 				'title' => 'groupthread_special',
 				'type' => 'mcheckbox',
-				'value' => array(
-					array(1, 'groupthread_special_1'),
-					array(2, 'groupthread_special_2'),
-					array(3, 'groupthread_special_3'),
-					array(4, 'groupthread_special_4'),
-					array(5, 'groupthread_special_5'),
-					array(0, 'groupthread_special_0'),
-				)
-			),
-			'rewardstatus' => array(
+				'value' => [
+					[1, 'groupthread_special_1'],
+					[2, 'groupthread_special_2'],
+					[3, 'groupthread_special_3'],
+					[4, 'groupthread_special_4'],
+					[5, 'groupthread_special_5'],
+					[0, 'groupthread_special_0'],
+				]
+			],
+			'rewardstatus' => [
 				'title' => 'groupthread_special_reward',
 				'type' => 'mradio',
-				'value' => array(
-					array(0, 'groupthread_special_reward_0'),
-					array(1, 'groupthread_special_reward_1'),
-					array(2, 'groupthread_special_reward_2')
-				),
+				'value' => [
+					[0, 'groupthread_special_reward_0'],
+					[1, 'groupthread_special_reward_1'],
+					[2, 'groupthread_special_reward_2']
+				],
 				'default' => 0,
-			),
-			'picrequired' => array(
+			],
+			'picrequired' => [
 				'title' => 'groupthread_picrequired',
 				'type' => 'radio',
 				'value' => '0'
-			),
-			'titlelength' => array(
+			],
+			'titlelength' => [
 				'title' => 'groupthread_titlelength',
 				'type' => 'text',
 				'default' => 40
-			),
-			'summarylength' => array(
+			],
+			'summarylength' => [
 				'title' => 'groupthread_summarylength',
 				'type' => 'text',
 				'default' => 80
-			),
-		);
+			],
+		];
 	}
 
 	function name() {
@@ -73,4 +72,3 @@ class block_groupthreadspecified extends block_groupthread {
 	}
 }
 
-?>

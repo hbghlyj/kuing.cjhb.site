@@ -1,10 +1,9 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: cache_creditrule.php 24850 2011-10-12 11:09:19Z zhengqingpeng $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -12,14 +11,19 @@ if(!defined('IN_DISCUZ')) {
 }
 
 function build_cache_creditrule() {
-	$data = array();
+	$data = $sub_data = [];
 
-	foreach(C::t('common_credit_rule')->fetch_all_rule() as $rule) {
+	foreach(table_common_credit_rule::t()->fetch_all_rule() as $rule) {
 		$rule['rulenameuni'] = urlencode(diconv($rule['rulename'], CHARSET, 'UTF-8', true));
-		$data[$rule['action']] = $rule;
+		list($action, $sub) = explode('/', $rule['action']);
+		if($sub) {
+			$sub_data[$action][$rule['action']] = $rule;
+		} else {
+			$data[$rule['action']] = $rule;
+		}
 	}
 
+	savecache('creditrule_sub', $sub_data);
 	savecache('creditrule', $data);
 }
 
-?>

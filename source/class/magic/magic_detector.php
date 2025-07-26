@@ -1,10 +1,9 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: magic_detector.php 27375 2012-01-19 04:47:27Z chenmengshu $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -21,53 +20,53 @@ class magic_detector {
 	var $useevent = 0;
 	var $targetgroupperm = false;
 	var $copyright = '<a href="https://www.discuz.vip/" target="_blank">Discuz!</a>';
-	var $magic = array();
-	var $parameters = array();
+	var $magic = [];
+	var $parameters = [];
 
 	function getsetting(&$magic) {
-		$settings = array(
-			'num' => array(
+		$settings = [
+			'num' => [
 				'title' => 'detector_num',
 				'type' => 'select',
-				'value' => array(
-					array('5', '5'),
-					array('10', '10'),
-					array('20', '20'),
-				),
+				'value' => [
+					['5', '5'],
+					['10', '10'],
+					['20', '20'],
+				],
 				'default' => '10'
-			),
-		);
+			],
+		];
 		return $settings;
 	}
 
 	function setsetting(&$magicnew, &$parameters) {
-		$magicnew['num'] = in_array($parameters['num'], array(5,10,20,50)) ? intval($parameters['num']) : '10';
+		$magicnew['num'] = in_array($parameters['num'], [5, 10, 20, 50]) ? intval($parameters['num']) : '10';
 	}
 
 	function usesubmit() {
 		global $_G;
 
-		$list = $uids = array();
+		$list = $uids = [];
 		$num = !empty($this->parameters['num']) ? intval($this->parameters['num']) : 10;
 		$limit = $num + 20;
-		$giftMagicID = C::t('common_magic')->fetch_by_identifier('gift');
+		$giftMagicID = table_common_magic::t()->fetch_by_identifier('gift');
 		$mid = $giftMagicID['available'] ? intval($giftMagicID['magicid']) : 0;
 		if($mid) {
-			foreach(C::t('common_magiclog')->fetch_all_by_magicid_action_uid($mid, 2, $_G['uid'], 0, $limit) as $value) {
+			foreach(table_common_magiclog::t()->fetch_all_by_magicid_action_uid($mid, 2, $_G['uid'], 0, $limit) as $value) {
 				$uids[] = intval($value['uid']);
 			}
 		}
 		if($uids) {
 			$counter = 0;
-			$members = C::t('common_member')->fetch_all($uids);
-			foreach(C::t('common_member_field_home')->fetch_all($uids) as $uid => $value) {
+			$members = table_common_member::t()->fetch_all($uids);
+			foreach(table_common_member_field_home::t()->fetch_all($uids) as $uid => $value) {
 				$value = array_merge($members[$uid], $value);
-				$info = !empty($value['magicgift']) ? dunserialize($value['magicgift']) : array();
+				$info = !empty($value['magicgift']) ? dunserialize($value['magicgift']) : [];
 				if(!empty($info['left']) && (empty($info['receiver']) || !in_array($_G['uid'], $info['receiver']))) {
 					$value['avatar'] = addcslashes(avatar($uid, 'small'), "'");
 					$list[$uid] = $value;
 					$counter++;
-					if($counter>=$num) {
+					if($counter >= $num) {
 						break;
 					}
 				}
@@ -83,8 +82,7 @@ class magic_detector {
 	function show() {
 		global $_G;
 		$num = !empty($this->parameters['num']) ? intval($this->parameters['num']) : 10;
-		magicshowtips(lang('magic/detector', 'detector_info', array('num'=>$num)));
+		magicshowtips(lang('magic/detector', 'detector_info', ['num' => $num]));
 	}
 }
 
-?>

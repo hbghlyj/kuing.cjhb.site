@@ -1,12 +1,11 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: memory_driver_yac.php 27635 2017-02-02 17:02:46Z NaiXiaoxIN $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
-if (!defined('IN_DISCUZ')) {
+if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
@@ -22,7 +21,7 @@ class memory_driver_yac {
 
 	public function init($config) {
 		$this->enable = $this->env();
-		if ($this->enable) {
+		if($this->enable) {
 			$this->object = new yac();
 		}
 	}
@@ -33,8 +32,8 @@ class memory_driver_yac {
 
 	public function getMulti($keys) {
 		$result = $this->object->get($keys);
-		foreach ($result as $key => $value) {
-			if ($value === false) {
+		foreach($result as $key => $value) {
+			if($value === false) {
 				unset($result[$key]);
 			}
 		}
@@ -55,7 +54,7 @@ class memory_driver_yac {
 
 	public function inc($key, $step = 1) {
 		$old = $this->get($key);
-		if (!$old) {
+		if(!$old) {
 			return false;
 		}
 		return $this->set($key, $old + $step);
@@ -63,7 +62,7 @@ class memory_driver_yac {
 
 	public function dec($key, $step = 1) {
 		$old = $this->get($key);
-		if (!$old) {
+		if(!$old) {
 			return false;
 		}
 		return $this->set($key, $old - $step);

@@ -1,18 +1,17 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: lang_error.php 27449 2012-02-01 05:32:35Z zhangguosheng $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
-$lang = array
-(
+$lang =
+	[
 	'System Message' => '站点信息',
 
 	'config_notfound' => '配置文件 "config_global.php" 未找到或者无法访问， 请确认您已经正确安装了程序',
@@ -41,6 +40,5 @@ $lang = array
 	'file_upload_error_-102' => '上传失败！非图片类型文件，请返回。',
 	'file_upload_error_-103' => '上传失败！无法写入文件或写入失败，请返回。',
 	'file_upload_error_-104' => '上传失败！无法识别的图像文件格式，请返回。',
-);
+	];
 
-?>

@@ -1,22 +1,28 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: table_common_domain.php 27860 2012-02-16 02:32:58Z zhengqingpeng $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
-class table_common_domain extends discuz_table
-{
+class table_common_domain extends discuz_table {
+	public static function t() {
+		static $_instance;
+		if(!isset($_instance)) {
+			$_instance = new self();
+		}
+		return $_instance;
+	}
+
 	public function __construct() {
 
 		$this->_table = 'common_domain';
-		$this->_pk    = '';
+		$this->_pk = '';
 
 		parent::__construct();
 	}
@@ -30,17 +36,18 @@ class table_common_domain extends discuz_table
 
 	public function fetch_all_by_idtype($idtype) {
 		if(!empty($idtype)) {
-			return DB::fetch_all('SELECT * FROM %t WHERE '.DB::field('idtype', $idtype), array($this->_table));
+			return DB::fetch_all('SELECT * FROM %t WHERE '.DB::field('idtype', $idtype), [$this->_table]);
 		}
-		return array();
+		return [];
 	}
+
 	public function fetch_by_domain_domainroot($domain, $droot) {
-		return DB::fetch_first('SELECT * FROM %t WHERE domain=%s AND domainroot=%s', array($this->_table, $domain, $droot));
+		return DB::fetch_first('SELECT * FROM %t WHERE domain=%s AND domainroot=%s', [$this->_table, $domain, $droot]);
 	}
 
 	public function delete_by_id_idtype($id, $idtype) {
-		$parameter = array($this->_table, $id, $idtype);
-		$wherearr = array();
+		$parameter = [$this->_table, $id, $idtype];
+		$wherearr = [];
 		$wherearr[] = is_array($id) ? 'id IN(%n)' : 'id=%d';
 		$wherearr[] = is_array($idtype) ? 'idtype IN(%n)' : 'idtype=%s';
 		$wheresql = !empty($wherearr) && is_array($wherearr) ? ' WHERE '.implode(' AND ', $wherearr) : '';
@@ -48,9 +55,8 @@ class table_common_domain extends discuz_table
 	}
 
 	public function count_by_domain_domainroot($domain, $droot) {
-		return DB::result_first('SELECT COUNT(*) FROM %t WHERE domain=%s AND domainroot=%s', array($this->_table, $domain, $droot));
+		return DB::result_first('SELECT COUNT(*) FROM %t WHERE domain=%s AND domainroot=%s', [$this->_table, $domain, $droot]);
 	}
 
 }
 
-?>

@@ -1,10 +1,9 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: cache_focus.php 24152 2011-08-26 10:04:08Z zhangguosheng $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -12,12 +11,12 @@ if(!defined('IN_DISCUZ')) {
 }
 
 function build_cache_focus() {
-	$data = array();
+	$data = [];
 
-	$focus = C::t('common_setting')->fetch_setting('focus', true);
+	$focus = table_common_setting::t()->fetch_setting('focus', true);
 	$data['title'] = $focus['title'];
 	$data['cookie'] = intval($focus['cookie']);
-	$data['data'] = array();
+	$data['data'] = [];
 	if(is_array($focus['data'])) foreach($focus['data'] as $k => $v) {
 		if($v['available']) {
 			$data['data'][$k] = $v;
@@ -27,4 +26,3 @@ function build_cache_focus() {
 	savecache('focus', $data);
 }
 
-?>

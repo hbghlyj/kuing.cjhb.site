@@ -1,9 +1,8 @@
-/*
-	[Discuz!] (C)2001-2099 Comsenz Inc.
-	This is NOT a freeware, use is subject to license terms
-
-	$Id: seditor.js 28601 2012-03-06 02:49:55Z monkey $
-*/
+/**
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
+ */
 
 function seditor_showimgmenu(seditorkey) {
 	var imgurl = $(seditorkey + '_image_param_1').value;
@@ -11,7 +10,7 @@ function seditor_showimgmenu(seditorkey) {
 	var height = parseInt($(seditorkey + '_image_param_3').value);
 	var extparams = '';
 	if(width || height) {
-               extparams = '=' + width + ',' + height;
+		extparams = '=' + width + ',' + height
 	}
 	seditor_insertunit(seditorkey, '[img' + extparams + ']' + imgurl, '[/img]', null, 1);
 	$(seditorkey + '_image_param_1').value = '';
@@ -40,24 +39,24 @@ function seditor_menu(seditorkey, tag) {
 				curatli = 0;
 				atsubmitid = ctrlid + '_submit';
 				setTimeout(function() {atFilter('', 'at_list','atListSet');$('atkeyword').focus();}, 100);
-/*vot*/                         str = lng['enter_username'] + ':<br /><input type="text" id="atkeyword" style="width:240px" value="" class="px" onkeydown="atFilter(this.value, \'at_list\',\'atListSet\',event);" /><div class="p_pop" id="at_list" style="width:250px;"><ul><li>'+lng['at_friend']+'</li></ul></div>';
+				str = $L('input_username') + ':<br /><input type="text" id="atkeyword" style="width:240px" value="" class="px" onkeydown="atFilter(this.value, \'at_list\',\'atListSet\',event);" /><div class="p_pop" id="at_list" style="width:250px;"><ul><li>' + $L('at_notice') + '</li></ul></div>';
 				submitstr = 'seditor_insertunit(\'' + seditorkey + '\', \'@\' + $(\'atkeyword\').value.replace(/<\\/?b>/g, \'\')+\' \'); hideMenu();';
 				break;
 			case 'url':
-/*vot*/                         str = lng['enter_link_url']+':<br /><input type="text" id="' + ctrlid + '_param_1" sautocomplete="off" style="width: 98%" value="" class="px" />' +
-/*vot*/                                 '<br />'+lng['enter_link_text']+':<br /><input type="text" id="' + ctrlid + '_param_2" style="width: 98%" value="" class="px" />';
+				str = $L('input_link_href') + ':<br /><input type="text" id="' + ctrlid + '_param_1" sautocomplete="off" style="width: 98%" value="" class="px" />' +
+					'<br />' + $L('input_link_text') + ':<br /><input type="text" id="' + ctrlid + '_param_2" style="width: 98%" value="" class="px" />';
 				submitstr = "$('" + ctrlid + "_param_2').value !== '' ? seditor_insertunit('" + seditorkey + "', '[url='+seditor_squarestrip($('" + ctrlid + "_param_1').value)+']'+$('" + ctrlid + "_param_2').value, '[/url]', null, 1) : seditor_insertunit('" + seditorkey + "', '[url]'+$('" + ctrlid + "_param_1').value, '[/url]', null, 1);hideMenu();";
 				break;
 			case 'code':
 			case 'quote':
-/*vot*/                         var tagl = {'quote' : lng['insert_quote'], 'code' : lng['insert_code']};
+				var tagl = {'quote' : $L('input_quote'), 'code' : $L('input_code')};
 					str = tagl[tag] + ':<br /><textarea id="' + ctrlid + '_param_1" style="width: 98%" cols="50" rows="5" class="txtarea"></textarea>';
 				submitstr = "seditor_insertunit('" + seditorkey + "', '[" + tag + "]'+$('" + ctrlid + "_param_1').value, '[/" + tag + "]', null, 1);hideMenu();";
 				break;
 			case 'img':
-/*vot*/                         str = lng['enter_image_url']+':<br /><input type="text" id="' + ctrlid + '_param_1" style="width: 98%" value="" class="px" onchange="loadimgsize(this.value, \'' + seditorkey + '\',\'' + tag + '\')" />' +
-/*vot*/                                 '<p class="mtm">'+lng['width_optional']+': <input type="text" id="' + ctrlid + '_param_2" style="width: 15%" value="" class="px" /> &nbsp;' +
-/*vot*/                                 lng['height_optional']+': <input type="text" id="' + ctrlid + '_param_3" style="width: 15%" value="" class="px" /></p>';
+				str = $L('input_img') + ':<br /><input type="text" id="' + ctrlid + '_param_1" style="width: 98%" value="" class="px" onchange="loadimgsize(this.value, \'' + seditorkey + '\',\'' + tag + '\')" />' +
+					'<p class="mtm">' + $L('width') + '(' + $L('optional') + '): <input type="text" id="' + ctrlid + '_param_2" style="width: 15%" value="" class="px" /> &nbsp;' +
+                    $L('height') + '(' + $L('optional') + '): <input type="text" id="' + ctrlid + '_param_3" style="width: 15%" value="" class="px" /></p>';
 				submitstr = "seditor_insertunit('" + seditorkey + "', '[img' + ($('" + ctrlid + "_param_2').value !== '' && $('" + ctrlid + "_param_3').value !== '' ? '='+$('" + ctrlid + "_param_2').value+','+$('" + ctrlid + "_param_3').value : '')+']'+seditor_squarestrip($('" + ctrlid + "_param_1').value), '[/img]', null, 1);hideMenu();";
 				break;
 		}
@@ -67,7 +66,7 @@ function seditor_menu(seditorkey, tag) {
 		menu.className = 'p_pof upf';
 		menu.style.width = '270px';
 		$('append_parent').appendChild(menu);
-/*vot*/         menu.innerHTML = '<span class="y"><a onclick="hideMenu()" class="flbc" href="javascript:;">'+lng['close']+'</a></span><div class="p_opt cl"><form onsubmit="' + submitstr + ';return false;" autocomplete="off"><div>' + str + '</div><div class="pns mtn"><button type="submit" id="' + ctrlid + '_submit" class="pn pnc"><strong>'+lng['submit']+'</strong></button><button type="button" onClick="hideMenu()" class="pn"><em>'+lng['cancel']+'</em></button></div></form></div>';
+		menu.innerHTML = '<span class="y"><a onclick="hideMenu()" class="flbc" href="javascript:;">' + $L('close') + '</a></span><div class="p_opt cl"><form onsubmit="' + submitstr + ';return false;" autocomplete="off"><div>' + str + '</div><div class="pns mtn"><button type="submit" id="' + ctrlid + '_submit" class="pn pnc"><strong>' + $L('submit') + '</strong></button><button type="button" onClick="hideMenu()" class="pn"><em>' + $L('cancel') + '</em></button></div></form></div>';
 	}
 	showMenu({'ctrlid':ctrlid,'evt':'click','duration':3,'cache':0,'drag':1});
 }

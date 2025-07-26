@@ -1,10 +1,9 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: function_forum.php 36345 2017-01-12 01:55:04Z nemohou $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -43,17 +42,39 @@ function formulaperm($formula) {
 	$medalperm = $formula['medal'];
 	$permusers = $formula['users'];
 	$permmessage = $formula['message'];
+	if(!empty($formula['viewtype'])) {
+		if(!$_G['uid'] || !empty($formula['viewtype_gids']) && !in_array($_G['groupid'], $formula['viewtype_gids'])) {
+			loadcache('usergroups');
+			$usergroups = [];
+			foreach($formula['viewtype_gids'] as $gid) {
+				if(empty($_G['cache']['usergroups'][$gid]['grouptitle'])) {
+					continue;
+				}
+				$usergroups[] = $_G['cache']['usergroups'][$gid]['grouptitle'];
+			}
+			showmessage('forum_member_error', NULL, ['groups' => implode(',', $usergroups)], ['login' => 1]);
+		}
+		$joinuser = table_forum_groupuser::t()->fetch_userinfo($_G['uid'], $formula['viewtype_fid']);
+		if(!$joinuser) {
+			showmessage('forum_member_apply', '',
+				['url' => 'forum.php?mod=member&action=join&fid='.$formula['viewtype_fid'].'&formhash='.formhash()],
+				['alert' => 'info']);
+		} elseif(!$joinuser['level']) {
+			showmessage('forum_member_applied');
+		}
+	}
+
 	if($_G['setting']['medalstatus'] && $medalperm) {
 		$exists = 1;
 		$_G['forum_formulamessage'] = '';
 		$medalpermc = $medalperm;
 		if($_G['uid']) {
-			$memberfieldforum = C::t('common_member_field_forum')->fetch($_G['uid']);
+			$memberfieldforum = table_common_member_field_forum::t()->fetch($_G['uid']);
 			$medals = explode("\t", $memberfieldforum['medals']);
 			unset($memberfieldforum);
 			foreach($medalperm as $k => $medal) {
 				foreach($medals as $r) {
-					list($medalid) = explode("|", $r);
+					list($medalid) = explode('|', $r);
 					if($medalid == $medal) {
 						$exists = 0;
 						unset($medalpermc[$k]);
@@ -70,7 +91,7 @@ function formulaperm($formula) {
 					$_G['forum_formulamessage'] .= '<img src="'.$_G['cache']['medals'][$medal]['image'].'" style="vertical-align:middle;" />&nbsp;'.$_G['cache']['medals'][$medal]['name'].'&nbsp; ';
 				}
 			}
-			showmessage('forum_permforum_nomedal', NULL, array('forum_permforum_nomedal' => $_G['forum_formulamessage']), array('login' => 1));
+			showmessage('forum_permforum_nomedal', NULL, ['forum_permforum_nomedal' => $_G['forum_formulamessage']], ['login' => 1]);
 		}
 	}
 	$formulatext = $formula[0];
@@ -79,10 +100,10 @@ function formulaperm($formula) {
 		return FALSE;
 	}
 	if($permusers) {
-		$permusers = str_replace(array("\r\n", "\r"), array("\n", "\n"), $permusers);
+		$permusers = str_replace(["\r\n", "\r"], ["\n", "\n"], $permusers);
 		$permusers = explode("\n", trim($permusers));
 		if(!in_array($_G['member']['username'], $permusers)) {
-			showmessage('forum_permforum_disallow', NULL, array(), array('login' => 1));
+			showmessage('forum_permforum_disallow', NULL, [], ['login' => 1]);
 		}
 	}
 	if(!$formula) {
@@ -90,26 +111,28 @@ function formulaperm($formula) {
 	}
 	if(strexists($formula, '$memberformula[')) {
 		preg_match_all("/\\\$memberformula\['(\w+?)'\]/", $formula, $a);
-		$profilefields = array();
+		$profilefields = [];
 		foreach($a[1] as $field) {
 			switch($field) {
 				case 'regdate':
-					$formula = preg_replace_callback("/\{(\d{4})\-(\d{1,2})\-(\d{1,2})\}/", 'formulaperm_callback_123', $formula);
+					$formula = preg_replace_callback('/\{(\d{4})\-(\d{1,2})\-(\d{1,2})\}/', 'formulaperm_callback_123', $formula);
 				case 'regday':
 					break;
 				case 'regip':
 				case 'lastip':
-					$formula = preg_replace("/\{([0-9a-fA-F\.\:\/]+?)\}/", "'\\1'", $formula);
+					$formula = preg_replace('/\{([0-9a-fA-F\.\:\/]+?)\}/', "'\\1'", $formula);
 					$formula = preg_replace('/(\$memberformula\[\'(regip|lastip)\'\])\s*=+\s*\'([0-9a-fA-F\.\:\/]+?)\'/', "ip::check_ip(\\1, '\\3')", $formula);
 				case 'buyercredit':
 				case 'sellercredit':
-					space_merge($_G['member'], 'status');break;
-				case substr($field, 0, 5) == 'field':
+					space_merge($_G['member'], 'status');
+					break;
+				case str_starts_with($field, 'field'):
 					space_merge($_G['member'], 'profile');
-					$profilefields[] = $field;break;
+					$profilefields[] = $field;
+					break;
 			}
 		}
-		$memberformula = array();
+		$memberformula = [];
 		if($_G['uid']) {
 			$memberformula = $_G['member'];
 			if(in_array('regday', $a[1])) {
@@ -132,39 +155,40 @@ function formulaperm($formula) {
 	if(!$formulaperm) {
 		if(!$permmessage) {
 			$language = lang('forum/misc');
-			$search = array('regdate', 'regday', 'regip', 'lastip', 'buyercredit', 'sellercredit', 'digestposts', 'posts', 'threads', 'oltime');
-			$replace = array($language['formulaperm_regdate'], $language['formulaperm_regday'], $language['formulaperm_regip'], $language['formulaperm_lastip'], $language['formulaperm_buyercredit'], $language['formulaperm_sellercredit'], $language['formulaperm_digestposts'], $language['formulaperm_posts'], $language['formulaperm_threads'], $language['formulaperm_oltime']);
+			$search = ['regdate', 'regday', 'regip', 'lastip', 'buyercredit', 'sellercredit', 'digestposts', 'posts', 'threads', 'oltime'];
+			$replace = [$language['formulaperm_regdate'], $language['formulaperm_regday'], $language['formulaperm_regip'], $language['formulaperm_lastip'], $language['formulaperm_buyercredit'], $language['formulaperm_sellercredit'], $language['formulaperm_digestposts'], $language['formulaperm_posts'], $language['formulaperm_threads'], $language['formulaperm_oltime']];
 			for($i = 1; $i <= 8; $i++) {
 				$search[] = 'extcredits'.$i;
 				$replace[] = $_G['setting']['extcredits'][$i]['title'] ? $_G['setting']['extcredits'][$i]['title'] : $language['formulaperm_extcredits'].$i;
 			}
 			if($profilefields) {
-				loadcache(array('fields_required', 'fields_optional'));
+				loadcache(['fields_required', 'fields_optional']);
 				foreach($profilefields as $profilefield) {
 					$search[] = $profilefield;
 					$replace[] = !empty($_G['cache']['fields_optional']['field_'.$profilefield]) ? $_G['cache']['fields_optional']['field_'.$profilefield]['title'] : $_G['cache']['fields_required']['field_'.$profilefield]['title'];
 				}
 			}
-			$i = 0;$_G['forum_usermsg'] = '';
+			$i = 0;
+			$_G['forum_usermsg'] = '';
 			foreach($search as $s) {
-				if(in_array($s, array('digestposts', 'posts', 'threads', 'oltime', 'extcredits1', 'extcredits2', 'extcredits3', 'extcredits4', 'extcredits5', 'extcredits6', 'extcredits7', 'extcredits8'))) {
+				if(in_array($s, ['digestposts', 'posts', 'threads', 'oltime', 'extcredits1', 'extcredits2', 'extcredits3', 'extcredits4', 'extcredits5', 'extcredits6', 'extcredits7', 'extcredits8'])) {
 					$_G['forum_usermsg'] .= strexists($formulatext, $s) ? '<br />&nbsp;&nbsp;&nbsp;'.$replace[$i].': '.(@eval('return intval(getuserprofile(\''.$s.'\'));')) : '';
-				} elseif(in_array($s, array('regdate', 'regip', 'regday'))) {
+				} elseif(in_array($s, ['regdate', 'regip', 'regday'])) {
 					$_G['forum_usermsg'] .= strexists($formulatext, $s) ? '<br />&nbsp;&nbsp;&nbsp;'.$replace[$i].': '.(@eval('return $memberformula[\''.$s.'\'];')) : '';
 				}
 				$i++;
 			}
-			$search = array_merge($search, array('and', 'or', '>=', '<=', '=='));
-			$replace = array_merge($replace, array('&nbsp;&nbsp;<b>'.$language['formulaperm_and'].'</b>&nbsp;&nbsp;', '&nbsp;&nbsp;<b>'.$language['formulaperm_or'].'</b>&nbsp;&nbsp;', '&ge;', '&le;', '='));
+			$search = array_merge($search, ['and', 'or', '>=', '<=', '==']);
+			$replace = array_merge($replace, ['&nbsp;&nbsp;<b>'.$language['formulaperm_and'].'</b>&nbsp;&nbsp;', '&nbsp;&nbsp;<b>'.$language['formulaperm_or'].'</b>&nbsp;&nbsp;', '&ge;', '&le;', '=']);
 			$_G['forum_formulamessage'] = str_replace($search, $replace, $formulatext);
 		} else {
 			$_G['forum_formulamessage'] = $permmessage;
 		}
 
 		if(!$permmessage) {
-			showmessage('forum_permforum_nopermission', NULL, array('formulamessage' => $_G['forum_formulamessage'], 'usermsg' => $_G['forum_usermsg']), array('login' => 1));
+			showmessage('forum_permforum_nopermission', NULL, ['formulamessage' => $_G['forum_formulamessage'], 'usermsg' => $_G['forum_usermsg']], ['login' => 1]);
 		} else {
-			showmessage('forum_permforum_nopermission_custommsg', NULL, array('formulamessage' => $_G['forum_formulamessage']), array('login' => 1));
+			showmessage('forum_permforum_nopermission_custommsg', NULL, ['formulamessage' => $_G['forum_formulamessage']], ['login' => 1]);
 		}
 	}
 	return TRUE;
@@ -182,7 +206,7 @@ function medalformulaperm($formula, $type) {
 	$formula = $formula['medal'];
 	if(!empty($formula['usergroupallow']) && is_array($formula['usergroups']) && !in_array($_G['groupid'], $formula['usergroups'])) {
 		loadcache('usergroups');
-		$message = array();
+		$message = [];
 		foreach($formula['usergroups'] as $groupid) {
 			$message[] = $_G['cache']['usergroups'][$groupid]['grouptitle'].' ';
 		}
@@ -197,26 +221,28 @@ function medalformulaperm($formula, $type) {
 	}
 	if(strexists($formula, '$memberformula[')) {
 		preg_match_all("/\\\$memberformula\['(\w+?)'\]/", $formula, $a);
-		$profilefields = array();
+		$profilefields = [];
 		foreach($a[1] as $field) {
 			switch($field) {
 				case 'regdate':
-					$formula = preg_replace_callback("/\{(\d{4})\-(\d{1,2})\-(\d{1,2})\}/", 'medalformulaperm_callback_123', $formula);
+					$formula = preg_replace_callback('/\{(\d{4})\-(\d{1,2})\-(\d{1,2})\}/', 'medalformulaperm_callback_123', $formula);
 				case 'regday':
 					break;
 				case 'regip':
 				case 'lastip':
-					$formula = preg_replace("/\{([0-9a-fA-F\.\:\/]+?)\}/", "'\\1'", $formula);
+					$formula = preg_replace('/\{([0-9a-fA-F\.\:\/]+?)\}/', "'\\1'", $formula);
 					$formula = preg_replace('/(\$memberformula\[\'(regip|lastip)\'\])\s*=+\s*\'([0-9a-fA-F\.\:\/]+?)\'/', "ip::check_ip(\\1, '\\3')", $formula);
 				case 'buyercredit':
 				case 'sellercredit':
-					space_merge($_G['member'], 'status');break;
-				case substr($field, 0, 5) == 'field':
+					space_merge($_G['member'], 'status');
+					break;
+				case str_starts_with($field, 'field'):
 					space_merge($_G['member'], 'profile');
-					$profilefields[] = $field;break;
+					$profilefields[] = $field;
+					break;
 			}
 		}
-		$memberformula = array();
+		$memberformula = [];
 		if($_G['uid']) {
 			$memberformula = $_G['member'];
 			if(in_array('regday', $a[1])) {
@@ -239,30 +265,31 @@ function medalformulaperm($formula, $type) {
 	if(!$formulaperm || $type == 1) {
 		if(!$permmessage) {
 			$language = lang('forum/misc');
-			$search = array('regdate', 'regday', 'regip', 'lastip', 'buyercredit', 'sellercredit', 'digestposts', 'posts', 'threads', 'oltime');
-			$replace = array($language['formulaperm_regdate'], $language['formulaperm_regday'], $language['formulaperm_regip'], $language['formulaperm_lastip'], $language['formulaperm_buyercredit'], $language['formulaperm_sellercredit'], $language['formulaperm_digestposts'], $language['formulaperm_posts'], $language['formulaperm_threads'], $language['formulaperm_oltime']);
+			$search = ['regdate', 'regday', 'regip', 'lastip', 'buyercredit', 'sellercredit', 'digestposts', 'posts', 'threads', 'oltime'];
+			$replace = [$language['formulaperm_regdate'], $language['formulaperm_regday'], $language['formulaperm_regip'], $language['formulaperm_lastip'], $language['formulaperm_buyercredit'], $language['formulaperm_sellercredit'], $language['formulaperm_digestposts'], $language['formulaperm_posts'], $language['formulaperm_threads'], $language['formulaperm_oltime']];
 			for($i = 1; $i <= 8; $i++) {
 				$search[] = 'extcredits'.$i;
 				$replace[] = $_G['setting']['extcredits'][$i]['title'] ? $_G['setting']['extcredits'][$i]['title'] : $language['formulaperm_extcredits'].$i;
 			}
 			if($profilefields) {
-				loadcache(array('fields_required', 'fields_optional'));
+				loadcache(['fields_required', 'fields_optional']);
 				foreach($profilefields as $profilefield) {
 					$search[] = $profilefield;
 					$replace[] = !empty($_G['cache']['fields_optional']['field_'.$profilefield]) ? $_G['cache']['fields_optional']['field_'.$profilefield]['title'] : $_G['cache']['fields_required']['field_'.$profilefield]['title'];
 				}
 			}
-			$i = 0;$_G['forum_usermsg'] = '';
+			$i = 0;
+			$_G['forum_usermsg'] = '';
 			foreach($search as $s) {
-				if(in_array($s, array('digestposts', 'posts', 'threads', 'oltime', 'extcredits1', 'extcredits2', 'extcredits3', 'extcredits4', 'extcredits5', 'extcredits6', 'extcredits7', 'extcredits8'))) {
+				if(in_array($s, ['digestposts', 'posts', 'threads', 'oltime', 'extcredits1', 'extcredits2', 'extcredits3', 'extcredits4', 'extcredits5', 'extcredits6', 'extcredits7', 'extcredits8'])) {
 					$_G['forum_usermsg'] .= strexists($formulatext, $s) ? '<br />&nbsp;&nbsp;&nbsp;'.$replace[$i].': '.(@eval('return intval(getuserprofile(\''.$s.'\'));')) : '';
-				} elseif(in_array($s, array('regdate', 'regip'))) {
+				} elseif(in_array($s, ['regdate', 'regip'])) {
 					$_G['forum_usermsg'] .= strexists($formulatext, $s) ? '<br />&nbsp;&nbsp;&nbsp;'.$replace[$i].': '.(@eval('return $memberformula[\''.$s.'\'];')) : '';
 				}
 				$i++;
 			}
-			$search = array_merge($search, array('and', 'or', '>=', '<=', '=='));
-			$replace = array_merge($replace, array('&nbsp;&nbsp;<b>'.$language['formulaperm_and'].'</b>&nbsp;&nbsp;', '&nbsp;&nbsp;<b>'.$language['formulaperm_or'].'</b>&nbsp;&nbsp;', '&ge;', '&le;', '='));
+			$search = array_merge($search, ['and', 'or', '>=', '<=', '==']);
+			$replace = array_merge($replace, ['&nbsp;&nbsp;<b>'.$language['formulaperm_and'].'</b>&nbsp;&nbsp;', '&nbsp;&nbsp;<b>'.$language['formulaperm_or'].'</b>&nbsp;&nbsp;', '&ge;', '&le;', '=']);
 			$permmessage = str_replace($search, $replace, $formulatext);
 		}
 		if(!$formulaperm) {
@@ -312,15 +339,15 @@ function updatemodworks($modaction, $posts = 1) {
 	global $_G;
 	$today = dgmdate(TIMESTAMP, 'Y-m-d');
 	if($_G['setting']['modworkstatus'] && $modaction && $posts) {
-		$affect_rows = C::t('forum_modwork')->increase_count_posts_by_uid_modaction_dateline(1, $posts, $_G['uid'], $modaction, $today);
+		$affect_rows = table_forum_modwork::t()->increase_count_posts_by_uid_modaction_dateline(1, $posts, $_G['uid'], $modaction, $today);
 		if(!$affect_rows) {
-			C::t('forum_modwork')->insert(array(
+			table_forum_modwork::t()->insert([
 				'uid' => $_G['uid'],
 				'modaction' => $modaction,
 				'dateline' => $today,
 				'count' => 1,
 				'posts' => $posts,
-			));
+			]);
 		}
 	}
 }
@@ -343,15 +370,15 @@ function showmessagenoperm($type, $fid, $formula = '') {
 		$permmessage = stripslashes($formula['message']);
 	}
 
-	$usergroups = $nopermgroup = $forumnoperms = array();
-	$nopermdefault = array(
-		'viewperm' => array(),
-		'getattachperm' => array(),
-		'postperm' => array(7),
-		'replyperm' => array(7),
-		'postattachperm' => array(7),
-	);
-	$perms = array('viewperm', 'postperm', 'replyperm', 'getattachperm', 'postattachperm');
+	$usergroups = $nopermgroup = $forumnoperms = [];
+	$nopermdefault = [
+		'viewperm' => [],
+		'getattachperm' => [],
+		'postperm' => [7],
+		'replyperm' => [7],
+		'postattachperm' => [7],
+	];
+	$perms = ['viewperm', 'postperm', 'replyperm', 'getattachperm', 'postattachperm'];
 
 	foreach($_G['cache']['usergroups'] as $gid => $usergroup) {
 		$usergroups[$gid] = $usergroup['type'];
@@ -361,7 +388,7 @@ function showmessagenoperm($type, $fid, $formula = '') {
 	if($fid == $_G['forum']['fid']) {
 		$forum = $_G['forum'];
 	} else {
-		$forum = C::t('forum_forumfield')->fetch($fid);
+		$forum = table_forum_forumfield::t()->fetch($fid);
 	}
 
 	foreach($perms as $perm) {
@@ -370,7 +397,7 @@ function showmessagenoperm($type, $fid, $formula = '') {
 		$forumnoperm = $forum[$perm] ? array_diff(array_keys($usergroups), $permgroups) : $nopermdefault[$perm];
 		foreach($forumnoperm as $groupid) {
 			$nopermtype = $membertype && $groupid == 7 ? 'login' : ($usergroups[$groupid] == 'system' || $usergroups[$groupid] == 'special' ? 'none' : ($membertype ? 'upgrade' : 'none'));
-			$forumnoperms[$fid][$perm][$groupid] = array($nopermtype, $permgroups);
+			$forumnoperms[$fid][$perm][$groupid] = [$nopermtype, $permgroups];
 		}
 	}
 
@@ -382,7 +409,7 @@ function showmessagenoperm($type, $fid, $formula = '') {
 			if($gid && $_G['cache']['usergroups'][$gid]) {
 				$permgroups .= $comma.$_G['cache']['usergroups'][$gid]['grouptitle'];
 				$comma = ', ';
-			} elseif($_G['setting']['verify']['enabled'] && substr($gid, 0, 1) == 'v') {
+			} elseif($_G['setting']['verify']['enabled'] && str_starts_with($gid, 'v')) {
 				$vid = substr($gid, 1);
 				$permgroups .= $comma.$_G['setting']['verify'][$vid]['title'];
 				$comma = ', ';
@@ -403,12 +430,12 @@ function showmessagenoperm($type, $fid, $formula = '') {
 		}
 	}
 
-	showmessage($message, NULL, array('fid' => $fid, 'permgroups' => $permgroups, 'grouptitle' => $_G['group']['grouptitle']), array('login' => 1), $custom);
+	showmessage($message, NULL, ['fid' => $fid, 'permgroups' => $permgroups, 'grouptitle' => $_G['group']['grouptitle']], ['login' => 1], $custom);
 }
 
 function loadforum($fid = null, $tid = null) {
 	global $_G;
-	$tid = intval(isset($tid) ? $tid : getgpc('tid'));
+	$tid = intval($tid ?? getgpc('tid'));
 	if(isset($fid)) {
 		$fid = intval($fid);
 	} else {
@@ -417,7 +444,7 @@ function loadforum($fid = null, $tid = null) {
 			$fid = intval(getgpc('gid'));
 		}
 	}
-	if(isset($_G['forum']['fid']) && $_G['forum']['fid'] == $fid || isset($_G['thread']['tid']) && $_G['thread']['tid'] == $tid){
+	if(isset($_G['forum']['fid']) && $_G['forum']['fid'] == $fid || isset($_G['thread']['tid']) && $_G['thread']['tid'] == $tid) {
 		return null;
 	}
 	if(!empty($_GET['archiver'])) {//X1.5的Archiver兼容
@@ -437,14 +464,14 @@ function loadforum($fid = null, $tid = null) {
 		empty($_G['setting']['forumpicstyle']['thumbwidth']) && $_G['setting']['forumpicstyle']['thumbwidth'] = 203;
 		empty($_G['setting']['forumpicstyle']['thumbheight']) && $_G['setting']['forumpicstyle']['thumbheight'] = 0;
 	} else {
-		$_G['setting']['forumpicstyle'] = array('thumbwidth' => 203, 'thumbheight' => 0);
+		$_G['setting']['forumpicstyle'] = ['thumbwidth' => 203, 'thumbheight' => 0];
 	}
 	if($fid) {
 		$fid = is_numeric($fid) ? intval($fid) : (!empty($_G['setting']['forumfids'][$fid]) ? $_G['setting']['forumfids'][$fid] : 0);
 	}
 
 	$modthreadkey = isset($_GET['modthreadkey']) && $_GET['modthreadkey'] == modauthkey($tid) ? $_GET['modthreadkey'] : '';
-	$_G['forum_auditstatuson'] = $modthreadkey ? true : false;
+	$_G['forum_auditstatuson'] = (bool)$modthreadkey;
 
 	$metadescription = $hookscriptmessage = '';
 	$adminid = $_G['adminid'];
@@ -456,11 +483,11 @@ function loadforum($fid = null, $tid = null) {
 			$_G['thread'] = get_thread_by_tid($tid, $archiveid);
 			$_G['thread']['allreplies'] = $_G['thread']['replies'] + $_G['thread']['comments'];
 			if(!$_G['forum_auditstatuson'] && !empty($_G['thread'])
-					&& !($_G['thread']['displayorder'] >= 0 || (in_array($_G['thread']['displayorder'], array(-4,-3,-2)) && $_G['uid'] && $_G['thread']['authorid'] == $_G['uid']))) {
+				&& !($_G['thread']['displayorder'] >= 0 || (in_array($_G['thread']['displayorder'], [-4, -3, -2]) && $_G['uid'] && $_G['thread']['authorid'] == $_G['uid']))) {
 				$_G['thread'] = null;
 			}
 
-			$_G['forum_thread'] = & $_G['thread'];
+			$_G['forum_thread'] = &$_G['thread'];
 
 			if(empty($_G['thread'])) {
 				$fid = $tid = 0;
@@ -471,13 +498,13 @@ function loadforum($fid = null, $tid = null) {
 		}
 
 		if($fid) {
-			$forum = C::t('forum_forum')->fetch_info_by_fid($fid);
+			$forum = table_forum_forum::t()->fetch_info_by_fid($fid);
 		}
 
 		if($forum) {
 			if($_G['uid']) {
 				if($_G['member']['accessmasks']) {
-					$query = C::t('forum_access')->fetch_all_by_fid_uid($fid, $_G['uid']);
+					$query = table_forum_access::t()->fetch_all_by_fid_uid($fid, $_G['uid']);
 					$forum['allowview'] = $query[0]['allowview'];
 					$forum['allowpost'] = $query[0]['allowpost'];
 					$forum['allowreply'] = $query[0]['allowreply'];
@@ -487,12 +514,12 @@ function loadforum($fid = null, $tid = null) {
 					$forum['allowpostimage'] = $query[0]['allowpostimage'];
 				}
 				if($adminid == 3) {
-					$forum['ismoderator'] = C::t('forum_moderator')->fetch_uid_by_fid_uid($fid, $_G['uid']);
+					$forum['ismoderator'] = table_forum_moderator::t()->fetch_uid_by_fid_uid($fid, $_G['uid']);
 				}
 			}
 			$forum['ismoderator'] = !empty($forum['ismoderator']) || $adminid == 1 || $adminid == 2 ? 1 : 0;
 			$fid = $forum['fid'];
-			$gorup_admingroupids = $_G['setting']['group_admingroupids'] ? dunserialize($_G['setting']['group_admingroupids']) : array('1' => '1');
+			$gorup_admingroupids = $_G['setting']['group_admingroupids'] ? dunserialize($_G['setting']['group_admingroupids']) : ['1' => '1'];
 
 			if($forum['status'] == 3) {
 				if(!empty($forum['moderators'])) {
@@ -514,15 +541,15 @@ function loadforum($fid = null, $tid = null) {
 						$group_userperm = dunserialize($_G['setting']['group_userperm']);
 						if(is_array($group_userperm)) {
 							$_G['group'] = array_merge($_G['group'], $group_userperm);
-							$_G['group']['allowmovethread'] = $_G['group']['allowcopythread'] = $_G['group']['allowedittypethread']= 0;
+							$_G['group']['allowmovethread'] = $_G['group']['allowcopythread'] = $_G['group']['allowedittypethread'] = 0;
 						}
 					}
 				}
 			}
-			foreach(array('threadtypes', 'threadsorts', 'creditspolicy', 'modrecommend') as $key) {
-				$forum[$key] = !empty($forum[$key]) ? dunserialize($forum[$key]) : array();
+			foreach(['threadtypes', 'threadsorts', 'creditspolicy', 'modrecommend'] as $key) {
+				$forum[$key] = !empty($forum[$key]) ? dunserialize($forum[$key]) : [];
 				if(!is_array($forum[$key])) {
-					$forum[$key] = array();
+					$forum[$key] = [];
 				}
 			}
 
@@ -540,10 +567,10 @@ function loadforum($fid = null, $tid = null) {
 				$_G['isgroupuser'] = 0;
 				$_G['basescript'] = 'group';
 				if($forum['level'] == 0) {
-					$levelinfo = C::t('forum_grouplevel')->fetch_by_credits($forum['commoncredits']);
+					$levelinfo = table_forum_grouplevel::t()->fetch_by_credits($forum['commoncredits']);
 					$levelid = $levelinfo['levelid'];
 					$forum['level'] = $levelid;
-					C::t('forum_forum')->update_group_level($levelid, $fid);
+					table_forum_forum::t()->update_group_level($levelid, $fid);
 				}
 				if($forum['level'] != -1) {
 					loadcache('grouplevels');
@@ -565,13 +592,13 @@ function loadforum($fid = null, $tid = null) {
 					if(!empty($forum['moderators'][$_G['uid']])) {
 						$_G['isgroupuser'] = 1;
 					} else {
-						$groupuserinfo = C::t('forum_groupuser')->fetch_userinfo($_G['uid'], $fid);
+						$groupuserinfo = table_forum_groupuser::t()->fetch_userinfo($_G['uid'], $fid);
 						$_G['isgroupuser'] = $groupuserinfo['level'];
 						if($_G['isgroupuser'] <= 0 && empty($forum['ismoderator'])) {
 							$_G['group']['allowrecommend'] = $_G['cache']['usergroup_'.$_G['groupid']]['allowrecommend'] = 0;
 							$_G['group']['allowcommentpost'] = $_G['cache']['usergroup_'.$_G['groupid']]['allowcommentpost'] = 0;
 							$_G['group']['allowcommentitem'] = $_G['cache']['usergroup_'.$_G['groupid']]['allowcommentitem'] = 0;
-							$_G['group']['raterange'] = $_G['cache']['usergroup_'.$_G['groupid']]['raterange'] = array();
+							$_G['group']['raterange'] = $_G['cache']['usergroup_'.$_G['groupid']]['raterange'] = [];
 							$_G['group']['allowvote'] = $_G['cache']['usergroup_'.$_G['groupid']]['allowvote'] = 0;
 						} else {
 							$_G['isgroupuser'] = 1;
@@ -600,25 +627,25 @@ function loadforum($fid = null, $tid = null) {
 function get_thread_by_tid($tid, $forcetableid = null) {
 	global $_G;
 
-	$ret = array();
+	$ret = [];
 	if(!is_numeric($tid)) {
 		return $ret;
 	}
 	loadcache('threadtableids');
-	$threadtableids = array(0);
+	$threadtableids = [0];
 	if(!empty($_G['cache']['threadtableids'])) {
 		if($forcetableid === null || ($forcetableid > 0 && !in_array($forcetableid, $_G['cache']['threadtableids']))) {
 			$threadtableids = array_merge($threadtableids, $_G['cache']['threadtableids']);
 		} else {
-			$threadtableids = array(intval($forcetableid));
+			$threadtableids = [intval($forcetableid)];
 		}
 	}
 	$threadtableids = array_unique($threadtableids);
 	foreach($threadtableids as $tableid) {
 		$tableid = $tableid > 0 ? $tableid : 0;
-		$ret = C::t('forum_thread')->fetch_thread($tid, $tableid);
+		$ret = table_forum_thread::t()->fetch_thread($tid, $tableid);
 		if($ret) {
-			$ret['threadtable'] = C::t('forum_thread')->get_table_name($tableid);
+			$ret['threadtable'] = table_forum_thread::t()->get_table_name($tableid);
 			$ret['threadtableid'] = $tableid;
 			$ret['posttable'] = 'forum_post'.($ret['posttableid'] ? '_'.$ret['posttableid'] : '');
 			break;
@@ -626,9 +653,9 @@ function get_thread_by_tid($tid, $forcetableid = null) {
 	}
 
 	if(!is_array($ret)) {
-		$ret = array();
+		$ret = [];
 	} elseif(getglobal('setting/optimizeviews')) {
-		if(($row = C::t('forum_threadaddviews')->fetch($tid))) {
+		if(($row = table_forum_threadaddviews::t()->fetch($tid))) {
 			$ret['addviews'] = intval($row['addviews']);
 			$ret['views'] += $ret['addviews'];
 		}
@@ -640,19 +667,19 @@ function get_thread_by_tid($tid, $forcetableid = null) {
 function get_post_by_pid($pid, $fields = '*', $addcondiction = '', $forcetable = null) {
 	global $_G;
 
-	$ret = array();
+	$ret = [];
 	if(!is_numeric($pid)) {
 		return $ret;
 	}
 
 	loadcache('posttable_info');
 
-	$posttableids = array(0);
+	$posttableids = [0];
 	if($_G['cache']['posttable_info']) {
 		if(isset($forcetable)) {
 			if(is_numeric($forcetable) && array_key_exists($forcetable, $_G['cache']['posttable_info'])) {
 				$posttableids[] = $forcetable;
-			} elseif(substr($forcetable, 0, 10) == 'forum_post') {
+			} elseif(str_starts_with($forcetable, 'forum_post')) {
 				$posttableids[] = $forcetable;
 			}
 		} else {
@@ -660,9 +687,9 @@ function get_post_by_pid($pid, $fields = '*', $addcondiction = '', $forcetable =
 		}
 	}
 
-	foreach ($posttableids as $id) {
+	foreach($posttableids as $id) {
 		$table = empty($id) ? 'forum_post' : (is_numeric($id) ? 'forum_post_'.$id : $id);
-		$ret = C::t('forum_post')->fetch_by_pid_condition($id, $pid, $addcondiction, $fields);
+		$ret = table_forum_post::t()->fetch_by_pid_condition($id, $pid, $addcondiction, $fields);
 		if($ret) {
 			$ret['posttable'] = $table;
 			break;
@@ -670,21 +697,21 @@ function get_post_by_pid($pid, $fields = '*', $addcondiction = '', $forcetable =
 	}
 
 	if(!is_array($ret)) {
-		$ret = array();
+		$ret = [];
 	}
 
 	return $ret;
 }
 
 function get_post_by_tid_pid($tid, $pid) {
-	static $postlist = array();
+	static $postlist = [];
 	if(empty($postlist[$pid])) {
-		$postlist[$pid] = C::t('forum_post')->fetch_post('tid:'.$tid, $pid, false);
+		$postlist[$pid] = table_forum_post::t()->fetch_post('tid:'.$tid, $pid, false);
 		if($postlist[$pid] && $postlist[$pid]['tid'] == $tid) {
 			$user = getuserbyuid($postlist[$pid]['authorid']);
 			$postlist[$pid]['adminid'] = $user['adminid'];
 		} else {
-			$postlist[$pid] = array();
+			$postlist[$pid] = [];
 		}
 	}
 	return $postlist[$pid];
@@ -694,7 +721,7 @@ function set_rssauth() {
 	global $_G;
 	if($_G['setting']['rssstatus'] && $_G['uid']) {
 		$auth = authcode($_G['uid']."\t".($_G['fid'] ? $_G['fid'] : '').
-		"\t".substr(md5($_G['member']['password']), 0, 8), 'ENCODE', md5($_G['config']['security']['authkey']));
+			"\t".substr(md5($_G['member']['password']), 0, 8), 'ENCODE', md5($_G['config']['security']['authkey']));
 	} else {
 		$auth = '0';
 	}
@@ -712,7 +739,7 @@ function upload_icon_banner(&$data, $file, $type) {
 	if(empty($data['extid'])) return '';
 
 	if($data['status'] == 3 && $_G['setting']['group_imgsizelimit']) {
-		$file['size'] > ($_G['setting']['group_imgsizelimit'] * 1024) && showmessage('file_size_overflow', '', array('size' => $_G['setting']['group_imgsizelimit'] * 1024));
+		$file['size'] > ($_G['setting']['group_imgsizelimit'] * 1024) && showmessage('file_size_overflow', '', ['size' => $_G['setting']['group_imgsizelimit'] * 1024]);
 	}
 	$upload = new discuz_upload();
 	$uploadtype = $data['status'] == 3 ? 'group' : 'common';
@@ -733,6 +760,9 @@ function upload_icon_banner(&$data, $file, $type) {
 		$img = new image;
 		$img->Thumb($upload->attach['target'], './'.$uploadtype.'/'.$upload->attach['attachment'], 200, 200, 'fixwr');
 	}
+	if($_G['setting']['ftp']['on'] == 2) {
+		ftpcmd('upload', $uploadtype.'/'.$upload->attach['attachment']);
+	}
 	return $upload->attach['attachment'];
 }
 
@@ -740,7 +770,7 @@ function arch_multi($total, $perpage, $page, $link) {
 	$pages = @ceil($total / $perpage) + 1;
 	$pagelink = '';
 	if($pages > 1) {
-		$pagelink .= lang('forum/archiver', 'page') . ": \n";
+		$pagelink .= lang('forum/archiver', 'page').": \n";
 		$pagestart = $page - 10 < 1 ? 1 : $page - 10;
 		$pageend = $page + 10 >= $pages ? $pages : $page + 10;
 		for($i = $pagestart; $i < $pageend; $i++) {
@@ -753,28 +783,27 @@ function arch_multi($total, $perpage, $page, $link) {
 function loadarchiver($path) {
 	global $_G;
 	if(!$_G['setting']['archiver']) {
-		require_once DISCUZ_ROOT . "./source/archiver/common/header.php";
+		require_once childfile('header', 'forum/archiver');
 		echo '<div id="content">'.lang('message', 'forum_archiver_disabled').'</div>';
-		require_once DISCUZ_ROOT . "./source/archiver/common/footer.php";
+		require_once libfile('footer', 'forum/archiver');
 		exit;
 	}
-	$filename = $path . '.php';
-	return DISCUZ_ROOT . "./source/archiver/$filename";
+	return childfile($path, 'forum/archiver');
 }
 
 function update_threadpartake($tid, $getsetarr = false) {
 	global $_G;
-	$setarr = array();
+	$setarr = [];
 	if($_G['uid'] && $tid) {
 		if($_G['setting']['heatthread']['period']) {
-			$partaked = C::t('forum_threadpartake')->fetch_threadpartake($tid, $_G['uid']);
+			$partaked = table_forum_threadpartake::t()->fetch_threadpartake($tid, $_G['uid']);
 			$partaked = $partaked['uid'];
 			if(!$partaked) {
-				C::t('forum_threadpartake')->insert(array('tid' => $tid, 'uid' => $_G['uid'], 'dateline' => TIMESTAMP));
-				$setarr = C::t('forum_thread')->increase($tid, array('heats' => 1), false, 0, $getsetarr);
+				table_forum_threadpartake::t()->insert(['tid' => $tid, 'uid' => $_G['uid'], 'dateline' => TIMESTAMP]);
+				$setarr = table_forum_thread::t()->increase($tid, ['heats' => 1], false, 0, $getsetarr);
 			}
 		} else {
-			$setarr = C::t('forum_thread')->increase($tid, array('heats' => 1), false, 0, $getsetarr);
+			$setarr = table_forum_thread::t()->increase($tid, ['heats' => 1], false, 0, $getsetarr);
 
 		}
 	}
@@ -804,25 +833,33 @@ function convertunusedattach($aid, $tid, $pid) {
 		return;
 	}
 	global $_G;
-	$attach = C::t('forum_attachment_n')->fetch_by_aid_uid(127, $aid, $_G['uid']);
+	$attach = table_forum_attachment_n::t()->fetch_by_aid_uid(127, $aid, $_G['uid']);
 	if(!$attach) {
 		return;
+	}
+	if($_G['setting']['ftp']['on'] == 2) {
+		ftpcmd('upload', 'forum/'.$attach['attachment']);
+		@unlink($_G['setting']['attachdir'].'/forum/'.$attach['attachment']);
+		if($attach['thumb']) {
+			ftpcmd('upload', 'forum/'.getimgthumbname($attach['attachment']));
+			@unlink($_G['setting']['attachdir'].'/forum/'.getimgthumbname($attach['attachment']));
+		}
 	}
 	$attach = daddslashes($attach);
 	$attach['tid'] = $tid;
 	$attach['pid'] = $pid;
-	C::t('forum_attachment_n')->insert_attachment('tid:'.$tid, $attach);
-	C::t('forum_attachment')->update($attach['aid'], array('tid' => $tid, 'pid' => $pid, 'tableid' => getattachtableid($tid)));
-	C::t('forum_attachment_unused')->delete($attach['aid']);
+	table_forum_attachment_n::t()->insert_attachment('tid:'.$tid, $attach);
+	table_forum_attachment::t()->update($attach['aid'], ['tid' => $tid, 'pid' => $pid, 'tableid' => getattachtableid($tid)]);
+	table_forum_attachment_unused::t()->delete($attach['aid']);
 }
 
 function updateattachtid($idtype, $ids, $oldtid, $newtid) {
-		foreach(C::t('forum_attachment_n')->fetch_all_by_id('tid:'.$oldtid, $idtype, $ids) as $attach) {
-			$attach['tid'] = $newtid;
-			C::t('forum_attachment_n')->insert_attachment('tid:'.$newtid, $attach, false, true);
-		}
-		C::t('forum_attachment_n')->delete_by_id('tid:'.$oldtid, $idtype, $ids);
-	C::t('forum_attachment')->update_by_id($idtype, $ids, $newtid);
+	foreach(table_forum_attachment_n::t()->fetch_all_by_id('tid:'.$oldtid, $idtype, $ids) as $attach) {
+		$attach['tid'] = $newtid;
+		table_forum_attachment_n::t()->insert_attachment('tid:'.$newtid, $attach, false, true);
+	}
+	table_forum_attachment_n::t()->delete_by_id('tid:'.$oldtid, $idtype, $ids);
+	table_forum_attachment::t()->update_by_id($idtype, $ids, $newtid);
 }
 
 function updatepost($data, $condition, $unbuffered = false, $posttableid = false) {
@@ -831,23 +868,23 @@ function updatepost($data, $condition, $unbuffered = false, $posttableid = false
 
 function insertpost($data) {
 	if(isset($data['tid'])) {
-		$thread = C::t('forum_thread')->fetch_thread($data['tid']);
+		$thread = table_forum_thread::t()->fetch_thread($data['tid']);
 		$tableid = $thread['posttableid'];
 		// 第三方插件和系统内普遍直接用 insertpost 插入回复, 因此改为在这里处理
-		if(!$data['first'] && $thread['replies'] <= 0 && C::t('forum_sofa')->fetch($thread['tid'])) {
-			C::t('forum_sofa')->delete($thread['tid']);
+		if(!$data['first'] && $thread['replies'] <= 0 && table_forum_sofa::t()->fetch($thread['tid'])) {
+			table_forum_sofa::t()->delete($thread['tid']);
 		}
 	} else {
 		$tableid = $data['tid'] = 0;
 	}
-	$pid = C::t('forum_post_tableid')->insert(array('pid' => null), true);
+	$pid = table_forum_post_tableid::t()->insert(['pid' => null], true);
 
 
-	$data = array_merge($data, array('pid' => $pid));
+	$data = array_merge($data, ['pid' => $pid]);
 
-	C::t('forum_post')->insert_post($tableid, $data);
+	table_forum_post::t()->insert_post($tableid, $data);
 	if($pid % 1024 == 0) {
-		C::t('forum_post_tableid')->delete_by_lesspid($pid);
+		table_forum_post_tableid::t()->delete_by_lesspid($pid);
 	}
 	savecache('max_post_id', $pid);
 	return $pid;
@@ -878,26 +915,26 @@ function threadmodstatus($string) {
 			$modnewthreads = $modnewreplies = 1;
 		}
 	}
-	return array($modnewthreads, $modnewreplies);
+	return [$modnewthreads, $modnewreplies];
 }
 
 function threadpubsave($tid, $passapproval = false) {
 	global $_G;
 	if($_G['setting']['plugins']['func'][HOOKTYPE]['threadpubsave']) {
 		$hookparam = func_get_args();
-		hookscript('threadpubsave', 'global', 'funcs', array('param' => $hookparam, 'step' => 'check'), 'threadpubsave');
+		hookscript('threadpubsave', 'global', 'funcs', ['param' => $hookparam, 'step' => 'check'], 'threadpubsave');
 	}
-	$thread = C::t('forum_thread')->fetch_by_tid_displayorder($tid, -4, '=', !$passapproval ? $_G['uid'] : null);
+	$thread = table_forum_thread::t()->fetch_by_tid_displayorder($tid, -4, '=', !$passapproval ? $_G['uid'] : null);
 	if(!$thread) {
 		return 0;
 	}
-	$threadpost = C::t('forum_post')->fetch_threadpost_by_tid_invisible($tid);
+	$threadpost = table_forum_post::t()->fetch_threadpost_by_tid_invisible($tid);
 	$thread['message'] = $threadpost['message'];
 
 	$modworksql = 0;
 	$displayorder = 0;
 	$dateline = $_G['timestamp'];
-	$moderatepids = $saveposts = array();
+	$moderatepids = $saveposts = [];
 	$return = 1;
 
 	list($modnewthreads) = threadmodstatus($thread['subject']."\t".$thread['message']);
@@ -907,15 +944,15 @@ function threadpubsave($tid, $passapproval = false) {
 		$displayorder = -2;
 		$modworksql = 1;
 		$return = -1;
-		C::t('forum_post')->update_by_tid('tid:'.$tid, $tid, array('dateline' => $dateline), false, false, 1);
+		table_forum_post::t()->update_by_tid('tid:'.$tid, $tid, ['dateline' => $dateline], false, false, 1);
 	} else {
-		C::t('forum_post')->update_by_tid('tid:'.$tid, $tid, array('dateline' => $dateline, 'invisible' => '0'), false, false, 1);
+		table_forum_post::t()->update_by_tid('tid:'.$tid, $tid, ['dateline' => $dateline, 'invisible' => '0'], false, false, 1);
 	}
 
-	C::t('forum_thread')->update($tid, array('displayorder'=>$displayorder, 'dateline'=>$_G['timestamp'], 'lastpost'=>$_G['timestamp']));
+	table_forum_thread::t()->update($tid, ['displayorder' => $displayorder, 'dateline' => $_G['timestamp'], 'lastpost' => $_G['timestamp']]);
 	$posts = $thread['replies'] + 1;
 	if($thread['replies']) {
-		$saveposts = C::t('forum_post')->fetch_all_by_tid('tid:'.$tid, $tid, true, '', 0, 0, 0);
+		$saveposts = table_forum_post::t()->fetch_all_by_tid('tid:'.$tid, $tid, true, '', 0, 0, 0);
 		foreach($saveposts as $post) {
 			$dateline++;
 			$invisible = 0;
@@ -927,7 +964,7 @@ function threadpubsave($tid, $passapproval = false) {
 				$modworksql = 1;
 				$return = -2;
 			}
-			C::t('forum_post')->update_post('tid:'.$tid, $post['pid'], array('dateline' => $dateline, 'invisible' => $invisible));
+			table_forum_post::t()->update_post('tid:'.$tid, $post['pid'], ['dateline' => $dateline, 'invisible' => $invisible]);
 			updatepostcredits('+', $thread['authorid'], 'reply', $thread['fid']);
 		}
 	}
@@ -936,22 +973,22 @@ function threadpubsave($tid, $passapproval = false) {
 		manage_addnotify('verifypost');
 	}
 	updatepostcredits('+', $thread['authorid'], 'post', $thread['fid']);
-	$attachcount = C::t('forum_attachment_n')->count_by_id('tid:'.$thread['tid'], 'tid', $thread['tid']);
-	updatecreditbyaction('postattach', $thread['authorid'], array(), '', $attachcount, 1, $thread['fid']);
+	$attachcount = table_forum_attachment_n::t()->count_by_id('tid:'.$thread['tid'], 'tid', $thread['tid']);
+	updatecreditbyaction('postattach', $thread['authorid'], [], '', $attachcount, 1, $thread['fid']);
 	if($_G['forum']['status'] == 3) {
-		C::t('forum_groupuser')->update_counter_for_user($thread['authorid'], $thread['fid'], 1);
+		table_forum_groupuser::t()->update_counter_for_user($thread['authorid'], $thread['fid'], 1);
 	}
 
 	$subject = str_replace("\t", ' ', $thread['subject']);
 	$subject = cutstr($subject, 80);
 	$lastpost = $thread['tid']."\t".$subject."\t".$thread['lastpost']."\t".$thread['lastposter'];
-	C::t('forum_forum')->update($_G['fid'], array('lastpost' => $lastpost));
-	C::t('forum_forum')->update_forum_counter($thread['fid'], 1, $posts, $posts, $modworksql);
+	table_forum_forum::t()->update($_G['fid'], ['lastpost' => $lastpost]);
+	table_forum_forum::t()->update_forum_counter($thread['fid'], 1, $posts, $posts, $modworksql);
 	if($_G['forum']['type'] == 'sub') {
-		C::t('forum_forum')->update($_G['forum']['fup'], array('lastpost' => $lastpost));
+		table_forum_forum::t()->update($_G['forum']['fup'], ['lastpost' => $lastpost]);
 	}
 	if($_G['setting']['plugins']['func'][HOOKTYPE]['threadpubsave']) {
-		hookscript('threadpubsave', 'global', 'funcs', array('param' => $hookparam, 'step' => 'save', 'posts' => $saveposts), 'threadpubsave');
+		hookscript('threadpubsave', 'global', 'funcs', ['param' => $hookparam, 'step' => 'save', 'posts' => $saveposts], 'threadpubsave');
 	}
 	return $return;
 }
@@ -962,7 +999,7 @@ function getrelatecollection($tid, $all = false, &$num = null, &$more = null) {
 	$maxdisplay = $_G['setting']['collectionnum'];
 	if(!$maxdisplay) return;
 
-	$tidrelate = C::t('forum_collectionrelated')->fetch($tid);
+	$tidrelate = table_forum_collectionrelated::t()->fetch($tid);
 	$ctids = explode("\t", $tidrelate['collection'], -1);
 	$num = count($ctids);
 
@@ -975,12 +1012,12 @@ function getrelatecollection($tid, $all = false, &$num = null, &$more = null) {
 	} else {
 		$maxdisplay = 0;
 	}
-	return C::t('forum_collection')->fetch_all($ctids, 'follownum', 'DESC', 0, $maxdisplay, '', $tid);
+	return table_forum_collection::t()->fetch_all($ctids, 'follownum', 'DESC', 0, $maxdisplay, '', $tid);
 }
 
 function set_atlist_cookie($uids) {
 	global $_G;
-	$atlist = $tmp = array();
+	$atlist = $tmp = [];
 	$num = 0;
 	$maxlist = 10;
 	if(empty($uids)) {
@@ -1008,8 +1045,8 @@ function set_atlist_cookie($uids) {
 }
 
 function viewthread_is_search_referer() {
-	$regex = "((http|https)\:\/\/)?";
-	$regex .= "([a-z]*.)?(toutiao.com|m.sm.cn|www.so.com|sogou.com|bing.com|baidu.com|google.com|google.cn|google.com.hk)(.[a-z]{2,3})?\/";
+	$regex = '((http|https)\:\/\/)?';
+	$regex .= '([a-z]*.)?(toutiao.com|m.sm.cn|www.so.com|sogou.com|bing.com|baidu.com|google.com|google.cn|google.com.hk)(.[a-z]{2,3})?\/';
 	if(preg_match("/^$regex/", $_SERVER['HTTP_REFERER'])) {
 		return true;
 	}
@@ -1039,7 +1076,7 @@ function stringtopic($value, $key = '', $force = false, $rlength = 0) {
 	$rowh = 25;
 	$value = explode("\r", $value);
 	if($rlength) {
-		$temp = array();
+		$temp = [];
 		foreach($value as $str) {
 			$strlen = dstrlen($str);
 			if($strlen > $rlength) {
@@ -1057,16 +1094,16 @@ function stringtopic($value, $key = '', $force = false, $rlength = 0) {
 		unset($temp);
 	}
 	if(function_exists('imagettftext')) {
-		$fontroot = DISCUZ_ROOT.'./static/image/seccode/font/ch/';
+		$fontroot = DISCUZ_ROOT.'./source/data/seccode/font/ch/';
 		$dirs = opendir($fontroot);
 		while($entry = readdir($dirs)) {
-			if($entry != '.' && $entry != '..' && in_array(strtolower(fileext($entry)), array('ttf', 'ttc'))) {
+			if($entry != '.' && $entry != '..' && in_array(strtolower(fileext($entry)), ['ttf', 'ttc'])) {
 				$fontname = $entry;
 				break;
 			}
 		}
 		if(!empty($fontname)) {
-			$fontfile = DISCUZ_ROOT.'./static/image/seccode/font/ch/'.$fontname;
+			$fontfile = DISCUZ_ROOT.'./source/data/seccode/font/ch/'.$fontname;
 		}
 		if($fontfile) {
 			if(strtoupper(CHARSET) != 'UTF-8') {
@@ -1084,11 +1121,11 @@ function stringtopic($value, $key = '', $force = false, $rlength = 0) {
 			$box = imagettfbbox($size, 0, $fontfile, $str);
 			$height = max($box[1], $box[3]) - min($box[5], $box[7]);
 			$len = (max($box[2], $box[4]) - min($box[0], $box[6]));
-			$rowh = max(array($height, $rowh));
+			$rowh = max([$height, $rowh]);
 		} else {
 			$len = strlen($str) * 12;
 		}
-		$w = max(array($len, $w));
+		$w = max([$len, $w]);
 	}
 	$h = $rowh * count($value) + count($value) * 2;
 	$im = @imagecreate($w, $h);
@@ -1125,7 +1162,7 @@ function getreplybg($replybg = '') {
 			}
 		}
 		if($bgurl) {
-			$style = '<style>#fastpostmessage:invalid{background-image: url('.$bgurl.');}</style>';
+			$style = ' style="background-image: url('.$bgurl.');"';
 		}
 	}
 	return $style;
@@ -1137,18 +1174,17 @@ function safefilter(&$data) {
 			safefilter($data[$k]);
 		}
 	} else {
-		$data = str_replace(array(
+		$data = str_replace([
 			'[/color]', '[b]', '[/b]', '[s]', '[/s]', '[i]', '[/i]', '[u]', '[/u]',
-			), array(
+		], [
 			'</font>', '<b>', '</b>', '<strike>', '</strike>', '<i>', '</i>', '<u>', '</u>'
-			), preg_replace(array(
-			"/\[color=([#\w]+?)\]/i",
-			"/\[color=((rgb|rgba)\([\d\s\.,]+?\))\]/i",
-			), array(
+		], preg_replace([
+			'/\[color=([#\w]+?)\]/i',
+			'/\[color=((rgb|rgba)\([\d\s\.,]+?\))\]/i',
+		], [
 			"<font color=\"\\1\">",
 			"<font style=\"color:\\1\">",
-			), strip_tags($data)));
+		], strip_tags($data)));
 	}
 }
 
-?>

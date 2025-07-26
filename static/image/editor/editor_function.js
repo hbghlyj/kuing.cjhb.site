@@ -1,4 +1,3 @@
-// Modified by Valery Votintsev, codersclub.org
 function uploadEdit(obj) {
 	mainForm = obj.form;
 	forms = $('attachbody').getElementsByTagName("FORM");
@@ -43,7 +42,7 @@ function backupContent(sHTML) {
 	if(sHTML.length > 11) {
 		var obj = $('uchome-ttHtmlEditor').form;
 		if(!obj) return;
-               var data = '', subject = '', message = '';
+		var data = subject = message = '';
 		for(var i = 0; i < obj.elements.length; i++) {
 			var el = obj.elements[i];
 			if(el.name != '' && (el.tagName == 'TEXTAREA' || el.tagName == 'INPUT' && (el.type == 'text' || el.type == 'checkbox' || el.type == 'radio')) && el.name.substr(0, 6) != 'attach') {
@@ -73,10 +72,10 @@ function edit_insert(html) {
 	var p = window.frames['uchome-ifrHtmlEditor'];
 	var obj = p.window.frames['HtmlEditor'];
 	var status = p.document.getElementById('uchome-editstatus').value;
-       if(status != 'html') {
-               /*vot*/ alert(lng['wysiwyg_only']);
-               return;
-       }
+	if(status != 'html') {
+		alert('本操作只在多媒体编辑模式下才有效');
+		return;
+	}
 	obj.focus();
 	if(BROWSER.ie){
 		var f = obj.document.selection.createRange();
@@ -197,9 +196,9 @@ function showInnerNav(){
 }
 
 function loadimgsize(imgurl, editor, p) {
-       editor = editor || 'icoImg';
-       var s = {};
-       p = p || '_image';
+	var editor = !editor ? 'icoImg' : editor;
+	var s = new Object();
+	var p = !p ? '_image' : p;
 	$(editor + p + '_param_2').value = '';
 	$(editor + p + '_param_3').value = '';
 	s.img = new Image();

@@ -1,19 +1,17 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: lang_type.php 36342 2021-05-17 15:38:43Z dplugin $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
-$lang = array(
+$lang = [
 	'payment_credit' => '积分充值',
 	'payment_invite' => '购买邀请码',
-);
+];
 
-?>

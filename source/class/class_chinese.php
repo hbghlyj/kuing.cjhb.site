@@ -1,31 +1,30 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: class_chinese.php 6757 2010-03-25 09:01:29Z cnteacher $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
-define('CODETABLE_DIR', DISCUZ_ROOT.'./source/include/table/');
+const CODETABLE_DIR = DISCUZ_ROOT.'./source/data/charset/';
 
 class Chinese {
 
 	var $table = '';
 	var $iconv_enabled = false;
 	var $convertbig5 = false;
-	var $unicode_table = array();
-	var $config  =  array (
-		'SourceLang'		=> '',
-		'TargetLang'		=> '',
-		'GBtoUnicode_table'	=> 'gb-unicode.table',
-		'BIG5toUnicode_table'	=> 'big5-unicode.table',
-		'GBtoBIG5_table'   	=> 'gb-big5.table',
-	);
+	var $unicode_table = [];
+	var $config = [
+		'SourceLang' => '',
+		'TargetLang' => '',
+		'GBtoUnicode_table' => 'gb-unicode.table',
+		'BIG5toUnicode_table' => 'big5-unicode.table',
+		'GBtoBIG5_table' => 'gb-big5.table',
+	];
 
 	function __construct($SourceLang, $TargetLang, $ForceTable = FALSE) {
 		$this->config['SourceLang'] = $this->_lang($SourceLang);
@@ -42,26 +41,27 @@ class Chinese {
 	function _lang($LangCode) {
 		$LangCode = strtoupper($LangCode);
 
-		if(substr($LangCode, 0, 2) == 'GB') {
+		if(str_starts_with($LangCode, 'GB')) {
 			return 'GBK';
-		} elseif(substr($LangCode, 0, 3) == 'BIG') {
+		} elseif(str_starts_with($LangCode, 'BIG')) {
 			return 'BIG5';
-		} elseif(substr($LangCode, 0, 3) == 'UTF') {
+		} elseif(str_starts_with($LangCode, 'UTF')) {
 			return 'UTF-8';
-		} elseif(substr($LangCode, 0, 3) == 'UNI') {
+		} elseif(str_starts_with($LangCode, 'UNI')) {
 			return 'UNICODE';
 		}
 	}
 
 	function _hex2bin($hexdata) {
-		for($i=0; $i < strlen($hexdata); $i += 2) {
+		$bindata = '';
+		for($i = 0; $i < strlen($hexdata); $i += 2) {
 			$bindata .= chr(hexdec(substr($hexdata, $i, 2)));
 		}
 		return $bindata;
 	}
 
 	function OpenTable() {
-		$this->unicode_table = array();
+		$this->unicode_table = [];
 		if(!$this->iconv_enabled && $this->config['TargetLang'] == 'BIG5') {
 			$this->config['TargetLang'] = 'GBK';
 			$this->convertbig5 = TRUE;
@@ -98,7 +98,7 @@ class Chinese {
 		} elseif($c < 0x10000) {
 			$str .= (0xE0 | $c >> 12);
 			$str .= (0x80 | $c >> 6 & 0x3F);
-			$str .=( 0x80 | $c & 0x3F);
+			$str .= (0x80 | $c & 0x3F);
 		} elseif($c < 0x200000) {
 			$str .= (0xF0 | $c >> 18);
 			$str .= (0x80 | $c >> 12 & 0x3F);
@@ -110,19 +110,19 @@ class Chinese {
 
 	function GB2312toBIG5($c) {
 		$f = fopen(CODETABLE_DIR.$this->config['GBtoBIG5_table'], 'r');
-		$max=strlen($c)-1;
-		for($i = 0;$i < $max;$i++){
-			$h=ord($c[$i]);
-			if($h>=160) {
-				$l=ord($c[$i+1]);
-				if($h==161 && $l==64){
-					$gb="  ";
-				} else{
-					fseek($f,($h-160)*510+($l-1)*2);
-					$gb=fread($f,2);
+		$max = strlen($c) - 1;
+		for($i = 0; $i < $max; $i++) {
+			$h = ord($c[$i]);
+			if($h >= 160) {
+				$l = ord($c[$i + 1]);
+				if($h == 161 && $l == 64) {
+					$gb = '  ';
+				} else {
+					fseek($f, ($h - 160) * 510 + ($l - 1) * 2);
+					$gb = fread($f, 2);
 				}
-				$c[$i]=$gb[0];
-				$c[$i+1]=$gb[1];
+				$c[$i] = $gb[0];
+				$c[$i + 1] = $gb[1];
 				$i++;
 			}
 		}
@@ -140,7 +140,7 @@ class Chinese {
 				$return = '';
 				while($SourceText != '') {
 					if(ord(substr($SourceText, 0, 1)) > 127) {
-						$return .= "&#x".dechex($this->Utf8_Unicode(iconv($this->config['SourceLang'],"UTF-8", substr($SourceText, 0, 2)))).";";
+						$return .= '&#x'.dechex($this->Utf8_Unicode(iconv($this->config['SourceLang'], 'UTF-8', substr($SourceText, 0, 2)))).';';
 						$SourceText = substr($SourceText, 2, strlen($SourceText));
 					} else {
 						$return .= substr($SourceText, 0, 1);
@@ -175,10 +175,18 @@ class Chinese {
 				while($i < $len) {
 					$c = ord(substr($SourceText, $i++, 1));
 					switch($c >> 4) {
-						case 0: case 1: case 2: case 3: case 4: case 5: case 6: case 7:
+						case 0:
+						case 1:
+						case 2:
+						case 3:
+						case 4:
+						case 5:
+						case 6:
+						case 7:
 							$out .= substr($SourceText, $i - 1, 1);
 							break;
-						case 12: case 13:
+						case 12:
+						case 13:
 							$char2 = ord(substr($SourceText, $i++, 1));
 							$char3 = $this->unicode_table[(($c & 0x1F) << 6) | ($char2 & 0x3F)];
 							if($this->config['TargetLang'] == 'GBK') {
@@ -206,7 +214,7 @@ class Chinese {
 						if($this->config['SourceLang'] == 'BIG5') {
 							$utf8 = $this->CHSUtoUTF8(hexdec($this->unicode_table[hexdec(bin2hex(substr($SourceText, 0, 2)))]));
 						} elseif($this->config['SourceLang'] == 'GBK') {
-							$utf8=$this->CHSUtoUTF8(hexdec($this->unicode_table[hexdec(bin2hex(substr($SourceText, 0, 2))) - 0x8080]));
+							$utf8 = $this->CHSUtoUTF8(hexdec($this->unicode_table[hexdec(bin2hex(substr($SourceText, 0, 2))) - 0x8080]));
 						}
 						for($i = 0; $i < strlen($utf8); $i += 3) {
 							$ret .= chr(substr($utf8, $i, 3));
@@ -247,4 +255,3 @@ class Chinese {
 
 }
 
-?>

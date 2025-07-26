@@ -1,41 +1,47 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: discuz_process.php 28412 2012-02-29 06:14:48Z cnteacher $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
-class discuz_process
-{
+class discuz_process {
 	public static function islocked($process, $ttl = 0, $autounlock = 0) {
 		$ttl = $ttl < 1 ? 600 : intval($ttl);
 		$status = discuz_process::_status('get', $process) || discuz_process::_find($process, $ttl);
-		
+
 		if($autounlock && !$status) {
 			register_shutdown_function('discuz_process::unlock', $process);
 		}
 
 		return $status;
 	}
-	
+
 	public static function unlock($process) {
 		discuz_process::_status('rm', $process);
 		discuz_process::_cmd('rm', $process);
 	}
 
 	private static function _status($action, $process) {
-		static $plist = array();
-		switch ($action) {
-			case 'add' : $plist[$process] = true; break;
-			case 'get' : return !empty($plist[$process]); break;
-			case 'rm' : $plist[$process] = null; break;
-			case 'clear' : $plist = array(); break;
+		static $plist = [];
+		switch($action) {
+			case 'add' :
+				$plist[$process] = true;
+				break;
+			case 'get' :
+				return !empty($plist[$process]);
+				break;
+			case 'rm' :
+				$plist[$process] = null;
+				break;
+			case 'clear' :
+				$plist = [];
+				break;
 		}
 		return true;
 	}
@@ -43,7 +49,7 @@ class discuz_process
 	private static function _find($name, $ttl) {
 
 		if(!discuz_process::_cmd('get', $name)) {
-			if(discuz_process::_cmd('add', $name, $ttl) == true) {
+			if(discuz_process::_cmd('add', $name, $ttl)) {
 				$ret = false;
 			} else {
 				$ret = true;
@@ -70,7 +76,7 @@ class discuz_process
 
 	private static function _process_cmd_memory($cmd, $name, $ttl = 0) {
 		$ret = '';
-		switch ($cmd) {
+		switch($cmd) {
 			case 'add' :
 				$ret = memory('add', 'process_lock_'.$name, time(), $ttl);
 				break;
@@ -85,25 +91,24 @@ class discuz_process
 
 	private static function _process_cmd_db($cmd, $name, $ttl = 0) {
 		$ret = '';
-		switch ($cmd) {
+		switch($cmd) {
 			case 'add':
-				$ret = C::t('common_process')->insert(array('processid' => $name, 'expiry' => time() + $ttl), FALSE, true);
+				$ret = table_common_process::t()->insert(['processid' => $name, 'expiry' => time() + $ttl], FALSE, true);
 				break;
 			case 'get':
-				$ret = C::t('common_process')->fetch($name);
+				$ret = table_common_process::t()->fetch($name);
 				if(empty($ret) || $ret['expiry'] < time()) {
-					C::t('common_process')->delete_process($name, time());
+					table_common_process::t()->delete_process($name, time());
 					$ret = false;
 				} else {
 					$ret = true;
 				}
 				break;
 			case 'rm':
-				$ret = C::t('common_process')->delete_process($name, time());
+				$ret = table_common_process::t()->delete_process($name, time());
 				break;
 		}
 		return $ret;
 	}
 }
 
-?>

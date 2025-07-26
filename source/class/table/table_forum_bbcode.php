@@ -1,27 +1,34 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: table_forum_bbcode.php 27786 2012-02-14 07:53:14Z zhengqingpeng $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
-class table_forum_bbcode extends discuz_table
-{
+class table_forum_bbcode extends discuz_table {
+	public static function t() {
+		static $_instance;
+		if(!isset($_instance)) {
+			$_instance = new self();
+		}
+		return $_instance;
+	}
+
 	public function __construct() {
 
 		$this->_table = 'forum_bbcode';
-		$this->_pk    = 'id';
+		$this->_pk = 'id';
 
 		parent::__construct();
 	}
+
 	public function fetch_all_by_available_icon($available = null, $haveicon = false, $glue = '=', $order = 'displayorder', $sort = 'ASC') {
-		$parameter = array($this->_table);
+		$parameter = [$this->_table];
 		if($available !== null) {
 			$parameter[] = $available;
 			$glue = helper_util::check_glue($glue);
@@ -36,4 +43,3 @@ class table_forum_bbcode extends discuz_table
 	}
 }
 
-?>

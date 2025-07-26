@@ -1,10 +1,9 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: dbbak.php 35016 2014-10-13 08:16:14Z nemohou $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 @define('IN_API', true);
@@ -17,24 +16,24 @@ $apptype = @$_GET['apptype'];
 
 $apptype = strtolower($apptype);
 
-define('IN_COMSENZ', TRUE);
+const IN_COMSENZ = TRUE;
 if($apptype == 'discuzx') {
 	define('ROOT_PATH', dirname(__FILE__).'/../../');
 } else {
 	define('ROOT_PATH', dirname(__FILE__).'/../');
 }
-define('EXPLOR_SUCCESS', 0);
-define('IMPORT_SUCCESS', 0);
-define('DELETE_SQLPATH_SUCCESS', 4);
-define('MKDIR_ERROR', 1);
-define('DATABASE_EXPORT_FILE_INVALID', 2);
-define('RUN_SQL_ERROR', 3);
-define('SQLPATH_NULL_NOEXISTS', 4);
-define('SQLPATH_NOMATCH_BAKFILE', 5);
-define('BAK_FILE_LOSE', 6);
-define('DIR_NO_EXISTS', 7);
-define('DELETE_DUMPFILE_ERROR', 8);
-define('DB_API_NO_MATCH', 9);
+const EXPLOR_SUCCESS = 0;
+const IMPORT_SUCCESS = 0;
+const DELETE_SQLPATH_SUCCESS = 4;
+const MKDIR_ERROR = 1;
+const DATABASE_EXPORT_FILE_INVALID = 2;
+const RUN_SQL_ERROR = 3;
+const SQLPATH_NULL_NOEXISTS = 4;
+const SQLPATH_NOMATCH_BAKFILE = 5;
+const BAK_FILE_LOSE = 6;
+const DIR_NO_EXISTS = 7;
+const DELETE_DUMPFILE_ERROR = 8;
+const DB_API_NO_MATCH = 9;
 
 $sizelimit = 2000;
 $usehex = true;
@@ -75,7 +74,7 @@ class dbstuffi {
 	var $time;
 	var $tablepre;
 
-	function connect($dbhost, $dbuser, $dbpw, $dbname = '', $dbcharset = '', $pconnect = 0, $tablepre='', $time = 0) {
+	function connect($dbhost, $dbuser, $dbpw, $dbname = '', $dbcharset = '', $pconnect = 0, $tablepre = '', $time = 0) {
 		$this->time = $time;
 		$this->tablepre = $tablepre;
 
@@ -92,7 +91,7 @@ class dbstuffi {
 
 		$this->link->query("SET sql_mode=''");
 
-		$this->link->query("SET character_set_client=binary");
+		$this->link->query('SET character_set_client=binary');
 
 	}
 
@@ -111,7 +110,7 @@ class dbstuffi {
 	}
 
 	function fetch_all($sql) {
-		$arr = array();
+		$arr = [];
 		$query = $this->query($sql);
 		while($data = $this->fetch_array($query)) {
 			$arr[] = $data;
@@ -168,7 +167,7 @@ class dbstuffi {
 	}
 
 	function insert_id() {
-		return ($id = $this->link->insert_id) >= 0 ? $id : $this->result($this->query("SELECT last_insert_id()"), 0);
+		return ($id = $this->link->insert_id) >= 0 ? $id : $this->result($this->query('SELECT last_insert_id()'), 0);
 	}
 
 	function fetch_row($query) {
@@ -203,9 +202,8 @@ $version = '';
 if($apptype == 'discuz') {
 
 	define('BACKUP_DIR', ROOT_PATH.'forumdata/');
-	$tablepre = $tablepre;
 	if(empty($dbcharset)) {
-		$dbcharset = in_array(strtolower($charset), array('gbk', 'big5', 'utf-8')) ? str_replace('-', '', $charset) : '';
+		$dbcharset = in_array(strtolower($charset), ['gbk', 'big5', 'utf-8']) ? str_replace('-', '', $charset) : '';
 	}
 	$db->connect($dbhost, $dbuser, $dbpw, $dbname, $dbcharset, $pconnect, $tablepre);
 	define('IN_DISCUZ', true);
@@ -238,16 +236,15 @@ if($apptype == 'discuz') {
 		$cfg['pass'] = urldecode($cfg['pass']);
 	}
 	$cfg['user'] = urldecode($cfg['user']);
-    $cfg['path'] = str_replace('/', '', $cfg['path']);
+	$cfg['path'] = str_replace('/', '', $cfg['path']);
 
 	$db->connect($cfg['host'].':'.$cfg['port'], $cfg['user'], $cfg['pass'], $cfg['path'], $dbcharset, 0, $tablepre);
 
 } elseif($apptype == 'supev') {
 
 	define('BACKUP_DIR', ROOT_PATH.'data/backup/');
-	$tablepre = $tablepre;
 	if(empty($dbcharset)) {
-		$dbcharset = in_array(strtolower($_config['output']['charset']), array('gbk', 'big5', 'utf-8')) ? str_replace('-', '', CHARSET) : '';
+		$dbcharset = in_array(strtolower($_config['output']['charset']), ['gbk', 'big5', 'utf-8']) ? str_replace('-', '', CHARSET) : '';
 	}
 	$db->connect($dbhost, $dbuser, $dbpw, $dbname, $dbcharset, $pconnect, $tablepre);
 
@@ -263,7 +260,7 @@ if($apptype == 'discuz') {
 	define('BACKUP_DIR', ROOT_PATH.'data/');
 	extract($_config['db']['1']);
 	if(empty($dbcharset)) {
-		$dbcharset = in_array(strtolower(CHARSET), array('gbk', 'big5', 'utf-8')) ? str_replace('-', '', $_config['output']['charset']) : '';
+		$dbcharset = in_array(strtolower(CHARSET), ['gbk', 'big5', 'utf-8']) ? str_replace('-', '', $_config['output']['charset']) : '';
 	}
 	$db->connect($dbhost, $dbuser, $dbpw, $dbname, $dbcharset, $pconnect, $tablepre);
 	define('IN_DISCUZ', true);
@@ -276,9 +273,9 @@ if($get['method'] == 'export') {
 
 	$db->query('SET SQL_QUOTE_SHOW_CREATE=0', 'SILENT');
 
-	$time = date("Y-m-d H:i:s", $timestamp);
+	$time = date('Y-m-d H:i:s', $timestamp);
 
-	$tables = array();
+	$tables = [];
 	$tables = arraykeys2(fetchtablelist($tablepre), 'Name');
 
 	if($apptype == 'discuz') {
@@ -319,7 +316,7 @@ if($get['method'] == 'export') {
 			api_msg('mkdir_error', 'make dir error:'.BACKUP_DIR.'./'.$get['sqlpath']);
 		}
 	} else {
-		$get['sqlpath'] = str_replace(array('/', '\\', '.', "'"), '', $get['sqlpath']);
+		$get['sqlpath'] = str_replace(['/', '\\', '.', "'"], '', $get['sqlpath']);
 		if(!is_dir(BACKUP_DIR.'./'.$get['sqlpath'])) {
 			if(!mkdir(BACKUP_DIR.'./'.$get['sqlpath'], 0777)) {
 				api_msg('mkdir_error', 'make dir error:'.BACKUP_DIR.'./'.$get['sqlpath']);
@@ -418,9 +415,11 @@ if($get['method'] == 'export') {
 } elseif($get['method'] == 'ping') {
 
 	if($get['dir'] && is_dir(BACKUP_DIR.$get['dir'])) {
-		echo "1";exit;
+		echo '1';
+		exit;
 	} else {
-		echo "-1";exit;
+		echo '-1';
+		exit;
 	}
 
 } elseif($get['method'] == 'list') {
@@ -437,7 +436,7 @@ if($get['method'] == 'export') {
 		}
 	}
 	$directory->close();
-	$str .= "</root>";
+	$str .= '</root>';
 	send_mime_type_header();
 	echo $str;
 	exit;
@@ -464,7 +463,7 @@ if($get['method'] == 'export') {
 		}
 	}
 	$directory->close();
-	$str .= "</root>";
+	$str .= '</root>';
 	send_mime_type_header();
 	echo $str;
 	exit;
@@ -490,40 +489,40 @@ if($get['method'] == 'export') {
 
 function syntablestruct($sql, $version, $dbcharset) {
 
-	if(strpos(trim(substr($sql, 0, 18)), 'CREATE TABLE') === FALSE) {
+	if(!str_contains(trim(substr($sql, 0, 18)), 'CREATE TABLE')) {
 		return $sql;
 	}
 
-	$sqlversion = strpos($sql, 'ENGINE=') === FALSE ? FALSE : TRUE;
+	$sqlversion = !(strpos($sql, 'ENGINE=') === FALSE);
 
 	if($sqlversion === $version) {
 
-		return $sqlversion && $dbcharset ? preg_replace(array('/ character set \w+/i', '/ collate \w+/i', "/DEFAULT CHARSET=\w+/is"), array('', '', "DEFAULT CHARSET=$dbcharset"), $sql) : $sql;
+		return $sqlversion && $dbcharset ? preg_replace(['/ character set \w+/i', '/ collate \w+/i', '/DEFAULT CHARSET=\w+/is'], ['', '', "DEFAULT CHARSET=$dbcharset"], $sql) : $sql;
 	}
 
 	if($version) {
-		return preg_replace(array('/TYPE=HEAP/i', '/TYPE=(\w+)/is'), array("ENGINE=MEMORY DEFAULT CHARSET=$dbcharset", "ENGINE=\\1 DEFAULT CHARSET=$dbcharset"), $sql);
+		return preg_replace(['/TYPE=HEAP/i', '/TYPE=(\w+)/is'], ["ENGINE=MEMORY DEFAULT CHARSET=$dbcharset", "ENGINE=\\1 DEFAULT CHARSET=$dbcharset"], $sql);
 
 	} else {
-		return preg_replace(array('/character set \w+/i', '/collate \w+/i', '/ENGINE=MEMORY/i', '/\s*DEFAULT CHARSET=\w+/is', '/\s*COLLATE=\w+/is', '/ENGINE=(\w+)(.*)/is'), array('', '', 'ENGINE=HEAP', '', '', 'TYPE=\\1\\2'), $sql);
+		return preg_replace(['/character set \w+/i', '/collate \w+/i', '/ENGINE=MEMORY/i', '/\s*DEFAULT CHARSET=\w+/is', '/\s*COLLATE=\w+/is', '/ENGINE=(\w+)(.*)/is'], ['', '', 'ENGINE=HEAP', '', '', 'TYPE=\\1\\2'], $sql);
 	}
 }
 
 function splitsql($sql) {
 	$sql = str_replace("\r", "\n", $sql);
-	$ret = array();
+	$ret = [];
 	$num = 0;
 	$queriesarray = explode(";\n", trim($sql));
 	unset($sql);
 	foreach($queriesarray as $query) {
-		$ret[$num] = isset($ret[$num]) ? $ret[$num] : '';
+		$ret[$num] = $ret[$num] ?? '';
 		$queries = explode("\n", trim($query));
 		foreach($queries as $query) {
-			$ret[$num] .= isset($query[0]) && $query[0] == "#" ? NULL : $query;
+			$ret[$num] .= isset($query[0]) && $query[0] == '#' ? NULL : $query;
 		}
 		$num++;
 	}
-	return($ret);
+	return ($ret);
 }
 
 function get_dumpfile_by_path($path) {
@@ -560,14 +559,14 @@ function api_msg($code, $msg) {
 	$out .= "\t\t<last_modify></last_modify>\n";
 	$out .= "\t</fileinfo>\n";
 	$out .= "\t<nexturl></nexturl>\n";
-	$out .= "</root>";
+	$out .= '</root>';
 	send_mime_type_header();
 	echo $out;
 	exit;
 }
 
 function arraykeys2($array, $key2) {
-	$return = array();
+	$return = [];
 	foreach($array as $val) {
 		$return[] = $val[$key2];
 	}
@@ -586,7 +585,7 @@ function auto_next($get, $sqlfile) {
 	$out .= "\t\t<last_modify>".filemtime($sqlfile)."</last_modify>\n";
 	$out .= "\t</fileinfo>\n";
 	$out .= "\t<nexturl><![CDATA[$next_url]]></nexturl>\n";
-	$out .= "</root>";
+	$out .= '</root>';
 	send_mime_type_header();
 	echo $out;
 	exit;
@@ -613,7 +612,7 @@ function sqldumptablestruct($table) {
 
 	$create = $db->fetch_row($createtable);
 
-	if(strpos($table, '.') !== FALSE) {
+	if(str_contains($table, '.')) {
 		$tablename = substr($table, strpos($table, '.') + 1);
 		$create[1] = str_replace("CREATE TABLE $tablename", 'CREATE TABLE '.$table, $create[1]);
 	}
@@ -629,11 +628,11 @@ function sqldumptable($table, $currsize = 0) {
 
 	$offset = 300;
 	$tabledump = '';
-	$tablefields = array();
+	$tablefields = [];
 
 	$query = $db->query("SHOW FULL COLUMNS FROM $table", 'SILENT');
 	if(strexists($table, 'adminsessions')) {
-		return ;
+		return;
 	} elseif(!$query && $db->errno() == 1146) {
 		return;
 	} elseif(!$query) {
@@ -706,7 +705,7 @@ function fetchtablelist($tablepre = '') {
 	$dbname = isset($arr[1]) && $arr[1] ? $arr[0] : '';
 	$tablepre = str_replace('_', '\_', $tablepre);
 	$sqladd = $dbname ? " FROM $dbname LIKE '$arr[1]%'" : "LIKE '$tablepre%'";
-	$tables = $table = array();
+	$tables = $table = [];
 	$query = $db->query("SHOW TABLE STATUS $sqladd");
 	while($table = $db->fetch_array($query)) {
 		$table['Name'] = ($dbname ? "$dbname." : '').$table['Name'];
@@ -723,7 +722,7 @@ function _authcode($string, $operation = 'DECODE', $key = '', $expiry = 0) {
 	// a参与加解密, b参与数据验证, c进行密文随机变换
 	$keya = md5(substr($key, 0, 16));
 	$keyb = md5(substr($key, 16, 16));
-	$keyc = $ckey_length ? ($operation == 'DECODE' ? substr($string, 0, $ckey_length): substr(md5(microtime()), -$ckey_length)) : '';
+	$keyc = $ckey_length ? ($operation == 'DECODE' ? substr($string, 0, $ckey_length) : substr(md5(microtime()), -$ckey_length)) : '';
 
 	// 参与运算的密钥组
 	$cryptkey = $keya.md5($keya.$keyc);
@@ -738,7 +737,7 @@ function _authcode($string, $operation = 'DECODE', $key = '', $expiry = 0) {
 	$box = range(0, 255);
 
 	// 产生密钥簿
-	$rndkey = array();
+	$rndkey = [];
 	for($i = 0; $i <= 255; $i++) {
 		$rndkey[$i] = ord($cryptkey[$i % $key_length]);
 	}
@@ -769,8 +768,8 @@ function _authcode($string, $operation = 'DECODE', $key = '', $expiry = 0) {
 		if(((int)substr($result, 0, 10) == 0 || (int)substr($result, 0, 10) - time() > 0) && substr($result, 10, 16) === substr(md5(substr($result, 26).$keyb), 0, 16)) {
 			return substr($result, 26);
 		} else {
-				return '';
-			}
+			return '';
+		}
 	} else {
 		// 把动态密钥保存在密文里, 并用 base64 编码保证传输时不被破坏
 		return $keyc.str_replace('=', '', base64_encode($result));
@@ -779,11 +778,11 @@ function _authcode($string, $operation = 'DECODE', $key = '', $expiry = 0) {
 }
 
 function strexists($haystack, $needle) {
-	return !(strpos($haystack, $needle) === FALSE);
+	return !(!str_contains($haystack, $needle));
 }
 
 function send_mime_type_header($type = 'application/xml') {
-	header("Content-Type: ".$type);
+	header('Content-Type: '.$type);
 }
 
 function is_https() {
@@ -812,4 +811,3 @@ function is_https() {
 	return false;
 }
 
-?>

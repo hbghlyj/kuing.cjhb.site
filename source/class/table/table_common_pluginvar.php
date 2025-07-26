@@ -1,31 +1,46 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: table_common_pluginvar.php 31830 2012-10-15 06:57:05Z monkey $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
-class table_common_pluginvar extends discuz_table
-{
+class table_common_pluginvar extends discuz_table {
+	public static function t() {
+		static $_instance;
+		if(!isset($_instance)) {
+			$_instance = new self();
+		}
+		return $_instance;
+	}
+
 	public function __construct() {
 
 		$this->_table = 'common_pluginvar';
-		$this->_pk    = 'pluginvarid';
+		$this->_pk = 'pluginvarid';
 
 		parent::__construct();
 	}
 
 	public function fetch_all_by_pluginid($pluginid) {
-		return DB::fetch_all("SELECT * FROM %t WHERE pluginid=%d ORDER BY displayorder", array($this->_table, $pluginid));
+		return DB::fetch_all('SELECT * FROM %t WHERE pluginid=%d ORDER BY displayorder', [$this->_table, $pluginid]);
 	}
+
 	public function count_by_pluginid($pluginid) {
-		return DB::result_first("SELECT COUNT(*) FROM %t WHERE pluginid=%d %i", array($this->_table, $pluginid, "AND (`type` NOT LIKE 'forum\_%' AND `type` NOT LIKE 'group\_%')"));
+		return DB::result_first('SELECT COUNT(*) FROM %t WHERE pluginid=%d %i', [$this->_table, $pluginid, "AND (`type` NOT LIKE 'forum\_%' AND `type` NOT LIKE 'group\_%')"]);
+	}
+
+	public function count_by_pluginid_page($pluginid) {
+		return DB::result_first("SELECT COUNT(*) FROM %t WHERE pluginid=%d AND type='stylePage'", [$this->_table, $pluginid]);
+	}
+
+	public function fetch_first_by_pluginid($pluginid) {
+		return DB::fetch_first('SELECT * FROM %t WHERE pluginid=%d ORDER BY displayorder LIMIT 1', [$this->_table, $pluginid]);
 	}
 
 	public function update_by_variable($pluginid, $variable, $data) {
@@ -43,7 +58,7 @@ class table_common_pluginvar extends discuz_table
 	}
 
 	public function check_variable($pluginid, $variable) {
-		return DB::result_first("SELECT COUNT(*) FROM %t WHERE pluginid=%d AND variable=%s", array($this->_table, $pluginid, $variable));
+		return DB::result_first('SELECT COUNT(*) FROM %t WHERE pluginid=%d AND variable=%s', [$this->_table, $pluginid, $variable]);
 	}
 
 	public function delete_by_pluginid($pluginid) {
@@ -62,4 +77,3 @@ class table_common_pluginvar extends discuz_table
 
 }
 
-?>

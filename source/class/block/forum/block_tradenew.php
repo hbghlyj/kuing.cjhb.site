@@ -1,10 +1,9 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: block_tradenew.php 25525 2011-11-14 04:39:11Z zhangguosheng $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -15,32 +14,32 @@ require_once libfile('block_trade', 'class/block/forum');
 
 class block_tradenew extends block_trade {
 	function __construct() {
-		$this->setting = array(
-			'fids'	=> array(
+		$this->setting = [
+			'fids' => [
 				'title' => 'tradelist_fids',
 				'type' => 'mselect',
-				'value' => array()
-			),
-			'viewmod' => array(
+				'value' => []
+			],
+			'viewmod' => [
 				'title' => 'threadlist_viewmod',
 				'type' => 'radio'
-			),
-			'titlelength' => array(
+			],
+			'titlelength' => [
 				'title' => 'tradelist_titlelength',
 				'type' => 'text',
 				'default' => 40
-			),
-			'summarylength' => array(
+			],
+			'summarylength' => [
 				'title' => 'tradelist_summarylength',
 				'type' => 'text',
 				'default' => 80
-			),
-			'startrow' => array(
+			],
+			'startrow' => [
 				'title' => 'tradelist_startrow',
 				'type' => 'text',
 				'default' => 0
-			),
-		);
+			],
+		];
 	}
 
 	function name() {
@@ -53,4 +52,3 @@ class block_tradenew extends block_trade {
 	}
 }
 
-?>

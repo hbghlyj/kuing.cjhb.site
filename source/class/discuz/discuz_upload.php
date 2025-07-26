@@ -1,10 +1,9 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: discuz_upload.php 34648 2014-06-18 02:53:07Z hypowang $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -12,13 +11,14 @@ if(!defined('IN_DISCUZ')) {
 }
 
 
-Class discuz_upload{
+class discuz_upload {
 
-	var $attach = array();
+	var $attach = [];
 	var $type = '';
 	var $extid = 0;
 	var $errorcode = 0;
 	var $forcename = '';
+	var $ftpcmd = 1;
 
 	public function __construct() {
 
@@ -27,22 +27,22 @@ Class discuz_upload{
 	function init($attach, $type = 'temp', $extid = 0, $forcename = '', $subdir = '', $dirtype = 1, $filename = '') {
 
 		if(!is_array($attach) || empty($attach) || !$this->is_upload_file($attach['tmp_name']) || trim($attach['name']) == '' || $attach['size'] == 0) {
-			$this->attach = array();
+			$this->attach = [];
 			$this->errorcode = -1;
 			return false;
 		} else {
 			$this->type = $this->check_dir_type($type);
 			$this->extid = intval($extid);
-			$this->forcename = preg_match("/^[a-z0-9_]+$/i", $forcename) ? $forcename : '';
-			$subdir = preg_match("/^[a-z0-9_]+$/i", $subdir) ? $subdir : '';
-			$filename = preg_match("/^[a-z0-9_]+$/i", $filename) ? $filename : '';
+			$this->forcename = preg_match('/^[a-z0-9_]+$/i', $forcename) ? $forcename : '';
+			$subdir = preg_match('/^[a-z0-9_]+$/i', $subdir) ? $subdir : '';
+			$filename = preg_match('/^[a-z0-9_]+$/i', $filename) ? $filename : '';
 
 			$attach['size'] = intval($attach['size']);
-			$attach['name'] =  trim($attach['name']);
+			$attach['name'] = trim($attach['name']);
 			$attach['thumb'] = '';
 			$attach['ext'] = $this->fileext($attach['name']);
 
-			$attach['name'] =  dhtmlspecialchars($attach['name'], ENT_QUOTES);
+			$attach['name'] = dhtmlspecialchars($attach['name'], ENT_QUOTES);
 			if(dstrlen($attach['name']) > 90) {
 				$attach['name'] = cutstr($attach['name'], 80, '').'.'.$attach['ext'];
 			}
@@ -52,7 +52,7 @@ Class discuz_upload{
 			$attach['attachdir'] = $this->get_target_dir($this->type, $extid, true, $subdir, $dirtype);
 			$attach['attachment'] = $attach['attachdir'].$this->get_target_filename($this->type, $this->extid, $this->forcename, $filename).'.'.$attach['extension'];
 			$attach['target'] = getglobal('setting/attachdir').'./'.$this->type.'/'.$attach['attachment'];
-			$this->attach = & $attach;
+			$this->attach = &$attach;
 			$this->errorcode = 0;
 			return true;
 		}
@@ -65,6 +65,9 @@ Class discuz_upload{
 				$this->errorcode = -103;
 				return false;
 			} else {
+				if($this->ftpcmd) {
+					$this->remote = ftpcmd('upload', $this->type.'/'.$this->attach['attachment']);
+				}
 				$this->errorcode = 0;
 				return true;
 			}
@@ -72,16 +75,19 @@ Class discuz_upload{
 
 		if(empty($this->attach) || empty($this->attach['tmp_name']) || empty($this->attach['target'])) {
 			$this->errorcode = -101;
-		} elseif(in_array($this->type, array('group', 'album', 'category')) && !$this->attach['isimage']) {
+		} elseif(in_array($this->type, ['group', 'album', 'category']) && !$this->attach['isimage']) {
 			$this->errorcode = -102;
-		} elseif(in_array($this->type, array('common')) && (!$this->attach['isimage'] && !in_array($this->attach['ext'], array('ext', 'svg')))) {
+		} elseif($this->type == 'common' && (!$this->attach['isimage'] && !in_array($this->attach['ext'], ['ext', 'svg']))) {
 			$this->errorcode = -102;
 		} elseif(!$this->save_to_local($this->attach['tmp_name'], $this->attach['target'])) {
 			$this->errorcode = -103;
-               } elseif($this->attach['isimage'] && (!$this->attach['imageinfo'] = $this->get_image_info($this->attach['target'], false))) {
+		} elseif(($this->attach['isimage'] || $this->attach['ext'] == 'swf') && (!$this->attach['imageinfo'] = $this->get_image_info($this->attach['target'], true))) {
 			$this->errorcode = -104;
 			@unlink($this->attach['target']);
 		} else {
+			if($this->ftpcmd) {
+				$this->remote = ftpcmd('upload', $this->type.'/'.$this->attach['attachment']);
+			}
 			$this->errorcode = 0;
 			return true;
 		}
@@ -102,50 +108,30 @@ Class discuz_upload{
 	}
 
 	public static function is_image_ext($ext) {
-		static $imgext  = array('jpg', 'jpeg', 'gif', 'png', 'bmp', 'webp', 'svg');
+		static $imgext = ['jpg', 'jpeg', 'gif', 'png', 'bmp', 'webp'];
 		return in_array($ext, $imgext) ? 1 : 0;
 	}
 
-       public static function get_image_info($target, $allowswf = false) {
-               $ext = discuz_upload::fileext($target);
-               $isimage = discuz_upload::is_image_ext($ext);
-               if(!$isimage) {
-                       return false;
-               } elseif(!is_readable($target)) {
-                       return false;
-		} elseif($ext == 'svg') {
-			try {
-				$xmlget = simplexml_load_file($target);
-				$xmlattributes = $xmlget->attributes();
-				$width = $height = 0;
-				if(isset($xmlattributes->width)){
-					$width = (string) $xmlattributes->width;
-				}
-				if(isset($xmlattributes->height)) {
-					$height = (string) $xmlattributes->height;
-				}
-				if(isset($xmlattributes->viewBox)) {
-					list($originX, $originY, $width, $height) = explode(' ', $xmlattributes->viewBox);
-				}
-				// remove trailing px or pt
-				$width = preg_replace('/[^0-9\.]/', '', $width);
-				$height = preg_replace('/[^0-9\.]/', '', $height);
-				return array($width, $height);
-			} catch (Exception $e) {
-				echo 'Error loading SVG: ',  $e->getMessage(), "\n";
-				return false;
-			}
+	public static function get_image_info($target, $allowswf = false) {
+		$ext = discuz_upload::fileext($target);
+		$isimage = discuz_upload::is_image_ext($ext);
+		if(!$isimage && ($ext != 'swf' || !$allowswf)) {
+			return false;
+		} elseif(!is_readable($target)) {
+			return false;
 		} elseif($imageinfo = @getimagesize($target)) {
-			list($width, $height, $type) = !empty($imageinfo) ? $imageinfo : array('', '', '');
+			list($width, $height, $type) = !empty($imageinfo) ? $imageinfo : ['', '', ''];
 			$size = $width * $height;
 			// Imagick 不受最大大小限制, GD 限制值从数据库读取
-			if((!getglobal('setting/imagelib') && $size > (getglobal('setting/gdlimit') ? getglobal('setting/gdlimit') : 16777216)) || $size < 16 ) {
+			if((!getglobal('setting/imagelib') && $size > (getglobal('setting/gdlimit') ? getglobal('setting/gdlimit') : 16777216)) || $size < 16) {
 				return false;
-                       } elseif($isimage && !in_array($type, array(1,2,3,6,13,18))) {
-                               return false;
-                       } elseif(!$allowswf && ($type == 4 || $type == 13)) {
-                               return false;
-                       }
+			} elseif($ext == 'swf' && $type != 4 && $type != 13) {
+				return false;
+			} elseif($isimage && !in_array($type, [1, 2, 3, 6, 13, 18])) {
+				return false;
+			} elseif(!$allowswf && ($ext == 'swf' || $type == 4 || $type == 13)) {
+				return false;
+			}
 			return $imageinfo;
 		} else {
 			return false;
@@ -153,11 +139,18 @@ Class discuz_upload{
 	}
 
 	public static function is_upload_file($source) {
-		return $source && ($source != 'none') && (is_uploaded_file($source) || is_uploaded_file(str_replace('\\\\', '\\', $source)));
+		return $source && ($source != 'none') && (is_uploaded_file($source) || is_uploaded_file(str_replace('\\\\', '\\', $source)) || self::_is_dfile($source));
+	}
+
+	private static function _is_dfile($source) {
+		$_tmpdir = dirname(tempnam(sys_get_temp_dir(), 'du'));
+		return dirname($source) == $_tmpdir && !str_contains($source, '..') &&
+			!empty($_ENV['DFILES'][$source]) &&
+			!empty($_ENV['DFILES'][$source]['tmp_name']) && $source == $_ENV['DFILES'][$source]['tmp_name'];
 	}
 
 	public static function get_target_filename($type, $extid = 0, $forcename = '', $filename = '') {
-		if (empty($filename)) {
+		if(empty($filename)) {
 			if($type == 'group' || ($type == 'common' && $forcename != '')) {
 				$filename = $type.'_'.intval($extid).($forcename != '' ? "_$forcename" : '');
 			} else {
@@ -168,7 +161,10 @@ Class discuz_upload{
 	}
 
 	public static function get_target_extension($ext) {
-               static $safeext  = array('attach', 'jpg', 'jpeg', 'gif', 'png', 'webp', 'svg', 'bmp', 'txt', 'zip', 'rar', 'mp3', 'mp4');
+		static $safeext = ['attach', 'jpg', 'jpeg', 'gif', 'png', 'webp', 'swf', 'bmp', 'txt', 'zip', 'rar', 'mp3', 'mp4', 'wmv', 'wma', 'mov'];
+		if(defined('IN_ADMINCP')) {
+			$safeext[] = 'svg';
+		}
 		return strtolower(!in_array(strtolower($ext), $safeext) ? 'attach' : $ext);
 	}
 
@@ -209,7 +205,7 @@ Class discuz_upload{
 	}
 
 	public static function check_dir_type($type) {
-		return preg_match("/^[a-z]+[a-z0-9_]*$/i", $type) ? $type : 'temp';
+		return preg_match('/^[a-z]+[a-z0-9_]*$/i', $type) ? $type : 'temp';
 	}
 
 	public static function check_dir_exists($type = '', $sub1 = '', $sub2 = '') {
@@ -219,8 +215,8 @@ Class discuz_upload{
 		$basedir = !getglobal('setting/attachdir') ? (DISCUZ_ROOT.'./data/attachment') : getglobal('setting/attachdir');
 
 		$typedir = $type ? ($basedir.'/'.$type) : '';
-		$subdir1  = $type && $sub1 !== '' ?  ($typedir.'/'.$sub1) : '';
-		$subdir2  = $sub1 && $sub2 !== '' ?  ($subdir1.'/'.$sub2) : '';
+		$subdir1 = $type && $sub1 !== '' ? ($typedir.'/'.$sub1) : '';
+		$subdir2 = $sub1 && $sub2 !== '' ? ($subdir1.'/'.$sub2) : '';
 
 		$res = $subdir2 ? is_dir($subdir2) : ($subdir1 ? is_dir($subdir1) : is_dir($typedir));
 		if(!$res) {
@@ -235,21 +231,23 @@ Class discuz_upload{
 	function save_to_local($source, $target) {
 		if(!discuz_upload::is_upload_file($source)) {
 			$succeed = false;
-		}elseif(@copy($source, $target)) {
+		} elseif(@copy($source, $target)) {
 			$succeed = true;
-		}elseif(function_exists('move_uploaded_file') && @move_uploaded_file($source, $target)) {
+		} elseif(function_exists('move_uploaded_file') && @move_uploaded_file($source, $target)) {
 			$succeed = true;
-		}elseif (@is_readable($source) && (@$fp_s = fopen($source, 'rb')) && (@$fp_t = fopen($target, 'wb'))) {
-			while (!feof($fp_s)) {
+		} elseif(@is_readable($source) && (@$fp_s = fopen($source, 'rb')) && (@$fp_t = fopen($target, 'wb'))) {
+			while(!feof($fp_s)) {
 				$s = @fread($fp_s, 1024 * 512);
 				@fwrite($fp_t, $s);
 			}
-			fclose($fp_s); fclose($fp_t);
+			fclose($fp_s);
+			fclose($fp_t);
 			$succeed = true;
 		}
-		if($succeed)  {
+		if($succeed) {
 			$this->errorcode = 0;
-			@chmod($target, 0644); @unlink($source);
+			@chmod($target, 0644);
+			@unlink($source);
 		} else {
 			$this->errorcode = 0;
 		}
@@ -267,4 +265,3 @@ Class discuz_upload{
 	}
 }
 
-?>

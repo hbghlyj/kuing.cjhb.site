@@ -1,22 +1,28 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: table_forum_collection.php 31438 2012-08-28 06:03:08Z chenmengshu $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
-class table_forum_collection extends discuz_table
-{
+class table_forum_collection extends discuz_table {
+	public static function t() {
+		static $_instance;
+		if(!isset($_instance)) {
+			$_instance = new self();
+		}
+		return $_instance;
+	}
+
 	public function __construct() {
 
 		$this->_table = 'forum_collection';
-		$this->_pk    = 'ctid';
+		$this->_pk = 'ctid';
 		$this->_pre_cache_key = 'forum_collection_';
 
 		parent::__construct();
@@ -24,7 +30,7 @@ class table_forum_collection extends discuz_table
 
 
 	public function count_by_uid($uid) {
-		return DB::result_first('SELECT COUNT(*) FROM %t WHERE uid=%d', array($this->_table, $uid), $this->_pk);
+		return DB::result_first('SELECT COUNT(*) FROM %t WHERE uid=%d', [$this->_table, $uid], $this->_pk);
 	}
 
 	public function fetch_all_by_uid($uid, $start = 0, $limit = 0, $exceptctid = null) {
@@ -33,12 +39,12 @@ class table_forum_collection extends discuz_table
 		} else {
 			$sql = '';
 		}
-		return DB::fetch_all('SELECT * FROM %t WHERE uid=%d %i'.DB::limit($start, $limit), array($this->_table, $uid, $sql), $this->_pk);
+		return DB::fetch_all('SELECT * FROM %t WHERE uid=%d %i'.DB::limit($start, $limit), [$this->_table, $uid, $sql], $this->_pk);
 	}
 
 	public function range($start = 0, $limit = 0, $sort = '', $null = true) {
 		// $null 需要在取消兼容层后删除
-		if (defined('DISCUZ_DEPRECATED')) {
+		if(defined('DISCUZ_DEPRECATED')) {
 			throw new Exception('NotImplementedException');
 			return parent::range($start, $limit, $sort);
 		} else {
@@ -48,7 +54,7 @@ class table_forum_collection extends discuz_table
 	}
 
 	public function range_collection($start = 0, $limit = 0, $reqthread = 0, $pK = true) {
-		return DB::fetch_all('SELECT * FROM %t WHERE threadnum>=%d ORDER BY lastupdate DESC '.DB::limit($start, $limit), array($this->_table, $reqthread), $pK ? $this->_pk : '');
+		return DB::fetch_all('SELECT * FROM %t WHERE threadnum>=%d ORDER BY lastupdate DESC '.DB::limit($start, $limit), [$this->_table, $reqthread], $pK ? $this->_pk : '');
 	}
 
 	public function fetch_all($ctid = '', $orderby = '', $ordersc = '', $start = 0, $limit = 0, $title = '', $cachetid = '') {
@@ -70,7 +76,7 @@ class table_forum_collection extends discuz_table
 		if(!$sql) {
 			return null;
 		}
-		$data = DB::fetch_all('SELECT * FROM %t %i', array($this->_table, $sql), $this->_pk);
+		$data = DB::fetch_all('SELECT * FROM %t %i', [$this->_table, $sql], $this->_pk);
 		if($this->_allowmem && $cachetid) {
 			$this->store_cache($cachetid, $data, $this->_cache_ttl, $this->_pre_cache_key.'tid_');
 		}
@@ -82,19 +88,19 @@ class table_forum_collection extends discuz_table
 			return null;
 		}
 		$sql = DB::field('name', '%'.$title.'%', 'like');
-		return DB::result_first('SELECT count(*) FROM %t WHERE %i', array($this->_table, $sql));
+		return DB::result_first('SELECT count(*) FROM %t WHERE %i', [$this->_table, $sql]);
 	}
 
 	public function count_all_by_uid($uid) {
-		return DB::result_first('SELECT COUNT(*) FROM %t WHERE uid=%d', array($this->_table, $uid));
+		return DB::result_first('SELECT COUNT(*) FROM %t WHERE uid=%d', [$this->_table, $uid]);
 	}
 
-	public function update_by_ctid($ctid, $incthreadnum = 0, $incfollownum = 0, $inccommentnum = 0, $lastupdate = 0, $incratenum = 0, $totalratenum = 0, $lastpost = array()) {
+	public function update_by_ctid($ctid, $incthreadnum = 0, $incfollownum = 0, $inccommentnum = 0, $lastupdate = 0, $incratenum = 0, $totalratenum = 0, $lastpost = []) {
 		if(!$ctid) {
 			return false;
 		}
-		$sql = array();
-		$para = array($this->_table);
+		$sql = [];
+		$para = [$this->_table];
 		if($incthreadnum) {
 			$sql[] = 'threadnum=threadnum+\'%d\'';
 			$para[] = $incthreadnum;
@@ -121,7 +127,7 @@ class table_forum_collection extends discuz_table
 		}
 		if(is_array($lastpost) && count($lastpost) == 4) {
 			$sql[] = 'lastpost=%d,lastsubject=%s,lastposttime=%d,lastposter=%s';
-			$para = array_merge($para, array($lastpost['lastpost'], $lastpost['lastsubject'], $lastpost['lastposttime'], $lastpost['lastposter']));
+			$para = array_merge($para, [$lastpost['lastpost'], $lastpost['lastsubject'], $lastpost['lastposttime'], $lastpost['lastposter']]);
 		}
 		if(!count($sql)) {
 			return null;
@@ -142,9 +148,9 @@ class table_forum_collection extends discuz_table
 		$where .= $uid ? ' AND '.DB::field('uid', $uid) : '';
 
 		if($start == -1) {
-			return DB::result_first("SELECT count(*) FROM %t WHERE %i", array($this->_table, $where));
+			return DB::result_first('SELECT count(*) FROM %t WHERE %i', [$this->_table, $where]);
 		}
-		return DB::fetch_all("SELECT * FROM %t 	WHERE %i ORDER BY dateline DESC %i", array($this->_table, $where, DB::limit($start, $limit)));
+		return DB::fetch_all('SELECT * FROM %t 	WHERE %i ORDER BY dateline DESC %i', [$this->_table, $where, DB::limit($start, $limit)]);
 	}
 
 	public function update($val, $data, $unbuffered = false, $low_priority = false) {
@@ -156,7 +162,7 @@ class table_forum_collection extends discuz_table
 	}
 
 	public function fetch_ctid_by_searchkey($searchkey, $limit) {
-		return DB::fetch_all('SELECT ctid FROM %t WHERE 1 %i ORDER BY ctid DESC %i', array($this->_table, $searchkey, DB::limit(0, $limit)));
+		return DB::fetch_all('SELECT ctid FROM %t WHERE 1 %i ORDER BY ctid DESC %i', [$this->_table, $searchkey, DB::limit(0, $limit)]);
 	}
 
 	public function delete($val, $unbuffered = false) {
@@ -168,10 +174,9 @@ class table_forum_collection extends discuz_table
 		return $ret;
 	}
 
-	public function fetch($id, $force_from_db = true){
+	public function fetch($id, $force_from_db = true) {
 		return parent::fetch($id, true);
 	}
 
 }
 
-?>

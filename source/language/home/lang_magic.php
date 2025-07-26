@@ -1,18 +1,17 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: lang_magic.php 27449 2012-02-01 05:32:35Z zhangguosheng $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
-$lang = array
-(
+$lang =
+	[
 	'target_tid' => '目标主题 tid',
 	'target_pid' => '目标帖子 pid',
 	'target_username' => '目标用户名',
@@ -25,6 +24,5 @@ $lang = array
 	'CODE_info' => '获得 Discuz! 测试邀请码一个',
 	'MVK_target' => '要移动到的版面',
 	'SOFA_message' => '一道闪电划破湛蓝的天空，随着一声巨响，沙发被我抢了！哈哈！',
-);
+	];
 
-?>

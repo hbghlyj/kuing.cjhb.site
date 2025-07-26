@@ -1,9 +1,8 @@
-/*
-	[Discuz!] (C)2001-2099 Comsenz Inc.
-	This is NOT a freeware, use is subject to license terms
-
-	$Id: home.js 34052 2013-09-25 06:18:43Z andyzheng $
-*/
+/**
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
+ */
 
 var note_step = 0;
 var note_oldtitle = document.title;
@@ -51,7 +50,7 @@ function blogAddOption(sid, aid) {
 		obj.value="new:" + newOption;
 		return true;
 	} else {
-		alert(lng['category_empty']);
+		alert($L('category_name_empty'));
 		return false;
 	}
 }
@@ -93,7 +92,7 @@ function resizeImg(id,size) {
 					zoomDiv.style.position = 'relative';
 					zoomDiv.style.cursor = 'pointer';
 
-					this.title = lng['show_orig_image'];
+					this.title = $L('click_original');
 
 					var zoom = document.createElement('img');
 					zoom.src = 'image/zoom.gif';
@@ -131,14 +130,14 @@ function ischeck(id, prefix) {
 	for(var i = 0; i < form.elements.length; i++) {
 		var e = form.elements[i];
 		if(e.name.match(prefix) && e.checked) {
-			if(confirm(lng['continue_sure'])) {
+			if(confirm($L('operate_confirm'))) {
 				return true;
 			} else {
 				return false;
 			}
 		}
 	}
-	alert(lng['select_item']);
+	alert($L('select_object'));
 	return false;
 }
 
@@ -183,7 +182,7 @@ function insertWebImg(obj) {
 		insertImage(obj.value);
 		obj.value = 'http://';
 	} else {
-		alert(lng['image_url_invalid']);
+		alert($L('img_url_error'));
 	}
 }
 
@@ -219,6 +218,20 @@ function checkImage(url) {
 	return url.match(re);
 }
 
+function showFlash(host, flashvar, obj, shareid) {
+	// 引用前期引入的 detectPlayer 对资源播放状态进行判断
+	var re = new RegExp('.[A-Za-z0-9]+$', 'ig');
+	var ext = flashvar.match(re).pop().substr(1);
+	if (obj) {
+		var flashObj = document.createElement('div');
+		flashObj.id = 'flash_div_' + shareid;
+		obj.parentNode.insertBefore(flashObj, obj);
+		var containerObj = document.createElement('div');
+		containerObj.id = flashObj.id + '_container';
+		flashObj.appendChild(containerObj);
+		obj.style.display = 'none';
+	}
+	return detectPlayer('flash_div_' + shareid, ext, flashvar, 480, 400);
 }
 
 function startMarquee(h, speed, delay, sid) {
@@ -608,10 +621,10 @@ function poke_send(id, result) {
 	}
 }
 function myfriend_post(uid) {
-        if($('friend_'+uid)) {
-                /*vot*/ $('friend_'+uid).innerHTML = '<p>'+lng['you_friends_now']+' <a href="home.php?mod=space&do=wall&uid='+uid+'" class="xi2" target="_blank">'+lng['leave_message']+'</a>, '+lng['or']+' <a href="home.php?mod=spacecp&ac=poke&op=send&uid='+uid+'&handlekey=propokehk_'+uid+'" id="a_poke_'+uid+'" class="xi2" onclick="showWindow(this.id, this.href, \'get\', 0, {\'ctrlid\':this.id,\'pos\':\'13\'});">'+lng['send_greeting']+'</a></p>';
-        }
-        showCreditPrompt();
+	if($('friend_'+uid)) {
+		$('friend_'+uid).innerHTML = '<p>' + $L('friend_tip_1') + '<a href="home.php?mod=space&do=wall&uid='+uid+'" class="xi2" target="_blank">' + $L('friend_tip_wall') + '</a> ' + $L('friend_tip_2') + ' <a href="home.php?mod=spacecp&ac=poke&op=send&uid='+uid+'&handlekey=propokehk_'+uid+'" id="a_poke_'+uid+'" class="xi2" onclick="showWindow(this.id, this.href, \'get\', 0, {\'ctrlid\':this.id,\'pos\':\'13\'});">' + $L('friend_tip_poke') + '</a></p>';
+	}
+	showCreditPrompt();
 }
 function myfriend_ignore(id) {
 	var ids = explode('_', id);
@@ -639,7 +652,7 @@ function docomment_get(doid, key) {
 	$(showid).className = 'cmt brm';
 	ajaxget('home.php?mod=spacecp&ac=doing&op=getcomment&handlekey=msg_'+doid+'&doid='+doid+'&key='+key, showid);
 	if($(opid)) {
-		$(opid).innerHTML = lng['collapse'];
+		$(opid).innerHTML = $L('fold');
 		$(opid).onclick = function() {
 			docomment_colse(doid, key);
 		}
@@ -654,7 +667,7 @@ function docomment_colse(doid, key) {
 	$(showid).style.display = 'none';
 	$(showid).style.className = '';
 
-	$(opid).innerHTML = lng['reply'];
+	$(opid).innerHTML = $L('reply');
 	$(opid).onclick = function() {
 		docomment_get(doid, key);
 	}
@@ -683,7 +696,7 @@ function docomment_form_close(doid, id, key) {
 	if(!liObj.length) {
 		$(key+'_'+doid).style.display = 'none';
 		if($(opid)) {
-			$(opid).innerHTML = lng['reply'];
+			$(opid).innerHTML = $L('reply');
 			$(opid).onclick = function () {
 				docomment_get(doid, key);
 			}
@@ -698,7 +711,7 @@ function feedcomment_get(feedid) {
 	$(showid).style.display = '';
 	ajaxget('home.php?mod=spacecp&ac=feed&op=getcomment&feedid='+feedid+'&handlekey=feedhk_'+feedid, showid);
 	if($(opid) != null) {
-		$(opid).innerHTML = lng['collapse'];
+		$(opid).innerHTML = $L('fold');
 		$(opid).onclick = function() {
 			feedcomment_close(feedid);
 		}
@@ -727,7 +740,7 @@ function feedcomment_close(feedid) {
 	$(showid).style.display = 'none';
 	$(showid).style.className = '';
 
-        /*vot*/ $(opid).innerHTML = lng['comment'];
+	$(opid).innerHTML = $L('comment');
 	$(opid).onclick = function() {
 		feedcomment_get(feedid);
 	}
@@ -746,7 +759,7 @@ function feed_more_show(feedid) {
 	$(showid).style.display = '';
 	$(showid).className = 'sub_doing';
 
-        $(opid).innerHTML = '&laquo; '+lng['close_list'];
+	$(opid).innerHTML = '&laquo; ' + $L('fold_list');
 	$(opid).onclick = function() {
 		feed_more_close(feedid);
 	}
@@ -758,7 +771,7 @@ function feed_more_close(feedid) {
 
 	$(showid).style.display = 'none';
 
-        /*vot*/ $(opid).innerHTML = '&raquo; '+lng['more_feeds'];
+	$(opid).innerHTML = '&raquo; ' + $L('more_feed');
 	$(opid).onclick = function() {
 		feed_more_show(feedid);
 	}
@@ -799,7 +812,7 @@ function showbirthday(){
 	var el = $('birthday');
 	var birthday = el.value;
 	el.length=0;
-        /*vot*/ el.options.add(new Option(lng['day'], ''));
+	el.options.add(new Option($L('sun'), ''));
 	for(var i=0;i<28;i++){
 		el.options.add(new Option(i+1, i+1));
 	}
@@ -863,7 +876,7 @@ function getgroup(gid) {
 	if(gid) {
 		var x = new Ajax();
 		x.get('home.php?mod=spacecp&ac=privacy&inajax=1&op=getgroup&gid='+gid, function(s){
-			s = s + ' ';
+			s = s + ',';
 			$('target_names').innerHTML += s;
 		});
 	}
@@ -1000,6 +1013,10 @@ function checkSynSignature() {
 		$('syn_signature').className = 'syn_signature_check';
 		$('to_signhtml').value = '1';
 	}
+}
+
+function searchpostbyusername(keyword, srchuname) {
+	window.location.href = 'search.php?mod=forum&srchtxt=' + keyword + '&srchuname=' + srchuname + '&searchsubmit=yes';
 }
 
 function removeVisitor(event, uid) {

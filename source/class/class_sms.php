@@ -1,10 +1,9 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id$
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -42,12 +41,13 @@ class sms {
 	const DISCUZ_CLASS_SMS_ERROR_SMSGWERR = -9;
 
 	// DISCUZ_CLASS_SMS_VERIFY 代表短信验证结果
-	// 未通过校验为 0, 通过校验为 1
+	// 未通过校验为 0, 通过校验为 1, 验证码验证超过有效验证次数则失效为 -1
 	const DISCUZ_CLASS_SMS_VERIFY_FAIL = 0;
 	const DISCUZ_CLASS_SMS_VERIFY_PASS = 1;
+	const DISCUZ_CLASS_SMS_VERIFY_INVALID = -1;
 
 	// DISCUZ_CLASS_SMSGW_GWTYPE 代表网关类型
-	// 消息短信为 1 , 模板短信为 0
+	// 消息短信为 0 , 模板短信为 1
 	const DISCUZ_CLASS_SMSGW_GWTYPE_MSG = 0;
 	const DISCUZ_CLASS_SMSGW_GWTYPE_TPL = 1;
 
@@ -56,13 +56,18 @@ class sms {
 		// 限制时间区间, 默认 86400 秒
 		$smstimelimit = getglobal('setting/smstimelimit');
 		$smstimelimit = $smstimelimit > 0 ? $smstimelimit : 86400;
-		$lastsend = C::t('common_smslog')->get_lastsms_by_uumm($uid, $svctype, $secmobicc, $secmobile);
+		$smsverifylimit = getglobal('setting/smsverifylimit');
+		$smsverifylimit = $smsverifylimit > 0 ? $smsverifylimit : 5;
+		$lastsend = table_common_smslog::t()->get_lastsms_by_uumm($uid, $svctype, $secmobicc, $secmobile);
 		$result = self::DISCUZ_CLASS_SMS_VERIFY_FAIL;
-		if($seccode == $lastsend['content'] && !$lastsend['verify'] && time() - $lastsend['dateline'] < $smstimelimit) {
+		if($seccode == $lastsend['content'] && $lastsend['verify'] < $smsverifylimit && time() - $lastsend['dateline'] < $smstimelimit) {
 			$result = self::DISCUZ_CLASS_SMS_VERIFY_PASS;
 		}
-		if($updateverify) {
-			C::t('common_smslog')->update($lastsend['smslogid'], array('verify' => 1));
+		if($lastsend['verify'] >= $smsverifylimit) {
+			$result = self::DISCUZ_CLASS_SMS_VERIFY_INVALID;
+		}
+		if($updateverify && $result != self::DISCUZ_CLASS_SMS_VERIFY_INVALID) {
+			table_common_smslog::t()->update($lastsend['smslogid'], ['verify' => $lastsend['verify'] + 1]);
 		}
 		return $result;
 	}
@@ -118,8 +123,8 @@ class sms {
 			$smsglblimit = $smsglblimit > 0 ? $smsglblimit : 1000;
 
 			// 单号码/单用户风控规则
-			$ut = C::t('common_smslog')->get_sms_by_ut($uid, $smstimelimit);
-			$mmt = C::t('common_smslog')->get_sms_by_mmt($secmobicc, $secmobile, $smstimelimit);
+			$ut = table_common_smslog::t()->get_sms_by_ut($uid, $smstimelimit);
+			$mmt = table_common_smslog::t()->get_sms_by_mmt($secmobicc, $secmobile, $smstimelimit);
 			if($time - $ut[0]['dateline'] < $smsinterval || $time - $mmt[0]['dateline'] < $smsinterval) {
 				return self::DISCUZ_CLASS_SMS_ERROR_TIMELESS;
 			}
@@ -128,13 +133,13 @@ class sms {
 			}
 
 			// 万号段风控规则
-			$lastmilion = C::t('common_smslog')->count_sms_by_milions_mmt($secmobicc, $secmobile, $smstimelimit);
+			$lastmilion = table_common_smslog::t()->count_sms_by_milions_mmt($secmobicc, $secmobile, $smstimelimit);
 			if($lastmilion > $smsmillimit) {
 				return self::DISCUZ_CLASS_SMS_ERROR_MILLIMIT;
 			}
 
 			// 全局风控规则
-			$globalsend = C::t('common_smslog')->count_sms_by_time($smstimelimit);
+			$globalsend = table_common_smslog::t()->count_sms_by_time($smstimelimit);
 			if($globalsend > $smsglblimit) {
 				return self::DISCUZ_CLASS_SMS_ERROR_GLBLIMIT;
 			}
@@ -144,9 +149,9 @@ class sms {
 	}
 
 	protected static function smsgw($smstype, $secmobicc) {
-		$smsgwlist = C::t('common_smsgw')->fetch_all_gw_avaliable();
+		$smsgwlist = table_common_smsgw::t()->fetch_all_gw_avaliable();
 		foreach($smsgwlist as $key => $value) {
-			if(array_search($secmobicc, explode(',', $value['sendrule'])) !== false) {
+			if(in_array($secmobicc, explode(',', $value['sendrule']))) {
 				if($smstype == self::DISCUZ_CLASS_SMS_TYPE_MESSAGE && $value['type'] == self::DISCUZ_CLASS_SMSGW_GWTYPE_TPL) {
 					continue;
 				}
@@ -154,11 +159,7 @@ class sms {
 			}
 		}
 
-		if(isset($smsgw)) {
-			return $smsgw;
-		} else {
-			return self::DISCUZ_CLASS_SMS_ERROR_CTFSMSGW;
-		}
+		return $smsgw ?? self::DISCUZ_CLASS_SMS_ERROR_CTFSMSGW;
 
 	}
 
@@ -166,18 +167,18 @@ class sms {
 		global $_G;
 		$efile = explode(':', $smsgw['class']);
 		if(is_array($efile) && count($efile) > 1) {
-			$smsgwfile = in_array($efile[0], $_G['setting']['plugins']['available']) ? DISCUZ_ROOT.'./source/plugin/'.$efile[0].'/smsgw/smsgw_'. $efile[1] . '.php' : '';
+			$smsgwfile = in_array($efile[0], $_G['setting']['plugins']['available']) ? DISCUZ_PLUGIN($efile[0]).'/smsgw/smsgw_'.$efile[1].'.php' : '';
 		} else {
-			$smsgwfile = DISCUZ_ROOT.'./source/class/smsgw/smsgw_' . $smsgw['class'] . '.php';
+			$smsgwfile = DISCUZ_ROOT.'./source/class/smsgw/smsgw_'.$smsgw['class'].'.php';
 		}
 
 		if($smsgwfile) {
 			include($smsgwfile);
-			$classname = 'smsgw_' . ((is_array($efile) && count($efile) > 1) ? $efile[1] : $smsgw['class']);
+			$classname = 'smsgw_'.((is_array($efile) && count($efile) > 1) ? $efile[1] : $smsgw['class']);
 			if(class_exists($classname)) {
 				$class = new $classname();
 				$class->parameters = dunserialize($smsgw['parameters']);
-				$result = $class->send($uid, $smstype, $svctype, $secmobicc, $secmobile, array('content' => $content));
+				$result = $class->send($uid, $smstype, $svctype, $secmobicc, $secmobile, ['content' => $content]);
 			} else {
 				$result = self::DISCUZ_CLASS_SMS_ERROR_CTFGWCLS;
 			}
@@ -186,15 +187,15 @@ class sms {
 		}
 
 		if($result < 0 && ($result == self::DISCUZ_CLASS_SMS_ERROR_CTFGWCLS || $result == self::DISCUZ_CLASS_SMS_ERROR_CTFGWNME)) {
-			$data = array('available' => '0');
-			C::t('common_smsgw')->update($smsgw['smsgwid'], $data);
+			$data = ['available' => '0'];
+			table_common_smsgw::t()->update($smsgw['smsgwid'], $data);
 		}
 
 		return $result;
 	}
 
 	protected static function log($smstype, $svctype, $smsgw, $status, $uid, $secmobicc, $secmobile, $time, $ip, $port, $content = '') {
-		return C::t('common_smslog')->insert(array('smstype' => $smstype, 'svctype' => $svctype, 'smsgw' => $smsgw, 'status' => $status, 'uid' => $uid, 'secmobicc' => $secmobicc, 'secmobile' => $secmobile, 'dateline' => $time, 'ip' => $ip, 'port' => $port, 'content' => $content));
+		return table_common_smslog::t()->insert(['smstype' => $smstype, 'svctype' => $svctype, 'smsgw' => $smsgw, 'status' => $status, 'uid' => $uid, 'secmobicc' => $secmobicc, 'secmobile' => $secmobile, 'dateline' => $time, 'ip' => $ip, 'port' => $port, 'content' => $content]);
 	}
 
 }

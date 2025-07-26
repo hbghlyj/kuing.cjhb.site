@@ -1,29 +1,34 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: table_common_friendlink.php 27449 2012-02-01 05:32:35Z zhangguosheng $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
-class table_common_friendlink extends discuz_table
-{
+class table_common_friendlink extends discuz_table {
+	public static function t() {
+		static $_instance;
+		if(!isset($_instance)) {
+			$_instance = new self();
+		}
+		return $_instance;
+	}
+
 	public function __construct() {
 
 		$this->_table = 'common_friendlink';
-		$this->_pk    = 'id';
+		$this->_pk = 'id';
 
 		parent::__construct();
 	}
 
-	public function fetch_all_by_displayorder($type = '')
-	{
-		$args = array($this->_table);
+	public function fetch_all_by_displayorder($type = '') {
+		$args = [$this->_table];
 		if($type) {
 			$sql = 'WHERE (`type` & %s > 0)';
 			$args[] = $type;
@@ -33,4 +38,3 @@ class table_common_friendlink extends discuz_table
 
 }
 
-?>

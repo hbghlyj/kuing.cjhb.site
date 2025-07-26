@@ -1,31 +1,29 @@
-/*
-	[Discuz!] (C)2001-2099 Comsenz Inc.
-	This is NOT a freeware, use is subject to license terms
-
-	$Id: portal_diy.js 31093 2012-07-16 03:54:34Z zhangguosheng $
-	Modified by Valery Votintsev
-*/
+/**
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
+ */
 
 var drag = new Drag();
 drag.extend({
 	'getBlocksTimer' : '',
 	'blocks' : [],
-/*vot*/	'blockDefaultClass' : [{'key':lng['choose_style'],'value':''},{'key':lng['no_border_no_margin'],'value':'cl_block_bm'},{'key':lng['style1'],'value':'xbs_1'},{'key':lng['style2'],'value':'xbs xbs_2'},{'key':lng['style3'],'value':'xbs xbs_3'},{'key':lng['style4'],'value':'xbs xbs_4'},{'key':lng['style5'],'value':'xbs xbs_5'},{'key':lng['style6'],'value':'xbs xbs_6'},{'key':lng['style7'],'value':'xbs xbs_7'}],
-/*vot*/	'frameDefaultClass' : [{'key':lng['choose_style'],'value':''},{'key':lng['no_border_no_margin'],'value':'cl_frame_bm'},{'key':lng['no_border'],'value':'xfs xfs_nbd'},{'key':lng['style1'],'value':'xfs xfs_1'},{'key':lng['style2'],'value':'xfs xfs_2'},{'key':lng['style3'],'value':'xfs xfs_3'},{'key':lng['style4'],'value':'xfs xfs_4'},{'key':lng['style5'],'value':'xfs xfs_5'}],
+	'blockDefaultClass' : [{'key':$L('diy_style_select'),'value':''},{'key':$L('diy_noborder'),'value':'cl_block_bm'},{'key':$L('diy_style') + '1','value':'xbs_1'},{'key':$L('diy_style') + '2','value':'xbs xbs_2'},{'key':$L('diy_style') + '3','value':'xbs xbs_3'},{'key':$L('diy_style') + '4','value':'xbs xbs_4'},{'key':$L('diy_style') + '5','value':'xbs xbs_5'},{'key':$L('diy_style') + '6','value':'xbs xbs_6'},{'key':$L('diy_style') + '7','value':'xbs xbs_7'}],
+	'frameDefaultClass' : [{'key':$L('diy_style_select'),'value':''},{'key':$L('diy_noborder'),'value':'cl_frame_bm'},{'key':$L('diy_noborder_frame'),'value':'xfs xfs_nbd'},{'key':$L('diy_style') + '1','value':'xfs xfs_1'},{'key':$L('diy_style') + '2','value':'xfs xfs_2'},{'key':$L('diy_style') + '3','value':'xfs xfs_3'},{'key':$L('diy_style') + '4','value':'xfs xfs_4'},{'key':$L('diy_style') + '5','value':'xfs xfs_5'}],
 	setDefalutMenu : function () {
-/*vot*/		this.addMenu('default',lng['title'],'drag.openTitleEdit(event)');
-/*vot*/		this.addMenu('default',lng['style'],'drag.openStyleEdit(event)');
-/*vot*/		this.addMenu('default', lng['delete'], 'drag.removeBlock(event)');
-/*vot*/		this.addMenu('block', lng['attribute'], 'drag.openBlockEdit(event)');
-/*vot*/		this.addMenu('block', lng['data'], 'drag.openBlockEdit(event,"data")');
-/*vot*/		this.addMenu('block', lng['update'], 'drag.blockForceUpdate(event)');
-/*vot*/		this.addMenu('frame', lng['export'], 'drag.frameExport(event)');
-/*vot*/		this.addMenu('tab', lng['export'], 'drag.frameExport(event)');
+		this.addMenu('default',$L('title'),'drag.openTitleEdit(event)');
+		this.addMenu('default',$L('diy_style'),'drag.openStyleEdit(event)');
+		this.addMenu('default', $L('delete'), 'drag.removeBlock(event)');
+		this.addMenu('block', $L('property'), 'drag.openBlockEdit(event)');
+		this.addMenu('block', $L('data'), 'drag.openBlockEdit(event,"data")');
+		this.addMenu('block', $L('update'), 'drag.blockForceUpdate(event)');
+		this.addMenu('frame', $L('export'), 'drag.frameExport(event)');
+		this.addMenu('tab', $L('export'), 'drag.frameExport(event)');
 	},
 	setSampleMenu : function () {
-/*vot*/		this.addMenu('block', lng['attribute'], 'drag.openBlockEdit(event)');
-/*vot*/		this.addMenu('block', lng['data'], 'drag.openBlockEdit(event,"data")');
-/*vot*/		this.addMenu('block', lng['update'], 'drag.blockForceUpdate(event)');
+		this.addMenu('block', $L('property'), 'drag.openBlockEdit(event)');
+		this.addMenu('block', $L('data'), 'drag.openBlockEdit(event,"data")');
+		this.addMenu('block', $L('update'), 'drag.blockForceUpdate(event)');
 	},
 	openBlockEdit : function (e,op) {
 		e = Util.event(e);
@@ -139,12 +137,12 @@ drag.extend({
 			key = k+'px';
 			bigarr.push({'key':key,'value':key});
 		}
-/*vot*/		var repeatarr = [{'key':lng['repeat'],'value':'repeat'},{'key':lng['no_repeat'],'value':'no-repeat'},{'key':lng['repeat_x'],'value':'repeat-x'},{'key':lng['repeat_y'],'value':'repeat-y'}];
-/*vot*/		var stylearr = [{'key':lng['no_style'],'value':'none'},{'key':lng['solid_line'],'value':'solid'},{'key':lng['dotted_line'],'value':'dotted'},{'key':lng['dashed_line'],'value':'dashed'}];
+		var repeatarr = [{'key':$L('diy_tile'),'value':'repeat'},{'key':$L('diy_notile'),'value':'no-repeat'},{'key':$L('diy_tile_x'),'value':'repeat-x'},{'key':$L('diy_tile_y'),'value':'repeat-y'}];
+		var stylearr = [{'key':$L('diy_nostyle'),'value':'none'},{'key':$L('diy_solid'),'value':'solid'},{'key':$L('diy_dotted'),'value':'dotted'},{'key':$L('diy_dashed'),'value':'dashed'}];
 		var table = '<table class="tfm">';
-/*vot*/		table += '<tr><th>'+lng['font']+'</th><td><input type="text" id="fontsize" class="px p_fre vm" value="'+fontsize+'" size="2" />px <input type="text" id="fontcolor" class="px p_fre vm" value="'+fontcolor+'" size="2" />';
+		table += '<tr><th>' + $L('font_family') + '</th><td><input type="text" id="fontsize" class="px p_fre vm" value="'+fontsize+'" size="2" />px <input type="text" id="fontcolor" class="px p_fre vm" value="'+fontcolor+'" size="2" />';
 		table += getColorPalette(id+'_fontPalette', 'fontcolor' ,fontcolor)+'</td></tr>';
-/*vot*/		table += '<tr><th>'+lng['link']+'</th><td><input type="text" id="linkfontsize" class="px p_fre vm" value="'+linkfontsize+'" size="2" />px <input type="text" id="linkcolor" class="px p_fre vm" value="'+linkcolor+'" size="2" />';
+		table += '<tr><th>' + $L('diy_link') + '</th><td><input type="text" id="linkfontsize" class="px p_fre vm" value="'+linkfontsize+'" size="2" />px <input type="text" id="linkcolor" class="px p_fre vm" value="'+linkcolor+'" size="2" />';
 		table += getColorPalette(id+'_linkPalette', 'linkcolor' ,linkcolor)+'</td></tr>';
 
 		var ulclass = 'borderul', opchecked = '';
@@ -153,27 +151,27 @@ drag.extend({
 			opchecked = ' checked="checked"';
 		}
 
-/*vot*/		table += '<tr><th>'+lng['border']+'</th><td><ul id="borderul" class="'+ulclass+'">';
-/*vot*/		table += '<li><label>'+lng['top']+'</label><select class="ps vm" id="bdtwidth" ><option value="">'+lng['size']+'</option>'+this.getOption(widtharr,bdtwidth)+'</select>';
-/*vot*/		table += ' <select class="ps vm" id="bdtstyle" ><option value="">'+lng['style']+'</option>'+this.getOption(stylearr,bdtstyle)+'</select>';
-/*vot*/		table += ' '+lng['color']+' <input type="text" id="bdtcolor" class="px p_fre vm" value="'+bdtcolor+'" size="7" />';
+		table += '<tr><th>' + $L('border') + '</th><td><ul id="borderul" class="'+ulclass+'">';
+		table += '<li><label>' + $L('up') + '</label><select class="ps vm" id="bdtwidth" ><option value="">' + $L('size') + '</option>'+this.getOption(widtharr,bdtwidth)+'</select>';
+		table += ' <select class="ps vm" id="bdtstyle" ><option value="">' + $L('diy_style') + '</option>'+this.getOption(stylearr,bdtstyle)+'</select>';
+		table += ' ' + $L('color') + ' <input type="text" id="bdtcolor" class="px p_fre vm" value="'+bdtcolor+'" size="7" />';
 		table += getColorPalette(id+'_bdtPalette', 'bdtcolor' ,bdtcolor)+'</li>';
 
-/*vot*/		table += '<li class="bordera mtn"><label>'+lng['right']+'</label><select class="ps vm" id="bdrwidth" ><option value="">'+lng['size']+'</option>'+this.getOption(widtharr,bdrwidth)+'</select>';
-/*vot*/		table += ' <select class="ps vm" id="bdrstyle" ><option value="">'+lng['style']+'</option>'+this.getOption(stylearr,bdrstyle)+'</select>';
-/*vot*/		table += ' '+lng['color']+' <input type="text" id="bdrcolor" class="px p_fre vm" value="'+bdrcolor+'" size="7" />';
+		table += '<li class="bordera mtn"><label>' + $L('right') + '</label><select class="ps vm" id="bdrwidth" ><option value="">' + $L('size') + '</option>'+this.getOption(widtharr,bdrwidth)+'</select>';
+		table += ' <select class="ps vm" id="bdrstyle" ><option value="">' + $L('diy_style') + '</option>'+this.getOption(stylearr,bdrstyle)+'</select>';
+		table += ' ' + $L('color') + ' <input type="text" id="bdrcolor" class="px p_fre vm" value="'+bdrcolor+'" size="7" />';
 		table += getColorPalette(id+'_bdrPalette', 'bdrcolor' ,bdrcolor)+'</li>';
 
-/*vot*/		table += '<li class="bordera mtn"><label>'+lng['bottom']+'</label><select class="ps vm" id="bdbwidth" ><option value="">'+lng['size']+'</option>'+this.getOption(widtharr,bdbwidth)+'</select>';
-/*vot*/		table += ' <select class="ps vm" id="bdbstyle" ><option value="">'+lng['style']+'</option>'+this.getOption(stylearr,bdbstyle)+'</select>';
-/*vot*/		table += ' '+lng['color']+' <input type="text" id="bdbcolor" class="px p_fre vm" value="'+bdbcolor+'" size="7" />';
+		table += '<li class="bordera mtn"><label>' + $L('down') + '</label><select class="ps vm" id="bdbwidth" ><option value="">' + $L('size') + '</option>'+this.getOption(widtharr,bdbwidth)+'</select>';
+		table += ' <select class="ps vm" id="bdbstyle" ><option value="">' + $L('diy_style') + '</option>'+this.getOption(stylearr,bdbstyle)+'</select>';
+		table += ' ' + $L('color') + ' <input type="text" id="bdbcolor" class="px p_fre vm" value="'+bdbcolor+'" size="7" />';
 		table += getColorPalette(id+'_bdbPalette', 'bdbcolor' ,bdbcolor)+'</li>';
 
-/*vot*/		table += '<li class="bordera mtn"><label>'+lng['left']+'</label><select class="ps vm" id="bdlwidth" ><option value="">'+lng['size']+'</option>'+this.getOption(widtharr,bdlwidth)+'</select>';
-/*vot*/		table += ' <select class="ps vm" id="bdlstyle" ><option value="">'+lng['style']+'</option>'+this.getOption(stylearr,bdlstyle)+'</select>';
-/*vot*/		table += ' '+lng['color']+' <input type="text" id="bdlcolor" class="px p_fre vm" value="'+bdlcolor+'" size="7" />';
+		table += '<li class="bordera mtn"><label>' + $L('left') + '</label><select class="ps vm" id="bdlwidth" ><option value="">' + $L('size') + '</option>'+this.getOption(widtharr,bdlwidth)+'</select>';
+		table += ' <select class="ps vm" id="bdlstyle" ><option value="">' + $L('diy_style') + '</option>'+this.getOption(stylearr,bdlstyle)+'</select>';
+		table += ' ' + $L('color') + ' <input type="text" id="bdlcolor" class="px p_fre vm" value="'+bdlcolor+'" size="7" />';
 		table += getColorPalette(id+'_bdlPalette', 'bdlcolor' ,bdlcolor)+'</li>';
-/*vot*/		table += '</ul><p class="ptm"><label><input id="borderop" type="checkbox" value="1" class="pc"'+opchecked+' onclick="$(\'borderul\').className = $(\'borderul\').className == \'borderul\' ? \'borderula\' : \'borderul\'"> '+lng['separate_config']+'</label></p></td></tr>';
+		table += '</ul><p class="ptm"><label><input id="borderop" type="checkbox" value="1" class="pc"'+opchecked+' onclick="$(\'borderul\').className = $(\'borderul\').className == \'borderul\' ? \'borderula\' : \'borderul\'">' + $L('diy_sset') + '</label></p></td></tr>';
 
 		bigarr = [];
 		for (k=-20;k<31;k++) {
@@ -187,11 +185,11 @@ drag.extend({
 			opchecked = ' checked="checked"';
 		}
 
-/*vot*/		table += '<tr><th>'+lng['margin']+'</th><td><div id="margindiv" class="'+ulclass+'"><span><label>'+lng['top']+'</label> <input type="text" id="margint" class="px p_fre vm" value="'+margint+'" size="1"/>px </span>';
-/*vot*/		table += '<span class="bordera"><label>'+lng['right']+'</label><input type="text" id="marginr" class="px p_fre vm" value="'+marginr+'" size="1" />px </span>';
-/*vot*/		table += '<span class="bordera"><label>'+lng['bottom']+'</label><input type="text" id="marginb" class="px p_fre vm" value="'+marginb+'" size="1" />px </span>';
-/*vot*/		table += '<span class="bordera"><label>'+lng['left']+'</label><input type="text" id="marginl" class="px p_fre vm" value="'+marginl+'" size="1" />px</span>';
-/*vot*/		table += '</div><p class="ptm"><label><input id="marginop" type="checkbox" value="1" class="pc"'+opchecked+' onclick="$(\'margindiv\').className = $(\'margindiv\').className == \'borderul\' ? \'borderula\' : \'borderul\'"> '+lng['separate_config']+'</label></p></td></tr>';
+		table += '<tr><th>' + $L('diy_margin') + '</th><td><div id="margindiv" class="'+ulclass+'"><span><label>' + $L('up') + '</label> <input type="text" id="margint" class="px p_fre vm" value="'+margint+'" size="1"/>px </span>';
+		table += '<span class="bordera"><label>' + $L('right') + '</label> <input type="text" id="marginr" class="px p_fre vm" value="'+marginr+'" size="1" />px </span>';
+		table += '<span class="bordera"><label>' + $L('down') + '</label> <input type="text" id="marginb" class="px p_fre vm" value="'+marginb+'" size="1" />px </span>';
+		table += '<span class="bordera"><label>' + $L('left') + '</label> <input type="text" id="marginl" class="px p_fre vm" value="'+marginl+'" size="1" />px</span>';
+		table += '</div><p class="ptm"><label><input id="marginop" type="checkbox" value="1" class="pc"'+opchecked+' onclick="$(\'margindiv\').className = $(\'margindiv\').className == \'borderul\' ? \'borderula\' : \'borderul\'">' + $L('diy_sset') + '</label></p></td></tr>';
 
 		if (objType == 1) {
 
@@ -201,25 +199,24 @@ drag.extend({
 				opchecked = ' checked="checked"';
 			}
 
-/*vot*/			table += '<tr><th>'+lng['padding']+'</th><td><div id="cmargindiv" class="'+ulclass+'"><span><label>'+lng['top']+'</label> <input class="px p_fre" id="cmargint" value="'+cmargint+'" size="1" />px </span>';
-/*vot*/			table += '<span class="bordera"><label>'+lng['right']+'</label><input class="px p_fre" id="cmarginr" value="'+cmarginr+'" size="1" />px </span>';
-/*vot*/			table += '<span class="bordera"><label>'+lng['bottom']+'</label><input class="px p_fre" id="cmarginb" value="'+cmarginb+'" size="1" />px </span>';
-/*vot*/			table += '<span class="bordera"><label>'+lng['left']+'</label><input class="px p_fre" id="cmarginl" value="'+cmarginl+'" size="1" />px </span>';
-/*vot*/			table += '</div><p class="ptm"><label><input id="cmarginop" type="checkbox" value="1" class="pc"'+opchecked+' onclick="$(\'cmargindiv\').className = $(\'cmargindiv\').className == \'borderul\' ? \'borderula\' : \'borderul\'"> '+lng['separate_config']+'</label></p></td></tr>';
+			table += '<tr><th>' + $L('diy_padding') + '</th><td><div id="cmargindiv" class="'+ulclass+'"><span><label>' + $L('up') + '</label> <input class="px p_fre" id="cmargint" value="'+cmargint+'" size="1" />px </span>';
+			table += '<span class="bordera"><label>' + $L('right') + '</label> <input class="px p_fre" id="cmarginr" value="'+cmarginr+'" size="1" />px </span>';
+			table += '<span class="bordera"><label>' + $L('down') + '</label> <input class="px p_fre" id="cmarginb" value="'+cmarginb+'" size="1" />px </span>';
+			table += '<span class="bordera"><label>' + $L('left') + '</label> <input class="px p_fre" id="cmarginl" value="'+cmarginl+'" size="1" />px </span>';
+			table += '</div><p class="ptm"><label><input id="cmarginop" type="checkbox" value="1" class="pc"'+opchecked+' onclick="$(\'cmargindiv\').className = $(\'cmargindiv\').className == \'borderul\' ? \'borderula\' : \'borderul\'"> ' + $L('diy_sset') + '</label></p></td></tr>';
 		}
-/*vot*/		table += '<tr><th>'+lng['bg_color']+'</th><td><input type="text" id="bgcolor" class="px p_fre vm" value="'+bgcolor+'" size="4" />';
+		table += '<tr><th>' + $L('table_bgcolor') + '</th><td><input type="text" id="bgcolor" class="px p_fre vm" value="'+bgcolor+'" size="4" />';
 		table += getColorPalette(id+'_bgcPalette', 'bgcolor' ,bgcolor)+'</td></tr>';
-/*vot*/		table += '<tr><th>'+lng['bg_image']+'</th><td><input type="text" id="bgimage" class="px p_fre vm" value="'+bgimage+'" size="25" /> <select class="ps vm" id="bgrepeat" >'+this.getOption(repeatarr,bgrepeat)+'</select></td></tr>';
+		table += '<tr><th>' + $L('diy_bgimg') + '</th><td><input type="text" id="bgimage" class="px p_fre vm" value="'+bgimage+'" size="25" /> <select class="ps vm" id="bgrepeat" >'+this.getOption(repeatarr,bgrepeat)+'</select></td></tr>';
 		var classarr = objType == 1 ? this.blockDefaultClass : this.frameDefaultClass;
-/*vot*/		table += '<tr><th>'+lng['class']+'</th><td><input type="text" id="diyClassName" class="px p_fre" value="'+diyClassName+'" size="8" /> <select class="ps vm" id="bgrepeat" onchange="$(\'diyClassName\').value=this.value;" >'+this.getOption(classarr, diyClassName)+'</select></td></tr>';
+		table += '<tr><th>' + $L('diy_class') + '</th><td><input type="text" id="diyClassName" class="px p_fre" value="'+diyClassName+'" size="8" /> <select class="ps vm" id="bgrepeat" onchange="$(\'diyClassName\').value=this.value;" >'+this.getOption(classarr, diyClassName)+'</select></td></tr>';
 		table += '</table>';
 
-/*vot*/		var wname = objType ? lng['block'] : lng['frame'];
+		var wname = objType ? $L('diy_module') : $L('diy_frame');
 		html = '<div class="c diywin" style="width:450px;position:relative;">'+table+'</div>';
-/*vot*/		var h = '<h3 class="flb"><em>'+lng['edit']+' '+wname+' '+lng['style']+'</em><span><a href="javascript:;" class="flbc" onclick="drag.closeStyleEdit(\''+id+'\');return false;" title="'+lng['close']+'">\n'
-/*vot*/			+lng['close']+'</a></span></h3>';
-/*vot*/		var f = '<p class="o pns"><button onclick="drag.saveStyle(\''+id+'\');drag.closeStyleEdit(\''+id+'\');" class="pn pnc" value="true">\n\
-			<strong>'+lng['submit']+'</strong></button><button onclick="drag.closeStyleEdit(\''+id+'\')" class="pn" value="true"><strong>'+lng['cancel']+'</strong></button></p>';
+		var h = '<h3 class="flb"><em>'+$L('diy_edit_style', [wname])+'</em><span><a href="javascript:;" class="flbc" onclick="drag.closeStyleEdit(\''+id+'\');return false;" title="'+$L('close')+'">'+$L('close')+'</a></span></h3>';
+		var f = '<p class="o pns"><button onclick="drag.saveStyle(\''+id+'\');drag.closeStyleEdit(\''+id+'\');" class="pn pnc" value="true">\n\
+			<strong>' + $L('confirm') + '</strong></button><button onclick="drag.closeStyleEdit(\''+id+'\')" class="pn" value="true"><strong>' + $L('cancel') + '</strong></button></p>';
 		this.removeMenu(e);
 		showWindow('eleStyle',h + html + f, 'html', 0);
 	},
@@ -335,8 +332,8 @@ drag.extend({
 			fid = e;
 		}
 		var obj = this.getObjByName(fid);
-/*vot*/		var titlename = obj instanceof Block ? lng['block'] : lng['frame'];
-/*vot*/		var repeatarr = [{'key':lng['repeat'],'value':'repeat'},{'key':lng['no_repeat'],'value':'no-repeat'},{'key':lng['repeat_x'],'value':'repeat-x'},{'key':lng['repeat_y'],'value':'repeat-y'}];
+		var titlename = obj instanceof Block ? $L('diy_module') : $L('diy_frame');
+		var repeatarr = [{'key':$L('diy_tile'),'value':'repeat'},{'key':$L('diy_notile'),'value':'no-repeat'},{'key':$L('diy_tile_x'),'value':'repeat-x'},{'key':$L('diy_tile_y'),'value':'repeat-y'}];
 
 		var len = obj.titles.length;
 		var bgimage = obj.titles.style && obj.titles.style['background-image'] ? obj.titles.style['background-image'] : '';
@@ -346,23 +343,23 @@ drag.extend({
 		var bgrepeat = obj.titles.style && obj.titles.style['background-repeat'] ? obj.titles.style['background-repeat'] : '';
 
 		var common = '<table class="tfm">';
-/*vot*/		common += '<tr><th>'+lng['bg_image']+':</th><td><input type="text" id="titleBgImage" class="px p_fre" value="'+bgimage+'" /> <select class="ps vm" id="titleBgRepeat" >'+this.getOption(repeatarr,bgrepeat)+'</select></td></tr>';
-/*vot*/		common += '<tr><th>'+lng['bg_color']+':</th><td><input type="text" id="titleBgColor" class="px p_fre" value="'+bgcolor+'" size="7" />';
+		common += '<tr><th>' + $L('diy_bgimg') + ':</th><td><input type="text" id="titleBgImage" class="px p_fre" value="'+bgimage+'" /> <select class="ps vm" id="titleBgRepeat" >'+this.getOption(repeatarr,bgrepeat)+'</select></td></tr>';
+		common += '<tr><th>' + $L('table_bgcolor') + ':</th><td><input type="text" id="titleBgColor" class="px p_fre" value="'+bgcolor+'" size="7" />';
 		common += getColorPalette(fid+'bgPalette_0', 'titleBgColor' ,bgcolor)+'</td></tr>';
 		if (obj instanceof Tab) {
-/*vot*/			var switchArr = [{'key':lng['onclick'],'value':'click'},{'key':lng['onmouseover'],'value':'mouseover'}];
+			var switchArr = [{'key':$L('diy_click'),'value':'click'},{'key':$L('diy_mouseover'),'value':'mouseover'}];
 			var switchType = obj.titles['switchType'] ? obj.titles['switchType'][0] : 'click';
-/*vot*/			common += '<tr><th>'+lng['switch_type']+':</th><td><select class="ps" id="switchType" >'+this.getOption(switchArr,switchType)+'</select></td></tr>';
+			common += '<tr><th>' + $L('diy_switch_type') + ':</th><td><select class="ps" id="switchType" >'+this.getOption(switchArr,switchType)+'</select></td></tr>';
 		}
 		common += '</table><hr class="l">';
 		var li = '';
-/*vot*/		li += '<div id="titleInput_0"><table class="tfm"><tr><th>'+titlename+' '+lng['title']+':</th><td><input type="text" id="titleText_0" class="px p_fre" value="`title`" /></td></tr>';
-/*vot*/		li += '<tr><th>'+lng['link']+':</th><td><input type="text" id="titleLink_0" class="px p_fre" value="`link`" /></td></tr>';
-/*vot*/		li += '<tr><th>'+lng['image']+':</th><td><input type="text" id="titleSrc_0" class="px p_fre" value="`src`" /></td></tr>';
-/*vot*/		li += '<tr><th>'+lng['position']+':</th><td><select id="titleFloat_0" class="ps vm"><option value="" `left`>'+lng['align_left']+'</option><option value="right" `right`>'+lng['align_right']+'</option></select>';
-/*vot*/		li += '&nbsp;&nbsp;'+lng['offset']+':<input type="text" id="titleMargin_0" class="px p_fre vm" value="`margin`" size="2" />px</td></tr>';
-/*vot*/		li += '<tr><th>'+lng['font']+':</th><td><select class="ps vm" id="titleSize_0" ><option value="">'+lng['size']+'</option>`size`</select>';
-/*vot*/		li += '&nbsp;&nbsp;'+lng['color']+': <input type="text" id="titleColor_0" class="px p_fre vm" value="`color`" size="4" />';
+		li += '<div id="titleInput_0"><table class="tfm"><tr><th>'+titlename+$L('title')+':</th><td><input type="text" id="titleText_0" class="px p_fre" value="`title`" /></td></tr>';
+		li += '<tr><th>' + $L('diy_link') + ':</th><td><input type="text" id="titleLink_0" class="px p_fre" value="`link`" /></td></tr>';
+		li += '<tr><th>' + $L('diy_img') + ':</th><td><input type="text" id="titleSrc_0" class="px p_fre" value="`src`" /></td></tr>';
+		li += '<tr><th>' + $L('diy_float') + ':</th><td><select id="titleFloat_0" class="ps vm"><option value="" `left`>' + $L('diy_fleft') + '</option><option value="right" `right`>' + $L('diy_fright') + '</option></select>';
+		li += '&nbsp;&nbsp;' + $L('diy_offset') + ':<input type="text" id="titleMargin_0" class="px p_fre vm" value="`margin`" size="2" />px</td></tr>';
+		li += '<tr><th>' + $L('font_family') + ':</th><td><select class="ps vm" id="titleSize_0" ><option value="">' + $L('size') + '</option>`size`</select>';
+		li += '&nbsp;&nbsp;' + $L('color') + ': <input type="text" id="titleColor_0" class="px p_fre vm" value="`color`" size="4" />';
 		li += getColorPalette(fid+'Palette_0', 'titleColor_0' ,'`color`');
 		li += '</td></tr><tr><td colspan="2"><hr class="l"></td></tr></table></div>';
 		var html = '';
@@ -383,11 +380,10 @@ drag.extend({
 		}
 
 		var c = len + 1;
-/*vot*/		html = '<div class="c diywin" style="width:450px;height:400px; overflow:auto;"><table cellspacing="0" cellpadding="0" class="tfm pns"><tr><th></th><td><button type="button" id="addTitleInput" class="pn" onclick="drag.addTitleInput('+c+');"><em>'+lng['add_new_title']+'</em></button></td></tr></table><div id="titleEdit">'+html+common+'</div></div>';
-/*vot*/		var h = '<h3 class="flb"><em>'+lng['edit']+' '+titlename+' '+lng['title']+'</em><span><a href="javascript:;" class="flbc" onclick="drag.closeTitleEdit(\''+fid+'\');return false;" title="'+lng['close']+'">\n' +
-/*vot*/			lng['close']+'</a></span></h3>';
-/*vot*/		var f = '<p class="o pns"><button onclick="drag.saveTitleEdit(\''+fid+'\');drag.closeTitleEdit(\''+fid+'\');" class="pn pnc" value="true">\n' +
-/*vot*/			'<strong>'+lng['submit']+'</strong></button><button onclick="drag.closeTitleEdit(\''+fid+'\')" class="pn" value="true"><strong>'+lng['cancel']+'</strong></button></p>';
+			html = '<div class="c diywin" style="width:450px;height:400px; overflow:auto;"><table cellspacing="0" cellpadding="0" class="tfm pns"><tr><th></th><td><button type="button" id="addTitleInput" class="pn" onclick="drag.addTitleInput('+c+');"><em>' + $L('diy_add_title') + '</em></button></td></tr></table><div id="titleEdit">'+html+common+'</div></div>';
+		var h = '<h3 class="flb"><em>'+$L('edit')+titlename+$L('title')+'</em><span><a href="javascript:;" class="flbc" onclick="drag.closeTitleEdit(\''+fid+'\');return false;" title="' + $L('close') + '">' + $L('close') + '</a></span></h3>';
+		var f = '<p class="o pns"><button onclick="drag.saveTitleEdit(\''+fid+'\');drag.closeTitleEdit(\''+fid+'\');" class="pn pnc" value="true">\n\
+			<strong>' + $L('confirm') + '</strong></button><button onclick="drag.closeTitleEdit(\''+fid+'\')" class="pn" value="true"><strong>' + $L('cancel') + '</strong></button></p>';
 		this.removeMenu(e);
 		showWindow('frameTitle',h + html + f, 'html', 0);
 	},
@@ -563,7 +559,7 @@ drag.extend({
 		if ($(id) == null) return false;
 		var obj = this.getObjByName(id);
 		if (!flag) {
-/*vot*/			if (!confirm(lng['delete_this_sure'])) return false;
+			if (!confirm($L('delete_confirm_2'))) return false;
 		}
 		if (obj instanceof Block) {
 			this.delBlock(id);
@@ -656,13 +652,13 @@ drag.extend({
 		var height = Util.getFinallyStyle(bcontent, 'height');
 		bcontent.style.lineHeight = height == 'auto' ? '' : (height == '0px' ? '20px' : height);
 		var boldcontent = bcontent.innerHTML;
-/*vot*/		bcontent.innerHTML = '<center>'+lng['loading_content']+'</center>';
+		bcontent.innerHTML = '<center>' + $L('diy_loading') + '</center>';
 		var x = new Ajax();
 		x.get('portal.php?mod=portalcp&ac=block&op=getblock&forceupdate=1&inajax=1&bid='+bid+'&tpl='+document.diyform.template.value, function(s) {
 			if(s.indexOf('errorhandle_') != -1) {
 				bcontent.innerHTML = boldcontent;
 				runslideshow();
-/*vot*/				showDialog(lng['block_no_rights'], 'alert');
+				showDialog($L('diy_no_permission'), 'alert');
 				doane();
 			} else {
 				var obj = document.createElement('div');
@@ -679,7 +675,7 @@ drag.extend({
 	frameExport : function (e) {
 		var flag = true;
 		if (drag.isChange) {
-/*vot*/			flag = confirm(lng['modified_import']);
+			flag = confirm($L('diy_modify_notice'));
 		}
 		if (flag) {
 			if ( typeof e == 'object') {
@@ -709,7 +705,7 @@ drag.extend({
 	},
 	endBlockForceUpdateBatch : function () {
 		if($('allupdate')) {
-/*vot*/			$('allupdate').innerHTML = lng['update_completed'];
+			$('allupdate').innerHTML = $L('diy_operate_complete');
 			$('fwin_dialog_submit').style.display = '';
 			$('fwin_dialog_cancel').style.display = 'none';
 		}
@@ -722,7 +718,11 @@ drag.extend({
 		if (this.blocks.length > 0) {
 			var cur = this.blocksLen - this.blocks.length;
 			if($('allupdate')) {
-/*vot*/				$('allupdate').innerHTML = lng['total']+' <span style="color:blue">'+this.blocksLen+'</span>'+lng['blocks']+', '+lng['updating_the']+' <span style="color:red">'+cur+'</span> '+lng['block']+', '+lng['done']+' <span style="color:red">'+(parseInt(cur / this.blocksLen * 100)) + '%</span>';
+				$('allupdate').innerHTML = $L('diy_update_info', [
+                    '<span style="color:blue">'+this.blocksLen+'</span>',
+                    '<span style="color:red">'+cur+'</span>',
+                    '<span style="color:red">'+(parseInt(cur / this.blocksLen * 100)) + '%']
+                );
 				var bid = 'portal_block_'+this.blocks.pop();
 				this.blockForceUpdate(bid,true);
 			}
@@ -736,7 +736,7 @@ drag.extend({
 			this.blocks = this.allBlocks;
 		}
 		this.blocksLen = this.blocks.length;
-/*vot*/		showDialog('<div id="allupdate" style="width:350px;line-height:28px;">'+lng['start_updating']+'</div>','confirm',lng['update_block_data'], '', true, 'drag.endBlockForceUpdateBatch()');
+		showDialog('<div id="allupdate" style="width:350px;line-height:28px;">' + $L('diy_updating') + '</div>','confirm',$L('diy_update_data'), '', true, 'drag.endBlockForceUpdateBatch()');
 		var wait = function() {
 			if($('fwin_dialog_submit')) {
 				$('fwin_dialog_submit').style.display = 'none';
@@ -749,8 +749,9 @@ drag.extend({
 		wait();
 		doane();
 	},
-	clearAll : function () {
-/*vot*/		if (confirm(lng['clear_diy_sure'])) {
+	clearAll : function (noConfirm) {
+		noConfirm = !noConfirm ? false : true;
+		if (noConfirm || confirm($L('diy_clear_confirm'))) {
 			for (var i in this.data) {
 				for (var j in this.data[i]) {
 					if (typeof(this.data[i][j]) == 'object' && this.data[i][j].name.indexOf('_temp')<0) {
@@ -765,7 +766,7 @@ drag.extend({
 		doane();
 	},
 	createObj : function (e,objType,contentType) {
-/*vot*/		if (objType == 'block' && !this.checkHasFrame()) {alert(lng['frame_not_found']);spaceDiy.getdiy('frame');return false;}
+		if (objType == 'block' && !this.checkHasFrame()) {alert($L('diy_noframe_notice'));spaceDiy.getdiy('frame');return false;}
 		e = Util.event(e);
 		if(e.which != 1 ) {return false;}
 		var html = '',offWidth = 0;
@@ -810,7 +811,7 @@ drag.extend({
 		var className = [this.frameClass,this.moveableObject].join(' ');
 		className = className + ' cl frame-' + type;
 		var str = '<div id="'+id+'" class="'+className+'">';
-/*vot*/		str += '<div id="'+id+'_title" class="'+this.titleClass+' '+this.frameTitleClass+'"><span class="'+this.titleTextClass+'">'+type+' '+lng['frame']+'</span></div>';
+		str += '<div id="'+id+'_title" class="'+this.titleClass+' '+this.frameTitleClass+'"><span class="'+this.titleTextClass+'">'+type+$L('diy_frame')+'</span></div>';
 		var cols = type.split('-');
 		var clsl='',clsc='',clsr='';
 		clsl = ' frame-'+type+'-l';
@@ -836,7 +837,7 @@ drag.extend({
 		className = className + ' cl';
 		var titleClassName = [this.tabTitleClass, this.titleClass, this.moveableColumn, 'cl'].join(' ');
 		var str = '<div id="'+id+'" class="'+className+'">';
-/*vot*/		str += '<div id="'+id+'_title" class="'+titleClassName+'"><span class="'+this.titleTextClass+'">'+lng['tab_label']+'</span></div>';
+		str += '<div id="'+id+'_title" class="'+titleClassName+'"><span class="'+this.titleTextClass+'">' + $L('diy_tab') + '</span></div>';
 		str += '<div id="'+id+'_content" class="'+this.tabContentClass+'"></div>';
 		str += '</div>';
 		return str;
@@ -853,7 +854,7 @@ drag.extend({
 		} else {
 			if (!this.isChange) {
 				window.onbeforeunload = function() {
-/*vot*/					return lng['warn_not_saved'];
+					return $L('diy_exit_notice');
 				};
 			}
 			this.isChange = true;
@@ -867,7 +868,7 @@ drag.extend({
 	},
 	goonDIY : function () {
 		if ($('prefile').value == '1') {
-/*vot*/			showDialog('<div style="line-height:28px;">'+lng['temp_action']+'</div>','confirm',lng['continue_temp_sure'], function(){location.replace(location.href+'&preview=yes');}, true, 'spaceDiy.cancelDIY()', '', lng['continue'], lng['delete']);
+			showDialog('<div style="line-height:28px;">' + $L('diy_goon_notice') + '</div>','confirm',$L('diy_continue_notice'), function(){location.replace(location.href+'&preview=yes');}, true, 'spaceDiy.cancelDIY()', '', $L('continue'), $L('delete'));
 		} else if (location.search.indexOf('preview=yes') > -1) {
 			spaceDiy.enablePreviewButton();
 		} else {
@@ -892,8 +893,10 @@ spaceDiy.extend({
 					} else {
 						schecked = ' checked';
 					}
-/*vot*/					showDialog('<form name="selectsave" action="" method="get"><label><input type="radio" value="0" name="savemod"'+schecked+' />'+lng['apply_all_pages']+'</label>\n\
-					<label><input type="radio" value="1" name="savemod"'+dchecked+' />'+lng['apply_current_page']+'</label></form>','notice', '', spaceDiy.save);
+					showDialog('<form name="selectsave" action="" method="get">' +
+						'<label><input type="radio" value="0" name="savemod"'+schecked+' />' + $L('diy_save_all') + '</label>' +
+						'<label><input type="radio" value="1" name="savemod"'+dchecked+' />' + $L('diy_save_this') + '</label>' +
+						'</form>','notice', '', spaceDiy.save);
 					return false;
 				}
 				if (document.selectsave) {
@@ -957,14 +960,14 @@ spaceDiy.extend({
 	cancel : function () {
 		saveUserdata('diy_advance_mode', '');
 		if (drag.isClearClose) {
-/*vot*/			showDialog('<div style="line-height:28px;">'+lng['save_temp_sure']+'</div>','confirm',lng['save_temp'], function(){location.href = spaceDiy.cancelDiyUrl();}, true, function(){window.onunload=function(){spaceDiy.cancelDIY()};location.href = spaceDiy.cancelDiyUrl();});
+			showDialog('<div style="line-height:28px;">' + $L('diy_save_confirm') + '</div>','confirm',$L('diy_save'), function(){location.href = spaceDiy.cancelDiyUrl();}, true, function(){window.onunload=function(){spaceDiy.cancelDIY()};location.href = spaceDiy.cancelDiyUrl();});
 		} else {
 			location.href = this.cancelDiyUrl();
 		}
 
 	},
 	recover : function() {
-/*vot*/		if (confirm(lng['revert_last_saved'])) {
+		if (confirm($L('diy_restore_confirm'))) {
 			drag.clearClose();
 			document.diyform.recover.value = '1';
 			document.diyform.gobackurl.value = location.href.replace(/(\?diy=yes)|(\&diy=yes)/,'').replace(/[\?|\&]preview=yes/,'');

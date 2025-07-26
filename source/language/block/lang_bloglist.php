@@ -1,18 +1,17 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: lang_bloglist.php 27449 2012-02-01 05:32:35Z zhangguosheng $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
-$lang = array
-(
+$lang =
+	[
 	'bloglist_blogids' => '指定日志',
 	'bloglist_blogids_comment' => '填入指定日志的ID(blogid)，多个日志之间用逗号(,)分隔',
 	'bloglist_uids' => '作者UID',
@@ -38,6 +37,5 @@ $lang = array
 	'bloglist_orderby_viewnum' => '按查看数倒序',
 	'bloglist_orderby_replynum' => '按回复数倒序',
 	'bloglist_orderby_hot' => '按热度倒序'
-);
+	];
 
-?>

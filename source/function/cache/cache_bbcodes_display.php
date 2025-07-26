@@ -1,10 +1,9 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: cache_bbcodes_display.php 24599 2011-09-27 11:06:53Z zhengqingpeng $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -12,9 +11,9 @@ if(!defined('IN_DISCUZ')) {
 }
 
 function build_cache_bbcodes_display() {
-	$data = array();
+	$data = [];
 	$i = 0;
-	foreach(C::t('forum_bbcode')->fetch_all_by_available_icon(2, true) as $bbcode) {
+	foreach(table_forum_bbcode::t()->fetch_all_by_available_icon(2, true) as $bbcode) {
 		$bbcode['perm'] = explode("\t", $bbcode['perm']);
 		if(in_array('', $bbcode['perm']) || !$bbcode['perm']) {
 			continue;
@@ -34,4 +33,3 @@ function build_cache_bbcodes_display() {
 	savecache('bbcodes_display', $data);
 }
 
-?>

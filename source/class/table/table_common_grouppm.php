@@ -1,30 +1,37 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: table_common_grouppm.php 27876 2012-02-16 04:28:02Z zhengqingpeng $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
-class table_common_grouppm extends discuz_table
-{
-	private $_uids = array();
+class table_common_grouppm extends discuz_table {
+	private $_uids = [];
+
+	public static function t() {
+		static $_instance;
+		if(!isset($_instance)) {
+			$_instance = new self();
+		}
+		return $_instance;
+	}
+
 	public function __construct() {
 
 		$this->_table = 'common_grouppm';
-		$this->_pk    = 'id';
+		$this->_pk = 'id';
 
 		parent::__construct();
 	}
 
 	public function fetch_all_by_id_authorid($id = 0, $authorid = 0) {
-		$wherearr = $data = array();
-		$parameter = array($this->_table);
+		$wherearr = $data = [];
+		$parameter = [$this->_table];
 		if($id) {
 			$id = is_array($id) ? array_map('intval', (array)$id) : dintval($id);
 			$wherearr[] = is_array($id) ? 'id IN(%n)' : 'id=%d';
@@ -46,7 +53,7 @@ class table_common_grouppm extends discuz_table
 	}
 
 	public function count_by_id_authorid($id, $authorid) {
-		return DB::result_first('SELECT COUNT(*) FROM %t WHERE id=%d AND authorid=%d', array($this->_table, $id, $authorid));
+		return DB::result_first('SELECT COUNT(*) FROM %t WHERE id=%d AND authorid=%d', [$this->_table, $id, $authorid]);
 	}
 
 	public function get_uids() {
@@ -55,4 +62,3 @@ class table_common_grouppm extends discuz_table
 
 }
 
-?>

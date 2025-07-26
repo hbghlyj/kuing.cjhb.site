@@ -1,10 +1,9 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: magic_highlight.php 33516 2013-06-27 08:58:10Z nemohou $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -19,30 +18,30 @@ class magic_highlight {
 	var $price = '10';
 	var $weight = '10';
 	var $copyright = '<a href="https://www.discuz.vip/" target="_blank">Discuz!</a>';
-	var $magic = array();
-	var $parameters = array();
-	var $idtypearray = array('blogid', 'tid');
+	var $magic = [];
+	var $parameters = [];
+	var $idtypearray = ['blogid', 'tid'];
 
 	function getsetting(&$magic) {
 		global $_G;
-		$settings = array(
-			'expiration' => array(
+		$settings = [
+			'expiration' => [
 				'title' => 'highlight_expiration',
 				'type' => 'text',
 				'value' => '',
 				'default' => 24,
-			),
-			'fids' => array(
+			],
+			'fids' => [
 				'title' => 'highlight_forum',
 				'type' => 'mselect',
-				'value' => array(),
-			),
-		);
+				'value' => [],
+			],
+		];
 		loadcache('forums');
-		$settings['fids']['value'][] = array(0, '&nbsp;');
-		if(empty($_G['cache']['forums'])) $_G['cache']['forums'] = array();
+		$settings['fids']['value'][] = [0, '&nbsp;'];
+		if(empty($_G['cache']['forums'])) $_G['cache']['forums'] = [];
 		foreach($_G['cache']['forums'] as $fid => $forum) {
-			$settings['fids']['value'][] = array($fid, ($forum['type'] == 'forum' ? str_repeat('&nbsp;', 4) : ($forum['type'] == 'sub' ? str_repeat('&nbsp;', 8) : '')).$forum['name']);
+			$settings['fids']['value'][] = [$fid, ($forum['type'] == 'forum' ? str_repeat('&nbsp;', 4) : ($forum['type'] == 'sub' ? str_repeat('&nbsp;', 8) : '')).$forum['name']];
 		}
 		$magic['fids'] = explode("\t", $magic['forum']);
 
@@ -51,7 +50,7 @@ class magic_highlight {
 
 	function setsetting(&$magicnew, &$parameters) {
 		global $_G;
-		$magicnew['forum'] = is_array($parameters['fids']) && !empty($parameters['fids']) ? implode("\t",$parameters['fids']) : '';
+		$magicnew['forum'] = is_array($parameters['fids']) && !empty($parameters['fids']) ? implode("\t", $parameters['fids']) : '';
 		$magicnew['expiration'] = intval($parameters['expiration']);
 	}
 
@@ -59,35 +58,35 @@ class magic_highlight {
 		global $_G;
 		$idtype = !empty($_GET['idtype']) ? $_GET['idtype'] : '';
 		if(!in_array($idtype, $this->idtypearray)) {
-			showmessage(lang('magic/highlight', 'highlight_info_notype'), dreferer(), array(), array('showdialog' => 1, 'locationtime' => true));
+			showmessage(lang('magic/highlight', 'highlight_info_notype'), dreferer(), [], ['showdialog' => 1, 'locationtime' => true]);
 		}
 		if(empty($_GET['id'])) {
 			showmessage(lang('magic/highlight', 'highlight_info_nonexistence_'.$idtype));
 		}
 
 		if($idtype == 'tid') {
-			$info = getpostinfo($_GET['id'], $idtype, array('fid', 'authorid', 'subject'));
+			$info = getpostinfo($_GET['id'], $idtype, ['fid', 'authorid', 'subject']);
 			$this->_check($info['fid']);
 			magicthreadmod($_GET['id']);
-			C::t('forum_thread')->update($_GET['id'], array('highlight' => $_GET['highlight_color'], 'moderated' => 1));
+			table_forum_thread::t()->update($_GET['id'], ['highlight' => $_GET['highlight_color'], 'moderated' => 1]);
 			$this->parameters['expiration'] = $this->parameters['expiration'] ? intval($this->parameters['expiration']) : 24;
 			$expiration = TIMESTAMP + $this->parameters['expiration'] * 3600;
 			updatemagicthreadlog($_GET['id'], $this->magic['magicid'], $expiration > 0 ? 'EHL' : 'HLT', $expiration);
 			if($info['authorid'] != $_G['uid']) {
-				notification_add($info['authorid'], 'magic', lang('magic/highlight', 'highlight_notification'), array('tid' => $_GET['id'], 'subject' => $info['subject'], 'magicname' => $this->magic['name']));
+				notification_add($info['authorid'], 'magic', lang('magic/highlight', 'highlight_notification'), ['tid' => $_GET['id'], 'subject' => $info['subject'], 'magicname' => $this->magic['name']]);
 			}
 		} elseif($idtype == 'blogid') {
-			$info = getpostinfo($_GET['id'], $idtype, array('uid', 'subject'));
-			C::t('home_blogfield')->update($_GET['id'], array('magiccolor' => $_GET['highlight_color']));
+			$info = getpostinfo($_GET['id'], $idtype, ['uid', 'subject']);
+			table_home_blogfield::t()->update($_GET['id'], ['magiccolor' => $_GET['highlight_color']]);
 			if($info['uid'] != $_G['uid']) {
-				notification_add($info['uid'], 'magic', lang('magic/highlight', 'highlight_notification_blogid'), array('blogid' => $_GET['id'], 'subject' => $info['subject'], 'magicname' => $this->magic['name']));
+				notification_add($info['uid'], 'magic', lang('magic/highlight', 'highlight_notification_blogid'), ['blogid' => $_GET['id'], 'subject' => $info['subject'], 'magicname' => $this->magic['name']]);
 			}
 		}
 
 		usemagic($this->magic['magicid'], $this->magic['num']);
 		updatemagiclog($this->magic['magicid'], '2', '1', '0', 0, $idtype, $_GET['id']);
 
-		showmessage(lang('magic/highlight', 'highlight_succeed_'.$idtype), dreferer(), array(), array('alert' => 'right', 'showdialog' => 1, 'locationtime' => true));
+		showmessage(lang('magic/highlight', 'highlight_succeed_'.$idtype), dreferer(), [], ['alert' => 'right', 'showdialog' => 1, 'locationtime' => true]);
 	}
 
 	function show() {
@@ -95,7 +94,7 @@ class magic_highlight {
 		$id = !empty($_GET['id']) ? dhtmlspecialchars($_GET['id']) : '';
 		$idtype = !empty($_GET['idtype']) ? $_GET['idtype'] : '';
 		if(!in_array($idtype, $this->idtypearray)) {
-			showmessage(lang('magic/highlight', 'highlight_info_notype'), dreferer(), array(), array('showdialog' => 1, 'locationtime' => true));
+			showmessage(lang('magic/highlight', 'highlight_info_notype'), dreferer(), [], ['showdialog' => 1, 'locationtime' => true]);
 		}
 		if($id) {
 			$info = getpostinfo($_GET['id'], $idtype);
@@ -106,8 +105,8 @@ class magic_highlight {
 		}
 		magicshowtype('top');
 		$lang = lang('magic/highlight');
-		magicshowsetting(lang('magic/highlight', 'highlight_info_'.$idtype, array('expiration' => $this->parameters['expiration'])), 'id', $id, 'hidden');
-echo <<<EOF
+		magicshowsetting(lang('magic/highlight', 'highlight_info_'.$idtype, ['expiration' => $this->parameters['expiration']]), 'id', $id, 'hidden');
+		echo <<<EOF
 	<p class="mtm mbn">{$lang['highlight_color']}</p>
 	<div class="hasd mbm cl">
 		<input type="hidden" id="highlight_color" name="highlight_color" />
@@ -157,4 +156,3 @@ EOF;
 
 }
 
-?>

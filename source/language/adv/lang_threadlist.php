@@ -1,18 +1,17 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: lang_threadlist.php 27449 2012-02-01 05:32:35Z zhangguosheng $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
-$lang = array
-(
+$lang =
+	[
 	'threadlist_name' => '论坛/圈子 帖子列表帖位广告',
 	'threadlist_desc' => '展现方式: 帖位广告显示于帖子列表页第一页的帖子位置，可以模拟出一个具有广告意义的帖子地址，吸引访问者的注意力。',
 	'threadlist_fids' => '投放版块',
@@ -28,6 +27,5 @@ $lang = array
 	'threadlist_tid' => '主题模式指定主题 tid',
 	'threadlist_threadurl' => '主题模式自定义主题 URL',
 	'threadlist_threadurl_comment' => '留空表示使用指定主题的 URL',
-);
+	];
 
-?>

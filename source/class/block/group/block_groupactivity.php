@@ -1,128 +1,127 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: block_groupactivity.php 25525 2011-11-14 04:39:11Z zhangguosheng $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
-class block_groupactivity extends discuz_block {
-	var $setting = array();
 
-	function __construct(){
-		$this->setting = array(
-			'tids' => array(
+class block_groupactivity extends discuz_block {
+	var $setting = [];
+
+	function __construct() {
+		$this->setting = [
+			'tids' => [
 				'title' => 'groupactivity_tids',
 				'type' => 'text'
-			),
-			'uids' => array(
+			],
+			'uids' => [
 				'title' => 'groupactivity_uids',
 				'type' => 'text'
-			),
-			'keyword' => array(
+			],
+			'keyword' => [
 				'title' => 'groupactivity_keyword',
 				'type' => 'text'
-			),
-			'fids'	=> array(
+			],
+			'fids' => [
 				'title' => 'groupactivity_fids',
 				'type' => 'text'
-			),
-			'gtids' => array(
+			],
+			'gtids' => [
 				'title' => 'groupactivity_gtids',
 				'type' => 'mselect',
-				'value' => array(
-				),
-			),
-			'digest' => array(
+				'value' => [],
+			],
+			'digest' => [
 				'title' => 'groupactivity_digest',
 				'type' => 'mcheckbox',
-				'value' => array(
-					array(1, 'groupactivity_digest_1'),
-					array(2, 'groupactivity_digest_2'),
-					array(3, 'groupactivity_digest_3'),
-					array(0, 'groupactivity_digest_0')
-				),
-			),
-			'stick' => array(
+				'value' => [
+					[1, 'groupactivity_digest_1'],
+					[2, 'groupactivity_digest_2'],
+					[3, 'groupactivity_digest_3'],
+					[0, 'groupactivity_digest_0']
+				],
+			],
+			'stick' => [
 				'title' => 'groupactivity_stick',
 				'type' => 'mcheckbox',
-				'value' => array(
-					array(1, 'groupactivity_stick_1'),
-					array(2, 'groupactivity_stick_2'),
-					array(3, 'groupactivity_stick_3'),
-					array(0, 'groupactivity_stick_0')
-				),
-			),
-			'recommend' => array(
+				'value' => [
+					[1, 'groupactivity_stick_1'],
+					[2, 'groupactivity_stick_2'],
+					[3, 'groupactivity_stick_3'],
+					[0, 'groupactivity_stick_0']
+				],
+			],
+			'recommend' => [
 				'title' => 'groupactivity_recommend',
 				'type' => 'radio'
-			),
-			'place' => array(
+			],
+			'place' => [
 				'title' => 'groupactivity_place',
 				'type' => 'text'
-			),
-			'class' => array(
+			],
+			'class' => [
 				'title' => 'groupactivity_class',
 				'type' => 'select',
-				'value' => array()
-			),
-			'gender' => array(
+				'value' => []
+			],
+			'gender' => [
 				'title' => 'groupactivity_gender',
 				'type' => 'mradio',
-				'value' => array(
-					array('', 'groupactivity_gender_0'),
-					array('1', 'groupactivity_gender_1'),
-					array('2', 'groupactivity_gender_2'),
-				),
+				'value' => [
+					['', 'groupactivity_gender_0'],
+					['1', 'groupactivity_gender_1'],
+					['2', 'groupactivity_gender_2'],
+				],
 				'default' => ''
-			),
-			'orderby' => array(
+			],
+			'orderby' => [
 				'title' => 'groupactivity_orderby',
-				'type'=> 'mradio',
-				'value' => array(
-					array('dateline', 'groupactivity_orderby_dateline'),
-					array('weekstart', 'groupactivity_orderby_weekstart'),
-					array('monthstart', 'groupactivity_orderby_monthstart'),
-					array('weekexp', 'groupactivity_orderby_weekexp'),
-					array('monthexp', 'groupactivity_orderby_monthexp'),
-				),
+				'type' => 'mradio',
+				'value' => [
+					['dateline', 'groupactivity_orderby_dateline'],
+					['weekstart', 'groupactivity_orderby_weekstart'],
+					['monthstart', 'groupactivity_orderby_monthstart'],
+					['weekexp', 'groupactivity_orderby_weekexp'],
+					['monthexp', 'groupactivity_orderby_monthexp'],
+				],
 				'default' => 'dateline'
-			),
-			'gviewperm' => array(
+			],
+			'gviewperm' => [
 				'title' => 'groupactivity_gviewperm',
 				'type' => 'mradio',
-				'value' => array(
-					array('-1', 'groupactivity_gviewperm_nolimit'),
-					array('0', 'groupactivity_gviewperm_only_member'),
-					array('1', 'groupactivity_gviewperm_all_member')
-				),
+				'value' => [
+					['-1', 'groupactivity_gviewperm_nolimit'],
+					['0', 'groupactivity_gviewperm_only_member'],
+					['1', 'groupactivity_gviewperm_all_member']
+				],
 				'default' => '-1'
-			),
-			'highlight' => array(
+			],
+			'highlight' => [
 				'title' => 'groupactivity_highlight',
 				'type' => 'radio',
 				'default' => 0,
-			),
-			'titlelength' => array(
+			],
+			'titlelength' => [
 				'title' => 'groupactivity_titlelength',
 				'type' => 'text',
 				'default' => 40
-			),
-			'summarylength' => array(
+			],
+			'summarylength' => [
 				'title' => 'groupactivity_summarylength',
 				'type' => 'text',
 				'default' => 80
-			),
-			'startrow' => array(
+			],
+			'startrow' => [
 				'title' => 'groupactivity_startrow',
 				'type' => 'text',
 				'default' => 0
-			),
-		);
+			],
+		];
 	}
 
 	function name() {
@@ -130,38 +129,38 @@ class block_groupactivity extends discuz_block {
 	}
 
 	function blockclass() {
-		return array('activity', lang('blockclass', 'blockclass_group_activity'));
+		return ['activity', lang('blockclass', 'blockclass_group_activity')];
 	}
 
 	function fields() {
-		return array(
-				'id' => array('name' => lang('blockclass', 'blockclass_field_id'), 'formtype' => 'text', 'datatype' => 'int'),
-				'url' => array('name' => lang('blockclass', 'blockclass_groupactivity_field_url'), 'formtype' => 'text', 'datatype' => 'string'),
-				'title' => array('name' => lang('blockclass', 'blockclass_groupactivity_field_title'), 'formtype' => 'title', 'datatype' => 'title'),
-				'pic' => array('name' => lang('blockclass', 'blockclass_groupactivity_field_pic'), 'formtype' => 'pic', 'datatype' => 'pic'),
-				'summary' => array('name' => lang('blockclass', 'blockclass_groupactivity_field_summary'), 'formtype' => 'summary', 'datatype' => 'summary'),
-				'time' => array('name' => lang('blockclass', 'blockclass_groupactivity_field_time'), 'formtype' => 'text', 'datatype' => 'text'),
-				'expiration' => array('name' => lang('blockclass', 'blockclass_groupactivity_field_expiration'), 'formtype' => 'text', 'datatype' => 'text'),
-				'author' => array('name' => lang('blockclass', 'blockclass_groupactivity_field_author'), 'formtype' => 'text', 'datatype' => 'text'),
-				'authorid' => array('name' => lang('blockclass', 'blockclass_groupactivity_field_authorid'), 'formtype' => 'text', 'datatype' => 'int'),
-				'cost' => array('name' => lang('blockclass', 'blockclass_groupactivity_field_cost'), 'formtype' => 'text', 'datatype' => 'int'),
-				'place' => array('name' => lang('blockclass', 'blockclass_groupactivity_field_place'), 'formtype' => 'text', 'datatype' => 'text'),
-				'class' => array('name' => lang('blockclass', 'blockclass_groupactivity_field_class'), 'formtype' => 'text', 'datatype' => 'text'),
-				'gender' => array('name' => lang('blockclass', 'blockclass_groupactivity_field_gender'), 'formtype' => 'text', 'datatype' => 'text'),
-				'number' => array('name' => lang('blockclass', 'blockclass_groupactivity_field_number'), 'formtype' => 'text', 'datatype' => 'int'),
-				'applynumber' => array('name' => lang('blockclass', 'blockclass_groupactivity_field_applynumber'), 'formtype' => 'text', 'datatype' => 'int'),
-			);
+		return [
+			'id' => ['name' => lang('blockclass', 'blockclass_field_id'), 'formtype' => 'text', 'datatype' => 'int'],
+			'url' => ['name' => lang('blockclass', 'blockclass_groupactivity_field_url'), 'formtype' => 'text', 'datatype' => 'string'],
+			'title' => ['name' => lang('blockclass', 'blockclass_groupactivity_field_title'), 'formtype' => 'title', 'datatype' => 'title'],
+			'pic' => ['name' => lang('blockclass', 'blockclass_groupactivity_field_pic'), 'formtype' => 'pic', 'datatype' => 'pic'],
+			'summary' => ['name' => lang('blockclass', 'blockclass_groupactivity_field_summary'), 'formtype' => 'summary', 'datatype' => 'summary'],
+			'time' => ['name' => lang('blockclass', 'blockclass_groupactivity_field_time'), 'formtype' => 'text', 'datatype' => 'text'],
+			'expiration' => ['name' => lang('blockclass', 'blockclass_groupactivity_field_expiration'), 'formtype' => 'text', 'datatype' => 'text'],
+			'author' => ['name' => lang('blockclass', 'blockclass_groupactivity_field_author'), 'formtype' => 'text', 'datatype' => 'text'],
+			'authorid' => ['name' => lang('blockclass', 'blockclass_groupactivity_field_authorid'), 'formtype' => 'text', 'datatype' => 'int'],
+			'cost' => ['name' => lang('blockclass', 'blockclass_groupactivity_field_cost'), 'formtype' => 'text', 'datatype' => 'int'],
+			'place' => ['name' => lang('blockclass', 'blockclass_groupactivity_field_place'), 'formtype' => 'text', 'datatype' => 'text'],
+			'class' => ['name' => lang('blockclass', 'blockclass_groupactivity_field_class'), 'formtype' => 'text', 'datatype' => 'text'],
+			'gender' => ['name' => lang('blockclass', 'blockclass_groupactivity_field_gender'), 'formtype' => 'text', 'datatype' => 'text'],
+			'number' => ['name' => lang('blockclass', 'blockclass_groupactivity_field_number'), 'formtype' => 'text', 'datatype' => 'int'],
+			'applynumber' => ['name' => lang('blockclass', 'blockclass_groupactivity_field_applynumber'), 'formtype' => 'text', 'datatype' => 'int'],
+		];
 	}
 
 	function fieldsconvert() {
-		return array(
-				'forum_activity' => array(
-					'name' => lang('blockclass', 'blockclass_forum_activity'),
-					'script' => 'activity',
-					'searchkeys' => array(),
-					'replacekeys' => array(),
-				),
-			);
+		return [
+			'forum_activity' => [
+				'name' => lang('blockclass', 'blockclass_forum_activity'),
+				'script' => 'activity',
+				'searchkeys' => [],
+				'replacekeys' => [],
+			],
+		];
 	}
 
 	function getsetting() {
@@ -170,20 +169,20 @@ class block_groupactivity extends discuz_block {
 
 		if($settings['gtids']) {
 			loadcache('grouptype');
-			$settings['gtids']['value'][] = array(0, lang('portalcp', 'block_all_type'));
-			foreach($_G['cache']['grouptype']['first'] as $gid=>$group) {
-				$settings['gtids']['value'][] = array($gid, $group['name']);
+			$settings['gtids']['value'][] = [0, lang('portalcp', 'block_all_type')];
+			foreach($_G['cache']['grouptype']['first'] as $gid => $group) {
+				$settings['gtids']['value'][] = [$gid, $group['name']];
 				if($group['secondlist']) {
 					foreach($group['secondlist'] as $subgid) {
-						$settings['gtids']['value'][] = array($subgid, '&nbsp;&nbsp;'.$_G['cache']['grouptype']['second'][$subgid]['name']);
+						$settings['gtids']['value'][] = [$subgid, '&nbsp;&nbsp;'.$_G['cache']['grouptype']['second'][$subgid]['name']];
 					}
 				}
 			}
 		}
 		$activitytype = explode("\n", $_G['setting']['activitytype']);
-		$settings['class']['value'][] = array('', 'groupactivity_class_all');
+		$settings['class']['value'][] = ['', 'groupactivity_class_all'];
 		foreach($activitytype as $item) {
-			$settings['class']['value'][] = array($item, $item);
+			$settings['class']['value'][] = [$item, $item];
 		}
 		return $settings;
 	}
@@ -194,51 +193,51 @@ class block_groupactivity extends discuz_block {
 		$parameter = $this->cookparameter($parameter);
 
 		loadcache('grouptype');
-		$typeids = array();
+		$typeids = [];
 		if(!empty($parameter['gtids'])) {
 			if($parameter['gtids'][0] == '0') {
 				unset($parameter['gtids'][0]);
 			}
 			$typeids = $parameter['gtids'];
 		}
-		$tids		= !empty($parameter['tids']) ? explode(',', $parameter['tids']) : array();
-		$fids		= !empty($parameter['fids']) ? explode(',', $parameter['fids']) : array();
-		$uids		= !empty($parameter['uids']) ? explode(',', $parameter['uids']) : array();
-		$startrow	= !empty($parameter['startrow']) ? intval($parameter['startrow']) : 0;
-		$items		= !empty($parameter['items']) ? intval($parameter['items']) : 10;
-		$digest		= isset($parameter['digest']) ? $parameter['digest'] : 0;
-		$stick		= isset($parameter['stick']) ? $parameter['stick'] : 0;
-		$orderby	= isset($parameter['orderby']) ? (in_array($parameter['orderby'],array('dateline','weekstart','monthstart','weekexp','monthexp')) ? $parameter['orderby'] : 'dateline') : 'dateline';
-		$titlelength	= !empty($parameter['titlelength']) ? intval($parameter['titlelength']) : 40;
-		$summarylength	= !empty($parameter['summarylength']) ? intval($parameter['summarylength']) : 80;
-		$recommend	= !empty($parameter['recommend']) ? 1 : 0;
-		$keyword	= !empty($parameter['keyword']) ? $parameter['keyword'] : '';
-		$place		= !empty($parameter['place']) ? $parameter['place'] : '';
-		$class		= !empty($parameter['class']) ? $parameter['class'] : '';
-		$gender		= !empty($parameter['gender']) ? intval($parameter['gender']) : '';
+		$tids = !empty($parameter['tids']) ? explode(',', $parameter['tids']) : [];
+		$fids = !empty($parameter['fids']) ? explode(',', $parameter['fids']) : [];
+		$uids = !empty($parameter['uids']) ? explode(',', $parameter['uids']) : [];
+		$startrow = !empty($parameter['startrow']) ? intval($parameter['startrow']) : 0;
+		$items = !empty($parameter['items']) ? intval($parameter['items']) : 10;
+		$digest = $parameter['digest'] ?? 0;
+		$stick = $parameter['stick'] ?? 0;
+		$orderby = isset($parameter['orderby']) ? (in_array($parameter['orderby'], ['dateline', 'weekstart', 'monthstart', 'weekexp', 'monthexp']) ? $parameter['orderby'] : 'dateline') : 'dateline';
+		$titlelength = !empty($parameter['titlelength']) ? intval($parameter['titlelength']) : 40;
+		$summarylength = !empty($parameter['summarylength']) ? intval($parameter['summarylength']) : 80;
+		$recommend = !empty($parameter['recommend']) ? 1 : 0;
+		$keyword = !empty($parameter['keyword']) ? $parameter['keyword'] : '';
+		$place = !empty($parameter['place']) ? $parameter['place'] : '';
+		$class = !empty($parameter['class']) ? $parameter['class'] : '';
+		$gender = !empty($parameter['gender']) ? intval($parameter['gender']) : '';
 		$gviewperm = isset($parameter['gviewperm']) ? intval($parameter['gviewperm']) : -1;
 		$highlight = !empty($parameter['highlight']) ? 1 : 0;
 
-		$bannedids = !empty($parameter['bannedids']) ? explode(',', $parameter['bannedids']) : array();
+		$bannedids = !empty($parameter['bannedids']) ? explode(',', $parameter['bannedids']) : [];
 
 		$gviewwhere = $gviewperm == -1 ? '' : " AND ff.gviewperm='$gviewperm'";
 
-		$groups = array();
+		$groups = [];
 		if(empty($fids) && $typeids) {
-			$query = DB::query('SELECT f.fid, f.name, ff.description FROM '.DB::table('forum_forum')." f LEFT JOIN ".DB::table('forum_forumfield')." ff ON f.fid = ff.fid WHERE f.fup IN (".dimplode($typeids).") AND threads > 0$gviewwhere");
+			$query = DB::query('SELECT f.fid, f.name, ff.description FROM '.DB::table('forum_forum'). ' f LEFT JOIN ' .DB::table('forum_forumfield'). ' ff ON f.fid = ff.fid WHERE f.fup IN (' .dimplode($typeids).") AND threads > 0$gviewwhere");
 			while($value = DB::fetch($query)) {
 				$groups[$value['fid']] = $value;
 				$fids[] = intval($value['fid']);
 			}
-			if(empty($fids)){
-				return array('html' => '', 'data' => '');
+			if(empty($fids)) {
+				return ['html' => '', 'data' => ''];
 			}
 		}
 
 		require_once libfile('function/post');
 		require_once libfile('function/search');
 
-		$datalist = $list = array();
+		$datalist = $list = [];
 		$keyword = $keyword ? searchkey($keyword, "t.subject LIKE '%{text}%'") : '';
 		$sql = ($fids ? ' AND t.fid IN ('.dimplode($fids).')' : '')
 			.($tids ? ' AND t.tid IN ('.dimplode($tids).')' : '')
@@ -255,27 +254,27 @@ class block_groupactivity extends discuz_block {
 		}
 
 		$where = '';
-		if(in_array($orderby, array('weekstart','monthstart'))) {
+		if(in_array($orderby, ['weekstart', 'monthstart'])) {
 			$historytime = 0;
 			switch($orderby) {
 				case 'weekstart':
 					$historytime = TIMESTAMP + 86400 * 7;
-				break;
+					break;
 				case 'monthstart':
 					$historytime = TIMESTAMP + 86400 * 30;
-				break;
+					break;
 			}
 			$where = ' AND a.starttimefrom >= '.TIMESTAMP.' AND a.starttimefrom<='.$historytime;
 			$orderby = 'a.starttimefrom ASC';
-		} elseif(in_array($orderby, array('weekexp','monthexp'))) {
+		} elseif(in_array($orderby, ['weekexp', 'monthexp'])) {
 			$historytime = 0;
 			switch($orderby) {
 				case 'weekexp':
 					$historytime = TIMESTAMP + 86400 * 7;
-				break;
+					break;
 				case 'monthexp':
 					$historytime = TIMESTAMP + 86400 * 30;
-				break;
+					break;
 			}
 			$where = ' AND a.expiration >= '.TIMESTAMP.' AND a.expiration<='.$historytime;
 			$orderby = 'a.expiration ASC';
@@ -287,10 +286,10 @@ class block_groupactivity extends discuz_block {
 			$where .= " AND a.gender='$gender'";
 		}
 		$where = $sql." AND t.displayorder>='0' ".$where;
-		$sqlfrom = " INNER JOIN `".DB::table('forum_thread')."` t ON t.tid=a.tid ";
+		$sqlfrom = ' INNER JOIN `' .DB::table('forum_thread'). '` t ON t.tid=a.tid ';
 		$joinmethod = empty($tids) ? 'INNER' : 'LEFT';
 		if($recommend) {
-			$sqlfrom .= " $joinmethod JOIN `".DB::table('forum_forumrecommend')."` fc ON fc.tid=tr.tid";
+			$sqlfrom .= " $joinmethod JOIN `".DB::table('forum_forumrecommend'). '` fc ON fc.tid=tr.tid';
 		}
 
 		$sqlfield = '';
@@ -305,10 +304,10 @@ class block_groupactivity extends discuz_block {
 			WHERE 1$where
 			ORDER BY $orderby
 			LIMIT $startrow,$items;"
-			);
+		);
 		require_once libfile('block_thread', 'class/block/forum');
 		$bt = new block_thread();
-		$listtids = $threadtids = $threads = $aid2tid = $attachtables = array();
+		$listtids = $threadtids = $threads = $aid2tid = $attachtables = [];
 		while($data = DB::fetch($query)) {
 			$data['time'] = dgmdate($data['starttimefrom']);
 			if($data['starttimeto']) {
@@ -323,14 +322,14 @@ class block_groupactivity extends discuz_block {
 				$attachtables[$attachtable][] = $data['aid'];
 			}
 			$listtids[] = $data['tid'];
-			$list[$data['tid']] = array(
+			$list[$data['tid']] = [
 				'id' => $data['tid'],
 				'idtype' => 'tid',
 				'title' => cutstr(str_replace('\\\'', '&#39;', addslashes($data['subject'])), $titlelength, ''),
 				'url' => 'forum.php?mod=viewthread&tid='.$data['tid'],
 				'pic' => ($data['aid'] ? '' : $_G['style']['imgdir'].'/nophoto.gif'),
 				'picflag' => '0',
-				'fields' => array(
+				'fields' => [
 					'fulltitle' => str_replace('\\\'', '&#39;', addslashes($data['subject'])),
 					'time' => $data['time'],
 					'expiration' => $data['expiration'] ? dgmdate($data['expiration']) : 'N/A',
@@ -342,15 +341,15 @@ class block_groupactivity extends discuz_block {
 					'gender' => $data['gender'],
 					'number' => $data['number'],
 					'applynumber' => $data['applynumber'],
-				)
-			);
+				]
+			];
 			if($highlight && $data['highlight']) {
 				$list[$data['tid']]['fields']['showstyle'] = $bt->getthreadstyle($data['highlight']);
 			}
 		}
 
 		if(!empty($listtids)) {
-			$query = DB::query("SELECT tid,COUNT(*) as sum FROM ".DB::table('forum_activityapply')." WHERE tid IN(".dimplode($listtids).") GROUP BY tid");
+			$query = DB::query('SELECT tid,COUNT(*) as sum FROM ' .DB::table('forum_activityapply'). ' WHERE tid IN(' .dimplode($listtids). ') GROUP BY tid');
 			while($value = DB::fetch($query)) {
 				$list[$value['tid']]['fields']['applynumber'] = $value['sum'];
 			}
@@ -375,9 +374,8 @@ class block_groupactivity extends discuz_block {
 			}
 
 		}
-		return array('html' => '', 'data' => $datalist);
+		return ['html' => '', 'data' => $datalist];
 	}
 }
 
 
-?>

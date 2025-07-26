@@ -1,18 +1,17 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: lang_banner.php 27449 2012-02-01 05:32:35Z zhangguosheng $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
-$lang = array
-(
+$lang =
+	[
 	'banner_pic' => '图片地址',
 	'banner_width' => '图片宽度',
 	'banner_height' => '图片高度',
@@ -22,6 +21,5 @@ $lang = array
 	'banner_atarget_top' => '本页面打开(跳出框架)',
 	'banner_atarget_blank' => '新窗口打开',
 	'banner_atarget_self' => '本页面打开',
-);
+	];
 
-?>

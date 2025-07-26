@@ -1,19 +1,18 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: function_followcode.php 36284 2016-12-12 00:47:50Z nemohou $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
-$_G['post_attach'] = array();
+$_G['post_attach'] = [];
 
-function fcodedisp($code, $type='codehtml') {
+function fcodedisp($code, $type = 'codehtml') {
 	global $_G;
 	$_G['forum_discuzcode']['pcodecount']++;
 	$_G['forum_discuzcode'][$type][$_G['forum_discuzcode']['pcodecount']] = $code;
@@ -29,7 +28,7 @@ function followcode($message, $tid = 0, $pid = 0, $length = 0, $allowimg = true)
 	$message = messagesafeclear($message);
 
 	if((strpos($message, '[/code]') || strpos($message, '[/CODE]')) !== FALSE) {
-		$message = preg_replace("/\s?\[code\](.+?)\[\/code\]\s?/is", "", $message);
+		$message = preg_replace('/\s?\[code\](.+?)\[\/code\]\s?/is', '', $message);
 	}
 
 	$msglower = strtolower($message);
@@ -39,99 +38,109 @@ function followcode($message, $tid = 0, $pid = 0, $length = 0, $allowimg = true)
 	$message = dhtmlspecialchars($message);
 
 	if($_G['setting']['plugins']['func'][HOOKTYPE]['discuzcode']) {
-		$_G['discuzcodemessage'] = & $message;
+		$_G['discuzcodemessage'] = &$message;
 		$param = func_get_args();
-		hookscript('discuzcode', 'global', 'funcs', array('param' => $param, 'caller' => 'followcode'), 'discuzcode');
+		hookscript('discuzcode', 'global', 'funcs', ['param' => $param, 'caller' => 'followcode'], 'discuzcode');
 	}
-	$_G['delattach'] = array();
+	$_G['delattach'] = [];
 	$message = fparsesmiles($message);
 
-	if(strpos($msglower, 'attach://') !== FALSE) {
-		$message = preg_replace("/attach:\/\/(\d+)\.?(\w*)/i", '', $message);
+	if(str_contains($msglower, 'attach://')) {
+		$message = preg_replace('/attach:\/\/(\d+)\.?(\w*)/i', '', $message);
 	}
 
-	if(strpos($msglower, 'ed2k://') !== FALSE) {
-		$message = preg_replace("/ed2k:\/\/(.+?)\//", '', $message);
+	if(str_contains($msglower, 'ed2k://')) {
+		$message = preg_replace('/ed2k:\/\/(.+?)\//', '', $message);
 	}
+	if(str_contains($msglower, '[/i]')) {
+		$message = preg_replace("/\s*\[i=s\][\n\r]*(.+?)[\n\r]*\[\/i\]\s*/is", '', $message);
+	}
+
 	$message = str_replace('[/p]', "\n", $message);
-	$message = str_replace(array(
+	$message = str_replace([
 		'[/color]', '[/backcolor]', '[/size]', '[/font]', '[/align]', '[b]', '[/b]', '[s]', '[/s]', '[hr]',
 		'[i=s]', '[i]', '[/i]', '[u]', '[/u]', '[list]', '[list=1]', '[list=a]',
 		'[list=A]', "\r\n[*]", '[*]', '[/list]', '[indent]', '[/indent]', '[/float]'
-		), '', preg_replace(array(
-		"/\[color=([#\w]+?)\]/i",
-		"/\[color=((rgb|rgba)\([\d\s\.,]+?\))\]/i",
-		"/\[backcolor=([#\w]+?)\]/i",
-		"/\[backcolor=((rgb|rgba)\([\d\s\.,]+?\))\]/i",
-		"/\[size=(\d+?)\]/i",
-		"/\[size=(\d+(\.\d+)?(px|pt)+?)\]/i",
-		"/\[font=([^\[\<]+?)\]/i",
-		"/\[align=(left|center|right)\]/i",
-		"/\[float=left\]/i",
-		"/\[float=right\]/i"
-		), '', $message));
+	], '', preg_replace([
+		'/\[color=([#\w]+?)\]/i',
+		'/\[color=((rgb|rgba)\([\d\s\.,]+?\))\]/i',
+		'/\[backcolor=([#\w]+?)\]/i',
+		'/\[backcolor=((rgb|rgba)\([\d\s\.,]+?\))\]/i',
+		'/\[size=(\d+?)\]/i',
+		'/\[size=(\d+(\.\d+)?(px|pt)+?)\]/i',
+		'/\[font=([^\[\<]+?)\]/i',
+		'/\[align=(left|center|right)\]/i',
+		'/\[float=left\]/i',
+		'/\[float=right\]/i'
+	], '', $message));
 
-	if(strpos($msglower, '[/p]') !== FALSE) {
-		$message = preg_replace("/\[p=(\d{1,2}|null), (\d{1,2}|null), (left|center|right)\]/i", "<p style=\"line-height:\\1px;text-indent:\\2em;text-align:left;\">", $message);
+	if(str_contains($msglower, '[/p]')) {
+		$message = preg_replace('/\[p=(\d{1,2}|null), (\d{1,2}|null), (left|center|right)\]/i', "<p style=\"line-height:\\1px;text-indent:\\2em;text-align:left;\">", $message);
 		$message = str_replace('[/p]', '</p>', $message);
 	}
 
-	if(strpos($msglower, '[/quote]') !== FALSE) {
+	if(str_contains($msglower, '[/quote]')) {
 		$message = preg_replace("/\s?\[quote\][\n\r]*(.+?)[\n\r]*\[\/quote\]\s?/is", '', $message);
 	}
-	if(strpos($msglower, '[/free]') !== FALSE) {
+	if(str_contains($msglower, '[/free]')) {
 		$message = preg_replace("/\s*\[free\][\n\r]*(.+?)[\n\r]*\[\/free\]\s*/is", '', $message);
 	}
 
 	if(isset($_G['cache']['bbcodes'][-$allowbbcode])) {
 		$message = preg_replace($_G['cache']['bbcodes'][-$allowbbcode]['searcharray'], '', $message);
 	}
-	if(strpos($msglower, '[/hide]') !== FALSE) {
-		preg_replace_callback("/\[hide.*?\]\s*(.*?)\s*\[\/hide\]/is", 'followcode_callback_hideattach_1', $message);
-		if(strpos($msglower, '[hide]') !== FALSE) {
-			$message = preg_replace("/\[hide\]\s*(.*?)\s*\[\/hide\]/is", '', $message);
+	if(str_contains($msglower, '[/hide]')) {
+		preg_replace_callback('/\[hide.*?\]\s*(.*?)\s*\[\/hide\]/is', 'followcode_callback_hideattach_1', $message);
+		if(str_contains($msglower, '[hide]')) {
+			$message = preg_replace('/\[hide\]\s*(.*?)\s*\[\/hide\]/is', '', $message);
 		}
-		if(strpos($msglower, '[hide=') !== FALSE) {
-			$message = preg_replace("/\[hide=(d\d+)?[,]?(\d+)?\]\s*(.*?)\s*\[\/hide\]/is", '', $message);
+		if(str_contains($msglower, '[hide=')) {
+			$message = preg_replace('/\[hide=(d\d+)?[,]?(\d+)?\]\s*(.*?)\s*\[\/hide\]/is', '', $message);
 		}
 	}
 
-	if(strpos($msglower, '[/url]') !== FALSE) {
+	if(str_contains($msglower, '[/url]')) {
 		$message = preg_replace_callback("/\[url(=((https?|ftp|gopher|news|telnet|rtsp|mms|callto|bctp|thunder|qqdl|synacast){1}:\/\/|www\.|mailto:)?([^\r\n\[\"']+?))?\](.+?)\[\/url\]/is", 'followcode_callback_fparseurl_152', $message);
 	}
-	if(strpos($msglower, '[/email]') !== FALSE) {
-		$message = preg_replace_callback("/\[email(=([A-Za-z0-9\-_.+]+)@([A-Za-z0-9\-_]+[.][A-Za-z0-9\-_.]+))?\](.+?)\[\/email\]/is", 'followcode_callback_fparseemail_14', $message);
+	if(str_contains($msglower, '[/email]')) {
+		$message = preg_replace_callback('/\[email(=([A-Za-z0-9\-_.+]+)@([A-Za-z0-9\-_]+[.][A-Za-z0-9\-_.]+))?\](.+?)\[\/email\]/is', 'followcode_callback_fparseemail_14', $message);
 	}
 
 	$nest = 0;
-	while(strpos($msglower, '[table') !== FALSE && strpos($msglower, '[/table]') !== FALSE){
-		$message = preg_replace_callback("/\[table(?:=(\d{1,4}%?)(?:,([\(\)%,#\w ]+))?)?\]\s*(.+?)\s*\[\/table\]/is", 'followcode_callback_fparsetable_123', $message);
+	while(str_contains($msglower, '[table') && str_contains($msglower, '[/table]')) {
+		$message = preg_replace_callback('/\[table(?:=(\d{1,4}%?)(?:,([\(\)%,#\w ]+))?)?\]\s*(.+?)\s*\[\/table\]/is', 'followcode_callback_fparsetable_123', $message);
 		if(++$nest > 4) break;
 	}
 
-	if(strpos($msglower, '[/media]') !== FALSE) {
+	if(str_contains($msglower, '[/media]')) {
 		$message = preg_replace_callback("/\[media=([\w%,]+)\]\s*([^\[\<\r\n]+?)\s*\[\/media\]/is", 'followcode_callback_fparsemedia_12', $message);
 	}
-	if(strpos($msglower, '[/audio]') !== FALSE) {
+	if(str_contains($msglower, '[/audio]')) {
 		$message = preg_replace_callback("/\[audio(=1)*\]\s*([^\[\<\r\n]+?)\s*\[\/audio\]/is", 'followcode_callback_fparseaudio_2', $message);
 	}
+	if(str_contains($msglower, '[/flash]')) {
+		$message = preg_replace_callback("/\[flash(=(\d+),(\d+))?\]\s*([^\[\<\r\n]+?)\s*\[\/flash\]/is", 'followcode_callback_fparseflash_4', $message);
+	}
 
+	if($parsetype != 1 && str_contains($msglower, '[swf]')) {
+		$message = preg_replace_callback("/\[swf\]\s*([^\[\<\r\n]+?)\s*\[\/swf\]/is", 'followcode_callback_bbcodeurl_1', $message);
+	}
 	$flag = $length ? 1 : 0;
 	if($tid) {
 		$extra = "onclick=\"changefeed($tid, $pid, $flag, this)\"";
 	}
 
-	if(strpos($msglower, '[/img]') !== FALSE) {
+	if(str_contains($msglower, '[/img]')) {
 		$message = preg_replace_callback(
 			"/\[img\]\s*([^\[\<\r\n]+?)\s*\[\/img\]/is",
-			function ($matches) use ($allowimg, $extra) {
+			function($matches) use ($allowimg, $extra) {
 				return intval($allowimg) ? fparseimg($matches[1], ''.addslashes($extra).'') : '';
 			},
 			$message
 		);
 		$message = preg_replace_callback(
 			"/\[img=(\d{1,4})[x|\,](\d{1,4})\]\s*([^\[\<\r\n]+?)\s*\[\/img\]/is",
-			function ($matches) use($allowimg, $extra) {
+			function($matches) use ($allowimg, $extra) {
 				return intval($allowimg) ? fparseimg($matches[3], ''.addslashes($extra).'') : '';
 			},
 			$message
@@ -139,7 +148,7 @@ function followcode($message, $tid = 0, $pid = 0, $length = 0, $allowimg = true)
 	}
 
 	if($tid && $pid) {
-		$_G['post_attach'] = C::t('forum_attachment_n')->fetch_all_by_id(getattachtableid($tid), 'pid', $pid);
+		$_G['post_attach'] = table_forum_attachment_n::t()->fetch_all_by_id(getattachtableid($tid), 'pid', $pid);
 		foreach($_G['post_attach'] as $aid => $attach) {
 			if(!empty($_G['delattach']) && in_array($aid, $_G['delattach'])) {
 				continue;
@@ -149,7 +158,7 @@ function followcode($message, $tid = 0, $pid = 0, $length = 0, $allowimg = true)
 		}
 	}
 
-	if(strpos($msglower, '[/attach]') !== FALSE) {
+	if(str_contains($msglower, '[/attach]')) {
 		$message = preg_replace("/\[attach\]\s*([^\[\<\r\n]+?)\s*\[\/attach\]/is", '', $message);
 	}
 	$message = clearnl($message);
@@ -160,10 +169,10 @@ function followcode($message, $tid = 0, $pid = 0, $length = 0, $allowimg = true)
 			$message = substr($message, 0, $sppos);
 		}
 		$checkstr = cutstr($message, $length, '');
-		if(strpos($checkstr, '[') && strpos(strrchr($checkstr, "["), ']') === FALSE) {
-			$length = strpos($message, ']', strrpos($checkstr, strrchr($checkstr, "[")));
+		if(strpos($checkstr, '[') && !str_contains(strrchr($checkstr, '['), ']')) {
+			$length = strpos($message, ']', strrpos($checkstr, strrchr($checkstr, '[')));
 		}
-		$message = cutstr($message, $length+1, ' <a href="javascript:;" class="flw_readfull xi2 xs1"'.$extra.'>'.lang('space', 'follow_view_fulltext').'</a>');
+		$message = cutstr($message, $length + 1, ' <a href="javascript:;" class="flw_readfull xi2 xs1"'.$extra.'>'.lang('space', 'follow_view_fulltext').'</a>');
 	} elseif($allowimg && !empty($extra)) {
 		$message .= '<div class="ptm cl"><a href="javascript:;" class="flw_readfull y xi2 xs1"'.$extra.'>'.lang('space', 'follow_retract').'</a></div>';
 	}
@@ -196,8 +205,8 @@ function followcode($message, $tid = 0, $pid = 0, $length = 0, $allowimg = true)
 			$message = substr($message, 0, $sppos);
 		}
 		followcode_callback_highlightword_21($highlightarray, 1);
-		$message = preg_replace_callback("/(^|>)([^<]+)(?=<|$)/sU", 'followcode_callback_highlightword_21', $message);
-		$message = preg_replace("/<highlight>(.*)<\/highlight>/siU", "<strong><font color=\"#FF0000\">\\1</font></strong>", $message);
+		$message = preg_replace_callback('/(^|>)([^<]+)(?=<|$)/sU', 'followcode_callback_highlightword_21', $message);
+		$message = preg_replace('/<highlight>(.*)<\/highlight>/siU', "<strong><font color=\"#FF0000\">\\1</font></strong>", $message);
 		if($sppos !== FALSE) {
 			$message = $message.chr(0).chr(0).chr(0).$specialextra;
 		}
@@ -238,7 +247,7 @@ function followcode($message, $tid = 0, $pid = 0, $length = 0, $allowimg = true)
 			$message .= '<div class="flw_attach"><ul>'.$attachcode.'</ul></div>';
 		}
 	}
-	return $htmlon ? $message : nl2br(str_replace(array("\t", '   ', '  '), ' ', $message));
+	return $htmlon ? $message : nl2br(str_replace(["\t", '   ', '  '], ' ', $message));
 }
 
 function followcode_callback_hideattach_1($matches) {
@@ -262,35 +271,45 @@ function followcode_callback_fparsemedia_12($matches) {
 }
 
 function followcode_callback_fparseaudio_2($matches) {
-        return fparseaudio($matches[2]);
+	return fparseaudio($matches[2]);
+}
+
+function followcode_callback_fparseflash_4($matches) {
+	return fparseflash($matches[4]);
+}
+
+function followcode_callback_bbcodeurl_1($matches) {
+	return bbcodeurl($matches[1], ' <img src="'.STATICURL.'image/filetype/flash.gif" align="absmiddle" alt="" /> <a href="{url}" target="_blank">Flash: {url}</a> ');
 }
 
 function followcode_callback_highlightword_21($matches, $action = 0) {
-       static $highlightarray = array();
+	static $highlightarray = [];
 
-       if($action == 1) {
-               $highlightarray = $matches;
-       } else {
-               return highlightword($matches[2], $highlightarray, $matches[1]);
-       }
+	if($action == 1) {
+		$highlightarray = $matches;
+	} else {
+		return highlightword($matches[2], $highlightarray, $matches[1]);
+	}
 }
 
 function clearnl($message) {
 
 	$message = preg_replace("/[\r\n|\n|\r]\s*[\r\n|\n|\r]/i", "\n", $message);
-	$message = preg_replace("/^[\r\n|\n|\r]{1,}/i", "", $message);
+	$message = preg_replace("/^[\r\n|\n|\r]{1,}/i", '', $message);
 	$message = preg_replace("/[\r\n|\n|\r]{2,}/i", "\n", $message);
 
 	return $message;
 }
+
 function hideattach($hidestr) {
 	global $_G;
 
-	preg_match_all("/\[attach\]\s*(.*?)\s*\[\/attach\]/is", $hidestr, $del);
+	preg_match_all('/\[attach\]\s*(.*?)\s*\[\/attach\]/is', $hidestr, $del);
 	foreach($del[1] as $aid) {
 		$_G['delattach'][$aid] = $aid;
 	}
 }
+
 function fparseurl($url, $text, $scheme) {
 	global $_G;
 
@@ -299,16 +318,16 @@ function fparseurl($url, $text, $scheme) {
 		$url = $matches[0];
 		$length = 65;
 		if(strlen($url) > $length) {
-			$text = substr($url, 0, intval($length * 0.5)).' ... '.substr($url, - intval($length * 0.3));
+			$text = substr($url, 0, intval($length * 0.5)).' ... '.substr($url, -intval($length * 0.3));
 		}
-		$html = '<a href="'.(substr(strtolower($url), 0, 4) == 'www.' ? 'http://'.$url : $url).'" target="_blank">'.$text.'</a>';
+		$html = '<a href="'.(str_starts_with(strtolower($url), 'www.') ? 'http://'.$url : $url).'" target="_blank">'.$text.'</a>';
 	} else {
 		$url = substr($url, 1);
-		if(substr(strtolower($url), 0, 4) == 'www.') {
+		if(str_starts_with(strtolower($url), 'www.')) {
 			$url = 'http://'.$url;
 		}
 		$url = !$scheme ? $_G['siteurl'].$url : $url;
-		$atclass = substr(strtolower($text), 0, 1) == '@' ? ' class="xi2" ' : '';
+		$atclass = str_starts_with(strtolower($text), '@') ? ' class="xi2" ' : '';
 		$html = '<a href="'.$url.'" target="_blank" '.$atclass.'>'.$text.'</a>';
 	}
 	return fcodedisp($html);
@@ -346,13 +365,24 @@ function fparseattach($aid, $length = 0, $extra = '') {
 	return '';
 }
 
+function fparseflash($url) {
+	preg_match("/((https?){1}:\/\/|www\.)[^\[\"']+/i", $url, $matches);
+	$url = $matches[0];
+	if(fileext($url) != 'flv') {
+		$rimg_id = 'swf_'.random(5);
+		$html = bbcodeurl($url, '<img src="'.IMGDIR.'/flash.gif" alt="'.lang('space', 'follow_click_play').'" onclick="javascript:showFlash(\'flash\', \''.$url.'\', this, \''.$rimg_id.'\');" class="tn" style="cursor: pointer;" />');
+		return fcodedisp($html, 'media');
+	} else {
+		return fmakeflv($url);
+	}
+}
 
 function fparseemail($email, $text) {
 	global $_G;
 
 	$text = str_replace('\"', '"', $text);
 	$html = '';
-	if(!$email && preg_match("/\s*([A-Za-z0-9\-_.+]+)@([A-Za-z0-9\-_]+[.][A-Za-z0-9\-_.]+)\s*/i", $text, $matches)) {
+	if(!$email && preg_match('/\s*([A-Za-z0-9\-_.+]+)@([A-Za-z0-9\-_]+[.][A-Za-z0-9\-_.]+)\s*/i', $text, $matches)) {
 		$email = trim($matches[0]);
 		$html = '<a href="mailto:'.$email.'">'.$email.'</a>';
 	} else {
@@ -364,33 +394,33 @@ function fparseemail($email, $text) {
 function fparsetable($width, $bgcolor, $message) {
 	global $_G;
 	$html = '';
-	if(strpos($message, '[/tr]') === FALSE && strpos($message, '[/td]') === FALSE) {
+	if(!str_contains($message, '[/tr]') && !str_contains($message, '[/td]')) {
 		$rows = explode("\n", $message);
 		$html = '<table cellspacing="0" class="t_table" '.
 			($width == '' ? NULL : 'style="width:'.$width.'"').
 			($bgcolor ? ' bgcolor="'.$bgcolor.'">' : '>');
 		foreach($rows as $row) {
-			$html .= '<tr><td>'.str_replace(array('\|', '|', '\n'), array('&#124;', '</td><td>', "\n"), $row).'</td></tr>';
+			$html .= '<tr><td>'.str_replace(['\|', '|', '\n'], ['&#124;', '</td><td>', "\n"], $row).'</td></tr>';
 		}
 		$html .= '</table>';
 	} else {
-		if(!preg_match("/^\[tr(?:=([\(\)\s%,#\w]+))?\]\s*\[td([=\d,%]+)?\]/", $message) && !preg_match("/^<tr[^>]*?>\s*<td[^>]*?>/", $message)) {
-			return str_replace('\\"', '"', preg_replace("/\[tr(?:=([\(\)\s%,#\w]+))?\]|\[td([=\d,%]+)?\]|\[\/td\]|\[\/tr\]/", '', $message));
+		if(!preg_match('/^\[tr(?:=([\(\)\s%,#\w]+))?\]\s*\[td([=\d,%]+)?\]/', $message) && !preg_match('/^<tr[^>]*?>\s*<td[^>]*?>/', $message)) {
+			return str_replace('\\"', '"', preg_replace('/\[tr(?:=([\(\)\s%,#\w]+))?\]|\[td([=\d,%]+)?\]|\[\/td\]|\[\/tr\]/', '', $message));
 		}
-		if(substr($width, -1) == '%') {
+		if(str_ends_with($width, '%')) {
 			$width = substr($width, 0, -1) <= 98 ? intval($width).'%' : '98%';
 		} else {
 			$width = intval($width);
 			$width = $width ? ($width <= 560 ? $width.'px' : '98%') : '';
 		}
-		$message = preg_replace_callback("/\[tr(?:=([\(\)\s%,#\w]+))?\]\s*\[td(?:=(\d{1,4}%?))?\]/i", 'fparsetable_callback_parsetrtd_12', $message);
-		$message = preg_replace_callback("/\[\/td\]\s*\[td(?:=(\d{1,4}%?))?\]/i", 'fparsetable_callback_parsetrtd_1', $message);
-		$message = preg_replace_callback("/\[tr(?:=([\(\)\s%,#\w]+))?\]\s*\[td(?:=(\d{1,2}),(\d{1,2})(?:,(\d{1,4}%?))?)?\]/i", 'fparsetable_callback_parsetrtd_1234', $message);
-		$message = preg_replace_callback("/\[\/td\]\s*\[td(?:=(\d{1,2}),(\d{1,2})(?:,(\d{1,4}%?))?)?\]/i", 'fparsetable_callback_parsetrtd_123', $message);
+		$message = preg_replace_callback('/\[tr(?:=([\(\)\s%,#\w]+))?\]\s*\[td(?:=(\d{1,4}%?))?\]/i', 'fparsetable_callback_parsetrtd_12', $message);
+		$message = preg_replace_callback('/\[\/td\]\s*\[td(?:=(\d{1,4}%?))?\]/i', 'fparsetable_callback_parsetrtd_1', $message);
+		$message = preg_replace_callback('/\[tr(?:=([\(\)\s%,#\w]+))?\]\s*\[td(?:=(\d{1,2}),(\d{1,2})(?:,(\d{1,4}%?))?)?\]/i', 'fparsetable_callback_parsetrtd_1234', $message);
+		$message = preg_replace_callback('/\[\/td\]\s*\[td(?:=(\d{1,2}),(\d{1,2})(?:,(\d{1,4}%?))?)?\]/i', 'fparsetable_callback_parsetrtd_123', $message);
 		$html = '<table cellspacing="0" class="t_table" '.
 			($width == '' ? NULL : 'style="width:'.$width.'"').
 			($bgcolor ? ' bgcolor="'.$bgcolor.'">' : '>').
-			str_replace('\\"', '"', preg_replace("/\[\/td\]\s*\[\/tr\]\s*/i", '</td></tr>', $message)
+			str_replace('\\"', '"', preg_replace('/\[\/td\]\s*\[\/tr\]\s*/i', '</td></tr>', $message)
 			).'</table>';
 	}
 	return fcodedisp($html);
@@ -415,48 +445,59 @@ function fparsetable_callback_parsetrtd_123($matches) {
 
 function fparseaudio($url) {
 	$url = addslashes($url);
-        if(!in_array(strtolower(substr($url, 0, 6)), array('http:/', 'https:', 'ftp://', 'rtsp:/', 'mms://')) && !preg_match('/^static\//', $url) && !preg_match('/^data\//', $url)) {
+	if(!in_array(strtolower(substr($url, 0, 6)), ['http:/', 'https:', 'ftp://', 'rtsp:/', 'mms://']) && !preg_match('/^static\//', $url) && !preg_match('/^data\//', $url)) {
 		return dhtmlspecialchars($url);
 	}
-       if(fileext($url) == 'mp3') {
-               $html = '<audio controls="controls"><source src="'.$url.'"></audio>';
-               return fcodedisp($html, 'audio');
-       } else {
-               $html = '<a href="'.$url.'" target="_blank">'.$url.'</a>';
-               return $html;
-       }
+	if(fileext($url) == 'mp3') {
+		$randomid = 'music_'.random(3);
+		$html = '<img src="'.IMGDIR.'/music.gif" alt="'.lang('space', 'follow_click_play').'" onclick="javascript:showFlash(\'music\', \''.$url.'\', this, \''.$randomid.'\');" class="tn" style="cursor: pointer;" />';
+		return fcodedisp($html, 'audio');
+	} else {
+		$html = '<a href="'.$url.'" target="_blank">'.$url.'</a>';
+		return $html;
+	}
 
 
 }
-function fmakeiframe($data) {
-    $data = is_array($data) ? $data : array('iframe' => $data);
-    if(empty($data['iframe']) || !preg_match('/^((https?){1}:\\/\\/|www\\.)[^\\[\\"\']+$/i', $data['iframe'])) {
-        return fcodedisp('', 'video');
-    }
-    if(!empty($data['imgurl']) && preg_match('/^((https?){1}:\\/\\/|www\\.)[^\\[\\"\']+$/i', $data['imgurl'])) {
-        $html = '<a href="'.$data['iframe'].'" target="_blank"><img src="'.$data['imgurl'].'" class="tn" alt="" /></a>';
-    } else {
-        $html = $data['iframe'];
-    }
-    return fcodedisp($html, 'video');
+
+function fmakeflv($flv) {
+	$randomid = 'video_'.random(3);
+	$flv = is_array($flv) ? $flv : ['flv' => $flv];
+	if(!preg_match("/^((https?){1}:\/\/|www\.)[^\[\"']+$/i", $flv['flv'])) {
+		return fcodedisp('', 'video');
+	}
+	if(!empty($flv['imgurl'])) {
+		if(!preg_match("/^((https?){1}:\/\/|www\.)[^\[\"']+$/i", $flv['imgurl'])) {
+			$html = '';
+		} else {
+			$html = '<table class="mtm" title="'.lang('space', 'follow_click_play').'" onclick="javascript:showFlash(\'flash\', \''.$flv['flv'].'\', this, \''.$randomid.'\');"><tr><td class="vdtn hm" style="background: url('.$flv['imgurl'].') no-repeat;    border: 1px solid #CDCDCD; cursor: pointer; height: 95px; width: 126px;"><img src="'.IMGDIR.'/vds.png" alt="'.lang('space', 'follow_click_play').'" />	</td></tr></table>';
+		}
+	} else {
+		$html = '<img src="'.IMGDIR.'/vd.gif" alt="'.lang('space', 'follow_click_play').'" onclick="javascript:showFlash(\'flash\', \''.$flv['flv'].'\', this, \''.$randomid.'\');" class="tn" style="cursor: pointer;" />';
+	}
+	return fcodedisp($html, 'video');
 }
+
 function fparsemedia($params, $url) {
 	$params = explode(',', $params);
 
 	$url = addslashes($url);
 	$html = '';
-        if($flv = parseiframe($url, 0, 0)) {
-                return fmakeiframe($flv);
+	if($flv = parseflv($url, 0, 0)) {
+		return fmakeflv($flv);
 	}
-	if(in_array(count($params), array(3, 4))) {
+	if(in_array(count($params), [3, 4])) {
 		$type = $params[0];
-		$url = str_replace(array('<', '>'), '', str_replace('\\"', '\"', $url));
+		$url = str_replace(['<', '>'], '', str_replace('\\"', '\"', $url));
 		switch($type) {
 			case 'mp3':
 				return fparseaudio($url);
 				break;
-                        case 'flv':
-                                return fmakeiframe($url);
+			case 'flv':
+				return fmakeflv($url);
+				break;
+			case 'swf':
+				return fparseflash($url);
 				break;
 			default:
 				$html = '<a href="'.$url.'" target="_blank">'.$url.'</a>';
@@ -473,14 +514,15 @@ function fparseimg($src, $extra = '') {
 	$html = bbcodeurl($src, '<img id="iimg_'.$rimg_id.'" src="'.$src.'" border="0" alt="" '.$extra.' style="cursor: pointer;" />');
 	return fcodedisp($html, 'image');
 }
+
 function fparsesmiles(&$message) {
 	global $_G;
 	static $enablesmiles;
 	if($enablesmiles === null) {
 		$enablesmiles = false;
 		if(!empty($_G['cache']['smilies']) && is_array($_G['cache']['smilies'])) {
-			foreach($_G['cache']['smilies']['replacearray'] AS $key => $smiley) {
-				if(substr($_G['cache']['smilies']['replacearray'][$key], 0, 1) == '<') {
+			foreach($_G['cache']['smilies']['replacearray'] as $key => $smiley) {
+				if(str_starts_with($_G['cache']['smilies']['replacearray'][$key], '<')) {
 					break;
 				}
 				$_G['cache']['smilies']['replacearray'][$key] = '<img src="'.STATICURL.'image/smiley/'.$_G['cache']['smileytypes'][$_G['cache']['smilies']['typearray'][$key]]['directory'].'/'.$smiley.'" smilieid="'.$key.'" border="0" class="s" alt="" />';
@@ -492,4 +534,3 @@ function fparsesmiles(&$message) {
 	return $message;
 }
 
-?>

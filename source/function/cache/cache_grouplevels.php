@@ -1,10 +1,9 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: cache_grouplevels.php 24623 2011-09-28 06:54:39Z liulanbo $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -12,8 +11,8 @@ if(!defined('IN_DISCUZ')) {
 }
 
 function build_cache_grouplevels() {
-	$data = array();
-	$query = C::t('forum_grouplevel')->range();
+	$data = [];
+	$query = table_forum_grouplevel::t()->range();
 	foreach($query as $level) {
 		$level['creditspolicy'] = dunserialize($level['creditspolicy']);
 		$level['postpolicy'] = dunserialize($level['postpolicy']);
@@ -24,4 +23,3 @@ function build_cache_grouplevels() {
 	savecache('grouplevels', $data);
 }
 
-?>

@@ -1,18 +1,17 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: lang_cornerbanner.php 27449 2012-02-01 05:32:35Z zhangguosheng $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
-$lang = array
-(
+$lang =
+	[
 	'cornerbanner_name' => '全局 右下角广告',
 	'cornerbanner_desc' => '展现方式: 显示于页面右下角。当前页面有多个页头通栏广告时，系统会随机选取其中之一显示。<br />价值分析: 由于能够在页面的明显位置展现，因此成为了网页中价位最高、最适合进行商业宣传或品牌推广的广告类型之一。',
 	'cornerbanner_index' => '首页',
@@ -28,6 +27,5 @@ $lang = array
 	'cornerbanner_disableclose_comment' => '如果广告代码中已内置关闭操作，可以关闭系统预置的关闭链接',
 	'cornerbanner_show' => '显示',
 	'cornerbanner_hidden' => '隐藏',
-);
+	];
 
-?>

@@ -1,10 +1,9 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: function_group.php 32367 2013-01-07 02:30:12Z liulanbo $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -12,7 +11,7 @@ if(!defined('IN_DISCUZ')) {
 }
 
 function delgroupcache($fid, $cachearray) {
-	C::t('forum_groupfield')->delete_by_type($cachearray, $fid);
+	table_forum_groupfield::t()->delete_by_type($cachearray, $fid);
 }
 
 function groupperm(&$forum, $uid, $action = '', $isgroupuser = '') {
@@ -22,7 +21,7 @@ function groupperm(&$forum, $uid, $action = '', $isgroupuser = '') {
 	if(!empty($forum['founderuid']) && $forum['founderuid'] == $uid) {
 		return 'isgroupuser';
 	}
-	$isgroupuser = empty($isgroupuser) && $isgroupuser !== false ? C::t('forum_groupuser')->fetch_userinfo($uid, $forum['fid']) : $isgroupuser;
+	$isgroupuser = empty($isgroupuser) && $isgroupuser !== false ? table_forum_groupuser::t()->fetch_userinfo($uid, $forum['fid']) : $isgroupuser;
 	if($forum['ismoderator'] && !$isgroupuser) {
 		return '';
 	}
@@ -44,12 +43,12 @@ function groupperm(&$forum, $uid, $action = '', $isgroupuser = '') {
 	return $isgroupuser ? 'isgroupuser' : '';
 }
 
-function grouplist($orderby = 'displayorder', $fieldarray = array(), $num = 1, $fids = array(), $sort = 0, $getcount = 0, $grouplevel = array()) {
-	$query = C::t('forum_forum')->fetch_all_for_grouplist($orderby, $fieldarray, $num, $fids, $sort, $getcount);
+function grouplist($orderby = 'displayorder', $fieldarray = [], $num = 1, $fids = [], $sort = 0, $getcount = 0, $grouplevel = []) {
+	$query = table_forum_forum::t()->fetch_all_for_grouplist($orderby, $fieldarray, $num, $fids, $sort, $getcount);
 	if($getcount) {
 		return $query;
 	}
-	$grouplist = array();
+	$grouplist = [];
 	foreach($query as $group) {
 		$group['iconstatus'] = $group['icon'] ? 1 : 0;
 		isset($group['icon']) && $group['icon'] = get_groupimg($group['icon'], 'icon');
@@ -60,19 +59,19 @@ function grouplist($orderby = 'displayorder', $fieldarray = array(), $num = 1, $
 		$group['level'] = !empty($grouplevel) ? intval($grouplevel[$group['fid']]) : 0;
 		isset($group['description']) && $group['description'] = cutstr($group['description'], 130);
 		$grouplist[$group['fid']] = $group;
-		$orderid ++;
+		$orderid++;
 	}
 
 	return $grouplist;
 }
 
-function mygrouplist($uid, $orderby = '', $fieldarray = array(), $num = 0, $start = 0, $ismanager = 0, $count = 0) {
+function mygrouplist($uid, $orderby = '', $fieldarray = [], $num = 0, $start = 0, $ismanager = 0, $count = 0) {
 	$uid = intval($uid);
 	if(empty($uid)) {
-		return array();
+		return [];
 	}
-	$groupfids = $grouplevel = array();
-	$query = C::t('forum_groupuser')->fetch_all_group_for_user($uid, $count, $ismanager, $start, $num);
+	$groupfids = $grouplevel = [];
+	$query = table_forum_groupuser::t()->fetch_all_group_for_user($uid, $count, $ismanager, $start, $num);
 	if($count == 1) {
 		return $query;
 	}
@@ -107,7 +106,7 @@ function get_groupselect($fup = 0, $groupid = 0, $ajax = 1) {
 	loadcache('grouptype');
 	$firstgroup = $_G['cache']['grouptype']['first'];
 	$secondgroup = $_G['cache']['grouptype']['second'];
-	$grouptypeselect = array('first' => '', 'second' => '');
+	$grouptypeselect = ['first' => '', 'second' => ''];
 	if($ajax) {
 		$fup = intval($fup);
 		$groupid = intval($groupid);
@@ -147,9 +146,9 @@ function get_groupnav($forum) {
 	$groupnav = '';
 	$groupsecond = $_G['cache']['grouptype']['second'];
 	if($forum['type'] == 'sub') {
-		$secondtype = !empty($groupsecond[$forum['fup']]) ? $groupsecond[$forum['fup']] : array();
+		$secondtype = !empty($groupsecond[$forum['fup']]) ? $groupsecond[$forum['fup']] : [];
 	} else {
-		$secondtype = !empty($groupsecond[$forum['fid']]) ? $groupsecond[$forum['fid']] : array();
+		$secondtype = !empty($groupsecond[$forum['fid']]) ? $groupsecond[$forum['fid']] : [];
 	}
 	$firstid = !empty($secondtype) ? $secondtype['fup'] : (!empty($forum['fup']) ? $forum['fup'] : $forum['fid']);
 	$firsttype = $_G['cache']['grouptype']['first'][$firstid];
@@ -163,18 +162,18 @@ function get_groupnav($forum) {
 		$mod_action = $_GET['mod'] == 'forumdisplay' || $_GET['mod'] == 'viewthread' ? 'mod=forumdisplay&action=list' : 'mod=group';
 		$groupnav .= ($groupnav ? ' <em>&rsaquo;</em> ' : '').'<a href="forum.php?'.$mod_action.'&fid='.$forum['fid'].'">'.$forum['name'].'</a>';
 	}
-	return array('nav' => $groupnav, 'first' => $firsttype, 'second' => $secondtype);
+	return ['nav' => $groupnav, 'first' => $firsttype, 'second' => $secondtype];
 }
 
 function get_viewedgroup() {
-	$groupviewed_list = $list = array();
+	$groupviewed_list = $list = [];
 	$groupviewed = getcookie('groupviewed');
-	$groupviewed = $groupviewed ? explode(',', $groupviewed) : array();
+	$groupviewed = $groupviewed ? explode(',', $groupviewed) : [];
 	if($groupviewed) {
-		$query = C::t('forum_forum')->fetch_all_info_by_fids($groupviewed);
+		$query = table_forum_forum::t()->fetch_all_info_by_fids($groupviewed);
 		foreach($query as $row) {
 			$icon = get_groupimg($row['icon'], 'icon');
-			$list[$row['fid']] = array('fid' => $row['fid'], 'name' => $row['name'], 'icon' => $icon, 'membernum' => $row['membernum']);
+			$list[$row['fid']] = ['fid' => $row['fid'], 'name' => $row['name'], 'icon' => $icon, 'membernum' => $row['membernum']];
 		}
 	}
 	foreach($groupviewed as $fid) {
@@ -184,13 +183,13 @@ function get_viewedgroup() {
 }
 
 function getgroupthread($fid, $type, $timestamp = 0, $num = 10) {
-	$typearray = array('replies', 'views', 'dateline', 'lastpost', 'digest', 'comments');
+	$typearray = ['replies', 'views', 'dateline', 'lastpost', 'digest', 'comments'];
 	$type = in_array($type, $typearray) ? $type : '';
 
-	$groupthreadlist = array();
+	$groupthreadlist = [];
 	if($type) {
 		$dateline = $lastpost = $digest = null;
-		if($timestamp && in_array($type, array('dateline', 'lastpost'))) {
+		if($timestamp && in_array($type, ['dateline', 'lastpost'])) {
 			if($type == 'dateline') {
 				$dateline = TIMESTAMP - $timestamp;
 			} else {
@@ -201,7 +200,7 @@ function getgroupthread($fid, $type, $timestamp = 0, $num = 10) {
 			$digest = 0;
 			$type = 'dateline';
 		}
-		foreach(C::t('forum_thread')->fetch_all_group_thread_by_fid_displayorder($fid, 0, $dateline, $lastpost, $digest, $type, 0, $num) as $thread) {
+		foreach(table_forum_thread::t()->fetch_all_group_thread_by_fid_displayorder($fid, 0, $dateline, $lastpost, $digest, $type, 0, $num) as $thread) {
 			$groupthreadlist[$thread['tid']]['tid'] = $thread['tid'];
 			$groupthreadlist[$thread['tid']]['subject'] = $thread['subject'];
 			$groupthreadlist[$thread['tid']]['special'] = $thread['special'];
@@ -221,31 +220,31 @@ function getgroupthread($fid, $type, $timestamp = 0, $num = 10) {
 	return $groupthreadlist;
 }
 
-function getgroupcache($fid, $typearray = array(), $timestamp = 0, $num = 10, $privacy = 0, $force = 0) {
-	$groupcache = array();
+function getgroupcache($fid, $typearray = [], $timestamp = 0, $num = 10, $privacy = 0, $force = 0) {
+	$groupcache = [];
 
 	if(!$force) {
-		$query = C::t('forum_groupfield')->fetch_all_group_cache($fid, $typearray, $privacy);
+		$query = table_forum_groupfield::t()->fetch_all_group_cache($fid, $typearray, $privacy);
 		foreach($query as $group) {
 			$groupcache[$group['type']] = dunserialize($group['data']);
 			$groupcache[$group['type']]['dateline'] = $group['dateline'];
 		}
 	}
 
-	$cachetimearray = array('replies' => 3600, 'views' => 3600, 'dateline' => 900, 'lastpost' => 3600, 'digest' => 86400, 'ranking' => 86400, 'activityuser' => 3600);
-	$userdataarray = array('activityuser' => 'lastupdate', 'newuserlist' => 'joindateline');
+	$cachetimearray = ['replies' => 3600, 'views' => 3600, 'dateline' => 900, 'lastpost' => 3600, 'digest' => 86400, 'ranking' => 86400, 'activityuser' => 3600];
+	$userdataarray = ['activityuser' => 'lastupdate', 'newuserlist' => 'joindateline'];
 	foreach($typearray as $type) {
 		if(empty($groupcache[$type]) || (!empty($cachetimearray[$type]) && TIMESTAMP - $groupcache[$type]['dateline'] > $cachetimearray[$type])) {
 			if($type == 'ranking') {
 				$groupcache[$type]['data'] = getgroupranking($fid, $groupcache[$type]['data']['today']);
-			} elseif(in_array($type, array('activityuser', 'newuserlist'))) {
+			} elseif(in_array($type, ['activityuser', 'newuserlist'])) {
 				$num = $type == 'activityuser' ? 50 : 8;
-				$groupcache[$type]['data'] = C::t('forum_groupuser')->groupuserlist($fid, $userdataarray[$type], $num, '', "AND level>'0'");
+				$groupcache[$type]['data'] = table_forum_groupuser::t()->groupuserlist($fid, $userdataarray[$type], $num, '', "AND level>'0'");
 			} else {
 				$groupcache[$type]['data'] = getgroupthread($fid, $type, $timestamp, $num);
 			}
 			if(!$force && $fid) {
-				C::t('forum_groupfield')->insert(array('fid' => $fid, 'dateline' => TIMESTAMP, 'type' => $type, 'data' => serialize($groupcache[$type])), false, true);
+				table_forum_groupfield::t()->insert(['fid' => $fid, 'dateline' => TIMESTAMP, 'type' => $type, 'data' => serialize($groupcache[$type])], false, true);
 			}
 		}
 	}
@@ -254,9 +253,9 @@ function getgroupcache($fid, $typearray = array(), $timestamp = 0, $num = 10, $p
 }
 
 function getgroupranking($fid = '', $nowranking = '') {
-	$topgroup = $rankingdata = $topyesterday = array();
+	$topgroup = $rankingdata = $topyesterday = [];
 	$ranking = 1;
-	$query = C::t('forum_forum')->fetch_all_group_for_ranking();
+	$query = table_forum_forum::t()->fetch_all_group_for_ranking();
 	foreach($query as $group) {
 		$topgroup[$group['fid']] = $ranking++;
 	}
@@ -277,7 +276,7 @@ function grouponline($fid, $getlist = '') {
 		$onlinemember = (array)C::app()->session->count_by_fid($fid);
 		$onlinemember['count'] = $onlinemember ? intval($onlinemember) : 0;
 	} else {
-		$onlinemember = array('count' => 0, 'list' => array());
+		$onlinemember = ['count' => 0, 'list' => []];
 		$onlinemember['list'] = C::app()->session->fetch_all_by_fid($fid);
 		$onlinemember['count'] = count($onlinemember['list']);
 	}
@@ -295,7 +294,7 @@ function write_groupviewed($fid) {
 		$groupviewed_limit = 8;
 		$groupviewed = getcookie('groupviewed');
 		if(!strexists(",$groupviewed,", ",$fid,")) {
-			$groupviewed = $groupviewed ? explode(',', $groupviewed) : array();
+			$groupviewed = $groupviewed ? explode(',', $groupviewed) : [];
 			$groupviewed[] = $fid;
 			if(count($groupviewed) > $groupviewed_limit) {
 				array_shift($groupviewed);
@@ -307,38 +306,38 @@ function write_groupviewed($fid) {
 
 function update_groupmoderators($fid) {
 	if(empty($fid)) return false;
-	$moderators = C::t('forum_groupuser')->groupuserlist($fid, 'level_join', 0, 0, array('level' => array('1', '2')), array('username', 'level'));
+	$moderators = table_forum_groupuser::t()->groupuserlist($fid, 'level_join', 0, 0, ['level' => ['1', '2']], ['username', 'level']);
 	if(!empty($moderators)) {
-		C::t('forum_forumfield')->update($fid, array('moderators' => serialize($moderators)));
+		table_forum_forumfield::t()->update($fid, ['moderators' => serialize($moderators)]);
 		return $moderators;
 	} else {
-		return array();
+		return [];
 	}
 }
 
 function update_usergroups($uids) {
 	global $_G;
 	if(empty($uids)) return '';
-	if(!is_array($uids)) $uids = array($uids);
+	if(!is_array($uids)) $uids = [$uids];
 	foreach($uids as $uid) {
-		$groups = $grouptype = $usergroups = array();
-		$fids = C::t('forum_groupuser')->fetch_all_fid_by_uids($uid);
-		$query = C::t('forum_forum')->fetch_all_info_by_fids($fids);
+		$groups = $grouptype = $usergroups = [];
+		$fids = table_forum_groupuser::t()->fetch_all_fid_by_uids($uid);
+		$query = table_forum_forum::t()->fetch_all_info_by_fids($fids);
 		foreach($query as $group) {
 			$groups[$group['fid']] = $group['name'];
 			$typegroup[$group['fup']][] = $group['fid'];
 		}
 		if(!empty($typegroup)) {
 			$fups = array_keys($typegroup);
-			$query = C::t('forum_forum')->fetch_all_info_by_fids($fups);
+			$query = table_forum_forum::t()->fetch_all_info_by_fids($fups);
 			foreach($query as $fup) {
-				$grouptype[$fup['fid']] = array('fid' => $fup['fid'], 'fup' => $fup['fup'], 'name' => $fup['name']);
+				$grouptype[$fup['fid']] = ['fid' => $fup['fid'], 'fup' => $fup['fup'], 'name' => $fup['name']];
 				$grouptype[$fup['fid']]['groups'] = implode(',', $typegroup[$fup['fid']]);
 			}
-			$usergroups = array('groups' => $groups, 'grouptype' => $grouptype);
+			$usergroups = ['groups' => $groups, 'grouptype' => $grouptype];
 			if(!empty($usergroups)) {
-				$setarr = array();
-				$member = C::t('common_member_field_forum')->fetch($uid);
+				$setarr = [];
+				$member = table_common_member_field_forum::t()->fetch($uid);
 				$attentiongroups = $member['attentiongroup'];
 				if($attentiongroups) {
 					$attentiongroups = explode(',', $attentiongroups);
@@ -351,7 +350,7 @@ function update_usergroups($uids) {
 					}
 					if($updateattention) {
 						$setarr['attentiongroup'] = implode(',', $attentiongroups);
-						C::t('common_member_field_forum')->update($uid, $setarr);
+						table_common_member_field_forum::t()->update($uid, $setarr);
 					}
 					$_G['member']['attentiongroup'] = implode(',', $attentiongroups);
 				}
@@ -362,4 +361,4 @@ function update_usergroups($uids) {
 	}
 	return $usergroups;
 }
-?>
+

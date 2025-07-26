@@ -1,32 +1,38 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: table_common_block_style.php 31736 2012-09-26 02:23:48Z zhangguosheng $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
-class table_common_block_style extends discuz_table
-{
+class table_common_block_style extends discuz_table {
+	public static function t() {
+		static $_instance;
+		if(!isset($_instance)) {
+			$_instance = new self();
+		}
+		return $_instance;
+	}
+
 	public function __construct() {
 
 		$this->_table = 'common_block_style';
-		$this->_pk    = 'styleid';
+		$this->_pk = 'styleid';
 
 		parent::__construct();
 	}
 
 	public function fetch_all_by_blockclass($blockclass) {
-		return $blockclass ? DB::fetch_all('SELECT * FROM %t WHERE blockclass=%s', array($this->_table, $blockclass), $this->_pk) : array();
+		return $blockclass ? DB::fetch_all('SELECT * FROM %t WHERE blockclass=%s', [$this->_table, $blockclass], $this->_pk) : [];
 	}
 
 	public function fetch_all_by_hash($hash) {
-		return $hash ? DB::fetch_all('SELECT * FROM %t WHERE `hash` IN (%n)', array($this->_table, $hash), $this->_pk) : array();
+		return $hash ? DB::fetch_all('SELECT * FROM %t WHERE `hash` IN (%n)', [$this->_table, $hash], $this->_pk) : [];
 	}
 
 	public function count_by_where($wheresql) {
@@ -40,7 +46,7 @@ class table_common_block_style extends discuz_table
 	}
 
 	public function insert_batch($styles) {
-		$inserts = array();
+		$inserts = [];
 		foreach($styles as $value) {
 			if(!empty($value['blockclass'])) {
 				$value = daddslashes($value);
@@ -48,7 +54,7 @@ class table_common_block_style extends discuz_table
 			}
 		}
 		if(!empty($inserts)) {
-			DB::query('INSERT INTO '.DB::table($this->_table)."(`blockclass`, `name`, `template`, `hash`, `getpic`, `getsummary`, `settarget`, `fields`, `moreurl`) VALUES ".implode(',',$inserts));
+			DB::query('INSERT INTO '.DB::table($this->_table). '(`blockclass`, `name`, `template`, `hash`, `getpic`, `getsummary`, `settarget`, `fields`, `moreurl`) VALUES ' .implode(',', $inserts));
 		}
 	}
 
@@ -74,4 +80,3 @@ class table_common_block_style extends discuz_table
 	}
 }
 
-?>

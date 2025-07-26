@@ -54,3 +54,4 @@ text-transform: none;
 .dm-trash:before { content: '\f11e'; }
 .dm-warn:before { content: '\f11f'; }
 .dm-x:before { content: '\f120'; }
+.dm-delete:before { content: '\f11e'; }

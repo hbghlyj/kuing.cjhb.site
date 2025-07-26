@@ -1,10 +1,9 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: function_cache.php 33604 2013-07-16 03:20:08Z nemohou $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -13,7 +12,7 @@ if(!defined('IN_DISCUZ')) {
 
 function updatecache($cachename = '') {
 
-	$updatelist = empty($cachename) ? array() : (is_array($cachename) ? $cachename : array($cachename));
+	$updatelist = empty($cachename) ? [] : (is_array($cachename) ? $cachename : [$cachename]);
 
 	if(!$updatelist) {
 		@include_once libfile('cache/setting', 'function');
@@ -21,18 +20,18 @@ function updatecache($cachename = '') {
 		$cachedir = DISCUZ_ROOT.'./source/function/cache';
 		$cachedirhandle = dir($cachedir);
 		while($entry = $cachedirhandle->read()) {
-			if(!in_array($entry, array('.', '..')) && preg_match("/^cache\_([\_\w]+)\.php$/", $entry, $entryr) && $entryr[1] != 'setting' && substr($entry, -4) == '.php' && is_file($cachedir.'/'.$entry)) {
+			if(!in_array($entry, ['.', '..']) && preg_match('/^cache\_([\_\w]+)\.php$/', $entry, $entryr) && $entryr[1] != 'setting' && str_ends_with($entry, '.php') && is_file($cachedir.'/'.$entry)) {
 				@include_once libfile('cache/'.$entryr[1], 'function');
 				call_user_func('build_cache_'.$entryr[1]);
 			}
 		}
-		foreach(C::t('common_plugin')->fetch_all_data(1) as $plugin) {
+		foreach(table_common_plugin::t()->fetch_all_data(1) as $plugin) {
 			$dir = substr($plugin['directory'], 0, -1);
-			$cachedir = DISCUZ_ROOT.'./source/plugin/'.$dir.'/cache';
+			$cachedir = DISCUZ_PLUGIN($dir).'/cache';
 			if(file_exists($cachedir)) {
 				$cachedirhandle = dir($cachedir);
 				while($entry = $cachedirhandle->read()) {
-					if(!in_array($entry, array('.', '..')) && preg_match("/^cache\_([\_\w]+)\.php$/", $entry, $entryr) && substr($entry, -4) == '.php' && is_file($cachedir.'/'.$entry)) {
+					if(!in_array($entry, ['.', '..']) && preg_match('/^cache\_([\_\w]+)\.php$/', $entry, $entryr) && str_ends_with($entry, '.php') && is_file($cachedir.'/'.$entry)) {
 						@include_once libfile('cache/'.$entryr[1], 'plugin/'.$dir);
 						call_user_func('build_cache_plugin_'.$entryr[1]);
 					}
@@ -57,7 +56,7 @@ function updatecache($cachename = '') {
 function writetocache($script, $cachedata, $prefix = 'cache_') {
 	global $_G;
 
-	$dir = DISCUZ_ROOT.'./data/sysdata/';
+	$dir = DISCUZ_DATA.'./sysdata/';
 	if(!is_dir($dir)) {
 		dmkdir($dir, 0777);
 	}
@@ -92,9 +91,9 @@ function getcachevars($data, $type = 'VAR') {
 
 function smthumb($size, $smthumb = 50) {
 	if($size[0] <= $smthumb && $size[1] <= $smthumb) {
-		return array('w' => $size[0], 'h' => $size[1]);
+		return ['w' => $size[0], 'h' => $size[1]];
 	}
-	$sm = array();
+	$sm = [];
 	$x_ratio = $smthumb / $size[0];
 	$y_ratio = $smthumb / $size[1];
 	if(($x_ratio * $size[1]) < $smthumb) {
@@ -115,16 +114,13 @@ function arrayeval($array, $level = 0) {
 		return var_export($array, true);
 	}
 
-	$space = '';
-	for($i = 0; $i <= $level; $i++) {
-		$space .= "\t";
-	}
+	$space = str_repeat("\t", $level + 1);
 	$evaluate = "Array\n$space(\n";
 	$comma = $space;
 	if(is_array($array)) {
 		foreach($array as $key => $val) {
 			$key = is_string($key) ? '\''.addcslashes($key, '\'\\').'\'' : $key;
-			$val = !is_array($val) && (!preg_match("/^\-?[1-9]\d*$/", $val) || strlen($val) > 12) ? '\''.addcslashes($val, '\'\\').'\'' : $val;
+			$val = !is_array($val) && (!preg_match('/^\-?[1-9]\d*$/', $val) || strlen($val) > 12) ? '\''.addcslashes($val, '\'\\').'\'' : $val;
 			if(is_array($val)) {
 				$evaluate .= "$comma$key => ".arrayeval($val, $level + 1);
 			} else {
@@ -138,11 +134,13 @@ function arrayeval($array, $level = 0) {
 }
 
 function pluginsettingvalue($type) {
-	$pluginsetting = $pluginvalue = array();
-	@include DISCUZ_ROOT.'./data/sysdata/cache_pluginsetting.php';
-	$pluginsetting = isset($pluginsetting[$type]) ? $pluginsetting[$type] : array();
+	global $_G;
 
-	$varids = $pluginids = array();
+	loadcache('pluginsetting');
+	$pluginvalue = [];
+	$pluginsetting = $_G['cache']['pluginsetting'][$type] ?? [];
+
+	$varids = $pluginids = [];
 	foreach($pluginsetting as $pluginid => $v) {
 		foreach($v['setting'] as $varid => $var) {
 			$varids[] = $varid;
@@ -150,7 +148,7 @@ function pluginsettingvalue($type) {
 		}
 	}
 	if($varids) {
-		foreach(C::t('common_pluginvar')->fetch_all($varids) as $plugin) {
+		foreach(table_common_pluginvar::t()->fetch_all($varids) as $plugin) {
 			$values = (array)dunserialize($plugin['value']);
 			foreach($values as $id => $value) {
 				$pluginvalue[$id][$pluginids[$plugin['pluginvarid']]][$plugin['variable']] = $value;
@@ -161,14 +159,63 @@ function pluginsettingvalue($type) {
 	return $pluginvalue;
 }
 
-function cleartemplatecache() {
-	$tpl = new RecursiveDirectoryIterator(DISCUZ_ROOT.'./data/template', RecursiveDirectoryIterator::SKIP_DOTS);
-	$files = new RecursiveIteratorIterator($tpl, RecursiveIteratorIterator::CHILD_FIRST);
-	foreach ($files as $fileinfo) {
-		if ($fileinfo->isFile() && preg_match("/\.tpl\.php$/", $fileinfo->getFilename())) {
-			@unlink($fileinfo->getRealPath());
+function stylesettingvalue($type) {
+	global $_G;
+
+	loadcache('stylesetting');
+	$stylevalue = [];
+	$stylesetting = $_G['cache']['stylesetting'][$type] ?? [];
+
+	$varids = $styleids = [];
+	foreach($stylesetting as $styleid => $v) {
+		foreach($v['setting'] as $varid => $var) {
+			$varids[] = $varid;
+			$styleids[$varid] = $styleid;
 		}
+	}
+	if($varids) {
+		foreach(table_common_stylevar_extra::t()->fetch_all($varids) as $style) {
+			$values = (array)dunserialize($style['value']);
+			foreach($values as $id => $value) {
+				$stylevalue[$id][$styleids[$style['stylevarid']]][$style['variable']] = $value;
+			}
+		}
+	}
+
+	return $stylevalue;
+}
+
+function cleartemplatecache() {
+	$cachedir = DISCUZ_DATA.'./template';
+	if(!is_dir($cachedir)) {
+		dmkdir($cachedir);
+	}
+	$tpl = dir($cachedir);
+	while($entry = $tpl->read()) {
+		if(preg_match('/\.tpl\.php$/', $entry)) {
+			@unlink(DISCUZ_DATA.'./template/'.$entry);
+		}
+	}
+	$tpl->close();
+
+	cleardiycache();
+}
+
+function cleardiycache($dir = DISCUZ_DATA.'./diy') {
+	if($directory = @dir($dir)) {
+		while($entry = $directory->read()) {
+			if($entry == '.' || $entry == '..') {
+				continue;
+			}
+			$filename = $dir.'/'.$entry;
+			if(is_file($filename)) {
+				@unlink($filename);
+			} else {
+				cleardiycache($filename);
+			}
+		}
+		$directory->close();
+		@rmdir($dir);
 	}
 }
 
-?>

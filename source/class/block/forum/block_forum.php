@@ -1,50 +1,61 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: block_forum.php 29623 2012-04-23 06:54:18Z zhengqingpeng $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
+
 class block_forum extends discuz_block {
-	var $setting = array();
+	var $setting = [];
+
 	function __construct() {
-		$this->setting = array(
-			'fids'	=> array(
+		$this->setting = [
+			'fids' => [
 				'title' => 'forumlist_fids',
 				'type' => 'text',
-			),
-			'fups'	=> array(
+			],
+			'fups' => [
 				'title' => 'forumlist_fups',
 				'type' => 'mselect',
-				'value' => array()
-			),
-			'titlelength' => array(
+				'value' => []
+			],
+			'viewtype' => [
+				'title' => 'forumlist_viewtype',
+				'type' => 'mradio',
+				'value' => [
+					['', 'forumlist_viewtype_all'],
+					[0, 'forumlist_viewtype_0'],
+					[2, 'forumlist_viewtype_2'],
+				],
+				'default' => ''
+			],
+			'titlelength' => [
 				'title' => 'forumlist_titlelength',
 				'type' => 'text',
 				'default' => 40
-			),
-			'summarylength' => array(
+			],
+			'summarylength' => [
 				'title' => 'forumlist_summarylength',
 				'type' => 'text',
 				'default' => 80
-			),
-			'orderby' => array(
+			],
+			'orderby' => [
 				'title' => 'forumlist_orderby',
 				'type' => 'mradio',
-				'value' => array(
-					array('displayorder', 'forumlist_orderby_displayorder'),
-					array('threads', 'forumlist_orderby_threads'),
-					array('todayposts', 'forumlist_orderby_todayposts'),
-					array('posts', 'forumlist_orderby_posts')
-				),
+				'value' => [
+					['displayorder', 'forumlist_orderby_displayorder'],
+					['threads', 'forumlist_orderby_threads'],
+					['todayposts', 'forumlist_orderby_todayposts'],
+					['posts', 'forumlist_orderby_posts']
+				],
 				'default' => 'displayorder'
-			)
-		);
+			]
+		];
 	}
 
 	function name() {
@@ -52,37 +63,37 @@ class block_forum extends discuz_block {
 	}
 
 	function blockclass() {
-		return array('forum', lang('blockclass', 'blockclass_forum_forum'));
+		return ['forum', lang('blockclass', 'blockclass_forum_forum')];
 	}
 
 	function fields() {
-		return array(
-					'id' => array('name' => lang('blockclass', 'blockclass_field_id'), 'formtype' => 'text', 'datatype' => 'int'),
-					'url' => array('name' => lang('blockclass', 'blockclass_forum_field_url'), 'formtype' => 'text', 'datatype' => 'string'),
-					'title' => array('name' => lang('blockclass', 'blockclass_forum_field_title'), 'formtype' => 'title', 'datatype' => 'title'),
-					'summary' => array('name' => lang('blockclass', 'blockclass_forum_field_summary'), 'formtype' => 'summary', 'datatype' => 'summary'),
-					'icon' => array('name' => lang('blockclass', 'blockclass_forum_field_icon'), 'formtype' => 'text', 'datatype' => 'string'),
-					'posts' => array('name'=>lang('blockclass', 'blockclass_forum_field_posts'), 'formtype' => 'text', 'datatype'=>'int'),
-					'threads' => array('name'=>lang('blockclass', 'blockclass_forum_field_threads'), 'formtype' => 'text', 'datatype'=>'int'),
-					'todayposts' => array('name'=>lang('blockclass', 'blockclass_forum_field_todayposts'), 'formtype' => 'text', 'datatype'=>'int'),
-				);
+		return [
+			'id' => ['name' => lang('blockclass', 'blockclass_field_id'), 'formtype' => 'text', 'datatype' => 'int'],
+			'url' => ['name' => lang('blockclass', 'blockclass_forum_field_url'), 'formtype' => 'text', 'datatype' => 'string'],
+			'title' => ['name' => lang('blockclass', 'blockclass_forum_field_title'), 'formtype' => 'title', 'datatype' => 'title'],
+			'summary' => ['name' => lang('blockclass', 'blockclass_forum_field_summary'), 'formtype' => 'summary', 'datatype' => 'summary'],
+			'icon' => ['name' => lang('blockclass', 'blockclass_forum_field_icon'), 'formtype' => 'text', 'datatype' => 'string'],
+			'posts' => ['name' => lang('blockclass', 'blockclass_forum_field_posts'), 'formtype' => 'text', 'datatype' => 'int'],
+			'threads' => ['name' => lang('blockclass', 'blockclass_forum_field_threads'), 'formtype' => 'text', 'datatype' => 'int'],
+			'todayposts' => ['name' => lang('blockclass', 'blockclass_forum_field_todayposts'), 'formtype' => 'text', 'datatype' => 'int'],
+		];
 	}
 
 	function fieldsconvert() {
-		return array(
-				'group_group' => array(
-					'name' => lang('blockclass', 'blockclass_group_group'),
-					'script' => 'group',
-					'searchkeys' => array(),
-					'replacekeys' => array(),
-				),
-				'portal_category' => array(
-					'name' => lang('blockclass', 'blockclass_portal_category'),
-					'script' => 'portalcategory',
-					'searchkeys' => array('threads'),
-					'replacekeys' => array('articles'),
-				),
-			);
+		return [
+			'group_group' => [
+				'name' => lang('blockclass', 'blockclass_group_group'),
+				'script' => 'group',
+				'searchkeys' => [],
+				'replacekeys' => [],
+			],
+			'portal_category' => [
+				'name' => lang('blockclass', 'blockclass_portal_category'),
+				'script' => 'portalcategory',
+				'searchkeys' => ['threads'],
+				'replacekeys' => ['articles'],
+			],
+		];
 	}
 
 	function getsetting() {
@@ -90,10 +101,10 @@ class block_forum extends discuz_block {
 
 		$settings = $this->setting;
 		loadcache('forums');
-		$settings['fups']['value'][] = array(0, lang('portalcp', 'block_all_forum'));
-		if(empty($_G['cache']['forums'])) $_G['cache']['forums'] = array();
+		$settings['fups']['value'][] = [0, lang('portalcp', 'block_all_forum')];
+		if(empty($_G['cache']['forums'])) $_G['cache']['forums'] = [];
 		foreach($_G['cache']['forums'] as $fid => $forum) {
-			$settings['fups']['value'][] = array($fid, ($forum['type'] == 'forum' ? str_repeat('&nbsp;', 4) : ($forum['type'] == 'sub' ? str_repeat('&nbsp;', 8) : '')).$forum['name']);
+			$settings['fups']['value'][] = [$fid, ($forum['type'] == 'forum' ? str_repeat('&nbsp;', 4) : ($forum['type'] == 'sub' ? str_repeat('&nbsp;', 8) : '')).$forum['name']];
 		}
 		return $settings;
 	}
@@ -102,47 +113,51 @@ class block_forum extends discuz_block {
 		global $_G;
 
 		$parameter = $this->cookparameter($parameter);
-		$fids	= !empty($parameter['fids']) ? explode(',',$parameter['fids']) : array();
-		$fups		= isset($parameter['fups']) && !in_array(0, (array)$parameter['fups']) ? $parameter['fups'] : '';
-		$orderby	= isset($parameter['orderby']) ? (in_array($parameter['orderby'],array('displayorder','threads','posts', 'todayposts')) ? $parameter['orderby'] : 'displayorder') : 'displayorder';
+		$fids = !empty($parameter['fids']) ? explode(',', $parameter['fids']) : [];
+		$fups = isset($parameter['fups']) && !in_array(0, (array)$parameter['fups']) ? $parameter['fups'] : '';
+		$orderby = isset($parameter['orderby']) ? (in_array($parameter['orderby'], ['displayorder', 'threads', 'posts', 'todayposts']) ? $parameter['orderby'] : 'displayorder') : 'displayorder';
+		$viewtype = $parameter['viewtype'] ?? '';
 		$titlelength = isset($parameter['titlelength']) ? intval($parameter['titlelength']) : 40;
 		$summarylength = isset($parameter['summarylength']) ? intval($parameter['summarylength']) : 80;
-		$startrow	= isset($parameter['startrow']) ? intval($parameter['startrow']) : 0;
-		$items		= !empty($parameter['items']) ? intval($parameter['items']) : 10;
+		$startrow = isset($parameter['startrow']) ? intval($parameter['startrow']) : 0;
+		$items = !empty($parameter['items']) ? intval($parameter['items']) : 10;
 
-		$bannedids = !empty($parameter['bannedids']) ? explode(',', $parameter['bannedids']) : array();
+		$bannedids = !empty($parameter['bannedids']) ? explode(',', $parameter['bannedids']) : [];
 		$sqlban = !empty($bannedids) ? ' AND f.fid NOT IN ('.dimplode($bannedids).')' : '';
 
 		if(empty($fups)) {
 			loadcache('forums');
 			if(empty($_G['cache']['forums'])) {
-				$fups = array('0');
+				$fups = ['0'];
 			} else {
 				$fups = array_keys($_G['cache']['forums']);
 			}
 		}
 
-		$wheres = array();
+		$wheres = [];
 		if($fids) {
 			$wheres[] = 'f.`fid` IN ('.dimplode($fids).')';
 		}
 		if($fups) {
 			$wheres[] = 'f.`fup` IN ('.dimplode($fups).')';
 		}
+		if($viewtype !== '') {
+			$wheres[] = 'ff.`jointype`='.$viewtype;
+		}
 		$wheres[] = "f.`status`='1'";
 		$wheres[] = "f.`type`!='group'";
 		$wheresql = implode(' AND ', $wheres);
 
-		$ffadd1 = ", ff.icon, ff.description";
-		$ffadd2 = "LEFT JOIN `".DB::table('forum_forumfield')."` ff ON f.`fid`=ff.`fid`";
+		$ffadd1 = ', ff.icon, ff.description';
+		$ffadd2 = 'LEFT JOIN `' .DB::table('forum_forumfield'). '` ff ON f.`fid`=ff.`fid`';
 		$query = DB::query("SELECT f.* $ffadd1
 			FROM `".DB::table('forum_forum')."` f $ffadd2
 			WHERE $wheresql
 			$sqlban
-			ORDER BY ".($orderby == 'displayorder' ? "f.fup, f.`displayorder` ASC " : "f.`$orderby` DESC")
+			ORDER BY ".($orderby == 'displayorder' ? 'f.fup, f.`displayorder` ASC ' : "f.`$orderby` DESC")
 			." LIMIT $startrow, $items"
 		);
-		$datalist = $list = array();
+		$datalist = $list = [];
 		$attachurl = preg_match('/^(http|ftp|ftps|https):\/\//', $_G['setting']['attachurl']) ? $_G['setting']['attachurl'] : $_G['siteurl'].$_G['setting']['attachurl'];
 		while($data = DB::fetch($query)) {
 			if(!empty($data['icon'])) {
@@ -150,24 +165,23 @@ class block_forum extends discuz_block {
 			} else {
 				$data['icon'] = STATICURL.'image/common/forum_new.gif';
 			}
-			$list[] = array(
+			$list[] = [
 				'id' => $data['fid'],
 				'idtype' => 'fid',
 				'title' => cutstr($data['name'], $titlelength, ''),
 				'url' => 'forum.php?mod=forumdisplay&fid='.$data['fid'],
 				'pic' => '',
 				'summary' => cutstr($data['description'], $summarylength, ''),
-				'fields' => array(
+				'fields' => [
 					'fulltitle' => $data['name'],
 					'icon' => $data['icon'],
 					'threads' => intval($data['threads']),
 					'posts' => intval($data['posts']),
 					'todayposts' => intval($data['todayposts'])
-				)
-			);
+				]
+			];
 		}
-		return array('html' => '', 'data' => $list);
+		return ['html' => '', 'data' => $list];
 	}
 }
 
-?>

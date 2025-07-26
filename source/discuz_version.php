@@ -1,10 +1,9 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: discuz_version.php 36281 2016-12-09 08:11:45Z nemohou $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -12,9 +11,9 @@ if(!defined('IN_DISCUZ')) {
 }
 
 if(!defined('DISCUZ_VERSION')) {
-	define('DISCUZ_VERSION', 'X3.5');
-	define('DISCUZ_RELEASE', 'Development');
-	define('DISCUZ_FIXBUG', '35000000');
+	define('DISCUZ_VERSION_NAME', 'Discuz! &#x5F00;&#x53D1;&#x8005;&#x9884;&#x89C8;&#x7248;');
+	define('DISCUZ_VERSION', 'X5.0');
+	define('DISCUZ_SUBVERSION', '.0.Open');
+	define('DISCUZ_RELEASE', '20250701');
 }
 
-?>

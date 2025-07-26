@@ -1,16 +1,15 @@
-/*
-	[Discuz!] (C)2001-2099 Comsenz Inc.
-	This is NOT a freeware, use is subject to license terms
-
-	$Id: space_diy.js 23838 2011-08-11 06:51:58Z monkey $
-*/
+/**
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
+ */
 
 var drag = new Drag();
 drag.extend({
 
 	setDefalutMenu : function () {
-/*vot*/         this.addMenu('default', lng['delete'], 'drag.removeBlock(event)');
-/*vot*/         this.addMenu('block', lng['attribute'], 'drag.openBlockEdit(event)');
+		this.addMenu('default', $L('delete'), 'drag.removeBlock(event)');
+		this.addMenu('block', $L('property'), 'drag.openBlockEdit(event)');
 	},
 	removeBlock : function (e) {
 		if ( typeof e !== 'string') {
@@ -19,7 +18,7 @@ drag.extend({
 		} else {
 			id = e;
 		}
-/*vot*/         if (!confirm(lng['delete_this_sure'])) return false;
+		if (!confirm($L('delete_confirm_2'))) return false;
 		$(id).parentNode.removeChild($(id));
 		var el = $('chk'+id);
 		if (el != null) el.className = '';
@@ -63,7 +62,7 @@ drag.extend({
 					el  = document.createElement("div");
 					el.className = drag.blockClass + ' ' + drag.moveableObject;
 					el.id = blockname;
-/*vot*/                                 s = s.replace(/\<script.*\<\/script\>/ig,'<font color="red"> ['+lng['save_js']+'] </font>');
+					s = s.replace(/\<script.*\<\/script\>/ig,'<font color="red"> [' + $L('js_saved_display') + '] </font>');
 					el.innerHTML = s;
 					var id = drag.data['diypage'][0]['columns']['frame1_left']['children'][0]['name'];
 					$('frame1_left').insertBefore(el,$(id));
@@ -191,7 +190,7 @@ spaceDiy.extend({
 			if (!$('infoedit')) {
 				var dom = document.createElement('em');
 				dom.id = 'infoedit';
-                               dom.innerHTML = lng['edit'];
+				dom.innerHTML = $L('edit');
 				$('spacename').appendChild(dom);
 			}
 			$('infoedit').onmousedown = function () {spaceDiy.showEditSpaceInfo();};
@@ -208,7 +207,7 @@ spaceDiy.extend({
 		var nv = $('editnvinfo');
 		if(!nv) {
 			var dom = document.createElement('div');
-/*vot*/                 dom.innerHTML = '<span id="editnvinfo" class="edit" style="background-color:#336699;" onclick="spaceDiy.opNvEditInfo();">'+lng['settings']+'</span>';
+			dom.innerHTML = '<span id="editnvinfo" class="edit" style="background-color:#336699;" onclick="spaceDiy.opNvEditInfo();">' + $L('setting') + '</span>';
 			$('nv').appendChild(dom.childNodes[0]);
 		} else {
 			nv.style.display = '';

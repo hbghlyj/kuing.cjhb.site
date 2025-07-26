@@ -1,18 +1,17 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: lang_groupactivity.php 27449 2012-02-01 05:32:35Z zhangguosheng $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
-$lang = array
-(
+$lang =
+	[
 	'groupactivity_fids' => '制定圈子',
 	'groupactivity_fids_comment' => '指定圈子，多个ID之间请用半角逗号“,”隔开。',
 	'groupactivity_gtids' => '圈子分类',
@@ -100,6 +99,5 @@ $lang = array
 	'groupactivity_gviewperm_only_member' => '仅成员',
 	'groupactivity_gviewperm_all_member' => '所有人',
 	'groupactivity_highlight' => '获得高亮值',
-);
+	];
 
-?>

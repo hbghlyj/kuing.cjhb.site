@@ -1,18 +1,16 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: memory_driver_memcached.php 27449 2017-07-11 05:32:35Z ladyff $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
-class memory_driver_memcached
-{
+class memory_driver_memcached {
 	public $cacheName = 'MemCached';
 	public $enable;
 	public $obj;
@@ -20,8 +18,9 @@ class memory_driver_memcached
 	public function env() {
 		return extension_loaded('memcached');
 	}
+
 	public function init($config) {
-		if (!$this->env()) {
+		if(!$this->env()) {
 			$this->enable = false;
 			return;
 		}
@@ -30,8 +29,8 @@ class memory_driver_memcached
 			$this->obj->setOption(Memcached::OPT_BINARY_PROTOCOL, true);
 			$this->obj->setOption(Memcached::OPT_TCP_NODELAY, true);
 			$this->obj->addServer($config['server'], $config['port']);
-			$connect=$this->obj->set('connect', '1');
-			$this->enable = $connect ? true : false;
+			$connect = $this->obj->set('connect', '1');
+			$this->enable = (bool)$connect;
 		}
 	}
 
@@ -78,4 +77,3 @@ class memory_driver_memcached
 
 }
 
-?>

@@ -1,10 +1,9 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: helper_form.php 35986 2016-06-06 01:37:04Z nemohou $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -19,9 +18,13 @@ class helper_form {
 			return FALSE;
 		} else {
 			global $_G;
+			$formhashChecked = !empty($_GET['formhash']) && $_GET['formhash'] == formhash();
 			// 新增 $allowget = 2 时，验证formhash参数
-                       if(($allowget && ($allowget !== 2 || (!empty($_GET['formhash']) && $_GET['formhash'] == formhash()))) || ($_SERVER['REQUEST_METHOD'] == 'POST' && !empty($_GET['formhash']) && $_GET['formhash'] == formhash() && (empty($_SERVER['HTTP_REFERER']) ||
-                               strncmp($_SERVER['HTTP_REFERER'], 'http://wsq.discuz.com/', 22) === 0 || preg_replace("/https?:\/\/([^\:\/]+).*/i", "\\1", $_SERVER['HTTP_REFERER']) == preg_replace("/([^\:]+).*/", "\\1", $_SERVER['HTTP_HOST'])))) {
+			if(defined('IN_RESTFUL') && $formhashChecked ||
+				($allowget && ($allowget !== 2 || $formhashChecked)) ||
+				($_SERVER['REQUEST_METHOD'] == 'POST' && $formhashChecked && empty($_SERVER['HTTP_X_FLASH_VERSION']) &&
+					(empty($_SERVER['HTTP_REFERER']) ||
+						preg_replace('/https?:\/\/([^\:\/]+).*/i', "\\1", $_SERVER['HTTP_REFERER']) == preg_replace('/([^\:]+).*/', "\\1", $_SERVER['HTTP_HOST'])))) {
 				if(checkperm('seccode')) {
 					if($secqaacheck && !check_secqaa($_GET['secanswer'], $_GET['secqaahash'])) {
 						showmessage('submit_secqaa_invalid');
@@ -29,6 +32,9 @@ class helper_form {
 					if($seccodecheck && !check_seccode($_GET['seccodeverify'], $_GET['seccodehash'], 0, $_GET['seccodemodid'])) {
 						showmessage('submit_seccode_invalid');
 					}
+				}
+				if(defined('IN_ADMINCP')) {
+					serializecomponent();
 				}
 				return TRUE;
 			} else {
@@ -46,12 +52,12 @@ class helper_form {
 		if(($censor->modbanned() && empty($_G['group']['ignorecensor'])) || (($modasban && !empty($_G['setting']['modasban'])) && $censor->modmoderated() && empty($_G['group']['ignorecensor']))) {
 			$wordbanned = implode(', ', $censor->words_found);
 			if($return) {
-				return array('message' => lang('message', 'word_banned', array('wordbanned' => $wordbanned)));
+				return ['message' => lang('message', 'word_banned', ['wordbanned' => $wordbanned])];
 			}
 			if(!defined('IN_ADMINCP')) {
-				showmessage('word_banned', '', array('wordbanned' => $wordbanned));
+				showmessage('word_banned', '', ['wordbanned' => $wordbanned]);
 			} else {
-				cpmsg(lang('message', 'word_banned'), '', 'error', array('wordbanned' => $wordbanned));
+				cpmsg(lang('message', 'word_banned'), '', 'error', ['wordbanned' => $wordbanned]);
 			}
 		}
 		if($_G['group']['allowposturl'] == 0) {
@@ -61,7 +67,7 @@ class helper_form {
 					if(!$val = trim($val)) continue;
 					if(!iswhitelist($val)) {
 						if($return) {
-							return array('message' => 'post_url_nopermission');
+							return ['message' => 'post_url_nopermission'];
 						}
 						showmessage('post_url_nopermission');
 					}
@@ -98,9 +104,9 @@ class helper_form {
 	}
 
 	public static function get_url_list($message) {
-		$return = array();
+		$return = [];
 
-               strpos($message, '[/img]') !== false && $message = preg_replace("/\[img[^\]]*\]\s*([^\[\<\r\n]+?)\s*\[\/img\]/is", '', $message);
+		(strpos($message, '[/img]') || strpos($message, '[/flash]')) && $message = preg_replace("/\[img[^\]]*\]\s*([^\[\<\r\n]+?)\s*\[\/img\]|\[flash[^\]]*\]\s*([^\[\<\r\n]+?)\s*\[\/flash\]/is", '', $message);
 		if(preg_match_all("/((https?|ftp|gopher|news|telnet|rtsp|mms|callto|bctp|thunder|qqdl|synacast){1}:\/\/|www\.)[^ \[\]\"']+/i", $message, $urllist)) {
 			foreach($urllist[0] as $key => $val) {
 				$val = trim($val);
@@ -108,7 +114,7 @@ class helper_form {
 				if(!preg_match('/^https?:\/\//is', $val)) $val = 'http://'.$val;
 				$tmp = parse_url($val);
 				$return[1][$key] = $tmp['host'];
-				if($tmp['port']){
+				if($tmp['port']) {
 					$return[1][$key] .= ":{$tmp['port']}";
 				}
 			}
@@ -117,24 +123,23 @@ class helper_form {
 	}
 
 	public static function updatemoderate($idtype, $ids, $status = 0) {
-		$ids = is_array($ids) ? $ids : array($ids);
+		$ids = is_array($ids) ? $ids : [$ids];
 		if(!$ids) {
 			return;
 		}
 		if(!$status) {
 			foreach($ids as $id) {
-				C::t('common_moderate')->insert_moderate($idtype, array(
+				table_common_moderate::t()->insert_moderate($idtype, [
 					'id' => $id,
 					'status' => 0,
 					'dateline' => TIMESTAMP,
-				), false, true);
+				], false, true);
 			}
 		} elseif($status == 1) {
-			C::t('common_moderate')->update_moderate($ids, $idtype, array('status' => 1));
+			table_common_moderate::t()->update_moderate($ids, $idtype, ['status' => 1]);
 		} elseif($status == 2) {
-			C::t('common_moderate')->delete_moderate($ids, $idtype);
+			table_common_moderate::t()->delete_moderate($ids, $idtype);
 		}
 	}
 }
 
-?>

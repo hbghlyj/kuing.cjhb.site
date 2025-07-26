@@ -1,10 +1,9 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: helper_antitheft.php 33494 2013-06-26 05:26:25Z laoguozhang $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -18,7 +17,8 @@ class helper_antitheft {
 			if(!isset($_dsign)) {
 				$_dsign = dsign($id.$idtype, 8);
 			}
-			echo self::make_content($id, $idtype, $_dsign);exit;
+			echo self::make_content($id, $idtype, $_dsign);
+			exit;
 		}
 	}
 
@@ -31,28 +31,28 @@ class helper_antitheft {
 		loadcache('antitheft');
 		if($_G['cache']['antitheft']['white']) {
 			foreach(explode("\n", trim($_G['cache']['antitheft']['white'])) as $ctrlip) {
-				if(preg_match("/^(".preg_quote(($ctrlip = trim($ctrlip)), '/').")/", $_G['clientip'])) {
+				if(preg_match('/^('.preg_quote(($ctrlip = trim($ctrlip)), '/').')/', $_G['clientip'])) {
 					return true;
 				}
 			}
 		}
 		if($_G['cache']['antitheft']['black']) {
-			foreach(explode("\n",trim($_G['cache']['antitheft']['black'])) as $ctrlip) {
-				if(preg_match("/^(".preg_quote(($ctrlip = trim($ctrlip)), '/').")/", $_G['clientip'])) {
+			foreach(explode("\n", trim($_G['cache']['antitheft']['black'])) as $ctrlip) {
+				if(preg_match('/^('.preg_quote(($ctrlip = trim($ctrlip)), '/').')/', $_G['clientip'])) {
 					return false;
 				}
 			}
 		}
-		if(!($log = C::t('common_visit')->fetch($_G['clientip']))) {
-			C::t('common_visit')->insert(array(
+		if(!($log = table_common_visit::t()->fetch($_G['clientip']))) {
+			table_common_visit::t()->insert([
 				'ip' => $_G['clientip'],
 				'view' => 1,
-			));
+			]);
 			return true;
 		} elseif($log['view'] >= $_G['setting']['antitheft']['max']) {
 			return false;
 		} else {
-			C::t('common_visit')->inc($_G['clientip']);
+			table_common_visit::t()->inc($_G['clientip']);
 			return true;
 		}
 	}
@@ -66,10 +66,10 @@ class helper_antitheft {
 		return self::make_js($url);
 	}
 
-	protected static function make_js($url){
+	protected static function make_js($url) {
 		$js = '<script type="text/javascript">';
-		$varname = array();
-		$codes = array();
+		$varname = [];
+		$codes = [];
 		$window = '_'.random(5);
 		$location = '_'.random(5);
 		$href = '_'.random(5);
@@ -81,9 +81,9 @@ class helper_antitheft {
 		$codes[$replace] = "$replace = 'replace';";
 		$codes[$assign] = "$assign = 'assign';";
 		$codes['getname'] = 'function getName(){var caller=getName.caller;if(caller.name){return caller.name} var str=caller.toString().replace(/[\s]*/g,"");var name=str.match(/^function([^\(]+?)\(/);if(name && name[1]){return name[1];} else {return \'\';}}';
-		$jskeywords = array('for' => '', 'case' => '', 'if' => '', 'else' => '', 'try'  => '', 'new' => '', 'eval' => '', 'var' => ''); //js关键字
-		$methods = array(1,2,3,4,5,6,7);
-		$lenths = array(2,2,3,4);
+		$jskeywords = ['for' => '', 'case' => '', 'if' => '', 'else' => '', 'try' => '', 'new' => '', 'eval' => '', 'var' => '']; //js关键字
+		$methods = [1, 2, 3, 4, 5, 6, 7];
+		$lenths = [2, 2, 3, 4];
 		for($i = 0, $l = strlen($url); $i < $l; $i++) {
 			$len = $lenths[array_rand($lenths)];
 			$cflag = $len % 2;
@@ -97,9 +97,9 @@ class helper_antitheft {
 					$var = '_'.$var;
 				}
 			}
-			$val = substr($url, $i, $len-1);
+			$val = substr($url, $i, $len - 1);
 			$i = $i + $len - 2;
-			switch ($methods[array_rand($methods)]) {
+			switch($methods[array_rand($methods)]) {
 				case 1:
 					if($cflag) {
 						$varname[$var] = "'$val'";
@@ -162,12 +162,12 @@ class helper_antitheft {
 		}
 		shuffle($codes);
 		$js .= implode('', $codes);
-		$hrefheader = array('location.href=', 'location=', "{$location}[$href]=", "location[$href]=",
-					'location.replace(', 'location.assign(', "location[$assign](", "location[$replace](");
-		$hreffooter = array('','','','',')',')',')',')');
+		$hrefheader = ['location.href=', 'location=', "{$location}[$href]=", "location[$href]=",
+			'location.replace(', 'location.assign(', "location[$assign](", "location[$replace]("];
+		$hreffooter = ['', '', '', '', ')', ')', ')', ')'];
 		$index = array_rand($hrefheader);
-		$js .= $hrefheader[$index]. implode('+', $varname).$hreffooter[$index].';';
-		$fix = array("{$window}[$href]=", "{$window}['href']=", "{$window}.href=");
+		$js .= $hrefheader[$index].implode('+', $varname).$hreffooter[$index].';';
+		$fix = ["{$window}[$href]=", "{$window}['href']=", "{$window}.href="];
 		$js .= $fix[array_rand($fix)].implode('+', array_slice($varname, 0, 8)).';';
 		$js .= '</script>';
 		return $js;
@@ -175,4 +175,3 @@ class helper_antitheft {
 
 }
 
-?>

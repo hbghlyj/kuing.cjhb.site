@@ -1,28 +1,34 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: table_common_diy_data.php 27827 2012-02-15 07:03:43Z zhangguosheng $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
-class table_common_diy_data extends discuz_table
-{
+class table_common_diy_data extends discuz_table {
+	public static function t() {
+		static $_instance;
+		if(!isset($_instance)) {
+			$_instance = new self();
+		}
+		return $_instance;
+	}
+
 	public function __construct() {
 
 		$this->_table = 'common_diy_data';
-		$this->_pk    = '';
+		$this->_pk = '';
 
 		parent::__construct();
 	}
 
 	public function fetch($id, $force_from_db = false) {
-		if (defined('DISCUZ_DEPRECATED')) {
+		if(defined('DISCUZ_DEPRECATED')) {
 			throw new Exception('NotImplementedException');
 			return parent::fetch($id, $force_from_db);
 		} else {
@@ -31,7 +37,7 @@ class table_common_diy_data extends discuz_table
 	}
 
 	public function delete($val, $unbuffered = false) {
-		if (defined('DISCUZ_DEPRECATED')) {
+		if(defined('DISCUZ_DEPRECATED')) {
 			throw new Exception('NotImplementedException');
 			return parent::delete($val, $unbuffered);
 		} else {
@@ -40,7 +46,7 @@ class table_common_diy_data extends discuz_table
 	}
 
 	public function update($val, $data, $unbuffered = false, $low_priority = false) {
-		if (defined('DISCUZ_DEPRECATED')) {
+		if(defined('DISCUZ_DEPRECATED')) {
 			throw new Exception('NotImplementedException');
 			return parent::update($val, $data, $unbuffered, $low_priority);
 		} else {
@@ -49,7 +55,7 @@ class table_common_diy_data extends discuz_table
 	}
 
 	public function fetch_all($ids, $force_from_db = false) {
-		if (defined('DISCUZ_DEPRECATED')) {
+		if(defined('DISCUZ_DEPRECATED')) {
 			throw new Exception('NotImplementedException');
 			return parent::fetch_all($ids, $force_from_db);
 		} else {
@@ -59,15 +65,15 @@ class table_common_diy_data extends discuz_table
 	}
 
 	public function fetch_diy($targettplname, $tpldirectory) {
-		return !empty($targettplname) ? DB::fetch_first('SELECT * FROM '.DB::table($this->_table).' WHERE '.DB::field('targettplname', $targettplname).' AND '.DB::field('tpldirectory', $tpldirectory)) : array();
+		return !empty($targettplname) ? DB::fetch_first('SELECT * FROM '.DB::table($this->_table).' WHERE '.DB::field('targettplname', $targettplname).' AND '.DB::field('tpldirectory', $tpldirectory)) : [];
 	}
 
 	public function delete_diy($targettplname, $tpldirectory = null) {
 		foreach($this->fetch_all_diy($targettplname, $tpldirectory) as $value) {
 			$file = ($value['tpldirectory'] ? $value['tpldirectory'].'/' : '').$value['targettplname'];
-			@unlink(DISCUZ_ROOT.'./data/diy/'.$file.'.htm');
-			@unlink(DISCUZ_ROOT.'./data/diy/'.$file.'.htm.bak');
-			@unlink(DISCUZ_ROOT.'./data/diy/'.$file.'_diy_preview.htm');
+			@unlink(DISCUZ_DATA.'./diy/'.$file.'.htm');
+			@unlink(DISCUZ_DATA.'./diy/'.$file.'.htm.bak');
+			@unlink(DISCUZ_DATA.'./diy/'.$file.'_diy_preview.htm');
 		}
 		return DB::delete($this->_table, DB::field('targettplname', $targettplname).($tpldirectory !== null ? ' AND '.DB::field('tpldirectory', $tpldirectory) : ''));
 	}
@@ -80,7 +86,7 @@ class table_common_diy_data extends discuz_table
 	}
 
 	public function fetch_all_diy($targettplname, $tpldirectory = null) {
-		return !empty($targettplname) ? DB::fetch_all('SELECT * FROM '.DB::table($this->_table).' WHERE '.DB::field('targettplname', $targettplname).($tpldirectory !== null ? ' AND '.DB::field('tpldirectory', $tpldirectory) : '')) : array();
+		return !empty($targettplname) ? DB::fetch_all('SELECT * FROM '.DB::table($this->_table).' WHERE '.DB::field('targettplname', $targettplname).($tpldirectory !== null ? ' AND '.DB::field('tpldirectory', $tpldirectory) : '')) : [];
 	}
 
 	public function count_by_where($wheresql) {
@@ -94,4 +100,3 @@ class table_common_diy_data extends discuz_table
 	}
 }
 
-?>

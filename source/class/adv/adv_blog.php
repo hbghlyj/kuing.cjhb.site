@@ -1,10 +1,9 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
- *
- *      $Id: adv_blog.php 7169 2010-03-30 06:34:18Z monkey $
+ * [Discuz!] (C)2001-2099 Discuz! Team
+ * This is NOT a freeware, use is subject to license terms
+ * https://license.discuz.vip
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -17,8 +16,8 @@ class adv_blog {
 	var $name = 'blog_name';
 	var $description = 'blog_desc';
 	var $copyright = '<a href="https://www.discuz.vip/" target="_blank">Discuz!</a>';
-	var $targets = array('home');
-	var $imagesizes = array('120x60', '120x240');
+	var $targets = ['home'];
+	var $imagesizes = ['120x60', '120x240'];
 
 	function getsetting() {
 	}
@@ -31,11 +30,10 @@ class adv_blog {
 	}
 
 	function evalcode() {
-		return array(
+		return [
 			'create' => '$adcode = $codes[$adids[array_rand($adids)]];',
-		);
+		];
 	}
 
 }
 
-?>
