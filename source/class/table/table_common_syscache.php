@@ -80,7 +80,7 @@ class table_common_syscache extends discuz_table
 		$data = array();
 		$cachenames = is_array($cachenames) ? $cachenames : array($cachenames);
 		if ($this->_allowmem) {
-		$data = memory('get', $cachenames);
+			$data = memory('get', $cachenames);
 			$newarray = $data !== false ? array_diff($cachenames, array_keys($data)) : $cachenames;
 			if (empty($newarray)) {
 				return $data;
