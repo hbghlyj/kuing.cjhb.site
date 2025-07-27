@@ -80,17 +80,7 @@ class table_common_syscache extends discuz_table
 		$data = array();
 		$cachenames = is_array($cachenames) ? $cachenames : array($cachenames);
 		if ($this->_allowmem) {
-			if (($index = array_search('setting', $cachenames)) !== FALSE) {
-				if (memory('exists', 'setting')) {
-					unset($cachenames[$index]);
-					$settings = new memory_setting_array();
-				}
-			}
-
-			$data = memory('get', $cachenames);
-			if (isset($settings)) {
-				$data['setting'] = $settings;
-			}
+$data = memory('get', $cachenames);
 			$newarray = $data !== false ? array_diff($cachenames, array_keys($data)) : $cachenames;
 			if (empty($newarray)) {
 				return $data;
@@ -104,9 +94,9 @@ class table_common_syscache extends discuz_table
 			foreach($cachenames as $cachename) {
 				if(!@include_once(DISCUZ_ROOT.'./data/cache/cache_'.$cachename.'.php')) {
 					$lostcaches[] = $cachename;
-				} elseif($this->_allowmem) {
-					$cachename === 'setting' ? memory_setting_array::save($data[$cachename]) : memory('set', $cachename, $data[$cachename]);
-				}
+} elseif($this->_allowmem) {
+memory('set', $cachename, $data[$cachename]);
+}
 			}
 			if(!$lostcaches) {
 				return $data;
@@ -118,13 +108,9 @@ class table_common_syscache extends discuz_table
 		$query = DB::query('SELECT * FROM '.DB::table($this->_table).' WHERE '.DB::field('cname', $cachenames));
 		while($syscache = DB::fetch($query)) {
 			$data[$syscache['cname']] = $syscache['ctype'] ? dunserialize($syscache['data']) : $syscache['data'];
-			if ($this->_allowmem) {
-				if ($syscache['cname'] === 'setting') {
-					memory_setting_array::save($data[$syscache['cname']]);
-				} else {
-					memory('set', $syscache['cname'], $data[$syscache['cname']]);
-				}
-			}
+if ($this->_allowmem) {
+memory('set', $syscache['cname'], $data[$syscache['cname']]);
+}
 			if($this->_isfilecache) {
 				$cachedata = '$data[\''.$syscache['cname'].'\'] = '.var_export($data[$syscache['cname']], true).";\n\n";
 				$cachedata_save = "<?php\n//Discuz! cache file, DO NOT modify me!\n//Identify: ".md5($syscache['cname'].$cachedata.getglobal('config/security/authkey'))."\n\n$cachedata?>";
@@ -156,13 +142,9 @@ class table_common_syscache extends discuz_table
 			'data' => is_array($data) ? serialize($data) : $data,
 		), false, true);
 
-		if ($this->_allowmem && memory('exists', $cachename) !== false) {
-			if ($cachename === 'setting') {
-				memory_setting_array::save($data);
-			} else {
-				memory('set', $cachename, $data);
-			}
-		}
+if ($this->_allowmem && memory('exists', $cachename) !== false) {
+memory('set', $cachename, $data);
+}
 		$this->_isfilecache && @unlink(DISCUZ_ROOT.'./data/cache/cache_'.$cachename.'.php');
 	}
 
