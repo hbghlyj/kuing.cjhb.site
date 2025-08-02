@@ -447,7 +447,10 @@ class discuz_application extends discuz_base{
 		if (empty($_SERVER['HTTP_USER_AGENT']) || strlen($_SERVER['HTTP_USER_AGENT']) < 2) {
 			define('IS_ROBOT', 'UnusualUserAgentHeader');
 		} elseif (isset($_SERVER['HTTP_X_KNOWN_BOT'])) {// Check HTTP_X_KNOWN_BOT header from Cloudflare or nginx geo module
-			$robot_entry = DB::fetch_first("SELECT id,first_seen_at FROM common_robot_user_agents WHERE user_agent_keyword = %s", $_SERVER['HTTP_X_KNOWN_BOT']);
+                       $robot_entry = DB::fetch_first(
+                               "SELECT id,first_seen_at FROM common_robot_user_agents WHERE user_agent_keyword = %s",
+                               array($_SERVER['HTTP_X_KNOWN_BOT'])
+                       );
 			if ($robot_entry) {
 				DB::query('UPDATE common_robot_user_agents SET last_seen_at = UNIX_TIMESTAMP(), seen_count = seen_count + 1'.($robot_entry['first_seen_at'] ? '' : ', first_seen_at = UNIX_TIMESTAMP()').
 				' WHERE id = ' . $robot_entry['id']);
