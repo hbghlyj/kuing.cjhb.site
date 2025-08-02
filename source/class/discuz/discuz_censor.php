@@ -52,7 +52,7 @@ class discuz_censor {
 	function check(&$message, $modword = NULL) {
 		$limitnum = 500;
 		$this->words_found = array();
-		$bbcodes = 'b|i|color|size|font|align|list|indent|email|hide|quote|code|free|table|tr|td|img|swf|attach|payto|float'.($this->bbcodes_display ? '|'.implode('|', array_keys($this->bbcodes_display)) : '');
+$bbcodes = 'b|i|u|p|color|backcolor|size|font|align|list|indent|float|table|tr|td|th|hr';
 		if(is_array($this->censor_words['banned']) && !empty($this->censor_words['banned'])) {
 			foreach($this->censor_words['banned'] as $banned_words) {
 				if(preg_match_all($banned_words, @preg_replace(array("/\[($bbcodes)=?(.*)\]/iU", "/\[\/($bbcodes)\]/i"), array('${2}', ''), $message), $matches)) {
