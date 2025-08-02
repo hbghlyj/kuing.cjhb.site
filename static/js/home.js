@@ -218,9 +218,6 @@ function checkImage(url) {
 	var re = /^http\:\/\/.{5,200}\.(jpg|gif|png)$/i;
 	return url.match(re);
 }
-
-}
-
 function startMarquee(h, speed, delay, sid) {
 	var t = null;
 	var p = false;
