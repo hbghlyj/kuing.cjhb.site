@@ -76,8 +76,7 @@ if(!submitcheck('editsubmit')) {
 	$urloffcheck = $postinfo['parseurloff'] ? 'checked="checked"' : '';
 	$smileyoffcheck = $postinfo['smileyoff'] == 1 ? 'checked="checked"' : '';
 	$codeoffcheck = $postinfo['bbcodeoff'] == 1 ? 'checked="checked"' : '';
-	$tagoffcheck = $postinfo['htmlon'] & 2 ? 'checked="checked"' : '';
-	$htmloncheck = $postinfo['htmlon'] & 1 ? 'checked="checked"' : '';
+        $htmloncheck = $postinfo['htmlon'] & 1 ? 'checked="checked"' : '';
 	if(!$isfirstpost) {
 		$_G['group']['allowimgcontent'] = 0;
 	}
