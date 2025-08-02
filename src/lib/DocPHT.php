@@ -54,10 +54,8 @@ class MediaWikiParsedown extends ParsedownPlus
 
             $attributes = [
                 'href' => $url . $fragment,
+                'class' => $newPage ? 'new' : null,
             ];
-            if ($newPage) {
-                $attributes['class'] = 'new';
-            }
 
             $Inline = array(
                 'extent' => strlen($matches[0]),
