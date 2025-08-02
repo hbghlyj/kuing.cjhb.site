@@ -338,15 +338,16 @@ EOT;
 		return $message;
 	}
 
-	public static function write_error_log($message) {
+       public static function write_error_log($message) {
+                global $_G;
 
-		$message = discuz_error::clear($message);
-		$time = time();
-		$file =  DISCUZ_ROOT.'./data/log/'.date("Ym").'_errorlog.php';
-		$hash = md5($message);
+                $message = discuz_error::clear($message);
+                $time = time();
+                $file =  DISCUZ_ROOT.'./data/log/'.date("Ym").'_errorlog.php';
+                $hash = md5($message);
 
-		$uid = getglobal('uid');
-		$ip = getglobal('clientip');
+                $uid = $_G['uid'];
+                $ip = $_G['clientip'];
 
 		$user = '<b>User:</b> uid='.intval($uid).'; IP='.$ip.'; RIP:'.$_SERVER['REMOTE_ADDR'];
 		$uri = 'Request: '.discuz_error::clear($_SERVER['REQUEST_URI']);
