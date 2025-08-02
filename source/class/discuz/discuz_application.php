@@ -452,12 +452,10 @@ class discuz_application extends discuz_base{
 				DB::query('UPDATE common_robot_user_agents SET last_seen_at = UNIX_TIMESTAMP(), seen_count = seen_count + 1'.($robot_entry['first_seen_at'] ? '' : ', first_seen_at = UNIX_TIMESTAMP()').
 				' WHERE id = ' . $robot_entry['id']);
 			} else {
-				DB::insert('common_robot_user_agents', array(
-					'user_agent_keyword' => $_SERVER['HTTP_X_KNOWN_BOT'],
-					'first_seen_at' => TIMESTAMP,
-					'last_seen_at' => TIMESTAMP,
-					'seen_count' => 1
-				));
+                               DB::query(
+                                       "INSERT INTO common_robot_user_agents (user_agent_keyword, first_seen_at, last_seen_at, seen_count) VALUES (%s, %d, %d, %d)",
+                                       array($_SERVER['HTTP_X_KNOWN_BOT'], TIMESTAMP, TIMESTAMP, 1)
+                               );
 			}
 			define('IS_ROBOT', $_SERVER['HTTP_X_KNOWN_BOT'] . "\t");
 		} else {
@@ -469,13 +467,10 @@ class discuz_application extends discuz_base{
 				define('IS_ROBOT', $robot_entry['user_agent_keyword'] . "\t");
 			} elseif (strpos($_SERVER['HTTP_USER_AGENT'], 'http://') !== false || strpos($_SERVER['HTTP_USER_AGENT'], 'https://') !== false) {
 				// If it reaches here, it means it has a URL and wasn't caught by specific rules.
-				DB::insert('common_robot_user_agents', array(
-					'user_agent_keyword' => $_SERVER['HTTP_USER_AGENT'],
-					'category' => 'URL in User Agent',
-					'first_seen_at' => TIMESTAMP,
-					'last_seen_at' => TIMESTAMP,
-					'seen_count' => 1
-				));
+                               DB::query(
+                                       "INSERT INTO common_robot_user_agents (user_agent_keyword, category, first_seen_at, last_seen_at, seen_count) VALUES (%s, %s, %d, %d, %d)",
+                                       array($_SERVER['HTTP_USER_AGENT'], 'URL in User Agent', TIMESTAMP, TIMESTAMP, 1)
+                               );
 				define('IS_ROBOT', $_SERVER['HTTP_USER_AGENT'] . "\t");
 			}elseif(empty($_SERVER['HTTP_SEC_FETCH_MODE'])) {
 				define('IS_ROBOT', 'UnusualSecFetchModeHeader');
