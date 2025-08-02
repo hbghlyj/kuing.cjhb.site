@@ -182,10 +182,7 @@ class model_forum_thread extends discuz_model
 		$this->param['htmlon'] = $this->group['allowhtml'] && !empty($this->param['htmlon']) ? 1 : 0;
 		$this->param['usesig'] = !empty($this->param['usesig']) && $this->group['maxsigsize'] ? 1 : 0;
                $class_tag = new tag();
-               $this->param['tagstr'] = $class_tag->add_tag($this->param['tags'], $this->tid, 'tid');
-               if ($this->param['tagstr']) {
-                       C::t('forum_thread')->update($this->tid, array('tags' => $this->param['tagstr']));
-               }
+               C::t('forum_thread')->update($this->tid, array('tags' => $class_tag->add_tag($this->param['tags'], $this->tid, 'tid')));
 
 		$this->param['pinvisible'] = $this->param['modnewthreads'] ? -2 : (empty($this->param['save']) ? 0 : -3);
 		$this->param['message'] = preg_replace('/\[attachimg\](\d+)\[\/attachimg\]/is', '[attach]\1[/attach]', $this->param['message']);
