@@ -219,7 +219,6 @@ function checkImage(url) {
 	return url.match(re);
 }
 
-}
 
 function startMarquee(h, speed, delay, sid) {
 	var t = null;
