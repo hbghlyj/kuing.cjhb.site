@@ -80,8 +80,7 @@ if(!submitcheck('topicsubmit', 0, $seccodecheck, $secqaacheck)) {
 
 	$isfirstpost = 1;
 	$allownoticeauthor = 1;
-	$tagoffcheck = '';
-	$showthreadsorts = !empty($sortid) || getglobal('forum/threadsorts/required') && empty($special);
+        $showthreadsorts = !empty($sortid) || getglobal('forum/threadsorts/required') && empty($special);
 	if(empty($sortid) && empty($special) && getglobal('forum/threadsorts/required') && $_G['forum']['threadsorts']['types']) {
 		$tmp = array_keys($_G['forum']['threadsorts']['types']);
 		$sortid = $tmp[0];
