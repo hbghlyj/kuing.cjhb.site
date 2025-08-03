@@ -48,7 +48,7 @@ https://www.discuz.vip
 			.tpcl table { width: 100%; }
 				.tpcl td { vertical-align: top; padding: 5px; }
 			.tpcl .labeltxt { display: block; cursor: pointer; width: 100%; background: url({IMGDIR}/arrwd.gif) no-repeat 100% 8px; }
-				.copt .labeltxt { float: left; cursor: default; width: 45px; background: none; color: #09C; }
+				.copt .labeltxt { float: left; cursor: default; background: none; color: #09C; }
 			.tpcl .pc { margin: 3px; }
 			.tpcl img { vertical-align: middle; }
 	.tahfx { overflow: hidden; white-space: nowrap; width: 217px; }
