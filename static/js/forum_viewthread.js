@@ -306,30 +306,10 @@ function switchrecommendv() {
 	display('recommendav');
 }
 
-function appendreply(pid) {
-	$('post_new').style.display = '';
-	if(typeof MathJax.typesetPromise === 'function') {
-		MathJax.typesetPromise([$('postlist').appendChild($('post_new'))]);
-	}
-	newpos = fetchOffset($('post_new'));
-	document.documentElement.scrollTop = newpos['top'];
-	addLou($('post_new'));
-	$('post_new').id = `post_${pid}`;
-	div = document.createElement('div');
-	div.id = 'post_new';
-	div.style.display = 'none';
-	div.className = '';
-	$('postlistreply').appendChild(div);
-	if($('postform')) {
-		$('postform').replysubmit.disabled = false;
-	}
-	showCreditPrompt();
-}
-
 function poll_checkbox(obj) {
-	if(obj.checked) {
-		p++;
-		for (var i = 0; i < $('poll').elements.length; i++) {
+        if(obj.checked) {
+                p++;
+                for (var i = 0; i < $('poll').elements.length; i++) {
 			var e = $('poll').elements[i];
 			if(p == max_obj) {
 				if(e.name.match('pollanswers') && !e.checked) {
