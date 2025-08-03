@@ -9,7 +9,7 @@ var replyreload = '', attachimgST = new Array(), zoomgroup = new Array(), zoomgr
 
 function attachimggroup(pid) {
 	if(!zoomgroupinit[pid]) {
-		for(i = 0;i < aimgcount[pid].length;i++) {
+               for (let i = 0;i < aimgcount[pid].length;i++) {
 			zoomgroup['aimg_' + aimgcount[pid][i]] = pid;
 		}
 		zoomgroupinit[pid] = true;
@@ -21,7 +21,7 @@ function attachimgshow(pid, onlyinpost) {
 	aimgs = aimgcount[pid];
 	aimgcomplete = 0;
 	loadingcount = 0;
-	for(i = 0;i < aimgs.length;i++) {
+       for (let i = 0;i < aimgs.length;i++) {
 		obj = $('aimg_' + aimgs[i]);
 		if(!obj) {
 			aimgcomplete++;
@@ -72,7 +72,7 @@ function attachimglstshow(pid, islazy, fid, showexif) {
 	if(typeof aimgcount == 'object' && $('imagelistthumb_' + pid)) {
 		for(pid in aimgcount) {
 			var imagelist = '';
-			for(i = 0;i < aimgcount[pid].length;i++) {
+                       for (let i = 0;i < aimgcount[pid].length;i++) {
 				if(!$('aimg_' + aimgcount[pid][i]) || $('aimg_' + aimgcount[pid][i]).getAttribute('inpost') || parseInt(aimgcount[pid][i]) != aimgcount[pid][i]) {
 					continue;
 				}
@@ -152,22 +152,22 @@ function parsetag(pid) {
 	}
 	var havetag = false;
 	var tagfindarray = new Array();
-	var str = $('postmessage_'+pid).innerHTML.replace(/(^|>)([^<]+)(?=<|$)/ig, function($1, $2, $3, $4) {
-		for(i in tagarray) {
-			if(tagarray[i] && $3.indexOf(tagarray[i]) != -1) {
-				havetag = true;
-				$3 = $3.replace(tagarray[i], '<h_ ' + i + '>');
-				tmp = $3.replace(/&[a-z]*?<h_ \d+>[a-z]*?;/ig, '');
-				if(tmp != $3) {
-					$3 = tmp;
-				} else {
-					tagfindarray[i] = tagarray[i];
-					tagarray[i] = '';
-				}
-			}
-		}
-		return $2 + $3;
-		});
+       var str = $('postmessage_'+pid).innerHTML.replace(/(^|>)([^<]+)(?=<|$)/ig, function($1, $2, $3, $4) {
+               for (const [i, tag] of tagarray.entries()) {
+                       if(tag && $3.indexOf(tag) != -1) {
+                               havetag = true;
+                               $3 = $3.replace(tag, '<h_ ' + i + '>');
+                               let tmp = $3.replace(/&[a-z]*?<h_ \d+>[a-z]*?;/ig, '');
+                               if(tmp != $3) {
+                                       $3 = tmp;
+                               } else {
+                                       tagfindarray[i] = tag;
+                                       tagarray[i] = '';
+                               }
+                       }
+               }
+               return $2 + $3;
+               });
 		if(havetag) {
 		$('postmessage_'+pid).innerHTML = str.replace(/<h_ (\d+)>/ig, function($1, $2) {
 			return '<span href=\"forum.php?mod=tag&name=' + tagencarray[$2] + '\" onclick=\"tagshow(event)\" class=\"t_tag\">' + tagfindarray[$2] + '</span>';
@@ -511,12 +511,11 @@ var show_threadindex_data = '';
 function show_threadindex(pid, ispreview) {
 	if(!show_threadindex_data) {
                var s = '<div class="tindex"><h3>'+lng['index']+'</h3><ul>';
-		for(i in $('threadindex').childNodes) {
-			o = $('threadindex').childNodes[i];
-			if(o.tagName == 'A') {
-				var sub = o.getAttribute('sub').length * 2;
-				o.href = "javascript:;";
-				if(o.getAttribute('page')) {
+              for (const o of $('threadindex').childNodes) {
+                       if(o.tagName == 'A') {
+                               var sub = o.getAttribute('sub').length * 2;
+                               o.href = "javascript:;";
+                               if(o.getAttribute('page')) {
 					s += '<li style="margin-left:' + sub + 'em" onclick="ajaxget(\'forum.php?mod=viewthread&threadindex=yes&tid=' + tid + '&viewpid=' + pid + '&cp=' + o.getAttribute('page') + (ispreview ? '&from=preview' : '') + '\', \'post_' + pid + '\', \'ajaxwaitid\')">' + o.innerHTML + '</li>';
 				} else if(o.getAttribute('tid') && o.getAttribute('pid')) {
 					s += '<li style="margin-left:' + sub + 'em" onclick="ajaxget(\'forum.php?mod=viewthread&threadindex=yes&tid=' + o.getAttribute('tid') + '&viewpid=' + o.getAttribute('pid') + (ispreview ? '&from=preview' : '') + '\', \'post_' + pid + '\', \'ajaxwaitid\')">' + o.innerHTML + '</li>';
