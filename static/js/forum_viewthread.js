@@ -9,7 +9,7 @@ var replyreload = '', attachimgST = new Array(), zoomgroup = new Array(), zoomgr
 
 function attachimggroup(pid) {
 	if(!zoomgroupinit[pid]) {
-		for (var i = 0;i < aimgcount[pid].length;i++) {
+               for (let i = 0;i < aimgcount[pid].length;i++) {
 			zoomgroup['aimg_' + aimgcount[pid][i]] = pid;
 		}
 		zoomgroupinit[pid] = true;
@@ -21,7 +21,7 @@ function attachimgshow(pid, onlyinpost) {
 	aimgs = aimgcount[pid];
 	aimgcomplete = 0;
 	loadingcount = 0;
-	for (var i = 0;i < aimgs.length;i++) {
+       for (let i = 0;i < aimgs.length;i++) {
 		obj = $('aimg_' + aimgs[i]);
 		if(!obj) {
 			aimgcomplete++;
@@ -72,7 +72,7 @@ function attachimglstshow(pid, islazy, fid, showexif) {
 	if(typeof aimgcount == 'object' && $('imagelistthumb_' + pid)) {
 		for(pid in aimgcount) {
 			var imagelist = '';
-			for (var i = 0;i < aimgcount[pid].length;i++) {
+                       for (let i = 0;i < aimgcount[pid].length;i++) {
 				if(!$('aimg_' + aimgcount[pid][i]) || $('aimg_' + aimgcount[pid][i]).getAttribute('inpost') || parseInt(aimgcount[pid][i]) != aimgcount[pid][i]) {
 					continue;
 				}
@@ -153,7 +153,7 @@ function parsetag(pid) {
 	var havetag = false;
 	var tagfindarray = new Array();
 	var str = $('postmessage_'+pid).innerHTML.replace(/(^|>)([^<]+)(?=<|$)/ig, function($1, $2, $3, $4) {
-		for (var i in tagarray) {
+               for (let i in tagarray) {
 			if(tagarray[i] && $3.indexOf(tagarray[i]) != -1) {
 				havetag = true;
 				$3 = $3.replace(tagarray[i], '<h_ ' + i + '>');
@@ -531,7 +531,7 @@ var show_threadindex_data = '';
 function show_threadindex(pid, ispreview) {
 	if(!show_threadindex_data) {
                var s = '<div class="tindex"><h3>'+lng['index']+'</h3><ul>';
-		for (var i in $('threadindex').childNodes) {
+               for (let i in $('threadindex').childNodes) {
 			o = $('threadindex').childNodes[i];
 			if(o.tagName == 'A') {
 				var sub = o.getAttribute('sub').length * 2;
