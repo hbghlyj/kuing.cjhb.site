@@ -68,10 +68,10 @@
         });
         this.#chatChannel.bind('editpost', data => {
           if(data.tid==tid && jQuery(`#pid${data.pid}`).length){
-            ajaxget(`forum.php?mod=viewthread&tid=${tid}&viewpid=${data.pid}`, `post_${data.pid}`, 'ajaxwaitid', '', null, "if (typeof MathJax.typesetPromise === 'function') {MathJax.texReset();MathJax.typesetPromise([document.querySelector('#pid"+data.pid+" .t_f')]);}");
+            ajaxget(`forum.php?mod=viewthread&tid=${tid}&viewpid=${data.pid}`, `post_${data.pid}`, 'ajaxwaitid', '', null, "if (typeof MathJax.typesetPromise === 'function') {MathJax.texReset();MathJax.typesetPromise(['#pid"+data.pid+" :is(div.pcb>h2, td.t_f)'])}");
             if(data.subject){
               jQuery('#thread_subject').html(data.subject);
-              if(typeof MathJax!=='undefined' && typeof MathJax.typesetPromise==='function'){ MathJax.typesetPromise([jQuery('#thread_subject')[0]]); }
+              if(typeof MathJax!=='undefined' && typeof MathJax.typesetPromise==='function'){ MathJax.typesetPromise(['#thread_subject']) }
             }
             if(document.querySelector('input[name=pid]')?.value==data.pid && discuz_uid!=data.uid){
               showDialog(isChinese?'帖子已被编辑':'Post has been edited');
@@ -80,7 +80,7 @@
         });
         this.#chatChannel.bind('commentadd', data => {
           if(data.tid==tid && jQuery(`#pid${data.pid}`).length){
-            ajaxget('forum.php?mod=misc&action=commentmore&tid='+tid+'&pid='+data.pid, 'comment_'+data.pid, 'ajaxwaitid', '', null, "if (typeof MathJax.typesetPromise === 'function') {MathJax.typesetPromise([document.getElementById('comment_"+data.pid+"')]);}");
+            ajaxget('forum.php?mod=misc&action=commentmore&tid='+tid+'&pid='+data.pid, 'comment_'+data.pid, 'ajaxwaitid', '', null, "if (typeof MathJax.typesetPromise === 'function') {MathJax.typesetPromise(['#comment_"+data.pid+"'])}");
           }
         });
         this.#chatChannel.bind('deletepost', data => {
