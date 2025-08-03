@@ -2,6 +2,25 @@
   const isChinese = navigator.languages && navigator.languages.some(lang => ['zh','zh-CN','zh-TW','zh-HK','zh-SG'].includes(lang));
   const isMobile = typeof popup == 'object';
   function showError(msg){ if(isMobile){ popup.open(msg,'alert'); } else { alert(msg); } }
+  function appendreply(pid) {
+    $('post_new').style.display = '';
+    if (typeof MathJax.typesetPromise === 'function') {
+      MathJax.typesetPromise([$('postlist').appendChild($('post_new'))]);
+    }
+    const newpos = fetchOffset($('post_new'));
+    document.documentElement.scrollTop = newpos['top'];
+    addLou($('post_new'));
+    $('post_new').id = `post_${pid}`;
+    const div = document.createElement('div');
+    div.id = 'post_new';
+    div.style.display = 'none';
+    div.className = '';
+    $('postlistreply').appendChild(div);
+    if ($('postform')) {
+      $('postform').replysubmit.disabled = false;
+    }
+    showCreditPrompt();
+  }
   class PusherChatWidget {
     static instances = [];
     #pusher;
@@ -63,7 +82,7 @@
           const pageNumberElement=document.querySelector('div.pg>strong');
           const pageNumber=pageNumberElement?pageNumberElement.textContent.trim():1;
           if(data.tid==tid && data.page==pageNumber){
-            ajaxget(`forum.php?mod=viewthread&tid=${tid}&viewpid=${data.pid}`, 'post_new', 'ajaxwaitid', '', null, `appendreply(${data.pid})`);
+            ajaxget(`forum.php?mod=viewthread&tid=${tid}&viewpid=${data.pid}`, 'post_new', 'ajaxwaitid', '', null, () => appendreply(data.pid));
           }
         });
         this.#chatChannel.bind('editpost', data => {
