@@ -78,7 +78,7 @@ function PusherChatWidget(pusher, options) {
     });
     this._chatChannel.bind('editpost', function(data) {
       if(data.tid == tid && $(`pid${data.pid}`)) {
-        ajaxget(`forum.php?mod=viewthread&tid=${tid}&viewpid=${data.pid}`, `post_${data.pid}`, 'ajaxwaitid', '', null, "if (typeof MathJax.typesetPromise === 'function') {MathJax.texReset();MathJax.typesetPromise([document.querySelector('#pid"+data.pid+" .t_f')]);}");
+        ajaxget(`forum.php?mod=viewthread&tid=${tid}&viewpid=${data.pid}`, `post_${data.pid}`, 'ajaxwaitid', '', null, "if (typeof MathJax.typesetPromise === 'function') {MathJax.texReset();MathJax.typesetPromise([document.querySelector('#pid"+data.pid+" :is(div.pcb>h2, td.t_f)')]);}");
         if(data.subject){
           $('thread_subject').innerHTML=data.subject;
           if (typeof MathJax.typesetPromise === 'function') {MathJax.typesetPromise([$('thread_subject')]);}
