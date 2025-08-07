@@ -143,7 +143,7 @@ MULU.appendChild(close);
 const MULUSELECT = document.createElement("select");
 MULUSELECT.size = 0;
 function addLou(elem) {
-    elem.querySelectorAll('#postlist > div[id^="post_"]').forEach(lou => {
+    (elem ? [elem] : document.querySelectorAll('#postlist > div[id^="post_"]')).forEach(lou => {
         const option = document.createElement('option');
         option.value = lou.id;
         option.text = lou.querySelector('td.plc>div.pi>strong>a').firstChild.textContent + ' ' + lou.querySelector('div.authi>a.neiid').innerText;
@@ -169,7 +169,7 @@ MULUSELECT.addEventListener("change", function() {//楼层目录选择跳转
 });
 MULU.appendChild(MULUSELECT);
 $('ct').appendChild(MULU);
-addLou($('postlist'));
+addLou();
 
 window.addEventListener('scroll', debounce(function() {
     const posts = document.querySelectorAll('#postlist > div[id^="post_"]');

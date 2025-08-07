@@ -66,10 +66,10 @@
 					<script type="text/javascript" reload="1">simulateSelect('typeid_float');</script>
 				<!--{/if}-->
 				<!--{if $_GET[action] != 'reply' && $postinfo['subject'] != ''}-->
-					<span><input name="subject" id="subject" class="px" value="$postinfo[subject]" size="40" /></span>
+					<span><input name="subject" id="subject" class="px" value="$postinfo[subject]" /></span>
 				<!--{else}-->
 					<span id="subjecthide" class="z">RE: $thread[subject] [<a href="javascript:;" onclick="display('subjecthide');display('subjectbox');">{lang modify}</a>]</span>
-					<span id="subjectbox" style="display:none"><input name="subject" id="subject" class="px" value="" size="40" /></span>
+					<span id="subjectbox" style="display:none"><input name="subject" id="subject" class="px" value="" /></span>
 				<!--{/if}-->
 			</div>
 			<!--{if !$isfirstpost && $thread[special] == 5 && empty($firststand)}-->

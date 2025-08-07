@@ -251,7 +251,6 @@ details summary { color:blue; cursor:pointer; }
   }
   .ad .plc { height: 4px; }/*帖子分界线*/
   .m_c { width: 90vw; }/*浮动窗口*/
-  .m_c .tedt { width: 100%; }/*浮动窗口输入框*/
   .m_c .quote { width: 95%; }/*回帖浮动窗口引用那块*/
   #subjecthide { max-width: 80vw; }/*回帖浮动窗口标题 RE:... 那块*/
   .reason_slct { width: 100%; }/*评分理由选择*/
