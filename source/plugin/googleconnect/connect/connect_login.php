@@ -18,16 +18,20 @@ if(!in_array($op, array('init', 'callback', 'change'))) {
 $referer = dreferer();
 $referer = $referer && (strpos($referer, 'mod=register') === false) && (strpos($referer, 'mod=login') === false) ? $referer : 'index.php';
 
+if (empty($_POST['credential'])) {
+	showmessage('Invalid ID token', $referer);
+}
+
 require_once 'vendor/autoload.php';
 $client = new Google_Client(['client_id' => $_G['setting']['connectappid']]);
 $payload = $client->verifyIdToken($_POST['credential']);
-if ($payload) {
-  $gmail = $payload['email'];
-  $username = $payload['name'];
-} else {
-  showmessage('Invalid ID token', $referer);
+
+if (!$payload) {
+	showmessage('Invalid ID token', $referer);
 }
 
+$gmail = $payload['email'];
+$username = $payload['name'];
 if($op == 'callback') {
 	global $_G;
 	
