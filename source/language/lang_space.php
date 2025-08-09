@@ -232,7 +232,6 @@ $lang = array(
 	'viewthread_userinfo_friends' => '好友',
 	'viewthread_userinfo_digest' => '精华',
 	'viewthread_userinfo_digestposts' => '精华',
-	'viewthread_userinfo_credits' => '威望',
 	'viewthread_userinfo_readperm' => '阅读权限',
 	'viewthread_userinfo_regtime' => '注册时间',
 	'viewthread_userinfo_lastdate' => '最后登录',

@@ -29,11 +29,9 @@ if($_GET['op'] == 'base') {
 		loadcache(array('magics'));
 		foreach(C::t('common_credit_log')->fetch_all_by_uid($_G['uid'], 0, 10) as $log) {
 			$credits = array();
-			$havecredit = false;
 			$maxid = $minid = 0;
 			foreach($_G['setting']['extcredits'] as $id => $credit) {
 				if($log['extcredits'.$id]) {
-					$havecredit = true;
 					if($log['operation'] == 'RPZ') {
 						$credits[] = $credit['title'].lang('spacecp', 'credit_update_reward_clean');
 					} else {
@@ -47,9 +45,6 @@ if($_GET['op'] == 'base') {
 						}
 					}
 				}
-			}
-			if(!$havecredit) {
-				continue;
 			}
 			$log['credit'] = implode('<br/>', $credits);
 			if(in_array($log['operation'], array('RTC', 'RAC', 'STC', 'BTC', 'ACC', 'RCT', 'RCA', 'RCB'))) {

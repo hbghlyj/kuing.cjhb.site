@@ -38,7 +38,7 @@
 			<!--{/if}-->
 			<input type="hidden" name="handlekey" value="$_GET['handlekey']" />
 			<!--{hook/post_infloat_top}-->
-			<div class="pbt cl">
+			<div class="pbt cl" style="display: flex;">
 				<!--{if $_GET[action] == 'newthread' && ($threadsorts = $_G['forum'][threadsorts])}-->
 					<div class="ftid">
 						<select name="sortid" id="sortid" width="80" change="if($('sortid').value) {switchAdvanceMode('forum.php?mod=post&action=$_GET[action]&fid=$_G[fid]{if !empty($_G[tid])}&tid=$_G[tid]{/if}{if !empty($pid)}&pid=$pid{/if}{if !empty($modelid)}&modelid=$modelid{/if}&extra=$extra&sortid=' + $('sortid').value)}">
@@ -66,7 +66,7 @@
 					<script type="text/javascript" reload="1">simulateSelect('typeid_float');</script>
 				<!--{/if}-->
 				<!--{if $_GET[action] != 'reply' && $postinfo['subject'] != ''}-->
-					<span><input name="subject" id="subject" class="px" value="$postinfo[subject]" /></span>
+					<input name="subject" id="subject" class="px" value="$postinfo[subject]" style="flex-grow:1" />
 				<!--{else}-->
 					<span id="subjecthide" class="z">RE: $thread[subject] [<a href="javascript:;" onclick="display('subjecthide');display('subjectbox');">{lang modify}</a>]</span>
 					<span id="subjectbox" style="display:none"><input name="subject" id="subject" class="px" value="" /></span>

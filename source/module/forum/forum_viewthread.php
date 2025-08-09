@@ -1517,7 +1517,7 @@ function viewthread_numbercard($post) {
 	$numbercard = array();
 	foreach($_G['setting']['numbercard']['row'] as $key) {
 		if(substr($key, 0, 10) == 'extcredits') {
-			$numbercard[] = array('link' => 'home.php?mod=space&uid='.$post['uid'].'&do=profile', 'value' => $post[$key], 'lang' => lang('space', 'viewthread_userinfo_credits'));
+			$numbercard[] = array('link' => 'home.php?mod=space&uid='.$post['uid'].'&do=profile', 'value' => $post[$key], 'lang' => lang('space', 'credits'));
 		} else {
 			$getLink = getLinkByKey($key, $post, 1);
 			$numbercard[] = array('link' => $getLink['link'], 'value' => $getLink['value'], 'lang' => lang('space', 'viewthread_userinfo_'.$key));

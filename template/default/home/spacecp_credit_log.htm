@@ -3,8 +3,7 @@
 		<!--{hook/spacecp_credit_top}-->
 		<!--{subtemplate home/spacecp_credit_header}-->
 			<p class="tbmu bw0">
-				<a{if $_GET[suboperation] != 'creditrulelog'} class="a"{/if} href="home.php?mod=spacecp&ac=credit&op=log" hidefocus="true">{lang credit_log}</a><span class="pipe">|</span>
-				<a{if $_GET[suboperation] == 'creditrulelog'} class="a"{/if} href="home.php?mod=spacecp&ac=credit&op=log&suboperation=creditrulelog" hidefocus="true">{lang credit_log_sys}</a>
+				<a{if $_GET[suboperation] != 'creditrulelog'} class="a"{/if} href="home.php?mod=spacecp&ac=credit&op=log" hidefocus="true">{lang credit_log}</a><span class="pipe">|</span><a{if $_GET[suboperation] == 'creditrulelog'} class="a"{/if} href="home.php?mod=spacecp&ac=credit&op=log&suboperation=creditrulelog" hidefocus="true">{lang credit_log_sys}</a>
 			</p>
 			<!--{if $_GET[suboperation] != 'creditrulelog'}-->
 			<script type="text/javascript" src="{$_G[setting][jspath]}calendar.js?{VERHASH}"></script>
@@ -12,17 +11,6 @@
 				<div class="exfm" style="margin-top: 0;">
 					<table cellspacing="0" cellpadding="0">
 						<tr>
-							<th>{lang credits}:</th>
-							<td>
-								<span class="ftid">
-									<select id="exttype" name="exttype" class="ps" width="168">
-										<option value="0">{lang unlimited}</option>
-										<!--{loop $_G['setting']['extcredits'] $id $credit}-->
-										<option value="$id"{if $_GET[exttype]==$id} selected="selected"{/if}>$credit[title]</option>
-										<!--{/loop}-->
-									</select>
-								</span>
-							</td>
 							<th>{lang starttime_endtime}:</th>
 							<td>
 								<input type="text" name="starttime" class="px" size="11" value="$_GET[starttime]" onclick="showcalendar(event, this)" readonly="readonly" /> {lang credit_to} <input type="text" name="endtime" class="px" size="11" value="$_GET[endtime]" readonly="readonly" onclick="showcalendar(event, this)" />
@@ -39,6 +27,8 @@
 									</select>
 								</span>
 							</td>
+						</tr>
+						<tr>
 							<th>{lang operation}:</th>
 							<td><span class="ftid">$optypehtml</span></td>
 						</tr>
@@ -48,7 +38,6 @@
 						</tr>
 					</table>
 					<script type="text/javascript">
-						simulateSelect('exttype');
 						simulateSelect('income');
 						simulateSelect('optype');
 					</script>

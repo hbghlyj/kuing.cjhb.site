@@ -1629,7 +1629,7 @@ span.login_slct,td.tipcol a {white-space: nowrap;}
 	.dt .c { width: 50px; }
 
 	/* 用来展示数据的表格 */
-.tdat { width: 100%; border: 1px solid {COMMONBORDER}; }
+.tdat { border: 1px solid {COMMONBORDER}; }
 	.tdat th, .tdat td { padding: 4px 5px; border: 1px solid {COMMONBORDER}; }
 
 /* ==  um 公告 帮助 message 通用列表  lum -- um list == */
