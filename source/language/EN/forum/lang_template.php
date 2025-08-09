@@ -1273,7 +1273,6 @@ $lang = array (
 	'replystick_icon' => 'Stick',//'顶',
 	'search_forum'			=> 'Search Board',//'搜索版块',
 	'latest_images'			=> 'Latest images',//'最新图片',
-	'hot_thread'			=> 'Hot threads',//'热门帖子',
 	'my_order_collection'		=> 'My subscribed collections',//'我订阅的专辑',
 	'recommend_collection'		=> 'Recommended collections',//'淘专辑推荐',
 	'rank'				=> 'Rank',//'排名',
@@ -1318,8 +1317,6 @@ $lang = array (
 	'follow_spread'			=> 'Broadcast and follow',//'转播求扩散',
 	'share_digest'			=> 'Share push Digest',//'分享推精华',
 	'thread_collect'		=> 'Add to collection',//'淘好帖进专辑',
-	'maketoponce'			=> 'Make Top',//'顶一下',
-	'makebottomonce'		=> 'Make Bottom',//'踩一下',
 	'support_reply'			=> 'Support',//'支持',
 	'against_reply'			=> 'Not support',//'反对',
 	'pleaseinputpw'			=> ', Please enter a password',//'，请输入密码',
@@ -1334,7 +1331,6 @@ $lang = array (
 
 // Added by Valery Votintsev
 	'view_thread_textmode'		=> 'Text mode',//'文字模式',
-	'like'				=> 'Like',//'喜欢',
 	'in'				=> ' &nbsp;In',//'在',
 	'reply_num'			=> 'Replies',//'回复',
 	'loading'			=> 'Loading...',//'加载中...',
@@ -1344,7 +1340,6 @@ $lang = array (
 	'disable_post_parseurl'		=> 'Disable Parse URLs automatically',//'禁用 链接识别',
 	'disable_smilies'		=> 'Disable Smiles',//'禁用 表情',
 	'disable_discuzcode'		=> 'Disable BBCode',//'禁用 编辑器代码',
-	'modmenu'			=> 'Thread menu:',//'审核中',
 	'upload_time'			=> 'Upload Time',//'上传日期',
 );
 
