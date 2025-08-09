@@ -87,7 +87,7 @@ $lang = array(
 	'zodiac_11'		=> 'Dog',//'狗',
 	'zodiac_12'		=> 'Pig',//'猪',
 
-	'credits'		=> 'Exp',//'积分',
+	'credits'		=> 'Karma',//'积分',
 	'usergroup'		=> 'User Group',//'用户组',
 	'friends'		=> 'Friends',//'好友',
 	'blogs'			=> 'Blogs',//'日志',
@@ -253,7 +253,6 @@ $lang = array(
 	'viewthread_userinfo_friends'	=> 'Friends',//'好友',
 	'viewthread_userinfo_digest'	=> 'Digests',//'精华',
 	'viewthread_userinfo_digestposts'	=> 'Digests',//'精华',
-	'viewthread_userinfo_credits'	=> 'Reputation',//'威望',
 	'viewthread_userinfo_readperm'	=> 'Read permission',//'阅读权限',
 	'viewthread_userinfo_regtime'	=> 'Reg time',//'注册时间',
 	'viewthread_userinfo_lastdate'	=> 'Last login',//'最后登录',
