@@ -66,7 +66,7 @@ if($_GET['suboperation'] == 'creditrulelog') {
 	if($_GET['optype'] && in_array($_GET['optype'], $optypes)) {
 		$optype = $_GET['optype'];
 	}
-	$exttype = intval($_GET['exttype']);
+	$exttype = 1;
 
 	$income = intval($_GET['income']);
 	$count = C::t('common_credit_log')->count_by_search($_G['uid'], $optype, $beginunixstr, $endunixstr, $exttype, $income, $_G['setting']['extcredits']);
