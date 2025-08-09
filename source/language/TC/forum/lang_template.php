@@ -832,7 +832,6 @@ $lang = array (
   'trade_type_transport_physical' => '支付給物流公司',
   'postappend' => '補充',
   'admin_operation_explain' => '操作說明',
-  'admin_rate' => '評分扣除自身相應積分',
   'click_here' => '點擊這裡',
   'push_succeed' => '推送成功',
   'rate' => '評分',

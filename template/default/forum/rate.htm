@@ -26,22 +26,18 @@
 		<div class="c">
 			<table cellspacing="0" cellpadding="0" class="dt mbm">
 				<tr>
-					<th>&nbsp;</th>
-					<th width="65">&nbsp;</th>
-					<th width="65">{lang rate_raterange}</th>
-					<th width="65">{lang rate_todayleft}</th>
+					<th>{$_G['setting']['extcredits'][1][title]}</th>
+					<th>{lang rate_raterange}</th>
+					<th>{lang rate_todayleft}</th>
 				</tr>
-				<!--{eval $rateselfflag = 0;}-->
 				<!--{loop $ratelist $id $options}-->
 					<tr>
-						<td>{$_G['setting']['extcredits'][$id][img]} {$_G['setting']['extcredits'][$id][title]}</td>
 						<td>
-							<input type="text" name="score$id" id="score$id" class="px z" value="0" style="width: 25px;" />
+							<input type="text" name="score$id" id="score$id" class="px z" value="0" size="2" />
 							<a href="javascript:;" class="dpbtn" onclick="showselect(this, 'score$id', 'scoreoption$id')">^</a>
 							<ul id="scoreoption$id" style="display:none">$options</ul>
 						</td>
 						<td>{$_G['group']['raterange'][$id]['min']} ~ {$_G['group']['raterange'][$id]['max']}</td>
-						<!--{eval $rateselfflag = $_G['group']['raterange'][$id]['isself'] ? 1 : $rateselfflag;}-->
 						<td>$maxratetoday[$id]</td>
 					</tr>
 				<!--{/loop}-->
@@ -75,9 +71,6 @@
 					</tr>
 				</table>
 			</div>
-			<!--{if $rateselfflag}-->
-				<div class="xg1">{lang admin_rate}</div>
-			<!--{/if}-->
 		</div>
 		<p class="o pns">
 			<label for="sendreasonpm"><input type="checkbox" name="sendreasonpm" id="sendreasonpm" class="pc"{if $_G['group']['reasonpm'] == 2 || $_G['group']['reasonpm'] == 3} checked="checked" disabled="disabled"{/if} />{lang admin_pm}</label>
