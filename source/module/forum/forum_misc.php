@@ -1620,7 +1620,7 @@ if($_GET['action'] == 'votepoll' && submitcheck('pollsubmit', 1)) {
 		$fieldarr['recommends'] = -1;
 		$fieldarr['recommend_add'] = -1;
 		C::t('forum_thread')->increase($_G['tid'], $fieldarr);
-		updatemembercount($thread['authorid'], array('extcredits1' => -1));
+		updatemembercount($thread['authorid'], array('extcredits1' => -1), 1, 'PRC', $_GET['pid']);
 		showmessage('follow_cancel_succeed', extraparam:array('msgtype' => 3, 'extrajs' => '<script type="text/javascript" reload="1">recommendupdate(-1);</script>'));
 	}else{
 		if($_G['setting']['recommendthread']['daycount']){
@@ -1635,15 +1635,15 @@ if($_GET['action'] == 'votepoll' && submitcheck('pollsubmit', 1)) {
 		if($_GET['do'] == 'add') {
 			$heatadd = 'recommend_add=recommend_add+1';
 			$fieldarr['recommend_add'] = 1;
-			updatemembercount($thread['authorid'], array('extcredits1' => 1));
+			updatemembercount($thread['authorid'], array('extcredits1' => 1), 1, 'PRC', $_GET['pid']);
 		} else {
 			$heatadd = 'recommend_sub=recommend_sub+1';
 			$fieldarr['recommend_sub'] = 1;
-			updatemembercount($thread['authorid'], array('extcredits1' => -1));
+			updatemembercount($thread['authorid'], array('extcredits1' => -1), 1, 'PRC', $_GET['pid']);
 		}
 	
-			update_threadpartake($_G['tid']);
-			$fieldarr['heats'] = 0;
+		update_threadpartake($_G['tid']);
+		$fieldarr['heats'] = 0;
 		$fieldarr['recommends'] = $_G['group']['allowrecommend'];
 		C::t('forum_thread')->increase($_G['tid'], $fieldarr);
 		C::t('forum_memberrecommend')->insert(array('tid'=>$_G['tid'], 'recommenduid'=>$_G['uid'], 'dateline'=>$_G['timestamp']));
@@ -1806,14 +1806,14 @@ if($_GET['action'] == 'votepoll' && submitcheck('pollsubmit', 1)) {
 			DB::query('UPDATE '.DB::table('forum_hotreply_number').' SET '.$typename.'='.$typename.'-1, total=total-1 WHERE pid='.$post['pid'].' AND tid='.$post['tid']);
 			DB::query('DELETE FROM '.DB::table('forum_hotreply_number')." WHERE pid='$post[pid]' AND tid='$post[tid]' AND total=0");
 			C::t('forum_hotreply_member')->delete_by_uid_pid($_G['uid'], $post['pid']);
-			updatemembercount($post['authorid'], array('extcredits1' => $typeid ? -1 : 1));
+			updatemembercount($post['authorid'], array('extcredits1' => $typeid ? -1 : 1), 1, 'PRC', $_GET['pid']);
 			showmessage('follow_cancel_succeed', '', array(), array('msgtype' => 3, 'extrajs' => '<script type="text/javascript" reload="1">postreviewcancel('.$post['pid'].', '.$typeid.',"'.$_G['username'].'");</script>'));
 		} else {
 			// changing vote from old attitude to new
 			$oldtypename = $typeid ? 'against' : 'support';
 			DB::query('UPDATE '.DB::table('forum_hotreply_number')." SET $typename=$typename+1, $oldtypename=$oldtypename-1 WHERE pid=$post[pid] AND tid=$post[tid]");
 			DB::query('UPDATE '.DB::table('forum_hotreply_member')." SET attitude='$typeid' WHERE pid='$post[pid]' AND uid='$_G[uid]'");
-			updatemembercount($post['authorid'], array('extcredits1' => $typeid ? 2 : -2));
+			updatemembercount($post['authorid'], array('extcredits1' => $typeid ? 2 : -2), 1, 'PRC', $_GET['pid']);
 			showmessage('thread_poll_succeed', '', array(), array('msgtype' => 3, 'extrajs' => '<script type="text/javascript" reload="1">postreviewcancel('.$post['pid'].','.$oldtype.',"'.$_G['username'].'");postreviewupdate('.$post['pid'].', '.$typeid.',"'.$_G['username'].'");</script>'));
 		}
 	} else {
@@ -1826,7 +1826,7 @@ if($_GET['action'] == 'votepoll' && submitcheck('pollsubmit', 1)) {
 			'attitude' => $typeid,
 		));
 
-		updatemembercount($post['authorid'], array('extcredits1' => $typeid ? 1 : -1));
+		updatemembercount($post['authorid'], array('extcredits1' => $typeid ? 1 : -1), 1, 'PRC', $_GET['pid']);
 		showmessage('thread_poll_succeed', '', array(), array('msgtype' => 3, 'extrajs' => '<script type="text/javascript" reload="1">postreviewupdate('.$post['pid'].', '.$typeid.',"'.$_G['username'].'");</script>'));
 	}
 } elseif($_GET['action'] == 'hidden') {
