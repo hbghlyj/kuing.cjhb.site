@@ -3,26 +3,7 @@ const { liteClient: algoliasearch } = window['algoliasearch/lite'];
 window.addEventListener('load', function () {
 	var search = instantsearch({
 		indexName: 'kuing',
-		searchClient: algoliasearch('KZZUGXICHQ', 'cfaa3668ecea0bce830d62fc30f4d0dd'),
-		routing: {
-			router: instantsearch.routers.history({ writeDelay: 1000 }),
-			stateMapping: {
-				stateToRoute(indexUiState) {
-					return {
-						s: indexUiState['kuing'].query,
-						page: indexUiState['kuing'].page
-					}
-				},
-				routeToState(routeState) {
-					const indexUiState = {};
-					indexUiState['kuing'] = {
-						query: routeState.s,
-						page: routeState.page
-					};
-					return indexUiState;
-				}
-			}
-		}
+		searchClient: algoliasearch('KZZUGXICHQ', 'cfaa3668ecea0bce830d62fc30f4d0dd')
 	});
 
 	search.addWidgets([
@@ -129,11 +110,12 @@ window.addEventListener('load', function () {
 			}
 		})
 	]);
-
-	document.querySelector("#algolia-search-box").addEventListener('click', function () {
+	search._initialResults = {
+		kuing: {}
+	};
+	search.start();
+	document.querySelector("#algolia-search-box input[type='search']").addEventListener('click', function () {
 		document.getElementById('ais-facets').style.display = '';
-		search.start();
-		document.querySelector("#algolia-search-box input[type='search']").select()
 	}, {once: true});
 });
 }

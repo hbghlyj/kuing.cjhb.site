@@ -115,14 +115,14 @@
 				</div>
 
 				<div id="nv">
+					<ul>
+						<!--{loop $_G['setting']['navs'] $nav}-->
+						<!--{if is_array($nav) && $nav['available'] && (!$nav['level'] || ($nav['level'] == 1 && $_G['uid']) || ($nav['level'] == 2 && $_G['adminid'] > 0) || ($nav['level'] == 3 && $_G['adminid'] == 1))}--><li {if $mnid == $nav[navid] || substr($_SERVER['REQUEST_URI'], 1) == str_replace('./', '', $nav[filename])}class="a" {/if}$nav[nav]></li><!--{/if}-->
+						<!--{/loop}-->
+					</ul>
 					<div class="algolia-search-box-wrapper">
 						<div id="algolia-search-box"></div>
 					</div>
-					<ul>
-						<!--{loop $_G['setting']['navs'] $nav}-->
-							<!--{if is_array($nav) && $nav['available'] && (!$nav['level'] || ($nav['level'] == 1 && $_G['uid']) || ($nav['level'] == 2 && $_G['adminid'] > 0) || ($nav['level'] == 3 && $_G['adminid'] == 1))}--><li {if $mnid == $nav[navid] || substr($_SERVER['REQUEST_URI'], 1) == str_replace('./', '', $nav[filename])}class="a" {/if}$nav[nav]></li><!--{/if}-->
-						<!--{/loop}-->
-					</ul>
 					<!--{hook/global_nav_extra}-->
 				</div>
 				<!--{if !empty($_G['setting']['plugins']['jsmenu'])}-->

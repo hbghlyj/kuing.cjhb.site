@@ -661,27 +661,18 @@ body, input, button, select { font: {FONTSIZE} {FONT}; color: {TABLETEXT}; }
 
 	.algolia-search-box-wrapper {
 		position: relative;
-		flex: 1;
 	}
 
-	#algolia-search-box:empty, #algolia-search-box input {
+	#algolia-search-box input {
 		height: 29px;
 		margin-top: 2px;
 		margin-right: 2px;
 		border-radius: 14px;
-	}
-	#algolia-search-box:empty {
-		background: #fffc url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24'%3e%3cpath fill='%23444' d='M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z'/%3e%3c/svg%3e") no-repeat right 50%;
-		width: 29px;
-		padding-left: 50px;
-		padding-right: 2px;
-		cursor: text;
-		box-shadow: inset 4px 4px 6px 0px rgba(0, 0, 0, 0.4);
-	}
-	#algolia-search-box input {
-		background: #fff url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24'%3e%3cpath fill='%23444' d='M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z'/%3e%3c/svg%3e") no-repeat right 50%;
 		padding: 4px 8px;
 		border: none;
+	}
+	#algolia-search-box input:empty {
+		background: #fff url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24'%3e%3cpath fill='%23444' d='M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z'/%3e%3c/svg%3e") no-repeat right 50%;
 	}
 	.ais-SearchBox-form {
 		display: block;
@@ -913,15 +904,9 @@ body, input, button, select { font: {FONTSIZE} {FONT}; color: {TABLETEXT}; }
   #nv {
     display: flex;
     gap: 20px;
-    padding-left: 20px;
   }
   #nv ul {
     display: flex;
-  }
-  #algolia-search-box:empty {
-    width: 100%;
-    box-sizing: border-box;
-	border-radius: 14px;
   }
 			#nv { overflow: hidden; height: 33px; {MENUBGCODE}; }
 				#nv li { padding-right: 1px; height: 33px; line-height: 33px; background: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='1' height='33'%3e%3cpath fill='%23fff' fill-opacity='0.2' d='M0 7h1v20H0z'/%3e%3c/svg%3e") no-repeat 100% 0; font-weight: 700; font-size: 14px; }
