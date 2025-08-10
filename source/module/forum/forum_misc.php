@@ -1650,7 +1650,7 @@ if($_GET['action'] == 'votepoll' && submitcheck('pollsubmit', 1)) {
 		$recommendv = $_G['group']['allowrecommend'] > 0 ? '+'.$_G['group']['allowrecommend'] : $_G['group']['allowrecommend'];
 		if($_G['setting']['recommendthread']['daycount']) {
 			$daycount = $_G['setting']['recommendthread']['daycount'] - $recommendcount;
-			showmessage('recommend_daycount_succeed', '', array('recommendv' => $recommendv, 'recommendc' => $thread['recommends'], 'daycount' => $daycount), array('msgtype' => 3));
+			showmessage('recommend_daycount_succeed', '', array('recommendv' => $recommendv, 'recommendc' => $thread['recommends'], 'daycount' => $daycount), array('msgtype' => 3, 'extrajs' => '<script type="text/javascript" reload="1">recommendupdate(1);</script>'));
 		} else {
 			showmessage('recommend_succeed', '', array('recommendv' => $recommendv, 'recommendc' => $thread['recommends']), array('msgtype' => 3, 'extrajs' => '<script type="text/javascript" reload="1">recommendupdate(1);</script>'));
 		}
