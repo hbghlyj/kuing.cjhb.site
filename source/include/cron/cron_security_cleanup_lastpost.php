@@ -17,9 +17,17 @@ foreach($queryf as $forum) {
 	$thread['shortsubject'] = cutstr($thread['subject'], 80);
 	$lastpost = "{$thread['tid']}\t{$thread['shortsubject']}\t{$thread['lastpost']}\t{$thread['lastposter']}";
 
-	C::t('forum_forum')->update($forum['fid'], array('lastpost' => $lastpost));
-	if($forum['type'] == 'sub') {
-		C::t('forum_forum')->update($forum['fup'], array('lastpost' => $lastpost));
-	}
+        C::t('forum_forum')->update($forum['fid'], array('lastpost' => $lastpost));
+        if($forum['type'] == 'sub') {
+                $parent = C::t('forum_forum')->fetch_info_by_fid($forum['fup']);
+                $parent_lastpost = 0;
+                if(!empty($parent['lastpost'])) {
+                        $tmp = explode("\t", $parent['lastpost']);
+                        $parent_lastpost = intval($tmp[2]);
+                }
+                if($thread['lastpost'] > $parent_lastpost) {
+                        C::t('forum_forum')->update($forum['fup'], array('lastpost' => $lastpost));
+                }
+        }
 }
 ?>
