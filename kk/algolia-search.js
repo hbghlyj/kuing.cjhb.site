@@ -1,6 +1,6 @@
+import "https://unpkg.com/instantsearch.js";
 import {liteClient} from "https://unpkg.com/algoliasearch/dist/lite/builds/browser.min.js?module";
 export function initSearch(lang, forumlist) {
-window.addEventListener('load', function () {
 	var search = instantsearch({
 		indexName: 'kuing',
 		searchClient: liteClient('KZZUGXICHQ', 'cfaa3668ecea0bce830d62fc30f4d0dd')
@@ -117,5 +117,4 @@ window.addEventListener('load', function () {
 	document.querySelector("#algolia-search-box input[type='search']").addEventListener('click', function () {
 		document.getElementById('ais-facets').style.display = '';
 	}, {once: true});
-});
 }
