@@ -103,6 +103,7 @@ window.MathJax = {
     mtextInheritFont: true
   },
   output: {
+    displayOverflow: 'linebreak',
     fontPath: 'https://unpkg.com/@mathjax/mathjax-newcm-font@4.0.0'
   }
 };
