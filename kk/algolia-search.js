@@ -1,9 +1,9 @@
-function initSearch(lang, forumlist) {
-const { liteClient: algoliasearch } = window['algoliasearch/lite'];
+import {liteClient} from "https://unpkg.com/algoliasearch/dist/lite/builds/browser.min.js?module";
+export function initSearch(lang, forumlist) {
 window.addEventListener('load', function () {
 	var search = instantsearch({
 		indexName: 'kuing',
-		searchClient: algoliasearch('KZZUGXICHQ', 'cfaa3668ecea0bce830d62fc30f4d0dd')
+		searchClient: liteClient('KZZUGXICHQ', 'cfaa3668ecea0bce830d62fc30f4d0dd')
 	});
 
 	search.addWidgets([

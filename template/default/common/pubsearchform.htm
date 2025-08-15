@@ -23,10 +23,10 @@
 		</div>
 	</aside>
 </div>
-<script src="https://unpkg.com/algoliasearch/dist/lite/builds/browser.umd.js"></script>
 <script src="https://unpkg.com/instantsearch.js"></script>
-<script src="/kk/algolia-search.js?{VERHASH}"></script>
-<script>initSearch({search:"{lang search}", no_results:"{lang no_results}", less:"{lang less}", more:"{lang more}", replies:"{lang replies}"},{
+<script type="module">
+import { initSearch } from "/kk/algolia-search.js?{VERHASH}";
+initSearch({search:"{lang search}", no_results:"{lang no_results}", less:"{lang less}", more:"{lang more}", replies:"{lang replies}"},{
 <!--{eval loadcache('forums');}-->
 <!--{loop $_G['cache']['forums'] $value}-->
 	<!--{if $value['type'] == 'sub' || $value['type'] == 'forum'}-->
