@@ -65,10 +65,9 @@ font-weight: normal;
 @font-face {font-family: zh; font-weight: bold; src: local("PingFangSC-Semibold"), local("Noto Sans SC Bold"), local("Microsoft YaHei Bold"), local("Microsoft JhengHei Bold"), local("MingLiU Bold");}
 </style>
 <!--{if $is_windows_chrome && !$is_old_chrome}-->
-<script type="module" defer>
-	import("https://unpkg.com/country-flag-emoji-polyfill@0.1.8/dist/index.mjs").then(module => {
-		module.polyfillCountryFlagEmojis();
-	});
+<script type="module" async>
+	import { polyfillCountryFlagEmojis } from "https://unpkg.com/country-flag-emoji-polyfill@0.1.8/dist/index.mjs";
+	polyfillCountryFlagEmojis();
 </script>
 <!--{/if}-->
 <!--{eval include './kk/mathjax.php';}-->
