@@ -53,12 +53,16 @@ window.MathJax = {
     ignoreHtmlClass: 'blockcode',
     menuOptions: {
       settings: {
+        enrich: false,
+        assistiveMml: false,
+        speech: false,
+        braille: false,
+        subtitles: false,
         zoom: "DoubleClick"
       }
     },
     processHtmlClass: 'tex2jax_process',
     renderActions: {
-      assistiveMml: [],
       addTeX: [151,
         (doc) => {
             for (const math of doc.math) {
