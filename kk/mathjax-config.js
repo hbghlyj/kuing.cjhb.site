@@ -53,11 +53,11 @@ window.MathJax = {
     ignoreHtmlClass: 'blockcode',
     menuOptions: {
       settings: {
+        texHints: false,
         enrich: false,
         assistiveMml: false,
         speech: false,
         braille: false,
-        subtitles: false,
         zoom: "DoubleClick"
       }
     },

@@ -20,4 +20,4 @@
   <?php endif; ?>
   window.MathJax.svg.scale = <?php if(defined("IN_MOBILE")) { ?>0.9<?php } else { ?>1.1<?php } ?>;
 </script>
-<script src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-svg.js" defer></script>
+<script src="https://unpkg.com/mathjax@4.0.0/tex-svg.js" defer></script>
