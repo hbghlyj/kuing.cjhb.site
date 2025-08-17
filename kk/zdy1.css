@@ -6,8 +6,11 @@
     line-height: 20px;
     overflow: hidden;
     white-space: nowrap;
-    /*text-overflow: ellipsis;*/
 }
+.category_newlist li mjx-container[jax="SVG"] mjx-break {
+    white-space: nowrap;
+}
+
 .newimgbox>.slidebox_grid,
 .newimgbox>.slidebox_grid>.slideouter,
 .newimgbox>.slidebox_grid>table,
