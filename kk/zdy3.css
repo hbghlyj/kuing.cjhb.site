@@ -305,3 +305,7 @@ a.slashed::before{
     transform: translateY(-50%) rotate(45deg);
     pointer-events: none;
 }
+/*相关帖子 一行一链接不断行*/
+.mtw.mbw .xl.xl2.cl li mjx-container[jax="SVG"], .mtw.mbw .xl.xl2.cl li mjx-container[jax="SVG"] mjx-break {
+    white-space: nowrap;
+}
