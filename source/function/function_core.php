@@ -137,7 +137,7 @@ function daddslashes($string, $force = 1) {
 			unset($string[$key]);
 			$string[addslashes($key)] = daddslashes($val, $force);
 		}
-	} else {
+	} elseif($string) {
 		$string = addslashes($string);
 	}
 	return $string;
