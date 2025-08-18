@@ -10,7 +10,7 @@
 <div class="tip">
 	<dt id="messagetext">
 		<p>$show_message</p>
-		<!--{if $_G['forcemobilemessage']}-->
+		<!--{if isset($_G['forcemobilemessage'])}-->
 		<p>
 			<a href="{$_G['setting']['mobile']['pageurl']}" class="mtn">{lang continue}</a><br />
 			<a href="javascript:history.back();">{lang goback}</a>
@@ -35,7 +35,7 @@
 </div>
 <div class="jump_c">
 	<div>$show_message</div>
-	<!--{if $_G['forcemobilemessage']}-->
+	<!--{if isset($_G['forcemobilemessage'])}-->
 	<div class="mt10">
 		<a href="{$_G['setting']['mobile']['pageurl']}">{lang continue}</a><br />
 		<a href="javascript:history.back();">{lang goback}</a>

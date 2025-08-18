@@ -711,7 +711,7 @@ function template($file, $templateid = 0, $tpldir = '', $gettplfile = 0, $primal
 	$templateid = $templateid ? $templateid : (defined('TEMPLATEID') ? TEMPLATEID : '');
 	$filebak = $file;
 
-	if((constant('HOOKTYPE') == 'hookscriptmobile' && defined('IN_MOBILE') && !defined('TPL_DEFAULT') && strpos($file, $_G['mobiletpl'][IN_MOBILE].'/') === false || (isset($_G['forcemobilemessage']) && $_G['forcemobilemessage'])) || defined('IN_PREVIEW')) {
+	if((constant('HOOKTYPE') == 'hookscriptmobile' && defined('IN_MOBILE') && !defined('TPL_DEFAULT') && strpos($file, $_G['mobiletpl'][IN_MOBILE].'/') === false || isset($_G['forcemobilemessage'])) || defined('IN_PREVIEW')) {
 		if(defined('IN_MOBILE') && constant('IN_MOBILE') == 2) {
 			$oldfile .= !empty($_G['inajax']) && ($oldfile == 'common/header' || $oldfile == 'common/footer') ? '_ajax' : '';
 		}
