@@ -39,9 +39,6 @@ function guiwei(ee) {//归位图片
 for (let item of document.getElementsByTagName('bbr')) {//HTML模式下用<bbr>免打<br>
     item.innerHTML = item.innerHTML.replace(/\r\n/g, "<br />").replace(/\n/g, "<br />").replace(/\r/g, "<br />");
 }
-for (let item of document.getElementsByClassName('blockcode')) {//去br等 + 代码显示
-    item.innerHTML = item.innerHTML.replace(/<\/li>/g, "\n</li>");//在php那里去掉\r后没了<br>但复制代码就没了换行，代码块加回去
-}
 document.querySelectorAll('.t_f').forEach(post => {//解决mathjax3复制多行代码多余空行
     post.querySelectorAll('br').forEach(br => {
         if (br.nextSibling && br.nextSibling.nodeType === Node.TEXT_NODE) {
@@ -49,6 +46,9 @@ document.querySelectorAll('.t_f').forEach(post => {//解决mathjax3复制多行�
         }
     });
 });
+for (let item of document.getElementsByClassName('blockcode')) {//去br等 + 代码显示
+    item.innerHTML = item.innerHTML.replace(/<\/li>/g, "\n</li>");//在php那里去掉\r后没了<br>但复制代码就没了换行，代码块加回去
+}
 document.querySelectorAll('.plc .pi').forEach(plcpi => {//在帖子信息栏添加显示公式代码按钮
     const eye = document.createElement("a");
     eye.addEventListener("click", function(){
