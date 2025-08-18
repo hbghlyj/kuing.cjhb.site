@@ -37,7 +37,6 @@ function dshowmessage($message, $url_forward = '', $values = array(), $extrapara
 		'login'		=> false,
 		'handle'	=> false,
 		'extrajs'	=> '',
-		'mobileextrajs'	=> '',
 		'striptags'	=> true,
 	);
 
@@ -58,10 +57,6 @@ function dshowmessage($message, $url_forward = '', $values = array(), $extrapara
 		unset($extraparam['showdialog']);
 		unset($extraparam['closetime']);
 		unset($extraparam['extrajs']);
-		if ($extraparam['mobileextrajs']) {
-			$extraparam['extrajs'] = $extraparam['mobileextrajs'];
-		}
-
 		if(!$url_forward && dreferer() && defined('IN_MOBILE') && constant('IN_MOBILE') == 1) {
 			$url_forward = $referer = dreferer();
 		}
