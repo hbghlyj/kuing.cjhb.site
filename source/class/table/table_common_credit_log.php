@@ -20,17 +20,20 @@ class table_common_credit_log extends discuz_table
 
 		parent::__construct();
 	}
-	public function fetch_by_operation_relatedid($operation, $relatedid) {
-		$relatedid = dintval($relatedid, true);
-		$parameter = array($this->_table, $operation, $relatedid);
-		$wherearr = array();
-		$wherearr[] = is_array($operation) && $operation ? 'operation IN(%n)' : 'operation=%s';
-		$wherearr[] = is_array($relatedid) && $relatedid ? 'relatedid IN(%n)' : 'relatedid=%d';
-		return DB::fetch_all('SELECT * FROM %t WHERE '.implode(' AND ', $wherearr), $parameter);
-	}
-	public function fetch_all_by_operation($operation, $start = 0, $limit = 0) {
-		return DB::fetch_all('SELECT * FROM %t WHERE operation=%s ORDER BY dateline DESC '.DB::limit($start, $limit), array($this->_table, $operation));
-	}
+        public function fetch_by_operation_relatedid($operation, $relatedid) {
+                $relatedid = dintval($relatedid, true);
+                $parameter = array($this->_table, $operation, $relatedid);
+                $wherearr = array();
+                $wherearr[] = is_array($operation) && $operation ? 'operation IN(%n)' : 'operation=%s';
+                $wherearr[] = is_array($relatedid) && $relatedid ? 'relatedid IN(%n)' : 'relatedid=%d';
+                return DB::fetch_all('SELECT * FROM %t WHERE '.implode(' AND ', $wherearr), $parameter);
+        }
+       public function fetch_last_by_uid_operation_relatedid($uid, $operation, $relatedid) {
+               return DB::fetch_first('SELECT * FROM %t WHERE uid=%d AND operation=%s AND relatedid=%d ORDER BY dateline DESC LIMIT 1', array($this->_table, $uid, $operation, $relatedid));
+       }
+        public function fetch_all_by_operation($operation, $start = 0, $limit = 0) {
+                return DB::fetch_all('SELECT * FROM %t WHERE operation=%s ORDER BY dateline DESC '.DB::limit($start, $limit), array($this->_table, $operation));
+        }
 	public function fetch_all_by_uid_operation_relatedid($uid, $operation, $relatedid) {
 		$parameter = array($this->_table);
 		$wherearr = array();

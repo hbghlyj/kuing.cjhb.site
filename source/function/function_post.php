@@ -425,14 +425,37 @@ function updatepostcredits($operator, $uidarray, $action, $fid = 0) {
 		} elseif($action == 'post') {
 			$extsql = array('threads' => $opnum, 'posts' => $opnum);
 		}
-		if($uid == $_G['uid']) {
-			updatecreditbyaction($action, $uid, $extsql, '', $opnum, 1, $fid);
-		} elseif(empty($uid)) {
-			continue;
-		} else {
-			batchupdatecredit($action, $uid, $extsql, $opnum, $fid);
-		}
-	}
+               if($operator == '-' && in_array($action, array('post', 'reply'))) {
+                       // Revert per-action credits when posts are deleted without re-running the rule
+                       $credit = credit::instance();
+                       $rule = $credit->getrule($action, $fid);
+                       if($rule && $uid) {
+                               $log = C::t('common_credit_log')->fetch_last_by_uid_operation_relatedid($uid, 'RUL', $rule['rid']);
+                               $today = strtotime(dgmdate(TIMESTAMP, 'Y-m-d'));
+                               if($log && $log['dateline'] >= $today) {
+                                       $creditarr = array();
+                                       for($i = 1; $i <= 8; $i++) {
+                                               if(isset($_G['setting']['extcredits'][$i]) && $rule['extcredits'.$i]) {
+                                                       $creditarr['extcredits'.$i] = -$rule['extcredits'.$i];
+                                               }
+                                       }
+                                       if($creditarr) {
+                                               updatemembercount($uid, $creditarr);
+                                       }
+                                       C::t('common_credit_log')->delete($log['logid']);
+                               }
+                       }
+                       if($extsql) {
+                               C::t('common_member_count')->increase($uid, $extsql);
+                       }
+               } elseif($uid == $_G['uid']) {
+                       updatecreditbyaction($action, $uid, $extsql, '', $opnum, 1, $fid);
+               } elseif(empty($uid)) {
+                       continue;
+               } else {
+                       batchupdatecredit($action, $uid, $extsql, $opnum, $fid);
+               }
+       }
 	if($operator == '+' && ($action == 'reply' || $action == 'post')) {
 		C::t('common_member_status')->update(array_keys($uidarr), array('lastpost' => TIMESTAMP), 'UNBUFFERED');
 	}
