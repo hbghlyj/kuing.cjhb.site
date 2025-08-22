@@ -587,9 +587,9 @@ class model_forum_post extends discuz_model {
 		}*/
 
 
-		if($this->thread['displayorder'] >= 0) {
-			updatepostcredits('-', $this->post['authorid'], ($isfirstpost ? 'post' : 'reply'), $this->forum['fid']);
-		}
+               if($this->thread['displayorder'] >= 0) {
+                       updatepostcredits('-', array(array('uid' => $this->post['authorid'], 'dateline' => $this->post['dateline'])), ($isfirstpost ? 'post' : 'reply'), $this->forum['fid']);
+               }
 
 
 		if(!$this->param['handlereplycredit']) {

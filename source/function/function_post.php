@@ -406,56 +406,76 @@ function checksmilies($message, $smileyoff) {
 	}
 }
 
+function reversepostcredit($uid, $action, $fid, $dateline) {
+	global $_G;
+	$credit = credit::instance();
+	$rule = $credit->getrule($action, $fid);
+	if($rule && $uid && $dateline) {
+		$log = C::t('common_credit_log')->fetch_by_uid_operation_relatedid_dateline($uid, 'RUL', $rule['rid'], $dateline);
+		if($log) {
+			$creditarr = array();
+			for($i = 1; $i <= 8; $i++) {
+				if(isset($_G['setting']['extcredits'][$i]) && $rule['extcredits'.$i]) {
+					$creditarr['extcredits'.$i] = -$rule['extcredits'.$i];
+				}
+			}
+			if($creditarr) {
+				updatemembercount($uid, $creditarr);
+			}
+			C::t('common_credit_log')->delete($log['logid']);
+		}
+	}
+}
+
 function updatepostcredits($operator, $uidarray, $action, $fid = 0) {
 	global $_G;
 	$val = $operator == '+' ? 1 : -1;
-	$extsql = array();
 	if(empty($uidarray)) {
 		return false;
 	}
-	$uidarray = (array)$uidarray;
 	$uidarr = array();
-	foreach($uidarray as $uid) {
-		$uidarr[$uid] = !isset($uidarr[$uid]) ? 1 : $uidarr[$uid]+1;
-	}
-	foreach($uidarr as $uid => $coef) {
-		$opnum = $val*$coef;
-		if($action == 'reply') {
-			$extsql = array('posts' => $opnum);
-		} elseif($action == 'post') {
-			$extsql = array('threads' => $opnum, 'posts' => $opnum);
+	if($operator == '-' && in_array($action, array('post', 'reply'))) {
+		foreach((array)$uidarray as $u) {
+			if(is_array($u)) {
+				$uid = $u['uid'];
+				$posttime = $u['dateline'];
+			} else {
+				$uid = $u;
+				$posttime = 0;
+			}
+			reversepostcredit($uid, $action, $fid, $posttime);
+			$uidarr[$uid] = !isset($uidarr[$uid]) ? 1 : $uidarr[$uid] + 1;
 		}
-               if($operator == '-' && in_array($action, array('post', 'reply'))) {
-                       // Revert per-action credits when posts are deleted without re-running the rule
-                       $credit = credit::instance();
-                       $rule = $credit->getrule($action, $fid);
-                       if($rule && $uid) {
-                               $log = C::t('common_credit_log')->fetch_last_by_uid_operation_relatedid($uid, 'RUL', $rule['rid']);
-                               $today = strtotime(dgmdate(TIMESTAMP, 'Y-m-d'));
-                               if($log && $log['dateline'] >= $today) {
-                                       $creditarr = array();
-                                       for($i = 1; $i <= 8; $i++) {
-                                               if(isset($_G['setting']['extcredits'][$i]) && $rule['extcredits'.$i]) {
-                                                       $creditarr['extcredits'.$i] = -$rule['extcredits'.$i];
-                                               }
-                                       }
-                                       if($creditarr) {
-                                               updatemembercount($uid, $creditarr);
-                                       }
-                                       C::t('common_credit_log')->delete($log['logid']);
-                               }
-                       }
-                       if($extsql) {
-                               C::t('common_member_count')->increase($uid, $extsql);
-                       }
-               } elseif($uid == $_G['uid']) {
-                       updatecreditbyaction($action, $uid, $extsql, '', $opnum, 1, $fid);
-               } elseif(empty($uid)) {
-                       continue;
-               } else {
-                       batchupdatecredit($action, $uid, $extsql, $opnum, $fid);
-               }
-       }
+		foreach($uidarr as $uid => $coef) {
+			$opnum = $val * $coef;
+			$extsql = $action == 'reply' ? array('posts' => $opnum) : array('threads' => $opnum, 'posts' => $opnum);
+			if($extsql) {
+				C::t('common_member_count')->increase($uid, $extsql);
+			}
+		}
+	} else {
+		$uidarray = (array)$uidarray;
+		foreach($uidarray as $uid) {
+			$uidarr[$uid] = !isset($uidarr[$uid]) ? 1 : $uidarr[$uid] + 1;
+		}
+		foreach($uidarr as $uid => $coef) {
+			$opnum = $val * $coef;
+			if($action == 'reply') {
+				$extsql = array('posts' => $opnum);
+			} elseif($action == 'post') {
+				$extsql = array('threads' => $opnum, 'posts' => $opnum);
+			} else {
+				$extsql = array();
+			}
+			if($uid == $_G['uid']) {
+				updatecreditbyaction($action, $uid, $extsql, '', $opnum, 1, $fid);
+			} elseif(empty($uid)) {
+				continue;
+			} else {
+				batchupdatecredit($action, $uid, $extsql, $opnum, $fid);
+			}
+		}
+	}
 	if($operator == '+' && ($action == 'reply' || $action == 'post')) {
 		C::t('common_member_status')->update(array_keys($uidarr), array('lastpost' => TIMESTAMP), 'UNBUFFERED');
 	}

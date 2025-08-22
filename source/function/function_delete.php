@@ -135,10 +135,10 @@ function deletepost($ids, $idtype = 'pid', $credit = false, $posttableid = false
 			}
 			foreach($postlist as $post) {
 				if($post['invisible'] != -1 && $post['invisible'] != -5) {
-					if($post['first']) {
-						$tuidarray[$post['fid']][] = $post['authorid'];
-					} else {
-						$ruidarray[$post['fid']][] = $post['authorid'];
+                                       if($post['first']) {
+                                               $tuidarray[$post['fid']][] = array('uid' => $post['authorid'], 'dateline' => $post['dateline']);
+                                       } else {
+                                               $ruidarray[$post['fid']][] = array('uid' => $post['authorid'], 'dateline' => $post['dateline']);
 						if($post['authorid'] > 0 && $post['replycredit'] > 0) {
 							$replycredit_list[$post['authorid']][$post['tid']] += $post['replycredit'];
 						}
@@ -325,10 +325,10 @@ function deletethread($tids, $membercount = false, $credit = false, $ponly = fal
 				}
 			} else {
 				if($credit) {
-					if($post['first']) {
-						$tuidarray[$post['fid']][] = $post['authorid'];
-					} else {
-						$ruidarray[$post['fid']][] = $post['authorid'];
+                                       if($post['first']) {
+                                               $tuidarray[$post['fid']][] = array('uid' => $post['authorid'], 'dateline' => $post['dateline']);
+                                       } else {
+                                               $ruidarray[$post['fid']][] = array('uid' => $post['authorid'], 'dateline' => $post['dateline']);
 					}
 				}
 			}
