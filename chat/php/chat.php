@@ -8,8 +8,6 @@ require_once('./vendor/autoload.php');
 require_once('Activity.php');
 require_once('config.php');
 
-date_default_timezone_set('UTC');
-
 $chat_info = $_POST['chat_info'];
 
 $channel_name = 'Chat';
