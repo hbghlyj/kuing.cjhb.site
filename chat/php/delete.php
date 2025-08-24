@@ -27,7 +27,7 @@ if ($conn->connect_error) {
     exit;
 }
 
-$stmt = $conn->prepare("DELETE FROM chat WHERE time = STR_TO_DATE(?, '%Y-%m-%dT%TZ') AND author = ?");
+$stmt = $conn->prepare("DELETE FROM chat WHERE time = CONVERT_TZ(STR_TO_DATE(?, '%Y-%m-%dT%TZ'), '+00:00', @@session.time_zone) AND author = ?");
 $stmt->bind_param("ss", $published_time, $_G['username']);
 if (!$stmt) {
     header("HTTP/1.0 500 Internal Server Error");
