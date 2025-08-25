@@ -79,6 +79,12 @@ UPDATE `pre_forum_thread` t
   SET t.tags=p.tags;
 ALTER TABLE `pre_forum_post` DROP COLUMN `tags`;
 ```
+### Dropping deprecated `allowbegincode` column
+If your database still has the legacy `[begin]` permission field, remove it:
+
+```sql
+ALTER TABLE `pre_common_usergroup_field` DROP COLUMN `allowbegincode`;
+```
 5. Launch the site locally:
    ```bash
    php -S localhost:8080
