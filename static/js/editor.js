@@ -856,9 +856,9 @@ function discuzcode(cmd, arg) {
 
 	checkFocus();
 
-       if(in_array(cmd, ['sml', 'insertorderedlist', 'inserthorizontalrule', 'url', 'quote', 'code', 'free', 'hide', 'aud', 'vid', 'attach', 'image', 'pasteword', 'index', 'postbg', 'password']) || typeof EXTRAFUNC['showEditorMenu'][cmd] != 'undefined' || cmd == 'tbl' || in_array(cmd, ['fontname', 'fontsize', 'forecolor', 'backcolor']) && !arg) {
-               showEditorMenu(cmd);
-               return;
+	if(in_array(cmd, ['sml', 'insertorderedlist', 'inserthorizontalrule', 'url', 'quote', 'code', 'free', 'hide', 'aud', 'vid', 'attach', 'image', 'pasteword', 'index', 'postbg', 'password']) || typeof EXTRAFUNC['showEditorMenu'][cmd] != 'undefined' || cmd == 'tbl' || in_array(cmd, ['fontname', 'fontsize', 'forecolor', 'backcolor']) && !arg) {
+		showEditorMenu(cmd);
+		return;
 	} else if(cmd.substr(0, 3) == 'cst') {
 		showEditorMenu(cmd.substr(5), cmd.substr(3, 1));
 		return;
@@ -1143,7 +1143,7 @@ function showEditorMenu(tag, params) {
 	} else {
 		switch(tag) {
 			case 'url':
-                               str = lng['enter_link_url']+':<br /><input type="text" id="' + ctrlid + '_param_1" style="width: 98%" value="" class="px" />'+
+				str = lng['enter_link_url']+':<br /><input type="text" id="' + ctrlid + '_param_1" style="width: 98%" value="" class="px" />'+
                                        (selection ? '' : '<br />'+lng['enter_link_text']+':<br /><input type="text" id="' + ctrlid + '_param_2" style="width: 98%" value="" class="px" />');
 				break;
 			case 'forecolor':
@@ -1153,7 +1153,7 @@ function showEditorMenu(tag, params) {
 				showColorBox(ctrlid, 1, '', 1);
 				return;
 			case 'insertorderedlist':
-                               str = '<p class="pbn">'+lng['list_type']+':</p><p class="pbn">'
+				str = '<p class="pbn">'+lng['list_type']+':</p><p class="pbn">'
 					+ '<label><input type="radio" name="' + ctrlid + '_param_1" value="1" checked="checked" />1.2.3.</label> '
 					+ '<label><input type="radio" name="' + ctrlid + '_param_1" value="A" />A.B.C.</label> '
 					+ '<label><input type="radio" name="' + ctrlid + '_param_1" value="a" />a.b.c.</label>'
@@ -1166,7 +1166,7 @@ function showEditorMenu(tag, params) {
 				showHrBox(ctrlid, 'postbg');
 				break;
 			case 'password':
-                               str = '<p class="pbn">'+lng['enter_post_password']+': <input type="text" id="' + ctrlid + '_param_1" size="10" value="" class="px" /></p>';
+				str = '<p class="pbn">'+lng['enter_post_password']+': <input type="text" id="' + ctrlid + '_param_1" size="10" value="" class="px" /></p>';
 				break;
 			case 'code':
 				if(wysiwyg) {
@@ -1188,25 +1188,25 @@ function showEditorMenu(tag, params) {
                                        (tag == 'hide' ? '<br /><label><input type="radio" name="' + ctrlid + '_radio" id="' + ctrlid + '_radio_1" class="pc" checked="checked" />' + lng['when_thread_replied'] + '</label><br /><label><input type="radio" name="' + ctrlid + '_radio" id="' + ctrlid + '_radio_2" class="pc" />' + lng['when_points_more'] + '</label> <input type="text" size="3" id="' + ctrlid + '_param_2" class="px pxs" /> ' + lng['when_show'] + '<br /><br /><label>' + lng['expire_days'] + ':</label> <input type="text" size="3" id="' + ctrlid + '_param_3" class="px pxs" />' + '<br />' + lng['expire_days_invalid'] : '');
 				break;
 			case 'tbl':
-                               str = '<p class="pbn">' + lng['table_rows'] + ': <input type="text" id="' + ctrlid + '_param_1" size="2" value="2" class="px" /> &nbsp; ' + lng['table_columns'] + ': <input type="text" id="' + ctrlid + '_param_2" size="2" value="2" class="px" /></p><p class="pbn">' + lng['table_width'] + ': <input type="text" id="' + ctrlid + '_param_3" size="2" value="" class="px" /> &nbsp; ' + lng['bg_color'] + ': <input type="text" id="' + ctrlid + '_param_4" size="2" class="px" onclick="showColorBox(this.id, 2)" /></p><p class="xg2 pbn" style="cursor:pointer" onclick="showDialog($(\'tbltips_msg\').innerHTML, \'notice\', \''+lng['tips']+'\', null, 0)"><img id="tbltips" title="' + lng['tips'] + '" class="vm" src="' + IMGDIR + '/info_small.gif"> ' + lng['table_intro0'] + '</p>';
+				str = '<p class="pbn">' + lng['table_rows'] + ': <input type="text" id="' + ctrlid + '_param_1" size="2" value="2" class="px" /> &nbsp; ' + lng['table_columns'] + ': <input type="text" id="' + ctrlid + '_param_2" size="2" value="2" class="px" /></p><p class="pbn">' + lng['table_width'] + ': <input type="text" id="' + ctrlid + '_param_3" size="2" value="" class="px" /> &nbsp; ' + lng['bg_color'] + ': <input type="text" id="' + ctrlid + '_param_4" size="2" class="px" onclick="showColorBox(this.id, 2)" /></p><p class="xg2 pbn" style="cursor:pointer" onclick="showDialog($(\'tbltips_msg\').innerHTML, \'notice\', \''+lng['tips']+'\', null, 0)"><img id="tbltips" title="' + lng['tips'] + '" class="vm" src="' + IMGDIR + '/info_small.gif"> ' + lng['table_intro0'] + '</p>';
                                str += '<div id="tbltips_msg" style="display: none">' + lng['table_intro1'] + '<div class=\'xs0\' style=\'margin:0 5px\'>' + lng['table_intro2'] + '</div>' + lng['table_intro3'] + '</div>';
 				break;
 			case 'aud':
-                               str = '<p class="pbn">' + lng['audio_url'] + ':</p><p class="pbn"><input type="text" id="' + ctrlid + '_param_1" class="px" value="" style="width: 220px;" /></p><p class="xg2 pbn">' + lng['audio_support'] + '</p>';
+				str = '<p class="pbn">' + lng['audio_url'] + ':</p><p class="pbn"><input type="text" id="' + ctrlid + '_param_1" class="px" value="" style="width: 220px;" /></p><p class="xg2 pbn">' + lng['audio_support'] + '</p>';
 				break;
 			case 'vid':
-                               str = '<p class="pbn">' + lng['video_url'] + ':</p><p class="pbn"><input type="text" value="" id="' + ctrlid + '_param_1" style="width: 220px;" class="px" /></p><p class="pbn">' + lng['width'] + ': <input id="' + ctrlid + '_param_2" size="5" value="500" class="px" /> &nbsp; ' + lng['height'] + ': <input id="' + ctrlid + '_param_3" size="5" value="375" class="px" /></p><p class="xg2 pbn">' + lng['video_support'] + '</p>';
+				str = '<p class="pbn">' + lng['video_url'] + ':</p><p class="pbn"><input type="text" value="" id="' + ctrlid + '_param_1" style="width: 220px;" class="px" /></p><p class="pbn">' + lng['width'] + ': <input id="' + ctrlid + '_param_2" size="5" value="500" class="px" /> &nbsp; ' + lng['height'] + ': <input id="' + ctrlid + '_param_3" size="5" value="375" class="px" /></p><p class="xg2 pbn">' + lng['video_support'] + '</p>';
 				break;
-                       case 'pasteword':
-                               stitle = lng['paste_from_word'];
-                               str = '<p class="px" style="height:300px"><iframe id="' + ctrlid + '_param_1" frameborder="0" style="width:100%;height:100%" onload="this.contentWindow.document.body.style.width=\'550px\';this.contentWindow.document.body.contentEditable=true;this.contentWindow.document.body.focus();this.onload=null"></iframe></p><p class="xg2 pbn">'+lng['paste_word_tip']+'</p>';
-                                menuwidth = 600;
+			case 'pasteword':
+				stitle = lng['paste_from_word'];
+				str = '<p class="px" style="height:300px"><iframe id="' + ctrlid + '_param_1" frameborder="0" style="width:100%;height:100%" onload="this.contentWindow.document.body.style.width=\'550px\';this.contentWindow.document.body.contentEditable=true;this.contentWindow.document.body.focus();this.onload=null"></iframe></p><p class="xg2 pbn">'+lng['paste_word_tip']+'</p>';
+				menuwidth = 600;
 				menupos = '00';
 				menutype = 'win';
 				break;
 			case 'index':
-                               stitle = lng['create_post_directory'];
-                               str = '<p class="pbn">[index]<br />\n\
+				stitle = lng['create_post_directory'];
+				str = '<p class="pbn">[index]<br />\n\
                                        [#<span class="xi1">'+lng['page_number']+'</span>]<span class="xi1">'+lng['title']+'</span> &nbsp;&nbsp;<span class="xg1">'+lng['jump_to_page']+'</span><br />\n\
                                        <span class="xi1">*</span>[#<span class="xi1">tid,pid</span>]<span class="xi1">'+lng['title']+'</span> &nbsp;&nbsp;<span class="xg1">'+lng['jump_to_post']+'</span><br />\n\
                                        [/index]<br />\n\

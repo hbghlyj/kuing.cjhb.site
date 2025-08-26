@@ -599,15 +599,15 @@ function messagesafeclear($message) {
 	if(strpos($message, '[/postbg]') !== FALSE) {
 		$message = preg_replace("/\s?\[postbg\]\s*([^\[\<\r\n;'\"\?\(\)]+?)\s*\[\/postbg\]\s?/is", '', $message);
 	}
-        if(strpos($message, '[page]') !== FALSE) {
-                $message = preg_replace("/\s?\[page\]\s?/is", '', $message);
-        }
+	if(strpos($message, '[page]') !== FALSE) {
+		$message = preg_replace("/\s?\[page\]\s?/is", '', $message);
+	}
 	if(strpos($message, '[/index]') !== FALSE) {
 		$message = preg_replace("/\s?\[index\](.+?)\[\/index\]\s?/is", '', $message);
 	}
-        if(strpos($message, '[/groupid]') !== FALSE) {
-                $message = preg_replace("/\[groupid=\d+\].*\[\/groupid\]/i", '', $message);
-        }
+	if(strpos($message, '[/groupid]') !== FALSE) {
+		$message = preg_replace("/\[groupid=\d+\].*\[\/groupid\]/i", '', $message);
+	}
 	return $message;
 }
 

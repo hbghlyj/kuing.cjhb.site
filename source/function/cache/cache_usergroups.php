@@ -14,7 +14,7 @@ if(!defined('IN_DISCUZ')) {
 function build_cache_usergroups() {
 	global $_G;
 
-        $data_uf = C::t('common_usergroup_field')->fetch_all_fields(null, array('groupid', 'readaccess', 'allowgetattach', 'allowgetimage', 'allowmediacode', 'maxsigsize'));
+	$data_uf = C::t('common_usergroup_field')->fetch_all_fields(null, array('groupid', 'readaccess', 'allowgetattach', 'allowgetimage', 'allowmediacode', 'maxsigsize'));
 
 	foreach(C::t('common_usergroup')->range_orderby_creditshigher() as $key=>$value) {
 		$group = array_merge(array('groupid' => $value['groupid'], 'type' => $value['type'], 'grouptitle' => $value['grouptitle'], 'grouptitle_en' => $value['grouptitle_en'], 'creditshigher' => $value['creditshigher'], 'creditslower' => $value['creditslower'], 'stars' => $value['stars'], 'color' => $value['color'], 'icon' => $value['icon'], 'system' => $value['system']), $data_uf[$key]);
