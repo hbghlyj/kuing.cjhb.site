@@ -1293,35 +1293,20 @@ $_G['forum_posthtml']['footer'][$post['pid']] .= '<div id="threadpage"></div><sc
 				} else {
 					$post['message'] = parse_related_link($post['message'], $relatedtype);
 				}
-				if(strpos($post['message'], '[/begin]') !== FALSE) {
-					$post['message'] = preg_replace_callback(
-						"/\[begin(=\s*([^\[\<\r\n]*?)\s*,(\d*),(\d*),(\d*),(\d*))?\]\s*([^\[\<\r\n]+?)\s*\[\/begin\]/is",
-						function ($matches) use ($_G, $post) {
-							if (!intval($_G['cache']['usergroups'][$post['groupid']]['allowbegincode'])) {
-								return '';
-							}
-							return parsebegin($matches[2], $matches[7], $matches[3], $matches[4], $matches[5], $matches[6]);
-						},
-						$post['message']
-					);
-				}
-			}
-		}
-	}
-	if(defined('IN_ARCHIVER') || defined('IN_MOBILE') || !$post['first']) {
-		if(strpos($post['message'], '[page]') !== FALSE) {
-			$post['message'] = preg_replace("/\s?\[page\]\s?/is", '', $post['message']);
-		}
-		if(strpos($post['message'], '[/index]') !== FALSE) {
-			$post['message'] = preg_replace("/\s?\[index\](.+?)\[\/index\]\s?/is", '', $post['message']);
-		}
-		if(strpos($post['message'], '[/begin]') !== FALSE) {
-			$post['message'] = preg_replace("/\[begin(=\s*([^\[\<\r\n]*?)\s*,(\d*),(\d*),(\d*),(\d*))?\]\s*([^\[\<\r\n]+?)\s*\[\/begin\]/is", '', $post['message']);
-		}
-	}
-	if($imgcontent) {
-		$post['message'] = '<img id="threadimgcontent" src="./'.stringtopic('', $post['tid']).'">';
-	}
+                        }
+                }
+        }
+        if(defined('IN_ARCHIVER') || defined('IN_MOBILE') || !$post['first']) {
+                if(strpos($post['message'], '[page]') !== FALSE) {
+                        $post['message'] = preg_replace("/\s?\[page\]\s?/is", '', $post['message']);
+                }
+                if(strpos($post['message'], '[/index]') !== FALSE) {
+                        $post['message'] = preg_replace("/\s?\[index\](.+?)\[\/index\]\s?/is", '', $post['message']);
+                }
+        }
+        if($imgcontent) {
+                $post['message'] = '<img id="threadimgcontent" src="./'.stringtopic('', $post['tid']).'">';
+        }
 	$_G['forum_firstpid'] = intval($_G['forum_firstpid']);
 	$post['numbercard'] = viewthread_numbercard($post);
 	$post['mobiletype'] = getstatus($post['status'], 4) ? base_convert(getstatus($post['status'], 10).getstatus($post['status'], 9).getstatus($post['status'], 8), 2, 10) : 0;
@@ -1674,51 +1659,6 @@ function parseindex($nodes, $pid) {
 	return '';
 }
 
-function parsebegin($linkaddr, $imgflashurl, $w = 0, $h = 0, $type = 0, $s = 0) {
-	static $begincontent;
-	if($begincontent || $_GET['from'] == 'preview') {
-		return '';
-	}
-	preg_match("/((https?){1}:\/\/|www\.)[^\[\"']+/i", $imgflashurl, $matches);
-	$imgflashurl = $matches[0];
-	$fileext = fileext($imgflashurl);
-	preg_match("/((https?){1}:\/\/|www\.)[^\[\"']+/i", $linkaddr, $matches);
-	$linkaddr = $matches[0];
-	$randomid = 'swf_'.random(3);
-	$w = ($w >=400 && $w <=1024) ? $w : 900;
-	$h = ($h >=300 && $h <=640) ? $h : 500;
-	$s = $s ? $s*1000 : 5000;
-	switch($fileext) {
-		case 'jpg':
-		case 'jpeg':
-		case 'gif':
-		case 'png':
-			$content = '<img style="position:absolute;width:'.$w.'px;height:'.$h.'px;" src="'.$imgflashurl.'" />';
-			break;
-		default:
-			$content = '';
-	}
-	if($content) {
-		if($type == 1) {
-			$content = '<div id="threadbeginid" style="display:none;">'.
-				'<div class="flb beginidin"><span><div id="begincloseid" class="flbc" title="'.lang('core', 'close').'">'.lang('core', 'close').'</div></span></div>'.
-				$content.'<div class="beginidimg" style=" width:'.$w.'px;height:'.$h.'px;">'.
-				'<a href="'.$linkaddr.'" target="_blank" style="display: block; width:'.$w.'px; height:'.$h.'px;"></a></div></div>'.
-				'<script type="text/javascript">threadbegindisplay(1, '.$w.', '.$h.', '.$s.');</script>';
-		} else {
-			$content = '<div id="threadbeginid">'.
-				'<div class="flb beginidin">
-					<span><div id="begincloseid" class="flbc" title="'.lang('core', 'close').'">'.lang('core', 'close').'</div></span>
-				</div>'.
-				$content.'<div class="beginidimg" style=" width:'.$w.'px; height:'.$h.'px;">'.
-				'<a href="'.$linkaddr.'" target="_blank" style="display: block; width:'.$w.'px; height:'.$h.'px;"></a></div>
-				</div>'.
-				'<script type="text/javascript">threadbegindisplay('.$type.', '.$w.', '.$h.', '.$s.');</script>';
-		}
-	}
-	$begincontent = $content;
-	return $content;
-}
 
 function _checkviewgroup() {
 	global $_G;

@@ -113,7 +113,6 @@ hr.bk { *margin-bottom: 2px !important; }
 .spmf, .spmf3 { _height: 1%; }
 .ie6 .mobile-type, .ie7 .mobile-type { margin-left: 88px; }
 .ie6 .mobile-type, .ie6 .mobile-type a { background-image: url({IMGDIR}/mobile-type-ie6.png) !important; }
-#threadbeginid .beginidimg { filter:alpha(opacity=0); }
 .ie_all .fl_icn { background: url({IMGDIR}/forum.gif) no-repeat left center; }
 .ie6 .bdl { position: relative; }
 .ie_all .ico_increase, .ie_all .ico_fall { width: 16px; font-size: 18px; margin: 0 5px; }

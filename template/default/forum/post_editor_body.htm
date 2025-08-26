@@ -108,9 +108,6 @@
 					<a id="{$editorid}_index" adv="1" title="{lang directory}">Index</a>
 				<!--{/if}-->
 				<a id="{$editorid}_postbg" adv="1" title="{lang replybackground}">Background</a>
-				<!--{if $_G['group']['allowbegincode'] && $isfirstpost}-->
-					<a id="{$editorid}_beginning" adv="1" title="{lang e_beginning_title}" menupos="43" menuwidth="600">{lang e_beginning}</a>
-				<!--{/if}-->
 				<!--{loop $_G['cache']['bbcodes_display'][$_G['groupid']] $tag $bbcode}-->
 					<a id="{$editorid}_cst{$bbcode[params]}_$tag" class="cst" title="$bbcode[explanation]"><!--{if $bbcode['icon']=="static/image/common/none"}-->$bbcode[explanation]<!--{else}--><img src="$bbcode['icon']" title="$bbcode[explanation]" alt="$tag" /><!--{/if}--></a>
 				<!--{/loop}-->

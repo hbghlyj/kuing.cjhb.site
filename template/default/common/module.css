@@ -410,16 +410,6 @@ Created & Modified by Alice, Monkey, Lushnis, Pony, Dfox & DragonLee.
 			.mobile-type-3 a { background-position: 0 -160px; }
 			.mobile-type-4 a { background-position: 0 -240px; }
 	.mobile-location { padding-left: 20px; background: url({IMGDIR}/mobile-attach-2.png) no-repeat 0 0; }
-	/*
-		Name:			threadbeginid
-		Level:			Function
-		Explain:	 	起始动画或图片的位置样式
-		Author:			Jane
-		Last Modify:	Jane 1210251731
-	*/
-	#threadbeginid { position: fixed; top: 0px; left: 0px; z-index: 999; }
-		#threadbeginid .beginidin { position: absolute; top: 0; right: 0px; z-index: 999; }
-		#threadbeginid .beginidimg { background: white; opacity: 0; }
 /** end **/
 
 
