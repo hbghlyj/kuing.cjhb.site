@@ -290,14 +290,6 @@ var lng = {
 	'jump_tip_pid'		: 'Post TID and PID',//'帖子的 TID 和 PID',
 	'add_indent'		: 'Add the first line indent',//'添加行首缩进',
 	'enter_post_password'	: 'Please enter the post password',//'请输入帖子密码',
-        'begin_flash_img'       : 'Enter the beginning image URL',
-	'begin_click_url'	: 'Click on the link URL',//'点击链接地址',
-	'begin_stay_seconds'	: 'Display seconds',//'停留秒数',
-	'begin_disappearance'	: 'Disappear effect after loading',//'载入、消失的效果',
-	'none'			: 'None',//'无',
-	'begin_fade'		: 'Fade',//'淡入淡出',
-	'begin_explosive'	: 'Explode',//'展开闭合',
-        'begin_info'            : 'Supported formats: jpg gif png<br/>Width range: 400~1024, Height range: 300~640<br/>Example: http://server/image.jpg',//'支持 jpg gif png 网址<br />宽高范围: 宽400~1024 高300~640<br />示例: http://server/image.jpg',
 
 //--------------------------------
 //static/js/forum.js

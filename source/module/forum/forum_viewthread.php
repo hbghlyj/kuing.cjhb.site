@@ -54,16 +54,16 @@ $cover = C::t('forum_threadimage')->fetch_by_tid($_G['tid']);
 if($cover) {
     $image_path_segment = 'forum/'.$cover['attachment'];
     if($cover['remote']) {
-        // remote attachments always have an absolute FTP URL
-        $_G['threadimage_url'] = $_G['setting']['ftp']['attachurl'].$image_path_segment;
+	// remote attachments always have an absolute FTP URL
+	$_G['threadimage_url'] = $_G['setting']['ftp']['attachurl'].$image_path_segment;
     } else {
-        $attach_url = $_G['setting']['attachurl'];
-        // ensure the URL is absolute for Open Graph usage
-        if(strpos($attach_url, '://') === false && strpos($attach_url, '//') !== 0) {
-            $_G['threadimage_url'] = rtrim($_G['siteurl'], '/').'/'.ltrim($attach_url, '/').$image_path_segment;
-        } else {
-            $_G['threadimage_url'] = $attach_url.$image_path_segment;
-        }
+	$attach_url = $_G['setting']['attachurl'];
+	// ensure the URL is absolute for Open Graph usage
+	if(strpos($attach_url, '://') === false && strpos($attach_url, '//') !== 0) {
+		$_G['threadimage_url'] = rtrim($_G['siteurl'], '/').'/'.ltrim($attach_url, '/').$image_path_segment;
+	} else {
+		$_G['threadimage_url'] = $attach_url.$image_path_segment;
+	}
     }
 }
 
@@ -699,8 +699,8 @@ foreach($postarr as $post) {
 			} else {
 				$summary = str_replace(array("\r", "\n"), '', messagecutstr(strip_tags($post['message']), 200));
 			}
-                        $tagarray_all = $posttag_array = array();
-                        $tagarray_all = explode("\t", $_G['forum_thread']['tags']);
+			$tagarray_all = $posttag_array = array();
+			$tagarray_all = explode("\t", $_G['forum_thread']['tags']);
 			if($tagarray_all) {
 				foreach($tagarray_all as $var) {
 					if($var) {
@@ -1293,34 +1293,19 @@ $_G['forum_posthtml']['footer'][$post['pid']] .= '<div id="threadpage"></div><sc
 				} else {
 					$post['message'] = parse_related_link($post['message'], $relatedtype);
 				}
-				if(strpos($post['message'], '[/begin]') !== FALSE) {
-					$post['message'] = preg_replace_callback(
-						"/\[begin(=\s*([^\[\<\r\n]*?)\s*,(\d*),(\d*),(\d*),(\d*))?\]\s*([^\[\<\r\n]+?)\s*\[\/begin\]/is",
-						function ($matches) use ($_G, $post) {
-							if (!intval($_G['cache']['usergroups'][$post['groupid']]['allowbegincode'])) {
-								return '';
-							}
-							return parsebegin($matches[2], $matches[7], $matches[3], $matches[4], $matches[5], $matches[6]);
-						},
-						$post['message']
-					);
-				}
 			}
-		}
+			}
 	}
 	if(defined('IN_ARCHIVER') || defined('IN_MOBILE') || !$post['first']) {
-		if(strpos($post['message'], '[page]') !== FALSE) {
+			if(strpos($post['message'], '[page]') !== FALSE) {
 			$post['message'] = preg_replace("/\s?\[page\]\s?/is", '', $post['message']);
-		}
-		if(strpos($post['message'], '[/index]') !== FALSE) {
+			}
+			if(strpos($post['message'], '[/index]') !== FALSE) {
 			$post['message'] = preg_replace("/\s?\[index\](.+?)\[\/index\]\s?/is", '', $post['message']);
-		}
-		if(strpos($post['message'], '[/begin]') !== FALSE) {
-			$post['message'] = preg_replace("/\[begin(=\s*([^\[\<\r\n]*?)\s*,(\d*),(\d*),(\d*),(\d*))?\]\s*([^\[\<\r\n]+?)\s*\[\/begin\]/is", '', $post['message']);
-		}
+			}
 	}
 	if($imgcontent) {
-		$post['message'] = '<img id="threadimgcontent" src="./'.stringtopic('', $post['tid']).'">';
+			$post['message'] = '<img id="threadimgcontent" src="./'.stringtopic('', $post['tid']).'">';
 	}
 	$_G['forum_firstpid'] = intval($_G['forum_firstpid']);
 	$post['numbercard'] = viewthread_numbercard($post);
@@ -1674,51 +1659,6 @@ function parseindex($nodes, $pid) {
 	return '';
 }
 
-function parsebegin($linkaddr, $imgflashurl, $w = 0, $h = 0, $type = 0, $s = 0) {
-	static $begincontent;
-	if($begincontent || $_GET['from'] == 'preview') {
-		return '';
-	}
-	preg_match("/((https?){1}:\/\/|www\.)[^\[\"']+/i", $imgflashurl, $matches);
-	$imgflashurl = $matches[0];
-	$fileext = fileext($imgflashurl);
-	preg_match("/((https?){1}:\/\/|www\.)[^\[\"']+/i", $linkaddr, $matches);
-	$linkaddr = $matches[0];
-	$randomid = 'swf_'.random(3);
-	$w = ($w >=400 && $w <=1024) ? $w : 900;
-	$h = ($h >=300 && $h <=640) ? $h : 500;
-	$s = $s ? $s*1000 : 5000;
-	switch($fileext) {
-		case 'jpg':
-		case 'jpeg':
-		case 'gif':
-		case 'png':
-			$content = '<img style="position:absolute;width:'.$w.'px;height:'.$h.'px;" src="'.$imgflashurl.'" />';
-			break;
-		default:
-			$content = '';
-	}
-	if($content) {
-		if($type == 1) {
-			$content = '<div id="threadbeginid" style="display:none;">'.
-				'<div class="flb beginidin"><span><div id="begincloseid" class="flbc" title="'.lang('core', 'close').'">'.lang('core', 'close').'</div></span></div>'.
-				$content.'<div class="beginidimg" style=" width:'.$w.'px;height:'.$h.'px;">'.
-				'<a href="'.$linkaddr.'" target="_blank" style="display: block; width:'.$w.'px; height:'.$h.'px;"></a></div></div>'.
-				'<script type="text/javascript">threadbegindisplay(1, '.$w.', '.$h.', '.$s.');</script>';
-		} else {
-			$content = '<div id="threadbeginid">'.
-				'<div class="flb beginidin">
-					<span><div id="begincloseid" class="flbc" title="'.lang('core', 'close').'">'.lang('core', 'close').'</div></span>
-				</div>'.
-				$content.'<div class="beginidimg" style=" width:'.$w.'px; height:'.$h.'px;">'.
-				'<a href="'.$linkaddr.'" target="_blank" style="display: block; width:'.$w.'px; height:'.$h.'px;"></a></div>
-				</div>'.
-				'<script type="text/javascript">threadbegindisplay('.$type.', '.$w.', '.$h.', '.$s.');</script>';
-		}
-	}
-	$begincontent = $content;
-	return $content;
-}
 
 function _checkviewgroup() {
 	global $_G;

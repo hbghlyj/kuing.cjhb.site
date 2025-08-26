@@ -102,8 +102,6 @@ https://www.discuz.vip
 	#e_simple, #e_fullswitcher { padding: 0 2px; text-align: right; border: 1px solid {SPECIALBORDER}; background: url({IMGDIR}/card_btn.png) repeat-x 0 100%; }
 		#e_fullswitcher { margin-right: 3px; }
 
-	#e_beginning { background-position: -246px -120px;}
-		.b2r #e_beginning { background-position: -260px -78px; }
 
 /* 缩小编辑器演出菜单中输入框的尺寸 */
 .popupfix .px { margin-bottom: 4px; }

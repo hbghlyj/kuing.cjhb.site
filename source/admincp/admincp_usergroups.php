@@ -678,7 +678,6 @@ EOT;
 		showsetting('usergroups_edit_post_maxprice', 'maxpricenew', $group['maxprice'], 'text');
 		showsetting('usergroups_edit_post_hide_code', 'allowhidecodenew', $group['allowhidecode'], 'radio');
 		showsetting('usergroups_edit_post_mediacode', 'allowmediacodenew', $group['allowmediacode'], 'radio');
-		showsetting('usergroups_edit_post_begincode', 'allowbegincodenew', $group['allowbegincode'], 'radio');
 		showsetting('usergroups_edit_post_sig_bbcode', 'allowsigbbcodenew', $group['allowsigbbcode'], 'radio');
 		showsetting('usergroups_edit_post_sig_img_code', 'allowsigimgcodenew', $group['allowsigimgcode'], 'radio');
 		showsetting('usergroups_edit_post_max_sig_size', 'maxsigsizenew', $group['maxsigsize'], 'text');
@@ -1097,7 +1096,6 @@ EOT;
 			'allowposttag' => $_GET['allowposttagnew'],
 			'allowhidecode' => $_GET['allowhidecodenew'],
 			'allowmediacode' => $_GET['allowmediacodenew'],
-			'allowbegincode' => $_GET['allowbegincodenew'],
 			'allowhtml' => $_GET['allowhtmlnew'],
 			'allowanonymous' => $_GET['allowanonymousnew'],
 			'allowsigbbcode' => $_GET['allowsigbbcodenew'],
