@@ -758,7 +758,7 @@ a.flw_readfull {color: var(--dz-BG-2);}
 .threadlist_top .muser h3 .mmc {font-size:15px}
 .threadlist_top .muser .mtime {display:block;height:18px;line-height:18px;font-size:12px;color:var(--dz-FC-ccc)}
 .threadlist_tit {line-height:26px;font-size:18px;margin-bottom:5px;font-weight:400}
-.threadlist_tit .micon {float:left;width:30px;height:18px;line-height:18px;text-align:center;font-size:12px;background-color:var(--dz-BG-color);color:var(--dz-FC-fff);margin-top:4px;margin-right:5px;border-radius:2px;overflow:hidden}
+.threadlist_tit .micon {float:left;padding:0 3px;height:18px;line-height:18px;text-align:center;font-size:12px;background-color:var(--dz-BG-color);color:var(--dz-FC-fff);margin-top:4px;margin-right:5px;border-radius:2px;overflow:hidden}
 .threadlist_tit .top {background-color:var(--dz-BG-3)}
 .threadlist_tit .digest {background-color:var(--dz-BG-4)}
 .threadlist_tit .lock {background-color:var(--dz-BG-2)}
@@ -1354,3 +1354,21 @@ body.pg_logging, body.pg_register {background-color:var(--dz-BG-0)}
 		.pll .c { margin: 0 84px 0 74px; }
 		.pll ol { margin: 5px 0 0 20px; }
 			.pll ol li { list-style-type: decimal; padding: 0; border-bottom: none; }
+
+/*----- 词云网格布局容器 -----*/
+.wordcloud-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 20px;
+    justify-items: center;
+    align-items: center;
+}
+.wordcloud-container .word {
+    text-decoration: none;
+    transition: transform 0.2s;
+    text-align: center;
+    padding: 5px 10px;
+}
+.wordcloud-container .word:hover {
+    transform: scale(1.1);
+}
