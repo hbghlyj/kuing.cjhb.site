@@ -290,7 +290,6 @@ var lng = {
 	'jump_tip_pid'		: 'Post TID and PID',//'帖子的 TID 和 PID',
 	'add_indent'		: 'Add the first line indent',//'添加行首缩进',
 	'enter_post_password'	: 'Please enter the post password',//'请输入帖子密码',
-	'none'			: 'None',//'无',
 
 //--------------------------------
 //static/js/forum.js
