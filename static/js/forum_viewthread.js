@@ -309,14 +309,18 @@ function switchrecommendv() {
 }
 
 function appendreply(pid) {
-	newpos = fetchOffset($('post_new'));
-	document.documentElement.scrollTop = newpos['top'];
-	$('post_new').style.display = '';
-	if(typeof MathJax.typesetPromise === 'function') {
-		MathJax.typesetPromise([$('postlist').appendChild($('post_new'))]);
+	const postNew = $('post_new');
+	if(!postNew) {
+		return;
 	}
-	addLou($('post_new'));
-	$('post_new').id = `post_${pid}`;
+	newpos = fetchOffset(postNew);
+	document.documentElement.scrollTop = newpos['top'];
+	postNew.style.display = '';
+	if(typeof MathJax.typesetPromise === 'function') {
+		MathJax.typesetPromise([$('postlist').appendChild(postNew)]);
+	}
+	addLou(postNew);
+	postNew.id = `post_${pid}`;
 	div = document.createElement('div');
 	div.id = 'post_new';
 	div.style.display = 'none';
