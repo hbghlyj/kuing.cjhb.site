@@ -163,9 +163,6 @@
 						<!--{if $_G['uid'] && ($_GET[action] == 'newthread' || $_GET[action] == 'edit' && $isfirstpost) && $special != 3}-->
 							<label for="ordertype"><input type="checkbox" name="ordertype" id="ordertype" class="pc" value="1" $ordertypecheck />{lang post_descviewdefault}</label>
 						<!--{/if}-->
-						<!--{if ($_GET[action] == 'newthread' || $_GET[action] == 'edit' && $isfirstpost)}-->
-							<label for="allownoticeauthor"><input type="checkbox" name="allownoticeauthor" id="allownoticeauthor" class="pc" value="1"{if $allownoticeauthor} checked="checked"{/if} />{lang post_noticeauthor}</label>
-						<!--{/if}-->
 						<!--{if $_GET[action] != 'edit' && helper_access::check_module('feed') && $_G['forum']['allowfeed']}-->
 							<label for="addfeed"><input type="checkbox" name="addfeed" id="addfeed" class="pc" value="1" $addfeedcheck>{lang addfeed}</label>
 						<!--{/if}-->
