@@ -1,10 +1,10 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
+ *	[Discuz!] (C)2001-2099 Comsenz Inc.
+ *	This is NOT a freeware, use is subject to license terms
  *
- *      $Id: forum_post.php 36293 2016-12-14 02:50:56Z nemohou $
+ *	$Id: forum_post.php 36293 2016-12-14 02:50:56Z nemohou $
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -28,7 +28,7 @@ parse_str(getgpc('extra'), $_GET['extra']);
 $_GET['extra'] = http_build_query($_GET['extra']);
 
 $postinfo = array('subject' => '');
-$thread = array('readperm' => '', 'pricedisplay' => '', 'hiddenreplies' => '');
+$thread = array('readperm' => '', 'pricedisplay' => '');
 
 $_G['forum_dtype'] = $_G['forum_checkoption'] = $_G['forum_optionlist'] = $tagarray = $_G['forum_typetemplate'] = array();
 

@@ -1,10 +1,10 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
+ *	[Discuz!] (C)2001-2099 Comsenz Inc.
+ *	This is NOT a freeware, use is subject to license terms
  *
- *      $Id: post_editpost.php 36284 2016-12-12 00:47:50Z nemohou $
+ *	$Id: post_editpost.php 36284 2016-12-12 00:47:50Z nemohou $
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -64,7 +64,6 @@ if($isfirstpost && $isorigauthor && $_G['group']['allowreplycredit']) {
 
 if(!submitcheck('editsubmit')) {
 
-	$thread['hiddenreplies'] = getstatus($thread['status'], 2);
 
 
 	$postinfo = C::t('forum_post')->fetch_post('tid:'.$_G['tid'], $pid);
@@ -76,7 +75,7 @@ if(!submitcheck('editsubmit')) {
 	$urloffcheck = $postinfo['parseurloff'] ? 'checked="checked"' : '';
 	$smileyoffcheck = $postinfo['smileyoff'] == 1 ? 'checked="checked"' : '';
 	$codeoffcheck = $postinfo['bbcodeoff'] == 1 ? 'checked="checked"' : '';
-        $htmloncheck = $postinfo['htmlon'] & 1 ? 'checked="checked"' : '';
+	$htmloncheck = $postinfo['htmlon'] & 1 ? 'checked="checked"' : '';
 	if(!$isfirstpost) {
 		$_G['group']['allowimgcontent'] = 0;
 	}
@@ -380,17 +379,17 @@ if(!submitcheck('editsubmit')) {
 			$modpost->attach_after_method('editpost', array('class' => 'extend_thread_follow', 'method' => 'after_editpost'));
 		}
 
-               if($_G['group']['allowat']) {
-                       $modpost->attach_before_method('editpost', array('class' => 'extend_thread_allowat', 'method' => 'before_editpost'));
-                       $modpost->attach_after_method('editpost', array('class' => 'extend_thread_allowat', 'method' => 'after_editpost'));
-               }
+		if($_G['group']['allowat']) {
+			$modpost->attach_before_method('editpost', array('class' => 'extend_thread_allowat', 'method' => 'before_editpost'));
+			$modpost->attach_after_method('editpost', array('class' => 'extend_thread_allowat', 'method' => 'after_editpost'));
+		}
 
-               $modpost->attach_before_method('editpost', array('class' => 'extend_thread_image', 'method' => 'before_editpost'));
+		$modpost->attach_before_method('editpost', array('class' => 'extend_thread_image', 'method' => 'before_editpost'));
 
 
-               if($special == '2' && $_G['group']['allowposttrade']) {
-                       $modpost->attach_before_method('editpost', array('class' => 'extend_thread_trade', 'method' => 'before_editpost'));
-               }
+		if($special == '2' && $_G['group']['allowposttrade']) {
+			$modpost->attach_before_method('editpost', array('class' => 'extend_thread_trade', 'method' => 'before_editpost'));
+		}
 
 		$modpost->attach_before_method('editpost', array('class' => 'extend_thread_filter', 'method' => 'before_editpost'));
 		$modpost->attach_after_method('editpost', array('class' => 'extend_thread_filter', 'method' => 'after_editpost'));
@@ -411,7 +410,6 @@ if(!submitcheck('editsubmit')) {
 			'price' => $_GET['price'],
 
 			'ordertype' => $_GET['ordertype'],
-			'hiddenreplies' => $_GET['hiddenreplies'],
 			'allownoticeauthor' => $_GET['allownoticeauthor'],
 
 			'audit' => $_GET['audit'],

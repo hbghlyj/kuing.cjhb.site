@@ -1,8 +1,8 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
+ *	[Discuz!] (C)2001-2099 Comsenz Inc.
+ *	This is NOT a freeware, use is subject to license terms
  *
  *	$Id: lang_template.php by Valery Votintsev, codersclub.org
  *
@@ -500,7 +500,7 @@ $lang = array (
 	'crime_record'				=> 'Violation log',//'违规记录',
 	'crime_sightml'				=> 'Remove signature',//'清除签名',
 	'crime_warnpost'			=> 'Warn Post',//'警告帖子',
-        'members_ban_none'                      => 'Normal status',//'正常状态',
+	'members_ban_none'			=> 'Normal status',//'正常状态',
 	'expiry'				=> 'Expiry',//'期限',
 	'ip_location'				=> 'IP location',//'地理位置',
 	'mod_member_ban'			=> 'Ban user',//'禁止用户',
@@ -673,15 +673,15 @@ $lang = array (
 	'post_rushreply_credit'		=> 'Larger than this set in order to participate in the grab floor, and from time filled',//'大于此设置才能参与抢楼，可不填',
 	'post_tag'			=> 'Tags',//'标签',
 	'tag_cannot_contain_comma_or_backslash'	=> 'Tags can not contain commas or backslashes',//'标签不能包含,或\\',
-        'tag_max_length_invalid' => 'Tag length should be between 3 and 30 characters, current length is ',//'标签长度最大为 30 字节，最小为 3 字节，当前长度为 ',
-        'tag_length_invalid'     => 'Tag length must be between 2 and 30 characters',
-        'input_a_new_tag_press_enter_submit' => 'Enter a new tag and press Enter',//'输入一个新标签，按回车键添加',
+	'tag_max_length_invalid' => 'Tag length should be between 3 and 30 characters, current length is ',//'标签长度最大为 30 字节，最小为 3 字节，当前长度为 ',
+	'tag_length_invalid'	 => 'Tag length must be between 2 and 30 characters',
+	'input_a_new_tag_press_enter_submit' => 'Enter a new tag and press Enter',//'输入一个新标签，按回车键添加',
 	'post_timer'			=> 'Timed publishing',//'定时发布',
 	'posttag'			=> 'Thread tags',//'主题标签',
 	'tag_count_limit'		=> 'Maximum is 5 tags ',//'最多可填写 5 个标签',
 	'recent_use_tag'		=> 'Recently used tags:',//'最近使用标签:',
-        'suggest_tags'                  => 'Suggest Tags' ,
-        'suggest_tags_label'            => 'Suggest keyword to make this page easier to find:' ,
+	'suggest_tags'			=> 'Suggest Tags' ,
+	'suggest_tags_label'		=> 'Suggest keyword to make this page easier to find:' ,
 	'replycredit_empty'		=> '(leave blank or fill 0 for no reward)',//'(留空或填 0 为不奖励)',
 	'replycredit_however'		=> 'Still have replies',//'本帖尚有',
 	'replycredit_member'		=> 'up to a maximum per person',//'每人最多可获得',
@@ -747,7 +747,6 @@ $lang = array (
 	'auditstatuson'			=> 'Verified',//'通过审核',
 	'del_thread_warning'		=> 'Deletion can not be undone',//'删除后无法撤销',
 	'disable'			=> 'Disable ',//'禁用',
-	'hiddenreplies'			=> 'Replies visible to author only',//'回帖仅作者可见',
 	'post_additional_options'	=> 'Additional Options',//'附加选项',
 	'post_anonymous'		=> 'Post Anonymous',//'使用匿名发帖',
 	'post_delpost'			=> 'Delete Post',//'删除本帖',
@@ -1212,7 +1211,6 @@ $lang = array (
 	'image_list_openning'		=> 'Image loading, please wait ...',//'组图打开中，请稍候......',
 	'image_small'			=> 'Small image',//'小图',
 	'message_banned'		=> 'Note: <em>The author has been banned or deleted.</em>',//'提示: <em>作者被禁止或删除 内容自动屏蔽</em>',
-	'message_ishidden_hiddenreplies'	=> 'This post visible to author only',//'此帖仅作者可见',
 	'message_single_banned'		=> 'Note: <em>Thread has been banned by manager</em>',//'提示: <em>该帖被管理员或版主屏蔽</em>',
 	'message_password_exists'	=> 'This post is password protected',//'本帖为密码帖',
 	'more_images'			=> 'More images',//'更多图片',
