@@ -66,7 +66,6 @@ if($operation == 'filecheck') {
 		checkfiles('api/', '');
 		checkfiles('source/', '', 1, 'discuzfiles.md5,plugin');
 		checkfiles('static/', '');
-		checkfiles('archiver/', '');
 		checkfiles('uc_client/', '\.php|\.htm', 0);
 		checkfiles('uc_client/data/', '\.htm');
 		checkfiles('uc_client/control/', '\.php|\.htm');
