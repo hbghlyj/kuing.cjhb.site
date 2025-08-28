@@ -243,8 +243,7 @@ if(!submitcheck('topicsubmit', 0, $seccodecheck, $secqaacheck)) {
 
 	$params['hiddenreplies'] = getgpc('hiddenreplies');
 
-	$params['allownoticeauthor'] = $_GET['allownoticeauthor'];
-	$params['tags'] = $_GET['tags'];
+       $params['tags'] = $_GET['tags'];
 	$params['bbcodeoff'] = getgpc('bbcodeoff');
 	$params['smileyoff'] = getgpc('smileyoff');
 	$params['parseurloff'] = getgpc('parseurloff');

@@ -62,11 +62,9 @@ class model_post extends discuz_model {
 			'htmlon', 'bbcodeoff', 'smileyoff', 'parseurloff', 'pstatus',
 			'noticetrimstr', 'noticeauthor', 'from', 'sechash', 'geoloc',
 			'timestamp',
-
 			'subject', 'special', 'sortid', 'typeid', 'isanonymous', 'cronpublish', 'cronpublishdate', 'save',
 			'readperm', 'price', 'ordertype', 'hiddenreplies', 'allownoticeauthor', 'audit', 'tags', 'bbcodeoff', 'imgcontent', 'imgcontentwidth',
 			'smileyoff', 'parseurloff', 'usesig', 'htmlon', 'extramessage', 'original', 'source', 'contentType', 'contentEditor', 'repid',
-
 		];
 		foreach($varname as $name) {
 			if(!isset($this->param[$name]) && isset($parameters[$name])) {
@@ -450,7 +448,7 @@ class model_post extends discuz_model {
 
 			$this->thread['status'] = setstatus(2, $this->param['hiddenreplies'], $this->thread['status']);
 
-			$this->thread['status'] = setstatus(6, $this->param['allownoticeauthor'] ? 1 : 0, $this->thread['status']);
+                       $this->thread['status'] = setstatus(6, 1, $this->thread['status']);
 
 			$displayorder = (empty($this->param['save']) || $this->thread['displayorder'] != -4) ? ($this->thread['displayorder'] == -4 ? -4 : $this->thread['displayorder']) : -4;
 			$this->param['typeid'] = isset($this->param['typeid']) && isset($this->forum['threadtypes']['types'][$this->param['typeid']]) && (!$this->forum['threadtypes']['moderators'][$this->param['typeid']] || $this->forum['ismoderator']) ? $this->param['typeid'] : 0;

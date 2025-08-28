@@ -125,8 +125,7 @@ class model_thread extends discuz_model {
 
 		$this->param['hiddenreplies'] && $this->param['tstatus'] = setstatus(2, 1, $this->param['tstatus']);
 
-
-		$this->param['allownoticeauthor'] && $this->param['tstatus'] = setstatus(6, 1, $this->param['tstatus']);
+		$this->param['tstatus'] = setstatus(6, 1, $this->param['tstatus']);
 		$this->param['isgroup'] = $this->forum['status'] == 3 ? 1 : 0;
 
 		$this->param['publishdate'] = !$this->param['modnewthreads'] ? $this->param['publishdate'] : TIMESTAMP;
@@ -367,7 +366,7 @@ class model_thread extends discuz_model {
 		$varname = [
 			'member', 'group', 'forum', 'extramessage',
 			'subject', 'sticktopic', 'save', 'ordertype', 'hiddenreplies',
-			'allownoticeauthor', 'readperm', 'price', 'typeid', 'sortid',
+                       'readperm', 'price', 'typeid', 'sortid',
 			'publishdate', 'digest', 'moderated', 'tstatus', 'isgroup', 'imgcontent', 'imgcontentwidth',
 			'replycredit', 'closed', 'special', 'tags',
 			'message', 'content', 'clientip', 'invisible', 'isanonymous', 'usesig',
