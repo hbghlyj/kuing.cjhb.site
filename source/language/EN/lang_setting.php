@@ -43,7 +43,6 @@ $lang = array (
 
 	'nav_stat'	=> 'Statistics',//'站点统计',
 	'nav_report'	=> 'Reports',//'举报',
-	'nav_archiver'	=> 'Archive',
 	'nav_mobile'	=> 'Mobile',//'手机版',
 	'nav_friend'	=> 'Friends',//'好友',
 	'nav_thread'	=> 'Threads',//'帖子',
