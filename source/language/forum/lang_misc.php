@@ -27,9 +27,8 @@ $lang = array
 	'post_hidden' => '**** 本内容被作者隐藏 ****',
 	'post_sold' => '**** 本内容购买后可见 ****',
 	'post_banned' => '**** 作者被禁止或删除 内容自动屏蔽 ****',
-	'post_single_banned' => '**** 该帖被屏蔽 ****',
-	'message_ishidden_hiddenreplies' => '此帖仅作者可见',
-	'post_reply_quote' => '{author} 发表于 {time}',
+        'post_single_banned' => '**** 该帖被屏蔽 ****',
+        'post_reply_quote' => '{author} 发表于 {time}',
 	'post_reply' => '回复',
 	'post_thread' => '的帖子',
 

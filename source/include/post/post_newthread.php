@@ -232,11 +232,9 @@ if(!submitcheck('topicsubmit', 0, $seccodecheck, $secqaacheck)) {
 
 
 
-	$params['ordertype'] = getgpc('ordertype');
+        $params['ordertype'] = getgpc('ordertype');
 
-	$params['hiddenreplies'] = getgpc('hiddenreplies');
-
-	$params['allownoticeauthor'] = $_GET['allownoticeauthor'];
+        $params['allownoticeauthor'] = $_GET['allownoticeauthor'];
 	$params['tags'] = $_GET['tags'];
 	$params['bbcodeoff'] = getgpc('bbcodeoff');
 	$params['smileyoff'] = getgpc('smileyoff');

@@ -27,7 +27,6 @@ $lang = array
 	'post_hidden'		=> '**** Hidden by Author ****',//'**** 本内容被作者隐藏 ****',
 	'post_banned'		=> '**** Author was banned or deleted ****',//'**** 作者被禁止或删除 内容自动屏蔽 ****',
 	'post_single_banned'	=> '**** This post was banned ****',//'**** 该帖被屏蔽 ****',
-	'message_ishidden_hiddenreplies'	=> 'This post is visible only to author of the thread',//'此帖仅作者可见',
 	'post_reply_quote'		=> '{author} wrote at {time}',//'{author} 发表于 {time}',
 	'post_reply'			=> 'Reply',//'回复',
 	'post_thread'			=> 'Add Thread',//'的帖子',

@@ -28,7 +28,7 @@ parse_str(getgpc('extra'), $_GET['extra']);
 $_GET['extra'] = http_build_query($_GET['extra']);
 
 $postinfo = array('subject' => '');
-$thread = array('readperm' => '', 'pricedisplay' => '', 'hiddenreplies' => '');
+$thread = array('readperm' => '', 'pricedisplay' => '');
 
 $_G['forum_dtype'] = $_G['forum_checkoption'] = $_G['forum_optionlist'] = $tagarray = $_G['forum_typetemplate'] = array();
 
