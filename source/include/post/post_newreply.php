@@ -14,7 +14,6 @@ if(!defined('IN_DISCUZ')) {
 require_once libfile('function/forumlist');
 
 $isfirstpost = 0;
-$_G['group']['allowimgcontent'] = 0;
 $showthreadsorts = 0;
 $quotemessage = '';
 
@@ -97,7 +96,7 @@ if($_G['setting']['commentnumber'] && !empty($_GET['comment'])) {
 	C::t('forum_post')->update_post('tid:'.$_G['tid'], $_GET['pid'], array('comment' => 1));
 	$comment = cutstr(str_replace(array('[b]', '[/b]', '[/color]'), '', preg_replace("/\[color=([#\w]+?)\]/i", "", $comment)), 200);
 	$comments = $thread['comments'] ? $thread['comments'] + 1 : C::t('forum_postcomment')->count_by_tid($_G['tid']);
-        C::t('forum_thread')->update($_G['tid'], array('comments' => $comments, 'lastpost' => TIMESTAMP, 'lastposter' => $_G['username']));
+		C::t('forum_thread')->update($_G['tid'], array('comments' => $comments, 'lastpost' => TIMESTAMP, 'lastposter' => $_G['username']));
 	if(!empty($_G['uid']) && $_G['uid'] != $post['authorid']) {
 		notification_add($post['authorid'], 'pcomment', 'comment_add', array(
 			'tid' => $_G['tid'],
@@ -111,14 +110,14 @@ if($_G['setting']['commentnumber'] && !empty($_GET['comment'])) {
 preg_match_all('/(?<!\S)@\K[^\r\n@\s]+(?=\s)/', $comment.' ', $matches);
 $matches = array_unique($matches[0]);
 $matches = array_filter($matches, function($v) {
-    $len = dstrlen($v);
-    return $len >= 3 && $len <= 15;
+	$len = dstrlen($v);
+	return $len >= 3 && $len <= 15;
 });
 if (!empty($matches)) {
 	$atlist_tmp = $matches;
-                foreach ($atlist_tmp as $username) {
-                        $stripped_username = str_replace(' ', '', $username);
-        $uid = DB::result_first("SELECT uid FROM %t WHERE REPLACE(username, ' ', '')=%s", array('common_member', $stripped_username));
+				foreach ($atlist_tmp as $username) {
+						$stripped_username = str_replace(' ', '', $username);
+		$uid = DB::result_first("SELECT uid FROM %t WHERE REPLACE(username, ' ', '')=%s", array('common_member', $stripped_username));
 			if ($uid && $uid != $_G['uid']) {
 				notification_add(
 					$uid,
@@ -175,14 +174,14 @@ if (!empty($matches)) {
 	C::t('forum_postcache')->delete($post['pid']);
 
 	// push "commentadd" activity to Pusher
- 	require_once(DISCUZ_ROOT.'/chat/php/vendor/autoload.php');
- 	require_once(DISCUZ_ROOT.'/chat/php/config.php');
- 
- 	$pusher = new Pusher(APP_KEY,APP_SECRET,APP_ID,array(
- 		'cluster' => 'eu',
- 		'useTLS' => true
- 	));
- 	$pusher->trigger('Chat', 'commentadd', array('tid' => $post['tid'], 'pid' => $post['pid']));
+	require_once(DISCUZ_ROOT.'/chat/php/vendor/autoload.php');
+	require_once(DISCUZ_ROOT.'/chat/php/config.php');
+
+	$pusher = new Pusher(APP_KEY,APP_SECRET,APP_ID,array(
+		'cluster' => 'eu',
+		'useTLS' => true
+	));
+	$pusher->trigger('Chat', 'commentadd', array('tid' => $post['tid'], 'pid' => $post['pid']));
 	showmessage('comment_add_succeed', "forum.php?mod=redirect&goto=findpost&tid={$post['tid']}&pid={$post['pid']}", array('tid' => $post['tid'], 'pid' => $post['pid']));
 }
 

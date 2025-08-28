@@ -80,7 +80,7 @@ if(!submitcheck('topicsubmit', 0, $seccodecheck, $secqaacheck)) {
 
 	$isfirstpost = 1;
 	$allownoticeauthor = 1;
-        $showthreadsorts = !empty($sortid) || getglobal('forum/threadsorts/required') && empty($special);
+		$showthreadsorts = !empty($sortid) || getglobal('forum/threadsorts/required') && empty($special);
 	if(empty($sortid) && empty($special) && getglobal('forum/threadsorts/required') && $_G['forum']['threadsorts']['types']) {
 		$tmp = array_keys($_G['forum']['threadsorts']['types']);
 		$sortid = $tmp[0];
@@ -243,10 +243,6 @@ if(!submitcheck('topicsubmit', 0, $seccodecheck, $secqaacheck)) {
 	$params['parseurloff'] = getgpc('parseurloff');
 	$params['usesig'] = $_GET['usesig'];
 	$params['htmlon'] = getgpc('htmlon');
-	if($_G['group']['allowimgcontent']) {
-		$params['imgcontent'] = $_GET['imgcontent'];
-		$params['imgcontentwidth'] = $_G['setting']['imgcontentwidth'] ? intval($_G['setting']['imgcontentwidth']) : 100;
-	}
 
 	$params['geoloc'] = diconv(getgpc('geoloc'), 'UTF-8');
 

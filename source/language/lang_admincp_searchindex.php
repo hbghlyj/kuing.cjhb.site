@@ -10,1400 +10,1400 @@
  */
 
 $lang = array (
-	0 => 
+	0 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'管理中心首页' => 'action=index',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '管理中心首页',
 		),
 	),
-	1 => 
+	1 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'常用操作管理' => 'action=misc&operation=custommenu',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '常用操作管理',
 		),
 	),
-	2 => 
+	2 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'站点信息' => 'action=setting&operation=basic',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '站点信息',
 		),
 	),
-	3 => 
+	3 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'注册与访问控制' => 'action=setting&operation=access',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '注册与访问控制',
 		),
 	),
-	4 => 
+	4 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'站点功能' => 'action=setting&operation=functions',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '站点功能',
 		),
 	),
-	5 => 
+	5 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'性能优化' => 'action=setting&operation=cachethread',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '性能优化',
 		),
 	),
-	6 => 
+	6 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'SEO设置' => 'action=setting&operation=seo',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => 'SEO设置',
 		),
 	),
-	7 => 
+	7 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'域名设置' => 'action=domain',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '域名设置',
 		),
 	),
-	8 => 
+	8 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'广播设置' => 'action=setting&operation=follow',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '广播设置',
 		),
 	),
-	9 => 
+	9 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'空间设置' => 'action=setting&operation=home',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '空间设置',
 		),
 	),
-	10 => 
+	10 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'用户权限' => 'action=setting&operation=permissions',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '用户权限',
 		),
 	),
-	11 => 
+	11 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'积分设置' => 'action=setting&operation=credits',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '积分设置',
 		),
 	),
-	12 => 
+	12 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'时间设置' => 'action=setting&operation=datetime',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '时间设置',
 		),
 	),
-	13 => 
+	13 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'上传设置' => 'action=setting&operation=attach',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '上传设置',
 		),
 	),
-	14 => 
+	14 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'水印设置' => 'action=setting&operation=imgwater',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '水印设置',
 		),
 	),
-	15 => 
+	15 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'附件类型尺寸' => 'action=misc&operation=attachtype',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '附件类型尺寸',
 		),
 	),
-	16 => 
+	16 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'搜索设置' => 'action=setting&operation=search',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '搜索设置',
 		),
 	),
-	17 => 
+	17 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'地区设置' => 'action=district',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '地区设置',
 		),
 	),
-	18 => 
+	18 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'排行榜设置' => 'action=setting&operation=ranklist',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '排行榜设置',
 		),
 	),
-	19 => 
+	19 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'手机版设置' => 'action=setting&operation=mobile',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '手机版设置',
 		),
 	),
-	20 => 
+	20 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'防采集设置' => 'action=setting&operation=antitheft',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '防采集设置',
 		),
 	),
-	21 => 
+	21 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'导航设置' => 'action=nav',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '导航设置',
 		),
 	),
-	22 => 
+	22 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'界面设置' => 'action=setting&operation=styles',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '界面设置',
 		),
 	),
-	23 => 
+	23 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'表情管理' => 'action=smilies',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '表情管理',
 		),
 	),
-	24 => 
+	24 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'表态动作' => 'action=click',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '表态动作',
 		),
 	),
-	25 => 
+	25 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'主题鉴定' => 'action=misc&operation=stamp',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '主题鉴定',
 		),
 	),
-	26 => 
+	26 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'编辑器设置' => 'action=setting&operation=editor',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '编辑器设置',
 		),
 	),
-	27 => 
+	27 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'在线列表图标' => 'action=misc&operation=onlinelist',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '在线列表图标',
 		),
 	),
-	28 => 
+	28 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'内容审核' => 'action=moderate',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '内容审核',
 		),
 	),
-	29 => 
+	29 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'内容重新审核' => 'action=remoderate',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '内容重新审核',
 		),
 	),
-	30 => 
+	30 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'词语过滤' => 'action=misc&operation=censor',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '词语过滤',
 		),
 	),
-	31 => 
+	31 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'用户举报' => 'action=report',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '用户举报',
 		),
 	),
-	32 => 
+	32 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'标签管理' => 'action=tag',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '标签管理',
 		),
 	),
-	33 => 
+	33 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'淘帖管理' => 'action=collection',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '淘帖管理',
 		),
 	),
-	34 => 
+	34 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'论坛主题管理' => 'action=threads',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '论坛主题管理',
 		),
 	),
-	35 => 
+	35 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'论坛批量删帖' => 'action=prune',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '论坛批量删帖',
 		),
 	),
-	36 => 
+	36 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'论坛附件管理' => 'action=attach',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '论坛附件管理',
 		),
 	),
-	37 => 
+	37 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'圈子主题管理' => 'action=threads&operation=group',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '圈子主题管理',
 		),
 	),
-	38 => 
+	38 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'圈子批量删帖' => 'action=prune&operation=group',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '圈子批量删帖',
 		),
 	),
-	39 => 
+	39 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'圈子附件管理' => 'action=attach&operation=group',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '圈子附件管理',
 		),
 	),
-	40 => 
+	40 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'主题回收站' => 'action=recyclebin',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '主题回收站',
 		),
 	),
-	41 => 
+	41 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'回帖回收站' => 'action=recyclebinpost',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '回帖回收站',
 		),
 	),
-	42 => 
+	42 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'版块/圈子置顶' => 'action=threads&operation=forumstick',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '版块/圈子置顶',
 		),
 	),
-	43 => 
+	43 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'帖子点评管理' => 'action=postcomment',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '帖子点评管理',
 		),
 	),
-	44 => 
+	44 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'记录管理' => 'action=doing',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '记录管理',
 		),
 	),
-	45 => 
+	45 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'日志管理' => 'action=blog',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '日志管理',
 		),
 	),
-	46 => 
+	46 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'日志回收站' => 'action=blogrecyclebin',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '日志回收站',
 		),
 	),
-	47 => 
+	47 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'动态管理' => 'action=feed',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '动态管理',
 		),
 	),
-	48 => 
+	48 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'相册管理' => 'action=album',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '相册管理',
 		),
 	),
-	49 => 
+	49 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'图片管理' => 'action=pic',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '图片管理',
 		),
 	),
-	50 => 
+	50 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'评论/留言管理' => 'action=comment',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '评论/留言管理',
 		),
 	),
-	51 => 
+	51 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'分享管理' => 'action=share',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '分享管理',
 		),
 	),
-	52 => 
+	52 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'用户管理' => 'action=members&operation=search',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '用户管理',
 		),
 	),
-	53 => 
+	53 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'添加用户' => 'action=members&operation=add',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '添加用户',
 		),
 	),
-	54 => 
+	54 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'用户栏目' => 'action=members&operation=profile',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '用户栏目',
 		),
 	),
-	55 => 
+	55 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'资料统计' => 'action=members&operation=stat',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '资料统计',
 		),
 	),
-	56 => 
+	56 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'发送通知' => 'action=members&operation=newsletter',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '发送通知',
 		),
 	),
-	57 => 
+	57 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'发送手机通知' => 'action=members&operation=newsletter&do=mobile',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '发送手机通知',
 		),
 	),
-	58 => 
+	58 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'发送手机短信' => 'action=members&operation=newsletter&do=sms',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '发送手机短信',
 		),
 	),
-	59 => 
+	59 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'用户标签' => 'action=usertag',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '用户标签',
 		),
 	),
-	60 => 
+	60 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'禁止用户' => 'action=members&operation=ban',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '禁止用户',
 		),
 	),
-	61 => 
+	61 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'禁止 IP' => 'action=members&operation=ipban',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '禁止 IP',
 		),
 	),
-	62 => 
+	62 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'积分奖惩' => 'action=members&operation=reward',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '积分奖惩',
 		),
 	),
-	63 => 
+	63 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'审核用户' => 'action=moderate&operation=members',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '审核用户',
 		),
 	),
-	64 => 
+	64 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'管理组' => 'action=admingroup',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '管理组',
 		),
 	),
-	65 => 
+	65 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'用户组' => 'action=usergroups',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '用户组',
 		),
 	),
-	66 => 
+	66 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'推荐关注' => 'action=specialuser&operation=follow',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '推荐关注',
 		),
 	),
-	67 => 
+	67 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'推荐好友' => 'action=specialuser&operation=defaultuser',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '推荐好友',
 		),
 	),
-	68 => 
+	68 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'资料审核' => 'action=verify&operation=verify',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '资料审核',
 		),
 	),
-	69 => 
+	69 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'认证设置' => 'action=verify',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '认证设置',
 		),
 	),
-	70 => 
+	70 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'频道栏目' => 'action=portalcategory',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '频道栏目',
 		),
 	),
-	71 => 
+	71 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'文章管理' => 'action=article',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '文章管理',
 		),
 	),
-	72 => 
+	72 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'专题管理' => 'action=topic',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '专题管理',
 		),
 	),
-	73 => 
+	73 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'HTML管理' => 'action=makehtml',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => 'HTML管理',
 		),
 	),
-	74 => 
+	74 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'页面管理' => 'action=diytemplate',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '页面管理',
 		),
 	),
-	75 => 
+	75 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'模块管理' => 'action=block',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '模块管理',
 		),
 	),
-	76 => 
+	76 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'模块模板' => 'action=blockstyle',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '模块模板',
 		),
 	),
-	77 => 
+	77 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'第三方模块' => 'action=blockxml',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '第三方模块',
 		),
 	),
-	78 => 
+	78 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'权限列表' => 'action=portalpermission',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '权限列表',
 		),
 	),
-	79 => 
+	79 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'日志分类' => 'action=blogcategory',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '日志分类',
 		),
 	),
-	80 => 
+	80 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'相册分类' => 'action=albumcategory',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '相册分类',
 		),
 	),
-	81 => 
+	81 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'版块管理' => 'action=forums',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '版块管理',
 		),
 	),
-	82 => 
+	82 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'版块合并' => 'action=forums&operation=merge',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '版块合并',
 		),
 	),
-	83 => 
+	83 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'分类信息' => 'action=threadtypes',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '分类信息',
 		),
 	),
-	84 => 
+	84 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'首页四格' => 'action=grid',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '首页四格',
 		),
 	),
-	85 => 
+	85 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'圈子设置' => 'action=group&operation=setting',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '圈子设置',
 		),
 	),
-	86 => 
+	86 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'圈子分类' => 'action=group&operation=type',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '圈子分类',
 		),
 	),
-	87 => 
+	87 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'圈子管理' => 'action=group&operation=manage',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '圈子管理',
 		),
 	),
-	88 => 
+	88 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'圈主权限' => 'action=group&operation=userperm',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '圈主权限',
 		),
 	),
-	89 => 
+	89 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'圈子等级' => 'action=group&operation=level',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '圈子等级',
 		),
 	),
-	90 => 
+	90 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'审核圈子' => 'action=group&operation=mod',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '审核圈子',
 		),
 	),
-	91 => 
+	91 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'基本设置' => 'action=setting&operation=sec',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '基本设置',
 		),
 	),
-	92 => 
+	92 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'验证设置' => 'action=setting&operation=seccheck',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '验证设置',
 		),
 	),
-	93 => 
+	93 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'安全大师' => 'action=optimizer&operation=security',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '安全大师',
 		),
 	),
-	94 => 
+	94 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'底层安全' => 'action=optimizer&operation=serversec',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '底层安全',
 		),
 	),
-	95 => 
+	95 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'账号保镖' => 'action=setting&operation=accountguard',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '账号保镖',
 		),
 	),
-	96 => 
+	96 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'站点公告' => 'action=announce',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '站点公告',
 		),
 	),
-	97 => 
+	97 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'站点广告' => 'action=adv',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '站点广告',
 		),
 	),
-	98 => 
+	98 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'站点任务' => 'action=tasks',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '站点任务',
 		),
 	),
-	99 => 
+	99 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'道具中心' => 'action=magics',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '道具中心',
 		),
 	),
-	100 => 
+	100 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'勋章中心' => 'action=medals',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '勋章中心',
 		),
 	),
-	101 => 
+	101 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'短信服务' => 'action=smsgw',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '短信服务',
 		),
 	),
-	102 => 
+	102 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'站点帮助' => 'action=faq',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '站点帮助',
 		),
 	),
-	103 => 
+	103 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'电子商务' => 'action=setting&operation=ec',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '电子商务',
 		),
 	),
-	104 => 
+	104 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'友情链接' => 'action=misc&operation=link',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '友情链接',
 		),
 	),
-	105 => 
+	105 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'站长推荐' => 'action=misc&operation=focus',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '站长推荐',
 		),
 	),
-	106 => 
+	106 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'关联链接' => 'action=misc&operation=relatedlink',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '关联链接',
 		),
 	),
-	107 => 
+	107 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'充值卡密' => 'action=card',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '充值卡密',
 		),
 	),
-	108 => 
+	108 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'插件管理' => 'action=plugins',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '插件管理',
 		),
 	),
-	109 => 
+	109 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'模板管理' => 'action=styles',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '模板管理',
 		),
 	),
-	110 => 
+	110 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'更新缓存' => 'action=tools&operation=updatecache',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '更新缓存',
 		),
 	),
-	111 => 
+	111 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'更新统计' => 'action=counter',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '更新统计',
 		),
 	),
-	112 => 
+	112 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'运行记录' => 'action=logs',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '运行记录',
 		),
 	),
-	113 => 
+	113 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'计划任务' => 'action=misc&operation=cron',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '计划任务',
 		),
 	),
-	114 => 
+	114 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'文件权限检查' => 'action=tools&operation=fileperms',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '文件权限检查',
 		),
 	),
-	115 => 
+	115 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'文件校验' => 'action=checktools&operation=filecheck',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '文件校验',
 		),
 	),
-	116 => 
+	116 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'嵌入点校验' => 'action=checktools&operation=hookcheck',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '嵌入点校验',
 		),
 	),
-	117 => 
+	117 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'密钥更新' => 'action=checktools&operation=replacekey',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '密钥更新',
 		),
 	),
-	118 => 
+	118 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'后台管理团队' => 'action=founder&operation=perm',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '后台管理团队',
 		),
 	),
-	119 => 
+	119 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'邮件设置' => 'action=setting&operation=mail',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '邮件设置',
 		),
 	),
-	120 => 
+	120 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'UCenter 设置' => 'action=setting&operation=uc',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => 'UCenter 设置',
 		),
 	),
-	121 => 
+	121 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'数据库' => 'action=db&operation=export',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '数据库',
 		),
 	),
-	122 => 
+	122 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'用户分表' => 'action=membersplit&operation=check',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '用户分表',
 		),
 	),
-	123 => 
+	123 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'帖子分表' => 'action=postsplit&operation=manage',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '帖子分表',
 		),
 	),
-	124 => 
+	124 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'主题分表' => 'action=threadsplit&operation=manage',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '主题分表',
 		),
 	),
-	125 => 
+	125 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'优化大师' => 'action=optimizer&operation=performance',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '优化大师',
 		),
 	),
-	126 => 
+	126 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'管理组' => 'action=admingroup',
 			'主题管理权限' => 'action=admingroup&operation=edit&anchor=threadperm',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '管理组 &raquo; 主题管理权限',
 			1 => 'admingroup_edit_threadperm',
@@ -1489,14 +1489,14 @@ $lang = array (
 			81 => '允许精华 I/II/III',
 		),
 	),
-	127 => 
+	127 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'管理组' => 'action=admingroup',
 			'帖子管理权限' => 'action=admingroup&operation=edit&anchor=postperm',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '管理组 &raquo; 帖子管理权限',
 			1 => 'admingroup_edit_postperm',
@@ -1521,14 +1521,14 @@ $lang = array (
 			20 => '设置是否允许管理管理范围内的标签',
 		),
 	),
-	128 => 
+	128 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'管理组' => 'action=admingroup',
 			'管理面板权限' => 'action=admingroup&operation=edit&anchor=modcpperm',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '管理组 &raquo; 管理面板权限',
 			1 => 'admingroup_edit_modcpperm',
@@ -1568,14 +1568,14 @@ $lang = array (
 			35 => '设置是否允许查看管理日志',
 		),
 	),
-	129 => 
+	129 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'管理组' => 'action=admingroup',
 			'空间管理权限' => 'action=admingroup&operation=edit&anchor=spaceperm',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '管理组 &raquo; 空间管理权限',
 			1 => 'admingroup_edit_spaceperm',
@@ -1606,14 +1606,14 @@ $lang = array (
 			26 => '允许管理表态动作',
 		),
 	),
-	130 => 
+	130 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'管理组' => 'action=admingroup',
 			'其他权限' => 'action=admingroup&operation=edit&anchor=otherperm',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '管理组 &raquo; 其他权限',
 			1 => 'admingroup_edit_otherperm',
@@ -1629,14 +1629,14 @@ $lang = array (
 			11 => '设置是否允许生成HTML文件',
 		),
 	),
-	131 => 
+	131 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'管理组' => 'action=admingroup',
 			'门户管理权限' => 'action=admingroup&operation=edit&anchor=portalperm',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '管理组 &raquo; 门户管理权限',
 			1 => 'admingroup_edit_portalperm',
@@ -1655,42 +1655,42 @@ $lang = array (
 			14 => '设置是否允许 DIY 论坛，文章，空间，论坛等页面',
 		),
 	),
-	132 => 
+	132 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'站点广告' => 'action=adv',
 			'广告位' => 'action=adv&operation=list',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '站点广告 &raquo; 广告位',
 			1 => 'adv_list_tip',
 			2 => '您可以使用“自定义广告位”在页面的任意位置添加广告位。系统广告位位于 source/class/adv/ 目录中，插件广告位位于 source/plugin/插件目录/adv/ 目录中。插件开发人员在设计新的广告位前请务必仔细阅读《Discuz! 技术文档》中的内容。',
 		),
 	),
-	133 => 
+	133 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'相册管理' => 'action=album',
 			'最新列表' => 'action=album',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '相册管理 &raquo; 最新列表',
 			1 => 'album_tips',
 			2 => '批量相册管理用于删除相册使用。连图片一同删除提醒：点击搜索结果页的删除按钮，将会直接删除相关信息！',
 		),
 	),
-	134 => 
+	134 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'相册管理' => 'action=album',
 			'搜索' => 'action=album&search=true',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '相册管理 &raquo; 搜索',
 			1 => 'album_search_detail',
@@ -1717,13 +1717,13 @@ $lang = array (
 			22 => '格式 yyyy-mm-dd',
 		),
 	),
-	135 => 
+	135 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'相册分类' => 'action=albumcategory',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '相册分类',
 			1 => 'system_category_stat',
@@ -1732,13 +1732,13 @@ $lang = array (
 			4 => '系统分类必填',
 		),
 	),
-	136 => 
+	136 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'站点公告' => 'action=announce',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '站点公告',
 			1 => 'announce_edit',
@@ -1760,14 +1760,14 @@ $lang = array (
 			17 => '网址链接',
 		),
 	),
-	137 => 
+	137 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'第三方模块' => 'action=blockxml',
 			'搜索' => 'action=blockxml&operation=add',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '第三方模块 &raquo; 搜索',
 			1 => 'blockxml_tips',
@@ -1788,28 +1788,28 @@ $lang = array (
 			16 => '从 URL 地址获得数据时的密钥，如果数据源不需要密钥可以为空。此密钥由数据源方提供',
 		),
 	),
-	138 => 
+	138 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'日志管理' => 'action=blog',
 			'最新列表' => 'action=blog',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '日志管理 &raquo; 最新列表',
 			1 => 'blog_tips',
 			2 => '批量日志信息管理用于删除日志使用，并且连同对应的回复一同删除。关键字可以使用限定符 {x} 以限定相邻两字符间可忽略的文字，x 是忽略字符的个数，如 "a{1}s{2}s"(不含引号) 可以搜索到 "ass" 也可搜索到 "axsxs" 和 "axsxxs" 等等。提醒：点击搜索结果页的删除按钮，将会直接删除相关信息！',
 		),
 	),
-	139 => 
+	139 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'日志管理' => 'action=blog',
 			'搜索' => 'action=blog&search=true',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '日志管理 &raquo; 搜索',
 			1 => 'blog_search_detail',
@@ -1849,13 +1849,13 @@ $lang = array (
 			35 => '格式 yyyy-mm-dd',
 		),
 	),
-	140 => 
+	140 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'日志分类' => 'action=blogcategory',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '日志分类',
 			1 => 'system_category_stat',
@@ -1864,28 +1864,28 @@ $lang = array (
 			4 => '系统分类必填',
 		),
 	),
-	141 => 
+	141 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'日志回收站' => 'action=blogrecyclebin',
 			'日志列表' => 'action=blogrecyclebin',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '日志回收站 &raquo; 日志列表',
 			1 => 'blog_tips',
 			2 => '批量日志信息管理用于删除日志使用，并且连同对应的回复一同删除。关键字可以使用限定符 {x} 以限定相邻两字符间可忽略的文字，x 是忽略字符的个数，如 "a{1}s{2}s"(不含引号) 可以搜索到 "ass" 也可搜索到 "axsxs" 和 "axsxxs" 等等。提醒：点击搜索结果页的删除按钮，将会直接删除相关信息！',
 		),
 	),
-	142 => 
+	142 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'日志管理' => 'action=blog',
 			'搜索' => 'action=blog&search=true',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '日志管理 &raquo; 搜索',
 			1 => 'blog_search_detail',
@@ -1925,13 +1925,13 @@ $lang = array (
 			35 => '格式 yyyy-mm-dd',
 		),
 	),
-	143 => 
+	143 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'允许前台充值' => 'action=card',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '允许前台充值',
 			1 => 'card_config_open',
@@ -1939,39 +1939,39 @@ $lang = array (
 			3 => '设置是否允许前台充值，关闭前台充值功能，不影响后台卡密的生成充值卡密验证码开关：全局->安全->验证设置',
 		),
 	),
-	144 => 
+	144 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'导出充值卡密最多支持 10000 条数据，导出的文件可用 EXCEL、WPS表格、腾讯文档等工具打开。' => 'action=card&operation=manage',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '导出充值卡密最多支持 10000 条数据，导出的文件可用 EXCEL、WPS表格、腾讯文档等工具打开。',
 			1 => 'card_manage_tips',
 			2 => '导出充值卡密最多支持 10000 条数据，导出的文件可用 EXCEL、WPS表格、腾讯文档等工具打开。',
 		),
 	),
-	145 => 
+	145 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'卡密分类删除时，其下所有卡片将自动纳入“默认分类”' => 'action=card&operation=type',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '卡密分类删除时，其下所有卡片将自动纳入“默认分类”',
 			1 => 'card_type_tips',
 			2 => '卡密分类删除时，其下所有卡片将自动纳入“默认分类”',
 		),
 	),
-	146 => 
+	146 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'生成卡密时，简单的规则或较小的生成张数可能导致实际生成张数小于预设生成张数。' => 'admin.php?action=card&operation=make',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '生成卡密时，简单的规则或较小的生成张数可能导致实际生成张数小于预设生成张数。',
 			1 => 'card_make_tips',
@@ -2002,26 +2002,26 @@ $lang = array (
 			26 => '位',
 		),
 	),
-	147 => 
+	147 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'表态动作' => 'action=click',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '表态动作',
 			1 => 'click_edit_tips',
 			2 => '本功能用于设置日志/图片/文章表态动作，动作图片中请填写图片文件名，并将相应图片文件上传到 static/image/click/ 目录中或直接填写图片 URL 地址。警告：站点运营一段时间后，中途改变各表情的顺序将会影响之前的表态结果每个类型最多启用8个动作',
 		),
 	),
-	148 => 
+	148 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'淘帖管理' => 'action=collection',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '淘帖管理',
 			1 => 'collection_ctid',
@@ -2054,14 +2054,14 @@ $lang = array (
 			28 => '设置后，会在首页推荐指定数量的热门专辑，设为“0”则关闭推荐功能。当手动推荐数量未达到设置的数量时，系统会自动推荐专辑。',
 		),
 	),
-	149 => 
+	149 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'留言管理' => 'action=comment',
 			'评论/留言' => 'action=comment',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '留言管理 &raquo; 评论/留言',
 			1 => 'comment_tips',
@@ -2104,15 +2104,15 @@ $lang = array (
 			38 => '分享',
 		),
 	),
-	150 => 
+	150 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'留言管理' => 'action=comment',
 			'文章评论' => 'action=comment&operation=article',
 			'专题评论' => 'action=comment&operation=topic',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '留言管理 &raquo; 文章评论 &raquo; 专题评论',
 			1 => 'comment_',
@@ -2132,13 +2132,13 @@ $lang = array (
 			15 => '格式 yyyy-mm-dd',
 		),
 	),
-	151 => 
+	151 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'更新统计' => 'action=counter',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '更新统计',
 			1 => 'counter_tips',
@@ -2147,14 +2147,14 @@ $lang = array (
 				',
 		),
 	),
-	152 => 
+	152 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'数据库' => 'action=db&operation=export',
 			'备份' => 'action=db&operation=export',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '数据库 &raquo; 备份',
 			1 => 'db_export_type',
@@ -2192,14 +2192,14 @@ $lang = array (
 			33 => '不压缩',
 		),
 	),
-	153 => 
+	153 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'数据库' => 'action=db&operation=export',
 			'恢复' => 'action=db&operation=import',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '数据库 &raquo; 恢复',
 			1 => 'db_import_tips',
@@ -2208,14 +2208,14 @@ $lang = array (
 			4 => '数据恢复',
 		),
 	),
-	154 => 
+	154 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'数据库' => 'action=db&operation=export',
 			'升级' => 'action=db&operation=runquery',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '数据库 &raquo; 升级',
 			1 => 'db_runquery_tips',
@@ -2226,54 +2226,54 @@ $lang = array (
 			6 => 'Discuz! 数据库升级 - 请将数据库升级语句粘贴在下面',
 		),
 	),
-	155 => 
+	155 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'数据库' => 'action=db&operation=export',
 			'优化' => 'action=db&operation=optimize',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '数据库 &raquo; 优化',
 			1 => 'db_optimize_tips',
 			2 => '数据表优化可以去除数据文件中的碎片，使记录排列紧密，提高读写速度。',
 		),
 	),
-	156 => 
+	156 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'地区设置' => 'action=district',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '地区设置',
 			1 => 'district_tips',
 			2 => '您可以自己编辑地区数据添加，编辑或删除操作后需要点击“提交”按钮才生效',
 		),
 	),
-	157 => 
+	157 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'记录管理' => 'action=doing',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '记录管理',
 			1 => 'doing_tips',
 			2 => '批量记录信息管理用于删除记录使用，并且连同对应的回复一同删除。关键字可以使用限定符 {x} 以限定相邻两字符间可忽略的文字，x 是忽略字符的个数，如 "a{1}s{2}s"(不含引号) 可以搜索到 "ass" 也可搜索到 "axsxs" 和 "axsxxs" 等等。提醒：点击搜索结果页的删除按钮，将会直接删除相关信息！',
 		),
 	),
-	158 => 
+	158 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'记录管理' => 'action=doing',
 			'搜索' => 'action=doing&search=true',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '记录管理 &raquo; 搜索',
 			1 => 'doing_search_detail',
@@ -2297,42 +2297,42 @@ $lang = array (
 			19 => '格式 yyyy-mm-dd',
 		),
 	),
-	159 => 
+	159 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'域名设置' => 'action=domain',
 			'应用域名' => 'domain&operation=app',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '域名设置 &raquo; 应用域名',
 			1 => 'setting_domain_app_tips',
 			2 => '各自绑定的域名不能相同，域名不需要添加“http://”，也不要以“/”结尾，例如：portal.discuz.vip任意开启一项域名，需要配置默认域名，否则会造成多入口问题当开启多域名时，请在 config/config_global.php 中修改 cookiedomain 值来设置 cookie 作用域',
 		),
 	),
-	160 => 
+	160 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'域名设置' => 'action=domain',
 			'根域名设置' => 'domain&operation=root',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '域名设置 &raquo; 根域名设置',
 			1 => 'setting_domain_root_tips',
 			2 => '可以为个人空间、圈子、版块、专题、频道设置一个二级域名的根域名。例：用户申请XXX.discuz.vip,根域名填：discuz.vip个人空间、圈子设置完二级域名的根后，还需要在基本设置中开启相应的二级域名开关，用户才能在相应的地方申请绑定二级域名，同时受限于用户组的二级域名长度频道启用二级域名如果是绑定目录的，需要自已在环境中配置相关的绑定操作不建议中途将不同的根域变更为相同的根域',
 		),
 	),
-	161 => 
+	161 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'域名设置' => 'action=domain',
 			'基本设置' => 'domain&operation=base',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '域名设置 &raquo; 基本设置',
 			1 => 'setting_domain_base_tips',
@@ -2348,14 +2348,14 @@ $lang = array (
 			11 => '多个之间用 | 隔开，可以使用通配符* ',
 		),
 	),
-	162 => 
+	162 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'电子商务' => 'action=setting&operation=ec',
 			'支付宝' => 'action=ec&operation=alipay',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '电子商务 &raquo; 支付宝',
 			1 => 'ec_alipay_tips',
@@ -2392,14 +2392,14 @@ $lang = array (
 			32 => '积分充值订单测试',
 		),
 	),
-	163 => 
+	163 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'电子商务' => 'action=setting&operation=ec',
 			'微信支付' => 'action=ec&operation=wechat',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '电子商务 &raquo; 微信支付',
 			1 => 'ec_wechat_tips',
@@ -2446,14 +2446,14 @@ $lang = array (
 			42 => '积分充值订单测试',
 		),
 	),
-	164 => 
+	164 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'电子商务' => 'action=setting&operation=ec',
 			'QQ 钱包' => 'action=ec&operation=qpay',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '电子商务 &raquo; QQ 钱包',
 			1 => 'ec_qpay_tips',
@@ -2489,14 +2489,14 @@ $lang = array (
 			31 => '积分充值订单测试',
 		),
 	),
-	165 => 
+	165 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'电子商务' => 'action=setting&operation=ec',
 			'积分充值订单' => 'action=ec&operation=orders',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '电子商务 &raquo; 积分充值订单',
 			1 => 'ec_orders_tips',
@@ -2527,14 +2527,14 @@ $lang = array (
 			26 => '成功人工补单',
 		),
 	),
-	166 => 
+	166 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'电子商务' => 'action=setting&operation=ec',
 			'诚信规则' => 'action=ec&operation=credit',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '电子商务 &raquo; 诚信规则',
 			1 => 'ec_credit_tips',
@@ -2546,13 +2546,13 @@ $lang = array (
 			7 => '以交易创建的时间计算，超出计分规则范围的评价将不计分',
 		),
 	),
-	167 => 
+	167 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'动态管理' => 'action=feed',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '动态管理',
 			1 => 'feed_global_title',
@@ -2586,14 +2586,14 @@ $lang = array (
 			29 => '内容',
 		),
 	),
-	168 => 
+	168 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'版块管理' => 'action=forums',
 			'编辑版块' => 'action=forums&operation=edit',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '版块管理 &raquo; 编辑版块',
 			1 => 'forums_edit_basic_cat_name',
@@ -2630,14 +2630,14 @@ $lang = array (
 			32 => 'description用于搜索引擎优化，放在 meta 的 description 标签中',
 		),
 	),
-	169 => 
+	169 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'版块管理' => 'action=forums',
 			'基本设置' => 'action=forums&operation=edit&anchor=basic',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '版块管理 &raquo; 基本设置',
 			1 => 'forums_edit_tips',
@@ -2692,14 +2692,14 @@ $lang = array (
 			50 => '删除',
 		),
 	),
-	170 => 
+	170 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'版块管理' => 'action=forums',
 			'扩展设置' => 'action=forums&operation=edit&anchor=extend',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '版块管理 &raquo; 扩展设置',
 			1 => 'forums_edit_tips',
@@ -2782,14 +2782,14 @@ $lang = array (
 			78 => '删除',
 		),
 	),
-	171 => 
+	171 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'版块管理' => 'action=forums',
 			'帖子选项' => 'action=forums&operation=edit&anchor=posts',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '版块管理 &raquo; 帖子选项',
 			1 => 'forums_edit_tips',
@@ -2866,14 +2866,14 @@ $lang = array (
 			72 => '可单独关闭本版的推荐回复功能，适用于灌水类版块。',
 		),
 	),
-	172 => 
+	172 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'版块管理' => 'action=forums',
 			'附件类型' => 'action=forums&operation=edit&anchor=attachtype',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '版块管理 &raquo; 附件类型',
 			1 => 'forums_edit_attachtype_tips',
@@ -2882,14 +2882,14 @@ $lang = array (
 			4 => '添加新附件类型',
 		),
 	),
-	173 => 
+	173 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'版块管理' => 'action=forums',
 			'扩展积分增减策略' => 'action=forums&operation=edit&anchor=credits',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '版块管理 &raquo; 扩展积分增减策略',
 			1 => 'forums_edit_tips',
@@ -2898,14 +2898,14 @@ $lang = array (
 			4 => '扩展积分增减策略',
 		),
 	),
-	174 => 
+	174 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'版块管理' => 'action=forums',
 			'主题分类' => 'action=forums&operation=edit&anchor=threadtypes',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '版块管理 &raquo; 主题分类',
 			1 => 'forums_edit_tips',
@@ -2929,14 +2929,14 @@ $lang = array (
 			19 => '您可以启用已有的主题分类或添加新主题分类应用于本版块，在分类很多的情况下，建议只有重要的分类使用“平板显示”方式，更多的分类使用“下拉显示”方式',
 		),
 	),
-	175 => 
+	175 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'版块管理' => 'action=forums',
 			'分类信息' => 'action=forums&operation=edit&anchor=threadsorts',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '版块管理 &raquo; 分类信息',
 			1 => 'forums_edit_tips',
@@ -2956,14 +2956,14 @@ $lang = array (
 			15 => '是否启用默认显示分类，如果启用请在下面的分类信息里面选择',
 		),
 	),
-	176 => 
+	176 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'版块管理' => 'action=forums',
 			'版块权限' => 'action=forums&operation=edit&anchor=perm',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '版块管理 &raquo; 版块权限',
 			1 => 'forums_edit_tips',
@@ -2995,26 +2995,26 @@ $lang = array (
 			27 => '用户认证',
 		),
 	),
-	177 => 
+	177 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'后台管理团队' => 'action=founder',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '后台管理团队',
 			1 => 'home_security_founder',
 			2 => '您可以制定多种团队职务分配给您网站管理团队的各个成员，让他们管理网站的不同事务“副站长”拥有除“创始人(站长)”专有权限以外的所有后台权限，仅次于“创始人(站长)”',
 		),
 	),
-	178 => 
+	178 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'圈子设置' => 'action=group&operation=setting',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '圈子设置',
 			1 => 'groups_setting_basic',
@@ -3035,13 +3035,13 @@ $lang = array (
 			16 => '开启后默认允许用户发送广播和动态，同时用户也可以选择不发送，隐私版块建议设为否。如果关闭广播功能，该设置将无效。',
 		),
 	),
-	179 => 
+	179 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'newgroup_userperm' => 'action=group&operation=userperm',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => 'newgroup_userperm',
 			1 => 'admingroup_edit_threadperm',
@@ -3057,26 +3057,26 @@ $lang = array (
 			11 => '其它权限',
 		),
 	),
-	180 => 
+	180 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'圈子等级' => 'action=group&operation=level',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '圈子等级',
 			1 => 'group_level_tips',
 			2 => '圈子等级不宜设置过多。当允许圈子内发帖等操作影响用户积分时应谨慎，用户有可能通过圈子刷积分。默认等级图标大小是25 X 25像素。',
 		),
 	),
-	181 => 
+	181 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'圈子管理' => 'action=group&operation=manage',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '圈子管理',
 			1 => 'groups_manage_name',
@@ -3102,13 +3102,13 @@ $lang = array (
 			21 => '创建者 UID',
 		),
 	),
-	182 => 
+	182 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'道具中心' => 'action=magics',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '道具中心',
 			1 => 'magics_tips',
@@ -3118,13 +3118,13 @@ $lang = array (
 			5 => '设置道具系统回收价格折扣，此值为百分比，例如如果此值为 85，则系统将以道具原价 85% 的价格回收，建议不超过 100，有效防止刷积分。留空或者 0 表示不开启道具回收功能',
 		),
 	),
-	183 => 
+	183 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'HTML管理' => 'action=makehtml&operation=all',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => 'HTML管理',
 			1 => 'makehtml_tips_all',
@@ -3161,14 +3161,14 @@ $lang = array (
 			32 => '现在开始生成频道文件...',
 		),
 	),
-	184 => 
+	184 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'HTML管理' => 'action=makehtml',
 			'生成HTML' => 'action=makehtml&operation=makehtmlsetting',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => 'HTML管理 &raquo; 生成HTML',
 			1 => 'setting_functions_makehtml',
@@ -3190,14 +3190,14 @@ $lang = array (
 			17 => '生成门户首页的静态文件名，默认为index，不带扩展名',
 		),
 	),
-	185 => 
+	185 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'HTML管理' => 'action=makehtml',
 			'清理HTML' => 'action=makehtml&operation=cleanhtml',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => 'HTML管理 &raquo; 清理HTML',
 			1 => 'setting_functions_makehtml_cleanhtml',
@@ -3205,26 +3205,26 @@ $lang = array (
 			3 => '选择需要要清理的HTML',
 		),
 	),
-	186 => 
+	186 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'勋章中心' => 'action=medals',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '勋章中心',
 			1 => 'medals_tips',
 			2 => '本功能用于设置可以颁发给用户的勋章信息，勋章图片中请填写图片文件名，并将相应图片文件上传到 static/image/common/ 目录中或直接填写图片 URL 地址。',
 		),
 	),
-	187 => 
+	187 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'马甲' => 'action=members&operation=repeat',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '马甲',
 			1 => 'members_search_repeatuser',
@@ -3235,13 +3235,13 @@ $lang = array (
 			6 => 'IP 地址',
 		),
 	),
-	188 => 
+	188 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'添加用户' => 'action=members&operation=add',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '添加用户',
 			1 => 'username',
@@ -3256,13 +3256,13 @@ $lang = array (
 			10 => '发送通知到上述地址',
 		),
 	),
-	189 => 
+	189 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'编辑会员用户组' => 'action=members&operation=group',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '编辑会员用户组',
 			1 => 'usergroup',
@@ -3290,13 +3290,13 @@ $lang = array (
 			23 => '禁止/解禁用户的理由是否告知用户',
 		),
 	),
-	190 => 
+	190 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'编辑用户积分' => 'action=members&operation=credit',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '编辑用户积分',
 			1 => 'members_credit_tips',
@@ -3310,13 +3310,13 @@ $lang = array (
 			9 => '修改用户积分的理由是否告知用户',
 		),
 	),
-	191 => 
+	191 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'编辑用户权限' => 'action=members&operation=access',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '编辑用户权限',
 			1 => 'members_access_tips',
@@ -3328,13 +3328,13 @@ $lang = array (
 			7 => '',
 		),
 	),
-	192 => 
+	192 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'编辑用户' => 'action=members&operation=edit',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '编辑用户',
 			1 => 'members_edit_username',
@@ -3433,13 +3433,13 @@ $lang = array (
 			94 => '需验证邮箱或后台审核后解冻',
 		),
 	),
-	193 => 
+	193 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'用户管理' => 'action=members&operation=search',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '用户管理',
 			1 => 'members_search_table',
@@ -3526,39 +3526,39 @@ $lang = array (
 			82 => '日',
 		),
 	),
-	194 => 
+	194 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'用户分表' => 'action=membersplit&operation=check',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '用户分表',
 			1 => 'membersplit_check_tips',
 			2 => '此功能仅限极个别特定需求使用，一般站点不需要此功能。因检查操作较慢，所以检查的结果会缓存一天的时间',
 		),
 	),
-	195 => 
+	195 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'用户分表' => 'action=membersplit&operation=check',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '用户分表',
 			1 => 'membersplit_tips',
 			2 => '此功能仅限极个别特定需求使用，一般站点不需要此功能。请根据服务器性能，适当调整单步处理数。建议在关闭站点下进行分表操作。',
 		),
 	),
-	196 => 
+	196 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'友情链接' => 'action=misc&operation=link',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '友情链接',
 			1 => 'misc_link_tips',
@@ -3566,27 +3566,27 @@ $lang = array (
 						友情链接分组只供 DIY 的展示类模块使用。',
 		),
 	),
-	197 => 
+	197 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'关联链接' => 'action=misc&operation=relatedlink',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '关联链接',
 			1 => 'misc_relatedlink_tips',
 			2 => '在指定范围内出现的相关文字自动加上链接。',
 		),
 	),
-	198 => 
+	198 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'编辑器设置' => 'action=setting&operation=editor',
 			'Discuz! 代码' => 'action=setting&operation=bbcode',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '编辑器设置 &raquo; Discuz! 代码',
 			1 => 'misc_bbcode_edit_tips',
@@ -3595,13 +3595,13 @@ $lang = array (
 			4 => '详情',
 		),
 	),
-	199 => 
+	199 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'词语过滤' => 'action=misc&operation=censor',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '词语过滤',
 			1 => 'misc_censor_tips',
@@ -3612,82 +3612,82 @@ $lang = array (
 			6 => '默认分类为内置分类，当删除一组分类时，词语过滤将会自动编入默认分类中。',
 		),
 	),
-	200 => 
+	200 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'主题鉴定' => 'action=misc&operation=stamp',
 			'图章' => 'action=misc&operation=stamp&anchor=list',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '主题鉴定 &raquo; 图章',
 			1 => 'misc_stamp_listtips',
 			2 => '鉴定图章显示在帖子内容页，鉴定图标显示在主题列表页。系统预留了 100 个主题鉴定图片位置，分别为图片 ID 0 至 99。不要随意修改图片 ID，否则将会导致主题中已使用的图章、图标错乱。当图章设置了关联操作后，图章会在执行相应操作时被自动添加到主题中；当图章设置了关联图标后，图标会在添加图章时自动添加到主题列表中。关联操作不可与关联图标同时设置。',
 		),
 	),
-	201 => 
+	201 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'主题鉴定' => 'action=misc&operation=stamp',
 			'图标' => 'action=misc&operation=stamp&anchor=llist',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '主题鉴定 &raquo; 图标',
 			1 => 'misc_stamp_listtips',
 			2 => '鉴定图章显示在帖子内容页，鉴定图标显示在主题列表页。系统预留了 100 个主题鉴定图片位置，分别为图片 ID 0 至 99。不要随意修改图片 ID，否则将会导致主题中已使用的图章、图标错乱。当图章设置了关联操作后，图章会在执行相应操作时被自动添加到主题中；当图章设置了关联图标后，图标会在添加图章时自动添加到主题列表中。关联操作不可与关联图标同时设置。',
 		),
 	),
-	202 => 
+	202 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'主题鉴定' => 'action=misc&operation=stamp',
 			'添加' => 'action=misc&operation=stamp&anchor=add',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '主题鉴定 &raquo; 添加',
 			1 => 'misc_stamp_addtips',
 			2 => '可以选择是添加成图章还是图标。图片名称必需填写，没有名称的图片不会被添加。',
 		),
 	),
-	203 => 
+	203 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'附件类型尺寸' => 'action=misc&operation=attachtype',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '附件类型尺寸',
 			1 => 'misc_attachtype_tips',
 			2 => '本功能可限定某特定类型附件的最大尺寸，当这里设定的尺寸小于用户组允许的最大尺寸时，指定类型的附件尺寸限制将按本设定为准。您可以设置某类附件最大尺寸为 0 以整体禁止这类附件被上传。',
 		),
 	),
-	204 => 
+	204 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'计划任务' => 'action=misc&operation=cron',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '计划任务',
 			1 => 'misc_cron_tips',
 			2 => '计划任务是 Discuz! 提供的一项使系统在规定时间自动执行某些特定任务的功能，在需要的情况下，您也可以方便的将其用于站点功能的扩展。计划任务是与系统核心紧密关联的功能特性，不当的设置可能造成站点功能的隐患，严重时可能导致站点无法正常运行，因此请务必仅在您对计划任务特性十分了解，并明确知道正在做什么、有什么样后果的时候才自行添加或修改任务项目。此处和其他功能不同，本功能中完全按照站点系统默认时差对时间进行设定和显示，而不会依据某一用户或管理员的时差设定而改变显示或设置的时间值。',
 		),
 	),
-	205 => 
+	205 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'站长推荐' => 'action=misc&operation=focus',
 			'管理' => 'action=misc&operation=focus',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '站长推荐 &raquo; 管理',
 			1 => 'misc_focus_tips',
@@ -3698,14 +3698,14 @@ $lang = array (
 			6 => '编辑',
 		),
 	),
-	206 => 
+	206 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'站长推荐' => 'action=misc&operation=focus',
 			'添加' => 'action=misc&operation=focus&do=add',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '站长推荐 &raquo; 添加',
 			1 => 'misc_focus_handadd',
@@ -3724,14 +3724,14 @@ $lang = array (
 			14 => '站长推荐投放区域',
 		),
 	),
-	207 => 
+	207 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'站长推荐' => 'action=misc&operation=focus',
 			'设置' => 'action=misc&operation=focus&do=config',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '站长推荐 &raquo; 设置',
 			1 => 'config',
@@ -3745,27 +3745,27 @@ $lang = array (
 ',
 		),
 	),
-	208 => 
+	208 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'图片管理' => 'action=pic',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '图片管理',
 			1 => 'pic_tips',
 			2 => '批量图片管理用于删除图片使用。连图片评论一同删除提醒：点击搜索结果页的删除按钮，将会直接删除相关信息！',
 		),
 	),
-	209 => 
+	209 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'图片管理' => 'action=pic',
 			'搜索' => 'action=pic&search=true',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '图片管理 &raquo; 搜索',
 			1 => 'pic_search_detail',
@@ -3795,27 +3795,27 @@ $lang = array (
 			25 => '格式 yyyy-mm-dd',
 		),
 	),
-	210 => 
+	210 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'帖子点评管理' => 'action=postcomment',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '帖子点评管理',
 			1 => 'postcomment_tips',
 			2 => '批量点评管理用于删除帖子点评。提醒：点击搜索结果页的删除按钮，将会直接删除相关信息！',
 		),
 	),
-	211 => 
+	211 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'帖子点评管理' => 'action=postcomment',
 			'搜索' => 'action=postcomment&search=true',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '帖子点评管理 &raquo; 搜索',
 			1 => 'postcomment_search_detail',
@@ -3844,41 +3844,41 @@ $lang = array (
 			24 => '格式 yyyy-mm-dd',
 		),
 	),
-	212 => 
+	212 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'帖子分表' => 'action=postsplit&operation=manage',
 			'分表管理' => 'action=postsplit&operation=manage',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '帖子分表 &raquo; 分表管理',
 			1 => 'postsplit_manage_tips',
 			2 => '进行帖子分表前一定要先关闭站点，为防止分表操作过程中出现问题，必须做好数据库备份后再进行此操作帖子数据转移完毕会对源帖子表进行表优化操作，优化表所耗时间比较长，在这期间绝对不能重起服务器或者停止MySQL服务forum_post(主表)必须保留300M的数据帖子分表功能可以将帖子分在不同的数据表中，适合帖子数很多并且运行效率受到影响的站点使用',
 		),
 	),
-	213 => 
+	213 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'帖子分表' => 'action=postsplit&operation=manage',
 			'分表管理' => 'action=postsplit&operation=manage',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '帖子分表 &raquo; 分表管理',
 			1 => 'postsplit_manage_tips',
 			2 => '进行帖子分表前一定要先关闭站点，为防止分表操作过程中出现问题，必须做好数据库备份后再进行此操作帖子数据转移完毕会对源帖子表进行表优化操作，优化表所耗时间比较长，在这期间绝对不能重起服务器或者停止MySQL服务forum_post(主表)必须保留300M的数据帖子分表功能可以将帖子分在不同的数据表中，适合帖子数很多并且运行效率受到影响的站点使用',
 		),
 	),
-	214 => 
+	214 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'论坛批量删帖' => 'action=prune',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '论坛批量删帖',
 			1 => 'prune_tips',
@@ -3908,14 +3908,14 @@ $lang = array (
 			25 => '本功能会加重服务器负担',
 		),
 	),
-	215 => 
+	215 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'主题回收站' => 'action=recyclebin',
 			'搜索' => 'action=recyclebin&operation=search',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '主题回收站 &raquo; 搜索',
 			1 => 'recyclebin_search',
@@ -3941,14 +3941,14 @@ $lang = array (
 			21 => '',
 		),
 	),
-	216 => 
+	216 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'主题回收站' => 'action=recyclebin',
 			'清理' => 'action=recyclebin&operation=clean',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '主题回收站 &raquo; 清理',
 			1 => 'recyclebin_clean',
@@ -3958,14 +3958,14 @@ $lang = array (
 			5 => '0 为清空全部',
 		),
 	),
-	217 => 
+	217 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'回帖回收站' => 'action=recyclebinpost',
 			'搜索' => 'action=recyclebinpost&operation=search',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '回帖回收站 &raquo; 搜索',
 			1 => 'recyclebinpost_search',
@@ -3987,14 +3987,14 @@ $lang = array (
 			17 => '',
 		),
 	),
-	218 => 
+	218 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'回帖回收站' => 'action=recyclebinpost',
 			'清理' => 'action=recyclebinpost&operation=clean',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '回帖回收站 &raquo; 清理',
 			1 => 'recyclebinpost_clean',
@@ -4004,13 +4004,13 @@ $lang = array (
 			5 => '0 为清空全部',
 		),
 	),
-	219 => 
+	219 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'内容重新审核' => 'action=remoderate',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '内容重新审核',
 			1 => 'remoderate_tips',
@@ -4019,26 +4019,26 @@ $lang = array (
 				',
 		),
 	),
-	220 => 
+	220 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'用户举报' => 'action=report',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '用户举报',
 			1 => 'report_tips',
 			2 => '可以根据举报真实情况，给举报者加减积分，设置用户举报奖惩使用的积分多人举报时奖惩第一个举报人。',
 		),
 	),
-	221 => 
+	221 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'站点信息' => 'action=setting&operation=basic',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '站点信息',
 			1 => 'setting_basic_bbname',
@@ -4078,14 +4078,14 @@ $lang = array (
 			35 => '站点关闭时允许 UCenter 中的用户激活',
 		),
 	),
-	222 => 
+	222 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'广播设置' => 'action=setting&operation=follow',
 			'基本设置' => 'action=setting&operation=follow&anchor=base',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '广播设置 &raquo; 基本设置',
 			1 => 'setting_follow_base_default_follow_retain_day',
@@ -4099,14 +4099,14 @@ $lang = array (
 			9 => '该设置对管理员有效，开启后默认管理员查看将直接查看个人资料页面',
 		),
 	),
-	223 => 
+	223 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'空间设置' => 'action=setting&operation=home',
 			'基本设置' => 'action=setting&operation=home&anchor=base',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '空间设置 &raquo; 基本设置',
 			1 => 'setting_home_base_feedday',
@@ -4149,14 +4149,14 @@ $lang = array (
 			38 => '一行为一个提示内容，这些内容将在记录发表框中显示，随机从这些默认提示中选取一行做为提示内容',
 		),
 	),
-	224 => 
+	224 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'空间设置' => 'action=setting&operation=home',
 			'隐私设置' => 'action=setting&operation=home&anchor=privacy',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '空间设置 &raquo; 隐私设置',
 			1 => 'setting_home_privacy_new_user',
@@ -4230,14 +4230,14 @@ $lang = array (
 			69 => '论坛回帖',
 		),
 	),
-	225 => 
+	225 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'注册与访问控制' => 'action=setting&operation=access',
 			'注册' => 'action=setting&operation=access&anchor=register',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '注册与访问控制 &raquo; 注册',
 			1 => 'setting_access_register_status',
@@ -4364,14 +4364,14 @@ $lang = array (
 			122 => '发送欢迎 Email',
 		),
 	),
-	226 => 
+	226 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'注册与访问控制' => 'action=setting&operation=access',
 			'访问控制' => 'action=setting&operation=access&anchor=access',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '注册与访问控制 &raquo; 访问控制',
 			1 => 'setting_access_access_newbiespan',
@@ -4388,14 +4388,14 @@ $lang = array (
 			12 => '当用户组禁止发表 URL ，或者 URL 不解析时，处于本列表中的域名下的 URL 仍然可以正常发表，正常解析，每行一个域名，默认为本站域名可以正常发表',
 		),
 	),
-	227 => 
+	227 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'界面设置' => 'action=setting&operation=styles',
 			'全局' => 'action=setting&operation=styles&anchor=global',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '界面设置 &raquo; 全局',
 			1 => 'setting_tips',
@@ -4450,14 +4450,14 @@ $lang = array (
 			50 => '宽屏(自由宽度)',
 		),
 	),
-	228 => 
+	228 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'界面设置' => 'action=setting&operation=styles',
 			'论坛首页' => 'action=setting&operation=styles&anchor=index',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '界面设置 &raquo; 论坛首页',
 			1 => 'setting_styles_index',
@@ -4514,14 +4514,14 @@ $lang = array (
 			52 => '在论坛首页和论坛版块显示',
 		),
 	),
-	229 => 
+	229 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'界面设置' => 'action=setting&operation=styles',
 			'主题列表页' => 'action=setting&operation=styles&anchor=forumdisplay',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '界面设置 &raquo; 主题列表页',
 			1 => 'setting_tips',
@@ -4581,14 +4581,14 @@ $lang = array (
 			55 => '关闭后将不可在主题列表页预览帖子内容',
 		),
 	),
-	230 => 
+	230 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'界面设置' => 'action=setting&operation=styles',
 			'帖子内容页' => 'action=setting&operation=styles&anchor=viewthread',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '界面设置 &raquo; 帖子内容页',
 			1 => 'nav_setting_viewthread',
@@ -4695,37 +4695,34 @@ $lang = array (
 			102 => '游客在浏览主题时，在主题的顶部显示提示文字',
 			103 => 'setting_styles_viewthread_guesttipsinthread_text',
 			104 => '登录提示提示文字',
-			105 => '自定义显示提示文字,默认为：马上注册，结交更多好友，享用更多功能，让你轻松玩转社区。',
-			106 => 'setting_styles_viewthread_imgcontent',
-			107 => '主题内容生成图片宽度',
-			108 => '本功能需要PHP支持GD库，内容里有中文需要将中文 TTF 字体文件放到 static/image/seccode/font/ch/ 目录下。默认100个汉字，字体不同宽度略有差别，请跟据实际效果调整。',
-			109 => 'setting_styles_viewthread_fast_reply',
-			110 => '开启主题帖快速回复',
-			111 => '开启后将在主题帖下方展示快速回复框',
-			112 => 'setting_styles_viewthread_allow_replybg',
-			113 => '开启帖子快速回复框背景',
-			114 => '开启后允许给帖子快速回复框添加背景图片',
-			115 => 'setting_styles_viewthread_global_reply_background',
-			116 => '全局帖子快速回复框背景',
-			117 => '设置全局帖子快速回复框背景图片，版块设置优先',
-			118 => 'setting_styles_viewthread_display_none',
-			119 => '',
-			120 => 'setting_styles_viewthread_online_easy',
-			121 => '快速显示(推荐使用)',
-			122 => 'setting_styles_viewthread_online_exactitude',
-			123 => '精确显示',
-			124 => 'delete',
-			125 => '删除',
+						105 => '自定义显示提示文字,默认为：马上注册，结交更多好友，享用更多功能，让你轻松玩转社区。',
+						106 => 'setting_styles_viewthread_fast_reply',
+						107 => '开启主题帖快速回复',
+						108 => '开启后将在主题帖下方展示快速回复框',
+						109 => 'setting_styles_viewthread_allow_replybg',
+						110 => '开启帖子快速回复框背景',
+						111 => '开启后允许给帖子快速回复框添加背景图片',
+						112 => 'setting_styles_viewthread_global_reply_background',
+						113 => '全局帖子快速回复框背景',
+						114 => '设置全局帖子快速回复框背景图片，版块设置优先',
+						115 => 'setting_styles_viewthread_display_none',
+						116 => '',
+						117 => 'setting_styles_viewthread_online_easy',
+						118 => '快速显示(推荐使用)',
+						119 => 'setting_styles_viewthread_online_exactitude',
+						120 => '精确显示',
+						121 => 'delete',
+						122 => '删除',
 		),
 	),
-	231 => 
+	231 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'界面设置' => 'action=setting&operation=styles',
 			'帖内用户信息' => 'action=setting&operation=styles&anchor=threadprofile',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '界面设置 &raquo; 帖内用户信息',
 			1 => 'nav_global',
@@ -4734,14 +4731,14 @@ $lang = array (
 			4 => '添加新方案',
 		),
 	),
-	232 => 
+	232 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'界面设置' => 'action=setting&operation=styles',
 			'提示信息' => 'action=setting&operation=styles&anchor=refresh',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '界面设置 &raquo; 提示信息',
 			1 => 'setting_styles_refresh',
@@ -4757,14 +4754,14 @@ $lang = array (
 			11 => '当开启直接/快速跳转以后，以下信息将会直接跳转。每行填写一个信息的关键字',
 		),
 	),
-	233 => 
+	233 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'界面设置' => 'action=setting&operation=styles',
 			'弹出信息' => 'action=setting&operation=styles&anchor=sitemessage',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '界面设置 &raquo; 弹出信息',
 			1 => 'setting_styles_sitemessage',
@@ -4786,13 +4783,13 @@ $lang = array (
 			17 => '回复页面的弹出信息，每行填写一条信息，多条信息将随机显示',
 		),
 	),
-	234 => 
+	234 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'界面设置' => 'action=setting&operation=threadprofile&do=add',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '界面设置',
 			1 => 'setting_threadprofile_tpl_tpls',
@@ -4801,14 +4798,14 @@ $lang = array (
 			4 => '名称',
 		),
 	),
-	235 => 
+	235 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'性能优化' => 'action=setting&operation=seo',
 			'搜索引擎优化' => 'action=setting&operation=seo',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '性能优化 &raquo; 搜索引擎优化',
 			1 => 'setting_tips',
@@ -4827,14 +4824,14 @@ $lang = array (
 			14 => '如需在 &lt;head&gt;&lt;/head&gt; 中添加其他的 HTML 代码，可以使用本设置，否则请留空',
 		),
 	),
-	236 => 
+	236 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'性能优化' => 'action=setting&operation=seo',
 			'论坛页面缓存设置' => 'action=setting&operation=cachethread',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '性能优化 &raquo; 论坛页面缓存设置',
 			1 => 'setting_cachethread',
@@ -4859,14 +4856,14 @@ $lang = array (
 			20 => '将会覆盖以前的缓存系数值，可以按住 CTRL 多选',
 		),
 	),
-	237 => 
+	237 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'性能优化' => 'action=setting&operation=seo',
 			'服务器优化' => 'action=setting&operation=serveropti',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '性能优化 &raquo; 服务器优化',
 			1 => 'setting_tips',
@@ -4925,14 +4922,14 @@ $lang = array (
 			54 => '点',
 		),
 	),
-	238 => 
+	238 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'编辑器设置' => 'action=setting&operation=editor',
 			'全局' => 'action=setting&operation=editor',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '编辑器设置 &raquo; 全局',
 			1 => 'setting_editor_mode_default',
@@ -4962,14 +4959,14 @@ $lang = array (
 			25 => '常用',
 		),
 	),
-	239 => 
+	239 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'站点功能' => 'action=setting&operation=functions',
 			'功能模块' => 'action=setting&operation=functions&anchor=curscript',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '站点功能 &raquo; 功能模块',
 			1 => 'setting_functions_curscript_forum',
@@ -5050,14 +5047,14 @@ $lang = array (
 			76 => '让用户记录喜爱的内容，增加用户留存和用户粘性',
 		),
 	),
-	240 => 
+	240 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'站点功能' => 'action=setting&operation=functions',
 			'管理相关' => 'action=setting&operation=functions&anchor=mod',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '站点功能 &raquo; 管理相关',
 			1 => 'setting_tips',
@@ -5109,14 +5106,14 @@ $lang = array (
 			53 => '用户签名',
 		),
 	),
-	241 => 
+	241 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'站点功能' => 'action=setting&operation=functions',
 			'主题热度' => 'action=setting&operation=functions&anchor=heatthread',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '站点功能 &raquo; 主题热度',
 			1 => 'setting_functions_heatthread_tips',
@@ -5129,14 +5126,14 @@ $lang = array (
 			8 => '设置主题列表页主题图标每一级别对应的热度指数，默认为 3 个级别，请用逗号分隔，如：“50,100,200”表示当主题的热度大于 50 时为 1 级，大于 100 时为 2 级，大于 200 时为 3 级。留空表示不显示图标',
 		),
 	),
-	242 => 
+	242 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'站点功能' => 'action=setting&operation=functions',
 			'主题评价' => 'action=setting&operation=functions&anchor=recommend',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '站点功能 &raquo; 主题评价',
 			1 => 'setting_functions_recommend_tips',
@@ -5161,14 +5158,14 @@ $lang = array (
 			20 => '设置主题列表页评价图标每一级别对应的评价指数。建议为 3 个级别，请用逗号分隔，如：“0,100,200”表示当主题的评价指数大于 0 时为 1 级，大于 100 时为 2 级，大于 200 时为 3 级。1 级及以上级别的主题会在主题列表页“查看好评主题”中列出。留空或者 0 表示不显示图标',
 		),
 	),
-	243 => 
+	243 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'站点功能' => 'action=setting&operation=functions',
 			'帖子点评' => 'action=setting&operation=functions&anchor=comment',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '站点功能 &raquo; 帖子点评',
 			1 => 'setting_functions_comment_allow',
@@ -5207,14 +5204,14 @@ $lang = array (
 			34 => '楼层回复',
 		),
 	),
-	244 => 
+	244 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'站点功能' => 'action=setting&operation=functions',
 			'帖子阅读' => 'action=setting&operation=functions&anchor=threadexp',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '站点功能 &raquo; 帖子阅读',
 			1 => 'setting_functions_threadexp_repliesrank',
@@ -5240,14 +5237,14 @@ $lang = array (
 			21 => '开启后系统判断为水帖的帖子将不能参与回帖投票。',
 		),
 	),
-	245 => 
+	245 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'站点功能' => 'action=setting&operation=functions',
 			'其他' => 'action=setting&operation=functions&anchor=other',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '站点功能 &raquo; 其他',
 			1 => 'setting_tips',
@@ -5308,14 +5305,14 @@ $lang = array (
 			56 => '该设置必须开启签名后有效，如果用户没有设置签名就显示该签名内容',
 		),
 	),
-	246 => 
+	246 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'站点功能' => 'action=setting&operation=functions',
 			'导读设置' => 'action=setting&operation=functions&anchor=guide',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '站点功能 &raquo; 导读设置',
 			1 => 'setting_functions_heatthread_guidelimit',
@@ -5335,14 +5332,14 @@ $lang = array (
 			15 => '三个月',
 		),
 	),
-	247 => 
+	247 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'站点功能' => 'action=setting&operation=functions',
 			'活动主题' => 'action=setting&operation=functions&anchor=activity',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '站点功能 &raquo; 活动主题',
 			1 => 'setting_functions_activity_type',
@@ -5364,13 +5361,13 @@ $lang = array (
 			17 => '无',
 		),
 	),
-	248 => 
+	248 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'用户权限' => 'action=setting&operation=permissions',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '用户权限',
 			1 => 'setting_permissions_allowviewuserthread',
@@ -5442,14 +5439,14 @@ $lang = array (
 			67 => '距发帖日期天数超过此设置时标签自动失效，0或不填为不限制',
 		),
 	),
-	249 => 
+	249 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'积分设置' => 'action=setting&operation=credits',
 			'基本设置' => 'action=setting&operation=credits&anchor=base',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '积分设置 &raquo; 基本设置',
 			1 => 'setting_credits_extended',
@@ -5538,14 +5535,14 @@ $lang = array (
 			84 => '无',
 		),
 	),
-	250 => 
+	250 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'邮件设置' => 'action=setting&operation=mail',
 			'设置' => 'action=setting&operation=mail&anchor=setting',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '邮件设置 &raquo; 设置',
 			1 => 'setting_mail_setting_send',
@@ -5598,14 +5595,14 @@ $lang = array (
 			48 => '使用 CR 作为分隔符(通常为 Mac 主机)',
 		),
 	),
-	251 => 
+	251 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'邮件设置' => 'action=setting&operation=mail',
 			'检测' => 'action=setting&operation=mail&anchor=check',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '邮件设置 &raquo; 检测',
 			1 => 'setting_mail_check_test_from',
@@ -5615,14 +5612,14 @@ $lang = array (
 			5 => '如果要测试包含用户名的邮件地址，格式为“username &lt;user@domain.com&gt;” 。多个邮件地址用逗号分隔',
 		),
 	),
-	252 => 
+	252 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'账号保镖' => 'action=setting&operation=sec',
 			'注册表单名称设置' => 'action=setting&operation=sec&anchor=accountguard',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '账号保镖 &raquo; 注册表单名称设置',
 			1 => 'setting_sec_accountguard_postqqonly',
@@ -5645,14 +5642,14 @@ $lang = array (
 			18 => '开启并强制修改弱密码',
 		),
 	),
-	253 => 
+	253 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'验证设置' => 'action=setting&operation=sec',
 			'验证码设置' => 'action=setting&operation=sec&anchor=seccode',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '验证设置 &raquo; 验证码设置',
 			1 => 'setting_sec_code_tips',
@@ -5752,14 +5749,14 @@ $lang = array (
 			95 => '选择“是”验证码将显示成 GIF 动画方式，选择“否”验证码将显示成静态图片方式',
 		),
 	),
-	254 => 
+	254 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'验证设置' => 'action=setting&operation=sec',
 			'验证问答设置' => 'action=setting&operation=sec&anchor=secqaa',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '验证设置 &raquo; 验证问答设置',
 			1 => 'setting_sec_qaa_tips',
@@ -5779,14 +5776,14 @@ $lang = array (
 			15 => '添加新问题',
 		),
 	),
-	255 => 
+	255 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'基本设置' => 'action=setting&operation=sec',
 			'用户设置' => 'action=setting&operation=sec&anchor=base',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '基本设置 &raquo; 用户设置',
 			1 => 'setting_sec_floodctrl',
@@ -5812,14 +5809,14 @@ $lang = array (
 			21 => '设置用户必须拥有多少个好友后，才可以进行发布操作',
 		),
 	),
-	256 => 
+	256 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'基本设置' => 'action=setting&operation=sec',
 			'注册表单名称设置' => 'action=setting&operation=sec&anchor=reginput',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '基本设置 &raquo; 注册表单名称设置',
 			1 => 'setting_sec_reginput',
@@ -5838,14 +5835,14 @@ $lang = array (
 			14 => '默认为 email ，只能是字母和数字的组合，必须以字母开头。 修改后的表单名会使得注册机更难发挥作用',
 		),
 	),
-	257 => 
+	257 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'基本设置' => 'action=setting&operation=sec',
 			'注册表单名称设置' => 'action=setting&operation=sec&anchor=postperiodtime',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '基本设置 &raquo; 注册表单名称设置',
 			1 => 'setting_sec_postperiodtime',
@@ -5864,13 +5861,13 @@ $lang = array (
 			14 => '当用户处于本列表中的 IP 地址时，发帖不受时间段限制。每个 IP 一行，既可输入完整地址，也可只输入 IP 开头，例如 "192.168."(不含引号) 可匹配 192.168.0.0～192.168.255.255 范围内的所有地址，留空为不设置',
 		),
 	),
-	258 => 
+	258 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'时间设置' => 'action=setting&operation=datetime',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '时间设置',
 			1 => 'setting_datetime_format',
@@ -5901,14 +5898,14 @@ $lang = array (
 			26 => '小时制',
 		),
 	),
-	259 => 
+	259 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'上传设置' => 'action=setting&operation=attach',
 			'基本设置' => 'action=setting&operation=attach&anchor=basic',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '上传设置 &raquo; 基本设置',
 			1 => 'setting_attach_basic_dir',
@@ -5938,14 +5935,14 @@ $lang = array (
 			25 => 'ImageMagick',
 		),
 	),
-	260 => 
+	260 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'上传设置' => 'action=setting&operation=attach',
 			'论坛附件' => 'action=setting&operation=attach&anchor=forumattach',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '上传设置 &raquo; 论坛附件',
 			1 => 'setting_attach_basic_imgpost',
@@ -5980,14 +5977,14 @@ $lang = array (
 			30 => '与指定大小相同、保持比率，超出部分剪切',
 		),
 	),
-	261 => 
+	261 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'上传设置' => 'action=setting&operation=attach',
 			'远程附件' => 'action=setting&operation=attach&anchor=remote',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '上传设置 &raquo; 远程附件',
 			1 => 'setting_attach_remote_enabled',
@@ -6040,14 +6037,14 @@ $lang = array (
 			48 => '否',
 		),
 	),
-	262 => 
+	262 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'上传设置' => 'action=setting&operation=attach',
 			'空间附件' => 'action=setting&operation=attach&anchor=albumattach',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '上传设置 &raquo; 空间附件',
 			1 => 'setting_attach_album_maxtimage',
@@ -6055,14 +6052,14 @@ $lang = array (
 			3 => '如果用户上传一些尺寸很大的数码图片，则程序会按照本设置进行缩小该图片并显示，比如可以设置为 宽：1024px，高：768px，但都不能小于 300px。设置为 0，则不做任何处理',
 		),
 	),
-	263 => 
+	263 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'上传设置' => 'action=setting&operation=attach',
 			'门户附件' => 'action=setting&operation=attach&anchor=portalarticle',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '上传设置 &raquo; 门户附件',
 			1 => 'setting_attach_portal_article_img_thumb_closed',
@@ -6073,14 +6070,14 @@ $lang = array (
 			6 => '如果上传一些尺寸很大的数码图片，则程序会按照本设置进行生成相应的小图片，默认大小为 300*300',
 		),
 	),
-	264 => 
+	264 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'水印设置' => 'action=setting&operation=imgwater',
 			'文章' => 'action=setting&operation=imgwater&anchor=portal',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '水印设置 &raquo; 文章',
 			1 => 'setting_imgwater_image_watermarks_portal',
@@ -6149,14 +6146,14 @@ $lang = array (
 			64 => '文本类型水印',
 		),
 	),
-	265 => 
+	265 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'水印设置' => 'action=setting&operation=imgwater',
 			'论坛' => 'action=setting&operation=imgwater&anchor=forum',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '水印设置 &raquo; 论坛',
 			1 => 'setting_imgwater_image_watermarks_forum',
@@ -6225,14 +6222,14 @@ $lang = array (
 			64 => '文本类型水印',
 		),
 	),
-	266 => 
+	266 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'水印设置' => 'action=setting&operation=imgwater',
 			'空间相册' => 'action=setting&operation=imgwater&anchor=album',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '水印设置 &raquo; 空间相册',
 			1 => 'setting_imgwater_image_watermarks_album',
@@ -6301,13 +6298,13 @@ $lang = array (
 			64 => '文本类型水印',
 		),
 	),
-	267 => 
+	267 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'搜索设置' => 'action=setting&operation=search',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '搜索设置',
 			1 => 'setting_search_status',
@@ -6350,13 +6347,13 @@ $lang = array (
 (3)SPH_RANK_NONE，禁用评分的模式，这是最快的模式。实际上这种模式与布尔搜索相同。所有的匹配项都被赋予权重1',
 		),
 	),
-	268 => 
+	268 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'UCenter 设置' => 'action=setting&operation=uc',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => 'UCenter 设置',
 			1 => 'setting_uc_tips',
@@ -6415,14 +6412,14 @@ $lang = array (
 			54 => '全部带更新时间戳（可能会增加服务器压力）',
 		),
 	),
-	269 => 
+	269 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'电子商务' => 'action=setting&operation=ec',
 			'基本设置' => 'action=setting&operation=ec',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '电子商务 &raquo; 基本设置',
 			1 => 'setting_ec_credittrade',
@@ -6441,14 +6438,14 @@ $lang = array (
 			14 => '设置用户每月能够通过在线支付方式购买的交易积分的最大数额，单位为交易积分的单位，0 为不限制',
 		),
 	),
-	270 => 
+	270 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'性能优化' => 'action=setting&operation=seo',
 			'内存优化' => 'action=setting&operation=memory',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '性能优化 &raquo; 内存优化',
 			1 => 'setting_memory_tips',
@@ -6459,27 +6456,27 @@ $lang = array (
 			6 => '内存优化功能设置',
 		),
 	),
-	271 => 
+	271 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'性能优化' => 'action=setting&operation=seo',
 			'内存缓存管理' => 'action=setting&operation=memorydata',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '性能优化 &raquo; 内存缓存管理',
 			1 => 'setting_memorydata',
 			2 => '内存缓存管理',
 		),
 	),
-	272 => 
+	272 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'排行榜设置' => 'action=setting&operation=ranklist',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '排行榜设置',
 			1 => 'setting_ranklist_index_cache_time',
@@ -6506,14 +6503,14 @@ $lang = array (
 			22 => '请根据服务器的负载情况，合理选择需要更新缓存的模块，选的模块越多服务器的负载越高',
 		),
 	),
-	273 => 
+	273 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'手机版设置' => 'action=setting&operation=mobile',
 			'全局设置' => 'action=setting&operation=mobile&anchor=status',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '手机版设置 &raquo; 全局设置',
 			1 => 'setting_mobile_status_tips',
@@ -6544,14 +6541,14 @@ $lang = array (
 			26 => '否',
 		),
 	),
-	274 => 
+	274 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'手机版设置' => 'action=setting&operation=mobile',
 			'门户设置' => 'action=setting&operation=mobile&anchor=portal',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '手机版设置 &raquo; 门户设置',
 			1 => 'setting_mobile_portal',
@@ -6561,14 +6558,14 @@ $lang = array (
 			5 => '开启后门户首页将显示一级频道作为导航',
 		),
 	),
-	275 => 
+	275 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'手机版设置' => 'action=setting&operation=mobile',
 			'论坛设置' => 'action=setting&operation=mobile&anchor=forum',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '手机版设置 &raquo; 论坛设置',
 			1 => 'setting_mobile_forum',
@@ -6605,13 +6602,13 @@ $lang = array (
 			32 => '展开',
 		),
 	),
-	276 => 
+	276 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'防采集设置' => 'action=setting&operation=antitheft',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '防采集设置',
 			1 => 'setting_antitheft_tips',
@@ -6649,27 +6646,27 @@ $lang = array (
 			33 => '日志',
 		),
 	),
-	277 => 
+	277 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'分享管理' => 'action=share',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '分享管理',
 			1 => 'share_tips',
 			2 => '批量分享管理用于删除分享(share)使用。提醒：点击搜索结果页的删除按钮，将会直接删除相关信息！',
 		),
 	),
-	278 => 
+	278 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'分享管理' => 'action=share',
 			'搜索' => 'action=share&search=true',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '分享管理 &raquo; 搜索',
 			1 => 'share_search_detail',
@@ -6712,41 +6709,41 @@ $lang = array (
 			38 => '主题',
 		),
 	),
-	279 => 
+	279 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'表情管理' => 'action=smilies',
 			'表情分类' => 'action=smilies',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '表情管理 &raquo; 表情分类',
 			1 => 'smilies_tips_smileytypes',
 			2 => '表情导出包含表情分类信息及表情代码信息，表情图片文件请通过 FTP 下载。请不要同时启用过多的表情分类，并控制好表情分类的名称长度，以免表情窗口无法完全显示所有表情分类。您可以在界面风格中设置默认显示的表情分类。删除表情分类请先删除该分类下所有表情。',
 		),
 	),
-	280 => 
+	280 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'表情管理' => 'action=smilies',
 			'导入表情' => 'action=smilies&operation=import',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '表情管理 &raquo; 导入表情',
 			1 => 'smilies_tips',
 			2 => '添加表情请上传表情图片到相应的表情目录中(static/image/smiley/表情目录/)。表情支持"JPG、GIF、PNG"格式的图片，文件名只允许数字、26 个英文字母、下划线、半角空格及 -.&[]() 等符号，文件名长度不能超过 30 字节，否则将会无法识别。请不要设置过多的表情，以免占用过多的服务器资源。',
 		),
 	),
-	281 => 
+	281 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'模板管理' => 'action=styles&operation=edit',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '模板管理',
 			1 => 'styles_tips',
@@ -6772,7 +6769,7 @@ $lang = array (
 			21 => '风格扩展图片存放的目录，留空表示无扩展图片目录',
 			22 => 'styles_edit_logo',
 			23 => '站点 Logo {BOARDIMG},{BOARDLOGO}',
-                        24 => '可设置 Logo 图片的路径与尺寸，如“logo.png,80,40”',
+						24 => '可设置 Logo 图片的路径与尺寸，如“logo.png,80,40”',
 			25 => 'styles_edit_searchlogo',
 			26 => '搜索 Logo {SEARCHIMG},{SEARCHLOGO}',
 			27 => 'styles_edit_touchlogo',
@@ -6787,13 +6784,13 @@ $lang = array (
 			36 => '输入背景图片地址输入附加属性',
 		),
 	),
-	282 => 
+	282 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'标签管理' => 'action=tag',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '标签管理',
 			1 => 'tagname',
@@ -6804,28 +6801,28 @@ $lang = array (
 			6 => '状态',
 		),
 	),
-	283 => 
+	283 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'论坛主题管理' => 'action=threads',
 			'最新列表' => 'action=threads',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '论坛主题管理 &raquo; 最新列表',
 			1 => 'threads_tips',
 			2 => '通过批量主题管理，您可以对搜索到的主题进行批量删除、移动、分类/取消分类、删除、置顶/取消置顶、设置/取消精华、打开/关闭以及删除主题中的附件等操作；请先根据条件搜索主题，然后选择相应的操作。',
 		),
 	),
-	284 => 
+	284 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'论坛主题管理' => 'action=threads',
 			'搜索' => 'action=threads&search=true',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '论坛主题管理 &raquo; 搜索',
 			1 => 'threads_search_detail',
@@ -6871,14 +6868,14 @@ $lang = array (
 			41 => '是否包含隐藏主题',
 		),
 	),
-	285 => 
+	285 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'主题分表' => 'action=threadsplit',
 			'分表管理' => 'action=threadsplit&operation=manage',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '主题分表 &raquo; 分表管理',
 			1 => 'threadsplit_manage_tips',
@@ -6895,14 +6892,14 @@ $lang = array (
 			12 => '更新版块存档',
 		),
 	),
-	286 => 
+	286 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'主题分表' => 'action=threadsplit',
 			'主题移动' => 'action=threadsplit&operation=move',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '主题分表 &raquo; 主题移动',
 			1 => 'threadsplit_move_tips',
@@ -6955,13 +6952,13 @@ $lang = array (
 			48 => '建议不超过 1000',
 		),
 	),
-	287 => 
+	287 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'更新缓存' => 'action=tools&operation=updatecache',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '更新缓存',
 			1 => 'tools_updatecache_tips',
@@ -6973,27 +6970,27 @@ $lang = array (
 				',
 		),
 	),
-	288 => 
+	288 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'用户组' => 'action=usergroups',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '用户组',
 			1 => 'usergroups_tips',
 			2 => '用户组分为系统组、会员组和自定义组，会员组以积分确定组别和权限，而系统组和自定义组是人为设定，不会由系统自行改变。系统组和自定义组的设定不需要指定积分，Discuz! 预留了从站点管理员到游客等的 8 个系统头衔，自定义组的用户需要在编辑会员时将其加入。会员用户组至少分为两组，其积分下限分别为负值(任一负数)和 0，否则将导致部分用户无法与用户组匹配的问题。',
 		),
 	),
-	289 => 
+	289 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'用户组' => 'action=usergroups',
 			'基本设置' => 'action=usergroups&operation=edit&anchor=system',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '用户组 &raquo; 基本设置',
 			1 => 'usergroups_edit_system_public',
@@ -7007,14 +7004,14 @@ $lang = array (
 			9 => '设置用户在购买本组权限时，一次支付价值至少多少日的交易积分，请设置为大于等于 1 的数值。例如日价格为 2，最短购买时间为 10，则用户至少需要花费 2*10=20 个交易积分，获得至少 10 天本组权限，才能加入本组。注意: 本功能需要首先设定用户组为收费公众用户组才有效',
 		),
 	),
-	290 => 
+	290 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'用户组' => 'action=usergroups',
 			'基本设置' => 'action=usergroups&operation=edit&anchor=basic',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '用户组 &raquo; 基本设置',
 			1 => 'usergroups_edit_basic',
@@ -7138,14 +7135,14 @@ $lang = array (
 			119 => '邮箱登录',
 		),
 	),
-	291 => 
+	291 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'用户组' => 'action=usergroups',
 			'特殊主题' => 'action=usergroups&operation=edit&anchor=special',
 		),
-		'text' => 
+		'text' =>
 		array (
 			0 => '用户组 &raquo; 特殊主题',
 			1 => 'usergroups_edit_special',
@@ -7191,14 +7188,14 @@ $lang = array (
 			41 => '设置是否允许发表扩展的特殊主题',
 		),
 	),
-	292 => 
+	292 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'用户组' => 'action=usergroups',
 			'帖子相关' => 'action=usergroups&operation=edit&anchor=post',
 		),
-		'text' => 
+		'text' =>
 		array (
 				0 => '用户组 &raquo; 帖子相关',
 				1 => 'usergroups_edit_post',
@@ -7278,7 +7275,6 @@ $lang = array (
 				75 => 'usergroups_edit_post_allowcommentcollection',
 				76 => '允许评论淘专辑',
 				77 => '允许用户在主题和淘专辑页面进行评论。',
-				78 => 'usergroups_edit_post_allowimgcontent',
 				79 => '允许主题内容生成图片',
 				80 => '看帖时所有帖子正文内容将以字符形式生成图片展示。',
 				81 => 'usergroups_edit_attach',
@@ -7324,14 +7320,14 @@ $lang = array (
 				121 => '点评回复',
 		),
 	),
-	293 => 
+	293 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'用户组' => 'action=usergroups',
 			'道具相关' => 'action=usergroups&operation=edit&anchor=magic',
 		),
-		'text' => 
+		'text' =>
 		array (
 				0 => '用户组 &raquo; 道具相关',
 				1 => 'usergroups_edit_magic',
@@ -7353,14 +7349,14 @@ $lang = array (
 				17 => '允许使用、购买和转让',
 		),
 	),
-	294 => 
+	294 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'用户组' => 'action=usergroups',
 			'注册相关' => 'action=usergroups&operation=edit&anchor=invite',
 		),
-		'text' => 
+		'text' =>
 		array (
 				0 => '用户组 &raquo; 注册相关',
 				1 => 'usergroups_edit_invite',
@@ -7382,14 +7378,14 @@ $lang = array (
 				17 => '该用户组购买邀请码的最大有效期，超过此有效期验证码将自动失效，单位为天，默认为10',
 		),
 	),
-	295 => 
+	295 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'用户组' => 'action=usergroups',
 			'积分相关' => 'action=usergroups&operation=edit&anchor=credit',
 		),
-		'text' => 
+		'text' =>
 		array (
 				0 => '用户组 &raquo; 积分相关',
 				1 => 'usergroups_edit_credit',
@@ -7418,14 +7414,14 @@ $lang = array (
 				24 => '当选中扣除自身积分后，前台用户评分时会扣除用户的相应积分，否则扣除的系统积分',
 		),
 	),
-	296 => 
+	296 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'用户组' => 'action=usergroups',
 			'空间相关' => 'action=usergroups&operation=edit&anchor=home',
 		),
-		'text' => 
+		'text' =>
 		array (
 				0 => '用户组 &raquo; 空间相关',
 				1 => 'usergroups_edit_home',
@@ -7474,14 +7470,14 @@ $lang = array (
 				44 => '设置是否解析个人主页自定义模块中的 [img] 代码',
 		),
 	),
-	297 => 
+	297 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'用户组' => 'action=usergroups',
 			'圈子相关' => 'action=usergroups&operation=edit&anchor=group',
 		),
-		'text' => 
+		'text' =>
 		array (
 				0 => '用户组 &raquo; 圈子相关',
 				1 => 'usergroups_edit_group',
@@ -7514,14 +7510,14 @@ $lang = array (
 				28 => '允许，并正常解析',
 		),
 	),
-	298 => 
+	298 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'用户组' => 'action=usergroups',
 			'门户相关' => 'action=usergroups&operation=edit&anchor=portal',
 		),
-		'text' => 
+		'text' =>
 		array (
 				0 => '用户组 &raquo; 门户相关',
 				1 => 'usergroups_edit_portal',
@@ -7541,13 +7537,13 @@ $lang = array (
 				15 => '发布文章需要审核',
 		),
 	),
-	299 => 
+	299 =>
 	array (
-		'index' => 
+		'index' =>
 		array (
 			'用户标签' => 'action=usertag',
 		),
-		'text' => 
+		'text' =>
 		array (
 				0 => '用户标签',
 				1 => 'usertag_add_tips',

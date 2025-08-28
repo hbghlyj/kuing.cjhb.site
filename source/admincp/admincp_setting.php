@@ -681,8 +681,7 @@ if(!submitcheck('settingsubmit')) {
 		showsetting('setting_styles_viewthread_guesttipsinthread', 'settingnew[guesttipsinthread][flag]', !empty($setting['guesttipsinthread']['flag']), 'radio', 0, 1);
 		showsetting('setting_styles_viewthread_guesttipsinthread_text', 'settingnew[guesttipsinthread][text]', $setting['guesttipsinthread']['text'], 'text');
 		showtagfooter('tbody');
-		showsetting('setting_styles_viewthread_imgcontent', 'settingnew[imgcontentwidth]', $setting['imgcontentwidth'], 'text');
-		showsetting('setting_styles_viewthread_fast_reply', 'settingnew[allowfastreply]', $setting['allowfastreply'], 'radio');
+			   showsetting('setting_styles_viewthread_fast_reply', 'settingnew[allowfastreply]', $setting['allowfastreply'], 'radio');
 		showsetting('setting_styles_viewthread_allow_replybg', 'settingnew[allowreplybg]', $setting['allowreplybg'], 'radio', 0, 1);
 		$replybghtml = '';
 		if($setting['globalreplybg']) {
@@ -706,7 +705,7 @@ if(!submitcheck('settingsubmit')) {
 		$threadprofile_group = C::t('forum_threadprofile_group')->fetch_all_threadprofile();
 		showtagheader('div', 'threadprofile', $_GET['anchor'] == 'threadprofile');
 
-	    echo '<style>*, *::before, *::after {box-sizing: inherit}</style>';
+		echo '<style>*, *::before, *::after {box-sizing: inherit}</style>';
 		echo '<div class="drow"><div class="dcol d-12">';
 
 		showboxheader('setting_styles_threadprofile_group');
@@ -1767,7 +1766,7 @@ EOF;
 		showtips('setting_sec_code_tips', 'seccode_tips', $_GET['anchor'] == 'seccode');
 
 		showtableheader('', '', 'id="seccode"'.($_GET['anchor'] != 'seccode' ? ' style="display: none"' : ''));
-		showtitle('setting_sec_seccode_rule_setting');		
+		showtitle('setting_sec_seccode_rule_setting');
 		showsetting('setting_sec_seccode_rule_register', array('settingnew[seccodedata][rule][register][allow]', array(
 			array(2, cplang('setting_sec_seccode_rule_register_auto'), array('secrule_register' => '')),
 			array(1, cplang('setting_sec_seccode_rule_register_on'), array('secrule_register' => 'none')),
@@ -2192,7 +2191,7 @@ EOT;
 	} elseif($operation == 'search') {
 
 		/*search={"setting_search":"action=setting&operation=search"}*/
-		$setting['search'] = dunserialize($setting['search']);		
+		$setting['search'] = dunserialize($setting['search']);
 		showtableheader('setting_search_status', 'fixpadding');
 		showsubtitle(array('setting_search_onoff', 'search_item_name', 'setting_serveropti_searchctrl', 'setting_serveropti_maxspm', 'setting_serveropti_maxsearchresults'));
 		if(helper_access::check_module('portal')) {
@@ -2203,7 +2202,7 @@ EOT;
 				'<input type="text" class="txt" name="settingnew[search][portal][maxspm]" value="'.$setting['search']['portal']['maxspm'].'" />',
 				'<input type="text" class="txt" name="settingnew[search][portal][maxsearchresults]" value="'.$setting['search']['portal']['maxsearchresults'].'" />',
 			);
-		}		
+		}
 		$search_forum = array(
 			$setting['search']['forum']['status'] ? '<input type="checkbox" class="checkbox" name="settingnew[search][forum][status]" value="1" checked="checked" />' : '<input type="checkbox" class="checkbox" name="settingnew[search][forum][status]" value="1" />',
 			cplang('setting_search_status_forum'),
@@ -2211,7 +2210,7 @@ EOT;
 			'<input type="text" class="txt" name="settingnew[search][forum][maxspm]" value="'.$setting['search']['forum']['maxspm'].'" />',
 			'<input type="text" class="txt" name="settingnew[search][forum][maxsearchresults]" value="'.$setting['search']['forum']['maxsearchresults'].'" />',
 		);
-		
+
 		if(helper_access::check_module('blog')) {
 			$search_blog = array(
 				$setting['search']['blog']['status'] ? '<input type="checkbox" class="checkbox" name="settingnew[search][blog][status]" value="1" checked="checked" />' : '<input type="checkbox" class="checkbox" name="settingnew[search][blog][status]" value="1" />',
@@ -2255,7 +2254,7 @@ EOT;
 		showtablerow('', '', $search_group);
 		showtablerow('', '', $search_collection);
 		showtablefooter();
-		
+
 		showtableheader('setting_search_srchsetting');
 		showsetting('setting_search_srchcensor', 'settingnew[srchcensor]', $setting['srchcensor'], 'radio');
 		showtablefooter();
@@ -2281,7 +2280,7 @@ EOT;
 		}
 		$selectspxrank .='</select>';
 		showsetting('settings_sphinx_sphinxrank', '', '', $selectspxrank);
-		showtablefooter();	
+		showtablefooter();
 		/*search*/
 		showtableheader();
 
@@ -3415,7 +3414,7 @@ EOT;
 		unset($settingnew['allowfloatwin']);
 	}
 
-	if($operation == 'search') {		
+	if($operation == 'search') {
 		foreach($settingnew['search'] as $key => $val) {
 			foreach($val as $k => $v) {
 				$settingnew['search'][$key][$k] = max(0, intval($v));
@@ -3451,7 +3450,7 @@ EOT;
 		$settingnew['mobile_arr']['mobilepreview'] = intval($settingnew['mobile']['mobilepreview']);
 		$settingnew['mobile_arr']['legacy'] = 0;
 		$settingnew['mobile_arr']['wml'] = 0;
-		
+
 		$settingnew['mobile_arr']['portal']['catnav'] = intval($settingnew['mobile']['portal']['catnav']);
 		$settingnew['mobile_arr']['portal']['wzpicture'] = intval($settingnew['mobile']['portal']['wzpicture']);
 		$settingnew['mobile_arr']['portal']['wzlist'] = intval($settingnew['mobile']['portal']['wzlist']);

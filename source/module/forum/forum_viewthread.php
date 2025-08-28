@@ -52,11 +52,11 @@ $posttable = $thread['posttable'];
 // fetch thread cover image url for Open Graph
 $cover = C::t('forum_threadimage')->fetch_by_tid($_G['tid']);
 if($cover) {
-    $image_path_segment = 'forum/'.$cover['attachment'];
-    if($cover['remote']) {
+	$image_path_segment = 'forum/'.$cover['attachment'];
+	if($cover['remote']) {
 	// remote attachments always have an absolute FTP URL
 	$_G['threadimage_url'] = $_G['setting']['ftp']['attachurl'].$image_path_segment;
-    } else {
+	} else {
 	$attach_url = $_G['setting']['attachurl'];
 	// ensure the URL is absolute for Open Graph usage
 	if(strpos($attach_url, '://') === false && strpos($attach_url, '//') !== 0) {
@@ -64,7 +64,7 @@ if($cover) {
 	} else {
 		$_G['threadimage_url'] = $attach_url.$image_path_segment;
 	}
-    }
+	}
 }
 
 
@@ -518,15 +518,15 @@ if(empty($_GET['viewpid'])) {
 			$_G['forum_numpost'] = $_G['forum_thread']['replies'] + 2 - $_G['forum_numpost'];
 		}
 	}
-       $multipageparam = ($_G['forum_thread']['is_archived'] ? '&archive=' . $_G['forum_thread']['archiveid'] : '') .
-               ($_GET['extra'] ? '&extra=' . $_GET['extra'] : '') .
-               ($ordertype && $ordertype != getstatus($_G['forum_thread']['status'], 4) ? '&ordertype=' . $ordertype : '') .
-               (isset($_GET['highlight']) ? '&highlight=' . rawurlencode($_GET['highlight']) : '') .
-               (!empty($_GET['authorid']) ? '&authorid=' . $_GET['authorid'] : '') .
-               (!empty($_GET['from']) ? '&from=' . $_GET['from'] : '') .
-               (!empty($_GET['checkrush']) ? '&checkrush=' . $_GET['checkrush'] : '') .
-               (!empty($_GET['modthreadkey']) ? '&modthreadkey=' . rawurlencode($_GET['modthreadkey']) : '') .
-               $specialextra;
+	   $multipageparam = ($_G['forum_thread']['is_archived'] ? '&archive=' . $_G['forum_thread']['archiveid'] : '') .
+			   ($_GET['extra'] ? '&extra=' . $_GET['extra'] : '') .
+			   ($ordertype && $ordertype != getstatus($_G['forum_thread']['status'], 4) ? '&ordertype=' . $ordertype : '') .
+			   (isset($_GET['highlight']) ? '&highlight=' . rawurlencode($_GET['highlight']) : '') .
+			   (!empty($_GET['authorid']) ? '&authorid=' . $_GET['authorid'] : '') .
+			   (!empty($_GET['from']) ? '&from=' . $_GET['from'] : '') .
+			   (!empty($_GET['checkrush']) ? '&checkrush=' . $_GET['checkrush'] : '') .
+			   (!empty($_GET['modthreadkey']) ? '&modthreadkey=' . rawurlencode($_GET['modthreadkey']) : '') .
+			   $specialextra;
 	$multipage = multi($_G['forum_thread']['replies'] + ($ordertype != 1 ? 1 : 0), $_G['ppp'], $page, 'forum.php?mod=viewthread&tid='.$_G['tid'].$multipageparam);
 } else {
 	$_GET['viewpid'] = intval($_GET['viewpid']);
@@ -1239,9 +1239,8 @@ function viewthread_procpost($post, $lastvisit, $ordertype, $maxposition = 0) {
 		($post['first'] && $_G['setting']['commentfirstpost'] && in_array($_G['group']['allowcommentpost'], array(1, 3)) ||
 		(!$post['first'] && in_array($_G['group']['allowcommentpost'], array(2, 3))));
 	$forum_allowbbcode = $_G['forum']['allowbbcode'] ? -$post['groupid'] : 0;
-	$post['signature'] = $post['usesig'] ? ($_G['setting']['sigviewcond'] ? (strlen($post['message']) > $_G['setting']['sigviewcond'] ? $post['signature'] : '') : $post['signature']) : '';
-	$imgcontent = $post['first'] ? getstatus($_G['forum_thread']['status'], 15) : 0;
-	if(!defined('IN_ARCHIVER')) {
+	   $post['signature'] = $post['usesig'] ? ($_G['setting']['sigviewcond'] ? (strlen($post['message']) > $_G['setting']['sigviewcond'] ? $post['signature'] : '') : $post['signature']) : '';
+	   if(!defined('IN_ARCHIVER')) {
 		if($post['first']) {
 			if(!defined('IN_MOBILE')) {
 				$messageindex = false;
@@ -1283,19 +1282,17 @@ $_G['forum_posthtml']['footer'][$post['pid']] .= '<div id="threadpage"></div><sc
 		if(!empty($_GET['threadindex'])) {
 			$_G['forum_posthtml']['header'][$post['pid']] .= '<div id="threadindex"></div><script type="text/javascript" reload="1">show_threadindex(0, '.($_GET['from'] == 'preview' ? '1' : '0').');</script>';
 		}
-		if(!$imgcontent) {
-			$post['message'] = discuzcode($post['message'], $post['smileyoff'], $post['bbcodeoff'], $post['htmlon'] & 1, $_G['forum']['allowsmilies'], $forum_allowbbcode, ($_G['forum']['allowimgcode'] && $_G['setting']['showimages'] ? 1 : 0), $_G['forum']['allowhtml'], ($_G['forum']['jammer'] && $post['authorid'] != $_G['uid'] ? 1 : 0), 0, $post['authorid'], $_G['cache']['usergroups'][$post['groupid']]['allowmediacode'] && $_G['forum']['allowmediacode'], $post['pid'], getglobal('setting/lazyload'), $post['dbdateline'], $post['first']);
-			if($post['first']) {
-				$_G['relatedlinks'] = '';
-				$relatedtype = !$_G['forum_thread']['isgroup'] ? 'forum' : 'group';
-				if(!getglobal('setting/relatedlinkstatus')) {
-					$_G['relatedlinks'] = get_related_link($relatedtype);
-				} else {
-					$post['message'] = parse_related_link($post['message'], $relatedtype);
-				}
-			}
-			}
-	}
+			   $post['message'] = discuzcode($post['message'], $post['smileyoff'], $post['bbcodeoff'], $post['htmlon'] & 1, $_G['forum']['allowsmilies'], $forum_allowbbcode, ($_G['forum']['allowimgcode'] && $_G['setting']['showimages'] ? 1 : 0), $_G['forum']['allowhtml'], ($_G['forum']['jammer'] && $post['authorid'] != $_G['uid'] ? 1 : 0), 0, $post['authorid'], $_G['cache']['usergroups'][$post['groupid']]['allowmediacode'] && $_G['forum']['allowmediacode'], $post['pid'], getglobal('setting/lazyload'), $post['dbdateline'], $post['first']);
+			   if($post['first']) {
+					   $_G['relatedlinks'] = '';
+					   $relatedtype = !$_G['forum_thread']['isgroup'] ? 'forum' : 'group';
+					   if(!getglobal('setting/relatedlinkstatus')) {
+							   $_G['relatedlinks'] = get_related_link($relatedtype);
+					   } else {
+							   $post['message'] = parse_related_link($post['message'], $relatedtype);
+					   }
+			   }
+	   }
 	if(defined('IN_ARCHIVER') || defined('IN_MOBILE') || !$post['first']) {
 			if(strpos($post['message'], '[page]') !== FALSE) {
 			$post['message'] = preg_replace("/\s?\[page\]\s?/is", '', $post['message']);
@@ -1304,10 +1301,7 @@ $_G['forum_posthtml']['footer'][$post['pid']] .= '<div id="threadpage"></div><sc
 			$post['message'] = preg_replace("/\s?\[index\](.+?)\[\/index\]\s?/is", '', $post['message']);
 			}
 	}
-	if($imgcontent) {
-			$post['message'] = '<img id="threadimgcontent" src="./'.stringtopic('', $post['tid']).'">';
-	}
-	$_G['forum_firstpid'] = intval($_G['forum_firstpid']);
+	   $_G['forum_firstpid'] = intval($_G['forum_firstpid']);
 	$post['numbercard'] = viewthread_numbercard($post);
 	$post['mobiletype'] = getstatus($post['status'], 4) ? base_convert(getstatus($post['status'], 10).getstatus($post['status'], 9).getstatus($post['status'], 8), 2, 10) : 0;
 	if($_GET['from'] != 'preview' && ($_G['setting']['editedby'] && ($post['lastupdate'] && $post['lastupdate'] - $post['dbdateline'] > 300 || $post['updateuid'] && $post['updateuid'] != $post['authorid']))) {
@@ -1594,27 +1588,27 @@ function getrelateitem($tagarray, $tid, $relatenum, $relatetime, $relatecache = 
 	} else {
 		$updatecache = 1;
 	}
-       if($updatecache) {
-               foreach(DB::fetch_all('SELECT itemid, COUNT(*) AS tagnum FROM %t WHERE tagid IN (%n) AND itemid<>%d AND idtype=%s GROUP BY itemid ORDER BY tagnum DESC, itemid DESC LIMIT %d',
-                       array('common_tagitem', $tagidarray, $tid, $type, $limit)) as $result) {
-                       if($result['itemid']) {
-                               $relatearray[] = $result['itemid'];
-                       }
-               }
-               $relatebytag = $relatearray ? implode(',', $relatearray) : '';
-               C::t('forum_thread')->update($tid, array('relatebytag' => TIMESTAMP."\t".$relatebytag));
-       }
+	   if($updatecache) {
+			   foreach(DB::fetch_all('SELECT itemid, COUNT(*) AS tagnum FROM %t WHERE tagid IN (%n) AND itemid<>%d AND idtype=%s GROUP BY itemid ORDER BY tagnum DESC, itemid DESC LIMIT %d',
+					   array('common_tagitem', $tagidarray, $tid, $type, $limit)) as $result) {
+					   if($result['itemid']) {
+							   $relatearray[] = $result['itemid'];
+					   }
+			   }
+			   $relatebytag = $relatearray ? implode(',', $relatearray) : '';
+			   C::t('forum_thread')->update($tid, array('relatebytag' => TIMESTAMP."\t".$relatebytag));
+	   }
 
 
-       if(!empty($relatearray)) {
-               foreach($relatearray as $rtid) {
-                       $result = C::t('forum_thread')->fetch($rtid);
-                       if($result && $result['displayorder'] >= 0) {
-                               $relateitem[] = $result;
-                       }
-               }
-       }
-       return $relateitem;
+	   if(!empty($relatearray)) {
+			   foreach($relatearray as $rtid) {
+					   $result = C::t('forum_thread')->fetch($rtid);
+					   if($result && $result['displayorder'] >= 0) {
+							   $relateitem[] = $result;
+					   }
+			   }
+	   }
+	   return $relateitem;
 }
 
 function rushreply_rule () {
