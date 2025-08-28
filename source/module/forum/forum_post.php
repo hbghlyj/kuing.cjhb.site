@@ -1,10 +1,10 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
+ *	[Discuz!] (C)2001-2099 Comsenz Inc.
+ *	This is NOT a freeware, use is subject to license terms
  *
- *      $Id: forum_post.php 36293 2016-12-14 02:50:56Z nemohou $
+ *	$Id: forum_post.php 36293 2016-12-14 02:50:56Z nemohou $
  */
 
 if(!defined('IN_DISCUZ')) {

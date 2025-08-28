@@ -1,8 +1,8 @@
 <div class="pcb">
 <!--{if !$_G['forum']['ismoderator'] && $_G['setting']['bannedmessages'] & 1 && (($post['authorid'] && !$post['username']) || ($_G['thread']['digest'] == 0 && ($post['groupid'] == 4 || $post['groupid'] == 5 || $post['memberstatus'] == '-1')))}-->
-        <div class="locked">{lang message_banned}</div>
+	<div class="locked">{lang message_banned}</div>
 <!--{elseif !$_G['forum']['ismoderator'] && $post['status'] & 1}-->
-        <div class="locked">{lang message_single_banned}</div>
+	<div class="locked">{lang message_single_banned}</div>
 <!--{elseif $post['first'] && $_G['forum_threadpay']}-->
 	<!--{template forum/viewthread_pay}-->
 <!--{elseif !empty($_G['forum_discuzcode']['passwordlock'][$post[pid]])}-->

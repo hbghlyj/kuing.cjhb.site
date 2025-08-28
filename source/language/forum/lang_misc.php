@@ -1,10 +1,10 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
+ *	[Discuz!] (C)2001-2099 Comsenz Inc.
+ *	This is NOT a freeware, use is subject to license terms
  *
- *      $Id: lang_misc.php 33974 2013-09-10 09:30:47Z nemohou $
+ *	$Id: lang_misc.php 33974 2013-09-10 09:30:47Z nemohou $
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -27,8 +27,8 @@ $lang = array
 	'post_hidden' => '**** 本内容被作者隐藏 ****',
 	'post_sold' => '**** 本内容购买后可见 ****',
 	'post_banned' => '**** 作者被禁止或删除 内容自动屏蔽 ****',
-        'post_single_banned' => '**** 该帖被屏蔽 ****',
-        'post_reply_quote' => '{author} 发表于 {time}',
+	'post_single_banned' => '**** 该帖被屏蔽 ****',
+	'post_reply_quote' => '{author} 发表于 {time}',
 	'post_reply' => '回复',
 	'post_thread' => '的帖子',
 
@@ -82,7 +82,7 @@ $lang = array
 	'trade_syspayseller' => '买家确认收到货，等待支付宝打款给卖家',
 	'trade_finished' => '<font color="green">交易成功结束</font>',
 	'trade_closed' => '<font color="gray">交易中途关闭(未完成)</font>',
-	'trade_waitselleragree'  => '等待卖家同意退款',
+	'trade_waitselleragree'	 => '等待卖家同意退款',
 	'trade_sellerrefusebuyer' => '卖家拒绝买家条件，等待买家修改条件',
 	'trade_waitbuyerreturn' => '卖家同意退款，等待买家退货',
 	'trade_waitsellerconfirmgoods' => '等待卖家收货',

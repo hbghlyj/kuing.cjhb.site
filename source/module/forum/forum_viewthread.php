@@ -1,10 +1,10 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
+ *	[Discuz!] (C)2001-2099 Comsenz Inc.
+ *	This is NOT a freeware, use is subject to license terms
  *
- *      $Id: forum_viewthread.php 36348 2017-01-13 06:36:44Z nemohou $
+ *	$Id: forum_viewthread.php 36348 2017-01-13 06:36:44Z nemohou $
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -52,11 +52,11 @@ $posttable = $thread['posttable'];
 // fetch thread cover image url for Open Graph
 $cover = C::t('forum_threadimage')->fetch_by_tid($_G['tid']);
 if($cover) {
-    $image_path_segment = 'forum/'.$cover['attachment'];
-    if($cover['remote']) {
+	$image_path_segment = 'forum/'.$cover['attachment'];
+	if($cover['remote']) {
 	// remote attachments always have an absolute FTP URL
 	$_G['threadimage_url'] = $_G['setting']['ftp']['attachurl'].$image_path_segment;
-    } else {
+	} else {
 	$attach_url = $_G['setting']['attachurl'];
 	// ensure the URL is absolute for Open Graph usage
 	if(strpos($attach_url, '://') === false && strpos($attach_url, '//') !== 0) {
@@ -64,7 +64,7 @@ if($cover) {
 	} else {
 		$_G['threadimage_url'] = $attach_url.$image_path_segment;
 	}
-    }
+	}
 }
 
 
@@ -516,15 +516,15 @@ if(empty($_GET['viewpid'])) {
 			$_G['forum_numpost'] = $_G['forum_thread']['replies'] + 2 - $_G['forum_numpost'];
 		}
 	}
-       $multipageparam = ($_G['forum_thread']['is_archived'] ? '&archive=' . $_G['forum_thread']['archiveid'] : '') .
-               ($_GET['extra'] ? '&extra=' . $_GET['extra'] : '') .
-               ($ordertype && $ordertype != getstatus($_G['forum_thread']['status'], 4) ? '&ordertype=' . $ordertype : '') .
-               (isset($_GET['highlight']) ? '&highlight=' . rawurlencode($_GET['highlight']) : '') .
-               (!empty($_GET['authorid']) ? '&authorid=' . $_GET['authorid'] : '') .
-               (!empty($_GET['from']) ? '&from=' . $_GET['from'] : '') .
-               (!empty($_GET['checkrush']) ? '&checkrush=' . $_GET['checkrush'] : '') .
-               (!empty($_GET['modthreadkey']) ? '&modthreadkey=' . rawurlencode($_GET['modthreadkey']) : '') .
-               $specialextra;
+	$multipageparam = ($_G['forum_thread']['is_archived'] ? '&archive=' . $_G['forum_thread']['archiveid'] : '') .
+		($_GET['extra'] ? '&extra=' . $_GET['extra'] : '') .
+		($ordertype && $ordertype != getstatus($_G['forum_thread']['status'], 4) ? '&ordertype=' . $ordertype : '') .
+		(isset($_GET['highlight']) ? '&highlight=' . rawurlencode($_GET['highlight']) : '') .
+		(!empty($_GET['authorid']) ? '&authorid=' . $_GET['authorid'] : '') .
+		(!empty($_GET['from']) ? '&from=' . $_GET['from'] : '') .
+		(!empty($_GET['checkrush']) ? '&checkrush=' . $_GET['checkrush'] : '') .
+		(!empty($_GET['modthreadkey']) ? '&modthreadkey=' . rawurlencode($_GET['modthreadkey']) : '') .
+		$specialextra;
 	$multipage = multi($_G['forum_thread']['replies'] + ($ordertype != 1 ? 1 : 0), $_G['ppp'], $page, 'forum.php?mod=viewthread&tid='.$_G['tid'].$multipageparam);
 } else {
 	$_GET['viewpid'] = intval($_GET['viewpid']);
@@ -1100,7 +1100,7 @@ function viewthread_updateviews($tableid) {
 }
 
 function viewthread_procpost($post, $lastvisit, $ordertype, $maxposition = 0) {
-        global $_G, $rushreply;
+	global $_G, $rushreply;
 
 	if(!$_G['forum_newpostanchor'] && $post['dateline'] > $lastvisit) {
 		$post['newpostanchor'] = '<a name="newpost"></a>';
@@ -1147,7 +1147,7 @@ function viewthread_procpost($post, $lastvisit, $ordertype, $maxposition = 0) {
 		$post['number'] = -1;
 	}
 
-        if(!$_G['forum_thread']['special'] && !$rushreply && $_G['setting']['threadfilternum'] && getstatus($post['status'], 11)) {
+	if(!$_G['forum_thread']['special'] && !$rushreply && $_G['setting']['threadfilternum'] && getstatus($post['status'], 11)) {
 		$post['isWater'] = true;
 		if($_G['setting']['hidefilteredpost'] && !$_G['forum']['noforumhidewater']) {
 			$post['inblacklist'] = true;
@@ -1592,27 +1592,27 @@ function getrelateitem($tagarray, $tid, $relatenum, $relatetime, $relatecache = 
 	} else {
 		$updatecache = 1;
 	}
-       if($updatecache) {
-               foreach(DB::fetch_all('SELECT itemid, COUNT(*) AS tagnum FROM %t WHERE tagid IN (%n) AND itemid<>%d AND idtype=%s GROUP BY itemid ORDER BY tagnum DESC, itemid DESC LIMIT %d',
-                       array('common_tagitem', $tagidarray, $tid, $type, $limit)) as $result) {
-                       if($result['itemid']) {
-                               $relatearray[] = $result['itemid'];
-                       }
-               }
-               $relatebytag = $relatearray ? implode(',', $relatearray) : '';
-               C::t('forum_thread')->update($tid, array('relatebytag' => TIMESTAMP."\t".$relatebytag));
-       }
+	if($updatecache) {
+		foreach(DB::fetch_all('SELECT itemid, COUNT(*) AS tagnum FROM %t WHERE tagid IN (%n) AND itemid<>%d AND idtype=%s GROUP BY itemid ORDER BY tagnum DESC, itemid DESC LIMIT %d',
+			array('common_tagitem', $tagidarray, $tid, $type, $limit)) as $result) {
+			if($result['itemid']) {
+				$relatearray[] = $result['itemid'];
+			}
+		}
+		$relatebytag = $relatearray ? implode(',', $relatearray) : '';
+		C::t('forum_thread')->update($tid, array('relatebytag' => TIMESTAMP."\t".$relatebytag));
+	}
 
 
-       if(!empty($relatearray)) {
-               foreach($relatearray as $rtid) {
-                       $result = C::t('forum_thread')->fetch($rtid);
-                       if($result && $result['displayorder'] >= 0) {
-                               $relateitem[] = $result;
-                       }
-               }
-       }
-       return $relateitem;
+	if(!empty($relatearray)) {
+		foreach($relatearray as $rtid) {
+			$result = C::t('forum_thread')->fetch($rtid);
+			if($result && $result['displayorder'] >= 0) {
+				$relateitem[] = $result;
+			}
+		}
+	}
+	return $relateitem;
 }
 
 function rushreply_rule () {

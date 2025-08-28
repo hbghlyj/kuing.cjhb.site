@@ -1,10 +1,10 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
+ *	[Discuz!] (C)2001-2099 Comsenz Inc.
+ *	This is NOT a freeware, use is subject to license terms
  *
- *      $Id: post_newthread.php 33695 2013-08-03 04:39:22Z nemohou $
+ *	$Id: post_newthread.php 33695 2013-08-03 04:39:22Z nemohou $
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -80,7 +80,7 @@ if(!submitcheck('topicsubmit', 0, $seccodecheck, $secqaacheck)) {
 
 	$isfirstpost = 1;
 	$allownoticeauthor = 1;
-        $showthreadsorts = !empty($sortid) || getglobal('forum/threadsorts/required') && empty($special);
+	$showthreadsorts = !empty($sortid) || getglobal('forum/threadsorts/required') && empty($special);
 	if(empty($sortid) && empty($special) && getglobal('forum/threadsorts/required') && $_G['forum']['threadsorts']['types']) {
 		$tmp = array_keys($_G['forum']['threadsorts']['types']);
 		$sortid = $tmp[0];
@@ -232,9 +232,9 @@ if(!submitcheck('topicsubmit', 0, $seccodecheck, $secqaacheck)) {
 
 
 
-        $params['ordertype'] = getgpc('ordertype');
+	$params['ordertype'] = getgpc('ordertype');
 
-        $params['allownoticeauthor'] = $_GET['allownoticeauthor'];
+	$params['allownoticeauthor'] = $_GET['allownoticeauthor'];
 	$params['tags'] = $_GET['tags'];
 	$params['bbcodeoff'] = getgpc('bbcodeoff');
 	$params['smileyoff'] = getgpc('smileyoff');

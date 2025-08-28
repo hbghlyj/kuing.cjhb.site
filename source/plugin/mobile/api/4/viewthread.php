@@ -1,10 +1,10 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
+ *	[Discuz!] (C)2001-2099 Comsenz Inc.
+ *	This is NOT a freeware, use is subject to license terms
  *
- *      $Id: viewthread.php 36278 2016-12-09 07:52:35Z nemohou $
+ *	$Id: viewthread.php 36278 2016-12-09 07:52:35Z nemohou $
  */
 if (!defined('IN_MOBILE_API')) {
 	exit('Access Denied');
@@ -21,7 +21,7 @@ class mobile_api {
 
 	public static function output() {
 		global $_G, $thread, $postlist, $threadsortshow;
-                $_G['thread']['lastpost'] = dgmdate($_G['thread']['lastpost']);
+		$_G['thread']['lastpost'] = dgmdate($_G['thread']['lastpost']);
 		$_G['thread']['ordertype'] = $GLOBALS['ordertype'];
 		$_G['thread']['recommend'] = $_G['uid'] && C::t('forum_memberrecommend')->fetch_by_recommenduid_tid($_G['uid'], $_G['tid']) ? 1 : 0;
 		if (!empty($_GET['viewpid'])) {
@@ -73,7 +73,7 @@ class mobile_api {
 				$message = lang('forum/template', 'message_banned');
 			} elseif (!$_G['forum']['ismoderator'] && $post['status'] & 1) {
 				$message = lang('forum/template', 'message_single_banned');
-                        } elseif ($post['first'] && $_G['forum_threadpay']) {
+			} elseif ($post['first'] && $_G['forum_threadpay']) {
 				$message = lang('forum/template', 'pay_threads') . ' ' . $GLOBALS['thread']['price'] . ' ' . $_G['setting']['extcredits'][$_G['setting']['creditstransextra'][1]]['unit'] . $_G['setting']['extcredits'][$_G['setting']['creditstransextra'][1]]['title'];
 			} elseif ($_G['forum_discuzcode']['passwordlock']) {
 				$message = lang('forum/template', 'message_password_exists');

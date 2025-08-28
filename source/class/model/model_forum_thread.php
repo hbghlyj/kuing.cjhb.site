@@ -1,10 +1,10 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
+ *	[Discuz!] (C)2001-2099 Comsenz Inc.
+ *	This is NOT a freeware, use is subject to license terms
  *
- *      $Id: model_forum_thread.php 34684 2014-07-07 07:27:56Z nemohou $
+ *	$Id: model_forum_thread.php 34684 2014-07-07 07:27:56Z nemohou $
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -109,9 +109,9 @@ class model_forum_thread extends discuz_model
 
 		$this->param['ordertype'] && $this->param['tstatus'] = setstatus(4, 1, $this->param['tstatus']);
 
-                $this->param['imgcontent'] && $this->param['tstatus'] = setstatus(15, $this->param['imgcontent'], $this->param['tstatus']);
+		$this->param['imgcontent'] && $this->param['tstatus'] = setstatus(15, $this->param['imgcontent'], $this->param['tstatus']);
 
-                $this->param['allownoticeauthor'] && $this->param['tstatus'] = setstatus(6, 1, $this->param['tstatus']);
+		$this->param['allownoticeauthor'] && $this->param['tstatus'] = setstatus(6, 1, $this->param['tstatus']);
 		$this->param['isgroup'] = $this->forum['status'] == 3 ? 1 : 0;
 
 		$this->param['publishdate'] = !$this->param['modnewthreads'] ? $this->param['publishdate'] : TIMESTAMP;
@@ -136,15 +136,15 @@ class model_forum_thread extends discuz_model
 			'moderated' => $this->param['moderated'],
 			'status' => $this->param['tstatus'],
 			'isgroup' => $this->param['isgroup'],
-                       'replycredit' => $this->param['replycredit'],
-                       'closed' => $this->param['closed'] ? 1 : 0,
-                       'tags' => ''
-               );
+			'replycredit' => $this->param['replycredit'],
+			'closed' => $this->param['closed'] ? 1 : 0,
+			'tags' => ''
+		);
 		$this->tid = C::t('forum_thread')->insert($newthread, true);
 		C::t('forum_newthread')->insert(array(
-		    'tid' => $this->tid,
-		    'fid' => $this->forum['fid'],
-		    'dateline' => $this->param['publishdate'],
+			'tid' => $this->tid,
+			'fid' => $this->forum['fid'],
+			'dateline' => $this->param['publishdate'],
 		));
 		C::t('forum_sofa')->insert(array('tid' => $this->tid,'fid' => $this->forum['fid']));
 		useractionlog($this->member['uid'], 'tid');
@@ -178,8 +178,8 @@ class model_forum_thread extends discuz_model
 		$this->param['parseurloff'] = !empty($this->param['parseurloff']);
 		$this->param['htmlon'] = $this->group['allowhtml'] && !empty($this->param['htmlon']) ? 1 : 0;
 		$this->param['usesig'] = !empty($this->param['usesig']) && $this->group['maxsigsize'] ? 1 : 0;
-               $class_tag = new tag();
-               C::t('forum_thread')->update($this->tid, array('tags' => $class_tag->add_tag($this->param['tags'], $this->tid, 'tid')));
+		$class_tag = new tag();
+		C::t('forum_thread')->update($this->tid, array('tags' => $class_tag->add_tag($this->param['tags'], $this->tid, 'tid')));
 
 		$this->param['pinvisible'] = $this->param['modnewthreads'] ? -2 : (empty($this->param['save']) ? 0 : -3);
 		$this->param['message'] = preg_replace('/\[attachimg\](\d+)\[\/attachimg\]/is', '[attach]\1[/attach]', $this->param['message']);
@@ -208,10 +208,10 @@ class model_forum_thread extends discuz_model
 			'bbcodeoff' => $this->param['bbcodeoff'],
 			'smileyoff' => $this->param['smileyoff'],
 			'parseurloff' => $this->param['parseurloff'],
-                       'attachment' => '0',
-                       'replycredit' => 0,
-                       'status' => $this->param['pstatus']
-               ));
+			'attachment' => '0',
+			'replycredit' => 0,
+			'status' => $this->param['pstatus']
+		));
 
 		$statarr = array(0 => 'thread', 1 => 'poll', 2 => 'trade', 3 => 'reward', 4 => 'activity', 5 => 'debate', 127 => 'thread');
 		include_once libfile('function/stat');
@@ -241,9 +241,9 @@ class model_forum_thread extends discuz_model
 
 			if($this->param['displayorder'] != -4) {
 				if($this->param['digest']) {
-					updatepostcredits('+',  $this->member['uid'], 'digest', $this->forum['fid']);
+					updatepostcredits('+',	$this->member['uid'], 'digest', $this->forum['fid']);
 				}
-				updatepostcredits('+',  $this->member['uid'], 'post', $this->forum['fid']);
+				updatepostcredits('+',	$this->member['uid'], 'post', $this->forum['fid']);
 				if($this->param['isgroup']) {
 					C::t('forum_groupuser')->update_counter_for_user($this->member['uid'], $this->forum['fid'], 1);
 				}
@@ -316,8 +316,8 @@ class model_forum_thread extends discuz_model
 
 		$varname = array(
 			'member', 'group', 'forum', 'extramessage',
-                        'subject', 'sticktopic', 'save', 'ordertype',
-                        'allownoticeauthor', 'readperm', 'price', 'typeid', 'sortid',
+			'subject', 'sticktopic', 'save', 'ordertype',
+			'allownoticeauthor', 'readperm', 'price', 'typeid', 'sortid',
 			'publishdate', 'digest', 'moderated', 'tstatus', 'isgroup', 'imgcontent', 'imgcontentwidth',
 			'replycredit', 'closed', 'special', 'tags',
 			'message','clientip', 'invisible', 'isanonymous', 'usesig',

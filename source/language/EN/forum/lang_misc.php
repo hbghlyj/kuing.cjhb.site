@@ -1,10 +1,10 @@
 <?php
 
 /**
- *      [Discuz!] (C)2001-2099 Comsenz Inc.
- *      This is NOT a freeware, use is subject to license terms
+ *	[Discuz!] (C)2001-2099 Comsenz Inc.
+ *	This is NOT a freeware, use is subject to license terms
  *
- *      $Id: lang_misc.php by Valery Votintsev, codersclub.org
+ *	$Id: lang_misc.php by Valery Votintsev, codersclub.org
  */
 
 if(!defined('IN_DISCUZ')) {
