@@ -63,8 +63,11 @@
           const pageNumberElement=document.querySelector('div.pg>strong');
           const pageNumber=pageNumberElement?pageNumberElement.textContent.trim():1;
           if(data.tid==tid && data.page==pageNumber){
-            ajaxget(`forum.php?mod=viewthread&tid=${tid}&viewpid=${data.pid}`, 'post_new', 'ajaxwaitid', '', null,function() {
+            ajaxget(`forum.php?mod=viewthread&tid=${tid}&viewpid=${data.pid}`, 'post_new', 'ajaxwaitid', '', null, function() {
               const postNew = $('post_new');
+              if (!postNew) {
+                return;
+              }
               postNew.id = `post_${data.pid}`;
               postNew.style.display = '';
               if (typeof MathJax.typesetPromise === 'function') {
