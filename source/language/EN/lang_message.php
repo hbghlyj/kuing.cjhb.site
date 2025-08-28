@@ -966,7 +966,6 @@ $lang = array (
 	'postattachperm_upgrade_nopermission'	=> 'Sorry, you need to upgrade user group to upload attachment, please <a href="home.php?mod=spacecp&ac=credit&op=usergroup" target="_blank">click here to view details</a></p></div><div><p><b>Allowed user groups:</b><br />&nbsp;&nbsp;&nbsp; {permgroups}',//'对不起，您需要升级您所在的用户组后才能上传附件，详细请<a href="home.php?mod=spacecp&ac=credit&op=usergroup" target="_blank">点击这里查看</a></p></div><div><p><b>有权上传附件的用户组为:</b><br />&nbsp;&nbsp;&nbsp; {permgroups}',
 	'postattachperm_login_nopermission'	=> 'Sorry, you need to login to upload attachment.',//'对不起，您还未登录，无权上传附件。',
 	'file_size_overflow'			=> 'File size is larger than {size} bytes.',//'文件不能大于 {size} 字节，请返回。',
-	'forum_archiver_disabled'		=> 'Forum Archiver feature is not open.',//'论坛 Archiver 功能没有开启，请返回。',
 
 	'post_thread_closed_by_dateline'	=> 'Sorry, Administrator sets threads posted {autoclose} days ago of this forum closed automatically, no longer allowed new replies.',//'对不起，管理员设置了本版块发表于 {autoclose} 天以前的主题自动关闭，不再接受新回复，请返回。',
 	'post_thread_closed_by_lastpost'	=> 'Sorry, Administrator sets threads whose last reply posted {autoclose} days ago closed automatically, stop accepting new replies.',//'对不起，管理员设置了本版块最后回复于 {autoclose} 天以前的主题自动关闭，不再接受新回复，请返回。',

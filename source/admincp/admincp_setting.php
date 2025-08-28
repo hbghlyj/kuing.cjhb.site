@@ -1203,8 +1203,6 @@ EOF;
 		showtableheader('', 'nobottom', 'id="mod"'.($_GET['anchor'] != 'mod' ? ' style="display: none"' : ''));
 		showsetting('setting_functions_mod_updatestat', 'settingnew[updatestat]', $setting['updatestat'], 'radio');
 		showsetting('setting_functions_mod_status', 'settingnew[modworkstatus]', $setting['modworkstatus'], 'radio');
-		showsetting('setting_functions_archiver', 'settingnew[archiver]', $setting['archiver'], 'radio', 0, 1);
-		showsetting('setting_functions_archiverredirect', 'settingnew[archiverredirect]', $setting['archiverredirect'], 'radio');
 		showtagfooter('tbody');
 		showsetting('setting_functions_mod_maxmodworksmonths', 'settingnew[maxmodworksmonths]', $setting['maxmodworksmonths'], 'text');
 		showsetting('setting_functions_mod_losslessdel', 'settingnew[losslessdel]', $setting['losslessdel'], 'text');

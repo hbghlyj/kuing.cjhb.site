@@ -476,7 +476,7 @@ EOT;
 				}
 			}
 			$topichtmldir = str_replace(DISCUZ_ROOT, '', $topichtmldir);
-			$sysdir = array('api', 'archiver', 'config', 'data/diy', 'data\diy', 'install', 'source', 'static', 'template', 'uc_client', 'uc_server');
+			$sysdir = array('api', 'config', 'data/diy', 'data\diy', 'install', 'source', 'static', 'template', 'uc_client', 'uc_server');
 			foreach($sysdir as $_dir) {
 				if(stripos($topichtmldir, $_dir) === 0) {
 					cpmsg(cplang('setting_functions_makehtml_topichtmldir_invalid').','.cplang('return'), NULL, 'error');
@@ -621,7 +621,7 @@ function check_son_folder($file, $cat) {
 function check_html_dir($dir) {
 	$dir = str_replace("\\", '/', $dir);
 	list($first) = explode('/', $dir);
-	if(in_array(strtolower($first), array('uc_server', 'uc_client', 'template', 'static', 'source', 'm', 'install', 'data', 'config', 'api', 'archiver'), true)) {
+	if(in_array(strtolower($first), array('uc_server', 'uc_client', 'template', 'static', 'source', 'm', 'install', 'data', 'config', 'api'), true)) {
 		return false;
 	}
 	return true;
