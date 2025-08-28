@@ -517,7 +517,7 @@ function updatethreadcount($tid, $updateattach = 0) {
 	C::t('forum_thread')->update($tid, $data);
 }
 
-function updatemodlog($tids, $action, $expiration = 0, $iscron = 0, $reason = '', $stamp = 0) {
+function updatemodlog($tids, $action, $expiration = 0, $iscron = 0, $reason = '') {
 	global $_G;
 	if(is_array($tids)){
 		$tids = implode(',',$tids);
@@ -526,12 +526,7 @@ function updatemodlog($tids, $action, $expiration = 0, $iscron = 0, $reason = ''
 	$username = empty($iscron) ? $_G['member']['username'] : 0;
 	$expiration = empty($expiration) ? 0 : intval($expiration);
 
-	$data = $comma = '';
-	$stampadd = $stampaddvalue = '';
-	if($stamp) {
-		$stampadd = ', stamp';
-		$stampaddvalue = ", '$stamp'";
-	}
+        $data = $comma = '';
 	foreach(explode(',', str_replace(array('\'', ' '), array('', ''), $tids)) as $tid) {
 		if($tid) {
 
@@ -545,9 +540,6 @@ function updatemodlog($tids, $action, $expiration = 0, $iscron = 0, $reason = ''
 					'status' => 1,
 					'reason' => $reason
 				);
-			if($stamp) {
-				$data['stamp'] = $stamp;
-			}
 			C::t('forum_threadmod')->insert($data);
 		}
 	}

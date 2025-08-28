@@ -952,9 +952,7 @@ $lang = array (
   'admin_split_invalid' => '抱歉，主题没有回复，无法分割',
   'admin_split_subject_invalid' => '抱歉，您尚未输入标题',
 
-  'no_privilege_stampthread' => '抱歉，您没有权限给主题添加图章',
 
-  'no_privilege_stamplist' => '抱歉，您没有权限给主题添加图标',
 
   'no_privilege_stickreply' => '抱歉，您没有权限置顶此帖',
   'admin_stickreply_invalid' => '抱歉，目标帖子不存在或者为主题',

@@ -216,7 +216,6 @@ $lang = array
 	'perms_allowbumpthread' => '提升主題',
 	'perms_allowhighlightthread' => '主題高亮',
 	'perms_allowrecommendthread' => '主題推薦',
-	'perms_allowstampthread' => '主題鑒定',
 	'perms_allowclosethread' => '主題關閉',
 	'perms_allowmovethread' => '主題移動',
 	'perms_allowedittypethread' => '編輯主題分類',

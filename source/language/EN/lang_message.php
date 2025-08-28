@@ -920,9 +920,7 @@ $lang = array (
 	'admin_split_invalid'		=> 'There is not reply in this thread, it can not be splited.',//'主题没有回复，无法分割。',
 	'admin_split_subject_invalid'	=> 'Please input subject.',//'您没有输入标题。',
 
-	'no_privilege_stampthread'	=> 'Sorry, you do not have permission to stamp this thread',//'抱歉，您没有权限给主题添加图章',
 
-	'no_privilege_stamplist'	=> 'Sorry, you do not have permission to add an icon to thread',//'抱歉，您没有权限给主题添加图标',
 
 	'no_privilege_stickreply'	=> 'Sorry, you do not have permission to stick this post',//'抱歉，您没有权限置顶此帖',
 	'admin_stickreply_invalid'	=> 'Target post does not exist or is a thread',//'目标帖子不存在或者为主题',

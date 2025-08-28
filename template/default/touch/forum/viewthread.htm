@@ -83,10 +83,7 @@
 										<input type="button" value="{lang modmenu_recommend}" class="dialog button" href="forum.php?mod=topicadmin&action=moderate&fid={$_G['fid']}&moderate[]={$_G['tid']}&operation=recommend&optgroup=1&from={$_G['tid']}">
 									<!--{/if}-->
 									<!--{if $_G['group']['allowstampthread'] && !$_G['forum_thread']['is_archived']}-->
-										<input type="button" value="{lang modmenu_stamp}" class="dialog button" href="forum.php?mod=topicadmin&action=stamp&fid={$_G['fid']}&tid={$_G['tid']}&topiclist[]={$_G['forum_firstpid']}">
 									<!--{/if}-->
-									<!--{if $_G['group']['allowstamplist'] && !$_G['forum_thread']['is_archived']}-->
-										<input type="button" value="{lang modmenu_icon}" class="dialog button" href="forum.php?mod=topicadmin&action=stamplist&fid={$_G['fid']}&tid={$_G['tid']}&topiclist[]={$_G['forum_firstpid']}">
 									<!--{/if}-->
 									<!--{if $_G['group']['allowclosethread'] && !$_G['forum_thread']['is_archived'] && $_G['forum']['status'] != 3}-->
 										<input type="button" value="<!--{if !$_G['forum_thread']['closed']}-->{lang modmenu_switch_off}<!--{else}-->{lang modmenu_switch_on}<!--{/if}-->" class="dialog button" href="forum.php?mod=topicadmin&action=moderate&fid={$_G['fid']}&moderate[]={$_G['tid']}&from={$_G['tid']}&optgroup=4">

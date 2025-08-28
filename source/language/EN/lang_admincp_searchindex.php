@@ -289,7 +289,6 @@ $lang = array (
 	array (
 		'index' => 
 		array (
-			'主题鉴定' => 'action=misc&operation=stamp',
 		),
 		'text' => 
 		array (
@@ -1426,10 +1425,8 @@ $lang = array (
 			18 => 'admingroup_edit_recommend_thread',
 			19 => '允许推荐主题',
 			20 => '设置是否允许推荐管理范围内的主题 (要在相应版块的扩展设置里开启推荐主题功能)',
-			21 => 'admingroup_edit_stamp_thread',
 			22 => '允许添加主题图章',
 			23 => '设置是否允许给主题在帖子内容页添加图章',
-			24 => 'admingroup_edit_stamp_list',
 			25 => '允许添加主题图标',
 			26 => '设置是否允许给主题在帖子列表页添加图标',
 			27 => 'admingroup_edit_close_thread',
@@ -3616,13 +3613,10 @@ $lang = array (
 	array (
 		'index' => 
 		array (
-			'主题鉴定' => 'action=misc&operation=stamp',
-			'图章' => 'action=misc&operation=stamp&anchor=list',
 		),
 		'text' => 
 		array (
 			0 => '主题鉴定 &raquo; 图章',
-			1 => 'misc_stamp_listtips',
 			2 => '鉴定图章显示在帖子内容页，鉴定图标显示在主题列表页。系统预留了 100 个主题鉴定图片位置，分别为图片 ID 0 至 99。不要随意修改图片 ID，否则将会导致主题中已使用的图章、图标错乱。当图章设置了关联操作后，图章会在执行相应操作时被自动添加到主题中；当图章设置了关联图标后，图标会在添加图章时自动添加到主题列表中。关联操作不可与关联图标同时设置。',
 		),
 	),
@@ -3630,13 +3624,10 @@ $lang = array (
 	array (
 		'index' => 
 		array (
-			'主题鉴定' => 'action=misc&operation=stamp',
-			'图标' => 'action=misc&operation=stamp&anchor=llist',
 		),
 		'text' => 
 		array (
 			0 => '主题鉴定 &raquo; 图标',
-			1 => 'misc_stamp_listtips',
 			2 => '鉴定图章显示在帖子内容页，鉴定图标显示在主题列表页。系统预留了 100 个主题鉴定图片位置，分别为图片 ID 0 至 99。不要随意修改图片 ID，否则将会导致主题中已使用的图章、图标错乱。当图章设置了关联操作后，图章会在执行相应操作时被自动添加到主题中；当图章设置了关联图标后，图标会在添加图章时自动添加到主题列表中。关联操作不可与关联图标同时设置。',
 		),
 	),
@@ -3644,13 +3635,10 @@ $lang = array (
 	array (
 		'index' => 
 		array (
-			'主题鉴定' => 'action=misc&operation=stamp',
-			'添加' => 'action=misc&operation=stamp&anchor=add',
 		),
 		'text' => 
 		array (
 			0 => '主题鉴定 &raquo; 添加',
-			1 => 'misc_stamp_addtips',
 			2 => '可以选择是添加成图章还是图标。图片名称必需填写，没有名称的图片不会被添加。',
 		),
 	),

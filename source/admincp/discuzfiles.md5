@@ -768,8 +768,6 @@ baf85fb5431563387b59b0fb43cbb9e2 *source/function/cache/cache_profilesetting.php
 f09feb7638b8b10f557cfc77efa8a528 *source/function/cache/cache_smilies.php
 44d09906f15c238db8ef895081adb055 *source/function/cache/cache_smilies_js.php
 2b70af37dd4e20694adc693c4dfd3719 *source/function/cache/cache_split.php
-07472b4201a16c74bd2b836e7fe423a4 *source/function/cache/cache_stamps.php
-5fc03eedb99553f1e3348f3310dbd94a *source/function/cache/cache_stamptypeid.php
 1bcf916839ed1551f1a2d9acdf3a279f *source/function/cache/cache_styles.php
 fe617c17728d90c0b60d9a7346af4191 *source/function/cache/cache_threadsorts.php
 5dfa8854085ef6e641d6c611fc8c3804 *source/function/cache/cache_updatediytemplate.php
@@ -994,8 +992,6 @@ e4a13f99ef817ceca3062d84fdcc3008 *source/include/topicadmin/topicadmin_moderate.
 ac0288a9473346e1a6f279cf6b86b613 *source/include/topicadmin/topicadmin_repair.php
 fce54ad1b0b70b51280547fd14443ad3 *source/include/topicadmin/topicadmin_restore.php
 1958935e6020c655a8dda3206e8d1f13 *source/include/topicadmin/topicadmin_split.php
-94a9c84884a37189a15fc589665bc350 *source/include/topicadmin/topicadmin_stamp.php
-9e116369faecbda7fbce152fb4749593 *source/include/topicadmin/topicadmin_stamplist.php
 8f1dcdb29e322dc928a74d0dbff7b3b2 *source/include/topicadmin/topicadmin_stickreply.php
 c2793b32f46424115ca56211484d428c *source/include/topicadmin/topicadmin_warn.php
 7215ee9c7d9dc229d2921a40e899ec5f *source/index.htm
