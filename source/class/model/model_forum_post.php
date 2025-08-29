@@ -47,7 +47,7 @@ class model_forum_post extends discuz_model {
 			'timestamp',
 
 			'subject', 'sortid', 'typeid', 'cronpublish', 'cronpublishdate', 'save',
-                       'readperm', 'price', 'ordertype', 'hiddenreplies', 'audit', 'tags', 'imgcontent', 'imgcontentwidth',
+'readperm', 'price', 'ordertype', 'hiddenreplies', 'audit', 'tags',
 			'updateuid', 'lastupdate',
 		);
 		foreach($varname as $name) {
@@ -404,10 +404,6 @@ class model_forum_post extends discuz_model {
 			}
 
 			$this->thread['status'] = setstatus(4, $this->param['ordertype'], $this->thread['status']);
-			$this->thread['status'] = setstatus(15, $this->param['imgcontent'], $this->thread['status']);
-			if($this->param['imgcontent']) {
-				stringtopic($this->param['message'], $this->post['tid'], true, $this->param['imgcontentwidth']);
-			}
 
 			$this->thread['status'] = setstatus(2, $this->param['hiddenreplies'], $this->thread['status']);
 

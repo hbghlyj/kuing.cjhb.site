@@ -1292,7 +1292,6 @@ $lang = array (
 	'replylimit'			=> 'Each user can post maximum of',//'每个用户回帖次数上限',
 	'basic_attr'			=> 'Basic attributes',//'基本属性',
 	'text_feature'			=> 'Text features',//'文本特性',
-	'content_to_pic'		=> 'Convert message to image',//'内容生成图片',
 	'manage_operation'		=> 'Management operation',//'管理操作',
 	'page_separate'			=> 'Page break',//'分页',
 	'directory'			=> 'Post Directory',//'目录',

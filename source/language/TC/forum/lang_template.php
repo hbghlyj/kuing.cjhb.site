@@ -1291,7 +1291,6 @@ $lang = array (
   'replylimit' => '每個用戶回帖次數上限',
   'basic_attr' => '基本屬性',
   'text_feature' => '文本特性',
-  'content_to_pic' => '內容生成圖片',
   'manage_operation' => '管理操作',
   'page_separate' => '分頁',
   'directory' => '目錄',
