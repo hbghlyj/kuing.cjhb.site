@@ -341,7 +341,7 @@ class register_ctl {
 			}
 		}
 
-		loadcache(array('modreasons', 'stamptypeid', 'fields_required', 'fields_optional', 'fields_register', 'ipctrl'));
+            loadcache(array('modreasons', 'fields_required', 'fields_optional', 'fields_register', 'ipctrl'));
 		require_once libfile('function/misc');
 		require_once libfile('function/profile');
 		if(!function_exists('sendmail')) {

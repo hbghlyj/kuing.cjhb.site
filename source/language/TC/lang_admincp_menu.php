@@ -159,7 +159,6 @@ $lang = array
 	'menu_posting_smilies' => '表情管理',
 	'menu_click' => '表態動作',
 	'menu_thread_icon' => '主題圖標',
-	'menu_thread_stamp' => '主題鑒定',
 	'menu_posting_editor' => '編輯器設置',
 	'menu_misc_onlinelist' => '在線列表圖標',
 
