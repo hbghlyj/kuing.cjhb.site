@@ -309,7 +309,7 @@ $_G['forum_attachmentdown'] = $_G['group']['exempt'] & $exemptvalue;
 list($seccodecheck, $secqaacheck) = seccheck('post', 'reply');
 $usesigcheck = $_G['uid'] && $_G['group']['maxsigsize'];
 
-$postlist = $_G['forum_attachtags'] = $attachlist = $_G['forum_threadstamp'] = array();
+$postlist = $_G['forum_attachtags'] = $attachlist = array();
 $aimgcount = 0;
 $_G['forum_attachpids'] = array();
 
