@@ -43,7 +43,7 @@ if(!submitcheck('modsubmit')) {
 	);
 	$modpostsnum = 1;
 
-	updatemodlog($_G['tid'], $modaction, $expiration, 0, '', $modaction == 'LIV' ? 1 : 0);
+    updatemodlog($_G['tid'], $modaction, $expiration, 0, '');
 
 }
 

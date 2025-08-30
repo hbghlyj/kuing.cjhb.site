@@ -415,7 +415,6 @@ $lang = array (
   'censor_wordtype_edit' => '詞語分類編輯成功 ',
   'censor_keywords_existence' => '當前詞庫中已經有此關鍵詞，請勿添加重複詞語',
   'censor_succeed' => '詞語過濾更新成功 ',
-  'thread_stamp_succeed' => '主題圖章更新成功 ',
   'attachtypes_succeed' => '附件類型更新成功 ',
   'smsgw_not_found' => '短信服務未找到',
   'cron_not_found' => '計劃任務未找到',

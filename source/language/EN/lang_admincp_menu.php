@@ -160,7 +160,6 @@ $lang = array
 	'menu_posting_smilies' => '表情管理',
 	'menu_click' => '表态动作',
 	'menu_thread_icon' => '主题图标',
-	'menu_thread_stamp' => '主题鉴定',
 	'menu_posting_editor' => '编辑器设置',
 	'menu_misc_onlinelist' => '在线列表图标',
 

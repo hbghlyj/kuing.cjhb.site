@@ -10,9 +10,6 @@ $postshowavatars = !($_G['setting']['bannedmessages'] & 2 && ($post['memberstatu
 	<a href="home.php?mod=spacecp&ac=profile&op=verify&vid=$vid" target="_blank"><img src="$_G['setting']['verify'][$vid]['unverifyicon']" class="vm" alt="$_G['setting']['verify'][$vid][title]" title="$_G['setting']['verify'][$vid][title]" /></a>
 <!--{/loop}-->
 <!--{/block}-->
-<!--{if $post['first'] &&  $_G['forum_threadstamp']}-->
-	<div id="threadstamp"><img src="{STATICURL}image/stamp/$_G[forum_threadstamp][url]" title="$_G[forum_threadstamp][text]" /></div>
-<!--{/if}-->
 <!--{if empty($post['deleted'])}-->
 <table id="pid$post[pid]" class="plhin" summary="pid$post[pid]" cellspacing="0" cellpadding="0">
 <tr>

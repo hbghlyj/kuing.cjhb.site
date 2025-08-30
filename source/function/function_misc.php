@@ -133,7 +133,7 @@ function sendreasonpm($var, $item, $notevar, $notictype = '', $system = 1) {
 function modreasonselect($isadmincp = 0, $reasionkey = 'modreasons') {
 	global $_G;
 	if(!isset($_G['cache'][$reasionkey]) || !is_array($_G['cache'][$reasionkey])) {
-		loadcache(array($reasionkey, 'stamptypeid'));
+            loadcache(array($reasionkey));
 	}
 	$select = '';
 	if(!empty($_G['cache'][$reasionkey])) {

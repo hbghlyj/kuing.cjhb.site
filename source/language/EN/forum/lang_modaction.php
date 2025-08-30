@@ -73,10 +73,7 @@ $lang = array
 	'WRN'	=> 'Warn',//'警告',
 	'UWN'	=> 'Unwarn',//'解除警告',
 
-	'SPA'	=> 'Add stamp',//'添加图章',
-	'SPD'	=> 'Remove stamp',//'撤销图章',
 
-	'SLA'	=> 'Add Icon',//'添加图标',
 	'SLD'	=> 'Remove Icon',//'撤销图标',
 
 	'REG'	=> 'Recommend Group',//'群组推荐',

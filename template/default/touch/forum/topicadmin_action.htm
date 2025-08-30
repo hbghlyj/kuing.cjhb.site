@@ -1,6 +1,6 @@
 <!--{template common/header}-->
 <div class="tip loginbox loginpop p5" id="floatlayout_topicadmin">
-<!--{if in_array($_GET['action'], array('delpost', 'banpost', 'warn', 'stickreply', 'delcomment', 'restore', 'copy', 'merge', 'refund', 'split', 'live', 'stamp', 'stamplist'))}-->
+<!--{if in_array($_GET['action'], array('delpost', 'banpost', 'warn', 'stickreply', 'delcomment', 'restore', 'copy', 'merge', 'refund', 'split', 'live'))}-->
 	<form id="topicadminform" method="post" autocomplete="off" action="forum.php?mod=topicadmin&action=$_GET['action']&modsubmit=yes&modclick=yes&mobile=2" >
 		<input type="hidden" name="formhash" value="{FORMHASH}" />
 		<input type="hidden" name="fid" value="$_G['fid']" />
@@ -168,70 +168,7 @@
 		<dt>
 			<span class="xg1">{lang admin_live_tips}</span>
 		</dt>
-	<!--{elseif $_GET['action'] == 'stamp'}-->
-		<h2 class="log_tit" id="return_stamp">{lang admin_stamp_select}</h2>
-		<ul class="post_box cl">
-			<li class="flex-box mli b0">
-				<div class="flex">
-					<select name="stamp" id="stamp" class="sort_sel" onchange="updatestampimg()">
-						<option value="">{lang admin_stamp_none}</option>
-					<!--{loop $_G['cache']['stamps'] $stampid $stamp}-->
-						<!--{if $stamp['type'] == 'stamp'}-->
-							<option value="$stampid"{if $thread[stamp] == $stampid} selected="selected"{/if}>$stamp['text']</option>
-						<!--{/if}-->
-					<!--{/loop}-->
-					</select>
-				</div>
-			</li>
-		</ul>
-		<script type="text/javascript" reload="1">
-		if(getID('threadstamp')) {
-			var oldthreadstamp = getID('threadstamp').innerHTML;
-		}
-		var stampurls = new Array();
-		<!--{loop $_G['cache']['stamps'] $stampid $stamp}-->
-		stampurls[$stampid] = '$stamp[url]';
-		<!--{/loop}-->
-		function updatestampimg() {
-			if(getID('threadstamp')) {
-				getID('threadstamp').innerHTML = getID('stamp').value ? '<img src="{STATICURL}image/stamp/' + stampurls[getID('stamp').value] + '">' : '<img src="{STATICURL}image/common/none.gif">';
-			}
-		}
-		</script>
-	<!--{elseif $_GET['action'] == 'stamplist'}-->
-		<h2 class="log_tit" id="return_stamplist">{lang admin_stamplist_select}</h2>
-		<ul class="post_box cl">
-			<li class="flex-box mli b0">
-				<div class="flex-3">
-					<select name="stamplist" id="stamplist" class="sort_sel" onchange="updatestamplistimg()">
-					<!--{if $thread[icon] >= 0}--><option value="$thread[icon]">{lang admin_stamplist_current}</option><!--{/if}-->
-					<option value="">{lang admin_stamplist_none}</option>
-					<!--{loop $_G['cache']['stamps'] $stampid $stamp}-->
-						<!--{if $stamp['type'] == 'stamplist' && $stamp['icon']}-->
-							<option value="$stampid"{if $thread['icon'] == $stampid} selected="selected"{/if}>$stamp['text']</option>
-						<!--{/if}-->
-					<!--{/loop}-->
-					</select>
-				</div>
-				<div class="flex" id="stamplistprev"></div>
-			</li>
-		</ul>
-		<script type="text/javascript" reload="1">
-		var stampurls = new Array();
-		<!--{loop $_G['cache']['stamps'] $stampid $stamp}-->
-		stampurls[$stampid] = '$stamp[url]';
-		<!--{/loop}-->
-		function updatestamplistimg(icon) {
-			icon = !icon ? getID('stamplist').value : icon;
-
-			if(getID('stamplistprev')) {
-				getID('stamplistprev').innerHTML = icon && icon >= 0 ? '<img src="{STATICURL}image/stamp/' + stampurls[icon] + '">' : '<img src="{STATICURL}image/common/none.gif">';
-			}
-		}
-		<!--{if $thread['icon']}-->
-			updatestamplistimg($thread['icon']);
 		<!--{/if}-->
-		</script>
 	<!--{elseif $_GET['action'] == 'stickreply'}-->
 		<h2 class="log_tit" id="return_stickreply">{lang modmenu_stickpost}</h2>
 		<dt>

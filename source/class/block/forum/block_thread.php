@@ -253,7 +253,7 @@ class block_thread extends discuz_block {
 		$returndata = array('html' => '', 'data' => '');
 		$parameter = $this->cookparameter($parameter);
 
-		loadcache('forums', 'stamps');
+               loadcache('forums');
 		$tids		= !empty($parameter['tids']) ? explode(',', $parameter['tids']) : array();
 		$uids		= !empty($parameter['uids']) ? explode(',', $parameter['uids']) : array();
 		$startrow	= isset($parameter['startrow']) ? intval($parameter['startrow']) : 0;

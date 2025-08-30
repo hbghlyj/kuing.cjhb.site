@@ -952,9 +952,7 @@ $lang = array (
   'admin_split_invalid' => '抱歉，主題沒有回復，無法分割',
   'admin_split_subject_invalid' => '抱歉，您尚未輸入標題',
 
-  'no_privilege_stampthread' => '抱歉，您沒有權限給主題添加圖章',
 
-  'no_privilege_stamplist' => '抱歉，您沒有權限給主題添加圖標',
 
   'no_privilege_stickreply' => '抱歉，您沒有權限置頂此帖',
   'admin_stickreply_invalid' => '抱歉，目標帖子不存在或者為主題',

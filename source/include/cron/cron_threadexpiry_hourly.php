@@ -68,7 +68,6 @@ if($actionarray) {
 				break;
 
 			case 'SPD':
-				C::t('forum_thread')->update($actionarray[$action], array('stamp'=>-1), true);
 				C::t('forum_threadmod')->update_by_tid_action($tids, array('SPA'), array('status'=>0));
 				break;
 

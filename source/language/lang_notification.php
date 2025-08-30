@@ -82,13 +82,6 @@ $lang = array
 
 	'reason_remove_reward' => '您的悬赏主题 <a href="forum.php?mod=viewthread&tid={tid}">{subject}</a> 被 {actor} 撤销 <div class="quote"><blockquote>{reason}</blockquote></div>',
 
-	'reason_stamp_update' => '您的主题 <a href="forum.php?mod=viewthread&tid={tid}">{subject}</a> 被 {actor} 添加了图章 {stamp} <div class="quote"><blockquote>{reason}</blockquote></div>',
-
-	'reason_stamp_delete' => '您的主题 <a href="forum.php?mod=viewthread&tid={tid}">{subject}</a> 被 {actor} 撤销了图章 <div class="quote"><blockquote>{reason}</blockquote></div>',
-
-	'reason_stamplist_update' => '您的主题 <a href="forum.php?mod=viewthread&tid={tid}">{subject}</a> 被 {actor} 添加了图标 {stamp} <div class="quote"><blockquote>{reason}</blockquote></div>',
-
-	'reason_stamplist_delete' => '您的主题 <a href="forum.php?mod=viewthread&tid={tid}">{subject}</a> 被 {actor} 撤销了图标 <div class="quote"><blockquote>{reason}</blockquote></div>',
 
 	'reason_stickreply' => '您在主题 <a href="forum.php?mod=viewthread&tid={tid}">{subject}</a> 的回帖被 {actor} 置顶 <div class="quote"><blockquote>{reason}</blockquote></div>',
 
