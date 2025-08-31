@@ -942,14 +942,11 @@ function threadpubsave($tid, $passapproval = false) {
 		C::t('forum_groupuser')->update_counter_for_user($thread['authorid'], $thread['fid'], 1);
 	}
 
-	$subject = str_replace("\t", ' ', $thread['subject']);
-	$subject = cutstr($subject, 80);
-	$lastpost = $thread['tid']."\t".$subject."\t".$thread['lastpost']."\t".$thread['lastposter'];
-	C::t('forum_forum')->update($_G['fid'], array('lastpost' => $lastpost));
+	C::t('forum_forum')->update_lastpost($_G['fid'], $thread['tid'], $thread['subject'], $thread['lastpost'], $thread['lastposter'], array(
+		'propagate_parent' => $_G['forum']['type'] == 'sub',
+		'forum' => $_G['forum']
+	));
 	C::t('forum_forum')->update_forum_counter($thread['fid'], 1, $posts, $posts, $modworksql);
-	if($_G['forum']['type'] == 'sub') {
-		C::t('forum_forum')->update($_G['forum']['fup'], array('lastpost' => $lastpost));
-	}
 	if($_G['setting']['plugins']['func'][HOOKTYPE]['threadpubsave']) {
 		hookscript('threadpubsave', 'global', 'funcs', array('param' => $hookparam, 'step' => 'save', 'posts' => $saveposts), 'threadpubsave');
 	}

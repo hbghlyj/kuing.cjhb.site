@@ -256,12 +256,11 @@ class model_forum_post extends discuz_model {
 					updategroupcreditlog($this->forum['fid'], $this->member['uid']);
 				}
 
-				$lastpost = $this->thread['tid']."\t".$this->thread['subject']."\t".getglobal('timestamp')."\t".$author;
-				C::t('forum_forum')->update($this->forum['fid'], array('lastpost' => $lastpost));
+				C::t('forum_forum')->update_lastpost($this->forum['fid'], $this->thread['tid'], $this->thread['subject'], getglobal('timestamp'), $author, array(
+					'propagate_parent' => $this->forum['type'] == 'sub',
+					'forum' => $this->forum
+				));
 				C::t('forum_forum')->update_forum_counter($this->forum['fid'], 0, 1, 1);
-				if($this->forum['type'] == 'sub') {
-					C::t('forum_forum')->update($this->forum['fup'], array('lastpost' => $lastpost));
-				}
 			}
 
 
@@ -526,8 +525,7 @@ class model_forum_post extends discuz_model {
 
 		$this->forum['lastpost'] = explode("\t", $this->forum['lastpost']);
 		if($isfirstpost && $this->post['tid'] == $this->forum['lastpost'][0]) {
-			$lastpost = $this->thread['tid']."\t".$this->param['subject']."\t".$this->forum['lastpost'][2]."\t".$this->forum['lastpost'][3];
-			C::t('forum_forum')->update($this->forum['fid'], array('lastpost' => $lastpost));
+			C::t('forum_forum')->update_lastpost($this->forum['fid'], $this->thread['tid'], $this->param['subject'], $this->forum['lastpost'][2], $this->forum['lastpost'][3], array('propagate_parent' => false));
 		}
 
 		if(!getglobal('forum_auditstatuson') || $this->param['audit'] != 1) {
@@ -639,7 +637,7 @@ class model_forum_post extends discuz_model {
 		$this->forum['lastpost'] = explode("\t", $this->forum['lastpost']);
 		if($this->post['dateline'] == $this->forum['lastpost'][2] && ($this->post['author'] == $this->forum['lastpost'][3] || ($this->forum['lastpost'][3] == '' && $this->post['anonymous']))) {
 			$lastthread = C::t('forum_thread')->fetch_by_fid_displayorder($this->forum['fid']);
-			C::t('forum_forum')->update($this->forum['fid'], array('lastpost' => "{$lastthread['tid']}\t{$lastthread['subject']}\t{$lastthread['lastpost']}\t{$lastthread['lastposter']}"));
+			C::t('forum_forum')->update_lastpost($this->forum['fid'], $lastthread['tid'], $lastthread['subject'], $lastthread['lastpost'], $lastthread['lastposter'], array('propagate_parent' => false));
 		}
 		C::t('forum_forum')->update_forum_counter($this->forum['fid'], $forumcounter['threads'], $forumcounter['posts']);
 
