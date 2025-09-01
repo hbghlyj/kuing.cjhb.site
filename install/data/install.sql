@@ -1455,7 +1455,7 @@ DROP TABLE IF EXISTS pre_common_tagitem;
 CREATE TABLE pre_common_tagitem (
   tagid mediumint(8) unsigned NOT NULL DEFAULT '0',
   itemid mediumint(8) unsigned NOT NULL DEFAULT '0',
-  idtype enum('tid', 'blogid', 'uid') NOT NULL DEFAULT 'tid',
+  idtype enum('tid','blogid','uid') NOT NULL DEFAULT 'tid',
   UNIQUE KEY item (tagid,itemid,idtype),
   KEY idtype (idtype,itemid)
 ) ENGINE=InnoDB;
