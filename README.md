@@ -85,6 +85,15 @@ If your database still has the legacy `[begin]` permission field, remove it:
 ```sql
 ALTER TABLE `pre_common_usergroup_field` DROP COLUMN `allowbegincode`;
 ```
+### Removing thread stamp and icon columns
+Threads no longer support the legacy stamp and icon features. Drop the related fields and permissions:
+
+```sql
+ALTER TABLE `pre_forum_thread` DROP COLUMN `stamp`, DROP COLUMN `icon`;
+ALTER TABLE `pre_forum_threadmod` DROP COLUMN `stamp`;
+ALTER TABLE `pre_common_smiley` DROP COLUMN `type`, DROP COLUMN `typeid`;
+ALTER TABLE `pre_common_admingroup` DROP COLUMN `allowstampthread`, DROP COLUMN `allowstamplist`;
+```
 5. Launch the site locally:
    ```bash
    php -S localhost:8080
