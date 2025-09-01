@@ -73,9 +73,9 @@ If you are upgrading from an older version where tags were stored in the `pre_fo
 execute the following SQL statements:
 
 ```sql
-ALTER TABLE `pre_forum_thread` ADD COLUMN `tags` varchar(255) NOT NULL DEFAULT "" AFTER `closed`;
+ALTER TABLE `pre_forum_thread` ADD COLUMN `tags` varchar(255) NOT NULL DEFAULT '' AFTER `replycredit`;
 UPDATE `pre_forum_thread` t
-  INNER JOIN `pre_forum_post` p ON t.tid=p.tid AND p.first=1
+  INNER JOIN `pre_forum_post` p ON p.tid=t.tid AND p.first=1
   SET t.tags=p.tags;
 ALTER TABLE `pre_forum_post` DROP COLUMN `tags`;
 ```
@@ -85,6 +85,23 @@ If your database still has the legacy `[begin]` permission field, remove it:
 ```sql
 ALTER TABLE `pre_common_usergroup_field` DROP COLUMN `allowbegincode`;
 ```
+### Removing thread stamp and icon columns
+Threads no longer support the legacy stamp and icon features. Drop the related fields and permissions:
+
+```sql
+ALTER TABLE `pre_forum_thread` DROP COLUMN `stamp`, DROP COLUMN `icon`;
+ALTER TABLE `pre_forum_threadmod` DROP COLUMN `stamp`;
+ALTER TABLE `pre_common_smiley` DROP COLUMN `type`, DROP COLUMN `typeid`;
+ALTER TABLE `pre_common_admingroup` DROP COLUMN `allowstampthread`, DROP COLUMN `allowstamplist`;
+```
+
+### Removing newbie settings
+Legacy newbie restrictions and tasks have been dropped. Delete the obsolete configuration entries:
+
+```sql
+DELETE FROM `pre_common_setting` WHERE `skey` IN ('newbie','newbiespan','newbietasks','newbietaskupdate');
+```
+
 5. Launch the site locally:
    ```bash
    php -S localhost:8080
@@ -101,7 +118,7 @@ gunzip backup.sql.gz
 sed -i 's/utf8mb4_0900_ai_ci/utf8mb4_general_ci/g' backup.sql
 mysql -u root ultrax < backup.sql
 # migrate thread tags if your schema hasn't been updated
-mysql -u root ultrax -e "ALTER TABLE `pre_forum_thread` ADD COLUMN `tags` varchar(255) NOT NULL DEFAULT "" AFTER `closed`;UPDATE pre_forum_thread t INNER JOIN pre_forum_post p ON t.tid=p.tid AND p.first=1 SET t.tags=p.tags;ALTER TABLE pre_forum_post DROP COLUMN tags;"
+mysql -u root ultrax -e "ALTER TABLE `pre_forum_thread` ADD COLUMN `tags` varchar(255) NOT NULL DEFAULT '' AFTER `replycredit`;UPDATE pre_forum_thread t INNER JOIN pre_forum_post p ON p.tid=t.tid AND p.first=1 SET t.tags=p.tags;ALTER TABLE pre_forum_post DROP COLUMN tags;"
 ```
 
 This converts the unsupported `utf8mb4_0900_ai_ci` collation and imports the
