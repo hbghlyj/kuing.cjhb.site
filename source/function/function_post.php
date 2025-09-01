@@ -498,8 +498,9 @@ function updateforumcount($fid) {
 	//$thread['subject'] = addslashes($thread['subject']);
 	$thread['lastposter'] = $thread['author'] ? addslashes($thread['lastposter']) : lang('forum/misc', 'anonymous');
 	$tid = $thread['closed'] > 1 ? $thread['closed'] : $thread['tid'];
-$setarr = array('posts' => $posts, 'threads' => $threads, 'lastpost' => "$tid\t{$thread['subject']}\t{$thread['lastpost']}\t{$thread['lastposter']}");
+$setarr = array('posts' => $posts, 'threads' => $threads);
 	C::t('forum_forum')->update($fid, $setarr);
+	C::t('forum_forum')->update_lastpost($fid, $tid, $thread['subject'], $thread['lastpost'], $thread['lastposter'], array('propagate_parent' => false));
 }
 
 function updatethreadcount($tid, $updateattach = 0) {

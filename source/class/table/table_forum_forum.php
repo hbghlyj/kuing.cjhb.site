@@ -318,6 +318,58 @@ class table_forum_forum extends discuz_table
 		return $datas;
 	}
 
+	/**
+	 * Build lastpost string with proper sanitization and truncation
+	 * @param int $tid Thread ID
+	 * @param string $subject Thread subject
+	 * @param int $dateline Post dateline timestamp
+	 * @param string $author Post author name
+	 * @return string Tab-delimited lastpost string
+	 */
+	public function build_lastpost_string($tid, $subject, $dateline, $author) {
+		$subject = str_replace("\t", ' ', $subject);
+		$author = str_replace("\t", ' ', $author);
+		if(function_exists('cutstr')) {
+			$subject = cutstr($subject, 80);
+		}
+		return $tid."\t".$subject."\t".$dateline."\t".$author;
+	}
+
+	/**
+	 * Update forum lastpost with optional parent propagation
+	 * @param int $fid Forum ID to update
+	 * @param int $tid Thread ID
+	 * @param string $subject Thread subject
+	 * @param int $dateline Post dateline timestamp
+	 * @param string $author Post author name
+	 * @param array $options Options: propagate_parent (bool), forum (array), raw (bool)
+	 * @return string The lastpost string that was stored
+	 */
+	public function update_lastpost($fid, $tid, $subject, $dateline, $author, $options = array()) {
+		$propagate_parent = isset($options['propagate_parent']) ? $options['propagate_parent'] : true;
+		$forum = isset($options['forum']) ? $options['forum'] : null;
+		$raw = isset($options['raw']) ? $options['raw'] : false;
+
+		if($raw) {
+			$lastpost = $tid."\t".$subject."\t".$dateline."\t".$author;
+		} else {
+			$lastpost = $this->build_lastpost_string($tid, $subject, $dateline, $author);
+		}
+
+		$this->update($fid, array('lastpost' => $lastpost));
+
+		if($propagate_parent) {
+			if(!$forum) {
+				$forum = $this->fetch_info_by_fid($fid);
+			}
+			if($forum && $forum['type'] == 'sub' && !empty($forum['fup'])) {
+				$this->update($forum['fup'], array('lastpost' => $lastpost));
+			}
+		}
+
+		return $lastpost;
+	}
+
 	function get_forum_by_fid($fid, $field = '', $table = 'forum') {
 		static $forumlist = array('forum' => array(), 'forumfield' => array());
 		$table = $table != 'forum' ? 'forumfield' : 'forum';

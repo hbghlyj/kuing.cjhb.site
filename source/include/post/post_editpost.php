@@ -77,12 +77,7 @@ if(!submitcheck('editsubmit')) {
 	$smileyoffcheck = $postinfo['smileyoff'] == 1 ? 'checked="checked"' : '';
 	$codeoffcheck = $postinfo['bbcodeoff'] == 1 ? 'checked="checked"' : '';
         $htmloncheck = $postinfo['htmlon'] & 1 ? 'checked="checked"' : '';
-	if(!$isfirstpost) {
-		$_G['group']['allowimgcontent'] = 0;
-	}
-	if($isfirstpost && $imgcontentcheck && $_G['group']['allowimgcontent']) {
-		$editor['editormode'] = 0;
-	}
+
 	if($htmloncheck) {
 		$editor['editormode'] = 0;
 		$editor['allowswitcheditor'] = 1;
@@ -105,7 +100,6 @@ if(!submitcheck('editsubmit')) {
 			}
 			$postinfo['tag'] = implode(',', $threadtag_array);
 		}
-		$allownoticeauthor = getstatus($thread['status'], 6);
 
 		if($rushreply) {
 			$postinfo['rush'] = C::t('forum_threadrush')->fetch($_G['tid']);
@@ -410,11 +404,10 @@ if(!submitcheck('editsubmit')) {
 			'readperm' => $readperm,
 			'price' => $_GET['price'],
 
-			'ordertype' => $_GET['ordertype'],
-			'hiddenreplies' => $_GET['hiddenreplies'],
-			'allownoticeauthor' => $_GET['allownoticeauthor'],
+                       'ordertype' => $_GET['ordertype'],
+                       'hiddenreplies' => $_GET['hiddenreplies'],
 
-			'audit' => $_GET['audit'],
+                       'audit' => $_GET['audit'],
 
 			'tags' => $_GET['tags'],
 
@@ -437,11 +430,7 @@ if(!submitcheck('editsubmit')) {
 			}
 		}
 
-		if($_G['group']['allowimgcontent']) {
-			$param['imgcontent'] = $_GET['imgcontent'];
-			$param['imgcontentwidth'] = $_G['setting']['imgcontentwidth'] ? intval($_G['setting']['imgcontentwidth']) : 100;
-		}
-		if($isfirstpost && $isorigauthor && $_G['group']['allowreplycredit']) {
+if($isfirstpost && $isorigauthor && $_G['group']['allowreplycredit']) {
 			$param['replycredit_rule'] = $replycredit_rule;
 		}
 

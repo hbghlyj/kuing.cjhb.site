@@ -676,7 +676,6 @@ if(!submitcheck('settingsubmit')) {
 		showsetting('setting_styles_viewthread_guesttipsinthread', 'settingnew[guesttipsinthread][flag]', !empty($setting['guesttipsinthread']['flag']), 'radio', 0, 1);
 		showsetting('setting_styles_viewthread_guesttipsinthread_text', 'settingnew[guesttipsinthread][text]', $setting['guesttipsinthread']['text'], 'text');
 		showtagfooter('tbody');
-		showsetting('setting_styles_viewthread_imgcontent', 'settingnew[imgcontentwidth]', $setting['imgcontentwidth'], 'text');
 		showsetting('setting_styles_viewthread_fast_reply', 'settingnew[allowfastreply]', $setting['allowfastreply'], 'radio');
 		showsetting('setting_styles_viewthread_allow_replybg', 'settingnew[allowreplybg]', $setting['allowreplybg'], 'radio', 0, 1);
 		$replybghtml = '';

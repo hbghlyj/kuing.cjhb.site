@@ -109,12 +109,10 @@ class model_forum_thread extends discuz_model
 
 		$this->param['ordertype'] && $this->param['tstatus'] = setstatus(4, 1, $this->param['tstatus']);
 
-		$this->param['imgcontent'] && $this->param['tstatus'] = setstatus(15, $this->param['imgcontent'], $this->param['tstatus']);
 
 		$this->param['hiddenreplies'] && $this->param['tstatus'] = setstatus(2, 1, $this->param['tstatus']);
 
-
-		$this->param['allownoticeauthor'] && $this->param['tstatus'] = setstatus(6, 1, $this->param['tstatus']);
+		$this->param['tstatus'] = setstatus(6, 1, $this->param['tstatus']);
 		$this->param['isgroup'] = $this->forum['status'] == 3 ? 1 : 0;
 
 		$this->param['publishdate'] = !$this->param['modnewthreads'] ? $this->param['publishdate'] : TIMESTAMP;
@@ -190,9 +188,6 @@ class model_forum_thread extends discuz_model
 		$this->param['pstatus'] = intval($this->param['pstatus']);
 		defined('IN_MOBILE') && $this->param['pstatus'] = setstatus(4, 1, $this->param['pstatus']);
 
-		if($this->param['imgcontent']) {
-			stringtopic($this->param['message'], $this->tid, true, $this->param['imgcontentwidth']);
-		}
 		$this->pid = insertpost(array(
 			'fid' => $this->forum['fid'],
 			'tid' => $this->tid,
@@ -320,8 +315,8 @@ class model_forum_thread extends discuz_model
 		$varname = array(
 			'member', 'group', 'forum', 'extramessage',
 			'subject', 'sticktopic', 'save', 'ordertype', 'hiddenreplies',
-			'allownoticeauthor', 'readperm', 'price', 'typeid', 'sortid',
-			'publishdate', 'digest', 'moderated', 'tstatus', 'isgroup', 'imgcontent', 'imgcontentwidth',
+                       'readperm', 'price', 'typeid', 'sortid',
+'publishdate', 'digest', 'moderated', 'tstatus', 'isgroup',
 			'replycredit', 'closed', 'special', 'tags',
 			'message','clientip', 'invisible', 'isanonymous', 'usesig',
 			'htmlon', 'bbcodeoff', 'smileyoff', 'parseurloff', 'pstatus', 'geoloc',

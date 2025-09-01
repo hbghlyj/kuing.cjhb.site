@@ -220,7 +220,6 @@ $_G['group']['allowpostactivity'] = $_G['group']['allowpost'] && $_G['group']['a
 $_G['group']['allowpostdebate'] = $_G['group']['allowpost'] && $_G['group']['allowpostdebate'] && ($_G['forum']['allowpostspecial'] & 16);
 $usesigcheck = $_G['uid'] && $_G['group']['maxsigsize'] ? 'checked="checked"' : '';
 $ordertypecheck = !empty($thread['tid']) && getstatus($thread['status'], 4) ? 'checked="checked"' : '';
-$imgcontentcheck = !empty($thread['tid']) && getstatus($thread['status'], 15) ? 'checked="checked"' : '';
 $specialextra = !empty($_GET['specialextra']) ? $_GET['specialextra'] : '';
 $_G['forum']['threadplugin'] = dunserialize($_G['forum']['threadplugin']);
 
