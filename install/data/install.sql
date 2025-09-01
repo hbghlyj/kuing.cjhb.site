@@ -399,7 +399,7 @@ DROP TABLE IF EXISTS pre_common_credit_log;
 CREATE TABLE pre_common_credit_log (
   logid int(10) unsigned NOT NULL AUTO_INCREMENT,
   uid mediumint(8) unsigned NOT NULL DEFAULT '0',
-  operation char(3) NOT NULL DEFAULT '',
+  operation enum('TRC','RTC','RAC','MRC','BMC','TFR','RCV','CEC','ECU','SAC','BAC','PRC','RSC','STC','BTC','AFD','UGP','RPC','ACC','RCT','RCA','RCB','CDC','RGC','BGC','AGC','RKC','BME','RPR','RPZ','FCP','BGR','RUL','INV') NOT NULL,
   relatedid int(10) unsigned NOT NULL,
   dateline int(10) unsigned NOT NULL,
   extcredits1 int(10) NOT NULL,
@@ -586,7 +586,7 @@ CREATE TABLE pre_common_domain (
   domain char(30) NOT NULL DEFAULT '',
   domainroot char(60) NOT NULL DEFAULT '',
   id mediumint(8) unsigned NOT NULL DEFAULT '0',
-  idtype char(15) NOT NULL DEFAULT '',
+  idtype enum('home','group','subarea','forum','topic','channel','plugin') NOT NULL,
   PRIMARY KEY (id,idtype),
   KEY domain (domain,domainroot),
   KEY idtype (idtype)
@@ -1455,7 +1455,7 @@ DROP TABLE IF EXISTS pre_common_tagitem;
 CREATE TABLE pre_common_tagitem (
   tagid mediumint(8) unsigned NOT NULL DEFAULT '0',
   itemid mediumint(8) unsigned NOT NULL DEFAULT '0',
-  idtype char(10) NOT NULL DEFAULT '',
+  idtype enum('tid','blogid','uid') NOT NULL DEFAULT 'tid',
   UNIQUE KEY item (tagid,itemid,idtype),
   KEY idtype (idtype,itemid)
 ) ENGINE=InnoDB;
@@ -2698,7 +2698,7 @@ CREATE TABLE pre_forum_moderator (
 DROP TABLE IF EXISTS pre_forum_modwork;
 CREATE TABLE pre_forum_modwork (
   uid mediumint(8) unsigned NOT NULL DEFAULT '0',
-  modaction char(3) NOT NULL DEFAULT '',
+  modaction enum('EDT','DEL','DLP','DCM','PRN','UDL','DIG','UDG','EDI','UED','CLS','OPN','ECL','UEC','EOP','UEO','STK','UST','EST','UES','SPL','MRG','HLT','UHL','EHL','UEH','BMP','DWN','MOV','CPY','TYP','RFD','MOD','ABL','RBL','PTS','RFS','RMR','BNP','UBN','REC','URE','WRN','UWN','SPA','SPD','SLA','SLD','REG','PTA','MAG','REB','LIV','LIC') NOT NULL,
   dateline date NOT NULL DEFAULT '2006-01-01',
   count smallint(6) unsigned NOT NULL DEFAULT '0',
   posts smallint(6) unsigned NOT NULL DEFAULT '0',
@@ -3031,6 +3031,7 @@ CREATE TABLE pre_forum_thread (
   attachment tinyint(1) NOT NULL DEFAULT '0',
   moderated tinyint(1) NOT NULL DEFAULT '0',
   closed mediumint(8) unsigned NOT NULL DEFAULT '0',
+  tags varchar(255) NOT NULL DEFAULT '',
   stickreply tinyint(1) NOT NULL DEFAULT '0',
   recommends smallint(6) NOT NULL DEFAULT '0',
   recommend_add smallint(6) NOT NULL DEFAULT '0',
