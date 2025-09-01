@@ -26,8 +26,7 @@ if(!empty($parent_fups)) {
 
 foreach($queryf as $forum) {
         $thread = C::t('forum_thread')->fetch_by_fid_displayorder($forum['fid']);
-        $thread['shortsubject'] = cutstr($thread['subject'], 80);
-        $lastpost = "{$thread['tid']}\t{$thread['shortsubject']}\t{$thread['lastpost']}\t{$thread['lastposter']}";
+        $lastpost = C::t('forum_forum')->build_lastpost_string($thread['tid'], $thread['subject'], $thread['lastpost'], $thread['lastposter']);
 
         C::t('forum_forum')->update($forum['fid'], array('lastpost' => $lastpost));
         if($forum['type'] == 'sub') {
