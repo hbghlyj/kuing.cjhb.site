@@ -12,28 +12,14 @@ if(!defined('IN_DISCUZ') || !defined('IN_ADMINCP')) {
 }
 
 function import_smilies() {
-	$smileyarray = getimportdata('Discuz! Smilies');
+        $smileyarray = getimportdata('Discuz! Smilies');
 
-	$renamed = 0;
-	if(C::t('forum_imagetype')->count_by_name('smiley', $smileyarray['name'])) {
-		$smileyarray['name'] .= '_'.random(4);
-		$renamed = 1;
-	}
-	$data = array(
-	    'name' => $smileyarray['name'],
-	    'type' => 'smiley',
-	    'directory' => $smileyarray['directory'],
-	);
-	$typeid = C::t('forum_imagetype')->insert($data, true);
+        foreach($smileyarray['smilies'] as $smiley) {
+                C::t('common_smiley')->insert(array('displayorder' => $smiley['displayorder'], 'code' => '', 'url' => $smiley['url']));
+        }
 
-
-	foreach($smileyarray['smilies'] as $key => $smiley) {
-		C::t('common_smiley')->insert(array('type'=>'smiley', 'typeid'=>$typeid, 'displayorder'=>$smiley['displayorder'], 'code'=>'', 'url'=>$smiley['url']));
-	}
-	C::t('common_smiley')->update_code_by_typeid($typeid);
-
-	updatecache(array('smileytypes', 'smilies', 'smileycodes', 'smilies_js'));
-	return $renamed;
+        updatecache(array('smileytypes', 'smilies', 'smileycodes', 'smilies_js'));
+        return 0;
 }
 
 function import_styles($ignoreversion = 1, $dir = '', $restoreid = 0, $updatecache = 1, $validate = 1) {

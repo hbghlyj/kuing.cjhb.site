@@ -76,7 +76,6 @@ $menu['style'] = array(
 	array('menu_setting_styles', 'setting_styles'),
 	array('menu_posting_smilies', 'smilies'),
 	array('menu_click', 'click'),
-	array('menu_thread_stamp', 'misc_stamp'),
 	array('menu_posting_editor', 'setting_editor'),
 	array('menu_misc_onlinelist', 'misc_onlinelist'),
 );

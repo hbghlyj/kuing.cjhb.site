@@ -105,8 +105,6 @@ CREATE TABLE pre_common_admingroup (
   allowclosethread tinyint(1) NOT NULL DEFAULT '0',
   allowmovethread tinyint(1) NOT NULL DEFAULT '0',
   allowedittypethread tinyint(1) NOT NULL DEFAULT '0',
-  allowstampthread tinyint(1) NOT NULL DEFAULT '0',
-  allowstamplist tinyint(1) NOT NULL DEFAULT '0',
   allowcopythread tinyint(1) NOT NULL DEFAULT '0',
   allowmergethread tinyint(1) NOT NULL DEFAULT '0',
   allowsplitthread tinyint(1) NOT NULL DEFAULT '0',
@@ -1357,13 +1355,10 @@ CREATE TABLE pre_common_setting (
 DROP TABLE IF EXISTS pre_common_smiley;
 CREATE TABLE pre_common_smiley (
   id smallint(6) unsigned NOT NULL AUTO_INCREMENT,
-  typeid smallint(6) unsigned NOT NULL,
   displayorder tinyint(1) NOT NULL DEFAULT '0',
-  `type` enum('smiley','stamp','stamplist') NOT NULL DEFAULT 'smiley',
   `code` varchar(30) NOT NULL DEFAULT '',
   url varchar(30) NOT NULL DEFAULT '',
-  PRIMARY KEY (id),
-  KEY `type` (`type`,displayorder)
+  PRIMARY KEY (id)
 ) ENGINE=InnoDB;
 
 DROP TABLE IF EXISTS pre_common_sphinxcounter;
@@ -1680,7 +1675,6 @@ CREATE TABLE pre_common_usergroup_field (
   allowsendpmmaxnum smallint(6) unsigned NOT NULL DEFAULT '0',
   maximagesize mediumint(8) unsigned NOT NULL DEFAULT '0',
   allowmediacode tinyint(1) NOT NULL DEFAULT '0',
-  allowbegincode tinyint(1) NOT NULL DEFAULT '0',
   allowat smallint(6) unsigned NOT NULL DEFAULT '0',
   allowsave tinyint(1) NOT NULL DEFAULT '1',
   allowsavereply tinyint(1) NOT NULL DEFAULT '1',
@@ -2834,7 +2828,6 @@ CREATE TABLE pre_forum_post (
   rate smallint(6) NOT NULL DEFAULT '0',
   ratetimes tinyint(3) unsigned NOT NULL DEFAULT '0',
   `status` int(10) NOT NULL DEFAULT '0',
-  tags varchar(255) NOT NULL DEFAULT '0',
   `comment` tinyint(1) NOT NULL DEFAULT '0',
   replycredit int(10) NOT NULL DEFAULT '0',
   position int(10) unsigned NOT NULL,
@@ -3038,6 +3031,7 @@ CREATE TABLE pre_forum_thread (
   attachment tinyint(1) NOT NULL DEFAULT '0',
   moderated tinyint(1) NOT NULL DEFAULT '0',
   closed mediumint(8) unsigned NOT NULL DEFAULT '0',
+  tags varchar(255) NOT NULL DEFAULT '',
   stickreply tinyint(1) NOT NULL DEFAULT '0',
   recommends smallint(6) NOT NULL DEFAULT '0',
   recommend_add smallint(6) NOT NULL DEFAULT '0',
@@ -3047,8 +3041,6 @@ CREATE TABLE pre_forum_thread (
   isgroup tinyint(1) NOT NULL DEFAULT '0',
   favtimes mediumint(8) NOT NULL DEFAULT '0',
   sharetimes mediumint(8) NOT NULL DEFAULT '0',
-  stamp tinyint(3) NOT NULL DEFAULT '-1',
-  icon tinyint(3) NOT NULL DEFAULT '-1',
   pushedaid mediumint(8) NOT NULL DEFAULT '0',
   cover smallint(6) NOT NULL DEFAULT '0',
   replycredit int(10) NOT NULL DEFAULT '0',
@@ -3154,7 +3146,6 @@ CREATE TABLE pre_forum_threadmod (
   `action` char(5) NOT NULL DEFAULT '',
   `status` tinyint(1) NOT NULL DEFAULT '0',
   magicid smallint(6) unsigned NOT NULL,
-  stamp tinyint(3) NOT NULL,
   reason char(40) NOT NULL DEFAULT '',
   KEY tid (tid,dateline),
   KEY expiration (expiration,`status`)
