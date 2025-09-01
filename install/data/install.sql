@@ -3044,6 +3044,7 @@ CREATE TABLE pre_forum_thread (
   pushedaid mediumint(8) NOT NULL DEFAULT '0',
   cover smallint(6) NOT NULL DEFAULT '0',
   replycredit int(10) NOT NULL DEFAULT '0',
+  tags varchar(255) NOT NULL DEFAULT '',
   relatebytag char(255) NOT NULL DEFAULT '0',
   maxposition int(10) unsigned NOT NULL DEFAULT '0',
   bgcolor char(8) NOT NULL DEFAULT '',

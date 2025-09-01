@@ -149,10 +149,6 @@ class model_forum_thread extends discuz_model
 		));
 		C::t('forum_sofa')->insert(array('tid' => $this->tid,'fid' => $this->forum['fid']));
 		useractionlog($this->member['uid'], 'tid');
-
-		if(!getuserprofile('threads') && $this->setting['newbie']) {
-			C::t('forum_thread')->update($this->tid, array('icon' => $this->setting['newbie']));
-		}
 		if ($this->param['publishdate'] != TIMESTAMP) {
 			$cron_publish_ids = $this->cache('cronpublish');
 			$cron_publish_ids[$this->tid] = $this->tid;
