@@ -1355,7 +1355,6 @@ CREATE TABLE pre_common_setting (
 DROP TABLE IF EXISTS pre_common_smiley;
 CREATE TABLE pre_common_smiley (
   id smallint(6) unsigned NOT NULL AUTO_INCREMENT,
-  displayorder tinyint(1) NOT NULL DEFAULT '0',
   `code` varchar(30) NOT NULL DEFAULT '',
   url varchar(30) NOT NULL DEFAULT '',
   PRIMARY KEY (id)
