@@ -18,7 +18,7 @@ function build_cache_smilies_js() {
         $i = 0;
         foreach(C::t('common_smiley')->fetch_all() as $smiley) {
                 $code = str_replace('\'', '\\\'', $smiley['code']);
-                $return .= "smilies_array[$i]=['".$smiley['id']."','".$code."','".$smiley['url']."'];";
+                $return .= "smilies_array[".$smiley['id']."]=['".$code."','".$smiley['url']."'];";
                 $i++;
         }
         $return = "var smthumb = '{$_G['setting']['smthumb']}';".$return;
