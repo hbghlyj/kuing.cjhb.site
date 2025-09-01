@@ -94,6 +94,21 @@ ALTER TABLE `pre_forum_threadmod` DROP COLUMN `stamp`;
 ALTER TABLE `pre_common_smiley` DROP COLUMN `type`, DROP COLUMN `typeid`;
 ALTER TABLE `pre_common_admingroup` DROP COLUMN `allowstampthread`, DROP COLUMN `allowstamplist`;
 ```
+
+### Converting `CHAR` columns to `ENUM`
+Limit certain text fields to known values to prevent arbitrary data:
+
+```sql
+ALTER TABLE `pre_common_credit_log`
+  MODIFY `operation` ENUM('TRC','RTC','RAC','MRC','BMC','TFR','RCV','CEC','ECU','SAC','BAC','PRC','RSC','STC','BTC','AFD','UGP','RPC','ACC','RCT','RCA','RCB','CDC','RGC','BGC','AGC','RKC','BME','RPR','RPZ','FCP','BGR','RUL','INV') NOT NULL;
+ALTER TABLE `pre_forum_modwork`
+  MODIFY `modaction` ENUM('EDT','DEL','DLP','DCM','PRN','UDL','DIG','UDG','EDI','UED','CLS','OPN','ECL','UEC','EOP','UEO','STK','UST','EST','UES','SPL','MRG','HLT','UHL','EHL','UEH','BMP','DWN','MOV','CPY','TYP','RFD','MOD','ABL','RBL','PTS','RFS','RMR','BNP','UBN','REC','URE','WRN','UWN','SPA','SPD','SLA','SLD','REG','PTA','MAG','REB','LIV','LIC') NOT NULL;
+ALTER TABLE `pre_common_domain`
+  MODIFY `idtype` ENUM('home','group','subarea','forum','topic','channel','plugin') NOT NULL;
+ALTER TABLE `pre_common_tagitem`
+  MODIFY `idtype` ENUM('tid','blogid','uid') NOT NULL DEFAULT 'tid';
+```
+
 5. Launch the site locally:
    ```bash
    php -S localhost:8080
