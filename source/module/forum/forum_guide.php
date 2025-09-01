@@ -130,7 +130,6 @@ if($view != 'index') {
 	$data['newthread'] = get_guide_list('newthread', 0, 30);
 }
 
-loadcache('stamps');
 $currentview[$view] = 'class="xw1 a"';
 
 $navigation = $view != 'index' ? ' <em>&rsaquo;</em> <a href="forum.php?mod=guide&view='.$view.'">'.$lang['guide_'.$view].'</a>' : '';

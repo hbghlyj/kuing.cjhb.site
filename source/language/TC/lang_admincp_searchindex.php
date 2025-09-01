@@ -289,7 +289,6 @@ $lang = array (
 	array (
 		'index' =>
 		array (
-			'主題鑒定' => 'action=misc&operation=stamp',
 		),
 		'text' =>
 		array (
@@ -1426,10 +1425,8 @@ $lang = array (
 			18 => 'admingroup_edit_recommend_thread',
 			19 => '允許推薦主題',
 			20 => '設置是否允許推薦管理範圍內的主題 (要在相應版塊的擴展設置裡開啟推薦主題功能)',
-			21 => 'admingroup_edit_stamp_thread',
 			22 => '允許添加主題圖章',
 			23 => '設置是否允許給主題在帖子內容頁添加圖章',
-			24 => 'admingroup_edit_stamp_list',
 			25 => '允許添加主題圖標',
 			26 => '設置是否允許給主題在帖子列表頁添加圖標',
 			27 => 'admingroup_edit_close_thread',
@@ -3616,13 +3613,10 @@ $lang = array (
 	array (
 		'index' =>
 		array (
-			'主題鑒定' => 'action=misc&operation=stamp',
-			'圖章' => 'action=misc&operation=stamp&anchor=list',
 		),
 		'text' =>
 		array (
 			0 => '主題鑒定 &raquo; 圖章',
-			1 => 'misc_stamp_listtips',
 			2 => '鑒定圖章顯示在帖子內容頁，鑒定圖標顯示在主題列表頁。系統預留了 100 個主題鑒定圖片位置，分別為圖片 ID 0 至 99。不要隨意修改圖片 ID，否則將會導致主題中已使用的圖章、圖標錯亂。當圖章設置了關聯操作後，圖章會在執行相應操作時被自動添加到主題中；當圖章設置了關聯圖標後，圖標會在添加圖章時自動添加到主題列表中。關聯操作不可與關聯圖標同時設置。',
 		),
 	),
@@ -3630,13 +3624,10 @@ $lang = array (
 	array (
 		'index' =>
 		array (
-			'主題鑒定' => 'action=misc&operation=stamp',
-			'圖標' => 'action=misc&operation=stamp&anchor=llist',
 		),
 		'text' =>
 		array (
 			0 => '主題鑒定 &raquo; 圖標',
-			1 => 'misc_stamp_listtips',
 			2 => '鑒定圖章顯示在帖子內容頁，鑒定圖標顯示在主題列表頁。系統預留了 100 個主題鑒定圖片位置，分別為圖片 ID 0 至 99。不要隨意修改圖片 ID，否則將會導致主題中已使用的圖章、圖標錯亂。當圖章設置了關聯操作後，圖章會在執行相應操作時被自動添加到主題中；當圖章設置了關聯圖標後，圖標會在添加圖章時自動添加到主題列表中。關聯操作不可與關聯圖標同時設置。',
 		),
 	),
@@ -3644,13 +3635,10 @@ $lang = array (
 	array (
 		'index' =>
 		array (
-			'主題鑒定' => 'action=misc&operation=stamp',
-			'添加' => 'action=misc&operation=stamp&anchor=add',
 		),
 		'text' =>
 		array (
 			0 => '主題鑒定 &raquo; 添加',
-			1 => 'misc_stamp_addtips',
 			2 => '可以選擇是添加成圖章還是圖標。圖片名稱必需填寫，沒有名稱的圖片不會被添加。',
 		),
 	),

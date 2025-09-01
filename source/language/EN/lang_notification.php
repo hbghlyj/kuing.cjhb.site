@@ -86,13 +86,6 @@ $lang = array
 
 	'reason_remove_reward'	=> 'Your reward thread <a href="forum.php?mod=viewthread&tid={tid}">{subject}</a> was removed by {actor} <div class="quote"><blockquote>{reason}</blockquote></div>',//'你的悬赏主题 <a href="forum.php?mod=viewthread&tid={tid}">{subject}</a> 被 {actor} 撤销 <div class="quote"><blockquote>{reason}</blockquote></div>',
 
-	'reason_stamp_update'	=> 'To your thread <a href="forum.php?mod=viewthread&tid={tid}">{subject}</a> was added a stamp {stamp} by {actor} <div class="quote"><blockquote>{reason}</blockquote></div>',//'你的主题 <a href="forum.php?mod=viewthread&tid={tid}">{subject}</a> 被 {actor} 添加了图章 {stamp} <div class="quote"><blockquote>{reason}</blockquote></div>',
-
-	'reason_stamp_delete'	=> 'Your thread <a href="forum.php?mod=viewthread&tid={tid}">{subject}</a> was removed stamp by {actor} <div class="quote"><blockquote>{reason}</blockquote></div>',//'你的主题 <a href="forum.php?mod=viewthread&tid={tid}">{subject}</a> 被 {actor} 撤销了图章 <div class="quote"><blockquote>{reason}</blockquote></div>',
-
-	'reason_stamplist_update'	=> 'Your thread <a href="forum.php?mod=viewthread&tid={tid}">{subject}</a> by {actor} added the icon {stamp} <div class="quote"><blockquote>{reason}</blockquote></div>',//'你的主题 <a href="forum.php?mod=viewthread&tid={tid}">{subject}</a> 被 {actor} 添加了图标 {stamp} <div class="quote"><blockquote>{reason}</blockquote></div>',
-
-	'reason_stamplist_delete'	=> 'Your thread <a href="forum.php?mod=viewthread&tid={tid}">{subject}</a> by {actor} revoked the icon <div class="quote"><blockquote>{reason}</blockquote></div>',//'你的主题 <a href="forum.php?mod=viewthread&tid={tid}">{subject}</a> 被 {actor} 撤销了图标 <div class="quote"><blockquote>{reason}</blockquote></div>',
 
 	'reason_stickreply'		=> 'Your reply to the thread <a href="forum.php?mod=viewthread&tid={tid}">{subject}</a> was sticked to top by {actor}. <div class="quote"><blockquote>{reason}</blockquote></div>',
 

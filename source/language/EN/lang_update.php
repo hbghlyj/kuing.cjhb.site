@@ -78,7 +78,6 @@ $lang = array(
 	'points_rules_completed'	=> 'Points Rules upgrade is completed',//'积分规则升级完毕',
 	'custom_bbcode_completed'	=> 'Custom BBCode permissions upgrade is completed',//'自定义代码权限升级完毕',
 	'edited_by'			=> 'Edited',//'编辑采用',
-	'stamps_completed'		=> 'Thread Stamps upgrade is completed',//'鉴定图章升级完毕',
 	'perms_updated'			=> 'Permission icons update is completed',//'模块缩略图权限升级完毕',
 	'block_permissions_completed'	=> 'Block Permissions upgrade is completed',//'模块权限升级完毕',
 	'portal_completed'		=> 'Portal channel permissions Upgrade Complete',//'门户频道权限升级完毕',

@@ -219,7 +219,6 @@ $lang = array
 	'perms_allowbumpthread'		=> 'Bump',//'提升主题',
 	'perms_allowhighlightthread'	=> 'Hightlight',//'主题高亮',
 	'perms_allowrecommendthread'	=> 'Recommend',//'主题推荐',
-	'perms_allowstampthread'	=> 'Stamp',//'主题鉴定',
 	'perms_allowclosethread'	=> 'Close',//'主题关闭',
 	'perms_allowmovethread'		=> 'Thread move',//'主题移动',
 	'perms_allowedittypethread'	=> 'Edit Type',//'编辑主题分类',
