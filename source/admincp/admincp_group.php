@@ -56,7 +56,6 @@ if($operation == 'setting') {
 		showformfooter();
 		/*search*/
 	} else {
-
 		require_once libfile('function/group');
 		$settings = array();
 		$settings['group_recommend'] = cacherecommend($_GET['settingnew']['group_recommend']);
@@ -650,7 +649,6 @@ var rowtypedata = [
 		 	array('allowbumpthread', cplang('admingroup_edit_bump_thread'), '1'),
 		 	array('allowhighlightthread', cplang('admingroup_edit_highlight_thread'), '1'),
 			array('allowlivethread', cplang('admingroup_edit_live_thread'), '1'),
-		 	array('allowstampthread', cplang('admingroup_edit_stamp_thread'), '1'),
 		 	array('allowrepairthread', cplang('admingroup_edit_repair_thread'), '1'),
 		 	array('allowrefund', cplang('admingroup_edit_refund'), '1'),
 		 	array('alloweditpoll', cplang('admingroup_edit_edit_poll'), '1'),
@@ -691,7 +689,7 @@ var rowtypedata = [
 		showformfooter();
 		/*search*/
 	} else {
-		$default_perm = array('allowstickthread' => 0, 'allowbumpthread' => 0, 'allowhighlightthread' => 0, 'allowlivethread' => 0, 'allowstampthread' => 0, 'allowclosethread' => 0, 'allowmergethread' => 0, 'allowsplitthread' => 0, 'allowrepairthread' => 0, 'allowrefund' => 0, 'alloweditpoll' => 0, 'allowremovereward' => 0, 'alloweditactivity' => 0, 'allowedittrade' => 0, 'allowdigestthread' => 0, 'alloweditpost' => 0, 'allowwarnpost' => 0, 'allowbanpost' => 0, 'allowdelpost' => 0, 'allowupbanner' => 0, 'disablepostctrl' => 0, 'allowviewip' => 0);
+		$default_perm = array('allowstickthread' => 0, 'allowbumpthread' => 0, 'allowhighlightthread' => 0, 'allowlivethread' => 0, 'allowclosethread' => 0, 'allowmergethread' => 0, 'allowsplitthread' => 0, 'allowrepairthread' => 0, 'allowrefund' => 0, 'alloweditpoll' => 0, 'allowremovereward' => 0, 'alloweditactivity' => 0, 'allowedittrade' => 0, 'allowdigestthread' => 0, 'alloweditpost' => 0, 'allowwarnpost' => 0, 'allowbanpost' => 0, 'allowdelpost' => 0, 'allowupbanner' => 0, 'disablepostctrl' => 0, 'allowviewip' => 0);
 		if(empty($_GET['newgroup_userperm']) || !is_array($_GET['newgroup_userperm'])) {
 			$_GET['newgroup_userperm'] = array();
 		}
