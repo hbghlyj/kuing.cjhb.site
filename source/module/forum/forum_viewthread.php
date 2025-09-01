@@ -309,7 +309,7 @@ $_G['forum_attachmentdown'] = $_G['group']['exempt'] & $exemptvalue;
 list($seccodecheck, $secqaacheck) = seccheck('post', 'reply');
 $usesigcheck = $_G['uid'] && $_G['group']['maxsigsize'];
 
-$postlist = $_G['forum_attachtags'] = $attachlist = $_G['forum_threadstamp'] = array();
+$postlist = $_G['forum_attachtags'] = $attachlist = array();
 $aimgcount = 0;
 $_G['forum_attachpids'] = array();
 
@@ -318,9 +318,6 @@ if(!empty($_GET['action']) && $_GET['action'] == 'printable' && $_G['tid']) {
 	dexit();
 }
 
-if($_G['forum_thread']['stamp'] >= 0) {
-	$_G['forum_threadstamp'] = $_G['cache']['stamps'][$_G['forum_thread']['stamp']];
-}
 
 $lastmod = viewthread_lastmod($_G['forum_thread']);
 
@@ -1372,7 +1369,6 @@ function viewthread_lastmod(&$thread) {
 					'moddateline' => $lastlog['dateline'],
 					'modaction' => $lastlog['action'],
 					'magicid' => $lastlog['magicid'],
-					'stamp' => $lastlog['stamp'],
 					'reason' => $lastlog['reason']
 				);
 	}
@@ -1382,13 +1378,11 @@ function viewthread_lastmod(&$thread) {
 		$lastmod['modusername'] = $lastmod['modusername'] ? ($_G['setting']['moduser_public'] ? $lastmod['modusername'] : lang('forum/template', 'thread_moderations_team')) : lang('forum/template', 'thread_moderations_cron');
 		$lastmod['moddateline'] = dgmdate($lastmod['moddateline'], 'u');
 		$lastmod['modactiontype'] = $lastmod['modaction'];
-		if($modactioncode[$lastmod['modaction']]) {
-			$lastmod['modaction'] = $modactioncode[$lastmod['modaction']].($lastmod['modaction'] != 'SPA' ? '' : ' '.$_G['cache']['stamps'][$lastmod['stamp']]['text']);
-		} elseif(substr($lastmod['modaction'], 0, 1) == 'L' && preg_match('/L(\d\d)/', $lastmod['modaction'], $a)) {
-			$lastmod['modaction'] = $modactioncode['SLA'].' '.$_G['cache']['stamps'][intval($a[1])]['text'];
-		} else {
-			$lastmod['modaction'] = '';
-		}
+               if($modactioncode[$lastmod['modaction']]) {
+                       $lastmod['modaction'] = $modactioncode[$lastmod['modaction']];
+               } else {
+                       $lastmod['modaction'] = '';
+               }
 		if($lastmod['magicid']) {
 			loadcache('magics');
 			$lastmod['magicname'] = $_G['cache']['magics'][$lastmod['magicid']]['name'];

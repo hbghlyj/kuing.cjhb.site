@@ -13,7 +13,7 @@ if(!defined('IN_DISCUZ')) {
 
 class table_common_smiley extends discuz_table
 {
-	private $allowtype = array('smiley','stamp','stamplist');
+        private $allowtype = array('smiley');
 	public function __construct() {
 
 		$this->_table = 'common_smiley';

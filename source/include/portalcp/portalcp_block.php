@@ -642,16 +642,10 @@ if($op == 'block') {
 					'dateline' => TIMESTAMP,
 					'action' => 'REB',
 					'status' => '1',
-					'stamp' => '',
-					'reason' => getstr($_GET['recommendto'], 20),
-				);
-				C::t('forum_threadmod')->insert($modarr);
-				$data = array('moderated' => 1);
-				loadcache('stamptypeid');
-				if(array_key_exists(4, $_G['cache']['stamptypeid'])) {
-					$data['stamp'] = $_G['cache']['stamptypeid']['4'];
-				}
-				C::t('forum_thread')->update($item['id'], $data);
+                                       'reason' => getstr($_GET['recommendto'], 20),
+                               );
+                               C::t('forum_threadmod')->insert($modarr);
+                               C::t('forum_thread')->update($item['id'], array('moderated' => 1));
 			}
 			if($_POST['icflag'] && !(C::t('common_block_pic')->count_by_bid_pic($block['bid'], $thumbpath))) {
 				$picflag = 0; //common_block_pic表中的picflag标识（0本地，1远程）
