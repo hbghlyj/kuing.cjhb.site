@@ -91,7 +91,7 @@ Threads no longer support the legacy stamp and icon features. Drop the related f
 ```sql
 ALTER TABLE `pre_forum_thread` DROP COLUMN `stamp`, DROP COLUMN `icon`;
 ALTER TABLE `pre_forum_threadmod` DROP COLUMN `stamp`;
-ALTER TABLE `pre_common_smiley` DROP COLUMN `type`, DROP COLUMN `typeid`;
+ALTER TABLE `pre_common_smiley` DROP COLUMN `type`, DROP COLUMN `typeid`, DROP COLUMN `displayorder`;
 ALTER TABLE `pre_common_admingroup` DROP COLUMN `allowstampthread`, DROP COLUMN `allowstamplist`;
 ```
 
