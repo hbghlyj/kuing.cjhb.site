@@ -28,7 +28,7 @@ $modcachelist = array(
 			'heats', 'historyposts', 'onlinerecord', 'userstats', 'diytemplatenameforum'),
 	'forumdisplay'	=> array('smilies', 'announcements_forum', 'globalstick', 'forums',
 			'onlinelist', 'forumstick', 'threadtable_info', 'threadtableids', 'diytemplatenameforum'),
-	'viewthread'	=> array('smilies', 'smileytypes', 'forums', 'usergroups', 'bbcodes', 'smilies', 'custominfo', 'groupicon',
+	'viewthread'	=> array('smilies', 'smileytypes', 'forums', 'usergroups', 'bbcodes', 'custominfo', 'groupicon',
 			'threadtableids', 'threadtable_info', 'posttable_info', 'diytemplatenameforum'),
 	'redirect'	=> array('threadtableids', 'threadtable_info', 'posttable_info'),
 	'post'		=> array('bbcodes_display', 'bbcodes', 'smileycodes', 'smilies', 'smileytypes',
