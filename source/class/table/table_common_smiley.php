@@ -16,9 +16,9 @@ class table_common_smiley extends discuz_table {
                 parent::__construct();
         }
 
-        public function fetch_all($start = 0, $limit = 0) {
-                return DB::fetch_all('SELECT * FROM %t ORDER BY displayorder '.DB::limit($start, $limit), array($this->_table), $this->_pk);
-        }
+       public function fetch_all($start = 0, $limit = 0) {
+               return DB::fetch_all('SELECT *, id AS displayorder FROM %t ORDER BY id '.DB::limit($start, $limit), array($this->_table), $this->_pk);
+       }
 
         public function fetch_all_by_type($type) {
                 return $this->fetch_all();
@@ -28,9 +28,9 @@ class table_common_smiley extends discuz_table {
                 return $this->fetch_all($start, $limit);
         }
 
-        public function fetch_all_by_type_code_typeid($type, $typeid) {
-                return DB::fetch_all('SELECT * FROM %t WHERE code<>\'\' ORDER BY displayorder', array($this->_table), $this->_pk);
-        }
+       public function fetch_all_by_type_code_typeid($type, $typeid) {
+               return DB::fetch_all('SELECT *, id AS displayorder FROM %t WHERE code<>\'\' ORDER BY id', array($this->_table), $this->_pk);
+       }
 
         public function fetch_all_cache() {
                 return DB::fetch_all('SELECT id, code, url FROM %t WHERE code<>\'\' ORDER BY LENGTH(code) DESC', array($this->_table));
