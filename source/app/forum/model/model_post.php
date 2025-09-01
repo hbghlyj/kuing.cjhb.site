@@ -303,13 +303,11 @@ class model_post extends discuz_model {
 					updategroupcreditlog($this->forum['fid'], $this->member['uid']);
 				}
 
-				$subject = cutstr($this->thread['subject'], 80);
-				$lastpost = $this->thread['tid']."\t".$subject."\t".getglobal('timestamp')."\t".$author;
-				table_forum_forum::t()->update($this->forum['fid'], ['lastpost' => $lastpost]);
-				table_forum_forum::t()->update_forum_counter($this->forum['fid'], 0, 1, 1);
-				if($this->forum['type'] == 'sub') {
-					table_forum_forum::t()->update($this->forum['fup'], ['lastpost' => $lastpost]);
-				}
+				C::t('forum_forum')->update_lastpost($this->forum['fid'], $this->thread['tid'], $this->thread['subject'], getglobal('timestamp'), $author, array(
+					'propagate_parent' => $this->forum['type'] == 'sub',
+					'forum' => $this->forum
+				));
+				C::t('forum_forum')->update_forum_counter($this->forum['fid'], 0, 1, 1);
 			}
 
 
@@ -601,12 +599,8 @@ class model_post extends discuz_model {
 		table_forum_post::t()->update_post('tid:'.$this->thread['tid'], $this->post['pid'], $setarr);
 
 		$this->forum['lastpost'] = explode("\t", $this->forum['lastpost']);
-
-		if($this->post['dateline'] == $this->forum['lastpost'][2] && ($this->post['author'] == $this->forum['lastpost'][3] || ($this->forum['lastpost'][3] == '' && $this->post['anonymous']))) {
-			$subject = $isfirstpost ? cutstr($this->param['subject'], 80) : cutstr($this->thread['subject'], 80);
-			$lastpost = $this->thread['tid']."\t".$subject."\t".$this->post['dateline']."\t".($this->param['isanonymous'] ? '' : $this->post['author']);
-			table_forum_forum::t()->update($this->forum['fid'], ['lastpost' => $lastpost]);
-
+		if($isfirstpost && $this->post['tid'] == $this->forum['lastpost'][0]) {
+			C::t('forum_forum')->update_lastpost($this->forum['fid'], $this->thread['tid'], $this->param['subject'], $this->forum['lastpost'][2], $this->forum['lastpost'][3], array('propagate_parent' => false));
 		}
 
 		if(!getglobal('forum_auditstatuson') || $this->param['audit'] != 1) {
@@ -700,8 +694,8 @@ class model_post extends discuz_model {
 
 		$this->forum['lastpost'] = explode("\t", $this->forum['lastpost']);
 		if($this->post['dateline'] == $this->forum['lastpost'][2] && ($this->post['author'] == $this->forum['lastpost'][3] || ($this->forum['lastpost'][3] == '' && $this->post['anonymous']))) {
-			$lastthread = table_forum_thread::t()->fetch_by_fid_displayorder($this->forum['fid']);
-			table_forum_forum::t()->update($this->forum['fid'], ['lastpost' => "{$lastthread['tid']}\t{$lastthread['subject']}\t{$lastthread['lastpost']}\t{$lastthread['lastposter']}"]);
+			$lastthread = C::t('forum_thread')->fetch_by_fid_displayorder($this->forum['fid']);
+			C::t('forum_forum')->update_lastpost($this->forum['fid'], $lastthread['tid'], $lastthread['subject'], $lastthread['lastpost'], $lastthread['lastposter'], array('propagate_parent' => false));
 		}
 		table_forum_forum::t()->update_forum_counter($this->forum['fid'], $forumcounter['threads'], $forumcounter['posts']);
 

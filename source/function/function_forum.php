@@ -985,14 +985,11 @@ function threadpubsave($tid, $passapproval = false) {
 		table_forum_groupuser::t()->update_counter_for_user($thread['authorid'], $thread['fid'], 1);
 	}
 
-	$subject = str_replace("\t", ' ', $thread['subject']);
-	$subject = cutstr($subject, 80);
-	$lastpost = $thread['tid']."\t".$subject."\t".$thread['lastpost']."\t".$thread['lastposter'];
-	table_forum_forum::t()->update($_G['fid'], ['lastpost' => $lastpost]);
-	table_forum_forum::t()->update_forum_counter($thread['fid'], 1, $posts, $posts, $modworksql);
-	if($_G['forum']['type'] == 'sub') {
-		table_forum_forum::t()->update($_G['forum']['fup'], ['lastpost' => $lastpost]);
-	}
+	C::t('forum_forum')->update_lastpost($_G['fid'], $thread['tid'], $thread['subject'], $thread['lastpost'], $thread['lastposter'], array(
+		'propagate_parent' => $_G['forum']['type'] == 'sub',
+		'forum' => $_G['forum']
+	));
+	C::t('forum_forum')->update_forum_counter($thread['fid'], 1, $posts, $posts, $modworksql);
 	if($_G['setting']['plugins']['func'][HOOKTYPE]['threadpubsave']) {
 		hookscript('threadpubsave', 'global', 'funcs', ['param' => $hookparam, 'step' => 'save', 'posts' => $saveposts], 'threadpubsave');
 	}
