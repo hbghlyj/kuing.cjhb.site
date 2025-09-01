@@ -88,8 +88,7 @@ function smilies_switch(id, smcols, type, page = 0, seditorkey) {
                smiliespage = '<div class="z">';
 			   if (prevpage >=0) smiliespage += '<a href="javascript:;" onclick="smilies_switch(\'' + id + '\', \'' + smcols + '\', ' + type + ', ' + prevpage + ', \'' + seditorkey + '\');doane(event);">'+lng['page_prev']+'</a>';
 			   if (nextpage < Math.ceil(smilies_array.length / 40)) smiliespage += '<a href="javascript:;" onclick="smilies_switch(\'' + id + '\', \'' + smcols + '\', ' + type + ', ' + nextpage + ', \'' + seditorkey + '\');doane(event);">'+lng['page_next']+'</a>';
-			   smiliespage += '</div>';
-			page + '/' + Math.ceil(smilies_array.length / 40);
+			   smiliespage += '</div>' + (page + 1) + '/' + Math.ceil(smilies_array.length / 40);
 	}
 	$(id + '_data').innerHTML = smiliesdata;
 	$(id + '_page').innerHTML = smiliespage;
