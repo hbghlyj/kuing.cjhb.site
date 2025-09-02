@@ -306,5 +306,3 @@ class SimpleUnzipEntry {
 		$this->Time     = $in_Entry['T'];
 		} // end of the 'SimpleUnzipEntry' constructor
 } // end of the 'SimpleUnzipEntry' class
-
-?>

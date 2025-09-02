@@ -232,5 +232,3 @@ class ucclient_db {
 		}
 	}
 }
-
-?>

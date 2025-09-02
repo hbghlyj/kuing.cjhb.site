@@ -164,5 +164,3 @@ class helper_page {
 		return $return;
 	}
 }
-
-?>

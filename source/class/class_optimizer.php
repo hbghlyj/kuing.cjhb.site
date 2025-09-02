@@ -36,4 +36,3 @@ class optimizer {
 		return $this->optimizer->get_option();
 	}
 }
-?>

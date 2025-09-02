@@ -55,5 +55,3 @@ class block_grouptradespecified extends block_grouptrade {
 		return lang('blockclass', 'blockclass_grouptrade_script_grouptradespecified');
 	}
 }
-
-?>

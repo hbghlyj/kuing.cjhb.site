@@ -35,5 +35,3 @@ class table_common_mailqueue extends discuz_table
 		return DB::query('DELETE FROM %t WHERE '.DB::field('cid', $cids), array($this->_table));
 	}
 }
-
-?>

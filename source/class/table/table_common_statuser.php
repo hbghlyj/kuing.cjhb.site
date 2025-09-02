@@ -40,5 +40,3 @@ class table_common_statuser extends discuz_table
 		DB::delete('common_statuser', "`daytime` != '$daytime'");
 	}
 }
-
-?>

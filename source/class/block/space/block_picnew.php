@@ -38,5 +38,3 @@ class block_picnew extends block_pic {
 		return parent::cookparameter($parameter);
 	}
 }
-
-?>

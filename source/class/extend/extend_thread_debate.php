@@ -136,5 +136,3 @@ class extend_thread_debate extends extend_thread_base {
 		}
 	}
 }
-
-?>

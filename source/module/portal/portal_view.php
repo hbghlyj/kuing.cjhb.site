@@ -342,4 +342,3 @@ function portal_get_per_next_article(&$article) {
 		$article['nextarticle'] = $data[$article['nextaid']];
 	}
 }
-?>

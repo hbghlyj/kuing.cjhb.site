@@ -89,5 +89,3 @@ class table_forum_collectionteamworker extends discuz_table
 		return !$unbuffered ? 0 : false;
 	}
 }
-
-?>

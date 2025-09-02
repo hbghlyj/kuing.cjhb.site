@@ -300,5 +300,3 @@ function moderateswipe($type, $ids) {
 		return 0;
 	}
 }
-
-?>

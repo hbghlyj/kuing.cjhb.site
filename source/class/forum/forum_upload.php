@@ -152,5 +152,3 @@ class forum_upload {
 		exit;
 	}
 }
-
-?>

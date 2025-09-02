@@ -348,5 +348,3 @@ function pm_datelinesort($a, $b) {
 	}
 	return ($a['dateline'] < $b['dateline']) ? -1 : 1;
 }
-
-?>

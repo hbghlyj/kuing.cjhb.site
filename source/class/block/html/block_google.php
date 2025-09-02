@@ -58,5 +58,3 @@ class block_google extends commonblock_html {
 	}
 
 }
-
-?>

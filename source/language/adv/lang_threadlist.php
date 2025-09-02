@@ -29,5 +29,3 @@ $lang = array
 	'threadlist_threadurl' => '主题模式自定义主题 URL',
 	'threadlist_threadurl_comment' => '留空表示使用指定主题的 URL',
 );
-
-?>

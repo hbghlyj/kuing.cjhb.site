@@ -21,5 +21,3 @@ function build_cache_groupicon() {
 
 	savecache('groupicon', $data);
 }
-
-?>

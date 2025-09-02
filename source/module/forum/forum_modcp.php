@@ -201,5 +201,3 @@ function getposttableselect() {
 	}
 	return $posttableselect;
 }
-
-?>

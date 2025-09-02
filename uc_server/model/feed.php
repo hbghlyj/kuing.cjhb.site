@@ -51,4 +51,3 @@ class feedmodel {
 		return $data;
 	}
 }
-?>

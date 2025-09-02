@@ -47,5 +47,3 @@ class magic_money {
 	}
 
 }
-
-?>

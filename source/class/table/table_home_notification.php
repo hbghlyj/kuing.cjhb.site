@@ -121,5 +121,3 @@ class table_home_notification extends discuz_table
 		return DB::fetch_all("SELECT * FROM %t WHERE uid=%d %i %i %i ORDER BY dateline DESC %i", array($this->_table, $uid, $new, $category, $type, DB::limit($start, $perpage)));
 	}
 }
-
-?>

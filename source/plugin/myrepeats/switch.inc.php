@@ -174,5 +174,3 @@ function get_rrepeats($username) {
 	}
 	return $userlist;
 }
-
-?>

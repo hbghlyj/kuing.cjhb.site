@@ -41,5 +41,3 @@ class table_common_regip extends discuz_table
 	}
 
 }
-
-?>

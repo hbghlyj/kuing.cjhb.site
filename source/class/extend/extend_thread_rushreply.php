@@ -124,5 +124,3 @@ class extend_thread_rushreply extends extend_thread_base {
 		}
 	}
 }
-
-?>

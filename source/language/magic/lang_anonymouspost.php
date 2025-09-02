@@ -25,5 +25,3 @@ $lang = array
 	'anonymouspost_info_user_noperm' => '对不起，您不能对此人使用本道具',
 	'anonymouspost_once_limit' => '已经是匿名状态了，不能重复使用本道具。',
 );
-
-?>

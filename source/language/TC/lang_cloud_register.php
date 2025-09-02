@@ -17,5 +17,3 @@ $lang = array
 	'bindqq_link' => '<a href="javascript:;" class="lightlink" onclick="BindQQ()"><b>開始綁定QQ</b></a>',
 	'back' => '點擊這裡返回上一頁',
 );
-
-?>

@@ -94,4 +94,3 @@ if(submitcheck('friendsubmit')) {
 
 	showmessage('showcredit_do_success', dreferer());
 }
-?>

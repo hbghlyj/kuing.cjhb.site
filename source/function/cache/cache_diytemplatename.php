@@ -42,5 +42,3 @@ function build_cache_diytemplatename() {
 		savecache('diytemplatename'.$curscript, $value);
 	}
 }
-
-?>

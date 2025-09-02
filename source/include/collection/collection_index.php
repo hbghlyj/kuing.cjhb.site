@@ -99,6 +99,3 @@ if($op == 'all' || $op == 'search') {
 
 	include template('forum/collection_index');
 }
-
-
-?>

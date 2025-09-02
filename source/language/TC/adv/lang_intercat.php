@@ -22,5 +22,3 @@ $lang = array
 	'intercat_position_random' => '所有位置隨機',
 	'intercat_position_fav' => '收藏欄',
 );
-
-?>

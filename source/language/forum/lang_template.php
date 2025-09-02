@@ -1317,5 +1317,3 @@ $lang = array (
   'hiderecover' => '恢复隐藏',
   'content_actions' => '更多操作',
 );
-
-?>

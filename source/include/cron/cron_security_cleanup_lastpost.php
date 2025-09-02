@@ -43,4 +43,3 @@ foreach($queryf as $forum) {
                 }
         }
 }
-?>

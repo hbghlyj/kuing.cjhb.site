@@ -1278,5 +1278,3 @@ class table_forum_thread extends discuz_table
 		return false;
 	}
 }
-
-?>

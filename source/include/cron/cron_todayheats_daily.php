@@ -46,5 +46,3 @@ if($data) {
 		C::t('forum_threadcalendar')->update($cid, array('hotnum' => $num));
 	}
 }
-
-?>

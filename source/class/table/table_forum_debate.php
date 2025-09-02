@@ -52,5 +52,3 @@ class table_forum_debate extends discuz_table
 	}
 
 }
-
-?>

@@ -446,5 +446,3 @@ function deletegroupcache($groupidarray) {
 		}
 	}
 }
-
-?>

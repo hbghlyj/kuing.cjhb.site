@@ -65,4 +65,3 @@ if(!empty($_G['fid'])) {
 	}
 	$multipage = multi($reportcount, $lpp, $page, "$cpscript?mod=modcp&action=report&fid={$_G['fid']}&lpp=$lpp");
 }
-?>

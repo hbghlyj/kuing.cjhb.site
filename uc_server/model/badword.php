@@ -76,5 +76,3 @@ class badwordmodel {
 		return '/'.preg_replace("/\\\{(\d+)\\\}/", ".{0,\\1}", $find).'/is';
 	}
 }
-
-?>

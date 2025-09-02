@@ -53,5 +53,3 @@ class block_articlehot extends block_article {
 		return lang('blockclass', 'blockclass_article_script_articlehot');
 	}
 }
-
-?>

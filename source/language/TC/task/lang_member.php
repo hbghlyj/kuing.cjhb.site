@@ -29,5 +29,3 @@ $lang = array
 	'task_complete_act_favorite' => '收藏 {value} 個主題',
 	'task_complete_act_magic' => '使用 {value} 次道具。<br />您可以在帖子頁面、日誌頁面、圖片頁面等使用道具',
 );
-
-?>

@@ -89,5 +89,3 @@ class adv_interthread {
 	}
 
 }
-
-?>

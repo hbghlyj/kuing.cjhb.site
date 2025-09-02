@@ -112,5 +112,3 @@ $lang = array
 	'threadlist_orderby_monthexp' => '按一月內報名截止時間排序',
 	'threadlist_highlight' => '獲得高亮值',
 );
-
-?>

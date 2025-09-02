@@ -28,5 +28,3 @@ class table_forum_threadaddviews extends discuz_table {
 		return DB::fetch_all('SELECT * FROM %t ORDER BY tid'.DB::limit($start, $limit), array($this->_table), $this->_pk);
 	}
 }
-
-?>

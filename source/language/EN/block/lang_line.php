@@ -17,4 +17,3 @@ $lang = array
 	'line_style_line' => '实线',
 	'line_style_dash' => '虚线',
 );
-?>

@@ -325,5 +325,3 @@ function add_comment($message, $id, $idtype, $cid = 0) {
 
 	return array('cid' => $cid, 'msg' => $msg, 'magvalues' => $magvalues);
 }
-
-?>

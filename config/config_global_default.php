@@ -258,5 +258,3 @@ $_config['ipgetter']['dnslist']['list']['0'] = 'comsenz.com';
 //	'check_ip' => ''
 //    )
 //);
-
-?>

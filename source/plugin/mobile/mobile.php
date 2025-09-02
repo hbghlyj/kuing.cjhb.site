@@ -71,5 +71,3 @@ if(file_exists($apifile)) {
 		mobile_core::result(array('error' => 'module_not_exists'));
 	}
 }
-
-?>

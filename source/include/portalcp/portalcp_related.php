@@ -101,4 +101,3 @@ if($op == 'manual') {
 }
 $category = category_showselect('portal', 'searchcate', false, $_GET['searchcate']);
 include_once template("portal/portalcp_related_article");
-?>

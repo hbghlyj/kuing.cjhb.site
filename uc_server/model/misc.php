@@ -217,5 +217,3 @@ class miscmodel {
 		return $arr2;
 	}
 }
-
-?>

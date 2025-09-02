@@ -32,5 +32,3 @@ $simplequeries = array(
 	array('comment' => cplang('quickquery_user'), 'sql' => ''),
 	array('comment' => cplang('quickquery_clear_userlog'), 'sql' => 'TRUNCATE {tablepre}common_credit_log'),
 );
-
-?>

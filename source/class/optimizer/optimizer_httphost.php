@@ -40,5 +40,3 @@ class optimizer_httphost {
 		cpmsg('optimizer_httphost_optimizer', '', 'error');
 	}
 }
-
-?>

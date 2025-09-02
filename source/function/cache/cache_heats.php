@@ -54,5 +54,3 @@ function build_cache_heats() {
 	savecache('heats', $data);
 	discuz_process::unlock('update_heats_list');
 }
-
-?>

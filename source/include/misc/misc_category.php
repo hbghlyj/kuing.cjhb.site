@@ -87,5 +87,3 @@ foreach($query as $forum) {
 	$forumlist[$forum['fup']]['todayposts'] += $forum['todayposts'];
 
 }
-
-?>

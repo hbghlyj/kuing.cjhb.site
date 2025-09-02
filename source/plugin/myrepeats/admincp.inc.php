@@ -105,5 +105,3 @@ if(!$resultempty) {
 showtablefooter();
 
 echo multi($count, $ppp, $page, ADMINSCRIPT."?action=plugins&operation=config&do=$pluginid&identifier=myrepeats&pmod=admincp$extra");
-
-?>

@@ -130,4 +130,3 @@ $lang = array
 	'optimizer_httphost_need' => '空 HOST 訪問已開啟',
 	'optimizer_httphost_no_need' => '空 HOST 訪問支持未開啟或底層不支持',
 );
-?>

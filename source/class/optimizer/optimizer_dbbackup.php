@@ -36,5 +36,3 @@ class optimizer_dbbackup {
 		dheader('Location: '.$_G['siteurl'].$adminfile.'?action=db&operation=export');
 	}
 }
-
-?>

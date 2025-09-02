@@ -21,5 +21,3 @@ $lang = array
 	'custom_codelink' => '内部调用',
 	'custom_text' => '自定义广告',
 );
-
-?>

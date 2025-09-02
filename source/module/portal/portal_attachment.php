@@ -126,5 +126,3 @@ function getlocalfile($filename, $readmod = 2, $range = 0) {
 	@flush();
 	@ob_flush();
 }
-
-?>

@@ -708,5 +708,3 @@ function uc_check_version() {
 	$data = uc_unserialize($return);
 	return is_array($data) ? $data : $return;
 }
-
-?>

@@ -653,4 +653,3 @@ class model_forum_post extends discuz_model {
 	}
 
 }
-?>

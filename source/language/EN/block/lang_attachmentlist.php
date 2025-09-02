@@ -61,5 +61,3 @@ $lang = array
 	'attachmentlist_highlight' => '获得高亮值',
 
 );
-
-?>

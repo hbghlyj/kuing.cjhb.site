@@ -33,5 +33,3 @@ function build_cache_blogcategory() {
 
 	savecache('blogcategory', $data);
 }
-
-?>

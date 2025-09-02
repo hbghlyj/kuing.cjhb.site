@@ -43,5 +43,3 @@ class table_forum_onlinelist extends discuz_table
 		return 0;
 	}
 }
-
-?>

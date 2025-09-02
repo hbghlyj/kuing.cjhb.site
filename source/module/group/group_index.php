@@ -163,6 +163,3 @@ if(empty($curtype)) {
 		include template('diy:group/type:'.$fup);
 	}
 }
-
-
-?>

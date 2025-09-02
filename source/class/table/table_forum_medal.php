@@ -49,5 +49,3 @@ class table_forum_medal extends discuz_table
 
 
 }
-
-?>

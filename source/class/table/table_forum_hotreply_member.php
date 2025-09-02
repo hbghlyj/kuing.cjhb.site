@@ -46,4 +46,3 @@ class table_forum_hotreply_member extends discuz_table {
 		return DB::query('DELETE FROM %t WHERE uid=%d AND pid=%d', array($this->_table, $uid, $pid));
 	}
 }
-?>

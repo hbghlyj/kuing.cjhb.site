@@ -472,4 +472,3 @@ function get_zodiac($birthyear) {
 function isprofileimage($file) {
 	return is_file(getglobal('setting/attachdir').'./profile/'.$file) && strpos(realpath(getglobal('setting/attachdir').'./profile/'.$file), realpath(getglobal('setting/attachdir').'./profile/').DIRECTORY_SEPARATOR) === 0 && in_array(fileext($file), array('jpg', 'jpeg', 'gif', 'png', 'bmp', 'webp'));
 }
-?>

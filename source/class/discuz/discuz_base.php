@@ -63,4 +63,3 @@ abstract class discuz_base
 	}
 
 }
-?>

@@ -141,5 +141,3 @@ class magic_anonymouspost {
 	}
 
 }
-
-?>

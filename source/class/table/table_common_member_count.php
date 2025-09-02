@@ -104,5 +104,3 @@ class table_common_member_count extends discuz_table_archive
 		return DB::result_first('SELECT COUNT(*) FROM %t WHERE friends>%d', array($this->_table, $friends));
 	}
 }
-
-?>

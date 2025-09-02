@@ -300,6 +300,3 @@ if(!submitcheck('topicsubmit', 0, $seccodecheck, $secqaacheck)) {
 
 
 }
-
-
-?>

@@ -134,5 +134,3 @@ class table_forum_attachment extends discuz_table
 	}
 
 }
-
-?>

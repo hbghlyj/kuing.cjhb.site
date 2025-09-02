@@ -120,5 +120,3 @@ function getexif($img) {
 function exif_lang($langkey) {
 	return lang('exif', $langkey);
 }
-
-?>

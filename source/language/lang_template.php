@@ -473,5 +473,3 @@ $lang = array (
   'online_in_thread' => '所在主题',
   'online_ip' => 'IP 地址',
 );
-
-?>

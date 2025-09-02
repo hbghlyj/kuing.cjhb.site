@@ -33,5 +33,3 @@ class table_common_admincp_perm extends discuz_table
 		return $perm ? DB::fetch_all('SELECT * FROM %t WHERE `perm`=%s', array($this->_table, $perm), 'cpgroupid') : array();
 	}
 }
-
-?>

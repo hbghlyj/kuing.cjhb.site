@@ -136,5 +136,3 @@ if(!submitcheck('modsubmit')) {
 	);
 
 }
-
-?>

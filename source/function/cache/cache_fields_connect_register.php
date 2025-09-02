@@ -44,5 +44,3 @@ function build_cache_fields_connect_register() {
 
 	savecache('fields_connect_register', $data);
 }
-
-?>

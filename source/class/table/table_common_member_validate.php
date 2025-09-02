@@ -55,5 +55,3 @@ class table_common_member_validate extends discuz_table
 		return DB::fetch_all('SELECT * FROM %t WHERE status=%d  ORDER BY submitdate DESC'.DB::limit($start, $limit), array($this->_table, $status), $this->_pk);
 	}
 }
-
-?>

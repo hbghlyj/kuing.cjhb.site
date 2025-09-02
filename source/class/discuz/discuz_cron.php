@@ -171,5 +171,3 @@ class discuz_cron
 		return false;
 	}
 }
-
-?>

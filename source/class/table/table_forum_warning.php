@@ -45,5 +45,3 @@ class table_forum_warning extends discuz_table
 	}
 
 }
-
-?>

@@ -40,5 +40,3 @@ class table_home_docomment extends discuz_table
 	}
 
 }
-
-?>

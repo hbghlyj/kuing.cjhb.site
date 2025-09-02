@@ -39,5 +39,3 @@ if($_G['setting']['ec_ratio']) {
 }
 
 include_once libfile('spacecp/credit_'.$operation, 'include');
-
-?>

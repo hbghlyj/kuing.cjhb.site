@@ -37,5 +37,3 @@ class table_common_block_favorite extends discuz_table
 		return ($uid = dintval($uid)) ? DB::fetch_all('SELECT * FROM %t WHERE uid=%d ORDER BY dateline DESC', array($this->_table, $uid), 'bid') : array();
 	}
 }
-
-?>

@@ -35,5 +35,3 @@ $lang = array
 	'grouplist_orderby_commoncredits' => '按共同積分倒序',
 	'grouplist_orderby_displayorder' => '按默認順序'
 );
-
-?>

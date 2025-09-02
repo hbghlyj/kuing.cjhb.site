@@ -55,5 +55,3 @@ if($op == 'follow') {
 		showmessage('collection_unfollow_succ', dreferer(), array('status'=>2), array('closetime' => '2', 'showmsg' => '1'));
 	}
 }
-
-?>

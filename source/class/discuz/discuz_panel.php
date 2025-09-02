@@ -207,4 +207,3 @@ class discuz_panel {
 	}
 
 }
-?>

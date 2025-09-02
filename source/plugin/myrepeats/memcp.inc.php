@@ -71,5 +71,3 @@ foreach(C::t('#myrepeats#myrepeats')->fetch_all_by_uid($_G['uid']) as $myrepeat)
 }
 
 $_G['basescript'] = 'home';
-
-?>

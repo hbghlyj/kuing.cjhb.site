@@ -300,5 +300,3 @@ function ipbanadd($ipnew, $validitynew, &$error) {
 	return FALSE;
 
 }
-
-?>

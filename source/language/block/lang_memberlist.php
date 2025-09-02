@@ -62,5 +62,3 @@ $lang = array
 	'memberlist_orderby_hours_comment' => '指定时间内发帖数倒序排序的时间值',
 	'memberlist_yes' => '是',
 );
-
-?>

@@ -218,5 +218,3 @@ $lang = array (
   'no_permission_to_post' => '您现在无权发帖。',
   'click_to_show_reason' => '点击查看原因',
 );
-
-?>

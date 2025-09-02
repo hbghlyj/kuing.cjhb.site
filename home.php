@@ -39,6 +39,3 @@ define('CURMODULE', $curmod);
 runhooks(getgpc('do') == 'profile' && $_G['inajax'] ? 'card' : getgpc('do'));
 
 require_once libfile('home/'.$mod, 'module');
-
-
-?>

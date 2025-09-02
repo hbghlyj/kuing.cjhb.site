@@ -520,5 +520,3 @@ if($action == 'shop') {
 }
 
 include template('home/space_magic');
-
-?>

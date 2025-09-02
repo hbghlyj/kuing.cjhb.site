@@ -94,7 +94,3 @@ class block_otherfriendlink extends discuz_block {
 		return array('html' => '', 'data' => $list);
 	}
 }
-
-
-
-?>

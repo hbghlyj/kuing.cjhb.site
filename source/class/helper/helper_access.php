@@ -22,5 +22,3 @@ class helper_access {
 		return $status;
 	}
 }
-
-?>

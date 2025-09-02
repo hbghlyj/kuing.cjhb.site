@@ -23,5 +23,3 @@ $lang = array
 	'article_category' => '投放頻道分類',
 	'article_category_comment' => '設置廣告投放的頻道分類',
 );
-
-?>

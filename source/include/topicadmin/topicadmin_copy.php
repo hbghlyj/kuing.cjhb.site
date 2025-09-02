@@ -97,5 +97,3 @@ if(!submitcheck('modsubmit')) {
 	'modlog'	=> array($thread, $other)
 	);
 }
-
-?>

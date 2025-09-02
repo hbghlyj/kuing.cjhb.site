@@ -51,5 +51,3 @@ class optimizer_plugin {
 		dheader('Location: '.getglobal('siteurl').$adminfile.'?action=plugins');
 	}
 }
-
-?>

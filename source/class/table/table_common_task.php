@@ -100,5 +100,3 @@ class table_common_task extends discuz_table
 	}
 
 }
-
-?>

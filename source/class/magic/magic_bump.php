@@ -95,5 +95,3 @@ class magic_bump {
 	}
 
 }
-
-?>

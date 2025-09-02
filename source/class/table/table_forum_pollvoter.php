@@ -28,5 +28,3 @@ class table_forum_pollvoter extends discuz_table
 	}
 
 }
-
-?>

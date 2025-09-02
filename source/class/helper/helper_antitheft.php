@@ -174,5 +174,3 @@ class helper_antitheft {
 	}
 
 }
-
-?>

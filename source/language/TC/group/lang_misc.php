@@ -19,5 +19,3 @@ $lang = array
 	'group_demise_message_body' => '我的{_G/setting/navs/3/navname}{forum}成功轉讓給您了，[url={siteurl}forum.php?mod=group&fid={fid}]點這裡查看{_G/setting/navs/3/navname}[/url]',
 	'group_join' => '加入{groupname}圈子',
 );
-
-?>

@@ -15,4 +15,3 @@ $lang = array
 (
 	'blank_content' => 'HTML代碼',
 );
-?>

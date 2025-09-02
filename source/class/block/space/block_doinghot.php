@@ -40,5 +40,3 @@ class block_doinghot extends block_doing {
 		return parent::cookparameter($parameter);
 	}
 }
-
-?>

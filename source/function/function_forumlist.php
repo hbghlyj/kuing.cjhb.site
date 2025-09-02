@@ -486,4 +486,3 @@ function get_attach($list, $video = false, $audio = false, $withattach = true){
         }
 	return $threadlist_data;
 }
-?>

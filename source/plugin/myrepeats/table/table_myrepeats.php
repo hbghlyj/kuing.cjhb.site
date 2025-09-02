@@ -65,5 +65,3 @@ class table_myrepeats extends discuz_table
 	}
 
 }
-
-?>

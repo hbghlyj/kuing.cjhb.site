@@ -38,5 +38,3 @@ class table_forum_collectionrelated extends discuz_table
 		return $result;
 	}
 }
-
-?>

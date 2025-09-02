@@ -40,5 +40,3 @@ class table_forum_threadprofile_group extends discuz_table
 	}
 
 }
-
-?>

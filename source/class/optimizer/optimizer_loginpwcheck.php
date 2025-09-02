@@ -32,5 +32,3 @@ class optimizer_loginpwcheck {
 		dheader('Location: '.$_G['siteurl'].$adminfile.'?action=setting&operation=accountguard');
 	}
 }
-
-?>

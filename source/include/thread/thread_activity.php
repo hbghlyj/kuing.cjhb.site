@@ -91,4 +91,3 @@ $allapplynum = $applynumbers + $noverifiednum;
 if($_G['forum']['status'] == 3) {
 	$isgroupuser = groupperm($_G['forum'], $_G['uid']);
 }
-?>

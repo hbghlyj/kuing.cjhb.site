@@ -182,5 +182,3 @@ if(empty($_GET['action'])) {
 $navtitle = lang('core', 'title_medals_list');
 
 include template('home/space_medal');
-
-?>
