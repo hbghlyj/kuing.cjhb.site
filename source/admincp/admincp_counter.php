@@ -48,8 +48,7 @@ if(submitcheck('forumsubmit', 1)) {
 		C::t('forum_forum')->update($forum['fid'], array('archive' => $archive));
 
 		$thread = C::t('forum_thread')->fetch_by_fid_displayorder($forum['fid']);
-		$subject = $thread['subject'];
-		$lastpost = "{$thread['tid']}\t{$thread['lastpost']}\t{$thread['lastposter']}\t{$subject}";
+		$lastpost = C::t('forum_forum')->build_lastpost_string($thread['tid'], $thread['subject'], $thread['lastpost'], $thread['lastposter']);
 
 		C::t('forum_forum')->update($forum['fid'], array('threads' => $threads, 'posts' => $posts, 'lastpost' => $lastpost));
 	}
