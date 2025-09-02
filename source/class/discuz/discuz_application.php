@@ -952,5 +952,3 @@ class discuz_application extends discuz_base{
 		return $value;
 	}
 }
-
-?>

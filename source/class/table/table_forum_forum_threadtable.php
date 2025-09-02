@@ -77,5 +77,3 @@ class table_forum_forum_threadtable extends discuz_table
 		return DB::delete($this->_table, "threads='0'");
 	}
 }
-
-?>

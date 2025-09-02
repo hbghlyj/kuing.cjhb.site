@@ -392,5 +392,3 @@ if(!submitcheck('modsubmit') && !$_GET['fast']) {
 	}
 
 }
-
-?>

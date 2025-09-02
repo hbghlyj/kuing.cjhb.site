@@ -14,5 +14,3 @@ if(!defined('IN_DISCUZ')) {
 class discuz_core extends discuz_application {
 
 }
-
-?>

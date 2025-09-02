@@ -34,5 +34,3 @@ class table_common_advertisement_custom extends discuz_table
 		return $result['id'];
 	}
 }
-
-?>

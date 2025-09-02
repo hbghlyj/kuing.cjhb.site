@@ -1081,5 +1081,3 @@ function deletememberpost($uids) {
 		}
 	}
 }
-
-?>

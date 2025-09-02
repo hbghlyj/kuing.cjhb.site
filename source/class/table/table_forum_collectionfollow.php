@@ -99,5 +99,3 @@ class table_forum_collectionfollow extends discuz_table
 		return !$unbuffered ? 0 : false;
 	}
 }
-
-?>

@@ -216,5 +216,3 @@ $lang = array
 	'admincp_title' => $_G['setting']['bbname'].' 管理中心',
 
 );
-
-?>

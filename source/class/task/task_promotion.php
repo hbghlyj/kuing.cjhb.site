@@ -63,5 +63,3 @@ class task_promotion {
 	}
 
 }
-
-?>

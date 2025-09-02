@@ -26,5 +26,3 @@ if(submitcheck('attentionsubmit')) {
 	showmessage('setup_finished', 'group.php?mod=my&view=groupthread');
 }
 include template('group/group_attentiongroup');
-
-?>

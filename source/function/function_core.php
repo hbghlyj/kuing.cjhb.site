@@ -2395,5 +2395,3 @@ function dpreg_replace($pattern, $replacement, $subject, $limit = -1, &$count = 
 		return _dpreg_replace($pattern, $replacement, $subject, $limit, $count);
 	}
 }
-
-?>

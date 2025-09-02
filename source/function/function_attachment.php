@@ -242,5 +242,3 @@ function getattachexif($aid, $path = '') {
 	}
 	return $return;
 }
-
-?>

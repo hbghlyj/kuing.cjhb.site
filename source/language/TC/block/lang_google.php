@@ -28,5 +28,3 @@ $lang = array
 	'google_client' => '搜索聯盟 ID',
 	'google_client_comment' => '如果您加入了 Google 搜索聯盟，可以在這裡填寫 ID',
 );
-
-?>

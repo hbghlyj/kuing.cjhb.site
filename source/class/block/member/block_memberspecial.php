@@ -48,5 +48,3 @@ class block_memberspecial extends block_member {
 		return parent::cookparameter($parameter);
 	}
 }
-
-?>

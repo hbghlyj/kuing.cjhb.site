@@ -53,5 +53,3 @@ class table_forum_threadhidelog extends discuz_table
 	}
 
 }
-
-?>

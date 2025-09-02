@@ -274,5 +274,3 @@ class table_home_feed extends discuz_table
 		}
 	}
 }
-
-?>

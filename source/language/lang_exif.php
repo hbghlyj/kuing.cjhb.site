@@ -97,5 +97,3 @@ $lang = array(
 	'ThumbFileType'     => '缩略图文件格式',
 	'ThumbMimeType'     => '缩略图Mime格式'
 );
-
-?>

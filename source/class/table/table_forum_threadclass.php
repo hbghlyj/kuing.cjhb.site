@@ -92,5 +92,3 @@ class table_forum_threadclass extends discuz_table
 	}
 
 }
-
-?>

@@ -78,5 +78,3 @@ if($_GET['action'] == 'faq') {
 }
 
 include template('common/faq');
-
-?>

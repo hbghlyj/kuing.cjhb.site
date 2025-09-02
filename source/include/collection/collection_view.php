@@ -122,4 +122,3 @@ if(!$op || $op == 'related') {
 
 	include template('forum/collection_followers');
 }
-?>

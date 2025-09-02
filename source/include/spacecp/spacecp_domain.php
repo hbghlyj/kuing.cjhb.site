@@ -66,5 +66,3 @@ $actives = array('profile' =>' class="a"');
 $opactives = array('domain' =>' class="a"');
 
 include_once template("home/spacecp_domain");
-
-?>

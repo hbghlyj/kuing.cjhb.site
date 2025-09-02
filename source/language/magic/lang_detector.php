@@ -18,5 +18,3 @@ $lang = array
 	'detector_num' => '最大探测数',
 	'detector_info' => '探测(最多 {num} 个)埋了红包的会员空间',
 );
-
-?>

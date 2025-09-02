@@ -30,5 +30,3 @@ $metakeywords = lang('ranklist/navtitle', 'ranklist_title_poll_'.$gettype);
 $metadescription = lang('ranklist/navtitle', 'ranklist_title_poll_'.$gettype);
 
 include template('diy:ranklist/poll');
-
-?>

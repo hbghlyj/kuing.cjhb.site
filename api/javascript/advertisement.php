@@ -21,5 +21,3 @@ $data = adshow($adid);
 dheader('Content-Type: application/javascript');
 
 echo 'document.write(\''.preg_replace("/\r\n|\n|\r/", '\n', addcslashes($data, "'\\")).'\');';
-
-?>

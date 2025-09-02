@@ -34,5 +34,3 @@ class table_forum_rsscache extends discuz_table
 	}
 
 }
-
-?>

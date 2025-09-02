@@ -61,5 +61,3 @@ class table_forum_poststick extends discuz_table
 		return DB::result_first('SELECT COUNT(*) FROM %t WHERE tid=%d', array($this->_table, $tid));
 	}
 }
-
-?>

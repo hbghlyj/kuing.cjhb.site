@@ -32,5 +32,3 @@ class optimizer_editperdel {
 		dheader('Location: '.$_G['siteurl'].$adminfile.'?action=setting&operation=permissions');
 	}
 }
-
-?>

@@ -40,5 +40,3 @@ class table_forum_tag_suggest extends discuz_table {
         return DB::query('DELETE FROM %t WHERE id IN (%n)', array($this->_table, (array)$ids));
     }
 }
-
-?>

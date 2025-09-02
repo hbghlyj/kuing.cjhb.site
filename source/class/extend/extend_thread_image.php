@@ -118,5 +118,3 @@ class extend_thread_image extends extend_thread_base {
 		}
 	}
 }
-
-?>

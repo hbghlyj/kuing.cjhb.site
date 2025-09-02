@@ -36,5 +36,3 @@ class table_forum_groupinvite extends discuz_table
 		return DB::affected_rows();
 	}
 }
-
-?>

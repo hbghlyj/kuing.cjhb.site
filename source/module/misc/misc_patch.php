@@ -66,7 +66,3 @@ if($_GET['action'] == 'pluginnotice') {
 	include template('common/footer_ajax');
 	exit;
 }
-
-
-
-?>

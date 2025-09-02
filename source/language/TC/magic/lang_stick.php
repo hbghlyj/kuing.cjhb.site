@@ -25,5 +25,3 @@ $lang = array
 
 	'stick_notification' => '您的主題 {subject} 被 {actor} 使用了{magicname}，<a href="forum.php?mod=viewthread&tid={tid}">快去看看吧！</a>',
 );
-
-?>

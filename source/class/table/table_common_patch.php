@@ -51,5 +51,3 @@ class table_common_patch extends discuz_table
 		return DB::fetch_all("SELECT * FROM ".DB::table($this->_table)." WHERE ".DB::field('status', $status));
 	}
 }
-
-?>

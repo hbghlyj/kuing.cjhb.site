@@ -59,5 +59,3 @@ if(!preg_match("/^[\w]{1,64}$/", $a)) {
 if(!@require_once UC_ROOT."./plugin/$a/plugin.php") {
 	exit('Plugin not found');
 }
-
-?>

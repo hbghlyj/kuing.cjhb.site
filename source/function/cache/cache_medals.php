@@ -20,5 +20,3 @@ function build_cache_medals() {
 
 	savecache('medals', $data);
 }
-
-?>

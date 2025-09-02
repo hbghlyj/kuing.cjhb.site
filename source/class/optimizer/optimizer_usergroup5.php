@@ -49,5 +49,3 @@ class optimizer_usergroup5 {
 		dheader('Location: '.$_G['siteurl'].$adminfile.'?action=usergroups&operation=edit&id=5');
 	}
 }
-
-?>

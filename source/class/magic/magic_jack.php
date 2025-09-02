@@ -112,5 +112,3 @@ class magic_jack {
 	}
 
 }
-
-?>

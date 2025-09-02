@@ -30,5 +30,3 @@ class table_portal_topic_pic extends discuz_table
 	}
 
 }
-
-?>

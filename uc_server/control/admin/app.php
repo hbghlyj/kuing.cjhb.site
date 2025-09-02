@@ -274,5 +274,3 @@ class control extends adminbase {
 		return realpath($path).'/';
 	}
 }
-
-?>

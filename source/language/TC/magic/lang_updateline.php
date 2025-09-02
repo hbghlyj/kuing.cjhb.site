@@ -17,5 +17,3 @@ $lang = array
 	'updateline_desc' => '把自己日誌的發佈時間更新為當前時間',
 	'updateline_info' => '把自己日誌的發佈時間更新為當前時間',
 );
-
-?>

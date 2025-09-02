@@ -39,5 +39,3 @@ class table_common_member_field_forum_archive extends table_common_member_field_
 		return ($val = dintval($val, true)) && DB::delete($this->_table, DB::field($this->_pk, $val), null, $unbuffered);
 	}
 }
-
-?>

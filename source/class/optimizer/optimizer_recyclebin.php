@@ -52,5 +52,3 @@ class optimizer_recyclebin {
 		dheader('Location: '.$_G['siteurl'].$adminfile.$url);
 	}
 }
-
-?>

@@ -378,6 +378,3 @@ class block_groupactivity extends discuz_block {
 		return array('html' => '', 'data' => $datalist);
 	}
 }
-
-
-?>

@@ -146,5 +146,3 @@ class discuz_table_archive extends discuz_table
 		}
 	}
 }
-
-?>

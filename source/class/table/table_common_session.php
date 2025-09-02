@@ -142,5 +142,3 @@ class table_common_session extends discuz_table
 		return $data;
 	}
 }
-
-?>

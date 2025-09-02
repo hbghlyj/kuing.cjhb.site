@@ -746,5 +746,3 @@ function portalcp_article_pre_next($catid, $aid) {
 	}
 	return $data;
 }
-
-?>

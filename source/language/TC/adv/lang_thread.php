@@ -28,5 +28,3 @@ $lang = array
 	'thread_pnumber_comment' => '選項 #1 #2 #3 ... 表示帖子樓層，可以按住 CTRL 多選',
 	'thread_pnumber_all' => '全部',
 );
-
-?>

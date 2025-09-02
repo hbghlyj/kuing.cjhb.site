@@ -95,5 +95,3 @@ EOT;
 		return array('html' => $html, 'data' => null);
 	}
 }
-
-?>

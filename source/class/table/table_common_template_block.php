@@ -66,5 +66,3 @@ class table_common_template_block extends discuz_table
 		}
 	}
 }
-
-?>

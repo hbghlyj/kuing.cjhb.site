@@ -18,5 +18,3 @@ $lang = array
 	'forumtree_fids' => '顯示的版塊',
 	'forumtree_fids_comment' => '設置允許顯示的版塊，留空為顯示所有版塊',
 );
-
-?>

@@ -36,5 +36,3 @@ class optimizer_filecheck {
 		dheader('Location: '.$_G['siteurl'].$adminfile.'?action=checktools&operation=filecheck');
 	}
 }
-
-?>

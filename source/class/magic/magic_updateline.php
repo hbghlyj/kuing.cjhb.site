@@ -57,5 +57,3 @@ class magic_updateline {
 	}
 
 }
-
-?>

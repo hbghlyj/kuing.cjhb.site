@@ -18,5 +18,3 @@ $lang = array
 	'friendnum_info' => '额外增加 {num} 个好友上限',
 	'friendnum_addnum' => '增加好友数',
 );
-
-?>

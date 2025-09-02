@@ -64,5 +64,3 @@ class payment_invite {
 	}
 
 }
-
-?>

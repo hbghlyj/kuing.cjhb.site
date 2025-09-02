@@ -50,5 +50,3 @@ class block_memberposts extends block_member {
 		return lang('blockclass', 'blockclass_member_script_memberposts');
 	}
 }
-
-?>

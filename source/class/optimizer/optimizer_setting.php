@@ -140,5 +140,3 @@ class optimizer_setting {
 	}
 
 }
-
-?>

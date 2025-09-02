@@ -61,5 +61,3 @@ $data = mobile_core::json($array);
 mobile_core::make_cors($_SERVER['REQUEST_METHOD'], REQUEST_METHOD_DOMAIN);
 
 echo $data;
-
-?>

@@ -68,5 +68,3 @@ foreach ($list as $cid => $value) {
 		}
 	}
 }
-
-?>

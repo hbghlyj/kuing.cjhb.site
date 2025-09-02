@@ -73,5 +73,3 @@ if($_G['forum_attachpids'] && !defined('IN_ARCHIVER')) {
 }
 
 include template('forum/viewthread_printable');
-
-?>

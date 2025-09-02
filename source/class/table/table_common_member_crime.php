@@ -56,5 +56,3 @@ class table_common_member_crime extends discuz_table
 		DB::delete($this->_table, DB::field('uid', $uids));
 	}
 }
-
-?>

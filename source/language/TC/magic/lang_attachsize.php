@@ -18,5 +18,3 @@ $lang = array
 	'attachsize_info' => '額外增加 {num} M 附件容量上限',
 	'attachsize_addsize' => '增加容量',
 );
-
-?>

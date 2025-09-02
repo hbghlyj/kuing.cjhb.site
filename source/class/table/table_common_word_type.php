@@ -43,5 +43,3 @@ class table_common_word_type extends discuz_table
 	}
 
 }
-
-?>

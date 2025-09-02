@@ -56,5 +56,3 @@ class block_vedio extends commonblock_html {
 		return array('html' => $return, 'data' => null);
 	}
 }
-
-?>

@@ -46,5 +46,3 @@ class table_forum_threadhot extends discuz_table {
 		return false;
 	}
 }
-
-?>

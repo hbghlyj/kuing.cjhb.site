@@ -15,5 +15,3 @@ if(!defined('IN_DISCUZ')) {
 if(getglobal('setting/membersplit')) {
 	C::t('common_member')->split(100);
 }
-
-?>

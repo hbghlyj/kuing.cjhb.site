@@ -1055,4 +1055,3 @@ function block_ckeck_summary($summary){
 	}
 	return $summary;
 }
-?>

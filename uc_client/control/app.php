@@ -40,5 +40,3 @@ class appcontrol extends base {
 	function _format_notedata($notedata) {
 	}
 }
-
-?>

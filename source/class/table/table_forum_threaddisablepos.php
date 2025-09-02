@@ -50,5 +50,3 @@ class table_forum_threaddisablepos extends discuz_table {
 	}
 
 }
-
-?>

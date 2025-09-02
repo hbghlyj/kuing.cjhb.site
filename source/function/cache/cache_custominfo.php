@@ -57,5 +57,3 @@ function build_cache_custominfo() {
 
 	savecache('custominfo', $data);
 }
-
-?>

@@ -52,5 +52,3 @@ class block_tradenew extends block_trade {
 		return parent::cookparameter($parameter);
 	}
 }
-
-?>

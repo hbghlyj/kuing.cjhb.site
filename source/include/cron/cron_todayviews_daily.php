@@ -21,5 +21,3 @@ if($deltids) {
 foreach($updateviews as $views => $tids) {
 	C::t('forum_thread')->increase($tids, array('views' => $views), true);
 }
-
-?>

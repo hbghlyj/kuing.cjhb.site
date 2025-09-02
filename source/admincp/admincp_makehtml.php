@@ -626,4 +626,3 @@ function check_html_dir($dir) {
 	}
 	return true;
 }
-?>

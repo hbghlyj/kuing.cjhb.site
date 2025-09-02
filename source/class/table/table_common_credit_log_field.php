@@ -21,5 +21,3 @@ class table_common_credit_log_field extends discuz_table
 		parent::__construct();
 	}
 }
-
-?>

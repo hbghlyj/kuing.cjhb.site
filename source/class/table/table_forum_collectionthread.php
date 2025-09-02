@@ -79,5 +79,3 @@ class table_forum_collectionthread extends discuz_table
 		return DB::delete($this->_table, implode(' AND ', $condition), 0, false);
 	}
 }
-
-?>

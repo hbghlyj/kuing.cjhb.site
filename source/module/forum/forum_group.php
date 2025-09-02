@@ -743,6 +743,3 @@ if($action == 'index') {
 	}
 	include template('group/group_recommend');
 }
-
-
-?>

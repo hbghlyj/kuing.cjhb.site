@@ -17,5 +17,3 @@ $lang = array
 	'downdateline_desc' => '把自己日誌的發佈時間修改為過去',
 	'downdateline_info' => '把自己日誌的發佈時間修改為過去',
 );
-
-?>

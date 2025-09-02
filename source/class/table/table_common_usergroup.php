@@ -165,5 +165,3 @@ class table_common_usergroup extends discuz_table
 		return DB::result_first("SELECT COUNT(*) FROM %t WHERE type='special' and `system`>0", array($this->_table));
 	}
 }
-
-?>

@@ -71,5 +71,3 @@ class table_forum_announcement extends discuz_table
 	}
 
 }
-
-?>

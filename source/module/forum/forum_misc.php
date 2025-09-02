@@ -1891,5 +1891,3 @@ function getratingleft($raterange) {
 	}
 	return $maxratetoday;
 }
-
-?>

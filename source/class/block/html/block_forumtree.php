@@ -62,5 +62,3 @@ class block_forumtree extends commonblock_html {
 	}
 
 }
-
-?>

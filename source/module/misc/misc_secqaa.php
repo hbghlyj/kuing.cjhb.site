@@ -89,5 +89,3 @@ EOF;
 	include template('common/footer_ajax');
 
 }
-
-?>

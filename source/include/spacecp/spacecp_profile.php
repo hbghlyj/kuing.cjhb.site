@@ -665,5 +665,3 @@ function profile_showsuccess($message = '') {
 	echo '</script>';
 	exit();
 }
-
-?>

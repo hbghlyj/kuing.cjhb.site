@@ -25,5 +25,3 @@ class table_forum_relatedthread extends discuz_table
 	}
 
 }
-
-?>

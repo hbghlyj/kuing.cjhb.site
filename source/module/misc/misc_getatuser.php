@@ -61,4 +61,3 @@ if($tid = intval($_GET['tid'])){
 	$result = implode(',', $atlist_cookie).($atlist_cookie && $atlist ? ',' : '').implode(',', $atlist);
 }
 include template('common/getatuser');
-?>

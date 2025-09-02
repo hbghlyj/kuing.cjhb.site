@@ -29,5 +29,3 @@ $lang = array
 	'albumlist_orderby_picnum' => '按照片数倒序',
 	'albumlist_orderby_updatetime' => '按更新时间倒序'
 );
-
-?>

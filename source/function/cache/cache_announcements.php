@@ -27,5 +27,3 @@ function build_cache_announcements() {
 
 	savecache('announcements', $data);
 }
-
-?>

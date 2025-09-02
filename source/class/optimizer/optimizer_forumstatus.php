@@ -63,5 +63,3 @@ class optimizer_forumstatus {
 		dheader('Location: '.$_G['siteurl'].$adminfile.$url);
 	}
 }
-
-?>

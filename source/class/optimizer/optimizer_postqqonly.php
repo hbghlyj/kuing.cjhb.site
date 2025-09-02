@@ -32,5 +32,3 @@ class optimizer_postqqonly {
 		dheader('Location: '.$_G['siteurl'].$adminfile.'?action=setting&operation=accountguard');
 	}
 }
-
-?>

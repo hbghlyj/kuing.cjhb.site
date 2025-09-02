@@ -157,4 +157,3 @@ if($operation == 'admin') {
         showtablefooter();
 }
 /*search*/
-?>

@@ -14,5 +14,3 @@ if(!defined('IN_MOBILE_API')) {
 include 'data/sysdata/cache_mobile.php';
 
 echo $mobilecheck;
-
-?>

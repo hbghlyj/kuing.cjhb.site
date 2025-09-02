@@ -525,5 +525,3 @@ if(submitcheck('forumsubmit', 1)) {
 function runuchcount($start, $perpage) {
 
 }
-
-?>

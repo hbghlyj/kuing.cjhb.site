@@ -83,5 +83,3 @@ class optimizer_log {
 		return C::t($tablename)->split_table($wheresql);
 	}
 }
-
-?>

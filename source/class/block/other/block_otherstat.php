@@ -246,5 +246,3 @@ class block_otherstat extends discuz_block {
 		return array('html' => '', 'data' => $list);
 	}
 }
-
-?>

@@ -209,5 +209,3 @@ function pmmulti($count, $perpage, $curpage, $mpurl) {
 	}
 	return $return;
 }
-
-?>

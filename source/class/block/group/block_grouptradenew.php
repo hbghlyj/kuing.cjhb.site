@@ -58,5 +58,3 @@ class block_grouptradenew extends block_grouptrade {
 		return parent::cookparameter($parameter);
 	}
 }
-
-?>

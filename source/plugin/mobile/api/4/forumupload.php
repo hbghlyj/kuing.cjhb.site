@@ -28,5 +28,3 @@ class mobile_api {
 	}
 
 }
-
-?>

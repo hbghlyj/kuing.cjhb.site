@@ -30,5 +30,3 @@ class table_forum_groupcreditslog extends discuz_table
 		DB::query("DELETE FROM ".DB::table('forum_groupcreditslog')." WHERE ".DB::field('fid', $fid));
 	}
 }
-
-?>

@@ -32,5 +32,3 @@ class table_common_friendlink extends discuz_table
 	}
 
 }
-
-?>

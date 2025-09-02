@@ -27,5 +27,3 @@ class versioncontrol extends base {
 	}
 
 }
-
-?>

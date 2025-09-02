@@ -56,5 +56,3 @@ class magic_thunder {
 	}
 
 }
-
-?>

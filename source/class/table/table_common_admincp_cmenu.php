@@ -55,5 +55,3 @@ class table_common_admincp_cmenu extends discuz_table
 	}
 
 }
-
-?>

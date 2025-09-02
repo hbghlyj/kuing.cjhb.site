@@ -507,5 +507,3 @@ function domain_delete($pluginid) {
 	require_once libfile('function/cache');
 	updatecache('setting');
 }
-
-?>

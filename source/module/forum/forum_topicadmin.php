@@ -100,5 +100,3 @@ if($resultarray) {
 	showmessage((isset($resultarray['message']) ? $resultarray['message'] : 'admin_succeed'), $resultarray['redirect']);
 
 }
-
-?>

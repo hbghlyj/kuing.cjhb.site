@@ -73,4 +73,3 @@ class appmodel {
 		return $_ENV['misc']->dfopen($url, 0, '', '', 1, '');
 	}
 }
-?>

@@ -80,5 +80,3 @@ foreach($payment_type_data as $type => $title) {
 $optypehtml .= '</select>';
 
 include template('home/spacecp_payment_order');
-
-?>

@@ -47,5 +47,3 @@ class table_portal_article_related extends discuz_table
 		return ($aid = dintval($aid)) ? DB::fetch_all('SELECT * FROM %t WHERE aid=%d ORDER BY displayorder', array($this->_table, $aid), 'raid') : array();
 	}
 }
-
-?>

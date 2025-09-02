@@ -22,5 +22,3 @@ $lang = array
 	'interthread_pnumber' => '广告显示楼层',
 	'interthread_pnumber_comment' => '选项 #1 #2 #3 ... 表示帖子楼层，可以按住 CTRL 多选，默认只投放 1 楼',
 );
-
-?>

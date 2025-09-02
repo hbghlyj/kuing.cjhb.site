@@ -59,5 +59,3 @@ class table_home_friend_request extends discuz_table
 	}
 
 }
-
-?>

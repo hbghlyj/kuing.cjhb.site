@@ -48,5 +48,3 @@ class block_topichot extends block_topic {
 		return $parameter;
 	}
 }
-
-?>

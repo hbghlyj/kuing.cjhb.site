@@ -206,5 +206,3 @@ if(empty($operation)) {
 
 }
 echo '<script type="text/javascript" src="' . STATICURL . 'js/calendar.js"></script>';
-
-?>

@@ -254,5 +254,3 @@ if($_G['uid']) {
 }
 
 include_once template("diy:home/space_trade");
-
-?>

@@ -197,5 +197,3 @@ class block_stat extends commonblock_html {
 		return array('html' => $html, 'data' => null);
 	}
 }
-
-?>

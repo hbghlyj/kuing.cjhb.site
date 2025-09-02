@@ -63,5 +63,3 @@ class block_groupactivitynew extends block_groupactivity {
 		return parent::cookparameter($parameter);
 	}
 }
-
-?>

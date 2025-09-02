@@ -136,5 +136,3 @@ class dbstuff {
 		show_error('run_sql_error', $message.'<br /><br />'.$sql.'<br /> '.$this->error(), 0);
 	}
 }
-
-?>

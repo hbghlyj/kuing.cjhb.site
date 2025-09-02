@@ -22,5 +22,3 @@ class table_common_cache extends discuz_table
 	}
 
 }
-
-?>

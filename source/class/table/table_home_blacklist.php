@@ -54,5 +54,3 @@ class table_home_blacklist extends discuz_table
 		return DB::query('DELETE FROM %t WHERE uid=%d AND buid=%d', array($this->_table, $uid, $buid));
 	}
 }
-
-?>

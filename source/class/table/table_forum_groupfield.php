@@ -35,5 +35,3 @@ class table_forum_groupfield extends discuz_table
 		return DB::fetch_all("SELECT fid, dateline, type, data FROM ".DB::table('forum_groupfield')." WHERE fid=%d AND privacy=%d $typeadd", array($fid, $privacy));
 	}
 }
-
-?>

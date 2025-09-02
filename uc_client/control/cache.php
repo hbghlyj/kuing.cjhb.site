@@ -25,5 +25,3 @@ class cachecontrol extends base {
 	}
 
 }
-
-?>

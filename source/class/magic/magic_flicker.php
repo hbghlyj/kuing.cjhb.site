@@ -40,5 +40,3 @@ class magic_flicker {
 		magicshowtips(lang('magic/flicker', 'flicker_info'));
 	}
 }
-
-?>

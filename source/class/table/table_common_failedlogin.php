@@ -37,5 +37,3 @@ class table_common_failedlogin extends discuz_table
 	}
 
 }
-
-?>

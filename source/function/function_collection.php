@@ -157,5 +157,3 @@ function parse_keyword($keywords, $string = false, $filter = true) {
 	}
 	return $return;
 }
-
-?>

@@ -23,4 +23,3 @@ if($f=='svg'){header( 'Content-type: image/svg+xml' );}
 if($f=='png'){header("Content-Type: image/png");}
 print($resp);
 }
-?>

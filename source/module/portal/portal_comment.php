@@ -56,5 +56,3 @@ if($csubject['commentnum']) {
 $multi = multi($csubject['commentnum'], $perpage, $page, "portal.php?mod=comment&id=$id&idtype=$idtype");
 list($seccodecheck, $secqaacheck) = seccheck('publish');
 include_once template("diy:portal/comment");
-
-?>

@@ -54,5 +54,3 @@ class table_common_report extends discuz_table
 		DB::query("UPDATE %t SET message=CONCAT_WS('<br>', message, %s), num=num+1 WHERE id=%d", array($this->_table, $message, $id));
 	}
 }
-
-?>

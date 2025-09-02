@@ -308,5 +308,3 @@ Class upload{
 		return 'common';
 	}
 }
-
-?>

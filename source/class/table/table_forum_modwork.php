@@ -48,5 +48,3 @@ class table_forum_modwork extends discuz_table
 		return DB::query('DELETE FROM %t WHERE dateline<%s', array($this->_table, $dateline));
 	}
 }
-
-?>

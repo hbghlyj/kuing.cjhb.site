@@ -36,5 +36,3 @@ foreach ($announcedata as $announce) {
 $annid = isset($_GET['id']) ? intval($_GET['id']) : 0;
 
 include template('forum/announcement');
-
-?>

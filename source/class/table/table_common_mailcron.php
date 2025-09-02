@@ -41,5 +41,3 @@ class table_common_mailcron extends discuz_table
 		return DB::fetch_all('SELECT * FROM %t WHERE sendtime<=%d ORDER BY sendtime '.DB::limit($start, $limit), array($this->_table, $sendtime));
 	}
 }
-
-?>

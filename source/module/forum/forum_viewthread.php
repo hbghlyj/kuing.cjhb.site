@@ -1661,5 +1661,3 @@ function _checkviewgroup() {
 		showmessage('forum_group_moderated', 'forum.php?mod=group&fid='.$_G['fid']);
 	}
 }
-
-?>

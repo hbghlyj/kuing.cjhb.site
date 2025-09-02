@@ -704,4 +704,3 @@ function allowverify($vid = 0) {
 	}
 	return $allow;
 }
-?>

@@ -53,5 +53,3 @@ class plugin_myrepeats {
 	}
 
 }
-
-?>

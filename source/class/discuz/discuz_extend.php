@@ -49,4 +49,3 @@ class discuz_extend extends discuz_container
 
 
 }
-?>

@@ -15,5 +15,3 @@ if($_G['setting']['secqaa']['status'] > 0) {
 	require_once libfile('function/cache');
 	updatecache('secqaa');
 }
-
-?>

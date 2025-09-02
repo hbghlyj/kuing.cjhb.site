@@ -93,4 +93,3 @@ class db_driver_mysqli_slave extends db_driver_mysqli
 	}
 
 }
-?>

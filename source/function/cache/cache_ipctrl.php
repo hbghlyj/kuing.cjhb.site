@@ -15,5 +15,3 @@ function build_cache_ipctrl() {
 	$data = C::t('common_setting')->fetch_all_setting(array('ipregctrl', 'ipverifywhite'));
 	savecache('ipctrl', $data);
 }
-
-?>

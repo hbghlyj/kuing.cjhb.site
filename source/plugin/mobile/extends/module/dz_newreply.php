@@ -82,4 +82,3 @@ class dz_newreply extends extends_data {
 		}
 	}
 }
-?>

@@ -320,5 +320,3 @@ $lang = array (
   'display_order' => '顯示位置',
   'filename' => '文件名',
 );
-
-?>

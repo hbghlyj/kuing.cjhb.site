@@ -114,5 +114,3 @@ class block_doing extends discuz_block {
 		return array('html' => '', 'data' => $list);
 	}
 }
-
-?>

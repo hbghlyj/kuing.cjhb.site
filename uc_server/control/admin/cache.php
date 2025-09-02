@@ -40,5 +40,3 @@ class control extends adminbase {
 		$this->view->display('admin_cache');
 	}
 }
-
-?>

@@ -67,5 +67,3 @@ class table_common_member_status_archive extends table_common_member_status
 		return ($val = dintval($val, true)) && DB::delete($this->_table, DB::field($this->_pk, $val), null, $unbuffered);
 	}
 }
-
-?>
