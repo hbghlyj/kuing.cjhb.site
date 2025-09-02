@@ -965,7 +965,7 @@ body, input, button, select { font: {FONTSIZE} {FONT}; color: {TABLETEXT}; }
 		.ct2 .mn { float: left; width: 970px; margin-bottom: 1em; }
 		.ct2 .sd { float: right; width: 220px; overflow: hidden; }
 
-		.appl { float: left; overflow: hidden; margin-bottom: 10px; padding: 6px 10px; width: 147px; }
+		.appl { overflow: hidden; margin-bottom: 10px; padding: 6px 10px; min-width: 147px; }
 
 		.ct2_a, .ct3_a { border: 1px solid {WRAPBORDERCOLOR}; background: repeat-y 0 0; background-image: linear-gradient(0deg, {SIDEBGCOLOR}, {SIDEBGCOLOR}); background-size: 167px; }
 			.ct2_a_r { border: none; background-image: none; }
