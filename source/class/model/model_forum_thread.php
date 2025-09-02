@@ -242,13 +242,11 @@ class model_forum_thread extends discuz_model
 					C::t('forum_groupuser')->update_counter_for_user($this->member['uid'], $this->forum['fid'], 1);
 				}
 
-				$subject = str_replace("\t", ' ', $this->param['subject']);
-				$lastpost = "$this->tid\t".$subject."\t".TIMESTAMP."\t$author";
-				C::t('forum_forum')->update($this->forum['fid'], array('lastpost' => $lastpost));
+				C::t('forum_forum')->update_lastpost($this->forum['fid'], $this->tid, $this->param['subject'], TIMESTAMP, $author, array(
+					'propagate_parent' => $this->forum['type'] == 'sub',
+					'forum' => $this->forum
+				));
 				C::t('forum_forum')->update_forum_counter($this->forum['fid'], 1, 1, 1);
-				if($this->forum['type'] == 'sub') {
-					C::t('forum_forum')->update($this->forum['fup'], array('lastpost' => $lastpost));
-				}
 			}
 
 			if($this->param['isgroup']) {
