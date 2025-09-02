@@ -2,15 +2,24 @@
 <script>
   window.MathJax.startup = {
     ready: function() {
-      const {OPTABLE, MO} = MathJax._.core.MmlTree.OperatorDictionary;
-      OPTABLE.infix['\u27C2'] = MO.REL;
+      const { RANGES }   = MathJax._.core.MmlTree.OperatorDictionary;
+      const { TEXCLASS } = MathJax._.core.MmlTree.MmlNode;
+      function promote(codepoint, texClass, nodeType) {
+        const i = RANGES.findIndex(([a, b]) => a <= codepoint && codepoint <= b);
+        if (i < 0) return;
+        const [a, b, cls, node] = RANGES[i];
+        const before = (a <= codepoint - 1) ? [[a, codepoint - 1, cls, node]] : [];
+        const middle = [[codepoint, codepoint, texClass, nodeType]];
+        const after  = (codepoint + 1 <= b) ? [[codepoint + 1, b, cls, node]] : [];
+        RANGES.splice(i, 1, ...before, ...middle, ...after);
+      }
+      promote(0x27C2, TEXCLASS.REL, 'mo');
       <?php if(!empty($_GET['highlight'])): ?>
-        const {HTMLDomStrings} = MathJax._.handlers.html.HTMLDomStrings;
-        HTMLDomStrings.OPTIONS.includeHtmlTags['mark'] = '';
-        var handleTag = HTMLDomStrings.prototype.handleTag;
-        HTMLDomStrings.prototype.handleTag = function (node, ignore) {
-          if (this.adaptor.kind(node) === 'mark') {
->>>>>>> a4baa9d5f (https://github.com/mathjax/MathJax/issues/3441#issuecomment-3343002443)
+      const {HTMLDomStrings} = MathJax._.handlers.html.HTMLDomStrings;
+      HTMLDomStrings.OPTIONS.includeHtmlTags['mark'] = '';
+      var handleTag = HTMLDomStrings.prototype.handleTag;
+      HTMLDomStrings.prototype.handleTag = function (node, ignore) {
+        if (this.adaptor.kind(node) === 'mark') {
           const text = this.adaptor.textContent(node);
           this.snodes.push([node, text.length]);
           this.string += text;
@@ -18,7 +27,6 @@
         return handleTag.call(this, node, ignore);
       }
       <?php endif; ?>
-      const { TEXCLASS } = MathJax._.core.MmlTree.MmlNode;
       const Macro = MathJax._.input.tex.Token.Macro;
       const {MakeBig} = MathJax._.input.tex.base.BaseMethods.default;
       MathJax._.input.tex.MapHandler.MapHandler.getMap('macros').map.set('big',new Macro('big', MakeBig, [TEXCLASS.ORD, .84]));
