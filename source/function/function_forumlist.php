@@ -45,7 +45,7 @@ function forum(&$forum) {
 
 	$forum['lastpost'] =count($forum['lastpost']) != 4 ? $lastpost : $forum['lastpost'];
 
-	list($lastpost['tid'], $lastpost['subject'], $lastpost['dateline'], $lastpost['author']) = $forum['lastpost'];
+       list($lastpost['tid'], $lastpost['dateline'], $lastpost['author'], $lastpost['subject']) = $forum['lastpost'];
 	$thisforumlastvisit = array();
 	if(!empty($_G['cookie']['forum_lastvisit'])) {
 		preg_match("/D\_".$forum['fid']."\_(\d+)/", $_G['cookie']['forum_lastvisit'], $thisforumlastvisit);

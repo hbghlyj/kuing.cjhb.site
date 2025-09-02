@@ -76,8 +76,8 @@ class magic_anonymouspost {
 			}
 			C::t('forum_post')->update_post('tid:'.$post['tid'], $id, array('anonymous' => 1));
 			$query = C::t('forum_forum')->fetch($post['fid']);
-			$forum['lastpost'] = explode("\t", $query['lastpost']);
-			if($post['dateline'] == $forum['lastpost'][2] && ($post['author'] == $forum['lastpost'][3] || ($forum['lastpost'][3] == '' && $post['anonymous']))) {
+                       $forum['lastpost'] = explode("\t", $query['lastpost']);
+                       if($post['dateline'] == $forum['lastpost'][1] && ($post['author'] == $forum['lastpost'][2] || ($forum['lastpost'][2] == '' && $post['anonymous']))) {
 				C::t('forum_forum')->update_lastpost($post['fid'], $thread['tid'], $thread['subject'], $_G['timestamp'], $lastposter, array('propagate_parent' => false));
 			}
 			C::t('forum_thread')->update($post['tid'], array('author' => $author, 'lastposter' => $lastposter));

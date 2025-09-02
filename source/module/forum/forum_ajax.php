@@ -350,10 +350,10 @@ if($_GET['action'] == 'checkusername') {
 			unset($lastpost_str);
 		}
 		include template('common/header_ajax');
-		echo $lastpost['2'] > $time ? 1 : 0 ;
-		include template('common/footer_ajax');
-		exit;
-	} else {
+               echo $lastpost['1'] > $time ? 1 : 0 ;
+               include template('common/footer_ajax');
+               exit;
+       } else {
 		$_G['forum_colorarray'] = array('', '#EE1B2E', '#EE5023', '#996600', '#3C9D40', '#2897C5', '#2B65B7', '#8F2A90', '#EC1282');
 		$query = C::t('forum_forumfield')->fetch($fid);
 		$forum_field['threadtypes'] = dunserialize($query['threadtypes']);

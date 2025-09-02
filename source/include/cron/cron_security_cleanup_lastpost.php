@@ -34,9 +34,9 @@ foreach($queryf as $forum) {
                 if($parent) {
                         $parent_lastpost = 0;
                         if(!empty($parent['lastpost'])) {
-                                $tmp = explode("\t", $parent['lastpost']);
-                                $parent_lastpost = intval($tmp[2]);
-                        }
+                               $tmp = explode("\t", $parent['lastpost']);
+                               $parent_lastpost = intval($tmp[1]);
+                       }
                         if($thread['lastpost'] > $parent_lastpost) {
                                 C::t('forum_forum')->update($forum['fup'], array('lastpost' => $lastpost));
                         }

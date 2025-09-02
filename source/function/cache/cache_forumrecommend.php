@@ -23,7 +23,7 @@ function build_cache_forumrecommend() {
 			$lastpost = array(0, 0, '', '');
 			$group['lastpost'] = is_string($group['lastpost']) ? explode("\t", $group['lastpost']) : $group['lastpost'];
 			$group['lastpost'] =count($group['lastpost']) != 4 ? $lastpost : $group['lastpost'];
-			list($lastpost['tid'], $lastpost['subject'], $lastpost['dateline'], $lastpost['author']) = $group['lastpost'];
+                       list($lastpost['tid'], $lastpost['dateline'], $lastpost['author'], $lastpost['subject']) = $group['lastpost'];
 			if($lastpost['tid']) {
 				$lastpost['dateline'] = dgmdate($lastpost['dateline'], 'Y-m-d H:i:s');
 				if($lastpost['author']) {
