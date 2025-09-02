@@ -37,5 +37,3 @@ $lang = array
 	'polllist_expirefilter_on' => '屏蔽',
 
 );
-
-?>

@@ -80,5 +80,3 @@ class table_common_tag extends discuz_table
 		return DB::query('DELETE FROM %t WHERE tagid IN (%n)', array($this->_table, $ids));
 	}
 }
-
-?>

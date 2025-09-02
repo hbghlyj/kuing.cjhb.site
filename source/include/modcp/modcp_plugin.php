@@ -14,5 +14,3 @@ if(!defined('IN_DISCUZ') || !defined('IN_MODCP')) {
 $modtpl = $_GET['id'];
 
 include pluginmodule($_GET['id'], 'modcp_'.$op);
-
-?>

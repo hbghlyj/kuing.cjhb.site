@@ -79,6 +79,24 @@ UPDATE `pre_forum_thread` t
   SET t.tags=p.tags;
 ALTER TABLE `pre_forum_post` DROP COLUMN `tags`;
 ```
+### Reordering forum `lastpost` strings
+Older installations stored the `pre_forum_forum.lastpost` field as `tid\tsubject\tdateline\tauthor`.
+The application now expects the subject to appear last so MySQL truncation only affects that field.
+Rewrite existing values with:
+
+```sql
+UPDATE `pre_forum_forum`
+SET `lastpost` = CONCAT_WS('\t',
+    SUBSTRING_INDEX(`lastpost`, '\t', 1),
+    SUBSTRING_INDEX(SUBSTRING_INDEX(`lastpost`, '\t', 3), '\t', -1),
+    SUBSTRING_INDEX(`lastpost`, '\t', -1),
+    SUBSTRING_INDEX(SUBSTRING_INDEX(`lastpost`, '\t', 2), '\t', -1)
+)
+WHERE `lastpost` <> '';
+```
+
+This converts the stored value to the new `tid\tdateline\tauthor\tsubject` layout for existing forums.
+
 ### Dropping deprecated `allowbegincode` column
 If your database still has the legacy `[begin]` permission field, remove it:
 

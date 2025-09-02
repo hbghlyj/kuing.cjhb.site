@@ -28,5 +28,3 @@ if($_G['setting']['regverify'] == 2 && $_G['groupid'] == 8 && submitcheck('verif
 	}
 
 }
-
-?>

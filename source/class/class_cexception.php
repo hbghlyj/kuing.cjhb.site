@@ -14,4 +14,3 @@ if(!defined('IN_DISCUZ')) {
 class CException extends Exception{
 
 }
-?>

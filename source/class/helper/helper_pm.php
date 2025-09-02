@@ -44,5 +44,3 @@ class helper_pm {
 		return $return;
 	}
 }
-
-?>

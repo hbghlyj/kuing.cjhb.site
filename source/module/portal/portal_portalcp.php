@@ -47,4 +47,3 @@ $navtitle = lang('core', 'title_'.$ac.'_management').' - '.lang('core', 'title_p
 
 require_once libfile('function/portalcp');
 require_once libfile('portalcp/'.$ac, 'include');
-?>

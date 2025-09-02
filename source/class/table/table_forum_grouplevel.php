@@ -30,5 +30,3 @@ class table_forum_grouplevel extends discuz_table
 		return DB::fetch_first("SELECT * FROM %t WHERE creditshigher<=%d AND %d<creditslower LIMIT 1", array($this->_table, $credits, $credits));
 	}
 }
-
-?>

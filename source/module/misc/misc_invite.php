@@ -167,4 +167,3 @@ if($_GET['action'] == 'group') {
 }
 
 include template('common/invite');
-?>

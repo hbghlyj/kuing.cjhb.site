@@ -39,5 +39,3 @@ class optimizer_security_daily {
 		dheader('Location: '.$_G['siteurl'].$adminfile.'?action=misc&operation=cron');
 	}
 }
-
-?>

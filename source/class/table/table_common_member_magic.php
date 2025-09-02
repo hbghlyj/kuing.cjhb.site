@@ -158,5 +158,3 @@ class table_common_member_magic extends discuz_table
 	}
 
 }
-
-?>

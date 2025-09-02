@@ -50,5 +50,3 @@ if ($op == 'edit') {
 }
 
 include_once template("home/spacecp_class");
-
-?>

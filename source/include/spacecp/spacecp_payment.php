@@ -25,6 +25,3 @@ if(!$_G['setting']['ec_ratio'] || !$is_enable_pay) {
 }
 
 include_once libfile('spacecp/payment_' . $operation, 'include');
-
-
-?>

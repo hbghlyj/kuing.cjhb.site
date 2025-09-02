@@ -52,5 +52,3 @@ class domainmodel {
 		return $this->db->affected_rows();
 	}
 }
-
-?>

@@ -50,5 +50,3 @@ function build_cache_globalstick() {
 
 	savecache('globalstick', $data);
 }
-
-?>

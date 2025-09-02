@@ -24,5 +24,3 @@ $lang = array
 	'articlelist_category' => '投放频道分类',
 	'articlelist_category_comment' => '设置广告投放的频道分类',
 );
-
-?>

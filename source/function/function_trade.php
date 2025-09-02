@@ -119,5 +119,3 @@ function trade_create($trade) {
 		'costcredit'=>$item_costcredit
 	));
 }
-
-?>

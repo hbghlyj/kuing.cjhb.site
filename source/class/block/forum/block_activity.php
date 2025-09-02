@@ -356,6 +356,3 @@ class block_activity extends discuz_block {
 		return array('html' => '', 'data' => $datalist);
 	}
 }
-
-
-?>

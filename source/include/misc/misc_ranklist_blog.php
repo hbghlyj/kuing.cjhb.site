@@ -57,5 +57,3 @@ $lastupdate = $_G['lastupdate'];
 $nextupdate = $_G['nextupdate'];
 
 include template('diy:ranklist/blog');
-
-?>

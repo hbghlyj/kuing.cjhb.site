@@ -137,5 +137,3 @@ C::t('forum_thread')->update($_G['tid'], array('tags' => $newtagstr));
 	);
 
 }
-
-?>

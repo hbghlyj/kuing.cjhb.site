@@ -108,5 +108,3 @@ if(submitcheck('paysubmit')) {
 
 	include template('home/spacecp_payment_pay');
 }
-
-?>

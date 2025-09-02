@@ -101,5 +101,3 @@ class feedcontrol extends base {
 	}
 
 }
-
-?>

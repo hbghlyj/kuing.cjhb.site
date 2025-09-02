@@ -43,5 +43,3 @@ class block_topicspecified extends block_topic {
 		return lang('blockclass', 'blockclass_topic_script_topicspecified');
 	}
 }
-
-?>

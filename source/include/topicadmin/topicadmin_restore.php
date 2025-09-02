@@ -43,5 +43,3 @@ if(!submitcheck('modsubmit')) {
 		'modlog'	=> $thread
 	);
 }
-
-?>

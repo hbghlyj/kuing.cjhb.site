@@ -79,5 +79,3 @@ class table_common_credit_rule_log extends discuz_table
 		return $this->_rids;
 	}
 }
-
-?>

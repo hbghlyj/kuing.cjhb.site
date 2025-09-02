@@ -38,5 +38,3 @@ class block_groupspecified extends block_group {
 		return lang('blockclass', 'blockclass_group_script_groupspecified');
 	}
 }
-
-?>

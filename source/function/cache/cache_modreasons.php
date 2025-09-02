@@ -19,5 +19,3 @@ function build_cache_modreasons() {
 		savecache($key, $data);
 	}
 }
-
-?>

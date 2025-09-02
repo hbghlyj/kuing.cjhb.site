@@ -43,5 +43,3 @@ class block_picspecified extends block_pic {
 		return lang('blockclass', 'blockclass_pic_script_picspecified');
 	}
 }
-
-?>

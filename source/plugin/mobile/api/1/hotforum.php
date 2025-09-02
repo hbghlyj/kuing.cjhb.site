@@ -25,7 +25,7 @@ class mobile_api {
 				if($row['redirect']) {
 					continue;
 				}
-				list($row['lastpost_tid'], $row['lastpost_subject'], $row['lastpost'], $row['lastposter']) = explode("\t", $row['lastpost']);
+				list($row['lastpost_tid'], $row['lastpost'], $row['lastposter'], $row['lastpost_subject']) = explode("\t", $row['lastpost']);
 				$row['lastpost'] = dgmdate($row['lastpost']);
 				$data[] = mobile_core::getvalues($row, array('fid', 'name', 'threads', 'posts', 'lastpost', 'lastposter', 'lastpost_tid', 'lastpost_subject', 'todayposts'));
 			}
@@ -43,5 +43,3 @@ class mobile_api {
 	}
 
 }
-
-?>

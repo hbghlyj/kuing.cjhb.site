@@ -103,5 +103,3 @@ class table_forum_trade extends discuz_table
 				WHERE $wheresql $ordersql ".DB::limit($start, $limit));
 	}
 }
-
-?>

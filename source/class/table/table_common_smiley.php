@@ -70,5 +70,3 @@ class table_common_smiley extends discuz_table {
 		return DB::result_first("SELECT COUNT(*) FROM %t WHERE code<>''", array($this->_table));
 	}
 }
-
-?>

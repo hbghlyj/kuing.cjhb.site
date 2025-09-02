@@ -46,5 +46,3 @@ class block_groupnew extends block_group {
 	}
 
 }
-
-?>

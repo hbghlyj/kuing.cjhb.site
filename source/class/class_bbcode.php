@@ -113,5 +113,3 @@ class bbcode {
 		return "<img src=\"$url\" class=\"vm\">";
 	}
 }
-
-?>

@@ -330,4 +330,3 @@ if (submitcheck('uploadsubmit')) {
 	exit();
 }
 include_once(template('home/spacecp_index'));
-?>

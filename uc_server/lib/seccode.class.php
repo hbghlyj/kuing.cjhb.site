@@ -370,5 +370,3 @@ class seccode {
 	}
 
 }
-
-?>

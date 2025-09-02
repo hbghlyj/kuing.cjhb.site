@@ -79,5 +79,3 @@ class table_forum_collectioncomment extends discuz_table
 		return DB::fetch_all("SELECT * FROM %t WHERE %i ORDER BY dateline DESC %i", array($this->_table, $where, DB::limit($start, $limit)));
 	}
 }
-
-?>

@@ -47,5 +47,3 @@ class table_common_card extends discuz_table
 	}
 
 }
-
-?>

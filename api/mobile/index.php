@@ -17,5 +17,3 @@ if(!empty($_SERVER['QUERY_STRING'])) {
 		require_once 'mobile.php';
 	}
 }
-
-?>

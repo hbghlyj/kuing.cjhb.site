@@ -101,5 +101,3 @@ class adv_subnavbanner {
 	}
 
 }
-
-?>

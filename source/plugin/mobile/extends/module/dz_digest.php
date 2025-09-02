@@ -82,4 +82,3 @@ class dz_digest extends extends_data {
 		}
 	}
 }
-?>

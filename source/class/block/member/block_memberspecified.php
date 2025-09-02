@@ -42,5 +42,3 @@ class block_memberspecified extends block_member {
 		return lang('blockclass', 'blockclass_member_script_memberspecified');
 	}
 }
-
-?>

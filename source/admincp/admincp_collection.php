@@ -259,4 +259,3 @@ function removeNonExistsCollection($collectionrecommend) {
 	return $collectionrecommend;
 }
 /*search*/
-?>

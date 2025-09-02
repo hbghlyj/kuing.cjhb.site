@@ -23,5 +23,3 @@ class mobile_api {
 		mobile_core::result(mobile_core::variable());
 	}
 }
-
-?>

@@ -175,5 +175,3 @@ $navtitle = lang('core', 'title_search_friend');
 
 $actives = array($op=>' class="a"', 'search'=>' class="a"');
 include template('home/spacecp_search');
-
-?>

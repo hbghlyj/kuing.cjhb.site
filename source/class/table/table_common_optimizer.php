@@ -49,4 +49,3 @@ class table_common_optimizer extends discuz_table {
 	}
 
 }
-?>

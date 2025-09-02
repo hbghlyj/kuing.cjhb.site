@@ -44,5 +44,3 @@ if(submitcheck('pwdsubmit')) {
 		showmessage('password_is_not_passed', $itemurl, array('succeed'=>0), array('showmsg'=>1));
 	}
 }
-
-?>

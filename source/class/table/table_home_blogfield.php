@@ -37,5 +37,3 @@ class table_home_blogfield extends discuz_table
 	}
 
 }
-
-?>

@@ -342,5 +342,3 @@ function getmagics() {
 	uasort($magics, 'filemtimesort');
 	return $magics;
 }
-
-?>

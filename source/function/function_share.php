@@ -35,4 +35,3 @@ function mkshare($share) {
 
 	return $share;
 }
-?>

@@ -33,5 +33,3 @@ class table_common_member_medal extends discuz_table
 		return DB::result_first('SELECT COUNT(*) FROM %t WHERE uid=%d AND medalid=%d', array($this->_table, $uid, $medalid));
 	}
 }
-
-?>

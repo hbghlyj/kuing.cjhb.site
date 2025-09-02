@@ -33,5 +33,3 @@ class optimizer_thread {
 		dheader('Location: '.$_G['siteurl'].$adminfile.'?action=threadsplit&operation=manage');
 	}
 }
-
-?>

@@ -722,4 +722,3 @@ function get_expiration($tid, $action) {
 	$row = C::t('forum_threadmod')->fetch_by_tid_action_status($tid, $action);
 	return $row['expiration'] ? date('Y-m-d H:i', $row['expiration']) : '';
 }
-?>

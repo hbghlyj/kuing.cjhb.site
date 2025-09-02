@@ -115,4 +115,3 @@ class dz_newthread extends extends_data {
 	}
 
 }
-?>

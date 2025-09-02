@@ -63,5 +63,3 @@ class table_common_magic extends discuz_table
 	}
 
 }
-
-?>

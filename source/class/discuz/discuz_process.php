@@ -105,5 +105,3 @@ class discuz_process
 		return $ret;
 	}
 }
-
-?>

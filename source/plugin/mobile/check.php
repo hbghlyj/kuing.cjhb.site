@@ -10,5 +10,3 @@
 @include '../../../data/sysdata/cache_mobile.php';
 
 echo $mobilecheck;
-
-?>

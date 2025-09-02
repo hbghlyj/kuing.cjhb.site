@@ -16,5 +16,3 @@ function build_cache_admingroups() {
 		savecache('admingroup_'.$data['admingid'], $data);
 	}
 }
-
-?>

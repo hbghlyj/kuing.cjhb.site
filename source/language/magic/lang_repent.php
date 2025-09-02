@@ -23,5 +23,3 @@ $lang = array
 	'repent_info_user_noperm' => '对不起，您只能删除自己的帖子',
 	'repent_do_not_rushreply' => '不能在抢楼帖中使用此道具',
 );
-
-?>

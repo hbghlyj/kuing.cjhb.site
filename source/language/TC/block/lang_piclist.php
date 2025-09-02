@@ -35,5 +35,3 @@ $lang = array
 	'piclist_orderby_dateline' => '按發佈時間倒序',
 	'piclist_orderby_hot' => '按熱度倒序'
 );
-
-?>

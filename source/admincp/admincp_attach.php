@@ -190,5 +190,3 @@ EOT;
 
 	echo "<script type=\"text/JavaScript\">alert('$cpmsg');parent.\$('attachmentforum').searchsubmit.click();</script>";
 }
-
-?>

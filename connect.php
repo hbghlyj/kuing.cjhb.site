@@ -34,4 +34,3 @@ define('CURMODULE', $mod);
 runhooks();
 
 require_once libfile('connect/'.$mod, 'plugin/googleconnect');
-?>

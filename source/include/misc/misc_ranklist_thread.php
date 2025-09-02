@@ -35,5 +35,3 @@ $metakeywords = lang('ranklist/navtitle', 'ranklist_title_thread_'.$gettype);
 $metadescription = lang('ranklist/navtitle', 'ranklist_title_thread_'.$gettype);
 
 include template('diy:ranklist/thread');
-
-?>

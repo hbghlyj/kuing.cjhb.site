@@ -373,5 +373,3 @@ if(!empty($orderid)) {
 	}
 
 }
-
-?>

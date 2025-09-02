@@ -98,5 +98,3 @@ $lang = array
 	'activitylist_orderby_alltimehot' => '按所有未结束活动已参加人数排序',
 	'activitylist_highlight' => '获得高亮值',
 );
-
-?>

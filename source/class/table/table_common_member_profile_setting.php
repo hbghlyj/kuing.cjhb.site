@@ -60,5 +60,3 @@ class table_common_member_profile_setting extends discuz_table
 		DB::update($this->_table, array('showinthread' => 0));
 	}
 }
-
-?>

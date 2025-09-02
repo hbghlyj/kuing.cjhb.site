@@ -23,5 +23,3 @@ function build_cache_grouplevels() {
 
 	savecache('grouplevels', $data);
 }
-
-?>

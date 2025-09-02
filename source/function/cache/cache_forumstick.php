@@ -28,5 +28,3 @@ function build_cache_forumstick() {
 
 	savecache('forumstick', $data);
 }
-
-?>

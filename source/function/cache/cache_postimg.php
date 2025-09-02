@@ -36,5 +36,3 @@ function build_cache_postimg() {
 		exit('Can not write to cache files, please check directory ./data/ and ./data/cache/ .');
 	}
 }
-
-?>

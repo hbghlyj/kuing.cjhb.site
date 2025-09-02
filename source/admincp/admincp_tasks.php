@@ -740,5 +740,3 @@ function gettasks() {
 	uasort($tasks, 'filemtimesort');
 	return $tasks;
 }
-
-?>

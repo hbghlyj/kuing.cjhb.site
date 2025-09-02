@@ -26,5 +26,3 @@ class table_forum_postcache extends discuz_table
 		return DB::delete($this->_table, DB::field('dateline', $dateline, '<'));
 	}
 }
-
-?>

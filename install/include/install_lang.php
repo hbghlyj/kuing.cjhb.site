@@ -384,5 +384,3 @@ $lang = array(
 $msglang = array(
 	'config_nonexistence' => '您的 config.inc.php 不存在, 无法继续安装, 请用 FTP 将该文件上传后再试。',
 );
-
-?>

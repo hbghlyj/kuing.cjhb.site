@@ -61,5 +61,3 @@ foreach(C::t('forum_post')->fetch_all_debatepost_by_tid_stand($_G['tid'], 2, 0, 
 if($_G['setting']['fastpost'] && $allowpostreply && $_G['forum_thread']['closed'] == 0) {
 	$firststand = C::t('forum_debatepost')->get_firststand($_G['tid'], $_G['uid']);
 }
-
-?>

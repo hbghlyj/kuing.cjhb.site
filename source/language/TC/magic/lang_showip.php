@@ -22,5 +22,3 @@ $lang = array
 
 	'showip_notification' => '您被人使用了{magicname}',
 );
-
-?>

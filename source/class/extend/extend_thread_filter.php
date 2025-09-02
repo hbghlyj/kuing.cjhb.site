@@ -93,5 +93,3 @@ class extend_thread_filter extends extend_thread_base {
 		}
 	}
 }
-
-?>

@@ -33,5 +33,3 @@ if(empty($space['avatarstatus']) && uc_check_avatar($_G['uid'], 'middle')) {
 $reload = intval($_GET['reload']);
 $actives = array('avatar' =>' class="a"');
 include template("home/spacecp_avatar");
-
-?>

@@ -28,4 +28,3 @@ class table_forum_threadpreview extends discuz_table
 		return DB::delete($this->_table, DB::field('tid', $tids));
 	}
 }
-?>

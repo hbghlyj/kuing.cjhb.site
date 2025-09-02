@@ -155,5 +155,3 @@ class task_post {
 	}
 
 }
-
-?>

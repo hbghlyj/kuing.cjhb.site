@@ -362,4 +362,3 @@ function update_usergroups($uids) {
 	}
 	return $usergroups;
 }
-?>

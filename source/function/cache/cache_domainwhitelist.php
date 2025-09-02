@@ -17,5 +17,3 @@ function build_cache_domainwhitelist() {
 	$data = $data ? explode("\r\n", $data) : array();
 	savecache('domainwhitelist', $data);
 }
-
-?>

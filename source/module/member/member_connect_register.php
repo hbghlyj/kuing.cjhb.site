@@ -129,5 +129,3 @@ function connect_filter_username($username) {
 	$username = str_replace(' ', '_', trim($username));
 	return cutstr($username, 15, '');
 }
-
-?>

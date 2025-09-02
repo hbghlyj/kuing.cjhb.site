@@ -426,5 +426,3 @@ function tdtag($attributes) {
 	@extract($value);
 	return $width == '' ? ($colspan == 1 && $rowspan == 1 ? '[td]' : "[td=$colspan,$rowspan]") : "[td=$colspan,$rowspan,$width]";
 }
-
-?>

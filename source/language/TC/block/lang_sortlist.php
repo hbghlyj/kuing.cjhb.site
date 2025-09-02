@@ -78,5 +78,3 @@ $lang = array
 	'sortlist_lastpost_month' => '一月內',
 	'sortlist_orderby_hours_comment' => '指定時間內瀏覽次數倒序排序的時間值',
 );
-
-?>

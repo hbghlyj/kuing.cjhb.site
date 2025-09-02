@@ -134,5 +134,3 @@ function getthreadsbytids($tidarray) {
 	}
 	return $threadlist;
 }
-
-?>

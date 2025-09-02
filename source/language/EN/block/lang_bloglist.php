@@ -39,5 +39,3 @@ $lang = array
 	'bloglist_orderby_replynum' => '按回复数倒序',
 	'bloglist_orderby_hot' => '按热度倒序'
 );
-
-?>

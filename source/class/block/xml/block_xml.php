@@ -83,5 +83,3 @@ class block_xml extends discuz_block {
 	}
 
 }
-
-?>

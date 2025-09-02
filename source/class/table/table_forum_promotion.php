@@ -38,5 +38,3 @@ class table_forum_promotion extends discuz_table
 	}
 
 }
-
-?>

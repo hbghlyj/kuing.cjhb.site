@@ -23,5 +23,3 @@ class table_common_member_field_forum extends discuz_table_archive
 	}
 
 }
-
-?>

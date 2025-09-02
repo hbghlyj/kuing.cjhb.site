@@ -96,5 +96,3 @@ class table_common_member_profile extends discuz_table_archive
 		return $birthlist;
 	}
 }
-
-?>

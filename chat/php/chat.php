@@ -68,4 +68,3 @@ if ($result['status'] == 200) {
 }
 header('HTTP/1.1 ' . $result['status']);
 echo $result['body'];
-?>

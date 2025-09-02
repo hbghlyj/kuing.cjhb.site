@@ -48,5 +48,3 @@ class table_common_style extends discuz_table
 	}
 
 }
-
-?>

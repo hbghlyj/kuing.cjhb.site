@@ -108,5 +108,3 @@ class table_home_pic extends discuz_table
 		return DB::update($this->_table, array('dateline' => intval($dateline)), array($idtype => intval($id), 'uid' => intval($uid)));
 	}
 }
-
-?>

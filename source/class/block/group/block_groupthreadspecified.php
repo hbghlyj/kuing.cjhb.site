@@ -72,5 +72,3 @@ class block_groupthreadspecified extends block_groupthread {
 		return lang('blockclass', 'blockclass_groupthread_script_groupthreadspecified');
 	}
 }
-
-?>

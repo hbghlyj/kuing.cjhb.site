@@ -48,5 +48,3 @@ class table_common_member_forum_buylog extends discuz_table
 		DB::delete($this->_table, DB::field('fid', $fids));
 	}
 }
-
-?>

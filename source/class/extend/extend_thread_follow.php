@@ -88,5 +88,3 @@ class extend_thread_follow extends extend_thread_base {
 		}
 	}
 }
-
-?>

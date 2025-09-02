@@ -266,5 +266,3 @@ Class discuz_upload{
 		return $res;
 	}
 }
-
-?>

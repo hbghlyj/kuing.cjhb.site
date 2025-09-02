@@ -109,5 +109,3 @@ $lang = array
 	'groupthread_gviewperm_all_member' => '所有人',
 	'groupthread_highlight' => '获得高亮值',
 );
-
-?>

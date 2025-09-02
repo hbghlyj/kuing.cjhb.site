@@ -103,4 +103,3 @@ if($uid && $id && $sign === make_getpws_sign($uid, $id)) {
 } else {
 	showmessage('parameters_error');
 }
-?>

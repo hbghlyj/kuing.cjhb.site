@@ -322,5 +322,3 @@ $lang = array
 	'mobileoem_creditrule' => '掌上论坛签到',
 
 );
-
-?>

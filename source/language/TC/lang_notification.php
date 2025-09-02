@@ -226,5 +226,3 @@ $lang = array
 	'thread_hidden' => '您的主題 <a href="forum.php?mod=viewthread&tid={tid}">{subject}</a> 被多個用戶認定為垃圾帖，現已被隱藏 &nbsp; <a href="forum.php?mod=viewthread&tid={tid}" class="lit">查看 &rsaquo;</a>',
 
 );
-
-?>

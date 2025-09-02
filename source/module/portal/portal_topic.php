@@ -82,4 +82,3 @@ function portaltopicgetcomment($topcid, $limit = 20, $start = 0) {
 	}
 	return $data;
 }
-?>

@@ -22,5 +22,3 @@ $lang = array
 	'portalcategory_orderby_displayorder' => '按默认顺序排序',
 	'portalcategory_orderby_articles' => '按文章数倒序',
 );
-
-?>

@@ -52,5 +52,3 @@ if(!empty($_POST)) {
 		showmessage('qqconnect:connect_get_access_token_failed', dreferer());
 	}
 }
-
-?>

@@ -23,5 +23,3 @@ $lang = array
 	'subnavbanner_category' => '投放門戶頻道',
 	'subnavbanner_category_comment' => '設置廣告投放的頻道分類，當廣告投放範圍中包含「門戶」時有效',
 );
-
-?>

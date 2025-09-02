@@ -1400,6 +1400,3 @@ function deletegroupcache($groupidarray) {
 		}
 	}
 }
-
-
-?>

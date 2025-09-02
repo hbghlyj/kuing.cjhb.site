@@ -47,5 +47,3 @@ class table_home_album_category extends discuz_table
 	}
 
 }
-
-?>

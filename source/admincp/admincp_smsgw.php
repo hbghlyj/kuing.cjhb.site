@@ -335,5 +335,3 @@ function getsmsgws() {
 	uasort($smsgws, 'filemtimesort');
 	return $smsgws;
 }
-
-?>

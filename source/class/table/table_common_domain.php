@@ -52,5 +52,3 @@ class table_common_domain extends discuz_table
 	}
 
 }
-
-?>

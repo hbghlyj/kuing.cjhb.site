@@ -696,5 +696,3 @@ $lang = array (
   'payment_error_50004' => '更新订单失败',
 
 );
-
-?>

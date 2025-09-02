@@ -928,5 +928,3 @@ if($operation == 'alipay') {
 		cpmsg('orders_validate_succeed', "action=ec&operation=inviteorders&orderstatus={$_GET['orderstatus']}&orderid={$_GET['orderid']}&email={$_GET['email']}", 'succeed');
 	}
 }
-
-?>

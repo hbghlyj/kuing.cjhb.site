@@ -45,5 +45,3 @@ define('CURMODULE', $identifier);
 runhooks();
 
 include DISCUZ_ROOT.$modfile;
-
-?>

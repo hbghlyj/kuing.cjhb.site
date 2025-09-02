@@ -36,5 +36,3 @@ class table_home_class extends discuz_table
 		return DB::delete($this->_table, DB::field('uid', $uids));
 	}
 }
-
-?>

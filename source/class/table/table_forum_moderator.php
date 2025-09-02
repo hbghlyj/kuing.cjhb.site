@@ -102,5 +102,3 @@ class table_forum_moderator extends discuz_table
 		return DB::delete($this->_table, DB::field('uid', $uid).' AND '.DB::field('fid', $fid).' AND '.DB::field('inherited', 1));
 	}
 }
-
-?>

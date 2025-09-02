@@ -166,5 +166,3 @@ class magic_visit {
 	}
 
 }
-
-?>

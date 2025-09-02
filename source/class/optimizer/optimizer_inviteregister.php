@@ -37,5 +37,3 @@ class optimizer_inviteregister {
 		dheader('Location: '.$_G['siteurl'].$adminfile.'?action=setting&operation=access');
 	}
 }
-
-?>

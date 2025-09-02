@@ -377,5 +377,3 @@ if(in_array($do, array('buy', 'exit'))) {
 }
 
 include_once template("home/spacecp_usergroup");
-
-?>

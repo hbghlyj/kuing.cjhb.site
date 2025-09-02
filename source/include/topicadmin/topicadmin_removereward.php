@@ -42,5 +42,3 @@ if(!submitcheck('modsubmit')) {
 	'modtids'	=> $thread['tid']
 	);
 }
-
-?>

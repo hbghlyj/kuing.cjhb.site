@@ -329,10 +329,7 @@ class table_forum_forum extends discuz_table
 	public function build_lastpost_string($tid, $subject, $dateline, $author) {
 		$subject = str_replace("\t", ' ', $subject);
 		$author = str_replace("\t", ' ', $author);
-		if(function_exists('cutstr')) {
-			$subject = cutstr($subject, 80);
-		}
-		return $tid."\t".$subject."\t".$dateline."\t".$author;
+		return $tid."\t".$dateline."\t".$author."\t".$subject;
 	}
 
 	/**
@@ -389,5 +386,3 @@ class table_forum_forum extends discuz_table
 		return $return;
 	}
 }
-
-?>

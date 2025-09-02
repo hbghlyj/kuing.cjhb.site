@@ -28,5 +28,3 @@ $lang = array
 	'forumlist_orderby_todayposts' => '按今日發帖數倒序排序',
 	'forumlist_orderby_posts' => '按帖子數倒序排序',
 );
-
-?>

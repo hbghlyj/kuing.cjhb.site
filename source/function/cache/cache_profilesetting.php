@@ -16,5 +16,3 @@ function build_cache_profilesetting() {
 
 	savecache('profilesetting', $data);
 }
-
-?>

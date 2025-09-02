@@ -151,4 +151,3 @@ class discuz_container extends discuz_base
 	}
 
 }
-?>

@@ -32,5 +32,3 @@ class optimizer_attachrefcheck {
 		dheader('Location: '.$_G['siteurl'].$adminfile.'?action=setting&operation=attach');
 	}
 }
-
-?>

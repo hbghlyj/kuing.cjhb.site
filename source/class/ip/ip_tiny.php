@@ -80,4 +80,3 @@ class ip_tiny {
 	}
 
 }
-?>

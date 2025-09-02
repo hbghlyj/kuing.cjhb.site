@@ -245,5 +245,3 @@ function dshowmessage($message, $url_forward = '', $values = array(), $extrapara
 
 	dexit();
 }
-
-?>

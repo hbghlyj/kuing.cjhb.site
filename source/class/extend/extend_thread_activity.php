@@ -169,5 +169,3 @@ class extend_thread_activity extends extend_thread_base {
 	}
 
 }
-
-?>

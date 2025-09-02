@@ -77,5 +77,3 @@ class table_common_stat extends discuz_table
 		return DB::fetch_all("SELECT * FROM %t $wheresql ORDER BY daytime $sort".DB::limit($start, $limit), $parameter);
 	}
 }
-
-?>

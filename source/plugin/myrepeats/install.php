@@ -30,5 +30,3 @@ EOF;
 runquery($sql);
 
 $finish = TRUE;
-
-?>

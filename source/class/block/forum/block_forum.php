@@ -169,5 +169,3 @@ class block_forum extends discuz_block {
 		return array('html' => '', 'data' => $list);
 	}
 }
-
-?>
