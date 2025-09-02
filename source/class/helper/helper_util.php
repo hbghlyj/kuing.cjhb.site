@@ -120,5 +120,3 @@ class helper_util {
 	}
 
 }
-
-?>

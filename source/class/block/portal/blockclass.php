@@ -14,6 +14,3 @@ if(!defined('IN_DISCUZ')) {
 $blockclass = array(
 	'name' => lang('blockclass', 'blockclass_portal'),
 );
-
-
-?>

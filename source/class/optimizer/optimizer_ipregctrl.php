@@ -32,5 +32,3 @@ class optimizer_ipregctrl {
 		dheader('Location: '.$_G['siteurl'].$adminfile.'?action=setting&operation=access');
 	}
 }
-
-?>

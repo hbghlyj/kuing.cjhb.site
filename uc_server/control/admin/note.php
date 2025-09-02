@@ -110,5 +110,3 @@ class control extends adminbase {
 	}
 
 }
-
-?>

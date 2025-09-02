@@ -33,5 +33,3 @@ class optimizer_attachexpire {
 		dheader('Location: '.$_G['siteurl'].$adminfile.'?action=setting&operation=attach');
 	}
 }
-
-?>

@@ -51,5 +51,3 @@ class block_pichot extends block_pic {
 		return parent::cookparameter($parameter);
 	}
 }
-
-?>

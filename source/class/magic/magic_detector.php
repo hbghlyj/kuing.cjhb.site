@@ -86,5 +86,3 @@ class magic_detector {
 		magicshowtips(lang('magic/detector', 'detector_info', array('num'=>$num)));
 	}
 }
-
-?>

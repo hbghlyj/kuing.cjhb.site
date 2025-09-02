@@ -62,5 +62,3 @@ class table_home_visitor extends discuz_table
 
 
 }
-
-?>

@@ -68,5 +68,3 @@ class table_common_advertisement extends discuz_table
 	}
 
 }
-
-?>

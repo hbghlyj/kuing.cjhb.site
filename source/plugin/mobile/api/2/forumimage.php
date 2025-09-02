@@ -76,4 +76,3 @@ class mobile_api {
 		exit;
 	}
 }
-?>

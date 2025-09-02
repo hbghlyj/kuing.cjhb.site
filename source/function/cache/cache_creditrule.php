@@ -21,5 +21,3 @@ function build_cache_creditrule() {
 
 	savecache('creditrule', $data);
 }
-
-?>

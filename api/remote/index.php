@@ -138,5 +138,3 @@ class remote_service {
 	}
 
 }
-
-?>

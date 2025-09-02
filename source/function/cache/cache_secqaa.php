@@ -31,5 +31,3 @@ function build_cache_secqaa() {
 	}
 	savecache('secqaa', $data);
 }
-
-?>

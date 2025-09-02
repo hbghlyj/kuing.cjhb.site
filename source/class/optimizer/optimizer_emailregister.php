@@ -37,5 +37,3 @@ class optimizer_emailregister {
 		dheader('Location: '.$_G['siteurl'].$adminfile.$url);
 	}
 }
-
-?>

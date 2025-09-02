@@ -173,5 +173,3 @@ class table_forum_groupuser extends discuz_table
 		return DB::fetch_all("SELECT fid, level FROM ".DB::table('forum_groupuser')." WHERE uid='$uid' $levelsql ORDER BY lastupdate DESC ".DB::limit($start, $num));
 	}
 }
-
-?>

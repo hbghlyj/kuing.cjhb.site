@@ -98,5 +98,3 @@ class helper_mobile {
 	}
 
 }
-
-?>

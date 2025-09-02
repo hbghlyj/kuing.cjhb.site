@@ -571,6 +571,3 @@ class block_thread extends discuz_block {
 		return $data['thread']['id'];
 	}
 }
-
-
-?>

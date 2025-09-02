@@ -39,5 +39,3 @@ class optimizer_dos8p3 {
 		cpmsg('optimizer_dos8p3_optimizer', '', 'error');
 	}
 }
-
-?>

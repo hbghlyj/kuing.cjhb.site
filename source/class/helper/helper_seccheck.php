@@ -348,5 +348,3 @@ class helper_seccheck {
 	}
 
 }
-
-?>

@@ -130,5 +130,3 @@ if(submitcheck('commentsubmit', 0, $seccodecheck, $secqaacheck)) {
 }
 
 include_once template("portal/portalcp_comment");
-
-?>

@@ -136,5 +136,3 @@ class helper_form {
 		}
 	}
 }
-
-?>

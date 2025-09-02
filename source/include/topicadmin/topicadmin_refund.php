@@ -66,5 +66,3 @@ if(!submitcheck('modsubmit')) {
 	);
 
 }
-
-?>

@@ -41,5 +41,3 @@ class table_common_secquestion extends discuz_table
 	}
 
 }
-
-?>

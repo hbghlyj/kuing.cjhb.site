@@ -17,4 +17,3 @@ $lang = array
 	'vedio_width' => '視頻寬度',
 	'vedio_height' => '視頻高度',
 );
-?>

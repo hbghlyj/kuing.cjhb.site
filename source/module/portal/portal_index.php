@@ -30,4 +30,3 @@ if(isset($_G['makehtml'])){
 }
 
 include_once template('diy:portal/index');
-?>

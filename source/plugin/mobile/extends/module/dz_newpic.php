@@ -126,4 +126,3 @@ class dz_newpic extends extends_data {
 		}
 	}
 }
-?>

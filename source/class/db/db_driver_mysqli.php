@@ -246,5 +246,3 @@ class db_driver_mysqli
 	}
 
 }
-
-?>

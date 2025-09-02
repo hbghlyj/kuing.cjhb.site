@@ -57,5 +57,3 @@ class block_tradehot extends block_trade {
 		return lang('blockclass', 'blockclass_trade_script_tradehot');
 	}
 }
-
-?>

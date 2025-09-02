@@ -67,5 +67,3 @@ class block_adv extends commonblock_html {
 		return array('html' => $return, 'data' => null);
 	}
 }
-
-?>

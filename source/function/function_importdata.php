@@ -203,4 +203,3 @@ function create_sign_url($para, $key = '', $signtype = ''){
 	}
 	return $url;
 }
-?>

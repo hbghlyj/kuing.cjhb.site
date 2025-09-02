@@ -144,5 +144,3 @@ $actives = array('privacy' =>' class="a"');
 $opactives = array($operation =>' class="a"');
 
 include template('home/spacecp_privacy');
-
-?>

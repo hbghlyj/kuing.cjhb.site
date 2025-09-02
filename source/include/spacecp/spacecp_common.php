@@ -53,5 +53,3 @@ if($op == 'ignore') {
 }
 
 include template('home/spacecp_common');
-
-?>

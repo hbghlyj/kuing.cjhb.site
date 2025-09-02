@@ -170,5 +170,3 @@ class discuz_session_close {
 		return $updated;
 	}
 }
-
-?>

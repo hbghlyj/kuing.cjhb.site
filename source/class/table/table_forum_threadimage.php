@@ -51,5 +51,3 @@ class table_forum_threadimage extends discuz_table
 		return DB::fetch_all('SELECT i.* FROM %t i LEFT JOIN %t t ON i.tid = t.tid WHERE 1 %i ORDER BY i.tid DESC '.DB::limit($start, $limit), array($this->_table, 'forum_thread', $tidsql), 'tid');
 	}
 }
-
-?>

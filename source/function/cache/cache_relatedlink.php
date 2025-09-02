@@ -24,5 +24,3 @@ function build_cache_relatedlink() {
 	}
 	savecache('relatedlink', $data);
 }
-
-?>

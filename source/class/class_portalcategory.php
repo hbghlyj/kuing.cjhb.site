@@ -145,4 +145,3 @@ class portal_category {
 		return $catids;
 	}
 }
-?>

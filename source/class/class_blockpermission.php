@@ -266,5 +266,3 @@ class template_permission {
 	}
 
 }
-
-?>

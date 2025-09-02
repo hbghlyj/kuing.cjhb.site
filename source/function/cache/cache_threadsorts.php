@@ -98,5 +98,3 @@ function build_cache_threadsorts() {
 	}
 
 }
-
-?>

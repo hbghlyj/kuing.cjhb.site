@@ -32,7 +32,3 @@ if($sqlarr) {
 	unset($_member_profile);
 }
 threadsort_optiondata($pid, $sortid, $_G['cache']['threadsort_option_'.$sortid], $_G['cache']['threadsort_template_'.$sortid]);
-
-
-
-?>

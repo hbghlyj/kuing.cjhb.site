@@ -323,4 +323,3 @@ function checkvalue($value, $creditids) {
 	}
 	return $havevalue;
 }
-?>

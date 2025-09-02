@@ -309,5 +309,3 @@ function dir_clear($dir) {
 		@rmdir($dir);
 	}
 }
-
-?>

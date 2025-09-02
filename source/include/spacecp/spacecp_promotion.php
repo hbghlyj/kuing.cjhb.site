@@ -31,4 +31,3 @@ foreach($_G['setting']['extcredits'] as $key => $credit) {
 }
 
 include_once template("home/spacecp_promotion");
-?>

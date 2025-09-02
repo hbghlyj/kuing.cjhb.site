@@ -81,5 +81,3 @@ class block_threaddigest extends block_thread {
 		return lang('blockclass', 'blockclass_thread_script_threaddigest');
 	}
 }
-
-?>

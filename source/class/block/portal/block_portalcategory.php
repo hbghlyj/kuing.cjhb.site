@@ -141,5 +141,3 @@ class block_portalcategory extends discuz_block {
 		return array('html' => '', 'data' => $list);
 	}
 }
-
-?>

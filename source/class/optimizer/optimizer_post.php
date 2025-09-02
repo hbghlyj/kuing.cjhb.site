@@ -45,5 +45,3 @@ class optimizer_post {
 		dheader('Location: '.$_G['siteurl'].$adminfile.'?action=postsplit');
 	}
 }
-
-?>

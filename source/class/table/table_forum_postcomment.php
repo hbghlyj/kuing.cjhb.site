@@ -181,5 +181,3 @@ class table_forum_postcomment extends discuz_table
 		return '<i class="cmstarv">'.sprintf('%1.1f', $matches[1]).'</i>'.str_repeat('<span class="fico-star fc-l fnmr"></span>',intval($matches[1])).str_repeat('<span class="fico-star fc-s fnmr"></span>',(5-intval($matches[1]))).($this->cic_for_fetch_postcomment_by_pid++ % 2 ? '<br />' : '');
 	}
 }
-
-?>

@@ -243,5 +243,3 @@ class discuz_table extends discuz_base
 		$this->methods[$name][1][] = $fn;
 	}
 }
-
-?>

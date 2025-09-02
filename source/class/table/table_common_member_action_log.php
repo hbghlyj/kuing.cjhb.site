@@ -37,5 +37,3 @@ class table_common_member_action_log extends discuz_table
 		DB::delete($this->_table, 'uid IN ('.dimplode($uids).')');
 	}
 }
-
-?>

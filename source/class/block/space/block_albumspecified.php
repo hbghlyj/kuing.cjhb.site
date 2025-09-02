@@ -42,5 +42,3 @@ class block_albumspecified extends block_album {
 		return lang('blockclass', 'blockclass_album_script_albumspecified');
 	}
 }
-
-?>

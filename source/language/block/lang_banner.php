@@ -23,5 +23,3 @@ $lang = array
 	'banner_atarget_blank' => '新窗口打开',
 	'banner_atarget_self' => '本页面打开',
 );
-
-?>

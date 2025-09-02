@@ -131,5 +131,3 @@ class table_common_nav extends discuz_table
 	}
 
 }
-
-?>

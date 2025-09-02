@@ -59,4 +59,3 @@ class table_forum_hotreply_number extends discuz_table {
 		}
 	}
 }
-?>

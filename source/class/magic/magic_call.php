@@ -82,5 +82,3 @@ class magic_call {
 		include template('home/magic_call');
 	}
 }
-
-?>

@@ -39,5 +39,3 @@ class table_forum_threadtype extends discuz_table
 		return DB::result_first("SELECT typeid FROM %t WHERE name=%s", array($this->_table, $name));
 	}
 }
-
-?>

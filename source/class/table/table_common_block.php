@@ -120,5 +120,3 @@ class table_common_block extends discuz_table
 		}
 	}
 }
-
-?>

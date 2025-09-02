@@ -107,5 +107,3 @@ class mobile_api_sub {
 	}
 
 }
-
-?>

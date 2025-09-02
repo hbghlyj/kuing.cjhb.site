@@ -30,5 +30,3 @@ foreach(C::t('forum_statlog')->fetch_all_rank_by_logdate($date) as $value) {
 	$rank++;
 }
 savecache('historyposts', $_G['setting']['historyposts']);
-
-?>

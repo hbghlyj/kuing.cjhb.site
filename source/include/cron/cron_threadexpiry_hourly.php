@@ -81,5 +81,3 @@ if($actionarray) {
 	}
 
 }
-
-?>

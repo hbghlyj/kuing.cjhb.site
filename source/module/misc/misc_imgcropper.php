@@ -62,5 +62,3 @@ if(!submitcheck('imgcroppersubmit')) {
 	$image->Cropper($image->target, $cropfile, $cutwidth, $cutheight, $left, $top);
 	showmessage('do_success', dreferer(), array('icurl' => $cropfile), array('showdialog' => true, 'closetime' => true));
 }
-
-?>

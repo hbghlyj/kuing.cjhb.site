@@ -31,5 +31,3 @@ $lang = array
 	'float_show' => '显示',
 	'float_hidden' => '隐藏',
 );
-
-?>

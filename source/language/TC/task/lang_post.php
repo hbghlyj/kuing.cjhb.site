@@ -36,5 +36,3 @@ $lang = array
 	'task_complete_act_newreply_thread' => '在「{value}」回復主題 {num} 次',
 	'task_complete_act_newreply_author' => '回復作者「{value}」的主題 {num} 次',
 );
-
-?>

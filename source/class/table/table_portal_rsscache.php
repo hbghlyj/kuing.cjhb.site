@@ -25,5 +25,3 @@ class table_portal_rsscache extends discuz_table
 		return $catid ? DB::fetch_all('SELECT * FROM '.DB::table($this->_table).' WHERE '.DB::field('catid', $catid).' ORDER BY dateline DESC LIMIT '.dintval($limit), null, 'aid') : array();
 	}
 }
-
-?>

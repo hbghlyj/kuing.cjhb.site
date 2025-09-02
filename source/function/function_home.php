@@ -628,5 +628,3 @@ function show_credit() {
 		}
 	}
 }
-
-?>

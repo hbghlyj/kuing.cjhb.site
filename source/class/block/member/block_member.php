@@ -410,5 +410,3 @@ class block_member extends discuz_block {
 		return array('html' => '', 'data' => $list);
 	}
 }
-
-?>

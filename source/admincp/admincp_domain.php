@@ -174,4 +174,3 @@ if($operation == 'app') {
 		cpmsg('setting_update_succeed', 'action=domain', 'succeed');
 	}
 }
-?>

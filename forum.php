@@ -68,5 +68,3 @@ if(!$_G['setting']['forumstatus'] && !in_array($mod, array('ajax', 'misc', 'modc
 $navtitle = str_replace('{bbname}', $_G['setting']['bbname'], $_G['setting']['seotitle']['forum']);
 $_G['setting']['threadhidethreshold'] = 1;
 require DISCUZ_ROOT.'./source/module/forum/forum_'.$mod.'.php';
-
-?>

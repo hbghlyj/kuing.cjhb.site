@@ -94,5 +94,3 @@ $lang = array
 	'tradelist_orderby_monthexp' => '按一月內報名截止時間排序',
 	'tradelist_highlight' => '獲得高亮值',
 );
-
-?>

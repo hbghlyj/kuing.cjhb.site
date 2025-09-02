@@ -330,5 +330,3 @@ SEARCH;
 	showformfooter();
 
 }
-
-?>

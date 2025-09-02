@@ -100,5 +100,3 @@ $lang = array
 	'grouptrade_gviewperm_all_member' => '所有人',
 	'grouptrade_highlight' => '获得高亮值',
 );
-
-?>

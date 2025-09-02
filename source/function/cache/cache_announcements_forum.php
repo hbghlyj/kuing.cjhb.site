@@ -27,5 +27,3 @@ function build_cache_announcements_forum() {
 	}
 	savecache('announcements_forum', $data);
 }
-
-?>

@@ -123,4 +123,3 @@ class ip_v6wry {
 		return '- '.diconv(implode(' ',$this->getipaddr($ip)),'utf-8');
 	}
 }
-?>

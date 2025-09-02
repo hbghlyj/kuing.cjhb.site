@@ -263,4 +263,3 @@ function getotherinfo($aids, $pids, $tids, $taskids, $uids) {
 	}
 	return $otherinfo;
 }
-?>

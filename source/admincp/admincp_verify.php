@@ -706,4 +706,3 @@ function delverifyicon($icon) {
 	}
 	return '';
 }
-?>

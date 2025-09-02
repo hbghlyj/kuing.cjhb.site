@@ -25,4 +25,3 @@ if(!defined('IN_DISCUZ') || !defined('IN_ADMINCP')) {
 include_once template('zhi200_nodup:aboutus');
 
     		  	  		  	  		     	  		      		   		     		       	  		 	    		   		     		       	  	       		   		     		       	  	 	     		   		     		       	  	 		    		   		     		       	   		     		   		     		       	   			    		 	      	  		  	  		     	
-?>

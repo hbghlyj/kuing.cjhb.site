@@ -38,5 +38,3 @@ class block_blank extends commonblock_html {
 		return array('html' => $return, 'data' => null);
 	}
 }
-
-?>

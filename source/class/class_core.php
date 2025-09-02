@@ -200,5 +200,3 @@ class core
 
 class C extends core {}
 class DB extends discuz_database {}
-
-?>

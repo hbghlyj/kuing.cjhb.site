@@ -48,5 +48,3 @@ class control extends base {
 	}
 
 }
-
-?>

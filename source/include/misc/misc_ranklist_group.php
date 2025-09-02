@@ -46,5 +46,3 @@ $metakeywords = lang('ranklist/navtitle', 'ranklist_title_group_'.$gettype);
 $metadescription = lang('ranklist/navtitle', 'ranklist_title_group_'.$gettype);
 
 include template('diy:ranklist/group');
-
-?>

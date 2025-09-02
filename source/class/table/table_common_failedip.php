@@ -35,5 +35,3 @@ class table_common_failedip extends discuz_table
 	}
 
 }
-
-?>

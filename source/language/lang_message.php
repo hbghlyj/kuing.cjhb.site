@@ -1136,5 +1136,3 @@ $lang = array (
   'secmobseccode_send_err_9' => '短信网关异常，请稍候再试。',
 
 );
-
-?>

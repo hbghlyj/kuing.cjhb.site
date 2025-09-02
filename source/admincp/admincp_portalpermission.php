@@ -184,4 +184,3 @@ if($operation == 'article') {
 
 showtablefooter();
 showformfooter();
-?>

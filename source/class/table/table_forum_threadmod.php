@@ -73,5 +73,3 @@ class table_forum_threadmod extends discuz_table
 	}
 
 }
-
-?>

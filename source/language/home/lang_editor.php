@@ -79,5 +79,3 @@ $lang = array(
 	'editor_prompt_mp3' => 'mp3 音乐',
 	'editor_full_screen' => '全屏',
 );
-
-?>

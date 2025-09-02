@@ -160,5 +160,3 @@ SCRIPT;
 	showboxfooter();
 	showformfooter();
 }
-
-?>

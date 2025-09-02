@@ -33,5 +33,3 @@ function build_cache_bbcodes_display() {
 
 	savecache('bbcodes_display', $data);
 }
-
-?>

@@ -513,5 +513,3 @@ class credit {
 		return C::t('common_credit_rule_log_field')->fetch_field($uid, $clid);
 	}
 }
-
-?>

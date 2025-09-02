@@ -2,19 +2,17 @@
 
 /**
  *      This is NOT a freeware, use is subject to license terms
- *      Ó¦ÓÃÃû³Æ: ¸ü¸ÄÓÃ»§Ãû 2.5
- *      ÏÂÔØµØÖ·: https://addon.dismall.com/plugins/reusername.html
- *      Ó¦ÓÃ¿ª·¢Õß: ³ËÁ¹
- *      ¿ª·¢ÕßQQ: 594433766
- *      ¸üÐÂÈÕÆÚ: 202505140312
- *      ÊÚÈ¨ÓòÃû: kuing.cjhb.site
- *      ÊÚÈ¨Âë: 2025051319u9IbMIRIBa
- *      Î´¾­Ó¦ÓÃ³ÌÐò¿ª·¢Õß/ËùÓÐÕßµÄÊéÃæÐí¿É£¬²»µÃ½øÐÐ·´Ïò¹¤³Ì¡¢·´Ïò»ã±à¡¢·´Ïò±àÒëµÈ£¬²»µÃÉÃ×Ô¸´ÖÆ¡¢ÐÞ¸Ä¡¢Á´½Ó¡¢×ªÔØ¡¢»ã±à¡¢·¢±í¡¢³ö°æ¡¢·¢Õ¹ÓëÖ®ÓÐ¹ØµÄÑÜÉú²úÆ·¡¢×÷Æ·µÈ
+ *      åº”ç”¨å¼€å‘è€…: ä¹˜å‡‰
+ *      å¼€å‘è€…QQ: 594433766
+ *      æ›´æ–°æ—¥æœŸ: 202505140312
+ *      æŽˆæƒåŸŸå: kuing.cjhb.site
+ *      æŽˆæƒç : 2025051319u9IbMIRIBa
+ *      æœªç»åº”ç”¨ç¨‹åºå¼€å‘è€…/æ‰€æœ‰è€…çš„ä¹¦é¢è®¸å¯ï¼Œä¸å¾—è¿›è¡Œåå‘å·¥ç¨‹ã€åå‘æ±‡ç¼–ã€åå‘ç¼–è¯‘ç­‰ï¼Œä¸å¾—æ“…è‡ªå¤åˆ¶ã€ä¿®æ”¹ã€é“¾æŽ¥ã€è½¬è½½ã€æ±‡ç¼–ã€å‘è¡¨ã€å‡ºç‰ˆã€å‘å±•ä¸Žä¹‹æœ‰å…³çš„è¡ç”Ÿäº§å“ã€ä½œå“ç­‰
  */
 
 
 /**
- *      $author: ³ËÁ¹ $
+ *      $author: ä¹˜å‡‰ $
  */
 
 if(!defined('IN_DISCUZ') || !defined('IN_ADMINCP')) {

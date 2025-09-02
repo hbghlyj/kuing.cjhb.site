@@ -215,4 +215,3 @@ EOF;
 		cpmsg('credits_update_succeed', 'action=credits&operation=list&anchor=policytable', 'succeed');
 	}
 }
-?>

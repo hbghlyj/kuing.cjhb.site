@@ -118,5 +118,3 @@ class table_common_visit extends discuz_table
 		}
 	}
 }
-
-?>

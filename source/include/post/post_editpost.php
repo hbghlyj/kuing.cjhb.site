@@ -522,5 +522,3 @@ if($isfirstpost && $isorigauthor && $_G['group']['allowreplycredit']) {
 	}
 
 }
-
-?>

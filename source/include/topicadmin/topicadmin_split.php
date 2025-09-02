@@ -113,5 +113,3 @@ if(!submitcheck('modsubmit')) {
 	);
 
 }
-
-?>

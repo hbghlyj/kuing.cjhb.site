@@ -39,5 +39,3 @@ class table_common_member_newprompt extends discuz_table
 		DB::insert($this->_table, array('uid' => intval($uid), 'data' => serialize($data)));
 	}
 }
-
-?>

@@ -73,5 +73,3 @@ class table_common_block_style extends discuz_table
 		return false;
 	}
 }
-
-?>

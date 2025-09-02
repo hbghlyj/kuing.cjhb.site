@@ -317,5 +317,3 @@ $lang = array(
 	'payment_credit' => '積分充值',
 
 );
-
-?>

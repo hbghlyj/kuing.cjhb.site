@@ -106,6 +106,3 @@ if($count) {
 }
 
 include_once template("portal/portalcp_category");
-
-
-?>

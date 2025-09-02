@@ -39,5 +39,3 @@ class creditcontrol extends base {
 		exit;
 	}
 }
-
-?>

@@ -102,5 +102,3 @@ class pluginmodel {
 		return $arr;
 	}
 }
-
-?>

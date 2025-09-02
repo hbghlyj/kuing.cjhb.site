@@ -26,5 +26,3 @@ C::app()->init();
 define('HOOKTYPE', 'hookscript');
 hookscript('common', 'global');
 hookscript('global', 'global');
-
-?>

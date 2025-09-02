@@ -524,4 +524,3 @@ if($type != 'link') {
 
 $share_count = C::t('home_share')->count_by_uid_itemid_type(0, $id ? $id : '', $type ? $type : '');
 include template('home/spacecp_share');
-?>

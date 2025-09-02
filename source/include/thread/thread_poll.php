@@ -85,5 +85,3 @@ if($count = C::t('forum_polloption')->fetch_count_by_tid($_G['tid'])) {
 	$visiblepoll = $visible || $_G['forum']['ismoderator'] || ($_G['uid'] && $_G['uid'] == $_G['forum_thread']['authorid']) || ($expirations >= TIMESTAMP && in_array(($_G['uid'] ? $_G['uid'] : $_G['clientip']), $voters)) || $expirations < TIMESTAMP ? 0 : 1;
 
 }
-
-?>

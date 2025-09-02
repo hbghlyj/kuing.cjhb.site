@@ -122,4 +122,3 @@ class card{
 		$this->failmin = $this->failmin > 100 ? 100 : $this->failmin;
 	}
 };
-?>

@@ -361,5 +361,3 @@ class pmcontrol extends base {
  		return $_ENV['pm']->update_blackls($this->user['uid'], $username, 2);
  	}
 }
-
-?>

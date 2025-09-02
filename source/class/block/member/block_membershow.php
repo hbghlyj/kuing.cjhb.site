@@ -33,5 +33,3 @@ class block_membershow extends block_member {
 		return lang('blockclass', 'blockclass_member_script_membershow');
 	}
 }
-
-?>

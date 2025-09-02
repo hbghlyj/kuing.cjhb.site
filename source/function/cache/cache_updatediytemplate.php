@@ -14,5 +14,3 @@ if(!defined('IN_DISCUZ')) {
 function build_cache_updatediytemplate() {
 	updatediytemplate();
 }
-
-?>

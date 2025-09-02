@@ -88,5 +88,3 @@ foreach($plugins as $pluginid) {
 		}
 	}
 }
-
-?>

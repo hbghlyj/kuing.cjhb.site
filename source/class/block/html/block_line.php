@@ -44,5 +44,3 @@ class block_line extends commonblock_html {
 		return array('html' => $return, 'data' => null);
 	}
 }
-
-?>

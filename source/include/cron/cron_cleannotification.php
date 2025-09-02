@@ -18,5 +18,3 @@ $deltime = $_G['timestamp'] - 7*3600*24;
 C::t('home_pokearchive')->delete_by_dateline($deltime);
 
 C::t('home_notification')->optimize();
-
-?>

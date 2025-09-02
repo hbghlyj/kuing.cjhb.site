@@ -158,5 +158,3 @@ class table_forum_optionvalue extends discuz_table
 	}
 
 }
-
-?>

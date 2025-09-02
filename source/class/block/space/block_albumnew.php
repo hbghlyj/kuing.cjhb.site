@@ -42,5 +42,3 @@ class block_albumnew extends block_album {
 		return parent::cookparameter($parameter);
 	}
 }
-
-?>

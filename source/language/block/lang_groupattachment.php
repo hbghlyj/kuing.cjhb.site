@@ -66,5 +66,3 @@ $lang = array
 	'groupattachment_gviewperm_all_member' => '所有人',
 	'groupattachment_highlight' => '获得高亮值',
 );
-
-?>

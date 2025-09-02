@@ -25,5 +25,3 @@ class table_common_admincp_group extends discuz_table
 		return $name ? DB::fetch_first('SELECT * FROM %t WHERE cpgroupname=%s', array($this->_table, $name)) : null;
 	}
 }
-
-?>

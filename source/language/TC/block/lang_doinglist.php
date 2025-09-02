@@ -24,5 +24,3 @@ $lang = array
 	'doinglist_orderby_dateline' => '按發佈時間倒序',
 	'doinglist_orderby_replynum' => '按回複數倒序'
 );
-
-?>

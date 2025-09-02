@@ -39,4 +39,3 @@ foreach($medalnews as $medalnew) {
 	C::t('common_member_field_forum')->update($medalnew['uid'], array('medals' => $medalnewarray[$medalnew['uid']]), 'UNBUFFERED');
 	C::t('common_member_medal')->delete_by_uid_medalid($medalnew['uid'], $medalnew['medalid']);
 }
-?>

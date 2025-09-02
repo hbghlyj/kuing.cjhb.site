@@ -27,5 +27,3 @@ function _dfsockopen($url, $limit = 0, $post = '', $cookie = '', $bysocket = FAL
 	$fs = filesock::open($param);
 	return $fs->request();
 }
-
-?>

@@ -74,5 +74,3 @@ class block_groupactivitycity extends block_groupactivity {
 		return lang('blockclass', 'blockclass_groupactivity_script_groupactivitycity');
 	}
 }
-
-?>

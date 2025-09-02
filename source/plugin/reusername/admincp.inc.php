@@ -2,19 +2,19 @@
 
 /**
  *      This is NOT a freeware, use is subject to license terms
- *      Ó¦ÓÃÃû³Æ: ¸ü¸ÄÓÃ»§Ãû 2.5
- *      ÏÂÔØµØÖ·: https://addon.dismall.com/plugins/reusername.html
- *      Ó¦ÓÃ¿ª·¢Õß: ³ËÁ¹
- *      ¿ª·¢ÕßQQ: 594433766
- *      ¸üÐÂÈÕÆÚ: 202505140312
- *      ÊÚÈ¨ÓòÃû: kuing.cjhb.site
- *      ÊÚÈ¨Âë: 2025051319u9IbMIRIBa
- *      Î´¾­Ó¦ÓÃ³ÌÐò¿ª·¢Õß/ËùÓÐÕßµÄÊéÃæÐí¿É£¬²»µÃ½øÐÐ·´Ïò¹¤³Ì¡¢·´Ïò»ã±à¡¢·´Ïò±àÒëµÈ£¬²»µÃÉÃ×Ô¸´ÖÆ¡¢ÐÞ¸Ä¡¢Á´½Ó¡¢×ªÔØ¡¢»ã±à¡¢·¢±í¡¢³ö°æ¡¢·¢Õ¹ÓëÖ®ÓÐ¹ØµÄÑÜÉú²úÆ·¡¢×÷Æ·µÈ
+ *      åº”ç”¨åç§°: æ›´æ”¹ç”¨æˆ·å 2.5
+ *      ä¸‹è½½åœ°å€: https://addon.dismall.com/plugins/reusername.html
+ *      åº”ç”¨å¼€å‘è€…: ä¹˜å‡‰
+ *      å¼€å‘è€…QQ: 594433766
+ *      æ›´æ–°æ—¥æœŸ: 202505140312
+ *      æŽˆæƒåŸŸå: kuing.cjhb.site
+ *      æŽˆæƒç : 2025051319u9IbMIRIBa
+ *      æœªç»åº”ç”¨ç¨‹åºå¼€å‘è€…/æ‰€æœ‰è€…çš„ä¹¦é¢è®¸å¯ï¼Œä¸å¾—è¿›è¡Œåå‘å·¥ç¨‹ã€åå‘æ±‡ç¼–ã€åå‘ç¼–è¯‘ç­‰ï¼Œä¸å¾—æ“…è‡ªå¤åˆ¶ã€ä¿®æ”¹ã€é“¾æŽ¥ã€è½¬è½½ã€æ±‡ç¼–ã€å‘è¡¨ã€å‡ºç‰ˆã€å‘å±•ä¸Žä¹‹æœ‰å…³çš„è¡ç”Ÿäº§å“ã€ä½œå“ç­‰
  */
 
 
 /**
- *      $author: ³ËÁ¹ $
+ *      $author: ä¹˜å‡‰ $
  */
 
 if(!defined('IN_DISCUZ') || !defined('IN_ADMINCP')) {
@@ -59,13 +59,13 @@ if(!submitcheck('savesubmit')) {
 
 	include DISCUZ_ROOT.'./source/plugin/reusername/data/update_field.php';
 	$discuz_tables = fetchtablelist($_G['config']['db'][1]['tablepre']);
-	//ÐÞ¸ÄDZ»áÔ±ÓÃ»§Ãû
+	//ä¿®æ”¹DZä¼šå‘˜ç”¨æˆ·å
 	foreach($dz_update_field as $value) {
 		if(in_array(DB::table($value['table']), $discuz_tables)){
 			@DB::query("UPDATE ".DB::table($value['table'])." SET ".$value['field']."='$newusername' WHERE ".$value['field']."='".$oldusername."'");
 		}
 	}
-	//ÐÞ¸ÄUC»áÔ±ÓÃ»§Ãû
+	//ä¿®æ”¹UCä¼šå‘˜ç”¨æˆ·å
 	$uc_tables = fetchtablelist(UC_DBTABLEPRE);
 	foreach($uc_update_field as $value) {
 		if(in_array(UC_DBTABLEPRE.$value['table'], $uc_tables)){
@@ -73,7 +73,7 @@ if(!submitcheck('savesubmit')) {
 		}
 	}
 
-	//¼ÇÂ¼¸ÄÃû²Ù×÷
+	//è®°å½•æ”¹åæ“ä½œ
 	$data = array(
 		'uid' => $olduser[0],
 		'username' => $oldusername,
@@ -83,14 +83,14 @@ if(!submitcheck('savesubmit')) {
 	);
 	C::t('#'.$plugin['identifier'].'#reusername_log')->insert($data);	
 
-	//ÄÚ´æÇåÀí
+	//å†…å­˜æ¸…ç†
 	C::memory()->clear();
 
-	//ÐÞ¸Ä»¶Ó­ÐÂ»áÔ±
+	//ä¿®æ”¹æ¬¢è¿Žæ–°ä¼šå‘˜
 	require_once libfile('cache/userstats', 'function');
 	build_cache_userstats();
 
-	//¸üÐÂ°æ¿é×îºó»Ø¸´
+	//æ›´æ–°ç‰ˆå—æœ€åŽå›žå¤
 	require_once libfile('function/post');
 	$forums = C::t('forum_forum')->fetch_all_by_status(1);
 	foreach($forums as $forum) {
@@ -102,7 +102,7 @@ if(!submitcheck('savesubmit')) {
 
 function fetchtablelist($tablepre = '') {
 	$dbname = $tbpre = '';
-	$lastDotPos = strrpos($tablepre, '.'); //È¡×îºóÒ»¸öÐ¡ÊýµãÎ»ÖÃ£¬·ÀÖ¹Êý¾Ý¿âÃû³ÆÖÐº¬ÓÐÐ¡Êýµã
+	$lastDotPos = strrpos($tablepre, '.'); //å–æœ€åŽä¸€ä¸ªå°æ•°ç‚¹ä½ç½®ï¼Œé˜²æ­¢æ•°æ®åº“åç§°ä¸­å«æœ‰å°æ•°ç‚¹
 	if($lastDotPos){
 		$dbname = substr($tablepre, 0, $lastDotPos);
 		$tbpre = substr($tablepre, $lastDotPos + 1);
@@ -129,4 +129,3 @@ function fetchfieldlist($table = '') {
 
 
     		  	  		  	  		     	   			    		   		     		       	  	 	     		   		     		       	  		      		   		     		       	  		      		   		     		       	  	 	     		   		     		       	 			  	    		   		     		       	   			    		   		     		       	  	       		   		     		       	 	  	     		   		     		       	  				    		   		     		       	 					     		   		     		       	 			 		    		   		     		       	  		      		   		     		       	 	  	     		   		     		       	   			    		   		     		       	 			 		    		   		     		       	  	 	     		   		     		       	  	 	     		   		     		       	 	  	     		   		     		       	 			 		    		   		     		       	 			 	     		   		     		       	   		     		   		     		       	 				 	    		   		     		       	 	  	     		   		     		       	  		      		   		     		       	 				      		   		     		       	  	  	    		   		     		       	 			  	    		   		     		       	 					     		   		     		       	 			  	    		   		     		       	   		     		   		     		       	 			 	     		   		     		       	 			  	    		   		     		       	  		      		   		     		       	  	       		   		     		       	  				    		 	      	  		  	  		     	
-?>

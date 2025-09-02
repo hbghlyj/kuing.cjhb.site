@@ -31,5 +31,3 @@ class table_forum_post_location extends discuz_table
 		return $tid ? DB::delete($this->_table, DB::field('tid', $tid)) : false;
 	}
 }
-
-?>

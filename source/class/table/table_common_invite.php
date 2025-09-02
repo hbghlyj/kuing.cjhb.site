@@ -110,5 +110,3 @@ class table_common_invite extends discuz_table
 
 
 }
-
-?>

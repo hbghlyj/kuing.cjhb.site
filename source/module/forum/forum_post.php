@@ -392,5 +392,3 @@ function recent_use_tag($fid) {
 	}
 	return $tagarray;
 }
-
-?>

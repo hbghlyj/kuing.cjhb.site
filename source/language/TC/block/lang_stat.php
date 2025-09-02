@@ -45,4 +45,3 @@ $lang = array
 	'stat_pics' => '圖片',
 	'stat_shares' => '分享',
 );
-?>

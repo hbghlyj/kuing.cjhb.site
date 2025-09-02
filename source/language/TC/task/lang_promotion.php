@@ -18,5 +18,3 @@ $lang = array
 	'promotion_complete_var_iplimit' => '推廣 IP 數下限',
 	'promotion_complete_var_iplimit_comment' => '當日推廣 IP 數大於或等於此設置，才能完成任務',
 );
-
-?>

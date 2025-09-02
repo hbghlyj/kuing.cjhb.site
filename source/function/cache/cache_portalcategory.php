@@ -88,5 +88,3 @@ function build_cache_portalcategory() {
 	list($data['navs'], $data['subnavs'], $data['menunavs'], $data['navmns'], $data['navmn'], $data['navdms']) = get_cachedata_mainnav();
 	savecache('setting', $data);
 }
-
-?>

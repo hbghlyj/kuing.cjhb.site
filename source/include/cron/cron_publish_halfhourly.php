@@ -48,5 +48,3 @@ if (!is_array($cron_publish_ids)) {
 	}
 	savecache('cronpublish', $cron_publish_try);
 }
-
-?>

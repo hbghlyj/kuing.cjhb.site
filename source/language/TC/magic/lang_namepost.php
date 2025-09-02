@@ -24,5 +24,3 @@ $lang = array
 	'namepost_info_user_noperm' => '對不起，您不能對此人使用本道具',
 	'magic_namepost_succeed' => '匿名的用戶是',
 );
-
-?>

@@ -91,5 +91,3 @@ foreach($kws as $kw) {
 }
 echo '}, document)</script>';
 }
-
-?>

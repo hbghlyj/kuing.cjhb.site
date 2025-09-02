@@ -533,5 +533,3 @@ class table_common_member extends discuz_table_archive
 		return DB::query('UPDATE %t SET groupid=%d WHERE adminid <= 0 AND groupid=%d', array($this->_table, $target, $source));
 	}
 }
-
-?>

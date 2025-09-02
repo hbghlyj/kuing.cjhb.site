@@ -139,5 +139,3 @@ class table_home_doing extends discuz_table
 	}
 
 }
-
-?>

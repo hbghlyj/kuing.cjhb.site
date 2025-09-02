@@ -55,5 +55,3 @@ class friendcontrol extends base {
 		return $data;
 	}
 }
-
-?>

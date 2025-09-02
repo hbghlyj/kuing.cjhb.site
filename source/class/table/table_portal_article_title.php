@@ -144,5 +144,3 @@ class table_portal_article_title extends discuz_table
 		return $ret;
 	}
 }
-
-?>

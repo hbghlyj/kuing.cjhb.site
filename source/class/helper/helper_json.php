@@ -49,5 +49,3 @@ class helper_json {
 		}
 	}
 }
-
-?>

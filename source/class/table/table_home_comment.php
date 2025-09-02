@@ -229,5 +229,3 @@ class table_home_comment extends discuz_table
 	}
 
 }
-
-?>

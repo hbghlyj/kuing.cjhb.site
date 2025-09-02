@@ -48,5 +48,3 @@ $lang = array
 	'articlelist_keyword' => '標題關鍵字',
 	'articlelist_keyword_comment' => '設置標題包含的關鍵字。注意: 留空為不進行任何過濾； 關鍵字中可使用通配符 *； 匹配多個關鍵字全部，可用空格或 AND 連接。如 win32 AND unix； 匹配多個關鍵字其中部分，可用 | 或 OR 連接。如 win32 OR unix',
 );
-
-?>

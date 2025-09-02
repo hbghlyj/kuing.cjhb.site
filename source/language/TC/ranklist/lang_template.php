@@ -137,5 +137,3 @@ $lang = array (
   'ranklist_thread_reply' => '回復',
   'thread' => '主題',
 );
-
-?>

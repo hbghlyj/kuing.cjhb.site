@@ -35,5 +35,3 @@ class table_forum_bbcode extends discuz_table
 		return DB::fetch_all("SELECT * FROM %t $wheresql $ordersql", $parameter, $this->_pk);
 	}
 }
-
-?>

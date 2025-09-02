@@ -30,5 +30,3 @@ $lang = array
 	'topiclist_orderby_dateline' => '按發佈時間倒序',
 	'topiclist_orderby_viewnum' => '按查看數倒序',
 );
-
-?>

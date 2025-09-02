@@ -160,5 +160,3 @@ require_once libfile('function/upload');
 $uploadconfig = getuploadconfig($_G['uid'], 0, false);
 
 include_once template("home/spacecp_upload");
-
-?>

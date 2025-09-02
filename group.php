@@ -34,4 +34,3 @@ if(!$_G['setting']['groupstatus']) {
 $navtitle = str_replace('{bbname}', $_G['setting']['bbname'], $_G['setting']['seotitle']['group']);
 
 require DISCUZ_ROOT.'./source/module/group/group_'.$mod.'.php';
-?>

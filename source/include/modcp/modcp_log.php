@@ -93,5 +93,3 @@ function get_log_files($logdir='', $action='action') {
 	$logfiles = array_slice($logfiles, -2, 2);
 	return $logfiles;
 }
-
-?>

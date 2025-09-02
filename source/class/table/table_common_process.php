@@ -26,5 +26,3 @@ class table_common_process extends discuz_table
 		return DB::delete('common_process', "processid='$name' OR expiry<".intval($time));
 	}
 }
-
-?>
