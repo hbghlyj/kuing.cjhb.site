@@ -9,7 +9,7 @@
 
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
-}
+	}
 
 class table_forum_forum extends discuz_table
 {
@@ -329,8 +329,8 @@ class table_forum_forum extends discuz_table
 	public function build_lastpost_string($tid, $subject, $dateline, $author) {
 		$subject = str_replace("\t", ' ', $subject);
 		$author = str_replace("\t", ' ', $author);
-               return $tid."\t".$dateline."\t".$author."\t".$subject;
-       }
+		return $tid."\t".$dateline."\t".$author."\t".$subject;
+	}
 
 	/**
 	 * Update forum lastpost with optional parent propagation
