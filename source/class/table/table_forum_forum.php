@@ -348,7 +348,7 @@ class table_forum_forum extends discuz_table
 		$raw = isset($options['raw']) ? $options['raw'] : false;
 
 		if($raw) {
-			$lastpost = $tid."\t".$subject."\t".$dateline."\t".$author;
+			$lastpost = $tid."\t".$dateline."\t".$author."\t".$subject;
 		} else {
 			$lastpost = $this->build_lastpost_string($tid, $subject, $dateline, $author);
 		}
