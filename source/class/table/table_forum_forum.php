@@ -339,19 +339,14 @@ class table_forum_forum extends discuz_table
 	 * @param string $subject Thread subject
 	 * @param int $dateline Post dateline timestamp
 	 * @param string $author Post author name
-	 * @param array $options Options: propagate_parent (bool), forum (array), raw (bool)
+         * @param array $options Options: propagate_parent (bool), forum (array)
 	 * @return string The lastpost string that was stored
 	 */
 	public function update_lastpost($fid, $tid, $subject, $dateline, $author, $options = array()) {
 		$propagate_parent = isset($options['propagate_parent']) ? $options['propagate_parent'] : true;
-		$forum = isset($options['forum']) ? $options['forum'] : null;
-		$raw = isset($options['raw']) ? $options['raw'] : false;
+                $forum = isset($options['forum']) ? $options['forum'] : null;
 
-		if($raw) {
-			$lastpost = $tid."\t".$dateline."\t".$author."\t".$subject;
-		} else {
-			$lastpost = $this->build_lastpost_string($tid, $subject, $dateline, $author);
-		}
+                $lastpost = $this->build_lastpost_string($tid, $subject, $dateline, $author);
 
 		$this->update($fid, array('lastpost' => $lastpost));
 

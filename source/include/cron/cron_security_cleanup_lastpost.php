@@ -26,9 +26,8 @@ if(!empty($parent_fups)) {
 
 foreach($queryf as $forum) {
         $thread = C::t('forum_thread')->fetch_by_fid_displayorder($forum['fid']);
-        $lastpost = C::t('forum_forum')->build_lastpost_string($thread['tid'], $thread['subject'], $thread['lastpost'], $thread['lastposter']);
 
-        C::t('forum_forum')->update($forum['fid'], array('lastpost' => $lastpost));
+        C::t('forum_forum')->update_lastpost($forum['fid'], $thread['tid'], $thread['subject'], $thread['lastpost'], $thread['lastposter'], array('forum' => $forum, 'propagate_parent' => false));
         if($forum['type'] == 'sub') {
                 $parent = isset($parents[$forum['fup']]) ? $parents[$forum['fup']] : null;
                 if($parent) {
@@ -38,7 +37,7 @@ foreach($queryf as $forum) {
                                $parent_lastpost = intval($tmp[1]);
                        }
                         if($thread['lastpost'] > $parent_lastpost) {
-                                C::t('forum_forum')->update($forum['fup'], array('lastpost' => $lastpost));
+                                C::t('forum_forum')->update_lastpost($forum['fup'], $thread['tid'], $thread['subject'], $thread['lastpost'], $thread['lastposter'], array('forum' => $parent, 'propagate_parent' => false));
                         }
                 }
         }

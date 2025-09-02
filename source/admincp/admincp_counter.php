@@ -48,10 +48,9 @@ if(submitcheck('forumsubmit', 1)) {
 		C::t('forum_forum')->update($forum['fid'], array('archive' => $archive));
 
 		$thread = C::t('forum_thread')->fetch_by_fid_displayorder($forum['fid']);
-		$subject = $thread['subject'];
-		$lastpost = "{$thread['tid']}\t{$thread['lastpost']}\t{$thread['lastposter']}\t{$subject}";
 
-		C::t('forum_forum')->update($forum['fid'], array('threads' => $threads, 'posts' => $posts, 'lastpost' => $lastpost));
+		C::t('forum_forum')->update($forum['fid'], array('threads' => $threads, 'posts' => $posts));
+		C::t('forum_forum')->update_lastpost($forum['fid'], $thread['tid'], $thread['subject'], $thread['lastpost'], $thread['lastposter'], array('forum' => $forum, 'propagate_parent' => false));
 	}
 
 	if($processed) {
