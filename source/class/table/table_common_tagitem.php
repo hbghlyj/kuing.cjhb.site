@@ -101,5 +101,3 @@ class table_common_tagitem extends discuz_table
 		return DB::result_first("SELECT count(*) FROM ".DB::table('common_tagitem')." WHERE tagid='".intval($tagid)."'");
 	}
 }
-
-?>

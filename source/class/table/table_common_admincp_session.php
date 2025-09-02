@@ -70,5 +70,3 @@ class table_common_admincp_session extends discuz_table
 	}
 
 }
-
-?>

@@ -76,5 +76,3 @@ function build_cache_censor() {
 
 	savecache('censor', $data);
 }
-
-?>

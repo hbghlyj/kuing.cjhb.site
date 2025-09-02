@@ -268,6 +268,3 @@ class block_trade extends discuz_block {
 		return array('html' => '', 'data' => $datalist);
 	}
 }
-
-
-?>

@@ -33,5 +33,3 @@ $lang = array
 	'couplebanner_show' => '顯示',
 	'couplebanner_hidden' => '隱藏',
 );
-
-?>

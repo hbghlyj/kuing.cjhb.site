@@ -61,5 +61,3 @@ class magic_attachsize {
 	}
 
 }
-
-?>

@@ -7327,5 +7327,3 @@ if(file_exists($adminextendfile = DISCUZ_ROOT.'./data/sysdata/cache_adminextend.
 		$lang = array_merge($lang, $extend_lang);
 	}
 }
-
-?>

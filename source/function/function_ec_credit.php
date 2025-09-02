@@ -81,5 +81,3 @@ function updateusercredit($uid, $type, $level) {
 	$score = $level == 'good' ? 1 : ($level == 'soso' ? 0 : -1);
 	C::t('common_member_status')->increase($uid, array($type=>$score));
 }
-
-?>

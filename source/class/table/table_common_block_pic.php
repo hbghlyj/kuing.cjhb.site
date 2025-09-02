@@ -42,5 +42,3 @@ class table_common_block_pic extends discuz_table
 		return DB::result_first('SELECT COUNT(*) FROM %t WHERE bid=%d AND pic=%s', array($this->_table, $bid, $pic));
 	}
 }
-
-?>

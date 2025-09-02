@@ -194,5 +194,3 @@ function portal_upload_show($attach) {
 	echo '</script>';
 
 }
-
-?>

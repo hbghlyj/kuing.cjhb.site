@@ -97,5 +97,3 @@ class block_groupthreadnew extends block_groupthread {
 	}
 
 }
-
-?>

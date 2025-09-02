@@ -48,5 +48,3 @@ $metadescription = lang('space', 'sb_wall', array('who' => $space['username']));
 dsetcookie('home_diymode', 1);
 
 include_once template("home/space_wall");
-
-?>

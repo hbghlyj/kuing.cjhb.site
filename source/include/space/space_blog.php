@@ -377,4 +377,3 @@ function blog_get_stick($uid, $stickblogs, $summarylen) {
 	}
 	return $list;
 }
-?>

@@ -31,5 +31,3 @@ $lang = array (
   'attachment' => '附件',
   'thread_digest' => '精华',
 );
-
-?>

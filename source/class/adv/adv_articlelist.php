@@ -75,5 +75,3 @@ class adv_articlelist {
 	}
 
 }
-
-?>

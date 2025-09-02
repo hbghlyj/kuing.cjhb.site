@@ -627,5 +627,3 @@ function delete_position($select) {
 	C::t('forum_postposition')->delete_by_tid($select);
 	C::t('forum_thread')->update_status_by_tid($tids, '1111111111111110', '&');
 }
-
-?>

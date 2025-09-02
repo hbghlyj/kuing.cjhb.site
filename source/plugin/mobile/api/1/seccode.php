@@ -57,5 +57,3 @@ class mobile_api {
 	public static function output() {}
 
 }
-
-?>

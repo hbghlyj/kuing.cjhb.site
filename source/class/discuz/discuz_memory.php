@@ -387,5 +387,3 @@ class discuz_memory extends discuz_base
 		return $this->config;
 	}
 }
-
-?>

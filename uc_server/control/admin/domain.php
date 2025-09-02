@@ -69,5 +69,3 @@ class control extends adminbase {
 	}
 
 }
-
-?>

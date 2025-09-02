@@ -137,5 +137,3 @@ class table_home_friend extends discuz_table
 		return DB::update($this->_table, $data, DB::field('uid', $uid).' AND '.DB::field('fuid', $fuid));
 	}
 }
-
-?>

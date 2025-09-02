@@ -173,5 +173,3 @@ class table_forum_collection extends discuz_table
 	}
 
 }
-
-?>

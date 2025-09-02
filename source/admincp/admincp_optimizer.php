@@ -325,5 +325,3 @@ END;
 
 	showboxfooter();
 }
-
-?>

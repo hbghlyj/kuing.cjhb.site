@@ -124,5 +124,3 @@ if($_G['fid'] && $_G['forum']['ismoderator']) {
 
 	}
 }
-
-?>

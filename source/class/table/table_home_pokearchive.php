@@ -36,5 +36,3 @@ class table_home_pokearchive extends discuz_table
 	}
 
 }
-
-?>

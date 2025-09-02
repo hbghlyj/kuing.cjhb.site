@@ -292,5 +292,3 @@ function trade_setprice($data, &$price, &$pay, &$transportfee) {
 		}
 	}
 }
-
-?>

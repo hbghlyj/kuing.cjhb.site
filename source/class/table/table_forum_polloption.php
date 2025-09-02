@@ -59,5 +59,3 @@ class table_forum_polloption extends discuz_table
 		return DB::fetch_first('SELECT MAX(votes) AS max, SUM(votes) AS total FROM %t WHERE tid=%d', array($this->_table, $tid));
 	}
 }
-
-?>

@@ -22,5 +22,3 @@ $lang = array(
 	'friend_group_7' => '不認識',
 	'friend_group_more' => '自定義{num}'
 );
-
-?>

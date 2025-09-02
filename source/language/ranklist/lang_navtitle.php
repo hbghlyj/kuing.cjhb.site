@@ -72,5 +72,3 @@ $lang = array(
   'ranklist_title_app_today' => '今日应用活跃排行',
   'ranklist_title_app_all' => '最流行应用',
 );
-
-?>

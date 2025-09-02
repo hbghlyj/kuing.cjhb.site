@@ -45,5 +45,3 @@ class table_home_specialuser extends discuz_table
 		return ($uid = dintval($uid, true)) ? DB::fetch_first('SELECT * FROM %t WHERE uid=%d AND status=%d', array($this->_table, $uid, $status)) : array();
 	}
 }
-
-?>

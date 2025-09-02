@@ -54,5 +54,3 @@ class block_blognew extends block_blog {
 		return parent::cookparameter($parameter);
 	}
 }
-
-?>

@@ -93,5 +93,3 @@ class table_common_diy_data extends discuz_table
 		return DB::fetch_all('SELECT * FROM '.DB::table($this->_table).$wheresql.' '.$ordersql.DB::limit($start, $limit), null, $this->_pk ? $this->_pk : '');
 	}
 }
-
-?>

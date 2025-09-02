@@ -101,5 +101,3 @@ $lang = array
 	'groupactivity_gviewperm_all_member' => '所有人',
 	'groupactivity_highlight' => '獲得高亮值',
 );
-
-?>

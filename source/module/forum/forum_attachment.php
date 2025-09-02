@@ -415,5 +415,3 @@ function ext_to_mimetype($path) {
 	if (!$mime) $mime = "application/octet-stream";
 	return $mime;
 }
-
-?>

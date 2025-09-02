@@ -232,5 +232,3 @@ class ucserver_db {
 		}
 	}
 }
-
-?>

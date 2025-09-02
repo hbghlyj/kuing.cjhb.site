@@ -26,5 +26,3 @@ $lang = array
 
 	'gift_receive_gift' => '领取红包 {percredit} {credittype}',
 );
-
-?>

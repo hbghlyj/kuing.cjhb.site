@@ -39,4 +39,3 @@ if(!submitcheck('gridssubmit')) {
 	C::t('common_syscache')->delete_syscache('grids');
 	cpmsg('setting_update_succeed', 'action=grid', 'succeed');
 }
-?>

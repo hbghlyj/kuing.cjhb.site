@@ -33,5 +33,3 @@ class table_common_card_log extends discuz_table_archive
 		return DB::result_first('SELECT COUNT(*) FROM %t WHERE operation=%d', array($this->_table, $operation));
 	}
 }
-
-?>

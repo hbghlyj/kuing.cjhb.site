@@ -18,5 +18,3 @@ if($delnum) {
 	require_once libfile('function/cache');
 	updatecache(array('announcements', 'announcements_forum'));
 }
-
-?>

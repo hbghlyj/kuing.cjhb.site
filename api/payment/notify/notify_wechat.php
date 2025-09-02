@@ -51,5 +51,3 @@ if($_SERVER['HTTP_WECHATPAY_SIGNATURE']) {
 	echo '<xml><return_code><![CDATA[FAIL]]></return_code><return_msg><![CDATA[FAIL]]></return_msg></xml>';
 	exit();
 }
-
-?>

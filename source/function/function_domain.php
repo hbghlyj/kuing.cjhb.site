@@ -66,4 +66,3 @@ function existdomain($domain, $domainroot) {
 	}
 	return $exist;
 }
-?>

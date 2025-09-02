@@ -1045,4 +1045,3 @@ class crime_action_ctl {
 		return array($count, $clist);
 	}
 }
-?>

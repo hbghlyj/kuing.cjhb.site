@@ -36,5 +36,3 @@ class table_forum_attachment_exif extends discuz_table
 	}
 
 }
-
-?>

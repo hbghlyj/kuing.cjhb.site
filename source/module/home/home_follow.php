@@ -260,5 +260,3 @@ $metakeywords = $navtitle;
 $metadescription = $navtitle;
 $navtitle = helper_seo::get_title_page($navtitle, $_G['page']);
 include template('diy:home/follow_feed');
-
-?>

@@ -390,6 +390,3 @@ class block_groupthread extends discuz_block {
 		return array('html' => '', 'data' => $datalist);
 	}
 }
-
-
-?>

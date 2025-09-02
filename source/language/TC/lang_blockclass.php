@@ -453,6 +453,3 @@ $lang = array(
 
 	'blockclass_field_id' => '數據ID',
 );
-
-
-?>

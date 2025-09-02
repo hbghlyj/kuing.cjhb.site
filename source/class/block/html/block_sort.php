@@ -269,6 +269,3 @@ class block_sort extends commonblock_html {
 	}
 
 }
-
-
-?>

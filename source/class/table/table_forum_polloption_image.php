@@ -42,5 +42,3 @@ class table_forum_polloption_image extends discuz_table
 		}
 	}
 }
-
-?>

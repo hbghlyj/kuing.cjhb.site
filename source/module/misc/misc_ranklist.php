@@ -483,4 +483,3 @@ function getignorefid($pre = '') {
 	}
 	return $fidsql;
 }
-?>

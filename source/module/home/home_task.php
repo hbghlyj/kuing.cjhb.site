@@ -121,5 +121,3 @@ function cleartaskstatus() {
 		dsetcookie('taskdoing_'.$_G['uid']);
 	}
 }
-
-?>

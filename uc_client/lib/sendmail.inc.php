@@ -143,5 +143,3 @@ if($mail_setting['mailsend'] == 1 && function_exists('mail')) {
 	return @mail($mail['email_to'], $mail['subject'], $mail['message'], $headers);
 
 }
-
-?>

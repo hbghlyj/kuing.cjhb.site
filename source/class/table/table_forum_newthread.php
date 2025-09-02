@@ -38,5 +38,3 @@ class table_forum_newthread extends discuz_table
 		return DB::delete($this->_table, DB::field('dateline', $timestamp, '<'));
 	}
 }
-
-?>

@@ -77,5 +77,3 @@ function bat_highlight_callback_highlight_21($matches, $action = 0) {
 		return highlight($matches[2], $highlightarray, $matches[1]);
 	}
 }
-
-?>

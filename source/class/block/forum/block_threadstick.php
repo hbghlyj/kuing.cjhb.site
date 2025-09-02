@@ -80,5 +80,3 @@ class block_threadstick extends block_thread {
 		return lang('blockclass', 'blockclass_thread_script_threadstick');
 	}
 }
-
-?>

@@ -29,5 +29,3 @@ $lang = array
 	'cornerbanner_show' => '顯示',
 	'cornerbanner_hidden' => '隱藏',
 );
-
-?>

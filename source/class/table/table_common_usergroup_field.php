@@ -58,5 +58,3 @@ class table_common_usergroup_field extends discuz_table
 	}
 
 }
-
-?>

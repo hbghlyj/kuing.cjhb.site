@@ -142,5 +142,3 @@ function removedir($dirname, $keepdir = FALSE) {
 	closedir($handle);
 	return !$keepdir ? (@rmdir($dirname) ? TRUE : FALSE) : TRUE;
 }
-
-?>

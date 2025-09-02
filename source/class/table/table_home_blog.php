@@ -322,5 +322,3 @@ class table_home_blog extends discuz_table
 		return DB::fetch_all('SELECT b.* %i FROM %t b %i WHERE %i', array($fieldsql, $this->_table, $tablesql, $wheresql.' ORDER BY b.'.DB::order($orderby, 'DESC').' '.DB::limit($start, $limit)));
 	}
 }
-
-?>

@@ -72,5 +72,3 @@ class adv_intercat {
 	}
 
 }
-
-?>

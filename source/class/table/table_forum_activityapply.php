@@ -49,5 +49,3 @@ class table_forum_activityapply extends discuz_table
 		DB::query("UPDATE %t SET verified=%d WHERE tid=%d AND applyid IN (%n)", array($this->_table, $verified, $tid, $applyid));
 	}
 }
-
-?>

@@ -40,5 +40,3 @@ class table_common_admincp_member extends discuz_table
 		return DB::result_first("SELECT ap.perm FROM %t am LEFT JOIN %t ap ON ap.cpgroupid=am.cpgroupid WHERE am.uid=%d AND ap.perm=%s", array($this->_table, 'common_admincp_perm', $uid, $perm));
 	}
 }
-
-?>

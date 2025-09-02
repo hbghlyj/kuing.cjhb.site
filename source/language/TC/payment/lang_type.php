@@ -15,5 +15,3 @@ $lang = array(
 	'payment_credit' => '積分充值',
 	'payment_invite' => '購買邀請碼',
 );
-
-?>

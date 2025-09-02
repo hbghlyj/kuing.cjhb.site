@@ -82,5 +82,3 @@ class magic_gift {
 		include template('home/magic_gift');
 	}
 }
-
-?>

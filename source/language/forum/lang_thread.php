@@ -22,4 +22,3 @@ $lang = array (
 	  't_suspension' => '…',
 
 );
-?>

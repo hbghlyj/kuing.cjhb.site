@@ -212,5 +212,3 @@ class table_home_share extends discuz_table
 	}
 
 }
-
-?>

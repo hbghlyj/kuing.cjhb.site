@@ -104,5 +104,3 @@ if($operation == 'check') {
 		cpmsg('membersplit_split_check_table_fail', 'action=membersplit&operation=manage&splitnum='.$splitnum, 'error', array('tablename' => $ret));
 	}
 }
-
-?>

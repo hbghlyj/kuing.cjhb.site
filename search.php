@@ -59,5 +59,3 @@ if(!empty($_GET['srchtxt']) && getglobal('setting/srchcensor')) {
 }
 
 require DISCUZ_ROOT.'./source/module/search/search_'.$mod.'.php';
-
-?>

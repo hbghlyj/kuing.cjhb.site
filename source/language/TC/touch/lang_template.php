@@ -225,4 +225,3 @@ $lang = array (
   'mob_sort_uploaderr' => '暫不支持上傳圖片',
 
 );
-?>

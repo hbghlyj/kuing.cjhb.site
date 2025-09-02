@@ -274,5 +274,3 @@ function friend_delete($touid) {
 		friend_cache($touid);
 	}
 }
-
-?>

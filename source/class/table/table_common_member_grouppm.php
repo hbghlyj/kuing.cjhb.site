@@ -67,5 +67,3 @@ class table_common_member_grouppm extends discuz_table
 		return ($uid = dintval($uid)) && ($gpmid = dintval($gpmid, true)) ? DB::update($this->_table, array('status' => 1), DB::field('gpmid', $gpmid).' AND '.DB::field('uid', $uid).' AND status=0') : false;
 	}
 }
-
-?>

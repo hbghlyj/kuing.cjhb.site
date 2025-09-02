@@ -316,4 +316,3 @@ function make_getpws_sign($uid, $idstring) {
 	$link = "member.php?mod=getpasswd&uid={$uid}&id={$idstring}";
 	return dsign($link);
 }
-?>

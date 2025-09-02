@@ -68,6 +68,3 @@ class block_activitycity extends block_activity {
 		return lang('blockclass', 'blockclass_activity_script_activitycity');
 	}
 }
-
-
-?>

@@ -52,4 +52,3 @@ class table_forum_filter_post extends discuz_table {
 		return DB::query('DELETE FROM %t WHERE '.DB::field('pid', $pids), array($this->_table));
 	}
 }
-?>

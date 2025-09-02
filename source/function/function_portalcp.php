@@ -1127,4 +1127,3 @@ function getdiydirectory($value) {
 	}
 	return $directory;
 }
-?>

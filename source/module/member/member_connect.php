@@ -114,5 +114,3 @@ if($_GET['action'] == 'login') { // debug 已有账号，绑定我的账号走�
 	$ctl_obj->on_register();
 
 }
-
-?>

@@ -129,5 +129,3 @@ class magic_namepost {
 	}
 
 }
-
-?>

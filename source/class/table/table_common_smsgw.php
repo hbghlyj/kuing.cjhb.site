@@ -30,5 +30,3 @@ class table_common_smsgw extends discuz_table
 	}
 
 }
-
-?>

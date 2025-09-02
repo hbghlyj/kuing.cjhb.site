@@ -46,5 +46,3 @@ class adv_custom {
 	}
 
 }
-
-?>

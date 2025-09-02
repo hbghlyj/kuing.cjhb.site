@@ -1176,4 +1176,3 @@ function update_template_block($targettplname, $tpldirectory, $blocks) {
 		}
 	}
 }
-?>

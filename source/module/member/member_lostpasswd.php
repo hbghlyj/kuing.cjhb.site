@@ -75,5 +75,3 @@ if(submitcheck('lostpwsubmit')) {
 	}
 	showmessage('getpasswd_send_succeed', $_G['siteurl'], array(), array('showdialog' => 1, 'locationtime' => true));
 }
-
-?>

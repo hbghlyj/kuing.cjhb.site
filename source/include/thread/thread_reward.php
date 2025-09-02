@@ -29,5 +29,3 @@ if($bapid) {
 	$bestpost['message'] = messagecutstr($bestpost['message'], 400);
 	$bestpost['avatar'] = avatar($bestpost['authorid'], 'small');
 }
-
-?>

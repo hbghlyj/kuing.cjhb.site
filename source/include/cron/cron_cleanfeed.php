@@ -17,5 +17,3 @@ $f_deltime = $_G['timestamp'] - $_G['setting']['feedday']*3600*24;
 
 C::t('home_feed')->delete_by_dateline($deltime);
 C::t('home_feed')->optimize_table();
-
-?>

@@ -141,5 +141,3 @@ class adv_threadlist {
 	}
 
 }
-
-?>

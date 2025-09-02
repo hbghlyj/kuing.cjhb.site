@@ -104,5 +104,3 @@ class table_portal_comment extends discuz_table
 	}
 
 }
-
-?>

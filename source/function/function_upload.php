@@ -134,4 +134,3 @@ function getmaxupload() {
 		return ini_get('upload_max_filesize');
 	}
 }
-?>

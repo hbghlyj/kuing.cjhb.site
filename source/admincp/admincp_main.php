@@ -166,5 +166,3 @@ var headers = new Array($headers), admincpfilename = '$basescript', admincpextra
 </script>
 </body></html>
 EOT;
-
-?>

@@ -224,5 +224,3 @@ class discuz_session {
 		return $updated;
 	}
 }
-
-?>

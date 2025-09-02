@@ -25,5 +25,3 @@ class domaincontrol extends base {
 		return $_ENV['domain']->get_list(1, 9999, 9999);
 	}
 }
-
-?>

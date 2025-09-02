@@ -90,5 +90,3 @@ function formatdata($data, $position, $space) {
 	}
 	return $list;
 }
-
-?>

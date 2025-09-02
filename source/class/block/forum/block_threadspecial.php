@@ -70,5 +70,3 @@ class block_threadspecial extends block_thread {
 	}
 
 }
-
-?>

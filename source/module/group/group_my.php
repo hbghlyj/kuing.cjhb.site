@@ -161,5 +161,3 @@ if($frienduid && is_array($frienduid)) {
 $navtitle = $_G['username'].lang('core', 'title_of').$_G['setting']['navs'][3]['navname'];
 
 include_once template("diy:group/group_my");
-
-?>

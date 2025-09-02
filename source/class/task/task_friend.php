@@ -36,5 +36,3 @@ class task_friend {
 	}
 
 }
-
-?>

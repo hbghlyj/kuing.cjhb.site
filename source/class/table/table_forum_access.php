@@ -67,5 +67,3 @@ class table_forum_access extends discuz_table
 		return $uid ? DB::delete($this->_table, DB::field('uid', $uid)) : false;
 	}
 }
-
-?>

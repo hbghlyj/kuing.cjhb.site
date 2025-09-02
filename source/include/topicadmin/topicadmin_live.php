@@ -46,5 +46,3 @@ if(!submitcheck('modsubmit')) {
     updatemodlog($_G['tid'], $modaction, $expiration, 0, '');
 
 }
-
-?>

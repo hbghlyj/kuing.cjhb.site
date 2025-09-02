@@ -146,5 +146,3 @@ class mailmodel {
 		return $this->db->query("UPDATE ".UC_DBTABLEPRE."mailqueue SET failures=failures+1 WHERE mailid='$mailid'");
 	}
 }
-
-?>

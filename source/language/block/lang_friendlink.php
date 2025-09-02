@@ -27,5 +27,3 @@ $lang = array
 	'friendlink_summarylength' => '简介长度',
 	'friendlink_summarylength_comment' => '设置站点简介最大长度',
 );
-
-?>

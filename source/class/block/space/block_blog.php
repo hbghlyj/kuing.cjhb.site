@@ -268,5 +268,3 @@ class block_blog extends discuz_block {
 
 
 }
-
-?>

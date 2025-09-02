@@ -33,5 +33,3 @@ class base_var {
 	}
 
 }
-
-?>

@@ -84,5 +84,3 @@ $lang = array
 	'categorylist_orderby_hours' => '指定時間(小時)',
 	'categorylist_orderby_hours_comment' => '指定時間內瀏覽次數倒序排序的時間值',
 );
-
-?>

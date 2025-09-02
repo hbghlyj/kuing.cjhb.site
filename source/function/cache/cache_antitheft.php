@@ -15,5 +15,3 @@ function build_cache_antitheft() {
 	$data = C::t('common_setting')->fetch_setting('antitheftsetting', true);
 	savecache('antitheft', $data);
 }
-
-?>

@@ -24,5 +24,3 @@ $lang = array
 	'chgusername_change_success' => '用戶名修改操作提交成功，請幾分鐘後重新登錄，如出現任何問題請聯繫管理員',
 
 );
-
-?>

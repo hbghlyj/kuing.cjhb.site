@@ -68,5 +68,3 @@ class table_portal_article_content extends discuz_table
 		return dintval($aid, true) ? DB::delete($this->_table, DB::field('aid', $aid)) : 0;
 	}
 }
-
-?>

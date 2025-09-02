@@ -66,5 +66,3 @@ class table_common_block_item_data extends discuz_table
 		return $bid && $id && $idtype ? DB::fetch_first('SELECT * FROM %t WHERE bid=%d AND id=%d AND idtype=%s', array($this->_table, $bid, $id, $idtype)) : array();
 	}
 }
-
-?>

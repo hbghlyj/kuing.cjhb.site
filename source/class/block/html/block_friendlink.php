@@ -104,5 +104,3 @@ class block_friendlink extends commonblock_html {
 		return array('html' => $return, 'data' => null);
 	}
 }
-
-?>

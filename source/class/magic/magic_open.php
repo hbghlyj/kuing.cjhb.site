@@ -103,5 +103,3 @@ class magic_open {
 	}
 
 }
-
-?>

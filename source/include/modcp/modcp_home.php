@@ -52,5 +52,3 @@ foreach(C::t('common_adminnote')->fetch_all_by_access(explode(',', $access)) as 
 		$notelist[] = $note;
 	}
 }
-
-?>

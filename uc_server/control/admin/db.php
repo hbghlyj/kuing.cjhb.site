@@ -322,5 +322,3 @@ class control extends adminbase {
 	}
 
 }
-
-?>

@@ -62,5 +62,3 @@ class table_portal_category extends discuz_table
 		return $data;
 	}
 }
-
-?>

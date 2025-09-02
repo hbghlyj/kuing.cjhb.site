@@ -31,5 +31,3 @@ class table_common_payment_refund extends discuz_table
 		return DB::fetch_all("SELECT `order_id`, sum(`amount`) as `amount` FROM %t WHERE `order_id` in (%n) AND `status` = 2 GROUP BY `order_id`", array($this->_table, $ids), 'order_id');
 	}
 }
-
-?>
