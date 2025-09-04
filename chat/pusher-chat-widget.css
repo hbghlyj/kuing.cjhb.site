@@ -1,5 +1,5 @@
 .pusher-chat-widget{font-size:13px;background-color:whiteSmoke;border:1px solid #EEE;margin-bottom:0;border-radius:6px;padding-left:10px;}
-.pusher-chat-widget button{font-family:sans-serif;flex-shrink:0;flex-grow:0;grid-area: button;}
+.pusher-chat-widget button{flex-shrink:0;flex-grow:0;grid-area: button;}
 .pusher-chat-widget label{padding-top:6px;line-height:18px;user-select: none;grid-area: label;width: auto;}
 .pusher-chat-widget-header{border-bottom:1px solid #EBEBEB;text-align:center;overflow:auto;}
 .pusher-chat-widget textarea{border: 1px solid #ccc;border-radius: 3px;grid-area: textarea;width: 100%;}
@@ -21,7 +21,7 @@
 .pusher-chat-widget ul.activity-stream li.message-item .screen-name{font-weight:bold;color:#333!important;}
 .pusher-chat-widget ul.activity-stream li.message-item .content{margin-left:30px;}
 .pusher-chat-widget ul.activity-stream li.message-item .text img{max-width:100%}
-.pusher-chat-widget ul.activity-stream li.message-item .text,.pusher-chat-widget textarea{padding:0;font-family:Twemoji Country Flags,sans-serif,"Noto Colr Emoji Glyf";line-height:19px;word-wrap:break-word;}
+.pusher-chat-widget ul.activity-stream li.message-item .text,.pusher-chat-widget textarea{padding:0;line-height:19px;word-wrap:break-word;}
 .pusher-chat-widget ul.activity-stream li.message-item .timestamp{color:#999!important;font-size:9px;float:right;}
 .pusher-chat-widget ul.activity-stream li.message-item .activity-actions{color:#999!important;font-size:9px;}
 .pusher-chat-widget ul.activity-stream li.message-item .delete-action {
