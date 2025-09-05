@@ -40,8 +40,8 @@ ul, ol, li, span, p, form, h1, h2, h3, h4, h5, h6, dl, dt, dd {margin:0;padding:
 img, a img {border:0;margin:0;padding:0}
 ul, ol, li {list-style:none}
 * {margin:0;padding:0}
-html, body {font:12px/1.5 Microsoft YaHei, Helvetica, sans-serif;color:var(--dz-FC-333);min-height:100%}
-input, select, textarea, button {font:14px/1.5  Microsoft YaHei, Helvetica, sans-serif;outline:none}
+html, body {font:12px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;color:var(--dz-FC-333);min-height:100%}
+input, select, textarea, button {font:14px/1.5  -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;outline:none}
 body, ul, ol, li, dl, dd, p, h1, h2, h3, h4, h5, h6, form, fieldset, .pr, .pc {margin:0;padding:0}
 body {background-color:var(--dz-BG-body)}
 table {empty-cells:show;border-collapse:collapse}
@@ -78,7 +78,7 @@ input[type="submit"]::-moz-focus-inner,
 input[type="file"] > input[type="button"]::-moz-focus-inner {border:none;padding:0}
 input[type="submit"], input[type="reset"], input[type="button"], button {-webkit-appearance:none;outline:none}
 
-input, select, textarea {font:14px/1.5 Microsoft YaHei, Helvetica, sans-serif;border:1px solid var(--dz-BOR-ed);border-radius:2px;-webkit-appearance:none;}
+input, select, textarea {font:14px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;border:1px solid var(--dz-BOR-ed);border-radius:2px;-webkit-appearance:none;}
 input, textarea, select, button, a {outline:none;}
 input:focus, textarea:focus, select:focus {box-shadow:0 0 6px rgba(0, 0, 0, .05) inset;transition:all 0.1s ease 0s;}
 input[type="radio"], input[type="checkbox"] {box-shadow:none;vertical-align:middle;width:16px !important;height:16px !important;margin:0px 5px 1px 0px;padding:0px;background:var(--dz-BG-0);}
