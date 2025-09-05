@@ -10,10 +10,10 @@
 <!--{eval $is_old_chrome = preg_match('/Windows 7|Windows 8|Windows NT 6|Windows NT 10\.0.*?Chrome\/10[0-9]/', $_SERVER['HTTP_USER_AGENT']);}-->
 <!--{if $is_old_chrome}--><link href="https://fonts.googleapis.com/css2?family=Noto+Colr+Emoji+Glyf" rel="stylesheet"><!--{/if}-->
 <style id="en_font_style">
-	:root {
-		--common-font: 'Latin Modern Roman';
-		letter-spacing: -0.5px;
-	}
+:root {
+	--common-font: 'Latin Modern Roman';
+	letter-spacing: -0.2px;
+}
 @font-face {
 	font-family: 'Latin Modern Roman';
 	src: url('/static/webfont/NewCM08-Book.woff2') format('woff2');
@@ -42,6 +42,7 @@
 <style id="zh_font_style">
 @font-face {
 font-family: zh;
+size-adjust: 90%;
 src: local('Noto Serif CJK SC'),local('Noto Sans CJK SC'),local('Noto Serif SC'),local('Noto Sans SC'), /* Google open-source Simplified Chinese */
 local('PingFang SC'), /* macOS Simplified Chinese, modern */
 local('Songti SC'),   /* macOS Simplified Chinese, older/alternative */

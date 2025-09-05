@@ -30,6 +30,5 @@
       MathJax.startup.defaultReady();
     }
   }
-  window.MathJax.svg.scale = <?php if(defined("IN_MOBILE")) { ?>0.9<?php } else { ?>1.1<?php } ?>;
 </script>
 <script src="https://unpkg.com/mathjax@4.0.0/tex-svg.js" async></script>
