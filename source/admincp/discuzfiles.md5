@@ -831,6 +831,7 @@ f5b9071a79e909400afa730bbc10fd95 *source/include/collection/collection_index.php
 d41d8cd98f00b204e9800998ecf8427e *source/include/collection/index.htm
 d659e4063eaaf2346d348e53f4dc8531 *source/include/cron/cron_announcement_daily.php
 1d1f125af2142c185e5b1257d7b81b6a *source/include/cron/cron_checkpatch_daily.php
+dc6e13ed7ee8b607d75a83718811d16d *source/include/cron/cron_cleancreditlog.php
 25c2dc1dbaf326fdf6b7e6430440e7b5 *source/include/cron/cron_cleanfeed.php
 381f11f42e60b0776ca06a8ade8c75e3 *source/include/cron/cron_cleannotification.php
 e6246d40c1f5c5c0789d9832bb627428 *source/include/cron/cron_cleantrace.php
