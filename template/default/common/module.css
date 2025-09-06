@@ -1026,7 +1026,7 @@ i.pstatus { display: block; margin-bottom: -30px; font-size: 12px; text-align: c
 		Last Modify:	Pony
 	*/
 	.pls .o li { background-position: 0 50%; background-repeat: no-repeat; }
-	.pls .o li:before { float: left; font-family: dzicon; line-height: 14px; font-size: 16px; color: #7DA0CC; margin-top: 1px; margin-right: 2px; }
+	.pls .o li:before { font-family: dzicon; color: #7DA0CC; margin-right: 2px; }
 		.pls .o .callon:before { content: "\f103"; }
 		.pls .o .buddy:before { content: "\f13e"; }
 		.pls .o .poke2:before { content: "\f146"; }
