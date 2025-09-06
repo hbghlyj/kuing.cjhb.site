@@ -60,7 +60,11 @@ class tag
 		foreach($tags as $tagid => $tagname) {
 			$tagstr .= $tagid.','.$tagname."\t";
 		}
-		foreach(array_diff(array_keys($tagidarray), array_keys($tags)) as $tagid) {
+		// Remove obsolete tag links. The previous implementation used
+		// array_keys on the existing tag list which compared numeric indexes
+		// (0, 1, 2, ...) rather than tag IDs, leaving stale rows in the
+		// association table.
+		foreach(array_diff($tagidarray, array_keys($tags)) as $tagid) {
 			C::t('common_tagitem')->delete_tagitem($tagid, $itemid, $idtype);
 		}
 		return $tagstr;
