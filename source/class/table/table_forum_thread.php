@@ -960,17 +960,17 @@ class table_forum_thread extends discuz_table
 		return 0;
 	}
 
-        public function insert_thread_copy_by_tid($tids, $origin = 0, $target = 0) {
-                $tids = dintval($tids, true);
-                if($tids) {
-                        $wheresql = is_array($tids) && $tids ? 'tid IN(%n)' : 'tid=%d';
-                        DB::query("INSERT INTO %t SELECT * FROM %t WHERE $wheresql", array($this->get_table_name($target), $this->get_table_name($origin), $tids));
-                }
-        }
+	public function insert_thread_copy_by_tid($tids, $origin = 0, $target = 0) {
+		$tids = dintval($tids, true);
+		if($tids) {
+			$wheresql = is_array($tids) && $tids ? 'tid IN(%n)' : 'tid=%d';
+			DB::query("INSERT INTO %t SELECT * FROM %t WHERE $wheresql", array($this->get_table_name($target), $this->get_table_name($origin), $tids));
+		}
+	}
 
-        public function concat_tags_by_tid($tid, $tags) {
-                return DB::query('UPDATE %t SET tags=concat(tags, %s) WHERE tid=%d', array($this->get_table_name(), $tags, $tid));
-        }
+	public function concat_tags_by_tid($tid, $tags) {
+			return DB::query('UPDATE %t SET tags=concat(tags, %s) WHERE tid=%d', array($this->get_table_name(), $tags, $tid));
+	}
 
 	public function count_by_authorid($authorid, $tableid = 0) {
 		return DB::result_first("SELECT COUNT(*) FROM %t WHERE authorid=%d", array($this->get_table_name($tableid), $authorid));
