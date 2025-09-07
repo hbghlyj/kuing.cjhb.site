@@ -1593,10 +1593,10 @@ function getrelateitem($tagarray, $tid, $relatenum, $relatetime, $relatecache = 
 
 
        if(!empty($relatearray)) {
-               foreach($relatearray as $rtid) {
-                       $result = C::t('forum_thread')->fetch($rtid);
-                       if($result && $result['displayorder'] >= 0) {
-                               $relateitem[] = $result;
+               $threads = C::t('forum_thread')->fetch_all_by_tid($relatearray);
+               foreach ($relatearray as $rtid) {
+                       if (isset($threads[$rtid]) && $threads[$rtid]['displayorder'] >= 0) {
+                               $relateitem[] = $threads[$rtid];
                        }
                }
        }
