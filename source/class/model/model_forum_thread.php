@@ -199,10 +199,10 @@ class model_forum_thread extends discuz_model
 			'bbcodeoff' => $this->param['bbcodeoff'],
 			'smileyoff' => $this->param['smileyoff'],
 			'parseurloff' => $this->param['parseurloff'],
-                       'attachment' => '0',
-                       'replycredit' => 0,
-                       'status' => $this->param['pstatus']
-               ));
+			'attachment' => '0',
+			'replycredit' => 0,
+			'status' => $this->param['pstatus']
+		));
 
 		$statarr = array(0 => 'thread', 1 => 'poll', 2 => 'trade', 3 => 'reward', 4 => 'activity', 5 => 'debate', 127 => 'thread');
 		include_once libfile('function/stat');
