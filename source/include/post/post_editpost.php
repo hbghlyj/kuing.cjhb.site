@@ -380,7 +380,7 @@ if(!submitcheck('editsubmit')) {
 		$modpost->attach_before_method('editpost', array('class' => 'extend_thread_image', 'method' => 'before_editpost'));
 
 
-		if($special == '2' && $_G['group']['allowposttrade']) {
+		if($special == 2 && $_G['group']['allowposttrade']) {
 			$modpost->attach_before_method('editpost', array('class' => 'extend_thread_trade', 'method' => 'before_editpost'));
 		}
 
