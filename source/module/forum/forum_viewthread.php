@@ -22,7 +22,7 @@ if(!empty($_GET['checkrush']) && preg_match('/[^0-9_]/', $_GET['checkrush'])) {
 	$_GET['checkrush'] = '';
 }
 
-if(!$_G['forum_thread'] || !$_G['forum']) {
+	if(!$_G['forum_thread'] || !$_G['forum']) {
 	header("HTTP/1.1 404 Not Found");
 	showmessage('thread_nonexistence');
 }
@@ -1097,7 +1097,7 @@ function viewthread_updateviews($tableid) {
 }
 
 function viewthread_procpost($post, $lastvisit, $ordertype, $maxposition = 0) {
-       global $_G, $rushreply;
+	global $_G, $rushreply;
 
 	if(!$_G['forum_newpostanchor'] && $post['dateline'] > $lastvisit) {
 		$post['newpostanchor'] = '<a name="newpost"></a>';
@@ -1144,7 +1144,7 @@ function viewthread_procpost($post, $lastvisit, $ordertype, $maxposition = 0) {
 		$post['number'] = -1;
 	}
 
-       if(!$_G['forum_thread']['special'] && !$rushreply && $_G['setting']['threadfilternum'] && getstatus($post['status'], 11)) {
+	if(!$_G['forum_thread']['special'] && !$rushreply && $_G['setting']['threadfilternum'] && getstatus($post['status'], 11)) {
 		$post['isWater'] = true;
 		if($_G['setting']['hidefilteredpost'] && !$_G['forum']['noforumhidewater']) {
 			$post['inblacklist'] = true;
