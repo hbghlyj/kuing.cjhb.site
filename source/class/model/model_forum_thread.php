@@ -140,9 +140,9 @@ class model_forum_thread extends discuz_model
 		);
 		$this->tid = C::t('forum_thread')->insert($newthread, true);
 		C::t('forum_newthread')->insert(array(
-		    'tid' => $this->tid,
-		    'fid' => $this->forum['fid'],
-		    'dateline' => $this->param['publishdate'],
+			'tid' => $this->tid,
+			'fid' => $this->forum['fid'],
+			'dateline' => $this->param['publishdate'],
 		));
 		C::t('forum_sofa')->insert(array('tid' => $this->tid,'fid' => $this->forum['fid']));
 		useractionlog($this->member['uid'], 'tid');
