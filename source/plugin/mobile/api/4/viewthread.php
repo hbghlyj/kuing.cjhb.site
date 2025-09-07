@@ -21,7 +21,7 @@ class mobile_api {
 
 	public static function output() {
 		global $_G, $thread, $postlist, $threadsortshow;
-               $_G['thread']['lastpost'] = dgmdate($_G['thread']['lastpost']);
+		$_G['thread']['lastpost'] = dgmdate($_G['thread']['lastpost']);
 		$_G['thread']['ordertype'] = $GLOBALS['ordertype'];
 		$_G['thread']['recommend'] = $_G['uid'] && C::t('forum_memberrecommend')->fetch_by_recommenduid_tid($_G['uid'], $_G['tid']) ? 1 : 0;
 		if (!empty($_GET['viewpid'])) {
