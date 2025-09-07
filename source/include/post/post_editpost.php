@@ -65,7 +65,7 @@ if($isfirstpost && $isorigauthor && $_G['group']['allowreplycredit']) {
 if(!submitcheck('editsubmit')) {
 
 
-        $postinfo = C::t('forum_post')->fetch_post('tid:'.$_G['tid'], $pid);
+	$postinfo = C::t('forum_post')->fetch_post('tid:'.$_G['tid'], $pid);
 	if($postinfo['fid'] != $_G['fid'] || $postinfo['tid'] != $_G['tid']) {
 		$postinfo = array();
 	}
