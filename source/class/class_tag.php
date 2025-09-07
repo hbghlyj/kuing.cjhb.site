@@ -159,10 +159,10 @@ class tag
 				$result['tagname'] = addslashes($tagnames[$result['tagid']]['tagname']);
 				if($result['idtype'] == 'tid') {
 					$itemid = $result['itemid'];
-                                        if(!isset($tidarray[$itemid])) {
-                                                $thread = C::t('forum_thread')->fetch($itemid);
-                                                $tidarray[$itemid] = $thread['tags'];
-                                        }
+					if(!isset($tidarray[$itemid])) {
+						$thread = C::t('forum_thread')->fetch($itemid);
+						$tidarray[$itemid] = $thread['tags'];
+					}
 					$tidarray[$itemid] = str_replace("{$result['tagid']},{$result['tagname']}\t", '', $tidarray[$itemid]);
 				} elseif($result['idtype'] == 'blogid') {
 					$itemid = $result['itemid'];
@@ -175,10 +175,10 @@ class tag
 			}
 		}
 
-                if($tidarray) {
-                        foreach($tidarray as $key => $var) {
-                                C::t('forum_thread')->update($key, array('tags' => $var));
-                        }
+		if($tidarray) {
+			foreach($tidarray as $key => $var) {
+				C::t('forum_thread')->update($key, array('tags' => $var));
+			}
 		}
 		if($blogidarray) {
 			foreach($blogidarray as $key => $var) {
