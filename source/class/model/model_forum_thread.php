@@ -305,9 +305,9 @@ class model_forum_thread extends discuz_model
 
 		$varname = array(
 			'member', 'group', 'forum', 'extramessage',
-                       'subject', 'sticktopic', 'save', 'ordertype',
-                       'readperm', 'price', 'typeid', 'sortid',
-'publishdate', 'digest', 'moderated', 'tstatus', 'isgroup',
+			'subject', 'sticktopic', 'save', 'ordertype',
+			'readperm', 'price', 'typeid', 'sortid',
+			'publishdate', 'digest', 'moderated', 'tstatus', 'isgroup',
 			'replycredit', 'closed', 'special', 'tags',
 			'message','clientip', 'invisible', 'isanonymous', 'usesig',
 			'htmlon', 'bbcodeoff', 'smileyoff', 'parseurloff', 'pstatus', 'geoloc',
