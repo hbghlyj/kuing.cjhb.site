@@ -1,7 +1,6 @@
 <!--{eval $_G['forum_thread']['special'] = 0;}-->
 <!-- main postlist start -->
-	<!--{eval $needhiddenreply = ($hiddenreplies && $_G['uid'] != $post['authorid'] && $_G['uid'] != $_G['forum_thread']['authorid'] && !$post['first'] && !$_G['forum']['ismoderator']);}-->
-	<div class="plc cl">
+        <div class="plc cl">
 		<span class="avatar"><img src="<!--{avatar($post['authorid'], 'small', true)}-->" style="width:32px;height:32px;" /></span>
 		<div class="pi">
 			<ul class="authi">
@@ -45,9 +44,7 @@
 						<div class="grey quote">{lang message_banned}</div>
 					<!--{elseif $_G['adminid'] != 1 && $post['status'] & 1}-->
 						<div class="grey quote">{lang message_single_banned}</div>
-					<!--{elseif $needhiddenreply}-->
-						<div class="grey quote">{lang message_ishidden_hiddenreplies}</div>
-					<!--{elseif $post['first'] && $_G['forum_threadpay']}-->
+                                        <!--{elseif $post['first'] && $_G['forum_threadpay']}-->
 						<!--{template forum/viewthread_pay}-->
 					<!--{else}-->
 

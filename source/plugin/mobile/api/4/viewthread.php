@@ -21,16 +21,7 @@ class mobile_api {
 
 	public static function output() {
 		global $_G, $thread, $postlist, $threadsortshow;
-		if ($GLOBALS['hiddenreplies']) {
-			foreach ($postlist as $k => $post) {
-				if (!$post['first'] && $_G['uid'] != $post['authorid'] && $_G['uid'] != $_G['forum_thread']['authorid'] && !$_G['forum']['ismoderator']) {
-					$postlist[$k]['message'] = lang('plugin/mobile', 'mobile_post_author_visible');
-					$postlist[$k]['attachments'] = array();
-				}
-			}
-		}
-
-		$_G['thread']['lastpost'] = dgmdate($_G['thread']['lastpost']);
+               $_G['thread']['lastpost'] = dgmdate($_G['thread']['lastpost']);
 		$_G['thread']['ordertype'] = $GLOBALS['ordertype'];
 		$_G['thread']['recommend'] = $_G['uid'] && C::t('forum_memberrecommend')->fetch_by_recommenduid_tid($_G['uid'], $_G['tid']) ? 1 : 0;
 		if (!empty($_GET['viewpid'])) {
@@ -82,10 +73,8 @@ class mobile_api {
 				$message = lang('forum/template', 'message_banned');
 			} elseif (!$_G['forum']['ismoderator'] && $post['status'] & 1) {
 				$message = lang('forum/template', 'message_single_banned');
-			} elseif ($GLOBALS['needhiddenreply']) {
-				$message = lang('forum/template', 'message_ishidden_hiddenreplies');
-			} elseif ($post['first'] && $_G['forum_threadpay']) {
-				$message = lang('forum/template', 'pay_threads') . ' ' . $GLOBALS['thread']['price'] . ' ' . $_G['setting']['extcredits'][$_G['setting']['creditstransextra'][1]]['unit'] . $_G['setting']['extcredits'][$_G['setting']['creditstransextra'][1]]['title'];
+                       } elseif ($post['first'] && $_G['forum_threadpay']) {
+                               $message = lang('forum/template', 'pay_threads') . ' ' . $GLOBALS['thread']['price'] . ' ' . $_G['setting']['extcredits'][$_G['setting']['creditstransextra'][1]]['unit'] . $_G['setting']['extcredits'][$_G['setting']['creditstransextra'][1]]['title'];
 			} elseif ($_G['forum_discuzcode']['passwordlock']) {
 				$message = lang('forum/template', 'message_password_exists');
 			} else {

@@ -231,9 +231,7 @@ if(!submitcheck('topicsubmit', 0, $seccodecheck, $secqaacheck)) {
 
 
 
-	$params['ordertype'] = getgpc('ordertype');
-
-	$params['hiddenreplies'] = getgpc('hiddenreplies');
+        $params['ordertype'] = getgpc('ordertype');
 
        $params['tags'] = $_GET['tags'];
 	$params['bbcodeoff'] = getgpc('bbcodeoff');

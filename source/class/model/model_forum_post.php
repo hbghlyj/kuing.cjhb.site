@@ -47,7 +47,7 @@ class model_forum_post extends discuz_model {
 			'timestamp',
 
 			'subject', 'sortid', 'typeid', 'cronpublish', 'cronpublishdate', 'save',
-'readperm', 'price', 'ordertype', 'hiddenreplies', 'audit', 'tags',
+'readperm', 'price', 'ordertype', 'audit', 'tags',
 			'updateuid', 'lastupdate',
 		);
 		foreach($varname as $name) {
@@ -404,9 +404,7 @@ class model_forum_post extends discuz_model {
 
 			$this->thread['status'] = setstatus(4, $this->param['ordertype'], $this->thread['status']);
 
-			$this->thread['status'] = setstatus(2, $this->param['hiddenreplies'], $this->thread['status']);
-
-                       $this->thread['status'] = setstatus(6, 1, $this->thread['status']);
+                        $this->thread['status'] = setstatus(6, 1, $this->thread['status']);
 
 			$displayorder = (empty($this->param['save']) || $this->thread['displayorder'] != -4 ) ? ($this->thread['displayorder'] == -4 ? -4 : $this->thread['displayorder']) : -4;
 			$this->param['typeid'] = isset($this->param['typeid']) && isset($this->forum['threadtypes']['types'][$this->param['typeid']]) && (!$this->forum['threadtypes']['moderators'][$this->param['typeid']] || $this->forum['ismoderator']) ? $this->param['typeid'] : 0;

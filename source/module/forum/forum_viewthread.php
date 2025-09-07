@@ -227,8 +227,6 @@ $usemagic = array('user' => array(), 'thread' => array());
 
 $replynotice = getstatus($_G['forum_thread']['status'], 6);
 
-$hiddenreplies = getstatus($_G['forum_thread']['status'], 2);
-
 $rushreply = getstatus($_G['forum_thread']['status'], 3);
 
 $savepostposition = getstatus($_G['forum_thread']['status'], 1);
@@ -649,7 +647,7 @@ if($page == 1 && $ordertype == 1) {
 }
 $tagnames = $locationpids = $hotpostarr = $hotpids = $member_blackList = array();
 
-$remainhots = ($_G['page'] == 1 && !$rushreply && !$hiddenreplies && !$_G['forum_thread']['special'] && !$_G['forum']['noforumrecommend'] && empty($_GET['authorid'])) ? $_G['setting']['threadhotreplies'] : 0;
+$remainhots = ($_G['page'] == 1 && !$rushreply && !$_G['forum_thread']['special'] && !$_G['forum']['noforumrecommend'] && empty($_GET['authorid'])) ? $_G['setting']['threadhotreplies'] : 0;
 if($remainhots) {
 	$hotpids = array_keys(C::t('forum_hotreply_number')->fetch_all_by_tid_total($_G['tid'], 10));
 	$remainhots = $remainhots - count($hotpids);
@@ -1099,7 +1097,7 @@ function viewthread_updateviews($tableid) {
 }
 
 function viewthread_procpost($post, $lastvisit, $ordertype, $maxposition = 0) {
-	global $_G, $rushreply, $hiddenreplies;
+       global $_G, $rushreply;
 
 	if(!$_G['forum_newpostanchor'] && $post['dateline'] > $lastvisit) {
 		$post['newpostanchor'] = '<a name="newpost"></a>';
@@ -1146,7 +1144,7 @@ function viewthread_procpost($post, $lastvisit, $ordertype, $maxposition = 0) {
 		$post['number'] = -1;
 	}
 
-	if(!$_G['forum_thread']['special'] && !$rushreply && empty($hiddenreplies) && $_G['setting']['threadfilternum'] && getstatus($post['status'], 11)) {
+       if(!$_G['forum_thread']['special'] && !$rushreply && $_G['setting']['threadfilternum'] && getstatus($post['status'], 11)) {
 		$post['isWater'] = true;
 		if($_G['setting']['hidefilteredpost'] && !$_G['forum']['noforumhidewater']) {
 			$post['inblacklist'] = true;

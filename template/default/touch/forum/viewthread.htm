@@ -21,8 +21,7 @@
 	</div>
 	<!--{eval $postcount = 0;}-->
 	<!--{loop $postlist $post}-->
-	<!--{eval $needhiddenreply = ($hiddenreplies && $_G['uid'] != $post['authorid'] && $_G['uid'] != $_G['forum_thread']['authorid'] && !$post['first'] && !$_G['forum']['ismoderator']);}-->
-	<!--{hook/viewthread_posttop_mobile $postcount}-->
+        <!--{hook/viewthread_posttop_mobile $postcount}-->
 	<div class="plc cl" id="pid$post['pid']">
 		<div class="avatar"><img src="<!--{if !$post['authorid'] || $post['anonymous']}--><!--{avatar(0, 'small', true)}--><!--{else}--><!--{avatar($post['authorid'], 'small', true)}--><!--{/if}-->" /></div>
 		<div class="display pi<!--{if $post['first']}--> pione<!--{/if}-->">
@@ -182,15 +181,13 @@
 				<!--{if $post['warned']}-->
 					<span class="quote">{lang warn_get}</span>
 				<!--{/if}-->
-				<!--{if !$post['first'] && !empty($post['subject']) && (!$needhiddenreply)}-->
+                            <!--{if !$post['first'] && !empty($post['subject'])}-->
 					<h2><strong>$post['subject']</strong></h2>
 				<!--{/if}-->
 				<!--{if $_G['adminid'] != 1 && $_G['setting']['bannedmessages'] & 1 && (($post['authorid'] && !$post['username']) || ($post['groupid'] == 4 || $post['groupid'] == 5) || $post['status'] == -1 || $post['memberstatus'])}-->
 					<div class="quote">{lang message_banned}</div>
 				<!--{elseif $_G['adminid'] != 1 && $post['status'] & 1}-->
 					<div class="quote">{lang message_single_banned}</div>
-				<!--{elseif $needhiddenreply}-->
-					<div class="quote">{lang message_ishidden_hiddenreplies}</div>
 				<!--{elseif $post['first'] && $_G['forum_threadpay']}-->
 					<!--{template forum/viewthread_pay}-->
                                 <!--{elseif $_G['forum_discuzcode']['passwordlock'][$post['pid']]}-->
@@ -258,7 +255,7 @@
                                         <!--{if $relatedkeywords}--><span>$relatedkeywords</span><!--{/if}-->
                                 </div>
                         <!--{/if}-->
-                       <!--{if ($_G['setting']['mobile']['mobilesimpletype'] == 0) && (!$needhiddenreply)}-->
+                       <!--{if ($_G['setting']['mobile']['mobilesimpletype'] == 0)}-->
 			<!--{if $post['attachment']}-->
 				<div class="quote">
 				{lang attachment}: <em><!--{if $_G['uid']}-->{lang attach_nopermission}<!--{else}-->{lang attach_nopermission_login}<!--{/if}--></em>
@@ -382,7 +379,7 @@
 			<!--{if $post['invisible'] == 0}-->
 				<!--{if $allowpostreply && $post['allowcomment'] && (!$thread['closed'] || $_G['forum']['ismoderator'])}--><li><a href="forum.php?mod=misc&action=comment&tid={$post['tid']}&pid={$post['pid']}&extra={$_GET['extra']}&page={$page}{if $_G['forum_thread']['special'] == 127}&special={$specialextra}{/if}" class="dialog"><i class="dm-chat-t"></i>{lang comments}</a></li><!--{/if}-->
 			<!--{/if}-->
-			<!--{if $_G['uid'] && !$_G['forum_thread']['special'] && !$rushreply && !$hiddenreplies && $_G['setting']['repliesrank'] && !$post['first'] && !($post['isWater'] && $_G['setting']['filterednovote'])}-->
+                    <!--{if $_G['uid'] && !$_G['forum_thread']['special'] && !$rushreply && $_G['setting']['repliesrank'] && !$post['first'] && !($post['isWater'] && $_G['setting']['filterednovote'])}-->
 				<li><a href="forum.php?mod=misc&action=postreview&do=support&tid={$_G['tid']}&pid={$post['pid']}&hash={FORMHASH}" class="dialog"><i class="dm-c-up"></i>{lang support_reply} <span id="review_support_{$post['pid']}">{$post['postreview']['support']}</span></a></li>
 				<li><a href="forum.php?mod=misc&action=postreview&do=against&tid={$_G['tid']}&pid={$post['pid']}&hash={FORMHASH}" class="dialog"><i class="dm-c-down"></i>{lang against_reply} <span id="review_against_{$post['pid']}">{$post['postreview']['against']}</span></a></li>
 			<!--{/if}-->
