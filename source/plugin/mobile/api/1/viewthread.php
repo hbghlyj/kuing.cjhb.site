@@ -21,7 +21,7 @@ class mobile_api {
 
 	public static function output() {
 		global $_G, $thread, $postlist, $threadsortshow;
-               $_G['thread']['lastpost'] = dgmdate($_G['thread']['lastpost']);
+		$_G['thread']['lastpost'] = dgmdate($_G['thread']['lastpost']);
 
 		$variable = array(
 			'thread' => $_G['thread'],
@@ -55,8 +55,8 @@ class mobile_api {
 				$message = lang('forum/template', 'message_banned');
 			} elseif(!$_G['forum']['ismoderator'] && $post['status'] & 1) {
 				$message = lang('forum/template', 'message_single_banned');
-                       } elseif($post['first'] && $_G['forum_threadpay']) {
-                               $message = lang('forum/template', 'pay_threads').' '.$GLOBALS['thread']['price'].' '.$_G['setting']['extcredits'][$_G['setting']['creditstransextra'][1]]['unit'].$_G['setting']['extcredits'][$_G['setting']['creditstransextra'][1]]['title'];
+			} elseif($post['first'] && $_G['forum_threadpay']) {
+				$message = lang('forum/template', 'pay_threads').' '.$GLOBALS['thread']['price'].' '.$_G['setting']['extcredits'][$_G['setting']['creditstransextra'][1]]['unit'].$_G['setting']['extcredits'][$_G['setting']['creditstransextra'][1]]['title'];
 			} elseif($_G['forum_discuzcode']['passwordlock']) {
 				$message = lang('forum/template', 'message_password_exists');
 			} else {
