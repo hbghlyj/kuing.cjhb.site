@@ -437,9 +437,9 @@ class model_forum_post extends discuz_model {
 					}
 				}
 			}
-                        $class_tag = new tag();
-                        $tagstr = $class_tag->update_field($this->param['tags'], $this->thread['tid'], 'tid', $this->thread);
-                        C::t('forum_thread')->update($this->thread['tid'], array('tags' => $tagstr));
+			$class_tag = new tag();
+			$tagstr = $class_tag->update_field($this->param['tags'], $this->thread['tid'], 'tid', $this->thread);
+			C::t('forum_thread')->update($this->thread['tid'], array('tags' => $tagstr));
 
 		} else {
 			if($this->param['subject'] == '' && $this->param['message'] == '' && $this->thread['special'] != 2) {
