@@ -52,19 +52,19 @@ $posttable = $thread['posttable'];
 // fetch thread cover image url for Open Graph
 $cover = C::t('forum_threadimage')->fetch_by_tid($_G['tid']);
 if($cover) {
-    $image_path_segment = 'forum/'.$cover['attachment'];
-    if($cover['remote']) {
-	// remote attachments always have an absolute FTP URL
-	$_G['threadimage_url'] = $_G['setting']['ftp']['attachurl'].$image_path_segment;
-    } else {
-	$attach_url = $_G['setting']['attachurl'];
-	// ensure the URL is absolute for Open Graph usage
-	if(strpos($attach_url, '://') === false && strpos($attach_url, '//') !== 0) {
-		$_G['threadimage_url'] = rtrim($_G['siteurl'], '/').'/'.ltrim($attach_url, '/').$image_path_segment;
+	$image_path_segment = 'forum/'.$cover['attachment'];
+	if($cover['remote']) {
+		// remote attachments always have an absolute FTP URL
+		$_G['threadimage_url'] = $_G['setting']['ftp']['attachurl'].$image_path_segment;
 	} else {
-		$_G['threadimage_url'] = $attach_url.$image_path_segment;
+		$attach_url = $_G['setting']['attachurl'];
+		// ensure the URL is absolute for Open Graph usage
+		if(strpos($attach_url, '://') === false && strpos($attach_url, '//') !== 0) {
+			$_G['threadimage_url'] = rtrim($_G['siteurl'], '/').'/'.ltrim($attach_url, '/').$image_path_segment;
+		} else {
+			$_G['threadimage_url'] = $attach_url.$image_path_segment;
+		}
 	}
-    }
 }
 
 
