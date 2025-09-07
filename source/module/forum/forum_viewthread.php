@@ -1592,14 +1592,14 @@ function getrelateitem($tagarray, $tid, $relatenum, $relatetime, $relatecache = 
        }
 
 
-       if(!empty($relatearray)) {
-               $threads = C::t('forum_thread')->fetch_all_by_tid($relatearray);
-               foreach ($relatearray as $rtid) {
-                       if (isset($threads[$rtid]) && $threads[$rtid]['displayorder'] >= 0) {
-                               $relateitem[] = $threads[$rtid];
-                       }
-               }
-       }
+	if(!empty($relatearray)) {
+		$threads = C::t('forum_thread')->fetch_all_by_tid_fid_displayorder($relatearray, null, 0, null);
+		foreach ($relatearray as $rtid) {
+			if (isset($threads[$rtid])) {
+				$relateitem[] = $threads[$rtid];
+			}
+		}
+	}
        return $relateitem;
 }
 
