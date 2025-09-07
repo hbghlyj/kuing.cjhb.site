@@ -199,7 +199,7 @@ class model_forum_thread extends discuz_model
 			'bbcodeoff' => $this->param['bbcodeoff'],
 			'smileyoff' => $this->param['smileyoff'],
 			'parseurloff' => $this->param['parseurloff'],
-			'attachment' => '0',
+			'attachment' => 0,
 			'replycredit' => 0,
 			'status' => $this->param['pstatus']
 		));
