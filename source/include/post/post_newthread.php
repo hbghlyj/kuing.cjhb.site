@@ -78,8 +78,8 @@ if(!submitcheck('topicsubmit', 0, $seccodecheck, $secqaacheck)) {
 	$savecount = $savethreadcount + $savethreadothercount;
 	unset($savethread);
 
-       $isfirstpost = 1;
-       $showthreadsorts = !empty($sortid) || getglobal('forum/threadsorts/required') && empty($special);
+	$isfirstpost = 1;
+	$showthreadsorts = !empty($sortid) || getglobal('forum/threadsorts/required') && empty($special);
 	if(empty($sortid) && empty($special) && getglobal('forum/threadsorts/required') && $_G['forum']['threadsorts']['types']) {
 		$tmp = array_keys($_G['forum']['threadsorts']['types']);
 		$sortid = $tmp[0];
@@ -231,9 +231,9 @@ if(!submitcheck('topicsubmit', 0, $seccodecheck, $secqaacheck)) {
 
 
 
-        $params['ordertype'] = getgpc('ordertype');
+	$params['ordertype'] = getgpc('ordertype');
 
-       $params['tags'] = $_GET['tags'];
+	$params['tags'] = $_GET['tags'];
 	$params['bbcodeoff'] = getgpc('bbcodeoff');
 	$params['smileyoff'] = getgpc('smileyoff');
 	$params['parseurloff'] = getgpc('parseurloff');
