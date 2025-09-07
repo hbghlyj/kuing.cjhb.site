@@ -60,8 +60,9 @@ class tag
 		foreach($tags as $tagid => $tagname) {
 			$tagstr .= $tagid.','.$tagname."\t";
 		}
-		foreach(array_diff(array_keys($tagidarray), array_keys($tags)) as $tagid) {
-			C::t('common_tagitem')->delete_tagitem($tagid, $itemid, $idtype);
+		$tags_to_delete = array_diff($tagidarray, array_keys($tags));
+		if($tags_to_delete) {
+			C::t('common_tagitem')->delete_tagitem($tags_to_delete, $itemid, $idtype);
 		}
 		return $tagstr;
 	}
@@ -158,10 +159,10 @@ class tag
 				$result['tagname'] = addslashes($tagnames[$result['tagid']]['tagname']);
 				if($result['idtype'] == 'tid') {
 					$itemid = $result['itemid'];
-                                        if(!isset($tidarray[$itemid])) {
-                                                $thread = C::t('forum_thread')->fetch($itemid);
-                                                $tidarray[$itemid] = $thread['tags'];
-                                        }
+					if(!isset($tidarray[$itemid])) {
+						$thread = C::t('forum_thread')->fetch($itemid);
+						$tidarray[$itemid] = $thread['tags'];
+					}
 					$tidarray[$itemid] = str_replace("{$result['tagid']},{$result['tagname']}\t", '', $tidarray[$itemid]);
 				} elseif($result['idtype'] == 'blogid') {
 					$itemid = $result['itemid'];
@@ -174,11 +175,11 @@ class tag
 			}
 		}
 
-                if($tidarray) {
-                        foreach($tidarray as $key => $var) {
-                                C::t('forum_thread')->update($key, array('tags' => $var));
-                        }
-                }
+		if($tidarray) {
+			foreach($tidarray as $key => $var) {
+				C::t('forum_thread')->update($key, array('tags' => $var));
+			}
+		}
 		if($blogidarray) {
 			foreach($blogidarray as $key => $var) {
 				C::t('home_blogfield')->update($key, array('tag' => $var));
