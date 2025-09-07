@@ -110,8 +110,6 @@ class model_forum_thread extends discuz_model
 		$this->param['ordertype'] && $this->param['tstatus'] = setstatus(4, 1, $this->param['tstatus']);
 
 
-		$this->param['hiddenreplies'] && $this->param['tstatus'] = setstatus(2, 1, $this->param['tstatus']);
-
 		$this->param['tstatus'] = setstatus(6, 1, $this->param['tstatus']);
 		$this->param['isgroup'] = $this->forum['status'] == 3 ? 1 : 0;
 
@@ -142,9 +140,9 @@ class model_forum_thread extends discuz_model
 		);
 		$this->tid = C::t('forum_thread')->insert($newthread, true);
 		C::t('forum_newthread')->insert(array(
-		    'tid' => $this->tid,
-		    'fid' => $this->forum['fid'],
-		    'dateline' => $this->param['publishdate'],
+			'tid' => $this->tid,
+			'fid' => $this->forum['fid'],
+			'dateline' => $this->param['publishdate'],
 		));
 		C::t('forum_sofa')->insert(array('tid' => $this->tid,'fid' => $this->forum['fid']));
 		useractionlog($this->member['uid'], 'tid');
@@ -201,10 +199,10 @@ class model_forum_thread extends discuz_model
 			'bbcodeoff' => $this->param['bbcodeoff'],
 			'smileyoff' => $this->param['smileyoff'],
 			'parseurloff' => $this->param['parseurloff'],
-                       'attachment' => '0',
-                       'replycredit' => 0,
-                       'status' => $this->param['pstatus']
-               ));
+			'attachment' => 0,
+			'replycredit' => 0,
+			'status' => $this->param['pstatus']
+		));
 
 		$statarr = array(0 => 'thread', 1 => 'poll', 2 => 'trade', 3 => 'reward', 4 => 'activity', 5 => 'debate', 127 => 'thread');
 		include_once libfile('function/stat');
@@ -307,9 +305,9 @@ class model_forum_thread extends discuz_model
 
 		$varname = array(
 			'member', 'group', 'forum', 'extramessage',
-			'subject', 'sticktopic', 'save', 'ordertype', 'hiddenreplies',
-                       'readperm', 'price', 'typeid', 'sortid',
-'publishdate', 'digest', 'moderated', 'tstatus', 'isgroup',
+			'subject', 'sticktopic', 'save', 'ordertype',
+			'readperm', 'price', 'typeid', 'sortid',
+			'publishdate', 'digest', 'moderated', 'tstatus', 'isgroup',
 			'replycredit', 'closed', 'special', 'tags',
 			'message','clientip', 'invisible', 'isanonymous', 'usesig',
 			'htmlon', 'bbcodeoff', 'smileyoff', 'parseurloff', 'pstatus', 'geoloc',

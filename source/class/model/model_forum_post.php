@@ -47,7 +47,7 @@ class model_forum_post extends discuz_model {
 			'timestamp',
 
 			'subject', 'sortid', 'typeid', 'cronpublish', 'cronpublishdate', 'save',
-'readperm', 'price', 'ordertype', 'hiddenreplies', 'audit', 'tags',
+'readperm', 'price', 'ordertype', 'audit', 'tags',
 			'updateuid', 'lastupdate',
 		);
 		foreach($varname as $name) {
@@ -404,9 +404,7 @@ class model_forum_post extends discuz_model {
 
 			$this->thread['status'] = setstatus(4, $this->param['ordertype'], $this->thread['status']);
 
-			$this->thread['status'] = setstatus(2, $this->param['hiddenreplies'], $this->thread['status']);
-
-                       $this->thread['status'] = setstatus(6, 1, $this->thread['status']);
+			$this->thread['status'] = setstatus(6, 1, $this->thread['status']);
 
 			$displayorder = (empty($this->param['save']) || $this->thread['displayorder'] != -4 ) ? ($this->thread['displayorder'] == -4 ? -4 : $this->thread['displayorder']) : -4;
 			$this->param['typeid'] = isset($this->param['typeid']) && isset($this->forum['threadtypes']['types'][$this->param['typeid']]) && (!$this->forum['threadtypes']['moderators'][$this->param['typeid']] || $this->forum['ismoderator']) ? $this->param['typeid'] : 0;
@@ -439,9 +437,9 @@ class model_forum_post extends discuz_model {
 					}
 				}
 			}
-                        $class_tag = new tag();
-                        $tagstr = $class_tag->update_field($this->param['tags'], $this->thread['tid'], 'tid', $this->thread);
-                        C::t('forum_thread')->update($this->thread['tid'], array('tags' => $tagstr));
+			$class_tag = new tag();
+			$tagstr = $class_tag->update_field($this->param['tags'], $this->thread['tid'], 'tid', $this->thread);
+			C::t('forum_thread')->update($this->thread['tid'], array('tags' => $tagstr));
 
 		} else {
 			if($this->param['subject'] == '' && $this->param['message'] == '' && $this->thread['special'] != 2) {
@@ -485,7 +483,7 @@ class model_forum_post extends discuz_model {
 			'bbcodeoff' => $this->param['bbcodeoff'],
 			'parseurloff' => $this->param['parseurloff'],
 			'smileyoff' => $this->param['smileyoff'],
-                        'subject' => $this->param['subject'],
+			'subject' => $this->param['subject'],
 			'port'=>getglobal('remoteport')
 		);
 		if(empty($_GET['minor'])){
@@ -581,9 +579,9 @@ class model_forum_post extends discuz_model {
 		}*/
 
 
-               if($this->thread['displayorder'] >= 0) {
-                       updatepostcredits('-', array(array('uid' => $this->post['authorid'], 'dateline' => $this->post['dateline'])), ($isfirstpost ? 'post' : 'reply'), $this->forum['fid']);
-               }
+		if($this->thread['displayorder'] >= 0) {
+			updatepostcredits('-', array(array('uid' => $this->post['authorid'], 'dateline' => $this->post['dateline'])), ($isfirstpost ? 'post' : 'reply'), $this->forum['fid']);
+		}
 
 
 		if(!$this->param['handlereplycredit']) {
@@ -629,8 +627,8 @@ class model_forum_post extends discuz_model {
 			//After deleting 1# we need to set the next post as first post and update the subject and tags
 			if($isfirstpost) {
 				$nextpost = C::t('forum_post')->fetch_visiblepost_by_tid('tid:'.$this->thread['tid'], $this->thread['tid'], 0, 0);// the top post which is not deleted
-                                C::t('forum_post')->update_post($this->thread['posttableid'], $nextpost['pid'], array('first' => 1, 'subject' => $this->post['subject']));
-                                C::t('forum_thread')->update($this->thread['tid'], array('tags' => $this->post['tags']));
+				C::t('forum_post')->update_post($this->thread['posttableid'], $nextpost['pid'], array('first' => 1, 'subject' => $this->post['subject']));
+				C::t('forum_thread')->update($this->thread['tid'], array('tags' => $this->post['tags']));
 			}
 		}
 
