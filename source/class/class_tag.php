@@ -247,8 +247,8 @@ class tag {
 			$tagstr .= $tagid.','.$tagname."\t";
 		}
 		$removedTags = array_diff($tagidarray, array_keys($tags));
-		foreach($removedTags as $tagid) {
-			table_common_tagitem::t()->delete_tagitem($tagid, $itemid, $idtype);
+		if($removedTags) {
+			table_common_tagitem::t()->delete_tagitem($removedTags, $itemid, $idtype);
 		}
 		// 更新被删除标签的热度
 		foreach($removedTags as $tagid) {
