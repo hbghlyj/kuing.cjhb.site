@@ -69,9 +69,9 @@ function attachimglstshow(pid, islazy, fid, showexif) {
                 s = ' onmouseover="showMenu({\'ctrlid\':this.id, \'pos\': \'12!\'});"';
         }
         if(typeof aimgcount == 'object' && aimgcount[pid] && $('imagelistthumb_' + pid)) {
-                var imagelist = '';
+                let imagelist = '';
                 for (let i = 0; i < aimgcount[pid].length; i++) {
-                        var aid = aimgcount[pid][i];
+                        const aid = aimgcount[pid][i];
                         if(!$('aimg_' + aid) || $('aimg_' + aid).getAttribute('inpost') || parseInt(aid) != aid) {
                                 continue;
                         }
