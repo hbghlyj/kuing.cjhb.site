@@ -113,6 +113,8 @@ C::t('forum_thread')->update($_G['tid'], array('tags' => $newtagstr));
 			'replies' => $other['replies'],
 		);
 	C::t('forum_thread')->increase($_G['tid'], $fieldarr);
+	$lastpost = max($thread['lastpost'], $other['lastpost']);
+	$lastposter = $lastpost == $thread['lastpost'] ? $thread['lastposter'] : $other['lastposter'];
 	$fieldarr = array(
 			'authorid' => $firstpost['authorid'],
 			'author' => $firstpost['author'],
@@ -120,6 +122,8 @@ C::t('forum_thread')->update($_G['tid'], array('tags' => $newtagstr));
 			'dateline' => $firstpost['dateline'],
 			'moderated' => 1,
 			'maxposition' => $other['maxposition'] + $thread['maxposition'],
+			'lastpost' => $lastpost,
+			'lastposter' => $lastposter,
 		);
 	C::t('forum_thread')->update($_G['tid'], $fieldarr);
 	updateforumcount($other['fid']);
