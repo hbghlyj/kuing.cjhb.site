@@ -17,7 +17,7 @@ function attachimggroup(pid) {
 }
 
 function attachimgshow(pid, onlyinpost) {
-        onlyinpost = !onlyinpost ? false : onlyinpost;
+        onlyinpost = !!onlyinpost;
         let aimgs = aimgcount[pid];
         let aimgcomplete = 0;
         let loadingcount = 0;
