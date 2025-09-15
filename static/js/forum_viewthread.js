@@ -150,9 +150,9 @@ function parsetag(pid) {
         if(!$('postmessage_'+pid) || $('postmessage_'+pid).innerHTML.match(/<script[^\>]*?>/i)) {
                 return;
         }
-        var havetag = false;
-        var tagfindarray = new Array();
-        var str = $('postmessage_'+pid).innerHTML.replace(/(^|>)([^<]+)(?=<|$)/ig, function($1, $2, $3, $4) {
+        let havetag = false;
+        const tagfindarray = [];
+        const str = $('postmessage_'+pid).innerHTML.replace(/(^|>)([^<]+)(?=<|$)/ig, function($1, $2, $3, $4) {
                 for (const [i, tag] of tagarray.entries()) {
                         if(tag && $3.indexOf(tag) != -1) {
                                 havetag = true;
