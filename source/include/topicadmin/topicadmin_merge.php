@@ -117,7 +117,7 @@ C::t('forum_thread')->update($_G['tid'], array('tags' => $newtagstr));
 			'authorid' => $firstpost['authorid'],
 			'author' => $firstpost['author'],
 			'subject' => $firstpost['subject'],
-			'dateline' => $firstpost['dateline'],
+			'dateline' => max($thread['dateline'], $other['dateline']),
 			'moderated' => 1,
 			'maxposition' => $other['maxposition'] + $thread['maxposition'],
 		);
