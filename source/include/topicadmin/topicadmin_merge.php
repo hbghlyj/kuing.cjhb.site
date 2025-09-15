@@ -69,20 +69,14 @@ C::t('forum_thread')->update($_G['tid'], array('tags' => $newtagstr));
 	if($posttable != $otherposttable) {
 		C::t('forum_post')->increase_position_by_tid($thread['posttableid'], $_G['tid'], $other['maxposition'] + $thread['maxposition']);
 		C::t('forum_post')->increase_position_by_tid($other['posttableid'], $othertid, $other['maxposition'] + $thread['maxposition']);
-		foreach(C::t('forum_post')->fetch_all_by_tid('tid:'.$_G['tid'], $_G['tid'], false, 'ASC') as $row) {
-			$postlist1[] = $row;
-		}
-		foreach(C::t('forum_post')->fetch_all_by_tid('tid:'.$othertid, $othertid, false, 'ASC') as $row) {
-			$postlist2[] = $row;
-		}
 	} else {
 		C::t('forum_post')->increase_position_by_tid($thread['posttableid'], array($_G['tid'], $othertid), $other['maxposition'] + $thread['maxposition']);
-		foreach(C::t('forum_post')->fetch_all_by_tid('tid:'.$_G['tid'], $_G['tid'], false, 'ASC') as $row) {
-			$postlist1[] = $row;
-		}
-		foreach(C::t('forum_post')->fetch_all_by_tid('tid:'.$othertid, $othertid, false, 'ASC') as $row) {
-			$postlist2[] = $row;
-		}
+	}
+	foreach(C::t('forum_post')->fetch_all_by_tid('tid:'.$_G['tid'], $_G['tid'], false, 'ASC') as $row) {
+		$postlist1[] = $row;
+	}
+	foreach(C::t('forum_post')->fetch_all_by_tid('tid:'.$othertid, $othertid, false, 'ASC') as $row) {
+		$postlist2[] = $row;
 	}
 	$pidlist = $newpostposition ? array_merge($postlist2, $postlist1) : array_merge($postlist1, $postlist2);
 	$pos = 1;
