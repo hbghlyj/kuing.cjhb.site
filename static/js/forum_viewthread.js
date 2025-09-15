@@ -112,7 +112,7 @@ function attachimglst(pid, op, islazy) {
 }
 
 function attachimginfo(obj, infoobj, show, event) {
-        var objinfo = fetchOffset(obj);
+        const objinfo = fetchOffset(obj);
         if(show) {
                 $(infoobj).style.left = objinfo['left'] + 'px';
                 $(infoobj).style.top = obj.offsetHeight < 40 ? (objinfo['top'] + obj.offsetHeight) + 'px' : objinfo['top'] + 'px';
