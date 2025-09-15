@@ -113,12 +113,8 @@ C::t('forum_thread')->update($_G['tid'], array('tags' => $newtagstr));
 			'replies' => $other['replies'],
 		);
 	C::t('forum_thread')->increase($_G['tid'], $fieldarr);
-	$lastpost = $thread['lastpost'];
-	$lastposter = $thread['lastposter'];
-	if($other['lastpost'] > $lastpost) {
-		$lastpost = $other['lastpost'];
-		$lastposter = $other['lastposter'];
-	}
+	$lastpost = max($thread['lastpost'], $other['lastpost']);
+	$lastposter = $lastpost == $thread['lastpost'] ? $thread['lastposter'] : $other['lastposter'];
 	$fieldarr = array(
 			'authorid' => $firstpost['authorid'],
 			'author' => $firstpost['author'],
