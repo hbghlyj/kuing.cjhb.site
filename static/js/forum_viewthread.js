@@ -63,29 +63,25 @@ function attachimgshow(pid, onlyinpost) {
 }
 
 function attachimglstshow(pid, islazy, fid, showexif) {
-	var aimgs = aimgcount[pid];
 	var s = '';
 	if(fid) {
 		s = ' onmouseover="showMenu({\'ctrlid\':this.id, \'pos\': \'12!\'});"';
 	}
-	if(typeof aimgcount == 'object' && $('imagelistthumb_' + pid)) {
-		for(pid in aimgcount) {
-			var imagelist = '';
-                       for (let i = 0;i < aimgcount[pid].length;i++) {
-				if(!$('aimg_' + aimgcount[pid][i]) || $('aimg_' + aimgcount[pid][i]).getAttribute('inpost') || parseInt(aimgcount[pid][i]) != aimgcount[pid][i]) {
-					continue;
-				}
-				if(fid) {
-					imagelist += '<div id="pattimg_' + aimgcount[pid][i] + '_menu" class="tip tip_4" style="display: none;"><div class="tip_horn"></div><div class="tip_c"><a href="forum.php?mod=ajax&action=setthreadcover&aid=' + aimgcount[pid][i] + '&fid=' + fid + '" class="xi2" onclick="showWindow(\'setcover' + aimgcount[pid][i] + '\', this.href)">' + $L('set_cover') + '</a></div></div>';
-				}
-				imagelist += '<div class="pattimg">' +
-					'<a id="pattimg_' + aimgcount[pid][i] + '" class="pattimg_zoom" href="javascript:;"' + s + ' onclick="zoom($(\'aimg_' + aimgcount[pid][i] + '\'), attachimggetsrc(\'aimg_' + aimgcount[pid][i] + '\'), 0, 0, ' + (parseInt(showexif) ? 1 : 0) + ')" title="' + $L('click_zoom') + '">' + $L('click_zoom') + '</a>' +
-					'<img ' + (islazy ? 'file' : 'src') + '="forum.php?mod=image&aid=' + aimgcount[pid][i] + '&size=100x100&key=' + imagelistkey + '&atid=' + tid + '" width="100" height="100" /></div>';
+	if(typeof aimgcount == 'object' && aimgcount[pid] && $('imagelistthumb_' + pid)) {
+		let imagelist = '';
+		for (let i = 0; i < aimgcount[pid].length; i++) {
+			const aid = aimgcount[pid][i];
+			if(!$('aimg_' + aid) || $('aimg_' + aid).getAttribute('inpost') || parseInt(aid) != aid) {
+				continue;
 			}
-			if($('imagelistthumb_' + pid)) {
-				$('imagelistthumb_' + pid).innerHTML = imagelist;
+			if(fid) {
+				imagelist += '<div id="pattimg_' + aid + '_menu" class="tip tip_4" style="display: none;"><div class="tip_horn"></div><div class="tip_c"><a href="forum.php?mod=ajax&action=setthreadcover&aid=' + aid + '&fid=' + fid + '" class="xi2" onclick="showWindow(\'setcover' + aid + '\', this.href)">' + $L('set_cover') + '</a></div></div>';
 			}
+			imagelist += '<div class="pattimg">' +
+				'<a id="pattimg_' + aid + '" class="pattimg_zoom" href="javascript:;"' + s + ' onclick="zoom($(\'aimg_' + aid + '\'), attachimggetsrc(\'aimg_' + aid + '\'), 0, 0, ' + (parseInt(showexif) ? 1 : 0) + ')" title="' + $L('click_zoom') + '">' + $L('click_zoom') + '</a>' +
+				'<img ' + (islazy ? 'file' : 'src') + '="forum.php?mod=image&aid=' + aid + '&size=100x100&key=' + imagelistkey + '&atid=' + tid + '" width="100" height="100" /></div>';
 		}
+		$('imagelistthumb_' + pid).innerHTML = imagelist;
 	}
 }
 
