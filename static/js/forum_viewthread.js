@@ -64,7 +64,6 @@ function attachimgshow(pid, onlyinpost) {
 }
 
 function attachimglstshow(pid, islazy, fid, showexif) {
-        var aimgs = aimgcount[pid];
         var s = '';
         if(fid) {
                 s = ' onmouseover="showMenu({\'ctrlid\':this.id, \'pos\': \'12!\'});"';
