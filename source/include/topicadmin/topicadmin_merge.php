@@ -21,10 +21,11 @@ if(!submitcheck('modsubmit')) {
 
 } else {
 
-	$posttable = getposttablebytid($_G['tid']);
-	$othertid = intval($_GET['othertid']);
-	$otherposttable = getposttablebytid($othertid);
-	$modaction = 'MRG';
+       $posttable = getposttablebytid($_G['tid']);
+       $othertid = intval($_GET['othertid']);
+       $otherposttable = getposttablebytid($othertid);
+       $newpostposition = intval($_GET['newpostposition']);
+       $modaction = 'MRG';
 
 	$reason = checkreasonpm();
 
@@ -56,49 +57,47 @@ foreach($taglist as $id => $name) {
 }
 C::t('forum_thread')->update($_G['tid'], array('tags' => $newtagstr));
 
-	$other['views'] = intval($other['views']);
-	$other['replies']++;
-	if(!$other['maxposition']) {
-		$other['maxposition'] = C::t('forum_post')->fetch_maxposition_by_tid($other['posttableid'], $othertid);
-	}
-	if(!$thread['maxposition']) {
-		$thread['maxposition'] = C::t('forum_post')->fetch_maxposition_by_tid($thread['posttableid'], $_G['tid']);
-	}
-	$pos = 1;
-	if($posttable != $otherposttable) {
-		$pidlist = array();
-		C::t('forum_post')->increase_position_by_tid($thread['posttableid'], $_G['tid'], $other['maxposition'] + $thread['maxposition']);
-		C::t('forum_post')->increase_position_by_tid($other['posttableid'], $othertid, $other['maxposition'] + $thread['maxposition']);
-		foreach(C::t('forum_post')->fetch_all_by_tid('tid:'.$_G['tid'], $_G['tid'], false, 'ASC') as $row) {
-			$pidlist[$row['dateline']] = array('pid' => $row['pid'], 'tid' => $row['tid']);
-		}
-		foreach(C::t('forum_post')->fetch_all_by_tid('tid:'.$othertid, $othertid, false, 'ASC') as $row) {
-			$pidlist[$row['dateline']] = array('pid' => $row['pid'], 'tid' => $row['tid']);
-		}
-		ksort($pidlist);
-		foreach($pidlist as $row) {
-			C::t('forum_post')->update_post('tid:'.$row['tid'], $row['pid'], array('position' => $pos));
-			$pos ++;
-		}
-		unset($pidlist);
-	} else {
-		C::t('forum_post')->increase_position_by_tid($thread['posttableid'], array($_G['tid'], $othertid), $other['maxposition'] + $thread['maxposition']);
-		foreach(C::t('forum_post')->fetch_all_by_tid('tid:'.$_G['tid'], array($_G['tid'], $othertid), false, 'ASC') as $row) {
-			C::t('forum_post')->update_post('tid:'.$_G['tid'], $row['pid'], array('position' => $pos));
-			$pos ++;
-		}
-	}
-	if($posttable != $otherposttable) {
-		foreach(C::t('forum_post')->fetch_all_by_tid('tid:'.$othertid, $othertid) as $row) {
-			C::t('forum_post')->insert_post('tid:'.$_G['tid'], $row);
-		}
-		C::t('forum_post')->delete_by_tid('tid:'.$othertid, $othertid);
-	}
-
-	$query = C::t('forum_post')->fetch_all_by_tid('tid:'.$_G['tid'], array($_G['tid'], $othertid), false, 'ASC', 0, 1, null, 0);
-	foreach($query as $row) {
-		$firstpost = $row;
-	}
+       $other['views'] = intval($other['views']);
+       $other['replies']++;
+       if(!$other['maxposition']) {
+               $other['maxposition'] = C::t('forum_post')->fetch_maxposition_by_tid($other['posttableid'], $othertid);
+       }
+       if(!$thread['maxposition']) {
+               $thread['maxposition'] = C::t('forum_post')->fetch_maxposition_by_tid($thread['posttableid'], $_G['tid']);
+       }
+       $postlist1 = $postlist2 = array();
+       if($posttable != $otherposttable) {
+               C::t('forum_post')->increase_position_by_tid($thread['posttableid'], $_G['tid'], $other['maxposition'] + $thread['maxposition']);
+               C::t('forum_post')->increase_position_by_tid($other['posttableid'], $othertid, $other['maxposition'] + $thread['maxposition']);
+               foreach(C::t('forum_post')->fetch_all_by_tid('tid:'.$_G['tid'], $_G['tid'], false, 'ASC') as $row) {
+                       $postlist1[] = $row;
+               }
+               foreach(C::t('forum_post')->fetch_all_by_tid('tid:'.$othertid, $othertid, false, 'ASC') as $row) {
+                       $postlist2[] = $row;
+               }
+       } else {
+               C::t('forum_post')->increase_position_by_tid($thread['posttableid'], array($_G['tid'], $othertid), $other['maxposition'] + $thread['maxposition']);
+               foreach(C::t('forum_post')->fetch_all_by_tid('tid:'.$_G['tid'], $_G['tid'], false, 'ASC') as $row) {
+                       $postlist1[] = $row;
+               }
+               foreach(C::t('forum_post')->fetch_all_by_tid('tid:'.$othertid, $othertid, false, 'ASC') as $row) {
+                       $postlist2[] = $row;
+               }
+       }
+       $pidlist = $newpostposition ? array_merge($postlist2, $postlist1) : array_merge($postlist1, $postlist2);
+       $pos = 1;
+       foreach($pidlist as $row) {
+               C::t('forum_post')->update_post('tid:'.$row['tid'], $row['pid'], array('position' => $pos));
+               $pos++;
+       }
+       $firstpost = reset($pidlist);
+       unset($postlist1, $postlist2, $pidlist);
+       if($posttable != $otherposttable) {
+               foreach(C::t('forum_post')->fetch_all_by_tid('tid:'.$othertid, $othertid) as $row) {
+                       C::t('forum_post')->insert_post('tid:'.$_G['tid'], $row);
+               }
+               C::t('forum_post')->delete_by_tid('tid:'.$othertid, $othertid);
+       }
 
 	$postsmerged = C::t('forum_post')->update_by_tid('tid:'.$_G['tid'], $othertid, array('tid' => $_G['tid']));
 	DB::update('forum_postcomment', array('tid' => $_G['tid']), DB::field('tid', $othertid), false, false);
