@@ -8,25 +8,25 @@
 var replyreload = '', attachimgST = new Array(), zoomgroup = new Array(), zoomgroupinit = new Array();
 
 function attachimggroup(pid) {
-	if(!zoomgroupinit[pid]) {
-               for (let i = 0;i < aimgcount[pid].length;i++) {
-			zoomgroup['aimg_' + aimgcount[pid][i]] = pid;
-		}
-		zoomgroupinit[pid] = true;
-	}
+        if(!zoomgroupinit[pid]) {
+                for (let i = 0; i < aimgcount[pid].length; i++) {
+                        zoomgroup['aimg_' + aimgcount[pid][i]] = pid;
+                }
+                zoomgroupinit[pid] = true;
+        }
 }
 
 function attachimgshow(pid, onlyinpost) {
-	onlyinpost = !onlyinpost ? false : onlyinpost;
-	aimgs = aimgcount[pid];
-	aimgcomplete = 0;
-	loadingcount = 0;
-       for (let i = 0;i < aimgs.length;i++) {
-		obj = $('aimg_' + aimgs[i]);
-		if(!obj) {
-			aimgcomplete++;
-			continue;
-		}
+        onlyinpost = !!onlyinpost;
+        let aimgs = aimgcount[pid];
+        let aimgcomplete = 0;
+        let loadingcount = 0;
+        for (let i = 0; i < aimgs.length; i++) {
+                let obj = $('aimg_' + aimgs[i]);
+                if(!obj) {
+                        aimgcomplete++;
+                        continue;
+                }
 		if(onlyinpost && !obj.getAttribute('inpost')) {
 			aimgcomplete++;
 			continue;
@@ -64,30 +64,30 @@ function attachimgshow(pid, onlyinpost) {
 }
 
 function attachimglstshow(pid, islazy, fid, showexif) {
-	var aimgs = aimgcount[pid];
-	var s = '';
-	if(fid) {
-		s = ' onmouseover="showMenu({\'ctrlid\':this.id, \'pos\': \'12!\'});"';
-	}
-	if(typeof aimgcount == 'object' && $('imagelistthumb_' + pid)) {
-		for(pid in aimgcount) {
-			var imagelist = '';
-                       for (let i = 0;i < aimgcount[pid].length;i++) {
-				if(!$('aimg_' + aimgcount[pid][i]) || $('aimg_' + aimgcount[pid][i]).getAttribute('inpost') || parseInt(aimgcount[pid][i]) != aimgcount[pid][i]) {
-					continue;
-				}
-				if(fid) {
-					imagelist += '<div id="pattimg_' + aimgcount[pid][i] + '_menu" class="tip tip_4" style="display: none;"><div class="tip_horn"></div><div class="tip_c"><a href="forum.php?mod=ajax&action=setthreadcover&aid=' + aimgcount[pid][i] + '&fid=' + fid + '" class="xi2" onclick="showWindow(\'setcover' + aimgcount[pid][i] + '\', this.href)">'+lng['set_cover']+'</a></div></div>';
-				}
-				imagelist += '<div class="pattimg">' +
-					'<a id="pattimg_' + aimgcount[pid][i] + '" class="pattimg_zoom" href="javascript:;"' + s + ' onclick="zoom($(\'aimg_' + aimgcount[pid][i] + '\'), attachimggetsrc(\'aimg_' + aimgcount[pid][i] + '\'), 0, 0, ' + (parseInt(showexif) ? 1 : 0) + ')" title="'+lng['click_to_enlarge']+'">'+lng['click_to_enlarge']+'</a>' +
-					'<img ' + (islazy ? 'file' : 'src') + '="forum.php?mod=image&aid=' + aimgcount[pid][i] + '&size=100x100&key=' + imagelistkey + '&atid=' + tid + '" width="100" height="100" /></div>';
-			}
-			if($('imagelistthumb_' + pid)) {
-				$('imagelistthumb_' + pid).innerHTML = imagelist;
-			}
-		}
-	}
+        var aimgs = aimgcount[pid];
+        var s = '';
+        if(fid) {
+                s = ' onmouseover="showMenu({\'ctrlid\':this.id, \'pos\': \'12!\'});"';
+        }
+        if(typeof aimgcount == 'object' && $('imagelistthumb_' + pid)) {
+                for (const postid in aimgcount) {
+                        var imagelist = '';
+                        for (let i = 0; i < aimgcount[postid].length; i++) {
+                                if(!$('aimg_' + aimgcount[postid][i]) || $('aimg_' + aimgcount[postid][i]).getAttribute('inpost') || parseInt(aimgcount[postid][i]) != aimgcount[postid][i]) {
+                                        continue;
+                                }
+                                if(fid) {
+                                        imagelist += '<div id="pattimg_' + aimgcount[postid][i] + '_menu" class="tip tip_4" style="display: none;"><div class="tip_horn"></div><div class="tip_c"><a href="forum.php?mod=ajax&action=setthreadcover&aid=' + aimgcount[postid][i] + '&fid=' + fid + '" class="xi2" onclick="showWindow(\'setcover' + aimgcount[postid][i] + '\', this.href)">'+lng['set_cover']+'</a></div></div>';
+                                }
+                                imagelist += '<div class="pattimg">' +
+                                        '<a id="pattimg_' + aimgcount[postid][i] + '" class="pattimg_zoom" href="javascript:;"' + s + ' onclick="zoom($(\'aimg_' + aimgcount[postid][i] + '\'), attachimggetsrc(\'aimg_' + aimgcount[postid][i] + '\'), 0, 0, ' + (parseInt(showexif) ? 1 : 0) + ')" title="'+lng['click_to_enlarge']+'">'+lng['click_to_enlarge']+'</a>' +
+                                        '<img ' + (islazy ? 'file' : 'src') + '="forum.php?mod=image&aid=' + aimgcount[postid][i] + '&size=100x100&key=' + imagelistkey + '&atid=' + tid + '" width="100" height="100" /></div>';
+                        }
+                        if($('imagelistthumb_' + postid)) {
+                                $('imagelistthumb_' + postid).innerHTML = imagelist;
+                        }
+                }
+        }
 }
 
 function attachimggetsrc(img) {
@@ -112,11 +112,11 @@ function attachimglst(pid, op, islazy) {
 }
 
 function attachimginfo(obj, infoobj, show, event) {
-	objinfo = fetchOffset(obj);
-	if(show) {
-		$(infoobj).style.left = objinfo['left'] + 'px';
-		$(infoobj).style.top = obj.offsetHeight < 40 ? (objinfo['top'] + obj.offsetHeight) + 'px' : objinfo['top'] + 'px';
-		$(infoobj).style.display = '';
+        const objinfo = fetchOffset(obj);
+        if(show) {
+                $(infoobj).style.left = objinfo['left'] + 'px';
+                $(infoobj).style.top = obj.offsetHeight < 40 ? (objinfo['top'] + obj.offsetHeight) + 'px' : objinfo['top'] + 'px';
+                $(infoobj).style.display = '';
 	} else {
 		if(BROWSER.ie) {
 			$(infoobj).style.display = 'none';
@@ -147,32 +147,32 @@ function tagshow(event) {
 }
 
 function parsetag(pid) {
-	if(!$('postmessage_'+pid) || $('postmessage_'+pid).innerHTML.match(/<script[^\>]*?>/i)) {
-		return;
-	}
-	var havetag = false;
-	var tagfindarray = new Array();
-       var str = $('postmessage_'+pid).innerHTML.replace(/(^|>)([^<]+)(?=<|$)/ig, function($1, $2, $3, $4) {
-               for (const [i, tag] of tagarray.entries()) {
-                       if(tag && $3.indexOf(tag) != -1) {
-                               havetag = true;
-                               $3 = $3.replace(tag, '<h_ ' + i + '>');
-                               let tmp = $3.replace(/&[a-z]*?<h_ \d+>[a-z]*?;/ig, '');
-                               if(tmp != $3) {
-                                       $3 = tmp;
-                               } else {
-                                       tagfindarray[i] = tag;
-                                       tagarray[i] = '';
-                               }
-                       }
-               }
-               return $2 + $3;
-               });
-		if(havetag) {
-		$('postmessage_'+pid).innerHTML = str.replace(/<h_ (\d+)>/ig, function($1, $2) {
-			return '<span href=\"forum.php?mod=tag&name=' + tagencarray[$2] + '\" onclick=\"tagshow(event)\" class=\"t_tag\">' + tagfindarray[$2] + '</span>';
-	    	});
-	}
+        if(!$('postmessage_'+pid) || $('postmessage_'+pid).innerHTML.match(/<script[^\>]*?>/i)) {
+                return;
+        }
+        let havetag = false;
+        const tagfindarray = [];
+        const str = $('postmessage_'+pid).innerHTML.replace(/(^|>)([^<]+)(?=<|$)/ig, function($1, $2, $3, $4) {
+                for (const [i, tag] of tagarray.entries()) {
+                        if(tag && $3.indexOf(tag) != -1) {
+                                havetag = true;
+                                $3 = $3.replace(tag, '<h_ ' + i + '>');
+                                let tmp = $3.replace(/&[a-z]*?<h_ \d+>[a-z]*?;/ig, '');
+                                if(tmp != $3) {
+                                        $3 = tmp;
+                                } else {
+                                        tagfindarray[i] = tag;
+                                        tagarray[i] = '';
+                                }
+                        }
+                }
+                return $2 + $3;
+        });
+                if(havetag) {
+                $('postmessage_'+pid).innerHTML = str.replace(/<h_ (\d+)>/ig, function($1, $2) {
+                        return '<span href=\"forum.php?mod=tag&name=' + tagencarray[$2] + '\" onclick=\"tagshow(event)\" class=\"t_tag\">' + tagfindarray[$2] + '</span>';
+                });
+        }
 }
 
 function setanswer(pid, from){
