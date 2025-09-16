@@ -27,6 +27,9 @@
         return handleTag.call(this, node, ignore);
       }
       <?php endif; ?>
+      const Macro = MathJax._.input.tex.Token.Macro;
+      const {MakeBig} = MathJax._.input.tex.base.BaseMethods.default;
+      MathJax._.input.tex.MapHandler.MapHandler.getMap('macros').map.set('big',new Macro('big', MakeBig, [TEXCLASS.ORD, 0.86]));
       MathJax.startup.defaultReady();
     }
   }
