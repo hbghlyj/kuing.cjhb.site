@@ -88,10 +88,8 @@ function discuzcode($message, $smileyoff = false, $bbcodeoff = false, $htmlon = 
 			$code_arr[] = $code;
 			// Remove comments: only unescaped '%' and the rest of the line
 			$code = preg_replace('/(?<!\\\\)%.*$/m', '', $code);
-			// Remove lines that are white space only
-			$code = preg_replace('/^\s*$\n/m', '', $code);
-			// Remove leading and trailing white space from each line
-			$code = preg_replace('/^\s+|\s+$/m', '', $code);
+			// Remove leading and trailing spaces or tabs from each line while preserving empty lines
+			$code = preg_replace('/^[ \t]+|[ \t]+$/m', '', $code);
 			$strb = rtrim(strtr(base64_encode(gzdeflate($code)), '+/', '-_'), '=');
 			return '[img]//i.upmath.me/svgb/'.$strb.'[/img]';
 		}, $message);
@@ -102,10 +100,8 @@ function discuzcode($message, $smileyoff = false, $bbcodeoff = false, $htmlon = 
 			$code_arr[] = $code;
 			// Remove comments: double slashes and the rest of the line
 			$code = preg_replace('/(?<!\\\\)\/\/.*$/m', '', $code);
-			// Remove lines that are white space only
-			$code = preg_replace('/^\s*$\n/m', '', $code);
-			// Remove leading and trailing white space from each line
-			$code = preg_replace('/^\s+|\s+$/m', '', $code);
+			// Remove leading and trailing spaces or tabs from each line while preserving empty lines
+			$code = preg_replace('/^[ \t]+|[ \t]+$/m', '', $code);
 			$format = (str_contains($code, 'import graph3')||str_contains($code, 'import three'))? 'png' : 'svg';
 			return '[img]asy/?code='.rawurlencode($code).'&format='.$format.'[/img]';
 		}, $message);
