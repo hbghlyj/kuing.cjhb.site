@@ -1285,7 +1285,7 @@ body, input, button, select { font: {FONTSIZE} {FONT}; color: {TABLETEXT}; }
 	.lk p { color: {MIDTEXT}; }
 	.lk .m li { clear: left; padding: 0 0 10px 98px; }
 		.lk .m img { display: inline; margin-left: -98px; }
-	.lk .x li { float: left; margin-right: 5px; width: 93px; height: 1.5em; overflow: hidden; }
+	.lk .x { column-count: 3; }
 	.lk_logo .lk_content { float: left; }
 
 /* ------------------------------------------------------------------------ 其他特定功能块 */
