@@ -288,11 +288,7 @@ if(!submitcheck('topicsubmit', 0, $seccodecheck, $secqaacheck)) {
 		$modthread->feed();
 	}
 
-	if(!empty($_G['setting']['rewriterule']['forum_viewthread']) && is_array($_G['setting']['rewritestatus']) && in_array('forum_viewthread', $_G['setting']['rewritestatus'])) {
-		$returnurl = rewriteoutput('forum_viewthread', 1, '', $modthread->tid, 1, '', $extra);
-	} else {
-		$returnurl = "forum.php?mod=viewthread&tid={$modthread->tid}".($extra ? "&extra=$extra" : '');
-	}
+	$returnurl = "forum.php?mod=viewthread&tid={$modthread->tid}".($extra ? "&extra=$extra" : '');
 	$values = array('fid' => $modthread->forum('fid'), 'tid' => $modthread->tid, 'pid' => $modthread->pid, 'coverimg' => '', 'sechash' => !empty($_GET['sechash']) ? $_GET['sechash'] : '');
 	showmessage($return, $returnurl, array_merge($values, (array)$modthread->param('values')), $modthread->param('param'));
 
