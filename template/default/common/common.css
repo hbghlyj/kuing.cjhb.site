@@ -371,7 +371,7 @@ body, input, button, select { font: {FONTSIZE} {FONT}; color: {TABLETEXT}; }
 	Explain:		相应页面中 AJAX 请求时的状态显示
 	Last Modify:	lushnis
 */
-        #ajaxwaitid { display: none; position: fixed; right: 0; top: 0; z-index: 1; padding: 0 5px; background: #D00; color: {LIGHTLINK}; }
+	#ajaxwaitid { position: fixed; right: 0; top: 0; z-index: 1; display: none; padding: 0 5px; background: #D00; color: {LIGHTLINK}; }
 /*
 	Name:			mod_showmenu
 	Level:			Global
