@@ -72,11 +72,7 @@ if(!empty($srchfid) && !is_numeric($srchfid)) {
 
 if(!submitcheck('searchsubmit', 1)) {
 	$keyword = dhtmlspecialchars($keyword);
-	if(getgpc('adv')) {
-		include template('search/forum_adv');
-	} else {
-		include template('search/forum');
-	}
+	include template('search/forum_adv');
 
 } else {
 	$orderby = in_array(getgpc('orderby'), array('dateline', 'replies', 'views')) ? $_GET['orderby'] : 'lastpost';
