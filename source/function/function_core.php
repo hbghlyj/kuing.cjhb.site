@@ -1170,7 +1170,7 @@ function libfile($libname, $folder = '') {
 		$path = "{$libpath}/{$libname}";
 	}
 	if($isPlugin) {
-		return $path.'.php';
+		return file_exists($path.'.php') ? realpath($path.'.php') : false;
 	}
 	return preg_match('/^[\w\d\/_]+$/i', $path) ? realpath(DISCUZ_ROOT.$path.'.php') : false;
 }
