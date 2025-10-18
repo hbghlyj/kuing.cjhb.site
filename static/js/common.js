@@ -2631,4 +2631,4 @@ if (BROWSER.ie) {
 	document.documentElement.addBehavior("#default#userdata");
 }
 
-_attachEvent(window, 'load', loadAvatar, document);
+document.addEventListener('DOMContentLoaded', loadAvatar);
