@@ -1034,10 +1034,7 @@ function setContext(cmd) {
 	}
 	fs = fs && cmd != 'clear' ? fs : lng['font'];
 	if(fs != $(editorid + '_font').fontstate) {
-		thingy = fs.indexOf(',') > 0 ? fs.substr(0, fs.indexOf(',')) : fs;
-		if(thingy) {
-			thingy = thingy.replace(/^['"]+|['"]+$/g, '');
-		}
+		var thingy = (fs.indexOf(',') > 0 ? fs.substr(0, fs.indexOf(',')) : fs).replace(/^['"]+|['"]+$/g, '');
 		$(editorid + '_font').innerHTML = thingy;
 		$(editorid + '_font').fontstate = fs;
 	}
