@@ -69,7 +69,7 @@ function bbcode2html(str) {
 								continue;
 							}
 						re = new RegExp(preg_quote(smilies_array[typeid][page][i][1]), "g");
-						str = str.replace(re, '<img src="' + STATICURL + 'image/smiley/' + smilies_type['_' + typeid][1] + '/' + smilies_array[typeid][page][i][2] + '" border="0" smilieid="' + smilies_array[typeid][page][i][0] + '" alt="' + smilies_array[typeid][page][i][1] + '" />');
+						str = str.replace(re, '<img src="' + STATICURL + 'image/smiley/' + smilies_array[typeid][page][i][2] + '" border="0" smilieid="' + smilies_array[typeid][page][i][0] + '" alt="' + smilies_array[typeid][page][i][1] + '" />');
 					}
 				}
 			}
