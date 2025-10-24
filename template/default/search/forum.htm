@@ -1,8 +1,7 @@
 <!--{template search/header}-->
 <div id="ct" class="cl w">
 	<div class="mw">
-<!--{if $searchid}-->
-<form class="searchform" method="post" autocomplete="off" action="search.php?mod=forum" onsubmit="if($('scform_srchtxt')) searchFocus($('scform_srchtxt'));">
+		<form class="searchform" method="post" autocomplete="off" action="search.php?mod=forum" onsubmit="if($('scform_srchtxt')) searchFocus($('scform_srchtxt'));">
 			<input type="hidden" name="formhash" value="{FORMHASH}" />
 			<!--{subtemplate search/pubsearch}-->
 
@@ -13,7 +12,6 @@
 			<!--{/loop}-->
 			<!--{if $policymsgs}--><p>{lang search_credit_msg}</p><!--{/if}-->
 		</form>
-<!--{/if}-->
 		<div class="bm bw0">
 			<div class="sttl mbn"><h2>{lang search_thread_higher}</h2></div>
 			<div class="bm_c">
@@ -43,7 +41,6 @@
 							<th>{lang tag}</th>
 							<td><input type="text" name="srchtag" class="px" size="25" maxlength="40" value="$srchtag" /><i class="fico-help fc-n vm" tip="用,分隔多个标签可以取它们的交集" onmouseover="showTip(this)"></i></td>
 						</tr>
-
 						<tr>
 							<th>{lang logical_connective}</th>
 							<td>
@@ -69,10 +66,10 @@
 							<th><label for="srchfrom">{lang search_time}</label></th>
 							<td>
 								<input type="hidden" name="srchfrom"/>
-								<input type="datetime-local" id="srchfrom_widget" value="<!--{echo $srchfrom ? date('Y-m-d\\TH:i', $srchfrom) : ''}-->" />
+								<input type="datetime-local" id="srchfrom_widget" value="<!--{echo $srchfrom ? date('Y-m-d\TH:i', $srchfrom) : ''}-->" />
 								~
 								<input type="hidden" name="before"/>
-								<input type="datetime-local" id="before_widget" value="<!--{echo $before ? date('Y-m-d\\TH:i', $before) : ''}-->" />
+								<input type="datetime-local" id="before_widget" value="<!--{echo $before ? date('Y-m-d\TH:i', $before) : ''}-->" />
 							</td>
 						</tr>
 
@@ -116,6 +113,9 @@
 			</div>
 		</div>
 
+		<!--{if !empty($searchid) && submitcheck('searchsubmit', 1)}-->
+			<!--{subtemplate search/thread_list}-->
+		<!--{/if}-->
 	</div>
 </div>
 <!--{template search/footer}-->
