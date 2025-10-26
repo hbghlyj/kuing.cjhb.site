@@ -1550,7 +1550,7 @@ function parseurl(str, mode, parsecode) {
                 }
                 return prefix + (mode == 'html' ? '<a href="' + url + '" target="_blank">' + url + '</a>' : '[url]' + url + '[/url]');
         });
-       const wwwPattern = new RegExp(`([^\\w>=\\]"'/@]|^)((www\\.)([\\w\\-]+\\.)*[:.@\\-\\w\\u4e00-\\u9fa5]+\\.([\\.a-zA-Z0-9]+|\\u4E2D\\u56FD|\\u7F51\\u7EDC|\\u516C\\u53F8)(${urlSuffixRegex})*)`,`ig`);
+       const wwwPattern = new RegExp(`([^.\\w>=\"'/@]|^)((www\\.)([\\w\\-]+\\.)*[:.@\\-\\w\\u4e00-\\u9fa5]+\\.([\\.a-zA-Z0-9]+|\\u4E2D\\u56FD|\\u7F51\\u7EDC|\\u516C\\u53F8)(${urlSuffixRegex})*)`,`ig`);
         str = str.replace(wwwPattern, function (match, prefix, url) {
                try {
                     let urlObj = new URL(url.startsWith('http') ? url : 'http://' + url); // Ensure valid URL
