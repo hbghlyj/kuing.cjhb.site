@@ -1,9 +1,9 @@
-function initSearch(lang, forumlist) {
-const { liteClient: algoliasearch } = window['algoliasearch/lite'];
-window.addEventListener('load', function () {
+import "https://unpkg.com/instantsearch.js";
+import liteClient from "https://unpkg.com/algoliasearch@4.25.3/dist/algoliasearch-lite.esm.browser.js";
+export function initSearch(lang, forumlist) {
 	var search = instantsearch({
 		indexName: 'kuing',
-		searchClient: algoliasearch('KZZUGXICHQ', 'cfaa3668ecea0bce830d62fc30f4d0dd'),
+		searchClient: liteClient('KZZUGXICHQ', 'cfaa3668ecea0bce830d62fc30f4d0dd'),
 		routing: {
 			router: instantsearch.routers.history({ writeDelay: 1000 }),
 			stateMapping: {
@@ -135,5 +135,4 @@ window.addEventListener('load', function () {
 		search.start();
 		document.querySelector("#algolia-search-box input[type='search']").select()
 	}, {once: true});
-});
 }
