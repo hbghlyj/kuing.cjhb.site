@@ -1,5 +1,5 @@
 import "https://unpkg.com/instantsearch.js";
-import {liteClient} from "https://unpkg.com/algoliasearch/dist/lite/builds/browser.min.js?module";
+import liteClient from "https://unpkg.com/algoliasearch@4.25.3/dist/algoliasearch-lite.esm.browser.js";
 export function initSearch(lang, forumlist) {
 	var search = instantsearch({
 		indexName: 'kuing',
