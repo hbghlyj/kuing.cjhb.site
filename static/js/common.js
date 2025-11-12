@@ -2454,7 +2454,8 @@ function html5DPlayer(randomid, ext, src, width, height) {
 			mutex: true,
 			listFolded: true,
 			video: {
-				url: src
+				url: src,
+				pic: src + '.thumb.jpg'
 			}
 		});
 	} else {
