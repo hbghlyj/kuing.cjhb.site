@@ -94,7 +94,7 @@ if(!empty($srchfid) && !is_numeric($srchfid)) {
 
 if(!submitcheck('searchsubmit', 1)) {
 	$keyword = dhtmlspecialchars($keyword);
-	include template('search/forum_adv');
+	include template('search/forum');
 
 } else {
 	$orderby = in_array(getgpc('orderby'), array('dateline', 'replies', 'views')) ? $_GET['orderby'] : 'lastpost';
@@ -178,11 +178,7 @@ if(!submitcheck('searchsubmit', 1)) {
 		$logicalconnectivechecked[$logicalconnective] = ' checked="checked"';
 		$advextra = '&orderby='.$orderby.'&ascdesc='.$ascdesc.'&searchid='.$searchid.'&searchsubmit=yes';
 		$keyword = dhtmlspecialchars($keyword);
-		if($_GET['adv']) {
-			include template('search/forum_adv');
-		} else {
-			include template('search/forum');
-		}
+		include template('search/forum');
 
 		} else {
 
@@ -237,7 +233,7 @@ if(!submitcheck('searchsubmit', 1)) {
 			!($_G['group']['exempt'] & 2) && checklowerlimit('search');
 
 			if(!$srchtxt && !$srchuid && !$srchtag && !$srchfrom && !$before && !$srchparticipantuid && !is_array($special)) {
-				dheader('Location: search.php?mod=forum&adv=yes');
+				dheader('Location: search.php?mod=forum');
 			} elseif(isset($srchfid) && !empty($srchfid) && $srchfid != 'all' && !(is_array($srchfid) && in_array('all', $srchfid)) && empty($forumsarray)) {
 				showmessage('search_forum_invalid');
 			} elseif(!$fids) {
