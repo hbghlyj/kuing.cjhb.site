@@ -26,8 +26,10 @@ $lang = [
 	'7_days_ago' => '1 周',
 	'90_days_ago' => '3 个月',
 	'author' => '作者',
+	'participant' => '参与者',
 	'dateline' => '发布时间',
 	'keywords' => '关键词',
+	'logical_connective' => '逻辑符',
 	'order_asc' => '按升序排列',
 	'order_desc' => '按降序排列',
 	'order_lastpost' => '回复时间',
@@ -92,4 +94,3 @@ $lang = [
 	'goto_memcp' => '进入管理面板',
 	'thread_list_message1' => '内容隐藏需要，请点击进去查看',
 ];
-
