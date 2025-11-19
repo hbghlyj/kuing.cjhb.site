@@ -45,21 +45,29 @@ $Aa = $_GET['Aa'] == 1 ? 1 : 0;
 $searchid = isset($_GET['searchid']) ? intval($_GET['searchid']) : 0;
 $seltableid = intval(getgpc('seltableid'));
 
+$getuidsbyusername = function($username) {
+        $username = trim($username);
+        if($username === '') {
+                return array();
+        }
+
+        $uids = array_keys(C::t('common_member')->fetch_all_by_like_username($username, 0, 50));
+        if(empty($uids)) {
+                showmessage('username_nonexistence');
+        }
+
+        return $uids;
+};
+
 $srchtxt = trim(getgpc('srchtxt'));
 $srchparticipant = trim(getgpc('srchparticipant'));
 $srchuid = isset($_GET['srchuid']) ? intval($_GET['srchuid']) : 0;
 $srchparticipantuid = array();
 if(isset($_GET['srchuname']) && $_GET['srchuname'] != '') {
-        $srchuid = array_keys(C::t('common_member')->fetch_all_by_like_username(trim($_GET['srchuname']), 0, 50));
-        if(empty($srchuid)) {
-                showmessage('username_nonexistence');
-        }
+        $srchuid = $getuidsbyusername($_GET['srchuname']);
 }
 if($srchparticipant !== '') {
-        $srchparticipantuid = array_keys(C::t('common_member')->fetch_all_by_like_username($srchparticipant, 0, 50));
-        if(empty($srchparticipantuid)) {
-                showmessage('username_nonexistence');
-        }
+        $srchparticipantuid = $getuidsbyusername($srchparticipant);
 }
 if($srchuid) {
         $srchuid = array_map('intval', (array)$srchuid);
@@ -242,20 +250,20 @@ if(!submitcheck('searchsubmit', 1)) {
 				}
 			}
 
-			$usepost = $fulltext || !empty($srchparticipantuid);
-			if($usepost){
-			$sqlsrch = "FROM ".DB::table(getposttable($seltableid))." p INNER JOIN ".DB::table('forum_thread').' t' 
-			." ON p.tid=t.tid WHERE t.fid IN ($fids) AND p.invisible='0'";
-			}else{
-			$sqlsrch = "FROM ".DB::table('forum_thread').' t' 
-			." WHERE t.fid IN ($fids)";
-			}
-			if($srchuid) {
-			$sqlsrch .= ' AND '.($fulltext ? 'p' : 't').'.authorid IN ('.dimplode((array)$srchuid).')';
-}
-			if($srchparticipantuid) {
-			$sqlsrch .= ' AND p.authorid IN ('.dimplode((array)$srchparticipantuid).')';
-			}
+                        $usepost = $fulltext || !empty($srchparticipantuid);
+                        if($usepost) {
+                                $sqlsrch = "FROM ".DB::table(getposttable($seltableid))." p INNER JOIN ".DB::table('forum_thread').' t'
+                                        ." ON p.tid=t.tid WHERE t.fid IN ($fids) AND p.invisible='0'";
+                        } else {
+                                $sqlsrch = "FROM ".DB::table('forum_thread').' t'
+                                        ." WHERE t.fid IN ($fids)";
+                        }
+                        if($srchuid) {
+                                $sqlsrch .= ' AND '.($fulltext ? 'p' : 't').'.authorid IN ('.dimplode((array)$srchuid).')';
+                        }
+                        if($srchparticipantuid) {
+                                $sqlsrch .= ' AND p.authorid IN ('.dimplode((array)$srchparticipantuid).')';
+                        }
 			if($srchtxt) {
 				if($logicalconnective == 'regexp') {
 					$match_type = $Aa ? '\'cm\'' : '\'im\'';// see https://dev.mysql.com/doc/refman/8.4/en/regexp.html#function_regexp-like
@@ -284,11 +292,11 @@ if(!submitcheck('searchsubmit', 1)) {
 						showmessage('tag_does_not_exist', NULL, array('tag' => $value));
 					}
 					$result = C::t('common_tag')->get_bytagname($value,'tid');
-					if($result) {
-						$id[] = $result['tagid'];
-			}else{
-						showmessage('tag_does_not_exist', NULL, array('tag' => $value));
-					}
+                                        if($result) {
+                                                $id[] = $result['tagid'];
+                                        } else {
+                                                showmessage('tag_does_not_exist', NULL, array('tag' => $value));
+                                        }
 				}
 				$sql_parts = array();
 				foreach($id as $tagid) {
