@@ -46,17 +46,17 @@ $searchid = isset($_GET['searchid']) ? intval($_GET['searchid']) : 0;
 $seltableid = intval(getgpc('seltableid'));
 
 $getuidsbyusername = function($username) {
-        $username = trim($username);
-        if($username === '') {
-                return array();
-        }
+	$username = trim($username);
+	if($username === '') {
+		return array();
+	}
 
-        $uids = array_keys(C::t('common_member')->fetch_all_by_like_username($username, 0, 50));
-        if(empty($uids)) {
-                showmessage('username_nonexistence');
-        }
+	$uids = array_keys(C::t('common_member')->fetch_all_by_like_username($username, 0, 50));
+	if(empty($uids)) {
+		showmessage('username_nonexistence');
+	}
 
-        return $uids;
+	return $uids;
 };
 
 $srchtxt = trim(getgpc('srchtxt'));
@@ -64,16 +64,16 @@ $srchparticipant = trim(getgpc('srchparticipant'));
 $srchuid = isset($_GET['srchuid']) ? intval($_GET['srchuid']) : 0;
 $srchparticipantuid = array();
 if(isset($_GET['srchuname']) && $_GET['srchuname'] != '') {
-        $srchuid = $getuidsbyusername($_GET['srchuname']);
+	$srchuid = $getuidsbyusername($_GET['srchuname']);
 }
 if($srchparticipant !== '') {
-        $srchparticipantuid = $getuidsbyusername($srchparticipant);
+	$srchparticipantuid = $getuidsbyusername($srchparticipant);
 }
 if($srchuid) {
-        $srchuid = array_map('intval', (array)$srchuid);
+	$srchuid = array_map('intval', (array)$srchuid);
 }
 if($srchparticipantuid) {
-        $srchparticipantuid = array_map('intval', (array)$srchparticipantuid);
+	$srchparticipantuid = array_map('intval', (array)$srchparticipantuid);
 }
 $srchtag = getgpc('srchtag');
 $srchfrom = intval(getgpc('srchfrom'));
@@ -93,8 +93,8 @@ if(!empty($srchfid) && !is_numeric($srchfid)) {
 }
 
 if(!submitcheck('searchsubmit', 1)) {
-        $keyword = dhtmlspecialchars($keyword);
-		include template('search/forum_adv');
+	$keyword = dhtmlspecialchars($keyword);
+	include template('search/forum_adv');
 
 } else {
 	$orderby = in_array(getgpc('orderby'), array('dateline', 'replies', 'views')) ? $_GET['orderby'] : 'lastpost';
@@ -292,11 +292,11 @@ if(!submitcheck('searchsubmit', 1)) {
 						showmessage('tag_does_not_exist', NULL, array('tag' => $value));
 					}
 					$result = C::t('common_tag')->get_bytagname($value,'tid');
-                                        if($result) {
-                                                $id[] = $result['tagid'];
-                                        } else {
-                                                showmessage('tag_does_not_exist', NULL, array('tag' => $value));
-                                        }
+					if($result) {
+						$id[] = $result['tagid'];
+					} else {
+						showmessage('tag_does_not_exist', NULL, array('tag' => $value));
+					}
 				}
 				$sql_parts = array();
 				foreach($id as $tagid) {
@@ -304,7 +304,6 @@ if(!submitcheck('searchsubmit', 1)) {
 				}
 				$sqlsrch .= ' AND t.tid IN ('.implode(' INTERSECT ', $sql_parts).')';
 			}
-
 			$expiration = TIMESTAMP + $cachelife_text;
 			
 
