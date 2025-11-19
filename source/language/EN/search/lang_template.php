@@ -25,6 +25,7 @@ $lang = array (
 	'7_days_ago'		=> '1 week',//'1 周',
 	'90_days_ago'		=> '3 months',//'3 个月',
 	'author'		=> 'Author',//'作者',
+	'participant'           => 'Participant',//'参与者',
 	'dateline'		=> 'Publish time',//'发布时间',
 	'keywords'		=> 'Keywords',//'关键词',
 	'logical_connective'	=> 'Logical connector',//'逻辑符',
