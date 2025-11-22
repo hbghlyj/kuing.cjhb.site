@@ -12,7 +12,7 @@ window.MathJax = {
       vv: '\\overrightarrow',
       sslash: '\\mathrel{/\\mkern-5mu/}',
       px: '\\mathrel{/\\mkern-5mu/}',
-      pqd: '\\stackrel{\\smash[b]{/\\!/}}{\\raise-.3ex{=}}',
+      pqd: '\\stackrel{/\\!/}{=}',
       veps: '\\varepsilon',
       du: '^\\circ',
       bsb: '\\boldsymbol',
