@@ -183,11 +183,11 @@ $postshowavatars = !($_G['setting']['bannedmessages'] & 2 && ($post['memberstatu
 					<!--{/if}-->
 				<!--{/if}-->
 
-                                <!--{if $post['authorid'] && !$post['anonymous']}-->
-                                        <!--{if $post['authorself']}-->
-                                        {lang thread_author}
-                                        <!--{/if}-->
-                                        <a href="home.php?mod=space&uid=$post[authorid]" target="_blank" class="xi2 neiid">$post[author]</a>$authorverifys
+    <!--{if $post['authorid'] && !$post['anonymous']}-->
+        <!--{if $post['authorself']}-->
+        {lang thread_author}
+        <!--{/if}-->
+        <a href="home.php?mod=space&uid=$post[authorid]" target="_blank" class="xi2 neiid">$post[author]</a>$authorverifys
 					<!--{if $close_leftinfo}--><!--{/if}-->
 					{lang poston} <em id="authorposton$post[pid]">$post[dateline]</em>
 					<!--{if $post['status'] & 8}-->
