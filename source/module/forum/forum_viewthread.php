@@ -678,6 +678,8 @@ if($hotpostarr || $sticklist) {
 foreach($postarr as $post) {
 	if(($onlyauthoradd && empty($post['anonymous']) || !$onlyauthoradd) && !isset($postlist[$post['pid']])) {
 
+		$post['authorself'] = false;
+
 		if(isset($hotpostarr[$post['pid']])) {
 			$post['existinfirstpage'] = true;
 		}
@@ -720,6 +722,9 @@ foreach($postarr as $post) {
 					$post['releatcollectionnum'] = 0;
 				}
 			}
+		}
+		if($thread['authorid'] && $post['authorid'] == $thread['authorid'] && $post['first'] !== '1') {
+			$post['authorself'] = true;
 		}
 		$postlist[$post['pid']] = $post;
 	}
