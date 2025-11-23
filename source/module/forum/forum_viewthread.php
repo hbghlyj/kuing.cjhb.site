@@ -636,6 +636,46 @@ if(!empty($isdel_post)) {
 $summary = '';
 $curpagepids = array();
 foreach($postarr as $post) {
+	$curpagepids[] = $post['pid'];
+}
+if($page == 1 && $ordertype == 1) {
+	$firstpost = C::t('forum_post')->fetch_threadpost_by_tid_invisible($_G['tid']);
+	if($firstpost['invisible'] == 0 || $visibleallflag == 1) {
+		$postarr = array_merge(array($firstpost), $postarr);
+		unset($firstpost);
+	}
+}
+$tagnames = $locationpids = $hotpostarr = $hotpids = $member_blackList = array();
+
+$remainhots = ($_G['page'] == 1 && !$rushreply && !$_G['forum_thread']['special'] && !$_G['forum']['noforumrecommend'] && empty($_GET['authorid'])) ? $_G['setting']['threadhotreplies'] : 0;
+if($remainhots) {
+	$hotpids = array_keys(C::t('forum_hotreply_number')->fetch_all_by_tid_total($_G['tid'], 10));
+	$remainhots = $remainhots - count($hotpids);
+}
+
+if($_G['setting']['nofilteredpost'] && $_G['forum_thread']['replies'] > $_G['setting']['postperpage'] && $remainhots) {
+	$hotpids = array_merge($hotpids, array_keys(C::t('forum_filter_post')->fetch_all_by_tid_postlength_limit($_G['tid'], $remainhots)));
+}
+
+if($hotpids) {
+	$hotposts = C::t('forum_post')->fetch_all_by_pid($posttableid, $hotpids);
+	foreach($hotpids as $hotpid) {
+		if($hotposts[$hotpid]) {
+			$hotpostarr[$hotpid] = $hotposts[$hotpid];
+			$hotpostarr[$hotpid]['hotrecommended'] = true;
+		}
+	}
+	unset($hotposts);
+}
+
+if($hotpostarr || $sticklist) {
+	$_newpostarr_first = array_shift($postarr);
+	$postarr = (array)$sticklist + (array)$hotpostarr + $postarr;
+	array_unshift($postarr, $_newpostarr_first);
+	unset($_newpostarr_first, $sticklist);
+}
+
+foreach($postarr as $post) {
 	if(($onlyauthoradd && empty($post['anonymous']) || !$onlyauthoradd) && !isset($postlist[$post['pid']])) {
 
 		$post['authorself'] = false;
@@ -657,7 +697,7 @@ foreach($postarr as $post) {
 				$summary = str_replace(array("\r", "\n"), '', messagecutstr(strip_tags($post['message']), 200));
 			}
 			$tagarray_all = $posttag_array = array();
-			$tagarray_all = explode("	", $_G['forum_thread']['tags']);
+			$tagarray_all = explode("\t", $_G['forum_thread']['tags']);
 			if($tagarray_all) {
 				foreach($tagarray_all as $var) {
 					if($var) {
@@ -678,9 +718,9 @@ foreach($postarr as $post) {
 						$ctid = dintval($_GET['ctid']);
 						$post['sourcecollection'] = C::t('forum_collection')->fetch($ctid);
 					}
-					} else {
-						$post['releatcollectionnum'] = 0;
-					}
+				} else {
+					$post['releatcollectionnum'] = 0;
+				}
 			}
 		}
 		if($thread['authorid'] && $post['authorid'] == $thread['authorid'] && $post['first'] !== '1') {
