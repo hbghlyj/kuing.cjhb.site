@@ -339,12 +339,12 @@
 			<!--{if $_G['group']['allowpostactivity']}--><li class="activity"><a href="forum.php?mod=post&action=newthread&fid=$_G[fid]&special=4">{lang post_newthreadactivity}</a></li><!--{/if}-->
 			<!--{if $_G['group']['allowposttrade']}--><li class="trade"><a href="forum.php?mod=post&action=newthread&fid=$_G[fid]&special=2">{lang post_newthreadtrade}</a></li><!--{/if}-->
 			<!--{if $_G['setting']['threadplugins']}-->
-				<!--{loop $_G['forum']['threadplugin'] $tpid}-->
-					<!--{if array_key_exists($tpid, $_G['setting']['threadplugins']) && is_array($_G['group']['allowthreadplugin']) && in_array($tpid, $_G['group']['allowthreadplugin'])}-->
-						<li class="popupmenu_option"{if $_G['setting']['threadplugins'][$tpid][icon]} style="background-image:url($_G[setting][threadplugins][$tpid][icon])"{/if}><a href="forum.php?mod=post&action=newthread&fid=$_G[fid]&specialextra=$tpid">{$_G[setting][threadplugins][$tpid][name]}</a></li>
-					<!--{/if}-->
-				<!--{/loop}-->
-			<!--{/if}-->
+<!--{loop $_G['forum']['threadplugin'] $tpid}-->
+<!--{if array_key_exists($tpid, $_G['setting']['threadplugins']) && is_array($_G['group']['allowthreadplugin']) && in_array($tpid, $_G['group']['allowthreadplugin'])}-->
+<li class="popupmenu_option{if $_G['setting']['threadplugins'][$tpid][icon]} plugin_special_thread{/if}"{if $_G['setting']['threadplugins'][$tpid][icon]} style="background-image:url($_G[setting][threadplugins][$tpid][icon])"{/if}><a href="forum.php?mod=post&action=newthread&fid=$_G[fid]&specialextra=$tpid">{$_G[setting][threadplugins][$tpid][name]}</a></li>
+<!--{/if}-->
+<!--{/loop}-->
+<!--{/if}-->
 			<!--{if $_G['forum']['threadsorts'] && !$_G['forum']['allowspecialonly']}-->
 				<!--{loop $_G['forum']['threadsorts']['types'] $id $threadsorts}-->
 					<!--{if $_G['forum']['threadsorts']['show'][$id]}-->
