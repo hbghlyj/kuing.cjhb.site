@@ -2098,6 +2098,12 @@ EOF;
 				C::t('forum_promotion')->delete_by_uid($member['uid']);
 			}
 
+			if(in_array('avatar', $_GET['clear'])) {
+				loaducenter();
+				C::t('common_member'.$tableext)->update($member['uid'], array('avatarstatus'=>0));
+				uc_user_deleteavatar($member['uid']);
+			}
+
 			if($membercount) {
 				DB::update('common_member_count'.$tableext, $membercount, "uid='{$member['uid']}'");
 			}
