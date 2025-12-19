@@ -31,6 +31,12 @@
 
 <script type="text/javascript">
 	var data = "{echo implode(",", $uc_avatariframe);}".split(',');
+	function reloadbyres() {
+		popup.open('<img src="' + IMGDIR + '/imageloading.gif">');
+		setTimeout(function() {
+			location.reload(true);
+		}, 5000);
+	}
 </script>
 <link rel="stylesheet" href="{STATICURL}avatar/avatar.css?{VERHASH}" />
 <script src="{STATICURL}avatar/jquery-ui.min.js?{VERHASH}"></script>
