@@ -304,19 +304,9 @@ function discuzcode($message, $smileyoff = false, $bbcodeoff = false, $htmlon = 
 		if(str_contains($msglower, '[/img]')) {
 			$message = preg_replace_callback(
 				"/\[img\]\s*([^\[\<\r\n]+?)\s*\[\/img\]/is",
-<<<<<<< HEAD
 				function($matches) use ($allowimgcode, $lazyload, $pid, $allowbbcode, &$code_arr) {
 					if(intval($allowimgcode)) {
 						return parseimg(0, 0, $matches[1], intval($lazyload), intval($pid), (intval($lazyload) ? 'lazyloadthumb="1"' : 'onload="this.parentNode.classList.add(\'jiazed\');this.setAttribute(\'width\',this.width);this.parentNode.style.display=\'inline-block\';"').(str_starts_with($matches[1], '//i.upmath.me/svgb/') || str_starts_with($matches[1], 'asy/?code=') ? ' onclick="show_tikz_window('.htmlspecialchars(json_encode(array_shift($code_arr))).')"' : ''));
-=======
-				function ($matches) use ($allowimgcode, $lazyload, $pid, $allowbbcode, &$code_arr) {
-					if (intval($allowimgcode)) {
-<<<<<<< HEAD
-						return parseimg(0, 0, $matches[1], intval($lazyload), intval($pid), (intval($lazyload) ? 'lazyloadthumb="1"' : 'onload="this.parentNode.classList.add(\'jiazed\');this.setAttribute(\'width\',this.width);this.parentNode.style.display=\'inline-block\';"').(str_starts_with($matches[1], '//i.upmath.me/svgb/') || str_starts_with($matches[1], 'asy/?code=') ? ' onclick=\'show_tikz_window('.json_encode(array_shift($code_arr)).')\'' : ''));
->>>>>>> 2c01a46c8 ('array_pop' should be 'array_shift')
-=======
-						return parseimg(0, 0, $matches[1], intval($lazyload), intval($pid), (intval($lazyload) ? 'lazyloadthumb="1"' : 'onload="this.parentNode.classList.add(\'jiazed\');this.setAttribute(\'width\',this.width);this.parentNode.style.display=\'inline-block\';"').(str_starts_with($matches[1], '//i.upmath.me/svgb/') || str_starts_with($matches[1], 'asy/?code=') ? ' onclick="show_tikz_window('.htmlspecialchars(json_encode(array_shift($code_arr))).')"' : ''));
->>>>>>> dd2854b35 (show_tikz_window 出现了旧 bug：)
 					}
 					return (intval($allowbbcode) ? (!defined('IN_MOBILE') ? bbcodeurl($matches[1], '<a href="{url}" target="_blank">{url}</a>') : bbcodeurl($matches[1], '')) : bbcodeurl($matches[1], '{url}'));
 				},
@@ -627,6 +617,69 @@ function _parsetable_cell_generator($param1, $colspan, $rowspan, $width, $curren
 	}
 	$output .= '>';
 	return $output;
+}
+
+function parseaudio($url, $width = 400) {
+	$url = addslashes($url);
+	if(!in_array(strtolower(substr($url, 0, 6)), ['http:/', 'https:', 'ftp://', 'rtsp:/', 'mms://']) && !preg_match('/^static\//', $url) && !preg_match('/^data\//', $url)) {
+		return dhtmlspecialchars($url);
+	}
+	$type = fileext($url);
+	if(defined('IN_RESTFUL')) {
+		return restfulplugin::discuzcode('audio', $url);
+	}
+	$randomid = random(3);
+	return '<ignore_js_op><div id="'.$type.'_'.$randomid.'" class="media"><div id="'.$type.'_'.$randomid.'_container" class="media_container"></div><div id="'.$type.'_'.$randomid.'_tips" class="media_tips"><a href="'.$url.'" target="_blank">'.lang('template', 'parse_av_tips').'</a></div></div><script type="text/javascript">detectPlayer("'.$type.'_'.$randomid.'", "'.$type.'", "'.$url.'", "'.$width.'", "66");</script></ignore_js_op>';
+}
+
+function parsemedia($params, $url) {
+	$params = explode(',', $params);
+
+	if(preg_match('/^(auto|100%|[0-9]{1,2}%)$/', $params[1], $matches)) {
+		$width = $matches[1];
+	} else {
+		$width = ($params[1] > 0 && $params[1] < 8192) ? intval($params[1]) : 800;
+	}
+
+	if(preg_match('/^(auto|100%|[0-9]{1,2}%)$/', $params[2], $matches)) {
+		$height = $matches[1];
+	} else {
+		$height = ($params[2] > 0 && $params[2] < 4096) ? intval($params[2]) : 600;
+	}
+
+	$width = defined('IN_MOBILE') ? '100%' : $width;
+	$height = defined('IN_MOBILE') ? 'auto' : $height;
+
+	$url = addslashes($url);
+	if(!in_array(strtolower(substr($url, 0, 6)), ['http:/', 'https:', 'ftp://', 'rtsp:/', 'mms://']) && !preg_match('/^static\//', $url) && !preg_match('/^data\//', $url)) {
+		return dhtmlspecialchars($url);
+	}
+
+	if($flv = parseflv($url, $width, $height)) {
+		return $flv;
+	}
+	if(in_array(count($params), [3, 4])) {
+		$type = fileext($url);
+		$url = str_replace(['<', '>'], '', str_replace('\\"', '\"', $url));
+		if(in_array($params[0], ['rtsp', 'mms'])) {
+			$mediaid = 'media_'.random(3);
+			return $params[0] == 'rtsp' ? '<object classid="clsid:CFCDAA03-8BE4-11cf-B84B-0020AFBBCCFA" width="'.$width.'" height="'.$height.'"><param name="autostart" value="0" /><param name="src" value="'.$url.'" /><param name="controls" value="imagewindow" /><param name="console" value="'.$mediaid.'_" /><embed src="'.$url.'" autostart="0" type="audio/x-pn-realaudio-plugin" controls="imagewindow" console="'.$mediaid.'_" width="'.$width.'" height="'.$height.'"></embed></object><br /><object classid="clsid:CFCDAA03-8BE4-11CF-B84B-0020AFBBCCFA" width="'.$width.'" height="32"><param name="src" value="'.$url.'" /><param name="controls" value="controlpanel" /><param name="console" value="'.$mediaid.'_" /><embed src="'.$url.'" autostart="0" type="audio/x-pn-realaudio-plugin" controls="controlpanel" console="'.$mediaid.'_" width="'.$width.'" height="32"></embed></object>' : '<object classid="clsid:6BF52A52-394A-11d3-B153-00C04F79FAA6" width="'.$width.'" height="'.$height.'"><param name="invokeURLs" value="0"><param name="autostart" value="0" /><param name="url" value="'.$url.'" /><embed src="'.$url.'" autostart="0" type="application/x-mplayer2" width="'.$width.'" height="'.$height.'"></embed></object>';
+		}
+		$audio = ['aac', 'flac', 'ogg', 'mp3', 'm4a', 'weba', 'wma', 'mid', 'wav', 'ra', 'ram'];
+		$video = ['rm', 'rmvb', 'flv', 'swf', 'asf', 'asx', 'wmv', 'avi', 'mpg', 'mpeg', 'mp4', 'm4v', '3gp', 'ogv', 'webm', 'mov', 'mkv'];
+		if(in_array($type, $audio)) {
+			return parseaudio($url, $width);
+		} else if(in_array($type, $video)) {
+			if(defined('IN_RESTFUL')) {
+				return restfulplugin::discuzcode('video', $url, $width, $height);
+			}
+			$randomid = random(3);
+			return '<ignore_js_op><div id="'.$type.'_'.$randomid.'" class="media"><div id="'.$type.'_'.$randomid.'_container" class="media_container"></div><div id="'.$type.'_'.$randomid.'_tips" class="media_tips"><a href="'.$url.'" target="_blank">'.lang('template', 'parse_av_tips').'</a></div></div><script type="text/javascript">detectPlayer("'.$type.'_'.$randomid.'", "'.$type.'", "'.$url.'", "'.$width.'", "'.$height.'");</script></ignore_js_op>';
+		} else {
+			return '<a href="'.$url.'" target="_blank">'.$url.'</a>';
+		}
+	}
+	return;
 }
 
 function bbcodeurl($url, $tags) {
