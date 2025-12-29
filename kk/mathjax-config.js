@@ -104,6 +104,6 @@ window.MathJax = {
   },
   output: {
     displayOverflow: 'scroll',
-    fontPath: 'https://unpkg.com/@mathjax/mathjax-newcm-font@4.0.0'
+    fontPath: 'https://unpkg.com/@mathjax/mathjax-newcm-font'
   }
 };

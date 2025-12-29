@@ -32,4 +32,4 @@
     }
   }
 </script>
-<script src="https://unpkg.com/mathjax@4.0.0/tex-svg.js" async></script>
+<script src="https://unpkg.com/mathjax/tex-svg.js" async></script>
