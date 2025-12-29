@@ -1314,7 +1314,7 @@ details summary { color:blue; cursor:pointer; }
 
 	/* tl --> Thread list modify by lushnis */
 	.tl .bm_c { padding-top: 0; }
-	.tl table { width: 100%; table-layout: fixed; border-collapse: separate; }
+	.tl table { width: 100%; border-collapse: separate; }
 		.tl th, .tl td { padding: 5px 0; border-bottom: 1px solid var(--dz-BOR-ed); }
 			.emptb th, .emptb td { padding: 0; border-bottom: none; }
 			.tl tr:hover th, .tl tr:hover td { background-color: var(--dz-BG-5); }
