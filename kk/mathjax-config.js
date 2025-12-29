@@ -102,5 +102,9 @@ window.MathJax = {
   svg: {
     fontCache: 'global',
     mtextInheritFont: true
+  },
+  output: {
+     displayOverflow: 'scroll',
+     fontPath: 'https://unpkg.com/@mathjax/mathjax-newcm-font'
   }
 };
