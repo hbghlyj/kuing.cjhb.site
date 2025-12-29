@@ -583,7 +583,7 @@ Created & Modified by Alice, Monkey, Lushnis, Pony, Dfox & DragonLee.
 		.thread_fold.fold::before {margin-bottom: 2px;display: inline-block;margin-right: 5px;content: "";border-left: 0.4em solid transparent;border-top: 0.4em solid transparent;border-right: 0.4em solid transparent;border-bottom:0.4em solid #666;}
 	/* tl --> Thread list modify by lushnis */
 	.tl .bm_c { padding-top: 0; }
-	.tl table { width: 100%; table-layout: fixed; border-collapse: separate; }
+	.tl table { width: 100%; border-collapse: separate; }
 		.tl th, .tl td { padding: 5px 0; border-bottom: 1px solid {CONTENTSEPARATE}; }
 			.emptb th, .emptb td { padding: 0; border-bottom: none; }
 			.tl tr:hover th, .tl tr:hover td { background-color: {COMMONBG}; }
