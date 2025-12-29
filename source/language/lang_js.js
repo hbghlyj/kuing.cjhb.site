@@ -217,15 +217,15 @@ var lng = {
 //static/js/common_extra.js
 //	'wait_please'		: 'Loading ...',//'请稍候...',
 	'copy_failed'		: '复制失败，请选择“允许访问”',
-	'prev'			: '上一张',
-	'next'			: '下一张',//'下一页',
-        'shortcut_add'		: '添加桌面快捷',
-        'shortcut_1'		: '1、点击"',
-        'shortcut_1_1'		: '下载桌面快捷',
-        'shortcut_1_2'		: '"，下载完成后，可移动文件到系统桌面',
-        'shortcut_2'		: '2、点击"',
-        'shortcut_2_1'		: '下载ICO图标',
-        'shortcut_2_2'		: '"，下载完成后，右击桌面快捷文件->属性->更改图标，选择已下载的ICO图标即可',
+	'prev'			: '上一页',
+	'next'			: '下一页',
+	'shortcut_add'		: '添加桌面快捷',
+	'shortcut_1'		: '1、点击"',
+	'shortcut_1_1'		: '下载桌面快捷',
+	'shortcut_1_2'		: '"，下载完成后，可移动文件到系统桌面',
+	'shortcut_2'		: '2、点击"',
+	'shortcut_2_1'		: '下载ICO图标',
+	'shortcut_2_2'		: '"，下载完成后，右击桌面快捷文件->属性->更改图标，选择已下载的ICO图标即可',
 
 //--------------------------------
 //static/js/editor.js

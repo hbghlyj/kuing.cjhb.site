@@ -213,15 +213,15 @@ var lng = {
 //static/js/common_extra.js
 //	'wait_please'		: 'Loading ...',//'请稍候...',
 	'copy_failed'		: 'Copy failed, please select "Allow access"',//'复制失败，请选择“允许访问”',
-	'prev'			: 'Prev.',//'上一张',
-	'next'			: 'Next',//'下一张',
-        'shortcut_add'		: 'Adding a desktop shortcut',//'添加桌面快捷',
-        'shortcut_1'		: '1. Click "',//'1、点击"',
-        'shortcut_1_1'		: 'Download desktop shortcut',//'下载桌面快捷',
-        'shortcut_1_2'		: '", and after the download is completed, you can move the file to your desktop',//'"，下载完成后，可移动文件到系统桌面',
-        'shortcut_2'		: '2. Click "',//'2、点击"',
-        'shortcut_2_1'		: 'Download icon file',//'下载ICO图标',
-        'shortcut_2_2'		: '", and after the download is completed, right-click on the desktop shortcut file -&gt; Properties -&gt; Change Icon, and select the downloaded ICO icon',//'"，下载完成后，右击桌面快捷文件->属性->更改图标，选择已下载的ICO图标即可',
+	'prev'			: 'Prev',//'上一页',
+	'next'			: 'Next',//'下一页',
+	'shortcut_add'		: 'Adding a desktop shortcut',//'添加桌面快捷',
+	'shortcut_1'		: '1. Click "',//'1、点击"',
+	'shortcut_1_1'		: 'Download desktop shortcut',//'下载桌面快捷',
+	'shortcut_1_2'		: '", and after the download is completed, you can move the file to your desktop',//'"，下载完成后，可移动文件到系统桌面',
+	'shortcut_2'		: '2. Click "',//'2、点击"',
+	'shortcut_2_1'		: 'Download icon file',//'下载ICO图标',
+	'shortcut_2_2'		: '", and after the download is completed, right-click on the desktop shortcut file -&gt; Properties -&gt; Change Icon, and select the downloaded ICO icon',//'"，下载完成后，右击桌面快捷文件->属性->更改图标，选择已下载的ICO图标即可',
 
 //--------------------------------
 //static/js/editor.js
