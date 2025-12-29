@@ -40,7 +40,7 @@
 /*子版块主题加宽*/
 
 @media screen and (orientation: portrait) {
-  #switchwidth,#diy-tg,#um p:last-child,.fl_i,#ct .bm.bml.pbn,#fd_page_top,#thread_types,.tl .num em,.tl .icn,.tl .th,#cgb,#separatorline td:first-child { display: none; }
+  #switchwidth,#diy-tg,#um p:last-child,.fl_i,#ct .bm.bml.pbn,#fd_page_top,#thread_types,.tl .num em,.tl .icn,.tl .o,.tl .th,#cgb,#separatorline td:first-child { display: none; }
   #toptb { min-width: unset; }
   .wp { width: 100%; }
   #nv li a { padding: 0 5px; }
@@ -58,6 +58,9 @@
     overflow: hidden;
     text-overflow: ellipsis;
     font-size: 12px;
+  }
+  .tl .common {
+    max-width: calc(100vw - 120px);
   }
   .tl .lastp { padding-right: 5px; }
   .tl .by {
