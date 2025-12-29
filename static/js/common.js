@@ -1981,17 +1981,38 @@ function navShow(id) {
 	}
 }
 
-function dstrLenCalc(obj, checklen, maxlen) {
-	var v = obj.value, charlen = 0, maxlen = !maxlen ? 200 : maxlen, curlen = 0, len = strlen(v);
+function strLenCalc(obj, checklen, maxlen = 255) {
+	var v = obj.value;
+	var curlen = Array.from(v).length;
+	var checklenElem = document.getElementById(checklen);
 
-	curlen = Array.from(v).length;
-	if (curlen <= maxlen) {
+	if(curlen <= maxlen) {
+		if(checklenElem) {
+			checklenElem.innerHTML = maxlen - curlen;
+			checklenElem.style.color = '';
+		}
+		return true;
+	}
+
+	if(checklenElem) {
+		checklenElem.innerHTML = maxlen - curlen;
+		checklenElem.style.color = 'red';
+	}
+	showDialog(lng['content_long']);
+	return false;
+}
+
+function dstrLenCalc(obj, checklen, maxlen = 255) {
+	var v = obj.value;
+	var curlen = Array.from(v).length;
+
+	if(curlen <= maxlen) {
 		$(checklen).innerHTML = maxlen - curlen;
 		return true;
-	} else {
-		obj.value = dcutstr(v, maxlen, 0);
-		return false;
 	}
+
+	obj.value = dcutstr(v, maxlen, 0);
+	return false;
 }
 
 function pluginNotice() {
