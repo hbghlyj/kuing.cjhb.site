@@ -163,6 +163,7 @@ $lang = array (
   'post_rushreply_timewrong' => '抱歉，搶樓時間範圍設置錯誤',
   'post_newthread_mod_succeed' => '新主題需要審核，您的帖子通過審核後才能顯示{coverimg}',
   'post_newthread_succeed' => '非常感謝，您的主題已發佈，現在將轉入主題頁，請稍候……<br /><a id="forward_a" href="forum.php?mod=forumdisplay&fid={fid}">[ 點擊這裡轉入主題列表 ]</a>{coverimg}',
+  'post_subject_duplicate' => '主題標題已存在，請勿重複發布',
   'submitcheck_error' => '抱歉，您的提交有誤',
   'post_forum_newthread_nopermission' => '抱歉，本版塊只有特定用戶組可以發新主題',
   'postperm_qqonly_nopermission' => '為避免您的賬號被盜用，請您綁定QQ賬號後發帖，綁定後請使用QQ賬號登錄<br /><a href="connect.php?mod=config"><img src="'.STATICURL.'image/common/qq_bind_small.gif" /></a>',

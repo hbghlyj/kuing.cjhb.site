@@ -146,16 +146,6 @@ if(!submitcheck('topicsubmit', 0, $seccodecheck, $secqaacheck)) {
 			showmessage('post_subject_duplicate');
 		}
 	}
-
-=======
-	if(trim($subject)) {
-		$count = DB::result_first("SELECT 1 FROM ".DB::table('forum_thread')." WHERE subject=".DB::quote($subject)." LIMIT 1");
-		if($count > 0) {
-			showmessage('post_subject_duplicate');
-		}
-	}
-
->>>>>>> 56e14c246 (The current SQL query to check for duplicate subjects only considers threads with moderated='0'. This is a potential bug as it would allow a user to post a thread with the same subject as one that is currently in the moderation queue, which would result in duplicate threads after approval.)
 	if(getgpc('mygroupid')) {
 		$mygroupid = explode('__', $_GET['mygroupid']);
 		$mygid = intval($mygroupid[0]);
