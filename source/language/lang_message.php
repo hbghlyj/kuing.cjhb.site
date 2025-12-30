@@ -163,6 +163,7 @@ $lang = array (
   'post_rushreply_timewrong' => '抱歉，抢楼时间范围设置错误',
   'post_newthread_mod_succeed' => '新主题需要审核，您的帖子通过审核后才能显示{coverimg}',
   'post_newthread_succeed' => '非常感谢，您的主题已发布，现在将转入主题页，请稍候……<br /><a id="forward_a" href="forum.php?mod=forumdisplay&fid={fid}">[ 点击这里转入主题列表 ]</a>{coverimg}',
+  'post_subject_duplicate' => '主题标题已存在，请勿重复发布',
   'submitcheck_error' => '抱歉，您的提交有误',
   'post_forum_newthread_nopermission' => '抱歉，本版块只有特定用户组可以发新主题',
   'postperm_qqonly_nopermission' => '为避免您的账号被盗用，请您绑定QQ账号后发帖，绑定后请使用QQ账号登录<br /><a href="connect.php?mod=config"><img src="'.STATICURL.'image/common/qq_bind_small.gif" /></a>',
