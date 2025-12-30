@@ -146,6 +146,7 @@ $lang = array (
 	'post_rushreply_timewrong'	=> 'Sorry, grab level time range setting error',//'抱歉，抢楼时间范围设置错误',
 	'post_newthread_mod_succeed'	=> 'Your thread need to be moderated, it will be displayed when verified by moderator {coverimg}.',//'新主题需要审核，您的帖子通过审核后才能显示{coverimg}',
 	'post_newthread_succeed'	=> 'Thanks, Your thread has been published, now redirecting to the thread page.<br /><a id="forward_a" href="forum.php?mod=forumdisplay&fid={fid}">[click here to see thread list]</a>{coverimg}',//'非常感谢，您的主题已发布，现在将转入主题页，请稍候……<br /><a id="forward_a" href="forum.php?mod=forumdisplay&fid={fid}">[ 点击这里转入主题列表 ]</a>{coverimg}',
+	'post_subject_duplicate'	=> 'Subject title already exists, please do not post repeatedly',
 	'submitcheck_error'		=> 'Sorry, your submission is incorrect',//'抱歉，您的提交有误',
 	'post_forum_newthread_nopermission'	=> 'Sorry, only specified user groups can post new thread.',//'对不起，本版块只有特定用户组可以发新话题，请返回。',
 	'postperm_qqonly_nopermission'		=> 'To avoid unauthorized use of your account, Please post only after you have bound your QQ account. After binding, please use the QQ account for login.<br /><a href="connect.php?mod=config"><img src="'.STATICURL.'image/common/qq_bind_small.gif" /></a>',//'为避免您的帐号被盗用，请您绑定QQ帐号后发帖，绑定后请使用QQ帐号登录<br /><a href="connect.php?mod=config"><img src="'.STATICURL.'image/common/qq_bind_small.gif" /></a>',
