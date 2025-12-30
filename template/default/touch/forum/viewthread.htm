@@ -384,7 +384,9 @@
 				<li><a href="forum.php?mod=misc&action=postreview&do=against&tid={$_G['tid']}&pid={$post['pid']}&hash={FORMHASH}" class="dialog"><i class="dm-c-down"></i>{lang against_reply} <span id="review_against_{$post['pid']}">{$post['postreview']['against']}</span></a></li>
 			<!--{/if}-->
 			<!--{if $post['first']}-->
-				<!--{if $_G['group']['allowrecommend'] && !empty($_G['setting']['recommendthread']['status'])}-->
+				<!--{if $_G['uid'] == $post['authorid']}-->
+				<li><a href="javascript:;" onclick="bumpthread()"><i></i><i class="dm-c-up"></i>{lang bump}</a></li>
+				<!--{elseif $_G['group']['allowrecommend'] && !empty($_G['setting']['recommendthread']['status'])}-->
 					<!--{if !empty($_G['setting']['recommendthread']['addtext'])}-->
 					<li><a href="forum.php?mod=misc&action=recommend&do=add&tid={$_G['tid']}&hash={FORMHASH}" class="dialog"><i></i><i class="dm-c-up"></i>{$_G['setting']['recommendthread']['addtext']}<span id="recommendv_add"{if !$_G['forum_thread']['recommend_add']} style="display:none"{/if}>{$_G['forum_thread']['recommend_add']}</span></a></li>
 					<!--{/if}-->
@@ -469,6 +471,36 @@ $multipage
 		});
 		return false;
 	});
+	function bumpthread() {
+		$.ajax({
+			type: 'POST',
+			url: 'forum.php?mod=topicadmin&action=moderate&optgroup=3&modsubmit=yes&infloat=yes&inajax=1',
+			data: {
+				'fid': '{$_G[fid]}',
+				'moderate[]': '{$_G[tid]}',
+				'operations[]': 'bump',
+				'from': '{$_G[tid]}',
+				'formhash': '{FORMHASH}'
+			},
+			dataType: 'xml'
+		}).done(function(s) {
+			var msg = s.lastChild.firstChild.nodeValue;
+			if(msg.indexOf('succeedhandle_mods') != -1) {
+				popup.open('{lang bump}');
+			} else if(msg.indexOf('errorhandle_mods') != -1) {
+				var m = msg.match(/errorhandle_mods\('([^']+)'/);
+				if(m && m[1]) {
+					popup.open(m[1]);
+				} else {
+					popup.open('{lang error}');
+				}
+			} else {
+				popup.open(msg);
+			}
+		}).fail(function() {
+			popup.open('{lang error}');
+		});
+	}
 </script>
 <a href="javascript:;" class="scrolltop bottom"></a>
 <!--{eval $nofooter = true;}-->
