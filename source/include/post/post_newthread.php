@@ -139,7 +139,7 @@ if(!submitcheck('topicsubmit', 0, $seccodecheck, $secqaacheck)) {
 
 } else {
 	if(trim($subject)) {
-		$count = DB::result_first("SELECT 1 FROM ".DB::table('forum_thread')." WHERE isgroup='0' AND moderated='0' AND subject=".DB::quote($subject)." LIMIT 1");
+		$count = DB::result_first("SELECT 1 FROM ".DB::table('forum_thread')." WHERE subject=".DB::quote($subject)." LIMIT 1");
 		if($count > 0) {
 			showmessage('post_subject_duplicate');
 		}
