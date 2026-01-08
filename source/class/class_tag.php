@@ -71,9 +71,9 @@ class tag
 		$results = C::t('common_tagitem')->select(0, $oldid, $idtype);
 		foreach($results as $result) {
 			C::t('common_tagitem')->insert(array(
-					'tagid' => $result['tagid'],
-					'itemid' => $newid,
-					'idtype' => $idtype
+				'tagid' => $result['tagid'],
+				'itemid' => $newid,
+				'idtype' => $idtype
 			));
 		}
 	}
@@ -96,13 +96,13 @@ class tag
 				$results = C::t('common_tagitem')->select($tagidarray);
 				foreach($results as $result) {
 					$result['tagname'] = addslashes($tagnames[$result['tagid']]['tagname']);
-                                        if($result['idtype'] == 'tid') {
-                                                $itemid = $result['itemid'];
-                                                if(!isset($tidarray[$itemid])) {
-                                                        $thread = C::t('forum_thread')->fetch($itemid);
-                                                        $tidarray[$itemid] = $thread['tags'];
-                                                }
-                                                $tidarray[$itemid] = str_replace("{$result['tagid']},{$result['tagname']}\t", '', $tidarray[$itemid]);
+					if($result['idtype'] == 'tid') {
+						$itemid = $result['itemid'];
+						if(!isset($tidarray[$itemid])) {
+								$thread = C::t('forum_thread')->fetch($itemid);
+								$tidarray[$itemid] = $thread['tags'];
+						}
+						$tidarray[$itemid] = str_replace("{$result['tagid']},{$result['tagname']}\t", '', $tidarray[$itemid]);
 					} elseif($result['idtype'] == 'blogid') {
 						$itemid = $result['itemid'];
 						if(!isset($blogidarray[$itemid])) {
@@ -130,12 +130,14 @@ class tag
 			C::t('common_tagitem')->merge_by_tagids($newid, $tagidarray);
 			C::t('common_tag')->delete_byids($tagidarray);
 
-                        if($tidarray) {
-                                foreach($tidarray as $key => $var) {
-                                        C::t('forum_thread')->update($key, array('tags' => $var));
-                                        C::t('forum_thread')->concat_tags_by_tid($key, "$newid,$newtag\t");
-                                }
-                        }
+			if($tidarray) {
+				foreach($tidarray as $key => $var) {
+					C::t('forum_thread')->update($key, array('tags' => $var));
+					if(strpos($var, "$newid,$newtag\t") === false) {
+						C::t('forum_thread')->concat_tags_by_tid($key, "$newid,$newtag\t");
+					}
+				}
+			}
 			if($blogidarray) {
 				foreach($blogidarray as $key => $var) {
 					C::t('home_blogfield')->update($key, array('tag' => $var.$newid.','.$newtag.'\t'));
