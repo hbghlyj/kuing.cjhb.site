@@ -133,7 +133,9 @@ class tag
                         if($tidarray) {
                                 foreach($tidarray as $key => $var) {
                                         C::t('forum_thread')->update($key, array('tags' => $var));
-                                        C::t('forum_thread')->concat_tags_by_tid($key, "$newid,$newtag\t");
+                                        if(strpos($var, "$newid,$newtag\t") === false) {
+                                                C::t('forum_thread')->concat_tags_by_tid($key, "$newid,$newtag\t");
+                                        }
                                 }
                         }
 			if($blogidarray) {
