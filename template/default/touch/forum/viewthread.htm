@@ -480,13 +480,14 @@ $multipage
 				'moderate[]': '{$_G[tid]}',
 				'operations[]': 'bump',
 				'from': '{$_G[tid]}',
-				'formhash': '{FORMHASH}'
+				'formhash': '{FORMHASH}',
+				'redirect': 1
 			},
 			dataType: 'xml'
 		}).done(function(s) {
 			var msg = s.lastChild.firstChild.nodeValue;
 			if(msg.indexOf('succeedhandle_mods') != -1) {
-				popup.open('{lang bump}');
+				popup.open('<img src="static/image/common/check_right.gif">');
 			} else if(msg.indexOf('errorhandle_mods') != -1) {
 				var m = msg.match(/errorhandle_mods\('([^']+)'/);
 				if(m && m[1]) {
