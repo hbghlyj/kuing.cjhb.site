@@ -1332,5 +1332,6 @@ $lang = array (
 	'disable_smilies'		=> 'Disable Smiles',//'禁用 表情',
 	'disable_discuzcode'		=> 'Disable BBCode',//'禁用 编辑器代码',
 	'upload_time'			=> 'Upload Time',//'上传日期',
+	'online_list_load_error'	=> 'Unable to load online users list.',//'无法加载在线用户列表',
 );
 

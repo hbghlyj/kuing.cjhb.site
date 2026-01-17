@@ -1317,4 +1317,5 @@ $lang = array (
   'hiderecover_tips' => '点击恢复主题隐藏状态',
   'hiderecover' => '恢复隐藏',
   'content_actions' => '更多操作',
+  'online_list_load_error' => '无法加载在线用户列表',
 );
