@@ -1346,5 +1346,6 @@ $lang = array (
 	'disable_discuzcode'		=> 'Disable BBCode',//'禁用 编辑器代码',
 	'modmenu'			=> 'Thread menu:',//'审核中',
 	'upload_time'			=> 'Upload Time',//'上传日期',
+	'online_list_load_error'	=> 'Unable to load online users list.',//'无法加载在线用户列表',
 );
 
