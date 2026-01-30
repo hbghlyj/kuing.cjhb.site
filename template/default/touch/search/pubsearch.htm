@@ -1,25 +1,209 @@
-<!--{if !empty($srchtype)}--><input type="hidden" name="srchtype" value="$srchtype" /><!--{/if}-->
-<div class="search flex-box">
-	<input value="$keyword" autocomplete="off" class="mtxt flex" name="srchtxt" id="scform_srchtxt" value="" placeholder="{lang mobsearchtxt}">
-	<input type="hidden" name="searchsubmit" value="yes"><input type="submit" value="{lang search}" class="mbtn" id="scform_submit">
+<style>
+	#ais-wrapper {
+		display: flex;
+		flex-direction: column;
+	}
+
+	.ais-ClearRefinements-button {
+		width: 30px;
+        height: 30px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+	}
+
+	#ais-main {
+		width: 100%;
+		padding: 10px 0;
+	}
+
+	#ais-facets {
+		width: 100%;
+		padding-left: 0;
+	}
+
+	.widgettitle {
+		margin-top: 1rem;
+        font-weight: bold;
+	}
+	.ais-facets {
+		padding: 0;
+	}
+
+	.ais-facets ul {
+		list-style: none;
+		padding-left: 0;
+		margin-left: 0;
+	}
+
+	.ais-facets li {
+		margin-left: 0;
+	}
+
+	.algolia-search-box-wrapper {
+		position: relative;
+	}
+
+	#algolia-search-box input {
+		height: 36px; /* Slightly larger for touch */
+		margin-top: 2px;
+		margin-right: 2px;
+		border-radius: 18px;
+		padding: 4px 12px;
+		border: 1px solid #ccc;
+        width: 100%;
+        box-sizing: border-box;
+	}
+	#algolia-search-box input:placeholder-shown {
+		background: #fff url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24'%3e%3cpath fill='%23444' d='M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z'/%3e%3c/svg%3e") no-repeat right 10px center;
+	}
+	.ais-SearchBox-form {
+		display: block;
+		position: relative;
+	}
+
+	.ais-Hits-list {
+		list-style: none;
+		padding-left: 0;
+		margin-left: 0;
+        border-top: 1px solid #eee;
+	}
+
+	.ais-Hits-item {
+		/* hit item */
+		margin: 0;
+        padding: 10px;
+        border-bottom: 1px solid #eee;
+	}
+
+	.ais-Hits-item h2 {
+		margin: 0;
+        font-size: 16px;
+	}
+
+	.ais-Hits-item em,
+	.ais-Hits-item a em,
+	.ais-Hits-item mark,
+	.ais-Hits-item a mark {
+		font-style: normal;
+		background: #fffbcc;
+		border-radius: 2px;
+	}
+
+	.ais-hits--content {
+		overflow: hidden;
+	}
+
+    .ais-hits--title-link {
+        color: #000;
+        text-decoration: none;
+    }
+
+    .ais-hits--content-snippet {
+        font-size: 14px;
+        color: #666;
+    }
+
+	.ais-Pagination {
+		margin: 20px 0;
+        text-align: center;
+	}
+
+	.ais-Pagination-list {
+		margin-left: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 5px;
+	}
+
+	.ais-Pagination-item {
+		/* Pagination item */
+		display: inline-block;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+	}
+
+    .ais-Pagination-link {
+        display: block;
+        padding: 5px 10px;
+        color: #333;
+    }
+
+	.ais-Pagination-item--disabled {
+		/* disabled Pagination item */
+		display: none;
+	}
+
+	.ais-Pagination-item--selected {
+		font-weight: bold;
+        background-color: #eee;
+	}
+
+    .ais-RefinementList-label {
+        display: flex;
+        align-items: center;
+        padding: 5px 0;
+    }
+
+    .ais-refinement-list--checkbox {
+        margin-right: 8px;
+    }
+
+	.ais-Menu-count,
+	.ais-HierarchicalMenu-count,
+	.ais-RefinementList-count {
+		margin-left: auto;
+		/* have a circle */
+		display: inline-block;
+		color: rgb(90, 94, 154);
+		font-size: 0.8em;
+		padding-left: .25rem;
+		padding-right: .25rem;
+		line-height: 1.2em;
+		border-radius: 50%;
+		background: #eee;
+	}
+</style>
+
+<div class="algolia-search-box-wrapper" style="padding: 10px;">
+    <div id="algolia-search-box"></div>
 </div>
-<!--{if $_G['setting']['forumstatus'] && $_G['setting']['srchhotkeywords'] && empty($searchid)}-->
-	<div class="search-hot">
-		<h2>{lang hot_search}: </h2>
-		<ul>
-		<!--{loop $_G['setting']['srchhotkeywords'] $val}-->
-			<!--{if $val=trim($val)}-->
-				<!--{eval $valenc=rawurlencode($val);}-->
-				<!--{block srchhotkeywords[]}-->
-					<!--{if !empty($searchparams['url'])}-->
-						<li><a href="$searchparams['url']?q=$valenc&source=hotsearch{$srchotquery}">$val</a></li>
-					<!--{else}-->
-						<li><a href="search.php?mod=forum&srchtxt=$valenc&formhash={FORMHASH}&searchsubmit=true&source=hotsearch">$val</a></li>
-					<!--{/if}-->
-				<!--{/block}-->
-			<!--{/if}-->
-		<!--{/loop}-->
-		<!--{echo implode('', $srchhotkeywords);}-->
-		</ul>
-	</div>
-<!--{/if}-->
+
+<div id="ais-wrapper">
+	<main id="ais-main">
+		<div id="algolia-hits"></div>
+		<div id="algolia-pagination"></div>
+	</main>
+	<aside id="ais-facets" style="display: none;">
+		<div id="ais-clear-refinements"></div>
+		<div>
+			<h3 class="widgettitle">{lang tag}</h3>
+			<section class="ais-facets" id="facet-keywords"></section>
+		</div>
+		<div>
+			<h3 class="widgettitle">{lang author}</h3>
+			<section class="ais-facets" id="facet-author"></section>
+		</div>
+		<div>
+			<h3 class="widgettitle">{lang forum}</h3>
+			<section class="ais-facets" id="facet-forum"></section>
+		</div>
+		<div>
+			<h3 class="widgettitle">{lang replies}</h3>
+			<section class="ais-facets" id="facet-totalposts"></section>
+		</div>
+	</aside>
+</div>
+<script type="module">
+import { initSearch } from "/kk/algolia-search.js?{VERHASH}";
+initSearch({search:"{lang search}", no_results:"{lang no_results}", less:"{lang less}", more:"{lang more}", replies:"{lang replies}"},{
+<!--{eval loadcache('forums');}-->
+<!--{loop $_G['cache']['forums'] $value}-->
+	<!--{if $value['type'] == 'sub' || $value['type'] == 'forum'}-->
+		<!--{eval $valname = addslashes($value['name']);}-->
+		$value[fid]:'$valname',
+	<!--{/if}-->
+<!--{/loop}-->
+})</script>
