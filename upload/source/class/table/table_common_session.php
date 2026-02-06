@@ -139,11 +139,7 @@ class table_common_session extends discuz_table
 	public function fetch_all_by_ip($ip, $start = 0, $limit = 0) {
 		$data = array();
 		if(!empty($ip)) {
-<<<<<<< HEAD
 			$data = DB::fetch_all('SELECT * FROM %t WHERE ip=%s ORDER BY lastactivity DESC'.DB::limit($start, $limit), array($this->_table, $ip), null);
-=======
-			$data = DB::fetch_all('SELECT * FROM %t WHERE ip=%d ORDER BY lastactivity DESC'.DB::limit($start, $limit), array($this->_table, $ip), null);
->>>>>>> 9c62b5d7 (优化 Session重构，兼容IPv6)
 		}
 		return $data;
 	}

@@ -603,8 +603,7 @@ function writeEditorContents(text) {
 				'<html><head id="editorheader"><meta charset="' + charset + '" />' +
 				'<meta name="renderer" content="webkit" /><meta http-equiv="X-UA-Compatible" content="IE=edge" />' +
 				'<base href="' + document.baseURI + '" />' +
-				'<link rel="stylesheet" type="text/css" href="misc.php?css=' + STYLEID + '_wysiwyg&' + VERHASH + '" />' +
-				(BROWSER.ie ? '<script>window.onerror = function() { return true; }</script>' : '') +
+				'<link rel="stylesheet" type="text/css" href="' + CSSPATH + STYLEID + '_wysiwyg.css?' + VERHASH + '" />' +
 				'</head><body>' + text + '</body></html>';
 			editdoc.designMode = allowhtml ? 'on' : 'off';
 			editdoc = editwin.document;

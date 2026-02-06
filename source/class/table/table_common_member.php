@@ -312,21 +312,12 @@ class table_common_member extends discuz_table_archive {
 
 		$sql = !empty($username) ? " WHERE username LIKE '".addslashes(stripsearchkey($username))."%'" : '';
 
-<<<<<<< HEAD
 		$memberlist = [];
 		$query = DB::query('SELECT m.uid, m.username, ms.lastpost, m.email, m.regdate, ms.lastvisit, mc.posts, m.credits
 			FROM '.DB::table($this->_table).' m
 			LEFT JOIN '.DB::table('common_member_profile').' mp ON mp.uid=m.uid
 			LEFT JOIN '.DB::table('common_member_status').' ms ON ms.uid=m.uid
 			LEFT JOIN '.DB::table('common_member_count')." mc ON mc.uid=m.uid
-=======
-		$memberlist = array();
-		$query = DB::query("SELECT m.uid, m.username, ms.lastpost, m.email, m.regdate, ms.lastvisit, mc.posts, m.credits
-			FROM ".DB::table($this->_table)." m
-			LEFT JOIN ".DB::table('common_member_profile')." mp ON mp.uid=m.uid
-			LEFT JOIN ".DB::table('common_member_status')." ms ON ms.uid=m.uid
-			LEFT JOIN ".DB::table('common_member_count')." mc ON mc.uid=m.uid
->>>>>>> 811958137 (站点统计会员列表 在 注册日期、上次访问 的旁边添加：最后发表)
 			$sql ORDER BY ".DB::order($orderby, $sort).DB::limit($start, $limit));
 		while($member = DB::fetch($query)) {
 			$member['usernameenc'] = rawurlencode($member['username']);

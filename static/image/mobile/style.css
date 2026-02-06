@@ -279,7 +279,6 @@ select {-moz-appearance:none;}
 .foot a span.foot-ico em.me {background-image:url(./touch/space.svg)}
 .foot a span.foot-ico em.mf {background-image:url(./touch/space.svg)}
 .foot a span.foot-ico em i.ico_msg {position:absolute;background:var(--dz-BG-2);width:7px;height:7px;display:block;top:-1px;right:-1px;z-index:510;border:1px solid var(--dz-BG-0);border-radius:50%}
->>>>>>> 319783389 (手机版聊天室图标)
 .foot a span.foot-txt {height:22px;line-height:22px;font-size:12px;color:var(--dz-FC-999)}
 .foot a.mon span.foot-txt {color:var(--dz-FC-color)}
 .foot a.mon span.foot-ico em {background-position:100% 0}
