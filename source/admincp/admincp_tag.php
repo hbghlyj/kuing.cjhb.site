@@ -55,18 +55,18 @@ if($operation == 'admin') {
         showformfooter();
         showtagfooter('div');
         } else {
-		$tagname = trim($_GET['tagname']);
-		$status = $_GET['status'];
-		if(!$status) {
+		$tagname = trim(getgpc('tagname'));
+		$status = getgpc('status');
+		if($status === '' || $status === NULL) {
 			$table_status = NULL;
 		} else {
 			$table_status = $status;
 		}
-		$ppp = $_GET['perpage'];
+		$ppp = getgpc('perpage');
 		$startlimit = ($page - 1) * $ppp;
 		$multipage = '';
 		$totalcount  = C::t('common_tag')->fetch_all_by_status($table_status, $tagname, 0, 0, 1);
-		$multipage = multi($totalcount, $ppp, $page, ADMINSCRIPT."?action=tag&operation=admin&searchsubmit=yes&tagname=$tagname&perpage=$ppp&status=$status");
+		$multipage = multi($totalcount, $ppp, $page, ADMINSCRIPT."?action=tag&operation=admin&searchsubmit=yes&tagname=".rawurlencode($tagname)."&perpage=$ppp&status=".rawurlencode($status));
 		$query = C::t('common_tag')->fetch_all_by_status($table_status, $tagname, $startlimit, $ppp);
 		showformheader('tag&operation=admin');
 		showtableheader(cplang('tag_result').' '.$totalcount.' <a href="###" onclick="location.href=\''.ADMINSCRIPT.'?action=tag&operation=admin;\'" class="act lightlink normal">'.cplang('research').'</a>', 'nobottom');
