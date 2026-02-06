@@ -19,6 +19,7 @@ class tag
 
 		$tags = str_replace(array(chr(0xa3).chr(0xac), chr(0xa1).chr(0x41), chr(0xef).chr(0xbc).chr(0x8c)), ',', censor($tags));
 		$tagarray = array_unique(explode(',', $tags));
+		$return = $returnarray ? array() : '';
 		$tagcount = 0;
 		foreach($tagarray as $tagname) {
 			$tagname = trim($tagname);
@@ -30,7 +31,11 @@ class tag
 						$tagid = $result['tagid'];
 					}
 				} else {
-					$tagid = C::t('common_tag')->insert_tag($tagname,$status);
+					if($idtype == 'tid' && DB::result_first("SELECT count(*) FROM %t WHERE name=%s", array('forum_threadclass', $tagname))) {
+						$tagid = 0;
+					} else {
+						$tagid = C::t('common_tag')->insert_tag($tagname,$status);
+					}
 				}
 				if($tagid) {
 					if($itemid) {
