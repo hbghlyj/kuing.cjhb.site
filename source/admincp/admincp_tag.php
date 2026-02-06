@@ -37,7 +37,11 @@ if($operation == 'admin') {
 				cpmsg($data);
 			}
 		}
-		cpmsg('tag_admin_updated', 'action=tag&operation=admin&searchsubmit=yes&tagname='.$_GET['tagname'].'&perpage='.$_GET['perpage'].'&status='.$_GET['status'].'&page='.$_GET['page'], 'succeed');
+		cpmsg(
+			'tag_admin_updated',
+			'action=tag&operation=admin&searchsubmit=yes&tagname='.rawurlencode(getgpc('tagname')).'&perpage='.getgpc('perpage').'&status='.rawurlencode(getgpc('status')).'&page='.getgpc('page'),
+			'succeed'
+		);
 	}
 	if(!submitcheck('searchsubmit', 1)) {
 		showformheader('tag&operation=admin');
