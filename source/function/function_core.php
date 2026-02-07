@@ -1001,7 +1001,7 @@ function loadcache($cachenames, $force = false) {
 	}
 
 	if(!empty($caches)) {
-		$cachedata = table_common_syscache::t()->fetch_all_syscache($caches);
+		$cachedata = table_common_syscache::t()->fetch_all_syscache($caches, $force);
 		foreach($cachedata as $cname => $data) {
 			if(DISCUZ_LANG == 'EN/') {
 				if($cname == 'onlinelist'){
