@@ -134,7 +134,7 @@ class table_common_session extends discuz_table {
 	public function count_by_ip($ip) {
 		$count = 0;
 		if(!empty($ip)) {
-			$count = DB::result_first('SELECT COUNT(*) FROM '.DB::table('common_session'). ' WHERE ' .DB::field('ip', $ip));
+			$count = DB::result_first('SELECT COUNT(*) FROM '.DB::table('common_session').' WHERE '.DB::field('ip', $ip));
 		}
 		return $count;
 	}
