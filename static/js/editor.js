@@ -88,12 +88,6 @@ function initEditor() {
 		$(editorid + '_controls').parentNode.insertBefore(ctrlmObj, $(editorid + '_controls'));
 		_attachEvent(window, 'scroll', function () { editorcontrolpos(); }, document);
 	}
-	if($(editorid + '_fullswitcher') && BROWSER.ie && BROWSER.ie < 7) {
-		$(editorid + '_fullswitcher').onclick = function () {
-			showDialog($L('browser_not_support'), 'notice', $L('friendly_notice'));
-		};
-		$(editorid + '_fullswitcher').className = 'xg1';
-	}
 	if($(editorid + '_svdsecond') && savedatat === null) {
 		savedatac = savedataInterval;
 		autosave = !getcookie('editorautosave_' + editorid) || getcookie('editorautosave_' + editorid) == 1 ? 1 : 0;
