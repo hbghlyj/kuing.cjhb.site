@@ -97,8 +97,8 @@ if(!submitcheck('modsubmit')) {
 		$maxposition ++;
 	}
 	C::t('forum_thread')->update($newtid, array('author'=>$fpost['author'], 'authorid'=>$fpost['authorid'], 'dateline'=>$fpost['dateline'], 'rate'=>intval(abs($fpost['rate']) ? ($fpost['rate'] / abs($fpost['rate'])) : 0), 'maxposition' => $maxposition));
-	updatethreadcount($_G['tid']);
-	updatethreadcount($newtid);
+	updatethreadcount($_G['tid'], 1);
+	updatethreadcount($newtid, 1);
 	updateforumcount($_G['fid']);
 
 	$_G['forum']['threadcaches'] && deletethreadcaches($thread['tid']);
