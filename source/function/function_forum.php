@@ -862,7 +862,9 @@ function updateattachtid($idtype, $ids, $oldtid, $newtid) {
 		$attach['tid'] = $newtid;
 		table_forum_attachment_n::t()->insert_attachment('tid:'.$newtid, $attach, false, true);
 	}
-	table_forum_attachment_n::t()->delete_by_id('tid:'.$oldtid, $idtype, $ids);
+	if(getattachtableid($oldtid) !== getattachtableid($newtid)) {
+		table_forum_attachment_n::t()->delete_by_id('tid:'.$oldtid, $idtype, $ids);
+	}
 	table_forum_attachment::t()->update_by_id($idtype, $ids, $newtid);
 }
 
