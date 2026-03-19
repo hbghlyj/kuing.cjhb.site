@@ -420,7 +420,7 @@ jQuery.extend({
 		builder += boundary;
 		builder += crlf;
 		builder += 'Content-Disposition: form-data; name="' + s.uploadinputname + '"';
-		builder += '; filename="' + filename + '"';
+		builder += '; filename="' + encodeURIComponent(filename) + '"';
 		builder += crlf;
 
 		builder += 'Content-Type: application/octet-stream';
