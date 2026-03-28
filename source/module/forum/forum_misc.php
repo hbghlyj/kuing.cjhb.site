@@ -778,13 +778,8 @@ if($_GET['action'] == 'votepoll' && submitcheck('pollsubmit', 1)) {
 			), 'rate', 0);
 		}
 
-		$logs = array();
-		foreach($creditsarray as $id => $addcredits) {
-			$logs[] = dhtmlspecialchars("{$_G['timestamp']}\t{$_G['member']['username']}\t{$_G['adminid']}\t{$post['author']}\t$id\t$addcredits\t{$_G['tid']}\t{$thread['subject']}\t$reason");
-		}
 		update_threadpartake($post['tid']);
 		C::t('forum_postcache')->delete($_GET['pid']);
-		writelog('ratelog', $logs);
 
 		showmessage('thread_rate_succeed', dreferer());
 	}
@@ -840,7 +835,6 @@ if($_GET['action'] == 'votepoll' && submitcheck('pollsubmit', 1)) {
 			}
 
 			$rate = $ratetimes = 0;
-			$logs = array();
 			foreach(C::t('forum_ratelog')->fetch_all_by_pid($_GET['pid']) as $ratelog) {
 				if(in_array($ratelog['uid'].' '.$ratelog['extcredits'].' '.$ratelog['dateline'], $_GET['logidarray'])) {
 					$rate += $ratelog['score'] = -$ratelog['score'];
@@ -848,7 +842,6 @@ if($_GET['action'] == 'votepoll' && submitcheck('pollsubmit', 1)) {
 					updatemembercount($post['authorid'], array($ratelog['extcredits'] => $ratelog['score']));
 					C::t('common_credit_log')->delete_by_uid_operation_relatedid($post['authorid'], 'PRC', $_GET['pid']);
 					C::t('forum_ratelog')->delete_by_pid_uid_extcredits_dateline($_GET['pid'], $ratelog['uid'], $ratelog['extcredits'], $ratelog['dateline']);
-					$logs[] = dhtmlspecialchars("{$_G['timestamp']}\t{$_G['member']['username']}\t{$_G['adminid']}\t{$ratelog['username']}\t{$ratelog['extcredits']}\t{$ratelog['score']}\t{$_G['tid']}\t{$thread['subject']}\t$reason\tD");
 					if($sendreasonpm) {
 						$ratescore .= $slash.$_G['setting']['extcredits'][$ratelog['extcredits']]['title'].' '.($ratelog['score'] > 0 ? '+'.$ratelog['score'] : $ratelog['score']).' '.$_G['setting']['extcredits'][$ratelog['extcredits']]['unit'];
 						$slash = ' / ';
@@ -856,7 +849,6 @@ if($_GET['action'] == 'votepoll' && submitcheck('pollsubmit', 1)) {
 				}
 			}
 			C::t('forum_postcache')->delete($_GET['pid']);
-			writelog('ratelog', $logs);
 
 			if($sendreasonpm) {
 				sendreasonpm($post, 'rate_removereason', array(

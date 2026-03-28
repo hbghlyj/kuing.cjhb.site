@@ -30,13 +30,17 @@
 	</p>
 </div>
 <!--{elseif !empty($_G['cookie']['loginuser'])}-->
+<!--{if !IS_ROBOT}-->
 <p>
 	<strong><a id="loginuser" class="noborder"><!--{echo dhtmlspecialchars($_G['cookie']['loginuser'])}--></a></strong>
 	<span class="pipe">|</span><a href="member.php?mod=logging&action=login" onclick="showWindow('login', this.href)">{lang activation}</a>
 	<span class="pipe">|</span><a href="member.php?mod=logging&action=logout&formhash={FORMHASH}">{lang logout}</a>
 </p>
+<!--{/if}-->
 <!--{elseif !$_G[connectguest]}-->
+<!--{if !IS_ROBOT}-->
 	<!--{template member/login_simple}-->
+<!--{/if}-->
 <!--{else}-->
 <div id="um">
 	<div class="avt y"><!--{avatar(0, 'middle')}--></div>
