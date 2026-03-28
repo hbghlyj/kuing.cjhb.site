@@ -105,7 +105,14 @@ function procthread($thread, $timeformat = 'd') {
 function modlog($thread, $action) {
 	global $_G;
 	$reason = $_GET['reason'];
-	writelog('modslog', dhtmlspecialchars("{$_G['timestamp']}\t{$_G['username']}\t{$_G['adminid']}\t{$_G['clientip']}\t".$_G['forum']['fid']."\t".$_G['forum']['name']."\t{$thread['tid']}\t{$thread['subject']}\t$action\t$reason\t".$_G['toforum']['fid']."\t".$_G['toforum']['name']));
+
+	$reason = str_replace(array("\t", "\r\n", "\n", "   ", "  "), ' ', dhtmlspecialchars(trim($reason)));
+	$subject = str_replace(array("\t", "\r\n", "\n", "   ", "  "), ' ', $thread['subject']);
+	$username = str_replace(array("\t", "\r\n", "\n", "   ", "  "), ' ', $_G['username']);
+	$forumname = str_replace(array("\t", "\r\n", "\n", "   ", "  "), ' ', $_G['forum']['name']);
+	$toforumname = str_replace(array("\t", "\r\n", "\n", "   ", "  "), ' ', $_G['toforum']['name']);
+
+	writelog('modslog', "{$_G['timestamp']}\t{$username}\t{$_G['adminid']}\t{$_G['clientip']}\t".$_G['forum']['fid']."\t{$forumname}\t{$thread['tid']}\t{$subject}\t$action\t$reason\t".$_G['toforum']['fid']."\t{$toforumname}");
 }
 
 function checkreasonpm() {
