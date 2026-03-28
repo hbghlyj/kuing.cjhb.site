@@ -104,20 +104,25 @@ function procthread($thread, $timeformat = 'd') {
 function modlog($thread, $action) {
 	global $_G;
 	$reason = $_GET['reason'];
+	$reason = str_replace(["\t", "\r\n", "\n", "   ", "  "], ' ', dhtmlspecialchars(trim($reason)));
+	$subject = str_replace(["\t", "\r\n", "\n", "   ", "  "], ' ', $thread['subject']);
+	$username = str_replace(["\t", "\r\n", "\n", "   ", "  "], ' ', $_G['username']);
+	$forumname = str_replace(["\t", "\r\n", "\n", "   ", "  "], ' ', $_G['forum']['name']);
+	$toforumname = str_replace(["\t", "\r\n", "\n", "   ", "  "], ' ', $_G['toforum']['name']);
 	if($_G['setting']['log']['mods']) {
 		$errorlog = [
 			'timestamp' => TIMESTAMP,
-			'operator_username' => $_G['username'],
+			'operator_username' => $username,
 			'operator_adminid' => $_G['adminid'],
 			'clientip' => $_G['clientip'],
 			'forum_fid' => $_G['forum']['fid'],
-			'forum_name' => $_G['forum']['name'],
+			'forum_name' => $forumname,
 			'tid' => $thread['tid'],
-			'subject' => $thread['subject'],
+			'subject' => $subject,
 			'action' => $action,
 			'reason' => $reason,
 			'toforum_fid' => $_G['toforum']['fid'],
-			'toforum_name' => $_G['toforum']['name'],
+			'toforum_name' => $toforumname,
 		];
 		$member_log = $_G['member'];
 		logger('mods', $member_log, $_G['member']['uid'], $errorlog);
