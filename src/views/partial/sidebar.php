@@ -135,7 +135,7 @@
             <?php if($cssFile == 'dark') : ?>
             <div class="d-flex justify-content-center">
                 <div class="switch-box">
-                    <div class="toggle-switch" onclick='window.location.assign("switch-theme")'>
+                    <div class="toggle-switch" onclick='window.location.assign("/switch-theme")'>
                     <input type="checkbox" class="switch-theme">
                         <svg class="checkbox" xmlns="http://www.w3.org/2000/svg" style="isolation:isolate" viewBox="0 0 168 80">
                         <path class="outer-ring" d="M41.534 9h88.932c17.51 0 31.724 13.658 31.724 30.482 0 16.823-14.215 30.48-31.724 30.48H41.534c-17.51 0-31.724-13.657-31.724-30.48C9.81 22.658 24.025 9 41.534 9z" fill="none" stroke="#233043" stroke-width="3" stroke-linecap="square" stroke-miterlimit="3"/>
@@ -148,7 +148,7 @@
             <?php else : ?>
             <div class="d-flex justify-content-center">
                 <div class="switch-box">
-                    <div class="toggle-switch" onclick='window.location.assign("switch-theme")'>
+                    <div class="toggle-switch" onclick='window.location.assign("/switch-theme")'>
                     <input type="checkbox" class="switch-theme" checked>
                         <svg class="checkbox" xmlns="http://www.w3.org/2000/svg" style="isolation:isolate" viewBox="0 0 168 80">
                         <path class="outer-ring" d="M41.534 9h88.932c17.51 0 31.724 13.658 31.724 30.482 0 16.823-14.215 30.48-31.724 30.48H41.534c-17.51 0-31.724-13.657-31.724-30.48C9.81 22.658 24.025 9 41.534 9z" fill="none" stroke="#233043" stroke-width="3" stroke-linecap="square" stroke-miterlimit="3"/>
