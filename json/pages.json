@@ -103,5 +103,85 @@
         "slug": "实分析/开集构造定理",
         "topic": "实分析",
         "filename": "开集构造定理"
+    },
+    {
+        "slug": "linear algebra/Jordan decomposition",
+        "topic": "linear algebra",
+        "filename": "Jordan decomposition"
+    },
+    {
+        "slug": "group theory/Sylow theorem",
+        "topic": "group theory",
+        "filename": "Sylow theorem"
+    },
+    {
+        "slug": "linear algebra/normal matrix",
+        "topic": "linear algebra",
+        "filename": "normal matrix"
+    },
+    {
+        "slug": "linear algebra/simultaneous eigenspaces of commuting operators",
+        "topic": "linear algebra",
+        "filename": "simultaneous eigenspaces of commuting operators"
+    },
+    {
+        "slug": "linear algebra/image of adjoint is orthogonal complement of kernel",
+        "topic": "linear algebra",
+        "filename": "image of adjoint is orthogonal complement of kernel"
+    },
+    {
+        "slug": "linear algebra/adjoint map",
+        "topic": "linear algebra",
+        "filename": "adjoint map"
+    },
+    {
+        "slug": "group theory/splitting lemma",
+        "topic": "group theory",
+        "filename": "splitting lemma"
+    },
+    {
+        "slug": "test/Cubic polynomials are point symmetric",
+        "topic": "test",
+        "filename": "Cubic polynomials are point symmetric"
+    },
+    {
+        "slug": "实分析/F. Riesz theorem",
+        "topic": "实分析",
+        "filename": "F. Riesz theorem"
+    },
+    {
+        "slug": "test/A property of integers not prime powers",
+        "topic": "test",
+        "filename": "A property of integers not prime powers"
+    },
+    {
+        "slug": "test/Sufficient conditions for complex differentiability based on the Cauchy-Riemann equations",
+        "topic": "test",
+        "filename": "Sufficient conditions for complex differentiability based on the Cauchy-Riemann equations"
+    },
+    {
+        "slug": "linear algebra/matrix representation of an endomorphism transforms via conjugation under a change of basis",
+        "topic": "linear algebra",
+        "filename": "matrix representation of an endomorphism transforms via conjugation under a change of basis"
+    },
+    {
+        "slug": "test/Lifting The Exponent Lemma",
+        "topic": "test",
+        "filename": "Lifting The Exponent Lemma"
+    },
+    {
+        "slug": "test/an inequality relating G, A, and L mean",
+        "topic": "test",
+        "filename": "an inequality relating G, A, and L mean"
+    },
+    {
+        "slug": "函数不等式/基本求导",
+        "topic": "函数不等式",
+        "filename": "基本求导"
+    },
+    {
+        "slug": "函数不等式/分析单调性",
+        "topic": "函数不等式",
+        "filename": "分析单调性"
     }
 ]
