@@ -133,7 +133,7 @@
             ?>
             <div class="sidebar-footer-content">
             <?php if($cssFile == 'dark') : ?>
-            <div class="d-flex justify-content-center">
+            <div class="d-flex justify-content-end">
                 <div class="switch-box">
                     <div class="toggle-switch" onclick='window.location.assign("/switch-theme")'>
                     <input type="checkbox" class="switch-theme">
@@ -146,7 +146,7 @@
                 </div>
             </div>
             <?php else : ?>
-            <div class="d-flex justify-content-center">
+            <div class="d-flex justify-content-end">
                 <div class="switch-box">
                     <div class="toggle-switch" onclick='window.location.assign("/switch-theme")'>
                     <input type="checkbox" class="switch-theme" checked>
