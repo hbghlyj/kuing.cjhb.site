@@ -45,7 +45,7 @@ color: red;
                 tagMenuLength = suggestions.length;
                 tagMenui = -1; // Reset selection index
                 suggestions.forEach((tag, i) => {
-                    s += `<li><a href="javascript:;" id="tagmenu_item_${i}" onmouseover="tagMenuOp(5, ${i})">${tag}</a></li>`;
+                    s += '<li><a href="javascript:;" id="tagmenu_item_' + i + '" onmouseover="tagMenuOp(5, ' + i + ')">' + tag.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</a></li>';
                 });
                 s += '</ul>';
                 $('tagmore_menu').innerHTML = s;
