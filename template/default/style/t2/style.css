@@ -9,9 +9,12 @@ Powered by Discuz! X
 body { background: #FFF url(bgimg.jpg) no-repeat 50% 0; background-size: 1400px; background-position-y: -25px; }
 @media(min-resolution:120dpi){ body { background-image: url(bgimg2x.jpg); }}
 .fc-p { color: var(--dise); }
-#nv,#scbar_btn { background-color: var(--dise); }
-	#nv li.a { background-color: #005D5D; }
-	#nv li a:hover, #nv li.hover a:hover, #nv li.hover a { background-color: #044; }
+#nv { background: none; }
+#scbar_btn { background-color: var(--dise); }
+	#nv li.a { background-color: color-mix(in srgb, var(--dise), transparent 25%); }
+	#nv li a { color: var(--dise); }
+	#nv li.a a { color: #FFF; }
+	#nv li a:hover, #nv li.hover a:hover, #nv li.hover a { background-color: var(--dise); color: #FFF; }
 #scform_srchtxt { border-color: var(--dise); }
 #scform_tb .a::before { border-bottom-color: var(--dise); }
 #scform_submit { background-color: var(--dise); }
