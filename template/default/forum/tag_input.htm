@@ -28,6 +28,15 @@ color: red;
     let tagMenui = 0;
     let tagMenuLength = 0;
 
+    $('tagmore_menu').addEventListener('mousedown', function(e) {
+        if (e.target && e.target.tagName.toLowerCase() === 'a') {
+            e.preventDefault(); // Prevent input from losing focus
+            addKeyword(e.target.dataset.tag || e.target.textContent);
+            $('keyword-input').value = '';
+            $('tagmore_menu').style.display = 'none';
+        }
+    });
+
     $('keyword-input').addEventListener('input', async function() {
         const query = this.value.trim();
         if (mb_strlen(query) < 2) {
@@ -40,7 +49,7 @@ color: red;
             const suggestions = await response.json();
 
             // Ensure the input hasn't changed since the fetch started
-            if (this.value.trim() !== query) {
+            if ($('keyword-input').value.trim() !== query) {
                 return;
             }
 
@@ -56,14 +65,8 @@ color: red;
                     a.href = 'javascript:;';
                     a.id = `tagmenu_item_${i}`;
                     a.textContent = tag;
+                    a.dataset.tag = tag;
                     a.onmouseover = function() { tagMenuOp(5, i); };
-
-                    a.addEventListener('mousedown', function(e) {
-                        e.preventDefault(); // Prevent input from losing focus
-                        addKeyword(tag);
-                        $('keyword-input').value = '';
-                        $('tagmore_menu').style.display = 'none';
-                    });
 
                     li.appendChild(a);
                     ul.appendChild(li);
