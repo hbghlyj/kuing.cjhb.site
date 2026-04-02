@@ -71,6 +71,7 @@ class discuz_remote {
 			unset($_GET['sign']);
 
 			if(empty($sign) || $sign != $this->sign($_GET)) {
+				$this->error(2, 'signature is invalid');
 			}
 		}
 
