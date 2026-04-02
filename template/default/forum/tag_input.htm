@@ -27,7 +27,6 @@ color: red;
     const keywords = $('tags').value ? $('tags').value.split(',') : [];
     let tagMenui = 0;
     let tagMenuLength = 0;
-    let isTagMenuHovered = false;
 
     $('keyword-input').addEventListener('input', async function() {
         const query = this.value.trim();
@@ -40,28 +39,38 @@ color: red;
             const response = await fetch(`forum.php?mod=tag&op=search&inajax=1&searchkey=${encodeURIComponent(query)}`);
             const suggestions = await response.json();
 
+            // Ensure the input hasn't changed since the fetch started
+            if (this.value.trim() !== query) {
+                return;
+            }
+
             if (suggestions.length > 0) {
-                let s = '<ul>';
+                $('tagmore_menu').innerHTML = '';
+                const ul = document.createElement('ul');
                 tagMenuLength = suggestions.length;
                 tagMenui = -1; // Reset selection index
-                suggestions.forEach((tag, i) => {
-                    s += '<li><a href="javascript:;" id="tagmenu_item_' + i + '" onmouseover="tagMenuOp(5, ' + i + ')">' + tag.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</a></li>';
-                });
-                s += '</ul>';
-                $('tagmore_menu').innerHTML = s;
-                showMenu({'ctrlid':'keyword-input', 'menuid':'tagmore_menu', 'pos':'13!'});
 
-                // Attach mousedown event to new items so we can process click before blur
                 suggestions.forEach((tag, i) => {
-                    const item = document.getElementById(`tagmenu_item_${i}`);
-                    if (item) {
-                        item.addEventListener('mousedown', function(e) {
-                            addKeyword(tag);
-                            $('keyword-input').value = '';
-                            $('tagmore_menu').style.display = 'none';
-                        });
-                    }
+                    const li = document.createElement('li');
+                    const a = document.createElement('a');
+                    a.href = 'javascript:;';
+                    a.id = `tagmenu_item_${i}`;
+                    a.textContent = tag;
+                    a.onmouseover = function() { tagMenuOp(5, i); };
+
+                    a.addEventListener('mousedown', function(e) {
+                        e.preventDefault(); // Prevent input from losing focus
+                        addKeyword(tag);
+                        $('keyword-input').value = '';
+                        $('tagmore_menu').style.display = 'none';
+                    });
+
+                    li.appendChild(a);
+                    ul.appendChild(li);
                 });
+
+                $('tagmore_menu').appendChild(ul);
+                showMenu({'ctrlid':'keyword-input', 'menuid':'tagmore_menu', 'pos':'13!'});
             } else {
                 $('tagmore_menu').style.display = 'none';
             }
@@ -79,14 +88,6 @@ color: red;
             }
         }
     };
-
-    $('tagmore_menu').addEventListener('mouseenter', function() {
-        isTagMenuHovered = true;
-    });
-
-    $('tagmore_menu').addEventListener('mouseleave', function() {
-        isTagMenuHovered = false;
-    });
 
 
     function renderChips() {
@@ -169,7 +170,6 @@ color: red;
     });
 
     $('keyword-input').addEventListener('blur', function() {
-        if (isTagMenuHovered) return;
         if (this.value.trim()) {
             addKeyword(this.value.trim());
             this.value = '';
