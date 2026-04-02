@@ -85,7 +85,7 @@ if($notifydata['validator']) {
 				} elseif($status == STATUS_REFUND_CLOSE) {
 
 					table_forum_trade::t()->update_counter($tradelog['tid'], $tradelog['pid'], 0, 0, 0, $tradelog['number']);
-					notification_add($tradelog['sellerid'], 'goods', 'trade_fefund_success', [
+					notification_add($tradelog['sellerid'], 'goods', 'trade_refund_success', [
 						'orderid' => $orderid,
 						'subject' => $tradelog['subject']
 					]);
