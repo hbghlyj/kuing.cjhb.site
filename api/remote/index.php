@@ -102,6 +102,7 @@ class discuz_remote {
 	}
 
 	function sign($arg) {
+		ksort($arg);
 		$str = '';
 		foreach($arg as $k => $v) {
 			$str .= $k.'='.$v.'&';
