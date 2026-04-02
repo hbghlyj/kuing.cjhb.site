@@ -27,6 +27,7 @@ color: red;
     const keywords = $('tags').value ? $('tags').value.split(',') : [];
     let tagMenui = 0;
     let tagMenuLength = 0;
+    let debounceTimeout = null;
 
     $('tagmore_menu').addEventListener('mousedown', function(e) {
         if (e.target && e.target.tagName.toLowerCase() === 'a') {
@@ -37,49 +38,55 @@ color: red;
         }
     });
 
-    $('keyword-input').addEventListener('input', async function() {
+    $('keyword-input').addEventListener('input', function() {
         const query = this.value.trim();
         if (mb_strlen(query) < 2) {
             $('tagmore_menu').style.display = 'none';
             return;
         }
 
-        try {
-            const response = await fetch(`forum.php?mod=tag&op=search&inajax=1&searchkey=${encodeURIComponent(query)}`);
-            const suggestions = await response.json();
-
-            // Ensure the input hasn't changed since the fetch started
-            if ($('keyword-input').value.trim() !== query) {
-                return;
-            }
-
-            if (suggestions.length > 0) {
-                $('tagmore_menu').innerHTML = '';
-                const ul = document.createElement('ul');
-                tagMenuLength = suggestions.length;
-                tagMenui = -1; // Reset selection index
-
-                suggestions.forEach((tag, i) => {
-                    const li = document.createElement('li');
-                    const a = document.createElement('a');
-                    a.href = 'javascript:;';
-                    a.id = `tagmenu_item_${i}`;
-                    a.textContent = tag;
-                    a.dataset.tag = tag;
-                    a.onmouseover = function() { tagMenuOp(5, i); };
-
-                    li.appendChild(a);
-                    ul.appendChild(li);
-                });
-
-                $('tagmore_menu').appendChild(ul);
-                showMenu({'ctrlid':'keyword-input', 'menuid':'tagmore_menu', 'pos':'13!'});
-            } else {
-                $('tagmore_menu').style.display = 'none';
-            }
-        } catch (error) {
-            console.error('Error fetching tag suggestions:', error);
+        if (debounceTimeout) {
+            clearTimeout(debounceTimeout);
         }
+
+        debounceTimeout = setTimeout(async function() {
+            try {
+                const response = await fetch(`forum.php?mod=tag&op=search&inajax=1&searchkey=${encodeURIComponent(query)}`);
+                const suggestions = await response.json();
+
+                // Ensure the input hasn't changed since the fetch started
+                if ($('keyword-input').value.trim() !== query) {
+                    return;
+                }
+
+                if (suggestions.length > 0) {
+                    $('tagmore_menu').innerHTML = '';
+                    const ul = document.createElement('ul');
+                    tagMenuLength = suggestions.length;
+                    tagMenui = -1; // Reset selection index
+
+                    suggestions.forEach((tag, i) => {
+                        const li = document.createElement('li');
+                        const a = document.createElement('a');
+                        a.href = 'javascript:;';
+                        a.id = `tagmenu_item_${i}`;
+                        a.textContent = tag;
+                        a.dataset.tag = tag;
+                        a.onmouseover = function() { tagMenuOp(5, i); };
+
+                        li.appendChild(a);
+                        ul.appendChild(li);
+                    });
+
+                    $('tagmore_menu').appendChild(ul);
+                    showMenu({'ctrlid':'keyword-input', 'menuid':'tagmore_menu', 'pos':'13!'});
+                } else {
+                    $('tagmore_menu').style.display = 'none';
+                }
+            } catch (error) {
+                console.error('Error fetching tag suggestions:', error);
+            }
+        }, 300);
     });
 
     window.tagMenuOp = function(op, index) {
