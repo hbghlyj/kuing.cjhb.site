@@ -89,7 +89,7 @@ if($notifydata['validator']) {
 						'orderid' => $orderid,
 						'subject' => $tradelog['subject']
 					]);
-					notification_add($tradelog['buyerid'], 'goods', 'trade_fefund_success', [
+					notification_add($tradelog['buyerid'], 'goods', 'trade_refund_success', [
 						'orderid' => $orderid,
 						'subject' => $tradelog['subject']
 					]);
