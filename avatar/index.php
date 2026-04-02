@@ -15,7 +15,7 @@ $discuz->init();
 
 header('Cache-Control: max-age=86400');
 
-$url = avatar($_GET['uid'] ?? 0, in_array($size, ['big', 'middle', 'small']) ? $size : 'middle', true);
+$url = avatar($_GET['uid'] ?? 0, in_array($_GET['size'] ?? '', ['big', 'middle', 'small']) ? $_GET['size'] : 'middle', true);
 if(!filter_var($url, FILTER_VALIDATE_URL)) {
 	$url = '../'.$url;
 } else {
