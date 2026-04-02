@@ -36,21 +36,11 @@ Discuz! X 官方 Git (https://gitee.com/Discuz/DiscuzX) ，简体中文 UTF8 版
 |
 [Discuz! 开发文档](https://open.dismall.com/?ac=document&page=dev) 
 
-### **感谢 Fans**
-
-[DiscuzFans](https://gitee.com/sinlody/DiscuzFans)  [DiscuzLite](https://gitee.com/3dming/DiscuzL)
-
-### **每日构建下载**
-
-Discuz! X提供3.5的每日构建，在有提交的第二天早上，可以下载到简体UTF8、繁体UTF8的打包版本。
-
-[点击打开](https://www.discuz.vip/daily/)
-
 ### **友情提示**
 - Git 版的 Release 版本号不再更新，但[正式版](https://gitee.com/Discuz/DiscuzX/attach_files)会更新
 - X3.2、X3.3、X3.4 已停更，无重大漏洞的情况下，将不再更新 X3.4 版本。请随时关注更新列表，您可进行手动修补，让自己的站点时刻保持最安全的状态!
-- X3.5 已经于 2023 年 5 月 21 日切换为默认分支
-- X5.0 分支[点击这里进入](https://gitee.com/Discuz/DiscuzX/tree/MitFrame/)
+- X3.5 分支将于 2026 年 5 月 4 日停更，无重大漏洞的情况下，将不再更新 X3.5 版本。请随时关注[更新列表](https://gitee.com/Discuz/DiscuzX/commits/v3.5)，您可进行手动修补，让自己的站点时刻保持最安全的状态!
+- MitFrame 分支将于 2026 年 5 月 4 日切换为默认分支，当前分支不再接受 PR，有新的 PR 请提交至 [MitFrame 分支](https://gitee.com/Discuz/DiscuzX/tree/MitFrame/)
 
 ### 截图
 ![系统信息](./readme/screenshot.png "系统信息截图")
