@@ -192,7 +192,7 @@ class dbstuffi {
 	}
 
 	function halt($message = '', $sql = '') {
-		api_msg('run_sql_error', $message.'<br /><br />'.$sql.'<br /> '.$this->link->error());
+		api_msg('run_sql_error', $message.'<br /><br />'.$sql.'<br /> '.$this->error());
 	}
 }
 
