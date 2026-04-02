@@ -44,7 +44,7 @@ if($api[0] == 'token') {
 	if(!$tokenData) {
 		$tokenData = $_ENV['restful']->newTokenData();
 	}
-	$token = strtoupper(random(16));
+	$token = strtoupper(bin2hex(random_bytes(8)));
 	$_ENV['restful']->setToken($token, $tokenData, $_ENV['restful']->newSaveTokenExp());
 	if($_ENV['restful']->isRefreshToken()) {
 		$_ENV['restful']->delTokenData();
