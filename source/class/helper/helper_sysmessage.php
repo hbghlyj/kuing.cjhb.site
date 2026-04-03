@@ -20,7 +20,6 @@ class helper_sysmessage {
 			$title = $title ? $title : 'System Message';
 		}
 		$charset = CHARSET;
-		$copy = lang('template', 'copyright_s');
 		echo <<<EOT
 <!DOCTYPE html>
 <html>
@@ -29,12 +28,6 @@ class helper_sysmessage {
 <meta name="renderer" content="webkit" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <title>$title</title>
-<meta name="keywords" content="" />
-<meta name="description" content="System Message - Discuz! Board" />
-<meta name="author" content="Discuz! Team" />
-<meta name="copyright" content="$copy" />
-<meta name="MSSmartTagsPreventParsing" content="True" />
-<meta http-equiv="MSThemeCompatible" content="Yes" />
 </head>
 <body bgcolor="#FFFFFF">
 <table cellpadding="0" cellspacing="0" border="0" width="850" align="center" height="85%">
