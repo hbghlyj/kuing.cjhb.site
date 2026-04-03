@@ -176,6 +176,32 @@ function showheader($key, $url, $return = 0) {
 }
 
 function shownav($header = '', $menu = '', $nav = '', $plaintext = false) {
+	global $action, $operation;
+
+	$title = 'cplog_'.$action.($operation ? '_'.$operation : '');
+	if(in_array($action, ['home', 'custommenu'])) {
+		$customtitle = '';
+	} elseif(cplang($title, false)) {
+		$customtitle = $title;
+	} elseif(cplang('nav_'.($header ? $header : 'index'), false)) {
+		$customtitle = 'nav_'.$header;
+	} else {
+		$customtitle = rawurlencode($nav ? $nav : ($menu ? $menu : ''));
+	}
+	$title = cplang('header_'.($header ? $header : 'index')).($menu ? '&nbsp;&raquo;&nbsp;'.cplang($menu) : '').($nav ? '&nbsp;&raquo;&nbsp;'.cplang($nav) : '');
+	$ctitle = cplang('header_'.($header ? $header : 'index'));
+	if($menu) {
+		$ctitle = cplang($menu);
+	}
+	if($nav) {
+		$ctitle = cplang($nav);
+	}
+	if($plaintext) {
+		return strip_tags(str_replace('&nbsp;&raquo;&nbsp;', ' - ', $title));
+	}
+	$addtomenu = "&nbsp;&nbsp;<a target=\"main\" class=\"custommenu_addto\" title=\"".cplang('custommenu_addto')."\" href=\"".ADMINSCRIPT."?action=misc&operation=custommenu&do=add&title=".rawurlencode($ctitle)."&url=".rawurlencode(cpurl())."\">[+]</a>";
+	$dtitle = str_replace("'", "\'", cplang('admincp_title').' - '.str_replace('&nbsp;&raquo;&nbsp;', ' - ', $title));
+	echo '<script type="text/JavaScript">parent.document.title = \''.$dtitle.'\';if(parent.$(\'admincpnav\')) parent.$(\'admincpnav\').innerHTML=\''.$title.$addtomenu.'\';</script>';
 }
 
 function currentmenuid($parent = false) {
