@@ -20,9 +20,17 @@ color: red;
 <div id="chip-container"></div>
 <input name="tags" type="hidden" id="tags" value="<!--{echo $tags or $postinfo['tag']}-->">
 <input id="keyword-input" size="30" placeholder="{lang input_a_new_tag_press_enter_submit}">
-<div id="tagmore_menu" class="p_pop" style="display:none;" disautofocus="true"></div>
 <script reload="1">
 {
+    if (!$('tagmore_menu')) {
+        const menuDiv = document.createElement('div');
+        menuDiv.id = 'tagmore_menu';
+        menuDiv.className = 'p_pop';
+        menuDiv.style.display = 'none';
+        menuDiv.setAttribute('disautofocus', 'true');
+        $('append_parent').appendChild(menuDiv);
+    }
+
     const chipContainer = document.getElementById('chip-container');
     const keywords = $('tags').value ? $('tags').value.split(',') : [];
     let tagMenui = 0;
