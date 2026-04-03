@@ -19,32 +19,94 @@ color: red;
 </style>
 <div id="chip-container"></div>
 <input name="tags" type="hidden" id="tags" value="<!--{echo $tags or $postinfo['tag']}-->">
-<input id="keyword-input" size="30" placeholder="{lang input_a_new_tag_press_enter_submit}" list="tag-suggestions">
-<datalist id="tag-suggestions"></datalist>
-<script reload="1">
-    $('keyword-input').addEventListener('input', async function() {
-        const query = this.value.trim();
-        if (mb_strlen(query) < 2) return; // Only fetch suggestions for queries longer than 1 character
-
-        try {
-            const response = await fetch(`forum.php?mod=tag&op=search&inajax=1&searchkey=${encodeURIComponent(query)}`);
-            const suggestions = await response.json();
-
-            $('tag-suggestions').innerHTML = ''; // Clear previous suggestions
-            suggestions.forEach(tag => {
-                const option = document.createElement('option');
-                option.value = tag;
-                $('tag-suggestions').appendChild(option);
-            });
-        } catch (error) {
-            console.error('Error fetching tag suggestions:', error);
-        }
-    });
-</script>
+<input id="keyword-input" size="30" placeholder="{lang input_a_new_tag_press_enter_submit}">
 <script reload="1">
 {
-    const chipContainer = document.getElementById('chip-container');
+    if (!$('tagmore_menu')) {
+        const menuDiv = document.createElement('div');
+        menuDiv.id = 'tagmore_menu';
+        menuDiv.className = 'p_pop';
+        menuDiv.style.display = 'none';
+        menuDiv.setAttribute('disautofocus', 'true');
+        $('append_parent').appendChild(menuDiv);
+    }
+
+    const chipContainer = $('chip-container');
     const keywords = $('tags').value ? $('tags').value.split(',') : [];
+    let tagMenui = 0;
+    let tagMenuLength = 0;
+    let debounceTimeout = null;
+
+    $('tagmore_menu').addEventListener('mousedown', function(e) {
+        if (e.target && e.target.tagName.toLowerCase() === 'a') {
+            e.preventDefault(); // Prevent input from losing focus
+            addKeyword(e.target.dataset.tag || e.target.textContent);
+            $('keyword-input').value = '';
+            $('tagmore_menu').style.display = 'none';
+        }
+    });
+
+    $('keyword-input').addEventListener('input', function() {
+        const query = this.value.trim();
+        if (mb_strlen(query) < 2) {
+            $('tagmore_menu').style.display = 'none';
+            return;
+        }
+
+        if (debounceTimeout) {
+            clearTimeout(debounceTimeout);
+        }
+
+        debounceTimeout = setTimeout(async function() {
+            try {
+                const response = await fetch('forum.php?mod=tag&op=search&inajax=1&searchkey=' + encodeURIComponent(query));
+                const suggestions = await response.json();
+
+                // Ensure the input hasn't changed since the fetch started
+                if ($('keyword-input').value.trim() !== query) {
+                    return;
+                }
+
+                if (suggestions.length > 0) {
+                    $('tagmore_menu').innerHTML = '';
+                    const ul = document.createElement('ul');
+                    tagMenuLength = suggestions.length;
+                    tagMenui = -1; // Reset selection index
+
+                    suggestions.forEach((tag, i) => {
+                        const li = document.createElement('li');
+                        const a = document.createElement('a');
+                        a.href = 'javascript:;';
+                        a.id = 'tagmenu_item_' + i;
+                        a.textContent = tag;
+                        a.dataset.tag = tag;
+                        a.onmouseover = function() { tagMenuOp(5, i); };
+
+                        li.appendChild(a);
+                        ul.appendChild(li);
+                    });
+
+                    $('tagmore_menu').appendChild(ul);
+                    showMenu({'ctrlid':'keyword-input', 'menuid':'tagmore_menu', 'pos':'13!'});
+                } else {
+                    $('tagmore_menu').style.display = 'none';
+                }
+            } catch (error) {
+                console.error('Error fetching tag suggestions:', error);
+            }
+        }, 300);
+    });
+
+    window.tagMenuOp = function(op, index) {
+        if (op === 5) {
+            tagMenui = index;
+            const as = $('tagmore_menu').getElementsByTagName('a');
+            for (let i = 0; i < as.length; i++) {
+                as[i].className = (i === index) ? 'a' : '';
+            }
+        }
+    };
+
 
     function renderChips() {
         $('tags').value = keywords.join(',');
@@ -96,6 +158,28 @@ color: red;
     }
 
     $('keyword-input').addEventListener('keydown', function(e) {
+        if ($('tagmore_menu').style.display !== 'none' && tagMenuLength > 0) {
+            if (e.keyCode === 40) { // Arrow Down
+                tagMenui++;
+                if (tagMenui >= tagMenuLength) tagMenui = 0;
+                tagMenuOp(5, tagMenui);
+                const selectedItem = document.getElementById('tagmenu_item_' + tagMenui);
+                if (selectedItem) this.value = selectedItem.innerText;
+                e.preventDefault();
+                return;
+            } else if (e.keyCode === 38) { // Arrow Up
+                tagMenui--;
+                if (tagMenui < 0) tagMenui = tagMenuLength - 1;
+                tagMenuOp(5, tagMenui);
+                const selectedItem = document.getElementById('tagmenu_item_' + tagMenui);
+                if (selectedItem) this.value = selectedItem.innerText;
+                e.preventDefault();
+                return;
+            } else if (e.keyCode === 13) { // Enter
+                $('tagmore_menu').style.display = 'none';
+            }
+        }
+
         if (e.key === 'Enter') {
             addKeyword(this.value.trim());
             this.value = '';
@@ -108,6 +192,7 @@ color: red;
             addKeyword(this.value.trim());
             this.value = '';
         }
+        $('tagmore_menu').style.display = 'none';
     });
 
     renderChips();
