@@ -33,7 +33,10 @@ function attachimgshow(pid, onlyinpost) {
 		if(onlyinpost && obj.getAttribute('inpost') || !onlyinpost) {
 			if(!obj.status) {
 				obj.status = 1;
-				if(obj.getAttribute('file')) obj.src = obj.getAttribute('file');
+				if(obj.getAttribute('file')) {
+					obj.src = obj.getAttribute('file');
+					obj.setAttribute('onload',"this.parentNode.classList.add('jiazed');this.setAttribute('width',this.width);this.parentNode.style.display='inline-block';");
+				}
 				loadingcount++;
 			} else if(obj.status == 1) {
 				if(obj.complete) {
