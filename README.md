@@ -46,6 +46,7 @@ current post.
 1. Install PHP (8.0 or newer) and a MySQL-compatible database such as MariaDB.
 2. Copy `config/config_global_default.php` to `config/config_global.php` and configure the database connection.
 3. Import the database schema from the `install` directory. If you need to rerun the Discuz installer, make sure to remove the `data/install.lock` file first so the setup can proceed.
+4. **Google Connect plugin**: The `googleconnect` plugin requires external dependencies. Run `composer install` in the repository root to create the necessary `vendor/` folder.
 
 ### Migrating thread tags
 If you are upgrading from an older version where tags were stored in the `pre_forum_post` table,

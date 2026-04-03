@@ -1,0 +1,7 @@
+{
+    "name": "cjhb/discuz-plugins",
+    "description": "Dependencies for Discuz plugins",
+    "require": {
+        "google/apiclient": "^2.18"
+    }
+}
