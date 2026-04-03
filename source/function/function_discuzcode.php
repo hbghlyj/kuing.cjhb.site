@@ -399,10 +399,10 @@ function parseurl($url, $text, $scheme) {
 		return '<a href="'.(str_starts_with(strtolower($url), 'www.') ? 'http://'.$url : $url).'" target="_blank">'.$text.'</a>';
 	} else {
 		$url = substr($url, 1);// remove the prefix =
+		if(!$text) {// destination anchor, example [url=sec1][/url]
+			return '<a name="'.$url.'"></a>';
+		}
 		if($url[0] == '#') {
-			if(!$text) {// destination anchor, example [url=#sec1][/url]
-				return '<a name="'.substr($url, 1).'"></a>';
-			}
 			return '<a href="'.$url.'">'.$text.'</a>';// example [url=#sec1]go to sec1[/url]
 		} else {
 			if(str_starts_with(strtolower($url), 'www.')) {
