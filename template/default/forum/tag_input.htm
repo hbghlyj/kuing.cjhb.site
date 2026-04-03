@@ -19,95 +19,179 @@ color: red;
 </style>
 <div id="chip-container"></div>
 <input name="tags" type="hidden" id="tags" value="<!--{echo $tags or $postinfo['tag']}-->">
-<input id="keyword-input" size="30" placeholder="{lang input_a_new_tag_press_enter_submit}" list="tag-suggestions">
-<datalist id="tag-suggestions"></datalist>
-<script>
-    $('keyword-input').addEventListener('input', async function() {
-        const query = this.value.trim();
-        if (mb_strlen(query) < 2) return; // Only fetch suggestions for queries longer than 1 character
+<input id="keyword-input" size="30" placeholder="{lang input_a_new_tag_press_enter_submit}">
+<script reload="1">
+{
+    if (!$('tagmore_menu')) {
+        const menuDiv = document.createElement('div');
+        menuDiv.id = 'tagmore_menu';
+        menuDiv.className = 'p_pop';
+        menuDiv.style.display = 'none';
+        menuDiv.setAttribute('disautofocus', 'true');
+        $('append_parent').appendChild(menuDiv);
+    }
 
-        try {
-            const response = await fetch(`forum.php?mod=tag&op=search&inajax=1&searchkey=${encodeURIComponent(query)}`);
-            const suggestions = await response.json();
+    const chipContainer = $('chip-container');
+    const keywords = $('tags').value ? $('tags').value.split(',') : [];
+    let tagMenui = 0;
+    let tagMenuLength = 0;
+    let debounceTimeout = null;
 
-            $('tag-suggestions').innerHTML = ''; // Clear previous suggestions
-            suggestions.forEach(tag => {
-                const option = document.createElement('option');
-                option.value = tag;
-                $('tag-suggestions').appendChild(option);
-            });
-        } catch (error) {
-            console.error('Error fetching tag suggestions:', error);
+    $('tagmore_menu').addEventListener('mousedown', function(e) {
+        if (e.target && e.target.tagName.toLowerCase() === 'a') {
+            e.preventDefault(); // Prevent input from losing focus
+            addKeyword(e.target.dataset.tag || e.target.textContent);
+            $('keyword-input').value = '';
+            $('tagmore_menu').style.display = 'none';
         }
     });
-</script>
-<script>
-const chipContainer = document.getElementById('chip-container');
-const keywords = $('tags').value ? $('tags').value.split(',') : [];
 
-function renderChips() {
-    $('tags').value = keywords.join(',');
-    chipContainer.innerHTML = '';
-    keywords.forEach(keyword => {
-    const chip = document.createElement('div');
-    chip.className = 'chip';
-    chip.textContent = keyword;
+    $('keyword-input').addEventListener('input', function() {
+        const query = this.value.trim();
+        if (mb_strlen(query) < 2) {
+            $('tagmore_menu').style.display = 'none';
+            return;
+        }
 
-    const removeButton = document.createElement('button');
-    removeButton.textContent = '×';
-    removeButton.addEventListener('click', () => removeKeyword(keyword));
+        if (debounceTimeout) {
+            clearTimeout(debounceTimeout);
+        }
 
-    chip.appendChild(removeButton);
-    chipContainer.appendChild(chip);
+        debounceTimeout = setTimeout(async function() {
+            try {
+                const response = await fetch('forum.php?mod=tag&op=search&inajax=1&searchkey=' + encodeURIComponent(query));
+                const suggestions = await response.json();
+
+                // Ensure the input hasn't changed since the fetch started
+                if ($('keyword-input').value.trim() !== query) {
+                    return;
+                }
+
+                if (suggestions.length > 0) {
+                    $('tagmore_menu').innerHTML = '';
+                    const ul = document.createElement('ul');
+                    tagMenuLength = suggestions.length;
+                    tagMenui = -1; // Reset selection index
+
+                    suggestions.forEach((tag, i) => {
+                        const li = document.createElement('li');
+                        const a = document.createElement('a');
+                        a.href = 'javascript:;';
+                        a.id = 'tagmenu_item_' + i;
+                        a.textContent = tag;
+                        a.dataset.tag = tag;
+                        a.onmouseover = function() { tagMenuOp(5, i); };
+
+                        li.appendChild(a);
+                        ul.appendChild(li);
+                    });
+
+                    $('tagmore_menu').appendChild(ul);
+                    showMenu({'ctrlid':'keyword-input', 'menuid':'tagmore_menu', 'pos':'43'});
+                } else {
+                    $('tagmore_menu').style.display = 'none';
+                }
+            } catch (error) {
+                console.error('Error fetching tag suggestions:', error);
+            }
+        }, 300);
     });
-}
 
-function addKeyword(value) {
-    if (value.indexOf(',') !== -1 || value.indexOf('\\') !== -1) {
-        showError('{lang tag_cannot_contain_comma_or_backslash}');
-        return;
+    window.tagMenuOp = function(op, index) {
+        if (op === 5) {
+            tagMenui = index;
+            const as = $('tagmore_menu').getElementsByTagName('a');
+            for (let i = 0; i < as.length; i++) {
+                as[i].className = (i === index) ? 'a' : '';
+            }
+        }
+    };
+
+
+    function renderChips() {
+        $('tags').value = keywords.join(',');
+        chipContainer.innerHTML = '';
+        keywords.forEach(keyword => {
+            const chip = document.createElement('div');
+            chip.className = 'chip';
+            chip.textContent = keyword;
+
+            const removeButton = document.createElement('button');
+            removeButton.textContent = '×';
+            removeButton.addEventListener('click', () => removeKeyword(keyword));
+
+            chip.appendChild(removeButton);
+            chipContainer.appendChild(chip);
+        });
     }
 
-    if(keywords.length >= 5) {
-        showError('{lang tag_count_limit}');
-        return;
+    function addKeyword(value) {
+        if (value.indexOf(',') !== -1 || value.indexOf('\\') !== -1) {
+            showError('{lang tag_cannot_contain_comma_or_backslash}');
+            return;
+        }
+
+        if(keywords.length >= 5) {
+            showError('{lang tag_count_limit}');
+            return;
+        }
+
+        const taglength = mb_strlen(value);
+
+        if(taglength > 30 || taglength < 3) {
+            showError('{lang tag_max_length_invalid}' + taglength);
+            return;
+        }
+
+        if (value && !keywords.includes(value)) {
+            keywords.push(value);
+            renderChips();
+        }
     }
 
-    const taglength = mb_strlen(value);
-
-    if(taglength > 30 || taglength < 3) {
-        showError('{lang tag_max_length_invalid}' + taglength);
-        return;
+    function removeKeyword(keyword) {
+        const index = keywords.indexOf(keyword);
+        if (index > -1) {
+            keywords.splice(index, 1);
+            renderChips();
+        }
     }
 
-    if (value && !keywords.includes(value)) {
-        keywords.push(value);
-        renderChips();
-    }
-}
+    $('keyword-input').addEventListener('keydown', function(e) {
+        if ($('tagmore_menu').style.display !== 'none' && tagMenuLength > 0) {
+            if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+                if (e.key === 'ArrowDown') {
+                    tagMenui++;
+                    if (tagMenui >= tagMenuLength) tagMenui = 0;
+                } else {
+                    tagMenui--;
+                    if (tagMenui < 0) tagMenui = tagMenuLength - 1;
+                }
+                tagMenuOp(5, tagMenui);
+                const selectedItem = $('tagmenu_item_' + tagMenui);
+                if (selectedItem) this.value = selectedItem.innerText;
+                e.preventDefault();
+                return;
+            } else if (e.key === 'Enter') {
+                $('tagmore_menu').style.display = 'none';
+            }
+        }
 
-function removeKeyword(keyword) {
-    const index = keywords.indexOf(keyword);
-    if (index > -1) {
-    keywords.splice(index, 1);
+        if (e.key === 'Enter') {
+            addKeyword(this.value.trim());
+            this.value = '';
+            doane(e);
+        }
+    });
+
+    $('keyword-input').addEventListener('blur', function() {
+        if (this.value.trim()) {
+            addKeyword(this.value.trim());
+            this.value = '';
+        }
+        $('tagmore_menu').style.display = 'none';
+    });
+
     renderChips();
-    }
 }
-
-$('keyword-input').addEventListener('keydown', function(e) {
-    if (e.key === 'Enter') {
-        addKeyword(this.value.trim());
-        this.value = '';
-        doane(e);
-    }
-});
-
-$('keyword-input').addEventListener('blur', function() {
-    if (this.value.trim()) {
-        addKeyword(this.value.trim());
-        this.value = '';
-    }
-});
-
-renderChips();
 </script>
