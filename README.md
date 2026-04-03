@@ -1,27 +1,10 @@
-This repository contains the source code for the site https://kuing.cjhb.site/. The platform is based on [DiscuzX](https://gitee.com/Discuz/DiscuzX) with [DocPHT](https://github.com/docpht/docpht) used to manage static documentation. Mathematical expressions are rendered with [MathJax](https://www.mathjax.org/), and diagrams are generated through [Upmath LaTeX Renderer](https://github.com/parpalak/i.upmath.me) and [Asymptote Command-Line Interface](https://asymptote.sourceforge.io/doc/Command_002dLine-Interface.html) services.
+This repository contains the source code for the site https://kuing.cjhb.site/. The platform is based on [DiscuzX](https://gitee.com/Discuz/DiscuzX) with a custom **Lean Online Judge** integration. Mathematical expressions are rendered with [MathJax](https://www.mathjax.org/), and diagrams are generated through [Upmath LaTeX Renderer](https://github.com/parpalak/i.upmath.me) and [Asymptote Command-Line Interface](https://asymptote.sourceforge.io/doc/Command_002dLine-Interface.html) services.
 
 The repository root contains code from both projects:
 
-- **DocPHT:** `json/`, `pages/`, `public/`, `src/`, `temp/`, `vendor/`
+- **Lean OJ:** `leanoj-web/` (hosted out of `/var/www/leanoj/leanoj-web/` on the server)
 - **DiscuzX:** `api/`, `archiver/`, `config/`, `data/`, `install/`, `source/`, `static/`, `template/`, `uc_client/`, `uc_server/`
-
-## DocPHT page storage
-
-This repository includes a very basic "flat" mode where
-each page lives as a single Markdown file under the `page/` directory. The new
-pageModel can read and write these
-files. Pages are shown under `/page/{topic}/{filename}` and logged in users can
-edit them at `/page/update`. The controller uses the same
-`MediaWikiParsedown` parser employed by the rest of the documentation and saves
-the Markdown back to `page/`.
-
-DocPHT stores previous revisions as ZIP archives. The archive filename uses the
-page slug combined with the page's last modification time formatted with the
-`DATAFORMAT` constant (defined as `Y-m-d H:i`). If a page is saved again within
-the same minute, the timestamp does not change so `ZipArchive::CREATE`
-overwrites the existing file and the earlier version is lost.
-### Translation check
-Run `php tests/check_translation_keys.php` to make sure every call to `T::trans()` refers to an existing string in `src/translations/zh_CN.php`.
+- **Tools:** `asy/` (Asymptote rendering component) and `chat/` (Pusher-based chat system)
 
 ## Attachment tables
 
@@ -61,12 +44,8 @@ current post.
 ## Running locally
 
 1. Install PHP (8.0 or newer) and a MySQL-compatible database such as MariaDB.
-2. Install composer dependencies:
-   ```bash
-   composer install
-   ```
-3. Copy `config/config_global_default.php` to `config/config_global.php` and configure the database connection.
-4. Import the database schema from the `install` directory. If you need to rerun the Discuz installer, make sure to remove the `data/install.lock` file first so the setup can proceed.
+2. Copy `config/config_global_default.php` to `config/config_global.php` and configure the database connection.
+3. Import the database schema from the `install` directory. If you need to rerun the Discuz installer, make sure to remove the `data/install.lock` file first so the setup can proceed.
 
 ### Migrating thread tags
 If you are upgrading from an older version where tags were stored in the `pre_forum_post` table,
