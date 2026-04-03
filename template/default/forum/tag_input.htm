@@ -51,7 +51,7 @@ color: red;
 
         debounceTimeout = setTimeout(async function() {
             try {
-                const response = await fetch(`forum.php?mod=tag&op=search&inajax=1&searchkey=${encodeURIComponent(query)}`);
+                const response = await fetch('forum.php?mod=tag&op=search&inajax=1&searchkey=' + encodeURIComponent(query));
                 const suggestions = await response.json();
 
                 // Ensure the input hasn't changed since the fetch started
@@ -69,7 +69,7 @@ color: red;
                         const li = document.createElement('li');
                         const a = document.createElement('a');
                         a.href = 'javascript:;';
-                        a.id = `tagmenu_item_${i}`;
+                        a.id = 'tagmenu_item_' + i;
                         a.textContent = tag;
                         a.dataset.tag = tag;
                         a.onmouseover = function() { tagMenuOp(5, i); };
@@ -155,7 +155,7 @@ color: red;
                 tagMenui++;
                 if (tagMenui >= tagMenuLength) tagMenui = 0;
                 tagMenuOp(5, tagMenui);
-                const selectedItem = document.getElementById(`tagmenu_item_${tagMenui}`);
+                const selectedItem = document.getElementById('tagmenu_item_' + tagMenui);
                 if (selectedItem) this.value = selectedItem.innerText;
                 e.preventDefault();
                 return;
@@ -163,7 +163,7 @@ color: red;
                 tagMenui--;
                 if (tagMenui < 0) tagMenui = tagMenuLength - 1;
                 tagMenuOp(5, tagMenui);
-                const selectedItem = document.getElementById(`tagmenu_item_${tagMenui}`);
+                const selectedItem = document.getElementById('tagmenu_item_' + tagMenui);
                 if (selectedItem) this.value = selectedItem.innerText;
                 e.preventDefault();
                 return;
