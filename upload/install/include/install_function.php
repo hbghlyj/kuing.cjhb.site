@@ -19,6 +19,7 @@ function show_msg($error_no, $error_msg = 'ok', $success = 1, $quit = TRUE) {
 		$str = "<root>\n";
 		$str .= "\t<error errorCode=\"$error_code\" errorMessage=\"$error_msg\" />\n";
 		$str .= "</root>";
+		send_mime_type_header();
 		echo $str;
 		exit;
 	} else {
@@ -268,6 +269,7 @@ function show_env_result(&$env_items, &$dirfile_items, &$func_items, &$filesock_
 		$str .= "\t</FileDirs>\n";
 		$str .= "\t<error errorCode=\"$error_code\" errorMessage=\"\" />\n";
 		$str .= "</root>";
+		send_mime_type_header();
 		echo $str;
 		exit;
 
@@ -1847,4 +1849,7 @@ function init_install_log_file() {
 function append_to_install_log_file($message) {
 	$file = __DIR__ . '/install.log';
 	file_put_contents($file, $message, FILE_APPEND);
+}
+function send_mime_type_header($type = 'application/xml') {
+	header("Content-Type: ".$type);
 }
