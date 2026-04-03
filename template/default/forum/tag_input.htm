@@ -31,7 +31,7 @@ color: red;
         $('append_parent').appendChild(menuDiv);
     }
 
-    const chipContainer = document.getElementById('chip-container');
+    const chipContainer = $('chip-container');
     const keywords = $('tags').value ? $('tags').value.split(',') : [];
     let tagMenui = 0;
     let tagMenuLength = 0;
@@ -159,23 +159,20 @@ color: red;
 
     $('keyword-input').addEventListener('keydown', function(e) {
         if ($('tagmore_menu').style.display !== 'none' && tagMenuLength > 0) {
-            if (e.keyCode === 40) { // Arrow Down
-                tagMenui++;
-                if (tagMenui >= tagMenuLength) tagMenui = 0;
+            if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+                if (e.key === 'ArrowDown') {
+                    tagMenui++;
+                    if (tagMenui >= tagMenuLength) tagMenui = 0;
+                } else {
+                    tagMenui--;
+                    if (tagMenui < 0) tagMenui = tagMenuLength - 1;
+                }
                 tagMenuOp(5, tagMenui);
-                const selectedItem = document.getElementById('tagmenu_item_' + tagMenui);
+                const selectedItem = $('tagmenu_item_' + tagMenui);
                 if (selectedItem) this.value = selectedItem.innerText;
                 e.preventDefault();
                 return;
-            } else if (e.keyCode === 38) { // Arrow Up
-                tagMenui--;
-                if (tagMenui < 0) tagMenui = tagMenuLength - 1;
-                tagMenuOp(5, tagMenui);
-                const selectedItem = document.getElementById('tagmenu_item_' + tagMenui);
-                if (selectedItem) this.value = selectedItem.innerText;
-                e.preventDefault();
-                return;
-            } else if (e.keyCode === 13) { // Enter
+            } else if (e.key === 'Enter') {
                 $('tagmore_menu').style.display = 'none';
             }
         }
