@@ -68,8 +68,9 @@ function cloudaddons_check() {
 
 	foreach(['download', 'addonmd5'] as $path) {
 		$tmpdir = DISCUZ_DATA.'./'.$path.'/'.random(5);
-		$tmpfile = $tmpdir.'/index.html';
+		$tmpfile = $tmpdir.'/test.txt';
 		dmkdir($tmpdir, 0777);
+		@touch($tmpfile);
 		if(!is_dir($tmpdir) || !file_exists($tmpfile)) {
 			cpmsg('cloudaddons_check_write_error', '', 'error');
 		}
