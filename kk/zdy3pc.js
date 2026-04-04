@@ -93,176 +93,41 @@ document.querySelectorAll('.plc .pi').forEach(plcpi => {
 });
 
 //===Shift + 鼠标滚轮缩放图片、点击图片切换原始大小
-function bbimg(e){
-    if(!e.shiftKey) return;
-    let scale = e.deltaY>0 ? 0.9 : 1.11,
-        temp_w=parseFloat(this.getBoundingClientRect().width),
-        temp_h=parseFloat(this.getBoundingClientRect().height);
-    this.classList.remove('mw100');
-    this.setAttribute("width", temp_w*scale);
-    this.setAttribute("height", temp_h*scale);
-    var ev = window.event || e;
-    ev.preventDefault();
-}
-function togglemw100(){
-    if(this.getAttribute('width')) {
-        this.setAttribute('savewidth',this.getAttribute('width'));
-        this.removeAttribute('width');
+for (let item of document.querySelectorAll('.t_fsz img.zoom,tikz img,asy img')) {
+    item.hasAttribute('onclick') || item.addEventListener("click", function(){
+        if(this.getAttribute('width')) {
+            this.setAttribute('savewidth',this.getAttribute('width'));
+            this.removeAttribute('width');
+            this.classList.remove('mw100');
+        }else if(this.getAttribute('savewidth')) {
+            this.setAttribute('width',this.getAttribute('savewidth'));
+            this.removeAttribute('savewidth');
+            this.classList.add('mw100');
+        } else {
+            this.classList.toggle('mw100');
+        }
+        if(this.getAttribute('height')) {
+            this.setAttribute('saveheight',this.getAttribute('height'));
+            this.removeAttribute('height');
+        } else if(this.getAttribute('saveheight')) {
+            this.setAttribute('height',this.getAttribute('saveheight'));
+            this.removeAttribute('saveheight');
+        }
+    });
+    item.addEventListener("wheel", function(e){
+        if(!e.shiftKey) return;
+        e.preventDefault();
+        let scale = e.deltaY>0 ? 0.9 : 1.11,
+            temp_w=parseFloat(this.getBoundingClientRect().width),
+            temp_h=parseFloat(this.getBoundingClientRect().height);
         this.classList.remove('mw100');
-    }else if(this.getAttribute('savewidth')) {
-        this.setAttribute('width',this.getAttribute('savewidth'));
-        this.removeAttribute('savewidth');
-        this.classList.add('mw100');
-    } else {
-        this.classList.toggle('mw100');
-    }
-    if(this.getAttribute('height')) {
-        this.setAttribute('saveheight',this.getAttribute('height'));
-        this.removeAttribute('height');
-    } else if(this.getAttribute('saveheight')) {
-        this.setAttribute('height',this.getAttribute('saveheight'));
-        this.removeAttribute('saveheight');
-    }
+        this.setAttribute("width", temp_w*scale);
+        this.setAttribute("height", temp_h*scale);
+    });
 }
-var images=document.querySelectorAll('.t_fsz img.zoom');
-for (let item of images) {
-    item.hasAttribute('onclick') || item.addEventListener("click", togglemw100);
-    item.addEventListener("wheel", bbimg);
-}
-document.querySelectorAll('tikz img,asy img').forEach(a=>a.addEventListener("wheel", bbimg));
 document.querySelectorAll('.tupian').forEach(a=>a.addEventListener("wheel", function(e){if(e.shiftKey){this.style.width="";this.style.height="";}}));
 
 
-//===选择节点内容
-function sNC(n) {
-  const selection = window.getSelection();
-  selection.removeAllRanges();
-  const range = document.createRange();
-  range.selectNodeContents(n);
-  selection.addRange(range);
-}
-var ztbt=$('thread_subject');//主题标题
-ztbt.setAttribute("ondblclick", "sNC(this)");
-
-//===楼层目录
-//任意元素与页面顶部及左边的距离，抄网上的
-function offSet(curEle) {
-    var totalLeft = null;
-    var totalTop = null;
-    var par = curEle.offsetParent;
-    //首先把自己本身的相加
-    totalLeft += curEle.offsetLeft;
-    totalTop += curEle.offsetTop;
-    //现在开始一级一级往上查找，只要没有遇到body，我们就把父级参照物的边框和偏移相加
-    while (par) {
-        if (navigator.userAgent.indexOf("MSIE 8.0") === -1) {
-            //不是IE8我们才进行累加父级参照物的边框
-            totalTop += par.clientTop;
-            totalLeft += par.clientLeft;
-        }
-        //把父级参照物的偏移相加
-        totalTop += par.offsetTop;
-        totalLeft += par.offsetLeft;
-        par = par.offsetParent;
-    }
-    return {
-        left: totalLeft,
-        top: totalTop
-    };
-    //返回一个数组，方便我们使用哦。
-}
-//建目录
-var lous = document.querySelectorAll("a[id^=postnum]");
-var names = document.querySelectorAll(".favatar .pi .authi a");
-var MULU = document.createElement("details");
-MULU.id = "mulu";
-MULU.setAttribute("open", "");
-//MULU.insertAdjacentHTML('beforeend', '<summary>目录</summary>');
-var summ = document.createElement("summary");
-summ.innerText = '目录';
-var mlx = document.createElement("a");
-mlx.innerHTML = '×';
-mlx.style = 'margin-left:1em';
-mlx.setAttribute("onclick", "document.querySelector('#mulu').style.display='none';");
-summ.appendChild(mlx);
-MULU.appendChild(summ);
-var mlul = document.createElement("ul");
-function smoothScroll(id){
-    return function() {
-        const target = $(id);
-        const start = window.scrollY; const end = target.getBoundingClientRect().top + start;
-        const duration = 500;
-        const startTime = performance.now();
-        function scrollStep(timestamp) {
-            const elapsed = timestamp - startTime;
-            const progress = Math.min(elapsed / duration, 1);
-            const ease = progress < 0.5 ? 2 * progress * progress : -1 + (4 - 2 * progress) * progress;
-            window.scrollTo(0, start + (end - start) * ease);
-            if (progress < 1) requestAnimationFrame(scrollStep); else {
-                location.hash = id; // Update location.hash after scrolling
-            }
-        }
-        requestAnimationFrame(scrollStep);
-    }
-}
-lous.forEach((lou, i) => {
-    var louid = lou.getAttribute('id');
-    var htm = lou.innerHTML + ' ' + names[i].innerHTML;
-    mlul.innerHTML += '<li id="muluid' + i + '"><a href="#' + louid + '">' + htm + '</a></li>';
-    document.querySelectorAll("td.t_f > div.quote > blockquote > font > a[href$='" + louid.replace('postnum','&pid=') + "&ptid=" + tid + "']").forEach(a=>{
-        if (a.firstElementChild) {
-            a.firstElementChild.innerHTML = lou.innerHTML + ' ' + a.firstElementChild.innerHTML;
-        }
-    });
-    document.querySelectorAll("td.t_f a[href$='" + louid.replace('postnum','&pid=') + "&ptid=" + tid + "']").forEach(a=>{
-        a.removeAttribute("target");
-        a.removeAttribute("href");
-        a.addEventListener("click", smoothScroll(louid));
-        a.style = "cursor:pointer;";
-    });
-});
-MULU.appendChild(mlul);
-document.body.appendChild(MULU);
-if (lous.length < 2 || $('postlist').clientHeight < window.innerHeight) {
-    MULU.style.display = 'none';
-}
-var muleft = offSet($('ct')).left - MULU.offsetWidth - 20;
-if (muleft < 0) {
-    MULU.removeAttribute("open");
-    muleft = 0;
-}
-MULU.style = "left:" + muleft + "px;";
-// Throttle function
-function throttle(func, limit) {
-    let inThrottle;
-    return function() {
-        const args = arguments;
-        const context = this;
-        if (!inThrottle) {
-            func.apply(context, args);
-            inThrottle = true;
-            setTimeout(() => inThrottle = false, limit);
-        }
-    }
-}
-
-window.onscroll = throttle(function() {
-    let slTop = Math.max(document.documentElement.scrollTop, document.body.scrollTop);
-    const screenMid = slTop + window.innerHeight / 2;
-    let arr = [];
-    lous.forEach(lou => {
-        arr.push(offSet(lou).top);
-    });
-    arr.push(offSet($('postlistreply')).top); //兜底（最后一层的底部）
-    for (let i = 0; i < arr.length - 1; i++) {
-        if (screenMid >= arr[i] && screenMid <= arr[i + 1]) {
-            $('muluid' + i).classList.add("mlcur");
-            document.querySelector('#scrolltop a.editp')&&document.querySelector('#scrolltop a.editp').setAttribute("href", lous[i].closest('table').querySelector('a.editp').getAttribute('href'));
-        } else {
-            $('muluid' + i).classList.remove("mlcur");
-        }
-    }
-}, 200); // Throttle with a 200ms limit
 /* 点评中的回复按钮 */
 document.querySelectorAll('.psti').forEach(pstiElement => {
     const replyButton = document.createElement('button');
@@ -278,15 +143,13 @@ document.querySelectorAll('.psti').forEach(pstiElement => {
     });
     pstiElement.appendChild(replyButton);
 });
-<<<<<<< HEAD
-=======
-$('thread_subject').setAttribute("ondblclick",function() {//选择主题标题
+$('thread_subject').ondblclick=function() {//选择主题标题
   const selection = window.getSelection();
   selection.removeAllRanges();
   const range = document.createRange();
   range.selectNodeContents(this);
   selection.addRange(range);
-});
+};
 
 //楼层目录
 const MULU = document.createElement("div");
@@ -306,7 +169,6 @@ function addLou(elem) {
     elem.querySelectorAll('#postlist > div[id^="post_"]').forEach(lou => {
         const option = document.createElement('option');
         option.value = lou.id;
-        ++MULUSELECT.size;
         option.text = lou.querySelector('td.plc>div.pi>strong>a').firstChild.textContent + ' ' + lou.querySelector('div.authi>a.neiid').innerText;
         MULUSELECT.appendChild(option);
         document.querySelectorAll("td.t_f > div.quote > blockquote > font > a[href$='" + lou.id.replace('post_','&pid=') + "&ptid=" + tid + "']").forEach(a=>{//将引用的楼层链接改为锚点
@@ -316,7 +178,9 @@ function addLou(elem) {
             a.removeAttribute("target");
             a.setAttribute("href", '#'+lou.id);
         });
+        ++MULUSELECT.size;
     });
+    MULUSELECT.style.height = MULUSELECT.lastChild.offsetHeight + MULUSELECT.lastChild.offsetTop - MULUSELECT.firstChild.offsetTop + 'px';
     if (MULUSELECT.size < 2 || $('postlist').clientHeight < window.innerHeight) {
         MULU.style.display = 'none';
     }
@@ -340,7 +204,6 @@ window.addEventListener('scroll', throttle(function() {
     }
     if (targetPost) {
         MULUSELECT.value = targetPost.id;
-        if($('scrolltop'))$('scrolltop').querySelector('a.editp').href = targetPost.querySelector('a.editp').href;
     }
 }));
 function throttle(func) {//ensures that func is only executed once within 200ms, even if func is called multiple times
@@ -353,4 +216,3 @@ function throttle(func) {//ensures that func is only executed once within 200ms,
         }
     }
 }
->>>>>>> 988692d3e (楼层少于2个时不显示目录)
