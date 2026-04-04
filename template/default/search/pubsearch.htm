@@ -34,13 +34,13 @@
 <!--{/if}-->
 <!--{if CURMODULE == 'forum'}-->
 	<ul id="quick_sch_menu" class="p_pop" style="display: none;">
-		<li><a href="search.php?mod=forum&srchfrom=3600&searchsubmit=yes">{lang search_quick_hour_1}</a></li>
-		<li><a href="search.php?mod=forum&srchfrom=14400&searchsubmit=yes">{lang search_quick_hour_4}</a></li>
-		<li><a href="search.php?mod=forum&srchfrom=28800&searchsubmit=yes">{lang search_quick_hour_8}</a></li>
-		<li><a href="search.php?mod=forum&srchfrom=86400&searchsubmit=yes">{lang search_quick_hour_24}</a></li>
-		<li><a href="search.php?mod=forum&srchfrom=604800&searchsubmit=yes">{lang search_quick_day_7}</a></li>
-		<li><a href="search.php?mod=forum&srchfrom=2592000&searchsubmit=yes">{lang search_quick_day_30}</a></li>
-		<li><a href="search.php?mod=forum&srchfrom=15552000&searchsubmit=yes">{lang search_quick_day_180}</a></li>
-		<li><a href="search.php?mod=forum&srchfrom=31536000&searchsubmit=yes">{lang search_quick_day_365}</a></li>
+		<li><a href="search.php?mod=forum&srchfrom=<!--{echo strtotime('-1 hour')}-->&searchsubmit=yes">{lang search_quick_hour_1}</a></li>
+		<li><a href="search.php?mod=forum&srchfrom=<!--{echo strtotime('-4 hour')}-->&searchsubmit=yes">{lang search_quick_hour_4}</a></li>
+		<li><a href="search.php?mod=forum&srchfrom=<!--{echo strtotime('-8 hour')}-->&searchsubmit=yes">{lang search_quick_hour_8}</a></li>
+		<li><a href="search.php?mod=forum&srchfrom=<!--{echo strtotime('-1 day')}-->&searchsubmit=yes">{lang search_quick_hour_24}</a></li>
+		<li><a href="search.php?mod=forum&srchfrom=<!--{echo strtotime('-7 day')}-->&searchsubmit=yes">{lang search_quick_day_7}</a></li>
+		<li><a href="search.php?mod=forum&srchfrom=<!--{echo strtotime('-30 day')}-->&searchsubmit=yes">{lang search_quick_day_30}</a></li>
+		<li><a href="search.php?mod=forum&srchfrom=<!--{echo strtotime('-180 day')}-->&searchsubmit=yes">{lang search_quick_day_180}</a></li>
+		<li><a href="search.php?mod=forum&srchfrom=<!--{echo strtotime('-365 day')}-->&searchsubmit=yes">{lang search_quick_day_365}</a></li>
 	</ul>
 <!--{/if}-->
