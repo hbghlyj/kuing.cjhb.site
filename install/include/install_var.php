@@ -77,6 +77,7 @@ $env_items = array
 	'gdversion' => array('r' => '1.0', 'b' => '2.0'),
 	'curl' => array('r' => 'notset', 'b' => 'enable'),
 	'opcache' => array('r' => 'notset', 'b' => 'enable'),
+	'filter_var' => array('f' => 'filter_var', 'r' => 'enable', 'b' => 'enable'),
 	'redis' => array('r' => 'notset', 'b' => 'enable'),
 	'imagick' => array('r' => 'notset', 'b' => 'enable'),
 	'diskspace' => array('r' => 40 * 1048576, 'b' => 'notset'),
