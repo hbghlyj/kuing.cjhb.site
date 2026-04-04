@@ -73,7 +73,7 @@ document.querySelectorAll('.t_f').forEach(post => {
 
 const show_math_code = function(){
     MathJax.startup.document.getMathItemsWithin(this.parentElement.nextElementSibling).forEach(function (item) {
-        [item.math,item.typesetRoot.innerHTML]=[item.typesetRoot[item.typesetRoot.firstElementChild ? "innerHTML" : "innerText"],item.math];
+        [item.math,item.typesetRoot[item.typesetRoot.firstElementChild ? "innerText" : "innerHTML"]]=[item.typesetRoot[item.typesetRoot.firstElementChild ? "innerHTML" : "innerText"],item.math];
         if(item.start.n){
             item.math = item.math.slice(item.start.n);
             item.start.n = 0;
