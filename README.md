@@ -1,4 +1,4 @@
-This repository contains the source code for the site https://kuing.cjhb.site/. The platform is based on [DiscuzX](https://gitee.com/Discuz/DiscuzX) with a custom **Lean Online Judge** integration. Mathematical expressions are rendered with [MathJax](https://www.mathjax.org/), and diagrams are generated through [Upmath LaTeX Renderer](https://github.com/parpalak/i.upmath.me) and [Asymptote Command-Line Interface](https://asymptote.sourceforge.io/doc/Command_002dLine-Interface.html) services.
+This repository contains the source code for the site https://kuing.cjhb.site/. The platform is based on [DiscuzX](https://gitee.com/Discuz/DiscuzX) with a custom [Lean Online Judge](https://github.com/hbghlyj/leanoj-web) integration. Mathematical expressions are rendered with [MathJax](https://www.mathjax.org/), and diagrams are generated through [Upmath LaTeX Renderer](https://github.com/parpalak/i.upmath.me) and [Asymptote Command-Line Interface](https://asymptote.sourceforge.io/doc/Command_002dLine-Interface.html) services.
 
 The repository root contains code from both projects:
 
