@@ -1736,9 +1736,6 @@ function dmkdir($dir, $mode = 0777, $makeindex = TRUE){
 	if(!is_dir($dir)) {
 		dmkdir(dirname($dir), $mode, $makeindex);
 		@mkdir($dir, $mode);
-		if(!empty($makeindex)) {
-			@touch($dir.'/index.html'); @chmod($dir.'/index.html', 0777);
-		}
 	}
 	return true;
 }

@@ -261,7 +261,7 @@ Class discuz_upload{
 		$res = true;
 		if(!is_dir($dir)) {
 			$res = @mkdir($dir, 0777);
-			$index && @touch($dir.'/index.html');
+
 		}
 		return $res;
 	}
