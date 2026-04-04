@@ -430,7 +430,7 @@ function parseurl($url, $text, $scheme) {
 		if(mb_strlen($text) > 65) {
 			$text = mb_substr($text, 0, 45) . ' &hellip; ' . mb_substr($text, -20);
 		}
-		return '<a href="'.$url.'" target="_blank">'.htmlspecialchars($text).'</a>';
+		return '<a href="'.$url.'" target="_blank">'.$text.'</a>';
 	} else {
 		$url = substr($url, 1);// remove the prefix =
 		if(!$text) {// destination anchor, example [url=sec1][/url]
