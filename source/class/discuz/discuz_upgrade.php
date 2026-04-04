@@ -197,7 +197,7 @@ class discuz_upgrade {
 			if(!@mkdir($dir, 0777)) {
 				return false;
 			}
-			@touch($dir.'/index.htm'); @chmod($dir.'/index.htm', 0777);
+
 		}
 		return true;
 	}

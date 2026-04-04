@@ -292,7 +292,7 @@ if($operation == 'export') {
 						cpmsg('database_export_multivol_succeed', '', 'succeed', array('volume' => $volume, 'filelist' => $filelist, 'deletetips' => $deletetips));
 					}
 					unset($sqldump, $zip, $content);
-					@touch('./data/'.$backupdir.'/index.htm');
+
 					$filename = $zipfilename;
 					C::t('common_cache')->insert(array(
 						'cachekey' => 'db_export',
@@ -302,7 +302,7 @@ if($operation == 'export') {
 					$deletetips = $_G['config']['admincp']['dbimport'] ? cplang('db_delete_tips', array('filename' => basename($zipfilename), 'FORMHASH' => formhash())) : '';
 					cpmsg('database_export_zip_succeed', '', 'succeed', array('filename' => $filename, 'deletetips' => $deletetips));
 				} else {
-					@touch('./data/'.$backupdir.'/index.htm');
+
 					for($i = 1; $i <= $volume; $i++) {
 						$filename = sprintf($_GET['usezip'] == 2 ? $backupfilename."-%s".'.zip' : $dumpfile, $i);
 						$filelist .= "<li><a href=\"$filename\">$filename</a></li>\n";
@@ -360,7 +360,7 @@ if($operation == 'export') {
 						cpmsg('database_export_zip_invalid', '', 'error');
 					}
 					@unlink($dumpfile);
-					@touch('./data/'.$backupdir.'/index.htm');
+
 					$filename = $backupfilename.'.zip';
 					unset($sqldump, $zip, $content);
 					C::t('common_cache')->insert(array(
@@ -376,7 +376,7 @@ if($operation == 'export') {
 						@fwrite($fp, $idstring."# <?php exit();?>\n ".$setnames."\n #");
 						fclose($fp);
 					}
-					@touch('./data/'.$backupdir.'/index.htm');
+
 					$filename = $backupfilename.'.sql';
 					C::t('common_cache')->insert(array(
 						'cachekey' => 'db_export',
