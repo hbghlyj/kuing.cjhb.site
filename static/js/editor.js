@@ -452,23 +452,15 @@ function keyBackspace() {
 function keyMenu(code, func) {
 	var km = 'kM' + Math.random();
 	var hs = '<span id="' + km + '">' + code + '</span>';
-	if(BROWSER.ie) {
-		var range = document.selection.createRange();
-		range.pasteHTML(hs);
-		range.moveToElementText(editdoc.getElementById(km));
-		range.moveStart("character");
-		range.select();
-	} else {
-		var selection = editwin.getSelection();
-		var range = selection.getRangeAt(0);
-		var fragment = range.createContextualFragment(hs);
-		range.insertNode(fragment);
-		var tmp = editdoc.getElementById(km).firstChild;
-		range.setStart(tmp, 1);
-		range.setEnd(tmp, 1);
-		selection.removeAllRanges();
-		selection.addRange(range);
-	}
+	var selection = editwin.getSelection();
+	var range = selection.rangeCount ? selection.getRangeAt(0) : editdoc.createRange();
+	var fragment = range.createContextualFragment(hs);
+	range.insertNode(fragment);
+	var tmp = editdoc.getElementById(km).firstChild;
+	range.setStart(tmp, 1);
+	range.setEnd(tmp, 1);
+	selection.removeAllRanges();
+	selection.addRange(range);
 	keyMenuObj = editdoc.getElementById(km);
 	var b = fetchOffset(editbox);
 	var o = fetchOffset(keyMenuObj);
