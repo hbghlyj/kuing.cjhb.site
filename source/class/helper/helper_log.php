@@ -66,8 +66,6 @@ class helper_log {
 			}
 			fflush($fp);
 			fclose($fp);
-		} else {
-			fclose($fp);
 		}
 	}
 
