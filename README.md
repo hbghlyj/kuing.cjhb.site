@@ -13,6 +13,10 @@
 
 ## 3.5的数据库结构会随时更新，已有用户每次更新代码时请务必同步安装目录下sql文件的所有变更！
 
+## 分支升级与兼容性说明
+
+请同时阅读 `UPGRADE_NOTES.md`，其中专门记录了当前分支相对 `master` 的差异、部署前必看项、数据库迁移要求以及不兼容变更。
+
 ## 当前分支额外行为
 
 ### URL 锚点写法
@@ -20,6 +24,14 @@
 `[url=sec1][/url]` 会生成 `<a name="sec1"></a>`。
 
 `[url=#sec1]跳转[/url]` 会生成跳转到该锚点的链接。
+
+### IP 地理位置库
+
+当前分支的活动 IP 地理位置查询路径已经切换到 MaxMind GeoIP2。
+
+- 运行时使用 `source/class/class_ip.php` 中的 `geoip2.phar`
+- 数据库文件为 `data/ipdata/GeoLite2-City.mmdb`
+- 旧的 `tinyipdata.dat` / `wry` 系列数据文件不再是当前默认查询路径
 
 
 
