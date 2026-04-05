@@ -304,7 +304,7 @@ if(!submitcheck('editsubmit')) {
 
 	$imgattachs['unused'] = !$sortid ? ($imgattachs['unused'] ?? '') : '';
 
-	if((!empty($_G['setting']['editormodetype']) && $_GET['action'] != 'edit') || ($_GET['action'] == 'edit' && $isJsonContent && !getgpc('infloat'))) {
+	if((!empty($_G['setting']['editormodetype']) && $_GET['action'] != 'edit') || ($_GET['action'] == 'edit' && $isJsonContent)) {
 		$fields = ['blockid', 'type', 'available', 'columns', 'sort', 'name', 'identifier', 'class', 'config', 'plugin', 'filename'];
 		$editorblocks = table_common_editorblock::t()->fetch_all_block_avaliable($fields);
 		foreach($editorblocks as $ekey => $evalue) {
