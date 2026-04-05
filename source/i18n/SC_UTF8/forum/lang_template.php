@@ -468,6 +468,8 @@ $lang = [
 	'mod_message_access_updatepermission' => '用户权限更新成功, 请继续操作',
 	'mod_message_access_user_invalid' => '抱歉，您没有权限操作管理人员或特殊用户！',
 	'mod_message_access_user_nonexistence' => '此用户不存在或被冻结',
+	'input_a_new_tag_press_enter_submit' => '输入一个新标签，按回车键添加',
+	'recent_use_tag' => '最近使用标签:',
 	'mod_moderate_selectforum' => '版块选择',
 	'mod_notice_access' => '通常情况下，用户在版块的权限是根据他的用户组决定的，此处您可以限制某个用户在某版块的权限。<br />注意: 看帖是基本权限，一旦禁止, 其他权限会同时进行禁止。<br />图例说明: <i class="fico-stars fc-p"></i>默认权限&nbsp;&nbsp;&nbsp;&nbsp;<i class="fico-remove_circle fc-i"></i>强制禁止&nbsp;&nbsp;&nbsp;&nbsp;<i class="fico-check_right fc-v"></i>强制允许 ',
 	'moderator' => '版主',
