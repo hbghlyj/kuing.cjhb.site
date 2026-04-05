@@ -170,7 +170,7 @@ if($_G['setting']['commentnumber'] && !empty($_GET['comment'])) {
 	C::t('forum_postcache')->delete($post['pid']);
 
 	// push "commentadd" activity to Pusher
- 	require_once(DISCUZ_ROOT.'/chat/php/vendor/autoload.php');
+		require_once(DISCUZ_ROOT.'/vendor/autoload.php');
  	require_once(DISCUZ_ROOT.'/chat/php/config.php');
  
  	$pusher = new Pusher(APP_KEY,APP_SECRET,APP_ID,array(

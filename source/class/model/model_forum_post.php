@@ -272,7 +272,7 @@ class model_forum_post extends discuz_model {
 
 
 			// push "newreply" activity to Pusher
-			require_once(DISCUZ_ROOT.'/chat/php/vendor/autoload.php');
+			require_once(DISCUZ_ROOT.'/vendor/autoload.php');
 			require_once(DISCUZ_ROOT.'/chat/php/config.php');
 
 			$pusher = new Pusher(APP_KEY,APP_SECRET,APP_ID,array(
@@ -555,7 +555,7 @@ class model_forum_post extends discuz_model {
 		}
 
 		// push "editpost" activity to Pusher
-		require_once(DISCUZ_ROOT.'/chat/php/vendor/autoload.php');
+		require_once(DISCUZ_ROOT.'/vendor/autoload.php');
 		require_once(DISCUZ_ROOT.'/chat/php/config.php');
 
 		$pusher = new Pusher(APP_KEY,APP_SECRET,APP_ID,array(
@@ -640,7 +640,7 @@ class model_forum_post extends discuz_model {
 		C::t('forum_forum')->update_forum_counter($this->forum['fid'], $forumcounter['threads'], $forumcounter['posts']);
 
 		// push "deletepost" activity to Pusher
-		require_once(DISCUZ_ROOT.'/chat/php/vendor/autoload.php');
+		require_once(DISCUZ_ROOT.'/vendor/autoload.php');
 		require_once(DISCUZ_ROOT.'/chat/php/config.php');
 
 		$pusher = new Pusher(APP_KEY,APP_SECRET,APP_ID,array(

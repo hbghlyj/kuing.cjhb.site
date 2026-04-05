@@ -4,7 +4,7 @@ $discuz = C::app();
 $discuz->init_cron = false;
 $discuz->init();
 
-require_once('./vendor/autoload.php');
+require_once('../../vendor/autoload.php');
 require_once('Activity.php');
 require_once('config.php');
 

@@ -2,6 +2,7 @@
     "name": "cjhb/discuz-plugins",
     "description": "Dependencies for Discuz plugins",
     "require": {
-        "google/apiclient": "^2.18"
+        "google/apiclient": "^2.18",
+        "pusher/pusher-php-server": "^2.2"
     }
 }
