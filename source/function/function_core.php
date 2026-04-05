@@ -3101,18 +3101,31 @@ function getimportfilename($fn) {
 
 // 获取最近使用的标签
 function recent_use_tag($idtype = 'tid') {
-	$tagarray = $stringarray = [];
-	$string = '';
-	$i = 0;
-	$query = table_common_tagitem::t()->select(0, 0, $idtype, 'itemid', 'DESC', 10);
-	foreach($query as $result) {
-		if($i > 4) {
-			break;
+	$tagarray = [];
+	if(is_numeric($idtype)) {
+		$fid = intval($idtype);
+		$query = DB::fetch_all('SELECT tagitem.tagid AS tagid, MAX(thread.lastpost) AS max_lastpost
+		FROM '.DB::table('forum_thread').' thread
+		JOIN '.DB::table('common_tagitem').' tagitem ON tagitem.itemid = thread.tid
+		WHERE thread.fid = '.$fid.' AND tagitem.idtype = \'tid\'
+		GROUP BY tagitem.tagid
+		ORDER BY max_lastpost DESC
+		LIMIT 10');
+		foreach($query as $result) {
+			$tagarray[$result['tagid']] = 1;
 		}
-		if($tagarray[$result['tagid']] == '') {
-			$i++;
+	} else {
+		$i = 0;
+		$query = table_common_tagitem::t()->select(0, 0, $idtype, 'itemid', 'DESC', 10);
+		foreach($query as $result) {
+			if($i > 4) {
+				break;
+			}
+			if($tagarray[$result['tagid']] == '') {
+				$i++;
+			}
+			$tagarray[$result['tagid']] = 1;
 		}
-		$tagarray[$result['tagid']] = 1;
 	}
 	if($tagarray) {
 		$query = table_common_tag::t()->fetch_all(array_keys($tagarray));
