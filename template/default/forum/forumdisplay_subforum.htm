@@ -58,7 +58,7 @@
 					<!--{if (empty($_G['i18n']) || $_G['i18n'] != 'en') && $sub[description]}--><p class="xg2" style="position:absolute;bottom:0">$sub[description]</p><!--{/if}-->
 					<!--{if !empty($sub['subforums'])}--><p>{lang forum_subforums}: $sub['subforums']</p><!--{/if}-->
 					<!--{if $sub['moderators']}--><p>{lang forum_moderators}: $sub[moderators]</p><!--{/if}-->
-					<!--{hook/forumdisplay_subforum_extra $sub['fid']}--></a>
+					<!--{hook/forumdisplay_subforum_extra $sub['fid']}--><!--{if empty($sub[icon])}--></a><!--{/if}-->
 				</td>
 				<td class="fl_i">
 					<!--{if empty($sub[redirect])}--><span class="xi2"><!--{echo dnumber($sub[threads])}--></span><span class="xg1"> / <!--{echo dnumber($sub[posts])}--></span><!--{/if}-->
