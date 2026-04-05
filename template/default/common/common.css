@@ -1577,7 +1577,7 @@ Last Modify:	Pony
 		.rfm .rq {}
 		.rfm th, .rfm td { padding: 10px 2px; vertical-align: top; line-height: 24px; }
 			.rfm .tipwide { padding-top: 0; }
-		.rfm th { padding-right: 10px; width: 10em; text-align: right; }
+		.rfm th { padding-right: 10px; width: 5em; text-align: right; }
 		.rfm .px { width: 220px; }
 		.rfm .p_tip { position: absolute; z-index: 2; display: none; padding-left: 10px; width: 390px; background: {WRAPBG}; color: {MIDTEXT}; font-style: normal; }
 		.rfm .p_chk { position: absolute; z-index: 1; padding-left: 10px; width: 390px; color: red; font-weight: 700; font-family: {FONT}; }

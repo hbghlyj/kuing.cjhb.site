@@ -55,6 +55,18 @@ tid \t subject \t dateline \t author
 
 顺序来解析，否则会出现“标题显示成时间戳、日期显示成 1970-1-1”之类的问题。
 
+### HTTPS 与机器人判定
+
+当前分支沿用了上游的请求头判定逻辑：当浏览器请求里缺少 `HTTP_SEC_FETCH_MODE` 时，运行时可能把该访问记为 `UnusualSecFetchModeHeader`，从而按爬虫路径处理。
+
+这在开发环境里尤其需要注意：
+
+- `kuing.cjhb.site` 这类 HTTPS 访问通常会带上 `Sec-Fetch-*` 头；
+- `dev.cjhb.site` 如果仍以纯 HTTP 访问，浏览器可能不发送这些头；
+- 结果就是开发环境可能出现“游客头部为空、`#onlinelist` 不显示、fastlogin 不显示、会话里被记成机器人”等现象。
+
+因此，测试当前分支时应尽量保证开发域名也使用 HTTPS。否则即使代码与 `master` 一致，开发环境仍可能因为请求头差异触发机器人判定。
+
 
 
 ### **3.5版本说明** 
