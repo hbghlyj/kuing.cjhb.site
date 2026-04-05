@@ -1007,18 +1007,6 @@ class discuz_application extends discuz_base {
 			$mobile = $mobile_ ?? 2;
 		}
 
-		if(!$this->var['mobile'] && empty($unallowmobile) && $mobileflag) {
-			if(getgpc('showmobile')) {
-				dheader('Location:misc.php?mod=mobile');
-			}
-			parse_str($_SERVER['QUERY_STRING'], $query);
-			$query['mobile'] = 'no';
-			unset($query['simpletype']);
-			$query_sting_tmp = http_build_query($query);
-			$redirect = ($this->var['setting']['domain']['app']['forum'] ? $this->var['scheme'].'://'.$this->var['setting']['domain']['app']['forum'].'/' : $this->var['siteurl']).$this->var['basefilename'].'?'.$query_sting_tmp;
-			dheader('Location: '.$redirect);
-		}
-
 		if($nomobile || (!$this->var['setting']['mobile']['mobileforward'] && !$mobileflag)) {
 			if(!defined('HOOKTYPE')) {
 				define('HOOKTYPE', 'hookscript');
