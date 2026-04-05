@@ -1,9 +1,0 @@
-<?php exit('Access Denied');?>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="{$_G['charset']}" />
-<meta name="renderer" content="webkit" />
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<title>$subject</title>
-</head>
