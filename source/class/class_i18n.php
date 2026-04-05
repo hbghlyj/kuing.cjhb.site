@@ -8,7 +8,14 @@
 
 class i18n {
 
-	const defaultPath = DISCUZ_ROOT.'./source/i18n/'.DISCUZ_LANG.'/';
+	private static function getDefaultPath($file) {
+		if(DISCUZ_LANG == 'EN/') {
+			return DISCUZ_ROOT.'./source/language/EN/'.$file;
+		} elseif(DISCUZ_LANG == 'TC/') {
+			return DISCUZ_ROOT.'./source/language/TC/'.$file;
+		}
+		return DISCUZ_ROOT.'./source/language/'.$file;
+	}
 
 	public static function getLang($file, $i18n = '') {
 		global $_G;
@@ -19,7 +26,7 @@ class i18n {
 			return $loaded[$file];
 		}
 
-		$return = self::defaultPath.$file;
+		$return = self::getDefaultPath($file);
 
 		$i18n = !empty($i18n) ? $i18n : $_G['i18n'];
 

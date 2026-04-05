@@ -141,7 +141,15 @@ class discuz_application extends discuz_base {
 			define('CURSCRIPT', MITFRAME_APP);
 		}
 
-		define('DISCUZ_LANG', $this->config['lang'] ?? 'SC_UTF8');
+		$acceptLang = $_SERVER['HTTP_ACCEPT_LANGUAGE'] ?? '';
+		if($acceptLang && ((stripos($acceptLang, 'zh-TW') !== false && (stripos($acceptLang, 'zh-CN') === false || stripos($acceptLang, 'zh-TW') < stripos($acceptLang, 'zh-CN')))
+			|| (stripos($acceptLang, 'zh-HK') !== false && (stripos($acceptLang, 'zh-CN') === false || stripos($acceptLang, 'zh-HK') < stripos($acceptLang, 'zh-CN'))))) {
+			define('DISCUZ_LANG', 'TC/');
+		} elseif($acceptLang && stripos($acceptLang, 'zh') !== false) {
+			define('DISCUZ_LANG', '');
+		} else {
+			define('DISCUZ_LANG', 'EN/');
+		}
 
 		global $_G;
 		$_G = [
