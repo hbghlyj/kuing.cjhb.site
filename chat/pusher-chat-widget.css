@@ -1,4 +1,4 @@
-.pusher-chat-widget{font-size:13px;background-color:whiteSmoke;border:1px solid #EEE;margin-bottom:0;border-radius:6px;padding-left:10px;}
+.pusher-chat-widget{font-size:12px;background-color:whiteSmoke;border:1px solid #EEE;margin-bottom:0;border-radius:6px;padding-left:10px;}
 .pusher-chat-widget button{flex-shrink:0;flex-grow:0;grid-area: button;}
 .pusher-chat-widget label{padding-top:6px;line-height:18px;user-select: none;grid-area: label;width: auto;}
 .pusher-chat-widget-header{border-bottom:1px solid #EBEBEB;text-align:center;overflow:auto;}
