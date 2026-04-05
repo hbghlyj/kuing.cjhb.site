@@ -1,3 +1,15 @@
+function reportMathJaxError(message) {
+  if (typeof showError === 'function') {
+    showError(message);
+    return;
+  }
+  if (typeof showDialog === 'function') {
+    showDialog(message, 'alert', 'MathJax');
+    return;
+  }
+  console.error(message);
+}
+
 window.MathJax = {
   tex: {
     inlineMath: [ ['$','$'], ['`','`'], ["\\(","\\)"] ],
@@ -98,7 +110,7 @@ window.MathJax = {
   loader: {
     load: ['[tex]/noerrors','[tex]/mathtools','[custom]/xypic.js'],
     failed: function (error) {
-      showError(`MathJax(${error.package || '?'}): ${error.message}`);
+      reportMathJaxError(`MathJax(${error.package || '?'}): ${error.message}`);
     },
     //paths: {custom: '//cdn.jsdelivr.net/gh/sonoisa/XyJax-v3@3.0.1/build'}
     paths: {custom: 'kk'}
