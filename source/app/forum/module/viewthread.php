@@ -404,7 +404,9 @@ if(empty($_GET['viewpid'])) {
 				continue;
 			}
 			$post['position'] = $poststick[$post['pid']]['position'];
-			$post['avatar'] = avatar($post['authorid'], 'small');
+			$post['avatar'] = avatar($post['authorid'], 'small', true);
+			$post['avatar'] = strpos($post['avatar'], 'noavatar.') === false ? avatar($post['authorid'], 'small') : '';
+			empty($post['avatar']) && $post['avatarstatus'] = 0;
 			$post['isstick'] = true;
 			$sticklist[$post['pid']] = $post;
 		}
@@ -1002,7 +1004,9 @@ function viewthread_procpost($post, $lastvisit, $ordertype, $maxposition = 0) {
 			}
 		}
 
-		$post['avatar'] = avatar($post['authorid']);
+		$post['avatar'] = avatar($post['authorid'], 'middle', true);
+		$post['avatar'] = strpos($post['avatar'], 'noavatar.') === false ? avatar($post['authorid']) : '';
+		empty($post['avatar']) && $post['avatarstatus'] = 0;
 		$post['groupicon'] = $post['avatar'] ? g_icon($post['groupid'], 1) : '';
 		$post['banned'] = $post['status'] & 1;
 		$post['warned'] = ($post['status'] & 2) >> 1;
