@@ -10,4 +10,4 @@ if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
-dheader('location: misc.php?'.http_build_query($_GET));
+require_once libfile('forum/tag', 'module');
