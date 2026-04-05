@@ -386,7 +386,7 @@ class table_forum_forum extends discuz_table {
 		if(function_exists('cutstr')) {
 			$subject = cutstr($subject, 80);
 		}
-		return $tid."\t".$subject."\t".$dateline."\t".$author;
+		return $tid."\t".$dateline."\t".$author."\t".$subject;
 	}
 
 	/**
