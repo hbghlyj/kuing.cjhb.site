@@ -761,19 +761,15 @@ class discuz_application extends discuz_base {
 	}
 
 	private function _init_i18n() {
-		$newi18n = '';
-		$isDefault = !empty($this->var['cookie']['d_i18n']);
 		$this->var['i18n'] = !empty($this->var['cookie']['i18n']) && preg_match('/^\w+$/', $this->var['cookie']['i18n']) ? $this->var['cookie']['i18n'] : '';
-		if(!$this->var['i18n'] || $isDefault) {
-			$newi18n = !empty($this->var['setting']['i18n_default']) ? $this->var['setting']['i18n_default'] : '';
-			dsetcookie('d_i18n', 1, 86400 * 365);
-
-			if($this->var['i18n'] != $newi18n) {
-				dsetcookie('i18n', $newi18n, 86400 * 365);
+		if(!$this->var['i18n']) {
+			$acceptLang = $_SERVER['HTTP_ACCEPT_LANGUAGE'] ?? '';
+			if($acceptLang && stripos($acceptLang, 'zh') === false && !empty($this->var['setting']['i18n']['en'])) {
+				$this->var['i18n'] = 'en';
 			}
 		}
-		if($newi18n) {
-			$this->var['i18n'] = $newi18n;
+		if(!empty($this->var['cookie']['d_i18n'])) {
+			dsetcookie('d_i18n', '', -1);
 		}
 	}
 
