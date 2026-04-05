@@ -1199,6 +1199,7 @@ function dgmdate($timestamp, $format = 'dt', $timeoffset = 9999, $uformat = '') 
 		$offset = $offset == 9999 ? ($sysoffset ? $sysoffset : 0) : $offset;
 		$lang = lang('core', 'date');
 	}
+	$timestamp = intval($timestamp);
 	$timeoffset = $timeoffset == 9999 ? $offset : $timeoffset;
 	$timeoffset = intval($timeoffset);
 	$timestamp += $timeoffset * 3600;
