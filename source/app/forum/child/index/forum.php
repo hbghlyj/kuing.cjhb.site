@@ -151,7 +151,7 @@ if(!IS_ROBOT && ($_G['setting']['whosonlinestatus'] == 1 || $_G['setting']['whos
 	if($detailstatus) {
 		$actioncode = lang('action');
 
-		$_G['uid'] && updatesession();
+		updatesession();
 		$whosonline = [];
 
 		$_G['setting']['maxonlinelist'] = $_G['setting']['maxonlinelist'] ? $_G['setting']['maxonlinelist'] : 500;
@@ -169,7 +169,9 @@ if(!IS_ROBOT && ($_G['setting']['whosonlinestatus'] == 1 || $_G['setting']['whos
 		if(isset($_G['cache']['onlinelist'][7]) && $_G['setting']['maxonlinelist'] > $membercount) {
 			foreach(C::app()->session->fetch_member(2, 0, $_G['setting']['maxonlinelist'] - $membercount) as $online) {
 				$online['icon'] = $_G['cache']['onlinelist'][7];
-				$online['username'] = $_G['cache']['onlinelist']['guest'];
+				if($online['username'] === '') {
+					$online['username'] = $_G['cache']['onlinelist']['guest'];
+				}
 				$online['lastactivity'] = dgmdate($online['lastactivity'], 't');
 				$whosonline[] = $online;
 			}
