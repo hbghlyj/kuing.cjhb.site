@@ -31,7 +31,7 @@ if(TIMESTAMP - $_G['cache']['grids']['cachetime'] < $cachelife) {
 	$grids['newthread'] = table_forum_thread::t()->fetch_all_for_guide('newthread', 0, [], 0, 0, 0, 10, $_G['setting']['grid']['fids']);
 
 	$grids['newreply'] = table_forum_thread::t()->fetch_all_for_guide('reply', 0, [], 0, 0, 0, 10, $_G['setting']['grid']['fids']);
-	$grids['hot'] = table_forum_thread::t()->fetch_all_for_guide('hot', 0, [], 3, 0, 0, 10, $_G['setting']['grid']['fids']);
+	$grids['hot'] = DB::fetch_all("SELECT * FROM ".DB::table('forum_threadaddviews')." v LEFT JOIN ".DB::table('forum_thread')." t ON t.tid=v.tid WHERE t.displayorder>=0 ORDER BY v.addviews DESC LIMIT 10");
 
 	$_G['forum_colorarray'] = ['', '#EE1B2E', '#EE5023', '#996600', '#3C9D40', '#2897C5', '#2B65B7', '#8F2A90', '#EC1282'];
 	foreach($grids as $type => $gridthreads) {
