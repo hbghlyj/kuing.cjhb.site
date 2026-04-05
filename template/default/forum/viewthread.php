@@ -188,7 +188,6 @@
 					<!--{/if}-->
 					</span>
 				<!--{/if}-->
-				<h1 class="ts">
 					<!--{if $_G['forum_thread']['typeid'] && $_G['forum']['threadtypes']['types'][$_G['forum_thread']['typeid']]}-->
 						<!--{if !IS_ROBOT && ($_G['forum']['threadtypes']['listable'] || $_G['forum']['status'] == 3)}-->
 							<a href="forum.php?mod=forumdisplay&fid=$_G[fid]&filter=typeid&typeid=$_G[forum_thread][typeid]">[{$_G['forum']['threadtypes']['types'][$_G['forum_thread']['typeid']]}]</a>
@@ -200,7 +199,6 @@
 						<a href="forum.php?mod=forumdisplay&fid=$_G[fid]&filter=sortid&sortid=$_G[forum_thread][sortid]">[{$_G['forum']['threadsorts']['types'][$_G['forum_thread']['sortid']]}]</a>
 					<!--{/if}-->
 					<span id="thread_subject">$_G[forum_thread][subject]</span>
-				</h1>
 				<span class="xg1">
 					<!--{if $_G['forum_thread'][displayorder] == -2}-->({lang moderating})
 					<!--{elseif $_G['forum_thread'][displayorder] == -3}-->({lang have_ignored})
