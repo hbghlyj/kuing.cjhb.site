@@ -430,7 +430,7 @@ Last Modify:	Pony
 		.px:focus, .ps:focus, select:focus, .ftid a:focus { outline: 0; border-color: {MENUBGCOLOR}; box-shadow: 0 0 2px {MENUBGCOLOR}; }
 			.px:focus:not([size]) { width: auto !important; }
 		.pt:focus { outline: 0; border-color: {MENUBGCOLOR}; }
-		.px, .pt { padding: 2px 4px; line-height: 17px; }
+		.px, .pt { padding: 2px 4px; }
 		.px { height: 17px; }
 			.pxs { width: 30px !important; }
 			.fdiy .tfm .px, .fdiy .tfm .pt { width: auto; }
