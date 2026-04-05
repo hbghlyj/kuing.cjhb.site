@@ -1354,6 +1354,8 @@ $lang = [
 	'collection_cover_resize' => '自动缩略成 1000×250 像素大小的图片',
 	'collection_icon' => '淘帖图标',
 	'collection_icon_resize' => '自动缩略成 200×200 像素大小的图片',
+	'input_a_new_tag_press_enter_submit' => '输入一个新标签，按回车键添加',
+	'recent_use_tag' => '最近使用标签:',
 ];
 
 /*
