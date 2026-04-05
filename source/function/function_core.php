@@ -1047,7 +1047,7 @@ function template($file, $templateid = 0, $tpldir = '', $gettplfile = 0, $primal
 		}
 	}
 	$i18n = $_G['i18n'] ? '_'.$_G['i18n'] : '';
-	$cachefile = './template/'.(defined('STYLEID') ? STYLEID.'_' : '_').$templateid.'_'.str_replace('/', '_', $file).$i18n.'.tpl.php';
+	$cachefile = './template/'.DISCUZ_LANG.(defined('STYLEID') ? STYLEID.'_' : '_').$templateid.'_'.str_replace('/', '_', $file).$i18n.'.tpl.php';
 	if($templateid != 1 && !tplfile::file_exists($tplfile) && !tplfile::file_exists(substr($tplfile, 0, -4).'.php')
 		&& !tplfile::file_exists(($tplfile = $tpldir.'/'.$filebak.'.htm'))) {
 		$tplfile = DISCUZ_TEMPLATE('./template/default/'.$filebak.'.php');
