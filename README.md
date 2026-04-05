@@ -67,9 +67,24 @@ tid \t subject \t dateline \t author
 
 因此，测试当前分支时应尽量保证开发域名也使用 HTTPS。否则即使代码与 `master` 一致，开发环境仍可能因为请求头差异触发机器人判定。
 
+### 开发环境缓存目录权限
+
+对于开发克隆站点，以下运行时生成目录应统一由 Web 进程用户持有：
+
+- `data/cache`
+- `data/template`
+- `data/sysdata`
+
+否则即使目录本身是 `777`，只要其中已有缓存文件被错误地写成 `root:root` 或其它不可覆盖状态，后台如“模板管理 / 风格管理”等涉及缓存重建的操作，仍可能报：
+
+```text
+Can not write to cache files, please check directory ./data/ and ./data/cache/ .
+```
+
+在 `dev.cjhb.site` 对应的克隆环境中，已确认需要将上述整棵目录树统一修正为 `www-data:www-data`，而不是只修目录权限。
 
 
-### **3.5版本说明** 
+### **5版本说明** 
 
 相对于3.4版本，做了以下修改：
 

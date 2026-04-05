@@ -97,7 +97,7 @@ Last Modify:	Pony
 	table { empty-cells: show; border-collapse: collapse; }
 		caption, th { text-align: left; font-weight: 400; }
 	ul li, .xl li { list-style: none; }
-	h1, h2, h3, h4, h5, h6 { font-size: 1em; font-family: {FONT}; }
+	h1, h2, h3, h4, h5, h6 { font-size: 1.05em; }
 	em, cite, i { font-style: normal; }
 	a { color: {LINK}; text-decoration: none; }
 		a:hover { text-decoration: underline; }
