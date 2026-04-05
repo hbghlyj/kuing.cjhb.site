@@ -29,8 +29,7 @@ initSearch({search:"{lang search}", no_results:"{lang no_results}", less:"{lang 
 <!--{eval loadcache('forums');}-->
 <!--{loop $_G['cache']['forums'] $value}-->
 	<!--{if $value['type'] == 'sub' || $value['type'] == 'forum'}-->
-		<!--{eval $valname = addslashes($value['name']);}-->
-		$value[fid]:'$valname',
+		$value[fid]:'$value[name]',
 	<!--{/if}-->
 <!--{/loop}-->
 })</script>
