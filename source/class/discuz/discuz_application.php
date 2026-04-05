@@ -993,7 +993,7 @@ class discuz_application extends discuz_base {
 		}
 		$mobileflag = isset($this->var['mobiletpl'][$mobile]);
 		$mobile_=checkmobile();
-		if($mobile === 'no') {
+		if($mobile === 'no' || IS_ROBOT) {
 			dsetcookie('mobile', 'no', 31536000);
 			$nomobile = true;
 		} elseif(isset($this->var['cookie']['mobile']) && $this->var['cookie']['mobile'] == 'no' && $mobileflag) {
