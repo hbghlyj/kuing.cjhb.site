@@ -190,7 +190,7 @@
 				<!--{/if}-->
 					<!--{if $_G['forum_thread']['typeid'] && $_G['forum']['threadtypes']['types'][$_G['forum_thread']['typeid']]}-->
 						<!--{if !IS_ROBOT && ($_G['forum']['threadtypes']['listable'] || $_G['forum']['status'] == 3)}-->
-							<a href="forum.php?mod=forumdisplay&fid=$_G[fid]&filter=typeid&typeid=$_G[forum_thread][typeid]">[{$_G['forum']['threadtypes']['types'][$_G['forum_thread']['typeid']]}]</a>
+							<a href="forum.php?mod=forumdisplay&fid=$_G[fid]&filter=typeid&typeid=$_G[forum_thread][typeid]" style="color: #007CD5">[{$_G['forum']['threadtypes']['types'][$_G['forum_thread']['typeid']]}]</a>
 						<!--{else}-->
 							[{$_G['forum']['threadtypes']['types'][$_G['forum_thread']['typeid']]}]
 						<!--{/if}-->
