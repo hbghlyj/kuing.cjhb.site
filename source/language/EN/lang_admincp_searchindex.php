@@ -7218,7 +7218,6 @@ $lang = array (
 			27 => 'usergroups_edit_post_mediacode',
 			28 => '允许使用 [audio] [media] [flash] 等多媒体代码',
 			29 => '设置是否允许 [audio] [media] [flash] 等多媒体代码',
-			30 => 'usergroups_edit_post_begincode',
 			31 => '允许使用 [begin] 代码',
 			32 => '设置是否允许帖子中使用 [begin] 开头动画标签',
 			33 => 'usergroups_edit_post_sig_bbcode',

@@ -13,7 +13,7 @@ if(!defined('IN_DISCUZ')) {
 function build_cache_usergroups() {
 	global $_G;
 
-	$data_uf = table_common_usergroup_field::t()->fetch_all_fields(null, ['groupid', 'readaccess', 'allowgetattach', 'allowgetimage', 'allowmediacode', 'maxsigsize', 'allowbegincode']);
+	$data_uf = table_common_usergroup_field::t()->fetch_all_fields(null, ['groupid', 'readaccess', 'allowgetattach', 'allowgetimage', 'allowmediacode', 'maxsigsize']);
 
 	$data = [];
 	foreach(table_common_usergroup::t()->range_orderby_creditshigher() as $key => $value) {

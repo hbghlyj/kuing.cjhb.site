@@ -92,8 +92,6 @@
 #e_switcher input{margin-right:6px;vertical-align:middle}
 #e_simple, #e_fullswitcher {padding:3px 8px;line-height:20px;text-align:right;border:1px solid var(--dz-borderb);background:var(--dz-bgf)}
 #e_fullswitcher {margin-left:6px;margin-right:8px}
-#e_beginning {background:url({STYLEIMGDIR}/svg/dz_e_beginning.svg) no-repeat center 4px;background-size:28px}
-.b2r #e_beginning {background:url({STYLEIMGDIR}/svg/dz_e_beginning.svg) no-repeat center 3px;background-size:18px}
 #e_tbl_menu #tbltips {float:left;margin-right:6px}
 .popupfix .px {margin-bottom:4px}
 #e_body {display:block !important}

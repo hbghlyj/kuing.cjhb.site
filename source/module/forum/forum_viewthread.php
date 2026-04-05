@@ -1274,18 +1274,6 @@ function viewthread_procpost($post, $lastvisit, $ordertype, $maxposition = 0) {
 				} else {
 					$post['message'] = parse_related_link($post['message'], $relatedtype);
 				}
-				if(strpos($post['message'], '[/begin]') !== FALSE) {
-					$post['message'] = preg_replace_callback(
-						"/\[begin(=\s*([^\[\<\r\n]*?)\s*,(\d*),(\d*),(\d*),(\d*))?\]\s*([^\[\<\r\n]+?)\s*\[\/begin\]/is",
-						function ($matches) use ($_G, $post) {
-							if (!intval($_G['cache']['usergroups'][$post['groupid']]['allowbegincode'])) {
-								return '';
-							}
-							return parsebegin($matches[2], $matches[7], $matches[3], $matches[4], $matches[5], $matches[6]);
-						},
-						$post['message']
-					);
-				}
 			}
 		}
 	}
@@ -1295,9 +1283,6 @@ function viewthread_procpost($post, $lastvisit, $ordertype, $maxposition = 0) {
 		}
 		if(strpos($post['message'], '[/index]') !== FALSE) {
 			$post['message'] = preg_replace("/\s?\[index\](.+?)\[\/index\]\s?/is", '', $post['message']);
-		}
-		if(strpos($post['message'], '[/begin]') !== FALSE) {
-			$post['message'] = preg_replace("/\[begin(=\s*([^\[\<\r\n]*?)\s*,(\d*),(\d*),(\d*),(\d*))?\]\s*([^\[\<\r\n]+?)\s*\[\/begin\]/is", '', $post['message']);
 		}
 	}
 	if($imgcontent) {
@@ -1652,60 +1637,6 @@ function parseindex($nodes, $pid) {
 	$nodes = preg_replace('/(\**?)\[#(\d+),(\d+)\](.+?)[\r\n]/', "<a tid=\"\\2\" pid=\"\\3\" sub=\"\\1\">\\4</a>", $nodes);
 	$_G['forum_posthtml']['header'][$pid] .= '<div id="threadindex">'.$nodes.'</div><script type="text/javascript" reload="1">show_threadindex('.$pid.', '.($_GET['from'] == 'preview' ? '1' : '0').')</script>';
 	return '';
-}
-
-function parsebegin($linkaddr, $imgflashurl, $w = 0, $h = 0, $type = 0, $s = 0) {
-	static $begincontent;
-	if($begincontent || $_GET['from'] == 'preview') {
-		return '';
-	}
-	preg_match("/((https?){1}:\/\/|www\.)[^\[\"']+/i", $imgflashurl, $matches);
-	$imgflashurl = $matches[0];
-	$fileext = fileext($imgflashurl);
-	preg_match("/((https?){1}:\/\/|www\.)[^\[\"']+/i", $linkaddr, $matches);
-	$linkaddr = $matches[0];
-	$randomid = 'swf_'.random(3);
-	$w = ($w >=400 && $w <=1024) ? $w : 900;
-	$h = ($h >=300 && $h <=640) ? $h : 500;
-	$s = $s ? $s*1000 : 5000;
-	switch($fileext) {
-		case 'jpg':
-		case 'jpeg':
-		case 'gif':
-		case 'png':
-			$content = '<img style="position:absolute;width:'.$w.'px;height:'.$h.'px;" src="'.$imgflashurl.'" />';
-			break;
-		case 'swf':
-			$content = '<span id="'.$randomid.'" style="position:absolute;"></span>'.
-				'<script type="text/javascript" reload="1">$(\''.$randomid.'\').innerHTML='.
-				'AC_FL_RunContent(\'width\', \''.$w.'\', \'height\', \''.$h.'\', '.
-				'\'allowNetworking\', \'internal\', \'allowScriptAccess\', \'never\', '.
-				'\'src\', encodeURI(\''.$imgflashurl.'\'), \'quality\', \'high\', \'bgcolor\', \'#ffffff\', '.
-				'\'wmode\', \'transparent\', \'allowfullscreen\', \'true\');</script>';
-			break;
-		default:
-			$content = '';
-	}
-	if($content) {
-		if($type == 1) {
-			$content = '<div id="threadbeginid" style="display:none;">'.
-				'<div class="flb beginidin"><span><div id="begincloseid" class="flbc" title="'.lang('core', 'close').'">'.lang('core', 'close').'</div></span></div>'.
-				$content.'<div class="beginidimg" style=" width:'.$w.'px;height:'.$h.'px;">'.
-				'<a href="'.$linkaddr.'" target="_blank" style="display: block; width:'.$w.'px; height:'.$h.'px;"></a></div></div>'.
-				'<script type="text/javascript">threadbegindisplay(1, '.$w.', '.$h.', '.$s.');</script>';
-		} else {
-			$content = '<div id="threadbeginid">'.
-				'<div class="flb beginidin">
-					<span><div id="begincloseid" class="flbc" title="'.lang('core', 'close').'">'.lang('core', 'close').'</div></span>
-				</div>'.
-				$content.'<div class="beginidimg" style=" width:'.$w.'px; height:'.$h.'px;">'.
-				'<a href="'.$linkaddr.'" target="_blank" style="display: block; width:'.$w.'px; height:'.$h.'px;"></a></div>
-				</div>'.
-				'<script type="text/javascript">threadbegindisplay('.$type.', '.$w.', '.$h.', '.$s.');</script>';
-		}
-	}
-	$begincontent = $content;
-	return $content;
 }
 
 function _checkviewgroup() {

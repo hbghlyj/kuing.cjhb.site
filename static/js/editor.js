@@ -829,7 +829,7 @@ function discuzcode(cmd, arg) {
 
 	checkFocus();
 
-	if(in_array(cmd, ['sml', 'insertorderedlist', 'inserthorizontalrule', 'url', 'quote', 'code', 'free', 'hide', 'aud', 'vid', 'fls', 'beginning', 'attach', 'image', 'pasteword', 'index', 'postbg', 'password']) || typeof EXTRAFUNC['showEditorMenu'][cmd] != 'undefined' || cmd == 'tbl' || in_array(cmd, ['fontname', 'fontsize', 'forecolor', 'backcolor']) && !arg) {
+	if(in_array(cmd, ['sml', 'insertorderedlist', 'inserthorizontalrule', 'url', 'quote', 'code', 'free', 'hide', 'aud', 'vid', 'fls', 'attach', 'image', 'pasteword', 'index', 'postbg', 'password']) || typeof EXTRAFUNC['showEditorMenu'][cmd] != 'undefined' || cmd == 'tbl' || in_array(cmd, ['fontname', 'fontsize', 'forecolor', 'backcolor']) && !arg) {
 		showEditorMenu(cmd);
 		return;
 	} else if(cmd.substr(0, 3) == 'cst') {
@@ -1175,14 +1175,6 @@ function showEditorMenu(tag, params) {
 			case 'fls':
 				str = '<p class="pbn">' + $L('flash_url') + ':</p><p class="pbn"><input type="text" id="' + ctrlid + '_param_1" class="px" value="" style="width: 220px;" /></p><p class="pbn">' + $L('width') + ': <input id="' + ctrlid + '_param_2" size="5" value="" class="px" /> &nbsp; ' + $L('height') + ': <input id="' + ctrlid + '_param_3" size="5" value="" class="px" /></p><p class="xg2 pbn">' + $L('flash_tip') + '</p>';
 				break;
-			case 'beginning':
-				str = '<p class="pbn">' + $L('beginning_url') + ':</p><p class="pbn"><input type="text" id="' + ctrlid + '_param_1" class="px" value="" style="width: 220px;" /></p>';
-				str += '<p class="pbn">' + $L('beginning_href') + ':</p><p class="pbn"><input type="text" id="' + ctrlid + '_param_2" class="px" value="" style="width: 220px;" /></p>';
-				str += '<p class="pbn">' + $L('width') + ': <input id="' + ctrlid + '_param_3" size="5" value="" class="px" /> &nbsp; ' + $L('height') + ': <input id="' + ctrlid + '_param_4" size="5" value="" class="px" /></p>';
-				str += '<p class="pbn">' + $L('beginning_seconds') + ': <input id="' + ctrlid + '_param_8" size="5" value="" class="px" /></p>';
-				str += '<p class="pbn">' + $L('beginning_effect') + ': </p><p class="pbn"><input id="' + ctrlid + '_param_7" type="radio" name="effect" checked />' + $L('none') + ' &nbsp; <input id="' + ctrlid + '_param_5" type="radio" name="effect" />' + $L('beginning_fade') + ' &nbsp; <input id="' + ctrlid + '_param_6" type="radio" name="effect" />' + $L('beginning_openclose') + '</p>';
-				str += '<p class="xg2 pbn">' + $L('beginning_tip') + '</p>';
-				break;
 			case 'pasteword':
 				stitle = $L('pasteword');
 				str = '<p class="px" style="height:300px"><iframe id="' + ctrlid + '_param_1" frameborder="0" style="width:100%;height:100%" onload="this.contentWindow.document.body.style.width=\'550px\';this.contentWindow.document.body.contentEditable=true;this.contentWindow.document.body.focus();this.onload=null"></iframe></p><p class="xg2 pbn">' + $L('pasteword_tip') + '</p>';
@@ -1390,16 +1382,6 @@ function showEditorMenu(tag, params) {
 					insertText('[flash=' + parseInt($(ctrlid + '_param_2').value) + ',' + parseInt($(ctrlid + '_param_3').value) + ']' + squarestrip($(ctrlid + '_param_1').value) + '[/flash]', 7, 8, false, sel);
 				} else {
 					insertText('[flash]' + squarestrip($(ctrlid + '_param_1').value) + '[/flash]', 7, 8, false, sel);
-				}
-				break;
-			case 'beginning':
-				if($(ctrlid + '_param_1').value) {
-					insertText('[begin=' + squarestrip($(ctrlid + '_param_2').value) + ',' +
-						($(ctrlid + '_param_3').value ? parseInt($(ctrlid + '_param_3').value) : 0) + ',' +
-						($(ctrlid + '_param_4').value ? parseInt($(ctrlid + '_param_4').value) : 0) + ',' +
-						($(ctrlid + '_param_5').checked ? 2 : ($(ctrlid + '_param_6').checked ? 1 : 0)) + ',' +
-						($(ctrlid + '_param_8').value ? parseInt($(ctrlid + '_param_8').value) : 0) + ']' +
-						squarestrip($(ctrlid + '_param_1').value) + '[/begin]', 7, 8, false, sel);
 				}
 				break;
 			case 'vid':

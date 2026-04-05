@@ -1812,7 +1812,6 @@ CREATE TABLE pre_common_usergroup_field
 	allowsendpmmaxnum      smallint(6) unsigned  NOT NULL DEFAULT '0',
 	maximagesize           mediumint(8) unsigned NOT NULL DEFAULT '0',
 	allowmediacode         tinyint(1)            NOT NULL DEFAULT '0',
-	allowbegincode         tinyint(1)            NOT NULL DEFAULT '0',
 	allowat                smallint(6) unsigned  NOT NULL DEFAULT '0',
 	allowsave              tinyint(1)            NOT NULL DEFAULT '1',
 	allowsavereply         tinyint(1)            NOT NULL DEFAULT '1',
