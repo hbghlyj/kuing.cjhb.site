@@ -88,9 +88,52 @@ function smilies_onload(id, smcols, seditorkey) {
 	}
 }
 
+function getFirstSmileyPage(type) {
+	if(!smilies_array[type]) {
+		return 1;
+	}
+	for(var page = 1; page < smilies_array[type].length; page++) {
+		if(smilies_array[type][page] && smilies_array[type][page].length) {
+			return page;
+		}
+	}
+	return 1;
+}
+
+function getAdjacentSmileyPage(type, page, direction) {
+	if(!smilies_array[type]) {
+		return 1;
+	}
+	var lastPage = smilies_array[type].length - 1;
+	if(lastPage < 1) {
+		return 1;
+	}
+	for(var step = 1; step <= lastPage; step++) {
+		var nextPage = page + direction * step;
+		while(nextPage < 1) {
+			nextPage += lastPage;
+		}
+		while(nextPage > lastPage) {
+			nextPage -= lastPage;
+		}
+		if(smilies_array[type][nextPage] && smilies_array[type][nextPage].length) {
+			return nextPage;
+		}
+	}
+	return getFirstSmileyPage(type);
+}
+
 function smilies_switch(id, smcols, type, page, seditorkey) {
-	page = page ? page : 1;
-	if(!smilies_array[type] || !smilies_array[type][page]) {
+	page = page ? parseInt(page, 10) : 1;
+	if(!smilies_array[type]) {
+		return;
+	}
+	if(!smilies_array[type][page] || !smilies_array[type][page].length) {
+		page = getFirstSmileyPage(type);
+	}
+	if(!smilies_array[type][page] || !smilies_array[type][page].length) {
+		$(id + '_data').innerHTML = '';
+		$(id + '_page').innerHTML = '';
 		return;
 	}
 	setcookie('smile', type + 'D' + page, 31536000);
@@ -121,8 +164,8 @@ function smilies_switch(id, smcols, type, page, seditorkey) {
 	smiliesdata += '</table>';
 	var smiliespage = '';
 	if(smilies_array[type].length > 2) {
-		prevpage = ((prevpage = parseInt(page, 10) - 1) < 1) ? smilies_array[type].length - 1 : prevpage;
-		nextpage = ((nextpage = parseInt(page, 10) + 1) == smilies_array[type].length) ? 1 : nextpage;
+		prevpage = getAdjacentSmileyPage(type, page, -1);
+		nextpage = getAdjacentSmileyPage(type, page, 1);
 		smiliespage = '<div class="z"><a href="javascript:;" onclick="smilies_switch(\'' + id + '\', \'' + smcols + '\', ' + type + ', ' + prevpage + ', \'' + seditorkey + '\');doane(event);">' + $L('prev_page_s') + '</a>' +
 			'<a href="javascript:;" onclick="smilies_switch(\'' + id + '\', \'' + smcols + '\', ' + type + ', ' + nextpage + ', \'' + seditorkey + '\');doane(event);">' + $L('next_page_s') + '</a></div>' +
 			page + '/' + (smilies_array[type].length - 1);
