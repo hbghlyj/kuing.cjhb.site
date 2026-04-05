@@ -33,6 +33,28 @@
 - 数据库文件为 `data/ipdata/GeoLite2-City.mmdb`
 - 旧的 `tinyipdata.dat` / `wry` 系列数据文件不再是当前默认查询路径
 
+### forum lastpost 字段顺序
+
+当前分支运行时应按以下顺序理解 `pre_forum_forum.lastpost`：
+
+```text
+tid \t dateline \t author \t subject
+```
+
+也就是说：
+
+- 第 2 段是最后回复时间戳
+- 第 3 段是最后回复作者
+- 第 4 段才是最后回复主题标题
+
+不要再按旧的
+
+```text
+tid \t subject \t dateline \t author
+```
+
+顺序来解析，否则会出现“标题显示成时间戳、日期显示成 1970-1-1”之类的问题。
+
 
 
 ### **3.5版本说明** 
