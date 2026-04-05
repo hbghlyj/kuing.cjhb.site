@@ -37,7 +37,7 @@
 			<ul class="authi">
 				<li class="mtit">
 					<span class="y">
-						<a href="home.php?mod=space&do=pm&subop=view&touid=$post['authorid']"><i class="fico-email fc-p"></i>{lang send_pm}</a>
+					<a href="home.php?mod=space&do=pm&subop=view&touid=$post['authorid']&mobile=2"><i class="fico-email fc-p"></i>{lang send_pm}</a>
 					</span>
 					<span class="z">
 						$trade['seller']
@@ -160,7 +160,7 @@
 						<!--{else}-->
 							<a disabled="yes" class="button media_tips btn_pn_grey"><span>{lang sold_out}</span></a>
 						<!--{/if}-->
-						<!--{if $_G['uid']}--><a href="home.php?mod=space&do=pm&subop=view&touid=$post['authorid']" class="button media_tips"><span><!--{if $online}-->{lang on_line}<!--{/if}-->{lang trade_bargain}</span></a><!--{/if}-->
+						<!--{if $_G['uid']}--><a href="home.php?mod=space&do=pm&subop=view&touid=$post['authorid']&mobile=2" class="button media_tips"><span><!--{if $online}-->{lang on_line}<!--{/if}-->{lang trade_bargain}</span></a><!--{/if}-->
 						</dd>
 					</div>
 					<!--{/if}-->
