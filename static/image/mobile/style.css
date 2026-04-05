@@ -1,4 +1,38 @@
 @charset "utf-8";
+/*----- color -----*/
+body {
+--dz-BG-body:#eee;/*全局body背景*/
+--dz-BG-color:#2B7ACD;/*主色调背景*/
+--dz-BG-0:#ffffff;
+--dz-BG-1:#333;/*深色背景*/
+--dz-BG-2:#FF5656;/*高亮色*/
+--dz-BG-3:#FF9900;/*排行榜2&置顶图标背景*/
+--dz-BG-4:#B3CC0D;/*排行榜3&精华图标背景*/
+--dz-BG-5:#f3f3f3;/*浅色背景*/
+--dz-BG-6:#ccc;/*深灰色背景*/
+--dz-BG-n:#A0C8EA;/*浅蓝色背景*/
+--dz-FC-color:#2B7ACD;/*主色调*/
+--dz-FC-fff:#fff;
+--dz-FC-333:#333;
+--dz-FC-666:#666;
+--dz-FC-777:#777;
+--dz-FC-888:#888;
+--dz-FC-999:#999;
+--dz-FC-aaa:#aaa;
+--dz-FC-bbb:#bbb;
+--dz-FC-ccc:#ccc;
+--dz-FC-ddd:#ddd;
+--dz-FC-nnn:#7DA0CC;
+--dz-FC-light:#FF9C00;
+--dz-FC-a:#F26C4F;
+--dz-FC-v:#7CBE00;
+--dz-FC-invalid:#FF512C;
+--dz-FC-tinvalid:#FF9A9A;
+--dz-FC-t: transparent;
+--dz-BOR-ed:#ededed;/*边框色*/
+--dz-BOR-ccc:#ccc;/*边框色*/
+--dz-BOR-invalid:#FF9A9A;/*红色边框*/
+}
 /*----- common -----*/
 * {word-wrap:break-word}
 ul, ol, li, span, p, form, h1, h2, h3, h4, h5, h6, dl, dt, dd {margin:0;padding:0;border:0;z-index:inherit}
