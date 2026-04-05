@@ -125,27 +125,23 @@ if(!IS_ROBOT && ($_G['setting']['whosonlinestatus'] == 1 || $_G['setting']['whos
 	$_G['setting']['whosonlinestatus'] = 1;
 
 	$onlineinfo = $_G['cache']['onlinerecord'] ? explode("\t", $_G['cache']['onlinerecord']) : [0, TIMESTAMP];
-	if(empty($_G['cookie']['onlineusernum'])) {
-		$onlinenum = C::app()->session->count();
-		if($onlinenum > $onlineinfo[0]) {
-			$onlinerecord = "$onlinenum\t".TIMESTAMP;
-			table_common_setting::t()->update_setting('onlinerecord', $onlinerecord);
-			savecache('onlinerecord', $onlinerecord);
-			$onlineinfo = [$onlinenum, TIMESTAMP];
-		}
-		dsetcookie('onlineusernum', intval($onlinenum), 300);
-	} else {
-		$onlinenum = intval($_G['cookie']['onlineusernum']);
+	$membercount = C::app()->session->count(1);
+	$guestcount = C::app()->session->count(2);
+	$invisiblecount = C::app()->session->count_invisible();
+	$onlinenum = $membercount + $guestcount;
+	if($onlinenum > $onlineinfo[0]) {
+		$onlinerecord = "$onlinenum\t".TIMESTAMP;
+		table_common_setting::t()->update_setting('onlinerecord', $onlinerecord);
+		savecache('onlinerecord', $onlinerecord);
+		$onlineinfo = [$onlinenum, TIMESTAMP];
 	}
+	dsetcookie('onlineusernum', intval($onlinenum), 300);
 	$onlineinfo[1] = dgmdate($onlineinfo[1], 'd');
 
 	$detailstatus = $showoldetails == 'yes' || (((!isset($_G['cookie']['onlineindex']) && !$_G['setting']['whosonline_contract']) || $_G['cookie']['onlineindex']) && $onlinenum < 500 && !$showoldetails);
 
-	$guestcount = $membercount = $invisiblecount = 0;
 	if(!empty($_G['setting']['sessionclose'])) {
 		$detailstatus = false;
-		$membercount = C::app()->session->count(1);
-		$guestcount = $onlinenum - $membercount;
 	}
 
 	if($detailstatus) {
@@ -177,19 +173,6 @@ if(!IS_ROBOT && ($_G['setting']['whosonlinestatus'] == 1 || $_G['setting']['whos
 			}
 		}
 		unset($actioncode, $online);
-
-		if($onlinenum > $_G['setting']['maxonlinelist']) {
-			$membercount = C::app()->session->count(1);
-			$invisiblecount = C::app()->session->count_invisible();
-		}
-
-		if($onlinenum < $membercount) {
-			$onlinenum = C::app()->session->count();
-			dsetcookie('onlineusernum', intval($onlinenum), 300);
-		}
-
-		$invisiblecount = intval($invisiblecount);
-		$guestcount = $onlinenum - $membercount;
 
 		unset($online);
 	}
