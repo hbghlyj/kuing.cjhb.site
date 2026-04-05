@@ -36,7 +36,7 @@ function forum(&$forum) {
 	if($forum['icon']) {
 		$forum['iconUri'] = $forum['icon'];
 		$forum['icon'] = get_forumimg($forum['icon']);
-		$forum['icon'] = '<a href="forum.php?mod=forumdisplay&fid='.$forum['fid'].'"><img src="'.$forum['icon'].'" '.(!empty($forum['extra']['iconwidth']) && !defined('IN_MOBILE') ? 'width="'.$forum['extra']['iconwidth'].'" style="margin-left:'.(15-$forum['extra']['iconwidth']/2).'px;margin-right:'.(25-$forum['extra']['iconwidth']/2).'px;"' : '').' alt="'.$forum['name'].'" /></a>';
+		$forum['icon'] = '<img src="'.$forum['icon'].'" '.(!empty($forum['extra']['iconwidth']) && !defined('IN_MOBILE') ? 'width="'.$forum['extra']['iconwidth'].'" style="margin-left:'.(15-$forum['extra']['iconwidth']/2).'px;margin-right:'.(25-$forum['extra']['iconwidth']/2).'px;"' : '').' alt="'.$forum['name'].'" />';
 	}
 
 	$lastpost = [0, 0, '', ''];
@@ -436,13 +436,15 @@ function threadclasscount($fid, $id = 0, $idtype = '', $count = null) {
 
 }
 
-function get_attach($list, $video = false, $audio = false) {
+// Build post excerpts and optionally attachment thumbnails for a thread list
+// $withattach controls whether image attachments are fetched
+function get_attach($list, $video = false, $audio = false, $withattach = true){
 	global $_G;
 	require_once libfile('function/post');
 	require_once libfile('function/discuzcode');
-	$tids = $threads = $attachtableid_array = $threadlist_data = $posttableids = [];
+        $tids = $threads = $attachtableid_array = $threadlist_data = $posttableids = array();
 	foreach($list as $value) {
-		if(!in_array($value['posttableid'], $posttableids)) {
+		if(!in_array($value['posttableid'], $posttableids)){
 			$posttableids[] = $value['posttableid'];
 		}
 		if($value['isgroup'] == 1) {
@@ -453,7 +455,7 @@ function get_attach($list, $video = false, $audio = false) {
 			$threads[$value['tid']] = $value;
 		}
 	}
-	foreach($posttableids as $id) {
+	foreach ($posttableids as $id) {
 		$posts = table_forum_post::t()->fetch_all_by_tid($id, $tids, true, '', 0, 0, 1, null, null, null);
 		foreach($posts as $value) {
 			if(!$_G['forum']['ismoderator'] && $value['status'] & 1) {
@@ -489,18 +491,20 @@ function get_attach($list, $video = false, $audio = false) {
 					}
 					$threadlist_data[$value['tid']]['message'] = messagecutstr($value['message'], defined('IN_MOBILE') ? 90 : 300);
 				}
-				if($threads[$value['tid']]['attachment'] == 2) {
-					$attachtableid_array[getattachtableid($value['tid'])][] = $value['pid'];
+                                if($withattach && $threads[$value['tid']]['attachment'] == 2) {
+                                        $attachtableid_array[getattachtableid($value['tid'])][] = $value['pid'];
 				}
 			}
 		}
 	}
-	foreach($attachtableid_array as $tableid => $pids) {
-		$attachs = table_forum_attachment_n::t()->fetch_all_by_pid_width($tableid, $pids, 0);
-		foreach($attachs as $value) {
-			$threadlist_data[$value['tid']]['attachment'][] = getforumimg($value['aid'], 0, 2000, 550);
-		}
-	}
+        if($withattach) {
+                foreach($attachtableid_array as $tableid => $pids) {
+                        $attachs = table_forum_attachment_n::t()->fetch_all_by_pid_width($tableid, $pids, 0);
+                        foreach($attachs as $value){
+                                $threadlist_data[$value['tid']]['attachment'][] = getforumimg($value['aid'], 0, 550, 350);
+                        }
+                }
+        }
 	return $threadlist_data;
 }
 
