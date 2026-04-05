@@ -139,6 +139,20 @@ if($_GET['op'] == 'delete') {
 
 	$fav = table_home_favorite::t()->fetch_by_id_idtype($id, $idtype, $_G['uid']);
 	if($fav) {
+		$extrajs = '';
+		if(($type == 'forum' || $type == 'group' || $type == 'thread') && $_GET['formhash'] == FORMHASH) {
+			deletefavorite($fav);
+			table_home_favorite::t()->delete($fav['favid']);
+			switch($type) {
+				case 'thread':
+					$extrajs = '<script type="text/javascript">if($("favoritenumber")){var n=parseInt($("favoritenumber").innerHTML)-1;if(n>0){$("favoritenumber").innerHTML=n;$("favoritenumber").style.display="";}else{$("favoritenumber").innerHTML=0;$("favoritenumber").style.display="none";}}</script>';
+					break;
+				case 'forum':
+					$extrajs = '<script type="text/javascript">if($("number_favorite_num")){var n=parseInt($("number_favorite_num").innerHTML)-1;if(n>0){$("number_favorite_num").innerHTML=n;$("number_favorite").style.display="";}else{$("number_favorite_num").innerHTML=0;$("number_favorite").style.display="none";}}</script>';
+					break;
+			}
+			showmessage('favorite_delete_succeed', dreferer(), ['favid' => $fav['favid'], 'id' => $fav['id']], ['showdialog' => true, 'closetime' => true, 'extrajs' => $extrajs]);
+		}
 		showmessage('favorite_repeat');
 	}
 	$description = $extrajs = '';
