@@ -406,7 +406,7 @@
 								<!--{/if}-->
 								<h2>$forum[name]</h2>
 								<!--{if (empty($_G['i18n']) || $_G['i18n'] != 'en') && $forum[description]}-->
-								<script>{var newInnerLink = document.createElement('p');
+								<script>{const newInnerLink = document.createElement('p');
 								newInnerLink.style = 'font-size:small;width: 100%;margin-left:41px;position:absolute;bottom:0';
 								newInnerLink.innerHTML = '$forum[description]';
 								document.currentScript.parentNode.replaceChild(newInnerLink, document.currentScript);}
