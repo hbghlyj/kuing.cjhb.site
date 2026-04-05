@@ -11,7 +11,7 @@ if(!defined('IN_DISCUZ')) {
 }
 const NOROBOT = true;
 
-if(!in_array($_GET['action'], ['checkusername', 'checkemail', 'checkinvitecode', 'checkuserexists', 'quickclear']) && !$_G['setting']['forumstatus']) {
+if(!in_array($_GET['action'], ['checkusername', 'checkemail', 'checkinvitecode', 'checkuserexists', 'quickclear', 'getOnlineUserListHtml']) && !$_G['setting']['forumstatus']) {
 	showmessage('forum_status_off');
 }
 
