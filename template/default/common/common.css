@@ -641,6 +641,15 @@ Last Modify:	Pony
 		flex-direction: row;
 	}
 
+	.ais-ClearRefinements-button {
+		width: 30px;
+        height: 30px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+	}
+
+
 	#ais-main {
 		padding: 1rem;
 	}
@@ -962,7 +971,8 @@ Last Modify:	Pony
 	.ais-Pagination-link { padding: 0 8px; }
 	.ais-Pagination-item--selected { background-color: #C5E6DF; }
 
-			#nv { overflow: hidden; height: 33px; {MENUBGCODE}; }
+
+			#nv { overflow: hidden; height: 33px; {MENUBGCODE}; display: flex; gap: 20px; }
 				#nv li { float: left; padding-right: 1px; height: 33px; line-height: 33px; background: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='1' height='33'%3e%3cpath fill='%23fff' fill-opacity='0.2' d='M0 7h1v20H0z'/%3e%3c/svg%3e") no-repeat 100% 0; font-weight: 700; }
 					#nv li a { float: left; padding: 0 15px; height: 33px; }
 						#nv li a { color: {MENUTEXT}; }
