@@ -6,7 +6,6 @@
  * https://license.discuz.vip
  */
 
-<<<<<<< HEAD
 $lang = [
 	'activity_jointime' => '申请时间',
 	'activity_member_unit' => '人',
@@ -1359,7 +1358,7 @@ $lang = [
 	'collection_icon_resize' => '自动缩略成 200×200 像素大小的图片',
 ];
 
-=======
+/*
 $lang = array (
   'activity_jointime' => '申请时间',
   'activity_member_unit' => '人',
@@ -2670,3 +2669,4 @@ $lang = array (
   'content_actions' => '更多操作',
   'online_list_load_error' => '无法加载在线用户列表',
 );
+*/

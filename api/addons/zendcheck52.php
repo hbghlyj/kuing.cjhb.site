@@ -1,3 +1,3 @@
-<?php @Zend;
-4123;
-/*
+<?php
+
+// Legacy placeholder retained for compatibility with api/addons/zendcheck.php.

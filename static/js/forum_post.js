@@ -1,4 +1,3 @@
-<<<<<<< HEAD:static/js/forum_post.js
 /**
  * [Discuz!] (C)2001-2099 Discuz! Team
  * This is NOT a freeware, use is subject to license terms
@@ -913,7 +912,7 @@ function checkPasteImages(iframeDoc, whitelistDomains) {
 
 		showDialog(msg, 'notice');
 	}
-=======
+/*
 /*
 	[Discuz!] (C)2001-2099 Comsenz Inc.
 	This is NOT a freeware, use is subject to license terms
@@ -1758,5 +1757,5 @@ function hideAttachMenu(id) {
 	if($(editorid + '_' + id + '_menu')) {
 		$(editorid + '_' + id + '_menu').style.visibility = 'hidden';
 	}
->>>>>>> 6d2f232c7 (!345 修复 投票类帖子 添加投票项到最大数量时继续添加js报错 ):upload/static/js/forum_post.js
+*/
 }

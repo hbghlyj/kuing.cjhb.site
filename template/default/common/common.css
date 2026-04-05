@@ -90,14 +90,14 @@ Last Modify:	Pony
 	textarea { resize: vertical; font: {FONTSIZE} monospace,zh, 'Noto Colr Emoji Glyf'; color: {TABLETEXT}; }
 	body, input, button, select { font: {FONTSIZE} {FONT}; color: {TABLETEXT}; }
 	@media only screen and (orientation: landscape) {
-		body { font-family: "Latin Modern Roman",{FONT}; text-shadow: 0 0 .5px currentColor; }
+		body { font-family: "Latin Modern Roman",{FONT}; }
 	}
 	* { word-wrap: break-word; }
 	body, ul, ol, li, dl, dd, p, h1, h2, h3, h4, h5, h6, form, fieldset, .pr, .pc { margin: 0; padding: 0; }
 	table { empty-cells: show; border-collapse: collapse; }
 		caption, th { text-align: left; font-weight: 400; }
 	ul li, .xl li { list-style: none; }
-	h1, h2, h3, h4, h5, h6 { font-size: 1em; font-family: {FONT}; text-shadow: none; }
+	h1, h2, h3, h4, h5, h6 { font-size: 1em; font-family: {FONT}; }
 	em, cite, i { font-style: normal; }
 	a { color: {LINK}; text-decoration: none; }
 		a:hover { text-decoration: underline; }
@@ -240,7 +240,7 @@ Last Modify:	Pony
 	Last Modify:	lushnis
 */
 	.xw0 { font-weight: 400; }
-	.xw1 { font-weight: 700; text-shadow: none; }
+	.xw1 { font-weight: 700; }
 /*
 	Name:			mod_border
 	Level:			Global

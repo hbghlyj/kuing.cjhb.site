@@ -77,7 +77,6 @@ class extend_thread_image extends extend_thread_base {
 			}
 		}
 	}
-<<<<<<< HEAD
 	public function after_newreply() {
 		$this->mobile_upload();
 		($this->group['allowpostattach'] || $this->group['allowpostimage']) && (!empty($_GET['attachnew']) || $this->param['special'] == 2 && $_GET['tradeaid']) && updateattach($this->thread['displayorder'] == -4 || $this->param['modnewreplies'], $this->thread['tid'], $this->pid, $_GET['attachnew']);
@@ -118,20 +117,6 @@ class extend_thread_image extends extend_thread_base {
 			}
 		}
 	}
-=======
-  public function after_newreply() {
-          $this->mobile_upload();
-        ($this->group['allowpostattach'] || $this->group['allowpostimage']) && (!empty($_GET['attachnew']) || $this->param['special'] == 2 && $_GET['tradeaid']) && updateattach($this->thread['displayorder'] == -4 || $this->param['modnewreplies'], $this->thread['tid'], $this->pid, $_GET['attachnew']);
-  }
-
-  public function before_editpost($parameters) {
-         global $_G;
-        $attachupdate = !empty($_GET['delattachop']) || ($this->group['allowpostattach'] || $this->group['allowpostimage']) && (!empty($_GET['attachnew']) || $parameters['special'] == 2 && $_GET['tradeaid'] || $parameters['special'] == 4 && $_GET['activityaid']);
-         if($attachupdate) {
-                 updateattach($this->thread['displayorder'] == -4 || $_G['forum_auditstatuson'], $this->thread['tid'], $this->post['pid'], $_GET['attachnew'], $_GET['attachupdate'], $this->post['authorid']);
-         }
-  }
->>>>>>> 40df9aa4f (Guard attachnew param access (#517))
 
 	public function before_deletepost($parameters) {
 		$thread_attachment = $post_attachment = 0;

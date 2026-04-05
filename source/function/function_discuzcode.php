@@ -94,7 +94,6 @@ function discuzcode($message, $smileyoff = false, $bbcodeoff = false, $htmlon = 
 	// parse [tikz] and [asy]
 	$code_arr = array();
 	if($parsetype != 1 && !$bbcodeoff && $allowbbcode && strpos($message, '[/tikz]') !== FALSE) {
-		$message = preg_replace_callback("/\[tikz\](.+?)\[\/tikz\]/s", function($matches) {
 		$message = preg_replace_callback("/\[tikz\](.+?)\[\/tikz\]/s", function($matches) use (&$code_arr) {
 			$code = $matches[1];
 			$code_arr[] = $code;

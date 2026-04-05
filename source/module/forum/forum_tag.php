@@ -74,7 +74,6 @@ if($op == 'search') {
 		$taglist = DB::fetch_all("SELECT t.tagName
 			FROM " . DB::table("common_tag") . " t
 			WHERE %s LIKE CONCAT(%s, t.tagName, %s) LIMIT 5", array($content,'%', '%'));
-			WHERE %s LIKE CONCAT(%s, t.tagName, %s) LIMIT 5", array($content,'%', '%'));
 		echo implode(',', array_column($taglist, 'tagName'));
 	}
 	exit;

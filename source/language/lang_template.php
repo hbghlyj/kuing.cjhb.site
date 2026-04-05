@@ -5,7 +5,7 @@
  * This is NOT a freeware, use is subject to license terms
  * https://license.discuz.vip
  */
-$lang = array (
+$lang = [
   'activity_about_member' => '剩余名额',
   'activity_already' => '已参加人数',
   'additional' => '附加',
