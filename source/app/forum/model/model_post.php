@@ -507,6 +507,7 @@ class model_post extends discuz_model {
 			}
 			$class_tag = new tag();
 			$tagstr = $class_tag->update_field($this->param['tags'], $this->thread['tid'], 'tid', $this->thread);
+			table_forum_thread::t()->update($this->thread['tid'], ['tags' => $tagstr]);
 
 		} else {
 			if($this->param['subject'] == '' && ((in_array($this->param['contentType'], ['text', '']) && empty(trim($this->param['message']))) || (!empty($this->param['contentType']) && $this->param['contentType'] != 'text' && empty(trim($this->param['content'])))) && $this->thread['special'] != 2) {
@@ -574,7 +575,6 @@ class model_post extends discuz_model {
 			'parseurloff' => $this->param['parseurloff'],
 			'smileyoff' => $this->param['smileyoff'],
 			'subject' => $this->param['subject'],
-			'tags' => $tagstr,
 			'port' => getglobal('remoteport')
 		];
 
