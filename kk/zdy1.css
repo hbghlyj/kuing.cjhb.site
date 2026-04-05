@@ -27,43 +27,9 @@
   overflow-y: auto;
 }
 
-#um .fastlg {
-  display: block;
-}
-
-#um .fastlg .y {
-  float: right;
-}
-
 @media screen and (orientation: portrait) {
   #switchwidth,#diy-tg,#um p:last-child,.fl_i { display: none; }
   #toptb { min-width: unset; }
-  #um {
-    padding-right: 0;
-    padding-bottom: 10px;
-  }
-  #um .fastlg .y {
-    float: none;
-    display: block;
-    width: 100%;
-  }
-  #um .fastlg table,
-  #um .fastlg tbody,
-  #um .fastlg tr,
-  #um .fastlg td {
-    display: block;
-    width: auto;
-  }
-  #um .fastlg td {
-    padding: 2px 0;
-  }
-  #um .fastlg .fastlg_l {
-    border-right: 0;
-    padding-right: 0 !important;
-  }
-  #um .fastlg .px {
-    width: min(220px, 70vw) !important;
-  }
   .fl_by {
     width: 150px;
     max-width: 150px;
