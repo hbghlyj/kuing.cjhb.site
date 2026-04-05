@@ -40,11 +40,12 @@ function _smilies_show(id, smcols, seditorkey) {
 function smilies_onload(id, smcols, seditorkey) {
 	seditorkey = !seditorkey ? '' : seditorkey;
 	if(typeof smilies_type == 'object') {
+		var smilies_fastdata = '';
+		var i, j, k = 0, s, smilieimg, img = [];
 		$(id).innerHTML = '<div id="' + id + '_data"></div><div class="sllt_p" id="' + id + '_page"></div>';
 		smilies_switch(id, smcols, CURRENTSTYPE, 0, seditorkey);
-		smilies_fastdata = '';
 		if(seditorkey == 'fastpost' && $('fastsmilies') && smilies_fast) {
-			var j = 0;
+			j = 0;
 			for(i = 0;i < smilies_fast.length; i++) {
 				if(j == 0) {
 					smilies_fastdata += '<tr>';
@@ -63,9 +64,9 @@ function smilies_onload(id, smcols, seditorkey) {
 }
 
 function smilies_switch(id, smcols, type, page = 0, seditorkey) {
-	smiliesdata = '<table id="' + id + '_table" cellpadding="0" cellspacing="0"><tr>';
-	j = k = 0;
-	img = [];
+	var smiliesdata = '<table id="' + id + '_table" cellpadding="0" cellspacing="0"><tr>';
+	var j = 0, k = 0, s, smilieimg, prevpage, nextpage, smiliespage;
+	var img = [];
 	for(var i = page * 40; i < smilies_array.length && i < (page + 1) * 40;j++,k++) {
 		i++;
 		if(j >= smcols) {
@@ -104,8 +105,8 @@ function smilies_preview(seditorkey, id, obj, w) {
 		$('append_parent').appendChild(menu);
 	}
 	menu.innerHTML = '<img width="' + w + '" src="' + obj.childNodes[0].src + '" />';
-	mpos = fetchOffset($(id + '_data'));
-	spos = fetchOffset(obj);
-	pos = spos['left'] >= mpos['left'] + $(id + '_data').offsetWidth / 2 ? '13' : '24';
+	var mpos = fetchOffset($(id + '_data'));
+	var spos = fetchOffset(obj);
+	var pos = spos['left'] >= mpos['left'] + $(id + '_data').offsetWidth / 2 ? '13' : '24';
 	showMenu({'ctrlid':obj.id,'showid':id + '_data','menuid':menu.id,'pos':pos,'layer':3});
 }
