@@ -164,15 +164,12 @@ $('thread_subject').ondblclick=function() {//选择主题标题
 //楼层目录
 const MULU = document.createElement("div");
 MULU.id = "mulu";
-const summ = document.createElement("div");
-summ.align = "center";
-summ.innerText = document.querySelector('#fj > label')?.innerText || '目录';
-const mlx = document.createElement("a");
-mlx.innerHTML = '×';
-mlx.style.float = 'left';
-mlx.href = "javascript:MULU.remove()";
-summ.appendChild(mlx);
-MULU.appendChild(summ);
+const close = document.createElement("div");
+close.innerText = '×';
+close.onclick = function() {
+    MULU.style.display = 'none';
+};
+MULU.appendChild(close);
 const MULUSELECT = document.createElement("select");
 MULUSELECT.style = 'padding: 0;overflow-y: hidden;border: none;box-shadow: 0 0 2px #2B7ACD;';
 MULUSELECT.size = 0;
