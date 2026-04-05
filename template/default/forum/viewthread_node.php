@@ -399,9 +399,6 @@ $postshowavatars = !($_G['setting']['bannedmessages'] & 2 && ($post['memberstatu
 					<!--{if $post['first'] && ($_G['group']['allowrecommend'] || !$_G['uid']) && !empty($_G['setting']['recommendthread']['status']) && !empty($_G['setting']['recommendthread']['addtext'])}-->
 						<a class="replyadd" href="forum.php?mod=misc&action=recommend&do=add&tid=$_G[tid]&hash={FORMHASH}" {if $_G['uid']}onclick="ajaxmenu(this, 3000, 1, 0, '43', 'recommendupdate({$_G['group']['allowrecommend']})');return false;"{else} onclick="showWindow('login', this.href)"{/if} onmouseover="this.title = $('recommendv_add').innerHTML + ' {lang activity_member_unit}$_G[setting][recommendthread][addtext]'">$_G['setting']['recommendthread'][addtext] <span id="recommendv_add"{if !$_G['forum_thread']['recommend_add']} style="display:none"{/if}>$_G[forum_thread][recommend_add]</span></a>
 					<!--{/if}-->
-					<!--{if $post['first'] && ($_G['group']['allowrecommend'] || !$_G['uid']) && !empty($_G['setting']['recommendthread']['status']) && !empty($_G['setting']['recommendthread']['addtext'])}-->
-						<a class="replyadd" href="forum.php?mod=misc&action=recommend&do=add&tid=$_G[tid]&hash={FORMHASH}" {if $_G['uid']}onclick="ajaxmenu(this, 3000, 1, 0, '43', 'recommendupdate({$_G['group']['allowrecommend']})');return false;"{else} onclick="showWindow('login', this.href)"{/if} onmouseover="this.title = $('recommendv_add').innerHTML + ' {lang activity_member_unit}$_G[setting][recommendthread][addtext]'">$_G['setting']['recommendthread'][addtext] <span id="recommendv_add"{if !$_G['forum_thread']['recommend_add']} style="display:none"{/if}>$_G[forum_thread][recommend_add]</span></a>
-					<!--{/if}-->
 					<!--{if $_G['uid'] == $post['authorid']}-->
 						<a class="removep" href="forum.php?mod=misc&action=postdelete&tid=$post[tid]&pid=$post[pid]&extra=$_GET[extra]&page=$page" onClick="showWindow('postdelete', this.href, 'get', 0)">{lang delete}</a>
 					<!--{/if}-->
