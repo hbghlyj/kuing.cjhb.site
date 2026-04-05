@@ -609,8 +609,31 @@ class discuz_application extends discuz_base {
 					$secondLetterCodePoint = $baseCodePoint + (ord($countryCode[1]) - ord('A'));
 					return mb_chr($firstLetterCodePoint, 'UTF-8') . mb_chr($secondLetterCodePoint, 'UTF-8');
 				};
-				$countryCode = $_SERVER['HTTP_CF_IPCOUNTRY'] ?? '';
+				$countryCode = strtoupper((string)($_SERVER['HTTP_CF_IPCOUNTRY'] ?? ''));
 				$city = trim((string)($_SERVER['HTTP_CF_IPCITY'] ?? ''));
+				if($countryCode === '' || $city === '') {
+					try {
+						require_once './source/class/ip/geoip2.phar';
+						static $reader = null;
+						if($reader === null) {
+							$reader = new GeoIp2\Database\Reader('./data/ipdata/GeoLite2-City.mmdb');
+						}
+						$record = $reader->city($this->var['clientip']);
+						if($countryCode === '' && !empty($record->country->isoCode)) {
+							$countryCode = strtoupper($record->country->isoCode);
+						}
+						if($city === '' && !empty($record->city)) {
+							if(DISCUZ_LANG == 'EN/' && !empty($record->city->names['en'])) {
+								$city = $record->city->names['en'];
+							} elseif(!empty($record->city->names['zh-CN'])) {
+								$city = $record->city->names['zh-CN'];
+							} elseif(!empty($record->city->name)) {
+								$city = $record->city->name;
+							}
+						}
+					} catch(Exception $e) {
+					}
+				}
 				$flag = $getFlagEmoji($countryCode);
 				$locationName = trim($flag.' '.$city);
 				$referrer = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '';
