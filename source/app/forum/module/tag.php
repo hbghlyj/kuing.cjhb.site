@@ -10,4 +10,6 @@ if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
+lang('forum/template');
+
 require_once libfile('forum/tag', 'module');
