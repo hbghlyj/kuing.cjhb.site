@@ -579,7 +579,7 @@ foreach($postarr as $post) {
 				$summary = str_replace(["\r", "\n"], '', messagecutstr(strip_tags($post['message']), 160));
 			}
 			$tagarray_all = $posttag_array = [];
-			$tagarray_all = explode("\t", $post['tags']);
+			$tagarray_all = explode("\t", $_G['forum_thread']['tags']);
 			if($tagarray_all) {
 				foreach($tagarray_all as $var) {
 					if($var) {
