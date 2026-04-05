@@ -2035,7 +2035,13 @@ body { background: none !important; }
 
 
 /** forum::collection,forum::viewthread **/
-.clct_list .xld { float: left; margin-bottom: 5px; width: 49.9%; height: 105px; overflow: hidden; }
+.clct_list .xld {
+	margin-bottom: 5px;
+	width: 48%;
+	overflow: hidden;
+	display: inline-block;
+	vertical-align: top;
+}
 	.clct_list .xld .m, .clct_list .xld .m a { width: 55px; height: 50px; overflow: hidden; cursor: pointer; }
 		.clct_list .xld .m { background: linear-gradient(0deg, #B2C0DC 40%, #D8DEEA 40%) no-repeat 100% 0; border-radius: 3px; }
 		.clct_list .xld .m a:hover { text-decoration: none; }
