@@ -716,7 +716,7 @@ function bumpthread() {
 				if (text.includes('succeedhandle_mods')) {
 					showPrompt(null,null,'提升成功',1000);
 				} else {
-					showPrompt(null,null,text.match(/errorhandle_mods\('([^']+)/)[1],1000,'popuptext');
+					showPrompt(null,null,text.match(/errorhandle_mods\('([^']+)'/)[1],1000,'popuptext');
 				}
 			});
 		});
@@ -732,7 +732,7 @@ function bumpthread() {
 				if (text.includes('succeedhandle_mods')) {
 					showDialog('提升成功', 'right', '提升成功', 'window.location.reload();');
 				} else {
-					showDialog(text.match(/errorhandle_mods\\('([^']+)/)[1], 'error', '提升失败');
+					showDialog(text.match(/errorhandle_mods\('([^']+)'/)[1], 'error', '提升失败');
 				}
 			});
 		});
