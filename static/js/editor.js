@@ -432,7 +432,7 @@ function keyBackspace() {
 	if(!wysiwyg) {
 		return;
 	}
-	if(BROWSER.ie) {
+	if(BROWSER.ie && editdoc.selection && editdoc.selection.createRange) {
 		sel = editdoc.selection.createRange();
 		sel.moveStart('character', -1);
 		sel.moveEnd('character', 0);
@@ -1084,7 +1084,17 @@ function showEditorMenu(tag, params) {
 	var menutype = 'menu';
 
 	try {
-		sel = wysiwyg ? editdoc.selection.createRange() : document.selection.createRange();
+		if(wysiwyg) {
+			if(!(editdoc.selection && editdoc.selection.createRange)) {
+				throw 'legacy selection unavailable';
+			}
+			sel = editdoc.selection.createRange();
+		} else {
+			if(!(document.selection && document.selection.createRange)) {
+				throw 'legacy selection unavailable';
+			}
+			sel = document.selection.createRange();
+		}
 		selection = wysiwyg ? sel.htmlText : sel.text;
 	} catch(e) {
 		if (wysiwyg) {
@@ -1465,7 +1475,13 @@ function showEditorMenu(tag, params) {
 function autoTypeset() {
 	var sel;
 	if(BROWSER.ie) {
-		sel = wysiwyg ? editdoc.selection.createRange() : document.selection.createRange();
+		if(wysiwyg) {
+			if(editdoc.selection && editdoc.selection.createRange) {
+				sel = editdoc.selection.createRange();
+			}
+		} else if(document.selection && document.selection.createRange) {
+			sel = document.selection.createRange();
+		}
 	}
 	var selection = sel ? (wysiwyg ? sel.htmlText.replace(/<\/?p>/ig, '<br />') : sel.text) : getSel();
 	selection = trim(selection);
@@ -1485,6 +1501,9 @@ function getSel() {
 			return readNodes(range.cloneContents(), false);
 		} catch(e) {
 			try {
+				if(!(editdoc.selection && editdoc.selection.createRange)) {
+					return '';
+				}
 				var range = editdoc.selection.createRange();
 				if(range.htmlText && range.text) {
 					return range.htmlText;
