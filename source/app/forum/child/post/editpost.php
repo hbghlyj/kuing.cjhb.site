@@ -304,7 +304,7 @@ if(!submitcheck('editsubmit')) {
 
 	$imgattachs['unused'] = !$sortid ? ($imgattachs['unused'] ?? '') : '';
 
-	if((!empty($_G['setting']['editormodetype']) && $_GET['action'] != 'edit') || ($_GET['action'] == 'edit' && $isJsonContent)) {
+	if((!empty($_G['setting']['editormodetype']) && $_GET['action'] != 'edit') || ($_GET['action'] == 'edit' && $isJsonContent && !getgpc('infloat'))) {
 		$fields = ['blockid', 'type', 'available', 'columns', 'sort', 'name', 'identifier', 'class', 'config', 'plugin', 'filename'];
 		$editorblocks = table_common_editorblock::t()->fetch_all_block_avaliable($fields);
 		foreach($editorblocks as $ekey => $evalue) {
@@ -333,7 +333,7 @@ if(!submitcheck('editsubmit')) {
 		if($editor['editormode'] != 0) {
 			$editor['editormode'] = 1;
 		}
-		include template('forum/post');
+		getgpc('infloat') ? include template('forum/post_infloat') : include template('forum/post');
 	}
 
 } else {
