@@ -20,7 +20,7 @@
 				<li>
 					<span class="mimg"><!--{if $value['uid']}--><a href="home.php?mod=space&uid=$value[uid]"><img src="<!--{avatar($value['uid'], 'small', true)}-->"></a><!--{else}--><img src="$value[icon]"><!--{/if}--></span>
 					<p class="mtit">
-						<!--{if $value['uid']}--><a href="home.php?mod=space&do=pm&subop=view&touid=$value['uid']" class="mico">{lang send_pm}</a>
+				<!--{if $value['uid']}--><a href="home.php?mod=space&do=pm&subop=view&touid=$value['uid']&mobile=2" class="mico">{lang send_pm}</a>
 						<a href="home.php?mod=space&uid=$value[uid]">$value[username]</a><!--{elseif $value['username']}-->$value[username]<!--{else}-->{lang guest}<!--{/if}-->
 						<a href="home.php?mod=space&uid=$value['uid']"><span{eval g_color($value['groupid']);}>$value['username']</span></a>
 					</p>
@@ -45,7 +45,7 @@
 						<!--{if $_GET['view'] == 'me'}-->
 						<a href="home.php?mod=spacecp&ac=friend&op=ignore&uid=$value['uid']&handlekey=delfriendhk_{$value['uid']}" id="a_ignore_$key" class="dialog mico">{lang delete}</a>
 						<!--{/if}-->
-						<a href="home.php?mod=space&do=pm&subop=view&touid=$value['uid']" class="mico">{lang send_pm}</a>
+				<a href="home.php?mod=space&do=pm&subop=view&touid=$value['uid']&mobile=2" class="mico">{lang send_pm}</a>
 						<a href="home.php?mod=space&uid=$value['uid']"><span{eval g_color($value['groupid']);}>$value['username']</span></a>
 					</p>
 					<p class="mtxt"><i class="dm-chat-s"></i>$value['recentnote']</p>
