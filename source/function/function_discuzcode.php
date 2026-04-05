@@ -165,13 +165,9 @@ function discuzcode($message, $smileyoff = false, $bbcodeoff = false, $htmlon = 
 		}
 
 		$message = str_replace([
-			'[/color]', '[/backcolor]', '[/size]', '[/font]', '[/align]', '[b]', '[/b]', '[s]', '[/s]', '[hr]', '[/p]',
-			'[i=s]', '[i]', '[/i]', '[u]', '[/u]', '[list]', '[list=1]', '[list=a]',
-			'[list=A]', "\r\n[*]", '[*]', '[/list]', '[indent]', '[/indent]', '[/float]'
+			'[/color]', '[/backcolor]', '[/size]', '[/font]', '[/align]', '[hr]', '[/p]', '[/float]', '[indent]', '[/indent]'
 		], [
-			'</font>', '</font>', '</font>', '</font>', '</div>', '<strong>', '</strong>', '<strike>', '</strike>', '<hr class="l" />', '</p>', '<i class="pstatus">', '<i>',
-			'</i>', '<u>', '</u>', '<ul>', '<ul type="1" class="litype_1">', '<ul type="a" class="litype_2">',
-			'<ul type="A" class="litype_3">', '<li>', '<li>', '</ul>', '<blockquote>', '</blockquote>', '</span>'
+			'</font>', '</font>', '</font>', '</font>', '</div>', '<hr class="l" />', '</p>', '</span>', '<blockquote>', '</blockquote>'
 		], preg_replace([
 			'/\[color=([#\w]+?)\]/i',
 			'/\[color=((rgb|rgba)\([\d\s\.,]+?\))\]/i',
@@ -200,6 +196,64 @@ function discuzcode($message, $smileyoff = false, $bbcodeoff = false, $htmlon = 
 			"<span style=\"float:left;margin-right:5px\">",
 			"<span style=\"float:right;margin-left:5px\">"
 		], $message));
+
+		// if the close tag is found, replace the closest open tag before it
+		// this is to prevent the open tag from being replaced but the close tag not, which would result in invalid html
+		foreach(array('[/b]', '[/s]', '[/i]', '[/u]') as $i => $close_tag) {
+			$open_tag = array('[b]', '[s]', '[i]', '[u]')[$i];
+			$parts = explode($close_tag, $message);
+			$message = '';
+			$count = count($parts);
+			for($j = 0; $j < $count - 1; $j++) {
+				$part = $parts[$j];
+				$pos = strrpos($part, $open_tag);
+				if($pos === false) {
+					$message .= $part.$close_tag;
+				} else {
+					$open_tag_replace = array('<strong>', '<strike>', '<i>', '<u>')[$i];
+					$close_tag_replace = array('</strong>', '</strike>', '</i>', '</u>')[$i];
+					$message .= substr_replace($part, $open_tag_replace, $pos, strlen($open_tag)).$close_tag_replace;
+				}
+			}
+			$message .= $parts[$count - 1];
+		}
+
+		// list
+		$open_tags = array(
+			'[list]' => '<ul>',
+			'[list=1]' => '<ul type="1" class="litype_1">',
+			'[list=a]' => '<ul type="a" class="litype_2">',
+			'[list=A]' => '<ul type="A" class="litype_3">'
+		);
+		$close_tag = '</ul>';
+		$stack = array();
+		$parts = preg_split('/(\[list(?:=[1aA])?\]|\[\/list\]|\[\*\])/', $message, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
+		$message = '';
+		foreach($parts as $part) {
+			if(isset($open_tags[$part])) {
+				array_push($stack, $open_tags[$part]);
+				$message .= $open_tags[$part];
+			} elseif($part === '[/list]') {
+				if(!empty($stack)) {
+					array_pop($stack);
+					$message = rtrim($message, "\r\n");
+					$message .= $close_tag;
+				}
+			} elseif($part === '[*]') {
+				if(!empty($stack)) {
+					$message = rtrim($message, "\r\n");
+					$message .= '<li>';
+				} else {
+					$message .= '[*]';
+				}
+			} else {
+				$message .= $part;
+			}
+		}
+		while(!empty($stack)) {
+			array_pop($stack);
+			$message .= $close_tag;
+		}
 
 		if($pid && !defined('IN_MOBILE')) {
 			$message = preg_replace_callback(
