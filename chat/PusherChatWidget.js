@@ -478,7 +478,7 @@ PusherChatWidget._buildListItem = function(activity) {
   var image = jQuery('<div class="image"><img src="' + activity.actor.image + '" width="24" height="24" /></div>');
   var content = jQuery('<div class="content"></div>');
   
-  var user = jQuery('<div class="activity-row"><span class="user-name"><a class="screen-name">' + activity.actor.displayName.replace(/\\'/g, "'") + '</a><a ' + (activity.link ? 'href="' + activity.link + '" ' : '') + 'class="timestamp"><span data-activity-published="' + activity.published + '">' + PusherChatWidget.timeToDescription(activity.published) + '</span></a></span></div>');
+  var user = jQuery('<div class="activity-row"><span class="user-name">' + activity.actor.displayName.replace(/\\'/g, "'") + '<a ' + (activity.link ? 'href="' + activity.link + '" ' : '') + 'class="timestamp"><span data-activity-published="' + activity.published + '">' + PusherChatWidget.timeToDescription(activity.published) + '</span></a></span></div>');
   content.append(user);
   
   var textHtml = activity.body.replace(/(https?:\/\/\S+\b)/g, function(match) {
