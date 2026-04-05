@@ -172,7 +172,7 @@ $_config['ipgetter']['iplist']['header'] = 'HTTP_X_FORWARDED_FOR';
 $_config['ipgetter']['iplist']['list']['0'] = '127.0.0.1';
 $_config['ipgetter']['dnslist']['header'] = 'HTTP_X_FORWARDED_FOR';
 $_config['ipgetter']['dnslist']['list']['0'] = 'comsenz.com';
-
+```
 ##### 2.4 Cloudflare游客地理标签
 
 本分支跟进了基于 Cloudflare 请求头的游客地理标签逻辑。对于游客组(`groupid == 7`)：
