@@ -33,7 +33,7 @@ if($_GET['action'] == 'markAsRead') {
 if($_GET['action'] == 'getOnlineUserListHtml') {
 	$whosonline = array();
 	if($_G['setting']['whosonlinestatus'] == 1 || $_G['setting']['whosonlinestatus'] == 3) {
-		$_G['uid'] && updatesession();
+		updatesession();
 
 		$actioncode = lang('action');
 		loadcache('onlinelist');
