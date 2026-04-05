@@ -225,6 +225,14 @@
 												<span class="fromg xg1"> [{lang from}: <a href="forum.php?mod={if $groupnames[$thread['tid']]['status'] == 3}group{else}forumdisplay{/if}&fid={$groupnames[$thread[tid]][fid]}" target="_blank" class="xg1">{$groupnames[$thread[tid]][name]}</a>]</span>
 											<!--{/if}-->
 										<!--{/if}-->
+										<!--{if $thread[taglist]}-->
+                                        <div class="thread-tags">
+                                        <!--{loop $thread[taglist] $tag}--><span class="tag-item"><a href="misc.php?mod=tag&id=$tag[tagid]&name={echo urlencode($tag[tagname])}" target="_blank">$tag[tagname]</a></span><!--{/loop}-->
+                                        </div>
+                                        <!--{/if}-->
+                                        <!--{if $threadlist_data[$thread['tid']]['message'] && !in_array($thread['displayorder'], array(1,2,3,4))}-->
+                                        <p class="xg1"><a href="forum.php?mod=viewthread&tid=$thread[tid]{if $_GET['archiveid']}&archiveid={$_GET['archiveid']}{/if}{if $extra != 'page%3D1'}&extra=$extra{/if}"{if $thread['isgroup'] == 1 || $thread['forumstick']} target="_blank"{else} onclick="atarget(this)"{/if}>{$threadlist_data[$thread['tid']]['message']}</a></p>
+                                        <!--{/if}-->
 									</th>
 									<!--{if CURMODULE == 'guide'}-->
 										<td class="by"><a href="forum.php?mod=forumdisplay&fid=$thread[fid]" target="_blank">$forumnames[$thread[fid]]['name']</a></td>
