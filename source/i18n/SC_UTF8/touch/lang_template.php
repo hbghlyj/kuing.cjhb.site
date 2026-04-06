@@ -226,4 +226,5 @@ $lang = [
 	'wechat_confirm_tip2' => '请确认是否是本人操作',
 	'wechat_confirm_btn' => '确认登录',
 	'wechat_cancel_btn' => '取消',
+	'mycollection' => '我的淘帖',
 ];

@@ -42,5 +42,5 @@ $lang =
 	'file_upload_error_-102' => '上傳失敗！非圖片類型文件，請返回。',
 	'file_upload_error_-103' => '上傳失敗！無法寫入文件或寫入失敗，請返回。',
 	'file_upload_error_-104' => '上傳失敗！無法識別的圖像文件格式，請返回。',
-	];
-
+	'error_end_message' => '<a href="http://{host}">{host}</a> 已經將此出錯信息詳細記錄, 由此給您帶來的訪問不便我們深感歉意',
+];

@@ -91,5 +91,6 @@ $lang = [
 	'unlimited' => '不限',
 	'goto_memcp' => '进入管理面板',
 	'thread_list_message1' => '内容隐藏需要，请点击进去查看',
+	'participant' => '参与者',
+	'logical_connective' => '逻辑符',
 ];
-

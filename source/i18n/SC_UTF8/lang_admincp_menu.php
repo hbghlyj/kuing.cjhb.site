@@ -238,5 +238,6 @@ $lang =
 	'menu_setting_enterprise' => '企业平台参数',
 
 	'menu_lang' => '语言包',
-	];
-
+	'menu_members_merge' => '合并用户',
+	'menu_members_verify_verify' => '审核资料',
+];

@@ -1229,5 +1229,9 @@ $lang = [
 	'members_add_username_duplicate' => '用戶名已經存在',
 
 	'illegal_operation' => '非法操作，請刷新頁面重試',
+  'post_nonexistence_but_thread_exist' => '抱歉，指定的帖子不存在，但主題依然存在，現在將轉入主題頁',
+  'tag_does_not_exist' => '標籤 {tag} 不存在',
+  'search_keywords_invalid' => '搜索關鍵字無效',
+  'post_subject_duplicate' => '主題標題已存在，請勿重複發布',
+  'search_time_invalid' => '抱歉，您指定的時間範圍有誤',
 ];
-

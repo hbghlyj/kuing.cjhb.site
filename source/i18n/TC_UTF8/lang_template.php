@@ -558,5 +558,15 @@ $lang = [
 	'darkroom_search_placeholder' => '請輸入搜索用戶名',
 	'darkroom_no_search_result' => '無搜索結果',
 	'post_sm_isnull' => '抱歉，您尚未輸入標題或內容',
+  'fulltext' => '全文',
+  'forum' => '版塊',
+  'replies' => '篇回復',
+  'less' => '更少',
+  'no_results' => '沒有找到相關結果',
+  'post_count' => '回復數',
+  'tag'	=> '標籤',
+  'time' => '時間',
+	'online_in_forum' => '所在版塊',
+	'online_in_thread' => '所在主題',
+	'online_ip' => 'IP 地址',
 ];
-

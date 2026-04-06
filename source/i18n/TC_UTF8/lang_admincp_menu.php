@@ -238,5 +238,5 @@ $lang =
 	'menu_setting_enterprise' => '企業平台參數',
 
 	'menu_lang' => '語言包',
-	];
-
+	'menu_members_verify_verify' => '審核資料',
+];

@@ -1359,5 +1359,14 @@ $lang = [
 	'collection_icon_resize' => '自動縮略成 200×200 像素大小的圖片',
 
 	'album_click_select' => '請點擊选中的圖片',
+  'collection_sortby_commentnum' => '按評論數排序',
+  'choosetag' => '選擇標籤',
+  'tag_max_length_invalid' => '標籤長度最大為 30 字節，最小為 3 字節，目前長度為 ',
+  'tag_cannot_contain_comma_or_backslash'	=> '標籤不能包含,或\\',
+  'tag_count_limit' => '最多可填寫 5 個標籤',
+  'admin_merge_order' => '新帖位置',
+  'admin_merge_order_end' => '新帖追加到末尾',
+  'admin_merge_order_begin' => '新帖置於開頭',
+  'darkroom' => '小黑屋',
+  'darkroom_no_users' => '還沒有人入住小黑屋，大家都是模範會員~',
 ];
-

@@ -558,5 +558,10 @@ $lang = [
 	'darkroom_search_placeholder' => '请输入搜索用户名',
 	'darkroom_no_search_result' => '无搜索结果',
 	'post_sm_isnull' => '抱歉，您尚未输入标题或内容',
+  'fulltext' => '全文',
+  'forum' => '版块',
+  'replies' => '篇回复',
+  'less' => '更少',
+  'no_results' => '没有找到相关结果',
+  'tag' => '标签',
 ];
-

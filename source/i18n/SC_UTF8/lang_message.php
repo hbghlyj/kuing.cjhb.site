@@ -1229,5 +1229,6 @@ $lang = [
 	'members_add_username_duplicate' => '用户名已经存在',
 
 	'illegal_operation' => '非法操作，请刷新页面重试',
+	'post_nonexistence_but_thread_exist' => '抱歉，指定的帖子不存在，但主题依然存在，现在将转入主题页',
+	'post_subject_duplicate' => '主题标题已存在，请勿重复发布',
 ];
-

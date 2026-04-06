@@ -1359,5 +1359,18 @@ $lang = [
 	'collection_icon_resize' => '自动缩略成 200×200 像素大小的图片',
 
 	'album_click_select' => '请点击选中的图片',
+  'collection_sortby_commentnum' => '按评论数排序',
+  'choosetag' => '检索标签',
+  'tag_max_length_invalid' => '标签长度最大为 30 字节，最小为 3 字节，当前长度为 ',
+  'tag_length_invalid' => '标签长度必须在 2 到 30 个字符之间',
+	'tag_cannot_contain_comma_or_backslash'	=> '标签不能包含,或\\',
+  'tag_count_limit' => '最多可填写 5 个标签',
+  'suggest_tags' => '建议标签',
+  'suggest_tags_label' => '建议关键词以便更容易找到本页:',
+  'admin_merge_order' => '新帖位置',
+  'admin_merge_order_end' => '新帖追加到末尾',
+  'admin_merge_order_begin' => '新帖置于开头',
+  'darkroom' => '小黑屋',
+  'darkroom_no_users' => '还没有人入住小黑屋，大家都是模范会员~',
+  'online_list_load_error' => '无法加载在线用户列表',
 ];
-
