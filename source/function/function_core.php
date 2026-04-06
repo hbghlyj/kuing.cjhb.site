@@ -2917,18 +2917,18 @@ function browserversion($type) {
 
 function currentlang() {
 	$charset = strtoupper(CHARSET);
-	if($charset == 'UTF-8') {
-		global $_G;
-		if(!empty($_G['config']['lang'])) {
-			return $_G['config']['lang'];
-		} elseif($_G['config']['output']['language'] == 'zh_cn') {
-			return 'SC_UTF8';
-		} elseif($_G['config']['output']['language'] == 'zh_tw') {
-			return 'TC_UTF8';
-		}
-	} else {
+	if($charset != 'UTF-8') {
 		return '';
 	}
+	if(defined('DISCUZ_LANG')) {
+		return DISCUZ_LANG == 'TC/' ? 'TC_UTF8' : 'SC_UTF8';
+	}
+	$acceptLang = $_SERVER['HTTP_ACCEPT_LANGUAGE'] ?? '';
+	if($acceptLang && ((stripos($acceptLang, 'zh-TW') !== false && (stripos($acceptLang, 'zh-CN') === false || stripos($acceptLang, 'zh-TW') < stripos($acceptLang, 'zh-CN')))
+		|| (stripos($acceptLang, 'zh-HK') !== false && (stripos($acceptLang, 'zh-CN') === false || stripos($acceptLang, 'zh-HK') < stripos($acceptLang, 'zh-CN'))))) {
+		return 'TC_UTF8';
+	}
+	return 'SC_UTF8';
 }
 
 function dpreg_replace($pattern, $replacement, $subject, $limit = -1, &$count = null) {
