@@ -68,6 +68,43 @@ Can not write to cache files, please check directory ./data/ and ./data/cache/ .
 
 在 `dev.cjhb.site` 对应的克隆环境中，已确认需要将上述整棵目录树统一修正为 `www-data:www-data`，而不是只修目录权限。
 
+### `lang_js.js` 仍然是运行时依赖
+
+当前分支前端仍沿用 Discuz 旧式的全局 JS 语言模型，`source/language/lang_js.js` 及各语言目录下对应的 `lang_js.js` 不是可随意删除的遗留文件，而是浏览器端运行时的一部分。
+
+它们目前仍负责提供：
+
+- 旧脚本使用的全局 `lng[...]` 文案；
+- 注册页邮件建议下拉所需的全局 `emaildomains` 数组；
+- 编辑器、颜色面板等老式前端脚本读取的语言字符串。
+
+例如：
+
+- `static/js/register.js` 仍直接读取 `emaildomains`；
+- 多个旧 JS 文件仍依赖 `lng[...]`，而不是模块化 i18n 注入。
+
+因此，如果只改模板或单独改某个 JS，而不同时检查对应语言目录下的 `lang_js.js`，就可能出现“下拉项缺失、JS 文案回退、运行时找不到全局变量”等问题。
+
+如果未来要移除 `lang_js.js`，前提不是简单删文件，而是先把这些旧脚本整体迁移到新的前端语言加载方式。
+
+### `class_i18n` 与语言文件装载路径
+
+当前分支还同时保留了服务端 i18n 装载链路，核心入口是 `source/class/class_i18n.php`。
+
+需要注意：
+
+- 模板里的 `{lang ...}`、`lang()`、以及部分 app wrapper 的语言装载，并不只取决于 `source/language/...` 是否有文件；
+- 实际运行时还会受到 `class_i18n` 选择的语言目录、`DISCUZ_LANG`、以及模板编译缓存路径的影响；
+- 同一个语言 key 可能同时存在于 `source/language/...` 与 `source/i18n/...`，若装载链路不一致，就会出现“源码里有 key，但页面仍显示 `!lang_key!`”的现象。
+
+因此，排查语言问题时不要只看模板：
+
+- 需要同时检查 `source/class/class_i18n.php`；
+- 需要确认当前请求实际使用的是哪套语言目录；
+- 需要确认对应编译模板是否已按语言分目录重建。
+
+换句话说，`lang_js.js` 解决的是前端全局 JS 文案与数据问题，而 `class_i18n` 负责的是服务端语言装载与模板 `{lang}` 解析问题，这两条链路都仍然在使用中。
+
 
 ### **5版本说明** 
 
