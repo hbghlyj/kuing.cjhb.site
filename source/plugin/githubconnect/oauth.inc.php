@@ -226,7 +226,7 @@ if($op === 'init') {
 
 if($op === 'resolve') {
 	$pending = $getPending();
-	if(empty($pending['githubid'])) {
+	if(!is_array($pending) || empty($pending['githubid'])) {
 		showmessage(lang('plugin/githubconnect', 'githubconnect_resolve_expired'), $_G['siteurl']);
 	}
 

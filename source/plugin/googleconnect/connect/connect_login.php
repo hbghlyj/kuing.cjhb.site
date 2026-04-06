@@ -176,7 +176,7 @@ $renderResolvePage = static function($data) {
 
 if($op === 'resolve') {
 	$pending = $getPending();
-	if(empty($pending['gsub'])) {
+	if(!is_array($pending) || empty($pending['gsub'])) {
 		showmessage(lang('plugin/googleconnect', 'googleconnect_resolve_expired'), $_G['siteurl']);
 	}
 
