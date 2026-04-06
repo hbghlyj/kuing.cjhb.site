@@ -1354,11 +1354,15 @@ CREATE TABLE pre_common_setting (
 
 DROP TABLE IF EXISTS pre_common_smiley;
 CREATE TABLE pre_common_smiley (
-  id smallint(6) unsigned NOT NULL AUTO_INCREMENT,
-  `code` varchar(30) NOT NULL DEFAULT '',
-  url varchar(30) NOT NULL DEFAULT '',
-  PRIMARY KEY (id)
-) ENGINE=InnoDB;
+    id smallint(6) unsigned NOT NULL AUTO_INCREMENT,
+    typeid smallint(6) unsigned NOT NULL,
+    displayorder tinyint(1) NOT NULL DEFAULT '0',
+    `type` enum('smiley','stamp','stamplist') NOT NULL DEFAULT 'smiley',
+    `code` varchar(30) NOT NULL DEFAULT '',
+    url varchar(30) NOT NULL DEFAULT '',
+    PRIMARY KEY (id),
+    KEY `type` (`type`, displayorder)
+  ) ENGINE=InnoDB;
 
 DROP TABLE IF EXISTS pre_common_sphinxcounter;
 CREATE TABLE pre_common_sphinxcounter (

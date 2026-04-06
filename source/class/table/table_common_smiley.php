@@ -11,7 +11,7 @@ if(!defined('IN_DISCUZ')) {
 }
 
 class table_common_smiley extends discuz_table {
-	private $allowtype = ['smiley'];
+	private $allowtype = ['smiley', 'stamp', 'stamplist'];
 
 	public static function t() {
 		static $_instance;
@@ -28,43 +28,52 @@ class table_common_smiley extends discuz_table {
 	}
 
 	public function fetch_all($start = 0, $limit = 0) {
-		return DB::fetch_all('SELECT *, id AS displayorder FROM %t ORDER BY id '.DB::limit($start, $limit), array($this->_table), $this->_pk);
+		return DB::fetch_all('SELECT * FROM %t ORDER BY displayorder, id '.DB::limit($start, $limit), [$this->_table], $this->_pk);
 	}
 
 	public function fetch_all_by_type($type) {
-		return $this->checktype($type) ? $this->fetch_all() : [];
+		if(!$this->checktype($type)) {
+			return [];
+		}
+		return DB::fetch_all('SELECT * FROM %t WHERE '.DB::field('type', $type).' ORDER BY displayorder, id', [$this->_table], $this->_pk);
 	}
 
 	public function fetch_all_by_typeid_type($typeid, $type, $start = 0, $limit = 0) {
-		return $this->checktype($type) ? $this->fetch_all($start, $limit) : [];
+		if(!$this->checktype($type)) {
+			return [];
+		}
+		return DB::fetch_all('SELECT * FROM %t WHERE '.DB::field('typeid', $typeid).' AND '.DB::field('type', $type).' ORDER BY displayorder, id '.DB::limit($start, $limit), [$this->_table], $this->_pk);
 	}
 
 	public function fetch_all_by_type_code_typeid($type, $typeid) {
-		return $this->checktype($type) ? DB::fetch_all('SELECT *, id AS displayorder FROM %t WHERE code<>\'\' ORDER BY id', array($this->_table), $this->_pk) : [];
+		if(!$this->checktype($type)) {
+			return [];
+		}
+		return DB::fetch_all('SELECT * FROM %t WHERE '.DB::field('type', $type).' AND '.DB::field('typeid', $typeid)." AND code<>'' ORDER BY displayorder, id", [$this->_table], $this->_pk);
 	}
 
 	public function fetch_all_cache() {
-		return DB::fetch_all('SELECT id, code, url FROM %t WHERE code<>\'\' ORDER BY LENGTH(code) DESC', array($this->_table));
+		return DB::fetch_all("SELECT id, typeid, code, url FROM %t WHERE type='smiley' AND code<>'' ORDER BY LENGTH(code) DESC", [$this->_table]);
 	}
 
 	public function fetch_by_id_type($id, $type) {
-		return $this->checktype($type) ? DB::fetch_first('SELECT *, id AS displayorder FROM %t WHERE id=%d', [$this->_table, $id], $this->_pk) : [];
+		return $this->checktype($type) ? DB::fetch_first('SELECT * FROM %t WHERE id=%d AND '.DB::field('type', $type), [$this->_table, $id], $this->_pk) : [];
 	}
 
 	public function update_by_type($type, $data) {
-		return !empty($data) && is_array($data) && $this->checktype($type) ? DB::update($this->_table, $data) : 0;
+		return !empty($data) && is_array($data) && $this->checktype($type) ? DB::update($this->_table, $data, DB::field('type', $type)) : 0;
 	}
 
 	public function update_by_id_type($id, $type, $data) {
 		$id = dintval($id, true);
-		return $id && !empty($data) && is_array($data) && $this->checktype($type) ? DB::update($this->_table, $data, DB::field('id', $id)) : 0;
+		return $id && !empty($data) && is_array($data) && $this->checktype($type) ? DB::update($this->_table, $data, DB::field('id', $id).' AND '.DB::field('type', $type)) : 0;
 	}
 
 	public function update_code_by_typeid($typeid) {
 		if(!$typeid) {
 			return 0;
 		}
-		return DB::query("UPDATE %t SET code=CONCAT('{:', id, ':}')", array($this->_table));
+		return DB::query("UPDATE %t SET code=CONCAT('{:', id, ':}') WHERE ".DB::field('typeid', $typeid)." AND ".DB::field('type', 'smiley'), [$this->_table]);
 	}
 
 	public function update_code_by_id($ids) {
@@ -77,19 +86,19 @@ class table_common_smiley extends discuz_table {
 	}
 
 	public function count_by_type($type) {
-		return $this->checktype($type) ? DB::result_first('SELECT COUNT(*) FROM %t', array($this->_table)) : 0;
+		return $this->checktype($type) ? DB::result_first('SELECT COUNT(*) FROM %t WHERE '.DB::field('type', $type), [$this->_table]) : 0;
 	}
 
 	public function count_by_typeid($typeid) {
-		return DB::result_first('SELECT COUNT(*) FROM %t', array($this->_table));
+		return DB::result_first('SELECT COUNT(*) FROM %t WHERE '.DB::field('typeid', $typeid), [$this->_table]);
 	}
 
 	public function count_by_type_typeid($type, $typeid) {
-		return $this->checktype($type) ? DB::result_first('SELECT COUNT(*) FROM %t', array($this->_table)) : 0;
+		return $this->checktype($type) ? DB::result_first('SELECT COUNT(*) FROM %t WHERE '.DB::field('type', $type).' AND '.DB::field('typeid', $typeid), [$this->_table]) : 0;
 	}
 
 	public function count_by_type_code_typeid($type, $typeid) {
-		return $this->checktype($type) ? DB::result_first("SELECT COUNT(*) FROM %t WHERE code<>''", array($this->_table)) : 0;
+		return $this->checktype($type) ? DB::result_first("SELECT COUNT(*) FROM %t WHERE ".DB::field('type', $type).' AND '.DB::field('typeid', $typeid)." AND code<>''", [$this->_table]) : 0;
 	}
 
 	private function checktype($type) {
