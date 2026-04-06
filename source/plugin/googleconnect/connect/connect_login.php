@@ -11,6 +11,8 @@ if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
+define('GOOGLE_ATYPE', 4); // atype constant for Google accounts in common_member_account
+
 $op = !empty($_GET['op']) ? $_GET['op'] : '';
 if(!in_array($op, array('init', 'callback', 'change'))) {
 	showmessage('undefined_action');
@@ -34,12 +36,41 @@ if (!$payload) {
 	showmessage('Invalid ID token', $referer);
 }
 
-$gmail = $payload['email'];
+$gsub    = $payload['sub'];   // stable, unique Google Account ID
+$gmail   = $payload['email'];
 $username = $payload['name'];
 if($op == 'callback') {
 	global $_G;
-	
-	if(!($member = C::t('common_member')->fetch_by_email($gmail, 1))) {
+
+	// Primary lookup: find by stable Google sub stored in common_member_account
+	$account_row = C::t('common_member_account')->fetch_by_account($gsub, GOOGLE_ATYPE);
+	if($account_row) {
+		$member = C::t('common_member')->fetch($account_row['uid'], true);
+		if($member && isset($member['_inarchive'])) {
+			C::t('common_member_archive')->move_to_master($member['uid']);
+			$member = C::t('common_member')->fetch($account_row['uid'], true);
+		}
+	}
+
+	// Fallback: legacy accounts linked only by email (migrate them by recording sub)
+	if(empty($member)) {
+		$member = C::t('common_member')->fetch_by_email($gmail, 1);
+		if($member) {
+			// Record the sub so future logins skip the email lookup
+			C::t('common_member_account')->insert([
+				'uid'      => $member['uid'],
+				'atype'    => GOOGLE_ATYPE,
+				'account'  => $gsub,
+				'bindname' => $gmail,
+			], false, true, true);
+			if(isset($member['_inarchive'])) {
+				C::t('common_member_archive')->move_to_master($member['uid']);
+			}
+		}
+	}
+
+	if(empty($member)) {
+		// New user — register
 		require_once libfile('function/misc');
 		loaducenter();
 		$uid = uc_user_register(addslashes($username), '', $gmail);
@@ -71,26 +102,28 @@ if($op == 'callback') {
 		}
 		C::t('common_member')->insert_user($uid, $username, '', $gmail, $_G['clientip'], $_G['setting']['newusergroupid'], array('emailstatus'=>1), 0, $_G['remoteport']);
 		C::t('common_member')->update($uid, array('conisbind' => '1'));
+		// Store the Google sub for future logins
+		C::t('common_member_account')->insert([
+			'uid'      => $uid,
+			'atype'    => GOOGLE_ATYPE,
+			'account'  => $gsub,
+			'bindname' => $gmail,
+		], false, true, true);
 		$member = array(
-			'uid' => $uid,
+			'uid'     => $uid,
 			'username' => $username,
 			'adminid' => 0,
-			'password' => '', // Password is unset for Google login
-			'groupid' => $_G['setting']['newusergroupid']
+			'password' => '',
+			'groupid'  => $_G['setting']['newusergroupid']
 		);
 		require_once libfile('cache/userstats', 'function');
 		build_cache_userstats();
 		include_once libfile('function/stat');
 		updatestat('register');
-	} else {
-		if(isset($member['_inarchive'])) {
-			C::t('common_member_archive')->move_to_master($member['uid']);
-		}
 	}
 	require_once libfile('function/member');
 	$cookietime = 1296000;
 	setloginstatus($member, $cookietime);
-	$usergroups = $_G['cache']['usergroups'][$_G['groupid']]['grouptitle'];
 	$param = array('username' => $_G['member']['username'], 'usergroup' => $_G['group']['grouptitle'], 'timeoffsetupdated' => '');
 
 	C::t('common_member_status')->update($member['uid'], array('lastip'=>$_G['clientip'], 'lastvisit'=>TIMESTAMP, 'lastactivity' => TIMESTAMP));
