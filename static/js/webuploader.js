@@ -186,7 +186,7 @@ SWFUpload.prototype.initSettings = function (userSettings) {
 
 		if (this.settings.button_text) {
 			$('imgSpanButtonPlaceholder').innerHTML = this.settings.button_text;
-		}else if (this.customSettings.uploadSource == 'forum' && this.customSettings.uploadType == 'image') {
+		}else if (this.settings.button_image_text) {
 			$('imgSpanButtonPlaceholder').innerHTML = this.settings.button_image_text;
 		}
 		$("imgSpanButtonPlaceholder").style.display = 'inline-block';
@@ -228,7 +228,7 @@ SWFUpload.prototype.initSettings = function (userSettings) {
         };
 	}
 	if(this.customSettings.uploadSource == 'forum' && this.customSettings.uploadType == 'poll' && $(this.settings.button_placeholder_id)){
-		$(this.settings.button_placeholder_id).innerHTML = 'upload';
+		$(this.settings.button_placeholder_id).innerHTML = this.settings.button_image_text;
 		$(this.settings.button_placeholder_id).style.display = 'inline-block';
 		$(this.settings.button_placeholder_id).style.minWidth = this.settings.button_width + 'px';
 		$(this.settings.button_placeholder_id).style.height = this.settings.button_height + 'px';
