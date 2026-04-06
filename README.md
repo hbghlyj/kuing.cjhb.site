@@ -221,3 +221,33 @@ $_config['output']['css4legacyie'] = 0;
 * 当显示文本过长时，按新的较短规则进行截断显示。
 
 这只影响链接的可见文本，不改变链接实际跳转目标。
+
+### Google 登录（googleconnect 插件）
+
+本分支对 `source/plugin/googleconnect/connect/connect_login.php` 做了以下改动：
+
+#### 用 `sub` 作为稳定用户标识
+
+Google ID Token 中的 `sub` 字段是用户在 Google 账号体系中唯一且永不变化的标识（名称和邮箱均可被用户修改）。本分支已将其作为主键存储于 `pre_common_member_account` 表中（`atype = 4` 代表 Google 账号）。
+
+登录查找流程如下：
+
+1. **优先**：通过 `account = $sub AND atype = 4` 查 `common_member_account`，直接定位用户；
+2. **兜底**：若未找到（兼容旧账号），退回邮箱查找 `common_member`，找到后自动将 `sub` 写入 `common_member_account`，下次登录即走第 1 步；
+3. **新用户**：注册成功后立即写入 `sub`。
+
+这意味着即使用户修改了 Google 邮箱，只要 `sub` 不变，仍可正常登录。
+
+#### 重名处理
+
+若 `$payload['name']` 已被其他账号使用（`uc_user_register` 返回 `-3`），系统会自动在名称后追加随机 3-4 位数字并最多重试 5 次，避免向用户显示报错页面。
+
+#### `common_member_profile.fields` JSON 约束兼容
+
+`pre_common_member_profile` 表的 `fields` 列带有 MariaDB CHECK 约束：
+
+```sql
+CONSTRAINT `fields` CHECK (json_valid(`fields`))
+```
+
+`insert_user()` 现在在插入 profile 时，若调用方未提供 `fields` 值，会自动补填 `'{}'`，避免触发约束失败（错误 4025）。
