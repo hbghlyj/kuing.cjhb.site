@@ -1,7 +1,20 @@
-var _i18n_ = 'default';
+function normalizeI18nKey(key) {
+    switch (key) {
+        case 'en':
+            return 'EN_UTF8';
+        case 'tc':
+            return 'TC_UTF8';
+        case 'sc':
+            return 'SC_UTF8';
+        default:
+            return key;
+    }
+}
+
+var _i18n_ = typeof DISCUZ_I18N != 'undefined' && DISCUZ_I18N ? normalizeI18nKey(DISCUZ_I18N) : 'default';
 try {
-    var _i18n_ = getcookie('i18n');
-    _i18n_ = !_i18n_ ? 'default' : _i18n_;
+    var _i18n_cookie_ = getcookie('i18n');
+    _i18n_ = !_i18n_cookie_ ? _i18n_ : normalizeI18nKey(_i18n_cookie_);
 } catch (e) {
 }
 
