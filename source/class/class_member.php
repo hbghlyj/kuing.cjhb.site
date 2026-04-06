@@ -275,7 +275,7 @@ class logging_ctl {
 							showmessage($loginmessage, $location, $param, $extra);
 						} else {
 							$href = str_replace("'", "\'", $location);
-							showmessage('location_login_succeed', $location, [],
+							showmessage('location_login_succeed', $location, $param,
 								[
 									'showid' => 'succeedmessage',
 									'extrajs' => '<script type="text/javascript">'.
