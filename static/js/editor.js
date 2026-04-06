@@ -815,7 +815,6 @@ function insertSmiley(smilieid) {
 		if(wysiwyg && allowsmilies && (!$('smileyoff') || $('smileyoff').checked == false)) {
 			insertText('<img src="' + src + '" border="0" smilieid="' + smilieid + '" alt="" />', false);
 		} else {
-			code += ' ';
 			insertText(code, strlen(code), 0);
 		}
 	}
