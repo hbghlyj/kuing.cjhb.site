@@ -2404,7 +2404,38 @@ function $L(key, param) {
 		}
 		return value;
 	}
-	return key;
+	var aliasMap = {
+		'input_code': 'Insert the Code',
+		'input_quote': 'Insert the Quote',
+		'input_img': 'Enter the image URL',
+		'input_hide': 'Enter the hidden content',
+		'input_free': 'Enter the free preview content',
+		'input_password': 'Please enter the post password',
+		'input_link_href': 'Enter the link URL',
+		'input_link_text': 'Enter the link text',
+		'input_search_content': 'Please enter search content',
+		'seccode_error': 'Wrong security code, please try again',
+		'secqaa_error': 'Wrong answer, please try again',
+		'waiting_upload': 'Wait for upload...',
+		'error_notice': 'Error Message',
+		'notice': 'Reminder'
+	};
+	if (typeof aliasMap[key] != 'undefined') {
+		return aliasMap[key];
+	}
+	var humanized = key
+		.replace(/^(json_editor_toolNames_|json_editor_tools_|diy_)/, '')
+		.replace(/_/g, ' ')
+		.replace(/([a-z])([A-Z])/g, '$1 $2')
+		.replace(/\bq&a\b/ig, 'Q&A')
+		.replace(/\bjson\b/ig, 'JSON')
+		.replace(/\bdiy\b/ig, 'DIY')
+		.replace(/\burl\b/ig, 'URL')
+		.replace(/\bimg\b/ig, 'image')
+		.replace(/\bsecqaa\b/ig, 'security question')
+		.replace(/\bseccode\b/ig, 'security code');
+	humanized = humanized.charAt(0).toUpperCase() + humanized.slice(1);
+	return humanized;
 }
 
 function loadAvatar() {
