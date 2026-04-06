@@ -2017,11 +2017,16 @@ function make_seccode($seccode = '') {
 }
 
 function make_secqaa() {
-	$f = childfile('make_secqaa', 'global/core');
-	if($f) {
-		require $f;
+	$secqaa = helper_seccheck::make_secqaa();
+	if(DISCUZ_LANG == 'EN/') {
+		// if in English, then use the English secure question
+		$secqaa = substr($secqaa, strpos($secqaa, '？') + 3);
+	} else {
+		// if in Chinese, then use the Chinese secure question
+		// cut $secqaa before the first ？ character
+		$secqaa = substr($secqaa, 0, strpos($secqaa, '？') + 3);
 	}
-	return helper_seccheck::make_secqaa();
+	return $secqaa;
 }
 
 function adshow($parameter) {
