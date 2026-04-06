@@ -18,7 +18,7 @@ function build_cache_secqaa() {
 
 	$start_limit = $secqaanum <= 10 ? 0 : mt_rand(0, $secqaanum - 10);
 	$i = 1;
-	foreach(table_common_secquestion::t()->fetch_all_secquestion($start_limit) as $secqaa) {
+	foreach(table_common_secquestion::t()->fetch_all_secquestion($start_limit, 10) as $secqaa) {
 		if(!$secqaa['type']) {
 			if(empty($_G['setting']['secqaa']['allowqa'])) {
 				continue;
