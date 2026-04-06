@@ -306,9 +306,7 @@ class template {
 				}
 			} else {
 				global $_G;
-				if(empty($_G['config']['plugindeveloper']) && empty($_G['i18n'])) {
-					loadcache('pluginlanguage_template');
-				} elseif(!isset($_G['cache']['pluginlanguage_template'][$vars[0]]) && preg_match('/^[a-z]+[a-z0-9_]*$/i', $vars[0])) {
+				if(!isset($_G['cache']['pluginlanguage_template'][$vars[0]]) && preg_match('/^[a-z]+[a-z0-9_]*$/i', $vars[0])) {
 					if(!empty($_G['i18n']) && file_exists($loadfile = DISCUZ_PLUGIN($vars[0]).'/i18n/'.$_G['i18n'].'/lang_plugin.php')) {
 						@include $loadfile;
 						$_G['cache']['pluginlanguage_template'][$vars[0]] = $templatelang[$vars[0]];
@@ -320,6 +318,8 @@ class template {
 					} else {
 						loadcache('pluginlanguage_template');
 					}
+				} elseif(empty($_G['config']['plugindeveloper']) && empty($_G['i18n'])) {
+					loadcache('pluginlanguage_template');
 				}
 				$this->language['plugin'][$vars[0]] = $_G['cache']['pluginlanguage_template'][$vars[0]];
 			}

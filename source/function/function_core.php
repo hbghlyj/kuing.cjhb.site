@@ -802,9 +802,7 @@ function lang($file, $langvar = null, $vars = [], $default = null) {
 		}
 		$returnvalue = &$_G['lang'];
 	} else {
-		if(empty($_G['config']['plugindeveloper']) && empty($_G['i18n'])) {
-			loadcache('pluginlanguage_script');
-		} elseif(!isset($_G['cache']['pluginlanguage_script'][$file]) && preg_match('/^[a-z]+[a-z0-9_]*$/i', $file)) {
+		if(!isset($_G['cache']['pluginlanguage_script'][$file]) && preg_match('/^[a-z]+[a-z0-9_]*$/i', $file)) {
 			if(!empty($_G['i18n']) && file_exists($loadfile = DISCUZ_PLUGIN($file).'/i18n/'.$_G['i18n'].'/lang_plugin.php')) {
 				@include $loadfile;
 				$_G['cache']['pluginlanguage_script'][$file] = $scriptlang[$file];
@@ -816,6 +814,8 @@ function lang($file, $langvar = null, $vars = [], $default = null) {
 			} else {
 				loadcache('pluginlanguage_script');
 			}
+		} elseif(empty($_G['config']['plugindeveloper']) && empty($_G['i18n'])) {
+			loadcache('pluginlanguage_script');
 		}
 		$returnvalue = &$_G['cache']['pluginlanguage_script'];
 		!is_array($returnvalue) && $returnvalue = [];
