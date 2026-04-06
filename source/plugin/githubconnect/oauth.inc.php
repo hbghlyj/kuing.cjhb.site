@@ -189,6 +189,9 @@ $renderResolvePage = static function($data) {
 	if(!is_array($data)) {
 		showmessage(lang('plugin/githubconnect', 'githubconnect_resolve_expired'), $_G['siteurl']);
 	}
+	if(!isset($_G['setting']['seohead']) || !is_array($_G['setting']['seohead'])) {
+		$_G['setting']['seohead'] = [];
+	}
 	$_G['setting']['seohead']['title'] = lang('plugin/githubconnect', 'githubconnect_resolve_title');
 	include template('common/header');
 	$bindUrl = htmlspecialchars($_G['siteurl'].'plugin.php?id=githubconnect:oauth&op=resolve&action=bind', ENT_QUOTES);

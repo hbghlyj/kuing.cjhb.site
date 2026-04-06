@@ -153,6 +153,9 @@ $renderResolvePage = static function($data) {
 	if(!is_array($data)) {
 		showmessage(lang('plugin/googleconnect', 'googleconnect_resolve_expired'), $_G['siteurl']);
 	}
+	if(!isset($_G['setting']['seohead']) || !is_array($_G['setting']['seohead'])) {
+		$_G['setting']['seohead'] = [];
+	}
 	$_G['setting']['seohead']['title'] = lang('plugin/googleconnect', 'googleconnect_resolve_title');
 	include template('common/header');
 	$bindUrl = htmlspecialchars($_G['siteurl'].'connect.php?mod=login&op=resolve&action=bind', ENT_QUOTES);
