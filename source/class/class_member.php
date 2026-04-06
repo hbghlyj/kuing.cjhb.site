@@ -371,8 +371,6 @@ class register_ctl {
 	function on_register() {
 		global $_G;
 
-		$_G['setting']['forgeemail'] = true;
-
 		if(!empty($_G['setting']['account']['registerRedirect']) || !empty($_G['setting']['account']['registerRedirectDefault'])) {
 			if((empty($_GET['fromAccount']) || $_GET['fromAccount'] != formhash()) && empty($_G['cookie']['accountUDAuth'])) {
 				$url = account::method_registerRedirect();
