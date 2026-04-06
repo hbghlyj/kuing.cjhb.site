@@ -10,6 +10,7 @@ if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 global $_G;
+$actives = ['password' => ' class="a"'];
 $operation = in_array(getgpc('op'), ['list', 'unbind', 'verifyemail', 'verify']) ? trim(getgpc('op')) : 'list';
 $method = in_array(getgpc('method'), array_merge(account_base::getInterfaces(), ['bind', 'unbind', 'bindmobile', 'unbindmobile', 'chgemail', 'chgpassword', 'chgusername', 'chgquestion', 'resend', 'freeze'])) ? trim(getgpc('method')) : '';
 $interfaces_aType = account_base::Interfaces_aType;
