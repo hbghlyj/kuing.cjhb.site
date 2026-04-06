@@ -2921,12 +2921,21 @@ function currentlang() {
 		return '';
 	}
 	if(defined('DISCUZ_LANG')) {
-		return DISCUZ_LANG == 'TC/' ? 'TC_UTF8' : 'SC_UTF8';
+		if(DISCUZ_LANG == 'TC/') {
+			return 'TC_UTF8';
+		}
+		if(DISCUZ_LANG == 'EN/') {
+			return 'EN_UTF8';
+		}
+		return 'SC_UTF8';
 	}
 	$acceptLang = $_SERVER['HTTP_ACCEPT_LANGUAGE'] ?? '';
 	if($acceptLang && ((stripos($acceptLang, 'zh-TW') !== false && (stripos($acceptLang, 'zh-CN') === false || stripos($acceptLang, 'zh-TW') < stripos($acceptLang, 'zh-CN')))
 		|| (stripos($acceptLang, 'zh-HK') !== false && (stripos($acceptLang, 'zh-CN') === false || stripos($acceptLang, 'zh-HK') < stripos($acceptLang, 'zh-CN'))))) {
 		return 'TC_UTF8';
+	}
+	if($acceptLang && stripos($acceptLang, 'zh') === false) {
+		return 'EN_UTF8';
 	}
 	return 'SC_UTF8';
 }

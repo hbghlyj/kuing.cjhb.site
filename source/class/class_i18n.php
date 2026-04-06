@@ -9,12 +9,7 @@
 class i18n {
 
 	private static function getDefaultPath($file) {
-		if(DISCUZ_LANG == 'EN/') {
-			return DISCUZ_ROOT.'./source/language/EN/'.$file;
-		} elseif(DISCUZ_LANG == 'TC/') {
-			return DISCUZ_ROOT.'./source/language/TC/'.$file;
-		}
-		return DISCUZ_ROOT.'./source/language/'.$file;
+		return DISCUZ_ROOT.'./source/i18n/'.currentlang().'/'.$file;
 	}
 
 	public static function getLang($file, $i18n = '') {
@@ -28,12 +23,12 @@ class i18n {
 
 		$return = self::getDefaultPath($file);
 
-		$i18n = !empty($i18n) ? $i18n : $_G['i18n'];
+		$i18n = !empty($i18n) ? $i18n : ($_G['i18n'] ?? '');
 
 		$lang = [];
 
-		if($i18n && !empty($_G['setting']['i18n'][$i18n])) {
-			if(isset($_G['setting']['i18n_custom'][$i18n])) {
+		if($i18n && !empty($_G['setting']['i18n']) && !empty($_G['setting']['i18n'][$i18n])) {
+			if(!empty($_G['setting']['i18n_custom']) && isset($_G['setting']['i18n_custom'][$i18n])) {
 				$customSource = $_G['setting']['i18n_custom'][$i18n] ?? 'default';
 				loadcache('lang');
 				if(!empty($_G['cache']['lang'][$_G['setting']['i18n'][$i18n]][$file])) {
