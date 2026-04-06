@@ -309,6 +309,7 @@ $lang = [
 	'password_repeat' => '請再次輸入密碼',
 	'password_too_short' => '密碼太短，不得少於 {1} 個字符',
 	'email_empty' => '請輸入郵箱地址',
+	'email_invalid' => 'Email 地址無效',
 	'username_illegal' => '用戶名包含敏感字符',
 	'email_illegal' => 'Email 包含敏感字符',
 	'invite_illegal' => '邀請碼包含敏感字符',

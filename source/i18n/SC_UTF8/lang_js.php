@@ -310,6 +310,7 @@ $lang = [
 	'password_repeat' => '请再次输入密码',
 	'password_too_short' => '密码太短，不得少于 {1} 个字符',
 	'email_empty' => '请输入邮箱地址',
+	'email_invalid' => 'Email 地址无效',
 	'username_illegal' => '用户名包含敏感字符',
 	'email_illegal' => 'Email 包含敏感字符',
 	'invite_illegal' => '邀请码包含敏感字符',
