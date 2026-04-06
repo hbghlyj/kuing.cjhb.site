@@ -213,6 +213,7 @@ $lang = [
 	'num_attachs' => '個附件',
 	'images' => '圖片',
 	'attachs' => '附件',
+	'upload_attach' => '上傳附件',
 	'no_remote_attach' => '抱歉，暫無遠程附件',
 	'remote_downloaded' => '遠程附件下載完成！',
 	'maxvoters' => '已達到最大投票數 {1}',

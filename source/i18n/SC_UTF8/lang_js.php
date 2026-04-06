@@ -214,6 +214,7 @@ $lang = [
 	'num_attachs' => '个附件',
 	'images' => '图片',
 	'attachs' => '附件',
+	'upload_attach' => '上传附件',
 	'no_remote_attach' => '抱歉，暂无远程附件',
 	'remote_downloaded' => '远程附件下载完成！',
 	'maxvoters' => '已达到最大投票数 {1}',
