@@ -13,6 +13,7 @@ if(!defined('IN_DISCUZ') || !defined('IN_ADMINCP')) {
 if(!$do) {
 
 	if(!submitcheck('submit')) {
+		cleanup_default_mobile_nav_duplicates();
 
 		shownav('style', 'nav_setting_customnav');
 		showsubmenu('nav_setting_customnav', $navdata);
@@ -177,5 +178,44 @@ EOT;
 
 	}
 
+}
+
+function cleanup_default_mobile_nav_duplicates() {
+	$rows = table_common_nav::t()->fetch_all_by_navtype(6);
+	if(empty($rows)) {
+		return;
+	}
+	$defaultIdentifiers = [
+		'index.php' => 'mhome',
+		'forum.php' => 'mforum',
+		'forum.php?mod=misc&action=nav' => 'post',
+		'forum.php?mod=find' => 'mfind',
+		'home.php?mod=space' => 'mspace',
+	];
+	$seen = [];
+	$delete = [];
+	foreach($rows as $row) {
+		$signature = implode("\t", [
+			$row['parentid'],
+			$row['type'],
+			$row['displayorder'],
+			trim((string)$row['name']),
+			trim((string)$row['url']),
+			trim((string)$row['icon']),
+		]);
+		if(isset($seen[$signature])) {
+			$delete[] = $row['id'];
+			continue;
+		}
+		$seen[$signature] = $row['id'];
+		$expectedIdentifier = $defaultIdentifiers[$row['url']] ?? null;
+		if($expectedIdentifier && $row['identifier'] !== $expectedIdentifier) {
+			table_common_nav::t()->update($row['id'], ['identifier' => $expectedIdentifier]);
+		}
+	}
+	if($delete) {
+		table_common_nav::t()->delete_by_navtype_id(6, $delete);
+		updatecache('setting');
+	}
 }
 	
