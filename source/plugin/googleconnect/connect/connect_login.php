@@ -43,6 +43,15 @@ if($op == 'callback') {
 		require_once libfile('function/misc');
 		loaducenter();
 		$uid = uc_user_register(addslashes($username), '', $gmail);
+		if($uid == -3) {
+			for($i = 0; $i < 5 && $uid == -3; $i++) {
+				$candidate = $username . rand(100, 9999);
+				$uid = uc_user_register(addslashes($candidate), '', $gmail);
+				if($uid > 0) {
+					$username = $candidate;
+				}
+			}
+		}
 		if($uid <= 0) {
 			if($uid == -1) {
 				showmessage('profile_username_illegal');
