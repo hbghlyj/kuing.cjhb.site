@@ -211,6 +211,7 @@ $lang = [
 	'ones' => ' items',
 	'uploading' => 'Uploading...',
 	'select_image_files' => 'Select image files',
+	'upload_pic' => 'Upload image',
 	'upload_attach' => 'Upload attachment',
 	'delete' => 'Delete',
 	'contains' => 'Contains ',
