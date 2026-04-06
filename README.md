@@ -77,13 +77,25 @@ Can not write to cache files, please check directory ./data/ and ./data/cache/ .
 - 浏览器端统一通过 `_JSLANG_` 和 `$L(...)` 读取语言字符串；
 - `static/js/register.js` 使用 `email_domains`；
 - `static/js/common_extra.js` 使用 `color_texts`；
-- 不应再从旧语言树直接下发 `lang_js.js` 这类全局脚本。
+- 不应再从旧语言树直接下发 `lang_js.js` 这类全局脚本；
+- `source/language` 已不再作为运行时语言源，前端 JS 相关语言 key 只应维护在 `source/i18n/.../lang_js.php`。
 
 如果前端出现语言回退或缺字，优先检查：
 
 - `source/i18n/*/lang_js.php` 是否已有对应 key；
 - `data/cache/lang_*.js` 是否已重建；
 - 页面是否仍残留旧的 `lng[...]` / `emaildomains` 直连依赖。
+
+### PHP 语言文件单一来源
+
+当前分支已将 PHP 语言文件也统一收敛到 `source/i18n`。
+
+需要注意：
+
+- `source/language` 已从运行时代码中移除，不应再向该目录补 key；
+- 新增或修复 PHP 语言 key 时，只改 `source/i18n/SC_UTF8`、`source/i18n/TC_UTF8`、`source/i18n/EN_UTF8`；
+- 删除旧语言树前，已按文件路径与 key 做过迁移审计，避免出现 `!recent_use_tag!` 这类缺 key 现象；
+- 如果修改的是服务端语言文件，不仅要重建 `data/cache/lang_*.js`，还要按需要清理对应语言的 `data/template/*` 编译模板。
 
 ### `class_i18n` 与语言文件装载路径
 
