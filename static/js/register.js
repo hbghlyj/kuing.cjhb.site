@@ -172,9 +172,10 @@ function trim(str) {
 	return str.replace(/^\s*(.*?)[\s\n]*$/g, '$1');
 }
 
-var emailMenuST = null, emailMenui = 0, emaildomains = $L('email_domains');
-emaildomains = emaildomains == 'email_domains' ? 'qq.com,163.com,sina.com,sohu.com,yahoo.com,gmail.com,hotmail.com' : emaildomains;
-emaildomains = emaildomains.split(',');
+var emailMenuST = null, emailMenui = 0;
+if(typeof emaildomains == 'undefined' || !emaildomains || !emaildomains.length) {
+	emaildomains = ['qq.com', 'gmail.com', 'foxmail.com', 'sina.com', '163.com', '126.com', 'hotmail.com', 'outlook.com'];
+}
 function emailMenuOp(op, e, id) {
 	if(!$('emailmore_menu')) {
 		return;

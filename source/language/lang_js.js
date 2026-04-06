@@ -13,15 +13,14 @@
 
 // Suggested email domains for registering:
 var emaildomains = [
-		'163.com',
-		'gmail.com',
-		'hotmail.com',
-		'msn.com',
 		'qq.com',
+		'gmail.com',
+		'foxmail.com',
 		'sina.com',
-		'sohu.com',
-		'yahoo.cn',
-		'yahoo.com'
+		'163.com',
+		'126.com',
+		'hotmail.com',
+		'outlook.com'
 		];
 
 //--------------------------------
