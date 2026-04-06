@@ -62,6 +62,37 @@ $clearPending = static function() {
 	dsetcookie('googleconnect_pending', '', -1);
 };
 
+$pluginLang = static function($key, $default = null) {
+	static $texts;
+	global $_G;
+	if($texts === null) {
+		$texts = [];
+		$langdirs = [];
+		if(currentlang() === 'EN_UTF8') {
+			$langdirs[] = 'SC_UTF8';
+		}
+		if(!empty($_G['i18n'])) {
+			$langdirs[] = $_G['i18n'];
+		}
+		$langdirs[] = currentlang();
+		foreach(array_unique($langdirs) as $langdir) {
+			$loadfile = DISCUZ_PLUGIN('googleconnect').'/i18n/'.$langdir.'/lang_plugin.php';
+			if(!file_exists($loadfile)) {
+				continue;
+			}
+			$scriptlang = [];
+			$templatelang = [];
+			include $loadfile;
+			if(!empty($scriptlang['googleconnect']) && is_array($scriptlang['googleconnect'])) {
+				$texts = array_merge($texts, $scriptlang['googleconnect']);
+			} elseif(!empty($templatelang['googleconnect']) && is_array($templatelang['googleconnect'])) {
+				$texts = array_merge($texts, $templatelang['googleconnect']);
+			}
+		}
+	}
+	return $texts[$key] ?? ($default !== null ? $default : 'googleconnect:'.$key);
+};
+
 $setReferer = static function($referer) {
 	dsetcookie('googleconnect_referer', rawurlencode($referer), GOOGLECONNECT_PENDING_TTL);
 };
@@ -148,30 +179,27 @@ $resolveCreateMember = static function($data, $allowRename = false) use ($bindAc
 	];
 };
 
-$renderResolvePage = static function($data) {
+$renderResolvePage = static function($data) use ($pluginLang) {
 	global $_G;
 	if(!is_array($data)) {
-		showmessage(lang('plugin/googleconnect', 'googleconnect_resolve_expired'), $_G['siteurl']);
+		showmessage($pluginLang('googleconnect_resolve_expired'), $_G['siteurl']);
 	}
-	if(!isset($_G['setting']['seohead']) || !is_array($_G['setting']['seohead'])) {
-		$_G['setting']['seohead'] = [];
-	}
-	$_G['setting']['seohead']['title'] = lang('plugin/googleconnect', 'googleconnect_resolve_title');
+	$navtitle = $pluginLang('googleconnect_resolve_title');
 	include template('common/header');
 	$bindUrl = htmlspecialchars($_G['siteurl'].'connect.php?mod=login&op=resolve&action=bind', ENT_QUOTES);
 	$createUrl = htmlspecialchars($_G['siteurl'].'connect.php?mod=login&op=resolve&action=create', ENT_QUOTES);
 	$usernameHint = dhtmlspecialchars($data['username']);
 	$emailHint = dhtmlspecialchars($data['gmail']);
-	echo '<div id="ct" class="wp cl"><div class="mn"><div class="bm"><div class="bm_h"><h1>'.lang('plugin/googleconnect', 'googleconnect_resolve_title').'</h1></div><div class="bm_c">';
-	echo '<p>'.lang('plugin/googleconnect', 'googleconnect_resolve_message').'</p>';
+	echo '<div id="ct" class="wp cl"><div class="mn"><div class="bm"><div class="bm_h"><h1>'.$pluginLang('googleconnect_resolve_title').'</h1></div><div class="bm_c">';
+	echo '<p>'.$pluginLang('googleconnect_resolve_message').'</p>';
 	if($usernameHint) {
-		echo '<p class="xg1">'.lang('plugin/googleconnect', 'googleconnect_resolve_username').': '.$usernameHint.'</p>';
+		echo '<p class="xg1">'.$pluginLang('googleconnect_resolve_username').': '.$usernameHint.'</p>';
 	}
 	if($emailHint) {
-		echo '<p class="xg1">'.lang('plugin/googleconnect', 'googleconnect_resolve_email').': '.$emailHint.'</p>';
+		echo '<p class="xg1">'.$pluginLang('googleconnect_resolve_email').': '.$emailHint.'</p>';
 	}
-	echo '<p><a class="pn" href="'.$bindUrl.'"><span>'.lang('plugin/googleconnect', 'googleconnect_resolve_bind').'</span></a> ';
-	echo '<a class="pn" href="'.$createUrl.'"><span>'.lang('plugin/googleconnect', 'googleconnect_resolve_create').'</span></a></p>';
+	echo '<p><a class="pn" href="'.$bindUrl.'"><span>'.$pluginLang('googleconnect_resolve_bind').'</span></a> ';
+	echo '<a class="pn" href="'.$createUrl.'"><span>'.$pluginLang('googleconnect_resolve_create').'</span></a></p>';
 	echo '</div></div></div></div>';
 	include template('common/footer');
 	exit;
@@ -180,7 +208,7 @@ $renderResolvePage = static function($data) {
 if($op === 'resolve') {
 	$pending = $getPending();
 	if(!is_array($pending) || empty($pending['gsub'])) {
-		showmessage(lang('plugin/googleconnect', 'googleconnect_resolve_expired'), $_G['siteurl']);
+		showmessage($pluginLang('googleconnect_resolve_expired'), $_G['siteurl']);
 	}
 
 	$accountRow = C::t('common_member_account')->fetch_by_account($pending['gsub'], GOOGLE_ATYPE);
@@ -199,7 +227,7 @@ if($op === 'resolve') {
 		}
 		$bindAccount($_G['uid'], $pending['gsub'], $pending['gmail']);
 		$clearPending();
-		showmessage(lang('plugin/googleconnect', 'googleconnect_bind_success'), $_G['siteurl'].'home.php?mod=spacecp&ac=account');
+		showmessage($pluginLang('googleconnect_bind_success'), $_G['siteurl'].'home.php?mod=spacecp&ac=account');
 	}
 	if($action === 'create') {
 		$member = $resolveCreateMember($pending, true);

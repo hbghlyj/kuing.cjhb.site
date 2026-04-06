@@ -91,6 +91,37 @@ $clearPending = static function() {
 	dsetcookie('githubconnect_pending', '', -1);
 };
 
+$pluginLang = static function($key, $default = null) {
+	static $texts;
+	global $_G;
+	if($texts === null) {
+		$texts = [];
+		$langdirs = [];
+		if(currentlang() === 'EN_UTF8') {
+			$langdirs[] = 'SC_UTF8';
+		}
+		if(!empty($_G['i18n'])) {
+			$langdirs[] = $_G['i18n'];
+		}
+		$langdirs[] = currentlang();
+		foreach(array_unique($langdirs) as $langdir) {
+			$loadfile = DISCUZ_PLUGIN('githubconnect').'/i18n/'.$langdir.'/lang_plugin.php';
+			if(!file_exists($loadfile)) {
+				continue;
+			}
+			$scriptlang = [];
+			$templatelang = [];
+			include $loadfile;
+			if(!empty($scriptlang['githubconnect']) && is_array($scriptlang['githubconnect'])) {
+				$texts = array_merge($texts, $scriptlang['githubconnect']);
+			} elseif(!empty($templatelang['githubconnect']) && is_array($templatelang['githubconnect'])) {
+				$texts = array_merge($texts, $templatelang['githubconnect']);
+			}
+		}
+	}
+	return $texts[$key] ?? ($default !== null ? $default : 'githubconnect:'.$key);
+};
+
 $redirectToReferer = static function() use ($normalizeReferer, $clearPending) {
 	global $_G;
 	$referer = !empty($_G['cookie']['githubconnect_referer']) ? urldecode($_G['cookie']['githubconnect_referer']) : $_G['siteurl'];
@@ -184,30 +215,27 @@ $resolveCreateMember = static function($data, $allowRename = false) use ($bindAc
 	];
 };
 
-$renderResolvePage = static function($data) {
+$renderResolvePage = static function($data) use ($pluginLang) {
 	global $_G;
 	if(!is_array($data)) {
-		showmessage(lang('plugin/githubconnect', 'githubconnect_resolve_expired'), $_G['siteurl']);
+		showmessage($pluginLang('githubconnect_resolve_expired'), $_G['siteurl']);
 	}
-	if(!isset($_G['setting']['seohead']) || !is_array($_G['setting']['seohead'])) {
-		$_G['setting']['seohead'] = [];
-	}
-	$_G['setting']['seohead']['title'] = lang('plugin/githubconnect', 'githubconnect_resolve_title');
+	$navtitle = $pluginLang('githubconnect_resolve_title');
 	include template('common/header');
 	$bindUrl = htmlspecialchars($_G['siteurl'].'plugin.php?id=githubconnect:oauth&op=resolve&action=bind', ENT_QUOTES);
 	$createUrl = htmlspecialchars($_G['siteurl'].'plugin.php?id=githubconnect:oauth&op=resolve&action=create', ENT_QUOTES);
 	$loginHint = dhtmlspecialchars($data['login']);
 	$emailHint = dhtmlspecialchars($data['email']);
-	echo '<div id="ct" class="wp cl"><div class="mn"><div class="bm"><div class="bm_h"><h1>'.lang('plugin/githubconnect', 'githubconnect_resolve_title').'</h1></div><div class="bm_c">';
-	echo '<p>'.lang('plugin/githubconnect', 'githubconnect_resolve_message').'</p>';
+	echo '<div id="ct" class="wp cl"><div class="mn"><div class="bm"><div class="bm_h"><h1>'.$pluginLang('githubconnect_resolve_title').'</h1></div><div class="bm_c">';
+	echo '<p>'.$pluginLang('githubconnect_resolve_message').'</p>';
 	if($loginHint) {
-		echo '<p class="xg1">'.lang('plugin/githubconnect', 'githubconnect_resolve_login').': '.$loginHint.'</p>';
+		echo '<p class="xg1">'.$pluginLang('githubconnect_resolve_login').': '.$loginHint.'</p>';
 	}
 	if($emailHint) {
-		echo '<p class="xg1">'.lang('plugin/githubconnect', 'githubconnect_resolve_email').': '.$emailHint.'</p>';
+		echo '<p class="xg1">'.$pluginLang('githubconnect_resolve_email').': '.$emailHint.'</p>';
 	}
-	echo '<p><a class="pn" href="'.$bindUrl.'"><span>'.lang('plugin/githubconnect', 'githubconnect_resolve_bind').'</span></a> ';
-	echo '<a class="pn" href="'.$createUrl.'"><span>'.lang('plugin/githubconnect', 'githubconnect_resolve_create').'</span></a></p>';
+	echo '<p><a class="pn" href="'.$bindUrl.'"><span>'.$pluginLang('githubconnect_resolve_bind').'</span></a> ';
+	echo '<a class="pn" href="'.$createUrl.'"><span>'.$pluginLang('githubconnect_resolve_create').'</span></a></p>';
 	echo '</div></div></div></div>';
 	include template('common/footer');
 	exit;
@@ -230,7 +258,7 @@ if($op === 'init') {
 if($op === 'resolve') {
 	$pending = $getPending();
 	if(!is_array($pending) || empty($pending['githubid'])) {
-		showmessage(lang('plugin/githubconnect', 'githubconnect_resolve_expired'), $_G['siteurl']);
+		showmessage($pluginLang('githubconnect_resolve_expired'), $_G['siteurl']);
 	}
 
 	$accountRow = C::t('common_member_account')->fetch_by_account($pending['githubid'], $atype);
@@ -249,7 +277,7 @@ if($op === 'resolve') {
 		}
 		$bindAccount($_G['uid'], $pending['githubid'], $pending['bindname']);
 		$clearPending();
-		showmessage(lang('plugin/githubconnect', 'githubconnect_bind_success'), $_G['siteurl'].'home.php?mod=spacecp&ac=account');
+		showmessage($pluginLang('githubconnect_bind_success'), $_G['siteurl'].'home.php?mod=spacecp&ac=account');
 	}
 	if($action === 'create') {
 		$member = $resolveCreateMember($pending, true);
