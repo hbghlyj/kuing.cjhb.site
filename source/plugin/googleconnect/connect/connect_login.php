@@ -52,6 +52,9 @@ $getPending = static function() {
 		return [];
 	}
 	$data = @dunserialize($payload);
+	if(!is_array($data)) {
+		$data = @unserialize($payload);
+	}
 	return is_array($data) ? $data : [];
 };
 
@@ -147,6 +150,9 @@ $resolveCreateMember = static function($data, $allowRename = false) use ($bindAc
 
 $renderResolvePage = static function($data) {
 	global $_G;
+	if(!is_array($data)) {
+		showmessage(lang('plugin/googleconnect', 'googleconnect_resolve_expired'), $_G['siteurl']);
+	}
 	$_G['setting']['seohead']['title'] = lang('plugin/googleconnect', 'googleconnect_resolve_title');
 	include template('common/header');
 	$bindUrl = htmlspecialchars($_G['siteurl'].'connect.php?mod=login&op=resolve&action=bind', ENT_QUOTES);
