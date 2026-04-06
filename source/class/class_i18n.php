@@ -12,6 +12,22 @@ class i18n {
 		return DISCUZ_ROOT.'./source/i18n/'.currentlang().'/'.$file;
 	}
 
+	private static function loadLangFile($path) {
+		$lang = [];
+		if($path && file_exists($path)) {
+			require $path;
+		}
+		return (array)$lang;
+	}
+
+	private static function getFallbackPath($file, $i18n = '') {
+		$requested = strtoupper((string)$i18n);
+		if($requested === 'EN' || $requested === 'EN_UTF8' || currentlang() === 'EN_UTF8') {
+			return DISCUZ_ROOT.'./source/i18n/SC_UTF8/'.$file;
+		}
+		return '';
+	}
+
 	public static function getLang($file, $i18n = '') {
 		global $_G;
 
@@ -21,11 +37,9 @@ class i18n {
 			return $loaded[$file];
 		}
 
-		$return = self::getDefaultPath($file);
-
 		$i18n = !empty($i18n) ? $i18n : ($_G['i18n'] ?? '');
 
-		$lang = [];
+		$lang = self::loadLangFile(self::getFallbackPath($file, $i18n));
 
 		if($i18n && !empty($_G['setting']['i18n']) && !empty($_G['setting']['i18n'][$i18n])) {
 			if(!empty($_G['setting']['i18n_custom']) && isset($_G['setting']['i18n_custom'][$i18n])) {
@@ -34,26 +48,20 @@ class i18n {
 				if(!empty($_G['cache']['lang'][$_G['setting']['i18n'][$i18n]][$file])) {
 					return $loaded[$file] = $_G['cache']['lang'][$_G['setting']['i18n'][$i18n]][$file];
 				} elseif(is_dir($path = $_G['setting']['i18n'][$customSource].'/')) {
-					if(file_exists($path.$file)) {
-						require $path.$file;
-					}
+					$lang = array_merge($lang, self::loadLangFile($path.$file));
 					if(!empty($lang)) {
 						return $loaded[$file] = $lang;
 					}
 				}
 			} elseif(is_dir($path = $_G['setting']['i18n'][$i18n].'/')) {
-				if(file_exists($path.$file)) {
-					require $path.$file;
-				}
+				$lang = array_merge($lang, self::loadLangFile($path.$file));
 				if(!empty($lang)) {
 					return $loaded[$file] = $lang;
 				}
 			}
 		}
 
-		if(file_exists($return)) {
-			require $return;
-		}
+		$lang = array_merge($lang, self::loadLangFile(self::getDefaultPath($file)));
 		return $loaded[$file] = $lang;
 	}
 

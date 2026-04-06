@@ -1334,6 +1334,16 @@ function init_i18n(&$data) {
 	}
 	foreach($jslangs as $langkey => $file) {
 		$lang_js = $lang = [];
+		$resolvedLangKey = $langkey == 'default' ? currentlang() : $langkey;
+		$fallbackLangKey = $resolvedLangKey == 'EN_UTF8' ? 'SC_UTF8' : '';
+		if($fallbackLangKey) {
+			$fallbackFile = DISCUZ_ROOT.'./source/i18n/'.$fallbackLangKey.'/lang_js.php';
+			if(file_exists($fallbackFile)) {
+				require $fallbackFile;
+				$lang_js = array_merge($lang_js, $lang);
+			}
+			$lang = [];
+		}
 		if(!is_array($file)) {
 			if(!file_exists($file)) {
 				continue;
@@ -1348,7 +1358,15 @@ function init_i18n(&$data) {
 			if(!is_dir($appdir)) {
 				continue;
 			}
-			$f = $appdir.'/i18n/'.($langkey == 'default' ? currentlang() : $langkey).'/lang_js.php';
+			if($fallbackLangKey) {
+				$f = $appdir.'/i18n/'.$fallbackLangKey.'/lang_js.php';
+				if(file_exists($f)) {
+					$lang = [];
+					require $f;
+					$lang_js = array_merge($lang_js, $lang);
+				}
+			}
+			$f = $appdir.'/i18n/'.$resolvedLangKey.'/lang_js.php';
 			if(!file_exists($f)) {
 				continue;
 			}
@@ -1357,7 +1375,15 @@ function init_i18n(&$data) {
 			$lang_js = array_merge($lang_js, $lang);
 		}
 		foreach($data['plugins']['available'] as $plugin) {
-			$f = DISCUZ_PLUGIN($plugin).'/i18n/'.($langkey == 'default' ? currentlang() : $langkey).'/lang_js.php';
+			if($fallbackLangKey) {
+				$f = DISCUZ_PLUGIN($plugin).'/i18n/'.$fallbackLangKey.'/lang_js.php';
+				if(file_exists($f)) {
+					$lang = [];
+					require $f;
+					$lang_js = array_merge($lang_js, $lang);
+				}
+			}
+			$f = DISCUZ_PLUGIN($plugin).'/i18n/'.$resolvedLangKey.'/lang_js.php';
 			if(!file_exists($f)) {
 				continue;
 			}
@@ -1370,7 +1396,15 @@ function init_i18n(&$data) {
 			$tpldirs[$style['directory']] = $style['directory'];
 		}
 		foreach($tpldirs as $tpldir) {
-			$f = DISCUZ_TEMPLATE($tpldir).'/i18n/'.($langkey == 'default' ? currentlang() : $langkey).'/lang_js.php';
+			if($fallbackLangKey) {
+				$f = DISCUZ_TEMPLATE($tpldir).'/i18n/'.$fallbackLangKey.'/lang_js.php';
+				if(file_exists($f)) {
+					$lang = [];
+					require $f;
+					$lang_js = array_merge($lang_js, $lang);
+				}
+			}
+			$f = DISCUZ_TEMPLATE($tpldir).'/i18n/'.$resolvedLangKey.'/lang_js.php';
 			if(!file_exists($f)) {
 				continue;
 			}
