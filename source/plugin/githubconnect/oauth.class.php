@@ -13,7 +13,6 @@ class plugin_githubconnect {
 	}
 
 	private function link() {
-		global $_G;
 		if(!$this->enabled()) {
 			return '';
 		}
@@ -23,6 +22,12 @@ class plugin_githubconnect {
 	}
 
 	public function global_login_extra() {
+		global $_G;
+		$link = $this->link();
+		if($link) {
+			$_G['setting']['pluginhooks']['logging_method'] = ($_G['setting']['pluginhooks']['logging_method'] ?? '').$link;
+			$_G['setting']['pluginhooks']['register_logging_method'] = ($_G['setting']['pluginhooks']['register_logging_method'] ?? '').$link;
+		}
 		return '';
 	}
 
