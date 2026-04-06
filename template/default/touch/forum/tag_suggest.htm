@@ -20,13 +20,13 @@ $('#submitSuggestedTag').on('click', function(){
         dataType:'json'
     }).done(function(d){
         if(d.success){
-            popup.open(lng['thanks_for_suggestion']);
+            popup.open($L('thanks_for_suggestion'));
             setTimeout(function(){popup.close();},1500);
         }else if(d.message){
             popup.open(d.message, 'alert');
         }
     }).fail(function(){
-        popup.open(lng['network_error'], 'alert');
+        popup.open($L('network_error'), 'alert');
     });
     return false;
 });

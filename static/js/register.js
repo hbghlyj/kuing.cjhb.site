@@ -173,9 +173,13 @@ function trim(str) {
 }
 
 var emailMenuST = null, emailMenui = 0;
-if(typeof emaildomains == 'undefined' || !emaildomains || !emaildomains.length) {
-	emaildomains = ['qq.com', 'gmail.com', 'foxmail.com', 'sina.com', '163.com', '126.com', 'hotmail.com', 'outlook.com'];
-}
+var emaildomains = (function() {
+	var domains = $L('email_domains');
+	if(typeof domains == 'string' && domains && domains != 'email_domains') {
+		return domains.split(',');
+	}
+	return ['qq.com', 'gmail.com', 'foxmail.com', 'sina.com', '163.com', '126.com', 'hotmail.com', 'outlook.com'];
+})();
 function emailMenuOp(op, e, id) {
 	if(!$('emailmore_menu')) {
 		return;

@@ -2023,7 +2023,7 @@ function strLenCalc(obj, checklen, maxlen = 255) {
 		checklenElem.innerHTML = maxlen - curlen;
 		checklenElem.style.color = 'red';
 	}
-	showDialog(lng['content_long']);
+	showDialog($L('content_long'));
 	return false;
 }
 

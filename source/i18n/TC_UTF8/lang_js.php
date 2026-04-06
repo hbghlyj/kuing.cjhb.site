@@ -80,6 +80,7 @@ $lang = [
 	'prev_img' => '上一張',
 	'next_img' => '下一張',
 	'color_texts' => '黑色,赭色,暗橄欖綠色,暗綠色,暗灰藍色,海軍色,靛青色,墨綠色,暗紅色,暗桔黃色,橄欖色,綠色,水鴨色,藍色,灰石色,暗灰色,紅色,沙褐色,黃綠色,海綠色,間綠寶石,皇家藍,紫色,灰色,紅紫色,橙色,黃色,酸橙色,青色,深天藍色,暗紫色,銀色,粉色,淺黃色,檸檬綢色,蒼綠色,蒼寶石綠,亮藍色,洋李色,白色',
+	'email_domains' => 'qq.com,gmail.com,foxmail.com,sina.com,163.com,126.com,hotmail.com,outlook.com',
 	'switch_wide' => '切換到寬版',
 	'switch_narrow' => '切換到窄版',
 	'shortcut_notice' => '1、點擊"<a href="javascript:;" class="xi2 xw1" onclick="this.href = \'forum.php?mod=misc&action=shortcut\';this.click();saveUserdata(\'setshortcut\', 1);">下載桌面快捷</a>"，下載完成後，可移動文件到系統桌面<br />2、點擊"<a href="forum.php?mod=misc&action=shortcut&type=ico" class="xi2 xw1">下載ICO圖標</a>，下載完成後，右擊桌面快捷文件->屬性->更改圖標，選擇已下載的ICO圖標即可',
