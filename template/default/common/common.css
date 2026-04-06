@@ -1357,7 +1357,6 @@ Last Modify:	Pony
 	.tedt { width: 98%; border: 1px solid; border-color: #999 #CCC #CCC #999; }
 		.tedt .bar { padding: 0 10px 0 0; height: 25px; line-height: 25px; border-bottom: 1px solid {COMMONBORDER}; background: {COMMONBG}; }
 		.tedt .bar .webuploader-container{background-color:transparent}
-		.tedt .bar .webuploader-pick{text-indent: -2000px;}
 			.fpd a { float: left; margin: 2px 5px 0 0; width: 20px; height: 20px; background: url({STATICURL}image/editor/editor.gif) no-repeat; text-indent: -9999px; line-height: 20px; overflow: hidden; }
 			.fpd a.fbld { background-position: 0 0; }
 			.fpd a.fclr { background-position: -60px 0; }
@@ -2158,7 +2157,6 @@ DIY图片幻灯片未加载时隐藏,模块标识隐藏
 			.media_tips a:hover { text-decoration: underline !important; }
 
 .sppoll .webuploader-container{background-color:transparent}
-.sppoll .webuploader-pick{text-indent: -2000px;}
 /* font icon图标列表，供用户调用 */
 .fico-emoji:before{content:"\f14c"}
 .fico-emojifill:before{content:"\f14b"}
