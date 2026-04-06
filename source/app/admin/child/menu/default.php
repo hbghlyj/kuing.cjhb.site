@@ -72,7 +72,6 @@ class menu_default {
 			['menu_setting_styles', 'setting_styles', 0, '', '', ['setting_threadprofile']],
 			['menu_posting_smilies', 'smilies'],
 			['menu_click', 'click'],
-			['menu_thread_stamp', 'misc_stamp'],
 			['menu_posting_editor', 'setting_editor', 0, '', '', ['misc_bbcode', 'editorblock']],
 			['menu_misc_onlinelist', 'misc_onlinelist'],
 		];
