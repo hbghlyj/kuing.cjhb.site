@@ -17,6 +17,13 @@ $scriptlang['githubconnect'] = [
 	'githubconnect_state_invalid' => 'GitHub login state validation failed. Please try again.',
 	'githubconnect_token_failed' => 'Unable to fetch a GitHub access token.',
 	'githubconnect_user_failed' => 'Unable to load the GitHub user profile.',
+	'githubconnect_resolve_title' => 'Choose how to continue with GitHub',
+	'githubconnect_resolve_message' => 'The GitHub username matches an existing forum username, but the email address does not match an existing forum account. Choose whether to bind GitHub to an existing account or create a new forum account.',
+	'githubconnect_resolve_bind' => 'Bind an existing account',
+	'githubconnect_resolve_create' => 'Create a new account',
+	'githubconnect_resolve_expired' => 'Your GitHub login session has expired. Please try again.',
+	'githubconnect_resolve_login' => 'GitHub username',
+	'githubconnect_resolve_email' => 'GitHub email',
 	'githubconnect_bind_other_exists' => 'This GitHub account is already linked to another forum account.',
 	'githubconnect_bind_success' => 'GitHub account linked successfully.',
 ];

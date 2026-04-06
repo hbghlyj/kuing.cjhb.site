@@ -17,6 +17,13 @@ $scriptlang['githubconnect'] = [
 	'githubconnect_state_invalid' => 'GitHub 登录状态校验失败，请重试。',
 	'githubconnect_token_failed' => 'GitHub 授权令牌获取失败。',
 	'githubconnect_user_failed' => 'GitHub 用户信息获取失败。',
+	'githubconnect_resolve_title' => '选择如何继续使用 GitHub',
+	'githubconnect_resolve_message' => '该 GitHub 用户名与现有论坛用户名重复，但邮箱并未匹配到现有论坛账号。请选择绑定现有账号，或创建一个新的论坛账号。',
+	'githubconnect_resolve_bind' => '绑定现有账号',
+	'githubconnect_resolve_create' => '创建新账号',
+	'githubconnect_resolve_expired' => 'GitHub 登录会话已过期，请重试。',
+	'githubconnect_resolve_login' => 'GitHub 用户名',
+	'githubconnect_resolve_email' => 'GitHub 邮箱',
 	'githubconnect_bind_other_exists' => '该 GitHub 账号已绑定到其他论坛账号。',
 	'githubconnect_bind_success' => 'GitHub 账号绑定成功。',
 ];

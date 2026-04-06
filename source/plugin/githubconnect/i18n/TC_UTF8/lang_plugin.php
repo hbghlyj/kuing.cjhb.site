@@ -17,6 +17,13 @@ $scriptlang['githubconnect'] = [
 	'githubconnect_state_invalid' => 'GitHub 登入狀態校驗失敗，請重試。',
 	'githubconnect_token_failed' => 'GitHub 授權權杖取得失敗。',
 	'githubconnect_user_failed' => 'GitHub 使用者資訊取得失敗。',
+	'githubconnect_resolve_title' => '選擇如何繼續使用 GitHub',
+	'githubconnect_resolve_message' => '該 GitHub 使用者名稱與現有論壇使用者名稱重複，但電子郵件並未匹配到現有論壇帳號。請選擇綁定現有帳號，或建立新的論壇帳號。',
+	'githubconnect_resolve_bind' => '綁定現有帳號',
+	'githubconnect_resolve_create' => '建立新帳號',
+	'githubconnect_resolve_expired' => 'GitHub 登入工作階段已過期，請重試。',
+	'githubconnect_resolve_login' => 'GitHub 使用者名稱',
+	'githubconnect_resolve_email' => 'GitHub 電子郵件',
 	'githubconnect_bind_other_exists' => '該 GitHub 帳號已綁定到其他論壇帳號。',
 	'githubconnect_bind_success' => 'GitHub 帳號綁定成功。',
 ];

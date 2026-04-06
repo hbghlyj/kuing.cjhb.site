@@ -5,6 +5,7 @@ if(!defined('IN_DISCUZ')) {
 }
 
 define('GITHUBCONNECT_SCOPE', 'read:user user:email');
+define('GITHUBCONNECT_PENDING_TTL', 600);
 
 $settings = C::t('common_setting')->fetch_all_setting([
 	'githubconnect_allow',
@@ -17,7 +18,7 @@ if(empty($settings['githubconnect_allow']) || empty($settings['githubconnect_cli
 }
 
 $callbackUrl = $_G['siteurl'].'plugin.php?id=githubconnect:oauth&op=callback';
-$op = in_array($_GET['op'], ['init', 'callback']) ? $_GET['op'] : 'init';
+$op = in_array($_GET['op'], ['init', 'callback', 'resolve']) ? $_GET['op'] : 'init';
 $atype = account_base::getAccountType('githubconnect');
 
 if($atype === false) {
@@ -64,13 +65,143 @@ $normalizeReferer = static function($referer) {
 	return $referer;
 };
 
-$redirectToReferer = static function() use ($normalizeReferer) {
+$setPending = static function($data) {
+	global $_G;
+	$payload = authcode(serialize($data), 'ENCODE', $_G['config']['security']['authkey']);
+	dsetcookie('githubconnect_pending', rawurlencode($payload), GITHUBCONNECT_PENDING_TTL);
+};
+
+$getPending = static function() {
+	global $_G;
+	if(empty($_G['cookie']['githubconnect_pending'])) {
+		return [];
+	}
+	$payload = authcode(urldecode($_G['cookie']['githubconnect_pending']), 'DECODE', $_G['config']['security']['authkey']);
+	if(!$payload) {
+		return [];
+	}
+	$data = @dunserialize($payload);
+	return is_array($data) ? $data : [];
+};
+
+$clearPending = static function() {
+	dsetcookie('githubconnect_pending', '', -1);
+};
+
+$redirectToReferer = static function() use ($normalizeReferer, $clearPending) {
 	global $_G;
 	$referer = !empty($_G['cookie']['githubconnect_referer']) ? urldecode($_G['cookie']['githubconnect_referer']) : $_G['siteurl'];
 	$referer = $normalizeReferer($referer);
 	dsetcookie('githubconnect_state', '', -1);
 	dsetcookie('githubconnect_referer', '', -1);
+	$clearPending();
 	dheader('Location: '.$referer, true, 302);
+};
+
+$fetchMemberFromArchiveAware = static function($uid) {
+	$member = C::t('common_member')->fetch($uid, true);
+	if($member && isset($member['_inarchive'])) {
+		C::t('common_member_archive')->move_to_master($member['uid']);
+		$member = C::t('common_member')->fetch($uid, true);
+	}
+	return $member;
+};
+
+$bindAccount = static function($uid, $githubId, $bindname) use ($atype) {
+	C::t('common_member_account')->insert([
+		'uid' => $uid,
+		'atype' => $atype,
+		'account' => $githubId,
+		'bindname' => $bindname,
+	], false, true, true);
+};
+
+$makeUsernameBase = static function($login, $bindname) {
+	$usernameBase = $login ?: preg_replace('/\s+/', '', $bindname);
+	$usernameBase = preg_replace('/[^\w\x7f-\xff]+/u', '', $usernameBase);
+	return $usernameBase ?: 'githubuser';
+};
+
+$resolveCreateMember = static function($data, $allowRename = false) use ($bindAccount, $fetchMemberFromArchiveAware, $makeUsernameBase) {
+	global $_G;
+
+	$usernameBase = $makeUsernameBase($data['login'], $data['bindname']);
+
+	$username = substr($usernameBase, 0, 30);
+	$password = random(16);
+
+	loaducenter();
+	$uid = 0;
+	$attempts = $allowRename ? 6 : 1;
+	for($i = 0; $i < $attempts && $uid <= 0; $i++) {
+		$candidate = $i === 0 ? $username : substr($usernameBase, 0, 24).random(4, 1);
+		$uid = uc_user_register(addslashes($candidate), $password, $data['email']);
+		if($uid > 0) {
+			$username = $candidate;
+			break;
+		}
+		if($uid === -6 && $data['email']) {
+			$member = C::t('common_member')->fetch_by_email($data['email'], 1);
+			if($member) {
+				$member = $fetchMemberFromArchiveAware($member['uid']);
+				$bindAccount($member['uid'], $data['githubid'], $data['bindname']);
+				return $member;
+			}
+		}
+		if($uid !== -3 || !$allowRename) {
+			break;
+		}
+	}
+
+	if($uid <= 0) {
+		return $uid;
+	}
+
+	C::t('common_member')->insert_user(
+		$uid,
+		$username,
+		'',
+		$data['email'],
+		$_G['clientip'],
+		$_G['setting']['newusergroupid'],
+		['emailstatus' => $data['email'] ? 1 : 0],
+		0,
+		$_G['remoteport']
+	);
+	$bindAccount($uid, $data['githubid'], $data['bindname']);
+	require_once libfile('cache/userstats', 'function');
+	build_cache_userstats();
+
+	return [
+		'uid' => $uid,
+		'username' => $username,
+		'adminid' => 0,
+		'password' => '',
+		'groupid' => $_G['setting']['newusergroupid'],
+	];
+};
+
+$renderResolvePage = static function($data) {
+	global $_G;
+	$_G['setting']['seohead']['title'] = lang('plugin/githubconnect', 'githubconnect_resolve_title');
+	include template('common/header');
+	$bindUrl = htmlspecialchars($_G['siteurl'].'plugin.php?id=githubconnect:oauth&op=resolve&action=bind', ENT_QUOTES);
+	$createUrl = htmlspecialchars($_G['siteurl'].'plugin.php?id=githubconnect:oauth&op=resolve&action=create', ENT_QUOTES);
+	$loginHint = dhtmlspecialchars($data['login']);
+	$emailHint = dhtmlspecialchars($data['email']);
+	echo '<div id="ct" class="wp cl"><div class="mn"><div class="bm"><div class="bm_h"><h1>'.lang('plugin/githubconnect', 'githubconnect_resolve_title').'</h1></div><div class="bm_c">';
+	echo '<p>'.lang('plugin/githubconnect', 'githubconnect_resolve_message').'</p>';
+	if($loginHint) {
+		echo '<p class="xg1">'.lang('plugin/githubconnect', 'githubconnect_resolve_login').': '.$loginHint.'</p>';
+	}
+	if($emailHint) {
+		echo '<p class="xg1">'.lang('plugin/githubconnect', 'githubconnect_resolve_email').': '.$emailHint.'</p>';
+	}
+	echo '<p><a class="pn" href="'.$bindUrl.'"><span>'.lang('plugin/githubconnect', 'githubconnect_resolve_bind').'</span></a> ';
+	echo '<a class="pn" href="'.$createUrl.'"><span>'.lang('plugin/githubconnect', 'githubconnect_resolve_create').'</span></a></p>';
+	echo '</div></div></div></div>';
+	include template('common/footer');
+	exit;
 };
 
 if($op === 'init') {
@@ -85,6 +216,52 @@ if($op === 'init') {
 		'state' => $state,
 	];
 	dheader('Location: https://github.com/login/oauth/authorize?'.http_build_query($query), true, 302);
+}
+
+if($op === 'resolve') {
+	$pending = $getPending();
+	if(empty($pending['githubid'])) {
+		showmessage(lang('plugin/githubconnect', 'githubconnect_resolve_expired'), $_G['siteurl']);
+	}
+
+	$accountRow = C::t('common_member_account')->fetch_by_account($pending['githubid'], $atype);
+	if($accountRow) {
+		$member = $fetchMemberFromArchiveAware($accountRow['uid']);
+		require_once libfile('function/member');
+		setloginstatus($member, 2592000);
+		$redirectToReferer();
+	}
+
+	$action = in_array($_GET['action'], ['bind', 'create']) ? $_GET['action'] : '';
+	if($action === 'bind') {
+		if(!$_G['uid']) {
+			$loginUrl = $_G['siteurl'].'member.php?mod=logging&action=login&referer='.rawurlencode($_G['siteurl'].'plugin.php?id=githubconnect:oauth&op=resolve&action=bind');
+			dheader('Location: '.$loginUrl, true, 302);
+		}
+		$bindAccount($_G['uid'], $pending['githubid'], $pending['bindname']);
+		$clearPending();
+		showmessage(lang('plugin/githubconnect', 'githubconnect_bind_success'), $_G['siteurl'].'home.php?mod=spacecp&ac=account');
+	}
+	if($action === 'create') {
+		$member = $resolveCreateMember($pending, true);
+		if(!is_array($member)) {
+			$msg = match($member) {
+				-1 => 'profile_username_illegal',
+				-2 => 'profile_username_protect',
+				-3 => 'profile_username_duplicate',
+				-4 => 'profile_email_illegal',
+				-5 => 'profile_email_domain_illegal',
+				-6 => 'profile_email_duplicate',
+				default => 'undefined_action',
+			};
+			showmessage($msg);
+		}
+		require_once libfile('function/member');
+		setloginstatus($member, 2592000);
+		$redirectToReferer();
+	}
+
+	$renderResolvePage($pending);
 }
 
 if(empty($_GET['code']) || empty($_GET['state']) || $_GET['state'] !== $_G['cookie']['githubconnect_state']) {
@@ -153,26 +330,14 @@ $bindname = $displayName ?: $login;
 $member = null;
 $accountRow = C::t('common_member_account')->fetch_by_account($githubId, $atype);
 if($accountRow) {
-	$member = C::t('common_member')->fetch($accountRow['uid'], true);
-	if($member && isset($member['_inarchive'])) {
-		C::t('common_member_archive')->move_to_master($member['uid']);
-		$member = C::t('common_member')->fetch($accountRow['uid'], true);
-	}
+	$member = $fetchMemberFromArchiveAware($accountRow['uid']);
 }
 
 if(empty($member) && $email) {
 	$member = C::t('common_member')->fetch_by_email($email, 1);
 	if($member) {
-		C::t('common_member_account')->insert([
-			'uid' => $member['uid'],
-			'atype' => $atype,
-			'account' => $githubId,
-			'bindname' => $bindname,
-		], false, true, true);
-		if(isset($member['_inarchive'])) {
-			C::t('common_member_archive')->move_to_master($member['uid']);
-			$member = C::t('common_member')->fetch($member['uid'], true);
-		}
+		$member = $fetchMemberFromArchiveAware($member['uid']);
+		$bindAccount($member['uid'], $githubId, $bindname);
 	}
 }
 
@@ -181,53 +346,30 @@ if($_G['uid']) {
 		showmessage(lang('plugin/githubconnect', 'githubconnect_bind_other_exists'), $_G['siteurl'].'home.php?mod=spacecp&ac=account');
 	}
 	if(!$accountRow) {
-		C::t('common_member_account')->insert([
-			'uid' => $_G['uid'],
-			'atype' => $atype,
-			'account' => $githubId,
-			'bindname' => $bindname,
-		], false, true, true);
+		$bindAccount($_G['uid'], $githubId, $bindname);
 	}
 	showmessage(lang('plugin/githubconnect', 'githubconnect_bind_success'), $_G['siteurl'].'home.php?mod=spacecp&ac=account');
 }
 
 if(empty($member)) {
-	$usernameBase = $login ?: preg_replace('/\s+/', '', $bindname);
-	$usernameBase = preg_replace('/[^\w\x7f-\xff]+/u', '', $usernameBase);
-	if(!$usernameBase) {
-		$usernameBase = 'githubuser';
-	}
-	$username = substr($usernameBase, 0, 30);
-	$password = random(16);
+	$member = $resolveCreateMember([
+		'githubid' => $githubId,
+		'login' => $login,
+		'bindname' => $bindname,
+		'email' => $email,
+	], false);
 
-	loaducenter();
-	$uid = 0;
-	for($i = 0; $i < 6 && $uid <= 0; $i++) {
-		$candidate = $i === 0 ? $username : substr($usernameBase, 0, 24).random(4, 1);
-		$uid = uc_user_register(addslashes($candidate), $password, $email);
-		if($uid > 0) {
-			$username = $candidate;
-			break;
+	if(!is_array($member)) {
+		if($member === -3) {
+			$setPending([
+				'githubid' => $githubId,
+				'login' => $login,
+				'bindname' => $bindname,
+				'email' => $email,
+			]);
+			dheader('Location: '.$_G['siteurl'].'plugin.php?id=githubconnect:oauth&op=resolve', true, 302);
 		}
-		if(!in_array($uid, [-3, -6], true)) {
-			break;
-		}
-		if($uid === -6 && $email) {
-			$member = C::t('common_member')->fetch_by_email($email, 1);
-			if($member) {
-				C::t('common_member_account')->insert([
-					'uid' => $member['uid'],
-					'atype' => $atype,
-					'account' => $githubId,
-					'bindname' => $bindname,
-				], false, true, true);
-				break;
-			}
-		}
-	}
-
-	if(empty($member) && $uid <= 0) {
-		$msg = match($uid) {
+		$msg = match($member) {
 			-1 => 'profile_username_illegal',
 			-2 => 'profile_username_protect',
 			-3 => 'profile_username_duplicate',
@@ -237,35 +379,6 @@ if(empty($member)) {
 			default => 'undefined_action',
 		};
 		showmessage($msg);
-	}
-
-	if(empty($member)) {
-		C::t('common_member')->insert_user(
-			$uid,
-			$username,
-			'',
-			$email,
-			$_G['clientip'],
-			$_G['setting']['newusergroupid'],
-			['emailstatus' => $email ? 1 : 0],
-			0,
-			$_G['remoteport']
-		);
-		C::t('common_member_account')->insert([
-			'uid' => $uid,
-			'atype' => $atype,
-			'account' => $githubId,
-			'bindname' => $bindname,
-		], false, true, true);
-		require_once libfile('cache/userstats', 'function');
-		build_cache_userstats();
-		$member = [
-			'uid' => $uid,
-			'username' => $username,
-			'adminid' => 0,
-			'password' => '',
-			'groupid' => $_G['setting']['newusergroupid'],
-		];
 	}
 }
 
