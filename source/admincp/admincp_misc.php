@@ -34,7 +34,16 @@ if($operation == 'onlinelist') {
 		$query = array_merge(array(0 => array('groupid' => 0, 'grouptitle' => 'Member')), C::t('common_usergroup')->range());
 		foreach($query as $group) {
 			$id = $group['groupid'];
-			$url = preg_match('/^https?:\/\//is', $listarray[$id]['url']) ? $listarray[$id]['url'] : STATICURL.'image/common/' . $listarray[$id]['url'];
+			$url = '';
+			if(!empty($listarray[$id]['url'])) {
+				if(preg_match('/^https?:\/\//is', $listarray[$id]['url'])) {
+					$url = $listarray[$id]['url'];
+				} elseif(preg_match('/\.(?:gif|png|jpe?g|svg|webp)$/i', $listarray[$id]['url'])) {
+					$url = STATICURL.'image/common/' . $listarray[$id]['url'];
+				} else {
+					$url = STATICURL.'image/common/online_'.$listarray[$id]['url'].'.svg';
+				}
+			}
 			showtablerow('', array('class="td25"', 'class="td23 td28"', 'class="td24"', 'class="td24"', 'class="td21 td26"'), array(
 				$listarray[$id]['url'] ? " <img src=\"$url\">" : '',
 				'<input type="text" class="txt" name="displayordernew['.$id.']" value="'.$listarray[$id]['displayorder'].'" size="3" />',
