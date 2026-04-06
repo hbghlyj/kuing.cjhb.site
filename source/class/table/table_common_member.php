@@ -362,6 +362,9 @@ class table_common_member extends discuz_table_archive {
 			$credits = $extdata['credits'] ?? [];
 			$profile = $extdata['profile'] ?? [];
 			$profile['uid'] = $uid;
+			if(!isset($profile['fields'])) {
+				$profile['fields'] = '{}';
+			}
 			$base = [
 				'uid' => $uid,
 				'loginname' => (string)$username,
