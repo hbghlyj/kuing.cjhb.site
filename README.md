@@ -298,3 +298,6 @@ CONSTRAINT `fields` CHECK (json_valid(`fields`))
 ```
 
 `insert_user()` 现在在插入 profile 时，若调用方未提供 `fields` 值，会自动补填 `'{}'`，避免触发约束失败（错误 4025）。
+### 聊天室配置 (chat/php/config.php)
+
+请确保 chat/php/config.php 文件已正确配置，该文件已加入 .gitignore 以防泄漏。
