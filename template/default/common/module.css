@@ -1812,9 +1812,8 @@ i.pstatus { display: block; margin-bottom: -30px; font-size: 12px; text-align: c
 		.tdats th, .tdats td { overflow: hidden; padding: 0 5px; height: 26px; border-width: 0 1px 0 0; border-color: {WRAPBG}; white-space: nowrap; }
 		.tdats th { height: 40px; font-weight: 700; }
 			.tdats .h th { height: 24px; border-top: 1px solid {COMMONBORDER}; border-bottom: 1px solid #E5E5E5; background: linear-gradient(0deg, #efefef, #fcfcfc); color: {MIDTEXT}; zoom: 1; }
-		.tdats .tdat { float: left; width: 240px; border: none; table-layout: fixed; }
+		.tdats .tdat { float: left; border: none; table-layout: fixed; }
 		.tdats .tfx { width: 300px; }
-			.tdats .tfxf { width: 770px; }
 			.tfx th, .tfx td { border-width: 0 3px !important; background: #FFF2DF; }
 			.tfx .alt, .tfx .alt th, .tfx .alt td { background: #FAEDDA; }
 			.tfx .h th { padding: 1px 5px; }
