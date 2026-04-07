@@ -535,26 +535,40 @@
 				</div>
 			<!--{if $_G['setting']['whosonlinestatus'] && $detailstatus}-->
 				<dl id="onlinelist" class="bm_c">
-					<dt class="ptm pbm bbda">$_G[cache][onlinelist][legend]</dt>
+					<ul style="text-transform: capitalize" class="cl ptm pbm bbda">$_G[cache][onlinelist][legend]</ul>
 					<!--{if $detailstatus}-->
-						<dd class="ptm pbm">
-						<ul class="cl">
-						<!--{if $whosonline}-->
-							<!--{loop $whosonline $key $online}-->
-								<li title="{lang time}: $online[lastactivity]">
-								<img src="$online['icon']" alt="icon" />
-								<!--{if $online['uid']}-->
-									<a href="home.php?mod=space&uid=$online[uid]">$online[username]</a>
-								<!--{else}-->
-									$online[username]
-								<!--{/if}-->
-								</li>
-							<!--{/loop}-->
-						<!--{else}-->
-							<li style="width: auto">{lang online_only_guests}</li>
-						<!--{/if}-->
-						</ul>
-					</dd>
+						<dd class="ptm pbm cl">
+							<ul id="whosonline_list_container">
+								<li style="width: auto">{lang m_loading}</li>
+							</ul>
+						</dd>
+						<script type="text/javascript">
+							function fetchWhosOnlineList() {
+								var ajaxurl = 'forum.php?mod=ajax&action=getOnlineUserListHtml&inajax=1&t=' + new Date().getTime();
+								var x = new XMLHttpRequest();
+								x.open('GET', ajaxurl, true);
+								x.onreadystatechange = function () {
+									if (x.readyState == 4 && x.status == 200) {
+										var listContainer = document.getElementById('whosonline_list_container');
+										if (listContainer) {
+											listContainer.innerHTML = x.responseText;
+										}
+									} else if (x.readyState == 4) {
+										console.error('Error fetching online list. Status: ' + x.status);
+										var listContainer = document.getElementById('whosonline_list_container');
+										if (listContainer) {
+											listContainer.innerHTML = '<li style="width: auto">{lang online_list_load_error}</li>';
+										}
+									}
+								};
+								x.send();
+							}
+
+							if (document.getElementById('whosonline_list_container')) {
+								fetchWhosOnlineList();
+								setInterval(fetchWhosOnlineList, 30000);
+							}
+						</script>
 					<!--{/if}-->
 				</dl>
 			<!--{/if}-->
