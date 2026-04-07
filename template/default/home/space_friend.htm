@@ -56,7 +56,9 @@
 						<!--{elseif $_GET['type']=='near'}-->
 							{lang near_friend_visit}
 						<!--{else}-->
-							{lang view_online_friend}
+							<a href="home.php?mod=space&do=friend&view=online&type=member">{lang online_member}</a>
+							&nbsp;|&nbsp;
+							<a href="home.php?mod=space&do=friend&view=online">{lang view_online_friend}</a>
 						<!--{/if}-->
 					<!--{elseif $_GET['view']=='visitor'}-->
 						{lang visitor_list}
