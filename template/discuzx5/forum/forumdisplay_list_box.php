@@ -148,15 +148,16 @@
 								<!--{/loop}-->
 								</div>
 							<!--{/if}-->
-							<!--{if $thread['allreplies'] || $thread['replies']}-->
 							<div class="kmfoot">
 								<span class="kmpl">{if $thread['allreplies']}$thread['allreplies']{else}$thread['replies']{/if}</span><span class="kmck"><!--{if $thread['isgroup'] != 1 || empty($groupnames[$thread['tid']]['views'])}-->$thread['views']<!--{else}-->{$groupnames[$thread['tid']]['views']}<!--{/if}--></span>
+								<!--{if $thread['allreplies'] || $thread['replies']}-->
 								<!--{if $thread['lastposter']}-->
 									<a href="{if $thread['digest'] != -2}home.php?mod=space&username=$thread['lastposterenc']{else}forum.php?mod=viewthread&tid=$thread['tid']&page={echo max(1, $thread['pages'])}{/if}" target="_blank">$thread['lastposter']</a>
 								<!--{else}-->
 									<a href="javascript:;">$_G['setting']['anonymoustext']</a>
 								<!--{/if}-->
 								<span class="kmtime{if $thread['istoday'] && CURMODULE == 'forumdisplay'} xi1{/if}">{lang tmp083} $thread['lastpost']</span>						
+								<!--{/if}-->
 								<!--{if $stemplate && $sortid}--><span class="kmbga kmico_xs">$stemplate[$sortid][$thread['tid']]</span><!--{/if}-->
 								<!--{if $thread['readperm']}--><span class="kmbgb kmico_qx">{lang readperm} <strong>{$thread['readperm']}</strong></span><!--{/if}-->	
 								<!--{if $thread['price'] > 0}-->
@@ -173,7 +174,6 @@
 								<!--{/if}-->						
 								<!--{if $thread['mobile']}--><span class="kmtxt">{lang post_mobile}</span><!--{/if}-->
 							</div>
-							<!--{/if}-->
 						</li>
 			
 				<!--{/loop}-->
