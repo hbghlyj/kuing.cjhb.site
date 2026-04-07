@@ -449,10 +449,10 @@ img{border:none;}
 .header-searcher{position:relative;display:inline-block;margin-right: 1rem;}
 .header-searcher .searcher-wrap{position:relative}
 .header-searcher .algolia-search-box-wrapper{position:relative}
-.header-searcher #algolia-search-box input{padding-left:12px;width:356px;height:32px;font-size:14px;background:var(--dz-bgc);border:1px solid var(--dz-borderb);border-radius:var(--dz-radius-c)}
-.header-searcher #algolia-search-box input::placeholder{color:var(--dz-fb)}
-.header-searcher #algolia-search-box input:hover{border:1px solid #dadfe6}
-.header-searcher #algolia-search-box input:focus{border:1px solid #dadfe6;background-color:var(--dz-ff);outline:none}
+.header-searcher .search-input{padding-left:12px;width:356px;height:32px;font-size:14px;background:var(--dz-bgc);border:1px solid var(--dz-borderb);border-radius:var(--dz-radius-c)}
+.header-searcher .search-input::placeholder{color:var(--dz-fb)}
+.header-searcher .search-input:hover{border:1px solid #dadfe6}
+.header-searcher .search-input:focus{border:1px solid #dadfe6;background-color:var(--dz-ff);outline:none}
 .header-searcher #algolia-search-box:empty{display:block;width:356px;height:32px;border:1px solid var(--dz-borderb);border-radius:var(--dz-radius-c);background:var(--dz-bgc) url({STYLEIMGDIR}/svg/search.svg) no-repeat calc(100% - 10px) center;background-size:16px}
 .header-searcher .ais-SearchBox-form{display:block;position:relative}
 .header-searcher .ais-SearchBox-submit[hidden], .header-searcher .ais-SearchBox-reset[hidden], .header-searcher .ais-SearchBox-loadingIndicator[hidden]{display:none}
@@ -473,14 +473,14 @@ img{border:none;}
 .ais-ClearRefinements-button{width:30px;height:30px;display:flex;justify-content:center;align-items:center}
 
 @media screen and (max-width: 1366px){
-    .header-searcher #algolia-search-box input, .header-searcher #algolia-search-box:empty {
+    .header-searcher .search-input, .header-searcher #algolia-search-box:empty {
         width: 160px;
     }
     .dz_layer_nav{width: 530px;}
     .header-indexsearcher{margin-left: 107px;}
 }
 @media screen  and (min-width:960px) and  (max-width: 1440px){
-    .header-searcher #algolia-search-box input, .header-searcher #algolia-search-box:empty {
+    .header-searcher .search-input, .header-searcher #algolia-search-box:empty {
         width: 180px;
     }
     .dz_layer_nav{width: 530px;}
