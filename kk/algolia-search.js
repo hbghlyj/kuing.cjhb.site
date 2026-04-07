@@ -121,8 +121,8 @@ export function initSearch(lang, forumlist) {
 		}
 		const hasQuery = searchInput.value.trim().length > 0;
 		wrapper.style.display = hasQuery ? 'flex' : 'none';
-		if(facets && !hasQuery) {
-			facets.style.display = 'none';
+		if(facets) {
+			facets.style.display = hasQuery ? '' : 'none';
 		}
 	}
 	function bindSearchInputVisibility() {
