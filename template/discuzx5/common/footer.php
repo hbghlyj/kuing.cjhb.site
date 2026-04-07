@@ -73,6 +73,7 @@
 			<div class="dz_footc_nav">
 				<!--{loop $_G['setting']['footernavs'] $nav}--><!--{if is_array($nav) && $nav['available'] && ($nav['type'] && (!$nav['level'] || ($nav['level'] == 1 && $_G['uid']) || ($nav['level'] == 2 && $_G['adminid'] > 0) || ($nav['level'] == 3 && $_G['adminid'] == 1)) ||
 						!$nav['type'] && ($nav['id'] == 'stat' && $_G['group']['allowstatdata'] || $nav['id'] == 'report' && $_G['uid'] || $nav['id'] == 'archiver' || $nav['id'] == 'mobile' || $nav['id'] == 'darkroom'))}-->$nav['code']<span class="pipe">|</span><!--{/if}--><!--{/loop}-->
+						<!--{if !empty($_G['setting']['styles'][1])}--><a href="javascript:;" onclick="setcookie('styleid', '1', 31536000);location.href='forum.php';return false;">default style</a><span class="pipe">|</span><!--{/if}-->
 						<a href="$_G['setting']['siteurl']" rel="nofollow" target="_blank">$_G['setting']['sitename']</a>
 						<!--{hook/global_footerlink}-->
 						<!--{if $_G['setting']['statcode']}-->$_G['setting']['statcode']<!--{/if}-->
