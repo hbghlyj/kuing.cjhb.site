@@ -638,6 +638,16 @@ class model_post extends discuz_model {
 		if($isfirstpost && $this->thread['displayorder'] == -4 && empty($this->param['save'])) {
 			threadpubsave($this->thread['tid']);
 		}
+
+		// push "editpost" activity to Pusher
+		require_once(DISCUZ_ROOT.'/vendor/autoload.php');
+		require_once(DISCUZ_ROOT.'/chat/php/config.php');
+
+		$pusher = new Pusher(APP_KEY,APP_SECRET,APP_ID, [
+			'cluster' => 'eu',
+			'useTLS' => true
+		]);
+		$pusher->trigger('Chat', 'editpost', ['tid' => $this->thread['tid'], 'pid' => $this->post['pid'], 'subject' => $isfirstpost && $this->param['subject'] != $this->thread['subject'] ? $this->param['subject'] : '', 'uid' => $this->member['uid']]);
 	}
 
 	public function deletepost($parameters) {
