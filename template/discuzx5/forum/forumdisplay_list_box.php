@@ -148,6 +148,7 @@
 								<!--{/loop}-->
 								</div>
 							<!--{/if}-->
+							<!--{if $thread['allreplies'] || $thread['replies']}-->
 							<div class="kmfoot">
 								<span class="kmpl">{if $thread['allreplies']}$thread['allreplies']{else}$thread['replies']{/if}</span><span class="kmck"><!--{if $thread['isgroup'] != 1 || empty($groupnames[$thread['tid']]['views'])}-->$thread['views']<!--{else}-->{$groupnames[$thread['tid']]['views']}<!--{/if}--></span>
 								<!--{if $thread['lastposter']}-->
@@ -172,6 +173,7 @@
 								<!--{/if}-->						
 								<!--{if $thread['mobile']}--><span class="kmtxt">{lang post_mobile}</span><!--{/if}-->
 							</div>
+							<!--{/if}-->
 						</li>
 			
 				<!--{/loop}-->
