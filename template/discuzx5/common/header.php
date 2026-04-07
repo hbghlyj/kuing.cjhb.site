@@ -97,9 +97,6 @@
 			<div class="dz_layer_top">
 				<div  class="dz_btm_layer dz_nav">
 					<!--{eval $mnid = getcurrentnav();}-->
-					<div class="dz_nav_logo">
-						<!--{if !isset($_G['setting']['navlogos'][$mnid])}--><a href="{if $_G['setting']['domain']['app']['default']}{$_G['scheme']}://{$_G['setting']['domain']['app']['default']}/{else}./{/if}" title="$_G['setting']['bbname']" class="dzlogo">{$_G['style']['boardlogo']}</a><!--{else}--><div class="dzlogo">$_G['setting']['navlogos'][$mnid]</div><!--{/if}-->
-					</div>
 					<div class="dz_layer_nav">						
 						<ul>
 							<!--{eval $mnid = getcurrentnav(); $n=0; $dz_menumore = ''; $nn = $_G['style']['top_navnum'] ? $_G['style']['top_navnum'] : 10;}-->
