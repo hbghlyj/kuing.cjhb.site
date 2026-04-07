@@ -753,7 +753,8 @@ body .colorwd {width:36px !important;height:36px !important;line-height:36px !im
 .pgb a:hover {background-image:url({STYLEIMGDIR}/svg/arw_ls.svg);background-repeat:no-repeat;background-size:14px}
 .pg a.nxt {background-image:url({STYLEIMGDIR}/svg/arw_r.svg);background-position:90% 50%;background-size:14px;padding-right:25px}
 .pg a:hover.nxt {background-image:url({STYLEIMGDIR}/svg/arw_rs.svg);background-repeat:no-repeat;background-position:90% 50%;background-size:14px}
-.pgb a:before, .pg a.nxt:after, .pg a.prev:after, .oshr:before, .tbms_r:before, .ptg:before, .tbms:before, .fico-bell:before, .xl a.d:before,  .c a.d:before, .fico-mypost:before, #scbar_btn:before, .fico-group:before, #task_ntc:before {display:none}
+.pgb a:before, .pg a.nxt:after, .pg a.prev:after, .oshr:before, .tbms_r:before, .tbms:before, .fico-bell:before, .xl a.d:before,  .c a.d:before, .fico-mypost:before, #scbar_btn:before, .fico-group:before, #task_ntc:before {display:none}
+.ptg:before {content:"\f14a";font-family:dzicon;font-size:16px;line-height:14px;color:#7DA0CC}
 
 .reason_slct .pt, .reason_slct .px {width: 298px !important;margin-bottom: 5px;}
 #uhd{background: #ffffff;border: 1px solid var(--dz-borderb);    border-bottom: none;}
