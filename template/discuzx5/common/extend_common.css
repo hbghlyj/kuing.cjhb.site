@@ -789,16 +789,12 @@ body .colorwd {width:36px !important;height:36px !important;line-height:36px !im
 .forumportal_listc .kmtit i.fico-image:before {font-size:120%}
 .forumportal_listc .kmtit .fico-image, .forumportal_listc .kmtit .fico-attachment {color:var(--dz-fc)}
 .forumportal_listc .kmtit span, .forumportal_listc .kmtit em, .forumportal_listc .kmtit i {margin-right:2px}
-.forumportal_listc .kmmeta {margin-top:8px;height:20px;line-height:20px;font-size:12px;color:var(--dz-fc);overflow:hidden}
-.forumportal_listc .kmmeta a {float:left;margin-right:12px;color:var(--dz-fc)}
-.forumportal_listc .kmmeta a:hover {color:var(--dz-ahover)}
-.forumportal_listc .kmmeta img[src*="verify"] {max-height:14px !important;margin:-2px 0 0 -6px}
+.forumportal_listc .kmmeta, .forumportal_listc .kmfoot {margin-top:10px;height:20px;line-height:20px;font-size:12px;color:var(--dz-fc);overflow:hidden}
+.forumportal_listc .kmmeta a, .forumportal_listc .kmfoot a {float:left;margin-right:12px;color:var(--dz-fc)}
+.forumportal_listc .kmmeta a:hover, .forumportal_listc .kmfoot a:hover {color:var(--dz-ahover)}
+.forumportal_listc .kmmeta img[src*="verify"], .forumportal_listc .kmfoot img[src*="verify"] {max-height:14px !important;margin:-2px 0 0 -6px}
 .forumportal_listc .kmmeta .kmtime {float:left;margin-right:12px;font-family:hl-efont}
 .forumportal_listc .kmcon {margin-top:8px;line-height:18px;font-size:12px;color:var(--dz-fc);overflow:hidden}
-.forumportal_listc .kmfoot {margin-top:10px;height:20px;line-height:20px;font-size:12px;color:var(--dz-fc);overflow:hidden}
-.forumportal_listc .kmfoot a {float:left;margin-right:12px;color:var(--dz-fc)}
-.forumportal_listc .kmfoot a:hover {color:var(--dz-ahover)}
-.forumportal_listc .kmfoot img[src*="verify"] {max-height:14px !important;margin:-2px 0 0 -6px}
 .forumportal_listc .kmfoot .kmico_bk {padding:0 3px;background:var(--dz-bgc);color:var(--dz-ahot);height:20px;line-height:20px;font-size:12px;font-weight:400;border-radius:2px}
 .forumportal_listc .kmfoot .kmtxt, .forumportal_listc .kmfoot .kmtxt em, .forumportal_listc .kmfoot .kmtime {float:left;margin-right:12px}
 .forumportal_listc .kmfoot .kmtime {font-family:hl-efont}
