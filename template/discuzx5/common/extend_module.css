@@ -13,8 +13,8 @@
 #category_grid .newimgbox h4 {border-left:none}
 .category_newlist {padding:10px 15px}
 .category_newlist li {height:26px;line-height:26px;font-size:13px}
-.category_newlist li:before {width:4px;height:4px;background:var(--dz-fc);border-radius:6px;margin:0 8px 3px 0}
-.category_newlist li:hover:before {background:var(--dz-ahover)}
+.category_newlist li:before {content:attr(n, "\2022");display:inline-block;min-width:1em;margin:0 8px 0 0;color:var(--dz-fc);text-align:center}
+.category_newlist li:hover:before {color:var(--dz-ahover)}
 .slidebox_grid {margin:18px auto;border-color:var(--dz-borderb);overflow:hidden}
 .flg .bm_h {margin:0 15px 15px}
 .flg .bm_c {padding:0 15px 15px}
