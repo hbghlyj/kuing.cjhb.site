@@ -4,7 +4,7 @@
 		<div id="algolia-hits"></div>
 		<div id="algolia-pagination"></div>
 	</main>
-	<aside id="ais-facets" style="display: none;">
+	<aside id="ais-facets">
 		<div id="ais-clear-refinements"></div>
 		<div>
 			<h3 class="widgettitle">{lang tag}</h3>
