@@ -168,7 +168,7 @@ a.pnc[href*="op=del"], a.pnc[href*="op=del"]:hover, .dz_lzinfo_one .km_btn a[hre
 .pnc[disabled="disabled"], .pnc[disabled=""], #fwin_content_nav #postbtn[disabled="disabled"], #fwin_content_nav #postbtn[disabled=""] {background:var(--dz-bgb) !important;color:var(--dz-fd) !important}
 button.vm * {vertical-align:baseline}
 .pn, .pnc, a.pnc {margin-right:10px;padding:0 10px;border:none;white-space:nowrap}
-.pn em, .pn span, .pn strong, .pnc em {padding:0 10px;line-height:34px;font-weight:400}
+.pn em, .pn span, .pn strong, .pnc em {padding:0 10px;line-height:21px;font-weight:400}
 .pn em, .pn strong {font-weight:400}
 .pn:hover, .pnc:hover {cursor:pointer;opacity:0.8}
 a.pn {height:36px;line-height:36px;padding:0 5px;background:var(--dz-btnbg);color:var(--dz-btntxt) !important}
