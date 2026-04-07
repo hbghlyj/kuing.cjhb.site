@@ -311,7 +311,7 @@
 										<!--{if $forum['redirect']}-->
 											<a href="$forumurl" class="xi2">{lang url_link}</a>
 										<!--{elseif is_array($forum['lastpost'])}-->
-											<a href="forum.php?mod=redirect&tid=$forum[lastpost][tid]&goto=lastpost#lastpost" class="xi2"><!--{echo cutstr($forum[lastpost][subject], 30)}--></a> <cite>$forum[lastpost][dateline] <!--{if $forum['lastpost']['author']}-->$forum['lastpost']['author']<!--{else}-->$_G[setting][anonymoustext]<!--{/if}--></cite>
+											<a href="forum.php?mod=redirect&tid=$forum[lastpost][tid]&goto=lastpost#lastpost" class="xi2"><!--{echo cutstr($forum[lastpost][subject], 30)}--></a> <cite><span class="xs0">$forum[lastpost][dateline] </span><!--{if $forum['lastpost']['author']}-->$forum['lastpost']['author']<!--{else}-->$_G[setting][anonymoustext]<!--{/if}--></cite>
 										<!--{else}-->
 											{lang never}
 										<!--{/if}-->
@@ -375,7 +375,7 @@
 											<a href="$forumurl" class="xi2">{lang url_link}</a>
 										<!--{elseif is_array($forum['lastpost'])}-->
 											<!--{if $cat['forumcolumns'] < 3}-->
-												<a href="forum.php?mod=redirect&tid=$forum[lastpost][tid]&goto=lastpost#lastpost" class="xi2"><!--{echo cutstr($forum[lastpost][subject], 30)}--></a> <cite>$forum[lastpost][dateline] <!--{if $forum['lastpost']['author']}-->$forum['lastpost']['author']<!--{else}-->$_G[setting][anonymoustext]<!--{/if}--></cite>
+											<a href="forum.php?mod=redirect&tid=$forum[lastpost][tid]&goto=lastpost#lastpost" class="xi2"><!--{echo cutstr($forum[lastpost][subject], 30)}--></a> <cite><span class="xs0">$forum[lastpost][dateline] </span><!--{if $forum['lastpost']['author']}-->$forum['lastpost']['author']<!--{else}-->$_G[setting][anonymoustext]<!--{/if}--></cite>
 											<!--{else}-->
 												<a href="forum.php?mod=redirect&tid=$forum[lastpost][tid]&goto=lastpost#lastpost">{lang forum_lastpost}: $forum[lastpost][dateline]</a>
 											<!--{/if}-->
@@ -406,7 +406,7 @@
 									<!--{if $forum['redirect']}-->
 										<a href="$forumurl" class="xi2">{lang url_link}</a>
 									<!--{elseif is_array($forum['lastpost'])}-->
-										<a href="forum.php?mod=redirect&tid=$forum[lastpost][tid]&goto=lastpost#lastpost" class="xi2"><!--{echo cutstr($forum[lastpost][subject], 30)}--></a> <cite>$forum[lastpost][dateline] <!--{if $forum['lastpost']['author']}-->$forum['lastpost']['author']<!--{else}-->$_G[setting][anonymoustext]<!--{/if}--></cite>
+										<a href="forum.php?mod=redirect&tid=$forum[lastpost][tid]&goto=lastpost#lastpost" class="xi2"><!--{echo cutstr($forum[lastpost][subject], 30)}--></a> <cite><span class="xs0">$forum[lastpost][dateline] </span><!--{if $forum['lastpost']['author']}-->$forum['lastpost']['author']<!--{else}-->$_G[setting][anonymoustext]<!--{/if}--></cite>
 									<!--{else}-->
 										{lang never}
 									<!--{/if}-->
