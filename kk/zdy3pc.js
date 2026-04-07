@@ -171,7 +171,7 @@ close.onclick = function() {
 };
 MULU.appendChild(close);
 const MULUSELECT = document.createElement("select");
-MULUSELECT.style = 'padding: 0;overflow-y: hidden;border: none;box-shadow: 0 0 2px #2B7ACD;';
+MULUSELECT.style = 'padding: 0 !important;overflow-y: hidden;border: none;box-shadow: 0 0 2px #2B7ACD;';
 MULUSELECT.size = 0;
 function addLou(elem) {
     elem.querySelectorAll('#postlist > div[id^="post_"]').forEach((lou, index) => {
