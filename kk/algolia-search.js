@@ -132,12 +132,29 @@ export function initSearch(lang, forumlist, options = {}) {
 		}
 		submitButton.style.display = searchInput.value.trim().length > 0 ? 'none' : '';
 	}
+	function syncResetVisibility(searchInput) {
+		if(!options.showReset) {
+			return;
+		}
+		const resetButton = document.querySelector('#algolia-search-box .ais-SearchBox-reset');
+		if(!resetButton || !searchInput) {
+			return;
+		}
+		if(searchInput.value.trim().length > 0) {
+			resetButton.removeAttribute('hidden');
+			resetButton.style.display = '';
+		} else {
+			resetButton.setAttribute('hidden', '');
+			resetButton.style.display = 'none';
+		}
+	}
 	function syncSubmitVisibilitySoon(searchInput) {
 		if(!options.hideSubmitWhenHasQuery) {
 			return;
 		}
 		window.setTimeout(function () {
 			syncSubmitVisibility(searchInput);
+			syncResetVisibility(searchInput);
 		}, 0);
 	}
 	function applySearchBoxOptions() {
@@ -164,6 +181,7 @@ export function initSearch(lang, forumlist, options = {}) {
 			facets.style.display = hasQuery ? '' : 'none';
 		}
 		syncSubmitVisibility(searchInput);
+		syncResetVisibility(searchInput);
 		syncSubmitVisibilitySoon(searchInput);
 	}
 	function bindSearchInputVisibility() {
