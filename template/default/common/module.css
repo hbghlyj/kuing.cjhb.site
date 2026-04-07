@@ -563,7 +563,7 @@ Created & Modified by Alice, Monkey, Lushnis, Pony, Dfox & DragonLee.
 	/* PC browsers */
 	@media only screen and (orientation: landscape) {
 		#thread_subject, .xst {
-			font-family: "Latin Modern Roman",{THREADTITLEFONT};
+			font-family: "Latin Modern Roman",zh,{THREADTITLEFONT};
 		}
 	}
 		.xst i { font-style: italic; }
