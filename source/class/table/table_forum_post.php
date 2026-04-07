@@ -521,7 +521,12 @@ class table_forum_post extends discuz_table {
 		if($fid !== null) {
 			$where[] = DB::field('fid', $fid);
 		}
-		$return = DB::update(self::get_tablename($tableid), $data, implode(' AND ', $where), $unbuffered, $low_priority);
+		if($this->has_nullable_json_null($data)) {
+			$cmd = 'UPDATE '.($low_priority ? 'LOW_PRIORITY ' : '');
+			$return = DB::query($cmd.DB::table(self::get_tablename($tableid)).' SET '.$this->build_field_assignments($data).' WHERE '.implode(' AND ', $where), [], false, $unbuffered);
+		} else {
+			$return = DB::update(self::get_tablename($tableid), $data, implode(' AND ', $where), $unbuffered, $low_priority);
+		}
 		if($return && $this->_allowmem) {
 			$this->update_cache($tableid, $pid, 'pid', $data, ['invisible' => $invisible, 'first' => $first, 'fid' => $fid, 'status' => $status]);
 		}
@@ -726,6 +731,9 @@ class table_forum_post extends discuz_table {
 	 */
 	public function insert_post($tableid, $data, $return_insert_id = false, $replace = false, $silent = false) {
 		if(strtolower(getglobal('config/db/common/engine')) !== 'innodb') { // 如果不是innodb，则是原来myisam，position是按tid自增的
+			if($this->has_nullable_json_null($data)) {
+				return $this->insert_post_with_nullable_json(self::get_tablename($tableid), $data, $return_insert_id, $replace, $silent);
+			}
 			return DB::insert(self::get_tablename($tableid), $data, $return_insert_id, $replace, $silent);
 		}
 		$tablename = self::get_tablename($tableid);
@@ -754,7 +762,11 @@ class table_forum_post extends discuz_table {
 			// 更新数据的position字段
 			$data['position'] = $next_pos;
 			try {
-				$ret = DB::insert($tablename, $data, $return_insert_id, $replace, $silent);
+				if($this->has_nullable_json_null($data)) {
+					$ret = $this->insert_post_with_nullable_json($tablename, $data, $return_insert_id, $replace, $silent);
+				} else {
+					$ret = DB::insert($tablename, $data, $return_insert_id, $replace, $silent);
+				}
 				return $ret;
 			} catch (Exception $e) {
 				// 插入失败，可能是position冲突，再生成一个position试一下
@@ -765,6 +777,33 @@ class table_forum_post extends discuz_table {
 				}
 			}
 		}
+	}
+
+	private function has_nullable_json_null($data) {
+		foreach(['content', 'source'] as $field) {
+			if(array_key_exists($field, $data) && $data[$field] === null) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private function build_field_assignments($data) {
+		$sql = [];
+		foreach($data as $field => $value) {
+			if(in_array($field, ['content', 'source'], true) && $value === null) {
+				$sql[] = DB::quote_field($field).'=NULL';
+			} else {
+				$sql[] = DB::quote_field($field).'='.DB::quote($value);
+			}
+		}
+		return implode(', ', $sql);
+	}
+
+	private function insert_post_with_nullable_json($tablename, $data, $return_insert_id = false, $replace = false, $silent = false) {
+		$cmd = $replace ? 'REPLACE INTO' : 'INSERT INTO';
+		$table = DB::table($tablename);
+		return DB::query($cmd.' '.$table.' SET '.$this->build_field_assignments($data), [], $silent, !$return_insert_id);
 	}
 
 	public function delete($val, $unbuffered = false, $null = false) {
