@@ -122,6 +122,16 @@ export function initSearch(lang, forumlist, options = {}) {
 	};
 	const wrapper = document.getElementById('ais-wrapper');
 	const facets = document.getElementById('ais-facets');
+	function syncSubmitVisibility(searchInput) {
+		if(!options.hideSubmitWhenHasQuery) {
+			return;
+		}
+		const submitButton = document.querySelector('#algolia-search-box .ais-SearchBox-submit');
+		if(!submitButton || !searchInput) {
+			return;
+		}
+		submitButton.style.display = searchInput.value.trim().length > 0 ? 'none' : '';
+	}
 	function applySearchBoxOptions() {
 		const submitButton = document.querySelector('#algolia-search-box .ais-SearchBox-submit');
 		if(!submitButton) {
@@ -145,6 +155,7 @@ export function initSearch(lang, forumlist, options = {}) {
 		if(facets) {
 			facets.style.display = hasQuery ? '' : 'none';
 		}
+		syncSubmitVisibility(searchInput);
 	}
 	function bindSearchInputVisibility() {
 		const searchInput = document.querySelector("#algolia-search-box input[type='search']");
