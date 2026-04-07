@@ -114,7 +114,24 @@ export function initSearch(lang, forumlist) {
 		kuing: {}
 	};
 	search.start();
-	document.querySelector("#algolia-search-box input[type='search']").addEventListener('click', function () {
-		document.getElementById('ais-facets').style.display = '';
-	}, { once: true });
+	const searchInput = document.querySelector("#algolia-search-box input[type='search']");
+	const wrapper = document.getElementById('ais-wrapper');
+	const facets = document.getElementById('ais-facets');
+	function syncWrapperVisibility() {
+		if(!wrapper || !searchInput) {
+			return;
+		}
+		const hasQuery = searchInput.value.trim().length > 0;
+		wrapper.style.display = hasQuery ? 'flex' : 'none';
+		if(facets && !hasQuery) {
+			facets.style.display = 'none';
+		}
+	}
+	searchInput.addEventListener('click', function () {
+		if(facets && searchInput.value.trim().length > 0) {
+			facets.style.display = '';
+		}
+	});
+	searchInput.addEventListener('input', syncWrapperVisibility);
+	syncWrapperVisibility();
 }
