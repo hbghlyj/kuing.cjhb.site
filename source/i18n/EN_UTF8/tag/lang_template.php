@@ -22,5 +22,8 @@ $lang = array (
 	'related_blog'		=> 'Related blogs',//'相关日志',
 	'related_thread'	=> 'Related threads',//'相关帖子',
 	'replies'		=> 'Replies<em>Views</em>',//'回复/查看',
+	'sortby_related_count_desc' => 'Sort by post count',
+	'sortby_hot_desc'	=> 'Sort by hot',
+	'sortby_time_desc'	=> 'Sort by time',
 );
 
