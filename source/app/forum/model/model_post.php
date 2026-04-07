@@ -608,7 +608,7 @@ class model_post extends discuz_model {
 
 		$this->forum['lastpost'] = explode("\t", $this->forum['lastpost']);
 		if($isfirstpost && $this->post['tid'] == $this->forum['lastpost'][0]) {
-			C::t('forum_forum')->update_lastpost($this->forum['fid'], $this->thread['tid'], $this->param['subject'], $this->forum['lastpost'][2], $this->forum['lastpost'][3], array('propagate_parent' => false));
+			C::t('forum_forum')->update_lastpost($this->forum['fid'], $this->thread['tid'], $this->param['subject'], $this->forum['lastpost'][1], $this->forum['lastpost'][2], array('propagate_parent' => false));
 		}
 
 		if(!getglobal('forum_auditstatuson') || $this->param['audit'] != 1) {
