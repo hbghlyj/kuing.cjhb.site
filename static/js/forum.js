@@ -3,13 +3,13 @@
  * This is NOT a freeware, use is subject to license terms
  * https://license.discuz.vip
  */
-const ESCAPE_CHAR = '\u000E'; // Shift Out (SO)
-const ESCAPE_SEQ_FOR_ESCAPE_CHAR = ESCAPE_CHAR + '\u0000'; // SO + NUL
-const ESCAPE_SEQ_FOR_DOUBLE_TAB = ESCAPE_CHAR + '\u0002';  // SO + STX
-const ESCAPE_SEQ_FOR_SINGLE_TAB = ESCAPE_CHAR + '\u0001';  // SO + SOH
+var ESCAPE_CHAR = '\u000E'; // Shift Out (SO)
+var ESCAPE_SEQ_FOR_ESCAPE_CHAR = ESCAPE_CHAR + '\u0000'; // SO + NUL
+var ESCAPE_SEQ_FOR_DOUBLE_TAB = ESCAPE_CHAR + '\u0002';  // SO + STX
+var ESCAPE_SEQ_FOR_SINGLE_TAB = ESCAPE_CHAR + '\u0001';  // SO + SOH
 
-const SINGLE_TAB = '\t';
-const DOUBLE_TAB = '\t\t';
+var SINGLE_TAB = '\t';
+var DOUBLE_TAB = '\t\t';
 /**
  * Escapes special characters in a string to prevent conflicts with delimiters.
  * Order of replacement is important:
