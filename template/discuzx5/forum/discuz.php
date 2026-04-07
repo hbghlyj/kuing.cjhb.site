@@ -301,7 +301,7 @@
 									<!--{hook/index_favforum_extra $forum['fid']}-->
 								</td>
 								<td class="fl_i">
-									<!--{if empty($forum[redirect])}--><span class="xi2"><!--{echo dnumber($forum[threads])}--></span><span class="xg1"> / <!--{echo dnumber($forum[posts])}--></span><!--{/if}-->
+									<!--{if empty($forum[redirect])}--><p class="xg1"><font face="dzicon"></font><!--{echo dnumber($forum[threads])}--></p><p class="xg1"><font face="dzicon"></font><!--{echo dnumber($forum[posts])}--></p><!--{/if}-->
 								</td>
 								<td class="fl_by">
 									<div>
@@ -396,7 +396,7 @@
 								<!--{hook/index_forum_extra $forum['fid']}-->
 							</td>
 							<td class="fl_i">
-								<!--{if empty($forum[redirect])}--><span class="xi2"><!--{echo dnumber($forum[threads])}--></span><span class="xg1"> / <!--{echo dnumber($forum[posts])}--></span><!--{/if}-->
+								<!--{if empty($forum[redirect])}--><p class="xg1"><font face="dzicon"></font><!--{echo dnumber($forum[threads])}--></p><p class="xg1"><font face="dzicon"></font><!--{echo dnumber($forum[posts])}--></p><!--{/if}-->
 							</td>
 							<td class="fl_by">
 								<div>
