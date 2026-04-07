@@ -630,7 +630,10 @@ if(!$navtitle) {
 	$nobbname = true;
 }
 if(!$metakeywords) {
-	$metakeywords = strip_tags($thread['subject']);
+	$metakeywords = implode(',', $tagnames);
+	if(!empty($_G['forum_thread']['typeid']) && !empty($_G['forum']['threadtypes']['types'][$_G['forum_thread']['typeid']])) {
+		$metakeywords .= ($metakeywords ? ',' : '') . $_G['forum']['threadtypes']['types'][$_G['forum_thread']['typeid']];
+	}
 }
 if(!$metadescription) {
 	$metadescription = $summary.' '.strip_tags($_G['forum_thread']['subject']);
