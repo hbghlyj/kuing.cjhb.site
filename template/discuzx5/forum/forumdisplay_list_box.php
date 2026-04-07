@@ -97,8 +97,17 @@
 									<!--{elseif $thread['rate'] < 0}-->
 										<i class="fico-thumbdown fc-a fnmr vm" title="{lang posts_deducted}"></i>
 									<!--{/if}-->
-								<!--{/if}-->						
+								<!--{/if}-->
 							</a>
+							<div class="kmmeta">
+								<!--{if $thread['authorid'] && $thread['author']}-->
+									<a href="home.php?mod=space&uid=$thread['authorid']" target="_blank"{if $groupcolor[$thread['authorid']]} style="color: $groupcolor[$thread['authorid']];"{/if}>$thread['author']</a>
+									<!--{if !empty($verify[$thread['authorid']])}-->$verify[$thread['authorid']]<!--{/if}-->
+								<!--{else}-->
+									<a href="javascript:;">$_G['setting']['anonymoustext']</a>
+								<!--{/if}-->
+								<span class="kmtime{if $thread['istoday'] && CURMODULE == 'forumdisplay'} xi1{/if}">{lang tmp083} $thread['dateline']</span>
+							</div>
 							<!--{if $threadlist_data[$thread['tid']]['message'] && !in_array($thread['displayorder'], array(1,2,3,4))}--><div class="kmtxt">{$threadlist_data[$thread['tid']]['message']}</div><!--{/if}-->										
 							<!--{if is_array($threadlist_data[$thread['tid']]['attachment'])}-->
 								<!--{if count($threadlist_data[$thread['tid']]['attachment']) == 1}-->
