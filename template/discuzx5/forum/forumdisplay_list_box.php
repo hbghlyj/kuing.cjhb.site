@@ -99,7 +99,7 @@
 									<!--{/if}-->
 								<!--{/if}-->						
 							</a>
-							<div class="kmtxt">{$threadlist_data[$thread['tid']]['message']}</div>										
+							<!--{if $threadlist_data[$thread['tid']]['message'] && !in_array($thread['displayorder'], array(1,2,3,4))}--><div class="kmtxt">{$threadlist_data[$thread['tid']]['message']}</div><!--{/if}-->										
 							<!--{if is_array($threadlist_data[$thread['tid']]['attachment'])}-->
 								<!--{if count($threadlist_data[$thread['tid']]['attachment']) == 1}-->
 								<div class="kmimg_onebox">
