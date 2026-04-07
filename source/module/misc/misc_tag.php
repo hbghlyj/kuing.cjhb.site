@@ -91,9 +91,12 @@ if(!empty($id) || $name) {
 	$start_limit = ($page - 1) * $tpp;
 	$tagarray = array();
 	$count = C::t('common_tag')->fetch_all_by_status(status:0,returncount:1);
-	$sql = 'SELECT tag.tagname AS tagname, tag.tagid AS tagid, tag.related_count AS threadnum FROM '.DB::table('common_tag').' tag WHERE tag.status=0';
-	if(isset($_GET['sortby']) && $_GET['sortby'] == 'threadnum') {
+	$sortby = isset($_GET['sortby']) ? trim($_GET['sortby']) : '';
+	$sql = 'SELECT tag.tagname AS tagname, tag.tagid AS tagid, tag.related_count AS related_count FROM '.DB::table('common_tag').' tag WHERE tag.status=0';
+	if(in_array($sortby, ['threadnum', 'related_count'], true)) {
 		$sql .= ' ORDER BY tag.related_count DESC, tag.tagid DESC';
+	} elseif($sortby == 'hot') {
+		$sql .= ' ORDER BY tag.hot_score DESC, tag.tagid DESC';
 	}else{
 		$sql .= ' ORDER BY tag.tagid DESC';
 	}
