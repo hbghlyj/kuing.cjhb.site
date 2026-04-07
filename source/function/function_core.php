@@ -1060,7 +1060,12 @@ function template($file, $templateid = 0, $tpldir = '', $gettplfile = 0, $primal
 	$cachefile = './template/'.DISCUZ_LANG.(defined('STYLEID') ? STYLEID.'_' : '_').$templateid.'_'.str_replace('/', '_', $file).$i18n.'.tpl.php';
 	if($templateid != 1 && !tplfile::file_exists($tplfile) && !tplfile::file_exists(substr($tplfile, 0, -4).'.php')
 		&& !tplfile::file_exists(($tplfile = $tpldir.'/'.$filebak.'.htm'))) {
-		$tplfile = DISCUZ_TEMPLATE('./template/default/'.$filebak.'.php');
+		$defaulttplfile = DISCUZ_TEMPLATE('./template/default/'.$filebak.'.htm');
+		if(tplfile::file_exists($defaulttplfile)) {
+			$tplfile = $defaulttplfile;
+		} else {
+			$tplfile = DISCUZ_TEMPLATE('./template/default/'.$filebak.'.php');
+		}
 	}
 	if($gettplfile) {
 		return $tplfile;
