@@ -1907,6 +1907,8 @@ $lang = array
 	'setting_editor_smcols_comment' => '发帖页面表情显示的列数，允许范围在 8～12之间',
 	'setting_editor_smrows' => '表情行数',
 	'setting_editor_smrows_comment' => '发帖页面表情显示的行数',
+	'setting_editor_json_independence' => 'Use standalone JSON editor page',
+	'setting_editor_json_independence_comment' => 'Whether to use the standalone JSON editor page.',
 
 	'setting_permissions' => '用户权限',
 	'setting_permissions_alloweditpost' => '允许用户随时编辑的帖子类型',
