@@ -35,6 +35,10 @@ if(empty($orig)) {
 	}
 }
 
+if((!$_G['forum']['ismoderator'] || !$_G['group']['alloweditpost'] || (in_array($orig['adminid'], [1, 2, 3]) && $_G['adminid'] > $orig['adminid'])) && !(($_G['forum']['alloweditpost'] || $orig['invisible'] == -3) && $isorigauthor)) {
+	showmessage('post_edit_nopermission', NULL);
+}
+
 $thread['pricedisplay'] = $thread['price'] == -1 ? 0 : $thread['price'];
 
 if($special == 5) {
