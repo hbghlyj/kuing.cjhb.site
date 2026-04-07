@@ -3,13 +3,11 @@
 	<!--{if $_G['style']['is_search']}-->
 	<div class="header-searcher">
 		<div class="searcher-wrap">
-			<form method="{if $_G[fid] && !empty($searchparams[url])}get{else}post{/if}" autocomplete="off"
-				action="{if $_G[fid] && !empty($searchparams[url])}$searchparams[url]{else}search.php?searchsubmit=yes{/if}">
-				<input type="hidden" name="mod" value="forum" />
-				<input type="search" name="srchtxt" placeholder="搜索" value="{if $keyword}$keyword{/if}"
-					class="search-input ais-SearchBox-input" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" maxlength="512" aria-label="Search">
-				<button type="submit" name="searchsubmit" sc="1" class="search-icon" value="true"></button>
-			</form>
+			<div class="algolia-search-box-wrapper">
+				<div id="algolia-search-box"></div>
+				<div id="algolia-stats"></div>
+				<div id="algolia-powered-by"></div>
+			</div>
 		</div>
 	</div>
 	<!--{/if}-->

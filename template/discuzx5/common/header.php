@@ -160,6 +160,7 @@
 			</ul>
 			<!--{/if}-->
 		
+			<!--{subtemplate common/pubsearchform}-->
 		</div>
 
 		<!--{hook/global_header}-->
