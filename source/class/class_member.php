@@ -274,20 +274,8 @@ class logging_ctl {
 							}
 							showmessage($loginmessage, $location, $param, $extra);
 						} else {
-							$href = str_replace("'", "\'", $location);
-							showmessage('location_login_succeed', $location, $param,
-								[
-									'showid' => 'succeedmessage',
-									'extrajs' => '<script type="text/javascript">'.
-										'setTimeout("window.location.href =\''.$href.'\';", 3000);'.
-										'$(\'succeedmessage_href\').href = \''.$href.'\';'.
-										'$(\'main_message\').style.display = \'none\';'.
-										'$(\'main_succeed\').style.display = \'\';'.
-										'$(\'succeedlocation\').innerHTML = \''.lang('message', $loginmessage, $param).'\';</script>'.$ucsynlogin,
-									'striptags' => false,
-									'showdialog' => true
-								]
-							);
+							$extra['location'] = true;
+							showmessage($loginmessage, $location, $param, $extra);
 						}
 					}
 				} else {
