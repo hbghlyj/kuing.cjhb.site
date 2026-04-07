@@ -92,6 +92,13 @@ if(!empty($id) || $name) {
 	$tagarray = array();
 	$count = C::t('common_tag')->fetch_all_by_status(status:0,returncount:1);
 	$sortby = isset($_GET['sortby']) ? trim($_GET['sortby']) : '';
+	$viewtype = 'time';
+	if(in_array($sortby, ['threadnum', 'related_count'], true)) {
+		$viewtype = 'related_count';
+	} elseif($sortby == 'hot') {
+		$viewtype = 'hot';
+	}
+	$orderactives[$viewtype] = 'class="a"';
 	$sql = 'SELECT tag.tagname AS tagname, tag.tagid AS tagid, tag.related_count AS related_count FROM '.DB::table('common_tag').' tag WHERE tag.status=0';
 	if(in_array($sortby, ['threadnum', 'related_count'], true)) {
 		$sql .= ' ORDER BY tag.related_count DESC, tag.tagid DESC';
@@ -105,7 +112,7 @@ if(!empty($id) || $name) {
 	foreach($query as $result) {
 		$tagarray[] = $result;
 	}
-	$multipage = multi($count, $tpp, $page, 'misc.php?mod=tag');
+	$multipage = multi($count, $tpp, $page, 'misc.php?mod=tag'.($sortby ? '&sortby='.$sortby : ''));
 	include_once template('tag/tag');
 }
 

@@ -16,15 +16,9 @@
 				<input type="text" name="name" class="px vm" required>&nbsp;
 				<button type="submit" class="pn"><em>{lang search}</em></button>
 				<i class="fico-help fc-n vm" tip="用,分隔多个标签可以取它们的交集" onmouseover="showTip(this)"></i>
-				<!--{if !in_array($_GET['sortby'], array('threadnum', 'related_count'))}-->
-				<button onclick="location.href='misc.php?mod=tag&sortby=related_count'" type="button" class="pn y"><em>{lang sortby_related_count_desc}</em></button>
-				<!--{/if}-->
-				<!--{if $_GET['sortby'] != 'hot'}-->
-				<button onclick="location.href='misc.php?mod=tag&sortby=hot'" type="button" class="pn y"><em>{lang sortby_hot_desc}</em></button>
-				<!--{/if}-->
-				<!--{if !empty($_GET['sortby'])}-->
-				<button onclick="location.href='misc.php?mod=tag'" type="button" class="pn y"><em>{lang sortby_time_desc}</em></button>
-				<!--{/if}-->
+				<span class="pipe">|</span><a href="misc.php?mod=tag" $orderactives[time]>{lang sortby_time_desc}</a>
+				<span class="pipe">|</span><a href="misc.php?mod=tag&sortby=related_count" $orderactives[related_count]>{lang sortby_related_count_desc}</a>
+				<span class="pipe">|</span><a href="misc.php?mod=tag&sortby=hot" $orderactives[hot]>{lang sortby_hot_desc}</a>
 			</form>
 			<style>input.px:not(:focus)+button.pn:not(:hover) {display: none}</style>
 			<div class="taglist mtm mbm">
