@@ -43,7 +43,7 @@
 
 html{overflow-y:scroll}
 body {background:var(--dz-bodybg)}
-body, input, button, select, textarea {color:var(--dz-fa)}
+body, input, button, select, textarea {color:var(--dz-fa);font-family:"Latin Modern Roman",var(--common-font),zh,"Noto Colr Emoji Glyf","Twemoji Country Flags",system-ui,-apple-system,BlinkMacSystemFont,times,serif}
 ul,li{list-style:none}
 a {color:var(--dz-alink)}
 a:hover {color:var(--dz-ahover);text-decoration:none}

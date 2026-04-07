@@ -7,6 +7,49 @@
 	<!--{eval $is_windows_chrome = strpos($_SERVER['HTTP_USER_AGENT'], 'Windows') !== false && strpos($_SERVER['HTTP_USER_AGENT'], 'Chrome') !== false;}-->
 	<!--{eval $is_old_chrome = preg_match('/Windows 7|Windows 8|Windows NT 6|Windows NT 10\.0.*?Chrome\/10[0-9]/', $_SERVER['HTTP_USER_AGENT']);}-->
 	<!--{if $is_old_chrome}--><link href="https://fonts.googleapis.com/css2?family=Noto+Colr+Emoji+Glyf" rel="stylesheet"><!--{/if}-->
+	<style id="en_font_style">
+		:root {
+			--common-font: system-ui,-apple-system,BlinkMacSystemFont,times,serif;
+		}
+	@font-face {
+		font-family: 'Latin Modern Roman';
+		src: url('/static/webfont/NewCM10-Book.woff2') format('woff2');
+		font-weight: normal;
+		font-style: normal;
+	}
+	@font-face {
+		font-family: 'Latin Modern Roman';
+		src: url('/static/webfont/NewCM10-Bold.woff2') format('woff2');
+		font-weight: bold;
+		font-style: normal;
+	}
+	@font-face {
+		font-family: 'Latin Modern Roman';
+		src: url('/static/webfont/NewCM10-BookItalic.woff2') format('woff2');
+		font-weight: normal;
+		font-style: italic;
+	}
+	@font-face {
+		font-family: 'Latin Modern Roman';
+		src: url('/static/webfont/NewCM10-BoldItalic.woff2') format('woff2');
+		font-weight: bold;
+		font-style: italic;
+	}
+	</style>
+	<style id="zh_font_style">
+	@font-face {
+	font-family: zh;
+	size-adjust: 90%;
+	src: local('Noto Serif CJK SC'),local('Noto Sans CJK SC'),local('Noto Serif SC'),local('Noto Sans SC'),
+	local('PingFang SC'),
+	local('Songti SC'),
+	local('DengXian'),local('SimSun'),
+	local('STSong'),
+	local('MingLiU'),
+	local('PMingLiU'),
+	local('Songti TC');
+	}
+	</style>
 	<!--{if $is_windows_chrome && !$is_old_chrome}-->
 	<style>
 	@font-face {
