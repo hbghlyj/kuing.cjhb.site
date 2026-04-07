@@ -642,7 +642,7 @@ $lang = array (
 	'select_a_moderate_data'		=> 'Please select at least one item to audit data',//'请选择至少一条审核数据',
 	'operation_done'			=> 'the operation finished',//'进行的操作完了',
 
-	'post_edit_nopermission'		=> 'Sorry, you are not allowed to edit other persons\'s posts.',//'对不起，您无权编辑他人发表的帖子，请返回。',
+	'post_edit_nopermission'		=> 'Sorry, you are not allowed to edit someone else\'s posts.',//'对不起，您无权编辑他人发表的帖子，请返回。',
 	'post_edit_timelimit'			=> 'Sorry, you post has posted more than {edittimelimit} minutes, you can not edit it.',//'对不起，您的帖子从发表到现在已超过 {edittimelimit} 分钟，不能再进行编辑，请返回。',
 	'debate_umpire_comment_invalid'		=> 'Magistrates have been judged, you can not edit.',//'裁判已经进行了评判，您不能再进行编辑，请返回。',
 	'post_edit_nopermission_threadplign'	=> 'Sorry, you can not edit this post, insufficient privileges or special quote function has been turned off.',//'对不起，你无法编辑本帖子，权限不足或特殊帖功能已经关闭，请返回。',
