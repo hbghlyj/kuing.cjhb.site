@@ -51,6 +51,32 @@
 	<!--{ad/couplebanner/a_fl a_cb/1}--><!--{ad/couplebanner/a_fr a_cb/2}-->
 	<!--{ad/cornerbanner/a_cn}-->
 	<!--{hook/global_footer}-->
+	<!--{if in_array(CURMODULE, array('post', 'forumdisplay', 'viewthread')) && in_array($_G['fid'], array(5, 6, 7, 14)) && !isset($_GET['editsubmit'])}-->
+	<div class="wp" id="cgb">
+	<style>
+	#inputWrap{background:#f8f8f5;float:left;width:40%;position:sticky;top:30px;text-align:center;}
+	#inputText{background:#f8f8f5;border:solid 6px #e8ece6;padding:6px;width:100%;box-sizing:border-box;display:block;}
+	#outputWrap{background:#f8f8f5;float:right;width:60%;}
+	#output{border:solid 6px #e8ece6;padding:6px;text-align:left;box-sizing:border-box;white-space:pre-wrap;}
+	.anniu{white-space:nowrap;min-width:30px;}
+	::-webkit-input-placeholder{color:darkgray}
+	::-moz-placeholder{color:darkgray}
+	</style>
+	<div id="inputWrap">
+	<textarea id="inputText" rows="13" placeholder="在此处输入 LaTeX 代码及文字，右边即时预览。
+
+	大家可以用来打草稿或者调试代码。
+
+	详尽的代码列表及输入说明请见置顶帖。">
+	</textarea>
+	</div>
+	<div id="outputWrap">
+	<div id="output"></div>
+	</div>
+	<div style="clear:both"></div>
+	<script src="/kk/mathjax-preview.js?{VERHASH}"></script>
+	</div>
+	<!--{/if}-->
 	<div class="dz_footc cl">
 		<div id="ft" class="wp dz_footc_bottom cl">
 			<div class="dz_footc_dico">

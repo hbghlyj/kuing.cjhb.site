@@ -1,5 +1,6 @@
 <?php exit('Access Denied');?>
 <!--{template common/header}-->
+<link rel="stylesheet" type="text/css" href="kk/zdy3.css?{VERHASH}" />
 
 {cells viewthread/header}
 
@@ -370,6 +371,8 @@ $_G['forum_tagscript']
 		<a id="post_replytmp" onclick="showWindow('reply', 'forum.php?mod=post&action=reply&fid=$_G[fid]&tid=$_G[tid]')" href="javascript:;" title="{lang reply}" class="pgsbtn">{lang reply}</a>
 	<!--{/if}-->
 </div>
+
+<script src="kk/zdy3pc.js?{VERHASH}"></script>
 
 <!--{hook/viewthread_middle}-->
 <!--[diy=diyfastposttop]--><div id="diyfastposttop" class="area"></div><!--[/diy]-->
