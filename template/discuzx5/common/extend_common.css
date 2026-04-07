@@ -66,7 +66,7 @@ body .km_pnbtn {background:var(--dz-btnbga);color:var(--dz-btntxta) !important}
 img[src*="smiley"] {max-width:26px !important;max-height:26px !important;vertical-align:middle}
 img[src*="verify"] {max-height:16px !important;margin-right:4px}
 img[src*="static/image/poke"] {max-width:22px !important;max-height:22px !important}
-.dz_bm, .appl, .ct2 .mn .bm, .ct2 .sd .bm, .ct2_a .mn, .ct2_a .dz_phbbox .bm, .ct3_a .mn, .ct3_a .sd, .pg_spacecp #ct.wp .mn .bm, .pg_post #ct.ct2_a .bm, #scbar, .dz_flbm .bm, #online.bm, .bm.lk, .km_nox, .bm.kmbm_ca {border:none !important;box-shadow:var(--dz-shadow)}
+.dz_bm, .appl, .ct2 .mn .bm, .ct2 .sd .bm, .ct2_a .mn, .ct2_a .dz_phbbox .bm, .ct3_a .mn, .ct3_a .sd, .pg_spacecp #ct.wp .mn .bm, .pg_post #ct.ct2_a .bm, #scbar, #online.bm, .bm.lk, .km_nox, .bm.kmbm_ca {border:none !important;box-shadow:var(--dz-shadow)}
 .pg_ranklist .ct2_a .dz_phbbox, #ct.wp .mn .bm.bw0 {box-shadow:none;overflow:hidden}
 .mn, .ct2 .sd {overflow:visible}
 .ct2_a, .ct3_a {background:none;border:none}
@@ -317,6 +317,7 @@ form[action*="ac=privacy&op="] .tfm caption h2.ptw {padding-top:0px !important}
 .dz_wide .tb .y {margin-right:0}
 .dz_wide .tb .showmenu:after {content:"";position:static;bottom:auto;display:inline-block;margin:0 auto;width:auto;height:auto;background:none;border-radius:0}
 
+.fl .bm {border-top:1px double var(--dz-borderb)}
 .fl .bm_h {background:none;border:none}
 .bbs {border-bottom:1px solid var(--dz-borderb) !important}
 .bmw .bm_h {background:none;border-top:none;border-left:none;border-right:none;border-bottom:1px solid var(--dz-borderb)}
