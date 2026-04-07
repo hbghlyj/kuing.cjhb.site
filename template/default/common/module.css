@@ -437,6 +437,9 @@ Created & Modified by Alice, Monkey, Lushnis, Pony, Dfox & DragonLee.
 			.fl_by cite { display: block; }
 		.fl_i { text-align: right; }
 			.fl_i em { display: block; width: 5em; }
+		@media only screen and (max-width:500px) {
+			td.fl_i { display: none; }
+		}
 			.fl .i_z { margin-right: 8px; padding-right: 8px; border-right: 1px solid {CONTENTSEPARATE}; }
 	.fl_icn_g { float: left; width: 31px; }
 	.fl_g { vertical-align: top; }
