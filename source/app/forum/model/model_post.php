@@ -711,7 +711,7 @@ class model_post extends discuz_model {
 		}
 
 		$this->forum['lastpost'] = explode("\t", $this->forum['lastpost']);
-		if($this->post['dateline'] == $this->forum['lastpost'][2] && ($this->post['author'] == $this->forum['lastpost'][3] || ($this->forum['lastpost'][3] == '' && $this->post['anonymous']))) {
+		if($this->post['dateline'] == $this->forum['lastpost'][1] && ($this->post['author'] == $this->forum['lastpost'][2] || ($this->forum['lastpost'][2] == '' && $this->post['anonymous']))) {
 			$lastthread = C::t('forum_thread')->fetch_by_fid_displayorder($this->forum['fid']);
 			C::t('forum_forum')->update_lastpost($this->forum['fid'], $lastthread['tid'], $lastthread['subject'], $lastthread['lastpost'], $lastthread['lastposter'], array('propagate_parent' => false));
 		}
