@@ -138,7 +138,10 @@ class model_post extends discuz_model {
 				'quote_default' => $this->param['noticetrimstr']
 			];
 		}
-		$content = generate_content_json($contentType, $contentEditor, (!empty($this->param['content']) ? $this->param['content'] : '{}'), $extend);
+		$content = $contentType == 'json'
+			? generate_content_json($contentType, $contentEditor, (!empty($this->param['content']) ? $this->param['content'] : '{}'), $extend)
+			: null;
+		$source = $contentType == 'json' && !empty($this->param['source']) ? $this->param['source'] : null;
 
 		$this->pid = insertpost([
 			'fid' => $this->forum['fid'],
@@ -152,7 +155,7 @@ class model_post extends discuz_model {
 			'dateline' => $this->param['timestamp'] ? $this->param['timestamp'] : getglobal('timestamp'),
 			'message' => $this->param['message'],
 			'content' => $content,
-			'source' => !empty($this->param['source']) ? $this->param['source'] : '{}',
+			'source' => $source,
 			'useip' => $this->param['clientip'] ? $this->param['clientip'] : getglobal('clientip'),
 			'port' => $this->param['remoteport'] ? $this->param['remoteport'] : getglobal('remoteport'),
 			'invisible' => $pinvisible,
@@ -558,14 +561,17 @@ class model_post extends discuz_model {
 				'quote_default' => $this->param['noticetrimstr']
 			];
 		}
-		$content = generate_content_json($contentType, $contentEditor, (!empty($this->param['content']) ? $this->param['content'] : '{}'), $extend);
+		$content = $contentType == 'json'
+			? generate_content_json($contentType, $contentEditor, (!empty($this->param['content']) ? $this->param['content'] : '{}'), $extend)
+			: null;
+		$source = $contentType == 'json' && !empty($this->param['source']) ? $this->param['source'] : null;
 
 
 		$setarr = [
 			'original' => $this->param['original'],
 			'message' => $this->param['message'],
 			'content' => $content,
-			'source' => !empty($this->param['source']) ? $this->param['source'] : '{}',
+			'source' => $source,
 			'usesig' => $this->param['usesig'],
 			'htmlon' => $this->param['htmlon'],
 			'bbcodeoff' => $this->param['bbcodeoff'],

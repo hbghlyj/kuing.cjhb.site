@@ -227,7 +227,10 @@ class model_thread extends discuz_model {
 
 		$contentType = $this->param['contentType'] ?? 'text';
 		$contentEditor = $this->param['contentEditor'] ?? 'default';
-		$content = generate_content_json($contentType, $contentEditor, (!empty($this->param['content']) ? $this->param['content'] : '{}'));
+		$content = $contentType == 'json'
+			? generate_content_json($contentType, $contentEditor, (!empty($this->param['content']) ? $this->param['content'] : '{}'))
+			: null;
+		$source = $contentType == 'json' && !empty($this->param['source']) ? $this->param['source'] : null;
 
 		$this->pid = insertpost([
 			'fid' => $this->forum['fid'],
@@ -240,7 +243,7 @@ class model_thread extends discuz_model {
 			'dateline' => $this->param['publishdate'],
 			'message' => $this->param['message'],
 			'content' => $content,
-			'source' => !empty($this->param['source']) ? $this->param['source'] : '{}',
+			'source' => $source,
 			'useip' => $this->param['clientip'] ? $this->param['clientip'] : getglobal('clientip'),
 			'port' => $this->param['remoteport'] ? $this->param['remoteport'] : getglobal('remoteport'),
 			'invisible' => $this->param['pinvisible'],
