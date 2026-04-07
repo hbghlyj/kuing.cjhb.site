@@ -61,7 +61,31 @@
       if(typeof tid!=='undefined'){
         this.#chatChannel.bind('newreply', data => {
           const pageNumberElement=document.querySelector('div.pg>strong');
-          const pageNumber=pageNumberElement?pageNumberElement.textContent.trim():1;
+          const pageNumber=pageNumberElement?pageNumberElement.textContent.trim():'1';
+          if(data.tid!=tid){
+            return;
+          }
+          if(String(data.page) !== String(pageNumber)){
+            const jumpToReply = () => {
+              location.href = `forum.php?mod=viewthread&tid=${tid}&page=${data.page}#pid${data.pid}`;
+            };
+            if(String(data.uid) === String(discuz_uid)){
+              jumpToReply();
+            }else{
+              const msg = isChinese
+                ? '本主题有新回复，是否跳转到最新回复？选择取消将留在当前页面。'
+                : 'There is a new reply in this thread. Jump to it now? Choose Cancel to stay on this page.';
+              const title = isChinese ? '新回复提醒' : 'New reply';
+              const confirmTxt = isChinese ? '跳转' : 'Jump';
+              const cancelTxt = isChinese ? '留在本页' : 'Stay';
+              if(typeof showDialog === 'function'){
+                showDialog(msg, 'confirm', title, jumpToReply, 1, function() {}, '', confirmTxt, cancelTxt);
+              }else if(confirm(msg)){
+                jumpToReply();
+              }
+            }
+            return;
+          }
           if(data.tid==tid && data.page==pageNumber){
             ajaxget(`forum.php?mod=viewthread&tid=${tid}&viewpid=${data.pid}`, 'post_new', 'ajaxwaitid', '', null, function() {
               const postNew = $('post_new');

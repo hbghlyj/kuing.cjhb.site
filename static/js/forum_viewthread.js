@@ -186,13 +186,6 @@ function showauthor(ctrlObj, menuid) {
 }
 
 function fastpostappendreply() {
-	if($('fastpostrefresh') != null) {
-		setcookie('fastpostrefresh', $('fastpostrefresh').checked ? 1 : 0, 2592000);
-		if($('fastpostrefresh').checked) {
-			location.href = 'forum.php?mod=redirect&tid='+tid+'&goto=lastpost&random=' + Math.random() + '#lastpost';
-			return;
-		}
-	}
 	newpos = fetchOffset($('post_new'));
 	document.documentElement.scrollTop = newpos['top'];
 	$('post_new').style.display = '';
