@@ -132,6 +132,14 @@ export function initSearch(lang, forumlist, options = {}) {
 		}
 		submitButton.style.display = searchInput.value.trim().length > 0 ? 'none' : '';
 	}
+	function syncSubmitVisibilitySoon(searchInput) {
+		if(!options.hideSubmitWhenHasQuery) {
+			return;
+		}
+		window.setTimeout(function () {
+			syncSubmitVisibility(searchInput);
+		}, 0);
+	}
 	function applySearchBoxOptions() {
 		const submitButton = document.querySelector('#algolia-search-box .ais-SearchBox-submit');
 		if(!submitButton) {
@@ -156,6 +164,7 @@ export function initSearch(lang, forumlist, options = {}) {
 			facets.style.display = hasQuery ? '' : 'none';
 		}
 		syncSubmitVisibility(searchInput);
+		syncSubmitVisibilitySoon(searchInput);
 	}
 	function bindSearchInputVisibility() {
 		const searchInput = document.querySelector("#algolia-search-box input[type='search']");
