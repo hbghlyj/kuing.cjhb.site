@@ -349,7 +349,7 @@ if($_GET['action'] == 'checkusername') {
 			unset($lastpost_str);
 		}
 		include template('common/header_ajax');
-		echo $lastpost['2'] > $time ? 1 : 0 ;
+		echo $lastpost['1'] > $time ? 1 : 0 ;
 		include template('common/footer_ajax');
 		exit;
 	} else {
