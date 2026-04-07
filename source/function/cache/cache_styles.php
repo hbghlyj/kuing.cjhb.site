@@ -181,11 +181,77 @@ function writetocsscache($data) {
 			if(file_put_contents($cachedir.'style_'.$data['styleid'].'_'.$entry, $cssdata, LOCK_EX) === false) {
 				exit('Can not write to cache files, please check directory ./data/ and ./data/cache/ .');
 			}
+			if($entry == 'module.css') {
+				writetomodulecsscache($data['styleid'], $cssdata, $cachedir);
+			}
 			if(defined('IN_UPDATECACHE')) {
 				oss::writeCache('style_'.$data['styleid'].'_'.$entry);
 			}
 		}
 	}
+}
+
+function writetomodulecsscache($styleid, $cssdata, $cachedir) {
+	$moduleCss = [];
+	$globalCss = [];
+	foreach(getstylemodulecachetargets() as [$basescript, $module]) {
+		$moduleCss[$basescript][$module] = '';
+	}
+	if(preg_match_all('/\[(.+?)\](.*?)\[end\]/is', $cssdata, $matches, PREG_SET_ORDER)) {
+		foreach($matches as $match) {
+			$params = array_filter(array_map('trim', explode(',', $match[1])));
+			foreach($params as $param) {
+				[$basescript, $module] = array_pad(explode('::', $param, 2), 2, '');
+				if(!$basescript) {
+					continue;
+				}
+				if($module === '') {
+					$globalCss[$basescript] = ($globalCss[$basescript] ?? '').$match[2];
+				} else {
+					$moduleCss[$basescript][$module] = ($moduleCss[$basescript][$module] ?? '').$match[2];
+				}
+			}
+		}
+	}
+	foreach($moduleCss as $basescript => $modules) {
+		$shared = $globalCss[$basescript] ?? '';
+		foreach($modules as $module => $content) {
+			$compiled = $shared.$content;
+			if($compiled === '') {
+				continue;
+			}
+			$filename = $cachedir.'style_'.$styleid.'_'.$basescript.'_'.$module.'.css';
+			if(file_put_contents($filename, $compiled, LOCK_EX) === false) {
+				exit('Can not write to cache files, please check directory ./data/ and ./data/cache/ .');
+			}
+			if(defined('IN_UPDATECACHE')) {
+				oss::writeCache('style_'.$styleid.'_'.$basescript.'_'.$module.'.css');
+			}
+		}
+	}
+}
+
+function getstylemodulecachetargets() {
+	static $targets = null;
+	if($targets !== null) {
+		return $targets;
+	}
+	$targets = [];
+	foreach(glob(DISCUZ_ROOT.'./source/app/*/module/*.php') as $file) {
+		$basescript = basename(dirname($file, 2));
+		$module = basename($file, '.php');
+		$targets[$basescript.'::'.$module] = [$basescript, $module];
+	}
+	foreach(glob(DISCUZ_ROOT.'./source/module/*/*.php') as $file) {
+		$basescript = basename(dirname($file, 1));
+		$name = basename($file, '.php');
+		$prefix = $basescript.'_';
+		if(str_starts_with($name, $prefix)) {
+			$module = substr($name, strlen($prefix));
+			$targets[$basescript.'::'.$module] = [$basescript, $module];
+		}
+	}
+	return $targets;
 }
 
 function writetocsscache_callback_1($matches, $action = 0) {
