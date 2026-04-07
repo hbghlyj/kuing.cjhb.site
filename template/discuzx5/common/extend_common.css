@@ -465,7 +465,6 @@ img{border:none;}
 .header-searcher #algolia-powered-by{position:absolute;top:42px;right:0;font-size:12px;text-align:right}
 .header-searcher .ais-Stats{position:absolute;top:42px;left:0;font-size:12px;color:var(--dz-fc)}
 
-#ais-wrapper{display:flex;flex-direction:row;margin-top:10px;background:var(--dz-bgf);border:1px solid var(--dz-borderb);border-radius:var(--dz-radius-m);box-shadow:var(--dz-shadow)}
 #ais-main{padding:1rem;flex:1 1 auto;min-width:0;box-sizing:border-box}
 #ais-facets{flex:0 0 40%;width:auto;min-width:0;padding:1rem 1rem 1rem 0;box-sizing:border-box}
 .widgettitle{margin-top:2rem}
