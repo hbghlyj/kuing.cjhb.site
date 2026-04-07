@@ -966,6 +966,19 @@ function viewthread_procpost($post, $lastvisit, $ordertype, $maxposition = 0) {
 
 	$post['dbdateline'] = $post['dateline'];
 	$post['dateline'] = dgmdate($post['dateline'], 'u', '9999', getglobal('setting/dateformat').' H:i:s');
+	if($_GET['from'] != 'preview' && ($_G['setting']['editedby'] && ($post['lastupdate'] && $post['lastupdate'] - $post['dbdateline'] > 300 || $post['updateuid'] && $post['updateuid'] != $post['authorid']))) {
+		if(DISCUZ_LANG == 'EN/') {
+			$post['message'] = ' '.dgmdate($post['lastupdate'], 'u').'</i>'.$post['message'];
+		} else {
+			$post['message'] = ' 于 '.dgmdate($post['lastupdate'], 'u').' 编辑 </i>'.$post['message'];
+		}
+		$post['message'] = DB::fetch_first('SELECT username FROM '.DB::table('common_member').' WHERE uid='.$post['updateuid'])['username'].$post['message'];
+		if(DISCUZ_LANG == 'EN/') {
+			$post['message'] = '<i class="pstatus">Last edited by '.$post['message'];
+		} else {
+			$post['message'] = '<i class="pstatus">本帖最后由 '.$post['message'];
+		}
+	}
 	$post['groupid'] = $_G['cache']['usergroups'][$post['groupid']] ? $post['groupid'] : 7;
 
 	if($post['username']) {

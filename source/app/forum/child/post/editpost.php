@@ -462,6 +462,15 @@ if(!submitcheck('editsubmit')) {
 		if(!empty($source)) {
 			$param['source'] = $source;
 		}
+		if($thread['displayorder'] != -4) {
+			if(TIMESTAMP - $orig['dateline'] > 300 || !$isorigauthor) {
+				$param['updateuid'] = $_G['uid'];
+				$param['lastupdate'] = TIMESTAMP;
+			} else {
+				$param['timestamp'] = TIMESTAMP;
+				$param['updateuid'] = $param['lastupdate'] = 0;
+			}
+		}
 
 		// cover start
 		if($cover_aid) {

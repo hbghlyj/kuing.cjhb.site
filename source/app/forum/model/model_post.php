@@ -521,12 +521,6 @@ class model_post extends discuz_model {
 
 		$this->param['htmlon'] = $this->group['allowhtml'] && !empty($this->param['htmlon']) ? 1 : 0;
 
-		if($this->setting['editedby'] && (TIMESTAMP - $this->post['dateline']) > 60 && $this->member['adminid'] != 1) {
-			$editor = $this->param['isanonymous'] && $isorigauthor ? lang('forum/misc', 'anonymous') : $this->member['username'];
-			$edittime = dgmdate(TIMESTAMP);
-			$this->param['message'] = lang('forum/misc', $this->param['htmlon'] ? 'post_edithtml' : (!$this->forum['allowbbcode'] || $this->param['bbcodeoff'] ? 'post_editnobbcode' : 'post_edit'), ['editor' => $editor, 'edittime' => $edittime]).$this->param['message'];
-		}
-
 
 		$this->param['bbcodeoff'] = checkbbcodes($this->param['message'], !empty($this->param['bbcodeoff']));
 		$this->param['smileyoff'] = checksmilies($this->param['message'], !empty($this->param['smileyoff']));
@@ -580,6 +574,17 @@ class model_post extends discuz_model {
 			'subject' => $this->param['subject'],
 			'port' => getglobal('remoteport')
 		];
+		if(empty($_GET['minor'])) {
+			$setarr['lastupdate'] = $this->param['lastupdate'] ?? 0;
+			$setarr['updateuid'] = $this->param['updateuid'] ?? 0;
+		} else {
+			$setarr['lastupdate'] = 0;
+			$setarr['updateuid'] = 0;
+			$setarr['dateline'] = $this->param['lastupdate'] ?? TIMESTAMP;
+		}
+		if(!empty($this->param['timestamp'])) {
+			$setarr['dateline'] = $this->param['timestamp'];
+		}
 
 		$setarr['status'] = $this->post['status'];
 		if($this->param['modstatus']) {
