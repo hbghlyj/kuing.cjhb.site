@@ -24,11 +24,19 @@ data-logo_alignment="left"
 </div>';
 	}
 
+	public function logging_method() {
+		return $this->buildGoogleMarkup();
+	}
+
+	public function register_logging_method() {
+		return $this->buildGoogleMarkup();
+	}
+
 	public function global_login_extra() {
 		global $_G;
 		$googleMarkup = $this->buildGoogleMarkup();
 		$_G['setting']['pluginhooks']['logging_method'] = ($_G['setting']['pluginhooks']['logging_method'] ?? '').$googleMarkup;
 		$_G['setting']['pluginhooks']['register_logging_method'] = ($_G['setting']['pluginhooks']['register_logging_method'] ?? '').$googleMarkup;
-		return $googleMarkup;
+		return '';
 	}
 }
