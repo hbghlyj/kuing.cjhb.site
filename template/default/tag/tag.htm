@@ -16,9 +16,11 @@
 				<input type="text" name="name" class="px vm" required>&nbsp;
 				<button type="submit" class="pn"><em>{lang search}</em></button>
 				<i class="fico-help fc-n vm" tip="用,分隔多个标签可以取它们的交集" onmouseover="showTip(this)"></i>
-				<span class="pipe">|</span><a href="misc.php?mod=tag" $orderactives[time]>{lang sortby_time_desc}</a>
-				<span class="pipe">|</span><a href="misc.php?mod=tag&sortby=related_count" $orderactives[related_count]>{lang sortby_related_count_desc}</a>
-				<span class="pipe">|</span><a href="misc.php?mod=tag&sortby=hot" $orderactives[hot]>{lang sortby_hot_desc}</a>
+				<div class="tbmu">
+					<a href="misc.php?mod=tag" $orderactives[time]>{lang sortby_time_desc}</a><span class="pipe">|</span>
+					<a href="misc.php?mod=tag&sortby=related_count" $orderactives[related_count]>{lang sortby_related_count_desc}</a><span class="pipe">|</span>
+					<a href="misc.php?mod=tag&sortby=hot" $orderactives[hot]>{lang sortby_hot_desc}</a>
+				</div>
 			</form>
 			<style>input.px:not(:focus)+button.pn:not(:hover) {display: none}</style>
 			<div class="taglist mtm mbm">
