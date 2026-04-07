@@ -9,7 +9,8 @@
 	<!--{if $is_old_chrome}--><link href="https://fonts.googleapis.com/css2?family=Noto+Colr+Emoji+Glyf" rel="stylesheet"><!--{/if}-->
 	<style id="en_font_style">
 		:root {
-			--common-font: system-ui,-apple-system,BlinkMacSystemFont,times,serif;
+			--common-font: 'Latin Modern Roman';
+			letter-spacing: -0.2px;
 		}
 	@font-face {
 		font-family: 'Latin Modern Roman';
