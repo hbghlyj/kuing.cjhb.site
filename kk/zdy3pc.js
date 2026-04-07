@@ -200,11 +200,7 @@ function addLou(elem) {
     }
 }
 MULUSELECT.addEventListener("change", function() {//楼层目录选择跳转
-    $(this.value).scrollIntoView({
-        behavior: 'auto',
-        block: 'center',
-        inline: 'center'
-    });
+    location.hash = '#' + this.value;
 });
 MULU.appendChild(MULUSELECT);
 $('ct').appendChild(MULU);
