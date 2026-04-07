@@ -101,6 +101,7 @@
 							</a>
 							<div class="kmmeta">
 								<!--{if $thread['authorid'] && $thread['author']}-->
+									<a href="home.php?mod=space&uid=$thread['authorid']" target="_blank" class="kmimg"><!--{avatar($thread['authorid'],'middle')}--></a>
 									<a href="home.php?mod=space&uid=$thread['authorid']" target="_blank"{if $groupcolor[$thread['authorid']]} style="color: $groupcolor[$thread['authorid']];"{/if}>$thread['author']</a>
 									<!--{if !empty($verify[$thread['authorid']])}-->$verify[$thread['authorid']]<!--{/if}-->
 								<!--{else}-->
@@ -131,9 +132,6 @@
 							<!--{/if}-->
 							<div class="kmfoot">
 								<span class="kmpl">{if $thread['allreplies']}$thread['allreplies']{else}$thread['replies']{/if}</span><span class="kmck"><!--{if $thread['isgroup'] != 1 || empty($groupnames[$thread['tid']]['views'])}-->$thread['views']<!--{else}-->{$groupnames[$thread['tid']]['views']}<!--{/if}--></span>
-								<!--{if $_GET['view'] != 'me'}-->
-									<a href="javascript:;" class="kmimg"><!--{avatar(0,'middle')}--></a>
-								<!--{/if}-->
 								<!--{if $thread['lastposter']}-->
 									<a href="{if $thread['digest'] != -2}home.php?mod=space&username=$thread['lastposterenc']{else}forum.php?mod=viewthread&tid=$thread['tid']&page={echo max(1, $thread['pages'])}{/if}" target="_blank">$thread['lastposter']</a>
 								<!--{else}-->
