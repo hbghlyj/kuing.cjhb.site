@@ -6,8 +6,8 @@
 			<form method="{if $_G[fid] && !empty($searchparams[url])}get{else}post{/if}" autocomplete="off"
 				action="{if $_G[fid] && !empty($searchparams[url])}$searchparams[url]{else}search.php?searchsubmit=yes{/if}">
 				<input type="hidden" name="mod" value="forum" />
-				<input type="text" name="srchtxt" placeholder="{lang enter_content}" value="{if $keyword}$keyword{/if}"
-					class="search-input">
+				<input type="search" name="srchtxt" placeholder="搜索" value="{if $keyword}$keyword{/if}"
+					class="search-input ais-SearchBox-input" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" maxlength="512" aria-label="Search">
 				<button type="submit" name="searchsubmit" sc="1" class="search-icon" value="true"></button>
 			</form>
 		</div>
