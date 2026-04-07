@@ -34,6 +34,7 @@ initSearch({search:"{lang search}", no_results:"{lang no_results}", less:"{lang 
 	<!--{/if}-->
 <!--{/loop}-->
 },{
+	showReset: true,
 	showSubmit: true,
 	hideSubmitWhenHasQuery: true,
 	submitClassName: 'search-icon',

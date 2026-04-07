@@ -17,7 +17,7 @@ export function initSearch(lang, forumlist, options = {}) {
 		instantsearch.widgets.searchBox({
 			container: '#algolia-search-box',
 			placeholder: lang['search'],
-			showReset: false,
+			showReset: !!options.showReset,
 			showSubmit: !!options.showSubmit,
 			showLoadingIndicator: false,
 			cssClasses: searchBoxCssClasses,
