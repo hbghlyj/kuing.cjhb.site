@@ -71,6 +71,7 @@ $lang = [
 	'follow_sync_forum' => '同步到論壇',
 	'homepage' => '首頁',
 	'memcp_profile' => '個人資料',
+	'memcp_contact' => '聯絡方式',
 	'pack_up' => '收起',
 	'photo_accessories' => '圖片附件',
 	'poll' => '投票',

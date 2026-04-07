@@ -68,6 +68,7 @@ $lang = array (
 	'follow_sync_forum'		=> 'Synchronize to forum',//'同步到论坛',
 	'homepage'			=> 'Home',//'首页',
 	'memcp_profile'			=> 'Personal Info',//'个人资料',
+	'memcp_contact'			=> 'Contact Info',
 	'pack_up'			=> 'Short form',//'收起',
 	'photo_accessories'		=> 'Attached Images',//'图片附件',
 	'poll'				=> 'Polls',//'投票',

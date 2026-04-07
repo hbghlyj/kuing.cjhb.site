@@ -11,6 +11,27 @@ if(!defined('IN_DISCUZ')) {
 }
 $defaultop = '';
 $profilegroup = table_common_setting::t()->fetch_setting('profilegroup', true);
+if(currentlang() == 'EN_UTF8') {
+	$defaultProfileGroupTitles = [
+		'基本资料' => lang('home/template', 'memcp_profile'),
+		'联系方式' => lang('home/template', 'memcp_contact'),
+	];
+	foreach($profilegroup as &$value) {
+		if(isset($defaultProfileGroupTitles[$value['title']])) {
+			$value['title'] = $defaultProfileGroupTitles[$value['title']];
+		}
+	}
+	unset($value);
+	if(!empty($_G['setting']['plugins']['spacecp_profile'])) {
+		foreach($_G['setting']['plugins']['spacecp_profile'] as &$module) {
+			if(($module['name'] ?? '') === '更改用户名' || ($module['menu'] ?? '') === '更改用户名') {
+				$module['name'] = lang('reusername:reusername');
+				$module['menu'] = lang('reusername:reusername');
+			}
+		}
+		unset($module);
+	}
+}
 foreach($profilegroup as $key => $value) {
 	if($value['available']) {
 		$defaultop = $key;
