@@ -120,19 +120,14 @@
 							<div class="kmfoot">
 								<span class="kmpl">{if $thread['allreplies']}$thread['allreplies']{else}$thread['replies']{/if}</span><span class="kmck"><!--{if $thread['isgroup'] != 1 || empty($groupnames[$thread['tid']]['views'])}-->$thread['views']<!--{else}-->{$groupnames[$thread['tid']]['views']}<!--{/if}--></span>
 								<!--{if $_GET['view'] != 'me'}-->
-									<!--{if $thread['authorid'] && $thread['author']}-->
-										<a href="home.php?mod=space&uid=$thread['authorid']" c="1" class="kmimg" target="_blank"><!--{avatar($thread['authorid'],'middle')}--></a>
-									<!--{else}-->
-										<a href="javascript:;" class="kmimg"><!--{avatar(0,'middle')}--></a>
-									<!--{/if}-->
+									<a href="javascript:;" class="kmimg"><!--{avatar(0,'middle')}--></a>
 								<!--{/if}-->
-								<!--{if $thread['authorid'] && $thread['author']}-->
-									<a href="home.php?mod=space&uid=$thread['authorid']" target="_blank"{if $groupcolor[$thread['authorid']]} style="color: $groupcolor[$thread['authorid']];"{/if}>$thread['author']</a>
-									<!--{if !empty($verify[$thread['authorid']])}-->$verify[$thread['authorid']]<!--{/if}-->
+								<!--{if $thread['lastposter']}-->
+									<a href="{if $thread['digest'] != -2}home.php?mod=space&username=$thread['lastposterenc']{else}forum.php?mod=viewthread&tid=$thread['tid']&page={echo max(1, $thread['pages'])}{/if}" target="_blank">$thread['lastposter']</a>
 								<!--{else}-->
 									<a href="javascript:;">$_G['setting']['anonymoustext']</a>
 								<!--{/if}-->
-								<span class="kmtime{if $thread['istoday'] && CURMODULE == 'forumdisplay'} xi1{/if}">{lang tmp083} $thread['dateline']</span>						
+								<span class="kmtime{if $thread['istoday'] && CURMODULE == 'forumdisplay'} xi1{/if}">{lang tmp083} $thread['lastpost']</span>						
 								<!--{if $_G['basescript'] != 'group' && CURMODULE != 'group' && !$thread['forumstick'] && ($thread['isgroup'] == 1 || $thread['fid'] != $_G['fid'])}-->
 									<!--{if $thread['related_group'] == 0 && $thread['closed'] > 1}-->
 										<!--{eval $thread['tid']=$thread['closed'];}-->
