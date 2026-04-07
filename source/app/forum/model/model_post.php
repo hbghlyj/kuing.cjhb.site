@@ -643,7 +643,7 @@ class model_post extends discuz_model {
 		require_once(DISCUZ_ROOT.'/vendor/autoload.php');
 		require_once(DISCUZ_ROOT.'/chat/php/config.php');
 
-		$pusher = new Pusher(APP_KEY,APP_SECRET,APP_ID, [
+		$pusher = new \Pusher(APP_KEY,APP_SECRET,APP_ID, [
 			'cluster' => 'eu',
 			'useTLS' => true
 		]);
