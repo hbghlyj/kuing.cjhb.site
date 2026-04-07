@@ -317,7 +317,7 @@ select {-moz-appearance:none;}
 .foot a.mon span.foot-txt {color:var(--dz-FC-color)}
 .foot a.mon span.foot-ico em {background-position:100% 0}
 .foot a.foot-post span.foot-ico {height:44px;line-height:44px;margin-top:5px;font-family: "dzicon", "dzmicon"; font-size: 30px; text-align: center;}
-.foot a.foot-post span.foot-ico em {width:38px;height:38px;line-height:38px}
+.foot a.foot-post span.foot-ico em {width:38px;height:38px;line-height:38px;background:url(./touch/plus_btn.svg) no-repeat;background-size:auto 38px}
 .foot a.foot-post span.foot-ico img {width:38px;transform: translateX(-200px); filter: drop-shadow(var(--dz-BG-color) 200px 0) }
 .foot a.foot-post span.foot-txt {display:none}
 .foot_height {height:54px}
