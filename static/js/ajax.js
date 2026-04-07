@@ -19,6 +19,7 @@ function _ajaxget(url, showid, waitid, loading, display, recall) {
 
 	var url = url + '&inajax=1&ajaxtarget=' + showid;
 	x.get(url, function(s, x) {
+		s = typeof s == 'string' ? s : (s == null ? '' : String(s));
 		var evaled = false;
 		if(s.indexOf('ajaxerror') != -1) {
 			evalscript(s);
@@ -65,10 +66,11 @@ function _ajaxpost(formid, showid, waitid, showidclass, submitbtn, recall) {
 				try {
 					s = $(ajaxframeid).contentWindow.document.documentElement.firstChild.nodeValue;
 				} catch(e) {
-					s = $L('ajax_inner_error');
+					s = $L('ajax_inner_error') || 'Internal server error';
 				}
 			}
 		}
+		s = typeof s == 'string' ? s : (s == null ? '' : String(s));
 		if(s != '' && s.indexOf('ajaxerror') != -1) {
 			evalscript(s);
 			evaled = true;
