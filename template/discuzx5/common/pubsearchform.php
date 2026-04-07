@@ -1,5 +1,5 @@
 <?php exit;?>
-<div id="ais-wrapper">
+<div id="ais-wrapper" style="display: none;">
 	<main id="ais-main">
 		<div id="algolia-hits"></div>
 		<div id="algolia-pagination"></div>

@@ -113,11 +113,9 @@ export function initSearch(lang, forumlist) {
 	search._initialResults = {
 		kuing: {}
 	};
-	search.start();
-	const searchInput = document.querySelector("#algolia-search-box input[type='search']");
 	const wrapper = document.getElementById('ais-wrapper');
 	const facets = document.getElementById('ais-facets');
-	function syncWrapperVisibility() {
+	function syncWrapperVisibility(searchInput) {
 		if(!wrapper || !searchInput) {
 			return;
 		}
@@ -127,11 +125,25 @@ export function initSearch(lang, forumlist) {
 			facets.style.display = 'none';
 		}
 	}
-	searchInput.addEventListener('click', function () {
-		if(facets && searchInput.value.trim().length > 0) {
-			facets.style.display = '';
+	function bindSearchInputVisibility() {
+		const searchInput = document.querySelector("#algolia-search-box input[type='search']");
+		if(!searchInput) {
+			return;
 		}
-	});
-	searchInput.addEventListener('input', syncWrapperVisibility);
-	syncWrapperVisibility();
+		if(!searchInput.dataset.algoliaVisibilityBound) {
+			searchInput.addEventListener('click', function () {
+				if(facets && searchInput.value.trim().length > 0) {
+					facets.style.display = '';
+				}
+			});
+			searchInput.addEventListener('input', function () {
+				syncWrapperVisibility(searchInput);
+			});
+			searchInput.dataset.algoliaVisibilityBound = '1';
+		}
+		syncWrapperVisibility(searchInput);
+	}
+	search.start();
+	search.on('render', bindSearchInputVisibility);
+	bindSearchInputVisibility();
 }
