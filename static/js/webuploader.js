@@ -202,6 +202,8 @@ SWFUpload.prototype.initSettings = function (userSettings) {
         };
 	}
 	if(this.settings.button_placeholder_id == 'spanButtonPlaceholder' && $("spanButtonPlaceholder")){
+		var isFastpostUploader = this.customSettings.uploadFrom == 'fastpost';
+		var attachLabel = this.settings.button_text || this.settings.button_attach_text;
 		if($("icoAttach_attach_menu")){
 			$('icoAttach_attach_menu').style.display = '';
 			$('icoAttach_attach_menu').style.position = 'absolute';
@@ -209,7 +211,11 @@ SWFUpload.prototype.initSettings = function (userSettings) {
 		}else if(typeof editorid != 'undefined' && $(editorid + '_attach_menu')){
 			$(editorid + '_attach_menu').style.display = '';
 		}
-		if (this.settings.button_text) {
+		if (isFastpostUploader) {
+			$('spanButtonPlaceholder').innerHTML = '';
+			$('spanButtonPlaceholder').title = attachLabel;
+			$('spanButtonPlaceholder').setAttribute('aria-label', attachLabel);
+		} else if (this.settings.button_text) {
 			$('spanButtonPlaceholder').innerHTML = this.settings.button_text;
 		} else{
 			$('spanButtonPlaceholder').innerHTML = this.settings.button_attach_text;
