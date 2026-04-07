@@ -159,16 +159,17 @@ export function initSearch(lang, forumlist, options = {}) {
 	}
 	function applySearchBoxOptions() {
 		const submitButton = document.querySelector('#algolia-search-box .ais-SearchBox-submit');
-		if(!submitButton) {
-			return;
-		}
-		if(options.submitAttributes) {
+		const resetButton = document.querySelector('#algolia-search-box .ais-SearchBox-reset');
+		if(submitButton && options.submitAttributes) {
 			Object.entries(options.submitAttributes).forEach(function ([key, value]) {
 				submitButton.setAttribute(key, value);
 			});
 		}
-		if(options.stripSubmitIcon) {
+		if(submitButton && options.stripSubmitIcon) {
 			submitButton.textContent = '';
+		}
+		if(resetButton && options.stripResetIcon) {
+			resetButton.textContent = '';
 		}
 	}
 	function syncWrapperVisibility(searchInput) {
