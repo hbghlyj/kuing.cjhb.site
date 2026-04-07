@@ -357,7 +357,7 @@ if(!submitcheck('modsubmit')) {
 
 
 				table_forum_thread::t()->update($tidsarr, ['lastpost' => $expiration, 'moderated' => 1], true);
-				table_forum_forum::t()->update($_G['fid'], ['lastpost' => "{$thread['tid']}\t{$thread['subject']}\t$expiration\t{$thread['lastposter']}"]);
+				table_forum_forum::t()->update_lastpost($_G['fid'], $thread['tid'], $thread['subject'], $expiration, $thread['lastposter'], ['forum' => $_G['forum'], 'propagate_parent' => $_G['forum']['type'] == 'sub']);
 
 				$_G['forum']['threadcaches'] && deletethreadcaches($moderatetids);
 			} elseif($operation == 'down') {
