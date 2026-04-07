@@ -153,9 +153,6 @@
 								</td>
 							<!--{else}-->
 								<tr {if $key != 0}class="fl_row"{/if}>
-									<td class="fl_icn">
-										<a href="forum.php?mod=group&fid=$group[fid]" title="$group[name]" target="_blank"><img src="$group[icon]" alt="$group[name]" width="32" /></a>
-									</td>
 									<td>
 										<h2><a href="forum.php?mod=group&fid=$group[fid]" target="_blank">$group[name]</a><span class="xg1 xw0"> ($group[membernum] {lang activity_member_unit})</span></h2>
 										<p><!--{echo cutstr($group[description], 100)}--></p>

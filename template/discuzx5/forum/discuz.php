@@ -293,13 +293,6 @@
 								</td>
 								<!--{eval $favorderid++;}-->
 							<!--{else}-->
-								<td class="fl_icn" {if !empty($forum[extra][iconwidth]) && !empty($forum[icon])} style="width: {$forum[extra][iconwidth]}px;"{/if}>
-									<!--{if $forum[icon]}-->
-										$forum[icon]
-									<!--{else}-->
-										<a href="$forumurl"{if $forum[redirect]} target="_blank"{/if} title="$forum[name]"><img src="{STYLEIMGDIR}/images/forum{if $forum['folder']}_new{/if}.png" alt="$forum['name']" /></a>
-									<!--{/if}-->
-								</td>
 								<td>
 									<h2><a href="$forumurl"{if $forum[redirect]} target="_blank"{/if}{if $forum[extra][namecolor]} style="color: {$forum[extra][namecolor]};"{/if}>$forum[name]</a><!--{if $forum[todayposts] && !$forum['redirect']}--><em class="xw0 xi1" title="{lang forum_todayposts}"> ($forum[todayposts])</em><!--{/if}--></h2>
 									<!--{if $forum[description]}--><p class="xg2">$forum[description]</p><!--{/if}-->
@@ -395,13 +388,6 @@
 								</dl>
 							</td>
 						<!--{else}-->
-							<td class="fl_icn" {if !empty($forum[extra][iconwidth]) && !empty($forum[icon])} style="width: {$forum[extra][iconwidth]}px;"{/if}>
-								<!--{if $forum[icon]}-->
-									$forum[icon]
-								<!--{else}-->
-									<a href="$forumurl"{if $forum[redirect]} target="_blank"{/if} title="$forum[name]"><img src="{STYLEIMGDIR}/images/forum{if $forum['folder']}_new{/if}.png" alt="$forum['name']" /></a>
-								<!--{/if}-->
-							</td>
 							<td>
 								<h2><a href="$forumurl"{if $forum[redirect]} target="_blank"{/if}{if !empty($forum[extra][namecolor])} style="color: {$forum[extra][namecolor]};"{/if}>$forum[name]</a><!--{if $forum[todayposts] && !$forum['redirect']}--><em class="xw0 xi1" title="{lang forum_todayposts}"> ($forum[todayposts])</em><!--{/if}--></h2>
 								<!--{if $forum[description]}--><p class="xg2">$forum[description]</p><!--{/if}-->
