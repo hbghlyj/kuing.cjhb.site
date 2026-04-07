@@ -75,6 +75,7 @@
 	.dz_btm_layer .dz_layer_nav{width: 609px;}
 	.dz_btm_layer .header-searcher .search-input,
 	.dz_btm_layer .header-searcher .ais-SearchBox-input,
+	.dz_btm_layer .header-searcher .algolia-search-box-wrapper #algolia-search-box input,
 	.dz_btm_layer .header-searcher #algolia-search-box:empty{width: 200px;}
 	<!--{/if}-->
 	<!--{if $_G['style']['top_nav_bgc']}-->
