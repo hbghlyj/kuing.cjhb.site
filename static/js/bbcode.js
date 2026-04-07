@@ -68,8 +68,12 @@ function bbcode2html(str) {
 							if(smilies_type['_' + typeid][1] == ':emoji') {
 								continue;
 							}
+						var smileypath = smilies_array[typeid][page][i][2];
+						if(smileypath.indexOf('/') === -1) {
+							smileypath = smilies_type['_' + typeid][1] + '/' + smileypath;
+						}
 						re = new RegExp(preg_quote(smilies_array[typeid][page][i][1]), "g");
-						str = str.replace(re, '<img src="' + STATICURL + 'image/smiley/' + smilies_array[typeid][page][i][2] + '" border="0" smilieid="' + smilies_array[typeid][page][i][0] + '" alt="' + smilies_array[typeid][page][i][1] + '" />');
+						str = str.replace(re, '<img src="' + STATICURL + 'image/smiley/' + smileypath + '" border="0" smilieid="' + smilies_array[typeid][page][i][0] + '" alt="' + smilies_array[typeid][page][i][1] + '" />');
 					}
 				}
 			}
