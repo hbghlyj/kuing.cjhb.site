@@ -151,6 +151,9 @@
 								<!--{elseif $thread['forumname']}-->
 									<a href="forum.php?mod=forumdisplay&fid={$thread['fid']}" target="_blank" class="kmbg kmico_bk">{$thread['forumname']}</a>
 								<!--{/if}-->
+								<!--{if $thread['taglist']}-->
+									<!--{loop $thread['taglist'] $tag}--><a href="misc.php?mod=tag&id=$tag['tagid']&name={echo urlencode($tag['tagname'])}" target="_blank" class="kmbg kmico_bk">$tag['tagname']</a><!--{/loop}-->
+								<!--{/if}-->
 								<!--{if $stemplate && $sortid}--><span class="kmbga kmico_xs">$stemplate[$sortid][$thread['tid']]</span><!--{/if}-->
 								<!--{if $thread['readperm']}--><span class="kmbgb kmico_qx">{lang readperm} <strong>{$thread['readperm']}</strong></span><!--{/if}-->	
 								<!--{if $thread['price'] > 0}-->
