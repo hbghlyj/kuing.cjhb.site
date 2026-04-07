@@ -45,6 +45,9 @@ $basescript = ADMINSCRIPT;
 $staticurl = STATICURL;
 $oldlayout = !empty($_G['cookie']['admincp_oldlayout']) ? ' class="oldlayout"' : '';
 $first = reset($menu);
+$menu_update = lang('admin/template', 'menu_update');
+$menu_update_close = lang('admin/template', 'menu_update_close');
+$menu_update_tips = lang('admin/template', 'menu_update_tips');
 
 $leftmenus = '';
 $_G['firstMenu'] = null;

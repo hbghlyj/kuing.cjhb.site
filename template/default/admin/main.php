@@ -27,8 +27,8 @@ $shownotice
 			<!--{if !empty($_ENV['menuupdate'])}-->
 				{eval $p = http_build_query($_GET);}
 				<div id="menuupdate">
-					<a class="close" href="{ADMINSCRIPT}?$p&closemenunotice=yes" title="{lang menu_update_close}"></a>
-					<a href="{ADMINSCRIPT}?$p&resetmenu=yes" title="{lang menu_update_tips}">{lang menu_update}</a>
+					<a class="close" href="{ADMINSCRIPT}?$p&closemenunotice=yes" title="$menu_update_close"></a>
+					<a href="{ADMINSCRIPT}?$p&resetmenu=yes" title="$menu_update_tips">$menu_update</a>
 				</div>
 			<!--{/if}-->
 			<a id="cpsetting"><span></span></a>
