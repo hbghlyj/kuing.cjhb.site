@@ -4,6 +4,8 @@ if(!defined('IN_DISCUZ')) {
 }
 
 $scriptlang['googleconnect'] = [
+	'connect_mobile_login' => '使用 Google 登录',
+	'connect_moile_login' => '使用 Google 登录',
 	'googleconnect_resolve_title' => '选择如何继续使用 Google',
 	'googleconnect_resolve_message' => '该 Google 账号名称与现有论坛用户名重复，但邮箱并未匹配到现有论坛账号。请选择绑定现有账号，或创建一个新的论坛账号。',
 	'googleconnect_resolve_bind' => '绑定现有账号',

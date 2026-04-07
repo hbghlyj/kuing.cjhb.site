@@ -4,6 +4,8 @@ if(!defined('IN_DISCUZ')) {
 }
 
 $scriptlang['googleconnect'] = [
+	'connect_mobile_login' => 'Continue with Google',
+	'connect_moile_login' => 'Continue with Google',
 	'googleconnect_resolve_title' => 'Choose how to continue with Google',
 	'googleconnect_resolve_message' => 'The Google account name matches an existing forum username, but the email address does not match an existing forum account. Choose whether to bind Google to an existing account or create a new forum account.',
 	'googleconnect_resolve_bind' => 'Bind an existing account',

@@ -4,6 +4,8 @@ if(!defined('IN_DISCUZ')) {
 }
 
 $scriptlang['googleconnect'] = [
+	'connect_mobile_login' => '使用 Google 登入',
+	'connect_moile_login' => '使用 Google 登入',
 	'googleconnect_resolve_title' => '選擇如何繼續使用 Google',
 	'googleconnect_resolve_message' => '該 Google 帳號名稱與現有論壇使用者名稱重複，但電子郵件並未匹配到現有論壇帳號。請選擇綁定現有帳號，或建立新的論壇帳號。',
 	'googleconnect_resolve_bind' => '綁定現有帳號',
