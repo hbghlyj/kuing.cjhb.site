@@ -21,8 +21,7 @@
 					<span class="mimg"><!--{if $value['uid']}--><a href="home.php?mod=space&uid=$value[uid]"><img src="<!--{avatar($value['uid'], 'small', true)}-->"></a><!--{else}--><img src="$value[icon]"><!--{/if}--></span>
 					<p class="mtit">
 				<!--{if $value['uid']}--><a href="home.php?mod=space&do=pm&subop=view&touid=$value['uid']&mobile=2" class="mico">{lang send_pm}</a>
-						<a href="home.php?mod=space&uid=$value[uid]">$value[username]</a><!--{elseif $value['username']}-->$value[username]<!--{else}-->{lang guest}<!--{/if}-->
-						<a href="home.php?mod=space&uid=$value['uid']"><span{eval g_color($value['groupid']);}>$value['username']</span></a>
+						<a href="home.php?mod=space&uid=$value[uid]"><span{eval g_color($value['groupid']);}>$value['username']</span></a><!--{elseif $value['username']}--><span{eval g_color($value['groupid']);}>$value['username']</span><!--{else}-->{lang guest}<!--{/if}-->
 					</p>
 					<p class="mtxt"><!--{if $value['tid']}--><a href="forum.php?mod=viewthread&tid=$value[tid]">$value[subject]</a><!--{elseif $value['fid']}--><a href="forum.php?mod=forumdisplay&fid=$value[fid]">$value[name]</a><!--{else}-->$value[action]<!--{/if}--></p>
 				</li>
