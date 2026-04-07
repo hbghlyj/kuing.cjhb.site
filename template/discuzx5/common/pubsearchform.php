@@ -36,6 +36,7 @@ initSearch({search:"{lang search}", no_results:"{lang no_results}", less:"{lang 
 },{
 	showSubmit: true,
 	submitClassName: 'search-icon',
+	stripSubmitIcon: true,
 	submitAttributes: {
 		name: 'searchsubmit',
 		sc: '1',

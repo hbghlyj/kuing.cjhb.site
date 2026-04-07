@@ -132,6 +132,9 @@ export function initSearch(lang, forumlist, options = {}) {
 				submitButton.setAttribute(key, value);
 			});
 		}
+		if(options.stripSubmitIcon) {
+			submitButton.textContent = '';
+		}
 	}
 	function syncWrapperVisibility(searchInput) {
 		if(!wrapper || !searchInput) {
