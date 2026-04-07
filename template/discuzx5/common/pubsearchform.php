@@ -33,5 +33,13 @@ initSearch({search:"{lang search}", no_results:"{lang no_results}", less:"{lang 
 		$value[fid]:'$value[name]',
 	<!--{/if}-->
 <!--{/loop}-->
+},{
+	showSubmit: true,
+	submitClassName: 'search-icon',
+	submitAttributes: {
+		name: 'searchsubmit',
+		sc: '1',
+		value: 'true'
+	}
 })
 </script>

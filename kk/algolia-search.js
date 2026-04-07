@@ -1,10 +1,16 @@
 import "https://unpkg.com/instantsearch.js";
 import liteClient from "https://unpkg.com/algoliasearch@4.25.3/dist/algoliasearch-lite.esm.browser.js";
-export function initSearch(lang, forumlist) {
+export function initSearch(lang, forumlist, options = {}) {
 	var search = instantsearch({
 		indexName: 'kuing',
 		searchClient: liteClient('KZZUGXICHQ', 'cfaa3668ecea0bce830d62fc30f4d0dd')
 	});
+	const searchBoxCssClasses = {
+		input: options.inputClassName || 'ais-SearchBox-input'
+	};
+	if(options.submitClassName) {
+		searchBoxCssClasses.submit = options.submitClassName;
+	}
 
 	search.addWidgets([
 		/* Search box widget */
@@ -12,8 +18,9 @@ export function initSearch(lang, forumlist) {
 			container: '#algolia-search-box',
 			placeholder: lang['search'],
 			showReset: false,
-			showSubmit: false,
+			showSubmit: !!options.showSubmit,
 			showLoadingIndicator: false,
+			cssClasses: searchBoxCssClasses,
 		}),
 
 		instantsearch.widgets.configure({
@@ -115,6 +122,17 @@ export function initSearch(lang, forumlist) {
 	};
 	const wrapper = document.getElementById('ais-wrapper');
 	const facets = document.getElementById('ais-facets');
+	function applySearchBoxOptions() {
+		const submitButton = document.querySelector('#algolia-search-box .ais-SearchBox-submit');
+		if(!submitButton) {
+			return;
+		}
+		if(options.submitAttributes) {
+			Object.entries(options.submitAttributes).forEach(function ([key, value]) {
+				submitButton.setAttribute(key, value);
+			});
+		}
+	}
 	function syncWrapperVisibility(searchInput) {
 		if(!wrapper || !searchInput) {
 			return;
@@ -127,6 +145,7 @@ export function initSearch(lang, forumlist) {
 	}
 	function bindSearchInputVisibility() {
 		const searchInput = document.querySelector("#algolia-search-box input[type='search']");
+		applySearchBoxOptions();
 		if(!searchInput) {
 			return;
 		}
