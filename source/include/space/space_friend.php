@@ -47,9 +47,25 @@ if($_GET['view'] == 'online') {
 			$onlinedata = C::app()->session->fetch_all_by_uid(explode(',', $space['feedfriend']), $start, $perpage);
 		}
 		$count = count($onlinedata);
-	} else {
-		$_GET['type']='member';
+	} elseif($_GET['type']=='member') {
 		$theurl = "home.php?mod=space&uid={$space['uid']}&do=friend&view=online&type=member";
+		$count = DB::result_first('SELECT COUNT(*) FROM '.DB::table('common_session').' WHERE invisible = 0 AND uid > 0');
+		if($count) {
+			$onlinedata = DB::fetch_all('SELECT s.*, '.(DISCUZ_LANG == 'EN/' ? 'f.name_en AS name' : 'f.name').', t.subject FROM '.DB::table('common_session').' AS s LEFT JOIN '.DB::table('forum_forum').' AS f ON s.fid=f.fid LEFT JOIN '.DB::table('forum_thread').' AS t ON s.tid=t.tid WHERE invisible = 0 AND uid > 0 ORDER BY (groupid NOT IN (7, 8)) DESC,lastactivity DESC'.DB::limit($start, $perpage), null, 'sid');
+			$actioncode = lang('action');
+			loadcache('onlinelist');
+			foreach($onlinedata as $key => $value) {
+				$value['lastactivity'] = dgmdate($value['lastactivity'], 't');
+				$value['action'] = $actioncode[$value['action']];
+				[$value['username'],$value['referrer']] = explode("\n", $value['username']);
+				$value['icon'] = !empty($_G['cache']['onlinelist'][$value['groupid']]) ? $_G['cache']['onlinelist'][$value['groupid']] : $_G['cache']['onlinelist'][0];
+				$onlinedata[$key] = $value;
+			}
+			unset($actioncode);
+		}
+	} else {
+		$_GET['type']='all';
+		$theurl = "home.php?mod=space&uid={$space['uid']}&do=friend&view=online";
 		if(($count = C::app()->session->count_invisible(0))) {
 			$onlinedata = DB::fetch_all('SELECT s.*, '.(DISCUZ_LANG == 'EN/' ? 'f.name_en AS name' : 'f.name').', t.subject FROM '.DB::table('common_session').' AS s LEFT JOIN '.DB::table('forum_forum').' AS f ON s.fid=f.fid LEFT JOIN '.DB::table('forum_thread').' AS t ON s.tid=t.tid WHERE invisible = 0 ORDER BY (groupid NOT IN (7, 8)) DESC,lastactivity DESC'.DB::limit($start, $perpage), null, 'sid');
 			$actioncode = lang('action');
@@ -257,7 +273,7 @@ if($fuids) {
 if($list) {
 	$list = getfollowflag($list);
 }
-$navtitle = $_GET['view'] == 'online' ? ($_GET['type'] == 'friend' ? lang('home/template','online_friend') : lang('home/template','online_member')) : lang('space', 'sb_friend', array('who' => $space['username']));
+$navtitle = $_GET['view'] == 'online' ? ($_GET['type'] == 'friend' ? lang('home/template','online_friend') : ($_GET['type'] == 'member' ? lang('home/template','online_member') : lang('home/template', 'view_online_friend'))) : lang('space', 'sb_friend', array('who' => $space['username']));
 $metakeywords = lang('space', 'sb_friend', array('who' => $space['username']));
 $metadescription = lang('space', 'sb_share', array('who' => $space['username']));
 
