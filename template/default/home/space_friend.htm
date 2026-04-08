@@ -180,7 +180,7 @@
 								<th>{lang online_in_forum}</th>
 								<th>{lang online_in_thread}</th>
 								<th>{lang time}</th>
-								<!--{if $space[uid]}--><th>{lang online_ip}</th><!--{/if}-->
+								<!--{if $space[uid]}--><th>{lang online_referrer}</th><!--{/if}-->
 							</tr>
 						</thead>
 						<tbody>
@@ -191,7 +191,7 @@
 								<td><!--{if $value['fid']}--><a href="forum.php?mod=forumdisplay&fid=$value[fid]">$value[name]</a><!--{else}-->$value[action]<!--{/if}-->&nbsp;</td>
 								<td style="max-width:300px;"><!--{if $value['tid']}--><a href="forum.php?mod=viewthread&tid=$value[tid]">$value[subject]</a><!--{/if}-->&nbsp;</td>
 								<td>$value[lastactivity]&nbsp;</td>
-								<!--{if $space[uid]}--><td style="max-width: 100px;overflow: hidden;overflow-x: visible;" nowrap>$value[ip]<br>$value[referrer]</td><!--{/if}-->
+								<!--{if $space[uid]}--><td style="max-width: 100px;overflow: hidden;overflow-x: visible;" nowrap>$value[referrer]</td><!--{/if}-->
 							</tr>
 						<!--{/loop}-->
 						</tbody>

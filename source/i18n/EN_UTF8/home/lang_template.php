@@ -88,6 +88,7 @@ $lang = array (
 	'online_in_forum'		=> 'In board',//'所在版块',
 	'online_in_thread'		=> 'In thread',//'所在主题',
 	'online_ip'			=> 'IP address',//'IP 地址',
+	'online_referrer'		=> 'Referrer',//'来源',
 	'follow_special_thread_tip'	=> 'This is a special thread, you can return to the original post to see more',//'这是一个特殊主题，点这里可以回原帖查看详细内容',
 	'follow_thread_deleted'		=> 'The thread was deleted',//'该主题已被删除',
 	'follow_followed'		=> 'Followed',//'已收听',
