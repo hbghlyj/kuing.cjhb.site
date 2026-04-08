@@ -7,3 +7,4 @@ src/config/
 data/
 uc_server/data/
 chat/php/config.php
+.phpunit.result.cache
