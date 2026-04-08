@@ -696,7 +696,11 @@ class table_forum_post extends discuz_table {
 		foreach(range(1, 5) as $try_count) {
 			try {
 				$data['position'] = $this->_next_pos_from_db($tablename, $data['tid']);
-				$ret = DB::insert($tablename, $data, $return_insert_id, $replace, $silent);
+				if($this->has_nullable_json_null($data)) {
+					$ret = $this->insert_post_with_nullable_json($tablename, $data, $return_insert_id, $replace, $silent);
+				} else {
+					$ret = DB::insert($tablename, $data, $return_insert_id, $replace, $silent);
+				}
 				return $ret;
 			} catch (Exception $e) {
 				if($try_count >= 2) usleep(mt_rand(2, 6) * 10000); // 如果第二次还不行，停几十毫秒再试
