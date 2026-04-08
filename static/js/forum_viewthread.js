@@ -186,15 +186,13 @@ function showauthor(ctrlObj, menuid) {
 }
 
 function fastpostappendreply() {
-	newpos = fetchOffset($('post_new'));
-	document.documentElement.scrollTop = newpos['top'];
-	$('post_new').style.display = '';
-	$('post_new').id = '';
-	div = document.createElement('div');
-	div.id = 'post_new';
-	div.style.display = 'none';
-	div.className = '';
-	$('postlistreply').appendChild(div);
+	if($('fastpostrefresh') != null) {
+		setcookie('fastpostrefresh', $('fastpostrefresh').checked ? 1 : 0, 2592000);
+		if($('fastpostrefresh').checked) {
+			location.href = 'forum.php?mod=redirect&tid='+tid+'&goto=lastpost&random=' + Math.random() + '#lastpost';
+			return;
+		}
+	}
 	$('fastpostsubmit').disabled = false;
 	if($('fastpostmessage')) {
 		$('fastpostmessage').value = '';
@@ -213,12 +211,11 @@ function fastpostappendreply() {
 }
 
 function succeedhandle_fastpost(locationhref, message, param) {
-	var pid = param['pid'];
 	var tid = param['tid'];
 	var from = param['from'];
 	var reply_mod = param['reply_mod'];
 	if(!reply_mod) {
-		ajaxget('forum.php?mod=viewthread&tid=' + tid + '&viewpid=' + pid + '&from=' + from, 'post_new', 'ajaxwaitid', '', null, 'fastpostappendreply()');
+		fastpostappendreply();
 		if(replyreload) {
 			var reloadpids = replyreload.split(',');
 			for(var i = 1;i < reloadpids.length;i++) {
