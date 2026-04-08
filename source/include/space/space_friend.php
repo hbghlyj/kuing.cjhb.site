@@ -35,19 +35,6 @@ if($_GET['view'] == 'online') {
 	$formatonlinename = function($value) {
 		$value['referrer'] = isset($value['referrer']) ? $value['referrer'] : '';
 		$value['location'] = trim(isset($value['location']) ? $value['location'] : '');
-		if(($value['location'] === '' || $value['referrer'] === '') && strpos($value['username'], "\n") !== false) {
-			list($legacyusername, $legacyreferrer) = explode("\n", $value['username'], 2);
-			$value['referrer'] = $value['referrer'] !== '' ? $value['referrer'] : $legacyreferrer;
-			if($value['groupid'] == 8 && strpos($legacyusername, "\t") !== false) {
-				list($value['username'], $legacylocation) = explode("\t", $legacyusername, 2);
-				$value['location'] = $value['location'] !== '' ? $value['location'] : trim($legacylocation);
-			} elseif($value['groupid'] == 7) {
-				$value['username'] = '';
-				$value['location'] = $value['location'] !== '' ? $value['location'] : trim($legacyusername);
-			} else {
-				$value['username'] = $legacyusername;
-			}
-		}
 		if($value['groupid'] == 7) {
 			$value['username'] = lang('forum/misc', 'guestuser').($value['location'] !== '' ? ' '.$value['location'] : '');
 		} elseif($value['groupid'] == 8 && $value['location'] !== '') {
