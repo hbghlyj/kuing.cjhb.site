@@ -82,7 +82,7 @@ img[src*="static/image/poke"] {max-width:22px !important;max-height:22px !import
 .bw0 {background:none !important}
 .dz_pg_space .ct2_a .pbm .bw0 .ct2_a .tb {margin-top:10px}
 .dz_pg_space .ct2_a .pbm .bw0 {margin-bottom:0}
-.ct2_a .mn, #nv_userapp .ct2_a .mn, .ct2_a_r .mn {width:800px;margin:0 0 15px 0;padding:10px 20px;background:var(--dz-bgf);border:1px solid var(--dz-borderb);border-radius:var(--dz-radius-m)}
+.ct2_a .mn, #nv_userapp .ct2_a .mn, .ct2_a_r .mn {margin:0 0 15px 0;padding:10px 20px;background:var(--dz-bgf);border:1px solid var(--dz-borderb);border-radius:var(--dz-radius-m)}
 .ct2_a .mn .bbda.pbm.mbm {margin-top:4px;font-size:14px;padding-bottom:15px !important}
 .ct2_a .mn .bm .bmn {padding:10px}
 .ct2_a .mn .bm .tbmu {padding-top:10px !important}
