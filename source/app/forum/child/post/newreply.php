@@ -27,8 +27,16 @@ if($special == 5) {
 	}
 }
 
-if(!$_G['uid'] && !((!$_G['forum']['replyperm'] && $_G['group']['allowreply']) || ($_G['forum']['replyperm'] && forumperm($_G['forum']['replyperm'])))) {
-	showmessage('replyperm_login_nopermission', NULL, [], ['login' => 1]);
+if(!((!$_G['forum']['replyperm'] && $_G['group']['allowreply']) || ($_G['forum']['replyperm'] && forumperm($_G['forum']['replyperm'])))) {
+	if(!$_G['uid']) {
+		showmessage('replyperm_login_nopermission', NULL, [], ['login' => 1]);
+	} else {
+		if(!$_G['forum']['replyperm'] && !$_G['group']['allowreply']) {
+			showmessage('replyperm_none_nopermission', NULL, [], ['login' => 1]);
+		} elseif($_G['forum']['replyperm'] && !forumperm($_G['forum']['replyperm'])) {
+			showmessagenoperm('replyperm', $_G['forum']['fid']);
+		}
+	}
 } elseif(empty($_G['forum']['allowreply'])) {
 	if(!$_G['forum']['replyperm'] && !$_G['group']['allowreply']) {
 		showmessage('replyperm_none_nopermission', NULL, [], ['login' => 1]);

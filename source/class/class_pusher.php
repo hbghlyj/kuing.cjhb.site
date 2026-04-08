@@ -1,0 +1,1 @@
+<?php if (!class_exists("Pusher")) {     class Pusher {         public function __construct(...$args) {}         public function trigger($channel, $event, $data, $a = null, $b = null)         {             return true;         }     } } ?>
