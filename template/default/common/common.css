@@ -1349,7 +1349,7 @@ Last Modify:	Pony
 	.lk p { color: {MIDTEXT}; }
 	.lk .m li { clear: left; padding: 0 0 10px 98px; }
 		.lk .m img { display: inline; margin-left: -98px; }
-	.lk .x { column-count: 3; }
+	.lk .x { column-count: auto; column-width: 7em; }
 	.lk_logo .lk_content { float: left; }
 
 /* ------------------------------------------------------------------------ 其他特定功能块 */
