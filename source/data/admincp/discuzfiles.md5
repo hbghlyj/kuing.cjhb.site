@@ -1682,7 +1682,6 @@ d394b5b58bf2acf3ed7507d999ce2016 *source/class/table/table_forum_pollvoter.php
 053381d5338d9769ecab3d0501b3a907 *source/class/table/table_forum_post_tableid.php
 c3b45b8b823e431a61135243b0f4b596 *source/class/table/table_forum_promotion.php
 a0f2a462112345117b5e0bd308e126ce *source/class/table/table_forum_ratelog.php
-2ddf0099438b0d78f0cfa85a9078c7e0 *source/class/table/table_forum_relatedthread.php
 2bca79499b103ea6bae2a0dd60d182ae *source/class/table/table_forum_replycredit.php
 0571b119625a896e282346e56be50edc *source/class/table/table_forum_rsscache.php
 fedd6a53653e8f29b7d9b5f9872fcd31 *source/class/table/table_forum_sofa.php
