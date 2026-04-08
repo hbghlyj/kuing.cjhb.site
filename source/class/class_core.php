@@ -9,7 +9,7 @@
 error_reporting(E_ALL);
 
 const IN_DISCUZ = true;
-define('DISCUZ_ROOT', substr(dirname(__FILE__), 0, -12));
+define('DISCUZ_ROOT', substr(__DIR__, 0, -12));
 const DISCUZ_DATA = DISCUZ_ROOT.'data/';
 const DISCUZ_ROOT_STATIC = DISCUZ_ROOT;
 const DISCUZ_CORE_DEBUG = false;
