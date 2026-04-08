@@ -31,6 +31,8 @@ if (!class_exists('table_common_tag')) {
         public function fetch_by_tagid($tagId) { return []; }
         public function update($tagId, $data) {}
         public function delete_byids($tagidarray) {}
+    public function fetch_all_by_hot($limit = 100, $start = 0, $limit2 = 100, $order = 'DESC') { return []; }
+    public function fetch_all_by_status($status, $type = '', $start = 0, $limit = 100, $order = '') { return []; }
     }
 }
 
@@ -45,6 +47,7 @@ if (!class_exists('table_common_tagitem')) {
         public function replace($tagid, $itemid, $idtype) {}
         public function fetch_all_by_tagid_and_time($tagId, $startTime) { return []; }
         public function delete_tagitem($tagidarray, $itemid = null, $idtype = '') {}
+    public function insert($data, $return_insert_id = false, $replace = false, $silent = false) { return 1; }
     }
 }
 
@@ -226,5 +229,130 @@ class ClassTagTest extends TestCase {
         $tagObj = new tag();
         $result = $tagObj->delete_tag("not_array", "tid");
         $this->assertFalse($result);
+    }
+
+    public function testMergeTagEmpty() {
+        $tagObj = new tag();
+        $result = $tagObj->merge_tag([1], "   ");
+        $this->assertEquals('tag_empty', $result);
+    }
+
+    public function testMergeTagLength() {
+        $tagObj = new tag();
+        $result = $tagObj->merge_tag([1], "a");
+        $this->assertEquals('tag_length', $result);
+    }
+
+    public function testCopyTag() {
+        $mockTagItem = $this->getMockBuilder(table_common_tagitem::class)
+            ->onlyMethods(['select', 'insert'])
+            ->getMock();
+        table_common_tagitem::$instance = $mockTagItem;
+
+        $records = [
+            ['tagid' => 10, 'itemid' => 1, 'idtype' => 'tid'],
+            ['tagid' => 20, 'itemid' => 1, 'idtype' => 'tid']
+        ];
+
+        $mockTagItem->method('select')->with(0, 1, 'tid')->willReturn($records);
+
+        $mockTagItem->expects($this->exactly(2))->method('insert')->with($this->callback(function($data) {
+            return ($data['tagid'] == 10 || $data['tagid'] == 20) && $data['itemid'] == 2 && $data['idtype'] == 'tid';
+        }));
+
+        $tagObj = new tag();
+        $tagObj->copy_tag(1, 2, 'tid');
+    }
+
+    public function testBatchUpdateTagHot() {
+        $mockTag = $this->getMockBuilder(table_common_tag::class)
+            ->onlyMethods(['fetch_all_by_hot', 'fetch_by_tagid', 'update'])
+            ->getMock();
+        table_common_tag::$instance = $mockTag;
+
+        $tags = [
+            ['tagid' => 1, 'hot_score' => 100],
+            ['tagid' => 2, 'hot_score' => 50]
+        ];
+
+        $mockTag->method('fetch_all_by_hot')->willReturn($tags);
+        $mockTag->method('fetch_by_tagid')->willReturnCallback(function($id) {
+            return ['tagid' => $id, 'hot_score' => 10, 'updated_at' => TIMESTAMP];
+        });
+
+        // This implicitly tests that update_tag_hot_score is called inside loop
+        $mockTag->expects($this->exactly(2))->method('update');
+
+        $result = tag::batch_update_tag_hot(2, 0);
+        $this->assertEquals(2, $result);
+    }
+
+    public function testInitializeAllTagHot() {
+        $mockTag = $this->getMockBuilder(table_common_tag::class)
+            ->onlyMethods(['fetch_all_by_status', 'fetch_by_tagid', 'update'])
+            ->getMock();
+        table_common_tag::$instance = $mockTag;
+
+        $mockTag->method('fetch_all_by_status')->willReturnOnConsecutiveCalls([1, 2], []);
+        $mockTag->method('fetch_by_tagid')->willReturnCallback(function($id) {
+            return ['tagid' => $id, 'hot_score' => 10, 'updated_at' => TIMESTAMP];
+        });
+
+        $mockTag->expects($this->exactly(2))->method('update');
+
+        $result = tag::initialize_all_tag_hot(2);
+        $this->assertEquals(2, $result);
+    }
+
+    public function testUpdateField() {
+        $mockTag = $this->getMockBuilder(table_common_tag::class)
+            ->onlyMethods(['get_bytagname', 'increase', 'fetch_by_tagid', 'update'])
+            ->getMock();
+        table_common_tag::$instance = $mockTag;
+
+        $mockTagItem = $this->getMockBuilder(table_common_tagitem::class)
+            ->onlyMethods(['select', 'replace', 'delete_tagitem'])
+            ->getMock();
+        table_common_tagitem::$instance = $mockTagItem;
+
+        // Existing tags for this item: tagid 10 and 20
+        $existingRecords = [
+            ['tagid' => 10],
+            ['tagid' => 20]
+        ];
+
+        // select is called first to get existing tagids, then inside add_tag.
+        // We'll mock it to return the existing records when $tagid is 0 (as called by update_field first)
+        $mockTagItem->method('select')->willReturnCallback(function($tagid, $itemid, $idtype) use ($existingRecords) {
+            if ($tagid === 0) return $existingRecords;
+            return false;
+        });
+
+        // The user passes "mytag,othertag" (adding "mytag", replacing/keeping "othertag" maybe?
+        // Let's assume add_tag returns new tags.
+        // Mock add_tag behavior by partial mocking the tag class itself:
+        $tagObj = $this->getMockBuilder(tag::class)
+            ->onlyMethods(['add_tag'])
+            ->getMock();
+
+        // Mock add_tag to return a new set of tags: 20 (kept), 30 (newly added)
+        // This means 10 was removed.
+        $tagObj->method('add_tag')->willReturn([
+            20 => 'othertag',
+            30 => 'newtag'
+        ]);
+
+        // When 10 is removed, decrease related_count and update hot score
+        $mockTag->expects($this->once())->method('increase')->with(10, ['related_count' => -1]);
+        $mockTagItem->expects($this->once())->method('delete_tagitem')->with([10], 1, 'tid');
+
+        // update_tag_hot_score requires fetching the removed tag to recalculate
+        $mockTag->method('fetch_by_tagid')->with(10)->willReturn(['tagid' => 10, 'hot_score' => 5.0, 'updated_at' => TIMESTAMP]);
+        $mockTag->expects($this->once())->method('update');
+
+        $result = $tagObj->update_field("othertag,newtag", 1, 'tid');
+
+        // Result should be the tab-separated string format of the new tags
+        $this->assertEquals("20,othertag\t30,newtag\t", $result);
     }
 }
