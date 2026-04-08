@@ -16,6 +16,10 @@ if($_G['setting']['whosonlinestatus'] == 1 || $_G['setting']['whosonlinestatus']
 
 	$actioncode = lang('action');
 	loadcache('onlinelist');
+	$guestuser = lang('forum/misc', 'guestuser');
+	if(!$guestuser || $guestuser === 'guestuser') {
+		$guestuser = 'Guest';
+	}
 	$sessions = C::app()->session->fetch_member(1, 0);
 	$sessions_guests = C::app()->session->fetch_member(2, 0);
 	$forumIds = [];
@@ -54,7 +58,9 @@ if($_G['setting']['whosonlinestatus'] == 1 || $_G['setting']['whosonlinestatus']
 	foreach($sessions_guests as $online) {
 		$online_user = [];
 		$online_user['uid'] = 0;
-		$online_user['username'] = htmlspecialchars($online['username']);
+		$location = trim(isset($online['location']) ? $online['location'] : '');
+		$username = $location !== '' ? $guestuser.' '.$location : $guestuser;
+		$online_user['username'] = htmlspecialchars($username);
 		$online_user['icon'] = $_G['cache']['onlinelist'][7];
 		$online_user['tid'] = $online['tid'];
 		$titleLabel = '';
