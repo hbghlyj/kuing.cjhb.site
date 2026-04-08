@@ -138,14 +138,13 @@ function getuserprofile($field) {
 
 function daddslashes($string, $force = 1) {
 	if(is_array($string)) {
-		$keys = array_keys($string);
-		foreach($keys as $key) {
-			$val = $string[$key];
-			unset($string[$key]);
-			$string[addslashes($key)] = daddslashes($val, $force);
+		$result = [];
+		foreach($string as $key => $val) {
+			$result[addslashes($key)] = daddslashes($val, $force);
 		}
+		return $result;
 	} elseif($string) {
-		$string = addslashes($string);
+		return addslashes($string);
 	}
 	return $string;
 }
@@ -316,21 +315,21 @@ function dfsockopen($url, $limit = 0, $post = '', $cookie = '', $bysocket = FALS
 function dhtmlspecialchars($string, $flags = null) {
 	if(is_array($string)) {
 		foreach($string as $key => $val) {
-			$string[$key] = dhtmlspecialchars($val, $flags);
+			$string[$key] = is_array($val) ? dhtmlspecialchars($val, $flags) : ($flags === null ? str_replace(['&', '"', '<', '>'], ['&amp;', '&quot;', '&lt;', '&gt;'], $val) : htmlspecialchars($val, $flags, strtolower(CHARSET) == 'utf-8' ? 'UTF-8' : 'ISO-8859-1'));
 		}
+		return $string;
 	} else {
 		if($flags === null) {
-			$string = str_replace(['&', '"', '<', '>'], ['&amp;', '&quot;', '&lt;', '&gt;'], $string);
+			return str_replace(['&', '"', '<', '>'], ['&amp;', '&quot;', '&lt;', '&gt;'], $string);
 		} else {
 			if(strtolower(CHARSET) == 'utf-8') {
 				$charset = 'UTF-8';
 			} else {
 				$charset = 'ISO-8859-1';
 			}
-			$string = htmlspecialchars($string, $flags, $charset);
+			return htmlspecialchars($string, $flags, $charset);
 		}
 	}
-	return $string;
 }
 
 function dexit($message = '') {
