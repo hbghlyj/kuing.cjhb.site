@@ -637,18 +637,21 @@ class discuz_application extends discuz_base {
 				$flag = $getFlagEmoji($countryCode);
 				$locationName = trim($flag.' '.$city);
 				$referrer = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '';
-				$namePrefixSeparator = '';
 				if(IS_ROBOT){
 					$this->var['member']['groupid'] = 8;
 					$this->var['member']['username'] = IS_ROBOT;
-					$this->session->init($this->var['cookie']['sid'], $this->var['clientip'], 0, IS_ROBOT);
-					$namePrefixSeparator = "\t";
+					$this->session->init($this->var['cookie']['sid'], $this->var['clientip'], 0, IS_ROBOT, $locationName);
+					$this->session->set('username', IS_ROBOT);
 				} else {
 					$this->session->init($this->var['cookie']['sid'], $this->var['clientip'], 0);
+					$this->session->set('username', '');
 				}
-				$this->var['member']['username'] .= $namePrefixSeparator . $locationName . "\n" . $referrer;
+				$this->session->set('location', $locationName);
+				$this->session->set('referrer', $referrer);
 			} else {
 				$this->session->init($this->var['cookie']['sid'], $this->var['clientip'], $this->var['uid']);
+				$this->session->set('location', '');
+				$this->session->set('referrer', '');
 			}
 			$this->var['sid'] = $this->session->sid;
 			$this->var['session'] = $this->session->var;

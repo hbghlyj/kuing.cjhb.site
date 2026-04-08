@@ -31,6 +31,29 @@ ckstart($start, $perpage);
 if($_GET['view'] == 'online') {
 	$theurl = "home.php?mod=space&uid={$space['uid']}&do=friend&view=online";
 	$actives = ['me' => ' class="a"'];
+	$formatonlinename = function($value) {
+		$value['referrer'] = isset($value['referrer']) ? $value['referrer'] : '';
+		$value['location'] = trim(isset($value['location']) ? $value['location'] : '');
+		if(($value['location'] === '' || $value['referrer'] === '') && strpos($value['username'], "\n") !== false) {
+			list($legacyusername, $legacyreferrer) = explode("\n", $value['username'], 2);
+			$value['referrer'] = $value['referrer'] !== '' ? $value['referrer'] : $legacyreferrer;
+			if($value['groupid'] == 8 && strpos($legacyusername, "\t") !== false) {
+				list($value['username'], $legacylocation) = explode("\t", $legacyusername, 2);
+				$value['location'] = $value['location'] !== '' ? $value['location'] : trim($legacylocation);
+			} elseif($value['groupid'] == 7) {
+				$value['username'] = '';
+				$value['location'] = $value['location'] !== '' ? $value['location'] : trim($legacyusername);
+			} else {
+				$value['username'] = $legacyusername;
+			}
+		}
+		if($value['groupid'] == 7) {
+			$value['username'] = lang('forum/misc', 'guestuser').($value['location'] !== '' ? ' '.$value['location'] : '');
+		} elseif($value['groupid'] == 8 && $value['location'] !== '') {
+			$value['username'] = trim($value['username'].' '.$value['location']);
+		}
+		return $value;
+	};
 
 	space_merge($space, 'field_home');
 	$onlinedata = [];
@@ -65,7 +88,7 @@ if($_GET['view'] == 'online') {
 			foreach($onlinedata as $key => $value) {
 				$value['lastactivity'] = dgmdate($value['lastactivity'], 't');
 				$value['action'] = $actioncode[$value['action']];
-				[$value['username'], $value['referrer']] = explode("\n", $value['username']);
+				$value = $formatonlinename($value);
 				$value['icon'] = !empty($_G['cache']['onlinelist'][$value['groupid']]) ? $_G['cache']['onlinelist'][$value['groupid']] : $_G['cache']['onlinelist'][0];
 				$onlinedata[$key] = $value;
 			}
@@ -90,10 +113,7 @@ if($_GET['view'] == 'online') {
 			foreach($onlinedata as $key => $value) {
 				$value['lastactivity'] = dgmdate($value['lastactivity'], 't');
 				$value['action'] = $actioncode[$value['action']];
-				[$value['username'], $value['referrer']] = explode("\n", $value['username']);
-				if($value['groupid'] == 7) {
-					$value['username'] = lang('forum/misc', 'guestuser').$value['username'];
-				}
+				$value = $formatonlinename($value);
 				$value['icon'] = !empty($_G['cache']['onlinelist'][$value['groupid']]) ? $_G['cache']['onlinelist'][$value['groupid']] : $_G['cache']['onlinelist'][0];
 				$onlinedata[$key] = $value;
 			}

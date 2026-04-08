@@ -19,7 +19,7 @@ class memory_common_session {
 	const LUA_RETURN_DATA = <<<LUA
 	local rs = {}
 	for _, key in ipairs(sids) do
-	local row = redis.call("hmget", prefix..key, "sid", "ip", "uid", "username", "groupid", "invisible", "action", "lastactivity", "lastolupdate", "fid", "tid")
+	local row = redis.call("hmget", prefix..key, "sid", "ip", "uid", "username", "location", "referrer", "groupid", "invisible", "action", "lastactivity", "lastolupdate", "fid", "tid")
 	rs[#rs + 1] = row
 	end
 	return rs
@@ -263,7 +263,7 @@ LUA;
 		    local sids = redis.call('SMEMBERS', prefix..'idx_uid_'..ARGV[argv_index])
 		    for _, key in ipairs(sids) do
 			if (sid_index >= start) then
-			    local row = redis.call("hmget", prefix..key, "sid", "ip", "uid", "username", "groupid", "invisible", "action", "lastactivity", "lastolupdate", "fid", "tid")
+			    local row = redis.call("hmget", prefix..key, "sid", "ip", "uid", "username", "location", "referrer", "groupid", "invisible", "action", "lastactivity", "lastolupdate", "fid", "tid")
 			    rs[#rs + 1] = row
 			    if (#rs >= limit) then
 				return rs
@@ -361,7 +361,7 @@ LUA;
 		redis.call("DEL", out_hash)
 		local rs = {}
 		for _, key in ipairs(keys) do
-		    local row = redis.call("hmget", prefix..key, "uid", "groupid", "username", "invisible", "lastactivity")
+		    local row = redis.call("hmget", prefix..key, "uid", "groupid", "username", "location", "referrer", "invisible", "lastactivity")
 		    rs[#rs + 1] = row
 		end
 		return rs
@@ -373,8 +373,10 @@ LUA;
 			$item['uid'] = $row[0];
 			$item['groupid'] = $row[1];
 			$item['username'] = $row[2];
-			$item['invisible'] = $row[3];
-			$item['lastactivity'] = $row[4];
+			$item['location'] = $row[3];
+			$item['referrer'] = $row[4];
+			$item['invisible'] = $row[5];
+			$item['lastactivity'] = $row[6];
 			$result[] = $item;
 		}
 		return $result;
@@ -492,7 +494,7 @@ LUA;
 
 	/*
 	 * 将以下调用的结果处理成arry返回
-	 * 	redis.call("hmget", key, "sid", "ip", "uid", "username", "groupid", "invisible", "action", "lastactivity", "lastolupdate", "fid", "tid")
+	 * 	redis.call("hmget", key, "sid", "ip", "uid", "username", "location", "referrer", "groupid", "invisible", "action", "lastactivity", "lastolupdate", "fid", "tid")
 	 */
 	private function array_from_memory_result($data) {
 		$result = [];
@@ -502,13 +504,15 @@ LUA;
 			$item['ip'] = $row[1];
 			$item['uid'] = $row[2];
 			$item['username'] = $row[3];
-			$item['groupid'] = $row[4];
-			$item['invisible'] = $row[5];
-			$item['action'] = $row[6];
-			$item['lastactivity'] = $row[7];
-			$item['lastolupdate'] = $row[8];
-			$item['fid'] = $row[9];
-			$item['tid'] = $row[10];
+			$item['location'] = $row[4];
+			$item['referrer'] = $row[5];
+			$item['groupid'] = $row[6];
+			$item['invisible'] = $row[7];
+			$item['action'] = $row[8];
+			$item['lastactivity'] = $row[9];
+			$item['lastolupdate'] = $row[10];
+			$item['fid'] = $row[11];
+			$item['tid'] = $row[12];
 			$result[] = $item;
 		}
 		return $result;
