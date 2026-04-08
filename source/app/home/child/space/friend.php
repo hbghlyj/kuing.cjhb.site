@@ -35,9 +35,9 @@ if($_GET['view'] == 'online') {
 		$value['referrer'] = isset($value['referrer']) ? $value['referrer'] : '';
 		$value['location'] = trim(isset($value['location']) ? $value['location'] : '');
 		if($value['groupid'] == 7) {
-			$value['username'] = lang('forum/misc', 'guestuser').($value['location'] !== '' ? ' '.$value['location'] : '');
+			$value['username'] = lang('forum/misc', 'guestuser').$value['location'];
 		} elseif($value['groupid'] == 8 && $value['location'] !== '') {
-			$value['username'] = trim($value['username'].' '.$value['location']);
+			$value['username'] = trim($value['username']."\t".$value['location']);
 		}
 		return $value;
 	};
