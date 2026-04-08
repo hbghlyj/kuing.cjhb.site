@@ -17,7 +17,7 @@ require './source/class/class_core.php';
 $discuz = C::app();
 $discuz->init();
 
-if(isset($_GET['mod']) && !in_array($_GET['mod'], ['tag', 'seccode', 'secqaa'])) {
+if(isset($_GET['mod']) && !in_array($_GET['mod'], ['tag', 'seccode', 'secqaa', 'patch'])) {
 	$discuz->reject_robot();
 }
 $modarray = ['seccode', 'secqaa', 'initsys', 'invite', 'faq', 'report',
