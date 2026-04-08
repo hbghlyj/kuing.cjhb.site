@@ -479,7 +479,6 @@ function deletethread($tids, $membercount = false, $credit = false, $ponly = fal
 			'forum_debate',
 			'forum_debatepost',
 			'forum_threadmod',
-			'forum_relatedthread',
 			'forum_pollvoter',
 			'forum_threadimage',
 			'forum_threadpreview'

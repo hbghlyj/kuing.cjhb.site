@@ -1393,20 +1393,6 @@ $data = [[
       'keywords' => '',
       'adminemail' => '',
       'validity' => 1,
-      'relatedthreads' => 
-      [
-        'bbsnum' => 0,
-        'webnum' => 0,
-        'type' => 
-        [
-          'blog' => 'blog',
-          'news' => 'news',
-          'bbs' => 'bbs',
-        ],
-        'banurl' => '',
-        'position' => 1,
-        'validity' => 1,
-      ],
     ],
   ],[
     'skey' => 'ranklist',

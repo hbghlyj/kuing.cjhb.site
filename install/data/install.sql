@@ -2937,16 +2937,6 @@ CREATE TABLE pre_forum_ratelog (
   KEY uid (uid)
 ) ENGINE=InnoDB;
 
-DROP TABLE IF EXISTS pre_forum_relatedthread;
-CREATE TABLE pre_forum_relatedthread (
-  tid int(10) unsigned NOT NULL DEFAULT '0',
-  `type` enum('general','trade') NOT NULL DEFAULT 'general',
-  expiration int(10) NOT NULL DEFAULT '0',
-  keywords varchar(255) NOT NULL DEFAULT '',
-  relatedthreads text NOT NULL,
-  PRIMARY KEY (tid,`type`)
-) ENGINE=InnoDB;
-
 DROP TABLE IF EXISTS pre_forum_replycredit;
 CREATE TABLE pre_forum_replycredit (
   tid int(10) unsigned NOT NULL,

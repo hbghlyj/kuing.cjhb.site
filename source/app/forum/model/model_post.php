@@ -693,7 +693,7 @@ class model_post extends discuz_model {
 		$forumcounter = [];
 		if($isfirstpost) {
 			$forumcounter['threads'] = $forumcounter['posts'] = -1;
-			$tablearray = ['forum_relatedthread', 'forum_debate', 'forum_debatepost', 'forum_polloption', 'forum_poll'];
+			$tablearray = ['forum_debate', 'forum_debatepost', 'forum_polloption', 'forum_poll'];
 			foreach($tablearray as $table) {
 				C::t($table)->delete_by_tid($this->thread['tid']);
 			}
