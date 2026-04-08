@@ -254,7 +254,6 @@ class model_thread extends discuz_model {
 			'smileyoff' => $this->param['smileyoff'],
 			'parseurloff' => $this->param['parseurloff'],
 			'attachment' => '0',
-			'tags' => !empty($this->param['tagstr']) ? $this->param['tagstr'] : '',
 			'replycredit' => 0,
 			'status' => $this->param['pstatus']
 		]);
