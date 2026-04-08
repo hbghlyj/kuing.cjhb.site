@@ -994,6 +994,36 @@ class table_forum_thread extends discuz_table {
 		return $num;
 	}
 
+	public function increase_views_by_tid_map($viewmap, $tableid = 0, $low_priority = false) {
+		$cases = [];
+		$tids = [];
+		foreach((array)$viewmap as $tid => $views) {
+			$tid = dintval($tid);
+			$views = dintval($views);
+			if($tid < 1 || $views < 1) {
+				continue;
+			}
+			$tids[] = $tid;
+			$cases[] = "WHEN $tid THEN $views";
+		}
+		if(!$tids) {
+			return 0;
+		}
+		$cmd = 'UPDATE '.($low_priority ? 'LOW_PRIORITY ' : '');
+		$num = DB::query(
+			$cmd.DB::table($this->get_table_name($tableid)).' SET `views`=`views`+CASE `tid` '.implode(' ', $cases).' ELSE 0 END WHERE tid IN ('.dimplode($tids).')',
+			'UNBUFFERED'
+		);
+		foreach($viewmap as $tid => $views) {
+			$tid = dintval($tid);
+			$views = dintval($views);
+			if($tid > 0 && $views > 0) {
+				$this->increase_cache([$tid], ['views' => $views]);
+			}
+		}
+		return $num;
+	}
+
 	public function insert($data, $return_insert_id = false, $replace = false, $silent = false) {
 		if($data && is_array($data)) {
 			$this->clear_cache($data['fid'], 'forumdisplay_');

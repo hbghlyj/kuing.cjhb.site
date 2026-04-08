@@ -1072,11 +1072,7 @@ function viewthread_updateviews($tableid) {
 	if(IS_ROBOT)return;
 	if(!$_G['setting']['preventrefresh'] || getcookie('viewid') != 'tid_'.$_G['tid']) {
 		if(!$tableid && getglobal('setting/optimizeviews')) {
-			if(isset($_G['forum_thread']['addviews'])) {
-				C::t('forum_threadaddviews')->update_by_tid($_G['tid']);
-			} else {
-				C::t('forum_threadaddviews')->insert(array('tid' => $_G['tid'], 'addviews' => 1), false, true);
-			}
+			C::t('forum_threadaddviews')->bump($_G['tid']);
 		} else {
 			C::t('forum_thread')->increase($_G['tid'], array('views' => 1), true, $tableid);
 		}

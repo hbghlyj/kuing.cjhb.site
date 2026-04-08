@@ -883,19 +883,15 @@ function viewthread_updateviews($tableid) {
 
 	if(!$_G['setting']['preventrefresh'] || getcookie('viewid') != 'tid_'.$_G['tid']) {
 		if(!$tableid && getglobal('setting/optimizeviews')) {
-			if(isset($_G['forum_thread']['addviews'])) {
-				if($_G['forum_thread']['addviews'] < 100) {
-					table_forum_threadaddviews::t()->update_by_tid($_G['tid']);
-				} else {
-					if(!discuz_process::islocked('update_thread_view')) {
-						$row = table_forum_threadaddviews::t()->fetch($_G['tid']);
-						table_forum_threadaddviews::t()->update($_G['tid'], ['addviews' => 0]);
-						table_forum_thread::t()->increase($_G['tid'], ['views' => $row['addviews'] + 1], true);
-						discuz_process::unlock('update_thread_view');
-					}
+			if(isset($_G['forum_thread']['addviews']) && $_G['forum_thread']['addviews'] >= 100) {
+				if(!discuz_process::islocked('update_thread_view')) {
+					$row = table_forum_threadaddviews::t()->fetch($_G['tid']);
+					table_forum_threadaddviews::t()->update($_G['tid'], ['addviews' => 0]);
+					table_forum_thread::t()->increase($_G['tid'], ['views' => $row['addviews'] + 1], true);
+					discuz_process::unlock('update_thread_view');
 				}
 			} else {
-				table_forum_threadaddviews::t()->insert(['tid' => $_G['tid'], 'addviews' => 1], false, true);
+				table_forum_threadaddviews::t()->bump($_G['tid']);
 			}
 		} else {
 			table_forum_thread::t()->increase($_G['tid'], ['views' => 1], true, $tableid);

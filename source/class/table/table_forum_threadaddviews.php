@@ -33,6 +33,20 @@ class table_forum_threadaddviews extends discuz_table {
 		return $ret;
 	}
 
+	public function bump($tid, $amount = 1) {
+		$tid = dintval($tid);
+		$amount = dintval($amount);
+		if(!$tid || $amount < 1) {
+			return 0;
+		}
+		$ret = DB::query(
+			'INSERT INTO %t SET `tid`=%d, `addviews`=%d ON DUPLICATE KEY UPDATE `addviews`=`addviews`+%d',
+			[$this->_table, $tid, $amount, $amount]
+		);
+		$this->increase_cache([$tid], ['addviews' => $amount]);
+		return $ret;
+	}
+
 	public function fetch_all_order_by_tid($start = 0, $limit = 0) {
 		return DB::fetch_all('SELECT * FROM %t ORDER BY tid'.DB::limit($start, $limit), [$this->_table], $this->_pk);
 	}
