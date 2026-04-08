@@ -50,5 +50,12 @@ class table_forum_threadaddviews extends discuz_table {
 	public function fetch_all_order_by_tid($start = 0, $limit = 0) {
 		return DB::fetch_all('SELECT * FROM %t ORDER BY tid'.DB::limit($start, $limit), [$this->_table], $this->_pk);
 	}
+
+	public function fetch_hot($limit = 10) {
+		return DB::fetch_all(
+			'SELECT `tid`, `addviews` FROM %t ORDER BY addviews DESC, tid DESC'.DB::limit(0, $limit),
+			[$this->_table]
+		);
+	}
 }
 

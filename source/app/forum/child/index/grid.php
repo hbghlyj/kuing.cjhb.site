@@ -31,7 +31,26 @@ if(TIMESTAMP - $_G['cache']['grids']['cachetime'] < $cachelife) {
 	$grids['newthread'] = table_forum_thread::t()->fetch_all_for_guide('newthread', 0, [], 0, 0, 0, 10, $_G['setting']['grid']['fids']);
 
 	$grids['newreply'] = table_forum_thread::t()->fetch_all_for_guide('reply', 0, [], 0, 0, 0, 10, $_G['setting']['grid']['fids']);
-	$grids['hot'] = DB::fetch_all("SELECT * FROM ".DB::table('forum_threadaddviews')." v LEFT JOIN ".DB::table('forum_thread')." t ON t.tid=v.tid WHERE t.displayorder>=0 ORDER BY v.addviews DESC LIMIT 10");
+	$grids['hot'] = [];
+	$hotfids = dintval($_G['setting']['grid']['fids'], true);
+	$hotcandidates = table_forum_threadaddviews::t()->fetch_hot(200);
+	if($hotcandidates) {
+		$hotthreads = table_forum_thread::t()->fetch_all_by_tid(array_column($hotcandidates, 'tid'));
+		foreach($hotcandidates as $candidate) {
+			$tid = intval($candidate['tid']);
+			if(empty($hotthreads[$tid]) || $hotthreads[$tid]['displayorder'] < 0) {
+				continue;
+			}
+			if($hotfids && !in_array($hotthreads[$tid]['fid'], $hotfids)) {
+				continue;
+			}
+			$hotthreads[$tid]['addviews'] = intval($candidate['addviews']);
+			$grids['hot'][] = $hotthreads[$tid];
+			if(count($grids['hot']) >= 10) {
+				break;
+			}
+		}
+	}
 
 	$_G['forum_colorarray'] = ['', '#EE1B2E', '#EE5023', '#996600', '#3C9D40', '#2897C5', '#2B65B7', '#8F2A90', '#EC1282'];
 	foreach($grids as $type => $gridthreads) {

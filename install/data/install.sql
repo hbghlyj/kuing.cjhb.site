@@ -3058,7 +3058,8 @@ DROP TABLE IF EXISTS pre_forum_threadaddviews;
 CREATE TABLE pre_forum_threadaddviews (
   tid int(10) unsigned NOT NULL DEFAULT '0',
   addviews int(10) unsigned NOT NULL DEFAULT '0',
-  PRIMARY KEY (tid)
+  PRIMARY KEY (tid),
+  KEY addviews_tid (addviews, tid)
 ) ENGINE=InnoDB;
 
 DROP TABLE IF EXISTS pre_forum_threadcalendar;
