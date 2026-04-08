@@ -17,7 +17,7 @@ function DISCUZ_ROOT() {
 	if(defined('DISCUZ_ROOT')) {
 		return DISCUZ_ROOT;
 	} else {
-		return substr(__DIR__, 0, -15);
+		return dirname(__DIR__, 2).'/';
 	}
 }
 

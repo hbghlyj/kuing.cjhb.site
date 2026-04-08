@@ -336,7 +336,7 @@ if($operation == 'export') {
 			$query = DB::query("SHOW VARIABLES LIKE 'basedir'");
 			list(, $mysql_base) = DB::fetch($query, constant('MYSQLI_NUM'));
 
-			$dumpfile = addslashes(dirname(dirname(__DIR__))).'/'.$backupfilename.'.sql';
+			$dumpfile = addslashes(dirname(__DIR__, 2)).'/'.$backupfilename.'.sql';
 			@unlink($dumpfile);
 			$tablesstr = escapeshellarg($tablesstr);
 			$tablesstr = str_replace(' ', '" "', $tablesstr);
