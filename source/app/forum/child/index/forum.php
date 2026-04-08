@@ -152,9 +152,7 @@ if(!IS_ROBOT && ($_G['setting']['whosonlinestatus'] == 1 || $_G['setting']['whos
 
 		$_G['setting']['maxonlinelist'] = $_G['setting']['maxonlinelist'] ? $_G['setting']['maxonlinelist'] : 500;
 		foreach(C::app()->session->fetch_member(1, 0, $_G['setting']['maxonlinelist']) as $online) {
-			$membercount++;
 			if($online['invisible']) {
-				$invisiblecount++;
 				continue;
 			} else {
 				$online['icon'] = !empty($_G['cache']['onlinelist'][$online['groupid']]) ? $_G['cache']['onlinelist'][$online['groupid']] : $_G['cache']['onlinelist'][0];
