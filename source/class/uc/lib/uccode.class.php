@@ -125,7 +125,7 @@ class uccode {
 
 	function bbcodeurl($url, $tags) {
 		if(!preg_match('/<.+?>/s', $url)) {
-			if(!in_array(strtolower(substr($url, 0, 6)), ['http:/', 'https:', 'ftp://', 'rtsp:/', 'mms://'])) {
+			if(!in_array(strtolower(substr($url, 0, 6)), ['http:/', 'https:', 'ftp://', 'rtsp:/', 'mms://']) && !str_starts_with($url, '//') && !str_starts_with($url, '/')) {
 				$url = 'http://'.$url;
 			}
 			return str_replace(['submit', 'logging.php'], ['', ''], sprintf($tags, $url, addslashes($url)));

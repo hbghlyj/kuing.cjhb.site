@@ -738,7 +738,7 @@ function bbcodeurl($url, $tags) {
 	if(str_starts_with($url, 'data:image')) {
 	} elseif(str_starts_with($url, 'www.')) {
 		$url = '//'.$url;
-	} elseif(!in_array(strtolower(substr($url, 0, 8)), ['http://', 'https://']) && !in_array(strtolower(substr($url, 0, 6)), ['ftp://', 'rtsp:/', 'mms://']) && !str_starts_with($url, '//') && !preg_match('/^static\//', $url) && !preg_match('/^data\//', $url)) {
+	} elseif(!in_array(strtolower(substr($url, 0, 8)), ['http://', 'https://']) && !in_array(strtolower(substr($url, 0, 6)), ['ftp://', 'rtsp:/', 'mms://']) && !str_starts_with($url, '//') && !str_starts_with($url, '/') && !preg_match('/^static\//', $url) && !preg_match('/^data\//', $url)) {
 		$url = 'http://'.$url;
 	}
 	return str_replace(['submit', 'member.php?mod=logging'], ['', ''], str_replace('{url}', addslashes($url), $tags));
