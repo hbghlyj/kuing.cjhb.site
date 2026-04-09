@@ -410,6 +410,7 @@ function ctlent(event) {
 		}
 		postSubmited = true;
 		editorsubmit.disabled = true;
+		onbeforeunload = null;
 		editorform.submit();
 		return;
 	}

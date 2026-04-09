@@ -34,6 +34,7 @@ function ctlent(event) {
 		}
 		postSubmited = true;
 		$('postsubmit').disabled = true;
+		onbeforeunload = null;
 		$('postform').submit();
 	}
 	if(event.keyCode == 9) {
@@ -173,6 +174,7 @@ function checkpostrule_post(theform) {
 }
 
 function postsubmit(theform) {
+	onbeforeunload = null;
 	if($(editorid + '_attachlist')) {
 		$('postbox').appendChild($(editorid + '_attachlist'));
 		$(editorid + '_attachlist').style.display = 'none';
@@ -863,6 +865,7 @@ function extraCheckall() {
 function deleteThread() {
 	if(confirm($L('delete_post_confirm')) != 0){
 		$('delete').value = '1';
+		onbeforeunload = null;
 		$('postform').submit();
 	}
 }
