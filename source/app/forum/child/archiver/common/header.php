@@ -19,7 +19,7 @@ ob_start();
 	<meta name="renderer" content="webkit"/>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 	<title><?php if(!empty($navtitle)): echo $navtitle.' - '; endif;
-		if(empty($nobbname)): echo $_G['setting']['bbname'].' - '; endif; ?> Powered by Discuz! Archiver</title>
+		if(empty($nobbname)): echo $_G['setting']['bbname'].' - '; endif; ?>Archiver</title>
 	<?php echo $_G['setting']['seohead']; ?>
 
 	<meta name="keywords"

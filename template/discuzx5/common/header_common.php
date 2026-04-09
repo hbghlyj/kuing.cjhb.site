@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-	<title><!--{if !empty($navtitle)}-->$navtitle - <!--{/if}--><!--{if empty($nobbname)}--> $_G['setting']['bbname'] - <!--{/if}--> Powered by Discuz!</title>
+	<title><!--{if !empty($navtitle)}-->$navtitle - <!--{/if}--><!--{if empty($nobbname)}--> $_G['setting']['bbname']<!--{/if}--></title>
 	$_G['setting']['seohead']
 	<!--{eval $is_windows_chrome = strpos($_SERVER['HTTP_USER_AGENT'], 'Windows') !== false && strpos($_SERVER['HTTP_USER_AGENT'], 'Chrome') !== false;}-->
 	<!--{eval $is_old_chrome = preg_match('/Windows 7|Windows 8|Windows NT 6|Windows NT 10\.0.*?Chrome\/10[0-9]/', $_SERVER['HTTP_USER_AGENT']);}-->
