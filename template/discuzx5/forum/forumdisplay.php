@@ -47,7 +47,7 @@
 
 						<!--{if $_G['forum']['ismoderator']}-->
 						<!--{if $_G['forum']['recyclebin']}-->
-							<span class="pipe">|</span><a href="{if $_G['adminid'] == 1}?app=admin&mod=forum&action=recyclebin&frames=yes{elseif $_G['forum']['ismoderator']}forum.php?mod=modcp&action=recyclebin&fid=$_G[fid]{/if}" class="fa_bin" target="_blank">{lang forum_recyclebin}</a>
+							<span class="pipe">|</span><a href="{if $_G['adminid'] == 1}/?app=admin&mod=forum&action=recyclebin&frames=yes{elseif $_G['forum']['ismoderator']}forum.php?mod=modcp&action=recyclebin&fid=$_G[fid]{/if}" class="fa_bin" target="_blank">{lang forum_recyclebin}</a>
 						<!--{/if}-->
 						<!--{if $_G['forum']['ismoderator'] && !$_GET['archiveid']}-->
 							<span class="pipe">|</span><strong>
