@@ -56,11 +56,6 @@
     width: 140px;
     padding-left: 0;
   }
-  .fl_by cite {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    font-size: 12px;
-  }
   .tl .common {
     max-width: calc(100vw - 120px);
   }

@@ -35,11 +35,6 @@
     width: 140px;
     padding-left: 0;
   }
-  .fl_by cite {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    font-size: 12px;
-  }
   #nv li a { padding: 0 5px; }
   #onlinelist dd ul li {
     width: 10em;
