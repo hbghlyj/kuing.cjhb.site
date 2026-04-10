@@ -12,7 +12,12 @@ if(!defined('IN_DISCUZ')) {
 global $_G;
 $actives = ['password' => ' class="a"'];
 $operation = in_array(getgpc('op'), ['list', 'unbind', 'verifyemail', 'verify']) ? trim(getgpc('op')) : 'list';
-$method = in_array(getgpc('method'), array_merge(account_base::getInterfaces(), ['bind', 'unbind', 'bindmobile', 'unbindmobile', 'chgemail', 'chgpassword', 'chgusername', 'chgquestion', 'resend', 'freeze'])) ? trim(getgpc('method')) : '';
+$googleconnect_enabled = in_array('googleconnect', $_G['setting']['plugins']['available'] ?? []) && !empty($_G['setting']['connectappid']);
+$account_methods = account_base::getInterfaces();
+if($googleconnect_enabled) {
+	$account_methods[] = 'googleconnect';
+}
+$method = in_array(getgpc('method'), array_merge($account_methods, ['bind', 'unbind', 'bindmobile', 'unbindmobile', 'chgemail', 'chgpassword', 'chgusername', 'chgquestion', 'resend', 'freeze'])) ? trim(getgpc('method')) : '';
 $interfaces_aType = account_base::Interfaces_aType;
 
 if($operation != 'list' && empty($method)) {
@@ -44,6 +49,14 @@ if($operation == 'list') {
 			$interfaces_aType['plugin_'.$pluginid] = $atype;
 		}
 	}
+	if($googleconnect_enabled) {
+		$interfaces_aType['googleconnect'] = 4;
+		$list[] = [
+			'googleconnect',
+			'Google',
+			'<svg class="iconfont" aria-hidden="true" viewBox="0 0 24 24"><path fill="#EA4335" d="M12 10.2v3.9h5.4c-.2 1.3-1.5 3.9-5.4 3.9-3.3 0-6-2.7-6-6s2.7-6 6-6c1.9 0 3.1.8 3.8 1.5l2.6-2.5C16.7 3.4 14.6 2.5 12 2.5 6.8 2.5 2.5 6.8 2.5 12s4.3 9.5 9.5 9.5c5.5 0 9.1-3.8 9.1-9.2 0-.6-.1-1.1-.2-1.6H12z"></path></svg>',
+		];
+	}
 
 	$account_list = $interfaces_aType;
 	foreach($account as $k => $v) {
@@ -59,6 +72,16 @@ if($operation == 'list') {
 
 	$creditExtra = !empty($_G['setting']['creditstransextra']['13']) ? $_G['setting']['creditstransextra']['13'] : $_G['setting']['creditstrans'];
 	$extcredit = $_G['setting']['extcredits'][$creditExtra];
+	$third_login_bind_urls = [];
+	foreach($list as $row) {
+		$third_login_bind_urls[$row[0]] = 'login.php?method='.$row[0].'&formhash='.FORMHASH;
+	}
+	if(isset($third_login_bind_urls['plugin_githubconnect'])) {
+		$third_login_bind_urls['plugin_githubconnect'] = $_G['siteurl'].'plugin.php?id=githubconnect:oauth&op=init&referer='.rawurlencode($_G['siteurl'].'home.php?mod=spacecp&ac=account');
+	}
+	if(isset($third_login_bind_urls['googleconnect'])) {
+		$third_login_bind_urls['googleconnect'] = $_G['siteurl'].'connect.php?mod=login&op=init&referer='.rawurlencode($_G['siteurl'].'home.php?mod=spacecp&ac=account');
+	}
 
 	if(defined('IN_RESTFUL')) {
 		$_G['setting']['security_verify'] = dunserialize($_G['setting']['security_verify']);

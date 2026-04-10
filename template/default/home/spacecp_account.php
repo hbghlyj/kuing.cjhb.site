@@ -160,7 +160,7 @@
                         <td class="hm"></td>
                         <td></td>
                         <td class="hm"><span style="color: red;">{lang action_account_status_unbind}</span></td>
-                        <td class="hm"><a href="login.php?method={$value[0]}&formhash={FORMHASH}" style="color: green;">{lang action_account_operate_bind}</a></td>
+                        <td class="hm"><a href="$third_login_bind_urls[$value[0]]" style="color: green;">{lang action_account_operate_bind}</a></td>
                     <!--{/if}-->
                     </tr>
                 <!--{/loop}-->
