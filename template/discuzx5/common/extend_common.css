@@ -159,7 +159,6 @@ select::-ms-expand {display:none}
 .p_pop .ignore_noticeli a {padding:0}
 .h_pop {min-width:100px;border-top:1px solid var(--dz-borderb)}
 .sltm {min-width:102px;width:auto !important;padding:9px;background:var(--dz-bgf);border-color:var(--dz-borderb);border-radius:var(--dz-radius-s);box-shadow:none}
-.sltm li, #threadclass.ftid a {color:var(--dz-fa) !important}
 .mgcmn a {padding-left:25px}
 .pn, .pn:active, .pnc, a.pnc, .pnc:active {height:34px;line-height:34px;font-size:14px;font-weight:400;background:var(--dz-btnbg);color:var(--dz-btntxt) !important;border-radius:var(--dz-radius-b);box-shadow:none}
 .pna, a.pna {background:var(--dz-btnbga);color:var(--dz-btntxta) !important}
@@ -1027,7 +1026,6 @@ body .colorwd {width:36px !important;height:36px !important;line-height:36px !im
 
 .sltm li {padding:8px 10px;font-size:14px;white-space:nowrap;border-radius:var(--dz-radius-s)}
 .sltm {min-width:102px;width:auto !important;padding:9px;background:var(--dz-bgf);border-color:var(--dz-borderb);border-radius:var(--dz-radius-s);box-shadow:none}
-.sltm li, #threadclass.ftid a {color:var(--dz-fa) !important}
 
 
 
