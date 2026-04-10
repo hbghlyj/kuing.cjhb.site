@@ -5211,7 +5211,7 @@ $lang = array
 	'misc_cron_edit_minute' => '分钟',
 	'misc_cron_edit_minute_comment' => '设置哪些分钟执行本任务，至多可以设置 12 个分钟值，多个值之间用半角逗号 "," 隔开，留空为不限制',
 	'misc_cron_edit_filename' => '任务脚本',
-	'misc_cron_edit_filename_comment' => '设置本任务的执行程序文件名，请勿包含路径，系统计划任务位于 source/include/cron/ 目录中，插件计划任务位于 source/plugin/插件目录/cron/ 目录中',
+	'misc_cron_edit_filename_comment' => '设置本任务的执行程序文件名，请勿包含路径，系统计划任务位于 source/child/cron/ 目录中，插件计划任务位于 source/plugin/插件目录/cron/ 目录中',
 
 	'misc_censor' => '词语过滤',
 	'misc_censor_tips' => '<li>替换前的内容可以使用限定符 {x} 以限定相邻两字符间可忽略的文字，x 是忽略的字节数。如 "a{1}s{2}s"(不含引号) 可以过滤 "<b>ass</b>" 也可过滤 "<b>a</b>x<b>s</b>x<b>s</b>" 和 "<b>a</b>x<b>s</b>xx<b>s</b>" 等等。对于中文字符，若使用 GBK、Big-5 版本，每个中文字符相当于 2 个字节；若使用 UTF-8 版本，每个中文字符相当于 3 个字节。</li><li>为不影响程序效率，请不要设置过多不需要的过滤内容。</li><li>审核只对论坛中的内容有效</li><li>如果您不是论坛管理员，您将只能对自己添加的项目进行编辑或删除。</li><li>敏感词如果以"/"(不含引号)开头和结尾则表示格式为正则表达式，这时替换内容可用"(n)"引用正则中的子模式，如"/1\d{10}([^\d]+|$)/"替换为"手机(1)"。</li>',
@@ -5643,7 +5643,7 @@ $lang = array
 	'magics_edit_usenum' => '使用数目',
 	'magics_edit_usenum_comment' => '设定用户在使用周期内最多能使用此道具的个数',
 	'magics_edit_filename' => '道具脚本',
-	'magics_edit_filename_comment' => '设置本道具的执行程序文件名，请勿包含路径，程序脚本统一存放于 source/include/magic/ 目录中',
+	'magics_edit_filename_comment' => '设置本道具的执行程序文件名，请勿包含路径，程序脚本统一存放于 source/class/magic/ 目录中',
 	'magics_edit_description' => '道具描述',
 	'magics_edit_perm' => '道具权限',
 	'magics_edit_usergroupperm' => '允许使用的用户组',

@@ -226,7 +226,7 @@ $lang = array
 //--------------------------------------------------------------------------
 // Added by Valery Votintsev
 
-//source/include/misc/misc_security.php
+//source/app/misc/child/security.php
 	'attackevasive_1_subject'	=> 'Refresh frequency limit',//'刷新频率限制',
 	'attackevasive_1_message'	=> 'You visit the site too fast, less than two seconds! Please wait a little...',//'您访问网站的速度太快，不到两秒钟！请等一下...',
 	'attackevasive_2_subject'	=> 'Access throug proxy servers is restricted',//'通过代理服务器的访问是受到限制',
