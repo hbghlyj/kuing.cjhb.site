@@ -108,6 +108,13 @@
 				<p>{$_G['style']['bottom_txt']}</p>
 				<!--{/if}-->
 				<p>{cells common/footer/copyright} {lang copyright}<!--{if $_G['setting']['icp'] || !empty($_G['setting']['mps'])}--><!--{if $_G['setting']['icp']}--><span class="pipe">|</span><a href="https://beian.miit.gov.cn/" target="_blank">$_G['setting']['icp']</a><!--{/if}--><!--{if !empty($_G['setting']['mps'])}--><!--{if $_G['setting']['icp']}--><span class="pipe">|</span><!--{/if}--><a href="https://beian.mps.gov.cn/#/query/webSearch?code=$_G['setting']['mpsid']" target="_blank"><img width="14" height="14" src="{STYLEIMGDIR}/img/ico_mps.png" />$_G['setting']['mps']</a><!--{/if}--><!--{/if}--></p>
+				<p class="xs0">
+					<span id="debuginfo">
+					<!--{if debuginfo()}-->Processed in $_G[debuginfo][time] seconds, $_G[debuginfo][queries] queries
+						<!--{if $_G['gzipcompress']}-->, Gzip On<!--{/if}--><!--{if C::memory()->type}-->, <!--{echo C::memory()->type}--> On<!--{/if}-->
+					<!--{/if}-->
+					</span>
+				</p>
 			</div>
 		</div>
 	</div>
