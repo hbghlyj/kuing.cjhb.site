@@ -305,7 +305,23 @@ if($op == 'callback') {
 	global $_G;
 
 	$accountRow = C::t('common_member_account')->fetch_by_account($gsub, GOOGLE_ATYPE);
+	if(!$accountRow && $_G['uid']) {
+		$user = C::t('common_member_account')->fetch_by_uid($_G['uid'], GOOGLE_ATYPE);
+		if($user) {
+			showmessage('account_bind_exists', $referer);
+		}
+		C::t('common_member')->update($_G['uid'], ['conisbind' => '1']);
+		$bindAccount($_G['uid'], $gsub, $gmail);
+		showmessage($pluginLang('googleconnect_bind_success'), $_G['siteurl'].'home.php?mod=spacecp&ac=account');
+	}
+
 	if($accountRow) {
+		if($_G['uid']) {
+			if($accountRow['uid'] == $_G['uid']) {
+				showmessage('account_bind_exists', $referer);
+			}
+			showmessage('account_bind_other_exists', $referer);
+		}
 		$member = $fetchMemberFromArchiveAware($accountRow['uid']);
 	}
 
