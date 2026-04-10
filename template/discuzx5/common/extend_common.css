@@ -693,7 +693,7 @@ div[id*='fwin_a_friend_li'] .m_c .c {min-width:300px;padding-bottom:15px;font-si
 #fwin_content_mods .c p button.pn {margin-right:0}
 #unusedwin {margin-bottom:15px;margin-right:10px}
 #floatlayout_newthread #typeid_float_ctrl {width:90px !important}
-#floatlayout_newthread #subject {width:calc(100% - 18px);font-size:16px;font-weight:600}
+#floatlayout_newthread #subject {font-size:16px}
 #floatlayout_newthread #subject.km_type {width:calc(100% - 150px)}
 .m_c .o span.z label {margin-left:-10px}
 .flbc{background: none;line-height: 17px;}
