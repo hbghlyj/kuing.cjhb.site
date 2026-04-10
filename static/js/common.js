@@ -153,14 +153,24 @@ function strlen(str) {
 
 function mb_strlen(str) {
 	var len = 0;
-	len = dstrlen(str);
+	for(var i = 0; i < str.length; i++) {
+		len += str.charCodeAt(i) < 0 || str.charCodeAt(i) > 255 ? (charset == 'utf-8' ? 3 : 2) : 1;
+	}
 	return len;
 }
 
 function dstrlen(str) {
 	var count = 0;
-	var chars = Array.from(str);
-	count = chars.length;
+	for(var i = 0; i < strlen(str); i++) {
+		value = str.charCodeAt(i);
+		if(value > 127) {
+			count++;
+			if(value >= 55296 && value <= 57343) {
+				i++;
+			}
+		}
+		count++;
+	}
 	return count;
 }
 
