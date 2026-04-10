@@ -101,14 +101,7 @@ class discuz_session_close {
 		if($type == 1) {
 			return $count;
 		}
-
-		if(!($multiple = getglobal('setting/onlineguestsmultiple'))) $multiple = 11;
-		$add = mt_rand(0, $multiple);
-		if($type == 2) {
-			return intval($count * $multiple) + $add - $count;
-		} else {
-			return intval($count * $multiple) + $add;
-		}
+		return $count;
 	}
 
 	public function fetch_member($ismember = 0, $invisible = 0, $start = 0, $limit = 0) {
