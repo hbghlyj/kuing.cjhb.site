@@ -25,7 +25,7 @@ if($op == 'search') {
 	exit;
 } elseif($op == 'manage') {
 	if($_G['tid']) {
-		$tagarray_all = $array_temp = $threadtag_array = array();
+		$tagarray_all = $array_temp = $threadtag_array = $recent_use_tag = array();
 		$tags = C::t('forum_post')->fetch_threadpost_by_tid_invisible($_G['tid']);
 		$tags = $tags['tags'];
 		$tagarray_all = explode("\t", $tags);
@@ -38,6 +38,21 @@ if($op == 'search') {
 			}
 		}
 		$tags = implode(',', $threadtag_array);
+
+		$i = 0;
+		$query = C::t('common_tagitem')->select(0, 0, 'tid', 'itemid', 'DESC', 10);
+		foreach($query as $result) {
+			if($recent_use_tag[$result['tagid']] == '') {
+				$i++;
+			}
+			$recent_use_tag[$result['tagid']] = 1;
+		}
+		if($recent_use_tag) {
+			$query = C::t('common_tag')->fetch_all(array_keys($recent_use_tag));
+			foreach($query as $result) {
+				$recent_use_tag[$result['tagid']] = $result['tagname'];
+			}
+		}
 	}
 } elseif($op == 'set' && $_GET['formhash'] == FORMHASH && $_G['group']['allowmanagetag']) {
         $class_tag = new tag();
