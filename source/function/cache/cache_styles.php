@@ -242,15 +242,6 @@ function getstylemodulecachetargets() {
 		$module = basename($file, '.php');
 		$targets[$basescript.'::'.$module] = [$basescript, $module];
 	}
-	foreach(glob(DISCUZ_ROOT.'./source/module/*/*.php') as $file) {
-		$basescript = basename(dirname($file, 1));
-		$name = basename($file, '.php');
-		$prefix = $basescript.'_';
-		if(str_starts_with($name, $prefix)) {
-			$module = substr($name, strlen($prefix));
-			$targets[$basescript.'::'.$module] = [$basescript, $module];
-		}
-	}
 	return $targets;
 }
 

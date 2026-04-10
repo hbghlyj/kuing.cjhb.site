@@ -19,7 +19,7 @@ $discuz = C::app();
 $modarray = ['getpasswd', 'groupexpiry', 'logging', 'lostpasswd', 'register', 'regverify', 'switchstatus'];
 
 
-$mod = !in_array($discuz->var['mod'], $modarray) && (!preg_match('/^\w+$/', $discuz->var['mod']) || !file_exists(DISCUZ_ROOT.'./source/module/member/member_'.$discuz->var['mod'].'.php')) ? 'register' : $discuz->var['mod'];
+$mod = !in_array($discuz->var['mod'], $modarray) && (!preg_match('/^\w+$/', $discuz->var['mod']) || !file_exists(DISCUZ_ROOT.'./source/app/member/module/'.$discuz->var['mod'].'.php')) ? 'register' : $discuz->var['mod'];
 
 define('CURMODULE', $mod);
 
