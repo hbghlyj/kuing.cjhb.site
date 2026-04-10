@@ -13,7 +13,7 @@ if(!defined('IN_DISCUZ') && !defined('IN_RESTFUL')) {
 const RESTFUL_REDIS_PREFIX = '';
 const RESTFUL_DEVELOPER_MODE = false;
 
-define('ROOT_PATH', dirname(__FILE__).'/../../');
+define('ROOT_PATH', dirname(__DIR__, 2).'/');
 
 class restful {
 

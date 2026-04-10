@@ -18,9 +18,9 @@ $apptype = strtolower($apptype);
 
 const IN_COMSENZ = TRUE;
 if($apptype == 'discuzx') {
-	define('ROOT_PATH', dirname(__FILE__).'/../../');
+	define('ROOT_PATH', dirname(__DIR__, 2).'/');
 } else {
-	define('ROOT_PATH', dirname(__FILE__).'/../');
+	define('ROOT_PATH', dirname(__DIR__).'/');
 }
 const EXPLOR_SUCCESS = 0;
 const IMPORT_SUCCESS = 0;

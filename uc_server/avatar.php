@@ -25,7 +25,7 @@ $check = isset($_GET['check_file_exists']) ? $_GET['check_file_exists'] : '';
 $ts = isset($_GET['ts']) ? $_GET['ts'] : '';
 
 $avatar = get_avatar($uid, $size, $type);
-$avatar_file = dirname(__FILE__).'/data/avatar/'.$avatar;
+$avatar_file = __DIR__.'/data/avatar/'.$avatar;
 if(file_exists($avatar_file)) {
 	if($check) {
 		echo 1;
@@ -39,7 +39,7 @@ if(file_exists($avatar_file)) {
 	}
 	$size = in_array($size, array('big', 'middle', 'small')) ? $size : 'middle';
 	$avatar_url = 'noavatar.svg';
-	$avatar_file = dirname(__FILE__).'/data/avatar/'.$avatar_url;
+	$avatar_file = __DIR__.'/data/avatar/'.$avatar_url;
 }
 
 if(empty($random)) {

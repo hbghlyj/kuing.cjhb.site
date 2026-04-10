@@ -18,7 +18,7 @@ if(!empty($_GET['redirect'])) {
 		exit;
 	}
 
-	$f = dirname(dirname(dirname(__FILE__))).'/source/plugin/'.$identifier.'/'.$module.'.inc.php';
+	$f = dirname(__DIR__, 3).'/source/plugin/'.$identifier.'/'.$module.'.inc.php';
 	if(!file_exists($f)) {
 		header('HTTP/1.1 404 Not Found');
 		exit;
