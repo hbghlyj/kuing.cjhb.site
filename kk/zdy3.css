@@ -10,12 +10,6 @@
     max-width: 120px;
     padding: 0;
 }
-a.avtm {
-    display: block;
-    text-align: center;
-}
-/*头像不要白底色，用原宽，居中*/
-
 .pi {
     padding: 6px 0;
     height: 24px;
