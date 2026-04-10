@@ -22,9 +22,44 @@ color: red;
 <input id="keyword-input" size="30" placeholder="{lang input_a_new_tag_press_enter_submit}">
 <script reload="1">
 {
+    if (!$('tagmore_menu')) {
+        const menuDiv = document.createElement('div');
+        menuDiv.id = 'tagmore_menu';
+        menuDiv.className = 'p_pop';
+        menuDiv.style.display = 'none';
+        menuDiv.setAttribute('disautofocus', 'true');
+        $('append_parent').appendChild(menuDiv);
+    }
     const chipContainer = $('chip-container');
     const keywords = $('tags').value ? $('tags').value.split(',') : [];
+    const keywordInput = $('keyword-input');
+    const tagMenu = $('tagmore_menu');
     const tagCannotContainCommaOrBackslash = {eval echo json_encode(lang('forum/template', 'tag_cannot_contain_comma_or_backslash'));};
+    let tagMenui = -1;
+    let tagMenuLength = 0;
+    let debounceTimeout = null;
+
+    if (!tagMenu.dataset.bound) {
+        tagMenu.addEventListener('mousedown', function(e) {
+            if (e.target && e.target.tagName.toLowerCase() === 'a') {
+                e.preventDefault();
+                addKeyword(e.target.dataset.tag || e.target.textContent);
+                keywordInput.value = '';
+                tagMenu.style.display = 'none';
+            }
+        });
+        tagMenu.dataset.bound = '1';
+    }
+
+    window.tagMenuOp = function(op, index) {
+        if (op === 5) {
+            tagMenui = index;
+            const as = tagMenu.getElementsByTagName('a');
+            for (let i = 0; i < as.length; i++) {
+                as[i].className = (i === index) ? 'a' : '';
+            }
+        }
+    };
 
     function renderChips() {
         $('tags').value = keywords.join(',');
@@ -75,20 +110,105 @@ color: red;
         }
     }
 
-    $('keyword-input').addEventListener('keydown', function(e) {
+    if (keywordInput._tagSuggestInputHandler) {
+        keywordInput.removeEventListener('input', keywordInput._tagSuggestInputHandler);
+    }
+    keywordInput._tagSuggestInputHandler = function() {
+        const query = this.value.trim();
+        if (mb_strlen(query) < 2) {
+            tagMenu.style.display = 'none';
+            return;
+        }
+
+        if (debounceTimeout) {
+            clearTimeout(debounceTimeout);
+        }
+
+        debounceTimeout = setTimeout(async function() {
+            try {
+                const response = await fetch('forum.php?mod=tag&op=search&inajax=1&searchkey=' + encodeURIComponent(query));
+                const suggestions = await response.json();
+
+                if (keywordInput.value.trim() !== query) {
+                    return;
+                }
+
+                if (suggestions.length > 0) {
+                    tagMenu.innerHTML = '';
+                    const ul = document.createElement('ul');
+                    tagMenuLength = suggestions.length;
+                    tagMenui = -1;
+
+                    suggestions.forEach((tag, i) => {
+                        const li = document.createElement('li');
+                        const a = document.createElement('a');
+                        a.href = 'javascript:;';
+                        a.id = 'tagmenu_item_' + i;
+                        a.textContent = tag;
+                        a.dataset.tag = tag;
+                        a.onmouseover = function() { tagMenuOp(5, i); };
+
+                        li.appendChild(a);
+                        ul.appendChild(li);
+                    });
+
+                    tagMenu.appendChild(ul);
+                    showMenu({'ctrlid':'keyword-input', 'menuid':'tagmore_menu', 'pos':'43'});
+                } else {
+                    tagMenu.style.display = 'none';
+                }
+            } catch (error) {
+                console.error('Error fetching tag suggestions:', error);
+                tagMenu.style.display = 'none';
+            }
+        }, 300);
+    };
+    keywordInput.addEventListener('input', keywordInput._tagSuggestInputHandler);
+
+    if (keywordInput._tagSuggestKeydownHandler) {
+        keywordInput.removeEventListener('keydown', keywordInput._tagSuggestKeydownHandler);
+    }
+    keywordInput._tagSuggestKeydownHandler = function(e) {
+        if (tagMenu.style.display !== 'none' && tagMenuLength > 0) {
+            if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+                if (e.key === 'ArrowDown') {
+                    tagMenui++;
+                    if (tagMenui >= tagMenuLength) tagMenui = 0;
+                } else {
+                    tagMenui--;
+                    if (tagMenui < 0) tagMenui = tagMenuLength - 1;
+                }
+                tagMenuOp(5, tagMenui);
+                const selectedItem = $('tagmenu_item_' + tagMenui);
+                if (selectedItem) {
+                    this.value = selectedItem.innerText;
+                }
+                e.preventDefault();
+                return;
+            } else if (e.key === 'Enter') {
+                tagMenu.style.display = 'none';
+            }
+        }
+
         if (e.key === 'Enter') {
             addKeyword(this.value.trim());
             this.value = '';
             doane(e);
         }
-    });
+    };
+    keywordInput.addEventListener('keydown', keywordInput._tagSuggestKeydownHandler);
 
-    $('keyword-input').addEventListener('blur', function() {
+    if (keywordInput._tagSuggestBlurHandler) {
+        keywordInput.removeEventListener('blur', keywordInput._tagSuggestBlurHandler);
+    }
+    keywordInput._tagSuggestBlurHandler = function() {
         if (this.value.trim()) {
             addKeyword(this.value.trim());
             this.value = '';
         }
-    });
+        tagMenu.style.display = 'none';
+    };
+    keywordInput.addEventListener('blur', keywordInput._tagSuggestBlurHandler);
 
     renderChips();
 }

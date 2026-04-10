@@ -12,10 +12,18 @@ if(!defined('IN_DISCUZ')) {
 }
 
 global $_G;
-$op = in_array($_GET['op'], array('manage', 'set')) ? $_GET['op'] : '';
+$op = in_array($_GET['op'], array('search', 'manage', 'set')) ? $_GET['op'] : '';
 $thread = & $_G['thread'];
 
-if($op == 'manage') {
+if($op == 'search') {
+	$searchkey = stripsearchkey($_GET['searchkey']);
+	if(empty($searchkey)) {
+		exit;
+	}
+	$taglist = C::t('common_tag')->fetch_all_by_status(0, $searchkey, 50, 0);
+	echo json_encode(array_column($taglist, 'tagname'));
+	exit;
+} elseif($op == 'manage') {
 	if($_G['tid']) {
 		$tagarray_all = $array_temp = $threadtag_array = array();
 		$tags = C::t('forum_post')->fetch_threadpost_by_tid_invisible($_G['tid']);
