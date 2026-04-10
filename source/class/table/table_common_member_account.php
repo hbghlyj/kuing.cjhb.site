@@ -35,7 +35,7 @@ class table_common_member_account extends discuz_table {
 	}
 
 	public function fetch_by_uid($uid, $atype) {
-		return DB::fetch_first('SELECT * FROM %t WHERE uid=%s AND atype=%d', [$this->_table, $uid, $atype]);
+		return DB::fetch_first('SELECT *, UNIX_TIMESTAMP(create_time) AS create_time_ts FROM %t WHERE uid=%s AND atype=%d', [$this->_table, $uid, $atype]);
 	}
 
 	public function fetch_all_atype_by_uid($uids) {
@@ -48,13 +48,13 @@ class table_common_member_account extends discuz_table {
 	}
 
 	public function fetch_by_account($account, $atype) {
-		return DB::fetch_first('SELECT * FROM %t WHERE account=%s AND atype=%d', [$this->_table, $account, $atype]);
+		return DB::fetch_first('SELECT *, UNIX_TIMESTAMP(create_time) AS create_time_ts FROM %t WHERE account=%s AND atype=%d', [$this->_table, $account, $atype]);
 	}
 
 	public function fetch_all_by_uid($uid, $nocache = true) {
 		$data = $nocache ? false : $this->fetch_cache($uid);
 		if(!$data) {
-			$data = DB::fetch_all('SELECT * FROM %t WHERE uid=%s', [$this->_table, $uid]);
+			$data = DB::fetch_all('SELECT *, UNIX_TIMESTAMP(create_time) AS create_time_ts FROM %t WHERE uid=%s', [$this->_table, $uid]);
 			!$nocache && $this->store_cache($uid, $data);
 		}
 		return $data;

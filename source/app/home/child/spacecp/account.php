@@ -52,6 +52,9 @@ if($operation == 'list') {
 
 	$account_list = $interfaces_aType;
 	foreach($account as $k => $v) {
+		if(!empty($v['create_time_ts'])) {
+			$v['create_time'] = dgmdate($v['create_time_ts'], 'Y-m-d H:i:s');
+		}
 		foreach($interfaces_aType as $ik => $iv) {
 			if($v['atype'] == $iv) {
 				$account_list[$ik] = $v;

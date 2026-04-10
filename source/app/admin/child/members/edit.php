@@ -38,6 +38,9 @@ if($do == 'account') {
 	showsubtitle(['account_type', 'account_createtime', 'account_bindname', 'account_detail']);
 	$account = table_common_member_account::t()->fetch_all_by_uid($uid);
 	foreach($account as $row) {
+		if(!empty($row['create_time_ts'])) {
+			$row['create_time'] = dgmdate($row['create_time_ts'], 'Y-m-d H:i:s');
+		}
 		showtablerow('', ['', '', '', ''], [
 			$interfaces[$interfaces_aType[$row['atype']]][2].$interfaces[$interfaces_aType[$row['atype']]][1],
 			$row['create_time'],
