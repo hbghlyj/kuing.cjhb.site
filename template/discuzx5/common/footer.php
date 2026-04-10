@@ -124,7 +124,7 @@
 <div class="dz_rnav" id="dz_rnav">
 
 	<!--{if $_G['style']['sider_fastpost']}-->
-	<!--{if $_G['basescript'] == 'forum' || ($_G['basescript'] == 'group' && $_G['fid']) || ($_G['basescript'] == 'portal' && CURMODULE == 'index')}--><a {if $_G['fid']}href="forum.php?mod=post&action=newthread&fid={$_G['fid']}"{else}href="forum.php?mod=misc&action=nav" onclick="showWindow('nav', this.href, 'get', 0)"{/if} class="dz_rpost" rel="nofollow"><span class="dz_tip_text">{if $_G['fid']}{lang tmp104}{if $_G['basescript'] == 'group'}{lang tmp118}{else}{lang tmp105}{/if}{lang tmp066}{else}{lang tmp103}{lang tmp066}{/if}</span></a><!--{/if}-->
+	<!--{if $_G['basescript'] == 'forum' || ($_G['basescript'] == 'group' && $_G['fid']) || ($_G['basescript'] == 'portal' && CURMODULE == 'index')}--><a<!--{if $_G['fid'] && $_G['mod'] == 'viewthread'}--> href="javascript:;" onclick="showWindow('edit',$(MULUSELECT.value).querySelector('a.editp').href,'get',0)" title="{lang edit}"<!--{elseif $_G['fid']}--> href="forum.php?mod=post&action=newthread&fid={$_G['fid']}"<!--{else}--> href="forum.php?mod=misc&action=nav" onclick="showWindow('nav', this.href, 'get', 0)"<!--{/if}--> class="dz_rpost" rel="nofollow"><span class="dz_tip_text"><!--{if $_G['fid'] && $_G['mod'] == 'viewthread'}-->{lang edit}<!--{elseif $_G['fid']}-->{lang tmp104}{if $_G['basescript'] == 'group'}{lang tmp118}{else}{lang tmp105}{/if}{lang tmp066}<!--{else}-->{lang tmp103}{lang tmp066}<!--{/if}--></span></a><!--{/if}-->
 	<!--{/if}-->
 	<!--{if $_G['style']['sider_wechat']}-->
 	<a href="javascript:;" class="dz_rwx" rel="nofollow">
