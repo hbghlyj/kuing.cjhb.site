@@ -5,7 +5,7 @@ User-agent: *
 Allow: /data/attachment/
 Allow: /data/avatar/
 Allow: /data/cache/
-Allow: /uc_server/data/avatar/
+Allow: /data/avatar/
 Allow: /misc.php?mod=tag*
 Disallow: /api/
 Disallow: /data/
@@ -13,8 +13,6 @@ Disallow: /source/
 Disallow: /install/
 Disallow: /template/default/
 Disallow: /config/
-Disallow: /uc_client/
-Disallow: /uc_server/
 Disallow: /admin.php
 Disallow: /search.php
 Disallow: /member.php

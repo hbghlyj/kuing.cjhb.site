@@ -69,7 +69,7 @@ if(!submitcheck('makehtmlsetting')) {
 			}
 		}
 		$topichtmldir = str_replace(DISCUZ_ROOT_STATIC, '', $topichtmldir);
-		$sysdir = ['api', 'archiver', 'config', 'data/diy', 'data\diy', 'install', 'source', 'static', 'template', 'uc_client', 'uc_server'];
+		$sysdir = ['api', 'archiver', 'config', 'data/diy', 'data\diy', 'install', 'source', 'static', 'template'];
 		foreach($sysdir as $_dir) {
 			if(stripos($topichtmldir, $_dir) === 0) {
 				cpmsg(cplang('setting_functions_makehtml_topichtmldir_invalid').','.cplang('return'), NULL, 'error');

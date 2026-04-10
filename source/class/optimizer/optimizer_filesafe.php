@@ -19,7 +19,7 @@ class optimizer_filesafe {
 
 	public function check() {
 		$nosecurity = false;
-		if(file_exists(DISCUZ_ROOT.'/old/') || file_exists(DISCUZ_ROOT.'/utility/') || file_exists(DISCUZ_ROOT.'/install/index.php') || file_exists(DISCUZ_ROOT.'/uc_server/install/index.php') || file_exists(DISCUZ_ROOT.'/ucenter/install/index.php') || file_exists(DISCUZ_ROOT.'/data/restore.php')) {
+		if(file_exists(DISCUZ_ROOT.'/old/') || file_exists(DISCUZ_ROOT.'/utility/') || file_exists(DISCUZ_ROOT.'/install/index.php') || file_exists(DISCUZ_ROOT.'/ucenter/install/index.php') || file_exists(DISCUZ_ROOT.'/data/restore.php')) {
 			$nosecurity = true;
 		}
 		if(strcmp(ADMINSCRIPT, 'admin.php') !== 0 && file_exists(DISCUZ_ROOT.'/admin.php')) {
@@ -35,7 +35,6 @@ class optimizer_filesafe {
 
 	public function optimizer() {
 		@unlink(DISCUZ_ROOT.'/install/index.php');
-		@unlink(DISCUZ_ROOT.'/uc_server/install/index.php');
 		@unlink(DISCUZ_ROOT.'/ucenter/install/index.php');
 		@unlink(DISCUZ_ROOT.'/data/restore.php');
 		if(strcmp(ADMINSCRIPT, 'admin.php') !== 0 && file_exists(DISCUZ_ROOT.'/admin.php')) {

@@ -121,7 +121,7 @@ function check_son_folder($file, $cat) {
 function check_html_dir($dir) {
 	$dir = str_replace("\\", '/', $dir);
 	list($first) = explode('/', $dir);
-	if(in_array(strtolower($first), ['uc_server', 'uc_client', 'template', 'static', 'source', 'm', 'install', 'data', 'config', 'api', 'archiver'], true)) {
+	if(in_array(strtolower($first), ['template', 'static', 'source', 'm', 'install', 'data', 'config', 'api', 'archiver'], true)) {
 		return false;
 	}
 	return true;

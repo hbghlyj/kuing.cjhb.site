@@ -5,5 +5,4 @@ vendor/
 src/config/
 .vscode/
 data/
-uc_server/data/
 chat/php/config.php

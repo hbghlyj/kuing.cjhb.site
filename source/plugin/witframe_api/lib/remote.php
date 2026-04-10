@@ -121,7 +121,8 @@ class Remote {
 	}
 
 	private function _getAvatar($uid) {
-		return UC_API . '/avatar.php?uid=' . $uid . '&size=middle';
+		global $_G;
+		return rtrim($_G['siteurl'], '/') . '/api/avatar/avatar.php?uid=' . $uid . '&size=middle';
 	}
 
 	private function _return($ret, $data = array()) {

@@ -23,7 +23,7 @@ define('UC_AVTPATH', '');                // 头像存储路径，为空则为默
 
 // 通信相关
 define('UC_KEY', 'yeN3g9EbNfiaYfodV63dI1j8Fbk5HaL7W4yaW4y7u2j4Mf45mfg2v899g451k576');        // 与 UCenter 的通信密钥, 要与 UCenter 保持一致
-define('UC_API', 'http://localhost/ucenter/branches/1.5.0/server'); // UCenter 的 URL 地址, 在调用头像时依赖此常量
+define('UC_API', 'http://localhost/api/avatar'); // 头像服务的 URL 地址，独立模式下用于头像裁剪与兼容 avatar.php 调用
 define('UC_CHARSET', 'utf-8');                                // UCenter 的字符集
 define('UC_IP', '127.0.0.1');                                // UCenter 的 IP, 当 UC_CONNECT 为非 mysql 方式时, 并且当前应用服务器解析域名有问题时, 请设置此值
 define('UC_APPID', '1');                                // 当前应用的 ID

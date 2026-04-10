@@ -26,7 +26,7 @@ if(!empty($_GET['chart'])) {
 
 require_once childfile('index/function');
 
-$sensitivedirs = ['./', './uc_server/', './ucenter/'];
+$sensitivedirs = ['./', './ucenter/'];
 
 foreach($sensitivedirs as $sdir) {
 	if(@file_exists(DISCUZ_ROOT.$sdir.'install/index.php') && !DISCUZ_DEBUG) {

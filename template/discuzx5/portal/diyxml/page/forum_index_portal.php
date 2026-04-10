@@ -280,7 +280,7 @@
 <em class="dz_member_num{currentorder}"></em>
 		<div class="dz_index_member_intel">
 			<div class="dz_index_member_avator">
-				<a href="{url}" c="1" {target}><img src="{avatar_big}"  alt="{title}" onerror="this.onerror=null;this.src='uc_server/data/avatar/noavatar.svg'" /></a>
+				<a href="{url}" c="1" {target}><img src="{avatar_big}"  alt="{title}" onerror="this.onerror=null;this.src='/data/avatar/noavatar.svg'" /></a>
 			</div>
 			<div class="dz_index_member_info">
 				<h5>
@@ -303,7 +303,7 @@
 <em class="dz_member_num{currentorder}"></em>
 		<div class="dz_index_member_intel">
 			<div class="dz_index_member_avator">
-				<a href="{url}" c="1" {target}><img src="{avatar_big}"  alt="{title}" onerror="this.onerror=null;this.src='uc_server/data/avatar/noavatar.svg'" /></a>
+				<a href="{url}" c="1" {target}><img src="{avatar_big}"  alt="{title}" onerror="this.onerror=null;this.src='/data/avatar/noavatar.svg'" /></a>
 			</div>
 			<div class="dz_index_member_info">
 				<h5>
@@ -326,7 +326,7 @@
 <em class="dz_member_num{currentorder}"></em>
 		<div class="dz_index_member_intel">
 			<div class="dz_index_member_avator">
-				<a href="{url}" c="1" {target}><img src="{avatar_big}"  alt="{title}" onerror="this.onerror=null;this.src='uc_server/data/avatar/noavatar.svg'"/></a>
+				<a href="{url}" c="1" {target}><img src="{avatar_big}"  alt="{title}" onerror="this.onerror=null;this.src='/data/avatar/noavatar.svg'"/></a>
 			</div>
 			<div class="dz_index_member_info">
 				<h5>
@@ -348,7 +348,7 @@
 <em class="dz_member_num{currentorder}">{currentorder}</em>
 		<div class="dz_index_member_intel">
 			<div class="dz_index_member_avator">
-				<a href="{url}" c="1" {target}><img src="{avatar_big}"  alt="{title}" onerror="this.onerror=null;this.src='uc_server/data/avatar/noavatar.svg'" /></a>
+				<a href="{url}" c="1" {target}><img src="{avatar_big}"  alt="{title}" onerror="this.onerror=null;this.src='/data/avatar/noavatar.svg'" /></a>
 			</div>
 			<div class="dz_index_member_info">
 				<h5>
@@ -376,7 +376,7 @@
 <em class="dz_member_num{currentorder}"></em>
 		<div class="dz_index_member_intel">
 			<div class="dz_index_member_avator">
-				<a href="{url}" c="1" {target}><img src="{avatar_big}"  alt="{title}" onerror="this.onerror=null;this.src='uc_server/data/avatar/noavatar.svg'" /></a>
+				<a href="{url}" c="1" {target}><img src="{avatar_big}"  alt="{title}" onerror="this.onerror=null;this.src='/data/avatar/noavatar.svg'" /></a>
 			</div>
 			<div class="dz_index_member_info">
 				<h5>
@@ -396,7 +396,7 @@
 <em class="dz_member_num{currentorder}"></em>
 		<div class="dz_index_member_intel">
 			<div class="dz_index_member_avator">
-				<a href="{url}" c="1" {target}><img src="{avatar_big}"  alt="{title}" onerror="this.onerror=null;this.src='uc_server/data/avatar/noavatar.svg'" /></a>
+				<a href="{url}" c="1" {target}><img src="{avatar_big}"  alt="{title}" onerror="this.onerror=null;this.src='/data/avatar/noavatar.svg'" /></a>
 			</div>
 			<div class="dz_index_member_info">
 				<h5>
@@ -416,7 +416,7 @@
 <em class="dz_member_num{currentorder}"></em>
 		<div class="dz_index_member_intel">
 			<div class="dz_index_member_avator">
-				<a href="{url}" c="1" {target}><img src="{avatar_big}"  alt="{title}" onerror="this.onerror=null;this.src='uc_server/data/avatar/noavatar.svg'"/></a>
+				<a href="{url}" c="1" {target}><img src="{avatar_big}"  alt="{title}" onerror="this.onerror=null;this.src='/data/avatar/noavatar.svg'"/></a>
 			</div>
 			<div class="dz_index_member_info">
 				<h5>
@@ -443,7 +443,7 @@
 <em class="dz_member_num{currentorder}">{currentorder}</em>
 		<div class="dz_index_member_intel">
 			<div class="dz_index_member_avator">
-				<a href="{url}" c="1" {target}><img src="{avatar_big}"  alt="{title}" onerror="this.onerror=null;this.src='uc_server/data/avatar/noavatar.svg'" /></a>
+				<a href="{url}" c="1" {target}><img src="{avatar_big}"  alt="{title}" onerror="this.onerror=null;this.src='/data/avatar/noavatar.svg'" /></a>
 			</div>
 			<div class="dz_index_member_info">
 				<h5>

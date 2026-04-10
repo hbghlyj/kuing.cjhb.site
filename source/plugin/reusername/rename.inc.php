@@ -85,7 +85,7 @@ if(submitcheck('savesubmit', 0, $setconfig['open_seccode'])) {
 	}
     //ÅĞ¶ÏÃÜÂëÊÇ·ñÊäÈëÕıÈ·
 	if($setconfig['need_password']) {
-		require_once DISCUZ_ROOT.'./uc_client/control/user.php';
+		require_once DISCUZ_ROOT.'./source/class/uc/control/user.php';
 		$usercontrol = new usercontrol();
 		$usercontrol->load('user');
 		$temp = array();

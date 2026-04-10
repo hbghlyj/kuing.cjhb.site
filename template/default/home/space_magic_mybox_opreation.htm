@@ -148,7 +148,7 @@
 	function succeedhandle_$_GET[handlekey](url, msg) {
 		hideWindow('$_GET[handlekey]');
 		if(arguments[2] && arguments[2]['avatar']) {
-			msg += ' <ul class="ml mls cl"><li><a class="avt" target="_blank" href="home.php?mod=space&amp;uid='+arguments[2]['uid']+'"><em class=""></em><img src="{$_G[setting][ucenterurl]}/avatar.php?uid='+arguments[2]['uid']+'&size=small" /></a><p><a title="admin" href="home.php?mod=space&amp;uid='+arguments[2]['uid']+'" target="_blank"><b>'+arguments[2]['username']+'</b></a></p></li></ul>';
+			msg += ' <ul class="ml mls cl"><li><a class="avt" target="_blank" href="home.php?mod=space&amp;uid='+arguments[2]['uid']+'"><em class=""></em><img src="{$_G[siteurl]}api/avatar/avatar.php?uid='+arguments[2]['uid']+'&size=small" /></a><p><a title="admin" href="home.php?mod=space&amp;uid='+arguments[2]['uid']+'" target="_blank"><b>'+arguments[2]['username']+'</b></a></p></li></ul>';
 		}
 		<!--{if !$location}-->
 			showDialog(msg, 'notice', null, function () { location.href=url; }, 0);
