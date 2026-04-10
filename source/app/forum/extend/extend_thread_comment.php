@@ -51,6 +51,11 @@ class extend_thread_comment extends extend_thread_base {
 
 						table_forum_post::t()->update_post('tid:'.$this->thread['tid'], $rpid, ['comment' => 1]);
 						table_forum_postcache::t()->delete($rpid);
+						$this->trigger_chat_activity('commentadd', [
+							'tid' => $this->thread['tid'],
+							'pid' => $rpid,
+							'uid' => $this->member['uid']
+						]);
 					}
 				}
 				unset($this->postcomment);

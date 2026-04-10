@@ -142,6 +142,17 @@ if($_G['setting']['commentnumber'] && !empty($_GET['comment'])) {
 		}
 	}
 	table_forum_postcache::t()->delete($post['pid']);
+	require_once DISCUZ_ROOT.'/vendor/autoload.php';
+	require_once DISCUZ_ROOT.'/chat/php/config.php';
+	$pusher = new \Pusher(APP_KEY, APP_SECRET, APP_ID, [
+		'cluster' => 'eu',
+		'useTLS' => true
+	]);
+	$pusher->trigger('Chat', 'commentadd', [
+		'tid' => $post['tid'],
+		'pid' => $post['pid'],
+		'uid' => $_G['uid']
+	]);
 
 	showmessage('comment_add_succeed', "forum.php?mod=viewthread&tid={$post['tid']}&pid={$post['pid']}&page={$_GET['page']}&extra=$extra#pid{$post['pid']}", ['tid' => $post['tid'], 'pid' => $post['pid']]);
 }

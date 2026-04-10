@@ -2,6 +2,12 @@
   const isChinese = navigator.languages && navigator.languages.some(lang => ['zh','zh-CN','zh-TW','zh-HK','zh-SG'].includes(lang));
   const isMobile = typeof popup == 'object';
   function showError(msg){ if(isMobile){ popup.open(msg,'alert'); } else { alert(msg); } }
+  function typesetNodes(targets){
+    if(typeof MathJax === 'undefined' || typeof MathJax.typesetPromise !== 'function'){
+      return Promise.resolve();
+    }
+    return MathJax.typesetPromise(targets);
+  }
   class PusherChatWidget {
     static instances = [];
     #pusher;
@@ -62,7 +68,11 @@
         this.#chatChannel.bind('newreply', data => {
           const pageNumberElement=document.querySelector('div.pg>strong');
           const pageNumber=pageNumberElement?pageNumberElement.textContent.trim():'1';
+          const postId = `post_${data.pid}`;
           if(data.tid!=tid){
+            return;
+          }
+          if($(postId)){
             return;
           }
           if(String(data.page) !== String(pageNumber)){
@@ -89,14 +99,18 @@
           if(data.tid==tid && data.page==pageNumber){
             ajaxget(`forum.php?mod=viewthread&tid=${tid}&viewpid=${data.pid}`, 'post_new', 'ajaxwaitid', '', null, function() {
               const postNew = $('post_new');
-              if (!postNew) {
+              const postList = $('postlist');
+              const postListReply = $('postlistreply');
+              if (!postNew || !postList || !postListReply) {
                 return;
               }
-              postNew.id = `post_${data.pid}`;
-              postNew.style.display = '';
-              if (typeof MathJax.typesetPromise === 'function') {
-                MathJax.typesetPromise([$('postlist').appendChild(postNew)]);
+              if($(postId)){
+                return;
               }
+              postNew.id = postId;
+              postNew.style.display = '';
+              postList.appendChild(postNew);
+              typesetNodes([postNew]).catch(err => { showError('MathJax typesetting error:'+err); });
               const newpos = fetchOffset(postNew);
               document.documentElement.scrollTop = newpos['top'];
               addLou(postNew);
@@ -104,7 +118,7 @@
               div.id = 'post_new';
               div.style.display = 'none';
               div.className = '';
-              $('postlistreply').appendChild(div);
+              postListReply.appendChild(div);
               if ($('postform')) {
                 $('postform').replysubmit.disabled = false;
               }
@@ -114,10 +128,10 @@
         });
         this.#chatChannel.bind('editpost', data => {
           if(data.tid==tid && jQuery(`#pid${data.pid}`).length){
-            ajaxget(`forum.php?mod=viewthread&tid=${tid}&viewpid=${data.pid}`, `post_${data.pid}`, 'ajaxwaitid', '', null, "if (typeof MathJax.typesetPromise === 'function') {MathJax.texReset();MathJax.typesetPromise(['#pid"+data.pid+" :is(div.pcb>h2, td.t_f)'])}");
+            ajaxget(`forum.php?mod=viewthread&tid=${tid}&viewpid=${data.pid}`, `post_${data.pid}`, 'ajaxwaitid', '', null, "if (typeof MathJax !== 'undefined' && typeof MathJax.typesetPromise === 'function') {MathJax.texReset();MathJax.typesetPromise(['#pid"+data.pid+" :is(div.pcb>h2, td.t_f)'])}");
             if(data.subject){
               jQuery('#thread_subject').html(data.subject);
-              if(typeof MathJax!=='undefined' && typeof MathJax.typesetPromise==='function'){ MathJax.typesetPromise(['#thread_subject']) }
+              typesetNodes(['#thread_subject']).catch(err => { showError('MathJax typesetting error:'+err); });
             }
             if(document.querySelector('input[name=pid]')?.value==data.pid && discuz_uid!=data.uid){
               showDialog(isChinese?'帖子已被编辑':'Post has been edited');
@@ -126,15 +140,22 @@
         });
         this.#chatChannel.bind('commentadd', data => {
           if(data.tid==tid && jQuery(`#pid${data.pid}`).length){
-            ajaxget('forum.php?mod=misc&action=commentmore&tid='+tid+'&pid='+data.pid, 'comment_'+data.pid, 'ajaxwaitid', '', null, "if (typeof MathJax.typesetPromise === 'function') {MathJax.typesetPromise(['#comment_"+data.pid+"'])}");
+            ajaxget('forum.php?mod=misc&action=commentmore&tid='+tid+'&pid='+data.pid, 'comment_'+data.pid, 'ajaxwaitid', '', null, "if (typeof MathJax !== 'undefined' && typeof MathJax.typesetPromise === 'function') {MathJax.typesetPromise(['#comment_"+data.pid+"'])}");
           }
         });
         this.#chatChannel.bind('deletepost', data => {
           if(data.tid==tid && jQuery(`#post_${data.pid}`).length){
             jQuery(`#post_${data.pid}`).remove();
-            MULUSELECT.style.height=MULUSELECT.lastChild.offsetTop-MULUSELECT.firstChild.offsetTop+'px';
-            MULUSELECT.querySelector(`option[value="post_${data.pid}"]`).remove();
-            MULUSELECT.size--;
+            if(typeof MULUSELECT !== 'undefined' && MULUSELECT){
+              const option = MULUSELECT.querySelector(`option[value="post_${data.pid}"]`);
+              if(option){
+                option.remove();
+                MULUSELECT.size--;
+              }
+              if(MULUSELECT.firstChild && MULUSELECT.lastChild){
+                MULUSELECT.style.height=MULUSELECT.lastChild.offsetTop-MULUSELECT.firstChild.offsetTop+'px';
+              }
+            }
           }
         });
       }
@@ -300,9 +321,7 @@
       }
       this.#lastMessageTimestamp=entry.data.published;
       if(isMobile){ this.#addSwipeToDeleteHandlers(entry.messageEl, entry.data.published); }
-      if(typeof MathJax!=='undefined' && typeof MathJax.typesetPromise==='function'){
-        MathJax.typesetPromise([entry.messageEl[0]]).catch(err=>{ showError('MathJax typesetting error:'+err); });
-      }
+      typesetNodes([entry.messageEl[0]]).catch(err=>{ showError('MathJax typesetting error:'+err); });
       this.#itemCount++;
       if(entry.isLiveMessage){
         this.#messagesEl.animate({scrollTop:this.#messagesEl[0].scrollHeight},500);

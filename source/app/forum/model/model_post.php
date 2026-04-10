@@ -74,6 +74,17 @@ class model_post extends discuz_model {
 
 	}
 
+	protected function trigger_chat_activity($event, array $payload) {
+		require_once DISCUZ_ROOT.'/vendor/autoload.php';
+		require_once DISCUZ_ROOT.'/chat/php/config.php';
+
+		$pusher = new \Pusher(APP_KEY, APP_SECRET, APP_ID, [
+			'cluster' => 'eu',
+			'useTLS' => true
+		]);
+		$pusher->trigger('Chat', $event, $payload);
+	}
+
 	public function newreply($parameters) {
 
 		$this->_init_parameters($parameters);
@@ -322,6 +333,13 @@ class model_post extends discuz_model {
 			if($this->param['updatethreaddata']) {
 				table_forum_thread::t()->update($this->thread['tid'], $this->param['updatethreaddata'], false, false, 0, true);
 			}
+
+			$this->trigger_chat_activity('newreply', [
+				'tid' => $this->thread['tid'],
+				'page' => $this->param['page'],
+				'pid' => $this->pid,
+				'uid' => $this->member['uid']
+			]);
 
 
 			return 'post_reply_succeed';
@@ -645,15 +663,7 @@ class model_post extends discuz_model {
 			threadpubsave($this->thread['tid']);
 		}
 
-		// push "editpost" activity to Pusher
-		require_once(DISCUZ_ROOT.'/vendor/autoload.php');
-		require_once(DISCUZ_ROOT.'/chat/php/config.php');
-
-		$pusher = new \Pusher(APP_KEY,APP_SECRET,APP_ID, [
-			'cluster' => 'eu',
-			'useTLS' => true
-		]);
-		$pusher->trigger('Chat', 'editpost', ['tid' => $this->thread['tid'], 'pid' => $this->post['pid'], 'subject' => $isfirstpost && $this->param['subject'] != $this->thread['subject'] ? $this->param['subject'] : '', 'uid' => $this->member['uid']]);
+		$this->trigger_chat_activity('editpost', ['tid' => $this->thread['tid'], 'pid' => $this->post['pid'], 'subject' => $isfirstpost && $this->param['subject'] != $this->thread['subject'] ? $this->param['subject'] : '', 'uid' => $this->member['uid']]);
 	}
 
 	public function deletepost($parameters) {
@@ -722,6 +732,11 @@ class model_post extends discuz_model {
 			C::t('forum_forum')->update_lastpost($this->forum['fid'], $lastthread['tid'], $lastthread['subject'], $lastthread['lastpost'], $lastthread['lastposter'], array('propagate_parent' => false));
 		}
 		table_forum_forum::t()->update_forum_counter($this->forum['fid'], $forumcounter['threads'], $forumcounter['posts']);
+
+		$this->trigger_chat_activity('deletepost', [
+			'tid' => $this->thread['tid'],
+			'pid' => $this->post['pid']
+		]);
 
 	}
 
