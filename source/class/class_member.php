@@ -317,7 +317,7 @@ class logging_ctl {
 		$ucsynlogout = $this->setting['allowsynlogin'] ? uc_user_synlogout() : '';
 
 		if($_GET['formhash'] != $_G['formhash']) {
-			showmessage('logout_succeed', $_G['siteurl'], ['formhash' => FORMHASH, 'ucsynlogout' => $ucsynlogout, 'referer' => rawurlencode($_G['siteurl'])]);
+			showmessage('logout_succeed', dreferer(), ['formhash' => FORMHASH, 'ucsynlogout' => $ucsynlogout, 'referer' => rawurlencode(dreferer())]);
 		}
 
 		clearcookies();
@@ -327,9 +327,9 @@ class logging_ctl {
 		$_G['setting']['styleid'] = $this->setting['styleid'];
 
 		if(defined('IN_MOBILE')) {
-			showmessage('location_logout_succeed_mobile', $_G['siteurl'], ['formhash' => FORMHASH, 'referer' => rawurlencode($_G['siteurl'])]);
+			showmessage('location_logout_succeed_mobile', dreferer(), ['formhash' => FORMHASH, 'referer' => rawurlencode(dreferer())]);
 		} else {
-			showmessage('logout_succeed', $_G['siteurl'], ['formhash' => FORMHASH, 'ucsynlogout' => $ucsynlogout, 'referer' => rawurlencode($_G['siteurl'])]);
+			showmessage('logout_succeed', dreferer(), ['formhash' => FORMHASH, 'ucsynlogout' => $ucsynlogout, 'referer' => rawurlencode(dreferer())]);
 		}
 	}
 
