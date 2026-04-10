@@ -54,7 +54,23 @@
 	<div class="btn_login"><button value="true" name="submit" type="submit" class="formdialog pn">{lang login}</button></div>
 	</form>
 	<!--{if $_G['setting']['connect']['allow'] && !$_G['setting']['bbclosed']}-->
-	<div class="btn_qqlogin"><a href="$_G['connect']['login_url']&statfrom=login_simple" class="pn">{lang googleconnect:connect_mobile_login}</a></div>
+		<script src="https://accounts.google.com/gsi/client" async></script>
+		<div id="g_id_onload"
+			data-client_id="{$_G['setting']['connectappid']}"
+			data-context="signin"
+			data-login_uri="connect.php?mod=login&op=callback"
+			data-auto_select="true"
+			data-itp_support="true">
+		</div>
+		<div class="g_id_signin"
+			data-type="standard"
+			data-shape="pill"
+			data-theme="filled_blue"
+			data-text="continue_with"
+			data-size="large"
+			data-logo_alignment="left"
+			data-width="40">
+		</div>
 	<!--{/if}-->
 	<!--{if $_G['setting']['regstatus']}-->
 	<div class="reg_link"><a href="member.php?mod=logging&action=login&lostpasswd=yes&viewlostpw=1" class="y">{lang getpassword}</a><a href="member.php?mod={$_G['setting']['regname']}" class="reg_now">{lang noregister}</a></div>
