@@ -111,23 +111,8 @@
 								<!--{if $thread['taglist']}-->
 									<!--{loop $thread['taglist'] $tag}--><a href="misc.php?mod=tag&id=$tag['tagid']&name={echo urlencode($tag['tagname'])}" target="_blank" class="kmbg kmico_bk">$tag['tagname']</a><!--{/loop}-->
 								<!--{/if}-->
-								<!--{if $_G['basescript'] != 'group' && CURMODULE != 'group' && !$thread['forumstick'] && ($thread['isgroup'] == 1 || $thread['fid'] != $_G['fid'])}-->
-									<!--{if $thread['related_group'] == 0 && $thread['closed'] > 1}-->
-										<!--{eval $thread['tid']=$thread['closed'];}-->
-									<!--{/if}-->
-									<!--{if $groupnames[$thread['tid']]}-->
-										<a href="forum.php?mod={if $groupnames[$thread['tid']]['status'] == 3}group{else}forumdisplay{/if}&fid={$groupnames[$thread['tid']]['fid']}" target="_blank" class="kmbg kmico_bk">{$groupnames[$thread['tid']]['name']}</a>
-									<!--{elseif $thread['forumname']}-->
-										<a href="forum.php?mod=forumdisplay&fid={$thread['fid']}" target="_blank" class="kmbg kmico_bk">{$thread['forumname']}</a>
-									<!--{else}-->
-										{if $_G['cache']['forums'][$thread['fid']]['name']}<a href="forum.php?mod=forumdisplay&fid={$thread['fid']}" target="_blank" class="kmbg kmico_bk">{$_G['cache']['forums'][$thread['fid']]['name']}</a>{/if}
-									<!--{/if}-->
-								<!--{elseif $thread['typehtml'] || $thread['sorthtml']}-->
+								<!--{if $thread['typehtml'] || $thread['sorthtml']}-->
 									{echo str_replace(array('<em>[', ']</em>', '">'), array('', '', '" class="kmbg kmico_bk" target="_blank">'), $thread['typehtml'].$thread['sorthtml']);}
-								<!--{elseif $_G['cache']['forums'][$thread['fid']]['name']}-->
-									<a href="forum.php?mod=forumdisplay&fid={$thread['fid']}" target="_blank" class="kmbg kmico_bk">{$_G['cache']['forums'][$thread['fid']]['name']}</a>
-								<!--{elseif $thread['forumname']}-->
-									<a href="forum.php?mod=forumdisplay&fid={$thread['fid']}" target="_blank" class="kmbg kmico_bk">{$thread['forumname']}</a>
 								<!--{/if}-->
 							</div>
 							<!--{if $threadlist_data[$thread['tid']]['message'] && !in_array($thread['displayorder'], array(1,2,3,4))}--><div class="kmtxt">{$threadlist_data[$thread['tid']]['message']}</div><!--{/if}-->										
