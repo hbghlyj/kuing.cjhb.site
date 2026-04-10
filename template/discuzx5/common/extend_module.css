@@ -178,7 +178,6 @@
 .dz_pg_spacecp .tfm th {width:80px;text-align:right;padding-right:15px}
 .dz_pg_spacecp .tfm th.xw1, .dz_pg_spacecp .tfm th[colspan*="2"] {text-align:left}
 .exfm {padding:15px;margin:0 0 15px 0;font-size:13px;background:var(--dz-bgc);border:1px solid var(--dz-borderb);border-radius:var(--dz-radius-s)}
-.exfm p {font-size:12px}
 .exfm .pn {height:34px;line-height:34px;font-size:14px}
 .exfm .lb {white-space:nowrap}
 .exfm caption {margin:5px 3px}
