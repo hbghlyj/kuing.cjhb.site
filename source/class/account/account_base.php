@@ -368,6 +368,9 @@ class account_base {
 
 		if(str_starts_with($interface, 'plugin_')) {
 			$pluginid = substr($interface, 7);
+			if($pluginid === 'githubconnect') {
+				return ['allow' => !empty($_G['setting']['githubconnect_allow'])];
+			}
 			return !empty($_G['setting']['account_plugin_confs'][$pluginid]) ? $_G['setting']['account_plugin_confs'][$pluginid] : [];
 		} else {
 			return !empty($_G['setting'][$interface]) ? $_G['setting'][$interface] : [];
@@ -375,7 +378,8 @@ class account_base {
 	}
 
 	public static function allow($interface) {
-		return self::getConfig($interface)['allow'];
+		$config = self::getConfig($interface);
+		return !empty($config['allow']);
 	}
 
 	public static function getName($interface) {
