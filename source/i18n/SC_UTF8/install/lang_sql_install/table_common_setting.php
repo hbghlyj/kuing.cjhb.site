@@ -1286,9 +1286,6 @@ $data = [[
     'skey' => 'oltimespan',
     'svalue' => '10',
   ],[
-    'skey' => 'onlineguestsmultiple',
-    'svalue' => '10',
-  ],[
     'skey' => 'onlinehold',
     'svalue' => '15',
   ],[

@@ -1738,8 +1738,6 @@ $lang =
 	'setting_serveropti_blockcachetimerangepoint' => '點',
 	'setting_serveropti_sessionclose' => '是否關閉session機制',
 	'setting_serveropti_sessionclose_comment' => '關閉session機制以後，可明顯降低站點的服務器負擔，建議在線用戶數超過2萬時開啓本功能（注意：遊客數和用戶的在線時長將不再進行統計，論壇首頁和版塊列表頁面的在線用戶列表功能將不可用）',
-	'setting_serveropti_onlineguestsmultiple' => '在線人數測算比例',
-	'setting_serveropti_onlineguestsmultiple_comment' => '關閉session機制以後，總在線人(包括遊客和用戶) ≈ 實際在線用戶數 * 在線人數測算比例，建議值為10左右,可為浮點數（注意：實際在線用戶數緩存週期為600秒）',
 
 	'setting_functions' => '站點功能',
 

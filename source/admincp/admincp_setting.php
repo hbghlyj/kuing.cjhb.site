@@ -1136,7 +1136,6 @@ EOF;
 		$html .= '</select>';
 		showsetting('setting_serveropti_blockcachetimerange', '', '', $html);
 		showsetting('setting_serveropti_sessionclose', 'settingnew[sessionclose]', $setting['sessionclose'], 'radio', '', 1);
-		showsetting('setting_serveropti_onlineguestsmultiple', 'settingnew[onlineguestsmultiple]', $setting['onlineguestsmultiple'] ? $setting['onlineguestsmultiple'] : 10, 'text');
 		showtagheader('tbody', '', true);
 		/*search*/
 
@@ -3575,9 +3574,6 @@ EOT;
 		$settingnew['sessionclose'] = $settingnew['sessionclose'] ? true : false;
 	}
 
-	if(isset($settingnew['onlineguestsmultiple'])) {
-		$settingnew['onlineguestsmultiple'] = floatval($settingnew['onlineguestsmultiple']);
-	}
 	if($_GET['delglobalreplybg']) {
 		$valueparse = parse_url($setting['globalreplybg']);
 		if(!isset($valueparse['host']) && file_exists($_G['setting']['attachurl'].'common/'.$setting['globalreplybg'])) {

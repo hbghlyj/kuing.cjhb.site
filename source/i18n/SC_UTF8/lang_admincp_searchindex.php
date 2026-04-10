@@ -4896,7 +4896,6 @@ $lang = array (
 			37 => 'setting_serveropti_sessionclose',
 			38 => '是否关闭session机制',
 			39 => '关闭session机制以后，可明显降低站点的服务器负担，建议在线用户数超过2万时开启本功能（注意：游客数和用户的在线时长将不再进行统计，论坛首页和版块列表页面的在线用户列表功能将不可用）',
-			40 => 'setting_serveropti_onlineguestsmultiple',
 			41 => '在线人数测算比例',
 			42 => '关闭session机制以后，总在线人(包括游客和用户) ≈ 实际在线用户数 * 在线人数测算比例，建议值为10左右,可为浮点数（注意：实际在线用户数缓存周期为600秒）',
 			43 => 'setting_serveropti_jspath_default',

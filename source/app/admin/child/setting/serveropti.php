@@ -46,9 +46,6 @@ if(submitcheck('settingsubmit')) {
 		$settingnew['sessionclose'] = (bool)$settingnew['sessionclose'];
 	}
 
-	if(isset($settingnew['onlineguestsmultiple'])) {
-		$settingnew['onlineguestsmultiple'] = floatval($settingnew['onlineguestsmultiple']);
-	}
 } else {
 	shownav('global', 'setting_'.$operation);
 
@@ -117,7 +114,6 @@ if(submitcheck('settingsubmit')) {
 	$html .= '</select>';
 	showsetting('setting_serveropti_blockcachetimerange', '', '', $html);
 	showsetting('setting_serveropti_sessionclose', 'settingnew[sessionclose]', $setting['sessionclose'], 'radio', '', 1);
-	showsetting('setting_serveropti_onlineguestsmultiple', 'settingnew[onlineguestsmultiple]', $setting['onlineguestsmultiple'] ? $setting['onlineguestsmultiple'] : 10, 'text');
 	showtagfooter('tbody');
 	/*search*/
 
