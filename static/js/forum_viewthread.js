@@ -294,19 +294,38 @@ function switchrecommendv() {
 	display('recommendav');
 }
 
+function updateMuluSelect(postObj, pid) {
+	if(typeof MULUSELECT === 'undefined' || !MULUSELECT || MULUSELECT.querySelector('option[value="post_' + pid + '"]')) {
+		return;
+	}
+	var floorObj = postObj.querySelector('.pi strong a') || postObj.querySelector('.pi strong');
+	var authorObj = postObj.querySelector('.authi a.xw1') || postObj.querySelector('.authi a');
+	var floorText = floorObj ? floorObj.textContent.replace('#', '').trim() : '';
+	var authorText = authorObj ? authorObj.textContent.trim() : '';
+	var optionText = (floorText + (authorText ? ' ' + authorText : '')).trim();
+	MULUSELECT.options.add(new Option(optionText, 'post_' + pid));
+	MULUSELECT.size = MULUSELECT.options.length;
+	if(MULUSELECT.firstChild && MULUSELECT.lastChild) {
+		MULUSELECT.style.height = MULUSELECT.lastChild.offsetTop - MULUSELECT.firstChild.offsetTop + 'px';
+	}
+}
+
 function appendreply(pid) {
 	const postNew = $('post_new');
-	if(!postNew) {
+	const postId = `post_${pid}`;
+	if(!postNew || $(postId) || !$('postlist') || !$('postlistreply')) {
 		return;
+	}
+	postNew.style.display = '';
+	$('postlist').appendChild(postNew);
+	addLou(postNew);
+	postNew.id = postId;
+	updateMuluSelect(postNew, pid);
+	if(typeof MathJax !== 'undefined' && typeof MathJax.typesetPromise === 'function') {
+		MathJax.typesetPromise([postNew]);
 	}
 	newpos = fetchOffset(postNew);
 	document.documentElement.scrollTop = newpos['top'];
-	postNew.style.display = '';
-	if(typeof MathJax.typesetPromise === 'function') {
-		MathJax.typesetPromise([$('postlist').appendChild(postNew)]);
-	}
-	addLou(postNew);
-	postNew.id = `post_${pid}`;
 	div = document.createElement('div');
 	div.id = 'post_new';
 	div.style.display = 'none';

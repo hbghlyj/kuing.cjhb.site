@@ -98,31 +98,9 @@
           }
           if(data.tid==tid && data.page==pageNumber){
             ajaxget(`forum.php?mod=viewthread&tid=${tid}&viewpid=${data.pid}`, 'post_new', 'ajaxwaitid', '', null, function() {
-              const postNew = $('post_new');
-              const postList = $('postlist');
-              const postListReply = $('postlistreply');
-              if (!postNew || !postList || !postListReply) {
-                return;
+              if(typeof appendreply === 'function') {
+                appendreply(data.pid);
               }
-              if($(postId)){
-                return;
-              }
-              postNew.id = postId;
-              postNew.style.display = '';
-              postList.appendChild(postNew);
-              typesetNodes([postNew]).catch(err => { showError('MathJax typesetting error:'+err); });
-              const newpos = fetchOffset(postNew);
-              document.documentElement.scrollTop = newpos['top'];
-              addLou(postNew);
-              const div = document.createElement('div');
-              div.id = 'post_new';
-              div.style.display = 'none';
-              div.className = '';
-              postListReply.appendChild(div);
-              if ($('postform')) {
-                $('postform').replysubmit.disabled = false;
-              }
-              showCreditPrompt();
             });
           }
         });
