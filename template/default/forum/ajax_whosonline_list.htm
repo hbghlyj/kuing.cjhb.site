@@ -1,6 +1,6 @@
 <!--{if !empty($whosonline)}-->
     <!--{loop $whosonline $key $online}-->
-        <li title="$online[title_attr]"><span>
+        <li title="$online[title_label]&#013;$online[ip]&#013;$online[ip_location]&#013;{lang time}: $online[lastactivity]"><span>
         <!--{if $online['uid']}--><a href="home.php?mod=space&uid=$online[uid]"><!--{/if}-->
         <img src="$online[icon]" alt="icon" />
         <!--{if $online['uid']}--></a><!--{/if}-->

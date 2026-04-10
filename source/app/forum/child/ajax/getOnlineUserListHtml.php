@@ -54,7 +54,10 @@ if($_G['setting']['whosonlinestatus'] == 1 || $_G['setting']['whosonlinestatus']
 			} elseif(!empty($actioncode[$online['action']])) {
 				$titleLabel = $actioncode[$online['action']];
 			}
-			$online_user['title_attr'] = htmlspecialchars($titleLabel).'&#013;'.$online['ip'].'&#013;'.ip::convert($online['ip']).'&#013;'.lang('template', 'time').': '.dgmdate($online['lastactivity'], 'u');
+			$online_user['title_label'] = htmlspecialchars($titleLabel);
+			$online_user['ip'] = htmlspecialchars($online['ip']);
+			$online_user['ip_location'] = htmlspecialchars(ip::convert($online['ip']));
+			$online_user['lastactivity'] = htmlspecialchars(dgmdate($online['lastactivity'], 'u'));
 			$whosonline[] = $online_user;
 		}
 	}
@@ -75,7 +78,10 @@ if($_G['setting']['whosonlinestatus'] == 1 || $_G['setting']['whosonlinestatus']
 		} elseif(!empty($actioncode[$online['action']])) {
 			$titleLabel = $actioncode[$online['action']];
 		}
-		$online_user['title_attr'] = htmlspecialchars($titleLabel).'&#013;'.$online['ip'].'&#013;'.ip::convert($online['ip']).'&#013;'.lang('template', 'time').': '.dgmdate($online['lastactivity'], 'u');
+		$online_user['title_label'] = htmlspecialchars($titleLabel);
+		$online_user['ip'] = htmlspecialchars($online['ip']);
+		$online_user['ip_location'] = htmlspecialchars(ip::convert($online['ip']));
+		$online_user['lastactivity'] = htmlspecialchars(dgmdate($online['lastactivity'], 'u'));
 		$whosonline[] = $online_user;
 	}
 
