@@ -2,6 +2,13 @@
 <div id="mask" style="display:none;"></div>
 <!--{if $_G['setting']['statcode']}--><div id="statcode" style="display:none;">{$_G['setting']['statcode']}</div><!--{/if}-->
 <!--{if !$nofooter}-->
+<p class="xs0" style="text-align:center;margin:8px 0;">
+	<span id="debuginfo">
+	<!--{if debuginfo()}-->Processed in $_G[debuginfo][time] seconds, $_G[debuginfo][queries] queries
+		<!--{if $_G['gzipcompress']}-->, Gzip On<!--{/if}--><!--{if C::memory()->type}-->, <!--{echo C::memory()->type}--> On<!--{/if}-->
+	<!--{/if}-->
+	</span>
+</p>
 <div class="foot_height"></div>
 <div class="foot flex-box">
 	<a href="index.php" class="flex{if (strpos($_SERVER['REQUEST_URI'], $_G['setting']['defaultindex']) && strpos('forum.php', $_G['setting']['defaultindex']) === false) || strpos($_SERVER['REQUEST_URI'], 'index.php') || (strpos('forum.php', $_G['setting']['defaultindex']) === 0 && $_G['basescript'] == 'forum' && $_GET['mod'] != 'find')} mon{/if}">
@@ -53,13 +60,6 @@
 		<span class="foot-txt">{lang mobmy}</span>
 	</a>
 </div>
-<p class="xs0" style="text-align:center;margin:8px 0;">
-	<span id="debuginfo">
-	<!--{if debuginfo()}-->Processed in $_G[debuginfo][time] seconds, $_G[debuginfo][queries] queries
-		<!--{if $_G['gzipcompress']}-->, Gzip On<!--{/if}--><!--{if C::memory()->type}-->, <!--{echo C::memory()->type}--> On<!--{/if}-->
-	<!--{/if}-->
-	</span>
-</p>
 <!--{/if}-->
 <!--{if !$_G['setting']['bbclosed'] && empty($_G['member']['freeze']) && $_G['member']['groupid'] != 5}-->
 <!--{if $_G[uid] && !isset($_G['cookie']['checkpm'])}-->
