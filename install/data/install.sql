@@ -733,7 +733,6 @@ CREATE TABLE pre_common_member (
   extgroupids char(20) NOT NULL DEFAULT '',
   regdate int(10) unsigned NOT NULL DEFAULT '0',
   credits int(10) NOT NULL DEFAULT '0',
-  notifysound tinyint(1) NOT NULL DEFAULT '0',
   timeoffset char(4) NOT NULL DEFAULT '',
   newpm smallint(6) unsigned NOT NULL DEFAULT '0',
   newprompt smallint(6) unsigned NOT NULL DEFAULT '0',
@@ -759,24 +758,6 @@ CREATE TABLE pre_common_member_action_log (
   dateline int(10) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (id),
   KEY dateline (dateline,`action`,uid)
-) ENGINE=InnoDB;
-
-DROP TABLE IF EXISTS pre_common_member_connect;
-CREATE TABLE pre_common_member_connect (
-  uid mediumint(8) unsigned NOT NULL DEFAULT '0',
-  conuin char(40) NOT NULL DEFAULT '',
-  conuinsecret char(16) NOT NULL DEFAULT '',
-  conopenid char(32) NOT NULL DEFAULT '',
-  conisfeed tinyint(1) NOT NULL DEFAULT '0',
-  conispublishfeed tinyint(1) NOT NULL DEFAULT '0',
-  conispublisht tinyint(1) NOT NULL DEFAULT '0',
-  conisregister tinyint(1) NOT NULL DEFAULT '0',
-  conisqzoneavatar tinyint(1) NOT NULL DEFAULT '0',
-  conisqqshow tinyint(1) NOT NULL DEFAULT '0',
-  conuintoken char(32) NOT NULL DEFAULT '',
-  PRIMARY KEY (uid),
-  KEY conuin (conuin),
-  KEY conopenid (conopenid)
 ) ENGINE=InnoDB;
 
 DROP TABLE IF EXISTS pre_common_member_count;
@@ -1299,7 +1280,6 @@ CREATE TABLE pre_common_searchindex (
   uid mediumint(10) unsigned NOT NULL DEFAULT '0',
   dateline int(10) unsigned NOT NULL DEFAULT '0',
   expiration int(10) unsigned NOT NULL DEFAULT '0',
-  threadsortid smallint(6) unsigned NOT NULL DEFAULT '0',
   num smallint(6) unsigned NOT NULL DEFAULT '0',
   ids text NOT NULL,
   PRIMARY KEY (searchid),
@@ -2331,19 +2311,6 @@ CREATE TABLE pre_forum_collectionthread (
   KEY ctid (ctid,dateline)
 ) ENGINE=InnoDB;
 
-DROP TABLE IF EXISTS pre_forum_creditslog;
-CREATE TABLE pre_forum_creditslog (
-  uid mediumint(8) unsigned NOT NULL DEFAULT '0',
-  fromto char(15) NOT NULL DEFAULT '',
-  sendcredits tinyint(1) NOT NULL DEFAULT '0',
-  receivecredits tinyint(1) NOT NULL DEFAULT '0',
-  send int(10) unsigned NOT NULL DEFAULT '0',
-  receive int(10) unsigned NOT NULL DEFAULT '0',
-  dateline int(10) unsigned NOT NULL DEFAULT '0',
-  operation char(3) NOT NULL DEFAULT '',
-  KEY uid (uid,dateline)
-) ENGINE=InnoDB;
-
 DROP TABLE IF EXISTS pre_forum_debate;
 CREATE TABLE pre_forum_debate (
   tid int(10) unsigned NOT NULL DEFAULT '0',
@@ -2806,7 +2773,6 @@ CREATE TABLE pre_forum_post (
   dateline int(10) unsigned NOT NULL DEFAULT '0',
   lastupdate int(10) unsigned NOT NULL DEFAULT '0',
   updateuid mediumint(8) unsigned NOT NULL DEFAULT '0',
-  premsg text NOT NULL,
   message mediumtext NOT NULL,
   useip varchar(45) NOT NULL DEFAULT '',
   `port` smallint(6) unsigned NOT NULL DEFAULT '0',
@@ -2890,17 +2856,6 @@ CREATE TABLE pre_forum_postcomment (
   KEY authorid (authorid),
   KEY score (score),
   KEY rpid (rpid),
-  KEY pid (pid,dateline)
-) ENGINE=InnoDB;
-
-DROP TABLE IF EXISTS pre_forum_post_history;
-CREATE TABLE pre_forum_post_history (
-  id int(10) unsigned NOT NULL,
-  pid int(10) unsigned NOT NULL,
-  dateline int(10) unsigned NOT NULL,
-  `subject` varchar(255) NOT NULL DEFAULT '',
-  message mediumtext NOT NULL,
-  PRIMARY KEY (id),
   KEY pid (pid,dateline)
 ) ENGINE=InnoDB;
 

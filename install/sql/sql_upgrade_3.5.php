@@ -137,9 +137,6 @@ ALTER TABLE pre_forum_announcement
 ALTER TABLE pre_forum_collection
 	MODIFY lastposter varchar (50) NOT NULL DEFAULT '';
 
-ALTER TABLE pre_forum_creditslog
-	MODIFY fromto char (50) NOT NULL DEFAULT '';
-
 ALTER TABLE pre_forum_debate
 	MODIFY umpire varchar (50) NOT NULL DEFAULT '';
 

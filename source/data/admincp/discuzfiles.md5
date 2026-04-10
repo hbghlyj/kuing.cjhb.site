@@ -72,7 +72,7 @@ d41d8cd98f00b204e9800998ecf8427e *data/threadcache/index.htm
 7dbe3ab51e2a88aabfbe9504bf38dd8d *source/discuz_version.php
 7215ee9c7d9dc229d2921a40e899ec5f *source/index.htm
 0732c2ec504934d5b4b8a460ac69fd84 *source/mitframe_version.php
-150f5dd2e1c04be05f2bb8a78ebca5b0 *source/data/admincp/discuzdb.md5
+0c5a3e40fe1f5eadcbb9e8bd3cc996ce *source/data/admincp/discuzdb.md5
 40726796a5aa164df1af36315c1916cd *source/data/admincp/discuzhook.dat
 d41d8cd98f00b204e9800998ecf8427e *source/data/admincp/index.htm
 adbdc3b47c3eb58598306377ef396917 *source/data/admincp/robots.txt
@@ -1644,7 +1644,6 @@ f79f873fe212e016aec13ca8396a5c91 *source/class/table/table_forum_collectionfollo
 d9087d13293e897b96d95ab749c38ad7 *source/class/table/table_forum_collectionrelated.php
 00070c953ad6351de6e450b6749ab4c7 *source/class/table/table_forum_collectionteamworker.php
 3831ad38ada6f16703a991335d718ddb *source/class/table/table_forum_collectionthread.php
-9e305427299a38dcb0ba746cd2b5de9f *source/class/table/table_forum_creditslog.php
 8acffa5cdba71297a71667e62c5a384a *source/class/table/table_forum_debate.php
 d973731e96b90d2a583ae930d3f2caad *source/class/table/table_forum_debatepost.php
 5be771b2af7149944affd85baa0dc43b *source/class/table/table_forum_faq.php

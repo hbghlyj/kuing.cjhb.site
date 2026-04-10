@@ -806,7 +806,6 @@ CREATE TABLE pre_common_member
 	extgroupids        char(20)              NOT NULL DEFAULT '',
 	regdate            int(10) unsigned      NOT NULL DEFAULT '0',
 	credits            int(10)               NOT NULL DEFAULT '0',
-	notifysound        tinyint(1)            NOT NULL DEFAULT '0',
 	timeoffset         char(4)               NOT NULL DEFAULT '',
 	newpm              smallint(6) unsigned  NOT NULL DEFAULT '0',
 	newprompt          smallint(6) unsigned  NOT NULL DEFAULT '0',
@@ -1414,7 +1413,6 @@ CREATE TABLE pre_common_searchindex
 	uid          mediumint(10) unsigned NOT NULL DEFAULT '0',
 	dateline     int(10) unsigned       NOT NULL DEFAULT '0',
 	expiration   int(10) unsigned       NOT NULL DEFAULT '0',
-	threadsortid smallint(6) unsigned   NOT NULL DEFAULT '0',
 	num          smallint(6) unsigned   NOT NULL DEFAULT '0',
 	ids          text                   NOT NULL,
 	PRIMARY KEY (searchid),
@@ -2471,20 +2469,6 @@ CREATE TABLE pre_forum_collectionthread
 	KEY ctid (ctid, dateline)
 ) ENGINE = InnoDB;
 
-DROP TABLE IF EXISTS pre_forum_creditslog;
-CREATE TABLE pre_forum_creditslog
-(
-	uid            mediumint(8) unsigned NOT NULL DEFAULT '0',
-	fromto         char(50)              NOT NULL DEFAULT '',
-	sendcredits    tinyint(1)            NOT NULL DEFAULT '0',
-	receivecredits tinyint(1)            NOT NULL DEFAULT '0',
-	send           int(10) unsigned      NOT NULL DEFAULT '0',
-	receive        int(10) unsigned      NOT NULL DEFAULT '0',
-	dateline       int(10) unsigned      NOT NULL DEFAULT '0',
-	operation      char(3)               NOT NULL DEFAULT '',
-	KEY uid (uid, dateline)
-) ENGINE = InnoDB;
-
 DROP TABLE IF EXISTS pre_forum_debate;
 CREATE TABLE pre_forum_debate
 (
@@ -2979,7 +2963,6 @@ CREATE TABLE pre_forum_post
 	dateline    int(10) unsigned      NOT NULL DEFAULT '0',
 	lastupdate  int(10) unsigned      NOT NULL DEFAULT '0',
 	updateuid   mediumint(8) unsigned NOT NULL DEFAULT '0',
-	premsg      text                  NOT NULL,
 	message     mediumtext            NOT NULL,
 	`content`   JSON                  DEFAULT NULL,
 	`source`    JSON                  DEFAULT NULL,
@@ -3073,18 +3056,6 @@ CREATE TABLE pre_forum_postcomment
 	KEY authorid (authorid),
 	KEY score (score),
 	KEY rpid (rpid),
-	KEY pid (pid, dateline)
-) ENGINE = InnoDB;
-
-DROP TABLE IF EXISTS pre_forum_post_history;
-CREATE TABLE pre_forum_post_history
-(
-	id        int(10) unsigned NOT NULL,
-	pid       int(10) unsigned NOT NULL,
-	dateline  int(10) unsigned NOT NULL,
-	`subject` varchar(255)     NOT NULL DEFAULT '',
-	message   mediumtext       NOT NULL,
-	PRIMARY KEY (id),
 	KEY pid (pid, dateline)
 ) ENGINE = InnoDB;
 
