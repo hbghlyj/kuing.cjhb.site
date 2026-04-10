@@ -53,6 +53,13 @@
 		<span class="foot-txt">{lang mobmy}</span>
 	</a>
 </div>
+<p class="xs0" style="text-align:center;margin:8px 0;">
+	<span id="debuginfo">
+	<!--{if debuginfo()}-->Processed in $_G[debuginfo][time] seconds, $_G[debuginfo][queries] queries
+		<!--{if $_G['gzipcompress']}-->, Gzip On<!--{/if}--><!--{if C::memory()->type}-->, <!--{echo C::memory()->type}--> On<!--{/if}-->
+	<!--{/if}-->
+	</span>
+</p>
 <!--{/if}-->
 <!--{if !$_G['setting']['bbclosed'] && empty($_G['member']['freeze']) && $_G['member']['groupid'] != 5}-->
 <!--{if $_G[uid] && !isset($_G['cookie']['checkpm'])}-->
