@@ -256,7 +256,33 @@ if($op === 'resolve') {
 	$renderResolvePage($pending);
 }
 
-$referer = $normalizeReferer(dreferer());
+$referer = $normalizeReferer(!empty($_GET['referer']) ? $_GET['referer'] : dreferer());
+
+if($op === 'init') {
+	$setReferer($referer);
+	$navtitle = 'Google';
+	include template('common/header');
+	echo '<div id="ct" class="wp cl"><div class="mn"><div class="bm"><div class="bm_h"><h1>Google</h1></div><div class="bm_c hm">';
+	echo '<script src="https://accounts.google.com/gsi/client" async></script>';
+	echo '<div id="g_id_onload"';
+	echo ' data-client_id="'.dhtmlspecialchars($_G['setting']['connectappid']).'"';
+	echo ' data-context="signin"';
+	echo ' data-login_uri="connect.php?mod=login&op=callback"';
+	echo ' data-auto_prompt="true"';
+	echo ' data-auto_select="true"';
+	echo ' data-itp_support="true"></div>';
+	echo '<div class="g_id_signin"';
+	echo ' data-type="standard"';
+	echo ' data-shape="pill"';
+	echo ' data-theme="filled_blue"';
+	echo ' data-text="continue_with"';
+	echo ' data-size="large"';
+	echo ' data-logo_alignment="left"></div>';
+	echo '</div></div></div></div>';
+	include template('common/footer');
+	exit;
+}
+
 $setReferer($referer);
 
 if(empty($_POST['credential'])) {
