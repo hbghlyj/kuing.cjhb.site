@@ -497,9 +497,9 @@
 					<span class="o"><a href="forum.php?showoldetails=no#online" title="{lang spread}"><em class="tg_no" title="{lang spread}"></em></a></span>
 					<h3>
 						<strong><a href="home.php?mod=space&do=friend&view=online&type=member">{lang onlinemember}</a></strong>
-						<span class="xs1">- <strong>$onlinenum</strong> {lang onlines}
-						- <strong>$membercount</strong> {lang index_members}(<strong>$invisiblecount</strong> {lang index_invisibles}),
-						<strong>$guestcount</strong> {lang index_guests}
+						<span class="xs1">- <strong id="whosonline_count_total">$onlinenum</strong> {lang onlines}
+						<span id="whosonline_member_segment"<!--{if !$membercount}--> style="display:none"<!--{/if}-->>- <strong id="whosonline_count_member">$membercount</strong> {lang index_members}<span id="whosonline_invisible_segment"<!--{if !$invisiblecount}--> style="display:none"<!--{/if}-->>(<strong id="whosonline_count_invisible">$invisiblecount</strong> {lang index_invisibles})</span>,</span>
+						<span id="whosonline_guest_segment"<!--{if !$guestcount}--> style="display:none"<!--{/if}-->><strong id="whosonline_count_guest">$guestcount</strong> {lang index_guests}</span>
 						- {lang index_mostonlines} <strong>$onlineinfo[0]</strong> {lang on} <strong>$onlineinfo[1]</strong>.</span>
 					</h3>
 				<!--{else}-->
@@ -531,14 +531,50 @@
 						</dd>
 						<script type="text/javascript">
 							function fetchWhosOnlineList() {
-								var ajaxurl = 'forum.php?mod=ajax&action=getOnlineUserListHtml&inajax=1&t=' + new Date().getTime();
+								var ajaxurl = 'forum.php?mod=ajax&action=getOnlineUserListHtml&inajax=1&ajaxdata=json&t=' + new Date().getTime();
 								var x = new XMLHttpRequest();
 								x.open('GET', ajaxurl, true);
 								x.onreadystatechange = function () {
 									if (x.readyState == 4 && x.status == 200) {
 										var listContainer = document.getElementById('whosonline_list_container');
+										var totalCount = document.getElementById('whosonline_count_total');
+										var memberCount = document.getElementById('whosonline_count_member');
+										var guestCount = document.getElementById('whosonline_count_guest');
+										var invisibleCount = document.getElementById('whosonline_count_invisible');
+										var memberSegment = document.getElementById('whosonline_member_segment');
+										var guestSegment = document.getElementById('whosonline_guest_segment');
+										var invisibleSegment = document.getElementById('whosonline_invisible_segment');
+										var payload = null;
+										try {
+											payload = JSON.parse(x.responseText);
+										} catch (e) {
+											console.error('Error parsing online list payload.', e);
+										}
 										if (listContainer) {
-											listContainer.innerHTML = x.responseText;
+											listContainer.innerHTML = payload && typeof payload.html === 'string' ? payload.html : '<li style="width: auto">{lang online_list_load_error}</li>';
+										}
+										if (payload) {
+											if (totalCount) {
+												totalCount.textContent = payload.onlinenum;
+											}
+											if (memberCount) {
+												memberCount.textContent = payload.membercount;
+											}
+											if (guestCount) {
+												guestCount.textContent = payload.guestcount;
+											}
+											if (invisibleCount) {
+												invisibleCount.textContent = payload.invisiblecount;
+											}
+											if (memberSegment) {
+												memberSegment.style.display = payload.membercount ? '' : 'none';
+											}
+											if (guestSegment) {
+												guestSegment.style.display = payload.guestcount ? '' : 'none';
+											}
+											if (invisibleSegment) {
+												invisibleSegment.style.display = payload.invisiblecount ? '' : 'none';
+											}
 										}
 									} else if (x.readyState == 4) {
 										console.error('Error fetching online list. Status: ' + x.status);

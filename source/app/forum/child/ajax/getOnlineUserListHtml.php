@@ -11,6 +11,10 @@ if(!defined('IN_DISCUZ')) {
 }
 
 $whosonline = [];
+$membercount = 0;
+$guestcount = 0;
+$invisiblecount = 0;
+$onlinenum = 0;
 if($_G['setting']['whosonlinestatus'] == 1 || $_G['setting']['whosonlinestatus'] == 3) {
 	updatesession();
 
@@ -74,7 +78,26 @@ if($_G['setting']['whosonlinestatus'] == 1 || $_G['setting']['whosonlinestatus']
 		$online_user['title_attr'] = htmlspecialchars($titleLabel).'&#013;'.$online['ip'].'&#013;'.ip::convert($online['ip']).'&#013;'.lang('template', 'time').': '.dgmdate($online['lastactivity'], 'u');
 		$whosonline[] = $online_user;
 	}
+
+	$membercount = C::app()->session->count(1);
+	$guestcount = C::app()->session->count(2);
+	$invisiblecount = C::app()->session->count_invisible();
+	$onlinenum = $membercount + $guestcount;
 }
 
-include template('forum/ajax_whosonline_list');
+if(!empty($_GET['ajaxdata']) && $_GET['ajaxdata'] === 'json') {
+	ob_start();
+	include template('forum/ajax_whosonline_list');
+	$html = ob_get_clean();
+	header('Content-Type: application/json; charset='.CHARSET);
+	echo json_encode([
+		'html' => $html,
+		'onlinenum' => intval($onlinenum),
+		'membercount' => intval($membercount),
+		'guestcount' => intval($guestcount),
+		'invisiblecount' => intval($invisiblecount),
+	]);
+} else {
+	include template('forum/ajax_whosonline_list');
+}
 exit();
