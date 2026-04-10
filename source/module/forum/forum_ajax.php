@@ -106,21 +106,17 @@ if($_GET['action'] == 'getOnlineUserListHtml') {
 		$onlinenum = $membercount + $guestcount;
 	}
 
-	if(!empty($_GET['ajaxdata']) && $_GET['ajaxdata'] === 'json') {
-		ob_start();
-		include template('forum/ajax_whosonline_list');
-		$html = ob_get_clean();
-		header('Content-Type: application/json; charset='.CHARSET);
-		echo json_encode(array(
-			'html' => $html,
-			'onlinenum' => intval($onlinenum),
-			'membercount' => intval($membercount),
-			'guestcount' => intval($guestcount),
-			'invisiblecount' => intval($invisiblecount),
-		));
-	} else {
-		include template('forum/ajax_whosonline_list');
-	}
+	ob_start();
+	include template('forum/ajax_whosonline_list');
+	$html = ob_get_clean();
+	header('Content-Type: application/json; charset='.CHARSET);
+	echo json_encode(array(
+		'html' => $html,
+		'onlinenum' => intval($onlinenum),
+		'membercount' => intval($membercount),
+		'guestcount' => intval($guestcount),
+		'invisiblecount' => intval($invisiblecount),
+	));
 	exit();
 }
 if($_GET['action'] == 'checkusername') {
