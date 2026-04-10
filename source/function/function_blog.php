@@ -32,7 +32,7 @@ function blog_post($POST, $olds = []) {
 		$_G['username'] = addslashes($olds['username']);
 	}
 
-	$POST['subject'] = empty($_GET['subject']) ? '' : (dstrlen($_GET['subject']) > $_G['setting']['maxsubjectsize'] ? getstr($_GET['subject'], $_G['setting']['maxsubjectsize']) : $_GET['subject']);
+	$POST['subject'] = empty($_GET['subject']) ? '' : (charstrlen($_GET['subject']) > $_G['setting']['maxsubjectsize'] ? charcutstr($_GET['subject'], $_G['setting']['maxsubjectsize']) : $_GET['subject']);
 	$POST['subject'] = censor(dhtmlspecialchars($POST['subject']), NULL, FALSE, FALSE);
 	if(strlen($POST['subject']) < 1) $POST['subject'] = dgmdate($_G['timestamp'], 'Y-m-d');
 	$POST['friend'] = intval($POST['friend']);

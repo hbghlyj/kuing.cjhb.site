@@ -1383,6 +1383,29 @@ function dstrlen($str) {
 	return $count;
 }
 
+function charstrlen($str) {
+	if(strtolower(CHARSET) != 'utf-8') {
+		return strlen($str);
+	}
+	if(!preg_match_all('/./us', $str, $matches)) {
+		return 0;
+	}
+	return count($matches[0]);
+}
+
+function charcutstr($str, $length) {
+	if($length <= 0) {
+		return '';
+	}
+	if(strtolower(CHARSET) != 'utf-8') {
+		return substr($str, 0, $length);
+	}
+	if(!preg_match_all('/./us', $str, $matches)) {
+		return '';
+	}
+	return implode('', array_slice($matches[0], 0, $length));
+}
+
 function cutstr($string, $length, $dot = ' ...') {
 	if(strlen($string) <= $length) {
 		return $string;

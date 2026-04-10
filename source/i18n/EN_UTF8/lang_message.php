@@ -997,7 +997,7 @@ $lang = array (
 	'comment_comment_noexist'		=> 'The article does not exist',//'要评论的文章不存在',
 	'comment_comment_notallowed'		=> 'This article can not be replied',//'该文章不允许评论',
 
-	'post_subject_toolong'			=> 'Sorry, your title is longer than 80 bytes.',//'对不起，您的标题超过 80 个字符，请返回修改标题长度。',
+	'post_subject_toolong'			=> 'Sorry, your title is longer than the maximum allowed number of characters.',//'对不起，您的标题超过 80 个字符，请返回修改标题长度。',
 	'post_message_tooshort'			=> 'Sorry, your post is shorter than {minpostsize} bytes.',//'对不起，您的帖子小于 {minpostsize} 个字符的限制，请返回修改。',
 
 	'no_privilege_realname'			=> 'You need to fill out the real name only after the current operation, <a href="home.php?mod=spacecp&ac=profile">Click here to set the real name</a>',//'您需要填写真实姓名后才能进行当前操作，<a href="home.php?mod=spacecp&ac=profile">点这里设置真实姓名</a>',

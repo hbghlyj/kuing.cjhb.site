@@ -174,6 +174,10 @@ function dstrlen(str) {
 	return count;
 }
 
+function char_strlen(str) {
+	return Array.from(str).length;
+}
+
 function dcutstr(str, maxlen, dot) {
 	var dot = !dot ? '...' : dot;
 	var chars = Array.from(str);

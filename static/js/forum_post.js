@@ -62,12 +62,12 @@ function validate(theform) {
 	if(($('postsubmit').name != 'replysubmit' && !($('postsubmit').name == 'editsubmit' && !isfirstpost) && theform.subject.value == "") || !sortid && !special && trim(message) == "") {
 		showError($L('subject_empty'));
 		return false;
-	} else if(dstrlen(theform.subject.value) > 255) {
+	} else if(char_strlen(theform.subject.value) > 255) {
 		showError($L('subject_length_limit', [255]));
 		return false;
 	}
-	if(!disablepostctrl && theform.subject.value != "" && ((postminsubjectchars != 0 && dstrlen(theform.subject.value) < postminsubjectchars) || (postminsubjectchars != 0 && dstrlen(theform.subject.value) > postmaxsubjectchars))) {
-		showError($L('subject_length_error', [dstrlen(theform.subject.value), postminsubjectchars, postmaxsubjectchars]));
+	if(!disablepostctrl && theform.subject.value != "" && ((postminsubjectchars != 0 && char_strlen(theform.subject.value) < postminsubjectchars) || (postminsubjectchars != 0 && char_strlen(theform.subject.value) > postmaxsubjectchars))) {
+		showError($L('subject_length_error', [char_strlen(theform.subject.value), postminsubjectchars, postmaxsubjectchars]));
 		return false;
 	}
 	if(in_array($('postsubmit').name, ['topicsubmit', 'editsubmit'])) {

@@ -355,7 +355,7 @@ function checkmaxperhour($type) {
 
 function checkpost($subject, $message, $special = 0, $isJson = false) {
 	global $_G;
-	if(dstrlen($subject) > 255) {
+	if(charstrlen($subject) > 255) {
 		return 'post_subject_toolong';
 	}
 	if(!$_G['group']['disablepostctrl'] && !$special && !$isJson) {
@@ -367,9 +367,9 @@ function checkpost($subject, $message, $special = 0, $isJson = false) {
 				return 'post_message_tooshort';
 			}
 		}
-		if($_G['setting']['maxsubjectsize'] && dstrlen($subject) > $_G['setting']['maxsubjectsize']) {
+		if($_G['setting']['maxsubjectsize'] && charstrlen($subject) > $_G['setting']['maxsubjectsize']) {
 			return 'post_subject_toolong';
-		} elseif(dstrlen($subject) && $_G['setting']['minsubjectsize'] && dstrlen($subject) < $_G['setting']['minsubjectsize']) {
+		} elseif(charstrlen($subject) && $_G['setting']['minsubjectsize'] && charstrlen($subject) < $_G['setting']['minsubjectsize']) {
 			return 'post_subject_tooshort';
 		}
 	}

@@ -397,12 +397,12 @@ function fastpostvalidate(theform, noajaxpost) {
 	if(theform.message.value == '' || theform.subject.value == '') {
 		s = $L('subject_empty');
 		theform.message.focus();
-	} else if(dstrlen(theform.subject.value) > 255) {
+	} else if(char_strlen(theform.subject.value) > 255) {
 		s = $L('subject_length_limit', 255);
 		theform.subject.focus();
 	}
-	if(!disablepostctrl && dstrlen(trim(theform.subject.value)) && ((postminsubjectchars != 0 && dstrlen(theform.subject.value) < postminsubjectchars) || (postminsubjectchars != 0 && dstrlen(theform.subject.value) > postmaxsubjectchars))) {
-		showError($L('subject_length_error',[dstrlen(theform.subject.value), postminsubjectchars, postmaxsubjectchars]));
+	if(!disablepostctrl && char_strlen(trim(theform.subject.value)) && ((postminsubjectchars != 0 && char_strlen(theform.subject.value) < postminsubjectchars) || (postminsubjectchars != 0 && char_strlen(theform.subject.value) > postmaxsubjectchars))) {
+		showError($L('subject_length_error',[char_strlen(theform.subject.value), postminsubjectchars, postmaxsubjectchars]));
 		return false;
 	}
 	if(!disablepostctrl && ((postminchars != 0 && mb_strlen(theform.message.value) < postminchars) || (postmaxchars != 0 && mb_strlen(theform.message.value) > postmaxchars))) {
