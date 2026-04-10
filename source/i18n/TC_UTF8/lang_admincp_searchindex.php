@@ -2216,7 +2216,7 @@ $lang = array (
 		array (
 			0 => '數據庫 &raquo; 升級',
 			1 => 'db_runquery_tips',
-			2 => '您可以通過修改 /source/admincp/admincp_quickquery.php 來添加常用 SQL 操作進行功能擴充。出於安全考慮，Discuz! 後台默認情況下禁止 SQL 語句直接執行，只能使用常用 SQL 當中的內容，如果您想自己隨意書寫 SQL 升級語句，需要將 config/config_global.php 當中的 $_config[\'admincp\'][\'runquery\'] 設置修改為 1。',
+			2 => '您可以通過修改 /source/app/admin/child/db/quickquery.php 來添加常用 SQL 操作進行功能擴充。出於安全考慮，Discuz! 後台默認情況下禁止 SQL 語句直接執行，只能使用常用 SQL 當中的內容，如果您想自己隨意書寫 SQL 升級語句，需要將 config/config_global.php 當中的 $_config[\'admincp\'][\'runquery\'] 設置修改為 1。',
 			3 => 'db_runquery_simply',
 			4 => '常用 SQL 升級語句',
 			5 => 'db_runquery_sql',

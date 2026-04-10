@@ -6784,7 +6784,7 @@ URL轉換絕對網址：<pre>
 	'db_import_unzip' => '解壓縮',
 
 	'db_runquery' => '數據庫升級',
-	'db_runquery_tips' => '<li>您可以通過修改 /source/admincp/admincp_quickquery.php 來添加常用 SQL 操作進行功能擴充。</li><li>出於安全考慮，Discuz! 後台默認情況下禁止 SQL 語句直接執行，只能使用常用 SQL 當中的內容，<br />如果您想自己隨意書寫 SQL 升級語句，需要將 config/config_global.php 當中的 $_config[\'admincp\'][\'runquery\'] 設置修改為 1。</li>',
+	'db_runquery_tips' => '<li>您可以通過修改 /source/app/admin/child/db/quickquery.php 來添加常用 SQL 操作進行功能擴充。</li><li>出於安全考慮，Discuz! 後台默認情況下禁止 SQL 語句直接執行，只能使用常用 SQL 當中的內容，<br />如果您想自己隨意書寫 SQL 升級語句，需要將 config/config_global.php 當中的 $_config[\'admincp\'][\'runquery\'] 設置修改為 1。</li>',
 	'db_runquery_sql' => 'Discuz! 數據庫升級 - 請將數據庫升級語句粘貼在下面',
 	'db_runquery_denied' => '對不起，此項功能已經被禁止，如果需要開啓，請修改 config/config_global.php 中的相關配置',
 	'db_runquery_comment' => '注意: 為確保升級成功，請不要修改 SQL 語句的任何部分',

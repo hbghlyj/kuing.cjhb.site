@@ -6781,7 +6781,7 @@ URL转换绝对网址：<pre>
 	'db_import_unzip' => '解压缩',
 
 	'db_runquery' => '数据库升级',
-	'db_runquery_tips' => '<li>您可以通过修改 /source/admincp/admincp_quickquery.php 来添加常用 SQL 操作进行功能扩充。</li><li>出于安全考虑，Discuz! 后台默认情况下禁止 SQL 语句直接执行，只能使用常用 SQL 当中的内容，<br />如果您想自己随意书写 SQL 升级语句，需要将 config/config_global.php 当中的 $_config[\'admincp\'][\'runquery\'] 设置修改为 1。</li>',
+	'db_runquery_tips' => '<li>您可以通过修改 /source/app/admin/child/db/quickquery.php 来添加常用 SQL 操作进行功能扩充。</li><li>出于安全考虑，Discuz! 后台默认情况下禁止 SQL 语句直接执行，只能使用常用 SQL 当中的内容，<br />如果您想自己随意书写 SQL 升级语句，需要将 config/config_global.php 当中的 $_config[\'admincp\'][\'runquery\'] 设置修改为 1。</li>',
 	'db_runquery_sql' => 'Discuz! 数据库升级 - 请将数据库升级语句粘贴在下面',
 	'db_runquery_denied' => '对不起，此项功能已经被禁止，如果需要开启，请修改 config/config_global.php 中的相关配置',
 	'db_runquery_comment' => '注意: 为确保升级成功，请不要修改 SQL 语句的任何部分',
