@@ -698,9 +698,6 @@ function avatar($uid, $size = 'middle', $returnsrc = 0, $real = FALSE, $static =
 		if($avatarapi) {
 			$url = $_G['siteurl'].'avatar/';
 		} else {
-			if($avatarurl != $ucenterurl.'/data/avatar') {
-				$ucenterurl = $avatarurl;
-			}
 			$url = $ucenterurl.'/avatar.php';
 		}
 		return $returnsrc ? $url.'?uid='.$uid.'&size='.$size.($real ? '&type=real' : '').$trandom : '<img '.$src.'="'.$url.'?uid='.$uid.'&size='.$size.($real ? '&type=real' : '').$trandom.'" class="'.$defaultclass.($class ? ' '.$class : '').'"'.($extra ? ' '.$extra : '').'>';
