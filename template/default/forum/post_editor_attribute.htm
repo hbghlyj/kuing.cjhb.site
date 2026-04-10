@@ -87,6 +87,16 @@
 			<!--{if $_G['group']['allowposttag']}-->
 				<div id="extra_tag_c" class="exfm cl" style="display: none;">
 					<!--{template forum/tag_input}-->
+					<!--{eval $recent_use_tag = recent_use_tag($_G['fid']);}-->
+					<!--{if $recent_use_tag}-->
+						<p id="recent_tags" class="mtn">{lang recent_use_tag}&nbsp;
+							<!--{eval $tagi = 0;}-->
+							<!--{loop $recent_use_tag $var}-->
+								<!--{if $tagi}-->, <!--{/if}--><a class="xi2" onclick="addKeyword('$var')">$var</a>
+								<!--{eval $tagi++;}-->
+							<!--{/loop}-->
+						</p>
+					<!--{/if}-->
 				</div>
                 <script>showExtra('extra_tag')</script>
 			<!--{/if}-->
