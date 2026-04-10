@@ -140,13 +140,11 @@ function daddslashes($string, $force = 1) {
 	if(is_array($string)) {
 		$result = [];
 		foreach($string as $key => $val) {
-			$result[addslashes($key)] = daddslashes($val, $force);
+			$result[addslashes($key)] = is_array($val) ? daddslashes($val, $force) : ($val ? addslashes($val) : $val);
 		}
 		return $result;
-	} elseif($string) {
-		return addslashes($string);
 	}
-	return $string;
+	return $string ? addslashes($string) : $string;
 }
 
 function authcode_numeric($string, $operation = 'DECODE', $key = '') {
@@ -314,22 +312,24 @@ function dfsockopen($url, $limit = 0, $post = '', $cookie = '', $bysocket = FALS
 
 function dhtmlspecialchars($string, $flags = null) {
 	if(is_array($string)) {
+		$charset = null;
 		foreach($string as $key => $val) {
-			$string[$key] = is_array($val) ? dhtmlspecialchars($val, $flags) : ($flags === null ? str_replace(['&', '"', '<', '>'], ['&amp;', '&quot;', '&lt;', '&gt;'], $val) : htmlspecialchars($val, $flags, strtolower(CHARSET) == 'utf-8' ? 'UTF-8' : 'ISO-8859-1'));
+			if(is_array($val)) {
+				$string[$key] = dhtmlspecialchars($val, $flags);
+			} elseif($flags === null) {
+				$string[$key] = str_replace(['&', '"', '<', '>'], ['&amp;', '&quot;', '&lt;', '&gt;'], $val);
+			} else {
+				$charset = $charset ?: (strtolower(CHARSET) == 'utf-8' ? 'UTF-8' : 'ISO-8859-1');
+				$string[$key] = htmlspecialchars($val, $flags, $charset);
+			}
 		}
 		return $string;
-	} else {
-		if($flags === null) {
-			return str_replace(['&', '"', '<', '>'], ['&amp;', '&quot;', '&lt;', '&gt;'], $string);
-		} else {
-			if(strtolower(CHARSET) == 'utf-8') {
-				$charset = 'UTF-8';
-			} else {
-				$charset = 'ISO-8859-1';
-			}
-			return htmlspecialchars($string, $flags, $charset);
-		}
 	}
+	if($flags === null) {
+		return str_replace(['&', '"', '<', '>'], ['&amp;', '&quot;', '&lt;', '&gt;'], $string);
+	}
+	$charset = strtolower(CHARSET) == 'utf-8' ? 'UTF-8' : 'ISO-8859-1';
+	return htmlspecialchars($string, $flags, $charset);
 }
 
 function dexit($message = '') {
