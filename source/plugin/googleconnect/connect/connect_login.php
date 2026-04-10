@@ -11,8 +11,18 @@ if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
-define('GOOGLE_ATYPE', 4);
 define('GOOGLECONNECT_PENDING_TTL', 600);
+
+require_once DISCUZ_ROOT.'./source/class/class_account.php';
+require_once DISCUZ_ROOT.'./source/class/account/account_base.php';
+
+$googleAtype = account_base::getAccountType('googleconnect');
+if($googleAtype === false) {
+	$googleAtype = account_base::registerAccount('googleconnect');
+}
+if($googleAtype === false) {
+	showmessage('undefined_action');
+}
 
 $op = !empty($_GET['op']) ? $_GET['op'] : '';
 if(!in_array($op, ['init', 'callback', 'change', 'resolve'])) {
@@ -116,9 +126,10 @@ $fetchMemberFromArchiveAware = static function($uid) {
 };
 
 $bindAccount = static function($uid, $gsub, $gmail) {
+	global $googleAtype;
 	C::t('common_member_account')->insert([
 		'uid' => $uid,
-		'atype' => GOOGLE_ATYPE,
+		'atype' => $googleAtype,
 		'account' => $gsub,
 		'bindname' => $gmail,
 	], false, true, true);
@@ -211,7 +222,7 @@ if($op === 'resolve') {
 		showmessage($pluginLang('googleconnect_resolve_expired'), $_G['siteurl']);
 	}
 
-	$accountRow = C::t('common_member_account')->fetch_by_account($pending['gsub'], GOOGLE_ATYPE);
+	$accountRow = C::t('common_member_account')->fetch_by_account($pending['gsub'], $googleAtype);
 	if($accountRow) {
 		$member = $fetchMemberFromArchiveAware($accountRow['uid']);
 		require_once libfile('function/member');
@@ -304,9 +315,9 @@ $username = $payload['name'];
 if($op == 'callback') {
 	global $_G;
 
-	$accountRow = C::t('common_member_account')->fetch_by_account($gsub, GOOGLE_ATYPE);
+	$accountRow = C::t('common_member_account')->fetch_by_account($gsub, $googleAtype);
 	if(!$accountRow && $_G['uid']) {
-		$user = C::t('common_member_account')->fetch_by_uid($_G['uid'], GOOGLE_ATYPE);
+		$user = C::t('common_member_account')->fetch_by_uid($_G['uid'], $googleAtype);
 		if($user) {
 			showmessage('account_bind_exists', $referer);
 		}
