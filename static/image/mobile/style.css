@@ -976,7 +976,7 @@ body.pg_logging, body.pg_register, body.pg_lostpasswd_mobile, body.pg_lostpasswd
 .plc .pi {margin-top:5px;padding:10px 0;position:relative}
 .plc .pi .authi {margin-left:45px;margin-bottom:10px;position:relative}
 .plc .pi .authi li.mtit {height:18px;line-height:16px;padding-top:2px;overflow:hidden}
-.plc .pi .authi li span.z, .plc .pi .authi li span.z a {font-size:14px;color:var(--dz-FC-color)}
+.plc .pi .authi li span.z, .plc .pi .authi li span.z a {font-size:14px}
 .plc .pi .authi li span.y {float:right;color:var(--dz-FC-999)}
 .plc .pi .authi li.mtime {height:16px;line-height:16px;color:var(--dz-FC-999);overflow:hidden}
 .plc .pi .authi li.mtime span {float:right;font-size:12px}
