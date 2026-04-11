@@ -991,7 +991,7 @@ body.pg_logging, body.pg_register, body.pg_lostpasswd_mobile, body.pg_lostpasswd
 i.pstatus {display:block;font-size:12px;text-align:center;color:#999}
 .plc .pi .message .jammer {font-size:12px;color:var(--dz-BG-0)}
 .plc .pi .message  hr.l { height: 1px; border: none; background: var(--dz-BOR-ed); color:var(--dz-BOR-ed)}
-.plc .pi .message img, .plc .pi .img_one img {max-width:100%;border-radius:4px}
+.plc .pi .message img, .plc .pi .img_one img {max-width:100%}
 .message img[smilieid] {vertical-align:text-bottom}
 .plc .pi .img_list {margin:0 auto}
 .plc .pi .img_list li {width:100%;text-align:center;vertical-align:middle}
