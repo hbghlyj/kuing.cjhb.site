@@ -988,6 +988,7 @@ body.pg_logging, body.pg_register, body.pg_lostpasswd_mobile, body.pg_lostpasswd
 .plc .pione .authi {margin-left:45px}
 .plc .pi .message {line-height:26px;font-size:16px}
 .message a:link,.message a:visited,.message a:hover {color:#0086CE;text-decoration:underline}
+i.pstatus {display:block;font-size:12px;text-align:center;color:#999}
 .plc .pi .message .jammer {font-size:12px;color:var(--dz-BG-0)}
 .plc .pi .message  hr.l { height: 1px; border: none; background: var(--dz-BOR-ed); color:var(--dz-BOR-ed)}
 .plc .pi .message img, .plc .pi .img_one img {margin:6px 0;max-width:100%;border-radius:4px}
