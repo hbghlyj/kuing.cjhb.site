@@ -4,13 +4,24 @@ define('IN_DISCUZ', true);
 define('DISCUZ_ROOT', dirname(__DIR__).'/');
 define('DISCUZ_DATA', DISCUZ_ROOT.'data/');
 define('TIMESTAMP', time());
+define('CHARSET', 'utf-8');
+define('IS_ROBOT', false);
 
 $_G = [
+	'member' => [
+		'timeoffset' => 9999,
+	],
 	'setting' => [
+		'dateconvert' => 0,
+		'dateformat' => 'Y-n-j',
+		'timeformat' => 'H:i',
 		'timeoffset' => 0,
 	],
 ];
 
+$_SERVER['HTTP_ACCEPT_LANGUAGE'] = $_SERVER['HTTP_ACCEPT_LANGUAGE'] ?? 'zh-CN';
+
+require_once DISCUZ_ROOT.'source/class/class_i18n.php';
 require_once DISCUZ_ROOT.'source/function/function_core.php';
 require_once DISCUZ_ROOT.'source/class/helper/helper_log.php';
 
