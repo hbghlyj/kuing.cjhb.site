@@ -4,27 +4,31 @@ define('IN_DISCUZ', true);
 define('DISCUZ_ROOT', dirname(__DIR__).'/');
 define('DISCUZ_DATA', DISCUZ_ROOT.'data/');
 define('TIMESTAMP', time());
-define('CHARSET', 'utf-8');
-define('IS_ROBOT', false);
-define('MITFRAME_APP', '');
 
 $_G = [
-	'member' => [
-		'timeoffset' => 9999,
-	],
 	'setting' => [
-		'dateconvert' => 0,
-		'dateformat' => 'Y-n-j',
-		'timeformat' => 'H:i',
 		'timeoffset' => 0,
 	],
 ];
 
-$_SERVER['HTTP_ACCEPT_LANGUAGE'] = $_SERVER['HTTP_ACCEPT_LANGUAGE'] ?? 'zh-CN';
+function dgmdate($timestamp, $format = 'dt', $timeoffset = 9999, $uformat = '') {
+	$timestamp = intval($timestamp);
+	$timeoffset = $timeoffset == 9999 ? 0 : intval($timeoffset);
+	return gmdate($format, $timestamp + $timeoffset * 3600);
+}
 
-require_once DISCUZ_ROOT.'source/class/class_i18n.php';
-require_once DISCUZ_ROOT.'source/function/function_core.php';
+function dmkdir($dir, $mode = 0777, $makeindex = true) {
+	if(is_dir($dir)) {
+		return true;
+	}
+	return mkdir($dir, $mode, true);
+}
+
 require_once DISCUZ_ROOT.'source/class/helper/helper_log.php';
+
+function writelog($file, $log) {
+	helper_log::writelog($file, $log);
+}
 
 function test_writelog_process_user() {
 	if(function_exists('posix_geteuid') && function_exists('posix_getpwuid')) {
