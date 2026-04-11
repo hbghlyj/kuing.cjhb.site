@@ -1026,7 +1026,7 @@ class discuz_application extends discuz_base {
 			dsetcookie('mobile', '');
 		} elseif(isset($this->var['cookie']['mobile']) && $this->var['cookie']['mobile'] == 'no') {
 			$nomobile = true;
-		} elseif(!$mobile_) {
+		} elseif(!$mobile_ && !$mobileflag) {
 			$nomobile = true;
 		}
 		if(!$mobile || $mobile == 'yes') {
