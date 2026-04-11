@@ -37,12 +37,6 @@ if(!((!$_G['forum']['replyperm'] && $_G['group']['allowreply']) || ($_G['forum']
 			showmessagenoperm('replyperm', $_G['forum']['fid']);
 		}
 	}
-} elseif(empty($_G['forum']['allowreply'])) {
-	if(!$_G['forum']['replyperm'] && !$_G['group']['allowreply']) {
-		showmessage('replyperm_none_nopermission', NULL, [], ['login' => 1]);
-	} elseif($_G['forum']['replyperm'] && !forumperm($_G['forum']['replyperm'])) {
-		showmessagenoperm('replyperm', $_G['forum']['fid']);
-	}
 } elseif($_G['forum']['allowreply'] == -1) {
 	showmessage('post_forum_newreply_nopermission', NULL);
 }
