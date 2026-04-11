@@ -18,19 +18,17 @@ if(($special == 1 && !$_G['group']['allowpostpoll']) || ($special == 2 && !$_G['
 	showmessage('group_nopermission', NULL, ['grouptitle' => $_G['group']['grouptitle']], ['login' => 1]);
 }
 
-if(!((!$_G['forum']['postperm'] && $_G['group']['allowpost']) || ($_G['forum']['postperm'] && forumperm($_G['forum']['postperm'])))) {
+if($_G['forum']['postperm'] ? !forumperm($_G['forum']['postperm']) : !$_G['group']['allowpost']) {
 	if(!$_G['uid']) {
 		if(!defined('IN_MOBILE')) {
 			showmessage('postperm_login_nopermission', NULL, [], ['login' => 1]);
 		} else {
 			showmessage('postperm_login_nopermission_mobile', NULL, ['referer' => rawurlencode(dreferer())], ['login' => 1]);
 		}
+	} elseif(!$_G['forum']['postperm']) {
+		showmessage('postperm_none_nopermission', NULL, [], ['login' => 1]);
 	} else {
-		if(!$_G['forum']['postperm'] && !$_G['group']['allowpost']) {
-			showmessage('postperm_none_nopermission', NULL, [], ['login' => 1]);
-		} elseif($_G['forum']['postperm'] && !forumperm($_G['forum']['postperm'])) {
-			showmessagenoperm('postperm', $_G['fid'], $_G['forum']['formulaperm']);
-		}
+		showmessagenoperm('postperm', $_G['fid'], $_G['forum']['formulaperm']);
 	}
 } elseif($_G['forum']['allowpost'] == -1) {
 	showmessage('post_forum_newthread_nopermission', NULL);
