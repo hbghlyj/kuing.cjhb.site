@@ -75,7 +75,7 @@
 	<!--{if !empty($_G['setting']['githubconnect_allow']) && !empty($_G['setting']['githubconnect_clientid']) && !empty($_G['setting']['githubconnect_clientsecret'])}-->
 		<!--{eval $githubconnect_mobile_referer = dreferer() ? dreferer() : 'forum.php?mobile=2';}-->
 		<div class="btn_login">
-			<a href="plugin.php?id=githubconnect:oauth&op=init&referer={echo rawurlencode($githubconnect_mobile_referer);}" class="pn"><span>{echo lang('plugin/githubconnect', 'githubconnect_login_button');}</span></a>
+			<a href="plugin.php?id=githubconnect:oauth&op=init&referer={echo rawurlencode($githubconnect_mobile_referer);}" class="pn github-login"><span class="github-login-text">{echo lang('plugin/githubconnect', 'githubconnect_login_button');}</span></a>
 		</div>
 	<!--{/if}-->
 	<!--{if $_G['setting']['regstatus']}-->
