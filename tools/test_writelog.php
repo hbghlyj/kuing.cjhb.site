@@ -6,6 +6,7 @@ define('DISCUZ_DATA', DISCUZ_ROOT.'data/');
 define('TIMESTAMP', time());
 define('CHARSET', 'utf-8');
 define('IS_ROBOT', false);
+define('MITFRAME_APP', '');
 
 $_G = [
 	'member' => [
