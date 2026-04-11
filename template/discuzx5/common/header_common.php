@@ -70,7 +70,6 @@
 	<!--{if !isset($topic)}--><!--{eval $topic = array();}--><!--{/if}-->
 	<style>
 	<!--{if !$_G['style']['top_nav_widthauto']}-->
-	.dz_btm_layer{width: 1200px;margin: 0 auto;}
 	.dz_btm_layer .dz_layer_nav{width: 609px;}
 	.dz_btm_layer .header-searcher .search-input,
 	.dz_btm_layer .header-searcher .ais-SearchBox-input,

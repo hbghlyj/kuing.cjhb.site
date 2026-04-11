@@ -418,7 +418,7 @@ img{border:none;}
 .dz_layer_dl{float:right;}
 .dz_layer_top{background:var(--dz-bgf);box-shadow:0px 2px 20px 0px rgba(0,0,0,.05);}
 .topbox{position: sticky;top: 0;left: 0;z-index: 199;width: 100%;}
-.dz_btm_layer{padding: 0 20px;min-width:1200px;height:73px;}
+.dz_btm_layer{padding: 0 20px;height:73px;}
 .dz_layer_nav{float:left;width:709px;height:73px;overflow:hidden;}
 .dz_layer_nav ul li{float:left;}
 .dz_layer_nav ul li a{display:inline-block;margin-right:25px;height:73px;line-height:73px;color:var(--dz-alink);font-size:16px;text-align:center;position:relative;font-weight:400;}
