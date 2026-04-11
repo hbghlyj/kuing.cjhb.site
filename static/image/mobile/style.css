@@ -992,6 +992,7 @@ i.pstatus {display:block;font-size:12px;text-align:center;color:#999}
 .plc .pi .message .jammer {font-size:12px;color:var(--dz-BG-0)}
 .plc .pi .message  hr.l { height: 1px; border: none; background: var(--dz-BOR-ed); color:var(--dz-BOR-ed)}
 .plc .pi .message img, .plc .pi .img_one img {margin:6px 0;max-width:100%;border-radius:4px}
+.message img[smilieid] {vertical-align:text-bottom}
 .plc .pi .img_list {margin:0 auto}
 .plc .pi .img_list li {width:100%;text-align:center;vertical-align:middle}
 .plc .pi .img_list li a {display:block}
