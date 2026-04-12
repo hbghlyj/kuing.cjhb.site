@@ -19,9 +19,10 @@ if(($special == 1 && !$_G['group']['allowpostpoll']) || ($special == 2 && !$_G['
 }
 
 $_G['forum']['allowpost'] = $_G['forum']['allowpost'] ?? '';
+$haspostperm = $_G['forum']['postperm'] && forumperm($_G['forum']['postperm']);
 $allowpost = $_G['forum']['allowpost'] != -1 && (
 	(!$_G['forum']['postperm'] && $_G['group']['allowpost']) ||
-	($_G['forum']['postperm'] && forumperm($_G['forum']['postperm'])) ||
+	$haspostperm ||
 	($_G['forum']['allowpost'] == 1 && $_G['group']['allowpost'])
 );
 
@@ -36,7 +37,7 @@ if(!$_G['uid'] && !$allowpost) {
 		showmessage('post_forum_newthread_nopermission', NULL);
 	} elseif(!$_G['forum']['postperm'] && !$_G['group']['allowpost']) {
 		showmessage('postperm_none_nopermission', NULL, [], ['login' => 1]);
-	} elseif($_G['forum']['postperm'] && !forumperm($_G['forum']['postperm'])) {
+	} elseif($_G['forum']['postperm'] && !$haspostperm) {
 		showmessagenoperm('postperm', $_G['fid'], $_G['forum']['formulaperm']);
 	} else {
 		showmessage('postperm_none_nopermission', NULL, [], ['login' => 1]);

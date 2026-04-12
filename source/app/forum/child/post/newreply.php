@@ -28,9 +28,10 @@ if($special == 5) {
 }
 
 $_G['forum']['allowreply'] = $_G['forum']['allowreply'] ?? '';
+$hasreplyperm = $_G['forum']['replyperm'] && forumperm($_G['forum']['replyperm']);
 $allowreply = $_G['forum']['allowreply'] != -1 && (
 	(!$_G['forum']['replyperm'] && $_G['group']['allowreply']) ||
-	($_G['forum']['replyperm'] && forumperm($_G['forum']['replyperm'])) ||
+	$hasreplyperm ||
 	($_G['forum']['allowreply'] == 1 && $_G['group']['allowreply'])
 );
 
@@ -41,7 +42,7 @@ if(!$_G['uid'] && !$allowreply) {
 		showmessage('post_forum_newreply_nopermission', NULL);
 	} elseif(!$_G['forum']['replyperm'] && !$_G['group']['allowreply']) {
 		showmessage('replyperm_none_nopermission', NULL, [], ['login' => 1]);
-	} elseif($_G['forum']['replyperm'] && !forumperm($_G['forum']['replyperm'])) {
+	} elseif($_G['forum']['replyperm'] && !$hasreplyperm) {
 		showmessagenoperm('replyperm', $_G['forum']['fid']);
 	} else {
 		showmessage('replyperm_none_nopermission', NULL, [], ['login' => 1]);
