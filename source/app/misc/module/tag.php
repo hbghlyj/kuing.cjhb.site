@@ -24,6 +24,10 @@ if($op === 'search') {
 
 if($op === 'manage') {
 	lang('forum/template');
+	$_G['tid'] = intval(getgpc('tid'));
+	if($_G['tid']) {
+		$_G['thread'] = table_forum_thread::t()->fetch_thread($_G['tid']);
+	}
 	$file = appfile('child/tag/manage', 'misc');
 	if(!$file || !file_exists($file)) {
 		showmessage('undefined_action');
@@ -34,6 +38,10 @@ if($op === 'manage') {
 }
 
 if($op === 'set') {
+	$_G['tid'] = intval(getgpc('tid'));
+	if($_G['tid']) {
+		$_G['thread'] = table_forum_thread::t()->fetch_thread($_G['tid']);
+	}
 	$file = appfile('child/tag/set', 'misc');
 	if(!$file || !file_exists($file)) {
 		showmessage('undefined_action');
