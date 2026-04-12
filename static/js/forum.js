@@ -461,7 +461,12 @@ function checkForumnew(fid, lasttime) {
 	var x = new Ajax();
 	x.get('forum.php?mod=ajax&action=forumchecknew&fid=' + fid + '&time=' + lasttime + '&inajax=yes', function(s){
 		if(s > 0) {
-			var table = $('separatorline').parentNode;
+			var separatorline = $('separatorline');
+			var table = separatorline ? separatorline.parentNode : $('forum_' + fid);
+			if(!table) {
+				checkForumnew_handle = setTimeout(function () {checkForumnew(fid, lasttime);}, timeout);
+				return;
+			}
 			if(!isUndefined(checkForumnew_handle)) {
 				clearTimeout(checkForumnew_handle);
 			}
