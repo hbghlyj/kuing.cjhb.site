@@ -37,13 +37,15 @@ $allowreply = $_G['forum']['allowreply'] != -1 && (
 if(!$_G['uid'] && !$allowreply) {
 	showmessage('replyperm_login_nopermission', NULL, [], ['login' => 1]);
 } elseif(!$allowreply) {
-	if(!$_G['forum']['replyperm'] && !$_G['group']['allowreply']) {
+	if($_G['forum']['allowreply'] == -1) {
+		showmessage('post_forum_newreply_nopermission', NULL);
+	} elseif(!$_G['forum']['replyperm'] && !$_G['group']['allowreply']) {
 		showmessage('replyperm_none_nopermission', NULL, [], ['login' => 1]);
 	} elseif($_G['forum']['replyperm'] && !forumperm($_G['forum']['replyperm'])) {
 		showmessagenoperm('replyperm', $_G['forum']['fid']);
+	} else {
+		showmessage('replyperm_none_nopermission', NULL, [], ['login' => 1]);
 	}
-} elseif($_G['forum']['allowreply'] == -1) {
-	showmessage('post_forum_newreply_nopermission', NULL);
 }
 
 if(!$_G['uid'] && ($_G['setting']['need_avatar'] || $_G['setting']['need_secmobile'] || $_G['setting']['need_email'] || $_G['setting']['need_friendnum'])) {

@@ -32,13 +32,15 @@ if(!$_G['uid'] && !$allowpost) {
 		showmessage('postperm_login_nopermission_mobile', NULL, ['referer' => rawurlencode(dreferer())], ['login' => 1]);
 	}
 } elseif(!$allowpost) {
-	if(!$_G['forum']['postperm'] && !$_G['group']['allowpost']) {
+	if($_G['forum']['allowpost'] == -1) {
+		showmessage('post_forum_newthread_nopermission', NULL);
+	} elseif(!$_G['forum']['postperm'] && !$_G['group']['allowpost']) {
 		showmessage('postperm_none_nopermission', NULL, [], ['login' => 1]);
 	} elseif($_G['forum']['postperm'] && !forumperm($_G['forum']['postperm'])) {
 		showmessagenoperm('postperm', $_G['fid'], $_G['forum']['formulaperm']);
+	} else {
+		showmessage('postperm_none_nopermission', NULL, [], ['login' => 1]);
 	}
-} elseif($_G['forum']['allowpost'] == -1) {
-	showmessage('post_forum_newthread_nopermission', NULL);
 }
 
 if(!$_G['uid'] && ($_G['setting']['need_avatar'] || $_G['setting']['need_secmobile'] || $_G['setting']['need_email'] || $_G['setting']['need_friendnum'])) {
