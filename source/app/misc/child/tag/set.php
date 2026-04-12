@@ -15,4 +15,4 @@ if($_GET['formhash'] != FORMHASH || !$_G['group']['allowmanagetag']) {
 }
 $class_tag = new tag();
 $tagstr = $class_tag->update_field($_GET['tags'], intval($_GET['tid']), 'tid', $_G['thread']);
-table_forum_post::t()->update_by_tid('tid:'.intval($_GET['tid']), intval($_GET['tid']), ['tags' => $tagstr], false, false, 1);
+table_forum_thread::t()->update(intval($_GET['tid']), ['tags' => $tagstr]);
