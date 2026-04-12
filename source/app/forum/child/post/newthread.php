@@ -27,11 +27,9 @@ $allowpost = $_G['forum']['allowpost'] != -1 && (
 );
 
 if(!$_G['uid'] && !$allowpost) {
-	if(!defined('IN_MOBILE')) {
-		showmessage('postperm_login_nopermission', NULL, [], ['login' => 1]);
-	} else {
-		showmessage('postperm_login_nopermission_mobile', NULL, ['referer' => rawurlencode(dreferer())], ['login' => 1]);
-	}
+	$loginMessage = defined('IN_MOBILE') ? 'postperm_login_nopermission_mobile' : 'postperm_login_nopermission';
+	$loginVars = defined('IN_MOBILE') ? ['referer' => rawurlencode(dreferer())] : [];
+	showmessage($loginMessage, NULL, $loginVars, ['login' => 1]);
 } elseif(!$allowpost) {
 	if($_G['forum']['allowpost'] == -1) {
 		showmessage('post_forum_newthread_nopermission', NULL);
