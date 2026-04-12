@@ -20,7 +20,7 @@ if ($count_result) {
     $total_rows = $count_result->fetch_assoc()['total'];
 }
 
-$sql = "SELECT DATE_FORMAT(time, '%Y-%m-%dT%TZ') as ISO8601, uid, author, message FROM chat ORDER BY time DESC LIMIT ? OFFSET ?";
+$sql = "SELECT UNIX_TIMESTAMP(time) as published_ts, uid, author, message FROM chat ORDER BY time DESC LIMIT ? OFFSET ?";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("ii", $limit, $offset);
 $stmt->execute();
@@ -31,7 +31,7 @@ if ($result->num_rows > 0) {
     while($row = $result->fetch_assoc()) {
         $rows[] = array(
             'body' => $row['message'],
-            'published' => $row['ISO8601'],
+            'published' => gmdate('Y-m-d\TH:i:s\Z', (int)$row['published_ts']),
             'actor' => array(
                 'displayName' => $row['author'],
                 'image' => avatar($row['uid'], 'small', 1)

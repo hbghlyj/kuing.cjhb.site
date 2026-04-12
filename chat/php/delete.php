@@ -17,6 +17,12 @@ if(empty($_G['uid'])) {
 }
 
 $published_time = $_POST['published_time'];
+$published_timestamp = strtotime($published_time);
+if($published_timestamp === false) {
+    header("HTTP/1.0 400 Bad Request");
+    echo('published_time is invalid');
+    exit;
+}
 
 $conn = new mysqli($_config['db'][1]['dbhost'], $_config['db'][1]['dbuser'], $_config['db'][1]['dbpw'], $_config['db'][1]['dbname']);
 
@@ -27,8 +33,8 @@ if ($conn->connect_error) {
     exit;
 }
 
-$stmt = $conn->prepare("DELETE FROM chat WHERE time = CONVERT_TZ(STR_TO_DATE(?, '%Y-%m-%dT%TZ'), '+00:00', @@session.time_zone) AND author = ?");
-$stmt->bind_param("ss", $published_time, $_G['username']);
+$stmt = $conn->prepare("DELETE FROM chat WHERE UNIX_TIMESTAMP(time) = ? AND author = ?");
+$stmt->bind_param("is", $published_timestamp, $_G['username']);
 if (!$stmt) {
     header("HTTP/1.0 500 Internal Server Error");
     error_log("Prepare statement failed: (" . $conn->errno . ") " . $conn->error);

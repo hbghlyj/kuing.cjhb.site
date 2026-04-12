@@ -11,12 +11,10 @@ class Activity {
   public function __construct($activity_type, $action_text, $options = array()) {
     
     $options = $this->set_default_options($options);
-      
-    date_default_timezone_set('UTC');
     
     $this->type = $activity_type;
     $this->id = uniqid();
-    $this->date = date('r');
+    $this->date = gmdate('Y-m-d\TH:i:s\Z');
     
     $this->action_text = $action_text;
     $this->display_name = $options['displayName'];
