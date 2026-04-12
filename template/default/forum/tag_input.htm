@@ -126,7 +126,7 @@ color: red;
 
         debounceTimeout = setTimeout(async function() {
             try {
-                const response = await fetch('forum.php?mod=tag&op=search&inajax=1&searchkey=' + encodeURIComponent(query));
+                const response = await fetch('misc.php?mod=tag&op=search&inajax=1&searchkey=' + encodeURIComponent(query));
                 const suggestions = await response.json();
 
                 if (keywordInput.value.trim() !== query) {
