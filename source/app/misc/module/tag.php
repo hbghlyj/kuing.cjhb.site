@@ -13,20 +13,32 @@ if(!defined('IN_DISCUZ')) {
 $op = in_array(getgpc('op'), ['search', 'manage', 'set']) ? getgpc('op') : '';
 
 if($op === 'search') {
-	require_once childfile('search', 'misc/tag');
+	$file = appfile('child/tag/search', 'misc');
+	if(!$file || !file_exists($file)) {
+		showmessage('undefined_action');
+	}
+	require_once $file;
 	echo json_encode(array_column($taglist ?? [], 'tagname'));
 	exit;
 }
 
 if($op === 'manage') {
 	lang('forum/template');
-	require_once childfile('manage', 'misc/tag');
+	$file = appfile('child/tag/manage', 'misc');
+	if(!$file || !file_exists($file)) {
+		showmessage('undefined_action');
+	}
+	require_once $file;
 	include template('forum/tag');
 	exit;
 }
 
 if($op === 'set') {
-	require_once childfile('set', 'misc/tag');
+	$file = appfile('child/tag/set', 'misc');
+	if(!$file || !file_exists($file)) {
+		showmessage('undefined_action');
+	}
+	require_once $file;
 	exit('1');
 }
 
