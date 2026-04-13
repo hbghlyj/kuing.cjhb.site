@@ -871,7 +871,7 @@ body .colorwd {width:36px !important;height:36px !important;line-height:36px !im
 .focus .bm_h {margin:0;padding:0 20px 10px;height:60px;line-height:60px;background:var(--dz-nvbg);color:var(--dz-ff);border:none;border-radius:var(--dz-radius-m) var(--dz-radius-m) 0 0}
 .focus .bm_h .i {padding-left:0}
 .focus .bm_h h2:before {background:var(--dz-ff)}
-.focus .bm_h a.y {margin-top:-26px;margin-right:-6px;width:24px;height:24px;line-height:24px;text-align:center;color:var(--dz-ff);opacity:0.8;overflow:hidden}
+.focus .bm_h a.y {width:40px;color:var(--dz-ff);opacity:0.8}
 .focus .bm_h a.y:before {font-family:dzicon;content:"\f116";font-size:24px}
 .focus .bm_h a.y:hover {opacity:1}
 .focus .bm_c {background:var(--dz-bgf);margin-top:-8px;border-radius:var(--dz-radius-m)}
