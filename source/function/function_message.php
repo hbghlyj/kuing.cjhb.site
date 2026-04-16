@@ -225,6 +225,9 @@ function dshowmessage($message, $url_forward = '', $values = [], $extraparam = [
 	}
 	if($handlekey) {
 		$st = '';
+		if($url_forward && $param['locationtime'] !== null) {
+			$extra .= 'if(typeof succeedhandle_'.$handlekey.'!=\'function\') {setTimeout(function () { window.location.href =\''.$url_forward_js.'\'; }, '.($param['locationtime'] * 1000).');}';
+		}
 		if($param['showdialog']) {
 			$modes = ['alert_error' => 'alert', 'alert_right' => 'right', 'alert_info' => 'notice'];
 			$extra .= 'hideWindow(\''.$handlekey.'\');showDialog(\''.$show_jsmessage.'\', \''.$modes[$alerttype].'\', null, '.($param['locationtime'] !== null ? 'function () { window.location.href =\''.$url_forward_js.'\'; }' : 'null').', 0, null, null, null, null, '.($param['closetime'] ? $param['closetime'] : 'null').', '.($param['locationtime'] ? $param['locationtime'] : 'null').');';
