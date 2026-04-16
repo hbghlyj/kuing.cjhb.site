@@ -57,6 +57,26 @@ $srhfid = intval($_GET['srhfid']);
 
 $keyword = isset($srchtxt) ? dhtmlspecialchars(trim($srchtxt)) : '';
 
+$searchtimemin = 0;
+$searchtimemax = 0;
+$hastimerange = false;
+if($srchfrom) {
+	$hastimerange = true;
+	$searchtimepoint = $srchfrom > 31536000 ? $srchfrom : TIMESTAMP - $srchfrom;
+	if($before > 1) {
+		$searchtimemin = min($searchtimepoint, $before);
+		$searchtimemax = max($searchtimepoint, $before);
+	} elseif($before) {
+		$searchtimemax = $searchtimepoint;
+	} else {
+		$searchtimemin = $searchtimepoint;
+		$searchtimemax = TIMESTAMP;
+	}
+} elseif($before > 1) {
+	$hastimerange = true;
+	$searchtimemax = $before;
+}
+
 $forumselect = forumselect();
 if(!empty($srchfid) && !is_numeric($srchfid)) {
 	$forumselect = str_replace('<option value="'.$srchfid.'">', '<option value="'.$srchfid.'" selected="selected">', $forumselect);
@@ -212,7 +232,7 @@ if(!submitcheck('searchsubmit', 1)) {
 
 			!($_G['group']['exempt'] & 2) && checklowerlimit('search');
 
-			if(!$srchtxt && !$srchuid && !$srchuname && !$srchfrom && !in_array($srchfilter, ['digest', 'top']) && !is_array($special)) {
+			if(!$srchtxt && !$srchuid && !$srchuname && !$hastimerange && !in_array($srchfilter, ['digest', 'top']) && !is_array($special)) {
 				dheader('Location: search.php?mod=forum');
 			} elseif(isset($srchfid) && !empty($srchfid) && $srchfid != 'all' && !(is_array($srchfid) && in_array('all', $srchfid)) && empty($forumsarray)) {
 				showmessage('search_forum_invalid', 'search.php?mod=forum');
@@ -245,16 +265,11 @@ if(!submitcheck('searchsubmit', 1)) {
 					$s->SetFilterRange('displayorder', 0, 2, false);
 				}
 
-				if(!empty($srchfrom) && empty($srchtxt) && empty($srchuid) && empty($srchuname)) {
+				if($hastimerange && empty($srchtxt) && empty($srchuid) && empty($srchuname)) {
 					$expiration = TIMESTAMP + $cachelife_time;
 					$keywords = '';
-					if($before) {
-						$spx_timemix = 0;
-						$spx_timemax = TIMESTAMP - $srchfrom;
-					} else {
-						$spx_timemix = TIMESTAMP - $srchfrom;
-						$spx_timemax = TIMESTAMP;
-					}
+					$spx_timemix = $searchtimemin;
+					$spx_timemax = $searchtimemax ?: TIMESTAMP;
 				} else {
 					$uids = [];
 					if($srchuname) {
@@ -293,15 +308,8 @@ if(!submitcheck('searchsubmit', 1)) {
 						$sqlsrch .= " AND ($sqltxtsrch)";
 					}
 
-					if(!empty($srchfrom)) {
-						if($before) {
-							$spx_timemix = 0;
-							$spx_timemax = TIMESTAMP - $srchfrom;
-						} else {
-							$spx_timemix = TIMESTAMP - $srchfrom;
-							$spx_timemax = TIMESTAMP;
-						}
-						$s->SetFilterRange('lastpost', $spx_timemix, $spx_timemax, false);
+					if($hastimerange) {
+						$s->SetFilterRange('lastpost', $searchtimemin, $searchtimemax ?: TIMESTAMP, false);
 					}
 					if(!empty($specials)) {
 						$s->SetFilter('special', explode(',', $special), false);
@@ -337,11 +345,15 @@ if(!submitcheck('searchsubmit', 1)) {
 				$digestltd = $srchfilter == 'digest' ? "t.digest>'0' AND" : '';
 				$topltd = $srchfilter == 'top' ? "AND t.displayorder>'0'" : "AND t.displayorder>='0'";
 
-				if(!empty($srchfrom) && empty($srchtxt) && empty($srchuid) && empty($srchuname)) {
+				if($hastimerange && empty($srchtxt) && empty($srchuid) && empty($srchuname)) {
 
-					$searchfrom = $before ? '<=' : '>=';
-					$searchfrom .= TIMESTAMP - $srchfrom;
-					$sqlsrch = 'FROM '.DB::table('forum_thread')." t WHERE $digestltd t.fid IN ($fids) $topltd AND t.lastpost$searchfrom";
+					$sqlsrch = 'FROM '.DB::table('forum_thread')." t WHERE $digestltd t.fid IN ($fids) $topltd";
+					if($searchtimemin) {
+						$sqlsrch .= " AND t.lastpost>='$searchtimemin'";
+					}
+					if($searchtimemax) {
+						$sqlsrch .= " AND t.lastpost<='$searchtimemax'";
+					}
 					$expiration = TIMESTAMP + $cachelife_time;
 					$keywords = '';
 
@@ -368,9 +380,13 @@ if(!submitcheck('searchsubmit', 1)) {
 						$sqlsrch .= ' AND '.($srchtype == 'fulltext' ? 'p' : 't').'.authorid IN ('.dimplode((array)$srchuid).')';
 					}
 
-					if(!empty($srchfrom)) {
-						$searchfrom = ($before ? '<=' : '>=').(TIMESTAMP - $srchfrom);
-						$sqlsrch .= " AND t.lastpost$searchfrom";
+					if($hastimerange) {
+						if($searchtimemin) {
+							$sqlsrch .= " AND t.lastpost>='$searchtimemin'";
+						}
+						if($searchtimemax) {
+							$sqlsrch .= " AND t.lastpost<='$searchtimemax'";
+						}
 					}
 
 					if(!empty($specials)) {
