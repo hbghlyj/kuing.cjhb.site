@@ -23,7 +23,7 @@ var tid = getID('tid').value;
 tags = BROWSER.ie && document.charset == 'utf-8' ? encodeURIComponent(tags) : tags;
 var url = 'misc.php?mod=tag&op=set&inajax=1&tags='+tags+'&tid='+tid+'&formhash={FORMHASH}';
 var x = new Ajax();
-x.get(url, function(s){
+x.getHTML(url, function(s){
 if(s) {
 hideWindow('$_GET[handlekey]');
 window.location.reload();
