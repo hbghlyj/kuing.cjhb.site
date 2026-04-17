@@ -1,3 +1,14 @@
+const appendMathJaxSizeOverride = () => {
+  if(document.getElementById('kk-mathjax-size-override')) {
+    return;
+  }
+  const style = document.createElement('style');
+  style.id = 'kk-mathjax-size-override';
+  style.textContent = 'mjx-container [size="s"] { font-size: 80% !important; }'
+    + 'mjx-container [size="ss"] { font-size: 64% !important; }';
+  document.head.appendChild(style);
+};
+
 window.MathJax = {
   tex: {
     inlineMath: [ ['$','$'], ['`','`'], ["\\(","\\)"] ],
@@ -52,15 +63,10 @@ window.MathJax = {
   startup: {
     ready() {
       MathJax.startup.defaultReady();
-      MathJax.startup.promise.finally(() => {
-        if(document.getElementById('kk-mathjax-size-override')) {
-          return;
-        }
-        const style = document.createElement('style');
-        style.id = 'kk-mathjax-size-override';
-        style.textContent = 'mjx-container [size="s"] { font-size: 80% !important; }'
-          + 'mjx-container [size="ss"] { font-size: 64% !important; }';
-        document.head.appendChild(style);
+    },
+    pageReady() {
+      return MathJax.startup.defaultPageReady().finally(() => {
+        appendMathJaxSizeOverride();
       });
     }
   },
