@@ -9,6 +9,32 @@ const appendMathJaxSizeOverride = () => {
   document.head.appendChild(style);
 };
 
+const ensureMathJaxSizeOverride = () => {
+  if(!document.getElementById('MJX-CHTML-styles')) {
+    return false;
+  }
+  appendMathJaxSizeOverride();
+  return true;
+};
+
+const watchMathJaxSizeOverride = () => {
+  if(ensureMathJaxSizeOverride()) {
+    return;
+  }
+  const target = document.head || document.documentElement;
+  if(!target) {
+    return;
+  }
+  const observer = new MutationObserver(() => {
+    if(ensureMathJaxSizeOverride()) {
+      observer.disconnect();
+    }
+  });
+  observer.observe(target, { childList: true, subtree: true });
+};
+
+watchMathJaxSizeOverride();
+
 window.MathJax = {
   tex: {
     inlineMath: [ ['$','$'], ['`','`'], ["\\(","\\)"] ],
@@ -59,16 +85,6 @@ window.MathJax = {
       colorv2: ['color']
     },
     packages: {'[+]': ['noerrors','mathtools','xypic']}
-  },
-  startup: {
-    ready() {
-      MathJax.startup.defaultReady();
-    },
-    pageReady() {
-      return MathJax.startup.defaultPageReady().finally(() => {
-        appendMathJaxSizeOverride();
-      });
-    }
   },
   options: {
     ignoreHtmlClass: 'blockcode',
