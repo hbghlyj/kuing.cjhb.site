@@ -1,4 +1,4 @@
-<script src="/kk/mathjax-config.js?<?= $_G['style']['verhash']?>"></script>
+<script src="/kk/mathjax-config.js?<?= filemtime(__DIR__ . '/mathjax-config.js')?>"></script>
 <script>
   window.MathJax.startup = {
     ready: function() {
