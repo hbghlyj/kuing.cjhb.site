@@ -51,13 +51,17 @@ window.MathJax = {
   },
   startup: {
     ready() {
-      const math = MathJax._.core.MmlTree.MmlNodes.math.MmlMath;
-      const mstyle = MathJax._.core.MmlTree.MmlNodes.mstyle.MmlMstyle;
-      math.defaults.scriptminsize = '12px';
-      math.defaults.scriptsizemultiplier = 0.8;
-      mstyle.defaults.scriptminsize = '12px';
-      mstyle.defaults.scriptsizemultiplier = 0.8;
       MathJax.startup.defaultReady();
+      MathJax.startup.promise.then(() => {
+        if(document.getElementById('kk-mathjax-size-override')) {
+          return;
+        }
+        const style = document.createElement('style');
+        style.id = 'kk-mathjax-size-override';
+        style.textContent = 'mjx-container [size="s"] { font-size: 80% !important; }'
+          + 'mjx-container [size="ss"] { font-size: 64% !important; }';
+        document.head.appendChild(style);
+      });
     }
   },
   options: {
