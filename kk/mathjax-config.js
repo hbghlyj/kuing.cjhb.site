@@ -52,7 +52,7 @@ window.MathJax = {
   startup: {
     ready() {
       MathJax.startup.defaultReady();
-      MathJax.startup.promise.then(() => {
+      MathJax.startup.promise.finally(() => {
         if(document.getElementById('kk-mathjax-size-override')) {
           return;
         }
