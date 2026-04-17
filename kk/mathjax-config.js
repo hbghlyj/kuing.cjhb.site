@@ -101,6 +101,9 @@ window.MathJax = {
   svg: {
     fontCache: 'global'
   },
+  chtml: {
+    matchFontHeight: false
+  },
   output: {
     displayOverflow: 'scroll',
     mtextInheritFont: true,
