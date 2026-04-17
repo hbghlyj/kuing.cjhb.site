@@ -6,7 +6,22 @@
   window.MathJax.startup = {
     ready: function() {
       const {OPTABLE, MO} = MathJax._.core.MmlTree.OperatorDictionary;
+      const {MmlMath} = MathJax._.core.MmlTree.MmlNodes.math;
+      const {MmlMstyle} = MathJax._.core.MmlTree.MmlNodes.mstyle;
+      const {FONTSIZE} = MathJax._.output.chtml.Wrapper;
+      const {CHTML} = MathJax._.output.chtml_ts;
       OPTABLE.infix['\u27C2'] = MO.REL;
+      MmlMath.defaults.scriptminsize = '0px';
+      MmlMath.defaults.scriptsizemultiplier = 0.8;
+      MmlMstyle.defaults.scriptminsize = '0px';
+      MmlMstyle.defaults.scriptsizemultiplier = 0.8;
+      delete FONTSIZE['70.7%'];
+      delete FONTSIZE['70%'];
+      delete FONTSIZE['50%'];
+      FONTSIZE['80%'] = 's';
+      FONTSIZE['64%'] = 'ss';
+      CHTML.commonStyles['mjx-container [size="s"]']['font-size'] = '80%';
+      CHTML.commonStyles['mjx-container [size="ss"]']['font-size'] = '64%';
       <?php if(!empty($_GET['highlight'])): ?>
         const {HTMLDomStrings} = MathJax._.handlers.html.HTMLDomStrings;
         HTMLDomStrings.OPTIONS.includeHtmlTags['mark'] = '';
