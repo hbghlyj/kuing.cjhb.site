@@ -52,8 +52,11 @@ window.MathJax = {
   startup: {
     ready() {
       const math = MathJax._.core.MmlTree.MmlNodes.math.MmlMath;
+      const mstyle = MathJax._.core.MmlTree.MmlNodes.mstyle.MmlMstyle;
       math.defaults.scriptminsize = '12px';
       math.defaults.scriptsizemultiplier = 0.8;
+      mstyle.defaults.scriptminsize = '12px';
+      mstyle.defaults.scriptsizemultiplier = 0.8;
       MathJax.startup.defaultReady();
     }
   },
