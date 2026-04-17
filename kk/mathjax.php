@@ -1,3 +1,6 @@
+<script>
+  window.KK_MATHJAX_XYPIC_URL = "/static/xypic.js?v=<?= filemtime(__DIR__ . '/../static/xypic.js')?>";
+</script>
 <script src="/kk/mathjax-config.js?<?= filemtime(__DIR__ . '/mathjax-config.js')?>"></script>
 <script>
   window.MathJax.startup = {
