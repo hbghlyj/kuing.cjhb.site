@@ -32,4 +32,4 @@
     }
   }
 </script>
-<script src="https://unpkg.com/mathjax/tex-chtml.js" async></script>
+<script src="https://unpkg.com/mathjax@4.1.0/tex-chtml.js" async></script>
