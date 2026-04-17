@@ -49,6 +49,14 @@ window.MathJax = {
     },
     packages: {'[+]': ['noerrors','mathtools','xypic']}
   },
+  startup: {
+    ready() {
+      const math = MathJax._.core.MmlTree.MmlNodes.math.MmlMath;
+      math.defaults.scriptminsize = '12px';
+      math.defaults.scriptsizemultiplier = 0.8;
+      MathJax.startup.defaultReady();
+    }
+  },
   options: {
     ignoreHtmlClass: 'blockcode',
     menuOptions: {
