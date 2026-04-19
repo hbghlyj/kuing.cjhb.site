@@ -130,12 +130,7 @@
 <script type="text/javascript" reload="1">
 function succeedhandle_$_GET[action](locationhref, message) {
 	<!--{if $_GET[action] == 'newthread'}-->
-		var hastid = locationhref.lastIndexOf('tid=');
-		if(hastid == -1) {
-			showDialog(message, 'notice', '', 'location.href="' + locationhref + '"');
-		} else {
-			location.href = locationhref;
-		}
+		location.href = locationhref;
 	<!--{/if}-->
 	hideWindow('$_GET[handlekey]' ? '$_GET[handlekey]' : '$_GET[action]');
 }
