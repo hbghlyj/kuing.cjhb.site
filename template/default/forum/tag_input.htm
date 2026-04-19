@@ -39,18 +39,6 @@ color: red;
     let tagMenuLength = 0;
     let debounceTimeout = null;
 
-    if (!tagMenu.dataset.bound) {
-        tagMenu.addEventListener('mousedown', function(e) {
-            if (e.target && e.target.tagName.toLowerCase() === 'a') {
-                e.preventDefault();
-                addKeyword(e.target.dataset.tag || e.target.textContent);
-                keywordInput.value = '';
-                tagMenu.style.display = 'none';
-            }
-        });
-        tagMenu.dataset.bound = '1';
-    }
-
     window.tagMenuOp = function(op, index) {
         if (op === 5) {
             tagMenui = index;
@@ -71,14 +59,14 @@ color: red;
 
             const removeButton = document.createElement('button');
             removeButton.textContent = '×';
-            removeButton.addEventListener('click', () => removeKeyword(keyword));
+            removeButton.addEventListener('click', () => window.removeKeyword(keyword));
 
             chip.appendChild(removeButton);
             chipContainer.appendChild(chip);
         });
     }
 
-    function addKeyword(value) {
+    window.addKeyword = function(value) {
         if (value.indexOf(',') !== -1 || value.indexOf('\\') !== -1) {
             showError(tagCannotContainCommaOrBackslash);
             return;
@@ -100,15 +88,22 @@ color: red;
             keywords.push(value);
             renderChips();
         }
-    }
+    };
 
-    function removeKeyword(keyword) {
+    window.removeKeyword = function(keyword) {
         const index = keywords.indexOf(keyword);
         if (index > -1) {
             keywords.splice(index, 1);
             renderChips();
         }
-    }
+    };
+
+    window.selectTagSuggestion = function(value) {
+        keywordInput.value = value;
+        window.addKeyword(value);
+        keywordInput.value = '';
+        hideMenu('tagmore_menu');
+    };
 
     if (keywordInput._tagSuggestInputHandler) {
         keywordInput.removeEventListener('input', keywordInput._tagSuggestInputHandler);
@@ -116,7 +111,7 @@ color: red;
     keywordInput._tagSuggestInputHandler = function() {
         const query = this.value.trim();
         if (mb_strlen(query) < 2) {
-            tagMenu.style.display = 'none';
+            hideMenu('tagmore_menu');
             return;
         }
 
@@ -147,6 +142,13 @@ color: red;
                         a.textContent = tag;
                         a.dataset.tag = tag;
                         a.onmouseover = function() { tagMenuOp(5, i); };
+                        a.onmousedown = function(e) {
+                            doane(e);
+                            window.selectTagSuggestion(tag);
+                        };
+                        a.onclick = function(e) {
+                            return doane(e);
+                        };
 
                         li.appendChild(a);
                         ul.appendChild(li);
@@ -155,11 +157,11 @@ color: red;
                     tagMenu.appendChild(ul);
                     showMenu({'ctrlid':'keyword-input', 'menuid':'tagmore_menu', 'pos':'43'});
                 } else {
-                    tagMenu.style.display = 'none';
+                    hideMenu('tagmore_menu');
                 }
             } catch (error) {
                 console.error('Error fetching tag suggestions:', error);
-                tagMenu.style.display = 'none';
+                hideMenu('tagmore_menu');
             }
         }, 300);
     };
@@ -186,12 +188,12 @@ color: red;
                 e.preventDefault();
                 return;
             } else if (e.key === 'Enter') {
-                tagMenu.style.display = 'none';
+                hideMenu('tagmore_menu');
             }
         }
 
         if (e.key === 'Enter') {
-            addKeyword(this.value.trim());
+            window.addKeyword(this.value.trim());
             this.value = '';
             doane(e);
         }
@@ -203,10 +205,10 @@ color: red;
     }
     keywordInput._tagSuggestBlurHandler = function() {
         if (this.value.trim()) {
-            addKeyword(this.value.trim());
+            window.addKeyword(this.value.trim());
             this.value = '';
         }
-        tagMenu.style.display = 'none';
+        hideMenu('tagmore_menu');
     };
     keywordInput.addEventListener('blur', keywordInput._tagSuggestBlurHandler);
 
