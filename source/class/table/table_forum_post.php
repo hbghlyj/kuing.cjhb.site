@@ -12,6 +12,7 @@ if(!defined('IN_DISCUZ')) {
 
 class table_forum_post extends discuz_table {
 	private static $_tableid_tablename = [];
+	private static $_text_fields = ['author', 'subject', 'message', 'content', 'source', 'useip'];
 
 	public static function t() {
 		static $_instance;
@@ -507,6 +508,7 @@ class table_forum_post extends discuz_table {
 	}
 
 	public function update_post($tableid, $pid, $data, $unbuffered = false, $low_priority = false, $first = null, $invisible = null, $fid = null, $status = null) {
+		$data = $this->normalize_text_fields($data);
 		$where = [];
 		$where[] = DB::field('pid', $pid);
 		if($first !== null) {
@@ -538,6 +540,7 @@ class table_forum_post extends discuz_table {
 			C::t('forum_thread')->update($tid, ['tags' => $data['tags']]);
 			unset($data['tags']);
 		}
+		$data = $this->normalize_text_fields($data);
 		$where = [];
 		$where[] = DB::field('tid', $tid);
 		if($first !== null) {
@@ -734,6 +737,7 @@ class table_forum_post extends discuz_table {
 	 * 在非InnoDB的时候(MyISAM)，直接插入
 	 */
 	public function insert_post($tableid, $data, $return_insert_id = false, $replace = false, $silent = false) {
+		$data = $this->normalize_text_fields($data);
 		if(strtolower(getglobal('config/db/common/engine')) !== 'innodb') { // 如果不是innodb，则是原来myisam，position是按tid自增的
 			if($this->has_nullable_json_null($data)) {
 				return $this->insert_post_with_nullable_json(self::get_tablename($tableid), $data, $return_insert_id, $replace, $silent);
@@ -790,6 +794,15 @@ class table_forum_post extends discuz_table {
 			}
 		}
 		return false;
+	}
+
+	private function normalize_text_fields($data) {
+		foreach(self::$_text_fields as $field) {
+			if(array_key_exists($field, $data) && is_string($data[$field])) {
+				$data[$field] = str_replace("\r", '', $data[$field]);
+			}
+		}
+		return $data;
 	}
 
 	private function build_field_assignments($data) {
