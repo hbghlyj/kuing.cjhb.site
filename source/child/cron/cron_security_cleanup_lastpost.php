@@ -10,11 +10,12 @@ if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
-$queryf = table_forum_forum::t()->fetch_all_fids();
+$queryf = table_forum_forum::t()->fetch_all_by_status(1, 0);
 foreach($queryf as $forum) {
 	$thread = table_forum_thread::t()->fetch_by_fid_displayorder($forum['fid']);
-	$thread['shortsubject'] = cutstr($thread['subject'], 80);
-	$lastpost = "{$thread['tid']}\t{$thread['shortsubject']}\t{$thread['lastpost']}\t{$thread['lastposter']}";
+	$lastpost = $thread
+		? table_forum_forum::t()->build_lastpost_string($thread['tid'], $thread['subject'], $thread['lastpost'], $thread['lastposter'])
+		: '';
 
 	table_forum_forum::t()->update($forum['fid'], ['lastpost' => $lastpost]);
 }
