@@ -67,7 +67,7 @@ if(empty($_GET['edit']) && empty($_GET['run'])) {
 				$cron['lastrun'],
 				$cron['nextrun'],
 				"<a href=\"".ADMINSCRIPT."?action=misc&operation=cron&edit={$cron['cronid']}\" class=\"act\">{$lang['edit']}</a><br />".
-				($cron['run'] ? " <a href=\"".ADMINSCRIPT."?action=misc&operation=cron&run={$cron['cronid']}\" class=\"act\">{$lang['misc_cron_run']}</a>" : " <a href=\"###\" class=\"act\" disabled>{$lang['misc_cron_run']}</a>")
+				" <a href=\"".ADMINSCRIPT."?action=misc&operation=cron&run={$cron['cronid']}\" class=\"act\">{$lang['misc_cron_run']}</a>"
 			]);
 		}
 
