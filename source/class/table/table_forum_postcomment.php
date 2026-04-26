@@ -161,6 +161,7 @@ class table_forum_postcomment extends discuz_table {
 	}
 
 	public function fetch_postcomment_by_pid($pids, $postcache, $commentcount, $totalcomment, $commentnumber) {
+		require_once libfile('function/discuzcode');
 		$query = DB::query('SELECT * FROM '.DB::table('forum_postcomment').' WHERE pid IN ('.dimplode($pids).') ORDER BY dateline DESC');
 		$commentcount = $comments = [];
 		while($comment = DB::fetch($query)) {
@@ -169,7 +170,7 @@ class table_forum_postcomment extends discuz_table {
 			}
 			if((!is_array($comments[$comment['pid']]) || count($comments[$comment['pid']]) < $commentnumber) && $comment['authorid'] > '-1') {
 				$comment['avatar'] = avatar($comment['authorid'], 'small');
-				$comment['comment'] = str_replace(['[b]', '[/b]', '[/color]'], ['<b>', '</b>', '</font>'], preg_replace('/\[color=([#\w]+?)\]/i', "<font color=\"\\1\">", $comment['comment']));
+				$comment['comment'] = $this->format_postcomment($comment['comment']);
 				$comments[$comment['pid']][] = $comment;
 			}
 			if($comment['authorid'] == '-1') {
@@ -186,5 +187,14 @@ class table_forum_postcomment extends discuz_table {
 	public function fetch_postcomment_by_pid_callback_1($matches) {
 		return '<i class="cmstarv">'.sprintf('%1.1f', $matches[1]).'</i>'.str_repeat('<span class="fico-star fc-l fnmr"></span>', intval($matches[1])).str_repeat('<span class="fico-star fc-s fnmr"></span>', (5 - intval($matches[1]))).($this->cic_for_fetch_postcomment_by_pid++ % 2 ? '<br />' : '');
 	}
-}
 
+	public function format_postcomment($comment) {
+		$comment = preg_replace('/\[color=([#\w]+?)\]/i', "<font color=\"\\1\">", $comment);
+		$comment = str_replace(
+			["\t", '   ', '  ', '[b]', '[/b]', '[/color]'],
+			['&nbsp; &nbsp; &nbsp; &nbsp; ', '&nbsp; &nbsp;', '&nbsp;&nbsp;', '<b>', '</b>', '</font>'],
+			$comment
+		);
+		return preg_replace_callback("/\[url(=((https?|ftp|gopher|news|telnet|rtsp|mms|callto|bctp|thunder|qqdl|synacast){1}:\/\/|www\.|mailto:|tel:|magnet:)?([^\r\n\[\"']+?))?\](.*?)\[\/url\]/is", 'discuzcode_callback_parseurl_152', nl2br($comment));
+	}
+}

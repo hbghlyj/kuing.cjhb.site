@@ -31,7 +31,7 @@ $comments = [];
 foreach(table_forum_postcomment::t()->fetch_all_by_search(null, $_GET['pid'], null, null, null, null, null, $start_limit, $commentlimit) as $comment) {
 	$comment['avatar'] = avatar($comment['authorid'], 'small');
 	$comment['dateline'] = dgmdate($comment['dateline'], 'u');
-	$comment['comment'] = str_replace(['[b]', '[/b]', '[/color]'], ['<b>', '</b>', '</font>'], preg_replace('/\[color=([#\w]+?)\]/i', "<font color=\"\\1\">", $comment['comment']));
+	$comment['comment'] = table_forum_postcomment::t()->format_postcomment($comment['comment']);
 	$comments[] = $comment;
 }
 forum_misc_commentmore_callback_1(0, 1);
