@@ -57,6 +57,11 @@ $srhfid = intval($_GET['srhfid']);
 
 $keyword = isset($srchtxt) ? dhtmlspecialchars(trim($srchtxt)) : '';
 
+if(!$srchuname && $srchuid) {
+	$srchmember = getuserbyuid($srchuid);
+	$srchuname = $srchmember ? $srchmember['username'] : '';
+}
+
 $searchtimemin = 0;
 $searchtimemax = 0;
 $hastimerange = false;
@@ -115,7 +120,12 @@ if(!submitcheck('searchsubmit', 1)) {
 		$searchstring = explode('|', $index['searchstring']);
 		$index['searchtype'] = $searchstring[0];//preg_replace("/^([a-z]+)\|.*/", "\\1", $index['searchstring']);
 		$searchstring[2] = base64_decode($searchstring[2]);
+		$srchuid = intval($searchstring[3]);
 		$srchuname = $searchstring[4];
+		if(!$srchuname && $srchuid) {
+			$srchmember = getuserbyuid($srchuid);
+			$srchuname = $srchmember ? $srchmember['username'] : '';
+		}
 		$modfid = 0;
 		if($keyword) {
 			$modkeyword = str_replace(' ', ',', $keyword);
@@ -272,13 +282,13 @@ if(!submitcheck('searchsubmit', 1)) {
 					$spx_timemax = $searchtimemax ?: TIMESTAMP;
 				} else {
 					$uids = [];
-					if($srchuname) {
+					if($srchuid) {
+						$uids = [$srchuid];
+					} elseif($srchuname) {
 						$uids = array_keys(table_common_member::t()->fetch_all_by_like_username($srchuname, 0, 50));
 						if(count($uids) == 0) {
 							$uids = [0];
 						}
-					} elseif($srchuid) {
-						$uids = [$srchuid];
 					}
 					if(is_array($uids) && count($uids) > 0) {
 						$s->SetFilter('authorid', $uids, false);
@@ -361,7 +371,7 @@ if(!submitcheck('searchsubmit', 1)) {
 					$sqlsrch = $srchtype == 'fulltext' ?
 						'FROM '.DB::table(getposttable($seltableid)).' p, '.DB::table('forum_thread')." t WHERE $digestltd t.fid IN ($fids) $topltd AND p.tid=t.tid AND p.invisible='0'" :
 						'FROM '.DB::table('forum_thread')." t WHERE $digestltd t.fid IN ($fids) $topltd";
-					if($srchuname) {
+					if(!$srchuid && $srchuname) {
 						$srchuid = array_keys(table_common_member::t()->fetch_all_by_like_username($srchuname, 0, 50));
 						if(!$srchuid) {
 							$sqlsrch .= ' AND 0';
