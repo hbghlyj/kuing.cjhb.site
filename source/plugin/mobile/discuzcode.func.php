@@ -309,11 +309,10 @@ function mobile_parsesmiles(&$message) {
 
 function mobile_parsetable($width, $bgcolor, $message) {
 	if(strpos($message, '[/tr]') === FALSE && strpos($message, '[/td]') === FALSE) {
-		$message = str_replace('\n', "\n", $message);
 		$rows = explode("\n", $message);
 		$s = '<ul>';
 		foreach($rows as $row) {
-			$s .= '<li>'.str_replace(array('\|', '|'), array('&#124;', '</li><li>'), $row).'</li>';
+			$s .= '<li>'.str_replace(array('\|', '|', '\n'), array('&#124;', '</li><li>', "\n"), $row).'</li>';
 		}
 		$s .= '</ul>';
 		return $s;

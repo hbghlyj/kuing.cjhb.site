@@ -562,13 +562,12 @@ function parseemail($email, $text) {
 
 function parsetable($width, $bgcolor, $message) {
 	if(!str_contains($message, '[/tr]') && !str_contains($message, '[/td]') && !str_contains($message, '[/th]')) {
-		$message = str_replace('\n', "\n", $message);
 		$rows = explode("\n", $message);
 		$s = !defined('IN_MOBILE') ? '<table cellspacing="0" class="t_table" '.
 			($width == '' ? NULL : 'style="width:'.$width.'"').
 			($bgcolor ? ' bgcolor="'.$bgcolor.'">' : '>') : '<table>';
 		foreach($rows as $row) {
-			$s .= '<tr><td>'.str_replace(['\|', '|'], ['&#124;', '</td><td>'], $row).'</td></tr>';
+			$s .= '<tr><td>'.str_replace(['\|', '|', '\n'], ['&#124;', '</td><td>', "\n"], $row).'</td></tr>';
 		}
 		$s .= '</table>';
 		return $s;
