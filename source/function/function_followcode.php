@@ -391,12 +391,13 @@ function fparsetable($width, $bgcolor, $message) {
 	global $_G;
 	$html = '';
 	if(!str_contains($message, '[/tr]') && !str_contains($message, '[/td]')) {
+		$message = str_replace('\n', "\n", $message);
 		$rows = explode("\n", $message);
 		$html = '<table cellspacing="0" class="t_table" '.
 			($width == '' ? NULL : 'style="width:'.$width.'"').
 			($bgcolor ? ' bgcolor="'.$bgcolor.'">' : '>');
 		foreach($rows as $row) {
-			$html .= '<tr><td>'.str_replace(['\|', '|', '\n'], ['&#124;', '</td><td>', "\n"], $row).'</td></tr>';
+			$html .= '<tr><td>'.str_replace(['\|', '|'], ['&#124;', '</td><td>'], $row).'</td></tr>';
 		}
 		$html .= '</table>';
 	} else {
