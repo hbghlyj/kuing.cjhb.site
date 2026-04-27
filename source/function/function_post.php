@@ -304,24 +304,25 @@ function updateattach($modnewthreads, $tid, $pid, $attachnew, $attachupdate = []
 		}
 	}
 
-	$attachcount = table_forum_attachment_n::t()->count_by_id('tid:'.$tid, $pid ? 'pid' : 'tid', $pid ? $pid : $tid);
-	$attachment = 0;
-	if($attachcount) {
-		if(table_forum_attachment_n::t()->count_image_by_id('tid:'.$tid, $pid ? 'pid' : 'tid', $pid ? $pid : $tid)) {
-			$attachment = 2;
-		} else {
-			$attachment = 1;
-		}
-	} else {
-		$attachment = 0;
+	$postattachcount = table_forum_attachment_n::t()->count_by_id('tid:'.$tid, $pid ? 'pid' : 'tid', $pid ? $pid : $tid);
+	$postattachment = 0;
+	if($postattachcount) {
+		$postattachment = table_forum_attachment_n::t()->count_image_by_id('tid:'.$tid, $pid ? 'pid' : 'tid', $pid ? $pid : $tid) ? 2 : 1;
 	}
-	table_forum_thread::t()->update($tid, ['attachment' => $attachment]);
-	table_forum_post::t()->update_post('tid:'.$tid, $pid, ['attachment' => $attachment], true);
 
-	if(!$attachment) {
+	$threadattachcount = table_forum_attachment_n::t()->count_by_id('tid:'.$tid, 'tid', $tid);
+	$threadattachment = 0;
+	if($threadattachcount) {
+		$threadattachment = table_forum_attachment_n::t()->count_image_by_id('tid:'.$tid, 'tid', $tid) ? 2 : 1;
+	}
+
+	table_forum_thread::t()->update($tid, ['attachment' => $threadattachment]);
+	table_forum_post::t()->update_post('tid:'.$tid, $pid, ['attachment' => $postattachment], true);
+
+	if(!$threadattachment) {
 		table_forum_threadimage::t()->delete_by_tid($tid);
 	}
-	$_G['forum_attachexist'] = $attachment;
+	$_G['forum_attachexist'] = $postattachment;
 }
 
 function checkflood() {
