@@ -560,6 +560,10 @@ function parseemail($email, $text) {
 	}
 }
 
+function parsetable_allow_br($message) {
+	return preg_replace('/&lt;br&gt;/i', '<br>', $message);
+}
+
 function parsetable($width, $bgcolor, $message) {
 	if(!str_contains($message, '[/tr]') && !str_contains($message, '[/td]') && !str_contains($message, '[/th]')) {
 		$rows = explode("\n", $message);
@@ -567,7 +571,7 @@ function parsetable($width, $bgcolor, $message) {
 			($width == '' ? NULL : 'style="width:'.$width.'"').
 			($bgcolor ? ' bgcolor="'.$bgcolor.'">' : '>') : '<table>';
 		foreach($rows as $row) {
-			$s .= '<tr><td>'.str_replace(['\|', '|', '\n'], ['&#124;', '</td><td>', "\n"], $row).'</td></tr>';
+			$s .= '<tr><td>'.parsetable_allow_br(str_replace(['\|', '|'], ['&#124;', '</td><td>'], $row)).'</td></tr>';
 		}
 		$s .= '</table>';
 		return $s;
@@ -589,7 +593,7 @@ function parsetable($width, $bgcolor, $message) {
 		return (!defined('IN_MOBILE') ? '<table cellspacing="0" class="t_table" '.
 				($width == '' ? NULL : 'style="width:'.$width.'"').
 				($bgcolor ? ' bgcolor="'.$bgcolor.'">' : '>') : '<table>').
-			str_replace('\\"', '"', $message).'</table>';
+			parsetable_allow_br(str_replace('\\"', '"', $message)).'</table>';
 	}
 }
 

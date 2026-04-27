@@ -307,12 +307,16 @@ function mobile_parsesmiles(&$message) {
 	return $message;
 }
 
+function mobile_parsetable_allow_br($message) {
+	return preg_replace('/&lt;br&gt;/i', '<br>', $message);
+}
+
 function mobile_parsetable($width, $bgcolor, $message) {
 	if(strpos($message, '[/tr]') === FALSE && strpos($message, '[/td]') === FALSE) {
 		$rows = explode("\n", $message);
 		$s = '<ul>';
 		foreach($rows as $row) {
-			$s .= '<li>'.str_replace(array('\|', '|', '\n'), array('&#124;', '</li><li>', "\n"), $row).'</li>';
+			$s .= '<li>'.mobile_parsetable_allow_br(str_replace(array('\|', '|'), array('&#124;', '</li><li>'), $row)).'</li>';
 		}
 		$s .= '</ul>';
 		return $s;
@@ -326,7 +330,7 @@ function mobile_parsetable($width, $bgcolor, $message) {
 		$message = preg_replace_callback("/\[\/td\]\s*\[td(?:=(\d{1,2}),(\d{1,2})(?:,(\d{1,4}%?))?)?\]/i", 'mobile_parsetable_callback_mobile_parsetrtd_123', $message);
 		return '<table class="dzcode_table" cellspacing="0" '.
 			($bgcolor ? ' bgcolor="'.$bgcolor.'">' : '>').
-			str_replace('\\"', '"', preg_replace("/\[\/td\]\s*\[\/tr\]\s*/i", '</td></tr>', $message)
+			mobile_parsetable_allow_br(str_replace('\\"', '"', preg_replace("/\[\/td\]\s*\[\/tr\]\s*/i", '</td></tr>', $message))
 			).'</table>';
 	}
 }

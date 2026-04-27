@@ -387,6 +387,10 @@ function fparseemail($email, $text) {
 	return fcodedisp($html);
 }
 
+function fparsetable_allow_br($message) {
+	return preg_replace('/&lt;br&gt;/i', '<br>', $message);
+}
+
 function fparsetable($width, $bgcolor, $message) {
 	global $_G;
 	$html = '';
@@ -396,7 +400,7 @@ function fparsetable($width, $bgcolor, $message) {
 			($width == '' ? NULL : 'style="width:'.$width.'"').
 			($bgcolor ? ' bgcolor="'.$bgcolor.'">' : '>');
 		foreach($rows as $row) {
-			$html .= '<tr><td>'.str_replace(['\|', '|', '\n'], ['&#124;', '</td><td>', "\n"], $row).'</td></tr>';
+			$html .= '<tr><td>'.fparsetable_allow_br(str_replace(['\|', '|'], ['&#124;', '</td><td>'], $row)).'</td></tr>';
 		}
 		$html .= '</table>';
 	} else {
@@ -416,7 +420,7 @@ function fparsetable($width, $bgcolor, $message) {
 		$html = '<table cellspacing="0" class="t_table" '.
 			($width == '' ? NULL : 'style="width:'.$width.'"').
 			($bgcolor ? ' bgcolor="'.$bgcolor.'">' : '>').
-			str_replace('\\"', '"', preg_replace('/\[\/td\]\s*\[\/tr\]\s*/i', '</td></tr>', $message)
+			fparsetable_allow_br(str_replace('\\"', '"', preg_replace('/\[\/td\]\s*\[\/tr\]\s*/i', '</td></tr>', $message))
 			).'</table>';
 	}
 	return fcodedisp($html);
