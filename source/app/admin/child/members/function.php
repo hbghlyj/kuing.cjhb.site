@@ -14,13 +14,13 @@ function showsearchform($operation = '') {
 	global $_G, $lang;
 
 	$groupselect = [];
-	$usergroupid = isset($_GET['usergroupid']) && is_array($_GET['usergroupid']) ? $_GET['usergroupid'] : [];
+	$groupid = isset($_GET['groupid']) && is_array($_GET['groupid']) ? $_GET['groupid'] : [];
 	$medals = isset($_GET['medalid']) && is_array($_GET['medalid']) ? $_GET['medalid'] : [];
 	$tagid = isset($_GET['tagid']) && is_array($_GET['tagid']) ? $_GET['tagid'] : [];
 	$query = table_common_usergroup::t()->fetch_all_not([6, 7], true);
 	foreach($query as $group) {
 		$group['type'] = $group['type'] == 'special' && $group['radminid'] ? 'specialadmin' : $group['type'];
-		$groupselect[$group['type']] .= "<option value=\"{$group['groupid']}\" ".(in_array($group['groupid'], $usergroupid) ? 'selected' : '').">{$group['grouptitle']}</option>\n";
+		$groupselect[$group['type']] .= "<option value=\"{$group['groupid']}\" ".(in_array($group['groupid'], $groupid) ? 'selected' : '').">{$group['grouptitle']}</option>\n";
 	}
 	$groupselect = '<optgroup label="'.$lang['usergroups_member'].'">'.$groupselect['member'].'</optgroup>'.
 		($groupselect['special'] ? '<optgroup label="'.$lang['usergroups_special'].'">'.$groupselect['special'].'</optgroup>' : '').
@@ -77,6 +77,7 @@ function showsearchform($operation = '') {
 	if(empty($usertagselect)) {
 		$usertagselect = '<option value="">'.cplang('members_search_noneusertags').'</option>';
 	}
+	showsetting('members_search_group', '', '', '<select name="groupid[]" multiple="multiple" size="10">'.$groupselect.'</select>');
 	showsetting('members_search_medal', '', '', '<select name="medalid[]" multiple="multiple" size="10">'.$medalselect.'</select>');
 	showsetting('members_search_usertag', '', '', '<select name="tagid[]" multiple="multiple" size="10">'.$usertagselect.'</select>');
 	showsetting('members_search_online', ['sid_noempty', [
