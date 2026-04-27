@@ -48,13 +48,6 @@
 					</dl>
 				</td>
 			<!--{else}-->
-				<td class="fl_icn" {if !empty($sub[extra][iconwidth]) && !empty($sub[icon])} style="width: {$sub[extra][iconwidth]}px;"{/if}>
-					<!--{if $sub[icon]}-->
-						$sub[icon]
-					<!--{else}-->
-						<a href="$forumurl" {if !empty($sub[redirect])}target="_blank"{/if} title="$sub[name]"><svg width="31" height="29"><path fill="#{if $sub[folder]}fdc910{else}c9c9c9{/if}" d="M31 13c0-7.2-6.9-13-15.5-13S0 5.8 0 13s6.9 13 15.5 13c1.6 0 3.2-.2 4.6-.6L27 28l-1.7-5c3.5-2.4 5.7-6 5.7-10z"/></svg></a>
-					<!--{/if}-->
-				</td>
 				<td>
 					<h2><a href="$forumurl"{if !empty($sub[redirect])} target="_blank"{/if}{if !empty($sub[extra][namecolor])} style="color: {$sub[extra][namecolor]};"{/if}>$sub[name]</a><!--{if $sub[todayposts] && !$sub['redirect']}--><em class="xw0 xi1" title="{lang forum_todayposts}"> ($sub[todayposts])</em><!--{/if}--></h2>
 					<!--{if (empty($_G['i18n']) || $_G['i18n'] != 'en') && $sub[description]}--><p class="xg2" style="position:absolute;bottom:0">$sub[description]</p><!--{/if}-->
