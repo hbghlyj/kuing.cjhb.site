@@ -49,7 +49,7 @@ if($srchtype != 'title' && $srchtype != 'fulltext') {
 
 $srchtxt = trim(getgpc('srchtxt'));
 $srchuid = intval(getgpc('srchuid'));
-$srchuname = isset($_GET['srchuname']) ? trim(str_replace('|', '', $_GET['srchuname'])) : '';;
+$srchuname = trim(str_replace('|', '', getgpc('srchuname')));
 $srchfrom = intval(getgpc('srchfrom'));
 $before = intval(getgpc('before'));
 $srchfid = getgpc('srchfid');
