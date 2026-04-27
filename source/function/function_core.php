@@ -882,7 +882,15 @@ function _checkDiyTpl($diypath, $file) {
 		$file = $_G['mobiletpl'][IN_MOBILE].'/'.$file;
 	}
 	if(file_exists($diypath.$file.'.htm')) {
-		return true;
+		static $tplrefresh;
+		if($tplrefresh === null) {
+			$tplrefresh = getglobal('config/output/tplrefresh');
+		}
+		if(($tplrefresh == 1 || ($tplrefresh > 1 && !($_G['timestamp'] % $tplrefresh))) &&
+			filemtime($diypath.$file.'.htm') < tplfile::filemtime(DISCUZ_ROOT.$_G['style']['tpldirectory'].'/'.$file.'.php')) {
+		} else {
+			return true;
+		}
 	}
 	updatediytemplate($file, $_G['style']['tpldirectory']);
 	return file_exists($diypath.$file.'.htm');
@@ -959,14 +967,6 @@ function template($file, $templateid = 0, $tpldir = '', $gettplfile = 0, $primal
 			} else {
 				$file = $primaltpl ? $primaltpl : $oldfile;
 			}
-			$tplrefresh = $_G['config']['output']['tplrefresh'];
-			if($indiy && ($tplrefresh == 1 || ($tplrefresh > 1 && !($_G['timestamp'] % $tplrefresh))) && filemtime($diypath.$file.'.htm') < tplfile::filemtime(DISCUZ_ROOT.$_G['style']['tpldirectory'].'/'.($primaltpl ? $primaltpl : $oldfile).'.php')) {
-				if(!updatediytemplate($file, $_G['style']['tpldirectory'])) {
-					unlink($diypath.$file.'.htm');
-					$tpldir = '';
-				}
-			}
-
 			if(!$gettplfile && empty($_G['style']['tplfile'])) {
 				$_G['style']['tplfile'] = empty($clonefile) ? $curtplname : $oldfile.':'.$clonefile;
 			}
