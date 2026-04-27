@@ -60,4 +60,3 @@ include template('common/header_ajax');
 echo $count;
 include template('common/footer_ajax');
 dexit();
-	
