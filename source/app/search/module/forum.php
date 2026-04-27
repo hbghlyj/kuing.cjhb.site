@@ -40,9 +40,6 @@ $cachelife_time = 300;                // Life span for cache of searching in spe
 $cachelife_text = 3600;                // Life span for cache of text searching
 
 $srchtype = empty($_GET['srchtype']) ? '' : trim($_GET['srchtype']);
-if($srchtype === '' && !empty($_GET['fulltext'])) {
-	$srchtype = 'fulltext';
-}
 $searchid = isset($_GET['searchid']) ? intval($_GET['searchid']) : 0;
 $seltableid = intval(getgpc('seltableid'));
 
