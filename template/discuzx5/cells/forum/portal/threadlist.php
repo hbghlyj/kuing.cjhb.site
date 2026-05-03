@@ -53,7 +53,7 @@ class forum_portal_threadlist {
 			return <<<EOF
 <div class="timeline_entry_list">
 <div class="timeline_entry_list_container">
-<div class="tb-c threadlist">
+<div class="tb-c threadlist" id="threadlistAppend">
 	<!--Ajax:InnerStart-->
 	<div class="forumportal_listc cl">
 		<ul>
@@ -71,9 +71,7 @@ class forum_portal_threadlist {
 		    {cell forum/threadlist/loop_end}
 		</ul>
 	</div>
-	<div id="threadlistAppend" class="forumportal_pages cl">
-		<!--Ajax:Clear-->{cell forum/threadlist/nextpage}<!--Ajax:/Clear-->
-	</div>
+	<!--Ajax:Clear-->{cell forum/threadlist/nextpage}<!--Ajax:/Clear-->
 	<!--Ajax:InnerEnd-->
 </div>
 </div>
