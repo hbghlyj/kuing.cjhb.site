@@ -108,6 +108,7 @@ $lang = [
 	'data_saved' => '數據已保存',
 	'data_clear_confirm' => '您確認要清除所有內容嗎？',
 	'remote_downloading' => '正在下載遠程附件，請稍等……',
+	'upload_failed' => '上傳失敗',
 	'font_family' => '字體',
 	'font_size' => '大小',
 	'input_link_href' => '請輸入鏈接地址',

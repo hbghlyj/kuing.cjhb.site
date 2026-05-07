@@ -1225,14 +1225,14 @@ function dgmdate($timestamp, $format = 'dt', $timeoffset = 9999, $uformat = '') 
 		if($timestamp >= $todaytimestamp) {
 			if($time > 3600) {
 				$_v = intval($time / 3600);
-				$return = $_v.'&nbsp;'.($_v > 1 ? $lang['hours'] : $lang['hour']).$lang['before'];
+				$return = $_v.' '.($_v > 1 ? $lang['hours'] : $lang['hour']).$lang['before'];
 			} elseif($time > 1800) {
 				$return = $lang['half'].$lang['hour'].$lang['before'];
 			} elseif($time > 60) {
 				$_v = intval($time / 60);
-				$return = $_v.'&nbsp;'.($_v > 1 ? $lang['mins'] : $lang['min']).$lang['before'];
+				$return = $_v.' '.($_v > 1 ? $lang['mins'] : $lang['min']).$lang['before'];
 			} elseif($time > 0) {
-				$return = $time.'&nbsp;'.($time > 1 ? $lang['secs'] : $lang['sec']).$lang['before'];
+				$return = $time.' '.($time > 1 ? $lang['secs'] : $lang['sec']).$lang['before'];
 			} elseif($time == 0) {
 				$return = $lang['now'];
 			} else {
@@ -1240,11 +1240,11 @@ function dgmdate($timestamp, $format = 'dt', $timeoffset = 9999, $uformat = '') 
 			}
 		} elseif(($days = intval(($todaytimestamp - $timestamp) / 86400)) >= 0 && $days < 7) {
 			if($days == 0) {
-				$return = $lang['yday'].'&nbsp;'.gmdate($tformat, $timestamp);
+				$return = $lang['yday'].' '.gmdate($tformat, $timestamp);
 			} elseif($days == 1) {
-				$return = $lang['byday'].'&nbsp;'.gmdate($tformat, $timestamp);
+				$return = $lang['byday'].' '.gmdate($tformat, $timestamp);
 			} else {
-				$return = ($days + 1).'&nbsp;'.$lang['day'].$lang['before'];
+				$return = ($days + 1).' '.$lang['day'].$lang['before'];
 			}
 		} else {
 			$return = $s;

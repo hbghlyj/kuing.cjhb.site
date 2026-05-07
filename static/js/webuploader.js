@@ -740,9 +740,22 @@ function getFirstFrame(file, callback) {
 
 	video.src = URL.createObjectURL(file);
 }
+function uploadFailedStatus() {
+	var lang = typeof _i18n_ != 'undefined' ? _i18n_ : (typeof DISCUZ_I18N != 'undefined' && typeof normalizeI18nKey == 'function' ? normalizeI18nKey(DISCUZ_I18N) : '');
+	if(lang == 'SC_UTF8') {
+		return '上传失败';
+	}
+	if(lang == 'TC_UTF8') {
+		return '上傳失敗';
+	}
+	if(typeof $L == 'function') {
+		return $L('upload_failed');
+	}
+	return 'Upload Failed.';
+}
 function uploadError(file, message) {
 	var progress = new FileProgress(file, this.customSettings.progressTarget);
-	progress.setStatus("Upload Failed.");
+	progress.setStatus(uploadFailedStatus());
 	progress.setCancelled();
 }
 
