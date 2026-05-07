@@ -628,6 +628,7 @@ $lang = array (
 
 	'diy_topic_noexist'			=> 'Specified topic does not exist, please check',//'指定的专题不存在，请检查',
 	'diy_remote_upload_failed'		=> 'Remote upload failed',//'远程上传失败',
+	'upload_failed'			=> 'Upload failed',//'上传失败',
 	'diy_sign_invalid'			=> 'DIY template data validation error',//'DIY模板数据验证错误',
 	'diy_backup_noexist'			=> 'Backup file does not exist.',//'备份文件不存在。',
 	'diy_data_format_invalid'		=> 'Data format error',//'数据格式错误',

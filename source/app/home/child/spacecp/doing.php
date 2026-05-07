@@ -432,8 +432,7 @@ if($_GET['op'] == 'delete') {
 		} else {
 			$result = [
 				'status' => 'error',
-				'message' => 'Upload failed or no valid image found',
-				'debug_info' => $f // 仅用于调试，实际部署时应移除
+				'message' => lang('message', 'upload_failed')
 			];
 			
 			if(defined('IN_RESTFUL')) {

@@ -657,6 +657,7 @@ $lang = [
 
 	'diy_topic_noexist' => '指定的专题不存在',
 	'diy_remote_upload_failed' => '远程上传失败',
+	'upload_failed' => '上传失败',
 	'diy_sign_invalid' => 'DIY模板数据验证错误',
 	'diy_backup_noexist' => '备份文件不存在',
 	'diy_data_format_invalid' => '数据格式错误',

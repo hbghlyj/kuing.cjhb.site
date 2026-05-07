@@ -657,6 +657,7 @@ $lang = [
 
 	'diy_topic_noexist' => '指定的專題不存在',
 	'diy_remote_upload_failed' => '遠程上傳失敗',
+	'upload_failed' => '上傳失敗',
 	'diy_sign_invalid' => 'DIY模板數據驗證錯誤',
 	'diy_backup_noexist' => '備份文件不存在',
 	'diy_data_format_invalid' => '數據格式錯誤',
