@@ -48,10 +48,13 @@ if($step == 1) {
 		implode('', $extra),
 		'action=tools&operation=updatecache&step=2', 'form', '', FALSE);
 } elseif($step == 2) {
-	$type = implode('_', (array)$_GET['type']);
+	$type = rawurlencode(json_encode((array)$_GET['type']));
 	cpmsg(cplang('tools_updatecache_waiting'), "action=tools&operation=updatecache&step=3&type=$type", 'loading', '', FALSE);
 } elseif($step == 3) {
-	$type = explode('_', $_GET['type']);
+	$type = json_decode(rawurldecode($_GET['type']), true);
+	if(!is_array($type)) {
+		$type = explode('_', $_GET['type']);
+	}
 	if(in_array('oss', $type)) {
 		define('IN_UPDATECACHE', 1);
 		$type[] = 'data';
@@ -107,4 +110,3 @@ if($step == 1) {
 	}
 	cpmsg('update_cache_succeed', '', 'succeed', '', FALSE);
 }
-	
