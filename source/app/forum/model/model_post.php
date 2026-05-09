@@ -16,6 +16,7 @@ use table_forum_forum;
 use table_forum_forumfield;
 use table_forum_groupuser;
 use table_forum_post;
+use table_forum_postcomment;
 use table_forum_post_location;
 use table_forum_thread;
 use table_forum_threadaddviews;
