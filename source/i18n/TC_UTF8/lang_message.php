@@ -681,7 +681,6 @@ $lang = [
 	'post_edit_thread_replaycredit_nocredit' => '您的積分不足，不能為回帖獎勵增加積分',
 	'post_edit_thread_ban_del' => '抱歉，編輯帖子時不允許刪除帖子',
 	'post_edit_reward_already_reply' => '抱歉，您不能刪除已經有回覆的懸賞',
-	'post_edit_thread_already_reply' => '對不起，您不能刪除已經有回覆的主題，請返回。',
 	'post_edit_reward_nopermission' => '抱歉，懸賞已結束，無法退還積分',
 	'post_edit_delete_rushreply_nopermission' => '抱歉，搶樓帖不能刪除',
 	'auditstatuson_succeed' => '審核成功，點擊查看該帖',

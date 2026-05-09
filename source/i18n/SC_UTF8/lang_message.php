@@ -681,7 +681,6 @@ $lang = [
 	'post_edit_thread_replaycredit_nocredit' => '您的积分不足，不能为回帖奖励增加积分',
 	'post_edit_thread_ban_del' => '抱歉，编辑帖子时不允许删除帖子',
 	'post_edit_reward_already_reply' => '抱歉，您不能删除已经有回复的悬赏',
-	'post_edit_thread_already_reply' => '对不起，您不能删除已经有回复的主题，请返回。',
 	'post_edit_reward_nopermission' => '抱歉，悬赏已结束，无法退还积分',
 	'post_edit_delete_rushreply_nopermission' => '抱歉，抢楼帖不能删除',
 	'auditstatuson_succeed' => '审核成功，点击查看该帖',

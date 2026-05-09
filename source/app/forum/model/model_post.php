@@ -129,7 +129,7 @@ class model_post extends discuz_model {
 
 
 		if(!empty($this->param['noticetrimstr'])) {
-			$this->param['message'] = $this->param['noticetrimstr']."\n\n".$this->param['message'];
+			$this->param['message'] = $this->param['noticetrimstr']."\n".$this->param['message'];
 			$bbcodeoff = false;
 		}
 
@@ -675,14 +675,9 @@ class model_post extends discuz_model {
 
 		$isfirstpost = $this->post['first'] ? 1 : 0;
 
-		if($isfirstpost && $this->thread['replies'] > 0) {
-			return $this->showmessage(($this->thread['special'] == 3 ? 'post_edit_reward_already_reply' : 'post_edit_thread_already_reply'), NULL);
+		if($this->thread['displayorder'] >= 0) {
+			updatepostcredits('-', array(array('uid' => $this->post['authorid'], 'dateline' => $this->post['dateline'])), ($isfirstpost ? 'post' : 'reply'), $this->forum['fid']);
 		}
-
-
-               if($this->thread['displayorder'] >= 0) {
-                       updatepostcredits('-', array(array('uid' => $this->post['authorid'], 'dateline' => $this->post['dateline'])), ($isfirstpost ? 'post' : 'reply'), $this->forum['fid']);
-               }
 
 
 		if(!$this->param['handlereplycredit']) {
@@ -698,10 +693,11 @@ class model_post extends discuz_model {
 
 
 		table_forum_post::t()->delete_post('tid:'.$this->thread['tid'], $this->post['pid']);
+		table_forum_postcomment::t()->delete_by_pid($this->post['pid']);
 
 
 		$forumcounter = [];
-		if($isfirstpost) {
+		if($this->thread['replies'] == 0) {
 			$forumcounter['threads'] = $forumcounter['posts'] = -1;
 			$tablearray = ['forum_debate', 'forum_debatepost', 'forum_polloption', 'forum_poll'];
 			foreach($tablearray as $table) {
@@ -721,9 +717,14 @@ class model_post extends discuz_model {
 
 			$this->param['updatefieldarr']['replies'] = -1;
 			$this->param['updatefieldarr']['lastposter'] = [$lastpost['author']];
-			$this->param['updatefieldarr']['lastpost'] = [$lastpost['dateline']];
 
 			table_forum_thread::t()->increase($this->thread['tid'], $this->param['updatefieldarr']);
+
+			if($isfirstpost) {
+				$nextpost = table_forum_post::t()->fetch_visiblepost_by_tid('tid:'.$this->thread['tid'], $this->thread['tid'], 0, 0);
+				table_forum_post::t()->update_post($this->thread['posttableid'], $nextpost['pid'], ['first' => 1, 'subject' => $this->post['subject']]);
+				table_forum_thread::t()->update($this->thread['tid'], ['tags' => $this->post['tags']]);
+			}
 		}
 
 		$this->forum['lastpost'] = explode("\t", $this->forum['lastpost']);

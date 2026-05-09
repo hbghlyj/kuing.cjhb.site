@@ -652,7 +652,6 @@ $lang = array (
 	'post_edit_thread_replaycredit_nocredit'	=> 'Your points not enough for increase the reward points for replies',//'您的积分不足，不能为回帖奖励增加积分',
 	'post_edit_thread_ban_del'		=> 'Sorry, you can not delete the post when editing.',//'对不起，编辑帖子时不允许删除帖子，请返回。',
 	'post_edit_reward_already_reply'	=> 'Sorry, you can not delete reward that contains replies.',//'对不起，您不能删除已经有回复的悬赏，请返回。',
-	'post_edit_thread_already_reply'	=> 'Sorry, you can not delete thread that contains replies.',//'对不起，您不能删除已经有回复的主题，请返回。',
 	'post_edit_reward_nopermission'		=> 'Sorry, the reward is over and can not return the points.',//'对不起，悬赏已经结束，无法退还积分，请返回。',
 	'post_edit_delete_rushreply_nopermission'	=> 'Sorry, rush thread can not be deleted',//'对不起，抢楼贴是不能删除的，请返回',
 	'auditstatuson_succeed'			=> 'Audit success, click to view this post.',//'审核成功，点击查看该帖。',

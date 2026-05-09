@@ -94,8 +94,18 @@ if($postlist && !empty($rushids)) {
 if($_G['setting']['repliesrank'] && $postlist) {
 	if($postlist) {
 		foreach(table_forum_hotreply_number::t()->fetch_all_by_pids(array_keys($postlist)) as $pid => $post) {
-			$postlist[$pid]['postreview']['support'] = dintval($post['support']);
-			$postlist[$pid]['postreview']['against'] = dintval($post['against']);
+			if($postlist[$pid]['postreview']['support'] = dintval($post['support'])) {
+				$postlist[$pid]['postreview']['support_member'] = '';
+				foreach(DB::fetch_all('SELECT uid FROM '.DB::table('forum_hotreply_member').' WHERE attitude=1 AND pid='.$pid) as $row) {
+					$postlist[$pid]['postreview']['support_member'] .= DB::result_first('SELECT username FROM '.DB::table('common_member').' WHERE uid='.$row['uid'].' LIMIT 1')."\n";
+				}
+			}
+			if($postlist[$pid]['postreview']['against'] = dintval($post['against'])) {
+				$postlist[$pid]['postreview']['against_member'] = '';
+				foreach(DB::fetch_all('SELECT uid FROM '.DB::table('forum_hotreply_member').' WHERE attitude=0 AND pid='.$pid) as $row) {
+					$postlist[$pid]['postreview']['against_member'] .= DB::result_first('SELECT username FROM '.DB::table('common_member').' WHERE uid='.$row['uid'].' LIMIT 1')."\n";
+				}
+			}
 		}
 	}
 }

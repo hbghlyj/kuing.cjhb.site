@@ -16,9 +16,6 @@ require './source/class/class_core.php';
 
 $discuz = C::app();
 
-if(isset($_GET['mod']) && $_GET['mod'] != 'tag') {
-	$discuz->reject_robot();
-}
 $modarray = ['seccode', 'secqaa', 'initsys', 'invite', 'faq', 'report',
 	'swfupload', 'stat', 'ranklist', 'buyinvitecode',
 	'tag', 'diyhelp', 'mobile', 'patch', 'getatuser', 'imgcropper',
@@ -54,6 +51,10 @@ switch($mod) {
 }
 
 $discuz->init();
+
+if($discuz->init_session && isset($_GET['mod']) && $_GET['mod'] != 'tag') {
+	$discuz->reject_robot();
+}
 
 define('CURMODULE', $mod);
 runhooks();
