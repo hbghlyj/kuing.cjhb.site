@@ -17,7 +17,6 @@ if(empty($_G['uid'])) {
   $_G['uid'] = 0;
   $_G['username'] = explode("\n",$_G['member']['username'])[0].' '.$_SERVER['REMOTE_ADDR'];
 }
-$chat_author = cutstr($_G['username'], 30, '');
 
 $published_time = $_POST['published_time'];
 $published_timestamp = strtotime($published_time);
@@ -37,7 +36,7 @@ if ($conn->connect_error) {
 }
 
 $stmt = $conn->prepare("DELETE FROM chat WHERE UNIX_TIMESTAMP(time) = ? AND author = ?");
-$stmt->bind_param("is", $published_timestamp, $chat_author);
+$stmt->bind_param("is", $published_timestamp, $_G['username']);
 if (!$stmt) {
     header("HTTP/1.0 500 Internal Server Error");
     error_log("Prepare statement failed: (" . $conn->errno . ") " . $conn->error);

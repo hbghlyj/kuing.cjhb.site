@@ -22,7 +22,6 @@ if(empty($_G['uid'])) {
   $_G['uid'] = 0;
   $_G['username'] = explode("\n",$_G['member']['username'])[0].' '.$_SERVER['REMOTE_ADDR'];
 }
-$chat_author = cutstr($_G['username'], 30, '');
 
 $options = array();
 $options['displayName'] = $_G['username'];
@@ -57,7 +56,7 @@ if ($result['status'] == 200) {
     header('HTTP/1.1 500 Internal Server Error');
     exit("Prepare failed: " . $conn->error);
   }
-  if (!$stmt->bind_param("iss", $_G['uid'], $chat_author, $options['text'])) {
+  if (!$stmt->bind_param("iss", $_G['uid'], $_G['username'], $options['text'])) {
     header('HTTP/1.1 500 Internal Server Error');
     exit("Bind failed: " . $stmt->error);
   }
