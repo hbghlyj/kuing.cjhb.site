@@ -21,6 +21,8 @@
 			custombbcodes["$tag"] = {'prompt' : '$bbcode['prompt']'};
 		<!--{/loop}-->
 	<!--{/if}-->
+	custombbcodes["tikz"] = {'prompt' : '<a href="//pgf-tikz.github.io/pgf/pgfmanual.pdf">📖pgfmanual.pdf</a>'};
+	custombbcodes["asy"] = {'prompt' : '<a href="//asymptote.sourceforge.io/asymptote.pdf">📖asymptote.pdf</a>'};
 </script>
 <div id="{$editorid}_bbar" class="bbar">
 	<em id="{$editorid}_tip"></em>

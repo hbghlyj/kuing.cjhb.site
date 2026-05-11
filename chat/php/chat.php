@@ -1,12 +1,14 @@
 <?php
-require '../../source/class/class_core.php';
+$discuzRoot = dirname(__DIR__, 2).DIRECTORY_SEPARATOR;
+chdir($discuzRoot);
+require $discuzRoot.'source/class/class_core.php';
 $discuz = C::app();
 $discuz->init_cron = false;
 $discuz->init();
 
-require_once('../../vendor/autoload.php');
-require_once('Activity.php');
-require_once('config.php');
+require_once $discuzRoot.'vendor/autoload.php';
+require_once __DIR__.'/Activity.php';
+require_once __DIR__.'/config.php';
 
 $chat_info = $_POST['chat_info'];
 
@@ -20,6 +22,7 @@ if(empty($_G['uid'])) {
   $_G['uid'] = 0;
   $_G['username'] = explode("\n",$_G['member']['username'])[0].' '.$_SERVER['REMOTE_ADDR'];
 }
+$chat_author = cutstr($_G['username'], 30, '');
 
 $options = array();
 $options['displayName'] = $_G['username'];
@@ -34,7 +37,7 @@ $pusher = new Pusher(APP_KEY,APP_SECRET,APP_ID,array(
 $data = $activity->getMessage();
 $result = $pusher->trigger($channel_name, 'chat_message', $data, null, true);
 if ($result['status'] == 200) {
-  include '../../config/config_global.php';
+  include $discuzRoot.'config/config_global.php';
   $conn = new mysqli($_config['db'][1]['dbhost'], $_config['db'][1]['dbuser'], $_config['db'][1]['dbpw'], $_config['db'][1]['dbname']);
   if ($conn->connect_error) {
     header('HTTP/1.1 500 Internal Server Error');
@@ -48,13 +51,13 @@ if ($result['status'] == 200) {
     exit("Delete failed: " . $conn->error);
   }
 
-  // CREATE TABLE chat (time TIMESTAMP DEFAULT CURRENT_TIMESTAMP, uid mediumint NOT NULL, author CHAR(15) NOT NULL, message TEXT NOT NULL, PRIMARY KEY (`time`) );
+  // CREATE TABLE chat (time TIMESTAMP DEFAULT CURRENT_TIMESTAMP, uid mediumint NOT NULL, author CHAR(30) NOT NULL, message TEXT NOT NULL, PRIMARY KEY (`time`) );
   $stmt = $conn->prepare("INSERT INTO chat (uid, author, message) VALUES (?, ?, ?)");
   if (!$stmt) {
     header('HTTP/1.1 500 Internal Server Error');
     exit("Prepare failed: " . $conn->error);
   }
-  if (!$stmt->bind_param("iss", $_G['uid'], $_G['username'], $options['text'])) {
+  if (!$stmt->bind_param("iss", $_G['uid'], $chat_author, $options['text'])) {
     header('HTTP/1.1 500 Internal Server Error');
     exit("Bind failed: " . $stmt->error);
   }

@@ -1,6 +1,8 @@
 <?php
-require '../../source/class/class_core.php';
-require '../../config/config_global.php';
+$discuzRoot = dirname(__DIR__, 2).DIRECTORY_SEPARATOR;
+chdir($discuzRoot);
+require $discuzRoot.'source/class/class_core.php';
+require $discuzRoot.'config/config_global.php';
 
 $discuz = C::app();
 $discuz->init_cron = false;
@@ -15,6 +17,7 @@ if(empty($_G['uid'])) {
   $_G['uid'] = 0;
   $_G['username'] = explode("\n",$_G['member']['username'])[0].' '.$_SERVER['REMOTE_ADDR'];
 }
+$chat_author = cutstr($_G['username'], 30, '');
 
 $published_time = $_POST['published_time'];
 $published_timestamp = strtotime($published_time);
@@ -34,7 +37,7 @@ if ($conn->connect_error) {
 }
 
 $stmt = $conn->prepare("DELETE FROM chat WHERE UNIX_TIMESTAMP(time) = ? AND author = ?");
-$stmt->bind_param("is", $published_timestamp, $_G['username']);
+$stmt->bind_param("is", $published_timestamp, $chat_author);
 if (!$stmt) {
     header("HTTP/1.0 500 Internal Server Error");
     error_log("Prepare statement failed: (" . $conn->errno . ") " . $conn->error);

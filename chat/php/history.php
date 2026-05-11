@@ -1,9 +1,11 @@
 <?php
-require '../../source/class/class_core.php';
+$discuzRoot = dirname(__DIR__, 2).DIRECTORY_SEPARATOR;
+chdir($discuzRoot);
+require $discuzRoot.'source/class/class_core.php';
 $discuz = C::app();
 $discuz->init_cron = false;
 $discuz->init();
-include '../../config/config_global.php';
+include $discuzRoot.'config/config_global.php';
 $conn = new mysqli($_config['db'][1]['dbhost'], $_config['db'][1]['dbuser'], $_config['db'][1]['dbpw'], $_config['db'][1]['dbname']);
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);

@@ -328,7 +328,7 @@
         url:this.settings.chatEndPoint,
         type:'post',
         dataType:'json',
-        data:{'chat_info':data},
+        data:{'formhash': typeof FORMHASH !== 'undefined' ? FORMHASH : '', 'chat_info':data},
         complete:(xhr)=>{
           if(xhr.status===200){
             this.#messageInputEl.val('');
