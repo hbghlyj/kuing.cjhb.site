@@ -383,7 +383,7 @@ var _framemenu = (function () {
 					});
 					$(frameid).style.display = '';
 					$(frameid + '_tab').className = 'dragObjTab current';
-					updateHistory($(frameid).src);
+					updateHistory(tabHref);
 				}
 			});
 			aNode.id = frameid + '_tab';
