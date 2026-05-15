@@ -49,7 +49,7 @@ if(submitcheck('lostpwsubmit')) {
 
 	$memberauthstr = C::t('common_member_field_forum'.$table_ext)->fetch($member['uid']);
 	[$dateline, $operation, $idstring] = explode("\t", $memberauthstr['authstr']);
-	$interval = $_G['setting']['mailinterval'] > 0 ? (int)$_G['setting']['mailinterval'] : 300;
+	$interval = $_G['setting']['mailinterval'] > 0 ? (int)$_G['setting']['mailinterval'] : 60;
 	if($dateline && $operation == 1 && $dateline > TIMESTAMP - $interval) {
 		showmessage('getpasswd_has_send', '', ['interval' => $interval]);
 	}
