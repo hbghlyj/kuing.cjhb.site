@@ -241,10 +241,11 @@ class class_core {
 
 	function location() {
 		$platform = !empty($_POST['admin_platform']) ? $_POST['admin_platform'] : PLATFORM;
+		$url = cpurl('url', ['sid']);
 		if(basename($_SERVER['PHP_SELF']) == 'index.php') {
-			dheader('Location: ?app=admin&platform='.$platform.'?'.cpurl('url', ['sid']));
+			dheader('Location: ?app=admin&platform='.$platform.($url ? '&'.$url : ''));
 		} else {
-			dheader('Location: '.getglobal('scheme').'://'.$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'].'?platform='.$platform.'?'.cpurl('url', ['sid']));
+			dheader('Location: '.getglobal('scheme').'://'.$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'].'?platform='.$platform.($url ? '&'.$url : ''));
 		}
 	}
 
