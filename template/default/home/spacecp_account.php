@@ -75,8 +75,7 @@
                     <th>{lang action_account_security_type_email}</th>
                     <td>
                         <!--{if $_G['member']['email']}-->
-                            <!--{eval $email_arr = explode('@', $_G['member']['email']);}-->
-                            <!--{eval echo substr($email_arr[0], 0, 3).'****' . '@' . $email_arr[1]}-->
+                            {$_G['member']['email']}
                             <!--{if $_G['member']['emailstatus']}-->
                                 <span style="color: green;">({lang action_account_status_active})</span>
                             <!--{else}-->
@@ -101,7 +100,7 @@
                     <td>
                         <!--{if $_G['member']['secmobile']}-->
                         <!--{if $_G['member']['secmobicc']}-->+{$_G['member']['secmobicc']} <!--{/if}-->
-                        <!--{eval echo substr($_G['member']['secmobile'], 0, 3).'****'.substr($_G['member']['secmobile'], -3);}-->
+                        {$_G['member']['secmobile']}
                         <!--{else}-->
                         {lang action_account_security_type_data_empty}
                         <!--{/if}-->

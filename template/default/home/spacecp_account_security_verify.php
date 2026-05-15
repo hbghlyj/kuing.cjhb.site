@@ -34,7 +34,7 @@
                                 <input type="hidden" id="idstring_v" name="idstring_v" value="{$idstring_v}" />
                                 <input type="hidden" id="sign_v" name="sign_v" value="{$sign_v}" />
                             <!--{else}-->
-                            +{$_G['member']['secmobicc']} <!--{eval echo substr($_G['member']['secmobile'], 0, 3).'****'.substr($_G['member']['secmobile'], -3);}-->
+                            +{$_G['member']['secmobicc']} {$_G['member']['secmobile']}
                             <input type="hidden" id="secmobicc" name="secmobicc" value="{$_G['member']['secmobicc']}" />
                             <input type="hidden" id="secmobile" name="secmobile" value="{$_G['member']['secmobile']}" />
                             <!--{/if}-->
