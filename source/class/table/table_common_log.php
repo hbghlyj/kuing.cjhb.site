@@ -109,6 +109,11 @@ class table_common_log_file {
 
 	var $files = [];
 	var $indexs = [];
+	var $last_error = '';
+
+	public function last_error() {
+		return $this->last_error;
+	}
 
 	private function _get_name($type, $date) {
 		$type = str_replace(':', '_', $type);
@@ -227,6 +232,10 @@ class table_common_log_file {
 			$datafile = str_replace('.index.php', '.php', $indexfile);
 			if(!file_exists($datafile)) {
 				continue;
+			}
+			if(!is_writable($datafile) || (file_exists($indexfile) && !is_writable($indexfile))) {
+				$this->last_error = 'Log file is not writable: '.basename($datafile);
+				return false;
 			}
 			$rows = file($datafile);
 			$newrows = [];

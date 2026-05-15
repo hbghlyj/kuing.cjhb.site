@@ -42,10 +42,14 @@ $keywordenc = $keyword !== '' ? rtrim(strtr(base64_encode($keyword), '+/', '-_')
 $urlbase = ADMINSCRIPT."&action=logs&operation=$operation&lpp=$lpp".($keywordenc !== '' ? '&keywordenc='.$keywordenc : '').(!empty($_GET['day']) ? '&day='.$_GET['day'] : '');
 if(submitcheck('logbatchsubmit', true)) {
 	$deleteids = !empty($_POST['deleteids']) ? dintval((array)$_POST['deleteids'], true) : [];
+	$deleted = 0;
 	if(!empty($_POST['deleteallfiltered'])) {
-		table_common_log::t()->delete_by_conditions($conditions);
+		$deleted = table_common_log::t()->delete_by_conditions($conditions);
 	} elseif($deleteids) {
-		table_common_log::t()->delete_by_ids($deleteids, $conditions, $start, $lpp);
+		$deleted = table_common_log::t()->delete_by_ids($deleteids, $conditions, $start, $lpp);
+	}
+	if($deleted === false && method_exists(table_common_log::t(), 'last_error')) {
+		cpmsg(table_common_log::t()->last_error(), '', 'error');
 	}
 	cpmsg('logs_delete_succeed', $urlbase.'&page='.$page, 'succeed');
 }
