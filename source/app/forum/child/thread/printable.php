@@ -45,6 +45,26 @@ foreach($posts as $post) {
 			$_G['forum_attachtags'][$post['pid']] = $matchaids[1];
 		}
 	}
+	if(!empty($_G['forum_attachtags'][$post['pid']])) {
+		foreach($_G['forum_attachtags'][$post['pid']] as $aid) {
+			$post['message'] = preg_replace('/\[attach\]'.$aid.'\[\/attach\]/i', '%%DZ_PRINTABLE_ATTACH_'.$aid.'%%', $post['message']);
+		}
+	}
+
+	$post['message'] = discuzcode($post['message'], $post['smileyoff'], $post['bbcodeoff'], sprintf('%00b', $post['htmlon']), $_G['forum']['allowsmilies'], $_G['forum']['allowbbcode'], $_G['forum']['allowimgcode'], $_G['forum']['allowhtml'], ($_G['forum']['jammer'] && $post['authorid'] != $_G['uid'] ? 1 : 0));
+
+	if(!empty($_G['forum_attachtags'][$post['pid']])) {
+		foreach($_G['forum_attachtags'][$post['pid']] as $aid) {
+			$post['message'] = str_replace('%%DZ_PRINTABLE_ATTACH_'.$aid.'%%', '[attach]'.$aid.'[/attach]', $post['message']);
+		}
+	}
+
+	if(str_contains($post['message'], '[page]')) {
+		$post['message'] = preg_replace('/\s?\[page\]\s?/is', '', $post['message']);
+	}
+	if(str_contains($post['message'], '[/index]')) {
+		$post['message'] = preg_replace('/\s?\[index\](.+?)\[\/index\]\s?/is', '', $post['message']);
+	}
 	$uids[] = $post['authorid'];
 	$postlist[$post['pid']] = $post;
 }
@@ -60,18 +80,6 @@ if($_G['forum_attachpids'] && !defined('IN_ARCHIVER')) {
 		$skipaids = array_merge($skipaids, $threadsortshow['sortaids']);
 	}
 	parseattach($_G['forum_attachpids'], $_G['forum_attachtags'], $postlist, $skipaids);
-}
-
-foreach($postlist as $pid => $post) {
-	$post['message'] = discuzcode($post['message'], $post['smileyoff'], $post['bbcodeoff'], sprintf('%00b', $post['htmlon']), $_G['forum']['allowsmilies'], $_G['forum']['allowbbcode'], $_G['forum']['allowimgcode'], $_G['forum']['allowhtml'], ($_G['forum']['jammer'] && $post['authorid'] != $_G['uid'] ? 1 : 0));
-
-	if(str_contains($post['message'], '[page]')) {
-		$post['message'] = preg_replace('/\s?\[page\]\s?/is', '', $post['message']);
-	}
-	if(str_contains($post['message'], '[/index]')) {
-		$post['message'] = preg_replace('/\s?\[index\](.+?)\[\/index\]\s?/is', '', $post['message']);
-	}
-	$postlist[$pid] = $post;
 }
 
 include template('forum/viewthread_printable');
