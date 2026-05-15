@@ -321,9 +321,6 @@ function get_log_files($logdir = '', $action = 'action') {
 }
 
 showtablefooter();
-showtableheader('', 'fixpadding');
-echo $multipage;
-showtablefooter();
 
 echo <<<EOD
 <script type="text/javascript">
