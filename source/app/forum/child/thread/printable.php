@@ -47,7 +47,7 @@ foreach($posts as $post) {
 		$attachment = 1;
 	}
 	$post['attachments'] = [];
-	if($post['attachment'] && ($_G['group']['allowgetattach'] || $_G['group']['allowgetimage'])) {
+	if($post['attachment'] && ((!empty($_G['setting']['guestviewthumb']['flag']) && !$_G['uid']) || $_G['group']['allowgetattach'] || $_G['group']['allowgetimage'])) {
 		$_G['forum_attachpids'][] = $post['pid'];
 		$post['attachment'] = 0;
 		if(preg_match_all('/\[attach\](\d+)\[\/attach\]/i', $post['message'], $matchaids)) {
