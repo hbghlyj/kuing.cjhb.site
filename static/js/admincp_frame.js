@@ -262,6 +262,16 @@ var _framemenu = (function () {
 		});
 	});
 
+	function updateHistory(url) {
+		if (window.history && window.history.replaceState) {
+			try {
+				let urlObj = new URL(url, window.location.href);
+				urlObj.searchParams.set('frames', 'yes');
+				window.history.replaceState(null, '', urlObj.href);
+			} catch (e) {}
+		}
+	}
+
 	function tabNew(tab, tabHref) {
 		var tabName = '', tabId = '', customMode = false;
 		if(typeof tabHref == 'undefined') {
@@ -286,13 +296,7 @@ var _framemenu = (function () {
 			    + '?action=misc&operation=custommenu&do=add&title=' + customTitle + '&url=' + escape(cpurl) + '">[+]</a>';
 			$('favbars').style.display = 'none';
 			$('main').src = cpurl;
-			if (window.history && window.history.replaceState) {
-				try {
-					let urlObj = new URL(cpurl, window.location.href);
-					urlObj.searchParams.set('frames', 'yes');
-					window.history.replaceState(null, '', urlObj.href);
-				} catch (e) {}
-			}
+			updateHistory(cpurl);
 			return;
 		}
 		$('favbars').style.display = '';
@@ -308,13 +312,7 @@ var _framemenu = (function () {
 			$(frameid + '_tab').className = 'dragObjTab current';
 			$(frameid).src = tabHref;
 			nav_middle('#tabs', 'a.current');
-			if (window.history && window.history.replaceState) {
-				try {
-					let urlObj = new URL(tabHref, window.location.href);
-					urlObj.searchParams.set('frames', 'yes');
-					window.history.replaceState(null, '', urlObj.href);
-				} catch (e) {}
-			}
+			updateHistory(tabHref);
 		} else {
 			var iframeNode = document.createElement("iframe");
 			iframeNode.id = frameid;
@@ -385,13 +383,7 @@ var _framemenu = (function () {
 					});
 					$(frameid).style.display = '';
 					$(frameid + '_tab').className = 'dragObjTab current';
-					if (window.history && window.history.replaceState) {
-						try {
-							let urlObj = new URL($(frameid).src, window.location.href);
-							urlObj.searchParams.set('frames', 'yes');
-							window.history.replaceState(null, '', urlObj.href);
-						} catch (e) {}
-					}
+					updateHistory($(frameid).src);
 				}
 			});
 			aNode.id = frameid + '_tab';
@@ -404,13 +396,7 @@ var _framemenu = (function () {
 				left: document.querySelector('#tabs').scrollWidth,
 				behavior: 'smooth'
 			});
-			if (window.history && window.history.replaceState) {
-				try {
-					let urlObj = new URL(tabHref, window.location.href);
-					urlObj.searchParams.set('frames', 'yes');
-					window.history.replaceState(null, '', urlObj.href);
-				} catch (e) {}
-			}
+			updateHistory(tabHref);
 		}
 		doane();
 	}
