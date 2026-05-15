@@ -27,8 +27,8 @@ showtablerow('class="header"', ['class="td23"', 'class="td23"', 'class="td23"', 
 ]);
 
 foreach($logs as $k => $logrow) {
-	$data = json_decode($logrow['data'], true);
-	$device = json_decode($logrow['device'], true);
+	$data = logdecode($logrow['data']);
+	$device = logdecode($logrow['device']);
 	$log = [];
 	$log[0] = $logrow['id'];
 	$log[1] = dgmdate($logrow['dateline']);
@@ -54,4 +54,4 @@ foreach($logs as $k => $logrow) {
 	]);
 	echo showdevice($logrow['id'], $device, 9);
 }
-	
+

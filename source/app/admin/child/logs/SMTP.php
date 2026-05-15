@@ -22,7 +22,7 @@ showtablerow('class="header"', ['class="td23"', 'class="td23"', 'class="td24"', 
 
 $logarr = $loguids = [];
 foreach($logs as $logrow) {
-	$data = json_decode($logrow['data'], true);
+	$data = logdecode($logrow['data']);
 	$log = $data;
 	if(empty($log['timestamp'])) {
 		continue;
@@ -37,8 +37,8 @@ foreach($logs as $logrow) {
 $members = table_common_member::t()->fetch_all_username_by_uid($loguids);
 
 foreach($logs as $k => $logrow) {
-	$data = json_decode($logrow['data'], true);
-	$device = json_decode($logrow['device'], true);
+	$data = logdecode($logrow['data']);
+	$device = logdecode($logrow['device']);
 	$log = $data;
 	$log[6] = $members[$log['uid']];
 	showtablerow('', ['class="smallefont"', 'class="bold"', 'class="smallefont"'], [
@@ -50,4 +50,4 @@ foreach($logs as $k => $logrow) {
 	]);
 	echo showdevice($logrow['id'], $device, 5);
 }
-	
+

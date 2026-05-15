@@ -21,7 +21,7 @@ showtablerow('class="header"', ['class="td23"', 'class="td23"', 'class="td24"', 
 ]);
 
 foreach($logs as $k => $logrow) {
-	$data = json_decode($logrow['data'], true);
+	$data = logdecode($logrow['data']);
 	$log = $data;
 	if(empty($log['timestamp'])) {
 		continue;
@@ -36,8 +36,8 @@ foreach($logs as $k => $logrow) {
 $members = table_common_member::t()->fetch_all_by_email($logemail);
 
 foreach($logs as $k => $logrow) {
-	$data = json_decode($logrow['data'], true);
-	$device = json_decode($logrow['device'], true);
+	$data = logdecode($logrow['data']);
+	$device = logdecode($logrow['device']);
 	$log = $data;
 	$log['message'] = trim(str_replace('sendmail failed.', '', $log['message']));
 	$logrow[6] = $members[$log['message']]['username'];
@@ -53,4 +53,4 @@ foreach($logs as $k => $logrow) {
 	]);
 	echo showdevice($logrow['id'], $device, 5);
 }
-	
+

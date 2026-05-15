@@ -25,8 +25,8 @@ showtablerow('class="header"', ['class="td23"', 'class="td23"', 'class="td23"', 
 $channels = payment::channels();
 
 foreach($logs as $k => $logrow) {
-	$data = json_decode($logrow['data'], true);
-	$device = json_decode($logrow['device'], true);
+	$data = logdecode($logrow['data']);
+	$device = logdecode($logrow['device']);
 	$log = [];
 	$log[1] = dgmdate($logrow['dateline']);
 	$log[2] = $channels[$data['channel']]['title'];
@@ -47,4 +47,4 @@ foreach($logs as $k => $logrow) {
 	echo '</tbody>';
 	echo showdevice($logrow['id'], $device, 7);
 }
-	
+

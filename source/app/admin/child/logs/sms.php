@@ -27,15 +27,15 @@ showtablerow('class="header"', ['class="td23"', 'class="td23"', 'class="td23"', 
 ]);
 
 foreach($logs as $k => $logrow) {
-	$data = json_decode($logrow['data'], true);
-	$device = json_decode($logrow['device'], true);
+	$data = logdecode($logrow['data']);
+	$device = logdecode($logrow['device']);
 	$log = [];
 	$log[0] = $logrow['id'];
 	$log[1] = $logrow['uid'];
 	$log[2] = $logrow['username'];
 	$log[3] = $_G['group']['allowviewip'] ? 'ClientIP: '.$device['client_ip'].'&nbsp;&nbsp;<a href="javascript:;" onclick="togglelog('.$logrow['id'].')">'.cplang('more').'</a>' : '-';
 	$log[4] = dgmdate($logrow['dateline']);
-	$_smsdata = json_decode($logrow['data'], true);
+	$_smsdata = $data;
 	$log[5] = $_smsdata['secmobicc'];
 	$log[6] = $_smsdata['secmobile'];
 	$log[7] = $_smsdata['content']['content'] ?? '';
@@ -54,4 +54,4 @@ foreach($logs as $k => $logrow) {
 	]);
 	echo showdevice($logrow['id'], $device, 9);
 }
-	
+

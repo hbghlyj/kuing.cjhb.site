@@ -24,8 +24,8 @@ showtablerow('class="header"', ['class="td23"', 'class="td23"', 'class="td23"', 
 ]);
 
 foreach($logs as $k => $logrow) {
-	$data = json_decode($logrow['data'], true);
-	$device = json_decode($logrow['device'], true);
+	$data = logdecode($logrow['data']);
+	$device = logdecode($logrow['device']);
 	$log[1] = dgmdate($logrow['dateline']);
 	$log[2] = "<a href=\"home.php?mod=space&username=".rawurlencode($data['operator_username'])."\" target=\"_blank\">".$data['operator_username'].'</a>';
 	$log[3] = $usergroup[$data['operator_adminid']];
@@ -48,4 +48,4 @@ foreach($logs as $k => $logrow) {
 	]);
 	echo showdevice($logrow['id'], $device, 8);
 }
-	
+

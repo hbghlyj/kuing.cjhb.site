@@ -259,6 +259,14 @@ function showdevice($id, $device, $colspan = 1) {
 		'</tbody>';
 }
 
+function logdecode($value) {
+	if(is_array($value)) {
+		return $value;
+	}
+	$value = json_decode((string)$value, true);
+	return is_array($value) ? $value : [];
+}
+
 function getactionarray() {
 	$isfounder = true;
 	$menu = $topmenu = [];

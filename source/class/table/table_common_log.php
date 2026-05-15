@@ -176,11 +176,6 @@ class table_common_log_file {
 
 			fseek($fps[$fileindex], $seek);
 			$row = json_decode(substr(fread($fps[$fileindex], $len), 36), true);
-			foreach(['data', 'device'] as $field) {
-				if(isset($row[$field]) && !is_string($row[$field])) {
-					$row[$field] = json_encode($row[$field], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
-				}
-			}
 			$row['id'] = $i++;
 			$return[] = $row;
 		}
@@ -210,7 +205,7 @@ class table_common_log_file {
 			}
 			$matched = true;
 			foreach($jsonfilters as $filter) {
-				$data = json_decode($row[$filter[0]], true);
+				$data = is_array($row[$filter[0]]) ? $row[$filter[0]] : json_decode($row[$filter[0]], true);
 				if(!is_array($data) || (string)($data[$filter[1]] ?? '') !== $filter[2]) {
 					$matched = false;
 					break;
