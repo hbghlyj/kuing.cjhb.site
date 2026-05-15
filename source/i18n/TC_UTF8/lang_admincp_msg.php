@@ -261,6 +261,7 @@ $lang = [
 	'database_shell_fail' => 'Shell 權限被禁止或服務器不支持，無法使用 MySQL Dump 方式備份或恢復數據',
 	'database_export_dest_invalid' => '目錄不存在或無法訪問，請檢查 ./data/ 目錄',
 	'database_file_delete_succeed' => '指定備份文件刪除成功 ',
+	'logs_delete_succeed' => '選中的日誌刪除成功 ',
 	'database_file_delete_invalid' => '您沒有選擇要刪除的備份文件',
 	'database_run_query_invalid' => '升級錯誤，MySQL 提示: {sqlerror} ',
 	'database_run_query_succeed' => 'Discuz! 數據結構升級成功，影響的記錄行數 {affected_rows}',

@@ -20,6 +20,7 @@ $extrainput = '';
 $operation = !empty($operation) ? $operation : 'setting';
 
 $start = ($page - 1) * $lpp;
+$keyword = isset($_GET['keyword']) ? trim((string)$_GET['keyword']) : '';
 
 $conditions = [];
 $conditions[] = ['type', '=', "'".$operation."'"];
@@ -27,11 +28,23 @@ if(!empty($_GET['search']) && !empty($_GET['search']['field']) && in_array($_GET
 	&& !empty($_GET['search']['key'])&& !empty($_GET['search'][$_GET['search']['key']])) {
 	$conditions[] = ['JSON_EXTRACT('.$_GET['search']['field'].', \'$.'.$_GET['search']['key'].'\')', '=', "'".$_GET['search'][$_GET['search']['key']]."'"];
 }
+if($keyword !== '') {
+	$conditions[] = ['keyword', 'LIKE', $keyword];
+}
+
+$urlbase = ADMINSCRIPT."?action=logs&operation=$operation&lpp=$lpp".($keyword !== '' ? '&keyword='.rawurlencode($keyword) : '').(!empty($_GET['day']) ? '&day='.$_GET['day'] : '');
+if(submitcheck('logbatchsubmit', true)) {
+	$deleteids = !empty($_POST['deleteids']) ? dintval((array)$_POST['deleteids'], true) : [];
+	if($deleteids) {
+		table_common_log::t()->delete_by_ids($deleteids, $conditions, $start, $lpp);
+	}
+	cpmsg('logs_delete_succeed', $urlbase.'&page='.$page, 'succeed');
+}
 
 $logs = [];
 $num = table_common_log::t()->fetch_all_by_conditions($conditions, 0, 0, 1);
 $logs = table_common_log::t()->fetch_all_by_conditions($conditions, $start, $lpp, 0);
-$multipage = multi($num, $lpp, $page, ADMINSCRIPT."?action=logs&operation=$operation&lpp=$lpp".(!empty($_GET['day']) ? '&day='.$_GET['day'] : ''), 0, 3);
+$multipage = multi($num, $lpp, $page, $urlbase, 0, 3);
 
 $usergroup = [];
 
@@ -103,6 +116,20 @@ if(!empty($_G['cache']['adminlog'])) {
 showsubmenu('nav_logs', $menu, $sel);
 
 $filters = '';
+$keywordhtml = dhtmlspecialchars($keyword);
+showformheader('logs&operation='.$operation, '', 'logsearchform', 'get');
+showtableheader('', 'fixpadding');
+echo '<input type="hidden" name="action" value="logs" />';
+echo '<input type="hidden" name="operation" value="'.dhtmlspecialchars($operation).'" />';
+echo '<input type="hidden" name="lpp" value="'.$lpp.'" />';
+showtablerow('', [], [
+	'Keyword',
+	'<input type="text" class="txt" style="width:280px" name="keyword" value="'.$keywordhtml.'" />',
+	'<input type="submit" class="btn" value="'.$lang['search'].'" />'.($keyword !== '' ? ' <a href="'.ADMINSCRIPT.'?action=logs&operation='.rawurlencode($operation).'&lpp='.$lpp.'">Clear</a>' : ''),
+]);
+showtablefooter();
+showformfooter();
+
 echo <<<EOD
 <script type="text/javascript">
 function togglelog(k) {
@@ -112,6 +139,40 @@ function togglelog(k) {
 	} else {
 		logobj.style.display = 'none';
 	}
+}
+function initLogBatchDelete() {
+	var tables = document.getElementsByTagName('table');
+	for(var i = 0; i < tables.length; i++) {
+		var rows = tables[i].getElementsByTagName('tr');
+		for(var j = 0; j < rows.length; j++) {
+			var cells = rows[j].getElementsByTagName('td');
+			if(!cells.length || cells[0].getAttribute('data-log-batch')) {
+				continue;
+			}
+			var text = cells[0].innerText || cells[0].textContent || '';
+			text = text.replace(/^\\s+|\\s+$/g, '');
+			if(/^\\d+$/.test(text)) {
+				cells[0].setAttribute('data-log-batch', '1');
+				cells[0].innerHTML = '<input type="checkbox" class="checkbox" name="deleteids[]" value="' + text + '" form="logbatchform" /> ' + cells[0].innerHTML;
+			}
+		}
+	}
+}
+function submitLogBatchDelete() {
+	var form = $('logbatchform');
+	var checked = false;
+	var inputs = document.getElementsByName('deleteids[]');
+	for(var i = 0; i < inputs.length; i++) {
+		if(inputs[i].checked) {
+			checked = true;
+			break;
+		}
+	}
+	if(!checked) {
+		alert('Please select logs to delete.');
+		return false;
+	}
+	return confirm('Delete selected logs?');
 }
 </script>
 EOD;
@@ -130,6 +191,15 @@ if(!file_exists($file)) {
 }
 
 require_once $file;
+
+echo '<form id="logbatchform" method="post" action="'.$urlbase.'&page='.$page.'" onsubmit="return submitLogBatchDelete();">';
+echo '<input type="hidden" name="formhash" value="'.FORMHASH.'" />';
+echo '<input type="hidden" name="logbatchsubmit" value="yes" />';
+echo '</form>';
+echo '<script type="text/javascript">initLogBatchDelete();</script>';
+showtableheader('', 'fixpadding');
+showsubmit('', '', '', '<input type="checkbox" name="chkall" id="chkall" class="checkbox" onclick="checkAll(\'prefix\', document.getElementById(\'logbatchform\'), \'deleteids\')" form="logbatchform" /><label for="chkall">'.cplang('select_all').'</label>&nbsp;&nbsp;<input type="submit" class="btn" value="'.cplang('delete').'" form="logbatchform" />', $multipage);
+showtablefooter();
 
 function showdevice($id, $device, $colspan = 1) {
 	return '<tbody id="log_'.$id.'" style="display:none; background-color: #cfd6dd;">'.

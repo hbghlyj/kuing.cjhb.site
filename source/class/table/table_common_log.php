@@ -43,7 +43,14 @@ class table_common_log_mysql extends table_common_log {
 		$wheresql = ' 1=1 ';
 		if(!empty($conditions)) {
 			foreach($conditions as $ckey => $cvalue) {
-				$wheresql .= ' AND '.$cvalue[0].' '.$cvalue[1].' '.$cvalue[2].' ';
+				if($cvalue[0] == 'keyword') {
+					$keyword = trim($cvalue[2]);
+					if($keyword !== '') {
+						$wheresql .= ' AND CONCAT_WS(\' \', uid, loginname, username, type, data, source, device, record, dateline) LIKE '.DB::quote('%'.$keyword.'%').' ';
+					}
+				} else {
+					$wheresql .= ' AND '.$cvalue[0].' '.$cvalue[1].' '.$cvalue[2].' ';
+				}
 			}
 		}
 		$ordersql = '';
@@ -69,6 +76,14 @@ class table_common_log_mysql extends table_common_log {
 
 	public function delete_by_removetime($removetime, $types = []) {
 		return DB::query('DELETE FROM %t WHERE dateline < %d AND type IN('.dimplode($types).')', [$this->_table, $removetime]);
+	}
+
+	public function delete_by_ids($ids, $conditions = [], $startlimit = 0, $count = 0) {
+		$ids = dintval((array)$ids, true);
+		if(empty($ids)) {
+			return 0;
+		}
+		return DB::query('DELETE FROM %t WHERE id IN(%n)', [$this->_table, $ids]);
 	}
 
 }
@@ -151,6 +166,39 @@ class table_common_log_file {
 		return $return;
 	}
 
+	private function _filter_indexs_by_conditions($conditions) {
+		$keyword = '';
+		$jsonfilters = [];
+		foreach((array)$conditions as $condition) {
+			if($condition[0] == 'keyword') {
+				$keyword = trim($condition[2]);
+			} elseif(preg_match('/^JSON_EXTRACT\((data|device), \'\$\.(\w+)\'\)$/', $condition[0], $match)) {
+				$jsonfilters[] = [$match[1], $match[2], trim($condition[2], "'")];
+			}
+		}
+		if($keyword === '' && empty($jsonfilters)) {
+			return;
+		}
+		$indexs = [];
+		foreach($this->_get_data($this->indexs) as $offset => $row) {
+			if($keyword !== '' && stripos(json_encode($row, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES), $keyword) === false) {
+				continue;
+			}
+			$matched = true;
+			foreach($jsonfilters as $filter) {
+				$data = json_decode($row[$filter[0]], true);
+				if(!is_array($data) || (string)($data[$filter[1]] ?? '') !== $filter[2]) {
+					$matched = false;
+					break;
+				}
+			}
+			if($matched) {
+				$indexs[] = $this->indexs[$offset];
+			}
+		}
+		$this->indexs = $indexs;
+	}
+
 	public function insert($data, $return_insert_id = false, $replace = false, $silent = false) {
 		$time = date('Y-m-d H:i:s', $data['dateline']);
 		$date = date('Ym', $data['dateline']);
@@ -187,6 +235,7 @@ class table_common_log_file {
 		foreach($this->files as $fileindex => $file) {
 			$this->_get_index($fileindex, $file);
 		}
+		$this->_filter_indexs_by_conditions($conditions);
 		if($returncount) {
 			return count($this->indexs);
 		}
@@ -194,6 +243,64 @@ class table_common_log_file {
 	}
 
 	public function delete_by_removetime($removetime, $types = []) {
+	}
+
+	public function delete_by_ids($ids, $conditions = [], $startlimit = 0, $count = 0) {
+		$ids = dintval((array)$ids, true);
+		if(empty($ids)) {
+			return 0;
+		}
+		$this->indexs = [];
+		if($conditions[0][0] != 'type') {
+			return 0;
+		}
+		$type = substr($conditions[0][2], 1, -1);
+		$this->_get_files($type);
+		foreach($this->files as $fileindex => $file) {
+			$this->_get_index($fileindex, $file);
+		}
+		$this->_filter_indexs_by_conditions($conditions);
+		$delete = [];
+		foreach(array_slice($this->indexs, $startlimit, $count) as $rowid => $index) {
+			if(in_array($rowid, $ids)) {
+				$delete[$index[0].':'.$index[1]] = true;
+			}
+		}
+		if(empty($delete)) {
+			return 0;
+		}
+		$deleted = 0;
+		foreach($this->files as $fileindex => $indexfile) {
+			$datafile = str_replace('.index.php', '.php', $indexfile);
+			if(!file_exists($datafile)) {
+				continue;
+			}
+			$rows = file($datafile);
+			$newrows = [];
+			$offset = 0;
+			$filedeleted = 0;
+			foreach($rows as $row) {
+				$key = $fileindex.':'.$offset;
+				if(isset($delete[$key])) {
+					$filedeleted++;
+				} else {
+					$newrows[] = $row;
+				}
+				$offset += strlen($row);
+			}
+			if($filedeleted) {
+				$deleted += $filedeleted;
+				file_put_contents($datafile, implode('', $newrows), LOCK_EX);
+				$index = '<?PHP exit;?>';
+				$offset = 0;
+				foreach($newrows as $row) {
+					$offset += strlen($row);
+					$index .= '|'.$offset;
+				}
+				file_put_contents($indexfile, $index, LOCK_EX);
+			}
+		}
+		return $deleted;
 	}
 
 }
