@@ -58,6 +58,15 @@ class table_common_log_mysql extends table_common_log {
 		return DB::fetch_all("SELECT * FROM %t WHERE $wheresql ORDER BY ".$ordersql.' '.DB::limit($startlimit, $count), [$this->_table]);
 	}
 
+	public function insert($data, $return_insert_id = false, $replace = false, $silent = false) {
+		foreach(['data', 'device'] as $field) {
+			if(isset($data[$field]) && !is_string($data[$field])) {
+				$data[$field] = json_encode($data[$field], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+			}
+		}
+		return parent::insert($data, $return_insert_id, $replace, $silent);
+	}
+
 	public function delete_by_removetime($removetime, $types = []) {
 		return DB::query('DELETE FROM %t WHERE dateline < %d AND type IN('.dimplode($types).')', [$this->_table, $removetime]);
 	}
@@ -128,6 +137,11 @@ class table_common_log_file {
 
 			fseek($fps[$fileindex], $seek);
 			$row = json_decode(substr(fread($fps[$fileindex], $len), 36), true);
+			foreach(['data', 'device'] as $field) {
+				if(isset($row[$field]) && !is_string($row[$field])) {
+					$row[$field] = json_encode($row[$field], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+				}
+			}
 			$row['id'] = $i++;
 			$return[] = $row;
 		}
@@ -142,7 +156,7 @@ class table_common_log_file {
 		$date = date('Ym', $data['dateline']);
 
 		$str = '['.$time.'] ';
-		$str .= json_encode($data);
+		$str .= json_encode($data, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
 		$filename = $this->_get_name($data['type'], $date);
 		$fp = fopen($filename.'.php', 'a');
 		if(!$fp) {

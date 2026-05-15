@@ -537,19 +537,19 @@ class discuz_application extends discuz_base {
 			"Internet Archive" => ['207.241.224.0/20','207.241.224.0/24','207.241.234.0/24','207.241.237.0/24','208.70.24.0/21', '2620:0:9c0::/48']);
 			foreach($cidrs_array as $user_agent_keyword => $cidrs) {
 				if (ip::check_ip($this->var['clientip'], $cidrs)) {
-					DB::query('UPDATE common_robot_user_agents SET last_seen_at = UNIX_TIMESTAMP(), seen_count = seen_count + 1, category = ' . DB::quote($_SERVER['HTTP_X_KNOWN_BOT']).' WHERE user_agent_keyword = ' . DB::quote($user_agent_keyword));
+					DB::query('UPDATE %t SET last_seen_at = UNIX_TIMESTAMP(), seen_count = seen_count + 1, category = %s WHERE user_agent_keyword = %s', ['common_robot_user_agents', $_SERVER['HTTP_X_KNOWN_BOT'] ?? '', $user_agent_keyword]);
 					define('IS_ROBOT', value: $user_agent_keyword . "\t");
 					break;
 				}
 			}
 			if(!defined('IS_ROBOT')) {
-				$robot_entry = DB::fetch_first("SELECT id,first_seen_at,user_agent_keyword FROM common_robot_user_agents WHERE %s LIKE CONCAT(%s, user_agent_keyword, %s) ORDER BY LENGTH(user_agent_keyword) DESC, seen_count DESC LIMIT 1",array($_SERVER['HTTP_USER_AGENT'], '%', '%'));
+				$robot_entry = DB::fetch_first("SELECT id,first_seen_at,user_agent_keyword FROM %t WHERE %s LIKE CONCAT(%s, user_agent_keyword, %s) ORDER BY LENGTH(user_agent_keyword) DESC, seen_count DESC LIMIT 1",array('common_robot_user_agents', $_SERVER['HTTP_USER_AGENT'], '%', '%'));
 				// Check HTTP_X_KNOWN_BOT header (e.g., from Cloudflare)
 				if (isset($_SERVER['HTTP_X_KNOWN_BOT'])) {
 					if ($robot_entry) {
-						DB::query('UPDATE common_robot_user_agents SET last_seen_at = UNIX_TIMESTAMP(), seen_count = seen_count + 1, category = ' . DB::quote($_SERVER['HTTP_X_KNOWN_BOT']) .
+						DB::query('UPDATE %t SET last_seen_at = UNIX_TIMESTAMP(), seen_count = seen_count + 1, category = %s '.
 						($robot_entry['first_seen_at'] ? '' : ', first_seen_at = UNIX_TIMESTAMP()').
-						' WHERE id = ' . $robot_entry['id']);
+						' WHERE id = %d', ['common_robot_user_agents', $_SERVER['HTTP_X_KNOWN_BOT'], $robot_entry['id']]);
 						define('IS_ROBOT', $robot_entry['user_agent_keyword'] . "\t");
 					} else {
 						DB::insert('common_robot_user_agents', array(
@@ -562,9 +562,9 @@ class discuz_application extends discuz_base {
 						define('IS_ROBOT', $_SERVER['HTTP_X_KNOWN_BOT'] . "\t");
 					}
 				} elseif ($robot_entry) {
-					DB::query('UPDATE common_robot_user_agents SET last_seen_at=UNIX_TIMESTAMP(), seen_count = seen_count + 1'.
+					DB::query('UPDATE %t SET last_seen_at=UNIX_TIMESTAMP(), seen_count = seen_count + 1'.
 					($robot_entry['first_seen_at'] ? '' : ', first_seen_at = UNIX_TIMESTAMP()').
-					' WHERE id = '.$robot_entry['id']);
+					' WHERE id = %d', ['common_robot_user_agents', $robot_entry['id']]);
 					define('IS_ROBOT', $robot_entry['user_agent_keyword'] . "\t");
 				} elseif (strpos($_SERVER['HTTP_USER_AGENT'], 'http://') !== false || strpos($_SERVER['HTTP_USER_AGENT'], 'https://') !== false) {
 					// If it reaches here, it means it has a URL and wasn't caught by specific rules.

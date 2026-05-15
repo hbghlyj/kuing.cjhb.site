@@ -2368,10 +2368,10 @@ function logger($type, $member, $operationuid, $data = [], $device = [], $record
 		'loginname' => !empty($member['loginname']) ? $member['loginname'] : '',
 		'username' => !empty($member['username']) ? $member['username'] : '',
 		'type' => $type,
-		'data' => json_encode($data),
+		'data' => $data,
 		'operationuid' => $operationuid,
 		'source' => $source,
-		'device' => json_encode(!empty($device) ? $device : getLogInfo()),
+		'device' => !empty($device) ? $device : getLogInfo(),
 		'record' => $record,
 		'dateline' => getglobal('timestamp')
 	];
