@@ -14,8 +14,7 @@
                     <!--{if $method == 'chgemail' && empty($_G['member']['email'])}-->
                     <input type="text" name="email" id="secemail" class="px" placeholder="{lang email}"/>
                     <!--{else}-->
-                    <!--{eval $email_arr = explode('@', $_G['member']['email']);}-->
-                    <!--{eval echo substr($email_arr[0], 0, 3).'****' . '@' . $email_arr[1]}-->
+                    {$_G['member']['email']}
                     <input type="hidden" id="secemail" name="email" value="{$_G['member']['email']}" />
                     <!--{/if}-->
                 </td>
