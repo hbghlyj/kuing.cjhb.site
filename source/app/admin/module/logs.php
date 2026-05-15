@@ -49,7 +49,9 @@ if(isset($_GET['platform'])) {
 $urlbase = ADMINSCRIPT."?".$adminroute."action=logs&operation=$operation&lpp=$lpp".($keywordenc !== '' ? '&keywordenc='.$keywordenc : '').(!empty($_GET['day']) ? '&day='.$_GET['day'] : '');
 if(submitcheck('logbatchsubmit', true)) {
 	$deleteids = !empty($_POST['deleteids']) ? dintval((array)$_POST['deleteids'], true) : [];
-	if($deleteids) {
+	if(!empty($_POST['deleteallfiltered'])) {
+		table_common_log::t()->delete_by_conditions($conditions);
+	} elseif($deleteids) {
 		table_common_log::t()->delete_by_ids($deleteids, $conditions, $start, $lpp);
 	}
 	cpmsg('logs_delete_succeed', $urlbase.'&page='.$page, 'succeed');
@@ -189,6 +191,10 @@ function initLogBatchDelete() {
 }
 function submitLogBatchDelete() {
 	var form = $('logbatchform');
+	var deleteall = $('deleteallfiltered');
+	if(deleteall && deleteall.value == '1') {
+		return confirm('Delete all logs matching current filter?');
+	}
 	var checked = false;
 	var inputs = document.getElementsByName('deleteids[]');
 	for(var i = 0; i < inputs.length; i++) {
@@ -202,6 +208,13 @@ function submitLogBatchDelete() {
 		return false;
 	}
 	return confirm('Delete selected logs?');
+}
+function toggleLogFilterDelete(chk) {
+	var deleteall = $('deleteallfiltered');
+	if(deleteall) {
+		deleteall.value = chk.checked ? '1' : '';
+	}
+	checkAll('prefix', document.getElementById('logbatchform'), 'deleteids');
 }
 </script>
 EOD;
@@ -224,10 +237,11 @@ require_once $file;
 echo '<form id="logbatchform" method="post" action="'.$urlbase.'&page='.$page.'" onsubmit="return submitLogBatchDelete();">';
 echo '<input type="hidden" name="formhash" value="'.FORMHASH.'" />';
 echo '<input type="hidden" name="logbatchsubmit" value="yes" />';
+echo '<input type="hidden" name="deleteallfiltered" id="deleteallfiltered" value="" />';
 echo '</form>';
 echo '<script type="text/javascript">initLogBatchDelete();</script>';
 showtableheader('', 'fixpadding');
-showsubmit('', '', '', '<input type="checkbox" name="chkall" id="chkall" class="checkbox" onclick="checkAll(\'prefix\', document.getElementById(\'logbatchform\'), \'deleteids\')" form="logbatchform" /><label for="chkall">'.cplang('select_all').'</label>&nbsp;&nbsp;<input type="submit" class="btn" value="'.cplang('delete').'" form="logbatchform" />', $multipage);
+showsubmit('', '', '', '<input type="checkbox" name="chkall" id="chkall" class="checkbox" onclick="toggleLogFilterDelete(this)" form="logbatchform" /><label for="chkall">'.cplang('select_all').'</label>&nbsp;&nbsp;<input type="submit" class="btn" value="'.cplang('delete').'" form="logbatchform" />', $multipage);
 showtablefooter();
 
 function showdevice($id, $device, $colspan = 1) {
