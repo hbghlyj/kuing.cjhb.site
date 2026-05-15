@@ -39,7 +39,14 @@ if($keyword !== '') {
 }
 
 $keywordenc = $keyword !== '' ? rtrim(strtr(base64_encode($keyword), '+/', '-_'), '=') : '';
-$urlbase = ADMINSCRIPT."?action=logs&operation=$operation&lpp=$lpp".($keywordenc !== '' ? '&keywordenc='.$keywordenc : '').(!empty($_GET['day']) ? '&day='.$_GET['day'] : '');
+$adminroute = '';
+if(isset($_GET['app'])) {
+	$adminroute .= 'app='.rawurlencode($_GET['app']).'&';
+}
+if(isset($_GET['platform'])) {
+	$adminroute .= 'platform='.rawurlencode($_GET['platform']).'&';
+}
+$urlbase = ADMINSCRIPT."?".$adminroute."action=logs&operation=$operation&lpp=$lpp".($keywordenc !== '' ? '&keywordenc='.$keywordenc : '').(!empty($_GET['day']) ? '&day='.$_GET['day'] : '');
 if(submitcheck('logbatchsubmit', true)) {
 	$deleteids = !empty($_POST['deleteids']) ? dintval((array)$_POST['deleteids'], true) : [];
 	if($deleteids) {
@@ -124,8 +131,14 @@ showsubmenu('nav_logs', $menu, $sel);
 
 $filters = '';
 $keywordhtml = dhtmlspecialchars($keyword);
-showformheader('logs&operation='.$operation, 'onsubmit="return encodeLogKeywordSearch();"', 'logsearchform', 'get');
+echo '<form name="logsearchform" method="get" autocomplete="on" action="'.ADMINSCRIPT.'" id="logsearchform" onsubmit="return encodeLogKeywordSearch();">';
 showtableheader('', 'fixpadding');
+if(isset($_GET['app'])) {
+	echo '<input type="hidden" name="app" value="'.dhtmlspecialchars($_GET['app']).'" />';
+}
+if(isset($_GET['platform'])) {
+	echo '<input type="hidden" name="platform" value="'.dhtmlspecialchars($_GET['platform']).'" />';
+}
 echo '<input type="hidden" name="action" value="logs" />';
 echo '<input type="hidden" name="operation" value="'.dhtmlspecialchars($operation).'" />';
 echo '<input type="hidden" name="lpp" value="'.$lpp.'" />';
@@ -133,10 +146,10 @@ echo '<input type="hidden" name="keywordenc" id="keywordenc" value="'.dhtmlspeci
 showtablerow('', [], [
 	'Keyword',
 	'<input type="text" class="txt" style="width:280px" id="keywordraw" value="'.$keywordhtml.'" />',
-	'<input type="submit" class="btn" value="'.$lang['search'].'" />'.($keyword !== '' ? ' <a href="'.ADMINSCRIPT.'?action=logs&operation='.rawurlencode($operation).'&lpp='.$lpp.'">Clear</a>' : ''),
+	'<input type="submit" class="btn" value="'.$lang['search'].'" />'.($keyword !== '' ? ' <a href="'.ADMINSCRIPT.'?'.$adminroute.'action=logs&operation='.rawurlencode($operation).'&lpp='.$lpp.'">Clear</a>' : ''),
 ]);
 showtablefooter();
-showformfooter();
+echo '</form>';
 
 echo <<<EOD
 <script type="text/javascript">
