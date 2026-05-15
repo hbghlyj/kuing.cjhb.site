@@ -135,20 +135,27 @@ class table_common_log_file {
 		if(!file_exists($file) || !file_exists($datafile)) {
 			return [];
 		}
-		$indexdata = explode('|', substr(file_get_contents($file), 13));
-		if(!$indexdata) {
+		$offsets = [];
+		foreach(explode('|', substr(file_get_contents($file), 13)) as $offset) {
+			$offset = intval($offset);
+			if($offset > 0) {
+				$offsets[] = $offset;
+			}
+		}
+		if(!$offsets) {
 			return [];
 		}
-		rsort($indexdata);
-		$last = intval(current($indexdata));
-		foreach($indexdata as $v) {
-			$v = intval($v);
-			$len = $last - $v;
+		sort($offsets, SORT_NUMERIC);
+		$previous = 0;
+		$indexdata = [];
+		foreach($offsets as $offset) {
+			$len = $offset - $previous;
 			if($len > 0) {
-				$this->indexs[] = [$fileindex, $v, $len];
+				$indexdata[] = [$fileindex, $previous, $len];
 			}
-			$last = $v;
+			$previous = $offset;
 		}
+		$this->indexs = array_merge($this->indexs, array_reverse($indexdata));
 	}
 
 	private function _get_data($data) {
