@@ -34,15 +34,6 @@ foreach($posts as $post) {
 	if(str_contains(strtolower($post['message']), '[hide=')) {
 		$post['message'] = preg_replace('/\[hide=(\d+)\]\s*(.*?)\s*\[\/hide\]/is', '', $post['message']);
 	}
-	$post['message'] = discuzcode($post['message'], $post['smileyoff'], $post['bbcodeoff'], sprintf('%00b', $post['htmlon']), $_G['forum']['allowsmilies'], $_G['forum']['allowbbcode'], $_G['forum']['allowimgcode'], $_G['forum']['allowhtml'], ($_G['forum']['jammer'] && $post['authorid'] != $_G['uid'] ? 1 : 0));
-
-	if(str_contains($post['message'], '[page]')) {
-		$post['message'] = preg_replace('/\s?\[page\]\s?/is', '', $post['message']);
-	}
-	if(str_contains($post['message'], '[/index]')) {
-		$post['message'] = preg_replace('/\s?\[index\](.+?)\[\/index\]\s?/is', '', $post['message']);
-	}
-
 	if($post['attachment']) {
 		$attachment = 1;
 	}
@@ -53,6 +44,15 @@ foreach($posts as $post) {
 		if(preg_match_all('/\[attach\](\d+)\[\/attach\]/i', $post['message'], $matchaids)) {
 			$_G['forum_attachtags'][$post['pid']] = $matchaids[1];
 		}
+	}
+
+	$post['message'] = discuzcode($post['message'], $post['smileyoff'], $post['bbcodeoff'], sprintf('%00b', $post['htmlon']), $_G['forum']['allowsmilies'], $_G['forum']['allowbbcode'], $_G['forum']['allowimgcode'], $_G['forum']['allowhtml'], ($_G['forum']['jammer'] && $post['authorid'] != $_G['uid'] ? 1 : 0));
+
+	if(str_contains($post['message'], '[page]')) {
+		$post['message'] = preg_replace('/\s?\[page\]\s?/is', '', $post['message']);
+	}
+	if(str_contains($post['message'], '[/index]')) {
+		$post['message'] = preg_replace('/\s?\[index\](.+?)\[\/index\]\s?/is', '', $post['message']);
 	}
 	$uids[] = $post['authorid'];
 	$postlist[$post['pid']] = $post;
