@@ -20,7 +20,13 @@ $extrainput = '';
 $operation = !empty($operation) ? $operation : 'setting';
 
 $start = ($page - 1) * $lpp;
-$keyword = isset($_GET['keyword']) ? trim((string)$_GET['keyword']) : '';
+$keyword = '';
+if(isset($_GET['keywordenc']) && preg_match('/^[A-Za-z0-9_-]+$/', $_GET['keywordenc'])) {
+	$keyword = base64_decode(strtr($_GET['keywordenc'], '-_', '+/'));
+	$keyword = is_string($keyword) ? trim($keyword) : '';
+} elseif(isset($_GET['keyword'])) {
+	$keyword = trim((string)$_GET['keyword']);
+}
 
 $conditions = [];
 $conditions[] = ['type', '=', "'".$operation."'"];
@@ -32,7 +38,8 @@ if($keyword !== '') {
 	$conditions[] = ['keyword', 'LIKE', $keyword];
 }
 
-$urlbase = ADMINSCRIPT."?action=logs&operation=$operation&lpp=$lpp".($keyword !== '' ? '&keyword='.rawurlencode($keyword) : '').(!empty($_GET['day']) ? '&day='.$_GET['day'] : '');
+$keywordenc = $keyword !== '' ? rtrim(strtr(base64_encode($keyword), '+/', '-_'), '=') : '';
+$urlbase = ADMINSCRIPT."?action=logs&operation=$operation&lpp=$lpp".($keywordenc !== '' ? '&keywordenc='.$keywordenc : '').(!empty($_GET['day']) ? '&day='.$_GET['day'] : '');
 if(submitcheck('logbatchsubmit', true)) {
 	$deleteids = !empty($_POST['deleteids']) ? dintval((array)$_POST['deleteids'], true) : [];
 	if($deleteids) {
@@ -117,14 +124,15 @@ showsubmenu('nav_logs', $menu, $sel);
 
 $filters = '';
 $keywordhtml = dhtmlspecialchars($keyword);
-showformheader('logs&operation='.$operation, '', 'logsearchform', 'get');
+showformheader('logs&operation='.$operation, 'onsubmit="return encodeLogKeywordSearch();"', 'logsearchform', 'get');
 showtableheader('', 'fixpadding');
 echo '<input type="hidden" name="action" value="logs" />';
 echo '<input type="hidden" name="operation" value="'.dhtmlspecialchars($operation).'" />';
 echo '<input type="hidden" name="lpp" value="'.$lpp.'" />';
+echo '<input type="hidden" name="keywordenc" id="keywordenc" value="'.dhtmlspecialchars($keywordenc).'" />';
 showtablerow('', [], [
 	'Keyword',
-	'<input type="text" class="txt" style="width:280px" name="keyword" value="'.$keywordhtml.'" />',
+	'<input type="text" class="txt" style="width:280px" id="keywordraw" value="'.$keywordhtml.'" />',
 	'<input type="submit" class="btn" value="'.$lang['search'].'" />'.($keyword !== '' ? ' <a href="'.ADMINSCRIPT.'?action=logs&operation='.rawurlencode($operation).'&lpp='.$lpp.'">Clear</a>' : ''),
 ]);
 showtablefooter();
@@ -139,6 +147,14 @@ function togglelog(k) {
 	} else {
 		logobj.style.display = 'none';
 	}
+}
+function encodeLogKeywordSearch() {
+	var raw = $('keywordraw');
+	var encoded = $('keywordenc');
+	if(raw && encoded) {
+		encoded.value = btoa(unescape(encodeURIComponent(raw.value))).replace(/\\+/g, '-').replace(/\\//g, '_').replace(/=+$/g, '');
+	}
+	return true;
 }
 function initLogBatchDelete() {
 	var tables = document.getElementsByTagName('table');
