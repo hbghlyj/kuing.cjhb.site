@@ -5,12 +5,10 @@
 <script>
   window.MathJax.startup = {
     ready: function() {
-      const {OPTABLE, MO} = MathJax._.core.MmlTree.OperatorDictionary;
       const {MmlMath} = MathJax._.core.MmlTree.MmlNodes.math;
       const {MmlMstyle} = MathJax._.core.MmlTree.MmlNodes.mstyle;
       const {FONTSIZE} = MathJax._.output.chtml.Wrapper;
       const {CHTML} = MathJax._.output.chtml_ts;
-      OPTABLE.infix['\u27C2'] = MO.REL;
       MmlMath.defaults.scriptminsize = '0px';
       MmlMath.defaults.scriptsizemultiplier = 0.8;
       MmlMstyle.defaults.scriptminsize = '0px';
