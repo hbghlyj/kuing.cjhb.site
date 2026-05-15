@@ -354,11 +354,7 @@ if(!submitcheck('topicsubmit', 0, $seccodecheck, $secqaacheck)) {
 	// cover end
 
 
-	if(rewriterulecheck('forum_viewthread')) {
-		$returnurl = rewriteoutput('forum_viewthread', 1, '', $modthread->tid, 1, '', $extra);
-	} else {
-		$returnurl = "forum.php?mod=viewthread&tid={$modthread->tid}&extra=$extra";
-	}
+	$returnurl = "forum.php?mod=viewthread&tid={$modthread->tid}".($extra ? "&extra=$extra" : '');
 	$values = ['fid' => $modthread->forum('fid'), 'tid' => $modthread->tid, 'pid' => $modthread->pid, 'coverimg' => '', 'sechash' => !empty($_GET['sechash']) ? $_GET['sechash'] : ''];
 	showmessage($return, $returnurl, array_merge($values, (array)$modthread->param('values')), $modthread->param('param'));
 
