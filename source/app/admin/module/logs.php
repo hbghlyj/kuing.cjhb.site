@@ -132,26 +132,28 @@ if(!empty($_G['cache']['adminlog'])) {
 showsubmenu('nav_logs', $menu, $sel);
 
 $filters = '';
-$keywordhtml = dhtmlspecialchars($keyword);
-echo '<form name="logsearchform" method="get" autocomplete="on" action="'.ADMINSCRIPT.'" id="logsearchform" onsubmit="return encodeLogKeywordSearch();">';
-showtableheader('', 'fixpadding');
-if(isset($_GET['app'])) {
-	echo '<input type="hidden" name="app" value="'.dhtmlspecialchars($_GET['app']).'" />';
+if($operation != 'setting') {
+	$keywordhtml = dhtmlspecialchars($keyword);
+	echo '<form name="logsearchform" method="get" autocomplete="on" action="'.ADMINSCRIPT.'" id="logsearchform" onsubmit="return encodeLogKeywordSearch();">';
+	showtableheader('', 'fixpadding');
+	if(isset($_GET['app'])) {
+		echo '<input type="hidden" name="app" value="'.dhtmlspecialchars($_GET['app']).'" />';
+	}
+	if(isset($_GET['platform'])) {
+		echo '<input type="hidden" name="platform" value="'.dhtmlspecialchars($_GET['platform']).'" />';
+	}
+	echo '<input type="hidden" name="action" value="logs" />';
+	echo '<input type="hidden" name="operation" value="'.dhtmlspecialchars($operation).'" />';
+	echo '<input type="hidden" name="lpp" value="'.$lpp.'" />';
+	echo '<input type="hidden" name="keywordenc" id="keywordenc" value="'.dhtmlspecialchars($keywordenc).'" />';
+	showtablerow('', [], [
+		'Keyword',
+		'<input type="text" class="txt" style="width:280px" id="keywordraw" value="'.$keywordhtml.'" />',
+		'<input type="submit" class="btn" value="'.$lang['search'].'" />'.($keyword !== '' ? ' <a href="'.ADMINSCRIPT.'?'.$adminroute.'action=logs&operation='.rawurlencode($operation).'&lpp='.$lpp.'">Clear</a>' : ''),
+	]);
+	showtablefooter();
+	echo '</form>';
 }
-if(isset($_GET['platform'])) {
-	echo '<input type="hidden" name="platform" value="'.dhtmlspecialchars($_GET['platform']).'" />';
-}
-echo '<input type="hidden" name="action" value="logs" />';
-echo '<input type="hidden" name="operation" value="'.dhtmlspecialchars($operation).'" />';
-echo '<input type="hidden" name="lpp" value="'.$lpp.'" />';
-echo '<input type="hidden" name="keywordenc" id="keywordenc" value="'.dhtmlspecialchars($keywordenc).'" />';
-showtablerow('', [], [
-	'Keyword',
-	'<input type="text" class="txt" style="width:280px" id="keywordraw" value="'.$keywordhtml.'" />',
-	'<input type="submit" class="btn" value="'.$lang['search'].'" />'.($keyword !== '' ? ' <a href="'.ADMINSCRIPT.'?'.$adminroute.'action=logs&operation='.rawurlencode($operation).'&lpp='.$lpp.'">Clear</a>' : ''),
-]);
-showtablefooter();
-echo '</form>';
 
 echo <<<EOD
 <script type="text/javascript">
@@ -234,15 +236,17 @@ if(!file_exists($file)) {
 
 require_once $file;
 
-echo '<form id="logbatchform" method="post" action="'.$urlbase.'&page='.$page.'" onsubmit="return submitLogBatchDelete();">';
-echo '<input type="hidden" name="formhash" value="'.FORMHASH.'" />';
-echo '<input type="hidden" name="logbatchsubmit" value="yes" />';
-echo '<input type="hidden" name="deleteallfiltered" id="deleteallfiltered" value="" />';
-echo '</form>';
-echo '<script type="text/javascript">initLogBatchDelete();</script>';
-showtableheader('', 'fixpadding');
-showsubmit('', '', '', '<input type="checkbox" name="chkall" id="chkall" class="checkbox" onclick="toggleLogFilterDelete(this)" form="logbatchform" /><label for="chkall">'.cplang('select_all').'</label>&nbsp;&nbsp;<input type="submit" class="btn" value="'.cplang('delete').'" form="logbatchform" />', $multipage);
-showtablefooter();
+if($operation != 'setting') {
+	echo '<form id="logbatchform" method="post" action="'.$urlbase.'&page='.$page.'" onsubmit="return submitLogBatchDelete();">';
+	echo '<input type="hidden" name="formhash" value="'.FORMHASH.'" />';
+	echo '<input type="hidden" name="logbatchsubmit" value="yes" />';
+	echo '<input type="hidden" name="deleteallfiltered" id="deleteallfiltered" value="" />';
+	echo '</form>';
+	echo '<script type="text/javascript">initLogBatchDelete();</script>';
+	showtableheader('', 'fixpadding');
+	showsubmit('', '', '', '<input type="checkbox" name="chkall" id="chkall" class="checkbox" onclick="toggleLogFilterDelete(this)" form="logbatchform" /><label for="chkall">'.cplang('select_all').'</label>&nbsp;&nbsp;<input type="submit" class="btn" value="'.cplang('delete').'" form="logbatchform" />', $multipage);
+	showtablefooter();
+}
 
 function showdevice($id, $device, $colspan = 1) {
 	return '<tbody id="log_'.$id.'" style="display:none; background-color: #cfd6dd;">'.
