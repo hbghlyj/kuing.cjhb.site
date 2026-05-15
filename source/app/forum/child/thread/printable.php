@@ -19,6 +19,9 @@ if(!getstatus($_G['forum_thread']['status'], 2)) {
 }
 $userinfo = $uids = $skipaids = [];
 foreach($posts as $post) {
+	if(!isset($post['username'])) {
+		$post['username'] = $post['author'];
+	}
 
 	if(str_contains($post['message'], '[/password]')) {
 		$post['message'] = '';
