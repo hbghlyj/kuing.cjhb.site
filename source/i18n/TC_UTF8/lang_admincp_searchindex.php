@@ -5612,9 +5612,6 @@ $lang = array (
 		'text' =>
 		array (
 			0 => '賬號保鏢 &raquo; 註冊表單名稱設置',
-			1 => 'setting_sec_accountguard_postqqonly',
-			2 => '發帖需要綁定QQ號',
-			3 => '開啟後用戶發帖必須先綁定QQ號',
 			4 => 'setting_sec_accountguard_loginpwcheck',
 			5 => '弱密碼登錄檢測',
 			6 => '當用戶登錄時使用的密碼強度不符合「全局>註冊與訪問控制>註冊>強制密碼複雜度」設置時的操作。若啟用強制修改，弱密碼賬號會被暫時凍結，修改密碼成功後自動解除',

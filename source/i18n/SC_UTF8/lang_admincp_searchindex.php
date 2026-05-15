@@ -5612,9 +5612,6 @@ $lang = array (
 		'text' => 
 		array (
 			0 => '账号保镖 &raquo; 注册表单名称设置',
-			1 => 'setting_sec_accountguard_postqqonly',
-			2 => '发帖需要绑定QQ号',
-			3 => '开启后用户发帖必须先绑定QQ号',
 			4 => 'setting_sec_accountguard_loginpwcheck',
 			5 => '弱密码登录检测',
 			6 => '当用户登录时使用的密码强度不符合“全局>注册与访问控制>注册>强制密码复杂度”设置时的操作。若启用强制修改，弱密码账号会被暂时冻结，修改密码成功后自动解除',

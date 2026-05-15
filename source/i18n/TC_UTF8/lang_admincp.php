@@ -2518,8 +2518,6 @@ $lang =
 
 	'setting_sec_accountguard_forcelogin' => '安全登錄',
 	'setting_sec_accountguard_forcelogin_comment' => '設置用戶組的用戶是否強制使用指定的登錄方式',
-	'setting_sec_accountguard_postqqonly' => '發帖需要綁定QQ號',
-	'setting_sec_accountguard_postqqonly_comment' => '開啓後用戶發帖必須先綁定QQ號',
 	'setting_sec_accountguard_loginpwcheck' => '弱密碼登錄檢測',
 	'setting_sec_accountguard_loginpwcheck_comment' => '當用戶登錄時使用的密碼強度不符合“全局>註冊與訪問控制>註冊>強制密碼複雜度”設置時的操作。若啓用強制修改，弱密碼賬號會被暫時凍結，修改密碼成功後自動解除',
 	'setting_sec_accountguard_loginpwcheck_none' => '不開啓',
@@ -7670,7 +7668,6 @@ URL轉換絕對網址：<pre>
 	'optimizer_check_unit_optimizer_eviluser' => '檢測防水牆違規用戶',
 	'optimizer_check_unit_optimizer_white_list' => '檢測防水牆白名單',
 	'optimizer_check_unit_optimizer_security_daily' => '檢測是否開啓防水牆每日優化計劃任務',
-	'optimizer_check_unit_optimizer_postqqonly' => '檢測發帖需要綁定QQ號檢測是否開啓',
 	'optimizer_check_unit_optimizer_aggid' => '檢測“管理員，超級版主，版主”QQ登錄檢測是否開啓',
 	'optimizer_check_unit_optimizer_filesafe' => '檢測是否有升級或安裝殘留的文件',
 	'optimizer_check_unit_optimizer_remote' => '檢測是否有開啓了遠程調用',

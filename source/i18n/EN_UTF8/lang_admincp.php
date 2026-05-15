@@ -2323,8 +2323,6 @@ $lang = array
 
 	'setting_sec_accountguard_forcelogin' => '安全登录',
 	'setting_sec_accountguard_forcelogin_comment' => '设置用户组的用户是否强制使用指定的登录方式',
-	'setting_sec_accountguard_postqqonly' => '发帖需要绑定QQ号',
-	'setting_sec_accountguard_postqqonly_comment' => '开启后用户发帖必须先绑定QQ号',
 	'setting_sec_accountguard_loginpwcheck' => '弱密码登录检测',
 	'setting_sec_accountguard_loginpwcheck_comment' => '当用户登录时使用的密码强度不符合“全局>注册与访问控制>注册>强制密码复杂度”设置时的操作。若启用强制修改，弱密码账号会被暂时冻结，修改密码成功后自动解除',
 	'setting_sec_accountguard_loginpwcheck_none' => '不开启',
@@ -7162,7 +7160,6 @@ $lang = array
 	'optimizer_check_unit_optimizer_eviluser' => '检测防水墙违规用户',
 	'optimizer_check_unit_optimizer_white_list' => '检测防水墙白名单',
 	'optimizer_check_unit_optimizer_security_daily' => '检测是否开启防水墙每日优化计划任务',
-	'optimizer_check_unit_optimizer_postqqonly' => '检测发帖需要绑定QQ号检测是否开启',
 	'optimizer_check_unit_optimizer_aggid' => '检测“管理员，超级版主，版主”QQ登录检测是否开启',
 	'optimizer_check_unit_optimizer_filesafe' => '检测是否有升级或安装残留的文件',
 	'optimizer_check_unit_optimizer_remote' => '检测是否有开启了远程调用',
