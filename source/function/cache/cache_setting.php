@@ -321,8 +321,13 @@ function build_cache_setting() {
 	$data['imagemaxwidth'] = intval($data['imagemaxwidth']);
 
 	require_once DISCUZ_ROOT.'./config/config_ucenter.php';
-	$data['ucenterurl'] = UC_STANDALONE ? rtrim($_G['siteurl'], '/').'/api/avatar' : UC_API;
-	$data['avatarurl'] = UC_STANDALONE ? (empty(UC_AVTURL) ? rtrim($_G['siteurl'], '/').'/data/avatar' : UC_AVTURL) : (empty(UC_AVTURL) ? $data['ucenterurl'].'/data/avatar' : UC_AVTURL);
+	$siteurl = $_G['siteurl'];
+	$parsedSiteUrl = parse_url($siteurl);
+	if(empty($parsedSiteUrl['host']) && !empty($data['siteurl'])) {
+		$siteurl = $data['siteurl'];
+	}
+	$data['ucenterurl'] = UC_STANDALONE ? rtrim($siteurl, '/').'/api/avatar' : UC_API;
+	$data['avatarurl'] = UC_STANDALONE ? (empty(UC_AVTURL) ? rtrim($siteurl, '/').'/data/avatar' : UC_AVTURL) : (empty(UC_AVTURL) ? $data['ucenterurl'].'/data/avatar' : UC_AVTURL);
 	$data['avatarpath'] = UC_STANDALONE ? (UC_AVTPATH ? substr(realpath(DISCUZ_ROOT.str_replace('..', '', UC_AVTPATH)), strlen(DISCUZ_ROOT)).'/' : 'data/avatar/') : '';
 
 	if($data['ftp']['on'] == 2 && $data['oss']['oss_avatar']) {
