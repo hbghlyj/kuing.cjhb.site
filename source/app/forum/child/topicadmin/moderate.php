@@ -72,7 +72,7 @@ switch($frommodcp) {
 		$_G['referer'] = 'forum.php?mod=modcp&action=forum&op=recommend'.(getgpc('show') ? "&show=getgpc('show')" : '')."&fid={$_G['fid']}";
 		break;
 	default:
-		if(in_array('delete', $operations) || in_array('move', $operations) && !strpos($_SERVER['HTTP_REFERER'], 'search.php?mod=forum')) {
+		if(in_array('delete', $operations)) {
 			$_G['referer'] = 'forum.php?mod=forumdisplay&fid='.$_G['fid'].(!empty($_GET['listextra']) ? '&'.rawurldecode($_GET['listextra']) : '');
 		} else {
 			$_G['referer'] = $_GET['redirect'];
@@ -675,7 +675,7 @@ if(!submitcheck('modsubmit')) {
 					}
 				}
 				if(!$moderatetids = implode(',', $moderate)) {
-					showmessage('admin_succeed', $_G['referer']);
+					showmessage('admin_succeed', 'forum.php?mod=viewthread&tid='.$newtid);
 				}
 				$modaction = 'REG';
 			}
