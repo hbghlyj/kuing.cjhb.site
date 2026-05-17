@@ -783,23 +783,8 @@ if($_GET['op'] == 'delete') {
 		if($_G['group']['allowat']) {
 			$atlist = parse_at_user($message);
 			if($atlist) {
-				// 处理AT标签，生成链接
-				$atsearch = [];
-				$atreplace = [];
-				foreach($atlist as $atuid => $atusername) {
-					$atsearch[] = '/@'.preg_quote($atusername, '/').' /i';
-					$atreplace[] = '<a href="home.php?mod=space&uid='.$atuid.'" class="atuser" target="_blank" c="1">@'.$atusername.'</a> ';
-
-					// 匹配新格式：@[用户名]（带方括号）
-					$atsearch[] = '/@\['.preg_quote($atusername, '/').'\]/i';
-					$atreplace[] = '<a href="home.php?mod=space&uid='.$atuid.'" class="atuser" target="_blank" c="1">@'.$atusername.'</a> ';
-				}
-				$updated_message = preg_replace($atsearch, $atreplace, $message.' ', 1);
-				$updated_message = substr($updated_message, 0, strlen($updated_message) - 1);
-				
 				// 存储AT信息到fields字段
 				$updatefields['at'] = $atlist;
-				$message = $updated_message;
 			}
 		}
 
