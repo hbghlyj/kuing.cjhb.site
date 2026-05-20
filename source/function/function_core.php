@@ -1035,6 +1035,10 @@ function template($file, $templateid = 0, $tpldir = '', $gettplfile = 0, $primal
 			$mobiletplfile = DISCUZ_TEMPLATE('./template/default/'.$file.'.php');
 			if(!tplfile::file_exists($mobiletplfile) && !$_G['forcemobilemessage']) {
 				$tplfile = str_replace($_G['mobiletpl'][IN_MOBILE].'/', '', $tplfile);
+				$defaulttplfile = substr($tplfile, 0, -4).'.htm';
+				if(tplfile::file_exists($defaulttplfile)) {
+					$tplfile = $defaulttplfile;
+				}
 				$file = str_replace($_G['mobiletpl'][IN_MOBILE].'/', '', $file);
 				define('TPL_DEFAULT', true);
 				define('TPL_DEFAULT_FILE', $mobiletplfile);
