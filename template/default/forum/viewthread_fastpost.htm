@@ -165,7 +165,7 @@ var disablepostctrl = parseInt('{$_G['group']['disablepostctrl']}');
 
 	<input type="hidden" name="formhash" value="{FORMHASH}" />
 	<input type="hidden" name="usesig" value="$usesigcheck" />
-	<input type="hidden" name="subject" value="  " />
+	<span id="subjectbox" style="display:none"><input type="text" name="subject" id="subject" class="px" value="  " size="40" /></span>
 	<p class="ptm pnpost">
 		<a href="forum.php?mod=viewthread&tid=5" class="y" target="_blank">{lang post_latex_tutorial}</a>
 		<button {if $allowpostreply}type="submit" {elseif !$_G['uid']}type="button" onclick="showWindow('login', 'member.php?mod=logging&action=login&guestmessage=yes')" {/if}{if !$seccodecheck && !$secqaacheck} onmouseover="checkpostrule('seccheck_fastpost', 'ac=reply');this.onmouseover=null" {/if}name="replysubmit" id="fastpostsubmit" class="pn pnc vm" value="replysubmit"><strong>{lang post_newreply}</strong></button>
