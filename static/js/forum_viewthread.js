@@ -323,7 +323,7 @@ function updateMuluSelect(postObj, pid) {
 	MULUSELECT.options.add(new Option(optionText, 'post_' + pid));
 	MULUSELECT.size = MULUSELECT.options.length;
 	if(MULUSELECT.firstChild && MULUSELECT.lastChild) {
-		MULUSELECT.style.height = MULUSELECT.lastChild.offsetTop - MULUSELECT.firstChild.offsetTop + 'px';
+		MULUSELECT.style.height = MULUSELECT.lastChild.offsetHeight + MULUSELECT.lastChild.offsetTop - MULUSELECT.firstChild.offsetTop + 'px';
 	}
 }
 
@@ -335,9 +335,12 @@ function appendreply(pid) {
 	}
 	postNew.style.display = '';
 	$('postlist').appendChild(postNew);
-	addLou(postNew);
 	postNew.id = postId;
-	updateMuluSelect(postNew, pid);
+	if(typeof updateMulu == 'function') {
+		updateMulu();
+	} else {
+		updateMuluSelect(postNew, pid);
+	}
 	if(typeof MathJax !== 'undefined' && typeof MathJax.typesetPromise === 'function') {
 		MathJax.typesetPromise([postNew]);
 	}
