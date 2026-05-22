@@ -175,10 +175,13 @@ MULUSELECT.style = 'padding: 0 !important;background: none !important;overflow-y
 MULUSELECT.size = 0;
 function addLou(elem) {
     elem.querySelectorAll('#postlist > div[id^="post_"]').forEach((lou, index) => {
-        const option = document.createElement('option');
-        option.value = lou.id;
-        option.text = lou.querySelector('td.plc>div.pi>strong>a').firstChild.textContent + ' ' + lou.querySelector('div.authi>a.neiid').innerText;
-        MULUSELECT.appendChild(option);
+        if (!MULUSELECT.querySelector('option[value="' + lou.id + '"]')) {
+            const option = document.createElement('option');
+            option.value = lou.id;
+            option.text = lou.querySelector('td.plc>div.pi>strong>a').firstChild.textContent + ' ' + lou.querySelector('div.authi>a.neiid').innerText;
+            MULUSELECT.appendChild(option);
+            ++MULUSELECT.size;
+        }
         const pidRef = lou.id.replace('post_', '&pid=');
         document.querySelectorAll("td.t_f > div.quote > blockquote > font > a[href$='" + pidRef + "&ptid=" + tid + "']").forEach(a => {
             if (a.firstElementChild) {
@@ -190,7 +193,6 @@ function addLou(elem) {
             a.setAttribute("href", "#" + lou.id);
             a.style.cursor = 'pointer';
         });
-        ++MULUSELECT.size;
     });
     if (MULUSELECT.size < 2 || $('postlist').clientHeight < window.innerHeight) {
         MULU.style.display = 'none';
@@ -199,6 +201,9 @@ function addLou(elem) {
         MULUSELECT.style.height = MULUSELECT.lastChild.offsetHeight + MULUSELECT.lastChild.offsetTop - MULUSELECT.firstChild.offsetTop + 'px';
     }
 }
+window.updateMulu = function() {
+    addLou($('postlist'));
+};
 MULUSELECT.addEventListener("change", function() {//楼层目录选择跳转
     location.hash = '#' + this.value;
 });

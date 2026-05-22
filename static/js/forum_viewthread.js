@@ -228,7 +228,11 @@ function succeedhandle_fastpost(locationhref, message, param) {
 		if(replyreload) {
 			var reloadpids = replyreload.split(',');
 			for(var i = 1;i < reloadpids.length;i++) {
-				ajaxget('forum.php?mod=viewthread&tid=' + tid + '&viewpid=' + reloadpids[i] + '&from=' + from, 'post_' + reloadpids[i], 'ajaxwaitid');
+				ajaxget('forum.php?mod=viewthread&tid=' + tid + '&viewpid=' + reloadpids[i] + '&from=' + from, 'post_' + reloadpids[i], 'ajaxwaitid', null, null, function() {
+					if(typeof updateMulu == 'function') {
+						updateMulu();
+					}
+				});
 			}
 		}
 		$('fastpostreturn').className = '';
@@ -260,7 +264,11 @@ function succeedhandle_comment(locationhref, message, param) {
 }
 
 function succeedhandle_postappend(locationhref, message, param) {
-	ajaxget('forum.php?mod=viewthread&tid=' + param['tid'] + '&viewpid=' + param['pid'], 'post_' + param['pid'], 'ajaxwaitid');
+	ajaxget('forum.php?mod=viewthread&tid=' + param['tid'] + '&viewpid=' + param['pid'], 'post_' + param['pid'], 'ajaxwaitid', null, null, function() {
+		if(typeof updateMulu == 'function') {
+			updateMulu();
+		}
+	});
 	hideWindow('postappend');
 }
 
