@@ -40,7 +40,8 @@ var disablepostctrl = parseInt('{$_G['group']['disablepostctrl']}');
 
 	<div class="pbt cl">
 		<div class="z">
-			<span id="subjectbox"><input type="text" name="subject" id="subject" class="px" value="  " size="40" /></span>
+			<span id="subjecthide" class="z">RE: $thread[subject] [<a href="javascript:;" onclick="display('subjecthide');display('subjectbox');">{lang modify}</a>]</span>
+			<span id="subjectbox" style="display:none"><input type="text" name="subject" id="subject" class="px" value="" size="40" /></span>
 		</div>
 	</div>
 
