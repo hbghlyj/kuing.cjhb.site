@@ -182,8 +182,6 @@ _attachEvent(window, 'resize', function(){ new_showTopLink(); });checkBlind();</
 				dzscrolltop.style.left = 'auto';
 				dzscrolltop.style.right = 0;
 			}
-			console.log(dzscrollHeight);
-			
 			if (dzscrollHeight < -100) {
 				jQuery(".dz_rtop").slideDown();
 			} else {
