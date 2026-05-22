@@ -394,7 +394,8 @@ function fastpostvalidate(theform, noajaxpost) {
 			return false;
 		}
 	}
-	if(theform.message.value == '' || theform.subject.value == '') {
+	var isreply = theform.replysubmit != null;
+	if(theform.message.value == '' || (!isreply && theform.subject.value == '')) {
 		s = $L('subject_empty');
 		theform.message.focus();
 	} else if(char_strlen(theform.subject.value) > 255) {
