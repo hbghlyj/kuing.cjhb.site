@@ -199,6 +199,15 @@ function fastpostappendreply() {
 	} else {
 		editdoc.body.innerHTML = BROWSER.firefox ? '<br />' : '';
 	}
+	if($('subject')) {
+		$('subject').value = '';
+	}
+	if($('subjectbox')) {
+		$('subjectbox').style.display = 'none';
+	}
+	if($('subjecthide')) {
+		$('subjecthide').style.display = '';
+	}
 	if($('fastpostform').seccodehash){
 		updateseccode($('fastpostform').seccodehash.value);
 		$('fastpostform').seccodeverify.value = '';
