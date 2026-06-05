@@ -52,7 +52,7 @@ switch($mod) {
 
 $discuz->init();
 
-if($discuz->init_session && isset($_GET['mod']) && $_GET['mod'] != 'tag') {
+if($discuz->init_session && isset($_GET['mod']) && !in_array($_GET['mod'], ['tag', 'patch'])) {
 	$discuz->reject_robot();
 }
 
