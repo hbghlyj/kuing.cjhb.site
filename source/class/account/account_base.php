@@ -398,6 +398,9 @@ class account_base {
 	}
 
 	public static function getIcon($interface) {
+		if(empty($interface)) {
+			return ['', ''];
+		}
 		$icon = self::callClass($interface, 'icon', [], true);
 		if($icon) {
 			return [$icon, ''];
