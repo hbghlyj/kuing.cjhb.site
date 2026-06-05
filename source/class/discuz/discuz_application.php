@@ -552,14 +552,7 @@ class discuz_application extends discuz_base {
 						' WHERE id = %d', ['common_robot_user_agents', $_SERVER['HTTP_X_KNOWN_BOT'], $robot_entry['id']]);
 						define('IS_ROBOT', $robot_entry['user_agent_keyword'] . "\t");
 					} else {
-						DB::insert('common_robot_user_agents', array(
-							'user_agent_keyword' => $_SERVER['HTTP_USER_AGENT'],
-							'category' => $_SERVER['HTTP_X_KNOWN_BOT'],
-							'first_seen_at' => TIMESTAMP,
-							'last_seen_at' => TIMESTAMP,
-							'seen_count' => 1
-						), false, true); // silent insert, true for replace/ignore based on unique key
-						define('IS_ROBOT', $_SERVER['HTTP_X_KNOWN_BOT'] . "\t");
+						define('IS_ROBOT', false);
 					}
 				} elseif ($robot_entry) {
 					DB::query('UPDATE %t SET last_seen_at=UNIX_TIMESTAMP(), seen_count = seen_count + 1'.
