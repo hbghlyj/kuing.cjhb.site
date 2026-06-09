@@ -496,7 +496,7 @@
 				<!--{if $detailstatus}-->
 					<span class="o"><a href="forum.php?showoldetails=no#online" title="{lang spread}"><em class="tg_no" title="{lang spread}"></em></a></span>
 					<h3>
-						<strong><a href="home.php?mod=space&do=friend&view=online&type=member">{lang onlinemember}</a></strong>
+						<strong><a href="home.php?mod=space&do=friend&view=online">{lang onlinemember}</a></strong>
 						<span class="xs1">- <strong id="whosonline_count_total">$onlinenum</strong> {lang onlines}
 						<span id="whosonline_member_segment"<!--{if !$membercount}--> style="display:none"<!--{/if}-->>- <strong id="whosonline_count_member">$membercount</strong> {lang index_members}<span id="whosonline_invisible_segment"<!--{if !$invisiblecount}--> style="display:none"<!--{/if}-->>(<strong id="whosonline_count_invisible">$invisiblecount</strong> {lang index_invisibles})</span>,</span>
 						<span id="whosonline_guest_segment"<!--{if !$guestcount}--> style="display:none"<!--{/if}-->><strong id="whosonline_count_guest">$guestcount</strong> {lang index_guests}</span>
@@ -511,7 +511,7 @@
 							<!--{if !empty($_G['setting']['whosonlinestatus'])}-->
 								{lang onlinemember}
 							<!--{else}-->
-								<a href="home.php?mod=space&do=friend&view=online&type=member">{lang onlinemember}</a>
+								<a href="home.php?mod=space&do=friend&view=online">{lang onlinemember}</a>
 							<!--{/if}-->
 						</strong>
 						<span class="xs1">- {lang total} <strong>$onlinenum</strong> {lang onlines}

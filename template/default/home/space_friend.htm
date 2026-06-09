@@ -27,7 +27,7 @@
 					<li{$a_actives[me]}><a href="home.php?mod=space&do=friend">{lang all_friend_list}</a></li>
 					<!--{if empty($_G['setting']['sessionclose'])}-->
 					<li{$a_actives[onlinefriend]}><a href="home.php?mod=space&do=friend&view=online&type=friend">{lang online_friend}</a></li>
-					<li{$a_actives[onlinemember]}><a href="home.php?mod=space&do=friend&view=online&type=member">{lang online_member}</a></li>
+					<li<!--{if $_GET['view'] == 'online' && $_GET['type'] == 'all'}--> class="a"<!--{/if}-->><a href="home.php?mod=space&do=friend&view=online">{lang online_member}</a></li>
 					<!--{/if}-->
 					<li{$a_actives[visitor]}><a href="home.php?mod=space&do=friend&view=visitor">{lang my_visitor}</a></li>
 					<li{$a_actives[trace]}><a href="home.php?mod=space&do=friend&view=trace">{lang my_trace}</a></li>
@@ -55,10 +55,6 @@
 							{lang online_friend_visit}
 						<!--{elseif $_GET['type']=='near'}-->
 							{lang near_friend_visit}
-						<!--{else}-->
-							<a href="home.php?mod=space&do=friend&view=online&type=member">{lang online_member}</a>
-							&nbsp;|&nbsp;
-							<a href="home.php?mod=space&do=friend&view=online">{lang view_online_friend}</a>
 						<!--{/if}-->
 					<!--{elseif $_GET['view']=='visitor'}-->
 						{lang visitor_list}

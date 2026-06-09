@@ -177,7 +177,7 @@ $lang = [
 	'block_friend_no_content' => '现在还没有好友',
 	'block_friend_no_content_publish' => '，<a href ="home.php?mod=spacecp&ac=search">查找好友</a> 或 <a href ="home.php?mod=spacecp&ac=invite">邀请好友</a>',
 	'block_visitor_no_content' => '现在还没有访客',
-	'block_visitor_no_content_publish' => '，<a href ="home.php?mod=space&do=friend&view=online&type=member">去串串门</a>',
+	'block_visitor_no_content_publish' => '，<a href ="home.php?mod=space&do=friend&view=online">去串串门</a>',
 	'block_share_no_content' => '现在还没有分享',
 	'block_wall_no_content' => '现在还没有留言',
 	'block_group_no_content' => '现在还没有圈子',

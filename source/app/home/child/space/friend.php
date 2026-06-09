@@ -56,31 +56,6 @@ if($_GET['view'] == 'online') {
 			$onlinedata = C::app()->session->fetch_all_by_uid(explode(',', $space['feedfriend']), $start, $perpage);
 		}
 		$count = count($onlinedata);
-	} elseif($_GET['type'] == 'member') {
-		$theurl = "home.php?mod=space&uid={$space['uid']}&do=friend&view=online&type=member";
-		$count = DB::result_first('SELECT COUNT(*) FROM '.DB::table('common_session').' WHERE invisible = 0 AND uid > 0');
-		if($count) {
-			$onlinedata = DB::fetch_all(
-				'SELECT s.*, '.(DISCUZ_LANG == 'EN/' ? 'f.name_en AS name' : 'f.name').', t.subject
-				FROM '.DB::table('common_session').' AS s
-				LEFT JOIN '.DB::table('forum_forum').' AS f ON s.fid=f.fid
-				LEFT JOIN '.DB::table('forum_thread').' AS t ON s.tid=t.tid
-				WHERE invisible = 0 AND uid > 0
-				ORDER BY groupid=8 ASC,groupid=7 ASC,lastactivity DESC'.DB::limit($start, $perpage),
-				null,
-				'sid'
-			);
-			$actioncode = lang('action');
-			loadcache('onlinelist');
-			foreach($onlinedata as $key => $value) {
-				$value['lastactivity'] = dgmdate($value['lastactivity'], 't');
-				$value['action'] = $actioncode[$value['action']];
-				$value = $formatonlinename($value);
-				$value['icon'] = !empty($_G['cache']['onlinelist'][$value['groupid']]) ? $_G['cache']['onlinelist'][$value['groupid']] : $_G['cache']['onlinelist'][0];
-				$onlinedata[$key] = $value;
-			}
-			unset($actioncode);
-		}
 	} else {
 		$_GET['type'] = 'all';
 		$theurl = "home.php?mod=space&uid={$space['uid']}&do=friend&view=online";

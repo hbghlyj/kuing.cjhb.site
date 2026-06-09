@@ -197,7 +197,7 @@ $lang = array(
 	'block_friend_no_content'		=> 'No friends yet',//'现在还没有好友',
 	'block_friend_no_content_publish'	=> ', <a href ="home.php?mod=spacecp&ac=search">Find Friends</a> or <a href ="home.php?mod=spacecp&ac=invite">Invite friends</a>',//'，<a href ="home.php?mod=spacecp&ac=search">查找好友</a> 或 <a href ="home.php?mod=spacecp&ac=invite">邀请好友</a>',
 	'block_visitor_no_content'		=> 'No visitors yet',//'现在还没有访客',
-	'block_visitor_no_content_publish'	=> ', <a href ="home.php?mod=space&do=friend&view=online&type=member">Online members</a>',//'，<a href ="home.php?mod=space&do=friend&view=online&type=member">去串串门</a>',
+	'block_visitor_no_content_publish'	=> ', <a href ="home.php?mod=space&do=friend&view=online">Online members</a>',//'，<a href ="home.php?mod=space&do=friend&view=online">去串串门</a>',
 	'block_share_no_content'		=> 'No shares yet',//'现在还没有分享',
 	'block_wall_no_content'			=> 'No wall records yet',//'现在还没有留言',
 	'block_group_no_content'		=> 'No groups yet',//'现在还没有群组',
