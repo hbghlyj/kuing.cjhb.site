@@ -1385,7 +1385,7 @@ var Util = {
 			drag.init(mod);
 			this.style = document.diyform.style.value;
 			if (this.style == '') {
-				var reg = RegExp('topic\(.*)\/style\.css');
+				var reg = /topic(.*)\/style\.css/;
 				var href = $('style_css') ? $('style_css').href : '';
 				var arr = reg.exec(href);
 				this.style = arr && arr.length > 1 ? arr[1] : '';
@@ -1408,7 +1408,7 @@ var Util = {
 			var allCssText = css || $('diy_style').innerHTML;
 			allCssText = allCssText ? allCssText.replace(/\n|\r|\t|  /g,'') : '';
 			var random = Math.random(), rules = '';
-			var reg = new RegExp('(.*?) ?\{(.*?)\}','g');
+			var reg = /(.*?) ?\{(.*?)\}/g;
 			while((rules = reg.exec(allCssText))) {
 				var selector = this.checkSelector(rules[1]);
 				var cssText = rules[2];

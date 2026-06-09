@@ -246,7 +246,7 @@ function ptag(options, text, tagname) {
 	}
 	align = in_array(align, ['left', 'center', 'right']) ? align : 'left';
 	style = getoptionvalue('style', options);
-	style = preg_replace(['line-height\\\s?:\\\s?(\\\d{1,3})px', 'text-indent\\\s?:\\\s?(\\\d{1,3})em', 'text-align\\\s?:\\\s?(left|center|right)'], '', style);
+	style = preg_replace(['line-height\\s?:\\s?(\\d{1,3})px', 'text-indent\\s?:\\s?(\\d{1,3})em', 'text-align\\s?:\\s?(left|center|right)'], '', style);
 	if(lineHeight === null && textIndent === null) {
 		return '[align=' + align + ']' + (style ? '<span style="' + style + '">' : '') + text + (style ? '</span>' : '') + '[/align]';
 	} else {
@@ -298,7 +298,7 @@ function fonttag(fontoptions, text) {
 }
 
 function getoptionvalue(option, text) {
-	re = new RegExp(option + "(\s+?)?\=(\s+?)?[\"']?(.+?)([\"']|$|>)", "ig");
+	re = new RegExp(option + "(\\s+?)?=(\\s+?)?[\"']?(.+?)([\"']|$|>)", "ig");
 	var matches = re.exec(text);
 	if(matches != null) {
 		return trim(matches[3]);
@@ -343,7 +343,7 @@ function html2bbcode(str) {
 		}
 	}
 
-	str = preg_replace(['<style.*?>[\\\s\\\S]*?<\/style>', '<script.*?>[\\\s\\\S]*?<\/script>', '<noscript.*?>[\\\s\\\S]*?<\/noscript>', '<select.*?>[\s\S]*?<\/select>', '<object.*?>[\s\S]*?<\/object>', '<!--[\\\s\\\S]*?-->', ' on[a-zA-Z]{3,16}\\\s?=\\\s?"[\\\s\\\S]*?"'], '', str);
+	str = preg_replace(['<style.*?>[\\s\\S]*?</style>', '<script.*?>[\\s\\S]*?</script>', '<noscript.*?>[\\s\\S]*?</noscript>', '<select.*?>[\\s\\S]*?</select>', '<object.*?>[\\s\\S]*?</object>', '<!--[\\s\\S]*?-->', ' on[a-zA-Z]{3,16}\\s?=\\s?"[\\s\\S]*?"'], '', str);
 
 	str= str.replace(/(\r\n|\n|\r)/ig, '');
 
@@ -369,12 +369,12 @@ function html2bbcode(str) {
 
 	if(!fetchCheckbox('bbcodeoff') && allowbbcode) {
 		str = preg_replace([
-			'<table[^>]*float:\\\s*(left|right)[^>]*><tbody><tr><td>\\\s*([\\\s\\\S]+?)\\\s*<\/td><\/tr></tbody><\/table>',
+			'<table[^>]*float:\\s*(left|right)[^>]*><tbody><tr><td>\\s*([\\s\\S]+?)\\s*</td></tr></tbody></table>',
 			'<table([^>]*(width|background|background-color|backcolor)[^>]*)>',
 			'<table[^>]*>',
-			'<tr[^>]*(?:background|background-color|backcolor)[:=]\\\s*(["\']?)([\(\)\\\s%,#\\\w]+)(\\1)[^>]*>',
+			'<tr[^>]*(?:background|background-color|backcolor)[:=]\\s*(["\']?)([()\\s%,#\\w]+)(\\1)[^>]*>',
 			'<tr[^>]*>',
-			'(<t[dh]([^>]*(left|center|right)[^>]*)>)\\\s*([\\\s\\\S]+?)\\\s*(<\/t[dh]>)',
+			'(<t[dh]([^>]*(left|center|right)[^>]*)>)\\s*([\\s\\S]+?)\\s*(</t[dh]>)',
 			'<t[dh]([^>]*(width|colspan|rowspan)[^>]*)>',
 			'<t[dh][^>]*>',
 			'<\/t[dh]>',
@@ -435,7 +435,7 @@ function tablesimple(s, table, str) {
 	if(strpos(str, '[tr=') || strpos(str, '[td=')) {
 		return s;
 	} else {
-		return '[table=' + table + ']\n' + preg_replace(['\\\[tr\\\]', '\\\[\\\/td\\\]\\\s?\\\[td\\\]', '\\\[\\\/tr\\\]\s?', '\\\[td\\\]', '\\\[\\\/td\\\]', '\\\[\\\/td\\\]\\\[\\\/tr\\\]'], ['', '|', '', '', '', '', ''], str) + '[/table]';
+		return '[table=' + table + ']\n' + preg_replace(['\\[tr\\]', '\\[/td\\]\\s?\\[td\\]', '\\[/tr\\]\\s?', '\\[td\\]', '\\[/td\\]', '\\[/td\\]\\[/tr\\]'], ['', '|', '', '', '', '', ''], str) + '[/table]';
 	}
 }
 

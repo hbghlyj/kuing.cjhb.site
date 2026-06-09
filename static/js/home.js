@@ -348,7 +348,7 @@ function explode(sep, string) {
 }
 
 function selector(pattern, context) {
-	var re = new RegExp('([a-z0-9]*)([\.#:]*)(.*|$)', 'ig');
+	var re = /([a-z0-9]*)([.#:]*)(.*|$)/ig;
 	var match = re.exec(pattern);
 	var conditions = cc = [];
 	if (match[2] == '#')	conditions.push(['id', '=', match[3]]);
