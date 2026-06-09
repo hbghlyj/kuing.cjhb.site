@@ -2220,8 +2220,8 @@ function dmkdir($dir, $mode = 0777, $makeindex = TRUE) {
 function dreferer($default = '') {
 	global $_G;
 
-	$default = empty($default) && $_ENV['curapp'] ? $_ENV['curapp'].'.php' : '';
-	$_G['referer'] = !empty($_GET['referer']) ? $_GET['referer'] : $_SERVER['HTTP_REFERER'];
+	$default = empty($default) && !empty($_ENV['curapp']) ? $_ENV['curapp'].'.php' : $default;
+	$_G['referer'] = !empty($_GET['referer']) ? $_GET['referer'] : ($_SERVER['HTTP_REFERER'] ?? '');
 	$_G['referer'] = str_ends_with($_G['referer'], '?') ? substr($_G['referer'], 0, -1) : $_G['referer'];
 
 	if(strpos($_G['referer'], 'member.php?mod=logging')) {
@@ -2229,11 +2229,11 @@ function dreferer($default = '') {
 	}
 
 	$reurl = parse_url($_G['referer']);
-	$hostwithport = $reurl['host'].(isset($reurl['port']) ? ':'.$reurl['port'] : '');
-
 	if(!$reurl || (isset($reurl['scheme']) && !in_array(strtolower($reurl['scheme']), ['http', 'https']))) {
 		$_G['referer'] = '';
+		$reurl = [];
 	}
+	$hostwithport = isset($reurl['host']) ? $reurl['host'].(isset($reurl['port']) ? ':'.$reurl['port'] : '') : '';
 
 	if(!empty($hostwithport) && !in_array($hostwithport, [$_SERVER['HTTP_HOST'], 'www.'.$_SERVER['HTTP_HOST']]) && !in_array($_SERVER['HTTP_HOST'], [$hostwithport, 'www.'.$hostwithport])) {
 		if(!in_array($hostwithport, $_G['setting']['domain']['app']) && !isset($_G['setting']['domain']['list'][$hostwithport])) {

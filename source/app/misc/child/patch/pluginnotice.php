@@ -21,14 +21,15 @@ foreach($pluginarray as $row) {
 		$vers[$row['identifier'].'.plugin'] = $row['version'];
 	}
 }
-if(empty($_G['cookie']['addoncheck_plugin'])) {
+$addonCache = DB::fetch_first('SELECT dateline FROM %t WHERE cname=%s', ['common_syscache', 'addoncheck_plugin']);
+if(empty($addonCache) || $addonCache['dateline'] < TIMESTAMP - 7200) {
 	$checkresult = dunserialize(cloudaddons_upgradecheck($addonids));
 	savecache('addoncheck_plugin', $checkresult);
-	dsetcookie('addoncheck_plugin', 1, 7200);
 } else {
 	loadcache('addoncheck_plugin');
 	$checkresult = $_G['cache']['addoncheck_plugin'];
 }
+dsetcookie('addoncheck_plugin', 1, 7200);
 $newversion = 0;
 if(is_array($checkresult)) {
 	foreach($checkresult as $addonid => $value) {
