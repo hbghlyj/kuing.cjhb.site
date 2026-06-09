@@ -35,7 +35,6 @@ class block_stat extends commonblock_html {
 					['bbsnewposts', 'stat_option_bbsnewposts'],
 					['bbslastposts', 'stat_option_bbslastposts'],
 					['onlinemembers', 'stat_option_onlinemembers'],
-					['maxmembers', 'stat_option_maxmembers'],
 					['doings', 'stat_option_doings'],
 					['blogs', 'stat_option_blogs'],
 					['albums', 'stat_option_albums'],
@@ -82,11 +81,6 @@ class block_stat extends commonblock_html {
 				'title' => 'stat_option_onlinemembers',
 				'type' => 'text',
 				'default' => lang('block/stat', 'stat_onlinemembers')
-			],
-			'maxmembers_title' => [
-				'title' => 'stat_option_maxmembers',
-				'type' => 'text',
-				'default' => lang('block/stat', 'stat_maxmembers')
 			],
 			'doings_title' => [
 				'title' => 'stat_option_doings',
@@ -160,13 +154,6 @@ class block_stat extends commonblock_html {
 			$num = !empty($_G['cookie']['onlineusernum']) ? intval($_G['cookie']['onlineusernum']) : C::app()->session->count();
 			$class = ($index-- == 0) ? ' class="bbn"' : '';
 			$html .= "<th$class><p>".intval($num).'</p>'.(!empty($parameter['onlinemembers_title']) ? $parameter['onlinemembers_title'] : lang('block/stat', 'stat_onlinemembers')).'</th>';
-		}
-		if(in_array('maxmembers', $parameter['option'])) {
-			loadcache('onlinerecord');
-			$onlineinfo = explode("\t", $_G['cache']['onlinerecord']);
-			$num = !empty($onlineinfo[0]) ? intval($onlineinfo[0]) : 0;
-			$class = ($index-- == 0) ? ' class="bbn"' : '';
-			$html .= "<th$class><p>".intval($num).'</p>'.(!empty($parameter['maxmembers_title']) ? $parameter['maxmembers_title'] : lang('block/stat', 'stat_maxmembers')).'</th>';
 		}
 		if(in_array('doings', $parameter['option'])) {
 			$num = table_home_doing::t()->count();

@@ -39,8 +39,6 @@ class block_otherstat extends discuz_block {
 			'bbslastposts_title' => ['name' => lang('blockclass', 'blockclass_other_stat_bbslastposts_title'), 'formtype' => 'text', 'datatype' => 'string'],
 			'onlinemembers' => ['name' => lang('blockclass', 'blockclass_other_stat_onlinemembers'), 'formtype' => 'text', 'datatype' => 'int'],
 			'onlinemembers_title' => ['name' => lang('blockclass', 'blockclass_other_stat_onlinemembers_title'), 'formtype' => 'text', 'datatype' => 'string'],
-			'maxmembers' => ['name' => lang('blockclass', 'blockclass_other_stat_maxmembers'), 'formtype' => 'text', 'datatype' => 'int'],
-			'maxmembers_title' => ['name' => lang('blockclass', 'blockclass_other_stat_maxmembers_title'), 'formtype' => 'text', 'datatype' => 'string'],
 			'doings' => ['name' => lang('blockclass', 'blockclass_other_stat_doings'), 'formtype' => 'text', 'datatype' => 'int'],
 			'doings_title' => ['name' => lang('blockclass', 'blockclass_other_stat_doings_title'), 'formtype' => 'text', 'datatype' => 'string'],
 			'blogs' => ['name' => lang('blockclass', 'blockclass_other_stat_blogs'), 'formtype' => 'text', 'datatype' => 'int'],
@@ -68,7 +66,6 @@ class block_otherstat extends discuz_block {
 					['bbsnewposts', 'stat_option_bbsnewposts'],
 					['bbslastposts', 'stat_option_bbslastposts'],
 					['onlinemembers', 'stat_option_onlinemembers'],
-					['maxmembers', 'stat_option_maxmembers'],
 					['doings', 'stat_option_doings'],
 					['blogs', 'stat_option_blogs'],
 					['albums', 'stat_option_albums'],
@@ -115,11 +112,6 @@ class block_otherstat extends discuz_block {
 				'title' => 'stat_option_onlinemembers',
 				'type' => 'text',
 				'default' => lang('block/stat', 'stat_onlinemembers')
-			],
-			'maxmembers_title' => [
-				'title' => 'stat_option_maxmembers',
-				'type' => 'text',
-				'default' => lang('block/stat', 'stat_maxmembers')
 			],
 			'doings_title' => [
 				'title' => 'stat_option_doings',
@@ -168,8 +160,6 @@ class block_otherstat extends discuz_block {
 			'bbslastposts_title' => !empty($parameter['bbslastposts_title']) ? $parameter['bbslastposts_title'] : lang('block/stat', 'stat_bbslastposts'),
 			'onlinemembers' => 0,
 			'onlinemembers_title' => !empty($parameter['onlinemembers_title']) ? $parameter['onlinemembers_title'] : lang('block/stat', 'stat_onlinemembers'),
-			'maxmembers' => 0,
-			'maxmembers_title' => !empty($parameter['maxmembers_title']) ? $parameter['maxmembers_title'] : lang('block/stat', 'stat_maxmembers'),
 			'doings' => 0,
 			'doings_title' => !empty($parameter['doings_title']) ? $parameter['doings_title'] : lang('block/stat', 'stat_doings'),
 			'blogs' => 0,
@@ -212,11 +202,6 @@ class block_otherstat extends discuz_block {
 		if(in_array('onlinemembers', $parameter['option'])) {
 			$num = !empty($_G['cookie']['onlineusernum']) ? intval($_G['cookie']['onlineusernum']) : C::app()->session->count();
 			$fields['onlinemembers'] = intval($num);
-		}
-		if(in_array('maxmembers', $parameter['option'])) {
-			loadcache('onlinerecord');
-			$onlineinfo = explode("\t", $_G['cache']['onlinerecord']);
-			$fields['maxmembers'] = !empty($onlineinfo[0]) ? intval($onlineinfo[0]) : 0;
 		}
 		if(in_array('doings', $parameter['option'])) {
 			$num = table_home_doing::t()->count();

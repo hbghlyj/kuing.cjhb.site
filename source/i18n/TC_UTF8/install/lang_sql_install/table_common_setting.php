@@ -1287,9 +1287,6 @@ $data = [[
     'skey' => 'onlinehold',
     'svalue' => '15',
   ],[
-    'skey' => 'onlinerecord',
-    'svalue' => '7	1269749404',
-  ],[
     'skey' => 'onlyacceptfriendpm',
     'svalue' => '0',
   ],[

@@ -4647,7 +4647,6 @@ runslideshow();
 <li>{bbsnewposts_title}:<em>{bbsnewposts}</em></li>
 <li>{bbslastposts_title}:<em>{bbslastposts}</em></li>
 <li>{onlinemembers_title}:<em>{onlinemembers}</em></li>
-<li>{maxmembers_title}:<em>{maxmembers}</em></li>
 <li>{doings_title}:<em>{doings}</em></li>
 <li>{blogs_title}:<em>{blogs}</em></li>
 <li>{albums_title}:<em>{albums}</em></li>
@@ -4682,7 +4681,6 @@ runslideshow();
 <li>{bbsnewposts_title}:<em>{bbsnewposts}</em></li>
 <li>{bbslastposts_title}:<em>{bbslastposts}</em></li>
 <li>{onlinemembers_title}:<em>{onlinemembers}</em></li>
-<li>{maxmembers_title}:<em>{maxmembers}</em></li>
 <li>{doings_title}:<em>{doings}</em></li>
 <li>{blogs_title}:<em>{blogs}</em></li>
 <li>{albums_title}:<em>{albums}</em></li>
@@ -4712,18 +4710,16 @@ runslideshow();
       11 => 'bbslastposts',
       12 => 'onlinemembers_title',
       13 => 'onlinemembers',
-      14 => 'maxmembers_title',
-      15 => 'maxmembers',
-      16 => 'doings_title',
-      17 => 'doings',
-      18 => 'blogs_title',
-      19 => 'blogs',
-      20 => 'albums_title',
-      21 => 'albums',
-      22 => 'pics_title',
-      23 => 'pics',
-      24 => 'shares_title',
-      25 => 'shares',
+      14 => 'doings_title',
+      15 => 'doings',
+      16 => 'blogs_title',
+      17 => 'blogs',
+      18 => 'albums_title',
+      19 => 'albums',
+      20 => 'pics_title',
+      21 => 'pics',
+      22 => 'shares_title',
+      23 => 'shares',
     ],
     'moreurl' => '0',
   ],[
