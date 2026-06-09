@@ -525,9 +525,22 @@ class discuz_application extends discuz_base {
 		}
 	}
 
+	private function _is_malformed_php_path($url) {
+		if(empty($url)) {
+			return false;
+		}
+		$path = parse_url(html_entity_decode($url, ENT_QUOTES), PHP_URL_PATH);
+		if(!is_string($path)) {
+			return false;
+		}
+		return (bool)preg_match('#/(?:forum|home|member|misc)\.php/#i', rawurldecode($path));
+	}
+
 	private function _init_session() {
 		if (empty($_SERVER['HTTP_USER_AGENT']) || strlen($_SERVER['HTTP_USER_AGENT']) < 2) {
 			define('IS_ROBOT', 'UnusualUserAgentHeader');
+		} elseif(!$this->var['uid'] && $this->_is_malformed_php_path($_SERVER['REQUEST_URI'] ?? '')) {
+			define('IS_ROBOT', 'MalformedPhpPath');
 		} else {
 			// https://networksdb.io/ip-addresses-of/alibaba-cloud-singapore-private-ltd
 			static $cidrs_array = array("Alibaba Cloud Singapore" => ['43.0.0.0/9','8.128.0.0/10','8.208.0.0/12','161.117.0.0/16','170.33.0.0/16','149.129.0.0/16','103.206.40.0/22','14.1.112.0/22','185.218.176.0/22'],
@@ -552,7 +565,7 @@ class discuz_application extends discuz_base {
 						' WHERE id = %d', ['common_robot_user_agents', $_SERVER['HTTP_X_KNOWN_BOT'], $robot_entry['id']]);
 						define('IS_ROBOT', $robot_entry['user_agent_keyword'] . "\t");
 					} else {
-						define('IS_ROBOT', false);
+						define('IS_ROBOT', $_SERVER['HTTP_X_KNOWN_BOT'] . "\t");
 					}
 				} elseif ($robot_entry) {
 					DB::query('UPDATE %t SET last_seen_at=UNIX_TIMESTAMP(), seen_count = seen_count + 1'.
@@ -629,11 +642,15 @@ class discuz_application extends discuz_base {
 				$flag = $getFlagEmoji($countryCode);
 				$locationName = trim($flag.' '.$city);
 				$referrer = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '';
-				if(IS_ROBOT){
+				$robotName = defined('IS_ROBOT') && IS_ROBOT ? IS_ROBOT : false;
+				if(!$robotName && ($this->_is_malformed_php_path($_SERVER['REQUEST_URI'] ?? '') || $this->_is_malformed_php_path($referrer))) {
+					$robotName = 'MalformedPhpPath';
+				}
+				if($robotName){
 					$this->var['member']['groupid'] = 8;
-					$this->var['member']['username'] = IS_ROBOT;
-					$this->session->init($this->var['cookie']['sid'], $this->var['clientip'], 0, IS_ROBOT, $locationName);
-					$this->session->set('username', IS_ROBOT);
+					$this->var['member']['username'] = $robotName;
+					$this->session->init($this->var['cookie']['sid'], $this->var['clientip'], 0, $robotName, $locationName);
+					$this->session->set('username', $robotName);
 				} else {
 					$this->session->init($this->var['cookie']['sid'], $this->var['clientip'], 0);
 					$this->session->set('username', '');
