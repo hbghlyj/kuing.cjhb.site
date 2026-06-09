@@ -21,8 +21,14 @@ foreach($pluginarray as $row) {
 		$vers[$row['identifier'].'.plugin'] = $row['version'];
 	}
 }
-$checkresult = dunserialize(cloudaddons_upgradecheck($addonids));
-savecache('addoncheck_plugin', $checkresult);
+if(empty($_G['cookie']['addoncheck_plugin'])) {
+	$checkresult = dunserialize(cloudaddons_upgradecheck($addonids));
+	savecache('addoncheck_plugin', $checkresult);
+	dsetcookie('addoncheck_plugin', 1, 7200);
+} else {
+	loadcache('addoncheck_plugin');
+	$checkresult = $_G['cache']['addoncheck_plugin'];
+}
 $newversion = 0;
 if(is_array($checkresult)) {
 	foreach($checkresult as $addonid => $value) {
@@ -43,4 +49,3 @@ if($newversion) {
 }
 include template('common/footer_ajax');
 exit;
-	
