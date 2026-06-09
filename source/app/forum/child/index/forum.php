@@ -124,19 +124,14 @@ if(isset($catlist[0]) && $catlist[0]['forumscount']) {
 if(!IS_ROBOT && ($_G['setting']['whosonlinestatus'] == 1 || $_G['setting']['whosonlinestatus'] == 3)) {
 	$_G['setting']['whosonlinestatus'] = 1;
 
-	$onlineinfo = $_G['cache']['onlinerecord'] ? explode("\t", $_G['cache']['onlinerecord']) : [0, TIMESTAMP];
+	$todayday = dgmdate(TIMESTAMP, 'Ymd');
+	$todaystat = table_common_stat::t()->fetch_all_stat($todayday, $todayday, 'daytime,login');
+	$onlineinfo = [intval($todaystat[$todayday]['login'] ?? 0)];
 	$membercount = C::app()->session->count(1);
 	$guestcount = C::app()->session->count(2);
 	$invisiblecount = C::app()->session->count_invisible();
 	$onlinenum = $membercount + $guestcount;
-	if($onlinenum > $onlineinfo[0]) {
-		$onlinerecord = "$onlinenum\t".TIMESTAMP;
-		table_common_setting::t()->update_setting('onlinerecord', $onlinerecord);
-		savecache('onlinerecord', $onlinerecord);
-		$onlineinfo = [$onlinenum, TIMESTAMP];
-	}
 	dsetcookie('onlineusernum', intval($onlinenum), 300);
-	$onlineinfo[1] = dgmdate($onlineinfo[1], 'd');
 
 	$detailstatus = $showoldetails == 'yes' || (((!isset($_G['cookie']['onlineindex']) && !$_G['setting']['whosonline_contract']) || $_G['cookie']['onlineindex']) && $onlinenum < 500 && !$showoldetails);
 

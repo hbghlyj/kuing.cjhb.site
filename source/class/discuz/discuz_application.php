@@ -913,12 +913,14 @@ class discuz_application extends discuz_base {
 			@header('Pragma: no-cache');
 		}
 
-		if($this->session->isnew && $this->var['uid']) {
+		$statloginday = dgmdate(TIMESTAMP, 'Ymd');
+		if($this->var['uid'] && getglobal('cookie/statloginday') != $statloginday) {
 			include_once libfile('function/stat');
 			updatestat('login', 1);
 			if(defined('IN_MOBILE')) {
 				updatestat('mobilelogin', 1);
 			}
+			dsetcookie('statloginday', $statloginday, 86400);
 		}
 
 		$lastact = TIMESTAMP."\t".dhtmlspecialchars(basename($this->var['PHP_SELF']))."\t".dhtmlspecialchars($this->var['mod']);

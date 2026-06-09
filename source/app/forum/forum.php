@@ -25,7 +25,7 @@ $modarray = ['ajax', 'announcement', 'attachment', 'forumdisplay',
 
 $modcachelist = [
 	'index' => ['announcements', 'onlinelist', 'forumlinks',
-		'heats', 'historyposts', 'onlinerecord', 'userstats', 'diytemplatenameforum'],
+		'heats', 'historyposts', 'userstats', 'diytemplatenameforum'],
 	'forumdisplay' => ['smilies', 'announcements_forum', 'globalstick', 'forums',
 		'onlinelist', 'forumstick', 'threadtable_info', 'threadtableids', 'stamps', 'diytemplatenameforum'],
 	'viewthread' => ['smilies', 'smileytypes', 'forums', 'usergroups',
