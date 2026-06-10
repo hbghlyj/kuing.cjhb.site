@@ -82,7 +82,8 @@
 								<!--{/if}-->
 								<!--{if $_G['setting']['threadhidethreshold'] && $thread['hidden'] >= $_G['setting']['threadhidethreshold']}-->><span class="kmico kmding">{lang hidden}</span><!--{/if}-->
 								<!--{hook/forumdisplay_thread $key}-->
-								<span class="km_subject">$thread['subject']</span>
+								$thread['subject']
+							</a>
 								<!--{hook/forumdisplay_thread_subject $key}-->
 								<!--{if $thread['weeknew']}-->
 									<em class="kmnew xi1">New</em>
@@ -99,7 +100,6 @@
 										<i class="fico-thumbdown fc-a fnmr vm" title="{lang posts_deducted}"></i>
 									<!--{/if}-->
 								<!--{/if}-->
-							</a>
 							</p>
 							<div class="kmmeta">
 								<!--{if $thread['authorid'] && $thread['author']}-->
