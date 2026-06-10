@@ -63,19 +63,35 @@
 
 			if(!picstyle) {
 				var tableobj = $('threadlisttableid');
-				var nexts = s.match(/\<tbody id="normalthread_(\d+)"\>(.+?)\<\/tbody>/g);
-				for(i in nexts) {
-					if(i == 'index' || i == 'lastIndex') {
-						continue;
-					}
-					var insertid = nexts[i].match(/<tbody id="normalthread_(\d+)"\>/);
-					if(!$('normalthread_' + insertid[1])) {
+				if(tableobj.tagName.toLowerCase() == 'table') {
+					var nexts = s.match(/\<tbody id="normalthread_(\d+)"\>(.+?)\<\/tbody>/g) || [];
+					for(i in nexts) {
+						if(i == 'index' || i == 'lastIndex') {
+							continue;
+						}
+						var insertid = nexts[i].match(/<tbody id="normalthread_(\d+)"\>/);
+						if(!$('normalthread_' + insertid[1])) {
 
-						var newbody = document.createElement('tbody');
-						tableobj.appendChild(newbody);
-						var div = document.createElement('div');
-						div.innerHTML = '<table>' + nexts[i] + '</table>';
-						tableobj.replaceChild(div.childNodes[0].childNodes[0], tableobj.lastChild);
+							var newbody = document.createElement('tbody');
+							tableobj.appendChild(newbody);
+							var div = document.createElement('div');
+							div.innerHTML = '<table>' + nexts[i] + '</table>';
+							tableobj.replaceChild(div.childNodes[0].childNodes[0], tableobj.lastChild);
+							MathJax.typesetPromise([tableobj.lastChild]);
+						}
+					}
+				} else {
+					var div = document.createElement('div');
+					div.innerHTML = s;
+					var nexts = div.getElementsByTagName('li');
+					var newthreads = [];
+					for(var i = 0; i < nexts.length; i++) {
+						if(/^normalthread_\d+$/.test(nexts[i].id) && !$(nexts[i].id)) {
+							newthreads.push(nexts[i]);
+						}
+					}
+					for(var i = 0; i < newthreads.length; i++) {
+						tableobj.appendChild(newthreads[i]);
 						MathJax.typesetPromise([tableobj.lastChild]);
 					}
 				}
