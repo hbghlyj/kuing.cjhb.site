@@ -94,32 +94,7 @@
 		<!--{ad/headerbanner/wp a_h}-->
 
 		<div id="dz_btm_layer" {if $_G['style']['is_fixtop']} class="topbox"{/if}>
-			<div class="dz_layer_top">
-				<div  class="dz_btm_layer dz_nav">
-					<!--{eval $mnid = getcurrentnav();}-->
-					<div class="dz_layer_nav">						
-						<ul>
-							<!--{eval $mnid = getcurrentnav(); $n=0; $dz_menumore = ''; $nn = $_G['style']['top_navnum'] ? $_G['style']['top_navnum'] : 10;}-->
-							<!--{loop $_G['setting']['navs'] $nav}-->
-								<!--{if is_array($nav) && $nav['available'] && (!$nav['level'] || ($nav['level'] == 1 && $_G['uid']) || ($nav['level'] == 2 && $_G['adminid'] > 0) || ($nav['level'] == 3 && $_G['adminid'] == 1))}-->
-									<!--{eval $n++;}-->					
-									<!--{if $n <= $nn}-->
-									<!--{if is_array($nav) && $nav['available'] && (!$nav['level'] || ($nav['level'] == 1 && $_G['uid']) || ($nav['level'] == 2 && $_G['adminid'] > 0) || ($nav['level'] == 3 && $_G['adminid'] == 1))}--><li {if $mnid == $nav[navid] || substr($_SERVER['REQUEST_URI'], 1) == str_replace('./', '', $nav[filename])}class="a" {/if}$nav[nav]></li><!--{/if}-->
-									<!--{/if}-->					
-								<!--{/if}-->
-								<!--{if $n > $nn}-->
-									<li id="top_menumore" class="dz_menumore" onmouseover="showMenu({'ctrlid':'top_menumore'});"><a href="javascript:;" >{lang tmp133}</a></li>
-									<!--{eval $n=9999;break;}-->
-								<!--{/if}-->				
-							<!--{/loop}-->
-						</ul>
-						<!--{hook/global_nav_extra}-->
-					</div>
-					<div class="dz_layer_dl"><!--{template common/header_userstatus}--></div>
-					<div class="clear"></div>
-				</div>
-				
-			</div>
+			<!--{template common/header_userstatus}-->
 		</div>
 		<div class="wp" id="hds">
 			<!--{if !empty($_G['setting']['plugins']['jsmenu'])}-->
