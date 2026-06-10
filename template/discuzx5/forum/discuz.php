@@ -500,7 +500,7 @@
 						<span class="xs1">- <strong id="whosonline_count_total">$onlinenum</strong> {lang onlines}
 						<span id="whosonline_member_segment"<!--{if !$membercount}--> style="display:none"<!--{/if}-->>- <strong id="whosonline_count_member">$membercount</strong> {lang index_members}<span id="whosonline_invisible_segment"<!--{if !$invisiblecount}--> style="display:none"<!--{/if}-->>(<strong id="whosonline_count_invisible">$invisiblecount</strong> {lang index_invisibles})</span>,</span>
 						<span id="whosonline_guest_segment"<!--{if !$guestcount}--> style="display:none"<!--{/if}-->><strong id="whosonline_count_guest">$guestcount</strong> {lang index_guests}</span>
-						- {lang index_mostonlines} <strong>$onlineinfo[0]</strong>.</span>
+						- {lang index_members_today} <strong>$onlineinfo[0]</strong></span>
 					</h3>
 				<!--{else}-->
 					<!--{if empty($_G['setting']['sessionclose'])}-->
@@ -516,7 +516,7 @@
 						</strong>
 						<span class="xs1">- {lang total} <strong>$onlinenum</strong> {lang onlines}
 						<!--{if $membercount}-->- <strong>$membercount</strong> {lang index_members},<strong>$guestcount</strong> {lang index_guests}<!--{/if}-->
-						- {lang index_mostonlines} <strong>$onlineinfo[0]</strong>.</span>
+						- {lang index_members_today} <strong>$onlineinfo[0]</strong></span>
 					</h3>
 				<!--{/if}-->
 				</div>
