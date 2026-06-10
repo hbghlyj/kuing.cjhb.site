@@ -491,7 +491,7 @@
 		</div>
 
 		<!--{if empty($gid) && $_G['setting']['whosonlinestatus']}-->
-			<div id="online" class="bm oll">
+			<div id="online" class="bm bmw">
 				<div class="bm_h">
 				<!--{if $detailstatus}-->
 					<span class="o"><a href="forum.php?showoldetails=no#online" title="{lang spread}"><em class="tg_no" title="{lang spread}"></em></a></span>
