@@ -108,11 +108,11 @@
 									<a href="javascript:;">$_G['setting']['anonymoustext']</a>
 								<!--{/if}-->
 								<span class="kmtime{if $thread['istoday'] && CURMODULE == 'forumdisplay'} xi1{/if}">{lang tmp083} $thread['dateline']</span>
-								<!--{if $thread['taglist']}-->
-									<!--{loop $thread['taglist'] $tag}--><a href="misc.php?mod=tag&id=$tag['tagid']&name={echo urlencode($tag['tagname'])}" target="_blank" class="kmbg kmico_bk">$tag['tagname']</a><!--{/loop}-->
-								<!--{/if}-->
 								<!--{if $thread['typehtml'] || $thread['sorthtml']}-->
 									{echo str_replace(array('<em>[', ']</em>', '">'), array('', '', '" class="kmbg kmico_bk" target="_blank">'), $thread['typehtml'].$thread['sorthtml']);}
+								<!--{/if}-->
+								<!--{if $thread['taglist']}-->
+									<!--{loop $thread['taglist'] $tag}--><a href="misc.php?mod=tag&id=$tag['tagid']&name={echo urlencode($tag['tagname'])}" target="_blank" class="kmbg kmico_bk">$tag['tagname']</a><!--{/loop}-->
 								<!--{/if}-->
 							</div>
 							<!--{if $threadlist_data[$thread['tid']]['message'] && !in_array($thread['displayorder'], array(1,2,3,4))}--><div class="kmtxt">{$threadlist_data[$thread['tid']]['message']}</div><!--{/if}-->										
