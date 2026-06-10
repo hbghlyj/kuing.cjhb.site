@@ -475,7 +475,7 @@ Created & Modified by Alice, Monkey, Lushnis, Pony, Dfox & DragonLee.
 /** forum::index,forum::forumdisplay,group::index,group::group,search::group **/
 /* 版块列表 */
 .fl {}
-	.fl_tb { width: 100%; }
+	.fl_tb { width: 100%; table-layout: fixed; }
 		.fl_tb td { padding: 10px 0; }
 		.fl_tb td.fl_icn { width: 31px; position: relative; }
 			.fl_tb td.fl_icn > a { position: absolute; inset: 0; padding-left: 10px; display: flex; align-items: center;}
