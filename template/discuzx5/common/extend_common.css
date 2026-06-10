@@ -417,21 +417,8 @@ img{border:none;}
 
 .dz_layer_dl{float:right;}
 .topbox{background:#fff;box-shadow:0px 2px 20px 0px rgba(0,0,0,.05);position:fixed;top:0;right:0;z-index:199;width:max-content;}
-.dz_layer_nav ul li a{display:inline-block;margin-right:25px;height:73px;line-height:73px;color:var(--dz-alink);font-size:16px;text-align:center;position:relative;font-weight:400;}
-.dz_layer_nav ul li a:hover{color:var(--dz-nvtxt);}
-.dz_layer_nav ul li.a a{color:var(--dz-nvtxt);}
-.dz_layer_nav span{display:none;}
-.dz_layer_nav ul li.hover{color:var(--dz-nvtxt);}
-.dz_layer_nav ul li.hover a{color:var(--dz-nvtxt);}
-.dz_layer_nav ul li a:before{content:'';background:var(--dz-nvtxt);height:2px;bottom:8px;width:0;position:absolute;left:40%;width:0px;transition:all 0.4s;border-radius:24px 0 0 24px;}
-.dz_layer_nav ul li a:after{content:'';background:var(--dz-nvtxt);height:2px;bottom:8px;width:0;position:absolute;right:40%;width:0px;transition:all 0.4s;border-radius:0 24px 24px 0;}
-.dz_layer_nav ul li.a a:before{width:15%;}
-.dz_layer_nav ul li.a a:after{width:15%;}
-.dz_layer_nav ul li a:hover:before{width:60%;}
-.dz_layer_nav ul li a:hover:after{width:60%;}
 
 .dz_menumore::after{vertical-align: -8px;color: var(--dz-alink);content: "";border-top: 6px solid;border-right: 6px solid transparent;border-bottom: 0;border-left: 6px solid transparent;border-radius: var(--dz-radius-x);}
-.dz_layer_nav ul .dz_menumore a{font-size: 16px;margin-right: 10px;}
 
 
 .header-right{height:70px;display:flex;align-items:center;position: relative;}
@@ -473,14 +460,12 @@ img{border:none;}
     .header-searcher .search-input, .header-searcher .algolia-search-box-wrapper .ais-SearchBox-input {
         width: 160px;
     }
-    .dz_layer_nav{width: 530px;}
     .header-indexsearcher{margin-left: 107px;}
 }
 @media screen  and (min-width:960px) and  (max-width: 1440px){
     .header-searcher .search-input, .header-searcher .algolia-search-box-wrapper .ais-SearchBox-input {
         width: 180px;
     }
-    .dz_layer_nav{width: 530px;}
     .header-indexsearcher{margin-left: 107px;}
 }
 @media screen and (min-width:1440px) and  (max-width: 1920px){
