@@ -14,14 +14,9 @@
 	var forumdefstyle = parseInt(autopbn.getAttribute('forumdefstyle').valueOf());
 	picstyle = picstyle && !forumdefstyle;
 
-	var loadstatus = 0;
-
 	autopbn.onclick = function() {
-		var oldloadstatus = loadstatus;
-		loadstatus = 2;
 		autopbn.innerHTML = $L('loading');
 		getnextpagecontent();
-		loadstatus = oldloadstatus;
 	};
 
 	function getnextpagecontent() {
@@ -95,7 +90,6 @@
 					autopbn.style.display = 'block';
 				}, 100);
 			}
-			loadstatus = 0;
 		});
 	}
 
