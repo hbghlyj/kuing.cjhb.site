@@ -13,8 +13,6 @@
 	var picstyle = parseInt(autopbn.getAttribute('picstyle').valueOf());
 	var forumdefstyle = parseInt(autopbn.getAttribute('forumdefstyle').valueOf());
 	picstyle = picstyle && !forumdefstyle;
-	var autopagenum = 0;
-	var maxpage = (curpage + autopagenum) > totalpage ? totalpage : (curpage + autopagenum);
 
 	var loadstatus = 0;
 
@@ -26,29 +24,11 @@
 		loadstatus = oldloadstatus;
 	};
 
-	if(autopagenum > 0) {
-		window.onscroll = function () {
-			var curtop = Math.max(document.documentElement.scrollTop, document.body.scrollTop);
-			if(curtop + document.documentElement.clientHeight + 500 >= document.documentElement.scrollHeight && !loadstatus) {
-				loadstatus = 1;
-				autopbn.innerHTML = $L('loading');
-				setTimeout(getnextpagecontent, 1000);
-			}
-		};
-	}
-
 	function getnextpagecontent() {
 
 		if(curpage + 1 > totalpage) {
 			window.onscroll = null;
 			autopbn.style.display = 'none';
-			return;
-		}
-		if(loadstatus != 2 && curpage + 1 > maxpage) {
-			autopbn.innerHTML = $L('next_page') + ' &raquo;';
-			if(curpage + 1 > maxpage) {
-				window.onscroll = null;
-			}
 			return;
 		}
 		curpage++;
