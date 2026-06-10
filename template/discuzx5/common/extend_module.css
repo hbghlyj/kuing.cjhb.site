@@ -103,7 +103,7 @@
 .dz_waterfall li .wftxt em.wfck:before {float:left;content:"\e6b7";font-family:dzicon;font-size:18px;margin-top:0px;margin-right:4px;color:var(--dz-fd)}
 
 
-#autopbn {margin:15px auto 10px;height:38px;line-height:38px;width:300px;background:var(--dz-bgc);border:1px solid var(--dz-borderb);border-radius:var(--dz-radius-c);box-shadow:none}
+#autopbn {margin:15px auto 10px;height:38px;line-height:38px;border:1px solid var(--dz-borderb)}
 #autopbn:hover {background:var(--dz-bgf)}
 #autopbn:after {display:none}
 /**end**/
