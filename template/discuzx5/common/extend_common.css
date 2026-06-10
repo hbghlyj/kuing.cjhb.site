@@ -319,8 +319,8 @@ form[action*="ac=privacy&op="] .tfm caption h2.ptw {padding-top:0px !important}
 .fl .bm {border-top:1px double var(--dz-borderb)}
 .fl .bm_h {background:none;border:none}
 .bbs {border-bottom:1px solid var(--dz-borderb) !important}
-.bmw .bm_h {background:none;border-top:none;border-left:none;border-right:none;border-bottom:1px solid var(--dz-borderb)}
-.bm_h {margin:0 20px;padding:0;height:50px;line-height:50px;background:var(--dz-bgf);border-top:none;border-bottom:1px solid var(--dz-borderb)}
+.bmw .bm_h {background:linear-gradient(to bottom, #FFF, var(--dz-borderb));border-top:none;border-left:none;border-right:none;border-bottom:1px solid var(--dz-borderb)}
+.bm_h {padding:0 20px;height:50px;line-height:50px;background:var(--dz-bgf);border-top:none;border-bottom:1px solid var(--dz-borderb)}
 .bm_h h3, .bm_h h2, .bm_h h1 {font-size:16px !important;font-weight:400}
 .bm_h h3, .bm_h h2, .bm_h h1, .dz_uactive_profile h2.mbn, .ct2_a h1.mt, .dz_uactive_rbox .bm .bm_h h2, .dz_viewtitle h2, .frame-title, .title, .drag .block .title, .dz_xb_title, .dz_lactive_tinfo .km_nameico {position:relative;z-index:1}
 .bmw .bm_h a, .bm_h h3 a, .bm_h h2 a, .bm_h h1 a {color:var(--dz-fa)}
