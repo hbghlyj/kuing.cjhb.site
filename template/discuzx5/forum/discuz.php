@@ -296,7 +296,7 @@
 							<!--{else}-->
 								<td>
 									<h2><a href="$forumurl"{if $forum[redirect]} target="_blank"{/if}{if $forum[extra][namecolor]} style="color: {$forum[extra][namecolor]};"{/if}>$forum[name]</a><!--{if $forum[todayposts] && !$forum['redirect']}--><em class="xw0 xi1" title="{lang forum_todayposts}"> ($forum[todayposts])</em><!--{/if}--></h2>
-									<!--{if $forum[description]}--><p class="xg2">$forum[description]</p><!--{/if}-->
+									<!--{if $forum[description]}--><p class="xg2 xs0">$forum[description]</p><!--{/if}-->
 									<!--{if $forumlist[$forum['fid']]['subforums']}--><p>{lang forum_subforums}: $forumlist[$forum['fid']]['subforums']</p><!--{/if}-->
 									<!--{if $forum['moderators']}--><p>{lang forum_moderators}: <span class="xi2">$forum[moderators]</span></p><!--{/if}-->
 									<!--{hook/index_favforum_extra $forum['fid']}-->
@@ -391,7 +391,7 @@
 						<!--{else}-->
 							<td>
 								<h2><a href="$forumurl"{if $forum[redirect]} target="_blank"{/if}{if !empty($forum[extra][namecolor])} style="color: {$forum[extra][namecolor]};"{/if}>$forum[name]</a><!--{if $forum[todayposts] && !$forum['redirect']}--><em class="xw0 xi1" title="{lang forum_todayposts}"> ($forum[todayposts])</em><!--{/if}--></h2>
-								<!--{if $forum[description]}--><p class="xg2">$forum[description]</p><!--{/if}-->
+								<!--{if $forum[description]}--><p class="xg2 xs0">$forum[description]</p><!--{/if}-->
 								<!--{if $forum['subforums']}--><p>{lang forum_subforums}: $forum['subforums']</p><!--{/if}-->
 								<!--{if $forum['moderators']}--><p>{lang forum_moderators}: <span class="xi2">$forum[moderators]</span></p><!--{/if}-->
 								<!--{hook/index_forum_extra $forum['fid']}-->
