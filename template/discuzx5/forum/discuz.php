@@ -310,7 +310,7 @@
 										{lang private_forum}
 									<!--{else}-->
 										<!--{if $forum['redirect']}-->
-											<a href="$forumurl" class="xi2">{lang url_link}</a>
+											<a href="$forumurl">{lang url_link}</a>
 										<!--{elseif is_array($forum['lastpost'])}-->
 											<a href="forum.php?mod=redirect&tid=$forum[lastpost][tid]&goto=lastpost#lastpost" class="xi2">$forum[lastpost][subject]</a> <cite><span class="xs0">$forum[lastpost][dateline] </span><!--{if $forum['lastpost']['author']}-->$forum['lastpost']['author']<!--{else}-->$_G[setting][anonymoustext]<!--{/if}--></cite>
 										<!--{else}-->
