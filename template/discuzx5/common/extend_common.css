@@ -818,7 +818,10 @@ body .colorwd {width:36px !important;height:36px !important;line-height:36px !im
 .forumportal_listc .kmfoot .pipe {float:left;margin-left:0}
 .forumportal_listc .kmfoot .kmfl {margin-top:1px;padding:0 4px;height:18px;line-height:18px;background:var(--dz-btnbg);color:var(--dz-btntxt);overflow:hidden;border-radius:3px}
 .forumportal_listc .kmfoot .kmfl[href*="typeid=0"] {display:none}
-.forumportal_listc .kmfoot .kmpl, .forumportal_listc .kmfoot .kmck {float:right;margin-left:15px}
+.forumportal_listc .kmfoot .kmpl, .forumportal_listc .kmfoot .kmck {
+    float: left;
+    margin-right: 15px;
+}
 .forumportal_listc .kmfoot .kmck:before {content:'';background:url({STYLEIMGDIR}/svg/dz_ico_view.svg) no-repeat 0 1px;background-size:18px;float:left;width:23px;height:20px}
 .forumportal_listc .kmfoot .kmpl:before {content:'';background:url({STYLEIMGDIR}/svg/dz_ico_pinglun.svg) no-repeat 0 2px;background-size:17px;float:left;width:22px;height:20px}
 .forumportal_listc .kmquote {border:none;margin:15px 0 -5px 60px;padding:12px 15px;font-size:13px;background:var(--dz-bgc);color:var(--dz-fc);border-radius:var(--dz-radius-s);position:relative}
