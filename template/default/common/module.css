@@ -477,7 +477,7 @@ Created & Modified by Alice, Monkey, Lushnis, Pony, Dfox & DragonLee.
 .fl {}
 	.fl_tb { width: 100%; table-layout: fixed; }
 		.fl_tb td { padding: 10px 0; }
-		.fl_tb td.fl_icn { width: 31px; position: relative; }
+		.fl_tb td.fl_icn { width: auto; min-width: 200px; position: relative; }
 			.fl_tb td.fl_icn > a { position: absolute; inset: 0; padding-left: 10px; display: flex; align-items: center;}
 			.fl_tb td.fl_icn > a:hover { box-shadow: rgba(0, 0, 0, 0.3) 0px 2px 4px inset; }
 		.fl_by { text-align: right; }
