@@ -27,7 +27,6 @@
 	function getnextpagecontent() {
 
 		if(curpage + 1 > totalpage) {
-			window.onscroll = null;
 			autopbn.style.display = 'none';
 			return;
 		}
@@ -38,7 +37,6 @@
 			s = s.replace(/\n|\r/g, ' ');
 			if(s.indexOf("id=\"autopbn\"") == -1) {
 				$("autopbn").style.display = "none";
-				window.onscroll = null;
 			}
 
 			if(!picstyle) {
