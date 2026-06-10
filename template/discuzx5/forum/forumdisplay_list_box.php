@@ -38,6 +38,7 @@
 									<!--{eval $thread['tid']=$thread['closed'];}-->
 							<!--{/if}-->
 							
+							<p class="kmtit">
 							<a href="forum.php?mod=viewthread&tid=$thread['tid']&{if $_GET['archiveid']}archiveid={$_GET['archiveid']}&{/if}extra=$extra"$thread['highlight']{if $thread['isgroup'] == 1 || $thread['forumstick']} target="_blank"{else} onclick="atarget(this)"{/if} title="{if $thread['displayorder'] == 1}{lang thread_type1}{/if}
 									{if $thread['displayorder'] == 2}{lang thread_type2}{/if}
 									{if $thread['displayorder'] == 3}{lang thread_type3}{/if}
@@ -49,7 +50,7 @@
 									{if $thread['special'] == 4}{lang thread_activity}{lang forum_threads}{/if}
 									{if $thread['special'] == 5}{lang thread_debate}{lang forum_threads}{/if}
 									{if $thread['rushreply']}{lang rushreply}{lang forum_threads}{/if}
-									{if $thread['folder'] == "new"}{lang have_newreplies}{lang forum_threads}{/if}" class="kmtit">
+									{if $thread['folder'] == "new"}{lang have_newreplies}{lang forum_threads}{/if}">
 								<!--{if $thread['folder'] == 'lock'}-->
 									<img src="{STYLEIMGDIR}/svg/dz_ico_folder_lock.svg" alt="" class="kmimgico" />
 								<!--{elseif $thread['special'] == 1}-->
@@ -99,6 +100,7 @@
 									<!--{/if}-->
 								<!--{/if}-->
 							</a>
+							</p>
 							<div class="kmmeta">
 								<!--{if $thread['authorid'] && $thread['author']}-->
 									<a href="home.php?mod=space&uid=$thread['authorid']" target="_blank" class="kmimg"><!--{avatar($thread['authorid'],'small')}--></a>
