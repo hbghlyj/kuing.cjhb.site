@@ -88,6 +88,30 @@
 		<!--{eval updatesession();}-->
 	</div>
 <!--{/if}-->
+<script type="text/javascript">
+function new_showTopLink() {
+	var ft = $('ft');
+	var scrolltop = $('scrolltop');
+	if(!ft || !scrolltop) {
+		return;
+	}
+	var scrollHeight = parseInt(document.body.getBoundingClientRect().top);
+	var basew = parseInt(ft.clientWidth);
+	var sw = scrolltop.clientWidth;
+	if(basew < 1250) {
+		var left = parseInt(fetchOffset(ft)['left']);
+		left = left < sw ? left * 2 - sw : left;
+		scrolltop.style.left = (basew + left) + 'px';
+	} else {
+		scrolltop.style.left = 'auto';
+		scrolltop.style.right = 0;
+	}
+	scrolltop.style.visibility = scrollHeight < -100 ? 'visible' : 'hidden';
+}
+_attachEvent(window, 'scroll', new_showTopLink);
+_attachEvent(window, 'resize', new_showTopLink);
+new_showTopLink();
+</script>
 {cells common/footer/js}
 
 <!--{if !IS_ROBOT}-->
