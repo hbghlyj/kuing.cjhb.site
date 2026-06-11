@@ -41,11 +41,11 @@ ALTER TABLE uc_members
 - 这些变更不应手工挑选性跳过。对于已有站点，应完整评估并执行 `install/data/upgrade.sql`。
 - 来源：`install/data/upgrade.sql`
 
-### [Manual review] 旧 IP 数据文件不再是默认运行路径
+### 旧 IP 查询后端已移除
 
 - 当前默认运行时地理位置查询已经切换到 MaxMind GeoIP2。
-- 老的 `tinyipdata.dat` / `wry` 系列数据文件不再是当前默认查询路径，但仓库中仍保留了旧后端相关代码，不能简单按“文件是否存在”判断是否切换完成。
-- 因此部署时应按当前实际运行路径核对，而不是沿用旧数据文件部署习惯。
+- 老的 `tinyipdata.dat` / `wry` 系列数据文件、查询类和 `source/child/core/ip.php` 路由均已移除。
+- 部署时不应再保留或配置旧 `ipdb` 后端。
 
 ### [Manual review] 输出策略默认值与旧站点预期不同
 
@@ -192,6 +192,11 @@ $_config['output']['css4legacyie'] = 0;
 
 - 默认地理位置查询已经切到 GeoIP2。
 - IP、游客、爬虫、在线列表等行为在当前分支中存在联动，不应再按旧 tiny/wry 路径理解。
+
+### 文件完整性基线
+
+- `source/data/admincp/discuzfiles.md5` 按当前分支实际跟踪文件和 AdminCP 文件校验范围生成。
+- 分支新增的 RESTful、现代化模板和静态资源已纳入基线；已删除的旧模板镜像和子功能不再保留清单项。
 
 ## Update Rule
 
