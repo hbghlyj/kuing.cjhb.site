@@ -499,21 +499,22 @@ class template {
 			}
 		}
 		$scripts = [STYLEID.'_common'];
+		$moduleScript = STYLEID.'_'.$_G['basescript'].'_'.CURMODULE;
 		$content = $this->csscurmodules = '';
 		$content = implode('', is_array($file) ? $file : []);
 		$content = preg_replace_callback('/\[(.+?)\](.*?)\[end\]/is', [$this, 'loadcsstemplate_callback_cssvtags_12'], $content);
 		if($this->csscurmodules) {
 			$this->csscurmodules = preg_replace(['/\s*([,;:\{\}])\s*/', '/[\t\n\r]/', '/\/\*.+?\*\//'], ['\\1', '', ''], $this->csscurmodules);
-			if(file_put_contents(DISCUZ_DATA.'./cache/style_'.STYLEID.'_'.$_G['basescript'].'_'.CURMODULE.'.css', $this->csscurmodules, LOCK_EX) === false) {
+			if(file_put_contents(DISCUZ_DATA.'./cache/style_'.$moduleScript.'.css', $this->csscurmodules, LOCK_EX) === false) {
 				exit('Can not write to cache files, please check directory ./data/ and ./data/cache/ .');
 			}
-			oss::writeCache('style_'.STYLEID.'_'.$_G['basescript'].'_'.CURMODULE.'.css');
-			$scripts[] = STYLEID.'_'.$_G['basescript'].'_'.CURMODULE;
+			oss::writeCache('style_'.$moduleScript.'.css');
 		}
 		$scriptcss = '';
 		foreach($scripts as $css) {
 			$scriptcss .= '<link rel="stylesheet" type="text/css" href="{$_G[\'setting\'][\'csspath\']}'.$css.'.css?{VERHASH}" />';
 		}
+		$scriptcss .= '{if is_file(DISCUZ_DATA.\'./cache/style_'.$moduleScript.'.css\')}<link rel="stylesheet" type="text/css" href="{$_G[\'setting\'][\'csspath\']}'.$moduleScript.'.css?{VERHASH}" />{/if}';
 		$scriptcss .= '{if $_G[\'uid\'] && isset($_G[\'cookie\'][\'extstyle\']) && strpos($_G[\'cookie\'][\'extstyle\'], TPLDIR) !== false}<link rel="stylesheet" id="css_extstyle" type="text/css" href="{$_G[\'cookie\'][\'extstyle\']}/style.css?{VERHASH}" />{elseif $_G[\'style\'][\'defaultextstyle\']}<link rel="stylesheet" id="css_extstyle" type="text/css" href="{$_G[\'style\'][\'defaultextstyle\']}/style.css?{VERHASH}" />{/if}';
 		if(isset($_G['config']['output']['css4legacyie']) && $_G['config']['output']['css4legacyie']) {
 			$scriptcss .= '<!--[if IE]><link rel="stylesheet" type="text/css" href="'.$_G['setting']['csspath'].STYLEID.'_iefix'.'.css?{VERHASH}" /><![endif]-->';
