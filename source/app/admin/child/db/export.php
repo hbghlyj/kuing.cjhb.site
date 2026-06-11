@@ -32,7 +32,7 @@ showsubtitle(['filename', 'size', 'dateline', 'download']);
 foreach($backupFiles as $filename) {
 	$filepath = $backupPath.$filename;
 	if(is_file($filepath) && !is_link($filepath)) {
-		$url = $backupUrl.rawurlencode($filename);
+		$url = $backupUrl.rawurlencode($filename).'?t='.filemtime($filepath);
 		$size = sizecount(filesize($filepath));
 		$dateline = dgmdate(filemtime($filepath));
 		$download = '<a href="'.$url.'" target="_blank">'.cplang('download').'</a>';
