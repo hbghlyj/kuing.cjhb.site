@@ -124,6 +124,15 @@ ALTER TABLE uc_members
 
 ## Config / Environment Changes
 
+### [Required] 数据库备份改由系统 cron 生成
+
+- AdminCP 的数据库备份页面不再执行 PHP 分卷导出，只显示并下载系统 cron 生成的三个固定备份：
+  - `backup_monday.sql.gz`
+  - `backup_wednesday.sql.gz`
+  - `backup_friday.sql.gz`
+- cron 必须把文件写入 Discuz! 配置的 `data/backup_<backupdir>/` 目录。
+- 管理入口仍为 `/?app=admin&platform=system?action=db&operation=export`。
+
 ### [Required] MaxMind GeoIP2 运行时依赖
 
 - 当前默认运行时地理位置查询使用 MaxMind GeoIP2。

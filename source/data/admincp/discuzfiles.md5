@@ -1,7 +1,7 @@
 6392c72363b57ac317f84bbaa6607358 *./.gitignore
 06aa755352b7a4cbb33b258270c84e1c *./LICENSE
 c861d64f86d342aded89c1d4519e2939 *./README.md
-5952170b5eb0f189f3696545f0e4fb63 *./UPGRADE_NOTES.md
+93012b388524de0a3128147f03b132f9 *./UPGRADE_NOTES.md
 10e0a9ec4b2ab91c429f3226d512f47f *./admin.php
 ac32c9e1f5286d86a4fe2ec70d4c42bb *./api
 ab568aa12b5381962197b5d0ab752d87 *./api.php
@@ -204,7 +204,7 @@ fe33e7e8a1f1e2f9f190d504b27dbb1e *source/app/admin/child/counter/thread.php
 d41d8cd98f00b204e9800998ecf8427e *source/app/admin/child/credits/index.htm
 f027ebbe704cc07f9f2d869225ecf3a9 *source/app/admin/child/credits/list.php
 6bdcac9b493ac8164b7c91c7e40fea45 *source/app/admin/child/db/dbcheck.php
-f1ab405d9075a8f1d415c5d21b70d621 *source/app/admin/child/db/export.php
+8cde7d6dcc8793d36783dbecf15e9b76 *source/app/admin/child/db/export.php
 d41d8cd98f00b204e9800998ecf8427e *source/app/admin/child/db/index.htm
 8f5301dbea40b0445d7687656c6289fc *source/app/admin/child/db/optimize.php
 10448e829fc909c812cfd4e1ef39b896 *source/app/admin/child/db/quickquery.php
@@ -2150,7 +2150,7 @@ a794029650571b34e371df012a29d9d2 *source/i18n/EN_UTF8/home/lang_template.php
 d41d8cd98f00b204e9800998ecf8427e *source/i18n/EN_UTF8/index.htm
 40e00b60d754c6d71b1b1852b0385a7b *source/i18n/EN_UTF8/lang.php
 2a582bb65f2158d113d6927f6032603e *source/i18n/EN_UTF8/lang_action.php
-9b071738d592ed20704214e811dc4683 *source/i18n/EN_UTF8/lang_admincp.php
+10920822a2afb6d31ca78843d7fb5053 *source/i18n/EN_UTF8/lang_admincp.php
 d437463342a17bcfe5ce51366f9114fa *source/i18n/EN_UTF8/lang_admincp_cloud.php
 d48525069fc9df973b4755dc1bbae380 *source/i18n/EN_UTF8/lang_admincp_login.php
 34ac214da9aa630de7eb561e5e1c39d8 *source/i18n/EN_UTF8/lang_admincp_menu.php
@@ -2347,7 +2347,7 @@ c3e1c7923649e41346f3bd6b07422e9d *source/i18n/SC_UTF8/install/lang_sql_upgrade_3
 e1efe8d34d17a4c285dedeeac1a7c056 *source/i18n/SC_UTF8/install/lang_sql_upgrade_3.5/table_restful_source.php
 5e4162f6228dc0fbb2375d5139a0f2ae *source/i18n/SC_UTF8/lang.php
 a27be3be29e7f5858f33d737009f6a2c *source/i18n/SC_UTF8/lang_action.php
-6fa401f6d2bcd8898220e4c15f445d07 *source/i18n/SC_UTF8/lang_admincp.php
+27e4f826df4c6b8711c2dce2d1493901 *source/i18n/SC_UTF8/lang_admincp.php
 77e5ab0a1717c5dc415760ff9a2c76bd *source/i18n/SC_UTF8/lang_admincp_login.php
 ed35b0b7e541bddfa761767bbaba5caa *source/i18n/SC_UTF8/lang_admincp_menu.php
 c4cb645103a30539380475bd7c2e0fe2 *source/i18n/SC_UTF8/lang_admincp_msg.php
@@ -2550,7 +2550,7 @@ c52ad5133398a7497ffa18195bd447aa *source/i18n/TC_UTF8/install/lang_sql_upgrade_3
 e1efe8d34d17a4c285dedeeac1a7c056 *source/i18n/TC_UTF8/install/lang_sql_upgrade_3.5/table_restful_source.php
 aa9085291f92c88593d7c4d5fda25aa7 *source/i18n/TC_UTF8/lang.php
 5943953ce53f96096530fd915af00e90 *source/i18n/TC_UTF8/lang_action.php
-c4e701ac836b7d2748b666fd269323b4 *source/i18n/TC_UTF8/lang_admincp.php
+dfa64522d11d9dc11ec1181f971ea3e6 *source/i18n/TC_UTF8/lang_admincp.php
 08db65b97e74dad2c87e5933d9671ec6 *source/i18n/TC_UTF8/lang_admincp_login.php
 c675a239ebdb4a0c7c12772e3e7d878b *source/i18n/TC_UTF8/lang_admincp_menu.php
 bf7ed4d059f02d9dee9aa69263f01bae *source/i18n/TC_UTF8/lang_admincp_msg.php
