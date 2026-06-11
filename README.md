@@ -163,26 +163,7 @@ $_config['db']['common']['engine'] = 'innodb';
 
 ##### 2.1 IP地址库
 
-系统现在支持多个地址库，通过配置文件中的以下配置项进行选择：
-
-```
-$_config['ipdb']['setting']['fullstack'] = '';	// 系统使用的全栈IP库，优先级最高
-$_config['ipdb']['setting']['default'] = '';	// 系统使用的默认IP库，优先级最低
-$_config['ipdb']['setting']['ipv4'] = 'tiny';	// 系统使用的默认IPv4库，留空为使用默认库
-$_config['ipdb']['setting']['ipv6'] = 'v6wry'; // 系统使用的默认IPv6库，留空为使用默认库
-```
-
-地址库对应的class为 `ip_<地址库名称>` ，位于 `source/class/ip` 下面。系统会根据配置自动加载相应的class，相应的class也可以有自己的配置项，其规则为：
-
-```
- * $_config['ipdb']下除setting外均可用作自定义扩展IP库设置选项，也欢迎大家PR自己的扩展IP库。
- * 扩展IP库的设置，请使用格式：
- * 		$_config['ipdb']['扩展ip库名称']['设置项名称'] = '值';
- * 比如：
- * 		$_config['ipdb']['redis_ip']['server'] = '172.16.1.8';
-```
-
-系统现在内置一个IPv4库，一个IPv6库
+系统使用 `source/class/class_ip.php` 调用 MaxMind GeoIP2 数据库，同时支持 IPv4 和 IPv6 地址查询。
 
 ##### 2.2 IP封禁
 

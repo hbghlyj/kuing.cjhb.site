@@ -223,19 +223,6 @@ $_config['remote']['cron'] = 0;
 $_config['input']['compatible'] = 0;
 
 /**
- * IP数据库扩展
- * $_config['ipdb']下除setting外均可用作自定义扩展IP库设置选项，也欢迎大家PR自己的扩展IP库。
- * 扩展IP库的设置，请使用格式：
- * 		$_config['ipdb']['扩展ip库名称']['设置项名称'] = '值';
- * 比如：
- * 		$_config['ipdb']['redis_ip']['server'] = '172.16.1.8';
- */
-$_config['ipdb']['setting']['fullstack'] = '';	// 系统使用的全栈IP库，优先级最高
-$_config['ipdb']['setting']['default'] = '';	// 系统使用的默认IP库，优先级最低
-$_config['ipdb']['setting']['ipv4'] = 'system';	// 系统使用的默认IPv4库，留空为使用默认库
-$_config['ipdb']['setting']['ipv6'] = 'v6wry'; // 系统使用的默认IPv6库，留空为使用默认库
-
-/**
  * IP获取扩展
  * 考虑到不同的CDN服务供应商提供的判断CDN源IP的策略不同，您可以定义自己服务供应商的IP获取扩展。
  * 为空为使用默认体系，非空情况下会自动调用source/class/ip/getter_值.php内的get方法获取IP地址。

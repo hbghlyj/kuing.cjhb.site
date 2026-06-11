@@ -61,7 +61,7 @@ d41d8cd98f00b204e9800998ecf8427e *api/ucenter/index.htm
 0222e95a99ef8e15c26d9d646c0e1574 *api/wechat/callback.php
 d41d8cd98f00b204e9800998ecf8427e *api/wechat/index.htm
 992864e5ca06e42211f3894b3cc83a27 *archiver/index.php
-299830d39d9f2c6ac7deb6ba1e697827 *config/config_global_default.php
+5c0bdee916a2271cb905406f8beca735 *config/config_global_default.php
 7fe64b1607e9f60601e1d4cb2515190a *config/config_ucenter_default.php
 7215ee9c7d9dc229d2921a40e899ec5f *config/index.htm
 d41d8cd98f00b204e9800998ecf8427e *data/index.htm
@@ -1173,7 +1173,6 @@ d41d8cd98f00b204e9800998ecf8427e *source/app/witframe/index.htm
 c801eb287fde33b16fccbc4e2f59897a *source/app/witframe/witframe.php
 d41d8cd98f00b204e9800998ecf8427e *source/i18n/index.htm
 d41d8cd98f00b204e9800998ecf8427e *source/child/core/index.htm
-a16ceb0e3e4528e4c790a6a036ea031e *source/child/core/ip.php
 5b385e955e116e00e85d9a412062747b *source/child/core/promotion.php
 a5254811da37defdca74ab05cb46430f *source/child/core/security.php
 1a1acdfdc98a48fdc9a45458f0630497 *source/child/cron/cron_announcement_daily.php
@@ -1444,7 +1443,6 @@ d41d8cd98f00b204e9800998ecf8427e *source/class/ip/index.htm
 c16f9e7eafefd0ada7adeb8e46f5ab4d *source/class/ip/ip_getter_header.php
 b78fdde1a0a96cf0051b0de477f03c6f *source/class/ip/ip_getter_iplist.php
 ab9c34c697d2f92e29e49a80c82d005d *source/class/ip/ip_tiny.php
-e3123f2d851a25fa34d51e6aa70976e4 *source/class/ip/ip_v6wry.php
 ec151c03be98cd2555fce8d944cbd448 *source/class/ip/ip_wry.php
 d41d8cd98f00b204e9800998ecf8427e *source/class/magic/index.htm
 8476094f846717567d114e4459341798 *source/class/magic/magic_anonymouspost.php
