@@ -17,7 +17,6 @@ if(UC_STANDALONE) {
 
 if(submitcheck('settingsubmit')) {
 	isset($settingnew['regname']) && empty($settingnew['regname']) && $settingnew['regname'] = 'register';
-	isset($settingnew['reglinkname']) && empty($settingnew['reglinkname']) && $settingnew['reglinkname'] = cplang('reglinkname_default');
 
 	$settingnew['pwlength'] = intval($settingnew['pwlength']);
 	$settingnew['regstatus'] = (array)$settingnew['regstatus'];
@@ -167,7 +166,6 @@ if(submitcheck('settingsubmit')) {
 		showsetting('uc_setting_censoremail', 'ucsettingnew[censoremail]', $ucsetting['censoremail'], 'textarea');
 	}
 	showsetting('setting_access_register_send_register_url', 'settingnew[sendregisterurl]', $setting['sendregisterurl'], 'radio');
-	showsetting('setting_access_register_link_name', 'settingnew[reglinkname]', $setting['reglinkname'], 'text');
 	showsetting('setting_access_register_censoruser', 'settingnew[censoruser]', $setting['censoruser'], 'textarea');
 	showsetting('setting_access_register_pwlength', 'settingnew[pwlength]', $setting['pwlength'], 'text');
 	$setting['strongpw'] = dunserialize($setting['strongpw']);

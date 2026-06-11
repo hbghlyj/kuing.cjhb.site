@@ -187,7 +187,6 @@ $lang = array(
 	'education_info'		=> 'Education info',//'教育情况',
 	'work_info'			=> 'Work info',//'工作情况',
 	'personal_info'			=> 'Personal Info',//'个人信息',
-	'reglinkname'			=> 'Registration',//'注册',
 //SPOILER TAG by jaideejung007
 //	'spoiler'		=> 'Spoiler',//'สปอยล์',
 //	'spoiler_hide'		=> '[Spoil] click to hide the text',//'[Spoil] คลิกเพื่อซ่อนข้อความ',

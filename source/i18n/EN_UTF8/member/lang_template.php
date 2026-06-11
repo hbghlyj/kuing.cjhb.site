@@ -11,7 +11,7 @@
 
 $lang = array (
 	'getpassword'			=> 'Forgot password',//'找回密码',
-	'login_guest'			=> 'No account yet? <a href="member.php?mod={$_G[setting][regname]}">Register</a>',//'没有帐号？<a href="member.php?mod={$_G[setting][regname]}">{$_G[setting][reglinkname]}</a>',
+	'login_guest'			=> 'No account yet? <a href="member.php?mod={$_G[setting][regname]}">Register</a>',
 	'new_password'			=> 'New password',//'新密码',
 	'new_password_confirm'		=> 'Confirm Password',//'确认密码',
 	'password_weak'			=> 'Password too weak, it must contain ',//'密码太弱，密码中必须包含',
@@ -38,7 +38,7 @@ $lang = array (
 	'disagree'			=> 'Disagree',//'不同意',
 	'index_activation'		=> 'Your account have to be activated',//'您的帐号需要激活',
 	'invite_code'			=> 'Invitation code',//'邀请码',
-	'login_inactive'		=> 'Give up invitation, <a href="member.php?mod={$_G[setting][regname]}">Register</a>',//'放弃激活，现在<a href="member.php?mod={$_G[setting][regname]}">{$_G[setting][reglinkname]}</a>',
+	'login_inactive'		=> 'Give up invitation, <a href="member.php?mod={$_G[setting][regname]}">Register</a>',
 	'login_now'			=> 'Already have an account?<br>Login now',//'已有帐号？现在登录',
 	'password_confirm'		=> 'Confirm Password',//'确认密码',
 	'register_buyinvitecode'	=> 'No invitation code? Click here for',//'还没有邀请码？点击此处获取',

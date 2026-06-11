@@ -72,7 +72,7 @@ d41d8cd98f00b204e9800998ecf8427e *data/threadcache/index.htm
 7dbe3ab51e2a88aabfbe9504bf38dd8d *source/discuz_version.php
 7215ee9c7d9dc229d2921a40e899ec5f *source/index.htm
 0732c2ec504934d5b4b8a460ac69fd84 *source/mitframe_version.php
-0c5a3e40fe1f5eadcbb9e8bd3cc996ce *source/data/admincp/discuzdb.md5
+ac5816e2a8b7223146141b0010fb4e76 *source/data/admincp/discuzdb.md5
 40726796a5aa164df1af36315c1916cd *source/data/admincp/discuzhook.dat
 d41d8cd98f00b204e9800998ecf8427e *source/data/admincp/index.htm
 adbdc3b47c3eb58598306377ef396917 *source/data/admincp/robots.txt
@@ -461,12 +461,12 @@ e04981c7ac1e6732e52a0318fd463ed1 *source/app/admin/child/report/receiveuser.php
 4551d15f8170eb328f382f01f0598ae0 *source/app/admin/child/report/resolved.php
 2dd64c0b9940400d197bed7ca47795b0 *source/app/admin/child/restful/class.php
 d41d8cd98f00b204e9800998ecf8427e *source/app/admin/child/restful/index.htm
-6d9dda3e10d5d85490a9cc29aae59425 *source/app/admin/child/setting/access.php
+9974cf62ae7658a7cc05588a5ba180dd *source/app/admin/child/setting/access.php
 8d156d1f93f804150b3b088e2e581d35 *source/app/admin/child/setting/account.php
 e212a8ba10568c6c20deebff77919faf *source/app/admin/child/setting/accountguard.php
 b9f81722dcdcff486b25049ebbf0b322 *source/app/admin/child/setting/antitheft.php
 fa8b5f2e544f3297861c7fa545549c25 *source/app/admin/child/setting/attach.php
-085324a9d644d81769b35d33d43da2bc *source/app/admin/child/setting/basic.php
+61cb44eb69b6b2b9921a26730296b1ce *source/app/admin/child/setting/basic.php
 dc29890d1ecb12f4338136399cdcfc22 *source/app/admin/child/setting/cachethread.php
 c3277de2a14682c71d6a75793bba41b5 *source/app/admin/child/setting/credits.php
 904792327ea273c63b3829be1d4b5983 *source/app/admin/child/setting/datetime.php
@@ -1345,7 +1345,7 @@ ffadfdd2918cbf3d183a43a292941841 *source/class/class_filesock.php
 9ebdbd7ad59cd6b82d3dc79e85c74bdf *source/class/class_image.php
 0a0f5f53a8b861bc86256061d3d108bf *source/class/class_ip.php
 b62b452b96be763ae9f1b5561358ace3 *source/class/class_mailcode.php
-542927883408542436bddbc104353d89 *source/class/class_member.php
+624abe02b5421af87c0bad8ca34d3799 *source/class/class_member.php
 dcd4cdc252ff7f30331aaf85709046b7 *source/class/class_membersearch.php
 c98700f90e58a15191bcac80e0716f0f *source/class/class_menu.php
 ccd7f39b4e664c1e93f89fcb54d8f42f *source/class/class_oss.php

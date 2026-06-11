@@ -18,6 +18,7 @@ $lang = array (
 	'thread_poll'			=> 'Polls',//'投票',
 	'credits'			=> 'Credits',//'积分',
 	'login'				=> 'Login',//'登录',
+	'register'			=> 'Register',
 	'active_email'			=> 'Receive E-mail',//'接收邮箱',
 	'active_email_comment'		=> 'Required to receive an invitation code to E-mail Address',//'必填，用来接收邀请码的邮箱地址',
 	'apitype_alipay'		=> 'AliPay',

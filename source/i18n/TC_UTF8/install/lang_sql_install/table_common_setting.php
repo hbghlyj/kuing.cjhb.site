@@ -1493,9 +1493,6 @@ $data = [[
       'email' => 'email',
     ],
   ],[
-    'skey' => 'reglinkname',
-    'svalue' => '立即註冊',
-  ],[
     'skey' => 'regname',
     'svalue' => 'register',
   ],[

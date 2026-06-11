@@ -12,7 +12,7 @@ if(!defined('IN_DISCUZ')) {
 
 $lang = [
 	'getpassword' => '找回密碼',
-	'login_guest' => '沒有賬號？<a href="member.php?mod={$_G[\'setting\'][\'regname\']}">{$_G[\'setting\'][\'reglinkname\']}</a>',
+	'login_guest' => '沒有賬號？<a href="member.php?mod={$_G[\'setting\'][\'regname\']}">註冊</a>',
 	'new_password' => '新密碼',
 	'new_password_confirm' => '確認密碼',
 	'password_weak' => '密碼太弱，密碼中必須包含',
@@ -39,7 +39,7 @@ $lang = [
 	'disagree' => '不同意',
 	'index_activation' => '您的賬號需要激活',
 	'invite_code' => '邀請碼',
-	'login_inactive' => '放棄激活，現在<a href="member.php?mod={$_G[\'setting\'][\'regname\']}">{$_G[\'setting\'][\'reglinkname\']}</a>',
+	'login_inactive' => '放棄激活，現在<a href="member.php?mod={$_G[\'setting\'][\'regname\']}">註冊</a>',
 	'login_now' => '已有賬號？現在登錄',
 	'password_confirm' => '確認密碼',
 	'register_buyinvitecode' => '還沒有邀請碼？點擊此處獲取',

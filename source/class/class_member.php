@@ -526,13 +526,13 @@ class register_ctl {
 					}
 				}
 
-				$navtitle = $this->setting['reglinkname'];
+				$navtitle = lang('template', 'register');
 
 				if($this->extrafile && file_exists($this->extrafile)) {
 					require_once $this->extrafile;
 				}
 			} else {
-				$navtitle = $this->setting['reglinkname'];
+				$navtitle = lang('template', 'register');
 			}
 			$bbrulestxt = nl2br("\n$bbrulestxt\n\n");
 			$dreferer = dreferer();

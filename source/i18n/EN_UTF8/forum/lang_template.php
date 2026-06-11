@@ -1199,7 +1199,7 @@ $lang = array (
 	'warn_get'			=> 'Warned',//'受到警告',
 	'admin_message_banned'		=> 'Note: <em>The author has been deleted or banned.</em>',//'提示: <em>作者被禁止或删除 内容自动屏蔽，只有管理员或有管理权限的成员可见</em>',
 	'admin_message_single_banned'	=> 'Note: <em>Thread has been banned by manager.</em>',//'提示: <em>该帖被管理员或版主屏蔽，只有管理员或有管理权限的成员可见</em>',
-	'attach_nopermission_login'	=> 'You have to <a href="member.php?mod=logging&action=login" onclick="showWindow(\'login\', this.href);return false;">Login</a> for download or view attachment(s). No Account? <a href="member.php?mod={$_G[setting][regname]}" title="Register">Register</a>',//'你需要 <a href="member.php?mod=logging&action=login" onclick="showWindow(\'login\', this.href);return false;">登录</a> 才可以下载或查看，没有帐号？<a href="member.php?mod={$_G[setting][regname]}" title="注册帐号">{$_G[setting][reglinkname]}</a>',
+	'attach_nopermission_login'	=> 'You have to <a href="member.php?mod=logging&action=login" onclick="showWindow(\'login\', this.href);return false;">Login</a> for download or view attachment(s). No Account? <a href="member.php?mod={$_G[setting][regname]}" title="Register">Register</a>',
 	'guesttipsinthread_text'	=> 'Sign up now, Make more friends, Enjoy with more features, Let you easily Fun Community.',//'马上注册，结交更多好友，享用更多功能，让你轻松玩转社区。',
 	'attach_nopermission_connect_fill_profile'	=> 'You need to <a href="member.php?mod=connect" class="xi2">Login with this site account</a> or <a href="member.php?mod=connect&ac=bind" class="xi2">bind existing account</a> before you can download or view attachments',//'您需要 <a href="member.php?mod=connect" class="xi2">完善帐号信息</a> 或 <a href="member.php?mod=connect&ac=bind" class="xi2">绑定已有帐号</a> 后才可以下载或查看',
 	'attach_nopermission_notice'	=> 'This post contains more resources',//'本帖子中包含更多资源',

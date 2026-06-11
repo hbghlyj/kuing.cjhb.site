@@ -11,7 +11,7 @@ if(!defined('IN_DISCUZ') || !defined('IN_ADMINCP')) {
 }
 
 if(submitcheck('settingsubmit')) {
-	$nohtmlarray = ['bbname', 'regname', 'reglinkname', 'icp', 'sitemessage', 'site_qq'];
+	$nohtmlarray = ['bbname', 'regname', 'icp', 'sitemessage', 'site_qq'];
 	foreach($nohtmlarray as $k) {
 		if(isset($settingnew[$k])) {
 			$settingnew[$k] = dhtmlspecialchars($settingnew[$k]);
