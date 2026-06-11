@@ -10,14 +10,12 @@ function normalizeI18nKey(key) {
 			return 'EN_UTF8';
 		case 'tc':
 			return 'TC_UTF8';
-		case 'sc':
-			return 'SC_UTF8';
 		default:
-			return key;
+			return 'SC_UTF8';
 	}
 }
 
-var _i18n_ = typeof DISCUZ_I18N != 'undefined' && DISCUZ_I18N ? normalizeI18nKey(DISCUZ_I18N) : 'default';
+var _i18n_ = normalizeI18nKey(DISCUZ_I18N);
 if (typeof IN_ADMINCP == 'undefined') {
 	try {
 		var _i18n_cookie_ = getcookie('i18n');
