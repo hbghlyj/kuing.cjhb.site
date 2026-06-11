@@ -88,12 +88,7 @@ if(!empty($srchfid) && !is_numeric($srchfid)) {
 }
 
 if(!submitcheck('searchsubmit', 1)) {
-
-	if(getgpc('adv')) {
-		include template('search/forum_adv');
-	} else {
-		include template('search/forum');
-	}
+	include template('search/forum');
 
 } else {
 	$orderby = in_array(getgpc('orderby'), ['dateline', 'replies', 'views']) ? $_GET['orderby'] : 'lastpost';
@@ -177,12 +172,7 @@ if(!submitcheck('searchsubmit', 1)) {
 		$srchfilterchecked[$srchfilter] = 'checked="checked""';
 		$beforechecked = [$before => 'checked="checked""'];
 		$srchfromselected = [$srchfrom => 'selected="selected"'];
-		$advextra = '&orderby='.$orderby.'&ascdesc='.$ascdesc.'&searchid='.$searchid.'&searchsubmit=yes';
-		if($_GET['adv']) {
-			include template('search/forum_adv');
-		} else {
-			include template('search/forum');
-		}
+		include template('search/forum');
 
 	} else {
 
