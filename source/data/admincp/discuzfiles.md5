@@ -1163,7 +1163,7 @@ d41d8cd98f00b204e9800998ecf8427e *source/app/search/index.htm
 96845c16a830dc68df43e7198cb6a9da *source/app/search/module/album.php
 a637242a9b982580c0361941e335d34a *source/app/search/module/blog.php
 410a08134e45fd1ad20beebdf007178a *source/app/search/module/collection.php
-5aff7b4abb12d7d6df3a0d8cbcf808cc *source/app/search/module/forum.php
+c452e1086f672d359f04c9fac61a1230 *source/app/search/module/forum.php
 0199e5022f1613b4564b4e5d2fb75cad *source/app/search/module/group.php
 d41d8cd98f00b204e9800998ecf8427e *source/app/search/module/index.htm
 b3514f9a74c86893076481c218b8577e *source/app/search/module/portal.php
@@ -4344,7 +4344,6 @@ b0b0feb737e556691c2ad3bb2d9a8509 *template/default/search/collection.php
 63a29ffe38e72b0173148256d6af6e4b *template/default/search/collection_list.php
 2fd9ab99b3f2b23632bcada466f86cac *template/default/search/footer.php
 fe5f5af3ef1156c953d0f8074f9ab7b0 *template/default/search/forum.php
-11573e12d9591aa6ff7538180b03478d *template/default/search/forum_adv.php
 17f70bdec2fbbb74fb4a8b1f4bc30cbf *template/default/search/group.php
 92fa4d8379c71fbc2456e9957a192e79 *template/default/search/group_list.php
 2ad12a9f61ab0f3f60cf1f2c308975cb *template/default/search/header.php
