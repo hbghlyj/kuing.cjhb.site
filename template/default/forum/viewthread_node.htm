@@ -103,7 +103,7 @@ $postshowavatars = !($_G['setting']['bannedmessages'] & 2 && ($post['memberstatu
 					<div class="authi"><a href="javascript:;" class="xw1">$post[author]</a></div>
 				</div>
 				<!--{/if}-->
-				<!--{if $showavatars}-->
+				<!--{if $post['avatarstatus'] && $showavatars}-->
 				<div>
 					<div class="avatar avtm"><a href="javascript:;">$post[avatar]</a></div>
 				</div>
