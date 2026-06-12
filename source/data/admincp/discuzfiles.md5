@@ -854,7 +854,7 @@ f042dd275fea3ccd44d5bc55b32a7899 *source/app/forum/child/modcp/recyclebin.php
 67da9fbd6fa29fde5b6a5120b662d4f7 *source/app/forum/child/modcp/report.php
 685db257294369ab8caf799aab742f5f *source/app/forum/child/modcp/thread.php
 dab20150c12260d633e49be840101d36 *source/app/forum/child/post/albumphoto.php
-186539b2d5489a44dca4e241cbedb419 *source/app/forum/child/post/editpost.php
+90dc258bbf5ce0d3b5c250af44eb49dc *source/app/forum/child/post/editpost.php
 d41d8cd98f00b204e9800998ecf8427e *source/app/forum/child/post/index.htm
 e357e66122a7bca3a6964f881116ea45 *source/app/forum/child/post/newreply.php
 1392f624ded7f2fc41ca93f2450b1735 *source/app/forum/child/post/newthread.php
@@ -2169,7 +2169,7 @@ e51cd9815d00c309367576e83da9d89c *source/i18n/EN_UTF8/lang_exif.php
 6624065458c6a78a406a51fa9dcc972a *source/i18n/EN_UTF8/lang_friend.php
 e52b29819e9b4c0cbdc2a2c0e04ef8fb *source/i18n/EN_UTF8/lang_install.php
 09f1d3d58a73be569895267f3100cf7e *source/i18n/EN_UTF8/lang_js.php
-e0b75c4234182377400d59bead4b3232 *source/i18n/EN_UTF8/lang_message.php
+53c885be69085049aac7bb3173787b1d *source/i18n/EN_UTF8/lang_message.php
 9d15fd90c205faff7eab730560b16b1d *source/i18n/EN_UTF8/lang_notification.php
 fe9e64ab296627111255f778b3a266ec *source/i18n/EN_UTF8/lang_optimizer.php
 08894ff2035d23c74d08c97d8d6acce8 *source/i18n/EN_UTF8/lang_portalcp.php
@@ -2364,7 +2364,7 @@ d054dc8c94020dc4a563b01873631ac9 *source/i18n/SC_UTF8/lang_core.php
 2ab53607c625d9e7cdea05e04bb728e2 *source/i18n/SC_UTF8/lang_friend.php
 6a48af77a02b9c186eb50fc34f165bb9 *source/i18n/SC_UTF8/lang_ipdb.php
 5ae842325be4bc3853ac8c9d95909d28 *source/i18n/SC_UTF8/lang_js.php
-e88f7f7731fa0050cc3cc28c0fddbe39 *source/i18n/SC_UTF8/lang_message.php
+262918edde2822c67c29ba334aef87de *source/i18n/SC_UTF8/lang_message.php
 7b501eff1024008075f9dbc69afb2a88 *source/i18n/SC_UTF8/lang_my.php
 7d1df91dcdbda57b2349bf4547d2379d *source/i18n/SC_UTF8/lang_notification.php
 887cec7977a53e6b8e09f4064939d050 *source/i18n/SC_UTF8/lang_optimizer.php
@@ -2567,7 +2567,7 @@ c19a16c47fbb61ed4995305132f7214c *source/i18n/TC_UTF8/lang_error.php
 ca6b911d5e8d7839e6713e3a79568d98 *source/i18n/TC_UTF8/lang_friend.php
 19f56d4f2cb01afbac4d9994de933279 *source/i18n/TC_UTF8/lang_ipdb.php
 801df057f4df9d65d21aec2f2fd2f8ee *source/i18n/TC_UTF8/lang_js.php
-a7a4f1e3b667622c70eb685c719cdfdd *source/i18n/TC_UTF8/lang_message.php
+dd508669fc4dd0e89aaa8e340913a867 *source/i18n/TC_UTF8/lang_message.php
 7b501eff1024008075f9dbc69afb2a88 *source/i18n/TC_UTF8/lang_my.php
 07f50041265a6c8b0fb61d5faf915613 *source/i18n/TC_UTF8/lang_notification.php
 393d789d884f48396d712c9039b4d313 *source/i18n/TC_UTF8/lang_optimizer.php

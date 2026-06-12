@@ -129,6 +129,7 @@ $lang = [
 	'post_not_allow_reply_save' => '抱歉，您無權回覆草稿貼',
 	'activity_fromtime_error' => '抱歉，活動開始時間格式不正確',
 	'post_edit_delete_succeed' => '主題刪除成功 ',
+	'post_delete_succeed' => '帖子刪除成功',
 	'debate_end' => '抱歉，辯論已結束',
 	'replyperm_login_nopermission' => '抱歉，您尚未登錄，沒有權限在該版塊回帖',
 	'post_nonexistence' => '帖子不存在',

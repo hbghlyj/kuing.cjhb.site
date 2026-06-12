@@ -114,6 +114,7 @@ $lang = array (
 	'post_sm_isnull'		=> 'You did not input title or content.',//'您没有输入标题或内容，请返回填写。',
 	'activity_fromtime_error'	=> 'Sorry, event start time format is invalid.',//'对不起，活动开始时间格式不正确，请返回修改。',
 	'post_edit_delete_succeed'	=> 'Delete thread successfully, now redirect you to thread list page.',//'主题删除成功，现在将转入主题列表。',
+	'post_delete_succeed'		=> 'Post deleted successfully.',
 	'debate_end'			=> 'Debate is over, please return.',//'辩论已经结束，请返回。',
 	'replyperm_login_nopermission'	=> 'Sorry, you need to login to post reply.',//'对不起，您还未登录，无权在该版块回帖。',
 	'post_nonexistence'		=> 'Post does not exist',//'帖子不存在',
