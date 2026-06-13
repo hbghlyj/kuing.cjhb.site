@@ -14,8 +14,9 @@
 
 当前分支的活动 IP 地理位置查询路径已经切换到 MaxMind GeoIP2。
 
-- 运行时使用 `source/class/class_ip.php` 中的 `geoip2.phar`
-- 数据库文件为 `data/ipdata/GeoLite2-City.mmdb`
+- `source/class/class_ip.php` 和 `source/class/discuz/discuz_application.php` 会加载 `source/class/ip/geoip2.phar`
+- GeoIP2 Reader 固定读取 `data/ipdata/GeoLite2-City.mmdb`
+- PHP-FPM 运行用户必须能够读取上述 PHAR 和 MMDB 文件
 - 旧的 `tinyipdata.dat` / `wry` 系列数据文件不再是当前默认查询路径
 
 ### forum lastpost 字段顺序
@@ -215,7 +216,8 @@ $_config['ipgetter']['dnslist']['list']['0'] = 'comsenz.com';
 本分支已按上游方案切换为直接使用 MaxMind GeoIP2：
 
 * `source/class/class_ip.php` 不再走原有可插拔 IPDB 实现；
-* 直接通过 `source/class/ip/geoip2.phar` 与 `data/ipdata/GeoLite2-City.mmdb` 进行地理位置解析；
+* `source/class/class_ip.php` 和 `source/class/discuz/discuz_application.php` 都会加载 `source/class/ip/geoip2.phar`；
+* `GeoIp2\Database\Reader` 固定读取 `data/ipdata/GeoLite2-City.mmdb`，PHP-FPM 运行用户必须对这两个文件具有读取权限；
 * 旧的 `ip_tiny.php` 与 `ip_wry.php` 已移除，不再作为位置库后端使用。
 
 因此，部署时需要自行准备可用的 MaxMind GeoIP2 城市库文件，否则 IP 归属地解析将无法按该实现工作。

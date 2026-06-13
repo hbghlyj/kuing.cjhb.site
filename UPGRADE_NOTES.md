@@ -136,11 +136,9 @@ ALTER TABLE uc_members
 ### [Required] MaxMind GeoIP2 运行时依赖
 
 - 当前默认运行时地理位置查询使用 MaxMind GeoIP2。
-- 运行时路径：
-  - `source/class/class_ip.php`
-  - `source/class/ip/geoip2.phar`
-  - `data/ipdata/GeoLite2-City.mmdb`
-- 部署时必须自行准备可用的 `GeoLite2-City.mmdb`，否则 IP 归属地解析无法按当前默认实现工作。
+- `source/class/class_ip.php` 和 `source/class/discuz/discuz_application.php` 会加载 `source/class/ip/geoip2.phar`。
+- `GeoIp2\Database\Reader` 固定读取 `data/ipdata/GeoLite2-City.mmdb`。
+- 部署时必须自行准备可用的 MMDB，并确保 PHP-FPM 运行用户能够读取 PHAR 和 MMDB；否则 IP 归属地解析及缺少 Cloudflare 地理请求头时的游客位置补全无法工作。
 
 ### [Recommended] 核对后台登录默认配置
 
