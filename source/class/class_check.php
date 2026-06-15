@@ -161,4 +161,41 @@ class check {
 
 		return $v;
 	}
+
+	const EXTENSIONS = [
+		'mysqli' => ['mysqli_connect', 'mysqli_query'],
+		'json' => ['json_encode', 'json_decode'],
+		'mbstring' => ['mb_convert_encoding'],
+		'curl' => ['curl_init', 'curl_setopt'],
+		'openssl' => ['openssl_random_pseudo_bytes', 'openssl_sign'],
+		'xml' => ['xml_parser_create'],
+		'filter' => ['filter_var'],
+		'ctype' => ['ctype_alnum'],
+		'spl' => ['spl_autoload_register'],
+	];
+
+	private static function extensionCheck($extension, $testFunctions = []) {
+		if($extension && !extension_loaded($extension)) {
+			return ['extension', $extension];
+		}
+
+		foreach($testFunctions as $function) {
+			if(!function_exists($function) && !class_exists($function)) {
+				return ['function', $function.'()'];
+			}
+		}
+
+		return ['', ''];
+	}
+
+	public static function extensions() {
+		$missing = [];
+		foreach(self::EXTENSIONS as $extension => $functions) {
+			[$type, $name] = self::extensionCheck($extension, $functions);
+			if($type) {
+				$missing[$type][] = $name;
+			}
+		}
+		return $missing;
+	}
 }

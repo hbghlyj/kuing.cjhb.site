@@ -362,6 +362,8 @@ $lang = array(
 //vot	'install_region_data'		=> 'Install regional data',//'Install regional data',
 	'php_version_too_low'		=> 'PHP version is too low',
 	'php_version_too_low_comment'	=> 'For normal functioning Discuz! requires for more new version of PHP',
+	'ext_missing'			=> 'Install required PHP extension',
+	'func_missing'			=> 'Required function/class is unavailable',
 	'mbstring'			=> 'MBstring Library',//'MBstring 库',
 	'ext_info'			=> 'Additionally you can install many interesting and usefull plugins and templates from the Cloud Application Center:',//'另外，你可以从云计算应用中心的许多有趣的和有用的插件和模板安装：',//'另外，你可以從雲計算應用中心的許多有趣的和有用的插件和模板安裝：',
 //---------------------------------------------------------------

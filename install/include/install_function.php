@@ -10,6 +10,8 @@ if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
+require_once ROOT_PATH.'./source/class/class_check.php';
+
 function show_msg($error_no, $error_msg = 'ok', $success = 1, $quit = TRUE) {
 	if(VIEW_OFF) {
 		$error_code = $success ? 0 : constant(strtoupper($error_no));
@@ -138,10 +140,6 @@ function env_check(&$env_items) {
 			$env_items[$key]['current'] = class_exists('mysqli') ? 'mysql_enable' : 'disable';
 		} elseif($key == 'attachmentupload') {
 			$env_items[$key]['current'] = @ini_get('file_uploads') ? getmaxupload() : 'unknow';
-		} elseif($key == 'gdversion') {
-			$tmp = function_exists('gd_info') ? gd_info() : array();
-			$env_items[$key]['current'] = empty($tmp['GD Version']) ? 'noext' : $tmp['GD Version'];
-			unset($tmp);
 		} elseif($key == 'diskspace') {
 			if(function_exists('disk_free_space')) {
 				$env_items[$key]['current'] = disk_free_space(ROOT_PATH);
@@ -150,22 +148,17 @@ function env_check(&$env_items) {
 			}
 		} elseif(isset($item['c'])) {
 			$env_items[$key]['current'] = constant($item['c']);
-		} elseif($key == 'opcache') {
-			$opcache_data = function_exists('opcache_get_configuration') ? opcache_get_configuration() : array();
-			$env_items[$key]['current'] = !empty($opcache_data['directives']['opcache.enable']) ? 'enable' : 'disable';
-		} elseif($key == 'curl') {
-			if(function_exists('curl_init') && function_exists('curl_version')) {
-				$v = curl_version();
-				$env_items[$key]['current'] = 'enable'.' '.$v['version'];
-			} else {
-				$env_items[$key]['current'] = 'disable';
-			}
 		} elseif(isset($item['f'])) {
 			$env_items[$key]['current'] = function_exists($item['f']) ? 'enable' : 'disable';
-		} elseif($key == 'redis') {
-			$env_items[$key]['current'] = extension_loaded('redis') ? 'enable' : 'disable';
-		} elseif($key == 'imagick') {
-			$env_items[$key]['current'] = extension_loaded('imagick') ? 'enable' : 'disable';
+		} elseif($key == 'extensions') {
+			$env_items[$key]['current'] = [];
+			foreach(check::extensions() as $type => $requirements) {
+				if($requirements) {
+					$label = $type == 'extension' ? lang('ext_missing') : lang('func_missing');
+					$env_items[$key]['current'][$label] = implode(', ', $requirements);
+				}
+			}
+			continue;
 		}
 
 		$env_items[$key]['status'] = 1;
@@ -205,6 +198,27 @@ function show_env_result(&$env_items, &$dirfile_items, &$func_items, &$filesock_
 	$error_code = 0;
 
 	foreach($env_items as $key => $item) {
+		if($key == 'extensions') {
+			if($item['current']) {
+				$error_code = ENV_CHECK_ERROR;
+				if(VIEW_OFF) {
+					$current = htmlspecialchars(implode('; ', array_map(
+						fn($name, $requirements) => $name.': '.$requirements,
+						array_keys($item['current']),
+						$item['current']
+					)), ENT_QUOTES);
+					$env_str .= "\t\t<runCondition name=\"$key\" status=\"0\" Require=\"{$item['r']}\" Best=\"{$item['b']}\" Current=\"$current\"/>\n";
+				} else {
+					foreach($item['current'] as $name => $current) {
+						$env_str .= "<tr class=\"nwbg\">\n";
+						$env_str .= "<td>".$name."</td>\n";
+						$env_str .= "<td class=\"nw padleft\" colspan=\"3\">".$current."</td>\n";
+						$env_str .= "</tr>\n";
+					}
+				}
+			}
+			continue;
+		}
 		if($key == 'php' && strcmp($item['current'], $item['r']) < 0) {
 			show_msg(sprintf(lang('php_version_too_low'), $item['r']), $item['current'], 0);
 		}
@@ -1055,6 +1069,7 @@ function show_db_install($upgrade = false) {
 			};
 			eventSource.onerror = function (e) {
 				add_instfail();
+				append_notice('<p class="red">Connection error</p>');
 			};
 		}
 
@@ -1120,7 +1135,8 @@ function show_db_install($upgrade = false) {
 								window.location = 'index.php?method=ext_info';
 							}, 1000);
 						} else {
-							append_notice('<p class="red"><?= lang('error_quit_msg') ?></p>');
+							append_notice('<p class="red">' + data + '<br /><?= lang('error_quit_msg') ?></p>');
+							add_instfail();
 						}
 						eventSource.close();
 					});
@@ -2395,4 +2411,8 @@ function unmark_system_plugin() {
 		unset($modules['system']);
 		$db->query("UPDATE {$tablepre}common_plugin SET modules='".addslashes(serialize($modules))."' WHERE pluginid='".$row['pluginid']."'");
 	}
+}
+
+function sse_exception_handler($exception) {
+	sse_output(lang('failed').' '.nl2br(strip_tags($exception->getMessage())));
 }

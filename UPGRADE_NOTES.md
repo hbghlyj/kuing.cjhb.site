@@ -124,6 +124,20 @@ ALTER TABLE uc_members
 
 ## Config / Environment Changes
 
+### [Required] PHP 扩展和函数检查
+
+- 安装环境检查会阻止缺少以下必备 PHP 扩展的环境继续安装：
+  - `mysqli`
+  - `json`
+  - `mbstring`
+  - `curl`
+  - `openssl`
+  - `xml`
+  - `filter`
+  - `ctype`
+  - `spl`
+- 检查同时验证各扩展所需的核心函数是否可用，避免扩展被禁用或安装不完整时进入数据库安装阶段后才失败。
+
 ### [Required] 数据库备份改由系统 cron 生成
 
 - AdminCP 的数据库备份页面不再执行 PHP 分卷导出，只显示并下载系统 cron 生成的三个固定备份：

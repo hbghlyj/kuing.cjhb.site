@@ -1,7 +1,7 @@
 6392c72363b57ac317f84bbaa6607358 *./.gitignore
 06aa755352b7a4cbb33b258270c84e1c *./LICENSE
 c39c39ae49930379a1943fb0cac1129f *./README.md
-0ea1b1bb6e0d28f78e65fa43527bd6fc *./UPGRADE_NOTES.md
+00cd49d4d4122f30cb0c81932d5f5742 *./UPGRADE_NOTES.md
 10e0a9ec4b2ab91c429f3226d512f47f *./admin.php
 ac32c9e1f5286d86a4fe2ec70d4c42bb *./api
 ab568aa12b5381962197b5d0ab752d87 *./api.php
@@ -1120,7 +1120,7 @@ b9240689942f028e7e734254e6fc289e *source/app/misc/module/darkroom.php
 ebac9a200f7500502a3004f02b61b3ef *source/app/misc/module/image.php
 b9b82d592d9a5dea769e5d7220fe71be *source/app/misc/module/imgcropper.php
 d41d8cd98f00b204e9800998ecf8427e *source/app/misc/module/index.htm
-9ef5ff07b738500837efc315f5ad6beb *source/app/misc/module/initsys.php
+152bcfe223ac6a384c2f979f9365e5cb *source/app/misc/module/initsys.php
 74e0458cdb331bff36f5997d8e06af2d *source/app/misc/module/invite.php
 eb1cd4dd406c0d9c22d1f2c98ff26f50 *source/app/misc/module/mobile.php
 ca0120d82a6519973c96c14df3c5cfc5 *source/app/misc/module/patch.php
@@ -1350,7 +1350,7 @@ ffe27d026163ba9d4217bb73bda3afe1 *source/class/class_bbcode.php
 c96d65d1afae3196142c54ae0aa372a6 *source/class/class_card.php
 956f9505f5842519a04aaa83931e8e73 *source/class/class_cells.php
 e610b007ba6f2644cd1ef7b8eb2cf335 *source/class/class_cexception.php
-99fce7b31abbc77bba4baefdd24e32cf *source/class/class_check.php
+8b90e3b527be56cb0f0cefb2fab5acec *source/class/class_check.php
 c9b028659c279871dc45b1f82072ae5f *source/class/class_chinese.php
 72b60c0b86c4c21c54e339cc62b535bc *source/class/class_core.php
 a4ba40bb16fbccd22e68eed05c9d9209 *source/class/class_credit.php
@@ -2167,7 +2167,7 @@ ed05879bc9f5e50798e3573bd651fb45 *source/i18n/EN_UTF8/lang_error.php
 e51cd9815d00c309367576e83da9d89c *source/i18n/EN_UTF8/lang_exif.php
 2473bd75a04513045d1e3a267dc9d3c2 *source/i18n/EN_UTF8/lang_feed.php
 6624065458c6a78a406a51fa9dcc972a *source/i18n/EN_UTF8/lang_friend.php
-e52b29819e9b4c0cbdc2a2c0e04ef8fb *source/i18n/EN_UTF8/lang_install.php
+6ccd0b01f80c918adf0674b3e0428e86 *source/i18n/EN_UTF8/lang_install.php
 09f1d3d58a73be569895267f3100cf7e *source/i18n/EN_UTF8/lang_js.php
 53c885be69085049aac7bb3173787b1d *source/i18n/EN_UTF8/lang_message.php
 9d15fd90c205faff7eab730560b16b1d *source/i18n/EN_UTF8/lang_notification.php
@@ -2308,7 +2308,7 @@ d41d8cd98f00b204e9800998ecf8427e *source/i18n/SC_UTF8/group/index.htm
 0b7222cb95139b6e75188bd80499a384 *source/i18n/SC_UTF8/home/lang_magic.php
 e1ef1f25285c4950621be9e707300d01 *source/i18n/SC_UTF8/home/lang_template.php
 d41d8cd98f00b204e9800998ecf8427e *source/i18n/SC_UTF8/index.htm
-33d5ce1e6d76aa15526b899d0f68c3a1 *source/i18n/SC_UTF8/install/lang_install.php
+3f1b2854dd66a0359d30b59e41aae745 *source/i18n/SC_UTF8/install/lang_install.php
 c2132cf048546db356223b64faad7c7f *source/i18n/SC_UTF8/install/lang_sql_install/table_common_admincp_group.php
 0644433d571f2429ed7c8232e6f2a118 *source/i18n/SC_UTF8/install/lang_sql_install/table_common_admincp_perm.php
 fdd14495c726d7de15afa4bfb449de59 *source/i18n/SC_UTF8/install/lang_sql_install/table_common_admingroup.php
@@ -2511,7 +2511,7 @@ a2e9d9fd8f28824506a21de89842e5bc *source/i18n/TC_UTF8/home/lang_editor.php
 507c426f134f1cfbe085729f8ca4daa0 *source/i18n/TC_UTF8/home/lang_magic.php
 c67d9b2d3dd83b87e48eb8da6a0b5a4d *source/i18n/TC_UTF8/home/lang_template.php
 d41d8cd98f00b204e9800998ecf8427e *source/i18n/TC_UTF8/index.htm
-434e54fefabf76b50c21d5876daa7d86 *source/i18n/TC_UTF8/install/lang_install.php
+313b2bea207ebc27a11b6ba2286a28f5 *source/i18n/TC_UTF8/install/lang_install.php
 ed55ac04b6a4600d418f6e33cc754a57 *source/i18n/TC_UTF8/install/lang_sql_install/table_common_admincp_group.php
 0644433d571f2429ed7c8232e6f2a118 *source/i18n/TC_UTF8/install/lang_sql_install/table_common_admincp_perm.php
 fdd14495c726d7de15afa4bfb449de59 *source/i18n/TC_UTF8/install/lang_sql_install/table_common_admingroup.php
