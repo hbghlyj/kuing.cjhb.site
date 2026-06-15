@@ -489,17 +489,18 @@ class template {
 
 	function loadcsstemplate() {
 		global $_G;
-		$cssFile = DISCUZ_DATA.'./cache/style_'.STYLEID.'_module.css';
-		$file = file($cssFile);
+		$touch = defined('IN_MOBILE') ? '_touch' : '';
+		$cssFile = DISCUZ_DATA.'./cache/style_'.STYLEID.$touch.'_module.css';
+		$file = file_exists($cssFile) ? file($cssFile) : [];
 		if(!$file && $_G['setting']['ftp']['on'] == 2) {
-			$data = file_get_contents($_G['setting']['attachurl'].'cache/style_'.STYLEID.'_module.css');
+			$data = file_get_contents($_G['setting']['attachurl'].'cache/style_'.STYLEID.$touch.'_module.css');
 			if($data) {
 				file_put_contents($cssFile, $data);
 				$file = file($cssFile);
 			}
 		}
-		$scripts = [STYLEID.'_common'];
-		$moduleScript = STYLEID.'_'.$_G['basescript'].'_'.CURMODULE;
+		$scripts = [STYLEID.$touch.'_common'];
+		$moduleScript = STYLEID.$touch.'_'.$_G['basescript'].'_'.CURMODULE;
 		$content = $this->csscurmodules = '';
 		$content = implode('', is_array($file) ? $file : []);
 		$content = preg_replace_callback('/\[(.+?)\](.*?)\[end\]/is', [$this, 'loadcsstemplate_callback_cssvtags_12'], $content);
@@ -516,9 +517,6 @@ class template {
 		}
 		$scriptcss .= '{if is_file(DISCUZ_DATA.\'./cache/style_'.$moduleScript.'.css\')}<link rel="stylesheet" type="text/css" href="{$_G[\'setting\'][\'csspath\']}'.$moduleScript.'.css?{VERHASH}" />{/if}';
 		$scriptcss .= '{if $_G[\'uid\'] && isset($_G[\'cookie\'][\'extstyle\']) && strpos($_G[\'cookie\'][\'extstyle\'], TPLDIR) !== false}<link rel="stylesheet" id="css_extstyle" type="text/css" href="{$_G[\'cookie\'][\'extstyle\']}/style.css?{VERHASH}" />{elseif $_G[\'style\'][\'defaultextstyle\']}<link rel="stylesheet" id="css_extstyle" type="text/css" href="{$_G[\'style\'][\'defaultextstyle\']}/style.css?{VERHASH}" />{/if}';
-		if(isset($_G['config']['output']['css4legacyie']) && $_G['config']['output']['css4legacyie']) {
-			$scriptcss .= '<!--[if IE]><link rel="stylesheet" type="text/css" href="'.$_G['setting']['csspath'].STYLEID.'_iefix'.'.css?{VERHASH}" /><![endif]-->';
-		}
 		return $scriptcss;
 	}
 

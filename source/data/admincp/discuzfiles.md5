@@ -1,7 +1,7 @@
 6392c72363b57ac317f84bbaa6607358 *./.gitignore
 06aa755352b7a4cbb33b258270c84e1c *./LICENSE
-c39c39ae49930379a1943fb0cac1129f *./README.md
-00cd49d4d4122f30cb0c81932d5f5742 *./UPGRADE_NOTES.md
+e86d4fbab5b31830f47471f67a8cb4b1 *./README.md
+bb323531545081ee9f58010ad3c40c44 *./UPGRADE_NOTES.md
 10e0a9ec4b2ab91c429f3226d512f47f *./admin.php
 ac32c9e1f5286d86a4fe2ec70d4c42bb *./api
 ab568aa12b5381962197b5d0ab752d87 *./api.php
@@ -82,7 +82,7 @@ d41d8cd98f00b204e9800998ecf8427e *api/ucenter/index.htm
 6cff1525491ac853bb2becd644724c1f *api/wechat/callback.php
 d41d8cd98f00b204e9800998ecf8427e *api/wechat/index.htm
 e04f5210ca45e1b005a1dd4fdbebe848 *avatar/index.php
-5c0bdee916a2271cb905406f8beca735 *config/config_global_default.php
+7da3bb5b01af1caf416cf0e7f4cbc5f3 *config/config_global_default.php
 c82b6a3fc76fb889e073473ff9136a74 *config/config_ucenter_default.php
 7215ee9c7d9dc229d2921a40e899ec5f *config/index.htm
 d41d8cd98f00b204e9800998ecf8427e *data/avatar/index.htm
@@ -1377,7 +1377,7 @@ d1917d3ad958eda34186130da3c2c594 *source/class/class_restfulplugin.php
 5bcf4038243c6530205339abb42290e2 *source/class/class_sphinx.php
 7681048276cc648cf42a485ea98b9ba0 *source/class/class_tag.php
 f7f5d787d106851420ce900db6b35bc8 *source/class/class_task.php
-a3d89e4870310b2b7ccb19d69079f067 *source/class/class_template.php
+7718e9f7defbd822f90a0e4b2e162a71 *source/class/class_template.php
 ed52430cc5ad00a7fcd733f7b2585b36 *source/class/class_tplfile.php
 a630e6a882fa6ec0d6b70b95cd30e974 *source/class/class_upload.php
 2bcb0ec83c2ac96403b18c03100ee214 *source/class/class_xml.php
@@ -2010,7 +2010,7 @@ b954e18ac2ebb022ff3c80c8d652c0a9 *source/function/cache/cache_smileytypes.php
 291d94bb9d8976cb91c4428d991d8419 *source/function/cache/cache_smilies.php
 b8e9437d3bd4701238e0c11b73b5d602 *source/function/cache/cache_smilies_js.php
 3dac582dd5afa89fcf0da80316230120 *source/function/cache/cache_split.php
-ba706987ef51f381d7415fbd35ca7023 *source/function/cache/cache_styles.php
+9623ce8e8aba997d618d999d841c0fad *source/function/cache/cache_styles.php
 9278828d7b24f7300081c999a4ab7a13 *source/function/cache/cache_threadsorts.php
 d2eec851e1cfd2a6eb785fc4fdd35c38 *source/function/cache/cache_updatediytemplate.php
 c3a15681b16a8bdd87780ce04a3f8116 *source/function/cache/cache_usergroups.php
@@ -3911,7 +3911,6 @@ d41d8cd98f00b204e9800998ecf8427e *static/image/mobile/index.htm
 c07a5aa6a5d22a9d7f96538c6da596c6 *static/image/mobile/input_bg.gif
 b065eba9107c429ca21bfe87ae1be239 *static/image/mobile/logo.gif
 d9c722f799a5d9cfb092eb516a724eb6 *static/image/mobile/preview.png
-86ac0f3b32c2fb2d57bee7358c9c7ed3 *static/image/mobile/style.css
 9f036243f3a7a64d67321d14b0c5ad08 *static/image/mobile/touch/arrow.png
 2dd1f422d3dac2cd6c97ffd0e7f82138 *static/image/mobile/touch/arrow.svg
 5b49481dfe76f0e5698485239c6046de *static/image/mobile/touch/avatar_blank.gif
@@ -5182,7 +5181,7 @@ a4a1a182fe6f2f039efa33fd013af9e7 *template/default/touch/cell/forum/threadlist/s
 d41d8cd98f00b204e9800998ecf8427e *template/default/touch/cell/index.htm
 d41d8cd98f00b204e9800998ecf8427e *template/default/touch/cells/common/footer/index.htm
 4a37f13f86a8ec72cc7fa3b8b41ed826 *template/default/touch/cells/common/footer/js.htm
-be05fd4bccc526dfed27f667ab3b70d4 *template/default/touch/cells/common/header/css.htm
+232df17ed97e5345f0aacd3b21fc3da9 *template/default/touch/cells/common/header/css.htm
 f3fcce954877ca166cae1dc4cfbf2fdf *template/default/touch/cells/common/header/i18n_switch.htm
 e41f86ac3cb736614c2f919c4e173083 *template/default/touch/cells/common/header/js.htm
 81e43515998077f753487a423d393d2a *template/default/touch/cells/common/header/meta.htm
@@ -5192,7 +5191,8 @@ e6fa0ee35cab0968daa2a9bc40743608 *template/default/touch/common/block_thread.php
 aa927791d4962a01a47a8c72d449cfd7 *template/default/touch/common/buyinvitecode.htm
 873210e04364a37a763b5d7d60d99fe4 *template/default/touch/common/footer.htm
 dcecf9502c1ceadebea0ae4c229d3364 *template/default/touch/common/footer_ajax.htm
-f06bedf36a6af2cb09dd9321f0eb8b21 *template/default/touch/common/header.htm
+9fcf6dd611096bb486943d3894e0e0bf *template/default/touch/common/common.css
+50df5ffbf3fa256f8b73f599ce102f8f *template/default/touch/common/header.htm
 c64dee4a8002d314d2f040dbc0a57752 *template/default/touch/common/header_ajax.htm
 bd6f5c2492cb6b618d4082fa85b9c02e *template/default/touch/common/header_common.php
 d41d8cd98f00b204e9800998ecf8427e *template/default/touch/common/index.htm

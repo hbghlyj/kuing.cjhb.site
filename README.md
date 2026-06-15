@@ -19,6 +19,13 @@
 - PHP-FPM 运行用户必须能够读取上述 PHAR 和 MMDB 文件
 - 旧的 `tinyipdata.dat` / `wry` 系列数据文件不再是当前默认查询路径
 
+### 手机模板 CSS 缓存
+
+- 手机模板支持与 PC 模板相同的 `{csstemplate}` 机制。
+- 手机 CSS 源文件位于 `template/<模板>/touch/common/`，默认模板使用 `template/default/touch/common/common.css`。
+- 生成的缓存文件使用 `style_<styleid>_touch_*.css` 命名，避免与 PC CSS 缓存互相覆盖。
+- 插件可通过 `source/plugin/<插件>/template/touch/extend_<文件名>.css` 扩展手机 CSS。
+
 ### forum lastpost 字段顺序
 
 当前分支运行时应按以下顺序理解 `pre_forum_forum.lastpost`：
@@ -226,13 +233,12 @@ $_config['ipgetter']['dnslist']['list']['0'] = 'comsenz.com';
 
 ```php
 $_config['output']['upgradeinsecure'] = 1;
-$_config['output']['css4legacyie'] = 0;
 ```
 
 也就是说：
 
 * 在 HTTPS 环境下默认请求浏览器将 HTTP 内链升级为 HTTPS；
-* 默认不再加载兼容低版本 IE 的额外 CSS。
+* 不再提供兼容低版本 IE 的额外 CSS 开关和样式加载路径。
 
 ##### 2.6 标签输入分隔规则
 

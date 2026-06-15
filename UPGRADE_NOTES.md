@@ -53,13 +53,12 @@ ALTER TABLE uc_members
 
 ```php
 $_config['output']['upgradeinsecure'] = 1;
-$_config['output']['css4legacyie'] = 0;
 ```
 
 - 这意味着：
   - HTTPS 环境下会默认要求浏览器升级 HTTP 内链到 HTTPS
-  - 默认不再加载兼容低版本 IE 的额外 CSS
-- 若旧站点依赖外域 HTTP 资源或旧 IE 呈现，应在部署前先评估。
+  - 不再提供兼容低版本 IE 的额外 CSS 开关和样式加载路径
+- 若旧站点依赖外域 HTTP 资源，应在部署前先评估。
 - 来源：`config/config_global_default.php`、`README.md`
 
 ## Database Migrations Required
@@ -124,6 +123,15 @@ ALTER TABLE uc_members
 
 ## Config / Environment Changes
 
+### 手机模板支持 `{csstemplate}`
+
+- 手机模板 CSS 已纳入风格缓存，源文件路径为 `template/<模板>/touch/common/`。
+- 手机缓存使用 `style_<styleid>_touch_*.css`，与 PC 缓存隔离。
+- 自定义模板和插件的手机 CSS 覆盖路径分别为：
+  - `template/<模板>/touch/common/extend_<文件名>.css`
+  - `source/plugin/<插件>/template/touch/extend_<文件名>.css`
+- 部署后需要更新 CSS 缓存并清理手机编译模板。
+
 ### [Required] PHP 扩展和函数检查
 
 - 安装环境检查会阻止缺少以下必备 PHP 扩展的环境继续安装：
@@ -171,10 +179,9 @@ ALTER TABLE uc_members
 
 ```php
 $_config['output']['upgradeinsecure'] = 1;
-$_config['output']['css4legacyie'] = 0;
 ```
 
-- 若站点仍依赖 HTTP 外链资源或旧 IE 兼容模式，请在部署前手工确认。
+- 若站点仍依赖 HTTP 外链资源，请在部署前手工确认；旧 IE 兼容 CSS 已不再支持。
 
 ## Notable Changes Compared To master
 
