@@ -757,7 +757,7 @@ $lang =
 	'sitestatus_issue_checkip' => '管理員IP驗證已關閉，建議開啓以防止非法登錄',
 	'sitestatus_issue_runquery' => '運行SQL語句功能已開啓，建議關閉以降低安全風險',
 	'sitestatus_issue_ssl' => 'SSL證書將於 {date} 過期，請及時續期',
-	'sitestatus_issue_backup' => '超過7天未進行數據備份，建議立即備份',
+	'sitestatus_issue_backup' => '超過30天未進行數據備份，建議立即備份',
 	'sitestatus_issue_disk' => '磁盤空間使用率超過90%，建議清理或擴容',
 	'sitestatus_issue_memory' => '內存使用率超過90%，建議優化或擴容',
 
