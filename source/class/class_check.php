@@ -102,7 +102,7 @@ class check {
 		table_common_cache::t()->insert([
 			'cachekey' => 'checktools_filecheck',
 			'cachevalue' => serialize(['dateline' => $_G['timestamp']]),
-			'dateline' => $_G['timestamp'],
+			'dateline' => TIMESTAMP,
 		], false, true);
 
 		foreach($discuzfiles as $line) {
