@@ -1741,7 +1741,7 @@ ea943f072d42f7c995e4d4f71a4b9113 *source/class/table/table_forum_onlinelist.php
 d8f282872e20af1fd48f90ea25d7023d *source/class/table/table_forum_polloption.php
 1c50ea44f00e0133ab1ba5e2ae363969 *source/class/table/table_forum_polloption_image.php
 736216e301eed0f15121a6823084155a *source/class/table/table_forum_pollvoter.php
-479fa803ba8f67853153e452fa55afba *source/class/table/table_forum_post.php
+a0dde271c3a41b41ffd6c446dcb22abd *source/class/table/table_forum_post.php
 b78cd7a8283d6b388ed0664de035a82c *source/class/table/table_forum_post_location.php
 5d21edb36aeccf98ea54a05daa6d08e6 *source/class/table/table_forum_post_tableid.php
 c47a92364c2764e0cf095a0210c4477c *source/class/table/table_forum_postcache.php
@@ -1959,7 +1959,7 @@ f06cd9d031db8466e0c53ac35394956b *source/data/seccode/gif/Small_Fonts/r.gif
 ef7841860e2e18d2e1aee9e016023ebe *source/data/seccode/gif/Small_Fonts/y.gif
 d41d8cd98f00b204e9800998ecf8427e *source/data/seccode/gif/index.htm
 7215ee9c7d9dc229d2921a40e899ec5f *source/data/seccode/index.htm
-e274187606453e777db1ab9bef60b7e3 *source/discuz_version.php
+230441e6661bed1c598c411092c6e678 *source/discuz_version.php
 82648981bb101edf0287ac39b1d52f3a *source/function/cache/cache_admincp_menu.php
 d3e1765701c35fa446059c6faeebe842 *source/function/cache/cache_admingroups.php
 a73612907941176d2632c5a75939719b *source/function/cache/cache_advs.php
@@ -2055,7 +2055,7 @@ ce33b159316bee5267ccaa0d8b911421 *source/function/function_member.php
 7d7aec2aeace9a100a4764ac4ffc7eef *source/function/function_plugin.php
 ecc9d925024f9b1bd3fec1d66c2d054e *source/function/function_portal.php
 4303d2ec6061b032e2024e89d679c705 *source/function/function_portalcp.php
-a32b1c51188d70a6d57c21acc3cf17f9 *source/function/function_post.php
+7629dd56175e1a261df70172f993a8a9 *source/function/function_post.php
 0f85d86e37fc658c9abdbf2938962eb0 *source/function/function_preg.php
 bc24bab31c3476bcbd07cf7aa6d677eb *source/function/function_profile.php
 f51fd0909e321439c446388ffc369414 *source/function/function_search.php
@@ -2955,7 +2955,7 @@ e0e91efdc678f4aa89d83a2b569a3236 *static/image/admincp/add.gif
 a7eeb0a4a2a033c15adb968cd7361198 *static/image/admincp/admincp.css
 6d83f85d0e616224d0e8359aa16d978e *static/image/admincp/admincpframe.css
 97c91b72db428be5107318726f39e45e *static/image/admincp/admincplogin.css
-0d2d4afe59bec9e8f2c84269f36fd410 *static/image/admincp/admincppage.css
+722a5c7bd452434c56f2d85007877704 *static/image/admincp/admincppage.css
 a4cc25514001c92f418cd2e7527d6325 *static/image/admincp/ajax_loader.gif
 feb6ca15771ab9d5c8880f85887cedc1 *static/image/admincp/article.gif
 19b0b52a1375859bc2dc83a6fa49c7a6 *static/image/admincp/articlelist.gif
