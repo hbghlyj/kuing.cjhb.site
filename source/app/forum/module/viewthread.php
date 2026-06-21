@@ -749,10 +749,6 @@ if(empty($postlist)) {
 		dheader('Location:'.$_G['siteurl'].$canonical);
 	}
 	showmessage('post_not_found');
-} elseif(!defined('IN_MOBILE_API')) {
-	foreach($postlist as $pid => $post) {
-		$postlist[$pid]['message'] = preg_replace('/\[attach\]\d+\[\/attach\]/i', '', $postlist[$pid]['message']);
-	}
 }
 
 if(defined('IN_ARCHIVER')) {

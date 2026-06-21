@@ -56,7 +56,6 @@ class mobile_api {
 						}
 					}
 				}
-				$postlist[$pid]['message'] = preg_replace("/\[attach\]\d+\[\/attach\]/i", '', $postlist[$pid]['message']);
 			}
 			$get = $_GET;
 			unset($get['page'], $get['debug']);
