@@ -15,7 +15,7 @@ if(!$_G['setting']['search']['forum']['status']) {
 	showmessage('search_forum_closed');
 }
 
-if(in_array($_G['adminid'], [0, -1]) && !($_G['group']['allowsearch'] & 2)) {
+if($_G['adminid'] == 0 && !($_G['group']['allowsearch'] & 2)) {
 	showmessage('group_nopermission', NULL, ['grouptitle' => $_G['group']['grouptitle']], ['login' => 1]);
 }
 
