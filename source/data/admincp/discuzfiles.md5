@@ -1207,7 +1207,7 @@ d76ef9a7e2070aafb3445463b6415720 *source/child/cron/cron_medal_daily.php
 46369a4a1aec955861dab02f10854894 *source/child/cron/cron_threadexpiry_hourly.php
 83353afc79852ecfd1ad2d42413cd9f2 *source/child/cron/cron_todayheats_daily.php
 d5c705eb2d1e00537d9bf780a10a86e7 *source/child/cron/cron_todaypost_daily.php
-00b75d464bb414b8ba340dcdb8f56256 *source/child/cron/cron_todayviews_daily.php
+e8deda7d85041e83c406bcc1ee88e1d5 *source/child/cron/cron_todayviews_daily.php
 7215ee9c7d9dc229d2921a40e899ec5f *source/child/cron/index.htm
 7215ee9c7d9dc229d2921a40e899ec5f *source/child/index.htm
 b82c1e5a54779c3cd7ff72b93c001381 *source/class/account/account_base.php

@@ -11,7 +11,7 @@ if(!defined('IN_DISCUZ')) {
 }
 $updateviews = [];
 $deltids = [];
-foreach(table_forum_threadaddviews::t()->fetch_all_order_by_tid(500) as $tid => $addview) {
+foreach(table_forum_threadaddviews::t()->fetch_all_order_by_tid(0, 500) as $tid => $addview) {
 	$deltids[$tid] = $updateviews[$addview['addviews']][] = $tid;
 }
 if($deltids) {
