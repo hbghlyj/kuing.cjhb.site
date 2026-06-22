@@ -61,6 +61,11 @@ function bat_highlight($message, $words, $color = '#ff0000') {
 	return $message;
 }
 
+function search_message_safestr($message) {
+	$charset = strtolower(CHARSET) == 'utf-8' ? 'UTF-8' : 'ISO-8859-1';
+	return htmlspecialchars($message, ENT_QUOTES | ENT_SUBSTITUTE, $charset, false);
+}
+
 function bat_highlight_callback_highlight_21($matches, $action = 0) {
 	static $highlightarray = [];
 

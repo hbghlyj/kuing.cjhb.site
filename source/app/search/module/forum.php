@@ -150,7 +150,8 @@ if(!submitcheck('searchsubmit', 1)) {
 					if($post['status'] & 1) {
 						$threadlist[$post['tid']]['message'] = lang('forum/template', 'message_single_banned');
 					} else {
-						$threadlist[$post['tid']]['message'] = bat_highlight(threadmessagecutstr($threadlist[$post['tid']], $post['message'], 200), $keyword);
+						$message = search_message_safestr(threadmessagecutstr($threadlist[$post['tid']], $post['message'], 200));
+						$threadlist[$post['tid']]['message'] = bat_highlight($message, $keyword);
 					}
 				}
 			}

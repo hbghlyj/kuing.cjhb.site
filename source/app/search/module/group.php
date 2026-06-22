@@ -83,7 +83,8 @@ if(!submitcheck('searchsubmit', 1)) {
 			if($threadlist) {
 				foreach($posttables as $tableid => $tids) {
 					foreach(table_forum_post::t()->fetch_all_by_tid($tableid, $tids, true, '', 0, 0, 1) as $post) {
-						$threadlist[$post['tid']]['message'] = bat_highlight(threadmessagecutstr($threadlist[$post['tid']], $post['message'], 200), $keyword);
+						$message = search_message_safestr(threadmessagecutstr($threadlist[$post['tid']], $post['message'], 200));
+						$threadlist[$post['tid']]['message'] = bat_highlight($message, $keyword);
 					}
 				}
 			}

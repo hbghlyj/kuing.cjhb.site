@@ -1175,8 +1175,8 @@ d41d8cd98f00b204e9800998ecf8427e *source/app/search/index.htm
 60bf4d74fbb5899963f5024555ceb379 *source/app/search/module/album.php
 c07ec1a81212d8a031399111ded0760e *source/app/search/module/blog.php
 943389fb3d17787d5734cebf8d96853a *source/app/search/module/collection.php
-f6a36fbc0d2717dd837c58974785335d *source/app/search/module/forum.php
-40eff268ebac36d2befa15bdab01c8bd *source/app/search/module/group.php
+e4bcf4755539776fdfd90bcc85c4e1aa *source/app/search/module/forum.php
+9873b6d1870855553a0c87e33d400a2a *source/app/search/module/group.php
 d41d8cd98f00b204e9800998ecf8427e *source/app/search/module/index.htm
 118ffd7434965e4463bc0708fb5222c8 *source/app/search/module/portal.php
 f6744df15e818c728d841255963ec2f9 *source/app/search/module/user.php
@@ -2058,7 +2058,7 @@ ecc9d925024f9b1bd3fec1d66c2d054e *source/function/function_portal.php
 7629dd56175e1a261df70172f993a8a9 *source/function/function_post.php
 0f85d86e37fc658c9abdbf2938962eb0 *source/function/function_preg.php
 bc24bab31c3476bcbd07cf7aa6d677eb *source/function/function_profile.php
-f51fd0909e321439c446388ffc369414 *source/function/function_search.php
+4eafb6e860ff9aaea1b209cd54a06d8a *source/function/function_search.php
 7ce4b9d669b4313e97859c4df328f5a4 *source/function/function_searchindex.php
 f21d26cc8ebd6411dd214ec25a414e73 *source/function/function_share.php
 00167065c1e2c903d89b8c748f4b1545 *source/function/function_space.php

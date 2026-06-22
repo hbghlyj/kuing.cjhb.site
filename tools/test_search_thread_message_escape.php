@@ -82,6 +82,12 @@ function assert_no_raw_script_tag($value, $label) {
 	}
 }
 
+function assert_no_raw_math_angle($value, $label) {
+	if(str_contains($value, 'r<|z-a|<R')) {
+		fail($label.' contains raw math angle brackets', [$label => $value]);
+	}
+}
+
 $thread = [
 	'readperm' => 0,
 	'price' => 0,
@@ -99,7 +105,7 @@ if(!str_contains($storedMessage, '&lt;script&gt;alert(1)&lt;/script&gt;')) {
 assert_no_raw_script_tag($storedMessage, 'storedMessage');
 
 // This mirrors source/app/search/module/forum.php before template/default/search/thread_list.htm outputs $thread[message].
-$searchMessage = bat_highlight(threadmessagecutstr($thread, $storedMessage, 200), 'normal');
+$searchMessage = bat_highlight(search_message_safestr(threadmessagecutstr($thread, $storedMessage, 200)), 'normal');
 assert_no_raw_script_tag($searchMessage, 'searchMessage');
 if(!str_contains($searchMessage, '&lt;script&gt;alert(1)&lt;/script&gt;')) {
 	fail('search result message no longer contains escaped user input', [
@@ -108,7 +114,28 @@ if(!str_contains($searchMessage, '&lt;script&gt;alert(1)&lt;/script&gt;')) {
 	]);
 }
 
+$legacyRawMessage = 'Let A={z: r<|z-a|<R} and continue.';
+$legacySearchMessage = bat_highlight(search_message_safestr(threadmessagecutstr($thread, $legacyRawMessage, 200)), 'Let');
+assert_no_raw_math_angle($legacySearchMessage, 'legacySearchMessage');
+if(!str_contains($legacySearchMessage, 'r&lt;|z-a|&lt;R')) {
+	fail('legacy raw message angle brackets were not escaped for search output', [
+		'raw' => $legacyRawMessage,
+		'search' => $legacySearchMessage,
+	]);
+}
+
+$alreadyEscapedMessage = 'Let A={z: r&lt;|z-a|&lt;R} and continue.';
+$escapedSearchMessage = search_message_safestr(threadmessagecutstr($thread, $alreadyEscapedMessage, 200));
+if(str_contains($escapedSearchMessage, '&amp;lt;')) {
+	fail('already escaped message was double-escaped for search output', [
+		'stored' => $alreadyEscapedMessage,
+		'search' => $escapedSearchMessage,
+	]);
+}
+
 pass([
 	'stored' => $storedMessage,
 	'search' => $searchMessage,
+	'legacy_search' => $legacySearchMessage,
+	'already_escaped_search' => $escapedSearchMessage,
 ]);
