@@ -4728,7 +4728,7 @@ a292cfa391300fc60538a1e80427b0f8 *template/default/common/block_forumtree.htm
 53980742778aae28bb2ae6639c8a4c6c *template/default/common/block_thread.htm
 5ee23d05c0153fffb152a969b45e4f1b *template/default/common/block_userinfo.htm
 3b1fb2adfc97d2c99a432778ca34f1d2 *template/default/common/buyinvitecode.htm
-f0cc9ec3b5289d76ecbc510ae265ce61 *template/default/common/common.css
+6b5d8cadaba1496efec5dda1b3f62776 *template/default/common/common.css
 f80fb2fc1ba8d871088f5397fa41a64a *template/default/common/css_diy.css
 6bdb2bc848c2c9877b7d5fe14afd696d *template/default/common/css_mobile_diy.css
 6c46a9428de5ab61b3427da150d7ea54 *template/default/common/css_mobile_diy_page.css
@@ -4774,8 +4774,8 @@ bdd7c3fc739b84318f0ad032d80c8972 *template/default/common/userabout.htm
 6dcbae2472d0df1ab0ecb19e29470955 *template/default/common/widthauto.css
 173d0afc4a8ad7cd4dad88682bde4f80 *template/default/common/witframe.php
 8db88a86c30f2f6b067df83b86062846 *template/default/common/wysiwyg.css
-498b2e97350f4a86757124d373e0db01 *template/default/discuz_style_default.json
-7fe9d427b8715d5eefed503e63d89fdc *template/default/discuz_style_default.xml
+6af2eafd6d3ad37388cab8e6557ca8d5 *template/default/discuz_style_default.json
+d9ef0ff0bc949d5df283791e55705a3e *template/default/discuz_style_default.xml
 3dc0610e106931e9d3fe734e713296a7 *template/default/email/add_member.htm
 b7b3e3f48d536295a1cc5298ebf3bce0 *template/default/email/adv_expiration.htm
 31e5398f8de4547d3535ec98e41ec8cc *template/default/email/birthday.htm
@@ -5473,7 +5473,7 @@ aae1f4b154d1b6280b8431e278affb9a *template/discuzx5/common/header_common.php
 672f58ed3aab223cf9fb25c5322e974b *template/discuzx5/common/header_userstatus.php
 9d5cffba9d3ee3fd3bfbee95bcafdcea *template/discuzx5/common/pubsearchform.php
 9e6d922e2687876d00b38b6c74a20467 *template/discuzx5/common/upload.php
-0d13a78fc3fed60dccabb2348d838e10 *template/discuzx5/discuz_style_discuzx5.json
+446f9680f4f0003a438aa04e266596cb *template/discuzx5/discuz_style_discuzx5.json
 7e364071a510913d11fd3d5e83e38f55 *template/discuzx5/forum/darkroom.php
 0f7cc9a32a49ad3fbc6cd22b72fa063a *template/discuzx5/forum/discuz.php
 14e3e23fabce1c43e0477b6b9f313133 *template/discuzx5/forum/forumdisplay.php

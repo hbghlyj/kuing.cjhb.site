@@ -195,7 +195,7 @@ Last Modify:	Pony
 	Last Modify:	lushnis
 */
 	/* .wx --> weight text 粗体字，通常用于大标题 */
-	.wx, .ph { font-family: 'Microsoft YaHei', 'Hiragino Sans GB', 'STHeiti', Tahoma, 'SimHei', sans-serif; font-weight: 100; }
+	.wx, .ph { font-family: sans-serif; font-weight: 100; }
 	/* Page header */ .ph { font-size: 20px; }
 	/* Main title */ .mt { padding: 10px 0; font-size: 16px; }
 
