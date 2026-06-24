@@ -15,7 +15,7 @@ function normalizeI18nKey(key) {
 	}
 }
 
-var _i18n_ = normalizeI18nKey(DISCUZ_I18N);
+var _i18n_ = normalizeI18nKey(typeof DISCUZ_I18N != 'undefined' ? DISCUZ_I18N : '');
 if (typeof IN_ADMINCP == 'undefined') {
 	try {
 		var _i18n_cookie_ = getcookie('i18n');
