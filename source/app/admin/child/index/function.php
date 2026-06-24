@@ -116,14 +116,14 @@ function show_sitestatus() {
 		}
 		if($meminfo && preg_match('/MemTotal:\s+(\d+)\s+kB/', $meminfo, $total) && preg_match('/MemAvailable:\s+(\d+)\s+kB/', $meminfo, $avail)) {
 			$sitestatus['memory'] = round((($total[1] - $avail[1]) / $total[1]) * 100, 1);
-			$sitestatus['memory_total'] = round($total[1] / 1048576, 1);
-			$sitestatus['memory_used'] = round(($total[1] - $avail[1]) / 1048576, 1);
+			$sitestatus['memory_total'] = sizecount($total[1] * 1024);
+			$sitestatus['memory_used'] = sizecount(($total[1] - $avail[1]) * 1024);
 			$sitestatus['memory_supported'] = true;
 		} elseif($meminfo && preg_match('/MemTotal:\s+(\d+)\s+kB/', $meminfo, $total) && preg_match('/MemFree:\s+(\d+)\s+kB/', $meminfo, $free) && preg_match('/Buffers:\s+(\d+)\s+kB/', $meminfo, $buffers) && preg_match('/Cached:\s+(\d+)\s+kB/', $meminfo, $cached)) {
 			$used = $total[1] - $free[1] - $buffers[1] - $cached[1];
 			$sitestatus['memory'] = round(($used / $total[1]) * 100, 1);
-			$sitestatus['memory_total'] = round($total[1] / 1048576, 1);
-			$sitestatus['memory_used'] = round($used / 1048576, 1);
+			$sitestatus['memory_total'] = sizecount($total[1] * 1024);
+			$sitestatus['memory_used'] = sizecount($used * 1024);
 			$sitestatus['memory_supported'] = true;
 		}
 	}
@@ -133,55 +133,39 @@ function show_sitestatus() {
 	$diskFree = disk_free_space(DISCUZ_ROOT);
 	if($diskTotal && $diskFree) {
 		$sitestatus['disk'] = round((($diskTotal - $diskFree) / $diskTotal) * 100, 1);
-		$sitestatus['disk_total'] = round($diskTotal / 1073741824, 1);
-		$sitestatus['disk_used'] = round(($diskTotal - $diskFree) / 1073741824, 1);
+		$sitestatus['disk_total'] = sizecount($diskTotal);
+		$sitestatus['disk_used'] = sizecount($diskTotal - $diskFree);
 	} else {
 		$sitestatus['disk'] = 0;
 		$sitestatus['disk_total'] = 0;
 		$sitestatus['disk_used'] = 0;
 	}
 
-	// 数据库尺寸 - 懒加载，点击链接后才计算
-	if(isset($_GET['dbsize']) && FORMHASH == $_GET['formhash']) {
-		$dbsize = helper_dbtool::dbsize();
-		$sitestatus['dbsize'] = $dbsize ? sizecount($dbsize) : $lang['unknown'];
-	} else {
-		$append = isset($_GET['attachsize']) ? '&attachsize' : '';
-		$sitestatus['dbsize'] = '<a class="sysinfo-detail" href="'.ADMINSCRIPT.'?action=index&formhash='.FORMHASH.'&dbsize'.$append.'">'.$lang['detail'].'</a>';
-	}
-
-	// 附件尺寸 - 懒加载，点击链接后才计算
-	if(isset($_GET['attachsize']) && FORMHASH == $_GET['formhash']) {
-		$attachsize = table_forum_attachment_n::t()->get_total_filesize();
-		$sitestatus['attachsize'] = is_numeric($attachsize) ? sizecount($attachsize) : $lang['unknown'];
-	} else {
-		$append = isset($_GET['dbsize']) ? '&dbsize' : '';
-		$sitestatus['attachsize'] = '<a class="sysinfo-detail" href="'.ADMINSCRIPT.'?action=index&formhash='.FORMHASH.'&attachsize'.$append.'">'.$lang['detail'].'</a>';
-	}
+	$sitestatus['dbsize'] = '<span id="dbsizeMsg"><a class="sysinfo-detail" onclick="dbsize(this.href, event)" href="'.ADMINSCRIPT.'?action=index&formhash='.FORMHASH.'&operation=dbsize">'.$lang['detail'].'</a></span>';
+	$sitestatus['attachsize'] = '<span id="attachsizeMsg"><a class="sysinfo-detail" onclick="attachsize(this.href, event)" href="'.ADMINSCRIPT.'?action=index&formhash='.FORMHASH.'&operation=attachsize">'.$lang['detail'].'</a></span>';
 
 	// MySQL 状态
 	try {
 		$dbStatus = DB::fetch_first("SHOW STATUS LIKE 'Threads_connected'");
 		$sitestatus['mysql_threads'] = $dbStatus['Value'] ?? 0;
-		$dbStatus = DB::fetch_first("SHOW STATUS LIKE 'Queries'");
-		$sitestatus['mysql_queries'] = $dbStatus['Value'] ?? 0;
 		$sitestatus['mysql_status'] = 'running';
 	} catch (Exception $e) {
 		$sitestatus['mysql_status'] = 'error';
 		$sitestatus['mysql_threads'] = 0;
-		$sitestatus['mysql_queries'] = 0;
 	}
 
 	// Redis 状态
 	$sitestatus['redis_status'] = 'none';
 	if(function_exists('redis') || class_exists('Redis')) {
 		try {
-			$redis = new Redis();
-			if($redis->connect('127.0.0.1', 6379, 1)) {
+			$m = new memory_driver_redis();
+			$m->init($_G['config']['memory']['redis']);
+			if($m->enable) {
 				$sitestatus['redis_status'] = 'running';
-				$info = $redis->info();
-				$sitestatus['redis_keys'] = $info['db0']['keys'] ?? 0;
-				$redis->close();
+				$info = $m->info('clients');
+				$sitestatus['redis_threads'] = $info['connected_clients'] ?? 0;
+				$memory = $m->info('memory');
+				$sitestatus['used_memory'] = $memory['used_memory'] ? sizecount($memory['used_memory']) : 0;
 			} else {
 				$sitestatus['redis_status'] = 'stopped';
 			}
@@ -326,8 +310,10 @@ function show_onlines() {
 function show_note() {
 	global $_G;
 
-	showformheader('index');
-	showboxheader('home_notes', '', 'id="home_notes"');
+	if(!$_G['inajax']) {
+		showformheader('index&operation=note&notesubmit=yes', 'onsubmit="ajaxpost(this.id, \'home_notes\');return false;"');
+		showboxheader('home_notes');
+	}
 
 	$notemsghtml = '';
 	foreach(table_common_adminnote::t()->fetch_all_by_access(0) as $note) {
@@ -340,7 +326,7 @@ function show_note() {
 			$firstchar = dhtmlspecialchars(mb_strtoupper(mb_substr($note['admin'], 0, 1)));
 			$delhtml = '';
 			if(isfounder() || $_G['member']['username'] == $note['admin']) {
-				$delhtml = '<a href="'.ADMINSCRIPT.'?action=index&notesubmit=yes&noteid='.$note['id'].'" title="'.cplang('delete').'" class="ndel">×</a>';
+				$delhtml = '<a onclick="notedel(this, event)" href="'.ADMINSCRIPT.'?action=index&operation=notedel&noteid='.$note['id'].'&formhash='.$_G['formhash'].'" title="'.cplang('delete').'" class="ndel">×</a>';
 			}
 			$notemsghtml .= '<div class="dcol">'.
 				'<div class="adminnote">'.$delhtml.'<div class="note-body">'.
@@ -354,23 +340,31 @@ function show_note() {
 		}
 	}
 
-	if($notemsghtml) {
+	if(!$_G['inajax']) {
+		echo '<div id="home_notes">';
+		if($notemsghtml) {
+			echo '<div class="drow">'.$notemsghtml.'</div>';
+		}
+		echo '</div></div><div class="boxbody adminnote-form">';
+
+		echo '<div class="note-form-row">'.
+			'<textarea name="newmessage" class="txt" rows="2" placeholder="'.cplang('home_notes_add').'..."></textarea>'.
+			'<div class="note-form-meta">'.
+			'<span class="meta-label">'.cplang('validity').'</span>'.
+			'<input type="text" class="txt" name="newexpiration" value="30" />'.
+			'<span class="meta-unit">'.cplang('days').'</span>'.
+			'<input name="notesubmit" value="'.cplang('submit').'" type="submit" class="btn" />'.
+			'</div>'.
+			'</div>';
+
+		showboxfooter();
+		showformfooter();
+	} else {
+		include template('common/header');
 		echo '<div class="drow">'.$notemsghtml.'</div>';
+		echo '<script reload="1">$(\'cpform\').newmessage.value=\'\';</script>';
+		include template('common/footer');
 	}
-	echo '</div><div class="boxbody adminnote-form">';
-
-	echo '<div class="note-form-row">'.
-		'<textarea name="newmessage" class="txt" rows="2" placeholder="'.cplang('home_notes_add').'..."></textarea>'.
-		'<div class="note-form-meta">'.
-		'<span class="meta-label">'.cplang('validity').'</span>'.
-		'<input type="text" class="txt" name="newexpiration" value="30" />'.
-		'<span class="meta-unit">'.cplang('days').'</span>'.
-		'<input name="notesubmit" value="'.cplang('submit').'" type="submit" class="btn" />'.
-		'</div>'.
-		'</div>';
-
-	showboxfooter();
-	showformfooter();
 }
 
 function show_filecheck() {
@@ -457,13 +451,33 @@ function show_sysinfo() {
 
 	showboxheader('home_sys_info', 'listbox', 'id="home_sys_info"');
 
+	$newver = '';
+	if(isfounder()) {
+		loadcache('newver');
+		if(empty($_G['cache']['newver']) || TIMESTAMP - $_G['cache']['newver']['t'] > 86400 * 5) {
+			$u = new admin\class_upgrade();
+			[, $remote, $new] = $u->getVersion(true);
+			savecache('newver', [
+				't' => TIMESTAMP,
+				'remote' => $remote,
+				'new' => $new,
+			]);
+		} else {
+			$remote = $_G['cache']['newver']['remote'];
+			$new = $_G['cache']['newver']['new'];
+		}
+		if($new) {
+			$newver = ' &raquo; <a class="newver" href="'.ADMINSCRIPT.'?action=founder&operation=upgrade">'.$remote.'</a>';
+		}
+	}
+
 	// ── Software Versions ──
 	showboxrow($hc, ['class="dcol"'], ['<span class="sysinfo-label">'.cplang('home_version').'</span>']);
 	showboxrow('', $dc, [
 		cplang('home_discuz_version'),
-		'<i class="dzlogo"></i> '.DISCUZ_VERSION_NAME.' / Discuz! '.DISCUZ_VERSION.DISCUZ_SUBVERSION.' '.$reldisp.
+		'<i class="dzlogo"></i> '.DISCUZ_VERSION_NAME.' '.DISCUZ_VERSION.DISCUZ_SUBVERSION.' '.$reldisp.
 		((strlen(DISCUZ_RELEASE) == 8) ? '' : cplang('home_git_version')).
-		(!empty($downlist) ? implode('&#x3001;', $downlist) : '')
+		$newver
 	]);
 	if(!UC_STANDALONE) {
 		showboxrow('', $dc, [
@@ -517,19 +531,8 @@ function show_sysinfo() {
 		$opcache_msg = 'OPcache: Off';
 	}
 	$opcache_display = ' <span style="color:'.($opcache_on ? '#059669' : '#dc2626').'">('.$opcache_msg.')</span>';
-	if(isset($_GET['benchmark']) && FORMHASH == $_GET['formhash']) {
-		$times = 3;
-		$r = 0;
-		for($i = 0; $i < $times; $i++) {
-			$r += get_benchmark();
-		}
-		$benchmark = sprintf('%1.6f', $r / $times);
-		$advice = $benchmark > 2 ? ' '.cplang('home_benchmark_advice') : '';
-		$benchmark .= 's';
-	} else {
-		$benchmark = '<a class="sysinfo-detail" href="'.ADMINSCRIPT.'?action=index&formhash='.FORMHASH.'&benchmark">'.$lang['home_benchmark_run'].'</a>';
-		$advice = '';
-	}
+	$benchmark = '<span id="benchmarkMsg"><a class="sysinfo-detail" onclick="benchmark(this.href, event);" href="'.ADMINSCRIPT.'?action=index&formhash='.FORMHASH.'&operation=benchmark">'.$lang['home_benchmark_run'].'</a></span>';
+	$advice = '';
 	showboxrow('', $dc, [
 		cplang('home_benchmark'),
 		$benchmark.$advice.$opcache_display
@@ -542,26 +545,21 @@ function show_news() {
 
 	showboxheader('discuz_news', 'listbox', 'id="discuz_news"');
 
+	$tips = '';
 	if(!empty($newversion['newversion'])) {
-		$newver = $newversion['newversion']['release'] != DISCUZ_RELEASE;
 		$downlist = [];
 		foreach($newversion['newversion']['downlist'] as $key => $value) {
 			$downlist[] = '<a href="'.diconv($value['url'], 'utf-8', CHARSET).'" target="_blank">'.discuzcode(strip_tags(diconv($value['title'], 'utf-8', CHARSET)), 1, 0).'</a>';
 		}
 
-		$tips = cplang('download_latest').': <a href="https://gitee.com/Discuz/DiscuzX/attach_files" target="_blank"'.($newver ? ' style="font-weight: bold;color:red"' : '').'>Discuz! '.$newversion['newversion']['version'].' '.$newversion['newversion']['release'].'</a>';
-		if($newver && isfounder()) {
-			$tips .= '&#x3001;<a style="font-weight: bold;color:red" href="'.ADMINSCRIPT.'?action=founder&operation=upgrade">'.cplang('menu_upgrade').'</a>';
-		}
 		if(!empty($downlist)) {
-			$tips .= '&#x3001;'.implode('&#x3001;', $downlist);
+			$tips = implode('&#x3001;', $downlist);
 		}
 
 		if(empty($newversion['newversion']['qqqun'])) {
 			$newversion['newversion']['qqqun'] = '73'.'210'.'36'.'90';
 		}
-		$tips .= '<span style="margin-left:12px;color:var(--admincp-fc)">'.cplang('qq_group').': '.$newversion['newversion']['qqqun'].'</span>';
-		echo '<div class="news-tips">'.$tips.'</div>';
+		$tips .= '<span style="color:var(--admincp-fc)">'.cplang('qq_group').': '.$newversion['newversion']['qqqun'].'</span>';
 	}
 
 	echo '<div class="news-list">';
@@ -576,6 +574,7 @@ function show_news() {
 		echo '<div class="news-item"><a class="news-title" href="https://www.dismall.com/" target="_blank">'.cplang('log_in_to_update').'</a></div>';
 		echo '<div class="news-item"><a class="news-title" href="https://gitee.com/3dming/DiscuzL/attach_files" target="_blank">'.cplang('download_latest').'</a></div>';
 	}
+	echo '<div class="news-item">'.$tips.'</div>';
 	echo '</div>';
 
 	showboxfooter();

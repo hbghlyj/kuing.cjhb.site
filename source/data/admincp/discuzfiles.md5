@@ -270,7 +270,7 @@ e1788b0fe943e8d9a113735ebfc7ad32 *source/app/admin/child/forums/perm_verify.php
 d41d8cd98f00b204e9800998ecf8427e *source/app/admin/child/founder/index.htm
 31fdce02b0e927e0bc6e6215fd06e6df *source/app/admin/child/founder/perm.php
 d0768e01bb605dfcd8510e66c45e49fb *source/app/admin/child/founder/platform.php
-5fa051d16f1b394afe3cc709a4250695 *source/app/admin/child/founder/upgrade.php
+107d965480f32f69a3535f86b9432b09 *source/app/admin/child/founder/upgrade.php
 a2b4cb35c6e33eb1a663f5c8a1f30ba2 *source/app/admin/child/grid/form.php
 d41d8cd98f00b204e9800998ecf8427e *source/app/admin/child/grid/index.htm
 d5bb02da34e16c975783daacc64b5425 *source/app/admin/child/grid/submit.php
@@ -286,7 +286,8 @@ b2be12113a18fd5af0b6fe19bc1cd969 *source/app/admin/child/group/setting.php
 fb926ac399164fc533e6ceba17a6f762 *source/app/admin/child/group/userperm.php
 d41d8cd98f00b204e9800998ecf8427e *source/app/admin/child/index.htm
 6038e5fa5b713c2a3883bed773b70a5f *source/app/admin/child/index/chart.php
-ee3cab96006d4a02a7bd1f41c720028d *source/app/admin/child/index/function.php
+3881b0a10c581a4a6841cc35ca7adf35 *source/app/admin/child/index/function.php
+c2f0dacfcf308fb4fc71b9e105ab148c *source/app/admin/child/index/operation.php
 d41d8cd98f00b204e9800998ecf8427e *source/app/admin/child/index/index.htm
 62eeb46e322b2120881a0c028080563a *source/app/admin/child/lang/class.php
 d41d8cd98f00b204e9800998ecf8427e *source/app/admin/child/lang/index.htm
@@ -603,6 +604,7 @@ c63f3e09238fe9aa246a0fd2f3f538d5 *source/app/admin/class/class_component.php
 299abd80fc10f533e4219deb94621b86 *source/app/admin/class/class_optimizer.php
 cf01a65eb62b90fc6fc06116654f5cc7 *source/app/admin/class/class_perm.php
 2fd839299cae6f14c3d08856d4a2d405 *source/app/admin/class/class_qrcodelogin.php
+be942c72f8fb4e1e68d0a8345c02fc5a *source/app/admin/class/class_upgrade.php
 d41d8cd98f00b204e9800998ecf8427e *source/app/admin/class/index.htm
 e63142ed331bd85ea97b9ef5a2be1010 *source/app/admin/component/component_list.php
 2de4a249d8f7b9262138d4486f9be577 *source/app/admin/component/component_perm.php
@@ -647,7 +649,7 @@ ae3d72a76ab07d90373f377224cadc93 *source/app/admin/module/founder.php
 84362a5c46ebdacf7595d9ea91cd39b9 *source/app/admin/module/grid.php
 4fc4e28fefcb97207b8026a43ac456dc *source/app/admin/module/group.php
 7215ee9c7d9dc229d2921a40e899ec5f *source/app/admin/module/index.htm
-110776a0c2774c392bdb228b00be0d83 *source/app/admin/module/index.php
+8ae2f6953ef006a908007e64eff5f2fb *source/app/admin/module/index.php
 c55cc75b21393c01c2e70b8c7ef12d26 *source/app/admin/module/lang.php
 f99421100a41f494261a351102d4cab0 *source/app/admin/module/login.php
 ed4f2bd7e0491ce0de02b2dcb77204fb *source/app/admin/module/logs.php
@@ -2238,7 +2240,7 @@ d41d8cd98f00b204e9800998ecf8427e *source/i18n/EN_UTF8/touch/index.htm
 d41d8cd98f00b204e9800998ecf8427e *source/i18n/EN_UTF8/userapp/index.htm
 d9e6154548b17811b0727cc2d0124b34 *source/i18n/EN_UTF8/userapp/lang_template.php
 d41d8cd98f00b204e9800998ecf8427e *source/i18n/SC_UTF8/admin/index.htm
-f5cc17751a9927c1879b92b6be54d520 *source/i18n/SC_UTF8/admin/lang_template.php
+c6630dd62113a7c15193d7dd715fd17e *source/i18n/SC_UTF8/admin/lang_template.php
 d41d8cd98f00b204e9800998ecf8427e *source/i18n/SC_UTF8/adv/index.htm
 87a0b8899d5d9980166719c563edf5e8 *source/i18n/SC_UTF8/adv/lang_article.php
 ed2618eca724a4c5b7930b7a7ac9a629 *source/i18n/SC_UTF8/adv/lang_articlelist.php
@@ -2441,7 +2443,7 @@ c4dc1e38e1c60c403e148f4b4cfd1acd *source/i18n/SC_UTF8/task/lang_secmobile.php
 d41d8cd98f00b204e9800998ecf8427e *source/i18n/SC_UTF8/touch/index.htm
 f59dd51fa9eb9555be4da0dddda6c009 *source/i18n/SC_UTF8/touch/lang_template.php
 d41d8cd98f00b204e9800998ecf8427e *source/i18n/TC_UTF8/admin/index.htm
-5a962cb68e0484b76683d8777d67f77b *source/i18n/TC_UTF8/admin/lang_template.php
+d0e797198be93ecefd74a8ca3179e2cd *source/i18n/TC_UTF8/admin/lang_template.php
 d41d8cd98f00b204e9800998ecf8427e *source/i18n/TC_UTF8/adv/index.htm
 3bc650d087f22413ba0964ea948fe672 *source/i18n/TC_UTF8/adv/lang_article.php
 376ffb5bc43d7cb999b4b8169ebac9b9 *source/i18n/TC_UTF8/adv/lang_articlelist.php
@@ -2955,7 +2957,7 @@ e0e91efdc678f4aa89d83a2b569a3236 *static/image/admincp/add.gif
 a7eeb0a4a2a033c15adb968cd7361198 *static/image/admincp/admincp.css
 6d83f85d0e616224d0e8359aa16d978e *static/image/admincp/admincpframe.css
 97c91b72db428be5107318726f39e45e *static/image/admincp/admincplogin.css
-722a5c7bd452434c56f2d85007877704 *static/image/admincp/admincppage.css
+893d99b89f5228a32946271447c17d85 *static/image/admincp/admincppage.css
 a4cc25514001c92f418cd2e7527d6325 *static/image/admincp/ajax_loader.gif
 feb6ca15771ab9d5c8880f85887cedc1 *static/image/admincp/article.gif
 19b0b52a1375859bc2dc83a6fa49c7a6 *static/image/admincp/articlelist.gif
@@ -4295,7 +4297,7 @@ d41d8cd98f00b204e9800998ecf8427e *static/image/upgrade/index.htm
 d41d8cd98f00b204e9800998ecf8427e *static/image/wechat/index.htm
 15bd414e9c48b9b85b40fdfabe024d5e *static/image/wechat/tip.png
 7215ee9c7d9dc229d2921a40e899ec5f *static/index.htm
-532342e98e32593d1637b7c918917861 *static/js/admincp.js
+ae007952bef031a2d6c7144787e3eb47 *static/js/admincp.js
 c46487eb35d247233efd549646a8955f *static/js/admincp_base.js
 6220f406a8d602978a2056a22ea95b18 *static/js/admincp_frame.js
 ee9cd9e2c6331144a224b67e87598c29 *static/js/admincp_index.js
@@ -4606,10 +4608,10 @@ c413ada15a964fe1ff31665422abc480 *template/default/admin/admincolor.php
 8ebe6c4d3f05c0938329119279672cef *template/default/admin/blank.php
 df40772a225b2e2dfb1f825764e36391 *template/default/admin/cpheader.php
 f978cd3162de9bdd8fc112d53e9edbbd *template/default/admin/index.php
-f66dce95c95e5e901c7ac157024fc9ba *template/default/admin/index_charts.php
+55985f941de75f8c57cb03305e29ef48 *template/default/admin/index_charts.php
 298c744eef5207ada4e0c9a5712e7fde *template/default/admin/index_empty.php
 9bb0b5b379c401cd12422886cfd4ef0d *template/default/admin/index_hotthreads.php
-d2effc0e303d08d4ca3491da9f388cad *template/default/admin/index_sitestatus.php
+d3f868d1f46d52c06eaa02a0d44e9626 *template/default/admin/index_sitestatus.php
 2b94cbe0b4ca6533791b09bbe751b09e *template/default/admin/index_todo.php
 24ccb43afae4264de44eff4bd8288feb *template/default/admin/login.php
 c549bbeb49039cdd72b13e501485044d *template/default/admin/main.php
