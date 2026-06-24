@@ -489,7 +489,8 @@ class template {
 
 	function loadcsstemplate() {
 		global $_G;
-		$touch = defined('IN_MOBILE') ? '_touch' : '';
+		$ismobile = defined('IN_MOBILE');
+		$touch = $ismobile ? '_touch' : '';
 		$cssFile = DISCUZ_DATA.'./cache/style_'.STYLEID.$touch.'_module.css';
 		$file = file_exists($cssFile) ? file($cssFile) : [];
 		if(!$file && $_G['setting']['ftp']['on'] == 2) {
@@ -516,7 +517,9 @@ class template {
 			$scriptcss .= '<link rel="stylesheet" type="text/css" href="{$_G[\'setting\'][\'csspath\']}'.$css.'.css?{VERHASH}" />';
 		}
 		$scriptcss .= '{if is_file(DISCUZ_DATA.\'./cache/style_'.$moduleScript.'.css\')}<link rel="stylesheet" type="text/css" href="{$_G[\'setting\'][\'csspath\']}'.$moduleScript.'.css?{VERHASH}" />{/if}';
-		$scriptcss .= '{if $_G[\'uid\'] && isset($_G[\'cookie\'][\'extstyle\']) && strpos($_G[\'cookie\'][\'extstyle\'], TPLDIR) !== false}<link rel="stylesheet" id="css_extstyle" type="text/css" href="{$_G[\'cookie\'][\'extstyle\']}/style.css?{VERHASH}" />{elseif $_G[\'style\'][\'defaultextstyle\']}<link rel="stylesheet" id="css_extstyle" type="text/css" href="{$_G[\'style\'][\'defaultextstyle\']}/style.css?{VERHASH}" />{/if}';
+		if(!$ismobile) {
+			$scriptcss .= '{if $_G[\'uid\'] && isset($_G[\'cookie\'][\'extstyle\']) && strpos($_G[\'cookie\'][\'extstyle\'], TPLDIR) !== false}<link rel="stylesheet" id="css_extstyle" type="text/css" href="{$_G[\'cookie\'][\'extstyle\']}/style.css?{VERHASH}" />{elseif $_G[\'style\'][\'defaultextstyle\']}<link rel="stylesheet" id="css_extstyle" type="text/css" href="{$_G[\'style\'][\'defaultextstyle\']}/style.css?{VERHASH}" />{/if}';
+		}
 		return $scriptcss;
 	}
 
