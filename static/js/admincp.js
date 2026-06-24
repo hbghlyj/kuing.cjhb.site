@@ -164,8 +164,6 @@ function insertunit(obj, text, textend) {
 	obj.focus();
 }
 
-var heightag = BROWSER.chrome ? 4 : 0;
-
 function textareakey(obj, event) {
 	if (event.keyCode == 9) {
 		insertunit(obj, '\t');
