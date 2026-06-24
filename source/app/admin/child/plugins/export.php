@@ -31,19 +31,21 @@ foreach(table_common_pluginvar::t()->fetch_all_by_pluginid($pluginid) as $var) {
 	$pluginarray['var'][] = $var;
 }
 $modules = dunserialize($pluginarray['plugin']['modules']);
-if($modules['extra']['langexists'] && file_exists($file = DISCUZ_DATA.'./plugindata/'.$pluginarray['plugin']['identifier'].'.lang.php')) {
-	include $file;
-	if(!empty($scriptlang[$pluginarray['plugin']['identifier']])) {
-		$pluginarray['language']['scriptlang'] = $scriptlang[$pluginarray['plugin']['identifier']];
+$exportold = !empty($_GET['old']) && $_GET['old'] == 'yes';
+if($modules['extra']['langexists']) {
+	$languagefiles = [DISCUZ_DATA.'./plugindata/'.$pluginarray['plugin']['identifier'].'.lang.php'];
+	if($exportold) {
+		$languagefiles[] = DISCUZ_PLUGIN($pluginarray['plugin']['directory']).'./i18n/SC_UTF8/lang_plugin.php';
 	}
-	if(!empty($templatelang[$pluginarray['plugin']['identifier']])) {
-		$pluginarray['language']['templatelang'] = $templatelang[$pluginarray['plugin']['identifier']];
-	}
-	if(!empty($installlang[$pluginarray['plugin']['identifier']])) {
-		$pluginarray['language']['installlang'] = $installlang[$pluginarray['plugin']['identifier']];
-	}
-	if(!empty($systemlang[$pluginarray['plugin']['identifier']])) {
-		$pluginarray['language']['systemlang'] = $systemlang[$pluginarray['plugin']['identifier']];
+	foreach($languagefiles as $file) {
+		if(file_exists($file)) {
+			include $file;
+			foreach(['scriptlang', 'templatelang', 'installlang', 'systemlang'] as $langtype) {
+				if(!empty(${$langtype}[$pluginarray['plugin']['identifier']]) && empty($pluginarray['language'][$langtype])) {
+					$pluginarray['language'][$langtype] = ${$langtype}[$pluginarray['plugin']['identifier']];
+				}
+			}
+		}
 	}
 }
 unset($modules['extra']);
@@ -68,5 +70,8 @@ if(file_exists($plugindir.'/disable.php')) {
 	$pluginarray['disablefile'] = 'disable.php';
 }
 
-exportdata('Discuz! Plugin', $plugin['identifier'], $pluginarray);
-	
+if($exportold) {
+	exportxmldata('Discuz! Plugin', $plugin['identifier'], $pluginarray);
+} else {
+	exportdata('Discuz! Plugin', $plugin['identifier'], $pluginarray);
+}

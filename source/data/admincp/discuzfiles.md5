@@ -411,9 +411,9 @@ d6729da97442e2d379d1347aa7a962a9 *source/app/admin/child/pic/search.php
 54e930ed5b070612e39ee487bebc3ade *source/app/admin/child/plugins/add.php
 f90f07b62c66541969f975e26c630f72 *source/app/admin/child/plugins/config.php
 8c193a2ecacec16e5b97e5e1c9be2297 *source/app/admin/child/plugins/delete.php
-0e5084adc3ede5f80bfabefb704eef2f *source/app/admin/child/plugins/edit.php
+7857abeede5051226056d9c2939e1ba5 *source/app/admin/child/plugins/edit.php
 5eaeebbb58f475c5755df5e79b5bdfde *source/app/admin/child/plugins/enable_disable.php
-37ac7289f1fa80cb2e55cfbaf5070d65 *source/app/admin/child/plugins/export.php
+c773185b79c2a558357affc6d1a474e1 *source/app/admin/child/plugins/export.php
 34630cdb13c171f5c447d9e2bea942e6 *source/app/admin/child/plugins/import.php
 d41d8cd98f00b204e9800998ecf8427e *source/app/admin/child/plugins/index.htm
 b86e254b4f600a274f749b02ac03e3a3 *source/app/admin/child/plugins/list.php
@@ -2020,7 +2020,7 @@ d2eec851e1cfd2a6eb785fc4fdd35c38 *source/function/cache/cache_updatediytemplate.
 c3a15681b16a8bdd87780ce04a3f8116 *source/function/cache/cache_usergroups.php
 3423bfdc4e608c568adaafc77fb9085f *source/function/cache/cache_userstats.php
 d41d8cd98f00b204e9800998ecf8427e *source/function/cache/index.htm
-2d2a5db8fca05073a94930249c08ae7b *source/function/function_admincp.php
+fc9ee64bd2bbffa3eafde4f377b2b5d6 *source/function/function_admincp.php
 e02e251ee73ef49c07d1e94dfe9c81be *source/function/function_attachment.php
 ce8fbf5fdb3b126d7681df191d79e529 *source/function/function_block.php
 bf163077301488c12abb09f32d5c04df *source/function/function_blog.php
@@ -2154,7 +2154,7 @@ a794029650571b34e371df012a29d9d2 *source/i18n/EN_UTF8/home/lang_template.php
 d41d8cd98f00b204e9800998ecf8427e *source/i18n/EN_UTF8/index.htm
 40e00b60d754c6d71b1b1852b0385a7b *source/i18n/EN_UTF8/lang.php
 2a582bb65f2158d113d6927f6032603e *source/i18n/EN_UTF8/lang_action.php
-10920822a2afb6d31ca78843d7fb5053 *source/i18n/EN_UTF8/lang_admincp.php
+70eae9689630eaa2bf792337c6347258 *source/i18n/EN_UTF8/lang_admincp.php
 d437463342a17bcfe5ce51366f9114fa *source/i18n/EN_UTF8/lang_admincp_cloud.php
 d48525069fc9df973b4755dc1bbae380 *source/i18n/EN_UTF8/lang_admincp_login.php
 34ac214da9aa630de7eb561e5e1c39d8 *source/i18n/EN_UTF8/lang_admincp_menu.php
@@ -2351,7 +2351,7 @@ c3e1c7923649e41346f3bd6b07422e9d *source/i18n/SC_UTF8/install/lang_sql_upgrade_3
 e1efe8d34d17a4c285dedeeac1a7c056 *source/i18n/SC_UTF8/install/lang_sql_upgrade_3.5/table_restful_source.php
 5e4162f6228dc0fbb2375d5139a0f2ae *source/i18n/SC_UTF8/lang.php
 a27be3be29e7f5858f33d737009f6a2c *source/i18n/SC_UTF8/lang_action.php
-fd253d61bd5991b7ce4816f2a53a7909 *source/i18n/SC_UTF8/lang_admincp.php
+6a0adcfbc2786d2a13795424f2963944 *source/i18n/SC_UTF8/lang_admincp.php
 77e5ab0a1717c5dc415760ff9a2c76bd *source/i18n/SC_UTF8/lang_admincp_login.php
 ed35b0b7e541bddfa761767bbaba5caa *source/i18n/SC_UTF8/lang_admincp_menu.php
 c4cb645103a30539380475bd7c2e0fe2 *source/i18n/SC_UTF8/lang_admincp_msg.php
@@ -2554,7 +2554,7 @@ c52ad5133398a7497ffa18195bd447aa *source/i18n/TC_UTF8/install/lang_sql_upgrade_3
 e1efe8d34d17a4c285dedeeac1a7c056 *source/i18n/TC_UTF8/install/lang_sql_upgrade_3.5/table_restful_source.php
 aa9085291f92c88593d7c4d5fda25aa7 *source/i18n/TC_UTF8/lang.php
 5943953ce53f96096530fd915af00e90 *source/i18n/TC_UTF8/lang_action.php
-6226810ed078f1ce20903b6371fac3d2 *source/i18n/TC_UTF8/lang_admincp.php
+8a86fe0175ec3e5adf660c5df0570424 *source/i18n/TC_UTF8/lang_admincp.php
 08db65b97e74dad2c87e5933d9671ec6 *source/i18n/TC_UTF8/lang_admincp_login.php
 c675a239ebdb4a0c7c12772e3e7d878b *source/i18n/TC_UTF8/lang_admincp_menu.php
 bf7ed4d059f02d9dee9aa69263f01bae *source/i18n/TC_UTF8/lang_admincp_msg.php

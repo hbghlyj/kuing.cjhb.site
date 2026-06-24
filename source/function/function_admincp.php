@@ -1414,6 +1414,32 @@ function exportdata($name, $filename, $data, $return = false) {
 	exit();
 }
 
+function exportxmldata($name, $filename, $data) {
+	global $_G;
+	require_once libfile('class/xml');
+	$root = [
+		'Title' => $name,
+		'Version' => $_G['setting']['version'],
+		'Time' => dgmdate(TIMESTAMP, 'Y-m-d H:i'),
+		'From' => $_G['setting']['bbname'].' ('.$_G['siteurl'].')',
+		'Data' => exportarray($data, 1)
+	];
+	$plugin_export = array2xml($root, true);
+	$filename = strtolower(str_replace(['!', ' '], ['', '_'], $name)).'_'.$filename.'.xml';
+	ob_end_clean();
+	dheader('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
+	dheader('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT');
+	dheader('Cache-Control: no-cache, must-revalidate');
+	dheader('Pragma: no-cache');
+	dheader('Content-Encoding: none');
+	dheader('Content-Length: '.strlen($plugin_export));
+	dheader('Content-Disposition: attachment; filename='.$filename);
+	dheader('Content-Type: text/xml');
+	echo $plugin_export;
+	define('FOOTERDISABLED', 1);
+	exit();
+}
+
 function exportarray($array, $method) {
 	$tmp = $array;
 	if($method) {
