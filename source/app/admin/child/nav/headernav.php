@@ -114,20 +114,7 @@ if(!$do) {
 		showtablefooter();
 		showformfooter();
 
-		loaducenter();
-		$ucapparray = uc_app_ls();
-
 		$applist = '';
-		if(count($ucapparray) > 1) {
-			$applist = $lang['misc_customnav_add_ucenter'].'<select name="applist" onchange="app(this)"><option value=""></option>';
-			foreach($ucapparray as $app) {
-				if($app['appid'] != UC_APPID) {
-					$applist .= "<option value=\"{$app['url']}\">{$app['name']}</option>";
-				}
-			}
-			$applist .= '</select>';
-		}
-		$applist = str_replace("'", "\'", $applist);
 
 		echo <<<EOT
 <script type="text/JavaScript">
@@ -135,16 +122,6 @@ if(!$do) {
 		[[1, '', 'td25'], [1,'<input name="newdisplayorder[]" value="" size="3" type="text" class="txt">', 'td25'], [1, '<input name="newname[]" value="" size="15" type="text" class="txt">'],[1,'<select name="newsubtype[]"><option value="0">{$lang['misc_customnav_subtype_menu']}</option><option value="1">{$lang['misc_customnav_subtype_sub']}</option></select>'],[5, '<input name="newurl[]" value="" size="15" type="text" class="txt"> $applist <input type="hidden" name="newparentid[]" value="0" />']],
 		[[1, '', 'td25'], [1,'<input name="newdisplayorder[]" value="" size="3" type="text" class="txt">', 'td25'], [1, '<div class=\"board\"><input name="newname[]" value="" size="15" type="text" class="txt"></div>'], [1,'',''], [5, '<input name="newurl[]" value="" size="15" type="text" class="txt"> $applist <input type="hidden" name="newparentid[]" value="{1}" />']]
 	];
-	function app(obj) {
-		var inputs = obj.parentNode.parentNode.getElementsByTagName('input');
-		for(var i = 0; i < inputs.length; i++) {
-			if(inputs[i].name == 'newname[]') {
-				inputs[i].value = obj.options[obj.options.selectedIndex].innerHTML;
-			} else if(inputs[i].name == 'newurl[]') {
-				inputs[i].value = obj.value;
-			}
-		}
-	}
 </script>
 EOT;
 

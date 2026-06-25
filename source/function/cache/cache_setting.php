@@ -367,42 +367,11 @@ function build_cache_setting() {
 	$data['mfindnavs'] = get_cachedata_mfindnav();
 	$data['mnavs'] = get_cachedata_mnav();
 
-	loaducenter();
-	$ucapparray = uc_app_ls();
-	$data['allowsynlogin'] = $ucapparray[UC_APPID]['synlogin'] ?? 1;
-	$appnamearray = ['UCHOME', 'XSPACE', 'DISCUZ', 'SUPESITE', 'SUPEV', 'ECSHOP', 'ECMALL', 'OTHER'];
 	$data['ucapp'] = $data['ucappopen'] = [];
 	$data['uchomeurl'] = '';
 	$data['discuzurl'] = $_G['siteurl'];
-	$appsynlogins = 0;
-	foreach($ucapparray as $apparray) {
-		if($apparray['appid'] != UC_APPID) {
-			if(!empty($apparray['synlogin'])) {
-				$appsynlogins = 1;
-			}
-			if($data['uc']['navlist'][$apparray['appid']] && $data['uc']['navopen']) {
-				$data['ucapp'][$apparray['appid']]['name'] = $apparray['name'];
-				$data['ucapp'][$apparray['appid']]['url'] = $apparray['url'];
-			}
-		} else {
-			$data['discuzurl'] = $apparray['url'];
-		}
-		if(!empty($apparray['viewprourl'])) {
-			$data['ucapp'][$apparray['appid']]['viewprourl'] = $apparray['url'].$apparray['viewprourl'];
-		}
-		foreach($appnamearray as $name) {
-			if($apparray['type'] == $name && $apparray['appid'] != UC_APPID) {
-				$data['ucappopen'][$name] = 1;
-				if($name == 'UCHOME') {
-					$data['uchomeurl'] = $apparray['url'];
-				} elseif($name == 'XSPACE') {
-					$data['xspaceurl'] = $apparray['url'];
-				}
-			}
-		}
-	}
-	$data['allowsynlogin'] = $data['allowsynlogin'] && $appsynlogins ? 1 : 0;
-	$data['homeshow'] = $data['uchomeurl'] && $data['uchome']['homeshow'] ? $data['uchome']['homeshow'] : '0';
+	$data['allowsynlogin'] = 0;
+	$data['homeshow'] = '0';
 
 	unset($data['allowthreadplugin']);
 	if($data['jspath'] == 'data/cache/') {
