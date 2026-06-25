@@ -25,26 +25,26 @@ function userlogin($username, $password, $questionid, $answer, $loginfield = 'us
 		$isuid = 0;
 	}
 
-	if(!function_exists('uc_user_login')) {
+	if(!function_exists('native_user_login')) {
 		loaducenter();
 	}
 	if($isuid == 3) {
 		if(!strcmp(dintval($username), $username) && getglobal('setting/uidlogin')) {
-			$return['ucresult'] = uc_user_login($username, $password, 1, 1, $questionid, $answer, $ip, 1);
+			$return['ucresult'] = native_user_login($username, $password, 1, 1, $questionid, $answer, $ip, 1);
 		} elseif(isemail($username)) {
-			$return['ucresult'] = uc_user_login($username, $password, 2, 1, $questionid, $answer, $ip, 1);
+			$return['ucresult'] = native_user_login($username, $password, 2, 1, $questionid, $answer, $ip, 1);
 		} elseif(preg_match('/^(\d{1,12}|\d{1,3}-\d{1,12})$/', $username) && getglobal('setting/secmobilelogin')) {
 			$username = !str_contains($username, '-') ? (getglobal('setting/smsdefaultcc').'-'.$username) : $username;
-			$return['ucresult'] = uc_user_login($username, $password, 4, 1, $questionid, $answer, $ip, 1);
+			$return['ucresult'] = native_user_login($username, $password, 4, 1, $questionid, $answer, $ip, 1);
 		}
 		if($return['ucresult'][0] <= 0 && $return['ucresult'][0] != -3) {
-			$return['ucresult'] = uc_user_login(addslashes($username), $password, 0, 1, $questionid, $answer, $ip);
+			$return['ucresult'] = native_user_login(addslashes($username), $password, 0, 1, $questionid, $answer, $ip);
 		}
 	} else {
 		if($isuid == 4) {
 			$username = !str_contains($username, '-') ? (getglobal('setting/smsdefaultcc').'-'.$username) : $username;
 		}
-		$return['ucresult'] = uc_user_login(addslashes($username), $password, $isuid, 1, $questionid, $answer, $ip);
+		$return['ucresult'] = native_user_login(addslashes($username), $password, $isuid, 1, $questionid, $answer, $ip);
 	}
 	$tmp = [];
 	$duplicate = '';
@@ -106,39 +106,19 @@ function logincheck($username) {
 
 	$return = 0;
 	$username = trim($username);
-	loaducenter();
-	if(function_exists('uc_user_logincheck')) {
-		$return = uc_user_logincheck(addslashes($username), $_G['clientip']);
-	} else {
-		$login = table_common_failedlogin::t()->fetch_ip($_G['clientip']);
-		$return = (!$login || (TIMESTAMP - $login['lastupdate'] > 900)) ? 5 : max(0, 5 - $login['count']);
-
-		if(!$login) {
-			table_common_failedlogin::t()->insert([
-				'ip' => $_G['clientip'],
-				'count' => 0,
-				'lastupdate' => TIMESTAMP
-			], false, true);
-		} elseif(TIMESTAMP - $login['lastupdate'] > 900) {
-			table_common_failedlogin::t()->insert([
-				'ip' => $_G['clientip'],
-				'count' => 0,
-				'lastupdate' => TIMESTAMP
-			], false, true);
-			table_common_failedlogin::t()->delete_old(901);
-		}
+	if(!function_exists('native_user_logincheck')) {
+		loaducenter();
 	}
-	return $return;
+	return native_user_logincheck(addslashes($username), $_G['clientip']);
 }
 
 function loginfailed($username) {
 	global $_G;
 
-	loaducenter();
-	if(function_exists('uc_user_logincheck')) {
-		return;
+	if(!function_exists('native_user_loginfailed')) {
+		loaducenter();
 	}
-	table_common_failedlogin::t()->update_failed($_G['clientip']);
+	native_user_loginfailed($username, $_G['clientip']);
 }
 
 function failedipcheck($numiptry, $timeiptry) {
@@ -298,7 +278,7 @@ function checkemail($email) {
 	}
 
 	loaducenter();
-	$ucresult = uc_user_checkemail($email);
+	$ucresult = native_user_checkemail($email);
 
 	if($ucresult == -4) {
 		showmessage('profile_email_illegal', '', [], ['handle' => false]);

@@ -749,6 +749,15 @@ CREATE TABLE pre_common_member (
   KEY secmobile (`secmobile`, `secmobicc`)
 ) ENGINE=InnoDB;
 
+DROP TABLE IF EXISTS pre_common_member_auth;
+CREATE TABLE pre_common_member_auth (
+  uid mediumint(8) unsigned NOT NULL,
+  `password` varchar(255) NOT NULL DEFAULT '',
+  `salt` varchar(20) NOT NULL DEFAULT '',
+  `secques` varchar(8) NOT NULL DEFAULT '',
+  PRIMARY KEY (uid)
+) ENGINE=InnoDB;
+
 DROP TABLE IF EXISTS pre_common_member_action_log;
 CREATE TABLE pre_common_member_action_log (
   id int(10) unsigned NOT NULL AUTO_INCREMENT,

@@ -211,7 +211,7 @@ if($_GET['op'] == 'base') {
 		}
 
 		loaducenter();
-		$ucresult = uc_user_login(addslashes($_G['member']['loginname']), $_GET['password']);
+		$ucresult = native_user_login(addslashes($_G['member']['loginname']), $_GET['password']);
 		list($tmp['uid']) = $ucresult;
 
 		if($tmp['uid'] <= 0) {
@@ -281,7 +281,7 @@ if($_GET['op'] == 'base') {
 		}
 
 		loaducenter();
-		$ucresult = uc_user_login(addslashes($_G['member']['loginname']), $_GET['password']);
+		$ucresult = native_user_login(addslashes($_G['member']['loginname']), $_GET['password']);
 		list($tmp['uid']) = $ucresult;
 
 		if($tmp['uid'] <= 0) {

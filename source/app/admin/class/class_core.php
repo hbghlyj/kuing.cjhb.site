@@ -271,7 +271,7 @@ class class_core {
 			$this->do_user_login();
 		}
 		loaducenter();
-		$ucresult = uc_user_login($this->adminuser['uid'], $_POST['admin_password'], 1, 1, $_POST['admin_questionid'], $_POST['admin_answer'], $this->core->var['clientip']);
+		$ucresult = native_user_login($this->adminuser['uid'], $_POST['admin_password'], 1, 1, $_POST['admin_questionid'], $_POST['admin_answer'], $this->core->var['clientip']);
 		if($ucresult[0] > 0) {
 			table_common_admincp_session::t()->update_session($this->adminuser['uid'], $this->panel, ['dateline' => TIMESTAMP, 'ip' => $this->core->var['clientip'], 'errorcount' => -1]);
 			$this->location();

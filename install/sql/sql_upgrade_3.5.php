@@ -2,9 +2,6 @@
 ALTER TABLE pre_common_member
 	MODIFY username char (50) NOT NULL DEFAULT '';
 
-ALTER TABLE pre_ucenter_members
-	MODIFY username char (50) NOT NULL DEFAULT '';
-
 ALTER TABLE pre_common_mytask
 	MODIFY username char (50) NOT NULL DEFAULT '';
 
@@ -202,24 +199,6 @@ ALTER TABLE pre_common_adminnote
 
 ALTER TABLE pre_common_banned
 	MODIFY `admin` varchar (50) NOT NULL DEFAULT '';
-
-ALTER TABLE pre_ucenter_badwords
-	MODIFY `admin` varchar (50) NOT NULL default '';
-
-ALTER TABLE pre_ucenter_feeds
-	MODIFY username varchar (50) NOT NULL default '';
-
-ALTER TABLE pre_ucenter_admins
-	MODIFY username char (50) NOT NULL default '';
-
-ALTER TABLE pre_ucenter_protectedmembers
-	MODIFY username char (50) NOT NULL default '';
-
-ALTER TABLE pre_ucenter_protectedmembers
-	MODIFY `admin` char (50) NOT NULL default '0';
-
-ALTER TABLE pre_ucenter_mergemembers
-	MODIFY username char (50) NOT NULL;
 
 ALTER TABLE `pre_common_member`
 	ADD COLUMN loginname char(50) NOT NULL DEFAULT '' AFTER `email`;

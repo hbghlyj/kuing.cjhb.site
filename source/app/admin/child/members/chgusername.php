@@ -41,7 +41,14 @@ if(!submitcheck('chgusernamesubmit')) {
 	}
 
 	loaducenter();
-	uc_user_chgusername(dintval($_GET['uid']), addslashes(trim($_GET['newusername'])), $member['username']);
+	$ucresult = native_user_chgusername(dintval($_GET['uid']), addslashes(trim($_GET['newusername'])), $member['username']);
+	if($ucresult == -2) {
+		cpmsg('members_chgusername_name_badword');
+	} elseif($ucresult == -3) {
+		cpmsg('members_chgusername_name_exists');
+	} elseif($ucresult < 0) {
+		cpmsg('members_chgusername_check_failed');
+	}
 
 	cpmsg('members_chgusername_change_success', 'action=members&operation=search', 'succeed');
 

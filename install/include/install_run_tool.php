@@ -19,8 +19,7 @@ if(empty($method) || !in_array($method, $allow_method)) {
 }
 
 if(!file_exists($lockfile) ||
-	!file_exists(ROOT_PATH.'./config/config_global.php') ||
-	!file_exists(ROOT_PATH.'./config/config_ucenter.php')) {
+	!file_exists(ROOT_PATH.'./config/config_global.php')) {
 	show_msg('install_locked_exists', '', 0);
 }
 
@@ -29,7 +28,6 @@ if(str_contains(_FILE_, 'index')) {
 }
 
 require_once ROOT_PATH.'./config/config_global.php';
-require_once ROOT_PATH.'./config/config_ucenter.php';
 
 if($method == 'done') {
 	all_done();

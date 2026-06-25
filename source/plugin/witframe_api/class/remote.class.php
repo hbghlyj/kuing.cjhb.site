@@ -21,12 +21,11 @@ class Remote {
 	}
 
 	public function check($hash) {
-		require 'config/config_ucenter.php';
+		require 'config/config_global.php';
 
-		$this->charset = strtolower(UC_CHARSET);
-
+		$this->charset = 'utf-8';
 		$t = substr(time(), 0, 7);
-		$code = sha1($hash . UC_KEY . $t);
+		$code = sha1($hash . $_config['security']['authkey'] . $t);
 		return $code == $_GET['code'];
 	}
 

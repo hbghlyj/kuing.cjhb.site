@@ -55,7 +55,7 @@ class Remote {
 		$this->get = $get;
 		$this->post = !empty($_POST) ? $_POST : array();
 
-		$this->r = new \WitClass\Remote(UC_CHARSET);
+		$this->r = new \WitClass\Remote('utf-8');
 
 		return call_user_func(array($this, $this->method));
 	}
@@ -67,10 +67,10 @@ class Remote {
 	private function _action_getUser() {
 		$user = array();
 		if (!empty($this->get['username'])) {
-			$this->get['username'] = $this->r->iconv($this->get['username'], 'UTF-8', UC_CHARSET);
-			$user = uc_get_user($this->get['username']);
+			$this->get['username'] = $this->r->iconv($this->get['username'], 'UTF-8', 'utf-8');
+			$user = native_user_get($this->get['username']);
 		} elseif (!empty($this->get['uid'])) {
-			$user = uc_get_user($this->get['uid'], 1);
+			$user = native_user_get($this->get['uid'], 1);
 		}
 		if (!$user) {
 			$this->_return(self::Ret_Success);
@@ -106,7 +106,7 @@ class Remote {
 		} else {
 			$this->_return(self::Ret_ParamFail);
 		}
-		$user = uc_user_login($name, $this->get['password'], $isUid);
+		$user = native_user_login($name, $this->get['password'], $isUid);
 		if (!$user) {
 			$this->_return(self::Ret_Success);
 		}

@@ -23,7 +23,6 @@ class account {
 	public const aType_weibo = 9;
 
 	public const aType_discuz = 10;
-	public const aType_ucenter = 11;
 
 	private array $user;
 
@@ -102,30 +101,30 @@ class account {
 			return 'profile_username_duplicate';
 		}
 
-		$uid = uc_user_register($this->user['username'], $this->user['password'], $this->user['email'],
-			'', '', $_G['clientip'], $this->user['secmobicc'] ?? '', $this->user['secmobile'] ?? '');
-		if($uid <= 0) {
-			if($uid == -1) {
+		loaducenter();
+		$check = native_user_checkname($this->user['username']);
+		if($check < 0) {
+			if($check == -1) {
 				$msg = 'profile_username_illegal';
-			} elseif($uid == -2) {
+			} elseif($check == -2) {
 				$msg = 'profile_username_protect';
-			} elseif($uid == -3) {
+			} elseif($check == -3) {
 				$msg = 'profile_username_duplicate';
-			} elseif($uid == -4) {
-				$msg = 'profile_email_illegal';
-			} elseif($uid == -5) {
-				$msg = 'profile_email_domain_illegal';
-			} elseif($uid == -6) {
-				$msg = 'profile_email_duplicate';
-			} elseif($uid == -9) {
-				$msg = 'profile_mobile_duplicate';
 			} else {
 				$msg = 'undefined_action';
 			}
 			return $msg;
 		}
-		$this->user['uid'] = $uid;
-		table_common_member::t()->insert($uid, $this->user['username'], $this->user['password'], $this->user['email'],
+		$check = native_user_checkemail($this->user['email']);
+		if($check == -4) {
+			return 'profile_email_illegal';
+		} elseif($check == -6) {
+			return 'profile_email_duplicate';
+		}
+		if(!empty($this->user['secmobile']) && native_user_checksecmobile($this->user['secmobicc'] ?? '', $this->user['secmobile']) < 0) {
+			return 'profile_mobile_duplicate';
+		}
+		$uid = native_user_create($this->user['username'], $this->user['password'], $this->user['email'],
 			$_G['clientip'], $this->user['groupid'] ?? $_G['setting']['newusergroupid'], [
 				'credits' => explode(',', $this->user['initcredits'] ?? $_G['setting']['initcredits']),
 				'profile' => [
@@ -141,6 +140,7 @@ class account {
 			$this->user['secmobile'] ?? '',
 			$this->user['secmobilestatus'] ? 1 : 0
 		);
+		$this->user['uid'] = $uid;
 		$this->userBind($uid);
 		$this->userLogin();
 		$this->setInvite($uid);
@@ -198,7 +198,7 @@ class account {
 		$secprofile['emailstatus'] = $info['mailChecked'] ? 1 : 0;
 
 		loaducenter();
-		$ucresult = uc_user_edit(addslashes($_G['member']['loginname']), '', '', $secprofile['email'], 1, '', '', $secprofile['secmobicc'], $secprofile['secmobile']);
+		$ucresult = native_user_edit(addslashes($_G['member']['loginname']), '', '', $secprofile['email'], 1, '', '', $secprofile['secmobicc'], $secprofile['secmobile']);
 		if($ucresult == -1) {
 			showmessage('profile_passwd_wrong');
 		} elseif($ucresult == -4) {

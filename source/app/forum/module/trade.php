@@ -83,7 +83,7 @@ if(!empty($orderid)) {
 	if(submitcheck('offlinesubmit') && in_array($_GET['offlinestatus'], trade_offline($tradelog, 0))) {
 
 		loaducenter();
-		$ucresult = uc_user_login($_G['member']['loginname'], $_GET['password']);
+		$ucresult = native_user_login($_G['member']['loginname'], $_GET['password']);
 		list($tmp['uid']) = daddslashes($ucresult);
 
 		if($tmp['uid'] <= 0) {

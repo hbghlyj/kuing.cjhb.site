@@ -169,18 +169,22 @@ $resolveCreateMember = static function($data, $allowRename = false) use ($bindAc
 	$attempts = $allowRename ? 6 : 1;
 	for($i = 0; $i < $attempts && $uid <= 0; $i++) {
 		$candidate = $i === 0 ? $username : substr($usernameBase, 0, 24).random(4, 1);
-		$uid = uc_user_register(addslashes($candidate), $password, $data['email']);
-		if($uid > 0) {
-			$username = $candidate;
-			break;
-		}
-		if($uid === -6 && $data['email']) {
+		$namecheck = native_user_checkname($candidate);
+		$emailcheck = $data['email'] ? native_user_checkemail($data['email']) : 1;
+		if($emailcheck === -6 && $data['email']) {
 			$member = C::t('common_member')->fetch_by_email($data['email'], 1);
 			if($member) {
 				$member = $fetchMemberFromArchiveAware($member['uid']);
 				$bindAccount($member['uid'], $data['githubid'], $data['bindname']);
 				return $member;
 			}
+		}
+		if($namecheck < 0 || $emailcheck < 0) {
+			$uid = $namecheck < 0 ? $namecheck : $emailcheck;
+		} else {
+			$uid = native_user_create($candidate, $password, $data['email'], $_G['clientip'], $_G['setting']['newusergroupid'], ['emailstatus' => $data['email'] ? 1 : 0], 0, $_G['remoteport']);
+			$username = $candidate;
+			break;
 		}
 		if($uid !== -3 || !$allowRename) {
 			break;
@@ -191,17 +195,6 @@ $resolveCreateMember = static function($data, $allowRename = false) use ($bindAc
 		return $uid;
 	}
 
-	C::t('common_member')->insert_user(
-		$uid,
-		$username,
-		'',
-		$data['email'],
-		$_G['clientip'],
-		$_G['setting']['newusergroupid'],
-		['emailstatus' => $data['email'] ? 1 : 0],
-		0,
-		$_G['remoteport']
-	);
 	$bindAccount($uid, $data['githubid'], $data['bindname']);
 	require_once libfile('cache/userstats', 'function');
 	build_cache_userstats();

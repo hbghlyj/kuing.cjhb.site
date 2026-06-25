@@ -388,25 +388,10 @@ EOT;
 }
 
 function show_next_step($step, $error_code) {
-	global $uchidden;
-
-	if(!empty($uchidden)) {
-		$uc_info_transfer = unserialize(urldecode($uchidden));
-		if(!isset($uc_info_transfer['ucapi']) && !isset($uc_info_transfer['ucfounderpw'])) {
-			$uchidden = '';
-		} else {
-			$uchidden = dhtmlspecialchars($uchidden);
-		}
-	}
-
 	echo "<form action=\"index.php\" method=\"post\">\n";
 	echo "<input type=\"hidden\" name=\"step\" value=\"$step\" />";
 	if(isset($GLOBALS['hidden'])) {
 		echo $GLOBALS['hidden'];
-	}
-	echo "<input type=\"hidden\" name=\"uchidden\" value=\"$uchidden\" />";
-	if($uchidden) {
-		echo "<input type=\"hidden\" name=\"install_ucenter\" value=\"no\" />";
 	}
 	if($error_code == 0) {
 		$nextstep = "<input type=\"button\" class=\"btn oldbtn\" onclick=\"history.back();\" value=\"".lang('old_step')."\"><input type=\"submit\" class=\"btn\" value=\"".lang('new_step')."\">\n";
@@ -419,7 +404,7 @@ function show_next_step($step, $error_code) {
 
 function show_form(&$form_items, $error_msg) {
 
-	global $step, $uchidden;
+	global $step;
 
 	if(empty($form_items) || !is_array($form_items)) {
 		return;
@@ -428,20 +413,8 @@ function show_form(&$form_items, $error_msg) {
 	show_header();
 	show_setting('start');
 	show_setting('hidden', 'step', $step);
-	if($step == 2) {
-		echo '<div class="box">';
-		show_tips('install_dzstandalone');
-		show_tips('install_dzonly');
-		show_tips('upgrade_upgrade');
-		echo '</div>';
-	} else {
-		show_setting('hidden', 'install_ucenter', getgpc('install_ucenter'));
-	}
 	$is_first = 1;
-	if(!empty($uchidden)) {
-		$uc_info_transfer = unserialize(urldecode($uchidden));
-	}
-	echo '<div id="form_items_'.$step.'" '.($step == 2 && !getgpc('install_ucenter') ? 'style="display:none"' : '').'>';
+	echo '<div id="form_items_'.$step.'">';
 	foreach($form_items as $key => $items) {
 		global ${'error_'.$key};
 		if($is_first == 0) {
@@ -504,7 +477,7 @@ function dunserialize($data) {
 }
 
 function show_license() {
-	global $self, $uchidden, $step;
+	global $self, $step;
 	$next = $step + 1;
 	if(VIEW_OFF) {
 
@@ -535,7 +508,6 @@ function show_license() {
 		<em>$lang_agreement_notice</em>
 		<form method="get" autocomplete="off" action="index.php" class="inputbox">
 		<input type="hidden" name="step" value="$next">
-		<input type="hidden" name="uchidden" value="$uchidden">
 		<input type="hidden" name="agree" value="yes">
 		<input type="button" class="btn oldbtn" name="exit" value="{$lang_agreement_no}"  onclick="location.href='https://www.discuz.vip'">
 		<input type="submit" id="agree" class="btn" name="submit" disabled value="{$lang_agreement_yes}(10)">
@@ -634,7 +606,7 @@ EOT;
 }
 
 function show_version_notice() {
-	global $self, $uchidden, $step, $instid;
+	global $self, $step, $instid;
 	$next = $step;
 	if(VIEW_OFF) {
 
@@ -664,7 +636,6 @@ function show_version_notice() {
 		<form method="get" autocomplete="off" action="index.php" class="inputbox">
 		<input type="hidden" name="step" value="$next">
 		<input type="hidden" name="start" value="yes">
-		<input type="hidden" name="uchidden" value="$uchidden">
 		<input type="button" class="btn oldbtn" name="exit" value="$back" onclick="location.href='?lang=_'">
 		<input type="submit" class="btn" name="submit" value="{$start_install}">
 		</form>
@@ -673,19 +644,6 @@ EOT;
 
 		show_footer();
 
-	}
-}
-
-function transfer_ucinfo(&$post) {
-	global $uchidden;
-	if(isset($post['ucapi']) && isset($post['ucfounderpw'])) {
-		$arr = array(
-			'ucapi' => $post['ucapi'],
-			'ucfounderpw' => $post['ucfounderpw']
-		);
-		$uchidden = urlencode(serialize($arr));
-	} else {
-		$uchidden = '';
 	}
 }
 
@@ -1041,10 +999,8 @@ function authcode($string, $operation = 'DECODE', $key = '', $expiry = 0) {
 function show_db_install($upgrade = false) {
 	if(VIEW_OFF) return;
 	global $dbhost, $dbuser, $dbpw, $dbname, $tablepre, $username, $password, $email, $uid, $myisam2innodb, $_config;
-	$dzucfull = DZUCFULL;
-	$dzucstl = DZUCSTL ? 1 : 0;
 	$succlang = 'initdbdataresult_succ';
-	$allinfo = base64_encode(serialize(compact('dbhost', 'dbuser', 'dbpw', 'dbname', 'tablepre', 'username', 'password', 'email', 'dzucfull', 'dzucstl', 'uid', 'myisam2innodb')));
+	$allinfo = base64_encode(serialize(compact('dbhost', 'dbuser', 'dbpw', 'dbname', 'tablepre', 'username', 'password', 'email', 'uid', 'myisam2innodb')));
 	?>
 
 	<div class="box">
@@ -1652,96 +1608,10 @@ function lang($lang_key, $force = true) {
 }
 
 function check_adminuser($username, $password, $email) {
-
-	include ROOT_PATH.CONFIG_UC;
-	include ROOT_PATH.'./source/class/uc/client.php';
-
 	$error = '';
-	$ucresult = uc_user_login($username, $password);
-	list($tmp['uid'], $tmp['username'], $tmp['password'], $tmp['email']) = uc_addslashes($ucresult);
-	$ucresult = $tmp;
-	if($ucresult['uid'] <= 0) {
-		$uid = uc_user_register($username, $password, $email);
-		if($uid == -1 || $uid == -2) {
-			$error = 'admin_username_invalid';
-		} elseif($uid == -4 || $uid == -5 || $uid == -6) {
-			$error = 'admin_email_invalid';
-		} elseif($uid == -3) {
-			$error = 'admin_exist_password_error';
-		}
-	} else {
-		$uid = $ucresult['uid'];
-		$email = $ucresult['email'];
-		$password = $ucresult['password'];
-	}
-
-	if(!$error && $uid > 0) {
-		$password = md5($password);
-		uc_user_addprotected($username, '');
-	} else {
-		$uid = 0;
-		$error = empty($error) ? 'error_unknow_type' : $error;
-	}
+	$uid = 1;
+	$password = md5($password);
 	return array('uid' => $uid, 'username' => $username, 'password' => $password, 'email' => $email, 'error' => $error);
-}
-
-function save_uc_config($config, $file) {
-
-	list($appauthkey, $appid, $ucdbhost, $ucdbname, $ucdbuser, $ucdbpw, $ucdbcharset, $uctablepre, $uccharset, $ucapi, $ucip, $dzucstl) = $config;
-	mysqli_report(MYSQLI_REPORT_OFF);
-
-	$link = new mysqli($ucdbhost, $ucdbuser, $ucdbpw, $ucdbname);
-	$uc_connnect = $link ? 'mysql' : '';
-
-	if($dzucstl) {
-		$dbconfig = '
-require \'config_global.php\';		
-define(\'UC_DBHOST\', $_config[\'db\'][1][\'dbhost\']);
-define(\'UC_DBUSER\', $_config[\'db\'][1][\'dbuser\']);
-define(\'UC_DBPW\', $_config[\'db\'][1][\'dbpw\']);
-define(\'UC_DBNAME\', $_config[\'db\'][1][\'dbname\']);
-define(\'UC_DBTABLEPRE\', \'`\'.$_config[\'db\'][1][\'dbname\'].\'`.\'.$_config[\'db\'][1][\'tablepre\'].\'ucenter_\');
-define(\'UC_KEY\', $_config[\'security\'][\'authkey\']);
-';
-	} else {
-		$dbconfig = <<<EOT
-define('UC_DBHOST', '$ucdbhost');
-define('UC_DBUSER', '$ucdbuser');
-define('UC_DBPW', '$ucdbpw');
-define('UC_DBNAME', '$ucdbname');
-define('UC_DBTABLEPRE', '`$ucdbname`.$uctablepre');
-define('UC_KEY', '$appauthkey');
-EOT;
-	}
-
-	$date = gmdate("Y-m-d H:i:s", time() + 3600 * 8);
-	$year = date('Y');
-	$config = <<<EOT
-<?php
-
-define('UC_CONNECT', '$uc_connnect');
-define('UC_STANDALONE', $dzucstl);
-
-$dbconfig
-define('UC_DBCHARSET', '$ucdbcharset');
-define('UC_DBCONNECT', 0);
-
-define('UC_AVTURL', '');
-define('UC_AVTPATH', '');
-
-define('UC_CHARSET', '$uccharset');
-define('UC_API', '$ucapi');
-define('UC_APPID', '$appid');
-define('UC_IP', '$ucip');
-define('UC_PPP', 20);
-?>
-EOT;
-
-	if(file_put_contents($file, $config) !== false) {
-		return true;
-	}
-
-	return false;
 }
 
 function _generate_key($length = 32) {
@@ -1752,63 +1622,6 @@ function _generate_key($length = 32) {
 		$return .= $random[$i].$info[$i];
 	}
 	return $return;
-}
-
-function install_uc_sql() {
-	global $db, $dbhost, $dbuser, $dbpw, $dbname, $tablepre, $username, $password, $email, $dzucstl, $myisam2innodb;
-
-	$ucsql = read_sql('sql_uc');
-	$uctablepre = $tablepre.'ucenter_';
-	$ucsql = str_replace(' uc_', ' '.$uctablepre, $ucsql);
-	if($ucsql) {
-		if(!runucquery($ucsql, $uctablepre)) {
-			exit();
-		}
-	}
-	$appauthkey = _generate_key();
-	$ucdbhost = $dbhost;
-	$ucdbname = $dbname;
-	$ucdbuser = $dbuser;
-	$ucdbpw = $dbpw;
-	$ucdbcharset = DBCHARSET;
-
-	$uccharset = CHARSET;
-
-	$pathinfo = pathinfo($_SERVER['PHP_SELF']);
-	$pathinfo['dirname'] = substr($pathinfo['dirname'], 0, -8);
-	$isHTTPS = is_https();
-	$appurl = 'http'.($isHTTPS ? 's' : '').'://'.$_SERVER['HTTP_HOST'].$pathinfo['dirname'];
-	$ucapi = '';
-	$ucip = '';
-
-	$db->query("INSERT INTO {$uctablepre}applications SET name='Discuz! Board', url='$appurl', ip='$ucip', authkey='$appauthkey', synlogin='1', charset='$uccharset', dbcharset='$ucdbcharset', type='DISCUZX', recvnote='1', tagtemplates=''");
-	$appid = $db->insert_id();
-	$db->query("ALTER TABLE {$uctablepre}notelist ADD COLUMN app$appid tinyint NOT NULL");
-
-	$config = array($appauthkey, $appid, $ucdbhost, $ucdbname, $ucdbuser, $ucdbpw, $ucdbcharset, $uctablepre, $uccharset, $ucapi, $ucip, $dzucstl);
-	save_uc_config($config, ROOT_PATH.'./config/config_ucenter.php');
-
-	$salt = '';
-	$passwordhash = password_hash($password, PASSWORD_BCRYPT);
-	$db->query("INSERT INTO {$uctablepre}members SET username='$username', password='$passwordhash', email='$email', regip='hidden', regdate='".time()."', salt='$salt'");
-	$uid = $db->insert_id();
-	$db->query("INSERT INTO {$uctablepre}memberfields SET uid='$uid'");
-
-	$db->query("INSERT INTO {$uctablepre}admins SET
-		uid='$uid',
-		username='$username',
-		allowadminsetting='1',
-		allowadminapp='1',
-		allowadminuser='1',
-		allowadminbadword='1',
-		allowadmincredits='1',
-		allowadmintag='1',
-		allowadminpm='1',
-		allowadmindomain='1',
-		allowadmindb='1',
-		allowadminnote='1',
-		allowadmincache='1',
-		allowadminlog='1'");
 }
 
 function install_data($username, $uid) {

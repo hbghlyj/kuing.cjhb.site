@@ -124,7 +124,7 @@ if($result['status'] > 0) {
 	setloginstatus($result['member'], 2592000);
 	myrepeats\table_myrepeats::t()->update_lastswitch_by_uid_username($olddiscuz_uid, $_GET['username'], TIMESTAMP);
 	table_common_member_status::t()->update($_G['uid'], ['lastvisit' => TIMESTAMP], 'UNBUFFERED');
-	$ucsynlogin = $_G['setting']['allowsynlogin'] ? uc_user_synlogin($_G['uid']) : '';
+	$ucsynlogin = $_G['setting']['allowsynlogin'] ? native_user_synlogin($_G['uid']) : '';
 	dsetcookie('mrn', '');
 	dsetcookie('mrd', '');
 	$comment = $user['comment'] ? '('.$user['comment'].') ' : '';

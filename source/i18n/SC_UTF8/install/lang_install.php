@@ -156,11 +156,6 @@ $lang = [
 	'admininfo_password_invalid' => '管理员密码为空，请填写',
 	'admininfo_password2_invalid' => '两次密码不一致，请检查',
 
-	'install_dzstandalone' => '<div class="selradio"><input type="radio" id="install_ucenter_standalone"'.(getgpc('install_ucenter') != 'no' ? ' checked="checked"' : '').' name="install_ucenter" value="standalone" onclick="if(this.checked)$(\'form_items_2\').style.display=\'none\';" /><label for="install_ucenter_standalone">全新安装 Discuz! X</label></div>',
-	'install_dzfull' => '<div class="selradio"><input type="radio" id="install_ucenter_yes"'.(getgpc('install_ucenter') != 'no' ? ' checked="checked"' : '').' name="install_ucenter" value="yes" onclick="if(this.checked)$(\'form_items_2\').style.display=\'none\';" /><label for="install_ucenter_yes">全新安装 Discuz! X 与 UCenter Server</label></div>',
-	'install_dzonly' => '<div class="selradio"><input type="radio" id="install_ucenter_no"'.(getgpc('install_ucenter') == 'no' ? ' checked="checked"' : '').' name="install_ucenter" value="no" onclick="if(this.checked)$(\'form_items_2\').style.display=\'\';" /><label for="install_ucenter_no">连接到已经安装的 UCenter Server</label></div>',
-	'upgrade_upgrade' => '<div class="selradio"><input type="radio" id="upgrade_ucenter_standalone"'.(getgpc('install_ucenter') == 'upgrade' ? ' checked="checked"' : '').' name="install_ucenter" value="upgrade" onclick="if(this.checked)$(\'form_items_2\').style.display=\'none\';" /><label for="upgrade_ucenter_standalone">从 Discuz! X3.5 升级</label></div>',
-
 	'username' => '管理员账号',
 	'email' => '管理员 Email',
 	'password' => '管理员密码',
@@ -414,9 +409,8 @@ $lang = [
 	'upgrade_confirm' => '
 	<ul style="font-size: 14px;line-height: 30px;list-style-type: decimal;padding-left: 20px;">
 	<li>确保您的旧版本 Discuz! 必须为 X3.5 版本，如不满足版本要求请先升级到此版本；</li>
-	<li>确保 UCenter 和 Discuz! 部署在一个数据库中；</li>
 	<li>确保您已备份了数据库和程序文件，将旧版本程序文件移动到其他目录下；</li>
-	<li>将旧版本的配置文件 config/config_global.php、config/config_ucenter.php 复制到当前新版本的 config/ 目录中；</li>
+	<li>将旧版本的配置文件 config/config_global.php 复制到当前新版本的 config/ 目录中；</li>
 	<li>点击“下一步”开始升级；</li>
 	<li>升级完成后可以将旧版本中 source/plugin/ 目录下的插件文件挑选后复制到新版本的对应目录下、将 template/ 目录下的模板文件挑选后复制到新版本的对应目录下（不要复制 template/default/ 目录）；</li>
 	<li>升级完成后 data/attachment/ 目录以及 data/ 目录下其他目录请酌情复制；如旧版本应用涉及其他目录中的文件，请自行咨询相关开发者复制；</li>

@@ -10,11 +10,6 @@ if(!defined('IN_DISCUZ') || !defined('IN_ADMINCP')) {
 	exit('Access Denied');
 }
 
-loaducenter();
-if(UC_STANDALONE) {
-	$ucsetting = uc_get_settings();
-}
-
 if(submitcheck('settingsubmit')) {
 	isset($settingnew['regname']) && empty($settingnew['regname']) && $settingnew['regname'] = 'register';
 
@@ -94,9 +89,6 @@ if(submitcheck('settingsubmit')) {
 		$settingnew['domainwhitelist_affectimg'] = 0;
 	}
 	$settingnew['domainwhitelist_affectimg'] = intval($settingnew['domainwhitelist_affectimg']);
-	if(UC_STANDALONE) {
-		uc_set_settings($_GET['ucsettingnew']);
-	}
 } else {
 	shownav('global', 'setting_'.$operation);
 
@@ -160,11 +152,6 @@ if(submitcheck('settingsubmit')) {
 	showsetting('setting_access_register_regclosemessage', 'settingnew[regclosemessage]', $setting['regclosemessage'], 'textarea');
 	showsetting('setting_access_register_name', 'settingnew[regname]', $setting['regname'], 'text');
 	showsetting('setting_access_register_regemail', 'settingnew[regemail]', $setting['regemail'], 'radio');
-	if(UC_STANDALONE) {
-		showsetting('uc_setting_doublee', 'ucsettingnew[doublee]', $ucsetting['doublee'], 'radio');
-		showsetting('uc_setting_accessemail', 'ucsettingnew[accessemail]', $ucsetting['accessemail'], 'textarea');
-		showsetting('uc_setting_censoremail', 'ucsettingnew[censoremail]', $ucsetting['censoremail'], 'textarea');
-	}
 	showsetting('setting_access_register_send_register_url', 'settingnew[sendregisterurl]', $setting['sendregisterurl'], 'radio');
 	showsetting('setting_access_register_censoruser', 'settingnew[censoruser]', $setting['censoruser'], 'textarea');
 	showsetting('setting_access_register_pwlength', 'settingnew[pwlength]', $setting['pwlength'], 'text');

@@ -50,12 +50,12 @@ if($apptype == 'discuz') {
 	require ROOT_PATH.'./data/config.php';
 } elseif($apptype == 'discuzx') {
 	require ROOT_PATH.'./config/config_global.php';
-	require ROOT_PATH.'./config/config_ucenter.php';
 } else {
 	api_msg('db_api_no_match', $apptype);
 }
 
-parse_str(_authcode($code, 'DECODE', UC_KEY), $get);
+$authkey = $apptype == 'discuzx' ? $_config['security']['authkey'] : (defined('UC_KEY') ? UC_KEY : '');
+parse_str(_authcode($code, 'DECODE', $authkey), $get);
 
 if(empty($get)) {
 	exit('Invalid Request');
@@ -216,13 +216,6 @@ if($apptype == 'discuz') {
 	$tablepre = $_SC['tablepre'];
 	$dbcharset = $_SC['dbcharset'];
 	$db->connect($_SC['dbhost'], $_SC['dbuser'], $_SC['dbpw'], $_SC['dbname'], $dbcharset, $_SC['pconnect'], $tablepre);
-
-} elseif($apptype == 'ucenter') {
-
-	define('BACKUP_DIR', ROOT_PATH.'./data/backup/');
-	$tablepre = UC_DBTABLEPRE;
-	$dbcharset = UC_DBCHARSET;
-	$db->connect(UC_DBHOST, UC_DBUSER, UC_DBPW, UC_DBNAME, $dbcharset, UC_DBCONNECT, $tablepre);
 
 } elseif($apptype == 'ecmall') {
 

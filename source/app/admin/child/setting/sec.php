@@ -10,11 +10,6 @@ if(!defined('IN_DISCUZ') || !defined('IN_ADMINCP')) {
 	exit('Access Denied');
 }
 
-loaducenter();
-if(UC_STANDALONE) {
-	$ucsetting = uc_get_settings();
-}
-
 if(submitcheck('settingsubmit')) {
 	if(!preg_match('/^[A-z]\w+?$/', $settingnew['reginput']['username'])) {
 		$settingnew['reginput']['username'] = 'username';
@@ -49,9 +44,6 @@ if(submitcheck('settingsubmit')) {
 		}
 	}
 
-	if(UC_STANDALONE) {
-		uc_set_settings($_GET['ucsettingnew']);
-	}
 } else {
 	shownav('safe', 'setting_sec');
 
@@ -60,7 +52,6 @@ if(submitcheck('settingsubmit')) {
 		['setting_sec_base', 'base', $_GET['anchor'] == 'base'],
 		['setting_sec_reginput', 'reginput', $_GET['anchor'] == 'reginput'],
 		['setting_sec_postperiodtime', 'postperiodtime', $_GET['anchor'] == 'postperiodtime'],
-		UC_STANDALONE ? ['uc_setting_pm', 'pm', $_GET['anchor'] == 'pm'] : null,
 	]);
 
 	showformheader('setting&edit=yes', 'enctype');
@@ -77,9 +68,6 @@ if(submitcheck('settingsubmit')) {
 	showsetting('setting_sec_base_change_email', 'settingnew[change_email]', $setting['change_email'], 'radio');
 	showsetting('setting_sec_base_change_secmobile', 'settingnew[change_secmobile]', $setting['change_secmobile'], 'radio');
 	showsetting('setting_sec_base_need_friendnum', 'settingnew[need_friendnum]', $setting['need_friendnum'], 'text');
-	if(UC_STANDALONE) {
-		showsetting('uc_setting_login_failedtime', 'ucsettingnew[login_failedtime]', $ucsetting['login_failedtime'], 'text');
-	}
 	showtablefooter();
 	/*search*/
 
@@ -101,18 +89,6 @@ if(submitcheck('settingsubmit')) {
 	showtablefooter();
 	/*search*/
 	showtableheader();
-
-	if(UC_STANDALONE) {
-		/*search={"setting_sec":"action=setting&operation=sec","uc_setting_pm":"action=setting&operation=sec&anchor=pm"}*/
-		showtableheader('', 'nobottom', 'id="pm"'.($_GET['anchor'] != 'pm' ? ' style="display: none"' : ''));
-		showsetting('uc_setting_pmsendregdays', 'ucsettingnew[pmsendregdays]', $ucsetting['pmsendregdays'], 'text');
-		showsetting('uc_setting_login_privatepmthreadlimit', 'ucsettingnew[privatepmthreadlimit]', $ucsetting['privatepmthreadlimit'], 'text');
-		showsetting('uc_setting_chatpmthreadlimit', 'ucsettingnew[chatpmthreadlimit]', $ucsetting['chatpmthreadlimit'], 'text');
-		showsetting('uc_setting_chatpmmemberlimit', 'ucsettingnew[chatpmmemberlimit]', $ucsetting['chatpmmemberlimit'], 'text');
-		showsetting('uc_setting_pmfloodctrl', 'ucsettingnew[pmfloodctrl]', $ucsetting['pmfloodctrl'], 'text');
-		showtablefooter();
-		/*search*/
-	}
 
 	showsubmit('settingsubmit', 'submit', '', $extbutton.(!empty($from) ? '<input type="hidden" name="from" value="'.$from.'">' : ''));
 	showtablefooter();

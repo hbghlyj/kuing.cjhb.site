@@ -40,13 +40,15 @@ if(empty($_POST['password']) || empty($_POST['password2'])) {
 		show_msg('tool_resetpw_password_error', '', 0);
 	}
 
-	require_once ROOT_PATH.'./source/class/uc/client.php';
-
-	$ucresult = uc_user_edit(addslashes($member['loginname']), $_POST['password'], $_POST['password'], '', 1, 0);
-	if($ucresult < 0) {
-		show_msg('ucenter_error', $ucresult, 0);
-	}
-
+	$passwordhash = password_hash($_POST['password'], PASSWORD_DEFAULT);
+	$db->query("CREATE TABLE IF NOT EXISTS {$_config['db'][1]['tablepre']}common_member_auth (
+		uid mediumint(8) unsigned NOT NULL,
+		`password` varchar(255) NOT NULL DEFAULT '',
+		`salt` varchar(20) NOT NULL DEFAULT '',
+		`secques` varchar(8) NOT NULL DEFAULT '',
+		PRIMARY KEY (uid)
+	) ENGINE=InnoDB");
+	$db->query("REPLACE INTO {$_config['db'][1]['tablepre']}common_member_auth SET uid = 1, password = '".addslashes($passwordhash)."', salt = '', secques = ''");
 	$db->query("UPDATE {$_config['db'][1]['tablepre']}common_member SET password = '".md5(random(10))."' WHERE uid = 1");
 
 	show_header();

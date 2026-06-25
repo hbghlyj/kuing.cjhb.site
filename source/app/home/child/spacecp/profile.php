@@ -414,7 +414,7 @@ if(submitcheck('profilesubmit')) {
 		include_once libfile('function/member');
 		checkemail($emailnew);
 	}
-	$ucresult = uc_user_edit(addslashes($_G['member']['loginname']), $_GET['oldpassword'], $_GET['newpassword'], '', $ignorepassword, $_GET['questionidnew'], $_GET['answernew'], $secmobiccnew, $secmobilenew);
+	$ucresult = native_user_edit(addslashes($_G['member']['loginname']), $_GET['oldpassword'], $_GET['newpassword'], '', $ignorepassword, $_GET['questionidnew'], $_GET['answernew'], $secmobiccnew, $secmobilenew);
 	if($ucresult == -1) {
 		showmessage('profile_passwd_wrong', '', [], ['return' => true]);
 	} elseif($ucresult == -4) {

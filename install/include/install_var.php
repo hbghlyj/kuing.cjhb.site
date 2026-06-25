@@ -13,7 +13,6 @@ if(!defined('IN_DISCUZ')) {
 define('SOFT_NAME', DISCUZ_VERSION_NAME);
 
 define('CONFIG', './config/config_global.php');
-define('CONFIG_UC', './config/config_ucenter.php');
 
 $lockfile = ROOT_PATH.'./data/install.lock';
 
@@ -35,14 +34,6 @@ define('INSTALL_LOCKED', 3);
 define('DATABASE_NONEXISTENCE', 4);
 define('PHP_VERSION_TOO_LOW', 5);
 define('MYSQL_VERSION_TOO_LOW', 6);
-define('UC_URL_INVALID', 7);
-define('UC_DNS_ERROR', 8);
-define('UC_URL_UNREACHABLE', 9);
-define('UC_VERSION_INCORRECT', 10);
-define('UC_DBCHARSET_INCORRECT', 11);
-define('UC_API_ADD_APP_ERROR', 12);
-define('UC_ADMIN_INVALID', 13);
-define('UC_DATA_INVALID', 14);
 define('DBNAME_INVALID', 15);
 define('DATABASE_ERRNO_2003', 16);
 define('DATABASE_ERRNO_1044', 17);
@@ -82,7 +73,6 @@ $dirfile_items = array
 (
 
 	'config' => array('type' => 'file', 'path' => CONFIG),
-	'ucenter config' => array('type' => 'file', 'path' => CONFIG_UC),
 	'config_dir' => array('type' => 'dir', 'path' => './config'),
 	'data' => array('type' => 'dir', 'path' => './data'),
 	'diy' => array('type' => 'dir', 'path' => './data/diy'),
@@ -108,21 +98,6 @@ $dirfile_items = array
 	'attach_temp' => array('type' => 'dir', 'path' => './data/attachment/temp'),
 );
 
-
-$form_app_reg_items = array
-(
-	'ucenter' => array
-	(
-		'ucurl' => array('type' => 'text', 'required' => 1, 'reg' => '/^https?:\/\//', 'value' => array('type' => 'var', 'var' => 'ucapi')),
-		'ucip' => array('type' => 'text', 'required' => 0, 'reg' => '/^\d+\.\d+\.\d+\.\d+$/'),
-		'ucpw' => array('type' => 'password', 'required' => 1, 'reg' => '/^.*$/')
-	),
-	'siteinfo' => array
-	(
-		'sitename' => array('type' => 'text', 'required' => 1, 'reg' => '/^.*$/', 'value' => array('type' => 'constant', 'var' => 'SOFT_NAME')),
-		'siteurl' => array('type' => 'text', 'required' => 1, 'reg' => '/^https?:\/\//', 'value' => array('type' => 'var', 'var' => 'default_appurl'))
-	)
-);
 
 $form_db_init_items = array
 (

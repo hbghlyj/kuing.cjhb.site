@@ -235,15 +235,6 @@ class menu_default {
 			],
 		];
 
-		if($GLOBALS['isfounder'] && !UC_STANDALONE) {
-			loaducenter();
-
-			$return['ucenter'] = [
-				'name' => 'UCenter',
-				'title' => 'UCenter',
-				'location' => UC_API,
-			];
-		}
 		return $return;
 	}
 

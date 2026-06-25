@@ -698,7 +698,7 @@ if($action == 'index') {
 					showmessage('group_demise_password');
 				}
 				loaducenter();
-				$ucresult = uc_user_login($_G['uid'], $_GET['grouppwd'], 1);
+				$ucresult = native_user_login($_G['uid'], $_GET['grouppwd'], 1);
 				if(!is_array($ucresult) || $ucresult[0] < 1) {
 					showmessage('group_demise_password_error');
 				}

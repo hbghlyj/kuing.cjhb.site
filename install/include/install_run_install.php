@@ -29,14 +29,11 @@ if(file_exists($lockfile) && $method != 'ext_info' && $method != 'check_db_init_
 	show_msg('database_nonexistence', '', 0);
 }
 
-$uchidden = getgpc('uchidden');
-
 if(in_array($method, ['app_reg', 'ext_info'])) {
 	$isHTTPS = is_https();
 	$PHP_SELF = $_SERVER['PHP_SELF'] ? $_SERVER['PHP_SELF'] : $_SERVER['SCRIPT_NAME'];
 	// $bbserver使用的端口，不能来自于SERVER_PORT，因为dz的服务器端口不一定是用户访问的端口(比如在负载均衡后面)
 	$bbserver = 'http'.($isHTTPS ? 's' : '').'://'.$_SERVER['HTTP_HOST'];
-	$default_ucapi = $bbserver.'/ucenter';
 	$default_appurl = $bbserver.substr($PHP_SELF, 0, strrpos($PHP_SELF, '/') - 8);
 }
 
@@ -53,8 +50,6 @@ if(empty($_COOKIE['LANG'])) {
 
 if($method == 'show_license') {
 
-	transfer_ucinfo($_POST);
-	$uchidden = getgpc('uchidden');
 	if(empty($_GET['start'])) {
 		show_version_notice();
 	} else {
@@ -73,138 +68,15 @@ if($method == 'show_license') {
 
 } elseif($method == 'app_reg') {
 
-	@include ROOT_PATH.CONFIG;
-	@include ROOT_PATH.CONFIG_UC;
-	if(!defined('UC_API')) {
-		define('UC_API', '');
-	}
-	if(getgpc('install_ucenter') == 'upgrade') {
-		header("Location: index.php?step=10&install_ucenter=".getgpc('install_ucenter'));
-		die;
-	}
-	if(getgpc('install_ucenter') == 'yes' || getgpc('install_ucenter') == 'standalone') {
-		header("Location: index.php?step=3&install_ucenter=".getgpc('install_ucenter'));
-		die;
-	}
-	$submit = true;
-	$error_msg = [];
-	if(isset($form_app_reg_items) && is_array($form_app_reg_items)) {
-		foreach($form_app_reg_items as $key => $items) {
-			$$key = getgpc($key, 'p');
-			if(!isset($$key) || !is_array($$key)) {
-				$submit = false;
-				break;
-			}
-			foreach($items as $k => $v) {
-				$tmp = $$key;
-				$$k = addslashes($tmp[$k]);
-				if(empty($$k) || !preg_match($v['reg'], $$k)) {
-					if(empty($$k) && !$v['required']) {
-						continue;
-					}
-					$submit = false;
-					VIEW_OFF or $error_msg[$key][$k] = 1;
-				}
-			}
-		}
-	} else {
-		$submit = false;
-	}
-
-	$ucapi = defined('UC_API') && UC_API ? UC_API : $default_ucapi;
-
-	if($submit) {
-
-		$app_type = 'DISCUZX'; // Only For Discuz!
-
-		$app_name = $sitename ? $sitename : SOFT_NAME;
-		$app_url = $siteurl ? $siteurl : $default_appurl;
-
-		$ucapi = $ucurl ? $ucurl : (defined('UC_API') && UC_API ? UC_API : $default_ucapi);
-		$ucip = isset($ucip) ? $ucip : '';
-		$ucfounderpw = $ucpw;
-		$app_tagtemplates = 'apptagtemplates[template]='.urlencode('<a href="{url}" target="_blank">{subject}</a>').'&'.
-			'apptagtemplates[fields][subject]='.urlencode($lang['tagtemplates_subject']).'&'.
-			'apptagtemplates[fields][uid]='.urlencode($lang['tagtemplates_uid']).'&'.
-			'apptagtemplates[fields][username]='.urlencode($lang['tagtemplates_username']).'&'.
-			'apptagtemplates[fields][dateline]='.urlencode($lang['tagtemplates_dateline']).'&'.
-			'apptagtemplates[fields][url]='.urlencode($lang['tagtemplates_url']);
-
-		$ucapi = preg_replace("/\/$/", '', trim($ucapi));
-		if(empty($ucapi) || !preg_match("/^(https?:\/\/)/i", $ucapi)) {
-			show_msg('uc_url_invalid', $ucapi, 0);
-		} else {
-			if(!$ucip) {
-				$temp = @parse_url($ucapi);
-				$ucip = gethostbyname($temp['host']);
-				if(!(filter_var($ucip, FILTER_VALIDATE_IP) !== false)) {
-					show_msg('uc_dns_error', $ucapi, 0);
-				}
-			}
-		}
-		include_once ROOT_PATH.'./source/class/uc/client.php';
-
-		$ucinfo = dfopen($ucapi.'/index.php?m=app&a=ucinfo&release='.UC_CLIENT_RELEASE, 500, '', '', 1, $ucip);
-		[$status, $ucversion, $ucrelease, $uccharset, $ucdbcharset, $apptypes] = explode('|', $ucinfo);
-		if($status != 'UC_STATUS_OK') {
-			show_msg('uc_url_unreachable', $ucapi, 0);
-		} else {
-			$dbcharset = strtolower($dbcharset ? str_replace('-', '', $dbcharset) : $dbcharset);
-			$ucdbcharset = strtolower($ucdbcharset ? str_replace('-', '', $ucdbcharset) : $ucdbcharset);
-			if(UC_CLIENT_VERSION > $ucversion) {
-				show_msg('uc_version_incorrect', $ucversion, 0);
-			} elseif($dbcharset && $ucdbcharset != $dbcharset) {
-				show_msg('uc_dbcharset_incorrect', '', 0);
-			}
-
-			$postdata = "m=app&a=add&ucfounder=&ucfounderpw=".urlencode($ucpw)."&apptype=".urlencode($app_type)."&appname=".urlencode($app_name)."&appurl=".urlencode($app_url)."&appip=&appcharset=".CHARSET.'&appdbcharset='.DBCHARSET.'&'.$app_tagtemplates.'&release='.UC_CLIENT_RELEASE;
-			$ucconfig = dfopen($ucapi.'/index.php', 500, $postdata, '', 1, $ucip);
-			if(empty($ucconfig)) {
-				show_msg('uc_api_add_app_error', $ucapi, 0);
-			} elseif($ucconfig == '-1') {
-				show_msg('uc_admin_invalid', '', 0);
-			} else {
-				[$appauthkey, $appid] = explode('|', $ucconfig);
-				$ucconfig_array = explode('|', $ucconfig);
-				$ucconfig_array[] = $ucapi;
-				$ucconfig_array[] = $ucip;
-				$ucconfig_array[] = 0;
-				if(empty($appauthkey) || empty($appid)) {
-					show_msg('uc_data_invalid', '', 0);
-				} elseif($succeed = save_uc_config($ucconfig_array, ROOT_PATH.CONFIG_UC)) {
-					if(VIEW_OFF) {
-						show_msg('app_reg_success');
-					} else {
-						$step = $step + 1;
-						header("Location: index.php?step=$step");
-						exit;
-					}
-				} else {
-					show_msg('config_unwriteable', '', 0);
-				}
-			}
-		}
-
-	}
 	if(VIEW_OFF) {
-
-		show_msg('missing_parameter', '', 0);
-
+		show_msg('app_reg_success');
 	} else {
-
-		show_form($form_app_reg_items, $error_msg);
-
+		header("Location: index.php?step=3");
+		exit;
 	}
+
 
 } elseif($method == 'db_init') {
-
-	if(getgpc('install_ucenter') == 'yes' || getgpc('install_ucenter') == 'standalone') {
-		define('DZUCFULL', true);
-		define('DZUCSTL', (getgpc('install_ucenter') == 'standalone') ? true : false);
-	} else {
-		define('DZUCFULL', false);
-		define('DZUCSTL', false);
-	}
 
 	$submit = true;
 
@@ -317,18 +189,16 @@ if($method == 'show_license') {
 			} elseif(!strstr($email, '@') || $email != stripslashes($email) || $email != dhtmlspecialchars($email)) {
 				show_msg('admin_email_invalid', $email, 0);
 			} else {
-				if(!DZUCFULL) {
-					$adminuser = check_adminuser($username, $password, $email);
-					if($adminuser['uid'] < 1) {
-						show_msg($adminuser['error'], '', 0);
-					}
+				$adminuser = check_adminuser($username, $password, $email);
+				if($adminuser['uid'] < 1) {
+					show_msg($adminuser['error'], '', 0);
 				}
 			}
 		} else {
 			show_msg('admininfo_invalid', '', 0);
 		}
 
-		$uid = DZUCFULL ? 1 : $adminuser['uid'];
+		$uid = $adminuser['uid'];
 		$authkey = md5((isset($_SERVER['SERVER_ADDR']) ? $_SERVER['SERVER_ADDR'] : '').$_SERVER['HTTP_USER_AGENT'].$dbhost.$dbuser.$dbpw.$dbname.$username.$password.substr(time(), 0, 8)).secrandom(32);
 		$_config['db'][1]['dbhost'] = $dbhost;
 		$_config['db'][1]['dbname'] = $dbname;
@@ -396,10 +266,6 @@ if($method == 'show_license') {
 
 	$db = new dbstuff;
 	$db->connect($dbhost, $dbuser, $dbpw, $dbname, DBCHARSET);
-
-	if($dzucfull) {
-		install_uc_sql();
-	}
 
 	$sql = read_sql($install_sqlfile);
 	if(!runquery($sql)) {
@@ -572,9 +438,6 @@ if($method == 'show_license') {
 	show_setting('end');
 	show_footer();
 } elseif($method == 'upgrade') {
-	define('DZUCFULL', true);
-	define('DZUCSTL', true);
-
 	if(!file_exists(ROOT_PATH.CONFIG)) {
 		show_msg('config_nonexistence', '', 0);
 	}

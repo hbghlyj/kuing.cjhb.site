@@ -60,7 +60,7 @@ if(!$discuzfiles = @file(ROOT_PATH.'./source/data/admincp/discuzfiles.md5')) {
 $md5data = $md5datanew = $addlist = $dellist = $modifylist = $showlist = [];
 $cachelist = checkcachefiles('data/sysdata/');
 checkfiles('./', '', 0);
-checkfiles('config/', '', 1, 'config_global.php,config_ucenter.php');
+checkfiles('config/', '', 1, 'config_global.php');
 checkfiles('data/', '\.xml', 0);
 checkfiles('data/', '\.htm', 0);
 checkfiles('data/log/', '\.htm', 0);

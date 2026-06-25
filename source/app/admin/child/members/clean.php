@@ -70,15 +70,7 @@ if(!submitcheck('submit', 1) && !submitcheck('deletesubmit', 1)) {
 	}
 	if(!submitcheck('confirmed')) {
 
-		loaducenter();
-		$deluc = '';
-		if(UC_STANDALONE) {
-			$deluc = '<input type="hidden" name="includeuc" value="1" />';
-		} else {
-			$deluc = $isfounder ? '&nbsp;<label><input type="checkbox" name="includeuc" value="1" class="checkbox" />'.$lang['members_delete_ucdata'].'</label>' : '';
-		}
-
-		cpmsg('members_delete_confirm', 'action=members&operation=clean&submit=yes&confirmed=yes'.$urladd, 'form', ['membernum' => $membernum], $extra.'<br />'.'<label><input type="checkbox" name="includepost" value="1" class="checkbox" />'.$lang['members_delete_all'].'</label>'.$deluc, '');
+		cpmsg('members_delete_confirm', 'action=members&operation=clean&submit=yes&confirmed=yes'.$urladd, 'form', ['membernum' => $membernum], $extra.'<br />'.'<label><input type="checkbox" name="includepost" value="1" class="checkbox" />'.$lang['members_delete_all'].'</label>', '');
 
 	} else {
 
@@ -89,7 +81,7 @@ if(!submitcheck('submit', 1) && !submitcheck('deletesubmit', 1)) {
 
 			if($isfounder && !empty($_GET['includeuc'])) {
 				loaducenter();
-				uc_user_delete($uids);
+				native_user_delete($uids);
 				$_GET['includeuc'] = 1;
 			} else {
 				$_GET['includeuc'] = 0;
@@ -218,7 +210,7 @@ if(!submitcheck('submit', 1) && !submitcheck('deletesubmit', 1)) {
 
 				if($isfounder && !empty($_GET['includeuc'])) {
 					loaducenter();
-					uc_user_delete($uids);
+					native_user_delete($uids);
 				}
 				if(!empty($_GET['uidarray'])) {
 					cpmsg('members_delete_succeed', '', 'succeed', ['numdeleted' => $numdeleted]);

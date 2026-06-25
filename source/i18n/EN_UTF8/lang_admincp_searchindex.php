@@ -6338,7 +6338,7 @@ $lang = array (
 		array (
 			0 => 'UCenter 设置',
 			1 => 'setting_uc_tips',
-			2 => '本设置在站点安装时自动生成，一般情况下请不要修改，修改前请备份 config/config_ucenter.php 文件，以防止修改错误导致站点无法运行',
+			2 => '本设置在站点安装时自动生成，一般情况下请不要修改，修改前请备份 config/config_global.php 文件，以防止修改错误导致站点无法运行',
 			3 => 'setting_uc_appid',
 			4 => 'UCenter 应用 ID',
 			5 => '该值为当前站点在 UCenter 的应用 ID，一般情况请不要改动',
@@ -6354,7 +6354,7 @@ $lang = array (
 			15 => 'setting_uc_connect',
 			16 => 'UCenter 连接方式',
 			17 => '采用接口方式时，站点和 Ucenter 通信采用远程方式，数据库方式需要您站点可以连接 UCenter 数据库',
-			18 => 'setting_uc_dbhost',
+			18 => 'setting_dbhost',
 			19 => 'UCenter 数据库服务器',
 			20 => '可以是本地也可以是远程数据库服务器，如果 MySQL 端口不是默认的 3306，请填写如下形式：127.0.0.1:6033',
 			21 => 'setting_uc_dbuser',

@@ -18,74 +18,47 @@ if(getgpc('m') !== 'user' || getgpc('a') !== 'rectavatar') {
 $ftp = getglobal('setting/ftp');
 $oss = getglobal('setting/oss');
 
-if(!empty($ftp['on']) && $ftp['on'] == 2 && $oss['oss_avatar']) {
-	@header('Expires: 0');
-	@header('Cache-Control: private, post-check=0, pre-check=0, max-age=0', FALSE);
-	@header('Pragma: no-cache');
+@header('Expires: 0');
+@header('Cache-Control: private, post-check=0, pre-check=0, max-age=0', FALSE);
+@header('Pragma: no-cache');
 
-	define("UC_DATADIR", DISCUZ_DATA.'attachment/');
-	define("UC_UPAVTDIR", 'avatar/');
+$avatartype = getgpc('avatartype', 'G') == 'real' ? 'real' : 'virtual';
+$storageRoot = (!empty($ftp['on']) && $ftp['on'] == 2 && $oss['oss_avatar']) ? DISCUZ_DATA.'attachment/' : DISCUZ_ROOT.'./data/';
+$storagePrefix = 'avatar/';
 
-	@chmod(UC_DATADIR.UC_UPAVTDIR, 0777);
+$bigavatarfile = $storagePrefix.get_avatar($_G['uid'], 'big', $avatartype);
+dmkdir(dirname($storageRoot.$bigavatarfile));
+$middleavatarfile = $storagePrefix.get_avatar($_G['uid'], 'middle', $avatartype);
+dmkdir(dirname($storageRoot.$middleavatarfile));
+$smallavatarfile = $storagePrefix.get_avatar($_G['uid'], 'small', $avatartype);
+dmkdir(dirname($storageRoot.$smallavatarfile));
 
-	$avatartype = getgpc('avatartype', 'G') == 'real' ? 'real' : 'virtual';
-	$bigavatarfile = UC_UPAVTDIR.get_avatar($_G['uid'], 'big', $avatartype);
-	dmkdir(dirname(UC_DATADIR.$bigavatarfile));
-	$middleavatarfile = UC_UPAVTDIR.get_avatar($_G['uid'], 'middle', $avatartype);
-	dmkdir(dirname(UC_DATADIR.$middleavatarfile));
-	$smallavatarfile = UC_UPAVTDIR.get_avatar($_G['uid'], 'small', $avatartype);
-	dmkdir(dirname(UC_DATADIR.$smallavatarfile));
-	$bigavatar = base64_decode(getgpc('avatar1', 'P'));
-	$middleavatar = base64_decode(getgpc('avatar2', 'P'));
-	$smallavatar = base64_decode(getgpc('avatar3', 'P'));
-	if(!$bigavatar || !$middleavatar || !$smallavatar) {
-		return '<root><message type="error" value="-2" /></root>';
-	}
+$bigavatar = base64_decode(getgpc('avatar1', 'P'));
+$middleavatar = base64_decode(getgpc('avatar2', 'P'));
+$smallavatar = base64_decode(getgpc('avatar3', 'P'));
+if(!$bigavatar || !$middleavatar || !$smallavatar) {
+	echo "<script>window.parent.postMessage('failure','*');</script>";
+	exit;
+}
 
-	$success = 1;
-	$fp = @fopen(UC_DATADIR.$bigavatarfile, 'wb');
-	@fwrite($fp, $bigavatar);
-	@fclose($fp);
+$success = file_put_contents($storageRoot.$bigavatarfile, $bigavatar) !== false
+	&& file_put_contents($storageRoot.$middleavatarfile, $middleavatar) !== false
+	&& file_put_contents($storageRoot.$smallavatarfile, $smallavatar) !== false;
 
-	$fp = @fopen(UC_DATADIR.$middleavatarfile, 'wb');
-	@fwrite($fp, $middleavatar);
-	@fclose($fp);
-
-	$fp = @fopen(UC_DATADIR.$smallavatarfile, 'wb');
-	@fwrite($fp, $smallavatar);
-	@fclose($fp);
-
+if($success && !empty($ftp['on']) && $ftp['on'] == 2 && $oss['oss_avatar']) {
 	ftpcmd('upload', $bigavatarfile);
 	ftpcmd('upload', $middleavatarfile);
 	ftpcmd('upload', $smallavatarfile);
-
-	@unlink(UC_DATADIR.$bigavatarfile);
-	@unlink(UC_DATADIR.$middleavatarfile);
-	@unlink(UC_DATADIR.$smallavatarfile);
-
-	if(!$_G['member']['avatarstatus']) {
-		table_common_member::t()->update($_G['uid'], ['avatarstatus' => '1']);
-	}
-
-	if($success) {
-		echo "<script>window.parent.postMessage('success','*');</script>";
-	} else {
-		echo "<script>window.parent.postMessage('failure','*');</script>";
-	}
-} else {
-	loaducenter();
-	if(!UC_AVTPATH) {
-		$avtpath = './data/avatar/';
-	} else {
-		$avtpath = str_replace('..', '', UC_AVTPATH);
-	}
-	define('UC_UPAVTDIR', realpath(DISCUZ_ROOT.$avtpath).'/');
-	if(!empty($_G['uid'])) {
-		echo uc_rectavatar($_G['uid']);
-	} else {
-		echo uc_rectavatar(0);
-	}
+	@unlink($storageRoot.$bigavatarfile);
+	@unlink($storageRoot.$middleavatarfile);
+	@unlink($storageRoot.$smallavatarfile);
 }
+
+if($success && !$_G['member']['avatarstatus']) {
+	table_common_member::t()->update($_G['uid'], ['avatarstatus' => '1']);
+}
+
+echo $success ? "<script>window.parent.postMessage('success','*');</script>" : "<script>window.parent.postMessage('failure','*');</script>";
 
 function get_avatar($uid, $size = 'big', $type = '') {
 	$size = in_array($size, ['big', 'middle', 'small']) ? $size : 'big';

@@ -6338,7 +6338,7 @@ $lang = array (
 		array (
 			0 => 'UCenter 設置',
 			1 => 'setting_uc_tips',
-			2 => '本設置在站點安裝時自動生成，一般情況下請不要修改，修改前請備份 config/config_ucenter.php 文件，以防止修改錯誤導致站點無法運行',
+			2 => '本設置在站點安裝時自動生成，一般情況下請不要修改，修改前請備份 config/config_global.php 文件，以防止修改錯誤導致站點無法運行',
 			3 => 'setting_uc_appid',
 			4 => 'UCenter 應用 ID',
 			5 => '該值為當前站點在 UCenter 的應用 ID，一般情況請不要改動',
@@ -6354,7 +6354,7 @@ $lang = array (
 			15 => 'setting_uc_connect',
 			16 => 'UCenter 連接方式',
 			17 => '採用接口方式時，站點和 Ucenter 通信採用遠程方式，數據庫方式需要您站點可以連接 UCenter 數據庫',
-			18 => 'setting_uc_dbhost',
+			18 => 'setting_dbhost',
 			19 => 'UCenter 數據庫服務器',
 			20 => '可以是本地也可以是遠程數據庫服務器，如果 MySQL 端口不是默認的 3306，請填寫如下形式：127.0.0.1:6033',
 			21 => 'setting_uc_dbuser',

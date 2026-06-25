@@ -267,11 +267,6 @@ function showmenu($key, $menus, $return = 0) {
 						$_G['defaultTab'] = $menuid;
 					}
 				}
-				if(str_contains($menu[1], '{')) {
-					loaducenter();
-					$menu[1] = str_replace('{UCAPI}', UC_API, $menu[1]);
-				}
-
 				if(empty($_G['firstMenu'])) {
 					$_G['firstMenu'] = $menu[1];
 					$topMenu_now = true;

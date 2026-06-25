@@ -32,7 +32,7 @@ if($uid && isemail($email) && $time > TIMESTAMP - 86400) {
 		$setarr['freeze'] = 0;
 	}
 	loaducenter();
-	$ucresult = uc_user_edit(addslashes($member['loginname']), '', '', $email, 1);
+	$ucresult = native_user_edit(addslashes($member['loginname']), '', '', $email, 1);
 	if($ucresult == -8) {
 		showmessage('email_check_account_invalid', '', [], ['return' => true]);
 	} elseif($ucresult == -4) {

@@ -24,7 +24,7 @@ if($op == 'edit') {
 
 			if(!empty($_GET['clearavatar'])) {
 				loaducenter();
-				uc_user_deleteavatar($member['uid']);
+				native_user_deleteavatar($member['uid']);
 			}
 
 			require_once libfile('function/discuzcode');

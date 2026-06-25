@@ -320,7 +320,7 @@ if($operation == 'list') {
 					showmessage('message_password_null_err');
 				}
 				loaducenter();
-				list($result) = uc_user_login($_G['uid'], $password, 1, 0);
+				list($result) = native_user_login($_G['uid'], $password, 1, 0);
 				if($result < 0) {
 					showmessage('message_password_err');
 				} else {
@@ -400,7 +400,7 @@ function bindmobile($secprofile) {
 	}
 
 	loaducenter();
-	$ucresult = uc_user_edit(addslashes($_G['member']['loginname']), '', '', '', 1, '', '', $secprofile['secmobicc'], $secprofile['secmobile']);
+	$ucresult = native_user_edit(addslashes($_G['member']['loginname']), '', '', '', 1, '', '', $secprofile['secmobicc'], $secprofile['secmobile']);
 	if($ucresult == -1) {
 		showmessage('profile_passwd_wrong');
 	} elseif($ucresult == -4) {
@@ -442,7 +442,7 @@ function bindmobile($secprofile) {
 function unbindmobile($secprofile) {
 	global $_G;
 	loaducenter();
-	$ucresult = uc_user_edit(addslashes($_G['member']['loginname']), '', '', '', 1, '', '', 0, 0);
+	$ucresult = native_user_edit(addslashes($_G['member']['loginname']), '', '', '', 1, '', '', 0, 0);
 	if($ucresult == -1) {
 		showmessage('profile_passwd_wrong');
 	} elseif($ucresult == -4) {
@@ -509,7 +509,7 @@ function chgpassword($param, $tmp_load = false) {
 			}
 		}
 		loaducenter();
-		uc_user_edit(addslashes($_G['member']['loginname']), $newpassword, $newpassword, '', 1, 0);
+		native_user_edit(addslashes($_G['member']['loginname']), $newpassword, $newpassword, '', 1, 0);
 		$password = md5(random(10));
 
 		if(isset($_G['member']['_inarchive'])) {
@@ -555,7 +555,7 @@ function chgemail($param, $tmp_load = false) {
 	if(submitcheck('submit')) {
 		$email = getgpc('email');
 		loaducenter();
-		$ucresult = uc_user_checkemail($email);
+		$ucresult = native_user_checkemail($email);
 
 		if($ucresult == -4) {
 			showmessage('profile_email_illegal', '', [], ['handle' => false]);
@@ -565,7 +565,7 @@ function chgemail($param, $tmp_load = false) {
 			showmessage('profile_email_duplicate', '', [], ['handle' => false]);
 		}
 
-		$ucresult = uc_user_edit(addslashes($_G['member']['loginname']), '', '', $email, 1, '', '', '', '');
+		$ucresult = native_user_edit(addslashes($_G['member']['loginname']), '', '', $email, 1, '', '', '', '');
 		if($ucresult == -1) {
 			showmessage('profile_passwd_wrong');
 		} elseif($ucresult == -4) {
@@ -614,7 +614,7 @@ function chgemail($param, $tmp_load = false) {
 function bindemail($email) {
 	global $_G;
 	loaducenter();
-	$ucresult = uc_user_checkemail($email);
+	$ucresult = native_user_checkemail($email);
 
 	if($ucresult == -4) {
 		showmessage('profile_email_illegal', '', [], ['handle' => false]);
@@ -624,7 +624,7 @@ function bindemail($email) {
 		showmessage('profile_email_duplicate', '', [], ['handle' => false]);
 	}
 
-	$ucresult = uc_user_edit(addslashes($_G['member']['loginname']), '', '', $email, 1, '', '', '', '');
+	$ucresult = native_user_edit(addslashes($_G['member']['loginname']), '', '', $email, 1, '', '', '', '');
 	if($ucresult == -1) {
 		showmessage('profile_passwd_wrong');
 	} elseif($ucresult == -4) {
@@ -674,7 +674,14 @@ function chgusername($param, $tmp_load = false) {
 		$username = getgpc('username');
 		check_protect_username($username);
 		loaducenter();
-		uc_user_chgusername($_G['uid'], $username);
+		$ucresult = native_user_chgusername($_G['uid'], $username);
+		if($ucresult == -2) {
+			showmessage('members_chgusername_name_badword');
+		} elseif($ucresult == -3) {
+			showmessage('members_chgusername_name_exists');
+		} elseif($ucresult < 0) {
+			showmessage('members_chgusername_check_failed');
+		}
 		if($setting['credits_pay'] > 0 && $username != $_G['username']) {
 			updatemembercount($_G['uid'], [$creditExtra => -$setting['credits_pay']], 1, 'CHU', $_G['uid']);
 		}
@@ -721,7 +728,7 @@ function chgquestion($param, $tmp_load = false) {
 
 		loaducenter();
 
-		$ucresult = uc_user_edit(addslashes($_G['member']['loginname']), '', '', '', 1, $questionidnew, $answernew, '', '');
+		$ucresult = native_user_edit(addslashes($_G['member']['loginname']), '', '', '', 1, $questionidnew, $answernew, '', '');
 		if($ucresult == -1) {
 			showmessage('profile_passwd_wrong');
 		} elseif($ucresult == -4) {

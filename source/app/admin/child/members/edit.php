@@ -200,7 +200,7 @@ if(!submitcheck('editsubmit')) {
 		cpmsg('members_mobile_illegal', '', 'error');
 	}
 
-	$ucresult = uc_user_edit(addslashes($member['loginname']), $_GET['passwordnew'], $_GET['passwordnew'], addslashes(strtolower(trim($_GET['emailnew']))), 1, $questionid, '', $secmobicc, $secmobile);
+	$ucresult = native_user_edit(addslashes($member['loginname']), $_GET['passwordnew'], $_GET['passwordnew'], addslashes(strtolower(trim($_GET['emailnew']))), 1, $questionid, '', $secmobicc, $secmobile);
 	if($ucresult < 0) {
 		if($ucresult == -4) {
 			cpmsg('members_email_illegal', '', 'error');
@@ -217,7 +217,7 @@ if(!submitcheck('editsubmit')) {
 
 	if($_GET['clearavatar']) {
 		C::t('common_member'.$tableext)->update($_GET['uid'], ['avatarstatus' => 0]);
-		uc_user_deleteavatar($uid);
+		native_user_deleteavatar($uid);
 	}
 
 	$creditsnew = intval($creditsnew);

@@ -69,7 +69,7 @@ if($uid && $id && $sign === make_getpws_sign($uid, $id)) {
 			}
 		}
 		loaducenter();
-		uc_user_edit(addslashes($member['loginname']), $_GET['newpasswd1'], $_GET['newpasswd1'], addslashes($member['email']), 1, 0);
+		native_user_edit(addslashes($member['loginname']), $_GET['newpasswd1'], $_GET['newpasswd1'], addslashes($member['email']), 1, 0);
 		$password = md5(random(10));
 
 		if(isset($member['_inarchive'])) {

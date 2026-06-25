@@ -19,7 +19,7 @@ if($usernamelen < 3) {
 }
 
 loaducenter();
-$ucresult = uc_user_checkname($username);
+$ucresult = native_user_checkname($username);
 
 if($ucresult == -1) {
 	showmessage('profile_username_illegal', '', [], ['handle' => false]);

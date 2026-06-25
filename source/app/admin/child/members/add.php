@@ -69,25 +69,25 @@ if(!submitcheck('addsubmit')) {
 
 	loaducenter();
 
-	$uid = uc_user_register(addslashes($newusername), $newpassword, $newemail);
-	if($uid <= 0) {
-		if($uid == -1) {
+	$check = native_user_checkname($newusername);
+	if($check < 0) {
+		if($check == -1) {
 			cpmsg('members_add_illegal', '', 'error');
-		} elseif($uid == -2) {
+		} elseif($check == -2) {
 			cpmsg('members_username_protect', '', 'error');
-		} elseif($uid == -3) {
+		} elseif($check == -3) {
 			if(empty($_GET['confirmed'])) {
 				cpmsg('members_add_username_activation', 'action=members&operation=add&addsubmit=yes&newgroupid='.$_GET['newgroupid'].'&newusername='.rawurlencode($newusername), 'form');
 			} else {
-				list($uid, , $newemail) = uc_get_user(addslashes($newusername));
+				cpmsg('members_add_username_duplicate', '', 'error');
 			}
-		} elseif($uid == -4) {
-			cpmsg('members_email_illegal', '', 'error');
-		} elseif($uid == -5) {
-			cpmsg('members_email_domain_illegal', '', 'error');
-		} elseif($uid == -6) {
-			cpmsg('members_email_duplicate', '', 'error');
 		}
+	}
+	$check = native_user_checkemail($newemail);
+	if($check == -4) {
+		cpmsg('members_email_illegal', '', 'error');
+	} elseif($check == -6) {
+		cpmsg('members_email_duplicate', '', 'error');
 	}
 
 	$group = table_common_usergroup::t()->fetch($_GET['newgroupid']);
@@ -102,8 +102,7 @@ if(!submitcheck('addsubmit')) {
 	$profile = $verifyarr = [];
 	loadcache('fields_register');
 	$init_arr = explode(',', $_G['setting']['initcredits']);
-	$password = md5(random(10));
-	table_common_member::t()->insert_user($uid, $newusername, $password, $newemail, 'Manual Acting', $_GET['newgroupid'], $init_arr, $newadminid);
+	$uid = native_user_create($newusername, $newpassword, $newemail, 'Manual Acting', $_GET['newgroupid'], $init_arr, $newadminid);
 	if($_GET['emailnotify']) {
 		if(!function_exists('sendmail')) {
 			include libfile('function/mail');

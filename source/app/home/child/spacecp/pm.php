@@ -381,7 +381,7 @@ if($_GET['op'] == 'checknewpm') {
 
 	$user = table_common_member::t()->fetch_by_username($username);
 
-	if(!$user || !uc_get_user($user['loginname'])) {
+	if(!$user || !native_user_get($user['loginname'])) {
 		showmessage('pm_ignore_error_nopm');
 	}
 
@@ -481,7 +481,7 @@ if($_GET['op'] == 'checknewpm') {
 	}
 	$filename = lang('space', 'export_pm').'.html';
 	if($touid) {
-		if($touser = uc_get_user($touid, 1)) {
+		if($touser = native_user_get($touid, 1)) {
 			$tousername = $touser[1];
 			$filename = $touser[1].'.html';
 		}

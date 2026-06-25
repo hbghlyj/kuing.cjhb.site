@@ -479,12 +479,6 @@ function show_sysinfo() {
 		((strlen(DISCUZ_RELEASE) == 8) ? '' : cplang('home_git_version')).
 		$newver
 	]);
-	if(!UC_STANDALONE) {
-		showboxrow('', $dc, [
-			cplang('home_ucclient_version'),
-			'<i class="uclogo"></i> UCenter '.UC_CLIENT_VERSION.' Release '.UC_CLIENT_RELEASE
-		]);
-	}
 	require_once DISCUZ_ROOT.'./source/mitframe_version.php';
 	showboxrow('', $dc, [
 		cplang('home_mitframe_version'),

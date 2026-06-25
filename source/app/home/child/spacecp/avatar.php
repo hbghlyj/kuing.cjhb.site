@@ -18,7 +18,7 @@ loaducenter();
 
 if(submitcheck('deleteavatarsubmit')) {
 	table_common_member::t()->update($_G['uid'], ['avatarstatus' => 0]);
-	uc_user_deleteavatar($_G['uid']);
+	native_user_deleteavatar($_G['uid']);
 	showmessage('do_success', 'home.php?mod=spacecp&ac=avatar');
 }
 
@@ -26,12 +26,9 @@ if(submitcheck('avatarsubmit')) {
 	showmessage('do_success', 'cp.php?ac=avatar&quickforward=1');
 }
 
-if(UC_STANDALONE) {
-	define('UC_AVTAPI', $_G['siteurl'].'api/avatar');
-}
 $uc_avatarflash = uc_avatar($_G['uid'], 'virtual', 0);
 $uc_avatarflash[] = 'standalone';
-$uc_avatarflash[] = UC_STANDALONE;
+$uc_avatarflash[] = 1;
 
 if(empty($space['avatarstatus']) && uc_check_avatar($_G['uid'], 'middle')) {
 	table_common_member::t()->update($_G['uid'], ['avatarstatus' => '1']);

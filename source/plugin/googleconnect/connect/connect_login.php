@@ -151,18 +151,22 @@ $resolveCreateMember = static function($data, $allowRename = false) use ($bindAc
 
 	for($i = 0; $i < $attempts && $uid <= 0; $i++) {
 		$candidate = $i === 0 ? $username : substr($usernameBase, 0, 24).rand(100, 9999);
-		$uid = uc_user_register(addslashes($candidate), '', $data['gmail']);
-		if($uid > 0) {
-			$username = $candidate;
-			break;
-		}
-		if($uid === -6 && $data['gmail']) {
+		$namecheck = native_user_checkname($candidate);
+		$emailcheck = $data['gmail'] ? native_user_checkemail($data['gmail']) : 1;
+		if($emailcheck === -6 && $data['gmail']) {
 			$member = C::t('common_member')->fetch_by_email($data['gmail'], 1);
 			if($member) {
 				$member = $fetchMemberFromArchiveAware($member['uid']);
 				$bindAccount($member['uid'], $data['gsub'], $data['gmail']);
 				return $member;
 			}
+		}
+		if($namecheck < 0 || $emailcheck < 0) {
+			$uid = $namecheck < 0 ? $namecheck : $emailcheck;
+		} else {
+			$uid = native_user_create($candidate, '', $data['gmail'], $_G['clientip'], $_G['setting']['newusergroupid'], ['emailstatus' => 1], 0, $_G['remoteport']);
+			$username = $candidate;
+			break;
 		}
 		if($uid !== -3 || !$allowRename) {
 			break;
@@ -173,7 +177,6 @@ $resolveCreateMember = static function($data, $allowRename = false) use ($bindAc
 		return $uid;
 	}
 
-	C::t('common_member')->insert_user($uid, $username, '', $data['gmail'], $_G['clientip'], $_G['setting']['newusergroupid'], ['emailstatus' => 1], 0, $_G['remoteport']);
 	C::t('common_member')->update($uid, ['conisbind' => '1']);
 	$bindAccount($uid, $data['gsub'], $data['gmail']);
 	require_once libfile('cache/userstats', 'function');

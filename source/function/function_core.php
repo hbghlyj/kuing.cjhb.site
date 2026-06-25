@@ -1128,8 +1128,7 @@ function getcurrentnav() {
 }
 
 function loaducenter() {
-	require_once DISCUZ_ROOT.'./config/config_ucenter.php';
-	require_once DISCUZ_ROOT.'./source/class/uc/client.php';
+	require_once DISCUZ_ROOT.'./source/function/function_nativeuser.php';
 }
 
 function loadwitframe() {

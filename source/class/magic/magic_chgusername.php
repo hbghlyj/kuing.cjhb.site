@@ -42,7 +42,14 @@ class magic_chgusername {
 		}
 
 		loaducenter();
-		uc_user_chgusername($_G['uid'], addslashes(trim($_GET['newusername'])));
+		$ucresult = native_user_chgusername($_G['uid'], addslashes(trim($_GET['newusername'])));
+		if($ucresult == -2) {
+			showmessage(lang('magic/chgusername', 'chgusername_name_badword'));
+		} elseif($ucresult == -3) {
+			showmessage(lang('magic/chgusername', 'chgusername_name_exists'));
+		} elseif($ucresult < 0) {
+			showmessage(lang('magic/chgusername', 'chgusername_name_badword'));
+		}
 
 		usemagic($this->magic['magicid'], $this->magic['num']);
 		updatemagiclog($this->magic['magicid'], '2', '1', '0', 0, 'uid', $_G['uid']);

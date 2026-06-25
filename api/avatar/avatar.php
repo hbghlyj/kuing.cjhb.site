@@ -8,8 +8,6 @@
 
 error_reporting(0);
 
-require_once dirname(__DIR__, 2).'/config/config_ucenter.php';
-
 $uid = $_GET['uid'] ?? 0;
 $size = $_GET['size'] ?? '';
 $random = $_GET['random'] ?? '';
@@ -46,7 +44,7 @@ if(empty($random)) {
 	$avatar_url .= '?random='.rand(1000, 9999);
 }
 
-$avatar_base = defined('UC_AVTURL') && UC_AVTURL ? UC_AVTURL : get_site_url().'/data/avatar';
+$avatar_base = get_site_url().'/data/avatar';
 header('Location: '.$avatar_base.'/'.$avatar_url);
 exit;
 

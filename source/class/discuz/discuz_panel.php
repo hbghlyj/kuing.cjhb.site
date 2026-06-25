@@ -170,7 +170,7 @@ class discuz_panel {
 		if(!$isuid) {
 			$username = addslashes($username);
 		}
-		$ucresult = uc_user_login($username, $password, $isuid ? 1 : 0);
+		$ucresult = native_user_login($username, $password, $isuid ? 1 : 0);
 		if($ucresult[0] > 0) {
 			$this->loginsucced();
 		} else {

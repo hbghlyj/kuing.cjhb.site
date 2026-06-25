@@ -191,7 +191,7 @@ EOF;
 		if(is_array($_GET['clear']) && in_array('avatar', $_GET['clear'])) {
 			$setarr['avatarstatus'] = 0;
 			loaducenter();
-			uc_user_deleteavatar($member['uid']);
+			native_user_deleteavatar($member['uid']);
 		}
 	}
 
@@ -411,7 +411,7 @@ EOF;
 		if(in_array('avatar', $_GET['clear'])) {
 			loaducenter();
 			C::t('common_member'.$tableext)->update($member['uid'], array('avatarstatus'=>0));
-			uc_user_deleteavatar($member['uid']);
+			native_user_deleteavatar($member['uid']);
 		}
 
 		if($membercount) {

@@ -89,7 +89,7 @@ class table_common_member extends discuz_table_archive {
 		if($loginname) {
 			$user = DB::fetch_first('SELECT * FROM %t WHERE loginname=%s', [$this->_table, $loginname]);
 			if(isset($this->membersplit) && $fetch_archive && empty($user)) {
-				$user = C::t($this->_table.'_archive')->fetch_by_loginname($username, 0);
+				$user = C::t($this->_table.'_archive')->fetch_by_loginname($loginname, 0);
 			}
 		}
 		return $user;
@@ -358,15 +358,14 @@ class table_common_member extends discuz_table_archive {
 	}
 
 	public function insert_user($uid, $username, $password, $email, $ip, $groupid, $extdata, $adminid = 0, $port = 0, $secmobicc = '', $secmobile = '', $secmobilestatus = 0) {
-		if(($uid = dintval($uid))) {
-			$credits = $extdata['credits'] ?? [];
+		$uid = dintval($uid);
+		if($uid >= 0) {
+			$credits = isset($extdata['credits']) ? $extdata['credits'] : (is_array($extdata) ? $extdata : []);
 			$profile = $extdata['profile'] ?? [];
-			$profile['uid'] = $uid;
 			if(!isset($profile['fields'])) {
 				$profile['fields'] = '{}';
 			}
 			$base = [
-				'uid' => $uid,
 				'loginname' => (string)$username,
 				'username' => (string)$username,
 				'password' => (string)$password,
@@ -377,9 +376,21 @@ class table_common_member extends discuz_table_archive {
 				'adminid' => intval($adminid),
 				'groupid' => intval($groupid),
 				'regdate' => TIMESTAMP,
-				'emailstatus' => intval($extdata['emailstatus']),
+				'emailstatus' => intval(is_array($extdata) ? ($extdata['emailstatus'] ?? 0) : 0),
 				'credits' => dintval($credits[0])
 			];
+			if($uid) {
+				$base['uid'] = $uid;
+			}
+			if($uid) {
+				parent::insert($base, false, true);
+			} else {
+				$uid = parent::insert($base, true, true);
+			}
+			if(!$uid) {
+				return 0;
+			}
+			$profile['uid'] = $uid;
 			$status = [
 				'uid' => $uid,
 				'regip' => (string)$ip,
@@ -403,13 +414,14 @@ class table_common_member extends discuz_table_archive {
 				'extcredits8' => dintval($credits[8])
 			];
 			$ext = ['uid' => $uid];
-			parent::insert($base, false, true);
 			table_common_member_status::t()->insert($status, false, true);
 			table_common_member_count::t()->insert($count, false, true);
 			table_common_member_profile::t()->insert($profile, false, true);
 			table_common_member_field_forum::t()->insert($ext, false, true);
 			table_common_member_field_home::t()->insert($ext, false, true);
+			return $uid;
 		}
+		return 0;
 	}
 
 	public function delete($val, $unbuffered = false, $fetch_archive = 0) {

@@ -189,7 +189,7 @@ EOT;
 				table_common_member::t()->delete_no_validate($deluids);
 
 				loaducenter();
-				uc_user_delete($deluids);
+				native_user_delete($deluids);
 			} else {
 				$moderation['delete'] = [];
 			}

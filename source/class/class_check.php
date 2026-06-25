@@ -76,7 +76,7 @@ class check {
 		$this->checkfiles('api/', '\.php|\.htm|\.pem');
 		$this->checkfiles('archiver/', '\.php', 0);
 		$this->checkfiles('avatar/', '\.php', 0);
-		$this->checkfiles('config/', '\.php|\.htm', 1, 'config_global.php,config_ucenter.php');
+		$this->checkfiles('config/', '\.php|\.htm', 1, 'config_global.php');
 		$this->checkfiles('data/', '\.xml|\.htm', 0);
 		$this->checkfiles('data/avatar/', '\.htm', 0);
 		$this->checkfiles('data/log/', '\.htm', 0);

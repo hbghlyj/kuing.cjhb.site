@@ -850,6 +850,16 @@ CREATE TABLE pre_common_member_account
 	UNIQUE KEY (atype, account)
 ) ENGINE = InnoDB;
 
+DROP TABLE IF EXISTS pre_common_member_auth;
+CREATE TABLE pre_common_member_auth
+(
+	uid        mediumint(8) unsigned NOT NULL,
+	`password` varchar(255)          NOT NULL DEFAULT '',
+	`salt`     varchar(20)           NOT NULL DEFAULT '',
+	`secques`  varchar(8)            NOT NULL DEFAULT '',
+	PRIMARY KEY (uid)
+) ENGINE = InnoDB;
+
 DROP TABLE IF EXISTS pre_common_member_username_history;
 CREATE TABLE pre_common_member_username_history
 (

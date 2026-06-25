@@ -18,7 +18,7 @@ if(submitcheck('lostpwsubmit')) {
 	loaducenter();
 	$_GET['email'] = strtolower(trim($_GET['email']));
 	if($_GET['username']) {
-		[$tmp['uid'], , $tmp['email']] = uc_get_user(addslashes($_GET['username']));
+		[$tmp['uid'], , $tmp['email']] = native_user_get(addslashes($_GET['username']));
 		$tmp['email'] = strtolower(trim($tmp['email']));
 		if($_GET['email'] != $tmp['email']) {
 			showmessage('getpasswd_account_notmatch');
@@ -33,7 +33,7 @@ if(submitcheck('lostpwsubmit')) {
 			showmessage('lostpasswd_many_users_use_email');
 		}
 		$member = table_common_member::t()->fetch_by_email($_GET['email'], 1);
-		[$tmp['uid'], , $tmp['email']] = uc_get_user(addslashes($member['username']));
+		[$tmp['uid'], , $tmp['email']] = native_user_get(addslashes($member['username']));
 		$tmp['email'] = strtolower(trim($tmp['email']));
 	}
 	if(!$member) {

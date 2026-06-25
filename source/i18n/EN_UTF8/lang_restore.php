@@ -35,7 +35,7 @@ $lang = array(
 	'db_shell'		=> 'Shell',
 	'unknown'		=> 'Unknown',//'未知',
 	'backup_file_unexist'	=> 'Backup file does not exist.',//'备份文件不存在',
-	'connect_error'		=> 'Database connection error, please view the database configuration file config/config_global.php and config/config_ucenter.php exists and correctly configured',//'连接数据库失败，请您查看数据库配置文件config/config_global.php和config/config_ucenter.php是否存在以及配置是否正确',
+	'connect_error'		=> 'Database connection error, please view the database configuration file config/config_global.php exists and correctly configured',//'连接数据库失败，请您查看数据库配置文件config/config_global.php是否存在以及配置是否正确',
 	'dbcharsetdiff'		=> ' Database character set ($_config[\'db\'][\'1\'][\'dbcharset\'])',//' 数据库字符集($_config[\'db\'][\'1\'][\'dbcharset\'])',
 	'tableprediff'		=> 'Table prefix ($_config[\'db\'][\'1\'][\'tablepre\'])',//' 表前缀($_config[\'db\'][\'1\'][\'tablepre\'])',
 	'database_import_multivol_succeed'	=> 'Multi-Volume backup imported into the database successfully<br />Please update the cache in the background<br /><span class="red">Remove as soon as possible the file restore.php, so as not to impact on the data</span>',//'分卷数据成功导入站点数据库<br />请在后台更新缓存<br /><span class="red">请尽快删除restore.php文件，以免对数据造成影响</span>',

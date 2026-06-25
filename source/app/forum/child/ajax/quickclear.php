@@ -35,7 +35,7 @@ if(!submitcheck('qclearsubmit')) {
 	if(in_array('avatar', $_GET['operations'])) {
 		table_common_member::t()->update($uid, ['avatarstatus' => 0]);
 		loaducenter();
-		uc_user_deleteavatar($uid);
+		native_user_deleteavatar($uid);
 		$cleartype[] = lang('forum/misc', 'avatar');
 		crime('recordaction', $uid, 'crime_avatar', lang('forum/misc', 'crime_reason', ['reason' => $reason]));
 	}

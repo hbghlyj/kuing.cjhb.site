@@ -31,7 +31,7 @@ class logging_ctl {
 		global $_G;
 		if($_G['uid']) {
 			$referer = dreferer();
-			$ucsynlogin = $this->setting['allowsynlogin'] ? uc_user_synlogin($_G['uid']) : '';
+			$ucsynlogin = $this->setting['allowsynlogin'] ? native_user_synlogin($_G['uid']) : '';
 			$param = ['username' => $_G['member']['username'], 'usergroup' => $_G['group']['grouptitle'], 'uid' => $_G['member']['uid']];
 			showmessage('login_succeed', $referer ? $referer : './', $param, ['showdialog' => 1, 'locationtime' => true, 'extrajs' => $ucsynlogin]);
 		}
@@ -144,7 +144,7 @@ class logging_ctl {
 					dsetcookie('lip', $_G['member']['lastip'].','.$_G['member']['lastvisit']);
 				}
 				table_common_member_status::t()->update($_G['uid'], ['lastip' => $_G['clientip'], 'port' => $_G['remoteport'], 'lastvisit' => TIMESTAMP, 'lastactivity' => TIMESTAMP]);
-				$ucsynlogin = $this->setting['allowsynlogin'] ? uc_user_synlogin($_G['uid']) : '';
+				$ucsynlogin = $this->setting['allowsynlogin'] ? native_user_synlogin($_G['uid']) : '';
 
 				$pwold = false;
 				if($this->setting['strongpw']) {
@@ -310,7 +310,7 @@ class logging_ctl {
 	function on_logout() {
 		global $_G;
 
-		$ucsynlogout = $this->setting['allowsynlogin'] ? uc_user_synlogout() : '';
+		$ucsynlogout = $this->setting['allowsynlogin'] ? native_user_synlogout() : '';
 
 		if($_GET['formhash'] != $_G['formhash']) {
 			showmessage('logout_succeed', dreferer(), ['formhash' => FORMHASH, 'ucsynlogout' => $ucsynlogout, 'referer' => rawurlencode(dreferer())]);
@@ -370,7 +370,7 @@ class register_ctl {
 		$_GET['email'] = $_GET[''.$this->setting['reginput']['email']];
 
 		if($_G['uid']) {
-			$ucsynlogin = $this->setting['allowsynlogin'] ? uc_user_synlogin($_G['uid']) : '';
+			$ucsynlogin = $this->setting['allowsynlogin'] ? native_user_synlogin($_G['uid']) : '';
 			$url_forward = dreferer();
 			if(str_contains($url_forward, $this->setting['regname'])) {
 				$url_forward = 'index.php';
@@ -586,7 +586,7 @@ class register_ctl {
 
 			$activation = [];
 			if(isset($_GET['activationauth']) && $activationauth && is_array($activationauth)) {
-				if($activationauth[1] == FORMHASH && !($activation = uc_get_user($activationauth[0]))) {
+				if($activationauth[1] == FORMHASH && !($activation = native_user_get($activationauth[0]))) {
 					showmessage('register_activation_invalid', 'member.php?mod=logging&action=login');
 				}
 			}
@@ -710,34 +710,32 @@ class register_ctl {
 			}
 
 			if(!$activation) {
-				$uid = uc_user_register(addslashes($username), $password, $email, $questionid, $answer, $_G['clientip'], $secprofile['secmobicc'], $secprofile['secmobile']);
-				if($uid <= 0) {
-					if($uid == -1) {
+				$nativecheck = native_user_checkname($username);
+				if($nativecheck < 0) {
+					if($nativecheck == -1) {
 						showmessage('profile_username_illegal');
-					} elseif($uid == -2) {
+					} elseif($nativecheck == -2) {
 						showmessage('profile_username_protect');
-					} elseif($uid == -3) {
+					} elseif($nativecheck == -3) {
 						showmessage('profile_username_duplicate');
-					} elseif($uid == -4) {
-						showmessage('profile_email_illegal');
-					} elseif($uid == -5) {
-						showmessage('profile_email_domain_illegal');
-					} elseif($uid == -6) {
-						showmessage('profile_email_duplicate');
-					} elseif($uid == -9) {
-						showmessage('profile_mobile_duplicate');
 					} else {
 						showmessage('undefined_action');
 					}
+				}
+				$nativecheck = native_user_checkemail($email);
+				if($nativecheck == -4) {
+					showmessage('profile_email_illegal');
+				} elseif($nativecheck == -6) {
+					showmessage('profile_email_duplicate');
+				}
+				if(!empty($secprofile['secmobile']) && native_user_checksecmobile($secprofile['secmobicc'], $secprofile['secmobile']) < 0) {
+					showmessage('profile_mobile_duplicate');
 				}
 			} else {
 				list($uid, $username, $email) = $activation;
 			}
 			$_G['username'] = $username;
-			if(getuserbyuid($uid, 1)) {
-				if(!$activation) {
-					uc_user_delete($uid);
-				}
+			if($activation && getuserbyuid($uid, 1)) {
 				showmessage('profile_uid_duplicate', '', ['uid' => $uid]);
 			}
 
@@ -794,7 +792,11 @@ class register_ctl {
 
 			$init_arr = ['credits' => explode(',', $this->setting['initcredits']), 'profile' => $profile, 'emailstatus' => $emailstatus];
 
-			table_common_member::t()->insert_user($uid, $username, $password, $email, $_G['clientip'], $groupinfo['groupid'], $init_arr, 0, $_G['remoteport']);
+			if(!$activation) {
+				$uid = native_user_create($username, $_GET['password'], $email, $_G['clientip'], $groupinfo['groupid'], $init_arr, 0, $_G['remoteport'], $secprofile['secmobicc'], $secprofile['secmobile'], 0, $questionid, $answer);
+			} else {
+				table_common_member::t()->insert_user($uid, $username, $password, $email, $_G['clientip'], $groupinfo['groupid'], $init_arr, 0, $_G['remoteport']);
+			}
 			if($emailstatus) {
 				updatecreditbyaction('realemail', $uid);
 			}
@@ -1062,9 +1064,7 @@ class member {
 			return true;
 		}
 
-		loaducenter();
-
-		return uc_get_user(addslashes($username)) && !$memberExists;
+		return false;
 	}
 
 }
