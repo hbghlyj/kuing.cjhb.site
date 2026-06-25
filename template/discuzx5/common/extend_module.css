@@ -8,7 +8,7 @@
 #category_grid {border:none;border-radius:var(--dz-radius-m)}
 #category_grid h4 span {height:50px;border-radius:0 var(--dz-radius-s) var(--dz-radius-s) 0}
 #category_grid .newimgbox:hover h4 span, #category_grid .subjectbox:hover h4 span, #category_grid .replaybox:hover h4 span, #category_grid .hottiebox:hover h4 span, #category_grid .goodtiebox:hover h4 span {display:none;width:4px;border-radius:0 2px 2px 0}
-#category_grid h4 {height:50px;line-height:50px;font-size:15px;font-weight:400;text-indent:15px;border-left:0px solid var(--dz-borderb);border-bottom:1px solid var(--dz-borderb)}
+#category_grid h4 {font-size:15px;font-weight:400;text-indent:15px;border-left:0px solid var(--dz-borderb);border-bottom:1px solid var(--dz-borderb)}
 #category_grid td {border-left:1px solid var(--dz-borderb)}
 #category_grid .newimgbox h4 {border-left:none}
 .category_newlist {padding:10px 15px}
