@@ -111,20 +111,6 @@ Created & Modified by Alice, Monkey, Lushnis, Pony, Dfox & DragonLee.
 			#category_grid .replaybox:hover h4 span.tit_replay { background: #5CAE2B; }
 			#category_grid .hottiebox:hover h4 span.tit_hottie { background: #FF8406; }
 			#category_grid .goodtiebox:hover h4 span.tit_goodtie { background: #C6D313; }
-	@media (min-width: 769px) {
-		#category_grid > table > tbody > tr {
-			display: table-row !important;
-		}
-		#category_grid > table > tbody > tr > td {
-			display: table-cell !important;
-			width: 25% !important;
-			flex: none !important;
-			border: none !important;
-			background: none !important;
-			padding: 0 !important;
-			margin: 0 !important;
-		}
-	}
 	@media (min-width: 481px) and (max-width: 768px) {
 		#category_grid > table > tbody > tr {
 			display: flex !important;
