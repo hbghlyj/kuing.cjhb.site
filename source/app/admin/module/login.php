@@ -31,8 +31,13 @@ $mustlogin = getglobal('config/admincp/mustlogin');
 $lang = lang('admincp_login');
 $sid = getglobal('sid');
 $formhash = getglobal('formhash');
-$_SERVER['QUERY_STRING'] = str_replace('&amp;', '&', dhtmlspecialchars($_SERVER['QUERY_STRING']));
-$extra = ADMINSCRIPT.'?'.(getgpc('action') && getgpc('frames') ? 'frames=yes&' : '').$_SERVER['QUERY_STRING'];
+$query = [];
+parse_str(str_replace('&amp;', '&', $_SERVER['QUERY_STRING']), $query);
+unset($query['app'], $query['platform']);
+if(getgpc('action') && getgpc('frames')) {
+	$query = ['frames' => 'yes'] + $query;
+}
+$extra = ADMINSCRIPT.($query ? '&'.http_build_query($query) : '');
 $forcesecques = '<option value="0">'.($_G['config']['admincp']['forcesecques'] || $_G['group']['forcesecques'] ? $lang['forcesecques'] : $lang['security_question_0']).'</option>';
 
 $version = getglobal('setting/version');
