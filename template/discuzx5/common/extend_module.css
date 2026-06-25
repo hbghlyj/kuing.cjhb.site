@@ -12,7 +12,7 @@
 #category_grid td {border-left:1px solid var(--dz-borderb)}
 #category_grid .newimgbox h4 {border-left:none}
 .category_newlist {padding:10px 15px}
-.category_newlist li {height:auto;line-height:26px;font-size:13px}
+.category_newlist li {height:auto;line-height:26px}
 .slidebox_grid {margin:18px auto;border-color:var(--dz-borderb);overflow:hidden}
 .flg .bm_h {margin:0 15px 15px}
 .flg .bm_c {padding:0 15px 15px}
