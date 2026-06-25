@@ -404,7 +404,6 @@ $serialize_sql_setting = array(
 							'interest' => 'interest',
 							'sightml' => 'sightml',
 							'customstatus' => 'customstatus',
-							'timeoffset' => 'timeoffset',
 						),
 				),
 		),

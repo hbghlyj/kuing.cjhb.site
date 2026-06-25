@@ -254,23 +254,6 @@
 					<td>&nbsp;</td>
 				</tr>
 				<!--{/if}-->
-				<!--{if is_array($allowitems) && in_array('timeoffset', $allowitems)}-->
-				<tr>
-					<th id="th_timeoffset">{lang time_zone}</th>
-					<td id="td_timeoffset">
-						<!--{eval $timeoffset = array({lang timezone});}-->
-						<select name="timeoffset" style="max-width: 340px;">
-							<!--{loop $timeoffset $key $desc}-->
-							<option value="$key"{if $key==$space[timeoffset]} selected="selected"{/if}>$desc</option>
-							<!--{/loop}-->
-						</select>
-						<p class="mtn">{lang current_time} : <!--{date($_G['timestamp'])}--></p>
-						<p class="d">{lang time_zone_message}</p>
-					</td>
-					<td>&nbsp;</td>
-				</tr>
-				<!--{/if}-->
-
 				<!--{if $operation == 'contact'}-->
 				<tr>
 					<th id="th_sightml">Email</th>

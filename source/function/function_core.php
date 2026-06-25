@@ -1212,9 +1212,8 @@ function dgmdate($timestamp, $format = 'dt', $timeoffset = 9999, $uformat = '') 
 		$dformat = getglobal('setting/dateformat');
 		$tformat = getglobal('setting/timeformat');
 		$dtformat = $dformat.' '.$tformat;
-		$offset = getglobal('member/timeoffset');
-		$sysoffset = getglobal('setting/timeoffset');
-		$offset = $offset == 9999 ? ($sysoffset ? $sysoffset : 0) : $offset;
+		$offset = getglobal('setting/timeoffset');
+		$offset = $offset ? $offset : 0;
 		$lang = lang('core', 'date');
 	}
 	$timestamp = intval($timestamp);

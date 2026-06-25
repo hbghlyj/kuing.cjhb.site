@@ -1455,7 +1455,6 @@ $lang =
 	'setting_profile_group_list' => '列表',
 	'setting_profile_permission_basic_status' => '自定义头衔',
 	'setting_profile_personal_signature' => '个人签名',
-	'setting_profile_time_zone' => '时区',
 	'setting_profile_tips' => '<li>用户栏目分组至少必须启用一项，如果都不启用，默认为全部启用</li>',
 
 	'setting_threadprofile_tpl_tpls' => '<li>{<b>标记</b>} 不含参数的贴内用户信息标记调用。</li><li>{<b>标记</b>=<b>参数</b>} 含参数的贴内用户信息标记调用，多个参数用","分割</li><li>{<b>标记</b>}<b>HTML</b>{<b>*</b>}<b>HTML</b>{/<b>标记</b>} 当有调用内容有值时显示 {*} 前后的 HTML 内容</li><li>“<b>plugin:插件标识</b>”格式的<b>标记</b>为插件增加的贴内用户信息标记调用。插件开发人员在设计新的贴内用户信息标记前请务必仔细阅读《<a href="https://open.dismall.com/?!devdoc" target="_blank">Discuz! 技术文档</a>》中的内容。</li>',
@@ -3923,8 +3922,6 @@ $lang =
 	'members_edit_invisible' => '隐身登录',
 	'members_edit_showemail' => 'Email 地址可见',
 	'members_edit_newsletter' => '同意接收站点通知 (Email 或短消息)',
-	'members_edit_timeoffset' => '时差设定',
-	'members_edit_timeoffset_comment' => '用户本地时间与 GMT 标准的时间差，设置 9999 即为默认时差，和站点设置保持一致',
 	'members_edit_pmsound' => '短消息提示音',
 	'members_edit_ignorepm' => '忽略短消息',
 	'members_edit_exphistory' => '用户历史资料下载',

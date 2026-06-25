@@ -171,10 +171,6 @@
 		<!--{if $space[lastactivity]}--><li><em>{lang last_activity_time}</em>$space[lastactivity]</li><!--{/if}-->
 		<!--{if $space[lastpost]}--><li><em>{lang last_post_time}</em>$space[lastpost]</li><!--{/if}-->
 		<!--{if $space[lastsendmail]}--><li><em>{lang last_send_email}</em>$space[lastsendmail]</li><!--{/if}-->
-		<li><em>{lang time_offset}</em>
-			<!--{eval $timeoffset = array({lang timezone});}-->
-			$timeoffset[$space[timeoffset]]
-		</li>
 	</ul>
 </div>
 <!--{if $clist}-->

@@ -378,8 +378,7 @@ class table_common_member extends discuz_table_archive {
 				'groupid' => intval($groupid),
 				'regdate' => TIMESTAMP,
 				'emailstatus' => intval($extdata['emailstatus']),
-				'credits' => dintval($credits[0]),
-				'timeoffset' => 9999
+				'credits' => dintval($credits[0])
 			];
 			$status = [
 				'uid' => $uid,

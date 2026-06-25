@@ -80,7 +80,6 @@ if(submitcheck('settingsubmit')) {
 		}
 		$varname[1][] = ['sightml', $lang['setting_profile_personal_signature'], 'sightml'];
 		$varname[1][] = ['customstatus', $lang['setting_profile_permission_basic_status'], 'customstatus'];
-		$varname[1][] = ['timeoffset', $lang['setting_profile_time_zone'], 'timeoffset'];
 
 		showsetting('setting_profile_field', $varname, $groupinfo['field'], 'omcheckbox');
 		echo "<input type=\"hidden\" name=\"settingnew[profile][type]\" value=\"{$_GET['type']}\" />";

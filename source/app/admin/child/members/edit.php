@@ -148,7 +148,6 @@ if(!submitcheck('editsubmit')) {
 	showsetting('members_edit_addsize', 'addsizenew', $member['addsize'], 'text');
 	showsetting('members_edit_addfriend', 'addfriendnew', $member['addfriend'], 'text');
 
-	showsetting('members_edit_timeoffset', 'timeoffsetnew', $member['timeoffset'], 'text');
 	showsetting('members_edit_invisible', 'invisiblenew', $member['invisible'], 'radio');
 
 	showtitle('members_edit_option');
@@ -310,7 +309,7 @@ if(!submitcheck('editsubmit')) {
 	$freeze = in_array($_GET['freezenew'], [-2, -1, 0, 1, 2]) ? $_GET['freezenew'] : 0;
 	$emailstatusnew = intval($_GET['emailstatusnew']);
 	$secmobilestatusnew = intval($_GET['secmobilestatusnew']);
-	$memberupdate = array_merge($memberupdate, ['regdate' => $regdatenew, 'emailstatus' => $emailstatusnew, 'secmobilestatus' => $secmobilestatusnew, 'status' => $status, 'freeze' => $freeze, 'timeoffset' => $_GET['timeoffsetnew']]);
+	$memberupdate = array_merge($memberupdate, ['regdate' => $regdatenew, 'emailstatus' => $emailstatusnew, 'secmobilestatus' => $secmobilestatusnew, 'status' => $status, 'freeze' => $freeze]);
 	C::t('common_member'.$tableext)->update($uid, $memberupdate);
 	C::t('common_member_field_home'.$tableext)->update($uid, ['addsize' => $addsize, 'addfriend' => $addfriend]);
 	C::t('common_member_count'.$tableext)->update($uid, ['posts' => $_GET['postsnew'], 'digestposts' => $_GET['digestpostsnew']]);

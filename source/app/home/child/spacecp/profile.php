@@ -148,10 +148,6 @@ if(submitcheck('profilesubmit')) {
 			continue;
 		} elseif($field && !$field['available']) {
 			continue;
-		} elseif($key == 'timeoffset') {
-			if($value >= -12 && $value <= 12 || $value == 9999) {
-				table_common_member::t()->update($_G['uid'], ['timeoffset' => intval($value)]);
-			}
 		} elseif($key == 'site') {
 			if(!in_array(strtolower(substr($value, 0, 6)), ['http:/', 'https:', 'ftp://', 'rtsp:/', 'mms://']) && !preg_match('/^static\//', $value) && !preg_match('/^data\//', $value)) {
 				$value = 'http://'.$value;
@@ -643,7 +639,7 @@ if($operation == 'password') {
 	}
 	$htmls = $settings = [];
 	foreach($allowitems as $fieldid) {
-		if(!in_array($fieldid, ['sightml', 'customstatus', 'timeoffset'])) {
+		if(!in_array($fieldid, ['sightml', 'customstatus'])) {
 			$html = profile_setting($fieldid, $space, true);
 			if($html) {
 				$settings[$fieldid] = $_G['cache']['profilesetting'][$fieldid];

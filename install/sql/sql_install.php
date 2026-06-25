@@ -819,7 +819,6 @@ CREATE TABLE pre_common_member
 	extgroupids        char(20)              NOT NULL DEFAULT '',
 	regdate            int(10) unsigned      NOT NULL DEFAULT '0',
 	credits            int(10)               NOT NULL DEFAULT '0',
-	timeoffset         char(4)               NOT NULL DEFAULT '',
 	newpm              smallint(6) unsigned  NOT NULL DEFAULT '0',
 	newprompt          smallint(6) unsigned  NOT NULL DEFAULT '0',
 	accessmasks        tinyint(1)            NOT NULL DEFAULT '0',

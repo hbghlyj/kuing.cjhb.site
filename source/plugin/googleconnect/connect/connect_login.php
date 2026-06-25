@@ -381,7 +381,7 @@ if($op == 'callback') {
 	require_once libfile('function/member');
 	$cookietime = 1296000;
 	setloginstatus($member, $cookietime);
-	$param = ['username' => $_G['member']['username'], 'usergroup' => $_G['group']['grouptitle'], 'timeoffsetupdated' => ''];
+	$param = ['username' => $_G['member']['username'], 'usergroup' => $_G['group']['grouptitle']];
 
 	C::t('common_member_status')->update($member['uid'], ['lastip' => $_G['clientip'], 'lastvisit' => TIMESTAMP, 'lastactivity' => TIMESTAMP]);
 	showmessage('login_succeed', $referer, $param);

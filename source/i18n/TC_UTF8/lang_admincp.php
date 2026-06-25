@@ -1457,7 +1457,6 @@ $lang =
 	'setting_profile_group_list' => '列表',
 	'setting_profile_permission_basic_status' => '自定義頭銜',
 	'setting_profile_personal_signature' => '個人簽名',
-	'setting_profile_time_zone' => '時區',
 	'setting_profile_tips' => '<li>用戶欄目分組至少必須啓用一項，如果都不啓用，默認為全部啓用</li>',
 
 	'setting_threadprofile_tpl_tpls' => '<li>{<b>標記</b>} 不含參數的貼內用戶資訊標記調用。</li><li>{<b>標記</b>=<b>參數</b>} 含參數的貼內用戶資訊標記調用，多個參數用","分割</li><li>{<b>標記</b>}<b>HTML</b>{<b>*</b>}<b>HTML</b>{/<b>標記</b>} 當有調用內容有值時顯示 {*} 前後的 HTML 內容</li><li>“<b>plugin:插件標識</b>”格式的<b>標記</b>為插件增加的貼內用戶資訊標記調用。插件開發人員在設計新的貼內用戶資訊標記前請務必仔細閲讀《<a href="https://open.dismall.com/?!devdoc" target="_blank">Discuz! 技術文檔</a>》中的內容。</li>',
@@ -3925,8 +3924,6 @@ $lang =
 	'members_edit_invisible' => '隱身登錄',
 	'members_edit_showemail' => 'Email 地址可見',
 	'members_edit_newsletter' => '同意接收站點通知 (Email 或短消息)',
-	'members_edit_timeoffset' => '時差設定',
-	'members_edit_timeoffset_comment' => '用戶本地時間與 GMT 標準的時間差，設置 9999 即為默認時差，和站點設置保持一致',
 	'members_edit_pmsound' => '短消息提示音',
 	'members_edit_ignorepm' => '忽略短消息',
 	'members_edit_exphistory' => '用戶歷史資料下載',

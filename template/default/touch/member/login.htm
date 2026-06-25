@@ -13,7 +13,6 @@
 <!--{/if}-->
 <!--{if !isset($_GET['viewlostpw'])}-->
 	<form id="loginform" method="post" action="member.php?mod=logging&action=login&loginsubmit=yes&loginhash=$loginhash&mobile=2">
-	<input type="hidden" name="timeoffset" value="8" />
 	<input type="hidden" name="formhash" id="formhash" value='{FORMHASH}' />
 	<input type="hidden" name="referer" id="referer" value="<!--{if dreferer()}-->{echo dreferer()}<!--{else}-->forum.php?mobile=2<!--{/if}-->" />
 	<input type="hidden" name="fastloginfield" value="username">
@@ -99,9 +98,6 @@
 <!--{eval updatesession();}-->
 <script type="text/javascript">
 	(function() {
-		<!--{if !isset($_GET['viewlostpw'])}-->
-		document.getElementsByName('timeoffset')[0].value = -(new Date().getTimezoneOffset() / 60);
-		<!--{/if}-->
 		document.addEventListener("change", function(event) {
 			if (!event.target.matches(".sel_list")) return;
 			var obj = event.target;

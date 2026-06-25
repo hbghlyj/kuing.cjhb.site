@@ -791,7 +791,7 @@ class discuz_application extends discuz_base {
 	}
 
 	private function _init_guest() {
-		setglobal('member', ['uid' => 0, 'username' => '', 'adminid' => 0, 'groupid' => 7, 'credits' => 0, 'timeoffset' => 9999]);
+		setglobal('member', ['uid' => 0, 'username' => '', 'adminid' => 0, 'groupid' => 7, 'credits' => 0]);
 	}
 
 	private function _init_cron() {
@@ -829,13 +829,7 @@ class discuz_application extends discuz_base {
 
 		lang('core');
 
-		if($this->init_setting && $this->init_user) {
-			if(!isset($this->var['member']['timeoffset']) || $this->var['member']['timeoffset'] == 9999 || $this->var['member']['timeoffset'] === '') {
-				$this->var['member']['timeoffset'] = $this->var['setting']['timeoffset'];
-			}
-		}
-
-		$timeoffset = $this->init_setting ? $this->var['member']['timeoffset'] : $this->var['setting']['timeoffset'];
+		$timeoffset = $this->init_setting ? $this->var['setting']['timeoffset'] : 0;
 		$this->var['timenow'] = [
 			'time' => dgmdate(TIMESTAMP),
 			'offset' => $timeoffset >= 0 ? ($timeoffset == 0 ? '' : '+'.$timeoffset) : $timeoffset

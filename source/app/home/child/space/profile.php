@@ -87,7 +87,6 @@ if($space['sellercredit']) {
 
 $space['attachsize'] = formatsize($space['attachsize']);
 
-$space['timeoffset'] = empty($space['timeoffset']) ? '9999' : $space['timeoffset'];
 if(strtotime($space['regdate']) + $space['oltime'] * 3600 > TIMESTAMP) {
 	$space['oltime'] = 0;
 }
