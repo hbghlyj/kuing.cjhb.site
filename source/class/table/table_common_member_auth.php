@@ -25,7 +25,7 @@ class table_common_member_auth extends discuz_table {
 		parent::__construct();
 	}
 
-	public function fetch($uid) {
+	public function fetch($uid, $force_from_db = false) {
 		return $uid ? DB::fetch_first('SELECT * FROM %t WHERE uid=%d', [$this->_table, $uid]) : [];
 	}
 

@@ -123,7 +123,7 @@ function native_user_register($username, $password, $email = '', $questionid = '
 function native_user_create($username, $password, $email, $ip, $groupid, $extdata, $adminid = 0, $port = 0, $secmobicc = '', $secmobile = '', $secmobilestatus = 0, $questionid = '', $answer = '') {
 	$uid = table_common_member::t()->insert_user(0, $username, md5(random(10)), $email, $ip, $groupid, $extdata, $adminid, $port, $secmobicc, $secmobile, $secmobilestatus);
 	if($uid > 0) {
-		table_common_member_auth::t()->upsert($uid, native_user_generate_password($password), '', native_user_quescrypt($questionid, $answer));
+		C::t('common_member_auth')->upsert($uid, native_user_generate_password($password), '', native_user_quescrypt($questionid, $answer));
 	}
 	return $uid;
 }
@@ -133,7 +133,7 @@ function native_user_login($username, $password, $isuid = 0, $checkques = 0, $qu
 	if(empty($user['uid'])) {
 		return [-1, '', '', ''];
 	}
-	$auth = table_common_member_auth::t()->fetch($user['uid']);
+	$auth = C::t('common_member_auth')->fetch($user['uid']);
 	if(empty($auth) || !native_user_verify_password($password, $auth['password'], $auth['salt'])) {
 		if(!$nolog) {
 			native_user_loginfailed($username, $ip);
@@ -144,7 +144,7 @@ function native_user_login($username, $password, $isuid = 0, $checkques = 0, $qu
 		return [-3, '', '', ''];
 	}
 	if(!empty($auth['salt']) || password_needs_rehash($auth['password'], PASSWORD_DEFAULT)) {
-		table_common_member_auth::t()->upsert($user['uid'], native_user_generate_password($password), '', $auth['secques']);
+		C::t('common_member_auth')->upsert($user['uid'], native_user_generate_password($password), '', $auth['secques']);
 	}
 	return [$user['uid'], $user['username'], $user['password'], $user['email']];
 }
@@ -154,7 +154,7 @@ function native_user_edit($username, $oldpw, $newpw, $email = '', $ignoreoldpw =
 	if(empty($user['uid'])) {
 		return -4;
 	}
-	$auth = table_common_member_auth::t()->fetch($user['uid']);
+	$auth = C::t('common_member_auth')->fetch($user['uid']);
 	if(!$ignoreoldpw && (empty($auth) || !native_user_verify_password($oldpw, $auth['password'], $auth['salt']))) {
 		return -1;
 	}
@@ -182,7 +182,7 @@ function native_user_edit($username, $oldpw, $newpw, $email = '', $ignoreoldpw =
 		if($questionid !== '') {
 			$newauth['secques'] = native_user_quescrypt($questionid, $answer);
 		}
-		table_common_member_auth::t()->upsert($user['uid'], $newauth['password'], $newauth['salt'], $newauth['secques']);
+		C::t('common_member_auth')->upsert($user['uid'], $newauth['password'], $newauth['salt'], $newauth['secques']);
 	}
 	return 1;
 }
@@ -192,7 +192,7 @@ function native_user_delete($uid) {
 	if(!$uids) {
 		return 0;
 	}
-	table_common_member_auth::t()->delete($uids);
+	C::t('common_member_auth')->delete($uids);
 	native_user_deleteavatar($uids);
 	return count($uids);
 }
