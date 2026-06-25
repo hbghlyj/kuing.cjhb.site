@@ -10,7 +10,7 @@
 	<style id="en_font_style">
 		:root {
 			--common-font: 'Latin Modern Roman';
-			letter-spacing: -0.2px;
+			text-autospace: normal;
 		}
 	@font-face {
 		font-family: 'Latin Modern Roman';
