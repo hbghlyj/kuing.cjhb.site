@@ -13,7 +13,7 @@ body { background: #FFF url(bgimg.jpg) no-repeat 50% 0; background-size: 1400px;
 #scbar_btn { background-color: var(--dise); }
 	#nv li.a { background-color: color-mix(in srgb, var(--dise), transparent 25%); }
 	#nv li a { color: var(--dise); }
-	#nv li.a a { color: #FFF; }
+	#nv li.a a { color: #FFF; border-radius: 4px 4px 0 0; box-shadow: inset 0px 2px 2px color-mix(in srgb, var(--dise), black 30%); }
 	#nv li a:hover, #nv li.hover a:hover, #nv li.hover a { background-color: var(--dise); color: #FFF; }
 #scform_srchtxt { border-color: var(--dise); }
 #scform_tb .a::before { border-bottom-color: var(--dise); }
