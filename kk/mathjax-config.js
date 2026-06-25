@@ -105,7 +105,7 @@ window.MathJax = {
     fontCache: 'global'
   },
   chtml: {
-    matchFontHeight: false
+    matchFontHeight: true
   },
   output: {
     displayOverflow: 'scroll',
