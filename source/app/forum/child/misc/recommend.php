@@ -48,9 +48,6 @@ update_threadpartake($_G['tid']);
 $fieldarr['heats'] = 0;
 $fieldarr['recommends'] = $_G['group']['allowrecommend'];
 table_forum_thread::t()->increase($_G['tid'], $fieldarr);
-if(empty($thread['closed'])) {
-	table_forum_thread::t()->update($_G['tid'], ['lastpost' => TIMESTAMP]);
-}
 table_forum_memberrecommend::t()->insert(['tid' => $_G['tid'], 'recommenduid' => $_G['uid'], 'dateline' => $_G['timestamp']]);
 
 dsetcookie('recommend', 1, 43200);
@@ -61,4 +58,3 @@ if($_G['setting']['recommendthread']['daycount']) {
 } else {
 	showmessage('recommend_succeed', '', ['recommendv' => $recommendv, 'recommendc' => $thread['recommends']], ['msgtype' => 3]);
 }
-	
