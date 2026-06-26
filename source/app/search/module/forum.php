@@ -124,7 +124,6 @@ if(!submitcheck('searchsubmit', 1)) {
 		}
 
 		$keyword = $index['keywords'];
-		$keyword = $keyword != '' ? str_replace('+', ' ', $keyword) : '';
 
 		$index['keywords'] = rawurlencode($index['keywords']);
 		$searchstring = explode('|', $index['searchstring']);
@@ -334,7 +333,7 @@ if(!submitcheck('searchsubmit', 1)) {
 						$s->SetFilter('special', explode(',', $special), false);
 					}
 
-					$keywords = str_replace('%', '+', $srchtxt).(trim($srchuname) ? '+'.str_replace('%', '+', $srchuname) : '');
+					$keywords = $keyword.(trim($srchuname) ? ' '.$srchuname : '');
 					$expiration = TIMESTAMP + $cachelife_text;
 
 				}
@@ -416,7 +415,7 @@ if(!submitcheck('searchsubmit', 1)) {
 						$sqlsrch .= ' AND special IN ('.dimplode($special).')';
 					}
 
-					$keywords = str_replace('%', '+', $srchtxt);
+					$keywords = $keyword;
 					$expiration = TIMESTAMP + $cachelife_text;
 
 				}
