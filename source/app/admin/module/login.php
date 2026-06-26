@@ -37,7 +37,6 @@ unset($query['app'], $query['platform']);
 if(getgpc('action') && getgpc('frames')) {
 	$query = ['frames' => 'yes'] + $query;
 }
-$query['formhash'] = $formhash;
 $extra = ADMINSCRIPT.($query ? '&'.http_build_query($query) : '');
 $forcesecques = '<option value="0">'.($_G['config']['admincp']['forcesecques'] || $_G['group']['forcesecques'] ? $lang['forcesecques'] : $lang['security_question_0']).'</option>';
 

@@ -425,6 +425,7 @@ class discuz_application extends discuz_base {
 
 	private function _xss_check() {
 		static $check = ['"', '>', '<', '\'', 'CONTENT-TRANSFER-ENCODING'];
+		$formhashchecked = false;
 
 		if(isset($_GET['formhash']) && $_GET['formhash'] !== formhash()) {
 			if(defined('CURMODULE') && constant('CURMODULE') == 'logging' && isset($_GET['action']) && $_GET['action'] == 'logout') {
@@ -435,10 +436,13 @@ class discuz_application extends discuz_base {
 				system_error('request_tainting');
 			}
 		}
+		if((isset($_GET['formhash']) && $_GET['formhash'] === formhash()) || (isset($_POST['formhash']) && $_POST['formhash'] === formhash())) {
+			$formhashchecked = true;
+		}
 
 		if($_SERVER['REQUEST_METHOD'] == 'GET') {
 			$temp = $_SERVER['REQUEST_URI'];
-		} elseif(empty ($_GET['formhash'])) {
+		} elseif(!$formhashchecked) {
 			$temp = $_SERVER['REQUEST_URI'].http_build_query($_POST);
 		} else {
 			$temp = '';
