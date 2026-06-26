@@ -159,9 +159,9 @@ if($_GET['from'] == 'portal') {
 $_GET['extra'] = getgpc('extra') ? rawurlencode($_GET['extra']) : '';
 
 if(rewriterulecheck('forum_viewthread')) {
-	$canonical = rewriteoutput('forum_viewthread', 1, '', $_G['tid'], 1, '', '');
+	$canonical = rewriteoutput('forum_viewthread', 1, '', $_G['tid'], $page, '', '');
 } else {
-	$canonical = 'forum.php?mod=viewthread&tid='.$_G['tid'];
+	$canonical = 'forum.php?mod=viewthread&tid='.$_G['tid'].'&page='.$page;
 }
 $_G['setting']['seohead'] .= '<link href="'.$_G['siteurl'].$canonical.'" rel="canonical" />';
 
