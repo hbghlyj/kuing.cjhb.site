@@ -69,7 +69,7 @@ $before = intval(getgpc('before'));
 $srchfid = getgpc('srchfid');
 $srhfid = intval($_GET['srhfid']);
 
-$keyword = isset($srchtxt) ? dhtmlspecialchars(trim($srchtxt)) : '';
+$keyword = isset($srchtxt) ? trim($srchtxt) : '';
 
 if(!$srchuname && $srchuid) {
 	$srchmember = getuserbyuid($srchuid);
@@ -102,6 +102,7 @@ if(!empty($srchfid) && !is_numeric($srchfid)) {
 }
 
 if(!submitcheck('searchsubmit', 1)) {
+	$keyword = dhtmlspecialchars($keyword);
 	include template('search/forum');
 
 } else {
@@ -122,7 +123,7 @@ if(!submitcheck('searchsubmit', 1)) {
 			showmessage('search_id_invalid');
 		}
 
-		$keyword = dhtmlspecialchars($index['keywords']);
+		$keyword = $index['keywords'];
 		$keyword = $keyword != '' ? str_replace('+', ' ', $keyword) : '';
 
 		$index['keywords'] = rawurlencode($index['keywords']);
@@ -189,6 +190,7 @@ if(!submitcheck('searchsubmit', 1)) {
 		$srchfilterchecked[$srchfilter] = 'checked="checked""';
 		$beforechecked = [$before => 'checked="checked""'];
 		$srchfromselected = [$srchfrom => 'selected="selected"'];
+		$keyword = dhtmlspecialchars($keyword);
 		include template('search/forum');
 
 	} else {
