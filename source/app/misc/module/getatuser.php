@@ -11,7 +11,20 @@ if(!defined('IN_DISCUZ')) {
 }
 $result = '';
 $search_str = getgpc('search_str');
-if($_G['uid']) {
+if($tid = dintval(getgpc('tid'))) {
+	$atlist_tid = [];
+	foreach(table_forum_post::t()->fetch_all_by_tid('tid:'.$tid, $tid, false, 'ASC', 0, 0, null, 0) as $post) {
+		if(!empty($post['authorid']) && $post['authorid'] != $_G['uid'] && !isset($atlist_tid[$post['authorid']])) {
+			$atlist_tid[$post['authorid']] = $post['author'];
+		}
+	}
+	foreach(table_forum_postcomment::t()->fetch_all_by_search($tid) as $comment) {
+		if(!empty($comment['authorid']) && $comment['authorid'] != $_G['uid'] && !isset($atlist_tid[$comment['authorid']])) {
+			$atlist_tid[$comment['authorid']] = $comment['author'];
+		}
+	}
+	$result = implode(',', array_values($atlist_tid));
+} elseif($_G['uid']) {
 	$atlist = $atlist_cookie = [];
 	$limit = 200;
 	if(getcookie('atlist')) {
