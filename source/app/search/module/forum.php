@@ -399,11 +399,12 @@ if(!submitcheck('searchsubmit', 1)) {
 
 				}
 
-				$num = $ids = 0;
+				$num = 0;
+				$ids = [];
 				$_G['setting']['search']['forum']['maxsearchresults'] = $_G['setting']['search']['forum']['maxsearchresults'] ? intval($_G['setting']['search']['forum']['maxsearchresults']) : 500;
 				$query = DB::query('SELECT '.($srchtype == 'fulltext' ? 'DISTINCT' : '')." t.tid, t.closed, t.author, t.authorid $sqlsrch ORDER BY tid DESC LIMIT ".$_G['setting']['search']['forum']['maxsearchresults']);
 				while($thread = DB::fetch($query)) {
-					$ids .= ','.$thread['tid'];
+					$ids[] = $thread['tid'];
 					$num++;
 				}
 				DB::free_result($query);
@@ -418,7 +419,7 @@ if(!submitcheck('searchsubmit', 1)) {
 				'dateline' => $_G['timestamp'],
 				'expiration' => $expiration,
 				'num' => $num,
-				'ids' => $ids
+				'ids' => implode(',', $ids)
 			], true);
 
 			!($_G['group']['exempt'] & 2) && updatecreditbyaction('search');

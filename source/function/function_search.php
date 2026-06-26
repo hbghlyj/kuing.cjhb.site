@@ -37,10 +37,17 @@ function searchkey($keyword, $field, $returnsrchtxt = 0) {
 
 function highlight($text, $words, $prepend) {
 	$text = str_replace('\"', '"', $text);
-	foreach($words as $key => $replaceword) {
-		$text = str_replace($replaceword, '<highlight>'.$replaceword.'</highlight>', $text);
+	$segments = preg_split('/(&#?[a-zA-Z0-9]+;)/', $text, -1, PREG_SPLIT_DELIM_CAPTURE);
+	foreach($segments as $i => $segment) {
+		if(preg_match('/^&#?[a-zA-Z0-9]+;$/', $segment)) {
+			continue;
+		}
+		foreach($words as $key => $replaceword) {
+			$segment = str_replace($replaceword, '<highlight>'.$replaceword.'</highlight>', $segment);
+		}
+		$segments[$i] = $segment;
 	}
-	return "$prepend$text";
+	return $prepend.implode('', $segments);
 }
 
 function bat_highlight($message, $words, $color = '#ff0000') {
