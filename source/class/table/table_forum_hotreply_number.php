@@ -44,6 +44,15 @@ class table_forum_hotreply_number extends discuz_table {
 		return DB::query('UPDATE %t SET '.$typename.'='.$typename.'+1, total=total+1 WHERE pid=%d', [$this->_table, $pid]);
 	}
 
+	public function adjust_num($pid, $typeid, $delta) {
+		$delta = dintval($delta);
+		if(!$delta) {
+			return false;
+		}
+		$typename = $typeid == 1 ? 'support' : 'against';
+		return DB::query('UPDATE %t SET '.$typename.'=GREATEST('.$typename.'+%d, 0), total=GREATEST(total+%d, 0) WHERE pid=%d', [$this->_table, $delta, $delta, $pid]);
+	}
+
 	public function delete_by_tid($tid) {
 		if(empty($tid)) {
 			return false;

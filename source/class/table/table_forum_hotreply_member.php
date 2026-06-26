@@ -41,6 +41,14 @@ class table_forum_hotreply_member extends discuz_table {
 		return DB::fetch_first('SELECT * FROM %t WHERE pid=%d AND uid=%d', [$this->_table, $pid, $uid]);
 	}
 
+	public function update_attitude($pid, $uid, $attitude) {
+		return DB::update($this->_table, ['attitude' => $attitude], 'pid='.dintval($pid).' AND uid='.dintval($uid));
+	}
+
+	public function delete_by_uid_pid($uid, $pid) {
+		return DB::delete($this->_table, 'uid='.dintval($uid).' AND pid='.dintval($pid));
+	}
+
 	public function delete_by_tid($tid) {
 		if(empty($tid)) {
 			return false;
