@@ -499,6 +499,13 @@ ALTER TABLE pre_forum_thread
 ALTER TABLE pre_forum_thread
 	ADD INDEX typeid_heats (fid, typeid, displayorder, heats);
 
+UPDATE pre_common_setting
+	SET svalue = REPLACE(REPLACE(svalue, 's:5:"reply";i:5;', ''), 's:9:"recommend";i:3;', '')
+	WHERE skey = 'heatthread';
+UPDATE pre_common_setting
+	SET svalue = REPLACE(REPLACE(svalue, 'a:6:{', 'a:4:{'), 'a:5:{', 'a:3:{')
+	WHERE skey = 'heatthread' AND (svalue LIKE 'a:5:{%' OR svalue LIKE 'a:6:{%');
+
 ALTER TABLE `pre_forum_collection`
 	ADD COLUMN cover tinyint(1) unsigned NOT NULL DEFAULT '0';
 
@@ -639,3 +646,13 @@ ALTER TABLE `pre_home_docomment`
 	ADD COLUMN `status` tinyint NOT NULL AFTER `recomends`,
 	ADD COLUMN `fields` json NOT NULL AFTER `status`,
 	ADD INDEX `status`(`status`) USING BTREE;
+CREATE TABLE IF NOT EXISTS pre_common_member_auth
+(
+	uid        mediumint(8) unsigned NOT NULL,
+	`password` varchar(255)          NOT NULL DEFAULT '',
+	`salt`     varchar(20)           NOT NULL DEFAULT '',
+	`secques`  varchar(8)            NOT NULL DEFAULT '',
+	PRIMARY KEY (uid)
+) ENGINE = InnoDB;
+INSERT IGNORE INTO pre_common_member_auth (uid, `password`, `salt`, `secques`)
+SELECT uid, `password`, `salt`, `secques` FROM pre_ucenter_members;
