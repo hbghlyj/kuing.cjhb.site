@@ -43,6 +43,18 @@ $srchtype = empty($_GET['srchtype']) ? '' : trim($_GET['srchtype']);
 $searchid = isset($_GET['searchid']) ? intval($_GET['searchid']) : 0;
 $seltableid = intval(getgpc('seltableid'));
 
+$getuidsbyusername = function($username) {
+	$username = trim($username);
+	if($username === '') {
+		return [];
+	}
+	$uids = array_keys(table_common_member::t()->fetch_all_by_like_username($username, 0, 50));
+	if(!$uids) {
+		showmessage('username_nonexistence');
+	}
+	return array_map('intval', $uids);
+};
+
 if($srchtype != 'title' && $srchtype != 'fulltext') {
 	$srchtype = '';
 }
@@ -50,6 +62,8 @@ if($srchtype != 'title' && $srchtype != 'fulltext') {
 $srchtxt = trim(getgpc('srchtxt'));
 $srchuid = intval(getgpc('srchuid'));
 $srchuname = trim(str_replace('|', '', getgpc('srchuname')));
+$srchparticipant = trim(str_replace('|', '', getgpc('srchparticipant')));
+$srchparticipantuids = $srchparticipant !== '' ? $getuidsbyusername($srchparticipant) : [];
 $srchfrom = intval(getgpc('srchfrom'));
 $before = intval(getgpc('before'));
 $srchfid = getgpc('srchfid');
@@ -117,6 +131,8 @@ if(!submitcheck('searchsubmit', 1)) {
 		$searchstring[2] = base64_decode($searchstring[2]);
 		$srchuid = intval($searchstring[3]);
 		$srchuname = $searchstring[4];
+		$srchparticipantuids = !empty($searchstring[12]) ? array_map('intval', explode(',', $searchstring[12])) : [];
+		$srchparticipant = !empty($searchstring[13]) ? base64_decode($searchstring[13]) : '';
 		if(!$srchuname && $srchuid) {
 			$srchmember = getuserbyuid($srchuid);
 			$srchuname = $srchmember ? $srchmember['username'] : '';
@@ -213,7 +229,7 @@ if(!submitcheck('searchsubmit', 1)) {
 		$specials = $special ? implode(',', $special) : '';
 		$srchfilter = in_array(getgpc('srchfilter'), ['all', 'digest', 'top']) ? $_GET['srchfilter'] : 'all';
 
-		$searchstring = 'forum|'.$srchtype.'|'.base64_encode($srchtxt).'|'.intval($srchuid).'|'.$srchuname.'|'.addslashes($fids).'|'.intval($srchfrom).'|'.intval($before).'|'.$srchfilter.'|'.$specials.'|'.$specialpluginstr.'|'.$seltableid;
+		$searchstring = 'forum|'.$srchtype.'|'.base64_encode($srchtxt).'|'.intval($srchuid).'|'.$srchuname.'|'.addslashes($fids).'|'.intval($srchfrom).'|'.intval($before).'|'.$srchfilter.'|'.$specials.'|'.$specialpluginstr.'|'.$seltableid.'|'.implode(',', $srchparticipantuids).'|'.base64_encode($srchparticipant);
 		$searchindex = ['id' => 0, 'dateline' => '0'];
 
 		foreach(table_common_searchindex::t()->fetch_all_search($_G['setting']['search']['forum']['searchctrl'], $_G['clientip'], $_G['uid'], $_G['timestamp'], $searchstring, $srchmod) as $index) {
@@ -233,7 +249,7 @@ if(!submitcheck('searchsubmit', 1)) {
 
 			!($_G['group']['exempt'] & 2) && checklowerlimit('search');
 
-			if(!$srchtxt && !$srchuid && !$srchuname && !$hastimerange && !in_array($srchfilter, ['digest', 'top']) && !is_array($special)) {
+			if(!$srchtxt && !$srchuid && !$srchuname && !$srchparticipantuids && !$hastimerange && !in_array($srchfilter, ['digest', 'top']) && !is_array($special)) {
 				dheader('Location: search.php?mod=forum');
 			} elseif(isset($srchfid) && !empty($srchfid) && $srchfid != 'all' && !(is_array($srchfid) && in_array('all', $srchfid)) && empty($forumsarray)) {
 				showmessage('search_forum_invalid', 'search.php?mod=forum');
@@ -247,7 +263,7 @@ if(!submitcheck('searchsubmit', 1)) {
 				}
 			}
 
-			if($srchtype == 'fulltext' && $_G['setting']['sphinxon']) {
+			if($srchtype == 'fulltext' && $_G['setting']['sphinxon'] && !$srchparticipantuids) {
 				require_once libfile('class/sphinx');
 
 				$s = new SphinxClient();
@@ -346,7 +362,7 @@ if(!submitcheck('searchsubmit', 1)) {
 				$digestltd = $srchfilter == 'digest' ? "t.digest>'0' AND" : '';
 				$topltd = $srchfilter == 'top' ? "AND t.displayorder>'0'" : "AND t.displayorder>='0'";
 
-				if($hastimerange && empty($srchtxt) && empty($srchuid) && empty($srchuname)) {
+				if($hastimerange && empty($srchtxt) && empty($srchuid) && empty($srchuname) && empty($srchparticipantuids)) {
 
 					$sqlsrch = 'FROM '.DB::table('forum_thread')." t WHERE $digestltd t.fid IN ($fids) $topltd";
 					if($searchtimemin) {
@@ -359,8 +375,9 @@ if(!submitcheck('searchsubmit', 1)) {
 					$keywords = '';
 
 				} else {
-					$sqlsrch = $srchtype == 'fulltext' ?
-						'FROM '.DB::table(getposttable($seltableid)).' p, '.DB::table('forum_thread')." t WHERE $digestltd t.fid IN ($fids) $topltd AND p.tid=t.tid AND p.invisible='0'" :
+					$usepost = $srchtype == 'fulltext' || !empty($srchparticipantuids);
+					$sqlsrch = $usepost ?
+						'FROM '.DB::table(getposttable($seltableid)).' p INNER JOIN '.DB::table('forum_thread')." t ON p.tid=t.tid WHERE $digestltd t.fid IN ($fids) $topltd AND p.invisible='0'" :
 						'FROM '.DB::table('forum_thread')." t WHERE $digestltd t.fid IN ($fids) $topltd";
 					if(!$srchuid && $srchuname) {
 						$srchuid = array_keys(table_common_member::t()->fetch_all_by_like_username($srchuname, 0, 50));
@@ -379,6 +396,9 @@ if(!submitcheck('searchsubmit', 1)) {
 
 					if($srchuid) {
 						$sqlsrch .= ' AND '.($srchtype == 'fulltext' ? 'p' : 't').'.authorid IN ('.dimplode((array)$srchuid).')';
+					}
+					if($srchparticipantuids) {
+						$sqlsrch .= ' AND p.authorid IN ('.dimplode($srchparticipantuids).')';
 					}
 
 					if($hastimerange) {
@@ -402,7 +422,7 @@ if(!submitcheck('searchsubmit', 1)) {
 				$num = 0;
 				$ids = [];
 				$_G['setting']['search']['forum']['maxsearchresults'] = $_G['setting']['search']['forum']['maxsearchresults'] ? intval($_G['setting']['search']['forum']['maxsearchresults']) : 500;
-				$query = DB::query('SELECT '.($srchtype == 'fulltext' ? 'DISTINCT' : '')." t.tid, t.closed, t.author, t.authorid $sqlsrch ORDER BY tid DESC LIMIT ".$_G['setting']['search']['forum']['maxsearchresults']);
+				$query = DB::query('SELECT '.(!empty($usepost) ? 'DISTINCT' : '')." t.tid, t.closed, t.author, t.authorid $sqlsrch ORDER BY tid DESC LIMIT ".$_G['setting']['search']['forum']['maxsearchresults']);
 				while($thread = DB::fetch($query)) {
 					$ids[] = $thread['tid'];
 					$num++;
