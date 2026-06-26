@@ -123,12 +123,11 @@ if(!submitcheck('searchsubmit', 1)) {
 			showmessage('search_id_invalid');
 		}
 
-		$keyword = $index['keywords'];
-
-		$index['keywords'] = rawurlencode($index['keywords']);
 		$searchstring = explode('|', $index['searchstring']);
 		$index['searchtype'] = $searchstring[0];//preg_replace("/^([a-z]+)\|.*/", "\\1", $index['searchstring']);
 		$searchstring[2] = base64_decode($searchstring[2]);
+		$keyword = $searchstring[2];
+		$index['keywords'] = rawurlencode($keyword);
 		$srchuid = intval($searchstring[3]);
 		$srchuname = $searchstring[4];
 		$srchparticipantuids = !empty($searchstring[12]) ? array_map('intval', explode(',', $searchstring[12])) : [];
