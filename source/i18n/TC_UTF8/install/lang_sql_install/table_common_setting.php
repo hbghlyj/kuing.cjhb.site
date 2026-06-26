@@ -858,8 +858,6 @@ $data = [[
     'svalue' => 
     [
       'type' => '2',
-      'reply' => 5,
-      'recommend' => 3,
       'period' => '15',
       'iconlevels' => '50,100,200',
     ],

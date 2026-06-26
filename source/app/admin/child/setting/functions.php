@@ -32,8 +32,6 @@ if(submitcheck('settingsubmit')) {
 	}
 
 	if(isset($settingnew['heatthread'])) {
-		$settingnew['heatthread']['reply'] = intval($settingnew['heatthread']['reply']);
-		$settingnew['heatthread']['recommend'] = intval($settingnew['heatthread']['recommend']);
 		$settingnew['heatthread']['type'] = 2;
 		$settingnew['heatthread']['period'] = intval($settingnew['heatthread']['period']);
 		$settingnew['heatthread']['guidelimit'] = $settingnew['heatthread']['guidelimit'] < 3 ? 3 : intval($settingnew['heatthread']['guidelimit']);
