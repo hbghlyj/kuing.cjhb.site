@@ -92,7 +92,7 @@ Last Modify:	Pony
 	@media only screen and (orientation: landscape) {
 		body { font-family: "Latin Modern Roman",{FONT}; }
 	}
-	* { word-wrap: break-word; }
+	* { overflow-wrap: break-word; }
 	body, ul, ol, li, dl, dd, p, h1, h2, h3, h4, h5, h6, form, fieldset, .pr, .pc { margin: 0; padding: 0; }
 	table { empty-cells: show; border-collapse: collapse; }
 		caption, th { text-align: left; font-weight: 400; }
@@ -1305,7 +1305,7 @@ Last Modify:	Pony
 
 /* 应用列表*/
 	.appl ul { margin: 3px 0; }
-	.appl li { display: block; height: 28px; line-height: 28px; white-space: nowrap; word-wrap: normal; font-size: 14px; text-overflow: ellipsis; overflow: hidden; }
+	.appl li { display: block; height: 28px; line-height: 28px; white-space: nowrap; overflow-wrap: normal; font-size: 14px; text-overflow: ellipsis; overflow: hidden; }
 	.appl li a { text-decoration: none !important; }
 	.appl li a i:before { color: {MENUBGCOLOR}; }
 	.appl img { margin: 0 5px 0 0; vertical-align: middle; }
@@ -1541,7 +1541,7 @@ Last Modify:	Pony
 		.pmb { position: relative; padding: 20px 20px 0; width: 360px; height: 280px; overflow: auto; overflow-x: hidden; }
 			.pmb li { position: relative; margin-bottom: 10px; }
 				.pmt { overflow: hidden; position: absolute; bottom: 1px; left: -5px; text-indent: -999px; width: 0; height: 0; zoom: 1; border-bottom: 6px solid #F0F0F0; border-left: 6px solid transparent; box-shadow: 0px 1px 0 0px #999; }
-				.pmd { float: left; padding: 5px 8px; background: #F0F0F0 repeat-x; border: 1px solid; border-color: #E7E7E7 #BBB #999 #E7E7E7; word-wrap: break-word; -moz-box-shadow: 2px 2px 4px #DDD; -webkit-box-shadow: 2px 2px 4px #DDD; box-shadow: 2px 2px 4px #DDD; -moz-border-radius: 10px 10px 10px 0; -webkit-border-radius: 10px 10px 10px 0; border-radius: 10px 10px 10px 0; }
+				.pmd { float: left; padding: 5px 8px; background: #F0F0F0 repeat-x; border: 1px solid; border-color: #E7E7E7 #BBB #999 #E7E7E7; overflow-wrap: break-word; -moz-box-shadow: 2px 2px 4px #DDD; -webkit-box-shadow: 2px 2px 4px #DDD; box-shadow: 2px 2px 4px #DDD; -moz-border-radius: 10px 10px 10px 0; -webkit-border-radius: 10px 10px 10px 0; border-radius: 10px 10px 10px 0; }
 					.pmd, .pmd img { max-width: 292px; }
 					/* 短消息下的引用和代码样式 */
 					.quote { overflow: hidden; margin: 0; padding-left: 16px; background: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='14' height='10'%3e%3cpath fill='%23ddd' d='M4 2l2 1-2 3h2v4H1V6zM11 2l2 1-2 3h2v4h-5V6z'/%3e%3c/svg%3e") no-repeat 0 0; color: {MIDTEXT}; }

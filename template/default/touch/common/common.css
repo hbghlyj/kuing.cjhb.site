@@ -105,7 +105,7 @@ input:focus, textarea:focus, select:focus {transition:border-color 0.2s ease, bo
 .ann-box .mtit, .hotbox h2 span {transition:transform 0.15s ease}
 .ann-box .mtit:active, .hotbox h2 span:active {transform:scale(0.95)}
 .dz-swiper_box, .hotbox, .stat, .ann-box, .forumlist .subforumshow {animation:dz-slide-down 0.3s ease-out}
-* {word-wrap:break-word}
+* {overflow-wrap:break-word}
 ul, ol, li, span, p, form, h1, h2, h3, h4, h5, h6, dl, dt, dd {margin:0;padding:0;border:0;z-index:inherit}
 img, a img {border:0;margin:0;padding:0}
 ul, ol, li {list-style:none}
@@ -421,7 +421,7 @@ select {-moz-appearance:none;}
 .dzcell-group-inset {margin: 0 15px;overflow: hidden;border-radius:var(--dz-radius-lg);box-shadow:var(--dz-shadow-sm);}
 .dzcell-item {position: relative;display: flex;box-sizing: border-box;width: 100%;padding: 10px 16px;overflow: hidden;font-size: 14px;line-height: 24px;background-color: var(--dz-BG-0);}
 .dzcell-item .dzcell-title {width:80px;}
-.dzcell-item .dzcell-value {flex:1;position: relative;overflow: hidden;color: var(--dz-FC-999);text-align: right;vertical-align: middle;word-wrap: break-word;}
+.dzcell-item .dzcell-value {flex:1;position: relative;overflow: hidden;color: var(--dz-FC-999);text-align: right;vertical-align: middle;overflow-wrap: break-word;}
 
 /*------ 通用空记录 ------*/
 .empty-box h4{background-color:var(--dz-BG-0);height:30px;line-height:30px;padding:80px 0;text-align:center;font-size:14px;font-weight:400;color:var(--dz-FC-999);border-top:1px solid var(--dz-BOR-ed);border-bottom:var(--dz-BOR-ed);margin-bottom:10px;}
@@ -1283,7 +1283,7 @@ i.pstatus {display:block;font-size:12px;text-align:center;color:#999}
 .tfx .h th { padding: 1px 5px; }
 .tscr { float: left; overflow: hidden; width: 470px; }
 .tscr .tdat th, .tscr .tdat td { width: 470px; }
-.nwp { word-wrap: normal; white-space: nowrap; }
+.nwp { overflow-wrap: normal; white-space: nowrap; }
 .tdats .c0 { padding: 0; height: 46px; text-align: center; vertical-align: bottom; background: transparent; }
 .tdats .c0 h4 { line-height: 38px; background-color: #F60; color: var(--dz-FC-fff); }
 .tdats .c0 h4, .tdats .tb li { -moz-border-radius: 4px 4px 0 0; -webkit-border-radius: 4px 4px 0 0; border-radius: 4px 4px 0 0; }

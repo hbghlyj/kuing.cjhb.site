@@ -278,7 +278,7 @@ function restore_msg($message, $url_forward = '', $type = 'message', $success = 
 
 	$message = lang($message);
 
-	echo "</div><div class=\"main\"><div class=\"box\" style='word-wrap: break-word'>";
+	echo "</div><div class=\"main\"><div class=\"box\" style='overflow-wrap: break-word'>";
 
 	if($type == 'message') {
 		echo '<span'.($success ? '' : ' style="color: #F00"').'>'.$message.'</span>';

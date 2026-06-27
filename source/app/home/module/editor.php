@@ -842,7 +842,7 @@ if(empty($_GET['op'])) {
 		</div>
 		<div style="height: 100%;padding-top: 31px;box-sizing: border-box;">
 			<textarea id="dvtext"
-			          style="overflow-y:auto; margin-top: 0; padding:0px 4px 4px;width:100%;height:100%;word-wrap:break-word;border:0;display:none;"></textarea>
+			          style="overflow-y:auto; margin-top: 0; padding:0px 4px 4px;width:100%;height:100%;overflow-wrap:break-word;border:0;display:none;"></textarea>
 			<div id="dvhtml" style="height:100%;width:100%;overflow:hidden">
 				<SCRIPT LANGUAGE="JavaScript">
 					function blank_load() {
@@ -864,7 +864,7 @@ if(empty($_GET['op'])) {
 
 				</SCRIPT>
 				<textarea id="sourceEditor"
-				          style="overflow-y:auto;padding-left:4px;width:100%;height:100%;word-wrap:break-word;display:none;border:0;"></textarea>
+				          style="overflow-y:auto;padding-left:4px;width:100%;height:100%;overflow-wrap:break-word;display:none;border:0;"></textarea>
 			</div>
 		</div>
 	</div>
@@ -885,7 +885,7 @@ if(empty($_GET['op'])) {
 			body {
 				margin: 0;
 				padding: 0;
-				word-wrap: break-word;
+				overflow-wrap: break-word;
 				font-size: 14px;
 				line-height: 1.8em;
 				font-family: Tahoma, Arial, Helvetica, snas-serif;

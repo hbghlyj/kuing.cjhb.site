@@ -163,7 +163,7 @@ Created & Modified by Alice, Monkey, Lushnis, Pony, Dfox & DragonLee.
 				.usl a:hover { text-decoration: none; border: 1px solid; border-color: #DDD #999 #999 #DDD; background: {COMMONBG}; }
 			.usl .avt { float: left; margin-right: 5px; width: 52px; height: 52px; border: 1px solid {COMMONBORDER}; background-color: {WRAPBG}; background-position: 2px 2px; background-repeat: no-repeat; background-size: 48px; background-image: url('../avatar/noavatar.svg'); zoom: 1; }
 			.usl .avt.brs > span { display: block; margin: 2px; width: 48px; height: 48px; background-size: 100%; }
-			.usl .d { float: left; width: 65px; height: 54px; overflow: hidden; word-wrap: break-word; }
+			.usl .d { float: left; width: 65px; height: 54px; overflow: hidden; overflow-wrap: break-word; }
 			.usl li.a a, .usl li.a a:hover { border-color: #F90; background-color: #FFF1E1; }
 			.usl li.a .avt { position: relative; }
 			.usl li.a .avt span {width: 48px; height: 48px;  text-align: center;  }
@@ -1055,7 +1055,7 @@ a.thread_mod { height: 19px; line-height: 19px; display: inline-block; color: #4
 	Author:			lushnis
 	Last Modify:	Pony 11042913
 */
-	#tath { padding: 0 10px 0 15px; width: 130px; line-height: 24px; white-space: nowrap; word-break: keep-all; word-wrap: normal; text-overflow: ellipsis; overflow: hidden; }
+	#tath { padding: 0 10px 0 15px; width: 130px; line-height: 24px; white-space: nowrap; word-break: keep-all; overflow-wrap: normal; text-overflow: ellipsis; overflow: hidden; }
 		#tath img { width: 24px; height: 24px; vertical-align: middle; }
 
 #f_pst .plc { padding: 20px; }
@@ -1858,7 +1858,7 @@ i.pstatus { display: block; margin-bottom: -30px; font-size: 12px; text-align: c
 			.tfx .h th { padding: 1px 5px; }
 		.tscr { float: left; overflow: hidden; width: 470px; }
 			.tscr .tdat th, .tscr .tdat td { width: 470px; }
-			.nwp { word-wrap: normal; white-space: nowrap; }
+			.nwp { overflow-wrap: normal; white-space: nowrap; }
 		.tdats .c0 { padding: 0; height: 46px; text-align: center; vertical-align: bottom; background: transparent; }
 			.tdats .c0 h4 { line-height: 38px; background-color: #F60; color: {LIGHTLINK}; }
 		 	.tdats .c0 h4, .tdats .tb li { -moz-border-radius: 4px 4px 0 0; -webkit-border-radius: 4px 4px 0 0; border-radius: 4px 4px 0 0; }
