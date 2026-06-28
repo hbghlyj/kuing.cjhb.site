@@ -2432,7 +2432,7 @@ function loadAvatar() {
 	var defaulturl = typeof DEFAULTAVATAR == 'undefined' ? './data/avatar/noavatar.svg' : DEFAULTAVATAR;
 	var avatarurl = typeof DEFAULTAVATAR != 'undefined' && DEFAULTAVATAR.lastIndexOf('/') !== -1 ? DEFAULTAVATAR.substring(0, DEFAULTAVATAR.lastIndexOf('/') + 1) : '';
 
-	document.querySelectorAll('._avt').forEach(img => {
+	document.querySelectorAll('._avt, img[data-src]').forEach(img => {
 		img.onerror = function () {
 			this.onerror = null;
 			this.src = defaulturl;
@@ -2447,8 +2447,10 @@ function loadAvatar() {
 			img.removeAttribute('data-size');
 			img.removeAttribute('data-random');
 		}
-		img.src = img.dataset.src;
-		img.removeAttribute('data-src');
+		if(img.dataset.src) {
+			img.src = img.dataset.src;
+			img.removeAttribute('data-src');
+		}
 		img.classList.remove('_avt');
 	});
 }

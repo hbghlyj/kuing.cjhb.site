@@ -911,6 +911,9 @@ function home_getgroup(gid) {
 }
 
 _attachEvent(window, 'load', footlink, document);
+if (typeof loadAvatar == 'function') {
+	_attachEvent(window, 'load', loadAvatar, document);
+}
 
 var mlast = getcookie('mfootlink');
 
