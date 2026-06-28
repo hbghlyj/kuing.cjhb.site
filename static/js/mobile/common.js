@@ -29,6 +29,17 @@ function isNativeHtmlTag(tag) {
 
 jqueryProperty();
 
+if (typeof _attachEvent == 'undefined') {
+	window._attachEvent = function(obj, evt, func, eventobj) {
+		eventobj = eventobj || obj;
+		if(obj.addEventListener) {
+			obj.addEventListener(evt, func, false);
+		} else if(eventobj.attachEvent) {
+			obj.attachEvent('on' + evt, func);
+		}
+	};
+}
+
 var platform = navigator.platform;
 var ua = navigator.userAgent;
 var ios = /iPhone|iPad|iPod/.test(platform) && ua.indexOf( "AppleWebKit" ) > -1;
