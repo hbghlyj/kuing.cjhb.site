@@ -3137,7 +3137,6 @@ a436b4c027e1b5d6da7d942ba4abcf49 *static/image/common/mine_icn.png
 7f3143b1f31ec1cd73a97211f822e43c *static/image/common/mobile-attach-2.png
 89d602d09d0b827847a009cdbbef5735 *static/image/common/mobile-attach-3.png
 ac56df09badca0545cda103b5d8d44fc *static/image/common/mobile-attach-4.png
-15c75accce1c857922f070e77f98babf *static/image/common/mobile-type-ie6.png
 b9f1bcb85fee3e10192b3a269f68aca1 *static/image/common/mobile-type.png
 21a6fde3e01f2411594e41a7d6130f60 *static/image/common/mobile.png
 5162948125e7821143cd7d21b5c1e92a *static/image/common/mood_input_btn.png
@@ -4707,7 +4706,6 @@ b1bce0eb99db03484beab5cc97e979bd *template/default/common/header_diynav.htm
 d96a38b854a80b6a0716e006f09cf639 *template/default/common/header_qmenu.htm
 6a5179e666edb843a9fd4943c2d2c819 *template/default/common/header_userstatus.htm
 991fce2c081795990f657911cd878565 *template/default/common/header.htm
-13d62f55c6d8205873db30c98358350a *template/default/common/iefix.css
 d41d8cd98f00b204e9800998ecf8427e *template/default/common/index.htm
 110eee22eb494adde0cf3eeaa71f358a *template/default/common/invite.htm
 c736fedbad3c2262bc21d58f46b99fef *template/default/common/ipnotice.htm
