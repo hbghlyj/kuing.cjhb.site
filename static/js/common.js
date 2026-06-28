@@ -321,7 +321,7 @@ function Ajax(recvType, waitId) {
 				}
 			}
 			aj.resultHandle(s, aj);
-			if (typeof s == 'string' && s.indexOf('_avt') !== -1) {
+			if (typeof s == 'string' && (s.indexOf('data-uid') !== -1 || s.indexOf('data-src') !== -1)) {
 				loadAvatar();
 			}
 		}
@@ -2432,7 +2432,7 @@ function loadAvatar() {
 	var defaulturl = typeof DEFAULTAVATAR == 'undefined' ? './data/avatar/noavatar.svg' : DEFAULTAVATAR;
 	var avatarurl = typeof DEFAULTAVATAR != 'undefined' && DEFAULTAVATAR.lastIndexOf('/') !== -1 ? DEFAULTAVATAR.substring(0, DEFAULTAVATAR.lastIndexOf('/') + 1) : '';
 
-	document.querySelectorAll('._avt, img[data-src]').forEach(img => {
+	document.querySelectorAll('img[data-uid], img[data-src]').forEach(img => {
 		img.onerror = function () {
 			this.onerror = null;
 			this.src = defaulturl;
@@ -2451,7 +2451,6 @@ function loadAvatar() {
 			img.src = img.dataset.src;
 			img.removeAttribute('data-src');
 		}
-		img.classList.remove('_avt');
 	});
 }
 

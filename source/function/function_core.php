@@ -664,9 +664,10 @@ function avatar($uid, $size = 'middle', $returnsrc = 0, $real = FALSE, $static =
 	if(!$returnsrc) {
 		$class = trim($class.' user_avatar');
 	}
+	$classattr = $class ? ' class="'.$class.'"' : '';
 
 	if($staticavatar == 2 && !$returnsrc && !$real) {
-		return '<img data-uid="'.$uid.'" data-size="'.$size.'"'.($random ? ' data-random="'.rand(1000, 9999).'"' : '').' class="_avt'.($class ? ' '.$class : '').'"'.($extra ? ' '.$extra : '').' />';
+		return '<img data-uid="'.$uid.'" data-size="'.$size.'"'.($random ? ' data-random="'.rand(1000, 9999).'"' : '').$classattr.($extra ? ' '.$extra : '').' />';
 	}
 	static $avtstatus;
 	if($avtstatus === null) {
@@ -686,7 +687,6 @@ function avatar($uid, $size = 'middle', $returnsrc = 0, $real = FALSE, $static =
 	$size = in_array($size, ['big', 'middle', 'small']) ? $size : 'middle';
 	$rawuid = $uid;
 	$src = $datasrc ? 'data-src' : 'src';
-	$defaultclass = $datasrc ? '_avt' : '';
 	if(!$staticavatar && !$static && $ucenterurl != '.' || $avatarapi) {
 		$trandom = '';
 		if($random == 1) {
@@ -699,7 +699,7 @@ function avatar($uid, $size = 'middle', $returnsrc = 0, $real = FALSE, $static =
 		} else {
 			$url = $ucenterurl.'/avatar.php';
 		}
-		return $returnsrc ? $url.'?uid='.$uid.'&size='.$size.($real ? '&type=real' : '').$trandom : '<img '.$src.'="'.$url.'?uid='.$uid.'&size='.$size.($real ? '&type=real' : '').$trandom.'" class="'.$defaultclass.($class ? ' '.$class : '').'"'.($extra ? ' '.$extra : '').'>';
+		return $returnsrc ? $url.'?uid='.$uid.'&size='.$size.($real ? '&type=real' : '').$trandom : '<img '.$src.'="'.$url.'?uid='.$uid.'&size='.$size.($real ? '&type=real' : '').$trandom.'"'.$classattr.($extra ? ' '.$extra : '').'>';
 	} else {
 		$uid = sprintf('%09d', $uid);
 		$dir1 = substr($uid, 0, 3);
@@ -737,7 +737,7 @@ function avatar($uid, $size = 'middle', $returnsrc = 0, $real = FALSE, $static =
 		if($trandom) {
 			$file = $file.$trandom;
 		}
-		return $returnsrc ? $file : '<img '.$src.'="'.$file.'" class="'.$defaultclass.($class ? ' '.$class : '').'"'.($extra ? ' '.$extra : '').'>';
+		return $returnsrc ? $file : '<img '.$src.'="'.$file.'"'.$classattr.($extra ? ' '.$extra : '').'>';
 	}
 }
 
