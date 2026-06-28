@@ -42,6 +42,7 @@ $lang =
 	'login_cp_guest' => '<h1>您尚未登錄網站</h1><a href="member.php?mod=logging&action=login" class="btn">登錄</a><p>站長需要強制登錄時，修改 config/config_global.php 可關閉此功能。</p>',
 	'login_cplock' => '您的管理面板已經鎖定！<br>請在<b> {ltime} </b>秒以後重新訪問管理中心。',
 	'login_user_lock' => '由於您的登錄密碼錯誤次數過多，本次登錄請求已經被拒絕。請 15 分鐘後重新嘗試。',
+	'login_password_invalid' => '抱歉，您輸入的密碼有誤。',
 	'login_cp_noaccess' => '<b>管理中心(或此項操作)未對當前賬號開放</b><br><br>請更換有權限的賬號重新登錄',
 	'login_ip_noaccess' => '<a href="https://www.dismall.com/thread-17514-1-1.html" target="_blank">IP變動可能導致登錄失敗，查看解決辦法</a>',
 	'noaccess' => '後台管理權限(或此項操作)尚未對您開放，請聯繫站點管理員',

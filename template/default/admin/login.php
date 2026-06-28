@@ -86,6 +86,9 @@
 				<option value="7">{$lang['security_question_7']}</option>
 			</select>
 			<input type="text" name="admin_answer" class="loginqa" placeholder="{$lang['security_answer']}" autocomplete="off">
+			<!--{if !empty($_G['admincp_login_error'])}-->
+				<span>{echo lang('admincp_login', $_G['admincp_login_error']);}</span>
+			<!--{/if}-->
 			<button type="submit">{$lang['submit']}</button>
 
 			<!--{if !empty($_G['admincp_checkip_noaccess'])}-->

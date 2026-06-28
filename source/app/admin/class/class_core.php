@@ -276,6 +276,7 @@ class class_core {
 			table_common_admincp_session::t()->update_session($this->adminuser['uid'], $this->panel, ['dateline' => TIMESTAMP, 'ip' => $this->core->var['clientip'], 'errorcount' => -1]);
 			$this->location();
 		} else {
+			$_G['admincp_login_error'] = 'login_password_invalid';
 			$errorcount = $this->adminsession['errorcount'] + 1;
 			table_common_admincp_session::t()->update_session($this->adminuser['uid'], $this->panel, ['dateline' => TIMESTAMP, 'ip' => $this->core->var['clientip'], 'errorcount' => $errorcount]);
 		}
@@ -319,6 +320,7 @@ class class_core {
 						$this->cpaccess = -2;
 					}
 				} else {
+					$_G['admincp_login_error'] = 'login_password_invalid';
 					loginfailed($_POST['admin_username']);
 				}
 			} else {
