@@ -14,7 +14,13 @@
 </div>
 <!--{/if}-->
 
-{cells forum/portal/navlist}
-{cells forum/portal/threadlist threadlist}
+<div id="threadlist">
+	{cells forum/portal/navlist}
+	{cells forum/portal/threadlist threadlist}
+</div>
+
+<script>
+	ajaxupdateevents($('threadlist'));
+</script>
 
 <!--{template common/footer}-->

@@ -1,0 +1,9 @@
+/** forum::index **/
+/*----- 在线人数统计 -----*/
+.onlinestat {background-color:var(--dz-BG-0);border-top:1px solid var(--dz-BOR-ed);border-bottom:1px solid var(--dz-BOR-ed);margin-top:10px}
+.onlinestat-link {display:block;padding:12px 15px;color:var(--dz-FC-666)}
+.onlinestat-tit {font-size:14px;color:var(--dz-FC-333);font-weight:500}
+.onlinestat-tit i {font-size:16px;margin-right:6px;color:var(--dz-BG-color);vertical-align:middle}
+.onlinestat-num {float:right;text-align:right;font-size:13px;color:var(--dz-FC-999)}
+.onlinestat-num strong {color:var(--dz-BG-2);font-size:16px}
+/** end **/

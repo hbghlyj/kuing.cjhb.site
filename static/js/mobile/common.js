@@ -902,3 +902,292 @@ function home_getgroup(gid) {
 _attachEvent(window, 'load', footlink, document);
 
 var mlast = getcookie('mfootlink');
+
+function showmobilecalendar(event, controlid, addtime, startdate, enddate, halfhour, recall) {
+	if(event) {
+		event.preventDefault();
+	}
+	if(!controlid) {
+		return;
+	}
+
+	addtime = !!addtime;
+	halfhour = !!halfhour;
+	startdate = startdate ? parsedate(startdate) : null;
+	enddate = enddate ? parsedate(enddate) : null;
+
+	var today = new Date();
+	var current = controlid.value ? parsedate(controlid.value) : today;
+	var selectedYear = current.getFullYear();
+	var selectedMonth = current.getMonth();
+	var selectedDay = current.getDate();
+	var selectedHour = current.getHours();
+	var selectedMinute = current.getMinutes();
+	var activeYear = selectedYear;
+	var activeMonth = selectedMonth;
+	var activeDay = selectedDay;
+	var pickerId = 'mobilecalendar_picker';
+	var existing = document.getElementById(pickerId);
+	if(existing) {
+		existing.remove();
+	}
+
+	var mask = document.createElement('div');
+	mask.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);z-index:99998;';
+
+	var container = document.createElement('div');
+	container.id = pickerId;
+	container.style.cssText = 'position:fixed;left:0;bottom:0;width:100%;background:#fff;z-index:99999;border-radius:12px 12px 0 0;transform:translateY(100%);transition:transform 0.3s ease;max-height:70vh;overflow:hidden;display:flex;flex-direction:column;';
+
+	var header = document.createElement('div');
+	header.style.cssText = 'display:flex;justify-content:space-between;align-items:center;padding:12px 16px;border-bottom:1px solid #eee;';
+
+	var cancelBtn = document.createElement('a');
+	cancelBtn.href = 'javascript:;';
+	cancelBtn.style.cssText = 'color:#999;font-size:14px;text-decoration:none;';
+	cancelBtn.textContent = mobileCalendarLang('cancel', '取消');
+	cancelBtn.onclick = closePicker;
+
+	var title = document.createElement('span');
+	title.style.cssText = 'font-size:16px;font-weight:bold;color:#333;';
+	title.textContent = mobileCalendarLang(addtime ? 'select_datetime' : 'select_time', addtime ? '选择日期时间' : '选择日期');
+
+	var confirmBtn = document.createElement('a');
+	confirmBtn.href = 'javascript:;';
+	confirmBtn.style.cssText = 'color:var(--dz-FC-color, #2B7ACD);font-size:14px;text-decoration:none;font-weight:bold;';
+	confirmBtn.textContent = mobileCalendarLang('confirm', '确定');
+	confirmBtn.onclick = function() {
+		var result = selectedYear + '-' + zerofill(selectedMonth + 1) + '-' + zerofill(selectedDay);
+		if(addtime) {
+			result += ' ' + zerofill(selectedHour) + ':' + zerofill(selectedMinute);
+		}
+		controlid.value = result;
+		if(typeof recall == 'function') {
+			recall();
+		} else if(recall) {
+			eval(recall);
+		}
+		closePicker();
+	};
+
+	header.appendChild(cancelBtn);
+	header.appendChild(title);
+	header.appendChild(confirmBtn);
+	container.appendChild(header);
+
+	var content = document.createElement('div');
+	content.style.cssText = 'flex:1;overflow-y:auto;padding:10px 16px;';
+
+	var dateSection = document.createElement('div');
+	dateSection.style.cssText = 'margin-bottom:16px;';
+	dateSection.appendChild(createSwitcher('year'));
+	dateSection.appendChild(createSwitcher('month'));
+
+	var weekHeader = document.createElement('div');
+	weekHeader.style.cssText = 'display:grid;grid-template-columns:repeat(7, 1fr);text-align:center;font-size:12px;color:#999;padding:4px 0;';
+	var weekDays = [
+		mobileCalendarLang('sun', '日'),
+		mobileCalendarLang('mon', '一'),
+		mobileCalendarLang('tue', '二'),
+		mobileCalendarLang('wed', '三'),
+		mobileCalendarLang('thu', '四'),
+		mobileCalendarLang('fri', '五'),
+		mobileCalendarLang('sat', '六')
+	];
+	for(var i = 0; i < weekDays.length; i++) {
+		var wd = document.createElement('span');
+		wd.textContent = weekDays[i];
+		weekHeader.appendChild(wd);
+	}
+	dateSection.appendChild(weekHeader);
+
+	var daysGrid = document.createElement('div');
+	daysGrid.style.cssText = 'display:grid;grid-template-columns:repeat(7, 1fr);gap:2px;';
+	dateSection.appendChild(daysGrid);
+	content.appendChild(dateSection);
+
+	if(addtime) {
+		content.appendChild(createTimeSection());
+	}
+
+	container.appendChild(content);
+	document.body.appendChild(mask);
+	document.body.appendChild(container);
+
+	setTimeout(function() {
+		container.style.transform = 'translateY(0)';
+	}, 10);
+
+	mask.onclick = closePicker;
+	updateCalendar();
+
+	function createSwitcher(type) {
+		var row = document.createElement('div');
+		row.style.cssText = 'display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;';
+
+		var prev = document.createElement('a');
+		prev.href = 'javascript:;';
+		prev.style.cssText = 'color:#666;font-size:18px;text-decoration:none;padding:4px 8px;';
+		prev.innerHTML = '&lsaquo;';
+		prev.onclick = function() {
+			if(type == 'year') {
+				selectedYear--;
+			} else if(--selectedMonth < 0) {
+				selectedMonth = 11;
+				selectedYear--;
+			}
+			updateCalendar();
+		};
+
+		var display = document.createElement('span');
+		display.style.cssText = 'font-size:16px;color:#333;';
+		display.className = 'mobilecalendar_' + type;
+
+		var next = document.createElement('a');
+		next.href = 'javascript:;';
+		next.style.cssText = 'color:#666;font-size:18px;text-decoration:none;padding:4px 8px;';
+		next.innerHTML = '&rsaquo;';
+		next.onclick = function() {
+			if(type == 'year') {
+				selectedYear++;
+			} else if(++selectedMonth > 11) {
+				selectedMonth = 0;
+				selectedYear++;
+			}
+			updateCalendar();
+		};
+
+		row.appendChild(prev);
+		row.appendChild(display);
+		row.appendChild(next);
+		return row;
+	}
+
+	function createTimeSection() {
+		var timeSection = document.createElement('div');
+		timeSection.style.cssText = 'border-top:1px solid #eee;padding-top:12px;';
+
+		var timeLabel = document.createElement('div');
+		timeLabel.style.cssText = 'font-size:14px;color:#666;margin-bottom:8px;';
+		timeLabel.textContent = mobileCalendarLang('select_time', '选择时间');
+		timeSection.appendChild(timeLabel);
+
+		var timeRow = document.createElement('div');
+		timeRow.style.cssText = 'display:flex;gap:12px;align-items:center;';
+		timeRow.appendChild(createTimeSelect('hour', 0, 23, 1, selectedHour, function(value) {
+			selectedHour = value;
+		}));
+		timeRow.appendChild(createTimeSelect('min', 0, 59, halfhour ? 30 : 1, selectedMinute, function(value) {
+			selectedMinute = value;
+		}));
+		timeSection.appendChild(timeRow);
+		return timeSection;
+	}
+
+	function createTimeSelect(langKey, min, max, step, selected, onchange) {
+		var select = document.createElement('select');
+		select.style.cssText = 'flex:1;padding:8px;font-size:14px;border:1px solid #ddd;border-radius:4px;background:#fff;';
+		for(var value = min; value <= max; value += step) {
+			var option = document.createElement('option');
+			option.value = value;
+			option.textContent = zerofill(value) + mobileCalendarLang(langKey, langKey == 'hour' ? '时' : '分');
+			if(value == selected) {
+				option.selected = true;
+			}
+			select.appendChild(option);
+		}
+		select.onchange = function() {
+			onchange(parseInt(this.value));
+		};
+		return select;
+	}
+
+	function updateCalendar() {
+		container.querySelector('.mobilecalendar_year').textContent = selectedYear + mobileCalendarLang('year', '年');
+		container.querySelector('.mobilecalendar_month').textContent = (selectedMonth + 1) + mobileCalendarLang('month', '月');
+		daysGrid.innerHTML = '';
+
+		var firstDay = new Date(selectedYear, selectedMonth, 1);
+		var startDay = firstDay.getDay();
+		var daysInMonth = new Date(selectedYear, selectedMonth + 1, 0).getDate();
+
+		for(var i = 0; i < startDay; i++) {
+			var empty = document.createElement('div');
+			empty.style.cssText = 'height:36px;';
+			daysGrid.appendChild(empty);
+		}
+
+		for(var day = 1; day <= daysInMonth; day++) {
+			daysGrid.appendChild(createDayCell(day));
+		}
+	}
+
+	function createDayCell(day) {
+		var dayCell = document.createElement('a');
+		dayCell.href = 'javascript:;';
+		dayCell.style.cssText = 'display:flex;align-items:center;justify-content:center;height:36px;font-size:14px;text-decoration:none;border-radius:50%;';
+		dayCell.textContent = day;
+
+		var currentDate = new Date(selectedYear, selectedMonth, day);
+		var isToday = currentDate.getFullYear() === today.getFullYear() && currentDate.getMonth() === today.getMonth() && currentDate.getDate() === today.getDate();
+		var isSelected = day === activeDay && selectedMonth === activeMonth && selectedYear === activeYear;
+		var isExpired = (enddate && currentDate.getTime() > enddate.getTime()) || (startdate && currentDate.getTime() < startdate.getTime());
+
+		if(isSelected) {
+			dayCell.style.background = 'var(--dz-FC-color, #2B7ACD)';
+			dayCell.style.color = '#fff';
+		} else if(isToday) {
+			dayCell.style.color = 'var(--dz-FC-color, #2B7ACD)';
+			dayCell.style.border = '1px solid var(--dz-FC-color, #2B7ACD)';
+		} else if(isExpired) {
+			dayCell.style.color = '#ccc';
+			dayCell.style.pointerEvents = 'none';
+		} else {
+			dayCell.style.color = '#333';
+		}
+
+		if(!isExpired || isSelected) {
+			dayCell.onclick = function() {
+				selectedDay = day;
+				activeYear = selectedYear;
+				activeMonth = selectedMonth;
+				activeDay = day;
+				updateCalendar();
+			};
+		}
+		return dayCell;
+	}
+
+	function closePicker() {
+		container.style.transform = 'translateY(100%)';
+		setTimeout(function() {
+			container.remove();
+			mask.remove();
+		}, 300);
+	}
+}
+
+function mobileCalendarLang(key, fallback) {
+	var value = typeof $L == 'function' ? $L(key) : key;
+	return value && value != key ? value : fallback;
+}
+
+function parsedate(s) {
+	var match = String(s).match(/(\d+)-(\d+)-(\d+)\s*(\d*):?(\d*)/);
+	var now = new Date();
+	if(!match) {
+		return now;
+	}
+	var year = match[1] > 1899 && match[1] < 2101 ? parseInt(match[1]) : now.getFullYear();
+	var month = match[2] > 0 && match[2] < 13 ? parseInt(match[2]) : now.getMonth() + 1;
+	var day = match[3] > 0 && match[3] < 32 ? parseInt(match[3]) : now.getDate();
+	var hour = match[4] > -1 && match[4] < 24 ? parseInt(match[4] || 0) : 0;
+	var minute = match[5] > -1 && match[5] < 60 ? parseInt(match[5] || 0) : 0;
+	return new Date(year, month - 1, day, hour, minute);
+}
+
+function zerofill(s) {
+	s = parseInt(String(s).replace(/(^[\s0]+)|(\s+$)/g, ''), 10);
+	s = isNaN(s) ? 0 : s;
+	return (s < 10 ? '0' : '') + s;
+}
