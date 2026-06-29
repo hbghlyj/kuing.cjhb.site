@@ -253,6 +253,11 @@ var dialog = {
 			.success(function(s) {
 				popup.open(s.lastChild.firstChild.nodeValue);
 				evalscript(s.lastChild.firstChild.nodeValue);
+				if(typeof window.initAllSortSel == 'function') {
+					setTimeout(function() {
+						window.initAllSortSel();
+					}, 300);
+				}
 			})
 			.error(function() {
 				window.location.href = obj.attr('href');
@@ -282,6 +287,11 @@ var formdialog = {
 			.success(function(s) {
 				popup.open(s.lastChild.firstChild.nodeValue);
 				evalscript(s.lastChild.firstChild.nodeValue);
+				if(typeof window.initAllSortSel == 'function') {
+					setTimeout(function() {
+						window.initAllSortSel();
+					}, 300);
+				}
 			})
 			.error(function() {
 				popup.open($L('forum_submit_error'), 'alert');
@@ -940,37 +950,30 @@ function showmobilecalendar(event, controlid, addtime, startdate, enddate, halfh
 	var activeYear = selectedYear;
 	var activeMonth = selectedMonth;
 	var activeDay = selectedDay;
-	var pickerId = 'mobilecalendar_picker';
-	var existing = document.getElementById(pickerId);
-	if(existing) {
-		existing.remove();
+	var dom = createMobileCalendarDom();
+	var mask = dom.mask;
+	var container = dom.container;
+	var content = container.querySelector('.discuz-calendar-content');
+	var title = container.querySelector('.discuz-calendar-title');
+	var daysGrid;
+
+	title.textContent = mobileCalendarLang(addtime ? 'select_datetime' : 'select_date', addtime ? '选择日期时间' : '选择日期');
+	content.innerHTML = '';
+	content.appendChild(createDateSection());
+	if(addtime) {
+		content.appendChild(createTimeSection());
 	}
 
-	var mask = document.createElement('div');
-	mask.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);z-index:99998;';
+	mask.style.display = 'block';
+	container.style.display = 'flex';
+	setTimeout(function() {
+		container.classList.add('show');
+	}, 10);
+	lockBodyScroll(true);
 
-	var container = document.createElement('div');
-	container.id = pickerId;
-	container.style.cssText = 'position:fixed;left:0;bottom:0;width:100%;background:#fff;z-index:99999;border-radius:12px 12px 0 0;transform:translateY(100%);transition:transform 0.3s ease;max-height:70vh;overflow:hidden;display:flex;flex-direction:column;';
-
-	var header = document.createElement('div');
-	header.style.cssText = 'display:flex;justify-content:space-between;align-items:center;padding:12px 16px;border-bottom:1px solid #eee;';
-
-	var cancelBtn = document.createElement('a');
-	cancelBtn.href = 'javascript:;';
-	cancelBtn.style.cssText = 'color:#999;font-size:14px;text-decoration:none;';
-	cancelBtn.textContent = mobileCalendarLang('cancel', '取消');
-	cancelBtn.onclick = closePicker;
-
-	var title = document.createElement('span');
-	title.style.cssText = 'font-size:16px;font-weight:bold;color:#333;';
-	title.textContent = mobileCalendarLang(addtime ? 'select_datetime' : 'select_time', addtime ? '选择日期时间' : '选择日期');
-
-	var confirmBtn = document.createElement('a');
-	confirmBtn.href = 'javascript:;';
-	confirmBtn.style.cssText = 'color:var(--dz-FC-color, #2B7ACD);font-size:14px;text-decoration:none;font-weight:bold;';
-	confirmBtn.textContent = mobileCalendarLang('confirm', '确定');
-	confirmBtn.onclick = function() {
+	mask.onclick = closePicker;
+	container.querySelector('.discuz-calendar-cancel').onclick = closePicker;
+	container.querySelector('.discuz-calendar-confirm').onclick = function() {
 		var result = selectedYear + '-' + zerofill(selectedMonth + 1) + '-' + zerofill(selectedDay);
 		if(addtime) {
 			result += ' ' + zerofill(selectedHour) + ':' + zerofill(selectedMinute);
@@ -984,64 +987,45 @@ function showmobilecalendar(event, controlid, addtime, startdate, enddate, halfh
 		closePicker();
 	};
 
-	header.appendChild(cancelBtn);
-	header.appendChild(title);
-	header.appendChild(confirmBtn);
-	container.appendChild(header);
-
-	var content = document.createElement('div');
-	content.style.cssText = 'flex:1;overflow-y:auto;padding:10px 16px;';
-
-	var dateSection = document.createElement('div');
-	dateSection.style.cssText = 'margin-bottom:16px;';
-	dateSection.appendChild(createSwitcher('year'));
-	dateSection.appendChild(createSwitcher('month'));
-
-	var weekHeader = document.createElement('div');
-	weekHeader.style.cssText = 'display:grid;grid-template-columns:repeat(7, 1fr);text-align:center;font-size:12px;color:#999;padding:4px 0;';
-	var weekDays = [
-		mobileCalendarLang('sun', '日'),
-		mobileCalendarLang('mon', '一'),
-		mobileCalendarLang('tue', '二'),
-		mobileCalendarLang('wed', '三'),
-		mobileCalendarLang('thu', '四'),
-		mobileCalendarLang('fri', '五'),
-		mobileCalendarLang('sat', '六')
-	];
-	for(var i = 0; i < weekDays.length; i++) {
-		var wd = document.createElement('span');
-		wd.textContent = weekDays[i];
-		weekHeader.appendChild(wd);
-	}
-	dateSection.appendChild(weekHeader);
-
-	var daysGrid = document.createElement('div');
-	daysGrid.style.cssText = 'display:grid;grid-template-columns:repeat(7, 1fr);gap:2px;';
-	dateSection.appendChild(daysGrid);
-	content.appendChild(dateSection);
-
-	if(addtime) {
-		content.appendChild(createTimeSection());
-	}
-
-	container.appendChild(content);
-	document.body.appendChild(mask);
-	document.body.appendChild(container);
-
-	setTimeout(function() {
-		container.style.transform = 'translateY(0)';
-	}, 10);
-
-	mask.onclick = closePicker;
 	updateCalendar();
+
+	function createDateSection() {
+		var dateSection = document.createElement('div');
+		dateSection.className = 'discuz-calendar-date';
+		dateSection.appendChild(createSwitcher('year'));
+		dateSection.appendChild(createSwitcher('month'));
+
+		var weekHeader = document.createElement('div');
+		weekHeader.className = 'discuz-calendar-week';
+		var weekDays = [
+			mobileCalendarLang('sun', '日'),
+			mobileCalendarLang('mon', '一'),
+			mobileCalendarLang('tue', '二'),
+			mobileCalendarLang('wed', '三'),
+			mobileCalendarLang('thu', '四'),
+			mobileCalendarLang('fri', '五'),
+			mobileCalendarLang('sat', '六')
+		];
+		for(var i = 0; i < weekDays.length; i++) {
+			var wd = document.createElement('span');
+			wd.textContent = weekDays[i];
+			weekHeader.appendChild(wd);
+		}
+		dateSection.appendChild(weekHeader);
+
+		daysGrid = document.createElement('div');
+		daysGrid.className = 'discuz-calendar-days';
+		dateSection.appendChild(daysGrid);
+		return dateSection;
+	}
 
 	function createSwitcher(type) {
 		var row = document.createElement('div');
-		row.style.cssText = 'display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;';
+		row.className = 'discuz-calendar-switcher';
 
 		var prev = document.createElement('a');
 		prev.href = 'javascript:;';
-		prev.style.cssText = 'color:#666;font-size:18px;text-decoration:none;padding:4px 8px;';
+		prev.className = 'discuz-calendar-nav';
 		prev.innerHTML = '&lsaquo;';
 		prev.onclick = function() {
 			if(type == 'year') {
@@ -1054,12 +1038,11 @@ function showmobilecalendar(event, controlid, addtime, startdate, enddate, halfh
 		};
 
 		var display = document.createElement('span');
-		display.style.cssText = 'font-size:16px;color:#333;';
-		display.className = 'mobilecalendar_' + type;
+		display.className = 'discuz-calendar-' + type;
 
 		var next = document.createElement('a');
 		next.href = 'javascript:;';
-		next.style.cssText = 'color:#666;font-size:18px;text-decoration:none;padding:4px 8px;';
+		next.className = 'discuz-calendar-nav';
 		next.innerHTML = '&rsaquo;';
 		next.onclick = function() {
 			if(type == 'year') {
@@ -1079,15 +1062,15 @@ function showmobilecalendar(event, controlid, addtime, startdate, enddate, halfh
 
 	function createTimeSection() {
 		var timeSection = document.createElement('div');
-		timeSection.style.cssText = 'border-top:1px solid #eee;padding-top:12px;';
+		timeSection.className = 'discuz-calendar-time';
 
 		var timeLabel = document.createElement('div');
-		timeLabel.style.cssText = 'font-size:14px;color:#666;margin-bottom:8px;';
+		timeLabel.className = 'discuz-calendar-time-title';
 		timeLabel.textContent = mobileCalendarLang('select_time', '选择时间');
 		timeSection.appendChild(timeLabel);
 
 		var timeRow = document.createElement('div');
-		timeRow.style.cssText = 'display:flex;gap:12px;align-items:center;';
+		timeRow.className = 'discuz-calendar-time-row';
 		timeRow.appendChild(createTimeSelect('hour', 0, 23, 1, selectedHour, function(value) {
 			selectedHour = value;
 		}));
@@ -1100,7 +1083,7 @@ function showmobilecalendar(event, controlid, addtime, startdate, enddate, halfh
 
 	function createTimeSelect(langKey, min, max, step, selected, onchange) {
 		var select = document.createElement('select');
-		select.style.cssText = 'flex:1;padding:8px;font-size:14px;border:1px solid #ddd;border-radius:4px;background:#fff;';
+		select.className = 'discuz-calendar-time-select';
 		for(var value = min; value <= max; value += step) {
 			var option = document.createElement('option');
 			option.value = value;
@@ -1117,8 +1100,8 @@ function showmobilecalendar(event, controlid, addtime, startdate, enddate, halfh
 	}
 
 	function updateCalendar() {
-		container.querySelector('.mobilecalendar_year').textContent = selectedYear + mobileCalendarLang('year', '年');
-		container.querySelector('.mobilecalendar_month').textContent = (selectedMonth + 1) + mobileCalendarLang('month', '月');
+		container.querySelector('.discuz-calendar-year').textContent = selectedYear + mobileCalendarLang('year', '年');
+		container.querySelector('.discuz-calendar-month').textContent = (selectedMonth + 1) + mobileCalendarLang('month', '月');
 		daysGrid.innerHTML = '';
 
 		var firstDay = new Date(selectedYear, selectedMonth, 1);
@@ -1127,7 +1110,7 @@ function showmobilecalendar(event, controlid, addtime, startdate, enddate, halfh
 
 		for(var i = 0; i < startDay; i++) {
 			var empty = document.createElement('div');
-			empty.style.cssText = 'height:36px;';
+			empty.className = 'discuz-calendar-empty';
 			daysGrid.appendChild(empty);
 		}
 
@@ -1139,7 +1122,7 @@ function showmobilecalendar(event, controlid, addtime, startdate, enddate, halfh
 	function createDayCell(day) {
 		var dayCell = document.createElement('a');
 		dayCell.href = 'javascript:;';
-		dayCell.style.cssText = 'display:flex;align-items:center;justify-content:center;height:36px;font-size:14px;text-decoration:none;border-radius:50%;';
+		dayCell.className = 'discuz-calendar-day';
 		dayCell.textContent = day;
 
 		var currentDate = new Date(selectedYear, selectedMonth, day);
@@ -1148,16 +1131,11 @@ function showmobilecalendar(event, controlid, addtime, startdate, enddate, halfh
 		var isExpired = (enddate && currentDate.getTime() > enddate.getTime()) || (startdate && currentDate.getTime() < startdate.getTime());
 
 		if(isSelected) {
-			dayCell.style.background = 'var(--dz-FC-color, #2B7ACD)';
-			dayCell.style.color = '#fff';
+			dayCell.classList.add('selected');
 		} else if(isToday) {
-			dayCell.style.color = 'var(--dz-FC-color, #2B7ACD)';
-			dayCell.style.border = '1px solid var(--dz-FC-color, #2B7ACD)';
+			dayCell.classList.add('today');
 		} else if(isExpired) {
-			dayCell.style.color = '#ccc';
-			dayCell.style.pointerEvents = 'none';
-		} else {
-			dayCell.style.color = '#333';
+			dayCell.classList.add('disabled');
 		}
 
 		if(!isExpired || isSelected) {
@@ -1173,12 +1151,37 @@ function showmobilecalendar(event, controlid, addtime, startdate, enddate, halfh
 	}
 
 	function closePicker() {
-		container.style.transform = 'translateY(100%)';
+		container.classList.remove('show');
 		setTimeout(function() {
-			container.remove();
-			mask.remove();
+			container.style.display = 'none';
+			mask.style.display = 'none';
+			content.innerHTML = '';
+			lockBodyScroll(false);
 		}, 300);
 	}
+}
+
+function createMobileCalendarDom() {
+	var mask = document.querySelector('.discuz-calendar-mask');
+	var container = document.querySelector('.discuz-calendar-popup');
+	if(mask && container) {
+		return {mask: mask, container: container};
+	}
+
+	mask = document.createElement('div');
+	mask.className = 'discuz-calendar-mask';
+
+	container = document.createElement('div');
+	container.className = 'discuz-calendar-popup';
+	container.innerHTML = '<div class="discuz-calendar-header">'
+		+ '<a href="javascript:;" class="discuz-calendar-cancel">' + mobileCalendarLang('cancel', '取消') + '</a>'
+		+ '<span class="discuz-calendar-title"></span>'
+		+ '<a href="javascript:;" class="discuz-calendar-confirm">' + mobileCalendarLang('confirm', '确定') + '</a>'
+		+ '</div><div class="discuz-calendar-content"></div>';
+
+	document.body.appendChild(mask);
+	document.body.appendChild(container);
+	return {mask: mask, container: container};
 }
 
 function mobileCalendarLang(key, fallback) {
@@ -1205,3 +1208,236 @@ function zerofill(s) {
 	s = isNaN(s) ? 0 : s;
 	return (s < 10 ? '0' : '') + s;
 }
+
+function lockBodyScroll(lock) {
+	if(lock) {
+		document.documentElement.classList.add('discuz-picker-lock');
+		document.body.classList.add('discuz-picker-lock');
+	} else {
+		document.documentElement.classList.remove('discuz-picker-lock');
+		document.body.classList.remove('discuz-picker-lock');
+	}
+}
+window.lockBodyScroll = lockBodyScroll;
+
+(function() {
+	var selectState = {
+		select: null,
+		value: null,
+		popup: null,
+		mask: null,
+		wheel: null,
+		openedAt: 0
+	};
+
+	function mobileSelectLang(key, fallback) {
+		var value = typeof $L == 'function' ? $L(key) : key;
+		return value && value != key ? value : fallback;
+	}
+
+	function getSelectedText(select) {
+		if(!select || !select.options || select.selectedIndex < 0) {
+			return '';
+		}
+		return select.options[select.selectedIndex].text;
+	}
+
+	function syncSelectDisplay(select) {
+		var wrap = select && select.closest ? select.closest('.sort-sel-wrap') : null;
+		var display = wrap ? wrap.querySelector('.sort-sel-show') : null;
+		if(display) {
+			display.textContent = getSelectedText(select);
+			display.classList.toggle('empty', !select.value);
+		}
+	}
+
+	function wrapSelect(select) {
+		if(!select || select.dataset.discuzSelectReady == '1' || select.closest('.sort-sel-wrap')) {
+			return;
+		}
+		select.dataset.discuzSelectReady = '1';
+
+		var wrap = document.createElement('span');
+		wrap.className = 'sort-sel-wrap';
+		var display = document.createElement('a');
+		display.href = 'javascript:;';
+		display.className = 'sort-sel-show';
+
+		select.parentNode.insertBefore(wrap, select);
+		wrap.appendChild(select);
+		wrap.appendChild(display);
+		syncSelectDisplay(select);
+
+		display.onclick = function(e) {
+			e.preventDefault();
+			if(select.disabled) {
+				return false;
+			}
+			openMobileSelect(select);
+			return false;
+		};
+		select.addEventListener('change', function() {
+			syncSelectDisplay(select);
+		});
+	}
+
+	function initAllSortSel(root) {
+		root = root && root.querySelectorAll ? root : document;
+		var selects = root.querySelectorAll('select.sort_sel');
+		for(var i = 0; i < selects.length; i++) {
+			wrapSelect(selects[i]);
+		}
+	}
+
+	function createSelectDom() {
+		if(selectState.mask && selectState.popup) {
+			return;
+		}
+		selectState.mask = document.createElement('div');
+		selectState.mask.className = 'discuz-select-mask';
+
+		selectState.popup = document.createElement('div');
+		selectState.popup.className = 'discuz-select-popup';
+		selectState.popup.innerHTML = '<div class="discuz-select-header">'
+			+ '<a href="javascript:;" class="discuz-select-cancel">' + mobileSelectLang('cancel', '取消') + '</a>'
+			+ '<span class="discuz-select-title">' + mobileSelectLang('select', '请选择') + '</span>'
+			+ '<a href="javascript:;" class="discuz-select-confirm">' + mobileSelectLang('confirm', '确定') + '</a>'
+			+ '</div><div class="discuz-select-wheel"></div>';
+
+		document.body.appendChild(selectState.mask);
+		document.body.appendChild(selectState.popup);
+		selectState.wheel = selectState.popup.querySelector('.discuz-select-wheel');
+		selectState.mask.onclick = closeMobileSelect;
+		selectState.popup.querySelector('.discuz-select-cancel').onclick = closeMobileSelect;
+		selectState.popup.querySelector('.discuz-select-confirm').onclick = confirmMobileSelect;
+	}
+
+	function openMobileSelect(select) {
+		createSelectDom();
+		selectState.select = select;
+		selectState.value = select.value;
+		renderSelectOptions(select);
+		selectState.mask.style.display = 'block';
+		selectState.popup.style.display = 'block';
+		selectState.openedAt = Date.now();
+		setTimeout(function() {
+			selectState.popup.classList.add('show');
+			scrollSelectedOption();
+		}, 10);
+		lockBodyScroll(true);
+	}
+
+	function renderSelectOptions(select) {
+		selectState.wheel.innerHTML = '<div class="discuz-select-spacer"></div>';
+		for(var i = 0; i < select.options.length; i++) {
+			var option = select.options[i];
+			if(option.disabled) {
+				continue;
+			}
+			var item = document.createElement('a');
+			item.href = 'javascript:;';
+			item.className = 'discuz-select-option';
+			item.dataset.value = option.value;
+			item.textContent = option.text;
+			if(option.value == selectState.value) {
+				item.classList.add('selected');
+			}
+			item.onclick = function(e) {
+				e.preventDefault();
+				selectOption(this.dataset.value);
+				return false;
+			};
+			selectState.wheel.appendChild(item);
+		}
+		var spacer = document.createElement('div');
+		spacer.className = 'discuz-select-spacer';
+		selectState.wheel.appendChild(spacer);
+	}
+
+	function selectOption(value) {
+		selectState.value = value;
+		var items = selectState.wheel.querySelectorAll('.discuz-select-option');
+		for(var i = 0; i < items.length; i++) {
+			items[i].classList.toggle('selected', items[i].dataset.value == value);
+		}
+		scrollSelectedOption();
+	}
+
+	function scrollSelectedOption() {
+		var item = selectState.wheel ? selectState.wheel.querySelector('.discuz-select-option.selected') : null;
+		if(!item) {
+			return;
+		}
+		var top = item.offsetTop - (selectState.wheel.clientHeight - item.offsetHeight) / 2;
+		if(typeof selectState.wheel.scrollTo == 'function') {
+			selectState.wheel.scrollTo({top: top, behavior: 'smooth'});
+		} else {
+			selectState.wheel.scrollTop = top;
+		}
+	}
+
+	function confirmMobileSelect() {
+		if(!selectState.select) {
+			return;
+		}
+		selectState.select.value = selectState.value;
+		syncSelectDisplay(selectState.select);
+		var event;
+		if(typeof Event == 'function') {
+			event = new Event('change', {bubbles: true});
+		} else {
+			event = document.createEvent('HTMLEvents');
+			event.initEvent('change', true, false);
+		}
+		selectState.select.dispatchEvent(event);
+		closeMobileSelect();
+	}
+
+	function closeMobileSelect() {
+		if(!selectState.popup || Date.now() - selectState.openedAt < 80) {
+			return;
+		}
+		selectState.popup.classList.remove('show');
+		setTimeout(function() {
+			selectState.popup.style.display = 'none';
+			selectState.mask.style.display = 'none';
+			selectState.wheel.innerHTML = '';
+			selectState.select = null;
+			lockBodyScroll(false);
+		}, 300);
+	}
+
+	function observeSortSelects() {
+		if(typeof MutationObserver == 'undefined' || !document.body) {
+			return;
+		}
+		var observer = new MutationObserver(function(mutations) {
+			for(var i = 0; i < mutations.length; i++) {
+				for(var j = 0; j < mutations[i].addedNodes.length; j++) {
+					var node = mutations[i].addedNodes[j];
+					if(node.nodeType == 1) {
+						if(node.matches && node.matches('select.sort_sel')) {
+							wrapSelect(node);
+						}
+						initAllSortSel(node);
+					}
+				}
+			}
+		});
+		observer.observe(document.body, {childList: true, subtree: true});
+	}
+
+	function ready(fn) {
+		if(document.readyState == 'loading') {
+			document.addEventListener('DOMContentLoaded', fn);
+		} else {
+			fn();
+		}
+	}
+
+	window.initAllSortSel = initAllSortSel;
+	ready(function() {
+		initAllSortSel();
+		observeSortSelects();
+	});
+})();

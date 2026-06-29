@@ -1573,3 +1573,44 @@ i.pstatus {display:block;font-size:12px;text-align:center;color:#999}
 .share_card_box.pic{max-width: 130px;flex-direction: column;align-items: center;}
 .share_card_box.pic .share_card_img{width:120px;height:120px;}
 .share_card_box.pic .share_card_img a{width:120px;height:120px;}
+
+/*------ 通用单选选择器样式 ------*/
+.discuz-picker-lock {overflow:hidden!important;}
+.sort-sel-wrap {display:block;position:relative;width:100%;}
+.sort-sel-wrap .sort_sel {display:none!important;}
+.sort-sel-show {box-sizing:border-box;display:block;width:100%;min-height:30px;line-height:30px;padding:0 26px 0 14px;background:url('touch/arrow.svg') no-repeat right center;background-size:16px 16px;color:graytext;font-size:16px;text-decoration:none;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.post_box .attqx .sort-sel-show,.post_box .multisel .sort-sel-show {font-size:14px;}
+.post_box .multisel .sort-sel-show {display:inline-block;width:auto;padding-right:16px;background-size:14px 14px;}
+.discuz-select-mask,.discuz-calendar-mask {display:none;position:fixed;inset:0;background:rgba(15,23,42,.42);z-index:99998;backdrop-filter:blur(2px);animation:discuz-mask-fade .2s ease;}
+.discuz-select-popup,.discuz-calendar-popup {box-sizing:border-box;display:none;position:fixed;left:0;right:0;bottom:0;z-index:99999;width:100%;max-height:72vh;background:#fff;border-radius:18px 18px 0 0;box-shadow:0 -12px 40px rgba(15,23,42,.18);transform:translateY(100%);transition:transform .28s cubic-bezier(.22,1,.36,1);overflow:hidden;}
+.discuz-select-popup.show,.discuz-calendar-popup.show {transform:translateY(0);}
+.discuz-select-header,.discuz-calendar-header {box-sizing:border-box;display:flex;align-items:center;justify-content:space-between;height:50px;padding:0 18px;border-bottom:1px solid #f0f0f0;background:linear-gradient(180deg,#fff,#fbfbfb);}
+.discuz-select-title,.discuz-calendar-title {font-size:16px;font-weight:600;color:#222;}
+.discuz-select-cancel,.discuz-calendar-cancel {font-size:15px;color:#888;text-decoration:none;}
+.discuz-select-confirm,.discuz-calendar-confirm {font-size:15px;font-weight:600;color:var(--dz-FC-color,#2B7ACD);text-decoration:none;}
+.discuz-select-wheel {max-height:312px;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:0 18px;scroll-snap-type:y proximity;}
+.discuz-select-option {display:flex;align-items:center;justify-content:center;min-height:44px;color:#333;font-size:16px;text-decoration:none;border-bottom:1px solid #f6f6f6;scroll-snap-align:center;transition:color .18s ease,background .18s ease,transform .18s ease;}
+.discuz-select-option.selected {color:var(--dz-FC-color,#2B7ACD);font-weight:600;background:linear-gradient(90deg,transparent,rgba(43,122,205,.08),transparent);transform:scale(1.03);}
+.discuz-select-spacer {height:92px;}
+
+/*------ 移动端日期选择器样式 ------*/
+.discuz-calendar-popup {display:none;flex-direction:column;}
+.discuz-calendar-content {box-sizing:border-box;flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:12px 18px 18px;}
+.discuz-calendar-date {margin-bottom:16px;}
+.discuz-calendar-switcher {display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;}
+.discuz-calendar-switcher span {font-size:16px;font-weight:600;color:#222;}
+.discuz-calendar-nav {display:flex;align-items:center;justify-content:center;width:36px;height:32px;border-radius:16px;color:#555;font-size:24px;text-decoration:none;transition:background .18s ease,color .18s ease;}
+.discuz-calendar-nav:active {background:#f2f5f9;color:var(--dz-FC-color,#2B7ACD);}
+.discuz-calendar-week,.discuz-calendar-days {display:grid;grid-template-columns:repeat(7,1fr);text-align:center;}
+.discuz-calendar-week {padding:6px 0;color:#999;font-size:12px;}
+.discuz-calendar-days {gap:3px;}
+.discuz-calendar-empty,.discuz-calendar-day {height:38px;}
+.discuz-calendar-day {display:flex;align-items:center;justify-content:center;border-radius:50%;color:#333;font-size:14px;text-decoration:none;transition:background .18s ease,color .18s ease,transform .18s ease;}
+.discuz-calendar-day.today {box-shadow:inset 0 0 0 1px var(--dz-FC-color,#2B7ACD);color:var(--dz-FC-color,#2B7ACD);}
+.discuz-calendar-day.selected {background:var(--dz-FC-color,#2B7ACD);color:#fff;font-weight:600;transform:scale(1.06);box-shadow:0 6px 14px rgba(43,122,205,.22);}
+.discuz-calendar-day.disabled {color:#ccc;pointer-events:none;}
+.discuz-calendar-time {border-top:1px solid #f0f0f0;padding-top:14px;}
+.discuz-calendar-time-title {margin-bottom:10px;color:#666;font-size:14px;}
+.discuz-calendar-time-row {display:flex;gap:12px;align-items:center;}
+.discuz-calendar-time-select {box-sizing:border-box;flex:1;height:40px;padding:0 12px;border:1px solid #e4e8ef;border-radius:10px;background:#fff;color:#333;font-size:15px;}
+@keyframes discuz-mask-fade {from {opacity:0;} to {opacity:1;}}
