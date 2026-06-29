@@ -209,20 +209,23 @@ const submitButton = document.getElementById('submitButton');
 /**
  * Saving
  */
-saveButton.addEventListener('click', function () {
+saveButton.addEventListener('click', function (event) {
 	var postsave = document.getElementById("postsave");
 	postsave.value = 1;
-	saveContent();
+	saveContent(event);
 });
 
 /**
  * Submit
  */
-submitButton.addEventListener('click', function () {
-	saveContent();
+submitButton.addEventListener('click', function (event) {
+	saveContent(event);
 });
 
-function saveContent() {
+function saveContent(event) {
+	if (event) {
+		event.preventDefault();
+	}
 	editor.save()
 	    .then((savedData) => {
 		    //console.log(JSON.stringify(savedData, null, 4));
@@ -234,7 +237,7 @@ function saveContent() {
 				    style: 'error',
 				    // time: 30
 			    });
-			    event.stopPropagation();
+			    event && event.stopPropagation();
 			    return false;
 		    }
 		    var seccodeverify = document.getElementsByName("seccodeverify");
@@ -245,7 +248,7 @@ function saveContent() {
 					    style: 'error',
 					    // time: 30
 				    });
-				    event.stopPropagation();
+				    event && event.stopPropagation();
 				    return false;
 			    }
 		    }
@@ -256,14 +259,18 @@ function saveContent() {
 				    style: 'error',
 				    // time: 30
 			    });
-			    event.stopPropagation();
+			    event && event.stopPropagation();
 			    return false;
 		    }
 		    content.value = JSON.stringify(savedData);
 
 		    var mobileeditor = document.getElementById("mobileeditor");
-		    if (mobileeditor.value != 1 && mobileeditor.value != '1') {
+		    if (mobileeditor && (mobileeditor.value == 1 || mobileeditor.value == '1')) {
+			    ajaxpost('postform', 'return_postform', 'return_postform', 'onerror');
+		    } else if (typeof postform.onsubmit == 'function') {
 			    postform.onsubmit();
+		    } else {
+			    postform.submit();
 		    }
 
 	    })

@@ -1148,6 +1148,7 @@ $data = [[
         'topicperpage' => 20,
         'postperpage' => 10,
         'forumview' => 0,
+        'mlistwrap' => 0,
       ],
     ],
   ],[

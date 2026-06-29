@@ -489,7 +489,7 @@ d41d8cd98f00b204e9800998ecf8427e *source/app/admin/child/setting/index.htm
 f4186131cd13191e853a73e94c45cece *source/app/admin/child/setting/mail.php
 8ad945d86059219c4dd7f23c7eba1e92 *source/app/admin/child/setting/memory.php
 52892c2b3201a28cc391b1035001d729 *source/app/admin/child/setting/memorydata.php
-fe826a10185593bd43934a303a1b1c8a *source/app/admin/child/setting/mobile.php
+346750f77c05b3f09b946380f98c4c56 *source/app/admin/child/setting/mobile.php
 db14bc544b3b42581865deca208571b3 *source/app/admin/child/setting/permissions.php
 724ff34133cda8aca07a557468fe60f9 *source/app/admin/child/setting/profile.php
 56227fa0e7d094a2b828de184d13427a *source/app/admin/child/setting/ranklist.php
@@ -2278,8 +2278,8 @@ df3c6323d7a41c26f5a0792a64edcf53 *source/i18n/SC_UTF8/install/lang_sql_install/t
 f2f5d45d71c233ae2ef6a5cd02202602 *source/i18n/SC_UTF8/install/lang_sql_install/table_common_cron.php
 8219ed88d44d7a68bc563a6ce72d7a23 *source/i18n/SC_UTF8/install/lang_sql_install/table_common_friendlink.php
 0e19f4af9b7d7fd3ddd94f3e34716236 *source/i18n/SC_UTF8/install/lang_sql_install/table_common_member_profile_setting.php
-8119890ccfa42047894d68098996e2e3 *source/i18n/SC_UTF8/install/lang_sql_install/table_common_nav.php
-5e5b9b5dda4323bf30d3cef6eda19a33 *source/i18n/SC_UTF8/install/lang_sql_install/table_common_setting.php
+996af5289f51d62c14839c2df32ad9a8 *source/i18n/SC_UTF8/install/lang_sql_install/table_common_nav.php
+e8cb13f93f544683f2867c0b53462390 *source/i18n/SC_UTF8/install/lang_sql_install/table_common_setting.php
 4eab309166345dc39f31ab3e7c5c6e68 *source/i18n/SC_UTF8/install/lang_sql_install/table_common_smiley.php
 4af8b8eaac161061cb0163600e9dbf2d *source/i18n/SC_UTF8/install/lang_sql_install/table_common_statuser.php
 466230b32bd8d264ff787a2317d9ab2a *source/i18n/SC_UTF8/install/lang_sql_install/table_common_style.php
@@ -2302,7 +2302,7 @@ b9ab4756a2fced5c0ea2fef1ffb6c2fc *source/i18n/SC_UTF8/install/lang_sql_install/t
 e1efe8d34d17a4c285dedeeac1a7c056 *source/i18n/SC_UTF8/install/lang_sql_install/table_restful_source.php
 e2b236b21e0f7898ec3f4d441546e2f9 *source/i18n/SC_UTF8/install/lang_sql_upgrade_3.5/table_common_block_style.php
 1032a94bdcafff2ac5546aba0e41edc5 *source/i18n/SC_UTF8/install/lang_sql_upgrade_3.5/table_common_member_profile_setting.php
-c3e1c7923649e41346f3bd6b07422e9d *source/i18n/SC_UTF8/install/lang_sql_upgrade_3.5/table_common_nav.php
+4499348c9a6b8d770df9b85773dd1ec0 *source/i18n/SC_UTF8/install/lang_sql_upgrade_3.5/table_common_nav.php
 0f3a8cd4624f4d3510ea30abebabf1d1 *source/i18n/SC_UTF8/install/lang_sql_upgrade_3.5/table_common_setting.php
 e1efe8d34d17a4c285dedeeac1a7c056 *source/i18n/SC_UTF8/install/lang_sql_upgrade_3.5/table_restful_source.php
 a27be3be29e7f5858f33d737009f6a2c *source/i18n/SC_UTF8/lang_action.php
@@ -2311,7 +2311,7 @@ ed35b0b7e541bddfa761767bbaba5caa *source/i18n/SC_UTF8/lang_admincp_menu.php
 458fd28c339f25ec2b2b7a64afa2fe34 *source/i18n/SC_UTF8/lang_admincp_msg.php
 a23a4c3364c8e36c62472b30fbb7ca04 *source/i18n/SC_UTF8/lang_admincp_related.php
 870d1b631688ed070fcc1f03bcd832d3 *source/i18n/SC_UTF8/lang_admincp_searchindex.php
-2f0c1b2391954d98121e0e2be9094060 *source/i18n/SC_UTF8/lang_admincp.php
+a91571921cf529ea9607e29c09d66ebf *source/i18n/SC_UTF8/lang_admincp.php
 98b1c3e8b311631d9fc22114b01a9457 *source/i18n/SC_UTF8/lang_blockclass.php
 fe70ff60391e2eac38cdf13fbe313083 *source/i18n/SC_UTF8/lang_cloud_register.php
 d054dc8c94020dc4a563b01873631ac9 *source/i18n/SC_UTF8/lang_core.php
@@ -2481,8 +2481,8 @@ a1c6454465477a073c4d2c31e94dade0 *source/i18n/TC_UTF8/install/lang_sql_install/t
 18181081b55aeba6013af8f8a5b575fe *source/i18n/TC_UTF8/install/lang_sql_install/table_common_cron.php
 fba786edfcdda63dc22ff3fcd9e3166f *source/i18n/TC_UTF8/install/lang_sql_install/table_common_friendlink.php
 705f08d79c767faab73248f3567a11fa *source/i18n/TC_UTF8/install/lang_sql_install/table_common_member_profile_setting.php
-294048faa837b15d08907823a58d8bc2 *source/i18n/TC_UTF8/install/lang_sql_install/table_common_nav.php
-636d9de433c1ec5bc817146508f5484e *source/i18n/TC_UTF8/install/lang_sql_install/table_common_setting.php
+b5d26b11e7124df8ac3043f21b6e50ea *source/i18n/TC_UTF8/install/lang_sql_install/table_common_nav.php
+445ca9d40024d24a5a247092ddffd759 *source/i18n/TC_UTF8/install/lang_sql_install/table_common_setting.php
 93404ee80665bd7eda91d38beef5b3e3 *source/i18n/TC_UTF8/install/lang_sql_install/table_common_smiley.php
 4af8b8eaac161061cb0163600e9dbf2d *source/i18n/TC_UTF8/install/lang_sql_install/table_common_statuser.php
 a547269bf1ebe388fd48390df8c88048 *source/i18n/TC_UTF8/install/lang_sql_install/table_common_style.php
@@ -2505,7 +2505,7 @@ b258e3124a9cb2e832509673a0df4969 *source/i18n/TC_UTF8/install/lang_sql_install/t
 e1efe8d34d17a4c285dedeeac1a7c056 *source/i18n/TC_UTF8/install/lang_sql_install/table_restful_source.php
 60cf16a419a70d494a3b64aa96926ddb *source/i18n/TC_UTF8/install/lang_sql_upgrade_3.5/table_common_block_style.php
 c52ad5133398a7497ffa18195bd447aa *source/i18n/TC_UTF8/install/lang_sql_upgrade_3.5/table_common_member_profile_setting.php
-6eb7ee000773872e723f7e1c2637a500 *source/i18n/TC_UTF8/install/lang_sql_upgrade_3.5/table_common_nav.php
+bc86a9ca4ec8ab9c02e6e3665dc4007b *source/i18n/TC_UTF8/install/lang_sql_upgrade_3.5/table_common_nav.php
 0f3a8cd4624f4d3510ea30abebabf1d1 *source/i18n/TC_UTF8/install/lang_sql_upgrade_3.5/table_common_setting.php
 e1efe8d34d17a4c285dedeeac1a7c056 *source/i18n/TC_UTF8/install/lang_sql_upgrade_3.5/table_restful_source.php
 5943953ce53f96096530fd915af00e90 *source/i18n/TC_UTF8/lang_action.php
@@ -2514,7 +2514,7 @@ c675a239ebdb4a0c7c12772e3e7d878b *source/i18n/TC_UTF8/lang_admincp_menu.php
 3a8857d9e3e437ebdbf0bfbbfe230bae *source/i18n/TC_UTF8/lang_admincp_msg.php
 04926159d0c16bcadceb1ab0e2f1bf2e *source/i18n/TC_UTF8/lang_admincp_related.php
 ae3a71a1da31cb4055659bf9a623a956 *source/i18n/TC_UTF8/lang_admincp_searchindex.php
-c8838706e35742a341adbc828b9f84ea *source/i18n/TC_UTF8/lang_admincp.php
+e1b0e9770689f3ce51a101e4a3c826cd *source/i18n/TC_UTF8/lang_admincp.php
 9fb5079e24f1ded7ee3863759ed4e0e4 *source/i18n/TC_UTF8/lang_blockclass.php
 2e80b98fd61ed588889e1f54e5ab95d1 *source/i18n/TC_UTF8/lang_cloud_register.php
 20f7259a923750d0e8a8cc7e988c563c *source/i18n/TC_UTF8/lang_core.php
@@ -3724,7 +3724,6 @@ d9c722f799a5d9cfb092eb516a724eb6 *static/image/mobile/preview.png
 9f036243f3a7a64d67321d14b0c5ad08 *static/image/mobile/touch/arrow.png
 2dd1f422d3dac2cd6c97ffd0e7f82138 *static/image/mobile/touch/arrow.svg
 5b49481dfe76f0e5698485239c6046de *static/image/mobile/touch/avatar_blank.gif
-424bd7b0ed25f102d924ed9789a89918 *static/image/mobile/touch/explore.svg
 6d0ee3c2c612dc920df7840cf3dabfb8 *static/image/mobile/touch/foot_post.png
 49a819586a04834f268f5550ee70b898 *static/image/mobile/touch/forum_new.png
 cc2a9e38194bff8b45390dd243c044bf *static/image/mobile/touch/forum.png
@@ -4128,7 +4127,7 @@ c7bf3253aae08166f7ac3526aefd60a3 *static/js/editorjs/editorjs_mobile.css
 d41d8cd98f00b204e9800998ecf8427e *static/js/editorjs/index.htm
 3bab1962b49cb13d1e43bdbb32554a5d *static/js/editorjs/init_content_touch.js
 42bc42308b06133d134cac81154edcea *static/js/editorjs/init_content.js
-b3afa4b94e2d0cfcc69887d1d2ff7d53 *static/js/editorjs/init.js
+171b4a1837070bd1d821b5b51a633b0c *static/js/editorjs/init.js
 1af9e664808cc6341716cb02affdcc4f *static/js/editorjs/tools/anchor/anchor.js
 d41d8cd98f00b204e9800998ecf8427e *static/js/editorjs/tools/anchor/index.htm
 99d409211924c6760e0ec3ab2a64a797 *static/js/editorjs/tools/attaches/attaches.js
@@ -5126,7 +5125,7 @@ d41d8cd98f00b204e9800998ecf8427e *template/default/style/t5/index.htm
 d41d8cd98f00b204e9800998ecf8427e *template/default/tag/index.htm
 b78ac6e2d37ebf18f645f448fa5b183c *template/default/tag/tag.htm
 af4fef49262e2e1516e9f642f17659b5 *template/default/tag/tagitem.htm
-0079cd5f3a8a13c4f983a31bfddf5437 *template/default/touch/cell/common/footer/link_find.htm
+d90431e35ce0da0b90cadbf00255f4b8 *template/default/touch/cell/common/footer/link_find.htm
 8d33cd32b229ce5dedc3f6940e648f6f *template/default/touch/cell/common/footer/link_home.htm
 b62404d7491d2e50019ed6b8d33d21fe *template/default/touch/cell/common/footer/link_info.htm
 07cc923e10e4f6a40d41ace8d08425b2 *template/default/touch/cell/common/footer/link_my.htm
@@ -5152,7 +5151,7 @@ d41d8cd98f00b204e9800998ecf8427e *template/default/touch/cells/common/index.htm
 d41d8cd98f00b204e9800998ecf8427e *template/default/touch/cells/index.htm
 e6fa0ee35cab0968daa2a9bc40743608 *template/default/touch/common/block_thread.php
 aa927791d4962a01a47a8c72d449cfd7 *template/default/touch/common/buyinvitecode.htm
-e0ab0c84eb237fc94954cb5174231c77 *template/default/touch/common/common.css
+a7cd4453c4be13fefd3702953e0f43db *template/default/touch/common/common.css
 bc8bdec590fd551869081aeed1f13760 *template/default/touch/common/module.css
 dcecf9502c1ceadebea0ae4c229d3364 *template/default/touch/common/footer_ajax.htm
 873210e04364a37a763b5d7d60d99fe4 *template/default/touch/common/footer.htm
@@ -5188,12 +5187,12 @@ d6c296374379add8a6d1a46dad6708c0 *template/default/touch/forum/collection_view.h
 97e11ef957740f2b68c61ea50d4ff341 *template/default/touch/forum/comment_more.htm
 7e0e4e5092b47d5a74693b1ce2536766 *template/default/touch/forum/comment.htm
 923f5f7ede56575929900956f4b2645c *template/default/touch/forum/debate_umpire.htm
-f363df96f84801db29530ebec1226453 *template/default/touch/forum/discuz.htm
+2f43bcb201c23a770cda570736ed4023 *template/default/touch/forum/discuz.htm
 d88b591b9d2101be712e91c27c075a83 *template/default/touch/forum/discuzcode.htm
 64c11f192768d79f8e71ae6b28e6c16e *template/default/touch/forum/find.htm
 26224fad71e38b697e28b0740d84e6b5 *template/default/touch/forum/forumdisplay_fastpost.htm
 382bcfc322eb9cfdcf3c6b0b9b8d4cdb *template/default/touch/forum/forumdisplay_passwd.htm
-a02f641789a4d6f881bfa8d6fa9a2eda *template/default/touch/forum/forumdisplay_subforum.htm
+8bcd63f6a623968235f552178300df63 *template/default/touch/forum/forumdisplay_subforum.htm
 c550560d14a4cf73b238a2ad5fb898ba *template/default/touch/forum/forumdisplay.htm
 8c32a87b459c82d8ecd109b34bc3a501 *template/default/touch/forum/guide_list_row.htm
 250906ef584d6e92dc8a579c50dd8b65 *template/default/touch/forum/guide.htm
