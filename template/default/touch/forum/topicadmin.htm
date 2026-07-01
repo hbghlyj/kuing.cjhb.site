@@ -52,7 +52,7 @@
 <li class="flex-box mli">
 <div class="flex tit"><span class="z">{lang admin_reason}</span></div>
 <div class="flex-2">
-<select id="reason_select" class="sort_sel">
+<select id="reason_select" class="sort_sel" data-title="{lang admin_reason}">
 <option></option>
 <!--{echo modreasonselect(1)}-->
 </select>
@@ -72,7 +72,7 @@
 <li class="flex-box mli">
 <div class="flex tit"><span class="z">{lang modmenu_stickthread}</span></div>
 <div class="flex-2">
-<select class="sort_sel" name="sticklevel">
+<select class="sort_sel" name="sticklevel" data-title="{lang modmenu_stickthread}">
 <!--{if $_G['forum']['status'] != 3}-->
 <option value="0">{lang none}</option>
 <option value="1" $stickcheck[1]>$_G['setting']['threadsticky'][2]</option>
@@ -112,7 +112,7 @@
 <li class="flex-box mli">
 <div class="flex tit"><span class="z">{lang modmenu_digestpost}</span></div>
 <div class="flex-2">
-<select class="sort_sel" name="digestlevel">
+<select class="sort_sel" name="digestlevel" data-title="{lang admin_digest_add}">
 <option value="0">{lang admin_digest_remove}</option>
 <option value="1" $digestcheck[1]>{lang thread_digest} 1</option>
 <!--{if $_G['group']['allowdigestthread'] >= 2}-->
@@ -153,7 +153,7 @@
 <a href="javascript:;" id="highlight_op_3" onclick="switchhl(this, 3)" class="dopt_l{if $stylecheck[3]} cnt{/if}" style="text-indent:0;text-decoration:underline;">U</a>
 </div>
 <div class="flex-2">
-<select class="sort_sel" id="highlight_color" name="highlight_color">
+<select class="sort_sel" id="highlight_color" name="highlight_color" data-title="{lang thread_highlight}">
 <option value="0" <!--{if $colorcheck == 0}-->selected="selected"<!--{/if}-->></option>
 <!--{loop $_G['forum_colorarray'] $i $coloroptions}-->
 <option value="{$i}" style="background:{$coloroptions};color:{$coloroptions};" <!--{if $colorcheck == $i}-->selected="selected"<!--{/if}-->>$coloroptions</option>
@@ -207,7 +207,7 @@
 <li class="flex-box mli">
 <div class="flex"><span class="z">{lang forum_recommend_image}</span></div>
 <div class="flex-2">
-<select name="selectattach" onchange="updateimginfo(this.value)" class="sort_sel">
+<select name="selectattach" onchange="updateimginfo(this.value)" class="sort_sel" data-title="{lang forum_recommend_image}">
 <option value="">{lang forum_recommend_noimage}</option>
 <!--{loop $imgattach $imginfo}-->
 <option value="$imginfo[aid]"{if $selectattach == $imginfo[aid]} selected="selected"{/if}>$imginfo[filename]</option>
@@ -243,7 +243,7 @@
 <li class="flex-box mli">
 <div class="flex tit"><span class="z">{lang admin_target}</span></div>
 <div class="flex-2">
-<select name="moveto" id="moveto" class="sort_sel" onchange="ajaxget('forum.php?mod=ajax&action=getthreadtypes&fid=' + this.value + '&selectclass=sort_sel', 'threadtypes', null, null, null, function() {if(typeof window.initAllSortSel == 'function') {window.initAllSortSel(getID('threadtypes'));}});if(this.value) {getID('moveext').style.display='';} else {getID('moveext').style.display='none';}">
+<select name="moveto" id="moveto" class="sort_sel" onchange="ajaxget('forum.php?mod=ajax&action=getthreadtypes&fid=' + this.value + '&selectclass=sort_sel', 'threadtypes', null, null, null, function() {if(typeof window.initAllSortSel == 'function') {window.initAllSortSel(getID('threadtypes'));}});if(this.value) {getID('moveext').style.display='';} else {getID('moveext').style.display='none';}" data-title="{lang admin_target}">
 $forumselect
 </select>
 </div>
@@ -251,7 +251,7 @@ $forumselect
 <li class="flex-box mli">
 <div class="flex tit"><span class="z">{lang admin_targettype}</span></div>
 <div class="flex-2">
-<span id="threadtypes"><select name="threadtypeid" class="sort_sel"><option value="0" /></option></select></span>
+<span id="threadtypes"><select name="threadtypeid" class="sort_sel" data-title="{lang admin_targettype}"><option value="0" /></option></select></span>
 </div>
 </li>
 </ul>

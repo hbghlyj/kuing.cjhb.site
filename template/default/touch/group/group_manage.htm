@@ -62,7 +62,7 @@
 			<li class="flex-box mli">
 				<div class="tit">{lang group_category} :</div>
 				<div class="flex">
-					<select name="parentid" id="parentid" onchange="group_ajaxget('forum.php?mod=ajax&action=secondgroup&fupid='+ this.value);" class="sort_sel">
+					<select name="parentid" id="parentid" onchange="group_ajaxget('forum.php?mod=ajax&action=secondgroup&fupid='+ this.value);" class="sort_sel" data-title="{lang group_category}">
 						$groupselect[first]
 					</select>
 				</div>
@@ -70,7 +70,7 @@
 			<li class="flex-box mli" id="secondgroup" {if !$groupselect['second']}style="display:none"{/if}>
 				<div class="tit">{lang group_category} :</div>
 				<div id="linkage" class="flex">
-					<select name="fup" id="fup" class="sort_sel">
+					<select name="fup" id="fup" class="sort_sel" data-title="{lang group_category}">
 						$groupselect[second]
 					</select>
 				</div>
@@ -111,7 +111,7 @@
 			<li class="flex-box mli">
 				<div class="tit">{lang group_perm_visit} :</div>
 				<div class="flex">
-					<select name="gviewpermnew" id="gviewperm" class="sort_sel">
+					<select name="gviewpermnew" id="gviewperm" class="sort_sel" data-title="{lang group_perm_visit}">
 						<option value="1" {if $_G['forum']['gviewperm']=='1'}selected="selected"{/if}>{lang group_perm_all_user}</option>
 						<!--{if in_array($_G[adminid], array(1))}-->
 						<option value="0" {if $_G['forum']['gviewperm']=='0'}selected="selected"{/if}>{lang group_perm_member_only}</option>
@@ -122,7 +122,7 @@
 			<li class="flex-box mli">
 				<div class="tit">{lang group_join_type} :</div>
 				<div class="flex">
-					<select name="jointypenew" id="jointype" class="sort_sel">
+					<select name="jointypenew" id="jointype" class="sort_sel" data-title="{lang group_join_type}">
 						<option value="0" {if $_G['forum']['jointype']=='0'}selected="selected"{/if}>{lang group_join_type_free}</option>
 						<!--{if in_array($_G[adminid], array(1))}-->
 						<option value="2" {if $_G['forum']['jointype']=='2'}selected="selected"{/if}>{lang group_join_type_moderate}</option>

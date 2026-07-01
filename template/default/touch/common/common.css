@@ -1578,7 +1578,7 @@ i.pstatus {display:block;font-size:12px;text-align:center;color:#999}
 .discuz-picker-lock {overflow:hidden!important;}
 .sort-sel-wrap {display:block;position:relative;width:100%;}
 .sort-sel-wrap .sort_sel {display:none!important;}
-.sort-sel-show {box-sizing:border-box;display:block;width:100%;min-height:30px;line-height:30px;padding:0 26px 0 14px;background:url('touch/arrow.svg') no-repeat right center;background-size:16px 16px;color:graytext;font-size:16px;text-decoration:none;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.sort-sel-show {box-sizing:border-box;display:block;width:100%;min-height:30px;line-height:30px;padding:0 18px 0 14px;background:url('touch/arrow.svg') no-repeat right center;background-size:16px 16px;color:graytext;font-size:16px;text-decoration:none;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 .post_box .attqx .sort-sel-show,.post_box .multisel .sort-sel-show {font-size:14px;}
 .post_box .multisel .sort-sel-show {display:inline-block;width:auto;padding-right:16px;background-size:14px 14px;}
 .discuz-select-mask,.discuz-calendar-mask {display:none;position:fixed;inset:0;background:rgba(15,23,42,.42);z-index:99998;backdrop-filter:blur(2px);animation:discuz-mask-fade .2s ease;}

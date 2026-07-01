@@ -1316,6 +1316,7 @@ window.lockBodyScroll = lockBodyScroll;
 		createSelectDom();
 		selectState.select = select;
 		selectState.value = select.value;
+		selectState.popup.querySelector('.discuz-select-title').textContent = select.getAttribute('data-title') || mobileSelectLang('select', '请选择');
 		renderSelectOptions(select);
 		selectState.mask.style.display = 'block';
 		selectState.popup.style.display = 'block';

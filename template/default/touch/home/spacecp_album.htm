@@ -26,7 +26,7 @@
 			<tr>
 				<th>{lang privacy_settings}</th>
 				<td>
-					<select name="friend" onchange="passwordShow(this.value);" class="ps">
+					<select name="friend" onchange="passwordShow(this.value);" class="sort_sel" data-title="{lang privacy_settings}">
 						<option value="0"$friendarr[0]>{lang friendname_0}</option>
 						<option value="1"$friendarr[1]>{lang friendname_1}</option>
 						<option value="2"$friendarr[2]>{lang friendname_2}</option>
@@ -45,7 +45,7 @@
 				<tr>
 					<th>{lang specified_friends}</th>
 					<td>
-						<select name="selectgroup" onchange="getgroup(this.value);" class="ps">
+						<select name="selectgroup" onchange="getgroup(this.value);" class="sort_sel" data-title="{lang specified_friends}">
 							<option value="">{lang from_friends_group}</option>
 							<!--{loop $groups $key $value}-->
 								<option value="$key">$value</option>
@@ -105,7 +105,7 @@
 
 						<!--{if $albumlist}-->
 							<button type="submit" name="editpicsubmit" value="true" class="pn" onclick="this.form.action+='&subop=move';return ischeck('theform', 'ids')"><strong>{lang move_to}</strong></button>
-							<select name="newalbumid" class="ps vm">
+							<select name="newalbumid" class="sort_sel" data-title="{lang move_to}">
 							<!--{loop $albumlist $key $value}-->
 								<!--{if $albumid != $value['albumid']}--><option value="$value['albumid']">$value['albumname']</option><!--{/if}-->
 							<!--{/loop}-->
@@ -154,7 +154,7 @@
 					<li>
 						<span>{lang the_album_pic}</span>
 						<div class="medal_tip_input">
-							<select name="moveto" class="ps">
+							<select name="moveto" class="sort_sel" data-title="{lang move_to}">
 								<option value="-1">{lang completely_remove}</option>
 								<option value="0">{lang move_to_default_album}</option>
 								<!--{loop $albums $value}-->
@@ -221,7 +221,7 @@
 		<input type="hidden" name="aid" value="$_GET['aid']" />
 		<!--{if $_G[inajax]}--><input type="hidden" name="handlekey" value="$_GET['handlekey']" /><!--{/if}-->
 		<div class="c">
-			{lang save_to}: <select name="albumid" class="ps vm">
+			{lang save_to}: <select name="albumid" class="sort_sel" data-title="{lang save_to_album}">
 			<!--{loop $albumlist $key $value}-->
 				<option value="$value['albumid']">$value['albumname']</option>
 			<!--{/loop}-->

@@ -2240,7 +2240,7 @@ function detectHtml5Support() {
 }
 
 function detectPlayer(randomid, ext, src, width, height, thumbImg = '') {
-	var h5_support = new Array('aac', 'flac', 'mp3', 'm4a', 'wav', 'flv', 'mp4', 'm4v', '3gp', 'ogv', 'ogg', 'weba', 'webm');
+	var h5_support = new Array('aac', 'flac', 'mp3', 'm4a', 'wav', 'flv', 'mp4', 'm4v', '3gp', 'ogv', 'ogg', 'weba', 'webm', 'mov');
 	var trad_support = new Array('mp3', 'wma', 'mid', 'wav', 'ra', 'ram', 'rm', 'rmvb', 'swf', 'asf', 'asx', 'wmv', 'avi', 'mpg', 'mpeg', 'mov');
 	width = width.indexOf("%") == -1 ? width + 'px' : width;
 	height = height.indexOf("%") == -1 ? height + 'px' : height;
@@ -2315,6 +2315,7 @@ function html5Player(randomid, ext, src, width, height, thumbImg = '') {
 				appendscript(STATICURL + 'js/player/flv.min.js');
 				HTML5PLAYER['flvload'] = 1;
 			}
+		case 'mov':
 		case 'mp4':
 		case 'm4v':
 		case '3gp':
@@ -2361,7 +2362,7 @@ function html5APlayer(randomid, ext, src, width, height, thumbImg = '') {
 
 function html5DPlayer(randomid, ext, src, width, height, thumbImg = '') {
 	if (JSLOADED[STATICURL + 'js/player/dplayer.min.js'] && (ext != 'flv' || JSLOADED[STATICURL + 'js/player/flv.min.js'])) {
-		window[randomid] = new DPlayer({
+		var data = {
 			container: $(randomid + '_container'),
 			autoplay: false,
 			loop: true,
@@ -2375,7 +2376,32 @@ function html5DPlayer(randomid, ext, src, width, height, thumbImg = '') {
 				url: src,
 				pic: thumbImg && typeof thumbImg != 'undefined' && thumbImg !== '' ? thumbImg : src + '.thumb.jpg'
 			}
-		});
+		};
+		if(typeof fetch == 'function') {
+			fetch(src + '.index.json')
+				.then(function(res) {
+					return res.ok ? res.json() : Promise.reject();
+				})
+				.then(function(qualityArr) {
+					if(qualityArr && qualityArr.length) {
+						data.video.quality = qualityArr.map(function(quality) {
+							return {
+								name: quality,
+								url: src + '.' + quality + '.mp4',
+								type: 'normal'
+							};
+						});
+						data.video.defaultQuality = 0;
+						delete data.video.url;
+					}
+					window[randomid] = new DPlayer(data);
+				})
+				.catch(function() {
+					window[randomid] = new DPlayer(data);
+				});
+		} else {
+			window[randomid] = new DPlayer(data);
+		}
 	} else {
 		setTimeout(function () {
 			html5DPlayer(randomid, ext, src, width, height, thumbImg);

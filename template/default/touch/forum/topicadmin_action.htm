@@ -31,7 +31,7 @@
 			<li class="flex-box mli">
 				<div class="flex"><span class="z">{lang admin_target}</span></div>
 				<div class="flex-2">
-					<select name="copyto" id="copyto" class="sort_sel" onchange="ajaxget('forum.php?mod=ajax&action=getthreadtypes&fid=' + this.value + '&selectclass=sort_sel', 'threadtypes')">
+					<select name="copyto" id="copyto" class="sort_sel" onchange="ajaxget('forum.php?mod=ajax&action=getthreadtypes&fid=' + this.value + '&selectclass=sort_sel', 'threadtypes')" data-title="{lang admin_target}">
 						$forumselect
 					</select>
 				</div>
@@ -39,7 +39,7 @@
 			<li class="flex-box mli b0">
 				<div class="flex"><span class="z">{lang admin_targettype}</span></div>
 				<div class="flex-2">
-					<span id="threadtypes"><select name="threadtypeid" class="sort_sel vm"><option value="0" /></option></select></span>
+					<span id="threadtypes"><select name="threadtypeid" class="sort_sel" data-title="{lang admin_targettype}"><option value="0" /></option></select></span>
 				</div>
 			</li>
 		</ul>
@@ -212,7 +212,7 @@
 </div>
 <script type="text/javascript" reload="1">
 if(getID('copyto')) {
-	ajaxget('forum.php?mod=ajax&action=getthreadtypes&fid=' + getID('copyto').value + '&selectclass=sort_sel', 'threadtypes');
+	ajaxget('forum.php?mod=ajax&action=getthreadtypes&fid=' + getID('copyto').value + '&selectclass=sort_sel', 'threadtypes', null, null, null, function() {if(typeof window.initAllSortSel == 'function') {window.initAllSortSel(getID('threadtypes'));}});
 }
 </script>
 <!--{template common/footer}-->
