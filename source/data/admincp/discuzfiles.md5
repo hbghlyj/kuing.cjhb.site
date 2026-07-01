@@ -1916,7 +1916,7 @@ f06cd9d031db8466e0c53ac35394956b *source/data/seccode/gif/Small_Fonts/r.gif
 8dcb6ebbeb4f47004618fedd05f3c713 *source/data/seccode/gif/Small_Fonts/x.gif
 ef7841860e2e18d2e1aee9e016023ebe *source/data/seccode/gif/Small_Fonts/y.gif
 7215ee9c7d9dc229d2921a40e899ec5f *source/data/seccode/index.htm
-230441e6661bed1c598c411092c6e678 *source/discuz_version.php
+cd6dc24b46bdd2a7c5750afeeb5de9e7 *source/discuz_version.php
 82648981bb101edf0287ac39b1d52f3a *source/function/cache/cache_admincp_menu.php
 d3e1765701c35fa446059c6faeebe842 *source/function/cache/cache_admingroups.php
 a73612907941176d2632c5a75939719b *source/function/cache/cache_advs.php
@@ -4125,7 +4125,7 @@ c7bf3253aae08166f7ac3526aefd60a3 *static/js/editorjs/editorjs_mobile.css
 3a14afef3712a780b26223fa76962162 *static/js/editorjs/editorjs.css
 0cc3e79d9ef5b3f7900f09bbc5ce7a75 *static/js/editorjs/editorjs.umd.js
 d41d8cd98f00b204e9800998ecf8427e *static/js/editorjs/index.htm
-3bab1962b49cb13d1e43bdbb32554a5d *static/js/editorjs/init_content_touch.js
+d2e4e74e26641f3ac5cec80382b9a4cd *static/js/editorjs/init_content_touch.js
 42bc42308b06133d134cac81154edcea *static/js/editorjs/init_content.js
 171b4a1837070bd1d821b5b51a633b0c *static/js/editorjs/init.js
 1af9e664808cc6341716cb02affdcc4f *static/js/editorjs/tools/anchor/anchor.js
@@ -5212,7 +5212,7 @@ f5d99b3788b5a73c169ccf7f6567f37a *template/default/touch/forum/post_poll.htm
 53284c6ca9af21370452adc4b021e515 *template/default/touch/forum/post_reward.htm
 f51bb839b96d6c37e475dd4de76cc77a *template/default/touch/forum/post_sortoption.htm
 e4f98956032a99a72e52168e28b14d00 *template/default/touch/forum/post_trade.htm
-71c9aee1e99b3deed250fd30f75ceeae *template/default/touch/forum/post.htm
+73e5abc56a17f6f69f1110d38bcbecbf *template/default/touch/forum/post.htm
 821eda182ef18390973e4a4042851848 *template/default/touch/forum/postdelete.php
 c5989dc03e0f639d4119d4c66dd89d5a *template/default/touch/forum/rate_view.htm
 356040cbaeef64a41ef32e44c8359f69 *template/default/touch/forum/rate.htm

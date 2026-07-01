@@ -227,19 +227,29 @@ var editor = new EditorJS({
 					});
 				}
 
+				var needmessageEl = document.getElementById('needmessage');
+				if (needmessageEl) {
+					needmessageEl.value = hasContent ? '1' : '';
+					var event = document.createEvent('HTMLEvents');
+					event.initEvent('input', true, false);
+					needmessageEl.dispatchEvent(event);
+				}
+
 				// 根据条件设置按钮状态
-				if (e && (needsubject && needsubject.value && needsubject.value.trim() !== '' || replysubmit) && hasContent) {
+				var subjectHasValue = needsubject && needsubject.value && needsubject.value.trim() !== '';
+				var isReply = !!replysubmit;
+				if (hasContent && (isReply || subjectHasValue)) {
 					postBtn.removeClass('btn_pn_grey').addClass('btn_pn_blue');
-					postBtn.attr('disable', 'false');
+					postBtn.attr('data-disabled', 'false');
 				} else {
 					postBtn.removeClass('btn_pn_blue').addClass('btn_pn_grey');
-					postBtn.attr('disable', 'true');
+					postBtn.attr('data-disabled', 'true');
 				}
 			}).catch((error) => {
 				console.error('检查编辑器内容时出错:', error);
 				// 出错时默认禁用按钮
 				postBtn.removeClass('btn_pn_blue').addClass('btn_pn_grey');
-				postBtn.attr('disable', 'true');
+				postBtn.attr('data-disabled', 'true');
 			});
 		}
 	}
