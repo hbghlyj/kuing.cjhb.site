@@ -250,7 +250,6 @@ class editorBlock {
 				// do something with code here.
 				// this will trigger whenever the code
 				// in the editor changes.
-			    // console.log(code)
 			});
 			// flask.updateCode('');
 			// This will also trigger .onUpdate()
@@ -271,7 +270,6 @@ class editorBlock {
 		                editorElem$rand.style.height = '500px';
 		            }
 		            
-			//console.log({currentCode$rand})    
 			
 			const copyBtn$rand = document.getElementById('codeflask-copy-{id}');
 			copyBtn$rand.addEventListener('click', function() {
@@ -288,10 +286,8 @@ class editorBlock {
 			                setTimeout(function() {
 			                    copyBtn$rand.innerHTML = originalText;
 			                }, 2000);
-			            }).catch(function(err) {
+			            }).catch(function() {
 			                // 复制失败处理
-			                console.error('复制失败:', err);
-			                
 			                // 降级方案：使用传统的复制方法
 			                fallbackCopyTextToClipboard(code$rand);
 			            });
@@ -318,13 +314,11 @@ class editorBlock {
 			                    copyBtn$rand.innerHTML = originalText;
 			                }, 2000);
 			            } catch (copyErr) {
-			                console.error('传统复制方法也失败了:', copyErr);
 			            } finally {
 			                document.body.removeChild(textArea);
 			            }
 			        }
 			    } catch (err) {
-			        console.error('复制功能不可用:', err);
 			    }
 			});
 			

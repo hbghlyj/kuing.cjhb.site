@@ -143,7 +143,6 @@ function toggle_child_comments(root_id) {
 	}
 	
 	if (!toggle_btn) {
-		console.error('Toggle button not found for root_id:', root_id);
 		return;
 	}
 	

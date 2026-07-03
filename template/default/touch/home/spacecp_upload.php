@@ -180,8 +180,6 @@
 				try {
 					const dataobj = JSON.parse(data);
 					const dataarr = Object.entries(dataobj);
-					console.log(dataobj.picid);
-					console.log(2);
 
 					if(dataobj.picid > 0 && dataobj.url) {
 						// 添加图片到列表
@@ -198,7 +196,6 @@
 						popup.open(STATUSMSG[dataarr[2]] + sizelimit, 'alert');
 					}
 				} catch(e) {
-					console.error('解析上传结果失败:', e);
 					popup.open('{lang uploadpicfailed}', 'alert');
 				}
 			}

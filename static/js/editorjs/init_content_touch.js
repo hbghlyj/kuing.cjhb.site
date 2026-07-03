@@ -183,8 +183,6 @@ var editor = new EditorJS({
 	 */
 	data: window.initialData || loadDraft() || content,
 	onReady: function () {
-		console.log("Delaying Save to launch Column Editors")
-
 		undo = new Undo({ editor, config });
 		new DragDrop(editor);
 
@@ -194,7 +192,6 @@ var editor = new EditorJS({
 
 	},
 	onChange: function (e) {
-		console.log(e)
 		contentChanged = true;
 		scheduleAutoSave();
 		var needsubject = document.getElementById("needsubject");
@@ -245,8 +242,7 @@ var editor = new EditorJS({
 					postBtn.removeClass('btn_pn_blue').addClass('btn_pn_grey');
 					postBtn.attr('data-disabled', 'true');
 				}
-			}).catch((error) => {
-				console.error('检查编辑器内容时出错:', error);
+			}).catch(() => {
 				// 出错时默认禁用按钮
 				postBtn.removeClass('btn_pn_blue').addClass('btn_pn_grey');
 				postBtn.attr('data-disabled', 'true');
@@ -309,8 +305,6 @@ function saveJsonContent(event, options = {}) {
 
 		return savedData;
 	}).catch((error) => {
-		console.error('保存编辑器内容时出错:', error);
-
 		// 触发错误事件
 		if (typeof CustomEvent !== 'undefined' && typeof document.dispatchEvent !== 'undefined') {
 			const errorEvent = new CustomEvent('editorContentSaveError', {
@@ -351,11 +345,8 @@ const convertBlock = (type, data = undefined, e) => {
 	editor.blocks.convert(currentBlock.id, type, {
 		...data, // 合并预设数据
 	}).then((newBlock) => {
-		//console.log("New Block:", newBlock);
 		editor.caret.setToBlock(newBlock.id, 'end');
-	}).catch((error) => {
-		console.log('Block Tool with type not found', error);
-	});
+	}).catch(() => {});
 
 	if (e && e.stopPropagation) {
 		e.stopPropagation();

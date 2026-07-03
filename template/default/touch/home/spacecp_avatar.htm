@@ -23,7 +23,6 @@
 				setcookie('clearUserdata', '', -1);
 			}
 			function loadUserdata(name) {
-				console.log(window.localStorage);
 				if (window.localStorage) {
 					return localStorage.getItem('Discuz_' + name);
 				} else if (window.sessionStorage) {

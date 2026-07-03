@@ -177,10 +177,8 @@ function saveAvatar(src) {
     var src = getID('avatarform').action;
     getID('avatarform').action = data[data.indexOf('stl_src')+1];
     getID('avatarform').target='rectframe';
-	console.log('readysubmit');
 	getID('avatarform').submit();
 	refreshAvatarCanvasForDisplay();
-	console.log('submited');
     jQuery('#avatardisplayer').show();
     jQuery('#avataradjuster').hide();
 	jQuery('#avataradjuster2').hide();

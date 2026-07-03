@@ -548,7 +548,6 @@
 										try {
 											payload = JSON.parse(x.responseText);
 										} catch (e) {
-											console.error('Error parsing online list payload.', e);
 										}
 										if (listContainer) {
 											listContainer.innerHTML = payload && typeof payload.html === 'string' ? payload.html : '<li style="width: auto">{lang online_list_load_error}</li>';
@@ -577,7 +576,6 @@
 											}
 										}
 									} else if (x.readyState == 4) {
-										console.error('Error fetching online list. Status: ' + x.status);
 										var listContainer = document.getElementById('whosonline_list_container');
 										if (listContainer) {
 											listContainer.innerHTML = '<li style="width: auto">{lang online_list_load_error}</li>';

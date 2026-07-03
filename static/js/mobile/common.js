@@ -850,7 +850,6 @@ function footlink() {
 function initdhnav(containerSelector = '#dhnavs_li', activeClass = 'mon', customOptions = {}) {
     const container = document.querySelector(containerSelector);
     if (!container) {
-        console.warn('Swiper容器不存在:', containerSelector);
         return null;
     }
 
@@ -910,13 +909,9 @@ function home_getgroup(gid) {
                 const targetNames = document.getElementById('target_names');
                 if (targetNames) {
                     targetNames.innerHTML += s + ',';
-                } else {
-                    console.warn('未找到ID为target_names的元素');
                 }
             })
-            .catch(error => {
-                console.error('请求失败:', error);
-            });
+            .catch(() => {});
     }
 }
 

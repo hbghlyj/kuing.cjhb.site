@@ -122,7 +122,6 @@
 					}
 				} catch (error) {
 					// 处理所有可能的错误（网络错误、JSON解析错误等）
-					console.error('error:', error);
 					// 出错时恢复按钮显示，允许用户重试
 					obj.style.display = 'block';
 				}

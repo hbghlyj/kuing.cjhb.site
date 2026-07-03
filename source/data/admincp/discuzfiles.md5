@@ -1351,7 +1351,7 @@ c9b028659c279871dc45b1f82072ae5f *source/class/class_chinese.php
 72b60c0b86c4c21c54e339cc62b535bc *source/class/class_core.php
 a4ba40bb16fbccd22e68eed05c9d9209 *source/class/class_credit.php
 cadd868c9222c4365bb4b23049e3a259 *source/class/class_dbexception.php
-020b9c2aa055cb7b3be18f43bdd332fd *source/class/class_editor.php
+a4e9914b4b82253fe09586b32c363573 *source/class/class_editor.php
 851757ef01ba37e015a08d4118ee2b88 *source/class/class_filesock.php
 986259aedb16268d16346c2f5b154e6c *source/class/class_gifmerge.php
 80768f6e6246aec6e970a748a407d689 *source/class/class_i18n.php
@@ -2735,7 +2735,7 @@ f525d6300adc770a1de79f89bb148d98 *static/avatar/avatar_back.gif
 ba59ae3abc3a75b97fb6186cfe9115ea *static/avatar/avatar_finishback.png
 2d5330771556729626dc253937e89877 *static/avatar/avatar_finishbutton.gif
 38c8a1e48fa4003201af428a3515866b *static/avatar/avatar_lattice.png
-dc2b11b97c09778e815169e0ca75c175 *static/avatar/avatar_mobile.js
+63bb053d56b48d9820ca452c6b374e98 *static/avatar/avatar_mobile.js
 05190dde781043370d7aa22bda21a716 *static/avatar/avatar_save.gif
 8ab9e499a4f73143cc6881ff3a9eaaa8 *static/avatar/avatar_upload.gif
 f1114b8d5bac77ca413c2b77109dd28d *static/avatar/avatar.css
@@ -4125,7 +4125,7 @@ c7bf3253aae08166f7ac3526aefd60a3 *static/js/editorjs/editorjs_mobile.css
 3a14afef3712a780b26223fa76962162 *static/js/editorjs/editorjs.css
 0cc3e79d9ef5b3f7900f09bbc5ce7a75 *static/js/editorjs/editorjs.umd.js
 d41d8cd98f00b204e9800998ecf8427e *static/js/editorjs/index.htm
-d2e4e74e26641f3ac5cec80382b9a4cd *static/js/editorjs/init_content_touch.js
+0e2527f627e6ba88fe0cddc4849ce5b1 *static/js/editorjs/init_content_touch.js
 42bc42308b06133d134cac81154edcea *static/js/editorjs/init_content.js
 171b4a1837070bd1d821b5b51a633b0c *static/js/editorjs/init.js
 1af9e664808cc6341716cb02affdcc4f *static/js/editorjs/tools/anchor/anchor.js
@@ -4231,7 +4231,7 @@ cde16251aa39bf18368e0b62d9e1d9ae *static/js/makehtml.js
 9b6a5a11ed6d03f60e73baa9eaae6c7e *static/js/md5.js
 97ce51f710987825987c8011821297f5 *static/js/mobile/ajaxfileupload.js
 3d38d67cc2f5256a07c18a7c29bfb84a *static/js/mobile/buildfileupload.js
-962c5ef6fa3460f329ff1df99287e713 *static/js/mobile/common.js
+4f61c481d005ffd9c82014965bdfc488 *static/js/mobile/common.js
 d41d8cd98f00b204e9800998ecf8427e *static/js/mobile/index.htm
 4f252523d4af0b478c810c2547a63e19 *static/js/mobile/jquery.min.js
 c7a06100ded36c16acd06454e6932de0 *static/js/player/aplayer.min.css
@@ -4718,7 +4718,7 @@ ef279d37d1ec3cef7efecf9612d7b1c4 *template/default/common/report.htm
 fcc0a4806ac480bea65307df849311ea *template/default/common/seccheck.htm
 1b8c860b467aeedde172fa452d96a4d0 *template/default/common/secemailseccode.php
 4a9113393ed3e96a2fe9ec21e881f81a *template/default/common/secmobseccode.htm
-040a192abb81f6de7afc5bc9e8fd74cf *template/default/common/seditor.htm
+6883592b0ba0673e2173b6a4a726ac41 *template/default/common/seditor.htm
 93952af298ea68edcd4e88bf44c6c701 *template/default/common/sendmail.htm
 3b859d9bd25a20973261b730ca0b1a13 *template/default/common/showmessage.htm
 1f7043aa79706a624ebc5d4544a74956 *template/default/common/stat.htm
@@ -4781,7 +4781,7 @@ fb8e1c46b4519bb69958b60b2d51f425 *template/default/forum/comment_more.htm
 88271350329fa0b8fb05bdbbe760c13d *template/default/forum/comment.htm
 2fb4492d7848635fb2437577e27169b0 *template/default/forum/darkroom.htm
 31614ffd47499d28c1100c28c954f566 *template/default/forum/debate_umpire.htm
-ff87d4029ba6990767849681247c9404 *template/default/forum/discuz.htm
+fbbf4c8fd9105f740ef244a5f67418e9 *template/default/forum/discuz.htm
 1b57ba87873eb1df3eef9ec65ed8e470 *template/default/forum/discuzcode.htm
 96250226e3c4602149789d7052c5cb27 *template/default/forum/editor_menu_forum.htm
 68d7a4dcc4b93cfecf64f9c71a0e7d8d *template/default/forum/forumdisplay_cells.php
@@ -4846,7 +4846,7 @@ fbdabf7be96b8e4a65700cd8a5814a0f *template/default/forum/relatekw.htm
 db290082ec7c106ff37d90860b124f36 *template/default/forum/stat_misc.htm
 3b29fd7ad4cd00afbe64dadaa8ebd94b *template/default/forum/stat_team.htm
 3e3ec3e035a2aee90ea42cc4059d4980 *template/default/forum/stat_trade.htm
-6c9abaf895a27167ae1365b4f283a54f *template/default/forum/tag_input.htm
+d5f34e3045174b30f74914fe9661a798 *template/default/forum/tag_input.htm
 40750f68ad90e57caef515e15f44198c *template/default/forum/tag.htm
 39a7c4f45b19eae7f3f626b4240bc568 *template/default/forum/topicadmin_action.htm
 54dc4bdf2eeddda60cdd037f4e6e7cc9 *template/default/forum/topicadmin_getip.htm
@@ -4919,7 +4919,7 @@ ab00a32f65820895e842f216c0d9ccca *template/default/home/space_click.htm
 baa573d86995f04678708cfaaf16c9be *template/default/home/space_comment_li.htm
 5c81849e6212e1507fc4d42876119aa4 *template/default/home/space_debate.htm
 6d7cab44aac4f01c369870dcd8869044 *template/default/home/space_diy.htm
-37f668d1062cf895987bb618016f001d *template/default/home/space_doing_comment_li.php
+548b3049d2a4a5880c9460370814a531 *template/default/home/space_doing_comment_li.php
 167eda5767007c1f98ba48d4ee599b79 *template/default/home/space_doing_form.htm
 1f452485ab3b5892b1a5c3d67e419d61 *template/default/home/space_doing_li.htm
 036ef65f58a1ce000d25e5b249842b97 *template/default/home/space_doing.htm
@@ -5029,7 +5029,7 @@ d41d8cd98f00b204e9800998ecf8427e *template/default/member/index.htm
 8bd37dc82a7476cdf7c0f93fdc5cc7c8 *template/default/member/login_simple.htm
 47c6b00f6af041488d2cef04668e74cc *template/default/member/login.htm
 28bd5275dd12a44d1a0ac828a6c5ce8d *template/default/member/register.htm
-935cf094282aefcf6b1c086ff3fc6ddf *template/default/misc/darkroom.php
+c04506ebe21986bf278f9a6d2387aa15 *template/default/misc/darkroom.php
 0e674697b45774c6aa0fdf7046263a9c *template/default/portal/block_more_forum_thread.htm
 a8bbfa131846eb0fb55aa00237902150 *template/default/portal/block_more_group_thread.htm
 225c1b0c6d8740c034a79b666d053f70 *template/default/portal/block_more_portal_article.htm
@@ -5212,7 +5212,7 @@ f5d99b3788b5a73c169ccf7f6567f37a *template/default/touch/forum/post_poll.htm
 53284c6ca9af21370452adc4b021e515 *template/default/touch/forum/post_reward.htm
 f51bb839b96d6c37e475dd4de76cc77a *template/default/touch/forum/post_sortoption.htm
 e4f98956032a99a72e52168e28b14d00 *template/default/touch/forum/post_trade.htm
-73e5abc56a17f6f69f1110d38bcbecbf *template/default/touch/forum/post.htm
+f3f749a41770a6df196c594f630f0966 *template/default/touch/forum/post.htm
 821eda182ef18390973e4a4042851848 *template/default/touch/forum/postdelete.php
 c5989dc03e0f639d4119d4c66dd89d5a *template/default/touch/forum/rate_view.htm
 356040cbaeef64a41ef32e44c8359f69 *template/default/touch/forum/rate.htm
@@ -5298,7 +5298,7 @@ e41a7dc9c126036714c131df3d680ac6 *template/default/touch/home/spacecp_account_se
 6f0b17b89cd5f1b0279862244d3f2c5a *template/default/touch/home/spacecp_account.php
 66dc95beb9e81f9ae7fea08f63bc423f *template/default/touch/home/spacecp_album.htm
 cc8e0af6c28695713f2860b9e18ef202 *template/default/touch/home/spacecp_avatar_body.htm
-fc004e6b3ac7c42e6f84c27c7e6d69b8 *template/default/touch/home/spacecp_avatar.htm
+ef28532ed6ff1063a85a86bd3d54c391 *template/default/touch/home/spacecp_avatar.htm
 5730057ecf5e1b45e38f3cc4d61be142 *template/default/touch/home/spacecp_blog.htm
 b6c976c5d4c1033de1794133cfc2c26f *template/default/touch/home/spacecp_comment.htm
 7d3cee47b103abf4622fa2efd71433e9 *template/default/touch/home/spacecp_common.htm
@@ -5333,7 +5333,7 @@ f8988991bafd18d6740aa599bc6fadf5 *template/default/touch/home/spacecp_pm.htm
 61f999defd0e928c363ad440760dd42e *template/default/touch/home/spacecp_promotion.htm
 b0d34c8455d108f4163e98f6972178bb *template/default/touch/home/spacecp_sendmail.htm
 9c998933c27ec9d6b9703369096844ca *template/default/touch/home/spacecp_share.htm
-9e08e80c1eefa048531f00ac7609b583 *template/default/touch/home/spacecp_upload.php
+4811989acc750ea83ee2d43a8f8d6b26 *template/default/touch/home/spacecp_upload.php
 96d0ce273539c81d042f402a45a7fd43 *template/default/touch/home/spacecp_usergroup_header.htm
 3bc2c13fefa8eaf5943702d46f026efc *template/default/touch/home/spacecp_usergroup.htm
 d41d8cd98f00b204e9800998ecf8427e *template/default/touch/index.htm
@@ -5429,7 +5429,7 @@ aae1f4b154d1b6280b8431e278affb9a *template/discuzx5/common/header_common.php
 9e6d922e2687876d00b38b6c74a20467 *template/discuzx5/common/upload.php
 446f9680f4f0003a438aa04e266596cb *template/discuzx5/discuz_style_discuzx5.json
 7e364071a510913d11fd3d5e83e38f55 *template/discuzx5/forum/darkroom.php
-0f7cc9a32a49ad3fbc6cd22b72fa063a *template/discuzx5/forum/discuz.php
+cd34df5327c3a83b4112f92bd710c656 *template/discuzx5/forum/discuz.php
 b9f66442b304bc4b6a7b5c9501db7c08 *template/discuzx5/forum/forumdisplay_leftside.php
 b4f3e01e91f3d9a71ec9d10c2f275f15 *template/discuzx5/forum/forumdisplay_list_box.php
 32066e6950f8dc4dfafe4d3d7ee73290 *template/discuzx5/forum/forumdisplay_list.php

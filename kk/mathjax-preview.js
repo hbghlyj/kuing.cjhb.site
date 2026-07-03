@@ -14,7 +14,7 @@ input.oninput = function() {
 		var ltx = input.value.replace(/</g,'&lt;').replace(/>/g,'&gt;')
 							.replace(/(\\\]|\\end\{align\*?\}|\\end\{gather\*?\}|\\end\{equation\*?\}|\$\$) *\n/g,'$1');
 		$("output").innerHTML=ltx;
-		MathJax.typesetPromise([$("output")]).catch((err) => console.log('Typeset failed: ' + err.message));
+		MathJax.typesetPromise([$("output")]).catch(() => {});
 	}
 };
 

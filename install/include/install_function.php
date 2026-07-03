@@ -1067,7 +1067,6 @@ function show_db_install($upgrade = false) {
 					}).join('')
 				);
 				count++;
-				console.log(count);
 				refresh_lastmsg();
 				refresh_progress();
 				if (data.indexOf('<?= lang('failed') ?>') !== -1) {

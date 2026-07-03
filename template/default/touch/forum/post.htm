@@ -301,8 +301,7 @@
 			<!--{/if}-->
 
 			continueSubmit();
-		}).catch(function(error) {
-			console.error('保存编辑器内容失败:', error);
+		}).catch(function() {
 			popup.open('{lang networkerror}', 'alert');
 			return false;
 		});
