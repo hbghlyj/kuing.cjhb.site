@@ -129,9 +129,16 @@ function show_sitestatus() {
 	}
 
 	// 磁盘使用率
-	$diskTotal = disk_total_space(DISCUZ_ROOT);
-	$diskFree = disk_free_space(DISCUZ_ROOT);
-	if($diskTotal && $diskFree) {
+	$diskTotal = 0;
+	$diskFree = 0;
+	$disabledFunctions = array_map('trim', explode(',', ini_get('disable_functions')));
+	$diskFunctionsEnabled = function_exists('disk_total_space') && function_exists('disk_free_space') && !in_array('disk_total_space', $disabledFunctions) && !in_array('disk_free_space', $disabledFunctions);
+	if($diskFunctionsEnabled) {
+		$diskTotal = @disk_total_space(DISCUZ_ROOT);
+		$diskFree = @disk_free_space(DISCUZ_ROOT);
+	}
+	$sitestatus['disk_supported'] = $diskFunctionsEnabled && $diskTotal && $diskFree;
+	if($sitestatus['disk_supported']) {
 		$sitestatus['disk'] = round((($diskTotal - $diskFree) / $diskTotal) * 100, 1);
 		$sitestatus['disk_total'] = sizecount($diskTotal);
 		$sitestatus['disk_used'] = sizecount($diskTotal - $diskFree);

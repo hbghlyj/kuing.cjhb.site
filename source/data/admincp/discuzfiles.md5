@@ -15,7 +15,7 @@ cba7beb32835268b64190bc95a4ba48c *./data
 961a7a383cd020c36978f82aad6e9be3 *./forum.php
 24fe3d4248a4a99459cebf02f909e678 *./group.php
 a98af1ca21e2ba932d4cc1880046c515 *./home.php
-dc76a10d372135d1b72acd5e9be705aa *./index.php
+8e6bf4764fbba2b58b7affde759312f9 *./index.php
 0d673a9b9f136a7a6b6b25d4ff4bc1fd *./install
 0940c8035f442d9d30fa23943ec927a6 *./kk
 06aa755352b7a4cbb33b258270c84e1c *./LICENSE
@@ -279,7 +279,7 @@ b2be12113a18fd5af0b6fe19bc1cd969 *source/app/admin/child/group/setting.php
 fb926ac399164fc533e6ceba17a6f762 *source/app/admin/child/group/userperm.php
 d41d8cd98f00b204e9800998ecf8427e *source/app/admin/child/index.htm
 6038e5fa5b713c2a3883bed773b70a5f *source/app/admin/child/index/chart.php
-87be94021b917716b07ca2d2b1fcb72f *source/app/admin/child/index/function.php
+fad60599223baaa5dce63e1618cb0c4f *source/app/admin/child/index/function.php
 d41d8cd98f00b204e9800998ecf8427e *source/app/admin/child/index/index.htm
 c2f0dacfcf308fb4fc71b9e105ab148c *source/app/admin/child/index/operation.php
 62eeb46e322b2120881a0c028080563a *source/app/admin/child/lang/class.php
@@ -2196,7 +2196,7 @@ d41d8cd98f00b204e9800998ecf8427e *source/i18n/EN_UTF8/userapp/index.htm
 d9e6154548b17811b0727cc2d0124b34 *source/i18n/EN_UTF8/userapp/lang_template.php
 d41d8cd98f00b204e9800998ecf8427e *source/i18n/index.htm
 d41d8cd98f00b204e9800998ecf8427e *source/i18n/SC_UTF8/admin/index.htm
-c6630dd62113a7c15193d7dd715fd17e *source/i18n/SC_UTF8/admin/lang_template.php
+640a930d49fd3d856d6b661470ef6cf8 *source/i18n/SC_UTF8/admin/lang_template.php
 d41d8cd98f00b204e9800998ecf8427e *source/i18n/SC_UTF8/adv/index.htm
 87a0b8899d5d9980166719c563edf5e8 *source/i18n/SC_UTF8/adv/lang_article.php
 ed2618eca724a4c5b7930b7a7ac9a629 *source/i18n/SC_UTF8/adv/lang_articlelist.php
@@ -2399,7 +2399,7 @@ c4dc1e38e1c60c403e148f4b4cfd1acd *source/i18n/SC_UTF8/task/lang_secmobile.php
 d41d8cd98f00b204e9800998ecf8427e *source/i18n/SC_UTF8/touch/index.htm
 f59dd51fa9eb9555be4da0dddda6c009 *source/i18n/SC_UTF8/touch/lang_template.php
 d41d8cd98f00b204e9800998ecf8427e *source/i18n/TC_UTF8/admin/index.htm
-d0e797198be93ecefd74a8ca3179e2cd *source/i18n/TC_UTF8/admin/lang_template.php
+b874bbb56a4253efb2457304da4e1251 *source/i18n/TC_UTF8/admin/lang_template.php
 d41d8cd98f00b204e9800998ecf8427e *source/i18n/TC_UTF8/adv/index.htm
 3bc650d087f22413ba0964ea948fe672 *source/i18n/TC_UTF8/adv/lang_article.php
 376ffb5bc43d7cb999b4b8169ebac9b9 *source/i18n/TC_UTF8/adv/lang_articlelist.php
@@ -2764,7 +2764,7 @@ e0e91efdc678f4aa89d83a2b569a3236 *static/image/admincp/add.gif
 a7eeb0a4a2a033c15adb968cd7361198 *static/image/admincp/admincp.css
 6d83f85d0e616224d0e8359aa16d978e *static/image/admincp/admincpframe.css
 97c91b72db428be5107318726f39e45e *static/image/admincp/admincplogin.css
-893d99b89f5228a32946271447c17d85 *static/image/admincp/admincppage.css
+6d6a4efb585e2d65947e36974711d6af *static/image/admincp/admincppage.css
 a4cc25514001c92f418cd2e7527d6325 *static/image/admincp/ajax_loader.gif
 feb6ca15771ab9d5c8880f85887cedc1 *static/image/admincp/article.gif
 19b0b52a1375859bc2dc83a6fa49c7a6 *static/image/admincp/articlelist.gif
@@ -4564,7 +4564,7 @@ df40772a225b2e2dfb1f825764e36391 *template/default/admin/cpheader.php
 55985f941de75f8c57cb03305e29ef48 *template/default/admin/index_charts.php
 298c744eef5207ada4e0c9a5712e7fde *template/default/admin/index_empty.php
 9bb0b5b379c401cd12422886cfd4ef0d *template/default/admin/index_hotthreads.php
-d3f868d1f46d52c06eaa02a0d44e9626 *template/default/admin/index_sitestatus.php
+b51defe2c4ca31ac5f9dd525eee52a71 *template/default/admin/index_sitestatus.php
 2b94cbe0b4ca6533791b09bbe751b09e *template/default/admin/index_todo.php
 f978cd3162de9bdd8fc112d53e9edbbd *template/default/admin/index.php
 24ccb43afae4264de44eff4bd8288feb *template/default/admin/login.php
