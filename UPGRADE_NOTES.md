@@ -63,9 +63,9 @@ $_config['output']['upgradeinsecure'] = 1;
 
 ### 编辑器 BBCode / HTML 转换提示
 
-- 发帖编辑器在普通 BBCode 模式和 WYSIWYG 模式之间切换时，会尽量保留未编辑内容的原始 BBCode。
+- 发帖编辑器在源码编辑模式和 WYSIWYG 模式之间切换时，会尽量保留未编辑内容的原始源码文本（可能是 BBCode，也可能是 HTML）。
 - 如果需要把一段 BBCode 转换为 HTML，或把一段 HTML 转换回 BBCode，可以先在普通编辑框中粘贴代码，切换到 WYSIWYG 模式，再切换“HTML 代码”编辑状态，最后切回普通编辑模式。
-- 切换“HTML 代码”状态会丢弃未编辑内容的原始 BBCode 缓冲，因此最终切回普通编辑模式时会基于当前 WYSIWYG 内容重新转换。
+- 切换“HTML 代码”状态会丢弃未编辑内容的原始源码缓冲，因此最终切回普通编辑模式时会基于当前 WYSIWYG 内容重新转换。
 
 ## Database Migrations Required
 
