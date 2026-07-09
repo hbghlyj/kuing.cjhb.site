@@ -599,7 +599,7 @@ cf01a65eb62b90fc6fc06116654f5cc7 *source/app/admin/class/class_perm.php
 2fd839299cae6f14c3d08856d4a2d405 *source/app/admin/class/class_qrcodelogin.php
 be942c72f8fb4e1e68d0a8345c02fc5a *source/app/admin/class/class_upgrade.php
 d41d8cd98f00b204e9800998ecf8427e *source/app/admin/class/index.htm
-e63142ed331bd85ea97b9ef5a2be1010 *source/app/admin/component/component_list.php
+05d04830771d3c48a5b760b500c23ddc *source/app/admin/component/component_list.php
 2de4a249d8f7b9262138d4486f9be577 *source/app/admin/component/component_perm.php
 930080206b178a13cb6b76f5faae0b32 *source/app/admin/component/component_size.php
 d41d8cd98f00b204e9800998ecf8427e *source/app/admin/index.htm
@@ -1830,7 +1830,7 @@ bbccb996367247d1340e0a61bdff6553 *source/class/task/task_member.php
 6140c3729f4bea0a4ecb92fb07dc8b4e *source/class/task/task_profile.php
 59db6d30bfbbab0bcb053d817f9b4059 *source/class/task/task_promotion.php
 df410b814d98052f570fd605f83ce2f6 *source/class/task/task_secmobile.php
-e8d6ada1e136f7916b7dff2e05fad289 *source/class/threadtype/threadtype_list.php
+d56b7757f1991b2db90468c95971d4eb *source/class/threadtype/threadtype_list.php
 278440ac7f3edb4e0c76a4e4c60fffcb *source/class/witframe/core.php
 d41d8cd98f00b204e9800998ecf8427e *source/class/witframe/index.htm
 cc55c8405881637326beb7dce097d06d *source/class/witframe/lib/api.php

@@ -1221,6 +1221,8 @@ function runucquery($sql, $tablepre) {
 function rundatasql($f, $upgrade = false) {
 	global $tablepre, $db;
 
+	$db->query('START TRANSACTION', 'SILENT');
+
 	$dir = ROOT_PATH.'./source/i18n/'.INSTALL_LANG.'/install/'.$f;
 	$oldtablename = '';
 	foreach(glob($dir.'/*.php') as $file) {
@@ -1255,6 +1257,8 @@ function rundatasql($f, $upgrade = false) {
 			}
 		}
 	}
+
+	$db->query('COMMIT', 'SILENT');
 }
 
 function charcovert($string) {
