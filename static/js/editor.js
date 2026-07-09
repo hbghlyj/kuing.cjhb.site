@@ -78,6 +78,7 @@ function initEditor() {
 			buttons[i].onmouseout = function(e) {setEditorTip('');};
 		}
 	}
+	initWysiwygSourceBufferInvalidators();
 	setUnselectable($(editorid + '_controls'));
 	if(editorcontroltop === false && (BROWSER.ie && BROWSER.ie > 6 || !BROWSER.ie)) {
 		seteditorcontrolpos();
@@ -659,6 +660,15 @@ function setWysiwygSourceBuffer(sourcebbcode) {
 	} else {
 		wysiwygSourceBbcode = sourcebbcode;
 		wysiwygSourceHtml = getEditorContents();
+	}
+}
+
+function initWysiwygSourceBufferInvalidators() {
+	var htmlon = $('htmlon');
+	if(htmlon && !htmlon._wysiwygSourceInvalidator) {
+		_attachEvent(htmlon, 'click', clearWysiwygSourceBuffer);
+		_attachEvent(htmlon, 'change', clearWysiwygSourceBuffer);
+		htmlon._wysiwygSourceInvalidator = true;
 	}
 }
 
