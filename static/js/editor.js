@@ -4,14 +4,14 @@
  * https://license.discuz.vip
  */
 
-var editorcurrentheight = 400, editorminheight = 400, savedataInterval = 30, editbox = null, editwin = null, editdoc = null, editcss = null, savedatat = null, savedatac = 0, autosave = 1, framemObj = null, cursor = -1, stack = [], initialized = false, postSubmited = false, editorcontroltop = false, editorcontrolwidth = false, editorcontrolheight = false, editorisfull = 0, fulloldheight = 0, savesimplodemode = null;
+var editorcurrentheight = 400, editorminheight = 400, savedataInterval = 30, editbox = null, editwin = null, editdoc = null, editcss = null, savedatat = null, savedatac = 0, autosave = 1, framemObj = null, cursor = -1, stack = [], initialized = false, postSubmited = false, editorcontroltop = false, editorcontrolwidth = false, editorcontrolheight = false, editorisfull = 0, fulloldheight = 0, savesimplodemode = null, wysiwygSourceBbcode = null, wysiwygSourceHtml = null;
 EXTRAFUNC['keydown'] = [];
 EXTRAFUNC['keyup'] = [];
 EXTRAFUNC['mouseup'] = [];
 EXTRAFUNC['showEditorMenu'] = [];
 var EXTRASELECTION = '', EXTRASEL = null;
 
-function newEditor(mode, initialtext) {
+function newEditor(mode, initialtext, sourcebbcode) {
 	wysiwyg = parseInt(mode);
 	if(!(BROWSER.ie || BROWSER.firefox || (BROWSER.opera >= 9 || BROWSER.rv))) {
 		allowswitcheditor = wysiwyg = 0;
@@ -35,7 +35,9 @@ function newEditor(mode, initialtext) {
 		editwin = editbox.contentWindow;
 		editdoc = editwin.document;
 		writeEditorContents(isUndefined(initialtext) ?  textobj.value : initialtext);
+		setWysiwygSourceBuffer(sourcebbcode);
 	} else {
+		clearWysiwygSourceBuffer();
 		editbox = editwin = editdoc = textobj;
 		if(!isUndefined(initialtext)) {
 			writeEditorContents(initialtext);
@@ -569,7 +571,7 @@ function checkFocus() {
 }
 
 function checklength(theform) {
-	var message = wysiwyg ? html2bbcode(getEditorContents()) : (!theform.parseurloff.checked ? parseurl(theform.message.value) : theform.message.value);
+	var message = wysiwyg ? getEditorBbcodeContents() : (!theform.parseurloff.checked ? parseurl(theform.message.value) : theform.message.value);
 	showDialog($L('length_tip_1', [mb_strlen(message)]) + (postmaxchars != 0 ? $L('length_tip_2', [postminchars, postmaxchars]) : ''), 'notice', $L('length_check'));
 }
 
@@ -645,6 +647,27 @@ function safariSel(e) {
 
 function getEditorContents() {
 	return wysiwyg ? editdoc.body.innerHTML : editdoc.value;
+}
+
+function clearWysiwygSourceBuffer() {
+	wysiwygSourceBbcode = wysiwygSourceHtml = null;
+}
+
+function setWysiwygSourceBuffer(sourcebbcode) {
+	if(isUndefined(sourcebbcode)) {
+		clearWysiwygSourceBuffer();
+	} else {
+		wysiwygSourceBbcode = sourcebbcode;
+		wysiwygSourceHtml = getEditorContents();
+	}
+}
+
+function getEditorBbcodeContents() {
+	if(!wysiwyg) {
+		return getEditorContents();
+	}
+	var html = getEditorContents();
+	return wysiwygSourceBbcode !== null && wysiwygSourceHtml === html ? wysiwygSourceBbcode : html2bbcode(html);
 }
 
 function setEditorStyle() {
@@ -936,7 +959,7 @@ function discuzcode(cmd, arg) {
 		}
 	} else if(cmd == 'downremoteimg') {
 		showDialog('<div id="remotedowninfo"><p class="mbn">' + $L('remote_downloading') + '</p><p><img src="' + STATICURL + 'image/common/uploading.gif" alt="" /></p></div>', 'notice', '', null, 1);
-		var message = wysiwyg ? html2bbcode(getEditorContents()) : (!editorform.parseurloff.checked ? parseurl(editorform.message.value) : editorform.message.value);
+		var message = wysiwyg ? getEditorBbcodeContents() : (!editorform.parseurloff.checked ? parseurl(editorform.message.value) : editorform.message.value);
 		var oldValidate = editorform.onsubmit;
 		var oldAction = editorform.action;
 		editorform.onsubmit = '';
@@ -1732,12 +1755,17 @@ function switchEditor(mode) {
 	}
 	cursor = -1;
 	stack = [];
-	var parsedtext = getEditorContents();
-	parsedtext = mode ? bbcode2html(parsedtext) : html2bbcode(parsedtext);
+	var parsedtext = getEditorContents(), sourcebbcode;
+	if(mode) {
+		sourcebbcode = parsedtext;
+		parsedtext = bbcode2html(parsedtext);
+	} else {
+		parsedtext = getEditorBbcodeContents();
+	}
 	wysiwyg = mode;
 	$(editorid + '_mode').value = mode;
 
-	newEditor(mode, parsedtext);
+	newEditor(mode, parsedtext, sourcebbcode);
 	setEditorStyle();
 	editwin.focus();
 	setCaretAtEnd();

@@ -43,7 +43,7 @@ function ctlent(event) {
 }
 
 function checklength(theform) {
-	var message = wysiwyg ? html2bbcode(getEditorContents()) : theform.message.value;
+	var message = wysiwyg ? getEditorBbcodeContents() : theform.message.value;
 	if(!theform.parseurloff.checked) {
 		message = parseurl(message);
 	}
@@ -55,7 +55,7 @@ if(!tradepost) {
 }
 
 function validate(theform) {
-	var message = wysiwyg ? html2bbcode(getEditorContents()) : theform.message.value;
+	var message = wysiwyg ? getEditorBbcodeContents() : theform.message.value;
 	if(!theform.parseurloff.checked) {
 		message = parseurl(message);
 	}

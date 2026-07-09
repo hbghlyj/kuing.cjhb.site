@@ -4119,7 +4119,7 @@ e26c424de1aa729e60caadaa1e41ff69 *static/js/common_extra.js
 e66306a0aacad5b962689621a6d1b950 *static/js/common.js
 95081cd0e33ede64a17c6f59713db6ab *static/js/echarts/echarts.common.min.js
 d41d8cd98f00b204e9800998ecf8427e *static/js/echarts/index.htm
-c3addc36914dbc682e7a4a30e6d01beb *static/js/editor.js
+eed9f5bc2299f227f69f5b8fedb8b695 *static/js/editor.js
 4d42639929de7a370b699e15fd941fa8 *static/js/editorjs/ajax.js
 c7bf3253aae08166f7ac3526aefd60a3 *static/js/editorjs/editorjs_mobile.css
 3a14afef3712a780b26223fa76962162 *static/js/editorjs/editorjs.css
@@ -4203,7 +4203,7 @@ d41d8cd98f00b204e9800998ecf8427e *static/js/editorjs/tools/warning/index.htm
 60b9f2154262d09953ec33fc2da8aa77 *static/js/editorjs/util.js
 f2b907e67b9631f14747fd834cb365be *static/js/fileprogress.js
 78edc96f41a0a54363c0b145d9919029 *static/js/forum_moderate.js
-d8233da68286128108f14202d178e2f2 *static/js/forum_post.js
+6befee75794500ebdd3d180e3d06800a *static/js/forum_post.js
 1fc029a6037c856cc891c233e79d1f05 *static/js/forum_slide.js
 e8fe9fa0d32f9157459b6c431218c5b3 *static/js/forum_viewthread.js
 ba868349d616fd93bf87acd25e1f0b8d *static/js/forum.js
@@ -4783,7 +4783,7 @@ fb8e1c46b4519bb69958b60b2d51f425 *template/default/forum/comment_more.htm
 31614ffd47499d28c1100c28c954f566 *template/default/forum/debate_umpire.htm
 fbbf4c8fd9105f740ef244a5f67418e9 *template/default/forum/discuz.htm
 1b57ba87873eb1df3eef9ec65ed8e470 *template/default/forum/discuzcode.htm
-96250226e3c4602149789d7052c5cb27 *template/default/forum/editor_menu_forum.htm
+abec47825fced21a5ac7416431181dcf *template/default/forum/editor_menu_forum.htm
 68d7a4dcc4b93cfecf64f9c71a0e7d8d *template/default/forum/forumdisplay_cells.php
 d10048cf75131bf9838d2b225427c923 *template/default/forum/forumdisplay_fastpost.htm
 7e72fd3d3859fe06f85ff68b81bad834 *template/default/forum/forumdisplay_leftside.htm
