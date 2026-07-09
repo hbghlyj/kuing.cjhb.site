@@ -4695,7 +4695,7 @@ e08db5f36317b38595caea173a3a85d6 *template/default/common/extcredits.htm
 e02d3c5047212b304d019f9321cb468e *template/default/common/extgroups.htm
 31820f81fffaa07f257e9e4b0a13da68 *template/default/common/faq.htm
 dcecf9502c1ceadebea0ae4c229d3364 *template/default/common/footer_ajax.htm
-88d670a043dc9d9968b9c0254676ef5c *template/default/common/footer.htm
+d9f2472ef7f7907d76a913e1d1d0281c *template/default/common/footer.htm
 7a4182b82f17b70e70425ea5ebab7061 *template/default/common/forum_calendar.css
 8a16e0132ee3e4c6e2816586990d3bdb *template/default/common/forum_moderator.css
 48045ca8f8da24a1e0b67a80e68e235f *template/default/common/getatuser.htm
@@ -4718,7 +4718,7 @@ ef279d37d1ec3cef7efecf9612d7b1c4 *template/default/common/report.htm
 fcc0a4806ac480bea65307df849311ea *template/default/common/seccheck.htm
 1b8c860b467aeedde172fa452d96a4d0 *template/default/common/secemailseccode.php
 4a9113393ed3e96a2fe9ec21e881f81a *template/default/common/secmobseccode.htm
-6883592b0ba0673e2173b6a4a726ac41 *template/default/common/seditor.htm
+f3359e3a6ced5345ef0d550feae2eaae *template/default/common/seditor.htm
 93952af298ea68edcd4e88bf44c6c701 *template/default/common/sendmail.htm
 3b859d9bd25a20973261b730ca0b1a13 *template/default/common/showmessage.htm
 1f7043aa79706a624ebc5d4544a74956 *template/default/common/stat.htm
@@ -4823,7 +4823,7 @@ def091444d1bd59761cf3f2d5cff3321 *template/default/forum/pay.htm
 0e440ae4b1e06821cc7323ac3ae28277 *template/default/forum/post_attachlimit.htm
 6f144f674e61573fc1ae9bd4fea986e9 *template/default/forum/post_debate.htm
 692c791aef5d76f7e38c316aa89dcd63 *template/default/forum/post_editor_attribute.htm
-bafa0a1e4cb1b5a2fa3d41a19e738a66 *template/default/forum/post_editor_body.htm
+f6ddacab7eb63f3cd65ec8de9cc9a186 *template/default/forum/post_editor_body.htm
 107ca0914f697783ff79f791c1c18f5a *template/default/forum/post_editor_extra.htm
 e2467f84701cb1ab4c06c7b5e6f8c00f *template/default/forum/post_forumselect.htm
 1ad1cc2985623e14d2429ca50095c43f *template/default/forum/post_infloat.htm

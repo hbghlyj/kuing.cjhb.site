@@ -158,10 +158,6 @@ input.cha = function(va) {
 	}
 	input.oninput();
 };
-// Windows 10, 11 has built-in emoji picker, hold the Windows key down and press either the period (.) or semicolon (;) key
-if(navigator.userAgent.match(/Windows 7|Windows 8|Windows NT 6|Windows NT 10\.0.*?Chrome\/10[0-9]/)) {
-	ctrls[2].push({ "o":"show_emoji_window('#inputText')", "n":"&#x1F603;" });
-}
 for(annius of ctrls) {
 	for(var i = 0; i < annius.length; i++){
         var bt=document.createElement("button");
