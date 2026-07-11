@@ -1361,6 +1361,7 @@ Last Modify:	Pony
 		.tedt .bar .webuploader-container{background-color:transparent}
 			.fpd a { float: left; margin: 2px 5px 0 0; width: 20px; height: 20px; background: url({STATICURL}image/editor/editor.gif) no-repeat; text-indent: -9999px; line-height: 20px; overflow: hidden; }
 			.fpd a.fbld { background-position: 0 0; }
+			.fpd a.fitl { background-position: -20px 0; }
 			.fpd a.fclr { background-position: -60px 0; }
 			.fpd a.fmg { background-position: 0 -20px; }
 			.fpd a.flnk { background-position: -40px -20px; }
