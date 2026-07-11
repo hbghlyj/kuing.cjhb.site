@@ -787,7 +787,7 @@ d41d8cd98f00b204e9800998ecf8427e *source/app/forum/child/index.htm
 1315070e4654d255159a1ff2a71175b5 *source/app/forum/child/index/collection.php
 e0a83793885883e12750bb12c6264b75 *source/app/forum/child/index/favorite.php
 58bb00639cda81c465b6b7c855c7ae84 *source/app/forum/child/index/forum.php
-e24ce3add53c1ddd9fa9e185e5ac63b9 *source/app/forum/child/index/grid.php
+d1e0c7f0eaee2a14b42843b58e54ea67 *source/app/forum/child/index/grid.php
 d41d8cd98f00b204e9800998ecf8427e *source/app/forum/child/index/index.htm
 c8afe733f053153c05272b674469b544 *source/app/forum/child/member/exit.php
 d41d8cd98f00b204e9800998ecf8427e *source/app/forum/child/member/index.htm
@@ -1916,7 +1916,7 @@ f06cd9d031db8466e0c53ac35394956b *source/data/seccode/gif/Small_Fonts/r.gif
 8dcb6ebbeb4f47004618fedd05f3c713 *source/data/seccode/gif/Small_Fonts/x.gif
 ef7841860e2e18d2e1aee9e016023ebe *source/data/seccode/gif/Small_Fonts/y.gif
 7215ee9c7d9dc229d2921a40e899ec5f *source/data/seccode/index.htm
-cd6dc24b46bdd2a7c5750afeeb5de9e7 *source/discuz_version.php
+cb1c889b8bba6a2e7b867b4fb71876c4 *source/discuz_version.php
 82648981bb101edf0287ac39b1d52f3a *source/function/cache/cache_admincp_menu.php
 d3e1765701c35fa446059c6faeebe842 *source/function/cache/cache_admingroups.php
 a73612907941176d2632c5a75939719b *source/function/cache/cache_advs.php

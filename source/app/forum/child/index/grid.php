@@ -20,7 +20,6 @@ if(TIMESTAMP - $_G['cache']['grids']['cachetime'] < $cachelife) {
 	$_G['setting']['grid']['fids'] = in_array(0, $_G['setting']['grid']['fids']) ? 0 : $_G['setting']['grid']['fids'];
 
 	if($_G['setting']['grid']['gridtype']) {
-		$grids['digest'] = table_forum_thread::t()->fetch_all_for_guide('digest', 0, [], 3, 0, 0, 10, $_G['setting']['grid']['fids']);
 	} else {
 		$images = table_forum_threadimage::t()->fetch_all_order_by_tid(10);
 		foreach($images as $key => $value) {
@@ -28,6 +27,7 @@ if(TIMESTAMP - $_G['cache']['grids']['cachetime'] < $cachelife) {
 		}
 		$grids['image'] = table_forum_thread::t()->fetch_all_by_tid($tids);
 	}
+	$grids['digest'] = table_forum_thread::t()->fetch_all_for_guide('digest', 0, [], 3, 0, 0, 10, $_G['setting']['grid']['fids']);
 	$grids['newthread'] = table_forum_thread::t()->fetch_all_for_guide('newthread', 0, [], 0, 0, 0, 10, $_G['setting']['grid']['fids']);
 
 	$grids['newreply'] = table_forum_thread::t()->fetch_all_for_guide('reply', 0, [], 0, 0, 0, 10, $_G['setting']['grid']['fids']);
