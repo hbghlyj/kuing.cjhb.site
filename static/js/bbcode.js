@@ -345,7 +345,7 @@ function html2bbcode(str) {
 
 	str = preg_replace(['<style.*?>[\\s\\S]*?</style>', '<script.*?>[\\s\\S]*?</script>', '<noscript.*?>[\\s\\S]*?</noscript>', '<select.*?>[\\s\\S]*?</select>', '<object.*?>[\\s\\S]*?</object>', '<!--[\\s\\S]*?-->', ' on[a-zA-Z]{3,16}\\s?=\\s?"[\\s\\S]*?"'], '', str);
 
-	str= str.replace(/(\r\n|\n|\r)/ig, '');
+	str = str.replace(/(\r\n|\n|\r)/ig, ' ');
 
 	str= str.replace(/&((#(32|127|160|173))|shy|nbsp);/ig, ' ');
 
