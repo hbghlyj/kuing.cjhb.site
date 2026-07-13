@@ -15,7 +15,7 @@
 	<!--{if $_G['uid']}-->
 	<!--{if strpos($_G['setting']['pluginhooks']['global_usernav_extra1'], 'function showmyrepeats()')}-->
 	<div class="header-notice">
-		<div class="notice-icon"><a href="home.php?mod=spacecp&ac=plugin&id=myrepeats:memcp" id="myrepeats" class="kmico" onmouseover="delayShow(this, showmyrepeats)" title="{lang tmp070}">
+		<div class="notice-icon"><a href="home.php?mod=spacecp&ac=plugin&id=myrepeats:memcp" id="myrepeats" class="kmico" onmouseover="delayShow(this, showmyrepeats)" title="{lang x5_avatar_settings}">
 		<i class="dzicon myrepeats"></i>
 
 		</a></div>
@@ -83,7 +83,7 @@
 				</div>
 				<div class="user-card-area">
 					<!--{if check_diy_perm($topic)}-->
-					<a href="javascript:saveUserdata('diy_advance_mode', '1');openDiy();">{lang tmp071}</a>
+					<a href="javascript:saveUserdata('diy_advance_mode', '1');openDiy();">{lang x5_diy_settings}</a>
 					<!--{/if}-->
 					<!--{if !empty($_G['setting']['taskstatus']) && !empty($_G['cookie']['taskdoing_'.$_G['uid']])}--><a href="home.php?mod=task&item=doing" id="task_ntc" class="info_task" target="_blank">{lang task_doing}</a><!--{/if}-->
 					<!--{if ($_G['group']['allowmanagearticle'] || $_G['group']['allowpostarticle'] || $_G['group']['allowdiy'] || getstatus($_G['member']['allowadmincp'], 4) || getstatus($_G['member']['allowadmincp'], 6) || getstatus($_G['member']['allowadmincp'], 2) || getstatus($_G['member']['allowadmincp'], 3))}-->
