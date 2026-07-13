@@ -233,7 +233,7 @@ function fastUload() {
 
 function switchAdvanceMode(url) {
 	var obj = $('postform') && (($('fwin_newthread') && $('fwin_newthread').style.display == '') || ($('fwin_reply') && $('fwin_reply').style.display == '') || ($('fwin_edit') && $('fwin_edit').style.display == '')) ? $('postform') : ($('fastpostform') ? $('fastpostform') : $('postform'));
-	if(obj && obj.message.value != '') {
+	if(obj && (obj.message.value != '' || (obj.subject && obj.subject.value != ''))) {
 		saveData();
 		url += (url.indexOf('?') != -1 ? '&' : '?') + 'cedit=yes';
 	}
