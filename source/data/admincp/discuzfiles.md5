@@ -1963,7 +1963,7 @@ ae932bce89538de003d5f134ee7d1c5f *source/function/cache/cache_portalcategory.php
 0f042d5e45b02742882a3d0e94195c0b *source/function/cache/cache_relatedlink.php
 ff36b417619438111e49b6b9ba2b872c *source/function/cache/cache_restful.php
 18e25bc3ead92d364df609243162932a *source/function/cache/cache_secqaa.php
-a7c7d059f67f730b8464c6d110d7e09d *source/function/cache/cache_setting.php
+e18d5c24677b6831b1b4b8c74e441dba *source/function/cache/cache_setting.php
 71b1967b381cd2c72c971b926bd208f2 *source/function/cache/cache_smileycodes.php
 b954e18ac2ebb022ff3c80c8d652c0a9 *source/function/cache/cache_smileytypes.php
 b8e9437d3bd4701238e0c11b73b5d602 *source/function/cache/cache_smilies_js.php
@@ -4565,7 +4565,7 @@ df40772a225b2e2dfb1f825764e36391 *template/default/admin/cpheader.php
 298c744eef5207ada4e0c9a5712e7fde *template/default/admin/index_empty.php
 9bb0b5b379c401cd12422886cfd4ef0d *template/default/admin/index_hotthreads.php
 b51defe2c4ca31ac5f9dd525eee52a71 *template/default/admin/index_sitestatus.php
-2b94cbe0b4ca6533791b09bbe751b09e *template/default/admin/index_todo.php
+5da5fe7b84120d0dc7b0942c70272d70 *template/default/admin/index_todo.php
 f978cd3162de9bdd8fc112d53e9edbbd *template/default/admin/index.php
 24ccb43afae4264de44eff4bd8288feb *template/default/admin/login.php
 c549bbeb49039cdd72b13e501485044d *template/default/admin/main.php
@@ -5145,7 +5145,7 @@ d41d8cd98f00b204e9800998ecf8427e *template/default/touch/cells/common/footer/ind
 4a37f13f86a8ec72cc7fa3b8b41ed826 *template/default/touch/cells/common/footer/js.htm
 232df17ed97e5345f0aacd3b21fc3da9 *template/default/touch/cells/common/header/css.htm
 f3fcce954877ca166cae1dc4cfbf2fdf *template/default/touch/cells/common/header/i18n_switch.htm
-e41f86ac3cb736614c2f919c4e173083 *template/default/touch/cells/common/header/js.htm
+72bd2f212c268a73e5697cffd38328cc *template/default/touch/cells/common/header/js.htm
 81e43515998077f753487a423d393d2a *template/default/touch/cells/common/header/meta.htm
 d41d8cd98f00b204e9800998ecf8427e *template/default/touch/cells/common/index.htm
 d41d8cd98f00b204e9800998ecf8427e *template/default/touch/cells/index.htm

@@ -1426,6 +1426,9 @@ function writetojscache() {
 			$jsdata = fread($fp, filesize($jsfile));
 			fclose($fp);
 			$jsdata = preg_replace($remove[0], $remove[1], $jsdata);
+			if($entry == 'common.js') {
+				$jsdata = _appendjsvar().$jsdata;
+			}
 			$cachedir = DISCUZ_DATA.'./cache/';
 			if(!is_dir($cachedir)) {
 				dmkdir($cachedir);
@@ -1438,6 +1441,11 @@ function writetojscache() {
 			}
 		}
 	}
+}
+
+function _appendjsvar() {
+	global $_G;
+	return 'var DEFAULTAVATAR = '.json_encode($_G['setting']['defaultavatar'], JSON_UNESCAPED_SLASHES).";\n";
 }
 
 function pluginmodulecmp($a, $b) {
@@ -1461,4 +1469,3 @@ function parsehighlight($highlight) {
 	}
 	return $style;
 }
-
