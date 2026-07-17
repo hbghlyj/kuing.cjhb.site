@@ -385,7 +385,7 @@ class table_common_member extends discuz_table_archive {
 			if($uid) {
 				parent::insert($base, false, true);
 			} else {
-				$uid = parent::insert($base, true, true);
+				$uid = parent::insert($base, true);
 			}
 			if(!$uid) {
 				return 0;
