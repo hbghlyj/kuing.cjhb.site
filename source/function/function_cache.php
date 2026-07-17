@@ -190,13 +190,22 @@ function cleartemplatecache() {
 	if(!is_dir($cachedir)) {
 		dmkdir($cachedir);
 	}
-	$tpl = dir($cachedir);
-	while($entry = $tpl->read()) {
-		if(preg_match('/\.tpl\.php$/', $entry)) {
-			@unlink(DISCUZ_DATA.'./template/'.$entry);
+	$clear = function($dir) use (&$clear) {
+		$tpl = dir($dir);
+		while($entry = $tpl->read()) {
+			if($entry == '.' || $entry == '..') {
+				continue;
+			}
+			$path = $dir.'/'.$entry;
+			if(is_dir($path) && !is_link($path)) {
+				$clear($path);
+			} elseif(preg_match('/\.tpl\.php$/', $entry)) {
+				@unlink($path);
+			}
 		}
-	}
-	$tpl->close();
+		$tpl->close();
+	};
+	$clear($cachedir);
 
 	cleardiycache();
 }
