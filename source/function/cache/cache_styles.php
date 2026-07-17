@@ -170,9 +170,13 @@ function writetocsscache($data, $touch = false) {
 
 			$cssdata = preg_replace_callback('/\{([A-Z0-9]+)\}/', 'writetocsscache_callback_1', $cssdata);
 			$cssdata = preg_replace('/<\?.+?\?>\s*/', '', $cssdata);
-			$cssdata = !preg_match('/^(https?:)?\/\//i', $data['styleimgdir']) ? preg_replace("/url\(([\"'])?".preg_quote($data['styleimgdir'], '/').'/i', "url(\\1{$_G['siteurl']}{$data['styleimgdir']}", $cssdata) : $cssdata;
-			$cssdata = !preg_match('/^(https?:)?\/\//i', $data['imgdir']) ? preg_replace("/url\(([\"'])?".preg_quote($data['imgdir'], '/').'/i', "url(\\1{$_G['siteurl']}{$data['imgdir']}", $cssdata) : $cssdata;
-			$cssdata = !preg_match('/^(https?:)?\/\//i', $data['staticurl']) ? preg_replace("/url\(([\"'])?".preg_quote($data['staticurl'], '/').'/i', "url(\\1{$_G['siteurl']}{$data['staticurl']}", $cssdata) : $cssdata;
+			$siteurl = $_G['siteurl'];
+			if(empty(parse_url($siteurl, PHP_URL_HOST)) && !empty($_G['setting']['siteurl'])) {
+				$siteurl = rtrim($_G['setting']['siteurl'], '/').'/';
+			}
+			$cssdata = !preg_match('/^(https?:)?\/\//i', $data['styleimgdir']) ? preg_replace("/url\(([\"'])?".preg_quote($data['styleimgdir'], '/').'/i', "url(\\1{$siteurl}{$data['styleimgdir']}", $cssdata) : $cssdata;
+			$cssdata = !preg_match('/^(https?:)?\/\//i', $data['imgdir']) ? preg_replace("/url\(([\"'])?".preg_quote($data['imgdir'], '/').'/i', "url(\\1{$siteurl}{$data['imgdir']}", $cssdata) : $cssdata;
+			$cssdata = !preg_match('/^(https?:)?\/\//i', $data['staticurl']) ? preg_replace("/url\(([\"'])?".preg_quote($data['staticurl'], '/').'/i', "url(\\1{$siteurl}{$data['staticurl']}", $cssdata) : $cssdata;
 			if($entry == 'module.css') {
 				$cssdata = preg_replace('/\/\*\*\s*(.+?)\s*\*\*\//', '[\\1]', $cssdata);
 			}
