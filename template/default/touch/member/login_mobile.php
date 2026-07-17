@@ -13,9 +13,9 @@
     <h2 class="log_tit"><a href="javascript:;" onclick="popup.close();"><span class="icon_close y">&nbsp;</span></a><!--{if !isset($_GET['viewlostpw'])}-->{lang login}<!--{else}-->{lang getpassword}<!--{/if}--></h2>
     <!--{/if}-->
     <!--{if !isset($_GET['viewlostpw'])}-->
-    <form id="loginform" method="post" action="member.php?mod=logging&action=login_mobile&loginsubmit=yes&loginhash=$loginhash&mobile=2" >
+    <form id="loginform" method="post" action="member.php?mod=logging&action=login_mobile&loginsubmit=yes&loginhash=$loginhash" >
         <input type="hidden" name="formhash" id="formhash" value='{FORMHASH}' />
-        <input type="hidden" name="referer" id="referer" value="<!--{if dreferer()}-->{echo dreferer()}<!--{else}-->forum.php?mobile=2<!--{/if}-->" />
+        <input type="hidden" name="referer" id="referer" value="<!--{if dreferer()}-->{echo dreferer()}<!--{else}-->forum.php<!--{/if}-->" />
         <input type="hidden" name="fastloginfield" value="username">
         <input type="hidden" name="cookietime" value="2592000">
         <!--{if $auth}-->
@@ -51,7 +51,7 @@
     </form>
     <div class="reg_link"><a href="member.php?mod=lostpasswd_mobile">{lang getpassword}</a></div>
     <!--{else}-->
-    <form id="lostpwform" method="post" action="member.php?mod=lostpasswd&lostpwsubmit=yes&infloat=yes&mobile=2" autocomplete="off">
+    <form id="lostpwform" method="post" action="member.php?mod=lostpasswd&lostpwsubmit=yes&infloat=yes" autocomplete="off">
         <input type="hidden" name="formhash" value="{FORMHASH}" />
         <input type="hidden" name="handlekey" value="lostpwform" />
         <div class="login_from">

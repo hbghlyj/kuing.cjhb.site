@@ -492,9 +492,8 @@ class register_ctl {
 			$email = $email ? $email : $_GET['email'];
 			checkemail($email);
 			if($sendurl) {
-				$mobile = $this->setting['mobile']['mobileregister'] ? '' : ($this->setting['mobile']['allowmobile'] ? '&amp;mobile=no' : '');
 				$hashstr = urlencode(authcode("{$email}\t{$_G['timestamp']}", 'ENCODE', $_G['config']['security']['authkey']));
-				$registerurl = $_G['setting']['securesiteurl'].'member.php?mod='.$this->setting['regname']."&amp;hash={$hashstr}&amp;email={$email}{$mobile}";
+				$registerurl = $_G['setting']['securesiteurl'].'member.php?mod='.$this->setting['regname']."&amp;hash={$hashstr}&amp;email={$email}";
 				$email_register_message = [
 					'tpl' => 'email_register',
 					'var' => [

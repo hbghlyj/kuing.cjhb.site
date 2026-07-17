@@ -20,7 +20,7 @@
 	<!--{if empty($topic) || $topic['useheader']}-->
 		<!--{if $_G['setting']['mobile']['allowmobile'] && (!$_G['setting']['cacheindexlife'] && !$_G['setting']['cachethreadon'] || $_G['uid']) && ($_GET['diy'] != 'yes' || !$_GET['inajax']) && ($_G['mobile'] != '' && $_G['cookie']['mobile'] == '' && $_GET['mobile'] != 'no')}-->
 			<div class="xi1 bm bm_c">
-			    {lang your_mobile_browser}<a href="{$_G['siteurl']}forum.php?mobile=yes">{lang go_to_mobile}</a> <span class="xg1">|</span> <a href="$_G['setting']['mobile']['nomobileurl']">{lang to_be_continue}</a>
+			    {lang your_mobile_browser}<a href="javascript:;" onclick="setcookie('mobile', '2', 31536000);var url=new URL(location.href);url.searchParams.delete('mobile');url.searchParams.delete('showmobile');location.href=url.href;return false;">{lang go_to_mobile}</a> <span class="xg1">|</span> <a href="javascript:;" onclick="setcookie('mobile', 'no', 31536000);var url=new URL(location.href);url.searchParams.delete('mobile');url.searchParams.delete('showmobile');location.href=url.href;return false;">{lang to_be_continue}</a>
 			</div>
 		<!--{/if}-->
 		<!--{if $_G['setting']['shortcut'] && $_G['member'][credits] >= $_G['setting']['shortcut']}-->

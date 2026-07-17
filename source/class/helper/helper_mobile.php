@@ -19,8 +19,6 @@ class helper_mobile {
 			$content = ob_get_contents();
 			ob_end_clean();
 			$content = self::mobilereplace_rewrite($content);
-			$content = preg_replace_callback("/href=\"(\w+\.php)(.*?)\"/", [__CLASS__, 'mobileoutput_callback_mobilereplace_12'], $content);
-
 			ob_start();
 			if('utf-8' != CHARSET) {
 				$content = diconv($content, CHARSET, 'utf-8');
@@ -44,23 +42,6 @@ class helper_mobile {
 				showmessage('not_in_mobile');
 			}
 			exit;
-		}
-	}
-
-	public static function mobileoutput_callback_mobilereplace_12($matches) {
-		return self::mobilereplace($matches[1], $matches[2]);
-	}
-
-	public static function mobilereplace($file, $replace) {
-		if(!str_contains($replace, 'mobile=')) {
-			if(!str_contains($replace, '?')) {
-				$replace = 'href="'.$file.$replace.'?mobile='.IN_MOBILE.'"';
-			} else {
-				$replace = 'href="'.$file.$replace.'&amp;mobile='.IN_MOBILE.'"';
-			}
-			return $replace;
-		} else {
-			return 'href="'.$file.$replace.'"';
 		}
 	}
 

@@ -1022,18 +1022,20 @@ class discuz_application extends discuz_base {
 			dsetcookie('dismobilemessage', '1', 3600);
 		}
 
-		$mobile = getgpc('mobile');
-		if(!getgpc('mobile') && getgpc('showmobile')) {
-			$mobile = getgpc('showmobile');
+		$requestedmobile = getgpc('mobile');
+		if(!$requestedmobile && getgpc('showmobile')) {
+			$requestedmobile = getgpc('showmobile');
 		}
+		$mobile = $requestedmobile ?: ($this->var['cookie']['mobile'] ?? '');
 		$mobileflag = isset($this->var['mobiletpl'][$mobile]);
 		$mobile_=checkmobile();
 		if($mobile === 'no' || IS_ROBOT) {
 			dsetcookie('mobile', 'no', 31536000);
 			$nomobile = true;
-		} elseif(isset($this->var['cookie']['mobile']) && $this->var['cookie']['mobile'] == 'no' && $mobileflag) {
-			dsetcookie('mobile', '');
-		} elseif(isset($this->var['cookie']['mobile']) && $this->var['cookie']['mobile'] == 'no') {
+		} elseif($requestedmobile && $mobileflag) {
+			$mobile = $mobile === 'yes' ? '2' : $mobile;
+			dsetcookie('mobile', $mobile, 31536000);
+		} elseif(($this->var['cookie']['mobile'] ?? '') === 'no') {
 			$nomobile = true;
 		} elseif(!$mobile_ && !$mobileflag) {
 			$nomobile = true;
@@ -1062,18 +1064,6 @@ class discuz_application extends discuz_base {
 			define('HOOKTYPE', 'hookscriptmobile');
 		}
 		setglobal('gzipcompress', 0);
-
-		$arr = [];
-		foreach(array_keys($this->var['mobiletpl']) as $mobiletype) {
-			$arr[] = '&mobile='.$mobiletype;
-			$arr[] = 'mobile='.$mobiletype;
-		}
-
-		parse_str($_SERVER['QUERY_STRING'], $query);
-		$query['mobile'] = 'no';
-		unset($query['simpletype']);
-		$query_sting_tmp = http_build_query($query);
-		$this->var['setting']['mobile']['nomobileurl'] = ($this->var['setting']['domain']['app']['forum'] ? $this->var['scheme'].'://'.$this->var['setting']['domain']['app']['forum'].'/' : $this->var['siteurl']).$this->var['basefilename'].'?'.$query_sting_tmp;
 
 		$this->var['setting']['lazyload'] = 0;
 
@@ -1114,4 +1104,3 @@ class discuz_application extends discuz_base {
 		return $value;
 	}
 }
-

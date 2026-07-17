@@ -1,7 +1,7 @@
 <!--{template common/header}-->
 <div class="tip loginbox loginpop p5" id="floatlayout_topicadmin">
 <!--{if in_array($_GET['action'], array('delpost', 'banpost', 'warn', 'stickreply', 'delcomment', 'restore', 'copy', 'merge', 'refund', 'split', 'live'))}-->
-	<form id="topicadminform" method="post" autocomplete="off" action="forum.php?mod=topicadmin&action=$_GET['action']&modsubmit=yes&modclick=yes&mobile=2" >
+	<form id="topicadminform" method="post" autocomplete="off" action="forum.php?mod=topicadmin&action=$_GET['action']&modsubmit=yes&modclick=yes" >
 		<input type="hidden" name="formhash" value="{FORMHASH}" />
 		<input type="hidden" name="fid" value="$_G['fid']" />
 		<input type="hidden" name="tid" value="$_G['tid']" />

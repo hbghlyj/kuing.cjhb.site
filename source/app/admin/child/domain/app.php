@@ -9,7 +9,6 @@
 if(!defined('IN_DISCUZ') || !defined('IN_ADMINCP')) {
 	exit('Access Denied');
 }
-
 if(!submitcheck('submit')) {
 	$appkeyarr = [
 		'portal' => $navs[1]['navname'],
@@ -66,11 +65,10 @@ if(!submitcheck('submit')) {
 	}
 
 	if($_GET['appnew']['mobile'] != $olddomain['mobile']) {
-		table_common_nav::t()->update_by_identifier('mobile', ['url' => (!$_GET['appnew']['mobile'] ? 'forum.php?mobile=yes' : $_G['scheme'].'://'.$_GET['appnew']['mobile'])]);
+		table_common_nav::t()->update_by_identifier('mobile', ['url' => (!$_GET['appnew']['mobile'] ? 'misc.php?mod=mobile&action=switch' : $_G['scheme'].'://'.$_GET['appnew']['mobile'])]);
 	}
 
 	table_common_setting::t()->update_setting('domain', $_G['setting']['domain']);
 	updatecache('setting');
 	cpmsg('setting_update_succeed', 'action=domain&operation=app', 'succeed');
 }
-	

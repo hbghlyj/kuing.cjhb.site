@@ -81,15 +81,6 @@ function dshowmessage($message, $url_forward = '', $values = [], $extraparam = [
 		if(!$url_forward && dreferer() && defined('IN_MOBILE') && constant('IN_MOBILE') == 1) {
 			$url_forward = $referer = dreferer();
 		}
-		if(!empty($url_forward) && !str_contains($url_forward, 'mobile')) {
-			$url_forward_arr = explode('#', $url_forward);
-			if(str_contains($url_forward_arr[0], '?')) {
-				$url_forward_arr[0] = $url_forward_arr[0].'&mobile='.IN_MOBILE;
-			} else {
-				$url_forward_arr[0] = $url_forward_arr[0].'?mobile='.IN_MOBILE;
-			}
-			$url_forward = implode('#', $url_forward_arr);
-		}
 	} else {
 		unset($extraparam['mobileextrajs']);
 	}

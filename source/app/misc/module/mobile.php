@@ -8,11 +8,14 @@
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
-if($mod == 'mobile' && defined('IN_MOBILE')) {
+if(getgpc('action') === 'switch' && $_G['setting']['mobile']['allowmobile']) {
+	dsetcookie('mobile', '2', 31536000);
+	dheader('Location:'.($_G['setting']['domain']['app']['mobile'] ? $_G['scheme'].'://'.$_G['setting']['domain']['app']['mobile'] : $_G['siteurl'].'forum.php'));
+} elseif($mod == 'mobile' && defined('IN_MOBILE')) {
 	if($_G['setting']['domain']['app']['mobile']) {
 		dheader('Location:'.$_G['scheme'].'://'.$_G['setting']['domain']['app']['mobile']);
 	} else {
-		dheader('Location:'.$_G['siteurl'].'forum.php?mobile=yes');
+		dheader('Location:'.$_G['siteurl'].'forum.php');
 	}
 } elseif(!$_G['setting']['mobile']['allowmobile']) {
 	dheader('Location:'.($_G['setting']['domain']['app']['default'] ? $_G['scheme'].'://'.$_G['setting']['domain']['app']['default'] : $_G['siteurl']));

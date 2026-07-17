@@ -354,19 +354,6 @@ function dheader($string, $replace = true, $http_response_code = 0) {
 		$GLOBALS['locationUrl'] = $v;
 		exit;
 	}
-	if(defined('IN_MOBILE') && !str_contains($string, 'mobile') && $islocation) {
-		if(!str_contains($string, '?')) {
-			$string = $string.'?mobile='.IN_MOBILE;
-		} else {
-			if(!str_contains($string, '#')) {
-				$string = $string.'&mobile='.IN_MOBILE;
-			} else {
-				$str_arr = explode('#', $string);
-				$str_arr[0] = $str_arr[0].'&mobile='.IN_MOBILE;
-				$string = implode('#', $str_arr);
-			}
-		}
-	}
 	$string = str_replace(["\r", "\n"], ['', ''], $string);
 	if(empty($http_response_code)) {
 		@header($string, $replace);
@@ -1009,7 +996,9 @@ function template($file, $templateid = 0, $tpldir = '', $gettplfile = 0, $primal
 	if((constant('HOOKTYPE') == 'hookscriptmobile' && defined('IN_MOBILE') && !defined('TPL_DEFAULT')) || defined('IN_PREVIEW')) {
 		if(strpos($tpldir, 'plugin')) {
 			if(!tplfile::file_exists($tpldir.'/'.$file.'.htm') && !tplfile::file_exists($tpldir.'/'.$file.'.php')) {
-				$url = $_SERVER['REQUEST_URI'].(strexists($_SERVER['REQUEST_URI'], '?') ? '&' : '?').'mobile=no';
+				dsetcookie('mobile', 'no', 31536000);
+				$url = preg_replace('/([?&])(mobile|showmobile)=[^&#]*&?/', '$1', $_SERVER['REQUEST_URI']);
+				$url = rtrim(str_replace('?&', '?', $url), '?&');
 				showmessage('mobile_template_no_found', '', ['url' => $url]);
 			} else {
 				$mobiletplfile = $tpldir.'/'.$file.'.htm';
@@ -1597,10 +1586,6 @@ function rewriteoutput($type, $returntype, $host) {
 	} else {
 		return $host.$href;
 	}
-}
-
-function mobilereplace($file, $replace) {
-	return helper_mobile::mobilereplace($file, $replace);
 }
 
 function mobileoutput() {

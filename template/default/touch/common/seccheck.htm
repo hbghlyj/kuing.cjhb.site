@@ -49,7 +49,7 @@
 					modid = seccheck_modid[idhash];
 				}
 				var id = 'seccodejs_' + idhash;
-				var src = 'misc.php?mod=seccode&action=update&mobile=2&idhash=' + idhash + '&' + Math.random() + '&modid=' + modid;
+				var src = 'misc.php?mod=seccode&action=update&idhash=' + idhash + '&' + Math.random() + '&modid=' + modid;
 				if(document.getElementById(id)) {
 					document.getElementsByTagName('head')[0].appendChild(document.getElementById(id));
 				}

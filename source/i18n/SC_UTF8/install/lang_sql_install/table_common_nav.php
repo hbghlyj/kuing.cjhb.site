@@ -371,7 +371,7 @@ $data = [[
     'parentid' => '0',
     'name' => '手机版',
     'title' => '',
-    'url' => 'forum.php?showmobile=yes',
+    'url' => 'misc.php?mod=mobile&action=switch',
     'identifier' => 'mobile',
     'target' => '0',
     'type' => '0',

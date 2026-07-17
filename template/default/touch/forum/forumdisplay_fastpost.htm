@@ -1,6 +1,6 @@
 <div id="post_new"></div>
 <div class="plc cl">
-	<form method="post" autocomplete="off" id="fastpostform" action="forum.php?mod=post&action=reply&fid=$_G['fid']&tid=$_G['tid']&extra=$_GET['extra']&replysubmit=yes&mobile=2">
+	<form method="post" autocomplete="off" id="fastpostform" action="forum.php?mod=post&action=reply&fid=$_G['fid']&tid=$_G['tid']&extra=$_GET['extra']&replysubmit=yes">
 	<input type="hidden" name="formhash" value="{FORMHASH}" />
 	<span class="avatar"><img style="height:32px;width:32px;" src="<!--{avatar($_G['uid'], 'small', true)}-->" /></span>  
 	<div class="pi">
@@ -87,7 +87,7 @@
 		if(!reply_mod) {
 			$.ajax({
 				type:'POST',
-				url:'forum.php?mod=viewthread&tid=' + tid + '&viewpid=' + pid + '&mobile=2',
+				url:'forum.php?mod=viewthread&tid=' + tid + '&viewpid=' + pid,
 				dataType:'xml'
 			})
 			.success(function(s) {

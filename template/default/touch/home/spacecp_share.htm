@@ -1,7 +1,7 @@
 <!--{template common/header}-->
 <div class="tip loginbox loginpop p5">
 <!--{if $_GET['op'] == 'delete'}-->
-	<form id="shareform_{$sid}" name="shareform_{$sid}" method="post" autocomplete="off" action="home.php?mod=spacecp&ac=share&op=delete&sid=$sid&type=$_GET['type']&mobile=2">
+	<form id="shareform_{$sid}" name="shareform_{$sid}" method="post" autocomplete="off" action="home.php?mod=spacecp&ac=share&op=delete&sid=$sid&type=$_GET['type']">
 		<input type="hidden" name="referer" value="{eval echo dreferer();}" />
 		<input type="hidden" name="deletesubmit" value="true" />
 		<input type="hidden" name="formhash" value="{FORMHASH}" />
@@ -11,7 +11,7 @@
 		</dd>
 	</form>
 <!--{elseif $_GET['op'] == 'edithot'}-->
-	<form method="post" autocomplete="off" action="home.php?mod=spacecp&ac=share&op=edithot&sid=$sid&mobile=2">
+	<form method="post" autocomplete="off" action="home.php?mod=spacecp&ac=share&op=edithot&sid=$sid">
 		<input type="hidden" name="referer" value="{eval echo dreferer();}" />
 		<input type="hidden" name="hotsubmit" value="true" />
 		<input type="hidden" name="formhash" value="{FORMHASH}" />
@@ -31,7 +31,7 @@
 			<!--{if $_G[inajax]}--><span><a href="javascript:;" onclick="hideWindow('$_GET[handlekey]');" class="flbc" title="{lang close}">{lang close}</a></span><!--{/if}-->
 		</h3>
 	<!--{/if}-->
-	<form id="shareform" name="shareform" action="home.php?mod=spacecp&ac=share&type=link&mobile=2" method="post" autocomplete="off" >
+	<form id="shareform" name="shareform" action="home.php?mod=spacecp&ac=share&type=link" method="post" autocomplete="off" >
 		<input type="hidden" name="refer" value="home.php?mod=space&uid=$space['uid']&do=share&view=me" />
 		<input type="hidden" name="topicid" value="$_GET['topicid']" />
 		<input type="hidden" name="formhash" value="{FORMHASH}" />
@@ -54,7 +54,7 @@
 		</p>
 	</form>
 <!--{else}-->
-	<form method="post" autocomplete="off" id="shareform_{$id}" name="shareform_{$id}" action="home.php?mod=spacecp&ac=share&type=$type&id=$id&mobile=2">
+	<form method="post" autocomplete="off" id="shareform_{$id}" name="shareform_{$id}" action="home.php?mod=spacecp&ac=share&type=$type&id=$id">
 		<input type="hidden" name="sharesubmit" value="true">
 		<input type="hidden" name="referer" value="{eval echo dreferer();}">
 		<input type="hidden" name="formhash" value="{FORMHASH}" />

@@ -172,7 +172,7 @@
 <!--{/if}-->
 <!--{elseif $_GET['op'] == 'manageuser'}-->
 <!--{if $_G['forum']['membernum'] > 300}-->
-	<form action="forum.php?mod=group&action=manage&op=manageuser&fid={$_G['fid']}&mobile=2" method="post" accept-charset="utf-8" onsubmit="document.charset='utf-8';">
+	<form action="forum.php?mod=group&action=manage&op=manageuser&fid={$_G['fid']}" method="post" accept-charset="utf-8" onsubmit="document.charset='utf-8';">
 		<div class="search flex-box">
 		<input type="text" placeholder="{lang enter_member_user}" value="" id="groupsearch" name="srchuser" class="mtxt flex">
 		<button class="mbtn" type="submit"><i class="dm-search"></i></button>
