@@ -12,12 +12,18 @@ if(!defined('IN_DISCUZ')) {
 
 function native_user_generate_password($password) {
 	$hash = password_hash($password, PASSWORD_DEFAULT);
-	return ($hash === false || $hash === null || !password_verify($password, $hash)) ? password_hash($password, PASSWORD_BCRYPT) : $hash;
+	if(!is_string($hash) || !password_verify($password, $hash)) {
+		$hash = password_hash($password, PASSWORD_BCRYPT);
+	}
+	if(!is_string($hash) || !password_verify($password, $hash)) {
+		throw new RuntimeException('Unable to hash member password');
+	}
+	return $hash;
 }
 
 function native_user_verify_password($password, $hash, $salt = '') {
 	if($hash === '') {
-		return $password === '';
+		return false;
 	}
 	if(empty($salt)) {
 		return password_verify($password, $hash);
