@@ -1389,7 +1389,7 @@ i.pstatus {display:block;font-size:12px;text-align:center;color:#999}
 	.xl label, .xl label a { color: #C00; }
 	.xl1 li { height: 1.5em; overflow: hidden; }
 		.xl1_elp { float: left; width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-	.xl2 li { float: left; margin: 2px 0; padding: 0; width: 50%; height: 1.5em; overflow: hidden; }
+	.xl2 li { float: left; margin: 2px 0; padding: 0; height: 1.5em; overflow: hidden; }
 	.xl ol, ol.xl { line-height: 21px; counter-reset: xlol; }
 		.xl ol li, ol.xl li { background: none; height: 21px; }
 		.xl ol li:before, ol.xl li:before { display: inline-block; width: 16px; height: 16px; line-height: 16px; margin: 2px 4px 3px 0; color: var(--dz-FC-fff); background: var(--dz-BG-n); border-radius: 8px; text-align: center; counter-increment: xlol; content: counter(xlol); }
