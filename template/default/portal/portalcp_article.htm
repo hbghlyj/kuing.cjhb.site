@@ -1,4 +1,4 @@
-<!--{template common/header}-->
+﻿<!--{template common/header}-->
 
 <!--{if $op == 'delete'}-->
 
@@ -105,7 +105,7 @@ make_html('portal.php?mod=view&aid={$aid}', $('makehtml_'));
 
 <div id="pt" class="bm cl">
 	<div class="z">
-		<a href="./" class="nvhm" title="{lang homepage}">$_G[setting][bbname]</a> <em>&rsaquo;</em>
+		<a href="./" class="nvhm" title="{lang homepage}"></a> <em>&rsaquo;</em>
 		<a href="$_G[setting][navs][1][filename]">$_G[setting][navs][1][navname]</a> <em>&rsaquo;</em>
 		<!--{if $catid }-->
 		<a href="$portalcategory[$catid]['caturl']">$portalcategory[$catid]['catname']</a> <em>&rsaquo;</em>

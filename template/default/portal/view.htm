@@ -1,11 +1,11 @@
-<!--{template common/header}-->
+﻿<!--{template common/header}-->
 <!--[name]{lang portalcategory_viewtplname}[/name]-->
 
 <script type="text/javascript" src="{$_G['setting']['jspath']}forum_viewthread.js?{VERHASH}"></script>
 <script type="text/javascript">zoomstatus = parseInt($_G['setting']['zoomstatus']), imagemaxwidth = '{$_G['setting']['imagemaxwidth']}', aimgcount = new Array();</script>
 <div id="pt" class="bm cl">
 	<div class="z">
-		<a href="./" class="nvhm" title="{lang homepage}">$_G[setting][bbname]</a> <em>&rsaquo;</em>
+		<a href="./" class="nvhm" title="{lang homepage}"></a> <em>&rsaquo;</em>
 		<a href="$_G[setting][navs][1][filename]">{lang nav_index}</a> <em>&rsaquo;</em>
 		<!--{loop $cat[ups] $value}-->
 			<a href="{echo getportalcategoryurl($value[catid])}">$value[catname]</a><em>&rsaquo;</em>

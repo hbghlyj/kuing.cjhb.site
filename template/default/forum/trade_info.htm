@@ -1,4 +1,4 @@
-<!--{template common/header}-->
+﻿<!--{template common/header}-->
 <!--{if $postlist[$post[pid]]['invisible'] != 0}-->
 	<div class="trdb">{lang post_trade_removed}</div>
 	<!--{template common/footer}-->
@@ -10,7 +10,7 @@
 
 <div id="pt" class="bm cl">
 	<div class="z">
-		<a href="./" class="nvhm" title="{lang homepage}">$_G[setting][bbname]</a>$navigation <em>&rsaquo;</em> <!--{if $_GET[from]=='home'}--><a href="home.php?mod=space&do=trade">{lang trade}</a> <em>&rsaquo;</em><!--{/if}--> <a href="forum.php?mod=viewthread&tid=$_G[tid]">{lang user_threads}</a>
+		<a href="./" class="nvhm" title="{lang homepage}"></a>$navigation <em>&rsaquo;</em> <!--{if $_GET[from]=='home'}--><a href="home.php?mod=space&do=trade">{lang trade}</a> <em>&rsaquo;</em><!--{/if}--> <a href="forum.php?mod=viewthread&tid=$_G[tid]">{lang user_threads}</a>
 	</div>
 </div>
 

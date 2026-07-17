@@ -1,4 +1,4 @@
-<?php exit('Access Denied');?>
+﻿<?php exit('Access Denied');?>
 <!--{template common/header}-->
 <link rel="stylesheet" type="text/css" href="kk/zdy3.css?{VERHASH}" />
 
@@ -16,7 +16,7 @@
 <!--[diy=diynavtop]--><div id="diynavtop" class="area"></div><!--[/diy]-->
 <div id="pt" class="bm cl">
 	<div class="z">
-		<a href="./" class="nvhm" title="{lang homepage}">$_G[setting][bbname]</a><em>&raquo;</em><a href="forum.php">{$_G[setting][navs][2][navname]}</a>$navigation <em>&rsaquo;</em> <a href="forum.php?mod=viewthread&tid=$_G[tid]">$_G[forum_thread][subject]</a>
+		<a href="./" class="nvhm" title="{lang homepage}"></a><em>&raquo;</em><a href="forum.php">{$_G[setting][navs][2][navname]}</a>$navigation <em>&rsaquo;</em> <a href="forum.php?mod=viewthread&tid=$_G[tid]">$_G[forum_thread][subject]</a>
 	</div>
 </div>
 

@@ -1,4 +1,4 @@
-<!--{template common/header}-->
+﻿<!--{template common/header}-->
 
 <script type="text/javascript">
 	var allowpostattach = parseInt('{$_G['group']['allowpostattach']}');
@@ -79,7 +79,7 @@
 <!--{/block}-->
 
 <div id="pt" class="bm cl">
-	<div class="z"><a href="./" class="nvhm" title="{lang homepage}">$_G[setting][bbname]</a> $navigation$actionsubject <em>&rsaquo;</em> $actiontitle</div>
+	<div class="z"><a href="./" class="nvhm" title="{lang homepage}"></a> $navigation$actionsubject <em>&rsaquo;</em> $actiontitle</div>
 </div>
 
 <!--{eval $adveditor = $isfirstpost && $special || $special == 2 && ($_GET['action'] == 'newthread' || $_GET['action'] == 'reply' && !empty($_GET['addtrade']) || $_GET['action'] == 'edit' && $thread['special'] == 2);}-->

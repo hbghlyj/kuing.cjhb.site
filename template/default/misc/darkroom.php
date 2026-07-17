@@ -1,4 +1,4 @@
-<?php exit('Access Denied');?>
+﻿<?php exit('Access Denied');?>
 <!--{template common/header}-->
 <div id="pt" class="bm cl">
 	<div class="y" style="margin-top: 5px; margin-right: 10px;">
@@ -13,7 +13,7 @@
 		</form>
 	</div>
 	<div class="z">
-		<a href="./" class="nvhm" title="{lang homepage}">$_G['setting']['bbname']</a> <em>&rsaquo;</em>
+		<a href="./" class="nvhm" title="{lang homepage}"></a> <em>&rsaquo;</em>
 		<a href="misc.php?mod=darkroom">{lang darkroom}</a>
 	</div>
 </div>

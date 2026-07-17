@@ -1,4 +1,4 @@
-<?php exit('Access Denied');?>
+﻿<?php exit('Access Denied');?>
 <!--{template common/header}-->
 
 <style>
@@ -11,7 +11,7 @@
 
 <div id="pt" class="bm cl">
 	<div class="z">
-		<a href="./" class="nvhm" title="{lang homepage}">$_G[setting][bbname]</a><em>&raquo;</em><a href="forum.php">{$_G[setting][navs][2][navname]}</a>$navigation
+		<a href="./" class="nvhm" title="{lang homepage}"></a><em>&raquo;</em><a href="forum.php">{$_G[setting][navs][2][navname]}</a>$navigation
 	</div>
 </div>
 
