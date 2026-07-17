@@ -250,8 +250,21 @@ function native_user_checkname($username, $censor = true) {
 
 function native_user_checkemail($email, $ignoreuid = 0) {
 	$email = strtolower(trim($email));
+	if($email === '') {
+		return 1;
+	}
 	if(!isemail($email) || strlen($email) > 255) {
 		return -4;
+	}
+	$accessemail = trim((string)getglobal('setting/accessemail'));
+	$censoremail = trim((string)getglobal('setting/censoremail'));
+	$accessexp = '/('.str_replace("\r\n", '|', preg_quote($accessemail, '/')).')$/i';
+	$censorexp = '/('.str_replace("\r\n", '|', preg_quote($censoremail, '/')).')$/i';
+	if(($accessemail && !preg_match($accessexp, $email)) || ($censoremail && preg_match($censorexp, $email))) {
+		return -5;
+	}
+	if(getglobal('setting/doublee')) {
+		return 1;
 	}
 	$user = table_common_member::t()->fetch_by_email($email, 1);
 	return $user && intval($user['uid']) !== intval($ignoreuid) ? -6 : 1;
