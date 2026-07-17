@@ -6,7 +6,8 @@
  * https://license.discuz.vip
  */
 
-require_once '../../source/class/class_core.php';
+chdir(dirname(__DIR__, 2));
+require_once './source/class/class_core.php';
 
 $discuz = C::app();
 $discuz->init();
