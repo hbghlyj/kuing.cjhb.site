@@ -933,7 +933,7 @@ c978f16b0ac032bfa97bd0ad8d8c62c7 *source/app/forum/module/rss.php
 5951788bcee2cf149dde74ca80d9e179 *source/app/forum/module/tag.php
 6f95819b931c1810fe41ef61f21ec68b *source/app/forum/module/topicadmin.php
 82b8c658fa555cabc5d2bc89fee585f4 *source/app/forum/module/trade.php
-e890b901a2a80943944f94f00c6e169e *source/app/forum/module/viewthread.php
+9b983e80e7bb830883c7f2e9bd4ca0a1 *source/app/forum/module/viewthread.php
 ef539565caf05a224bb46cd33c3769d0 *source/app/group/admin/switch.php
 c0e74e690d1bdc7b3c83a25988488794 *source/app/group/group.php
 d41d8cd98f00b204e9800998ecf8427e *source/app/group/index.htm
@@ -4860,11 +4860,11 @@ b052df57714f764cde94855946b6dad3 *template/default/forum/usertag.htm
 9db06b1edcb02036f89452c185a8087e *template/default/forum/viewthread_activity.htm
 b1d5aba800c6cae42e8e9123d3fea869 *template/default/forum/viewthread_album.htm
 4c4cece96cb41b0cc008db45cb8b9d27 *template/default/forum/viewthread_debate.htm
-8e5fe47c024b96e679970074f277efa1 *template/default/forum/viewthread_fastpost.htm
+175836722b4b75c383d147457741ec7b *template/default/forum/viewthread_fastpost.htm
 82f689b10762b23ff019e7396f1d5555 *template/default/forum/viewthread_from_node.htm
 9624833dd6269899480d650b971c58ea *template/default/forum/viewthread_mod.htm
 eb61adf2eb5f72db522e346ab12209a6 *template/default/forum/viewthread_node_body.htm
-0412e28186695ca936d0226dff9d6420 *template/default/forum/viewthread_node.htm
+a4ef35f2071a824c308c4ada03b32188 *template/default/forum/viewthread_node.htm
 91459ed16c9e85da2348e86b18f61a37 *template/default/forum/viewthread_pay.htm
 259705323d4e8e8da5cdc18ab3c3d5af *template/default/forum/viewthread_poll_voter.htm
 086f53b55d548bfae0d68203afb79c6c *template/default/forum/viewthread_poll.htm
