@@ -309,77 +309,78 @@ function native_user_getprotected() {
 }
 
 function uc_pm_location($uid, $newpm = 0) {
-	return '';
+	dheader('location: home.php?mod=space&do=pm'.($newpm ? '&filter=newpm' : ''));
 }
 
 function uc_pm_checknew($uid, $more = 0) {
-	return $more ? [] : 0;
+	return native_pm::checknew($uid, $more);
 }
 
 function uc_pm_send($fromuid, $msgto, $subject, $message, $instantly = 1, $replypmid = 0, $isusername = 0, $type = 0) {
-	return 0;
+	return native_pm::send($fromuid, $msgto, $subject, $message, $replypmid, $isusername, $type);
 }
 
 function uc_pm_delete($uid, $folder, $pmids) {
-	return 0;
+	return native_pm::deleteMessages($uid, $pmids);
 }
 
 function uc_pm_deleteuser($uid, $touids) {
-	return 0;
+	return native_pm::deleteUsers($uid, $touids);
 }
 
 function uc_pm_deletechat($uid, $plids, $type = 0) {
-	return 0;
+	return native_pm::deleteChats($uid, $plids, $type);
 }
 
 function uc_pm_readstatus($uid, $uids, $plids = [], $status = 0) {
-	return 0;
+	return native_pm::readstatus($uid, $uids, $plids, $status);
 }
 
 function uc_pm_list($uid, $page = 1, $pagesize = 10, $folder = 'inbox', $filter = 'newpm', $msglen = 0) {
-	return ['count' => 0, 'data' => []];
+	return native_pm::listing($uid, $page, $pagesize, $filter, $msglen);
 }
 
 function uc_pm_ignore($uid) {
-	return 1;
+	return native_pm::ignore($uid);
 }
 
 function uc_pm_view($uid, $pmid = 0, $touid = 0, $daterange = 1, $page = 0, $pagesize = 10, $type = 0, $isplid = 0) {
-	return [];
+	return native_pm::view($uid, $pmid, $touid, $daterange, $page, $pagesize, $type, $isplid);
 }
 
 function uc_pm_view_num($uid, $touid, $isplid) {
-	return 0;
+	return native_pm::viewnum($uid, $touid, $isplid);
 }
 
 function uc_pm_viewnode($uid, $type, $pmid) {
-	return [];
+	$list = native_pm::view($uid, $pmid, 0, 5, 0, 0, $type, 0);
+	return $list ? reset($list) : [];
 }
 
 function uc_pm_chatpmmemberlist($uid, $plid = 0) {
-	return [];
+	return native_pm::chatMembers($uid, $plid);
 }
 
 function uc_pm_kickchatpm($plid, $uid, $touid) {
-	return 0;
+	return native_pm::kickChat($plid, $uid, $touid);
 }
 
 function uc_pm_appendchatpm($plid, $uid, $touid) {
-	return 0;
+	return native_pm::appendChat($plid, $uid, $touid);
 }
 
 function uc_pm_blackls_get($uid) {
-	return '';
+	return native_pm::blacklistGet($uid);
 }
 
 function uc_pm_blackls_set($uid, $blackls) {
-	return 1;
+	return native_pm::blacklistSet($uid, $blackls);
 }
 
 function uc_pm_blackls_add($uid, $username) {
-	return 1;
+	return native_pm::blacklistAdd($uid, $username);
 }
 
 function uc_pm_blackls_delete($uid, $username) {
-	return 1;
+	return native_pm::blacklistDelete($uid, $username);
 }

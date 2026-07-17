@@ -656,3 +656,36 @@ CREATE TABLE IF NOT EXISTS pre_common_member_auth
 ) ENGINE = InnoDB;
 INSERT IGNORE INTO pre_common_member_auth (uid, `password`, `salt`, `secques`)
 SELECT uid, `password`, `salt`, `secques` FROM pre_ucenter_members;
+
+CREATE TABLE IF NOT EXISTS pre_common_pm_thread (
+	plid mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
+	authorid mediumint(8) unsigned NOT NULL DEFAULT '0',
+	pmtype tinyint(3) unsigned NOT NULL DEFAULT '1',
+	subject varchar(80) NOT NULL DEFAULT '',
+	members smallint(5) unsigned NOT NULL DEFAULT '0',
+	min_max varchar(21) NOT NULL DEFAULT '',
+	dateline int(10) unsigned NOT NULL DEFAULT '0',
+	lastdateline int(10) unsigned NOT NULL DEFAULT '0',
+	lastauthorid mediumint(8) unsigned NOT NULL DEFAULT '0',
+	lastsummary text NOT NULL,
+	PRIMARY KEY (plid), KEY min_max (min_max), KEY authorid (authorid,dateline), KEY lastdateline (lastdateline)
+) ENGINE=InnoDB;
+CREATE TABLE IF NOT EXISTS pre_common_pm_member (
+	plid mediumint(8) unsigned NOT NULL DEFAULT '0', uid mediumint(8) unsigned NOT NULL DEFAULT '0',
+	isnew tinyint(1) NOT NULL DEFAULT '0', pmnum int(10) unsigned NOT NULL DEFAULT '0',
+	lastupdate int(10) unsigned NOT NULL DEFAULT '0', lastdateline int(10) unsigned NOT NULL DEFAULT '0',
+	PRIMARY KEY (plid,uid), KEY uid_new (uid,isnew), KEY uid_lastdateline (uid,lastdateline)
+) ENGINE=InnoDB;
+CREATE TABLE IF NOT EXISTS pre_common_pm_message (
+	pmid int(10) unsigned NOT NULL AUTO_INCREMENT, plid mediumint(8) unsigned NOT NULL DEFAULT '0',
+	authorid mediumint(8) unsigned NOT NULL DEFAULT '0', message mediumtext NOT NULL,
+	dateline int(10) unsigned NOT NULL DEFAULT '0', PRIMARY KEY (pmid),
+	KEY plid_dateline (plid,dateline), KEY authorid (authorid)
+) ENGINE=InnoDB;
+CREATE TABLE IF NOT EXISTS pre_common_pm_message_status (
+	pmid int(10) unsigned NOT NULL DEFAULT '0', uid mediumint(8) unsigned NOT NULL DEFAULT '0',
+	PRIMARY KEY (pmid,uid), KEY uid (uid)
+) ENGINE=InnoDB;
+CREATE TABLE IF NOT EXISTS pre_common_pm_blacklist (
+	uid mediumint(8) unsigned NOT NULL DEFAULT '0', usernames text NOT NULL, PRIMARY KEY (uid)
+) ENGINE=InnoDB;
