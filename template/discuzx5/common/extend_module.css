@@ -130,7 +130,7 @@
 .pls .pi a {color:var(--dz-fb)}
 .pls .avatar {margin:20px;text-align:center}
 .pls .avatar .avtm {display:block;width:120px;height:120px;margin:0 auto}
-.pls .tns {margin:0 20px 20px;padding:10px 0;background:var(--dz-bgc);border-radius:var(--dz-radius-m)}
+.pls .tns {margin:0 20px 20px;padding:0 10px 0;background:var(--dz-bgc);border-radius:var(--dz-radius-m)}
 .md_ctrl a {display:block;margin-right:-10px}
 .md_ctrl a img {float:left;width:auto;height:30px;margin:5px 8px 5px 0}
 
