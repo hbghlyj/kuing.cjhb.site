@@ -301,7 +301,7 @@
 									<!--{if $forum['moderators']}--><p>{lang forum_moderators}: <span class="xi2">$forum[moderators]</span></p><!--{/if}-->
 									<!--{hook/index_favforum_extra $forum['fid']}-->
 								</td>
-								<td class="fl_i">
+								<td class="fl_i" width="6%">
 									<!--{if empty($forum[redirect])}--><p class="xg1"><font face="dzicon"></font><!--{echo dnumber($forum[threads])}--></p><p class="xg1"><font face="dzicon"></font><!--{echo dnumber($forum[posts])}--></p><!--{/if}-->
 								</td>
 								<td class="fl_by">
@@ -396,7 +396,7 @@
 								<!--{if $forum['moderators']}--><p>{lang forum_moderators}: <span class="xi2">$forum[moderators]</span></p><!--{/if}-->
 								<!--{hook/index_forum_extra $forum['fid']}-->
 							</td>
-							<td class="fl_i">
+							<td class="fl_i" width="6%">
 								<!--{if empty($forum[redirect])}--><p class="xg1"><font face="dzicon"></font><!--{echo dnumber($forum[threads])}--></p><p class="xg1"><font face="dzicon"></font><!--{echo dnumber($forum[posts])}--></p><!--{/if}-->
 							</td>
 							<td class="fl_by">
