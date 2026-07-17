@@ -800,7 +800,7 @@ f5619173459e42189c5c8e94b020d730 *source/app/forum/child/member/join.php
 96a37e1af4bbe5e241fc60fdabbf2587 *source/app/forum/child/misc/attachpay.php
 e83f55258f9e93d978e28bc9656b41eb *source/app/forum/child/misc/bestanswer.php
 da67da3882a02bad99982628127b7479 *source/app/forum/child/misc/comment.php
-4d66b11c6e565156f01b8043051f2830 *source/app/forum/child/misc/commentmore.php
+40e6aafe582d68059b66a84afc69381e *source/app/forum/child/misc/commentmore.php
 5d42e95c33e6932b60b077a92eab74b4 *source/app/forum/child/misc/debateumpire.php
 caf0e50236e827219893f3d3d687d515 *source/app/forum/child/misc/debatevote.php
 480a043afabd7684a76a4510b9ba25d3 *source/app/forum/child/misc/getactivityapplylist.php
@@ -1736,7 +1736,7 @@ b78cd7a8283d6b388ed0664de035a82c *source/class/table/table_forum_post_location.p
 5d21edb36aeccf98ea54a05daa6d08e6 *source/class/table/table_forum_post_tableid.php
 100104cb9a56821a720f3ff96af541f7 *source/class/table/table_forum_post.php
 c47a92364c2764e0cf095a0210c4477c *source/class/table/table_forum_postcache.php
-84b337b86a281b20f307b819b3abb6cd *source/class/table/table_forum_postcomment.php
+19b5fc713cf03fa1a2112c5c54ca7192 *source/class/table/table_forum_postcomment.php
 f541968b6ab8f343b423d23fcebf21c8 *source/class/table/table_forum_poststick.php
 14b722e81e8193cd9574171550e03139 *source/class/table/table_forum_promotion.php
 97b1082d2e70c3fe29c30c197e404f1b *source/class/table/table_forum_ratelog.php
