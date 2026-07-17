@@ -30,6 +30,8 @@ function deletemember($uids, $delpost = true) {
 	$arruids = $uids;
 	$uids = dimplode($uids);
 	$numdeleted = count($arruids);
+	loaducenter();
+	native_user_delete($arruids);
 	foreach(['common_member_field_forum', 'common_member_field_home', 'common_member_count',
 		        'common_member_profile', 'common_member_status',] as $table) {
 		C::t($table)->delete($arruids, true, 1);

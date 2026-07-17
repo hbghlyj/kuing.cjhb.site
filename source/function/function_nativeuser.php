@@ -193,6 +193,7 @@ function native_user_delete($uid) {
 		return 0;
 	}
 	C::t('common_member_auth')->delete($uids);
+	native_pm::deleteUserData($uids);
 	native_user_deleteavatar($uids);
 	return count($uids);
 }
@@ -297,15 +298,39 @@ function native_user_synlogout() {
 }
 
 function native_user_addprotected($username, $admin = '') {
-	return 1;
+	return native_user_isprotected($username) ? 1 : 0;
 }
 
 function native_user_deleteprotected($username) {
-	return 1;
+	return native_user_isprotected($username) ? 0 : 1;
 }
 
 function native_user_getprotected() {
-	return [];
+	$founders = array_filter(array_map('trim', explode(',', (string)getglobal('config/admincp/founder'))), 'strlen');
+	$result = [];
+	foreach($founders as $founder) {
+		$user = is_numeric($founder) ? table_common_member::t()->fetch(intval($founder)) : table_common_member::t()->fetch_by_username($founder, 1);
+		if($user) {
+			$result[] = ['uid' => $user['uid'], 'username' => $user['username']];
+		}
+	}
+	return $result;
+}
+
+function native_user_isprotected($user) {
+	if(!is_array($user)) {
+		$user = is_numeric($user) ? table_common_member::t()->fetch(intval($user)) : native_user_fetch($user);
+	}
+	if(!$user) {
+		return false;
+	}
+	$founders = array_filter(array_map('trim', explode(',', (string)getglobal('config/admincp/founder'))), 'strlen');
+	if(!$founders) {
+		return intval($user['groupid']) === 1 && intval($user['adminid']) === 1;
+	}
+	return in_array((string)$user['uid'], $founders, true)
+		|| in_array((string)$user['username'], $founders, true)
+		|| in_array((string)$user['loginname'], $founders, true);
 }
 
 function uc_pm_location($uid, $newpm = 0) {

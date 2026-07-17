@@ -200,6 +200,9 @@ if(!submitcheck('editsubmit')) {
 		cpmsg('members_mobile_illegal', '', 'error');
 	}
 
+	if(!$isfounder && native_user_isprotected($member)) {
+		cpmsg('members_edit_protectedmembers', '', 'error');
+	}
 	$ucresult = native_user_edit(addslashes($member['loginname']), $_GET['passwordnew'], $_GET['passwordnew'], addslashes(strtolower(trim($_GET['emailnew']))), 1, $questionid, '', $secmobicc, $secmobile);
 	if($ucresult < 0) {
 		if($ucresult == -4) {

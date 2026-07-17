@@ -320,6 +320,22 @@ class native_pm {
 		return 1;
 	}
 
+	public static function deleteUserData($uids) {
+		$uids = dintval((array)$uids, true);
+		if(!$uids) return;
+		$memberships = DB::fetch_all('SELECT plid,uid FROM %t WHERE uid IN (%n)', [self::MEMBER, $uids]);
+		foreach($memberships as $membership) {
+			self::leaveThread($membership['uid'], $membership['plid']);
+			$thread = DB::fetch_first('SELECT authorid,pmtype FROM %t WHERE plid=%d', [self::THREAD, $membership['plid']]);
+			if($thread && $thread['pmtype'] == 2 && in_array(intval($thread['authorid']), $uids, true)) {
+				$newauthor = DB::result_first('SELECT MIN(uid) FROM %t WHERE plid=%d', [self::MEMBER, $membership['plid']]);
+				$newauthor && DB::update(self::THREAD, ['authorid' => intval($newauthor)], 'plid='.intval($membership['plid']));
+			}
+		}
+		DB::query('DELETE FROM %t WHERE uid IN (%n)', [self::MESSAGE_STATUS, $uids]);
+		DB::query('DELETE FROM %t WHERE uid IN (%n)', [self::BLACKLIST, $uids]);
+	}
+
 	public static function chatMembers($uid, $plid) {
 		$members = DB::fetch_all('SELECT uid FROM %t WHERE plid=%d', [self::MEMBER, intval($plid)], 'uid');
 		if(!isset($members[intval($uid)])) return 0;

@@ -27,7 +27,7 @@ if(!is_array($search_condition['groupid']) && $search_condition['groupid']) {
 	$search_condition['groupid'][0] = $search_condition['groupid'];
 }
 foreach($search_condition as $k => $v) {
-	if(in_array($k, ['action', 'operation', 'formhash', 'confirmed', 'submit', 'page', 'deletestart', 'allnum', 'includeuc', 'includepost', 'current', 'pertask', 'lastprocess', 'deleteitem']) || $v === '') {
+	if(in_array($k, ['action', 'operation', 'formhash', 'confirmed', 'submit', 'page', 'deletestart', 'allnum', 'includepost', 'current', 'pertask', 'lastprocess', 'deleteitem']) || $v === '') {
 		unset($search_condition[$k]);
 	}
 	if($k === 'regip') {

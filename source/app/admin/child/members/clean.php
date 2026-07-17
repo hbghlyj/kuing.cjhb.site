@@ -79,18 +79,11 @@ if(!submitcheck('submit', 1) && !submitcheck('deletesubmit', 1)) {
 			require_once libfile('function/delete');
 			$numdeleted = deletemember($uids, 0);
 
-			if($isfounder && !empty($_GET['includeuc'])) {
-				loaducenter();
-				native_user_delete($uids);
-				$_GET['includeuc'] = 1;
-			} else {
-				$_GET['includeuc'] = 0;
-			}
 			if($_GET['uidarray']) {
 				cpmsg('members_delete_succeed', '', 'succeed', ['numdeleted' => $numdeleted]);
 			} else {
 				$allnum += $membernum < $delmemberlimit ? $membernum : $delmemberlimit;
-				$nextlink = 'action=members&operation=clean&confirmed=yes&submit=yes'.(!empty($_GET['includeuc']) ? '&includeuc=yes' : '')."&allnum=$allnum&deletestart=".($deletestart + $delmemberlimit).$urladd;
+				$nextlink = 'action=members&operation=clean&confirmed=yes&submit=yes'."&allnum=$allnum&deletestart=".($deletestart + $delmemberlimit).$urladd;
 				cpmsg(cplang('members_delete_user_processing_next', ['deletestart' => $deletestart, 'nextdeletestart' => $deletestart + $delmemberlimit]), $nextlink, 'loadingform', []);
 			}
 
@@ -208,19 +201,15 @@ if(!submitcheck('submit', 1) && !submitcheck('deletesubmit', 1)) {
 				require_once libfile('function/delete');
 				$numdeleted = deletemember($uids);
 
-				if($isfounder && !empty($_GET['includeuc'])) {
-					loaducenter();
-					native_user_delete($uids);
-				}
 				if(!empty($_GET['uidarray'])) {
 					cpmsg('members_delete_succeed', '', 'succeed', ['numdeleted' => $numdeleted]);
 				} else {
 					$allnum += $membernum < $delmemberlimit ? $membernum : $delmemberlimit;
-					$nextlink = 'action=members&operation=clean&confirmed=yes&submit=yes&includepost=yes'.(!empty($_GET['includeuc']) ? '&includeuc=yes' : '')."&allnum=$allnum&deletestart=".($deletestart + $delmemberlimit).$urladd;
+					$nextlink = 'action=members&operation=clean&confirmed=yes&submit=yes&includepost=yes'."&allnum=$allnum&deletestart=".($deletestart + $delmemberlimit).$urladd;
 					cpmsg(cplang('members_delete_user_processing_next', ['deletestart' => $deletestart, 'nextdeletestart' => $deletestart + $delmemberlimit]), $nextlink, 'loadingform', []);
 				}
 			}
-			$nextlink = 'action=members&operation=clean&confirmed=yes&submit=yes&includepost=yes'.(!empty($_GET['includeuc']) ? '&includeuc=yes' : '')."&current=$next&pertask=$pertask&lastprocess=$processed&allnum=$allnum&deletestart=$deletestart".$urladd;
+			$nextlink = 'action=members&operation=clean&confirmed=yes&submit=yes&includepost=yes'."&current=$next&pertask=$pertask&lastprocess=$processed&allnum=$allnum&deletestart=$deletestart".$urladd;
 			if(empty($_GET['uidarray'])) {
 				$deladdmsg = cplang('members_delete_user_processing', ['deletestart' => $deletestart, 'nextdeletestart' => $deletestart + $delmemberlimit]).'<br>';
 			} else {
