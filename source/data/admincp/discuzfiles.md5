@@ -1119,7 +1119,7 @@ b9b82d592d9a5dea769e5d7220fe71be *source/app/misc/module/imgcropper.php
 d41d8cd98f00b204e9800998ecf8427e *source/app/misc/module/index.htm
 152bcfe223ac6a384c2f979f9365e5cb *source/app/misc/module/initsys.php
 74e0458cdb331bff36f5997d8e06af2d *source/app/misc/module/invite.php
-323499ea1456ba0a6e179bcf83fa295e *source/app/misc/module/mobile.php
+b2f26813cbd3be1541f5cac057aa0f88 *source/app/misc/module/mobile.php
 ca0120d82a6519973c96c14df3c5cfc5 *source/app/misc/module/patch.php
 c5e6bc87484856cf9fb4eb3e27b4ee32 *source/app/misc/module/ranklist.php
 418b73fba5a66ed9cd0b420155b70361 *source/app/misc/module/report.php
@@ -1961,7 +1961,7 @@ ae932bce89538de003d5f134ee7d1c5f *source/function/cache/cache_portalcategory.php
 0f042d5e45b02742882a3d0e94195c0b *source/function/cache/cache_relatedlink.php
 ff36b417619438111e49b6b9ba2b872c *source/function/cache/cache_restful.php
 18e25bc3ead92d364df609243162932a *source/function/cache/cache_secqaa.php
-70d2b061740578f92781feb3bc9d324e *source/function/cache/cache_setting.php
+a3f35006ca24a063d1738253c90e4224 *source/function/cache/cache_setting.php
 71b1967b381cd2c72c971b926bd208f2 *source/function/cache/cache_smileycodes.php
 b954e18ac2ebb022ff3c80c8d652c0a9 *source/function/cache/cache_smileytypes.php
 b8e9437d3bd4701238e0c11b73b5d602 *source/function/cache/cache_smilies_js.php

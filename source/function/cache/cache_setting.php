@@ -1026,6 +1026,9 @@ function get_cachedata_footernav() {
 			if($nav['identifier'] == 'report') {
 				$nav['url'] = 'javascript:;';
 				$nav['extra'] = ' onclick="showWindow(\'miscreport\', \'misc.php?mod=report&url=\'+REPORTURL);return false;"';
+			} elseif($nav['identifier'] == 'mobile' && $nav['url'] == 'misc.php?mod=mobile&action=switch') {
+				$nav['url'] = 'javascript:;';
+				$nav['extra'] = ' onclick="setcookie(\'mobile\', \'2\', 31536000);location.reload();return false;"';
 			}
 		}
 		$nav['code'] = '<a href="'.$nav['url'].'" title="'.$nav['title'].'"'.($nav['target'] == 1 ? ' target="_blank"' : '').' '.parsehighlight($nav['highlight']).$nav['extra'].'>'.$nav['name'].'</a>';
