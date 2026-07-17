@@ -366,7 +366,7 @@ function checkpost($subject, $message, $special = 0, $isJson = false) {
 			return 'post_message_toolong';
 		} elseif($_G['setting']['minpostsize']) {
 			$minpostsize = !defined('IN_MOBILE') || !constant('IN_MOBILE') || !$_G['setting']['minpostsize_mobile'] ? $_G['setting']['minpostsize'] : $_G['setting']['minpostsize_mobile'];
-			if(strlen(preg_replace('/\[quote\].+?\[\/quote\]/is', '', $message)) < $minpostsize || strlen(preg_replace('/\[postbg\].+?\[\/postbg\]/is', '', $message)) < $minpostsize) {
+			if(strlen(preg_replace('/\[postbg\].+?\[\/postbg\]/is', '', $message)) < $minpostsize) {
 				return 'post_message_tooshort';
 			}
 		}
