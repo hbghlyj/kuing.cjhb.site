@@ -910,6 +910,8 @@ a.thread_mod { height: 19px; line-height: 19px; display: inline-block; color: #4
 
 /* 帖子作者、时间、楼层等一些属性所在区块 */
 	.pi { margin-bottom: 10px; padding: 6px 0; height: 36px; }
+		.plc .authi .avt img, .plc .authi .avt .Avatar { margin: 2px; padding: 0; width: 40px; height: 40px; border: none; }
+		.plc .authi .avt .Avatar { font-size: 20px; }
 		.pi strong a { float: right; margin-top: -6px; padding: 4px 6px; border: 1px solid {WRAPBG}; font-weight: 400; }
 			.pi strong a:hover { border-color: {COMMONBORDER}; }
 		.pls .pi { padding-left: 15px; }
