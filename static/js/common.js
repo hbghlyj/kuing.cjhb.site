@@ -2495,8 +2495,8 @@ function renderInitialAvatar(img) {
 		return;
 	}
 	var name = (img.getAttribute('data-avatar-name') || img.getAttribute('alt') || '').trim();
-	var key = img.getAttribute('data-avatar-key') || name || '0';
-	var initial = Array.from(name || key)[0] || '?';
+	var key = name || img.getAttribute('data-avatar-key') || '?';
+	var initial = Array.from(name).slice(0, 2).join('') || '?';
 	if(initial.toUpperCase() != initial.toLowerCase()) {
 		initial = initial.toUpperCase();
 	}

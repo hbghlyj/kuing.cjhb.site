@@ -1981,7 +1981,7 @@ bf163077301488c12abb09f32d5c04df *source/function/function_blog.php
 8e29a7bf5f3b91a7a9172a2c4b5a9dd6 *source/function/function_cloudaddons.php
 580b06ae77c38e192b4ec95bc5bfdf57 *source/function/function_collection.php
 053ca1f803b7f15b0a84f4b36ddca6c4 *source/function/function_comment.php
-4186200850830034dbe5d729e58b623c *source/function/function_core.php
+96f592153642b899678b422897e3f54f *source/function/function_core.php
 26cc8c5601aca1f390f91d1bb18c2e81 *source/function/function_credit.php
 62457ad628907fc88c5a18b4928a7368 *source/function/function_delete.php
 e250b0a9f2cf78100b77af6045adaf33 *source/function/function_discuzcode.php
@@ -4115,7 +4115,7 @@ a2b5e1e981293a5cc8289045cafd5a1c *static/js/calendar.js
 230cb151baaa3ce4eade5f0f11deb449 *static/js/common_diy.js
 e26c424de1aa729e60caadaa1e41ff69 *static/js/common_extra.js
 3f1db1ac22d3611a2be661f9a347b61d *static/js/common_m_diy.js
-cc302fc1802bd53631b1ea9a43346f21 *static/js/common.js
+3cfecab4636e06fbc8a5db45fbf20566 *static/js/common.js
 95081cd0e33ede64a17c6f59713db6ab *static/js/echarts/echarts.common.min.js
 d41d8cd98f00b204e9800998ecf8427e *static/js/echarts/index.htm
 316aa2521a836033396d51fdedb017e0 *static/js/editor.js

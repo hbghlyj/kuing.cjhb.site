@@ -656,7 +656,6 @@ function avatar($uid, $size = 'middle', $returnsrc = 0, $real = FALSE, $static =
 		$class = trim($class.' user_avatar');
 	}
 	$classattr = $class ? ' class="'.$class.'"' : '';
-	$avatarattr = !$returnsrc ? ' data-avatar-key="'.dhtmlspecialchars($avatarname !== '' ? $avatarname : (string)$uid).'"'.($avatarname !== '' ? ' data-avatar-name="'.dhtmlspecialchars($avatarname).'" alt="'.dhtmlspecialchars($avatarname).'"' : '') : '';
 	static $avtstatus;
 	if($avtstatus === null) {
 		$avtstatus = [];
@@ -685,6 +684,15 @@ function avatar($uid, $size = 'middle', $returnsrc = 0, $real = FALSE, $static =
 		}
 		$avatarstatus = $localavatarstatus[$statuskey];
 	}
+	if(!$returnsrc && $avatarname === '' && $uid && $avatarstatus !== 1) {
+		static $avatarnames = [];
+		if(!array_key_exists($uid, $avatarnames)) {
+			$member = C::t('common_member')->fetch($uid);
+			$avatarnames[$uid] = $member['username'] ?? '';
+		}
+		$avatarname = $avatarnames[$uid];
+	}
+	$avatarattr = !$returnsrc ? ' data-avatar-key="'.dhtmlspecialchars($avatarname !== '' ? $avatarname : '?').'"'.($avatarname !== '' ? ' data-avatar-name="'.dhtmlspecialchars($avatarname).'" alt="'.dhtmlspecialchars($avatarname).'"' : '') : '';
 	$avatarmissingattr = $avatarstatus === 0 ? ' data-avatar-missing="1"' : '';
 
 	if($staticavatar == 2 && !$returnsrc && !$real) {
