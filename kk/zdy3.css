@@ -84,8 +84,6 @@ details summary { color:blue; cursor:pointer; }
 /*楼层目录*/
 
 
-.neiid { display:none; }
-
 .dspn{ display:none; }
 .mw100{ max-width:100%; height:auto; }
 .tikzww{ position:fixed; z-index:201; width:500px; height:326px; 
@@ -206,7 +204,6 @@ details summary { color:blue; cursor:pointer; }
     overflow: hidden;
     text-overflow: ellipsis;
   }
-  .neiid { display: unset; color: #429296; font-weight: 700; }
   .plc { padding: 0 5px; }/*帖子主体*/
   .pl .quote {
   	padding: 5px 5px 5px 40px;

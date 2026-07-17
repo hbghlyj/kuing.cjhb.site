@@ -178,7 +178,8 @@ function addLou(elem) {
         if (!MULUSELECT.querySelector('option[value="' + lou.id + '"]')) {
             const option = document.createElement('option');
             option.value = lou.id;
-            option.text = lou.querySelector('td.plc>div.pi>strong>a').firstChild.textContent + ' ' + lou.querySelector('div.authi>a.neiid').innerText;
+            const authorLink = lou.querySelector('td.plc > div.pi .authi > a.xi2:not(.avt)') || lou.querySelector('.favatar > .pi .authi > a');
+            option.text = lou.querySelector('td.plc>div.pi>strong>a').firstChild.textContent + (authorLink ? ' ' + authorLink.textContent : '');
             MULUSELECT.appendChild(option);
             ++MULUSELECT.size;
         }
