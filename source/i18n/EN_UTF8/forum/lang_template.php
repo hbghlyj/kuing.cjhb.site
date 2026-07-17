@@ -1306,7 +1306,6 @@ $lang = array (
 	'waitpicloading'		=> 'Photo loading, wait please',//'组图打开中，请稍候',
 	'text_summary'			=> 'Text summary',//'正文摘要',
 	'view_bigpic'			=> 'View large image',//'只看大图',
-	'read_mode'			=> 'Read mode',//'阅读模式',
 	'fav_thread'			=> 'Bookmark this thread',//'收藏本帖',
 	'rate_position'			=> 'Top list position',//'评分表立场',
 	'follow_spread'			=> 'Broadcast and follow',//'转播求扩散',

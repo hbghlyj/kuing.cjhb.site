@@ -1304,7 +1304,6 @@ $lang = [
 	'waitpicloading' => '組圖打開中，請稍候',
 	'text_summary' => '正文摘要',
 	'view_bigpic' => '只看大圖',
-	'read_mode' => '閲讀模式',
 	'fav_thread' => '收藏本帖',
 	'rate_position' => '評分表立場',
 	'follow_spread' => '轉播求擴散',

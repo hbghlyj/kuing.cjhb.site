@@ -27,7 +27,7 @@ foreach($posts as $post) {
 		$post['message'] = '';
 	}
 
-	$post['dateline'] = dgmdate($post['dateline'], 'u');
+	$post['dateline'] = dgmdate($post['dateline']);
 	if(preg_match('/\[hide\]\s*(.+?)\s*\[\/hide\]/is', $post['message'], $hide)) {
 		if(preg_match_all('/\[attach\](\d+)\[\/attach\]/i', $hide[1], $matchaids)) {
 			$skipaids = array_merge($skipaids, $matchaids[1]);

@@ -653,26 +653,6 @@ function submitpostpw(pid, tid) {
 }
 
 
-function readmode(title, pid) {
-
-	var imagelist = '';
-	if(aimgcount[pid]) {
-		for(var i = 0; i < aimgcount[pid].length;i++) {
-			var aimgObj = $('aimg_'+aimgcount[pid][i]);
-			if(aimgObj.parentElement.className!="mbn") {
-				var src = aimgObj.getAttribute('file');
-				imagelist += '<div class="mbn"><img src="' + src + '" width="600" /></div>';
-			}
-		}
-	}
-	msg = $('postmessage_'+pid).innerHTML+imagelist;
-	msg = '<div style="width:800px;max-height:500px; overflow-y:auto; padding: 10px;" class="pcb">'+msg+'</div>';
-	showDialog(msg, 'info', title, null, 1);
-	var coverObj = $('fwin_dialog_cover');
-	coverObj.style.filter = 'progid:DXImageTransform.Microsoft.Alpha(opacity=90)';
-	coverObj.style.opacity = 0.9;
-}
-
 function changecontentdivid(tid) {
 	if($('postlistreply')) {
 		objtid = $('postlistreply').getAttribute('tid');
