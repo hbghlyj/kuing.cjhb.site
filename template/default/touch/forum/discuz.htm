@@ -149,8 +149,8 @@
 		<!--{if $_G['setting']['mobile']['forum']['statshow']}-->
 		<div class="stat cl">
 			<ul class="flex-box">
-				<li class="flex"><em>$todayposts</em>{lang index_today}</li>
-				<li class="flex"><em>$postdata[0]</em>{lang index_yesterday}</li>
+				<li class="flex"><em><a href="search.php?mod=forum&srchfrom={echo strtotime('today')}&searchsubmit=yes">$todayposts</a></em>{lang index_today}</li>
+				<li class="flex"><em><a href="search.php?mod=forum&srchfrom={echo strtotime('yesterday')}&before={echo strtotime('today')}&searchsubmit=yes">$postdata[0]</a></em>{lang index_yesterday}</li>
 				<li class="flex"><em>$posts</em>{lang index_posts}</li>
 				<li class="flex"><em>$_G['cache']['userstats']['totalmembers']</em>{lang index_members}</li>
 			</ul>
