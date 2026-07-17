@@ -2501,8 +2501,8 @@ function renderInitialAvatar(img) {
 	img.onerror = null;
 	var rect = img.getBoundingClientRect();
 	var fallbackSize = img.getAttribute('data-size') == 'small' ? 48 : img.getAttribute('data-size') == 'big' ? 200 : 120;
-	var width = rect.width || parseFloat(img.getAttribute('width')) || fallbackSize;
-	var height = rect.height || parseFloat(img.getAttribute('height')) || width;
+	var width = parseFloat(img.getAttribute('width')) || rect.width || fallbackSize;
+	var height = parseFloat(img.getAttribute('height')) || rect.height || width;
 	var avatar = document.createElement('span');
 	avatar.className = (img.className ? img.className + ' ' : '') + 'Avatar';
 	avatar.setAttribute('data-avatar-generated', '1');
@@ -2511,9 +2511,10 @@ function renderInitialAvatar(img) {
 	avatar.setAttribute('aria-label', name || key);
 	avatar.title = img.title || name;
 	avatar.style.setProperty('--avatar-bg', color);
-	avatar.style.setProperty('--avatar-size', Math.min(width, height) + 'px');
-	avatar.style.width = width + 'px';
-	avatar.style.height = height + 'px';
+	var size = Math.min(width, height);
+	avatar.style.setProperty('--avatar-size', size + 'px');
+	avatar.style.width = size + 'px';
+	avatar.style.height = size + 'px';
 	avatar.textContent = initial;
 	img.parentNode.replaceChild(avatar, img);
 	return avatar;
