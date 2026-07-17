@@ -1066,7 +1066,7 @@ body.pg_logging, body.pg_register, body.pg_lostpasswd_mobile, body.pg_lostpasswd
 
 /*----- 用户空间 -----*/
 .userinfo {padding-bottom:10px;overflow:hidden}
-.user_avatar {height:200px;background-color:var(--dz-BG-color);background-repeat:no-repeat;background-position:center;background-size:cover !important;text-align:center;overflow:hidden}
+.user_avatar {height:200px;background-repeat:no-repeat;background-position:center;background-size:cover !important;text-align:center;overflow:hidden}
 .user_avatar .avatar_bg {width:100%;height:100%;background:rgb(0,0,0,.7);overflow:hidden}
 .user_avatar .avatar_m {width:60px;height:60px;margin:40px auto 0}
 .user_avatar .avatar_m img {width:60px;height:60px;border-radius:50%}
