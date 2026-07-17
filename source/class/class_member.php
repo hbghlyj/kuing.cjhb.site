@@ -836,12 +836,11 @@ class register_ctl {
 				manage_addnotify('verifyuser');
 			}
 
-			setloginstatus([
-				'uid' => $uid,
-				'username' => $_G['username'],
-				'password' => $password,
-				'groupid' => $groupinfo['groupid'],
-			], 0);
+			$member = getuserbyuid($uid, 1);
+			if(!$member) {
+				showmessage('undefined_action');
+			}
+			setloginstatus($member, 0);
 			include_once libfile('function/stat');
 			updatestat('register');
 
