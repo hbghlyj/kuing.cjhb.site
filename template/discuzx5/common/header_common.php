@@ -8,33 +8,33 @@
 	<!--{eval $is_old_chrome = preg_match('/Windows 7|Windows 8|Windows NT 6|Windows NT 10\.0.*?Chrome\/10[0-9]/', $_SERVER['HTTP_USER_AGENT']);}-->
 	<!--{if $is_old_chrome}--><link href="https://fonts.googleapis.com/css2?family=Noto+Colr+Emoji+Glyf" rel="stylesheet"><!--{/if}-->
 	<style id="en_font_style">
-		:root {
-			--common-font: 'Latin Modern Roman';
-			text-autospace: normal;
-		}
+:root {
+--common-font: 'TeX Gyre Schola';
+text-autospace: normal;
+}
 	@font-face {
-		font-family: 'Latin Modern Roman';
-		src: url('/static/webfont/NewCM10-Book.woff2') format('woff2');
-		font-weight: normal;
-		font-style: normal;
+font-family: 'TeX Gyre Schola';
+src: url('/static/webfont/texgyreschola-regular.otf') format('opentype');
+font-weight: normal;
+font-style: normal;
 	}
 	@font-face {
-		font-family: 'Latin Modern Roman';
-		src: url('/static/webfont/NewCM10-Bold.woff2') format('woff2');
-		font-weight: bold;
-		font-style: normal;
+font-family: 'TeX Gyre Schola';
+src: url('/static/webfont/texgyreschola-bold.otf') format('opentype');
+font-weight: bold;
+font-style: normal;
 	}
 	@font-face {
-		font-family: 'Latin Modern Roman';
-		src: url('/static/webfont/NewCM10-BookItalic.woff2') format('woff2');
-		font-weight: normal;
-		font-style: italic;
+font-family: 'TeX Gyre Schola';
+src: url('/static/webfont/texgyreschola-italic.otf') format('opentype');
+font-weight: normal;
+font-style: italic;
 	}
 	@font-face {
-		font-family: 'Latin Modern Roman';
-		src: url('/static/webfont/NewCM10-BoldItalic.woff2') format('woff2');
-		font-weight: bold;
-		font-style: italic;
+font-family: 'TeX Gyre Schola';
+src: url('/static/webfont/texgyreschola-bolditalic.otf') format('opentype');
+font-weight: bold;
+font-style: italic;
 	}
 	</style>
 	<style id="zh_font_style">
