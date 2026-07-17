@@ -254,11 +254,6 @@ if(submitcheck('settingsubmit')) {
 	showsetting('setting_styles_forumdisplay_forumpicstyle_thumbheight', 'settingnew[forumpicstyle][thumbheight]', $setting['forumpicstyle']['thumbheight'], 'text');
 	showsetting('setting_styles_forumdisplay_forumpicstyle_thumbnum', 'settingnew[forumpicstyle][thumbnum]', $setting['forumpicstyle']['thumbnum'], 'text');
 
-	$stamplist[] = [0, ''];
-	foreach(table_common_smiley::t()->fetch_all_by_type('stamplist') as $smiley) {
-		$stamplist[] = [$smiley['displayorder'], $smiley['code']];
-	}
-	showsetting('setting_styles_forumdisplay_newbie', ['settingnew[newbie]', $stamplist], $setting['newbie'], 'select');
 	showsetting('setting_styles_forumdisplay_disfixednv_forumdisplay', 'settingnew[disfixednv_forumdisplay]', !empty($setting['disfixednv_forumdisplay']), 'radio');
 	showsetting('setting_styles_forumdisplay_threadpreview', 'settingnew[forumdisplaythreadpreview]', !empty($setting['forumdisplaythreadpreview']), 'radio');
 	showtablefooter();

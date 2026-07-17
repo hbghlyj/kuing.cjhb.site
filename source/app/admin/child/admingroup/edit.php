@@ -123,8 +123,6 @@ if(!$submitcheck) {
 		showsetting('admingroup_edit_highlight_thread', 'allowhighlightthreadnew', $group['allowhighlightthread'], 'radio');
 		showsetting('admingroup_edit_live_thread', 'allowlivethreadnew', $group['allowlivethread'], 'radio');
 		showsetting('admingroup_edit_recommend_thread', 'allowrecommendthreadnew', $group['allowrecommendthread'], 'radio');
-		showsetting('admingroup_edit_stamp_thread', 'allowstampthreadnew', $group['allowstampthread'], 'radio');
-		showsetting('admingroup_edit_stamp_list', 'allowstamplistnew', $group['allowstamplist'], 'radio');
 		showsetting('admingroup_edit_close_thread', 'allowclosethreadnew', $group['allowclosethread'], 'radio');
 		showsetting('admingroup_edit_move_thread', 'allowmovethreadnew', $group['allowmovethread'], 'radio');
 		showsetting('admingroup_edit_edittype_thread', 'allowedittypethreadnew', $group['allowedittypethread'], 'radio');
@@ -270,8 +268,6 @@ if(!$submitcheck) {
 			'allowclosethread' => $_GET['allowclosethreadnew'],
 			'allowmovethread' => $_GET['allowmovethreadnew'],
 			'allowedittypethread' => $_GET['allowedittypethreadnew'],
-			'allowstampthread' => $_GET['allowstampthreadnew'],
-			'allowstamplist' => $_GET['allowstamplistnew'],
 			'allowcopythread' => $_GET['allowcopythreadnew'],
 			'allowmergethread' => $_GET['allowmergethreadnew'],
 			'allowsplitthread' => $_GET['allowsplitthreadnew'],
@@ -306,4 +302,4 @@ if(!$submitcheck) {
 
 	cpmsg('admingroups_edit_succeed', 'action=admingroup&operation=edit&'.($multiset ? 'multi='.implode(',', $_GET['multi']) : 'id='.$_GET['id']).'&anchor='.$_GET['anchor'], 'succeed', ['frame' => $multiset]);
 }
-	
+

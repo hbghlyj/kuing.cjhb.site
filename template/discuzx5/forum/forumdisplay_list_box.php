@@ -1,5 +1,5 @@
 <?PHP exit('Access Denied');?>
-<!--{eval require_once libfile('function/forumlist');loadcache(array('stamps', 'usergroups', 'forums')); $attach_on = 0; $list_attach_num = 9;}-->
+<!--{eval require_once libfile('function/forumlist');loadcache(array('usergroups', 'forums')); $attach_on = 0; $list_attach_num = 9;}-->
 <div class="forumportal_listc pbn">
 	<div id="forumnew" style="display:none"></div>			
 	<div id="threadlisttableid">
@@ -76,7 +76,6 @@
 									<span class="kmico kmding">{lang thread_stick}</span>
 								<!--{/if}-->
 								<!--{if $thread['digest'] > 0 && $filter != 'digest'}--><span class="kmico kmjing">{lang thread_digest}</span><!--{/if}-->
-								<!--{if !empty($thread['icon']) && $thread['icon'] >= 0}--><span class="kmico kmicotxt">{$_G['cache']['stamps'][$thread['icon']]['text']}</span><!--{/if}-->									
 								<!--{if $thread['displayorder'] == 0}-->
 									<!--{if $thread['recommendicon'] && $filter != 'recommend'}-->
 										<span class="kmico kmding" title="{lang thread_recommend} $thread['recommends']">{lang thread_recommend_icon}</span>

@@ -11,7 +11,7 @@ if(!defined('IN_DISCUZ')) {
 }
 
 class table_common_smiley extends discuz_table {
-	private $allowtype = ['smiley', 'stamp', 'stamplist'];
+	private $allowtype = ['smiley'];
 
 	public static function t() {
 		static $_instance;

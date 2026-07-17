@@ -74,7 +74,6 @@ $lang = array
 	'UWN'	=> 'Unwarn',//'解除警告',
 
 
-	'SLD'	=> 'Remove Icon',//'撤销图标',
 
 	'REG'	=> 'Recommend Group',//'群组推荐',
 

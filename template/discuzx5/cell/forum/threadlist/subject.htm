@@ -49,7 +49,6 @@
 		<span class="kmico kmding">{lang thread_stick}</span>
 	<!--{/if}-->
 	<!--{if $thread['digest'] > 0 && $filter != 'digest'}--><span class="kmico kmjing">{lang thread_digest}</span><!--{/if}-->
-	<!--{if !empty($thread['icon']) && $thread['icon'] >= 0}--><span class="kmico kmicotxt">{$_G['cache']['stamps'][$thread['icon']]['text']}</span><!--{/if}-->									
 	<!--{if $thread['displayorder'] == 0}-->
 		<!--{if $thread['recommendicon'] && $filter != 'recommend'}-->
 			<span class="kmico kmding" title="{lang thread_recommend} $thread['recommends']">{lang thread_recommend_icon}</span>

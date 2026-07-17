@@ -145,7 +145,6 @@ if(submitcheck('articlesubmit', 0, $seccodecheck, $secqaacheck)) {
 					'dateline' => TIMESTAMP,
 					'action' => 'PTA',
 					'status' => '1',
-					'stamp' => '',
 				];
 				table_forum_threadmod::t()->insert($modarr);
 

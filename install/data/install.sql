@@ -1371,7 +1371,7 @@ CREATE TABLE pre_common_smiley (
     id smallint(6) unsigned NOT NULL AUTO_INCREMENT,
     typeid smallint(6) unsigned NOT NULL,
     displayorder tinyint(1) NOT NULL DEFAULT '0',
-    `type` enum('smiley','stamp','stamplist') NOT NULL DEFAULT 'smiley',
+    `type` enum('smiley') NOT NULL DEFAULT 'smiley',
     `code` varchar(30) NOT NULL DEFAULT '',
     url varchar(30) NOT NULL DEFAULT '',
     PRIMARY KEY (id),
@@ -2683,7 +2683,7 @@ CREATE TABLE pre_forum_moderator (
 DROP TABLE IF EXISTS pre_forum_modwork;
 CREATE TABLE pre_forum_modwork (
   uid mediumint(8) unsigned NOT NULL DEFAULT '0',
-  modaction enum('EDT','DEL','DLP','DCM','PRN','UDL','DIG','UDG','EDI','UED','CLS','OPN','ECL','UEC','EOP','UEO','STK','UST','EST','UES','SPL','MRG','HLT','UHL','EHL','UEH','BMP','DWN','MOV','CPY','TYP','RFD','MOD','ABL','RBL','PTS','RFS','RMR','BNP','UBN','REC','URE','WRN','UWN','SPA','SPD','SLA','SLD','REG','PTA','MAG','REB','LIV','LIC') NOT NULL,
+  modaction enum('EDT','DEL','DLP','DCM','PRN','UDL','DIG','UDG','EDI','UED','CLS','OPN','ECL','UEC','EOP','UEO','STK','UST','EST','UES','SPL','MRG','HLT','UHL','EHL','UEH','BMP','DWN','MOV','CPY','TYP','RFD','MOD','ABL','RBL','PTS','RFS','RMR','BNP','UBN','REC','URE','WRN','UWN','REG','PTA','MAG','REB','LIV','LIC') NOT NULL,
   dateline date NOT NULL DEFAULT '2006-01-01',
   count smallint(6) unsigned NOT NULL DEFAULT '0',
   posts smallint(6) unsigned NOT NULL DEFAULT '0',

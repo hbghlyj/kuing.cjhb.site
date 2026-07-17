@@ -16,7 +16,7 @@ if($_GET['formhash'] != FORMHASH) {
 if(!$_G['uid']) {
 	showmessage('group_nopermission', NULL, ['grouptitle' => $_G['group']['grouptitle']], ['login' => 1]);
 }
-if(in_array($thread['fid'], $_G['setting']['security_forums_white_list']) || $thread['displayorder'] > 0 || $thread['highlight'] || $thread['digest'] || $thread['stamp'] > -1) {
+if(in_array($thread['fid'], $_G['setting']['security_forums_white_list']) || $thread['displayorder'] > 0 || $thread['highlight'] || $thread['digest']) {
 	showmessage('thread_hidden_error', NULL);
 }
 $member = table_common_member::t()->fetch($thread['authorid']);
@@ -37,4 +37,4 @@ if(!in_array($_GET['tid'], $thide)) {
 }
 dsetcookie('thide', implode('|', $thide), 2592000);
 showmessage('thread_hidden_success', dreferer(), [], ['showdialog' => true, 'closetime' => true, 'extrajs' => '<script type="text/javascript" reload="1">$(\'normalthread_'.$_GET['tid'].'\').style.display = \'none\'</script>']);
-	
+

@@ -14,7 +14,7 @@ const NOROBOT = true;
 $_G['inajax'] = 1;
 $_GET['topiclist'] = !empty($_GET['topiclist']) ? (is_array($_GET['topiclist']) ? array_unique($_GET['topiclist']) : $_GET['topiclist']) : [];
 
-loadcache(['modreasons', 'stamptypeid', 'threadtableids']);
+loadcache(['modreasons', 'threadtableids']);
 
 require_once libfile('function/post');
 require_once libfile('function/misc');

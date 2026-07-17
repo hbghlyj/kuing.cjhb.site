@@ -33,9 +33,6 @@ foreach(table_forum_threadmod::t()->fetch_all_by_expiration_status($_G['timestam
 		case 'EDI':
 			$actionarray['UED'][] = $expiry['tid'];
 			break;
-		case 'SPA':
-			$actionarray['SPD'][] = $expiry['tid'];
-			break;
 	}
 }
 
@@ -76,11 +73,6 @@ if($actionarray) {
 					batchupdatecredit('digest', $authorids, ["digestposts=digestposts+'-1'"], -$digest, $fid = 0);
 				}
 				table_forum_thread::t()->update($actionarray[$action], ['digest' => 0], true);
-				break;
-
-			case 'SPD':
-				table_forum_thread::t()->update($actionarray[$action], ['stamp' => -1], true);
-				table_forum_threadmod::t()->update_by_tid_action($tids, ['SPA'], ['status' => 0]);
 				break;
 
 		}

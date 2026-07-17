@@ -675,3 +675,20 @@ CREATE TABLE IF NOT EXISTS pre_common_pm_message_status (
 CREATE TABLE IF NOT EXISTS pre_common_pm_blacklist (
 	uid mediumint(8) unsigned NOT NULL DEFAULT '0', usernames text NOT NULL, PRIMARY KEY (uid)
 ) ENGINE=InnoDB;
+
+/* Remove the retired thread stamp feature and its persisted data. */
+DELETE FROM pre_common_smiley WHERE `type` IN ('stamp', 'stamplist');
+DELETE FROM pre_common_setting WHERE skey IN ('newbie', 'stamplistlevel');
+DELETE FROM pre_common_syscache WHERE cname IN ('stamps', 'stamptypeid');
+DELETE FROM pre_forum_threadmod WHERE action IN ('SPA', 'SPD', 'SLA', 'SLD') OR action REGEXP '^[SL][0-9]{2}$';
+
+ALTER TABLE pre_common_admingroup
+	DROP COLUMN allowstampthread,
+	DROP COLUMN allowstamplist;
+ALTER TABLE pre_forum_thread
+	DROP COLUMN stamp,
+	DROP COLUMN icon;
+ALTER TABLE pre_forum_threadmod
+	DROP COLUMN stamp;
+ALTER TABLE pre_common_smiley
+	MODIFY COLUMN `type` enum('smiley') NOT NULL DEFAULT 'smiley';

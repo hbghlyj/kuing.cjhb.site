@@ -807,7 +807,6 @@ $data = [[
       'allowstickthread' => '1',
       'allowbumpthread' => '1',
       'allowhighlightthread' => '1',
-      'allowstampthread' => '1',
       'allowclosethread' => '1',
       'allowmergethread' => '1',
       'allowsplitthread' => '1',
@@ -1240,9 +1239,6 @@ $data = [[
   ],[
     'skey' => 'networkpage',
     'svalue' => '0',
-  ],[
-    'skey' => 'newbie',
-    'svalue' => '20',
   ],[
     'skey' => 'newbiespan',
     'svalue' => '2',
@@ -1836,9 +1832,6 @@ $data = [[
     'svalue' => '活动
 交友
 discuz',
-  ],[
-    'skey' => 'stamplistlevel',
-    'svalue' => '3',
   ],[
     'skey' => 'starthreshold',
     'svalue' => '2',

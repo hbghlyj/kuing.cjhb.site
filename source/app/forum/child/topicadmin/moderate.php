@@ -147,14 +147,12 @@ if(!submitcheck('modsubmit')) {
 	$tidsarr = array_keys($threadlist);
 	$moderatetids = dimplode($tidsarr);
 	$reason = checkreasonpm();
-	$stampaction = 'SPA';
 	if(empty($operations)) {
 		showmessage('admin_nonexistence');
 	} else {
 		$images = [];
 		foreach($operations as $operation) {
 
-			$stampstatus = 0;
 			$updatemodlog = TRUE;
 			if($operation == 'stick') {
 				$sticklevel = intval($_GET['sticklevel']);
@@ -187,12 +185,6 @@ if(!submitcheck('modsubmit')) {
 				$modaction = $sticklevel ? ($expiration ? 'EST' : 'STK') : 'UST';
 				table_forum_threadmod::t()->update_by_tid_action($tidsarr, ['STK', 'UST', 'EST', 'UES'], ['status' => 0]);
 				table_forum_threadhidelog::t()->delete_by_tid($tidsarr);
-
-				if(!$sticklevel) {
-					$stampaction = 'SPD';
-				}
-
-				$stampstatus = 1;
 
 			} elseif($operation == 'highlight') {
 				if(!$_G['group']['allowhighlightthread']) {
@@ -247,9 +239,6 @@ if(!submitcheck('modsubmit')) {
 						if($digestlevel == 0 && $thread['digest'] > 0) {
 							$extsql = ['digestposts' => -1];
 						}
-						if($digestlevel == 0) {
-							$stampaction = 'SPD';
-						}
 						updatecreditbyaction('digest', $thread['authorid'], $extsql, '', $digestlevel - $thread['digest']);
 						table_common_member_secwhite::t()->add($thread['authorid']);
 					}
@@ -257,8 +246,6 @@ if(!submitcheck('modsubmit')) {
 
 				$modaction = $digestlevel ? ($expiration ? 'EDI' : 'DIG') : 'UDG';
 				table_forum_threadmod::t()->update_by_tid_action($tidsarr, ['DIG', 'UDI', 'EDI', 'UED'], ['status' => 0]);
-
-				$stampstatus = 2;
 
 			} elseif($operation == 'recommend') {
 				if(!$_G['group']['allowrecommendthread']) {
@@ -338,9 +325,7 @@ if(!submitcheck('modsubmit')) {
 
 				} else {
 					table_forum_forumrecommend::t()->delete($tidsarr);
-					$stampaction = 'SPD';
 				}
-				$stampstatus = 3;
 
 			} elseif($operation == 'bump') {
 				if(!$_G['group']['allowbumpthread']) {
@@ -702,10 +687,6 @@ if(!submitcheck('modsubmit')) {
 				}
 			}
 
-			if($stampstatus) {
-				set_stamp($stampstatus, $stampaction, $threadlist, $expiration);
-			}
-
 			// 当进行管理操作后, 更新相关板块的板块缓存
 			$fidarr = [];
 			foreach($threadlist as $thread) {
@@ -730,22 +711,6 @@ function checkexpiration($expiration, $operation) {
 		$expiration = 0;
 	}
 	return $expiration;
-}
-
-function set_stamp($typeid, $stampaction, &$threadlist, $expiration) {
-	global $_G;
-	$moderatetids = array_keys($threadlist);
-	if(empty($threadlist)) {
-		return false;
-	}
-	if(array_key_exists($typeid, $_G['cache']['stamptypeid'])) {
-		if($stampaction == 'SPD') {
-			table_forum_thread::t()->update($moderatetids, ['stamp' => -1], true);
-		} else {
-			table_forum_thread::t()->update($moderatetids, ['stamp' => $_G['cache']['stamptypeid'][$typeid]], true);
-		}
-		!empty($moderatetids) && updatemodlog($moderatetids, $stampaction, $expiration, 0, '', $_G['cache']['stamptypeid'][$typeid]);
-	}
 }
 
 function get_expiration($tid, $action) {
