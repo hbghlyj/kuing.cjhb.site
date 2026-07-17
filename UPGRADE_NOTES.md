@@ -66,6 +66,7 @@ $_config['output']['upgradeinsecure'] = 1;
 - 发帖编辑器在源码编辑模式和 WYSIWYG 模式之间切换时，会尽量保留未编辑内容的原始源码文本（可能是 BBCode，也可能是 HTML）。
 - 如果需要把一段 BBCode 转换为 HTML，或把一段 HTML 转换回 BBCode，可以先在普通编辑框中粘贴代码，切换到 WYSIWYG 模式，再切换“HTML 代码”编辑状态，最后切回普通编辑模式。
 - 切换“HTML 代码”状态会丢弃未编辑内容的原始源码缓冲，因此最终切回普通编辑模式时会基于当前 WYSIWYG 内容重新转换。
+- 用户在帖子 HTML 中写入的 `<em>` 会以正常字形显示。全局 UI 样式将 `<em>` 作为中性结构元素重置为 `font-style: normal`；Discuz 的 `[i]...[/i]` BBCode 则会渲染为 `<i>`，并在帖子内容中保持斜体。
 
 ## Database Migrations Required
 
