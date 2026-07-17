@@ -692,7 +692,7 @@ function avatar($uid, $size = 'middle', $returnsrc = 0, $real = FALSE, $static =
 		}
 		$avatarname = $avatarnames[$uid];
 	}
-	$avatarattr = !$returnsrc ? ' data-avatar-key="'.dhtmlspecialchars($avatarname !== '' ? $avatarname : '?').'"'.($avatarname !== '' ? ' data-avatar-name="'.dhtmlspecialchars($avatarname).'" alt="'.dhtmlspecialchars($avatarname).'"' : '') : '';
+	$avatarattr = !$returnsrc ? ' data-avatar-key="'.dhtmlspecialchars($avatarname !== '' ? $avatarname : '?').'" data-avatar-size="'.$size.'"'.($avatarname !== '' ? ' data-avatar-name="'.dhtmlspecialchars($avatarname).'" alt="'.dhtmlspecialchars($avatarname).'"' : '') : '';
 	$avatarmissingattr = $avatarstatus === 0 ? ' data-avatar-missing="1"' : '';
 
 	if($staticavatar == 2 && !$returnsrc && !$real) {

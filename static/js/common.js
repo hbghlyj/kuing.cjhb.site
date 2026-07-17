@@ -2499,10 +2499,26 @@ function renderInitialAvatar(img) {
 	var initial = Array.from(name)[0] || '?';
 	var color = avatarColor(key);
 	img.onerror = null;
+	img.alt = '';
 	var rect = img.getBoundingClientRect();
-	var fallbackSize = img.getAttribute('data-size') == 'small' ? 48 : img.getAttribute('data-size') == 'big' ? 200 : 120;
-	var width = parseFloat(img.getAttribute('width')) || rect.width || fallbackSize;
-	var height = parseFloat(img.getAttribute('height')) || rect.height || width;
+	var avatarSize = img.getAttribute('data-avatar-size') || img.getAttribute('data-size');
+	var fallbackSize = avatarSize == 'small' ? 36 : avatarSize == 'big' ? 200 : 120;
+	var width = parseFloat(img.getAttribute('width')) || rect.width;
+	var height = parseFloat(img.getAttribute('height')) || rect.height;
+	var container = img.parentElement;
+	while((!width || !height) && container && container != document.body) {
+		var containerStyle = getComputedStyle(container);
+		var containerWidth = parseFloat(containerStyle.width);
+		var containerHeight = parseFloat(containerStyle.height);
+		if(containerWidth && containerHeight) {
+			width = containerWidth;
+			height = containerHeight;
+			break;
+		}
+		container = container.parentElement;
+	}
+	width = width || fallbackSize;
+	height = height || width;
 	var avatar = document.createElement('span');
 	avatar.className = (img.className ? img.className + ' ' : '') + 'Avatar';
 	avatar.setAttribute('data-avatar-generated', '1');

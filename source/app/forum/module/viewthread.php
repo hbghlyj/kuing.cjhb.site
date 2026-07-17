@@ -1000,9 +1000,10 @@ function viewthread_procpost($post, $lastvisit, $ordertype, $maxposition = 0) {
 			}
 		}
 
-		$avataroptions = ['username' => empty($post['anonymous']) ? ($post['username'] ?: $post['author']) : ''];
+		$avataroptions = ['username' => empty($post['anonymous']) ? ($post['username'] ?: $post['author']) : $_G['setting']['anonymoustext']];
 		isset($post['avatarstatus']) && $avataroptions['avatarstatus'] = $post['avatarstatus'];
 		$post['avatar'] = avatar($post['authorid'], 'middle', $avataroptions);
+		$post['avatarsmall'] = defined('IN_MOBILE') ? avatar(empty($post['anonymous']) ? $post['authorid'] : 0, 'small', $avataroptions) : '';
 		$post['groupicon'] = $post['avatar'] ? g_icon($post['groupid'], 1) : '';
 		$post['banned'] = $post['status'] & 1;
 		$post['warned'] = ($post['status'] & 2) >> 1;
