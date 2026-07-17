@@ -794,6 +794,9 @@ class register_ctl {
 
 			if(!$activation) {
 				$uid = native_user_create($username, $_GET['password'], $email, $_G['clientip'], $groupinfo['groupid'], $init_arr, 0, $_G['remoteport'], $secprofile['secmobicc'], $secprofile['secmobile'], 0, $questionid, $answer);
+				if($uid <= 0) {
+					showmessage('undefined_action');
+				}
 			} else {
 				table_common_member::t()->insert_user($uid, $username, $password, $email, $_G['clientip'], $groupinfo['groupid'], $init_arr, 0, $_G['remoteport']);
 			}

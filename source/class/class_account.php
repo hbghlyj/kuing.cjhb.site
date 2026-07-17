@@ -140,6 +140,9 @@ class account {
 			$this->user['secmobile'] ?? '',
 			$this->user['secmobilestatus'] ? 1 : 0
 		);
+		if($uid <= 0) {
+			return 'undefined_action';
+		}
 		$this->user['uid'] = $uid;
 		$this->userBind($uid);
 		$this->userLogin();

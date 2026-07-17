@@ -121,11 +121,20 @@ function native_user_register($username, $password, $email = '', $questionid = '
 }
 
 function native_user_create($username, $password, $email, $ip, $groupid, $extdata, $adminid = 0, $port = 0, $secmobicc = '', $secmobile = '', $secmobilestatus = 0, $questionid = '', $answer = '') {
-	$uid = table_common_member::t()->insert_user(0, $username, md5(random(10)), $email, $ip, $groupid, $extdata, $adminid, $port, $secmobicc, $secmobile, $secmobilestatus);
-	if($uid > 0) {
-		C::t('common_member_auth')->upsert($uid, native_user_generate_password($password), '', native_user_quescrypt($questionid, $answer));
+	$passwordhash = native_user_generate_password($password);
+	DB::begin_transaction();
+	try {
+		$uid = table_common_member::t()->insert_user(0, $username, md5(random(10)), $email, $ip, $groupid, $extdata, $adminid, $port, $secmobicc, $secmobile, $secmobilestatus);
+		if($uid <= 0 || !C::t('common_member_auth')->upsert($uid, $passwordhash, '', native_user_quescrypt($questionid, $answer))) {
+			DB::rollback();
+			return 0;
+		}
+		DB::commit();
+		return $uid;
+	} catch(Throwable $exception) {
+		DB::rollback();
+		throw $exception;
 	}
-	return $uid;
 }
 
 function native_user_login($username, $password, $isuid = 0, $checkques = 0, $questionid = '', $answer = '', $ip = '', $nolog = 0) {

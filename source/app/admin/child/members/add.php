@@ -103,6 +103,9 @@ if(!submitcheck('addsubmit')) {
 	loadcache('fields_register');
 	$init_arr = explode(',', $_G['setting']['initcredits']);
 	$uid = native_user_create($newusername, $newpassword, $newemail, 'Manual Acting', $_GET['newgroupid'], $init_arr, $newadminid);
+	if($uid <= 0) {
+		cpmsg('members_add_invalid', '', 'error');
+	}
 	if($_GET['emailnotify']) {
 		if(!function_exists('sendmail')) {
 			include libfile('function/mail');
