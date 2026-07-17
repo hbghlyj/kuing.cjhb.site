@@ -909,7 +909,7 @@ a.thread_mod { height: 19px; line-height: 19px; display: inline-block; color: #4
 		#pl_top .pls { text-indent: 15px; }
 
 /* 帖子作者、时间、楼层等一些属性所在区块 */
-	.pi { margin-bottom: 10px; padding: 6px 0; height: 24px; }
+	.pi { margin-bottom: 10px; padding: 6px 0; height: 36px; }
 		.pi strong a { float: right; margin-top: -6px; padding: 4px 6px; border: 1px solid {WRAPBG}; font-weight: 400; }
 			.pi strong a:hover { border-color: {COMMONBORDER}; }
 		.pls .pi { padding-left: 15px; }
