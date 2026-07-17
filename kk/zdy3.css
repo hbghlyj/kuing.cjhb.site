@@ -52,7 +52,6 @@ i.pstatus { margin-bottom: unset; }
 .mtw.mbw .xl.xl2.cl li {
     /*height: max-content;*/
     height: unset;
-    float: none;
     width: 32%;
     margin-right: 5px;
     display: inline-block;
