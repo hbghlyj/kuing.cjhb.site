@@ -8,7 +8,7 @@
 			<!--{loop $bloglist $blog}-->
 			<li class="list">
 				<div class="threadlist_top cl">
-					<a href="home.php?mod=space&uid={$blog['uid']}" class="mimg"><img src="<!--{avatar($blog['uid'], 'middle', true)}-->"></a>
+					<a href="home.php?mod=space&uid={$blog['uid']}" class="mimg"><!--{echo avatar($blog['uid'], 'middle', ['username' => $blog['username'], 'static' => true])}--></a>
 					<div class="muser">
 						<h3><a href="home.php?mod=space&uid={$blog['uid']}" class="mmc">{$blog['username']}</a></h3>
 						<span class="mtime">{$blog['dateline']}</span>
