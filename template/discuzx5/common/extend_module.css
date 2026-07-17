@@ -125,7 +125,7 @@
 .pbg2{background:var(--dz-bgc)}
 .pls .o li:before{float: none;}
 
-.pls {width:220px;background:var(--dz-bgf);border-right:1px solid var(--dz-borderb);border-radius:var(--dz-radius-m)}
+.pls {background:var(--dz-bgf);border-right:1px solid var(--dz-borderb);border-radius:var(--dz-radius-m)}
 .pls .pi {margin:0 20px;padding:15px 0;font-size:14px;line-height:16px}
 .pls .pi .km_lname {margin-right:4px}
 .pls .pi a {color:var(--dz-fb)}
