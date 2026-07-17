@@ -31,16 +31,14 @@ class table_common_failedlogin extends discuz_table {
 		return DB::fetch_first('SELECT * FROM %t WHERE ip=%s AND username=%s', [$this->_table, $ip, $username]);
 	}
 
-	public function fetch_ip($ip) {
-		return DB::fetch_first('SELECT * FROM %t WHERE ip=%s', [$this->_table, $ip]);
-	}
-
 	public function delete_old($time) {
 		DB::query('DELETE FROM %t WHERE lastupdate<%d', [$this->_table, TIMESTAMP - intval($time)], 'UNBUFFERED');
 	}
 
-	public function update_failed($ip) {
-		DB::query('UPDATE %t SET count=count+1, lastupdate=%d WHERE ip=%s', [$this->_table, TIMESTAMP, $ip]);
+	public function update_failed($ip, $username) {
+		foreach([[$ip, ''], ['', $username]] as $key) {
+			DB::query('INSERT INTO %t (`ip`, `username`, `count`, `lastupdate`) VALUES (%s, %s, 1, %d) ON DUPLICATE KEY UPDATE `count`=LEAST(`count`+1, 255), `lastupdate`=%d', [$this->_table, $key[0], $key[1], TIMESTAMP, TIMESTAMP]);
+		}
 	}
 
 }

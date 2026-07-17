@@ -131,16 +131,22 @@ function native_user_create($username, $password, $email, $ip, $groupid, $extdat
 function native_user_login($username, $password, $isuid = 0, $checkques = 0, $questionid = '', $answer = '', $ip = '', $nolog = 0) {
 	$user = native_user_fetch(stripslashes($username), intval($isuid));
 	if(empty($user['uid'])) {
+		if(!$nolog && $ip) {
+			native_user_loginfailed($username, $ip);
+		}
 		return [-1, '', '', ''];
 	}
 	$auth = C::t('common_member_auth')->fetch($user['uid']);
 	if(empty($auth) || !native_user_verify_password($password, $auth['password'], $auth['salt'])) {
-		if(!$nolog) {
+		if(!$nolog && $ip) {
 			native_user_loginfailed($username, $ip);
 		}
 		return [-2, '', '', ''];
 	}
 	if($checkques && !empty($auth['secques']) && $auth['secques'] !== native_user_quescrypt($questionid, $answer)) {
+		if(!$nolog && $ip) {
+			native_user_loginfailed($username, $ip);
+		}
 		return [-3, '', '', ''];
 	}
 	if(!empty($auth['salt']) || password_needs_rehash($auth['password'], PASSWORD_DEFAULT)) {
@@ -218,8 +224,17 @@ function native_user_deleteavatar($uid) {
 }
 
 function native_user_checkname($username, $censor = true) {
+	$rawusername = trim($username);
 	$username = trim(stripslashes($username));
-	if($username === '' || dstrlen($username) < 3 || dstrlen($username) > 50 || preg_match('/[<>\'\"\\\\]/', $username)) {
+	$invalidstrings = ['%', ',', '*', '"', '<', '>', '&', "'", '\\', '　', '游客', '遊客'];
+	$invalid = preg_match('/[\x00-\x1F\x7F]/', $username) || stripos($username, 'Guest') === 0 || stripos($rawusername, 'c:\\con\\con') === 0;
+	foreach($invalidstrings as $string) {
+		if(str_contains($username, $string) || str_contains($rawusername, $string)) {
+			$invalid = true;
+			break;
+		}
+	}
+	if($username === '' || dstrlen($username) < 3 || dstrlen($username) > 50 || $invalid) {
 		return -1;
 	}
 	if($censor) {
@@ -275,18 +290,39 @@ function native_user_chgusername($uid, $newusername, $oldusername = '') {
 }
 
 function native_user_logincheck($username, $ip) {
-	$login = table_common_failedlogin::t()->fetch_ip($ip);
-	$return = (!$login || (TIMESTAMP - $login['lastupdate'] > 900)) ? 5 : max(0, 5 - $login['count']);
-	if(!$login || TIMESTAMP - $login['lastupdate'] > 900) {
-		table_common_failedlogin::t()->insert(['ip' => $ip, 'count' => 0, 'lastupdate' => TIMESTAMP], false, true);
-		table_common_failedlogin::t()->delete_old(901);
+	$configured = intval(getglobal('config/security/loginfailedtimes'));
+	$limit = $configured > 0 ? min($configured, 255) : ($configured < 0 ? 0 : 5);
+	if(!$limit) {
+		return -1;
 	}
-	return $return;
+
+	$ip = $ip ?: getglobal('clientip');
+	$usernamekey = md5(strtolower(trim(stripslashes($username))));
+	$table = table_common_failedlogin::t();
+	$checks = [
+		[$ip, '', $table->fetch_username($ip, '')],
+		['', $usernamekey, $table->fetch_username('', $usernamekey)],
+	];
+	$remaining = $limit;
+	$reset = false;
+	foreach($checks as [$checkip, $checkusername, $login]) {
+		if(!$login || TIMESTAMP - $login['lastupdate'] > 900) {
+			$table->insert(['ip' => $checkip, 'username' => $checkusername, 'count' => 0, 'lastupdate' => TIMESTAMP], false, true);
+			$reset = true;
+		} else {
+			$remaining = min($remaining, max(0, $limit - intval($login['count'])));
+		}
+	}
+	if($reset) {
+		$table->delete_old(901);
+	}
+	return $remaining;
 }
 
 function native_user_loginfailed($username, $ip = '') {
 	$ip = $ip ?: getglobal('clientip');
-	table_common_failedlogin::t()->update_failed($ip);
+	$usernamekey = md5(strtolower(trim(stripslashes($username))));
+	table_common_failedlogin::t()->update_failed($ip, $usernamekey);
 }
 
 function native_user_synlogin($uid) {

@@ -38,13 +38,13 @@ function userlogin($username, $password, $questionid, $answer, $loginfield = 'us
 			$return['ucresult'] = native_user_login($username, $password, 4, 1, $questionid, $answer, $ip, 1);
 		}
 		if($return['ucresult'][0] <= 0 && $return['ucresult'][0] != -3) {
-			$return['ucresult'] = native_user_login(addslashes($username), $password, 0, 1, $questionid, $answer, $ip);
+			$return['ucresult'] = native_user_login(addslashes($username), $password, 0, 1, $questionid, $answer, $ip, 1);
 		}
 	} else {
 		if($isuid == 4) {
 			$username = !str_contains($username, '-') ? (getglobal('setting/smsdefaultcc').'-'.$username) : $username;
 		}
-		$return['ucresult'] = native_user_login(addslashes($username), $password, $isuid, 1, $questionid, $answer, $ip);
+		$return['ucresult'] = native_user_login(addslashes($username), $password, $isuid, 1, $questionid, $answer, $ip, 1);
 	}
 	$tmp = [];
 	$duplicate = '';

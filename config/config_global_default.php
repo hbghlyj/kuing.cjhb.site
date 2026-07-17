@@ -159,6 +159,7 @@ $_config['cookie']['cookiepath'] 		= '/'; 		// COOKIE作用路径
 
 // 站点安全设置
 $_config['security']['authkey']			= 'asdfasfas';	// 站点加密密钥
+$_config['security']['loginfailedtimes']	= 5;		// 15 分钟内允许的登录失败次数，0=默认 5 次，负数=不限制（不推荐）
 $_config['security']['urlxssdefend']		= true;		// 自身 URL XSS 防御
 $_config['security']['attackevasive']		= 0;		// CC 攻击防御 1|2|4|8
 $_config['security']['onlyremoteaddr']		= 1;		// 用户IP地址获取方式 0=信任HTTP_CLIENT_IP、HTTP_X_FORWARDED_FOR(默认) 1=只信任 REMOTE_ADDR(推荐)
