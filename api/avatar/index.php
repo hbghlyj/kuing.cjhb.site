@@ -15,6 +15,10 @@ if(getgpc('m') !== 'user' || getgpc('a') !== 'rectavatar') {
 	exit;
 }
 
+if($_SERVER['REQUEST_METHOD'] !== 'POST' || empty($_G['uid']) || !hash_equals((string)FORMHASH, (string)getgpc('formhash', 'P'))) {
+	avatar_response(false, 403);
+}
+
 $ftp = getglobal('setting/ftp');
 $oss = getglobal('setting/oss');
 
@@ -26,39 +30,89 @@ $avatartype = getgpc('avatartype', 'G') == 'real' ? 'real' : 'virtual';
 $storageRoot = (!empty($ftp['on']) && $ftp['on'] == 2 && $oss['oss_avatar']) ? DISCUZ_DATA.'attachment/' : DISCUZ_ROOT.'./data/';
 $storagePrefix = 'avatar/';
 
-$bigavatarfile = $storagePrefix.get_avatar($_G['uid'], 'big', $avatartype);
-dmkdir(dirname($storageRoot.$bigavatarfile));
-$middleavatarfile = $storagePrefix.get_avatar($_G['uid'], 'middle', $avatartype);
-dmkdir(dirname($storageRoot.$middleavatarfile));
-$smallavatarfile = $storagePrefix.get_avatar($_G['uid'], 'small', $avatartype);
-dmkdir(dirname($storageRoot.$smallavatarfile));
-
-$bigavatar = base64_decode(getgpc('avatar1', 'P'));
-$middleavatar = base64_decode(getgpc('avatar2', 'P'));
-$smallavatar = base64_decode(getgpc('avatar3', 'P'));
-if(!$bigavatar || !$middleavatar || !$smallavatar) {
-	echo "<script>window.parent.postMessage('failure','*');</script>";
-	exit;
+$avatars = [
+	['file' => $storagePrefix.get_avatar($_G['uid'], 'big', $avatartype), 'data' => avatar_image('avatar1', 200, 250)],
+	['file' => $storagePrefix.get_avatar($_G['uid'], 'middle', $avatartype), 'data' => avatar_image('avatar2', 120, 120)],
+	['file' => $storagePrefix.get_avatar($_G['uid'], 'small', $avatartype), 'data' => avatar_image('avatar3', 48, 48)],
+];
+foreach($avatars as $avatar) {
+	if($avatar['data'] === false) {
+		avatar_response(false, 400);
+	}
 }
 
-$success = file_put_contents($storageRoot.$bigavatarfile, $bigavatar) !== false
-	&& file_put_contents($storageRoot.$middleavatarfile, $middleavatar) !== false
-	&& file_put_contents($storageRoot.$smallavatarfile, $smallavatar) !== false;
+$tempfiles = [];
+$success = true;
+foreach($avatars as $avatar) {
+	$target = $storageRoot.$avatar['file'];
+	dmkdir(dirname($target));
+	$temp = $target.'.'.bin2hex(random_bytes(8)).'.tmp';
+	if(!is_dir(dirname($target)) || file_put_contents($temp, $avatar['data'], LOCK_EX) !== strlen($avatar['data'])) {
+		if(is_file($temp)) {
+			@unlink($temp);
+		}
+		$success = false;
+		break;
+	}
+	$tempfiles[$temp] = $target;
+}
+if($success) {
+	foreach($tempfiles as $temp => $target) {
+		if(!@rename($temp, $target)) {
+			$success = false;
+			break;
+		}
+	}
+}
+foreach($tempfiles as $temp => $target) {
+	if(is_file($temp)) {
+		@unlink($temp);
+	}
+}
 
 if($success && !empty($ftp['on']) && $ftp['on'] == 2 && $oss['oss_avatar']) {
-	ftpcmd('upload', $bigavatarfile);
-	ftpcmd('upload', $middleavatarfile);
-	ftpcmd('upload', $smallavatarfile);
-	@unlink($storageRoot.$bigavatarfile);
-	@unlink($storageRoot.$middleavatarfile);
-	@unlink($storageRoot.$smallavatarfile);
+	foreach($avatars as $avatar) {
+		if(!ftpcmd('upload', $avatar['file'])) {
+			$success = false;
+		}
+	}
+	if($success) {
+		foreach($avatars as $avatar) {
+			@unlink($storageRoot.$avatar['file']);
+		}
+	}
 }
 
 if($success && !$_G['member']['avatarstatus']) {
 	table_common_member::t()->update($_G['uid'], ['avatarstatus' => '1']);
 }
 
-echo $success ? "<script>window.parent.postMessage('success','*');</script>" : "<script>window.parent.postMessage('failure','*');</script>";
+avatar_response($success, $success ? 200 : 500);
+
+function avatar_image($name, $maxwidth, $maxheight) {
+	$encoded = getgpc($name, 'P');
+	if(!is_string($encoded) || strlen($encoded) > 4 * 1024 * 1024) {
+		return false;
+	}
+	$image = base64_decode($encoded, true);
+	if($image === false || strlen($image) < 4 || strlen($image) > 2 * 1024 * 1024 || !str_starts_with($image, "\xFF\xD8") || !str_ends_with($image, "\xFF\xD9")) {
+		return false;
+	}
+	if(function_exists('getimagesizefromstring')) {
+		$info = @getimagesizefromstring($image);
+		if(!$info || $info[2] !== IMAGETYPE_JPEG || $info[0] < 1 || $info[1] < 1 || $info[0] > $maxwidth || $info[1] > $maxheight) {
+			return false;
+		}
+	}
+	return $image;
+}
+
+function avatar_response($success, $status = 200) {
+	http_response_code($status);
+	$result = $success ? 'success' : 'failure';
+	echo '<script>window.parent.postMessage('.json_encode($result).',"*");</script>';
+	exit;
+}
 
 function get_avatar($uid, $size = 'big', $type = '') {
 	$size = in_array($size, ['big', 'middle', 'small']) ? $size : 'big';
