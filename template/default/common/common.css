@@ -104,7 +104,7 @@ Last Modify:	Pony
 	.iconfont { width: 1.5em; height: 1.5em; vertical-align: middle; fill: currentColor; overflow: hidden; }
 	/* 消除修改DOCTYPE为HTML5以后造成的img基线问题 */
 	img.boardlogo, img.user_avatar, .slideimage img { vertical-align: middle; }
-	.Avatar { display: inline-flex; align-items: center; justify-content: center; box-sizing: content-box; color: #FFF; vertical-align: top; background-color: var(--avatar-bg); font-size: calc(var(--avatar-size, 48px) / 2); font-weight: 400; line-height: 1; border-radius: 100%; overflow: hidden; }
+	.Avatar { display: inline-flex; align-items: center; justify-content: center; box-sizing: content-box; width: var(--avatar-size, 36px); height: var(--avatar-size, 36px); color: #FFF; vertical-align: top; background-color: var(--avatar-bg); font-size: calc(var(--avatar-size, 36px) / 2); font-weight: 400; line-height: 1; border-radius: 100%; overflow: hidden; }
 /*
 	Name:			mod_float
 	Level:			Global
@@ -284,7 +284,7 @@ Last Modify:	Pony
 			.ntc_l .d:hover { background: #F99; }
 
 /* 圆角 [!]此处考虑弃用 */
-	.brs, .avt img, .oshr { -moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px; }
+	.brs, .avt img, .avt .Avatar, .oshr { -moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px; }
 	.brm { -moz-border-radius: 10px; -webkit-border-radius: 10px;  border-radius: 10px; }
 	.brw { -moz-border-radius: 20px; -webkit-border-radius: 20px; border-radius: 20px;  }
 /*
@@ -321,6 +321,7 @@ Last Modify:	Pony
 	Last Modify:	lushnis
 */
 	.avt img { padding: 2px; width: 48px; height: 48px; background: {WRAPBG}; border: 1px solid; border-color: {COMMONBG} {COMMONBORDER} {COMMONBORDER} {COMMONBG}; }
+	.avt .Avatar { padding: 2px; width: 48px; height: 48px; background-color: var(--avatar-bg); border: 1px solid; border-color: {COMMONBG} {COMMONBORDER} {COMMONBORDER} {COMMONBG}; font-size: 24px; }
 /*
 	Name:			mod_avatar_middle, mod_avatar_small
 	Level:			Global

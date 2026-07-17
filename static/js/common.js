@@ -2503,8 +2503,9 @@ function renderInitialAvatar(img) {
 	var rect = img.getBoundingClientRect();
 	var avatarSize = img.getAttribute('data-avatar-size') || img.getAttribute('data-size');
 	var fallbackSize = avatarSize == 'small' ? 36 : avatarSize == 'big' ? 200 : 120;
-	var width = parseFloat(img.getAttribute('width')) || rect.width;
-	var height = parseFloat(img.getAttribute('height')) || rect.height;
+	var imageMissing = img.hasAttribute('data-avatar-missing') || img.complete && !img.naturalWidth;
+	var width = parseFloat(img.getAttribute('width')) || (imageMissing ? 0 : rect.width);
+	var height = parseFloat(img.getAttribute('height')) || (imageMissing ? 0 : rect.height);
 	var container = img.parentElement;
 	while((!width || !height) && container && container != document.body) {
 		var containerStyle = getComputedStyle(container);
@@ -2529,8 +2530,6 @@ function renderInitialAvatar(img) {
 	avatar.style.setProperty('--avatar-bg', color);
 	var size = Math.min(width, height);
 	avatar.style.setProperty('--avatar-size', size + 'px');
-	avatar.style.width = size + 'px';
-	avatar.style.height = size + 'px';
 	avatar.textContent = initial;
 	img.parentNode.replaceChild(avatar, img);
 	return avatar;
