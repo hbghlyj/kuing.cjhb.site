@@ -31,9 +31,8 @@ class logging_ctl {
 		global $_G;
 		if($_G['uid']) {
 			$referer = dreferer();
-			$ucsynlogin = $this->setting['allowsynlogin'] ? native_user_synlogin($_G['uid']) : '';
 			$param = ['username' => $_G['member']['username'], 'usergroup' => $_G['group']['grouptitle'], 'uid' => $_G['member']['uid']];
-			showmessage('login_succeed', $referer ? $referer : './', $param, ['showdialog' => 1, 'locationtime' => true, 'extrajs' => $ucsynlogin]);
+			showmessage('login_succeed', $referer ? $referer : './', $param, ['showdialog' => 1, 'locationtime' => true]);
 		}
 
 		list($seccodecheck, $secqaacheck) = seccheck('login');
@@ -107,21 +106,6 @@ class logging_ctl {
 				$this->logging_more($result['ucresult']['uid'] == -3);
 			}
 
-			if($result['status'] == -1) {
-				if(!$this->setting['fastactivation']) {
-					$auth = authcode($result['ucresult']['username']."\t".FORMHASH, 'ENCODE');
-					showmessage('location_activation', 'member.php?mod='.$this->setting['regname'].'&action=activation&auth='.rawurlencode($auth).'&referer='.rawurlencode(dreferer()), [], ['location' => true]);
-				} else {
-					$init_arr = explode(',', $this->setting['initcredits']);
-					$groupid = $this->setting['regverify'] ? 8 : $this->setting['newusergroupid'];
-
-					table_common_member::t()->insert_user($uid, $result['ucresult']['username'], md5(random(10)), $result['ucresult']['email'], $_G['clientip'], $groupid, $init_arr);
-					$_G['member']['lastvisit'] = TIMESTAMP;
-					$result['member'] = getuserbyuid($uid);
-					$result['status'] = 1;
-				}
-			}
-
 			if($result['status'] > 0) {
 
 				if($this->extrafile && file_exists($this->extrafile)) {
@@ -144,7 +128,6 @@ class logging_ctl {
 					dsetcookie('lip', $_G['member']['lastip'].','.$_G['member']['lastvisit']);
 				}
 				table_common_member_status::t()->update($_G['uid'], ['lastip' => $_G['clientip'], 'port' => $_G['remoteport'], 'lastvisit' => TIMESTAMP, 'lastactivity' => TIMESTAMP]);
-				$ucsynlogin = $this->setting['allowsynlogin'] ? native_user_synlogin($_G['uid']) : '';
 
 				$pwold = false;
 				if($this->setting['strongpw']) {
@@ -231,13 +214,11 @@ class logging_ctl {
 					'usergroup' => $_G['group']['grouptitle'],
 					'uid' => $_G['member']['uid'],
 					'groupid' => $_G['groupid'],
-					'syn' => $ucsynlogin ? 1 : 0
 				];
 
 				$extra = [
 					'showdialog' => true,
 					'locationtime' => true,
-					'extrajs' => $ucsynlogin
 				];
 
 				if(!$freeze || !$this->setting['accountguard']['loginpwcheck']) {
@@ -265,9 +246,7 @@ class logging_ctl {
 						showmessage($loginmessage, $location, $param, ['location' => true]);
 					} else {
 						if(!empty($_GET['lssubmit'])) {
-							if(!$ucsynlogin) {
-								$extra['location'] = true;
-							}
+							$extra['location'] = true;
 							showmessage($loginmessage, $location, $param, $extra);
 						} else {
 							$extra['location'] = true;
@@ -310,10 +289,8 @@ class logging_ctl {
 	function on_logout() {
 		global $_G;
 
-		$ucsynlogout = $this->setting['allowsynlogin'] ? native_user_synlogout() : '';
-
 		if($_GET['formhash'] != $_G['formhash']) {
-			showmessage('logout_succeed', dreferer(), ['formhash' => FORMHASH, 'ucsynlogout' => $ucsynlogout, 'referer' => rawurlencode(dreferer())]);
+			showmessage('logout_succeed', dreferer(), ['formhash' => FORMHASH, 'referer' => rawurlencode(dreferer())]);
 		}
 
 		clearcookies();
@@ -325,7 +302,7 @@ class logging_ctl {
 		if(defined('IN_MOBILE')) {
 			showmessage('location_logout_succeed_mobile', dreferer(), ['formhash' => FORMHASH, 'referer' => rawurlencode(dreferer())]);
 		} else {
-			showmessage('logout_succeed', dreferer(), ['formhash' => FORMHASH, 'ucsynlogout' => $ucsynlogout, 'referer' => rawurlencode(dreferer())]);
+			showmessage('logout_succeed', dreferer(), ['formhash' => FORMHASH, 'referer' => rawurlencode(dreferer())]);
 		}
 	}
 
@@ -368,12 +345,11 @@ class register_ctl {
 		$_GET['email'] = $_GET[''.$this->setting['reginput']['email']];
 
 		if($_G['uid']) {
-			$ucsynlogin = $this->setting['allowsynlogin'] ? native_user_synlogin($_G['uid']) : '';
 			$url_forward = dreferer();
 			if(str_contains($url_forward, $this->setting['regname'])) {
 				$url_forward = 'index.php';
 			}
-			showmessage('login_succeed', $url_forward ? $url_forward : './', ['username' => $_G['member']['username'], 'usergroup' => $_G['group']['grouptitle'], 'uid' => $_G['uid']], ['extrajs' => $ucsynlogin]);
+			showmessage('login_succeed', $url_forward ? $url_forward : './', ['username' => $_G['member']['username'], 'usergroup' => $_G['group']['grouptitle'], 'uid' => $_G['uid']]);
 		} elseif(!$this->setting['regclosed'] && !$this->setting['regstatus']) {
 			showmessage(!$this->setting['regclosemessage'] ? 'register_disable' : str_replace(["\r", "\n"], '', $this->setting['regclosemessage']));
 		}
@@ -448,7 +424,6 @@ class register_ctl {
 		$fromuid = !empty($_G['cookie']['promotion']) && $this->setting['creditspolicy']['promotion_register'] ? intval($_G['cookie']['promotion']) : 0;
 		$username = $_GET['username'] ?? '';
 		$bbrulehash = $bbrules ? substr(md5(FORMHASH), 0, 8) : '';
-		$auth = $_GET['auth'];
 
 		if(!$invitestatus) {
 			$invite = getinvite();
@@ -473,16 +448,6 @@ class register_ctl {
 		}
 		if(!submitcheck('regsubmit', 0, $seccodecheck, $secqaacheck)) {
 
-			if($_GET['action'] == 'activation') {
-				$auth = explode("\t", authcode($auth, 'DECODE'));
-				if(FORMHASH != $auth[1]) {
-					showmessage('register_activation_invalid', 'member.php?mod=logging&action=login');
-				}
-				$username = $auth[0];
-				$activationauth = authcode("$auth[0]\t".FORMHASH, 'ENCODE');
-				$sendurl = false;
-			}
-
 			if(!$sendurl) {
 
 				if($fromuid) {
@@ -492,10 +457,6 @@ class register_ctl {
 					} else {
 						dsetcookie('promotion');
 					}
-				}
-
-				if($_GET['action'] == 'activation') {
-					$auth = dhtmlspecialchars($auth);
 				}
 
 				if($seccodecheck) {
@@ -528,19 +489,8 @@ class register_ctl {
 			include template($this->template);
 
 		} else {
-
-			$activationauth = [];
-			if(isset($_GET['activationauth']) && $_GET['activationauth']) {
-				$activationauth = explode("\t", authcode($_GET['activationauth'], 'DECODE'));
-				if($activationauth[1] != FORMHASH) {
-					showmessage('register_activation_invalid', 'member.php?mod=logging&action=login');
-				}
-				$sendurl = false;
-			}
-			if(!$activationauth) {
-				$email = $email ? $email : $_GET['email'];
-				checkemail($email);
-			}
+			$email = $email ? $email : $_GET['email'];
+			checkemail($email);
 			if($sendurl) {
 				$mobile = $this->setting['mobile']['mobileregister'] ? '' : ($this->setting['mobile']['allowmobile'] ? '&amp;mobile=no' : '');
 				$hashstr = urlencode(authcode("{$email}\t{$_G['timestamp']}", 'ENCODE', $_G['config']['security']['authkey']));
@@ -576,63 +526,50 @@ class register_ctl {
 				showmessage('register_rules_agree');
 			}
 
-			$activation = [];
-			if(isset($_GET['activationauth']) && $activationauth && is_array($activationauth)) {
-				if($activationauth[1] == FORMHASH && !($activation = native_user_get($activationauth[0]))) {
-					showmessage('register_activation_invalid', 'member.php?mod=logging&action=login');
+			$usernamelen = dstrlen($username);
+			if($usernamelen < 3) {
+				showmessage('profile_username_tooshort');
+			} elseif($usernamelen > 50) {
+				showmessage('profile_username_toolong');
+			}
+			if(member::checkExists($username)) {
+				showmessage('profile_username_duplicate');
+			}
+			if($this->setting['pwlength']) {
+				if(strlen($_GET['password']) < $this->setting['pwlength']) {
+					showmessage('profile_password_tooshort', '', ['pwlength' => $this->setting['pwlength']]);
 				}
 			}
+			if($this->setting['strongpw']) {
+				$strongpw_str = [];
+				if(in_array(1, $this->setting['strongpw']) && !preg_match('/\d+/', $_GET['password'])) {
+					$strongpw_str[] = lang('member/template', 'strongpw_1');
+				}
+				if(in_array(2, $this->setting['strongpw']) && !preg_match('/[a-z]+/', $_GET['password'])) {
+					$strongpw_str[] = lang('member/template', 'strongpw_2');
+				}
+				if(in_array(3, $this->setting['strongpw']) && !preg_match('/[A-Z]+/', $_GET['password'])) {
+					$strongpw_str[] = lang('member/template', 'strongpw_3');
+				}
+				if(in_array(4, $this->setting['strongpw']) && !preg_match('/[^a-zA-z0-9]+/', $_GET['password'])) {
+					$strongpw_str[] = lang('member/template', 'strongpw_4');
+				}
+				if($strongpw_str) {
+					showmessage(lang('member/template', 'password_weak').implode(',', $strongpw_str));
+				}
+			}
+			$email = strtolower(trim($email));
+			if(empty($this->setting['ignorepassword'])) {
+				if($_GET['password'] !== $_GET['password2']) {
+					showmessage('profile_passwd_notmatch');
+				}
 
-			if(!$activation) {
-				$usernamelen = dstrlen($username);
-				if($usernamelen < 3) {
-					showmessage('profile_username_tooshort');
-				} elseif($usernamelen > 50) {
-					showmessage('profile_username_toolong');
+				if(!$_GET['password'] || $_GET['password'] != addslashes($_GET['password'])) {
+					showmessage('profile_passwd_illegal');
 				}
-				if(member::checkExists($username)) {
-					if($_G['inajax']) {
-						showmessage('profile_username_duplicate');
-					} else {
-						showmessage('register_activation_message', 'member.php?mod=logging&action=login', ['username' => $username]);
-					}
-				}
-				if($this->setting['pwlength']) {
-					if(strlen($_GET['password']) < $this->setting['pwlength']) {
-						showmessage('profile_password_tooshort', '', ['pwlength' => $this->setting['pwlength']]);
-					}
-				}
-				if($this->setting['strongpw']) {
-					$strongpw_str = [];
-					if(in_array(1, $this->setting['strongpw']) && !preg_match('/\d+/', $_GET['password'])) {
-						$strongpw_str[] = lang('member/template', 'strongpw_1');
-					}
-					if(in_array(2, $this->setting['strongpw']) && !preg_match('/[a-z]+/', $_GET['password'])) {
-						$strongpw_str[] = lang('member/template', 'strongpw_2');
-					}
-					if(in_array(3, $this->setting['strongpw']) && !preg_match('/[A-Z]+/', $_GET['password'])) {
-						$strongpw_str[] = lang('member/template', 'strongpw_3');
-					}
-					if(in_array(4, $this->setting['strongpw']) && !preg_match('/[^a-zA-z0-9]+/', $_GET['password'])) {
-						$strongpw_str[] = lang('member/template', 'strongpw_4');
-					}
-					if($strongpw_str) {
-						showmessage(lang('member/template', 'password_weak').implode(',', $strongpw_str));
-					}
-				}
-				$email = strtolower(trim($email));
-				if(empty($this->setting['ignorepassword'])) {
-					if($_GET['password'] !== $_GET['password2']) {
-						showmessage('profile_passwd_notmatch');
-					}
-
-					if(!$_GET['password'] || $_GET['password'] != addslashes($_GET['password'])) {
-						showmessage('profile_passwd_illegal');
-					}
-					$password = $_GET['password'];
-				} else {
-					$password = md5(random(10));
-				}
+				$password = $_GET['password'];
+			} else {
+				$password = md5(random(10));
 			}
 
 			check_protect_username($username);
@@ -701,38 +638,29 @@ class register_ctl {
 				}
 			}
 
-			if(!$activation) {
-				$nativecheck = native_user_checkname($username);
-				if($nativecheck < 0) {
-					if($nativecheck == -1) {
-						showmessage('profile_username_illegal');
-					} elseif($nativecheck == -2) {
-						showmessage('profile_username_protect');
-					} elseif($nativecheck == -3) {
-						showmessage('profile_username_duplicate');
-					} else {
-						showmessage('undefined_action');
-					}
+			$nativecheck = native_user_checkname($username);
+			if($nativecheck < 0) {
+				if($nativecheck == -1) {
+					showmessage('profile_username_illegal');
+				} elseif($nativecheck == -2) {
+					showmessage('profile_username_protect');
+				} elseif($nativecheck == -3) {
+					showmessage('profile_username_duplicate');
+				} else {
+					showmessage('undefined_action');
 				}
-				$nativecheck = native_user_checkemail($email);
-				if($nativecheck == -4) {
-					showmessage('profile_email_illegal');
-				} elseif($nativecheck == -6) {
-					showmessage('profile_email_duplicate');
-				}
-				if(!empty($secprofile['secmobile']) && native_user_checksecmobile($secprofile['secmobicc'], $secprofile['secmobile']) < 0) {
-					showmessage('profile_mobile_duplicate');
-				}
-			} else {
-				list($uid, $username, $email) = $activation;
 			}
-			$_G['username'] = $username;
-			if($activation && getuserbyuid($uid, 1)) {
-				showmessage('profile_uid_duplicate', '', ['uid' => $uid]);
+			$nativecheck = native_user_checkemail($email);
+			if($nativecheck == -4) {
+				showmessage('profile_email_illegal');
+			} elseif($nativecheck == -6) {
+				showmessage('profile_email_duplicate');
+			}
+			if(!empty($secprofile['secmobile']) && native_user_checksecmobile($secprofile['secmobicc'], $secprofile['secmobile']) < 0) {
+				showmessage('profile_mobile_duplicate');
 			}
 
-			$password = md5(random(10));
-			$secques = $questionid > 0 ? random(8) : '';
+			$_G['username'] = $username;
 
 			if(isset($_POST['birthmonth']) && isset($_POST['birthday'])) {
 				$profile['constellation'] = get_constellation($_POST['birthmonth'], $_POST['birthday']);
@@ -784,13 +712,9 @@ class register_ctl {
 
 			$init_arr = ['credits' => explode(',', $this->setting['initcredits']), 'profile' => $profile, 'emailstatus' => $emailstatus];
 
-			if(!$activation) {
-				$uid = native_user_create($username, $_GET['password'], $email, $_G['clientip'], $groupinfo['groupid'], $init_arr, 0, $_G['remoteport'], $secprofile['secmobicc'], $secprofile['secmobile'], 0, $questionid, $answer);
-				if($uid <= 0) {
-					showmessage('undefined_action');
-				}
-			} else {
-				table_common_member::t()->insert_user($uid, $username, $password, $email, $_G['clientip'], $groupinfo['groupid'], $init_arr, 0, $_G['remoteport']);
+			$uid = native_user_create($username, $password, $email, $_G['clientip'], $groupinfo['groupid'], $init_arr, 0, $_G['remoteport'], $secprofile['secmobicc'], $secprofile['secmobile'], 0, $questionid, $answer);
+			if($uid <= 0) {
+				showmessage('undefined_action');
 			}
 			if($emailstatus) {
 				updatecreditbyaction('realemail', $uid);
@@ -892,7 +816,6 @@ class register_ctl {
 				dsetcookie('promotion', '');
 			}
 			dsetcookie('loginuser', '');
-			dsetcookie('activationauth', '');
 			dsetcookie('invite_auth', '');
 
 			account_base::call('bind', [$uid], 'register');

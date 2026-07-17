@@ -2988,8 +2988,6 @@ $lang =
 	'setting_uc_appid_comment' => '該值為當前站點在 UCenter 的應用 ID，一般情況請不要改動',
 	'setting_uc_activation' => '是否允許其他應用的會員在站點激活',
 	'setting_uc_activation_comment' => '選擇“是”，允許會員在本站點激活；選擇“否”，則不允許任何第三方應用在本站點激活',
-	'setting_uc_fastactivation' => '是否允許直接激活',
-	'setting_uc_fastactivation_comment' => '選擇“是”，用戶登錄即自動激活；選擇“否”，允許用戶激活，但必須填寫註冊設置中的必填項',
 	'setting_uc_avatarmethod' => '頭像調用方式',
 	'setting_uc_avatarmethod_comment' => '設置用戶頭像的調用方式
 		<br />動態方式：依靠服務器返回頭像地址，頭像較多時服務器壓力會有增加

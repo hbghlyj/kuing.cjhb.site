@@ -124,18 +124,10 @@ if($result['status'] > 0) {
 	setloginstatus($result['member'], 2592000);
 	myrepeats\table_myrepeats::t()->update_lastswitch_by_uid_username($olddiscuz_uid, $_GET['username'], TIMESTAMP);
 	table_common_member_status::t()->update($_G['uid'], ['lastvisit' => TIMESTAMP], 'UNBUFFERED');
-	$ucsynlogin = $_G['setting']['allowsynlogin'] ? native_user_synlogin($_G['uid']) : '';
 	dsetcookie('mrn', '');
 	dsetcookie('mrd', '');
 	$comment = $user['comment'] ? '('.$user['comment'].') ' : '';
-	showmessage('myrepeats:login_succeed', $referer, ['user' => $_G['member']['username'], 'usergroup' => $_G['group']['grouptitle'], 'comment' => $comment], ['showmsg' => 1, 'showdialog' => 1, 'locationtime' => 3, 'extrajs' => $ucsynlogin]);
-} elseif($result['status'] == -1) {
-	clearcookies();
-	$_G['myrepeats_ucresult']['username'] = addslashes($_G['myrepeats_ucresult']['username']);
-	$_G['username'] = '';
-	$_G['uid'] = 0;
-	$auth = authcode($_G['myrepeats_ucresult']['username']."\t".formhash(), 'ENCODE');
-	showmessage('myrepeats:login_activation', 'member.php?mod='.$_G['setting']['regname'].'&action=activation&auth='.rawurlencode($auth).'&referer='.rawurlencode($referer), ['user' => $_G['myrepeats_ucresult']['username']], ['showmsg' => 1, 'showdialog' => 1, 'locationtime' => 3]);
+	showmessage('myrepeats:login_succeed', $referer, ['user' => $_G['member']['username'], 'usergroup' => $_G['group']['grouptitle'], 'comment' => $comment], ['showmsg' => 1, 'showdialog' => 1, 'locationtime' => 3]);
 } else {
 	myrepeats_loginfailure($_GET['username'], $password, $questionid, $answer);
 }

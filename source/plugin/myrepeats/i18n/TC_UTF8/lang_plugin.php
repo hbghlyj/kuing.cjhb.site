@@ -7,7 +7,6 @@ $scriptlang['myrepeats'] = array (
 'login_strike' => '密碼錯誤次數過多，請重新設定分身帳戶資料並在 15 分鐘後再嘗試切換。',
 'login_succeed' => '您已切換到 {user} {comment}帳戶，現在將轉入切換前頁面。',
 'login_succeed_rsnonexistence' => '您已切換到 {user} {comment}帳戶，但此帳戶尚未設定 {olduser} 為分身。<br /><a href="home.php?mod=spacecp&ac=plugin&id=myrepeats:memcp&username={olduserenc}" target="_blank">[ 設定 {olduser} 為本帳戶的分身 ]</a><br /><a href="{referer}">[ 轉入切換前頁面 ]</a>',
-'login_activation' => '{user} 帳戶未在此論壇啟用，現在將轉入帳戶啟用頁面。',
 'login_invalid' => '帳戶切換失敗，請重新設定帳戶資料，您還可以嘗試 {loginperm} 次。',
 'login_password_invalid' => '帳戶切換失敗，請重新設定帳戶資料。',
 'login_question_empty' => '請重新設定帳戶的安全提問及正確的答案。',

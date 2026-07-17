@@ -62,7 +62,6 @@ $lang = array (
 	'scrolltop'			=> 'To Top',//'回顶部',
 	'thread_groupupgrade'		=> 'For the next level needed',//'距离下一级还需',
 /*vot*/	'time_now'			=> '{$_G[timenow][time]} GMT{$_G[timenow][offset]}',
-	'activation'			=> 'Activation',//'激活',
 	'admincp'			=> 'Admin Center',//'管理中心',
 /*vot*/	'changestyle'			=> '',//'Change Style:',//'切换风格',
 	'cloudcp'			=> 'CloudCP',//'云平台',

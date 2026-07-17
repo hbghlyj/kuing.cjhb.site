@@ -10,11 +10,6 @@ if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
-defined('UC_STANDALONE') || define('UC_STANDALONE', 1);
-defined('UC_AVTPATH') || define('UC_AVTPATH', '');
-defined('UC_AVTURL') || define('UC_AVTURL', '');
-defined('UC_API') || define('UC_API', rtrim(getglobal('siteurl'), '/').'/api/avatar');
-
 function native_user_generate_password($password) {
 	$hash = password_hash($password, PASSWORD_DEFAULT);
 	return ($hash === false || $hash === null || !password_verify($password, $hash)) ? password_hash($password, PASSWORD_BCRYPT) : $hash;
@@ -48,10 +43,6 @@ function native_user_avatar_path($uid, $size = 'big', $type = '') {
 	return $dir1.'/'.$dir2.'/'.$dir3.'/'.substr($uid, -2).$typeadd."_avatar_$size.jpg";
 }
 
-function uc_avatar_path($uid, $size = 'big', $type = '') {
-	return native_user_avatar_path($uid, $size, $type);
-}
-
 function uc_avatar($uid, $type = 'virtual', $returnhtml = 1) {
 	$endpoint = rtrim(getglobal('siteurl'), '/').'/api/avatar/index.php?m=user&inajax=1&a=rectavatar&avatartype='.$type.'&base64=yes';
 	return [
@@ -59,10 +50,6 @@ function uc_avatar($uid, $type = 'virtual', $returnhtml = 1) {
 		'height', '253',
 		'stl_src', $endpoint,
 	];
-}
-
-function uc_rectavatar($uid) {
-	return '';
 }
 
 function uc_check_avatar($uid, $size = 'middle', $type = 'virtual') {
@@ -332,14 +319,6 @@ function native_user_loginfailed($username, $ip = '') {
 	$ip = $ip ?: getglobal('clientip');
 	$usernamekey = md5(strtolower(trim(stripslashes($username))));
 	table_common_failedlogin::t()->update_failed($ip, $usernamekey);
-}
-
-function native_user_synlogin($uid) {
-	return '';
-}
-
-function native_user_synlogout() {
-	return '';
 }
 
 function native_user_addprotected($username, $admin = '') {

@@ -370,7 +370,6 @@ function build_cache_setting() {
 	$data['ucapp'] = $data['ucappopen'] = [];
 	$data['uchomeurl'] = '';
 	$data['discuzurl'] = $_G['siteurl'];
-	$data['allowsynlogin'] = 0;
 	$data['homeshow'] = '0';
 
 	unset($data['allowthreadplugin']);

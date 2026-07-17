@@ -61,7 +61,6 @@ $lang = [
 	'scrolltop' => '返回顶部',
 	'thread_groupupgrade' => '距离下一级还需',
 	'time_now' => 'GMT{$_G[\'timenow\'][\'offset\']}, {$_G[\'timenow\'][\'time\']}',
-	'activation' => '激活',
 	'admincp' => '管理中心',
 	'changestyle' => '切换风格',
 	'default' => '默认',

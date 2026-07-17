@@ -11,7 +11,6 @@
 		<input type="hidden" name="formhash" value="{FORMHASH}" />
 		<!--{eval $dreferer = str_replace('&amp;', '&', dreferer());}-->
 		<input type="hidden" name="referer" value="$dreferer" />
-		<input type="hidden" name="activationauth" value="{if $_GET['action'] == 'activation'}$activationauth{/if}" />
 		<!--{if $_G['setting']['sendregisterurl']}-->
 			<input type="hidden" name="hash" value="$_GET['hash']" />
 		<!--{/if}-->

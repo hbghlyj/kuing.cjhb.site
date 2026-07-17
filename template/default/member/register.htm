@@ -28,14 +28,10 @@
 	<div class="bm_h bbs" id="main_hnav">
 		<span class="y">
 			<!--{hook/register_side_top}-->
-			<!--{if $_GET[action] == 'activation'}-->
-				{lang login_inactive}
-			<!--{else}-->
-				<a href="member.php?mod=logging&action=login&referer={echo rawurlencode($dreferer)}" onclick="showWindow('login', this.href);return false;" class="xi2">{lang login_now}</a>
-			<!--{/if}-->
+			<a href="member.php?mod=logging&action=login&referer={echo rawurlencode($dreferer)}" onclick="showWindow('login', this.href);return false;" class="xi2">{lang login_now}</a>
 		</span>
 		<h3 id="layer_reginfo_t" class="xs2">
-			<!--{if $_GET[action] != 'activation'}-->{lang register}<!--{else}-->{lang index_activation}<!--{/if}-->
+			{lang register}
 		</h3>
 	</div>
 
@@ -47,7 +43,6 @@
 			<input type="hidden" name="regsubmit" value="yes" />
 			<input type="hidden" name="formhash" value="{FORMHASH}" />
 			<input type="hidden" name="referer" value="$dreferer" />
-			<input type="hidden" name="activationauth" value="{if $_GET[action] == 'activation'}$activationauth{/if}" />
 			<!--{if $_G['setting']['sendregisterurl']}-->
 				<input type="hidden" name="hash" value="$_GET[hash]" />
 			<!--{/if}-->
@@ -117,16 +112,15 @@
 						<!--{eval $invitecode = 1;}-->
 						<!--{/if}-->
 
-						<!--{if $_GET[action] != 'activation'}-->
-							<div class="rfm">
-								<table>
-									<tr>
-										<th><span class="rq">*</span><label for="{$this->setting['reginput']['username']}">{lang username}:</label></th>
-										<td><input type="text" id="{$this->setting['reginput']['username']}" name="" class="px" value="{echo dhtmlspecialchars($_GET[defaultusername])}" autocomplete="off" size="25" maxlength="15" required /></td>
-										<td class="tipcol"><i id="tip_{$this->setting['reginput']['username']}" class="p_tip">{lang register_username_tips}</i><kbd id="chk_{$this->setting['reginput']['username']}" class="p_chk"></kbd></td>
-									</tr>
-								</table>
-							</div>
+						<div class="rfm">
+							<table>
+								<tr>
+									<th><span class="rq">*</span><label for="{$this->setting['reginput']['username']}">{lang username}:</label></th>
+									<td><input type="text" id="{$this->setting['reginput']['username']}" name="" class="px" value="{echo dhtmlspecialchars($_GET[defaultusername])}" autocomplete="off" size="25" maxlength="15" required /></td>
+									<td class="tipcol"><i id="tip_{$this->setting['reginput']['username']}" class="p_tip">{lang register_username_tips}</i><kbd id="chk_{$this->setting['reginput']['username']}" class="p_chk"></kbd></td>
+								</tr>
+							</table>
+						</div>
 
 							<div class="rfm">
 								<table>
@@ -157,18 +151,6 @@
 									</tr>
 								</table>
 							</div>
-						<!--{/if}-->
-
-						<!--{if $_GET[action] == 'activation'}-->
-						<div id="activation_user" class="rfm">
-							<table>
-								<tr>
-									<th>{lang username}:</th>
-									<td><strong>$username</strong></td>
-								</tr>
-							</table>
-						</div>
-						<!--{/if}-->
 
 						<!--{if $this->setting['regverify'] == 2}-->
 						<div class="rfm">
@@ -228,8 +210,8 @@
 						<th>&nbsp;</th>
 						<td>
 							<span id="reginfo_a_btn">
-								<!--{if $_GET[action] != 'activation'}--><em>&nbsp;</em><!--{/if}-->
-									<button class="pn pnc" id="registerformsubmit" type="submit" name="regsubmit" value="true"><strong><!--{if $_GET[action] == 'activation'}-->{lang activation}<!--{else}-->{lang submit}<!--{/if}--></strong></button>
+								<em>&nbsp;</em>
+								<button class="pn pnc" id="registerformsubmit" type="submit" name="regsubmit" value="true"><strong>{lang submit}</strong></button>
 								<!--{if $bbrules}-->
 									<input type="checkbox" class="pc" name="agreebbrule" value="$bbrulehash" id="agreebbrule" checked="checked" /> <label for="agreebbrule">{lang agree}<a href="javascript:;" onclick="showBBRule()">{lang rulemessage}</a></label>
 								<!--{/if}-->
@@ -279,7 +261,7 @@ var ignoreEmail = <!--{if $_G['setting']['forgeemail']}-->true<!--{else}-->false
 	<!--{if $sendurl}-->
 	addMailEvent($('{$this->setting['reginput']['email']}'));
 	<!--{else}-->
-	addFormEvent('registerform', <!--{if $_GET[action] != 'activation' && !($bbrules && $bbrulesforce) && !empty($invitecode)}-->1<!--{else}-->0<!--{/if}-->);
+	addFormEvent('registerform', <!--{if !($bbrules && $bbrulesforce) && !empty($invitecode)}-->1<!--{else}-->0<!--{/if}-->);
 	<!--{/if}-->
 	<!--{if $this->setting['sitemessage'][register]}-->
 		function showRegprompt() {

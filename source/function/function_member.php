@@ -87,7 +87,6 @@ function setloginstatus($member, $cookietime) {
 
 	dsetcookie('auth', authcode("{$member['password']}\t{$member['uid']}", 'ENCODE'), $cookietime, 1, true);
 	dsetcookie('loginuser');
-	dsetcookie('activationauth');
 	dsetcookie('pmnum');
 
 	include_once libfile('function/stat');

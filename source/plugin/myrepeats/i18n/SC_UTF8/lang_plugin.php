@@ -7,7 +7,6 @@ $scriptlang['myrepeats'] = array (
   'login_strike' => '密码错误次数过多，请重新设置马甲账号信息并在 15 分钟后再尝试切换。',
   'login_succeed' => '您已切换到 {user} {comment}账号，现在将转入切换前页面。',
   'login_succeed_rsnonexistence' => '您已切换到 {user} {comment}账号，但是此账号尚未设置 {olduser} 为马甲。<br /><a href="home.php?mod=spacecp&ac=plugin&id=myrepeats:memcp&username={olduserenc}" target="_blank">[ 设置 {olduser} 为本账号的马甲 ]</a><br /><a href="{referer}">[ 转入切换前页面 ]</a>',
-  'login_activation' => '{user} 账号未在本论坛激活，现在将转入账号激活页面。',
   'login_invalid' => '账号切换失败，请重新设置账号信息，您还可以尝试 {loginperm} 次。',
   'login_password_invalid' => '账号切换失败，请重新设置账号信息。',
   'login_question_empty' => '请重新设置账号的安全提问以及正确的答案。',

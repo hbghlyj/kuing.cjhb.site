@@ -26,11 +26,7 @@ if($ucresult == -1) {
 } elseif($ucresult == -2) {
 	showmessage('profile_username_protect', '', [], ['handle' => false]);
 } elseif($ucresult == -3) {
-	if(table_common_member::t()->fetch_by_username($username) || table_common_member_archive::t()->fetch_by_username($username)) {
-		showmessage('register_check_found', '', [], ['handle' => false]);
-	} else {
-		showmessage('register_activation', '', [], ['handle' => false]);
-	}
+	showmessage('register_check_found', '', [], ['handle' => false]);
 }
 
 if(table_common_member_username_history::t()->fetch($username)) {
@@ -41,4 +37,3 @@ $censorexp = '/^('.str_replace(['\\*', "\r\n", ' '], ['.*', '|', ''], preg_quote
 if($_G['setting']['censoruser'] && @preg_match($censorexp, $username)) {
 	showmessage('profile_username_protect', '', [], ['handle' => false]);
 }
-	
