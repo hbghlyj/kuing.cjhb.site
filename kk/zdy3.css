@@ -49,10 +49,6 @@ i.pstatus { margin-bottom: unset; }
 /*标签*/
 
 .relatedthreadlist { line-height: 1.3; column-count: 3; }
-.relatedthreadlist li {
-    margin-right: 5px;
-    vertical-align: middle;
-}
 /*相关帖子*/
 
 .t_f img[smilieid] { vertical-align: text-bottom; }
