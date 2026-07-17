@@ -2496,10 +2496,7 @@ function renderInitialAvatar(img) {
 	}
 	var name = (img.getAttribute('data-avatar-name') || img.getAttribute('alt') || '').trim();
 	var key = name || img.getAttribute('data-avatar-key') || '?';
-	var initial = Array.from(name).slice(0, 2).join('') || '?';
-	if(initial.toUpperCase() != initial.toLowerCase()) {
-		initial = initial.toUpperCase();
-	}
+	var initial = Array.from(name)[0] || '?';
 	var color = avatarColor(key);
 	img.onerror = null;
 	var rect = img.getBoundingClientRect();
