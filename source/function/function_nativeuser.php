@@ -167,19 +167,30 @@ function native_user_edit($username, $oldpw, $newpw, $email = '', $ignoreoldpw =
 		return -1;
 	}
 	if($email !== '') {
-		$email = strtolower(trim($email));
-		$check = native_user_checkemail($email, $user['uid']);
-		if($check < 0) {
-			return $check;
+		$email = empty($email) ? '' : strtolower(trim($email));
+		if($email !== '') {
+			$check = native_user_checkemail($email, $user['uid']);
+			if($check < 0) {
+				return $check;
+			}
 		}
 		table_common_member::t()->update($user['uid'], ['email' => $email]);
 	}
 	if($secmobicc !== '' || $secmobile !== '') {
-		$check = native_user_checksecmobile($secmobicc, $secmobile, $user['uid']);
+		$mobiledata = [];
+		if($secmobicc !== '') {
+			$mobiledata['secmobicc'] = empty($secmobicc) ? '' : (string)$secmobicc;
+		}
+		if($secmobile !== '') {
+			$mobiledata['secmobile'] = empty($secmobile) ? '' : (string)$secmobile;
+		}
+		$targetcc = $mobiledata['secmobicc'] ?? $user['secmobicc'];
+		$targetmobile = $mobiledata['secmobile'] ?? $user['secmobile'];
+		$check = native_user_checksecmobile($targetcc, $targetmobile, $user['uid']);
 		if($check < 0) {
 			return $check;
 		}
-		table_common_member::t()->update($user['uid'], ['secmobicc' => (string)$secmobicc, 'secmobile' => (string)$secmobile]);
+		table_common_member::t()->update($user['uid'], $mobiledata);
 	}
 	if($newpw !== '' || $questionid !== '') {
 		$newauth = $auth ?: ['password' => '', 'salt' => '', 'secques' => ''];
