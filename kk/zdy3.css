@@ -4,10 +4,6 @@
 .pls .tns { padding: 0 10px 0; }
 /*减少头像下方帖数分数上下空*/
 
-.pi {
-    padding: 6px 0;
-    height: 24px;
-}
 .pi strong a {
     padding: 3px 6px;
 }
