@@ -1,6 +1,16 @@
 <!--{hook/global_footer_mobile}-->
 <div id="mask" style="display:none;"></div>
 <!--{if $_G['setting']['statcode']}--><div id="statcode" style="display:none;">{$_G['setting']['statcode']}</div><!--{/if}-->
+<div class="footer mt10 cl">
+	<div class="footer-nv">
+		<a href="javascript:;" class="mon">{lang mobile2version}</a>|<a href="javascript:;" onclick="setcookie('mobile', 'no', 31536000);var url=new URL(location.href);url.searchParams.delete('mobile');location.href=url.href;return false;">{lang nomobiletype}</a><!--{if !empty($_G['setting']['styles'][1])}-->|<a href="javascript:;" onclick="setcookie('styleid', '1', 31536000);setcookie('mobile', 'no', 31536000);var url=new URL(location.href);url.searchParams.delete('mobile');location.href=url.href;return false;">default style</a><!--{/if}--><!--{if !empty($clienturl)}-->|<a href="$clienturl">{lang clientversion}</a><!--{/if}-->
+	</div>
+	<div class="footer-copy mt10">
+		<!--{if $_G['setting']['icp'] || $_G['setting']['mps']}--><!--{if $_G['setting']['icp']}--><a href="https://beian.miit.gov.cn/" target="_blank">$_G['setting']['icp']</a><!--{/if}--><!--{if $_G['setting']['mps']}--><a href="https://beian.mps.gov.cn/#/query/webSearch?code=$_G['setting']['mpsid']" target="_blank"><img width="14" height="14" src="{IMGDIR}/ico_mps.png" />$_G['setting']['mps']</a><!--{/if}--><br><!--{/if}-->
+		Powered by Discuz! <em>$_G['setting']['version']</em>
+		<p class="xs0">{lang copyright}</p>
+	</div>
+</div>
 <!--{if !$nofooter}-->
 <p class="xs0" style="text-align:center;margin:8px 0;">
 	<span id="debuginfo">
