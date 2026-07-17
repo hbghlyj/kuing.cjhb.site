@@ -251,8 +251,6 @@ if(!submitcheck('topicsubmit', 0, $seccodecheck, $secqaacheck)) {
 		$params['source'] = $source;
 	}
 
-	$params['ordertype'] = getgpc('ordertype');
-
 	$params['hiddenreplies'] = getgpc('hiddenreplies');
 
 	$params['allownoticeauthor'] = $_GET['allownoticeauthor'];

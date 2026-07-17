@@ -34,7 +34,7 @@ if($page === 1 && !empty($_G['setting']['antitheft']['allow']) && empty($_G['set
 	helper_antitheft::check($_G['forum_thread']['tid'], 'tid');
 }
 
-if($_G['setting']['cachethreadlife'] && $_G['forum']['threadcaches'] && !$_G['uid'] && $page == 1 && !$_G['forum']['special'] && empty($_GET['ordertype']) && empty($_GET['authorid']) && empty($_GET['action']) && empty($_GET['do']) && empty($_GET['from']) && empty($_GET['threadindex']) && !defined('IN_ARCHIVER') && !defined('IN_MOBILE') && !IS_ROBOT) {
+if($_G['setting']['cachethreadlife'] && $_G['forum']['threadcaches'] && !$_G['uid'] && $page == 1 && !$_G['forum']['special'] && empty($_GET['authorid']) && empty($_GET['action']) && empty($_GET['do']) && empty($_GET['from']) && empty($_GET['threadindex']) && !defined('IN_ARCHIVER') && !defined('IN_MOBILE') && !IS_ROBOT) {
 	viewthread_loadcache();
 }
 
@@ -68,7 +68,6 @@ if(getglobal('setting/close_leftinfo_userctrl')) {
 	}
 }
 $_GET['authorid'] = !empty($_GET['authorid']) ? intval($_GET['authorid']) : 0;
-$_GET['ordertype'] = !empty($_GET['ordertype']) ? intval($_GET['ordertype']) : 0;
 $_GET['from'] = in_array(getgpc('from'), ['preview', 'portal', 'album']) ? getgpc('from') : '';
 if($_GET['from'] == 'portal' && !$_G['setting']['portalstatus']) {
 	$_GET['from'] = '';
@@ -211,8 +210,6 @@ $replynotice = getstatus($_G['forum_thread']['status'], 6);
 $hiddenreplies = getstatus($_G['forum_thread']['status'], 2);
 
 $rushreply = getstatus($_G['forum_thread']['status'], 3);
-
-$savepostposition = getstatus($_G['forum_thread']['status'], 1);
 
 $incollection = getstatus($_G['forum_thread']['status'], 9);
 
@@ -392,10 +389,6 @@ if(empty($_GET['viewpid'])) {
 		}
 	}
 
-	$ordertype = empty($_GET['ordertype']) && getstatus($_G['forum_thread']['status'], 4) ? 1 : $_GET['ordertype'];
-	if($_GET['from'] == 'album') {
-		$ordertype = 1;
-	}
 	$sticklist = [];
 	if($_G['page'] === 1 && $_G['forum_thread']['stickreply'] && empty($_GET['authorid'])) {
 		$poststick = table_forum_poststick::t()->fetch_all_by_tid($_G['tid']);
@@ -483,31 +476,22 @@ if(empty($_GET['viewpid'])) {
 		}
 		$start_limit = max(0, ($realpage - 2) * $_G['ppp'] + $firstpagesize);
 		$_G['forum_numpost'] = ($page - 1) * $_G['ppp'];
-		if($ordertype != 1) {
-		} else {
-			$_G['forum_numpost'] = $_G['forum_thread']['replies'] + 2 - $_G['forum_numpost'] + ($page == $totalpage ? 1 : 0);
-		}
 	} else {
 		$start_limit = $_G['forum_numpost'] = max(0, ($page - 1) * $_G['ppp']);
 		if($start_limit > $_G['forum_thread']['replies']) {
 			$start_limit = $_G['forum_numpost'] = 0;
 			$page = 1;
 		}
-		if($ordertype != 1) {
-		} else {
-			$_G['forum_numpost'] = $_G['forum_thread']['replies'] + 2 - $_G['forum_numpost'];
-		}
 	}
 	$multipageparam = ($_G['forum_thread']['is_archived'] ? '&archive='.$_G['forum_thread']['archiveid'] : '').
 		'&extra='.$_GET['extra'].
-		($ordertype && $ordertype != getstatus($_G['forum_thread']['status'], 4) ? '&ordertype='.$ordertype : '').
 		(isset($_GET['highlight']) ? '&highlight='.rawurlencode($_GET['highlight']) : '').
 		(!empty($_GET['authorid']) ? '&authorid='.$_GET['authorid'] : '').
 		(!empty($_GET['from']) ? '&from='.$_GET['from'] : '').
 		(!empty($_GET['checkrush']) ? '&checkrush='.$_GET['checkrush'] : '').
 		(!empty($_GET['modthreadkey']) ? '&modthreadkey='.rawurlencode($_GET['modthreadkey']) : '').
 		$specialextra;
-	$multipage = multi($_G['forum_thread']['replies'] + ($ordertype != 1 ? 1 : 0), $_G['ppp'], $page, 'forum.php?mod=viewthread&tid='.$_G['tid'].$multipageparam);
+	$multipage = multi($_G['forum_thread']['replies'] + 1, $_G['ppp'], $page, 'forum.php?mod=viewthread&tid='.$_G['tid'].$multipageparam);
 } else {
 	$_GET['viewpid'] = intval($_GET['viewpid']);
 	$pageadd = "AND p.pid='{$_GET['viewpid']}'";
@@ -566,9 +550,6 @@ foreach($postarr as $post) {
 		}
 		// 结束解析json编辑器内容
 		if($post['first']) {
-			if($ordertype == 1 && $page != 1) {
-				continue;
-			}
 			$_G['forum_firstpid'] = $post['pid'];
 
 			if($_G['forum_thread']['price']) {
@@ -659,7 +640,7 @@ if(empty($_GET['authorid']) && empty($postlist)) {
 	}
 }
 
-if($_G['forum_pagebydesc'] && (!$savepostposition || $_GET['ordertype'] == 1)) {
+if($_G['forum_pagebydesc']) {
 	$postlist = array_reverse($postlist, TRUE);
 }
 
@@ -897,7 +878,7 @@ function viewthread_updateviews($tableid) {
 	dsetcookie('viewid', 'tid_'.$_G['tid']);
 }
 
-function viewthread_procpost($post, $lastvisit, $ordertype, $maxposition = 0) {
+function viewthread_procpost($post, $lastvisit, $maxposition = 0) {
 	global $_G, $rushreply, $hiddenreplies;
 
 	if(!$_G['forum_newpostanchor'] && $post['dateline'] > $lastvisit) {
@@ -911,17 +892,9 @@ function viewthread_procpost($post, $lastvisit, $ordertype, $maxposition = 0) {
 
 	if(empty($post['hotrecommended']) && $post['incurpage']) {
 		if($_G['forum_pagebydesc']) {
-			if($ordertype != 1) {
-				$post['number'] = $_G['forum_numpost'] + $_G['forum_ppp2']--;
-			} else {
-				$post['number'] = $post['first'] == 1 ? 1 : $_G['forum_numpost'] - $_G['forum_ppp2']--;
-			}
+			$post['number'] = $_G['forum_numpost'] + $_G['forum_ppp2']--;
 		} else {
-			if($ordertype != 1) {
-				$post['number'] = ++$_G['forum_numpost'];
-			} else {
-				$post['number'] = $post['first'] == 1 ? 1 : --$_G['forum_numpost'];
-			}
+			$post['number'] = ++$_G['forum_numpost'];
 		}
 	}
 
@@ -929,11 +902,7 @@ function viewthread_procpost($post, $lastvisit, $ordertype, $maxposition = 0) {
 		if($_G['forum_pagebydesc']) {
 			$_G['forum_ppp2']--;
 		} else {
-			if($ordertype != 1) {
-				++$_G['forum_numpost'];
-			} else {
-				--$_G['forum_numpost'];
-			}
+			++$_G['forum_numpost'];
 		}
 	}
 

@@ -11,10 +11,7 @@ if(!defined('IN_DISCUZ')) {
 }
 
 $pageadd = '';
-if(!getstatus($_G['thread'], 4)) {
-	$page = ceil(($_G['thread']['special'] ? $_G['thread']['replies'] : $_G['thread']['replies'] + 1) / $_G['ppp']);
-	$pageadd = $page > 1 ? '&page='.$page : '';
-}
+$page = ceil(($_G['thread']['special'] ? $_G['thread']['replies'] : $_G['thread']['replies'] + 1) / $_G['ppp']);
+$pageadd = $page > 1 ? '&page='.$page : '';
 
 dheader('Location: forum.php?mod=viewthread&tid='.$_G['tid'].$pageadd.'#lastpost');
-	

@@ -14,13 +14,8 @@ if(!defined('IN_DISCUZ')) {
 if($maxposition) {
 	$start = ($page - 1) * $_G['ppp'] + 1;
 	$end = $start + $_G['ppp'];
-	if($ordertype == 1) {
-		$end = $maxposition - ($page - 1) * $_G['ppp'] + ($page > 1 ? 2 : 1);
-		$start = $end - $_G['ppp'] + ($page > 1 ? 0 : 1);
-		$start = max([1, $start]);
-	}
 	$have_badpost = $realpost = $lastposition = 0;
-	foreach(table_forum_post::t()->fetch_all_by_tid_range_position($posttableid, $_G['tid'], $start, $end, $maxposition, $ordertype) as $post) {
+	foreach(table_forum_post::t()->fetch_all_by_tid_range_position($posttableid, $_G['tid'], $start, $end, $maxposition) as $post) {
 		if($post['invisible'] != 0) {
 			$have_badpost = 1;
 		}
@@ -52,11 +47,11 @@ if(!$maxposition && empty($postarr)) {
 
 	if(empty($_GET['viewpid'])) {
 		if($_G['forum_thread']['special'] == 2) {
-			$postarr = table_forum_post::t()->fetch_all_tradepost_viewthread_by_tid($_G['tid'], $visibleallflag, $_GET['authorid'], $tpids, $_G['forum_pagebydesc'], $ordertype, $start_limit, ($_G['forum_pagebydesc'] ? $_G['forum_ppp2'] : $_G['ppp']));
+			$postarr = table_forum_post::t()->fetch_all_tradepost_viewthread_by_tid($_G['tid'], $visibleallflag, $_GET['authorid'], $tpids, $_G['forum_pagebydesc'], $start_limit, ($_G['forum_pagebydesc'] ? $_G['forum_ppp2'] : $_G['ppp']));
 		} elseif($_G['forum_thread']['special'] == 5) {
-			$postarr = table_forum_post::t()->fetch_all_debatepost_viewthread_by_tid($_G['tid'], $visibleallflag, $_GET['authorid'], $_GET['stand'], $_G['forum_pagebydesc'], $ordertype, $start_limit, ($_G['forum_pagebydesc'] ? $_G['forum_ppp2'] : $_G['ppp']));
+			$postarr = table_forum_post::t()->fetch_all_debatepost_viewthread_by_tid($_G['tid'], $visibleallflag, $_GET['authorid'], $_GET['stand'], $_G['forum_pagebydesc'], $start_limit, ($_G['forum_pagebydesc'] ? $_G['forum_ppp2'] : $_G['ppp']));
 		} else {
-			$postarr = table_forum_post::t()->fetch_all_common_viewthread_by_tid($_G['tid'], $visibleallflag, $_GET['authorid'], $_G['forum_pagebydesc'], $ordertype, $_G['forum_thread']['replies'] + 1, $start_limit, ($_G['forum_pagebydesc'] ? $_G['forum_ppp2'] : $_G['ppp']));
+			$postarr = table_forum_post::t()->fetch_all_common_viewthread_by_tid($_G['tid'], $visibleallflag, $_GET['authorid'], $_G['forum_pagebydesc'], $_G['forum_thread']['replies'] + 1, $start_limit, ($_G['forum_pagebydesc'] ? $_G['forum_ppp2'] : $_G['ppp']));
 		}
 	} else {
 		$post = [];
@@ -102,20 +97,13 @@ if(!empty($isdel_post)) {
 		table_forum_threaddisablepos::t()->insert(['tid' => $_G['tid']], false, true);
 		dheader('Location:'.$_G['siteurl'].'forum.php?mod=viewthread&tid='.$_G['tid'].($_G['forum_auditstatuson'] ? '&modthreadkey='.$_GET['modthreadkey'] : '').($_G['page'] > 1 ? '&page='.$_G['page'] : ''));
 	}
-	$ordertype != 1 ? ksort($postarr) : krsort($postarr);
+	ksort($postarr);
 }
 
 $summary = '';
 $curpagepids = [];
 foreach($postarr as $post) {
 	$curpagepids[] = $post['pid'];
-}
-if($page == 1 && $ordertype == 1) {
-	$firstpost = table_forum_post::t()->fetch_threadpost_by_tid_invisible($_G['tid']);
-	if($firstpost['invisible'] == 0 || $visibleallflag == 1) {
-		$postarr = array_merge([$firstpost], $postarr);
-		unset($firstpost);
-	}
 }
 $tagnames = $locationpids = $hotpostarr = $hotpids = $member_blackList = [];
 

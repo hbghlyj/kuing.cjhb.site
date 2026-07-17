@@ -158,7 +158,7 @@
 		
 		<!--{if $_G['setting']['allowfastreply'] && $post['first'] && $fastpost && $allowpostreply && !$_G['forum_thread']['archiveid'] && $_GET['from'] != 'preview'}-->
 		<!--{eval $_GET['extra']=daddslashes($_GET['extra']);$_GET['from']=daddslashes($_GET['from']);}-->
-			<form method="post" autocomplete="off" id="vfastpostform" action="forum.php?mod=post&action=reply&fid=$_G['fid']&tid=$_G['tid']&fromvf=1&extra=$_GET['extra']&replysubmit=yes{if $_GET['ordertype'] != 1}&infloat=yes&handlekey=vfastpost{/if}{if $_GET['from']}&from=$_GET['from']{/if}" onsubmit="this.message.value = parseurl(this.message.value);ajaxpost('vfastpostform', 'return_reply', 'return_reply', 'onerror');return false;">
+			<form method="post" autocomplete="off" id="vfastpostform" action="forum.php?mod=post&action=reply&fid=$_G['fid']&tid=$_G['tid']&fromvf=1&extra=$_GET['extra']&replysubmit=yes&infloat=yes&handlekey=vfastpost{if $_GET['from']}&from=$_GET['from']{/if}" onsubmit="this.message.value = parseurl(this.message.value);ajaxpost('vfastpostform', 'return_reply', 'return_reply', 'onerror');return false;">
 			<div id="vfastpost" class="fullvfastpost">				
 				<input type="hidden" name="formhash" value="{FORMHASH}" />
 				<table cellspacing="0" cellpadding="0" id="vfastposttb">

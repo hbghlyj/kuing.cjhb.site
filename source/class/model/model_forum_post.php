@@ -47,7 +47,7 @@ class model_forum_post extends discuz_model {
 			'timestamp',
 
 			'subject', 'sortid', 'typeid', 'cronpublish', 'cronpublishdate', 'save',
-'readperm', 'price', 'ordertype', 'audit', 'tags',
+'readperm', 'price', 'audit', 'tags',
 			'updateuid', 'lastupdate',
 		);
 		foreach($varname as $name) {
@@ -264,7 +264,7 @@ class model_forum_post extends discuz_model {
 			}
 
 
-			$this->param['page'] = getstatus($this->thread['status'], 4) ? 1 : @ceil(($this->thread['special'] ? $this->thread['replies'] + 1 : $this->thread['replies'] + 2) / getglobal('ppp'));
+			$this->param['page'] = @ceil(($this->thread['special'] ? $this->thread['replies'] + 1 : $this->thread['replies'] + 2) / getglobal('ppp'));
 
 			if($this->param['updatethreaddata']) {
 				C::t('forum_thread')->update($this->thread['tid'], $this->param['updatethreaddata'], false, false, 0, true);
@@ -401,8 +401,6 @@ class model_forum_post extends discuz_model {
 					return $this->showmessage('post_net_price_iszero');
 				}
 			}
-
-			$this->thread['status'] = setstatus(4, $this->param['ordertype'], $this->thread['status']);
 
 			$this->thread['status'] = setstatus(6, 1, $this->thread['status']);
 

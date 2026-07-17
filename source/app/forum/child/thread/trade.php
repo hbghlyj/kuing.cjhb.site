@@ -75,7 +75,7 @@ if(empty($_GET['do']) || $_GET['do'] == 'tradeinfo') {
 			}
 		}
 
-		$postlist[$post['pid']] = viewthread_procpost($post, $lastvisit, $ordertype);
+		$postlist[$post['pid']] = viewthread_procpost($post, $lastvisit);
 
 		$usertrades = $userthreads = [];
 		if(!$_G['inajax']) {

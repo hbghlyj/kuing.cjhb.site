@@ -72,7 +72,7 @@ if($postusers) {
 		} else {
 			$post['username'] = $post['author'];
 		}
-		$postlist[$pid] = viewthread_procpost($post, $_G['member']['lastvisit'], $ordertype, $maxposition);
+		$postlist[$pid] = viewthread_procpost($post, $_G['member']['lastvisit'], $maxposition);
 	}
 }
 

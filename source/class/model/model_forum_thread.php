@@ -107,9 +107,6 @@ class model_forum_thread extends discuz_model
 		$this->param['moderated'] = $this->param['digest'] || $this->param['displayorder'] > 0 ? 1 : 0;
 
 
-		$this->param['ordertype'] && $this->param['tstatus'] = setstatus(4, 1, $this->param['tstatus']);
-
-
 		$this->param['tstatus'] = setstatus(6, 1, $this->param['tstatus']);
 		$this->param['isgroup'] = $this->forum['status'] == 3 ? 1 : 0;
 
@@ -305,7 +302,7 @@ class model_forum_thread extends discuz_model
 
 		$varname = array(
 			'member', 'group', 'forum', 'extramessage',
-			'subject', 'sticktopic', 'save', 'ordertype',
+			'subject', 'sticktopic', 'save',
 			'readperm', 'price', 'typeid', 'sortid',
 			'publishdate', 'digest', 'moderated', 'tstatus', 'isgroup',
 			'replycredit', 'closed', 'special', 'tags',

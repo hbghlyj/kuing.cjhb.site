@@ -593,7 +593,6 @@ $threadindex = 0;
 if(empty($threadlist)) $threadlist = [];
 foreach($threadlist as $thread) {
 	$thread['allreplies'] = $thread['replies'] + $thread['comments'];
-	$thread['ordertype'] = getstatus($thread['status'], 4);
 	if($_G['forum']['picstyle'] && empty($_G['cookie']['forumdefstyle'])) {
 		if($thread['fid'] != $_G['fid'] && empty($thread['cover'])) {
 			continue;

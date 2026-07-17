@@ -433,7 +433,6 @@ if(!submitcheck('editsubmit')) {
 			'readperm' => $readperm,
 			'price' => $_GET['price'],
 
-			'ordertype' => $_GET['ordertype'],
 			'hiddenreplies' => $_GET['hiddenreplies'],
 			'allownoticeauthor' => $_GET['allownoticeauthor'],
 

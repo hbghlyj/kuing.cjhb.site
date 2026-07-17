@@ -405,13 +405,6 @@
 		<div class="discuz_x cl"></div>
 		<div class="txtlist cl">
 			<div class="mtit cl">
-			<!--{if !$rushreply}-->
-				<!--{if $ordertype != 1}-->
-					<a href="forum.php?mod=viewthread&tid={$_G['tid']}&extra={$_GET['extra']}&ordertype=1" class="ytxt">{lang post_descview}</a>
-				<!--{else}-->
-					<a href="forum.php?mod=viewthread&tid={$_G['tid']}&extra={$_GET['extra']}&ordertype=2" class="ytxt">{lang post_ascview}</a>
-				<!--{/if}-->
-			<!--{/if}-->
 			<!--{if !IS_ROBOT && !$_GET['authorid'] && !$_G['forum_thread']['archiveid']}-->
 				<a href="forum.php?mod=viewthread&tid={$_G['tid']}&page={$page}&authorid={$_G['forum_thread']['authorid']}" rel="nofollow" class="ytxt">{lang viewonlyauthorid}</a>
 			<!--{elseif !$_G['forum_thread']['archiveid']}-->

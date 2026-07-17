@@ -45,7 +45,6 @@ class cells_threadlist {
 				}
 
 				$thread['allreplies'] = $thread['replies'] + $thread['comments'];
-				$thread['ordertype'] = getstatus($thread['status'], 4);
 				$thread['related_group'] = 0;
 
 				$thread['lastposterenc'] = rawurlencode($thread['lastposter']);

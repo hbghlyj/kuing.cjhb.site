@@ -10,7 +10,7 @@ if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
-foreach(['pid', 'ptid', 'authorid', 'ordertype', 'postno'] as $k) {
+foreach(['pid', 'ptid', 'authorid', 'postno'] as $k) {
 	$$k = !empty($_GET[$k]) ? intval($_GET[$k]) : 0;
 }
 

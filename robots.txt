@@ -27,4 +27,4 @@ Disallow: /*?mod=attachment*
 User-agent: SemrushBot
 Disallow: /
 Sitemap: https://kuing.cjhb.site/sitemap.xml
-Clean-param: extra&mobile&authorid&highlight&ordertype
+Clean-param: extra&mobile&authorid&highlight

@@ -55,10 +55,10 @@ class table_forum_post extends discuz_table {
 			[self::get_tablename($tableid), $tid]);
 	}
 
-	public function fetch_all_by_tid_range_position($tableid, $tid, $start, $end, $maxposition, $ordertype = 0) {
+	public function fetch_all_by_tid_range_position($tableid, $tid, $start, $end, $maxposition) {
 		$storeflag = false;
 		if($this->_allowmem) {
-			if($ordertype != 1 && $start == 1 && $maxposition > ($end - $start)) {
+			if($start == 1 && $maxposition > ($end - $start)) {
 				$data = $this->fetch_cache($tid, $this->_pre_cache_key.'tid_');
 				if($data && count($data) == ($end - $start)) {
 					$delauthorid = $this->fetch_cache('delauthorid');
@@ -82,7 +82,7 @@ class table_forum_post extends discuz_table {
 				$storeflag = true;
 			}
 		}
-		$data = DB::fetch_all('SELECT * FROM %t WHERE tid=%d AND position>=%d AND position<%d ORDER BY position'.($ordertype == 1 ? ' DESC' : ''), [self::get_tablename($tableid), $tid, $start, $end], 'pid');
+		$data = DB::fetch_all('SELECT * FROM %t WHERE tid=%d AND position>=%d AND position<%d ORDER BY position', [self::get_tablename($tableid), $tid, $start, $end], 'pid');
 		if($storeflag) {
 			$this->store_cache($tid, $data, $this->_cache_ttl, $this->_pre_cache_key.'tid_');
 		}
@@ -232,12 +232,12 @@ class table_forum_post extends discuz_table {
 		return $postlist;
 	}
 
-	public function fetch_all_tradepost_viewthread_by_tid($tid, $visibleallflag, $authorid, $pids, $forum_pagebydesc, $ordertype, $start, $limit) {
+	public function fetch_all_tradepost_viewthread_by_tid($tid, $visibleallflag, $authorid, $pids, $forum_pagebydesc, $start, $limit) {
 		if(empty($pids)) {
 			return [];
 		}
 		$data = [];
-		$parameter = $this->handle_viewthread_parameter($visibleallflag, $authorid, $forum_pagebydesc, $ordertype);
+		$parameter = $this->handle_viewthread_parameter($visibleallflag, $authorid, $forum_pagebydesc);
 		$query = DB::query('SELECT * FROM %t WHERE tid=%d'.
 			($parameter['invisible'] ? ' AND '.$parameter['invisible'] : '').($parameter['authorid'] ? ' AND '.$parameter['authorid'] : '').
 			' AND pid NOT IN ('.dimplode($pids).')'.
@@ -250,9 +250,9 @@ class table_forum_post extends discuz_table {
 		return $data;
 	}
 
-	public function fetch_all_debatepost_viewthread_by_tid($tid, $visibleallflag, $authorid, $stand, $forum_pagebydesc, $ordertype, $start, $limit) {
+	public function fetch_all_debatepost_viewthread_by_tid($tid, $visibleallflag, $authorid, $stand, $forum_pagebydesc, $start, $limit) {
 		$data = [];
-		$parameter = $this->handle_viewthread_parameter($visibleallflag, $authorid, $forum_pagebydesc, $ordertype, 'p.');
+		$parameter = $this->handle_viewthread_parameter($visibleallflag, $authorid, $forum_pagebydesc, 'p.');
 		$query = DB::query('SELECT dp.*, p.* FROM %t p LEFT JOIN %t dp ON p.pid=dp.pid WHERE p.tid=%d'.
 			($parameter['invisible'] ? ' AND '.$parameter['invisible'] : '').($parameter['authorid'] ? ' AND '.$parameter['authorid'] : '').
 			(isset($stand) ? ($stand ? ' AND (dp.stand='.intval($stand).' OR p.first=1)' : ' AND (dp.stand=0 OR dp.stand IS NULL OR p.first=1)') : '').
@@ -265,11 +265,11 @@ class table_forum_post extends discuz_table {
 		return $data;
 	}
 
-	public function fetch_all_common_viewthread_by_tid($tid, $visibleallflag, $authorid, $forum_pagebydesc, $ordertype, $count, $start, $limit) {
+	public function fetch_all_common_viewthread_by_tid($tid, $visibleallflag, $authorid, $forum_pagebydesc, $count, $start, $limit) {
 		$data = [];
 		$storeflag = false;
 		if($this->_allowmem) {
-			if($ordertype != 1 && !$forum_pagebydesc && !$start && $count > $limit) {
+			if(!$forum_pagebydesc && !$start && $count > $limit) {
 				$data = $this->fetch_cache($tid, $this->_pre_cache_key.'tid_');
 				if($data && count($data) == $limit) {
 					$delauthorid = $this->fetch_cache('delauthorid');
@@ -293,7 +293,7 @@ class table_forum_post extends discuz_table {
 				$storeflag = true;
 			}
 		}
-		$parameter = $this->handle_viewthread_parameter($visibleallflag, $authorid, $forum_pagebydesc, $ordertype);
+		$parameter = $this->handle_viewthread_parameter($visibleallflag, $authorid, $forum_pagebydesc);
 		$query = DB::query('SELECT * FROM %t WHERE tid=%d'.
 			($parameter['invisible'] ? ' AND '.$parameter['invisible'] : '').($parameter['authorid'] ? ' AND '.$parameter['authorid'] : '').
 			' '.$parameter['orderby'].
@@ -308,7 +308,7 @@ class table_forum_post extends discuz_table {
 		return $data;
 	}
 
-	private function handle_viewthread_parameter($visibleallflag, $authorid, $forum_pagebydesc, $ordertype, $alias = '') {
+	private function handle_viewthread_parameter($visibleallflag, $authorid, $forum_pagebydesc, $alias = '') {
 		$return = [];
 		if(!$visibleallflag) {
 			$return['invisible'] = $alias.DB::field('invisible', 0);
@@ -316,19 +316,7 @@ class table_forum_post extends discuz_table {
 		if($authorid) {
 			$return['authorid'] = $alias.DB::field('authorid', $authorid);
 		}
-		if($forum_pagebydesc) {
-			if($ordertype != 1) {
-				$return['orderby'] = 'ORDER BY '.$alias.'position DESC';
-			} else {
-				$return['orderby'] = 'ORDER BY '.$alias.'position ASC';
-			}
-		} else {
-			if($ordertype != 1) {
-				$return['orderby'] = 'ORDER BY '.$alias.'position';
-			} else {
-				$return['orderby'] = 'ORDER BY '.$alias.'position DESC';
-			}
-		}
+		$return['orderby'] = 'ORDER BY '.$alias.'position'.($forum_pagebydesc ? ' DESC' : '');
 		return $return;
 	}
 

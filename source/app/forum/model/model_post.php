@@ -64,7 +64,7 @@ class model_post extends discuz_model {
 			'noticetrimstr', 'noticeauthor', 'from', 'sechash', 'geoloc',
 			'timestamp',
 			'subject', 'special', 'sortid', 'typeid', 'isanonymous', 'cronpublish', 'cronpublishdate', 'save',
-			'readperm', 'price', 'ordertype', 'hiddenreplies', 'allownoticeauthor', 'audit', 'tags', 'bbcodeoff', 'imgcontent', 'imgcontentwidth',
+			'readperm', 'price', 'hiddenreplies', 'allownoticeauthor', 'audit', 'tags', 'bbcodeoff', 'imgcontent', 'imgcontentwidth',
 			'smileyoff', 'parseurloff', 'usesig', 'htmlon', 'extramessage', 'original', 'source', 'contentType', 'contentEditor', 'repid',
 		];
 		foreach($varname as $name) {
@@ -329,7 +329,7 @@ class model_post extends discuz_model {
 			}
 
 
-			$this->param['page'] = getstatus($this->thread['status'], 4) ? 1 : @ceil(($this->thread['special'] ? $this->thread['replies'] + 1 : $this->thread['replies'] + 2) / getglobal('ppp'));
+			$this->param['page'] = @ceil(($this->thread['special'] ? $this->thread['replies'] + 1 : $this->thread['replies'] + 2) / getglobal('ppp'));
 
 			if($this->param['updatethreaddata']) {
 				table_forum_thread::t()->update($this->thread['tid'], $this->param['updatethreaddata'], false, false, 0, true);
@@ -463,7 +463,6 @@ class model_post extends discuz_model {
 				}
 			}
 
-			$this->thread['status'] = setstatus(4, $this->param['ordertype'], $this->thread['status']);
 			$this->thread['status'] = setstatus(15, $this->param['imgcontent'], $this->thread['status']);
 			if($this->param['imgcontent']) {
 				stringtopic($this->param['message'], $this->post['tid'], true, $this->param['imgcontentwidth']);

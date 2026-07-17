@@ -67,7 +67,6 @@ if(empty($post)) {
 	$pid = $post['pid'];
 }
 
-$ordertype = !isset($_GET['ordertype']) && getstatus($thread['status'], 4) ? 1 : $ordertype;
 if($thread['special'] == 2 || table_forum_threaddisablepos::t()->fetch($tid)) {
 	$curpostnum = table_forum_post::t()->count_by_tid_dateline($thread['posttableid'], $tid, $post['dateline']);
 } else {
@@ -79,13 +78,7 @@ if($thread['special'] == 2 || table_forum_threaddisablepos::t()->fetch($tid)) {
 	$thread['replies'] = $maxposition;
 	$curpostnum = $post['position'];
 }
-if($ordertype != 1) {
-	$page = ceil($curpostnum / $_G['ppp']);
-} elseif($curpostnum > 1) {
-	$page = ceil(($thread['replies'] - $curpostnum + 3) / $_G['ppp']);
-} else {
-	$page = 1;
-}
+$page = ceil($curpostnum / $_G['ppp']);
 
 if($thread['special'] == 2 && table_forum_trade::t()->check_goods($pid)) {
 	header('HTTP/1.1 301 Moved Permanently');
@@ -93,7 +86,5 @@ if($thread['special'] == 2 && table_forum_trade::t()->check_goods($pid)) {
 }
 
 $authoridurl = $authorid ? '&authorid='.$authorid : '';
-$ordertypeurl = $ordertype ? '&ordertype='.$ordertype : '';
 header('HTTP/1.1 301 Moved Permanently');
-dheader("Location: forum.php?mod=viewthread&tid=$tid&page=$page$authoridurl$ordertypeurl".(isset($_GET['modthreadkey']) && ($modthreadkey = modauthkey($tid)) ? "&modthreadkey=$modthreadkey" : '')."#pid$pid");
-	
+dheader("Location: forum.php?mod=viewthread&tid=$tid&page=$page$authoridurl".(isset($_GET['modthreadkey']) && ($modthreadkey = modauthkey($tid)) ? "&modthreadkey=$modthreadkey" : '')."#pid$pid");

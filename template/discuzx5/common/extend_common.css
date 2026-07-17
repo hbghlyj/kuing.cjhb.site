@@ -762,6 +762,8 @@ body .colorwd {width:36px !important;height:36px !important;line-height:36px !im
 /* 公共帖子列表 */
 .forumportal_list .tb-c {padding:5px 20px}
 .forumportal_listc {margin-bottom:-18px;overflow:hidden}
+.forumportal_separator {margin:0 -20px;padding:10px 20px;background:var(--dz-bgc);border-top:1px solid var(--dz-borderb);font-weight:500}
+.forumportal_separator a {color:var(--dz-fc)}
 .forumportal_listc li.kmlist {padding:18px 0;min-height:48px;border-top:1px solid var(--dz-borderb);position:relative}
 .forumportal_listc li.kmlist_hf {padding-bottom:20px}
 .forumportal_listc li .km_moderate {float:right}
