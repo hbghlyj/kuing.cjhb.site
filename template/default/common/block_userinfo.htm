@@ -17,7 +17,7 @@
 		</div>
 	</div>
 <!--{else}-->
-	<div style="float:left; text-align:left; width:40%;"><img src="{$_G['setting']['avatarurl']}/noavatar.svg"></div>
+	<div style="float:left; text-align:left; width:40%;"><img class="user_avatar" data-avatar-missing="1" data-avatar-key="guest" data-avatar-name="{lang guest}" alt="{lang guest}"></div>
 	<a href="member.php?mod={$_G[setting][regname]}">{lang register}</a><br />
 	<a href="member.php?mod=logging&action=login" onclick="showWindow('login', this.href)">{lang login}</a>
 <!--{/if}-->

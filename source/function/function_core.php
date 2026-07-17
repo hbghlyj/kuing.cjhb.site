@@ -626,6 +626,8 @@ function strexists($string, $find) {
 
 function avatar($uid, $size = 'middle', $returnsrc = 0, $real = FALSE, $static = FALSE, $ucenterurl = '', $class = '', $extra = '', $random = 0, $avatarapi = false, $datasrc = true) {
 	global $_G;
+	$avatarname = '';
+	$avatarstatus = null;
 	if(!empty($_G['setting']['plugins']['func'][HOOKTYPE]['avatar']) && !defined('IN_ADMINCP')) {
 		$_G['hookavatar'] = '';
 		$param = func_get_args();
@@ -635,6 +637,8 @@ function avatar($uid, $size = 'middle', $returnsrc = 0, $real = FALSE, $static =
 		}
 	}
 	if(is_array($returnsrc)) {
+		isset($returnsrc['username']) && $avatarname = (string)$returnsrc['username'];
+		array_key_exists('avatarstatus', $returnsrc) && $avatarstatus = intval($returnsrc['avatarstatus']);
 		isset($returnsrc['random']) && $random = $returnsrc['random'];
 		isset($returnsrc['extra']) && $extra = $returnsrc['extra'];
 		isset($returnsrc['class']) && $class = $returnsrc['class'];
@@ -652,10 +656,7 @@ function avatar($uid, $size = 'middle', $returnsrc = 0, $real = FALSE, $static =
 		$class = trim($class.' user_avatar');
 	}
 	$classattr = $class ? ' class="'.$class.'"' : '';
-
-	if($staticavatar == 2 && !$returnsrc && !$real) {
-		return '<img data-uid="'.$uid.'" data-size="'.$size.'"'.($random ? ' data-random="'.rand(1000, 9999).'"' : '').$classattr.($extra ? ' '.$extra : '').' />';
-	}
+	$avatarattr = !$returnsrc ? ' data-avatar-key="'.dhtmlspecialchars($avatarname !== '' ? $avatarname : (string)$uid).'"'.($avatarname !== '' ? ' data-avatar-name="'.dhtmlspecialchars($avatarname).'" alt="'.dhtmlspecialchars($avatarname).'"' : '') : '';
 	static $avtstatus;
 	if($avtstatus === null) {
 		$avtstatus = [];
@@ -674,6 +675,21 @@ function avatar($uid, $size = 'middle', $returnsrc = 0, $real = FALSE, $static =
 	$size = in_array($size, ['big', 'middle', 'small']) ? $size : 'middle';
 	$rawuid = $uid;
 	$src = $datasrc ? 'data-src' : 'src';
+	if(!$returnsrc && !$ossavatar) {
+		static $localavatarstatus = [];
+		$statuskey = $uid.'_'.$size.'_'.intval($real);
+		if(!isset($localavatarstatus[$statuskey])) {
+			$checkuid = sprintf('%09d', $uid);
+			$checkpath = substr($checkuid, 0, 3).'/'.substr($checkuid, 3, 2).'/'.substr($checkuid, 5, 2).'/'.substr($checkuid, -2).($real ? '_real' : '').'_avatar_'.$size.'.jpg';
+			$localavatarstatus[$statuskey] = is_file(DISCUZ_ROOT.$_G['setting']['avatarpath'].$checkpath) ? 1 : 0;
+		}
+		$avatarstatus = $localavatarstatus[$statuskey];
+	}
+	$avatarmissingattr = $avatarstatus === 0 ? ' data-avatar-missing="1"' : '';
+
+	if($staticavatar == 2 && !$returnsrc && !$real) {
+		return '<img data-uid="'.$uid.'" data-size="'.$size.'"'.($random ? ' data-random="'.rand(1000, 9999).'"' : '').$avatarattr.$avatarmissingattr.$classattr.($extra ? ' '.$extra : '').' />';
+	}
 	if(!$staticavatar && !$static && $ucenterurl != '.' || $avatarapi) {
 		$trandom = '';
 		if($random == 1) {
@@ -686,7 +702,7 @@ function avatar($uid, $size = 'middle', $returnsrc = 0, $real = FALSE, $static =
 		} else {
 			$url = $ucenterurl.'/avatar.php';
 		}
-		return $returnsrc ? $url.'?uid='.$uid.'&size='.$size.($real ? '&type=real' : '').$trandom : '<img '.$src.'="'.$url.'?uid='.$uid.'&size='.$size.($real ? '&type=real' : '').$trandom.'"'.$classattr.($extra ? ' '.$extra : '').'>';
+		return $returnsrc ? $url.'?uid='.$uid.'&size='.$size.($real ? '&type=real' : '').$trandom : '<img '.$src.'="'.$url.'?uid='.$uid.'&size='.$size.($real ? '&type=real' : '').$trandom.'"'.$avatarattr.$avatarmissingattr.$classattr.($extra ? ' '.$extra : '').'>';
 	} else {
 		$uid = sprintf('%09d', $uid);
 		$dir1 = substr($uid, 0, 3);
@@ -694,7 +710,6 @@ function avatar($uid, $size = 'middle', $returnsrc = 0, $real = FALSE, $static =
 		$dir3 = substr($uid, 5, 2);
 		$filepath = $dir1.'/'.$dir2.'/'.$dir3.'/'.substr($uid, -2).($real ? '_real' : '').'_avatar_'.$size.'.jpg';
 		$file = $avatarurl.'/'.$filepath;
-		$noavt = $avatarurl.'/noavatar.'.(!empty($_G['setting']['avatar_default']) ? $_G['setting']['avatar_default'] : 'svg');
 		$trandom = '';
 		$avtexist = -1;
 		if(!$staticavatar && !$static) {
@@ -712,8 +727,6 @@ function avatar($uid, $size = 'middle', $returnsrc = 0, $real = FALSE, $static =
 					}
 					$trandom = '?ts='.$avtstatus[$rawuid][1];
 				}
-			} else {
-				$file = $noavt;
 			}
 		}
 		if($random == 1 && $avtexist != 0) {
@@ -724,7 +737,7 @@ function avatar($uid, $size = 'middle', $returnsrc = 0, $real = FALSE, $static =
 		if($trandom) {
 			$file = $file.$trandom;
 		}
-		return $returnsrc ? $file : '<img '.$src.'="'.$file.'"'.$classattr.($extra ? ' '.$extra : '').'>';
+		return $returnsrc ? $file : '<img '.$src.'="'.$file.'"'.$avatarattr.(($avatarstatus === 0 || $avtexist === 0) ? ' data-avatar-missing="1"' : '').$classattr.($extra ? ' '.$extra : '').'>';
 	}
 }
 

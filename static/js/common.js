@@ -321,7 +321,7 @@ function Ajax(recvType, waitId) {
 				}
 			}
 			aj.resultHandle(s, aj);
-			if (typeof s == 'string' && (s.indexOf('data-uid') !== -1 || s.indexOf('data-src') !== -1)) {
+			if (typeof s == 'string' && (s.indexOf('data-uid') !== -1 || s.indexOf('data-src') !== -1 || s.indexOf('data-avatar-missing') !== -1)) {
 				loadAvatar();
 			}
 		}
@@ -2454,21 +2454,95 @@ function $L(key, param) {
 	return humanized;
 }
 
-function loadAvatar() {
-	var defaulturl = typeof DEFAULTAVATAR == 'undefined' ? './data/avatar/noavatar.svg' : DEFAULTAVATAR;
-	var avatarurl = typeof DEFAULTAVATAR != 'undefined' && DEFAULTAVATAR.lastIndexOf('/') !== -1 ? DEFAULTAVATAR.substring(0, DEFAULTAVATAR.lastIndexOf('/') + 1) : '';
+function avatarHsvToRgb(h, s, v) {
+	var r, g, b;
+	var i = Math.floor(h * 6);
+	var f = h * 6 - i;
+	var p = v * (1 - s);
+	var q = v * (1 - f * s);
+	var t = v * (1 - (1 - f) * s);
 
-	document.querySelectorAll('img[data-uid], img[data-src]').forEach(img => {
-		img.onerror = function () {
+	switch(i % 6) {
+		case 0: r = v; g = t; b = p; break;
+		case 1: r = q; g = v; b = p; break;
+		case 2: r = p; g = v; b = t; break;
+		case 3: r = p; g = q; b = v; break;
+		case 4: r = t; g = p; b = v; break;
+		case 5: r = v; g = p; b = q; break;
+	}
+
+	return {
+		r: Math.floor(r * 255),
+		g: Math.floor(g * 255),
+		b: Math.floor(b * 255)
+	};
+}
+
+function avatarColor(value) {
+	var string = String(value || '0');
+	var num = 0;
+	for(var i = 0; i < string.length; i++) {
+		num += string.charCodeAt(i);
+	}
+	var rgb = avatarHsvToRgb((num % 360) / 360, 0.3, 0.9);
+	return '#' + [rgb.r, rgb.g, rgb.b].map(function(channel) {
+		return channel.toString(16).padStart(2, '0');
+	}).join('');
+}
+
+function renderInitialAvatar(img) {
+	if(!img || img.getAttribute('data-avatar-generated') == '1' || !img.parentNode) {
+		return;
+	}
+	var name = (img.getAttribute('data-avatar-name') || img.getAttribute('alt') || '').trim();
+	var key = img.getAttribute('data-avatar-key') || name || '0';
+	var initial = Array.from(name || key)[0] || '?';
+	if(initial.toUpperCase() != initial.toLowerCase()) {
+		initial = initial.toUpperCase();
+	}
+	var color = avatarColor(key);
+	img.onerror = null;
+	var rect = img.getBoundingClientRect();
+	var fallbackSize = img.getAttribute('data-size') == 'small' ? 48 : img.getAttribute('data-size') == 'big' ? 200 : 120;
+	var width = rect.width || parseFloat(img.getAttribute('width')) || fallbackSize;
+	var height = rect.height || parseFloat(img.getAttribute('height')) || width;
+	var avatar = document.createElement('span');
+	avatar.className = (img.className ? img.className + ' ' : '') + 'Avatar';
+	avatar.setAttribute('data-avatar-generated', '1');
+	avatar.setAttribute('data-avatar-color', color);
+	avatar.setAttribute('role', 'img');
+	avatar.setAttribute('aria-label', name || key);
+	avatar.title = img.title || name;
+	avatar.style.setProperty('--avatar-bg', color);
+	avatar.style.setProperty('--avatar-size', Math.min(width, height) + 'px');
+	avatar.style.width = width + 'px';
+	avatar.style.height = height + 'px';
+	avatar.textContent = initial;
+	img.parentNode.replaceChild(avatar, img);
+	return avatar;
+}
+
+function loadAvatar() {
+	var avatarurl = typeof AVATARURL == 'undefined' ? './data/avatar/' : AVATARURL.replace(/\/?$/, '/');
+
+	document.querySelectorAll('img[data-uid], img[data-src], img[data-avatar-missing]').forEach(function(img) {
+		var isAvatar = img.classList.contains('user_avatar') || img.hasAttribute('data-avatar-key') || img.hasAttribute('data-uid');
+		img.onerror = function() {
 			this.onerror = null;
-			this.src = defaulturl;
+			if(isAvatar) {
+				renderInitialAvatar(this);
+			}
 		};
-		if (img.dataset.uid && avatarurl != '') {
-			let size = img.dataset.size || 'middle';
-			let uid = img.dataset.uid;
-			let random = img.dataset.random ? '?r=' + img.dataset.random : '';
+		if(img.hasAttribute('data-avatar-missing')) {
+			renderInitialAvatar(img);
+			return;
+		}
+		if(img.dataset.uid && avatarurl != '') {
+			var size = img.dataset.size || 'middle';
+			var uid = img.dataset.uid;
+			var random = img.dataset.random ? '?r=' + img.dataset.random : '';
 			uid = uid.toString().padStart(9, '0');
-			img.dataset.src = avatarurl + `${uid.substring(0, 3)}/${uid.substring(3, 5)}/${uid.substring(5, 7)}/${uid.substring(7)}_avatar_${size}.jpg` + random;
+			img.dataset.src = avatarurl + uid.substring(0, 3) + '/' + uid.substring(3, 5) + '/' + uid.substring(5, 7) + '/' + uid.substring(7) + '_avatar_' + size + '.jpg' + random;
 			img.removeAttribute('data-uid');
 			img.removeAttribute('data-size');
 			img.removeAttribute('data-random');

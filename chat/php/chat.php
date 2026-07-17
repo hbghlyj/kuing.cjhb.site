@@ -26,7 +26,7 @@ if(empty($_G['uid'])) {
 $options = array();
 $options['displayName'] = $_G['username'];
 $options['text'] = htmlspecialchars($chat_info['text']);
-$options['image'] = avatar($_G['uid'], 'small', 1);
+$options['image'] = !empty($_G['member']['avatarstatus']) ? avatar($_G['uid'], 'small', 1) : '';
 $activity = new Activity('chat-message', $options['text'], $options);
 
 $pusher = new Pusher(APP_KEY,APP_SECRET,APP_ID,array(

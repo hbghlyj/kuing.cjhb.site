@@ -29,7 +29,8 @@ if(!filter_var($url, FILTER_VALIDATE_URL)) {
 	];
 	$c->request(['url' => $url]);
 	if(!in_array($c->curlstatus['http_code'], [200, 301, 302])) {
-		$url = '../data/avatar/noavatar.svg';
+		http_response_code(404);
+		exit;
 	}
 }
 

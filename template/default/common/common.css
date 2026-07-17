@@ -104,6 +104,7 @@ Last Modify:	Pony
 	.iconfont { width: 1.5em; height: 1.5em; vertical-align: middle; fill: currentColor; overflow: hidden; }
 	/* 消除修改DOCTYPE为HTML5以后造成的img基线问题 */
 	img.boardlogo, img.user_avatar, .slideimage img { vertical-align: middle; }
+	.Avatar { display: inline-flex; align-items: center; justify-content: center; box-sizing: content-box; color: #FFF; vertical-align: top; background-color: var(--avatar-bg); font-size: calc(var(--avatar-size, 48px) / 2); font-weight: 400; line-height: 1; border-radius: 100%; overflow: hidden; }
 /*
 	Name:			mod_float
 	Level:			Global

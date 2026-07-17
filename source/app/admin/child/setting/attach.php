@@ -40,9 +40,6 @@ if(submitcheck('settingsubmit')) {
 		}
 		if($settingnew['ftp']['on'] == 2) {
 			$settingnew['attachurl'] = $settingnew['ftp']['attachurl'] = $settingnew['oss']['oss_url'].($settingnew['oss']['oss_rootpath'] ? '/'.$settingnew['oss']['oss_rootpath'] : '');
-			if($settingnew['oss']['oss_avatar']) {
-				ftpcmd('upload', 'avatar/noavatar.svg');
-			}
 			if(empty($settingnew['ftp']['host'])) {
 				$settingnew['ftp']['host'] = $settingnew['oss']['oss_url'];
 			}

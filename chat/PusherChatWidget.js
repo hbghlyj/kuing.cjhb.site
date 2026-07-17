@@ -371,7 +371,17 @@
     static _buildListItem(activity){
       const li = jQuery('<li></li>').addClass('message-item');
       const contentWrapper = jQuery('<div class="message-content-wrapper"></div>');
-      const image = jQuery('<div class="image"><img src="'+activity.actor.image+'" width="24" height="24" /></div>');
+      const avatar = jQuery('<img class="user_avatar" width="24" height="24" />')
+        .attr('data-avatar-key', activity.actor.displayName)
+        .attr('data-avatar-name', activity.actor.displayName)
+        .attr('alt', activity.actor.displayName)
+        .on('error', function(){ renderInitialAvatar(this); });
+      const image = jQuery('<div class="image"></div>').append(avatar);
+      if(activity.actor.image){
+        avatar.attr('src', activity.actor.image);
+      }else{
+        renderInitialAvatar(avatar[0]);
+      }
       const content = jQuery('<div class="content"></div>');
       const user = jQuery('<div class="activity-row"><span class="user-name"><a class="screen-name">'+activity.actor.displayName.replace(/\\'/g,"'")+'</a><a '+(activity.link?'href="'+activity.link+'" ':'')+'class="timestamp"><span data-activity-published="'+activity.published+'">'+PusherChatWidget.timeToDescription(activity.published)+'</span></a></span></div>');
       content.append(user);

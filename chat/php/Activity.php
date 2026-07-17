@@ -39,7 +39,7 @@ class Activity {
   
   private function set_default_options($options) {
     $defaults = array ( 'displayName' => null,
-                        'image' => '/data/avatar/noavatar.svg',
+                        'image' => null,
                       );
     foreach ($defaults as $key => $value) {
       if(!isset($options[$key])) {

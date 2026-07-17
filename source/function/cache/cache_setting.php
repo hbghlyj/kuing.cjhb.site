@@ -330,10 +330,12 @@ function build_cache_setting() {
 	$data['avatarpath'] = 'data/avatar/';
 
 	if($data['ftp']['on'] == 2 && $data['oss']['oss_avatar']) {
-		$data['defaultavatar'] = $data['ftp']['attachurl'].'avatar/noavatar.'.(!empty($data['avatar_default']) ? $data['avatar_default'] : 'svg');
+		$data['avatarbase'] = rtrim($data['ftp']['attachurl'], '/').'/avatar';
 	} else {
-		$data['defaultavatar'] = $data['avatarurl'].'/noavatar.'.(!empty($data['avatar_default']) ? $data['avatar_default'] : 'svg');
+		$data['avatarbase'] = $data['avatarurl'];
 	}
+	unset($data['defaultavatar']);
+	$_G['setting']['avatarbase'] = $data['avatarbase'];
 
 	foreach(table_common_magic::t()->fetch_all_data(1) as $magic) {
 		$magic['identifier'] = str_replace(':', '_', $magic['identifier']);
@@ -1447,7 +1449,7 @@ function writetojscache() {
 
 function _appendjsvar() {
 	global $_G;
-	return 'var DEFAULTAVATAR = '.json_encode($_G['setting']['defaultavatar'], JSON_UNESCAPED_SLASHES).";\n";
+	return 'var AVATARURL = '.json_encode($_G['setting']['avatarbase'], JSON_UNESCAPED_SLASHES).";\n";
 }
 
 function pluginmodulecmp($a, $b) {

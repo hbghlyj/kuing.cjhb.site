@@ -28,8 +28,8 @@ if(file_exists($avatar_file)) {
 		echo 0;
 		exit;
 	}
-	$avatar_url = 'noavatar.svg';
-	$avatar_file = dirname(__DIR__, 2).'/data/avatar/'.$avatar_url;
+	http_response_code(404);
+	exit;
 }
 
 if(empty($random)) {
@@ -37,7 +37,7 @@ if(empty($random)) {
 		header('HTTP/1.1 301 Moved Permanently');
 		header('Last-Modified: '.date('r'));
 		header('Expires: '.date('r', time() + 86400));
-	} elseif($avatar_url != 'noavatar.svg') {
+	} else {
 		$avatar_url .= '?ts='.filemtime($avatar_file);
 	}
 } else {

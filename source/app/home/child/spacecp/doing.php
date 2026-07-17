@@ -529,7 +529,7 @@ if($_GET['op'] == 'delete') {
 
 			loaducenter();
 			$isavatar = uc_check_avatar($id);
-			$arr['image'] = $arr['body_data']['image'] = $isavatar ? avatar($id, 'middle', true) : $_G['setting']['avatarurl'].'/noavatar.svg';
+			$arr['image'] = $arr['body_data']['image'] = $isavatar ? avatar($id, 'middle', true) : '';
 			$arr['image_link'] = $arr['body_data']['image_link'] = "home.php?mod=space&uid=$id";
 
 			$note_uid = $id;
