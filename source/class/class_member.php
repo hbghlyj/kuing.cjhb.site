@@ -338,9 +338,7 @@ class register_ctl {
 	function __construct() {
 		global $_G;
 		if($_G['setting']['bbclosed']) {
-			if(($_GET['action'] != 'activation' && !$_GET['activationauth']) || !$_G['setting']['closedallowactivation']) {
-				showmessage('register_disable', NULL, [], ['login' => 1]);
-			}
+			showmessage('register_disable', NULL, [], ['login' => 1]);
 		}
 
 		loadcache(['modreasons', 'fields_required', 'fields_optional', 'fields_register', 'ipctrl']);
@@ -376,14 +374,8 @@ class register_ctl {
 				$url_forward = 'index.php';
 			}
 			showmessage('login_succeed', $url_forward ? $url_forward : './', ['username' => $_G['member']['username'], 'usergroup' => $_G['group']['grouptitle'], 'uid' => $_G['uid']], ['extrajs' => $ucsynlogin]);
-		} elseif(!$this->setting['regclosed'] && (!$this->setting['regstatus'] || !$this->setting['ucactivation'])) {
-			if($_GET['action'] == 'activation' || $_GET['activationauth']) {
-				if(!$this->setting['ucactivation'] && !$this->setting['closedallowactivation']) {
-					showmessage('register_disable_activation');
-				}
-			} elseif(!$this->setting['regstatus']) {
-				showmessage(!$this->setting['regclosemessage'] ? 'register_disable' : str_replace(["\r", "\n"], '', $this->setting['regclosemessage']));
-			}
+		} elseif(!$this->setting['regclosed'] && !$this->setting['regstatus']) {
+			showmessage(!$this->setting['regclosemessage'] ? 'register_disable' : str_replace(["\r", "\n"], '', $this->setting['regclosemessage']));
 		}
 
 		$bbrules = &$this->setting['bbrules'];

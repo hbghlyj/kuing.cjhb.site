@@ -254,9 +254,6 @@ $data = [[
     'skey' => 'chatpmrefreshtime',
     'svalue' => '8',
   ],[
-    'skey' => 'closedallowactivation',
-    'svalue' => '0',
-  ],[
     'skey' => 'closedreason',
     'svalue' => '',
   ],[
@@ -1944,15 +1941,6 @@ discuz',
   ],[
     'skey' => 'transfermincredits',
     'svalue' => '1000',
-  ],[
-    'skey' => 'uc',
-    'svalue' =>
-    [
-      'addfeed' => 1,
-    ],
-  ],[
-    'skey' => 'ucactivation',
-    'svalue' => '1',
   ],[
     'skey' => 'uidlogin',
     'svalue' => '0',

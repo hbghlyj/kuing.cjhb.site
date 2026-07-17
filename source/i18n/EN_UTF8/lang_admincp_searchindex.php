@@ -4059,7 +4059,6 @@ $lang = array (
 			31 => 'setting_basic_closedreason',
 			32 => '关闭站点的原因',
 			33 => '站点关闭时出现的提示信息',
-			34 => 'setting_basic_bbclosed_activation',
 			35 => '站点关闭时允许 UCenter 中的用户激活',
 		),
 	),

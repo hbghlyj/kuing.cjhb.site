@@ -51,7 +51,6 @@ if(submitcheck('settingsubmit')) {
 	showtableheader('setting_basic_bbclosed', 'nobottom');
 	showsetting('setting_basic_bbclosed', 'settingnew[bbclosed]', $setting['bbclosed'], 'radio', 0, 1);
 	showsetting('setting_basic_closedreason', 'settingnew[closedreason]', $setting['closedreason'], 'textarea');
-	showsetting('setting_basic_bbclosed_activation', 'settingnew[closedallowactivation]', $setting['closedallowactivation'], 'radio');
 	showtagfooter('tbody');
 	/*search*/
 

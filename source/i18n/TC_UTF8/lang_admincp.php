@@ -844,7 +844,6 @@ $lang =
 	'setting_basic_bbclosed_comment' => '暫時將站點關閉，其他人無法訪問，但不影響管理員訪問',
 	'setting_basic_closedreason' => '關閉站點的原因',
 	'setting_basic_closedreason_comment' => '站點關閉時出現的提示資訊',
-	'setting_basic_bbclosed_activation' => '站點關閉時允許 UCenter 中的用戶激活',
 
 	'setting_access' => '註冊與訪問控制',
 	'setting_access_register' => '註冊',
