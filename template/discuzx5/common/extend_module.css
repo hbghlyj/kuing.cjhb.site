@@ -108,7 +108,6 @@
 #autopbn:after {display:none}
 /**end**/
 /**forum::viewthread**/
-.pi {border-color:var(--dz-borderb)}
 .po {padding:5px 0;border-color:var(--dz-borderb)}
 .plc .authi a, .plc .authi span, .plc .authi em {margin:0 4px}
 .plc .authi a.kmico {margin:0 1px}
