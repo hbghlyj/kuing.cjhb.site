@@ -176,7 +176,7 @@ class discuz_database {
 
 			} elseif($cmd === 'UPDATE' || $cmd === 'DELETE') {
 				$ret = self::$db->affected_rows();
-			} elseif($cmd === 'INSERT') {
+			} elseif($cmd === 'INSERT' || $cmd === 'REPLACE') {
 				$ret = self::$db->insert_id();
 			}
 		}

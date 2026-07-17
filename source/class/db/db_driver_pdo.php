@@ -158,7 +158,7 @@ class db_driver_pdo extends db_driver_mysqli {
 		$this->querynum++;
 
 		$cmd = trim(strtoupper(substr($sql, 0, strpos($sql, ' '))));
-		if($cmd === 'UPDATE' || $cmd === 'DELETE' || $cmd === 'INSERT') {
+		if($cmd === 'UPDATE' || $cmd === 'DELETE' || $cmd === 'INSERT' || $cmd === 'REPLACE') {
 			$this->rowCount = $query->rowCount();
 		}
 
