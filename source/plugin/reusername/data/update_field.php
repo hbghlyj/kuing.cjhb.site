@@ -26,7 +26,6 @@ $dz_update_field = array(
 	array("table" => "common_grouppm", "field" => "author"),
 	array("table" => "common_invite", "field" => "fusername"),
 	array("table" => "common_member", "field" => "username"),
-	array("table" => "common_member_security", "field" => "username"),
 	array("table" => "common_member_verify_info", "field" => "username"),
 	array("table" => "common_mytask", "field" => "username"),
 	array("table" => "common_report", "field" => "username"),

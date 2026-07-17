@@ -4,19 +4,17 @@
 --
 -- Create: 2013-08-27 16:12:45
 --
-CREATE TABLE `common_robot_user_agents` (
-  `id` int NOT NULL,
-  `user_agent_keyword` varchar(255) NOT NULL,
-  `category` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `first_seen_at` int UNSIGNED NOT NULL DEFAULT '0',
-  `last_seen_at` int UNSIGNED NOT NULL DEFAULT '0',
-  `seen_count` int UNSIGNED NOT NULL DEFAULT '0'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-ALTER TABLE `common_robot_user_agents`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `unique_ua_keyword` (`user_agent_keyword`);
-ALTER TABLE `common_robot_user_agents`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+DROP TABLE IF EXISTS pre_common_robot_user_agents;
+CREATE TABLE pre_common_robot_user_agents (
+  id int unsigned NOT NULL AUTO_INCREMENT,
+  user_agent_keyword varchar(255) NOT NULL,
+  category varchar(30) DEFAULT NULL,
+  first_seen_at int unsigned NOT NULL DEFAULT '0',
+  last_seen_at int unsigned NOT NULL DEFAULT '0',
+  seen_count int unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (id),
+  UNIQUE KEY unique_ua_keyword (user_agent_keyword)
+) ENGINE=InnoDB;
 
 CREATE TABLE `chat` (
   `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -546,14 +544,6 @@ CREATE TABLE pre_common_smslog_archive (
   `content` text NOT NULL,
   `dateline` int(10) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`smslogid`)
-) ENGINE=InnoDB;
-
-DROP TABLE IF EXISTS pre_common_devicetoken;
-CREATE TABLE pre_common_devicetoken (
-  uid mediumint(8) unsigned NOT NULL,
-  token char(50) NOT NULL,
-  PRIMARY KEY (uid),
-  KEY token (token)
 ) ENGINE=InnoDB;
 
 DROP TABLE IF EXISTS pre_common_district;
@@ -1095,20 +1085,6 @@ CREATE TABLE pre_common_member_profile_setting (
   PRIMARY KEY (fieldid)
 ) ENGINE=InnoDB;
 
-DROP TABLE IF EXISTS pre_common_member_security;
-CREATE TABLE pre_common_member_security (
-  securityid mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
-  uid mediumint(8) unsigned NOT NULL DEFAULT '0',
-  username varchar(255) NOT NULL DEFAULT '',
-  fieldid varchar(255) NOT NULL DEFAULT '',
-  oldvalue text NOT NULL,
-  newvalue text NOT NULL,
-  dateline int(10) unsigned NOT NULL DEFAULT '0',
-  PRIMARY KEY (securityid),
-  KEY uid (uid,fieldid(40)),
-  KEY dateline (dateline)
-) ENGINE=InnoDB;
-
 DROP TABLE IF EXISTS pre_common_member_secwhite;
 CREATE TABLE pre_common_member_secwhite (
   uid int(10) NOT NULL,
@@ -1246,16 +1222,6 @@ CREATE TABLE pre_common_optimizer (
   k char(100) NOT NULL DEFAULT '',
   v char(255) NOT NULL DEFAULT '',
   PRIMARY KEY (k)
-) ENGINE=InnoDB;
-
-DROP TABLE IF EXISTS pre_common_patch;
-CREATE TABLE pre_common_patch (
-  `serial` varchar(10) NOT NULL DEFAULT '',
-  rule text NOT NULL,
-  note text NOT NULL,
-  `status` tinyint(1) NOT NULL DEFAULT '0',
-  dateline int(10) unsigned NOT NULL DEFAULT '0',
-  PRIMARY KEY (`serial`)
 ) ENGINE=InnoDB;
 
 DROP TABLE IF EXISTS pre_common_plugin;
@@ -1411,13 +1377,6 @@ CREATE TABLE pre_common_smiley (
     PRIMARY KEY (id),
     KEY `type` (`type`, displayorder)
   ) ENGINE=InnoDB;
-
-DROP TABLE IF EXISTS pre_common_sphinxcounter;
-CREATE TABLE pre_common_sphinxcounter (
-  indexid tinyint(1) NOT NULL,
-  maxid int(10) NOT NULL,
-  PRIMARY KEY (indexid)
-) ENGINE=InnoDB;
 
 DROP TABLE IF EXISTS pre_common_stat;
 CREATE TABLE pre_common_stat (
@@ -3899,13 +3858,6 @@ CREATE TABLE pre_home_visitor (
   KEY dateline (dateline)
 ) ENGINE=InnoDB;
 
-DROP TABLE IF EXISTS pre_mobile_setting;
-CREATE TABLE pre_mobile_setting (
-  skey varchar(190) NOT NULL DEFAULT '',
-  svalue text NOT NULL,
-  PRIMARY KEY (skey)
-) ENGINE=InnoDB;
-
 DROP TABLE IF EXISTS pre_portal_article_content;
 CREATE TABLE pre_portal_article_content (
   cid int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -4141,53 +4093,5 @@ CREATE TABLE pre_portal_topic_pic (
   remote tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (picid),
   KEY topicid (topicid)
-) ENGINE=InnoDB;
-
-DROP TABLE IF EXISTS pre_security_evilpost;
-CREATE TABLE pre_security_evilpost (
-  pid int(10) unsigned NOT NULL,
-  tid int(10) unsigned NOT NULL DEFAULT '0',
-  `type` tinyint(1) NOT NULL DEFAULT '0',
-  evilcount int(10) NOT NULL DEFAULT '0',
-  eviltype mediumint(8) unsigned NOT NULL DEFAULT '0',
-  createtime int(10) unsigned NOT NULL DEFAULT '0',
-  operateresult tinyint(1) NOT NULL DEFAULT '0',
-  isreported tinyint(1) NOT NULL DEFAULT '0',
-  censorword char(50) NOT NULL,
-  PRIMARY KEY (pid),
-  KEY `type` (tid,`type`),
-  KEY operateresult (operateresult,createtime)
-) ENGINE=InnoDB;
-
-DROP TABLE IF EXISTS pre_security_eviluser;
-CREATE TABLE pre_security_eviluser (
-  uid int(10) unsigned NOT NULL,
-  evilcount int(10) NOT NULL DEFAULT '0',
-  eviltype mediumint(8) unsigned NOT NULL DEFAULT '0',
-  createtime int(10) unsigned NOT NULL DEFAULT '0',
-  operateresult tinyint(1) NOT NULL DEFAULT '0',
-  isreported tinyint(1) NOT NULL DEFAULT '0',
-  PRIMARY KEY (uid),
-  KEY operateresult (operateresult,createtime)
-) ENGINE=InnoDB;
-
-DROP TABLE IF EXISTS pre_security_failedlog;
-CREATE TABLE pre_security_failedlog (
-  id int(11) NOT NULL AUTO_INCREMENT,
-  reporttype char(20) NOT NULL,
-  tid int(10) unsigned NOT NULL DEFAULT '0',
-  pid int(10) unsigned NOT NULL DEFAULT '0',
-  uid int(10) unsigned NOT NULL DEFAULT '0',
-  failcount int(10) unsigned NOT NULL DEFAULT '0',
-  createtime int(10) unsigned NOT NULL DEFAULT '0',
-  posttime int(10) unsigned NOT NULL DEFAULT '0',
-  delreason char(255) NOT NULL,
-  scheduletime int(10) unsigned NOT NULL DEFAULT '0',
-  lastfailtime int(10) unsigned NOT NULL DEFAULT '0',
-  extra1 int(10) unsigned NOT NULL,
-  extra2 char(255) NOT NULL DEFAULT '0',
-  PRIMARY KEY (id),
-  KEY pid (pid),
-  KEY uid (uid)
 ) ENGINE=InnoDB;
 

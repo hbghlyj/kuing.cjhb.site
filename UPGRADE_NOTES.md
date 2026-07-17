@@ -12,7 +12,7 @@
 
 - 这是部署说明，不是功能宣传页。每次更新代码前，应先阅读本文档与 `README.md`。
 - 对于存量站点，不要只覆盖代码。至少需要同步检查：
-  - `install/data/upgrade.sql`
+  - `install/sql/sql_upgrade_3.5.php`
   - `install/data/install.sql`
   - `config/config_global_default.php`
 - 当前分支已经引入额外运行时依赖与默认策略，例如 MaxMind GeoIP2、HTTPS 输出策略、后台登录相关默认项；这些都会影响实际部署结果。
@@ -38,8 +38,8 @@ ALTER TABLE uc_members
   - `pre_common_member.loginname`
   - `pre_common_member_username_history`
   - `pre_common_member_account`
-- 这些变更不应手工挑选性跳过。对于已有站点，应完整评估并执行 `install/data/upgrade.sql`。
-- 来源：`install/data/upgrade.sql`
+- 这些变更不应手工挑选性跳过。对于已有站点，应完整评估并执行 `install/sql/sql_upgrade_3.5.php`。
+- 来源：`install/sql/sql_upgrade_3.5.php`
 
 ### 旧 IP 查询后端已移除
 
@@ -85,7 +85,7 @@ ALTER TABLE uc_members
 - 适用对象：存量 X3.5 站点
 - 来源：`README.md`
 
-#### [Required] 审核并执行 `install/data/upgrade.sql`
+#### [Required] 审核并执行 `install/sql/sql_upgrade_3.5.php`
 
 - 当前分支新增的升级脚本是部署存量站点的主入口，不建议只手工补一两条 SQL。
 - 该文件已包含较大范围的结构变更，例如：
@@ -102,21 +102,49 @@ ALTER TABLE uc_members
   - `pre_common_editorblock`
   - `pre_common_stylevar_extra`
 - 适用对象：已有站点从旧代码升级到当前分支
-- 来源：`install/data/upgrade.sql`
+- 来源：`install/sql/sql_upgrade_3.5.php`
 
-### Recommended / situational
+#### [Required] 清理已移除功能的遗留结构
 
-#### [Recommended] 对照 `install/data/install.sql` 检查 install-only 表
+- 当前代码和全新安装不再使用下列表。存量站点应先备份数据库，再按实际表前缀执行：
 
-- 有些新表只出现在安装 SQL 中，未必已经包含在升级路径里。对于从旧站点长期演进、又准备启用相关功能的站点，应比对并确认是否已经存在。
-- 当前至少应人工检查：
-  - `pre_common_devicetoken`
-  - `pre_mobile_setting`
-- 适用场景：
-  - 启用移动端相关能力
-  - 从较老分支直接跳到当前分支
-  - 历史升级路径不完整
-- 来源：`install/data/install.sql`
+```sql
+DROP TABLE IF EXISTS pre_common_devicetoken;
+DROP TABLE IF EXISTS pre_common_member_security;
+DROP TABLE IF EXISTS pre_common_patch;
+DROP TABLE IF EXISTS pre_common_sphinxcounter;
+DROP TABLE IF EXISTS pre_home_docomment_recomend_log;
+DROP TABLE IF EXISTS pre_mobile_setting;
+DROP TABLE IF EXISTS pre_mobile_wsq_threadlist;
+DROP TABLE IF EXISTS pre_security_evilpost;
+DROP TABLE IF EXISTS pre_security_eviluser;
+DROP TABLE IF EXISTS pre_security_failedlog;
+```
+
+- 如果站点使用非空表前缀，且同时存在无前缀和带前缀的 `common_robot_user_agents`，无前缀表是旧安装脚本产生的重复表，可以删除。表前缀为空时不得执行这条语句：
+
+```sql
+DROP TABLE IF EXISTS common_robot_user_agents;
+```
+
+- 下列字段已无运行时代码读取。仅在字段确实存在时执行删除；MySQL 5.7 不支持 `DROP COLUMN IF EXISTS`：
+
+```sql
+ALTER TABLE pre_forum_attachment_0 DROP COLUMN sha1;
+ALTER TABLE pre_forum_attachment_1 DROP COLUMN sha1;
+ALTER TABLE pre_forum_attachment_2 DROP COLUMN sha1;
+ALTER TABLE pre_forum_attachment_3 DROP COLUMN sha1;
+ALTER TABLE pre_forum_attachment_4 DROP COLUMN sha1;
+ALTER TABLE pre_forum_attachment_5 DROP COLUMN sha1;
+ALTER TABLE pre_forum_attachment_6 DROP COLUMN sha1;
+ALTER TABLE pre_forum_attachment_7 DROP COLUMN sha1;
+ALTER TABLE pre_forum_attachment_8 DROP COLUMN sha1;
+ALTER TABLE pre_forum_attachment_9 DROP COLUMN sha1;
+ALTER TABLE pre_portal_article_title DROP COLUMN tag;
+```
+
+- `pre_common_robot_user_agents`、`pre_common_session.location`、`pre_common_session.referrer`、`pre_forum_thread.tags` 和 `pre_portal_article_title.tags` 仍在使用，不属于清理范围。
+- 来源：运行时代码引用审计、`install/data/install.sql`、`install/sql/sql_install.php`
 
 ### Manual review
 
@@ -125,7 +153,7 @@ ALTER TABLE uc_members
 - 如果站点已经明显落后于当前分支，不建议只挑少数表或字段补丁式迁移。
 - 推荐做法：
   - 先备份数据库
-  - 逐项审查 `install/data/upgrade.sql`
+  - 逐项审查 `install/sql/sql_upgrade_3.5.php`
   - 再根据站点实际启用功能补充检查 `install/data/install.sql`
 
 ## Config / Environment Changes

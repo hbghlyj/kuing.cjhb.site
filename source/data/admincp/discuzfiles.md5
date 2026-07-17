@@ -31,7 +31,7 @@ e86d4fbab5b31830f47471f67a8cb4b1 *./README.md
 209f7da3fb816679a3bb26c62daaaa74 *./static
 b9b6db2a5893eb3f77d3243f7bbda747 *./template
 aa37b4967ec38b8e00af2262e6968155 *./tools
-e36fbfff45e17ac91b41b597674d6d7b *./UPGRADE_NOTES.md
+d3f41a183e3d3af99c9800088f729a96 *./UPGRADE_NOTES.md
 3a1392c4209de863cc353702150c75ca *./vendor
 6d572f40f84622fcb186cd13944acc41 *api/account/callback.php
 d41d8cd98f00b204e9800998ecf8427e *api/account/index.htm
@@ -1359,7 +1359,7 @@ a4e9914b4b82253fe09586b32c363573 *source/class/class_editor.php
 78f59398910d0a6a4b5a8644a7cf1df8 *source/class/class_ip.php
 36f0390232c454dfd512f153f539636d *source/class/class_mailcode.php
 d5ba3c10b709b10474200dce9c667ae0 *source/class/class_member.php
-29f8005a267f2677a4a2aec85542bc9c *source/class/class_membersearch.php
+3989139af1423c8eafc522e294256d2b *source/class/class_membersearch.php
 9c51a7afcda84789d7a80a14b2d8f2a8 *source/class/class_menu.php
 c6626688b89c34dc75b6f54368124610 *source/class/class_optimizer.php
 22fedf5ef1a7c5a52aea71845f91154c *source/class/class_oss.php
@@ -1638,7 +1638,6 @@ b2c72027b4ff9898e13b09169d185266 *source/class/table/table_common_member_medal.p
 dac17f2356a029b03efed78a388716cd *source/class/table/table_common_member_profile_history.php
 3f5dd20f5ef8dc595f53fff1d40eba3a *source/class/table/table_common_member_profile_setting.php
 9d6a71b425a6f4b78c43de4aa78b9ef9 *source/class/table/table_common_member_profile.php
-2e8dd4174e4804d5d8cc8506fd3e57c9 *source/class/table/table_common_member_security.php
 a2fdb5dcc33848351f4de4eaeb470611 *source/class/table/table_common_member_secwhite.php
 bf8dc410445097d8e722e43774e5e78a *source/class/table/table_common_member_stat_field.php
 888859dad0bba6f6f397461e944cab09 *source/class/table/table_common_member_status_archive.php
@@ -1653,7 +1652,6 @@ bf8dc410445097d8e722e43774e5e78a *source/class/table/table_common_member_stat_fi
 7821d948b36d065713fd4de4d51a7919 *source/class/table/table_common_nav.php
 9a9acfeb56c3d14c20277438fccd3762 *source/class/table/table_common_onlinetime.php
 744549fcfb8c7f9fb777f235fbf7036c *source/class/table/table_common_optimizer.php
-cfb863cea59016e3f2e34d9a89c56872 *source/class/table/table_common_patch.php
 7249374aca8f36bbf94cafed0bfea56e *source/class/table/table_common_payment_order.php
 2cb21151b9c7e1740b3b079ae902b4ca *source/class/table/table_common_payment_refund.php
 1828d5a8a155e592346071e7218e32a9 *source/class/table/table_common_payment_transfer.php
@@ -1671,7 +1669,6 @@ cc135dec303e2846d15273ff1f48b958 *source/class/table/table_common_session.php
 6f8192c9cf487b0bc31c5761580e95c3 *source/class/table/table_common_smiley.php
 32d1d58aaa682d608c45110bb353c4ce *source/class/table/table_common_smsgw.php
 04b9cbe65dc01f744d685e3bb592564c *source/class/table/table_common_smslog.php
-a093b8872bab266cdb84855e227427f4 *source/class/table/table_common_sphinxcounter.php
 ad929ce8ff789a381a7f5679e33770d4 *source/class/table/table_common_stat.php
 2a0a66d610f28329f4235464eb6915e3 *source/class/table/table_common_statuser.php
 6cad18afc4ddc55856f8cf05c4444946 *source/class/table/table_common_style.php
@@ -1783,7 +1780,6 @@ c653958ca62d9d42107ed0fd5a9b8956 *source/class/table/table_home_blacklist.php
 167a7ae02969eef3cbc7069197e7a45a *source/class/table/table_home_click.php
 c68a44f6607c89ad92f414cb72a38c53 *source/class/table/table_home_clickuser.php
 e07ade52990b962edd94ebc564f90330 *source/class/table/table_home_comment.php
-31ef0fcab97e735b152e978cfeb521eb *source/class/table/table_home_docomment_recomend_log.php
 ddc98a19ea0165a9e6a98d0c062030c7 *source/class/table/table_home_docomment.php
 fb986a9d390623a7fbbd4f7a3b109d22 *source/class/table/table_home_doing_attachment.php
 39aa782c5d778a807913f2ae34cb9eaf *source/class/table/table_home_doing_recomend_log.php
@@ -1841,7 +1837,7 @@ b01907cf60923a66b70fa27de993e752 *source/class/witframe/lib/crypt.php
 d41d8cd98f00b204e9800998ecf8427e *source/class/witframe/lib/index.htm
 0c99a4279405277a66ab6ed706bfb987 *source/class/witframe/lib/site.php
 5d3f20525fa33756527ec7469b3dc217 *source/class/witframe/witframe_plugin.php
-b935ef4b9fe0d594ee9351610dc47d1a *source/data/admincp/discuzdb.md5
+f505f088b355a6aba7fabe187924c896 *source/data/admincp/discuzdb.md5
 14049299a2a111aad82813d8e1656ab4 *source/data/admincp/discuzhook.dat
 40dcfa73e184e614753ab4d62609fd42 *source/data/admincp/emoji.php
 d41d8cd98f00b204e9800998ecf8427e *source/data/admincp/index.htm

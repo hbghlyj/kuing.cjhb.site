@@ -296,7 +296,6 @@ class membersearch {
 			'black' => 'common_uin_black',
 			'medal' => 'common_member_medal',
 			'tag' => 'common_tagitem',
-			'token' => 'common_devicetoken',
 			'account' => 'common_member_account',
 		];
 		return DB::table($isarchive && in_array($alias, ['member', 'status', 'profile', 'count']) ? $mapping[$alias].'_archive' : $mapping[$alias]);
