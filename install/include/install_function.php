@@ -937,7 +937,10 @@ function authcode($string, $operation = 'DECODE', $key = '', $expiry = 0) {
 	// 动态密钥长度, 通过动态密钥可以让相同的 string 和 key 生成不同的密文, 提高安全性
 	$ckey_length = 4;
 
-	$key = md5($key ? $key : UC_KEY);
+	if($key === '') {
+		return '';
+	}
+	$key = md5($key);
 	// a参与加解密, b参与数据验证, c进行密文随机变换
 	$keya = md5(substr($key, 0, 16));
 	$keyb = md5(substr($key, 16, 16));

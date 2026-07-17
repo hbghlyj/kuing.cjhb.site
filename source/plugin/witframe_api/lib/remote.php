@@ -37,7 +37,7 @@ class Remote {
 		if (empty($_GET['code'])) {
 			$this->_return(self::Ret_AuthFail);
 		}
-		parse_str(authcode($_GET['code'], 'DECODE', UC_KEY), $get);
+		parse_str(authcode($_GET['code'], 'DECODE', getglobal('config/security/authkey')), $get);
 
 		if (time() - $get['t'] > self::AuthExpire) {
 			$this->_return(self::Ret_AuthFail);

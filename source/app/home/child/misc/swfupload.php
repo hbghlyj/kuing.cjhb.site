@@ -19,7 +19,8 @@ $isdoodle = isset($_GET['doodle']);
 $fileurl = '';
 if(!empty($_POST['uid'])) {
 	$_G['uid'] = intval($_POST['uid']);
-	if(empty($_G['uid']) || $_POST['hash'] != md5($_G['uid'].UC_KEY)) {
+	$expectedhash = hash_hmac('sha256', (string)$_G['uid'], $_G['config']['security']['authkey']);
+	if(empty($_G['uid']) || !hash_equals($expectedhash, (string)$_POST['hash'])) {
 		exit();
 	}
 	$member = getuserbyuid($_G['uid']);
@@ -51,7 +52,7 @@ if($op == 'finish') {
 
 } elseif($op == 'config') {
 
-	$hash = md5($_G['uid'].UC_KEY);
+	$hash = hash_hmac('sha256', (string)$_G['uid'], $_G['config']['security']['authkey']);
 	$uploadurl = urlencode(getsiteurl().'home.php?mod=misc&ac=swfupload'.($iscamera ? '&op=screen' : ($isdoodle ? '&op=doodle&from=' : '')));
 	if($isupload) {
 		if(!checkperm('allowupload')) {

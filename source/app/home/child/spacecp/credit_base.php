@@ -234,42 +234,32 @@ if($_GET['op'] == 'base') {
 		showmessage('action_closed', NULL);
 	}
 	$_CACHE['creditsettings'] = [];
-	if(file_exists(DISCUZ_ROOT.'/data/cache/creditsettings.php')) {
-		include_once(DISCUZ_ROOT.'/data/cache/creditsettings.php');
-	}
 
 	if(submitcheck('exchangesubmit')) {
 		if($_G['setting']['submitlock'] && discuz_process::islocked('exchangelock_'.$_G['uid'], 0, 1)) {
 			showmessage('memcp_credits_exchange_msg_locked', '', [], ['showdialog' => 1, 'showmsg' => true, 'closetime' => true]);
 		}
 
-		$tocredits = $_GET['tocredits'];
-		$fromcredits = $_GET['fromcredits'];
+		$tocredits = intval($_GET['tocredits']);
+		$fromcredits = intval($_GET['fromcredits']);
 		$exchangeamount = $_GET['exchangeamount'];
-		$outexange = strexists($tocredits, '|');
-		if($outexange && !empty($_GET['outi'])) {
-			$fromcredits = $_GET['fromcredits_'.$_GET['outi']];
-		}
+		$outexange = false;
 
-		if($fromcredits == $tocredits) {
+		if($fromcredits == $tocredits || empty($_G['setting']['extcredits'][$fromcredits]) || empty($_G['setting']['extcredits'][$tocredits])) {
 			showmessage('memcp_credits_exchange_msg_num_invalid', '', [], ['showdialog' => 1, 'showmsg' => true, 'closetime' => true]);
 		}
-		if($outexange) {
-			$netamount = floor($exchangeamount * $_CACHE['creditsettings'][$tocredits]['ratiosrc'][$fromcredits] / $_CACHE['creditsettings'][$tocredits]['ratiodesc'][$fromcredits]);
+		if($_G['setting']['extcredits'][$tocredits]['ratio'] < $_G['setting']['extcredits'][$fromcredits]['ratio']) {
+			$netamount = ceil($exchangeamount * $_G['setting']['extcredits'][$tocredits]['ratio'] / $_G['setting']['extcredits'][$fromcredits]['ratio'] * (1 + $_G['setting']['creditstax']));
 		} else {
-			if($_G['setting']['extcredits'][$tocredits]['ratio'] < $_G['setting']['extcredits'][$fromcredits]['ratio']) {
-				$netamount = ceil($exchangeamount * $_G['setting']['extcredits'][$tocredits]['ratio'] / $_G['setting']['extcredits'][$fromcredits]['ratio'] * (1 + $_G['setting']['creditstax']));
-			} else {
-				$netamount = floor($exchangeamount * $_G['setting']['extcredits'][$tocredits]['ratio'] / $_G['setting']['extcredits'][$fromcredits]['ratio'] * (1 + $_G['setting']['creditstax']));
-			}
+			$netamount = floor($exchangeamount * $_G['setting']['extcredits'][$tocredits]['ratio'] / $_G['setting']['extcredits'][$fromcredits]['ratio'] * (1 + $_G['setting']['creditstax']));
 		}
-		if(!$outexange && !$_G['setting']['extcredits'][$tocredits]['ratio']) {
+		if(!$_G['setting']['extcredits'][$tocredits]['ratio']) {
 			showmessage('credits_exchange_invalid', '', [], ['showdialog' => 1, 'showmsg' => true, 'closetime' => true]);
 		}
-		if(!$outexange && !$_G['setting']['extcredits'][$fromcredits]['allowexchangeout']) {
+		if(!$_G['setting']['extcredits'][$fromcredits]['allowexchangeout']) {
 			showmessage('extcredits_disallowexchangeout', '', ['credittitle' => $_G['setting']['extcredits'][$fromcredits]['title']], ['showdialog' => 1, 'showmsg' => true, 'closetime' => true]);
 		}
-		if(!$outexange && !$_G['setting']['extcredits'][$tocredits]['allowexchangein']) {
+		if(!$_G['setting']['extcredits'][$tocredits]['allowexchangein']) {
 			showmessage('extcredits_disallowexchangein', '', ['credittitle' => $_G['setting']['extcredits'][$tocredits]['title']], ['showdialog' => 1, 'showmsg' => true, 'closetime' => true]);
 		}
 		if(!$netamount) {
@@ -288,21 +278,7 @@ if($_GET['op'] == 'base') {
 			showmessage('credits_password_invalid', '', [], ['showdialog' => 1, 'showmsg' => true, 'closetime' => true]);
 		}
 
-		if(!$outexange) {
-			updatemembercount($_G['uid'], [$fromcredits => -$netamount, $tocredits => $exchangeamount], 1, 'CEC', $_G['uid']);
-		} else {
-			if(!array_key_exists($fromcredits, $_CACHE['creditsettings'][$tocredits]['creditsrc'])) {
-				showmessage('extcredits_dataerror', NULL);
-			}
-			list($toappid, $tocredits) = explode('|', $tocredits);
-			$ucresult = uc_credit_exchange_request($_G['uid'], $fromcredits, $tocredits, $toappid, $exchangeamount);
-			if(!$ucresult) {
-				showmessage('extcredits_dataerror', NULL);
-			}
-			updatemembercount($_G['uid'], [$fromcredits => -$netamount], 1, 'ECU', $_G['uid']);
-			$netamount = $amount;
-			$amount = $tocredits = 0;
-		}
+		updatemembercount($_G['uid'], [$fromcredits => -$netamount, $tocredits => $exchangeamount], 1, 'CEC', $_G['uid']);
 
 		showmessage('credits_transaction_succeed', 'home.php?mod=spacecp&ac=credit&op=exchange', [], ['showdialog' => 1, 'showmsg' => true, 'locationtime' => true]);
 	}
