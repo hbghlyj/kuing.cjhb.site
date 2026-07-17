@@ -214,7 +214,7 @@
 	<div class="footer mt10 cl">
 		<div class="footer-nv">
 			<a href="javascript:;" class="mon">{lang mobile2version}</a>|<a
-			href="{$_G['setting']['mobile']['nomobileurl']}">{lang nomobiletype}</a><!--{if !empty($_G['setting']['styles'][1])}-->|<a href="javascript:;" onclick="setcookie('styleid', '1', 31536000);location.href='forum.php?mobile=no';return false;">default style</a><!--{/if}--><!--{if $clienturl}-->|<a 
+			href="javascript:;" onclick="setcookie('mobile', 'no', 31536000);location.reload();return false;">{lang nomobiletype}</a><!--{if !empty($_G['setting']['styles'][1])}-->|<a href="javascript:;" onclick="setcookie('styleid', '1', 31536000);location.href='forum.php?mobile=no';return false;">default style</a><!--{/if}--><!--{if $clienturl}-->|<a
 			href="$clienturl">{lang clientversion}</a><!--{/if}-->
 		</div>
 		<div class="footer-copy mt10">
