@@ -468,7 +468,6 @@ Created & Modified by Alice, Monkey, Lushnis, Pony, Dfox & DragonLee.
 			.fl_by div { margin-left: 10px; padding-left: 8px; }
 				.fl_by div .xi2 { zoom: 1; }
 			.fl_by cite { display: block; }
-		.fl_i { width: 52px; }
 			.fl_i em { display: block; width: 5em; }
 		@media only screen and (max-width:500px) {
 			td.fl_i { display: none; }
