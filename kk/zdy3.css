@@ -48,8 +48,8 @@ i.pstatus { margin-bottom: unset; }
 .ptg { margin-top: 30px !important; }
 /*标签*/
 
-.mtw.mbw .xl.xl2.cl { line-height: 1.3; }
-.mtw.mbw .xl.xl2.cl li {
+.relatedthreadlist { line-height: 1.3; }
+.relatedthreadlist li {
     /*height: max-content;*/
     height: unset;
     float: none;
@@ -233,7 +233,7 @@ details summary { color:blue; cursor:pointer; }
   .reason_slct { width: 100%; }/*评分理由选择*/
   .reason_slct .pt, .reason_slct .px { width: 95% !important; }
   input#tags { width: 90%; }/*管理编辑标签输入框*/
-  .mtw.mbw .xl.xl2.cl li { margin-right: 0px; }/*相关帖子*/
+  .relatedthreadlist li { margin-right: 0px; }/*相关帖子*/
 }
 
 @media print { 
@@ -284,6 +284,6 @@ a.slashed::before{
     pointer-events: none;
 }
 /*相关帖子 一行一链接不断行*/
-.mtw.mbw .xl.xl2.cl li mjx-container[jax="SVG"], .mtw.mbw .xl.xl2.cl li mjx-container[jax="SVG"] mjx-break {
+.relatedthreadlist li mjx-container[jax="SVG"], .relatedthreadlist li mjx-container[jax="SVG"] mjx-break {
     white-space: nowrap;
 }
