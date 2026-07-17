@@ -801,13 +801,6 @@ a.thread_mod { height: 19px; line-height: 19px; display: inline-block; color: #4
 	.tit_author { display:block; }
 	.tit_author a { color: #369; font-size:14px; font-weight:700; }
 	
-/* 作者指向时全部展开 by Alice */
-	.authi .none { display:inline-block; }
-		.authi .none::before { display: inline-block; margin: 0 5px; content: ""; border-left: 0.4em solid; border-top: 0.4em solid transparent; border-right: 0; border-bottom: 0.4em solid transparent; }
-	.authi .show { display:none; }
-	.authi:hover .none { display:none; }
-	.authi:hover .show { display:inline-block; }
-		
 /** end **/
 
 /** forum::forumdisplay,group::forumdisplay **/
