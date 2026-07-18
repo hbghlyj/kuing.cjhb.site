@@ -94,6 +94,20 @@
 		<!--{ad/headerbanner/wp a_h}-->
 
 		<div id="dz_btm_layer" {if $_G['style']['is_fixtop']} class="topbox"{/if}>
+			<!--{if $_G['style']['is_fixtop'] && !empty($_G['cookie']['recentthreads'])}-->
+				<!--{eval $recenttids = array_filter(array_map('intval', explode(',', $_G['cookie']['recentthreads'])));}-->
+				<!--{eval $recentthreadlist = $recenttids ? table_forum_thread::t()->fetch_all_by_tid(array_slice($recenttids, 0, 5)) : [];}-->
+				<!--{if $recentthreadlist}-->
+				<div class="header-recent">
+					<span class="header-recent-label">{lang recently_visited}</span>
+					<!--{loop $recenttids $rtid}-->
+						<!--{if $recentthreadlist[$rtid] && $rtid != $_G['tid']}-->
+						<a href="forum.php?mod=viewthread&tid=$rtid" title="{$recentthreadlist[$rtid]['subject']}" class="header-recent-item xi2"><!--{echo cutstr($recentthreadlist[$rtid]['subject'], 16)}--></a>
+						<!--{/if}-->
+					<!--{/loop}-->
+				</div>
+				<!--{/if}-->
+			<!--{/if}-->
 			<!--{template common/header_userstatus}-->
 		</div>
 		<div class="wp" id="hds">

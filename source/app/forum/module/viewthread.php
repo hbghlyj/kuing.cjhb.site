@@ -872,6 +872,11 @@ function viewthread_updateviews($tableid) {
 		}
 	}
 	dsetcookie('viewid', 'tid_'.$_G['tid']);
+
+	$recenttids = !empty($_G['cookie']['recentthreads']) ? array_filter(array_map('intval', explode(',', $_G['cookie']['recentthreads']))) : [];
+	$recenttids = array_diff($recenttids, [$_G['tid']]);
+	array_unshift($recenttids, $_G['tid']);
+	dsetcookie('recentthreads', implode(',', array_slice($recenttids, 0, 8)), 86400 * 30);
 }
 
 function viewthread_procpost($post, $lastvisit, $maxposition = 0) {
