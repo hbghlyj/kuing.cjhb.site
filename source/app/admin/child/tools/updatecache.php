@@ -41,8 +41,8 @@ if($step == 1) {
 	cpmsg("<input type=\"checkbox\" name=\"type[]\" value=\"data\" id=\"datacache\" class=\"checkbox\" checked /><label for=\"datacache\">".$lang['tools_updatecache_data'].'</label>'.
 		"<input type=\"checkbox\" name=\"type[]\" value=\"tpl\" id=\"tplcache\" class=\"checkbox\" checked /><label for=\"tplcache\">".$lang['tools_updatecache_tpl'].'</label>'.
 		($_G['setting']['ftp']['on'] == 2 ? "<input type=\"checkbox\" name=\"type[]\" value=\"oss\" id=\"osscache\" class=\"checkbox\" checked /><label for=\"osscache\">".$lang['tools_updatecache_oss'].'</label>' : '').
+		"<input type=\"checkbox\" name=\"type[]\" value=\"csscache\" id=\"csscache\" class=\"checkbox\" checked /><label for=\"csscache\">".$lang['styles_csscache_update'].'</label>'.
 		"<input type=\"checkbox\" name=\"type[]\" value=\"blockclass\" id=\"blockclasscache\" class=\"checkbox\" /><label for=\"blockclasscache\">".$lang['tools_updatecache_blockclass'].'</label>'.
-		"<input type=\"checkbox\" name=\"type[]\" value=\"csscache\" id=\"csscache\" class=\"checkbox\" /><label for=\"csscache\">".$lang['styles_csscache_update'].'</label>'.
 		"<input type=\"checkbox\" name=\"type[]\" value=\"searchindex\" id=\"searchindex\" class=\"checkbox\" /><label for=\"searchindex\">".$lang['tools_updatecache_searchindex'].'</label>'.
 		"<input type=\"checkbox\" name=\"type[]\" value=\"commonsearchindex\" id=\"commonsearchindex\" class=\"checkbox\" /><label for=\"commonsearchindex\">".$lang['tools_updatecache_common_searchindex'].'</label>'.
 		implode('', $extra),
