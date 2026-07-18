@@ -13,7 +13,7 @@
 	}
 </script>
 <div class="p_pof" id="{$editorid}_image_menu" style="display: none" unselectable="on">
-	<table width="100%" cellpadding="0" cellspacing="0" class="fwin"><tr><td class="t_l"></td><td class="t_c"></td><td class="t_r"></td></tr><tr><td class="m_l">&nbsp;&nbsp;</td><td class="m_c"><div class="mtm">
+	<table width="100%" class="fwin cp0"><tr><td class="t_l"></td><td class="t_c"></td><td class="t_r"></td></tr><tr><td class="m_l">&nbsp;&nbsp;</td><td class="m_c"><div class="mtm">
 	<ul class="tb tb_s cl" id="{$editorid}_image_ctrl" style="margin-top:0;margin-bottom:0;">
 		<li class="y"><span class="flbc" onclick="hideAttachMenu('image')"></span></li>
 		<!--{if $allowpostimg}-->
@@ -29,7 +29,7 @@
 	</ul>
 	<div unselectable="on" id="{$editorid}_www" {if $allowpostimg || helper_access::check_module('album')}style="display: none;"{/if}>
 		<div class="p_opt popupfix">
-			<table cellpadding="0" cellspacing="0" width="100%">
+			<table class="cp0" width="100%">
 				<tr class="xg1">
 					<th width="74%" class="pbn">{lang e_img_inserturl}</th>
 					<th width="13%" class="pbn">{lang e_img_width}</th>
@@ -50,7 +50,7 @@
 
 		<div unselectable="on" id="{$editorid}_local" style="display: none;">
 			<div class="p_opt">
-				<table cellpadding="0" cellspacing="0" border="0" width="100%">
+				<table class="cp0" border="0" width="100%">
 					<tbody id="imgattachbodyhidden" style="display:none"><tr>
 						<td class="atnu"><span id="imglocalno[]"><img src="{STATICURL}image/filetype/common_new.gif" /></span></td>
 						<td class="atna">
@@ -62,7 +62,7 @@
 						<td class="attc"><span id="imgcpdel[]"></span></td>
 					</tr></tbody>
 				</table>
-				<div class="p_tbl"><table cellpadding="0" cellspacing="0" summary="post_attachbody" border="0" width="100%"><tbody id="imgattachbody"></tbody></table></div>
+				<div class="p_tbl"><table class="cp0" summary="post_attachbody" border="0" width="100%"><tbody id="imgattachbody"></tbody></table></div>
 				<div class="upbk pbm bbda">
 					<div id="imgattachbtnhidden" style="display:none"><span><form name="imgattachform" id="imgattachform" method="post" autocomplete="off" action="misc.php?mod=swfupload&operation=upload&simple=1&type=image" target="attachframe" $enctype><input type="hidden" name="uid" value="$_G['uid']"><input type="hidden" name="hash" value="{echo md5(substr(md5($_G['config']['security']['authkey']), 8).$_G['uid'])}"><input type="file" name="Filedata" size="45" class="filedata" /></form></span></div>
 					<div id="imgattachbtn" class="ptm pbn"></div>
@@ -226,7 +226,7 @@
 
 <!--{if $_G['group']['allowpostattach']}-->
 	<div class="p_pof upf" id="{$editorid}_attach_menu" style="display: none" unselectable="on">
-		<table width="100%" cellpadding="0" cellspacing="0" class="fwin"><tr><td class="t_l"></td><td class="t_c"></td><td class="t_r"></td></tr><tr><td class="m_l">&nbsp;&nbsp;</td><td class="m_c"><div class="mtm">
+		<table width="100%" class="fwin cp0"><tr><td class="t_l"></td><td class="t_c"></td><td class="t_r"></td></tr><tr><td class="m_l">&nbsp;&nbsp;</td><td class="m_c"><div class="mtm">
 		<ul class="tb tb_s cl" id="{$editorid}_attach_ctrl" style="margin-top:0;margin-bottom:0;">
 			<li class="y"><span class="flbc" onclick="hideAttachMenu('attach')"></span></li>
 			<li class="current" id="{$editorid}_btn_attachlist"><a href="javascript:;" hidefocus="true" onclick="switchAttachbutton('attachlist');">{lang attachment_list}</a></li>
@@ -237,7 +237,7 @@
 		</ul>
 
 		<div class="p_opt" unselectable="on" id="{$editorid}_upload" style="display: none;">
-			<table cellpadding="0" cellspacing="0" border="0" width="100%">
+			<table class="cp0" border="0" width="100%">
 				<tbody id="attachbodyhidden" style="display:none"><tr>
 					<td class="atnu"><span id="localno[]"><img src="{STATICURL}image/filetype/common_new.gif" /></span></td>
 					<td class="atna">
@@ -249,7 +249,7 @@
 					<td class="attc"><span id="cpdel[]"></span></td>
 				</tr></tbody>
 			</table>
-			<div class="p_tbl"><table cellpadding="0" cellspacing="0" summary="post_attachbody" border="0" width="100%"><tbody id="attachbody"></tbody></table></div>
+			<div class="p_tbl"><table class="cp0" summary="post_attachbody" border="0" width="100%"><tbody id="attachbody"></tbody></table></div>
 			<div class="upbk pbm bbda">
 				<div id="attachbtnhidden" style="display:none"><span><form name="attachform" id="attachform" method="post" autocomplete="off" action="misc.php?mod=swfupload&operation=upload&simple=1" target="attachframe" $enctype><input type="hidden" name="uid" value="$_G['uid']"><input type="hidden" name="hash" value="{echo md5(substr(md5($_G['config']['security']['authkey']), 8).$_G['uid'])}"><input type="file" name="Filedata" size="45" class="fldt" /></form></span></div>
 				<div id="attachbtn" class="ptm pbn"></div>
@@ -278,7 +278,7 @@
 					<span id="spanButtonPlaceholder"></span>
 				</div>
 			<!--{/if}-->
-			<table cellpadding="0" cellspacing="0" border="0" width="100%" id="attach_tblheader" class="mtn bbs"{if empty($attachs['used'])} style="display: none"{/if}>
+			<table border="0" width="100%" id="attach_tblheader" class="mtn bbs cp0"{if empty($attachs['used'])} style="display: none"{/if}>
 				<tr>
 					<td class="atnu"></td>
 					<td class="atna pbn">{lang filename} ( <a onclick="insertAllAttachTag();return false;" href="javascript:;" class="xi2">{lang attachment_insert_all_attach}</a> )</td>

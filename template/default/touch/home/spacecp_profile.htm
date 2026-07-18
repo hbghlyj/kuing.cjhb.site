@@ -6,7 +6,7 @@
 		<p class="tbmu mb10">{lang validator_comment}</p>
 		<form action="member.php?mod=regverify" method="post" autocomplete="off">
 		<input type="hidden" value="{FORMHASH}" name="formhash" />
-		<table summary="{lang memcp_profile}" cellspacing="0" cellpadding="0" class="tfm">
+		<table summary="{lang memcp_profile}" class="tfm cp0">
 		<tr>
 			<th>{lang validator_remark}</th>
 			<td>$validate[remark]</td>
@@ -40,7 +40,7 @@
 			</p>
 			<form action="home.php?mod=spacecp&ac=profile" method="post" autocomplete="off">
 				<input type="hidden" value="{FORMHASH}" name="formhash" />
-				<table summary="{lang memcp_profile}" cellspacing="0" cellpadding="0" class="tfm">
+				<table summary="{lang memcp_profile}" class="tfm cp0">
 					<tr>
 						<th>{lang new_password}</th>
 						<td>
@@ -138,9 +138,9 @@
 					</tr>
 					<!--{if $secqaacheck || $seccodecheck}-->
 					</table>
-						<!--{eval $sectpl = '<table cellspacing="0" cellpadding="0" class="tfm"><tr><th><sec></th><td><sec><p class="d"><sec></p></td></tr></table>';}-->
+						<!--{eval $sectpl = '<table class="tfm cp0"><tr><th><sec></th><td><sec><p class="d"><sec></p></td></tr></table>';}-->
 						<!--{subtemplate common/seccheck}-->
-					<table summary="{lang memcp_profile}" cellspacing="0" cellpadding="0" class="tfm">
+					<table summary="{lang memcp_profile}" class="tfm cp0">
 					<!--{/if}-->
 					<tr>
 						<td colspan="2"><button type="submit" name="pwdsubmit" value="true" class="pn pnc" /><strong>{lang save}</strong></button></td>
@@ -180,7 +180,7 @@
 				<!--{if !empty($_GET[vid])}-->
 				<input type="hidden" value="$_GET[vid]" name="vid" />
 				<!--{/if}-->
-				<table cellspacing="0" cellpadding="0" class="tfm" id="profilelist">
+				<table class="tfm cp0" id="profilelist">
 					<tr>
 						<th>{lang username}</th>
 						<td>$_G[member][username]</td>

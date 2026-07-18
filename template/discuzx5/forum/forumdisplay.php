@@ -123,7 +123,7 @@
 						<h2>{lang recommended_groups}</h2>
 					</div>
 					<div class="bm_c" id="recommendgroups_{$_G[forum][fid]}" style="$collapse[recommendgroups]">
-						<table cellspacing="0" cellpadding="0" class="fl_tb">
+						<table class="fl_tb cp0">
 							<!--{loop $recommendgroups $key $group}-->
 							<!--{if $_G['forum']['forumcolumns']}-->
 								<!--{if $key && ($key % $_G['forum']['forumcolumns'] == 0)}-->
@@ -554,7 +554,7 @@
 
 <!--{if $_G['setting']['visitedforums'] && $_G['forum']['status'] != 3}-->
 	<div id="visitedforums_menu" class="p_pop blk cl" style="display: none;">
-		<table cellspacing="0" cellpadding="0">
+		<table class="cp0">
 			<tr>
 				<td id="v_forums">
 					<h3 class="mbn pbn bbda xg1">{lang viewed_forums}</h3>

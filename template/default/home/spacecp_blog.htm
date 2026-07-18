@@ -94,7 +94,7 @@
 			<form id="ttHtmlEditor" method="post" autocomplete="off" action="home.php?mod=spacecp&ac=blog&blogid=$blog[blogid]{if $_GET[modblogkey]}&modblogkey=$_GET[modblogkey]{/if}" onsubmit="validate(this);" enctype="multipart/form-data">
 				
 				<!--{hook/spacecp_blog_top}-->
-				<table cellspacing="0" cellpadding="0" class="tfm">
+				<table class="tfm cp0">
 					<tr>
 						<td><input type="text" id="subject" name="subject" value="$blog[subject]" size="60" class="px" style="width: 63%;" /></td>
 					</tr>
@@ -107,7 +107,7 @@
 					</tr>
 				</table>
 				<!--{hook/spacecp_blog_middle}-->
-				<table cellspacing="0" cellpadding="0" width="100%" class="tfm">
+				<table width="100%" class="tfm cp0">
 
 					<!--{if $_G['setting']['blogcategorystat'] && $categoryselect}-->
 					<tr>
@@ -168,7 +168,7 @@
 
 				<!--{if $blog['uid'] && $blog['uid']!=$_G['uid']}-->
 				</table>
-				<table cellspacing="0" cellpadding="0" width="100%" class="tfm">
+				<table width="100%" class="tfm cp0">
 				<!--{/if}-->
 
 					<tbody id="tb_selectgroup" style="$selectgroupstyle">
@@ -211,9 +211,9 @@
 					<!--{/if}-->
 					<!--{if $secqaacheck || $seccodecheck}-->
 					</table>
-						<!--{eval $sectpl = '<table cellspacing="0" cellpadding="0" width="100%" class="tfm"><tr><th><sec></th><td class="pns"><sec><div class="d"><sec></div></td></tr></table>';}-->
+						<!--{eval $sectpl = '<table width="100%" class="tfm cp0"><tr><th><sec></th><td class="pns"><sec><div class="d"><sec></div></td></tr></table>';}-->
 						<!--{subtemplate common/seccheck}-->
-					<table cellspacing="0" cellpadding="0" width="100%" class="tfm">
+					<table width="100%" class="tfm cp0">
 					<!--{/if}-->
 					<tr>
 						<th>&nbsp;</th>

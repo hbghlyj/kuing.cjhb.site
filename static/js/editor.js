@@ -1267,7 +1267,7 @@ function showEditorMenu(tag, params) {
 		menu.style.width = menuwidth + 'px';
 		if(menupos == '00') {
 			menu.className = 'fwinmask';
-			s = '<table width="100%" cellpadding="0" cellspacing="0" class="fwin"><tr><td class="t_l"></td><td class="t_c"></td><td class="t_r"></td></tr><tr><td class="m_l">&nbsp;&nbsp;</td><td class="m_c">'
+			s = '<table width="100%" class="fwin cp0"><tr><td class="t_l"></td><td class="t_c"></td><td class="t_r"></td></tr><tr><td class="m_l">&nbsp;&nbsp;</td><td class="m_c">'
 				+ '<h3 class="flb"><em>' + stitle + '</em><span><a onclick="hideMenu(\'\', \'win\');return false;" class="flbc" href="javascript:;"></a></span></h3><div class="c">' + str + '</div>'
 				+ '<p class="o pns"><button type="submit" id="' + ctrlid + '_submit" class="pn pnc"><strong>' + $L('submit') + '</strong></button></p>'
 				+ '</td><td class="m_r"></td></tr><tr><td class="b_l"></td><td class="b_c"></td><td class="b_r"></td></tr></table>';
@@ -1395,7 +1395,7 @@ function showEditorMenu(tag, params) {
 				width = width.substr(width.length - 1, width.length) == '%' ? (width.substr(0, width.length - 1) <= 98 ? width : '98%') : (width <= 560 ? width : '98%');
 				bgcolor = /[\(\)%,#\w]+/.test(bgcolor) ? bgcolor : '';
 				if(wysiwyg) {
-					str = '<table cellspacing="0" cellpadding="0" style="width:' + (width ? width : '50%') + '" class="t_table"' + (bgcolor ? ' bgcolor="' + bgcolor + '"' : '') + '>';
+					str = '<table style="width:' + (width ? width : '50%') + '" class="t_table cp0"' + (bgcolor ? ' bgcolor="' + bgcolor + '"' : '') + '>';
 					for (var row = 0; row < rows; row++) {
 						str += '<tr>\n';
 						for (col = 0; col < columns; col++) {

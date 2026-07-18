@@ -65,7 +65,7 @@ $adminscript = ADMINSCRIPT;
 echo <<<SEARCH
 <form method="post" autocomplete="off" action="$adminscript" id="tb_search">
 	<div class="dbox"><div class="boxbody">
-		<table cellspacing="3" cellpadding="3" class="tb tb2">
+		<table class="tb tb2">
 			<tr>
 				<td>{$searchlang['blockstyle_id']}</td><td><input type="text" class="txt" name="styleid" value="{$_GET['styleid']}"></td>
 				<td>{$searchlang['blockstyle_name']}*</td><td><input type="text" class="txt" name="name" value="{$_GET['name']}">*{$searchlang['likesupport']}</td>

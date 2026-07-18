@@ -35,7 +35,7 @@ if(empty($_GET['blockclass'])) {
 	echo <<<BLOCKCLASSSEL
 <form method="post" autocomplete="off" action="$adminscript">
 	<div style="margin-top:8px;">
-		<table class="tb tb2 nobottom nobdb" cellspacing="3" cellpadding="3">
+		<table class="tb tb2 nobottom nobdb">
 			<tr>
 				<th class="td27">$lang_blockclasssel</th>
 			</tr>

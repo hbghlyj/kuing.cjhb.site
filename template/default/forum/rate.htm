@@ -24,7 +24,7 @@
 		<input type="hidden" name="referer" value="$referer" />
 		<!--{if !empty($_GET['infloat'])}--><input type="hidden" name="handlekey" value="rate"><!--{/if}-->
 		<div class="c">
-			<table cellspacing="0" cellpadding="0" class="dt mbm">
+			<table class="dt mbm cp0">
 				<tr>
 					<th>{$_G['setting']['extcredits'][1][title]}</th>
 					<th>{lang rate_raterange}</th>
@@ -45,7 +45,7 @@
 
 			<div class="tpclg">
 				<h4>{lang user_operation_explain}:</h4>
-				<table cellspacing="0" cellpadding="0" class="reason_slct">
+				<table class="reason_slct cp0">
 					<!--{eval $selectreason = modreasonselect(0, 'userreasons')}-->
 					<!--{if $selectreason}-->
 					 	<tr>
@@ -95,7 +95,7 @@
 		<input type="hidden" name="referer" value="$referer" />
 		<!--{if !empty($_GET['infloat'])}--><input type="hidden" name="handlekey" value="rate"><!--{/if}-->
 		<div class="c floatwrap">
-			<table class="list" cellspacing="0" cellpadding="0">
+			<table class="list cp0">
 				<thead>
 					<tr>
 						<td>&nbsp;</td>

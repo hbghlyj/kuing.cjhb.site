@@ -147,13 +147,13 @@ class QRtools {
 		$startTime = 0;
 		$p = 0;
 
-		echo '<table cellpadding="3" cellspacing="1">
-                    <thead><tr style="border-bottom:1px solid silver"><td colspan="2" style="text-align:center">BENCHMARK</td></tr></thead>
+		echo '<table>
+                    <thead><tr style="border-bottom:1px solid silver"><td colspan="2" style="padding:3px; text-align:center">BENCHMARK</td></tr></thead>
                     <tbody>';
 
 		foreach($GLOBALS['qr_time_bench'] as $markerId => $thisTime) {
 			if($p > 0) {
-				echo '<tr><th style="text-align:right">till '.$markerId.': </th><td>'.number_format($thisTime - $lastTime, 6).'s</td></tr>';
+				echo '<tr><th style="padding:3px; text-align:right">till '.$markerId.': </th><td style="padding:3px">'.number_format($thisTime - $lastTime, 6).'s</td></tr>';
 			} else {
 				$startTime = $thisTime;
 			}
@@ -163,7 +163,7 @@ class QRtools {
 		}
 
 		echo '</tbody><tfoot>
-                <tr style="border-top:2px solid black"><th style="text-align:right">TOTAL: </th><td>'.number_format($lastTime - $startTime, 6).'s</td></tr>
+                <tr style="border-top:2px solid black"><th style="padding:3px; text-align:right">TOTAL: </th><td style="padding:3px">'.number_format($lastTime - $startTime, 6).'s</td></tr>
             </tfoot>
             </table>';
 	}

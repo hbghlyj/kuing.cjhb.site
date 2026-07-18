@@ -28,7 +28,7 @@
 				<a href="misc.php?mod=ranklist&type=activity&view=$_GET[view]&orderby=all" id="all" {if $orderby == 'all'}class="a"{/if} />{lang all}</a>
 			</p>
 			<!--{if $activitylist}-->
-				<table cellpadding="0" cellspacing="0" class="acl">
+				<table class="acl cp0">
 				<!--{loop $activitylist $activity}-->
 					<tr>
 						<td width="35" style="padding-left: 10px;"><span class="ranks{if $activity['rank'] <= 3} ranks_$activity['rank']{/if}">$activity['rank']</span></td>

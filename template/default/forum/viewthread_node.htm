@@ -11,7 +11,7 @@ $postshowavatars = !($_G['setting']['bannedmessages'] & 2 && ($post['memberstatu
 <!--{/loop}-->
 <!--{/block}-->
 <!--{if empty($post['deleted'])}-->
-<table id="pid$post[pid]" class="plhin" summary="pid$post[pid]" cellspacing="0" cellpadding="0">
+<table id="pid$post[pid]" class="plhin cp0" summary="pid$post[pid]">
 <tr>
 	$post[newpostanchor] $post[lastpostanchor]
 	<!--{if !$close_leftinfo}-->
@@ -471,7 +471,7 @@ $postshowavatars = !($_G['setting']['bannedmessages'] & 2 && ($post['memberstatu
 </script>
 <!--{/if}-->
 <!--{else}-->
-	<table id="pid$post[pid]" summary="pid$post[pid]" cellspacing="0" cellpadding="0">
+	<table class="cp0" id="pid$post[pid]" summary="pid$post[pid]">
 	<tbody>
 		<tr>
 			<!--{if !$close_leftinfo}-->

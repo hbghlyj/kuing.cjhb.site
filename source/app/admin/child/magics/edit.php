@@ -41,10 +41,10 @@ if(!submitcheck('magiceditsubmit')) {
 	$magicclass = new $magicclass;
 	$magicsetting = $magicclass->getsetting($magicperm);
 	echo '<div class="colorbox"><h4>'.lang('magic/'.$magic['identifier'], $magicclass->name).'</h4>'.
-		'<table cellspacing="0" cellpadding="3"><tr><td>'.
+		'<table><tr><td style="padding:3px">'.
 		(count($eidentifier) > 1 ? (file_exists(DISCUZ_PLUGIN($eidentifier[0]).'/magic/magic_'.$eidentifier[1].'.gif') ? '<img src="source/plugin/'.$eidentifier[0].'/magic/magic_'.$eidentifier[1].'.gif" />' : '')
 			: (file_exists(DISCUZ_ROOT.'./static/image/magic/'.$magic['identifier'].'.gif') ? '<img src="static/image/magic/'.$magic['identifier'].'.gif" />' : '')).
-		'</td><td valign="top">'.lang('magic/'.$magic['identifier'], $magicclass->description).'</td></tr></table>'.
+		'</td><td valign="top" style="padding:3px">'.lang('magic/'.$magic['identifier'], $magicclass->description).'</td></tr></table>'.
 		'<div style="width:95%" align="right">'.lang('magic/'.$magic['identifier'], $magicclass->copyright).'</div></div>';
 	$credits = [];
 	foreach($_G['setting']['extcredits'] as $i => $extcredit) {

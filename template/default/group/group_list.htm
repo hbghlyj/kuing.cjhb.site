@@ -23,7 +23,7 @@
 <!--{/if}-->
 <div id="threadlist" class="tl bm" style="position: relative;">
 	<div class="th">
-		<table cellpadding="0" cellspacing="0">
+		<table class="cp0">
 			<tr>
 				<td class="icn">&nbsp;</td>
 				<!--{if $_G['forum']['ismoderator']}--><td class="o">&nbsp;</td><!--{/if}-->
@@ -38,7 +38,7 @@
 		<form method="post" autocomplete="off" name="moderate" id="moderate" action="forum.php?mod=topicadmin&action=moderate&fid=$_G[fid]&infloat=yes&nopost=yes">
 			<input type="hidden" name="formhash" value="{FORMHASH}" />
 			<input type="hidden" name="listextra" value="$extra" />
-			<table cellpadding="0" cellspacing="0" border="0">
+			<table class="cp0" border="0">
 				<!--{if $_G['forum_threadcount']}-->
 					<tbody class="emptb"><tr><td class="icn"></td><!--{if $_G['forum']['ismoderator']}--><td class="o"></td><!--{/if}--><th></th><td class="by"></td><td class="num"></td><td class="by"></td></tr></tbody>
 					<!--{loop $_G['forum_threadlist'] $key $thread}-->

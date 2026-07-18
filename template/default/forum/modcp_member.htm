@@ -4,7 +4,7 @@
 	<form method="post" autocomplete="off" action="{$cpscript}?mod=modcp&action=$_GET[action]&op=$op">
 		<input type="hidden" name="formhash" value="{FORMHASH}">
 		<div class="exfm">
-			<table cellspacing="0" cellpadding="0">
+			<table class="cp0">
 				<caption>
 					<!--{if !empty($error)}-->
 						<!--{if $error == 1}-->
@@ -41,7 +41,7 @@
 		<input type="hidden" name="formhash" value="{FORMHASH}">
 		<input type="hidden" name="username" value="$_GET['username']">
 		<input type="hidden" name="uid" value="$_GET['uid']">
-		<table cellspacing="0" cellpadding="0" class="tfm">
+		<table class="tfm cp0">
 			<tr>
 				<th>&nbsp;</th>
 				<td>
@@ -78,7 +78,7 @@
 		<input type="hidden" name="formhash" value="{FORMHASH}">
 		<input type="hidden" name="username" value="$_GET['username']">
 		<input type="hidden" name="uid" value="$_GET['uid']">
-		<table cellspacing="0" cellpadding="0" class="tfm">
+		<table class="tfm cp0">
 			<tr>
 				<th>&nbsp;</th>
 				<td>
@@ -98,7 +98,7 @@
 				<tr>
 					<th>{lang crime_record}</th>
 					<td style="padding-top: 0;">
-						<table cellspacing="0" cellpadding="0" class="dt">
+						<table class="dt cp0">
 							<tr>
 								<td width="15%">{lang crime_action}</td>
 								<td width="15%">{lang crime_dateline}</td>
@@ -181,7 +181,7 @@
 	<form method="post" autocomplete="off" action="{$cpscript}?mod=modcp&action=$_GET[action]&op=$op">
 		<input type="hidden" name="formhash" value="{FORMHASH}">
 		<div class="exfm">
-			<table cellspacing="0" cellpadding="0">
+			<table class="cp0">
 				<tr>
 					<th width="15%">{lang add_new}</th>
 					<td width="85%">
@@ -220,7 +220,7 @@
 		</div>
 
 		<h2 class="mtm mbm">{lang modcp_ban_ip}</h2>
-		<table cellspacing="0" cellpadding="0" class="dt">
+		<table class="dt cp0">
 			<thead>
 				<tr>
 					<th class="c">{lang delete}</th>

@@ -114,7 +114,7 @@ class adv_text {
 	        				\'<td width="\'.intval(100 / $advcols).\'%">\'.(isset($codes[$adids[$i]]) ? $codes[$adids[$i]] : \'&nbsp;\').\'</td>\'.
 	        				(($i + 1) % $advcols == 0 ? "</tr>\n" : \'\');
 	        		}
-				$adcode = \'<table cellpadding="0" cellspacing="1">\'.$adcode.\'</table>\';
+				$adcode = \'<table class="cp0">\'.$adcode.\'</table>\';
 			',
 		];
 	}

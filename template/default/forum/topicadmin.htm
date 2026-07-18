@@ -31,7 +31,7 @@
 				<!--{if count($threadlist) > 1 || empty($defaultcheck[recommend])}-->
 					<!--{if $_G['group']['allowstickthread']}-->
 					<li id="itemcp_stick">
-						<table cellspacing="0" cellpadding="5" width="100%">
+						<table class="cp5" width="100%">
 							<tr>
 								<td width="15"><input type="checkbox" name="operations[]" class="pc" onclick="if(this.checked) switchitemcp('itemcp_stick')" value="stick" $defaultcheck[stick] /></td>
 								<td class="hasd">
@@ -70,7 +70,7 @@
 					<!--{/if}-->
 					<!--{if $_G['group']['allowdigestthread']}-->
 					<li id="itemcp_digest">
-						<table cellspacing="0" cellpadding="5">
+						<table class="cp5">
 							<tr>
 								<td width="15"><input type="checkbox" name="operations[]" class="pc" onclick="if(this.checked) switchitemcp('itemcp_digest')" value="digest" $defaultcheck[digest] /></td>
 								<td class="hasd">
@@ -104,7 +104,7 @@
 					<!--{/if}-->
 					<!--{if $_G['group']['allowbumpthread']}-->
 					<li id="itemcp_bump">
-						<table cellspacing="0" cellpadding="5">
+						<table class="cp5">
 							<tr>
 								<td width="15"><input type="checkbox" name="operations[]" class="pc" onclick="if(this.checked) switchitemcp('itemcp_bump')" value="bump" $defaultcheck[bump] /></td>
 								<td class="hasd">
@@ -126,7 +126,7 @@
 					<!--{/if}-->
 					<!--{if $_G['group']['allowhighlightthread']}-->
 					<li id="itemcp_highlight">
-						<table cellspacing="0" cellpadding="5">
+						<table class="cp5">
 							<tr>
 								<td width="15"><input type="checkbox" name="operations[]" class="pc" onclick="if(this.checked) switchitemcp('itemcp_highlight')" value="highlight" $defaultcheck[highlight] /></td>
 								<td class="hasd">
@@ -172,7 +172,7 @@
 				<!--{/if}-->
 				<!--{if $_G['group']['allowrecommendthread'] && !empty($_G['forum']['modrecommend']['open']) && $_G['forum']['modrecommend']['sort'] != 1}-->
 					<li id="itemcp_recommend">
-						<table cellspacing="0" cellpadding="5">
+						<table class="cp5">
 							<tr>
 								<td width="15"><input type="checkbox" name="operations[]" class="pc" onclick="if(this.checked) switchitemcp('itemcp_recommend')" value="recommend" $defaultcheck[recommend] /></td>
 								<td>
@@ -282,7 +282,7 @@
 						</li>
 					<!--{elseif $operation == 'down' || $operation='bump'}-->
 						<li class="wide" id="itemcp_bump" style="border-top:1px solid #DDD;padding:0px 0 6px 0;">
-							<table cellspacing="0" cellpadding="5">
+							<table class="cp5">
 								<tr>
 									<td width="15"><input type="radio" name="operations[]" class="pr" onclick="if(this.checked) switchitemcp('itemcp_bump');" value="bump" checked="checked"/></td>
 									<td class="hasd"><label onclick="switchitemcp('itemcp_bump');" class="labeltxt" style="margin:5px 0 10px 0px;">{lang admin_bump}</label></td>
@@ -300,7 +300,7 @@
 							</table>
 						</li>
 						<li class="wide" id="itemcp_down" style="padding:0px 0 0px 0;height:28px;">
-							<table cellspacing="0" cellpadding="5">
+							<table class="cp5">
 								<tr>
 									<td width="15"><input type="radio" name="operations[]" class="pr" onclick="if(this.checked) switchitemcp('itemcp_down');" value="down"/></td>
 									<td class="hasd"><label onclick="switchitemcp('itemcp_down');" class="labeltxt" style="margin:5px 0 10px 0px;">{lang admin_down}</label></td>
@@ -328,7 +328,7 @@
 				<!--{/if}-->
 				</div>
 			<!--{elseif $_GET['optgroup'] == 4}-->
-				<table cellspacing="0" cellpadding="0" width="100%">
+				<table class="cp0" width="100%">
 					<tr>
 						<td>{lang expire}:&nbsp;</td>
 						<td>

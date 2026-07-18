@@ -46,7 +46,7 @@ if($op == 'index') {
 		echo <<<SEARCH
 		<form method="get" autocomplete="off" action="$adminscript" id="tb_search">
 			<div style="margin-top:8px;">
-			<table cellspacing="3" cellpadding="3">
+			<table class="tb tb2">
 				<tr>
 					<th>$lang[uid]</th><td><input type="text" class="txt" name="uid" value="$_GET[uid]"></td>
 					<th>$searcholdusername</th><td><input type="text" class="txt" name="username" value="$_GET[username]"></td>

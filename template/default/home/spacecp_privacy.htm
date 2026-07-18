@@ -16,7 +16,7 @@
 
 			<!--{if $operation == 'base'}-->
 				<p class="tbmu mbm">{lang you_control_see_content}</p>
-				<table cellspacing="0" cellpadding="0" class="tfm">
+				<table class="tfm cp0">
 					<!--{if helper_access::check_module('friend')}-->
 					<tr>
 						<th>{lang friend_list}</th>
@@ -116,7 +116,7 @@
 
 			<!--{elseif $operation == 'feed'}-->
 				<p class="tbmu mbm">{lang system_depend_action_message}</p>
-				<table cellspacing="0" cellpadding="0" id="feed" class="tfm">
+				<table id="feed" class="tfm cp0">
 					<tr>
 						<th>&nbsp;</th>
 						<td class="pcl">
@@ -145,7 +145,7 @@
 
 			<!--{elseif $operation == 'other'}-->
 				<p class="tbmu mbm">{lang you_control_other_operation}</p>
-				<table cellspacing="0" cellpadding="0" class="tfm">
+				<table class="tfm cp0">
 					<!--{if helper_access::check_module('friend')}-->
 					<tr>
 						<th>{lang add_friends}</th>
@@ -208,7 +208,7 @@
 					$iconnames['pusearticle'] = '{lang article_push}';
 				}
 
-				<table cellspacing="0" cellpadding="0" class="tfm bbda">
+				<table class="tfm bbda cp0">
 					<caption>
 						<h2 class="ptw pbn xs2">{lang filtering_rules_title_1}</h2>
 						<p class="xg1">{lang filtering_rules_message_1}</p>
@@ -230,7 +230,7 @@
 					</tr>
 				</table>
 
-				<table cellspacing="0" cellpadding="0" class="tfm bbda">
+				<table class="tfm bbda cp0">
 					<caption>
 						<h2 class="ptw pbn xs2">{lang filtering_rules_title_2}</h2>
 						<p class="xg1">{lang filtering_rules_message_2}</p>
@@ -263,7 +263,7 @@
 					<!--{/if}-->
 				</table>
 
-				<table cellspacing="0" cellpadding="0" class="tfm">
+				<table class="tfm cp0">
 					<caption>
 						<h2 class="ptw pbn xs2">{lang filtering_rules_title_3}</h2>
 						<p class="xg1">{lang filtering_rules_message_3}</p>

@@ -79,7 +79,7 @@ function insertAttach(id) {
 	}
 	attachexts[id] = inArray(ext, ['gif', 'jpg', 'jpeg', 'png']) ? 2 : 1;
 
-	var inhtml = '<table cellspacing="0" cellpadding="0" class="up_row"><tr>';
+	var inhtml = '<table class="up_row cp0"><tr>';
 	if(typeof no_insert=='undefined') {
 		localfile += '&nbsp;<a href="javascript:;" class="xi2" title="' + $L('click_here_insert') + '" onclick="insertAttachimgTag(' + id + ');return false;">[' + $L('insert') + ']</a>';
 	}

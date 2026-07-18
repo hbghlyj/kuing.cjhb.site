@@ -12,7 +12,7 @@ if(!defined('IN_DISCUZ') || !defined('IN_ADMINCP')) {
 
 echo <<<SEARCH
 <form method="post" autocomplete="off" action="$adminscript" id="tb_search">
-	<table class="tb tb2" cellspacing="3" cellpadding="3">
+	<table class="tb tb2">
 		<tr>
 			<td>{$searchlang['uid']}</td><td><input type="text" class="txt" name="uid" value="{$_GET['uid']}"></td>
 			<td>{$searchlang['username']}*</td><td><input type="text" class="txt" name="username" value="{$_GET['username']}"> *{$searchlang['likesupport']}</td>

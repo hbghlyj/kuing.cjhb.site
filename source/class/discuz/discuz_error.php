@@ -194,6 +194,8 @@ class discuz_error {
 	.bg3{ background-color: #FFA66C; font-weight: bold;}
 	.table {background: #AAAAAA; font: 9px Menlo,Consolas,"Lucida Console";}
 	.table tbody{word-break: break-all;}
+	.table td, .table th { padding: 2px; }
+	.table.cp5 td, .table.cp5 th { padding: 5px; }
 	.info {
 	    background: none repeat scroll 0 0 #F3F3F3;
 	    border: 0px solid #aaaaaa;
@@ -247,7 +249,7 @@ EOT;
 		if(!empty($phpmsg) && (!isset($_G['config']['security']['error']['showerror']) || $_G['config']['security']['error']['showerror'] == '1')) {
 			echo "\n".'<div class="info">';
 			echo '<p><strong>PHP Debug</strong></p>';
-			echo '<table cellpadding="5" cellspacing="1" width="100%" class="table">';
+			echo '<table width="100%" class="table cp5">';
 			if(is_array($phpmsg)) {
 				echo '<tr class="bg2"><td width="20">No.</td><td>File</td><td>Code</td></tr>';
 				foreach($phpmsg as $k => $msg) {
@@ -272,7 +274,7 @@ EOT;
 
 			echo '<div class="info">';
 			echo '<p><strong>System Info</strong></p>';
-			echo '<table cellpadding="2" cellspacing="1" width="100%" class="table">';
+			echo '<table width="100%" class="table">';
 			if(defined('DISCUZ_ROOT')) {
 				include_once DISCUZ_ROOT.'./source/discuz_version.php';
 			}

@@ -88,7 +88,7 @@
 				<div id="diyimg_next" class="z">$multi</div>
 			</div>
 			<div class="z" style="padding-left: 7px; width: 160px; border: solid #CCC; border-width: 0 1px;">
-				<table cellpadding="0" cellspacing="0">
+				<table class="cp0">
 					<tr>
 						<td><label for="repeat_mode">{lang pic_repeat}:</label></td>
 						<td>
@@ -103,7 +103,7 @@
 					<tr>
 						<td>{lang photo_location}:</td>
 						<td>
-							<table cellpadding="0" cellspacing="0" id="positiontable">
+							<table class="cp0" id="positiontable">
 								<tr>
 									<td id="bgimgposition0" onclick="spaceDiy.setBgPosition(this.id)">&nbsp;</td>
 									<td id="bgimgposition1" onclick="spaceDiy.setBgPosition(this.id)">&nbsp;</td>
@@ -125,7 +125,7 @@
 				</table>
 			</div>
 			<div class="z diywin" style="padding-left: 7px; width: 160px;">
-				<table cellpadding="0" cellspacing="0">
+				<table class="cp0">
 					<tr>
 						<td>{lang background_rolling}:</td>
 						<td>
@@ -142,7 +142,7 @@
 				</table>
 			</div>
 			<div class="z diywin" style="padding-left: 7px; width: 160px;">
-				<table cellpadding="0" cellspacing="0">
+				<table class="cp0">
 					<tr>
 						<td>{lang text_color}:</td>
 						<td><input type="text" id="textColorValue" value="" size="6" onchange="spaceDiy.setTextColor(this.value);" class="px vm" style="font-size: 12px; padding: 2px;" />
@@ -509,7 +509,7 @@ function succeedhandle_$_GET['handlekey'] (url, message, values) {
 					<tbody id="tb_menu_new">
 						<tr>
 							<td>
-								<table width="95%" align="center" border="0" cellspacing="0" cellpadding="0">
+								<table class="cp0" width="95%" align="center" border="0">
 									<tr>
 										<th>{lang mp3_address}</th>
 										<td><input type="text" name="mp3url[]" value="" size="40" maxlength="200" class="px" /></td>
@@ -545,7 +545,7 @@ function succeedhandle_$_GET['handlekey'] (url, message, values) {
 		<!--{if (!empty($musicmsgs['mp3list']))}-->
 		<form method="post" name="musiclistform" id="musiclistform" autocomplete="off" action="home.php?mod=spacecp&ac=index&blockname=$blockname" onsubmit="delList();spaceDiy.delIframe();ajaxpost('musiclistform','return_$_GET[handlekey]','return_$_GET[handlekey]','onerror');">
 			<div class="c diywin" style="max-height:350px;width:480px;height:auto !important;height:320px;_margin-right:20px;overflow-y:auto;">
-				<table width="100%" align="center" border="0" cellspacing="2" cellpadding="2">
+				<table class="cp2" width="100%" align="center" border="0">
 					<tr>
 						<td colspan="2">{lang album_cover_documents_address}<br/>({lang not_play_message})</td>
 						<td><div align="right">{lang delete_all}
@@ -553,7 +553,7 @@ function succeedhandle_$_GET['handlekey'] (url, message, values) {
 							</div></td>
 					</tr>
 					<tr><td colspan="3">
-					<table width="100%" align="center" border="0" cellspacing="1" cellpadding="1" id="thetable">
+					<table class="cp1" width="100%" align="center" border="0" id="thetable">
 					<tbody style="display:none;"><tr><td colspan="2"><hr size="0" /></td></tr></tbody>
 					<!--{loop $musicmsgs['mp3list'] $key $list}-->
 					<!--{eval $list['cdbj'] = empty($list['cdbj']) ? IMGDIR.'/nophotosmall.gif' : $list['cdbj'];}-->

@@ -10,7 +10,7 @@
 				<input type="hidden" name="formhash" value="{FORMHASH}">
 				<input type="hidden" name="id" value="$announce[id]">
 				<input type="hidden" name="displayorder" value="$announce[displayorder]">
-				<table cellspacing="0" cellpadding="0">
+				<table class="cp0">
 					<tr>
 						<th width="15%">{lang title}:</th>
 						<td width="35%"><input type="text" name="subject" value="$announce[subject]" class="px" /></td>
@@ -87,7 +87,7 @@
 			<h2 class="mtm mbm">{lang mod_announce_list}</h2>
 			<form method="post" autocomplete="off" action="{$cpscript}?mod=modcp&action=announcement&op=manage">
 				<input type="hidden" name="formhash" value="{FORMHASH}">
-				<table id="list_announce" cellspacing="0" cellpadding="0" class="dt">
+				<table id="list_announce" class="dt cp0">
 					<thead>
 						<tr>
 							<th class="c">&nbsp;</th>

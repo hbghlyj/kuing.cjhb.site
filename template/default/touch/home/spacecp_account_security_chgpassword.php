@@ -8,7 +8,7 @@
 <div id="ct" class="bodybox p10 cl" style="padding-top: 20px !important;">
     <!--{eval $layerhash = 'L'.rand(100000, 999999);}-->
     <form method="post" autocomplete="off" name="security_verify" id="layerform_$layerhash" class="cl" onsubmit="ajaxpost('layerform_$layerhash', 'returnmessage_$layerhash', 'returnmessage_$layerhash', 'onerror');return false;" action="home.php?mod=spacecp&ac=account&op=verify&method=$method&idstring=$idstring&sign=$sign&submit=yes&infloat=yes&formhash={FORMHASH}&layerhash=$layerhash">
-        <table cellspacing="0" cellpadding="0" class="tfm">
+        <table class="tfm cp0">
             <tr>
                 <th style="width: 80px;"><span class="rq">*</span><label for="newpassword">{lang newpassword}:</label></th>
                 <td>

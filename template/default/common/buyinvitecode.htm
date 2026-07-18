@@ -35,7 +35,7 @@
 							<!--{/if}-->
 						<!--{if $_G['setting']['inviteconfig']['buyinvitecode'] && $_G['setting']['inviteconfig']['invitecodeprice'] && payment::enable()}-->
 						<div class="rfm">
-							<table cellpadding="0" cellspacing="0">
+							<table class="cp0">
 								<tr>
 									<th>{lang buy_nums}</th>
 									<td><input type="text" name="amount" id="amount" class="px p_fre vm" value="1" onkeyup="addamount()" /> {lang need_money} <strong id="desamount" class="xi1">$_G['setting']['inviteconfig']['invitecodeprice']</strong> {lang money_unit}</td>
@@ -43,7 +43,7 @@
 							</table>
 						</div>
 						<div class="rfm">
-							<table cellpadding="0" cellspacing="0">
+							<table class="cp0">
 								<tr>
 									<th>{lang active_email}</th>
 									<td><input type="text" name="email" class="px p_fre vm" value="" /> {lang active_email_comment}</td>
@@ -51,7 +51,7 @@
 							</table>
 						</div>
 						<div class="rfm">
-							<table cellpadding="0" cellspacing="0">
+							<table class="cp0">
 								<tr>
 									<th>{lang invitecode_expiration}</th>
 									<td>$maxinviteday</td>
@@ -59,7 +59,7 @@
 							</table>
 						</div>
 						<div class="rfm bw0">
-							<table cellpadding="0" cellspacing="0">
+							<table class="cp0">
 								<tr>
 									<th>&nbsp;</th>
 									<td><button type="submit" name="buysubmit" class="pn pnc" value="true"><strong>{lang confirms}</strong></button></td>

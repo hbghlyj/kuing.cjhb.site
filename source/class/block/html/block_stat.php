@@ -122,7 +122,7 @@ class block_stat extends commonblock_html {
 			loadcache('groupindex');
 		}
 		$index = count($parameter['option']) - 1;
-		$html = '<div class="tns"><table cellspacing="0" cellpadding="4" border="0"><tbody><tr>';
+		$html = '<div class="tns"><table class="cp4" border="0"><tbody><tr>';
 		if(in_array('posts', $parameter['option'])) {
 			$class = ($index-- == 0) ? ' class="bbn"' : '';
 			$html .= "<th$class><p>".intval($forum['posts']).'</p>'.(!empty($parameter['posts_title']) ? $parameter['posts_title'] : lang('block/stat', 'stat_posts')).'</th>';

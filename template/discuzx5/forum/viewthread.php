@@ -72,7 +72,7 @@
 
 <!--{if $modmenu['post']}-->
 	<div id="mdly" class="fwinmask" style="display:none;z-index:350;">
-		<table cellspacing="0" cellpadding="0" class="fwin">
+		<table class="fwin cp0">
 			<tr>
 				<td class="t_l"></td>
 				<td class="t_c"></td>
@@ -144,7 +144,7 @@
 <!--{hook/viewthread_beginline}-->
 
 <div id="postlist" class="pl bm">
-	<table class="posthead" cellspacing="0" cellpadding="0">
+	<table class="posthead cp0">
 		<tr>
 			<!--{if !$close_leftinfo}-->
 			<td class="pls">
@@ -229,7 +229,7 @@
 	</table>
 	<!--{if $_G['forum_thread']['replycredit'] > 0 || $rushreply}-->
 	<div id="pl_top">
-		<table cellspacing="0" cellpadding="0">
+		<table class="cp0">
 			<tr class="ad">
 				<td class="pls"></td>
 				<td class="plc"></td>
@@ -308,7 +308,7 @@
 
 	<!--{hook/viewthread_title_row}-->
 
-	<table cellspacing="0" cellpadding="0" class="ad">
+	<table class="ad cp0">
 		<tr>
 			<td class="pls">
 			<!--{if !$close_leftinfo}-->
@@ -382,7 +382,7 @@ $_G['forum_tagscript']
 
 <!--{if ($_G['setting']['visitedforums']) && $_G['forum']['status'] != 3}-->
 	<div id="visitedforums_menu" class="p_pop blk cl" style="display: none;">
-		<table cellspacing="0" cellpadding="0">
+		<table class="cp0">
 			<tr>
 				<td id="v_forums">
 					<h3 class="mbn pbn bbda xg1">{lang viewed_forums}</h3>

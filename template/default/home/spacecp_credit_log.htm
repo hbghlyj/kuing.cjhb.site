@@ -9,7 +9,7 @@
 			<script type="text/javascript" src="{$_G[setting][jspath]}calendar.js?{VERHASH}"></script>
 			<form method="post" action="home.php?mod=spacecp&ac=credit&op=log">
 				<div class="exfm" style="margin-top: 0;">
-					<table cellspacing="0" cellpadding="0">
+					<table class="cp0">
 						<tr>
 							<th>{lang starttime_endtime}:</th>
 							<td>
@@ -42,7 +42,7 @@
 						simulateSelect('optype');
 					</script>
 				</div>
-				<table summary="{lang memcp_credits_log_payment}" cellspacing="0" cellpadding="0" class="dt">
+				<table summary="{lang memcp_credits_log_payment}" class="dt cp0">
 					<tr>
 						<th width="80">{lang operation}</th>
 						<th width="80">{lang credit_change}</th>
@@ -64,7 +64,7 @@
 				<input type="hidden" name="mod" value="spacecp" />
 			</form>
 			<!--{elseif $_GET[suboperation] == 'creditrulelog'}-->
-				<table summary="{lang get_credit_histroy}" cellspacing="0" cellpadding="0" class="dt">
+				<table summary="{lang get_credit_histroy}" class="dt cp0">
 					<tr>
 						<th class="xw1" width="80">{lang action_name}</th>
 						<th class="xw1" width="60">{lang total_time}</th>

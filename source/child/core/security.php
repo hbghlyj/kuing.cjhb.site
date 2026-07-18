@@ -94,6 +94,7 @@ function securitymessage($subject, $message, $reload = TRUE, $form = FALSE) {
 		echo '<meta name="renderer" content="webkit" />';
 		echo '<meta http-equiv="X-UA-Compatible" content="IE=edge" />';
 		echo '<title>'.$subject.'</title>';
+		echo '<style>table.cp0 td, table.cp0 th { padding: 0; } table.cp0 { border-collapse: collapse; } table.cp10 td, table.cp10 th { padding: 10px; } table.cp10 { border-collapse: collapse; }</style>';
 		echo '</head>';
 		echo '<body bgcolor="#FFFFFF">';
 		if($reload) {
@@ -107,10 +108,10 @@ function securitymessage($subject, $message, $reload = TRUE, $form = FALSE) {
 		if($form) {
 			echo '<form action="'.$_G['PHP_SELF'].'" method="post" autocomplete="off">';
 		}
-		echo '<table cellpadding="0" cellspacing="0" border="0" width="700" align="center" height="85%">';
+		echo '<table class="cp0" border="0" width="700" align="center" height="85%">';
 		echo '  <tr align="center" valign="middle">';
 		echo '    <td>';
-		echo '    <table cellpadding="10" cellspacing="0" border="0" width="80%" align="center" style="font-family: Verdana, Tahoma; color: #666666; font-size: 11px">';
+		echo '    <table class="cp10" border="0" width="80%" align="center" style="font-family: Verdana, Tahoma; color: #666666; font-size: 11px">';
 		echo '    <tr>';
 		echo '      <td valign="middle" align="center" bgcolor="#EBEBEB">';
 		echo '     	<br /><br /> <b style="font-size: 16px">'.$subject.'</b> <br /><br />';

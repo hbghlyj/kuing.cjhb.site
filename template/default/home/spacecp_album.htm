@@ -22,7 +22,7 @@
 <!--{if $_GET['op'] == 'edit'}-->
 
 			<form method="post" autocomplete="off" id="theform" name="theform" action="home.php?mod=spacecp&ac=album&op=edit&albumid=$albumid">
-				<table cellspacing="0" cellpadding="0" class="tfm">
+				<table class="tfm cp0">
 					<tr>
 						<th><label for="albumname">{lang album_name}</label></th>
 						<td><input type="text" id="albumname" name="albumname" value="$album[albumname]" size="20" class="px" /></td>
@@ -99,7 +99,7 @@
 
 		<!--{if $list}-->
 			<form method="post" autocomplete="off" id="theform" name="theform" action="home.php?mod=spacecp&ac=album&op=editpic&albumid=$albumid">
-				<table cellspacing="0" cellpadding="0" class="tfm">
+				<table class="tfm cp0">
 					<caption>{lang album_cover_notice}</caption>
 					<!--{eval $common = '';}-->
 					<!--{loop $list $value}-->

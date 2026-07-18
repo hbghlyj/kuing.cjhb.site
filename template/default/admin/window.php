@@ -5,7 +5,7 @@
 .adminwin input { cursor: text !important; margin-bottom: 5px; }
 .adminwin span { margin-left: 5px; margin-right: 5px; color: #999; cursor: pointer !important; }
 </style>
-<table width="100%" cellpadding="0" cellspacing="0" class="fwin adminwin" style="min-width: 400px">
+<table width="100%" class="fwin adminwin cp0" style="min-width: 400px">
 	<tr>
 		<td class="t_l"></td>
 		<td class="t_c"></td>

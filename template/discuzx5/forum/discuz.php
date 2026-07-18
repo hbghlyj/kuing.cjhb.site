@@ -54,7 +54,7 @@
 		<div class="fl bm">
 			<div class="bm bmw cl">
 				<div id="category_grid" class="bm_c xs0">
-					<table cellspacing="0" cellpadding="0"><tr>
+					<table class="cp0"><tr>
 					<!--{if !$_G['setting']['grid']['gridtype']}-->
 						<td valign="top" class="category_l1">
 							<div class="newimgbox">
@@ -191,7 +191,7 @@
 					<h2><a href="forum.php?mod=collection&op=my">{lang my_order_collection}</a></h2>
 				</div>
 				<div id="category_-1" class="bm_c" style="{echo $collapse['category_-1']}">
-					<table cellspacing="0" cellpadding="0" class="fl_tb">
+					<table class="fl_tb cp0">
 						<tr>
 						<!--{eval $ctorderid = 0;}-->
 						<!--{loop $collectiondata['follows'] $key $colletion}-->
@@ -247,7 +247,7 @@
 					<h2><a href="home.php?mod=space&do=favorite&type=forum">{lang forum_myfav}</a></h2>
 				</div>
 				<div id="category_0" class="bm_c" style="{echo $collapse['category_0']}">
-					<table cellspacing="0" cellpadding="0" class="fl_tb">
+					<table class="fl_tb cp0">
 						<tr>
 						<!--{eval $favorderid = 0;}-->
 						<!--{loop $forum_favlist $key $favorite}-->
@@ -345,7 +345,7 @@
 					<h2><a href="{if !empty($caturl)}$caturl{else}forum.php?gid=$cat[fid]{/if}" style="{if !empty($cat[extra][namecolor])}color: {$cat[extra][namecolor]};{/if}">$cat[name]</a></h2>
 				</div>
 				<div id="category_$cat[fid]" class="bm_c" style="{echo $collapse['category_'.$cat[fid]] or ''}">
-					<table cellspacing="0" cellpadding="0" class="fl_tb">
+					<table class="fl_tb cp0">
 						<tr>
 						<!--{loop $cat[forums] $forumid}-->
 						<!--{eval $forum=$forumlist[$forumid];}-->
@@ -440,7 +440,7 @@
 					<h2><a href="forum.php?mod=collection">{lang recommend_collection}</a></h2>
 				</div>
 				<div id="category_-2" class="bm_c" style="{echo $collapse['category_-2']}">
-					<table cellspacing="0" cellpadding="0" class="fl_tb">
+					<table class="fl_tb cp0">
 						<tr>
 						<!--{eval $ctorderid = 0;}-->
 						<!--{loop $collectiondata['data'] $key $colletion}-->

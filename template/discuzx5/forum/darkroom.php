@@ -20,7 +20,7 @@
 </div>
 
 <div style="margin:10px 0;">
-<table id="darkroomtable" summary="{lang darkroom}" cellspacing="0" cellpadding="0" class="bm dt">
+<table id="darkroomtable" summary="{lang darkroom}" class="bm dt cp0">
 	<tr>
 		<th class="xw1" style="width:105px;">{lang username}</th>
 		<th class="xw1" style="width:135px;">{lang crime_action}</th>

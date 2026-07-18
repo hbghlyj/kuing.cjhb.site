@@ -5,7 +5,7 @@
 	</div>
 
 	<div id="subforum_{$_G[forum][fid]}" class="bm_c" style="$collapse[subforum]">
-		<table cellspacing="0" cellpadding="0" class="fl_tb">
+		<table class="fl_tb cp0">
 			<tr>
 			<!--{loop $sublist $sub}-->
 			<!--{eval $forumurl = !empty($sub['domain']) && !empty($_G['setting']['domain']['root']['forum']) ? $_G['scheme'].'://'.$sub['domain'].'.'.$_G['setting']['domain']['root']['forum'] : 'forum.php?mod=forumdisplay&fid='.$sub['fid'];}-->

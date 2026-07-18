@@ -69,7 +69,7 @@ foreach($keys as $key) {
 $adminscript = ADMINSCRIPT;
 echo <<<SEARCH
 	<form method="post" autocomplete="off" action="$adminscript" id="tb_search">
-		<table cellspacing="3" cellpadding="3" class="tb tb2">
+		<table class="tb tb2">
 			<tr>
 				<td>{$searchlang['diytemplate_name']}*</td><td><input type="text" class="txt" name="name" value="{$_GET['name']}"></td>
 				<td>{$searchlang['diytemplate_targettplname']}*</td><td><input type="text" class="txt" name="targettplname" value="{$_GET['targettplname']}"></td>

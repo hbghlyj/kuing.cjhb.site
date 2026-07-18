@@ -89,7 +89,7 @@
 	</div>
 </div>
 
-<table cellspacing="0" cellpadding="0"><tr><td class="t_f" id="postmessage_$post[pid]">$post[message]</td></tr></table>
+<table class="cp0"><tr><td class="t_f" id="postmessage_$post[pid]">$post[message]</td></tr></table>
 
 
 <!--{if $_G['uid'] && !$activityclose && (!$applied || $isverified == 2)}-->
@@ -106,7 +106,7 @@
 			<div class="c">
 				<!--{if $_G['setting']['activitycredit'] && $activity['credit'] && !$applied}--><p class="xi1">{lang activity_need_credit} $activity[credit] {$_G['setting']['extcredits'][$_G['setting']['activitycredit']][title]}</p><!--{/if}-->
 				<div class="actfm">
-					<table summary="{lang activity_join}" cellpadding="0" cellspacing="0" class="actl">
+					<table summary="{lang activity_join}" class="actl cp0">
 					<!--{if $activity['cost']}-->
 						<tr>
 							<th>{lang activity_paytype}</th>
@@ -170,7 +170,7 @@
 		<form name="activity" method="post" autocomplete="off" action="forum.php?mod=misc&action=activityapplies&fid=$_G[fid]&tid=$_G[tid]&pid=$post[pid]{if $_GET['from']}&from=$_GET['from']{/if}">
 			<input type="hidden" name="formhash" value="{FORMHASH}" />
 			<div class="c">
-				<table summary="{lang activity_join}" cellpadding="0" cellspacing="0" class="actl">
+				<table summary="{lang activity_join}" class="actl cp0">
 					<tr>
 						<th>{lang leaveword}</th>
 						<td><input type="text" name="message" maxlength="200" class="px" value="" /></td>

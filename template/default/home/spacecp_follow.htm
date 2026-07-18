@@ -77,7 +77,7 @@
 			<input type="hidden" name="tid" value="$tid" />
 			<!--{if $_G[inajax]}--><input type="hidden" name="handlekey" value="$_GET[handlekey]" /><!--{/if}-->
 
-			<table cellspacing="0" cellpadding="0">
+			<table class="cp0">
 				<tr>
 					<td class="flw_autopt">
 						<textarea id="note_{$tid}" name="note" class="pts" cols="80" rows="4" onkeyup="resizeTx(this);strLenCalc(this, 'checklen{$tid}', 140);" onkeydown="resizeTx(this);" onpropertychange="resizeTx(this);" oninput="resizeTx(this);" style="height:54px">
@@ -86,7 +86,7 @@
 						</textarea>
 					</td>
 					<td style="vertical-align:top;">
-						<table cellspacing="0" cellpadding="0" style="margin-left: 5px;">
+						<table class="cp0" style="margin-left: 5px;">
 							<tr>
 								<td style="vertical-align:top;"><button type="submit" name="relaysubmit_btn" id="relaysubmit_btn" class="pgsbtn" value="true" name="{if $_GET[action] == 'newthread'}topicsubmit{elseif $_GET[action] == 'reply'}replysubmit{/if}"><span>{lang follow_reply}</span></button></td>
 								<td width="100" class="ptn" style="vertical-align:top;"><label><input type="checkbox" name="addnewreply" class="pc" value="1" checked="checked" />{lang post_add_inonetime}</label></td>

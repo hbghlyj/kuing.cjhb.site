@@ -380,7 +380,7 @@ drag.extend({
 		}
 
 		var c = len + 1;
-			html = '<div class="c diywin" style="width:450px;height:400px; overflow:auto;"><table cellspacing="0" cellpadding="0" class="tfm pns"><tr><th></th><td><button type="button" id="addTitleInput" class="pn" onclick="drag.addTitleInput('+c+');"><em>' + $L('diy_add_title') + '</em></button></td></tr></table><div id="titleEdit">'+html+common+'</div></div>';
+			html = '<div class="c diywin" style="width:450px;height:400px; overflow:auto;"><table class="tfm pns cp0"><tr><th></th><td><button type="button" id="addTitleInput" class="pn" onclick="drag.addTitleInput('+c+');"><em>' + $L('diy_add_title') + '</em></button></td></tr></table><div id="titleEdit">'+html+common+'</div></div>';
 		var h = '<h3 class="flb"><em>'+$L('edit')+titlename+$L('title')+'</em><span><a href="javascript:;" class="flbc" onclick="drag.closeTitleEdit(\''+fid+'\');return false;" title="' + $L('close') + '">' + $L('close') + '</a></span></h3>';
 		var f = '<p class="o pns"><button onclick="drag.saveTitleEdit(\''+fid+'\');drag.closeTitleEdit(\''+fid+'\');" class="pn pnc" value="true">\n\
 			<strong>' + $L('confirm') + '</strong></button><button onclick="drag.closeTitleEdit(\''+fid+'\')" class="pn" value="true"><strong>' + $L('cancel') + '</strong></button></p>';

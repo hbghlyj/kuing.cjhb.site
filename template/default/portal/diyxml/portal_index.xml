@@ -2648,7 +2648,7 @@
 				<item id="title"><![CDATA[<div class="blocktitle title"><span style="margin-left: 10px;" class="titletext">找朋友</span></div>]]></item>
 				<item id="classname"><![CDATA[]]></item>
 				<item id="summary"><![CDATA[<form action="home.php" method="get">
-	<table cellpadding="0" cellspacing="0" class="pns">
+	<table class="pns cp0">
 		<tr>
 			<th width="70" class="ptm">性别</th>
 			<td class="ptm">
@@ -2696,7 +2696,7 @@
 				<item id="script"><![CDATA[blank]]></item>
 				<item id="param">
 					<item id="content"><![CDATA[<form action="home.php" method="get">
-	<table cellpadding="0" cellspacing="0" class="pns">
+	<table class="pns cp0">
 		<tr>
 			<th width="70" class="ptm">性别</th>
 			<td class="ptm">
@@ -3218,7 +3218,7 @@
 				<item id="name"><![CDATA[]]></item>
 				<item id="title"><![CDATA[]]></item>
 				<item id="classname"><![CDATA[]]></item>
-				<item id="summary"><![CDATA[<div class="tns"><table cellspacing="0" cellpadding="4" border="0"><tbody><tr><th><p>0</p>帖子</th><th><p>0</p>圈子</th><th class="bbn"><p>1</p>会员</th></tr></tbody></table></div>]]></item>
+				<item id="summary"><![CDATA[<div class="tns"><table class="cp4" border="0"><tbody><tr><th><p>0</p>帖子</th><th><p>0</p>圈子</th><th class="bbn"><p>1</p>会员</th></tr></tbody></table></div>]]></item>
 				<item id="uid"><![CDATA[1]]></item>
 				<item id="username"><![CDATA[admin]]></item>
 				<item id="styleid"><![CDATA[0]]></item>

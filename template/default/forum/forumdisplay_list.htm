@@ -3,7 +3,7 @@
 		<!--{subtemplate forum/search_sortoption}-->
 	<!--{/if}-->
 	<div class="th">
-		<table cellspacing="0" cellpadding="0">
+		<table class="cp0">
 			<tr>
 				<th colspan="{if !$_GET['archiveid'] && $_G['forum']['ismoderator']}3{else}2{/if}">
 				<!--{if CURMODULE != 'guide'}-->
@@ -58,7 +58,7 @@
 		<form method="post" autocomplete="off" name="moderate" id="moderate" action="forum.php?mod=topicadmin&action=moderate&fid=$_G[fid]&infloat=yes&nopost=yes">
 			<input type="hidden" name="formhash" value="{FORMHASH}" />
 			<input type="hidden" name="listextra" value="$extra" />
-			<table summary="forum_$_G[fid]" cellspacing="0" cellpadding="0" id="threadlisttableid">
+			<table class="cp0" summary="forum_$_G[fid]" id="threadlisttableid">
 				<!--{if (!$simplestyle || !$_G['forum']['allowside'] && $page == 1) && !empty($announcement)}-->
 					<tbody>
 						<tr>

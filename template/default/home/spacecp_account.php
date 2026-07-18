@@ -9,7 +9,7 @@
                 </h2>
             </caption>
 
-            <table cellspacing="0" cellpadding="0" class="tfm">
+            <table class="tfm cp0">
                 <!--{if $_G['setting']['security_rename']}-->
                 <tr>
                     <th>{lang action_account_security_type_rename}</th>
@@ -137,7 +137,7 @@
                     {lang action_account_title_third_login_method}
                 </h2>
             </caption>
-            <table cellspacing="0" cellpadding="0" class="dt valt">
+            <table class="dt valt cp0">
                 <tr>
                     <th class="xw1 hm" style="width: 20%;">{lang action_account_type}</th>
                     <th class="xw1 hm" style="width: 20%;">{lang action_account_createtime}</th>

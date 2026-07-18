@@ -12,7 +12,7 @@
 		<input type="hidden" name="do" value="search">
 		<input type="hidden" name="formhash" value="{FORMHASH}">
 		<div class="exfm">
-			<table cellspacing="0" cellpadding="0">
+			<table class="cp0">
 				<tr>
 					<th width="15%">{lang mod_option_selectforum}:</th>
 					<td width="35%">
@@ -95,7 +95,7 @@
 			<form method="post" autocomplete="off" name="moderate" id="moderate" action="forum.php?mod=topicadmin&action=moderate&fid=$_G[fid]&infloat=yes&nopost=yes">
 				<input type="hidden" name="formhash" value="{FORMHASH}" />
 				<input type="hidden" name="frommodcp" value="{if $op == 'thread'}1{else}2{/if}" />
-				<table cellspacing="0" cellpadding="0">
+				<table class="cp0">
 					<tbody class="th">
 						<tr>
 							<td class="icn">&nbsp;</td>

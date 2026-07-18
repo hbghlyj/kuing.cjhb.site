@@ -18,7 +18,7 @@
 		<!--{if $_G[inajax]}--><input type="hidden" name="handlekey" value="$_GET[handlekey]" /><!--{/if}-->
 		<input type="hidden" name="formhash" value="{FORMHASH}" />
 		<div class="c">
-			<table class="list" cellspacing="0" cellpadding="0" style="width:300px">
+			<table class="list cp0" style="width:300px">
 			<!--{if $join}-->
 				<!--{if $group['dailyprice']}-->
 					<tr>
@@ -96,7 +96,7 @@
 		<!--{if $_G[inajax]}--><input type="hidden" name="handlekey" value="$_GET[handlekey]" /><!--{/if}-->
 		<input type="hidden" name="formhash" value="{FORMHASH}" />
 		<div class="c">
-			<table class="list" cellspacing="0" cellpadding="0" style="width:300px">
+			<table class="list cp0" style="width:300px">
 				<tr>
 					<td>{lang memcp_usergroups_main_old}</td><td>$_G[group][grouptitle]</td>
 				</tr>
@@ -115,7 +115,7 @@
 	<!--{template home/spacecp_header}-->
 	<!--{hook/spacecp_usergroup_top}-->
 	<!--{template home/spacecp_usergroup_header}-->
-			<table cellpadding="0" cellspacing="0" class="tdat ftb mt10 mb10">
+			<table class="tdat ftb mt10 mb10 cp0">
 				<tr class="alt">
 					<th class="xw1">{lang forum_name}</th>
 					<!--{loop $perms $perm}-->
@@ -164,7 +164,7 @@
 					<div class="notice">{lang usergroup_expired}</div>
 				<!--{/if}-->
 				<!--{if $expirylist}-->
-					<table cellspacing="0" cellpadding="0" class="dt mt10 mb10">
+					<table class="dt mt10 mb10 cp0">
 						<tbody class="th">
 							<tr>
 								<th>{lang usergroup}</th>
@@ -228,7 +228,7 @@
 				$permtype = array(0 => '{lang permission_menu_normaloptions}', 1 => '{lang permission_modoptions_name}');
 			}-->
 			<div class="tdats">
-				<table cellpadding="0" cellspacing="0" class="tdat">
+				<table class="tdat cp0">
 					<tr><th class="c0">&nbsp;</th></tr>
 					<tr><th class="alt">&nbsp;</th></tr>
 					<tbody class="ca">
@@ -274,7 +274,7 @@
 						<!--{/loop}-->
 					</tbody>
 				</table>
-				<table cellpadding="0" cellspacing="0" class="tdat tfxf">
+				<table class="tdat tfxf cp0">
 					<tr>
 						<th class="c0"><h4>{lang my_main_usergroup} - $maingroup[grouptitle]</h4></th>
 					</tr>
@@ -291,7 +291,7 @@
 						<li id="c$cid">$tlang - $currentgrouptitle</li>
 					</ul>
 					<div class="tscr">
-						<table cellpadding="0" cellspacing="0" class="tdat">
+						<table class="tdat cp0">
 							<tr>
 								<th class="alt h">
 									<!--{if $group['grouptype'] == 'member'}-->

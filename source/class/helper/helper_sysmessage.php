@@ -29,14 +29,14 @@ class helper_sysmessage {
 <title>$title</title>
 </head>
 <body>
-	<table cellpadding="20" cellspacing="0" border="0" width="80%" align="center" style="color: red;">
+	<table border="0" width="80%" align="center" style="color: red;">
 		<tr>
-			<td bgcolor="#EBEBEB" align="center" style="font-size:24px;">
+			<td bgcolor="#EBEBEB" align="center" style="padding:20px; font-size:24px;">
 				$title
 			</td>
 		</tr>
 		<tr>
-			<td bgcolor="#EBEBEB" style="text-align:left; font-size:16px;">
+			<td bgcolor="#EBEBEB" style="padding:20px; text-align:left; font-size:16px;">
 				$message
 			</td>
 		</tr>

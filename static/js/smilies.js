@@ -83,7 +83,7 @@ function smilies_onload(id, smcols, seditorkey) {
 				}
 				k++;
 			}
-			$('fastsmilies').innerHTML = '<table cellspacing="0" cellpadding="0"><tr>' + smilies_fastdata + '</tr></table>';
+			$('fastsmilies').innerHTML = '<table class="cp0"><tr>' + smilies_fastdata + '</tr></table>';
 		}
 	}
 }
@@ -137,7 +137,7 @@ function smilies_switch(id, smcols, type, page, seditorkey) {
 		return;
 	}
 	setcookie('smile', type + 'D' + page, 31536000);
-	var smiliesdata = '<table id="' + id + '_table" cellpadding="0" cellspacing="0"><tr>';
+	var smiliesdata = '<table class="cp0" id="' + id + '_table"><tr>';
 	var j = 0;
 	var k = 0;
 	var img = [];

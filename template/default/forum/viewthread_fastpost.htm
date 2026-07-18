@@ -12,7 +12,7 @@ var disablepostctrl = parseInt('{$_G['group']['disablepostctrl']}');
 </div>
 <form method="post" autocomplete="off" id="fastpostform" action="forum.php?mod=post&action=reply&fid=$_G[fid]&tid=$_G[tid]&extra=$_GET[extra]&replysubmit=yes&infloat=yes&handlekey=fastpost{if $_GET[from]}&from=$_GET[from]{/if}" onSubmit="return fastpostvalidate(this)">
 	<!--{if empty($_GET[from])}-->
-	<table cellspacing="0" cellpadding="0">
+	<table class="cp0">
 		<tr>
 			<!--{if !$close_leftinfo}-->
 			<td class="pls">
@@ -108,7 +108,7 @@ var disablepostctrl = parseInt('{$_G['group']['disablepostctrl']}');
 
 		<input type="hidden" name="posttime" id="posttime" value="{TIMESTAMP}" />
 		<div class="upfl{if empty($_GET[from]) && $_G[setting][fastsmilies]} hasfsl{/if}">
-			<table cellpadding="0" cellspacing="0" border="0" id="attach_tblheader" style="display: none;">
+			<table class="cp0" border="0" id="attach_tblheader" style="display: none;">
 				<tr>
 					<td>{lang e_attach_insert}</td>
 					<td class="atds">{lang description}</td>

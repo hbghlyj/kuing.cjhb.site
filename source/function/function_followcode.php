@@ -396,7 +396,7 @@ function fparsetable($width, $bgcolor, $message) {
 	$html = '';
 	if(!str_contains($message, '[/tr]') && !str_contains($message, '[/td]')) {
 		$rows = explode("\n", $message);
-		$html = '<table cellspacing="0" class="t_table" '.
+		$html = '<table class="t_table" '.
 			($width == '' ? NULL : 'style="width:'.$width.'"').
 			($bgcolor ? ' bgcolor="'.$bgcolor.'">' : '>');
 		foreach($rows as $row) {
@@ -417,7 +417,7 @@ function fparsetable($width, $bgcolor, $message) {
 		$message = preg_replace_callback('/\[\/td\]\s*\[td(?:=(\d{1,4}%?))?\]/i', 'fparsetable_callback_parsetrtd_1', $message);
 		$message = preg_replace_callback('/\[tr(?:=([\(\)\s%,#\w]+))?\]\s*\[td(?:=(\d{1,2}),(\d{1,2})(?:,(\d{1,4}%?))?)?\]/i', 'fparsetable_callback_parsetrtd_1234', $message);
 		$message = preg_replace_callback('/\[\/td\]\s*\[td(?:=(\d{1,2}),(\d{1,2})(?:,(\d{1,4}%?))?)?\]/i', 'fparsetable_callback_parsetrtd_123', $message);
-		$html = '<table cellspacing="0" class="t_table" '.
+		$html = '<table class="t_table" '.
 			($width == '' ? NULL : 'style="width:'.$width.'"').
 			($bgcolor ? ' bgcolor="'.$bgcolor.'">' : '>').
 			fparsetable_allow_br(str_replace('\\"', '"', preg_replace('/\[\/td\]\s*\[\/tr\]\s*/i', '</td></tr>', $message))

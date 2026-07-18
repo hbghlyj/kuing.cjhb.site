@@ -104,7 +104,7 @@ if(submitcheck('articlesubmit')) {
 	$staticurl = STATICURL;
 	echo <<<SEARCH
 		<form method="post" autocomplete="off" action="$adminscript" id="tb_search">
-			<table cellspacing="3" cellpadding="3" class="tb tb2">
+			<table class="tb tb2">
 				<tr>
 					<td>{$searchlang['article_id']}</td><td><input type="text" class="txt" name="aid" value="{$_GET['aid']}"></td>
 					<td>{$searchlang['article_title']}*</td><td><input type="text" class="txt" name="title" value="{$_GET['title']}">*{$searchlang['likesupport']}</td>

@@ -73,7 +73,7 @@ class block_search extends commonblock_html {
 						<input type="hidden" name="mod" id="scbar_mod" value="search" />
 						<input type="hidden" name="formhash" value="{FORMHASH}" />
 						<input type="hidden" name="srchtype" value="title" />
-						<table cellspacing="0" cellpadding="0">
+						<table class="cp0">
 							<tr>
 								<td class="scbar_icon_td"></td>
 								<td class="scbar_txt_td"><input type="text" name="srchtxt" id="scbar_txt" class="xg1" value="{$lang['enter_content']}" autocomplete="off" onfocus="if(this.value=='{$lang['enter_content']}'){this.value='';this.className=''}" onblur="if(this.value==''){this.value='{$lang['enter_content']}';this.className='xg1'}" /></td>

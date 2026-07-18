@@ -112,7 +112,7 @@ if(submitcheck('deletesubmit')) {
 			<script type="text/javascript" src="{$_G['setting']['jspath']}portal.js?{$_G['style']['verhash']}"></script>
 			<div id="ajaxwaitid"></div>
 			<form method="get" autocomplete="off" action="$adminscript" id="tb_search">
-				<table cellspacing="3" cellpadding="3" class="tb tb2">
+				<table class="tb tb2">
 					<tr>
 						$firstrow
 					</tr>

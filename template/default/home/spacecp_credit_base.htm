@@ -26,7 +26,7 @@
 			</ul>
 		<!--{/if}-->
 		<!--{if $_GET['op'] == 'base'}-->
-			<table summary="{lang memcp_credits_log_transaction}" cellspacing="0" cellpadding="0" class="dt mtm">
+			<table summary="{lang memcp_credits_log_transaction}" class="dt mtm cp0">
 				<caption>
 					<h2 class="mbm xs2">
 						<a href="home.php?mod=spacecp&ac=credit&op=log" class="xi2 xs1 xw0 y">{lang viewmore}&raquo;</a>{lang memcp_credits_log}
@@ -60,7 +60,7 @@
 				<input type="hidden" name="formhash" value="{FORMHASH}" />
 				<input type="hidden" name="addfundsbuyform" value="true" />
 				<input type="hidden" name="handlekey" value="buycredit" />
-				<table cellspacing="0" cellpadding="0" class="tfm mtn">
+				<table class="tfm mtn cp0">
 					<tr id="paybox">
 						<th>{lang memcp_credits_addfunds}</th>
 						<td class="pns">
@@ -97,7 +97,7 @@
 				<input type="hidden" name="formhash" value="{FORMHASH}" />
 				<input type="hidden" name="addfundscardsubmit" value="true" />
 				<input type="hidden" name="handlekey" value="buycredit" />
-				<table cellspacing="0" cellpadding="0" class="tfm mtn">
+				<table class="tfm mtn cp0">
 					<tr id="cardbox">
 						<th>{lang card}</th>
 						<td colspan="2">
@@ -106,9 +106,9 @@
 					</tr>
 					<!--{if $seccodecheck || $secqaacheck}-->
 				</table>
-				<!--{block sectpl}--><table id="card_box_sec" cellspacing="0" cellpadding="0" class="tfm mtn"><tr><th><sec></th><td colspan="2"><span id="sec<hash>" onclick="showMenu({'ctrlid':this.id,'win':'{$_GET[handlekey]}'})"><sec></span><div id="sec<hash>_menu" class="p_pop p_opt" style="display:none"><sec></div></td></tr></table><!--{/block}-->
+				<!--{block sectpl}--><table id="card_box_sec" class="tfm mtn cp0"><tr><th><sec></th><td colspan="2"><span id="sec<hash>" onclick="showMenu({'ctrlid':this.id,'win':'{$_GET[handlekey]}'})"><sec></span><div id="sec<hash>_menu" class="p_pop p_opt" style="display:none"><sec></div></td></tr></table><!--{/block}-->
 				<!--{subtemplate common/seccheck}-->
-				<table cellspacing="0" cellpadding="0" class="tfm mtn">
+				<table class="tfm mtn cp0">
 					<!--{/if}-->
 					<tr>
 						<th>&nbsp;</th>
@@ -128,7 +128,7 @@
 				<input type="hidden" name="formhash" value="{FORMHASH}" />
 				<input type="hidden" name="transfersubmit" value="true" />
 				<input type="hidden" name="handlekey" value="transfercredit" />
-				<table cellspacing="0" cellpadding="0" class="tfm mtn">
+				<table class="tfm mtn cp0">
 					<tr>
 						<th>{lang memcp_credits_transfer}</th>
 						<td class="pns">
@@ -169,7 +169,7 @@
 				<input type="hidden" name="operation" value="exchange" />
 				<input type="hidden" name="exchangesubmit" value="true" />
 				<input type="hidden" name="outi" value="" />
-				<table cellspacing="0" cellpadding="0" class="tfm mtn">
+				<table class="tfm mtn cp0">
 					<tr>
 						<th>{lang memcp_credits_exchange}</th>
 						<td class="pns">
@@ -297,7 +297,7 @@
 			<div class="tbmu bw0">
 				<p>{lang activity_award_message}</p>
 			</div>
-			<table cellspacing="0" cellpadding="0" class="dt valt">
+			<table class="dt valt cp0">
 				<tr>
 					<th class="xw1">{lang action_name}</th>
 					<th class="xw1">{lang cycle_range}</th>

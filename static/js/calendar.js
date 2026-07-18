@@ -23,7 +23,7 @@ var calendarrecall = null;
 function loadcalendar() {
 	s = '';
 	s += '<div id="calendar" style="display:none; position:absolute; z-index:100000;" onclick="doane(event)">';
-	s += '<div style="width: 260px;"><table cellspacing="0" cellpadding="0" width="100%" style="text-align: center;">';
+	s += '<div style="width: 260px;"><table class="cp0" width="100%" style="text-align: center;">';
 	s += '<tr align="center" id="calendar_week"><td onclick="refreshcalendar(yy, mm-1)" title="' + $L('prev_month') + '" style="cursor: pointer;"><a href="javascript:;">&laquo;</a></td><td colspan="5" style="text-align: center"><a href="javascript:;" onclick="showdiv(\'year\');doane(event)" class="dropmenu" title="' + $L('select_year') + '" id="year"></a>&nbsp; - &nbsp;<a id="month" class="dropmenu" title="' + $L('select_month') + '" href="javascript:;" onclick="showdiv(\'month\');doane(event)"></a></td><td onclick="refreshcalendar(yy, mm+1)" title="' + $L('next_month') + '" style="cursor: pointer;"><a href="javascript:;">&raquo;</a></td></tr>';
 	s += '<tr id="calendar_header"><td>' + $L('sun') + '</td><td>' + $L('mon') + '</td><td>' + $L('tue') + '</td><td>' + $L('wed') + '</td><td>' + $L('thu') + '</td><td>' + $L('fri') + '</td><td>' + $L('sat') + '</td></tr>';
 	for(var i = 0; i < 6; i++) {

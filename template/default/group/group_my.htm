@@ -48,7 +48,7 @@
 			<!--{loop $attentionthread $groupid $threads}-->
 				<div class="bm tl">
 					<div class="th">
-						<table cellspacing="0" cellpadding="0" class="th">
+						<table class="th cp0">
 							<tr>
 								<td colspan="2"><a href="forum.php?mod=group&fid=$groupid" target="_blank" class="xw1">{$usergroups['groups'][$groupid]}</a></td>
 								<td class="num">{lang replies}</td>
@@ -57,7 +57,7 @@
 						</table>
 					</div>
 					<div class="bm_c">
-						<table cellspacing="0" cellpadding="0">
+						<table class="cp0">
 						<!--{loop $threads $tid $thread}-->
 						<tr>
 							<td class="icn">
@@ -91,7 +91,7 @@
 
 		<div class="bm tl">
 			<div class="th">
-				<table cellpadding="0" cellspacing="0" class="th">
+				<table class="th cp0">
 					<tr>
 						<td colspan="2">
 							<!--{if $view == 'groupthread'}-->{lang last_topic_in_group}<!--{else}-->{lang my_last_topic_in_group}<!--{/if}-->
@@ -103,7 +103,7 @@
 				</table>
 			</div>
 			<div class="bm_c">
-				<table cellspacing="0" cellpadding="0">
+				<table class="cp0">
 				<!--{if $groupthreadlist}-->
 					<!--{loop $groupthreadlist $tid $thread}-->
 						<tr>

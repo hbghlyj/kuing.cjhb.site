@@ -106,7 +106,7 @@ if($anchor == 'add') {
 		echo <<<EOF
 			<form method="post" autocomplete="off" action="$adminscript">
 				<div class="dbox"><div class="boxbody">
-					<table cellspacing="3" cellpadding="3" class="tb tb2">
+					<table class="tb tb2">
 					<tr>
 						<td>{$searchlang['members_verify_username']}* </td><td><input type="text" name="username" value="{$_GET['username']}"></td>
 						<td>{$searchlang['members_verify_uid']}</td><td><input type="text" name="uid" value="{$_GET['uid']}"> *{$searchlang['likesupport']}</td>

@@ -1,5 +1,5 @@
 <!--{eval $keywordenc = $keyword ? rawurlencode($keyword) : '';}-->
-<table id="scform" class="mbm" cellspacing="0" cellpadding="0">
+<table id="scform" class="mbm cp0">
 	<tr>
 		<td><h1><a href="search.php" title="$_G['setting']['bbname']">{$_G['style']['searchlogo']}</a></h1></td>
 		<td>
@@ -18,7 +18,7 @@
 				<!--{if helper_access::check_module('friend') }--><!--{block slist['user']}--><a href="search.php?mod=user{if $keyword}&srchtxt=$keywordenc&searchsubmit=yes{/if}"{if CURMODULE == 'user'} class="a"{/if}>{lang users}</a><!--{/block}--><!--{/if}-->
 				<!--{echo implode("", $slist);}-->
 			</div>
-			<table id="scform_form" cellspacing="0" cellpadding="0">
+			<table class="cp0" id="scform_form">
 				<tr>
 					<td class="td_srchtxt"><input type="text" id="scform_srchtxt" name="srchtxt" size="45" maxlength="40" value="$keyword" x-webkit-speech speech /><script type="text/javascript">initSearchmenu('scform_srchtxt');$('scform_srchtxt').focus();</script></td>
 					<td class="td_srchbtn"><input type="hidden" name="searchsubmit" value="yes" /><button type="submit" id="scform_submit" class="schbtn"><strong>{lang search}</strong></button></td>

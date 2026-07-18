@@ -1,5 +1,5 @@
 <div id="icoImg_image_menu" style="display: none" unselectable="on">
-	<table width="100%" cellpadding="0" cellspacing="0" class="fwin"><tr><td class="t_l"></td><td class="t_c"></td><td class="t_r"></td></tr><tr><td class="m_l">&nbsp;&nbsp;</td><td class="m_c"><div class="mtm mbm">
+	<table width="100%" class="fwin cp0"><tr><td class="t_l"></td><td class="t_c"></td><td class="t_r"></td></tr><tr><td class="m_l">&nbsp;&nbsp;</td><td class="m_c"><div class="mtm mbm">
 	<ul class="tb tb_s cl" id="icoImg_image_ctrl" style="margin-top:0;margin-bottom:0;">
 		<li class="y"><span class="flbc" onclick="hideAttachMenu('icoImg_image_menu')">{lang close}</span></li>
 		<!--{if $_G['basescript'] == 'home' && $_G['group']['allowupload'] || $_G['basescript'] == 'portal'}-->
@@ -11,7 +11,7 @@
 		<li id="icoImg_btn_www" {if $_G['basescript'] == 'home' && !$_G['group']['allowupload'] && !helper_access::check_module('album')} class="current"{/if}><a href="javascript:;" hidefocus="true" onclick="switchImagebutton('www');">{lang e_img_www}</a></li>
 	</ul>
 	<div class="p_opt popupfix" unselectable="on" id="icoImg_www" {if $_G['basescript'] == 'home' && ($_G['group']['allowupload'] || helper_access::check_module('album')) || $_G['basescript'] == 'portal'} style="display: none"{/if}>
-		<table cellpadding="0" cellspacing="0" width="100%">
+		<table class="cp0" width="100%">
 			<tr class="xg1">
 				<th>{lang e_img_inserturl}</th>
 				<th>{lang e_img_width}</th>
@@ -79,7 +79,7 @@
 
 
 <div id="icoAttach_attach_menu" style="display: none" unselectable="on">
-	<table width="100%" cellpadding="0" cellspacing="0" class="fwin">
+	<table width="100%" class="fwin cp0">
 		<tr>
 			<td class="t_l"></td>
 			<td class="t_c"></td>
@@ -97,7 +97,7 @@
 						<div class="pbm bbda">
 							<span id="spanButtonPlaceholder"></span>
 						</div>
-						<table cellpadding="0" cellspacing="0" border="0" width="100%" id="attach_tblheader" class="mtn bbs" style="display: none;">
+						<table border="0" width="100%" id="attach_tblheader" class="mtn bbs cp0" style="display: none;">
 							<tr>
 								<td class="atnu"></td>
 								<td class="atna pbn">{lang filename}</td>

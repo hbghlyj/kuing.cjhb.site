@@ -151,7 +151,7 @@
 						<form action="forum.php?mod=collection&action=edit&op=delthread" method="POST">
 					<!--{/if}-->
 					<div class="th">
-						<table cellspacing="0" cellpadding="0">
+						<table class="cp0">
 							<tr>
 								<td class="icn">&nbsp;</td>
 								<!--{if $permission}--><td class="o"><label class="z" onclick="checkall(this.form, 'delthread')"><input class="pc" type="checkbox" name="chkall" title="{lang checkall}" /></label></td><!--{/if}-->
@@ -164,7 +164,7 @@
 					</div>
 
 					<div class="bm_c">
-						<table cellspacing="0" cellpadding="0">
+						<table class="cp0">
 						<!--{loop $collectiontids $thread}-->
 							<tr>
 								<td class="icn">
@@ -323,7 +323,7 @@
 	</div>
 	<div class="sd">
 		<div class="bm bml tns">
-			<table cellspacing="0" cellpadding="4">
+			<table class="cp4">
 				<tr>
 					<th>
 						<p>{$_G['collection']['threadnum']}</p>{lang collection_threadnum}

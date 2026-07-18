@@ -552,7 +552,7 @@ if(empty($_GET['op'])) {
 	<div style="height:100%">
 
 		<div style="position: absolute;width: 100%;height: 31px;">
-			<table width="100%" border="0" cellpadding="0" cellspacing="0" class="edTb">
+			<table width="100%" border="0" class="edTb cp0">
 				<tr>
 					<td height="31" style="padding-left:3px">
 

@@ -566,7 +566,7 @@ function parsetable_allow_br($message) {
 function parsetable($width, $bgcolor, $message) {
 	if(!str_contains($message, '[/tr]') && !str_contains($message, '[/td]') && !str_contains($message, '[/th]')) {
 		$rows = explode("\n", $message);
-		$s = !defined('IN_MOBILE') ? '<table cellspacing="0" class="t_table" '.
+		$s = !defined('IN_MOBILE') ? '<table class="t_table" '.
 			($width == '' ? NULL : 'style="width:'.$width.'"').
 			($bgcolor ? ' bgcolor="'.$bgcolor.'">' : '>') : '<table>';
 		foreach($rows as $row) {
@@ -589,7 +589,7 @@ function parsetable($width, $bgcolor, $message) {
 		$message = preg_replace_callback("/\[tr(?:=([\(\)\s%,#\w]+))?\]\s*\[(td|th)(?:=(\d{1,2}),(\d{1,2})(?:,(\d{1,4}%?))?)?\]/i", 'parsetable_callback_open_complex', $message);
 		$message = preg_replace_callback("/\[\/(td|th)\]\s*\[(td|th)(?:=(\d{1,2}),(\d{1,2})(?:,(\d{1,4}%?))?)?\]/i", 'parsetable_callback_replace_complex', $message);
 		$message = preg_replace("/\[\/(td|th)\]\s*\[\/tr\]\s*/i", '</$1></tr>', $message);
-		return (!defined('IN_MOBILE') ? '<table cellspacing="0" class="t_table" '.
+		return (!defined('IN_MOBILE') ? '<table class="t_table" '.
 				($width == '' ? NULL : 'style="width:'.$width.'"').
 				($bgcolor ? ' bgcolor="'.$bgcolor.'">' : '>') : '<table>').
 			parsetable_allow_br(str_replace('\\"', '"', $message)).'</table>';
