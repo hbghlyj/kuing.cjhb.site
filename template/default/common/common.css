@@ -1112,7 +1112,7 @@ Last Modify:	Pony
 */
 	#pt { margin: 2px 0; height: 29px; border:none; background: transparent; line-height: 29px; }
 		#pt .z { padding-right: 10px; }
-		#pt .z a, #pt .z em, #pt .z span { float: left; height: 29px; }
+		#pt .z a, #pt .z em, #pt .z span { float: left; }
 		#pt .z em { width: 20px; height: 29px; text-align: center; color: #bdbdbd; }
 		.nvhm { width: 16px; font-family: dzicon; text-align: center; font-size: 16px; color: #C5D7E3; overflow: hidden; }
 			.nvhm:before { content: "\f103"; }
