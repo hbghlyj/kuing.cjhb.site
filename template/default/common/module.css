@@ -1270,20 +1270,6 @@ i.pstatus { display: block; margin-bottom: -30px; font-size: 12px; text-align: c
 	.previewPost .tindex li { cursor: pointer; height: 22px; padding-left: 22px; background: url({IMGDIR}/ico_mulu.png) no-repeat 10px center; overflow: hidden; }
 /** end **/
 
-/** forum::viewthread,group::viewthread,forum::forumdisplay,group::forumdisplay **/
-/*
-	Name:			mod_visited_t&b
-	Level:			Function
-	Explain:		返回列表中显示的访问过的帖子和版块
-	Last Modify:	Pony
-*/
-#visitedforums_menu, #recentthreads_menu { width: 150px; }
-	#visitedforums_menu li, #recentthreads_menu li { display: block; float: none; }
-	#visitedforums_menu td, #recentthreads_menu td { padding: 5px 10px; vertical-align: top; }
-	#visitedforums_menu a, #recentthreads_menu a { white-space: normal !important; display: inline-block; overflow: hidden; height: 1.5em; }
-	#v_forums, #v_threads { width: 120px; }
-
-
 /* 快速表情 */
 #fastsmilies { text-align: right; }
 	#fastsmilies table { table-layout: auto; width: 160px; height: 133px; }
