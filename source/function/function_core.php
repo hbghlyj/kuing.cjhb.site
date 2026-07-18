@@ -674,7 +674,7 @@ function avatar($uid, $size = 'middle', $returnsrc = 0, $real = FALSE, $static =
 	$size = in_array($size, ['big', 'middle', 'small']) ? $size : 'middle';
 	$rawuid = $uid;
 	$src = $datasrc ? 'data-src' : 'src';
-	if(!$returnsrc && !$ossavatar) {
+	if(!$returnsrc && !$ossavatar && $avatarstatus === null) {
 		static $localavatarstatus = [];
 		$statuskey = $uid.'_'.$size.'_'.intval($real);
 		if(!isset($localavatarstatus[$statuskey])) {
