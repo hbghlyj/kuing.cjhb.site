@@ -898,7 +898,7 @@ cf712d37eb718782452a301fd18237db *source/app/forum/extend/extend_thread_comment.
 ac60f40d776dc6ff34d4d441aeabb55c *source/app/forum/extend/extend_thread_doing.php
 ceed15a3195b0bb6411f6312a48ebd59 *source/app/forum/extend/extend_thread_filter.php
 301ffd533ac945c4b3205a4f9e7c3277 *source/app/forum/extend/extend_thread_follow.php
-9a0c49694cd82853acbd2e45c9a2f455 *source/app/forum/extend/extend_thread_image.php
+77b4fae865492410c34f3614bc4e68f5 *source/app/forum/extend/extend_thread_image.php
 1a4c112b5717646882aa55311fd83d9e *source/app/forum/extend/extend_thread_poll.php
 4181c80564151e27a4cd3c6cef3c0aad *source/app/forum/extend/extend_thread_replycredit.php
 e0b57d26ba66c8c59c73389c3ef91516 *source/app/forum/extend/extend_thread_reward.php
