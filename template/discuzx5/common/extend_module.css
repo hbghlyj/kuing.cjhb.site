@@ -27,7 +27,7 @@
 .fl_g dd {height:22px;line-height:22px;font-size:12px;overflow:hidden;text-overflow:ellipsis;-webkit-line-clamp:1;display:-webkit-box;-webkit-box-orient:vertical}
 .fl_g dd, .fl_tb td .xg2 {color:var(--dz-fc)}
 .fl_g dd a:hover, .fl_g dd a.dz_lastpost_ico:hover {color:var(--dz-ahover)}
-.fl_g dd em:nth-child(2) {margin-left:12px}
+.fl_g dd em:nth-child(n+2) {margin-left:12px}
 .fl_g dd a.dz_lastpost_ico {display:block;color:var(--dz-fc)}
 .bm_c .kmtoday {display:inline-block;margin-left:5px;padding:0 4px;min-width:12px;height:14px;line-height:14px;text-align:center;vertical-align:top;font-size:12px;color:var(--dz-ff);background:var(--dz-ahot);border-radius:var(--dz-radius-c)}
 .bm_h h3 strong {font-weight:400}
