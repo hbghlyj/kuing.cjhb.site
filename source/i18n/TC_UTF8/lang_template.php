@@ -443,6 +443,7 @@ $lang = [
 	'temporarily_to_remind' => '暫不提醒',
 	'myitem' => '我的',
 	'mypost' => '帖子',
+	'recently_visited' => '最近訪問',
 	'post_tag' => '標籤',
 	'choosetag' => '選擇標籤',
 	'posttag_comment_forbidadd' => '，只能選擇已有標籤',

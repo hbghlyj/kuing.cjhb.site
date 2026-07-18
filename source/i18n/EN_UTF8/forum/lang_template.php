@@ -856,7 +856,6 @@ $lang = array (
 	'stats_main_total_posted'	=> 'Posts',//'发帖数',
 	'stats_update'			=> 'The statistics has been cached. Last update: $lastupdate. Next update: $nextupdate',//'统计数据已被缓存，上次于 $lastupdate 被更新，下次将于 $nextupdate 进行更新',
 	'lastvisit'			=> 'Last Visit',//'上次访问',
-	'recently_visited'		=> 'Recently Visited',//'最近访问',
 	'member_list'			=> 'Member List',//'会员列表',
 	'posts'				=> 'Posts',//'帖子',
 	'threads'			=> 'Threads',//'主题',

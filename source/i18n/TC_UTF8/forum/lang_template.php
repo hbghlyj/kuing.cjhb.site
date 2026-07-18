@@ -854,7 +854,6 @@ $lang = [
 	'stats_main_total_posted' => '發帖數',
 	'stats_update' => '統計數據已被緩存，上次於 $lastupdate 被更新，下次將於 $nextupdate 進行更新',
 	'lastvisit' => '上次訪問',
-	'recently_visited' => '最近訪問',
 	'member_list' => '會員列表',
 	'posts' => '帖子',
 	'threads' => '主題',
