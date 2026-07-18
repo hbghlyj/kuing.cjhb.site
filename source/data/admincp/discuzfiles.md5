@@ -4760,7 +4760,7 @@ fb8e1c46b4519bb69958b60b2d51f425 *template/default/forum/comment_more.htm
 88271350329fa0b8fb05bdbbe760c13d *template/default/forum/comment.htm
 2fb4492d7848635fb2437577e27169b0 *template/default/forum/darkroom.htm
 31614ffd47499d28c1100c28c954f566 *template/default/forum/debate_umpire.htm
-971037eae7fc60481e4a6a6face55fa3 *template/default/forum/discuz.htm
+067f3d82c33a8eb2aa090731d86d1c90 *template/default/forum/discuz.htm
 1b57ba87873eb1df3eef9ec65ed8e470 *template/default/forum/discuzcode.htm
 abec47825fced21a5ac7416431181dcf *template/default/forum/editor_menu_forum.htm
 68d7a4dcc4b93cfecf64f9c71a0e7d8d *template/default/forum/forumdisplay_cells.php
@@ -5408,7 +5408,7 @@ daa715e119177e271ba7f67a6010d8c4 *template/discuzx5/common/header_userstatus.php
 9e6d922e2687876d00b38b6c74a20467 *template/discuzx5/common/upload.php
 446f9680f4f0003a438aa04e266596cb *template/discuzx5/discuz_style_discuzx5.json
 f6ccf6eda761cef37eaf407be40f7493 *template/discuzx5/forum/darkroom.php
-c6a6b677d55e140952efbfe93fa9d524 *template/discuzx5/forum/discuz.php
+afd71efec8b113f4d7a706be7fdb310a *template/discuzx5/forum/discuz.php
 b9f66442b304bc4b6a7b5c9501db7c08 *template/discuzx5/forum/forumdisplay_leftside.php
 468721f297a8640db3e6c65ed683aadc *template/discuzx5/forum/forumdisplay_list_box.php
 6c5e097d42351731480261e0622738a4 *template/discuzx5/forum/forumdisplay_list.php
