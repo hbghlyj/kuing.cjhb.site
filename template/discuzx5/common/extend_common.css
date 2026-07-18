@@ -416,8 +416,7 @@ img{border:none;}
 #hds .p_pop .a a{background-color: var(--dz-bgc);color: var(--dz-ahover) !important;}
 
 .dz_layer_dl{float:right;}
-#dz_btm_layer .wp{display:flex;align-items:center;justify-content:space-between;}
-.topbox{background:#fff;box-shadow:0px 2px 20px 0px rgba(0,0,0,.05);position:sticky;top:0;left:0;z-index:199;width:100%;box-sizing:border-box;}
+#hd .wp{display:flex;align-items:center;justify-content:space-between;}
 .header-recent{display:flex;align-items:center;gap:14px;overflow-x:auto;padding:0 15px;flex:1;min-width:0;}
 	.header-recent-label{flex-shrink:0;color:var(--dz-fc,#999);font-size:12px;}
 	.header-recent-item{flex-shrink:0;max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:13px;}

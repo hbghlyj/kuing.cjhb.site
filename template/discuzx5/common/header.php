@@ -93,8 +93,7 @@
 
 		<!--{ad/headerbanner/wp a_h}-->
 
-		<!--{eval $disfixednv = (CURMODULE == 'viewthread' && !empty($_G['setting']['disfixednv_viewthread'])) || (CURMODULE == 'forumdisplay' && !empty($_G['setting']['disfixednv_forumdisplay'])) || (in_array(CURMODULE, ['index', 'guide']) && !empty($_G['setting']['disfixednv_forumindex']));}-->
-		<div id="dz_btm_layer" {if $_G['style']['is_fixtop'] && !$disfixednv} class="topbox"{/if}>
+		<div id="hd">
 		<div class="wp">
 			<!--{if !empty($_G['cookie']['recentthreads'])}-->
 				<!--{eval $recenttids = array_filter(array_map('intval', explode(',', $_G['cookie']['recentthreads'])));}-->
