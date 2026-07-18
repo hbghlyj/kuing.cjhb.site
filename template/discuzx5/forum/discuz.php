@@ -203,7 +203,7 @@
 							<!--{/if}-->
 							<td class="fl_g"{if $forumcolwidth} width="$forumcolwidth"{/if}>
 								<div class="fl_icn_g">
-								<a href="forum.php?mod=collection&action=view&ctid={$colletion[ctid]}" target="_blank" title="$colletion[name]"><img src="{STYLEIMGDIR}/images/forum.png" alt="$forum['name']" /></a>
+								<a href="forum.php?mod=collection&action=view&ctid={$colletion[ctid]}" target="_blank" title="$colletion[name]"><svg width="31" height="29"><path fill="#{if $followcollections[$key]['lastvisit'] < $colletion['lastupdate']}fdc910{else}c9c9c9{/if}" d="M31 13c0-7.2-6.9-13-15.5-13S0 5.8 0 13s6.9 13 15.5 13c1.6 0 3.2-.2 4.6-.6L27 28l-1.7-5c3.5-2.4 5.7-6 5.7-10z"/></svg></a>
 								</div>
 								<dl>
 									<dt><a href="forum.php?mod=collection&action=view&ctid={$colletion[ctid]}">$colletion[name]</a></dt>
@@ -266,7 +266,7 @@
 									<!--{if $forum[icon]}-->
 										$forum[icon]
 									<!--{else}-->
-										<a href="$forumurl"{if $forum[redirect]} target="_blank"{/if} title="$forum[name]"><img src="{STYLEIMGDIR}/images/forum{if $forum['folder']}_new{/if}.png" alt="$forum['name']" /></a>
+										<a href="$forumurl"{if $forum[redirect]} target="_blank"{/if} title="$forum[name]"><svg width="31" height="29"><path fill="#{if $forum[folder]}fdc910{else}c9c9c9{/if}" d="M31 13c0-7.2-6.9-13-15.5-13S0 5.8 0 13s6.9 13 15.5 13c1.6 0 3.2-.2 4.6-.6L27 28l-1.7-5c3.5-2.4 5.7-6 5.7-10z"/></svg></a>
 									<!--{/if}-->
 									</div>
 									<dl{if !empty($forum[extra][iconwidth]) && !empty($forum[icon])} style="margin-left: {$forum[extra][iconwidth]}px;"{/if}>
@@ -464,7 +464,7 @@
 							<!--{/if}-->
 							<td class="fl_g"{if $forumcolwidth} width="$forumcolwidth"{/if}>
 								<div class="fl_icn_g">
-								<a href="forum.php?mod=collection&action=view&ctid={$colletion[ctid]}" target="_blank" title="$colletion[name]"><img src="{STYLEIMGDIR}/images/forum.png" alt="$forum['name']" /></a>
+								<a href="forum.php?mod=collection&action=view&ctid={$colletion[ctid]}" target="_blank" title="$colletion[name]"><svg width="31" height="29"><path fill="#c9c9c9" d="M31 13c0-7.2-6.9-13-15.5-13S0 5.8 0 13s6.9 13 15.5 13c1.6 0 3.2-.2 4.6-.6L27 28l-1.7-5c3.5-2.4 5.7-6 5.7-10z"/></svg></a>
 								</div>
 								<dl>
 									<dt><a href="forum.php?mod=collection&action=view&ctid={$colletion[ctid]}">$colletion[name]</a></dt>

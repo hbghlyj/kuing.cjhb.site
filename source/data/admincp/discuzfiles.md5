@@ -5408,7 +5408,7 @@ daa715e119177e271ba7f67a6010d8c4 *template/discuzx5/common/header_userstatus.php
 9e6d922e2687876d00b38b6c74a20467 *template/discuzx5/common/upload.php
 446f9680f4f0003a438aa04e266596cb *template/discuzx5/discuz_style_discuzx5.json
 f6ccf6eda761cef37eaf407be40f7493 *template/discuzx5/forum/darkroom.php
-0d9b0363e9651b64a9f9c2c3d8425e5b *template/discuzx5/forum/discuz.php
+1b49bf8773806e894886d01928fefa64 *template/discuzx5/forum/discuz.php
 b9f66442b304bc4b6a7b5c9501db7c08 *template/discuzx5/forum/forumdisplay_leftside.php
 468721f297a8640db3e6c65ed683aadc *template/discuzx5/forum/forumdisplay_list_box.php
 6c5e097d42351731480261e0622738a4 *template/discuzx5/forum/forumdisplay_list.php
@@ -5437,8 +5437,6 @@ a32e4420dd9ede7c60d744a1c4789969 *template/discuzx5/preview.jpg
 2f1221239f288106f637639728e64dad *template/discuzx5/static/images/emp.png
 fa32e921cd7d4230e4a33bc9a2882515 *template/discuzx5/static/images/ewm_a.jpg
 fa32e921cd7d4230e4a33bc9a2882515 *template/discuzx5/static/images/ewm_b.jpg
-d843b1c039488fe36cfa0d237a61d72f *template/discuzx5/static/images/forum_new.png
-06e594839e9aeb40644e3cf0372ed5c7 *template/discuzx5/static/images/forum.png
 368d19b9c1d34009cce1abc8819a1380 *template/discuzx5/static/images/hl_emp.png
 a014a053a4d2c9ae62be53bc619470d9 *template/discuzx5/static/images/ic_number1.png
 466c565cb9921ac6e0eb84fbb649da59 *template/discuzx5/static/images/ic_number2.png
