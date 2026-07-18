@@ -93,15 +93,16 @@ Last Modify:	Pony
 	body, ul, ol, li, dl, dd, p, h1, h2, h3, h4, h5, h6, form, fieldset, .pr, .pc { margin: 0; padding: 0; }
 	table { empty-cells: show; border-collapse: collapse; }
 		caption, th { text-align: left; font-weight: 400; }
-	/* 替代 cellpadding="N" cellspacing 属性 */
-	.cp0 td, .cp0 th { padding: 0; }
-	.cp1 td, .cp1 th { padding: 1px; }
-	.cp2 td, .cp2 th { padding: 2px; }
-	.cp3 td, .cp3 th { padding: 3px; }
-	.cp4 td, .cp4 th { padding: 4px; }
-	.cp5 td, .cp5 th { padding: 5px; }
-	.cp10 td, .cp10 th { padding: 10px; }
-	.cp20 td, .cp20 th { padding: 20px; }
+	/* 替代 cellpadding="N" cellspacing 属性；用 :where() 清零选择器优先级，
+	   避免覆盖 .plc 等本身对 td/th 设置了 padding 的既有类 */
+	:where(.cp0) td, :where(.cp0) th { padding: 0; }
+	:where(.cp1) td, :where(.cp1) th { padding: 1px; }
+	:where(.cp2) td, :where(.cp2) th { padding: 2px; }
+	:where(.cp3) td, :where(.cp3) th { padding: 3px; }
+	:where(.cp4) td, :where(.cp4) th { padding: 4px; }
+	:where(.cp5) td, :where(.cp5) th { padding: 5px; }
+	:where(.cp10) td, :where(.cp10) th { padding: 10px; }
+	:where(.cp20) td, :where(.cp20) th { padding: 20px; }
 	ul li, .xl li { list-style: none; }
 	h1, h2, h3, h4, h5, h6 { font-size: 1.05em; }
 	em, cite, i { font-style: normal; }

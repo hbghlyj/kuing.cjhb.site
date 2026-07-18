@@ -118,9 +118,9 @@ body, ul, ol, li, dl, dd, p, h1, h2, h3, h4, h5, h6, form, fieldset, .pr, .pc {m
 body {background-color:var(--dz-BG-body)}
 table {empty-cells:show;border-collapse:collapse}
 caption, th {text-align:left;font-weight:400}
-/* 替代 cellpadding="N" cellspacing 属性 */
-.cp0 td, .cp0 th {padding:0}
-.cp5 td, .cp5 th {padding:5px}
+/* 替代 cellpadding="N" cellspacing 属性；用 :where() 清零选择器优先级，避免覆盖既有类 */
+:where(.cp0) td, :where(.cp0) th {padding:0}
+:where(.cp5) td, :where(.cp5) th {padding:5px}
 h1, h2, h3, h4, h5, h6 {font-weight:400}
 em, cite, i {font-style:normal}
 label {cursor:pointer}
