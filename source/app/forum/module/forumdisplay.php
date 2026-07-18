@@ -746,15 +746,6 @@ foreach($threadlist as $thread) {
 
 $_G['hiddenexists'] = !$_G['forum']['ismoderator'] && $_G['hiddenexists'] && $_G['showrows'] >= $_G['hiddenexists'];
 
-$livethread = [];
-if($_G['forum']['livetid'] && $page == 1 && (!$filter || ($filter == 'sortid' && $_G['forum']['threadsorts']['defaultshow'] == $_GET['sortid']))) {
-	include_once libfile('function/post');
-	$livethread = table_forum_thread::t()->fetch_thread($_G['forum']['livetid']);
-	$livepost = table_forum_post::t()->fetch_threadpost_by_tid_invisible($_G['forum']['livetid']);
-	$livemessage = threadmessagecutstr($livethread, $livepost['message'], 200);
-	$liveallowpostreply = ($_G['forum']['allowreply'] != -1) && (($livethread['isgroup'] || (!$livethread['closed'] && !checkautoclose($livethread))) || $_G['forum']['ismoderator']) && ((!$_G['forum']['replyperm'] && $_G['group']['allowreply']) || ($_G['forum']['replyperm'] && forumperm($_G['forum']['replyperm'])) || $_G['forum']['allowreply']);
-}
-
 if($rushtids) {
 	$rushinfo = table_forum_threadrush::t()->fetch_all($rushtids);
 	foreach($rushinfo as $tid => $info) {
@@ -839,7 +830,7 @@ $_G['group']['allowpost'] = isset($_G['forum']['allowpost']) && $_G['forum']['al
 $_G['forum']['allowpostattach'] = $_G['forum']['allowpostattach'] ?? '';
 $allowpostattach = $fastpost && ($_G['forum']['allowpostattach'] != -1 && ($_G['forum']['allowpostattach'] == 1 || (!$_G['forum']['postattachperm'] && $_G['group']['allowpostattach']) || ($_G['forum']['postattachperm'] && forumperm($_G['forum']['postattachperm']))));
 
-if($fastpost || $livethread) {
+if($fastpost) {
 	if(in_array($_G['adminid'], [0, -1]) && (!cknewuser(1) || $_G['setting']['newbiespan'] && (!getuserprofile('lastpost') || TIMESTAMP - getuserprofile('lastpost') < $_G['setting']['newbiespan'] * 60) && TIMESTAMP - getglobal('member/regdate') < $_G['setting']['newbiespan'] * 60)) {
 		$allowfastpost = false;
 	}

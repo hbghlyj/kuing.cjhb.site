@@ -819,7 +819,6 @@ $data = [[
       'allowupbanner' => '1',
       'disablepostctrl' => '0',
       'allowviewip' => '1',
-      'allowlivethread' => '1',
     ],
   ],[
     'skey' => 'guesttipsinthread',

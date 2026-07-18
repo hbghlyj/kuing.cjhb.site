@@ -121,7 +121,6 @@ if(!$submitcheck) {
 		]], $group['allowdigestthread'], 'mradio');
 		showsetting('admingroup_edit_bump_thread', 'allowbumpthreadnew', $group['allowbumpthread'], 'radio');
 		showsetting('admingroup_edit_highlight_thread', 'allowhighlightthreadnew', $group['allowhighlightthread'], 'radio');
-		showsetting('admingroup_edit_live_thread', 'allowlivethreadnew', $group['allowlivethread'], 'radio');
 		showsetting('admingroup_edit_recommend_thread', 'allowrecommendthreadnew', $group['allowrecommendthread'], 'radio');
 		showsetting('admingroup_edit_close_thread', 'allowclosethreadnew', $group['allowclosethread'], 'radio');
 		showsetting('admingroup_edit_move_thread', 'allowmovethreadnew', $group['allowmovethread'], 'radio');
@@ -261,7 +260,6 @@ if(!$submitcheck) {
 			'allowpostannounce' => $_GET['allowpostannouncenew'],
 			'allowclearrecycle' => $_GET['allowclearrecyclenew'],
 			'allowhighlightthread' => $_GET['allowhighlightthreadnew'],
-			'allowlivethread' => $_GET['allowlivethreadnew'],
 			'allowdigestthread' => $_GET['allowdigestthreadnew'],
 			'allowrecommendthread' => $_GET['allowrecommendthreadnew'],
 			'allowbumpthread' => $_GET['allowbumpthreadnew'],

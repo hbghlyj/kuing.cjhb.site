@@ -1,6 +1,6 @@
 <!--{template common/header}-->
 <div class="tip loginbox loginpop p5" id="floatlayout_topicadmin">
-<!--{if in_array($_GET['action'], array('delpost', 'banpost', 'warn', 'stickreply', 'delcomment', 'restore', 'copy', 'merge', 'refund', 'split', 'live'))}-->
+<!--{if in_array($_GET['action'], array('delpost', 'banpost', 'warn', 'stickreply', 'delcomment', 'restore', 'copy', 'merge', 'refund', 'split'))}-->
 	<form id="topicadminform" method="post" autocomplete="off" action="forum.php?mod=topicadmin&action=$_GET['action']&modsubmit=yes&modclick=yes" >
 		<input type="hidden" name="formhash" value="{FORMHASH}" />
 		<input type="hidden" name="fid" value="$_G['fid']" />
@@ -153,36 +153,6 @@
 		<dt class="mpt">
 			<textarea name="split" id="split" class="pt" /></textarea>
 		</dt>
-	<!--{elseif $_GET['action'] == 'live'}-->
-		<h2 class="log_tit" id="return_live">{lang modmenu_live}</h2>
-		<ul class="post_box cl">
-			<label>
-			<li class="flex-box mli">
-				<div class="flex">
-					<span class="z">{lang admin_live}</span>
-				</div>
-				<div class="flex"></div>
-				<div class="flex">
-					<span class="y"><input type="radio" name="live" class="pr" value="1" <!--{if $_G[forum][livetid] != $_G[tid]}-->checked<!--{/if}-->/></span>
-				</div>
-			</li>
-			</label>
-			<label>
-			<li class="flex-box mli b0">
-				<div class="flex">
-					<span class="z">{lang admin_live_cancle}</span>
-				</div>
-				<div class="flex"></div>
-				<div class="flex">
-					<span class="y"><input type="radio" name="live" class="pr" value="0" <!--{if $_G[forum][livetid] == $_G[tid]}-->checked<!--{/if}-->/></span>
-				</div>
-			</li>
-			</label>
-		</ul>
-		<dt>
-			<span class="xg1">{lang admin_live_tips}</span>
-		</dt>
-		<!--{/if}-->
 	<!--{elseif $_GET['action'] == 'stickreply'}-->
 		<h2 class="log_tit" id="return_stickreply">{lang modmenu_stickpost}</h2>
 		<dt>

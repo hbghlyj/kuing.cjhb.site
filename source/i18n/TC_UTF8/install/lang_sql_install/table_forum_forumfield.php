@@ -51,7 +51,6 @@ $data = [[
     'noantitheft' => '0',
     'noforumhidewater' => '0',
     'noforumrecommend' => '0',
-    'livetid' => '0',
     'price' => '0',
     'fields' => '{}',
   ],[
@@ -99,7 +98,6 @@ $data = [[
     'noantitheft' => '0',
     'noforumhidewater' => '0',
     'noforumrecommend' => '0',
-    'livetid' => '0',
     'price' => '0',
     'fields' => '{}',
   ],

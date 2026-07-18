@@ -91,8 +91,6 @@ $lang =
 
 	'reason_quickclear' => '您的{cleartype} 被 {actor} 清除 <div class="quote"><blockquote>{reason}</blockquote></div>',
 
-	'reason_live_update' => '您的主题 <a href="forum.php?mod=viewthread&tid={tid}" target="_blank">{subject}</a> 被 {actor} 设置为直播贴 <div class="quote"><blockquote>{reason}</blockquote></div>',
-	'reason_live_cancle' => '您的主题 <a href="forum.php?mod=viewthread&tid={tid}" target="_blank">{subject}</a> 被 {actor} 取消直播 <div class="quote"><blockquote>{reason}</blockquote></div>',
 
 	'modthreads_delete' => '您发表的主题 {threadsubject} 已由管理团队 {modusername} 审核拒绝，现已被删除！',
 

@@ -107,20 +107,6 @@
 						<td><textarea name="split" id="split" class="pt" style="width: 212px; height:120px" /></textarea></td>
 					</tr>
 				</table>
-			<!--{elseif $_GET[action] == 'live'}-->
-				<table class="cp0" width="100%">
-					<tr>
-						<td>
-							<ul class="llst">
-								<li><label><input type="radio" name="live" class="pr" value="1" <!--{if $_G[forum][livetid] != $_G[tid]}-->checked<!--{/if}-->/>{lang admin_live}</label></li>
-								<li><label><input type="radio" name="live" class="pr" value="0" <!--{if $_G[forum][livetid] == $_G[tid]}-->checked<!--{/if}-->/>{lang admin_live_cancle}</label></li>
-							</ul>
-						</td>
-					</tr>
-					<tr>
-						<td><br>{lang admin_live_tips}</td>
-					</tr>
-				</table>
 			<!--{elseif $_GET[action] == 'stickreply'}-->
 				$stickpid
 				<ul class="llst">

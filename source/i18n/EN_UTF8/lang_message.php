@@ -1065,8 +1065,6 @@ $lang = array (
 
 	'magics_thunder_message'	=> '{magicname} was published successfully',//'已成功发布 {magicname}',
 
-	'topicadmin_live_noset_error'	=> 'The thread is not set for live posts',//'该主题并没有设置为直播帖',
-	'no_privilege_livethread'	=> 'Sorry, you have no permission to set live posts',//'抱歉，您没有权限设置直播帖',
 	'portal_category_has_no_folder_name'	=> 'Sorry, the article category directory name is not set',//'抱歉，文章所属的频道没有设置目录名称',
 	'noreply_replynum_error'	=> 'Sorry, you have reached the upper limit of the thread replies.',//'对不起，你已经达到本主题的回帖上限。',
 	'author_not_uploadpic'		=> 'The user have no uploaded images',//'楼主暂时没有上传图片',

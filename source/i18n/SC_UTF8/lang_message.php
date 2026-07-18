@@ -1111,8 +1111,6 @@ $lang = [
 
 	'magics_thunder_message' => '{magicname} 发布成功 ',
 
-	'topicadmin_live_noset_error' => '该主题并没有设置为直播帖',
-	'no_privilege_livethread' => '抱歉，您没有权限设置直播帖',
 	'portal_category_has_no_folder_name' => '抱歉，文章所属的频道没有设置目录名称',
 	'noreply_replynum_error' => '对不起，你已经达到本主题的回帖上限。',
 	'author_not_uploadpic' => '楼主暂时没有上传图片',

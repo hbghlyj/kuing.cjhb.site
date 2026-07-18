@@ -2255,27 +2255,6 @@ body { background: none !important; }
 /** end **/
 
 
-/** forum::forumdisplay,group::group **/
-#livereplycontentout { position: relative; height: 195px; margin-top: 10px; border: 1px solid #E8F1F7; background: #FFF; overflow-y: auto; }
-#livereplycontent { position: absolute; left: 0; bottom: 0; padding: 0 15px; }
-#liverefresh { margin-top:10px; height: 30px; line-height: 30px; background-color: #FCF4CD; color: #fff; text-align: center; cursor: pointer; display: none; border:1px dashed #FCE491; color:#F26C4F; }
-#livefastcomment { position: relative; height: 34px; margin: 10px 0px 0px 0px; border: 1px solid #E8F1F7;background-color: #FFF; padding:5px 10px; }
-	#livereplycontent dl { position: relative; width: 100%; min-height: 45px; line-height: 20px; padding: 10px 0; border-top: 1px #ccc dotted; clear: both; }
-	#livereplycontent dl dt { position: absolute; left: 0; top: 10px; width: 40px; height: 40px; border: 1px #ccc solid; padding: 1px; }
-	#livereplycontent dl dt img { width: 40px; height: 40px; }
-	#livereplycontent dl dd { padding-left: 62px; }
-		#livereplycontent dl dd a { color:{HIGHLIGHTLINK}; }
-	#livereplycontent dl dd.dateline { position: absolute; top: 10px; right: 0; padding: 0; color: #999; }
-#livereplymessage{ width: 100%; line-height:28px; height: 33px; padding: 0px !important; border: none; outline: 0px; background: white none; overflow-y: auto; }
-	#livethread { background: #F5F9FB; border-top:2px solid #BDD7E3; }
-.livethreadtitle { margin-bottom:5px; }
-	.livethreadtitle a { color:{HIGHLIGHTLINK}; font-size: 14px; }
-	.livethreadtitle .liveicon { background: #548BF6; padding: 1px 4px; border-radius: 2px; color: #FFF; }
-	.livethreadtitle .replynumber { float: right; line-height: 25px; }
-		.livethreadtitle .replynumber .xi1 { background:{NOTICETEXT}; padding:0 5px; border-radius: 5px; color: #FFF; font-weight: 700; }
-	.livethreadcon { line-height:160%; font-size:14px;}
-/** end **/
-
 /** misc::mobile,portal::mobilediy **/
 .dzphone { width: 452px; height: 916px; margin-right: 10px; border-radius: 55px; box-shadow: inset #000 0 0 3px 1px; }
 .dzphone>div { width: 428px; height: 892px; margin: 4px; border: 8px solid #222; border-radius: 52px; overflow: hidden; }

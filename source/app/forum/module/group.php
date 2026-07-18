@@ -124,7 +124,7 @@ if($_G['group']['allowpost']) {
 }
 if($action == 'index') {
 
-	$newthreadlist = $livethread = [];
+	$newthreadlist = [];
 	if($status != 2) {
 		loadcache('forumstick');
 		$forumstickytids = '';
@@ -171,15 +171,6 @@ if($action == 'index') {
 					}
 				}
 			}
-		}
-
-		if($_G['forum']['livetid']) {
-			include_once libfile('function/post');
-			$livethread = table_forum_thread::t()->fetch_thread($_G['forum']['livetid']);
-			$livepost = table_forum_post::t()->fetch_threadpost_by_tid_invisible($_G['forum']['livetid']);
-			$livemessage = threadmessagecutstr($livethread, $livepost['message'], 200);
-			$liveallowpostreply = $groupuser['uid'] && $groupuser['level'];
-			list($seccodecheck, $secqaacheck) = seccheck('post', 'newthread');
 		}
 
 	} else {
