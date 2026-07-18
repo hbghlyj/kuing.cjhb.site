@@ -697,3 +697,11 @@ ALTER TABLE pre_common_admingroup
 	DROP COLUMN allowlivethread;
 ALTER TABLE pre_forum_forumfield
 	DROP COLUMN livetid;
+
+/* Store localized forum names in one JSON column. */
+ALTER TABLE pre_forum_forum ADD COLUMN name_i18n JSON NULL AFTER `name`;
+UPDATE pre_forum_forum
+	SET name_i18n = JSON_OBJECT('SC_UTF8', `name`);
+ALTER TABLE pre_forum_forum
+	DROP COLUMN `name`,
+	CHANGE COLUMN name_i18n `name` JSON NOT NULL;

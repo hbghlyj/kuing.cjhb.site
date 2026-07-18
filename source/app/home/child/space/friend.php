@@ -61,7 +61,7 @@ if($_GET['view'] == 'online') {
 		$theurl = "home.php?mod=space&uid={$space['uid']}&do=friend&view=online";
 		if(($count = C::app()->session->count_invisible(0))) {
 			$onlinedata = DB::fetch_all(
-				'SELECT s.*, '.(DISCUZ_LANG == 'EN/' ? 'f.name_en AS name' : 'f.name').', t.subject
+				'SELECT s.*, f.name, t.subject
 				FROM '.DB::table('common_session').' AS s
 				LEFT JOIN '.DB::table('forum_forum').' AS f ON s.fid=f.fid
 				LEFT JOIN '.DB::table('forum_thread').' AS t ON s.tid=t.tid
@@ -73,6 +73,7 @@ if($_GET['view'] == 'online') {
 			$actioncode = lang('action');
 			loadcache('onlinelist');
 			foreach($onlinedata as $key => $value) {
+				$value['name'] = table_forum_forum::localize_name($value['name']);
 				$value['lastactivity'] = dgmdate($value['lastactivity'], 't');
 				$value['action'] = $actioncode[$value['action']];
 				$value = $formatonlinename($value);

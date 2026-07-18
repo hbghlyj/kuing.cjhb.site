@@ -255,7 +255,7 @@ if(!submitcheck('editsubmit')) {
 					$forumfield = table_forum_forum::t()->get_forum_by_fid($inheritedid, null, 'forumfield');
 
 					foreach($table_forum_columns as $field) {
-						$forumfields[$field] = $forum[$field];
+						$forumfields[$field] = $field == 'name' ? $forum['name_i18n'] : $forum[$field];
 					}
 
 					foreach($table_forumfield_columns as $field) {
@@ -310,4 +310,3 @@ if(!submitcheck('editsubmit')) {
 
 	cpmsg('forums_update_succeed', 'action=forums'.$extra, 'succeed');
 }
-	

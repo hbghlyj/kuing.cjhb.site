@@ -135,12 +135,17 @@ class table_forum_attachment extends discuz_table {
 				INNER JOIN '.DB::table('forum_forum')." f
 				WHERE t.tid=a.tid AND f.fid=t.fid AND t.displayorder>='0' AND $sql");
 		}
-		return DB::fetch_all('SELECT a.*, ai.downloads, t.fid, t.tid, t.subject, f.name AS fname
+		$data = DB::fetch_all('SELECT a.*, ai.downloads, t.fid, t.tid, t.subject, f.name AS fname
 				FROM '.DB::table('forum_attachment_'.$tableid).' a
 				INNER JOIN '.DB::table('forum_attachment').' ai USING(aid)
 				INNER JOIN '.DB::table('forum_thread').' t
 				INNER JOIN '.DB::table('forum_forum')." f
 				WHERE t.tid=a.tid AND f.fid=t.fid AND t.displayorder>='0' AND $sql ORDER BY a.aid DESC ".DB::limit($start, $limit));
+		foreach($data as &$row) {
+			$row['fname'] = table_forum_forum::localize_name($row['fname']);
+		}
+		unset($row);
+		return $data;
 	}
 
 }

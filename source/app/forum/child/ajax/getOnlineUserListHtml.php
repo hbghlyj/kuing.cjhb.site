@@ -48,9 +48,7 @@ if($_G['setting']['whosonlinestatus'] == 1 || $_G['setting']['whosonlinestatus']
 			$online_user['tid'] = $online['tid'];
 			$titleLabel = '';
 			if(!empty($online['fid']) && !empty($forumlist[$online['fid']])) {
-				$titleLabel = DISCUZ_LANG == 'EN/' && !empty($forumlist[$online['fid']]['name_en'])
-					? $forumlist[$online['fid']]['name_en']
-					: $forumlist[$online['fid']]['name'];
+				$titleLabel = $forumlist[$online['fid']]['name'];
 			} elseif(!empty($actioncode[$online['action']])) {
 				$titleLabel = $actioncode[$online['action']];
 			}
@@ -72,9 +70,7 @@ if($_G['setting']['whosonlinestatus'] == 1 || $_G['setting']['whosonlinestatus']
 		$online_user['tid'] = $online['tid'];
 		$titleLabel = '';
 		if(!empty($online['fid']) && !empty($forumlist[$online['fid']])) {
-			$titleLabel = DISCUZ_LANG == 'EN/' && !empty($forumlist[$online['fid']]['name_en'])
-				? $forumlist[$online['fid']]['name_en']
-				: $forumlist[$online['fid']]['name'];
+			$titleLabel = $forumlist[$online['fid']]['name'];
 		} elseif(!empty($actioncode[$online['action']])) {
 			$titleLabel = $actioncode[$online['action']];
 		}

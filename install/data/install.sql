@@ -2401,7 +2401,7 @@ CREATE TABLE pre_forum_forum (
   fid mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
   fup mediumint(8) unsigned NOT NULL DEFAULT '0',
   `type` enum('group','forum','sub') NOT NULL DEFAULT 'forum',
-  `name` char(50) NOT NULL DEFAULT '',
+  `name` json NOT NULL,
   `status` tinyint(1) NOT NULL DEFAULT '0',
   displayorder smallint(6) NOT NULL DEFAULT '0',
   styleid smallint(6) unsigned NOT NULL DEFAULT '0',

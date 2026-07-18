@@ -160,6 +160,7 @@ class block_forum extends discuz_block {
 		$datalist = $list = [];
 		$attachurl = preg_match('/^(http|ftp|ftps|https):\/\//', $_G['setting']['attachurl']) ? $_G['setting']['attachurl'] : $_G['siteurl'].$_G['setting']['attachurl'];
 		while($data = DB::fetch($query)) {
+			$data['name'] = table_forum_forum::localize_name($data['name']);
 			if(!empty($data['icon'])) {
 				$data['icon'] = preg_match('/^(http|ftp|ftps|https):\/\//', $data['icon']) ? $data['icon'] : $attachurl.'common/'.$data['icon'];
 			} else {

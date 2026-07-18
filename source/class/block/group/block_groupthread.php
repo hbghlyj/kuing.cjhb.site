@@ -269,6 +269,7 @@ class block_groupthread extends discuz_block {
 		if(empty($fids) && $typeids) {
 			$query = DB::query('SELECT f.fid, f.name, ff.description FROM '.DB::table('forum_forum').' f LEFT JOIN '.DB::table('forum_forumfield').' ff ON f.fid = ff.fid WHERE f.fup IN ('.dimplode($typeids).") AND threads > 0$gviewwhere");
 			while($value = DB::fetch($query)) {
+				$value['name'] = table_forum_forum::localize_name($value['name']);
 				$groups[$value['fid']] = $value;
 				$fids[] = intval($value['fid']);
 			}
@@ -339,6 +340,9 @@ class block_groupthread extends discuz_block {
 		require_once libfile('block_thread', 'class/block/forum');
 		$bt = new block_thread();
 		while($data = DB::fetch($query)) {
+			if(isset($data['groupname'])) {
+				$data['groupname'] = table_forum_forum::localize_name($data['groupname']);
+			}
 			if($data['closed'] > 1 && $data['closed'] < $data['tid']) continue;
 			$_G['block_thread'][$data['tid']] = $data;
 			if($style['getsummary']) {

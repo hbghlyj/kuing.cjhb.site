@@ -1129,13 +1129,15 @@ function loadcache($cachenames, $force = false) {
 	if(!empty($caches)) {
 		$cachedata = table_common_syscache::t()->fetch_all_syscache($caches, $force);
 		foreach($cachedata as $cname => $data) {
+			if($cname == 'forums') {
+				foreach($data as &$value) {
+					$value['name'] = table_forum_forum::localize_name($value['name_i18n'] ?? $value['name']);
+				}
+				unset($value);
+			}
 			if(DISCUZ_LANG == 'EN/') {
 				if($cname == 'onlinelist'){
 					$data['legend'] = $data['legend_en'];
-				}elseif($cname == 'forums'){
-					foreach($data as &$value) {
-						$value['name'] = $value['name_en'];
-					}
 				}elseif(str_starts_with($cname, 'usergroup_')) {
 					$data['grouptitle'] = $data['grouptitle_en'];
 				}elseif($cname == 'usergroups') {

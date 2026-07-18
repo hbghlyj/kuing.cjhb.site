@@ -43,9 +43,9 @@ class table_forum_moderator extends discuz_table {
 	}
 
 	public function fetch_all_by_uid_forum($uid) {
-		return DB::fetch_all('SELECT m.fid, f.name, f.recyclebin
+		return table_forum_forum::localize_rows(DB::fetch_all('SELECT m.fid, f.name, f.recyclebin
 			FROM %t m, %t f
-			WHERE m.uid=%d AND f.fid=m.fid AND f.status=\'1\' AND f.type<>\'group\'', [$this->_table, 'forum_forum', $uid]);
+			WHERE m.uid=%d AND f.fid=m.fid AND f.status=\'1\' AND f.type<>\'group\'', [$this->_table, 'forum_forum', $uid]));
 	}
 
 	public function fetch_uid_by_fid_uid($fid, $uid) {

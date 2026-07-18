@@ -41,6 +41,13 @@ ALTER TABLE uc_members
 - 这些变更不应手工挑选性跳过。对于已有站点，应完整评估并执行 `install/sql/sql_upgrade_3.5.php`。
 - 来源：`install/sql/sql_upgrade_3.5.php`
 
+### [Required] 版块名称改为多语言 JSON
+
+- `pre_forum_forum.name` 由单一字符串改为按语言键保存的 JSON 对象，例如 `{"SC_UTF8":"默认版块"}`。
+- X3.5 升级脚本会把原有 `name` 保存为 `SC_UTF8`；运行时按当前界面语言读取，并在缺少翻译时回退到已有名称。
+- 当前分支曾使用的自定义 `name_en` 列已废弃，不属于 X3.5 升级脚本的输入结构。
+- 来源：`install/sql/sql_upgrade_3.5.php`
+
 ### 旧 IP 查询后端已移除
 
 - 当前默认运行时地理位置查询已经切换到 MaxMind GeoIP2。

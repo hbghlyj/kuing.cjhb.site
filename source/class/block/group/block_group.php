@@ -158,6 +158,7 @@ class block_group extends discuz_block {
 		$list = [];
 		$query = DB::query('SELECT f.*, ff.* FROM '.DB::table('forum_forum').' f LEFT JOIN '.DB::table('forum_forumfield')." ff ON f.fid = ff.fid WHERE $wheresql ORDER BY $orderbysql LIMIT $items");
 		while($data = DB::fetch($query)) {
+			$data['name'] = table_forum_forum::localize_name($data['name']);
 			$list[] = [
 				'id' => $data['fid'],
 				'idtype' => 'fid',

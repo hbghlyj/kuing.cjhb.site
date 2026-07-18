@@ -468,11 +468,16 @@ class table_forum_thread extends discuz_table {
 
 	public function fetch_all_by_recyclebine($fid = 0, $isgroup = null, $author = [], $username = [], $pstarttime = 0, $pendtime = 0, $mstarttime = 0, $mendtime = 0, $keywords = '', $start = 0, $limit = 0) {
 		$sql = $this->recyclebine_where($fid, $isgroup, $author, $username, $pstarttime, $pendtime, $mstarttime, $mendtime, $keywords);
-		return DB::fetch_all('SELECT f.name AS forumname, f.allowsmilies, f.allowhtml, f.allowbbcode, f.allowimgcode,
+		$data = DB::fetch_all('SELECT f.name AS forumname, f.allowsmilies, f.allowhtml, f.allowbbcode, f.allowimgcode,
 				t.tid, t.fid, t.authorid, t.author, t.subject, t.views, t.replies, t.dateline, t.posttableid,
 				tm.uid AS moduid, tm.username AS modusername, tm.dateline AS moddateline, tm.action AS modaction, tm.reason
 				FROM '.DB::table('forum_thread').' t LEFT JOIN '.DB::table('forum_threadmod').' tm ON tm.tid=t.tid
 				LEFT JOIN '.DB::table('forum_forum').' f ON f.fid=t.fid '.$sql[0].' ORDER BY t.dateline DESC '.DB::limit($start, $limit), $sql[1]);
+		foreach($data as &$row) {
+			$row['forumname'] = table_forum_forum::localize_name($row['forumname']);
+		}
+		unset($row);
+		return $data;
 	}
 
 	public function fetch_all_recyclebin_by_dateline($dateline, $start = 0, $limit = 0, $isgroup = null) {
