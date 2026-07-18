@@ -479,7 +479,7 @@ Created & Modified by Alice, Monkey, Lushnis, Pony, Dfox & DragonLee.
 		.fl_newpost { display: inline-flex; align-items: center; color: {LIGHTTEXT}; }
 			.fl_newpost:hover { color: {LINK}; }
 			.fl_newpost svg { vertical-align: middle; }
-		.fl_topic_feed { max-height: 220px; overflow-y: auto; overscroll-behavior: contain; margin-top: 8px; padding-top: 4px; border-top: 1px dashed {COMMONBORDER}; }
+		.fl_topic_feed { overflow-y: auto; overscroll-behavior: contain; margin-top: 8px; padding-top: 4px; border-top: 1px dashed {COMMONBORDER}; }
 			.fl_topic_list { margin: 0; padding: 0; list-style: none; }
 				.fl_topic_list li { display: flex; justify-content: space-between; gap: 8px; padding: 3px 0; }
 					.fl_topic_list li cite { flex-shrink: 0; color: {LIGHTTEXT}; font-size: 12px; }
