@@ -692,3 +692,8 @@ ALTER TABLE pre_forum_threadmod
 	DROP COLUMN stamp;
 ALTER TABLE pre_common_smiley
 	MODIFY COLUMN `type` enum('smiley') NOT NULL DEFAULT 'smiley';
+
+ALTER TABLE pre_common_admingroup
+	DROP COLUMN allowlivethread;
+ALTER TABLE pre_forum_forumfield
+	DROP COLUMN livetid;
