@@ -427,7 +427,7 @@ img{border:none;}
 .header-searcher .searcher-wrap{position:relative}
 .header-searcher .algolia-search-box-wrapper{position:relative}
 .header-searcher .search-input,
-.header-searcher .algolia-search-box-wrapper .ais-SearchBox-input{box-sizing:border-box;padding-left:12px !important;height:32px !important;font-size:14px !important;background:var(--dz-ff) !important;border:1px solid #888 !important;border-radius:var(--dz-radius-c) !important}
+.header-searcher .algolia-search-box-wrapper .ais-SearchBox-input{box-sizing:border-box;padding-left:12px !important;height:32px !important;font-size:14px !important;background:var(--dz-ff) !important;border:1px solid #cccccc !important;border-radius:var(--dz-radius-c) !important}
 .header-searcher .search-input::placeholder,
 .header-searcher .algolia-search-box-wrapper .ais-SearchBox-input::placeholder{color:var(--dz-fb)}
 .header-searcher .search-input:hover,
