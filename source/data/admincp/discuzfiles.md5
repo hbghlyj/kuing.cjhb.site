@@ -4689,7 +4689,7 @@ d41d8cd98f00b204e9800998ecf8427e *template/default/common/index.htm
 110eee22eb494adde0cf3eeaa71f358a *template/default/common/invite.htm
 c736fedbad3c2262bc21d58f46b99fef *template/default/common/ipnotice.htm
 ffe65acb8da8de6716c1b731bc68f1db *template/default/common/misc_imgcropper.htm
-e37d9f54093ae8a2b0aa3f8672abc341 *template/default/common/module.css
+cbad976d986ee0227045f8580cf63bd7 *template/default/common/module.css
 ca6ea79c6e665333fc5f17c2a26785c0 *template/default/common/preview.htm
 d62e7c72dc6e5b15378fbf88213c9389 *template/default/common/pubsearchform.htm
 ef279d37d1ec3cef7efecf9612d7b1c4 *template/default/common/report.htm
@@ -4760,7 +4760,7 @@ fb8e1c46b4519bb69958b60b2d51f425 *template/default/forum/comment_more.htm
 88271350329fa0b8fb05bdbbe760c13d *template/default/forum/comment.htm
 2fb4492d7848635fb2437577e27169b0 *template/default/forum/darkroom.htm
 31614ffd47499d28c1100c28c954f566 *template/default/forum/debate_umpire.htm
-ca206b86f2d4de0c5488ee604fe30f46 *template/default/forum/discuz.htm
+71f43f10a5ba73da64d4f6d7de961828 *template/default/forum/discuz.htm
 1b57ba87873eb1df3eef9ec65ed8e470 *template/default/forum/discuzcode.htm
 abec47825fced21a5ac7416431181dcf *template/default/forum/editor_menu_forum.htm
 68d7a4dcc4b93cfecf64f9c71a0e7d8d *template/default/forum/forumdisplay_cells.php
@@ -5408,7 +5408,7 @@ daa715e119177e271ba7f67a6010d8c4 *template/discuzx5/common/header_userstatus.php
 9e6d922e2687876d00b38b6c74a20467 *template/discuzx5/common/upload.php
 446f9680f4f0003a438aa04e266596cb *template/discuzx5/discuz_style_discuzx5.json
 f6ccf6eda761cef37eaf407be40f7493 *template/discuzx5/forum/darkroom.php
-1b49bf8773806e894886d01928fefa64 *template/discuzx5/forum/discuz.php
+75a639bc43181fb097ed46ba7922ed19 *template/discuzx5/forum/discuz.php
 b9f66442b304bc4b6a7b5c9501db7c08 *template/discuzx5/forum/forumdisplay_leftside.php
 468721f297a8640db3e6c65ed683aadc *template/discuzx5/forum/forumdisplay_list_box.php
 6c5e097d42351731480261e0622738a4 *template/discuzx5/forum/forumdisplay_list.php

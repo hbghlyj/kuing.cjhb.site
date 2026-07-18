@@ -346,7 +346,7 @@
 				</div>
 				<div id="category_$cat[fid]" class="bm_c" style="{echo $collapse['category_'.$cat[fid]] or ''}">
 				<!--{if $cat['forumcolumns']}-->
-					<div class="fl_grid">
+					<div class="fl_grid" style="--forumcolumns:$cat[forumcolumns]">
 					<!--{loop $cat[forums] $forumid}-->
 					<!--{eval $forum=$forumlist[$forumid];}-->
 					<!--{eval $forumurl = !empty($forum['domain']) && !empty($_G['setting']['domain']['root']['forum']) ? $_G['scheme'].'://'.$forum['domain'].'.'.$_G['setting']['domain']['root']['forum'] : 'forum.php?mod=forumdisplay&fid='.$forum['fid'];}-->
