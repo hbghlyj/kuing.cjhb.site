@@ -181,7 +181,7 @@
 
 				<div id="pgt" class="bm bw0 pgs cl">
 					<span id="fd_page_top">$multipage</span>
-					<span class="pgb y" {if $_G[setting][visitedforums]}id="visitedforums" onmouseover="$('visitedforums').id = 'visitedforumstmp';this.id = 'visitedforums';showMenu({'ctrlid':this.id,'pos':'34'})"{/if} ><a href="forum.php">{lang return_index}</a></span>
+					<span class="pgb y"><a href="forum.php">{lang return_index}</a></span>
 <!--{if !$_GET['archiveid']}--><a href="javascript:;" id="newspecial"<!--{if $_G['group']['allowpost'] && ($_G['group']['allowposttrade'] || $_G['group']['allowpostpoll'] || $_G['group']['allowpostreward'] || $_G['group']['allowpostactivity'] || $_G['group']['allowpostdebate'] || $_G['setting']['threadplugins'] || $_G['forum']['threadsorts'])}--> onmouseover="$('newspecial').id = 'newspecialtmp';this.id = 'newspecial';showMenu({'ctrlid':this.id})"<!--{/if}-->{if !$_G['forum']['allowspecialonly'] && empty($_G['forum']['picstyle']) && empty($_G['forum']['threadsorts']['required'])} onclick="showWindow('newthread', 'forum.php?mod=post&action=newthread&fid=$_G[fid]')"{else} onclick="location.href='forum.php?mod=post&action=newthread&fid=$_G[fid]';return false;"{/if} title="{lang send_posts}" class="pgsbtn<!--{if $_G['group']['allowpost'] && ($_G['group']['allowposttrade'] || $_G['group']['allowpostpoll'] || $_G['group']['allowpostreward'] || $_G['group']['allowpostactivity'] || $_G['group']['allowpostdebate'] || $_G['setting']['threadplugins'] || $_G['forum']['threadsorts'])}--> showmenu<!--{/if}-->">{lang send_posts}</a><!--{/if}-->
 					<!--{hook/forumdisplay_postbutton_top}-->
 				</div>
@@ -330,20 +330,6 @@
 	</ul>
 <!--{/if}-->
 
-<!--{if $_G['setting']['visitedforums'] && $_G['forum']['status'] != 3}-->
-	<div id="visitedforums_menu" class="p_pop blk cl" style="display: none;">
-		<table class="cp0">
-			<tr>
-				<td id="v_forums">
-					<h3 class="mbn pbn bbda xg1">{lang viewed_forums}</h3>
-					<ul class="xl xl1">
-						$_G['setting']['visitedforums']
-					</ul>
-				</td>
-			</tr>
-		</table>
-	</div>
-<!--{/if}-->
 <!--{if $_G['setting']['threadmaxpages'] > 1 && $page && !$subforumonly}-->
 	<script type="text/javascript">document.onkeyup = function(e){keyPageScroll(e, <!--{if $page > 1}-->1<!--{else}-->0<!--{/if}-->, <!--{if $page < $_G['setting']['threadmaxpages'] && isset($_G['page_next']) && $page < $_G['page_next']}-->1<!--{else}-->0<!--{/if}-->, 'forum.php?mod=forumdisplay&fid={$_G[fid]}&filter={$filter}&orderby={$_GET[orderby]}{$forumdisplayadd[page]}&{$multipage_archive}', $page);}</script>
 <!--{/if}-->

@@ -31,7 +31,7 @@
 <div id="ct" class="wp cl">
 	<div id="pgt" class="pgs mbm cl {if $modmenu['thread']}pbm bbs{/if}">
 		<div class="pgt">$multipage</div>
-		<span class="y pgb"{if $_G['setting']['visitedforums']} id="visitedforums" onmouseover="$('visitedforums').id = 'visitedforumstmp';this.id = 'visitedforums';showMenu({'ctrlid':this.id,'pos':'34'})"{/if}><a href="$upnavlink">{lang return_forumdisplay}</a></span>
+		<span class="y pgb"><a href="$upnavlink">{lang return_forumdisplay}</a></span>
 		<!--{if $_G['forum']['threadsorts'] && $_G['forum']['threadsorts']['templatelist']}-->
 			<!--{loop $_G['forum']['threadsorts']['types'] $id $name}-->
 				<button id="newspecial" class="pn pnc" onclick="location.href='forum.php?mod=post&action=newthread&fid=$_G[fid]&extra=$extra&sortid=$id'"><strong>{lang i_want}$name</strong></button>
@@ -360,7 +360,7 @@ $_G['forum_tagscript']
 
 <div class="pgs mtm mbm cl">
 	$multipage
-	<span class="pgb y"{if $_G['setting']['visitedforums']} id="visitedforumstmp" onmouseover="$('visitedforums').id = 'visitedforumstmp';this.id = 'visitedforums';showMenu({'ctrlid':this.id,'pos':'21'})"{/if}><a href="$upnavlink">{lang return_forumdisplay}</a></span>
+	<span class="pgb y"><a href="$upnavlink">{lang return_forumdisplay}</a></span>
 	<!--{if !$_G['forum_thread']['is_archived']}-->
 <a id="newspecialtmp"<!--{if $_G['group']['allowpost'] && ($_G['group']['allowposttrade'] || $_G['group']['allowpostpoll'] || $_G['group']['allowpostreward'] || $_G['group']['allowpostactivity'] || $_G['group']['allowpostdebate'] || $_G['setting']['threadplugins'] || $_G['forum']['threadsorts'])}--> onmouseover="$('newspecial').id = 'newspecialtmp';this.id = 'newspecial';showMenu({'ctrlid':this.id})"<!--{/if}-->{if !$_G['forum']['allowspecialonly'] && empty($_G['forum']['picstyle']) && empty($_G['forum']['threadsorts']['required'])} onclick="showWindow('newthread', 'forum.php?mod=post&action=newthread&fid=$_G[fid]')"{else} onclick="location.href='forum.php?mod=post&action=newthread&fid=$_G[fid]';return false;"{/if} href="javascript:;" title="{lang send_posts}" class="pgsbtn<!--{if $_G['group']['allowpost'] && ($_G['group']['allowposttrade'] || $_G['group']['allowpostpoll'] || $_G['group']['allowpostreward'] || $_G['group']['allowpostactivity'] || $_G['group']['allowpostdebate'] || $_G['setting']['threadplugins'] || $_G['forum']['threadsorts'])}--> showmenu<!--{/if}-->">{lang send_posts}</a>
 	<!--{/if}-->
@@ -379,20 +379,6 @@ $_G['forum_tagscript']
 
 <!--{hook/viewthread_bottom}-->
 
-<!--{if ($_G['setting']['visitedforums']) && $_G['forum']['status'] != 3}-->
-	<div id="visitedforums_menu" class="p_pop blk cl" style="display: none;">
-		<table class="cp0">
-			<tr>
-				<td id="v_forums">
-					<h3 class="mbn pbn bbda xg1">{lang viewed_forums}</h3>
-					<ul class="xl xl1">
-						$_G['setting']['visitedforums']
-					</ul>
-				</td>
-			</tr>
-		</table>
-	</div>
-<!--{/if}-->
 <!--{if $_G['medal_list']}-->
 <!--{loop $_G['medal_list'] $medalid $medal}-->
 	<div id="md_{$medalid}_menu" class="tip tip_4" style="display: none;">

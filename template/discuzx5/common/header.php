@@ -109,6 +109,24 @@
 				</div>
 				<!--{/if}-->
 			<!--{/if}-->
+			<!--{if $_G['setting']['visitedforums'] && !empty($_G['forum']['fid'])}-->
+				<!--{eval require_once libfile('function/forumlist'); $visitedforumsmenu = visitedforums();}-->
+				<!--{if $visitedforumsmenu}-->
+				<span class="pgb y" id="visitedforums" onmouseover="showMenu({'ctrlid':this.id,'pos':'34'})">{lang viewed_forums}</span>
+				<div id="visitedforums_menu" class="p_pop blk cl" style="display: none;">
+					<table class="cp0">
+						<tr>
+							<td id="v_forums">
+								<h3 class="mbn pbn bbda xg1">{lang viewed_forums}</h3>
+								<ul class="xl xl1">
+									$visitedforumsmenu
+								</ul>
+							</td>
+						</tr>
+					</table>
+				</div>
+				<!--{/if}-->
+			<!--{/if}-->
 			<!--{template common/header_userstatus}-->
 		</div>
 		</div>
