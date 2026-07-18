@@ -435,6 +435,7 @@ $lang = array (
 	'myitem'			=> 'My',//'我的',
 	'mypost'			=> 'Posts',//'帖子',
 	'viewed_threads'		=> 'Viewed threads',//'浏览过的帖子',
+	'viewed_forums'			=> 'Viewed boards',//'浏览过的版块',
 
 'm_loading' => 'Loading...',//'正在加载...',
 'm_its_all' => 'All displayed',//'已显示全部',

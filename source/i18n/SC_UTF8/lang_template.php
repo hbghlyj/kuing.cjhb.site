@@ -444,6 +444,7 @@ $lang = [
 	'myitem' => '我的',
 	'mypost' => '帖子',
 	'viewed_threads' => '浏览过的帖子',
+	'viewed_forums' => '浏览过的版块',
 	'post_tag' => '标签',
 	'choosetag' => '选择标签',
 	'posttag_comment_forbidadd' => '，只能选择已有标签',
