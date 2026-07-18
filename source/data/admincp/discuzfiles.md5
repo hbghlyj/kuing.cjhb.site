@@ -1979,7 +1979,7 @@ bf163077301488c12abb09f32d5c04df *source/function/function_blog.php
 8e29a7bf5f3b91a7a9172a2c4b5a9dd6 *source/function/function_cloudaddons.php
 580b06ae77c38e192b4ec95bc5bfdf57 *source/function/function_collection.php
 053ca1f803b7f15b0a84f4b36ddca6c4 *source/function/function_comment.php
-64242adb30cf047189588c6c90444b38 *source/function/function_core.php
+e1e588ca843e433f345965a3b91ead5c *source/function/function_core.php
 26cc8c5601aca1f390f91d1bb18c2e81 *source/function/function_credit.php
 62457ad628907fc88c5a18b4928a7368 *source/function/function_delete.php
 e250b0a9f2cf78100b77af6045adaf33 *source/function/function_discuzcode.php
@@ -2109,7 +2109,7 @@ d48525069fc9df973b4755dc1bbae380 *source/i18n/EN_UTF8/lang_admincp_login.php
 34ac214da9aa630de7eb561e5e1c39d8 *source/i18n/EN_UTF8/lang_admincp_menu.php
 2a74831ca8fc543eaf1449ab5e64641b *source/i18n/EN_UTF8/lang_admincp_msg.php
 896947bfc6ce4717406ab34358e7bdfa *source/i18n/EN_UTF8/lang_admincp_searchindex.php
-489d7ff8a535adc5e73890221ff810a5 *source/i18n/EN_UTF8/lang_admincp.php
+b3f34afadadf2a866710622fcb37069e *source/i18n/EN_UTF8/lang_admincp.php
 87391a930e32a93f86530ad31759265f *source/i18n/EN_UTF8/lang_blockclass.php
 664e1691bf5b9ee7e6a6d752c0665536 *source/i18n/EN_UTF8/lang_cloud_register.php
 7c4ef1f9fd1c38c9eac153cb078b672c *source/i18n/EN_UTF8/lang_connect.php
@@ -2307,7 +2307,7 @@ a27be3be29e7f5858f33d737009f6a2c *source/i18n/SC_UTF8/lang_action.php
 2c4eb22b9564dc0d208517980c431529 *source/i18n/SC_UTF8/lang_admincp_msg.php
 a23a4c3364c8e36c62472b30fbb7ca04 *source/i18n/SC_UTF8/lang_admincp_related.php
 896947bfc6ce4717406ab34358e7bdfa *source/i18n/SC_UTF8/lang_admincp_searchindex.php
-8e395ebf89ae0eaca5c8307aee60653a *source/i18n/SC_UTF8/lang_admincp.php
+f04c30e6686d8ad40170b364c41a6a56 *source/i18n/SC_UTF8/lang_admincp.php
 98b1c3e8b311631d9fc22114b01a9457 *source/i18n/SC_UTF8/lang_blockclass.php
 fe70ff60391e2eac38cdf13fbe313083 *source/i18n/SC_UTF8/lang_cloud_register.php
 d054dc8c94020dc4a563b01873631ac9 *source/i18n/SC_UTF8/lang_core.php
@@ -2510,7 +2510,7 @@ e1efe8d34d17a4c285dedeeac1a7c056 *source/i18n/TC_UTF8/install/lang_sql_upgrade_3
 7bdae4f94fcfeee7ae6220d18d21ea75 *source/i18n/TC_UTF8/lang_admincp_msg.php
 04926159d0c16bcadceb1ab0e2f1bf2e *source/i18n/TC_UTF8/lang_admincp_related.php
 2199c16873c2960a1a16215a666fedf8 *source/i18n/TC_UTF8/lang_admincp_searchindex.php
-08b12a61f21f36b4631dcc561d5744b7 *source/i18n/TC_UTF8/lang_admincp.php
+b454b2d5dd8b302b0adec500d9a88ad5 *source/i18n/TC_UTF8/lang_admincp.php
 9fb5079e24f1ded7ee3863759ed4e0e4 *source/i18n/TC_UTF8/lang_blockclass.php
 2e80b98fd61ed588889e1f54e5ab95d1 *source/i18n/TC_UTF8/lang_cloud_register.php
 20f7259a923750d0e8a8cc7e988c563c *source/i18n/TC_UTF8/lang_core.php

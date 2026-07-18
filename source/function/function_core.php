@@ -704,8 +704,15 @@ function avatar($uid, $size = 'middle', $returnsrc = 0, $real = FALSE, $static =
 	$file = $avatarurl.'/'.$filepath;
 	if($random == 1) {
 		$file .= '?random='.rand(1000, 9999);
-	} elseif($ossavatar && ($dynavt == 2 || ($dynavt == 1 && $rawuid && $rawuid == $_G['uid']) || $random == 2)) {
-		$file .= '?ts='.TIMESTAMP;
+	} elseif($dynavt == 2 || ($dynavt == 1 && $rawuid && $rawuid == $_G['uid']) || $random == 2) {
+		if($ossavatar) {
+			$file .= '?ts='.TIMESTAMP;
+		} else {
+			$avatarfile = DISCUZ_ROOT.$_G['setting']['avatarpath'].$filepath;
+			if(is_file($avatarfile)) {
+				$file .= '?ts='.filemtime($avatarfile);
+			}
+		}
 	}
 	return $returnsrc ? $file : '<img '.$src.'="'.$file.'"'.$avatarattr.$avatarmissingattr.$classattr.($extra ? ' '.$extra : '').'>';
 }
