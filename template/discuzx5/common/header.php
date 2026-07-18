@@ -96,16 +96,23 @@
 		<div id="hd">
 		<div class="wp">
 			<!--{if !empty($_G['cookie']['recentthreads'])}-->
-				<!--{eval $recenttids = array_filter(array_map('intval', explode(',', $_G['cookie']['recentthreads'])));}-->
-				<!--{eval $recentthreadlist = $recenttids ? table_forum_thread::t()->fetch_all_by_tid(array_slice($recenttids, 0, 5)) : [];}-->
+				<!--{eval $recenttids = array_slice(array_values(array_diff(array_filter(array_map('intval', explode(',', $_G['cookie']['recentthreads']))), [intval($_G['tid'] ?? 0)])), 0, 5);}-->
+				<!--{eval $recentthreadlist = $recenttids ? table_forum_thread::t()->fetch_all_by_tid($recenttids) : [];}-->
 				<!--{if $recentthreadlist}-->
-				<div class="header-recent">
-					<span class="header-recent-label">{lang viewed_threads}</span>
-					<!--{loop $recenttids $rtid}-->
-						<!--{if $recentthreadlist[$rtid] && $rtid != $_G['tid']}-->
-						<a href="forum.php?mod=viewthread&tid=$rtid" title="{$recentthreadlist[$rtid]['subject']}" class="header-recent-item xi2"><!--{echo cutstr($recentthreadlist[$rtid]['subject'], 16)}--></a>
-						<!--{/if}-->
-					<!--{/loop}-->
+				<span class="pgb y" id="recentthreads" onmouseover="showMenu({'ctrlid':this.id,'pos':'34'})">{lang viewed_threads}</span>
+				<div id="recentthreads_menu" class="p_pop blk cl" style="display: none;">
+					<table class="cp0">
+						<tr>
+							<td id="v_threads">
+								<h3 class="mbn pbn bbda xg1">{lang viewed_threads}</h3>
+								<ul class="xl xl1">
+								<!--{loop $recenttids $rtid}-->
+									<!--{if $recentthreadlist[$rtid]}--><li><a href="forum.php?mod=viewthread&tid=$rtid" title="{$recentthreadlist[$rtid]['subject']}"><!--{echo cutstr($recentthreadlist[$rtid]['subject'], 30)}--></a></li><!--{/if}-->
+								<!--{/loop}-->
+								</ul>
+							</td>
+						</tr>
+					</table>
 				</div>
 				<!--{/if}-->
 			<!--{/if}-->

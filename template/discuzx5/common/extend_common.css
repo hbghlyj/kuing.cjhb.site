@@ -417,9 +417,6 @@ img{border:none;}
 
 .dz_layer_dl{float:right;}
 #hd .wp{display:flex;align-items:center;justify-content:space-between;}
-.header-recent{display:flex;align-items:center;gap:14px;overflow-x:auto;padding:0 15px;flex:1;min-width:0;}
-	.header-recent-label{flex-shrink:0;color:var(--dz-fc,#999);font-size:12px;}
-	.header-recent-item{flex-shrink:0;max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:13px;}
 
 .header-right{height:70px;display:flex;align-items:center;position: relative;}
 /* */
