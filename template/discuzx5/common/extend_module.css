@@ -25,7 +25,7 @@
 .fl_g dl {margin-left:80px !important;padding-left:0;color:var(--dz-fc)}
 .fl_g dt, .fl_tb td h2 {margin-bottom:2px;height:22px;line-height:22px;font-size:16px;font-weight:400;overflow:hidden;text-overflow:ellipsis;-webkit-line-clamp:1;display:-webkit-box;-webkit-box-orient:vertical}
 .fl_g dd {height:22px;line-height:22px;font-size:12px;overflow:hidden;text-overflow:ellipsis;-webkit-line-clamp:1;display:-webkit-box;-webkit-box-orient:vertical}
-.fl_g dd, .fl_g dd a, .fl_tb td .xg2 {color:var(--dz-fc)}
+.fl_g dd, .fl_tb td .xg2 {color:var(--dz-fc)}
 .fl_g dd a:hover, .fl_g dd a.dz_lastpost_ico:hover {color:var(--dz-ahover)}
 .fl_g dd em:nth-child(2) {margin-left:12px}
 .fl_g dd a.dz_lastpost_ico {display:block;color:var(--dz-fc)}
