@@ -286,7 +286,7 @@ SWFUpload.prototype.initSettings = function (userSettings) {
 		formData: this.settings.post_params,
 		fileNumLimit: this.settings.file_upload_limit,
 		fileSingleSizeLimit: this.settings.file_size_limit * 1024,
-		duplicate: true
+		duplicate: false
 	});
 
 	this.uploader = uploader;
