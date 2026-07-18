@@ -754,7 +754,6 @@ $lang = array (
 	'post_delpost'			=> 'Delete Post',//'删除本帖',
 	'post_digest_thread'		=> 'Add to digest',//'精华帖子',
 	'post_imgurl'			=> 'Parse image URLs automatically',//'解析图片链接',
-	'post_noticeauthor'		=> 'Notify me on new replies',//'接收回复通知',
 	'post_parseurl'			=> 'Parse URL',//'链接识别',
 	'post_show_sig'			=> 'Show signature',//'使用个人签名',
 	'post_stick_thread'		=> 'Stick thread',//'主题置顶',

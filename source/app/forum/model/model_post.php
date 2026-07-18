@@ -61,10 +61,10 @@ class model_post extends discuz_model {
 			'member', 'group', 'forum', 'thread', 'extramessage', 'special',//'nauthorid' 'modnewreplies' 'tid'
 			'message', 'content', 'clientip', 'invisible', 'isanonymous', 'usesig',
 			'htmlon', 'bbcodeoff', 'smileyoff', 'parseurloff', 'pstatus',
-			'noticetrimstr', 'noticeauthor', 'from', 'sechash', 'geoloc',
+			'noticetrimstr', 'from', 'sechash', 'geoloc',
 			'timestamp',
 			'subject', 'special', 'sortid', 'typeid', 'isanonymous', 'cronpublish', 'cronpublishdate', 'save',
-			'readperm', 'price', 'hiddenreplies', 'allownoticeauthor', 'audit', 'tags', 'bbcodeoff', 'imgcontent', 'imgcontentwidth',
+			'readperm', 'price', 'hiddenreplies', 'audit', 'tags', 'bbcodeoff', 'imgcontent', 'imgcontentwidth',
 			'smileyoff', 'parseurloff', 'usesig', 'htmlon', 'extramessage', 'original', 'source', 'contentType', 'contentEditor', 'repid',
 		];
 		foreach($varname as $name) {
@@ -204,42 +204,7 @@ class model_post extends discuz_model {
 		}
 
 		$notice_funcs = [];
-		$nauthorid = 0;
-		if(!empty($this->param['noticeauthor']) && !$this->param['isanonymous']) {
-			list($ac, $nauthorid) = explode('|', authcode($this->param['noticeauthor'], 'DECODE'));
-			if($nauthorid != $this->member['uid']) {
-				$func_params = [];
-				if($ac == 'q') {
-					$func_params = [$nauthorid, 'post', 'reppost_noticeauthor', [
-						'tid' => $this->thread['tid'],
-						'subject' => $this->thread['subject'],
-						'fid' => $this->forum['fid'],
-						'pid' => $this->pid,
-						'from_uid' => $this->member['uid'],
-						'from_id' => $this->pid,
-						'from_idtype' => 'quote',
-						'message' => dhtmlspecialchars(messagecutstr($this->param['message'], 150, null, $this->param['htmlon'])),
-					]];
-				} elseif($ac == 'r') {
-					$func_params = [$nauthorid, 'post', 'reppost_noticeauthor', [
-						'tid' => $this->thread['tid'],
-						'subject' => $this->thread['subject'],
-						'fid' => $this->forum['fid'],
-						'pid' => $this->pid,
-						'from_uid' => $this->member['uid'],
-						'from_id' => $this->thread['tid'],
-						'from_idtype' => 'post',
-						'message' => dhtmlspecialchars(messagecutstr($this->param['message'], 150, null, $this->param['htmlon'])),
-					]];
-				}
-				if($func_params) {
-					$notice_funcs[] = ['notification_add', $func_params];
-				}
-			}
-
-		}
-
-		if($this->thread['authorid'] != $this->member['uid'] && getstatus($this->thread['status'], 6) && empty($this->param['noticeauthor']) && !$this->param['isanonymous']) {
+		if($this->thread['authorid'] != $this->member['uid'] && getstatus($this->thread['status'], 6) && !$this->param['isanonymous']) {
 			$thapost = table_forum_post::t()->fetch_threadpost_by_tid_invisible($this->thread['tid'], 0);
 			$notice_funcs[] = ['notification_add', [$thapost['authorid'], 'post', 'reppost_noticeauthor', [
 				'tid' => $this->thread['tid'],

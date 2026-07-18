@@ -145,7 +145,6 @@ if($op == 'add') {
 		$_POST['replysubmit'] = true;
 		$_GET['fid'] = $fid;
 		$_GET['action'] = 'newthread';
-		$_GET['allownoticeauthor'] = '1';
 		include_once libfile('function/forum');
 		require_once libfile('function/post');
 		loadforum();

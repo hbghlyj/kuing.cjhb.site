@@ -21,17 +21,17 @@ class extend_thread_comment extends extend_thread_base {
 	private $postcomment;
 
 	public function before_newreply($parameters) {
-		global $nauthorid;
 		list(, $this->param['modnewreplies']) = threadmodstatus($this->param['subject']."\t".$this->param['message'].$this->param['extramessage']);
 		if($this->thread['displayorder'] == -4) {
 			$this->param['modnewreplies'] = 0;
 		}
 		$pinvisible = $parameters['modnewreplies'] ? -2 : ($this->thread['displayorder'] == -4 ? -3 : 0);
-		$this->postcomment = is_array($this->setting['allowpostcomment']) && in_array(2, $this->setting['allowpostcomment']) && $this->group['allowcommentreply'] && !$pinvisible && !empty($_GET['reppid']) && ($nauthorid != $this->member['uid'] || $this->setting['commentpostself']) ? messagecutstr($parameters['message'], 200, ' ') : '';
+		$replypost = !empty($_GET['reppid']) ? table_forum_post::t()->fetch_post('tid:'.$this->thread['tid'], intval($_GET['reppid'])) : [];
+		$this->postcomment = is_array($this->setting['allowpostcomment']) && in_array(2, $this->setting['allowpostcomment']) && $this->group['allowcommentreply'] && !$pinvisible && $replypost && ($replypost['authorid'] != $this->member['uid'] || $this->setting['commentpostself']) ? messagecutstr($parameters['message'], 200, ' ') : '';
 	}
 
 	public function after_newreply() {
-		if(!empty($_GET['noticeauthor']) && !$this->param['isanonymous'] && !$this->param['modnewreplies']) {
+		if(!$this->param['isanonymous'] && !$this->param['modnewreplies']) {
 			if($this->postcomment) {
 				$rpid = intval($_GET['reppid']);
 				if($rpost = table_forum_post::t()->fetch_post('tid:'.$this->thread['tid'], $rpid)) {

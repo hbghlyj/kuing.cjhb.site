@@ -82,7 +82,6 @@ if(!submitcheck('topicsubmit', 0, $seccodecheck, $secqaacheck)) {
 	unset($savethread);
 
 	$isfirstpost = 1;
-	$allownoticeauthor = 1;
 	$tagoffcheck = '';
 	$showthreadsorts = !empty($sortid) || getglobal('forum/threadsorts/required') && empty($special);
 	if(empty($sortid) && empty($special) && getglobal('forum/threadsorts/required') && $_G['forum']['threadsorts']['types']) {
@@ -253,7 +252,6 @@ if(!submitcheck('topicsubmit', 0, $seccodecheck, $secqaacheck)) {
 
 	$params['hiddenreplies'] = getgpc('hiddenreplies');
 
-	$params['allownoticeauthor'] = $_GET['allownoticeauthor'];
 	$params['tags'] = $_GET['tags'];
 	$params['bbcodeoff'] = getgpc('bbcodeoff');
 	$params['smileyoff'] = getgpc('smileyoff');

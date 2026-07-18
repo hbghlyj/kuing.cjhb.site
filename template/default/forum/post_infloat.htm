@@ -23,9 +23,7 @@
 			<input type="hidden" name="pid" value="$pid" />
 			<input type="hidden" name="page" value="$_GET[page]" />
 			<!--{elseif $_GET[action] == 'reply'}-->
-			<input type="hidden" name="noticeauthor" value="$noticeauthor" />
 			<input type="hidden" name="noticetrimstr" value="$noticetrimstr" />
-			<input type="hidden" name="noticeauthormsg" value="{$noticeauthormsg or ''}" />
 			<input type="hidden" name="usesig" value="{if $_G['group']['maxsigsize']}1{else}0{/if}"/>
 			<!--{if !empty($reppid)}-->
 			<input type="hidden" name="reppid" value="$reppid" />

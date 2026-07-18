@@ -43,7 +43,7 @@ class model_forum_post extends discuz_model {
 			'member', 'group', 'forum', 'thread', 'extramessage', 'special',//'nauthorid' 'modnewreplies' 'tid'
 			'message','clientip', 'invisible', 'isanonymous', 'usesig',
 			'htmlon', 'bbcodeoff', 'smileyoff', 'parseurloff', 'pstatus',
-			'noticetrimstr', 'noticeauthor', 'from', 'sechash', 'geoloc',
+			'noticetrimstr', 'from', 'sechash', 'geoloc',
 			'timestamp',
 
 			'subject', 'sortid', 'typeid', 'cronpublish', 'cronpublishdate', 'save',
@@ -157,36 +157,7 @@ class model_forum_post extends discuz_model {
 			}
 		}
 
-		$nauthorid = 0;
-		if(!empty($this->param['noticeauthor']) && !$this->param['isanonymous'] && !$this->param['modnewreplies']) {
-			list($ac, $nauthorid) = explode('|', authcode($this->param['noticeauthor'], 'DECODE'));
-			if($nauthorid != $this->member['uid']) {
-				if($ac == 'q') {
-					notification_add($nauthorid, 'post', 'reppost_noticeauthor', array(
-						'tid' => $this->thread['tid'],
-						'subject' => $this->thread['subject'],
-						'fid' => $this->forum['fid'],
-						'pid' => $this->pid,
-						'from_id' => $this->pid,
-						'from_idtype' => 'quote',
-						'message' => dhtmlspecialchars(messagecutstr($this->param['message'], 150, null, $this->param['htmlon']))
-					));
-				} elseif($ac == 'r') {
-					notification_add($nauthorid, 'post', 'reppost_noticeauthor', array(
-						'tid' => $this->thread['tid'],
-						'subject' => $this->thread['subject'],
-						'fid' => $this->forum['fid'],
-						'pid' => $this->pid,
-						'from_id' => $this->thread['tid'],
-						'from_idtype' => 'post',
-						'message' => dhtmlspecialchars(messagecutstr($this->param['message'], 150, null, $this->param['htmlon']))
-					));
-				}
-			}
-
-		}
-
-		if($this->thread['authorid'] != $this->member['uid'] && getstatus($this->thread['status'], 6) && empty($this->param['noticeauthor']) && !$this->param['isanonymous'] && !$this->param['modnewreplies']) {
+		if($this->thread['authorid'] != $this->member['uid'] && getstatus($this->thread['status'], 6) && !$this->param['isanonymous'] && !$this->param['modnewreplies']) {
 			$thapost = C::t('forum_post')->fetch_threadpost_by_tid_invisible($this->thread['tid'], 0);
 			notification_add($thapost['authorid'], 'post', 'reppost_noticeauthor', array(
 				'tid' => $this->thread['tid'],

@@ -99,9 +99,7 @@
 	<!--{if !empty($_GET['modthreadkey'])}--><input type="hidden" name="modthreadkey" id="modthreadkey" value="$_GET['modthreadkey']" /><!--{/if}-->
 	<input type="hidden" name="wysiwyg" id="{$editorid}_mode" value="$editormode" />
 	<!--{if $_GET[action] == 'reply'}-->
-		<input type="hidden" name="noticeauthor" value="$noticeauthor" />
 		<input type="hidden" name="noticetrimstr" value="$noticetrimstr" />
-		<input type="hidden" name="noticeauthormsg" value="{$noticeauthormsg or ''}" />
 		<!--{if !empty($reppid)}-->
 			<input type="hidden" name="reppid" value="$reppid" />
 		<!--{/if}-->

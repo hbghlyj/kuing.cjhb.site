@@ -109,8 +109,6 @@ if(!submitcheck('editsubmit')) {
 			}
 			$postinfo['tag'] = implode(',', $threadtag_array);
 		}
-		$allownoticeauthor = getstatus($thread['status'], 6);
-
 		if($rushreply) {
 			$postinfo['rush'] = table_forum_threadrush::t()->fetch($_G['tid']);
 			if($postinfo['rush']['creditlimit'] == -996) {
@@ -434,8 +432,6 @@ if(!submitcheck('editsubmit')) {
 			'price' => $_GET['price'],
 
 			'hiddenreplies' => $_GET['hiddenreplies'],
-			'allownoticeauthor' => $_GET['allownoticeauthor'],
-
 			'audit' => $_GET['audit'],
 
 			'tags' => $_GET['tags'],

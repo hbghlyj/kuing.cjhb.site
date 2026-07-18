@@ -751,7 +751,6 @@ $lang = [
 	'post_delpost' => '删除本帖',
 	'post_digest_thread' => '精华帖子',
 	'post_imgurl' => '解析图片链接',
-	'post_noticeauthor' => '接收回复通知',
 	'post_parseurl' => '链接识别',
 	'post_show_sig' => '使用个人签名',
 	'post_stick_thread' => '主题置顶',
