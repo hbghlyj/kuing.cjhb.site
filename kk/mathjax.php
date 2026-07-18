@@ -2,6 +2,7 @@
   window.KK_MATHJAX_XYPIC_URL = "/static/xypic.js?v=<?= filemtime(__DIR__ . '/../static/xypic.js')?>";
 </script>
 <script src="/kk/mathjax-config.js?<?= filemtime(__DIR__ . '/mathjax-config.js')?>"></script>
+<script src="/kk/mathjax-copy.js?<?= filemtime(__DIR__ . '/mathjax-copy.js')?>"></script>
 <script>
   window.MathJax.startup = {
     ready: function() {

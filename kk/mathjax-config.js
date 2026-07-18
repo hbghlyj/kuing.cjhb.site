@@ -63,18 +63,16 @@ window.MathJax = {
     },
     processHtmlClass: 'tex2jax_process',
     renderActions: {
-      addTeX: [151,
+      //去掉MathML节点上的data-latex/data-latex-item属性
+      removeLatex: [101,
         (doc) => {
-            for (const math of doc.math) {
-              if (math.state() >= 200) return;
-              const spanElement = document.createElement("span");
-              spanElement.style.position = "absolute";
-              spanElement.style.left = "-9999px";
-              spanElement.style.opacity = "0";
-              spanElement.textContent = math.start.delim + math.math + math.end.delim;
-              math.typesetRoot.appendChild(spanElement);
-              if(math.math.length < 100) { doc.adaptor.setAttribute(math.typesetRoot, 'title', math.math); }
-            }
+          for (const math of doc.math) {
+            math.root.walkTree((node) => {
+              const attributes = node.attributes;
+              attributes.unset('data-latex');
+              attributes.unset('data-latex-item');
+            });
+          }
         },
         ''
       ],
