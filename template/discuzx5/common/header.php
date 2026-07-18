@@ -117,7 +117,7 @@
 				<!--{/if}-->
 			<!--{/if}-->
 			<!--{if $_G['setting']['visitedforums']}-->
-				<!--{eval require_once libfile('function/forumlist'); if(empty($_G['cache']['forums'])) { loadcache('forums'); } $visitedforumsmenu = visitedforums();}-->
+				<!--{eval require_once libfile('function/forumlist'); empty($_G['cache']['forums']) && loadcache('forums'); $visitedforumsmenu = visitedforums();}-->
 				<!--{if $visitedforumsmenu}-->
 				<span class="pgb y" id="visitedforums" onmouseover="showMenu({'ctrlid':this.id,'pos':'34'})">{lang viewed_forums}</span>
 				<div id="visitedforums_menu" class="p_pop blk cl" style="display: none;">
