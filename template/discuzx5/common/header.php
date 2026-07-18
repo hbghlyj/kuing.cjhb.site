@@ -94,7 +94,7 @@
 		<!--{ad/headerbanner/wp a_h}-->
 
 		<div id="dz_btm_layer" {if $_G['style']['is_fixtop']} class="topbox"{/if}>
-			<!--{if $_G['style']['is_fixtop'] && !empty($_G['cookie']['recentthreads'])}-->
+			<!--{if !empty($_G['cookie']['recentthreads'])}-->
 				<!--{eval $recenttids = array_filter(array_map('intval', explode(',', $_G['cookie']['recentthreads'])));}-->
 				<!--{eval $recentthreadlist = $recenttids ? table_forum_thread::t()->fetch_all_by_tid(array_slice($recenttids, 0, 5)) : [];}-->
 				<!--{if $recentthreadlist}-->
