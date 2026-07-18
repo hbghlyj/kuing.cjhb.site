@@ -127,13 +127,13 @@ function visitedforums() {
 
 	$count = 0;
 	$visitedforums = '';
-	$fidarray = [$_G['forum']['fid']];
+	$fidarray = [$_G['forum']['fid'] ?? 0];
 	$_G['cookie']['visitedfid'] = $_G['cookie']['visitedfid'] ?? '';
 
 	if(!empty($_G['cookie']['visitedfid'])) {
 		foreach(explode('D', $_G['cookie']['visitedfid']) as $fid) {
 			if(isset($_G['cache']['forums'][$fid]) && !in_array($fid, $fidarray)) {
-				if($fid != $_G['forum']['fid']) {
+				if($fid != ($_G['forum']['fid'] ?? 0)) {
 					$visitedforums .= '<li><a href="forum.php?mod=forumdisplay&fid='.$fid.'">'.$_G['cache']['forums'][$fid]['name'].'</a></li>';
 					if(++$count >= $_G['setting']['visitedforums']) {
 						break;
