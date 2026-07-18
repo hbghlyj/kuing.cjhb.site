@@ -417,6 +417,7 @@ img{border:none;}
 
 .dz_layer_dl{float:right;}
 #hd .wp{display:flex;align-items:center;justify-content:space-between;}
+#recentthreads:after, #visitedforums:after{display:inline-block;margin-left:6px;vertical-align:2px;content:"";border-top:4px solid currentColor;border-right:4px solid transparent;border-bottom:0;border-left:4px solid transparent;}
 
 .header-right{height:70px;display:flex;align-items:center;position: relative;}
 /* */
