@@ -18,7 +18,7 @@
 			<li class="list">
 				<!--{if $viewtype == 'thread'}-->
 				<div class="threadlist_top cl">
-					<a href="home.php?mod=space&uid={$thread['authorid']}" class="mimg"><img src="<!--{avatar($thread['authorid'], 'middle', true)}-->"></a>
+					<a href="home.php?mod=space&uid={$thread['authorid']}" class="mimg"><!--{avatar($thread['authorid'], 'middle', ['username' => $thread['author'], 'static' => true])}--></a>
 					<div class="muser">
 						<h3><a href="home.php?mod=space&uid={$thread['authorid']}" class="mmc">{$thread['author']}</a></h3>
 						<span class="mtime">{$thread['dateline']}</span>

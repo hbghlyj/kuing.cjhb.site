@@ -79,7 +79,7 @@ function getblockhtml($blockname, $parameters = []) {
 			$do = $blockname;
 			$managehtml = '';
 			$avatar = empty($parameters['banavatar']) ? 'middle' : $parameters['banavatar'];
-			$html .= "<div class=\"hm\"><p><a href=\"home.php?mod=space&uid=$uid\" target=\"_blank\">".avatar($uid, $avatar).'</a></p>';
+			$html .= "<div class=\"hm\"><p><a href=\"home.php?mod=space&uid=$uid\" target=\"_blank\">".avatar($uid, $avatar, ['static' => true]).'</a></p>';
 
 			$memberfieldforum = table_common_member_field_forum::t()->fetch($space['uid']);
 			$space['medals'] = $memberfieldforum['medals'];
@@ -434,7 +434,7 @@ function getblockhtml($blockname, $parameters = []) {
 
 			foreach($friendlist as $key => $value) {
 				$classname = $_G['ols'][$value['fuid']] ? 'gol' : '';
-				$html .= '<li><a href="home.php?mod=space&uid='.$value['fuid'].'" target="_blank" class="avt"><em class="'.$classname.'"></em>'.avatar($value['fuid'], 'small').'</a><p><a href="home.php?mod=space&uid='.$value['fuid'].'" target="_blank">'.$value['fusername'].'</a></p></li>';
+				$html .= '<li><a href="home.php?mod=space&uid='.$value['fuid'].'" target="_blank" class="avt"><em class="'.$classname.'"></em>'.avatar($value['fuid'], 'small', ['username' => $value['fusername'], 'static' => true]).'</a><p><a href="home.php?mod=space&uid='.$value['fuid'].'" target="_blank">'.$value['fusername'].'</a></p></li>';
 			}
 			$html = !$html ? '<p class="emp">'.lang('space', 'block_friend_no_content').($space['self'] ? lang('space', 'block_friend_no_content_publish', $space) : '').'</p>' : '<ul class="ml mls cl">'.$html.'</ul>';
 			break;
@@ -463,7 +463,7 @@ function getblockhtml($blockname, $parameters = []) {
 						'username' => $value['vusername'],
 						'class' => ($_G['ols'][$value['vuid']] ? 'gol' : ''),
 						'self' => $value['vuid'] == $_G['uid'] ? 'god' : '',
-						'avatar' => avatar($value['vuid'], 'small')]);
+						'avatar' => avatar($value['vuid'], 'small', ['static' => true])]);
 				}
 				$html .= "<span class=\"xg2\">".dgmdate($value['dateline'], 'u', '9999', 'Y-m-d').'</span>';
 				$html .= '</li>';
@@ -521,7 +521,7 @@ function getblockhtml($blockname, $parameters = []) {
 			foreach($walllist as $key => $value) {
 				$op = '';
 				if($value['author']) {
-					$author_avatar = '<a href="home.php?mod=space&uid='.$value['authorid'].'" target="_blank">'.avatar($value['authorid'], 'small').'</a>';
+					$author_avatar = '<a href="home.php?mod=space&uid='.$value['authorid'].'" target="_blank">'.avatar($value['authorid'], 'small', ['static' => true]).'</a>';
 					$author = '<a href="home.php?mod=space&uid='.$value['authorid'].'" id="author_'.$value['cid'].'" target="_blank">'.$value['author'].'</a>';
 				} else {
 					$author_avatar = '<img src="'.STATICURL.'image/magic/hidden.gif" alt="hidden" />';

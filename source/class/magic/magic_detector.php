@@ -63,7 +63,7 @@ class magic_detector {
 				$value = array_merge($members[$uid], $value);
 				$info = !empty($value['magicgift']) ? dunserialize($value['magicgift']) : [];
 				if(!empty($info['left']) && (empty($info['receiver']) || !in_array($_G['uid'], $info['receiver']))) {
-					$value['avatar'] = addcslashes(avatar($uid, 'small'), "'");
+					$value['avatar'] = addcslashes(avatar($uid, 'small', ['static' => true]), "'");
 					$list[$uid] = $value;
 					$counter++;
 					if($counter >= $num) {

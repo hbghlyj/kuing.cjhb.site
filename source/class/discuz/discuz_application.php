@@ -1083,7 +1083,6 @@ class discuz_application extends discuz_base {
 		}
 
 		$this->var['setting']['regstatus'] = $this->var['setting']['mobile']['mobileregister'] ? $this->var['setting']['regstatus'] : 0;
-		$this->var['setting']['avatarmethod'] = 0;
 		ob_start();
 	}
 

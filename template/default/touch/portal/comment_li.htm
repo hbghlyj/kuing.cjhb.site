@@ -3,7 +3,7 @@
 	<div class="threadlist_top cl">
 		<!--{if $comment['uid']}-->
 			<a href="home.php?mod=space&uid=$comment['uid']&do=profile" class="avatar mimg z">
-				<!--{avatar($comment['uid'], 'small')}-->
+				<!--{avatar($comment['uid'], 'small', ['static' => true])}-->
 			</a>
 		<!--{else}-->
 			<a href="javascript:;" class="avatar mimg z">

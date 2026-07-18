@@ -14,7 +14,7 @@
 <div class="userinfo">
 	<div class="user_avatar">
 		<div class="avatar_bg">
-			<div class="avatar_m"><img src="<!--{avatar($space['uid'], 'middle', true)}-->" /></div>
+			<div class="avatar_m"><!--{avatar($space['uid'], 'middle', ['username' => $space['username'], 'avatarstatus' => $space['avatarstatus'], 'static' => true])}--></div>
 			<h2 class="name">$space['username']</h2>
 		</div>
 	</div>

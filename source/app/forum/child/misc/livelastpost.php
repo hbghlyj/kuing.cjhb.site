@@ -28,7 +28,7 @@ if($livetid) {
 			'author' => !$post['anonymous'] ? $post['author'] : lang('forum/misc', 'anonymous'),
 			'message' => str_replace("\r\n", '<br>', messagecutstr($post['message'])),
 			'dateline' => dgmdate($post['dateline'], 'u'),
-			'avatar' => !$post['anonymous'] ? avatar($post['authorid'], 'small') : '',
+			'avatar' => !$post['anonymous'] ? avatar($post['authorid'], 'small', ['static' => true]) : '',
 		];
 		$postlist['list'][$post['pid']] = $contentarr;
 	}
@@ -36,4 +36,3 @@ if($livetid) {
 
 showmessage('', '', $postlist);
 exit;
-	

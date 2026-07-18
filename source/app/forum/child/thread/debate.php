@@ -45,14 +45,14 @@ list($debate['bestdebater'], $debate['bestdebateruid'], $debate['bestdebaterstan
 $debate['bestdebaterurl'] = rawurlencode($debate['bestdebater']);
 foreach(table_forum_post::t()->fetch_all_debatepost_by_tid_stand($_G['tid'], 1, 0, 16) as $affirmavatar) {
 	if(!isset($debate['affirmavatars'][$affirmavatar['authorid']])) {
-		$affirmavatar['avatar'] = avatar($affirmavatar['authorid'], 'small');
+		$affirmavatar['avatar'] = avatar($affirmavatar['authorid'], 'small', ['static' => true]);
 		$debate['affirmavatars'][$affirmavatar['authorid']] = $affirmavatar;
 	}
 }
 
 foreach(table_forum_post::t()->fetch_all_debatepost_by_tid_stand($_G['tid'], 2, 0, 16) as $negaavatar) {
 	if(!isset($debate['negaavatars'][$negaavatar['authorid']])) {
-		$negaavatar['avatar'] = avatar($negaavatar['authorid'], 'small');
+		$negaavatar['avatar'] = avatar($negaavatar['authorid'], 'small', ['static' => true]);
 		$debate['negaavatars'][$negaavatar['authorid']] = $negaavatar;
 	}
 }

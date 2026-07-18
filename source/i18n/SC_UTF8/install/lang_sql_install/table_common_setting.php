@@ -174,9 +174,6 @@ $data = [[
     'skey' => 'autoidselect',
     'svalue' => '0',
   ],[
-    'skey' => 'avatarmethod',
-    'svalue' => '0',
-  ],[
     'skey' => 'backupdir',
     'svalue' => 'f027b6',
   ],[

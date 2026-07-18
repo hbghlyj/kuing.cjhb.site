@@ -164,11 +164,6 @@ if(submitcheck('settingsubmit')) {
 
 	/*search={"setting_functions":"action=setting&operation=avatar","setting_avatar":"action=setting&operation=functions&anchor=avatar"}*/
 	showtableheader('', 'nobottom', 'id="avatar"'.($_GET['anchor'] != 'avatar' ? ' style="display: none"' : ''));
-	showsetting('setting_uc_avatarmethod', ['settingnew[avatarmethod]', [
-		[0, $lang['setting_uc_avatarmethod_0']],
-		[1, $lang['setting_uc_avatarmethod_1']],
-		[2, $lang['setting_uc_avatarmethod_2']],
-	]], $setting['avatarmethod'], 'mradio');
 	showsetting('setting_uc_dynavt', ['settingnew[dynavt]', [
 		[0, $lang['setting_uc_dynavt_0']],
 		[1, $lang['setting_uc_dynavt_1']],

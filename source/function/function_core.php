@@ -647,25 +647,16 @@ function avatar($uid, $size = 'middle', $returnsrc = 0, $real = FALSE, $static =
 		isset($returnsrc['real']) && $real = $returnsrc['real'];
 		$returnsrc = $returnsrc['returnsrc'] ?? 0;
 	}
-	static $staticavatar;
-	if($staticavatar === null) {
-		$staticavatar = $_G['setting']['avatarmethod'];
-	}
 	$uid = abs(intval($uid));
 	if(!$returnsrc) {
 		$class = trim($class.' user_avatar');
 	}
 	$classattr = $class ? ' class="'.$class.'"' : '';
-	static $avtstatus;
-	if($avtstatus === null) {
-		$avtstatus = [];
-	}
 	$dynavt = intval($_G['setting']['dynavt']);
 
 	$ossavatar = false;
 	if(!empty($_G['setting']['ftp']['on']) && $_G['setting']['ftp']['on'] == 2 && $_G['setting']['oss']['oss_avatar']) {//企飞版
 		$avatarurl = $_G['setting']['ftp']['attachurl'].'avatar';
-		$staticavatar = 1;
 		$ossavatar = true;
 	} else {
 		$ucenterurl = empty($ucenterurl) ? $_G['setting']['ucenterurl'] : $ucenterurl;
@@ -695,58 +686,28 @@ function avatar($uid, $size = 'middle', $returnsrc = 0, $real = FALSE, $static =
 	$avatarattr = !$returnsrc ? ' data-avatar-key="'.dhtmlspecialchars($avatarname !== '' ? $avatarname : '?').'" data-avatar-size="'.$size.'"'.($avatarname !== '' ? ' data-avatar-name="'.dhtmlspecialchars($avatarname).'" alt="'.dhtmlspecialchars($avatarname).'"' : '') : '';
 	$avatarmissingattr = $avatarstatus === 0 ? ' data-avatar-missing="1"' : '';
 
-	if($staticavatar == 2 && !$returnsrc && !$real) {
-		return '<img data-uid="'.$uid.'" data-size="'.$size.'"'.($random ? ' data-random="'.rand(1000, 9999).'"' : '').$avatarattr.$avatarmissingattr.$classattr.($extra ? ' '.$extra : '').' />';
-	}
-	if(!$staticavatar && !$static && $ucenterurl != '.' || $avatarapi) {
+	if($avatarapi) {
 		$trandom = '';
 		if($random == 1) {
 			$trandom = '&random=1';
 		} elseif($dynavt == 2 || ($dynavt == 1 && $uid == $_G['uid']) || $random == 2) {
 			$trandom = '&ts=1';
 		}
-		if($avatarapi) {
-			$url = $_G['siteurl'].'avatar/';
-		} else {
-			$url = $ucenterurl.'/avatar.php';
-		}
+		$url = $_G['siteurl'].'avatar/';
 		return $returnsrc ? $url.'?uid='.$uid.'&size='.$size.($real ? '&type=real' : '').$trandom : '<img '.$src.'="'.$url.'?uid='.$uid.'&size='.$size.($real ? '&type=real' : '').$trandom.'"'.$avatarattr.$avatarmissingattr.$classattr.($extra ? ' '.$extra : '').'>';
-	} else {
-		$uid = sprintf('%09d', $uid);
-		$dir1 = substr($uid, 0, 3);
-		$dir2 = substr($uid, 3, 2);
-		$dir3 = substr($uid, 5, 2);
-		$filepath = $dir1.'/'.$dir2.'/'.$dir3.'/'.substr($uid, -2).($real ? '_real' : '').'_avatar_'.$size.'.jpg';
-		$file = $avatarurl.'/'.$filepath;
-		$trandom = '';
-		$avtexist = -1;
-		if(!$staticavatar && !$static) {
-			$avatar_file = DISCUZ_ROOT.$_G['setting']['avatarpath'].$filepath;
-			if(isset($avtstatus[$rawuid])) {
-				$avtexist = $avtstatus[$rawuid][0];
-			} else {
-				$avtexist = file_exists($avatar_file) ? 1 : 0;
-				$avtstatus[$rawuid][0] = $avtexist;
-			}
-			if($avtexist) {
-				if($dynavt == 2 || ($dynavt == 1 && $rawuid && $rawuid == $_G['uid']) || $random == 2) {
-					if(empty($avtstatus[$rawuid][1])) {
-						$avtstatus[$rawuid][1] = filemtime($avatar_file);
-					}
-					$trandom = '?ts='.$avtstatus[$rawuid][1];
-				}
-			}
-		}
-		if($random == 1 && $avtexist != 0) {
-			$trandom = '?random='.rand(1000, 9999);
-		} elseif($ossavatar && ($dynavt == 2 || ($dynavt == 1 && $rawuid && $rawuid == $_G['uid']) || $random == 2)) {
-			$trandom = '?ts='.TIMESTAMP;
-		}
-		if($trandom) {
-			$file = $file.$trandom;
-		}
-		return $returnsrc ? $file : '<img '.$src.'="'.$file.'"'.$avatarattr.(($avatarstatus === 0 || $avtexist === 0) ? ' data-avatar-missing="1"' : '').$classattr.($extra ? ' '.$extra : '').'>';
 	}
+	$uid = sprintf('%09d', $uid);
+	$dir1 = substr($uid, 0, 3);
+	$dir2 = substr($uid, 3, 2);
+	$dir3 = substr($uid, 5, 2);
+	$filepath = $dir1.'/'.$dir2.'/'.$dir3.'/'.substr($uid, -2).($real ? '_real' : '').'_avatar_'.$size.'.jpg';
+	$file = $avatarurl.'/'.$filepath;
+	if($random == 1) {
+		$file .= '?random='.rand(1000, 9999);
+	} elseif($ossavatar && ($dynavt == 2 || ($dynavt == 1 && $rawuid && $rawuid == $_G['uid']) || $random == 2)) {
+		$file .= '?ts='.TIMESTAMP;
+	}
+	return $returnsrc ? $file : '<img '.$src.'="'.$file.'"'.$avatarattr.$avatarmissingattr.$classattr.($extra ? ' '.$extra : '').'>';
 }
 
 function i18n($cmd, $langkey = '', $path = '') {

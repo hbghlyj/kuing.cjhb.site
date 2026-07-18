@@ -137,7 +137,7 @@ if($_GET['view'] == 'me') {
 		showmessage('member_nonexistence', NULL, [], ['login' => 1]);
 	}
 	$member = array_merge($member, table_common_member_profile::t()->fetch($uid), table_common_member_status::t()->fetch($uid), table_common_member_field_forum::t()->fetch($uid));
-	$member['avatar'] = '<div class="avatar">'.avatar($member['uid'], 'middle', ['username' => $member['username'], 'avatarstatus' => $member['avatarstatus']]);
+	$member['avatar'] = '<div class="avatar">'.avatar($member['uid'], 'middle', ['username' => $member['username'], 'avatarstatus' => $member['avatarstatus'], 'static' => true]);
 	if($_G['cache']['usergroups'][$member['groupid']]['groupavatar']) {
 		$member['avatar'] .= '<br /><img src="'.$_G['cache']['usergroups'][$member['groupid']]['groupavatar'].'" border="0" alt="" />';
 	}

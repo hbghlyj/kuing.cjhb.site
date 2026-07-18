@@ -121,7 +121,7 @@
 					<!--{loop $lastmedals $lastmedal}-->
 					<li>
 						<a href="home.php?mod=space&uid=$lastmedal['uid']&do=profile">
-							<!--{avatar($lastmedal['uid'],'small')}-->
+							<!--{avatar($lastmedal['uid'],'small', ['static' => true])}-->
 							<div class="last_med_name">
 								<span class="name">$lastmedalusers[$lastmedal['uid']]['username']</span>
 							</div>

@@ -26,7 +26,7 @@
 	 <div id="comment_{$value['id']}_li" class="doing_list cl cl{$value['class']} <!--{if $value['is_hidden']}--> hidden-comment <!--{/if}-->" style="{$value['style']}" <!--{if $value['root_id']}--> data-root-id="{$value['root_id']}" <!--{/if}--> >
 		<div class="doing_list_item">
 			<div class="doing_avatar">
-				<a href="home.php?mod=space&uid=$value[uid]" c="1"><!--{avatar($value['uid'], 'small')}--></a>
+				<a href="home.php?mod=space&uid=$value[uid]" c="1"><!--{avatar($value['uid'], 'small', ['static' => true])}--></a>
 			</div>
 			<div class="item_right">
 				<div class="item_author_box">

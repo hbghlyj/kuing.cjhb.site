@@ -393,7 +393,7 @@ if(empty($_GET['viewpid'])) {
 				continue;
 			}
 			$post['position'] = $poststick[$post['pid']]['position'];
-			$post['avatar'] = avatar($post['authorid'], 'small', ['username' => $post['author']]);
+			$post['avatar'] = avatar($post['authorid'], 'small', ['username' => $post['author'], 'static' => true]);
 			$post['isstick'] = true;
 			$sticklist[$post['pid']] = $post;
 		}
@@ -965,7 +965,7 @@ function viewthread_procpost($post, $lastvisit, $maxposition = 0) {
 			}
 		}
 
-		$avataroptions = ['username' => empty($post['anonymous']) ? ($post['username'] ?: $post['author']) : $_G['setting']['anonymoustext']];
+		$avataroptions = ['username' => empty($post['anonymous']) ? ($post['username'] ?: $post['author']) : $_G['setting']['anonymoustext'], 'static' => true];
 		isset($post['avatarstatus']) && $avataroptions['avatarstatus'] = $post['avatarstatus'];
 		$post['avatar'] = avatar($post['authorid'], 'middle', $avataroptions);
 		$post['avatarsmall'] = defined('IN_MOBILE') ? avatar(empty($post['anonymous']) ? $post['authorid'] : 0, 'small', $avataroptions) : '';

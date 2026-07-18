@@ -17,7 +17,7 @@
 				<div class="home_feed_time"><span class="mtime"><!--{if $day=='yesterday'}-->{lang yesterday}<!--{elseif $day=='today'}-->{lang today}<!--{else}-->$day<!--{/if}--></span></div>
 			<!--{/if}-->
 			<div class="home_feed_ecs cl">
-				<a href="home.php?mod=space&uid={$values['uid']}" class="mimg"><!--{avatar($values['uid'], 'small')}--></a>
+				<a href="home.php?mod=space&uid={$values['uid']}" class="mimg"><!--{avatar($values['uid'], 'small', ['static' => true])}--></a>
 				<!--{loop $values $value}-->
 					<!--{subtemplate home/space_feed_li}-->
 				<!--{/loop}-->
@@ -35,7 +35,7 @@
 				<!--{eval $morelist = $more_list[$day][$user['uid']];}-->
 				<div class="home_feed_ecs cl">
 					<!--{if $user['uid']}-->
-					<a href="home.php?mod=space&uid={$user['uid']}" class="mimg"><!--{avatar($user['uid'], 'small')}--></a>
+					<a href="home.php?mod=space&uid={$user['uid']}" class="mimg"><!--{avatar($user['uid'], 'small', ['static' => true])}--></a>
 					<!--{else}-->
 					<a href="javascript:;" class="mimg"><img src="{IMGDIR}/systempm.png" alt="" /></a>
 					<!--{/if}-->

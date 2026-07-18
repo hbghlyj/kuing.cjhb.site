@@ -44,7 +44,7 @@ class magic_call {
 			$note = lang('spacecp', 'magic_call', ['url' => "home.php?mod=space&uid={$_G['uid']}&do=blog&id=$id"]);
 			foreach($query as $value) {
 				$ids[] = $value['fuid'];
-				$value['avatar'] = str_replace("'", "\'", avatar($value['fuid'], 'small'));
+				$value['avatar'] = str_replace("'", "\'", avatar($value['fuid'], 'small', ['static' => true]));
 				$list[] = $value;
 				$note_inserts[] = [
 					'uid' => $value['fuid'],

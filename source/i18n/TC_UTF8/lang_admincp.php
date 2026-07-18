@@ -2987,14 +2987,6 @@ $lang =
 	'setting_uc_appid_comment' => '該值為當前站點在 UCenter 的應用 ID，一般情況請不要改動',
 	'setting_uc_activation' => '是否允許其他應用的會員在站點激活',
 	'setting_uc_activation_comment' => '選擇“是”，允許會員在本站點激活；選擇“否”，則不允許任何第三方應用在本站點激活',
-	'setting_uc_avatarmethod' => '頭像調用方式',
-	'setting_uc_avatarmethod_comment' => '設置用戶頭像的調用方式
-		<br />動態方式：依靠服務器返回頭像地址，頭像較多時服務器壓力會有增加
-		<br />靜態方式：返回固定的頭像靜態地址，不檢測頭像是否存在，失敗後加載默認頭像
-		<br />瀏覽器加載方式：通過瀏覽器加載頭像的靜態地址，失敗自動拉取默認頭像',
-	'setting_uc_avatarmethod_0' => '使用動態方式調用頭像',
-	'setting_uc_avatarmethod_1' => '使用靜態方式調用頭像',
-	'setting_uc_avatarmethod_2' => '使用瀏覽器加載方式調用頭像',
 	'setting_uc_dynavt' => '頭像緩存機制',
 	'setting_uc_dynavt_comment' => '設置用戶頭像的緩存機制，僅在動態調用模式下生效，可以避免更換頭像後無法及時看到的問題，但會增加一些服務器壓力。',
 	'setting_uc_dynavt_0' => '自動（完全由用戶瀏覽器處理，性能最好）',

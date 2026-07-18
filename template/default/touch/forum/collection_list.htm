@@ -4,7 +4,7 @@
 	<!--{loop $collectiondata $collectionvalues}-->
 	<li class="list{if $op == 'my'} {if $collectionvalues['uid'] == $_G['uid']}mycreate{elseif is_array($twctid) && in_array($collectionvalues['ctid'], $twctid)}myteam{else}mysubscribe{/if}{/if}">
 		<div class="threadlist_top cl">
-			<a href="home.php?mod=space&uid={$collectionvalues['uid']}" class="mimg"><img src="<!--{avatar($collectionvalues['uid'], 'middle', true)}-->"></a>
+			<a href="home.php?mod=space&uid={$collectionvalues['uid']}" class="mimg"><!--{avatar($collectionvalues['uid'], 'middle', ['username' => $collectionvalues['username'], 'static' => true])}--></a>
 			<div class="muser">
 				<h3><a href="home.php?mod=space&uid={$collectionvalues['uid']}" class="mmc">{$collectionvalues['username']}</a></h3>
 				<span class="mtime">

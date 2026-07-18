@@ -55,7 +55,7 @@
 		<div class="header-user-info">
 			<div class="header-user-avatar">
 				<a href="home.php?mod=space&uid=$_G[uid]">
-					<!--{avatar($_G['uid'], 'big', ['username' => $_G['username'], 'avatarstatus' => $_G['member']['avatarstatus']])}-->
+					<!--{avatar($_G['uid'], 'big', ['username' => $_G['username'], 'avatarstatus' => $_G['member']['avatarstatus'], 'static' => true])}-->
 				</a>
 			</div>
 		</div>
@@ -63,7 +63,7 @@
 			<div class="poptip-arrow"></div>
 			<div class="user-card">
 				<div class="user-card-top">
-					<div class="block_avatar e-avatar"><a href="home.php?mod=space&uid=$_G[uid]"><!--{avatar($_G['uid'], 'big', ['username' => $_G['username'], 'avatarstatus' => $_G['member']['avatarstatus']])}--></a></div>
+					<div class="block_avatar e-avatar"><a href="home.php?mod=space&uid=$_G[uid]"><!--{avatar($_G['uid'], 'big', ['username' => $_G['username'], 'avatarstatus' => $_G['member']['avatarstatus'], 'static' => true])}--></a></div>
 					<div class="block_name">
 
 						<a href="home.php?mod=space&uid=$_G[uid]">{$_G[member][username]}</a>
