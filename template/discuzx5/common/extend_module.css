@@ -20,7 +20,7 @@
 .fl_tb td.fl_g:hover {background:var(--dz-bgc)}
 .fl_tb td {line-height:26px;border-top:none}
 .fl_icn {padding-left:10px !important;padding-right:12px !important}
-.fl_icn, .fl_icn_g {margin-right:12px;width:68px!important;;min-height:68px}
+
 .fl_icn img, .fl_icn_g img {width:68px !important;border-radius:var(--dz-radius-s)}
 .fl_g dl {margin-left:80px !important;padding-left:0;color:var(--dz-fc)}
 .fl_g dt, .fl_tb td h2 {margin-bottom:2px;height:22px;line-height:22px;font-size:16px;font-weight:400;overflow:hidden;text-overflow:ellipsis;-webkit-line-clamp:1;display:-webkit-box;-webkit-box-orient:vertical}
