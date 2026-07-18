@@ -221,8 +221,8 @@ button::-moz-focus-inner { border: none; padding: 0; }
 .frameuinfo { display: flex; align-items: center; color: var(--admincp-fa);cursor: pointer; }
 #frameuinfo { display: flex; align-items: center; color: var(--admincp-fa);cursor: pointer; }
 
-#frameuinfo>img { width: 28px; height: 28px; border: 1px solid rgba(108,122,145, 0.08); border-radius: 50%; }
-#frameuinfo>.Avatar { display: inline-flex; align-items: center; justify-content: center; box-sizing: content-box; width: 28px; height: 28px; border: 1px solid rgba(108,122,145, 0.08); border-radius: 50%; color: #FFF; background-color: var(--avatar-bg); font-size: 14px; font-weight: 400; line-height: 1; overflow: hidden; }
+#frameuinfo>img { width: 28px; height: 28px; border: 1px solid rgba(108,122,145, 0.08); border-radius: 5px; }
+#frameuinfo>.Avatar { display: inline-flex; align-items: center; justify-content: center; box-sizing: content-box; width: 28px; height: 28px; border: 1px solid rgba(108,122,145, 0.08); border-radius: 5px; color: #FFF; background-color: var(--avatar-bg); font-size: 14px; font-weight: 400; line-height: 1; overflow: hidden; }
 #frameuinfo>p { margin-left: 12px; }
 #frameuinfo>p.greet { font-size: 12px; text-align: right; margin-right: 5px; }
 #frameuinfo>p.greet a { display: inline-block; text-decoration: none; background: var(--admincp-color); color: var(--admincp-ff); padding: 1px 3px; border-radius: 3px; }
