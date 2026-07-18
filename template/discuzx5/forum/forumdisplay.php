@@ -1,4 +1,4 @@
-﻿<?php exit('Access Denied');?>
+<?php exit('Access Denied');?>
 <!--{template common/header}-->
 
 <!--{if $_G['forum']['ismoderator']}-->

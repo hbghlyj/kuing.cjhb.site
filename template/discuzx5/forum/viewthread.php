@@ -1,4 +1,4 @@
-﻿<?php exit('Access Denied');?>
+<?php exit('Access Denied');?>
 <!--{template common/header}-->
 <link rel="stylesheet" type="text/css" href="kk/zdy3.css?{VERHASH}" />
 

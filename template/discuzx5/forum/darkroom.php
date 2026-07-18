@@ -1,4 +1,4 @@
-﻿<?php exit('Access Denied');?>
+<?php exit('Access Denied');?>
 <!--{template common/header}-->
 <div id="pt" class="bm cl">
 	<div style="float:right;margin-bottom:10px;">

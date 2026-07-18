@@ -13,6 +13,9 @@ if(!defined('IN_DISCUZ')) {
 class tplfile {
 
 	public static function getphptemplate($content) {
+		if(str_starts_with($content, "\xEF\xBB\xBF")) {
+			$content = substr($content, 3);
+		}
 		if(strtolower(substr($content, 0, 5)) == '<?php') {
 			$pos = strpos($content, "\n");
 			return $pos !== false ? substr($content, $pos + 1) : $content;
