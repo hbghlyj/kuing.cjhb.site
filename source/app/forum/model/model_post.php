@@ -205,7 +205,7 @@ class model_post extends discuz_model {
 		}
 
 		$notice_funcs = [];
-		if($this->thread['authorid'] != $this->member['uid'] && getstatus($this->thread['status'], 6) && !$this->param['isanonymous']) {
+		if($this->thread['authorid'] != $this->member['uid'] && !$this->param['isanonymous']) {
 			$thapost = table_forum_post::t()->fetch_threadpost_by_tid_invisible($this->thread['tid'], 0);
 			$notice_funcs[] = ['notification_add', [$thapost['authorid'], 'post', 'reppost_noticeauthor', [
 				'tid' => $this->thread['tid'],

@@ -123,7 +123,6 @@ class model_thread extends discuz_model {
 
 		$this->param['hiddenreplies'] && $this->param['tstatus'] = setstatus(2, 1, $this->param['tstatus']);
 
-		$this->param['tstatus'] = setstatus(6, 1, $this->param['tstatus']);
 		$this->param['isgroup'] = $this->forum['status'] == 3 ? 1 : 0;
 
 		$this->param['publishdate'] = !$this->param['modnewthreads'] ? $this->param['publishdate'] : TIMESTAMP;

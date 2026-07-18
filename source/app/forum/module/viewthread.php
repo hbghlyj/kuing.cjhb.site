@@ -205,8 +205,6 @@ if($_G['forum_thread']['readperm'] && $_G['forum_thread']['readperm'] > $_G['gro
 
 $usemagic = ['user' => [], 'thread' => []];
 
-$replynotice = getstatus($_G['forum_thread']['status'], 6);
-
 $hiddenreplies = getstatus($_G['forum_thread']['status'], 2);
 
 $rushreply = getstatus($_G['forum_thread']['status'], 3);

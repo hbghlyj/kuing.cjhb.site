@@ -428,21 +428,6 @@ function copyThreadUrl(obj, bbname) {
 	return false;
 }
 
-function replyNotice() {
-	var newurl = 'forum.php?mod=misc&action=replynotice&tid=' + tid + '&op=';
-	var replynotice = $('replynotice');
-	var status = replynotice.getAttribute("status");
-	if(status == 1) {
-		replynotice.href = newurl + 'receive';
-		replynotice.innerHTML = $L('receive_reply_notice');
-		replynotice.setAttribute("status", 0);
-	} else {
-		replynotice.href = newurl + 'ignore';
-		replynotice.innerHTML = $L('cancel_reply_notice');
-		replynotice.setAttribute("status", 1);
-	}
-}
-
 function lazyload(className) {
 	var obj = this;
 	lazyload.className = className;
