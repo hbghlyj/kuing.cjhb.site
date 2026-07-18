@@ -1818,7 +1818,7 @@ b01907cf60923a66b70fa27de993e752 *source/class/witframe/lib/crypt.php
 d41d8cd98f00b204e9800998ecf8427e *source/class/witframe/lib/index.htm
 0c99a4279405277a66ab6ed706bfb987 *source/class/witframe/lib/site.php
 5d3f20525fa33756527ec7469b3dc217 *source/class/witframe/witframe_plugin.php
-99a7a23c87ade82315ef6fb30e9b8859 *source/data/admincp/discuzdb.md5
+3b06ec040baff24d2b34418fc1e2c0d3 *source/data/admincp/discuzdb.md5
 14049299a2a111aad82813d8e1656ab4 *source/data/admincp/discuzhook.dat
 40dcfa73e184e614753ab4d62609fd42 *source/data/admincp/emoji.php
 d41d8cd98f00b204e9800998ecf8427e *source/data/admincp/index.htm
@@ -2258,7 +2258,7 @@ f2f5d45d71c233ae2ef6a5cd02202602 *source/i18n/SC_UTF8/install/lang_sql_install/t
 8219ed88d44d7a68bc563a6ce72d7a23 *source/i18n/SC_UTF8/install/lang_sql_install/table_common_friendlink.php
 0e19f4af9b7d7fd3ddd94f3e34716236 *source/i18n/SC_UTF8/install/lang_sql_install/table_common_member_profile_setting.php
 387a58f024572d901cb39432cd1b56e5 *source/i18n/SC_UTF8/install/lang_sql_install/table_common_nav.php
-11ad41a4113c5a355a598597e2685186 *source/i18n/SC_UTF8/install/lang_sql_install/table_common_setting.php
+f6f6ee7add80b27b810750f74ce3c39a *source/i18n/SC_UTF8/install/lang_sql_install/table_common_setting.php
 e3671d072b52d8fd04e3d2ba1f3aea1d *source/i18n/SC_UTF8/install/lang_sql_install/table_common_smiley.php
 4af8b8eaac161061cb0163600e9dbf2d *source/i18n/SC_UTF8/install/lang_sql_install/table_common_statuser.php
 466230b32bd8d264ff787a2317d9ab2a *source/i18n/SC_UTF8/install/lang_sql_install/table_common_style.php
@@ -2461,7 +2461,7 @@ a1c6454465477a073c4d2c31e94dade0 *source/i18n/TC_UTF8/install/lang_sql_install/t
 fba786edfcdda63dc22ff3fcd9e3166f *source/i18n/TC_UTF8/install/lang_sql_install/table_common_friendlink.php
 705f08d79c767faab73248f3567a11fa *source/i18n/TC_UTF8/install/lang_sql_install/table_common_member_profile_setting.php
 5a50d34e1b0eb137bd1c42e99be57cac *source/i18n/TC_UTF8/install/lang_sql_install/table_common_nav.php
-4ddac37dab24aa460a58905f76de178e *source/i18n/TC_UTF8/install/lang_sql_install/table_common_setting.php
+69288e8eb296f5d1714e22a7ed9e27f3 *source/i18n/TC_UTF8/install/lang_sql_install/table_common_setting.php
 e3671d072b52d8fd04e3d2ba1f3aea1d *source/i18n/TC_UTF8/install/lang_sql_install/table_common_smiley.php
 4af8b8eaac161061cb0163600e9dbf2d *source/i18n/TC_UTF8/install/lang_sql_install/table_common_statuser.php
 a547269bf1ebe388fd48390df8c88048 *source/i18n/TC_UTF8/install/lang_sql_install/table_common_style.php
@@ -4848,7 +4848,7 @@ f7de16952e53e5b57f0f36a6a1833eaa *template/default/forum/viewthread_from_node.ht
 91459ed16c9e85da2348e86b18f61a37 *template/default/forum/viewthread_pay.htm
 259705323d4e8e8da5cdc18ab3c3d5af *template/default/forum/viewthread_poll_voter.htm
 086f53b55d548bfae0d68203afb79c6c *template/default/forum/viewthread_poll.htm
-d22e8b22d9f9e579359006baef0a14c6 *template/default/forum/viewthread_portal.htm
+7aa630dac26e458126ba4d20ff184394 *template/default/forum/viewthread_portal.htm
 321dfeec09f4099b05f998c1377ccd45 *template/default/forum/viewthread_preview_node.htm
 a9f9140a8891801076719629cd70e652 *template/default/forum/viewthread_preview.htm
 c04928094b822360984c6a628e044fed *template/default/forum/viewthread_printable.htm

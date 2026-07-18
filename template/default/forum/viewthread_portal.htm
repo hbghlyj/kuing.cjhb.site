@@ -157,21 +157,6 @@
 				</div>
 			</div>
 		<!--{/if}-->
-		<!--{if $oldthreads}-->
-			<div class="bm">
-				<div class="bm_h cl">
-					<h2>{lang viewed_threads}</h2>
-				</div>
-				<div class="bm_c xl xl1">
-					<ul>
-					<!--{loop $oldthreads $oldtid $oldsubject}-->
-						<li><a href="forum.php?mod=viewthread&tid=$oldtid&from=portal">$oldsubject</a></li>
-					<!--{/loop}-->
-					</ul>
-				</div>
-			</div>
-		<!--{/if}-->
-
 		<!--{hook/viewthread_side_bottom}-->
 		<div class="drag">
 			<!--[diy=diy2]--><div id="diy2" class="area"></div><!--[/diy]-->

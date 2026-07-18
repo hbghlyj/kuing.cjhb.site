@@ -1994,9 +1994,6 @@ j/n/Y',
     'skey' => 'visitedforums',
     'svalue' => '10',
   ],[
-    'skey' => 'visitedthreads',
-    'svalue' => '0',
-  ],[
     'skey' => 'vtonlinestatus',
     'svalue' => '1',
   ],[
