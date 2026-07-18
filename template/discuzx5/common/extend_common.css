@@ -418,6 +418,11 @@ img{border:none;}
 .dz_layer_dl{float:right;}
 #hd .wp{display:flex;align-items:center;justify-content:space-between;}
 #recentthreads:after, #visitedforums:after{display:inline-block;margin-left:6px;vertical-align:2px;content:"";border-top:4px solid currentColor;border-right:4px solid transparent;border-bottom:0;border-left:4px solid transparent;}
+#visitedforums_menu, #recentthreads_menu{width:150px;}
+#visitedforums_menu li, #recentthreads_menu li{display:block;float:none;}
+#visitedforums_menu td, #recentthreads_menu td{padding:5px 10px;vertical-align:top;}
+#visitedforums_menu a, #recentthreads_menu a{white-space:normal !important;display:inline-block;overflow:hidden;height:1.5em;}
+#v_forums, #v_threads{width:120px;}
 
 .header-right{height:70px;display:flex;align-items:center;position: relative;}
 /* */
