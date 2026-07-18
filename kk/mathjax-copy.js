@@ -35,15 +35,15 @@ document.addEventListener('copy', function (event) {
   }
 
   // Tag each live mjx-container intersecting the range with its original
-  // TeX source (the same MathItem.math string MathJax's own "Copy Original"
-  // menu command uses), so it survives into the cloned fragment below.
+  // TeX source, including delimiters, so it survives into the cloned
+  // fragment below.
   const doc = window.MathJax && window.MathJax.startup && window.MathJax.startup.document;
   const taggedContainers = [];
   if (doc) {
     for (const math of doc.math) {
       const container = math.typesetRoot;
       if (container && range.intersectsNode(container)) {
-        container.setAttribute('data-mjx-copy-tex', math.math.trim());
+        container.setAttribute('data-mjx-copy-tex', math.start.delim + math.math.trim() + math.end.delim);
         taggedContainers.push(container);
       }
     }
