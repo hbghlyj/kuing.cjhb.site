@@ -472,8 +472,10 @@ Created & Modified by Alice, Monkey, Lushnis, Pony, Dfox & DragonLee.
 
 	/* 版块卡片网格（CSS Grid，替代旧版 table/inline-block 排版） */
 	.fl_grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; }
-		.fl_grid > .fl_g { display: flex; flex-direction: column; padding: 8px 0; }
-			.fl_grid > .fl_g dl { flex: 1; }
+		.fl_grid > .fl_g { display: grid; grid-template-columns: auto 1fr; grid-template-rows: auto 1fr; padding: 8px 0; }
+			.fl_grid > .fl_g > .fl_icn_g { grid-column: 1; grid-row: 1; }
+			.fl_grid > .fl_g > dl { grid-column: 2; grid-row: 1; margin-left: 0 !important; padding-left: 12px !important; }
+			.fl_grid > .fl_g > .fl_topic_feed { grid-column: 1 / span 2; grid-row: 2; }
 		.fl_newpost { display: inline-flex; align-items: center; color: {LIGHTTEXT}; }
 			.fl_newpost:hover { color: {LINK}; }
 			.fl_newpost svg { vertical-align: middle; }
