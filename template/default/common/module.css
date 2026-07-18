@@ -470,6 +470,19 @@ Created & Modified by Alice, Monkey, Lushnis, Pony, Dfox & DragonLee.
 	.fl_row td { border-top: 1px dashed {COMMONBORDER}; }
 	.fl_icn img, .fl_icn svg , .fl_icn_g img, .fl_icn_g svg { vertical-align: middle; }
 
+	/* 版块卡片网格（CSS Grid，替代旧版 table/inline-block 排版） */
+	.fl_grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; }
+		.fl_grid > .fl_g { display: flex; flex-direction: column; padding: 8px 0; }
+			.fl_grid > .fl_g dl { flex: 1; }
+		.fl_newpost { font-weight: 700; }
+		.fl_topic_feed { max-height: 220px; overflow-y: auto; overscroll-behavior: contain; margin-top: 8px; padding-top: 4px; border-top: 1px dashed {COMMONBORDER}; }
+			.fl_topic_list { margin: 0; padding: 0; list-style: none; }
+				.fl_topic_list li { display: flex; justify-content: space-between; gap: 8px; padding: 3px 0; }
+					.fl_topic_list li cite { flex-shrink: 0; color: {LIGHTTEXT}; font-size: 12px; }
+		@media only screen and (max-width: 768px) {
+			.fl_grid { grid-template-columns: 1fr; }
+		}
+
 /* 圈子分类列表 */
 	.flt {}
 		.flt .flc { width: 294px; }

@@ -93,6 +93,20 @@ foreach($forums as $forum) {
 }
 unset($forum_access, $forum_fields);
 
+foreach($forumlist as $fid => &$forum) {
+	if(empty($forum['redirect']) && $forum['permission'] != 1) {
+		$recentthreads = table_forum_thread::t()->fetch_all_by_fid_displayorder($fid, 0, null, null, 0, 6, 'dateline', 'DESC');
+		foreach($recentthreads as &$recentthread) {
+			$recentthread['subject'] = cutstr(dhtmlspecialchars($recentthread['subject']), 40);
+			$recentthread['author'] = $recentthread['author'] ?: $_G['setting']['anonymoustext'];
+			$recentthread['dateline'] = dgmdate($recentthread['dateline'], 'u', '9999', getglobal('setting/dateformat'));
+		}
+		unset($recentthread);
+		$forum['recentthreads'] = $recentthreads;
+	}
+}
+unset($fid, $forum);
+
 foreach($catlist as $catid => $category) {
 	$catlist[$catid]['collapseimg'] = 'collapsed_no.gif';
 	$catlist[$catid]['collapseicon'] = '_no';
