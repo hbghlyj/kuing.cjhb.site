@@ -471,7 +471,7 @@ Created & Modified by Alice, Monkey, Lushnis, Pony, Dfox & DragonLee.
 	.fl_icn img, .fl_icn svg , .fl_icn_g img, .fl_icn_g svg { vertical-align: middle; }
 
 	/* 版块卡片网格（CSS Grid，替代旧版 table/inline-block 排版） */
-	.fl_grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; }
+	.fl_grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; }
 		.fl_grid > .fl_g { display: flex; flex-direction: column; padding: 8px 0; }
 			.fl_grid > .fl_g dl { flex: 1; }
 		.fl_newpost { display: inline-flex; align-items: center; color: {LIGHTTEXT}; }
