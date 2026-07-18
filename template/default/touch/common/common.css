@@ -46,7 +46,7 @@ body {
 	--dz-transition: all 0.2s ease;
 }
 img[data-avatar-missing="1"] {visibility:hidden}
-.Avatar {display:inline-flex;align-items:center;justify-content:center;box-sizing:content-box;width:var(--avatar-size,36px);height:var(--avatar-size,36px);color:#fff;vertical-align:top;background-color:var(--avatar-bg);font-size:calc(var(--avatar-size,36px) / 2);font-weight:400;line-height:1;border-radius:100%;overflow:hidden}
+.Avatar {display:inline-flex;align-items:center;justify-content:center;box-sizing:content-box;width:var(--avatar-size,36px);height:var(--avatar-size,36px);color:#fff;vertical-align:top;background-color:var(--avatar-bg);font-size:calc(var(--avatar-size,36px) / 2);font-weight:400;line-height:1;border-radius:5px;overflow:hidden}
 
 @keyframes dz-fade-in {
 	from {opacity:0}
