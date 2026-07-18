@@ -100,7 +100,7 @@
 				<!--{eval $recentthreadlist = $recenttids ? table_forum_thread::t()->fetch_all_by_tid(array_slice($recenttids, 0, 5)) : [];}-->
 				<!--{if $recentthreadlist}-->
 				<div class="header-recent">
-					<span class="header-recent-label">{lang recently_visited}</span>
+					<span class="header-recent-label">{lang viewed_threads}</span>
 					<!--{loop $recenttids $rtid}-->
 						<!--{if $recentthreadlist[$rtid] && $rtid != $_G['tid']}-->
 						<a href="forum.php?mod=viewthread&tid=$rtid" title="{$recentthreadlist[$rtid]['subject']}" class="header-recent-item xi2"><!--{echo cutstr($recentthreadlist[$rtid]['subject'], 16)}--></a>

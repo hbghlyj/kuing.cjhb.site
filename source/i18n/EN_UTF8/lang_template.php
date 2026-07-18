@@ -434,7 +434,7 @@ $lang = array (
 	'temporarily_to_remind'		=> 'Temporarily to remind',//'暂不提醒',
 	'myitem'			=> 'My',//'我的',
 	'mypost'			=> 'Posts',//'帖子',
-	'recently_visited'		=> 'Recently Visited',//'最近访问',
+	'viewed_threads'		=> 'Viewed threads',//'浏览过的帖子',
 
 'm_loading' => 'Loading...',//'正在加载...',
 'm_its_all' => 'All displayed',//'已显示全部',
