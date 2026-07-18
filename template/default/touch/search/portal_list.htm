@@ -9,7 +9,7 @@
 			<!--{loop $articlelist $article}-->
 			<li class="list">
 				<div class="threadlist_top cl">
-					<a href="home.php?mod=space&uid={$article['uid']}" class="mimg"><!--{echo avatar($article['uid'], 'middle', ['username' => $article['username'], 'static' => true])}--></a>
+					<a href="home.php?mod=space&uid={$article['uid']}" class="mimg"><!--{echo avatar($article['uid'], 'middle', ['username' => $article['username']])}--></a>
 					<div class="muser">
 						<h3><a href="home.php?mod=space&uid={$blog['uid']}" class="mmc">{$article['username']}</a></h3>
 						<span class="mtime">{$article['dateline']}</span>

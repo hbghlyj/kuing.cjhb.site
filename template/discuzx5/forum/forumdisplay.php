@@ -499,7 +499,7 @@
 							<ul class="ml mls cl">
 							<!--{loop $whosonline $key $online}-->
 								<li>
-								<a href="home.php?mod=space&uid=$online[uid]" class="avt"><!--{avatar($online['uid'], 'small', ['static' => true])}--></a>
+								<a href="home.php?mod=space&uid=$online[uid]" class="avt"><!--{avatar($online['uid'], 'small')}--></a>
 								<!--{if $online['uid']}-->
 									<p><a href="home.php?mod=space&uid=$online[uid]">$online[username]</a></p>
 								<!--{else}-->

@@ -51,7 +51,7 @@ function getranklist_poll($num = 20, $view = 'heats', $orderby = 'all') {
 	foreach(table_forum_thread::t()->fetch_all_rank_poll($timestamp, $notfid, $view, $num) as $poll) {
 		++$rank;
 		$poll['rank'] = $rank;
-		$poll['avatar'] = avatar($poll['authorid'], 'small', ['static' => true]);
+		$poll['avatar'] = avatar($poll['authorid'], 'small');
 		$poll['dateline'] = dgmdate($poll['dateline']);
 		$poll['pollpreview'] = explode("\t", trim($poll['pollpreview']));
 		$data[] = $poll;
@@ -148,7 +148,7 @@ function getranklist_members($offset = 0, $limit = 20) {
 	$members = [];
 	$topusers = table_home_show::t()->fetch_all_by_unitprice($offset, $limit, true);
 	foreach($topusers as $member) {
-		$member['avatar'] = avatar($member['uid'], 'small', ['static' => true]);
+		$member['avatar'] = avatar($member['uid'], 'small');
 		$member['note'] = htmlspecialchars(dhtmlspecialchars($member['note']));
 		$members[] = $member;
 	}
@@ -182,7 +182,7 @@ function getranklist_blog($num = 20, $view = 'hot', $orderby = 'all') {
 		++$rank;
 		$blog['rank'] = $rank;
 		$blog['dateline'] = dgmdate($blog['dateline']);
-		$blog['avatar'] = avatar($blog['uid'], 'small', ['static' => true]);
+		$blog['avatar'] = avatar($blog['uid'], 'small');
 		$blog['message'] = preg_replace('/<([^>]*?)>/', '', $blog['message']);
 		$blog['message'] = messagecutstr($blog['message'], 140);
 		$data[] = $blog;

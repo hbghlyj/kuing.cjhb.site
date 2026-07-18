@@ -20,7 +20,7 @@
 		<!--{if $blog['status'] == 1}--><span>({lang pending})</span><!--{/if}-->
 	</div>
 	<div class="plc cl">
-		<div class="avatar"><!--{if !$blog['uid']}--><!--{avatar(0, 'small', ['static' => true])}--><!--{else}--><!--{avatar($blog['uid'], 'small', ['username' => $blog['username'], 'static' => true])}--><!--{/if}--></div>
+		<div class="avatar"><!--{if !$blog['uid']}--><!--{avatar(0, 'small')}--><!--{else}--><!--{avatar($blog['uid'], 'small', ['username' => $blog['username']])}--><!--{/if}--></div>
 		<div class="display pi pione">
 			<ul class="authi">
 				<li class="mtit">

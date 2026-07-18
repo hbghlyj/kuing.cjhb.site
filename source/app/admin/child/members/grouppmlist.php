@@ -35,7 +35,7 @@ if(!empty($grouppms)) {
 	$users = table_common_member::t()->fetch_all(table_common_grouppm::t()->get_uids());
 	foreach($grouppms as $grouppm) {
 		showtablerow('', ['valign="top" class="td25"', 'valign="top"'], [
-			'<a href="home.php?mod=space&uid='.$grouppm['authorid'].'" target="_blank">'.avatar($grouppm['authorid'], 'small', ['static' => true]).'</a>',
+			'<a href="home.php?mod=space&uid='.$grouppm['authorid'].'" target="_blank">'.avatar($grouppm['authorid'], 'small').'</a>',
 			'<a href="home.php?mod=space&uid='.$grouppm['authorid'].'" target="_blank"><b>'.$users[$grouppm['authorid']]['username'].'</b></a> ('.dgmdate($grouppm['dateline']).'):<br />'.
 			$grouppm['message'].'<br /><br />'.
 			(!$do ?

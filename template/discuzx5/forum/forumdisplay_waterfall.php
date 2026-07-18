@@ -41,9 +41,9 @@
 			<span class="wftxt"><em class="wfhf" title="$thread['replies'] {lang reply}">$thread['replies']</em><em class="wfck" title="{if $thread['isgroup'] != 1}$thread['views']{else}{$groupnames[$thread['tid']]['views']}{/if}"><!--{if $thread['isgroup'] != 1}-->$thread['views']<!--{else}-->{$groupnames[$thread['tid']]['views']}<!--{/if}--></em></span>
 			<!--{hook/forumdisplay_author $key}-->
 			<!--{if $thread['authorid'] && $thread['author']}-->
-				<a href="home.php?mod=space&uid=$thread['authorid']" class="wfuser"><!--{avatar($thread['authorid'], 'small', ['static' => true])}-->{$thread['author']}</a>
+				<a href="home.php?mod=space&uid=$thread['authorid']" class="wfuser"><!--{avatar($thread['authorid'], 'small')}-->{$thread['author']}</a>
 			<!--{else}-->
-				<span class="wfuser"><!--{avatar(0, 'small', ['static' => true])}-->$_G['setting']['anonymoustext']</span>
+				<span class="wfuser"><!--{avatar(0, 'small')}-->$_G['setting']['anonymoustext']</span>
 			<!--{/if}-->
 		</div>
 	</li>

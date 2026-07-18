@@ -23,7 +23,7 @@
 		<ul>
 		<!--{loop $list $key $value}-->
 			<li class="cl" $value['rowid'] notice="$value['id']">		
-				<span class="mimg"><!--{if $value['authorid']}--><a href="home.php?mod=space&uid=$value['authorid']"><!--{avatar($value['authorid'],'small', ['static' => true])}--></a><!--{else}--><img src="{IMGDIR}/systempm.png" alt="systempm" /><!--{/if}--></span>
+				<span class="mimg"><!--{if $value['authorid']}--><a href="home.php?mod=space&uid=$value['authorid']"><!--{avatar($value['authorid'],'small')}--></a><!--{else}--><img src="{IMGDIR}/systempm.png" alt="systempm" /><!--{/if}--></span>
 				<p class="mtit">
 					<a href="home.php?mod=spacecp&ac=common&op=ignore&authorid=$value['authorid']&type=$value['type']&handlekey=addfriendhk_{$value['authorid']}" id="a_note_$value['id']" class="dialog mico">{lang shield}</a>
 					<span><!--{date($value['dateline'], 'u')}--></span>

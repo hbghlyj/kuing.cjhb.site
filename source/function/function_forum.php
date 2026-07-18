@@ -12,7 +12,7 @@ if(!defined('IN_DISCUZ')) {
 
 function discuz_uc_avatar($uid, $size = '', $returnsrc = FALSE) {
 	global $_G;
-	return avatar($uid, $size, $returnsrc, FALSE, TRUE, $_G['setting']['ucenterurl']);
+	return avatar($uid, $size, $returnsrc, FALSE, $_G['setting']['ucenterurl']);
 }
 
 function dunlink($attach) {

@@ -20,7 +20,7 @@
 		<ul>
 			<!--{loop $list $key $value}-->
 			<li>
-				<span class="mimg"><a href="{if $value['touid']}home.php?mod=space&do=pm&subop=view&touid=$value['touid']{else}home.php?mod=space&do=pm&subop=view&plid={$value['plid']}&type=1{/if}"><!--{if $value['pmtype'] == 2}--><img src="{STATICURL}image/common/grouppm.png"><!--{else}--><!--{avatar($value['touid'] ? $value['touid'] : ($value['lastauthorid'] ? $value['lastauthorid'] : $value['authorid']), 'small', ['static' => true])}--><!--{/if}--></a></span>
+				<span class="mimg"><a href="{if $value['touid']}home.php?mod=space&do=pm&subop=view&touid=$value['touid']{else}home.php?mod=space&do=pm&subop=view&plid={$value['plid']}&type=1{/if}"><!--{if $value['pmtype'] == 2}--><img src="{STATICURL}image/common/grouppm.png"><!--{else}--><!--{avatar($value['touid'] ? $value['touid'] : ($value['lastauthorid'] ? $value['lastauthorid'] : $value['authorid']), 'small')}--><!--{/if}--></a></span>
 				<a href="{if $value['touid']}home.php?mod=space&do=pm&subop=view&touid=$value['touid']{else}home.php?mod=space&do=pm&subop=view&plid={$value['plid']}&type=1{/if}">
 					<p class="mtit">
 						<span class="mtime"><!--{date($value['dateline'], 'u')}--></span>

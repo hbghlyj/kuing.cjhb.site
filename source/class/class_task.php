@@ -495,7 +495,7 @@ class task {
 	function parter($id) {
 		$parterlist = [];
 		foreach(table_common_mytask::t()->fetch_all_by_taskid($id, 8) as $parter) {
-			$parter['avatar'] = avatar($parter['uid'], 'small', ['static' => true]);
+			$parter['avatar'] = avatar($parter['uid'], 'small');
 			$csc = explode("\t", $parter['csc']);
 			$parter['csc'] = floatval($csc[0]);
 			$parterlist[] = $parter;

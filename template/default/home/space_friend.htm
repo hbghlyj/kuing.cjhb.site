@@ -206,7 +206,7 @@
 									<!--{if $value['uid']}-->
 									<a href="home.php?mod=space&uid=$value[uid]" c="1">
 										<!--{if $ols[$value[uid]]}--><em class="gol" title="{lang online} {date($ols[$value['uid']], 'H:i')}"></em><!--{/if}-->
-										<!--{avatar($value['uid'], 'small', ['static' => true])}-->
+										<!--{avatar($value['uid'], 'small')}-->
 									</a>
 									<!--{else}-->
 									<img src="$value[icon]" alt="$value[username]" />
@@ -274,7 +274,7 @@
 											<div class="avt">
 												<a href="home.php?mod=space&uid=$value[uid]" c="1">
 													<!--{if $ols[$value[uid]]}--><em class="gol" title="{lang online} {date($ols[$value['uid']], 'H:i')}"></em><!--{/if}-->
-													<!--{avatar($value['uid'], 'small', ['static' => true])}-->
+													<!--{avatar($value['uid'], 'small')}-->
 												</a>
 											</div>
 											<h4>
@@ -301,7 +301,7 @@
 											<div class="avt">
 												<a href="home.php?mod=space&uid=$value[uid]" c="1">
 													<!--{if $ols[$value[uid]]}--><em class="gol" title="{lang online} {date($ols[$value['uid']], 'H:i')}"></em><!--{/if}-->
-													<!--{avatar($value['uid'], 'small', ['static' => true])}-->
+													<!--{avatar($value['uid'], 'small')}-->
 												</a>
 											</div>
 											<h4>

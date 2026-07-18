@@ -70,7 +70,7 @@ class magic_visit {
 		$users = [];
 		foreach($fids as $uid) {
 			$value = $friends[$uid];
-			$value['avatar'] = str_replace("'", "\'", avatar($value['uid'], 'small', ['static' => true]));
+			$value['avatar'] = str_replace("'", "\'", avatar($value['uid'], 'small'));
 			$users[$uid] = $value;
 		}
 

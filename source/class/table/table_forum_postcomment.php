@@ -169,7 +169,7 @@ class table_forum_postcomment extends discuz_table {
 				$commentcount[$comment['pid']]++;
 			}
 			if((!is_array($comments[$comment['pid']]) || count($comments[$comment['pid']]) < $commentnumber) && $comment['authorid'] > '-1') {
-				$comment['avatar'] = avatar($comment['authorid'], 'small', ['username' => $comment['author'], 'static' => true]);
+				$comment['avatar'] = avatar($comment['authorid'], 'small', ['username' => $comment['author']]);
 				$comment['comment'] = $this->format_postcomment($comment['comment']);
 				$comments[$comment['pid']][] = $comment;
 			}

@@ -16,7 +16,7 @@ var disablepostctrl = parseInt('{$_G['group']['disablepostctrl']}');
 		<tr>
 			<!--{if !$close_leftinfo}-->
 			<td class="pls">
-				<!--{if $_G['uid']}--><div class="avatar avtm"><!--{echo avatar($_G['uid'], 'middle', ['username' => $_G['username'], 'avatarstatus' => $_G['member']['avatarstatus'], 'static' => true])}--></div><!--{/if}-->
+				<!--{if $_G['uid']}--><div class="avatar avtm"><!--{echo avatar($_G['uid'], 'middle', ['username' => $_G['username'], 'avatarstatus' => $_G['member']['avatarstatus']])}--></div><!--{/if}-->
 				<!--{hook/viewthread_fastpost_side}-->
 			</td>
 			<!--{/if}-->

@@ -624,7 +624,7 @@ function strexists($string, $find) {
 	return !(!str_contains($string, $find));
 }
 
-function avatar($uid, $size = 'middle', $returnsrc = 0, $real = FALSE, $static = FALSE, $ucenterurl = '', $class = '', $extra = '', $random = 0, $avatarapi = false, $datasrc = true) {
+function avatar($uid, $size = 'middle', $returnsrc = 0, $real = FALSE, $ucenterurl = '', $class = '', $extra = '', $random = 0, $avatarapi = false, $datasrc = true) {
 	global $_G;
 	$avatarname = '';
 	$avatarstatus = null;
@@ -643,7 +643,6 @@ function avatar($uid, $size = 'middle', $returnsrc = 0, $real = FALSE, $static =
 		isset($returnsrc['extra']) && $extra = $returnsrc['extra'];
 		isset($returnsrc['class']) && $class = $returnsrc['class'];
 		isset($returnsrc['ucenterurl']) && $ucenterurl = $returnsrc['ucenterurl'];
-		isset($returnsrc['static']) && $static = $returnsrc['static'];
 		isset($returnsrc['real']) && $real = $returnsrc['real'];
 		$returnsrc = $returnsrc['returnsrc'] ?? 0;
 	}

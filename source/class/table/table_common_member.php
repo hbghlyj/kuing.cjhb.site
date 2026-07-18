@@ -551,7 +551,7 @@ class table_common_member extends discuz_table_archive {
 			ORDER BY $orderby
 			LIMIT $offset, $limit");
 		while($member = DB::fetch($query)) {
-			$member['avatar'] = avatar($member['uid'], 'small', ['username' => $member['username'], 'avatarstatus' => $member['avatarstatus'], 'static' => true]);
+			$member['avatar'] = avatar($member['uid'], 'small', ['username' => $member['username'], 'avatarstatus' => $member['avatarstatus']]);
 			$members[] = $member;
 		}
 		return $members;

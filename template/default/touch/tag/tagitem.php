@@ -35,9 +35,9 @@
 			<li class="list mt0 cl">
 				<div class="threadlist_top cl">
 					<!--{if $thread['authorid'] && $thread['author']}-->
-					<a href="home.php?mod=space&uid={$thread['authorid']}" class="mimg"><!--{avatar($thread['authorid'], 'middle', ['static' => true])}--></a>
+					<a href="home.php?mod=space&uid={$thread['authorid']}" class="mimg"><!--{avatar($thread['authorid'], 'middle')}--></a>
 					<!--{else}-->
-					<a href="javascript:;" class="mimg"><!--{avatar(0, 'middle', ['static' => true])}--></a>
+					<a href="javascript:;" class="mimg"><!--{avatar(0, 'middle')}--></a>
 					<!--{/if}-->
 					<div class="muser">
 						<h3>
@@ -108,7 +108,7 @@
 			<!--{loop $bloglist $blog}-->
 			<li class="list mt0 cl">
 				<div class="threadlist_top cl">
-					<a href="home.php?mod=space&uid=$blog['uid']" target="_blank" class="mimg"><!--{avatar($blog['uid'], 'small', ['static' => true])}--></a>
+					<a href="home.php?mod=space&uid=$blog['uid']" target="_blank" class="mimg"><!--{avatar($blog['uid'], 'small')}--></a>
 					<div class="muser">
 						<h3>
 							<a href="home.php?mod=space&uid=$blog['uid']" target="_blank" class="mmc">$blog['username']</a>

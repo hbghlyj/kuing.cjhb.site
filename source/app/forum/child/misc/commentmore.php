@@ -29,7 +29,7 @@ $page = max(1, $_G['page']);
 $start_limit = ($page - 1) * $commentlimit;
 $comments = [];
 foreach(table_forum_postcomment::t()->fetch_all_by_search(null, $_GET['pid'], null, null, null, null, null, $start_limit, $commentlimit) as $comment) {
-	$comment['avatar'] = avatar($comment['authorid'], 'small', ['username' => $comment['author'], 'static' => true]);
+	$comment['avatar'] = avatar($comment['authorid'], 'small', ['username' => $comment['author']]);
 	$comment['dateline'] = dgmdate($comment['dateline'], 'u');
 	$comment['comment'] = table_forum_postcomment::t()->format_postcomment($comment['comment']);
 	$comments[] = $comment;

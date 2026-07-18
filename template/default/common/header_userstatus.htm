@@ -1,6 +1,6 @@
 <!--{if $_G['uid']}-->
 <div id="um">
-	<div class="avt y"><a href="home.php?mod=space&uid=$_G[uid]"><!--{avatar($_G['uid'], 'middle', ['username' => $_G['username'], 'avatarstatus' => $_G['member']['avatarstatus'], 'static' => true])}--></a></div>
+	<div class="avt y"><a href="home.php?mod=space&uid=$_G[uid]"><!--{avatar($_G['uid'], 'middle', ['username' => $_G['username'], 'avatarstatus' => $_G['member']['avatarstatus']])}--></a></div>
 	<p>
 		<strong class="vwmy{if !empty($_G['setting']['connect']['allow']) && $_G[member][conisbind]} qq{/if}"><a href="home.php?mod=space&uid=$_G[uid]" target="_blank" title="{lang visit_my_space}">{$_G[member][username]}</a></strong>
 		<!--{if $_G['group']['allowinvisible']}-->
@@ -48,7 +48,7 @@
 <!--{/if}-->
 <!--{else}-->
 <div id="um">
-	<div class="avt y"><!--{avatar(0, 'middle', ['static' => true])}--></div>
+	<div class="avt y"><!--{avatar(0, 'middle')}--></div>
 	<p>
 		<strong class="vwmy qq">{$_G[member][username]}</strong>
 		<!--{hook/global_usernav_extra1}-->

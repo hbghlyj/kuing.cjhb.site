@@ -273,7 +273,7 @@ EOF;
 				if($anchor == 'pass') {
 					$value = array_merge($value, $profiles[$uid]);
 				}
-				$value['username'] = '<a href="home.php?mod=space&uid='.$value['uid'].'&do=profile" target="_blank">'.avatar($value['uid'], 'small', ['static' => true]).'<br/>'.$value['username'].'</a>';
+				$value['username'] = '<a href="home.php?mod=space&uid='.$value['uid'].'&do=profile" target="_blank">'.avatar($value['uid'], 'small').'<br/>'.$value['username'].'</a>';
 				if($anchor != 'pass') {
 					$fields = $anchor != 'pass' ? dunserialize($value['field']) : $_G['setting']['verify'][$vid]['field'];
 					$verifytype = $value['verifytype'] ? $_G['setting']['verify'][$value['verifytype']]['title'] : $lang['members_verify_profile'];

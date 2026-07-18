@@ -84,7 +84,7 @@ EOF;
 				$freezeshow = $member['freeze'] ? '<em class="lightnum">['.cplang('freeze').']</em>' : '';
 				$members .= showtablerow('', ['class="td25"'], [
 					"<input type=\"checkbox\" name=\"uidarray[]\" value=\"{$member['uid']}\"".(is_protect_member($member) ? 'disabled' : '')." class=\"checkbox\">".
-					avatar($member['uid'], 'small', ['username' => $member['username'], 'avatarstatus' => $member['avatarstatus'], 'class' => 'vmiddle', 'extra' => 'width="30"', 'static' => true]),
+					avatar($member['uid'], 'small', ['username' => $member['username'], 'avatarstatus' => $member['avatarstatus'], 'class' => 'vmiddle', 'extra' => 'width="30"']),
 					"<a href=\"home.php?mod=space&uid={$member['uid']}\" target=\"_blank\">{$member['uid']}</a>",
 					"<a href=\"home.php?mod=space&uid={$member['uid']}\" target=\"_blank\">{$member['loginname']}</a>",
 					"<a href=\"home.php?mod=space&uid={$member['uid']}\" target=\"_blank\">{$member['username']}</a>",

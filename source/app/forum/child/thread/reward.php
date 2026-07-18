@@ -26,6 +26,6 @@ if($_G['forum_thread']['price'] < 0 && $page == 1) {
 if($bapid) {
 	$bestpost = table_forum_post::t()->fetch_post($posttableid, $bapid);
 	$bestpost['message'] = messagecutstr($bestpost['message'], 400);
-	$bestpost['avatar'] = avatar($bestpost['authorid'], 'small', ['static' => true]);
+	$bestpost['avatar'] = avatar($bestpost['authorid'], 'small');
 }
 
