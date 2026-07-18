@@ -427,13 +427,13 @@ img{border:none;}
 .header-searcher .searcher-wrap{position:relative}
 .header-searcher .algolia-search-box-wrapper{position:relative}
 .header-searcher .search-input,
-.header-searcher .algolia-search-box-wrapper .ais-SearchBox-input{box-sizing:border-box;padding-left:12px !important;height:32px !important;font-size:14px !important;background:var(--dz-ff) !important;border:2px solid #888 !important;border-radius:var(--dz-radius-c) !important}
+.header-searcher .algolia-search-box-wrapper .ais-SearchBox-input{box-sizing:border-box;padding-left:12px !important;height:32px !important;font-size:14px !important;background:var(--dz-ff) !important;border:1px solid #888 !important;border-radius:var(--dz-radius-c) !important}
 .header-searcher .search-input::placeholder,
 .header-searcher .algolia-search-box-wrapper .ais-SearchBox-input::placeholder{color:var(--dz-fb)}
 .header-searcher .search-input:hover,
-.header-searcher .algolia-search-box-wrapper .ais-SearchBox-input:hover{border:2px solid #888}
+.header-searcher .algolia-search-box-wrapper .ais-SearchBox-input:hover{border:1px solid #888}
 .header-searcher .search-input:focus,
-.header-searcher .algolia-search-box-wrapper .ais-SearchBox-input:focus{border:2px solid #888;background-color:var(--dz-ff);outline:none}
+.header-searcher .algolia-search-box-wrapper .ais-SearchBox-input:focus{border:1px solid #888;background-color:var(--dz-ff);outline:none}
 .header-searcher #algolia-search-box:empty{display:block;width:0;height:0;padding:0;border:none;background:none;box-shadow:none}
 .header-searcher .ais-SearchBox-form{display:block;position:relative}
 .header-searcher .search-icon{position:absolute;top:50%;right:0;width:38px;height:38px;padding:10px;border:none;transform:translateY(-50%);cursor:pointer;background:url(/static/image/common/icon_search.png) no-repeat center;background-size:16px}
