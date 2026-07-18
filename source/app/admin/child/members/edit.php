@@ -115,7 +115,7 @@ if(!submitcheck('editsubmit')) {
 	showsetting('members_edit_uid', '', '', $member['uid']);
 	showsetting('members_edit_loginname', '', '', $member['loginname']);
 	showsetting('members_edit_username', '', '', $member['username']);
-	showsetting('members_edit_avatar', '', '', avatar($uid, 'middle', ['random' => 1]).'<br /><br /><input name="clearavatar" class="checkbox" type="checkbox" value="1" /> '.$lang['members_edit_avatar_clear']);
+	showsetting('members_edit_avatar', '', '', avatar($uid, 'middle', ['username' => $member['username'], 'avatarstatus' => $member['avatarstatus'], 'random' => 1]).'<br /><br /><input name="clearavatar" class="checkbox" type="checkbox" value="1" /> '.$lang['members_edit_avatar_clear']);
 	$hrefext = "&detail=1&users={$member['username']}&searchsubmit=1&perpage=50&fromumanage=1";
 	showsetting('members_edit_statistics', '', '', "<a href=\"".ADMINSCRIPT."?action=prune$hrefext\" class=\"act\">{$lang['posts']}({$member['posts']})</a>".
 		"<a href=\"".ADMINSCRIPT."?action=doing$hrefext\" class=\"act\">{$lang['doings']}({$member['doings']})</a>".

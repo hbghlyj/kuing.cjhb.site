@@ -38,7 +38,7 @@ $creditkey = 'extcredits'.$creditid;
 $extcredits = $_G['setting']['extcredits'][$creditid];
 
 $mailvar = [
-	'avatar' => avatar($space['uid'], 'middle'),
+	'avatar' => avatar($space['uid'], 'middle', ['username' => $space['username'], 'avatarstatus' => $space['avatarstatus']]),
 	'uid' => $space['uid'],
 	'username' => $space['username'],
 	'sitename' => $_G['setting']['sitename'],

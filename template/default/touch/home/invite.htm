@@ -18,7 +18,7 @@
         <div class="dzcell-item p5">
             <div class="flex-box">
                 <div class="avt m15 ml0 cl">
-                    <a href="home.php?mod=space&uid=$uid" class="mlm"><!--{avatar($space['uid'], 'big')}--></a>
+                    <a href="home.php?mod=space&uid=$uid" class="mlm"><!--{avatar($space['uid'], 'big', ['username' => $space['username'], 'avatarstatus' => $space['avatarstatus']])}--></a>
                 </div>
                 <div class="flex">
                     <h4 class="xs3"><a href="home.php?mod=space&$url_plus">{$space[username]}</a></h4>

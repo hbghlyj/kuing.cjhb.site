@@ -18,7 +18,7 @@
 					</caption>
 					<tr>
 						<td>
-							<!--{avatar($space['uid'], 'big')}-->
+							<!--{avatar($space['uid'], 'big', ['username' => $space['username'], 'avatarstatus' => $space['avatarstatus']])}-->
 							<!--{if $space['avatarstatus']}-->
 							<p class="mtm"><button type="submit" name="deleteavatarsubmit" value="true" class="pn" onclick="return window.confirm('{lang delete_avatar_confirm}');"><strong>{lang delete_avatar}</strong></button></p>
 							<!--{/if}-->

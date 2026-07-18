@@ -80,7 +80,7 @@ foreach($topmenu as $k => $v) {
 unset($menu);
 
 $headers = "'".implode("','", array_keys($topmenu))."'";
-$useravt = avatar(getglobal('uid'), 'middle', ['class' => 'avt']);
+$useravt = avatar($_G['uid'], 'middle', ['username' => $_G['username'], 'avatarstatus' => $_G['member']['avatarstatus'], 'class' => 'avt']);
 
 if(!empty($_GET['js'])) {
 	$leftmenus = str_replace('target="main"', '', $leftmenus);

@@ -542,7 +542,7 @@ class table_common_member extends discuz_table_archive {
 
 	public function fetch_all_girls_for_ranklist($offset = 0, $limit = 20, $orderby = 'ORDER BY s.unitprice DESC, s.credit DESC') {
 		$members = [];
-		$query = DB::query('SELECT m.uid, m.username, mc.*, mp.gender
+		$query = DB::query('SELECT m.uid, m.username, m.avatarstatus, mc.*, mp.gender
 			FROM '.DB::table('common_member').' m
 			LEFT JOIN '.DB::table('home_show').' s ON s.uid=m.uid
 			LEFT JOIN '.DB::table('common_member_profile').' mp ON mp.uid=m.uid
@@ -551,7 +551,7 @@ class table_common_member extends discuz_table_archive {
 			ORDER BY $orderby
 			LIMIT $offset, $limit");
 		while($member = DB::fetch($query)) {
-			$member['avatar'] = avatar($member['uid'], 'small');
+			$member['avatar'] = avatar($member['uid'], 'small', ['username' => $member['username'], 'avatarstatus' => $member['avatarstatus']]);
 			$members[] = $member;
 		}
 		return $members;
