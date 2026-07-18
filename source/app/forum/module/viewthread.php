@@ -871,6 +871,10 @@ function viewthread_updateviews($tableid) {
 			table_forum_thread::t()->increase($_G['tid'], ['views' => 1], true, $tableid);
 		}
 	}
+	// Not just bookkeeping: the "!= 'tid_'.$_G['tid']" check above reads this
+	// back to dedup view-count increments across refreshes when preventrefresh
+	// is on. The old "上次访问" single-thread link that used to read this too
+	// has been replaced by the recentthreads cookie below; keep this set.
 	dsetcookie('viewid', 'tid_'.$_G['tid']);
 
 	$recenttids = !empty($_G['cookie']['recentthreads']) ? array_filter(array_map('intval', explode(',', $_G['cookie']['recentthreads']))) : [];
