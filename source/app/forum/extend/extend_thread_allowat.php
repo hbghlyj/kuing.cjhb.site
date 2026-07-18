@@ -8,7 +8,7 @@
 
 namespace forum;
 
-use table_common_member;
+use DB;
 use table_home_follow;
 use table_home_friend;
 use table_home_notification;
@@ -21,6 +21,21 @@ class extend_thread_allowat extends extend_thread_base {
 
 	public $atlist;
 	public $allowat;
+
+	private function fetch_at_members($usernames) {
+		$members = [];
+		foreach($usernames as $username) {
+			$normalized = str_replace(' ', '', $username);
+			if($normalized === '') {
+				continue;
+			}
+			$uid = DB::result_first("SELECT uid FROM %t WHERE REPLACE(username, ' ', '')=%s", ['common_member', $normalized]);
+			if($uid) {
+				$members[$uid] = $username;
+			}
+		}
+		return $members;
+	}
 
 	public function before_newthread($parameters) {
 
@@ -44,9 +59,7 @@ class extend_thread_allowat extends extend_thread_base {
 						}
 					}
 				} else {
-					foreach(table_common_member::t()->fetch_all_by_username($atlist_tmp) as $row) {
-						$this->atlist[$row['uid']] = $row['username'];
-					}
+					$this->atlist = $this->fetch_at_members($atlist_tmp);
 				}
 			}
 		}
@@ -55,7 +68,7 @@ class extend_thread_allowat extends extend_thread_base {
 	public function after_newthread() {
 		if($this->group['allowat'] && $this->atlist) {
 			foreach($this->atlist as $atuid => $atusername) {
-				notification_add($atuid, 'at', 'at_message', ['from_id' => $this->tid, 'from_idtype' => 'at', 'buyerid' => $this->member['uid'], 'buyer' => $this->member['username'], 'tid' => $this->tid, 'subject' => $this->param['subject'], 'pid' => $this->pid, 'message' => messagecutstr($this->param['message'], 150)]);
+				notification_add($atuid, 'at', 'at_message', ['from_id' => $this->tid, 'from_idtype' => 'at', 'buyerid' => $this->member['uid'], 'buyer' => $this->member['username'], 'tid' => $this->tid, 'subject' => $this->param['subject'], 'pid' => $this->pid, 'message' => dhtmlspecialchars(messagecutstr($this->param['message'], 150, null, $this->param['htmlon']))]);
 			}
 			set_atlist_cookie(array_keys($this->atlist));
 		}
@@ -96,9 +109,9 @@ class extend_thread_allowat extends extend_thread_base {
 						}
 					}
 				} else {
-					foreach(table_common_member::t()->fetch_all_by_username($atlist_tmp) as $row) {
-						if(!in_array($row['uid'], $ateduids)) {
-							$this->atlist[$row['uid']] = $row['username'];
+					foreach($this->fetch_at_members($atlist_tmp) as $uid => $username) {
+						if(!in_array($uid, $ateduids)) {
+							$this->atlist[$uid] = $username;
 						}
 						if(count($this->atlist) == $maxselect) {
 							break;
@@ -112,7 +125,7 @@ class extend_thread_allowat extends extend_thread_base {
 	public function after_newreply() {
 		if($this->group['allowat'] && $this->atlist) {
 			foreach($this->atlist as $atuid => $atusername) {
-				notification_add($atuid, 'at', 'at_message', ['from_id' => $this->thread['tid'], 'from_idtype' => 'at', 'buyerid' => $this->member['uid'], 'buyer' => $this->member['username'], 'tid' => $this->thread['tid'], 'subject' => $this->thread['subject'], 'pid' => $this->pid, 'message' => messagecutstr($this->param['message'], 150)]);
+				notification_add($atuid, 'at', 'at_message', ['from_id' => $this->thread['tid'], 'from_idtype' => 'at', 'buyerid' => $this->member['uid'], 'buyer' => $this->member['username'], 'tid' => $this->thread['tid'], 'subject' => $this->thread['subject'], 'pid' => $this->pid, 'message' => dhtmlspecialchars(messagecutstr($this->param['message'], 150, null, $this->param['htmlon']))]);
 			}
 			set_atlist_cookie(array_keys($this->atlist));
 		}
@@ -152,9 +165,9 @@ class extend_thread_allowat extends extend_thread_base {
 						}
 					}
 				} else {
-					foreach(table_common_member::t()->fetch_all_by_username($atlist_tmp) as $row) {
-						if(!in_array($row['uid'], $ateduids)) {
-							$this->atlist[$row['uid']] = $row['username'];
+					foreach($this->fetch_at_members($atlist_tmp) as $uid => $username) {
+						if(!in_array($uid, $ateduids)) {
+							$this->atlist[$uid] = $username;
 						}
 						if(count($this->atlist) == $maxselect) {
 							break;
@@ -168,7 +181,7 @@ class extend_thread_allowat extends extend_thread_base {
 	public function after_editpost() {
 		if($this->group['allowat'] && $this->atlist) {
 			foreach($this->atlist as $atuid => $atusername) {
-				notification_add($atuid, 'at', 'at_message', ['from_id' => $this->thread['tid'], 'from_idtype' => 'at', 'buyerid' => $this->member['uid'], 'buyer' => $this->member['username'], 'tid' => $this->thread['tid'], 'subject' => $this->thread['subject'], 'pid' => $this->post['pid'], 'message' => messagecutstr($this->param['message'], 150)]);
+				notification_add($atuid, 'at', 'at_message', ['from_id' => $this->thread['tid'], 'from_idtype' => 'at', 'buyerid' => $this->post['authorid'], 'buyer' => $this->post['author'], 'tid' => $this->thread['tid'], 'subject' => $this->thread['subject'], 'pid' => $this->post['pid'], 'message' => dhtmlspecialchars(messagecutstr($this->param['message'], 150, null, $this->param['htmlon']))]);
 			}
 			set_atlist_cookie(array_keys($this->atlist));
 		}

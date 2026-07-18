@@ -66,6 +66,7 @@ class model_post extends discuz_model {
 			'subject', 'special', 'sortid', 'typeid', 'isanonymous', 'cronpublish', 'cronpublishdate', 'save',
 			'readperm', 'price', 'hiddenreplies', 'audit', 'tags', 'bbcodeoff', 'imgcontent', 'imgcontentwidth',
 			'smileyoff', 'parseurloff', 'usesig', 'htmlon', 'extramessage', 'original', 'source', 'contentType', 'contentEditor', 'repid',
+			'updateuid', 'lastupdate',
 		];
 		foreach($varname as $name) {
 			if(!isset($this->param[$name]) && isset($parameters[$name])) {
@@ -214,7 +215,7 @@ class model_post extends discuz_model {
 				'from_uid' => $this->member['uid'],
 				'from_id' => $this->thread['tid'],
 				'from_idtype' => 'post',
-				'message' => dhtmlspecialchars(messagecutstr($this->param['message'], 150, null, $htmlon)),
+				'message' => dhtmlspecialchars(messagecutstr($this->param['message'], 150, null, $this->param['htmlon'])),
 			]]];
 		}
 

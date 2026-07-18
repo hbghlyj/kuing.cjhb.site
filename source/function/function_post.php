@@ -605,7 +605,7 @@ function messagesafeclear($message) {
 	return $message;
 }
 
-function messagecutstr($message, $length = 0, $dot = ' ...') {
+function messagecutstr($message, $length = 0, $dot = ' ...', $html = false) {
 	global $_G;
 	$str = messagesafeclear($message);
 	$sppos = strpos($str, chr(0).chr(0).chr(0));

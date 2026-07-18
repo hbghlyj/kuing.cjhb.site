@@ -118,6 +118,7 @@ class extend_thread_sort extends extend_thread_base {
 							$attach = table_forum_attachment_n::t()->fetch_attachment('tid:'.$this->thread['tid'], $_GET['oldsortaid'][$identifier]);
 							table_forum_attachment::t()->delete($_GET['oldsortaid'][$identifier]);
 							table_forum_attachment_n::t()->delete_attachment('tid:'.$this->thread['tid'], $_GET['oldsortaid'][$identifier]);
+							updatemembercount($attach['uid'], ['todayattachs' => -1, 'todayattachsize' => -$attach['filesize'], 'attachsize' => -$attach['filesize']], false);
 							dunlink($attach);
 							$this->param['threadimageaid'] = $newsortaid;
 							convertunusedattach($newsortaid, $this->thread['tid'], $this->post['pid']);

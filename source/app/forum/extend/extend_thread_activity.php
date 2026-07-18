@@ -160,6 +160,7 @@ class extend_thread_activity extends extend_thread_base {
 				$attach = table_forum_attachment_n::t()->fetch_attachment('tid:'.$this->thread['tid'], $activityaid);
 				table_forum_attachment::t()->delete($activityaid);
 				table_forum_attachment_n::t()->delete_attachment('tid:'.$this->thread['tid'], $activityaid);
+				updatemembercount($attach['uid'], ['todayattachs' => -1, 'todayattachsize' => -$attach['filesize'], 'attachsize' => -$attach['filesize']], false);
 				dunlink($attach);
 			}
 			if($_GET['activityaid']) {
