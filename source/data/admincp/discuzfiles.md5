@@ -851,10 +851,10 @@ f042dd275fea3ccd44d5bc55b32a7899 *source/app/forum/child/modcp/recyclebin.php
 67da9fbd6fa29fde5b6a5120b662d4f7 *source/app/forum/child/modcp/report.php
 685db257294369ab8caf799aab742f5f *source/app/forum/child/modcp/thread.php
 dab20150c12260d633e49be840101d36 *source/app/forum/child/post/albumphoto.php
-92c3b82a3b3dcfd0f4ce580d80580693 *source/app/forum/child/post/editpost.php
+d8dc65ce41a824eddf7befc1ed11b39d *source/app/forum/child/post/editpost.php
 d41d8cd98f00b204e9800998ecf8427e *source/app/forum/child/post/index.htm
-66c7e75d1c4dc7f17414a7bdf609fc13 *source/app/forum/child/post/newreply.php
-7bbb6e723c72395dc0c5f553fc7ae37f *source/app/forum/child/post/newthread.php
+4082b79dd6363279e81ca769196aea16 *source/app/forum/child/post/newreply.php
+59180bc04016a30488128b6105f63157 *source/app/forum/child/post/newthread.php
 376f71e352211e76db032be5c381a5d1 *source/app/forum/child/post/threadsorts.php
 e8501a849c2e1490563f0167cffef596 *source/app/forum/child/redirect/findpost.php
 d41d8cd98f00b204e9800998ecf8427e *source/app/forum/child/redirect/index.htm
@@ -4540,7 +4540,7 @@ a4cbe0860e580c5cf0a328c760078e3e *static/xypic.js
 c413ada15a964fe1ff31665422abc480 *template/default/admin/admincolor.php
 8ebe6c4d3f05c0938329119279672cef *template/default/admin/blank.php
 40977208b6a1481d318fea495cc4feba *template/default/admin/cpheader.php
-55985f941de75f8c57cb03305e29ef48 *template/default/admin/index_charts.php
+ae1389475a6849684346d2f3b968ca5a *template/default/admin/index_charts.php
 298c744eef5207ada4e0c9a5712e7fde *template/default/admin/index_empty.php
 9bb0b5b379c401cd12422886cfd4ef0d *template/default/admin/index_hotthreads.php
 b51defe2c4ca31ac5f9dd525eee52a71 *template/default/admin/index_sitestatus.php

@@ -274,7 +274,7 @@ if(!submitcheck('topicsubmit', 0, $seccodecheck, $secqaacheck)) {
 		$identifiers = array_map(function($block) {
 			return $block['identifier'];
 		}, $blocks);
-		$requiredIdentifiers = ['attaches', 'audio', 'image', 'video'];
+		$requiredIdentifiers = ['attaches', 'audio', 'image', 'video', 'images'];
 		$missingIdentifiers = array_diff($requiredIdentifiers, $identifiers);
 		if (!empty($missingIdentifiers)) {
 			$identifiers = array_merge($identifiers, $missingIdentifiers);
@@ -282,9 +282,18 @@ if(!submitcheck('topicsubmit', 0, $seccodecheck, $secqaacheck)) {
 
 		foreach($blocksData['blocks'] as $key => $value) {
 			if(in_array($value['type'], $identifiers)) {
-				$_aid = $value['data']['file']['aid'];
-				if(!empty($_aid)) {
-					$_GET['attachnew'][$_aid] = ['description' => '', 'readperm' => '', 'price' => 0];
+				if($value['type'] == 'images') {
+					foreach($value['data']['files'] ?? [] as $_file) {
+						$_aid = intval($_file['aid'] ?? 0);
+						if($_aid) {
+							$_GET['attachnew'][$_aid] = ['description' => '', 'readperm' => '', 'price' => 0];
+						}
+					}
+				} else {
+					$_aid = intval($value['data']['file']['aid'] ?? 0);
+					if($_aid) {
+						$_GET['attachnew'][$_aid] = ['description' => '', 'readperm' => '', 'price' => 0];
+					}
 				}
 			}
 		}
