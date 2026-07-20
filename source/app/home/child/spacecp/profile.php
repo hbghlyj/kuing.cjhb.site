@@ -148,7 +148,7 @@ if(submitcheck('profilesubmit')) {
 			continue;
 		} elseif($field && !$field['available']) {
 			continue;
-		} elseif($key == 'site') {
+		} elseif($key == 'site' && $value !== '') {
 			if(!in_array(strtolower(substr($value, 0, 6)), ['http:/', 'https:', 'ftp://', 'rtsp:/', 'mms://']) && !preg_match('/^static\//', $value) && !preg_match('/^data\//', $value)) {
 				$value = 'http://'.$value;
 			}
