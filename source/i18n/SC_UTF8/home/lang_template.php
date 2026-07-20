@@ -1591,12 +1591,6 @@ $lang = [
 	'action_account_security_verify_password' => '验证账号密码',
 	'action_account_security_verify_appeal' => '申诉',
 
-	'action_account_security_rename_numberoftimes1' => '您还剩 ',
-	'action_account_security_rename_numberoftimes2' => ' 次修改机会',
-	'action_account_security_rename_credits_low1' => '总积分需满足 ',
-	'action_account_security_rename_credits_low2' => ' 后才能进行此操作',
-	'action_account_security_rename_credits_pay_low' => '修改用户名需支付',
-
 	'modify_avatar' => '上传头像',
 	'backfileselect' => '返回选择',
 ];

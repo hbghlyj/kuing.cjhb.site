@@ -65,8 +65,6 @@ if($operation == 'list') {
 	loadcache('profilesetting');
 	$_G['member']['secmobile'] = authcode_field($_G['cache']['profilesetting']['mobile']['encrypt'], $_G['member']['secmobile'], 'DECODE');
 
-	$creditExtra = !empty($_G['setting']['creditstransextra']['13']) ? $_G['setting']['creditstransextra']['13'] : $_G['setting']['creditstrans'];
-	$extcredit = $_G['setting']['extcredits'][$creditExtra];
 	$third_login_bind_urls = [];
 	foreach($list as $row) {
 		$third_login_bind_urls[$row[0]] = 'login.php?method='.$row[0].'&formhash='.FORMHASH;
@@ -653,24 +651,8 @@ function bindemail($email) {
 
 function chgusername($param, $tmp_load = false) {
 	global $_G;
-	$setting = $_G['setting']['chgusername'];
 
 	if(submitcheck('submit')) {
-		if($setting['max_times'] > 0 && table_common_member_username_history::t()->count_by_uid($_G['uid']) >= $setting['max_times']) {
-			showmessage('account_change_username_max_times');
-		}
-		if($_G['member']['credits'] < $setting['credits_threshold'] &&
-			!in_array($_G['member']['groupid'], (array)$setting['credits_unlimit_group'])) {
-			showmessage('account_change_credits_low');
-		}
-		if($setting['credits_pay'] > 0) {
-			$creditExtra = !empty($_G['setting']['creditstransextra']['13']) ? $_G['setting']['creditstransextra']['13'] : $_G['setting']['creditstrans'];
-			$credit = getuserprofile('extcredits'.$creditExtra);
-			if($credit < $setting['credits_pay']) {
-				$extcredit = $_G['setting']['extcredits'][$creditExtra];
-				showmessage(sprintf(lang('message', 'account_change_credits_pay_low'), $extcredit['title']));
-			}
-		}
 		$username = getgpc('username');
 		check_protect_username($username);
 		loaducenter();
@@ -681,9 +663,6 @@ function chgusername($param, $tmp_load = false) {
 			showmessage('members_chgusername_name_exists');
 		} elseif($ucresult < 0) {
 			showmessage('members_chgusername_check_failed');
-		}
-		if($setting['credits_pay'] > 0 && $username != $_G['username']) {
-			updatemembercount($_G['uid'], [$creditExtra => -$setting['credits_pay']], 1, 'CHU', $_G['uid']);
 		}
 		if(!checkmobile()) {
 			$js = '<script type="text/javascript">setTimeout("location.reload();", 1500)</script>';

@@ -1067,6 +1067,10 @@ $lang = array (
 	'author_not_uploadpic'		=> 'The user have no uploaded images',//'楼主暂时没有上传图片',
 	'noreply_yourself_error'	=> 'You can not vote on your own posts',//'您不能对自己的回帖进行投票',
 	'noreply_voted_error'		=> 'You have already voted this poll',//'您已经对此回帖投过票了',
+	'account_change_username_success' => 'Your username was changed successfully.',
+	'members_chgusername_name_badword' => 'The username contains prohibited words.',
+	'members_chgusername_name_exists' => 'The username is already in use.',
+	'members_chgusername_check_failed' => 'Username validation failed.',
 
 // Added by Valery Votintsev
 	'timeout_or_data_error'		=> 'Operation timeout or data source error',//'操作超时或者数据来源错误',

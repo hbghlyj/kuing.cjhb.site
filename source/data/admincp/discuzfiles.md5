@@ -471,7 +471,7 @@ c19f408bf9120574ef4b55a193e4b9b7 *source/app/admin/child/report/resolved.php
 829ff54e239340a8e5ab3a69d161e912 *source/app/admin/child/restful/class.php
 d41d8cd98f00b204e9800998ecf8427e *source/app/admin/child/restful/index.htm
 81d687505e4f5f2d9b9e264dc4c9bc53 *source/app/admin/child/setting/access.php
-1e03b64d406134c57696c5dd6da42111 *source/app/admin/child/setting/account.php
+ef7f981ce373492c1f09949446890570 *source/app/admin/child/setting/account.php
 4c3fa00ea1fed449e7e97669820c978f *source/app/admin/child/setting/accountguard.php
 321d2f3b7f6f9ebe9ac1ec64aed3be8e *source/app/admin/child/setting/antitheft.php
 d579828b08850922f5b9f1785ad12ee6 *source/app/admin/child/setting/attach.php
@@ -717,7 +717,7 @@ de28808eb7564dcf6e8d52f1fb18c81e *source/app/admin/optimizer/optimizer_regmaildo
 998de7ebd2fb3b4b553821c2a403d394 *source/app/admin/optimizer/optimizer_remote.php
 18d9acddf492258e9f7f3e36acda0279 *source/app/admin/optimizer/optimizer_security_daily.php
 43971547a7c7601c2f2cca619ff53782 *source/app/admin/optimizer/optimizer_seo.php
-99b823c6ce9a8961d10f12f1ced24a82 *source/app/admin/optimizer/optimizer_setting.php
+59f4478fae6f9f542c5b99ff7f2947a6 *source/app/admin/optimizer/optimizer_setting.php
 96795638c2369ac5cc68c39ec1f28473 *source/app/admin/optimizer/optimizer_thread.php
 53f34991d136f56f529c3959f43e7fc6 *source/app/admin/optimizer/optimizer_usergroup4.php
 97275409e685d6a5f91cb22268b8b8f2 *source/app/admin/optimizer/optimizer_usergroup5.php
@@ -982,7 +982,7 @@ db32a60074f79f4b26eded6496798a78 *source/app/home/child/space/share.php
 ed4cc5874a66523f1d216b2b213b57f4 *source/app/home/child/space/thread.php
 0808d6e38075aef3b5396df15442146e *source/app/home/child/space/trade.php
 7b63042c593b7ab2ef0a6f397e160673 *source/app/home/child/space/wall.php
-26305f4045b355e27763657992055f8c *source/app/home/child/spacecp/account.php
+f547a566fd7efa5c9c623be2894d8b3c *source/app/home/child/spacecp/account.php
 58679294190d3e9b190f980429e7c8db *source/app/home/child/spacecp/album.php
 33955a99fd1a3d516961c9a758adb56c *source/app/home/child/spacecp/avatar.php
 2ea7fbd1bf4d0748741afacc919507f4 *source/app/home/child/spacecp/blog.php
@@ -1011,7 +1011,7 @@ a0e706b9da0c25df09ef24aac6b9cf9a *source/app/home/child/spacecp/payment_pay.php
 478732e5ec0fdec4b596cd6c5660c1e5 *source/app/home/child/spacecp/pm.php
 805ee73784f3933f035d0b739c0281de *source/app/home/child/spacecp/poke.php
 303c2e4190514b3dee175875622cc14a *source/app/home/child/spacecp/privacy.php
-abf98177cb46aa61b3e5c703b4a5c781 *source/app/home/child/spacecp/profile.php
+be70de8d21d24c7d79037c07be994d4e *source/app/home/child/spacecp/profile.php
 855b0dc04d9cf28c9f03785bb70af66b *source/app/home/child/spacecp/profilevalidate.php
 bbaad61730c17a4dcb8b048b1c513802 *source/app/home/child/spacecp/promotion.php
 d3ceb5eaf5911b9554caffac504fc59e *source/app/home/child/spacecp/search.php
@@ -1942,7 +1942,7 @@ ae932bce89538de003d5f134ee7d1c5f *source/function/cache/cache_portalcategory.php
 0f042d5e45b02742882a3d0e94195c0b *source/function/cache/cache_relatedlink.php
 ff36b417619438111e49b6b9ba2b872c *source/function/cache/cache_restful.php
 18e25bc3ead92d364df609243162932a *source/function/cache/cache_secqaa.php
-86e08972c46315ff7bff9c567b6b0baa *source/function/cache/cache_setting.php
+2898b78bd2319e2ab66d73b83a0e4308 *source/function/cache/cache_setting.php
 71b1967b381cd2c72c971b926bd208f2 *source/function/cache/cache_smileycodes.php
 b954e18ac2ebb022ff3c80c8d652c0a9 *source/function/cache/cache_smileytypes.php
 b8e9437d3bd4701238e0c11b73b5d602 *source/function/cache/cache_smilies_js.php
@@ -1987,7 +1987,7 @@ a7d82a84267b454faf70eb8b4e2b7187 *source/function/function_magic.php
 75ddd1a9f74b7340f3d0807575ff98af *source/function/function_member.php
 0b9c88933c15d437c0292777ba0026f3 *source/function/function_message.php
 4282da707e14cc9f40c36020e8b8c1fb *source/function/function_misc.php
-d4b3b00061f25f645e5a1198ec200ef6 *source/function/function_nativeuser.php
+31a36362adbbe000c3cf573ba663826a *source/function/function_nativeuser.php
 1958feca0f905653e7be99a1d1527719 *source/function/function_path.php
 7d7aec2aeace9a100a4764ac4ffc7eef *source/function/function_plugin.php
 ecc9d925024f9b1bd3fec1d66c2d054e *source/function/function_portal.php
@@ -2084,7 +2084,7 @@ a0c59ad3b5b448dc026ce38b21891acd *source/i18n/EN_UTF8/group/lang_template.php
 7215ee9c7d9dc229d2921a40e899ec5f *source/i18n/EN_UTF8/home/index.htm
 b9f4ce17b862b286a0ad94a6396ad633 *source/i18n/EN_UTF8/home/lang_editor.php
 97fe36a552738b7a86d4bce83b99a523 *source/i18n/EN_UTF8/home/lang_magic.php
-7a91f1657f5a23d4e34561edd40694fa *source/i18n/EN_UTF8/home/lang_template.php
+ee230f3b9866292474d7afca94d9414d *source/i18n/EN_UTF8/home/lang_template.php
 d41d8cd98f00b204e9800998ecf8427e *source/i18n/EN_UTF8/index.htm
 2a582bb65f2158d113d6927f6032603e *source/i18n/EN_UTF8/lang_action.php
 d437463342a17bcfe5ce51366f9114fa *source/i18n/EN_UTF8/lang_admincp_cloud.php
@@ -2106,7 +2106,7 @@ e51cd9815d00c309367576e83da9d89c *source/i18n/EN_UTF8/lang_exif.php
 6624065458c6a78a406a51fa9dcc972a *source/i18n/EN_UTF8/lang_friend.php
 6ccd0b01f80c918adf0674b3e0428e86 *source/i18n/EN_UTF8/lang_install.php
 09f1d3d58a73be569895267f3100cf7e *source/i18n/EN_UTF8/lang_js.php
-bc1040f4962751a266fce1a6e0ae64e3 *source/i18n/EN_UTF8/lang_message.php
+e922bd6ceca8f33484581a4f1c92d7a7 *source/i18n/EN_UTF8/lang_message.php
 9d15fd90c205faff7eab730560b16b1d *source/i18n/EN_UTF8/lang_notification.php
 fe9e64ab296627111255f778b3a266ec *source/i18n/EN_UTF8/lang_optimizer.php
 08894ff2035d23c74d08c97d8d6acce8 *source/i18n/EN_UTF8/lang_portalcp.php
@@ -2114,7 +2114,7 @@ fe9e64ab296627111255f778b3a266ec *source/i18n/EN_UTF8/lang_optimizer.php
 b6ec1863f43d39c9baf177c8b5aec838 *source/i18n/EN_UTF8/lang_setting.php
 b3668fa92929723039cf8cede809677f *source/i18n/EN_UTF8/lang_space.php
 cf49893f247975fdfcee805672eabcba *source/i18n/EN_UTF8/lang_spacecp.php
-1fcde6e3d8d5c16bd69358a2128478f5 *source/i18n/EN_UTF8/lang_template.php
+f28f6b910cd44c3665f885b5fe9a1285 *source/i18n/EN_UTF8/lang_template.php
 ee8945a68e967f95e8cd5265fd166a9b *source/i18n/EN_UTF8/lang_update.php
 40e00b60d754c6d71b1b1852b0385a7b *source/i18n/EN_UTF8/lang.php
 d41d8cd98f00b204e9800998ecf8427e *source/i18n/EN_UTF8/magic/index.htm
@@ -2245,7 +2245,7 @@ d41d8cd98f00b204e9800998ecf8427e *source/i18n/SC_UTF8/group/index.htm
 7215ee9c7d9dc229d2921a40e899ec5f *source/i18n/SC_UTF8/home/index.htm
 2fb974175e79be114e82bb00cb53c9b8 *source/i18n/SC_UTF8/home/lang_editor.php
 0b7222cb95139b6e75188bd80499a384 *source/i18n/SC_UTF8/home/lang_magic.php
-9af3e2eb84cbcdc8b461b9f695d541a9 *source/i18n/SC_UTF8/home/lang_template.php
+3a296c18af5fac50e0983f47fc53b1e4 *source/i18n/SC_UTF8/home/lang_template.php
 d41d8cd98f00b204e9800998ecf8427e *source/i18n/SC_UTF8/index.htm
 a7d418694ed7c8224ef8c24a5aa07c0c *source/i18n/SC_UTF8/install/lang_install.php
 c2132cf048546db356223b64faad7c7f *source/i18n/SC_UTF8/install/lang_sql_install/table_common_admincp_group.php
@@ -2258,7 +2258,7 @@ f2f5d45d71c233ae2ef6a5cd02202602 *source/i18n/SC_UTF8/install/lang_sql_install/t
 8219ed88d44d7a68bc563a6ce72d7a23 *source/i18n/SC_UTF8/install/lang_sql_install/table_common_friendlink.php
 0e19f4af9b7d7fd3ddd94f3e34716236 *source/i18n/SC_UTF8/install/lang_sql_install/table_common_member_profile_setting.php
 387a58f024572d901cb39432cd1b56e5 *source/i18n/SC_UTF8/install/lang_sql_install/table_common_nav.php
-f6f6ee7add80b27b810750f74ce3c39a *source/i18n/SC_UTF8/install/lang_sql_install/table_common_setting.php
+a2b39724bfd5e7e3a96d4e6913375041 *source/i18n/SC_UTF8/install/lang_sql_install/table_common_setting.php
 e3671d072b52d8fd04e3d2ba1f3aea1d *source/i18n/SC_UTF8/install/lang_sql_install/table_common_smiley.php
 4af8b8eaac161061cb0163600e9dbf2d *source/i18n/SC_UTF8/install/lang_sql_install/table_common_statuser.php
 466230b32bd8d264ff787a2317d9ab2a *source/i18n/SC_UTF8/install/lang_sql_install/table_common_style.php
@@ -2282,7 +2282,7 @@ e1efe8d34d17a4c285dedeeac1a7c056 *source/i18n/SC_UTF8/install/lang_sql_install/t
 e2b236b21e0f7898ec3f4d441546e2f9 *source/i18n/SC_UTF8/install/lang_sql_upgrade_3.5/table_common_block_style.php
 1032a94bdcafff2ac5546aba0e41edc5 *source/i18n/SC_UTF8/install/lang_sql_upgrade_3.5/table_common_member_profile_setting.php
 4499348c9a6b8d770df9b85773dd1ec0 *source/i18n/SC_UTF8/install/lang_sql_upgrade_3.5/table_common_nav.php
-0f3a8cd4624f4d3510ea30abebabf1d1 *source/i18n/SC_UTF8/install/lang_sql_upgrade_3.5/table_common_setting.php
+137d6777579979ab18e8b45c3867628b *source/i18n/SC_UTF8/install/lang_sql_upgrade_3.5/table_common_setting.php
 e1efe8d34d17a4c285dedeeac1a7c056 *source/i18n/SC_UTF8/install/lang_sql_upgrade_3.5/table_restful_source.php
 a27be3be29e7f5858f33d737009f6a2c *source/i18n/SC_UTF8/lang_action.php
 77e5ab0a1717c5dc415760ff9a2c76bd *source/i18n/SC_UTF8/lang_admincp_login.php
@@ -2290,7 +2290,7 @@ a27be3be29e7f5858f33d737009f6a2c *source/i18n/SC_UTF8/lang_action.php
 2c4eb22b9564dc0d208517980c431529 *source/i18n/SC_UTF8/lang_admincp_msg.php
 a23a4c3364c8e36c62472b30fbb7ca04 *source/i18n/SC_UTF8/lang_admincp_related.php
 93c8c909f612422ad5e520e3cf143103 *source/i18n/SC_UTF8/lang_admincp_searchindex.php
-161b9eb47b82c20143b312cc27e19376 *source/i18n/SC_UTF8/lang_admincp.php
+18d06189e08adf7764a7ad5ca764451a *source/i18n/SC_UTF8/lang_admincp.php
 98b1c3e8b311631d9fc22114b01a9457 *source/i18n/SC_UTF8/lang_blockclass.php
 fe70ff60391e2eac38cdf13fbe313083 *source/i18n/SC_UTF8/lang_cloud_register.php
 d054dc8c94020dc4a563b01873631ac9 *source/i18n/SC_UTF8/lang_core.php
@@ -2302,10 +2302,10 @@ d054dc8c94020dc4a563b01873631ac9 *source/i18n/SC_UTF8/lang_core.php
 2ab53607c625d9e7cdea05e04bb728e2 *source/i18n/SC_UTF8/lang_friend.php
 6a48af77a02b9c186eb50fc34f165bb9 *source/i18n/SC_UTF8/lang_ipdb.php
 5ae842325be4bc3853ac8c9d95909d28 *source/i18n/SC_UTF8/lang_js.php
-7272fbdcdf6a200e85a1799aed093f3c *source/i18n/SC_UTF8/lang_message.php
+30eb0fdcf28461170b81c39db0e5cfd9 *source/i18n/SC_UTF8/lang_message.php
 7b501eff1024008075f9dbc69afb2a88 *source/i18n/SC_UTF8/lang_my.php
 c3fddfc57a7986f65cd10c9432fec462 *source/i18n/SC_UTF8/lang_notification.php
-887cec7977a53e6b8e09f4064939d050 *source/i18n/SC_UTF8/lang_optimizer.php
+abadedd10b74b9eb8013c74109f9c463 *source/i18n/SC_UTF8/lang_optimizer.php
 212202c22794f3307e3429399ef13edd *source/i18n/SC_UTF8/lang_portalcp.php
 6c67f91e46a959fa6f50ffaefd613e4f *source/i18n/SC_UTF8/lang_seccode.php
 706dc229c3fa3ec3aa9a8dcc52a07a51 *source/i18n/SC_UTF8/lang_security.php
@@ -2448,7 +2448,7 @@ d41d8cd98f00b204e9800998ecf8427e *source/i18n/TC_UTF8/group/index.htm
 7215ee9c7d9dc229d2921a40e899ec5f *source/i18n/TC_UTF8/home/index.htm
 a2e9d9fd8f28824506a21de89842e5bc *source/i18n/TC_UTF8/home/lang_editor.php
 507c426f134f1cfbe085729f8ca4daa0 *source/i18n/TC_UTF8/home/lang_magic.php
-841f74fa308f7e24b2366872d9f12a77 *source/i18n/TC_UTF8/home/lang_template.php
+af187ebb8b2f8d20f454e29297e5aa31 *source/i18n/TC_UTF8/home/lang_template.php
 d41d8cd98f00b204e9800998ecf8427e *source/i18n/TC_UTF8/index.htm
 d4dbadf940968240402bbe88115bb0ab *source/i18n/TC_UTF8/install/lang_install.php
 ed55ac04b6a4600d418f6e33cc754a57 *source/i18n/TC_UTF8/install/lang_sql_install/table_common_admincp_group.php
@@ -2461,7 +2461,7 @@ a1c6454465477a073c4d2c31e94dade0 *source/i18n/TC_UTF8/install/lang_sql_install/t
 fba786edfcdda63dc22ff3fcd9e3166f *source/i18n/TC_UTF8/install/lang_sql_install/table_common_friendlink.php
 705f08d79c767faab73248f3567a11fa *source/i18n/TC_UTF8/install/lang_sql_install/table_common_member_profile_setting.php
 5a50d34e1b0eb137bd1c42e99be57cac *source/i18n/TC_UTF8/install/lang_sql_install/table_common_nav.php
-69288e8eb296f5d1714e22a7ed9e27f3 *source/i18n/TC_UTF8/install/lang_sql_install/table_common_setting.php
+a827237169881b5ba4f9952d3d3842da *source/i18n/TC_UTF8/install/lang_sql_install/table_common_setting.php
 e3671d072b52d8fd04e3d2ba1f3aea1d *source/i18n/TC_UTF8/install/lang_sql_install/table_common_smiley.php
 4af8b8eaac161061cb0163600e9dbf2d *source/i18n/TC_UTF8/install/lang_sql_install/table_common_statuser.php
 a547269bf1ebe388fd48390df8c88048 *source/i18n/TC_UTF8/install/lang_sql_install/table_common_style.php
@@ -2485,7 +2485,7 @@ e1efe8d34d17a4c285dedeeac1a7c056 *source/i18n/TC_UTF8/install/lang_sql_install/t
 60cf16a419a70d494a3b64aa96926ddb *source/i18n/TC_UTF8/install/lang_sql_upgrade_3.5/table_common_block_style.php
 c52ad5133398a7497ffa18195bd447aa *source/i18n/TC_UTF8/install/lang_sql_upgrade_3.5/table_common_member_profile_setting.php
 bc86a9ca4ec8ab9c02e6e3665dc4007b *source/i18n/TC_UTF8/install/lang_sql_upgrade_3.5/table_common_nav.php
-0f3a8cd4624f4d3510ea30abebabf1d1 *source/i18n/TC_UTF8/install/lang_sql_upgrade_3.5/table_common_setting.php
+137d6777579979ab18e8b45c3867628b *source/i18n/TC_UTF8/install/lang_sql_upgrade_3.5/table_common_setting.php
 e1efe8d34d17a4c285dedeeac1a7c056 *source/i18n/TC_UTF8/install/lang_sql_upgrade_3.5/table_restful_source.php
 5943953ce53f96096530fd915af00e90 *source/i18n/TC_UTF8/lang_action.php
 08db65b97e74dad2c87e5933d9671ec6 *source/i18n/TC_UTF8/lang_admincp_login.php
@@ -2493,7 +2493,7 @@ e1efe8d34d17a4c285dedeeac1a7c056 *source/i18n/TC_UTF8/install/lang_sql_upgrade_3
 7bdae4f94fcfeee7ae6220d18d21ea75 *source/i18n/TC_UTF8/lang_admincp_msg.php
 04926159d0c16bcadceb1ab0e2f1bf2e *source/i18n/TC_UTF8/lang_admincp_related.php
 dce296761f25c74c629733f682d99aa2 *source/i18n/TC_UTF8/lang_admincp_searchindex.php
-459011ca2725e1f099b6be9b8d077c22 *source/i18n/TC_UTF8/lang_admincp.php
+44a7972a12715bc99a15de0c2449d043 *source/i18n/TC_UTF8/lang_admincp.php
 9fb5079e24f1ded7ee3863759ed4e0e4 *source/i18n/TC_UTF8/lang_blockclass.php
 2e80b98fd61ed588889e1f54e5ab95d1 *source/i18n/TC_UTF8/lang_cloud_register.php
 20f7259a923750d0e8a8cc7e988c563c *source/i18n/TC_UTF8/lang_core.php
@@ -2505,10 +2505,10 @@ c19a16c47fbb61ed4995305132f7214c *source/i18n/TC_UTF8/lang_error.php
 ca6b911d5e8d7839e6713e3a79568d98 *source/i18n/TC_UTF8/lang_friend.php
 19f56d4f2cb01afbac4d9994de933279 *source/i18n/TC_UTF8/lang_ipdb.php
 801df057f4df9d65d21aec2f2fd2f8ee *source/i18n/TC_UTF8/lang_js.php
-ec3442f00e890c08bb1ef275b217666d *source/i18n/TC_UTF8/lang_message.php
+5ee5ad9ca8a8ccc7c52b1147d6d78118 *source/i18n/TC_UTF8/lang_message.php
 7b501eff1024008075f9dbc69afb2a88 *source/i18n/TC_UTF8/lang_my.php
 be3ab669be6ee8def33b8e22cb5b5597 *source/i18n/TC_UTF8/lang_notification.php
-393d789d884f48396d712c9039b4d313 *source/i18n/TC_UTF8/lang_optimizer.php
+01a106c0d5c3a39c504689a342987b28 *source/i18n/TC_UTF8/lang_optimizer.php
 95bb44bef70eb87b625fdc45f48d04fe *source/i18n/TC_UTF8/lang_portalcp.php
 44f4aaac814d9c12aa0f5a4c72a76444 *source/i18n/TC_UTF8/lang_seccode.php
 668e10671264775926c174d970a7edf3 *source/i18n/TC_UTF8/lang_security.php
@@ -4954,7 +4954,7 @@ e66ff6fa9ded0829abf0ce00f62df432 *template/default/home/spacecp_account_security
 d9b760336cbdefc2d6a6140bb6639b41 *template/default/home/spacecp_account_security_verify_password.php
 f3daafe3f9176749f0e2fff86bad24a4 *template/default/home/spacecp_account_security_verify_type.php
 ede1657059250ee5dd342deaee17f5ae *template/default/home/spacecp_account_security_verify.php
-c4e739d657bdc8f387d4aa7108c82f3e *template/default/home/spacecp_account.php
+6df9df838b865474bfa975d7959fe8b2 *template/default/home/spacecp_account.php
 a6f1cd3c8da427a64b9270223a2f1796 *template/default/home/spacecp_album.htm
 a4d7ccdca03294f59acd8506ee7e816c *template/default/home/spacecp_avatar_body.htm
 5bf860c16b9d5a210992dd758cdb569a *template/default/home/spacecp_avatar.htm
@@ -5274,7 +5274,7 @@ e41a7dc9c126036714c131df3d680ac6 *template/default/touch/home/spacecp_account_se
 13a10574adde433853b2664ab79adf2f *template/default/touch/home/spacecp_account_security_verify_password.php
 566fdbfaf3ce0ea64a137a16711c6411 *template/default/touch/home/spacecp_account_security_verify_type.php
 584d48a73ed1998b06893802bb406f26 *template/default/touch/home/spacecp_account_security_verify.php
-6f0b17b89cd5f1b0279862244d3f2c5a *template/default/touch/home/spacecp_account.php
+2583fa066ebf92bffb764139451a7457 *template/default/touch/home/spacecp_account.php
 66dc95beb9e81f9ae7fea08f63bc423f *template/default/touch/home/spacecp_album.htm
 cc8e0af6c28695713f2860b9e18ef202 *template/default/touch/home/spacecp_avatar_body.htm
 ef28532ed6ff1063a85a86bd3d54c391 *template/default/touch/home/spacecp_avatar.htm

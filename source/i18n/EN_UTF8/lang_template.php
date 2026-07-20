@@ -476,5 +476,7 @@ $lang = array (
 	'online_in_forum' => 'In board',
 	'online_in_thread' => 'In thread',
 	'online_ip' => 'IP address',
+	'chgusername_title' => 'Change Username',
+	'newusername' => 'New Username',
 );
 

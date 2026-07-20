@@ -306,13 +306,67 @@ function native_user_chgusername($uid, $newusername, $oldusername = '') {
 	if($ucresult < 0) {
 		return $ucresult;
 	}
+	$history = table_common_member_username_history::t()->fetch($newusername);
+	if($history && intval($history['uid']) !== $uid) {
+		return -3;
+	}
 	if(table_common_member_username_history::t()->fetch($oldusername)) {
 		table_common_member_username_history::t()->update($oldusername, ['uid' => $uid, 'dateline' => TIMESTAMP]);
 	} else {
 		table_common_member_username_history::t()->insert(['username' => $oldusername, 'uid' => $uid, 'dateline' => TIMESTAMP]);
 	}
 	table_common_member::t()->update_username($uid, $newusername);
+	native_user_sync_username($uid, $oldusername, $newusername);
 	return 1;
+}
+
+function native_user_sync_username($uid, $oldusername, $newusername) {
+	global $_G;
+	$tables = [
+		'common_block' => ['uid', 'username'],
+		'common_invite' => ['fuid', 'fusername'],
+		'common_member_verify_info' => ['uid', 'username'],
+		'common_mytask' => ['uid', 'username'],
+		'common_report' => ['uid', 'username'],
+		'common_session' => ['uid', 'username'],
+		'forum_thread' => ['authorid', 'author'],
+		'forum_activityapply' => ['uid', 'username'],
+		'forum_groupuser' => ['uid', 'username'],
+		'forum_pollvoter' => ['uid', 'username'],
+		'forum_post' => ['authorid', 'author'],
+		'forum_postcomment' => ['authorid', 'author'],
+		'forum_ratelog' => ['uid', 'username'],
+		'home_album' => ['uid', 'username'],
+		'home_blog' => ['uid', 'username'],
+		'home_clickuser' => ['uid', 'username'],
+		'home_docomment' => ['uid', 'username'],
+		'home_doing' => ['uid', 'username'],
+		'home_feed' => ['uid', 'username'],
+		'home_friend' => ['fuid', 'fusername'],
+		'home_friend_request' => ['fuid', 'fusername'],
+		'home_notification' => ['authorid', 'author'],
+		'home_pic' => ['uid', 'username'],
+		'home_poke' => ['fromuid', 'fromusername'],
+		'home_share' => ['uid', 'username'],
+		'home_show' => ['uid', 'username'],
+		'home_specialuser' => ['uid', 'username'],
+		'home_visitor' => ['vuid', 'vusername'],
+		'portal_article_title' => ['uid', 'username'],
+		'portal_comment' => ['uid', 'username'],
+		'portal_topic' => ['uid', 'username'],
+		'portal_topic_pic' => ['uid', 'username'],
+	];
+
+	loadcache('posttableids');
+	foreach((array)$_G['cache']['posttableids'] as $tableid) {
+		$tables[getposttable($tableid)] = ['authorid', 'author'];
+	}
+	foreach($tables as $table => [$idfield, $namefield]) {
+		DB::update($table, [$namefield => $newusername], [$idfield => $uid], 'UNBUFFERED');
+	}
+	DB::update('forum_thread', ['lastposter' => $newusername], ['lastposter' => $oldusername], 'UNBUFFERED');
+	DB::update('forum_collection', ['lastposter' => $newusername], ['lastposter' => $oldusername], 'UNBUFFERED');
+	C::memory()->clear();
 }
 
 function native_user_logincheck($username, $ip) {

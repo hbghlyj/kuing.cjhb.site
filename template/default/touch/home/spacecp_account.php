@@ -10,34 +10,18 @@
             </caption>
 
             <table class="tfm b_b cp0">
-                <!--{if $_G['setting']['security_rename']}-->
                 <tr>
                     <th>{lang action_account_security_type_rename}</th>
                     <td>
                         <p class="y">
-                            <!--{if getuserprofile('extcredits'.$creditExtra) < $_G['setting']['chgusername']['credits_pay'] || ($_G['member']['credits'] < $_G['setting']['chgusername']['credits_threshold'] && !in_array($_G['member']['groupid'], (array)$_G['setting']['chgusername']['credits_unlimit_group']))}-->
-                            <span style="color: #646464;">{lang action_account_operate_chg}</span>
-                            <!--{else}-->
                             <a href="home.php?mod=spacecp&ac=account&op=verify&method=chgusername&formhash={FORMHASH}"  style="color: green;" class="dialog">{lang action_account_operate_chg}</a>
-                            <!--{/if}-->
                         </p>
                         {$_G['member']['username']}
                         <p class="d xs1 xg1">
                             {lang action_account_security_type_rename_comment}
-                            <!--{if $_G['setting']['chgusername']['max_times'] > 0}-->
-                                , {lang action_account_security_rename_numberoftimes1} <!--{echo ($_G['setting']['chgusername']['max_times'] - table_common_member_username_history::t()->count_by_uid($_G['uid']));}--> {lang action_account_security_rename_numberoftimes2}
-                            <!--{/if}-->
-                            <!--{if $_G['setting']['chgusername']['credits_threshold'] > 0}-->
-                                , {lang action_account_security_rename_credits_low1} {$_G['setting']['chgusername']['credits_threshold']} {lang action_account_security_rename_credits_low2}
-                            <!--{/if}-->
-                            <!--{if $_G['setting']['chgusername']['credits_pay'] > 0}-->
-                                ,
-                                {lang action_account_security_rename_credits_pay_low} {$_G['setting']['chgusername']['credits_pay']} {$extcredit['unit']} {$extcredit['title']}
-                            <!--{/if}-->
                         </p>
                     </td>
 				</tr>
-                <!--{/if}-->
                 <!--{if $_G[member][loginname] != $_G[member][username]}-->
                 <tr>
                     <th>{lang loginname}</th>

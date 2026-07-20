@@ -1513,6 +1513,11 @@ $lang = array (
 	'freeze_email_tips'	=> 'Your current account have been frozen because of mot logged in for a long time. You must verify your E-mail for remove the freeze status <a href="home.php?mod=spacecp&ac=profile&op=password&resend=1" class="xi2">Send the Re-verification message</a>',//'您当前的帐号已经太长时间未登录网站已经被冻结，必须验证邮箱后才能解除冻结状态 <a href="home.php?mod=spacecp&ac=profile&op=password&resend=1" class="xi2">重新接收验证邮件</a>',
 	'freeze_reason'		=> 'Freeze reason',//'申诉理由',
 	'freeze_reason_comment' => 'If you are unable to verify the E-mail, Please fill in the complaint reason',//'如果您无法通过邮箱验证，请填写申诉理由',
+	'action_account_title_security' => 'Security Settings',
+	'action_account_security_type_rename' => 'Change Username',
+	'action_account_security_type_rename_comment' => 'Change your display username. Your login name remains unchanged.',
+	'action_account_operate_chg' => 'Change',
+	'action_account_security_submit' => 'Submit',
 
 //---------------------------------------------------------------
 // Added by Valery Votintsev

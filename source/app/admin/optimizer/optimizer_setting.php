@@ -89,14 +89,6 @@ class optimizer_setting {
 				'title' => $lang['optimizer_setting_rewriteguest'],
 				'description' => $lang['optimizer_setting_rewriteguest_desc'],
 				'optimizerdesc' => $lang['optimizer_setting_rewriteguest_optimize_desc'],
-			],
-			'chgusername' => [
-				'key' => 'othertable',
-				'initvalue' => '1',
-				'optimizedvalue' => '0',
-				'title' => $lang['optimizer_setting_chgusername_othertable'],
-				'description' => $lang['optimizer_setting_chgusername_othertable_desc'],
-				'optimizerdesc' => $lang['optimizer_setting_chgusername_othertable_optimize_desc'],
 			]
 		];
 	}

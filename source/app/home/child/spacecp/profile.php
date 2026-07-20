@@ -22,15 +22,6 @@ if(currentlang() == 'EN_UTF8') {
 		}
 	}
 	unset($value);
-	if(!empty($_G['setting']['plugins']['spacecp_profile'])) {
-		foreach($_G['setting']['plugins']['spacecp_profile'] as &$module) {
-			if(($module['name'] ?? '') === '更改用户名' || ($module['menu'] ?? '') === '更改用户名') {
-				$module['name'] = lang('reusername:reusername');
-				$module['menu'] = lang('reusername:reusername');
-			}
-		}
-		unset($module);
-	}
 }
 foreach($profilegroup as $key => $value) {
 	if($value['available']) {
@@ -148,10 +139,6 @@ if(submitcheck('profilesubmit')) {
 			continue;
 		} elseif($field && !$field['available']) {
 			continue;
-		} elseif($key == 'site' && $value !== '') {
-			if(!in_array(strtolower(substr($value, 0, 6)), ['http:/', 'https:', 'ftp://', 'rtsp:/', 'mms://']) && !preg_match('/^static\//', $value) && !preg_match('/^data\//', $value)) {
-				$value = 'http://'.$value;
-			}
 		}
 		if($field['formtype'] == 'file') {
 			if((!empty($_FILES[$key]) && $_FILES[$key]['error'] == 0) || (!empty($space[$key]) && empty($_GET['deletefile'][$key]))) {

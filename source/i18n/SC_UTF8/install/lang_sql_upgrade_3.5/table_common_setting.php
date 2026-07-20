@@ -50,10 +50,6 @@ $data = [
 		'svalue' => '1',
 	],
 	[
-		'skey' => 'security_rename',
-		'svalue' => '1',
-	],
-	[
 		'skey' => 'security_verify',
 		'svalue' =>
 			[],
