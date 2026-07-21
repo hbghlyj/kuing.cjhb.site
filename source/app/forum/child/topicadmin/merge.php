@@ -110,7 +110,7 @@ if(!submitcheck('modsubmit')) {
 
 	$modpostsnum++;
 	$resultarray = [
-		'redirect' => "forum.php?mod=forumdisplay&fid={$_G['fid']}",
+		'redirect' => "forum.php?mod=viewthread&tid={$_G['tid']}",
 		'reasonpm' => ($sendreasonpm ? ['data' => [$thread], 'var' => 'thread', 'item' => 'reason_merge', 'notictype' => 'post'] : []),
 		'reasonvar' => ['tid' => $thread['tid'], 'subject' => $thread['subject'], 'modaction' => $modaction, 'reason' => $reason],
 		'modtids' => $thread['tid'],
