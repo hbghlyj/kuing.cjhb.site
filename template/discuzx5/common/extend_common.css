@@ -43,8 +43,9 @@
 
 html{overflow-y:scroll}
 body {background:var(--dz-bodybg)}
-body, input, button, select {font:1em/1.5 var(--common-font),zh,"Noto Colr Emoji Glyf","Twemoji Country Flags",system-ui,-apple-system,BlinkMacSystemFont,times,serif;color:#000}
-textarea {color:var(--dz-fa);font-family:monospace,zh,"Noto Colr Emoji Glyf","Twemoji Country Flags"}
+body, button, select {font:1em/1.5 var(--common-font),zh,"Noto Colr Emoji Glyf","Twemoji Country Flags",system-ui,-apple-system,BlinkMacSystemFont,times,serif;color:#000}
+input, textarea {font:1em/1.5 monospace,zh,"Noto Colr Emoji Glyf","Twemoji Country Flags"}
+textarea {color:var(--dz-fa)}
 ul,li{list-style:none}
 a {color:var(--dz-alink)}
 a:hover {color:var(--dz-ahover);text-decoration:none}
