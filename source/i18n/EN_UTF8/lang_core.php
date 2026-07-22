@@ -234,7 +234,6 @@ $lang = array
 	'attackevasive_4_subject'	=> 'Open the page reload',//'打开页面重载',
 	'attackevasive_4_message'	=> 'Welcome to the site!<br/>Re-loading the page, please wait...',//'欢迎的网站，页面重新载入，请稍候...',
 
-// Months Names
 
 );
 

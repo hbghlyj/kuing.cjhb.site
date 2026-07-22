@@ -1071,6 +1071,5 @@ $lang = array (
 	'members_chgusername_name_exists' => 'The username is already in use.',
 	'members_chgusername_check_failed' => 'Username validation failed.',
 
-// Added by Valery Votintsev
 );
 

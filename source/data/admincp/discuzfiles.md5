@@ -853,8 +853,8 @@ f98ea4d59b95ce179cd47272084d7a49 *source/app/forum/child/modcp/thread.php
 dab20150c12260d633e49be840101d36 *source/app/forum/child/post/albumphoto.php
 d8dc65ce41a824eddf7befc1ed11b39d *source/app/forum/child/post/editpost.php
 d41d8cd98f00b204e9800998ecf8427e *source/app/forum/child/post/index.htm
-64c41224cbdea888cbbf7a9c357a85ff *source/app/forum/child/post/newreply.php
-59180bc04016a30488128b6105f63157 *source/app/forum/child/post/newthread.php
+901419923217a57a0140e9c3394b26fe *source/app/forum/child/post/newreply.php
+852625cec4ed06ea772f51141632adec *source/app/forum/child/post/newthread.php
 376f71e352211e76db032be5c381a5d1 *source/app/forum/child/post/threadsorts.php
 e8501a849c2e1490563f0167cffef596 *source/app/forum/child/redirect/findpost.php
 d41d8cd98f00b204e9800998ecf8427e *source/app/forum/child/redirect/index.htm
@@ -924,7 +924,7 @@ e80771c27d4a16499e6209d1ca50dd31 *source/app/forum/module/index.php
 2e4be0bea3577741368401cf5504704c *source/app/forum/module/member.php
 b41129a7d83bd457fb17f864e9736f39 *source/app/forum/module/misc.php
 b30f7103d0b0cb213c240200843883cc *source/app/forum/module/modcp.php
-a3b9bb6f435343daad03517241331856 *source/app/forum/module/post.php
+ba51c10d999e178803883fd616b5e126 *source/app/forum/module/post.php
 699f5fc1d8071e4bc67e41864e8c4e65 *source/app/forum/module/redirect.php
 c978f16b0ac032bfa97bd0ad8d8c62c7 *source/app/forum/module/rss.php
 5951788bcee2cf149dde74ca80d9e179 *source/app/forum/module/tag.php
@@ -2096,7 +2096,7 @@ d48525069fc9df973b4755dc1bbae380 *source/i18n/EN_UTF8/lang_admincp_login.php
 664e1691bf5b9ee7e6a6d752c0665536 *source/i18n/EN_UTF8/lang_cloud_register.php
 7c4ef1f9fd1c38c9eac153cb078b672c *source/i18n/EN_UTF8/lang_connect.php
 db97504f218bd6cf9fe7f1af2f55ceef *source/i18n/EN_UTF8/lang_convert.php
-64bd5a949a9dc66748c016d3dc297288 *source/i18n/EN_UTF8/lang_core.php
+ab9f3293869f748654fb9723a348c97d *source/i18n/EN_UTF8/lang_core.php
 4880391d3dbd08ecb22e8a5bbbf8543a *source/i18n/EN_UTF8/lang_country.php
 7168421f3780c8c90f4f8ae9195d0058 *source/i18n/EN_UTF8/lang_email.php
 ed05879bc9f5e50798e3573bd651fb45 *source/i18n/EN_UTF8/lang_error.php
@@ -2105,7 +2105,7 @@ e51cd9815d00c309367576e83da9d89c *source/i18n/EN_UTF8/lang_exif.php
 6624065458c6a78a406a51fa9dcc972a *source/i18n/EN_UTF8/lang_friend.php
 6ccd0b01f80c918adf0674b3e0428e86 *source/i18n/EN_UTF8/lang_install.php
 09f1d3d58a73be569895267f3100cf7e *source/i18n/EN_UTF8/lang_js.php
-fa2f21f5291bbd77ad3909f028521386 *source/i18n/EN_UTF8/lang_message.php
+4a9e8daa179beb848cf6407ec5776258 *source/i18n/EN_UTF8/lang_message.php
 9d15fd90c205faff7eab730560b16b1d *source/i18n/EN_UTF8/lang_notification.php
 fe9e64ab296627111255f778b3a266ec *source/i18n/EN_UTF8/lang_optimizer.php
 08894ff2035d23c74d08c97d8d6acce8 *source/i18n/EN_UTF8/lang_portalcp.php

@@ -26,7 +26,7 @@ $allowpost = $_G['forum']['allowpost'] != -1 && (
 	($_G['forum']['allowpost'] == 1 && $_G['group']['allowpost'])
 );
 
-if(!$_G['uid'] && !$allowpost) {
+if(!$_G['uid']) {
 	$loginMessage = defined('IN_MOBILE') ? 'postperm_login_nopermission_mobile' : 'postperm_login_nopermission';
 	$loginVars = defined('IN_MOBILE') ? ['referer' => rawurlencode(dreferer())] : [];
 	showmessage($loginMessage, NULL, $loginVars, ['login' => 1]);

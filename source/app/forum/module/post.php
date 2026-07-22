@@ -10,9 +10,6 @@ if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
-if(!$_G['uid']) {
-	showmessage('postperm_login_nopermission', null, [], ['login' => 1]);
-}
 const NOROBOT = TRUE;
 
 cknewuser();

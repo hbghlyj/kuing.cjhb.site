@@ -35,7 +35,7 @@ $allowreply = $_G['forum']['allowreply'] != -1 && (
 	($_G['forum']['allowreply'] == 1 && $_G['group']['allowreply'])
 );
 
-if(!$_G['uid'] && !$allowreply) {
+if(!$_G['uid']) {
 	showmessage('replyperm_login_nopermission', NULL, [], ['login' => 1]);
 } elseif(!$allowreply) {
 	if($_G['forum']['allowreply'] == -1) {
