@@ -176,8 +176,8 @@ if(!IS_ROBOT && ($_G['setting']['whosonlinestatus'] == 1 || $_G['setting']['whos
 					? ($_G['cache']['onlinelist'][8] ?? STATICURL.'image/common/online_bot.svg')
 					: $_G['cache']['onlinelist'][7];
 				$location = ip::format_session_location($online['location'] ?? '');
-				$online['username'] = $location['compact'];
-				$online['network_title'] = $location['network'];
+				$online['username'] = $isRobot ? $location['organization'] : $location['compact'];
+				$online['network_title'] = $isRobot ? $location['asn'] : $location['network'];
 				$online['lastactivity'] = dgmdate($online['lastactivity'], 't');
 				$whosonline[] = $online;
 			}
