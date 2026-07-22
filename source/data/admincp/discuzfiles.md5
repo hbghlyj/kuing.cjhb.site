@@ -1044,7 +1044,7 @@ f6751859448e2d3b7af1580f41fb1728 *source/app/home/module/rss.php
 6154bbfe61abcbee8fcb5058624c8d7a *source/app/home/module/task.php
 d41d8cd98f00b204e9800998ecf8427e *source/app/index.htm
 d41d8cd98f00b204e9800998ecf8427e *source/app/index/index.htm
-286744c93c5c1813461ca17c26f8d25c *source/app/index/index.php
+8000dbe11b76fe59dc9633c6e7a33fbd *source/app/index/index.php
 d41d8cd98f00b204e9800998ecf8427e *source/app/member/index.htm
 d9c3080234e3e43621ef9d90c165e2ea *source/app/member/member.php
 efc36dbdf3ba5b8a7df7b9b41948eb22 *source/app/member/module/getpasswd.php
@@ -1380,7 +1380,7 @@ a630e6a882fa6ec0d6b70b95cd30e974 *source/class/class_upload.php
 f5180ffb8b544aace94311f25ef64104 *source/class/db/db_driver_pdo_slave.php
 a5401a550c296a1814130760ca6b1cb9 *source/class/db/db_driver_pdo.php
 d41d8cd98f00b204e9800998ecf8427e *source/class/db/index.htm
-caa5fb5ca8a9f715031110417d1eb052 *source/class/discuz/discuz_application.php
+ae0b4a7764a8285f68d013118f40e2d3 *source/class/discuz/discuz_application.php
 d2c456536705204ca4c37728eac0bb74 *source/class/discuz/discuz_base.php
 a51cb58197aba7d23ce7be02a8e4c464 *source/class/discuz/discuz_block.php
 fc58430642d0722ea241bdae05e41330 *source/class/discuz/discuz_censor.php
@@ -1961,7 +1961,7 @@ bf163077301488c12abb09f32d5c04df *source/function/function_blog.php
 8e29a7bf5f3b91a7a9172a2c4b5a9dd6 *source/function/function_cloudaddons.php
 580b06ae77c38e192b4ec95bc5bfdf57 *source/function/function_collection.php
 053ca1f803b7f15b0a84f4b36ddca6c4 *source/function/function_comment.php
-ec60ab9c89bce3a03ba8dfb23fbc809a *source/function/function_core.php
+823271d0b3b88da3415c800d91eec4a6 *source/function/function_core.php
 26cc8c5601aca1f390f91d1bb18c2e81 *source/function/function_credit.php
 62457ad628907fc88c5a18b4928a7368 *source/function/function_delete.php
 e250b0a9f2cf78100b77af6045adaf33 *source/function/function_discuzcode.php
@@ -4683,7 +4683,7 @@ e4b25ac916199eadddb5378b1c4a5966 *template/default/common/header_diy.htm
 b1bce0eb99db03484beab5cc97e979bd *template/default/common/header_diynav.htm
 d96a38b854a80b6a0716e006f09cf639 *template/default/common/header_qmenu.htm
 050b82f210155b25e7b70509d3194cef *template/default/common/header_userstatus.htm
-8b6b890e048871f0d7039c332bc44198 *template/default/common/header.htm
+1caa6fd3171fb8da4e2f003fbfa7569a *template/default/common/header.htm
 d41d8cd98f00b204e9800998ecf8427e *template/default/common/index.htm
 110eee22eb494adde0cf3eeaa71f358a *template/default/common/invite.htm
 c736fedbad3c2262bc21d58f46b99fef *template/default/common/ipnotice.htm
@@ -5401,7 +5401,7 @@ ce9b485feb1c1e06a60f6a11961e3e9f *template/discuzx5/common/footer.php
 4a55338ca4c3a2fc84f4e7632211fca3 *template/discuzx5/common/forum_moderator.css
 b3899ea5146f63dcaaa8003e7dcd1aa2 *template/discuzx5/common/header_common.php
 daa715e119177e271ba7f67a6010d8c4 *template/discuzx5/common/header_userstatus.php
-6a9cb915840cb1ce28b362184ea339f8 *template/discuzx5/common/header.php
+adcb46c7cad0971aaf55f1f7f98c5cf5 *template/discuzx5/common/header.php
 9d5cffba9d3ee3fd3bfbee95bcafdcea *template/discuzx5/common/pubsearchform.php
 9e6d922e2687876d00b38b6c74a20467 *template/discuzx5/common/upload.php
 446f9680f4f0003a438aa04e266596cb *template/discuzx5/discuz_style_discuzx5.json

@@ -985,9 +985,7 @@ function template($file, $templateid = 0, $tpldir = '', $gettplfile = 0, $primal
 		if(strpos($tpldir, 'plugin')) {
 			if(!tplfile::file_exists($tpldir.'/'.$file.'.htm') && !tplfile::file_exists($tpldir.'/'.$file.'.php')) {
 				dsetcookie('mobile', 'no', 31536000);
-				$url = preg_replace('/([?&])(mobile|showmobile)=[^&#]*&?/', '$1', $_SERVER['REQUEST_URI']);
-				$url = rtrim(str_replace('?&', '?', $url), '?&');
-				showmessage('mobile_template_no_found', '', ['url' => $url]);
+				showmessage('mobile_template_no_found', '', ['url' => $_SERVER['REQUEST_URI']]);
 			} else {
 				$mobiletplfile = $tpldir.'/'.$file.'.htm';
 				if(!tplfile::file_exists($mobiletplfile)) {
@@ -1010,9 +1008,7 @@ function template($file, $templateid = 0, $tpldir = '', $gettplfile = 0, $primal
 			$mobiletplfile = DISCUZ_TEMPLATE('./template/default/'.$file.'.php');
 			if(!tplfile::file_exists($mobiletplfile) && !$_G['forcemobilemessage']) {
 				dsetcookie('mobile', 'no', 31536000);
-				$url = preg_replace('/([?&])(mobile|showmobile)=[^&#]*&?/', '$1', $_SERVER['REQUEST_URI']);
-				$url = rtrim(str_replace('?&', '?', $url), '?&');
-				showmessage('mobile_template_no_found', '', ['url' => $url]);
+				showmessage('mobile_template_no_found', '', ['url' => $_SERVER['REQUEST_URI']]);
 			} else {
 				$tplfile = $mobiletplfile;
 			}

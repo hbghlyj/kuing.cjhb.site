@@ -31,9 +31,6 @@ if(!empty($_SERVER['QUERY_STRING']) && is_numeric($_SERVER['QUERY_STRING'])) {
 			$_ENV['curapp'] = array_search($_SERVER['HTTP_HOST'], $_ENV['domain']['app']);
 			if($_ENV['curapp'] == 'mobile') {
 				$_ENV['curapp'] = 'forum';
-				if(!isset($_GET['mobile'])) {
-					@$_GET['mobile'] = '2';
-				}
 			}
 			if($_ENV['curapp'] == 'default' || !isset($_ENV['defaultapp'][$_ENV['curapp'].'.php'])) {
 				$_ENV['curapp'] = '';

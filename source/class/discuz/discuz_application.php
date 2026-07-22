@@ -1022,26 +1022,21 @@ class discuz_application extends discuz_base {
 			dsetcookie('dismobilemessage', '1', 3600);
 		}
 
-		$requestedmobile = getgpc('mobile');
-		if(!$requestedmobile && getgpc('showmobile')) {
-			$requestedmobile = getgpc('showmobile');
+		$mobile = $this->var['cookie']['mobile'] ?? '';
+		if($mobile === 'yes') {
+			$mobile = '2';
+			dsetcookie('mobile', $mobile, 31536000);
 		}
-		$mobile = $requestedmobile ?: ($this->var['cookie']['mobile'] ?? '');
 		$mobileflag = isset($this->var['mobiletpl'][$mobile]);
-		$mobile_=checkmobile();
+		$mobile_ = checkmobile();
 		if($mobile === 'no' || IS_ROBOT) {
 			dsetcookie('mobile', 'no', 31536000);
-			$nomobile = true;
-		} elseif($requestedmobile && $mobileflag) {
-			$mobile = $mobile === 'yes' ? '2' : $mobile;
-			dsetcookie('mobile', $mobile, 31536000);
-		} elseif(($this->var['cookie']['mobile'] ?? '') === 'no') {
 			$nomobile = true;
 		} elseif(!$mobile_ && !$mobileflag) {
 			$nomobile = true;
 		}
-		if(!$mobile || $mobile == 'yes') {
-			$mobile = $mobile_ ?? 2;
+		if(!$mobile) {
+			$mobile = $mobile_ ? '2' : '';
 		}
 
 		if($nomobile || (!$this->var['setting']['mobile']['mobileforward'] && !$mobileflag)) {
