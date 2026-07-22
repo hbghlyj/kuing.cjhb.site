@@ -12,6 +12,7 @@ if(!defined('IN_DISCUZ')) {
 }
 
 class ip {
+	const SESSION_LOCATION_SEPARATOR = "\x1F";
 
 	function __construct() {
 	}
@@ -262,9 +263,14 @@ class ip {
 	}
 
 	public static function format_session_location($location) {
-		$location = trim((string)$location);
+		$location = (string)$location;
 		if($location === '') {
 			return ['flag' => '', 'city' => '', 'asn' => '', 'organization' => '', 'network' => '', 'compact' => '', 'detail' => ''];
+		}
+		$originalCity = null;
+		if(str_contains($location, self::SESSION_LOCATION_SEPARATOR)) {
+			[$originalCity, $location] = explode(self::SESSION_LOCATION_SEPARATOR, $location, 2);
+			$originalCity = trim($originalCity);
 		}
 		$prefix = $location;
 		$asn = '';
@@ -278,8 +284,8 @@ class ip {
 		$parts = preg_split('/\s+/u', $prefix);
 		$flag = $parts[0] ?? '';
 		$cityOffset = isset($parts[1]) && preg_match('/^[A-Z]{2}$/', $parts[1]) ? 2 : 1;
-		$city = implode(' ', array_slice($parts, $cityOffset));
-		if($asn === '' && preg_match('/(?:^|\s)Not routed$/i', $city)) {
+		$city = $originalCity === null ? implode(' ', array_slice($parts, $cityOffset)) : $originalCity;
+		if($originalCity === null && $asn === '' && preg_match('/(?:^|\s)Not routed$/i', $city)) {
 			$city = trim(preg_replace('/(?:^|\s)Not routed$/i', '', $city));
 		}
 		$network = implode(' ', array_filter([$asn, $organization], 'strlen'));
@@ -293,6 +299,12 @@ class ip {
 			'compact' => $compact,
 			'detail' => implode(' ', array_filter([$compact, $network], 'strlen')),
 		];
+	}
+
+	public static function encode_session_location($city, $flag, $countryCode, $asn, $organization) {
+		$city = str_replace(self::SESSION_LOCATION_SEPARATOR, ' ', trim((string)$city));
+		$network = trim(implode(' ', array_filter([$flag, $countryCode, $asn, $organization], 'strlen')));
+		return $city.self::SESSION_LOCATION_SEPARATOR.$network;
 	}
 
 	/*
