@@ -212,9 +212,9 @@ $_config['ipgetter']['dnslist']['list']['0'] = 'comsenz.com';
 ```
 ##### 2.4 游客与爬虫网络标签
 
-游客和爬虫会话均保存国家、ASN 和自治系统组织名称。Cloudflare 提供有效的 `HTTP_CF_IPCOUNTRY` 时优先采用该国家代码，其余网络信息由 Country/ASN MMDB 补全。
+游客和爬虫会话均保存国家、ASN 和自治系统组织名称。Cloudflare 提供有效的 `HTTP_CF_IPCOUNTRY` 和 `HTTP_CF_IPCITY` 时，国家代码和城市用于界面显示；ASN 与组织名称由 Country/ASN MMDB 补全。
 
-在线用户列表同时显示游客和爬虫；两者分别使用游客与爬虫图标，不添加“游客”或爬虫名称前缀。论坛内的紧凑列表显示国旗和自治系统组织名称，ASN 放在标题提示中；完整在线列表显示国旗、ASN 和组织名称。
+在线用户列表同时显示游客和爬虫；两者分别使用游客与爬虫图标，不添加“游客”或爬虫名称前缀。论坛内的紧凑列表显示国旗和 Cloudflare 城市，标题提示显示 ASN 与组织名称；完整在线列表显示两组信息。
 
 ##### 2.5 Country/ASN 查询与输出策略调整
 

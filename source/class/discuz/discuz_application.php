@@ -619,6 +619,7 @@ class discuz_application extends discuz_base {
 					return mb_chr($firstLetterCodePoint, 'UTF-8') . mb_chr($secondLetterCodePoint, 'UTF-8');
 				};
 				$countryCode = strtoupper((string)($_SERVER['HTTP_CF_IPCOUNTRY'] ?? ''));
+				$city = trim((string)($_SERVER['HTTP_CF_IPCITY'] ?? ''));
 				$network = ip::lookup($this->var['clientip']);
 				if($countryCode === '') {
 					$countryCode = $network['country_code'] ?? '';
@@ -626,7 +627,7 @@ class discuz_application extends discuz_base {
 				$flag = $getFlagEmoji($countryCode);
 				$asn = !empty($network['asn']) ? 'AS'.$network['asn'] : '';
 				$organization = $network['organization'] ?? '';
-				$locationName = trim(implode(' ', array_filter([$flag, $countryCode, $asn, $organization], 'strlen')));
+				$locationName = trim(implode(' ', array_filter([$flag, $countryCode, $city, $asn, $organization], 'strlen')));
 				$referrer = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '';
 				$robotName = defined('IS_ROBOT') && IS_ROBOT ? IS_ROBOT : false;
 				if(!$robotName && ($this->_is_malformed_php_path($_SERVER['REQUEST_URI'] ?? '') || $this->_is_malformed_php_path($referrer))) {

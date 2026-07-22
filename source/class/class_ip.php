@@ -260,22 +260,31 @@ class ip {
 	public static function format_session_location($location) {
 		$location = trim((string)$location);
 		if($location === '') {
-			return ['flag' => '', 'asn' => '', 'organization' => '', 'compact' => '', 'detail' => ''];
+			return ['flag' => '', 'city' => '', 'asn' => '', 'organization' => '', 'network' => '', 'compact' => '', 'detail' => ''];
 		}
-		$parts = preg_split('/\s+/u', $location);
-		$flag = $parts[0] ?? '';
+		$prefix = $location;
 		$asn = '';
 		$organization = '';
-		if(preg_match('/(?:^|\s)(AS\d+)(?:\s+(.*))?$/u', $location, $matches)) {
-			$asn = $matches[1];
-			$organization = trim($matches[2] ?? '');
+		if(preg_match('/\bAS\d+\b/u', $location, $matches, PREG_OFFSET_CAPTURE)) {
+			$asn = $matches[0][0];
+			$offset = $matches[0][1];
+			$prefix = trim(substr($location, 0, $offset));
+			$organization = trim(substr($location, $offset + strlen($asn)));
 		}
+		$parts = preg_split('/\s+/u', $prefix);
+		$flag = $parts[0] ?? '';
+		$cityOffset = isset($parts[1]) && preg_match('/^[A-Z]{2}$/', $parts[1]) ? 2 : 1;
+		$city = implode(' ', array_slice($parts, $cityOffset));
+		$network = implode(' ', array_filter([$asn, $organization], 'strlen'));
+		$compact = implode(' ', array_filter([$flag, $city], 'strlen'));
 		return [
 			'flag' => $flag,
+			'city' => $city,
 			'asn' => $asn,
 			'organization' => $organization,
-			'compact' => trim($flag.' '.$organization),
-			'detail' => trim($flag.' '.$asn.' '.$organization),
+			'network' => $network,
+			'compact' => $compact,
+			'detail' => implode(' ', array_filter([$compact, $network], 'strlen')),
 		];
 	}
 

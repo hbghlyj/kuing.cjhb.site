@@ -62,7 +62,7 @@ if($_G['setting']['whosonlinestatus'] == 1 || $_G['setting']['whosonlinestatus']
 		$location = ip::format_session_location($online['location'] ?? '');
 		$isRobot = intval($online['groupid']) === 8;
 		$online_user['username'] = htmlspecialchars($location['compact']);
-		$online_user['network_title'] = htmlspecialchars($location['asn']);
+		$online_user['network_title'] = htmlspecialchars($location['network']);
 		$online_user['icon'] = $isRobot
 			? ($_G['cache']['onlinelist'][8] ?? STATICURL.'image/common/online_bot.svg')
 			: $_G['cache']['onlinelist'][7];

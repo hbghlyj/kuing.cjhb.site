@@ -138,7 +138,7 @@ class discuz_session {
 					: $onlinelist[7];
 				$location = ip::format_session_location($online['location'] ?? '');
 				$online['username'] = $location['compact'];
-				$online['network_title'] = $location['asn'];
+				$online['network_title'] = $location['network'];
 			}
 			$online['lastactivity'] = dgmdate($online['lastactivity'], 't');
 			$data[$online['uid']] = $online;
