@@ -2145,7 +2145,7 @@ b2254a02a579f8505fa2bcbc652355c7 *source/i18n/EN_UTF8/task/lang_post.php
 40c2d36536c54073bede309ceb95f6cf *source/i18n/EN_UTF8/task/lang_profile.php
 929418b3e82ecd45e9645b03334a75db *source/i18n/EN_UTF8/task/lang_promotion.php
 d41d8cd98f00b204e9800998ecf8427e *source/i18n/EN_UTF8/touch/index.htm
-48012f8e7b8b09a9e21083e377e2295c *source/i18n/EN_UTF8/touch/lang_template.php
+24f559f75a37bf90ee6d796165302bd4 *source/i18n/EN_UTF8/touch/lang_template.php
 d41d8cd98f00b204e9800998ecf8427e *source/i18n/EN_UTF8/userapp/index.htm
 d9e6154548b17811b0727cc2d0124b34 *source/i18n/EN_UTF8/userapp/lang_template.php
 d41d8cd98f00b204e9800998ecf8427e *source/i18n/index.htm
@@ -2350,7 +2350,7 @@ af0968888afd90552c0e30b9dc2ce228 *source/i18n/SC_UTF8/task/lang_post.php
 763861c74f890424f54ce0b675c008cf *source/i18n/SC_UTF8/task/lang_promotion.php
 c4dc1e38e1c60c403e148f4b4cfd1acd *source/i18n/SC_UTF8/task/lang_secmobile.php
 d41d8cd98f00b204e9800998ecf8427e *source/i18n/SC_UTF8/touch/index.htm
-f59dd51fa9eb9555be4da0dddda6c009 *source/i18n/SC_UTF8/touch/lang_template.php
+0abe20473fcd4254eafee358b054f471 *source/i18n/SC_UTF8/touch/lang_template.php
 d41d8cd98f00b204e9800998ecf8427e *source/i18n/TC_UTF8/admin/index.htm
 b874bbb56a4253efb2457304da4e1251 *source/i18n/TC_UTF8/admin/lang_template.php
 d41d8cd98f00b204e9800998ecf8427e *source/i18n/TC_UTF8/adv/index.htm
@@ -2552,7 +2552,7 @@ fc31752a20db16bcc2053a6b654aeb68 *source/i18n/TC_UTF8/task/lang_profile.php
 b50297f83c0f50c27a5fb6c4bbca39cf *source/i18n/TC_UTF8/task/lang_promotion.php
 6600a4e7b7cd4f42a5de02c11fe7d407 *source/i18n/TC_UTF8/task/lang_secmobile.php
 d41d8cd98f00b204e9800998ecf8427e *source/i18n/TC_UTF8/touch/index.htm
-a5576ad9f14c1d84e553ba2c39a34c4f *source/i18n/TC_UTF8/touch/lang_template.php
+32a6e931ab93af78003753b40e9a1e6d *source/i18n/TC_UTF8/touch/lang_template.php
 7215ee9c7d9dc229d2921a40e899ec5f *source/index.htm
 69948b1692a8cefa112d165e9bd48e2c *source/mitframe_version.php
 00eecb36bb90e29392a9fc43f87aa2c7 *static/ace/ace.editor.config.json
