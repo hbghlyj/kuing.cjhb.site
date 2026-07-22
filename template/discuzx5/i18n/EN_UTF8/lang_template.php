@@ -8,4 +8,5 @@ $lang = [
 	'x5_load_more' => 'Load more',
 	'x5_login_prompt' => 'Log in to access more features...',
 	'x5_no_related_content' => 'No related content',
+	'post_newthread' => 'New Thread',
 ];
