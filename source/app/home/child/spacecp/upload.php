@@ -15,7 +15,7 @@ if(!$_G['setting']['albumstatus']) {
 }
 
 $albumid = empty($_GET['albumid']) ? 0 : intval($_GET['albumid']);
-$_GET['op'] = in_array($_GET['op'], ['recount', 'cam', 'flash', 'normal']) ? $_GET['op'] : 'normal';
+$_GET['op'] = in_array($_GET['op'], ['recount', 'normal']) ? $_GET['op'] : 'normal';
 
 if($_GET['op'] == 'recount') {
 	$newsize = table_home_pic::t()->count_size_by_uid($_G['uid']);
@@ -124,11 +124,9 @@ if(submitcheck('albumsubmit') && helper_access::check_module('album')) {
 
 	cknewuser();
 
-	$config = urlencode($_G['siteroot'].'home.php?mod=misc&ac=swfupload&op=config'.($_GET['op'] == 'cam' ? '&cam=1' : ''));
-
 	$albums = getalbums($_G['uid']);
 
-	$actives = ($_GET['op'] == 'flash' || $_GET['op'] == 'cam') ? [$_GET['op'] => ' class="a"'] : ['js' => ' class="a"'];
+	$actives = ['js' => ' class="a"'];
 
 	$maxspacesize = checkperm('maxspacesize');
 	if(!empty($maxspacesize)) {

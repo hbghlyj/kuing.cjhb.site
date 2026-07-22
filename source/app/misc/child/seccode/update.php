@@ -15,9 +15,7 @@ $showid = 'seccode_'.$idhash;
 $rand = random(5, 1);
 $htmlcode = '';
 $ani = $_G['setting']['seccodedata']['animator'] ? '_ani' : '';
-if($_G['setting']['seccodedata']['type'] == 2) {
-} elseif($_G['setting']['seccodedata']['type'] == 3) {
-} else {
+
 	if(!empty($_G['setting']['seccodedata']['shuffer_order'])) {
 		$ani = '_shuffer';
 	}
@@ -47,7 +45,6 @@ if($_G['setting']['seccodedata']['type'] == 2) {
 	} else {
 		$message = lang('core', 'seccode_image'.$ani.'_tips').'<img onclick="updateseccode(\''.$idhash.'\')" width="'.$_G['setting']['seccodedata']['width'].'" height="'.$_G['setting']['seccodedata']['height'].'" src="misc.php?mod=seccode&update='.$rand.'&idhash='.$idhash.'" class="vm" alt="" />';
 	}
-}
 $imemode = $_G['setting']['seccodedata']['type'] != 1 ? 'ime-mode:disabled;' : '';
 $message = str_replace("'", "\'", $message);
 $seclang = lang('forum/misc');
@@ -71,4 +68,3 @@ if($('$showid')) {
 	$htmlcode
 }
 EOF;
-	

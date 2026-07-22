@@ -688,36 +688,9 @@ function portalcp_get_postmessage($post, $getauthorall = '') {
 		}
 	}
 
-	$msglower = strtolower($post['message']);
-	if(str_contains($msglower, '[/media]')) {
-		$post['message'] = preg_replace_callback("/\[media=([\w%,]+)\]\s*([^\[\<\r\n]+?)\s*\[\/media\]/is", 'portalcp_get_postmessage_callback_parsearticlemedia_12', $post['message']);
-	}
-	if(str_contains($msglower, '[/audio]')) {
-		$post['message'] = preg_replace_callback("/\[audio(=1)*\]\s*([^\[\<\r\n]+?)\s*\[\/audio\]/is", 'portalcp_get_postmessage_callback_parsearticlemedia_2', $post['message']);
-	}
-	if(str_contains($msglower, '[/flash]')) {
-		$post['message'] = preg_replace_callback("/\[flash(=(\d+),(\d+))?\]\s*([^\[\<\r\n]+?)\s*\[\/flash\]/is", 'portalcp_get_postmessage_callback_parsearticlemedia_4', $post['message']);
-	}
-
 	$post['message'] = discuzcode($post['message'], $post['smileyoff'], $post['bbcodeoff'], $post['htmlon'] & 1, $forum['allowsmilies'], $forum['allowbbcode'], ($forum['allowimgcode'] && $_G['setting']['showimages'] ? 1 : 0), $forum['allowhtml'], 0, 0, $post['authorid'], $forum['allowmediacode'], $post['pid']);
 	portalcp_parse_postattch($post);
-
-	if(str_contains($post['message'], '[/flash1]')) {
-		$post['message'] = str_replace('[/flash1]', '[/flash]', $post['message']);
-	}
 	return $post['message'].$_message;
-}
-
-function portalcp_get_postmessage_callback_parsearticlemedia_12($matches) {
-	return parsearticlemedia($matches[1], $matches[2]);
-}
-
-function portalcp_get_postmessage_callback_parsearticlemedia_2($matches) {
-	return parsearticlemedia('mid,0,0', $matches[2]);
-}
-
-function portalcp_get_postmessage_callback_parsearticlemedia_4($matches) {
-	return parsearticlemedia('swf,0,0', $matches[4]);
 }
 
 function portalcp_parse_postattch(&$post) {
@@ -739,30 +712,6 @@ function portalcp_parse_postattch(&$post) {
 		}
 		$post['message'] .= $add;
 	}
-}
-
-function parsearticlemedia($params, $url) {
-	global $_G;
-
-	$params = explode(',', $params);
-
-	$url = addslashes($url);
-	if($flv = parseflv($url, 0, 0)) {
-		$url = $flv['flv'];
-		$params[0] = 'swf';
-	}
-	if(in_array(count($params), [3, 4])) {
-		$type = $params[0];
-		$url = str_replace(['<', '>'], '', str_replace('\\"', '\"', $url));
-		return match ($type) {
-			'mp3', 'wma', 'ra', 'ram', 'wav', 'mid' => '[flash=mp3]' . $url . '[/flash1]',
-			'rm', 'rmvb', 'rtsp' => '[flash=real]' . $url . '[/flash1]',
-			'swf' => '[flash]' . $url . '[/flash1]',
-			'asf', 'asx', 'wmv', 'mms', 'avi', 'mpg', 'mpeg', 'mov' => '[flash=media]' . $url . '[/flash1]',
-			default => '<a href="' . $url . '" target="_blank">' . $url . '</a>',
-		};
-	}
-	return;
 }
 
 function portalcp_article_pre_next($catid, $aid) {

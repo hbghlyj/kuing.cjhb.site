@@ -13,11 +13,7 @@ if(!defined('IN_DISCUZ')) {
 $refererhost = parse_url($_SERVER['HTTP_REFERER'] ?? '');
 $refererhost['host'] = ($refererhost['host'] ?? '').(!empty($refererhost['port']) ? (':'.$refererhost['port']) : '');
 
-if(($_G['setting']['seccodedata']['type'] < 2 && ($refererhost['host'] != $_SERVER['HTTP_HOST'])) || ((defined('IN_MOBILE') && in_array($_G['setting']['seccodedata']['type'], [2, 3]) && ($refererhost['host'] != $_SERVER['HTTP_HOST'])) && ($_G['setting']['seccodedata']['type'] == 2 && !extension_loaded('ming') && $_POST['fromFlash'] != 1 || $_G['setting']['seccodedata']['type'] == 3 && $_GET['fromFlash'] != 1))) {
-	//当模式为英文=0、中文=1两种验证码时，校验Referer和Host是否为同一站点，不是就退出
-	//当模式为Flash=2、语音=3两种验证码时，要么是手机版且Referer和Host为同一站点（不是就退出，X3.5新增验证码降级功能），
-	//要么是Flash+Ming+FromFlash，要么是语音验证码+FromFlash（不是就退出）
-	//这个逻辑浪费了我二三十分钟，写上注释以免后人入坑
+if($refererhost['host'] != $_SERVER['HTTP_HOST']) {
 	if(!defined('IN_RESTFUL')) {
 		exit('Access Denied');
 	}
@@ -37,7 +33,7 @@ if(is_numeric($_G['setting']['seccodedata']['type']) || !preg_match('/^[\w\d:_]+
 
 	$code = new seccode();
 	$code->code = $seccode;
-	$code->type = (in_array($_G['setting']['seccodedata']['type'], [2, 3]) && defined('IN_MOBILE')) ? 0 : $_G['setting']['seccodedata']['type'];
+	$code->type = $_G['setting']['seccodedata']['type'];
 	$code->width = $_G['setting']['seccodedata']['width'];
 	$code->height = $_G['setting']['seccodedata']['height'];
 	$code->background = $_G['setting']['seccodedata']['background'];
@@ -79,4 +75,4 @@ if(is_numeric($_G['setting']['seccodedata']['type']) || !preg_match('/^[\w\d:_]+
 		}
 	}
 }
-	
+

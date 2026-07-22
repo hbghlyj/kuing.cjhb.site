@@ -16,9 +16,7 @@ function mkshare($share) {
 
 	$searchs = $replaces = [];
 	if($share['body_data']) {
-		if(isset($share['body_data']['flashaddr'])) {
-			$share['body_data']['flashaddr'] = addslashes($share['body_data']['flashaddr']);
-		} elseif(isset($share['body_data']['musicvar'])) {
+		if(isset($share['body_data']['musicvar'])) {
 			$share['body_data']['musicvar'] = addslashes($share['body_data']['musicvar']);
 		}
 		foreach(array_keys($share['body_data']) as $key) {

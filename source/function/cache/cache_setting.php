@@ -250,16 +250,10 @@ function build_cache_setting() {
 	@unlink(DISCUZ_DATA.'./sysdata/cache_domain.php');
 
 	$data['seccodedata'] = is_array($data['seccodedata']) ? $data['seccodedata'] : [];
-	if($data['seccodedata']['type'] == 2) {
-		if(extension_loaded('ming')) {
-			unset($data['seccodedata']['background'], $data['seccodedata']['adulterate'],
-				$data['seccodedata']['ttf'], $data['seccodedata']['angle'],
-				$data['seccodedata']['color'], $data['seccodedata']['size'],
-				$data['seccodedata']['animator']);
-		} else {
-			$data['seccodedata']['animator'] = 0;
-		}
-	} elseif($data['seccodedata']['type'] == 99) {
+	if(in_array($data['seccodedata']['type'], [2, 3])) {
+		$data['seccodedata']['type'] = 0;
+	}
+	if($data['seccodedata']['type'] == 99) {
 		$data['seccodedata']['width'] = 32;
 		$data['seccodedata']['height'] = 24;
 	}

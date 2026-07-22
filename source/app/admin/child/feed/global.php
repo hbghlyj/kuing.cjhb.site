@@ -37,7 +37,7 @@ if(!submitcheck('globalsubmit')) {
 	showtableheader();
 	if(empty($feed['uid'])) {
 		showsetting('feed_global_title', 'feednew[title_template]', $feed['title_template'], 'text');
-		$src = 'home.php?mod=editor&charset='.CHARSET.'&allowhtml=1&doodle=0';
+		$src = 'home.php?mod=editor&charset='.CHARSET.'&allowhtml=1';
 		print <<<EOF
 			<tr><td>{$lang['message']}</td><td></td></tr>
 			<tr>
@@ -136,4 +136,4 @@ EOF;
 	}
 	cpmsg('feed_global_add_success', '', 'succeed');
 }
-	
+

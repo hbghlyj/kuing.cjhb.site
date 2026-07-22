@@ -281,18 +281,12 @@ function discuzcode($message, $smileyoff = false, $bbcodeoff = false, $htmlon = 
 			if(str_contains($msglower, '[/audio]')) {
 				$message = preg_replace_callback("/\[audio(=1)*\]\s*([^\[\<\r\n]+?)\s*\[\/audio\]/is", $allowmediacode ? 'discuzcode_callback_parseaudio_2' : 'discuzcode_callback_bbcodeurl_2', $message);
 			}
-			if(str_contains($msglower, '[/flash]')) {
-				$message = preg_replace_callback("/\[flash(=(\d+),(\d+))?\]\s*([^\[\<\r\n]+?)\s*\[\/flash\]/is", $allowmediacode ? 'discuzcode_callback_parseflash_234' : 'discuzcode_callback_bbcodeurl_4', $message);
-			}
 		} else {
 			if(str_contains($msglower, '[/media]')) {
 				$message = preg_replace("/\[media=([\w%,]+)\]\s*([^\[\<\r\n]+?)\s*\[\/media\]/is", "[media]\\2[/media]", $message);
 			}
 			if(str_contains($msglower, '[/audio]')) {
 				$message = preg_replace("/\[audio(=1)*\]\s*([^\[\<\r\n]+?)\s*\[\/audio\]/is", "[media]\\2[/media]", $message);
-			}
-			if(str_contains($msglower, '[/flash]')) {
-				$message = preg_replace("/\[flash(=(\d+),(\d+))?\]\s*([^\[\<\r\n]+?)\s*\[\/flash\]/is", "[media]\\4[/media]", $message);
 			}
 		}
 
@@ -345,9 +339,6 @@ function discuzcode($message, $smileyoff = false, $bbcodeoff = false, $htmlon = 
 	}
 
 	if(!$bbcodeoff) {
-		if($parsetype != 1 && str_contains($msglower, '[swf]')) {
-			$message = preg_replace_callback("/\[swf\]\s*([^\[\<\r\n]+?)\s*\[\/swf\]/is", 'discuzcode_callback_bbcodeurl_1', $message);
-		}
 		$attrsrc = !IS_ROBOT && $lazyload ? 'file' : 'src';
 		if(str_contains($msglower, '[/img]')) {
 			$message = preg_replace_callback(
@@ -453,18 +444,6 @@ function discuzcode_callback_parseaudio_2($matches) {
 	return parseaudio($matches[2], 400);
 }
 
-function discuzcode_callback_parseflash_234($matches) {
-	return parseflash($matches[2], $matches[3], $matches[4]);
-}
-
-function discuzcode_callback_bbcodeurl_4($matches) {
-	return bbcodeurl($matches[4], '<a href="{url}" target="_blank">{url}</a>');
-}
-
-function discuzcode_callback_bbcodeurl_1($matches) {
-	return bbcodeurl($matches[1], ' <img src="'.STATICURL.'image/filetype/flash.gif" align="absmiddle" alt="" /> <a href="{url}" target="_blank">Flash: {url}</a> ');
-}
-
 function discuzcode_callback_jammer($matches) {
 	return jammer();
 }
@@ -508,14 +487,6 @@ function parseurl($url, $text, $scheme) {
 			return '<a href="' . $url . $link_rel_attribute . '" target="_blank">'.$text.'</a>';
 		}
 	}
-}
-
-function parseflash($w, $h, $url) {
-	$w = !$w ? 550 : $w;
-	$h = !$h ? 400 : $h;
-	$ext = fileext($url) == 'flv' ? 'flv' : 'swf';
-	$params = "$ext,$w,$h";
-	return parsemedia($params, $url);
 }
 
 function parseed2k($url) {
@@ -673,7 +644,7 @@ function _parsetable_cell_generator($param1, $colspan, $rowspan, $width, $curren
 
 function parseaudio($url, $width = 400) {
 	$url = addslashes($url);
-	if(!in_array(strtolower(substr($url, 0, 6)), ['http:/', 'https:', 'ftp://', 'rtsp:/', 'mms://']) && !preg_match('/^static\//', $url) && !preg_match('/^data\//', $url)) {
+	if(!in_array(strtolower(substr($url, 0, 6)), ['http:/', 'https:', 'ftp://']) && !preg_match('/^static\//', $url) && !preg_match('/^data\//', $url)) {
 		return dhtmlspecialchars($url);
 	}
 	$type = fileext($url);
@@ -713,12 +684,8 @@ function parsemedia($params, $url) {
 	if(in_array(count($params), [3, 4])) {
 		$type = fileext($url);
 		$url = str_replace(['<', '>'], '', str_replace('\\"', '\"', $url));
-		if(in_array($params[0], ['rtsp', 'mms'])) {
-			$mediaid = 'media_'.random(3);
-			return $params[0] == 'rtsp' ? '<object classid="clsid:CFCDAA03-8BE4-11cf-B84B-0020AFBBCCFA" width="'.$width.'" height="'.$height.'"><param name="autostart" value="0" /><param name="src" value="'.$url.'" /><param name="controls" value="imagewindow" /><param name="console" value="'.$mediaid.'_" /><embed src="'.$url.'" autostart="0" type="audio/x-pn-realaudio-plugin" controls="imagewindow" console="'.$mediaid.'_" width="'.$width.'" height="'.$height.'"></embed></object><br /><object classid="clsid:CFCDAA03-8BE4-11CF-B84B-0020AFBBCCFA" width="'.$width.'" height="32"><param name="src" value="'.$url.'" /><param name="controls" value="controlpanel" /><param name="console" value="'.$mediaid.'_" /><embed src="'.$url.'" autostart="0" type="audio/x-pn-realaudio-plugin" controls="controlpanel" console="'.$mediaid.'_" width="'.$width.'" height="32"></embed></object>' : '<object classid="clsid:6BF52A52-394A-11d3-B153-00C04F79FAA6" width="'.$width.'" height="'.$height.'"><param name="invokeURLs" value="0"><param name="autostart" value="0" /><param name="url" value="'.$url.'" /><embed src="'.$url.'" autostart="0" type="application/x-mplayer2" width="'.$width.'" height="'.$height.'"></embed></object>';
-		}
-		$audio = ['aac', 'flac', 'ogg', 'mp3', 'm4a', 'weba', 'wma', 'mid', 'wav', 'ra', 'ram'];
-		$video = ['rm', 'rmvb', 'flv', 'swf', 'asf', 'asx', 'wmv', 'avi', 'mpg', 'mpeg', 'mp4', 'm4v', '3gp', 'ogv', 'webm', 'mov', 'mkv'];
+		$audio = ['aac', 'flac', 'ogg', 'mp3', 'm4a', 'weba', 'wav'];
+		$video = ['flv', 'mp4', 'm4v', '3gp', 'ogv', 'webm', 'mov', 'mkv'];
 		if(in_array($type, $audio)) {
 			return parseaudio($url, $width);
 		} else if(in_array($type, $video)) {
@@ -789,23 +756,18 @@ function parseflv($url, $width = 0, $height = 0) {
 			break;
 		}
 	}
-	if($flv || $iframe) {
+	if($iframe) {
 		if(!$width && !$height) {
-			return ['flv' => $flv, 'iframe' => $iframe, 'imgurl' => $imgurl];
+			return ['flv' => '', 'iframe' => $iframe, 'imgurl' => $imgurl];
 		} else {
 			if(defined('IN_RESTFUL')) {
 				return restfulplugin::discuzcode('flv', $url);
 			}
 			$width = addslashes($width);
 			$height = addslashes($height);
-			$flv = addslashes($flv);
 			$iframe = addslashes($iframe);
 			$randomid = 'flv_'.random(3);
-			// 允许media扩展只返回其中一种播放方式，如两种都返回，则根据浏览器是否支持HTML5进行自动选择
-			$player_iframe = $iframe ? "\"<iframe src='$iframe' border='0' scrolling='no' framespacing='0' allowfullscreen='true' style='max-width: 100%' width='$width' height='$height' frameborder='no'></iframe>\"" : '';
-			$player_flv = $flv ? "AC_FL_RunContent('width', '$width', 'height', '$height', 'allowNetworking', 'internal', 'allowScriptAccess', 'never', 'src', '$flv', 'quality', 'high', 'bgcolor', '#ffffff', 'wmode', 'transparent', 'allowfullscreen', 'true')" : '';
-			$player = (!empty($player_iframe) && !empty($player_flv)) ? "detectHtml5Support() ? $player_iframe : $player_flv" : (empty($player_iframe) ? $player_flv : $player_iframe);
-			return '<ignore_js_op><span id="'.$randomid.'"></span><script type="text/javascript" reload="1">document.getElementById(\''.$randomid.'\').innerHTML=('.$player.');</script></ignore_js_op>';
+			return '<ignore_js_op><iframe id="'.$randomid.'" src="'.$iframe.'" scrolling="no" allowfullscreen="true" style="max-width:100%" width="'.$width.'" height="'.$height.'" frameborder="0"></iframe></ignore_js_op>';
 		}
 	} else {
 		return FALSE;

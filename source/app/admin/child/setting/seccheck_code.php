@@ -20,15 +20,10 @@ if(submitcheck('settingsubmit')) {
 	if(isset($settingnew['seccodedata'])) {
 		$settingnew['seccodedata']['width'] = intval($settingnew['seccodedata']['width']);
 		$settingnew['seccodedata']['height'] = intval($settingnew['seccodedata']['height']);
-		if($settingnew['seccodedata']['type'] != 3) {
-			$settingnew['seccodedata']['width'] = $settingnew['seccodedata']['width'] < 100 ? 100 : ($settingnew['seccodedata']['width'] > 200 ? 200 : $settingnew['seccodedata']['width']);
-			$settingnew['seccodedata']['height'] = $settingnew['seccodedata']['height'] < 30 ? 30 : ($settingnew['seccodedata']['height'] > 80 ? 80 : $settingnew['seccodedata']['height']);
-		} else {
-			$settingnew['seccodedata']['width'] = 85;
-			$settingnew['seccodedata']['height'] = 25;
-		}
+		$settingnew['seccodedata']['width'] = $settingnew['seccodedata']['width'] < 100 ? 100 : ($settingnew['seccodedata']['width'] > 200 ? 200 : $settingnew['seccodedata']['width']);
+		$settingnew['seccodedata']['height'] = $settingnew['seccodedata']['height'] < 30 ? 30 : ($settingnew['seccodedata']['height'] > 80 ? 80 : $settingnew['seccodedata']['height']);
 		$seccoderoot = '';
-		if($settingnew['seccodedata']['type'] == 0 || $settingnew['seccodedata']['type'] == 2) {
+		if($settingnew['seccodedata']['type'] == 0) {
 			$seccoderoot = 'source/data/seccode/font/en/';
 		} elseif($settingnew['seccodedata']['type'] == 1) {
 			$seccoderoot = 'source/data/seccode/font/ch/';
@@ -77,11 +72,11 @@ if(submitcheck('settingsubmit')) {
 	showtableheader();
 	showtitle('setting_sec_seccode_type_setting');
 	showsetting('setting_sec_seccode_type', ['settingnew[seccodedata][type]', $seccodetypearray], $setting['seccodedata']['type'], 'mradio', '', 0, cplang('setting_sec_seccode_type_comment').$seccheckhtml);
-	showtagheader('tbody', 'seccodeimagewh', is_numeric($setting['seccodedata']['type']) && $setting['seccodedata']['type'] != 3 && $setting['seccodedata']['type'] != 99, 'sub');
+	showtagheader('tbody', 'seccodeimagewh', is_numeric($setting['seccodedata']['type']) && $setting['seccodedata']['type'] != 99, 'sub');
 	showsetting('setting_sec_seccode_width', 'settingnew[seccodedata][width]', $setting['seccodedata']['width'], 'text');
 	showsetting('setting_sec_seccode_height', 'settingnew[seccodedata][height]', $setting['seccodedata']['height'], 'text');
 	showtagfooter('tbody');
-	showtagheader('tbody', 'seccodeimageext', is_numeric($setting['seccodedata']['type']) && $setting['seccodedata']['type'] != 2 && $setting['seccodedata']['type'] != 3 && $setting['seccodedata']['type'] != 99, 'sub');
+	showtagheader('tbody', 'seccodeimageext', is_numeric($setting['seccodedata']['type']) && $setting['seccodedata']['type'] != 99, 'sub');
 	showsetting('setting_sec_seccode_shuffer_order', 'settingnew[seccodedata][shuffer_order]', $setting['seccodedata']['shuffer_order'], 'radio');
 	showsetting('setting_sec_seccode_scatter', 'settingnew[seccodedata][scatter]', $setting['seccodedata']['scatter'], 'text');
 	showsetting('setting_sec_seccode_background', 'settingnew[seccodedata][background]', $setting['seccodedata']['background'], 'radio');

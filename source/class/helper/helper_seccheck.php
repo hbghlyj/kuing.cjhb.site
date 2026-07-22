@@ -89,9 +89,6 @@ class helper_seccheck {
 				for($i = 0; $i < 2; $i++) {
 					$seccode .= substr($lang['chn'], $code[$i] * $len, $len);
 				}
-			} elseif($_G['setting']['seccodedata']['type'] == 3) {
-				$s = sprintf('%04s', base_convert($seccode, 10, 20));
-				$seccodeunits = 'CEFHKLMNOPQRSTUVWXYZ';
 			} else {
 				$s = sprintf('%04s', base_convert($seccode, 10, 24));
 				$seccodeunits = 'BCEFGHJKMPQRTVWXY2346789';

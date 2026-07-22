@@ -110,7 +110,7 @@ if(!submitcheck('advsubmit')) {
 	}
 
 	$adtypearray = [];
-	$adtypes = ['code', 'text', 'image', 'flash'];
+	$adtypes = ['code', 'text', 'image'];
 	foreach($adtypes as $adtype) {
 		$displayary = [];
 		foreach($adtypes as $adtype1) {
@@ -147,17 +147,6 @@ if(!submitcheck('advsubmit')) {
 	showsetting('adv_edit_style_image_height', 'advnew[image][height]', $adv['parameters']['height'], 'text', '', 0, '', 'id="imageheight" onchange="setpreview(\'image\')"');
 	showtagfooter('tbody');
 
-	showtagheader('tbody', 'style_flash', $adv['parameters']['style'] == 'flash');
-	showtitle('adv_edit_style_flash');
-	showsetting('adv_edit_style_flash_url', 'advnewflash', $adv['parameters']['url'], 'filetext');
-	if($imagesizes) {
-		$v = $adv['parameters']['flash'].'x'.$adv['parameters']['flash'];
-		showsetting('adv_edit_style_flash_size', '', '', '<select onchange="setsize(this.value, \'flash\')"><option>'.cplang('adv_edit_style_custom').'</option>'.str_replace('"'.$v.'"', '"'.$v.'" selected="selected"', $imagesizes).'</select>');
-	}
-	showsetting('adv_edit_style_flash_width', 'advnew[flash][width]', $adv['parameters']['width'], 'text', '', 0, '', 'id="flashwidth" onchange="setpreview(\'flash\')"');
-	showsetting('adv_edit_style_flash_height', 'advnew[flash][height]', $adv['parameters']['height'], 'text', '', 0, '', 'id="flashheight" onchange="setpreview(\'flash\')"');
-	showtagfooter('tbody');
-
 	echo '<tr><td colspan="2">';
 	if($operation == 'edit') {
 		echo '<input id="previewbtn" type="button" class="btn" onclick="$(\'advpreview\').style.display=\'\';this.form.preview.value=1;this.form.target=\'preview\';this.form.submit();" name="jspreview" value="'.$lang['preview'].'">&nbsp; &nbsp;';
@@ -166,7 +155,6 @@ if(!submitcheck('advsubmit')) {
 	showtablefooter();
 	showtableheader();
 	echo '<tr><td colspan="2" id="imagesizepreviewtd" style="border:0"><div id="imagesizepreview" style="display:none;border:1px dotted gray"></div></td></tr>';
-	echo '<tr><td colspan="2" id="flashsizepreviewtd" style="border:0"><div id="flashsizepreview" style="display:none;border:1px dotted gray"></div></td></tr>';
 	showtablefooter();
 	showformfooter();
 	echo '<script type="text/JavaScript">
@@ -188,7 +176,7 @@ if(!submitcheck('advsubmit')) {
 			obj.style.height = h + \'px\';
 			tdobj.style.height = (parseInt(h) + 10) + \'px\';
 		}';
-	if($operation == 'edit' && ($adv['parameters']['style'] == 'image' || $adv['parameters']['style'] == 'flash')) {
+	if($operation == 'edit' && $adv['parameters']['style'] == 'image') {
 		echo 'setpreview(\''.$adv['parameters']['style'].'\');';
 	}
 	echo '</script>';
@@ -234,8 +222,7 @@ if(!submitcheck('advsubmit')) {
 		cpmsg('adv_endtime_invalid', '', 'error');
 	} elseif(($advnew['style'] == 'code' && !$advnew['code']['html'])
 		|| ($advnew['style'] == 'text' && (!$advnew['text']['title'] || !$advnew['text']['link']))
-		|| ($advnew['style'] == 'image' && (!$_FILES['advnewimage'] && !$_GET['advnewimage'] || !$advnew['image']['link']))
-		|| ($advnew['style'] == 'flash' && (!$_FILES['advnewflash'] && !$_GET['advnewflash'] || !$advnew['flash']['width'] || !$advnew['flash']['height']))) {
+		|| ($advnew['style'] == 'image' && (!$_FILES['advnewimage'] && !$_GET['advnewimage'] || !$advnew['image']['link']))) {
 		cpmsg('adv_parameter_invalid', '', 'error');
 	}
 
@@ -243,7 +230,7 @@ if(!submitcheck('advsubmit')) {
 		$advid = table_common_advertisement::t()->insert(['available' => 1, 'type' => $type], true);
 	}
 
-	if($advnew['style'] == 'image' || $advnew['style'] == 'flash') {
+	if($advnew['style'] == 'image') {
 		if($_FILES['advnew'.$advnew['style']]) {
 			$upload = new discuz_upload();
 			if($upload->init($_FILES['advnew'.$advnew['style']], 'common') && $upload->save(1)) {
@@ -276,4 +263,4 @@ if(!submitcheck('advsubmit')) {
 	cpmsg('adv_succeed', 'action=adv&operation=edit&advid='.$advid.$extra, 'succeed');
 
 }
-	
+

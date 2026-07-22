@@ -1408,101 +1408,6 @@ function hideWindow(k, all, clear) {
 	}
 }
 
-function AC_FL_RunContent() {
-	var str = '';
-	var ret = AC_GetArgs(arguments, "clsid:d27cdb6e-ae6d-11cf-96b8-444553540000", "application/x-shockwave-flash");
-	str += '<embed ';
-	for (var i in ret.embedAttrs) {
-		str += i + '="' + ret.embedAttrs[i] + '" ';
-	}
-	str += '></embed>';
-	return str;
-}
-
-function AC_GetArgs(args, classid, mimeType) {
-	var ret = new Object();
-	ret.embedAttrs = new Object();
-	ret.params = new Object();
-	ret.objAttrs = new Object();
-	for (var i = 0; i < args.length; i = i + 2) {
-		var currArg = args[i].toLowerCase();
-		switch (currArg) {
-			case "classid":
-				break;
-			case "pluginspage":
-				ret.embedAttrs[args[i]] = 'http://www.macromedia.com/go/getflashplayer';
-				break;
-			case "src":
-				ret.embedAttrs[args[i]] = args[i + 1];
-				ret.params["movie"] = args[i + 1];
-				break;
-			case "codebase":
-				ret.objAttrs[args[i]] = 'http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,0,0';
-				break;
-			case "onafterupdate":
-			case "onbeforeupdate":
-			case "onblur":
-			case "oncellchange":
-			case "onclick":
-			case "ondblclick":
-			case "ondrag":
-			case "ondragend":
-			case "ondragenter":
-			case "ondragleave":
-			case "ondragover":
-			case "ondrop":
-			case "onfinish":
-			case "onfocus":
-			case "onhelp":
-			case "onmousedown":
-			case "onmouseup":
-			case "onmouseover":
-			case "onmousemove":
-			case "onmouseout":
-			case "onkeypress":
-			case "onkeydown":
-			case "onkeyup":
-			case "onload":
-			case "onlosecapture":
-			case "onpropertychange":
-			case "onreadystatechange":
-			case "onrowsdelete":
-			case "onrowenter":
-			case "onrowexit":
-			case "onrowsinserted":
-			case "onstart":
-			case "onscroll":
-			case "onbeforeeditfocus":
-			case "onactivate":
-			case "onbeforedeactivate":
-			case "ondeactivate":
-			case "type":
-			case "id":
-				ret.objAttrs[args[i]] = args[i + 1];
-				break;
-			case "width":
-			case "height":
-			case "align":
-			case "vspace":
-			case "hspace":
-			case "class":
-			case "title":
-			case "accesskey":
-			case "name":
-			case "tabindex":
-				ret.embedAttrs[args[i]] = ret.objAttrs[args[i]] = args[i + 1];
-				break;
-			default:
-				ret.embedAttrs[args[i]] = ret.params[args[i]] = args[i + 1];
-		}
-	}
-	ret.objAttrs["classid"] = classid;
-	if (mimeType) {
-		ret.embedAttrs["type"] = mimeType;
-	}
-	return ret;
-}
-
 function simulateSelect(selectId, widthvalue) {
 	var selectObj = $(selectId);
 	if (!selectObj) return;
@@ -1708,9 +1613,6 @@ function parseurl(str, mode, parsecode) {
 	const imgPattern = new RegExp(`([^>=\\]"'/]|^)((((https?|ftp):\\/\\/)|www\\.)([\\w\\-]+\\.)*[\\w\\-\\u4e00-\\u9fa5]+\\.([\\.a-zA-Z0-9]+|\\u4E2D\\u56FD|\\u7F51\\u7EDC|\\u516C\\u53F8)(${urlSuffixRegex})+\\.(png|gif|jpg|jpeg|svg|apng|avif|webp|bmp|ico|cur|jpe|jif|jfif))`, 'ig');
 	str = str.replace(imgPattern, '$1[img]$2[/img]');
 
-	const flashPattern = new RegExp(`([^>=\\]"'/]|^)((((https?|ftp):\\/\\/)|www\\.)([\\w\\-]+\\.)*[\\w\\-\\u4e00-\\u9fa5]+\\.([\\.a-zA-Z0-9]+|\\u4E2D\\u56FD|\\u7F51\\u7EDC|\\u516C\\u53F8)(${urlSuffixRegex})+\\.(swf|flv))`, 'ig');
-	str = str.replace(flashPattern, '$1[flash]$2[/flash]');
-
 	const audioPattern = new RegExp(`([^>=\\]"'/]|^)((((https?|ftp):\\/\\/)|www\\.)([\\w\\-]+\\.)*[\\w\\-\\u4e00-\\u9fa5]+\\.([\\.a-zA-Z0-9]+|\\u4E2D\\u56FD|\\u7F51\\u7EDC|\\u516C\\u53F8)(${urlSuffixRegex})+\\.(mp3|wma))`, 'ig');
 	str = str.replace(audioPattern, '$1[audio]$2[/audio]');
 
@@ -1822,10 +1724,6 @@ function updatestring(str1, str2, clear) {
 	return clear ? str1.replace(str2, '') : (str1.indexOf(str2) == -1 ? str1 + str2 : str1);
 }
 
-function getClipboardData() {
-	window.document.clipboardswf.SetVariable('str', CLIPBOARDSWFDATA);
-}
-
 function setCopy(text, msg) {
 	var cp = document.createElement('textarea');
 	cp.style.fontSize = '12pt';
@@ -1854,10 +1752,7 @@ function setCopy(text, msg) {
 			showPrompt(null, null, '<span>' + msg + '</span>', 1500);
 		}
 	} else {
-		var msg = '<div class="c"><div style="width: 200px; text-align: center; text-decoration:underline;">' + $L('copy_to_clipboard') + '</div>' +
-		    AC_FL_RunContent('id', 'clipboardswf', 'name', 'clipboardswf', 'devicefont', 'false', 'width', '200', 'height', '40', 'src', STATICURL + 'image/common/clipboard.swf', 'menu', 'false', 'allowScriptAccess', 'sameDomain', 'swLiveConnect', 'true', 'wmode', 'transparent', 'style', 'margin-top:-20px') + '</div>';
-		showDialog(msg, 'info');
-		CLIPBOARDSWFDATA = text;
+		showDialog('<div class="c"><div>' + $L('copy_to_clipboard') + '</div><textarea class="pt" readonly onclick="this.select()">' + htmlspecialchars(text) + '</textarea></div>', 'info');
 	}
 }
 
@@ -1867,10 +1762,6 @@ function copycode(obj) {
 
 function showdistrict(container, elems, totallevel, changelevel, containertype) {
 	$F('_showdistrict', arguments);
-}
-
-function setDoodle(fid, oid, url, tid, from) {
-	$F('_setDoodle', arguments);
 }
 
 
@@ -2241,57 +2132,14 @@ function detectHtml5Support() {
 
 function detectPlayer(randomid, ext, src, width, height, thumbImg = '') {
 	var h5_support = new Array('aac', 'flac', 'mp3', 'm4a', 'wav', 'flv', 'mp4', 'm4v', '3gp', 'ogv', 'ogg', 'weba', 'webm', 'mov');
-	var trad_support = new Array('mp3', 'wma', 'mid', 'wav', 'ra', 'ram', 'rm', 'rmvb', 'swf', 'asf', 'asx', 'wmv', 'avi', 'mpg', 'mpeg', 'mov');
 	width = width.indexOf("%") == -1 ? width + 'px' : width;
 	height = height.indexOf("%") == -1 ? height + 'px' : height;
 	if (in_array(ext, h5_support) && detectHtml5Support()) {
 		html5Player(randomid, ext, src, width, height, thumbImg);
-	} else if (in_array(ext, trad_support)) {
-		tradionalPlayer(randomid, ext, src, width, height, thumbImg);
 	} else {
 		$(randomid).style.width = width;
 		$(randomid).style.height = height;
 	}
-}
-
-function tradionalPlayer(randomid, ext, src, width, height, thumbImg = '') {
-	switch (ext) {
-		case 'mp3':
-		case 'wma':
-		case 'mid':
-		case 'wav':
-			height = 64;
-			html = '<object classid="clsid:6BF52A52-394A-11d3-B153-00C04F79FAA6" width="' + width + '" height="' + height + '"><param name="invokeURLs" value="0"><param name="autostart" value="0" /><param name="url" value="' + src + '" /><embed src="' + src + '" autostart="0" type="application/x-mplayer2" width="' + width + '" height="' + height + '"></embed></object>';
-			break;
-		case 'ra':
-		case 'ram':
-			height = 32;
-			html = '<object classid="clsid:CFCDAA03-8BE4-11CF-B84B-0020AFBBCCFA" width="' + width + '" height="' + height + '"><param name="autostart" value="0" /><param name="src" value="' + src + '" /><param name="controls" value="controlpanel" /><param name="console" value="' + randomid + '_" /><embed src="' + src + '" autostart="0" type="audio/x-pn-realaudio-plugin" controls="ControlPanel" console="' + randomid + '_" width="' + width + '" height="' + height + '"></embed></object>';
-			break;
-		case 'rm':
-		case 'rmvb':
-			html = '<object classid="clsid:CFCDAA03-8BE4-11cf-B84B-0020AFBBCCFA" width="' + width + '" height="' + height + '"><param name="autostart" value="0" /><param name="src" value="' + src + '" /><param name="controls" value="imagewindow" /><param name="console" value="' + randomid + '_" /><embed src="' + src + '" autostart="0" type="audio/x-pn-realaudio-plugin" controls="imagewindow" console="' + randomid + '_" width="' + width + '" height="' + height + '"></embed></object><br /><object classid="clsid:CFCDAA03-8BE4-11CF-B84B-0020AFBBCCFA" width="' + width + '" height="32"><param name="src" value="' + src + '" /><param name="controls" value="controlpanel" /><param name="console" value="' + randomid + '_" /><embed src="' + src + '" autostart="0" type="audio/x-pn-realaudio-plugin" controls="controlpanel" console="' + randomid + '_" width="' + width + '" height="32"></embed></object>';
-			break;
-		case 'swf':
-			html = AC_FL_RunContent('width', width, 'height', height, 'allowNetworking', 'internal', 'allowScriptAccess', 'never', 'src', encodeURI(src), 'quality', 'high', 'bgcolor', '#ffffff', 'wmode', 'transparent', 'allowfullscreen', 'true');
-			break;
-		case 'asf':
-		case 'asx':
-		case 'wmv':
-		case 'avi':
-		case 'mpg':
-		case 'mpeg':
-			html = '<object classid="clsid:6BF52A52-394A-11d3-B153-00C04F79FAA6" width="' + width + '" height="' + height + '"><param name="invokeURLs" value="0"><param name="autostart" value="0" /><param name="url" value="' + src + '" /><embed src="' + src + '" autostart="0" type="application/x-mplayer2" width="' + width + '" height="' + height + '"></embed></object>';
-			break;
-		case 'mov':
-			html = '<object classid="clsid:02BF25D5-8C17-4B23-BC80-D3488ABDDC6B" width="' + width + '" height="' + height + '"><param name="autostart" value="false" /><param name="src" value="' + src + '" /><embed src="' + src + '" autostart="false" type="video/quicktime" controller="true" width="' + width + '" height="' + height + '"></embed></object>';
-			break;
-		default:
-			break;
-	}
-	$(randomid).style.width = width;
-	$(randomid).style.height = height;
-	$(randomid + '_container').innerHTML = html;
 }
 
 function html5Player(randomid, ext, src, width, height, thumbImg = '') {
@@ -2641,7 +2489,6 @@ DISCUZCODE['html'] = [];
 
 var USERABOUT_BOX = true;
 var USERCARDST = null;
-var CLIPBOARDSWFDATA = '';
 var NOTICETITLE = [];
 var NOTICECURTITLE = document.title;
 var safescripts = {}, evalscripts = [];

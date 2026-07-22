@@ -216,7 +216,7 @@ document.onclick = function(e){
 		}catch(e){}
 	}
 	try{
-		if(fInObj(el, "createUrl") || fInObj(el, "createImg") || fInObj(el, "createSwf") || fInObj(el, "createPage")){
+		if(fInObj(el, "createUrl") || fInObj(el, "createImg") || fInObj(el, "createPage")){
 			return;
 		}
 	}catch(e){}
@@ -238,7 +238,6 @@ var arrMatch = {
 	imgInOut:"divInOut",
 	faceBox:"editFaceBox",
 	icoUrl:"createUrl",
-	icoSwf:"createSwf",
 	icoPage:"createPage"
 }
 function format(type, para){
@@ -333,13 +332,6 @@ function insertImg(src) {
 	format("insertHTML", '<img src="' + src + '"/>');
 }
 
-function doodleBox(event, id) {
-	if(parent.$('uchome-ttHtmlEditor') != null) {
-		parent.showWindow(id, 'home.php?mod=magic&mid=doodle&showid=blog_doodle&target=uchome-ttHtmlEditor&from=editor');
-	} else {
-		parent.showDialog(parent.$L('nofatch_scrawl_data'));
-	}
-}
 function backColor(e){
 	var sColor = fDisplayColorBoard(e);
 	if(gIsIE)
@@ -433,40 +425,6 @@ function createImg(e, show) {
 		dvImgBox.style.top = 33 + "px";
 	}
 }
-function createFlash(e, show) {
-	if(typeof show == 'undefined') {
-		var flashtag = '';
-		var vObj = $('videoUrl');
-		var sFlash = vObj.value;
-		if ((sFlash!=null) && (sFlash!="http://")){
-			setCaret();
-			var sFlashType = $('vtype').value;
-			if(sFlashType==1) {
-				flashtag = '[flash=media]';
-			} else if(sFlashType==2) {
-				flashtag = '[flash=real]';
-			} else if(sFlashType==3) {
-				flashtag = '[flash=mp3]';
-			} else {
-				flashtag = '[flash]';
-			}
-			format("insertHTML", flashtag + sFlash + '[/flash]');
-		}
-		fHide($('createSwf'));
-		vObj.value = 'http://';
-	} else {
-		if(gIsIE){
-			var e = window.event;
-		}
-		getCaret();
-		var dvSwfBox = $("createSwf");
-		var iX = e.clientX;
-		var iY = e.clientY;
-		dvSwfBox.style.display = "";
-		dvSwfBox.style.left = (iX-350) + "px";
-		dvSwfBox.style.top = 33 + "px";
-	}
-}
 String.prototype.trim = function(){
 	return this.replace(/(^\s*)|(\s*$)/g, "");
 }
@@ -550,7 +508,7 @@ function f_GetY(e)
 }
 function fHideMenu(){
 	try{
-		var arr = ["fontface", "fontsize", "dvForeColor", "dvPortrait", "divAlign", "divList" ,"divInOut", "editFaceBox", "createUrl", "createImg", "createSwf", "createPage"];
+		var arr = ["fontface", "fontsize", "dvForeColor", "dvPortrait", "divAlign", "divList" ,"divInOut", "editFaceBox", "createUrl", "createImg", "createPage"];
 		for(var i=0;i<arr.length;i++){
 			var obj = $(arr[i]);
 			if(obj){

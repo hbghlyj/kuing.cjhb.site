@@ -128,7 +128,6 @@ $lang = array(
 	'share_link'		=> 'shared link',//'分享了一个网址',
 	'share_video'		=> 'shared video',//'分享了一个视频',
 	'share_music'		=> 'shared music',//'分享了一个音乐',
-	'share_flash'		=> 'shared Flash',//'分享了一个 Flash',
 	'share_event'		=> 'shared event',//'分享了一个活动',
 	'share_poll'		=> 'shared the poll \\1',//'分享了一个\\1投票',
 	'event_time'		=> 'Time',//'活动时间',
@@ -172,7 +171,6 @@ $lang = array(
 
 
 	'present_user_magics'	=> 'You have received the magic gift \\1 from administrator',//'您收到了管理员赠送的道具：\\1',
-	'has_not_more_doodle'	=> 'You have no Graffiti.',//'您没有涂鸦板了',
 
 	'do_stat_login'		=> 'Logins',//'来访用户',
 	'do_stat_mobilelogin'	=> 'Mobile login',//'手机访问',

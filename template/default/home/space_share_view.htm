@@ -33,10 +33,6 @@
 				{$share['body_data']['player']}
 				<!--{elseif 'music' == $share['type']}-->
 				{$share['body_data']['player']}
-				<!--{elseif 'flash' == $share['type']}-->
-				<div class="tn" id="flash_div_$share[sid]">
-					<script>showFlash('flash', '{$share['body_data']['flashaddr']}', '', '{$share['sid']}');</script>
-				</div>
 				<!--{/if}-->
 
 				<!--{if $share[body_general]}-->
@@ -71,9 +67,6 @@
 			<!--{if $_G['uid']}-->
 				<p>
 					<span id="comment_face" onclick="showFace(this.id, 'comment_message');return false;" class="cur1"><img src="{IMGDIR}/facelist.gif" alt="facelist" class="vm" /></span>
-					<!--{if $_G['setting']['magicstatus'] && $_G['setting']['magics']['doodle']}-->
-					<a id="a_magic_doodle" href="home.php?mod=magic&mid=doodle&showid=comment_doodle&target=comment_message" onclick="showWindow(this.id, this.href, 'get', '0')"><img src="{STATICURL}image/magic/doodle.small.gif" alt="doodle" class="vm" />{$_G[setting][magics][doodle]}</a>
-					<!--{/if}-->
 				</p>
 			<!--{/if}-->
 			<div class="tedt mtn mbn">

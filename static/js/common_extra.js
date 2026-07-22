@@ -125,31 +125,6 @@ function _checksec(type, idhash, showmsg, recall, modid) {
 	});
 }
 
-function _setDoodle(fid, oid, url, tid, from) {
-	if(tid == null) {
-		hideWindow(fid);
-	} else {
-		$(tid).style.display = '';
-		$(fid).style.display = 'none';
-	}
-	var doodleText = '[img]'+url+'[/img]';
-	if($(oid) != null) {
-		if(from == "editor") {
-			insertImage(url);
-		} else if(from == "fastpost") {
-			seditor_insertunit('fastpost', doodleText);
-		} else if(from == "forumeditor") {
-			if(wysiwyg) {
-				insertText('<img src="' + url + '" border="0" alt="" />', false);
-			} else {
-				insertText(doodleText, strlen(doodleText), 0);
-			}
-		} else {
-			insertContent(oid, doodleText);
-		}
-	}
-}
-
 function _showdistrict(container, elems, totallevel, changelevel, containertype) {
 	var getdid = function(elem) {
 		var op = elem.options[elem.selectedIndex];
@@ -371,7 +346,7 @@ function _zoom(obj, zimg, nocover, pn, showexif) {
 		$(zoomid).style.left = '0';
 		$(zoomid).style.margin = '0';
 		$(zoomid).style.display = 'block';
-		
+
 		if($(menuid + '_imglink')) {
 			$(menuid + '_imglink').href = zimg;
 		}
@@ -488,7 +463,7 @@ function _zoom(obj, zimg, nocover, pn, showexif) {
 		var offsetY = (containerHeight - ele.height) / 2;
 		ele.style.left = offsetX + 'px';
 		ele.style.top = offsetY + 'px';
-		
+
 		adjustpn(containerHeight);
 		doane(e);
 	};

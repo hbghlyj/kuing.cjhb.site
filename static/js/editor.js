@@ -1215,9 +1215,6 @@ function showEditorMenu(tag, params) {
 			case 'vid':
 				str = '<p class="pbn">' + $L('video_url') + ':</p><p class="pbn"><input type="text" value="" id="' + ctrlid + '_param_1" style="width: 220px;" class="px" /></p><p class="pbn">' + $L('width') + ': <input id="' + ctrlid + '_param_2" size="5" value="500" class="px" /> &nbsp; ' + $L('height') + ': <input id="' + ctrlid + '_param_3" size="5" value="375" class="px" /></p><p class="xg2 pbn">' + $L('video_tip') + '</p>';
 				break;
-			case 'fls':
-				str = '<p class="pbn">' + $L('flash_url') + ':</p><p class="pbn"><input type="text" id="' + ctrlid + '_param_1" class="px" value="" style="width: 220px;" /></p><p class="pbn">' + $L('width') + ': <input id="' + ctrlid + '_param_2" size="5" value="" class="px" /> &nbsp; ' + $L('height') + ': <input id="' + ctrlid + '_param_3" size="5" value="" class="px" /></p><p class="xg2 pbn">' + $L('flash_tip') + '</p>';
-				break;
 			case 'pasteword':
 				stitle = $L('pasteword');
 				str = '<p class="px" style="height:300px"><iframe id="' + ctrlid + '_param_1" frameborder="0" style="width:100%;height:100%" onload="this.contentWindow.document.body.style.width=\'550px\';this.contentWindow.document.body.contentEditable=true;this.contentWindow.document.body.focus();this.onload=null"></iframe></p><p class="xg2 pbn">' + $L('pasteword_tip') + '</p>';
@@ -1420,20 +1417,13 @@ function showEditorMenu(tag, params) {
 			case 'aud':
 				insertText('[audio]' + $(ctrlid + '_param_1').value + '[/audio]', 7, 8, false, sel);
 				break;
-			case 'fls':
-				if($(ctrlid + '_param_2').value && $(ctrlid + '_param_3').value) {
-					insertText('[flash=' + parseInt($(ctrlid + '_param_2').value) + ',' + parseInt($(ctrlid + '_param_3').value) + ']' + squarestrip($(ctrlid + '_param_1').value) + '[/flash]', 7, 8, false, sel);
-				} else {
-					insertText('[flash]' + squarestrip($(ctrlid + '_param_1').value) + '[/flash]', 7, 8, false, sel);
-				}
-				break;
 			case 'vid':
 				var mediaUrl = $(ctrlid + '_param_1').value;
 				var auto = '';
 				var posque = mediaUrl.lastIndexOf('?');
 				posque = posque === -1 ? mb_strlen(mediaUrl) : posque;
 				var ext = mediaUrl.lastIndexOf('.') === -1 ? '' : mediaUrl.substring(mediaUrl.lastIndexOf('.') + 1, posque).toLowerCase();
-				ext = in_array(ext, ['mp3', 'wav', 'wma', 'ra', 'rm', 'ram', 'mid', 'asx', 'wmv', 'avi', 'mpg', 'mpeg', 'rmvb', 'asf', 'mov', 'flv', 'swf', 'mp4', 'm4a', 'm4v', '3gp', 'ogv', 'ogg', 'webm', 'weba', 'aac', 'flac']) ? ext : 'x';
+				ext = in_array(ext, ['mp3', 'wav', 'mov', 'flv', 'mp4', 'm4a', 'm4v', '3gp', 'ogv', 'ogg', 'webm', 'weba', 'aac', 'flac']) ? ext : 'x';
 				if(ext == 'x') {
 					if(/^mms:\/\//.test(mediaUrl)) {
 						ext = 'mms';

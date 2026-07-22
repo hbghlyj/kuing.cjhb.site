@@ -486,15 +486,9 @@ function getblockhtml($blockname, $parameters = []) {
 					}
 					$html .= '<div class="d">'.$value['body_template'].'</div>';
 					if($value['type'] == 'video') {
-						if(!empty($value['body_data']['imgurl'])) {
-							$html .= '<table class="mtm" title="'.lang('space', 'click_play').'" onclick="javascript:showFlash(\''.$value['body_data']['host'].'\', \''.$value['body_data']['flashvar'].'\', this, \''.$value['sid'].'\');"><tr><td class="vdtn hm" style="background: url('.$value['body_data']['imgurl'].') no-repeat"><img src="'.STATICURL.'image/common/vds.png" alt="'.lang('space', 'click_play').'" /></td></tr></table>';
-						} else {
-							$html .= "<img src=\"".STATICURL."/image/common/vd.gif\" alt=\"".lang('space', 'click_play')."\" onclick=\"javascript:showFlash('{$value['body_data']['host']}', '{$value['body_data']['flashvar']}', this, '{$value['sid']}');\" class=\"tn\" />";
-						}
+						$html .= parsemedia('x,500,373', $value['body_data']['data']);
 					} elseif($value['type'] == 'music') {
-						$html .= "<img src=\"".STATICURL."/image/common/music.gif\" alt=\"".lang('space', 'click_play')."\" onclick=\"javascript:showFlash('music', '{$value['body_data']['musicvar']}', this, '{$value['sid']}');\" class=\"tn\" />";
-					} elseif($value['type'] == 'flash') {
-						$html .= "<img src=\"".STATICURL."/image/common/flash.gif\" alt=\"".lang('space', 'click_view')."\" onclick=\"javascript:showFlash('flash', '{$value['body_data']['flashaddr']}', this, '{$value['sid']}');\" class=\"tn\" />";
+						$html .= "<img src=\"".STATICURL."/image/common/music.gif\" alt=\"".lang('space', 'click_play')."\" onclick=\"javascript:showMedia('music', '{$value['body_data']['musicvar']}', this, '{$value['sid']}');\" class=\"tn\" />";
 					}
 
 					if($value['body_general']) {
@@ -658,16 +652,10 @@ function mkfeedhtml($value) {
 		$html .= "<div class=\"d\" $style>{$value['body_template']}</div>";
 	}
 
-	if(!empty($value['body_data']['flashvar'])) {
-		if(!empty($value['body_data']['imgurl'])) {
-			$html .= '<table class="mtm" title="'.lang('space', 'click_play').'" onclick="javascript:showFlash(\''.$value['body_data']['host'].'\', \''.$value['body_data']['flashvar'].'\', this, \''.$value['sid'].'\');"><tr><td class="vdtn hm" style="background: url('.$value['body_data']['imgurl'].') no-repeat"><img src="'.STATICURL.'image/common/vds.png" alt="'.lang('space', 'click_play').'" /></td></tr></table>';
-		} else {
-			$html .= "<img src=\"".STATICURL."/image/common/vd.gif\" alt=\"".lang('space', 'click_play')."\" onclick=\"javascript:showFlash('{$value['body_data']['host']}', '{$value['body_data']['flashvar']}', this, '{$value['sid']}');\" class=\"tn\" />";
-		}
+	if(!empty($value['body_data']['flashvar']) || !empty($value['body_data']['videovar'])) {
+		$html .= parsemedia('x,500,373', $value['body_data']['data']);
 	} elseif(!empty($value['body_data']['musicvar'])) {
-		$html .= "<img src=\"".STATICURL."/image/common/music.gif\" alt=\"".lang('space', 'click_play')."\" onclick=\"javascript:showFlash('music', '{$value['body_data']['musicvar']}', this, '{$value['feedid']}');\" class=\"tn\" />";
-	} elseif(!empty($value['body_data']['flashaddr'])) {
-		$html .= "<img src=\"".STATICURL."/image/common/flash.gif\" alt=\"".lang('space', 'click_view')."\" onclick=\"javascript:showFlash('flash', '{$value['body_data']['flashaddr']}', this, '{$value['feedid']}');\" class=\"tn\" />";
+		$html .= "<img src=\"".STATICURL."/image/common/music.gif\" alt=\"".lang('space', 'click_play')."\" onclick=\"javascript:showMedia('music', '{$value['body_data']['musicvar']}', this, '{$value['feedid']}');\" class=\"tn\" />";
 	}
 
 	if($value['body_general']) {

@@ -626,7 +626,7 @@ $lang =
 	'nav_mmebersplit_manage' => '分表管理',
 
 	'nav_custommenu' => '編輯常用操作',
-		
+
 	'nav_qrcodelogin' => '掃碼登錄',
 	'nav_qrcodelogin_list' => '賬號列表',
 	'nav_qrcodelogin_setting' => '設置',
@@ -1487,7 +1487,7 @@ $lang =
 			東華門街道
 			東四街道
 		西城區
-			什剎海街道	
+			什剎海街道
 </pre></li>',
 	'district_choose' => '選擇地區',
 	'district_birthcity' => '<input type="checkbox" name="birthcitychkall" onclick="checkAll(\'prefix\', this.form, \'birthcity\', \'birthcitychkall\')" class="checkbox">出生地',
@@ -2340,7 +2340,6 @@ $lang =
 	'setting_sec_seccode_type_image' => '英文圖片驗證碼',
 	'setting_sec_seccode_type_chnfont' => '中文圖片驗證碼',
 	'setting_sec_seccode_type_wav' => '語音驗證碼',
-	'setting_sec_seccode_type_flash' => 'Flash 驗證碼',
 	'setting_sec_seccode_type_bitmap' => '位圖驗證碼',
 	'setting_sec_seccode_animator' => 'GIF 動畫',
 	'setting_sec_seccode_animator_comment' => '選擇“是”驗證碼將顯示成 GIF 動畫方式，選擇“否”驗證碼將顯示成靜態圖片方式',
@@ -2542,7 +2541,7 @@ $lang =
 	'setting_attach_basic_simple' => '普通上傳',
 	'setting_attach_basic_allowattachurl' => '附件 URL 地址、媒體附件播放',
 	'setting_attach_basic_allowattachurl_comment' => '開啓附件 URL 地址後，上傳附件的地址可通過 "attach://aid.ext" 方式在任何帖內引用<b>（不支持附件收費以及閲讀權限判定）</b>，並支持媒體類附件的直接播放，此項設置需要在 <a href="'.ADMINSCRIPT.'?action=usergroups">用戶組</a> - 帖子相關 中允許用戶組使用多媒體代碼，並保證 config_global.php 配置的本地文件讀取模式為 1 或 4 方可生效',
-	'setting_attach_basic_swfupload_comment' => '批量上傳採用 Flash 機制上傳，可一次上傳多個附件，上傳時還會有進度顯示',
+	'setting_attach_basic_swfupload_comment' => '批量上傳採用 HTML5 上傳，可一次上傳多個附件，上傳時還會有進度顯示',
 
 	'setting_attach_forumattach' => '論壇附件',
 	'setting_attach_image_preview' => '預覽',
@@ -6924,27 +6923,26 @@ URL轉換絕對網址：<pre>
 
 	'adv_type_version' => '模塊版本',
 	'adv_type_headerbanner' => '頁頭通欄廣告',
-	'adv_type_headerbanner_tips' => '<li>展現方式: 頁頭通欄廣告顯示於論壇頁面右上方，通常使用 468x60 圖片或 Flash 的形式。當前頁面有多個頁頭通欄廣告時，系統會隨機選取其中之一顯示。</li><li>價值分析: 由於能夠在頁面打開的第一時間將廣告內容展現於最醒目的位置，因此成為了網頁中價位最高、最適合進行商業宣傳或品牌推廣的廣告類型之一。</li>',
+	'adv_type_headerbanner_tips' => '<li>展現方式: 頁頭通欄廣告顯示於論壇頁面右上方，通常使用 468x60 圖片 的形式。當前頁面有多個頁頭通欄廣告時，系統會隨機選取其中之一顯示。</li><li>價值分析: 由於能夠在頁面打開的第一時間將廣告內容展現於最醒目的位置，因此成為了網頁中價位最高、最適合進行商業宣傳或品牌推廣的廣告類型之一。</li>',
 	'adv_type_footerbanner' => '頁尾通欄廣告',
-	'adv_type_footerbanner_tips' => '<li>展現方式: 頁尾通欄廣告顯示於論壇頁面中下方，通常使用 468x60 或其他尺寸圖片、Flash 的形式。當前頁面有多個頁尾通欄廣告時，系統會隨機選取其中之一顯示。</li><li>價值分析: 與頁面頭部和中部相比，頁面尾部的展現機率相對較低，通常不會引起訪問者的反感，同時又基本能夠覆蓋所有對廣告內容感興趣的受眾，因此適合中性而温和的推廣。</li>',
+	'adv_type_footerbanner_tips' => '<li>展現方式: 頁尾通欄廣告顯示於論壇頁面中下方，通常使用 468x60 或其他尺寸圖片 的形式。當前頁面有多個頁尾通欄廣告時，系統會隨機選取其中之一顯示。</li><li>價值分析: 與頁面頭部和中部相比，頁面尾部的展現機率相對較低，通常不會引起訪問者的反感，同時又基本能夠覆蓋所有對廣告內容感興趣的受眾，因此適合中性而温和的推廣。</li>',
 	'adv_type_text' => '頁內文字廣告',
-	'adv_type_text_tips' => '<li>展現方式: 頁內文字廣告以表格的形式，顯示於首頁、主題列表和帖子內容三個頁面的中上方，通常使用文字的形式，也可使用小圖片和 Flash。當前頁面有多個文字廣告時，系統會以表格的形式按照設定的顯示順序全部展現，同時能夠對錶格列數在 3～5 的範圍內動態排布，以自動實現最佳的廣告排列效果。</li><li>價值分析: 由於此類廣告通常以文字形式展現，但其所在的較靠上的頁面位置，使得此類廣告成為了訪問者必讀的內容之一。同一頁面可以呈現多達十幾條文字廣告的特性，也決定了它是一種平民化但性價比較高的推廣方式，同時還可用於論壇自身的宣傳和公告之用。</li>',
+	'adv_type_text_tips' => '<li>展現方式: 頁內文字廣告以表格的形式，顯示於首頁、主題列表和帖子內容三個頁面的中上方，通常使用文字的形式，也可使用小圖片。當前頁面有多個文字廣告時，系統會以表格的形式按照設定的顯示順序全部展現，同時能夠對錶格列數在 3～5 的範圍內動態排布，以自動實現最佳的廣告排列效果。</li><li>價值分析: 由於此類廣告通常以文字形式展現，但其所在的較靠上的頁面位置，使得此類廣告成為了訪問者必讀的內容之一。同一頁面可以呈現多達十幾條文字廣告的特性，也決定了它是一種平民化但性價比較高的推廣方式，同時還可用於論壇自身的宣傳和公告之用。</li>',
 	'adv_type_thread' => '帖內廣告',
 	'adv_type_thread_tips' => '<li>展現方式: 帖內廣告顯示於帖子內容的上方、下方或右方，帖子內容的上方和下方通常使用文字的形式，帖子內容右方通常使用圖片的形式。當前頁面有多個帖內廣告時，系統會從中抽取與每頁帖數相等的條目進行隨機顯示。您可以在 全局設置中的其他設置中修改每帖顯示的廣告數量。</li><li>價值分析: 由於帖子是論壇最核心的組成部分，嵌入帖子內容內部的帖內廣告，便可在用戶瀏覽帖子內容時自然的被接受，加上隨機播放的特性，適合於特定內容的有效推廣，也可用於論壇自身的宣傳和公告之用。建議設置多條帖內廣告以實現廣告內容的差異化，從而吸引更多訪問者的注意力。</li>',
 	'adv_type_interthread' => '帖間通欄廣告',
-	'adv_type_interthread_tips' => '<li>展現方式: 帖間通欄廣告顯示於主題帖和第一個回帖之間，可使用 468x60 或其他尺寸圖片和 Flash 的形式。當前頁面有多個帖間通欄廣告時，系統會隨機選取其中之一顯示。</li><li>價值分析: 由於能夠將主題與回帖分開，廣告尺寸大而且不影響帖子內容，因此不會招致帖子作者及訪問者反感，適合在帖內進行商業宣傳或品牌推廣。</li>',
+	'adv_type_interthread_tips' => '<li>展現方式: 帖間通欄廣告顯示於主題帖和第一個回帖之間，可使用 468x60 或其他尺寸圖片 的形式。當前頁面有多個帖間通欄廣告時，系統會隨機選取其中之一顯示。</li><li>價值分析: 由於能夠將主題與回帖分開，廣告尺寸大而且不影響帖子內容，因此不會招致帖子作者及訪問者反感，適合在帖內進行商業宣傳或品牌推廣。</li>',
 	'adv_type_float' => '漂浮廣告',
-	'adv_type_float_tips' => '<li>展現方式: 漂浮廣告展現於頁面左下角，當頁面滾動時廣告會自行移動以保持原來的位置，通常使用小圖片或 Flash 的形式。當前頁面有多個漂浮廣告時，系統會隨機選取其中之一顯示。</li><li>價值分析: 漂浮廣告是進行強力商業推廣的有效手段，其在頁面中的浮動性，使其與固定的圖片和文字相比，更容易被關注，正因為如此，這種強制性的關注也可能招致對此廣告內容不感興趣的訪問者的反感。請注意不要將過大的圖片或 Flash 以漂浮廣告的形式顯示，以免影響頁面閲讀。</li>',
+	'adv_type_float_tips' => '<li>展現方式: 漂浮廣告展現於頁面左下角，當頁面滾動時廣告會自行移動以保持原來的位置，通常使用小圖片 的形式。當前頁面有多個漂浮廣告時，系統會隨機選取其中之一顯示。</li><li>價值分析: 漂浮廣告是進行強力商業推廣的有效手段，其在頁面中的浮動性，使其與固定的圖片和文字相比，更容易被關注，正因為如此，這種強制性的關注也可能招致對此廣告內容不感興趣的訪問者的反感。請注意不要將過大的圖片 以漂浮廣告的形式顯示，以免影響頁面閲讀。</li>',
 	'adv_type_couplebanner' => '對聯廣告',
-	'adv_type_couplebanner_tips' => '<li>展現方式: 對聯廣告以長方形圖片的形式顯示於頁面頂部兩側，形似一幅對聯，通常使用寬小高大的長方形圖片或 Flash 的形式。對聯廣告一般只在使用像素約定主表格寬度的情況下使用，如使用超過 90% 以上的百分比約定主表格寬度時，可能會影響訪問者的正常瀏覽。當訪問者瀏覽器寬度小於 800 像素時，自動不顯示此類廣告。當前頁面有多個對聯廣告時，系統會隨機選取其中之一顯示。</li><li>價值分析: 對聯廣告由於只展現於高分辨率(1024x768 或更高)屏幕的兩側，只佔用頁面的空白區域，因此不會招致訪問者反感，能夠良好的突出推廣內容。但由於對分辨率和主表格寬度的特殊要求，使得廣告的受眾比例無法達到 100%。</li>',
+	'adv_type_couplebanner_tips' => '<li>展現方式: 對聯廣告以長方形圖片的形式顯示於頁面頂部兩側，形似一幅對聯，通常使用寬小高大的長方形圖片 的形式。對聯廣告一般只在使用像素約定主表格寬度的情況下使用，如使用超過 90% 以上的百分比約定主表格寬度時，可能會影響訪問者的正常瀏覽。當訪問者瀏覽器寬度小於 800 像素時，自動不顯示此類廣告。當前頁面有多個對聯廣告時，系統會隨機選取其中之一顯示。</li><li>價值分析: 對聯廣告由於只展現於高分辨率(1024x768 或更高)屏幕的兩側，只佔用頁面的空白區域，因此不會招致訪問者反感，能夠良好的突出推廣內容。但由於對分辨率和主表格寬度的特殊要求，使得廣告的受眾比例無法達到 100%。</li>',
 	'adv_type_intercat' => '分類間廣告',
-	'adv_type_intercat_tips' => '<li>展現方式: 分類間廣告顯示於論壇首頁相鄰的兩個論壇分類之間，可使用 468x60 或其他尺寸圖片和 Flash 的形式。當前頁面有多個分類間廣告時，系統會從中抽取與論壇分類數相等的條目進行隨機顯示。</li><li>價值分析:由於出現在論壇首頁比較明顯的位置，廣告展示效果較好，但是過多過大的首頁廣告可能會招致訪問者反感。 </li>',
+	'adv_type_intercat_tips' => '<li>展現方式: 分類間廣告顯示於論壇首頁相鄰的兩個論壇分類之間，可使用 468x60 或其他尺寸圖片 的形式。當前頁面有多個分類間廣告時，系統會從中抽取與論壇分類數相等的條目進行隨機顯示。</li><li>價值分析:由於出現在論壇首頁比較明顯的位置，廣告展示效果較好，但是過多過大的首頁廣告可能會招致訪問者反感。 </li>',
 	'adv_type' => '廣告類型',
 	'adv_style' => '樣式',
 	'adv_style_code' => '代碼',
 	'adv_style_text' => '文字',
 	'adv_style_image' => '圖片',
-	'adv_style_flash' => 'Flash',
 	'adv_targets' => '投放範圍',
 	'adv_thread_down' => '帖子下方',
 	'adv_thread_up' => '帖子上方',
@@ -7013,17 +7011,8 @@ URL轉換絕對網址：<pre>
 	'adv_edit_style_image_alt_comment' => '請輸入圖片廣告的鼠標懸停文字資訊',
 	'adv_edit_style_image_size' => '圖片推薦大小',
 	'adv_edit_style_image_size_comment' => '您可以選擇我們推薦給您的尺寸也可以自定義尺寸',
-	'adv_edit_style_flash' => 'Flash 廣告',
-	'adv_edit_style_flash_url' => 'Flash 地址(必填)',
-	'adv_edit_style_flash_url_comment' => '請輸入 Flash 廣告的調用地址',
-	'adv_edit_style_flash_size' => 'Flash 推薦大小',
-	'adv_edit_style_flash_size_comment' => '您可以選擇我們推薦給您的尺寸也可以自定義尺寸',
-	'adv_edit_style_flash_width' => 'Flash 寬度(必填)',
-	'adv_edit_style_flash_width_comment' => '請輸入 Flash 廣告的寬度，單位為像素',
-	'adv_edit_style_flash_height' => 'Flash 高度(必填)',
-	'adv_edit_style_flash_height_comment' => '請輸入 Flash 廣告的高度，單位為像素',
 	'adv_edit_position_thread' => '廣告投放位置',
-	'adv_edit_position_thread_comment' => '帖子內容上方和下方的廣告適合使用文字形式，而帖子右側廣告適合使用圖片或 Flash 形式，也可以同時顯示多條文字廣告',
+	'adv_edit_position_thread_comment' => '帖子內容上方和下方的廣告適合使用文字形式，而帖子右側廣告適合使用圖片 形式，也可以同時顯示多條文字廣告',
 	'adv_edit_display_position' => '廣告顯示位置',
 	'adv_edit_display_position_comment' => '選項 #1 #2 #3 ... 表示帖子順序，可以按住 CTRL 多選',
 	'adv_edit_position_footerbanner' => '廣告投放位置',
@@ -8057,7 +8046,7 @@ function getSign(nonce, t, secret) {
     let sha256 = CryptoJS.SHA256(nonce + t + secret).toString();
     let base64_sign = CryptoJS.enc.Base64.stringify(CryptoJS.enc.Utf8.parse(sha256));
     return base64_sign;
-}					
+}
 </pre>
 				</p>',
 	'restful_token' => '獲取 Token',

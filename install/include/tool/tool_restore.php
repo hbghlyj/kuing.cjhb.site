@@ -227,7 +227,7 @@ function submitcheck($var, $allowget = 0, $seccodecheck = 0, $secqaacheck = 0) {
 	if(!getgpc($var)) {
 		return FALSE;
 	} else {
-		if($allowget || ($_SERVER['REQUEST_METHOD'] == 'POST' && empty($_SERVER['HTTP_X_FLASH_VERSION']) && (empty($_SERVER['HTTP_REFERER']) ||
+		if($allowget || ($_SERVER['REQUEST_METHOD'] == 'POST' && (empty($_SERVER['HTTP_REFERER']) ||
 					preg_replace("/https?:\/\/([^\:\/]+).*/i", "\\1", $_SERVER['HTTP_REFERER']) == preg_replace("/([^\:]+).*/", "\\1", $_SERVER['HTTP_HOST'])))) {
 			return TRUE;
 		} else {

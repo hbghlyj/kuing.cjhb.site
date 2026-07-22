@@ -114,13 +114,6 @@ function followcode($message, $tid = 0, $pid = 0, $length = 0, $allowimg = true)
 	if(str_contains($msglower, '[/audio]')) {
 		$message = preg_replace_callback("/\[audio(=1)*\]\s*([^\[\<\r\n]+?)\s*\[\/audio\]/is", 'followcode_callback_fparseaudio_2', $message);
 	}
-	if(str_contains($msglower, '[/flash]')) {
-		$message = preg_replace_callback("/\[flash(=(\d+),(\d+))?\]\s*([^\[\<\r\n]+?)\s*\[\/flash\]/is", 'followcode_callback_fparseflash_4', $message);
-	}
-
-	if($parsetype != 1 && str_contains($msglower, '[swf]')) {
-		$message = preg_replace_callback("/\[swf\]\s*([^\[\<\r\n]+?)\s*\[\/swf\]/is", 'followcode_callback_bbcodeurl_1', $message);
-	}
 	$flag = $length ? 1 : 0;
 	if($tid) {
 		$extra = "onclick=\"changefeed($tid, $pid, $flag, this)\"";
@@ -270,14 +263,6 @@ function followcode_callback_fparseaudio_2($matches) {
 	return fparseaudio($matches[2]);
 }
 
-function followcode_callback_fparseflash_4($matches) {
-	return fparseflash($matches[4]);
-}
-
-function followcode_callback_bbcodeurl_1($matches) {
-	return bbcodeurl($matches[1], ' <img src="'.STATICURL.'image/filetype/flash.gif" align="absmiddle" alt="" /> <a href="{url}" target="_blank">Flash: {url}</a> ');
-}
-
 function followcode_callback_highlightword_21($matches, $action = 0) {
 	static $highlightarray = [];
 
@@ -361,18 +346,6 @@ function fparseattach($aid, $length = 0, $extra = '') {
 	return '';
 }
 
-function fparseflash($url) {
-	preg_match("/((https?){1}:\/\/|www\.)[^\[\"']+/i", $url, $matches);
-	$url = $matches[0];
-	if(fileext($url) != 'flv') {
-		$rimg_id = 'swf_'.random(5);
-		$html = bbcodeurl($url, '<img src="'.IMGDIR.'/flash.gif" alt="'.lang('space', 'follow_click_play').'" onclick="javascript:showFlash(\'flash\', \''.$url.'\', this, \''.$rimg_id.'\');" class="tn" style="cursor: pointer;" />');
-		return fcodedisp($html, 'media');
-	} else {
-		return fmakeflv($url);
-	}
-}
-
 function fparseemail($email, $text) {
 	global $_G;
 
@@ -450,7 +423,7 @@ function fparseaudio($url) {
 	}
 	if(fileext($url) == 'mp3') {
 		$randomid = 'music_'.random(3);
-		$html = '<img src="'.IMGDIR.'/music.gif" alt="'.lang('space', 'follow_click_play').'" onclick="javascript:showFlash(\'music\', \''.$url.'\', this, \''.$randomid.'\');" class="tn" style="cursor: pointer;" />';
+		$html = '<img src="'.IMGDIR.'/music.gif" alt="'.lang('space', 'follow_click_play').'" onclick="javascript:showMedia(\'music\', \''.$url.'\', this, \''.$randomid.'\');" class="tn" style="cursor: pointer;" />';
 		return fcodedisp($html, 'audio');
 	} else {
 		$html = '<a href="'.$url.'" target="_blank">'.$url.'</a>';
@@ -461,19 +434,13 @@ function fparseaudio($url) {
 }
 
 function fmakeflv($flv) {
-	$randomid = 'video_'.random(3);
-	$flv = is_array($flv) ? $flv : ['flv' => $flv];
-	if(!preg_match("/^((https?){1}:\/\/|www\.)[^\[\"']+$/i", $flv['flv'])) {
-		return fcodedisp('', 'video');
-	}
-	if(!empty($flv['imgurl'])) {
-		if(!preg_match("/^((https?){1}:\/\/|www\.)[^\[\"']+$/i", $flv['imgurl'])) {
-			$html = '';
-		} else {
-			$html = '<table class="mtm" title="'.lang('space', 'follow_click_play').'" onclick="javascript:showFlash(\'flash\', \''.$flv['flv'].'\', this, \''.$randomid.'\');"><tr><td class="vdtn hm" style="background: url('.$flv['imgurl'].') no-repeat;    border: 1px solid #CDCDCD; cursor: pointer; height: 95px; width: 126px;"><img src="'.IMGDIR.'/vds.png" alt="'.lang('space', 'follow_click_play').'" />	</td></tr></table>';
+	if(is_array($flv)) {
+		if(empty($flv['iframe']) || !preg_match('/^https?:\/\//i', $flv['iframe'])) {
+			return fcodedisp('', 'video');
 		}
+		$html = '<iframe src="'.dhtmlspecialchars($flv['iframe']).'" width="500" height="373" frameborder="0" allowfullscreen></iframe>';
 	} else {
-		$html = '<img src="'.IMGDIR.'/vd.gif" alt="'.lang('space', 'follow_click_play').'" onclick="javascript:showFlash(\'flash\', \''.$flv['flv'].'\', this, \''.$randomid.'\');" class="tn" style="cursor: pointer;" />';
+		$html = parsemedia('flv,500,373', $flv);
 	}
 	return fcodedisp($html, 'video');
 }
@@ -497,7 +464,7 @@ function fparsemedia($params, $url) {
 				return fmakeflv($url);
 				break;
 			case 'swf':
-				return fparseflash($url);
+				$html = dhtmlspecialchars($url);
 				break;
 			default:
 				$html = '<a href="'.$url.'" target="_blank">'.$url.'</a>';

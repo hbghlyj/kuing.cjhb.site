@@ -33,11 +33,7 @@
 					</caption>
 					<tr>
 						<td>
-							<!--{if !empty($_GET['old'])}-->
-								<script type="text/javascript">document.write(AC_FL_RunContent('<!--{echo implode("','", $uc_avatarflash);}-->'));</script>
-							<!--{else}-->							
-								<!--{template home/spacecp_avatar_body}-->
-							<!--{/if}-->							
+							<!--{template home/spacecp_avatar_body}-->
 						</td>
 					</tr>
 				</table>
@@ -108,11 +104,7 @@ const ipt_avatarArr = [
 ];
 const ipt_Filedata = avatarform.querySelector('[name="Filedata"]');
 const ipt_confirm = avatarform.querySelector('[name="confirm"]');
-// Flash版本的Flash
-const swf_mycamera = avatarform.querySelector('[name="mycamera"]');
-
-const swfUrl = new URL(data ? data[data.indexOf('src')+1] : swf_mycamera.src);
-const maxSize = parseInt(swfUrl.searchParams.get('uploadSize') || 2048, 10) * 1024;
+const maxSize = 2048 * 1024;
 
 
 const styleCss = `.discuz-avatar{
@@ -139,7 +131,7 @@ const styleCss = `.discuz-avatar{
 	text-align:center;
 	vertical-align: middle;
 	background: #fff;
-	background-image: 
+	background-image:
 		linear-gradient(45deg, #eee 25%, transparent 26%, transparent 74%, #eee 75%),
 		linear-gradient(45deg, #eee 25%, transparent 26%, transparent 74%, #eee 75%);
 	background-position: 0 0, 10px 10px;
@@ -183,7 +175,6 @@ const styleCss = `.discuz-avatar{
 .submit-bar{
 	text-align:center;
 }
-/*Flash AJAX状态使用*/
 .status-bar{
 	font-size:2em;
 	background-repeat: no-repeat;

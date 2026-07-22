@@ -38,7 +38,6 @@ class seccode {
 	var $shufferColors = [[255, 0, 0], [255, 255, 0], [0, 0, 255], [0, 255, 0]];
 
 	function display() {
-		$this->type == 2 && !extension_loaded('ming') && $this->type = 0;
 		if($this->type < 2 && function_exists('imagecreate') && function_exists('imagecolorset') && function_exists('imagecopyresized') &&
 			function_exists('imagecolorallocate') && function_exists('imagechar') && function_exists('imagecolorsforindex') &&
 			function_exists('imageline') && function_exists('imagecreatefromstring') && (function_exists('imagegif') || function_exists('imagepng') || function_exists('imagejpeg'))) {

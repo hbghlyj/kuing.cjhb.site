@@ -26,9 +26,9 @@ if(submitcheck('avatarsubmit')) {
 	showmessage('do_success', 'cp.php?ac=avatar&quickforward=1');
 }
 
-$uc_avatarflash = uc_avatar($_G['uid'], 'virtual', 0);
-$uc_avatarflash[] = 'standalone';
-$uc_avatarflash[] = 1;
+$avatarconfig = uc_avatar($_G['uid'], 'virtual', 0);
+$avatarconfig[] = 'standalone';
+$avatarconfig[] = 1;
 
 if(empty($space['avatarstatus']) && uc_check_avatar($_G['uid'], 'middle')) {
 	table_common_member::t()->update($_G['uid'], ['avatarstatus' => '1']);

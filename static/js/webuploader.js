@@ -90,7 +90,6 @@ SWFUpload.EXT_MIME_MAP = {
 	'rtf': 'application/rtf',
 	'sh': 'application/x-sh',
 	'svg': 'image/svg+xml',
-	'swf': 'application/x-shockwave-flash',
 	'tar': 'application/x-tar',
 	'tif': 'image/tiff',
 	'tiff': 'image/tiff',
@@ -272,7 +271,7 @@ SWFUpload.prototype.initSettings = function (userSettings) {
 	}
 
 	var uploader = WebUploader.create({
-		swf: getBasePath() + 'Uploader.swf',
+		runtimeOrder: 'html5',
 		server: this.settings.upload_url,
 		pick: '#' + this.settings.button_placeholder_id,
 		compress: false,
@@ -306,7 +305,7 @@ SWFUpload.prototype.initSettings = function (userSettings) {
 		}else{
 			self.queueEvent("file_queued_handler", file);
 		}
-		
+
 	});
 
 	uploader.on('startUpload', function() {
@@ -446,7 +445,7 @@ function fileQueued(file) {
 			}
 		}
 		this.addPostParam('filetype', file.type);
-		
+
 		var progress = new FileProgress(file, this.customSettings.progressTarget);
 		if(this.customSettings.uploadSource == 'forum') {
 			if(this.customSettings.maxAttachNum != undefined) {

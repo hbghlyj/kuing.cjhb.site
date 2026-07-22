@@ -20,7 +20,7 @@ class media_youku {
 		$ctx = stream_context_create(['http' => ['timeout' => 10]]);
 		if(preg_match('/^https?:\/\/v.youku.com\/v_show\/id_([^\/]+)(.html|)/i', $url, $matches)) {
 			$params = explode('.', $matches[1]);
-			$flv = 'https://player.youku.com/player.php/sid/'.$params[0].'/v.swf';
+			$flv = '';
 			$iframe = 'https://player.youku.com/embed/'.$params[0];
 			if(!$width && !$height) {
 				$api = 'http://v.youku.com/player/getPlayList/VideoIDS/'.$params[0];

@@ -106,7 +106,7 @@ Created & Modified by Alice, Monkey, Lushnis, Pony, Dfox & DragonLee.
 			.category_newlist li::before { content: attr(n, "\2022"); margin: 0 4px 0 0; color: #BBB; }
 			#category_grid h4 span { background:transparent; width:1px; height:30px; display:inline-block; position:absolute; left:0; top:0; }
 			#category_grid .newimgbox:hover h4 span, #category_grid .subjectbox:hover h4 span, #category_grid .replaybox:hover h4 span, #category_grid .hottiebox:hover h4 span, #category_grid .goodtiebox:hover h4 span { width:6px; transition:width 0.2s ease 0s; overflow:hidden; }
-			#category_grid .newimgbox:hover h4 span.tit_newimg { background: #C6D313; } 
+			#category_grid .newimgbox:hover h4 span.tit_newimg { background: #C6D313; }
 			#category_grid .subjectbox:hover h4 span.tit_subject { background: #00A4EB; }
 			#category_grid .replaybox:hover h4 span.tit_replay { background: #5CAE2B; }
 			#category_grid .hottiebox:hover h4 span.tit_hottie { background: #FF8406; }
@@ -675,8 +675,8 @@ Created & Modified by Alice, Monkey, Lushnis, Pony, Dfox & DragonLee.
 		.tl .th td, .tl .th th { height: 20px; border: none; vertical-align: baseline; }
 	.tl .tf { padding: 3px 0; }
 		.tf .showmenu:hover { border-color: {SPECIALBORDER}; }
-		
-		
+
+
 
 	.tl_reply:before { display: inline-block; content: ""; width: 6px; height: 6px; background: #BBB; border-radius: 3px; margin: 0 4px 2px 0; }
 
@@ -807,7 +807,7 @@ a.thread_mod { height: 19px; line-height: 19px; display: inline-block; color: #4
 	.album_info p { text-indent:2em; }
 	.tit_author { display:block; }
 	.tit_author a { color: #369; font-size:14px; font-weight:700; }
-	
+
 /** end **/
 
 /** forum::forumdisplay,group::forumdisplay **/
@@ -818,11 +818,10 @@ a.thread_mod { height: 19px; line-height: 19px; display: inline-block; color: #4
 		#atarget.atarget_1:before, .chked:before { content: "\f12f";}
 		.unchk:hover, .chked:hover { text-decoration: none; }
 
-#a_magic_doodle { padding-left: 20px; background: url({STATICURL}image/magic/doodle.small.gif) 0 50% no-repeat; }
 		/* 重定义 tab 标签样式分类数字 by alice 13032514 */
 		.ttp .num { background:#999; padding:0 5px; margin-left:5px; border-radius:3px; color:#FFF !important; }
 		.ttp .a .num { background:#91BDD3; }
-		/* 重定义 贴子更多分类标签 by alice 13032614 */		
+		/* 重定义 贴子更多分类标签 by alice 13032614 */
 		.pop_moremenu li { display:block; border-bottom:1px solid #E5EDF2; line-height:24px; }
 		.pop_moremenu a { display:inline; text-decoration:none; border-bottom:0; }
 		.pop_moremenu li:last-child { border-bottom:none; }
@@ -866,7 +865,7 @@ a.thread_mod { height: 19px; line-height: 19px; display: inline-block; color: #4
 .closeprev { width: 12px; height: 12px; background: transparent; line-height: 12px; text-align: center; cursor: pointer; overflow: hidden; margin: 5px 5px 0px 5px; }
 .closeprev:hover { background: #09C; }
 .closeprev:before { content: "\d7"; font-weight: 700; color: #CCC; }
-.closeprev:hover:before { color: #FFF;} 
+.closeprev:hover:before { color: #FFF;}
 .pcb .jammer { font-size: 10px; color: {WRAPBG}; }
 /* 屏蔽提示 */
 #hiddenthread { border-top: 1px solid #C2D5E3; border-bottom: 1px solid #C2D5E3; line-height:40px;padding-left:20px;background: #FFFAF3; font-size: 12px; text-align: center; }
@@ -877,7 +876,6 @@ a.thread_mod { height: 19px; line-height: 19px; display: inline-block; color: #4
 
 
 /** forum::viewthread,group::viewthread,forum::trade,forum::misc **/
-#a_magic_doodle { padding-left: 20px; background: url({STATICURL}image/magic/doodle.small.gif) 0 50% no-repeat; }
 
 .pl {}
 	.pl table:not(.t_table) { table-layout: fixed; width: 100%; }
@@ -923,7 +921,7 @@ a.thread_mod { height: 19px; line-height: 19px; display: inline-block; color: #4
 			.warnicon:after { background: #F72100; right: 0; bottom: 0; }
 		.pti {}
 			.authicn { cursor: pointer; color: #FF7E00; }
-			
+
 /* 贴子掌上论坛弹窗 */
 	.code_bg {background: url({IMGDIR}/code_bg.png) no-repeat 0 0; display:inline-block; padding:4px; margin:10px 20px; }
 
@@ -1013,7 +1011,7 @@ a.thread_mod { height: 19px; line-height: 19px; display: inline-block; color: #4
 					.rate_collapse .op { background-image: url({IMGDIR}/arrow_down.gif); }
 			.rate i { font-style: normal; }
 			.ratl .xw1 .xi1 { background:#FFF4DD; border-radius:3px; padding:2px 3px; }
-			
+
 			.icon_ring { background:#FFF4DD; float: left; width:8px; height:8px; margin-right:5px; margin-top: 3px; border:2px solid #F26C4F; -webkit-border-radius: 10px; -moz-border-radius: 10px; border-radius: 10px; box-shadow: 0px 0px 1px rgba(0, 0, 0, 0.2); overflow: hidden; }
 			.icon_ring:hover { background:#F26C4F; border:2px solid #FFF; }
 
@@ -1795,8 +1793,6 @@ i.pstatus { display: block; margin-bottom: -30px; font-size: 12px; text-align: c
 		.up_row strong { margin-right: 5px; }
 	#creatalbum { padding-top: 1px; border-top: 1px solid {SPECIALBORDER}; }
 
-.doodle { padding-left: 3px; width: 65px; text-align: left; background: url({STATICURL}image/magic/doodle.small.gif) no-repeat 0 50%; }
-	.doodle a { padding-left: 2px; }
 
 /*
 	Name:			mod_my_credits_list

@@ -1,4 +1,4 @@
-﻿{eval
+{eval
 	$space_uid = $space['uid'];
 	$blog_id = $blog['blogid'];
 	$_G['home_tpl_titles'] = array($blog['subject'], '{lang blog}');
@@ -57,7 +57,7 @@
 								<!--{/if}-->
 								<!--{if $blog[viewnum]}--><span class="xg1">{lang have_read_blog}</span><!--{/if}-->
 								<span class="xg1"><!--{date($blog['dateline'])}--></span>
-		
+
 							<!--{if $classarr[classname]}--><span class="pipe">|</span><span class="xg1">{lang personal_category}:<a href="home.php?mod=space&uid=$blog[uid]&do=blog&classid=$blog[classid]&view=me">{$classarr[classname]}</a></span><!--{/if}-->
 							<!--{if $blog[catname]}--><span class="pipe">|</span><span class="xg1">{lang system_cat}:<a href="home.php?mod=space&do=blog&view=all&catid=$blog[catid]">$blog[catname]</a></span><!--{/if}-->
 							<!--{if $blog[tag]}-->
@@ -70,11 +70,11 @@
 									<!--{/loop}-->
 								</span>
 							<!--{/if}-->
-		
+
 							</p>
 							<!--{hook/space_blog_title}-->
 						</div>
-		
+
 						<div id="blog_article" class="d cl">
 							<!--{ad/blog/a_b}-->
 							$blog[message]
@@ -84,14 +84,14 @@
 							<!--{template home/space_click}-->
 						</div>
 						<!--{/if}-->
-		
+
 						<!--{if !empty($_G['setting']['pluginhooks']['space_blog_share_method'])}-->
 							<div class="tshare cl">
 								<strong>{lang viewthread_share_to}:</strong>
 								<!--{hook/space_blog_share_method}-->
 							</div>
 						<!--{/if}-->
-		
+
 						<div class="o cl">
 							<!--{if helper_access::check_module('favorite')}--><a href="home.php?mod=spacecp&ac=favorite&type=blog&id=$blog[blogid]&spaceuid=$blog[uid]&handlekey=favoritebloghk_{$blog[blogid]}" id="a_favorite" onclick="showWindow(this.id, this.href, 'get', 0);" class="oshr ofav">{lang favorite}</a><!--{/if}-->
 							<!--{if helper_access::check_module('share')}--><a href="home.php?mod=spacecp&ac=share&type=blog&id=$blog[blogid]&handlekey=sharebloghk_{$blog[blogid]}" id="a_share" onclick="showWindow(this.id, this.href, 'get', 0);" class="oshr">{lang share}</a><!--{/if}-->
@@ -117,13 +117,13 @@
 									<!--{/if}-->
 								</ul>
 							<!--{/if}-->
-		
+
 							<!--{hook/space_blog_op_extra}-->
 							<!--{if $_G[uid] == $blog[uid] || checkperm('manageblog')}-->
 							<a href="home.php?mod=spacecp&ac=blog&blogid=$blog[blogid]&op=edit">{lang edit}</a><span class="pipe">|</span>
 							<a href="home.php?mod=spacecp&ac=blog&blogid=$blog[blogid]&op=delete&handlekey=delbloghk_{$blog[blogid]}" id="blog_delete_$blog[blogid]" onclick="showWindow(this.id, this.href, 'get', 0);">{lang delete}</a><span class="pipe">|</span>
 							<!--{/if}-->
-		
+
 							<!--{if checkperm('manageblog')}-->
 							IP: $blog[postip]{if $blog[port]}:$blog[port]{/if}<span class="pipe">|</span>
 							<a href="home.php?mod=spacecp&ac=blog&blogid=$blog[blogid]&op=edithot&handlekey=bloghothk_{$blog[blogid]}" id="blog_hot_$blog[blogid]" onclick="showWindow(this.id, this.href, 'get', 0);">{lang hot}</a><span class="pipe">|</span>
@@ -132,7 +132,7 @@
 								<!--{if !$blog['friend'] && !$blog['pushedaid'] && (getstatus($_G['member']['allowadmincp'], 2) || $_G['group']['allowmanagearticle'])}-->
 								<a href="portal.php?mod=portalcp&ac=article&from_idtype=blogid&from_id=$blog[blogid]">{lang article_push}</a><span class="pipe">|</span>
 								<!--{/if}-->
-			
+
 								<!--{if $_G['group']['allowdiy'] || getstatus($_G['member']['allowadmincp'], 4) || getstatus($_G['member']['allowadmincp'], 5) || getstatus($_G['member']['allowadmincp'], 6)}-->
 									<a href="portal.php?mod=portalcp&ac=portalblock&op=recommend&idtype=blogid&id=$blog[blogid]" onclick="showWindow('recommend', this.href, 'get', 0)">{lang blockdata_recommend}</a><span class="pipe">|</span>
 								<!--{/if}-->
@@ -141,7 +141,7 @@
 							<a href="javascript:;" onclick="showWindow('miscreport$blog[blogid]', 'misc.php?mod=report&rtype=blog&uid=$blog[uid]&rid=$blog[blogid]', 'get', -1);return false;">{lang report}</a>
 							<!--{/if}-->
 						</div>
-		
+
 					</div>
 
 					<div class="ct_vw cl">
@@ -167,7 +167,7 @@
 							</div>
 							<!--{/if}-->
 						</div>
-			
+
 						<div class="ct_vw_mn">
 							<div id="div_main_content" class="mbm">
 								<h3 class="ptn pbn bbs">
@@ -188,15 +188,12 @@
 								</div>
 							</div>
 							<!--{if $multi}--><div class="pgs cl mbm">$multi</div><!--{/if}-->
-			
+
 						<!--{if !$blog[noreply] && helper_access::check_module('blog')}-->
 						<form id="quickcommentform_{$id}" action="home.php?mod=spacecp&ac=comment" method="post" autocomplete="off" onsubmit="ajaxpost('quickcommentform_{$id}', 'return_qcblog_$id');doane(event);">
 							<p>
 								<span id="comment_face" title="{lang insert_emoticons}" onclick="showFace(this.id, 'comment_message');return false;" class="cur1"><img src="{IMGDIR}/facelist.gif" alt="facelist" class="vm" /></span>
 								<!--{hook/space_blog_face_extra}-->
-								<!--{if $_G['setting']['magicstatus'] && !empty($_G['setting']['magics']['doodle'])}-->
-									<a id="a_magic_doodle" href="home.php?mod=magic&mid=doodle&showid=comment_doodle&target=comment_message" onclick="showWindow(this.id, this.href, 'get', 0)"><img src="{STATICURL}image/magic/doodle.small.gif" alt="doodle" class="vm" /> {$_G[setting][magics][doodle]}</a>
-								<!--{/if}-->
 							</p>
 							<div class="tedt mtn mbn">
 								<div class="area">
@@ -241,7 +238,7 @@
 							}
 						</script>
 						<!--{/if}-->
-			
+
 						<script type="text/javascript">
 						function addFriendCall(){
 							var el = $('friendinput');
@@ -253,16 +250,16 @@
 							el.value = '';
 						}
 						resizeImg('div_main_content','450');
-			
+
 						var elems = selector('dd[class~=magicflicker]');
 						for(var i=0; i<elems.length; i++){
 							magicColor(elems[i]);
 						}
 						</script>
-			
+
 						</div>
 					</div>
-		
+
 					<!--{if !$_G[setting][homepagestyle]}--><!--[diy=diycontentbottom]--><div id="diycontentbottom" class="area"></div><!--[/diy]--><!--{/if}-->
 
 

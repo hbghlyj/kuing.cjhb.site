@@ -12,7 +12,6 @@ if(empty($_GET['charset']) || !in_array(strtolower($_GET['charset']), ['gbk', 'b
 	$_GET['charset'] = '';
 $allowhtml = empty($_GET['allowhtml']) ? 0 : 1;
 
-$doodle = empty($_GET['doodle']) ? 0 : 1;
 $isportal = empty($_GET['isportal']) ? 0 : 1;
 if(empty($_GET['op'])) {
 	?>
@@ -481,20 +480,12 @@ if(empty($_GET['op'])) {
 				background-position: -80px -60px
 			}
 
-			a.icoDoodle {
-				background-position: -260px -60px
-			}
-
 			a.icoImg {
 				background-position: 0 -20px
 			}
 
 			a.icoAttach {
 				background-position: -200px -20px
-			}
-
-			a.icoSwf {
-				background-position: -240px -20px
 			}
 
 			a.icoSwitchTxt {
@@ -622,18 +613,9 @@ if(empty($_GET['op'])) {
 									   onClick="parent.createAttachBox(<?php echo($isportal ? 'parent.check_catid' : '') ?>);return false;"
 									   title="<?php echo lang('home/editor', 'editor_link_attach'); ?>"></a>
 								<?php } ?>
-								<a href="javascript:;" class="icoSwf" id="icoSwf"
-								   onClick="createFlash(event, 1);return false;"
-								   title="<?php echo lang('home/editor', 'editor_link_flash'); ?>"></a>
 								<a href="javascript:;" class="icoFace" id="faceBox"
 								   onClick="faceBox(event);return false;"
 								   title="<?php echo lang('home/editor', 'editor_insert_smiley'); ?>"></a>
-								<?php if($doodle) { ?>
-									<a href="javascript:;" class="icoDoodle"
-									   id="doodleBox"
-									   onClick="doodleBox(event, this.id);return false;"
-									   title="<?php echo lang('home/editor', 'editor_doodle'); ?>"></a>
-								<?php } ?>
 								<?php if($isportal) { ?>
 									<a href="javascript:;" class="icoPage"
 									   id="icoPage"
@@ -810,23 +792,6 @@ if(empty($_GET['op'])) {
 				                                      value="<?php echo lang('home/editor', 'editor_ok'); ?>"
 				                                      class="submit"/> <a href="javascript:;"
 				                                                          onclick="fHide($('createImg'));return false;"><?php echo lang('home/editor', 'editor_cancel'); ?></a>
-			</div>
-			<div id="createSwf" class="eMenu"
-			     style="display:none;top:35px;left:26px;width:400px;font-size:12px">
-				<?php echo lang('home/editor', 'editor_prompt_videolink'); ?>:<br/>
-				<select name="vtype" id="vtype">
-					<option value="0"><?php echo lang('home/editor', 'editor_prompt_video_flash'); ?></option>
-					<option value="1"><?php echo lang('home/editor', 'editor_prompt_video_media'); ?></option>
-					<option value="2"><?php echo lang('home/editor', 'editor_prompt_video_real'); ?></option>
-					<option value="3"><?php echo lang('home/editor', 'editor_prompt_mp3'); ?></option>
-				</select>
-				<input type="text" id="videoUrl" name="videoUrl" value="http://"
-				       onfocus="checkURL(this, 1);" onblur="checkURL(this, 0);" class="t_input"
-				       style="width: 200px;"/>
-				<input type="button" onclick="createFlash();" name="createURL"
-				       value="<?php echo lang('home/editor', 'editor_ok'); ?>" class="submit"/>
-				<a href="javascript:;"
-				   onclick="fHide($('createSwf'));return false;"><?php echo lang('home/editor', 'editor_cancel'); ?></a>
 			</div>
 			<div id="createPage" class="eMenu"
 			     style="display:none;top:35px;left:26px;width:300px;font-size:12px">

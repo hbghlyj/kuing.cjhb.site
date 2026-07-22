@@ -22,7 +22,7 @@ class helper_form {
 			// 新增 $allowget = 2 时，验证formhash参数
 			if(defined('IN_RESTFUL') && $formhashChecked ||
 				($allowget && ($allowget !== 2 || $formhashChecked)) ||
-				($_SERVER['REQUEST_METHOD'] == 'POST' && $formhashChecked && empty($_SERVER['HTTP_X_FLASH_VERSION']) &&
+				($_SERVER['REQUEST_METHOD'] == 'POST' && $formhashChecked &&
 					(empty($_SERVER['HTTP_REFERER']) ||
 						preg_replace('/https?:\/\/([^\:\/]+).*/i', "\\1", $_SERVER['HTTP_REFERER']) == preg_replace('/([^\:]+).*/', "\\1", $_SERVER['HTTP_HOST'])))) {
 				if(checkperm('seccode') && !defined('DISABLE_SECCHECK')) {
@@ -106,7 +106,7 @@ class helper_form {
 	public static function get_url_list($message) {
 		$return = [];
 
-		(strpos($message, '[/img]') || strpos($message, '[/flash]')) && $message = preg_replace("/\[img[^\]]*\]\s*([^\[\<\r\n]+?)\s*\[\/img\]|\[flash[^\]]*\]\s*([^\[\<\r\n]+?)\s*\[\/flash\]/is", '', $message);
+		strpos($message, '[/img]') && $message = preg_replace("/\[img[^\]]*\]\s*([^\[\<\r\n]+?)\s*\[\/img\]/is", '', $message);
 		if(preg_match_all("/((https?|ftp|gopher|news|telnet|rtsp|mms|callto|bctp|thunder|qqdl|synacast){1}:\/\/|www\.)[^ \[\]\"']+/i", $message, $urllist)) {
 			foreach($urllist[0] as $key => $val) {
 				$val = trim($val);

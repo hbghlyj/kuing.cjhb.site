@@ -74,9 +74,6 @@
 				<p>
 					<label for="message">{lang content}:</label>
 					<span id="replyface_{$comment[cid]}" onclick="showFace(this.id, 'message_pop_{$comment[cid]}');return false;" class="cur1"><img src="{IMGDIR}/facelist.gif" alt="facelist" class="vm" /></span>
-					<!--{if $_G['setting']['magicstatus'] && !empty($_G['setting']['magics']['doodle'])}-->
-					<span id="editdoodle_{$cid}" onclick="showWindow(this.id, 'home.php?mod=magic&mid=doodle&showid=comment_doodle&target=message_pop_{$comment[cid]}', 'get', 0)" class="cur1"><img src="{STATICURL}image/magic/doodle.small.gif" alt="doodle" class="vm" />{$_G[setting][magics][doodle]}</span>
-					<!--{/if}-->
 				</p>
 				<textarea id="message_pop_{$comment[cid]}" name="message" onkeydown="ctrlEnter(event, 'commentsubmit_btn');" rows="8" cols="70" class="pt mtn"></textarea>
 				<!--{if $secqaacheck || $seccodecheck}-->
