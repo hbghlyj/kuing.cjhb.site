@@ -619,32 +619,14 @@ class discuz_application extends discuz_base {
 					return mb_chr($firstLetterCodePoint, 'UTF-8') . mb_chr($secondLetterCodePoint, 'UTF-8');
 				};
 				$countryCode = strtoupper((string)($_SERVER['HTTP_CF_IPCOUNTRY'] ?? ''));
-				$city = trim((string)($_SERVER['HTTP_CF_IPCITY'] ?? ''));
-				if($countryCode === '' || $city === '') {
-					try {
-						require_once './source/class/ip/geoip2.phar';
-						static $reader = null;
-						if($reader === null) {
-							$reader = new GeoIp2\Database\Reader('./data/ipdata/GeoLite2-City.mmdb');
-						}
-						$record = $reader->city($this->var['clientip']);
-						if($countryCode === '' && !empty($record->country->isoCode)) {
-							$countryCode = strtoupper($record->country->isoCode);
-						}
-						if($city === '' && !empty($record->city)) {
-							if(DISCUZ_LANG == 'EN/' && !empty($record->city->names['en'])) {
-								$city = $record->city->names['en'];
-							} elseif(!empty($record->city->names['zh-CN'])) {
-								$city = $record->city->names['zh-CN'];
-							} elseif(!empty($record->city->name)) {
-								$city = $record->city->name;
-							}
-						}
-					} catch(Exception $e) {
-					}
+				$network = ip::lookup($this->var['clientip']);
+				if($countryCode === '') {
+					$countryCode = $network['country_code'] ?? '';
 				}
 				$flag = $getFlagEmoji($countryCode);
-				$locationName = trim($flag.' '.$city);
+				$asn = !empty($network['asn']) ? 'AS'.$network['asn'] : '';
+				$organization = $network['organization'] ?? '';
+				$locationName = trim(implode(' ', array_filter([$flag, $countryCode, $asn, $organization], 'strlen')));
 				$referrer = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '';
 				$robotName = defined('IS_ROBOT') && IS_ROBOT ? IS_ROBOT : false;
 				if(!$robotName && ($this->_is_malformed_php_path($_SERVER['REQUEST_URI'] ?? '') || $this->_is_malformed_php_path($referrer))) {
@@ -655,6 +637,7 @@ class discuz_application extends discuz_base {
 					$this->var['member']['username'] = $robotName;
 					$this->session->init($this->var['cookie']['sid'], $this->var['clientip'], 0, $robotName, $locationName);
 					$this->session->set('username', $robotName);
+					$this->session->set('groupid', 8);
 				} else {
 					$this->session->init($this->var['cookie']['sid'], $this->var['clientip'], 0);
 					$this->session->set('username', '');

@@ -20,10 +20,6 @@ if($_G['setting']['whosonlinestatus'] == 1 || $_G['setting']['whosonlinestatus']
 
 	$actioncode = lang('action');
 	loadcache('onlinelist');
-	$guestuser = lang('forum/misc', 'guestuser');
-	if(!$guestuser || $guestuser === 'guestuser') {
-		$guestuser = 'Guest';
-	}
 	$sessions = C::app()->session->fetch_member(1, 0);
 	$sessions_guests = C::app()->session->fetch_member(2, 0);
 	$forumIds = [];
@@ -63,10 +59,13 @@ if($_G['setting']['whosonlinestatus'] == 1 || $_G['setting']['whosonlinestatus']
 	foreach($sessions_guests as $online) {
 		$online_user = [];
 		$online_user['uid'] = 0;
-		$location = trim(isset($online['location']) ? $online['location'] : '');
-		$username = $location !== '' ? $guestuser.' '.$location : $guestuser;
-		$online_user['username'] = htmlspecialchars($username);
-		$online_user['icon'] = $_G['cache']['onlinelist'][7];
+		$location = ip::format_session_location($online['location'] ?? '');
+		$isRobot = intval($online['groupid']) === 8;
+		$online_user['username'] = htmlspecialchars($location['compact']);
+		$online_user['network_title'] = htmlspecialchars($location['asn']);
+		$online_user['icon'] = $isRobot
+			? ($_G['cache']['onlinelist'][8] ?? STATICURL.'image/common/online_bot.svg')
+			: $_G['cache']['onlinelist'][7];
 		$online_user['tid'] = $online['tid'];
 		$titleLabel = '';
 		if(!empty($online['fid']) && !empty($forumlist[$online['fid']])) {
@@ -76,7 +75,7 @@ if($_G['setting']['whosonlinestatus'] == 1 || $_G['setting']['whosonlinestatus']
 		}
 		$online_user['title_label'] = htmlspecialchars($titleLabel);
 		$online_user['ip'] = htmlspecialchars($online['ip']);
-		$online_user['ip_location'] = htmlspecialchars(ip::convert($online['ip']));
+		$online_user['ip_location'] = '';
 		$online_user['lastactivity'] = htmlspecialchars(dgmdate($online['lastactivity'], 'u'));
 		$whosonline[] = $online_user;
 	}

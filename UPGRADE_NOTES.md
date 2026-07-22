@@ -50,7 +50,7 @@ ALTER TABLE uc_members
 
 ### 旧 IP 查询后端已移除
 
-- 当前默认运行时地理位置查询已经切换到 MaxMind GeoIP2。
+- 当前默认运行时网络归属查询使用 `GeoOpen-Country-ASN.mmdb`，返回国家、ASN 和自治系统组织名称。
 - 老的 `tinyipdata.dat` / `wry` 系列数据文件、查询类和 `source/child/core/ip.php` 路由均已移除。
 - 部署时不应再保留或配置旧 `ipdb` 后端。
 
@@ -197,12 +197,13 @@ ALTER TABLE pre_portal_article_title DROP COLUMN tag;
 - cron 必须把文件写入 Discuz! 配置的 `data/backup_<backupdir>/` 目录。
 - 管理入口仍为 `/?app=admin&platform=system?action=db&operation=export`。
 
-### [Required] MaxMind GeoIP2 运行时依赖
+### [Required] Country/ASN MMDB 运行时依赖
 
-- 当前默认运行时地理位置查询使用 MaxMind GeoIP2。
+- 当前默认运行时网络归属查询使用 MaxMind DB Reader。
 - `source/class/class_ip.php` 和 `source/class/discuz/discuz_application.php` 会加载 `source/class/ip/geoip2.phar`。
-- `GeoIp2\Database\Reader` 固定读取 `data/ipdata/GeoLite2-City.mmdb`。
-- 部署时必须自行准备可用的 MMDB，并确保 PHP-FPM 运行用户能够读取 PHAR 和 MMDB；否则 IP 归属地解析及缺少 Cloudflare 地理请求头时的游客位置补全无法工作。
+- `MaxMind\Db\Reader` 固定读取 `data/ipdata/GeoOpen-Country-ASN.mmdb`。
+- 数据库提供国家代码、ASN 和自治系统组织名称，不提供城市。
+- 部署时必须准备兼容的 MMDB，并确保 PHP-FPM 运行用户能够读取 PHAR 和 MMDB；否则 IP 网络归属解析及游客会话网络信息补全无法工作。
 
 ### [Recommended] 核对后台登录默认配置
 
@@ -258,9 +259,9 @@ $_config['output']['upgradeinsecure'] = 1;
 
 - 当前分支已经引入更多 X5 后台与应用框架层面的内容，后台菜单、平台菜单、扫码登录相关配置与行为都明显多于 `master`。
 
-### IP 与地理位置
+### IP 与网络归属
 
-- 默认地理位置查询已经切到 GeoIP2。
+- 默认查询已经切到 Country/ASN 合并 MMDB。
 - IP、游客、爬虫、在线列表等行为在当前分支中存在联动，不应再按旧 tiny/wry 路径理解。
 
 ### 文件完整性基线

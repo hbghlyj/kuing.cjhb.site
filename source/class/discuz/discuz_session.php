@@ -133,8 +133,12 @@ class discuz_session {
 			if($online['uid']) {
 				$online['icon'] = $onlinelist[$online['groupid']] ?? $onlinelist[0];
 			} else {
-				$online['icon'] = $onlinelist[7];
-				$online['username'] = $onlinelist['guest'];
+				$online['icon'] = $online['groupid'] == 8
+					? ($onlinelist[8] ?? STATICURL.'image/common/online_bot.svg')
+					: $onlinelist[7];
+				$location = ip::format_session_location($online['location'] ?? '');
+				$online['username'] = $location['compact'];
+				$online['network_title'] = $location['asn'];
 			}
 			$online['lastactivity'] = dgmdate($online['lastactivity'], 't');
 			$data[$online['uid']] = $online;

@@ -47,7 +47,7 @@ class table_common_session extends discuz_table {
 		if($ismember === 1) {
 			$sql[] = 'uid > 0';
 		} elseif($ismember === 2) {
-			$sql[] = 'groupid = 7';
+			$sql[] = 'uid = 0';
 		}
 		if($invisible === 1) {
 			$sql[] = 'invisible = 1';
@@ -64,7 +64,7 @@ class table_common_session extends discuz_table {
 	}
 
 	public function count($type = 0) {
-		$condition = $type == 1 ? ' WHERE uid>0 ' : ($type == 2 ? ' WHERE groupid=7 ' : '');
+		$condition = $type == 1 ? ' WHERE uid>0 ' : ($type == 2 ? ' WHERE uid=0 ' : '');
 		return DB::result_first("SELECT count(*) FROM ".DB::table($this->_table).$condition);
 
 	}

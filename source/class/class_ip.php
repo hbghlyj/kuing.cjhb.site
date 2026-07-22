@@ -221,10 +221,68 @@ class ip {
 	}
 
 	/*
-	 * 将IP转为位置，支持传入CIDR
+	 * 查询IP所属国家和自治系统，支持IPv4和IPv6
+	 */
+	public static function lookup($ip) {
+		if(!self::validate_ip($ip)) {
+			return [];
+		}
+		$root = defined('DISCUZ_ROOT') ? DISCUZ_ROOT : './';
+		$library = $root.'source/class/ip/geoip2.phar';
+		$database = $root.'data/ipdata/GeoOpen-Country-ASN.mmdb';
+		if(!is_file($library) || !is_file($database)) {
+			return [];
+		}
+		try {
+			require_once $library;
+			static $reader = null;
+			if($reader === null) {
+				$reader = new MaxMind\Db\Reader($database);
+			}
+			$record = $reader->get($ip);
+		} catch(Throwable $e) {
+			return [];
+		}
+		if(!is_array($record)) {
+			return [];
+		}
+		$country = isset($record['country']) && is_array($record['country']) ? $record['country'] : [];
+		$countryCode = strtoupper(trim((string)($country['iso_code'] ?? '')));
+		$asn = preg_replace('/\D/', '', (string)($country['AutonomousSystemNumber'] ?? $record['autonomous_system_number'] ?? ''));
+		$organization = trim((string)($country['AutonomousSystemOrganization'] ?? $record['autonomous_system_organization'] ?? ''));
+		return [
+			'country_code' => preg_match('/^[A-Z]{2}$/', $countryCode) ? $countryCode : '',
+			'asn' => $asn,
+			'organization' => $organization,
+		];
+	}
+
+	public static function format_session_location($location) {
+		$location = trim((string)$location);
+		if($location === '') {
+			return ['flag' => '', 'asn' => '', 'organization' => '', 'compact' => '', 'detail' => ''];
+		}
+		$parts = preg_split('/\s+/u', $location);
+		$flag = $parts[0] ?? '';
+		$asn = '';
+		$organization = '';
+		if(preg_match('/(?:^|\s)(AS\d+)(?:\s+(.*))?$/u', $location, $matches)) {
+			$asn = $matches[1];
+			$organization = trim($matches[2] ?? '');
+		}
+		return [
+			'flag' => $flag,
+			'asn' => $asn,
+			'organization' => $organization,
+			'compact' => trim($flag.' '.$organization),
+			'detail' => trim($flag.' '.$asn.' '.$organization),
+		];
+	}
+
+	/*
+	 * 将IP转为国家和自治系统，支持传入CIDR
 	 */
 	public static function convert($ip) {
-		global $_G;
 		if (false !== strpos($ip, '/')) {
 			list($ip, $netmask) = explode('/', $ip, 2);
 		}
@@ -237,17 +295,13 @@ class ip {
 		if (!(filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_RES_RANGE) !== false)) {
 			return '- Reserved';
 		}
-		require_once './source/class/ip/geoip2.phar';
-		static $reader = new GeoIp2\Database\Reader('./data/ipdata/GeoLite2-City.mmdb');
-		try {
-			$record = $reader->city($ip);
-		} catch (\GeoIp2\Exception\AddressNotFoundException $e) {
+		$record = self::lookup($ip);
+		if(!$record) {
 			return null;
 		}
-		return lang('country', DISCUZ_LANG == 'EN/' ?
-		 $record->continent->names['en'] . ' ' . $record->country->names['en'] . ' ' . $record->subdivisions[0]->names['en'] . ' ' . $record->city->names['en'] :
-		 $record->continent->names['zh-CN'] . ' ' . $record->country->names['zh-CN'] . ' ' . $record->subdivisions[0]->names['zh-CN'] . ' ' . $record->city->names['zh-CN']
-		);
+		$country = $record['country_code'] !== '' ? lang('country', $record['country_code'], [], $record['country_code']) : '';
+		$asn = $record['asn'] !== '' ? 'AS'.$record['asn'] : '';
+		return trim(implode(' ', array_filter([$country, $asn, $record['organization']], 'strlen')));
 	}
 
 	public static function checkaccess($ip, $accesslist) {
