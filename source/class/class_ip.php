@@ -250,6 +250,10 @@ class ip {
 		$countryCode = strtoupper(trim((string)($country['iso_code'] ?? '')));
 		$asn = preg_replace('/\D/', '', (string)($country['AutonomousSystemNumber'] ?? $record['autonomous_system_number'] ?? ''));
 		$organization = trim((string)($country['AutonomousSystemOrganization'] ?? $record['autonomous_system_organization'] ?? ''));
+		if(intval($asn) <= 0) {
+			$asn = '';
+			$organization = '';
+		}
 		return [
 			'country_code' => preg_match('/^[A-Z]{2}$/', $countryCode) ? $countryCode : '',
 			'asn' => $asn,
@@ -275,6 +279,9 @@ class ip {
 		$flag = $parts[0] ?? '';
 		$cityOffset = isset($parts[1]) && preg_match('/^[A-Z]{2}$/', $parts[1]) ? 2 : 1;
 		$city = implode(' ', array_slice($parts, $cityOffset));
+		if($asn === '' && preg_match('/(?:^|\s)Not routed$/i', $city)) {
+			$city = trim(preg_replace('/(?:^|\s)Not routed$/i', '', $city));
+		}
 		$network = implode(' ', array_filter([$asn, $organization], 'strlen'));
 		$compact = implode(' ', array_filter([$flag, $city], 'strlen'));
 		return [
