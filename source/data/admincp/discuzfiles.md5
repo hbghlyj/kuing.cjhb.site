@@ -24,14 +24,14 @@ c8078ba1ad2dea1bbe872740cef6775c *./member.php
 90356070f651f7cc38dcd6dc113d35db *./misc.php
 03e023beb7041ad282060d5021d9acd6 *./plugin.php
 d853b8dab9ff4bd38a6b930b249e711a *./portal.php
-e86d4fbab5b31830f47471f67a8cb4b1 *./README.md
+b7621201c2488d11d9badb5579cf48d5 *./README.md
 09d9362f7460bc285c17f76f0f9977c2 *./robots.txt
 3d72559fe900cfc4a8b8a449590af01b *./search.php
 08066574cc9c9cfa186b8e1a7ba35b5c *./source
 209f7da3fb816679a3bb26c62daaaa74 *./static
 b9b6db2a5893eb3f77d3243f7bbda747 *./template
 aa37b4967ec38b8e00af2262e6968155 *./tools
-738b8009eb6fcfb1c8c56a5b374855a6 *./UPGRADE_NOTES.md
+2fe2c510ad4c94c876d60100e2ba35e2 *./UPGRADE_NOTES.md
 3a1392c4209de863cc353702150c75ca *./vendor
 6d572f40f84622fcb186cd13944acc41 *api/account/callback.php
 d41d8cd98f00b204e9800998ecf8427e *api/account/index.htm
@@ -746,7 +746,7 @@ e68df2ca5ca0eb1cb0c31abe1726ea0c *source/app/forum/child/ajax/forumchecknew.php
 35cc263a50cecccb1f5d220f0b3fbf6f *source/app/forum/child/ajax/forumjump.php
 ba7eb42fea6523423122169146285225 *source/app/forum/child/ajax/get_rushreply_membernum.php
 e904d0763dd051fe174df27167ae5e9a *source/app/forum/child/ajax/getimage.php
-cf5ae1dac4382dd7af29b0b7842d8517 *source/app/forum/child/ajax/getOnlineUserListHtml.php
+bdf931c554c5dd79732643d0bdb8bdee *source/app/forum/child/ajax/getOnlineUserListHtml.php
 caf162c301d1bd38d8b7feb14b3c825b *source/app/forum/child/ajax/getpost.php
 a5295ee8573998a9edf7375cf1afd049 *source/app/forum/child/ajax/getpostfeed.php
 0ecc212c5e7f3926f20a639ea6f7b7eb *source/app/forum/child/ajax/getthreadclass.php
@@ -786,7 +786,7 @@ d41d8cd98f00b204e9800998ecf8427e *source/app/forum/child/index.htm
 44f8875ee30eae0e6a5b5598c9ef62f6 *source/app/forum/child/index/category.php
 1315070e4654d255159a1ff2a71175b5 *source/app/forum/child/index/collection.php
 e0a83793885883e12750bb12c6264b75 *source/app/forum/child/index/favorite.php
-58bb00639cda81c465b6b7c855c7ae84 *source/app/forum/child/index/forum.php
+e92b0afa651d02f4f6b799c6e09055cc *source/app/forum/child/index/forum.php
 d1e0c7f0eaee2a14b42843b58e54ea67 *source/app/forum/child/index/grid.php
 d41d8cd98f00b204e9800998ecf8427e *source/app/forum/child/index/index.htm
 c8afe733f053153c05272b674469b544 *source/app/forum/child/member/exit.php
@@ -966,7 +966,7 @@ f7c4671d467afc4c7969caec35732d0f *source/app/home/child/misc/sendmail.php
 1259b080f39cb21fac5cbfb744de60d6 *source/app/home/child/space/debate.php
 28af82dc3d44cbc29d77338775f7fea4 *source/app/home/child/space/doing.php
 c9341617503685e06fa8bf42491297f2 *source/app/home/child/space/favorite.php
-86cce50a2c4ed0d3e7ec5401915f2297 *source/app/home/child/space/friend.php
+7eef559b17a488de0ca7933833cc6e06 *source/app/home/child/space/friend.php
 e3c346ec8ebe816d50ca675cebbfdf54 *source/app/home/child/space/home.php
 d41d8cd98f00b204e9800998ecf8427e *source/app/home/child/space/index.htm
 342068c981ac3bf117dd66a75fad77f5 *source/app/home/child/space/index.php
@@ -1352,7 +1352,7 @@ a4e9914b4b82253fe09586b32c363573 *source/class/class_editor.php
 986259aedb16268d16346c2f5b154e6c *source/class/class_gifmerge.php
 80768f6e6246aec6e970a748a407d689 *source/class/class_i18n.php
 47ea5d2277de2db94ef627bb0b64fa26 *source/class/class_image.php
-78f59398910d0a6a4b5a8644a7cf1df8 *source/class/class_ip.php
+e88484d05e6e5be01d82be9aebd91315 *source/class/class_ip.php
 36f0390232c454dfd512f153f539636d *source/class/class_mailcode.php
 d5ba3c10b709b10474200dce9c667ae0 *source/class/class_member.php
 3989139af1423c8eafc522e294256d2b *source/class/class_membersearch.php
@@ -1379,7 +1379,7 @@ a630e6a882fa6ec0d6b70b95cd30e974 *source/class/class_upload.php
 f5180ffb8b544aace94311f25ef64104 *source/class/db/db_driver_pdo_slave.php
 a5401a550c296a1814130760ca6b1cb9 *source/class/db/db_driver_pdo.php
 d41d8cd98f00b204e9800998ecf8427e *source/class/db/index.htm
-ae0b4a7764a8285f68d013118f40e2d3 *source/class/discuz/discuz_application.php
+8ee3872984ed908b0efe49a327108b21 *source/class/discuz/discuz_application.php
 d2c456536705204ca4c37728eac0bb74 *source/class/discuz/discuz_base.php
 a51cb58197aba7d23ce7be02a8e4c464 *source/class/discuz/discuz_block.php
 fc58430642d0722ea241bdae05e41330 *source/class/discuz/discuz_censor.php
@@ -1396,7 +1396,7 @@ fbed138880f9a1f7b079cfc9a8e2ec75 *source/class/discuz/discuz_panel.php
 f395bac7525b84d260c8ba3154feb142 *source/class/discuz/discuz_process.php
 80e6cb931de5cac6e128ed1f8d23799f *source/class/discuz/discuz_rank.php
 cd3af69408200a4df322ad4ba19d5e8c *source/class/discuz/discuz_session_close.php
-0f7b62c6e8f1f0d1e34e358ee60fd2cc *source/class/discuz/discuz_session.php
+fa6424310d82224073166e248f87d44a *source/class/discuz/discuz_session.php
 0f86c0fd2af13e982084e43d92d8abb5 *source/class/discuz/discuz_table_archive.php
 897066c28b1f1790a3206ea08ae9bff1 *source/class/discuz/discuz_table.php
 3d849f37aa0430ac766b2565cca183b4 *source/class/discuz/discuz_upgrade.php
@@ -1642,7 +1642,7 @@ e63d2590472c952ede0aaa0154902d87 *source/class/table/table_common_report.php
 5e14e35003a7f7da2e55314e859a44dd *source/class/table/table_common_searchindex.php
 4dfd4d6af767bd73d35457ca6c2c9b8a *source/class/table/table_common_seccheck.php
 2981370caec584f73dd320a777034c1f *source/class/table/table_common_secquestion.php
-c3a616009806ba2c3f89432f97e0d72d *source/class/table/table_common_session.php
+d480358e6a6438b979353ca7592d28b2 *source/class/table/table_common_session.php
 3d998026cc6573361992e4c6ba1d1c06 *source/class/table/table_common_setting.php
 b4363bab93ff7da52c3efb41563a8ebc *source/class/table/table_common_smiley.php
 32d1d58aaa682d608c45110bb353c4ce *source/class/table/table_common_smsgw.php
@@ -4679,7 +4679,7 @@ e39d1d12258aadf4637372ff3f9cefba *template/default/forum/ajax_index_portal.php
 c6c125081d9101ed946b55e0f0893640 *template/default/forum/ajax_quickreply.htm
 d435c3acbe68b03e3f295a3dfb9415d8 *template/default/forum/ajax_secondgroup.htm
 e695ab1aee76347751a15abf8b210f4b *template/default/forum/ajax_threadlist.htm
-85b697934b5e26b001dafeaabcff8d11 *template/default/forum/ajax_whosonline_list.htm
+2dd6c56c419b6c8d9f3ea70e77d7a0b3 *template/default/forum/ajax_whosonline_list.htm
 8c98b36944b94e71d60fd1a7a58d2873 *template/default/forum/ajax.htm
 2300e7518fd00aa49ce25396adc77607 *template/default/forum/albumlist.php
 473840a1f04d9bd24a0d0c11a099b9ee *template/default/forum/announcement.htm
@@ -4713,7 +4713,7 @@ d44d78cdfb751d93ba2acf26f5b6157b *template/default/forum/forumdisplay_list.htm
 a04b76790bbbeb63a5bf92dab2ac7387 *template/default/forum/forumdisplay_pay.htm
 8ae43585b8969f52d90c4508cd4d5539 *template/default/forum/forumdisplay_sort.htm
 aff9f44c690874d0c8841cd39dc691be *template/default/forum/forumdisplay_subforum.htm
-8e1a79107c5a1ab850449f72232952b2 *template/default/forum/forumdisplay.htm
+03de3aedbd77b552bf8a823b7a610abc *template/default/forum/forumdisplay.htm
 55f547be89c9639fc19db8dbb9bb2dbd *template/default/forum/guide_list_row.htm
 fd397478e4dfcc9e2f53b6e8cb142083 *template/default/forum/guide.htm
 9880c7ffbff4ab74b4ddef47bd9e8659 *template/default/forum/hiderecover.htm
@@ -5352,7 +5352,7 @@ b9f66442b304bc4b6a7b5c9501db7c08 *template/discuzx5/forum/forumdisplay_leftside.
 468721f297a8640db3e6c65ed683aadc *template/discuzx5/forum/forumdisplay_list_box.php
 6c5e097d42351731480261e0622738a4 *template/discuzx5/forum/forumdisplay_list.php
 3e6df07ee0d3ff3ba46558ca603cd4d1 *template/discuzx5/forum/forumdisplay_waterfall.php
-41d26708c794b82fab28149c6ec7be2e *template/discuzx5/forum/forumdisplay.php
+dc1e1be4b2c83c5e1dcdd02f1a423394 *template/discuzx5/forum/forumdisplay.php
 c44ae7416e35f9aaefe94b1330cac45d *template/discuzx5/forum/index_portal.htm
 5d7691c9d29da40863fb133054969e1b *template/discuzx5/forum/viewthread.php
 31b8935b3e62c4a9dc10634010b9c7bb *template/discuzx5/i18n/EN_UTF8/lang_template.php
