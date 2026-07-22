@@ -27,19 +27,7 @@ class table_common_member_magic extends discuz_table {
 		parent::__construct();
 	}
 
-	public function delete($val = null, $unbuffered = false) {
-		// $val = null 需要在取消兼容层后删除
-		if(defined('DISCUZ_DEPRECATED')) {
-			throw new Exception('NotImplementedException');
-			return parent::delete($val, $unbuffered);
-		} else {
-			$unbuffered = $unbuffered === false ? null : $unbuffered;
-			return $this->delete_magic($val, $unbuffered);
-		}
-	}
-
-	public function delete_magic($uid = null, $magicid = null) {
-		// $uid = null, $magicid = null 需要在取消兼容层后删除
+	public function delete_magic($uid, $magicid) {
 		$para = [];
 		if($uid) {
 			$para[] = DB::field('uid', $uid);
@@ -51,17 +39,6 @@ class table_common_member_magic extends discuz_table {
 			return null;
 		}
 		return DB::delete($this->_table, $where);
-	}
-
-	public function fetch_all($ids, $force_from_db = false, $null1 = 0, $null2 = 0) {
-		// $null 1~n 需要在取消兼容层后删除
-		if(defined('DISCUZ_DEPRECATED')) {
-			throw new Exception('NotImplementedException');
-			return parent::fetch_all($ids, $force_from_db);
-		} else {
-			$force_from_db = $force_from_db === false ? '' : $force_from_db;
-			return $this->fetch_all_magic($ids, $force_from_db, $null1, $null2);
-		}
 	}
 
 	public function fetch($id, $force_from_db = false) {

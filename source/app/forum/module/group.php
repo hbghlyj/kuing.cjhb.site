@@ -241,7 +241,7 @@ if($action == 'index') {
 		}
 
 		if($confirmjoin) {
-			table_forum_groupuser::t()->insert($_G['fid'], $_G['uid'], $_G['username'], $modmember, TIMESTAMP, TIMESTAMP);
+			table_forum_groupuser::t()->insert_groupuser($_G['fid'], $_G['uid'], $_G['username'], $modmember, TIMESTAMP, TIMESTAMP);
 			if($_G['forum']['jointype'] == 2 && (empty($inviteuid) || empty($groupmanagers[$inviteuid]))) {
 				foreach($groupmanagers as $manage) {
 					notification_add($manage['uid'], 'group', 'group_member_join', ['fid' => $_G['fid'], 'groupname' => $_G['forum']['name'], 'url' => $_G['siteurl'].'forum.php?mod=group&action=manage&op=checkuser&fid='.$_G['fid']], 1);
@@ -346,7 +346,7 @@ if($action == 'index') {
 			$fieldarray = ['fid' => $newfid, 'description' => $descriptionnew, 'jointype' => $jointype, 'gviewperm' => $gviewperm, 'dateline' => TIMESTAMP, 'founderuid' => $_G['uid'], 'foundername' => $_G['username'], 'membernum' => 1];
 			table_forum_forumfield::t()->insert($fieldarray);
 			table_forum_forumfield::t()->update_groupnum($fup, 1);
-			table_forum_groupuser::t()->insert($newfid, $_G['uid'], $_G['username'], 1, TIMESTAMP);
+			table_forum_groupuser::t()->insert_groupuser($newfid, $_G['uid'], $_G['username'], 1, TIMESTAMP);
 			require_once libfile('function/cache');
 			updatecache('grouptype');
 		}

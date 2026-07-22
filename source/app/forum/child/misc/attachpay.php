@@ -9,7 +9,6 @@
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
-
 $aid = intval($_GET['aid']);
 if(!$aid) {
 	showmessage('parameters_error');
@@ -26,7 +25,6 @@ if(!$aid) {
 		showmessage('undefined_action');
 	}
 }
-
 if($attach['readperm'] && $attach['readperm'] > $_G['group']['readaccess']) {
 	showmessage('attachment_forum_nopermission', NULL, [], ['login' => 1]);
 }
@@ -63,7 +61,7 @@ if(table_common_credit_log::t()->count_by_uid_operation_relatedid($_G['uid'], 'B
 $attach['netprice'] = $status != 2 ? round($attach['price'] * (1 - $_G['setting']['creditstax'])) : 0;
 $lockid = 'attachpay_'.$_G['uid'];
 if(!submitcheck('paysubmit')) {
-	$post = table_forum_post::t()->fetch('tid:'.$attach['tid'], $attach['pid']);
+	$post = table_forum_post::t()->fetch_post('tid:'.$attach['tid'], $attach['pid']);
 	if($post['anonymous'] && !$_G['forum']['ismoderator']) {
 		$attach['uid'] = 0;
 		$attach['author'] = $_G['setting']['anonymoustext'];
@@ -128,4 +126,4 @@ if(!submitcheck('paysubmit')) {
 } else {
 	showmessage('attachment_locked');
 }
-	
+

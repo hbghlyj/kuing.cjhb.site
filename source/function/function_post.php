@@ -246,7 +246,7 @@ function updateattach($modnewthreads, $tid, $pid, $attachnew, $attachupdate = []
 					album_update_pic($_GET['uploadalbum']);
 				}
 			}
-			table_forum_attachment_n::t()->insert('tid:'.$tid, $update, false, true);
+			table_forum_attachment_n::t()->insert_attachment('tid:'.$tid, $update, false, true);
 			table_forum_attachment::t()->update($aid, ['tid' => $tid, 'pid' => $pid, 'tableid' => getattachtableid($tid)]);
 			table_forum_attachment_unused::t()->delete($aid);
 		}

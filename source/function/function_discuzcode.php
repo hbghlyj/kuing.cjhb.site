@@ -507,7 +507,7 @@ function parseattachurl($aid, $ext, $ignoretid = 0) {
 	require_once libfile('function/attachment');
 	$_G['forum_skipaidlist'][] = $aid;
 	if(!empty($ext)) {
-		$attach = table_forum_attachment_n::t()->fetch('aid:'.$aid, $aid);
+		$attach = table_forum_attachment_n::t()->fetch_attachment('aid:'.$aid, $aid);
 		// 如果不是音视频类附件则不允许生成无条件限制的地址, 此处不支持附件收费以及阅读权限判定
 		if(!in_array(attachtype(fileext($attach['filename'])."\t", 'id'), [9, 10])) {
 			$ext = 0;
