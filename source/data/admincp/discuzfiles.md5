@@ -1352,7 +1352,7 @@ a4e9914b4b82253fe09586b32c363573 *source/class/class_editor.php
 986259aedb16268d16346c2f5b154e6c *source/class/class_gifmerge.php
 80768f6e6246aec6e970a748a407d689 *source/class/class_i18n.php
 47ea5d2277de2db94ef627bb0b64fa26 *source/class/class_image.php
-302a4ad3d2dc274e1484b55a003d012f *source/class/class_ip.php
+d46fbd7af757d3f78d02d1534e576217 *source/class/class_ip.php
 36f0390232c454dfd512f153f539636d *source/class/class_mailcode.php
 d5ba3c10b709b10474200dce9c667ae0 *source/class/class_member.php
 3989139af1423c8eafc522e294256d2b *source/class/class_membersearch.php
@@ -1379,7 +1379,7 @@ a630e6a882fa6ec0d6b70b95cd30e974 *source/class/class_upload.php
 f5180ffb8b544aace94311f25ef64104 *source/class/db/db_driver_pdo_slave.php
 a5401a550c296a1814130760ca6b1cb9 *source/class/db/db_driver_pdo.php
 d41d8cd98f00b204e9800998ecf8427e *source/class/db/index.htm
-8ee3872984ed908b0efe49a327108b21 *source/class/discuz/discuz_application.php
+251ecf3119f47903e918797cdc5dbf70 *source/class/discuz/discuz_application.php
 d2c456536705204ca4c37728eac0bb74 *source/class/discuz/discuz_base.php
 a51cb58197aba7d23ce7be02a8e4c464 *source/class/discuz/discuz_block.php
 fc58430642d0722ea241bdae05e41330 *source/class/discuz/discuz_censor.php
