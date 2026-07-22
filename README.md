@@ -27,6 +27,20 @@
 - 生成的缓存文件使用 `style_<styleid>_touch_*.css` 命名，避免与 PC CSS 缓存互相覆盖。
 - 插件可通过 `source/plugin/<插件>/template/touch/extend_<文件名>.css` 扩展手机 CSS。
 
+### `discuzx5` 是 `default` 的覆盖层
+
+`template/discuzx5` 不是一套完整、独立的模板，而是建立在 `template/default` 之上的局部覆盖层。当前风格缺少某个模板文件时，模板解析器会回退到 `template/default` 中的同名 `.htm` 或 `.php` 文件。因此，不能仅检查 `discuzx5` 目录来判断某个界面或功能是否有实现。
+
+与 `default` 相比，`discuzx5` 的目录和组件覆盖范围明显不完整。`admin`、`cell`、`cells` 虽然存在，但只实现了其中一部分文件；`forum` 目录尤其精简，大量专用界面完全由 `default` 提供。主要回退类别包括：
+
+- `ajax_*`：图片列表、附件、快速回复等 AJAX 弹窗模板；
+- `collection_*`：淘专辑及相关列表功能；
+- `modcp_*`：完整的前台版主管理面板；
+- `post_*`：投票、悬赏、商品、辩论等专用发帖表单；
+- `viewthread_*`：打印、付费、悬赏、投票、辩论、相册等专用主题视图。
+
+维护 `discuzx5` 时，应把它视为 `default` 的差异层：通用实现优先修改 `default`，只有确实需要 X5 专属结构或样式时才在 `discuzx5` 添加覆盖文件。修改上述组件后必须同时检查实际命中的模板路径，避免误以为 X5 页面只会执行 `discuzx5` 内的代码。
+
 ### forum lastpost 字段顺序
 
 当前分支运行时应按以下顺序理解 `pre_forum_forum.lastpost`：
