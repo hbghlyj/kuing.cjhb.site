@@ -966,7 +966,7 @@ f7c4671d467afc4c7969caec35732d0f *source/app/home/child/misc/sendmail.php
 1259b080f39cb21fac5cbfb744de60d6 *source/app/home/child/space/debate.php
 28af82dc3d44cbc29d77338775f7fea4 *source/app/home/child/space/doing.php
 c9341617503685e06fa8bf42491297f2 *source/app/home/child/space/favorite.php
-90db9d569207ea7939bd762e5e6f696e *./source/app/home/child/space/friend.php
+758804d50f7f21171f3e001a75da9955 *./source/app/home/child/space/friend.php
 e3c346ec8ebe816d50ca675cebbfdf54 *source/app/home/child/space/home.php
 d41d8cd98f00b204e9800998ecf8427e *source/app/home/child/space/index.htm
 342068c981ac3bf117dd66a75fad77f5 *source/app/home/child/space/index.php
@@ -1379,7 +1379,7 @@ a630e6a882fa6ec0d6b70b95cd30e974 *source/class/class_upload.php
 f5180ffb8b544aace94311f25ef64104 *source/class/db/db_driver_pdo_slave.php
 a5401a550c296a1814130760ca6b1cb9 *source/class/db/db_driver_pdo.php
 d41d8cd98f00b204e9800998ecf8427e *source/class/db/index.htm
-5ce918a5e34ec2d4a4a676f5aa7aeadd *./source/class/discuz/discuz_application.php
+ab471439a1cc36b1baa19fdbede548fa *./source/class/discuz/discuz_application.php
 d2c456536705204ca4c37728eac0bb74 *source/class/discuz/discuz_base.php
 a51cb58197aba7d23ce7be02a8e4c464 *source/class/discuz/discuz_block.php
 fc58430642d0722ea241bdae05e41330 *source/class/discuz/discuz_censor.php
@@ -1396,7 +1396,7 @@ fbed138880f9a1f7b079cfc9a8e2ec75 *source/class/discuz/discuz_panel.php
 f395bac7525b84d260c8ba3154feb142 *source/class/discuz/discuz_process.php
 80e6cb931de5cac6e128ed1f8d23799f *source/class/discuz/discuz_rank.php
 cd3af69408200a4df322ad4ba19d5e8c *source/class/discuz/discuz_session_close.php
-530b4221bccf76a4587fab737d012701 *./source/class/discuz/discuz_session.php
+7c59c76f7c95704edb53f55448bd0266 *./source/class/discuz/discuz_session.php
 0f86c0fd2af13e982084e43d92d8abb5 *source/class/discuz/discuz_table_archive.php
 897066c28b1f1790a3206ea08ae9bff1 *source/class/discuz/discuz_table.php
 3d849f37aa0430ac766b2565cca183b4 *source/class/discuz/discuz_upgrade.php
@@ -1491,7 +1491,7 @@ e718da43155e34e373d653131c6feecf *source/class/media/media_ixigua.php
 c28d3fcca6584edda8903142b46c896d *source/class/media/media_youku.php
 011545b0d183ee6bad2ccf359718f4d2 *source/class/media/media_youtube.php
 d41d8cd98f00b204e9800998ecf8427e *source/class/memory/index.htm
-25a3915e6f3602007c09cf0c6d0d3203 *./source/class/memory/memory_common_session.php
+466a0cbfedc7d45ca935228ceb813cb1 *./source/class/memory/memory_common_session.php
 89c1f90760990499864cabdb818264b4 *source/class/memory/memory_driver_apc.php
 de08f5a4d803ec8e5f9befc67eac2612 *source/class/memory/memory_driver_apcu.php
 26a1219aa6854fc282b3f1f0dde22f4e *source/class/memory/memory_driver_eaccelerator.php
@@ -2068,7 +2068,7 @@ a0c59ad3b5b448dc026ce38b21891acd *source/i18n/EN_UTF8/group/lang_template.php
 7215ee9c7d9dc229d2921a40e899ec5f *source/i18n/EN_UTF8/home/index.htm
 e5e6b7fd3151fc861cc0e086e91b4127 *source/i18n/EN_UTF8/home/lang_editor.php
 97fe36a552738b7a86d4bce83b99a523 *source/i18n/EN_UTF8/home/lang_magic.php
-70af333ff426e76b31054a7513f5af17 *source/i18n/EN_UTF8/home/lang_template.php
+a7f875ce360c9e228075e764f7494679 *source/i18n/EN_UTF8/home/lang_template.php
 d41d8cd98f00b204e9800998ecf8427e *source/i18n/EN_UTF8/index.htm
 2a582bb65f2158d113d6927f6032603e *source/i18n/EN_UTF8/lang_action.php
 d437463342a17bcfe5ce51366f9114fa *source/i18n/EN_UTF8/lang_admincp_cloud.php
@@ -2228,7 +2228,7 @@ d41d8cd98f00b204e9800998ecf8427e *source/i18n/SC_UTF8/group/index.htm
 7215ee9c7d9dc229d2921a40e899ec5f *source/i18n/SC_UTF8/home/index.htm
 65c2405608ff98b2bb4271589081d521 *source/i18n/SC_UTF8/home/lang_editor.php
 0b7222cb95139b6e75188bd80499a384 *source/i18n/SC_UTF8/home/lang_magic.php
-7b903d91be98339c24e66e107f80c170 *source/i18n/SC_UTF8/home/lang_template.php
+d218bc1050ef631756eaed0306779aa0 *source/i18n/SC_UTF8/home/lang_template.php
 d41d8cd98f00b204e9800998ecf8427e *source/i18n/SC_UTF8/index.htm
 94a484369fab2e83f229cc1e2efdd5bf *source/i18n/SC_UTF8/install/lang_install.php
 c2132cf048546db356223b64faad7c7f *source/i18n/SC_UTF8/install/lang_sql_install/table_common_admincp_group.php
@@ -2430,7 +2430,7 @@ d41d8cd98f00b204e9800998ecf8427e *source/i18n/TC_UTF8/group/index.htm
 7215ee9c7d9dc229d2921a40e899ec5f *source/i18n/TC_UTF8/home/index.htm
 795cb59d87cb71097877ec50909e6dff *source/i18n/TC_UTF8/home/lang_editor.php
 507c426f134f1cfbe085729f8ca4daa0 *source/i18n/TC_UTF8/home/lang_magic.php
-c54d468112a72d8b76881c647bec397f *source/i18n/TC_UTF8/home/lang_template.php
+e17864fe1cd88268a038bbb124529f4b *source/i18n/TC_UTF8/home/lang_template.php
 d41d8cd98f00b204e9800998ecf8427e *source/i18n/TC_UTF8/index.htm
 71b9b9692a29fe8cad5129cf639cb225 *source/i18n/TC_UTF8/install/lang_install.php
 ed55ac04b6a4600d418f6e33cc754a57 *source/i18n/TC_UTF8/install/lang_sql_install/table_common_admincp_group.php
@@ -4845,7 +4845,7 @@ b3c2f68695a601e0fbe2c75061dfff1d *template/default/home/space_eccredit.htm
 9e3e6b523673473ce8aa8e48c6e3052b *template/default/home/space_favorite.htm
 9c6cc17b714c5f98c14a732572beb95f *template/default/home/space_feed_li.htm
 743aa58ecea0a15adc3c4c87887b9750 *template/default/home/space_friend_nav.htm
-41a70b6e360c7f214b85ae0b57851ed1 *template/default/home/space_friend.htm
+0a851dd4717bd47dc87df6daf26f2911 *template/default/home/space_friend.htm
 7813bd8c2ef66b3270e22e9c0e721105 *template/default/home/space_header_personalnv.htm
 6b5c7b600f428645081968b92416507b *template/default/home/space_header.htm
 f761f0e58063e76eb4e235df44a22da7 *template/default/home/space_home.htm
