@@ -1962,7 +1962,7 @@ ce8fbf5fdb3b126d7681df191d79e529 *source/function/function_block.php
 823271d0b3b88da3415c800d91eec4a6 *source/function/function_core.php
 1d6492c770bcc657e3c0a5261897b98f *source/function/function_credit.php
 62457ad628907fc88c5a18b4928a7368 *source/function/function_delete.php
-9bb0135fe4c5331efeb7c47236bb80f1 *source/function/function_discuzcode.php
+9b496d8387672503e15f4eecd28b54eb *source/function/function_discuzcode.php
 dcae8fcd0c738a849cca575646d18cc6 *source/function/function_doing.php
 dec55f564b212011b93fbe7381adb691 *source/function/function_domain.php
 0fc89ddbffd2eaddf2a90072305c2ded *source/function/function_ec_credit.php
@@ -4130,7 +4130,7 @@ f2b907e67b9631f14747fd834cb365be *static/js/fileprogress.js
 78edc96f41a0a54363c0b145d9919029 *static/js/forum_moderate.js
 6befee75794500ebdd3d180e3d06800a *static/js/forum_post.js
 1fc029a6037c856cc891c233e79d1f05 *static/js/forum_slide.js
-dfe9388420ba1b99b8464d44cb84e3b0 *static/js/forum_viewthread.js
+b3ef839d623934f47ecc57a776758c2b *static/js/forum_viewthread.js
 58102d7c6d670078f165d742f4a92fd7 *static/js/forum.js
 4426f31e5206cd87bd483d6d3148970d *static/js/google.js
 6ed5c4424fdf87bd1804c5d48c2994e1 *static/js/handlers.js
