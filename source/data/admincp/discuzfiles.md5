@@ -1562,7 +1562,7 @@ ca6784dda2a563e6b21134b27a8a5318 *source/class/table/table_common_admincp_cmenu.
 2b863d708273b2d3ee6903c6e5b28852 *source/class/table/table_common_adminnote.php
 480ab125c32a4b8ae01365bed6401109 *source/class/table/table_common_advertisement_custom.php
 e173461e78c03f6ec0938458bd09aede *source/class/table/table_common_advertisement.php
-b3a858530049cba43a6065b65e45c962 *source/class/table/table_common_banned.php
+ea20af269c990afade9119f5577f45fd *source/class/table/table_common_banned.php
 1ef685e49bc35ae051cb9f40e4ee6315 *source/class/table/table_common_block_favorite.php
 2db4b654e1aa64a926488df5d2c7052a *source/class/table/table_common_block_item_data.php
 2be46a78e38ac164d8ec1c476b3ba9a6 *source/class/table/table_common_block_item.php
