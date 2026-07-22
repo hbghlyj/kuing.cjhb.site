@@ -562,8 +562,7 @@ class model_post extends discuz_model {
 			'bbcodeoff' => $this->param['bbcodeoff'],
 			'parseurloff' => $this->param['parseurloff'],
 			'smileyoff' => $this->param['smileyoff'],
-			'subject' => $this->param['subject'],
-			'port' => getglobal('remoteport')
+			'subject' => $this->param['subject']
 		];
 		if(empty($_GET['minor'])) {
 			$setarr['lastupdate'] = $this->param['lastupdate'] ?? 0;

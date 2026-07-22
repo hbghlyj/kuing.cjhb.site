@@ -13,7 +13,6 @@ if(!defined('IN_DISCUZ')) {
 if(!$_G['setting']['postappend']) {
 	showmessage('postappend_not_open');
 }
-
 $post = table_forum_post::t()->fetch_post('tid:'.$_G['tid'], $_GET['pid']);
 if($post['authorid'] != $_G['uid']) {
 	showmessage('postappend_only_yourself');
@@ -34,11 +33,9 @@ if(submitcheck('postappendsubmit')) {
 	$bbcodeoff = checkbbcodes($message, 0);
 	table_forum_post::t()->update_post('tid:'.$_G['tid'], $_GET['pid'], [
 		'message' => $message,
-		'bbcodeoff' => $bbcodeoff,
-		'port' => $_G['remoteport']
+		'bbcodeoff' => $bbcodeoff
 	]);
 	showmessage('postappend_add_succeed', "forum.php?mod=viewthread&tid={$post['tid']}&pid={$post['pid']}&page={$_GET['page']}&extra={$_GET['extra']}#pid{$post['pid']}", ['tid' => $post['tid'], 'pid' => $post['pid']]);
 } else {
 	include template('forum/postappend');
 }
-	
