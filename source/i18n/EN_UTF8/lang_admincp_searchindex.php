@@ -658,17 +658,6 @@ $lang = array (
 			0 => '发送手机短信',
 		),
 	),
-	59 => 
-	array (
-		'index' => 
-		array (
-			'用户标签' => 'action=usertag',
-		),
-		'text' => 
-		array (
-			0 => '用户标签',
-		),
-	),
 	60 => 
 	array (
 		'index' => 
@@ -1462,9 +1451,6 @@ $lang = array (
 			60 => 'admingroup_edit_edit_trade',
 			61 => '允许编辑商品',
 			62 => '设置是否允许编辑管理范围内商品主题的商品',
-			63 => 'admingroup_edit_usertag',
-			64 => '允许添加用户标签',
-			65 => '设置是否允许编辑管理范围内主题的用户标签',
 			66 => 'admingroup_edit_stick_thread_none',
 			67 => '不允许置顶',
 			68 => 'admingroup_edit_stick_thread_1',
@@ -3447,9 +3433,6 @@ $lang = array (
 			12 => 'members_search_medal',
 			13 => '勋章',
 			14 => '设置拥有指定勋章的用户，可以按住 CTRL 多选',
-			15 => 'members_search_usertag',
-			16 => '用户标签',
-			17 => '设置指定标签的用户，可以按住 CTRL 多选',
 			18 => 'members_search_conisbind',
 			19 => '是否绑定QQ',
 			20 => 'members_search_uinblacklist',
@@ -7502,35 +7485,6 @@ $lang = array (
 			13 => '下载远程图片的同时允许重新生成一份本地图片',
 			14 => 'usergroups_edit_portal_allow_post_article_moderate',
 			15 => '发布文章需要审核',
-		),
-	),
-	299 => 
-	array (
-		'index' => 
-		array (
-			'用户标签' => 'action=usertag',
-		),
-		'text' => 
-		array (
-			0 => '用户标签',
-			1 => 'usertag_add_tips',
-			2 => '可以给线下活动的用户批量贴标签当只填写了标签，用户列表为空时，是批量添加用户标签如果标签和用户列表都有输入，说明是给指定用户批量贴标签',
-			3 => 'usertag_add_tags',
-			4 => '标签',
-			5 => '可以输入多个标签，多个标签可以用空格、逗号 分隔',
-			6 => 'usertag_add_usernames',
-			7 => '用户列表',
-			8 => '可以输入多个用户，每行输入一个用户名',
-			9 => 'keywords',
-			10 => '关键词',
-			11 => 'search',
-			12 => '搜索',
-			13 => 'view',
-			14 => '查看',
-			15 => 'usertag_user',
-			16 => '用户',
-			17 => 'usertag_send_notice',
-			18 => '发通知',
 		),
 	),
 );

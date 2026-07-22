@@ -409,8 +409,6 @@ $lang = [
 	'recommend_succeed' => '評價指數 <strong id="recommentc" class="xi1 xs2">{recommendc}</strong> <span id="recommentv" class="xg2 xs0">{recommendv}</span>',
 	'thread_poll_voter_isnull' => '暫時還沒有人蔘與投票，不能添加標籤。',
 	'thread_activityapply_isnull' => '暫時還沒有人蔘加活動，不能添加標籤。',
-	'forum_usertag_set_continue' => '共 {count} 個用戶，正在設置 {limit} 至 {next} 個用戶，請稍候 ',
-	'forum_usertag_succeed' => '用戶標籤設置成功 ',
 
 	'group_admin_enter_panel' => '請進入圈子管理頁面進行管理',
 

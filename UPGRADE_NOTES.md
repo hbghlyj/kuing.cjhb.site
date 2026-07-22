@@ -48,6 +48,20 @@ ALTER TABLE uc_members
 - 当前分支曾使用的自定义 `name_en` 列已废弃，不属于 X3.5 升级脚本的输入结构。
 - 来源：`install/sql/sql_upgrade_3.5.php`
 
+### [Required] 用户标签功能已移除
+
+- 用户标签、按用户标签搜索会员，以及基于用户标签的版块权限均已删除；普通主题、文章和日志标签不受影响。
+- 存量站点更新代码后应清理用户标签数据并移除对应管理权限列：
+
+```sql
+DELETE FROM pre_common_tagitem WHERE idtype = 'uid';
+DELETE FROM pre_common_tag WHERE status = 3;
+ALTER TABLE pre_common_tagitem MODIFY idtype enum('tid','blogid') NOT NULL DEFAULT 'tid';
+ALTER TABLE pre_common_admingroup DROP COLUMN alloweditusertag;
+```
+
+- 若数据表前缀不是 `pre_`，请按实际前缀调整。
+
 ### 旧 IP 查询后端已移除
 
 - 当前默认运行时网络归属查询使用 `GeoOpen-Country-ASN.mmdb`，返回国家、ASN 和自治系统组织名称。

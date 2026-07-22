@@ -1089,7 +1089,6 @@ $lang = array (
 	'thread_rushreply_noreward'	=> 'Yet no rush reply rewards',//'暂时还没有楼层中奖',
 	'thread_rushreply_start'	=> ' floor, grab start:',//' 抢楼开始：',
 	'thread_rushreply_statnum'	=> 'Rush reply statistics',//'统计参与人数',
-	'usertag'			=> 'User Tags',//'用户标签',
 	'activity_about_member'		=> 'Remaining places',//'剩余名额',
 	'activity_enter_imgurl'		=> 'Enter the image URL',//'请输入图片地址',
 	'activity_imgurl_error'		=> 'Invalid Image URL',//'图片地址错误',

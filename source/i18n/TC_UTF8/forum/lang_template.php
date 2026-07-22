@@ -1084,7 +1084,6 @@ $lang = [
 	'thread_rushreply_noreward' => '暫時還沒有樓層中獎',
 	'thread_rushreply_start' => ' 搶樓開始：',
 	'thread_rushreply_statnum' => '統計參與人數',
-	'usertag' => '用戶標籤',
 	'activity_about_member' => '剩餘名額',
 	'activity_enter_imgurl' => '請輸入圖片地址',
 	'activity_imgurl_error' => '圖片地址錯誤',

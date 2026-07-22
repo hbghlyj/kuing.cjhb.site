@@ -33,7 +33,7 @@ showtableheader('forums_edit_perm_forum', 'noborder fixpadding permtable');
 showtablerow('class="header"', [], $titles);
 showtablerow('', $widths, $chkalls);
 
-$permfiles = ['group', 'verify', 'account', 'tag', 'plugin'];
+$permfiles = ['group', 'verify', 'account', 'plugin'];
 foreach($permfiles as $permfile) {
 	require_once childfile('forums/perm_'.$permfile);
 }
