@@ -1962,7 +1962,7 @@ bf163077301488c12abb09f32d5c04df *source/function/function_blog.php
 8e29a7bf5f3b91a7a9172a2c4b5a9dd6 *source/function/function_cloudaddons.php
 580b06ae77c38e192b4ec95bc5bfdf57 *source/function/function_collection.php
 053ca1f803b7f15b0a84f4b36ddca6c4 *source/function/function_comment.php
-5e2fe46c5660fb0cfa1b8df96fb93ef1 *source/function/function_core.php
+ec60ab9c89bce3a03ba8dfb23fbc809a *source/function/function_core.php
 26cc8c5601aca1f390f91d1bb18c2e81 *source/function/function_credit.php
 62457ad628907fc88c5a18b4928a7368 *source/function/function_delete.php
 e250b0a9f2cf78100b77af6045adaf33 *source/function/function_discuzcode.php
@@ -1980,7 +1980,7 @@ da611e39e4ddbaf50a9383faa1486dee *source/function/function_forum.php
 bd4742c1d69ab188c226946f2061cae0 *source/function/function_group.php
 6f28acd19112873d05c1f80c018455cf *source/function/function_grouplog.php
 7461e49aff2fa4d03335536a023064d2 *source/function/function_home.php
-cc5914a6d9620eb8c762f2b8e159fcb0 *source/function/function_importdata.php
+356c48afc155e733f35308d5f4971544 *source/function/function_importdata.php
 0e9235198bb3480363261cd0f88e587c *source/function/function_log.php
 a7d82a84267b454faf70eb8b4e2b7187 *source/function/function_magic.php
 44b572aa60bed688435fc91cdbda9c83 *source/function/function_mail.php
