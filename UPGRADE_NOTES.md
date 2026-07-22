@@ -79,6 +79,23 @@ $_config['output']['upgradeinsecure'] = 1;
 
 ### Required before deploy
 
+#### [Required] 在线会话城市字段
+
+- 在线访客的 Cloudflare 城市改为独立保存，避免与 ASN/自治系统组织混在 `location` 中。
+- 已部署过临时分隔符实现的站点，先备份，再执行以下 SQL（按实际表前缀调整）：
+
+```sql
+ALTER TABLE pre_common_session
+  ADD COLUMN city varchar(191) NOT NULL DEFAULT '' AFTER location;
+
+UPDATE pre_common_session
+SET city = SUBSTRING_INDEX(location, 0x1F, 1),
+    location = SUBSTRING(location, LOCATE(0x1F, location) + 1)
+WHERE LOCATE(0x1F, location) > 0;
+```
+
+- 未使用临时实现的站点只需执行 `ALTER TABLE`。旧会话记录会继续按旧格式显示，直到过期。
+
 #### [Required] 执行 UCenter 密码字段扩容
 
 - SQL：

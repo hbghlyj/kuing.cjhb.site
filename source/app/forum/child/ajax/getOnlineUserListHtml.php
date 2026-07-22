@@ -59,7 +59,7 @@ if($_G['setting']['whosonlinestatus'] == 1 || $_G['setting']['whosonlinestatus']
 	foreach($sessions_guests as $online) {
 		$online_user = [];
 		$online_user['uid'] = 0;
-		$location = ip::format_session_location($online['location'] ?? '');
+		$location = ip::format_session_location($online['location'] ?? '', $online['city'] ?? null);
 		$isRobot = intval($online['groupid']) === 8;
 		$online_user['username'] = htmlspecialchars($isRobot ? $location['organization'] : $location['compact']);
 		$online_user['network_title'] = htmlspecialchars($isRobot ? $location['asn'] : $location['network']);

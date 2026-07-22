@@ -627,7 +627,7 @@ class discuz_application extends discuz_base {
 				$flag = $getFlagEmoji($countryCode);
 				$asn = !empty($network['asn']) ? 'AS'.$network['asn'] : '';
 				$organization = $network['organization'] ?? '';
-				$locationName = ip::encode_session_location($city, $flag, $countryCode, $asn, $organization);
+				$locationName = trim(implode(' ', array_filter([$flag, $countryCode, $asn, $organization], 'strlen')));
 				$referrer = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '';
 				$robotName = defined('IS_ROBOT') && IS_ROBOT ? IS_ROBOT : false;
 				if(!$robotName && ($this->_is_malformed_php_path($_SERVER['REQUEST_URI'] ?? '') || $this->_is_malformed_php_path($referrer))) {
@@ -636,7 +636,7 @@ class discuz_application extends discuz_base {
 				if($robotName){
 					$this->var['member']['groupid'] = 8;
 					$this->var['member']['username'] = $robotName;
-					$this->session->init($this->var['cookie']['sid'], $this->var['clientip'], 0, $robotName, $locationName);
+					$this->session->init($this->var['cookie']['sid'], $this->var['clientip'], 0, $robotName, $locationName, $city);
 					$this->session->set('username', $robotName);
 					$this->session->set('groupid', 8);
 				} else {
@@ -644,10 +644,12 @@ class discuz_application extends discuz_base {
 					$this->session->set('username', '');
 				}
 				$this->session->set('location', $locationName);
+				$this->session->set('city', $city);
 				$this->session->set('referrer', $referrer);
 			} else {
 				$this->session->init($this->var['cookie']['sid'], $this->var['clientip'], $this->var['uid']);
 				$this->session->set('location', '');
+				$this->session->set('city', '');
 				$this->session->set('referrer', '');
 			}
 			$this->var['sid'] = $this->session->sid;

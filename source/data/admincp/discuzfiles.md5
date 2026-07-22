@@ -746,7 +746,7 @@ e68df2ca5ca0eb1cb0c31abe1726ea0c *source/app/forum/child/ajax/forumchecknew.php
 35cc263a50cecccb1f5d220f0b3fbf6f *source/app/forum/child/ajax/forumjump.php
 ba7eb42fea6523423122169146285225 *source/app/forum/child/ajax/get_rushreply_membernum.php
 e904d0763dd051fe174df27167ae5e9a *source/app/forum/child/ajax/getimage.php
-fde6586817ea027361066ec5b89acb1b *source/app/forum/child/ajax/getOnlineUserListHtml.php
+9a8978e8de9e5448b0b419ad46e0e1d0 *./source/app/forum/child/ajax/getOnlineUserListHtml.php
 caf162c301d1bd38d8b7feb14b3c825b *source/app/forum/child/ajax/getpost.php
 a5295ee8573998a9edf7375cf1afd049 *source/app/forum/child/ajax/getpostfeed.php
 0ecc212c5e7f3926f20a639ea6f7b7eb *source/app/forum/child/ajax/getthreadclass.php
@@ -786,7 +786,7 @@ d41d8cd98f00b204e9800998ecf8427e *source/app/forum/child/index.htm
 44f8875ee30eae0e6a5b5598c9ef62f6 *source/app/forum/child/index/category.php
 1315070e4654d255159a1ff2a71175b5 *source/app/forum/child/index/collection.php
 e0a83793885883e12750bb12c6264b75 *source/app/forum/child/index/favorite.php
-00814b4958b1457b94cfcd18c7d10522 *source/app/forum/child/index/forum.php
+58e6e9f416f6c7e56b037ab8354800ff *./source/app/forum/child/index/forum.php
 d1e0c7f0eaee2a14b42843b58e54ea67 *source/app/forum/child/index/grid.php
 d41d8cd98f00b204e9800998ecf8427e *source/app/forum/child/index/index.htm
 c8afe733f053153c05272b674469b544 *source/app/forum/child/member/exit.php
@@ -966,7 +966,7 @@ f7c4671d467afc4c7969caec35732d0f *source/app/home/child/misc/sendmail.php
 1259b080f39cb21fac5cbfb744de60d6 *source/app/home/child/space/debate.php
 28af82dc3d44cbc29d77338775f7fea4 *source/app/home/child/space/doing.php
 c9341617503685e06fa8bf42491297f2 *source/app/home/child/space/favorite.php
-7eef559b17a488de0ca7933833cc6e06 *source/app/home/child/space/friend.php
+1200f7dff2b84de4d99cd3836bdb5df7 *./source/app/home/child/space/friend.php
 e3c346ec8ebe816d50ca675cebbfdf54 *source/app/home/child/space/home.php
 d41d8cd98f00b204e9800998ecf8427e *source/app/home/child/space/index.htm
 342068c981ac3bf117dd66a75fad77f5 *source/app/home/child/space/index.php
@@ -1352,7 +1352,7 @@ a4e9914b4b82253fe09586b32c363573 *source/class/class_editor.php
 986259aedb16268d16346c2f5b154e6c *source/class/class_gifmerge.php
 80768f6e6246aec6e970a748a407d689 *source/class/class_i18n.php
 47ea5d2277de2db94ef627bb0b64fa26 *source/class/class_image.php
-d46fbd7af757d3f78d02d1534e576217 *source/class/class_ip.php
+adf79fab14be00ee4d2ee212e7e87271 *./source/class/class_ip.php
 36f0390232c454dfd512f153f539636d *source/class/class_mailcode.php
 d5ba3c10b709b10474200dce9c667ae0 *source/class/class_member.php
 3989139af1423c8eafc522e294256d2b *source/class/class_membersearch.php
@@ -1379,7 +1379,7 @@ a630e6a882fa6ec0d6b70b95cd30e974 *source/class/class_upload.php
 f5180ffb8b544aace94311f25ef64104 *source/class/db/db_driver_pdo_slave.php
 a5401a550c296a1814130760ca6b1cb9 *source/class/db/db_driver_pdo.php
 d41d8cd98f00b204e9800998ecf8427e *source/class/db/index.htm
-251ecf3119f47903e918797cdc5dbf70 *source/class/discuz/discuz_application.php
+0fdb67e524dacffc24e00a4e402c9b26 *./source/class/discuz/discuz_application.php
 d2c456536705204ca4c37728eac0bb74 *source/class/discuz/discuz_base.php
 a51cb58197aba7d23ce7be02a8e4c464 *source/class/discuz/discuz_block.php
 fc58430642d0722ea241bdae05e41330 *source/class/discuz/discuz_censor.php
@@ -1396,7 +1396,7 @@ fbed138880f9a1f7b079cfc9a8e2ec75 *source/class/discuz/discuz_panel.php
 f395bac7525b84d260c8ba3154feb142 *source/class/discuz/discuz_process.php
 80e6cb931de5cac6e128ed1f8d23799f *source/class/discuz/discuz_rank.php
 cd3af69408200a4df322ad4ba19d5e8c *source/class/discuz/discuz_session_close.php
-6d9f09b72811f35f001ca4b8bc293263 *source/class/discuz/discuz_session.php
+235e4bc8f55f197088a4a1da61a1311f *./source/class/discuz/discuz_session.php
 0f86c0fd2af13e982084e43d92d8abb5 *source/class/discuz/discuz_table_archive.php
 897066c28b1f1790a3206ea08ae9bff1 *source/class/discuz/discuz_table.php
 3d849f37aa0430ac766b2565cca183b4 *source/class/discuz/discuz_upgrade.php
@@ -1491,7 +1491,7 @@ e718da43155e34e373d653131c6feecf *source/class/media/media_ixigua.php
 c28d3fcca6584edda8903142b46c896d *source/class/media/media_youku.php
 011545b0d183ee6bad2ccf359718f4d2 *source/class/media/media_youtube.php
 d41d8cd98f00b204e9800998ecf8427e *source/class/memory/index.htm
-f4e29e104bbf7a1ea85fea432eb1236c *source/class/memory/memory_common_session.php
+26931d0162a2ee202ada18f1817ce470 *./source/class/memory/memory_common_session.php
 89c1f90760990499864cabdb818264b4 *source/class/memory/memory_driver_apc.php
 de08f5a4d803ec8e5f9befc67eac2612 *source/class/memory/memory_driver_apcu.php
 26a1219aa6854fc282b3f1f0dde22f4e *source/class/memory/memory_driver_eaccelerator.php
@@ -1815,7 +1815,7 @@ b01907cf60923a66b70fa27de993e752 *source/class/witframe/lib/crypt.php
 d41d8cd98f00b204e9800998ecf8427e *source/class/witframe/lib/index.htm
 0c99a4279405277a66ab6ed706bfb987 *source/class/witframe/lib/site.php
 5d3f20525fa33756527ec7469b3dc217 *source/class/witframe/witframe_plugin.php
-09922b66e97f7683d87cc01b154f3865 *source/data/admincp/discuzdb.md5
+2ec82d7abc2b8f571190f9a4d5989a0c *./source/data/admincp/discuzdb.md5
 14049299a2a111aad82813d8e1656ab4 *source/data/admincp/discuzhook.dat
 40dcfa73e184e614753ab4d62609fd42 *source/data/admincp/emoji.php
 d41d8cd98f00b204e9800998ecf8427e *source/data/admincp/index.htm
@@ -5467,5 +5467,5 @@ cfa5b5b63b97c2fd66c187d2f932ae1f *template/discuzx5/static/svg/right.svg
 ef99b33099232f92d1100dee35c91753 *template/discuzx5/static/svg/search_w.svg
 7215ee9c7d9dc229d2921a40e899ec5f *template/index.htm
 19c06a5ebc43b0149048c1c5a55dc9bf *install/data/install.sql
-d6a3830361ecf1d42e309497dc89765c *install/sql/sql_install.php
-5eee33d42d16d077fad61e2fe294c222 *install/sql/sql_upgrade_3.5.php
+b15034ecc5cc585846d3b2efd8f4bd72 *./install/sql/sql_install.php
+daa543e2de2923d359f4b5b12773526e *./install/sql/sql_upgrade_3.5.php
