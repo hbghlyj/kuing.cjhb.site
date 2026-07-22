@@ -798,7 +798,6 @@ caf0e50236e827219893f3d3d687d515 *source/app/forum/child/misc/debatevote.php
 de311d2e0d7a55a3e58b2b1c3481b9b9 *source/app/forum/child/misc/hidden.php
 53a66ff5cc92fbc4bae18fcd5095e8b7 *source/app/forum/child/misc/hiderecover.php
 d41d8cd98f00b204e9800998ecf8427e *source/app/forum/child/misc/index.htm
-41ceeb153a0986fab319eb1a33f13984 *source/app/forum/child/misc/livelastpost.php
 251ffe55f9ae7129c74bbbcbac4c3b2f *source/app/forum/child/misc/loadsave.php
 fe3483965752fcd9c6c05a14b0187285 *source/app/forum/child/misc/nav.php
 f26166544f850148204a3d6838d3b0db *source/app/forum/child/misc/pay.php
@@ -812,7 +811,6 @@ a7ac62c0ecae9aae53e1fb76c4d8cf16 *source/app/forum/child/misc/postreview.php
 5b349dfd4b9516cf741044af0aca87dd *source/app/forum/child/misc/recommend.php
 a128d1c20a502226bed269e798217dd5 *source/app/forum/child/misc/removeindexheats.php
 542a4a5296aeac6128105c717ed15de8 *source/app/forum/child/misc/removerate.php
-512a426fd4f2dff475192b53e4619255 *source/app/forum/child/misc/replynotice.php
 41b8c9de90dda49808636fff51aa554d *source/app/forum/child/misc/shortcut.php
 a3b5996ab53c00fe88e2fd442b5d173f *source/app/forum/child/misc/showdarkroom.php
 3cd8b61f989ff3ab3f1d45ce697a2fb2 *source/app/forum/child/misc/tradeorder.php
@@ -863,7 +861,6 @@ fa8585b27dd94ab758f0228acfd4c33c *source/app/forum/child/thread/trade.php
 6c03bf8a780adfcaa828c59d3158c7d8 *source/app/forum/child/topicadmin/delcomment.php
 bf09969b66eff71da18dd2498cf133f0 *source/app/forum/child/topicadmin/delpost.php
 d41d8cd98f00b204e9800998ecf8427e *source/app/forum/child/topicadmin/index.htm
-8417131a18957418279c975634b1f384 *source/app/forum/child/topicadmin/live.php
 edd3da10a008d95728e346ec1d80b9db *source/app/forum/child/topicadmin/merge.php
 2998fee891ad282c20dcab5357ed225b *source/app/forum/child/topicadmin/moderate.php
 553e3d451b0a5c18bd0ad6fc27edeef2 *source/app/forum/child/topicadmin/refund.php
@@ -2655,7 +2652,6 @@ bbe0f04a1df928d39450cfffbe640bdd *static/avatar/iscroll-zoom.min.js
 d935d506ae9c8dd9e0f96706fbb91f65 *static/avatar/jquery-ui.min.js
 893bbff2e15317cd9dcb7ca05004d2a7 *static/avatar/jquery.photoClip.min.js
 769cc83e8ab04b53e43de635c578f022 *static/avatar/lrz.all.bundle.js
-be6cd95359aab77a80c5c5c45b6852f1 *static/avatar/noavatar.svg
 18e2222cdf584db09ad3d83a1c9cb686 *static/avatar/ui-bg_flat_0_aaaaaa_40x100.png
 3c739f0850728b9d2b21fabce555c8bf *static/avatar/ui-bg_flat_75_ffffff_40x100.png
 3f439c206bd6e523e0075ee3e82cc5e2 *static/avatar/ui-bg_glass_55_fbf9ee_1x400.png
@@ -3980,7 +3976,6 @@ d41d8cd98f00b204e9800998ecf8427e *static/image/wechat/index.htm
 c46487eb35d247233efd549646a8955f *static/js/admincp_base.js
 6220f406a8d602978a2056a22ea95b18 *static/js/admincp_frame.js
 ee9cd9e2c6331144a224b67e87598c29 *static/js/admincp_index.js
-7d3cebb4e260cdc8b18f1935ff949cbd *static/js/admincp_login.js
 476ce8eac69bb8e06abd1c36d9d93165 *static/js/admincp.js
 7ae75f3feed1f54352c2c9c1d61b6bae *static/js/ajax.js
 8150290cf7f19ab4be704a25aa38fe8f *static/js/at.js
