@@ -16,7 +16,7 @@ class discuz_session {
 	public $var;
 	public $isnew = false;
 	private $newguest = ['sid' => 0, 'ip' => '',
-		'uid' => 0, 'username' => '', 'location' => '', 'city' => '', 'referrer' => '', 'groupid' => 7, 'invisible' => 0, 'action' => 0,
+		'uid' => 0, 'username' => '', 'bot_reason' => '', 'location' => '', 'city' => '', 'referrer' => '', 'groupid' => 7, 'invisible' => 0, 'action' => 0,
 		'lastactivity' => 0, 'fid' => 0, 'tid' => 0, 'lastolupdate' => 0];
 
 	private $old = ['sid' => '', 'ip' => '', 'uid' => 0];
@@ -52,10 +52,10 @@ class discuz_session {
 		}
 	}
 
-	public function init($sid, $ip, $uid, $username = false, $location = '', $city = '') {
+	public function init($sid, $ip, $uid, $username = false, $location = '', $city = '', $botReason = '') {
 		$this->old = ['sid' => $sid, 'ip' => $ip, 'uid' => $uid];
 		$session = $username
-			? DB::fetch_first('SELECT * FROM %t WHERE groupid=8 AND username=%s AND location=%s AND city=%s', ['common_session', $username, $location, $city])
+			? DB::fetch_first('SELECT * FROM %t WHERE groupid=8 AND bot_reason=%s AND location=%s AND city=%s', ['common_session', $botReason, $location, $city])
 			: ($sid ? $this->table->fetch($sid, $ip, $uid) : []);
 		if(empty($session) || ($username === false && (int)$session['uid'] !== (int)$uid)) {
 			$session = $this->create($ip, $uid);

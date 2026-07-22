@@ -19,7 +19,7 @@ class memory_common_session {
 	const LUA_RETURN_DATA = <<<LUA
 	local rs = {}
 	for _, key in ipairs(sids) do
-	local row = redis.call("hmget", prefix..key, "sid", "ip", "uid", "username", "location", "city", "referrer", "groupid", "invisible", "action", "lastactivity", "lastolupdate", "fid", "tid")
+	local row = redis.call("hmget", prefix..key, "sid", "ip", "uid", "username", "bot_reason", "location", "city", "referrer", "groupid", "invisible", "action", "lastactivity", "lastolupdate", "fid", "tid")
 	rs[#rs + 1] = row
 	end
 	return rs
@@ -263,7 +263,7 @@ LUA;
 		    local sids = redis.call('SMEMBERS', prefix..'idx_uid_'..ARGV[argv_index])
 		    for _, key in ipairs(sids) do
 			if (sid_index >= start) then
-			    local row = redis.call("hmget", prefix..key, "sid", "ip", "uid", "username", "location", "city", "referrer", "groupid", "invisible", "action", "lastactivity", "lastolupdate", "fid", "tid")
+			    local row = redis.call("hmget", prefix..key, "sid", "ip", "uid", "username", "bot_reason", "location", "city", "referrer", "groupid", "invisible", "action", "lastactivity", "lastolupdate", "fid", "tid")
 			    rs[#rs + 1] = row
 			    if (#rs >= limit) then
 				return rs
@@ -495,7 +495,7 @@ LUA;
 
 	/*
 	 * 将以下调用的结果处理成arry返回
-	 * 	redis.call("hmget", key, "sid", "ip", "uid", "username", "location", "city", "referrer", "groupid", "invisible", "action", "lastactivity", "lastolupdate", "fid", "tid")
+	 * 	redis.call("hmget", key, "sid", "ip", "uid", "username", "bot_reason", "location", "city", "referrer", "groupid", "invisible", "action", "lastactivity", "lastolupdate", "fid", "tid")
 	 */
 	private function array_from_memory_result($data) {
 		$result = [];
@@ -505,16 +505,17 @@ LUA;
 			$item['ip'] = $row[1];
 			$item['uid'] = $row[2];
 			$item['username'] = $row[3];
-			$item['location'] = $row[4];
-			$item['city'] = $row[5];
-			$item['referrer'] = $row[6];
-			$item['groupid'] = $row[7];
-			$item['invisible'] = $row[8];
-			$item['action'] = $row[9];
-			$item['lastactivity'] = $row[10];
-			$item['lastolupdate'] = $row[11];
-			$item['fid'] = $row[12];
-			$item['tid'] = $row[13];
+			$item['bot_reason'] = $row[4];
+			$item['location'] = $row[5];
+			$item['city'] = $row[6];
+			$item['referrer'] = $row[7];
+			$item['groupid'] = $row[8];
+			$item['invisible'] = $row[9];
+			$item['action'] = $row[10];
+			$item['lastactivity'] = $row[11];
+			$item['lastolupdate'] = $row[12];
+			$item['fid'] = $row[13];
+			$item['tid'] = $row[14];
 			$result[] = $item;
 		}
 		return $result;

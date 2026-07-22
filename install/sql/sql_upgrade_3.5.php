@@ -460,6 +460,7 @@ CREATE TABLE pre_common_session
 	ip           varchar(45)           NOT NULL DEFAULT '',
 	uid          mediumint(8) unsigned NOT NULL DEFAULT '0',
 	username     char(50)              NOT NULL DEFAULT '',
+	bot_reason   varchar(255)          NOT NULL DEFAULT '',
 	location     varchar(191)          NOT NULL DEFAULT '',
 	city         varchar(191)          NOT NULL DEFAULT '',
 	referrer     varchar(255)          NOT NULL DEFAULT '',

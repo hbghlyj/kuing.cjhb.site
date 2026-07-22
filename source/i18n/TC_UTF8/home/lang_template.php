@@ -91,6 +91,7 @@ $lang = [
 	'online_in_forum' => '所在版塊',
 	'online_in_thread' => '所在主題',
 	'online_ip' => 'IP 地址',
+	'online_bot_reason' => '機器人識別原因',
 	'online_referrer' => '來源',
 	'follow_special_thread_tip' => '這是一個特殊主題，點這裏可以回原帖查看詳細內容',
 	'follow_thread_deleted' => '該主題已被刪除',

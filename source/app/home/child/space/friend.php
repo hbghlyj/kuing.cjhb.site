@@ -34,6 +34,7 @@ if($_GET['view'] == 'online') {
 	$formatonlinename = function($value) {
 		$value['referrer'] = isset($value['referrer']) ? $value['referrer'] : '';
 		if(!$value['uid']) {
+			$value['bot_reason'] = trim($value['bot_reason'] ?? '');
 			$location = ip::format_session_location($value['location'] ?? '', $value['city'] ?? null);
 			$value['username'] = $location['detail'];
 		}

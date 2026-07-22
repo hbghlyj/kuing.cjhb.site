@@ -79,6 +79,15 @@ $_config['output']['upgradeinsecure'] = 1;
 
 ### Required before deploy
 
+#### [Required] 在线会话机器人识别原因字段
+
+- 机器人识别原因改为独立保存，不再依赖会被在线列表格式化覆盖的会话用户名。
+
+```sql
+ALTER TABLE pre_common_session
+  ADD COLUMN bot_reason varchar(255) NOT NULL DEFAULT '' AFTER username;
+```
+
 #### [Required] 在线会话城市字段
 
 - 在线访客的 Cloudflare 城市改为独立保存，避免与 ASN/自治系统组织混在 `location` 中。

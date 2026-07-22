@@ -634,10 +634,12 @@ class discuz_application extends discuz_base {
 					$robotName = 'MalformedPhpPath';
 				}
 				if($robotName){
+					$botReason = trim($robotName);
 					$this->var['member']['groupid'] = 8;
 					$this->var['member']['username'] = $robotName;
-					$this->session->init($this->var['cookie']['sid'], $this->var['clientip'], 0, $robotName, $locationName, $city);
+					$this->session->init($this->var['cookie']['sid'], $this->var['clientip'], 0, $robotName, $locationName, $city, $botReason);
 					$this->session->set('username', $robotName);
+					$this->session->set('bot_reason', $botReason);
 					$this->session->set('groupid', 8);
 				} else {
 					$this->session->init($this->var['cookie']['sid'], $this->var['clientip'], 0);
