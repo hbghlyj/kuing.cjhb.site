@@ -235,6 +235,7 @@ ALTER TABLE pre_portal_article_title DROP COLUMN tag;
   - `backup_wednesday.sql.gz`
   - `backup_friday.sql.gz`
 - cron 必须把文件写入 Discuz! 配置的 `data/backup_<backupdir>/` 目录。
+- `<backupdir>` 的实际值仅属于站点部署配置，不得写入受 Git 跟踪的文件、提交信息或公开仓库历史；该目录中的数据库备份文件同样不得提交。
 - 管理入口仍为 `/?app=admin&platform=system?action=db&operation=export`。
 
 ### [Required] Country/ASN MMDB 运行时依赖
