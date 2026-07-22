@@ -13,7 +13,6 @@
 - 这是部署说明，不是功能宣传页。每次更新代码前，应先阅读本文档与 `README.md`。
 - 对于存量站点，不要只覆盖代码。至少需要同步检查：
   - `install/sql/sql_upgrade_3.5.php`
-  - `install/data/install.sql`
   - `config/config_global_default.php`
 - 当前分支已经引入额外运行时依赖与默认策略，例如 MaxMind GeoIP2、HTTPS 输出策略、后台登录相关默认项；这些都会影响实际部署结果。
 
@@ -191,7 +190,7 @@ ALTER TABLE pre_portal_article_title DROP COLUMN tag;
 ```
 
 - `pre_common_robot_user_agents`、`pre_common_session.location`、`pre_common_session.referrer`、`pre_forum_thread.tags` 和 `pre_portal_article_title.tags` 仍在使用，不属于清理范围。
-- 来源：运行时代码引用审计、`install/data/install.sql`、`install/sql/sql_install.php`
+- 来源：运行时代码引用审计、`install/sql/sql_install.php`
 
 ### Manual review
 
@@ -201,7 +200,7 @@ ALTER TABLE pre_portal_article_title DROP COLUMN tag;
 - 推荐做法：
   - 先备份数据库
   - 逐项审查 `install/sql/sql_upgrade_3.5.php`
-  - 再根据站点实际启用功能补充检查 `install/data/install.sql`
+  - 使用 `install/sql/sql_install.php` 作为当前全新安装结构的唯一基准
 
 ## Config / Environment Changes
 
