@@ -71,9 +71,74 @@ document.querySelectorAll('.t_f').forEach(post => {
     });
 });
 
+function initializePostImages(root) {
+    const images = [];
+    if(root.nodeType === Node.ELEMENT_NODE && root.matches('.t_fsz img.zoom')) {
+        images.push(root);
+    }
+    if(root.querySelectorAll) {
+        images.push(...root.querySelectorAll('.t_fsz img.zoom'));
+    }
+    images.forEach(img => {
+        if(img.dataset.postImageReady) return;
+        img.dataset.postImageReady = '1';
+
+        let wrapper = img.closest('.tupian');
+        if(!wrapper) {
+            wrapper = document.createElement('div');
+            wrapper.className = 'tupian';
+            const loader = document.createElement('div');
+            loader.className = 'jiaz';
+            const drag = document.createElement('div');
+            drag.className = 'tuozt';
+            drag.addEventListener('mousedown', function(event) {
+                event.preventDefault();
+                tuozhuai2(event, wrapper);
+            });
+            const reset = document.createElement('div');
+            reset.className = 'guiw';
+            reset.addEventListener('click', function(event) {
+                event.preventDefault();
+                guiwei(wrapper);
+            });
+            img.parentNode.insertBefore(wrapper, img);
+            wrapper.append(loader, drag, reset, img);
+        }
+
+        const finishLoading = function() {
+            wrapper.classList.add('jiazed');
+            if(!img.hasAttribute('width')) img.setAttribute('width', img.width);
+            wrapper.style.display = 'inline-block';
+        };
+        if(img.complete && img.naturalWidth) {
+            finishLoading();
+        } else {
+            img.addEventListener('load', finishLoading, {once: true});
+        }
+        wrapper.addEventListener('wheel', function(event) {
+            if(event.shiftKey) {
+                wrapper.style.width = '';
+                wrapper.style.height = '';
+            }
+        });
+    });
+}
+initializePostImages(document);
+const postList = document.getElementById('postlist');
+if(postList) {
+    new MutationObserver(mutations => {
+        mutations.forEach(mutation => mutation.addedNodes.forEach(initializePostImages));
+    }).observe(postList, {childList: true, subtree: true});
+}
+
 //===Shift + 鼠标滚轮缩放图片、点击图片切换原始大小
 for (let item of document.querySelectorAll('.t_fsz img.zoom,tikz img,asy img')) {
-    item.hasAttribute('onclick') || item.addEventListener("click", function(){
+    const tikzCode = item.getAttribute('data-tikz-code');
+    if(tikzCode !== null) {
+        item.addEventListener('click', function() {
+            show_tikz_window(decodeURIComponent(tikzCode));
+        });
+    } else if(!item.hasAttribute('onclick')) item.addEventListener("click", function(){
         if(this.getAttribute('width')) {
             this.setAttribute('savewidth',this.getAttribute('width'));
             this.removeAttribute('width');
@@ -104,7 +169,6 @@ for (let item of document.querySelectorAll('.t_fsz img.zoom,tikz img,asy img')) 
         this.setAttribute("height", temp_h*scale);
     });
 }
-document.querySelectorAll('.tupian').forEach(a=>a.addEventListener("wheel", function(e){if(e.shiftKey){this.style.width="";this.style.height="";}}));
 
 /* 点评中的回复按钮 */
 document.querySelectorAll('.psti').forEach(pstiElement => {

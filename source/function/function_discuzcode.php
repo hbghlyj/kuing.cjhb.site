@@ -57,23 +57,6 @@ function codedisp($code) {
 	$_G['forum_discuzcode']['codecount']++;
 	return "[\tDISCUZ_CODE_".$_G['forum_discuzcode']['pcodecount']."\t]";
 }
-// kk add
-function asycode_callback($matches) {
-	$str = $matches[1];
-	return '<tikz class="tupian"><div class="jiaz"></div><div class="tuozt" onmousedown="tuozhuai2(event,this.parentNode);return false;"><!--拖动--></div><div class="guiw" onclick="guiwei(this.parentNode);return false;"><!--归位--></div><img src="/asy/?format='
-	.((str_contains($str, 'import%20graph3')||str_contains($str, 'import%20three'))? 'png' : 'svg')
-	.'&code='.$str.'" onclick="show_tikz_window(\''.$str.'\');" onload="this.parentNode.classList.add(\'jiazed\');this.setAttribute(\'width\',this.width);this.parentNode.style.display=\'inline-block\';"></tikz>';
-}
-
-function tikzcode_callback($matches) {
-    $str = str_replace(array(
-		'%21', '%28', '%29', '%2A', '%2B', '%2C', '%3A', '%3B', '%3D','%0D'
-		),array(
-		'!', '(', ')', '*', '+', ',', ':', ';', '=',''
-		),$matches[1]);
-    return '<tikz class="tupian"><div class="jiaz"></div><div class="tuozt" onmousedown="tuozhuai2(event,this.parentNode);return false;"><!--拖动--></div><div class="guiw" onclick="guiwei(this.parentNode);return false;"><!--归位--></div><img src="//i.upmath.me/svg/'.$str.'" onclick="show_tikz_window(\''.$str.'\');" onload="this.parentNode.classList.add(\'jiazed\');this.setAttribute(\'width\',this.width);this.parentNode.style.display=\'inline-block\';"></tikz>';
-}
-
 function karmaimg($rate, $ratetimes) {
 	if($rate && $ratetimes) {
 		$image = $rate > 0 ? 'agree.gif' : 'disagree.gif';
@@ -345,7 +328,11 @@ function discuzcode($message, $smileyoff = false, $bbcodeoff = false, $htmlon = 
 				"/\[img\]\s*([^\[\<\r\n]+?)\s*\[\/img\]/is",
 				function($matches) use ($allowimgcode, $lazyload, $pid, $allowbbcode, &$code_arr) {
 					if(intval($allowimgcode)) {
-						return parseimg(0, 0, $matches[1], intval($lazyload), intval($pid), (intval($lazyload) ? 'lazyloadthumb="1"' : 'onload="this.parentNode.classList.add(\'jiazed\');this.setAttribute(\'width\',this.width);this.parentNode.style.display=\'inline-block\';"').(str_starts_with($matches[1], '//i.upmath.me/svgb/') || str_starts_with($matches[1], 'asy/?code=') || str_starts_with($matches[1], '/asy/?code=') ? ' onclick="show_tikz_window('.htmlspecialchars(json_encode(array_shift($code_arr))).')"' : ''));
+						$extra = intval($lazyload) ? 'lazyloadthumb="1"' : '';
+						if(str_starts_with($matches[1], '//i.upmath.me/svgb/') || str_starts_with($matches[1], 'asy/?code=') || str_starts_with($matches[1], '/asy/?code=')) {
+							$extra .= ($extra ? ' ' : '').'data-tikz-code="'.rawurlencode((string)array_shift($code_arr)).'"';
+						}
+						return parseimg(0, 0, $matches[1], intval($lazyload), intval($pid), $extra);
 					}
 					return (intval($allowbbcode) ? (!defined('IN_MOBILE') ? bbcodeurl($matches[1], '<a href="{url}" target="_blank">{url}</a>') : bbcodeurl($matches[1], '')) : bbcodeurl($matches[1], '{url}'));
 				},
@@ -355,7 +342,7 @@ function discuzcode($message, $smileyoff = false, $bbcodeoff = false, $htmlon = 
 				"/\[img=(\d{1,4})[x|\,](\d{1,4})\]\s*([^\[\<\r\n]+?)\s*\[\/img\]/is",
 				function($matches) use ($allowimgcode, $lazyload, $pid, $allowbbcode) {
 					if(intval($allowimgcode)) {
-						return parseimg($matches[1], $matches[2], $matches[3], intval($lazyload), intval($pid), (intval($lazyload) ? 'lazyloadthumb="1"' : 'onload="this.parentNode.classList.add(\'jiazed\');this.setAttribute(\'width\',this.width);this.parentNode.style.display=\'inline-block\';"'));
+						return parseimg($matches[1], $matches[2], $matches[3], intval($lazyload), intval($pid), intval($lazyload) ? 'lazyloadthumb="1"' : '');
 					}
 					return (intval($allowbbcode) ? (!defined('IN_MOBILE') ? bbcodeurl($matches[3], '<a href="{url}" target="_blank">{url}</a>') : bbcodeurl($matches[3], '')) : bbcodeurl($matches[3], '{url}'));
 				},
@@ -812,7 +799,7 @@ function parseimg($width, $height, $src, $lazyload, $pid, $extra = '') {
 		if(defined('IN_MOBILE') || defined('IN_RESTFUL')) {
 			$img = '<img'.($width > 0 ? ' width="'.$width.'"' : '').($height > 0 ? ' height="'.$height.'"' : '').' src="{url}" border="0" alt="" />';
 		} else {
-			$img = '<div class="tupian"><div class="jiaz"></div><div class="tuozt" onmousedown="tuozhuai2(event,this.parentNode);return false;"></div><div class="guiw" onclick="guiwei(this.parentNode);return false;"></div><img id="aimg_'.$rimg_id.'" class="zoom mw100"'.($width > 0 ? ' width="'.$width.'"' : '').($height > 0 ? ' height="'.$height.'"' : '').' '.$attrsrc.'="{url}" '.($extra ? $extra.' ' : '')."/></div>\n";
+			$img = '<img id="aimg_'.$rimg_id.'" class="zoom mw100"'.($width > 0 ? ' width="'.$width.'"' : '').($height > 0 ? ' height="'.$height.'"' : '').' '.$attrsrc.'="{url}" '.($extra ? $extra.' ' : '').'border="0" alt="" />';
 		}
 	}
 	$code = bbcodeurl($src, $img);
