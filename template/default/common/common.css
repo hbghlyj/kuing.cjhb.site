@@ -1700,7 +1700,7 @@ Last Modify:	Pony
 
 /* 普通数据列表 datatable by michael */
 .dt { border-top: 1px solid {COMMONBORDER}; width: 100%; }
-	.dt th { background: {COMMONBG}; }
+	.dt th { background: {COMMONBG}; white-space: nowrap; }
 	.dt td, .dt th { padding: 7px 4px; border-bottom: 1px solid {COMMONBORDER}; }
 	.dt .c { width: 50px; }
 
