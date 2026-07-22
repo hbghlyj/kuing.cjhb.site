@@ -111,7 +111,7 @@ $postshowavatars = !($_G['setting']['bannedmessages'] & 2 && ($post['memberstatu
 			<!--{else}-->
 				<div class="pi">
 				<!--{if !$post['authorid']}-->
-					<a href="javascript:;">$_G[setting][anonymoustext] <em>$post[useip]{if $post[port]}:$post[port]{/if}</em></a>
+					<a href="javascript:;">$_G[setting][anonymoustext]</a>
 				<!--{elseif $post['authorid'] && $post['username'] && $post['anonymous']}-->
 					<!--{if $_G['forum']['ismoderator']}--><a href="home.php?mod=space&uid=$post[authorid]" target="_blank">$_G[setting][anonymoustext]</a><!--{else}-->$_G[setting][anonymoustext]<!--{/if}-->
 				<!--{else}-->

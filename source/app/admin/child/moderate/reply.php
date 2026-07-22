@@ -131,8 +131,6 @@ if(!submitcheck('modsubmit') && !$_GET['fast']) {
 		}
 		$post['censorwords'] = implode(', ', $post_censor_words);
 		$post['modthreadkey'] = modauthkey($post['tid']);
-		$post['useip'] = $post['useip'].'-'.convertip($post['useip']);
-
 		if($post['attachment']) {
 			require_once libfile('function/attachment');
 
@@ -157,7 +155,7 @@ if(!submitcheck('modsubmit') && !$_GET['fast']) {
 				<li><input class=\"radio\" type=\"radio\" name=\"moderate[{$post['pid']}]\" id=\"mod_{$post['pid']}_2\" value=\"delete\" onclick=\"mod_setbg({$post['pid']}, 'delete');document.getElementById('deloptions_{$post['pid']}').style.display='inline';\"><label for=\"mod_{$post['pid']}_2\">{$lang['delete']}</label></li>
 				<li><input class=\"radio\" type=\"radio\" name=\"moderate[{$post['pid']}]\" id=\"mod_{$post['pid']}_3\" value=\"ignore\" onclick=\"mod_setbg({$post['pid']}, 'ignore');document.getElementById('deloptions_{$post['pid']}').style.display='none';\"><label for=\"mod_{$post['pid']}_3\">{$lang['ignore']}</label></li>
 			</ul>",
-			$post['subject'] ? "<h3>{$post['tsubject']} &rsaquo; <a href=\"javascript:;\" onclick=\"display_toggle('{$post['pid']}');\">{$post['subject']}</a> $post_censor_text</h3><p>{$post['useip']}</p>" : "<h3> <a href=\"javascript:;\" onclick=\"display_toggle('{$post['pid']}');\">{$post['tsubject']} &rsaquo;</a> $post_censor_text</h3><p>{$post['useip']}</p>",
+			$post['subject'] ? "<h3>{$post['tsubject']} &rsaquo; <a href=\"javascript:;\" onclick=\"display_toggle('{$post['pid']}');\">{$post['subject']}</a> $post_censor_text</h3>" : "<h3> <a href=\"javascript:;\" onclick=\"display_toggle('{$post['pid']}');\">{$post['tsubject']} &rsaquo;</a> $post_censor_text</h3>",
 			"<a href=\"forum.php?mod=forumdisplay&fid={$post['fid']}\">{$post['forumname']}</a>",
 			"<p><a target=\"_blank\" href=\"".ADMINSCRIPT."?action=members&operation=search&uid={$post['authorid']}&submit=yes\">{$post['author']}</a></p> <p>{$post['dateline']}</p>",
 			"<a target=\"_blank\" href=\"forum.php?mod=redirect&goto=findpost&ptid={$post['tid']}&pid={$post['pid']}\">{$lang['view']}</a>&nbsp;<a href=\"forum.php?mod=viewthread&tid={$post['tid']}&modthreadkey={$post['modthreadkey']}\" target=\"_blank\">{$lang['edit']}</a>",
@@ -210,7 +208,7 @@ if(!submitcheck('modsubmit') && !$_GET['fast']) {
 			$title = str_replace(['_', '%'], ['\_', '\%'], $_GET['title']);
 			$keywords = $title;
 		}
-		foreach(table_forum_post::t()->fetch_all_by_search($posttable, null, $keywords, $invisible, $modfid, null, $author, $starttime, null, null, $first) as $post) {
+		foreach(table_forum_post::t()->fetch_all_by_search($posttable, null, $keywords, $invisible, $modfid, null, $author, $starttime, null, $first) as $post) {
 			switch($apply_all_action) {
 				case 'validate':
 					$moderation['validate'][] = $post['pid'];

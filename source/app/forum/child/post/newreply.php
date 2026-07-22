@@ -229,11 +229,10 @@ if(!submitcheck('replysubmit', 0, $seccodecheck, $secqaacheck)) {
 			$message = messagecutstr($message, 100);
 			$message = implode("\n", array_slice(explode("\n", $message), 0, 3));
 
-			$thaquote['useip'] = substr($thaquote['useip'], 0, strrpos($thaquote['useip'], '.')).'.x';
 			if($thaquote['author'] && $thaquote['anonymous']) {
 				$thaquote['author'] = lang('forum/misc', 'anonymoususer');
 			} elseif(!$thaquote['author']) {
-				$thaquote['author'] = lang('forum/misc', 'guestuser').' '.$thaquote['useip'];
+				$thaquote['author'] = lang('forum/misc', 'guestuser');
 			}
 
 			$post_reply_quote = lang('forum/misc', 'post_reply_quote', ['author' => $thaquote['author'], 'time' => $time]);
@@ -253,11 +252,10 @@ if(!submitcheck('replysubmit', 0, $seccodecheck, $secqaacheck)) {
 			showmessage('targetpost_donotbelongto_thisthread', NULL);
 		}
 
-		$thapost['useip'] = substr($thapost['useip'], 0, strrpos($thapost['useip'], '.')).'.x';
 		if($thapost['author'] && $thapost['anonymous']) {
 			$thapost['author'] = '[color=Olive]'.lang('forum/misc', 'anonymoususer').'[/color]';
 		} elseif(!$thapost['author']) {
-			$thapost['author'] = '[color=Olive]'.lang('forum/misc', 'guestuser').'[/color] '.$thapost['useip'];
+			$thapost['author'] = '[color=Olive]'.lang('forum/misc', 'guestuser').'[/color]';
 		} else {
 			$thapost['author'] = '[color=Olive]'.$thapost['author'].'[/color]';
 		}

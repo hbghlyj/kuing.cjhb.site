@@ -52,6 +52,9 @@ class model_thread extends discuz_model {
 		require_once libfile('function/post');
 		$this->tid = $this->pid = 0;
 		$this->_init_parameters($parameters);
+		if(empty($this->member['uid'])) {
+			return $this->showmessage('postperm_login_nopermission', null, [], ['login' => 1]);
+		}
 
 		if(!empty($this->param['save']) && !$this->group['allowsave']) {
 			return $this->showmessage('post_not_allow_save');
@@ -241,8 +244,6 @@ class model_thread extends discuz_model {
 			'message' => $this->param['message'],
 			'content' => $content,
 			'source' => $source,
-			'useip' => $this->param['clientip'] ? $this->param['clientip'] : getglobal('clientip'),
-			'port' => $this->param['remoteport'] ? $this->param['remoteport'] : getglobal('remoteport'),
 			'invisible' => $this->param['pinvisible'],
 			'anonymous' => $this->param['isanonymous'],
 			'usesig' => $this->param['usesig'],
@@ -361,7 +362,7 @@ class model_thread extends discuz_model {
                        'readperm', 'price', 'typeid', 'sortid',
 			'publishdate', 'digest', 'moderated', 'tstatus', 'isgroup', 'imgcontent', 'imgcontentwidth',
 			'replycredit', 'closed', 'special', 'tags',
-			'message', 'content', 'clientip', 'invisible', 'isanonymous', 'usesig',
+			'message', 'content', 'invisible', 'isanonymous', 'usesig',
 			'htmlon', 'bbcodeoff', 'smileyoff', 'parseurloff', 'pstatus', 'geoloc', 'original', 'source', 'contentType', 'contentEditor'
 		];
 		foreach($varname as $name) {

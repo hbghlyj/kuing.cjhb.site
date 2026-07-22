@@ -570,7 +570,6 @@ $lang = array (
 	'modcp_posts_error_2'		=> 'Invalid Time Range! Moderator can manage posts only posted in last week, Super Moderator can do this in 2 weeks.',//'时间范围错误！版主只能删除近 1 周的帖子，超级版主可以删除 2 周内的帖子，请重新选择开始时间',
 	'modcp_posts_error_3'		=> 'Illegal Keywords! Keywords should contain at least 2 characters',//'您输入的关键字不合法！每个关键字至少由 2 个汉字或者 4 个英文字符组成',
 	'modcp_posts_error_4'		=> 'You have no permissions to bulk posts delete',//'抱歉，您无权使用批量删帖功能',
-	'modcp_posts_ip'		=> 'Poster IP',//'发帖 IP',
 	'modcp_posts_keyword'		=> 'Keywords',//'内容关键字',
 	'modcp_posts_member_credits'	=> 'Do not update user points',//'不更新用户积分',
 	'modcp_posts_search'		=> 'Find <strong>$total</strong> posts.',//'共搜索出结果 <strong>$total</strong> 条',

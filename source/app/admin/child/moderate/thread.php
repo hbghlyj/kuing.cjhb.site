@@ -101,7 +101,6 @@ if(!submitcheck('modsubmit') && !$_GET['fast']) {
 			continue;
 		}
 		$threadsortinfo = '';
-		$thread['useip'] = $thread['useip'].'-'.convertip($thread['useip']);
 		if($thread['authorid'] && $thread['author']) {
 			$thread['author'] = "<a href=\"?action=members&operation=search&uid={$thread['authorid']}&submit=yes\" target=\"_blank\">{$thread['author']}</a>";
 		} elseif($thread['authorid'] && !$thread['author']) {
@@ -159,7 +158,7 @@ if(!submitcheck('modsubmit') && !$_GET['fast']) {
 				<li><input class=\"radio\" type=\"radio\" name=\"moderate[{$thread['tid']}]\" id=\"mod_{$thread['tid']}_2\" value=\"delete\" onclick=\"mod_setbg({$thread['tid']}, 'delete');document.getElementById('deloptions_{$thread['tid']}').style.display='inline';\"><label for=\"mod_{$thread['tid']}_2\">{$lang['delete']}</label></li>
 				<li><input class=\"radio\" type=\"radio\" name=\"moderate[{$thread['tid']}]\" id=\"mod_{$thread['tid']}_3\" value=\"ignore\" onclick=\"mod_setbg({$thread['tid']}, 'ignore');document.getElementById('deloptions_{$thread['tid']}').style.display='none';\"><label for=\"mod_{$thread['tid']}_3\">{$lang['ignore']}</label></li>
 			</ul>",
-			"<h3><a href=\"javascript:;\" onclick=\"display_toggle('{$thread['tid']}');\">{$thread['subject']}</a> $thread_censor_text</h3><p>{$thread['useip']}</p>",
+			"<h3><a href=\"javascript:;\" onclick=\"display_toggle('{$thread['tid']}');\">{$thread['subject']}</a> $thread_censor_text</h3>",
 			"<a target=\"_blank\" href=\"forum.php?mod=forumdisplay&fid={$thread['fid']}\">$forumname</a>",
 			"<p>{$thread['author']}</p> <p>{$thread['dateline']}</p>",
 			"<a target=\"_blank\" href=\"forum.php?mod=viewthread&tid={$thread['tid']}&modthreadkey={$thread['modthreadkey']}\">{$lang['view']}</a>&nbsp;<a href=\"forum.php?mod=post&action=edit&fid={$thread['fid']}&tid={$thread['tid']}&pid={$thread['pid']}&modthreadkey={$thread['modthreadkey']}\" target=\"_blank\">{$lang['edit']}</a>",

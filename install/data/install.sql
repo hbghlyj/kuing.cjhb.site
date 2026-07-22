@@ -2799,8 +2799,6 @@ CREATE TABLE pre_forum_post (
   lastupdate int(10) unsigned NOT NULL DEFAULT '0',
   updateuid mediumint(8) unsigned NOT NULL DEFAULT '0',
   message mediumtext NOT NULL,
-  useip varchar(45) NOT NULL DEFAULT '',
-  `port` smallint(6) unsigned NOT NULL DEFAULT '0',
   invisible tinyint(1) NOT NULL DEFAULT '0',
   anonymous tinyint(1) NOT NULL DEFAULT '0',
   usesig tinyint(1) NOT NULL DEFAULT '0',

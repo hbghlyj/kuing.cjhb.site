@@ -287,7 +287,7 @@ class table_common_moderate extends discuz_table {
 			$wheresql[] = 'p.'.DB::field('message', '%'.$subject.'%', 'like');
 		}
 		return DB::fetch_all('SELECT p.pid, p.fid, p.tid,
-			p.author, p.authorid, p.subject, p.dateline, p.message, p.useip, p.attachment, p.htmlon, p.smileyoff, p.bbcodeoff, p.status
+			p.author, p.authorid, p.subject, p.dateline, p.message, p.attachment, p.htmlon, p.smileyoff, p.bbcodeoff, p.status
 			FROM %t m
 			LEFT JOIN %t p on p.pid=m.id
 			WHERE %i

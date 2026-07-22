@@ -19,7 +19,7 @@ $sql = $error = '';
 $operation == 'group' && $_GET['forums'] = 'isgroup';
 $_GET['keywords'] = trim($_GET['keywords']);
 $_GET['users'] = trim($_GET['users']);
-if(($_GET['starttime'] == '' && $_GET['endtime'] == '' && !$fromumanage) || ($_GET['keywords'] == '' && $_GET['useip'] == '' && $_GET['users'] == '')) {
+if(($_GET['starttime'] == '' && $_GET['endtime'] == '' && !$fromumanage) || ($_GET['keywords'] == '' && $_GET['users'] == '')) {
 	$error = 'prune_condition_invalid';
 }
 
@@ -43,9 +43,6 @@ if($_G['adminid'] == 1 || $_G['adminid'] == 2) {
 if($_GET['users'] != '') {
 	$uids = table_common_member::t()->fetch_all_uid_by_username(array_map('trim', explode(',', $_GET['users'])));
 	$authorid = $uids;
-}
-if($_GET['useip'] != '') {
-	$useip = str_replace('*', '%', $_GET['useip']);
 }
 if($_GET['keywords'] != '') {
 	$keywords = $_GET['keywords'];
@@ -75,7 +72,7 @@ if(!$error) {
 		$perpage = $_GET['pp'] ? $_GET['pp'] : $_GET['perpage'];
 		$posts = '';
 		$groupsname = $groupsfid = $postlist = [];
-		$postlist = table_forum_post::t()->fetch_all_prune_by_search($posttable, $isgroup, $keywords, $len_message, $fid, $authorid, $starttime, $endtime, $useip, true, ($page - 1) * $perpage, $perpage);
+		$postlist = table_forum_post::t()->fetch_all_prune_by_search($posttable, $isgroup, $keywords, $len_message, $fid, $authorid, $starttime, $endtime, true, ($page - 1) * $perpage, $perpage);
 		require_once libfile('function/post');
 		foreach($postlist as $key => $post) {
 			$postfids[$post['fid']] = $post['fid'];
@@ -102,13 +99,13 @@ if(!$error) {
 				], TRUE);
 			}
 		}
-		$postcount = table_forum_post::t()->count_prune_by_search($posttable, $isgroup, $keywords, $len_message, $fid, $authorid, $starttime, $endtime, $useip);
+		$postcount = table_forum_post::t()->count_prune_by_search($posttable, $isgroup, $keywords, $len_message, $fid, $authorid, $starttime, $endtime);
 		$multi = multi($postcount, $perpage, $page, ADMINSCRIPT.'?action=prune');
 		$multi = preg_replace("/href=\"".ADMINSCRIPT."\?action=prune&amp;page=(\d+)\"/", "href=\"javascript:page(\\1)\"", $multi);
 		$multi = str_replace("window.location='".ADMINSCRIPT."?action=prune&amp;page='+this.value", 'page(this.value)', $multi);
 	} else {
 		$postcount = 0;
-		foreach(table_forum_post::t()->fetch_all_prune_by_search($posttable, $isgroup, $keywords, $len_message, $fid, $authorid, $starttime, $endtime, $useip, false) as $post) {
+		foreach(table_forum_post::t()->fetch_all_prune_by_search($posttable, $isgroup, $keywords, $len_message, $fid, $authorid, $starttime, $endtime, false) as $post) {
 			$pids[] = $post['pid'];
 			$postcount++;
 		}
@@ -140,4 +137,3 @@ showtablefooter();
 showformfooter();
 echo '<iframe name="pruneframe" style="display:none"></iframe>';
 showtagfooter('div');
-	

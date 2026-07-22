@@ -575,7 +575,6 @@ $lang = [
 	'modcp_posts_error_2' => '時間範圍錯誤！版主只能刪除近 1 周的帖子，超級版主可以刪除 2 周內的帖子，請重新選擇開始時間',
 	'modcp_posts_error_3' => '您輸入的關鍵字不合法！每個關鍵字至少由 2 個漢字或者 4 個英文字符組成',
 	'modcp_posts_error_4' => '抱歉，您無權使用批量刪帖功能',
-	'modcp_posts_ip' => '發帖 IP',
 	'modcp_posts_keyword' => '內容關鍵字',
 	'modcp_posts_member_credits' => '不更新用戶積分',
 	'modcp_posts_search' => '共搜索出結果 <strong>$total</strong> 條',

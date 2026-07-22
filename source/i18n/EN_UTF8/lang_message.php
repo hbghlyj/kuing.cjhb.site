@@ -248,7 +248,7 @@ $lang = array (
 	'magicuse_object_once_limit'	=> 'You have already used a magic for this information, can not be reused',//'已经对该信息使用过此道具，不能重复使用',
 	'magicuse_bad_object'		=> 'Selected object is invalid',//'没有正确选择道具要作用的对象',
 	'magicuse_has_no_valid_friend'	=> 'Magic use is failed, there is no valid friends',//'道具使用失败，没有任何合法的好友',
-/*3.2*/	'mobile_template_no_found'	=> 'You have visited the page without a mobile phone. Would you like to further access to the PC version?<br /><br /><a href="{url}">Continue access</a><br /><br />',//'您访问的页面无手机页面，是否进一步访问电脑版？<br /><br /><a href="{url}">继续访问</a><br /><br />',
+	'mobile_template_no_found' => 'You have visited a page without a mobile template. Would you like to continue with the desktop version?<br /><br /><a href="{url}">Continue</a><br /><br />',
 
 	'portal_status_off'		=> 'Sorry, the portal feature is not open',//'抱歉，门户功能尚未开启',
 
@@ -880,7 +880,6 @@ $lang = array (
 	'admin_delpost_invalid'		=> 'You did not select any post to delete.',//'您没有选择要删除的帖子。',
 
 	'no_privilege_viewip'		=> 'Sorry, you do not have permission to view IP',//'抱歉，您没有权限查看 IP',
-	'admin_getip_nopermission'	=> 'Sorry, you are not allowed to view this author\'s IP.',//'对不起，您没有权限查看比您高级的管理员 IP，请返回。',
 
 	'no_privilege_mergethread'	=> 'Sorry, you do not have permission to merge thread',//'抱歉，您没有权限合并主题',
 	'admin_merge_nonexistence'	=> 'Thread ID (tid) does not exist.',//'主题 ID (tid) 不存在。',
@@ -1073,6 +1072,5 @@ $lang = array (
 	'members_chgusername_check_failed' => 'Username validation failed.',
 
 // Added by Valery Votintsev
-	'timeout_or_data_error'		=> 'Operation timeout or data source error',//'操作超时或者数据来源错误',
 );
 

@@ -148,7 +148,7 @@ if($op == 'post') {
 	$_GET['starttime'] = !preg_match('/^(0|\d{4}\-\d{1,2}\-\d{1,2})$/', getgpc('starttime')) ? dgmdate(TIMESTAMP - 86400 * ($_G['adminid'] == 2 ? 13 : ($_G['adminid'] == 3 ? 6 : 60)), 'Y-m-d') : getgpc('starttime');
 	$_GET['endtime'] = $_G['adminid'] == 3 || !preg_match('/^(0|\d{4}\-\d{1,2}\-\d{1,2})$/', getgpc('endtime')) ? dgmdate(TIMESTAMP, 'Y-m-d') : getgpc('endtime');
 
-	foreach(['threadoption', 'starttime', 'endtime', 'keywords', 'users', 'useip'] as $key) {
+	foreach(['threadoption', 'starttime', 'endtime', 'keywords', 'users'] as $key) {
 		$$key = isset($_GET[''.$key]) ? trim($_GET[''.$key]) : '';
 		$result[$key] = dhtmlspecialchars($$key);
 	}
@@ -253,7 +253,7 @@ if($op == 'post') {
 
 	if($do == 'search' && submitcheck('searchsubmit', 1)) {
 
-		if(($starttime == '0' && $endtime == '0') || ($keywords == '' && $useip == '' && $users == '')) {
+		if(($starttime == '0' && $endtime == '0') || ($keywords == '' && $users == '')) {
 			$error = 1;
 			return;
 		}
@@ -299,15 +299,10 @@ if($op == 'post') {
 			}
 		}
 
-		$useip = trim($useip);
-		if($useip != '') {
-			$useip = str_replace('*', '%', $useip);
-		}
-
-		if($uids || $keywords || $useip) {
+		if($uids || $keywords) {
 
 			$pids = [];
-			foreach(table_forum_post::t()->fetch_all_by_search($posttableid, null, $keywords, 0, $fidaddarr, $uids, null, $starttime, $endtime, $useip, $first, 0, 1000) as $post) {
+			foreach(table_forum_post::t()->fetch_all_by_search($posttableid, null, $keywords, 0, $fidaddarr, $uids, null, $starttime, $endtime, $first, 0, 1000) as $post) {
 				$pids[] = $post['pid'];
 			}
 

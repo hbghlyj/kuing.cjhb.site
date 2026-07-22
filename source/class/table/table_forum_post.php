@@ -12,7 +12,7 @@ if(!defined('IN_DISCUZ')) {
 
 class table_forum_post extends discuz_table {
 	private static $_tableid_tablename = [];
-	private static $_text_fields = ['author', 'subject', 'message', 'content', 'source', 'useip'];
+	private static $_text_fields = ['author', 'subject', 'message', 'content', 'source'];
 
 	public static function t() {
 		static $_instance;
@@ -68,7 +68,6 @@ class table_forum_post extends discuz_table {
 						if(in_array($post['pid'], $delpid) || $post['invisible'] < 0 || in_array($post['authorid'], $delauthorid)) {
 							$data[$k]['invisible'] = 0;
 							$data[$k]['authorid'] = 0;
-							$data[$k]['useip'] = '';
 							$data[$k]['dateline'] = 0;
 							$data[$k]['pid'] = 0;
 							$data[$k]['message'] = lang('forum/misc', 'post_deleted');
@@ -188,10 +187,6 @@ class table_forum_post extends discuz_table {
 		return DB::fetch_all('SELECT pid FROM %t WHERE tid=%d'.($invisible !== null ? ' AND '.DB::field('invisible', $invisible) : ''), [self::get_tablename('tid:'.$tid), $tid], $this->_pk);
 	}
 
-	public function fetch_pid_by_tid_clientip($tid, $clientip) {
-		return DB::result_first('SELECT pid FROM %t WHERE tid=%d AND authorid=0 AND useip=%s LIMIT 1', [self::get_tablename('tid:'.$tid), $tid, $clientip]);
-	}
-
 	public function fetch_attachment_by_tid($tid) {
 		return DB::result_first('SELECT attachment FROM %t WHERE tid=%d AND invisible=0 AND attachment>0 ORDER BY attachment DESC LIMIT 1', [self::get_tablename('tid:'.$tid), $tid]);
 	}
@@ -279,7 +274,6 @@ class table_forum_post extends discuz_table {
 						if(in_array($post['pid'], $delpid) || $post['invisible'] < 0 || in_array($post['authorid'], $delauthorid)) {
 							$data[$k]['invisible'] = 0;
 							$data[$k]['authorid'] = 0;
-							$data[$k]['useip'] = '';
 							$data[$k]['dateline'] = 0;
 							$data[$k]['pid'] = 0;
 							$data[$k]['message'] = lang('forum/misc', 'post_deleted');
@@ -871,7 +865,7 @@ class table_forum_post extends discuz_table {
 		return DB::query("INSERT INTO %t ($fieldstr) SELECT $fieldstr FROM $fromtable WHERE $tidsql", [self::get_tablename($tableid), $tid], true);
 	}
 
-	public function count_by_search($tableid, $tid = null, $keywords = null, $invisible = null, $fid = null, $authorid = null, $author = null, $starttime = null, $endtime = null, $useip = null, $first = null) {
+	public function count_by_search($tableid, $tid = null, $keywords = null, $invisible = null, $fid = null, $authorid = null, $author = null, $starttime = null, $endtime = null, $first = null) {
 		$sql = '';
 		$sql .= $tid ? ' AND '.DB::field('tid', $tid) : '';
 		$sql .= $authorid !== null ? ' AND '.DB::field('authorid', $authorid) : '';
@@ -881,7 +875,6 @@ class table_forum_post extends discuz_table {
 		$sql .= $author ? ' AND '.DB::field('author', $author) : '';
 		$sql .= $starttime ? ' AND '.DB::field('dateline', $starttime, '>=') : '';
 		$sql .= $endtime ? ' AND '.DB::field('dateline', $endtime, '<') : '';
-		$sql .= $useip ? ' AND '.DB::field('useip', $useip, 'like') : '';
 		if(trim($keywords)) {
 			$sqlkeywords = $or = '';
 			foreach(explode(',', str_replace(' ', '', $keywords)) as $keyword) {
@@ -898,7 +891,7 @@ class table_forum_post extends discuz_table {
 		}
 	}
 
-	public function fetch_all_by_search($tableid, $tid = null, $keywords = null, $invisible = null, $fid = null, $authorid = null, $author = null, $starttime = null, $endtime = null, $useip = null, $first = null, $start = null, $limit = null) {
+	public function fetch_all_by_search($tableid, $tid = null, $keywords = null, $invisible = null, $fid = null, $authorid = null, $author = null, $starttime = null, $endtime = null, $first = null, $start = null, $limit = null) {
 		$sql = '';
 		$sql .= $tid ? ' AND '.DB::field('tid', $tid) : '';
 		$sql .= $authorid ? ' AND '.DB::field('authorid', $authorid) : '';
@@ -908,7 +901,6 @@ class table_forum_post extends discuz_table {
 		$sql .= $author ? ' AND '.DB::field('author', $author) : '';
 		$sql .= $starttime ? ' AND '.DB::field('dateline', $starttime, '>=') : '';
 		$sql .= $endtime ? ' AND '.DB::field('dateline', $endtime, '<') : '';
-		$sql .= $useip ? ' AND '.DB::field('useip', $useip, 'like') : '';
 		if(trim($keywords)) {
 			$sqlkeywords = $or = '';
 			foreach(explode(',', str_replace(' ', '', $keywords)) as $keyword) {
@@ -925,14 +917,13 @@ class table_forum_post extends discuz_table {
 		}
 	}
 
-	public function count_prune_by_search($tableid, $isgroup = null, $keywords = null, $message_length = null, $fid = null, $authorid = null, $starttime = null, $endtime = null, $useip = null) {
+	public function count_prune_by_search($tableid, $isgroup = null, $keywords = null, $message_length = null, $fid = null, $authorid = null, $starttime = null, $endtime = null) {
 		$sql = '';
 		$sql .= $fid ? ' AND p.'.DB::field('fid', $fid) : '';
 		$sql .= $isgroup ? ' AND t.'.DB::field('isgroup', $isgroup) : '';
 		$sql .= $authorid !== null ? ' AND p.'.DB::field('authorid', $authorid) : '';
 		$sql .= $starttime ? ' AND p.'.DB::field('dateline', $starttime, '>=') : '';
 		$sql .= $endtime ? ' AND p.'.DB::field('dateline', $endtime, '<') : '';
-		$sql .= $useip ? ' AND p.'.DB::field('useip', $useip, 'like') : '';
 		$sql .= $message_length !== null ? ' AND LENGTH(p.message) < '.intval($message_length) : '';
 		if(trim($keywords)) {
 			$sqlkeywords = '';
@@ -972,14 +963,13 @@ class table_forum_post extends discuz_table {
 			DB::limit($start, $limit), $this->_pk) : [];
 	}
 
-	public function fetch_all_prune_by_search($tableid, $isgroup = null, $keywords = null, $message_length = null, $fid = null, $authorid = null, $starttime = null, $endtime = null, $useip = null, $outmsg = true, $start = null, $limit = null) {
+	public function fetch_all_prune_by_search($tableid, $isgroup = null, $keywords = null, $message_length = null, $fid = null, $authorid = null, $starttime = null, $endtime = null, $outmsg = true, $start = null, $limit = null) {
 		$sql = '';
 		$sql .= $fid ? ' AND p.'.DB::field('fid', $fid) : '';
 		$sql .= $isgroup ? ' AND t.'.DB::field('isgroup', $isgroup) : '';
 		$sql .= $authorid !== null ? ' AND p.'.DB::field('authorid', $authorid) : '';
 		$sql .= $starttime ? ' AND p.'.DB::field('dateline', $starttime, '>=') : '';
 		$sql .= $endtime ? ' AND p.'.DB::field('dateline', $endtime, '<') : '';
-		$sql .= $useip ? ' AND p.'.DB::field('useip', $useip, 'like') : '';
 		$sql .= $message_length !== null ? ' AND LENGTH(p.message) < '.intval($message_length) : '';
 		$postlist = [];
 		if(trim($keywords)) {

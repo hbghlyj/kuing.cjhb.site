@@ -920,7 +920,6 @@ $lang = [
 	'admin_delpost_invalid' => '抱歉，您尚未選擇要刪除的帖子',
 
 	'no_privilege_viewip' => '抱歉，您沒有權限查看 IP',
-	'admin_getip_nopermission' => '抱歉，您沒有權限查看更高級別的管理員 IP',
 
 	'no_privilege_mergethread' => '抱歉，您沒有權限合併主題',
 	'admin_merge_nonexistence' => '抱歉，主題 ID (tid) 不存在',

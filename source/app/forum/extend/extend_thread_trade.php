@@ -81,7 +81,6 @@ class extend_thread_trade extends extend_thread_base {
 			'dateline' => getglobal('timestamp'),
 			'message' => $this->trademessage,
 			'content' => $this->tradecontent,
-			'useip' => getglobal('clientip'),
 			'invisible' => 0,
 			'anonymous' => $this->param['isanonymous'],
 			'usesig' => $_GET['usesig'],

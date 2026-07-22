@@ -235,7 +235,6 @@ $lang = array
 	'attackevasive_4_message'	=> 'Welcome to the site!<br/>Re-loading the page, please wait...',//'欢迎的网站，页面重新载入，请稍候...',
 
 // Months Names
-	'month_name'	=> array('Month','January','February','March','April','May','June','July','August','September','October','November','December'),//array('月','一月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月'),
 
 );
 

@@ -73,7 +73,7 @@ if($_G['fid'] && $_G['forum']['ismoderator'] && !empty($modforums['recyclebins']
 
 			$pids = [];
 
-			foreach(table_forum_post::t()->fetch_all_by_search($posttableid, null, $keywords, -5, null, null, ($users ? explode(',', str_replace(' ', '', trim($users))) : null), strtotime($starttime), strtotime($endtime), null, null, 0, 1000) as $value) {
+			foreach(table_forum_post::t()->fetch_all_by_search($posttableid, null, $keywords, -5, null, null, ($users ? explode(',', str_replace(' ', '', trim($users))) : null), strtotime($starttime), strtotime($endtime), null, 0, 1000) as $value) {
 				$postlist[] = $value;
 				$pids[] = $value['pid'];
 			}
@@ -96,7 +96,7 @@ if($_G['fid'] && $_G['forum']['ismoderator'] && !empty($modforums['recyclebins']
 	$page = max(1, intval($_G['page']));
 	$total = 0;
 	$query = $multipage = '';
-	$fields = 'message, useip, attachment, htmlon, smileyoff, bbcodeoff, pid, tid, fid, author, dateline, subject, authorid, anonymous';
+	$fields = 'message, attachment, htmlon, smileyoff, bbcodeoff, pid, tid, fid, author, dateline, subject, authorid, anonymous';
 
 	if($op == 'list') {
 		$total = table_forum_post::t()->count_by_fid_invisible($posttableid, $_G['fid'], '-5');

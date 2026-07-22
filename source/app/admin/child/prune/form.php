@@ -77,7 +77,6 @@ if(!$fromumanage) {
 echo '<input type="hidden" name="fromumanage" value="'.$fromumanage.'">';
 showsetting('prune_search_time', ['starttime', 'endtime'], [$_GET['starttime'], $_GET['endtime']], 'daterange');
 showsetting('prune_search_user', 'users', $_GET['users'], 'text');
-showsetting('prune_search_ip', 'useip', $_GET['useip'], 'text');
 showsetting('prune_search_keyword', 'keywords', $_GET['keywords'], 'text');
 showsetting('prune_search_lengthlimit', 'lengthlimit', $_GET['lengthlimit'], 'text');
 showsubmit('searchsubmit');
@@ -85,4 +84,3 @@ showtablefooter();
 showformfooter();
 showtagfooter('div');
 /*search*/
-	

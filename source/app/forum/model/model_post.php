@@ -59,7 +59,7 @@ class model_post extends discuz_model {
 	protected function _init_parameters($parameters) {
 		$varname = [
 			'member', 'group', 'forum', 'thread', 'extramessage', 'special',//'nauthorid' 'modnewreplies' 'tid'
-			'message', 'content', 'clientip', 'invisible', 'isanonymous', 'usesig',
+			'message', 'content', 'invisible', 'isanonymous', 'usesig',
 			'htmlon', 'bbcodeoff', 'smileyoff', 'parseurloff', 'pstatus',
 			'noticetrimstr', 'from', 'sechash', 'geoloc',
 			'timestamp',
@@ -90,6 +90,9 @@ class model_post extends discuz_model {
 	public function newreply($parameters) {
 
 		$this->_init_parameters($parameters);
+		if(empty($this->member['uid'])) {
+			return $this->showmessage('replyperm_login_nopermission', null, [], ['login' => 1]);
+		}
 
 		if($this->thread['closed'] && !$this->forum['ismoderator'] && !$this->thread['isgroup']) {
 			return $this->showmessage('post_thread_closed');
@@ -169,8 +172,6 @@ class model_post extends discuz_model {
 			'message' => $this->param['message'],
 			'content' => $content,
 			'source' => $source,
-			'useip' => $this->param['clientip'] ? $this->param['clientip'] : getglobal('clientip'),
-			'port' => $this->param['remoteport'] ? $this->param['remoteport'] : getglobal('remoteport'),
 			'invisible' => $pinvisible,
 			'anonymous' => $this->param['isanonymous'],
 			'usesig' => $usesig,

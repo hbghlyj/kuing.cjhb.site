@@ -705,3 +705,8 @@ UPDATE pre_forum_forum
 ALTER TABLE pre_forum_forum
 	DROP COLUMN `name`,
 	CHANGE COLUMN name_i18n `name` JSON NOT NULL;
+
+/* Guest posting is retired; posts no longer retain request network data. */
+ALTER TABLE pre_forum_post
+	DROP COLUMN useip,
+	DROP COLUMN `port`;

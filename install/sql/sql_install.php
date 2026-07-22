@@ -3004,8 +3004,6 @@ CREATE TABLE pre_forum_post
 	message     mediumtext            NOT NULL,
 	`content`   JSON                  DEFAULT NULL,
 	`source`    JSON                  DEFAULT NULL,
-	useip       varchar(45)           NOT NULL DEFAULT '',
-	`port`      smallint(6) unsigned  NOT NULL DEFAULT '0',
 	invisible   tinyint(1)            NOT NULL DEFAULT '0',
 	anonymous   tinyint(1)            NOT NULL DEFAULT '0',
 	usesig      tinyint(1)            NOT NULL DEFAULT '0',

@@ -706,11 +706,6 @@ foreach($postlist as $pid => $post) {
 			$postlist[$pid] = $post;
 		}
 	}
-	//支持IP省级地理信息
-	if($_G['setting']['showiplocation']) {
-		$post['iplocation'] = ip::convert($post['useip'], true);
-		$postlist[$pid] = $post;
-	}
 }
 // 结束将json编辑器中的图片从未使用列表中移除
 
@@ -980,10 +975,6 @@ function viewthread_procpost($post, $lastvisit, $maxposition = 0) {
 		$post['banned'] = $post['status'] & 1;
 		$post['warned'] = ($post['status'] & 2) >> 1;
 
-	} else {
-		if(!$post['authorid']) {
-			$post['useip'] = substr($post['useip'], 0, strrpos($post['useip'], '.')).'.x';
-		}
 	}
 	$post['attachments'] = [];
 	$post['imagelist'] = $post['attachlist'] = [];

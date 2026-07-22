@@ -28,7 +28,7 @@ function recyclebinpostshowpostlist($fid, $authors, $starttime, $endtime, $keywo
 
 	$tids = $fids = [];
 
-	$postlist = table_forum_post::t()->fetch_all_by_search($posttableid, null, $keywords, -5, $fid, null, ($authors ? explode(',', str_replace(' ', '', $authors)) : null), strtotime($starttime), strtotime($endtime), null, null, $start_limit, $lpp);
+	$postlist = table_forum_post::t()->fetch_all_by_search($posttableid, null, $keywords, -5, $fid, null, ($authors ? explode(',', str_replace(' ', '', $authors)) : null), strtotime($starttime), strtotime($endtime), null, $start_limit, $lpp);
 
 	if(empty($postlist)) return false;
 
@@ -68,7 +68,7 @@ function recyclebinpostshowpostlist($fid, $authors, $starttime, $endtime, $keywo
 
 		showtablerow("id=\"mod_{$post['pid']}_row1\"", ['rowspan="3" class="rowform threadopt" style="width:80px;"', 'class="threadtitle"'], [
 			"<ul class=\"nofloat\"><li><input class=\"radio\" type=\"radio\" name=\"moderate[{$post['pid']}]\" id=\"mod_{$post['pid']}_1\" value=\"delete\" checked=\"checked\" /><label for=\"mod_{$post['pid']}_1\">{$lang['delete']}</label></li><li><input class=\"radio\" type=\"radio\" name=\"moderate[{$post['pid']}]\" id=\"mod_{$post['pid']}_2\" value=\"undelete\" /><label for=\"mod_{$post['pid']}_2\">{$lang['undelete']}</label></li><li><input class=\"radio\" type=\"radio\" name=\"moderate[{$post['pid']}]\" id=\"mod_{$post['pid']}_3\" value=\"ignore\" /><label for=\"mod_{$post['pid']}_3\">{$lang['ignore']}</label></li></ul>",
-			"<h3><a href=\"forum.php?mod=forumdisplay&fid={$post['fid']}\" target=\"_blank\">".$forumlist[$post['fid']]['forumname']."</a> &raquo; <a href=\"forum.php?mod=viewthread&tid={$post['tid']}\" target=\"_blank\">".$threadlist[$post['tid']]['tsubject'].'</a>'.($post['subject'] ? ' &raquo; '.$post['subject'] : '')."</h3><p><span class=\"bold\">{$lang['author']}:</span> <a href=\"home.php?mod=space&uid={$post['authorid']}\" target=\"_blank\">{$post['author']}</a> &nbsp;&nbsp; <span class=\"bold\">{$lang['time']}:</span> {$post['dateline']} &nbsp;&nbsp; IP: {$post['useip']}</p>"
+			"<h3><a href=\"forum.php?mod=forumdisplay&fid={$post['fid']}\" target=\"_blank\">".$forumlist[$post['fid']]['forumname']."</a> &raquo; <a href=\"forum.php?mod=viewthread&tid={$post['tid']}\" target=\"_blank\">".$threadlist[$post['tid']]['tsubject'].'</a>'.($post['subject'] ? ' &raquo; '.$post['subject'] : '')."</h3><p><span class=\"bold\">{$lang['author']}:</span> <a href=\"home.php?mod=space&uid={$post['authorid']}\" target=\"_blank\">{$post['author']}</a> &nbsp;&nbsp; <span class=\"bold\">{$lang['time']}:</span> {$post['dateline']}</p>"
 		]);
 		showtablerow("id=\"mod_{$post['pid']}_row2\"", 'colspan="2" style="padding: 10px; line-height: 180%;"', '<div style="overflow: auto; overflow-x: hidden; max-height:120px; height:auto !important; height:120px; word-break: break-all;">'.$post['message'].'</div>');
 		showtablerow("id=\"mod_{$post['pid']}_row3\"", 'class="threadopt threadtitle" colspan="2"', "{$lang['isanonymous']}: ".($post['anonymous'] ? $lang['yes'] : $lang['no'])." &nbsp;&nbsp; {$lang['ishtmlon']}: ".($post['htmlon'] ? $lang['yes'] : $lang['no']));
