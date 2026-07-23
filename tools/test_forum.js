@@ -366,7 +366,7 @@ const { execSync } = require('child_process');
         }
 
         // userUid already fetched in step 5
-        const authkey = execSync("sudo mysql -u root ultrax -N -s -e \"SELECT svalue FROM pre_common_setting WHERE skey='authkey';\"").toString().trim() || '5d65a05c3c0e02562e10dbece6860a8c8Rswt6czveQ1dfCfns4z3zAEq3PthrDP';
+        const authkey = execSync("php -r \"require './source/class/class_core.php'; C::app()->init(); echo \\\$_G['config']['security']['authkey'];\"").toString().trim();
         const crypto = require('crypto');
         const md5Authkey = crypto.createHash('md5').update(authkey).digest('hex');
         const swfhash = crypto.createHash('md5').update(md5Authkey.substring(8) + userUid).digest('hex');
