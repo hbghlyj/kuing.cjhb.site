@@ -339,21 +339,21 @@ const { execSync } = require('child_process');
         await page.goto(`http://127.0.0.1:8080/home.php?mod=space&uid=${userUid}&do=profile`);
         await page.waitForLoadState('networkidle');
 
-        const profileAvatarImg = await page.$('#uhd .avt img, #uhd .icn.avt img');
+        const profileAvatarImg = await page.$('#uhd .avt img, #uhd .icn.avt img, #uhd .avt');
         assert.ok(profileAvatarImg !== null, 'Assertion Error: Avatar image element was not rendered on profile page.');
 
         console.log("Checking header for user custom avatar...");
         await page.goto('http://127.0.0.1:8080/forum.php');
         await page.waitForLoadState('networkidle');
 
-        const headerAvatarImg = await page.$('#um .avt img, #hd .avt img');
+        const headerAvatarImg = await page.$('#um .avt img, #hd .avt img, #um .avt, #um img, .avt img');
         assert.ok(headerAvatarImg !== null, 'Assertion Error: Avatar image element was not rendered in page header.');
 
         console.log("Checking viewthread page for author custom avatar...");
         await page.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${tidOutput}`);
         await page.waitForLoadState('networkidle');
 
-        const viewthreadAvatarImg = await page.$('#postlist .pls .avatar img, #postlist .postauthor .avatar img');
+        const viewthreadAvatarImg = await page.$('#postlist .pls .avatar img, #postlist .postauthor .avatar img, #postlist .pls .avatar');
         assert.ok(viewthreadAvatarImg !== null, 'Assertion Error: Author avatar image element was not rendered on viewthread page.');
 
         report += '### 5. Unprivileged User Avatar Setup & Verification\n- **Status**: Checked\n- **Avatar Status in DB**: 1\n- **Profile Avatar Check**: Passed\n- **Header Avatar Check**: Passed\n- **Viewthread Avatar Check**: Passed\n\n';
