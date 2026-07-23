@@ -39,7 +39,7 @@ if($keyword !== '') {
 }
 
 $keywordenc = $keyword !== '' ? rtrim(strtr(base64_encode($keyword), '+/', '-_'), '=') : '';
-$urlbase = ADMINSCRIPT."&action=logs&operation=$operation&lpp=$lpp".($keywordenc !== '' ? '&keywordenc='.$keywordenc : '').(!empty($_GET['day']) ? '&day='.$_GET['day'] : '');
+$urlbase = ADMINSCRIPT."?action=logs&operation=$operation&lpp=$lpp".($keywordenc !== '' ? '&keywordenc='.$keywordenc : '').(!empty($_GET['day']) ? '&day='.$_GET['day'] : '');
 if(submitcheck('logbatchsubmit', true)) {
 	$deleteids = !empty($_POST['deleteids']) ? dintval((array)$_POST['deleteids'], true) : [];
 	$deleted = 0;
@@ -142,7 +142,7 @@ if($operation != 'setting') {
 	showtablerow('', [], [
 		'Keyword',
 		'<input type="text" class="txt" style="width:280px" id="keywordraw" value="'.$keywordhtml.'" />',
-		'<input type="submit" class="btn" value="'.$lang['search'].'" />'.($keyword !== '' ? ' <a href="'.ADMINSCRIPT.'&action=logs&operation='.rawurlencode($operation).'&lpp='.$lpp.'">Clear</a>' : ''),
+		'<input type="submit" class="btn" value="'.$lang['search'].'" />'.($keyword !== '' ? ' <a href="'.ADMINSCRIPT.'?action=logs&operation='.rawurlencode($operation).'&lpp='.$lpp.'">Clear</a>' : ''),
 	]);
 	showtablefooter();
 	echo '</form>';
