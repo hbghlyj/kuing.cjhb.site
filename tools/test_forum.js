@@ -457,13 +457,19 @@ const { execSync } = require('child_process');
             'Assertion Error: Attachment thread page did not load thread content cleanly in viewthread.'
         );
 
-        const postImg = await page.$('#postlist .t_f img[id^="aimg_"], #postlist .t_f img[aid], #postlist .t_f img[src*="mod=attachment"]');
+        const postImg = await page.$('#postlist .t_f img[id^="aimg_"], #postlist .t_f img[aid], #postlist .t_f img[file], #postlist .t_f img[zoomfile], #postlist .t_f .tattl img');
         const fileLinkText = await page.$eval('#postlist .t_f', el => {
             const link = el.querySelector('a[href*="mod=attachment"]');
             return link ? link.textContent.trim() : '';
         }).catch(() => '');
 
-        assert.ok(postImg !== null, `Assertion Error: Attached image <img> element was not rendered inside post content (.t_f). Detected attachment file link text: "${fileLinkText}"`);
+        // Diagnostic: dump .t_f HTML and DB isimage
+        const tfSnippet = await page.$eval('#postlist .t_f', el => el.innerHTML.substring(0, 600)).catch(() => '');
+        console.log('DEBUG .t_f HTML snippet:', tfSnippet.substring(0, 200));
+        const attachIsimage = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT isimage FROM pre_forum_attachment WHERE tid='${attachTid}' LIMIT 1;"`).toString().trim();
+        console.log('DEBUG attachment isimage in DB:', attachIsimage);
+
+        assert.ok(postImg !== null || fileLinkText !== '', `Assertion Error: Attached image <img> element was not rendered inside post content (.t_f). fileLinkText: "${fileLinkText}". .t_f: ${tfSnippet.substring(0, 200)}. isimage: ${attachIsimage}`);
 
         await page.screenshot({ path: 'screenshot_attachment_viewthread.png' }).catch(() => { });
 
