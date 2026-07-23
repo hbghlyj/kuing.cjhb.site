@@ -4,7 +4,7 @@ require './source/class/class_core.php';
 $discuz = C::app();
 $discuz->init();
 
-$tablepre = $_config['db'][1]['tablepre'];
+$tablepre = $_G['config']['db'][1]['tablepre'];
 $dir = './source/i18n/SC_UTF8/install/lang_sql_install';
 
 foreach(glob($dir.'/*.php') as $file) {

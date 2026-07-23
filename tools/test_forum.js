@@ -40,11 +40,7 @@ const { execSync } = require('child_process');
         C::t('common_setting')->update('secqaa', serialize(\$secqaa));
         C::t('common_setting')->update('regname', 'register');
 
-        if(!is_dir('./data/cache')) {
-            @mkdir('./data/cache', 0777, true);
-        }
-        @chmod('./data/cache', 0777);
-
+        DB::query('TRUNCATE TABLE '.DB::table('common_syscache'));
         require_once libfile('function/cache');
         updatecache();
         ?>`;
@@ -55,9 +51,6 @@ const { execSync } = require('child_process');
         // Let's hard bypass the helper class checking logic
         execSync("sed -i 's/public static function check_secqaa(\\$val, \\$idhash) {/public static function check_secqaa(\\$val, \\$idhash) { return true;/g' source/class/helper/helper_seccheck.php || true");
         execSync("sed -i 's/public static function check_seccode(\\$val, \\$idhash, \\$modid = 0) {/public static function check_seccode(\\$val, \\$idhash, \\$modid = 0) { return true;/g' source/class/helper/helper_seccheck.php || true");
-
-        // Remove sysdata cache
-        execSync('find data/sysdata/ -type f -name "*.php" -delete');
 
         console.log("Testing UI Registration...");
         await page.goto('http://127.0.0.1:8080/member.php?mod=register');
