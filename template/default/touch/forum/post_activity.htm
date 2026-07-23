@@ -143,7 +143,7 @@ $(document).on('change', '#activityimg', function() {
 				popup.open('{lang uploadpicfailed}', 'alert');
 			}
 			var dataarr = data.split('|');
-			if(dataarr[0] == 'DISCUZUPLOAD' && dataarr[2] == 0) {
+			if(dataarr[0] == 'DISCUZUPLOAD' && dataarr[1] == 0) {
 				popup.close();
 				$('#activityattach_image').html('<img id="aimg_'+dataarr[3]+'" src="{$_G['setting']['attachurl']}forum/'+dataarr[5]+'" />');
 				getID('activityaid').value = dataarr[3];
