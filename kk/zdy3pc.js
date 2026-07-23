@@ -208,6 +208,7 @@ if ($('postlist') && $('ct')) {
     };
     MULU.appendChild(close);
     const MULUSELECT = document.createElement("select");
+    window.MULUSELECT = MULUSELECT;
     MULUSELECT.style = 'padding: 0 !important;background: none !important;overflow-y: hidden;border: none;box-shadow: 0 0 2px #2B7ACD;';
     MULUSELECT.size = 0;
     function addLou(elem) {
