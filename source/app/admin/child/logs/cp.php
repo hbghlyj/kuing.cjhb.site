@@ -56,9 +56,10 @@ function cplog_url($action, $extralog) {
 	}
 
 	$query = ['action' => $action];
+	$skip = ['app', 'action', 'ajaxdata', 'ajaxtarget', 'attachsize', 'blank', 'chart', 'dbsize', 'frames', 'homecheck', 'inajax', 'timestamp', 't', '_r'];
 	foreach(explode('; ', $matches[1]) as $item) {
 		[$key, $value] = array_pad(explode('=', $item, 2), 2, '');
-		if(!preg_match('/^\w+$/', $key) || $key == 'app' || $key == 'action') {
+		if(!preg_match('/^\w+$/', $key) || in_array($key, $skip, true)) {
 			continue;
 		}
 		$query[$key] = htmlspecialchars_decode($value, ENT_QUOTES);
