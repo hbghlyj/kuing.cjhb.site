@@ -25,6 +25,7 @@ showtablerow('class="header"', ['class="td23"', 'class="td23"', 'class="td23"', 
 foreach($logs as $k => $logrow) {
 	$data = logdecode($logrow['data']);
 	$device = logdecode($logrow['device']);
+	$logurl = cplog_url($data['action'], $data['extralog']);
 	$log = [];
 	$log[0] = $logrow['id'];
 	$log[1] = dgmdate($logrow['dateline']);
@@ -41,11 +42,27 @@ foreach($logs as $k => $logrow) {
 		$log[4],
 		$log[1],
 		$log[5],
-		'<a href="javascript:;" onclick="togglecplog('.$k.')">'.cutstr($data['extralog'], 200).'</a>',
+		$logurl ? '<a href="'.dhtmlspecialchars($logurl).'">'.cutstr($data['extralog'], 200).'</a> <a href="javascript:;" onclick="togglecplog('.$k.')">('.cplang('more').')</a>' : '<a href="javascript:;" onclick="togglecplog('.$k.')">'.cutstr($data['extralog'], 200).'</a>',
 	]);
 	echo '<tbody id="cplog_'.$k.'" style="display:none;">';
-	echo '<tr><td colspan="6">'.$data['extralog'].'</td></tr>';
+	echo '<tr><td colspan="7">'.$data['extralog'].'</td></tr>';
 	echo '</tbody>';
 	echo showdevice($logrow['id'], $device, 7);
 }
 
+function cplog_url($action, $extralog) {
+	if(!preg_match('/^\w+$/', $action) || !preg_match('/GET=\{(.*?)\};\s*POST=/s', $extralog, $matches)) {
+		return '';
+	}
+
+	$query = ['action' => $action];
+	foreach(explode('; ', $matches[1]) as $item) {
+		[$key, $value] = array_pad(explode('=', $item, 2), 2, '');
+		if(!preg_match('/^\w+$/', $key) || $key == 'app' || $key == 'action') {
+			continue;
+		}
+		$query[$key] = htmlspecialchars_decode($value, ENT_QUOTES);
+	}
+
+	return ADMINSCRIPT.'?'.http_build_query($query, '', '&', PHP_QUERY_RFC3986);
+}
