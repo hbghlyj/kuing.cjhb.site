@@ -43,6 +43,15 @@ Can not write to cache files, please check directory ./data/ and ./data/cache/ .
 - PHP-FPM 运行用户必须能够读取上述 PHAR 和 MMDB 文件
 - 旧的 `tinyipdata.dat` / `wry` 系列数据文件不再是当前默认查询路径
 
+### 用户头像回退
+
+没有上传头像的用户统一显示由用户名生成的彩色首字母头像，不请求不存在的 `_avatar_*.jpg` 文件。
+
+- 主题页在加载帖子时把 `common_member.avatarstatus` 传给 `avatar()`；该函数输出带 `data-avatar-missing="1"` 的图片占位，前端 `loadAvatar()` 立即替换为首字母头像。
+- 聊天室历史接口 `chat/php/history.php` 查询同一字段。未上传头像时 JSON 的 `actor.image` 为空，`PusherChatWidget` 直接调用同一前端 `renderInitialAvatar()` 回退逻辑。
+
+两条路径的视觉和回退规则相同；区别只在于主题页传输 HTML，而聊天室传输 JSON，因而不会产生额外的 404 请求。
+
 ### 聊天室配置 (chat/php/config.php)
 
 请确保 chat/php/config.php 文件已正确配置，该文件已加入 .gitignore 以防泄漏。
