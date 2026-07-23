@@ -23,7 +23,7 @@
 	var allowpostactivity = parseInt('{$_G['group']['allowpostactivity']}');
 	var sortid = parseInt('$sortid');
 	var special = parseInt('$special');
-	var fid = $_G['fid'];
+	var fid = {echo intval($_G['fid'])};
 	var postaction = '{$_GET['action']}';
 	var ispicstyleforum = <!--{if $_G['forum']['picstyle']}-->1<!--{else}-->0<!--{/if}-->;
 </script>
@@ -412,7 +412,7 @@
 	<!--{/if}-->
 	<!--{if !empty($userextcredit)}-->
 		var have_replycredit = 0;
-		var creditstax = $_G['setting']['creditstax'];
+		var creditstax = {echo floatval($_G['setting']['creditstax'])};
 		var replycredit_result_lang = "{lang replycredit_revenue}{$_G['setting']['extcredits'][$extcreditstype][title]} ";
 		var userextcredit = $userextcredit;
 		<!--{if isset($thread['replycredit']) && $thread['replycredit'] > 0}-->
