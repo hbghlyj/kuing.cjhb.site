@@ -78,7 +78,7 @@ const { execSync } = require('child_process');
         const reply = `Mobile reply ${suffix}.`;
         const editedReply = `Mobile reply edited ${suffix}.`;
         const imagePath = 'mobile_test_image.png';
-        fs.writeFileSync(imagePath, Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==', 'base64'));
+        fs.writeFileSync(imagePath, Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAEUlEQVR42mP8z8AARDAEg4gAAH8YAwE8j7i4AAAAAElFTkSuQmCC', 'base64'));
 
         console.log('Posting mobile thread with image attachment...');
         await page.goto('http://127.0.0.1:8080/forum.php?mod=post&action=newthread&fid=2');
