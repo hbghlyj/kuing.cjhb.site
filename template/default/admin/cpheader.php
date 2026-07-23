@@ -19,6 +19,6 @@
 </script>
 <script src="{$_G['setting']['jspath']}common.js?{$_G['style']['verhash']}" type="text/javascript"></script>
 <script src="{$_G['setting']['jspath']}admincp.js?{$_G['style']['verhash']}" type="text/javascript"></script>
-<script type="text/javascript">showretheader('$title', '{ADMINSCRIPT}?frames=yes&action=index&js=yes');</script>
+<script type="text/javascript">showretheader('{echo addslashes($title)}', '{ADMINSCRIPT}?frames=yes&action=index&js=yes');</script>
 <div id="append_parent"></div><div id="ajaxwaitid"></div>
 <div class="container" id="cpcontainer">
