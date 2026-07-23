@@ -1179,6 +1179,7 @@ d76ef9a7e2070aafb3445463b6415720 *source/child/cron/cron_medal_daily.php
 1ed81ea473573f7239acbe61486f01d9 *source/child/cron/cron_publish_halfhourly.php
 57a2f8f2a94d147fdbaca776d1c55876 *source/child/cron/cron_secqaa_daily.php
 6246051a4da32b3f1fc1efce13634ff4 *source/child/cron/cron_security_cleanup_lastpost.php
+3b450483601e2a5ee25ef87c27c4444e *source/child/cron/cron_sitemap.php
 3c3abd3427e012986147d204722d0acb *source/child/cron/cron_smslog_daily.php
 10270bb4344ea3e5b6f25b831ec664fc *source/child/cron/cron_tag_daily.php
 873fa617fa8f8d10e2b39e1d24877ee5 *source/child/cron/cron_threadexpiry_hourly.php
@@ -2183,7 +2184,7 @@ c2132cf048546db356223b64faad7c7f *source/i18n/SC_UTF8/install/lang_sql_install/t
 dcb0241163d7bc4db7d7e8eead4c4f76 *source/i18n/SC_UTF8/install/lang_sql_install/table_common_adminnote.php
 df3c6323d7a41c26f5a0792a64edcf53 *source/i18n/SC_UTF8/install/lang_sql_install/table_common_block_style.php
 9c75725ba580a7726c4f65a752c64a06 *source/i18n/SC_UTF8/install/lang_sql_install/table_common_credit_rule.php
-f2f5d45d71c233ae2ef6a5cd02202602 *source/i18n/SC_UTF8/install/lang_sql_install/table_common_cron.php
+d73bdd7c3d099533083f16e43da815d3 *source/i18n/SC_UTF8/install/lang_sql_install/table_common_cron.php
 8219ed88d44d7a68bc563a6ce72d7a23 *source/i18n/SC_UTF8/install/lang_sql_install/table_common_friendlink.php
 0e19f4af9b7d7fd3ddd94f3e34716236 *source/i18n/SC_UTF8/install/lang_sql_install/table_common_member_profile_setting.php
 387a58f024572d901cb39432cd1b56e5 *source/i18n/SC_UTF8/install/lang_sql_install/table_common_nav.php
@@ -2385,7 +2386,7 @@ ed55ac04b6a4600d418f6e33cc754a57 *source/i18n/TC_UTF8/install/lang_sql_install/t
 24f61b2440e0e07d2abca6e4b7d2af3a *source/i18n/TC_UTF8/install/lang_sql_install/table_common_adminnote.php
 e117df87a0e33a6d95d777d995187dc5 *source/i18n/TC_UTF8/install/lang_sql_install/table_common_block_style.php
 a1c6454465477a073c4d2c31e94dade0 *source/i18n/TC_UTF8/install/lang_sql_install/table_common_credit_rule.php
-18181081b55aeba6013af8f8a5b575fe *source/i18n/TC_UTF8/install/lang_sql_install/table_common_cron.php
+da3067e77ef428a8c8d8a3d7cf5f3f3c *source/i18n/TC_UTF8/install/lang_sql_install/table_common_cron.php
 fba786edfcdda63dc22ff3fcd9e3166f *source/i18n/TC_UTF8/install/lang_sql_install/table_common_friendlink.php
 705f08d79c767faab73248f3567a11fa *source/i18n/TC_UTF8/install/lang_sql_install/table_common_member_profile_setting.php
 5a50d34e1b0eb137bd1c42e99be57cac *source/i18n/TC_UTF8/install/lang_sql_install/table_common_nav.php

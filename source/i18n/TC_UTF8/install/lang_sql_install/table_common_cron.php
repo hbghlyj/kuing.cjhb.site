@@ -246,5 +246,17 @@ $data = [[
     'day' => '-1',
     'hour' => '3',
     'minute' => '0',
+  ],[
+    'cronid' => '23',
+    'available' => '1',
+    'type' => 'system',
+    'name' => '產生網站地圖',
+    'filename' => 'cron_sitemap.php',
+    'lastrun' => '1269746639',
+    'nextrun' => '1269792000',
+    'weekday' => '-1',
+    'day' => '-1',
+    'hour' => '3',
+    'minute' => '15',
   ],
 ];
