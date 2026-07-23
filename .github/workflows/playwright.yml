@@ -16,12 +16,28 @@ jobs:
       - name: Install System Dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y composer php php-xml php-curl php-json php-mbstring php-mysql mariadb-server
+          sudo apt-get install -y --no-install-recommends composer php php-xml php-curl php-json php-mbstring php-mysql mariadb-server
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '24'
+
+      - name: Cache Composer Dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.composer/cache
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
+
+      - name: Cache Playwright Browsers
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: ${{ runner.os }}-playwright-chromium
+          restore-keys: |
+            ${{ runner.os }}-playwright-
 
       - name: Install Dependencies
         run: |
@@ -29,7 +45,7 @@ jobs:
           npm install playwright
 
       - name: Install Playwright Browsers
-        run: npx playwright install --with-deps chromium
+        run: npx playwright install chromium
 
       - name: Configure Database & DiscuzX
         run: |
