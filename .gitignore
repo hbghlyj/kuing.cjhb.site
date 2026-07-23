@@ -1,15 +1,7 @@
 config/config_global.php
-config/config_ucenter.php
 data/
 vendor/
 src/config/
 .vscode/
 data/
 chat/php/config.php
-backup.sql
-backup.sql.gz
-php_server.log
-config/config_ucenter.php
-node_modules/
-package.json
-package-lock.json
