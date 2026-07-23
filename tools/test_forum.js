@@ -461,8 +461,9 @@ const { execSync } = require('child_process');
         // Verify the stored type as well as the browser's rendered image.
         const tfSnippet = await page.$eval('#postlist .t_f', el => el.innerHTML.substring(0, 600)).catch(() => '');
         console.log('DEBUG .t_f HTML snippet:', tfSnippet.substring(0, 200));
-        const attachIsimage = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT isimage FROM pre_forum_attachment_0 WHERE tid='${attachTid}' LIMIT 1;"`).toString().trim();
-        console.log('DEBUG attachment isimage in DB:', attachIsimage);
+        const attachTableId = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT tableid FROM pre_forum_attachment WHERE tid='${attachTid}' LIMIT 1;"`).toString().trim() || (attachTid % 10);
+        const attachIsimage = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT isimage FROM pre_forum_attachment_${attachTableId} WHERE tid='${attachTid}' LIMIT 1;"`).toString().trim();
+        console.log(`DEBUG attachment isimage in DB (table pre_forum_attachment_${attachTableId}):`, attachIsimage);
 
         assert.strictEqual(attachIsimage, '1', `Assertion Error: Uploaded PNG was not stored as an image. isimage: ${attachIsimage}`);
         assert.ok(postImg !== null, `Assertion Error: Attached image <img> element was not rendered inside post content (.t_f). .t_f: ${tfSnippet.substring(0, 200)}. isimage: ${attachIsimage}`);
