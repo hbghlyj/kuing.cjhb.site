@@ -216,10 +216,11 @@ const { execSync } = require('child_process');
             await page.goto(`http://127.0.0.1:8080/forum.php?mod=post&action=reply&fid=2&tid=${tidOutput}`);
             await page.waitForLoadState('networkidle');
 
-            const replyTextArea = await page.$('textarea[name="message"], #postmessage');
-            if (replyTextArea) {
-                await replyTextArea.fill('Reply text from unprivileged account.');
-            }
+            await page.evaluate((message) => {
+                const textArea = document.querySelector('textarea[name="message"], #postmessage');
+                if (textArea) textArea.value = message;
+                if (window.editdoc && window.editdoc.body) window.editdoc.body.innerHTML = message;
+            }, 'Reply text from unprivileged account.');
             const replyBtn = await page.$('#postsubmit, button[name="replysubmit"]');
             if (replyBtn) {
                 await replyBtn.click();
@@ -243,10 +244,11 @@ const { execSync } = require('child_process');
                 if (editSubject) {
                     await editSubject.fill('Standard User Thread (Edited)');
                 }
-                const editMessage = await page.$('textarea[name="message"], #postmessage');
-                if (editMessage) {
-                    await editMessage.fill('Edited body text from unprivileged account.');
-                }
+                await page.evaluate((message) => {
+                    const textArea = document.querySelector('textarea[name="message"], #postmessage');
+                    if (textArea) textArea.value = message;
+                    if (window.editdoc && window.editdoc.body) window.editdoc.body.innerHTML = message;
+                }, 'Edited body text from unprivileged account.');
                 const editBtn = await page.$('#postsubmit, button[name="editsubmit"]');
                 if (editBtn) {
                     await editBtn.click();
