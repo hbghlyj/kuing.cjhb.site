@@ -55,6 +55,7 @@ DB::query("REPLACE INTO `{$tablepre}common_member_status` SET uid='1';");
 DB::query("REPLACE INTO `{$tablepre}common_member_field_forum` SET uid='1';");
 DB::query("REPLACE INTO `{$tablepre}common_member_field_home` SET uid='1';");
 DB::query("REPLACE INTO `{$tablepre}common_member_profile` SET uid='1';");
+DB::query("REPLACE INTO `{$tablepre}common_setting` SET skey='siteurl', svalue='';");
 
 require_once libfile('function/cache');
 cleartemplatecache();

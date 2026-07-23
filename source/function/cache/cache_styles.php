@@ -170,6 +170,9 @@ function writetocsscache($data, $touch = false) {
 			if(empty(parse_url($siteurl, PHP_URL_HOST)) && !empty($_G['setting']['siteurl'])) {
 				$siteurl = rtrim($_G['setting']['siteurl'], '/').'/';
 			}
+			if(preg_match('/discuz\.vip/i', $siteurl)) {
+				$siteurl = '/';
+			}
 			$cssdata = !preg_match('/^(https?:)?\/\//i', $data['styleimgdir']) ? preg_replace("/url\(([\"'])?".preg_quote($data['styleimgdir'], '/').'/i', "url(\\1{$siteurl}{$data['styleimgdir']}", $cssdata) : $cssdata;
 			$cssdata = !preg_match('/^(https?:)?\/\//i', $data['imgdir']) ? preg_replace("/url\(([\"'])?".preg_quote($data['imgdir'], '/').'/i', "url(\\1{$siteurl}{$data['imgdir']}", $cssdata) : $cssdata;
 			$cssdata = !preg_match('/^(https?:)?\/\//i', $data['staticurl']) ? preg_replace("/url\(([\"'])?".preg_quote($data['staticurl'], '/').'/i', "url(\\1{$siteurl}{$data['staticurl']}", $cssdata) : $cssdata;
