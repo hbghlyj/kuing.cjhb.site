@@ -13,7 +13,6 @@ if(!defined('IN_DISCUZ')) {
 require_once libfile('function/forumlist');
 
 $isfirstpost = 0;
-$_G['group']['allowimgcontent'] = 0;
 $showthreadsorts = 0;
 $quotemessage = '';
 

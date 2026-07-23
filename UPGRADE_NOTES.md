@@ -187,6 +187,13 @@ ALTER TABLE pre_forum_attachment_7 DROP COLUMN sha1;
 ALTER TABLE pre_forum_attachment_8 DROP COLUMN sha1;
 ALTER TABLE pre_forum_attachment_9 DROP COLUMN sha1;
 ALTER TABLE pre_portal_article_title DROP COLUMN tag;
+ALTER TABLE pre_common_usergroup_field DROP COLUMN allowimgcontent;
+```
+
+- 删除主题内容转图片功能后，还应移除其遗留设置：
+
+```sql
+DELETE FROM pre_common_setting WHERE skey = 'imgcontentwidth';
 ```
 
 - `pre_common_robot_user_agents`、`pre_common_session.location`、`pre_common_session.referrer`、`pre_forum_thread.tags` 和 `pre_portal_article_title.tags` 仍在使用，不属于清理范围。

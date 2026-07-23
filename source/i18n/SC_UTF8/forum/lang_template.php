@@ -1261,7 +1261,6 @@ $lang = [
 	'replylimit' => '每个用户回帖次数上限',
 	'basic_attr' => '基本属性',
 	'text_feature' => '文本特性',
-	'content_to_pic' => '内容生成图片',
 	'manage_operation' => '管理操作',
 	'page_separate' => '分页',
 	'directory' => '目录',

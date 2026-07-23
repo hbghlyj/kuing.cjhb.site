@@ -64,7 +64,7 @@ class model_post extends discuz_model {
 			'noticetrimstr', 'from', 'sechash', 'geoloc',
 			'timestamp',
 			'subject', 'special', 'sortid', 'typeid', 'isanonymous', 'cronpublish', 'cronpublishdate', 'save',
-			'readperm', 'price', 'hiddenreplies', 'audit', 'tags', 'bbcodeoff', 'imgcontent', 'imgcontentwidth',
+			'readperm', 'price', 'hiddenreplies', 'audit', 'tags', 'bbcodeoff',
 			'smileyoff', 'parseurloff', 'usesig', 'htmlon', 'extramessage', 'original', 'source', 'contentType', 'contentEditor', 'repid',
 			'updateuid', 'lastupdate',
 		];
@@ -428,11 +428,6 @@ class model_post extends discuz_model {
 				if($this->param['price'] > 0 && floor($this->param['price'] * (1 - $this->setting['creditstax'])) == 0) {
 					return $this->showmessage('post_net_price_iszero');
 				}
-			}
-
-			$this->thread['status'] = setstatus(15, $this->param['imgcontent'], $this->thread['status']);
-			if($this->param['imgcontent']) {
-				stringtopic($this->param['message'], $this->post['tid'], true, $this->param['imgcontentwidth']);
 			}
 
 			$this->thread['status'] = setstatus(2, $this->param['hiddenreplies'], $this->thread['status']);

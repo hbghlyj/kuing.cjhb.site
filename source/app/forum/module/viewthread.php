@@ -1002,7 +1002,6 @@ function viewthread_procpost($post, $lastvisit, $maxposition = 0) {
 			(!$post['first'] && in_array($_G['group']['allowcommentpost'], [2, 3])));
 	$forum_allowbbcode = $_G['forum']['allowbbcode'] ? -$post['groupid'] : 0;
 	$post['signature'] = $post['usesig'] ? ($_G['setting']['sigviewcond'] ? (strlen($post['message']) > $_G['setting']['sigviewcond'] ? $post['signature'] : '') : $post['signature']) : '';
-	$imgcontent = $post['first'] ? getstatus($_G['forum_thread']['status'], 15) : 0;
 	if(!defined('IN_ARCHIVER')) {
 		if($post['first']) {
 			if(!defined('IN_MOBILE')) {
@@ -1045,25 +1044,23 @@ function viewthread_procpost($post, $lastvisit, $maxposition = 0) {
 		if(!empty($_GET['threadindex'])) {
 			$_G['forum_posthtml']['header'][$post['pid']] .= '<div id="threadindex"></div><script type="text/javascript" reload="1">show_threadindex(0, '.($_GET['from'] == 'preview' ? '1' : '0').');</script>';
 		}
-		if(!$imgcontent) {
-			// 开始json编辑器的处理
-			$htmlon_jsonContent = false;
-			if(is_valid_non_empty_json($post['content'], true)) {
-				$content = json_decode($post['content'], true);
-				if($content['type'] == 'json' && $content['editor'] == 'jsonEditor' && !empty($content['content'])) {
-					$htmlon_jsonContent = true;
-				}
+		// 开始json编辑器的处理
+		$htmlon_jsonContent = false;
+		if(is_valid_non_empty_json($post['content'], true)) {
+			$content = json_decode($post['content'], true);
+			if($content['type'] == 'json' && $content['editor'] == 'jsonEditor' && !empty($content['content'])) {
+				$htmlon_jsonContent = true;
 			}
-			// 结束json编辑器的处理
-			$post['message'] = discuzcode($post['message'], $post['smileyoff'], $post['bbcodeoff'], ($post['htmlon'] || $htmlon_jsonContent) & 1, $_G['forum']['allowsmilies'], $forum_allowbbcode, ($_G['forum']['allowimgcode'] && $_G['setting']['showimages'] ? 1 : 0), $_G['forum']['allowhtml'] || $htmlon_jsonContent, ($_G['forum']['jammer'] && $post['authorid'] != $_G['uid'] ? 1 : 0), 0, $post['authorid'], $_G['cache']['usergroups'][$post['groupid']]['allowmediacode'] && $_G['forum']['allowmediacode'], $post['pid'], getglobal('setting/lazyload'), $post['dbdateline'], $post['first'], (!empty($post['content']) && $post['content'] != '{}') & 1);
-			if($post['first']) {
-				$_G['relatedlinks'] = '';
-				$relatedtype = !$_G['forum_thread']['isgroup'] ? 'forum' : 'group';
-				if(!getglobal('setting/relatedlinkstatus')) {
-					$_G['relatedlinks'] = get_related_link($relatedtype);
-				} else {
-					$post['message'] = parse_related_link($post['message'], $relatedtype);
-				}
+		}
+		// 结束json编辑器的处理
+		$post['message'] = discuzcode($post['message'], $post['smileyoff'], $post['bbcodeoff'], ($post['htmlon'] || $htmlon_jsonContent) & 1, $_G['forum']['allowsmilies'], $forum_allowbbcode, ($_G['forum']['allowimgcode'] && $_G['setting']['showimages'] ? 1 : 0), $_G['forum']['allowhtml'] || $htmlon_jsonContent, ($_G['forum']['jammer'] && $post['authorid'] != $_G['uid'] ? 1 : 0), 0, $post['authorid'], $_G['cache']['usergroups'][$post['groupid']]['allowmediacode'] && $_G['forum']['allowmediacode'], $post['pid'], getglobal('setting/lazyload'), $post['dbdateline'], $post['first'], (!empty($post['content']) && $post['content'] != '{}') & 1);
+		if($post['first']) {
+			$_G['relatedlinks'] = '';
+			$relatedtype = !$_G['forum_thread']['isgroup'] ? 'forum' : 'group';
+			if(!getglobal('setting/relatedlinkstatus')) {
+				$_G['relatedlinks'] = get_related_link($relatedtype);
+			} else {
+				$post['message'] = parse_related_link($post['message'], $relatedtype);
 			}
 		}
 	}
@@ -1087,9 +1084,6 @@ function viewthread_procpost($post, $lastvisit, $maxposition = 0) {
 		} else {
 			$post['message'] = '<i class="pstatus">本帖最后由 '.$post['message'];
 		}
-	}
-	if($imgcontent) {
-		$post['message'] = '<img id="threadimgcontent" src="./'.stringtopic('', $post['tid']).'">';
 	}
 	$_G['forum_firstpid'] = intval($_G['forum_firstpid']);
 	$post['numbercard'] = viewthread_numbercard($post);
