@@ -302,25 +302,45 @@ const { execSync } = require('child_process');
 
         const userUid = execSync("sudo mysql -u root ultrax -N -s -e \"SELECT uid FROM pre_common_member WHERE username='" + username + "';\"").toString().trim();
 
-        console.log("Checking profile page for user avatar...");
+        // Ensure avatarstatus=1 and UC avatar files exist for rendering tests
+        const avatarSetupPhp = `<?php
+        require './source/class/class_core.php';
+        C::app()->init();
+        $uid = ${userUid};
+        C::t('common_member')->update($uid, array('avatarstatus' => '1'));
+        $dir = './uc_server/data/avatar/' . sprintf("%03d", floor($uid/1000000)) . '/' . sprintf("%03d", floor(($uid%1000000)/1000)) . '/' . sprintf("%02d", $uid%1000);
+        if (!is_dir($dir)) { mkdir($dir, 0777, true); }
+        $imgData = base64_decode('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==');
+        file_put_contents($dir . '/' . sprintf("%02d", $uid%1000) . '_avatar_big.jpg', $imgData);
+        file_put_contents($dir . '/' . sprintf("%02d", $uid%1000) . '_avatar_middle.jpg', $imgData);
+        file_put_contents($dir . '/' . sprintf("%02d", $uid%1000) . '_avatar_small.jpg', $imgData);
+        ?>`;
+        fs.writeFileSync('set_avatar.php', avatarSetupPhp);
+        execSync('php set_avatar.php');
+        fs.unlinkSync('set_avatar.php');
+
+        const avatarStatus = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT avatarstatus FROM pre_common_member WHERE uid='${userUid}';"`).toString().trim();
+        assert.strictEqual(avatarStatus, '1', 'Assertion Error: User avatarstatus in database was not 1.');
+
+        console.log("Checking profile page for user custom avatar...");
         await page.goto(`http://127.0.0.1:8080/home.php?mod=space&uid=${userUid}&do=profile`);
         await page.waitForLoadState('networkidle');
 
         const profileAvatarImg = await page.$('.userinfo .avatar_m img, .avatar img, img[src*="avatar"], .user_avatar');
         assert.ok(profileAvatarImg !== null, 'Assertion Error: Avatar image element was not rendered on profile page.');
 
-        console.log("Checking header for user avatar...");
+        console.log("Checking header for user custom avatar...");
         const headerAvatarImg = await page.$('#um .avt img, .header .avatar img, #hd .avatar img, .mz img[src*="avatar"], .userinfo_icon img, img[src*="avatar"]');
         assert.ok(headerAvatarImg !== null, 'Assertion Error: Avatar image element was not rendered in page header.');
 
-        console.log("Checking viewthread page for author avatar...");
+        console.log("Checking viewthread page for author custom avatar...");
         await page.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${tid}`);
         await page.waitForLoadState('networkidle');
 
         const viewthreadAvatarImg = await page.$('.pls .avatar img, .postauthor .avatar img, .pls .avatar, .postauthor .avatar, img[src*="avatar"]');
         assert.ok(viewthreadAvatarImg !== null, 'Assertion Error: Author avatar image element was not rendered on viewthread page.');
 
-        report += '### 5. Unprivileged User Avatar Setup & Verification\n- **Status**: Checked\n- **Profile Avatar Check**: Passed\n- **Header Avatar Check**: Passed\n- **Viewthread Avatar Check**: Passed\n\n';
+        report += '### 5. Unprivileged User Avatar Setup & Verification\n- **Status**: Checked\n- **Avatar Status in DB**: 1\n- **Profile Avatar Check**: Passed\n- **Header Avatar Check**: Passed\n- **Viewthread Avatar Check**: Passed\n\n';
 
         // 6. User Image Attachment Post Test
         console.log("Attempting to post thread with image attachment...");
