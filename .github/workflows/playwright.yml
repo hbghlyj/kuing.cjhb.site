@@ -13,10 +13,17 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install System Dependencies
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: mysqli, mbstring, curl, xml, json
+          tools: composer
+
+      - name: Install MariaDB Server
         run: |
           sudo apt-get update
-          sudo apt-get install -y --no-install-recommends composer php php-xml php-curl php-json php-mbstring php-mysql mariadb-server fonts-noto-cjk
+          sudo apt-get install -y --no-install-recommends mariadb-server
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
