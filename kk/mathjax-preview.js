@@ -126,7 +126,6 @@ function renderFastTexSmilies() {
 		fs.innerHTML = '';
 		var table = document.createElement("table");
 		table.className = "cp0";
-		table.style.width = "100%";
 		var tr = document.createElement("tr");
 
 		for (var i = 0; i < fastTexItems.length; i++) {
