@@ -83,8 +83,8 @@ $headers = "'".implode("','", array_keys($topmenu))."'";
 $useravt = avatar($_G['uid'], 'middle', ['username' => $_G['username'], 'avatarstatus' => $_G['member']['avatarstatus'], 'class' => 'avt']);
 
 if(!empty($_GET['js'])) {
-	$leftmenus = str_replace('target="main"', '', $leftmenus);
-	echo '$(\'retheader_menu\').innerHTML = \''.addslashes('<ul id="jsmenu">'.$leftmenus.'</ul>').'\';';
+	$leftmenus = str_replace(['target="main"', "\r", "\n"], ['', '', ''], $leftmenus);
+	echo '$(\'retheader_menu\').innerHTML = '.json_encode('<ul id="jsmenu">'.$leftmenus.'</ul>').';';
 	exit;
 } else {
 	$sitevip = '';
