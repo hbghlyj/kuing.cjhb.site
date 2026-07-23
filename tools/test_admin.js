@@ -97,6 +97,15 @@ const { execSync } = require('child_process');
 
         const adminPassInput = await page.$('input[name="admin_password"]');
         if (adminPassInput) {
+            // Do not depend on the pre-elevation frontend session to populate this field.
+            const adminType = await page.$('select[name="admin_type"]');
+            if (adminType) {
+                await adminType.selectOption('0');
+            }
+            const adminUsernameInput = await page.$('input[name="admin_username"]');
+            if (adminUsernameInput) {
+                await adminUsernameInput.fill(username);
+            }
             await adminPassInput.fill(password);
             const adminSubmitBtn = await page.$('button[type="submit"], input[type="submit"], input[name="submit"]');
             if (adminSubmitBtn) {
