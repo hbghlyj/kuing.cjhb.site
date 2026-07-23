@@ -1075,7 +1075,7 @@ $data = [[
     'svalue' => '10',
   ],[
     'skey' => 'maxsubjectsize',
-    'svalue' => '80',
+    'svalue' => '255',
   ],[
     'skey' => 'medalstatus',
     'svalue' => '0',
