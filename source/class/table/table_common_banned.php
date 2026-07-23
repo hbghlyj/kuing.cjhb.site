@@ -44,20 +44,6 @@ class table_common_banned extends discuz_table {
 		return DB::fetch_all('SELECT * FROM %t ORDER BY dateline DESC', [$this->_table]);
 	}
 
-	public function fetch_all($ids = [], $force_from_db = false) {
-		// Todo: $ids = array() 需要在取消兼容层后删除
-		if(defined('DISCUZ_DEPRECATED')) {
-			throw new Exception('NotImplementedException');
-			return parent::fetch_all($ids, $force_from_db);
-		} else {
-			return $this->fetch_all_banned();
-		}
-	}
-
-	public function fetch_all_banned() {
-		return DB::fetch_all('SELECT * FROM %t', [$this->_table]);
-	}
-
 	public function delete_by_id($ids, $adminid, $adminname) {
 		$ids = array_map('intval', (array)$ids);
 		if($ids) {

@@ -2,7 +2,79 @@
 
 请同时阅读 `UPGRADE_NOTES.md`，其中专门记录了当前分支相对 `master` 的差异、部署前必看项、数据库迁移要求以及不兼容变更。
 
+
 ## 当前分支额外行为
+
+### 开发环境缓存目录权限
+
+对于开发克隆站点，以下运行时生成目录应统一由 Web 进程用户持有：
+
+- `data/cache`
+- `data/template`
+- `data/sysdata`
+
+否则即使目录本身是 `777`，只要其中已有缓存文件被错误地写成 `root:root` 或其它不可覆盖状态，后台如“模板管理 / 风格管理”等涉及缓存重建的操作，仍可能报：
+
+```text
+Can not write to cache files, please check directory ./data/ and ./data/cache/ .
+```
+
+在 `dev.cjhb.site` 对应的克隆环境中，已确认需要将上述整棵目录树统一修正为 `www-data:www-data`，而不是只修目录权限。
+
+### HTTPS 与机器人判定
+
+当前分支沿用了上游的请求头判定逻辑：当浏览器请求里缺少 `HTTP_SEC_FETCH_MODE` 时，运行时可能把该访问记为 `UnusualSecFetchModeHeader`，从而按爬虫路径处理。
+
+这在开发环境里尤其需要注意：
+
+- `kuing.cjhb.site` 这类 HTTPS 访问通常会带上 `Sec-Fetch-*` 头；
+- `dev.cjhb.site` 如果仍以纯 HTTP 访问，浏览器可能不发送这些头；
+- 结果就是开发环境可能出现“游客头部为空、`#onlinelist` 不显示、fastlogin 不显示、会话里被记成机器人”等现象。
+
+因此，测试当前分支时应尽量保证开发域名也使用 HTTPS。否则即使代码与 `master` 一致，开发环境仍可能因为请求头差异触发机器人判定。
+
+### IP 地理位置库
+
+当前分支的活动 IP 网络归属查询使用 MaxMind DB Reader。
+
+- `source/class/class_ip.php` 和 `source/class/discuz/discuz_application.php` 会加载 `source/class/ip/geoip2.phar`
+- Reader 固定读取 `data/ipdata/GeoOpen-Country-ASN.mmdb`
+- 查询结果包含国家代码、ASN 和自治系统组织名称，不包含城市
+- PHP-FPM 运行用户必须能够读取上述 PHAR 和 MMDB 文件
+- 旧的 `tinyipdata.dat` / `wry` 系列数据文件不再是当前默认查询路径
+
+### 聊天室配置 (chat/php/config.php)
+
+请确保 chat/php/config.php 文件已正确配置，该文件已加入 .gitignore 以防泄漏。
+
+### PHP 语言文件单一来源
+
+当前分支已将 PHP 语言文件也统一收敛到 `source/i18n`。
+
+需要注意：
+
+- `source/language` 已从运行时代码中移除，不应再向该目录补 key；
+- 新增或修复 PHP 语言 key 时，只改 `source/i18n/SC_UTF8`、`source/i18n/TC_UTF8`、`source/i18n/EN_UTF8`；
+- 删除旧语言树前，已按文件路径与 key 做过迁移审计，避免出现 `!recent_use_tag!` 这类缺 key 现象；
+- 如果修改的是服务端语言文件，不仅要重建 `data/cache/lang_*.js`，还要按需要清理对应语言的 `data/template/*` 编译模板。
+
+### 前端 JS 语言来源
+
+当前分支前端 JS 已切换到 `source/i18n/*/lang_js.php` 生成的 `data/cache/lang_*.js`。
+
+需要注意：
+
+- 浏览器端统一通过 `_JSLANG_` 和 `$L(...)` 读取语言字符串；
+- `static/js/register.js` 使用 `email_domains`；
+- `static/js/common_extra.js` 使用 `color_texts`；
+- 不应再从旧语言树直接下发 `lang_js.js` 这类全局脚本；
+- `source/language` 已不再作为运行时语言源，前端 JS 相关语言 key 只应维护在 `source/i18n/.../lang_js.php`。
+
+如果前端出现语言回退或缺字，优先检查：
+
+- `source/i18n/*/lang_js.php` 是否已有对应 key；
+- `data/cache/lang_*.js` 是否已重建；
+- 页面是否仍残留旧的 `lng[...]` / `emaildomains` 直连依赖。
 
 ### URL 锚点写法
 
@@ -10,21 +82,26 @@
 
 `[url=#sec1]跳转[/url]` 会生成跳转到该锚点的链接。
 
-### IP 地理位置库
-
-当前分支的活动 IP 地理位置查询路径已经切换到 MaxMind GeoIP2。
-
-- `source/class/class_ip.php` 和 `source/class/discuz/discuz_application.php` 会加载 `source/class/ip/geoip2.phar`
-- GeoIP2 Reader 固定读取 `data/ipdata/GeoLite2-City.mmdb`
-- PHP-FPM 运行用户必须能够读取上述 PHAR 和 MMDB 文件
-- 旧的 `tinyipdata.dat` / `wry` 系列数据文件不再是当前默认查询路径
-
 ### 手机模板 CSS 缓存
 
 - 手机模板支持与 PC 模板相同的 `{csstemplate}` 机制。
 - 手机 CSS 源文件位于 `template/<模板>/touch/common/`，默认模板使用 `template/default/touch/common/common.css`。
 - 生成的缓存文件使用 `style_<styleid>_touch_*.css` 命名，避免与 PC CSS 缓存互相覆盖。
 - 插件可通过 `source/plugin/<插件>/template/touch/extend_<文件名>.css` 扩展手机 CSS。
+
+### `discuzx5` 是 `default` 的覆盖层
+
+`template/discuzx5` 不是一套完整、独立的模板，而是建立在 `template/default` 之上的局部覆盖层。当前风格缺少某个模板文件时，模板解析器会回退到 `template/default` 中的同名 `.htm` 或 `.php` 文件。因此，不能仅检查 `discuzx5` 目录来判断某个界面或功能是否有实现。
+
+与 `default` 相比，`discuzx5` 的目录和组件覆盖范围明显不完整。`admin`、`cell`、`cells` 虽然存在，但只实现了其中一部分文件；`forum` 目录尤其精简，大量专用界面完全由 `default` 提供。主要回退类别包括：
+
+- `ajax_*`：图片列表、附件、快速回复等 AJAX 弹窗模板；
+- `collection_*`：淘专辑及相关列表功能；
+- `modcp_*`：完整的前台版主管理面板；
+- `post_*`：投票、悬赏、商品、辩论等专用发帖表单；
+- `viewthread_*`：打印、付费、悬赏、投票、辩论、相册等专用主题视图。
+
+维护 `discuzx5` 时，应把它视为 `default` 的差异层：通用实现优先修改 `default`，只有确实需要 X5 专属结构或样式时才在 `discuzx5` 添加覆盖文件。修改上述组件后必须同时检查实际命中的模板路径，避免误以为 X5 页面只会执行 `discuzx5` 内的代码。
 
 ### forum lastpost 字段顺序
 
@@ -47,63 +124,6 @@ tid \t subject \t dateline \t author
 ```
 
 顺序来解析，否则会出现“标题显示成时间戳、日期显示成 1970-1-1”之类的问题。
-
-### HTTPS 与机器人判定
-
-当前分支沿用了上游的请求头判定逻辑：当浏览器请求里缺少 `HTTP_SEC_FETCH_MODE` 时，运行时可能把该访问记为 `UnusualSecFetchModeHeader`，从而按爬虫路径处理。
-
-这在开发环境里尤其需要注意：
-
-- `kuing.cjhb.site` 这类 HTTPS 访问通常会带上 `Sec-Fetch-*` 头；
-- `dev.cjhb.site` 如果仍以纯 HTTP 访问，浏览器可能不发送这些头；
-- 结果就是开发环境可能出现“游客头部为空、`#onlinelist` 不显示、fastlogin 不显示、会话里被记成机器人”等现象。
-
-因此，测试当前分支时应尽量保证开发域名也使用 HTTPS。否则即使代码与 `master` 一致，开发环境仍可能因为请求头差异触发机器人判定。
-
-### 开发环境缓存目录权限
-
-对于开发克隆站点，以下运行时生成目录应统一由 Web 进程用户持有：
-
-- `data/cache`
-- `data/template`
-- `data/sysdata`
-
-否则即使目录本身是 `777`，只要其中已有缓存文件被错误地写成 `root:root` 或其它不可覆盖状态，后台如“模板管理 / 风格管理”等涉及缓存重建的操作，仍可能报：
-
-```text
-Can not write to cache files, please check directory ./data/ and ./data/cache/ .
-```
-
-在 `dev.cjhb.site` 对应的克隆环境中，已确认需要将上述整棵目录树统一修正为 `www-data:www-data`，而不是只修目录权限。
-
-### 前端 JS 语言来源
-
-当前分支前端 JS 已切换到 `source/i18n/*/lang_js.php` 生成的 `data/cache/lang_*.js`。
-
-需要注意：
-
-- 浏览器端统一通过 `_JSLANG_` 和 `$L(...)` 读取语言字符串；
-- `static/js/register.js` 使用 `email_domains`；
-- `static/js/common_extra.js` 使用 `color_texts`；
-- 不应再从旧语言树直接下发 `lang_js.js` 这类全局脚本；
-- `source/language` 已不再作为运行时语言源，前端 JS 相关语言 key 只应维护在 `source/i18n/.../lang_js.php`。
-
-如果前端出现语言回退或缺字，优先检查：
-
-- `source/i18n/*/lang_js.php` 是否已有对应 key；
-- `data/cache/lang_*.js` 是否已重建；
-- 页面是否仍残留旧的 `lng[...]` / `emaildomains` 直连依赖。
-
-### PHP 语言文件单一来源
-
-当前分支已将 PHP 语言文件也统一收敛到 `source/i18n`。
-
-需要注意：
-
-- `source/language` 已从运行时代码中移除，不应再向该目录补 key；
-- 新增或修复 PHP 语言 key 时，只改 `source/i18n/SC_UTF8`、`source/i18n/TC_UTF8`、`source/i18n/EN_UTF8`；
-- 删除旧语言树前，已按文件路径与 key 做过迁移审计，避免出现 `!recent_use_tag!` 这类缺 key 现象；
-- 如果修改的是服务端语言文件，不仅要重建 `data/cache/lang_*.js`，还要按需要清理对应语言的 `data/template/*` 编译模板。
 
 ### `class_i18n` 与语言文件装载路径
 
@@ -171,7 +191,7 @@ $_config['db']['common']['engine'] = 'innodb';
 
 ##### 2.1 IP地址库
 
-系统使用 `source/class/class_ip.php` 调用 MaxMind GeoIP2 数据库，同时支持 IPv4 和 IPv6 地址查询。
+系统使用 `source/class/class_ip.php` 调用 `GeoOpen-Country-ASN.mmdb`，同时支持 IPv4 和 IPv6 地址的国家与 ASN 查询。
 
 ##### 2.2 IP封禁
 
@@ -209,25 +229,23 @@ $_config['ipgetter']['iplist']['list']['0'] = '127.0.0.1';
 $_config['ipgetter']['dnslist']['header'] = 'HTTP_X_FORWARDED_FOR';
 $_config['ipgetter']['dnslist']['list']['0'] = 'comsenz.com';
 ```
-##### 2.4 Cloudflare游客地理标签
+##### 2.4 游客与爬虫网络标签
 
-本分支跟进了基于 Cloudflare 请求头的游客地理标签逻辑。对于游客组(`groupid == 7`)：
+游客和爬虫会话均保存国家、ASN 和自治系统组织名称。Cloudflare 提供有效的 `HTTP_CF_IPCOUNTRY` 和 `HTTP_CF_IPCITY` 时，国家代码和城市用于界面显示；ASN 与组织名称由 Country/ASN MMDB 补全。
 
-* 若识别为爬虫，则仍按爬虫名称显示；
-* 若不是爬虫，则会读取 `HTTP_CF_IPCOUNTRY` 与 `HTTP_CF_IPCITY`，并将游客显示名设置为“国旗 emoji + 城市名”。
+在线用户列表同时显示游客和爬虫；两者分别使用游客与爬虫图标，不添加“游客”或爬虫名称前缀。论坛内的紧凑列表为游客显示国旗和 Cloudflare 城市，标题提示显示 ASN 与组织名称；爬虫直接显示组织名称，标题提示只显示 ASN。完整在线列表显示全部信息。
 
-这意味着该功能依赖 Cloudflare 注入的请求头；如果站点未通过 Cloudflare 代理流量，或未提供上述头部，则相关显示逻辑可能不符合预期。
+##### 2.5 Country/ASN 查询与输出策略调整
 
-##### 2.5 GeoIP2 与输出策略调整
-
-本分支已按上游方案切换为直接使用 MaxMind GeoIP2：
+本分支使用 MaxMind DB Reader 读取 Country/ASN 合并库：
 
 * `source/class/class_ip.php` 不再走原有可插拔 IPDB 实现；
 * `source/class/class_ip.php` 和 `source/class/discuz/discuz_application.php` 都会加载 `source/class/ip/geoip2.phar`；
-* `GeoIp2\Database\Reader` 固定读取 `data/ipdata/GeoLite2-City.mmdb`，PHP-FPM 运行用户必须对这两个文件具有读取权限；
+* `MaxMind\Db\Reader` 固定读取 `data/ipdata/GeoOpen-Country-ASN.mmdb`，PHP-FPM 运行用户必须对这两个文件具有读取权限；
+* IP 归属显示国家、ASN 和自治系统组织名称，不再查询城市；
 * 旧的 `ip_tiny.php` 与 `ip_wry.php` 已移除，不再作为位置库后端使用。
 
-因此，部署时需要自行准备可用的 MaxMind GeoIP2 城市库文件，否则 IP 归属地解析将无法按该实现工作。
+因此，部署时需要准备兼容的 `GeoOpen-Country-ASN.mmdb`，否则 IP 网络归属解析将返回空结果。
 
 同时，本分支已明确采用以下输出策略：
 
@@ -287,6 +305,10 @@ CONSTRAINT `fields` CHECK (json_valid(`fields`))
 ```
 
 `insert_user()` 现在在插入 profile 时，若调用方未提供 `fields` 值，会自动补填 `'{}'`，避免触发约束失败（错误 4025）。
-### 聊天室配置 (chat/php/config.php)
+### 临时目录说明
 
-请确保 chat/php/config.php 文件已正确配置，该文件已加入 .gitignore 以防泄漏。
+DiscuzX 系统运行过程中会使用到几个带有 `temp` 的临时或缓存目录，它们的用途分别如下：
+
+- `data/temp`：用于存放系统或某些特定功能生成的通用临时文件数据。
+- `data/attachment/temp`：主要用于在用户上传文件或图片的过程中，将数据临时存放在此处。待处理（如缩略图、水印生成等）完毕并正式保存后，这些文件才会被移动到正式的附件目录中。
+- `data/template`：这里存放的是由 `.htm` 源码模板编译生成的 `.tpl.php` 缓存文件。通过将模板预编译成 PHP 代码，可以大大提高页面渲染效率。每次修改了前台模板或更换了语言环境后，通常需要清理此目录以重新生成最新缓存。

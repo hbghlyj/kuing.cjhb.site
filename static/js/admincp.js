@@ -558,28 +558,6 @@ function showretheader(title, jsmenu) {
 	}
 }
 
-function perm_search(type, kw) {
-	let id = 'permitem_menu';
-	if (!$(id)) {
-		var div = document.createElement('div');
-		div.id = id;
-		div.style.display = 'none';
-		div.innerHTML = '';
-		$('append_parent').parentNode.appendChild(div);
-	}
-	showMenu({'menuid': id, 'duration': 3, 'pos': '00', 'mtype': 'win'});
-	ajaxget(admincpfilename + '?action=forums&mod=forum&operation=perm_get_item&itemtype=' + type + '&kw=' + ($(kw).type == 'text' ? encodeURIComponent($(kw).value) : '') + '&kwid=' + kw, id);
-}
-
-function perm_enter(event, obj) {
-	let theEvent = event || window.event;
-	let keyCode = theEvent.keyCode || theEvent.which || theEvent.charCode;
-	if (keyCode == 13) {
-		obj.nextElementSibling.click();
-		doane(event);
-	}
-}
-
 function perm_show_item(data) {
 	var type = data['type'];
 	let id = 'permitem_menu';

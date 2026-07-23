@@ -162,6 +162,10 @@ if(!submitcheck('topicsubmit', 0, $seccodecheck, $secqaacheck)) {
 	}
 
 } else {
+	if(trim($subject) !== '' && table_forum_thread::t()->exists_by_subject($subject)) {
+		showmessage('post_subject_duplicate');
+	}
+
 	if(getgpc('mygroupid')) {
 		$mygroupid = explode('__', $_GET['mygroupid']);
 		$mygid = intval($mygroupid[0]);
@@ -250,19 +254,12 @@ if(!submitcheck('topicsubmit', 0, $seccodecheck, $secqaacheck)) {
 		$params['source'] = $source;
 	}
 
-	$params['hiddenreplies'] = getgpc('hiddenreplies');
-
 	$params['tags'] = $_GET['tags'];
 	$params['bbcodeoff'] = getgpc('bbcodeoff');
 	$params['smileyoff'] = getgpc('smileyoff');
 	$params['parseurloff'] = getgpc('parseurloff');
 	$params['usesig'] = $_GET['usesig'];
 	$params['htmlon'] = getgpc('htmlon');
-	if($_G['group']['allowimgcontent']) {
-		$params['imgcontent'] = $_GET['imgcontent'];
-		$params['imgcontentwidth'] = $_G['setting']['imgcontentwidth'] ? intval($_G['setting']['imgcontentwidth']) : 100;
-	}
-
 	$params['geoloc'] = diconv(getgpc('geoloc'), 'UTF-8');
 
 

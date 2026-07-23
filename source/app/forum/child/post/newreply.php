@@ -13,7 +13,6 @@ if(!defined('IN_DISCUZ')) {
 require_once libfile('function/forumlist');
 
 $isfirstpost = 0;
-$_G['group']['allowimgcontent'] = 0;
 $showthreadsorts = 0;
 $quotemessage = '';
 
@@ -57,7 +56,7 @@ if(empty($thread)) {
 	showmessage('thread_nonexistence');
 } elseif($thread['price'] > 0 && $thread['special'] == 0 && !$_G['uid']) {
 	showmessage('group_nopermission', NULL, ['grouptitle' => $_G['group']['grouptitle']], ['login' => 1]);
-} elseif($thread['readperm'] && $thread['readperm'] > $_G['group']['readaccess']) {
+} elseif($thread['readperm'] && $thread['readperm'] > $_G['group']['readaccess'] && $thread['authorid'] != $_G['uid']) {
 	showmessagenoperm('replyperm', $_G['forum']['fid']);
 }
 

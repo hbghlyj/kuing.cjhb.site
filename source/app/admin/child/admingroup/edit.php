@@ -134,7 +134,6 @@ if(!$submitcheck) {
 		showsetting('admingroup_edit_remove_reward', 'allowremoverewardnew', $group['allowremovereward'], 'radio');
 		showsetting('admingroup_edit_edit_activity', 'alloweditactivitynew', $group['alloweditactivity'], 'radio');
 		showsetting('admingroup_edit_edit_trade', 'allowedittradenew', $group['allowedittrade'], 'radio');
-		showsetting('admingroup_edit_usertag', 'alloweditusertagnew', $group['alloweditusertag'], 'radio');
 		showtagfooter('tbody');
 		/*search*/
 
@@ -240,7 +239,6 @@ if(!$submitcheck) {
 			'alloweditpost' => $_GET['alloweditpostnew'],
 			'alloweditpoll' => $_GET['alloweditpollnew'],
 			'allowedittrade' => $_GET['allowedittradenew'],
-			'alloweditusertag' => $_GET['alloweditusertagnew'],
 			'allowremovereward' => $_GET['allowremoverewardnew'],
 			'alloweditactivity' => $_GET['alloweditactivitynew'],
 			'allowstickthread' => $_GET['allowstickthreadnew'],

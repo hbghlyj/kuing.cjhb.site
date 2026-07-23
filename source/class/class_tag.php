@@ -52,7 +52,7 @@ class tag {
 	public function add_tag($tags, $itemid, $idtype = 'tid', $returnarray = 0) {
 		global $_G;
 
-		if($tags == '' || !in_array($idtype, ['', 'tid', 'blogid', 'articleid', 'doid', 'uid'])) {
+		if($tags == '' || !in_array($idtype, ['', 'tid', 'blogid', 'articleid', 'doid'])) {
 			return;
 		}
 
@@ -63,7 +63,7 @@ class tag {
 		foreach($tagarray as $tagname) {
 			$tagname = trim($tagname);
 			if(preg_match('/^([\x7f-\xff_-]|\w|\s){2,50}$/', $tagname)) {
-				$status = $idtype != 'uid' ? 0 : 3;
+				$status = 0;
 				$result = table_common_tag::t()->get_bytagname($tagname, $idtype);
 				if($result['tagid']) {
 					if($result['status'] == $status) {
@@ -283,7 +283,6 @@ class tag {
 				$newid = $tagid;
 			}
 			$tagidarray = array_diff((array)$tagidarray, (array)$newid);
-			if($idtype !== 'uid') {
 				$tagnames = table_common_tag::t()->get_byids($tagidarray);
 				$results = table_common_tagitem::t()->select($tagidarray);
 				foreach($results as $result) {
@@ -311,7 +310,6 @@ class tag {
 						$articleidarray[$itemid] = str_replace("{$result['tagid']},{$result['tagname']}\t", '', $articleidarray[$itemid]);
 					}
 				}
-			}
 			$checkunique = [];
 			$checktagids = $tagidarray;
 			$checktagids[] = $newid;
@@ -358,7 +356,6 @@ class tag {
 		if(!is_array($tagidarray)) {
 			return false;
 		}
-		if($idtype != 'uid') {
 			$tagnames = table_common_tag::t()->get_byids($tagidarray);
 			$items = table_common_tagitem::t()->select($tagidarray);
 			foreach($items as $result) {
@@ -386,7 +383,6 @@ class tag {
 					$articleidarray[$itemid] = str_replace("{$result['tagid']},{$result['tagname']}\t", '', $articleidarray[$itemid]);
 				}
 			}
-		}
 
 		if($tidarray) {
 			foreach($tidarray as $key => $var) {

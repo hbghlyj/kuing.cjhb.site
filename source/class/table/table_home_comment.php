@@ -48,17 +48,6 @@ class table_home_comment extends discuz_table {
 		DB::delete($this->_table, DB::field('uid', $uids).' OR ('.DB::field('id', $uids).' AND idtype=\'uid\')');
 	}
 
-	public function delete($val, $unbuffered = false, $null = '') {
-		// $null 需要在取消兼容层后删除
-		if(defined('DISCUZ_DEPRECATED')) {
-			throw new Exception('NotImplementedException');
-			return parent::delete($val, $unbuffered);
-		} else {
-			$unbuffered = $unbuffered === false ? '' : $unbuffered;
-			return $this->delete_comment($val, $unbuffered, $null);
-		}
-	}
-
 	public function delete_comment($cid = '', $id = '', $idtype = '') {
 		$condition = [];
 

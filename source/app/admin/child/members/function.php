@@ -16,7 +16,6 @@ function showsearchform($operation = '') {
 	$groupselect = [];
 	$groupid = isset($_GET['groupid']) && is_array($_GET['groupid']) ? $_GET['groupid'] : [];
 	$medals = isset($_GET['medalid']) && is_array($_GET['medalid']) ? $_GET['medalid'] : [];
-	$tagid = isset($_GET['tagid']) && is_array($_GET['tagid']) ? $_GET['tagid'] : [];
 	$query = table_common_usergroup::t()->fetch_all_not([6, 7], true);
 	foreach($query as $group) {
 		$group['type'] = $group['type'] == 'special' && $group['radminid'] ? 'specialadmin' : $group['type'];
@@ -26,15 +25,10 @@ function showsearchform($operation = '') {
 		($groupselect['special'] ? '<optgroup label="'.$lang['usergroups_special'].'">'.$groupselect['special'].'</optgroup>' : '').
 		($groupselect['specialadmin'] ? '<optgroup label="'.$lang['usergroups_specialadmin'].'">'.$groupselect['specialadmin'].'</optgroup>' : '').
 		'<optgroup label="'.$lang['usergroups_system'].'">'.$groupselect['system'].'</optgroup>';
-	$medalselect = $usertagselect = '';
+	$medalselect = '';
 	foreach(table_forum_medal::t()->fetch_all_data(1) as $medal) {
 		$medalselect .= "<option value=\"{$medal['medalid']}\" ".(in_array($medal['medalid'], $medals) ? 'selected' : '').">{$medal['name']}</option>\n";
 	}
-	$query = table_common_tag::t()->fetch_all_by_status(3);
-	foreach($query as $row) {
-		$usertagselect .= "<option value=\"{$row['tagid']}\" ".(in_array($row['tagid'], $tagid) ? 'selected' : '').">{$row['tagname']}</option>\n";
-	}
-
 
 	$interfaces_aType = account_base::Interfaces_aType;
 	if(!empty($_G['setting']['account_plugin_atypes'])) {
@@ -74,12 +68,8 @@ function showsearchform($operation = '') {
 	if(empty($medalselect)) {
 		$medalselect = '<option value="">'.cplang('members_search_nonemedal').'</option>';
 	}
-	if(empty($usertagselect)) {
-		$usertagselect = '<option value="">'.cplang('members_search_noneusertags').'</option>';
-	}
 	showsetting('members_search_group', '', '', '<select name="groupid[]" multiple="multiple" size="10">'.$groupselect.'</select>');
 	showsetting('members_search_medal', '', '', '<select name="medalid[]" multiple="multiple" size="10">'.$medalselect.'</select>');
-	showsetting('members_search_usertag', '', '', '<select name="tagid[]" multiple="multiple" size="10">'.$usertagselect.'</select>');
 	showsetting('members_search_online', ['sid_noempty', [
 		[1, $lang['yes']],
 		[0, $lang['no']],

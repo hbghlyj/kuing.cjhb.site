@@ -246,7 +246,7 @@ function updateattach($modnewthreads, $tid, $pid, $attachnew, $attachupdate = []
 					album_update_pic($_GET['uploadalbum']);
 				}
 			}
-			table_forum_attachment_n::t()->insert('tid:'.$tid, $update, false, true);
+			table_forum_attachment_n::t()->insert_attachment('tid:'.$tid, $update, false, true);
 			table_forum_attachment::t()->update($aid, ['tid' => $tid, 'pid' => $pid, 'tableid' => getattachtableid($tid)]);
 			table_forum_attachment_unused::t()->delete($aid);
 		}
@@ -428,9 +428,6 @@ function updatepostcredits($operator, $uidarray, $action, $fid = 0) {
 		return false;
 	}
 	$uidarr = [];
-	if(empty($uidarray)) {
-		return false;
-	}
 	if($operator == '-' && in_array($action, array('post', 'reply'))) {
 		foreach((array)$uidarray as $u) {
 			if(is_array($u)) {
@@ -587,17 +584,11 @@ function messagesafeclear($message) {
 	if(str_contains($message, '[/postbg]')) {
 		$message = preg_replace("/\s?\[postbg\]\s*([^\[\<\r\n;'\"\?\(\)]+?)\s*\[\/postbg\]\s?/is", '', $message);
 	}
-	if(str_contains($message, '[/begin]')) {
-		$message = preg_replace("/\[begin(=\s*([^\[\<\r\n]*?)\s*,(\d*),(\d*),(\d*),(\d*))?\]\s*([^\[\<\r\n]+?)\s*\[\/begin\]/is", '', $message);
-	}
 	if(str_contains($message, '[page]')) {
 		$message = preg_replace('/\s?\[page\]\s?/is', '', $message);
 	}
 	if(str_contains($message, '[/index]')) {
 		$message = preg_replace('/\s?\[index\](.+?)\[\/index\]\s?/is', '', $message);
-	}
-	if(str_contains($message, '[/begin]')) {
-		$message = preg_replace("/\[begin(=\s*([^\[\<\r\n]*?)\s*,(\d*),(\d*),(\d*),(\d*))?\]\s*([^\[\<\r\n]+?)\s*\[\/begin\]/is", '', $message);
 	}
 	if(str_contains($message, '[/groupid]')) {
 		$message = preg_replace('/\[groupid=\d+\].*\[\/groupid\]/i', '', $message);

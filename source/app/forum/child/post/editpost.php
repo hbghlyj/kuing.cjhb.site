@@ -67,9 +67,6 @@ if($isfirstpost && $isorigauthor && $_G['group']['allowreplycredit']) {
 
 if(!submitcheck('editsubmit')) {
 
-	$thread['hiddenreplies'] = getstatus($thread['status'], 2);
-
-
 	$postinfo = table_forum_post::t()->fetch_post('tid:'.$_G['tid'], $pid);
 	if($postinfo['fid'] != $_G['fid'] || $postinfo['tid'] != $_G['tid']) {
 		$postinfo = [];
@@ -81,12 +78,6 @@ if(!submitcheck('editsubmit')) {
 	$codeoffcheck = $postinfo['bbcodeoff'] == 1 ? 'checked="checked"' : '';
 	$tagoffcheck = $postinfo['htmlon'] & 2 ? 'checked="checked"' : '';
 	$htmloncheck = $postinfo['htmlon'] & 1 ? 'checked="checked"' : '';
-	if(!$isfirstpost) {
-		$_G['group']['allowimgcontent'] = 0;
-	}
-	if($isfirstpost && $imgcontentcheck && $_G['group']['allowimgcontent']) {
-		$editor['editormode'] = 0;
-	}
 	if($htmloncheck) {
 		$editor['editormode'] = 0;
 		$editor['allowswitcheditor'] = 1;
@@ -431,7 +422,6 @@ if(!submitcheck('editsubmit')) {
 			'readperm' => $readperm,
 			'price' => $_GET['price'],
 
-			'hiddenreplies' => $_GET['hiddenreplies'],
 			'audit' => $_GET['audit'],
 
 			'tags' => $_GET['tags'],
@@ -446,10 +436,6 @@ if(!submitcheck('editsubmit')) {
 			'noticetrimstr' => $_GET['noticetrimstr'],
 		];
 
-		if($_G['group']['allowimgcontent']) {
-			$param['imgcontent'] = $_GET['imgcontent'];
-			$param['imgcontentwidth'] = $_G['setting']['imgcontentwidth'] ? intval($_G['setting']['imgcontentwidth']) : 100;
-		}
 		if($isfirstpost && $isorigauthor && $_G['group']['allowreplycredit']) {
 			$param['replycredit_rule'] = $replycredit_rule;
 		}

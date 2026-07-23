@@ -648,12 +648,6 @@ $lang = [
 	'usergroups_merge_succeed' => '用戶組合併成功 ',
 	'usergroups_up_update_credits_duplicate' => '自定義用戶組積分下限設置重複',
 
-	'usertag_delete_succeed' => '刪除標籤成功',
-	'usertag_merge_succeed' => '標籤合併成功',
-	'usertag_add_succeed' => '成功為用戶添加標籤',
-	'usertag_add_tag_succeed' => '成功添加標籤',
-	'usertag_add_error' => '添加失敗，用戶或標籤錯誤，請重新填寫',
-	'usertag_delete_confirm' => '確認刪除此用戶的標籤？',
 
 	'members_verify_add_user_succeed' => '認證用戶添加完成',
 	'members_verify_add_user_failure' => '認證用戶添加失敗',

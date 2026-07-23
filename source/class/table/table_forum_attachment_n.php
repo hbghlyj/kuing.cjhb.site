@@ -78,33 +78,6 @@ class table_forum_attachment_n extends discuz_table {
 		}
 	}
 
-	public function insert($data, $return_insert_id = false, $replace = false, $silent = false, $null = false) {
-		// $null 需要在取消兼容层后删除
-		if(defined('DISCUZ_DEPRECATED')) {
-			throw new Exception('UnsupportedOperationException');
-		} else {
-			return $this->insert_attachment($data, $return_insert_id, $replace, $silent, $null);
-		}
-	}
-
-	public function fetch($id, $force_from_db = false, $null = false) {
-		// $null 需要在取消兼容层后删除
-		if(defined('DISCUZ_DEPRECATED')) {
-			throw new Exception('UnsupportedOperationException');
-		} else {
-			return $this->fetch_attachment($id, $force_from_db, $null);
-		}
-	}
-
-	public function fetch_all($ids, $force_from_db = false, $null1 = false, $null2 = false) {
-		// $null 1~n 需要在取消兼容层后删除
-		if(defined('DISCUZ_DEPRECATED')) {
-			throw new Exception('UnsupportedOperationException');
-		} else {
-			return $this->fetch_all_attachment($ids, $force_from_db, $null1, $null2);
-		}
-	}
-
 	public function delete_attachment($tableid, $val) {
 		return DB::delete($this->_get_table($tableid), DB::field($this->_pk, $val));
 	}

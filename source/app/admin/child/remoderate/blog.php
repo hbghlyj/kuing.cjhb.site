@@ -9,7 +9,6 @@
 if(!defined('IN_DISCUZ') || !defined('IN_ADMINCP')) {
 	exit('Access Denied');
 }
-
 // 日志标题及内容重新审核
 
 $nextlink = "action=remoderate&current=$next&pertask=$pertask&blogsubmit=yes";
@@ -17,7 +16,7 @@ $processed = 0;
 
 $censor = &discuz_censor::instance();
 
-foreach(table_home_blog::t()->range($current, $pertask, 'ASC', 'dateline', null, 0) as $blog) {
+foreach(table_home_blog::t()->range_blog($current, $pertask, 'ASC', 'dateline', null, 0) as $blog) {
 	$processed = 1;
 	$post = table_home_blogfield::t()->fetch($blog['blogid']);
 	$subject = $blog['subject'];
@@ -45,10 +44,9 @@ foreach(table_home_blog::t()->range($current, $pertask, 'ASC', 'dateline', null,
 		}
 	}
 }
-
 if($processed) {
 	cpmsg("{$lang['remoderate_blog']}: ".cplang('remoderate_processing', ['current' => $current, 'next' => $next]), $nextlink, 'loading');
 } else {
 	cpmsg('remoderate_blog_succeed', 'action=remoderate', 'succeed');
 }
-	
+

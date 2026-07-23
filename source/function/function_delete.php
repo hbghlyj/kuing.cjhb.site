@@ -305,7 +305,7 @@ function deletethread($tids, $membercount = false, $credit = false, $ponly = fal
 	table_forum_threadclosed::t()->delete($arrtids);
 	table_forum_newthread::t()->delete_by_tids($arrtids);
 
-	$cachefids = $atids = $fids = $postids = $threadtables = $_G['deleteauthorids'] = [];
+	$cachefids = $atids = $fids = $postids = $threadtables = $followfeeds = $_G['deleteauthorids'] = [];
 	foreach($threadtableids as $tableid) {
 		foreach(table_forum_thread::t()->fetch_all_by_tid($arrtids, 0, 0, $tableid) as $row) {
 			$atids[] = $row['tid'];
@@ -316,9 +316,20 @@ function deletethread($tids, $membercount = false, $credit = false, $ponly = fal
 			}
 			$cachefids[$row['fid']] = $row['fid'];
 			$_G['deleteauthorids'][$row['authorid']] = $row['authorid'];
+			if($row['authorid'] > 0) {
+				$followfeeds[$row['authorid']][$row['tid']] = $row['tid'];
+			}
 		}
 		if(!$tableid && !$ponly) {
 			$threadtables[] = $tableid;
+		}
+	}
+	foreach($followfeeds as $uid => $followtids) {
+		foreach($followtids as $tid) {
+			$feedcount = table_home_follow_feed::t()->delete_by_uid_tid($uid, $tid);
+			if($feedcount) {
+				table_common_member_count::t()->increase($uid, ['feeds' => -$feedcount]);
+			}
 		}
 	}
 

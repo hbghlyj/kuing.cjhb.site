@@ -401,7 +401,6 @@ EOF;
 		showsetting('usergroups_edit_post_allowsavenum', 'allowsavenumnew', $group['allowsavenum'], 'text');
 		showsetting('usergroups_edit_post_allowsetpublishdate', 'allowsetpublishdatenew', $group['allowsetpublishdate'], 'radio');
 		showsetting('usergroups_edit_post_allowcommentcollection', 'allowcommentcollectionnew', $group['allowcommentcollection'], 'radio');
-		showsetting('usergroups_edit_post_allowimgcontent', 'allowimgcontentnew', $group['allowimgcontent'], 'radio');
 		showtablefooter();
 		showtagfooter('div');
 		/*search*/
@@ -949,7 +948,6 @@ EOF;
 			'allowreplycredit' => intval($_GET['allowreplycreditnew']),
 			'allowsetpublishdate' => intval($_GET['allowsetpublishdatenew']),
 			'allowcommentcollection' => intval($_GET['allowcommentcollectionnew']),
-			'allowimgcontent' => intval($_GET['allowimgcontentnew']),
 			'allowcreatecollection' => intval($_GET['allowcreatecollectionnew']),
 			'allowfollowcollection' => intval($_GET['allowfollowcollectionnew']),
 			'exempt' => $exemptnew,

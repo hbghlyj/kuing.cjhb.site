@@ -9,7 +9,6 @@
 if(!defined('IN_DISCUZ') || !defined('IN_ADMINCP')) {
 	exit('Access Denied');
 }
-
 $nextlink = "action=counter&current=$next&pertask=$pertask&membersubmit=yes";
 $processed = 0;
 
@@ -26,7 +25,6 @@ foreach($queryt as $mem) {
 	} else {
 		$postcount += table_forum_post::t()->count_by_authorid(0, $mem['uid']);
 	}
-	$postcount += table_forum_postcomment::t()->count_by_authorid($mem['uid']);
 	$threadcount = table_forum_thread::t()->count_by_authorid($mem['uid']);
 	foreach($threadtableids as $tableid) {
 		if(!$tableid) {
