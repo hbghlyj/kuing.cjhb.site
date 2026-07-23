@@ -43,14 +43,19 @@ const { execSync } = require('child_process');
         require './source/class/class_core.php';
         $discuz = C::app();
         $discuz->init();
+
+        DB::query("TRUNCATE TABLE ".DB::table('common_secquestion'));
+        C::t('common_secquestion')->insert(array('type' => 0, 'question' => '1+1=?', 'answer' => '2'));
+
         $seccodedata = array('rule' => array('register' => array('allow' => 0, 'numlimit' => '', 'timelimit' => 0),'login' => array('allow' => 0, 'nolocal' => 0, 'pwsimple' => 0, 'pwerror' => 0, 'outofday' => '', 'numiptry' => '', 'timeiptry' => 0),'post' => array('allow' => 0, 'numlimit' => '', 'timelimit' => 0, 'nplimit' => '', 'vplimit' => ''),'password' => array('allow' => 0),'card' => array('allow' => 0)),'minposts' => '','type' => 0,'width' => 150,'height' => 60,'scatter' => 0,'background' => 0,'adulterate' => 0,'ttf' => 0,'angle' => 0,'warping' => 0,'color' => 0,'size' => 0,'shadow' => 0,'animator' => 0);
-        $secqaa = array('status' => 0,'minposts' => 0,'statuses' => array(),'allowcode' => 0,'allowqa' => 0);
+        $secqaa = array('status' => 1, 'minposts' => 0, 'statuses' => array(1 => 1, 2 => 1, 3 => 1), 'allowcode' => 0, 'allowqa' => 1);
         C::t('common_setting')->update('seccodedata', serialize($seccodedata));
         C::t('common_setting')->update('secqaa', serialize($secqaa));
         C::t('common_setting')->update('regname', 'register');
         C::t('common_setting')->update('floodctrl', '0');
         DB::query('TRUNCATE TABLE '.DB::table('common_syscache'));
         require_once libfile('function/cache');
+        build_cache_secqaa();
         updatecache();
         ?>`;
         fs.writeFileSync('disable_sec.php', phpConfig);
@@ -75,6 +80,8 @@ const { execSync } = require('child_process');
             if (emails.length > 0) emails[0].value = email;
             const agree = form.querySelector('input[name="agree"]');
             if (agree) agree.checked = true;
+            const secqaa = form.querySelector('input[name*="secanswer"]');
+            if (secqaa) secqaa.value = '2';
             form.submit();
         }, { username, password, email: username + '@example.com' });
         await page.waitForNavigation({ waitUntil: 'networkidle' }).catch(() => {});
@@ -88,9 +95,14 @@ const { execSync } = require('child_process');
         if (!(await page.textContent('body')).includes(username)) {
             await page.goto('http://127.0.0.1:8080/member.php?mod=logging&action=login');
             await page.waitForLoadState('networkidle');
-            await page.fill('input[name="username"]', username);
-            await page.fill('input[name="password"]', password);
-            await page.click('button[name="loginsubmit"]');
+            const loginUser = await page.$('input[name="username"]');
+            if (loginUser) await loginUser.fill(username);
+            const loginPass = await page.$('input[name="password"]');
+            if (loginPass) await loginPass.fill(password);
+            const loginSecqaa = await page.$('input[name*="secanswer"]');
+            if (loginSecqaa) await loginSecqaa.fill('2');
+            const loginSubmitBtn = await page.$('button[name="loginsubmit"]');
+            if (loginSubmitBtn) await loginSubmitBtn.click();
             await page.waitForNavigation({ waitUntil: 'networkidle' }).catch(() => {});
             await page.waitForTimeout(500);
 
