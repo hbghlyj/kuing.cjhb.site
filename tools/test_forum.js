@@ -91,6 +91,7 @@ const { execSync } = require('child_process');
         C::t('common_setting')->update('regname', 'register');
         C::t('common_setting')->update('floodctrl', '0');
         C::t('common_setting')->update('attachimgpost', '1');
+        C::t('common_setting')->update('maxsubjectsize', '255');
         C::t('common_usergroup_field')->update(10, array('allowpostattach' => '1', 'allowpostimage' => '1'));
         C::t('common_usergroup_field')->update(7, array('allowpostattach' => '1', 'allowpostimage' => '1'));
 
