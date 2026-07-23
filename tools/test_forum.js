@@ -404,7 +404,7 @@ const { execSync } = require('child_process');
         console.log("Discovered attachment AID:", aid);
         assert.ok(aid, `Assertion Error: Image attachment upload failed. Response was: ${lastUploadResp}`);
 
-        const attachMsg = aid ? `Posting thread with image attachment content. [attachimg]${aid}[/attachimg]` : 'Posting thread with image attachment content.';
+        const attachMsg = aid ? `Posting thread with image attachment content. [attach]${aid}[/attach]` : 'Posting thread with image attachment content.';
 
         await page.evaluate(({ aidVal, message }) => {
             const textArea = document.querySelector('textarea[name="message"], #postmessage');
@@ -448,7 +448,7 @@ const { execSync } = require('child_process');
             'Assertion Error: Attachment thread page did not load thread content cleanly in viewthread.'
         );
 
-        const postImg = await page.$('#postlist .t_f img[id^="aimg_"], #postlist .t_f img[aid], #postlist .t_f .ignore_find img, #postlist .t_f img[src*="attachment"], #postlist .t_f img[src*="forum/"]');
+        const postImg = await page.$('#postlist .t_f img[id^="aimg_"], #postlist .t_f img[aid], #postlist .t_f img[src*="mod=attachment"]');
         const fileLinkText = await page.$eval('#postlist .t_f', el => {
             const link = el.querySelector('a[href*="mod=attachment"]');
             return link ? link.textContent.trim() : '';
