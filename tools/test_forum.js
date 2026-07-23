@@ -377,7 +377,13 @@ const { execSync } = require('child_process');
 
         let aid = '';
         try {
+            const cookies = await page.context().cookies();
+            const cookieHeader = cookies.map(c => `${c.name}=${c.value}`).join('; ');
+
             const uploadResp = await page.request.post(`http://127.0.0.1:8080/misc.php?mod=swfupload&operation=upload&simple=1&type=image&fid=2&uid=${userUid}&hash=${swfhash}${formhash ? '&formhash=' + encodeURIComponent(formhash) : ''}`, {
+                headers: {
+                    'Cookie': cookieHeader
+                },
                 multipart: {
                     Filedata: {
                         name: 'sample_test_avatar.png',
