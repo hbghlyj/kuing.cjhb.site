@@ -124,31 +124,44 @@ function selectBracePair() {
 	targetEl.focus();
 }
 
-// 快捷 TeX 公式数据
+// 快捷 TeX 公式数据（按使用频率排序）
 var fastTexItems = [
-	{ "n": "{}", "o": selectBracePair },
+	// 基础结构
 	{ "n": "行内公式", "o": ["$", "$"] },
 	{ "n": "行间公式", "o": ["\\[\n", "\n\\]", 0, 0] },
+	{ "n": "{}", "o": selectBracePair },
 	{ "n": "$\\frac{a}{b}$", "o": ["\\frac{", "}{}", 2] },
 	{ "n": "$\\sqrt{x}$", "o": ["\\sqrt{", "}"] },
 	{ "n": "$\\sqrt[n]{x}$", "o": ["\\sqrt[]{", "}", -2, -2] },
-	{ "n": "$\\nabla$", "o": "\\nabla " },
-	{ "n": "$\\geqslant$", "o": "\\geqslant " },
-	{ "n": "$\\leqslant$", "o": "\\leqslant " },
-	{ "n": "$\\times$", "o": "\\times " },
-	{ "n": "$\\cdot$", "o": "\\cdot " },
-	{ "n": "$\\cdots$", "o": "\\cdots " },
-	{ "n": "$\\approx$", "o": "\\approx " },
-	{ "n": "$\\equiv$", "o": "\\equiv " },
-	{ "n": "$\\pmod{m}$", "o": ["\\pmod{", "}"] },
+
+	// 微积分与极限
+	{ "n": "$\\int\\rmd x$", "o": ["\\int ", "\\rmd x"] },
 	{ "n": "$\\lim_{x\\to 0}$", "o": ["\\lim_{x\\to ", "}"] },
 	{ "n": "$\\infty$", "o": "\\infty " },
-	{ "n": "$\\int\\rmd x$", "o": ["\\int ", "\\rmd x"] },
-	{ "n": "$\\log$", "o": "\\log " },
+	{ "n": "$\\partial$", "o": "\\partial " },
+	{ "n": "$\\nabla$", "o": "\\nabla " },
+	{ "n": "$\\cdots$", "o": "\\cdots " },
+
+	// 关系与运算
+	{ "n": "$\\leqslant$", "o": "\\leqslant " },
+	{ "n": "$\\geqslant$", "o": "\\geqslant " },
+	{ "n": "$\\times$", "o": "\\times " },
+	{ "n": "$\\cdot$", "o": "\\cdot " },
+	{ "n": "$\\approx$", "o": "\\approx " },
+	{ "n": "$\\equiv$", "o": "\\equiv " },
+
+	// 函数与序列
 	{ "n": "$\\ln$", "o": "\\ln " },
+	{ "n": "$\\log$", "o": "\\log " },
+	{ "n": "$\\pmod{m}$", "o": ["\\pmod{", "}"] },
 	{ "n": "$\\sin$", "o": "\\sin " },
 	{ "n": "$\\cos$", "o": "\\cos " },
 	{ "n": "$\\tan$", "o": "\\tan " },
+	{ "n": "$\\{a_n\\}$", "o": "\\{a_n\\}" },
+	{ "n": "$\\vec{v}$", "o": ["\\vv{", "}"] },
+	{ "n": "$\\mathbf{v}$", "o": ["\\bm{", "}"] },
+
+	// 希腊字母
 	{ "n": "$\\alpha$", "o": "\\alpha " },
 	{ "n": "$\\beta$", "o": "\\beta " },
 	{ "n": "$\\gamma$", "o": "\\gamma " },
@@ -158,17 +171,18 @@ var fastTexItems = [
 	{ "n": "$\\varphi$", "o": "\\varphi " },
 	{ "n": "$\\omega$", "o": "\\omega " },
 	{ "n": "$\\Delta$", "o": "\\Delta " },
+
+	// 几何符号
 	{ "n": "$\\triangle$", "o": "\\triangle " },
-	{ "n": "$\\odot$", "o": "\\odot " },
 	{ "n": "$\\angle$", "o": "\\angle " },
 	{ "n": "$^{\\circ}$", "o": "\\du " },
 	{ "n": "$\\perp$", "o": "\\perp " },
 	{ "n": "$\\parallel$", "o": "\\px " },
+	{ "n": "$\\odot$", "o": "\\odot " },
 	{ "n": "$\\sim$", "o": "\\sim " },
 	{ "n": "$\\cong$", "o": "\\cong " },
-	{ "n": "$\\{a_n\\}$", "o": "\\{a_n\\}" },
-	{ "n": "$\\vec{v}$", "o": ["\\vv{", "}"] },
-	{ "n": "$\\mathbf{v}$", "o": ["\\bm{", "}"] },
+
+	// 环境
 	{ "n": "align*", "o": ["\\begin{align*}\n", "\n\\end{align*}", 0, 0] },
 	{ "n": "gather*", "o": ["\\begin{gather*}\n", "\n\\end{gather*}", 0, 0] },
 	{ "n": "cases", "o": ["\\begin{cases}\n", "\n\\end{cases}", 0, 0] },
