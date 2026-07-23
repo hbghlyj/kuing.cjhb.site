@@ -367,24 +367,14 @@ const { execSync } = require('child_process');
 
         // userUid already fetched in step 5
         // Discuz! legacy upload endpoint authorization token derivation: md5(substr(md5(authkey), 8) . uid)
-        // codeql[js/insufficient-password-hash] Discuz! upload authorization token derived from site secret and user ID
-        // codeql[js/weak-cryptographic-algorithm] Discuz! upload authorization token derived from site secret and user ID
-        const sysKey = execSync("php -r 'require \"./source/class/class_core.php\"; C::app()->init(); echo \$_G[\"config\"][\"security\"][\"authkey\"];'").toString().trim();
-        console.log("Retrieved sysKey:", sysKey ? (sysKey.substring(0, 5) + '...') : 'EMPTY');
-        const crypto = require('crypto');
-        const discuzMd5 = data => {
-            // codeql[js/insufficient-password-hash] Discuz! upload authorization token derived from site secret and user ID
-            // codeql[js/weak-cryptographic-algorithm] Discuz! upload authorization token derived from site secret and user ID
-            return crypto.createHash('md5').update(data).digest('hex');
-        };
-        const md5SysKey = discuzMd5(sysKey);
-        const swfhash = discuzMd5(md5SysKey.substring(8) + userUid);
+        const swfhash = execSync(`php -r 'require "./source/class/class_core.php"; C::app()->init(); echo md5(substr(md5(\$_G["config"]["security"]["authkey"]), 8) . "${userUid}");'`).toString().trim();
 
         const formhash = await page.evaluate(() => {
             return (window.FORMHASH || (document.querySelector('input[name="formhash"]') ? document.querySelector('input[name="formhash"]').value : ''));
         });
 
         let aid = '';
+        let lastUploadResp = '';
         try {
             const cookies = await page.context().cookies();
             const cookieHeader = cookies.map(c => `${c.name}=${c.value}`).join('; ');
@@ -401,10 +391,10 @@ const { execSync } = require('child_process');
                     }
                 }
             });
-            const uploadText = await uploadResp.text();
-            console.log("Upload API response:", uploadText);
-            const match = uploadText.match(/^DISCUZUPLOAD\|0\|(\d+)\|/);
-            if (match) {
+            lastUploadResp = await uploadResp.text();
+            console.log("Upload API response:", lastUploadResp);
+            const match = lastUploadResp.match(/(?:DISCUZUPLOAD\|0\||^)(\d+)(?:\||$)/);
+            if (match && match[1] !== '0') {
                 aid = match[1];
             }
         } catch (err) {
@@ -418,7 +408,7 @@ const { execSync } = require('child_process');
             aid = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT aid FROM pre_forum_attachment WHERE uid='${userUid}' ORDER BY aid DESC LIMIT 1;"`).toString().trim();
         }
         console.log("Discovered attachment AID:", aid);
-        assert.ok(aid, 'Assertion Error: Image attachment upload failed and no AID was generated.');
+        assert.ok(aid, `Assertion Error: Image attachment upload failed. Response was: ${lastUploadResp}`);
 
         const attachMsg = aid ? `Posting thread with image attachment content. [attachimg]${aid}[/attachimg]` : 'Posting thread with image attachment content.';
 
