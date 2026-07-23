@@ -446,21 +446,15 @@
 					popup.open(STATUSMSG[dataarr[2]] + sizelimit, 'alert');
 				}
 			};
-			if(typeof FileReader != 'undefined' && this.files[0]) {//note 支持html5上传新特性
+			if(window.fetch && this.files[0]) {
 				for (const file of this.files) {
-					var tmpfiles = [];
-					tmpfiles[0] = file;
-					$.buildfileupload({
-						uploadurl:'misc.php?mod=swfupload&operation=upload&type=image&inajax=yes&infloat=yes&simple=2',
-						files:tmpfiles,
-						uploadformdata:{formhash:"{FORMHASH}"},
-						uploadinputname:'Filedata',
-						maxfilesize:"$swfconfig['max']",
-						success:uploadsuccess,
-						error:function() {
-							popup.open('{lang uploadpicfailed}', 'alert');
-						}
-					});
+					var uploadData = new FormData();
+					uploadData.append('formhash', '{FORMHASH}');
+					uploadData.append('Filedata', file);
+					fetch('misc.php?mod=swfupload&operation=upload&type=image&inajax=yes&infloat=yes&simple=2', {method:'POST', body:uploadData})
+						.then(function(response) { return response.text(); })
+						.then(uploadsuccess)
+						.catch(function() { popup.open('{lang uploadpicfailed}', 'alert'); });
 				}
 			} else {
 				$.ajaxfileupload({
@@ -533,21 +527,15 @@
 					popup.open(STATUSMSG[dataarr[2]] + sizelimit, 'alert');
 				}
 			};
-			if(typeof FileReader != 'undefined' && this.files[0]) {//note 支持html5上传新特性
+			if(window.fetch && this.files[0]) {
 				for (const file of this.files) {
-					var tmpfiles = [];
-					tmpfiles[0] = file;
-					$.buildfileupload({
-						uploadurl:'misc.php?mod=swfupload&operation=upload&fid={$_G['fid']}&inajax=yes&infloat=yes&simple=2',
-						files:tmpfiles,
-						uploadformdata:{formhash:"{FORMHASH}"},
-						uploadinputname:'Filedata',
-						maxfilesize:"$swfconfig['max']",
-						success:uploadsuccess,
-						error:function() {
-							popup.open('{lang uploadpicfailed}', 'alert');
-						}
-					});
+					var uploadData = new FormData();
+					uploadData.append('formhash', '{FORMHASH}');
+					uploadData.append('Filedata', file);
+					fetch('misc.php?mod=swfupload&operation=upload&fid={$_G['fid']}&inajax=yes&infloat=yes&simple=2', {method:'POST', body:uploadData})
+						.then(function(response) { return response.text(); })
+						.then(uploadsuccess)
+						.catch(function() { popup.open('{lang uploadpicfailed}', 'alert'); });
 				}
 			} else {
 				$.ajaxfileupload({
