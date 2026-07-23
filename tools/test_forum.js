@@ -372,36 +372,35 @@ const { execSync } = require('child_process');
             return (window.FORMHASH || (document.querySelector('input[name="formhash"]') ? document.querySelector('input[name="formhash"]').value : ''));
         });
 
-        await page.evaluate(({ uid, hash, fh }) => {
-            const form = document.getElementById('imgattachform') || document.getElementById('attachform');
-            if (form) {
-                form.action = `misc.php?mod=swfupload&operation=upload&simple=1&type=image&fid=2&uid=${uid}&hash=${hash}${fh ? '&formhash=' + encodeURIComponent(fh) : ''}`;
-                let fhInput = form.querySelector('input[name="formhash"]');
-                if (!fhInput && fh) {
-                    fhInput = document.createElement('input');
-                    fhInput.type = 'hidden';
-                    fhInput.name = 'formhash';
-                    fhInput.value = fh;
-                    form.appendChild(fhInput);
+        let aid = '';
+        try {
+            const uploadResp = await page.request.post(`http://127.0.0.1:8080/misc.php?mod=swfupload&operation=upload&simple=1&type=image&fid=2&uid=${userUid}&hash=${swfhash}${formhash ? '&formhash=' + encodeURIComponent(formhash) : ''}`, {
+                multipart: {
+                    Filedata: {
+                        name: 'sample_test_avatar.png',
+                        mimeType: 'image/png',
+                        buffer: fs.readFileSync('sample_test_avatar.png')
+                    }
                 }
+            });
+            const uploadText = await uploadResp.text();
+            console.log("Upload API response:", uploadText);
+            const match = uploadText.match(/^DISCUZUPLOAD\|0\|(\d+)\|/);
+            if (match) {
+                aid = match[1];
             }
-        }, { uid: userUid, hash: swfhash, fh: formhash }).catch(() => { });
-
-        const attachFileInput = await page.$('#imgattachform input[name="Filedata"], #attachform input[name="Filedata"], input[type="file"]');
-        if (attachFileInput) {
-            await attachFileInput.setInputFiles('sample_test_avatar.png');
-            await page.evaluate(() => {
-                const form = document.getElementById('imgattachform') || document.getElementById('attachform');
-                if (form) form.submit();
-            }).catch(() => { });
-            await page.waitForTimeout(2000);
+        } catch (err) {
+            console.warn("Upload request warning:", err.message);
         }
 
-        let aid = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT aid FROM pre_forum_attachment_unused WHERE uid='${userUid}' ORDER BY aid DESC LIMIT 1;"`).toString().trim();
+        if (!aid) {
+            aid = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT aid FROM pre_forum_attachment_unused WHERE uid='${userUid}' ORDER BY aid DESC LIMIT 1;"`).toString().trim();
+        }
         if (!aid) {
             aid = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT aid FROM pre_forum_attachment WHERE uid='${userUid}' ORDER BY aid DESC LIMIT 1;"`).toString().trim();
         }
         console.log("Discovered attachment AID:", aid);
+        assert.ok(aid, 'Assertion Error: Image attachment upload failed and no AID was generated.');
 
         const attachMsg = aid ? `Posting thread with image attachment content. [attachimg]${aid}[/attachimg]` : 'Posting thread with image attachment content.';
 
@@ -436,6 +435,7 @@ const { execSync } = require('child_process');
 
         const attachDbRecord = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT COUNT(*) FROM pre_forum_attachment WHERE tid='${attachTid}';"`).toString().trim();
         console.log("DB count for pre_forum_attachment:", attachDbRecord);
+        assert.ok(parseInt(attachDbRecord, 10) >= 1, 'Assertion Error: Image attachment record was not linked in pre_forum_attachment database table.');
 
         await page.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${attachTid}`);
         await page.waitForLoadState('networkidle');
@@ -446,7 +446,7 @@ const { execSync } = require('child_process');
             'Assertion Error: Attachment thread page did not load thread content cleanly in viewthread.'
         );
 
-        const attachedImg = await page.$('img[aid], img[id^="aimg_"], .aimg img, .p_pop img, img[src*="attachment"], .zoom');
+        const attachedImg = await page.$('img[aid], img[id^="aimg_"], .aimg img, img[src*="attachment/forum"], .zoom');
         assert.ok(attachedImg !== null, 'Assertion Error: Attached image element was not rendered in viewthread DOM.');
 
         await page.screenshot({ path: 'screenshot_attachment_viewthread.png' }).catch(() => { });
