@@ -186,14 +186,6 @@ const { execSync } = require('child_process');
                 if (typeof editdoc !== 'undefined' && editdoc && editdoc.body) {
                     editdoc.body.innerHTML = body;
                 }
-            } catch (e) { }
-
-            const secqaa = document.querySelector('input[name*="secanswer"]');
-            if (secqaa) secqaa.value = '1';
-
-            const seccode = document.querySelector('input[name*="seccodeverify"]');
-            if (seccode) seccode.value = '1111';
-
             const postSubmitBtn = document.querySelector('button[name="topicsubmit"], #postsubmit');
             if (postSubmitBtn) {
                 postSubmitBtn.click();
