@@ -63,7 +63,7 @@ function smilies_onload(id, smcols, seditorkey) {
 		$(id).innerHTML = smiliestype + '<div id="' + id + '_data"></div><div class="sllt_p" id="' + id + '_page"></div>';
 		smilies_switch(id, smcols, CURRENTSTYPE, smile[1], seditorkey);
 		var smilies_fastdata = '';
-		if(seditorkey == 'fastpost' && $('fastsmilies') && smilies_fast) {
+		if(seditorkey == 'fastpost' && $('fastsmilies') && smilies_fast && typeof renderFastTexSmilies == 'undefined') {
 			var j = 0;
 			for(i = 0; i < smilies_fast.length; i++) {
 				if(j === 0) {
