@@ -53,7 +53,7 @@ if($_GET['searchsubmit'] && $keywords) {
 			$tmp = [];
 			foreach($searchindex[$skey]['index'] as $title => $url) {
 				if($title[0] != '_') {
-					$tmp[] = '<a href="'.ADMINSCRIPT.'?'.$url.'&highlight='.rawurlencode($keywords).'"  target="_blank">'.$title.'</a>';
+					$tmp[] = '<a href="'.ADMINSCRIPT.'?'.$url.'&highlight='.rawurlencode($keywords).'">'.$title.'</a>';
 				}
 			}
 			$texts = [];
