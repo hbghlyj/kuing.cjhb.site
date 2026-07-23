@@ -37,7 +37,7 @@ jobs:
           sudo mysql -u root -e "GRANT ALL PRIVILEGES ON ultrax.* TO 'discuz'@'127.0.0.1';"
           sudo mysql -u root -e "FLUSH PRIVILEGES;"
 
-          sudo mysql -u root ultrax < install/sql/sql_install.php
+          sed '1d' install/sql/sql_install.php | sudo mysql -u root ultrax
 
           cp config/config_global_default.php config/config_global.php
           sed -i "s/\$_config\['db'\]\[1\]\['dbname'\]  		= 'mitframe';/\$_config['db'][1]['dbname'] = 'ultrax';/g" config/config_global.php
