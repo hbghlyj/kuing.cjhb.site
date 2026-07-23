@@ -285,9 +285,8 @@ const { execSync } = require('child_process');
             }
         }
 
-        // 5. User Avatar Upload Test & Verification across Profile, Viewthread, and Header
-        console.log("Attempting to upload avatar for user...");
-        const sampleImage = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==', 'base64');
+        // Use a 10x10 PNG image (100 pixels >= 16 minimum required by Discuz! forum_upload size check)
+        const sampleImage = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAEUlEQVR42mP8z8AARDAEg4gAAH8YAwE8j7i4AAAAAElFTkSuQmCC', 'base64');
         fs.writeFileSync('sample_test_avatar.png', sampleImage);
 
         await page.goto('http://127.0.0.1:8080/home.php?mod=spacecp&ac=avatar');
