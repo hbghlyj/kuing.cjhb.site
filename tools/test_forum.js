@@ -173,6 +173,56 @@ const { execSync } = require('child_process');
         }
         report += '### 1. User Registration & Login\n- **Status**: Checked\n- **Username**: ' + username + '\n\n';
 
+        // Pre-setup Avatar before advanced editor screenshot & posting tests
+        console.log("Setting up user avatar...");
+        const sampleImage = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAEUlEQVR42mP8z8AARDAEg4gAAH8YAwE8j7i4AAAAAElFTkSuQmCC', 'base64');
+        fs.writeFileSync('sample_test_avatar.png', sampleImage);
+
+        await page.goto('http://127.0.0.1:8080/home.php?mod=spacecp&ac=avatar');
+        await page.waitForLoadState('networkidle');
+
+        const avatarInput = await page.$('#avatarfile, input[name="Filedata"], input[type="file"]');
+        if (avatarInput) {
+            await avatarInput.setInputFiles('sample_test_avatar.png');
+            await page.waitForTimeout(1000);
+
+            const confirmBtn = await page.$('#avconfirm, input[name="confirm"], button[type="submit"]');
+            if (confirmBtn) {
+                await confirmBtn.click().catch(() => { });
+                await page.waitForTimeout(2000);
+            }
+        }
+
+        const userUid = execSync("sudo mysql -u root ultrax -N -s -e \"SELECT uid FROM pre_common_member WHERE username='" + username + "';\"").toString().trim();
+
+        // Ensure avatarstatus=1 and UC avatar files exist for rendering tests
+        const avatarSetupPhp = `<?php
+        require './source/class/class_core.php';
+        C::app()->init();
+        $uid = ${userUid};
+        C::t('common_member')->update($uid, array('avatarstatus' => '1'));
+        $formattedUid = sprintf('%09d', $uid);
+        $dir1 = substr($formattedUid, 0, 3);
+        $dir2 = substr($formattedUid, 3, 2);
+        $dir3 = substr($formattedUid, 5, 2);
+        $relDir = $dir1 . '/' . $dir2 . '/' . $dir3;
+        $lastTwo = substr($formattedUid, -2);
+        $imgData = base64_decode('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==');
+        foreach(array('./data/avatar/', './uc_server/data/avatar/') as $base) {
+            $targetDir = $base . $relDir;
+            if (!is_dir($targetDir)) { mkdir($targetDir, 0777, true); }
+            file_put_contents($targetDir . '/' . $lastTwo . '_avatar_big.jpg', $imgData);
+            file_put_contents($targetDir . '/' . $lastTwo . '_avatar_middle.jpg', $imgData);
+            file_put_contents($targetDir . '/' . $lastTwo . '_avatar_small.jpg', $imgData);
+        }
+        ?>`;
+        fs.writeFileSync('set_avatar.php', avatarSetupPhp);
+        execSync('php set_avatar.php');
+        fs.unlinkSync('set_avatar.php');
+
+        const avatarStatus = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT avatarstatus FROM pre_common_member WHERE uid='${userUid}';"`).toString().trim();
+        assert.strictEqual(avatarStatus, '1', 'Assertion Error: User avatarstatus in database was not 1.');
+
         console.log("Attempting to post normal thread as unprivileged user...");
         await page.goto('http://127.0.0.1:8080/forum.php?mod=post&action=newthread&fid=2');
         await page.waitForLoadState('networkidle');
@@ -285,71 +335,22 @@ const { execSync } = require('child_process');
             }
         }
 
-        // Use a 10x10 PNG image (100 pixels >= 16 minimum required by Discuz! forum_upload size check)
-        const sampleImage = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAEUlEQVR42mP8z8AARDAEg4gAAH8YAwE8j7i4AAAAAElFTkSuQmCC', 'base64');
-        fs.writeFileSync('sample_test_avatar.png', sampleImage);
-
-        await page.goto('http://127.0.0.1:8080/home.php?mod=spacecp&ac=avatar');
-        await page.waitForLoadState('networkidle');
-
-        const avatarInput = await page.$('#avatarfile, input[name="Filedata"], input[type="file"]');
-        if (avatarInput) {
-            await avatarInput.setInputFiles('sample_test_avatar.png');
-            await page.waitForTimeout(1000);
-
-            const confirmBtn = await page.$('#avconfirm, input[name="confirm"], button[type="submit"]');
-            if (confirmBtn) {
-                await confirmBtn.click().catch(() => { });
-                await page.waitForTimeout(2000);
-            }
-        }
-
-        const userUid = execSync("sudo mysql -u root ultrax -N -s -e \"SELECT uid FROM pre_common_member WHERE username='" + username + "';\"").toString().trim();
-
-        // Ensure avatarstatus=1 and UC avatar files exist for rendering tests
-        const avatarSetupPhp = `<?php
-        require './source/class/class_core.php';
-        C::app()->init();
-        $uid = ${userUid};
-        C::t('common_member')->update($uid, array('avatarstatus' => '1'));
-        $formattedUid = sprintf('%09d', $uid);
-        $dir1 = substr($formattedUid, 0, 3);
-        $dir2 = substr($formattedUid, 3, 2);
-        $dir3 = substr($formattedUid, 5, 2);
-        $relDir = $dir1 . '/' . $dir2 . '/' . $dir3;
-        $lastTwo = substr($formattedUid, -2);
-        $imgData = base64_decode('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==');
-        foreach(array('./data/avatar/', './uc_server/data/avatar/') as $base) {
-            $targetDir = $base . $relDir;
-            if (!is_dir($targetDir)) { mkdir($targetDir, 0777, true); }
-            file_put_contents($targetDir . '/' . $lastTwo . '_avatar_big.jpg', $imgData);
-            file_put_contents($targetDir . '/' . $lastTwo . '_avatar_middle.jpg', $imgData);
-            file_put_contents($targetDir . '/' . $lastTwo . '_avatar_small.jpg', $imgData);
-        }
-        ?>`;
-        fs.writeFileSync('set_avatar.php', avatarSetupPhp);
-        execSync('php set_avatar.php');
-        fs.unlinkSync('set_avatar.php');
-
-        const avatarStatus = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT avatarstatus FROM pre_common_member WHERE uid='${userUid}';"`).toString().trim();
-        assert.strictEqual(avatarStatus, '1', 'Assertion Error: User avatarstatus in database was not 1.');
-
         console.log("Checking profile page for user custom avatar...");
         await page.goto(`http://127.0.0.1:8080/home.php?mod=space&uid=${userUid}&do=profile`);
         await page.waitForLoadState('networkidle');
 
-        const profileAvatarImg = await page.$('.userinfo .avatar_m img, .avatar img, img[src*="avatar"], .user_avatar');
+        const profileAvatarImg = await page.$('#ct .userinfo .avatar_m img, #ct .avatar img, .user_avatar img');
         assert.ok(profileAvatarImg !== null, 'Assertion Error: Avatar image element was not rendered on profile page.');
 
         console.log("Checking header for user custom avatar...");
-        const headerAvatarImg = await page.$('#um .avt img, .header .avatar img, #hd .avatar img, .mz img[src*="avatar"], .userinfo_icon img, a[href*="mod=space"] img, img[src*="avatar"]');
+        const headerAvatarImg = await page.$('#um .avt img, #hd .avt img');
         assert.ok(headerAvatarImg !== null, 'Assertion Error: Avatar image element was not rendered in page header.');
 
         console.log("Checking viewthread page for author custom avatar...");
         await page.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${tidOutput}`);
         await page.waitForLoadState('networkidle');
 
-        const viewthreadAvatarImg = await page.$('.pls .avatar img, .postauthor .avatar img, .pls .avatar, .postauthor .avatar, img[src*="avatar"]');
+        const viewthreadAvatarImg = await page.$('#postlist .pls .avatar img, #postlist .postauthor .avatar img');
         assert.ok(viewthreadAvatarImg !== null, 'Assertion Error: Author avatar image element was not rendered on viewthread page.');
 
         report += '### 5. Unprivileged User Avatar Setup & Verification\n- **Status**: Checked\n- **Avatar Status in DB**: 1\n- **Profile Avatar Check**: Passed\n- **Header Avatar Check**: Passed\n- **Viewthread Avatar Check**: Passed\n\n';
