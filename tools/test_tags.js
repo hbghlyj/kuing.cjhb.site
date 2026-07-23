@@ -8,6 +8,16 @@ const { execSync } = require('child_process');
     const context = await browser.newContext();
     const page = await context.newPage();
 
+    page.on('pageerror', exception => {
+        throw new Error(`Uncaught exception in browser: ${exception}`);
+    });
+
+    page.on('console', msg => {
+        if (msg.type() === 'error') {
+            throw new Error(`Console error in browser: ${msg.text()}`);
+        }
+    });
+
     let report = "\n\n## Tags Feature Functional Test Report\n\n";
     console.log("Starting Tags Feature tests...");
 

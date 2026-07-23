@@ -94,7 +94,7 @@ function insertTexToEditor(va) {
 			textarea.value += va;
 		}
 	}
-
+	
 	var event = new Event('input', { bubbles: true });
 	textarea.dispatchEvent(event);
 }
