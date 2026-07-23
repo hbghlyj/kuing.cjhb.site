@@ -45,18 +45,40 @@ function _ajaxget(url, showid, waitid, loading, display, recall) {
 }
 
 function _ajaxpost(formid, showid, waitid, showidclass, submitbtn, recall) {
-	var waitid = typeof waitid == 'undefined' || waitid === null ? showid : (waitid !== '' ? waitid : '');
-	var showidclass = !showidclass ? '' : showidclass;
+	waitid = waitid || 'ajaxwaitid';
+	showidclass = showidclass || '';
 	var ajaxframeid = 'ajaxframe';
 	var ajaxframe = $(ajaxframeid);
 	var curform = $(formid);
 	var formtarget = curform.target;
+	var waitObj = $(waitid);
+
+	var togglePostLoading = function(display) {
+		if(!waitObj) {
+			return;
+		}
+		display = display || 'block';
+		if(waitid == showid) {
+			var inlineWaitId = waitid + '_wait';
+			var inlineWaitObj = $(inlineWaitId);
+			if(!inlineWaitObj) {
+				inlineWaitObj = document.createElement('span');
+				inlineWaitObj.id = inlineWaitId;
+				waitObj.appendChild(inlineWaitObj);
+			}
+			inlineWaitObj.innerHTML = $L('waiting');
+			inlineWaitObj.style.display = display;
+		} else {
+			waitObj.innerHTML = $L('waiting');
+			waitObj.style.display = display;
+		}
+	};
 
 	var handleResult = function() {
 		var s = '';
 		var evaled = false;
 
-		showloading('none');
+		togglePostLoading('none');
 		try {
 			s = $(ajaxframeid).contentWindow.document.documentElement.firstChild.wholeText;
 		} catch(e) {
@@ -121,7 +143,7 @@ function _ajaxpost(formid, showid, waitid, showidclass, submitbtn, recall) {
 
 	_attachEvent(ajaxframe, 'load', handleResult);
 
-	showloading();
+	togglePostLoading();
 	curform.target = ajaxframeid;
 	var action = curform.getAttribute('action');
 	action = hostconvert(action);
