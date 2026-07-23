@@ -166,7 +166,7 @@ if(!IS_ROBOT && ($_G['setting']['whosonlinestatus'] == 1 || $_G['setting']['whos
 			if($online['invisible']) {
 				continue;
 			} else {
-				$online['icon'] = !empty($_G['cache']['onlinelist'][$online['groupid']]) ? $_G['cache']['onlinelist'][$online['groupid']] : $_G['cache']['onlinelist'][0];
+				$online['icon'] = !empty($_G['cache']['onlinelist'][$online['groupid']]) ? $_G['cache']['onlinelist'][$online['groupid']] : (!empty($_G['cache']['onlinelist'][0]) ? $_G['cache']['onlinelist'][0] : STATICURL.'image/common/online_member.svg');
 			}
 			$online['lastactivity'] = dgmdate($online['lastactivity'], 't');
 			$whosonline[] = $online;

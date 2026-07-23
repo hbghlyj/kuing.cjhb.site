@@ -48,7 +48,7 @@ if($_G['setting']['whosonlinestatus'] == 1 || $_G['setting']['whosonlinestatus']
 			$online_user = [];
 			$online_user['uid'] = $online['uid'];
 			$online_user['username'] = htmlspecialchars($online['username']);
-			$online_user['icon'] = !empty($_G['cache']['onlinelist'][$online['groupid']]) ? $_G['cache']['onlinelist'][$online['groupid']] : $_G['cache']['onlinelist'][0];
+			$online_user['icon'] = !empty($_G['cache']['onlinelist'][$online['groupid']]) ? $_G['cache']['onlinelist'][$online['groupid']] : (!empty($_G['cache']['onlinelist'][0]) ? $_G['cache']['onlinelist'][0] : STATICURL.'image/common/online_member.svg');
 			$online_user['tid'] = $online['tid'];
 			$titleLabel = '';
 			if(!empty($online['fid']) && !empty($forumlist[$online['fid']])) {
