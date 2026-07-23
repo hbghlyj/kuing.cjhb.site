@@ -196,8 +196,16 @@ const { execSync } = require('child_process');
             if (adminSubmitBtn) await adminSubmitBtn.click();
             await page.waitForTimeout(3000);
         }
-        const adminPageText = await page.textContent('body');
-        assert.ok(adminPageText.includes('Admin') || adminPageText.includes('管理中心') || adminPageText.includes('frame'), 'Assertion Error: Admin panel UI did not load correctly.');
+        // Verify admin authentication success: password prompt must be gone and admin workspace/frames loaded
+        const hasLoginPrompt = await page.$('input[name="admin_password"]');
+        const pageSource = await page.content();
+        const hasAdminWorkspace = pageSource.includes('admincpnav') || 
+                                 pageSource.includes('admincpframe') || 
+                                 pageSource.includes('action=logout') || 
+                                 pageSource.includes('action=header') ||
+                                 page.frames().some(f => f.url().includes('admin.php?action='));
+
+        assert.ok(!hasLoginPrompt && hasAdminWorkspace, 'Assertion Error: Admin panel authentication failed. Still on unauthorized login screen.');
         await page.screenshot({ path: 'screenshot_forum_03_admin_panel.png' });
         report += '### 5. Admin Panel UI\n- **Status**: Checked\n\n';
 
