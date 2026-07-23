@@ -110,7 +110,7 @@ const { execSync } = require('child_process');
 
         console.log("Phase 2: Elevated User Testing");
         execSync("sudo mysql -u root ultrax -e \"UPDATE pre_common_member SET groupid=1, adminid=1 WHERE username='" + username + "';\"");
-        execSync("sudo mysql -u root ultrax -e \"REPLACE INTO pre_common_admincp_member (uid, cpgroupid, customperm) SELECT uid, 1, '' FROM pre_common_member WHERE username='" + username + "';\"");
+        execSync("sudo mysql -u root ultrax -e \"REPLACE INTO pre_common_admincp_member (uid, cpgroupid, customperm) SELECT uid, 0, '' FROM pre_common_member WHERE username='" + username + "';\"");
         report += '### 1. Privilege Elevation\n- **Status**: Checked\n\n';
 
         await page.goto('http://127.0.0.1:8080/home.php?mod=spacecp');
@@ -164,8 +164,8 @@ const { execSync } = require('child_process');
 
         const logsPageSource = await page.content();
         assert.ok(
-            logsPageSource.includes('logs') || logsPageSource.includes('运行记录') || logsPageSource.includes('operation=') || page.url().includes('action=logs'),
-            'Assertion Error: Admin CP logs page did not load.'
+            !logsPageSource.includes('action_noaccess') && !logsPageSource.includes('您无权进行此操作') && (logsPageSource.includes('logs') || logsPageSource.includes('运行记录') || logsPageSource.includes('operation=') || page.url().includes('action=logs')),
+            'Assertion Error: Admin CP logs page failed due to insufficient permissions or access restriction.'
         );
         await page.screenshot({ path: 'screenshot_forum_04_admin_logs.png' });
         report += '### 4. Admin Panel Logs Access\n- **Status**: Checked\n- **URL**: admin.php?action=logs\n\n';
