@@ -458,18 +458,16 @@ const { execSync } = require('child_process');
         );
 
         const postImg = await page.$('#postlist .t_f img[id^="aimg_"], #postlist .t_f img[aid], #postlist .t_f img[file], #postlist .t_f img[zoomfile], #postlist .t_f .tattl img, #postlist .t_f img[src*="data/attachment/"]');
-        const fileLinkText = await page.$eval('#postlist .t_f', el => {
-            const link = el.querySelector('a[href*="mod=attachment"]');
-            return link ? link.textContent.trim() : '';
-        }).catch(() => '');
-
-        // Diagnostic: dump .t_f HTML and DB isimage
+        // Verify the stored type as well as the browser's rendered image.
         const tfSnippet = await page.$eval('#postlist .t_f', el => el.innerHTML.substring(0, 600)).catch(() => '');
         console.log('DEBUG .t_f HTML snippet:', tfSnippet.substring(0, 200));
-        const attachIsimage = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT isimage FROM pre_forum_attachment_0 WHERE tid='${attachTid}' LIMIT 1;"`).toString().trim();
+        const attachIsimage = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT isimage FROM pre_forum_attachment WHERE tid='${attachTid}' LIMIT 1;"`).toString().trim();
         console.log('DEBUG attachment isimage in DB:', attachIsimage);
 
-        assert.ok(postImg !== null, `Assertion Error: Attached image <img> element was not rendered inside post content (.t_f). fileLinkText: "${fileLinkText}". .t_f: ${tfSnippet.substring(0, 200)}. isimage: ${attachIsimage}`);
+        assert.strictEqual(attachIsimage, '1', `Assertion Error: Uploaded PNG was not stored as an image. isimage: ${attachIsimage}`);
+        assert.ok(postImg !== null, `Assertion Error: Attached image <img> element was not rendered inside post content (.t_f). .t_f: ${tfSnippet.substring(0, 200)}. isimage: ${attachIsimage}`);
+        const imageSize = await postImg.evaluate(img => ({ width: img.naturalWidth, height: img.naturalHeight }));
+        assert.ok(imageSize.width > 0 && imageSize.height > 0, `Assertion Error: Attached image did not load (${imageSize.width}x${imageSize.height}).`);
 
         await page.screenshot({ path: 'screenshot_attachment_viewthread.png' }).catch(() => { });
 
