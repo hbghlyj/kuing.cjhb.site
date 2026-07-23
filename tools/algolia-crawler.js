@@ -1,0 +1,122 @@
+/**
+ * Algolia Crawler Configuration — kuing.cjhb.site
+ *
+ * This file is pasted verbatim into the Algolia Crawler dashboard editor at:
+ *   https://crawler.algolia.com/admin/crawlers/<crawler-id>/configuration/edit
+ *
+ * It is NOT executed locally. The Crawler runtime calls `new Crawler({...})`
+ * with the configuration object defined here.
+ *
+ * Key settings:
+ *   - appId / apiKey : Algolia application credentials (write key scoped to crawler)
+ *   - sitemaps       : entry point — only forum.php?mod=viewthread thread pages are indexed
+ *   - actions        : one action that extracts per-post records from table.plhin rows
+ *   - initialIndexSettings : ranking, facets, snippet, and language settings for the "kuing" index
+ *
+ * To update the crawler schedule or index settings, edit this file and paste the
+ * updated content into the dashboard editor, then save and re-run the crawler.
+ */
+
+new Crawler({
+    appId: "YOUR_APP_ID",       // Algolia Application ID (find in dashboard → Settings → API Keys)
+    apiKey: "YOUR_CRAWLER_API_KEY", // Crawler write API key (not the search-only key)
+    maxUrls: null,
+    indexPrefix: "",
+    rateLimit: 8,
+    ignoreQueryParams: ["extra", "mobile", "authorid", "highlight", "ordertype"],
+    schedule: "every 1 day at 12:51 pm",
+    maxDepth: 10,
+    linkExtractor: ({ $, url, defaultExtractor }) => {
+        if (url.href == "https://kuing.cjhb.site/sitemap.xml") {
+            return defaultExtractor().map((a) =>
+                a.replace(
+                    /^https:\/\/kuing.cjhb.site\/thread-(\d+)-(\d+)-\d+\.html$/,
+                    (m, p1, p2) =>
+                        p2 == "1"
+                            ? "https://kuing.cjhb.site/forum.php?mod=viewthread&tid=" + p1
+                            : "https://kuing.cjhb.site/forum.php?mod=viewthread&tid=" +
+                            p1 +
+                            "&page=" +
+                            p2,
+                ),
+            );
+        }
+        return [];
+    },
+    ignoreCanonicalTo: true,
+    actions: [
+        {
+            indexName: "kuing",
+            pathsToMatch: ["**"],
+            recordExtractor: ({ url, $, contentLength, fileType }) => {
+                const records = [];
+                $("table.plhin")
+                    .get()
+                    .map(function (a) {
+                        $(a).find("i.pstatus").remove();
+                        $(a).find("div.quote > blockquote").has("font[size='2']").remove();
+                        const content = $(a).find("td.t_f").text().trim();
+                        if (content != "") {
+                            records.push({
+                                objectID: $(a).prop("id").slice(3),
+                                date: $(a).find('em[id^="authorposton"]').text(),
+                                pid: parseInt($(a).prop("id").slice(3)),
+                                title: $("#thread_subject").text(),
+                                author: $(a).find(".authi a.xw1").text(),
+                                forum: $('div.z a[href^="forum-"]')
+                                    .get()
+                                    .map(
+                                        (x) =>
+                                            $(x)
+                                                .attr("href")
+                                                .match(/forum-(\d+)/)[1],
+                                    ),
+                                keywords: $('meta[name="keywords"]').prop("content").split(","),
+                                totalposts: $("td.t_f").length,
+                                content: content,
+                            });
+                        }
+                    });
+                return records;
+            },
+        },
+    ],
+    sitemaps: ["https://kuing.cjhb.site/sitemap.xml"],
+    initialIndexSettings: {
+        kuing: {
+            advancedSyntax: true,
+            typoTolerance: false,
+            alternativesAsExact: ["ignorePlurals"],
+            allowTyposOnNumericTokens: false,
+            attributeCriteriaComputedByMinProximity: true,
+            attributesToSnippet: ["content:30"],
+            attributesForFaceting: ["forum", "author", "keywords"],
+            customRanking: ["desc(pid)"],
+            distinct: 1,
+            highlightPostTag: "</span>",
+            highlightPreTag: '<span class="algolia-docsearch-suggestion--highlight">',
+            ignorePlurals: true,
+            minProximity: 1,
+            minWordSizefor1Typo: 3,
+            minWordSizefor2Typos: 7,
+            separatorsToIndex: "!#()[]{}*+-_一,:;<>?@/\\^|%&~§`'''""†‡",
+            ranking: [
+                "words",
+                "filters",
+                "typo",
+                "attribute",
+                "proximity",
+                "exact",
+                "custom",
+            ],
+            queryLanguages: ["zh", "en"],
+            removeWordsIfNoResults: "allOptional",
+            searchableAttributes: [
+                "unordered(title)",
+                "unordered(keywords)",
+                "unordered(content)",
+            ],
+        },
+    },
+    safetyChecks: { beforeIndexPublishing: { maxLostRecordsPercentage: 10 } },
+});
