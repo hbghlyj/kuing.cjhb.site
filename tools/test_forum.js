@@ -47,7 +47,7 @@ const { execSync } = require('child_process');
 
         require_once libfile('function/cache');
         cleartemplatecache();
-        updatecache();
+        updatecache('styles');
         ?>`;
         fs.writeFileSync('disable_sec.php', phpConfig);
         const output = execSync('php disable_sec.php').toString();
