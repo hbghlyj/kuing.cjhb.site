@@ -19,7 +19,7 @@
 Can not write to cache files, please check directory ./data/ and ./data/cache/ .
 ```
 
-在 `dev.cjhb.site` 对应的克隆环境中，已确认需要将上述整棵目录树统一修正为 `www-data:www-data`，而不是只修目录权限。
+在开发克隆环境中，已确认需要将上述整棵目录树统一修正为 `www-data:www-data`，而不是只修目录权限。
 
 ### HTTPS 与机器人判定
 
@@ -28,10 +28,10 @@ Can not write to cache files, please check directory ./data/ and ./data/cache/ .
 这在开发环境里尤其需要注意：
 
 - `kuing.cjhb.site` 这类 HTTPS 访问通常会带上 `Sec-Fetch-*` 头；
-- `dev.cjhb.site` 如果仍以纯 HTTP 访问，浏览器可能不发送这些头；
+- 如果仍以纯 HTTP 访问，浏览器可能不发送这些头；
 - 结果就是开发环境可能出现“游客头部为空、`#onlinelist` 不显示、fastlogin 不显示、会话里被记成机器人”等现象。
 
-因此，测试当前分支时应尽量保证开发域名也使用 HTTPS。否则即使代码与 `master` 一致，开发环境仍可能因为请求头差异触发机器人判定。
+因此，测试当前分支时应尽量保证测试域名也使用 HTTPS。否则即使代码与 `master` 一致，开发环境仍可能因为请求头差异触发机器人判定。
 
 ### IP 地理位置库
 
