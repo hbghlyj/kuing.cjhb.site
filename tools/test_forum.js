@@ -226,53 +226,7 @@ const { execSync } = require('child_process');
         );
         report += '### 2. Unprivileged User Posting\n- **Status**: Checked\n- **Thread Created**: Standard User Thread\n\n';
 
-        console.log("Phase 2: Elevated User Testing");
-        execSync("sudo mysql -u root ultrax -e \"UPDATE pre_common_member SET groupid=1, adminid=1 WHERE username='" + username + "';\"");
-        execSync("sudo mysql -u root ultrax -e \"REPLACE INTO pre_common_admincp_member (uid, cpgroupid, customperm) SELECT uid, 1, '' FROM pre_common_member WHERE username='" + username + "';\"");
-        report += '### 3. Privilege Elevation\n- **Status**: Checked\n\n';
 
-        await page.goto('http://127.0.0.1:8080/home.php?mod=spacecp');
-        await page.waitForLoadState('networkidle');
-        const bioInput = await page.$('textarea[name="bio"]');
-        if (bioInput) {
-            await bioInput.fill('Updated bio as admin');
-            const saveBtn = await page.$('button[name="profilesubmit"]');
-            if (saveBtn) {
-                await saveBtn.click();
-                await page.waitForTimeout(1000);
-                const savedMsg = await page.textContent('body');
-                assert.ok(savedMsg.includes('保存成功') || savedMsg.includes('success') || !page.url().includes('profilesubmit'), 'Assertion Error: Profile update failed.');
-            }
-        }
-        await page.screenshot({ path: 'screenshot_forum_02_admin_profile.png' });
-        report += '### 4. Admin Profile Update\n- **Status**: Checked\n\n';
-
-        console.log("Checking Admin Panel...");
-        await page.goto('http://127.0.0.1:8080/admin.php');
-        await page.waitForLoadState('networkidle');
-
-        const adminPassInput = await page.$('input[name="admin_password"]');
-        if (adminPassInput) {
-            await adminPassInput.fill(password);
-            const adminSubmitBtn = await page.$('button[type="submit"], input[type="submit"], input[name="submit"]');
-            if (adminSubmitBtn) {
-                await adminSubmitBtn.click();
-                await page.waitForNavigation({ waitUntil: 'networkidle' }).catch(() => { });
-            }
-            await page.waitForTimeout(3000);
-        }
-        // Verify admin authentication success: password prompt must be gone and admin workspace/frames loaded
-        const hasLoginPrompt = await page.$('input[name="admin_password"]');
-        const pageSource = await page.content();
-        const hasAdminWorkspace = pageSource.includes('admincpnav') ||
-            pageSource.includes('admincpframe') ||
-            pageSource.includes('action=logout') ||
-            pageSource.includes('action=header') ||
-            page.frames().some(f => f.url().includes('admin.php?action='));
-
-        assert.ok(!hasLoginPrompt && hasAdminWorkspace, 'Assertion Error: Admin panel authentication failed. Still on unauthorized login screen.');
-        await page.screenshot({ path: 'screenshot_forum_03_admin_panel.png' });
-        report += '### 5. Admin Panel UI\n- **Status**: Checked\n\n';
 
     } catch (error) {
         console.error("Test execution failed:", error);

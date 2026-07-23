@@ -60,6 +60,7 @@ jobs:
         run: |
           node tools/test_forum.js
           node tools/test_tags.js
+          node tools/test_admin.js
 
       - name: Check PHP Server Errors
         if: always()
