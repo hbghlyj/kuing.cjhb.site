@@ -4,7 +4,7 @@ require './source/class/class_core.php';
 $discuz = C::app();
 $discuz->init();
 
-$tablepre = $_config['db'][1]['tablepre'];
+$tablepre = $_G['config']['db'][1]['tablepre'] ?? '';
 $dir = './source/i18n/SC_UTF8/install/lang_sql_install';
 
 foreach(glob($dir.'/*.php') as $file) {
@@ -54,7 +54,7 @@ DB::query("REPLACE INTO `{$tablepre}common_member_count` SET uid='1';");
 DB::query("REPLACE INTO `{$tablepre}common_member_status` SET uid='1';");
 DB::query("REPLACE INTO `{$tablepre}common_member_field_forum` SET uid='1';");
 DB::query("REPLACE INTO `{$tablepre}common_member_field_home` SET uid='1';");
-DB::query("REPLACE INTO `{$tablepre}common_member_profile` SET uid='1';");
+DB::query("REPLACE INTO `{$tablepre}common_member_profile` SET uid='1', fields='{}';");
 
 require_once libfile('function/cache');
 cleartemplatecache();
