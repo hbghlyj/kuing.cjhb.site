@@ -13,13 +13,16 @@ function initLivePreview() {
 		}
 	};
 
-	var textarea = document.querySelector("#fastpostmessage, #postmessage, #e_textarea, #inputText");
-	if (textarea) {
+	var textareas = document.querySelectorAll("#fastpostmessage, #postmessage, #e_textarea, #inputText");
+	textareas.forEach(function(textarea) {
 		textarea.addEventListener('input', function() {
 			updatePreview(this);
 		});
+		textarea.addEventListener('keyup', function() {
+			updatePreview(this);
+		});
 		updatePreview(textarea);
-	}
+	});
 }
 
 function insertTexToEditor(va) {
