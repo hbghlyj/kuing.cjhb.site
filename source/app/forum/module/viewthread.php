@@ -205,8 +205,6 @@ if($_G['forum_thread']['readperm'] && $_G['forum_thread']['readperm'] > $_G['gro
 
 $usemagic = ['user' => [], 'thread' => []];
 
-$hiddenreplies = getstatus($_G['forum_thread']['status'], 2);
-
 $rushreply = getstatus($_G['forum_thread']['status'], 3);
 
 $incollection = getstatus($_G['forum_thread']['status'], 9);
@@ -877,7 +875,7 @@ function viewthread_updateviews($tableid) {
 }
 
 function viewthread_procpost($post, $lastvisit, $maxposition = 0) {
-	global $_G, $rushreply, $hiddenreplies;
+	global $_G, $rushreply;
 
 	if(!$_G['forum_newpostanchor'] && $post['dateline'] > $lastvisit) {
 		$post['newpostanchor'] = '<a name="newpost"></a>';
@@ -912,7 +910,7 @@ function viewthread_procpost($post, $lastvisit, $maxposition = 0) {
 		$post['number'] = -1;
 	}
 
-	if(!$_G['forum_thread']['special'] && !$rushreply && empty($hiddenreplies) && $_G['setting']['threadfilternum'] && getstatus($post['status'], 11)) {
+	if(!$_G['forum_thread']['special'] && !$rushreply && $_G['setting']['threadfilternum'] && getstatus($post['status'], 11)) {
 		$post['isWater'] = true;
 		if($_G['setting']['hidefilteredpost'] && !$_G['forum']['noforumhidewater']) {
 			$post['inblacklist'] = true;

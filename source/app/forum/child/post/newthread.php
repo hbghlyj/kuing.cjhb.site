@@ -254,8 +254,6 @@ if(!submitcheck('topicsubmit', 0, $seccodecheck, $secqaacheck)) {
 		$params['source'] = $source;
 	}
 
-	$params['hiddenreplies'] = getgpc('hiddenreplies');
-
 	$params['tags'] = $_GET['tags'];
 	$params['bbcodeoff'] = getgpc('bbcodeoff');
 	$params['smileyoff'] = getgpc('smileyoff');

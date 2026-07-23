@@ -67,9 +67,6 @@ if($isfirstpost && $isorigauthor && $_G['group']['allowreplycredit']) {
 
 if(!submitcheck('editsubmit')) {
 
-	$thread['hiddenreplies'] = getstatus($thread['status'], 2);
-
-
 	$postinfo = table_forum_post::t()->fetch_post('tid:'.$_G['tid'], $pid);
 	if($postinfo['fid'] != $_G['fid'] || $postinfo['tid'] != $_G['tid']) {
 		$postinfo = [];
@@ -425,7 +422,6 @@ if(!submitcheck('editsubmit')) {
 			'readperm' => $readperm,
 			'price' => $_GET['price'],
 
-			'hiddenreplies' => $_GET['hiddenreplies'],
 			'audit' => $_GET['audit'],
 
 			'tags' => $_GET['tags'],

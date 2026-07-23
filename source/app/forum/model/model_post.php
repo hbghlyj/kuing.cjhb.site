@@ -64,7 +64,7 @@ class model_post extends discuz_model {
 			'noticetrimstr', 'from', 'sechash', 'geoloc',
 			'timestamp',
 			'subject', 'special', 'sortid', 'typeid', 'isanonymous', 'cronpublish', 'cronpublishdate', 'save',
-			'readperm', 'price', 'hiddenreplies', 'audit', 'tags', 'bbcodeoff',
+			'readperm', 'price', 'audit', 'tags', 'bbcodeoff',
 			'smileyoff', 'parseurloff', 'usesig', 'htmlon', 'extramessage', 'original', 'source', 'contentType', 'contentEditor', 'repid',
 			'updateuid', 'lastupdate',
 		];
@@ -429,8 +429,6 @@ class model_post extends discuz_model {
 					return $this->showmessage('post_net_price_iszero');
 				}
 			}
-
-			$this->thread['status'] = setstatus(2, $this->param['hiddenreplies'], $this->thread['status']);
 
                        $this->thread['status'] = setstatus(6, 1, $this->thread['status']);
 
