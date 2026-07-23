@@ -14,7 +14,7 @@
 	var allowimgcode = parseInt('$editor['allowimgcode']');
 	var simplodemode = parseInt('<!--{if $editor['simplemode'] > 0}-->1<!--{else}-->0<!--{/if}-->');
 	var fontoptions = new Array({lang e_fontoptions});
-	var smcols = $_G['setting']['smcols'];
+	var smcols = {echo intval($_G['setting']['smcols'])};
 	var custombbcodes = new Array();
 	<!--{if $_G['cache']['bbcodes_display'][$_G['groupid']]}-->
 		<!--{loop $_G['cache']['bbcodes_display'][$_G['groupid']] $tag $bbcode}-->
