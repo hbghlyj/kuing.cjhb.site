@@ -91,10 +91,8 @@ const { execSync } = require('child_process');
         C::t('common_setting')->update('regname', 'register');
         C::t('common_setting')->update('floodctrl', '0');
 
-        DB::query('TRUNCATE TABLE '.DB::table('common_syscache'));
         require_once libfile('function/cache');
-        build_cache_secqaa();
-        updatecache();
+        updatecache(array('setting', 'secqaa', 'styles'));
         ?>`;
         fs.writeFileSync('disable_sec.php', phpConfig);
         execSync('php disable_sec.php');
