@@ -215,11 +215,10 @@ const { execSync } = require('child_process');
             await page.goto(`http://127.0.0.1:8080/forum.php?mod=post&action=reply&fid=2&tid=${tidOutput}`);
             await page.waitForLoadState('networkidle');
 
-            await page.evaluate((message) => {
-                const textArea = document.querySelector('textarea[name="message"], #postmessage');
-                if (textArea) textArea.value = message;
-                if (window.editdoc && window.editdoc.body) window.editdoc.body.innerHTML = message;
-            }, 'Reply text from unprivileged account.');
+            const replyTextArea = await page.$('textarea[name="message"], #postmessage');
+            if (replyTextArea) {
+                await replyTextArea.fill('Reply text from unprivileged account.');
+            }
             const replyBtn = await page.$('#postsubmit, button[name="replysubmit"]');
             if (replyBtn) {
                 await replyBtn.click();
@@ -243,11 +242,10 @@ const { execSync } = require('child_process');
                 if (editSubject) {
                     await editSubject.fill('Standard User Thread (Edited)');
                 }
-                await page.evaluate((message) => {
-                    const textArea = document.querySelector('textarea[name="message"], #postmessage');
-                    if (textArea) textArea.value = message;
-                    if (window.editdoc && window.editdoc.body) window.editdoc.body.innerHTML = message;
-                }, 'Edited body text from unprivileged account.');
+                const editMessage = await page.$('textarea[name="message"], #postmessage');
+                if (editMessage) {
+                    await editMessage.fill('Edited body text from unprivileged account.');
+                }
                 const editBtn = await page.$('#postsubmit, button[name="editsubmit"]');
                 if (editBtn) {
                     await editBtn.click();
@@ -316,10 +314,21 @@ const { execSync } = require('child_process');
             await page.waitForTimeout(2000);
         }
 
-        console.log("Checking if attachment thread exists in DB...");
-        const attachThreadCheck = execSync("sudo mysql -u root ultrax -N -s -e \"SELECT COUNT(*) FROM pre_forum_thread WHERE subject='Thread with Attachment';\"").toString().trim();
-        assert.strictEqual(attachThreadCheck, '1', 'Assertion Error: Thread with attachment was not created in database.');
-        report += '### 6. Unprivileged User Image Attachment Post\n- **Status**: Checked\n- **Thread Created**: Thread with Attachment\n\n';
+        console.log("Checking if attachment thread exists in DB and loads in viewthread...");
+        const attachTid = execSync("sudo mysql -u root ultrax -N -s -e \"SELECT tid FROM pre_forum_thread WHERE subject='Thread with Attachment' ORDER BY tid DESC LIMIT 1;\"").toString().trim();
+        assert.ok(attachTid, 'Assertion Error: Thread with attachment was not created in database.');
+
+        await page.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${attachTid}`);
+        await page.waitForLoadState('networkidle');
+
+        const viewthreadBody = await page.textContent('body');
+        assert.ok(
+            viewthreadBody.includes('Thread with Attachment') && viewthreadBody.includes('Posting thread with image attachment content.'),
+            'Assertion Error: Attachment thread page did not load thread content cleanly in viewthread.'
+        );
+        await page.screenshot({ path: 'screenshot_attachment_viewthread.png' }).catch(() => { });
+
+        report += '### 6. Unprivileged User Image Attachment Post\n- **Status**: Checked\n- **Thread Created**: Thread with Attachment (TID: ' + attachTid + ')\n- **Viewthread Verification**: Success\n\n';
 
         if (fs.existsSync('sample_test_avatar.png')) {
             fs.unlinkSync('sample_test_avatar.png');
