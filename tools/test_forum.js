@@ -40,13 +40,18 @@ const { execSync } = require('child_process');
         C::t('common_setting')->update('secqaa', serialize(\$secqaa));
         C::t('common_setting')->update('regname', 'register');
 
-        DB::query('TRUNCATE TABLE '.DB::table('common_syscache'));
+        if(!is_dir('./data/cache')) {
+            @mkdir('./data/cache', 0777, true);
+        }
+        @chmod('./data/cache', 0777);
+
         require_once libfile('function/cache');
-        updatecache('setting');
-        updatecache('secqaa');
+        cleartemplatecache();
+        updatecache();
         ?>`;
         fs.writeFileSync('disable_sec.php', phpConfig);
-        execSync('php disable_sec.php');
+        const output = execSync('php disable_sec.php').toString();
+        console.log("disable_sec.php output:", output);
         execSync('rm disable_sec.php');
 
         // Let's hard bypass the helper class checking logic
