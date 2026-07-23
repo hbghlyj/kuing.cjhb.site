@@ -1,5 +1,4 @@
 <!--{eval
-$needhiddenreply = ($hiddenreplies && $_G['uid'] != $post['authorid'] && $_G['uid'] != $_G['forum_thread']['authorid'] && !$post['first'] && !$_G['forum']['ismoderator']);
 $postshowavatars = !($_G['setting']['bannedmessages'] & 2 && ($post['memberstatus'] == '-1' || ($post['authorid'] && !$post['username']) || ($post['groupid'] == 4 || $post['groupid'] == 5) || ($post['status'] & 1)));
 }-->
 <!--{block authorverifys}-->
@@ -337,7 +336,7 @@ $postshowavatars = !($_G['setting']['bannedmessages'] & 2 && ($post['memberstatu
 				<em>
 					<!--{if $post['invisible'] == 0}-->
 						<!--{if $allowpostreply && $post['allowcomment'] && (!$thread['closed'] || $_G['forum']['ismoderator'])}--><a class="cmmnt" href="forum.php?mod=misc&action=comment&tid=$post[tid]&pid=$post[pid]&extra=$_GET[extra]{if $page>1}&page=$page{/if}{if $_G['forum_thread']['special'] == 127}&special=$specialextra{/if}" onclick="showWindow('comment', this.href, 'get', 0)">{lang comments}</a><!--{/if}-->
-					<!--{if (!$_G['uid'] || $allowpostreply) && !$needhiddenreply}-->
+					<!--{if !$_G['uid'] || $allowpostreply}-->
 						<!--{if $post['first'] && $_G['forum_thread']['replies'] < 3}-->
 							<a class="fastre" href="forum.php?mod=post&action=reply&fid=$_G[fid]&tid=$_G[tid]&reppost=$post[pid]&extra=$_GET[extra]{if $page>1}&page=$page{/if}" onclick="showWindow('reply', this.href)">{lang reply}</a>
 						<!--{else}-->
@@ -359,7 +358,7 @@ $postshowavatars = !($_G['setting']['bannedmessages'] & 2 && ($post['memberstatu
 						<span class="xg1">({lang moderate_need})</span>
 					<!--{/if}-->
 					<!--{if $post['first'] && $allowblockrecommend}--><a class="push" href="javascript:;" onclick="modaction('recommend', '$_G[forum_firstpid]', 'op=recommend&idtype={if $_G[forum_thread][isgroup]}gtid{else}tid{/if}&id=$_G[tid]&pid=$post[pid]', 'portal.php?mod=portalcp&ac=portalblock')">{lang modmenu_blockrecommend}</a><!--{/if}-->
-					<!--{if !$_G['forum_thread']['special'] && !$rushreply && !$hiddenreplies && $_G['setting']['repliesrank'] && !$post['first'] && !($post['isWater'] && $_G['setting']['filterednovote'])}-->
+					<!--{if !$_G['forum_thread']['special'] && !$rushreply && $_G['setting']['repliesrank'] && !$post['first'] && !($post['isWater'] && $_G['setting']['filterednovote'])}-->
 					<a class="replyadd" {if $_G['uid']}href="forum.php?mod=misc&action=postreview&do=support&tid=$_G[tid]&pid=$post[pid]&hash={FORMHASH}" onclick="ajaxmenu(this, 3000, 0, 0, '43', '');return false;"{else} onclick="showWindow('login','member.php?mod=logging&action=login')"{/if}{if $post[postreview][support]} title="$post[postreview][support] {lang activity_member_unit}&#13;$post[postreview]['support_member']"{/if}><span id="review_support_$post[pid]" class="xi1">$post[postreview][support]</span></a>
 					<a class="replysubtract" {if $_G['uid']}href="forum.php?mod=misc&action=postreview&do=against&tid=$_G[tid]&pid=$post[pid]&hash={FORMHASH}" onclick="ajaxmenu(this, 3000, 0, 0, '43', '');return false;"{else} onclick="showWindow('login','member.php?mod=logging&action=login')"{/if}{if $post[postreview][against]} title="$post[postreview][against] {lang activity_member_unit}&#13;$post[postreview]['against_member']"{/if}><span id="review_against_$post[pid]" class="xi1">$post[postreview][against]</span></a>
 					<!--{/if}-->

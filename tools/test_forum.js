@@ -8,16 +8,25 @@ const { execSync } = require('child_process');
     const context = await browser.newContext();
     const page = await context.newPage();
 
+    page.on('pageerror', exception => {
+        throw new Error(`Uncaught exception in browser: ${exception}`);
+    });
+
+    page.on('console', msg => {
+        if (msg.type() === 'error') {
+            throw new Error(`Console error in browser: ${msg.text()}`);
+        }
+    });
+
     let report = "# DiscuzX Functional Test Report\n\n";
     console.log("Starting functional tests...");
 
     try {
-        const timestamp = Math.floor(Date.now() / 1000);
-        const username = `user${timestamp}`;
-        const email = `${username}@example.com`;
+        const timestamp = Math.floor(Date.now() / 1000).toString().slice(-6);
+        const username = 'u' + timestamp;
+        const email = username + '@example.com';
         const password = 'Testpassword123!';
 
-        // Phase 1: Unprivileged User
         console.log("Phase 1: Unprivileged User Registration and Posting");
 
         const phpConfig = `<?php

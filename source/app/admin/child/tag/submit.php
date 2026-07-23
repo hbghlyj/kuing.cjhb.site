@@ -27,5 +27,4 @@ if($operate_type == 'delete') {
 		cpmsg($data);
 	}
 }
-cpmsg('tag_admin_updated', 'action=tag&operation=admin&searchsubmit=yes&tagname='.$_GET['tagname'].'&perpage='.$_GET['perpage'].'&status='.$_GET['status'].'&page='.$_GET['page'], 'succeed');
-		
+cpmsg('tag_admin_updated', 'action=tag&operation=admin&searchsubmit=yes&tagname='.rawurlencode(getgpc('tagname')).'&perpage='.intval(getgpc('perpage')).'&status='.rawurlencode(getgpc('status')).'&page='.intval(getgpc('page')), 'succeed');

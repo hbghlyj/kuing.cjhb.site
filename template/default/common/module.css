@@ -947,9 +947,9 @@ a.thread_mod { height: 19px; line-height: 19px; display: inline-block; color: #4
 		.t_f ul { margin-left: 14px; }
 			.t_f li { margin-left: 2em; }
 			.t_f ul li { list-style-type: disc; }
-				ul.litype_1 li { list-style-type: decimal; }
-				ul.litype_2 li { list-style-type: lower-alpha; }
-				ul.litype_3 li { list-style-type: upper-alpha; }
+				ul.litype_1 > li { list-style-type: decimal; }
+				ul.litype_2 > li { list-style-type: lower-alpha; }
+				ul.litype_3 > li { list-style-type: upper-alpha; }
 		.t_f i {
 			font-style: italic;
 			letter-spacing: normal;

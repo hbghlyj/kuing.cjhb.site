@@ -50,6 +50,10 @@ class table_forum_thread extends discuz_table {
 		return $data;
 	}
 
+	public function exists_by_subject($subject) {
+		return (bool)DB::result_first('SELECT 1 FROM %t WHERE subject=%s'.DB::limit(1), [$this->get_table_name(), $subject]);
+	}
+
 	public function fetch_by_tid_displayorder($tid, $displayorder = null, $glue = '>=', $authorid = null, $tableid = 0) {
 		$data = $this->fetch_thread($tid, $tableid);
 		if(!empty($data)) {

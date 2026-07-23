@@ -1,40 +1,112 @@
-const input = $("inputText");
-input.shili = `行内公式：$c=\\sqrt{a^2+b^2}$
-行间公式：\\[c=\\sqrt{a^2+b^2}\\]
-多行公式：align* 环境（在 & 处对齐）
-\\begin{align*}
-f(x)&=ax^2+bx+c\\\\
-&=a(x-x_1)(x-x_2)\\\\
-&=\\cdots
-\\end{align*}`;
-input.yl = true;
-input.oninput = function() {
-	if (input.yl) {
-		MathJax.texReset();
-		var ltx = input.value.replace(/</g,'&lt;').replace(/>/g,'&gt;')
-							.replace(/(\\\]|\\end\{align\*?\}|\\end\{gather\*?\}|\\end\{equation\*?\}|\$\$) *\n/g,'$1');
-		$("output").innerHTML=ltx;
-		MathJax.typesetPromise([$("output")]).catch(() => {});
-	}
-};
+function parseBBCode(str) {
+	if (!str) return '';
+	var html = str.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+	html = html.replace(/(\\\]|\\end\{align\*?\}|\\end\{gather\*?\}|\\end\{equation\*?\}|\$\$) *\n/g, '$1');
 
-//按钮
-var ctrls = [[
-	{ "n":"暂停预览", "o":"this.innerHTML=((input.yl = !input.yl) ? (input.oninput(), '暂停') : '继续')+'预览'" },
-	{ "n":"清空", "o":"input.tmp_input=input.value;input.value='';input.oninput()" },
-	{ "n":"示例", "o":`input.tmp_input=input.value;input.value=input.shili;input.oninput()` },
-	{ "n":"撤销", "o":"input.value=input.tmp_input;input.oninput()" },
-	{ "n":"{}", "o":"input.setSelectionRange((function(){let brace=-1,i=input.selectionStart;do{switch(input.value[--i]){case '{':brace++;break;case '}':brace--;}}while(brace!=0&&i>0)return i})(),(function(){let brace=1,i=input.selectionEnd;do{switch(input.value[i++]){case '{':brace++;break;case '}':brace--;}}while(brace!=0&&i<input.value.length)return i})());input.focus()" },
-	//{ "n":"复制代码", "o":"input.select();document.execCommand('Copy');" }
-	{ "n":"<span style='color:blue;'>加入编辑框</span>", "o":"input.fangru()" }
-],[],['align*','gather*','cases'].map(v=>{ return{"n":v,"o":'input.cha(["\\\\begin{'+v+'}\\n","\\n\\\\end{'+v+'}",0,0])'} })];
-ctrls[2].push({ "n":'array',"o":String.raw`const numRows = prompt("Enter the number of rows:");
-	const numCols = prompt("Enter the number of columns:");
-	if (numRows === null || numCols === null || isNaN(numRows) || isNaN(numCols) || parseInt(numRows) <= 0 || parseInt(numCols) <= 0) {
-		alert("Invalid input. Please enter valid positive numbers for rows and columns.");
-		return "";
+	var prev;
+	do {
+		prev = html;
+		html = html
+			.replace(/\[b\]([\s\S]*?)\[\/b\]/gi, '<b>$1</b>')
+			.replace(/\[i\]([\s\S]*?)\[\/i\]/gi, '<i>$1</i>')
+			.replace(/\[u\]([\s\S]*?)\[\/u\]/gi, '<u>$1</u>')
+			.replace(/\[s\]([\s\S]*?)\[\/s\]/gi, '<del>$1</del>')
+			.replace(/\[color=([^\]]+)\]([\s\S]*?)\[\/color\]/gi, '<span style="color:$1">$2</span>')
+			.replace(/\[backcolor=([^\]]+)\]([\s\S]*?)\[\/backcolor\]/gi, '<span style="background-color:$1">$2</span>')
+			.replace(/\[size=(\d+)\]([\s\S]*?)\[\/size\]/gi, function(_, sz, text) {
+				var sizes = ['10px', '12px', '14px', '16px', '18px', '24px', '32px'];
+				var fontSize = sizes[parseInt(sz) - 1] || (sz + 'px');
+				return '<span style="font-size:' + fontSize + '">' + text + '</span>';
+			})
+			.replace(/\[font=([^\]]+)\]([\s\S]*?)\[\/font\]/gi, '<span style="font-family:$1">$2</span>')
+			.replace(/\[align=(left|center|right)\]([\s\S]*?)\[\/align\]/gi, '<div style="text-align:$1">$2</div>')
+			.replace(/\[url=([^\]]+)\]([\s\S]*?)\[\/url\]/gi, '<a href="$1" target="_blank" rel="noopener">$2</a>')
+			.replace(/\[url\]([\s\S]*?)\[\/url\]/gi, '<a href="$1" target="_blank" rel="noopener">$1</a>')
+			.replace(/\[img=(\d+),(\d+)\]([\s\S]*?)\[\/img\]/gi, '<img src="$3" width="$1" height="$2" />')
+			.replace(/\[img\]([\s\S]*?)\[\/img\]/gi, '<img src="$1" style="max-width:100%" />')
+			.replace(/\[quote\]([\s\S]*?)\[\/quote\]/gi, '<div class="quote"><blockquote>$1</blockquote></div>')
+			.replace(/\[code\]([\s\S]*?)\[\/code\]/gi, '<div class="blockcode"><pre>$1</pre></div>')
+			.replace(/\[tikz\]([\s\S]*?)\[\/tikz\]/gi, '<div class="blockcode"><pre>$1</pre></div>')
+			.replace(/\[asy\]([\s\S]*?)\[\/asy\]/gi, '<div class="blockcode"><pre>$1</pre></div>')
+			.replace(/\[hr\]/gi, '<hr />');
+	} while (html !== prev);
+
+	return html;
+}
+
+function initLivePreview() {
+	var output = $("output");
+	if (!output) return;
+
+	var updatePreview = function(el) {
+		if (!el) return;
+		MathJax.texReset();
+		output.innerHTML = parseBBCode(el.value || '');
+		if (typeof MathJax !== 'undefined' && MathJax.typesetPromise) {
+			MathJax.typesetPromise([output]).catch(() => {});
+		}
+	};
+
+	var textareas = document.querySelectorAll("#fastpostmessage, #postmessage, #e_textarea, #inputText");
+	textareas.forEach(function(textarea) {
+		textarea.addEventListener('input', function() {
+			updatePreview(this);
+		});
+		textarea.addEventListener('keyup', function() {
+			updatePreview(this);
+		});
+		updatePreview(textarea);
+	});
+}
+
+function insertTexToEditor(va) {
+	var textarea = (document.activeElement && (document.activeElement.id === 'fastpostmessage' || document.activeElement.id === 'postmessage' || document.activeElement.id === 'e_textarea' || document.activeElement.id === 'inputText'))
+		? document.activeElement
+		: document.querySelector("#fastpostmessage, #postmessage, #e_textarea, #inputText");
+
+	if (!textarea) return;
+
+	textarea.focus();
+	var start = textarea.selectionStart,
+		end = textarea.selectionEnd,
+		scrollTop = textarea.scrollTop;
+
+	if (va instanceof Array) {
+		var [vaStr, vbStr, n, m] = va;
+		if (start !== undefined && end !== undefined) {
+			textarea.value = textarea.value.substring(0, start) + vaStr + textarea.value.substring(start, end) + vbStr + textarea.value.substring(end);
+			textarea.scrollTop = scrollTop;
+			if (start === end) {
+				textarea.selectionStart = textarea.selectionEnd = start + vaStr.length + (m || 0);
+			} else {
+				textarea.selectionStart = start;
+				textarea.selectionEnd = end + vaStr.length + vbStr.length;
+			}
+		} else {
+			textarea.value += vaStr + vbStr;
+		}
+	} else {
+		if (start !== undefined && end !== undefined) {
+			textarea.value = textarea.value.substring(0, start) + va + textarea.value.substring(end);
+			textarea.scrollTop = scrollTop;
+			textarea.selectionStart = textarea.selectionEnd = start + va.length;
+		} else {
+			textarea.value += va;
+		}
 	}
-	let latexCode = "\\begin{array}{",n = 0;
+	
+	var event = new Event('input', { bubbles: true });
+	textarea.dispatchEvent(event);
+}
+
+function insertArrayCode() {
+	const numRows = prompt("请输入行数：");
+	const numCols = prompt("请输入列数：");
+	if (numRows === null || numCols === null || isNaN(numRows) || isNaN(numCols) || parseInt(numRows) <= 0 || parseInt(numCols) <= 0) {
+		alert("输入无效，请输入有效的正整数。");
+		return;
+	}
+	let latexCode = "\\begin{array}{", n = 0;
 	for (let i = 0; i < parseInt(numCols); i++) {
 		latexCode += "|c";
 	}
@@ -53,131 +125,154 @@ ctrls[2].push({ "n":'array',"o":String.raw`const numRows = prompt("Enter the num
 		latexCode += "\\hline\n";
 	}
 	latexCode += "\\end{array}";
-input.cha([latexCode.slice(0,n),latexCode.slice(n),0,0]);` })
-for(v of [
-	{ "o":["$ "," $"], "n":"行内公式" },
-	{ "o":["\\\\[ "," \\\\]"], "n":"行间公式" },
-	{ "o":["\\\\frac{",'}{}',2], "n":"分式" },
-	{ "o":["\\\\dfrac{",'}{}',2], "n":"d分式" },
-	{ "o":["\\\\sqrt{","}"] , "n":"√‾‾" },
-	{ "o":['\\\\sqrt[]{','}',-2,-2], "n":"<sup style='margin-right:-6px;line-height:14px;'>□</sup>√‾‾" },
-	{ "o":"\\\\geqslant ", "n":"⩾" },
-	{ "o":"\\\\leqslant ", "n":"⩽" },
-	{ "o":"\\\\times ", "n":"×" },
-	{ "o":"\\\\cdot ", "n":"·" },
-	{ "o":"\\\\cdots ", "n":"…" },
-	{ "o":"\\\\approx ", "n":"≈" },
-	{ "o":"\\\\equiv ", "n":"≡" },
-	{ "o":['\\\\pmod{','}'], "n":"(mod )" },
-	{ "o":["\\\\lim_{x\\\\to ","}"] , "n":"lim<sub style='line-height:12px;'>x→</sub>" },
-	{ "o":"\\\\infty ", "n":"∞" },
-	{ "o":['\\\\int ','\\\\rmd x'], "n":"∫ dx" },
-	{ "o":"\\\\log", "n":"log" },
-	{ "o":"\\\\ln ", "n":"ln" },
-	{ "o":"\\\\sin ", "n":"sin" },
-	{ "o":"\\\\cos ", "n":"cos" },
-	{ "o":"\\\\tan ", "n":"tan" },
-	{ "o":"\\\\alpha ", "n":"α" },
-	{ "o":"\\\\beta ", "n":"β" },
-	{ "o":"\\\\gamma ", "n":"γ" },
-	{ "o":"\\\\theta ", "n":"θ" },
-	{ "o":"\\\\lambda ", "n":"λ" },
-	{ "o":"\\\\veps ", "n":"ε" },
-	{ "o":"\\\\varphi ", "n":"φ" },
-	{ "o":"\\\\omega ", "n":"ω" },
-	{ "o":"\\\\Delta ", "n":"Δ<span style='font-size:12px;'>(判别式)</span>" },
-	{ "o":"\\\\triangle ", "n":"△<span style='font-size:12px;'>(三角形)</span>" },
-	{ "o":"\\\\odot ", "n":"⊙" },
-	{ "o":"\\\\angle ", "n":"∠" },
-	{ "o":"\\\\du ", "n":"°" },
-	{ "o":"\\\\perp ", "n":"⊥" },
-	{ "o":"\\\\px ", "n":"∥" },
-	{ "o":"\\\\sim ", "n":"~" },
-	{ "o":"\\\\cong ", "n":"≌" },
-//  { "o":"\\\\pqd ", "n":"<sup style='margin-right:-10px;font-size:12px;'>//</sup><sub>=</sub>" },
-	{ "o":"\\\\{a_n\\\\}", "n":"{a<sub style='line-height:12px;'>n</sub>}" },
-	{ "o":["\\\\vv{","}"], "n":"箭头向量" },
-	{ "o":["\\\\bm{","}"], "n":"粗体向量" }
-]) {
-    if(v.o instanceof Array) {
-        v.o = "input.cha(['" + v.o[0] + "', '" + v.o[1] + "', " + (v.o[2]||0) + ", " + (v.o[3]||0) + "])";
-    } else {
-        v.o = "input.cha('" + v.o + "')";
-    }
-    ctrls[1].push(v);
+	insertTexToEditor([latexCode.slice(0, n), latexCode.slice(n), 0, 0]);
 }
-input.cha = function(va) {
-	input.tmp_input = input.value;
-	var hasSelection = (input.selectionStart || input.selectionStart === 0);
-	if (va instanceof Array) {
-        [va, vb, n, m] = va;
-		if (hasSelection) {
-            var start = input.selectionStart,
-            end = input.selectionEnd,
-            scrollTop = input.scrollTop;
-			input.value = input.value.substring(0, start)
-            + va
-            + input.value.substring(start, end)
-            + vb
-            + input.value.substring(end);
-			input.focus();
-			input.scrollTop = scrollTop;
-			if (start === end) {
-                input.selectionStart =
-				input.selectionEnd = start + va.length + m;
-			} else if (n === 0) {
-                input.selectionStart = start;
-				input.selectionEnd = end + va.length + vb.length;
-			} else if (n > 0) {
-                input.selectionStart =
-				input.selectionEnd = end + va.length + n;
-			} else {
-                input.selectionStart =
-				input.selectionEnd = start + va.length + n;
+
+function selectBracePair() {
+	var targetEl = (document.activeElement && (document.activeElement.id === 'fastpostmessage' || document.activeElement.id === 'postmessage' || document.activeElement.id === 'e_textarea' || document.activeElement.id === 'inputText'))
+		? document.activeElement
+		: document.querySelector("#fastpostmessage, #postmessage, #e_textarea, #inputText");
+
+	if (!targetEl || !targetEl.setSelectionRange) return;
+
+	let start = (function() {
+		let brace = -1, i = targetEl.selectionStart;
+		do {
+			switch(targetEl.value[--i]) {
+				case '{': brace++; break;
+				case '}': brace--; break;
 			}
-		} else {
-            input.value += va + vb;
-			input.focus();
-		}
-    } else {
-		if (hasSelection) {
-			var start = input.selectionStart,
-					end = input.selectionEnd,
-					scrollTop = input.scrollTop;
-			input.value = input.value.substring(0, start)
-										+ va
-										+ input.value.substring(end);
-			input.focus();
-			input.scrollTop = scrollTop;
-			input.selectionStart =
-			input.selectionEnd = start + va.length;
-		} else {
-			input.value += va;
-			input.focus();
-		}
-	}
-	input.oninput();
-};
-for(annius of ctrls) {
-	for(var i = 0; i < annius.length; i++){
-        var bt=document.createElement("button");
-        bt.type="button";
-        bt.className="anniu";
-        bt.setAttribute("onclick",annius[i].o);
-        bt.innerHTML=annius[i].n;
-        $("inputWrap").appendChild(bt);
-	}
-	$("inputWrap").appendChild(document.createElement("div"));
+		} while (brace !== 0 && i > 0);
+		return i;
+	})();
+
+	let end = (function() {
+		let brace = 1, i = targetEl.selectionEnd;
+		do {
+			switch(targetEl.value[i++]) {
+				case '{': brace++; break;
+				case '}': brace--; break;
+			}
+		} while (brace !== 0 && i < targetEl.value.length);
+		return i;
+	})();
+
+	targetEl.setSelectionRange(start, end);
+	targetEl.focus();
 }
 
-//放入编辑器框
-input.fangru=function() {
-	var textarea = document.querySelector("#postmessage,#e_textarea,#fastpostmessage");
-	if (textarea) {
-		textarea.value += input.value;
-		textarea.focus();
-	} else {alert("找不到编辑框")}
+// 快捷 TeX 公式数据（按使用频率排序）
+var fastTexItems = [
+	// 基础结构
+	{ "n": "行内公式", "o": ["$", "$"] },
+	{ "n": "行间公式", "o": ["\\[\n", "\n\\]", 0, 0] },
+	{ "n": "{}", "o": selectBracePair },
+	{ "n": "$\\frac{a}{b}$", "o": ["\\frac{", "}{}", 2] },
+	{ "n": "$\\sqrt{x}$", "o": ["\\sqrt{", "}"] },
+	{ "n": "$\\sqrt[n]{x}$", "o": ["\\sqrt[]{", "}", -2, -2] },
+
+	// 微积分与极限
+	{ "n": "$\\int\\rmd x$", "o": ["\\int ", "\\rmd x"] },
+	{ "n": "$\\lim_{x\\to 0}$", "o": ["\\lim_{x\\to ", "}"] },
+	{ "n": "$\\infty$", "o": "\\infty " },
+	{ "n": "$\\partial$", "o": "\\partial " },
+	{ "n": "$\\nabla$", "o": "\\nabla " },
+	{ "n": "$\\cdots$", "o": "\\cdots " },
+
+	// 关系与运算
+	{ "n": "$\\leqslant$", "o": "\\leqslant " },
+	{ "n": "$\\geqslant$", "o": "\\geqslant " },
+	{ "n": "$\\times$", "o": "\\times " },
+	{ "n": "$\\cdot$", "o": "\\cdot " },
+	{ "n": "$\\approx$", "o": "\\approx " },
+	{ "n": "$\\equiv$", "o": "\\equiv " },
+
+	// 函数与序列
+	{ "n": "$\\ln$", "o": "\\ln " },
+	{ "n": "$\\log$", "o": "\\log " },
+	{ "n": "$\\pmod{m}$", "o": ["\\pmod{", "}"] },
+	{ "n": "$\\sin$", "o": "\\sin " },
+	{ "n": "$\\cos$", "o": "\\cos " },
+	{ "n": "$\\tan$", "o": "\\tan " },
+	{ "n": "$\\{a_n\\}$", "o": "\\{a_n\\}" },
+	{ "n": "$\\vec{v}$", "o": ["\\vv{", "}"] },
+	{ "n": "$\\mathbf{v}$", "o": ["\\bm{", "}"] },
+
+	// 希腊字母
+	{ "n": "$\\alpha$", "o": "\\alpha " },
+	{ "n": "$\\beta$", "o": "\\beta " },
+	{ "n": "$\\gamma$", "o": "\\gamma " },
+	{ "n": "$\\theta$", "o": "\\theta " },
+	{ "n": "$\\lambda$", "o": "\\lambda " },
+	{ "n": "$\\varepsilon$", "o": "\\veps " },
+	{ "n": "$\\varphi$", "o": "\\varphi " },
+	{ "n": "$\\omega$", "o": "\\omega " },
+	{ "n": "$\\Delta$", "o": "\\Delta " },
+
+	// 几何符号
+	{ "n": "$\\triangle$", "o": "\\triangle " },
+	{ "n": "$\\angle$", "o": "\\angle " },
+	{ "n": "$^{\\circ}$", "o": "\\du " },
+	{ "n": "$\\perp$", "o": "\\perp " },
+	{ "n": "$\\parallel$", "o": "\\px " },
+	{ "n": "$\\odot$", "o": "\\odot " },
+	{ "n": "$\\sim$", "o": "\\sim " },
+	{ "n": "$\\cong$", "o": "\\cong " },
+
+	// 环境
+	{ "n": "align*", "o": ["\\begin{align*}\n", "\n\\end{align*}", 0, 0] },
+	{ "n": "gather*", "o": ["\\begin{gather*}\n", "\n\\end{gather*}", 0, 0] },
+	{ "n": "cases", "o": ["\\begin{cases}\n", "\n\\end{cases}", 0, 0] },
+	{ "n": "array", "o": insertArrayCode }
+];
+
+function renderFastTexSmilies() {
+	var fs = $("fastsmilies");
+	if (fs) {
+		fs.innerHTML = '';
+		var table = document.createElement("table");
+		table.className = "cp0";
+		table.style.width = "160px";
+		table.style.tableLayout = "auto";
+		var tr = document.createElement("tr");
+
+		for (var i = 0; i < fastTexItems.length; i++) {
+			if (i > 0 && i % 3 === 0) {
+				table.appendChild(tr);
+				tr = document.createElement("tr");
+			}
+			var item = fastTexItems[i];
+			var td = document.createElement("td");
+			td.style.padding = "3px 2px";
+			td.style.cursor = "pointer";
+			td.style.textAlign = "center";
+			td.style.fontSize = "12px";
+			td.style.border = "1px solid #e8ece6";
+			td.style.background = "#fff";
+			td.innerHTML = item.n;
+
+			(function(action) {
+				td.onclick = function() {
+					if (typeof action === 'function') {
+						action();
+					} else {
+						insertTexToEditor(action);
+					}
+				};
+			})(item.o);
+
+			tr.appendChild(td);
+		}
+		if (tr.children.length > 0) {
+			table.appendChild(tr);
+		}
+		fs.appendChild(table);
+
+		if (typeof MathJax !== 'undefined' && MathJax.typesetPromise) {
+			MathJax.typesetPromise([fs]).catch(() => {});
+		}
+	}
 }
 
-input.tmp_input = "";//撤销用
-$("output").style.minHeight = $("inputWrap").offsetHeight + "px";
+renderFastTexSmilies();
+initLivePreview();

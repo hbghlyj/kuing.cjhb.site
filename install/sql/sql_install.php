@@ -1864,7 +1864,6 @@ CREATE TABLE pre_common_usergroup_field
 	forcelogin             tinyint(3) unsigned   NOT NULL DEFAULT '0',
 	closead                tinyint(1)            NOT NULL DEFAULT '0',
 	buildgroupcredits      smallint(6) unsigned  NOT NULL DEFAULT '0',
-	allowimgcontent        tinyint(1)            NOT NULL DEFAULT '0',
 	allowavatarupload      tinyint(1)            NOT NULL DEFAULT '0',
 	allowviewprofile       tinyint(1)            NOT NULL DEFAULT '0',
 	fields                 json,
