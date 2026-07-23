@@ -131,7 +131,7 @@ const { execSync } = require('child_process');
         report += '### 1. User Registration & Login\n- **Status**: Checked\n- **Username**: ' + username + '\n\n';
 
         console.log("Attempting to post unprivileged thread...");
-        await page.goto('http://127.0.0.1:8080/forum.php?mod=post&action=newthread&fid=10');
+        await page.goto('http://127.0.0.1:8080/forum.php?mod=post&action=newthread&fid=2');
         await page.waitForLoadState('networkidle');
 
         const subjectInput = await page.$('input[name="subject"]');
