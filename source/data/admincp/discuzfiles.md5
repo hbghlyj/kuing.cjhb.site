@@ -182,10 +182,10 @@ dc088380f899dfb2c34e45d4206bfd29 *source/app/admin/child/counter/groupmembernum.
 1cd5d42af48736b2a864dd7605b83b35 *source/app/admin/child/counter/groupnum.php
 d41d8cd98f00b204e9800998ecf8427e *source/app/admin/child/counter/index.htm
 dacb6a0fecf93db58db4fee4d142bb76 *source/app/admin/child/counter/list.php
-ac3e13b15a93b9f5454983d669a6215e *source/app/admin/child/counter/member.php
+a2fe1c9fef814d5f298784b2828480f9 *source/app/admin/child/counter/member.php
 f877f348df1e00dbcc20d4ae33779df8 *source/app/admin/child/counter/movedthread.php
 528676138b70ebb8beb2d61ef7e81fa6 *source/app/admin/child/counter/setthreadcover.php
-745359f20f57b6af7d0798c8821a7da3 *source/app/admin/child/counter/specialarrange.php
+362a03fee2a7116608661f4c0baccf2f *source/app/admin/child/counter/specialarrange.php
 5a7c503e3025d9f1f644850c2bca99fe *source/app/admin/child/counter/tagitemnum.php
 fe33e7e8a1f1e2f9f190d504b27dbb1e *source/app/admin/child/counter/thread.php
 02c6f4e2a5020294e94789e4d02cff0b *source/app/admin/child/credits/add.php
