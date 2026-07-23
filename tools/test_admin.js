@@ -51,7 +51,7 @@ const { execSync } = require('child_process');
         fs.unlinkSync('temp_config.php');
 
         // Bypass captcha helper check for test execution
-        execSync("sed -i 's/public static function check/public static function check_disabled/g' source/class/helper/helper_seccheck.php || true");
+        execSync("sed -i 's/public static function check_sec/public static function check_disabled_sec/g' source/class/helper/helper_seccheck.php || true");
 
         // Register user
         await page.goto('http://127.0.0.1:8080/member.php?mod=register');
