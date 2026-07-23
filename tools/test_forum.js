@@ -448,8 +448,13 @@ const { execSync } = require('child_process');
             'Assertion Error: Attachment thread page did not load thread content cleanly in viewthread.'
         );
 
-        const attachedImg = await page.$('img[aid], img[id^="aimg_"], .aimg img, img[src*="attachment/forum"], .zoom');
-        assert.ok(attachedImg !== null, 'Assertion Error: Attached image element was not rendered in viewthread DOM.');
+        const postImg = await page.$('#postlist .t_f img[id^="aimg_"], #postlist .t_f img[aid], #postlist .t_f .ignore_find img, #postlist .t_f img[src*="attachment"], #postlist .t_f img[src*="forum/"]');
+        const fileLinkText = await page.$eval('#postlist .t_f', el => {
+            const link = el.querySelector('a[href*="mod=attachment"]');
+            return link ? link.textContent.trim() : '';
+        }).catch(() => '');
+
+        assert.ok(postImg !== null, `Assertion Error: Attached image <img> element was not rendered inside post content (.t_f). Detected attachment file link text: "${fileLinkText}"`);
 
         await page.screenshot({ path: 'screenshot_attachment_viewthread.png' }).catch(() => { });
 
