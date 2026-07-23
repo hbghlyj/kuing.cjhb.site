@@ -1,12 +1,4 @@
 const input = $("inputText") || {};
-input.shili = `行内公式：$c=\\sqrt{a^2+b^2}$
-行间公式：\\[c=\\sqrt{a^2+b^2}\\]
-多行公式：align* 环境（在 & 处对齐）
-\\begin{align*}
-f(x)&=ax^2+bx+c\\\\
-&=a(x-x_1)(x-x_2)\\\\
-&=\\cdots
-\\end{align*}`;
 input.yl = true;
 if ($("inputText")) {
 	input.oninput = function() {
@@ -220,7 +212,6 @@ function renderFastTexSmilies() {
 var ctrls = [[
 	{ "n":"暂停预览", "o":"this.innerHTML=((input.yl = !input.yl) ? (input.oninput && input.oninput(), '暂停') : '继续')+'预览'" },
 	{ "n":"清空", "o":"if(input.value !== undefined){input.tmp_input=input.value;input.value='';input.oninput && input.oninput();}" },
-	{ "n":"示例", "o":"if(input.value !== undefined){input.tmp_input=input.value;input.value=input.shili;input.oninput && input.oninput();}" },
 	{ "n":"撤销", "o":"if(input.value !== undefined){input.value=input.tmp_input || '';input.oninput && input.oninput();}" },
 	{ "n":"{}", "o":"if(input.setSelectionRange){input.setSelectionRange((function(){let brace=-1,i=input.selectionStart;do{switch(input.value[--i]){case '{':brace++;break;case '}':brace--;}}while(brace!=0&&i>0)return i})(),(function(){let brace=1,i=input.selectionEnd;do{switch(input.value[i++]){case '{':brace++;break;case '}':brace--;}}while(brace!=0&&i<input.value.length)return i})());input.focus();}" }
 ],[],['align*','gather*','cases'].map(v=>{ return{"n":v,"o":'input.cha(["\\\\begin{'+v+'}\\n","\\n\\\\end{'+v+'}",0,0])'} })];
