@@ -79,7 +79,7 @@ foreach($topmenu as $k => $v) {
 }
 unset($menu);
 
-$headers = "'".implode("','", array_keys($topmenu))."'";
+$headers = json_encode(array_keys($topmenu));
 $useravt = avatar($_G['uid'], 'middle', ['username' => $_G['username'], 'avatarstatus' => $_G['member']['avatarstatus'], 'class' => 'avt']);
 
 if(!empty($_GET['js'])) {

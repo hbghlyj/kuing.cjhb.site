@@ -13,8 +13,8 @@
 	<link rel="stylesheet" href="{$staticurl}image/admincp/admincpframe.css?{$_G['style']['verhash']}" type="text/css" media="all" />
 	$framecss
 	<script type="text/JavaScript">
-		var VERHASH = '$VERHASH', IN_ADMINCP = true, SITEURL = '{$_G['siteurl']}', JSPATH = '{$_G['setting']['jspath']}', JSCACHEPATH = '{$_G['setting']['jscachepath']}', cookiepre = '{$_G['config']['cookie']['cookiepre']}', cookiedomain = '{$_G['config']['cookie']['cookiedomain']}', cookiepath = '{$_G['config']['cookie']['cookiepath']}', AVATARURL = '$_G[setting][avatarbase]';
-		var headers = new Array($headers), admincpfilename = '$basescript', admincpextra = '$extra';
+		var VERHASH = {echo json_encode($VERHASH)}, IN_ADMINCP = true, SITEURL = {echo json_encode($_G['siteurl'])}, JSPATH = {echo json_encode($_G['setting']['jspath'])}, JSCACHEPATH = {echo json_encode($_G['setting']['jscachepath'])}, cookiepre = {echo json_encode($_G['config']['cookie']['cookiepre'])}, cookiedomain = {echo json_encode($_G['config']['cookie']['cookiedomain'])}, cookiepath = {echo json_encode($_G['config']['cookie']['cookiepath'])}, AVATARURL = {echo json_encode($_G['setting']['avatarbase'])};
+		var headers = $headers, admincpfilename = {echo json_encode($basescript)}, admincpextra = {echo json_encode($extra)};
 		var ADMIN_COLOR_VARS = ['--root-base-value'];
 	</script>
 	<script src="{$_G['setting']['jspath']}common.js?{$_G['style']['verhash']}" type="text/javascript"></script>
