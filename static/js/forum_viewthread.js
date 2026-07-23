@@ -219,6 +219,7 @@ function fastpostappendreply() {
 }
 
 function succeedhandle_fastpost(locationhref, message, param) {
+	window.onbeforeunload = null;
 	var tid = param['tid'];
 	var from = param['from'];
 	var reply_mod = param['reply_mod'];

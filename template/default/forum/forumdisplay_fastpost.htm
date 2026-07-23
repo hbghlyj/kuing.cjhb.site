@@ -50,7 +50,7 @@ var fid = parseInt('$_G[fid]');
 						<div class="area">
 							<!--{if $allowfastpost}-->
 								{echo getreplybg($_G['forum']['replybg'])}
-								<textarea rows="6" cols="80" name="message" id="fastpostmessage" onKeyDown="seditor_ctlent(event, '$(\'fastpostsubmit\').click()');" class="pt" required></textarea>
+								<textarea rows="6" cols="80" name="message" id="fastpostmessage" onKeyDown="seditor_ctlent(event, '$(\'fastpostsubmit\').click()');" oninput="if(!window.onbeforeunload)window.onbeforeunload=()=>{return 0}" class="pt" required></textarea>
 							<!--{else}-->
 								<div class="pt hm">
 									<!--{if !$_G['uid']}-->
