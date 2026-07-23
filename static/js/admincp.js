@@ -858,7 +858,7 @@ function benchmark(url, event) {
 		const msecs = ms % 1000;
 		const fsecs = n => String(n).padStart(3, '0');
 		return `${secs}.${fsecs(msecs)}`;
-	}
+	};
 
 	let totalMs = 0;
 	timer = setInterval(() => {
