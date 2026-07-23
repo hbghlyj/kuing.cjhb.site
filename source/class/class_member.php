@@ -339,10 +339,17 @@ class register_ctl {
 			}
 		}
 
-		$_GET['username'] = trim($_GET[''.$this->setting['reginput']['username']]);
-		$_GET['password'] = $_GET[''.$this->setting['reginput']['password']];
-		$_GET['password2'] = $_GET[''.$this->setting['reginput']['password2']];
-		$_GET['email'] = $_GET[''.$this->setting['reginput']['email']];
+		$reginput = $this->setting['reginput'] ?? [];
+
+		$reg_username = $reginput['username'] ?? null;
+		$reg_password = $reginput['password'] ?? null;
+		$reg_password2 = $reginput['password2'] ?? null;
+		$reg_email = $reginput['email'] ?? null;
+
+		$_GET['username'] = trim(isset($reg_username) && isset($_GET[$reg_username]) ? $_GET[$reg_username] : ($_GET['username'] ?? ''));
+		$_GET['password'] = isset($reg_password) && isset($_GET[$reg_password]) ? $_GET[$reg_password] : ($_GET['password'] ?? '');
+		$_GET['password2'] = isset($reg_password2) && isset($_GET[$reg_password2]) ? $_GET[$reg_password2] : ($_GET['password2'] ?? '');
+		$_GET['email'] = isset($reg_email) && isset($_GET[$reg_email]) ? $_GET[$reg_email] : ($_GET['email'] ?? '');
 
 		if($_G['uid']) {
 			$url_forward = dreferer();
@@ -353,7 +360,6 @@ class register_ctl {
 		} elseif(!$this->setting['regclosed'] && !$this->setting['regstatus']) {
 			showmessage(!$this->setting['regclosemessage'] ? 'register_disable' : str_replace(["\r", "\n"], '', $this->setting['regclosemessage']));
 		}
-
 		$bbrules = &$this->setting['bbrules'];
 		$bbrulesforce = &$this->setting['bbrulesforce'];
 		$bbrulestxt = &$this->setting['bbrulestxt'];
