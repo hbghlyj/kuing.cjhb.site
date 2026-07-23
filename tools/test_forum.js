@@ -308,12 +308,20 @@ const { execSync } = require('child_process');
         C::app()->init();
         $uid = ${userUid};
         C::t('common_member')->update($uid, array('avatarstatus' => '1'));
-        $dir = './uc_server/data/avatar/' . sprintf("%03d", floor($uid/1000000)) . '/' . sprintf("%03d", floor(($uid%1000000)/1000)) . '/' . sprintf("%02d", $uid%1000);
-        if (!is_dir($dir)) { mkdir($dir, 0777, true); }
+        $formattedUid = sprintf('%09d', $uid);
+        $dir1 = substr($formattedUid, 0, 3);
+        $dir2 = substr($formattedUid, 3, 2);
+        $dir3 = substr($formattedUid, 5, 2);
+        $relDir = $dir1 . '/' . $dir2 . '/' . $dir3;
+        $lastTwo = substr($formattedUid, -2);
         $imgData = base64_decode('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==');
-        file_put_contents($dir . '/' . sprintf("%02d", $uid%1000) . '_avatar_big.jpg', $imgData);
-        file_put_contents($dir . '/' . sprintf("%02d", $uid%1000) . '_avatar_middle.jpg', $imgData);
-        file_put_contents($dir . '/' . sprintf("%02d", $uid%1000) . '_avatar_small.jpg', $imgData);
+        foreach(array('./data/avatar/', './uc_server/data/avatar/') as $base) {
+            $targetDir = $base . $relDir;
+            if (!is_dir($targetDir)) { mkdir($targetDir, 0777, true); }
+            file_put_contents($targetDir . '/' . $lastTwo . '_avatar_big.jpg', $imgData);
+            file_put_contents($targetDir . '/' . $lastTwo . '_avatar_middle.jpg', $imgData);
+            file_put_contents($targetDir . '/' . $lastTwo . '_avatar_small.jpg', $imgData);
+        }
         ?>`;
         fs.writeFileSync('set_avatar.php', avatarSetupPhp);
         execSync('php set_avatar.php');
@@ -330,7 +338,7 @@ const { execSync } = require('child_process');
         assert.ok(profileAvatarImg !== null, 'Assertion Error: Avatar image element was not rendered on profile page.');
 
         console.log("Checking header for user custom avatar...");
-        const headerAvatarImg = await page.$('#um .avt img, .header .avatar img, #hd .avatar img, .mz img[src*="avatar"], .userinfo_icon img, img[src*="avatar"]');
+        const headerAvatarImg = await page.$('#um .avt img, .header .avatar img, #hd .avatar img, .mz img[src*="avatar"], .userinfo_icon img, a[href*="mod=space"] img, img[src*="avatar"]');
         assert.ok(headerAvatarImg !== null, 'Assertion Error: Avatar image element was not rendered in page header.');
 
         console.log("Checking viewthread page for author custom avatar...");
