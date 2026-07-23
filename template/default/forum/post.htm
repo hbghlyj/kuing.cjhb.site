@@ -1,4 +1,4 @@
-﻿<!--{template common/header}-->
+<!--{template common/header}-->
 
 <script type="text/javascript">
 	var allowpostattach = parseInt('{$_G['group']['allowpostattach']}');
@@ -189,7 +189,11 @@
 
 			<!--{subtemplate forum/post_editor_extra}-->
 
+			<!--{if $_G[setting][fastsmilies]}--><div id="fastsmiliesdiv" class="y"><div id="fastsmiliesdiv_data"><div id="fastsmilies"></div></div></div><!--{/if}-->
+
+			<div{if $_G[setting][fastsmilies]} class="hasfsl"{/if}>
 			<!--{subtemplate forum/post_editor_body}-->
+			</div>
 
 			<!--{hook/post_middle}-->
 

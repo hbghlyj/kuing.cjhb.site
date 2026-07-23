@@ -2,13 +2,36 @@
 
 请同时阅读 `UPGRADE_NOTES.md`，其中专门记录了当前分支相对 `master` 的差异、部署前必看项、数据库迁移要求以及不兼容变更。
 
+
 ## 当前分支额外行为
 
-### URL 锚点写法
+### 开发环境缓存目录权限
 
-`[url=sec1][/url]` 会生成 `<a name="sec1"></a>`。
+对于开发克隆站点，以下运行时生成目录应统一由 Web 进程用户持有：
 
-`[url=#sec1]跳转[/url]` 会生成跳转到该锚点的链接。
+- `data/cache`
+- `data/template`
+- `data/sysdata`
+
+否则即使目录本身是 `777`，只要其中已有缓存文件被错误地写成 `root:root` 或其它不可覆盖状态，后台如“模板管理 / 风格管理”等涉及缓存重建的操作，仍可能报：
+
+```text
+Can not write to cache files, please check directory ./data/ and ./data/cache/ .
+```
+
+在开发克隆环境中，已确认需要将上述整棵目录树统一修正为 `www-data:www-data`，而不是只修目录权限。
+
+### HTTPS 与机器人判定
+
+当前分支沿用了上游的请求头判定逻辑：当浏览器请求里缺少 `HTTP_SEC_FETCH_MODE` 时，运行时可能把该访问记为 `UnusualSecFetchModeHeader`，从而按爬虫路径处理。
+
+这在开发环境里尤其需要注意：
+
+- `kuing.cjhb.site` 这类 HTTPS 访问通常会带上 `Sec-Fetch-*` 头；
+- 如果仍以纯 HTTP 访问，浏览器可能不发送这些头；
+- 结果就是开发环境可能出现“游客头部为空、`#onlinelist` 不显示、fastlogin 不显示、会话里被记成机器人”等现象。
+
+因此，测试当前分支时应尽量保证测试域名也使用 HTTPS。否则即使代码与 `master` 一致，开发环境仍可能因为请求头差异触发机器人判定。
 
 ### IP 地理位置库
 
@@ -19,6 +42,45 @@
 - 查询结果包含国家代码、ASN 和自治系统组织名称，不包含城市
 - PHP-FPM 运行用户必须能够读取上述 PHAR 和 MMDB 文件
 - 旧的 `tinyipdata.dat` / `wry` 系列数据文件不再是当前默认查询路径
+
+### 聊天室配置 (chat/php/config.php)
+
+请确保 chat/php/config.php 文件已正确配置，该文件已加入 .gitignore 以防泄漏。
+
+### PHP 语言文件单一来源
+
+当前分支已将 PHP 语言文件也统一收敛到 `source/i18n`。
+
+需要注意：
+
+- `source/language` 已从运行时代码中移除，不应再向该目录补 key；
+- 新增或修复 PHP 语言 key 时，只改 `source/i18n/SC_UTF8`、`source/i18n/TC_UTF8`、`source/i18n/EN_UTF8`；
+- 删除旧语言树前，已按文件路径与 key 做过迁移审计，避免出现 `!recent_use_tag!` 这类缺 key 现象；
+- 如果修改的是服务端语言文件，不仅要重建 `data/cache/lang_*.js`，还要按需要清理对应语言的 `data/template/*` 编译模板。
+
+### 前端 JS 语言来源
+
+当前分支前端 JS 已切换到 `source/i18n/*/lang_js.php` 生成的 `data/cache/lang_*.js`。
+
+需要注意：
+
+- 浏览器端统一通过 `_JSLANG_` 和 `$L(...)` 读取语言字符串；
+- `static/js/register.js` 使用 `email_domains`；
+- `static/js/common_extra.js` 使用 `color_texts`；
+- 不应再从旧语言树直接下发 `lang_js.js` 这类全局脚本；
+- `source/language` 已不再作为运行时语言源，前端 JS 相关语言 key 只应维护在 `source/i18n/.../lang_js.php`。
+
+如果前端出现语言回退或缺字，优先检查：
+
+- `source/i18n/*/lang_js.php` 是否已有对应 key；
+- `data/cache/lang_*.js` 是否已重建；
+- 页面是否仍残留旧的 `lng[...]` / `emaildomains` 直连依赖。
+
+### URL 锚点写法
+
+`[url=sec1][/url]` 会生成 `<a name="sec1"></a>`。
+
+`[url=#sec1]跳转[/url]` 会生成跳转到该锚点的链接。
 
 ### 手机模板 CSS 缓存
 
@@ -62,63 +124,6 @@ tid \t subject \t dateline \t author
 ```
 
 顺序来解析，否则会出现“标题显示成时间戳、日期显示成 1970-1-1”之类的问题。
-
-### HTTPS 与机器人判定
-
-当前分支沿用了上游的请求头判定逻辑：当浏览器请求里缺少 `HTTP_SEC_FETCH_MODE` 时，运行时可能把该访问记为 `UnusualSecFetchModeHeader`，从而按爬虫路径处理。
-
-这在开发环境里尤其需要注意：
-
-- `kuing.cjhb.site` 这类 HTTPS 访问通常会带上 `Sec-Fetch-*` 头；
-- `dev.cjhb.site` 如果仍以纯 HTTP 访问，浏览器可能不发送这些头；
-- 结果就是开发环境可能出现“游客头部为空、`#onlinelist` 不显示、fastlogin 不显示、会话里被记成机器人”等现象。
-
-因此，测试当前分支时应尽量保证开发域名也使用 HTTPS。否则即使代码与 `master` 一致，开发环境仍可能因为请求头差异触发机器人判定。
-
-### 开发环境缓存目录权限
-
-对于开发克隆站点，以下运行时生成目录应统一由 Web 进程用户持有：
-
-- `data/cache`
-- `data/template`
-- `data/sysdata`
-
-否则即使目录本身是 `777`，只要其中已有缓存文件被错误地写成 `root:root` 或其它不可覆盖状态，后台如“模板管理 / 风格管理”等涉及缓存重建的操作，仍可能报：
-
-```text
-Can not write to cache files, please check directory ./data/ and ./data/cache/ .
-```
-
-在 `dev.cjhb.site` 对应的克隆环境中，已确认需要将上述整棵目录树统一修正为 `www-data:www-data`，而不是只修目录权限。
-
-### 前端 JS 语言来源
-
-当前分支前端 JS 已切换到 `source/i18n/*/lang_js.php` 生成的 `data/cache/lang_*.js`。
-
-需要注意：
-
-- 浏览器端统一通过 `_JSLANG_` 和 `$L(...)` 读取语言字符串；
-- `static/js/register.js` 使用 `email_domains`；
-- `static/js/common_extra.js` 使用 `color_texts`；
-- 不应再从旧语言树直接下发 `lang_js.js` 这类全局脚本；
-- `source/language` 已不再作为运行时语言源，前端 JS 相关语言 key 只应维护在 `source/i18n/.../lang_js.php`。
-
-如果前端出现语言回退或缺字，优先检查：
-
-- `source/i18n/*/lang_js.php` 是否已有对应 key；
-- `data/cache/lang_*.js` 是否已重建；
-- 页面是否仍残留旧的 `lng[...]` / `emaildomains` 直连依赖。
-
-### PHP 语言文件单一来源
-
-当前分支已将 PHP 语言文件也统一收敛到 `source/i18n`。
-
-需要注意：
-
-- `source/language` 已从运行时代码中移除，不应再向该目录补 key；
-- 新增或修复 PHP 语言 key 时，只改 `source/i18n/SC_UTF8`、`source/i18n/TC_UTF8`、`source/i18n/EN_UTF8`；
-- 删除旧语言树前，已按文件路径与 key 做过迁移审计，避免出现 `!recent_use_tag!` 这类缺 key 现象；
-- 如果修改的是服务端语言文件，不仅要重建 `data/cache/lang_*.js`，还要按需要清理对应语言的 `data/template/*` 编译模板。
 
 ### `class_i18n` 与语言文件装载路径
 
@@ -300,6 +305,10 @@ CONSTRAINT `fields` CHECK (json_valid(`fields`))
 ```
 
 `insert_user()` 现在在插入 profile 时，若调用方未提供 `fields` 值，会自动补填 `'{}'`，避免触发约束失败（错误 4025）。
-### 聊天室配置 (chat/php/config.php)
+### 临时目录说明
 
-请确保 chat/php/config.php 文件已正确配置，该文件已加入 .gitignore 以防泄漏。
+DiscuzX 系统运行过程中会使用到几个带有 `temp` 的临时或缓存目录，它们的用途分别如下：
+
+- `data/temp`：用于存放系统或某些特定功能生成的通用临时文件数据。
+- `data/attachment/temp`：主要用于在用户上传文件或图片的过程中，将数据临时存放在此处。待处理（如缩略图、水印生成等）完毕并正式保存后，这些文件才会被移动到正式的附件目录中。
+- `data/template`：这里存放的是由 `.htm` 源码模板编译生成的 `.tpl.php` 缓存文件。通过将模板预编译成 PHP 代码，可以大大提高页面渲染效率。每次修改了前台模板或更换了语言环境后，通常需要清理此目录以重新生成最新缓存。

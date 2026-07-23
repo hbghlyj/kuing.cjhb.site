@@ -29,11 +29,28 @@ const { execSync } = require('child_process');
         C::t('common_setting')->update('seccodedata', serialize(\$seccodedata));
         C::t('common_setting')->update('secqaa', serialize(\$secqaa));
         C::t('common_setting')->update('regname', 'register');
+        C::t('common_setting')->update('regstatus', '1');
+        C::t('common_setting')->update('creditspolicy', serialize(array('post' => array())));
 
         DB::query('TRUNCATE TABLE '.DB::table('common_syscache'));
+
+        if (!C::t('common_style')->count()) {
+            C::t('common_style')->insert(array(
+                'name' => 'Default',
+                'available' => 1,
+                'templateid' => 1,
+            ));
+            C::t('common_template')->insert(array(
+                'name' => 'Default',
+                'directory' => './template/default',
+                'copyright' => 'Comsenz Inc.',
+            ));
+        }
+
         require_once libfile('function/cache');
         updatecache('setting');
         updatecache('secqaa');
+        updatecache('styles');
         ?>`;
         fs.writeFileSync('disable_sec.php', phpConfig);
         execSync('php disable_sec.php');
@@ -91,6 +108,7 @@ const { execSync } = require('child_process');
              console.log(await page.innerHTML('body'));
         }
         assert.ok(dbCheck === '1', 'Assertion Error: Registered user does not exist in database.');
+        await page.screenshot({ path: 'screenshot_forum_01_registered.png' });
 
         await page.goto('http://127.0.0.1:8080/home.php?mod=spacecp');
         const spaceUrl = await page.url();
@@ -175,6 +193,7 @@ const { execSync } = require('child_process');
                  assert.ok(savedMsg.includes('保存成功') || savedMsg.includes('success') || !page.url().includes('profilesubmit'), 'Assertion Error: Profile update failed.');
              }
         }
+        await page.screenshot({ path: 'screenshot_forum_02_admin_profile.png' });
         report += '### 4. Admin Profile Update\n- **Status**: Checked\n\n';
 
         console.log("Checking Admin Panel...");
@@ -190,6 +209,7 @@ const { execSync } = require('child_process');
         }
         const adminPageText = await page.textContent('body');
         assert.ok(adminPageText.includes('Admin') || adminPageText.includes('管理中心') || adminPageText.includes('frame'), 'Assertion Error: Admin panel UI did not load correctly.');
+        await page.screenshot({ path: 'screenshot_forum_03_admin_panel.png' });
         report += '### 5. Admin Panel UI\n- **Status**: Checked\n\n';
 
     } catch (error) {

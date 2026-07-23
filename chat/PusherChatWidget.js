@@ -50,11 +50,11 @@
       });
       this.#chatChannel.bind('pusher:subscription_succeeded', () => {
         this.#widget.find('label').text((isChinese ? '快捷键' : 'Shortcut') + ' Ctrl+Enter');
-        this.#widget.find('.pusher-chat-widget-send-btn').prop('disabled', false);
+        this.#widget.find('.pusher-chat-widget-send-btn, .pusher-chat-widget-photo-btn').prop('disabled', false);
       });
       this.#pusher.connection.bind('unavailable', () => {
         this.#widget.find('label').text(isChinese ? '请检查网络连接' : 'Please check your network connection');
-        this.#widget.find('.pusher-chat-widget-send-btn').prop('disabled', true);
+        this.#widget.find('.pusher-chat-widget-send-btn, .pusher-chat-widget-photo-btn').prop('disabled', true);
       });
       this.#pusher.connection.bind('state_change', states => {
         if(states.current==='disconnected'||states.current==='unavailable'){
@@ -177,12 +177,18 @@
           this.#widget.find('.toggle-icon').html(this.isCollapsed ? '<path d="M7 14l5-5 5 5z"/>' : '<path d="M7 10l5 5 5-5z"/>');
         });
       }
-        this.#widget.find('.pusher-chat-widget-send-btn').click(() => this.#sendChatButtonClicked());
-        this.#messageInputEl.keydown(e => {
-          if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
-            this.#sendChatButtonClicked();
-          }
-        });
+      this.#widget.find('.pusher-chat-widget-send-btn').click(() => this.#sendChatButtonClicked());
+      this.#widget.find('.pusher-chat-widget-photo-btn').click(() => {
+        this.#widget.find('.pusher-chat-widget-photo-input').click();
+      });
+      this.#widget.find('.pusher-chat-widget-photo-input').change(e => {
+        this.#handlePhotoUpload(e.target);
+      });
+      this.#messageInputEl.keydown(e => {
+        if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+          this.#sendChatButtonClicked();
+        }
+      });
       this.#startTimeMonitor();
       this.#loadMoreButton.click(() => { this.#loadHistory(true); });
     }
@@ -347,6 +353,51 @@
         }
       });
     }
+    #handlePhotoUpload(inputElement){
+      if(!inputElement.files || !inputElement.files[0]) return;
+      const file = inputElement.files[0];
+      const validExtensions = /\.(jpe?g|png|gif|bmp|webp)$/i;
+      if(!validExtensions.test(file.name)){
+        showError(isChinese ? '请选择有效的图片格式 (jpg, jpeg, png, gif, bmp, webp)' : 'Please select a valid image file (jpg, jpeg, png, gif, bmp, webp)');
+        inputElement.value = '';
+        return;
+      }
+      const formData = new FormData();
+      formData.append('file', file);
+      if(typeof FORMHASH !== 'undefined'){
+        formData.append('formhash', FORMHASH);
+      }
+      const $photoBtn = this.#widget.find('.pusher-chat-widget-photo-btn');
+      $photoBtn.prop('disabled', true).addClass('loading');
+
+      jQuery.ajax({
+        url: '/chat/php/upload.php',
+        type: 'POST',
+        data: formData,
+        contentType: false,
+        processData: false,
+        dataType: 'json',
+        success: response => {
+          if(response && response.status === 200 && response.url){
+            this.#sendChatMessage({text: response.url});
+          }else{
+            showError(response && response.error ? response.error : (isChinese ? '图片上传失败' : 'Failed to upload photo'));
+          }
+        },
+        error: (xhr, status, error) => {
+          let errDetail = error;
+          try {
+            const res = JSON.parse(xhr.responseText);
+            if(res.error) errDetail = res.error;
+          } catch(e){}
+          showError(isChinese ? ('图片上传错误: ' + errDetail) : ('Photo upload error: ' + errDetail));
+        },
+        complete: () => {
+          $photoBtn.prop('disabled', false).removeClass('loading');
+          inputElement.value = '';
+        }
+      });
+    }
     #startTimeMonitor(){
       setInterval(()=>{
         this.#messagesEl.find('a.timestamp span[data-activity-published]').each((i,el)=>{
@@ -357,13 +408,20 @@
       },10000);
     }
     static _createHTML(appendTo){
+      const addPhotoSvg = '<svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M19 7v2.99s-1.99 0-2 0V7h-3s0-1.99 0-2h3V2h2v3h3v2h-3zm-3 4V8h-3V5H5c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2v-8h-3zM5 19l3-3.86 2.14 2.58 3-3.86L17 19H5z"/></svg>';
+      const sendSvg = '<svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg>';
+
       const html='<div class="pusher-chat-widget">'+
         (isMobile?'':'<div class="pusher-chat-widget-header"><svg class="toggle-icon" width="24" height="24" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg></div>')+
         '<div class="pusher-chat-widget-messages"><ul class="activity-stream">'+
         '<li class="pusher-chat-widget-load-more" style="display:none;">'+(isChinese?'加载更多':'Load More')+'</li>'+
         '</ul></div>'+
-        '<div class="pusher-chat-widget-input"><label for="message"></label><textarea id="message"></textarea><button class="pusher-chat-widget-send-btn" disabled>'+(isChinese?'发送':'Send')+'</button></div>'+
-        '</div>';
+        '<div class="pusher-chat-widget-input">'+
+        '<label for="message"></label><textarea id="message"></textarea>'+
+        '<input type="file" class="pusher-chat-widget-photo-input" accept="image/*" style="display:none;" />'+
+        '<button type="button" class="pusher-chat-widget-photo-btn" title="'+(isChinese?'发送图片':'Add Photo')+'" disabled>'+addPhotoSvg+'</button>'+
+        '<button type="button" class="pusher-chat-widget-send-btn" title="'+(isChinese?'发送消息':'Send Message')+'" disabled>'+sendSvg+'</button>'+
+        '</div></div>';
       const widget=jQuery(html);
       jQuery(appendTo).append(widget);
       return widget;
@@ -385,7 +443,7 @@
       const content = jQuery('<div class="content"></div>');
       const user = jQuery('<div class="activity-row"><span class="user-name"><a class="screen-name">'+activity.actor.displayName.replace(/\\'/g,"'")+'</a><a '+(activity.link?'href="'+activity.link+'" ':'')+'class="timestamp"><span data-activity-published="'+activity.published+'">'+PusherChatWidget.timeToDescription(activity.published)+'</span></a></span></div>');
       content.append(user);
-      const textHtml = activity.body.replace(/(https?:\/\/\S+\b)/g,m=>(/\.(png|jpe?g|gif|bmp|svg|webp)$/i.test(m)?'<img src="'+m+'" />':'<a href="'+m+'">'+m+'</a>')).replace(/\n/g,'<br>');
+      const textHtml = activity.body.replace(/(https?:\/\/\S+\b|\/data\/attachment\/chat\/\S+\b)/gi,m=>(/\.(png|jpe?g|gif|bmp|svg|webp)$/i.test(m)?'<img src="'+m+'" />':'<a href="'+m+'">'+m+'</a>')).replace(/\n/g,'<br>');
       const message = jQuery('<div class="activity-row"><div class="text">'+textHtml+'</div></div>');
       content.append(message);
       contentWrapper.append(image).append(content);
