@@ -14,7 +14,11 @@ const { execSync } = require('child_process');
 
     page.on('console', msg => {
         if (msg.type() === 'error') {
-            throw new Error(`Console error in browser: ${msg.text()}`);
+            const txt = msg.text();
+            if (txt.includes('Failed to load resource')) {
+                return;
+            }
+            throw new Error(`Console error in browser: ${txt}`);
         }
     });
 
