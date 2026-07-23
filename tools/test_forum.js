@@ -351,7 +351,7 @@ const { execSync } = require('child_process');
             return hd ? hd.innerHTML.substring(0, 400) : '';
         });
 
-        const headerAvatarImg = await page.$('#um .avt img, #um .avt a, #um .avt, #hd .avt img, #um img, .avt img, #um');
+        const headerAvatarImg = await page.$('#um .avt img, #um .avt a, #um .avt, #hd .avt img, #um img, .avt img, .header-user-avatar img, .header-user-avatar .Avatar, .header-user-avatar, #um');
         assert.ok(headerAvatarImg !== null, `Assertion Error: Avatar image element was not rendered in page header. Header HTML: ${headerSnippet}`);
 
         console.log("Checking viewthread page for author custom avatar...");
