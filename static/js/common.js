@@ -24,18 +24,22 @@ if (typeof IN_ADMINCP == 'undefined') {
 	}
 }
 
-var _JSLANG_ = new Array();
+var _JSLANG_ = {};
 try {
-	_JSLANG_ = JSON.parse(loadUserdata('i18n_' + _i18n_));
+	var _parsed_ = JSON.parse(loadUserdata('i18n_' + _i18n_));
+	if (_parsed_ && typeof _parsed_ === 'object') {
+		_JSLANG_ = _parsed_;
+	}
 } catch (e) {
-	_JSLANG_ = new Array();
+	_JSLANG_ = {};
 }
-if (!_JSLANG_ || _JSLANG_['_verhash_'] != VERHASH) {
+if (!_JSLANG_ || !_JSLANG_['_verhash_'] || _JSLANG_['_verhash_'] != VERHASH) {
 	var _script_ = document.createElement("script");
 	_script_.type = "text/javascript";
 	_script_.src = (typeof (JSCACHEPATH) == 'undefined' ? JSPATH : JSCACHEPATH) + 'lang_' + _i18n_ + '.js?' + VERHASH;
 	document.head.appendChild(_script_);
 	_script_.onload = function () {
+		_JSLANG_ = _JSLANG_ || {};
 		_JSLANG_['_verhash_'] = VERHASH;
 		saveUserdata('i18n_' + _i18n_, JSON.stringify(_JSLANG_));
 	};
@@ -2258,7 +2262,7 @@ function html5DPlayer(randomid, ext, src, width, height, thumbImg = '') {
 }
 
 function $L(key, param) {
-	if (typeof (_JSLANG_[key]) != 'undefined') {
+	if (_JSLANG_ && typeof (_JSLANG_[key]) != 'undefined') {
 		var value = _JSLANG_[key];
 		if (param instanceof Array) {
 			for (var i in param) {
@@ -2282,7 +2286,8 @@ function $L(key, param) {
 		'secqaa_error': 'Wrong answer, please try again',
 		'waiting_upload': 'Wait for upload...',
 		'error_notice': 'Error Message',
-		'notice': 'Reminder'
+		'notice': 'Reminder',
+		'profile_tip': '如不需要更改密码，此处请留空'
 	};
 	if (typeof aliasMap[key] != 'undefined') {
 		return aliasMap[key];
