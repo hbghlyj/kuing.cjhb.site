@@ -85,7 +85,7 @@ const { execSync } = require('child_process');
             form.submit();
         }, { username, password, email });
 
-        await page.waitForNavigation({ waitUntil: 'networkidle' }).catch(() => {});
+        await page.waitForNavigation({ waitUntil: 'networkidle' }).catch(() => { });
         await page.waitForTimeout(3000);
 
         console.log("Checking if user exists in DB...");
@@ -93,8 +93,8 @@ const { execSync } = require('child_process');
         console.log("DB count for user:", dbCheck);
 
         if (dbCheck !== '1') {
-             console.log("Registration failed. Page source:");
-             console.log(await page.innerHTML('body'));
+            console.log("Registration failed. Page source:");
+            console.log(await page.innerHTML('body'));
         }
         assert.ok(dbCheck === '1', 'Assertion Error: Registered user does not exist in database.');
         await page.screenshot({ path: 'screenshot_forum_01_registered.png' });
@@ -121,7 +121,7 @@ const { execSync } = require('child_process');
             const loginSubmitBtn = await page.$('button[name="loginsubmit"]');
             if (loginSubmitBtn) {
                 await loginSubmitBtn.click();
-                await page.waitForNavigation({ waitUntil: 'networkidle' }).catch(() => {});
+                await page.waitForNavigation({ waitUntil: 'networkidle' }).catch(() => { });
             }
 
             await page.goto('http://127.0.0.1:8080/home.php?mod=spacecp');
@@ -130,7 +130,7 @@ const { execSync } = require('child_process');
         }
         report += '### 1. User Registration & Login\n- **Status**: Checked\n- **Username**: ' + username + '\n\n';
 
-        console.log("Attempting to post unprivileged thread...");
+        console.log("Attempting to post normal thread as unprivileged user...");
         await page.goto('http://127.0.0.1:8080/forum.php?mod=post&action=newthread&fid=2');
         await page.waitForLoadState('networkidle');
 
@@ -147,23 +147,23 @@ const { execSync } = require('child_process');
         const postSubmitBtn = await page.$('button[name="topicsubmit"], #postsubmit');
         if (postSubmitBtn) {
             await postSubmitBtn.click();
-            await page.waitForNavigation({ waitUntil: 'networkidle' }).catch(() => {});
+            await page.waitForNavigation({ waitUntil: 'networkidle' }).catch(() => { });
         }
+        await page.waitForTimeout(2000);
+
+        console.log("Checking if posted thread exists in DB...");
+        const threadDbCheck = execSync("sudo mysql -u root ultrax -N -s -e \"SELECT COUNT(*) FROM pre_forum_thread WHERE subject='Standard User Thread';\"").toString().trim();
+        console.log("DB count for thread:", threadDbCheck);
 
         const currentUrl = page.url();
         const postContent = await page.textContent('body');
 
-        const errorAlert = await page.$('.alert_error, .alert_info');
-        if (errorAlert) {
-            const errorText = await errorAlert.textContent();
-            console.log("Unprivileged posting was blocked by system (expected behavior for new users):", errorText.trim());
-        } else {
-             if (!(/mod=viewthread&tid=\d+/.test(currentUrl) || postContent.includes('审核') || postContent.includes('抱歉'))) {
-                 console.log("Unprivileged posting failed without a clear error box! Final URL:", currentUrl);
-                 assert.fail('Assertion Error: Unprivileged user posting failed without a clear error message! Final URL: ' + currentUrl);
-             }
-        }
-        report += '### 2. Unprivileged User Posting\n- **Status**: Checked\n\n';
+        assert.ok(parseInt(threadDbCheck, 10) >= 1, 'Assertion Error: Normal user thread post was not found in database.');
+        assert.ok(
+            /mod=viewthread&tid=\d+/.test(currentUrl) || postContent.includes('Standard User Thread') || postContent.includes('非常感谢'),
+            'Assertion Error: Normal user posting did not result in thread view or success message. Final URL: ' + currentUrl
+        );
+        report += '### 2. Unprivileged User Posting\n- **Status**: Checked\n- **Thread Created**: Standard User Thread\n\n';
 
         console.log("Phase 2: Elevated User Testing");
         execSync("sudo mysql -u root ultrax -e \"UPDATE pre_common_member SET groupid=1, adminid=1 WHERE username='" + username + "';\"");
@@ -172,15 +172,15 @@ const { execSync } = require('child_process');
         await page.goto('http://127.0.0.1:8080/home.php?mod=spacecp');
         await page.waitForLoadState('networkidle');
         const bioInput = await page.$('textarea[name="bio"]');
-        if(bioInput) {
-             await bioInput.fill('Updated bio as admin');
-             const saveBtn = await page.$('button[name="profilesubmit"]');
-             if(saveBtn) {
-                 await saveBtn.click();
-                 await page.waitForTimeout(1000);
-                 const savedMsg = await page.textContent('body');
-                 assert.ok(savedMsg.includes('保存成功') || savedMsg.includes('success') || !page.url().includes('profilesubmit'), 'Assertion Error: Profile update failed.');
-             }
+        if (bioInput) {
+            await bioInput.fill('Updated bio as admin');
+            const saveBtn = await page.$('button[name="profilesubmit"]');
+            if (saveBtn) {
+                await saveBtn.click();
+                await page.waitForTimeout(1000);
+                const savedMsg = await page.textContent('body');
+                assert.ok(savedMsg.includes('保存成功') || savedMsg.includes('success') || !page.url().includes('profilesubmit'), 'Assertion Error: Profile update failed.');
+            }
         }
         await page.screenshot({ path: 'screenshot_forum_02_admin_profile.png' });
         report += '### 4. Admin Profile Update\n- **Status**: Checked\n\n';
@@ -190,7 +190,7 @@ const { execSync } = require('child_process');
         await page.waitForLoadState('networkidle');
 
         const adminPassInput = await page.$('input[name="admin_password"]');
-        if(adminPassInput) {
+        if (adminPassInput) {
             await adminPassInput.fill(password);
             const adminSubmitBtn = await page.$('input[name="submit"]');
             if (adminSubmitBtn) await adminSubmitBtn.click();
@@ -199,11 +199,11 @@ const { execSync } = require('child_process');
         // Verify admin authentication success: password prompt must be gone and admin workspace/frames loaded
         const hasLoginPrompt = await page.$('input[name="admin_password"]');
         const pageSource = await page.content();
-        const hasAdminWorkspace = pageSource.includes('admincpnav') || 
-                                 pageSource.includes('admincpframe') || 
-                                 pageSource.includes('action=logout') || 
-                                 pageSource.includes('action=header') ||
-                                 page.frames().some(f => f.url().includes('admin.php?action='));
+        const hasAdminWorkspace = pageSource.includes('admincpnav') ||
+            pageSource.includes('admincpframe') ||
+            pageSource.includes('action=logout') ||
+            pageSource.includes('action=header') ||
+            page.frames().some(f => f.url().includes('admin.php?action='));
 
         assert.ok(!hasLoginPrompt && hasAdminWorkspace, 'Assertion Error: Admin panel authentication failed. Still on unauthorized login screen.');
         await page.screenshot({ path: 'screenshot_forum_03_admin_panel.png' });
