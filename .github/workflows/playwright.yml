@@ -1,0 +1,71 @@
+name: Playwright Functional Tests
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install System Dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y php php-xml php-curl php-json php-mbstring php-mysql mariadb-server
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Dependencies
+        run: npm install playwright
+
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps chromium
+
+      - name: Configure Database & DiscuzX
+        run: |
+          sudo systemctl start mariadb
+          sudo mysql -u root -e "CREATE DATABASE ultrax;"
+          sudo mysql -u root -e "CREATE USER 'discuz'@'127.0.0.1' IDENTIFIED BY 'password';"
+          sudo mysql -u root -e "GRANT ALL PRIVILEGES ON ultrax.* TO 'discuz'@'127.0.0.1';"
+          sudo mysql -u root -e "FLUSH PRIVILEGES;"
+
+          sudo mysql -u root ultrax < install/sql/sql_install.php
+
+          cp config/config_global_default.php config/config_global.php
+          sed -i "s/\$_config\['db'\]\[1\]\['dbname'\]  		= 'mitframe';/\$_config['db'][1]['dbname'] = 'ultrax';/g" config/config_global.php
+          sed -i "s/\$_config\['db'\]\[1\]\['dbuser'\]  		= 'root';/\$_config['db'][1]['dbuser'] = 'discuz';/g" config/config_global.php
+          sed -i "s/\$_config\['db'\]\[1\]\['dbpw'\] 	 	= '';/\$_config['db'][1]['dbpw'] = 'password';/g" config/config_global.php
+          sed -i "s/\$_config\['db'\]\[1\]\['dbhost'\]  		= 'localhost';/\$_config['db'][1]['dbhost'] = '127.0.0.1';/g" config/config_global.php
+
+          mkdir -m 777 -p data/template/EN data/template/TC data/sysdata json temp
+          chmod 777 data/cache temp
+
+          mkdir -p chat/php/vendor
+          echo '<?php ?>' > chat/php/vendor/autoload.php
+          cp chat/php/config_default.php chat/php/config.php
+          echo '<?php if (!class_exists("Pusher")) {     class Pusher {         public function __construct(...$args) {}         public function trigger($channel, $event, $data, $a = null, $b = null)         {             return true;         }     } } ?>'  > source/class/class_pusher.php
+
+      - name: Start PHP Server
+        run: php -S 127.0.0.1:8080 > php_server.log 2>&1 &
+
+      - name: Run Playwright Tests
+        run: |
+          node tools/test_forum.js
+          node tools/test_tags.js
+
+      - name: Upload Screenshots and Report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: playwright-results
+          path: |
+            functional_test_report.md
+          retention-days: 7
