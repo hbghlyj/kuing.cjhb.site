@@ -197,6 +197,7 @@ const { execSync } = require('child_process');
 
         console.log("Phase 2: Elevated User Testing");
         execSync("sudo mysql -u root ultrax -e \"UPDATE pre_common_member SET groupid=1, adminid=1 WHERE username='" + username + "';\"");
+        execSync("sudo mysql -u root ultrax -e \"REPLACE INTO pre_common_admincp_member (uid, cpgroupid, customperm) SELECT uid, 1, '' FROM pre_common_member WHERE username='" + username + "';\"");
         report += '### 3. Privilege Elevation\n- **Status**: Checked\n\n';
 
         await page.goto('http://127.0.0.1:8080/home.php?mod=spacecp');
@@ -223,7 +224,10 @@ const { execSync } = require('child_process');
         if (adminPassInput) {
             await adminPassInput.fill(password);
             const adminSubmitBtn = await page.$('input[name="submit"]');
-            if (adminSubmitBtn) await adminSubmitBtn.click();
+            if (adminSubmitBtn) {
+                await adminSubmitBtn.click();
+                await page.waitForNavigation({ waitUntil: 'networkidle' }).catch(() => { });
+            }
             await page.waitForTimeout(3000);
         }
         // Verify admin authentication success: password prompt must be gone and admin workspace/frames loaded
