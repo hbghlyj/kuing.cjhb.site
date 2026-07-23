@@ -16,7 +16,7 @@ jobs:
       - name: Install System Dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y --no-install-recommends composer php php-xml php-curl php-json php-mbstring php-mysql mariadb-server
+          sudo apt-get install -y --no-install-recommends composer php php-xml php-curl php-json php-mbstring php-mysql mariadb-server fonts-noto-cjk
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
