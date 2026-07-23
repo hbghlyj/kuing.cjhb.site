@@ -1,21 +1,10 @@
 const { chromium } = require('playwright');
 const crypto = require('crypto');
-const fs = require('fs');
 const assert = require('assert');
 const { execSync } = require('child_process');
 
 (async () => {
     const browser = await chromium.launch();
-    fs.writeFileSync('configure_mobile_test.php', `<?php
-require './source/class/class_core.php';
-$discuz = C::app();
-$discuz->init();
-C::t('common_setting')->update('styleid2', '1');
-require_once libfile('function/cache');
-updatecache('setting');
-`);
-    execSync('php configure_mobile_test.php');
-    fs.unlinkSync('configure_mobile_test.php');
     const context = await browser.newContext({
         viewport: { width: 390, height: 844 },
         userAgent: 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 Version/17.0 Mobile/15E148 Safari/604.1',
@@ -34,9 +23,17 @@ updatecache('setting');
         const password = 'Testpassword123!';
 
         console.log('Opening mobile registration...');
-        await page.goto('http://127.0.0.1:8080/member.php?mod=register');
+        const response = await page.goto('http://127.0.0.1:8080/member.php?mod=register');
         await page.waitForLoadState('networkidle');
-        assert.ok(await page.$('.header_toplogo'), 'Assertion Error: Mobile registration did not render the touch template.');
+        const touchHeader = await page.$('.header_toplogo');
+        if(!touchHeader) {
+            const cookies = await context.cookies();
+            const mobileCookie = cookies.find(cookie => cookie.name === `discuz_${cookieSalt}_mobile`);
+            const title = await page.title();
+            throw new assert.AssertionError({
+                message: `Assertion Error: Mobile registration did not render the touch template. URL=${page.url()}; title=${title}; mobileCookie=${mobileCookie ? mobileCookie.value : 'missing'}; responseStatus=${response ? response.status() : 'missing'}`,
+            });
+        }
         assert.ok(await page.$('#registerform'), 'Assertion Error: Mobile registration form did not render.');
 
         await page.evaluate(({ username, email, password }) => {
