@@ -52,7 +52,7 @@ jobs:
           echo '<?php ?>' > chat/php/vendor/autoload.php
           cp chat/php/config_default.php chat/php/config.php
           echo '<?php if (!class_exists("Pusher")) {     class Pusher {         public function __construct(...$args) {}         public function trigger($channel, $event, $data, $a = null, $b = null)         {             return true;         }     } } ?>'  > source/class/class_pusher.php
-
+          php tools/import_all_data.php
       - name: Start PHP Server
         run: php -S 127.0.0.1:8080 > php_server.log 2>&1 &
 
