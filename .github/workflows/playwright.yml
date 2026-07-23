@@ -16,7 +16,7 @@ jobs:
       - name: Install System Dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y php php-xml php-curl php-json php-mbstring php-mysql mariadb-server
+          sudo apt-get install -y composer php php-xml php-curl php-json php-mbstring php-mysql mariadb-server
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -24,7 +24,9 @@ jobs:
           node-version: '24'
 
       - name: Install Dependencies
-        run: npm install playwright
+        run: |
+          composer install --no-dev --no-interaction --no-progress --prefer-dist --optimize-autoloader
+          npm install playwright
 
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps chromium
