@@ -52,9 +52,6 @@ const { execSync } = require('child_process');
         execSync("sed -i 's/public static function check_secqaa(\\$val, \\$idhash) {/public static function check_secqaa(\\$val, \\$idhash) { return true;/g' source/class/helper/helper_seccheck.php || true");
         execSync("sed -i 's/public static function check_seccode(\\$val, \\$idhash, \\$modid = 0) {/public static function check_seccode(\\$val, \\$idhash, \\$modid = 0) { return true;/g' source/class/helper/helper_seccheck.php || true");
 
-        // Remove sysdata cache
-        execSync('find data/sysdata/ -type f -name "*.php" -delete');
-
         console.log("Testing UI Registration...");
         await page.goto('http://127.0.0.1:8080/member.php?mod=register');
         await page.waitForLoadState('networkidle');
