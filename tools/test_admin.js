@@ -35,7 +35,7 @@ const { execSync } = require('child_process');
 
     try {
         const timestamp = Math.floor(Date.now() / 1000).toString().slice(-6);
-        const username = 'admin_' + timestamp;
+        const username = 'admin' + timestamp;
         const password = 'Testpassword123!';
 
         // Disable captcha for registration/login during automated test
