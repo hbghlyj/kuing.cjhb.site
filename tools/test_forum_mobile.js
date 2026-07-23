@@ -29,8 +29,9 @@ const { execSync } = require('child_process');
             const cookies = await context.cookies();
             const mobileCookie = cookies.find(cookie => cookie.name === `discuz_${cookieSalt}_mobile`);
             const title = await page.title();
+            const botReason = execSync("sudo mysql -u root ultrax -N -s -e \"SELECT bot_reason FROM pre_common_session WHERE ip = '127.0.0.1' ORDER BY lastactivity DESC LIMIT 1\"").toString().trim();
             throw new assert.AssertionError({
-                message: `Assertion Error: Mobile registration did not render the touch template. URL=${page.url()}; title=${title}; mobileCookie=${mobileCookie ? mobileCookie.value : 'missing'}; responseStatus=${response ? response.status() : 'missing'}`,
+                message: `Assertion Error: Mobile registration did not render the touch template. URL=${page.url()}; title=${title}; mobileCookie=${mobileCookie ? mobileCookie.value : 'missing'}; botReason=${botReason || 'missing'}; responseStatus=${response ? response.status() : 'missing'}`,
             });
         }
         assert.ok(await page.$('#registerform'), 'Assertion Error: Mobile registration form did not render.');
