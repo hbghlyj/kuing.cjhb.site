@@ -339,7 +339,7 @@ const { execSync } = require('child_process');
         await page.goto(`http://127.0.0.1:8080/home.php?mod=space&uid=${userUid}&do=profile`);
         await page.waitForLoadState('networkidle');
 
-        const profileAvatarImg = await page.$('#ct .userinfo .avatar_m img, #ct .avatar img, .user_avatar img');
+        const profileAvatarImg = await page.$('#uhd .avt img, #uhd .icn.avt img');
         assert.ok(profileAvatarImg !== null, 'Assertion Error: Avatar image element was not rendered on profile page.');
 
         console.log("Checking header for user custom avatar...");
