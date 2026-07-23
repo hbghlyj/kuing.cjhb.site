@@ -223,7 +223,7 @@ const { execSync } = require('child_process');
         const adminPassInput = await page.$('input[name="admin_password"]');
         if (adminPassInput) {
             await adminPassInput.fill(password);
-            const adminSubmitBtn = await page.$('input[name="submit"]');
+            const adminSubmitBtn = await page.$('button[type="submit"], input[type="submit"], input[name="submit"]');
             if (adminSubmitBtn) {
                 await adminSubmitBtn.click();
                 await page.waitForNavigation({ waitUntil: 'networkidle' }).catch(() => { });
