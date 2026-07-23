@@ -136,9 +136,10 @@ $shownotice
 		<iframe src="{if !empty($_GET['frames'])}{ADMINSCRIPT}?$extra{else}{if !$oldlayout}{ADMINSCRIPT}?action=index&blank{/if}{/if}" id="main" name="main" class="mainframe"></iframe>
 	</div>
 </div>
+<!--{eval $defTab = !empty($_G['defaultTab']) ? $_G['defaultTab'] : (isset($menuData['defaultId']) ? $menuData['defaultId'] : '');}-->
 <script>
 	{if empty($_GET['frames'])}
-	var defaultTab = 'submn_{if $_G['defaultTab']}$_G['defaultTab']{else}{$menuData['defaultId']}{/if}';
+	var defaultTab = 'submn_{$defTab}';
 	{/if}
 	var defaultUrl = '{ADMINSCRIPT}?action=index&blank';
 </script>
