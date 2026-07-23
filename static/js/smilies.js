@@ -62,29 +62,6 @@ function smilies_onload(id, smcols, seditorkey) {
 		smiliestype += '</ul></div>';
 		$(id).innerHTML = smiliestype + '<div id="' + id + '_data"></div><div class="sllt_p" id="' + id + '_page"></div>';
 		smilies_switch(id, smcols, CURRENTSTYPE, smile[1], seditorkey);
-		var smilies_fastdata = '';
-		if(seditorkey == 'fastpost' && $('fastsmilies') && smilies_fast && typeof renderFastTexSmilies == 'undefined') {
-			var j = 0;
-			for(i = 0; i < smilies_fast.length; i++) {
-				if(j === 0) {
-					smilies_fastdata += '<tr>';
-				}
-				j = ++j > 3 ? 0 : j;
-				s = smilies_array[smilies_fast[i][0]][smilies_fast[i][1]][smilies_fast[i][2]];
-				if(smilies_type['_' + smilies_fast[i][0]][1] == ':emoji') {
-					smilies_fastdata += s ? '<td onclick="' + (typeof wysiwyg != 'undefined' ? 'insertSmiley(' + s[0] + ')' : 'seditor_insertunit(\'' + seditorkey + '\', \'' + s[1] + '\')') +
-					'" id="' + seditorkey + 'smilie_' + s[0] + '_td"><span id="smilie_' + s[0] + '">' + s[1] + '</span>' : '<td>';
-				} else {
-					smilieimg = STATICURL + 'image/smiley/' + smilies_type['_' + smilies_fast[i][0]][1] + '/' + s[2];
-					img[k] = new Image();
-					img[k].src = smilieimg;
-					smilies_fastdata += s ? '<td onmouseover="smilies_preview(\'' + seditorkey + '\', \'fastsmiliesdiv\', this, ' + s[5] + ')" onmouseout="$(\'smilies_preview\').style.display = \'none\'" onclick="' + (typeof wysiwyg != 'undefined' ? 'insertSmiley(' + s[0] + ')' : 'seditor_insertunit(\'' + seditorkey + '\', \'' + s[1].replace(/'/, '\\\'') + '\')') +
-						'" id="' + seditorkey + 'smilie_' + s[0] + '_td"><img id="smilie_' + s[0] + '" width="20" height="20" src="' + smilieimg + '" alt="' + s[1] + '" />' : '<td>';
-				}
-				k++;
-			}
-			$('fastsmilies').innerHTML = '<table class="cp0"><tr>' + smilies_fastdata + '</tr></table>';
-		}
 	}
 }
 
