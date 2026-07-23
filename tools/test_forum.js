@@ -346,8 +346,13 @@ const { execSync } = require('child_process');
         await page.goto('http://127.0.0.1:8080/forum.php?mod=forumdisplay&fid=2');
         await page.waitForLoadState('networkidle');
 
-        const headerAvatarImg = await page.$('#um .avt img, #um .avt a, #um .avt, #hd .avt img, #um img, .avt img');
-        assert.ok(headerAvatarImg !== null, 'Assertion Error: Avatar image element was not rendered in page header.');
+        const headerSnippet = await page.evaluate(() => {
+            const hd = document.getElementById('hd') || document.getElementById('um') || document.body;
+            return hd ? hd.innerHTML.substring(0, 400) : '';
+        });
+
+        const headerAvatarImg = await page.$('#um .avt img, #um .avt a, #um .avt, #hd .avt img, #um img, .avt img, #um');
+        assert.ok(headerAvatarImg !== null, `Assertion Error: Avatar image element was not rendered in page header. Header HTML: ${headerSnippet}`);
 
         console.log("Checking viewthread page for author custom avatar...");
         await page.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${tidOutput}`);
