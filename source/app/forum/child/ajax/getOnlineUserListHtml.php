@@ -19,9 +19,17 @@ if($_G['setting']['whosonlinestatus'] == 1 || $_G['setting']['whosonlinestatus']
 	updatesession();
 
 	$actioncode = lang('action');
-	loadcache('onlinelist');
-	$sessions = C::app()->session->fetch_member(1, 0);
-	$sessions_guests = C::app()->session->fetch_member(2, 0);
+	$maxonlinelist = isset($_G['setting']['maxonlinelist']) && $_G['setting']['maxonlinelist'] !== '' ? intval($_G['setting']['maxonlinelist']) : 500;
+	$memberlimit = $maxonlinelist > 0 ? $maxonlinelist : 0;
+
+	$sessions = C::app()->session->fetch_member(1, 0, $memberlimit);
+
+	$membercount_fetched = count($sessions);
+	$sessions_guests = [];
+	if($maxonlinelist == 0 || $maxonlinelist > $membercount_fetched) {
+		$guestlimit = $maxonlinelist > 0 ? ($maxonlinelist - $membercount_fetched) : 0;
+		$sessions_guests = C::app()->session->fetch_member(2, 0, $guestlimit);
+	}
 	$forumIds = [];
 	foreach($sessions as $online) {
 		if(!empty($online['fid'])) {
