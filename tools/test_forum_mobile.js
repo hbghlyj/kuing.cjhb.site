@@ -7,6 +7,7 @@ const { execSync } = require('child_process');
     const browser = await chromium.launch();
     const context = await browser.newContext({
         viewport: { width: 390, height: 844 },
+        locale: 'en-US',
     });
     const cookieSalt = crypto.createHash('md5').update('/|').digest('hex').slice(0, 4);
     await context.addCookies([
