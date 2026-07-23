@@ -342,7 +342,7 @@ const { execSync } = require('child_process');
         assert.ok(headerAvatarImg !== null, 'Assertion Error: Avatar image element was not rendered in page header.');
 
         console.log("Checking viewthread page for author custom avatar...");
-        await page.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${tid}`);
+        await page.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${tidOutput}`);
         await page.waitForLoadState('networkidle');
 
         const viewthreadAvatarImg = await page.$('.pls .avatar img, .postauthor .avatar img, .pls .avatar, .postauthor .avatar, img[src*="avatar"]');
