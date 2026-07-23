@@ -50,8 +50,6 @@ jobs:
           mkdir -m 777 -p data/template/EN data/template/TC data/sysdata data/cache data/log data/diy data/avatar data/plugindata data/download data/addonmd5 data/threadcache data/attachment
           chmod -R 777 data config
 
-          mkdir -p chat/php/vendor
-          echo '<?php ?>' > chat/php/vendor/autoload.php
           cp chat/php/config_default.php chat/php/config.php
           echo '<?php if (!class_exists("Pusher")) {     class Pusher {         public function __construct(...$args) {}         public function trigger($channel, $event, $data, $a = null, $b = null)         {             return true;         }     } } ?>'  > source/class/class_pusher.php
           php tools/import_all_data.php
