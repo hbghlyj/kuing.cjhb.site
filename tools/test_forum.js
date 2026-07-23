@@ -315,19 +315,43 @@ const { execSync } = require('child_process');
             await attachSubject.fill('Thread with Attachment');
         }
 
-        const attachFileInput = await page.$('input[name="Filedata"], input.filedata, input[type="file"]');
+        const userUid = execSync("sudo mysql -u root ultrax -N -s -e \"SELECT uid FROM pre_common_member WHERE username='" + username + "';\"").toString().trim();
+
+        const attachFileInput = await page.$('#imgattachform input[name="Filedata"], #attachform input[name="Filedata"], input[type="file"]');
         if (attachFileInput) {
             await attachFileInput.setInputFiles('sample_test_avatar.png');
-            await page.waitForTimeout(1000);
+            await page.evaluate(() => {
+                const form = document.getElementById('imgattachform') || document.getElementById('attachform');
+                if (form) form.submit();
+            }).catch(() => { });
+            await page.waitForTimeout(2000);
         }
 
-        await page.evaluate((message) => {
+        let aid = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT aid FROM pre_forum_attachment_unused WHERE uid='${userUid}' ORDER BY aid DESC LIMIT 1;"`).toString().trim();
+        if (!aid) {
+            aid = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT aid FROM pre_forum_attachment WHERE uid='${userUid}' ORDER BY aid DESC LIMIT 1;"`).toString().trim();
+        }
+        console.log("Discovered attachment AID:", aid);
+
+        const attachMsg = aid ? `Posting thread with image attachment content. [attachimg]${aid}[/attachimg]` : 'Posting thread with image attachment content.';
+
+        await page.evaluate(({ aidVal, message }) => {
             const textArea = document.querySelector('textarea[name="message"], #postmessage');
             if (textArea) textArea.value = message;
             if (window.editdoc && window.editdoc.body) window.editdoc.body.innerHTML = message;
+            if (aidVal) {
+                const form = document.getElementById('postform') || document.querySelector('form[name="postform"]');
+                if (form) {
+                    const hiddenInput = document.createElement('input');
+                    hiddenInput.type = 'hidden';
+                    hiddenInput.name = `attachnew[${aidVal}][description]`;
+                    hiddenInput.value = 'sample_test_avatar.png';
+                    form.appendChild(hiddenInput);
+                }
+            }
             const secqaa = document.querySelector('input[name*="secanswer"]');
             if (secqaa) secqaa.value = '2';
-        }, 'Posting thread with image attachment content.');
+        }, { aidVal: aid, message: attachMsg });
 
         const attachSubmitBtn = await page.$('#postsubmit, button[name="topicsubmit"]');
         if (attachSubmitBtn) {
@@ -340,6 +364,9 @@ const { execSync } = require('child_process');
         const attachTid = execSync("sudo mysql -u root ultrax -N -s -e \"SELECT tid FROM pre_forum_thread WHERE subject='Thread with Attachment' ORDER BY tid DESC LIMIT 1;\"").toString().trim();
         assert.ok(attachTid, 'Assertion Error: Thread with attachment was not created in database.');
 
+        const attachDbRecord = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT COUNT(*) FROM pre_forum_attachment WHERE tid='${attachTid}';"`).toString().trim();
+        console.log("DB count for pre_forum_attachment:", attachDbRecord);
+
         await page.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${attachTid}`);
         await page.waitForLoadState('networkidle');
 
@@ -350,11 +377,11 @@ const { execSync } = require('child_process');
         );
 
         const attachedImg = await page.$('img[aid], img[id^="aimg_"], .aimg img, .p_pop img, img[src*="attachment"], .zoom');
-        assert.ok(attachedImg !== null || viewthreadBody.includes('attachment'), 'Assertion Error: Attached image element was not found in viewthread DOM.');
+        assert.ok(attachedImg !== null, 'Assertion Error: Attached image element was not rendered in viewthread DOM.');
 
         await page.screenshot({ path: 'screenshot_attachment_viewthread.png' }).catch(() => { });
 
-        report += '### 6. Unprivileged User Image Attachment Post\n- **Status**: Checked\n- **Thread Created**: Thread with Attachment (TID: ' + attachTid + ')\n- **Image Attachment DOM Check**: Passed\n- **Viewthread Verification**: Success\n\n';
+        report += '### 6. Unprivileged User Image Attachment Post\n- **Status**: Checked\n- **Thread Created**: Thread with Attachment (TID: ' + attachTid + ', AID: ' + (aid || 'N/A') + ')\n- **Image Attachment DOM Check**: Passed\n- **Viewthread Verification**: Success\n\n';
 
         if (fs.existsSync('sample_test_avatar.png')) {
             fs.unlinkSync('sample_test_avatar.png');
