@@ -428,9 +428,6 @@ function updatepostcredits($operator, $uidarray, $action, $fid = 0) {
 		return false;
 	}
 	$uidarr = [];
-	if(empty($uidarray)) {
-		return false;
-	}
 	if($operator == '-' && in_array($action, array('post', 'reply'))) {
 		foreach((array)$uidarray as $u) {
 			if(is_array($u)) {
