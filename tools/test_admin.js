@@ -38,37 +38,46 @@ const { execSync } = require('child_process');
         const username = 'admin' + timestamp;
         const password = 'Testpassword123!';
 
-        // Disable captcha for registration/login during automated test
+        // Match the forum test's complete security configuration.
         const phpConfig = `<?php
         require './source/class/class_core.php';
         $discuz = C::app();
         $discuz->init();
-        C::t('common_setting')->update_batch(['seccodestatus' => 0, 'secqastatus' => 0]);
-        updatecache('setting');
-        `;
-        fs.writeFileSync('temp_config.php', phpConfig);
-        execSync('php temp_config.php');
-        fs.unlinkSync('temp_config.php');
-
-        // Bypass captcha helper check for test execution
-        execSync("sed -i 's/public static function check_sec/public static function check_disabled_sec/g' source/class/helper/helper_seccheck.php || true");
+        $seccodedata = array('rule' => array('register' => array('allow' => 0, 'numlimit' => '', 'timelimit' => 0),'login' => array('allow' => 0, 'nolocal' => 0, 'pwsimple' => 0, 'pwerror' => 0, 'outofday' => '', 'numiptry' => '', 'timeiptry' => 0),'post' => array('allow' => 0, 'numlimit' => '', 'timelimit' => 0, 'nplimit' => '', 'vplimit' => ''),'password' => array('allow' => 0),'card' => array('allow' => 0)),'minposts' => '','type' => 0,'width' => 150,'height' => 60,'scatter' => 0,'background' => 0,'adulterate' => 0,'ttf' => 0,'angle' => 0,'warping' => 0,'color' => 0,'size' => 0,'shadow' => 0,'animator' => 0);
+        $secqaa = array('status' => 0,'minposts' => 0,'statuses' => array(),'allowcode' => 0,'allowqa' => 0);
+        C::t('common_setting')->update('seccodedata', serialize($seccodedata));
+        C::t('common_setting')->update('secqaa', serialize($secqaa));
+        C::t('common_setting')->update('regname', 'register');
+        DB::query('TRUNCATE TABLE '.DB::table('common_syscache'));
+        require_once libfile('function/cache');
+        updatecache();
+        ?>`;
+        fs.writeFileSync('disable_sec.php', phpConfig);
+        execSync('php disable_sec.php');
+        fs.unlinkSync('disable_sec.php');
 
         // Register user
         await page.goto('http://127.0.0.1:8080/member.php?mod=register');
         await page.waitForLoadState('networkidle');
 
-        const usernameInput = await page.$('input[name="username"]');
-        if (usernameInput) {
-            await usernameInput.fill(username);
-            await page.fill('input[name="password"]', password);
-            await page.fill('input[name="repassword"]', password);
-            await page.fill('input[name="email"]', username + '@example.com');
-            const submitBtn = await page.$('button[type="submit"], input[type="submit"], button[name="regsubmit"]');
-            if (submitBtn) {
-                await submitBtn.click();
-                await page.waitForNavigation({ waitUntil: 'networkidle' }).catch(() => {});
+        await page.evaluate(({ username, password, email }) => {
+            const form = document.getElementById('registerform');
+            if (!form) return;
+            const inputs = form.querySelectorAll('input[type="text"]');
+            if (inputs.length > 0) inputs[0].value = username;
+            const passwords = form.querySelectorAll('input[type="password"]');
+            if (passwords.length >= 2) {
+                passwords[0].value = password;
+                passwords[1].value = password;
             }
-        }
+            const emails = form.querySelectorAll('input[type="email"], input[name*="email"]');
+            if (emails.length > 0) emails[0].value = email;
+            const agree = form.querySelector('input[name="agree"]');
+            if (agree) agree.checked = true;
+            form.submit();
+        }, { username, password, email: username + '@example.com' });
+        await page.waitForNavigation({ waitUntil: 'networkidle' }).catch(() => {});
+        await page.waitForTimeout(3000);
 
         const registeredUserCount = execSync("sudo mysql -u root ultrax -N -s -e \"SELECT COUNT(*) FROM pre_common_member WHERE username='" + username + "';\"").toString().trim();
         assert.strictEqual(registeredUserCount, '1', 'Assertion Error: Registered admin test user does not exist in database.');
@@ -151,7 +160,6 @@ const { execSync } = require('child_process');
         process.exitCode = 1;
         report += "## Error Encountered in Admin Test\n```\n" + error.message + "\n```\n\n";
     } finally {
-        execSync("git restore source/class/helper/helper_seccheck.php || true");
         await browser.close();
         fs.appendFileSync('functional_test_report.md', report);
         console.log("Admin tests completed and report appended.");
