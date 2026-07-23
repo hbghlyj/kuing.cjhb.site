@@ -12,10 +12,6 @@ if(!defined('IN_DISCUZ')) {
 $orig = get_post_by_tid_pid($_G['tid'], $pid);
 $isfirstpost = $orig['first'] ? 1 : 0;
 
-if($isfirstpost && (($special == 1 && !$_G['group']['allowpostpoll']) || ($special == 2 && !$_G['group']['allowposttrade']) || ($special == 3 && !$_G['group']['allowpostreward']) || ($special == 4 && !$_G['group']['allowpostactivity']) || ($special == 5 && !$_G['group']['allowpostdebate']))) {
-	showmessage('group_nopermission', NULL, ['grouptitle' => $_G['group']['grouptitle']], ['login' => 1]);
-}
-
 if($_G['setting']['magicstatus']) {
 	$magiclog = table_forum_threadmod::t()->fetch_by_tid_magicid($_G['tid'], 10);
 	$magicid = $magiclog['magicid'];
@@ -25,18 +21,10 @@ if($_G['setting']['magicstatus']) {
 $isorigauthor = $_G['uid'] && $_G['uid'] == $orig['authorid'];
 $isanonymous = ($_G['group']['allowanonymous'] || $orig['anonymous']) && getgpc('isanonymous') ? 1 : 0;
 $audit = $orig['invisible'] == -2 || $thread['displayorder'] == -2 ? $_GET['audit'] : 0;
+$editsubmit = submitcheck('editsubmit');
 
 if(empty($orig)) {
 	showmessage('post_nonexistence');
-} elseif($isorigauthor && !$_G['forum']['ismoderator'] && $orig['invisible'] != -3) {
-	$alloweditpost_status = getstatus($_G['setting']['alloweditpost'], $special + 1);
-	if(!$alloweditpost_status && $_G['group']['edittimelimit'] && TIMESTAMP - $orig['dateline'] > $_G['group']['edittimelimit'] * 60) {
-		showmessage('post_edit_timelimit', NULL, ['edittimelimit' => $_G['group']['edittimelimit']]);
-	}
-}
-
-if((!$_G['forum']['ismoderator'] || !$_G['group']['alloweditpost'] || (in_array($orig['adminid'], [1, 2, 3]) && $_G['adminid'] > $orig['adminid'])) && !(($_G['forum']['alloweditpost'] || $orig['invisible'] == -3) && $isorigauthor)) {
-	showmessage('post_edit_nopermission', NULL);
 }
 
 $thread['pricedisplay'] = $thread['price'] == -1 ? 0 : $thread['price'];
@@ -65,7 +53,7 @@ if($isfirstpost && $isorigauthor && $_G['group']['allowreplycredit']) {
 	}
 }
 
-if(!submitcheck('editsubmit')) {
+if(!$editsubmit) {
 
 	$postinfo = table_forum_post::t()->fetch_post('tid:'.$_G['tid'], $pid);
 	if($postinfo['fid'] != $_G['fid'] || $postinfo['tid'] != $_G['tid']) {
@@ -330,6 +318,18 @@ if(!submitcheck('editsubmit')) {
 	}
 
 } else {
+	if($isfirstpost && (($special == 1 && !$_G['group']['allowpostpoll']) || ($special == 2 && !$_G['group']['allowposttrade']) || ($special == 3 && !$_G['group']['allowpostreward']) || ($special == 4 && !$_G['group']['allowpostactivity']) || ($special == 5 && !$_G['group']['allowpostdebate']))) {
+		showmessage('group_nopermission', NULL, ['grouptitle' => $_G['group']['grouptitle']], ['login' => 1]);
+	}
+	if($isorigauthor && !$_G['forum']['ismoderator'] && $orig['invisible'] != -3) {
+		$alloweditpost_status = getstatus($_G['setting']['alloweditpost'], $special + 1);
+		if(!$alloweditpost_status && $_G['group']['edittimelimit'] && TIMESTAMP - $orig['dateline'] > $_G['group']['edittimelimit'] * 60) {
+			showmessage('post_edit_timelimit', NULL, ['edittimelimit' => $_G['group']['edittimelimit']]);
+		}
+	}
+	if((!$_G['forum']['ismoderator'] || !$_G['group']['alloweditpost'] || (in_array($orig['adminid'], [1, 2, 3]) && $_G['adminid'] > $orig['adminid'])) && !(($_G['forum']['alloweditpost'] || $orig['invisible'] == -3) && $isorigauthor)) {
+		showmessage('post_edit_nopermission', NULL);
+	}
 	if($_GET['mygroupid']) {
 		$mygroupid = explode('__', $_GET['mygroupid']);
 		$mygid = intval($mygroupid[0]);
