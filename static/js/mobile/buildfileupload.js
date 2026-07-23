@@ -43,8 +43,6 @@ jQuery.extend({
 				xhr.setRequestHeader('content-type', 'multipart/form-data; boundary='
 					+ boundary);
 
-				xhr.sendAsBinary(builder);
-
 				xhr.onerror = function() {
 					s.error();
 				};
@@ -59,6 +57,8 @@ jQuery.extend({
 						s.success(xhr.responseText);
 					}
 				};
+
+				xhr.sendAsBinary(builder);
 			};
 
 			var getorientation = function(binfile) {
