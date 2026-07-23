@@ -1711,7 +1711,7 @@ ddc98a19ea0165a9e6a98d0c062030c7 *source/class/table/table_home_docomment.php
 00b895cf5b459fe81e87487bc5dfe545 *source/class/table/table_home_doing.php
 fd3a5cd35ca1fd58f26c697adba63ce3 *source/class/table/table_home_favorite.php
 35025ac69e11adb4781e0f6e0ab0b85b *source/class/table/table_home_feed.php
-d504ba032a09d6b59875dfa11f2a5ae7 *source/class/table/table_home_follow_feed.php
+ef94b2f0146c508f2e630aed6849cd88 *source/class/table/table_home_follow_feed.php
 2110e1a0dadddaad8c85d717d147b848 *source/class/table/table_home_follow.php
 b55b220b916cc4c9f5439fec3b9a7ab2 *source/class/table/table_home_friend_request.php
 ef06bf41dba9250d3653b8a0187ac262 *source/class/table/table_home_friend.php
@@ -1908,7 +1908,7 @@ ce8fbf5fdb3b126d7681df191d79e529 *source/function/function_block.php
 053ca1f803b7f15b0a84f4b36ddca6c4 *source/function/function_comment.php
 45c7dfffc4f2c0e03389a93f9876a3d9 *source/function/function_core.php
 1d6492c770bcc657e3c0a5261897b98f *source/function/function_credit.php
-62457ad628907fc88c5a18b4928a7368 *source/function/function_delete.php
+c7082c0fe86c49dc7153b51cc8455416 *source/function/function_delete.php
 9b496d8387672503e15f4eecd28b54eb *source/function/function_discuzcode.php
 dcae8fcd0c738a849cca575646d18cc6 *source/function/function_doing.php
 dec55f564b212011b93fbe7381adb691 *source/function/function_domain.php
