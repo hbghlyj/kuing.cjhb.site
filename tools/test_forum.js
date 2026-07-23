@@ -153,12 +153,6 @@ const { execSync } = require('child_process');
             if (loginUser) await loginUser.fill(username);
             const loginPass = await page.$('input[name="password"]');
             if (loginPass) await loginPass.fill(password);
-
-            const loginSecAnswerInput = await page.$('input[name*="secanswer"]');
-            if (loginSecAnswerInput) await loginSecAnswerInput.fill('1');
-            const loginSecCodeInput = await page.$('input[name*="seccodeverify"]');
-            if (loginSecCodeInput) await loginSecCodeInput.fill('1111');
-
             const loginSubmitBtn = await page.$('button[name="loginsubmit"]');
             if (loginSubmitBtn) {
                 await loginSubmitBtn.click();
