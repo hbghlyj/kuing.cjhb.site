@@ -22,7 +22,8 @@ if ($count_result) {
     $total_rows = $count_result->fetch_assoc()['total'];
 }
 
-$sql = "SELECT UNIX_TIMESTAMP(time) as published_ts, uid, author, message FROM chat ORDER BY time DESC LIMIT ? OFFSET ?";
+$tablepre = $_G['config']['db'][1]['tablepre'];
+$sql = "SELECT UNIX_TIMESTAMP(c.time) AS published_ts, c.uid, c.author, c.message, m.avatarstatus FROM chat c LEFT JOIN {$tablepre}common_member m ON m.uid = c.uid ORDER BY c.time DESC LIMIT ? OFFSET ?";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("ii", $limit, $offset);
 $stmt->execute();
@@ -36,7 +37,7 @@ if ($result->num_rows > 0) {
             'published' => gmdate('Y-m-d\TH:i:s\Z', (int)$row['published_ts']),
             'actor' => array(
                 'displayName' => $row['author'],
-                'image' => avatar($row['uid'], 'small', 1)
+                'image' => !empty($row['avatarstatus']) ? avatar($row['uid'], 'small', 1) : ''
             )
         );
     }
