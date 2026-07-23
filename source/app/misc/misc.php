@@ -52,7 +52,7 @@ switch($mod) {
 
 $discuz->init();
 
-if($discuz->init_session && isset($_GET['mod']) && !in_array($_GET['mod'], ['tag', 'patch'])) {
+if($discuz->init_session && isset($_GET['mod']) && !in_array($_GET['mod'], ['tag', 'patch', 'swfupload'])) {
 	$discuz->reject_robot();
 }
 
