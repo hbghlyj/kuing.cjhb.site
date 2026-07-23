@@ -505,7 +505,9 @@ function build_cache_setting() {
 
 	$data['securesiteurl'] = $_G['siteurl'];
 
-	$data['maxsubjectsize'] = empty($data['maxsubjectsize']) ? 80 : $data['maxsubjectsize'];
+	$data['maxsubjectsize'] = empty($data['maxsubjectsize']) ? 255 : $data['maxsubjectsize'];
+
+	$data['attachimgpost'] = isset($data['attachimgpost']) ? $data['attachimgpost'] : 1;
 
 	$data['minsubjectsize'] = empty($data['minsubjectsize']) ? 1 : $data['minsubjectsize'];
 
