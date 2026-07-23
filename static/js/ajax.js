@@ -185,23 +185,20 @@ function _ajaxmenu(ctrlObj, timeout, cache, duration, pos, recall, idclass, cont
 		}
 	};
 
-	if(menu) {
-		if(menu.style.display == '') {
-			hideMenu(menuid);
-		} else {
-			func();
-		}
-	} else {
-		menu = document.createElement('div');
-		menu.id = menuid;
-		menu.style.display = 'none';
-		menu.className = idclass;
-		menu.innerHTML = '<div class="' + contentclass + '" id="' + menuid + '_content"></div>';
-		$('append_parent').appendChild(menu);
-		var url = (!isUndefined(ctrlObj.attributes['shref']) ? ctrlObj.attributes['shref'].value : (!isUndefined(ctrlObj.href) ? ctrlObj.href : ctrlObj.attributes['href'].value));
-		url += (url.indexOf('?') != -1 ? '&' :'?') + 'ajaxmenu=1';
-		ajaxget(url, menuid + '_content', 'ajaxwaitid', '', '', func);
+	// Action menus must be refreshed: a previous response can no longer describe
+	// the current vote state. Remove the old node rather than duplicating its ID.
+	if(menu && menu.parentNode) {
+		menu.parentNode.removeChild(menu);
 	}
+	menu = document.createElement('div');
+	menu.id = menuid;
+	menu.style.display = 'none';
+	menu.className = idclass;
+	menu.innerHTML = '<div class="' + contentclass + '" id="' + menuid + '_content"></div>';
+	$('append_parent').appendChild(menu);
+	var url = (!isUndefined(ctrlObj.attributes['shref']) ? ctrlObj.attributes['shref'].value : (!isUndefined(ctrlObj.href) ? ctrlObj.href : ctrlObj.attributes['href'].value));
+	url += (url.indexOf('?') != -1 ? '&' :'?') + 'ajaxmenu=1';
+	ajaxget(url, menuid + '_content', 'ajaxwaitid', '', '', func);
 	doane();
 }
 
