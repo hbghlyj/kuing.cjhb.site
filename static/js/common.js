@@ -36,7 +36,8 @@ try {
 if (!_JSLANG_ || !_JSLANG_['_verhash_'] || _JSLANG_['_verhash_'] != VERHASH) {
 	var _script_ = document.createElement("script");
 	_script_.type = "text/javascript";
-	_script_.src = (typeof (JSCACHEPATH) == 'undefined' ? JSPATH : JSCACHEPATH) + 'lang_' + _i18n_ + '.js?' + VERHASH;
+	var _cache_path_ = typeof (JSCACHEPATH) != 'undefined' && JSCACHEPATH ? JSCACHEPATH : 'data/cache/';
+	_script_.src = _cache_path_ + 'lang_' + _i18n_ + '.js?' + VERHASH;
 	document.head.appendChild(_script_);
 	_script_.onload = function () {
 		_JSLANG_ = _JSLANG_ || {};
