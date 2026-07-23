@@ -1,4 +1,9 @@
 <?php
+if(PHP_SAPI !== 'cli' || getenv('DISCUZ_SEED_DATABASE') !== '1') {
+	fwrite(STDERR, "Refusing to seed the database. This script is for automated initial setup only.\n");
+	exit(1);
+}
+
 require './source/class/class_core.php';
 $discuz = C::app();
 $discuz->init();
