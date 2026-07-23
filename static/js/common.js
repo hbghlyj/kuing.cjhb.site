@@ -316,7 +316,7 @@ function Ajax(recvType, waitId) {
 				if (!aj.XMLHttpRequest.responseXML || !aj.XMLHttpRequest.responseXML.lastChild || aj.XMLHttpRequest.responseXML.lastChild.localName == 'parsererror') {
 					s = '';
 				} else {
-					s = aj.XMLHttpRequest.responseXML.lastChild.firstChild.nodeValue;
+					s = aj.XMLHttpRequest.responseXML.lastChild.firstChild ? aj.XMLHttpRequest.responseXML.lastChild.firstChild.nodeValue : '';
 				}
 			} else if (aj.recvType == 'JSON') {
 				try {
