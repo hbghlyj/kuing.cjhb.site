@@ -20,8 +20,8 @@ const { execSync } = require('child_process');
     });
 
     page.on('pageerror', exception => {
-        console.error(`Uncaught Browser Exception Stack Trace:\n${exception.stack || exception}`);
-        throw new Error(`Uncaught exception in browser: ${exception}`);
+        console.error(`Uncaught Browser Exception at URL [${page.url()}]:\nMessage: ${exception.message}\nStack:\n${exception.stack || exception}`);
+        throw new Error(`Uncaught exception in browser at [${page.url()}]: ${exception.message || exception}`);
     });
 
     page.on('console', msg => {
