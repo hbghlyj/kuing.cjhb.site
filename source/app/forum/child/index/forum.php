@@ -173,13 +173,13 @@ if(!IS_ROBOT && ($_G['setting']['whosonlinestatus'] == 1 || $_G['setting']['whos
 		}
 
 		$membercount = count($whosonline);
-		if(isset($_G['cache']['onlinelist'][7]) && ($maxonlinelist == 0 || $maxonlinelist > $membercount)) {
+		if($maxonlinelist == 0 || $maxonlinelist > $membercount) {
 			$guestlimit = $maxonlinelist > 0 ? ($maxonlinelist - $membercount) : 0;
 			foreach(C::app()->session->fetch_member(2, 0, $guestlimit) as $online) {
 				$isRobot = intval($online['groupid']) === 8;
 				$online['icon'] = $isRobot
 					? ($_G['cache']['onlinelist'][8] ?? STATICURL.'image/common/online_bot.svg')
-					: $_G['cache']['onlinelist'][7];
+					: ($_G['cache']['onlinelist'][7] ?? STATICURL.'image/common/online_guest.svg');
 				$location = ip::format_session_location($online['location'] ?? '', $online['city'] ?? null);
 				$online['username'] = $isRobot ? $location['organization'] : $location['compact'];
 				$online['network_title'] = $isRobot ? $location['asn'] : $location['network'];

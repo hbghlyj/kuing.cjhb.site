@@ -19,6 +19,7 @@ if($_G['setting']['whosonlinestatus'] == 1 || $_G['setting']['whosonlinestatus']
 	updatesession();
 
 	$actioncode = lang('action');
+	loadcache('onlinelist');
 	$maxonlinelist = isset($_G['setting']['maxonlinelist']) && $_G['setting']['maxonlinelist'] !== '' ? intval($_G['setting']['maxonlinelist']) : 500;
 	$memberlimit = $maxonlinelist > 0 ? $maxonlinelist : 0;
 
