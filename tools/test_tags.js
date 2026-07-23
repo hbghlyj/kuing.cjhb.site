@@ -12,9 +12,16 @@ const { execSync } = require('child_process');
         throw new Error(`Uncaught exception in browser: ${exception}`);
     });
 
+    page.on('requestfailed', request => {
+        console.error(`[Request Failed] URL: ${request.url()} | Type: ${request.resourceType()} | Error: ${request.failure() ? request.failure().errorText : 'unknown'}`);
+    });
+
     page.on('console', msg => {
         if (msg.type() === 'error') {
-            throw new Error(`Console error in browser: ${msg.text()}`);
+            const loc = msg.location();
+            const detail = `text="${msg.text()}" at ${loc.url || 'unknown'}:${loc.lineNumber}`;
+            console.error(`[Browser Console Error] ${detail}`);
+            throw new Error(`Console error in browser: ${detail}`);
         }
     });
 
