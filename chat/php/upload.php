@@ -63,8 +63,8 @@ if (!move_uploaded_file($file['tmp_name'], $targetFilePath)) {
     exit;
 }
 
-// 5. Generate relative URL for chat
-$photoUrl = '/' . $subDir . $newFileName;
+// 5. Generate site URL for chat
+$photoUrl = rtrim($_G['siteurl'], '/') . '/' . $subDir . $newFileName;
 
 header("Content-Type: application/json");
 echo json_encode(array(

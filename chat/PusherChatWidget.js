@@ -443,7 +443,7 @@
       const content = jQuery('<div class="content"></div>');
       const user = jQuery('<div class="activity-row"><span class="user-name"><a class="screen-name">'+activity.actor.displayName.replace(/\\'/g,"'")+'</a><a '+(activity.link?'href="'+activity.link+'" ':'')+'class="timestamp"><span data-activity-published="'+activity.published+'">'+PusherChatWidget.timeToDescription(activity.published)+'</span></a></span></div>');
       content.append(user);
-      const textHtml = activity.body.replace(/(https?:\/\/\S+\b)/g,m=>(/\.(png|jpe?g|gif|bmp|svg|webp)$/i.test(m)?'<img src="'+m+'" />':'<a href="'+m+'">'+m+'</a>')).replace(/\n/g,'<br>');
+      const textHtml = activity.body.replace(/(https?:\/\/\S+\b|\/data\/attachment\/chat\/\S+\b)/gi,m=>(/\.(png|jpe?g|gif|bmp|svg|webp)$/i.test(m)?'<img src="'+m+'" />':'<a href="'+m+'">'+m+'</a>')).replace(/\n/g,'<br>');
       const message = jQuery('<div class="activity-row"><div class="text">'+textHtml+'</div></div>');
       content.append(message);
       contentWrapper.append(image).append(content);
