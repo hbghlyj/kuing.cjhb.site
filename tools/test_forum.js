@@ -44,6 +44,13 @@ const { execSync } = require('child_process');
         require_once libfile('function/cache');
         updatecache('setting');
         updatecache('secqaa');
+
+        define('IN_ADMINCP', true);
+        require_once libfile('function/importdata');
+        require_once libfile('function/admincp');
+        import_styles(1, 'default', 0, 1, 0);
+        cleartemplatecache();
+        updatecache();
         ?>`;
         fs.writeFileSync('disable_sec.php', phpConfig);
         execSync('php disable_sec.php');
