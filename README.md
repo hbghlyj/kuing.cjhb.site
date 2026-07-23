@@ -102,7 +102,7 @@ Can not write to cache files, please check directory ./data/ and ./data/cache/ .
 
 `template/discuzx5` 不是一套完整、独立的模板，而是建立在 `template/default` 之上的局部覆盖层。当前风格缺少某个模板文件时，模板解析器会回退到 `template/default` 中的同名 `.htm` 或 `.php` 文件。因此，不能仅检查 `discuzx5` 目录来判断某个界面或功能是否有实现。
 
-手机模板是例外：`discuzx5` 没有 `touch/` 模板目录。移动端解析器不会静默回退到桌面模板；当当前风格缺少请求的手机模板时，会显示 `mobile_template_no_found` 并将 `mobile` Cookie 设为 `no`。因此，使用 `discuzx5` 时应切换到 `styleid=1`（`default`）后再访问手机界面，或为该风格补齐对应的 `touch/` 模板。
+手机模板是例外：`discuzx5` 没有 `touch/` 模板目录。移动端解析器不会静默回退到桌面模板；当当前风格缺少请求的手机模板时，会显示 `mobile_template_no_found` 并将 `mobile` Cookie 设为 `no`。移动端样式由 `common_setting.styleid2` 选择，不读取用户的 `styleid` Cookie；因此，使用 `discuzx5` 时应将 `styleid2` 设为 `1`（`default`），或为该风格补齐对应的 `touch/` 模板。
 
 与 `default` 相比，`discuzx5` 的目录和组件覆盖范围明显不完整。`admin`、`cell`、`cells` 虽然存在，但只实现了其中一部分文件；`forum` 目录尤其精简，大量专用界面完全由 `default` 提供。主要回退类别包括：
 

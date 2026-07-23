@@ -6,6 +6,16 @@ const { execSync } = require('child_process');
 
 (async () => {
     const browser = await chromium.launch();
+    fs.writeFileSync('configure_mobile_test.php', `<?php
+require './source/class/class_core.php';
+$discuz = C::app();
+$discuz->init();
+C::t('common_setting')->update('styleid2', '1');
+require_once libfile('function/cache');
+updatecache('setting');
+`);
+    execSync('php configure_mobile_test.php');
+    fs.unlinkSync('configure_mobile_test.php');
     const context = await browser.newContext({
         viewport: { width: 390, height: 844 },
         userAgent: 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 Version/17.0 Mobile/15E148 Safari/604.1',
@@ -13,7 +23,6 @@ const { execSync } = require('child_process');
     const cookieSalt = crypto.createHash('md5').update('/|').digest('hex').slice(0, 4);
     await context.addCookies([
         { name: `discuz_${cookieSalt}_mobile`, value: '2', url: 'http://127.0.0.1:8080' },
-        { name: `discuz_${cookieSalt}_styleid`, value: '1', url: 'http://127.0.0.1:8080' },
     ]);
     const page = await context.newPage();
     let report = '\n\n## Mobile Registration Functional Test Report\n\n';
