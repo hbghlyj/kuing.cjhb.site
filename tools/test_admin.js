@@ -48,6 +48,7 @@ const { execSync } = require('child_process');
         C::t('common_setting')->update('seccodedata', serialize($seccodedata));
         C::t('common_setting')->update('secqaa', serialize($secqaa));
         C::t('common_setting')->update('regname', 'register');
+        C::t('common_setting')->update('floodctrl', '0');
         DB::query('TRUNCATE TABLE '.DB::table('common_syscache'));
         require_once libfile('function/cache');
         updatecache();
