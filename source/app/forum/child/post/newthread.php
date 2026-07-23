@@ -162,6 +162,10 @@ if(!submitcheck('topicsubmit', 0, $seccodecheck, $secqaacheck)) {
 	}
 
 } else {
+	if(trim($subject) !== '' && table_forum_thread::t()->exists_by_subject($subject)) {
+		showmessage('post_subject_duplicate');
+	}
+
 	if(getgpc('mygroupid')) {
 		$mygroupid = explode('__', $_GET['mygroupid']);
 		$mygid = intval($mygroupid[0]);
