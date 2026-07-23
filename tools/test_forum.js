@@ -134,22 +134,36 @@ const { execSync } = require('child_process');
         await page.goto('http://127.0.0.1:8080/forum.php?mod=post&action=newthread&fid=2');
         await page.waitForLoadState('networkidle');
 
-        const subjectInput = await page.$('input[name="subject"]');
-        if (subjectInput) await subjectInput.fill('Standard User Thread');
-        const messageInput = await page.$('textarea[name="message"]');
-        if (messageInput) await messageInput.fill('Body text from unprivileged account.');
+        await page.evaluate(({ title, body }) => {
+            const subject = document.querySelector('input[name="subject"]');
+            if (subject) subject.value = title;
 
-        const postSecAnswer = await page.$('input[name*="secanswer"]');
-        if (postSecAnswer) await postSecAnswer.fill('1');
-        const postSecCode = await page.$('input[name*="seccodeverify"]');
-        if (postSecCode) await postSecCode.fill('1111');
+            const message = document.querySelector('textarea[name="message"]');
+            if (message) message.value = body;
 
-        const postSubmitBtn = await page.$('button[name="topicsubmit"], #postsubmit');
-        if (postSubmitBtn) {
-            await postSubmitBtn.click();
-            await page.waitForNavigation({ waitUntil: 'networkidle' }).catch(() => { });
-        }
-        await page.waitForTimeout(2000);
+            try {
+                if (typeof editdoc !== 'undefined' && editdoc && editdoc.body) {
+                    editdoc.body.innerHTML = body;
+                }
+            } catch (e) { }
+
+            const secqaa = document.querySelector('input[name*="secanswer"]');
+            if (secqaa) secqaa.value = '1';
+
+            const seccode = document.querySelector('input[name*="seccodeverify"]');
+            if (seccode) seccode.value = '1111';
+
+            const postSubmitBtn = document.querySelector('button[name="topicsubmit"], #postsubmit');
+            if (postSubmitBtn) {
+                postSubmitBtn.click();
+            } else {
+                const form = document.getElementById('postform') || document.querySelector('form[name="postform"]');
+                if (form) form.submit();
+            }
+        }, { title: 'Standard User Thread', body: 'Body text from unprivileged account.' });
+
+        await page.waitForNavigation({ waitUntil: 'networkidle' }).catch(() => { });
+        await page.waitForTimeout(3000);
 
         console.log("Checking if posted thread exists in DB...");
         const threadDbCheck = execSync("sudo mysql -u root ultrax -N -s -e \"SELECT COUNT(*) FROM pre_forum_thread WHERE subject='Standard User Thread';\"").toString().trim();
