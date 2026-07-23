@@ -8,8 +8,6 @@ const { execSync } = require('child_process');
     const context = await browser.newContext();
     const page = await context.newPage();
 
-    const failedResponses = new Map();
-
     page.on('response', async response => {
         if (response.status() >= 400) {
             try {
