@@ -177,6 +177,9 @@ const { execSync } = require('child_process');
         await page.goto('http://127.0.0.1:8080/forum.php?mod=post&action=newthread&fid=2');
         await page.waitForLoadState('networkidle');
 
+        console.log("Capturing Advanced Editor Screenshot...");
+        await page.screenshot({ path: 'screenshot_advanced_editor.png', fullPage: true }).catch(() => { });
+
         await page.evaluate(({ title, body }) => {
             const subject = document.querySelector('input[name="subject"]');
             if (subject) subject.value = title;
