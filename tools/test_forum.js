@@ -50,7 +50,9 @@ const { execSync } = require('child_process');
             }
         }
         const diagnostic = invalidScripts.length ? `\nInvalid scripts:\n${invalidScripts.join('\n\n')}` : '';
-        throw new Error(`Uncaught exception in browser at [${page.url()}]: ${exception.message || exception}${diagnostic}`);
+        const failure = `Uncaught exception in browser at [${page.url()}]: ${exception.message || exception}${diagnostic}`;
+        fs.writeFileSync('browser_error.txt', failure);
+        throw new Error(failure);
     });
 
     page.on('console', msg => {
