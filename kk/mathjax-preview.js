@@ -1,3 +1,39 @@
+function parseBBCode(str) {
+	if (!str) return '';
+	var html = str.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+	html = html.replace(/(\\\]|\\end\{align\*?\}|\\end\{gather\*?\}|\\end\{equation\*?\}|\$\$) *\n/g, '$1');
+
+	var prev;
+	do {
+		prev = html;
+		html = html
+			.replace(/\[b\]([\s\S]*?)\[\/b\]/gi, '<b>$1</b>')
+			.replace(/\[i\]([\s\S]*?)\[\/i\]/gi, '<i>$1</i>')
+			.replace(/\[u\]([\s\S]*?)\[\/u\]/gi, '<u>$1</u>')
+			.replace(/\[s\]([\s\S]*?)\[\/s\]/gi, '<del>$1</del>')
+			.replace(/\[color=([^\]]+)\]([\s\S]*?)\[\/color\]/gi, '<span style="color:$1">$2</span>')
+			.replace(/\[backcolor=([^\]]+)\]([\s\S]*?)\[\/backcolor\]/gi, '<span style="background-color:$1">$2</span>')
+			.replace(/\[size=(\d+)\]([\s\S]*?)\[\/size\]/gi, function(_, sz, text) {
+				var sizes = ['10px', '12px', '14px', '16px', '18px', '24px', '32px'];
+				var fontSize = sizes[parseInt(sz) - 1] || (sz + 'px');
+				return '<span style="font-size:' + fontSize + '">' + text + '</span>';
+			})
+			.replace(/\[font=([^\]]+)\]([\s\S]*?)\[\/font\]/gi, '<span style="font-family:$1">$2</span>')
+			.replace(/\[align=(left|center|right)\]([\s\S]*?)\[\/align\]/gi, '<div style="text-align:$1">$2</div>')
+			.replace(/\[url=([^\]]+)\]([\s\S]*?)\[\/url\]/gi, '<a href="$1" target="_blank" rel="noopener">$2</a>')
+			.replace(/\[url\]([\s\S]*?)\[\/url\]/gi, '<a href="$1" target="_blank" rel="noopener">$1</a>')
+			.replace(/\[img=(\d+),(\d+)\]([\s\S]*?)\[\/img\]/gi, '<img src="$3" width="$1" height="$2" />')
+			.replace(/\[img\]([\s\S]*?)\[\/img\]/gi, '<img src="$1" style="max-width:100%" />')
+			.replace(/\[quote\]([\s\S]*?)\[\/quote\]/gi, '<div class="quote"><blockquote>$1</blockquote></div>')
+			.replace(/\[code\]([\s\S]*?)\[\/code\]/gi, '<div class="blockcode"><pre>$1</pre></div>')
+			.replace(/\[tikz\]([\s\S]*?)\[\/tikz\]/gi, '<div class="blockcode"><pre>$1</pre></div>')
+			.replace(/\[asy\]([\s\S]*?)\[\/asy\]/gi, '<div class="blockcode"><pre>$1</pre></div>')
+			.replace(/\[hr\]/gi, '<hr />');
+	} while (html !== prev);
+
+	return html;
+}
+
 function initLivePreview() {
 	var output = $("output");
 	if (!output) return;
@@ -5,9 +41,7 @@ function initLivePreview() {
 	var updatePreview = function(el) {
 		if (!el) return;
 		MathJax.texReset();
-		var ltx = (el.value || '').replace(/</g, '&lt;').replace(/>/g, '&gt;')
-			.replace(/(\\\]|\\end\{align\*?\}|\\end\{gather\*?\}|\\end\{equation\*?\}|\$\$) *\n/g, '$1');
-		output.innerHTML = ltx;
+		output.innerHTML = parseBBCode(el.value || '');
 		if (typeof MathJax !== 'undefined' && MathJax.typesetPromise) {
 			MathJax.typesetPromise([output]).catch(() => {});
 		}
