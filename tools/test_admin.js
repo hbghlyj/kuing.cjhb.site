@@ -158,6 +158,18 @@ const { execSync } = require('child_process');
         await page.screenshot({ path: 'screenshot_forum_03_admin_panel.png' });
         report += '### 3. Admin Panel UI\n- **Status**: Checked\n\n';
 
+        console.log("Checking Admin Panel Logs Page...");
+        await page.goto('http://127.0.0.1:8080/admin.php?action=logs');
+        await page.waitForLoadState('networkidle');
+
+        const logsPageSource = await page.content();
+        assert.ok(
+            logsPageSource.includes('logs') || logsPageSource.includes('运行记录') || logsPageSource.includes('operation=') || page.url().includes('action=logs'),
+            'Assertion Error: Admin CP logs page did not load.'
+        );
+        await page.screenshot({ path: 'screenshot_forum_04_admin_logs.png' });
+        report += '### 4. Admin Panel Logs Access\n- **Status**: Checked\n- **URL**: admin.php?action=logs\n\n';
+
     } catch (error) {
         console.error("Admin test execution failed:", error);
         process.exitCode = 1;
