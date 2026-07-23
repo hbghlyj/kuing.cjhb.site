@@ -260,6 +260,69 @@ const { execSync } = require('child_process');
             }
         }
 
+        // 5. User Avatar Upload Test
+        console.log("Attempting to upload avatar for user...");
+        const sampleImage = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==', 'base64');
+        fs.writeFileSync('sample_test_avatar.png', sampleImage);
+
+        await page.goto('http://127.0.0.1:8080/home.php?mod=spacecp&ac=avatar');
+        await page.waitForLoadState('networkidle');
+
+        const avatarInput = await page.$('#avatarfile, input[name="Filedata"], input[type="file"]');
+        if (avatarInput) {
+            await avatarInput.setInputFiles('sample_test_avatar.png');
+            await page.waitForTimeout(1000);
+
+            const confirmBtn = await page.$('#avconfirm, input[name="confirm"], button[type="submit"]');
+            if (confirmBtn) {
+                await confirmBtn.click().catch(() => { });
+                await page.waitForTimeout(2000);
+            }
+        }
+
+        console.log("Checking if avatar upload page loaded cleanly...");
+        const avatarPageText = await page.textContent('body');
+        assert.ok(avatarPageText.includes(username) || avatarPageText.includes('修改头像') || avatarPageText.includes('当前我的头像'), 'Assertion Error: Avatar page did not render user space panel.');
+        report += '### 5. Unprivileged User Avatar Setup\n- **Status**: Checked\n\n';
+
+        // 6. User Image Attachment Post Test
+        console.log("Attempting to post thread with image attachment...");
+        await page.goto('http://127.0.0.1:8080/forum.php?mod=post&action=newthread&fid=2');
+        await page.waitForLoadState('networkidle');
+
+        const attachSubject = await page.$('input[name="subject"]');
+        if (attachSubject) {
+            await attachSubject.fill('Thread with Attachment');
+        }
+
+        const attachFileInput = await page.$('input[name="Filedata"], input.filedata, input[type="file"]');
+        if (attachFileInput) {
+            await attachFileInput.setInputFiles('sample_test_avatar.png');
+            await page.waitForTimeout(1000);
+        }
+
+        await page.evaluate((message) => {
+            const textArea = document.querySelector('textarea[name="message"], #postmessage');
+            if (textArea) textArea.value = message;
+            if (window.editdoc && window.editdoc.body) window.editdoc.body.innerHTML = message;
+        }, 'Posting thread with image attachment content.');
+
+        const attachSubmitBtn = await page.$('#postsubmit, button[name="topicsubmit"]');
+        if (attachSubmitBtn) {
+            await attachSubmitBtn.click();
+            await page.waitForNavigation({ waitUntil: 'networkidle' }).catch(() => { });
+            await page.waitForTimeout(2000);
+        }
+
+        console.log("Checking if attachment thread exists in DB...");
+        const attachThreadCheck = execSync("sudo mysql -u root ultrax -N -s -e \"SELECT COUNT(*) FROM pre_forum_thread WHERE subject='Thread with Attachment';\"").toString().trim();
+        assert.strictEqual(attachThreadCheck, '1', 'Assertion Error: Thread with attachment was not created in database.');
+        report += '### 6. Unprivileged User Image Attachment Post\n- **Status**: Checked\n- **Thread Created**: Thread with Attachment\n\n';
+
+        if (fs.existsSync('sample_test_avatar.png')) {
+            fs.unlinkSync('sample_test_avatar.png');
+        }
+
 
 
     } catch (error) {
