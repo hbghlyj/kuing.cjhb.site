@@ -7,8 +7,14 @@ const { execSync } = require('child_process');
     const browser = await chromium.launch();
     const context = await browser.newContext();
     const page = await context.newPage();
+    const scriptSources = new Map();
 
     page.on('response', async response => {
+        if (response.request().resourceType() === 'script') {
+            try {
+                scriptSources.set(response.url(), await response.text());
+            } catch (e) { }
+        }
         if (response.status() >= 400) {
             try {
                 const text = await response.text();
@@ -19,9 +25,32 @@ const { execSync } = require('child_process');
         }
     });
 
-    page.on('pageerror', exception => {
+    page.on('pageerror', async exception => {
         console.error(`Uncaught Browser Exception at URL [${page.url()}]:\nMessage: ${exception.message}\nStack:\n${exception.stack || exception}`);
-        throw new Error(`Uncaught exception in browser at [${page.url()}]: ${exception.message || exception}`);
+        const invalidScripts = [];
+        for (const frame of page.frames()) {
+            try {
+                const scripts = await frame.evaluate(() => Array.from(document.scripts)
+                    .filter(script => !script.src)
+                    .map(script => script.textContent));
+                scripts.forEach((source, index) => {
+                    try {
+                        new Function(source);
+                    } catch (error) {
+                        invalidScripts.push(`${frame.url()} inline script #${index + 1}: ${error.message}\n${source.slice(0, 1000)}`);
+                    }
+                });
+            } catch (e) { }
+        }
+        for (const [url, source] of scriptSources) {
+            try {
+                new Function(source);
+            } catch (error) {
+                invalidScripts.push(`${url}: ${error.message}\n${source.slice(0, 1000)}`);
+            }
+        }
+        const diagnostic = invalidScripts.length ? `\nInvalid scripts:\n${invalidScripts.join('\n\n')}` : '';
+        throw new Error(`Uncaught exception in browser at [${page.url()}]: ${exception.message || exception}${diagnostic}`);
     });
 
     page.on('console', msg => {
