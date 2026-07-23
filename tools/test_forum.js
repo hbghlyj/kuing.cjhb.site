@@ -8,13 +8,31 @@ const { execSync } = require('child_process');
     const context = await browser.newContext();
     const page = await context.newPage();
 
+    const failedResponses = new Map();
+
+    page.on('response', async response => {
+        if (response.status() >= 400) {
+            try {
+                const text = await response.text();
+                failedResponses.set(response.url(), { status: response.status(), body: text });
+                console.error(`[HTTP ${response.status()}] ${response.url()}\nResponse Body:\n${text}\n---`);
+            } catch (e) {
+                console.error(`[HTTP ${response.status()}] ${response.url()} (Failed to read body)`);
+            }
+        }
+    });
+
     page.on('pageerror', exception => {
         throw new Error(`Uncaught exception in browser: ${exception}`);
     });
 
     page.on('console', msg => {
         if (msg.type() === 'error') {
-            throw new Error(`Console error in browser: ${msg.text()}`);
+            const txt = msg.text();
+            for (const [url, info] of failedResponses.entries()) {
+                console.error(`Server Error Details for [${info.status}] ${url}:\n${info.body}\n---`);
+            }
+            throw new Error(`Console error in browser: ${txt}`);
         }
     });
 
