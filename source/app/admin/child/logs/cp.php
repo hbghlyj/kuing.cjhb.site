@@ -26,6 +26,7 @@ foreach($logs as $k => $logrow) {
 	$data = logdecode($logrow['data']);
 	$device = logdecode($logrow['device']);
 	$logurl = cplog_url($data['action'], $data['extralog']);
+	$logdetails = cplog_diff($data['extralog']);
 	$log = [];
 	$log[0] = $logrow['id'];
 	$log[1] = dgmdate($logrow['dateline']);
@@ -45,20 +46,20 @@ foreach($logs as $k => $logrow) {
 		$logurl ? '<a href="'.dhtmlspecialchars($logurl).'">'.cutstr($data['extralog'], 200).'</a> <a href="javascript:;" onclick="togglecplog('.$k.')">('.cplang('more').')</a>' : '<a href="javascript:;" onclick="togglecplog('.$k.')">'.cutstr($data['extralog'], 200).'</a>',
 	]);
 	echo '<tbody id="cplog_'.$k.'" style="display:none;">';
-	echo '<tr><td colspan="7">'.$data['extralog'].'</td></tr>';
+	echo '<tr><td colspan="7">'.$logdetails.'</td></tr>';
 	echo '</tbody>';
 	echo showdevice($logrow['id'], $device, 7);
 }
 
 function cplog_url($action, $extralog) {
-	if(!preg_match('/^\w+$/', $action) || !preg_match('/GET=\{(.*?)\};\s*POST=/s', $extralog, $matches)) {
+	$blocks = cplog_blocks($extralog);
+	if(!preg_match('/^\w+$/', $action) || !$blocks) {
 		return '';
 	}
 
 	$query = ['action' => $action];
 	$skip = ['app', 'action', 'ajaxdata', 'ajaxtarget', 'attachsize', 'blank', 'chart', 'dbsize', 'frames', 'homecheck', 'inajax', 'timestamp', 't', '_r'];
-	foreach(explode('; ', $matches[1]) as $item) {
-		[$key, $value] = array_pad(explode('=', $item, 2), 2, '');
+	foreach(cplog_params($blocks['GET']) as $key => $value) {
 		if(!preg_match('/^\w+$/', $key) || in_array($key, $skip, true)) {
 			continue;
 		}
@@ -66,4 +67,57 @@ function cplog_url($action, $extralog) {
 	}
 
 	return ADMINSCRIPT.'?'.http_build_query($query, '', '&', PHP_QUERY_RFC3986);
+}
+
+function cplog_blocks($extralog) {
+	if(!preg_match('/GET=\{(.*?)\};\s*POST=\{(.*?)\};?$/s', $extralog, $matches)) {
+		return [];
+	}
+	return ['GET' => $matches[1], 'POST' => $matches[2]];
+}
+
+function cplog_params($block) {
+	$params = [];
+	$start = $depth = 0;
+	$length = strlen($block);
+	for($i = 0; $i <= $length; $i++) {
+		$char = $i < $length ? $block[$i] : ';';
+		if($char == '{') {
+			$depth++;
+		} elseif($char == '}' && $depth) {
+			$depth--;
+		} elseif($char == ';' && !$depth) {
+			$item = trim(substr($block, $start, $i - $start));
+			$start = $i + 1;
+			if(str_contains($item, '=')) {
+				[$key, $value] = explode('=', $item, 2);
+				$params[trim($key)] = trim($value);
+			}
+		}
+	}
+	return $params;
+}
+
+function cplog_diff($extralog) {
+	$blocks = cplog_blocks($extralog);
+	if(!$blocks) {
+		return dhtmlspecialchars(htmlspecialchars_decode($extralog, ENT_QUOTES));
+	}
+
+	$get = cplog_params($blocks['GET']);
+	$post = cplog_params($blocks['POST']);
+	$keys = array_unique(array_merge(array_keys($get), array_keys($post)));
+	$rows = '';
+	foreach($keys as $key) {
+		$hasget = array_key_exists($key, $get);
+		$haspost = array_key_exists($key, $post);
+		if($hasget && $haspost && $get[$key] === $post[$key]) {
+			continue;
+		}
+		$getvalue = $hasget ? dhtmlspecialchars($key.'='.htmlspecialchars_decode($get[$key], ENT_QUOTES)) : '';
+		$postvalue = $haspost ? dhtmlspecialchars($key.'='.htmlspecialchars_decode($post[$key], ENT_QUOTES)) : '';
+		$rows .= '<tr><td>'.$getvalue.'</td><td>'.$postvalue.'</td></tr>';
+	}
+
+	return $rows ? '<table class="tb"><tr class="header"><th>GET</th><th>POST</th></tr>'.$rows.'</table>' : '<em>GET = POST</em>';
 }
