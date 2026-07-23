@@ -9,7 +9,6 @@
 if(!defined('IN_DISCUZ') || !defined('IN_ADMINCP')) {
 	exit('Access Denied');
 }
-
 // 主题/帖子标题及内容重新审核
 
 $nextlink = "action=remoderate&current=$next&pertask=$pertask&threadsubmit=yes";
@@ -27,7 +26,7 @@ foreach(table_forum_thread::t()->fetch_all_by_displayorder(0, '>=', $current, $p
 		if($subject_result) {
 			if($subject_result == 3) {
 				if(strcmp($post['subject'], $subject)) {
-					table_forum_post::t()->update($thread['posttableid'], $post['pid'], ['subject' => $subject], false, false, null, -2, null, 0);
+					table_forum_post::t()->update_post($thread['posttableid'], $post['pid'], ['subject' => $subject], false, false, null, -2, null, 0);
 				}
 			} else {
 				if($post['first'] == 1) {
@@ -41,7 +40,7 @@ foreach(table_forum_thread::t()->fetch_all_by_displayorder(0, '>=', $current, $p
 		if($message_result) {
 			if($message_result == 3) {
 				if(strcmp($post['message'], $message)) {
-					table_forum_post::t()->update($thread['posttableid'], $post['pid'], ['message' => $message], false, false, null, -2, null, 0);
+					table_forum_post::t()->update_post($thread['posttableid'], $post['pid'], ['message' => $message], false, false, null, -2, null, 0);
 				}
 			} else {
 				if($post['first'] == 1) {
@@ -54,10 +53,9 @@ foreach(table_forum_thread::t()->fetch_all_by_displayorder(0, '>=', $current, $p
 		}
 	}
 }
-
 if($processed) {
 	cpmsg("{$lang['remoderate_thread']}: ".cplang('remoderate_processing', ['current' => $current, 'next' => $next]), $nextlink, 'loading');
 } else {
 	cpmsg('remoderate_thread_succeed', 'action=remoderate', 'succeed');
 }
-	
+

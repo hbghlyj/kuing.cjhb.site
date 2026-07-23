@@ -83,7 +83,6 @@ $lang =
 	'menu_members_newsletter' => '发送通知',
 	'menu_members_mobile' => '发送手机通知',
 	'menu_members_sms' => '发送手机短信',
-	'menu_usertag' => '用户标签',
 	'menu_members_edit_ban_user' => '禁止用户',
 	'menu_members_ipban' => '禁止 IP',
 	'menu_members_credits' => '积分奖惩',

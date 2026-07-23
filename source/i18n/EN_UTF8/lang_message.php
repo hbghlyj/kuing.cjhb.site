@@ -380,8 +380,6 @@ $lang = array (
 	'recommend_succeed'		=> 'Rating: <strong id="recommentc" class="xi1 xs2">{recommendc}</strong> <span id="recommentv" class="xg2 xs0">{recommendv}</span>',//'评价指数 <strong id="recommentc" class="xi1 xs2">{recommendc}</strong> <span id="recommentv" class="xg2 xs0">{recommendv}</span>',
 	'thread_poll_voter_isnull'	=> 'No one have voted this poll, You can not add tags.',//'暂时还没有人参与投票，不能添加标签。',
 	'thread_activityapply_isnull'	=> 'Temporarily no one participated in activity, can not add tags.',//'暂时还没有人参加活动，不能添加标签。',
-	'forum_usertag_set_continue'	=> 'Total {count} users, now set from {limit} to {next} users, please wait ',//'共 {count} 个用户，正在设置 {limit} 至 {next} 个用户，请稍候 ',
-	'forum_usertag_succeed'		=> 'User tag set successfully ',//'用户标签设置成功 ',
 
 	'group_admin_enter_panel'	=> 'Please enter the Group Management page to manage.',//'请进入群组管理页面进行管理。',
 

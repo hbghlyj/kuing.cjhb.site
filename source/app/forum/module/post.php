@@ -28,7 +28,7 @@ parse_str(getgpc('extra'), $_GET['extra']);
 $_GET['extra'] = http_build_query($_GET['extra']);
 
 $postinfo = ['subject' => ''];
-$thread = ['readperm' => '', 'pricedisplay' => '', 'hiddenreplies' => ''];
+$thread = ['readperm' => '', 'pricedisplay' => ''];
 
 $_G['forum_dtype'] = $_G['forum_checkoption'] = $_G['forum_optionlist'] = $tagarray = $_G['forum_typetemplate'] = [];
 
@@ -235,7 +235,6 @@ $_G['group']['allowpostreward'] = $_G['group']['allowpost'] && $_G['group']['all
 $_G['group']['allowpostactivity'] = $_G['group']['allowpost'] && $_G['group']['allowpostactivity'] && ($_G['forum']['allowpostspecial'] & 8);
 $_G['group']['allowpostdebate'] = $_G['group']['allowpost'] && $_G['group']['allowpostdebate'] && ($_G['forum']['allowpostspecial'] & 16);
 $usesigcheck = $_G['uid'] && $_G['group']['maxsigsize'] ? 'checked="checked"' : '';
-$imgcontentcheck = !empty($thread['tid']) && getstatus($thread['status'], 15) ? 'checked="checked"' : '';
 $specialextra = !empty($_GET['specialextra']) ? $_GET['specialextra'] : '';
 $_G['forum']['threadplugin'] = dunserialize($_G['forum']['threadplugin']);
 

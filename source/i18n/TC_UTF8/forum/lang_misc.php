@@ -27,7 +27,6 @@ $lang =
 	'post_sold' => '**** 本內容購買後可見 ****',
 	'post_banned' => '**** 作者被禁止或刪除 內容自動屏蔽 ****',
 	'post_single_banned' => '**** 該帖被屏蔽 ****',
-	'message_ishidden_hiddenreplies' => '此帖僅作者可見',
 	'post_reply_quote' => '{author} 發表於 {time}',
 	'post_edit' => "[i=s] 本帖最後由 {editor} 於 {edittime} 編輯 [/i]\n\n",
 	'post_edit_regexp' => '/^\[i=s\] 本帖最後由 .*? 於 .*? 編輯 \[\/i\][\r\n][\r\n]/s',

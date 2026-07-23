@@ -9,7 +9,6 @@
 if(!defined('IN_DISCUZ') || !defined('IN_ADMINCP')) {
 	exit('Access Denied');
 }
-
 if(!$_GET['mtype']) {
 	if(!submitcheck('submit', 1)) {
 
@@ -183,7 +182,7 @@ if(!$_GET['mtype']) {
 				}
 				if($adduser) {
 					foreach($newgroupusers as $newuid => $newusername) {
-						table_forum_groupuser::t()->insert($targetgroup, $newuid, $newusername, 4, TIMESTAMP);
+						table_forum_groupuser::t()->insert_groupuser($targetgroup, $newuid, $newusername, 4, TIMESTAMP);
 					}
 					table_forum_forumfield::t()->update_membernum($targetgroup, $adduser);
 				}
@@ -254,4 +253,3 @@ if(!$_GET['mtype']) {
 		cpmsg('group_group_no_choice', '', 'error');
 	}
 }
-	

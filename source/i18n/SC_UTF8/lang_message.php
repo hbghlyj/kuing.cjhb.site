@@ -409,8 +409,6 @@ $lang = [
 	'recommend_succeed' => '评价指数 <strong id="recommentc" class="xi1 xs2">{recommendc}</strong> <span id="recommentv" class="xg2 xs0">{recommendv}</span>',
 	'thread_poll_voter_isnull' => '暂时还没有人参与投票，不能添加标签。',
 	'thread_activityapply_isnull' => '暂时还没有人参加活动，不能添加标签。',
-	'forum_usertag_set_continue' => '共 {count} 个用户，正在设置 {limit} 至 {next} 个用户，请稍候 ',
-	'forum_usertag_succeed' => '用户标签设置成功 ',
 
 	'group_admin_enter_panel' => '请进入圈子管理页面进行管理',
 

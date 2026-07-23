@@ -31,7 +31,6 @@ class helper_forumperm {
 
 		self::get_group();
 		self::get_verify();
-		self::get_tag();
 		self::get_account();
 		self::get_plugin();
 
@@ -41,7 +40,6 @@ class helper_forumperm {
 	}
 
 	public static function clear_cache($uid) {
-		memory('rm', $uid, self::CacheKey.'tag_');
 		memory('rm', $uid, self::CacheKey.'account_');
 		memory('rm', $uid, self::CacheKey.'verify_');
 	}
@@ -101,34 +99,6 @@ class helper_forumperm {
 					}
 				}
 			}
-		}
-
-		$this->formula_cells = array_merge($this->formula_cells, $got = $newCells);
-	}
-
-	private function get_tag() {
-		static $got = null;
-		if($got !== null) {
-			$this->formula_cells = array_merge($this->formula_cells, $got);
-			return;
-		}
-		global $_G;
-
-		static $member_tags = null;
-		if($member_tags === null && $_G['uid']) {
-			$_v = memory('get', self::CacheKey.'tag_'.$_G['uid']);
-			if(!$_v) {
-				$member_tags = table_common_tagitem::t()->select(0, $_G['uid'], 'uid');
-				memory('set', self::CacheKey.'tag_'.$_G['uid'], [$member_tags, time()], self::CacheTTL);
-			} else {
-				$member_tags = $_v[0];
-			}
-		}
-
-		$newCells = [];
-		foreach($member_tags as $row) {
-			$newCells['t'.$row['tagid']] = 1;
-			$newCells['tag'] = 1;
 		}
 
 		$this->formula_cells = array_merge($this->formula_cells, $got = $newCells);
@@ -197,16 +167,16 @@ class helper_forumperm {
 			$this->permstr = $r[0];
 			$this->formula = $r[2];
 		} else {
-			$this->formula = 'group or tag or verify or account';
+			$this->formula = 'group or verify or account';
 		}
 
 		$formulaitems = [];
 		foreach(explode("\t", $this->permstr) as $item) {
 			if(is_numeric($item)) {
 				$formulaitems['g'.$item] = 'g'.$item;
-			} elseif(in_array(substr($item, 0, 1), ['a', 't', 'v']) && is_numeric(substr($item, 1))) {
+			} elseif(in_array(substr($item, 0, 1), ['a', 'v']) && is_numeric(substr($item, 1))) {
 				$formulaitems[$item] = $item;
-			} elseif(preg_match('/^_([a|t|v])\[(.+?)\]$/', $item, $r)) {
+			} elseif(preg_match('/^_([av])\[(.+?)\]$/', $item, $r)) {
 				$formulaitem = [];
 				foreach(explode(',', $r[2]) as $v) {
 					$formulaitem[] = $r[1].$v;
@@ -231,8 +201,8 @@ class helper_forumperm {
 				continue;
 			} elseif(preg_match('/^(or|and)$/', $c)) {
 				$formula[] = str_replace(['or', 'and'], ['||', '&&'], $c);
-			} elseif(preg_match('/^(g|t|v|a)-?\d+$/', $c) ||
-				preg_match('/^(group|tag|verify|account)$/', $c) ||
+			} elseif(preg_match('/^(g|v|a)-?\d+$/', $c) ||
+				preg_match('/^(group|verify|account)$/', $c) ||
 				preg_match('/^p_\w+$/', $c) || preg_match('/^plugin_\w+$/', $c)) {
 				$formula[] = !empty($this->formula_cells[$c]) ? 'TRUE' : 'FALSE';
 			} elseif($c == '(') {

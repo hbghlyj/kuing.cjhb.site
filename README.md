@@ -12,10 +12,11 @@
 
 ### IP 地理位置库
 
-当前分支的活动 IP 地理位置查询路径已经切换到 MaxMind GeoIP2。
+当前分支的活动 IP 网络归属查询使用 MaxMind DB Reader。
 
 - `source/class/class_ip.php` 和 `source/class/discuz/discuz_application.php` 会加载 `source/class/ip/geoip2.phar`
-- GeoIP2 Reader 固定读取 `data/ipdata/GeoLite2-City.mmdb`
+- Reader 固定读取 `data/ipdata/GeoOpen-Country-ASN.mmdb`
+- 查询结果包含国家代码、ASN 和自治系统组织名称，不包含城市
 - PHP-FPM 运行用户必须能够读取上述 PHAR 和 MMDB 文件
 - 旧的 `tinyipdata.dat` / `wry` 系列数据文件不再是当前默认查询路径
 
@@ -25,6 +26,20 @@
 - 手机 CSS 源文件位于 `template/<模板>/touch/common/`，默认模板使用 `template/default/touch/common/common.css`。
 - 生成的缓存文件使用 `style_<styleid>_touch_*.css` 命名，避免与 PC CSS 缓存互相覆盖。
 - 插件可通过 `source/plugin/<插件>/template/touch/extend_<文件名>.css` 扩展手机 CSS。
+
+### `discuzx5` 是 `default` 的覆盖层
+
+`template/discuzx5` 不是一套完整、独立的模板，而是建立在 `template/default` 之上的局部覆盖层。当前风格缺少某个模板文件时，模板解析器会回退到 `template/default` 中的同名 `.htm` 或 `.php` 文件。因此，不能仅检查 `discuzx5` 目录来判断某个界面或功能是否有实现。
+
+与 `default` 相比，`discuzx5` 的目录和组件覆盖范围明显不完整。`admin`、`cell`、`cells` 虽然存在，但只实现了其中一部分文件；`forum` 目录尤其精简，大量专用界面完全由 `default` 提供。主要回退类别包括：
+
+- `ajax_*`：图片列表、附件、快速回复等 AJAX 弹窗模板；
+- `collection_*`：淘专辑及相关列表功能；
+- `modcp_*`：完整的前台版主管理面板；
+- `post_*`：投票、悬赏、商品、辩论等专用发帖表单；
+- `viewthread_*`：打印、付费、悬赏、投票、辩论、相册等专用主题视图。
+
+维护 `discuzx5` 时，应把它视为 `default` 的差异层：通用实现优先修改 `default`，只有确实需要 X5 专属结构或样式时才在 `discuzx5` 添加覆盖文件。修改上述组件后必须同时检查实际命中的模板路径，避免误以为 X5 页面只会执行 `discuzx5` 内的代码。
 
 ### forum lastpost 字段顺序
 
@@ -171,7 +186,7 @@ $_config['db']['common']['engine'] = 'innodb';
 
 ##### 2.1 IP地址库
 
-系统使用 `source/class/class_ip.php` 调用 MaxMind GeoIP2 数据库，同时支持 IPv4 和 IPv6 地址查询。
+系统使用 `source/class/class_ip.php` 调用 `GeoOpen-Country-ASN.mmdb`，同时支持 IPv4 和 IPv6 地址的国家与 ASN 查询。
 
 ##### 2.2 IP封禁
 
@@ -209,25 +224,23 @@ $_config['ipgetter']['iplist']['list']['0'] = '127.0.0.1';
 $_config['ipgetter']['dnslist']['header'] = 'HTTP_X_FORWARDED_FOR';
 $_config['ipgetter']['dnslist']['list']['0'] = 'comsenz.com';
 ```
-##### 2.4 Cloudflare游客地理标签
+##### 2.4 游客与爬虫网络标签
 
-本分支跟进了基于 Cloudflare 请求头的游客地理标签逻辑。对于游客组(`groupid == 7`)：
+游客和爬虫会话均保存国家、ASN 和自治系统组织名称。Cloudflare 提供有效的 `HTTP_CF_IPCOUNTRY` 和 `HTTP_CF_IPCITY` 时，国家代码和城市用于界面显示；ASN 与组织名称由 Country/ASN MMDB 补全。
 
-* 若识别为爬虫，则仍按爬虫名称显示；
-* 若不是爬虫，则会读取 `HTTP_CF_IPCOUNTRY` 与 `HTTP_CF_IPCITY`，并将游客显示名设置为“国旗 emoji + 城市名”。
+在线用户列表同时显示游客和爬虫；两者分别使用游客与爬虫图标，不添加“游客”或爬虫名称前缀。论坛内的紧凑列表为游客显示国旗和 Cloudflare 城市，标题提示显示 ASN 与组织名称；爬虫直接显示组织名称，标题提示只显示 ASN。完整在线列表显示全部信息。
 
-这意味着该功能依赖 Cloudflare 注入的请求头；如果站点未通过 Cloudflare 代理流量，或未提供上述头部，则相关显示逻辑可能不符合预期。
+##### 2.5 Country/ASN 查询与输出策略调整
 
-##### 2.5 GeoIP2 与输出策略调整
-
-本分支已按上游方案切换为直接使用 MaxMind GeoIP2：
+本分支使用 MaxMind DB Reader 读取 Country/ASN 合并库：
 
 * `source/class/class_ip.php` 不再走原有可插拔 IPDB 实现；
 * `source/class/class_ip.php` 和 `source/class/discuz/discuz_application.php` 都会加载 `source/class/ip/geoip2.phar`；
-* `GeoIp2\Database\Reader` 固定读取 `data/ipdata/GeoLite2-City.mmdb`，PHP-FPM 运行用户必须对这两个文件具有读取权限；
+* `MaxMind\Db\Reader` 固定读取 `data/ipdata/GeoOpen-Country-ASN.mmdb`，PHP-FPM 运行用户必须对这两个文件具有读取权限；
+* IP 归属显示国家、ASN 和自治系统组织名称，不再查询城市；
 * 旧的 `ip_tiny.php` 与 `ip_wry.php` 已移除，不再作为位置库后端使用。
 
-因此，部署时需要自行准备可用的 MaxMind GeoIP2 城市库文件，否则 IP 归属地解析将无法按该实现工作。
+因此，部署时需要准备兼容的 `GeoOpen-Country-ASN.mmdb`，否则 IP 网络归属解析将返回空结果。
 
 同时，本分支已明确采用以下输出策略：
 

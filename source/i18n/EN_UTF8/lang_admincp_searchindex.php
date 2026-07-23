@@ -658,17 +658,6 @@ $lang = array (
 			0 => '发送手机短信',
 		),
 	),
-	59 => 
-	array (
-		'index' => 
-		array (
-			'用户标签' => 'action=usertag',
-		),
-		'text' => 
-		array (
-			0 => '用户标签',
-		),
-	),
 	60 => 
 	array (
 		'index' => 
@@ -1462,9 +1451,6 @@ $lang = array (
 			60 => 'admingroup_edit_edit_trade',
 			61 => '允许编辑商品',
 			62 => '设置是否允许编辑管理范围内商品主题的商品',
-			63 => 'admingroup_edit_usertag',
-			64 => '允许添加用户标签',
-			65 => '设置是否允许编辑管理范围内主题的用户标签',
 			66 => 'admingroup_edit_stick_thread_none',
 			67 => '不允许置顶',
 			68 => 'admingroup_edit_stick_thread_1',
@@ -3447,9 +3433,6 @@ $lang = array (
 			12 => 'members_search_medal',
 			13 => '勋章',
 			14 => '设置拥有指定勋章的用户，可以按住 CTRL 多选',
-			15 => 'members_search_usertag',
-			16 => '用户标签',
-			17 => '设置指定标签的用户，可以按住 CTRL 多选',
 			18 => 'members_search_conisbind',
 			19 => '是否绑定QQ',
 			20 => 'members_search_uinblacklist',
@@ -4671,7 +4654,6 @@ $lang = array (
 			103 => 'setting_styles_viewthread_guesttipsinthread_text',
 			104 => '登录提示提示文字',
 			105 => '自定义显示提示文字,默认为：马上注册，结交更多好友，享用更多功能，让你轻松玩转社区。',
-			106 => 'setting_styles_viewthread_imgcontent',
 			107 => '主题内容生成图片宽度',
 			108 => '本功能需要PHP支持GD库，内容里有中文需要将中文 TTF 字体文件放到 static/image/seccode/font/ch/ 目录下。默认100个汉字，字体不同宽度略有差别，请跟据实际效果调整。',
 			109 => 'setting_styles_viewthread_fast_reply',
@@ -7241,7 +7223,6 @@ $lang = array (
 			78 => 'usergroups_edit_post_allowcommentcollection',
 			79 => '允许评论淘专辑',
 			80 => '允许用户在主题和淘专辑页面进行评论。',
-			81 => 'usergroups_edit_post_allowimgcontent',
 			82 => '允许主题内容生成图片',
 			83 => '看帖时所有帖子正文内容将以字符形式生成图片展示。',
 			84 => 'usergroups_edit_attach',
@@ -7502,35 +7483,6 @@ $lang = array (
 			13 => '下载远程图片的同时允许重新生成一份本地图片',
 			14 => 'usergroups_edit_portal_allow_post_article_moderate',
 			15 => '发布文章需要审核',
-		),
-	),
-	299 => 
-	array (
-		'index' => 
-		array (
-			'用户标签' => 'action=usertag',
-		),
-		'text' => 
-		array (
-			0 => '用户标签',
-			1 => 'usertag_add_tips',
-			2 => '可以给线下活动的用户批量贴标签当只填写了标签，用户列表为空时，是批量添加用户标签如果标签和用户列表都有输入，说明是给指定用户批量贴标签',
-			3 => 'usertag_add_tags',
-			4 => '标签',
-			5 => '可以输入多个标签，多个标签可以用空格、逗号 分隔',
-			6 => 'usertag_add_usernames',
-			7 => '用户列表',
-			8 => '可以输入多个用户，每行输入一个用户名',
-			9 => 'keywords',
-			10 => '关键词',
-			11 => 'search',
-			12 => '搜索',
-			13 => 'view',
-			14 => '查看',
-			15 => 'usertag_user',
-			16 => '用户',
-			17 => 'usertag_send_notice',
-			18 => '发通知',
 		),
 	),
 );

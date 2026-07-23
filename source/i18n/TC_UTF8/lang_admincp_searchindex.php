@@ -658,17 +658,6 @@ $lang = array (
 			0 => '發送手機短信',
 		),
 	),
-	59 =>
-	array (
-		'index' =>
-		array (
-			'用戶標籤' => 'action=usertag',
-		),
-		'text' =>
-		array (
-			0 => '用戶標籤',
-		),
-	),
 	60 =>
 	array (
 		'index' =>
@@ -1462,9 +1451,6 @@ $lang = array (
 			60 => 'admingroup_edit_edit_trade',
 			61 => '允許編輯商品',
 			62 => '設置是否允許編輯管理範圍內商品主題的商品',
-			63 => 'admingroup_edit_usertag',
-			64 => '允許添加用戶標籤',
-			65 => '設置是否允許編輯管理範圍內主題的用戶標籤',
 			66 => 'admingroup_edit_stick_thread_none',
 			67 => '不允許置頂',
 			68 => 'admingroup_edit_stick_thread_1',
@@ -3447,9 +3433,6 @@ $lang = array (
 			12 => 'members_search_medal',
 			13 => '勳章',
 			14 => '設置擁有指定勳章的用戶，可以按住 CTRL 多選',
-			15 => 'members_search_usertag',
-			16 => '用戶標籤',
-			17 => '設置指定標籤的用戶，可以按住 CTRL 多選',
 			18 => 'members_search_conisbind',
 			19 => '是否綁定QQ',
 			20 => 'members_search_uinblacklist',
@@ -4671,7 +4654,6 @@ $lang = array (
 			103 => 'setting_styles_viewthread_guesttipsinthread_text',
 			104 => '登錄提示提示文字',
 			105 => '自定義顯示提示文字,默認為：馬上註冊，結交更多好友，享用更多功能，讓你輕鬆玩轉社區。',
-			106 => 'setting_styles_viewthread_imgcontent',
 			107 => '主題內容生成圖片寬度',
 			108 => '本功能需要PHP支持GD庫，內容裡有中文需要將中文 TTF 字體文件放到 static/image/seccode/font/ch/ 目錄下。默認100個漢字，字體不同寬度略有差別，請跟據實際效果調整。',
 			109 => 'setting_styles_viewthread_fast_reply',
@@ -7241,7 +7223,6 @@ $lang = array (
 			78 => 'usergroups_edit_post_allowcommentcollection',
 			79 => '允許評論淘專輯',
 			80 => '允許用戶在主題和淘專輯頁面進行評論。',
-			81 => 'usergroups_edit_post_allowimgcontent',
 			82 => '允許主題內容生成圖片',
 			83 => '看帖時所有帖子正文內容將以字符形式生成圖片展示。',
 			84 => 'usergroups_edit_attach',
@@ -7502,35 +7483,6 @@ $lang = array (
 			13 => '下載遠程圖片的同時允許重新生成一份本地圖片',
 			14 => 'usergroups_edit_portal_allow_post_article_moderate',
 			15 => '發佈文章需要審核',
-		),
-	),
-	299 =>
-	array (
-		'index' =>
-		array (
-			'用戶標籤' => 'action=usertag',
-		),
-		'text' =>
-		array (
-			0 => '用戶標籤',
-			1 => 'usertag_add_tips',
-			2 => '可以給線下活動的用戶批量貼標籤當只填寫了標籤，用戶列表為空時，是批量添加用戶標籤如果標籤和用戶列表都有輸入，說明是給指定用戶批量貼標籤',
-			3 => 'usertag_add_tags',
-			4 => '標籤',
-			5 => '可以輸入多個標籤，多個標籤可以用空格、逗號 分隔',
-			6 => 'usertag_add_usernames',
-			7 => '用戶列表',
-			8 => '可以輸入多個用戶，每行輸入一個用戶名',
-			9 => 'keywords',
-			10 => '關鍵詞',
-			11 => 'search',
-			12 => '搜索',
-			13 => 'view',
-			14 => '查看',
-			15 => 'usertag_user',
-			16 => '用戶',
-			17 => 'usertag_send_notice',
-			18 => '發通知',
 		),
 	),
 );

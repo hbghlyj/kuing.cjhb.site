@@ -14,7 +14,7 @@ if(!defined('IN_DISCUZ')) {
 
 /**
  * showcomponent('setname', 'varname', $value, 'component_perm', 'comment', [
- *      'permtype' => ['group', 'verify', 'account', 'tag', 'org', 'plugin'],    //显示的权限类型，留空为显示全部权限类型
+ *      'permtype' => ['group', 'verify', 'account', 'org', 'plugin'],    //显示的权限类型，留空为显示全部权限类型
  *      'formula' => true    //按照权限公式表达式方式显示
  * ]);
  */
@@ -25,7 +25,7 @@ class component_perm {
 	var $desc = '
 <pre>
 {	
-      "permtype": ["group", "verify", "account", "medal", "magic", "tag", "org", "plugin"],   
+      "permtype": ["group", "verify", "account", "medal", "magic", "org", "plugin"],
       "formula": true
 }
 permtype: 显示的权限类型，留空为显示全部权限类型
@@ -107,7 +107,7 @@ formula: 按照权限公式表达式方式显示
 		}
 		$conf = is_string($var['extra']) ? json_decode($var['extra'], true) : $var['extra'];
 		$data = [];
-		$permarray = ['group', 'verify', 'account', 'plugin', 'tag'];
+		$permarray = ['group', 'verify', 'account', 'plugin'];
 		foreach($permarray as $permfile) {
 			if(!$conf['permtype'] || in_array($permfile, $conf['permtype'])) {
 				call_user_func_array([$this, '_gen_'.$permfile], [&$data, $var['value'], $var['variable'], $conf]);
@@ -212,26 +212,6 @@ formula: 按照权限公式表达式方式显示
 			}
 			$data[cplang('account')][] = ['a'.$atype, \account_base::getName($interface), str_contains(' '.$value.' ', " a$atype ")];
 		}
-	}
-
-	private function _gen_tag(&$data, $value, $variable, $extra) {
-		static $tags = null;
-		if($tags === null) {
-			$tags = \table_common_tag::t()->fetch_all_by_status(3);
-		}
-		if(!$tags) {
-			return;
-		}
-		foreach($tags as $tag) {
-			if(!empty($extra['hide']['tag']) && in_array($tag['tagid'], $extra['hide']['tag'])) {
-				continue;
-			}
-			if(str_contains(' '.$value.' ', " t$tag[tagid] ")) {
-				$data[cplang('forums_edit_perm_usertag')][] = ['t'.$tag['tagid'], $tag['tagname'], true];
-			}
-		}
-		$id = 'st'.random(4);
-		$data[cplang('forums_edit_perm_usertag')]['_'] = '<a id="'.$id.'" class="search" href="javascript:;" onclick="perm_search(\'tag/'.$variable.'\', \''.$id.'\')">'.cplang('add').'</a>';
 	}
 
 	private function _gen_plugin(&$data, $value, $variable, $extra) {
