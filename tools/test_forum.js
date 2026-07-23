@@ -461,7 +461,7 @@ const { execSync } = require('child_process');
         // Verify the stored type as well as the browser's rendered image.
         const tfSnippet = await page.$eval('#postlist .t_f', el => el.innerHTML.substring(0, 600)).catch(() => '');
         console.log('DEBUG .t_f HTML snippet:', tfSnippet.substring(0, 200));
-        const attachIsimage = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT isimage FROM pre_forum_attachment WHERE tid='${attachTid}' LIMIT 1;"`).toString().trim();
+        const attachIsimage = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT isimage FROM pre_forum_attachment_0 WHERE tid='${attachTid}' LIMIT 1;"`).toString().trim();
         console.log('DEBUG attachment isimage in DB:', attachIsimage);
 
         assert.strictEqual(attachIsimage, '1', `Assertion Error: Uploaded PNG was not stored as an image. isimage: ${attachIsimage}`);
