@@ -40,10 +40,13 @@ const { execSync } = require('child_process');
         C::t('common_setting')->update('secqaa', serialize(\$secqaa));
         C::t('common_setting')->update('regname', 'register');
 
-        DB::query('TRUNCATE TABLE '.DB::table('common_syscache'));
+        if(!is_dir('./data/cache')) {
+            @mkdir('./data/cache', 0777, true);
+        }
+        @chmod('./data/cache', 0777);
+
         require_once libfile('function/cache');
-        updatecache('setting');
-        updatecache('secqaa');
+        updatecache();
         ?>`;
         fs.writeFileSync('disable_sec.php', phpConfig);
         execSync('php disable_sec.php');
