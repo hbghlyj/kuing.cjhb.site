@@ -14,7 +14,7 @@ const { execSync } = require('child_process');
         const subject = `${keyword} searchable thread`;
 
         console.log('Creating searchable thread...');
-        execSync(`sudo mysql -u root ultrax -e "INSERT INTO pre_forum_thread (fid, author, authorid, subject, dateline, lastpost, lastposter) VALUES (1, 'admin', 1, '${subject}', UNIX_TIMESTAMP(), UNIX_TIMESTAMP(), 'admin');"`);
+        execSync(`sudo mysql -u root ultrax -e "INSERT INTO pre_forum_thread (fid, author, authorid, subject, dateline, lastpost, lastposter) VALUES (2, 'admin', 1, '${subject}', UNIX_TIMESTAMP(), UNIX_TIMESTAMP(), 'admin');"`);
 
         console.log('Checking guest search form...');
         await page.goto('http://127.0.0.1:8080/search.php?mod=forum');
