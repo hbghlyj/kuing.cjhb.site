@@ -1,4 +1,5 @@
 const { chromium } = require('playwright');
+const crypto = require('crypto');
 const fs = require('fs');
 const assert = require('assert');
 const { execSync } = require('child_process');
@@ -9,7 +10,8 @@ const { execSync } = require('child_process');
         viewport: { width: 390, height: 844 },
         userAgent: 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 Version/17.0 Mobile/15E148 Safari/604.1',
     });
-    await context.addCookies([{ name: 'discuz_mobile', value: '2', url: 'http://127.0.0.1:8080' }]);
+    const cookieSalt = crypto.createHash('md5').update('/|').digest('hex').slice(0, 4);
+    await context.addCookies([{ name: `discuz_${cookieSalt}_mobile`, value: '2', url: 'http://127.0.0.1:8080' }]);
     const page = await context.newPage();
     let report = '\n\n## Mobile Registration Functional Test Report\n\n';
 
