@@ -973,6 +973,11 @@ $data = [[
       [
         0 => 'cp',
         1 => 'error',
+        2 => 'credit',
+      ],
+      'clearlogsdays' =>
+      [
+        'credit' => '180',
       ],
       'illegal' => '1',
       'ban' => '1',

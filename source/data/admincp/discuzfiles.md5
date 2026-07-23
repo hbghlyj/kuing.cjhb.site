@@ -2187,7 +2187,7 @@ f2f5d45d71c233ae2ef6a5cd02202602 *source/i18n/SC_UTF8/install/lang_sql_install/t
 8219ed88d44d7a68bc563a6ce72d7a23 *source/i18n/SC_UTF8/install/lang_sql_install/table_common_friendlink.php
 0e19f4af9b7d7fd3ddd94f3e34716236 *source/i18n/SC_UTF8/install/lang_sql_install/table_common_member_profile_setting.php
 387a58f024572d901cb39432cd1b56e5 *source/i18n/SC_UTF8/install/lang_sql_install/table_common_nav.php
-a2b39724bfd5e7e3a96d4e6913375041 *source/i18n/SC_UTF8/install/lang_sql_install/table_common_setting.php
+28353f85c6693a20148a78694fac9b7f *source/i18n/SC_UTF8/install/lang_sql_install/table_common_setting.php
 e3671d072b52d8fd04e3d2ba1f3aea1d *source/i18n/SC_UTF8/install/lang_sql_install/table_common_smiley.php
 4af8b8eaac161061cb0163600e9dbf2d *source/i18n/SC_UTF8/install/lang_sql_install/table_common_statuser.php
 466230b32bd8d264ff787a2317d9ab2a *source/i18n/SC_UTF8/install/lang_sql_install/table_common_style.php
@@ -2389,7 +2389,7 @@ a1c6454465477a073c4d2c31e94dade0 *source/i18n/TC_UTF8/install/lang_sql_install/t
 fba786edfcdda63dc22ff3fcd9e3166f *source/i18n/TC_UTF8/install/lang_sql_install/table_common_friendlink.php
 705f08d79c767faab73248f3567a11fa *source/i18n/TC_UTF8/install/lang_sql_install/table_common_member_profile_setting.php
 5a50d34e1b0eb137bd1c42e99be57cac *source/i18n/TC_UTF8/install/lang_sql_install/table_common_nav.php
-a827237169881b5ba4f9952d3d3842da *source/i18n/TC_UTF8/install/lang_sql_install/table_common_setting.php
+a171417176966327bf395b76bece3345 *source/i18n/TC_UTF8/install/lang_sql_install/table_common_setting.php
 e3671d072b52d8fd04e3d2ba1f3aea1d *source/i18n/TC_UTF8/install/lang_sql_install/table_common_smiley.php
 4af8b8eaac161061cb0163600e9dbf2d *source/i18n/TC_UTF8/install/lang_sql_install/table_common_statuser.php
 a547269bf1ebe388fd48390df8c88048 *source/i18n/TC_UTF8/install/lang_sql_install/table_common_style.php
