@@ -457,7 +457,7 @@ const { execSync } = require('child_process');
             'Assertion Error: Attachment thread page did not load thread content cleanly in viewthread.'
         );
 
-        const postImg = await page.$('#postlist .t_f img[id^="aimg_"], #postlist .t_f img[aid], #postlist .t_f img[file], #postlist .t_f img[zoomfile], #postlist .t_f .tattl img');
+        const postImg = await page.$('#postlist .t_f img[id^="aimg_"], #postlist .t_f img[aid], #postlist .t_f img[file], #postlist .t_f img[zoomfile], #postlist .t_f .tattl img, #postlist .t_f img[src*="data/attachment/"]');
         const fileLinkText = await page.$eval('#postlist .t_f', el => {
             const link = el.querySelector('a[href*="mod=attachment"]');
             return link ? link.textContent.trim() : '';
