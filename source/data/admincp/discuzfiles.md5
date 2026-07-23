@@ -638,7 +638,7 @@ c55cc75b21393c01c2e70b8c7ef12d26 *source/app/admin/module/lang.php
 f99421100a41f494261a351102d4cab0 *source/app/admin/module/login.php
 ed4f2bd7e0491ce0de02b2dcb77204fb *source/app/admin/module/logs.php
 fd4ab277feab415fa7356c59144f50c4 *source/app/admin/module/magics.php
-6936ae3e6ab56a82dee3f9bb1f6a080e *source/app/admin/module/main.php
+2a8ef3208f6cbf7f2141ae801e44c1a4 *source/app/admin/module/main.php
 58d1b728637e4f9e3015b43009e615be *source/app/admin/module/makehtml.php
 edf4c74102c2ed1badab856f6652acc0 *source/app/admin/module/medals.php
 9e6170eb097faad1cfb0d4856a5db5da *source/app/admin/module/members.php
@@ -4426,7 +4426,7 @@ b81615ce77f1800370876002bdbada17 *static/webfont/texgyreschola-italic.otf
 a4cbe0860e580c5cf0a328c760078e3e *static/xypic.js
 c413ada15a964fe1ff31665422abc480 *template/default/admin/admincolor.php
 8ebe6c4d3f05c0938329119279672cef *template/default/admin/blank.php
-38e1fb356ff0726c44bc4d884281b3a2 *template/default/admin/cpheader.php
+eb8341562673c623759c96c7b17642c1 *template/default/admin/cpheader.php
 ae1389475a6849684346d2f3b968ca5a *template/default/admin/index_charts.php
 298c744eef5207ada4e0c9a5712e7fde *template/default/admin/index_empty.php
 9bb0b5b379c401cd12422886cfd4ef0d *template/default/admin/index_hotthreads.php
@@ -4434,7 +4434,7 @@ b51defe2c4ca31ac5f9dd525eee52a71 *template/default/admin/index_sitestatus.php
 5da5fe7b84120d0dc7b0942c70272d70 *template/default/admin/index_todo.php
 f978cd3162de9bdd8fc112d53e9edbbd *template/default/admin/index.php
 24ccb43afae4264de44eff4bd8288feb *template/default/admin/login.php
-5b84a2445feebbb94f95d33b3c9509c0 *template/default/admin/main.php
+ecd5adb29899d65570bb0b91f9145365 *template/default/admin/main.php
 76b1dcf770f5bb3fcbedd82b335d68d7 *template/default/admin/plugin_list.php
 77e93861a630c10befdbb2fdec474ceb *template/default/admin/plugin_newlist.php
 8f0ebc9342b81dace40ff35552558ee7 *template/default/admin/rootcolor.htm
@@ -5244,7 +5244,7 @@ d41d8cd98f00b204e9800998ecf8427e *template/default/touch/wechat/index.htm
 3bc1d3162d2c759b8b0a31ca2ace67da *template/default/touch/wechat/snapshotuser.php
 d41d8cd98f00b204e9800998ecf8427e *template/default/wechat/index.htm
 eda3d94bcf407e2d001090fb8a1e72d5 *template/default/wechat/wechat.php
-4b42687842e87b6dfe609960cd59646c *template/discuzx5/admin/cpheader.php
+3f3ea151a498d52efdf18d72edb66283 *template/discuzx5/admin/cpheader.php
 e3e4514f44deb66f7613844896438771 *template/discuzx5/admin/login.php
 3eb5035d3303b399ffe25b9fc450ac46 *template/discuzx5/admin/main.php
 6de78d3297cad09cf8fde066942d5a8f *template/discuzx5/cell/account/icon.htm
