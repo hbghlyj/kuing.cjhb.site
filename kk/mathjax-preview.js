@@ -112,7 +112,7 @@ var fastTexItems = [
 	{ "n": "$\\pmod{m}$", "o": ["\\pmod{", "}"] },
 	{ "n": "$\\lim_{x\\to 0}$", "o": ["\\lim_{x\\to ", "}"] },
 	{ "n": "$\\infty$", "o": "\\infty " },
-	{ "n": "$\\int$", "o": ["\\int ", "\\rmd x"] },
+	{ "n": "$\\int \\mathrm{d}x$", "o": ["\\int ", "\\rmd x"] },
 	{ "n": "$\\log$", "o": "\\log " },
 	{ "n": "$\\ln$", "o": "\\ln " },
 	{ "n": "$\\sin$", "o": "\\sin " },
