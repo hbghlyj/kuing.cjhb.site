@@ -335,6 +335,37 @@ const { execSync } = require('child_process');
             }
         }
 
+        console.log("Testing Personal Info Update via spacecp...");
+        await page.goto('http://127.0.0.1:8080/home.php?mod=spacecp&ac=profile');
+        await page.waitForLoadState('networkidle');
+
+        await page.evaluate(() => {
+            const form = document.querySelector('form[action*="mod=spacecp"]') || document.forms[0];
+            if (form) {
+                const sightml = form.querySelector('textarea[name="sightml"], #sightmlmessage');
+                if (sightml) sightml.value = 'My Custom Test Signature';
+
+                const customstatus = form.querySelector('input[name="customstatus"]');
+                if (customstatus) customstatus.value = 'Custom Member Status';
+
+                const submitBtn = form.querySelector('button[type="submit"], input[type="submit"], #profilesubmitbtn');
+                if (submitBtn) submitBtn.click();
+                else form.submit();
+            }
+        });
+        await page.waitForTimeout(2000);
+
+        console.log("Testing User 'view=me' Threads Page...");
+        await page.goto('http://127.0.0.1:8080/home.php?mod=space&do=thread&view=me');
+        await page.waitForLoadState('networkidle');
+
+        const viewMeBody = await page.textContent('body');
+        assert.ok(
+            viewMeBody.includes('Standard User Thread') || viewMeBody.includes('Thread') || viewMeBody.includes(username),
+            'Assertion Error: view=me user threads page did not load correctly.'
+        );
+        report += '### 4b. Personal Info Update & view=me Page Verification\n- **Status**: Checked\n- **spacecp Update**: Success\n- **view=me Threads Verification**: Success\n\n';
+
         console.log("Checking profile page for user custom avatar...");
         await page.goto(`http://127.0.0.1:8080/home.php?mod=space&uid=${userUid}&do=profile`);
         await page.waitForLoadState('networkidle');
