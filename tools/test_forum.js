@@ -415,13 +415,23 @@ const { execSync } = require('child_process');
 
         const attachMsg = aid ? `Posting thread with image attachment content. [attach]${aid}[/attach]` : 'Posting thread with image attachment content.';
 
-        await page.evaluate(({ message }) => {
+        await page.evaluate(({ aidVal, message }) => {
             const textArea = document.querySelector('textarea[name="message"], #postmessage');
             if (textArea) textArea.value = message;
             if (window.editdoc && window.editdoc.body) window.editdoc.body.innerHTML = message;
+            if (aidVal) {
+                const form = document.getElementById('postform') || document.querySelector('form[name="postform"]');
+                if (form) {
+                    const hiddenInput = document.createElement('input');
+                    hiddenInput.type = 'hidden';
+                    hiddenInput.name = `attachnew[${aidVal}][description]`;
+                    hiddenInput.value = '';
+                    form.appendChild(hiddenInput);
+                }
+            }
             const secqaa = document.querySelector('input[name*="secanswer"]');
             if (secqaa) secqaa.value = '2';
-        }, { message: attachMsg });
+        }, { aidVal: aid, message: attachMsg });
 
         const attachSubmitBtn = await page.$('#postsubmit, button[name="topicsubmit"]');
         if (attachSubmitBtn) {
