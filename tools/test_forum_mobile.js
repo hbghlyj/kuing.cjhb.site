@@ -88,8 +88,15 @@ const { execSync } = require('child_process');
         await page.locator('#needmessage').fill(message);
         const imageInput = page.locator('#filedata');
         assert.strictEqual(await imageInput.count(), 1, 'Assertion Error: Mobile image upload control did not render.');
+        const uploadResponse = page.waitForResponse(response => response.request().method() === 'POST' && response.url().includes('misc.php?mod=swfupload'));
         await imageInput.setInputFiles(imagePath);
-        await page.waitForFunction(() => document.querySelector('#imglist input[name^="attachnew["]'));
+        const uploadText = await (await uploadResponse).text();
+        assert.match(uploadText, /^DISCUZUPLOAD\|1\|0\|\d+\|1\|/, `Assertion Error: Mobile image upload failed. Response: ${uploadText}`);
+        await page.waitForFunction(() => document.querySelector('#imglist input[name^="attachnew["]'), { timeout: 5000 }).catch(() => {
+            throw new assert.AssertionError({
+                message: `Assertion Error: Mobile upload did not append attachnew. Response: ${uploadText}`,
+            });
+        });
         const aid = await page.locator('#imglist input[name^="attachnew["]').evaluate(input => input.name.match(/^attachnew\[(\d+)\]/)[1]);
         await page.locator('#needmessage').fill(`${message} [attachimg]${aid}[/attachimg]`);
         await page.waitForTimeout(250);
