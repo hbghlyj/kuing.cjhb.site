@@ -166,6 +166,7 @@ class check {
 		'mysqli' => ['mysqli_connect', 'mysqli_query'],
 		'json' => ['json_encode', 'json_decode'],
 		'mbstring' => ['mb_convert_encoding'],
+		'gd' => ['imagecreatetruecolor'],
 		'curl' => ['curl_init', 'curl_setopt'],
 		'openssl' => ['openssl_random_pseudo_bytes', 'openssl_sign'],
 		'xml' => ['xml_parser_create'],

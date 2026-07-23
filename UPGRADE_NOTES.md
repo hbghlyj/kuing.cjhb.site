@@ -226,6 +226,7 @@ DELETE FROM pre_common_setting WHERE skey = 'imgcontentwidth';
   - `mysqli`
   - `json`
   - `mbstring`
+  - `gd`
   - `curl`
   - `openssl`
   - `xml`
