@@ -63,8 +63,10 @@ if (!move_uploaded_file($file['tmp_name'], $targetFilePath)) {
     exit;
 }
 
-// 5. Generate site URL for chat
-$photoUrl = rtrim($_G['siteurl'], '/') . '/' . $subDir . $newFileName;
+// 5. Generate site root URL for chat photo
+$protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || (isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == 443)) ? "https" : "http";
+$siteHost = $_SERVER['HTTP_HOST'];
+$photoUrl = $protocol . '://' . $siteHost . '/' . $subDir . $newFileName;
 
 header("Content-Type: application/json");
 echo json_encode(array(
