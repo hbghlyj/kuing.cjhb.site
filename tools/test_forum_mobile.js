@@ -101,8 +101,9 @@ const { execSync } = require('child_process');
         assert.match(uploadText, /^DISCUZUPLOAD\|1\|0\|\d+\|1\|/, `Assertion Error: Mobile image upload failed. Response: ${uploadText}`);
         await page.waitForFunction(() => document.querySelector('#imglist input[name^="attachnew["]'), { timeout: 5000 }).catch(async () => {
             const uploadListHtml = await page.$eval('#imglist', element => element.innerHTML).catch(() => 'missing');
+            const callbackSource = await page.evaluate(() => typeof uploadsuccess === 'function' ? uploadsuccess.toString() : String(typeof uploadsuccess));
             throw new assert.AssertionError({
-                message: `Assertion Error: Mobile upload did not append attachnew. Response: ${uploadText}; imglist=${uploadListHtml}; errors=${browserErrors.join(' | ') || 'none'}`,
+                message: `Assertion Error: Mobile upload did not append attachnew. Response: ${uploadText}; imglist=${uploadListHtml}; callback=${callbackSource}; errors=${browserErrors.join(' | ') || 'none'}`,
             });
         });
         const aid = await page.locator('#imglist input[name^="attachnew["]').evaluate(input => input.name.match(/^attachnew\[(\d+)\]/)[1]);
