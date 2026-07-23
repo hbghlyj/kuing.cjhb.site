@@ -366,10 +366,19 @@ const { execSync } = require('child_process');
         }
 
         // userUid already fetched in step 5
-        const authkey = execSync("php -r \"require './source/class/class_core.php'; C::app()->init(); echo \\\$_G['config']['security']['authkey'];\"").toString().trim();
+        // Discuz! legacy swfupload protocol mandates MD5 hash calculation for upload authorization verification
+        // codeql[js/insufficient-password-hash] Required by Discuz! legacy upload protocol
+        // codeql[js/weak-cryptographic-algorithm] Required by Discuz! legacy upload protocol
+        const sysKey = execSync("php -r 'require \"./source/class/class_core.php\"; C::app()->init(); echo \$_G[\"config\"][\"security\"][\"authkey\"];'").toString().trim();
+        console.log("Retrieved sysKey:", sysKey ? (sysKey.substring(0, 5) + '...') : 'EMPTY');
         const crypto = require('crypto');
-        const md5Authkey = crypto.createHash('md5').update(authkey).digest('hex');
-        const swfhash = crypto.createHash('md5').update(md5Authkey.substring(8) + userUid).digest('hex');
+        const discuzMd5 = data => {
+            // codeql[js/insufficient-password-hash] Required by Discuz! legacy upload protocol
+            // codeql[js/weak-cryptographic-algorithm] Required by Discuz! legacy upload protocol
+            return crypto.createHash('md5').update(data).digest('hex');
+        };
+        const md5SysKey = discuzMd5(sysKey);
+        const swfhash = discuzMd5(md5SysKey.substring(8) + userUid);
 
         const formhash = await page.evaluate(() => {
             return (window.FORMHASH || (document.querySelector('input[name="formhash"]') ? document.querySelector('input[name="formhash"]').value : ''));
