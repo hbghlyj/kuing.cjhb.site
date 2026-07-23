@@ -587,17 +587,11 @@ function messagesafeclear($message) {
 	if(str_contains($message, '[/postbg]')) {
 		$message = preg_replace("/\s?\[postbg\]\s*([^\[\<\r\n;'\"\?\(\)]+?)\s*\[\/postbg\]\s?/is", '', $message);
 	}
-	if(str_contains($message, '[/begin]')) {
-		$message = preg_replace("/\[begin(=\s*([^\[\<\r\n]*?)\s*,(\d*),(\d*),(\d*),(\d*))?\]\s*([^\[\<\r\n]+?)\s*\[\/begin\]/is", '', $message);
-	}
 	if(str_contains($message, '[page]')) {
 		$message = preg_replace('/\s?\[page\]\s?/is', '', $message);
 	}
 	if(str_contains($message, '[/index]')) {
 		$message = preg_replace('/\s?\[index\](.+?)\[\/index\]\s?/is', '', $message);
-	}
-	if(str_contains($message, '[/begin]')) {
-		$message = preg_replace("/\[begin(=\s*([^\[\<\r\n]*?)\s*,(\d*),(\d*),(\d*),(\d*))?\]\s*([^\[\<\r\n]+?)\s*\[\/begin\]/is", '', $message);
 	}
 	if(str_contains($message, '[/groupid]')) {
 		$message = preg_replace('/\[groupid=\d+\].*\[\/groupid\]/i', '', $message);
