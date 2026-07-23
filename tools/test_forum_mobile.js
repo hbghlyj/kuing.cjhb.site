@@ -1,5 +1,6 @@
 const { chromium } = require('playwright');
 const crypto = require('crypto');
+const fs = require('fs');
 const assert = require('assert');
 const { execSync } = require('child_process');
 
