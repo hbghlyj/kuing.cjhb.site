@@ -1,0 +1,136 @@
+name: Playwright Functional Tests
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install System Dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y php php-xml php-curl php-json php-mbstring php-mysql mariadb-server
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Dependencies
+        run: npm install playwright
+
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps chromium
+
+      - name: Configure Database & DiscuzX
+        run: |
+          sudo systemctl start mariadb
+          sudo mysql -u root -e "CREATE DATABASE ultrax;"
+          sudo mysql -u root -e "CREATE USER 'discuz'@'127.0.0.1' IDENTIFIED BY 'password';"
+          sudo mysql -u root -e "GRANT ALL PRIVILEGES ON ultrax.* TO 'discuz'@'127.0.0.1';"
+          sudo mysql -u root -e "FLUSH PRIVILEGES;"
+
+          cp config/config_global_default.php config/config_global.php
+          sed -i "s/\$_config\['db'\]\[1\]\['dbname'\]  		= 'mitframe';/\$_config['db'][1]['dbname'] = 'ultrax';/g" config/config_global.php
+          sed -i "s/\$_config\['db'\]\[1\]\['dbuser'\]  		= 'root';/\$_config['db'][1]['dbuser'] = 'discuz';/g" config/config_global.php
+          sed -i "s/\$_config\['db'\]\[1\]\['dbpw'\] 	 	= '';/\$_config['db'][1]['dbpw'] = 'password';/g" config/config_global.php
+          sed -i "s/\$_config\['db'\]\[1\]\['dbhost'\]  		= 'localhost';/\$_config['db'][1]['dbhost'] = '127.0.0.1';/g" config/config_global.php
+
+          php -r "
+          define('IN_DISCUZ', true);
+          define('ROOT_PATH', dirname(__FILE__) . '/');
+          \$_config = array();
+          require './config/config_global.php';
+
+          \$link = mysqli_connect('127.0.0.1', 'discuz', 'password', 'ultrax');
+
+          \$file = ROOT_PATH . './install/sql/sql_install.php';
+          \$s = file_get_contents(\$file);
+          \$sql = str_replace(\"\r\n\", \"\n\", substr(\$s, 30));
+          \$sql = str_replace(\"\r\", \"\n\", \$sql);
+          \$ret = array();
+          \$num = 0;
+          foreach (explode(\";\n\", trim(\$sql)) as \$query) {
+              \$queries = explode(\"\n\", trim(\$query));
+              foreach (\$queries as \$query) {
+                  if (!isset(\$ret[\$num])) \$ret[\$num] = '';
+                  \$ret[\$num] .= \$query[0] == '#' || \$query[0] . \$query[1] == '--' ? '' : \$query;
+              }
+              \$num++;
+          }
+
+          foreach (\$ret as \$query) {
+              \$query = trim(\$query);
+              if (\$query) {
+                  mysqli_query(\$link, \$query);
+              }
+          }
+
+          // Add missing columns
+          mysqli_query(\$link, \"ALTER TABLE pre_common_member ADD COLUMN loginname varchar(255) NOT NULL DEFAULT ''\");
+          mysqli_query(\$link, \"ALTER TABLE pre_common_member_profile ADD COLUMN fields text NOT NULL\");
+
+          // Ensure proper initial settings
+          mysqli_query(\$link, \"INSERT INTO pre_common_setting (skey, svalue) VALUES ('regstatus', '1') ON DUPLICATE KEY UPDATE svalue='1'\");
+          mysqli_query(\$link, \"INSERT INTO pre_common_setting (skey, svalue) VALUES ('regname', 'register') ON DUPLICATE KEY UPDATE svalue='register'\");
+          mysqli_query(\$link, \"INSERT INTO pre_common_setting (skey, svalue) VALUES ('creditspolicy', 'a:0:{}') ON DUPLICATE KEY UPDATE svalue='a:0:{}'\");
+
+          // Setup UC
+          mysqli_query(\$link, \"CREATE TABLE IF NOT EXISTS pre_ucenter_applications (appid int(10) unsigned NOT NULL AUTO_INCREMENT, type varchar(16) NOT NULL DEFAULT '', name varchar(20) NOT NULL DEFAULT '', url varchar(255) NOT NULL DEFAULT '', authkey varchar(255) NOT NULL DEFAULT '', ip varchar(15) NOT NULL DEFAULT '', viewprourl varchar(255) NOT NULL, apifilename varchar(30) NOT NULL DEFAULT 'uc.php', charset varchar(8) NOT NULL DEFAULT '', dbcharset varchar(8) NOT NULL DEFAULT '', synlogin tinyint(1) NOT NULL DEFAULT '0', recvnote tinyint(1) DEFAULT '0', extra text NOT NULL, tagtemplates text NOT NULL, allowips text NOT NULL, PRIMARY KEY (appid)) ENGINE=InnoDB\");
+          mysqli_query(\$link, \"CREATE TABLE IF NOT EXISTS pre_ucenter_settings (k varchar(32) NOT NULL DEFAULT '', v text NOT NULL, PRIMARY KEY (k)) ENGINE=InnoDB\");
+
+          mysqli_query(\$link, \"INSERT IGNORE INTO pre_ucenter_applications (appid, type, name, url, authkey, ip, viewprourl, apifilename, charset, dbcharset, synlogin, recvnote, extra, tagtemplates, allowips) VALUES (1, 'DISCUZX', 'Discuz! Board', 'http://127.0.0.1:8080', '1234567890abcdef', '127.0.0.1', '', 'uc.php', 'utf-8', 'utf8mb4', 1, 1, '', '', '')\");
+          mysqli_query(\$link, \"INSERT IGNORE INTO pre_ucenter_settings (k, v) VALUES ('accessemail', ''), ('censoremail', ''), ('censorusername', ''), ('dateformat', 'y-n-j'), ('doublee', '0'), ('nextnotetime', '0'), ('timeoffset', '28800'), ('privatepmthreadlimit', '25'), ('chatpmthreadlimit', '30'), ('chatpmmemberlimit', '35'), ('pmfloodctrl', '15'), ('pmcenter', '1'), ('sendpmseccode', '1'), ('pmsendregdays', '0'), ('maildefault', 'username@21cn.com'), ('mailsend', '1'), ('mailserver', 'smtp.21cn.com'), ('mailport', '25'), ('mailauth', '1'), ('mailfrom', 'UCenter <username@21cn.com>'), ('mailauth_username', 'username@21cn.com'), ('mailauth_password', 'password'), ('maildelimiter', '0'), ('mailusername', '1'), ('mailsilent', '1'), ('version', '1.7.0')\");
+
+          \$uc_config = <<<EOT
+          <?php
+          define('UC_CONNECT', 'mysql');
+          define('UC_DBHOST', '127.0.0.1');
+          define('UC_DBUSER', 'discuz');
+          define('UC_DBPW', 'password');
+          define('UC_DBNAME', 'ultrax');
+          define('UC_DBCHARSET', 'utf8mb4');
+          define('UC_DBTABLEPRE', '\\\`ultrax\\\`.pre_ucenter_');
+          define('UC_DBCONNECT', 0);
+          define('UC_CHARSET', 'utf-8');
+          define('UC_KEY', '1234567890abcdef');
+          define('UC_API', 'http://127.0.0.1:8080/uc_server');
+          define('UC_APPID', '1');
+          define('UC_IP', '');
+          define('UC_PPP', 20);
+          ?>
+          EOT;
+          file_put_contents('config/config_ucenter.php', \$uc_config);
+          "
+
+          mkdir -m 777 -p data/template/EN data/template/TC data/sysdata json temp
+          chmod 777 data/cache temp
+
+          mkdir -p chat/php/vendor
+          echo '<?php ?>' > chat/php/vendor/autoload.php
+          cp chat/php/config_default.php chat/php/config.php
+          echo '<?php if (!class_exists("Pusher")) {     class Pusher {         public function __construct(...$args) {}         public function trigger($channel, $event, $data, $a = null, $b = null)         {             return true;         }     } } ?>'  > source/class/class_pusher.php
+
+      - name: Start PHP Server
+        run: php -S 127.0.0.1:8080 > php_server.log 2>&1 &
+
+      - name: Run Playwright Tests
+        run: |
+          node test_forum.js
+          node test_tags.js
+
+      - name: Upload Screenshots and Report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: playwright-results
+          path: |
+            functional_test_report.md
+          retention-days: 7

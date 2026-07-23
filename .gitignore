@@ -5,3 +5,4 @@ src/config/
 .vscode/
 data/
 chat/php/config.php
+node_modules/
