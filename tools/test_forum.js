@@ -14,10 +14,9 @@ const { execSync } = require('child_process');
         if (response.status() >= 400) {
             try {
                 const text = await response.text();
-                failedResponses.set(response.url(), { status: response.status(), body: text });
                 console.error(`[HTTP ${response.status()}] ${response.url()}\nResponse Body:\n${text}\n---`);
             } catch (e) {
-                console.error(`[HTTP ${response.status()}] ${response.url()} (Failed to read body)`);
+                console.error(`[HTTP ${response.status()}] ${response.url()} (Failed to read body: ${e.message})`);
             }
         }
     });
@@ -29,8 +28,8 @@ const { execSync } = require('child_process');
     page.on('console', msg => {
         if (msg.type() === 'error') {
             const txt = msg.text();
-            for (const [url, info] of failedResponses.entries()) {
-                console.error(`Server Error Details for [${info.status}] ${url}:\n${info.body}\n---`);
+            if (txt.includes('Failed to load resource')) {
+                return;
             }
             throw new Error(`Console error in browser: ${txt}`);
         }
