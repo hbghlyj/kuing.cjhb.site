@@ -139,14 +139,7 @@ function native_user_login($username, $password, $isuid = 0, $checkques = 0, $qu
 		return [-1, '', '', ''];
 	}
 	$auth = C::t('common_member_auth')->fetch($user['uid']);
-	if(empty($auth)) {
-		$auth = [
-			'password' => $user['password'] ?? '',
-			'salt' => $user['salt'] ?? '',
-			'secques' => $user['secques'] ?? '',
-		];
-	}
-	if(empty($auth['password']) || !native_user_verify_password($password, $auth['password'], $auth['salt'] ?? '')) {
+	if(empty($auth) || !native_user_verify_password($password, $auth['password'], $auth['salt'])) {
 		if(!$nolog && $ip) {
 			native_user_loginfailed($username, $ip);
 		}
