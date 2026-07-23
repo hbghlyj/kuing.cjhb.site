@@ -537,8 +537,9 @@ class template {
 		global $_G;
 		$modules = explode(',', $param);
 		foreach($modules as $module) {
-			$module .= '::'; //fix notice
-			list($b, $m) = explode('::', $module);
+			$parts = explode('::', $module);
+			$b = $parts[0] ?? '';
+			$m = $parts[1] ?? '';
 			if($b && $b == $_G['basescript'] && (!$m || $m == CURMODULE)) {
 				$this->csscurmodules .= $content;
 				return;
