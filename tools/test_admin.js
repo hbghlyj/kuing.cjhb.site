@@ -70,6 +70,24 @@ const { execSync } = require('child_process');
             }
         }
 
+        const registeredUserCount = execSync("sudo mysql -u root ultrax -N -s -e \"SELECT COUNT(*) FROM pre_common_member WHERE username='" + username + "';\"").toString().trim();
+        assert.strictEqual(registeredUserCount, '1', 'Assertion Error: Registered admin test user does not exist in database.');
+
+        // Registration may require email activation and therefore not create a frontend session.
+        await page.goto('http://127.0.0.1:8080/home.php?mod=spacecp');
+        if (!(await page.textContent('body')).includes(username)) {
+            await page.goto('http://127.0.0.1:8080/member.php?mod=logging&action=login');
+            await page.waitForLoadState('networkidle');
+            await page.fill('input[name="username"]', username);
+            await page.fill('input[name="password"]', password);
+            await page.click('button[name="loginsubmit"]');
+            await page.waitForNavigation({ waitUntil: 'networkidle' }).catch(() => {});
+            await page.waitForTimeout(500);
+
+            await page.goto('http://127.0.0.1:8080/home.php?mod=spacecp');
+            assert.ok((await page.textContent('body')).includes(username), 'Assertion Error: Admin test user login failed.');
+        }
+
         console.log("Phase 2: Elevated User Testing");
         execSync("sudo mysql -u root ultrax -e \"UPDATE pre_common_member SET groupid=1, adminid=1 WHERE username='" + username + "';\"");
         execSync("sudo mysql -u root ultrax -e \"REPLACE INTO pre_common_admincp_member (uid, cpgroupid, customperm) SELECT uid, 1, '' FROM pre_common_member WHERE username='" + username + "';\"");
