@@ -1760,7 +1760,7 @@ $data = [[
     'svalue' => 'KD1Q6Vbd03ALJ34u',
   ],[
     'skey' => 'siteurl',
-    'svalue' => 'https://www.discuz.vip/',
+    'svalue' => '',
   ],[
     'skey' => 'site_qq',
     'svalue' => '',
