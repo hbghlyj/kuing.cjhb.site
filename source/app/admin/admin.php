@@ -23,7 +23,8 @@ $discuz->cachelist = ['admin'];
 $discuz->init();
 
 
-const ADMINSCRIPT = '?app=admin&platform='.PLATFORM;
+// AdminCP callers append their own query string, so this must remain a path.
+const ADMINSCRIPT = 'admin.php';
 
 require_once './source/function/function_misc.php';
 require_once './source/function/function_forum.php';
