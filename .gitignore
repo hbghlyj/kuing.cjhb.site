@@ -5,3 +5,7 @@ src/config/
 .vscode/
 data/
 chat/php/config.php
+node_modules/
+package-lock.json
+*.png
+functional_test_report.md
