@@ -343,6 +343,9 @@ const { execSync } = require('child_process');
         assert.ok(profileAvatarImg !== null, 'Assertion Error: Avatar image element was not rendered on profile page.');
 
         console.log("Checking header for user custom avatar...");
+        await page.goto('http://127.0.0.1:8080/forum.php');
+        await page.waitForLoadState('networkidle');
+
         const headerAvatarImg = await page.$('#um .avt img, #hd .avt img');
         assert.ok(headerAvatarImg !== null, 'Assertion Error: Avatar image element was not rendered in page header.');
 
