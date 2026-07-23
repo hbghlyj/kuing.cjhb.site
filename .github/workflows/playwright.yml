@@ -10,6 +10,15 @@ jobs:
   test:
     runs-on: ubuntu-latest
 
+    services:
+      mariadb:
+        image: mariadb:10.11
+        env:
+          MARIADB_ALLOW_EMPTY_ROOT_PASSWORD: 'yes'
+        ports:
+          - 3306:3306
+        options: --health-cmd="healthcheck.sh --connect --innodb_initialized" --health-interval=5s --health-timeout=2s --health-retries=3
+
     steps:
       - uses: actions/checkout@v4
 
@@ -51,13 +60,16 @@ jobs:
 
       - name: Configure Database & DiscuzX
         run: |
-          sudo systemctl start mysql
-          sudo mysql -u root -e "CREATE DATABASE ultrax;"
-          sudo mysql -u root -e "CREATE USER 'discuz'@'127.0.0.1' IDENTIFIED BY 'password';"
-          sudo mysql -u root -e "GRANT ALL PRIVILEGES ON ultrax.* TO 'discuz'@'127.0.0.1';"
-          sudo mysql -u root -e "FLUSH PRIVILEGES;"
+          echo -e "[client]\nhost=127.0.0.1\nuser=root\npassword=" > ~/.my.cnf
+          sudo cp ~/.my.cnf /root/.my.cnf
+          sudo chmod 600 ~/.my.cnf /root/.my.cnf
 
-          sed '1d' install/sql/sql_install.php | sudo mysql -u root ultrax
+          mysql -e "CREATE DATABASE ultrax;"
+          mysql -e "CREATE USER 'discuz'@'127.0.0.1' IDENTIFIED BY 'password';"
+          mysql -e "GRANT ALL PRIVILEGES ON ultrax.* TO 'discuz'@'127.0.0.1';"
+          mysql -e "FLUSH PRIVILEGES;"
+
+          sed '1d' install/sql/sql_install.php | mysql ultrax
 
           cp config/config_global_default.php config/config_global.php
           sed -i "s/\$_config\['db'\]\[1\]\['dbname'\]  		= 'mitframe';/\$_config['db'][1]['dbname'] = 'ultrax';/g" config/config_global.php
