@@ -78,13 +78,6 @@ class Remote {
 		global $_G;
 		$data['_session'] = $this->_sessionEncode($_COOKIE);
 		$data['_formhash'] = $this->_singleVar($_G, 'formhash');
-		if (isset($output['_attachhash'])) {
-			if (!empty($_G['config']['security']['authkey'])) {
-				$data['_attachhash'] = md5(substr(md5($_G['config']['security']['authkey']), 8) . $_G['uid']);
-			}
-			unset($output['_attachhash']);
-		}
-
 		unset($_G['config'],
 			$_G['setting']['siteuniqueid'],
 			$_G['setting']['ec_tenpay_opentrans_chnid'],

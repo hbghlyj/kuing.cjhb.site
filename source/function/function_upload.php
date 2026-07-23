@@ -9,15 +9,11 @@ if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
-function getuploadconfig($uid = 0, $fid = 0, $limit = true) {
+function getuploadconfig($fid = 0, $limit = true) {
 	global $_G;
 
 	$notallow = $config = [];
 	$config['limit'] = 0;
-	$uid = !empty($uid) ? intval($uid) : $_G['uid'];
-	$authkey = $_G['config']['security']['authkey'];
-	$config['hash'] = md5(substr(md5($authkey), 8).$uid);
-
 	$imageexts = ['jpg', 'jpeg', 'gif', 'png', 'bmp', 'webp'];
 	$forumattachextensions = '';
 	$fid = intval($fid);

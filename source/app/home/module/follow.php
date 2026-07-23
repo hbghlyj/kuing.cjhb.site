@@ -93,7 +93,7 @@ if($viewself) {
 	$forumlist = forumselect();
 	$defaultforum = $_G['setting']['followforumid'] ? $_G['cache']['forums'][$_G['setting']['followforumid']] : [];
 	require_once libfile('function/upload');
-	$swfconfig = getuploadconfig($_G['uid']);
+	$swfconfig = getuploadconfig();
 }
 
 if($do == 'feed') {

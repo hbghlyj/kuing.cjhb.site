@@ -23,16 +23,10 @@ class forum_upload {
 	function __construct($getaid = 0, $ftpcmd = 1, $thumbBase64 = '') {
 		global $_G;
 
-		$_G['uid'] = $this->uid = intval($_GET['uid']);
-		$swfhash = md5(substr(md5($_G['config']['security']['authkey']), 8).$this->uid);
+		$this->uid = $_G['uid'];
 		$this->aid = 0;
 		$this->getaid = $getaid;
 		$this->simple = !empty($_GET['simple']) ? $_GET['simple'] : 0;
-
-		if($_GET['hash'] != $swfhash) {
-			return $this->uploadmsg(10);
-		}
-
 
 		$upload = new discuz_upload();
 		if($ftpcmd && !ftpperm(fileext($_FILES['Filedata']['name']), $_FILES['Filedata']['size'])) {

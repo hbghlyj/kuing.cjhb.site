@@ -448,7 +448,7 @@
 					$.buildfileupload({
 						uploadurl:'misc.php?mod=swfupload&operation=upload&type=image&inajax=yes&infloat=yes&simple=2',
 						files:tmpfiles,
-						uploadformdata:{uid:"$_G['uid']", hash:"<!--{eval echo md5(substr(md5($_G['config']['security']['authkey']), 8).$_G['uid'])}-->"},
+						uploadformdata:{formhash:"{FORMHASH}"},
 						uploadinputname:'Filedata',
 						maxfilesize:"$swfconfig['max']",
 						success:uploadsuccess,
@@ -460,7 +460,7 @@
 			} else {
 				$.ajaxfileupload({
 					url:'misc.php?mod=swfupload&operation=upload&type=image&inajax=yes&infloat=yes&simple=2',
-					data:{uid:"$_G['uid']", hash:"<!--{eval echo md5(substr(md5($_G['config']['security']['authkey']), 8).$_G['uid'])}-->"},
+					data:{formhash:"{FORMHASH}"},
 					dataType:'text',
 					fileElementId:'filedata',
 					success:uploadsuccess,
@@ -535,7 +535,7 @@
 					$.buildfileupload({
 						uploadurl:'misc.php?mod=swfupload&operation=upload&fid={$_G['fid']}&inajax=yes&infloat=yes&simple=2',
 						files:tmpfiles,
-						uploadformdata:{uid:"$_G['uid']", hash:"<!--{eval echo md5(substr(md5($_G['config']['security']['authkey']), 8).$_G['uid'])}-->"},
+						uploadformdata:{formhash:"{FORMHASH}"},
 						uploadinputname:'Filedata',
 						maxfilesize:"$swfconfig['max']",
 						success:uploadsuccess,
@@ -547,7 +547,7 @@
 			} else {
 				$.ajaxfileupload({
 					url:'misc.php?mod=swfupload&operation=upload&fid={$_G['fid']}&inajax=yes&infloat=yes&simple=2',
-					data:{uid:"$_G['uid']", hash:"<!--{eval echo md5(substr(md5($_G['config']['security']['authkey']), 8).$_G['uid'])}-->"},
+					data:{formhash:"{FORMHASH}"},
 					dataType:'text',
 					fileElementId:'attfiledata',
 					success:uploadsuccess,

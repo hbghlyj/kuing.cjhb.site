@@ -242,8 +242,7 @@
 					uploadurl: 'misc.php?mod=swfupload&action=swfupload&operation=album',
 					files: [file],
 					uploadformdata: {
-						uid: "$_G['uid']",
-						hash: "<!--{eval echo md5(substr(md5($_G['config']['security']['authkey']), 8).$_G['uid'])}-->"
+						formhash: "{FORMHASH}"
 					},
 					uploadinputname: 'Filedata',
 					maxfilesize: "$swfconfig['max']",

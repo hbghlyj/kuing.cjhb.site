@@ -48,7 +48,7 @@
 						var upload = new SWFUpload({
 							// Backend Settings
 							upload_url: "{$_G[siteurl]}misc.php?mod=swfupload&action=swfupload&operation=album",
-							post_params: {"uid" : "$_G[uid]", "hash":"$swfconfig[hash]"},
+							post_params: {"formhash":"{FORMHASH}"},
 
 							// File Upload Settings
 							file_size_limit : "$swfconfig[max]",	// 100MB

@@ -873,7 +873,7 @@ $leftside = empty($_G['cookie']['disableleftside']) && $allowleftside ? forumlef
 $leftsideswitch = $allowleftside ? "forum.php?mod=forumdisplay&fid={$_G['fid']}&page=$page".($multiadd ? '&'.implode('&', $multiadd) : '') : '';
 
 require_once libfile('function/upload');
-$swfconfig = getuploadconfig($_G['uid'], $_G['fid']);
+$swfconfig = getuploadconfig($_G['fid']);
 
 $template = 'diy:forum/forumdisplay:'.$_G['fid'];
 

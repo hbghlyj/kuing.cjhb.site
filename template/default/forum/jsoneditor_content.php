@@ -28,9 +28,8 @@ $postinfo['noticetrimstr_html']
 <script type="text/javascript">
     const editorid = '{$editorid}';
     const editor_fid = "{$_G['fid']}";
-    const editor_uid = "{$_G['uid']}";
     const editor_tid = "{$_G['tid']}";
-    const editor_hash = "{echo md5(substr(md5($_G['config']['security']['authkey']), 8).$_G['uid'])}";
+    const editor_formhash = "{FORMHASH}";
     const editor_remote_attachurl = "{$_G['setting']['ftp']['attachurl']}";
     const editor_attachurl = "{$_G['setting']['attachurl']}";
     const isEditMode = "{$_GET['action'] == 'edit'}" ? 'true' : 'false';

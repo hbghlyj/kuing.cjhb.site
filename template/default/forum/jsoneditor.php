@@ -200,8 +200,7 @@
 <!-- 常量 -->
 <script type="text/javascript">
     const editor_fid = "{$_G['fid']}";
-    const editor_uid = "{$_G['uid']}";
-    const editor_hash = "{echo md5(substr(md5($_G['config']['security']['authkey']), 8).$_G['uid'])}";
+    const editor_formhash = "{FORMHASH}";
     const editor_remote_attachurl = "{$_G['setting']['ftp']['attachurl']}";
     const editor_attachurl = "{$_G['setting']['attachurl']}";
     // EDITOR_TOOLS
@@ -328,8 +327,7 @@
             url: 'misc.php?mod=swfupload&action=swfupload&operation=jsoneditorupload&fid='+editor_fid,
             field: 'Filedata',
             data: {
-                'uid': editor_uid,
-                'hash': editor_hash,
+                'formhash': editor_formhash,
             },
             done: function(res){
                 layer.msg('上传成功');

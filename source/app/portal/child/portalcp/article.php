@@ -649,7 +649,7 @@ if($op == 'delete') {
 	}
 }
 require_once libfile('function/upload');
-$swfconfig = getuploadconfig($_G['uid'], 0, false);
+$swfconfig = getuploadconfig(0, false);
 require_once libfile('function/spacecp');
 $albums = getalbums($_G['uid']);
 include_once template('portal/portalcp_article');

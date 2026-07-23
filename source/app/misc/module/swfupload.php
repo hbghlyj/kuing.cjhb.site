@@ -10,7 +10,7 @@ if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
-if(!$_G['uid'] || !hash_equals(FORMHASH, (string)($_POST['formhash'] ?? $_GET['formhash'] ?? ''))) {
+if(!$_G['uid'] || !hash_equals(FORMHASH, (string)($_POST['formhash'] ?? ''))) {
 	http_response_code(403);
 	exit;
 }

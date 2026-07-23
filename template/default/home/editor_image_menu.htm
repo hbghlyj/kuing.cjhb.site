@@ -133,7 +133,7 @@
 		var attachUpload = new SWFUpload({
 			// Backend Settings
 			upload_url: "{$_G[siteurl]}misc.php?mod=swfupload&action=swfupload&operation=<!--{if $_G['basescript'] == 'portal'}-->portal<!--{else}-->album<!--{/if}-->",
-			post_params: {"uid" : "$_G[uid]", "hash":"$swfconfig[hash]"<!--{if $_G['basescript'] == 'portal'}-->,"aid":$aid,"catid":$catid<!--{/if}-->},
+			post_params: {"formhash":"{FORMHASH}"<!--{if $_G['basescript'] == 'portal'}-->,"aid":$aid,"catid":$catid<!--{/if}-->},
 
 			// File Upload Settings
 			file_size_limit : "$swfconfig[max]",	// 100MB
@@ -183,7 +183,7 @@
 		var upload = new SWFUpload({
 			// Backend Settings
 			upload_url: "{$_G[siteurl]}misc.php?mod=swfupload&action=swfupload&operation=<!--{if $_G['basescript'] == 'portal'}-->portal<!--{else}-->album<!--{/if}-->",
-			post_params: {"uid" : "$_G[uid]", "hash":"$swfconfig[hash]"<!--{if $_G['basescript'] == 'portal'}-->,"aid":$aid,"catid":$catid<!--{/if}-->},
+			post_params: {"formhash":"{FORMHASH}"<!--{if $_G['basescript'] == 'portal'}-->,"aid":$aid,"catid":$catid<!--{/if}-->},
 
 			// File Upload Settings
 			file_size_limit : "$swfconfig[max]",	// 100MB

@@ -82,8 +82,7 @@ EOF;
                 types: 'audio/*',
                 coverTypes: 'image/*',
                 additionalRequestData: {
-                    'uid': editor_uid,
-                    'hash': editor_hash,
+                    'formhash': editor_formhash,
                 },
                 remote_attachurl: editor_remote_attachurl,
                 attachurl: editor_attachurl,

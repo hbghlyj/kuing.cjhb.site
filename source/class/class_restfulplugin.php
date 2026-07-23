@@ -413,12 +413,6 @@ class restfulplugin {
 		$_ENV['cells']['forum_portal_threadlist'] = ['message' => true, 'image' => true];
 	}
 
-	public static function setUploadHash(&$data, $param) {
-		global $_G;
-
-		$data['uploadhash'] = md5(substr(md5($_G['config']['security']['authkey']), 8).$_G['uid']);
-	}
-
 	public static function registerBefore(&$data) {
 		if(empty($_POST['reginput'])) {
 			return;

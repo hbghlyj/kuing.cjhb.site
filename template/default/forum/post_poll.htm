@@ -81,7 +81,7 @@
     function addUploadEvent(imgid, pollstr) {
 		new SWFUpload({
 			upload_url: SITEURL + 'misc.php?mod=swfupload&action=swfupload&operation=poll&fid=$_G[fid]',
-			post_params: {"uid":"$_G[uid]", "hash":"$swfconfig[hash]"},
+			post_params: {"formhash":"{FORMHASH}"},
 
 			file_size_limit : "2048",
 			file_types : "*.jpg;*.jpeg;*.gif;*.png;*.bmp",
