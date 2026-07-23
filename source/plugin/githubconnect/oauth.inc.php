@@ -82,7 +82,7 @@ $getPending = static function() {
 	}
 	$data = @dunserialize($payload);
 	if(!is_array($data)) {
-		$data = @unserialize($payload);
+		$data = @unserialize($payload, ['allowed_classes' => false]);
 	}
 	return is_array($data) ? $data : [];
 };
