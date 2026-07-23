@@ -159,8 +159,10 @@ if(!IS_ROBOT && ($_G['setting']['whosonlinestatus'] == 1 || $_G['setting']['whos
 		updatesession();
 		$whosonline = [];
 
-		$_G['setting']['maxonlinelist'] = $_G['setting']['maxonlinelist'] ? $_G['setting']['maxonlinelist'] : 500;
-		foreach(C::app()->session->fetch_member(1, 0, $_G['setting']['maxonlinelist']) as $online) {
+		$maxonlinelist = isset($_G['setting']['maxonlinelist']) && $_G['setting']['maxonlinelist'] !== '' ? intval($_G['setting']['maxonlinelist']) : 500;
+		$memberlimit = $maxonlinelist > 0 ? $maxonlinelist : 0;
+
+		foreach(C::app()->session->fetch_member(1, 0, $memberlimit) as $online) {
 			if($online['invisible']) {
 				continue;
 			} else {
@@ -169,8 +171,11 @@ if(!IS_ROBOT && ($_G['setting']['whosonlinestatus'] == 1 || $_G['setting']['whos
 			$online['lastactivity'] = dgmdate($online['lastactivity'], 't');
 			$whosonline[] = $online;
 		}
-		if(isset($_G['cache']['onlinelist'][7]) && $_G['setting']['maxonlinelist'] > $membercount) {
-			foreach(C::app()->session->fetch_member(2, 0, $_G['setting']['maxonlinelist'] - $membercount) as $online) {
+
+		$membercount = count($whosonline);
+		if(isset($_G['cache']['onlinelist'][7]) && ($maxonlinelist == 0 || $maxonlinelist > $membercount)) {
+			$guestlimit = $maxonlinelist > 0 ? ($maxonlinelist - $membercount) : 0;
+			foreach(C::app()->session->fetch_member(2, 0, $guestlimit) as $online) {
 				$isRobot = intval($online['groupid']) === 8;
 				$online['icon'] = $isRobot
 					? ($_G['cache']['onlinelist'][8] ?? STATICURL.'image/common/online_bot.svg')
