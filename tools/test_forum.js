@@ -96,9 +96,7 @@ const { execSync } = require('child_process');
         execSync('php disable_sec.php');
         execSync('rm disable_sec.php');
 
-        // Let's hard bypass the helper class checking logic
-        execSync("sed -i 's/public static function check_secqaa(\\$val, \\$idhash) {/public static function check_secqaa(\\$val, \\$idhash) { return true;/g' source/class/helper/helper_seccheck.php || true");
-        execSync("sed -i 's/public static function check_seccode(\\$val, \\$idhash, \\$modid = 0) {/public static function check_seccode(\\$val, \\$idhash, \\$modid = 0) { return true;/g' source/class/helper/helper_seccheck.php || true");
+
 
         console.log("Testing UI Registration...");
         await page.goto('http://127.0.0.1:8080/member.php?mod=register');
@@ -217,11 +215,10 @@ const { execSync } = require('child_process');
             await page.goto(`http://127.0.0.1:8080/forum.php?mod=post&action=reply&fid=2&tid=${tidOutput}`);
             await page.waitForLoadState('networkidle');
 
-            await page.evaluate((message) => {
-                const textArea = document.querySelector('textarea[name="message"], #postmessage');
-                if (textArea) textArea.value = message;
-                if (window.editdoc && window.editdoc.body) window.editdoc.body.innerHTML = message;
-            }, 'Reply text from unprivileged account.');
+            const replyTextArea = await page.$('textarea[name="message"], #postmessage');
+            if (replyTextArea) {
+                await replyTextArea.fill('Reply text from unprivileged account.');
+            }
             const replyBtn = await page.$('#postsubmit, button[name="replysubmit"]');
             if (replyBtn) {
                 await replyBtn.click();
@@ -245,11 +242,10 @@ const { execSync } = require('child_process');
                 if (editSubject) {
                     await editSubject.fill('Standard User Thread (Edited)');
                 }
-                await page.evaluate((message) => {
-                    const textArea = document.querySelector('textarea[name="message"], #postmessage');
-                    if (textArea) textArea.value = message;
-                    if (window.editdoc && window.editdoc.body) window.editdoc.body.innerHTML = message;
-                }, 'Edited body text from unprivileged account.');
+                const editMessage = await page.$('textarea[name="message"], #postmessage');
+                if (editMessage) {
+                    await editMessage.fill('Edited body text from unprivileged account.');
+                }
                 const editBtn = await page.$('#postsubmit, button[name="editsubmit"]');
                 if (editBtn) {
                     await editBtn.click();
@@ -271,9 +267,6 @@ const { execSync } = require('child_process');
         process.exitCode = 1;
         report += "## Error Encountered\n```\n" + error.message + "\n```\n\n";
     } finally {
-        // REVERT THE PHP CHANGES TO KEEP REPO CLEAN!
-        execSync("git restore source/class/helper/helper_seccheck.php || true");
-
         await browser.close();
         fs.writeFileSync('functional_test_report.md', report);
         console.log("Tests completed.");
