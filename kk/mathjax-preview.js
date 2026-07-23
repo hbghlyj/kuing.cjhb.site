@@ -1,13 +1,13 @@
 const input = $("inputText") || {};
 input.yl = true;
 if ($("inputText")) {
-	input.oninput = function () {
+	input.oninput = function() {
 		if (input.yl && $("output")) {
 			MathJax.texReset();
-			var ltx = (input.value || '').replace(/</g, '&lt;').replace(/>/g, '&gt;')
-				.replace(/(\\\]|\\end\{align\*?\}|\\end\{gather\*?\}|\\end\{equation\*?\}|\$\$) *\n/g, '$1');
-			$("output").innerHTML = ltx;
-			MathJax.typesetPromise([$("output")]).catch(() => { });
+			var ltx = (input.value || '').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+								.replace(/(\\\]|\\end\{align\*?\}|\\end\{gather\*?\}|\\end\{equation\*?\}|\$\$) *\n/g,'$1');
+			$("output").innerHTML=ltx;
+			MathJax.typesetPromise([$("output")]).catch(() => {});
 		}
 	};
 }
@@ -81,11 +81,44 @@ function insertArrayCode() {
 	insertTexToEditor([latexCode.slice(0, n), latexCode.slice(n), 0, 0]);
 }
 
-input.cha = function (va) {
+function selectBracePair() {
+	var targetEl = (document.activeElement && (document.activeElement.id === 'fastpostmessage' || document.activeElement.id === 'postmessage' || document.activeElement.id === 'e_textarea' || document.activeElement.id === 'inputText'))
+		? document.activeElement
+		: document.querySelector("#fastpostmessage, #postmessage, #e_textarea, #inputText");
+
+	if (!targetEl || !targetEl.setSelectionRange) return;
+
+	let start = (function() {
+		let brace = -1, i = targetEl.selectionStart;
+		do {
+			switch(targetEl.value[--i]) {
+				case '{': brace++; break;
+				case '}': brace--; break;
+			}
+		} while (brace !== 0 && i > 0);
+		return i;
+	})();
+
+	let end = (function() {
+		let brace = 1, i = targetEl.selectionEnd;
+		do {
+			switch(targetEl.value[i++]) {
+				case '{': brace++; break;
+				case '}': brace--; break;
+			}
+		} while (brace !== 0 && i < targetEl.value.length);
+		return i;
+	})();
+
+	targetEl.setSelectionRange(start, end);
+	targetEl.focus();
+}
+
+input.cha = function(va) {
 	insertTexToEditor(va);
 };
 
-input.fangru = function () {
+input.fangru = function() {
 	var textarea = document.querySelector("#postmessage, #e_textarea, #fastpostmessage");
 	if (textarea && input.value) {
 		textarea.value += input.value;
@@ -97,11 +130,13 @@ input.fangru = function () {
 
 // 快捷 TeX 公式数据
 var fastTexItems = [
+	{ "n": "{}", "o": selectBracePair },
 	{ "n": "行内公式", "o": ["$", "$"] },
 	{ "n": "行间公式", "o": ["\\[\n", "\n\\]", 0, 0] },
 	{ "n": "$\\frac{a}{b}$", "o": ["\\frac{", "}{}", 2] },
 	{ "n": "$\\sqrt{x}$", "o": ["\\sqrt{", "}"] },
 	{ "n": "$\\sqrt[n]{x}$", "o": ["\\sqrt[]{", "}", -2, -2] },
+	{ "n": "$\\nabla$", "o": "\\nabla " },
 	{ "n": "$\\geqslant$", "o": "\\geqslant " },
 	{ "n": "$\\leqslant$", "o": "\\leqslant " },
 	{ "n": "$\\times$", "o": "\\times " },
@@ -169,8 +204,8 @@ function renderFastTexSmilies() {
 			td.style.background = "#fff";
 			td.innerHTML = item.n;
 
-			(function (action) {
-				td.onclick = function () {
+			(function(action) {
+				td.onclick = function() {
 					if (typeof action === 'function') {
 						action();
 					} else {
@@ -187,7 +222,7 @@ function renderFastTexSmilies() {
 		fs.appendChild(table);
 
 		if (typeof MathJax !== 'undefined' && MathJax.typesetPromise) {
-			MathJax.typesetPromise([fs]).catch(() => { });
+			MathJax.typesetPromise([fs]).catch(() => {});
 		}
 	}
 
@@ -210,7 +245,7 @@ function renderFastTexSmilies() {
 
 // 侧边栏按钮列表
 var ctrls = [[
-	{ "n": "{}", "o": "if(input.setSelectionRange){input.setSelectionRange((function(){let brace=-1,i=input.selectionStart;do{switch(input.value[--i]){case '{':brace++;break;case '}':brace--;}}while(brace!=0&&i>0)return i})(),(function(){let brace=1,i=input.selectionEnd;do{switch(input.value[i++]){case '{':brace++;break;case '}':brace--;}}while(brace!=0&&i<input.value.length)return i})());input.focus();}" }
+	{ "n": "{}", "o": "selectBracePair()" }
 ], [], ['align*', 'gather*', 'cases'].map(v => { return { "n": v, "o": 'input.cha(["\\\\begin{' + v + '}\\n","\\n\\\\end{' + v + '}",0,0])' } })];
 ctrls[2].push({ "n": 'array', "o": "insertArrayCode()" });
 
@@ -220,6 +255,7 @@ for (v of [
 	{ "o": ["\\\\frac{", '}{}', 2], "n": "分式" },
 	{ "o": ["\\\\sqrt{", "}"], "n": "√‾‾" },
 	{ "o": ['\\\\sqrt[]{', '}', -2, -2], "n": "<sup style='margin-right:-6px;line-height:14px;'>□</sup>√‾‾" },
+	{ "o": "\\\\nabla ", "n": "∇" },
 	{ "o": "\\\\geqslant ", "n": "⩾" },
 	{ "o": "\\\\leqslant ", "n": "⩽" },
 	{ "o": "\\\\times ", "n": "×" },
@@ -230,7 +266,7 @@ for (v of [
 	{ "o": ['\\\\pmod{', '}'], "n": "(mod )" },
 	{ "o": ["\\\\lim_{x\\\\to ", "}"], "n": "lim<sub style='line-height:12px;'>x→</sub>" },
 	{ "o": "\\\\infty ", "n": "∞" },
-	{ "o": ['\\\\int ', '\\\\rmd x'], "n": "∫ dx" },
+	{ "o": ['\\\\int ', '\\rmd x'], "n": "∫ dx" },
 	{ "o": "\\\\log", "n": "log" },
 	{ "o": "\\\\ln ", "n": "ln" },
 	{ "o": "\\\\sin ", "n": "sin" },
