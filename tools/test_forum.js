@@ -355,7 +355,7 @@ const { execSync } = require('child_process');
         });
         await page.waitForTimeout(2000);
 
-        console.log("Testing User 'view=me' Threads Page...");
+        console.log("Testing User Threads Page (with view=me)...");
         await page.goto('http://127.0.0.1:8080/home.php?mod=space&do=thread&view=me');
         await page.waitForLoadState('networkidle');
 
@@ -364,7 +364,18 @@ const { execSync } = require('child_process');
             viewMeBody.includes('Standard User Thread') || viewMeBody.includes('Thread') || viewMeBody.includes(username),
             'Assertion Error: view=me user threads page did not load correctly.'
         );
-        report += '### 4b. Personal Info Update & view=me Page Verification\n- **Status**: Checked\n- **spacecp Update**: Success\n- **view=me Threads Verification**: Success\n\n';
+
+        console.log("Testing User Threads Page (without view=me)...");
+        await page.goto('http://127.0.0.1:8080/home.php?mod=space&do=thread');
+        await page.waitForLoadState('networkidle');
+
+        const defaultThreadBody = await page.textContent('body');
+        assert.ok(
+            defaultThreadBody.includes('Standard User Thread') || defaultThreadBody.includes('Thread') || defaultThreadBody.includes(username),
+            'Assertion Error: Default user threads page (without view=me) did not load correctly.'
+        );
+
+        report += '### 4b. Personal Info Update & Space Threads Verification\n- **Status**: Checked\n- **spacecp Update**: Success\n- **Threads Page (with view=me)**: Success\n- **Threads Page (without view=me)**: Success\n\n';
 
         console.log("Checking profile page for user custom avatar...");
         await page.goto(`http://127.0.0.1:8080/home.php?mod=space&uid=${userUid}&do=profile`);
