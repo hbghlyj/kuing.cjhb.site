@@ -35,6 +35,29 @@ if ($conn->connect_error) {
     exit;
 }
 
+// 1. Fetch message before deleting to inspect for attached photos
+$selectStmt = $conn->prepare("SELECT message FROM chat WHERE UNIX_TIMESTAMP(time) = ? AND author = ?");
+$selectStmt->bind_param("is", $published_timestamp, $_G['username']);
+if ($selectStmt && $selectStmt->execute()) {
+    $res = $selectStmt->get_result();
+    if ($res && $row = $res->fetch_assoc()) {
+        $messageText = $row['message'];
+        // Match attached photos in data/attachment/chat/
+        if (preg_match_all('/\/data\/attachment\/chat\/[A-Za-z0-9_\-\.\/]+/i', $messageText, $matches)) {
+            $allowedBase = realpath($discuzRoot . 'data/attachment/chat');
+            foreach ($matches[0] as $relUrl) {
+                $cleanRelUrl = ltrim($relUrl, '/');
+                $photoPath = realpath($discuzRoot . $cleanRelUrl);
+                if ($photoPath && $allowedBase && strpos($photoPath, $allowedBase) === 0 && file_exists($photoPath)) {
+                    @unlink($photoPath);
+                }
+            }
+        }
+    }
+    $selectStmt->close();
+}
+
+// 2. Delete message from database
 $stmt = $conn->prepare("DELETE FROM chat WHERE UNIX_TIMESTAMP(time) = ? AND author = ?");
 $stmt->bind_param("is", $published_timestamp, $_G['username']);
 if (!$stmt) {
