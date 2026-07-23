@@ -469,7 +469,7 @@ const { execSync } = require('child_process');
         const attachIsimage = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT isimage FROM pre_forum_attachment_0 WHERE tid='${attachTid}' LIMIT 1;"`).toString().trim();
         console.log('DEBUG attachment isimage in DB:', attachIsimage);
 
-        assert.ok(postImg !== null || fileLinkText !== '', `Assertion Error: Attached image <img> element was not rendered inside post content (.t_f). fileLinkText: "${fileLinkText}". .t_f: ${tfSnippet.substring(0, 200)}. isimage: ${attachIsimage}`);
+        assert.ok(postImg !== null, `Assertion Error: Attached image <img> element was not rendered inside post content (.t_f). fileLinkText: "${fileLinkText}". .t_f: ${tfSnippet.substring(0, 200)}. isimage: ${attachIsimage}`);
 
         await page.screenshot({ path: 'screenshot_attachment_viewthread.png' }).catch(() => { });
 
