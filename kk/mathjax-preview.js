@@ -1,13 +1,13 @@
 const input = $("inputText") || {};
 input.yl = true;
 if ($("inputText")) {
-	input.oninput = function() {
+	input.oninput = function () {
 		if (input.yl && $("output")) {
 			MathJax.texReset();
-			var ltx = (input.value || '').replace(/</g,'&lt;').replace(/>/g,'&gt;')
-								.replace(/(\\\]|\\end\{align\*?\}|\\end\{gather\*?\}|\\end\{equation\*?\}|\$\$) *\n/g,'$1');
-			$("output").innerHTML=ltx;
-			MathJax.typesetPromise([$("output")]).catch(() => {});
+			var ltx = (input.value || '').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+				.replace(/(\\\]|\\end\{align\*?\}|\\end\{gather\*?\}|\\end\{equation\*?\}|\$\$) *\n/g, '$1');
+			$("output").innerHTML = ltx;
+			MathJax.typesetPromise([$("output")]).catch(() => { });
 		}
 	};
 }
@@ -81,11 +81,11 @@ function insertArrayCode() {
 	insertTexToEditor([latexCode.slice(0, n), latexCode.slice(n), 0, 0]);
 }
 
-input.cha = function(va) {
+input.cha = function (va) {
 	insertTexToEditor(va);
 };
 
-input.fangru = function() {
+input.fangru = function () {
 	var textarea = document.querySelector("#postmessage, #e_textarea, #fastpostmessage");
 	if (textarea && input.value) {
 		textarea.value += input.value;
@@ -112,7 +112,7 @@ var fastTexItems = [
 	{ "n": "$\\pmod{m}$", "o": ["\\pmod{", "}"] },
 	{ "n": "$\\lim_{x\\to 0}$", "o": ["\\lim_{x\\to ", "}"] },
 	{ "n": "$\\infty$", "o": "\\infty " },
-	{ "n": "$\\int \\mathrm{d}x$", "o": ["\\int ", "\\rmd x"] },
+	{ "n": "$\\int\\rmd x$", "o": ["\\int ", "\\rmd x"] },
 	{ "n": "$\\log$", "o": "\\log " },
 	{ "n": "$\\ln$", "o": "\\ln " },
 	{ "n": "$\\sin$", "o": "\\sin " },
@@ -169,8 +169,8 @@ function renderFastTexSmilies() {
 			td.style.background = "#fff";
 			td.innerHTML = item.n;
 
-			(function(action) {
-				td.onclick = function() {
+			(function (action) {
+				td.onclick = function () {
 					if (typeof action === 'function') {
 						action();
 					} else {
@@ -187,20 +187,20 @@ function renderFastTexSmilies() {
 		fs.appendChild(table);
 
 		if (typeof MathJax !== 'undefined' && MathJax.typesetPromise) {
-			MathJax.typesetPromise([fs]).catch(() => {});
+			MathJax.typesetPromise([fs]).catch(() => { });
 		}
 	}
 
 	var inputWrap = $("inputWrap");
 	if (inputWrap) {
 		inputWrap.innerHTML = '';
-		for(var annius of ctrls) {
-			for(var i = 0; i < annius.length; i++){
-				var bt=document.createElement("button");
-				bt.type="button";
-				bt.className="anniu";
-				bt.setAttribute("onclick",annius[i].o);
-				bt.innerHTML=annius[i].n;
+		for (var annius of ctrls) {
+			for (var i = 0; i < annius.length; i++) {
+				var bt = document.createElement("button");
+				bt.type = "button";
+				bt.className = "anniu";
+				bt.setAttribute("onclick", annius[i].o);
+				bt.innerHTML = annius[i].n;
 				inputWrap.appendChild(bt);
 			}
 			inputWrap.appendChild(document.createElement("div"));
@@ -210,59 +210,59 @@ function renderFastTexSmilies() {
 
 // 侧边栏按钮列表
 var ctrls = [[
-	{ "n":"{}", "o":"if(input.setSelectionRange){input.setSelectionRange((function(){let brace=-1,i=input.selectionStart;do{switch(input.value[--i]){case '{':brace++;break;case '}':brace--;}}while(brace!=0&&i>0)return i})(),(function(){let brace=1,i=input.selectionEnd;do{switch(input.value[i++]){case '{':brace++;break;case '}':brace--;}}while(brace!=0&&i<input.value.length)return i})());input.focus();}" }
-],[],['align*','gather*','cases'].map(v=>{ return{"n":v,"o":'input.cha(["\\\\begin{'+v+'}\\n","\\n\\\\end{'+v+'}",0,0])'} })];
-ctrls[2].push({ "n":'array',"o":"insertArrayCode()" });
+	{ "n": "{}", "o": "if(input.setSelectionRange){input.setSelectionRange((function(){let brace=-1,i=input.selectionStart;do{switch(input.value[--i]){case '{':brace++;break;case '}':brace--;}}while(brace!=0&&i>0)return i})(),(function(){let brace=1,i=input.selectionEnd;do{switch(input.value[i++]){case '{':brace++;break;case '}':brace--;}}while(brace!=0&&i<input.value.length)return i})());input.focus();}" }
+], [], ['align*', 'gather*', 'cases'].map(v => { return { "n": v, "o": 'input.cha(["\\\\begin{' + v + '}\\n","\\n\\\\end{' + v + '}",0,0])' } })];
+ctrls[2].push({ "n": 'array', "o": "insertArrayCode()" });
 
-for(v of [
-	{ "o":["$","$"], "n":"行内公式" },
-	{ "o":["\\\\[\\n","\\n\\\\]",0,0], "n":"行间公式" },
-	{ "o":["\\\\frac{",'}{}',2], "n":"分式" },
-	{ "o":["\\\\sqrt{","}"] , "n":"√‾‾" },
-	{ "o":['\\\\sqrt[]{','}',-2,-2], "n":"<sup style='margin-right:-6px;line-height:14px;'>□</sup>√‾‾" },
-	{ "o":"\\\\geqslant ", "n":"⩾" },
-	{ "o":"\\\\leqslant ", "n":"⩽" },
-	{ "o":"\\\\times ", "n":"×" },
-	{ "o":"\\\\cdot ", "n":"·" },
-	{ "o":"\\\\cdots ", "n":"…" },
-	{ "o":"\\\\approx ", "n":"≈" },
-	{ "o":"\\\\equiv ", "n":"≡" },
-	{ "o":['\\\\pmod{','}'], "n":"(mod )" },
-	{ "o":["\\\\lim_{x\\\\to ","}"] , "n":"lim<sub style='line-height:12px;'>x→</sub>" },
-	{ "o":"\\\\infty ", "n":"∞" },
-	{ "o":['\\\\int ','\\\\rmd x'], "n":"∫ dx" },
-	{ "o":"\\\\log", "n":"log" },
-	{ "o":"\\\\ln ", "n":"ln" },
-	{ "o":"\\\\sin ", "n":"sin" },
-	{ "o":"\\\\cos ", "n":"cos" },
-	{ "o":"\\\\tan ", "n":"tan" },
-	{ "o":"\\\\alpha ", "n":"α" },
-	{ "o":"\\\\beta ", "n":"β" },
-	{ "o":"\\\\gamma ", "n":"γ" },
-	{ "o":"\\\\theta ", "n":"θ" },
-	{ "o":"\\\\lambda ", "n":"λ" },
-	{ "o":"\\\\veps ", "n":"ε" },
-	{ "o":"\\\\varphi ", "n":"φ" },
-	{ "o":"\\\\omega ", "n":"ω" },
-	{ "o":"\\\\Delta ", "n":"Δ<span style='font-size:12px;'>(判别式)</span>" },
-	{ "o":"\\\\triangle ", "n":"△<span style='font-size:12px;'>(三角形)</span>" },
-	{ "o":"\\\\odot ", "n":"⊙" },
-	{ "o":"\\\\angle ", "n":"∠" },
-	{ "o":"\\\\du ", "n":"°" },
-	{ "o":"\\\\perp ", "n":"⊥" },
-	{ "o":"\\\\px ", "n":"∥" },
-	{ "o":"\\\\sim ", "n":"~" },
-	{ "o":"\\\\cong ", "n":"≌" },
-	{ "o":"\\\\{a_n\\\\}", "n":"{a<sub style='line-height:12px;'>n</sub>}" },
-	{ "o":["\\\\vv{","}"], "n":"箭头向量" },
-	{ "o":["\\\\bm{","}"], "n":"粗体向量" }
+for (v of [
+	{ "o": ["$", "$"], "n": "行内公式" },
+	{ "o": ["\\\\[\\n", "\\n\\\\]", 0, 0], "n": "行间公式" },
+	{ "o": ["\\\\frac{", '}{}', 2], "n": "分式" },
+	{ "o": ["\\\\sqrt{", "}"], "n": "√‾‾" },
+	{ "o": ['\\\\sqrt[]{', '}', -2, -2], "n": "<sup style='margin-right:-6px;line-height:14px;'>□</sup>√‾‾" },
+	{ "o": "\\\\geqslant ", "n": "⩾" },
+	{ "o": "\\\\leqslant ", "n": "⩽" },
+	{ "o": "\\\\times ", "n": "×" },
+	{ "o": "\\\\cdot ", "n": "·" },
+	{ "o": "\\\\cdots ", "n": "…" },
+	{ "o": "\\\\approx ", "n": "≈" },
+	{ "o": "\\\\equiv ", "n": "≡" },
+	{ "o": ['\\\\pmod{', '}'], "n": "(mod )" },
+	{ "o": ["\\\\lim_{x\\\\to ", "}"], "n": "lim<sub style='line-height:12px;'>x→</sub>" },
+	{ "o": "\\\\infty ", "n": "∞" },
+	{ "o": ['\\\\int ', '\\\\rmd x'], "n": "∫ dx" },
+	{ "o": "\\\\log", "n": "log" },
+	{ "o": "\\\\ln ", "n": "ln" },
+	{ "o": "\\\\sin ", "n": "sin" },
+	{ "o": "\\\\cos ", "n": "cos" },
+	{ "o": "\\\\tan ", "n": "tan" },
+	{ "o": "\\\\alpha ", "n": "α" },
+	{ "o": "\\\\beta ", "n": "β" },
+	{ "o": "\\\\gamma ", "n": "γ" },
+	{ "o": "\\\\theta ", "n": "θ" },
+	{ "o": "\\\\lambda ", "n": "λ" },
+	{ "o": "\\\\veps ", "n": "ε" },
+	{ "o": "\\\\varphi ", "n": "φ" },
+	{ "o": "\\\\omega ", "n": "ω" },
+	{ "o": "\\\\Delta ", "n": "Δ<span style='font-size:12px;'>(判别式)</span>" },
+	{ "o": "\\\\triangle ", "n": "△<span style='font-size:12px;'>(三角形)</span>" },
+	{ "o": "\\\\odot ", "n": "⊙" },
+	{ "o": "\\\\angle ", "n": "∠" },
+	{ "o": "\\\\du ", "n": "°" },
+	{ "o": "\\\\perp ", "n": "⊥" },
+	{ "o": "\\\\px ", "n": "∥" },
+	{ "o": "\\\\sim ", "n": "~" },
+	{ "o": "\\\\cong ", "n": "≌" },
+	{ "o": "\\\\{a_n\\\\}", "n": "{a<sub style='line-height:12px;'>n</sub>}" },
+	{ "o": ["\\\\vv{", "}"], "n": "箭头向量" },
+	{ "o": ["\\\\bm{", "}"], "n": "粗体向量" }
 ]) {
-    if(v.o instanceof Array) {
-        v.o = "input.cha(['" + v.o[0] + "', '" + v.o[1] + "', " + (v.o[2]||0) + ", " + (v.o[3]||0) + "])";
-    } else {
-        v.o = "input.cha('" + v.o + "')";
-    }
-    ctrls[1].push(v);
+	if (v.o instanceof Array) {
+		v.o = "input.cha(['" + v.o[0] + "', '" + v.o[1] + "', " + (v.o[2] || 0) + ", " + (v.o[3] || 0) + "])";
+	} else {
+		v.o = "input.cha('" + v.o + "')";
+	}
+	ctrls[1].push(v);
 }
 
 renderFastTexSmilies();
