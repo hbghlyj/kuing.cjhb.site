@@ -18,8 +18,8 @@
 	<!--{/if}-->
 	$framecss
 	<script type="text/JavaScript">
-		var VERHASH = '$VERHASH', IN_ADMINCP = true, SITEURL = '{$_G['siteurl']}', JSPATH = '{$_G['setting']['jspath']}', JSCACHEPATH = '{$_G['setting']['jscachepath']}', cookiepre = '{$_G['config']['cookie']['cookiepre']}', cookiedomain = '{$_G['config']['cookie']['cookiedomain']}', cookiepath = '{$_G['config']['cookie']['cookiepath']}';
-		var headers = new Array($headers), admincpfilename = '$basescript', admincpextra = '$extra';
+		var VERHASH = {echo json_encode($VERHASH)}, IN_ADMINCP = true, SITEURL = {echo json_encode($_G['siteurl'])}, JSPATH = {echo json_encode($_G['setting']['jspath'])}, JSCACHEPATH = {echo json_encode($_G['setting']['jscachepath'])}, cookiepre = {echo json_encode($_G['config']['cookie']['cookiepre'])}, cookiedomain = {echo json_encode($_G['config']['cookie']['cookiedomain'])}, cookiepath = {echo json_encode($_G['config']['cookie']['cookiepath'])};
+		var headers = $headers, admincpfilename = {echo json_encode($basescript)}, admincpextra = {echo json_encode($extra)};
 	</script>
 	<script src="{$_G['setting']['jspath']}common.js?{$_G['style']['verhash']}" type="text/javascript"></script>
 </head>
@@ -133,9 +133,10 @@ $shownotice
 		<iframe src="{if !empty($_GET['frames'])}{ADMINSCRIPT}?$extra{else}{if !$oldlayout}{ADMINSCRIPT}?action=index&blank{/if}{/if}" id="main" name="main" class="mainframe"></iframe>
 	</div>
 </div>
+<!--{eval $defTab = !empty($_G['defaultTab']) ? $_G['defaultTab'] : (isset($menuData['defaultId']) ? $menuData['defaultId'] : '');}-->
 <script>
 	{if empty($_GET['frames'])}
-	var defaultTab = 'submn_{if $_G['defaultTab']}$_G['defaultTab']{else}{$menuData['defaultId']}{/if}';
+	var defaultTab = 'submn_{$defTab}';
 	{/if}
 	var defaultUrl = '{ADMINSCRIPT}?action=index&blank';
 </script>
