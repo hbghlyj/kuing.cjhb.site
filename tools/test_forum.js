@@ -365,13 +365,10 @@ const { execSync } = require('child_process');
             await attachSubject.fill('Thread with Attachment');
         }
 
-        // userUid already fetched in step 5
-        // Discuz! legacy upload endpoint authorization token derivation: md5(substr(md5(authkey), 8) . uid)
-        const swfhash = execSync(`php -r 'require "./source/class/class_core.php"; C::app()->init(); echo md5(substr(md5(\$_G["config"]["security"]["authkey"]), 8) . "${userUid}");'`).toString().trim();
-
         const formhash = await page.evaluate(() => {
             return (window.FORMHASH || (document.querySelector('input[name="formhash"]') ? document.querySelector('input[name="formhash"]').value : ''));
         });
+        assert.ok(formhash, 'Assertion Error: Upload formhash is missing.');
 
         let aid = '';
         let lastUploadResp = '';
@@ -379,11 +376,12 @@ const { execSync } = require('child_process');
             const cookies = await page.context().cookies();
             const cookieHeader = cookies.map(c => `${c.name}=${c.value}`).join('; ');
 
-            const uploadResp = await page.request.post(`http://127.0.0.1:8080/misc.php?mod=swfupload&operation=upload&simple=1&type=image&fid=2&uid=${userUid}&hash=${swfhash}${formhash ? '&formhash=' + encodeURIComponent(formhash) : ''}`, {
+            const uploadResp = await page.request.post('http://127.0.0.1:8080/misc.php?mod=swfupload&operation=upload&simple=1&type=image&fid=2', {
                 headers: {
                     'Cookie': cookieHeader
                 },
                 multipart: {
+                    formhash,
                     Filedata: {
                         name: 'sample_test_avatar.png',
                         mimeType: 'image/png',
