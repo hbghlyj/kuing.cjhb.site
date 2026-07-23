@@ -1,5 +1,4 @@
 <?php
-define('IN_DISCUZ', true);
 require './source/class/class_core.php';
 $discuz = C::app();
 $discuz->init();
