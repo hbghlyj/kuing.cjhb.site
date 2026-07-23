@@ -368,12 +368,24 @@ const { execSync } = require('child_process');
         const md5Authkey = crypto.createHash('md5').update(authkey).digest('hex');
         const swfhash = crypto.createHash('md5').update(md5Authkey.substring(8) + userUid).digest('hex');
 
-        await page.evaluate(({ uid, hash }) => {
+        const formhash = await page.evaluate(() => {
+            return (window.FORMHASH || (document.querySelector('input[name="formhash"]') ? document.querySelector('input[name="formhash"]').value : ''));
+        });
+
+        await page.evaluate(({ uid, hash, fh }) => {
             const form = document.getElementById('imgattachform') || document.getElementById('attachform');
             if (form) {
-                form.action = `misc.php?mod=swfupload&operation=upload&simple=1&type=image&fid=2&uid=${uid}&hash=${hash}`;
+                form.action = `misc.php?mod=swfupload&operation=upload&simple=1&type=image&fid=2&uid=${uid}&hash=${hash}${fh ? '&formhash=' + encodeURIComponent(fh) : ''}`;
+                let fhInput = form.querySelector('input[name="formhash"]');
+                if (!fhInput && fh) {
+                    fhInput = document.createElement('input');
+                    fhInput.type = 'hidden';
+                    fhInput.name = 'formhash';
+                    fhInput.value = fh;
+                    form.appendChild(fhInput);
+                }
             }
-        }, { uid: userUid, hash: swfhash }).catch(() => { });
+        }, { uid: userUid, hash: swfhash, fh: formhash }).catch(() => { });
 
         const attachFileInput = await page.$('#imgattachform input[name="Filedata"], #attachform input[name="Filedata"], input[type="file"]');
         if (attachFileInput) {
