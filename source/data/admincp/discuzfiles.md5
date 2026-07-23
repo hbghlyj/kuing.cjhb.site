@@ -840,7 +840,7 @@ f98ea4d59b95ce179cd47272084d7a49 *source/app/forum/child/modcp/thread.php
 dab20150c12260d633e49be840101d36 *source/app/forum/child/post/albumphoto.php
 541114a8651fe7f3242670ed15cce383 *source/app/forum/child/post/editpost.php
 d41d8cd98f00b204e9800998ecf8427e *source/app/forum/child/post/index.htm
-6ceca3b473a7697a76078ae536d2442f *source/app/forum/child/post/newreply.php
+2e1ec5055fbf3481b88ae837257167ed *source/app/forum/child/post/newreply.php
 505f292631235e6e8b5dc6dab91b8388 *source/app/forum/child/post/newthread.php
 376f71e352211e76db032be5c381a5d1 *source/app/forum/child/post/threadsorts.php
 e8501a849c2e1490563f0167cffef596 *source/app/forum/child/redirect/findpost.php
@@ -1003,7 +1003,7 @@ d3ceb5eaf5911b9554caffac504fc59e *source/app/home/child/spacecp/search.php
 fb8777b31fdf3e04b4dd6c61b14a17f6 *source/app/home/child/spacecp/share.php
 9bf061e5a6285674c3b21b959c3d3426 *source/app/home/child/spacecp/top.php
 0a4f446d1ebc7953d617f5bf505e6393 *source/app/home/child/spacecp/upload.php
-c9a0e914a935a3359be84e6671961689 *source/app/home/child/spacecp/usergroup.php
+0377fa3e8d038a5ced817cfc6c020c7f *source/app/home/child/spacecp/usergroup.php
 3bfa02c7e7880b0d110a499c3f149970 *source/app/home/child/task/apply.php
 e60b3c137efd38ca30078f8648768845 *source/app/home/child/task/delete.php
 5b18a2c34798f73f9e9d86d115ef8eca *source/app/home/child/task/draw.php
@@ -3977,7 +3977,7 @@ c46487eb35d247233efd549646a8955f *static/js/admincp_base.js
 6220f406a8d602978a2056a22ea95b18 *static/js/admincp_frame.js
 ee9cd9e2c6331144a224b67e87598c29 *static/js/admincp_index.js
 476ce8eac69bb8e06abd1c36d9d93165 *static/js/admincp.js
-7ae75f3feed1f54352c2c9c1d61b6bae *static/js/ajax.js
+28732ed099cb70e88f40665b3d26ba95 *static/js/ajax.js
 8150290cf7f19ab4be704a25aa38fe8f *static/js/at.js
 ed12f65db9bd493b12c1421fa80f7d7d *static/js/autoloadpage.js
 5384f98afbf22c4abe9f6da7c6fdf364 *static/js/bbcode.js
@@ -4575,7 +4575,7 @@ d41d8cd98f00b204e9800998ecf8427e *template/default/common/index.htm
 110eee22eb494adde0cf3eeaa71f358a *template/default/common/invite.htm
 c736fedbad3c2262bc21d58f46b99fef *template/default/common/ipnotice.htm
 ffe65acb8da8de6716c1b731bc68f1db *template/default/common/misc_imgcropper.htm
-73a04710f0d5ab07f656e088fb0f68c6 *template/default/common/module.css
+ec27a0534a90e99f9370b736d571f4c2 *template/default/common/module.css
 ca6ea79c6e665333fc5f17c2a26785c0 *template/default/common/preview.htm
 d62e7c72dc6e5b15378fbf88213c9389 *template/default/common/pubsearchform.htm
 ef279d37d1ec3cef7efecf9612d7b1c4 *template/default/common/report.htm

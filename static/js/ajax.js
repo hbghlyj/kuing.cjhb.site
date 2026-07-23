@@ -45,18 +45,40 @@ function _ajaxget(url, showid, waitid, loading, display, recall) {
 }
 
 function _ajaxpost(formid, showid, waitid, showidclass, submitbtn, recall) {
-	var waitid = typeof waitid == 'undefined' || waitid === null ? showid : (waitid !== '' ? waitid : '');
-	var showidclass = !showidclass ? '' : showidclass;
+	waitid = waitid || 'ajaxwaitid';
+	showidclass = showidclass || '';
 	var ajaxframeid = 'ajaxframe';
 	var ajaxframe = $(ajaxframeid);
 	var curform = $(formid);
 	var formtarget = curform.target;
+	var waitObj = $(waitid);
+
+	var togglePostLoading = function(display) {
+		if(!waitObj) {
+			return;
+		}
+		display = display || 'block';
+		if(waitid == showid) {
+			var inlineWaitId = waitid + '_wait';
+			var inlineWaitObj = $(inlineWaitId);
+			if(!inlineWaitObj) {
+				inlineWaitObj = document.createElement('span');
+				inlineWaitObj.id = inlineWaitId;
+				waitObj.appendChild(inlineWaitObj);
+			}
+			inlineWaitObj.innerHTML = $L('waiting');
+			inlineWaitObj.style.display = display;
+		} else {
+			waitObj.innerHTML = $L('waiting');
+			waitObj.style.display = display;
+		}
+	};
 
 	var handleResult = function() {
 		var s = '';
 		var evaled = false;
 
-		showloading('none');
+		togglePostLoading('none');
 		try {
 			s = $(ajaxframeid).contentWindow.document.documentElement.firstChild.wholeText;
 		} catch(e) {
@@ -121,7 +143,7 @@ function _ajaxpost(formid, showid, waitid, showidclass, submitbtn, recall) {
 
 	_attachEvent(ajaxframe, 'load', handleResult);
 
-	showloading();
+	togglePostLoading();
 	curform.target = ajaxframeid;
 	var action = curform.getAttribute('action');
 	action = hostconvert(action);
@@ -163,23 +185,20 @@ function _ajaxmenu(ctrlObj, timeout, cache, duration, pos, recall, idclass, cont
 		}
 	};
 
-	if(menu) {
-		if(menu.style.display == '') {
-			hideMenu(menuid);
-		} else {
-			func();
-		}
-	} else {
-		menu = document.createElement('div');
-		menu.id = menuid;
-		menu.style.display = 'none';
-		menu.className = idclass;
-		menu.innerHTML = '<div class="' + contentclass + '" id="' + menuid + '_content"></div>';
-		$('append_parent').appendChild(menu);
-		var url = (!isUndefined(ctrlObj.attributes['shref']) ? ctrlObj.attributes['shref'].value : (!isUndefined(ctrlObj.href) ? ctrlObj.href : ctrlObj.attributes['href'].value));
-		url += (url.indexOf('?') != -1 ? '&' :'?') + 'ajaxmenu=1';
-		ajaxget(url, menuid + '_content', 'ajaxwaitid', '', '', func);
+	// Action menus must be refreshed: a previous response can no longer describe
+	// the current vote state. Remove the old node rather than duplicating its ID.
+	if(menu && menu.parentNode) {
+		menu.parentNode.removeChild(menu);
 	}
+	menu = document.createElement('div');
+	menu.id = menuid;
+	menu.style.display = 'none';
+	menu.className = idclass;
+	menu.innerHTML = '<div class="' + contentclass + '" id="' + menuid + '_content"></div>';
+	$('append_parent').appendChild(menu);
+	var url = (!isUndefined(ctrlObj.attributes['shref']) ? ctrlObj.attributes['shref'].value : (!isUndefined(ctrlObj.href) ? ctrlObj.href : ctrlObj.attributes['href'].value));
+	url += (url.indexOf('?') != -1 ? '&' :'?') + 'ajaxmenu=1';
+	ajaxget(url, menuid + '_content', 'ajaxwaitid', '', '', func);
 	doane();
 }
 
