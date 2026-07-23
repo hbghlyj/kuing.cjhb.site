@@ -120,12 +120,6 @@ const { execSync } = require('child_process');
                 emails[0].value = email;
             }
 
-            const secqaa = form.querySelector('input[name*="secanswer"]');
-            if (secqaa) secqaa.value = '1';
-
-            const seccode = form.querySelector('input[name*="seccodeverify"]');
-            if (seccode) seccode.value = '1111';
-
             const agree = form.querySelector('input[name="agree"]');
             if (agree) agree.checked = true;
 
