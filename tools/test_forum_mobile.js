@@ -15,6 +15,13 @@ const { execSync } = require('child_process');
         { name: `discuz_${cookieSalt}_mobile`, value: '2', url: 'http://127.0.0.1:8080' },
     ]);
     const page = await context.newPage();
+    const browserErrors = [];
+    page.on('pageerror', error => browserErrors.push(error.message));
+    page.on('console', message => {
+        if(message.type() === 'error') {
+            browserErrors.push(message.text());
+        }
+    });
     let report = '\n\n## Mobile Registration Functional Test Report\n\n';
 
     try {
@@ -92,9 +99,10 @@ const { execSync } = require('child_process');
         await imageInput.setInputFiles(imagePath);
         const uploadText = await (await uploadResponse).text();
         assert.match(uploadText, /^DISCUZUPLOAD\|1\|0\|\d+\|1\|/, `Assertion Error: Mobile image upload failed. Response: ${uploadText}`);
-        await page.waitForFunction(() => document.querySelector('#imglist input[name^="attachnew["]'), { timeout: 5000 }).catch(() => {
+        await page.waitForFunction(() => document.querySelector('#imglist input[name^="attachnew["]'), { timeout: 5000 }).catch(async () => {
+            const uploadListHtml = await page.$eval('#imglist', element => element.innerHTML).catch(() => 'missing');
             throw new assert.AssertionError({
-                message: `Assertion Error: Mobile upload did not append attachnew. Response: ${uploadText}`,
+                message: `Assertion Error: Mobile upload did not append attachnew. Response: ${uploadText}; imglist=${uploadListHtml}; errors=${browserErrors.join(' | ') || 'none'}`,
             });
         });
         const aid = await page.locator('#imglist input[name^="attachnew["]').evaluate(input => input.name.match(/^attachnew\[(\d+)\]/)[1]);
