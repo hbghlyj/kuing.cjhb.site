@@ -322,7 +322,7 @@ $data = [[
       'register_groupid' => '0',
       'register_regverify' => '1',
       'register_invite' => '0',
-      'newbiespan' => '',
+      'newbiespan' => '0',
       'turl_code' => '',
       'mblog_app_key' => 'abc',
     ],
@@ -1242,7 +1242,7 @@ $data = [[
     'svalue' => '0',
   ],[
     'skey' => 'newbiespan',
-    'svalue' => '2',
+    'svalue' => '0',
   ],[
     'skey' => 'newbietasks',
     'svalue' => '',
