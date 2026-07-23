@@ -89,6 +89,7 @@ jobs:
       - name: Run Playwright Tests
         run: |
           node tools/test_forum.js
+          node tools/test_search.js
           node tools/test_tags.js
           node tools/test_admin.js
 
