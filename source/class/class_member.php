@@ -854,10 +854,10 @@ class register_ctl {
 				'showid' => 'succeedmessage',
 				'extrajs' => '<script type="text/javascript">'.
 					'setTimeout("window.location.href =\''.$href.'\';", '.$refreshtime.');'.
-					'$(\'succeedmessage_href\').href = \''.$href.'\';'.
-					'$(\'main_message\').style.display = \'none\';'.
-					'$(\'main_succeed\').style.display = \'\';'.
-					'$(\'succeedlocation\').innerHTML = \''.lang('message', $locationmessage).'\';'.
+					'if($(\'succeedmessage_href\'))$(\'succeedmessage_href\').href = \''.$href.'\';'.
+					'if($(\'main_message\'))$(\'main_message\').style.display = \'none\';'.
+					'if($(\'main_succeed\'))$(\'main_succeed\').style.display = \'\';'.
+					'if($(\'succeedlocation\'))$(\'succeedlocation\').innerHTML = \''.lang('message', $locationmessage).'\';'.
 					'</script>',
 				'striptags' => false,
 			];
