@@ -216,26 +216,16 @@ const { execSync } = require('child_process');
             await page.goto(`http://127.0.0.1:8080/forum.php?mod=post&action=reply&fid=2&tid=${tidOutput}`);
             await page.waitForLoadState('networkidle');
 
-            await page.evaluate(({ replyBody }) => {
-                const message = document.querySelector('textarea[name="message"]');
-                if (message) message.value = replyBody;
-                try {
-                    if (typeof editdoc !== 'undefined' && editdoc && editdoc.body) {
-                        editdoc.body.innerHTML = replyBody;
-                    }
-                } catch (e) { }
-
-                const postSubmitBtn = document.querySelector('button[name="replysubmit"], #postsubmit');
-                if (postSubmitBtn) {
-                    postSubmitBtn.click();
-                } else {
-                    const form = document.getElementById('postform') || document.querySelector('form[name="postform"]');
-                    if (form) form.submit();
-                }
-            }, { replyBody: 'Reply text from unprivileged account.' });
-
-            await page.waitForNavigation({ waitUntil: 'networkidle' }).catch(() => { });
-            await page.waitForTimeout(3000);
+            const replyTextArea = await page.$('textarea[name="message"], #postmessage');
+            if (replyTextArea) {
+                await replyTextArea.fill('Reply text from unprivileged account.');
+            }
+            const replyBtn = await page.$('#postsubmit, button[name="replysubmit"]');
+            if (replyBtn) {
+                await replyBtn.click();
+                await page.waitForNavigation({ waitUntil: 'networkidle' }).catch(() => { });
+                await page.waitForTimeout(2000);
+            }
 
             console.log("Checking if reply exists in DB...");
             const replyDbCheck = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT COUNT(*) FROM pre_forum_post WHERE tid='${tidOutput}' AND first=0;"`).toString().trim();
@@ -249,30 +239,20 @@ const { execSync } = require('child_process');
                 await page.goto(`http://127.0.0.1:8080/forum.php?mod=post&action=edit&fid=2&tid=${tidOutput}&pid=${pidOutput}`);
                 await page.waitForLoadState('networkidle');
 
-                await page.evaluate(({ newTitle, newBody }) => {
-                    const subject = document.querySelector('input[name="subject"]');
-                    if (subject) subject.value = newTitle;
-
-                    const message = document.querySelector('textarea[name="message"]');
-                    if (message) message.value = newBody;
-
-                    try {
-                        if (typeof editdoc !== 'undefined' && editdoc && editdoc.body) {
-                            editdoc.body.innerHTML = newBody;
-                        }
-                    } catch (e) { }
-
-                    const postSubmitBtn = document.querySelector('button[name="editsubmit"], #postsubmit');
-                    if (postSubmitBtn) {
-                        postSubmitBtn.click();
-                    } else {
-                        const form = document.getElementById('postform') || document.querySelector('form[name="postform"]');
-                        if (form) form.submit();
-                    }
-                }, { newTitle: 'Standard User Thread (Edited)', newBody: 'Edited body text from unprivileged account.' });
-
-                await page.waitForNavigation({ waitUntil: 'networkidle' }).catch(() => { });
-                await page.waitForTimeout(3000);
+                const editSubject = await page.$('input[name="subject"]');
+                if (editSubject) {
+                    await editSubject.fill('Standard User Thread (Edited)');
+                }
+                const editMessage = await page.$('textarea[name="message"], #postmessage');
+                if (editMessage) {
+                    await editMessage.fill('Edited body text from unprivileged account.');
+                }
+                const editBtn = await page.$('#postsubmit, button[name="editsubmit"]');
+                if (editBtn) {
+                    await editBtn.click();
+                    await page.waitForNavigation({ waitUntil: 'networkidle' }).catch(() => { });
+                    await page.waitForTimeout(2000);
+                }
 
                 console.log("Checking if edited thread title exists in DB...");
                 const editDbCheck = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT COUNT(*) FROM pre_forum_thread WHERE tid='${tidOutput}' AND subject='Standard User Thread (Edited)';"`).toString().trim();
