@@ -33,6 +33,12 @@ $lang = array
 	'system_init_ok'		=> 'Site system initialization completed, please <a href="index.php">Click here</a> to enter.',//'网站系统初始化完成，请<a href="index.php">点击这里</a>进入',
 	'backtrace'			=> 'operational info',//'运行信息',
 	'error_end_message'		=> '<a href="http://{host}">{host}</a> has detailed records of this error message, which brings you access. We have apologize for the inconvenience.',//'<a href="http://{host}">{host}</a> 已经将此出错信息详细记录, 由此给您带来的访问不便我们深感歉意',
+	'error_end_message_user'	=> 'This site has recorded detailed information about this error. We apologize for any inconvenience caused.<br /><a href="http://{host}">{host}</a>',
+	'error_end_message_admin'	=> 'This site has recorded detailed information about this error. You can search for the BackTraceID in Admin CP &quot;Operation Log &gt; System Error&quot; to quickly locate the issue.<br /><a href="http://{host}">{host}</a>',
+	'suggestion'			=> 'We suggest you refresh the page or close all browser windows and try again.',
+	'suggestion_user'		=> 'If the problem persists, please report this issue along with the BackTraceID to the site administrator.',
+	'suggestion_plugin'		=> 'We suggest trying to disable the <span class="guess">{guess}</span> plugin in the Admin CP. If the issue is resolved after disabling, please contact the plugin developer with a full screenshot for assistance.',
+	'suggestion_admin'		=> 'If the problem persists, please seek help on the <a href="https://www.dismall.com/" target="_blank">Discuz! Official Forum</a> with full screenshots, or <a href="https://gitee.com/discuz/DiscuzX/issues" target="_blank">submit an Issue</a> on the official Git repository.',
 	'mobile_error_end_message'	=> '<a href="http://{host}">{host}</a> Error. Sorry for inconvenience.',//'<a href="http://{host}">{host}</a> 此错误给您带来的不便我们深感歉意',
 
 	'file_upload_error_-101'	=> 'Upload failed! Upload file does not exist or is invalid. Please return.',//'上传失败！上传文件不存在或不合法，请返回。',
