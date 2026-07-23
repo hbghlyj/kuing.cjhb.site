@@ -90,9 +90,11 @@ const { execSync } = require('child_process');
         C::t('common_setting')->update('secqaa', serialize(\$secqaa));
         C::t('common_setting')->update('regname', 'register');
         C::t('common_setting')->update('floodctrl', '0');
+        C::t('common_usergroup_field')->update(10, array('allowpostattach' => '1', 'allowpostimage' => '1'));
+        C::t('common_usergroup_field')->update(7, array('allowpostattach' => '1', 'allowpostimage' => '1'));
 
         require_once libfile('function/cache');
-        updatecache(array('setting', 'secqaa', 'styles'));
+        updatecache(array('setting', 'secqaa', 'styles', 'usergroups'));
         ?>`;
         fs.writeFileSync('disable_sec.php', phpConfig);
         execSync('php disable_sec.php');
@@ -361,6 +363,17 @@ const { execSync } = require('child_process');
         }
 
         // userUid already fetched in step 5
+        const authkey = execSync("sudo mysql -u root ultrax -N -s -e \"SELECT svalue FROM pre_common_setting WHERE skey='authkey';\"").toString().trim() || '5d65a05c3c0e02562e10dbece6860a8c8Rswt6czveQ1dfCfns4z3zAEq3PthrDP';
+        const crypto = require('crypto');
+        const md5Authkey = crypto.createHash('md5').update(authkey).digest('hex');
+        const swfhash = crypto.createHash('md5').update(md5Authkey.substring(8) + userUid).digest('hex');
+
+        await page.evaluate(({ uid, hash }) => {
+            const form = document.getElementById('imgattachform') || document.getElementById('attachform');
+            if (form) {
+                form.action = `misc.php?mod=swfupload&operation=upload&simple=1&type=image&fid=2&uid=${uid}&hash=${hash}`;
+            }
+        }, { uid: userUid, hash: swfhash }).catch(() => { });
 
         const attachFileInput = await page.$('#imgattachform input[name="Filedata"], #attachform input[name="Filedata"], input[type="file"]');
         if (attachFileInput) {
