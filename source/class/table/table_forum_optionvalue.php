@@ -145,15 +145,6 @@ class table_forum_optionvalue extends discuz_table {
 		DB::query('UPDATE %t SET %i WHERE tid=%d AND fid=%d', [$this->_table, $fields, $tid, $fid]);
 	}
 
-	public function insert($sortid, $fields = null, $replace = false, $null = null) {
-		// $null 需要在取消兼容层后删除
-		if(defined('DISCUZ_DEPRECATED')) {
-			throw new Exception('UnsupportedOperationException');
-		} else {
-			return $this->insert_optionvalue($sortid, $fields, $replace);
-		}
-	}
-
 	public function insert_optionvalue($sortid, $fields, $replace = false) {
 		if(!$sortid || !$fields) {
 			return;

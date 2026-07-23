@@ -240,14 +240,14 @@ function getotherinfo($aids, $pids, $tids, $taskids, $uids) {
 			$tids[$value['tid']] = $value['tid'];
 		}
 		foreach($attachtable as $id => $value) {
-			$attachs = table_forum_attachment_n::t()->fetch_all($id, $value);
+			$attachs = table_forum_attachment_n::t()->fetch_all_attachment($id, $value);
 			foreach($attachs as $value) {
 				$otherinfo['attachs'][$value['aid']] = $value;
 			}
 		}
 	}
 	if(!empty($pids)) {
-		foreach(table_forum_post::t()->fetch_all(0, $pids) as $value) {
+		foreach(table_forum_post::t()->fetch_all_post(0, $pids) as $value) {
 			$tids[$value['tid']] = $value['tid'];
 			$otherinfo['post'][$value['pid']] = $value['tid'];
 		}

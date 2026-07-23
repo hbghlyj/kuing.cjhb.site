@@ -89,7 +89,6 @@ class menu_default {
 			['menu_members_edit', 'members_search', 0, '', '', ['members_clean', 'members_repeat', 'members_add']],
 			['menu_members_profile', 'members_profile', 0, '', '', ['setting_profile']],
 			['menu_members_stat', 'members_stat'],
-			['menu_usertag', 'usertag'],
 			['menu_members_edit_ban_user', 'members_ban'],
 			['menu_members_ipban', 'members_ipban'],
 			['menu_members_credits', 'members_reward'],

@@ -111,6 +111,19 @@ class table_home_follow_feed extends discuz_table {
 		return $delnum;
 	}
 
+	public function delete_by_uid_tid($uid, $tid) {
+		$uid = intval($uid);
+		$tid = intval($tid);
+		if(!$uid || !$tid) {
+			return 0;
+		}
+
+		$condition = DB::field('uid', $uid).' AND '.DB::field('tid', $tid);
+		$delnum = DB::delete($this->_table, $condition);
+		$archiverdelnum = DB::delete($this->_archiver_table, $condition);
+		return $delnum + (is_int($archiverdelnum) ? $archiverdelnum : 0);
+	}
+
 	public function get_ids() {
 		return $this->_ids;
 	}

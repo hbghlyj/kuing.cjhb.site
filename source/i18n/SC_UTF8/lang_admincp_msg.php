@@ -648,12 +648,6 @@ $lang = [
 	'usergroups_merge_succeed' => '用户组合并成功 ',
 	'usergroups_up_update_credits_duplicate' => '自定义用户组积分下限设置重复',
 
-	'usertag_delete_succeed' => '删除标签成功',
-	'usertag_merge_succeed' => '标签合并成功',
-	'usertag_add_succeed' => '成功为用户添加标签',
-	'usertag_add_tag_succeed' => '成功添加标签',
-	'usertag_add_error' => '添加失败，用户或标签错误，请重新填写',
-	'usertag_delete_confirm' => '确认删除此用户的标签？',
 
 	'members_verify_add_user_succeed' => '认证用户添加完成',
 	'members_verify_add_user_failure' => '认证用户添加失败',

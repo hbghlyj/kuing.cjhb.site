@@ -19,7 +19,7 @@ $after_actions = ['votepoll', 'viewvote', 'rate', 'removerate',
 	'viewratings', 'viewwarning', 'pay', 'viewpayments',
 	'viewthreadmod', 'bestanswer', 'activityapplies', 'getactivityapplylist',
 	'activityapplylist', 'activityexport', 'tradeorder', 'debatevote',
-	'debateumpire', 'recommend', 'protectsort', 'usertag',
+	'debateumpire', 'recommend', 'protectsort',
 	'postreview', 'hidden', 'hiderecover'];
 
 require_once libfile('function/post');

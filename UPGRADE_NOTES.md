@@ -13,7 +13,6 @@
 - 这是部署说明，不是功能宣传页。每次更新代码前，应先阅读本文档与 `README.md`。
 - 对于存量站点，不要只覆盖代码。至少需要同步检查：
   - `install/sql/sql_upgrade_3.5.php`
-  - `install/data/install.sql`
   - `config/config_global_default.php`
 - 当前分支已经引入额外运行时依赖与默认策略，例如 MaxMind GeoIP2、HTTPS 输出策略、后台登录相关默认项；这些都会影响实际部署结果。
 
@@ -48,9 +47,23 @@ ALTER TABLE uc_members
 - 当前分支曾使用的自定义 `name_en` 列已废弃，不属于 X3.5 升级脚本的输入结构。
 - 来源：`install/sql/sql_upgrade_3.5.php`
 
+### [Required] 用户标签功能已移除
+
+- 用户标签、按用户标签搜索会员，以及基于用户标签的版块权限均已删除；普通主题、文章和日志标签不受影响。
+- 存量站点更新代码后应清理用户标签数据并移除对应管理权限列：
+
+```sql
+DELETE FROM pre_common_tagitem WHERE idtype = 'uid';
+DELETE FROM pre_common_tag WHERE status = 3;
+ALTER TABLE pre_common_tagitem MODIFY idtype enum('tid','blogid') NOT NULL DEFAULT 'tid';
+ALTER TABLE pre_common_admingroup DROP COLUMN alloweditusertag;
+```
+
+- 若数据表前缀不是 `pre_`，请按实际前缀调整。
+
 ### 旧 IP 查询后端已移除
 
-- 当前默认运行时地理位置查询已经切换到 MaxMind GeoIP2。
+- 当前默认运行时网络归属查询使用 `GeoOpen-Country-ASN.mmdb`，返回国家、ASN 和自治系统组织名称。
 - 老的 `tinyipdata.dat` / `wry` 系列数据文件、查询类和 `source/child/core/ip.php` 路由均已移除。
 - 部署时不应再保留或配置旧 `ipdb` 后端。
 
@@ -78,6 +91,32 @@ $_config['output']['upgradeinsecure'] = 1;
 ## Database Migrations Required
 
 ### Required before deploy
+
+#### [Required] 在线会话机器人识别原因字段
+
+- 机器人识别原因改为独立保存，不再依赖会被在线列表格式化覆盖的会话用户名。
+
+```sql
+ALTER TABLE pre_common_session
+  ADD COLUMN bot_reason varchar(255) NOT NULL DEFAULT '' AFTER username;
+```
+
+#### [Required] 在线会话城市字段
+
+- 在线访客的 Cloudflare 城市改为独立保存，避免与 ASN/自治系统组织混在 `location` 中。
+- 已部署过临时分隔符实现的站点，先备份，再执行以下 SQL（按实际表前缀调整）：
+
+```sql
+ALTER TABLE pre_common_session
+  ADD COLUMN city varchar(191) NOT NULL DEFAULT '' AFTER location;
+
+UPDATE pre_common_session
+SET city = SUBSTRING_INDEX(location, 0x1F, 1),
+    location = SUBSTRING(location, LOCATE(0x1F, location) + 1)
+WHERE LOCATE(0x1F, location) > 0;
+```
+
+- 未使用临时实现的站点只需执行 `ALTER TABLE`。旧会话记录会继续按旧格式显示，直到过期。
 
 #### [Required] 执行 UCenter 密码字段扩容
 
@@ -148,10 +187,17 @@ ALTER TABLE pre_forum_attachment_7 DROP COLUMN sha1;
 ALTER TABLE pre_forum_attachment_8 DROP COLUMN sha1;
 ALTER TABLE pre_forum_attachment_9 DROP COLUMN sha1;
 ALTER TABLE pre_portal_article_title DROP COLUMN tag;
+ALTER TABLE pre_common_usergroup_field DROP COLUMN allowimgcontent;
+```
+
+- 删除主题内容转图片功能后，还应移除其遗留设置：
+
+```sql
+DELETE FROM pre_common_setting WHERE skey = 'imgcontentwidth';
 ```
 
 - `pre_common_robot_user_agents`、`pre_common_session.location`、`pre_common_session.referrer`、`pre_forum_thread.tags` 和 `pre_portal_article_title.tags` 仍在使用，不属于清理范围。
-- 来源：运行时代码引用审计、`install/data/install.sql`、`install/sql/sql_install.php`
+- 来源：运行时代码引用审计、`install/sql/sql_install.php`
 
 ### Manual review
 
@@ -161,7 +207,7 @@ ALTER TABLE pre_portal_article_title DROP COLUMN tag;
 - 推荐做法：
   - 先备份数据库
   - 逐项审查 `install/sql/sql_upgrade_3.5.php`
-  - 再根据站点实际启用功能补充检查 `install/data/install.sql`
+  - 使用 `install/sql/sql_install.php` 作为当前全新安装结构的唯一基准
 
 ## Config / Environment Changes
 
@@ -195,14 +241,16 @@ ALTER TABLE pre_portal_article_title DROP COLUMN tag;
   - `backup_wednesday.sql.gz`
   - `backup_friday.sql.gz`
 - cron 必须把文件写入 Discuz! 配置的 `data/backup_<backupdir>/` 目录。
+- `<backupdir>` 的实际值仅属于站点部署配置，不得写入受 Git 跟踪的文件、提交信息或公开仓库历史；该目录中的数据库备份文件同样不得提交。
 - 管理入口仍为 `/?app=admin&platform=system?action=db&operation=export`。
 
-### [Required] MaxMind GeoIP2 运行时依赖
+### [Required] Country/ASN MMDB 运行时依赖
 
-- 当前默认运行时地理位置查询使用 MaxMind GeoIP2。
+- 当前默认运行时网络归属查询使用 MaxMind DB Reader。
 - `source/class/class_ip.php` 和 `source/class/discuz/discuz_application.php` 会加载 `source/class/ip/geoip2.phar`。
-- `GeoIp2\Database\Reader` 固定读取 `data/ipdata/GeoLite2-City.mmdb`。
-- 部署时必须自行准备可用的 MMDB，并确保 PHP-FPM 运行用户能够读取 PHAR 和 MMDB；否则 IP 归属地解析及缺少 Cloudflare 地理请求头时的游客位置补全无法工作。
+- `MaxMind\Db\Reader` 固定读取 `data/ipdata/GeoOpen-Country-ASN.mmdb`。
+- 数据库提供国家代码、ASN 和自治系统组织名称，不提供城市。
+- 部署时必须准备兼容的 MMDB，并确保 PHP-FPM 运行用户能够读取 PHAR 和 MMDB；否则 IP 网络归属解析及游客会话网络信息补全无法工作。
 
 ### [Recommended] 核对后台登录默认配置
 
@@ -258,9 +306,9 @@ $_config['output']['upgradeinsecure'] = 1;
 
 - 当前分支已经引入更多 X5 后台与应用框架层面的内容，后台菜单、平台菜单、扫码登录相关配置与行为都明显多于 `master`。
 
-### IP 与地理位置
+### IP 与网络归属
 
-- 默认地理位置查询已经切到 GeoIP2。
+- 默认查询已经切到 Country/ASN 合并 MMDB。
 - IP、游客、爬虫、在线列表等行为在当前分支中存在联动，不应再按旧 tiny/wry 路径理解。
 
 ### 文件完整性基线

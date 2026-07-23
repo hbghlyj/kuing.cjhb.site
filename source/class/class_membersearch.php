@@ -17,7 +17,7 @@ class membersearch {
 
 	function getfield($fieldid = '') {
 		static $fields = [
-			'uid' => 'member', 'loginname' => 'member', 'username' => 'member', 'groupid' => 'member', 'secmobile' => 'member', 'medalid' => 'medal', 'tagid' => 'tag', 'idtype' => 'tag',
+			'uid' => 'member', 'loginname' => 'member', 'username' => 'member', 'groupid' => 'member', 'secmobile' => 'member', 'medalid' => 'medal',
 			'email' => 'member', 'credits' => 'member', 'regdate' => 'member',
 			'status' => 'member', 'freeze' => 'member', 'emailstatus' => 'member', 'avatarstatus' => 'member',
 			'uin' => 'black', 'sid' => 'session',
@@ -47,7 +47,7 @@ class membersearch {
 
 	function gettype($fieldid) {
 		static $types = [
-			'uid' => 'int', 'groupid' => 'int', 'medalid' => 'int', 'tagid' => 'int', 'credits' => 'int',
+			'uid' => 'int', 'groupid' => 'int', 'medalid' => 'int', 'credits' => 'int',
 			'status' => 'int', 'freeze' => 'int', 'emailstatus' => 'int', 'avatarstatus' => 'int',
 			'extcredits1' => 'int', 'extcredits2' => 'int', 'extcredits3' => 'int', 'extcredits4' => 'int',
 			'extcredits5' => 'int', 'extcredits6' => 'int', 'extcredits7' => 'int', 'extcredits8' => 'int',
@@ -99,7 +99,7 @@ class membersearch {
 		$fields = membersearch::getfield();
 		foreach($condition as $key => $value) {
 			$rkey = str_replace(['_low', '_high', '_noempty', '_after', '_before'], '', $key);
-			if(!(isset($fields[$rkey]) || in_array($key, ['verify', 'fid', 'tagid']))) {
+			if(!(isset($fields[$rkey]) || in_array($key, ['verify', 'fid']))) {
 				unset($condition[$key]);
 			}
 		}
@@ -120,10 +120,6 @@ class membersearch {
 		if($condition['fid']) {
 			$condition['level'] = '1,2,3,4';
 		}
-		if($condition['tagid']) {
-			$condition['idtype'] = 'uid';
-		}
-
 		$fields = membersearch::getfield();
 		foreach($fields as $key => $value) {
 			$return = [];
@@ -156,28 +152,19 @@ class membersearch {
 		}
 		if($tables && $wheres) {
 			$parts = [];
-			$table1 = $asuid = '';
+			$table1 = '';
 			$uidfield = 'uid';
 			foreach($tables as $key => $value) {
 				$value = membersearch::gettable($key, $isarchive);
 				$parts[] = "$value as `$key`";
 				if(!$table1) {
 					$table1 = $key;
-					if($table1 == 'tag') {
-						$uidfield = 'itemid';
-						$asuid = ' as uid';
-					}
 				} else {
-					if($key == 'tag') {
-						$keyuid = 'itemid';
-					} else {
-						$keyuid = 'uid';
-					}
-					$wheres[] = $table1.'.'.$uidfield.' = '.$key.'.'.$keyuid;
+					$wheres[] = $table1.'.'.$uidfield.' = '.$key.'.uid';
 				}
 			}
 
-			$selectsql = $onlyCount ? 'SELECT COUNT(DISTINCT '.$table1.'.'.$uidfield.') as cnt ' : 'SELECT DISTINCT '.$table1.'.'.$uidfield.$asuid;
+			$selectsql = $onlyCount ? 'SELECT COUNT(DISTINCT '.$table1.'.'.$uidfield.') as cnt ' : 'SELECT DISTINCT '.$table1.'.'.$uidfield;
 			return $selectsql.' FROM '.implode(', ', $parts).' WHERE '.implode(' AND ', $wheres).' ORDER BY '.$table1.'.'.$uidfield;
 		} else {
 			$selectsql = $onlyCount ? 'SELECT COUNT(uid) as cnt ' : 'SELECT uid';
@@ -295,7 +282,6 @@ class membersearch {
 			'verify' => 'common_member_verify',
 			'black' => 'common_uin_black',
 			'medal' => 'common_member_medal',
-			'tag' => 'common_tagitem',
 			'account' => 'common_member_account',
 		];
 		return DB::table($isarchive && in_array($alias, ['member', 'status', 'profile', 'count']) ? $mapping[$alias].'_archive' : $mapping[$alias]);

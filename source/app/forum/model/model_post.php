@@ -64,7 +64,7 @@ class model_post extends discuz_model {
 			'noticetrimstr', 'from', 'sechash', 'geoloc',
 			'timestamp',
 			'subject', 'special', 'sortid', 'typeid', 'isanonymous', 'cronpublish', 'cronpublishdate', 'save',
-			'readperm', 'price', 'hiddenreplies', 'audit', 'tags', 'bbcodeoff', 'imgcontent', 'imgcontentwidth',
+			'readperm', 'price', 'audit', 'tags', 'bbcodeoff',
 			'smileyoff', 'parseurloff', 'usesig', 'htmlon', 'extramessage', 'original', 'source', 'contentType', 'contentEditor', 'repid',
 			'updateuid', 'lastupdate',
 		];
@@ -405,7 +405,6 @@ class model_post extends discuz_model {
 				if(!$this->param['cronpublish'] && in_array($this->thread['tid'], $cron_publish_ids) || $this->param['modnewthreads']) {
 					$this->param['threadupdatearr']['dateline'] = $publishdate = TIMESTAMP;
 					unset($cron_publish_ids[$this->thread['tid']]);
-					$cron_publish_ids = serialize($cron_publish_ids);
 					savecache('cronpublish', $cron_publish_ids);
 				} elseif($this->param['cronpublish'] && $this->param['cronpublishdate']) {
 					$this->param['threadupdatearr']['dateline'] = $publishdate = strtotime($this->param['cronpublishdate']);
@@ -429,13 +428,6 @@ class model_post extends discuz_model {
 					return $this->showmessage('post_net_price_iszero');
 				}
 			}
-
-			$this->thread['status'] = setstatus(15, $this->param['imgcontent'], $this->thread['status']);
-			if($this->param['imgcontent']) {
-				stringtopic($this->param['message'], $this->post['tid'], true, $this->param['imgcontentwidth']);
-			}
-
-			$this->thread['status'] = setstatus(2, $this->param['hiddenreplies'], $this->thread['status']);
 
                        $this->thread['status'] = setstatus(6, 1, $this->thread['status']);
 

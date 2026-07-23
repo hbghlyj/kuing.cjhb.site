@@ -87,20 +87,6 @@ if(!submitcheck('editsubmit')) {
 	$member['bio'] = html2bbcode($member['bio']);
 	$member['signature'] = html2bbcode($member['sightml']);
 
-	$taginfo = '';
-	$tags = table_common_tagitem::t()->select(0, $uid, 'uid');
-	if($tags) {
-		$tagids = [];
-		foreach($tags as $tag) {
-			$tagids[] = $tag['tagid'];
-		}
-		if($tagids) {
-			foreach(table_common_tag::t()->fetch_all($tagids) as $tag) {
-				$taginfo .= $tag['tagname'].' <a href="'.ADMINSCRIPT.'?action=usertag&uid='.$uid.'&operation=del&tagid='.$tag['tagid'].'">['.cplang('delete').']</a>&nbsp; ';
-			}
-		}
-	}
-
 	shownav('user', 'members_edit');
 	/*search={"members_edit":"action=members&operation=edit"}*/
 	showchildmenu([['nav_members', 'members&operation=list']], $member['username'], [
@@ -122,7 +108,6 @@ if(!submitcheck('editsubmit')) {
 		"<a href=\"".ADMINSCRIPT."?action=blog$hrefext\" class=\"act\">{$lang['blogs']}({$member['blogs']})</a>".
 		"<a href=\"".ADMINSCRIPT."?action=album$hrefext\" class=\"act\">{$lang['albums']}({$member['albums']})</a>".
 		"<a href=\"".ADMINSCRIPT."?action=share$hrefext\" class=\"act\">{$lang['shares']}({$member['sharings']})</a> <br>&nbsp;{$lang['setting_styles_viewthread_userinfo_oltime']}: {$member['oltime']}{$lang['hourtime']}");
-	showsetting('members_edit_tag', '', '', $taginfo);
 	showsetting('members_edit_password', 'passwordnew', '', 'text');
 	showsetting('members_edit_clearquestion', 'clearquestion', 0, 'radio');
 	showsetting('members_edit_status', 'statusnew', $member['status'], 'radio');

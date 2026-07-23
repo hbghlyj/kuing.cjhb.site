@@ -16,7 +16,7 @@ class discuz_session {
 	public $var;
 	public $isnew = false;
 	private $newguest = ['sid' => 0, 'ip' => '',
-		'uid' => 0, 'username' => '', 'location' => '', 'referrer' => '', 'groupid' => 7, 'invisible' => 0, 'action' => 0,
+		'uid' => 0, 'username' => '', 'bot_reason' => '', 'location' => '', 'city' => '', 'referrer' => '', 'groupid' => 7, 'invisible' => 0, 'action' => 0,
 		'lastactivity' => 0, 'fid' => 0, 'tid' => 0, 'lastolupdate' => 0];
 
 	private $old = ['sid' => '', 'ip' => '', 'uid' => 0];
@@ -52,10 +52,10 @@ class discuz_session {
 		}
 	}
 
-	public function init($sid, $ip, $uid, $username = false, $location = '') {
+	public function init($sid, $ip, $uid, $username = false, $location = '', $city = '', $botReason = '') {
 		$this->old = ['sid' => $sid, 'ip' => $ip, 'uid' => $uid];
 		$session = $username
-			? DB::fetch_first('SELECT * FROM %t WHERE groupid=8 AND username=%s AND location=%s', ['common_session', $username, $location])
+			? DB::fetch_first('SELECT * FROM %t WHERE groupid=8 AND bot_reason=%s AND location=%s AND city=%s', ['common_session', $botReason, $location, $city])
 			: ($sid ? $this->table->fetch($sid, $ip, $uid) : []);
 		if(empty($session) || ($username === false && (int)$session['uid'] !== (int)$uid)) {
 			$session = $this->create($ip, $uid);
@@ -133,8 +133,13 @@ class discuz_session {
 			if($online['uid']) {
 				$online['icon'] = $onlinelist[$online['groupid']] ?? $onlinelist[0];
 			} else {
-				$online['icon'] = $onlinelist[7];
-				$online['username'] = $onlinelist['guest'];
+				$online['icon'] = $online['groupid'] == 8
+					? ($onlinelist[8] ?? STATICURL.'image/common/online_bot.svg')
+					: $onlinelist[7];
+				$location = ip::format_session_location($online['location'] ?? '', $online['city'] ?? null);
+				$isRobot = $online['groupid'] == 8;
+				$online['username'] = $isRobot ? $location['organization'] : $location['compact'];
+				$online['network_title'] = $isRobot ? $location['asn'] : $location['network'];
 			}
 			$online['lastactivity'] = dgmdate($online['lastactivity'], 't');
 			$data[$online['uid']] = $online;

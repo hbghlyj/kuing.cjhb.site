@@ -33,11 +33,10 @@ if($_GET['view'] == 'online') {
 	$actives = ['me' => ' class="a"'];
 	$formatonlinename = function($value) {
 		$value['referrer'] = isset($value['referrer']) ? $value['referrer'] : '';
-		$value['location'] = trim(isset($value['location']) ? $value['location'] : '');
-		if($value['groupid'] == 7) {
-			$value['username'] = lang('forum/misc', 'guestuser').$value['location'];
-		} elseif($value['groupid'] == 8 && $value['location'] !== '') {
-			$value['username'] = trim($value['username']."\t".$value['location']);
+		if(!$value['uid']) {
+			$value['bot_reason'] = trim($value['bot_reason'] ?? '');
+			$location = ip::format_session_location($value['location'] ?? '', $value['city'] ?? null);
+			$value['username'] = $location['detail'];
 		}
 		return $value;
 	};

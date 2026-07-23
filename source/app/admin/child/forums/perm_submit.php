@@ -52,14 +52,6 @@ foreach($perms as $perm) {
 			}
 		}
 	}
-	if(!empty($_GET['mtag'][$perm])) {
-		foreach($_GET[''.$_GET['mtag'][$perm]] as $row) {
-			$mpermtype = substr($row, 0, 1);
-			if($mpermtype == 't') {
-				$mpermval[$mpermtype][] = substr($row, 1);
-			}
-		}
-	}
 	foreach($mpermval as $mtype => $val) {
 		$_GET[''.$perm.'new'] .= '_'.$mtype.'['.implode(',', $val).']'."\t";
 	}

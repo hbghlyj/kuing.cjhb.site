@@ -18,7 +18,6 @@ include loadarchiver('common/header');
 
 	<div id="content">
 		<?php foreach($postlist as $post): ?>
-			<?php if($hiddenreplies && !$post['first']) break; ?>
 			<p class="author">
 				<?php if(!$post['anonymous']): ?>
 					<strong><?php echo $post['author']; ?></strong>

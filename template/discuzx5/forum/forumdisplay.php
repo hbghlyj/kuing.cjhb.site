@@ -281,7 +281,7 @@
 								<!--{if $online['uid']}-->
 									<p><a href="home.php?mod=space&uid=$online[uid]">$online[username]</a></p>
 								<!--{else}-->
-									<p>$online[username]</p>
+									<p title="$online[network_title]">$online[username]</p>
 								<!--{/if}-->
 								<span>$online[lastactivity]{LF}</span>
 								</li>

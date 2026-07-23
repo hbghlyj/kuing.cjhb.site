@@ -8,4 +8,5 @@ $lang = [
 	'x5_load_more' => '点击加载更多',
 	'x5_login_prompt' => '登录后即可体验更多功能...',
 	'x5_no_related_content' => '暂无相关内容',
+	'post_newthread' => '发表帖子',
 ];
