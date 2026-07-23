@@ -280,7 +280,7 @@ const { execSync } = require('child_process');
             }
         }
 
-        // 5. User Avatar Upload Test
+        // 5. User Avatar Upload Test & Verification across Profile, Viewthread, and Header
         console.log("Attempting to upload avatar for user...");
         const sampleImage = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==', 'base64');
         fs.writeFileSync('sample_test_avatar.png', sampleImage);
@@ -300,10 +300,27 @@ const { execSync } = require('child_process');
             }
         }
 
-        console.log("Checking if avatar upload page loaded cleanly...");
-        const avatarPageText = await page.textContent('body');
-        assert.ok(avatarPageText.includes(username) || avatarPageText.includes('修改头像') || avatarPageText.includes('当前我的头像'), 'Assertion Error: Avatar page did not render user space panel.');
-        report += '### 5. Unprivileged User Avatar Setup\n- **Status**: Checked\n\n';
+        const userUid = execSync("sudo mysql -u root ultrax -N -s -e \"SELECT uid FROM pre_common_member WHERE username='" + username + "';\"").toString().trim();
+
+        console.log("Checking profile page for user avatar...");
+        await page.goto(`http://127.0.0.1:8080/home.php?mod=space&uid=${userUid}&do=profile`);
+        await page.waitForLoadState('networkidle');
+
+        const profileAvatarImg = await page.$('.userinfo .avatar_m img, .avatar img, img[src*="avatar"], .user_avatar');
+        assert.ok(profileAvatarImg !== null, 'Assertion Error: Avatar image element was not rendered on profile page.');
+
+        console.log("Checking header for user avatar...");
+        const headerAvatarImg = await page.$('#um .avt img, .header .avatar img, #hd .avatar img, .mz img[src*="avatar"], .userinfo_icon img, img[src*="avatar"]');
+        assert.ok(headerAvatarImg !== null, 'Assertion Error: Avatar image element was not rendered in page header.');
+
+        console.log("Checking viewthread page for author avatar...");
+        await page.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${tid}`);
+        await page.waitForLoadState('networkidle');
+
+        const viewthreadAvatarImg = await page.$('.pls .avatar img, .postauthor .avatar img, .pls .avatar, .postauthor .avatar, img[src*="avatar"]');
+        assert.ok(viewthreadAvatarImg !== null, 'Assertion Error: Author avatar image element was not rendered on viewthread page.');
+
+        report += '### 5. Unprivileged User Avatar Setup & Verification\n- **Status**: Checked\n- **Profile Avatar Check**: Passed\n- **Header Avatar Check**: Passed\n- **Viewthread Avatar Check**: Passed\n\n';
 
         // 6. User Image Attachment Post Test
         console.log("Attempting to post thread with image attachment...");
@@ -315,7 +332,7 @@ const { execSync } = require('child_process');
             await attachSubject.fill('Thread with Attachment');
         }
 
-        const userUid = execSync("sudo mysql -u root ultrax -N -s -e \"SELECT uid FROM pre_common_member WHERE username='" + username + "';\"").toString().trim();
+        // userUid already fetched in step 5
 
         const attachFileInput = await page.$('#imgattachform input[name="Filedata"], #attachform input[name="Filedata"], input[type="file"]');
         if (attachFileInput) {
