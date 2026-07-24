@@ -183,8 +183,12 @@ const { execSync } = require('child_process');
         await page.screenshot({ path: 'screenshot_mobile_06_my_center.png' });
 
         console.log('Testing mobile UI avatar setup with multiple extensions (PNG, JPG, GIF)...');
-        await page.goto('http://127.0.0.1:8080/home.php?mod=spacecp&ac=avatar');
+        const avatarPageResponse = await page.goto('http://127.0.0.1:8080/home.php?mod=spacecp&ac=avatar');
         await page.waitForLoadState('networkidle');
+        if(!avatarPageResponse || !avatarPageResponse.ok()) {
+            const responseBody = avatarPageResponse ? await avatarPageResponse.text() : '';
+            assert.fail(`Mobile avatar page failed: status=${avatarPageResponse ? avatarPageResponse.status() : 'missing'}; body=${responseBody.slice(0, 4000)}`);
+        }
         const mobileAvatarFiles = [
             'static/image/common/nosexbg.png',
             'static/image/smiley/BQ2/alu1.jpg',
@@ -200,7 +204,7 @@ const { execSync } = require('child_process');
         let mobileAvatarStatus = dbScalar(`SELECT avatarstatus FROM pre_common_member WHERE uid='${uid}'`);
         if (mobileAvatarStatus !== '1') {
             const validJpegBase64 = fs.readFileSync('static/image/smiley/BQ2/alu1.jpg').toString('base64');
-            await page.evaluate(async (b64) => {
+            const avatarUploadResult = await page.evaluate(async (b64) => {
                 let formhash = '';
                 const fhInput = document.querySelector('input[name="formhash"]');
                 if (fhInput) {
@@ -213,11 +217,16 @@ const { execSync } = require('child_process');
                 formData.append('avatar1', b64);
                 formData.append('avatar2', b64);
                 formData.append('avatar3', b64);
-                await fetch('api/avatar/index.php?m=user&inajax=1&a=rectavatar&avatartype=virtual&base64=yes', {
+                const response = await fetch('api/avatar/index.php?m=user&inajax=1&a=rectavatar&avatartype=virtual&base64=yes', {
                     method: 'POST',
                     body: formData
                 });
+                return {
+                    status: response.status,
+                    body: await response.text()
+                };
             }, validJpegBase64);
+            assert.strictEqual(avatarUploadResult.status, 200, `Mobile avatar upload failed: status=${avatarUploadResult.status}; body=${avatarUploadResult.body.slice(0, 4000)}`);
             await page.goto('http://127.0.0.1:8080/home.php?mod=spacecp&ac=avatar');
             await page.waitForLoadState('networkidle');
             mobileAvatarStatus = dbScalar(`SELECT avatarstatus FROM pre_common_member WHERE uid='${uid}'`);
