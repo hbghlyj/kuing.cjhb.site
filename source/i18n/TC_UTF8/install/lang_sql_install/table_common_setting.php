@@ -291,7 +291,7 @@ $data = [[
     'svalue' => '5',
   ],[
     'skey' => 'commentpostself',
-    'svalue' => '0',
+    'svalue' => '1',
   ],[
     'skey' => 'connect',
     'svalue' => 
