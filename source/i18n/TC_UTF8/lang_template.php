@@ -7,6 +7,9 @@
  */
 
 $lang = [
+	'e_math_inline' => '行內',
+	'e_math_display' => '行間',
+	'e_math_hint' => '行內公式：$...$；行間公式：\\[ ... \\]',
 	'activity_about_member' => '剩餘名額',
 	'activity_already' => '已參加人數',
 	'additional' => '附加',

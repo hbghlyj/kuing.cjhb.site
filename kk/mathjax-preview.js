@@ -163,15 +163,7 @@ var fastTexItems = [
 	{ "n": "$\\mathbf{v}$", "o": ["\\bm{", "}"] },
 
 	// 希腊字母
-	{ "n": "$\\alpha$", "o": "\\alpha " },
-	{ "n": "$\\beta$", "o": "\\beta " },
-	{ "n": "$\\gamma$", "o": "\\gamma " },
-	{ "n": "$\\theta$", "o": "\\theta " },
-	{ "n": "$\\lambda$", "o": "\\lambda " },
-	{ "n": "$\\varepsilon$", "o": "\\veps " },
-	{ "n": "$\\varphi$", "o": "\\varphi " },
-	{ "n": "$\\omega$", "o": "\\omega " },
-	{ "n": "$\\Delta$", "o": "\\Delta " },
+	{ "n": "$\\alpha$", "o": "\\alpha ", "greek": true },
 
 	// 几何符号
 	{ "n": "$\\triangle$", "o": "\\triangle " },
@@ -189,6 +181,40 @@ var fastTexItems = [
 	{ "n": "cases", "o": ["\\begin{cases}\n", "\n\\end{cases}", 0, 0] },
 	{ "n": "array", "o": insertArrayCode }
 ];
+
+var greekTexItems = [
+	'alpha', 'beta', 'gamma', 'delta', 'epsilon', 'zeta', 'eta', 'theta', 'iota', 'kappa', 'lambda', 'mu', 'nu', 'xi', 'o', 'pi', 'rho', 'sigma', 'tau', 'upsilon', 'phi', 'chi', 'psi', 'omega',
+	'Gamma', 'Delta', 'Theta', 'Lambda', 'Xi', 'Pi', 'Sigma', 'Upsilon', 'Phi', 'Psi', 'Omega'
+];
+
+function createGreekMenu() {
+	var menu = document.createElement('div');
+	menu.className = 'tex_greek_menu';
+	menu.innerHTML = '$\\alpha$';
+
+	var palette = document.createElement('div');
+	palette.className = 'tex_greek_palette';
+	for (var i = 0; i < greekTexItems.length; i++) {
+		var name = greekTexItems[i];
+		var letter = document.createElement('a');
+		letter.href = 'javascript:;';
+		letter.title = '\\' + name;
+		letter.innerHTML = name === 'o' ? 'o' : '$\\' + name + '$';
+		letter.onclick = (function(command) {
+			return function(event) {
+				event.preventDefault();
+				event.stopPropagation();
+				insertTexToEditor(command === 'o' ? 'o' : '\\' + command + ' ');
+			};
+		})(name);
+		palette.appendChild(letter);
+	}
+	menu.appendChild(palette);
+	menu.onclick = function() {
+		insertTexToEditor('\\alpha ');
+	};
+	return menu;
+}
 
 function renderFastTexSmilies() {
 	var fs = $("fastsmilies");
@@ -215,17 +241,21 @@ function renderFastTexSmilies() {
 			td.style.fontSize = "12px";
 			td.style.border = "1px solid #e8ece6";
 			td.style.background = "#fff";
-			td.innerHTML = item.n;
-
-			(function(action) {
-				td.onclick = function() {
-					if (typeof action === 'function') {
-						action();
-					} else {
-						insertTexToEditor(action);
-					}
-				};
-			})(item.o);
+			if (item.greek) {
+				td.className = 'tex_greek_cell';
+				td.appendChild(createGreekMenu());
+			} else {
+				td.innerHTML = item.n;
+				(function(action) {
+					td.onclick = function() {
+						if (typeof action === 'function') {
+							action();
+						} else {
+							insertTexToEditor(action);
+						}
+					};
+				})(item.o);
+			}
 
 			tr.appendChild(td);
 		}
