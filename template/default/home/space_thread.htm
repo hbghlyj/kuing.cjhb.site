@@ -222,6 +222,12 @@
 							<!--{/if}-->
 							<!--{/if}-->
 						</tr>
+						<!--{if $viewtype == 'postcomment'}-->
+						<tr>
+							<td class="icn">&nbsp;</td>
+							<td colspan="2" class="xg1">$thread[comment]</td>
+						</tr>
+						<!--{/if}-->
 						<!--{if $actives[me]}-->
 							<!--{loop $tids[$stid] $pid}-->
 							<tr>
