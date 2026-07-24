@@ -385,7 +385,7 @@ const { execSync } = require('child_process');
 
         const defaultThreadBody = await page.textContent('body');
         assert.ok(
-            defaultThreadBody.includes('admin') || defaultThreadBody.includes('Thread') || defaultThreadBody.length > 100,
+            defaultThreadBody.includes('admin'),
             'Assertion Error: Other user threads page (uid=1) did not load correctly.'
         );
 
@@ -396,7 +396,7 @@ const { execSync } = require('child_process');
 
         const viewReplyBody = await page.textContent('body');
         assert.ok(
-            viewReplyBody.includes('Reply') || viewReplyBody.includes('reply') || viewReplyBody.includes(username) || viewReplyBody.length > 100,
+            viewReplyBody.includes('Edited body text from unprivileged account.'),
             'Assertion Error: view=me&type=reply user replies page did not load correctly.'
         );
 
@@ -426,7 +426,7 @@ const { execSync } = require('child_process');
 
         const viewPostcommentBody = await page.textContent('body');
         assert.ok(
-            viewPostcommentBody.includes(postCommentText) || viewPostcommentBody.includes('postcomment') || viewPostcommentBody.includes(username) || viewPostcommentBody.length > 100,
+            viewPostcommentBody.includes(postCommentText),
             'Assertion Error: view=me&type=postcomment page did not load correctly.'
         );
 
@@ -534,7 +534,7 @@ const { execSync } = require('child_process');
         await page.goto('http://127.0.0.1:8080/home.php?mod=space&uid=1&do=profile');
         await page.waitForLoadState('networkidle');
         const otherProfileBody = await page.textContent('body');
-        assert.ok(otherProfileBody.includes('admin') || otherProfileBody.length > 100, 'Assertion Error: Desktop other user profile page did not load.');
+        assert.ok(otherProfileBody.includes('admin'), 'Assertion Error: Desktop other user profile page did not load.');
         await page.screenshot({ path: 'screenshot_desktop_other_user_profile.png' });
 
         console.log("Checking header for user custom avatar...");
@@ -706,7 +706,7 @@ const { execSync } = require('child_process');
 
         const nonImgViewthreadBody = await page.textContent('body');
         assert.ok(
-            nonImgViewthreadBody.includes('Thread with Non-Image Attachment') && (nonImgViewthreadBody.includes('sample_test_document.txt') || nonImgViewthreadBody.includes('attach') || nonImgViewthreadBody.includes('attachment') || nonImgViewthreadBody.length > 100),
+            nonImgViewthreadBody.includes('Thread with Non-Image Attachment') && nonImgViewthreadBody.includes('sample_test_document.txt'),
             'Assertion Error: Non-image attachment thread page did not load content in viewthread.'
         );
 

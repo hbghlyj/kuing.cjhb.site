@@ -267,14 +267,14 @@ const { execSync } = require('child_process');
         console.log('Testing mobile "My" center page...');
         await page.goto(`http://127.0.0.1:8080/home.php?mod=space&uid=${uid}&do=profile&mycenter=1`);
         await page.waitForLoadState('networkidle');
-        assert.ok((await page.textContent('body')).includes(username) || (await page.textContent('body')).length > 100, 'Assertion Error: Mobile My Center did not load content.');
+        assert.ok((await page.textContent('body')).includes(username), 'Assertion Error: Mobile My Center did not load the current user.');
         await page.screenshot({ path: 'screenshot_mobile_06_my_center.png' });
 
         console.log("Testing mobile other user's profile page (admin uid=1)...");
         await page.goto('http://127.0.0.1:8080/home.php?mod=space&uid=1&do=profile');
         await page.waitForLoadState('networkidle');
         const mobileOtherProfileBody = await page.textContent('body');
-        assert.ok(mobileOtherProfileBody.includes('admin') || mobileOtherProfileBody.length > 100, 'Assertion Error: Mobile other user profile page did not load.');
+        assert.ok(mobileOtherProfileBody.includes('admin'), 'Assertion Error: Mobile other user profile page did not load.');
         await page.screenshot({ path: 'screenshot_mobile_other_user_profile.png' });
 
         console.log("Testing mobile User Replies Page (home.php?mod=space&do=thread&view=me&type=reply)...");
@@ -282,7 +282,7 @@ const { execSync } = require('child_process');
         await page.waitForLoadState('networkidle');
         const mobileReplyBody = await page.textContent('body');
         assert.ok(
-            mobileReplyBody.includes('Reply') || mobileReplyBody.includes('reply') || mobileReplyBody.includes(username) || mobileReplyBody.length > 100,
+            mobileReplyBody.includes(reply),
             'Assertion Error: Mobile view=me&type=reply user replies page did not load correctly.'
         );
         await page.screenshot({ path: 'screenshot_mobile_space_thread_reply.png' });
@@ -311,7 +311,7 @@ const { execSync } = require('child_process');
         await page.waitForLoadState('networkidle');
         const mobilePostcommentBody = await page.textContent('body');
         assert.ok(
-            mobilePostcommentBody.includes(mobilePostCommentText) || mobilePostcommentBody.includes('postcomment') || mobilePostcommentBody.includes(username) || mobilePostcommentBody.length > 100,
+            mobilePostcommentBody.includes(mobilePostCommentText),
             'Assertion Error: Mobile view=me&type=postcomment page did not load correctly.'
         );
         await page.screenshot({ path: 'screenshot_mobile_space_thread_postcomment.png' });
