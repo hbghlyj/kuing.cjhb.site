@@ -440,7 +440,7 @@ const { execSync } = require('child_process');
 
         console.log("Posting postcomment and testing type=postcomment page...");
         const postCommentText = 'Test postcomment content text.';
-        const firstPid = dbScalar(`SELECT pid FROM pre_forum_post WHERE tid='${tidOutput}' AND first=1 LIMIT 1`);
+        const firstPid = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT pid FROM pre_forum_post WHERE tid='${tidOutput}' AND first=1 LIMIT 1;"`).toString().trim();
         if (firstPid) {
             await page.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${tidOutput}`);
             await page.waitForLoadState('networkidle');
