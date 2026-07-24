@@ -223,8 +223,8 @@ const { execSync } = require('child_process');
         await page.locator('#postsubmit').click();
         await page.waitForURL(/forum\.php\?mod=viewthread/, { timeout: 5000 });
         await page.waitForLoadState('networkidle');
-        await waitForDbValue(`SELECT COUNT(*) FROM pre_forum_post WHERE tid='${tid}' AND message='${reply}'`, '1', 'Assertion Error: Mobile reply was not created');
-        const replyPid = dbScalar(`SELECT pid FROM pre_forum_post WHERE tid='${tid}' AND message='${reply}' ORDER BY pid DESC LIMIT 1`);
+        await waitForDbValue(`SELECT COUNT(*) FROM pre_forum_post WHERE tid='${nonImgMobileTid}' AND message='${reply}'`, '1', 'Assertion Error: Mobile reply was not created');
+        const replyPid = dbScalar(`SELECT pid FROM pre_forum_post WHERE tid='${nonImgMobileTid}' AND message='${reply}' ORDER BY pid DESC LIMIT 1`);
         assert.ok(replyPid, 'Assertion Error: Mobile reply ID was not found.');
 
         console.log('Editing mobile reply...');
