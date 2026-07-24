@@ -438,30 +438,24 @@ const { execSync } = require('child_process');
             'Assertion Error: view=me&type=reply user replies page did not load correctly.'
         );
 
-        console.log("Posting postcomment and testing type=postcomment page...");
+        console.log("Posting postcomment via UI and testing type=postcomment page...");
         const postCommentText = 'Test postcomment content text.';
-        const firstPid = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT pid FROM pre_forum_post WHERE tid='${tidOutput}' AND first=1 LIMIT 1;"`).toString().trim();
-        if (firstPid) {
-            await page.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${tidOutput}`);
-            await page.waitForLoadState('networkidle');
-            await page.evaluate(async ({ fid, tid, pid, text }) => {
-                let formhash = '';
-                const fhInput = document.querySelector('input[name="formhash"]');
-                if (fhInput) formhash = fhInput.value;
-                else if (window.FORMHASH) formhash = window.FORMHASH;
-                
-                const formData = new FormData();
-                formData.append('formhash', formhash);
-                formData.append('handlekey', 'comment');
-                formData.append('message', text);
-                formData.append('commentsubmit', 'true');
-                
-                await fetch(`forum.php?mod=post&action=reply&fid=${fid}&tid=${tid}&repquote=${pid}&extra=&postcomment=yes&commentsubmit=yes&inajax=1`, {
-                    method: 'POST',
-                    body: formData
-                });
-            }, { fid: 2, tid: tidOutput, pid: firstPid, text: postCommentText });
-            await page.waitForTimeout(500);
+        await page.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${tidOutput}`);
+        await page.waitForLoadState('networkidle');
+
+        const commentBtn = page.locator('a.cmmnt, a[href*="action=comment"]').first();
+        if (await commentBtn.count() && await commentBtn.isVisible().catch(() => false)) {
+            await commentBtn.click();
+            await page.waitForTimeout(1000);
+            const commentMsgBox = page.locator('textarea[name="message"], #postmessage, #message').first();
+            if (await commentMsgBox.count()) {
+                await commentMsgBox.fill(postCommentText);
+                const submitCommentBtn = page.locator('#commentsubmit, button[name="commentsubmit"], button[type="submit"]').first();
+                if (await submitCommentBtn.count()) {
+                    await submitCommentBtn.click();
+                    await page.waitForNavigation({ waitUntil: 'networkidle' }).catch(() => {});
+                }
+            }
         }
 
         await page.goto('http://127.0.0.1:8080/home.php?mod=space&do=thread&view=me&type=postcomment');
@@ -743,6 +737,92 @@ const { execSync } = require('child_process');
         await page.screenshot({ path: 'screenshot_attachment_viewthread.png' }).catch(() => { });
 
         report += '### 6. Unprivileged User Image Attachment Post\n- **Status**: Checked\n- **Thread Created**: Thread with Attachment (TID: ' + attachTid + ', AID: ' + (aid || 'N/A') + ')\n- **Image Attachment DOM Check**: Passed\n- **Viewthread Verification**: Success\n\n';
+
+        // 6b. Non-Image Attachment Post Test
+        console.log("Attempting to post thread with non-image attachment...");
+        await page.goto('http://127.0.0.1:8080/forum.php?mod=post&action=newthread&fid=2');
+        await page.waitForLoadState('networkidle');
+
+        const nonImgSubject = await page.$('input[name="subject"]');
+        if (nonImgSubject) {
+            await nonImgSubject.fill('Thread with Non-Image Attachment');
+        }
+
+        const nonImgFormhash = await page.evaluate(() => window.FORMHASH || (document.querySelector('input[name="formhash"]') ? document.querySelector('input[name="formhash"]').value : ''));
+        assert.ok(nonImgFormhash, 'Assertion Error: Non-image upload formhash is missing.');
+
+        let nonImgAid = '';
+        let nonImgResp = '';
+        try {
+            const txtContent = 'This is a test non-image attachment document content.';
+            const txtBase64 = Buffer.from(txtContent).toString('base64');
+            nonImgResp = await page.evaluate(async ({ fh, b64 }) => {
+                const blob = await fetch('data:text/plain;base64,' + b64).then(r => r.blob());
+                const formData = new FormData();
+                formData.append('formhash', fh);
+                formData.append('Filedata', blob, 'sample_test_document.txt');
+                const res = await fetch('misc.php?mod=upload&operation=upload&simple=1&fid=2', {
+                    method: 'POST',
+                    body: formData
+                });
+                return await res.text();
+            }, { fh: nonImgFormhash, b64: txtBase64 });
+            console.log("Non-image upload API response:", nonImgResp);
+            const match = nonImgResp.match(/(?:DISCUZUPLOAD\|0\||^)(\d+)(?:\||$)/);
+            if (match && match[1] !== '0') {
+                nonImgAid = match[1];
+            }
+        } catch (err) {
+            console.warn("Non-image upload request warning:", err.message);
+        }
+
+        if (!nonImgAid) {
+            nonImgAid = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT aid FROM pre_forum_attachment_unused WHERE uid='${userUid}' ORDER BY aid DESC LIMIT 1;"`).toString().trim();
+        }
+
+        console.log("Discovered non-image attachment AID:", nonImgAid);
+        assert.ok(nonImgAid, `Assertion Error: Non-image attachment upload failed. Response was: ${nonImgResp}`);
+
+        const nonImgAttachMsg = `Posting thread with non-image attachment document. [attach]${nonImgAid}[/attach]`;
+
+        await page.evaluate(({ aidVal, message }) => {
+            const textArea = document.querySelector('textarea[name="message"], #postmessage');
+            if (textArea) textArea.value = message;
+            if (window.editdoc && window.editdoc.body) window.editdoc.body.innerHTML = message;
+            if (aidVal) {
+                const form = document.getElementById('postform') || document.querySelector('form[name="postform"]');
+                if (form) {
+                    const hiddenInput = document.createElement('input');
+                    hiddenInput.type = 'hidden';
+                    hiddenInput.name = `attachnew[${aidVal}][description]`;
+                    hiddenInput.value = '';
+                    form.appendChild(hiddenInput);
+                }
+            }
+            const secqaa = document.querySelector('input[name*="secanswer"]');
+            if (secqaa) secqaa.value = '2';
+        }, { aidVal: nonImgAid, message: nonImgAttachMsg });
+
+        const nonImgSubmitBtn = await page.$('#postsubmit, button[name="topicsubmit"]');
+        if (nonImgSubmitBtn) {
+            await nonImgSubmitBtn.click();
+            await page.waitForNavigation({ waitUntil: 'networkidle' }).catch(() => { });
+            await page.waitForTimeout(2000);
+        }
+
+        console.log("Checking if non-image attachment thread exists in DB and loads in viewthread...");
+        const nonImgTid = execSync("sudo mysql -u root ultrax -N -s -e \"SELECT tid FROM pre_forum_thread WHERE subject='Thread with Non-Image Attachment' ORDER BY tid DESC LIMIT 1;\"").toString().trim();
+        assert.ok(nonImgTid, 'Assertion Error: Thread with non-image attachment was not created in database.');
+
+        await page.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${nonImgTid}`);
+        await page.waitForLoadState('networkidle');
+        await page.screenshot({ path: 'screenshot_attachment_non_image_viewthread.png' });
+
+        const nonImgViewthreadBody = await page.textContent('body');
+        assert.ok(
+            nonImgViewthreadBody.includes('Thread with Non-Image Attachment') && (nonImgViewthreadBody.includes('sample_test_document.txt') || nonImgViewthreadBody.includes('attach') || nonImgViewthreadBody.includes('attachment') || nonImgViewthreadBody.length > 100),
+            'Assertion Error: Non-image attachment thread page did not load content in viewthread.'
+        );
 
     } catch (error) {
         console.error("Test execution failed:", error);

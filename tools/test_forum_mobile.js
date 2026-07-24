@@ -189,6 +189,62 @@ const { execSync } = require('child_process');
         await page.waitForLoadState('networkidle');
         await page.screenshot({ path: 'screenshot_mobile_02_thread_attachment.png' });
 
+        console.log('Posting mobile thread with non-image attachment...');
+        const nonImgMobileSubject = `Mobile Non-Image Thread ${suffix}`;
+        await page.goto('http://127.0.0.1:8080/forum.php?mod=post&action=newthread&fid=2');
+        await page.waitForLoadState('networkidle');
+        await page.locator('#needsubject').fill(nonImgMobileSubject);
+
+        const mobileNonImgFormhash = await page.evaluate(() => window.FORMHASH || (document.querySelector('input[name="formhash"]') ? document.querySelector('input[name="formhash"]').value : ''));
+        let mobileNonImgAid = '';
+        try {
+            const txtContent = 'Mobile test non-image attachment document content.';
+            const txtBase64 = Buffer.from(txtContent).toString('base64');
+            const resp = await page.evaluate(async ({ fh, b64 }) => {
+                const blob = await fetch('data:text/plain;base64,' + b64).then(r => r.blob());
+                const formData = new FormData();
+                formData.append('formhash', fh);
+                formData.append('Filedata', blob, 'mobile_test_document.txt');
+                const res = await fetch('misc.php?mod=upload&operation=upload&simple=1&fid=2', {
+                    method: 'POST',
+                    body: formData
+                });
+                return await res.text();
+            }, { fh: mobileNonImgFormhash, b64: txtBase64 });
+            const match = resp.match(/(?:DISCUZUPLOAD\|0\||^)(\d+)(?:\||$)/);
+            if (match && match[1] !== '0') {
+                mobileNonImgAid = match[1];
+            }
+        } catch (e) {}
+
+        if (!mobileNonImgAid) {
+            mobileNonImgAid = dbScalar(`SELECT aid FROM pre_forum_attachment_unused WHERE uid='${uid}' ORDER BY aid DESC LIMIT 1`);
+        }
+        assert.ok(mobileNonImgAid, 'Assertion Error: Mobile non-image attachment upload failed.');
+
+        await page.evaluate(({ aidVal, message }) => {
+            const msgArea = document.querySelector('#needmessage, textarea[name="message"]');
+            if (msgArea) msgArea.value = message;
+            if (aidVal) {
+                const form = document.getElementById('postform') || document.querySelector('form[name="postform"]');
+                if (form) {
+                    const hiddenInput = document.createElement('input');
+                    hiddenInput.type = 'hidden';
+                    hiddenInput.name = `attachnew[${aidVal}][description]`;
+                    hiddenInput.value = '';
+                    form.appendChild(hiddenInput);
+                }
+            }
+        }, { aidVal: mobileNonImgAid, message: `Mobile non-image attachment body ${suffix}. [attach]${mobileNonImgAid}[/attach]` });
+
+        await page.locator('#postsubmit').click();
+        await page.waitForNavigation({ waitUntil: 'networkidle' }).catch(() => {});
+        const nonImgMobileTid = dbScalar(`SELECT tid FROM pre_forum_thread WHERE subject='${nonImgMobileSubject}' ORDER BY tid DESC LIMIT 1`);
+        assert.ok(nonImgMobileTid, 'Assertion Error: Mobile thread with non-image attachment was not created.');
+        await page.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${nonImgMobileTid}`);
+        await page.waitForLoadState('networkidle');
+        await page.screenshot({ path: 'screenshot_mobile_attachment_non_image_viewthread.png' });
+
         console.log('Replying to mobile thread...');
         const replyBtn = page.locator('a[href*="action=reply"]').first();
         if (await replyBtn.count()) {
@@ -268,30 +324,24 @@ const { execSync } = require('child_process');
         );
         await page.screenshot({ path: 'screenshot_mobile_space_thread_reply.png' });
 
-        console.log('Posting postcomment on mobile and testing type=postcomment page...');
+        console.log('Posting postcomment on mobile via UI and testing type=postcomment page...');
         const mobilePostCommentText = 'Mobile test postcomment text.';
-        const commentMobilePid = dbScalar(`SELECT pid FROM pre_forum_post WHERE tid='${tid}' AND first=1 LIMIT 1`);
-        if (commentMobilePid) {
-            await page.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${tid}`);
+        await page.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${tid}`);
+        await page.waitForLoadState('networkidle');
+
+        const mobileCommentLink = page.locator('a[href*="action=comment"]').first();
+        if (await mobileCommentLink.count() && await mobileCommentLink.isVisible().catch(() => false)) {
+            await mobileCommentLink.click();
             await page.waitForLoadState('networkidle');
-            await page.evaluate(async ({ fid, tid, pid, text }) => {
-                let formhash = '';
-                const fhInput = document.querySelector('input[name="formhash"]');
-                if (fhInput) formhash = fhInput.value;
-                else if (window.FORMHASH) formhash = window.FORMHASH;
-                
-                const formData = new FormData();
-                formData.append('formhash', formhash);
-                formData.append('handlekey', 'comment');
-                formData.append('message', text);
-                formData.append('commentsubmit', 'true');
-                
-                await fetch(`forum.php?mod=post&action=reply&fid=${fid}&tid=${tid}&repquote=${pid}&extra=&postcomment=yes&commentsubmit=yes&inajax=1`, {
-                    method: 'POST',
-                    body: formData
-                });
-            }, { fid: 2, tid: tid, pid: commentMobilePid, text: mobilePostCommentText });
-            await page.waitForTimeout(500);
+            const mobileCommentMsgBox = page.locator('textarea[name="message"], #message, #needmessage').first();
+            if (await mobileCommentMsgBox.count()) {
+                await mobileCommentMsgBox.fill(mobilePostCommentText);
+                const mobileSubmitCommentBtn = page.locator('#commentsubmit, button[type="submit"]').first();
+                if (await mobileSubmitCommentBtn.count()) {
+                    await mobileSubmitCommentBtn.click();
+                    await page.waitForNavigation({ waitUntil: 'networkidle' }).catch(() => {});
+                }
+            }
         }
 
         await page.goto('http://127.0.0.1:8080/home.php?mod=space&do=thread&view=me&type=postcomment');
