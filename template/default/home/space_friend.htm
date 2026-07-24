@@ -221,7 +221,7 @@
 									<!--{if $_GET['view'] == 'blacklist'}-->
 										<a href="home.php?mod=spacecp&ac=friend&op=blacklist&subop=delete&uid=$value[uid]&start=$_GET[start]">{lang delete_blacklist}</a>
 									<!--{elseif $_GET['view'] == 'visitor' || $_GET['view'] == 'trace'}-->
-										<!--{date($value['dateline'], 'n{lang month}j{lang day}')}-->
+										<!--{date($value['dateline'], 'd')}-->&nbsp;
 										<a href="home.php?mod=spacecp&ac=friend&op=changenum&uid=$value[uid]&handlekey=hotuserhk_{$value[uid]}" id="friendnum_$value[uid]" onclick="showWindow(this.id, this.href, 'get', 0);" title="{lang hot}">{lang hot}(<span id="spannum_$value[uid]">$value[num]</span>)</a>
 									<!--{/if}-->
 									</span>
