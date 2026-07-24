@@ -10,7 +10,7 @@
 	</span>
 </h3>
 <!--{if $_GET[action] == 'edit'}--><!--{eval $message = $postinfo['message'];}--><!--{/if}-->
-<form method="post" autocomplete="off" id="postform" action="forum.php?mod=post&infloat=yes&action=$_GET[action]&fid=$_G[fid]&extra=$extra{if $_GET[action] == 'newthread'}&topicsubmit=yes{elseif $_GET[action] == 'reply'}&tid=$_G[tid]&replysubmit=yes{elseif $_GET[action] == 'edit'}&editsubmit=yes{/if}" onsubmit="this.message.value = parseurl(this.message.value);{if !empty($_GET['infloat'])}ajaxpost('postform', 'return_$_GET['handlekey']', 'return_$_GET['handlekey']', 'onerror');return false;{/if}">
+<form method="post" autocomplete="off" id="postform" action="forum.php?mod=post&infloat=yes&action=$_GET[action]&fid=$_G[fid]&extra=$extra{if $_GET[action] == 'newthread'}&topicsubmit=yes{elseif $_GET[action] == 'reply'}&tid=$_G[tid]&replysubmit=yes{elseif $_GET[action] == 'edit'}&editsubmit=yes{/if}" onsubmit="this.message.value = parseurl(this.message.value);{if !empty($_GET['infloat'])}ajaxpost(this, 'return_$_GET['handlekey']', 'return_$_GET['handlekey']', 'onerror');return false;{/if}">
 	<div class="c" id="floatlayout_$_GET[action]">
 		<div class="p_c">
 			<input type="hidden" name="formhash" id="formhash" value="{FORMHASH}" />
