@@ -63,7 +63,10 @@ const { execSync } = require('child_process');
         const secqaaInput = registrationForm.locator('input[name*="secanswer"]');
         if (await secqaaInput.count()) await secqaaInput.fill('2');
 
-        const regSubmitBtn = registrationForm.locator('button[type="submit"], input[type="submit"], button[name="regsubmit"], #registerformsubmit').first();
+        let regSubmitBtn = registrationForm.locator('button[type="submit"], input[type="submit"], button[name="regsubmit"], #registerformsubmit, button.formdialog, .btn_register button').first();
+        if (await regSubmitBtn.count() === 0) {
+            regSubmitBtn = page.locator('button[name="regsubmit"], .btn_register button, button[type="submit"], input[type="submit"], button.formdialog, #registerformsubmit').first();
+        }
         assert.ok(await regSubmitBtn.count() > 0, 'Assertion Error: Mobile registration submit button did not render.');
         const registrationResponse = page.waitForResponse(response => response.request().method() === 'POST' && response.url().includes('member.php?mod=register'));
         await regSubmitBtn.click();
