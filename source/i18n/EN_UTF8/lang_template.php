@@ -434,6 +434,11 @@ $lang = array (
 	'mypost'			=> 'Posts',//'帖子',
 	'viewed_threads'		=> 'Viewed threads',//'浏览过的帖子',
 	'viewed_forums'			=> 'Viewed boards',//'浏览过的版块',
+	'post_tag'			=> 'Tags',//'标签',
+	'choosetag'			=> 'Select tags',//'选择标签',
+	'posttag_comment_forbidadd'	=> ', only existing tags can be selected',//'，只能选择已有标签',
+	'posttag_comment'		=> 'Separate multiple tags with commas or spaces',//'用逗号或空格隔开多个标签',
+	'recent_use_tag'		=> 'Recently used tags:',//'最近使用标签:',
 
 'm_loading' => 'Loading...',//'正在加载...',
 'm_its_all' => 'All displayed',//'已显示全部',
