@@ -400,36 +400,6 @@ const { execSync } = require('child_process');
             'Assertion Error: view=me&type=reply user replies page did not load correctly.'
         );
 
-        console.log("Posting postcomment via UI and testing type=postcomment page...");
-        const postCommentText = 'Test postcomment content text.';
-        await page.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${tidOutput}`);
-        await page.waitForLoadState('networkidle');
-
-        const commentBtn = page.locator('a.cmmnt, a[href*="action=comment"]').first();
-        if (await commentBtn.count() && await commentBtn.isVisible().catch(() => false)) {
-            await commentBtn.click();
-            await page.waitForTimeout(1000);
-            const commentMsgBox = page.locator('textarea[name="message"], #postmessage, #message').first();
-            if (await commentMsgBox.count()) {
-                await commentMsgBox.fill(postCommentText);
-                const submitCommentBtn = page.locator('#commentsubmit, button[name="commentsubmit"], button[type="submit"]').first();
-                if (await submitCommentBtn.count()) {
-                    await submitCommentBtn.click();
-                    await page.waitForNavigation({ waitUntil: 'networkidle' }).catch(() => {});
-                }
-            }
-        }
-
-        await page.goto('http://127.0.0.1:8080/home.php?mod=space&do=thread&view=me&type=postcomment');
-        await page.waitForLoadState('networkidle');
-        await page.screenshot({ path: 'screenshot_desktop_space_thread_postcomment.png' });
-
-        const viewPostcommentBody = await page.textContent('body');
-        assert.ok(
-            viewPostcommentBody.includes(postCommentText),
-            'Assertion Error: view=me&type=postcomment page did not load correctly.'
-        );
-
         console.log("Testing Thread Recommendation and Hot Reply Voting via UI...");
         await page.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${tidOutput}`);
         await page.waitForLoadState('networkidle');
@@ -507,6 +477,41 @@ const { execSync } = require('child_process');
 
             const adminReplyDbCheck = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT COUNT(*) FROM pre_forum_post WHERE tid='${tidOutput}' AND authorid=1 AND first=0 AND message LIKE '%Admin quote reply to user thread.%';"`).toString().trim();
             assert.ok(parseInt(adminReplyDbCheck, 10) >= 1, 'Assertion Error: Admin quote reply was not created in database.');
+
+            console.log("Posting postcomment via UI and testing type=postcomment page...");
+            const postCommentText = 'Test postcomment content text.';
+            const adminReplyPid = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT pid FROM pre_forum_post WHERE tid='${tidOutput}' AND authorid=1 AND first=0 AND message LIKE '%Admin quote reply to user thread.%' ORDER BY pid DESC LIMIT 1;"`).toString().trim();
+            assert.ok(adminReplyPid, 'Assertion Error: Admin reply post ID was not found.');
+
+            await page.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${tidOutput}`);
+            await page.waitForLoadState('networkidle');
+            const commentBtn = page.locator(`a.cmmnt[href*="pid=${adminReplyPid}"]`);
+            assert.strictEqual(await commentBtn.count(), 1, 'Assertion Error: Comment control did not render for the admin reply.');
+            await commentBtn.click();
+
+            const commentForm = page.locator('#fwin_comment form#commentform');
+            await commentForm.waitFor({ state: 'visible' });
+            const commentMessage = commentForm.locator('#commentmessage');
+            const submitCommentBtn = commentForm.locator('#commentsubmit');
+            assert.strictEqual(await commentMessage.count(), 1, 'Assertion Error: Post comment message input did not render.');
+            assert.strictEqual(await submitCommentBtn.count(), 1, 'Assertion Error: Post comment submit button did not render.');
+            await commentMessage.fill(postCommentText);
+            await Promise.all([
+                page.waitForResponse(response => response.request().method() === 'POST' && response.url().includes('mod=post') && response.url().includes('commentsubmit=yes')),
+                submitCommentBtn.click()
+            ]);
+
+            const postCommentDbCheck = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT COUNT(*) FROM pre_forum_postcomment WHERE authorid='${userUid}' AND pid='${adminReplyPid}' AND comment='${postCommentText}';"`).toString().trim();
+            assert.strictEqual(postCommentDbCheck, '1', 'Assertion Error: Post comment was not created in database.');
+
+            await page.goto('http://127.0.0.1:8080/home.php?mod=space&do=thread&view=me&type=postcomment');
+            await page.waitForLoadState('networkidle');
+            await page.screenshot({ path: 'screenshot_desktop_space_thread_postcomment.png' });
+            const viewPostcommentBody = await page.textContent('body');
+            assert.ok(
+                viewPostcommentBody.includes(postCommentText),
+                'Assertion Error: view=me&type=postcomment page did not load correctly.'
+            );
 
             await page.goto('http://127.0.0.1:8080/home.php?mod=space&do=notice');
             await page.waitForLoadState('networkidle');
