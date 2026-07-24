@@ -631,7 +631,7 @@ function _parsetable_cell_generator($param1, $colspan, $rowspan, $width, $curren
 
 function parseaudio($url, $width = 400) {
 	$url = addslashes($url);
-	if(!in_array(strtolower(substr($url, 0, 6)), ['http:/', 'https:', 'ftp://']) && !preg_match('/^static\//', $url) && !preg_match('/^data\//', $url)) {
+	if(!preg_match('/^(https?|ftp):\/\//i', $url) && !preg_match('/^static\//', $url) && !preg_match('/^data\//', $url)) {
 		return dhtmlspecialchars($url);
 	}
 	$type = fileext($url);
@@ -661,7 +661,7 @@ function parsemedia($params, $url) {
 	$height = defined('IN_MOBILE') ? 'auto' : $height;
 
 	$url = addslashes($url);
-	if(!in_array(strtolower(substr($url, 0, 6)), ['http:/', 'https:', 'ftp://', 'rtsp:/', 'mms://']) && !preg_match('/^static\//', $url) && !preg_match('/^data\//', $url)) {
+	if(!preg_match('/^(https?|ftp|rtsp|mms):\/\//i', $url) && !preg_match('/^static\//', $url) && !preg_match('/^data\//', $url)) {
 		return dhtmlspecialchars($url);
 	}
 
@@ -695,7 +695,7 @@ function bbcodeurl($url, $tags) {
 	if(str_starts_with($url, 'data:image')) {
 	} elseif(str_starts_with($url, 'www.')) {
 		$url = '//'.$url;
-	} elseif(!in_array(strtolower(substr($url, 0, 8)), ['http://', 'https://']) && !in_array(strtolower(substr($url, 0, 6)), ['ftp://', 'rtsp:/', 'mms://']) && !str_starts_with($url, '//') && !str_starts_with($url, '/') && !preg_match('/^static\//', $url) && !preg_match('/^data\//', $url)) {
+	} elseif(!preg_match('/^(https?|ftp|rtsp|mms):\/\//i', $url) && !str_starts_with($url, '//') && !str_starts_with($url, '/') && !preg_match('/^static\//', $url) && !preg_match('/^data\//', $url)) {
 		$url = 'http://'.$url;
 	}
 	return str_replace(['submit', 'member.php?mod=logging'], ['', ''], str_replace('{url}', addslashes($url), $tags));
