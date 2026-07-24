@@ -311,14 +311,14 @@ function initFastTexMode() {
 	update();
 }
 
-function initMathJaxPreview() {
+function initFullEditorMathControls() {
 	renderFastTexSmilies();
 	initFastTexMode();
-	initLivePreview();
 }
 
 if (typeof bbcode2html === 'function') {
-	initMathJaxPreview();
+	initFullEditorMathControls();
+	initLivePreview();
 } else {
 	// Simple editors do not include bbcode.js, unlike the full post editor.
 	// Supply safe preview defaults before loading the shared converter.
@@ -330,6 +330,6 @@ if (typeof bbcode2html === 'function') {
 
 	var bbcodeScript = document.createElement('script');
 	bbcodeScript.src = (typeof JSPATH !== 'undefined' ? JSPATH : 'static/js/') + 'bbcode.js';
-	bbcodeScript.onload = initMathJaxPreview;
+	bbcodeScript.onload = initLivePreview;
 	document.head.appendChild(bbcodeScript);
 }
