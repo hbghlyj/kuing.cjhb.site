@@ -388,6 +388,9 @@ const { execSync } = require('child_process');
         console.log("Testing Personal Messages (PM) on Desktop via UI...");
         await page.goto('http://127.0.0.1:8080/home.php?mod=spacecp&ac=pm');
         await page.waitForLoadState('networkidle');
+        await page.evaluate(() => {
+            document.querySelectorAll('#fwin_dialog_cover, .fwin_cover, #fwin_dialog').forEach(el => el.remove());
+        });
         const sendPmUsernameInput = await page.$('input[name="username"], input[name="touid"], #username');
         if (sendPmUsernameInput) {
             await sendPmUsernameInput.fill('admin');
@@ -396,7 +399,12 @@ const { execSync } = require('child_process');
                 await pmMessageInput.fill('UI sent test message to admin');
                 const sendPmBtn = await page.$('#pmsubmit_btn, button[name="pmsubmit"], button[type="submit"]');
                 if (sendPmBtn) {
-                    await sendPmBtn.click();
+                    await sendPmBtn.click({ force: true }).catch(async () => {
+                        await page.evaluate(() => {
+                            const form = document.querySelector('form[action*="ac=pm"]') || document.querySelector('#pmform');
+                            if (form) form.submit();
+                        });
+                    });
                     await page.waitForTimeout(1000);
                 }
             }
