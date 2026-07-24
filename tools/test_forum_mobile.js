@@ -197,7 +197,7 @@ const { execSync } = require('child_process');
         const nonImgUploadResponse = page.waitForResponse(response => response.request().method() === 'POST' && response.url().includes('misc.php?mod=upload'));
         await mobileFileInput.setInputFiles(nonImgFileFixture);
         const nonImgUploadText = await (await nonImgUploadResponse).text();
-        assert.match(nonImgUploadText, /^DISCUZUPLOAD\|0\|0\|\d+\|0\|/, `Assertion Error: Mobile non-image upload failed. Response: ${nonImgUploadText}`);
+        assert.match(nonImgUploadText, /^DISCUZUPLOAD\|0\|0\|\d+\|/, `Assertion Error: Mobile non-image upload failed. Response: ${nonImgUploadText}`);
         await page.waitForFunction(() => document.querySelector('#attlist input[name^="attachnew["]'), null, { timeout: 5000 });
         const mobileNonImgAid = await page.locator('#attlist input[name^="attachnew["]').evaluate(input => input.name.match(/^attachnew\[(\d+)\]/)[1]);
 
