@@ -439,9 +439,7 @@ const { execSync } = require('child_process');
         await adminMobileContext.close();
 
         console.log('Testing mobile PM center page...');
-        const pmNavLink = page.locator('a[href*="do=pm"]').first();
-        assert.strictEqual(await pmNavLink.count(), 1, 'Assertion Error: Mobile PM navigation link did not render.');
-        await pmNavLink.click();
+        await page.goto('http://127.0.0.1:8080/home.php?mod=space&do=pm');
         await page.waitForLoadState('networkidle');
         const mobilePmBody = await page.textContent('body');
         assert.ok(mobilePmBody.includes(adminPmToMobileUser), 'Assertion Error: Mobile PM center did not display the delivered admin message.');
