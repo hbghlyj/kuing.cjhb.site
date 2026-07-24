@@ -323,6 +323,16 @@ $_config['output']['upgradeinsecure'] = 1;
 - 原 `misc.php?mod=swfupload` 路由不再兼容；调用该接口的插件和自定义模板必须改用新路由。
 - HTML5 兼容封装由 `static/js/discuz_uploader.js` 提供，全局构造器为 `DiscuzUploader`。第三方 `static/js/webuploader/` 库名保持不变。
 
+### 用户个人空间在线状态与移动端排版修正
+
+- **用户个人空间在线状态机制**：
+  - 在个人主页（`home.php?mod=space&uid=X&do=profile`）中，系统通过 `getonlinemember([$space['uid']])` 查询 `pre_common_session` 表判断用户在线状态。
+  - 若目标用户未在线，或设置了“隐身登录”（`invisible = 1`），`$_G['ols'][$uid]` 不会设置，在线指示点（`.olicon`）将保持隐藏。只有用户处于在线且非隐身状态时才会显示在线状态标志。
+- **移动端主题标签与图片附件排版**：
+  - 主题内容中通过 `[attachimg]` 插入的图片附件会解析为 `.savephotop` 容器。已在 `template/default/touch/common/common.css` 中为 `.savephotop` 补充 `display: block; clear: both;` 以及 `.plc .pi .message` 的 BFC (`overflow: hidden`)，防止内联图片溢出导致主题标签（`.ptg`）在右侧同行错位。
+- **编辑器自动保存国际化键名修正**：
+  - `EN_UTF8/lang_js.php` 补充了前端 `editor.js` 调用的 `second_save`（`Auto-save in {1}s`）、`last_save_time` 等国际化键名，修复了英文环境下自动保存倒计时 fallback 异常问题。
+
 ## Update Rule
 
 以下情况必须在同一个变更中同步更新 `UPGRADE_NOTES.md`：
