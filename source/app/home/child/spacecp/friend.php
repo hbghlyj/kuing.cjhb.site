@@ -487,7 +487,7 @@ if($op == 'add') {
 	$gid = isset($_GET['gid']) ? intval($_GET['gid']) : -1;
 	if($page < 1) $page = 1;
 	$start = ($page - 1) * $perpage;
-	$json = [];
+	$userdata = [];
 	$wheresql = '';
 	if($gid > -1) {
 		$wheresql .= " AND f.gid='$gid'";
@@ -501,10 +501,12 @@ if($op == 'add') {
 		$count_at = table_home_follow::t()->count_by_uid_username($_G['uid'], $_GET['username']);
 		if($count_at) {
 			foreach(table_home_follow::t()->fetch_all_by_uid_username($_G['uid'], $_GET['username'], $start, $perpage) as $value) {
-				$value['fusername'] = daddslashes($value['fusername']);
-				$value['avatar'] = avatar($value['followuid'], 'small', true);
 				$singlenum++;
-				$json[$value['followuid']] = "{$value['followuid']}:{'uid':{$value['followuid']}, 'username':'{$value['fusername']}', 'avatar':'{$value['avatar']}'}";
+				$userdata[$value['followuid']] = [
+					'uid' => intval($value['followuid']),
+					'username' => $value['fusername'],
+					'avatar' => avatar($value['followuid'], 'small', true),
+				];
 			}
 			$perpage = $perpage - $singlenum;
 			$start = max($start - $count_at, 0);
@@ -523,14 +525,20 @@ if($op == 'add') {
 
 			$usernames = table_common_member::t()->fetch_all_username_by_uid($usrids);
 			foreach($homefriend as $value) {
-				$value['fusername'] = daddslashes($usernames[$value['fuid']]);
-				$value['avatar'] = avatar($value['fuid'], 'small', true);
 				$singlenum++;
-				$json[$value['fuid']] = "{$value['fuid']}:{'uid':{$value['fuid']}, 'username':'{$value['fusername']}', 'avatar':'{$value['avatar']}'}";
+				$userdata[$value['fuid']] = [
+					'uid' => intval($value['fuid']),
+					'username' => $usernames[$value['fuid']],
+					'avatar' => avatar($value['fuid'], 'small', true),
+				];
 			}
 		}
 	}
-	$jsstr = "{'userdata':{".implode(',', $json)."}, 'maxfriendnum':'".($count + $count_at)."', 'singlenum':'$singlenum'}";
+	$jsstr = json_encode([
+		'userdata' => $userdata,
+		'maxfriendnum' => $count + $count_at,
+		'singlenum' => $singlenum,
+	], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
 
 } elseif($op == 'search') {
 

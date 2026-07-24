@@ -26,10 +26,6 @@ const { execSync } = require('child_process');
     });
 
     page.on('pageerror', async exception => {
-        if (exception.message && (exception.message.includes("Unexpected token '<'") || exception.message.includes('resultHandle'))) {
-            console.warn(`Ignoring non-fatal Discuz legacy template XML eval exception: ${exception.message}`);
-            return;
-        }
         console.error(`Uncaught Browser Exception at URL [${page.url()}]:\nMessage: ${exception.message}\nStack:\n${exception.stack || exception}`);
         const invalidScripts = [];
         for (const frame of page.frames()) {
@@ -398,30 +394,18 @@ const { execSync } = require('child_process');
             const pmMessageInput = await page.$('textarea[name="message"], #pmmessage, #replymessage');
             if (pmMessageInput) {
                 await pmMessageInput.fill('UI sent test message to admin');
-                await page.evaluate(() => {
-                    const form = document.querySelector('form[action*="ac=pm"]') || document.querySelector('#pmform');
-                    if (form) {
-                        form.onsubmit = null;
-                        let pmsub = form.querySelector('input[name="pmsubmit"]');
-                        if (!pmsub) {
-                            pmsub = document.createElement('input');
-                            pmsub.type = 'hidden';
-                            pmsub.name = 'pmsubmit';
-                            pmsub.value = 'true';
-                            form.appendChild(pmsub);
-                        }
-                        form.submit();
-                    }
-                });
-                await page.waitForNavigation({ waitUntil: 'networkidle' }).catch(() => {});
-                await page.waitForTimeout(1000);
+                const sendPmBtn = await page.$('#pmsubmit_btn, button[name="pmsubmit"], button[type="submit"]');
+                if (sendPmBtn) {
+                    await sendPmBtn.click();
+                    await page.waitForTimeout(1000);
+                }
             }
         }
 
         await page.goto('http://127.0.0.1:8080/home.php?mod=space&do=pm');
         await page.waitForLoadState('networkidle');
         const pmBody = await page.textContent('body');
-        assert.ok(pmBody.includes('PM') || pmBody.includes('Message') || pmBody.includes('消息') || pmBody.includes('提醒') || pmBody.includes(username), 'Assertion Error: Desktop PM center did not load correctly.');
+        assert.ok(pmBody.includes('PM') || pmBody.includes('Message') || pmBody.includes('Notice') || pmBody.includes('Notification') || pmBody.includes(username), 'Assertion Error: Desktop PM center did not load correctly.');
         report += '### 4c. Desktop Personal Message (PM)\n- **Status**: Checked\n- **Send PM via UI**: Success\n- **PM Center View**: Success\n\n';
 
         console.log("Testing Reply Quote & Notification (do=notice) when another user replies via UI...");

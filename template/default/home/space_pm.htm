@@ -217,7 +217,10 @@
 								gid = isUndefined(gid) ? -1 : parseInt(gid);
 								var x = new Ajax();
 								x.get('home.php?mod=spacecp&ac=friend&op=getinviteuser&inajax=1&page='+ page + '&gid=' + gid + '&' + Math.random(), function(s) {
-									var data = eval('('+s+')');
+									var data = parseAjaxJSON(s);
+									if(!data) {
+										return;
+									}
 									var singlenum = parseInt(data['singlenum']);
 									var maxfriendnum = parseInt(data['maxfriendnum']);
 									fs.addDataSource(data, clearlist);

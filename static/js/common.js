@@ -259,6 +259,22 @@ function getcookie(name, nounescape) {
 	}
 }
 
+function parseAjaxJSON(response) {
+	if (typeof response != 'string') {
+		return response;
+	}
+	try {
+		return JSON.parse(response);
+	} catch (e) {
+		var match = response.match(/^<root><!\[CDATA\[([\s\S]*)\]\]><\/root>$/);
+		var message = match ? match[1] : response;
+		if (message) {
+			showDialog(message, 'alert');
+		}
+		return null;
+	}
+}
+
 function Ajax(recvType, waitId) {
 	var aj = new Object();
 	aj.loading = $L('waiting');

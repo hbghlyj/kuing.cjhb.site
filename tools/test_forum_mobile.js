@@ -17,9 +17,6 @@ const { execSync } = require('child_process');
     const page = await context.newPage();
     const browserErrors = [];
     page.on('pageerror', error => {
-        if (error.message && (error.message.includes("Unexpected token '<'") || error.message.includes('resultHandle'))) {
-            return;
-        }
         browserErrors.push(error.message);
     });
     page.on('console', message => {
@@ -275,7 +272,7 @@ const { execSync } = require('child_process');
         await page.waitForLoadState('networkidle');
         const mobileNoticeBody = await page.textContent('body');
         assert.ok(
-            mobileNoticeBody.includes('admin') || mobileNoticeBody.includes(subject) || mobileNoticeBody.includes('回复') || mobileNoticeBody.includes('reply') || mobileNoticeBody.length > 100,
+            mobileNoticeBody.includes('admin') || mobileNoticeBody.includes(subject) || mobileNoticeBody.includes('reply') || mobileNoticeBody.includes('replied') || mobileNoticeBody.length > 100,
             'Assertion Error: Mobile notification page (do=notice) did not load notice content.'
         );
         await page.screenshot({ path: 'screenshot_mobile_09_notice.png' });

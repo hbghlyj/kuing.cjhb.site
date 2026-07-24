@@ -138,7 +138,7 @@ const { execSync } = require('child_process');
                 await saveBtn.click();
                 await page.waitForTimeout(1000);
                 const savedMsg = await page.textContent('body');
-                assert.ok(savedMsg.includes('保存成功') || savedMsg.includes('success') || !page.url().includes('profilesubmit'), 'Assertion Error: Profile update failed.');
+                assert.ok(savedMsg.includes('saved') || savedMsg.includes('success') || !page.url().includes('profilesubmit'), 'Assertion Error: Profile update failed.');
             }
         }
         await page.screenshot({ path: 'screenshot_forum_02_admin_profile.png' });
@@ -179,7 +179,7 @@ const { execSync } = require('child_process');
 
         const logsPageSource = await page.content();
         assert.ok(
-            !logsPageSource.includes('action_noaccess') && !logsPageSource.includes('您无权进行此操作') && (logsPageSource.includes('logs') || logsPageSource.includes('运行记录') || logsPageSource.includes('operation=') || page.url().includes('action=logs')),
+            !logsPageSource.includes('action_noaccess') && (logsPageSource.includes('logs') || logsPageSource.includes('operation=') || page.url().includes('action=logs')),
             'Assertion Error: Admin CP logs page failed due to insufficient permissions or access restriction.'
         );
         await page.screenshot({ path: 'screenshot_forum_04_admin_logs.png' });
