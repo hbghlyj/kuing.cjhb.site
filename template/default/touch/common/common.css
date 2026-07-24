@@ -710,7 +710,7 @@ select {-moz-appearance:none;}
 .imglist li .mtit {height:20px;line-height:20px;font-size:16px;overflow:hidden}
 .imglist li .mtit .mtime {float:right;font-size:12px;color:var(--dz-FC-bbb)}
 .imglist li .mico {float:right;margin-left:5px;height:20px;padding:0 6px;line-height:20px;font-size:12px;background-color:var(--dz-BG-3);color:var(--dz-FC-fff);border-radius:var(--dz-radius-sm)}
-.imglist li .mnum {padding-left:6px;font-size:12px;color:var(--dz-BG-2)}
+.imglist li .mtit .mnum {float:none;display:inline-block;margin-right:6px;padding:0 6px;height:16px;line-height:16px;font-size:11px;font-weight:bold;background-color:var(--dz-BG-2);color:var(--dz-FC-fff) !important;border-radius:8px;vertical-align:middle}
 .imglist li .mtxt {display:block;margin-top:6px;height:18px;line-height:18px;font-size:14px;color:var(--dz-FC-999);overflow:hidden}
 .imglist li .mtxt i {float:left;margin-right:4px;color:var(--dz-FC-ccc)}
 .imglist li .mbody {display:block;margin-top:6px;line-height:18px;font-size:14px;color:var(--dz-FC-666);overflow:hidden}
