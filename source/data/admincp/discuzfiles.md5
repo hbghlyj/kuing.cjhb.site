@@ -2015,7 +2015,7 @@ a0c59ad3b5b448dc026ce38b21891acd *source/i18n/EN_UTF8/group/lang_template.php
 7215ee9c7d9dc229d2921a40e899ec5f *source/i18n/EN_UTF8/home/index.htm
 e5e6b7fd3151fc861cc0e086e91b4127 *source/i18n/EN_UTF8/home/lang_editor.php
 97fe36a552738b7a86d4bce83b99a523 *source/i18n/EN_UTF8/home/lang_magic.php
-a7f875ce360c9e228075e764f7494679 *source/i18n/EN_UTF8/home/lang_template.php
+079dbe896d30965811643c90a2499171 *source/i18n/EN_UTF8/home/lang_template.php
 d41d8cd98f00b204e9800998ecf8427e *source/i18n/EN_UTF8/index.htm
 2a582bb65f2158d113d6927f6032603e *source/i18n/EN_UTF8/lang_action.php
 d437463342a17bcfe5ce51366f9114fa *source/i18n/EN_UTF8/lang_admincp_cloud.php
@@ -2175,7 +2175,7 @@ d41d8cd98f00b204e9800998ecf8427e *source/i18n/SC_UTF8/group/index.htm
 7215ee9c7d9dc229d2921a40e899ec5f *source/i18n/SC_UTF8/home/index.htm
 65c2405608ff98b2bb4271589081d521 *source/i18n/SC_UTF8/home/lang_editor.php
 0b7222cb95139b6e75188bd80499a384 *source/i18n/SC_UTF8/home/lang_magic.php
-d218bc1050ef631756eaed0306779aa0 *source/i18n/SC_UTF8/home/lang_template.php
+ab3560f9e7071a7cbe51097cad82ba6e *source/i18n/SC_UTF8/home/lang_template.php
 d41d8cd98f00b204e9800998ecf8427e *source/i18n/SC_UTF8/index.htm
 94a484369fab2e83f229cc1e2efdd5bf *source/i18n/SC_UTF8/install/lang_install.php
 c2132cf048546db356223b64faad7c7f *source/i18n/SC_UTF8/install/lang_sql_install/table_common_admincp_group.php
@@ -2377,7 +2377,7 @@ d41d8cd98f00b204e9800998ecf8427e *source/i18n/TC_UTF8/group/index.htm
 7215ee9c7d9dc229d2921a40e899ec5f *source/i18n/TC_UTF8/home/index.htm
 795cb59d87cb71097877ec50909e6dff *source/i18n/TC_UTF8/home/lang_editor.php
 507c426f134f1cfbe085729f8ca4daa0 *source/i18n/TC_UTF8/home/lang_magic.php
-e17864fe1cd88268a038bbb124529f4b *source/i18n/TC_UTF8/home/lang_template.php
+bfd9261c02a4efefa970923ab8339ccf *source/i18n/TC_UTF8/home/lang_template.php
 d41d8cd98f00b204e9800998ecf8427e *source/i18n/TC_UTF8/index.htm
 71b9b9692a29fe8cad5129cf639cb225 *source/i18n/TC_UTF8/install/lang_install.php
 ed55ac04b6a4600d418f6e33cc754a57 *source/i18n/TC_UTF8/install/lang_sql_install/table_common_admincp_group.php
@@ -4882,7 +4882,7 @@ e88b629b3137f92a42f4f2d5af1e4dd1 *template/default/home/spacecp_profile.htm
 0a8092f733ce37813185fac6e8e9a401 *template/default/home/spacecp_sendmail.htm
 e2d4ad32bf397e8ca53d82d7f18d363b *template/default/home/spacecp_share.htm
 5feeb7551aac6eeec8ab5c04fc0ad783 *template/default/home/spacecp_upload.htm
-fe25e75fb8d6693b8de5cd206f4c6db1 *template/default/home/spacecp_usergroup_header.htm
+5e807f98d9b7bd86672761be9781eb4c *template/default/home/spacecp_usergroup_header.htm
 2cce4103150fb2bd863415fb71e86225 *template/default/home/spacecp_usergroup.htm
 7215ee9c7d9dc229d2921a40e899ec5f *template/default/index.htm
 cc245fcbe4385e58ed1c166fa7a790fd *template/default/member/getpasswd.htm
@@ -5133,9 +5133,9 @@ f1bf0d90b0684118334b63afc6972862 *template/default/touch/home/space_magic_mybox_
 36eac5ef39ccf230912e3c8f5ed3270c *template/default/touch/home/space_magic.htm
 2b582a574c0dcd999da3fdcf48bff56b *template/default/touch/home/space_medal_float.htm
 e2510729f8bdd526b90d0fb0aad2b810 *template/default/touch/home/space_medal.htm
-b2ad1019dac3221e041887d8a5b93695 *template/default/touch/home/space_notice.htm
+25814e7175148c44146b13409207bf5b *template/default/touch/home/space_notice.htm
 633cbf9dbe98e7c860c1ecb0e283d76b *template/default/touch/home/space_pm_node.htm
-0a3bd9fb0db1d95a8343881d7b30b66c *template/default/touch/home/space_pm.htm
+4475f910a2689c618981206bd0bcad1e *template/default/touch/home/space_pm.htm
 455ec7d0bfd924e6ba0ce5ff66c3d5b0 *template/default/touch/home/space_profile.htm
 7ca5279a93330eb21e2d16f6b18af79c *template/default/touch/home/space_share_form.htm
 8bee97ea0b0d6d1eb7e4a341eb259a41 *template/default/touch/home/space_share_li.htm
@@ -5144,7 +5144,7 @@ b2ad1019dac3221e041887d8a5b93695 *template/default/touch/home/space_notice.htm
 6b92a90ab03f157c670bb1af7e065de3 *template/default/touch/home/space_task_list.htm
 8a9742c064331f540ed5e91880a43b03 *template/default/touch/home/space_task_parter.htm
 beb0ce3b0fdb9d1cb74a2ab28a662cf3 *template/default/touch/home/space_task.htm
-74680735cdfb7469e04d5f589d0b63cd *template/default/touch/home/space_thread.htm
+d9aa45b9bc478d2d7e4640e2f3e86355 *template/default/touch/home/space_thread.htm
 2c401a219ae1e01bbfa05e3410bcd630 *template/default/touch/home/space_trade.htm
 09af76947504a648b90ecf4f013dcac1 *template/default/touch/home/space_wall.htm
 37dd068b882c392877f321bd40f59f61 *template/default/touch/home/spacecp_account_security_chgemail.php
@@ -5196,7 +5196,7 @@ f85ae6c01e5aa9cd3800f8cc6dcb4a19 *template/default/touch/home/spacecp_pm.htm
 b0d34c8455d108f4163e98f6972178bb *template/default/touch/home/spacecp_sendmail.htm
 1444703e36054ba3bf13bcf059948241 *template/default/touch/home/spacecp_share.htm
 233777f0f5b0bd689d6b12b3058ae490 *template/default/touch/home/spacecp_upload.php
-96d0ce273539c81d042f402a45a7fd43 *template/default/touch/home/spacecp_usergroup_header.htm
+0edb824db1354aef8df207d8514b9ef0 *template/default/touch/home/spacecp_usergroup_header.htm
 3bc2c13fefa8eaf5943702d46f026efc *template/default/touch/home/spacecp_usergroup.htm
 d41d8cd98f00b204e9800998ecf8427e *template/default/touch/index.htm
 ff3e4bcecc69d536c0787455fceaf3a8 *template/default/touch/member/getpasswd.htm
