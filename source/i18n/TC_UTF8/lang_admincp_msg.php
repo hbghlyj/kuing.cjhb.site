@@ -24,6 +24,7 @@ $lang = [
 	'blogcategory_move_category_failed' => '無法移動日誌到指定分類',
 	'blogcategory_delete_succeed' => '刪除日誌分類成功 ',
 	'filecheck_nofound_md5file' => '不存在校驗文件，無法進行此操作',
+	'filecheck_git_unavailable' => 'Git 不可用，無法執行檔案校驗。',
 	'replacekey_must_write_config' => 'config_global.php 不可寫，無法進行此操作',
 	'replacekey_succeed' => '密鑰更新成功，請重新登錄站點並更新緩存',
 	'cloudaddons_download_error' => '數據下載錯誤({ErrorCode})，<a href="https://www.dismall.com/thread-101-1-1.html" target="_blank">點擊查看常見問題解決辦法</a>',

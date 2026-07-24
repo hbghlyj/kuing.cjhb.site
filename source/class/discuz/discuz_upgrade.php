@@ -50,45 +50,6 @@ class discuz_upgrade {
 		return $return;
 	}
 
-	public function compare_basefile($upgradeinfo, $upgradefilelist) {
-		if(!$discuzfiles = @file('./source/data/admincp/discuzfiles.md5')) {
-			return [];
-		}
-
-		$newupgradefilelist = [];
-		foreach($upgradefilelist as $v) {
-			$newupgradefilelist[$v] = md5_file(DISCUZ_ROOT.'./'.$v);
-		}
-
-		$modifylist = $showlist = $searchlist = [];
-		foreach($discuzfiles as $line) {
-			$file = trim(substr($line, 34));
-			$md5datanew[$file] = substr($line, 0, 32);
-			if(isset($newupgradefilelist[$file])) {
-				if($md5datanew[$file] != $newupgradefilelist[$file]) {
-					if(!$upgradeinfo['isupdatetemplate'] && preg_match('/\.htm$/i', $file)) {
-						$ignorelist[$file] = $file;
-						$searchlist[] = "\r\n".$file;
-						continue;
-					}
-					$modifylist[$file] = $file;
-				} else {
-					$showlist[$file] = $file;
-				}
-			}
-		}
-		if($searchlist) {
-			$file = DISCUZ_DATA.'./update/Discuz! X'.$upgradeinfo['latestversion'].' Release['.$upgradeinfo['latestrelease'].']/updatelist.tmp';
-			$upgradedata = file_get_contents($file);
-			$upgradedata = str_replace($searchlist, '', $upgradedata);
-			if(file_put_contents($file, $upgradedata) === false) {
-				return [];
-			}
-		}
-
-		return [$modifylist, $showlist, $ignorelist];
-	}
-
 	public function compare_file_content($file, $remotefile) {
 		if(!preg_match('/\.php$|\.htm$/i', $file)) {
 			return false;

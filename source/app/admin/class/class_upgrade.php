@@ -21,7 +21,6 @@ class class_upgrade {
 
 	const RemoteBasePath = '';
 
-	const RemoteMd5 = '/source/data/admincp/discuzfiles.md5';
 	const RemoteVer = '/source/discuz_version.php';
 
 	public $readmeUrl = '';
@@ -102,10 +101,6 @@ class class_upgrade {
 			$this->clearEvent();
 			\cpmsg('upgrade_latest', '', 'succeed');
 		}
-		$newMd5file = substr(self::RemoteMd5, 1);
-		mkdir(dirname($this->pPath.$newMd5file), 0777, true);
-		copy($this->ePath.self::RemoteBasePath.$newMd5file, $this->pPath.$newMd5file);
-
 		$patchFile = $this->getPatchFile();
 		$zip = new ZipArchive;
 		@unlink($patchFile);
@@ -152,30 +147,15 @@ class class_upgrade {
 		@closedir($handler);
 	}
 
-	private function _splitMd5Data($data) {
-		$md5Data = [];
-		foreach($data as $line) {
-			if(!$line) {
-				continue;
-			}
-			$file = trim(substr($line, 34));
-			$md5Data[$file] = substr($line, 0, 32);
-		}
-		ksort($md5Data);
-		return $md5Data;
-	}
-
 	public function getCurrentData($verOnly = false) {
 		require_once DISCUZ_ROOT.'./source/discuz_version.php';
 		if($verOnly) {
 			return ['ver' => DISCUZ_VERSION, 'subver' => DISCUZ_SUBVERSION, 'release' => DISCUZ_RELEASE];
-		} else {
-			if(!$data = @file('./source/data/admincp/discuzfiles.md5')) {
-				\cpmsg('filecheck_nofound_md5file', '', 'error');
-			}
-
-			return $this->_splitMd5Data($data);
 		}
+		if(!($files = $this->getGitFiles())) {
+			\cpmsg('upgrade_remote_get_failed', '', 'error', extra: 'git working tree is unavailable');
+		}
+		return $files;
 	}
 
 	public function getCurrentDiff() {
@@ -184,7 +164,7 @@ class class_upgrade {
 			if(is_dir(DISCUZ_ROOT.$file)) {
 				continue;
 			}
-			if(md5_file(DISCUZ_ROOT.$file) != $md5) {
+			if(!is_file(DISCUZ_ROOT.$file) || sha1_file(DISCUZ_ROOT.$file) != $md5) {
 				$diffData[] = $file;
 			}
 		}
@@ -242,10 +222,6 @@ class class_upgrade {
 			$zip->close();
 		}
 
-		if(!$data = @file($this->ePath.self::RemoteBasePath.self::RemoteMd5)) {
-			\cpmsg('filecheck_nofound_md5file', '', 'error');
-		}
-
 		$verData = file_get_contents($this->ePath.self::RemoteBasePath.self::RemoteVer);
 		if(!$verData) {
 			\cpmsg('upgrade_remote_get_failed', extra: 'discuz_version.php not exists');
@@ -267,7 +243,50 @@ class class_upgrade {
 		if($apiData['ver'] != $ver || $apiData['subver'] != $subver || $apiData['release'] != $m[1]) {
 			\cpmsg('upgrade_remote_get_failed', extra: 'version is error');
 		}
-		return $this->_splitMd5Data($data);
+		return $this->getArchiveFiles($this->ePath.self::RemoteBasePath);
+	}
+
+	private function getGitFiles() {
+		if(!function_exists('proc_open')) {
+			return [];
+		}
+		$process = @proc_open('git -C '.escapeshellarg(DISCUZ_ROOT).' ls-files -z', [0 => ['pipe', 'r'], 1 => ['pipe', 'w'], 2 => ['pipe', 'w']], $pipes);
+		if(!is_resource($process)) {
+			return [];
+		}
+		fclose($pipes[0]);
+		$output = stream_get_contents($pipes[1]);
+		stream_get_contents($pipes[2]);
+		fclose($pipes[1]);
+		fclose($pipes[2]);
+		if(proc_close($process) !== 0) {
+			return [];
+		}
+		$files = [];
+		foreach(explode("\0", $output) as $file) {
+			if($file !== '' && is_file(DISCUZ_ROOT.$file)) {
+				$files[$file] = sha1_file(DISCUZ_ROOT.$file);
+			}
+		}
+		ksort($files);
+		return $files;
+	}
+
+	private function getArchiveFiles($path, $prefix = '') {
+		$path = rtrim($path, '/\\');
+		if(!is_dir($path)) {
+			return [];
+		}
+		$files = [];
+		$iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($path, \FilesystemIterator::SKIP_DOTS));
+		foreach($iterator as $file) {
+			if($file->isFile()) {
+				$relative = $prefix.str_replace('\\', '/', substr($file->getPathname(), strlen($path) + 1));
+				$files[$relative] = sha1_file($file->getPathname());
+			}
+		}
+		ksort($files);
+		return $files;
 	}
 
 	private function _deltree($dir) {

@@ -9,7 +9,6 @@
 if(!defined('IN_DISCUZ') || !defined('IN_ADMINCP')) {
 	exit('Access Denied');
 }
-
 $homecheck = !empty($_GET['homecheck']);
 
 if(!$homecheck) {
@@ -35,7 +34,7 @@ if($step == 1) {
 
 	if($result === false) {
 		if(!$homecheck) {
-			cpmsg('filecheck_nofound_md5file', '', 'error');
+			cpmsg('filecheck_git_unavailable', '', 'error');
 		} else {
 			ajaxshowheader();
 			ajaxshowfooter();
@@ -115,4 +114,3 @@ if($step == 1) {
 	showboxfooter();
 
 }
-	
