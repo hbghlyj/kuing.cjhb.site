@@ -256,7 +256,7 @@ const { execSync } = require('child_process');
         const secqaaPost = page.locator('input[name*="secanswer"]');
         if (await secqaaPost.count()) await secqaaPost.fill('2');
 
-        const postSubmitBtn = page.locator('button[name="topicsubmit"], #postsubmit');
+        const postSubmitBtn = page.locator('button[name="topicsubmit"][type="submit"]');
         if (await postSubmitBtn.count()) {
             await Promise.all([
                 page.waitForNavigation({ waitUntil: 'networkidle' }).catch(() => {}),
