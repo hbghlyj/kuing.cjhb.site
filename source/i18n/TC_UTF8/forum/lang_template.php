@@ -76,6 +76,7 @@ $lang = [
 	'reply' => '回覆',
 	'view_all_replies' => '去論壇查看所有回覆',
 	'all' => '全部',
+	'all_replies' => '全部回覆',
 	'announcement' => '公告',
 	'author' => '作者',
 	'month' => '月',

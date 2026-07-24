@@ -2007,7 +2007,7 @@ e6200dd17eb28d6eb8eb25197df45f7e *source/i18n/EN_UTF8/block/lang_tradelist.php
 46fb69b18b2c5a1a52bb6e7a57ff5702 *source/i18n/EN_UTF8/forum/lang_dz_feed.php
 8b21df07f17b7dd1a88edd7174302acb *source/i18n/EN_UTF8/forum/lang_misc.php
 a8ea387116e337894409601109f61b22 *source/i18n/EN_UTF8/forum/lang_modaction.php
-512d68f9987f28bd49ad5f348e145f69 *source/i18n/EN_UTF8/forum/lang_template.php
+d360792a0ad5adde2a2dc451360f8000 *source/i18n/EN_UTF8/forum/lang_template.php
 e32799c11e1e9994f36e8c2df4cac98c *source/i18n/EN_UTF8/forum/lang_thread.php
 7215ee9c7d9dc229d2921a40e899ec5f *source/i18n/EN_UTF8/group/index.htm
 3f2ed96e553f657405f5f58cc893e095 *source/i18n/EN_UTF8/group/lang_misc.php
@@ -2167,7 +2167,7 @@ ca44ec19e38e5d1023d59af3283a8f09 *source/i18n/SC_UTF8/block/lang_witframe.php
 bca9b4dd545028845c8aa729ffed8527 *source/i18n/SC_UTF8/forum/lang_dz_feed.php
 275647134fd18552f13bd34da87c74c9 *source/i18n/SC_UTF8/forum/lang_misc.php
 878bfdc0a0ddb4d61599a44606302567 *source/i18n/SC_UTF8/forum/lang_modaction.php
-1cd09b95593bdeac8467fd68c1acfce0 *source/i18n/SC_UTF8/forum/lang_template.php
+d4873954da9c9c4db2d09bf53fb2283f *source/i18n/SC_UTF8/forum/lang_template.php
 38edacf7be5a9f2a883374749ef2b63f *source/i18n/SC_UTF8/forum/lang_thread.php
 d41d8cd98f00b204e9800998ecf8427e *source/i18n/SC_UTF8/group/index.htm
 6146e9eadd0f8113f36842386b85b458 *source/i18n/SC_UTF8/group/lang_misc.php
@@ -2369,7 +2369,7 @@ aaed80ea94a298645ed33af9dd3cb5a2 *source/i18n/TC_UTF8/forum/lang_archiver.php
 a2a952d2f50a28d39430a406b4faf309 *source/i18n/TC_UTF8/forum/lang_dz_feed.php
 2eb338f0b8ae0679dc4e566596073679 *source/i18n/TC_UTF8/forum/lang_misc.php
 6d5f916e6de3fb6db538f7c5eb2d57c5 *source/i18n/TC_UTF8/forum/lang_modaction.php
-d0ce467b704fe4348752385040e37499 *source/i18n/TC_UTF8/forum/lang_template.php
+66f642b540bc89ef331c2c20fad6d461 *source/i18n/TC_UTF8/forum/lang_template.php
 67a16ef1fdb928e2334d365baf0745af *source/i18n/TC_UTF8/forum/lang_thread.php
 d41d8cd98f00b204e9800998ecf8427e *source/i18n/TC_UTF8/group/index.htm
 61718571cc06d35d89b187b8b7209969 *source/i18n/TC_UTF8/group/lang_misc.php
@@ -5095,7 +5095,7 @@ a06c9daa50db86caf2dd51dbaabdf706 *template/default/touch/forum/trade.htm
 a3434a6c8b62b1cb38f6da83e23ad9f7 *template/default/touch/forum/viewthread_poll.htm
 a141e355972456ad8f0cfbbcfaed7d66 *template/default/touch/forum/viewthread_reward.htm
 c7cf089591572affc832e7aa3170a5cc *template/default/touch/forum/viewthread_trade.htm
-bc25c09fb6250e2b2ca52b0917709840 *template/default/touch/forum/viewthread.htm
+c89b1d44f3687ecfecad3c49e26fbca9 *template/default/touch/forum/viewthread.htm
 327605f1057767c00fa3b032f81567b5 *template/default/touch/group/group_create.htm
 6965fd159c34e71c402012045cad0103 *template/default/touch/group/group_index.htm
 6292d18d5c9e05a34d974034d83bf647 *template/default/touch/group/group_list.htm

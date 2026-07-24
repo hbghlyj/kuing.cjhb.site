@@ -79,6 +79,7 @@ $lang = array (
 	'reply'			=> 'Reply',//'回复',
 	'view_all_replies'	=> 'View all replies in the forum',//'去论坛查看所有回复',
 	'all'			=> 'All',//'全部',
+	'all_replies'		=> 'All replies',
 	'announcement'		=> 'Announcement',//'公告',
 	'author'		=> 'Author',//'作者',
 	'month'			=> 'Month',//'月',
