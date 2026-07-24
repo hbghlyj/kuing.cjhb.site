@@ -478,18 +478,13 @@ Created & Modified by Alice, Monkey, Lushnis, Pony, Dfox & DragonLee.
 
 	/* 版块卡片网格（CSS Grid，替代旧版 table/inline-block 排版） */
 	.fl_grid { display: grid; grid-template-columns: repeat(var(--forumcolumns), minmax(0, 1fr)); gap: 16px; }
-		.fl_grid > .fl_g { display: grid; grid-template-columns: auto minmax(0, 1fr) 68px; grid-template-rows: auto 1fr; padding: 8px 0; }
+		.fl_grid > .fl_g { display: grid; grid-template-columns: auto minmax(0, 1fr) 68px; padding: 8px 0; }
 			.fl_grid > .fl_g > .fl_icn_g { grid-column: 1; grid-row: 1; }
 			.fl_grid > .fl_g > dl { grid-column: 2; grid-row: 1; margin-left: 0 !important; padding-left: 12px !important; }
 			.fl_grid > .fl_g > .fl_newpost { grid-column: 3; grid-row: 1; }
-			.fl_grid > .fl_g > .fl_topic_feed { grid-column: 1 / span 3; grid-row: 2; }
 		.fl_newpost { display: inline-flex; width: 68px; height: 68px; align-items: center; justify-content: center; color: {LIGHTTEXT}; }
 			.fl_newpost:hover { color: {LINK}; }
 			.fl_newpost svg { width: 68px; height: 68px; vertical-align: middle; }
-		.fl_topic_feed { margin-top: 8px; padding-top: 4px; border-top: 1px dashed {COMMONBORDER}; }
-			.fl_topic_list { margin: 0; padding: 0; list-style: none; }
-				.fl_topic_list li { display: flex; justify-content: space-between; gap: 8px; padding: 3px 0; }
-					.fl_topic_list li cite { flex-shrink: 0; color: {LIGHTTEXT}; font-size: 12px; }
 		@media only screen and (max-width: 768px) {
 			.fl_grid { grid-template-columns: 1fr; }
 		}
