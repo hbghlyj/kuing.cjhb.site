@@ -35,8 +35,8 @@ const { execSync } = require('child_process');
         const loginForm = page.locator('form[id^="loginform_"]:visible');
         await loginForm.locator('input[name="username"]').fill('admin');
         await loginForm.locator('input[name="password"]').fill('Testpassword123!');
-        const secqaa = await loginForm.$('input[name*="secanswer"]');
-        if (secqaa) await secqaa.fill('2');
+        const secqaa = loginForm.locator('input[name*="secanswer"]');
+        if (await secqaa.count()) await secqaa.fill('2');
         await Promise.all([
             page.waitForNavigation({ waitUntil: 'networkidle' }).catch(() => {}),
             loginForm.evaluate(form => form.submit())
