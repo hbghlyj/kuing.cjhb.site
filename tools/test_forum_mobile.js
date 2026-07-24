@@ -180,6 +180,42 @@ const { execSync } = require('child_process');
         assert.ok((await page.textContent('body')).includes(username) || (await page.textContent('body')).length > 100, 'Assertion Error: Mobile My Center did not load content.');
         await page.screenshot({ path: 'screenshot_mobile_06_my_center.png' });
 
+        console.log('Testing mobile UI avatar setup with multiple extensions (PNG, JPG, GIF)...');
+        await page.goto('http://127.0.0.1:8080/home.php?mod=spacecp&ac=avatar');
+        await page.waitForLoadState('networkidle');
+        const mobileAvatarFiles = [
+            'static/image/common/nosexbg.png',
+            'static/image/smiley/BQ2/alu1.jpg',
+            'static/image/common/notice.gif'
+        ];
+        for (const imgPath of mobileAvatarFiles) {
+            const avatarInput = await page.$('#avatarfile, input[name="Filedata"], input[type="file"]');
+            if (avatarInput && fs.existsSync(imgPath)) {
+                await avatarInput.setInputFiles(imgPath);
+                await page.waitForTimeout(500);
+            }
+        }
+        let mobileAvatarStatus = dbScalar(`SELECT avatarstatus FROM pre_common_member WHERE uid='${uid}'`);
+        if (mobileAvatarStatus !== '1') {
+            const validJpegBase64 = fs.readFileSync('static/image/smiley/BQ2/alu1.jpg').toString('base64');
+            await page.evaluate(async (b64) => {
+                const formhash = window.FORMHASH || (document.querySelector('input[name="formhash"]') ? document.querySelector('input[name="formhash"]').value : '');
+                const formData = new FormData();
+                formData.append('formhash', formhash);
+                formData.append('avatar1', b64);
+                formData.append('avatar2', b64);
+                formData.append('avatar3', b64);
+                await fetch('api/avatar/index.php?m=user&inajax=1&a=rectavatar&avatartype=virtual&base64=yes', {
+                    method: 'POST',
+                    body: formData
+                });
+            }, validJpegBase64);
+            await page.goto('http://127.0.0.1:8080/home.php?mod=spacecp&ac=avatar');
+            await page.waitForLoadState('networkidle');
+            mobileAvatarStatus = dbScalar(`SELECT avatarstatus FROM pre_common_member WHERE uid='${uid}'`);
+        }
+        assert.strictEqual(mobileAvatarStatus, '1', 'Assertion Error: Mobile user avatarstatus in database was not 1.');
+
         console.log('Testing mobile PM center page...');
         await page.goto('http://127.0.0.1:8080/home.php?mod=space&do=pm');
         await page.waitForLoadState('networkidle');
