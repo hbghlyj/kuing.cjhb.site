@@ -244,11 +244,8 @@ const { execSync } = require('child_process');
         await page.goto('http://127.0.0.1:8080/forum.php?mod=forumdisplay&fid=2');
         await page.waitForLoadState('networkidle');
         const postNewThreadBtn = page.locator('#newspecial, a[href*="action=newthread"], #newspecialtmp').first();
-        if (await postNewThreadBtn.count()) {
-            await postNewThreadBtn.click();
-        } else {
-            await page.goto('http://127.0.0.1:8080/forum.php?mod=post&action=newthread&fid=2');
-        }
+        assert.strictEqual(await postNewThreadBtn.count(), 1, 'Assertion Error: Desktop new-thread control did not render.');
+        await postNewThreadBtn.click();
         await page.waitForLoadState('networkidle');
 
         console.log("Capturing Advanced Editor Screenshot...");
@@ -293,11 +290,8 @@ const { execSync } = require('child_process');
             // Reply to Thread
             console.log("Attempting to reply to thread...");
             const desktopReplyBtn = page.locator('#post_reply, a[href*="action=reply"]').first();
-            if (await desktopReplyBtn.count()) {
-                await desktopReplyBtn.click();
-            } else {
-                await page.goto(`http://127.0.0.1:8080/forum.php?mod=post&action=reply&fid=2&tid=${tidOutput}`);
-            }
+            assert.strictEqual(await desktopReplyBtn.count(), 1, 'Assertion Error: Desktop reply control did not render.');
+            await desktopReplyBtn.click();
             await page.waitForLoadState('networkidle');
 
             await fillPostEditor('Reply text from unprivileged account.');
@@ -321,14 +315,10 @@ const { execSync } = require('child_process');
             if (pidOutput) {
                 if (!page.url().includes('mod=post&action=edit')) {
                     const editPostBtn = page.locator(`a[href*="action=edit"][href*="pid=${pidOutput}"]`).first();
-                    if (await editPostBtn.count() && await editPostBtn.isVisible().catch(() => false)) {
-                        await editPostBtn.click();
-                        await page.waitForLoadState('networkidle');
-                    }
-                    if (!page.url().includes('mod=post&action=edit')) {
-                        await page.goto(`http://127.0.0.1:8080/forum.php?mod=post&action=edit&fid=2&tid=${tidOutput}&pid=${pidOutput}`);
-                        await page.waitForLoadState('networkidle');
-                    }
+                    assert.strictEqual(await editPostBtn.count(), 1, 'Assertion Error: Desktop edit control did not render.');
+                    await editPostBtn.click();
+                    await page.waitForLoadState('networkidle');
+                    assert.ok(page.url().includes('mod=post&action=edit'), 'Assertion Error: Desktop edit control did not navigate to the edit form.');
                 }
 
                 const editSubject = page.locator('#postform input[name="subject"]:visible, input[name="subject"]:visible').first();
@@ -585,14 +575,15 @@ const { execSync } = require('child_process');
 
         const attachmentFixture = 'static/image/smiley/BQ2/alu1.jpg';
         assert.ok(fs.existsSync(attachmentFixture), `Assertion Error: Attachment fixture is missing: ${attachmentFixture}`);
-        const imageInput = page.locator('#filedata, input[name="Filedata"], input[type="file"]').first();
-        assert.ok(await imageInput.count(), 'Assertion Error: Desktop image upload control did not render.');
+        const uploadPickers = page.locator('div[id^="rt_"] input[type="file"]');
+        assert.strictEqual(await uploadPickers.count(), 2, 'Assertion Error: Desktop WebUploader pickers did not render.');
+        const imageInput = uploadPickers.nth(0);
         const uploadResponse = page.waitForResponse(response => response.request().method() === 'POST' && response.url().includes('misc.php?mod=upload'));
         await imageInput.setInputFiles(attachmentFixture);
         const lastUploadResp = await (await uploadResponse).text();
-        assert.match(lastUploadResp, /^DISCUZUPLOAD\|1\|0\|\d+\|1\|/, `Assertion Error: Desktop image upload failed. Response: ${lastUploadResp}`);
-        await page.waitForFunction(() => document.querySelector('#imglist input[name^="attachnew["]'), null, { timeout: 5000 });
-        const aid = await page.locator('#imglist input[name^="attachnew["]').evaluate(input => input.name.match(/^attachnew\[(\d+)\]/)[1]);
+        assert.match(lastUploadResp.trim(), /^\d+$/, `Assertion Error: Desktop image upload failed. Response: ${lastUploadResp}`);
+        await page.waitForFunction(() => document.querySelector('#imgattachlist input[name^="attachnew["]'), null, { timeout: 5000 });
+        const aid = await page.locator('#imgattachlist input[name^="attachnew["]').evaluate(input => input.name.match(/^attachnew\[(\d+)\]/)[1]);
         console.log("Discovered attachment AID:", aid);
 
         const attachMsg = `Posting thread with image attachment content. [attach]${aid}[/attach]`;
@@ -606,20 +597,13 @@ const { execSync } = require('child_process');
         }, { aidVal: aid, message: attachMsg });
 
         const extraTagBtn = await page.$('#extra_tag_b, a[href*="extra_tag"], #extra_tag_b a');
-        if (extraTagBtn) {
-            await extraTagBtn.click().catch(() => {});
-        }
+        assert.ok(extraTagBtn, 'Assertion Error: Desktop tag control did not render.');
+        await extraTagBtn.click();
         const tagsInput = await page.$('#tags, input[name="tags"]');
-        if (tagsInput) {
-            await tagsInput.fill('sample_tag', { force: true }).catch(async () => {
-                await page.evaluate(() => {
-                    const input = document.querySelector('#tags, input[name="tags"]');
-                    if (input) input.value = 'sample_tag';
-                });
-            });
-        }
+        assert.ok(tagsInput, 'Assertion Error: Desktop tag input did not render.');
+        await tagsInput.fill('sample_tag', { force: true });
 
-        const attachSubmitBtn = await page.$('#postsubmit, button[name="topicsubmit"]');
+        const attachSubmitBtn = await page.$('button[name="topicsubmit"]');
         if (attachSubmitBtn) {
             await attachSubmitBtn.click();
             await page.waitForNavigation({ waitUntil: 'networkidle' }).catch(() => { });
@@ -675,14 +659,15 @@ const { execSync } = require('child_process');
         fs.mkdirSync('scratch', { recursive: true });
         const nonImgFixture = 'scratch/sample_test_document.txt';
         fs.writeFileSync(nonImgFixture, 'This is a test non-image attachment document content.');
-        const nonImgInput = page.locator('#filedata, input[name="Filedata"], input[type="file"]').first();
-        assert.ok(await nonImgInput.count(), 'Assertion Error: Desktop non-image upload control did not render.');
+        const nonImgPickers = page.locator('div[id^="rt_"] input[type="file"]');
+        assert.strictEqual(await nonImgPickers.count(), 2, 'Assertion Error: Desktop WebUploader pickers did not render.');
+        const nonImgInput = nonImgPickers.nth(1);
         const nonImgUploadResponse = page.waitForResponse(response => response.request().method() === 'POST' && response.url().includes('misc.php?mod=upload'));
         await nonImgInput.setInputFiles(nonImgFixture);
         const nonImgResp = await (await nonImgUploadResponse).text();
-        assert.match(nonImgResp, /^DISCUZUPLOAD\|1\|0\|\d+\|0\|/, `Assertion Error: Desktop non-image upload failed. Response: ${nonImgResp}`);
-        await page.waitForFunction(() => document.querySelector('#imglist input[name^="attachnew["]'), null, { timeout: 5000 });
-        const nonImgAid = await page.locator('#imglist input[name^="attachnew["]').evaluate(input => input.name.match(/^attachnew\[(\d+)\]/)[1]);
+        assert.match(nonImgResp.trim(), /^\d+$/, `Assertion Error: Desktop non-image upload failed. Response: ${nonImgResp}`);
+        await page.waitForFunction(() => document.querySelector('#attachlist input[name^="attachnew["]'), null, { timeout: 5000 });
+        const nonImgAid = await page.locator('#attachlist input[name^="attachnew["]').evaluate(input => input.name.match(/^attachnew\[(\d+)\]/)[1]);
         console.log("Discovered non-image attachment AID:", nonImgAid);
 
         const nonImgAttachMsg = `Posting thread with non-image attachment document. [attach]${nonImgAid}[/attach]`;
@@ -695,7 +680,7 @@ const { execSync } = require('child_process');
             if (secqaa) secqaa.value = '2';
         }, { aidVal: nonImgAid, message: nonImgAttachMsg });
 
-        const nonImgSubmitBtn = await page.$('#postsubmit, button[name="topicsubmit"]');
+        const nonImgSubmitBtn = await page.$('button[name="topicsubmit"]');
         if (nonImgSubmitBtn) {
             await nonImgSubmitBtn.click();
             await page.waitForNavigation({ waitUntil: 'networkidle' }).catch(() => { });

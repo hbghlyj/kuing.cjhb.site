@@ -134,11 +134,8 @@ const { execSync } = require('child_process');
         await page.goto('http://127.0.0.1:8080/forum.php?mod=forumdisplay&fid=2');
         await page.waitForLoadState('networkidle');
         const postThreadBtn = page.locator('a[href*="action=newthread"]').first();
-        if (await postThreadBtn.count()) {
-            await postThreadBtn.click();
-        } else {
-            await page.goto('http://127.0.0.1:8080/forum.php?mod=post&action=newthread&fid=2');
-        }
+        assert.strictEqual(await postThreadBtn.count(), 1, 'Assertion Error: Mobile new-thread control did not render.');
+        await postThreadBtn.click();
         await page.waitForLoadState('networkidle');
         assert.ok(await page.$('#postform #needsubject'), 'Assertion Error: Mobile new-thread form did not render.');
         await page.screenshot({ path: 'screenshot_mobile_editor.png' });
@@ -160,9 +157,8 @@ const { execSync } = require('child_process');
         const aid = await page.locator('#imglist input[name^="attachnew["]').evaluate(input => input.name.match(/^attachnew\[(\d+)\]/)[1]);
         await page.locator('#needmessage').fill(`${message} [attachimg]${aid}[/attachimg]`);
         const extraTagBtn = await page.$('#extra_tag_b, #extra_tag_b a, a[onclick*="extra_tag"]');
-        if (extraTagBtn) {
-            await extraTagBtn.click().catch(() => {});
-        }
+        assert.ok(extraTagBtn, 'Assertion Error: Mobile tag control did not render.');
+        await extraTagBtn.click();
         await page.evaluate(() => {
             const input = document.querySelector('#tags, input[name="tags"]');
             if (input) {
@@ -183,9 +179,7 @@ const { execSync } = require('child_process');
         const threadAttach = dbScalar(`SELECT attachment FROM pre_forum_thread WHERE tid='${tid}'`);
         assert.strictEqual(threadAttach, '2', 'Assertion Error: Mobile thread attachment status was not set to 2.');
 
-        if (!page.url().includes('viewthread')) {
-            await page.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${tid}`);
-        }
+        assert.ok(page.url().includes('viewthread'), 'Assertion Error: Mobile thread submit did not redirect to viewthread.');
         await page.waitForLoadState('networkidle');
         await page.screenshot({ path: 'screenshot_mobile_02_thread_attachment.png' });
 
@@ -198,8 +192,8 @@ const { execSync } = require('child_process');
         fs.mkdirSync('scratch', { recursive: true });
         const nonImgFileFixture = 'scratch/mobile_test_document.txt';
         fs.writeFileSync(nonImgFileFixture, 'Mobile test non-image attachment document content.');
-        const mobileFileInput = page.locator('#filedata, input[name="Filedata"], input[type="file"]').first();
-        assert.ok(await mobileFileInput.count(), 'Assertion Error: Mobile non-image upload control did not render.');
+        const mobileFileInput = page.locator('#attfiledata');
+        assert.strictEqual(await mobileFileInput.count(), 1, 'Assertion Error: Mobile non-image upload control did not render.');
         const nonImgUploadResponse = page.waitForResponse(response => response.request().method() === 'POST' && response.url().includes('misc.php?mod=upload'));
         await mobileFileInput.setInputFiles(nonImgFileFixture);
         const nonImgUploadText = await (await nonImgUploadResponse).text();
@@ -222,11 +216,8 @@ const { execSync } = require('child_process');
 
         console.log('Replying to mobile thread...');
         const replyBtn = page.locator('a[href*="action=reply"]').first();
-        if (await replyBtn.count()) {
-            await replyBtn.click();
-        } else {
-            await page.goto(`http://127.0.0.1:8080/forum.php?mod=post&action=reply&fid=2&tid=${tid}`);
-        }
+        assert.strictEqual(await replyBtn.count(), 1, 'Assertion Error: Mobile reply control did not render.');
+        await replyBtn.click();
         await page.waitForLoadState('networkidle');
         assert.ok(await page.$('#postform #needmessage'), 'Assertion Error: Mobile reply form did not render.');
         await page.locator('#needmessage').fill(reply);
@@ -237,27 +228,18 @@ const { execSync } = require('child_process');
         assert.ok(replyPid, 'Assertion Error: Mobile reply ID was not found.');
 
         console.log('Editing mobile reply...');
-        if (!page.url().includes('viewthread')) {
-            await page.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${tid}`);
-            await page.waitForLoadState('networkidle');
-        }
+        assert.ok(page.url().includes('viewthread'), 'Assertion Error: Mobile reply submit did not redirect to viewthread.');
         const editLink = page.locator(`a[href*="action=edit"][href*="pid=${replyPid}"]`).first();
-        if (await editLink.count() && await editLink.isVisible().catch(() => false)) {
-            await editLink.click();
-            await page.waitForLoadState('networkidle');
-        }
-        if (!page.url().includes('mod=post&action=edit')) {
-            await page.goto(`http://127.0.0.1:8080/forum.php?mod=post&action=edit&fid=2&tid=${tid}&pid=${replyPid}`);
-            await page.waitForLoadState('networkidle');
-        }
+        assert.strictEqual(await editLink.count(), 1, 'Assertion Error: Mobile edit control did not render.');
+        await editLink.click();
+        await page.waitForLoadState('networkidle');
+        assert.ok(page.url().includes('mod=post&action=edit'), 'Assertion Error: Mobile edit control did not navigate to the edit form.');
         assert.ok(await page.$('#postform #needmessage'), 'Assertion Error: Mobile edit form did not render.');
         await page.locator('#needmessage').fill(editedReply);
         await page.locator('#postsubmit').click();
         await waitForDbValue(`SELECT message FROM pre_forum_post WHERE pid='${replyPid}'`, editedReply, 'Assertion Error: Mobile reply edit was not saved');
 
-        if (!page.url().includes('viewthread')) {
-            await page.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${tid}`);
-        }
+        assert.ok(page.url().includes('viewthread'), 'Assertion Error: Mobile edit submit did not redirect to viewthread.');
         await page.waitForLoadState('networkidle');
         assert.ok((await page.textContent('body')).includes(editedReply), 'Assertion Error: Edited mobile reply was not rendered in the thread.');
         await page.screenshot({ path: 'screenshot_mobile_03_reply_edited.png' });
@@ -265,13 +247,13 @@ const { execSync } = require('child_process');
         console.log('Testing mobile forum.php (forum index)...');
         await page.goto('http://127.0.0.1:8080/forum.php');
         await page.waitForLoadState('networkidle');
-        assert.ok((await page.textContent('body')).length > 100, 'Assertion Error: Mobile forum index did not load content.');
+        assert.ok((await page.textContent('body')).includes('Home'), 'Assertion Error: Mobile forum index did not render its navigation.');
         await page.screenshot({ path: 'screenshot_mobile_04_forum_index.png' });
 
         console.log('Testing mobile forumdisplay.php (fid=2)...');
         await page.goto('http://127.0.0.1:8080/forum.php?mod=forumdisplay&fid=2');
         await page.waitForLoadState('networkidle');
-        assert.ok((await page.textContent('body')).includes(subject) || (await page.textContent('body')).length > 100, 'Assertion Error: Mobile forumdisplay did not load content.');
+        assert.ok((await page.textContent('body')).includes(subject), 'Assertion Error: Mobile forumdisplay did not show the created thread.');
         await page.screenshot({ path: 'screenshot_mobile_05_forumdisplay.png' });
 
         const uid = dbScalar(`SELECT uid FROM pre_common_member WHERE username='${username}' LIMIT 1`);
@@ -453,27 +435,21 @@ const { execSync } = require('child_process');
 
         console.log('Testing mobile PM center page...');
         const pmNavLink = page.locator('a[href*="do=pm"]').first();
-        if (await pmNavLink.count()) {
-            await pmNavLink.click();
-        } else {
-            await page.goto('http://127.0.0.1:8080/home.php?mod=space&do=pm');
-        }
+        assert.strictEqual(await pmNavLink.count(), 1, 'Assertion Error: Mobile PM navigation link did not render.');
+        await pmNavLink.click();
         await page.waitForLoadState('networkidle');
         const mobilePmBody = await page.textContent('body');
         assert.ok(mobilePmBody.includes(adminPmToMobileUser), 'Assertion Error: Mobile PM center did not display the delivered admin message.');
         await page.screenshot({ path: 'screenshot_mobile_07_pm.png' });
 
         const noticeTabLink = page.locator('a[href*="do=notice"]').first();
-        if (await noticeTabLink.count()) {
-            await noticeTabLink.click();
-        } else {
-            await page.goto('http://127.0.0.1:8080/home.php?mod=space&do=notice');
-        }
+        assert.strictEqual(await noticeTabLink.count(), 1, 'Assertion Error: Mobile notice navigation link did not render.');
+        await noticeTabLink.click();
         await page.waitForLoadState('networkidle');
         const mobileNoticeBody = await page.textContent('body');
         assert.ok(
-            mobileNoticeBody.includes('admin') || mobileNoticeBody.includes(subject) || mobileNoticeBody.includes('reply') || mobileNoticeBody.includes('replied') || mobileNoticeBody.length > 100,
-            'Assertion Error: Mobile notification page (do=notice) did not load notice content.'
+            mobileNoticeBody.includes('admin') || mobileNoticeBody.includes(subject) || mobileNoticeBody.includes('reply') || mobileNoticeBody.includes('replied'),
+            'Assertion Error: Mobile notification page (do=notice) did not show an expected notification.'
         );
         await page.screenshot({ path: 'screenshot_mobile_09_notice.png' });
 
