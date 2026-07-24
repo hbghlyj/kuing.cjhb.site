@@ -138,8 +138,8 @@ const { execSync } = require('child_process');
         C::t('common_setting')->update('floodctrl', '0');
         C::t('common_setting')->update('pmstatus', '1');
         C::t('common_setting')->update('commentpostself', '1');
-        C::t('common_usergroup_field')->update(10, array('allowpostattach' => '1', 'allowpostimage' => '1', 'allowposttag' => '1', 'allowcommentpost' => '3', 'attachextensions' => 'gif, jpg, png, txt'));
-        C::t('common_usergroup_field')->update(7, array('allowpostattach' => '1', 'allowpostimage' => '1', 'allowposttag' => '1', 'allowcommentpost' => '3', 'attachextensions' => 'gif, jpg, png, txt'));
+        C::t('common_usergroup_field')->update(10, array('allowpostattach' => '1', 'allowpostimage' => '1', 'allowposttag' => '1', 'allowcommentpost' => '3', 'attachextensions' => 'gif, jpg, png, txt, svg'));
+        C::t('common_usergroup_field')->update(7, array('allowpostattach' => '1', 'allowpostimage' => '1', 'allowposttag' => '1', 'allowcommentpost' => '3', 'attachextensions' => 'gif, jpg, png, txt, svg'));
 
         require_once libfile('function/cache');
         updatecache(array('setting', 'secqaa', 'styles', 'usergroups'));
@@ -806,6 +806,71 @@ const { execSync } = require('child_process');
             nonImgViewthreadBody.includes('Thread with Non-Image Attachment') && nonImgViewthreadBody.includes('sample_test_document.txt'),
             'Assertion Error: Non-image attachment thread page did not load content in viewthread.'
         );
+
+        // 6c. SVG Image Attachment Post Test
+        console.log("Attempting to post thread with SVG image attachment...");
+        await page.goto(`http://127.0.0.1:8080/forum.php?mod=post&action=newthread&fid=${forumFid}`);
+        await page.waitForLoadState('networkidle');
+
+        const svgSubject = await page.$('input[name="subject"]');
+        if (svgSubject) {
+            await svgSubject.fill('Thread with SVG Attachment');
+        }
+
+        fs.mkdirSync('scratch', { recursive: true });
+        const svgFixture = 'scratch/sample_icon.svg';
+        fs.writeFileSync(svgFixture, '<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><circle cx="50" cy="50" r="40" fill="blue" /></svg>');
+
+        const svgPickers = page.locator('div[id^="rt_"] input[type="file"]');
+        assert.strictEqual(await svgPickers.count(), 2, 'Assertion Error: Desktop WebUploader pickers did not render.');
+        const svgInput = svgPickers.nth(0);
+        const svgUploadResponse = page.waitForResponse(response => response.request().method() === 'POST' && response.url().includes('misc.php?mod=upload'));
+        await svgInput.setInputFiles(svgFixture);
+        const svgResp = await (await svgUploadResponse).text();
+        assert.match(svgResp.trim(), /^\d+$/, `Assertion Error: Desktop SVG upload failed. Response: ${svgResp}`);
+        await page.waitForFunction(() => document.querySelector('#imgattachlist input[name^="attachnew["]'), null, { timeout: 5000 });
+        const svgAid = await page.locator('#imgattachlist input[name^="attachnew["]').evaluate(input => input.name.match(/^attachnew\[(\d+)\]/)[1]);
+        console.log("Discovered SVG attachment AID:", svgAid);
+
+        const svgAttachMsg = `Posting thread with SVG image content. [attach]${svgAid}[/attach]`;
+
+        await page.evaluate(({ aidVal, message }) => {
+            const textArea = document.querySelector('textarea[name="message"], #postmessage');
+            if (textArea) textArea.value = message;
+            if (window.editdoc && window.editdoc.body) window.editdoc.body.innerHTML = message;
+            const secqaa = document.querySelector('input[name*="secanswer"]');
+            if (secqaa) secqaa.value = '2';
+        }, { aidVal: svgAid, message: svgAttachMsg });
+
+        const svgSubmitBtn = await page.$('button[name="topicsubmit"]');
+        if (svgSubmitBtn) {
+            await svgSubmitBtn.click();
+            await page.waitForNavigation({ waitUntil: 'networkidle' }).catch(() => { });
+            await page.waitForTimeout(2000);
+        }
+
+        console.log("Checking if SVG attachment thread exists in DB and loads in viewthread...");
+        const svgTid = execSync("sudo mysql -u root ultrax -N -s -e \"SELECT tid FROM pre_forum_thread WHERE subject='Thread with SVG Attachment' ORDER BY tid DESC LIMIT 1;\"").toString().trim();
+        assert.ok(svgTid, 'Assertion Error: Thread with SVG attachment was not created in database.');
+
+        const svgDbRecord = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT COUNT(*) FROM pre_forum_attachment WHERE tid='${svgTid}';"`).toString().trim();
+        assert.ok(parseInt(svgDbRecord, 10) >= 1, 'Assertion Error: SVG attachment record was not linked in pre_forum_attachment database table.');
+
+        await page.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${svgTid}`);
+        await page.waitForLoadState('networkidle');
+        await page.screenshot({ path: 'screenshot_attachment_svg_viewthread.png' });
+
+        const svgAttachmentIndex = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT CONCAT(tid, ':', tableid) FROM pre_forum_attachment WHERE aid='${svgAid}' LIMIT 1;"`).toString().trim();
+        const svgAttachTableId = svgAttachmentIndex.split(':')[1];
+        const svgIsImage = svgAttachTableId === undefined ? '' : execSync(`sudo mysql -u root ultrax -N -s -e "SELECT isimage FROM pre_forum_attachment_${svgAttachTableId} WHERE aid='${svgAid}' AND tid='${svgTid}' LIMIT 1;"`).toString().trim();
+        assert.ok(svgIsImage === '1' || svgIsImage === '2', `Assertion Error: Uploaded SVG was not stored as an image. isimage: ${svgIsImage}`);
+
+        const svgViewthreadBody = await page.textContent('body');
+        assert.ok(
+            svgViewthreadBody.includes('Thread with SVG Attachment') && svgViewthreadBody.includes('Posting thread with SVG image content.'),
+            'Assertion Error: SVG attachment thread page did not load content cleanly in viewthread.'
+        );
+        report += '### 6c. SVG Attachment Post\n- **Status**: Checked\n- **Thread Created**: Thread with SVG Attachment (TID: ' + svgTid + ', AID: ' + svgAid + ')\n- **SVG Stored as Image (isimage)**: ' + svgIsImage + '\n- **Screenshot**: `screenshot_attachment_svg_viewthread.png`\n\n';
 
     } catch (error) {
         console.error("Test execution failed:", error);
