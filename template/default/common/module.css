@@ -100,7 +100,7 @@ Created & Modified by Alice, Monkey, Lushnis, Pony, Dfox & DragonLee.
 	.forum-index-tabs button.a:after { content:''; position:absolute; right:0; bottom:-1px; left:0; height:3px; background:{HIGHLIGHTLINK}; }
 	#forum-index-grid-panel .fl { float:none; }
 	#forum-index-grid-panel .bm { margin-bottom:0; }
-	#category_grid td[hidden] { display:none; }
+	#category_grid td[hidden] { display:none !important; }
 	#category_grid td[data-index-tab] { width:100%; border-left:0; }
 	#category_grid td[data-index-tab] h4 { display:none; }
 		#category_grid table { width:100%;table-layout: fixed; }
