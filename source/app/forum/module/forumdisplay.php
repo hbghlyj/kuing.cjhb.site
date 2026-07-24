@@ -889,8 +889,8 @@ if(defined('IN_RESTFUL')) {
 
 $threadlist_data = [];
 if($_G['forum_threadcount']) {
-        // Desktop thread list only needs excerpts, skip fetching attachments
-        $threadlist_data = get_attach($_G['forum_threadlist'], false, false, false);
+        // Desktop thread list only needs excerpts; mobile and RESTful views also fetch image attachment thumbnails
+        $threadlist_data = get_attach($_G['forum_threadlist'], false, false, defined('IN_MOBILE') || defined('IN_RESTFUL'));
 }
 
 if(!empty($_G['forum']['threadsorts']['suptypeid']) && !empty($_G['cache']['threadsort_template_'.$_G['forum']['threadsorts']['suptypeid']]['super']['forumdisplay'])) {
