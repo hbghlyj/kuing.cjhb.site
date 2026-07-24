@@ -70,9 +70,9 @@ img[src*="static/image/poke"] {max-width:22px !important;max-height:22px !import
 .dz_bm, .appl, .ct2 .mn .bm, .ct2 .sd .bm, .ct2_a .mn, .ct2_a .dz_phbbox .bm, .ct3_a .mn, .ct3_a .sd, .pg_spacecp #ct.wp .mn .bm, .pg_post #ct.ct2_a .bm, #scbar, #online.bm, .bm.lk, .km_nox, .bm.kmbm_ca {border:none !important;box-shadow:var(--dz-shadow)}
 .pg_ranklist .ct2_a .dz_phbbox, #ct.wp .mn .bm.bw0 {box-shadow:none;overflow:hidden}
 .mn, .ct2 .sd {overflow:visible}
-.ct2_a {background:none;border:none;display:flex;flex-direction:row-reverse;justify-content:space-between;align-items:flex-start}
-.ct3_a {background:none;border:none}
-.ct2_a .mn {flex:1;min-width:0}
+.ct2_a, .ct3_a {background:none;border:none}
+.ct2_a:has(> .appl) {display:flex;flex-direction:row-reverse;justify-content:space-between;align-items:flex-start}
+.ct2_a:has(> .appl) .mn {flex:1;min-width:0}
 .ct2_a .appl {width:160px;margin-right:20px;flex-shrink:0}
 .ct2 .sd {width:250px}
 .ct2 .mn {width:735px;margin-bottom:0}
