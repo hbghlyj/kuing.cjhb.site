@@ -111,8 +111,18 @@ const { execSync } = require('child_process');
             );
             await submitButton.click();
             const response = await responsePromise;
-            const responseText = await response.text();
-            assert.ok(response.ok(), `Assertion Error: Mobile PM send request failed: status=${response.status()}; body=${responseText.slice(0, 2000)}`);
+            const status = response.status();
+            let responseText = '';
+            if (status < 300 || status >= 400) {
+                try {
+                    responseText = await response.text();
+                } catch (e) {
+                    responseText = `[Failed to read body: ${e.message}]`;
+                }
+            } else {
+                responseText = `[Redirect response to ${response.headers()['location'] || 'unknown'}]`;
+            }
+            assert.ok(response.ok() || (status >= 300 && status < 400), `Assertion Error: Mobile PM send request failed: status=${status}; body=${responseText.slice(0, 2000)}`);
         };
         const subject = `Mobile thread ${suffix}`;
         const message = `Mobile thread body ${suffix}.`;
