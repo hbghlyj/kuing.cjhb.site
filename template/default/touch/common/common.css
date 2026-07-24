@@ -1221,9 +1221,10 @@ body.pg_logging, body.pg_register, body.pg_lostpasswd_mobile, body.pg_lostpasswd
 i.pstatus {display:block;font-size:12px;text-align:center;color:#999}
 /* 标签 .ptg */
 .ptg { clear: both; display: block; width: 100%; margin-top: 12px; margin-bottom: 8px; font-size: 13px; color: var(--dz-FC-666); box-sizing: border-box; }
-.ptg i { display: inline-block; margin-right: 4px; font-size: 14px; color: var(--dz-FC-color, #2B7ACD); font-style: normal; vertical-align: middle; }
+.ptg i { display: inline-block; margin-right: 6px; font-size: 14px; color: var(--dz-FC-color, #2B7ACD); font-style: normal; vertical-align: middle; }
 .ptg i:before { font-family: "dzmicon" !important; content: "\f11d"; }
-.ptg a { color: var(--dz-FC-color, #2B7ACD); margin-right: 6px; }
+.ptg a { display: inline-block; padding: 2px 8px; margin-right: 6px; margin-bottom: 4px; background: var(--dz-BG-5, #f3f3f3); color: var(--dz-FC-color, #2B7ACD); border-radius: var(--dz-radius-sm, 4px); font-size: 12px; text-decoration: none; vertical-align: middle; }
+.ptg a:hover { background: var(--dz-BG-n, #A0C8EA); color: #fff; }
 .plc .pi .message .jammer {font-size:12px;color:var(--dz-BG-0)}
 .plc .pi .message  hr.l { height: 1px; border: none; background: var(--dz-BOR-ed); color:var(--dz-BOR-ed)}
 .savephotop { display: block; clear: both; width: 100%; margin: 8px 0; box-sizing: border-box; }
