@@ -173,7 +173,20 @@ const { execSync } = require('child_process');
         assert.ok((await page.textContent('body')).length > 100, 'Assertion Error: Mobile PM center did not load content.');
         await page.screenshot({ path: 'screenshot_mobile_07_pm.png' });
 
-        report += `### Touch Registration, Posting, Replying, Editing, Forum Index, Forumdisplay, My Center and PM Center\n- **Status**: Checked\n- **Username**: ${username}\n- **Thread**: ${tid}\n- **Reply**: ${replyPid}\n- **Image Attachment**: ${aid}\n- **Screenshots**:\n  - \`screenshot_mobile_01_registered.png\`\n  - \`screenshot_mobile_02_thread_attachment.png\`\n  - \`screenshot_mobile_03_reply_edited.png\`\n  - \`screenshot_mobile_04_forum_index.png\`\n  - \`screenshot_mobile_05_forumdisplay.png\`\n  - \`screenshot_mobile_06_my_center.png\`\n  - \`screenshot_mobile_07_pm.png\`\n\n`;
+        console.log('Testing mobile viewthread thread tag rendering...');
+        execSync(`sudo mysql -u root ultrax -e "INSERT INTO pre_common_tag (tagname, status) VALUES ('mobiletag', 0);" || true`);
+        const tagid = dbScalar("SELECT tagid FROM pre_common_tag WHERE tagname='mobiletag' LIMIT 1");
+        if (tagid && tid) {
+            execSync(`sudo mysql -u root ultrax -e "INSERT INTO pre_common_tagitem (tagid, itemid, idtype) VALUES (${tagid}, ${tid}, 'tid');" || true`);
+        }
+
+        await page.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${tid}`);
+        await page.waitForLoadState('networkidle');
+        const viewthreadTagBody = await page.textContent('body');
+        assert.ok(viewthreadTagBody.includes('mobiletag'), 'Assertion Error: Thread tag "mobiletag" was not rendered in mobile viewthread.');
+        await page.screenshot({ path: 'screenshot_mobile_08_viewthread_tag.png' });
+
+        report += `### Touch Registration, Posting, Replying, Editing, Forum Index, Forumdisplay, My Center, PM Center and Thread Tag\n- **Status**: Checked\n- **Username**: ${username}\n- **Thread**: ${tid}\n- **Reply**: ${replyPid}\n- **Image Attachment**: ${aid}\n- **Tag**: mobiletag (ID: ${tagid})\n- **Screenshots**:\n  - \`screenshot_mobile_01_registered.png\`\n  - \`screenshot_mobile_02_thread_attachment.png\`\n  - \`screenshot_mobile_03_reply_edited.png\`\n  - \`screenshot_mobile_04_forum_index.png\`\n  - \`screenshot_mobile_05_forumdisplay.png\`\n  - \`screenshot_mobile_06_my_center.png\`\n  - \`screenshot_mobile_07_pm.png\`\n  - \`screenshot_mobile_08_viewthread_tag.png\`\n\n`;
     } catch(error) {
         console.error('Test execution failed:', error);
         process.exitCode = 1;
