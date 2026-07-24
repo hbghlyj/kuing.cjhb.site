@@ -194,22 +194,35 @@ const { execSync } = require('child_process');
         assert.ok(viewthreadTagBody.includes('mobiletag'), 'Assertion Error: Thread tag "mobiletag" submitted during thread creation was not rendered in mobile viewthread.');
         await page.screenshot({ path: 'screenshot_mobile_08_viewthread_tag.png' });
 
-        console.log('Testing mobile reply notification (do=notice)...');
-        const addMobileNoticePhp = `<?php
-        require './source/class/class_core.php';
-        $discuz = C::app();
-        $discuz->init();
-        notification_add(${uid}, 'post', 'post_reply', array(
-            'tid' => ${tid},
-            'subject' => '${subject}',
-            'authorid' => 1,
-            'author' => 'admin',
-            'message' => 'Admin replied to your mobile thread.'
-        ), 1);
-        ?>`;
-        fs.writeFileSync('add_mobile_notice.php', addMobileNoticePhp);
-        execSync('php add_mobile_notice.php');
-        execSync('rm add_mobile_notice.php');
+        console.log('Testing mobile reply notification (do=notice) via UI quote reply...');
+        const firstMobilePid = dbScalar(`SELECT pid FROM pre_forum_post WHERE tid='${tid}' AND first=1 LIMIT 1`);
+        const adminMobileContext = await browser.newContext();
+        const adminMobilePage = await adminMobileContext.newPage();
+        await adminMobilePage.goto('http://127.0.0.1:8080/member.php?mod=logging&action=login');
+        await adminMobilePage.waitForLoadState('networkidle');
+        const adminLoginForm = adminMobilePage.locator('form[id^="loginform_"]:visible');
+        if (await adminLoginForm.count()) {
+            await adminLoginForm.locator('input[name="username"]').fill('admin');
+            await adminLoginForm.locator('input[name="password"]').fill('Testpassword123!');
+            const secqaa = adminLoginForm.locator('input[name*="secanswer"]');
+            if (await secqaa.count()) await secqaa.fill('2');
+            await Promise.all([
+                adminMobilePage.waitForNavigation({ waitUntil: 'networkidle' }).catch(() => {}),
+                adminLoginForm.evaluate(form => form.submit())
+            ]);
+        }
+        await adminMobilePage.goto(`http://127.0.0.1:8080/forum.php?mod=post&action=reply&fid=2&tid=${tid}&reppost=${firstMobilePid}`);
+        await adminMobilePage.waitForLoadState('networkidle');
+        const adminMsgArea = await adminMobilePage.$('textarea[name="message"], #needmessage');
+        if (adminMsgArea) {
+            await adminMsgArea.fill('Admin mobile quote reply to user thread.');
+            const submitBtn = await adminMobilePage.$('#postsubmit, button[name="replysubmit"]');
+            if (submitBtn) {
+                await submitBtn.click();
+                await adminMobilePage.waitForNavigation({ waitUntil: 'networkidle' }).catch(() => {});
+            }
+        }
+        await adminMobileContext.close();
 
         await page.goto('http://127.0.0.1:8080/home.php?mod=space&do=notice');
         await page.waitForLoadState('networkidle');

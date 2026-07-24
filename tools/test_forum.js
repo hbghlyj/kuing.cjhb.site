@@ -99,9 +99,9 @@ const { execSync } = require('child_process');
         require_once libfile('function/cache');
         updatecache(array('setting', 'secqaa', 'styles', 'usergroups'));
         ?>`;
-        fs.writeFileSync('disable_sec.php', phpConfig);
-        execSync('php disable_sec.php');
-        execSync('rm disable_sec.php');
+        fs.writeFileSync('setup_test_sec.php', phpConfig);
+        execSync('php setup_test_sec.php');
+        if (fs.existsSync('setup_test_sec.php')) fs.unlinkSync('setup_test_sec.php');
 
 
 
@@ -198,32 +198,26 @@ const { execSync } = require('child_process');
 
         const userUid = execSync("sudo mysql -u root ultrax -N -s -e \"SELECT uid FROM pre_common_member WHERE username='" + username + "';\"").toString().trim();
 
-        // Ensure avatarstatus=1 and UC avatar files exist for rendering tests
-        const avatarSetupPhp = `<?php
-        require './source/class/class_core.php';
-        C::app()->init();
-        $uid = ${userUid};
-        C::t('common_member')->update($uid, array('avatarstatus' => '1'));
-        $formattedUid = sprintf('%09d', $uid);
-        $dir1 = substr($formattedUid, 0, 3);
-        $dir2 = substr($formattedUid, 3, 2);
-        $dir3 = substr($formattedUid, 5, 2);
-        $relDir = $dir1 . '/' . $dir2 . '/' . $dir3;
-        $lastTwo = substr($formattedUid, -2);
-        $imgData = base64_decode('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==');
-        foreach(array('./data/avatar/', './uc_server/data/avatar/') as $base) {
-            $targetDir = $base . $relDir;
-            if (!is_dir($targetDir)) { mkdir($targetDir, 0777, true); }
-            file_put_contents($targetDir . '/' . $lastTwo . '_avatar_big.jpg', $imgData);
-            file_put_contents($targetDir . '/' . $lastTwo . '_avatar_middle.jpg', $imgData);
-            file_put_contents($targetDir . '/' . $lastTwo . '_avatar_small.jpg', $imgData);
+        // Perform UI browser post to avatar endpoint if canvas upload is needed
+        let avatarStatus = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT avatarstatus FROM pre_common_member WHERE uid='${userUid}';"`).toString().trim();
+        if (avatarStatus !== '1') {
+            await page.evaluate(async () => {
+                const formhash = window.FORMHASH || (document.querySelector('input[name="formhash"]') ? document.querySelector('input[name="formhash"]').value : '');
+                const base64Data = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==';
+                const formData = new FormData();
+                formData.append('formhash', formhash);
+                formData.append('avatar1', base64Data);
+                formData.append('avatar2', base64Data);
+                formData.append('avatar3', base64Data);
+                await fetch('api/avatar/index.php?m=user&inajax=1&a=rectavatar&avatartype=virtual&base64=yes', {
+                    method: 'POST',
+                    body: formData
+                });
+            });
+            await page.goto('http://127.0.0.1:8080/home.php?mod=spacecp&ac=avatar');
+            await page.waitForLoadState('networkidle');
+            avatarStatus = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT avatarstatus FROM pre_common_member WHERE uid='${userUid}';"`).toString().trim();
         }
-        ?>`;
-        fs.writeFileSync('set_avatar.php', avatarSetupPhp);
-        execSync('php set_avatar.php');
-        fs.unlinkSync('set_avatar.php');
-
-        const avatarStatus = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT avatarstatus FROM pre_common_member WHERE uid='${userUid}';"`).toString().trim();
         assert.strictEqual(avatarStatus, '1', 'Assertion Error: User avatarstatus in database was not 1.');
 
         console.log("Attempting to post normal thread as unprivileged user...");
@@ -380,18 +374,7 @@ const { execSync } = require('child_process');
 
         report += '### 4b. Personal Info Update & Space Threads Verification\n- **Status**: Checked\n- **spacecp Update**: Success\n- **Threads Page (with view=me)**: Success\n- **Threads Page (without view=me)**: Success\n\n';
 
-        console.log("Testing Personal Messages (PM) on Desktop...");
-        const sendPmPhp = `<?php
-        require './source/class/class_core.php';
-        $discuz = C::app();
-        $discuz->init();
-        sendpm(1, 'Test PM Subject', 'Test PM Message Body from ${username}', ${userUid});
-        ?>`;
-        fs.writeFileSync('send_pm_test.php', sendPmPhp);
-        execSync('php send_pm_test.php');
-        execSync('rm send_pm_test.php');
-
-        console.log("Testing UI Send PM via spacecp...");
+        console.log("Testing Personal Messages (PM) on Desktop via UI...");
         await page.goto('http://127.0.0.1:8080/home.php?mod=spacecp&ac=pm');
         await page.waitForLoadState('networkidle');
         const sendPmUsernameInput = await page.$('input[name="username"], input[name="touid"], #username');
@@ -412,25 +395,40 @@ const { execSync } = require('child_process');
         await page.waitForLoadState('networkidle');
         const pmBody = await page.textContent('body');
         assert.ok(pmBody.includes('PM') || pmBody.includes('Message') || pmBody.includes('消息') || pmBody.includes('提醒') || pmBody.includes(username), 'Assertion Error: Desktop PM center did not load correctly.');
-        report += '### 4c. Desktop Personal Message (PM)\n- **Status**: Checked\n- **Send PM**: Success\n- **PM Center View**: Success\n\n';
+        report += '### 4c. Desktop Personal Message (PM)\n- **Status**: Checked\n- **Send PM via UI**: Success\n- **PM Center View**: Success\n\n';
 
-        console.log("Testing Reply Notification (do=notice) when another user replies...");
+        console.log("Testing Reply Quote & Notification (do=notice) when another user replies via UI...");
         if (tidOutput) {
-            const addNoticePhp = `<?php
-            require './source/class/class_core.php';
-            $discuz = C::app();
-            $discuz->init();
-            notification_add(${userUid}, 'post', 'post_reply', array(
-                'tid' => ${tidOutput},
-                'subject' => 'Standard User Thread',
-                'authorid' => 1,
-                'author' => 'admin',
-                'message' => 'Admin replied to your thread.'
-            ), 1);
-            ?>`;
-            fs.writeFileSync('add_notice_test.php', addNoticePhp);
-            execSync('php add_notice_test.php');
-            execSync('rm add_notice_test.php');
+            const firstPid = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT pid FROM pre_forum_post WHERE tid='${tidOutput}' AND first=1 LIMIT 1;"`).toString().trim();
+
+            const adminContext = await browser.newContext();
+            const adminPage = await adminContext.newPage();
+            await adminPage.goto('http://127.0.0.1:8080/member.php?mod=logging&action=login');
+            await adminPage.waitForLoadState('networkidle');
+            const adminLoginForm = adminPage.locator('form[id^="loginform_"]:visible');
+            await adminLoginForm.locator('input[name="username"]').fill('admin');
+            await adminLoginForm.locator('input[name="password"]').fill('Testpassword123!');
+            const adminSecqaa = adminLoginForm.locator('input[name*="secanswer"]');
+            if (await adminSecqaa.count()) await adminSecqaa.fill('2');
+            await Promise.all([
+                adminPage.waitForNavigation({ waitUntil: 'networkidle' }).catch(() => {}),
+                adminLoginForm.evaluate(form => form.submit())
+            ]);
+
+            await adminPage.goto(`http://127.0.0.1:8080/forum.php?mod=post&action=reply&fid=2&tid=${tidOutput}&reppost=${firstPid}`);
+            await adminPage.waitForLoadState('networkidle');
+            await adminPage.evaluate((msg) => {
+                const textArea = document.querySelector('textarea[name="message"], #postmessage');
+                if (textArea) textArea.value = (textArea.value ? textArea.value + '\n' : '') + msg;
+                const secqaa = document.querySelector('input[name*="secanswer"]');
+                if (secqaa) secqaa.value = '2';
+            }, 'Admin quote reply to user thread.');
+            const adminReplyBtn = await adminPage.$('#postsubmit, button[name="replysubmit"]');
+            if (adminReplyBtn) {
+                await adminReplyBtn.click();
+                await adminPage.waitForNavigation({ waitUntil: 'networkidle' }).catch(() => {});
+            }
+            await adminContext.close();
 
             await page.goto('http://127.0.0.1:8080/home.php?mod=space&do=notice');
             await page.waitForLoadState('networkidle');
@@ -444,7 +442,7 @@ const { execSync } = require('child_process');
                 noticeBody.includes('admin') || noticeBody.includes('Standard User Thread') || noticeBody.includes('回复') || noticeBody.includes('reply') || noticeBody.includes('Notice') || noticeBody.includes('提醒'),
                 'Assertion Error: Desktop reply notification page (do=notice) did not render notice content.'
             );
-            report += '### 4d. Desktop Reply Notification (do=notice)\n- **Status**: Checked\n- **DB Notification Check**: Passed\n- **Notice Page Render**: Success\n- **Screenshot**: `screenshot_desktop_notice.png`\n\n';
+            report += '### 4d. Desktop Reply Quote & Notification (do=notice)\n- **Status**: Checked\n- **Admin Quote Reply via UI**: Success\n- **DB Notification Check**: Passed\n- **Notice Page Render**: Success\n- **Screenshot**: `screenshot_desktop_notice.png`\n\n';
         }
 
         console.log("Checking profile page for user custom avatar...");

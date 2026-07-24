@@ -60,9 +60,9 @@ const { execSync } = require('child_process');
         require_once libfile('function/cache');
         updatecache(array('setting', 'secqaa', 'styles', 'usergroups'));
         ?>`;
-        fs.writeFileSync('disable_sec.php', phpConfig);
-        execSync('php disable_sec.php');
-        fs.unlinkSync('disable_sec.php');
+        fs.writeFileSync('setup_test_sec.php', phpConfig);
+        execSync('php setup_test_sec.php');
+        if (fs.existsSync('setup_test_sec.php')) fs.unlinkSync('setup_test_sec.php');
 
         // Register user
         await page.goto('http://127.0.0.1:8080/member.php?mod=register');
