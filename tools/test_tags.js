@@ -29,19 +29,46 @@ const { execSync } = require('child_process');
     console.log("Starting Tags Feature tests...");
 
     try {
-        console.log("Creating synthetic thread and tag...");
-        // 1. Thread
-        execSync(`sudo mysql -u root ultrax -e "INSERT INTO pre_forum_thread (fid, author, authorid, subject, dateline, lastpost, lastposter) VALUES (2, 'admin', 1, 'Thread with Tags', UNIX_TIMESTAMP(), UNIX_TIMESTAMP(), 'admin');"`);
-        const tidOutput = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT tid FROM pre_forum_thread WHERE subject='Thread with Tags' ORDER BY tid DESC LIMIT 1;"`).toString().trim();
+        console.log("Logging in as admin to post thread with tags via UI...");
+        await page.goto('http://127.0.0.1:8080/member.php?mod=logging&action=login');
+        await page.waitForLoadState('networkidle');
+        await page.locator('input[name="username"]').fill('admin');
+        await page.locator('input[name="password"]').fill('Testpassword123!');
+        const secqaa = await page.$('input[name*="secanswer"]');
+        if (secqaa) await secqaa.fill('2');
+        await page.locator('button[name="loginsubmit"]').click();
+        await page.waitForLoadState('networkidle');
 
-        // 2. Tag
-        execSync(`sudo mysql -u root ultrax -e "INSERT INTO pre_common_tag (tagname, status) VALUES ('playwright', 0);" || true`);
-        const tagidOutput = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT tagid FROM pre_common_tag WHERE tagname='playwright' LIMIT 1;"`).toString().trim();
+        console.log("Posting new thread with tags in Forum (fid=2) via UI...");
+        await page.goto('http://127.0.0.1:8080/forum.php?mod=post&action=newthread&fid=2');
+        await page.waitForLoadState('networkidle');
+        await page.locator('input[name="subject"]').fill('Thread with Tags');
+        await page.evaluate(() => {
+            const textArea = document.querySelector('textarea[name="message"], #postmessage');
+            if (textArea) textArea.value = 'Posting thread content with tag via UI.';
+            if (window.editdoc && window.editdoc.body) window.editdoc.body.innerHTML = 'Posting thread content with tag via UI.';
+        });
 
-        // 3. Link Tag to Thread
-        if (tidOutput && tagidOutput) {
-            execSync(`sudo mysql -u root ultrax -e "INSERT INTO pre_common_tagitem (tagid, itemid, idtype) VALUES (${tagidOutput}, ${tidOutput}, 'tid');" || true`);
+        const extraTagBtn = await page.$('#extra_tag_b, a[href*="extra_tag"], #extra_tag_b a');
+        if (extraTagBtn) {
+            await extraTagBtn.click().catch(() => {});
         }
+        const tagsInput = await page.$('#tags, input[name="tags"]');
+        if (tagsInput) {
+            await tagsInput.fill('playwright', { force: true }).catch(async () => {
+                await page.evaluate(() => {
+                    const input = document.querySelector('#tags, input[name="tags"]');
+                    if (input) input.value = 'playwright';
+                });
+            });
+        }
+        const postsubmitBtn = await page.$('#postsubmit, button[name="topicsubmit"]');
+        if (postsubmitBtn) {
+            await postsubmitBtn.click();
+            await page.waitForNavigation({ waitUntil: 'networkidle' }).catch(() => {});
+        }
+
+        const tagidOutput = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT tagid FROM pre_common_tag WHERE tagname='playwright' LIMIT 1;"`).toString().trim();
 
         // Test Tag Search
         if (tagidOutput) {
