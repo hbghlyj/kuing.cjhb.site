@@ -336,6 +336,8 @@ $_config['output']['upgradeinsecure'] = 1;
   - 空间好友与访客列表（`home.php?mod=space&do=friend`）在“最近访客”（`view=visitor`）和“我的足迹”（`view=trace`）视图下，由于数据源不包含好友热度积分（`$value['num']`），原模板会渲染出空括号的 `Hot()` 链接。现已在 `template/default/home/space_friend.htm` 中清理该链接，仅保留访客/足迹时间戳。
 - **英文语言包匿名用户 UI 词汇规范**：
   - 将 `source/i18n/EN_UTF8/lang_space.php` 与 `home/lang_template.php` 中 `anonymity` 对应条目的英文翻译由抽象名词 `'Anonymity'` 修正为标准 UI 词汇 `'Anonymous'`。
+- **GD 库 PNG 透明背景缩略图修复**：
+  - `source/class/class_image.php` 的 GD 缩略图方法 `Thumb_GD()` 中，原先对包含 Alpha 透明通道的 PNG 统一调用 `imagecopymerge()`，导致透明通道丢失变黑。现调整为开启 `imagealphablending($thumb_photo, true)` 并使用 `imagecopy()`，确保透明 PNG 缩略图能够在白色画布上正确合成，避免黑色背景。
 
 ## Update Rule
 
