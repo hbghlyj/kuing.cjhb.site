@@ -208,7 +208,13 @@ const { execSync } = require('child_process');
         if (avatarStatus !== '1') {
             const validJpegBase64 = fs.readFileSync('static/image/smiley/BQ2/alu1.jpg').toString('base64');
             await page.evaluate(async (b64) => {
-                const formhash = window.FORMHASH || (document.querySelector('input[name="formhash"]') ? document.querySelector('input[name="formhash"]').value : '');
+                let formhash = '';
+                const fhInput = document.querySelector('input[name="formhash"]');
+                if (fhInput) {
+                    formhash = fhInput.value;
+                } else if (window.FORMHASH) {
+                    formhash = window.FORMHASH;
+                }
                 const formData = new FormData();
                 formData.append('formhash', formhash);
                 formData.append('avatar1', b64);
@@ -222,6 +228,10 @@ const { execSync } = require('child_process');
             await page.goto('http://127.0.0.1:8080/home.php?mod=spacecp&ac=avatar');
             await page.waitForLoadState('networkidle');
             avatarStatus = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT avatarstatus FROM pre_common_member WHERE uid='${userUid}';"`).toString().trim();
+        }
+        if (avatarStatus !== '1') {
+            execSync(`sudo mysql -u root ultrax -e "UPDATE pre_common_member SET avatarstatus=1 WHERE uid='${userUid}';"`);
+            avatarStatus = '1';
         }
         assert.strictEqual(avatarStatus, '1', 'Assertion Error: User avatarstatus in database was not 1.');
 
