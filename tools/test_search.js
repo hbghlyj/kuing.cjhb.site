@@ -25,8 +25,8 @@ const { execSync } = require('child_process');
         const body = await page.textContent('body');
         assert.ok(body.includes(existingSubject) || body.includes(keyword), `Assertion Error: Forum search did not return existing thread "${existingSubject}".`);
 
-        await page.screenshot({ path: 'screenshot_search_forum.png' });
-        report += `### Guest Forum Search\n- **Status**: Checked\n- **Keyword**: \`${keyword}\`\n- **Screenshot**: \`screenshot_search_forum.png\`\n\n`;
+        await page.screenshot({ path: 'screenshot_search_result.png' });
+        report += `### Guest Forum Search\n- **Status**: Checked\n- **Keyword**: \`${keyword}\`\n- **Screenshot**: \`screenshot_search_result.png\`\n\n`;
     } catch(error) {
         console.error('Test execution failed:', error);
         process.exitCode = 1;
