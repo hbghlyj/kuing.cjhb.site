@@ -211,12 +211,14 @@ const { execSync } = require('child_process');
             await page.waitForLoadState('networkidle');
         }
         const editLink = page.locator(`a[href*="action=edit"][href*="pid=${replyPid}"], a[href*="action=edit"]`).first();
-        if (await editLink.count()) {
+        if (await editLink.count() && await editLink.isVisible().catch(() => false)) {
             await editLink.click();
-        } else {
-            await page.goto(`http://127.0.0.1:8080/forum.php?mod=post&action=edit&fid=2&tid=${tid}&pid=${replyPid}`);
+            await page.waitForLoadState('networkidle');
         }
-        await page.waitForLoadState('networkidle');
+        if (!page.url().includes('mod=post&action=edit')) {
+            await page.goto(`http://127.0.0.1:8080/forum.php?mod=post&action=edit&fid=2&tid=${tid}&pid=${replyPid}`);
+            await page.waitForLoadState('networkidle');
+        }
         assert.ok(await page.$('#postform #needmessage'), 'Assertion Error: Mobile edit form did not render.');
         await page.locator('#needmessage').fill(editedReply);
         await page.locator('#postsubmit').click();

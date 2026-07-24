@@ -352,20 +352,20 @@ const { execSync } = require('child_process');
             console.log("Attempting to edit thread...");
             const pidOutput = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT pid FROM pre_forum_post WHERE tid='${tidOutput}' AND first=1 LIMIT 1;"`).toString().trim();
             if (pidOutput) {
-                if (!page.url().includes('viewthread')) {
-                    await page.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${tidOutput}`);
-                    await page.waitForLoadState('networkidle');
+                if (!page.url().includes('mod=post&action=edit')) {
+                    const editPostBtn = page.locator(`a[href*="action=edit"][href*="pid=${pidOutput}"], a[href*="action=edit"]`).first();
+                    if (await editPostBtn.count() && await editPostBtn.isVisible().catch(() => false)) {
+                        await editPostBtn.click();
+                        await page.waitForLoadState('networkidle');
+                    }
+                    if (!page.url().includes('mod=post&action=edit')) {
+                        await page.goto(`http://127.0.0.1:8080/forum.php?mod=post&action=edit&fid=2&tid=${tidOutput}&pid=${pidOutput}`);
+                        await page.waitForLoadState('networkidle');
+                    }
                 }
-                const editPostBtn = page.locator(`a[href*="action=edit"][href*="pid=${pidOutput}"], a[href*="action=edit"]`).first();
-                if (await editPostBtn.count()) {
-                    await editPostBtn.click();
-                } else {
-                    await page.goto(`http://127.0.0.1:8080/forum.php?mod=post&action=edit&fid=2&tid=${tidOutput}&pid=${pidOutput}`);
-                }
-                await page.waitForLoadState('networkidle');
 
-                const editSubject = await page.$('input[name="subject"]');
-                if (editSubject) {
+                const editSubject = page.locator('#postform input[name="subject"]:visible, input[name="subject"]:visible').first();
+                if (await editSubject.count()) {
                     await editSubject.fill('Standard User Thread (Edited)');
                 }
                 await fillPostEditor('Edited body text from unprivileged account.');
