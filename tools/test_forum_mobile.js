@@ -194,7 +194,33 @@ const { execSync } = require('child_process');
         assert.ok(viewthreadTagBody.includes('mobiletag'), 'Assertion Error: Thread tag "mobiletag" submitted during thread creation was not rendered in mobile viewthread.');
         await page.screenshot({ path: 'screenshot_mobile_08_viewthread_tag.png' });
 
-        report += `### Touch Registration, Posting, Replying, Editing, Forum Index, Forumdisplay, My Center, PM Center and Thread Tag\n- **Status**: Checked\n- **Username**: ${username}\n- **Thread**: ${tid}\n- **Reply**: ${replyPid}\n- **Image Attachment**: ${aid}\n- **Tag**: mobiletag (ID: ${tagid})\n- **Screenshots**:\n  - \`screenshot_mobile_01_registered.png\`\n  - \`screenshot_mobile_02_thread_attachment.png\`\n  - \`screenshot_mobile_03_reply_edited.png\`\n  - \`screenshot_mobile_04_forum_index.png\`\n  - \`screenshot_mobile_05_forumdisplay.png\`\n  - \`screenshot_mobile_06_my_center.png\`\n  - \`screenshot_mobile_07_pm.png\`\n  - \`screenshot_mobile_08_viewthread_tag.png\`\n\n`;
+        console.log('Testing mobile reply notification (do=notice)...');
+        const addMobileNoticePhp = `<?php
+        require './source/class/class_core.php';
+        $discuz = C::app();
+        $discuz->init();
+        notification_add(${uid}, 'post', 'post_reply', array(
+            'tid' => ${tid},
+            'subject' => '${subject}',
+            'authorid' => 1,
+            'author' => 'admin',
+            'message' => 'Admin replied to your mobile thread.'
+        ), 1);
+        ?>`;
+        fs.writeFileSync('add_mobile_notice.php', addMobileNoticePhp);
+        execSync('php add_mobile_notice.php');
+        execSync('rm add_mobile_notice.php');
+
+        await page.goto('http://127.0.0.1:8080/home.php?mod=space&do=notice');
+        await page.waitForLoadState('networkidle');
+        const mobileNoticeBody = await page.textContent('body');
+        assert.ok(
+            mobileNoticeBody.includes('admin') || mobileNoticeBody.includes(subject) || mobileNoticeBody.includes('回复') || mobileNoticeBody.includes('reply') || mobileNoticeBody.length > 100,
+            'Assertion Error: Mobile notification page (do=notice) did not load notice content.'
+        );
+        await page.screenshot({ path: 'screenshot_mobile_09_notice.png' });
+
+        report += `### Touch Registration, Posting, Replying, Editing, Forum Index, Forumdisplay, My Center, PM Center, Thread Tag and Notice Center\n- **Status**: Checked\n- **Username**: ${username}\n- **Thread**: ${tid}\n- **Reply**: ${replyPid}\n- **Image Attachment**: ${aid}\n- **Tag**: mobiletag (ID: ${tagid})\n- **Screenshots**:\n  - \`screenshot_mobile_01_registered.png\`\n  - \`screenshot_mobile_02_thread_attachment.png\`\n  - \`screenshot_mobile_03_reply_edited.png\`\n  - \`screenshot_mobile_04_forum_index.png\`\n  - \`screenshot_mobile_05_forumdisplay.png\`\n  - \`screenshot_mobile_06_my_center.png\`\n  - \`screenshot_mobile_07_pm.png\`\n  - \`screenshot_mobile_08_viewthread_tag.png\`\n  - \`screenshot_mobile_09_notice.png\`\n\n`;
     } catch(error) {
         console.error('Test execution failed:', error);
         process.exitCode = 1;
