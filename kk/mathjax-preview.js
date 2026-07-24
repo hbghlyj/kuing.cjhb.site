@@ -300,9 +300,66 @@ function initFullEditorMathEntry() {
 	button.insertBefore(entryGroup, button.firstChild);
 }
 
+function initFastTexMode() {
+	var textarea = document.querySelector('.edt textarea[id$="_textarea"]');
+	if (!textarea || !textarea.id.endsWith('_textarea')) return;
+
+	var editorid = textarea.id.slice(0, -'_textarea'.length);
+	var controls = document.getElementById(editorid + '_controls');
+	var panel = document.getElementById('fastsmiliesdiv');
+	if (!controls || !panel || !panel.classList.contains('post_fasttex_panel')) return;
+
+	var marker = document.createComment('fast TeX panel');
+	panel.parentNode.insertBefore(marker, panel);
+
+	function isEscaped(value, index) {
+		var slashes = 0;
+		while (index > 0 && value[--index] === '\\') slashes++;
+		return slashes % 2 === 1;
+	}
+
+	function isMathCursor(value, cursor) {
+		var before = value.slice(0, cursor);
+		if (before.lastIndexOf('\\[') > before.lastIndexOf('\\]') || before.lastIndexOf('\\(') > before.lastIndexOf('\\)')) return true;
+		if ((before.match(/\\begin\{[^}]+\}/g) || []).length > (before.match(/\\end\{[^}]+\}/g) || []).length) return true;
+
+		var inline = false;
+		var display = false;
+		for (var i = 0; i < before.length; i++) {
+			if (before[i] !== '$' || isEscaped(before, i)) continue;
+			if (before[i + 1] === '$') {
+				display = !display;
+				i++;
+			} else if (!display) {
+				inline = !inline;
+			}
+		}
+		return inline || display;
+	}
+
+	function update() {
+		if (isMathCursor(textarea.value, textarea.selectionStart)) {
+			controls.appendChild(panel);
+			controls.classList.add('math_mode');
+		} else {
+			marker.parentNode.insertBefore(panel, marker.nextSibling);
+			controls.classList.remove('math_mode');
+		}
+	}
+
+	['input', 'keyup', 'click', 'focus'].forEach(function(eventName) {
+		textarea.addEventListener(eventName, update);
+	});
+	document.addEventListener('selectionchange', function() {
+		if (document.activeElement === textarea) update();
+	});
+	update();
+}
+
 function initMathJaxPreview() {
 	renderFastTexSmilies();
 	initFullEditorMathEntry();
+	initFastTexMode();
 	initLivePreview();
 }
 

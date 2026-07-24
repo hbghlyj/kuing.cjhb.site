@@ -30,6 +30,11 @@ https://www.discuz.vip
 			.edt .pt:focus { outline: none; -moz-box-shadow: none; }
 	#post_math_entry { display: flex; align-items: center; gap: 2px; padding: 0 2px; }
 	#post_math_entry a { display: block; width: auto; height: 18px; padding: 0 2px; text-indent: 0; background-image: none; white-space: nowrap; font-size: 10px; line-height: 18px; }
+	.post_fasttex_panel { display: none; }
+	.edt > .bar.math_mode > :not(#fastsmiliesdiv) { display: none !important; }
+	.edt > .bar.math_mode #fastsmiliesdiv { display: block !important; float: none; width: auto; }
+	.edt > .bar.math_mode #fastsmilies table { width: auto; height: 40px; }
+	.edt > .bar.math_mode #fastsmilies td { padding: 0 4px !important; line-height: 20px; white-space: nowrap; }
 	.tex_greek_cell { position: relative; overflow: visible !important; }
 	.tex_greek_menu { position: relative; }
 	.tex_greek_palette { display: none; grid-template-columns: repeat(8, 24px); gap: 1px; position: absolute; top: 100%; left: -1px; z-index: 50; padding: 4px; border: 1px solid #CCC; background: {WRAPBG}; box-shadow: 0 2px 6px rgba(0, 0, 0, .15); }
