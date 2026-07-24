@@ -251,6 +251,13 @@ const { execSync } = require('child_process');
         assert.ok((await page.textContent('body')).includes(username) || (await page.textContent('body')).length > 100, 'Assertion Error: Mobile My Center did not load content.');
         await page.screenshot({ path: 'screenshot_mobile_06_my_center.png' });
 
+        console.log("Testing mobile other user's profile page (admin uid=1)...");
+        await page.goto('http://127.0.0.1:8080/home.php?mod=space&uid=1&do=profile');
+        await page.waitForLoadState('networkidle');
+        const mobileOtherProfileBody = await page.textContent('body');
+        assert.ok(mobileOtherProfileBody.includes('admin') || mobileOtherProfileBody.length > 100, 'Assertion Error: Mobile other user profile page did not load.');
+        await page.screenshot({ path: 'screenshot_mobile_other_user_profile.png' });
+
         console.log('Testing mobile UI avatar setup with multiple extensions (PNG, JPG, GIF)...');
         const avatarPageResponse = await page.goto('http://127.0.0.1:8080/home.php?mod=spacecp&ac=avatar');
         await page.waitForLoadState('networkidle');
@@ -412,7 +419,7 @@ const { execSync } = require('child_process');
         );
         await page.screenshot({ path: 'screenshot_mobile_09_notice.png' });
 
-        report += `### Touch Registration, Posting, Replying, Editing, Forum Index, Forumdisplay, My Center, PM Center, Thread Tag and Notice Center\n- **Status**: Checked\n- **Username**: ${username}\n- **Thread**: ${tid}\n- **Reply**: ${replyPid}\n- **Image Attachment**: ${aid}\n- **Tag**: mobiletag (ID: ${tagid})\n- **Screenshots**:\n  - \`screenshot_mobile_editor.png\`\n  - \`screenshot_mobile_01_registered.png\`\n  - \`screenshot_mobile_02_thread_attachment.png\`\n  - \`screenshot_mobile_03_reply_edited.png\`\n  - \`screenshot_mobile_04_forum_index.png\`\n  - \`screenshot_mobile_05_forumdisplay.png\`\n  - \`screenshot_mobile_06_my_center.png\`\n  - \`screenshot_mobile_07_pm.png\`\n  - \`screenshot_mobile_08_viewthread_tag.png\`\n  - \`screenshot_mobile_09_notice.png\`\n\n`;
+        report += `### Touch Registration, Posting, Replying, Editing, Forum Index, Forumdisplay, My Center, PM Center, Thread Tag and Notice Center\n- **Status**: Checked\n- **Username**: ${username}\n- **Thread**: ${tid}\n- **Reply**: ${replyPid}\n- **Image Attachment**: ${aid}\n- **Tag**: mobiletag (ID: ${tagid})\n- **Screenshots**:\n  - \`screenshot_mobile_editor.png\`\n  - \`screenshot_mobile_01_registered.png\`\n  - \`screenshot_mobile_02_thread_attachment.png\`\n  - \`screenshot_mobile_03_reply_edited.png\`\n  - \`screenshot_mobile_04_forum_index.png\`\n  - \`screenshot_mobile_05_forumdisplay.png\`\n  - \`screenshot_mobile_06_my_center.png\`\n  - \`screenshot_mobile_other_user_profile.png\`\n  - \`screenshot_mobile_07_pm.png\`\n  - \`screenshot_mobile_08_viewthread_tag.png\`\n  - \`screenshot_mobile_09_notice.png\`\n\n`;
     } catch(error) {
         console.error('Test execution failed:', error);
         process.exitCode = 1;

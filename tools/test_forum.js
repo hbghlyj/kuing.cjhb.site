@@ -508,6 +508,13 @@ const { execSync } = require('child_process');
         const profileAvatarImg = await page.$('#uhd .avt img, #uhd .icn.avt img, #uhd .avt');
         assert.ok(profileAvatarImg !== null, 'Assertion Error: Avatar image element was not rendered on profile page.');
 
+        console.log("Checking other user's profile page on desktop (admin uid=1)...");
+        await page.goto('http://127.0.0.1:8080/home.php?mod=space&uid=1&do=profile');
+        await page.waitForLoadState('networkidle');
+        const otherProfileBody = await page.textContent('body');
+        assert.ok(otherProfileBody.includes('admin') || otherProfileBody.length > 100, 'Assertion Error: Desktop other user profile page did not load.');
+        await page.screenshot({ path: 'screenshot_desktop_other_user_profile.png' });
+
         console.log("Checking header for user custom avatar...");
         await page.goto('http://127.0.0.1:8080/forum.php?mod=forumdisplay&fid=2');
         await page.waitForLoadState('networkidle');
@@ -527,7 +534,7 @@ const { execSync } = require('child_process');
         const viewthreadAvatarImg = await page.$('#postlist .pls .avatar img, #postlist .postauthor .avatar img, #postlist .pls .avatar');
         assert.ok(viewthreadAvatarImg !== null, 'Assertion Error: Author avatar image element was not rendered on viewthread page.');
 
-        report += '### 5. Unprivileged User Avatar Setup & Verification\n- **Status**: Checked\n- **Avatar Status in DB**: 1\n- **Profile Avatar Check**: Passed\n- **Header Avatar Check**: Passed\n- **Viewthread Avatar Check**: Passed\n\n';
+        report += '### 5. Unprivileged User Avatar Setup & Verification\n- **Status**: Checked\n- **Avatar Status in DB**: 1\n- **Profile Avatar Check**: Passed\n- **Other User Profile Screenshot**: `screenshot_desktop_other_user_profile.png`\n- **Header Avatar Check**: Passed\n- **Viewthread Avatar Check**: Passed\n\n';
 
         // 6. User Image Attachment Post Test
         console.log("Attempting to post thread with image attachment...");
