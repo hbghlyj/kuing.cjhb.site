@@ -283,12 +283,25 @@ const { execSync } = require('child_process');
         await adminMsgArea.fill(adminReply);
         const submitBtn = adminMobilePage.locator('#postsubmit:visible, button[name="replysubmit"]:visible').first();
         assert.strictEqual(await submitBtn.count(), 1, 'Assertion Error: Mobile quote reply submit button did not render.');
+        await adminMobilePage.waitForFunction(() => document.getElementById('postsubmit')?.dataset.disabled === 'false');
+        const adminReplyResponsePromise = adminMobilePage.waitForResponse(response =>
+            response.request().method() === 'POST' &&
+            response.url().includes('forum.php?mod=post&action=reply')
+        );
         await submitBtn.click();
-        await adminMobilePage.waitForNavigation({ waitUntil: 'networkidle' }).catch(() => {});
-        await waitForDbValue(
-            `SELECT COUNT(*) FROM pre_forum_post WHERE tid='${tid}' AND authorid='1' AND message LIKE '%${adminReply}%'`,
+        const adminReplyResponse = await adminReplyResponsePromise;
+        const adminReplyResponseText = await adminReplyResponse.text();
+        assert.ok(adminReplyResponse.ok(), `Mobile quote reply request failed: status=${adminReplyResponse.status()}; body=${adminReplyResponseText.slice(0, 2000)}`);
+        for(let attempt = 0; attempt < 15; attempt++) {
+            if(dbScalar(`SELECT COUNT(*) FROM pre_forum_post WHERE tid='${tid}' AND authorid='1' AND message LIKE '%${adminReply}%'`) === '1') {
+                break;
+            }
+            await page.waitForTimeout(500);
+        }
+        assert.strictEqual(
+            dbScalar(`SELECT COUNT(*) FROM pre_forum_post WHERE tid='${tid}' AND authorid='1' AND message LIKE '%${adminReply}%'`),
             '1',
-            'Assertion Error: Mobile quote reply was not stored'
+            `Assertion Error: Mobile quote reply was not stored. Response: ${adminReplyResponseText.slice(0, 2000)}`
         );
         await adminMobileContext.close();
 
