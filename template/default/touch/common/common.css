@@ -1220,8 +1220,9 @@ body.pg_logging, body.pg_register, body.pg_lostpasswd_mobile, body.pg_lostpasswd
 .message a:link,.message a:visited,.message a:hover {color:#0086CE;text-decoration:underline}
 i.pstatus {display:block;font-size:12px;text-align:center;color:#999}
 /* 标签 .ptg */
-.ptg:before {content:"\f14a";font-family:dzicon;font-size:16px;line-height:14px;color:#7DA0CC}
-.ptg a {color:{HIGHLIGHTLINK};}
+.ptg { clear: both; display: block; margin-top: 12px; margin-bottom: 8px; font-size: 13px; color: var(--dz-FC-666); }
+.ptg i { margin-right: 4px; font-size: 14px; color: var(--dz-BG-2); }
+.ptg a { color: var(--dz-LINK, #0086CE); }
 .plc .pi .message .jammer {font-size:12px;color:var(--dz-BG-0)}
 .plc .pi .message  hr.l { height: 1px; border: none; background: var(--dz-BOR-ed); color:var(--dz-BOR-ed)}
 .plc .pi .message img, .plc .pi .img_one img {margin:8px 0;max-width:100%;border-radius:var(--dz-radius-md)}
