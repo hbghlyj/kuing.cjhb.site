@@ -303,6 +303,25 @@ const { execSync } = require('child_process');
         );
         await page.screenshot({ path: 'screenshot_mobile_space_thread_postcomment.png' });
 
+        console.log('Testing mobile Thread Recommendation and Hot Reply Voting via UI...');
+        await page.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${tid}`);
+        await page.waitForLoadState('networkidle');
+        const mobileRecommendBtn = page.locator('a[href*="action=recommend&do=add"]').first();
+        if (await mobileRecommendBtn.count() && await mobileRecommendBtn.isVisible().catch(() => false)) {
+            console.log("Clicking mobile thread recommend button via UI...");
+            await mobileRecommendBtn.click();
+            await page.waitForTimeout(1000);
+        }
+        const mobileSupportBtn = page.locator('a[href*="action=postreview&do=support"]').first();
+        if (await mobileSupportBtn.count() && await mobileSupportBtn.isVisible().catch(() => false)) {
+            console.log("Clicking mobile postreview support button via UI...");
+            await mobileSupportBtn.click();
+            await page.waitForTimeout(1000);
+        }
+        await page.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${tid}`);
+        await page.waitForLoadState('networkidle');
+        await page.screenshot({ path: 'screenshot_mobile_thread_recommend.png' });
+
         console.log('Testing mobile UI avatar setup with multiple extensions (PNG, JPG, GIF)...');
         const avatarPageResponse = await page.goto('http://127.0.0.1:8080/home.php?mod=spacecp&ac=avatar');
         await page.waitForLoadState('networkidle');

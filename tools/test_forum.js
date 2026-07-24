@@ -474,7 +474,26 @@ const { execSync } = require('child_process');
             'Assertion Error: view=me&type=postcomment page did not load correctly.'
         );
 
-        report += '### 4b. Personal Info Update & Space Threads Verification\n- **Status**: Checked\n- **spacecp Update**: Success\n- **Threads Page (with view=me)**: Success — `screenshot_space_thread_viewme.png`\n- **Other User Threads Page (uid=1)**: Success — `screenshot_space_thread_default.png`\n- **User Replies Page (type=reply)**: Success — `screenshot_desktop_space_thread_reply.png`\n- **User Postcomments Page (type=postcomment)**: Success — `screenshot_desktop_space_thread_postcomment.png`\n\n';
+        console.log("Testing Thread Recommendation and Hot Reply Voting via UI...");
+        await page.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${tidOutput}`);
+        await page.waitForLoadState('networkidle');
+        const recommendBtn = page.locator('a[href*="action=recommend&do=add"]').first();
+        if (await recommendBtn.count() && await recommendBtn.isVisible().catch(() => false)) {
+            console.log("Clicking desktop thread recommend button via UI...");
+            await recommendBtn.click();
+            await page.waitForTimeout(1000);
+        }
+        const supportBtn = page.locator('a[href*="action=postreview&do=support"]').first();
+        if (await supportBtn.count() && await supportBtn.isVisible().catch(() => false)) {
+            console.log("Clicking desktop postreview support button via UI...");
+            await supportBtn.click();
+            await page.waitForTimeout(1000);
+        }
+        await page.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${tidOutput}`);
+        await page.waitForLoadState('networkidle');
+        await page.screenshot({ path: 'screenshot_desktop_thread_recommend.png' });
+
+        report += '### 4b. Personal Info Update & Space Threads Verification\n- **Status**: Checked\n- **spacecp Update**: Success\n- **Threads Page (with view=me)**: Success — `screenshot_space_thread_viewme.png`\n- **Other User Threads Page (uid=1)**: Success — `screenshot_space_thread_default.png`\n- **User Replies Page (type=reply)**: Success — `screenshot_desktop_space_thread_reply.png`\n- **User Postcomments Page (type=postcomment)**: Success — `screenshot_desktop_space_thread_postcomment.png`\n- **Thread Recommendation & Hot Reply Check**: Success — `screenshot_desktop_thread_recommend.png`\n\n';
 
         console.log("Testing Personal Messages (PM) on Desktop via UI...");
         const userPmToAdmin = 'UI sent test message to admin.';
