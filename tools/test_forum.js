@@ -513,6 +513,8 @@ const { execSync } = require('child_process');
             `Assertion Error: Renamed desktop uploader script was not loaded. Scripts: ${uploaderRuntime.scripts.join(', ')}`
         );
 
+        const attachmentFixture = 'static/image/common/nosexbg.png';
+        assert.ok(fs.existsSync(attachmentFixture), `Assertion Error: Attachment fixture is missing: ${attachmentFixture}`);
         const rejectedUploadResp = await page.request.post('http://127.0.0.1:8080/misc.php?mod=upload&operation=upload&simple=1&type=image&fid=2');
         assert.strictEqual(rejectedUploadResp.status(), 403, 'Assertion Error: Upload endpoint accepted a request without formhash.');
 
@@ -523,9 +525,9 @@ const { execSync } = require('child_process');
                 multipart: {
                     formhash,
                     Filedata: {
-                        name: 'sample_test_avatar.png',
+                        name: 'sample_test_attachment.png',
                         mimeType: 'image/png',
-                        buffer: fs.readFileSync('sample_test_avatar.png')
+                        buffer: fs.readFileSync(attachmentFixture)
                     }
                 }
             });
@@ -626,12 +628,6 @@ const { execSync } = require('child_process');
         await page.screenshot({ path: 'screenshot_attachment_viewthread.png' }).catch(() => { });
 
         report += '### 6. Unprivileged User Image Attachment Post\n- **Status**: Checked\n- **Thread Created**: Thread with Attachment (TID: ' + attachTid + ', AID: ' + (aid || 'N/A') + ')\n- **Image Attachment DOM Check**: Passed\n- **Viewthread Verification**: Success\n\n';
-
-        if (fs.existsSync('sample_test_avatar.png')) {
-            fs.unlinkSync('sample_test_avatar.png');
-        }
-
-
 
     } catch (error) {
         console.error("Test execution failed:", error);
