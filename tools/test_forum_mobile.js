@@ -47,27 +47,28 @@ const { execSync } = require('child_process');
         }
         assert.ok(await page.$('#registerform'), 'Assertion Error: Mobile registration form did not render.');
 
+        const registrationForm = page.locator('#registerform');
         // reginput can rename the DOM id and name; the first text field is the username.
-        const registrationTextFields = page.locator('#registerform input[type="text"]');
+        const registrationTextFields = registrationForm.locator('input[type="text"]');
         assert.ok(await registrationTextFields.count() > 0, 'Assertion Error: Mobile registration username field did not render.');
         await registrationTextFields.nth(0).fill(username);
-        const passInputs = page.locator('input[type="password"]');
+        const passInputs = registrationForm.locator('input[type="password"]');
         if (await passInputs.count() >= 2) {
             await passInputs.nth(0).fill(password);
             await passInputs.nth(1).fill(password);
         }
-        const emailInput = page.locator('input[type="email"], input[name*="email"]').first();
+        const emailInput = registrationForm.locator('input[type="email"]');
         if (await emailInput.count()) await emailInput.fill(email);
 
-        const secqaaInput = page.locator('input[name*="secanswer"]');
+        const secqaaInput = registrationForm.locator('input[name*="secanswer"]');
         if (await secqaaInput.count()) await secqaaInput.fill('2');
 
-        const regSubmitBtn = page.locator('button[name="regsubmit"], #registerformsubmit, button[type="submit"]').first();
-        await Promise.all([
-            page.waitForNavigation({ waitUntil: 'networkidle' }).catch(() => {}),
-            regSubmitBtn.click()
-        ]);
-        await page.waitForTimeout(1500);
+        const regSubmitBtn = registrationForm.locator('button[name="regsubmit"]');
+        assert.strictEqual(await regSubmitBtn.count(), 1, 'Assertion Error: Mobile registration submit button did not render.');
+        const registrationResponse = page.waitForResponse(response => response.request().method() === 'POST' && response.url().includes('member.php?mod=register'));
+        await regSubmitBtn.click();
+        await registrationResponse;
+        await page.waitForTimeout(500);
 
         const memberCount = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT COUNT(*) FROM pre_common_member WHERE username='${username}';"`).toString().trim();
         assert.strictEqual(memberCount, '1', 'Assertion Error: Mobile registration did not create the member.');

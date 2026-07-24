@@ -109,30 +109,32 @@ const { execSync } = require('child_process');
         await page.goto('http://127.0.0.1:8080/member.php?mod=register');
         await page.waitForLoadState('networkidle');
 
+        const registrationForm = page.locator('#registerform');
+        assert.strictEqual(await registrationForm.count(), 1, 'Assertion Error: Desktop registration form did not render.');
         // reginput can rename the DOM id and name; the first text field is the username.
-        const registrationTextFields = page.locator('#registerform input[type="text"]');
+        const registrationTextFields = registrationForm.locator('input[type="text"]');
         assert.ok(await registrationTextFields.count() > 0, 'Assertion Error: Desktop registration username field did not render.');
         await registrationTextFields.nth(0).fill(username);
-        const passwordInputs = page.locator('input[type="password"]');
+        const passwordInputs = registrationForm.locator('input[type="password"]');
         if (await passwordInputs.count() >= 2) {
             await passwordInputs.nth(0).fill(password);
             await passwordInputs.nth(1).fill(password);
         }
-        const emailInput = page.locator('input[type="email"], input[name*="email"]').first();
+        const emailInput = registrationForm.locator('input[type="email"]');
         if (await emailInput.count()) await emailInput.fill(email);
 
-        const agreeCheckbox = page.locator('input[name="agree"]');
+        const agreeCheckbox = registrationForm.locator('input[name="agree"]');
         if (await agreeCheckbox.count()) await agreeCheckbox.check();
 
-        const secqaaInput = page.locator('input[name*="secanswer"]');
+        const secqaaInput = registrationForm.locator('input[name*="secanswer"]');
         if (await secqaaInput.count()) await secqaaInput.fill('2');
 
-        const regSubmitBtn = page.locator('button[name="regsubmit"], #registerformsubmit, button[type="submit"]').first();
-        await Promise.all([
-            page.waitForNavigation({ waitUntil: 'networkidle' }).catch(() => {}),
-            regSubmitBtn.click()
-        ]);
-        await page.waitForTimeout(2000);
+        const regSubmitBtn = registrationForm.locator('#registerformsubmit');
+        assert.strictEqual(await regSubmitBtn.count(), 1, 'Assertion Error: Desktop registration submit button did not render.');
+        const registrationResponse = page.waitForResponse(response => response.request().method() === 'POST' && response.url().includes('member.php?mod=register'));
+        await regSubmitBtn.click();
+        await registrationResponse;
+        await page.waitForTimeout(500);
 
         console.log("Checking if user exists in DB...");
         const dbCheck = execSync("sudo mysql -u root ultrax -N -s -e \"SELECT COUNT(*) FROM pre_common_member WHERE username='" + username + "';\"").toString().trim();
