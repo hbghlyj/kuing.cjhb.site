@@ -109,6 +109,16 @@ const { execSync } = require('child_process');
         });
         const aid = await page.locator('#imglist input[name^="attachnew["]').evaluate(input => input.name.match(/^attachnew\[(\d+)\]/)[1]);
         await page.locator('#needmessage').fill(`${message} [attachimg]${aid}[/attachimg]`);
+        await page.evaluate(() => {
+            let tagsInput = document.querySelector('#tags, input[name="tags"]');
+            if (!tagsInput) {
+                tagsInput = document.createElement('input');
+                tagsInput.type = 'hidden';
+                tagsInput.name = 'tags';
+                document.getElementById('postform').appendChild(tagsInput);
+            }
+            tagsInput.value = 'mobiletag';
+        });
         await page.waitForTimeout(250);
         await page.locator('#postsubmit').click();
         await waitForDbValue(`SELECT COUNT(*) FROM pre_forum_thread WHERE subject='${subject}'`, '1', 'Assertion Error: Mobile thread was not created');
@@ -174,16 +184,11 @@ const { execSync } = require('child_process');
         await page.screenshot({ path: 'screenshot_mobile_07_pm.png' });
 
         console.log('Testing mobile viewthread thread tag rendering...');
-        execSync(`sudo mysql -u root ultrax -e "INSERT INTO pre_common_tag (tagname, status) VALUES ('mobiletag', 0);" || true`);
-        const tagid = dbScalar("SELECT tagid FROM pre_common_tag WHERE tagname='mobiletag' LIMIT 1");
-        if (tagid && tid) {
-            execSync(`sudo mysql -u root ultrax -e "INSERT INTO pre_common_tagitem (tagid, itemid, idtype) VALUES (${tagid}, ${tid}, 'tid');" || true`);
-        }
-
         await page.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${tid}`);
         await page.waitForLoadState('networkidle');
+        const tagid = dbScalar("SELECT tagid FROM pre_common_tag WHERE tagname='mobiletag' LIMIT 1");
         const viewthreadTagBody = await page.textContent('body');
-        assert.ok(viewthreadTagBody.includes('mobiletag'), 'Assertion Error: Thread tag "mobiletag" was not rendered in mobile viewthread.');
+        assert.ok(viewthreadTagBody.includes('mobiletag'), 'Assertion Error: Thread tag "mobiletag" submitted during thread creation was not rendered in mobile viewthread.');
         await page.screenshot({ path: 'screenshot_mobile_08_viewthread_tag.png' });
 
         report += `### Touch Registration, Posting, Replying, Editing, Forum Index, Forumdisplay, My Center, PM Center and Thread Tag\n- **Status**: Checked\n- **Username**: ${username}\n- **Thread**: ${tid}\n- **Reply**: ${replyPid}\n- **Image Attachment**: ${aid}\n- **Tag**: mobiletag (ID: ${tagid})\n- **Screenshots**:\n  - \`screenshot_mobile_01_registered.png\`\n  - \`screenshot_mobile_02_thread_attachment.png\`\n  - \`screenshot_mobile_03_reply_edited.png\`\n  - \`screenshot_mobile_04_forum_index.png\`\n  - \`screenshot_mobile_05_forumdisplay.png\`\n  - \`screenshot_mobile_06_my_center.png\`\n  - \`screenshot_mobile_07_pm.png\`\n  - \`screenshot_mobile_08_viewthread_tag.png\`\n\n`;
