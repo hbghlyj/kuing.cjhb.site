@@ -259,7 +259,7 @@ const { execSync } = require('child_process');
         const adminMobilePage = await adminMobileContext.newPage();
         await adminMobilePage.goto('http://127.0.0.1:8080/member.php?mod=logging&action=login');
         await adminMobilePage.waitForLoadState('networkidle');
-        const adminLoginForm = adminMobilePage.locator('form[id^="loginform_"]:visible');
+        const adminLoginForm = adminMobilePage.locator('form[id^="loginform"]:visible');
         if (await adminLoginForm.count()) {
             await adminLoginForm.locator('input[name="username"]').fill('admin');
             await adminLoginForm.locator('input[name="password"]').fill('Testpassword123!');
@@ -270,6 +270,11 @@ const { execSync } = require('child_process');
                 adminLoginForm.evaluate(form => form.submit())
             ]);
         }
+        assert.strictEqual(
+            await adminMobilePage.locator('form[id^="loginform"]:visible').count(),
+            0,
+            'Assertion Error: Mobile admin login did not establish an authenticated session.'
+        );
         await adminMobilePage.goto(`http://127.0.0.1:8080/forum.php?mod=post&action=reply&fid=2&tid=${tid}&reppost=${firstMobilePid}`);
         await adminMobilePage.waitForLoadState('networkidle');
         const adminReply = 'Admin mobile quote reply to user thread.';
