@@ -118,8 +118,8 @@ class discuz_upload {
 		return in_array($ext, $imgext) ? 1 : 0;
 	}
 
-	public static function get_image_info($target, $allowswf = false) {
-		$ext = discuz_upload::fileext($target);
+	public static function get_image_info($target, $allowswf = false, $ext = '') {
+		$ext = $ext ? strtolower($ext) : discuz_upload::fileext($target);
 		$isimage = discuz_upload::is_image_ext($ext);
 		if(!$isimage && ($ext != 'swf' || !$allowswf)) {
 			return false;

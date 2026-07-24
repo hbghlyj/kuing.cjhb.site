@@ -94,7 +94,7 @@ class forum_upload {
 
 		$isSvg = $upload->attach['ext'] == 'svg';
 		if($upload->attach['isimage']) {
-			$imageinfo = $isSvg ? discuz_upload::get_image_info($upload->attach['tmp_name']) : @getimagesize($upload->attach['tmp_name']);
+			$imageinfo = $isSvg ? discuz_upload::get_image_info($upload->attach['tmp_name'], false, $upload->attach['ext']) : @getimagesize($upload->attach['tmp_name']);
 			list($width, $height, $type) = !empty($imageinfo) ? $imageinfo : [0, 0, 0];
 			$size = $width * $height;
 			// 新增 GD 图片像素点上限服务器侧拦截
