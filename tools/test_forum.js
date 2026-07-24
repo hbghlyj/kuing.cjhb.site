@@ -240,8 +240,12 @@ const { execSync } = require('child_process');
         const avatarStatus = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT avatarstatus FROM pre_common_member WHERE uid='${userUid}';"`).toString().trim();
         assert.strictEqual(avatarStatus, '1', 'Assertion Error: User avatarstatus in database was not 1.');
 
+        // Discover a real postable sub-board (type='forum') — never a group (type='group').
+        const forumFid = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT fid FROM pre_forum_forum WHERE type='forum' LIMIT 1;"`).toString().trim();
+        assert.ok(forumFid, 'Assertion Error: No postable sub-board (type=forum) found in pre_forum_forum.');
+
         console.log("Attempting to post normal thread as unprivileged user...");
-        await page.goto('http://127.0.0.1:8080/forum.php?mod=forumdisplay&fid=2');
+        await page.goto(`http://127.0.0.1:8080/forum.php?mod=forumdisplay&fid=${forumFid}`);
         await page.waitForLoadState('networkidle');
         const postNewThreadBtn = page.locator('#newspecial, a[href*="action=newthread"], #newspecialtmp').first();
         assert.strictEqual(await postNewThreadBtn.count(), 1, 'Assertion Error: Desktop new-thread control did not render.');
@@ -476,7 +480,7 @@ const { execSync } = require('child_process');
             const adminPmDbCheck = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT COUNT(*) FROM pre_common_pm_message p INNER JOIN pre_common_pm_member m ON m.plid=p.plid WHERE m.uid='${userUid}' AND p.authorid='1' AND p.message='${adminPmToUser}';"`).toString().trim();
             assert.strictEqual(adminPmDbCheck, '1', 'Assertion Error: Admin PM was not delivered to the user inbox.');
 
-            await adminPage.goto(`http://127.0.0.1:8080/forum.php?mod=post&action=reply&fid=2&tid=${tidOutput}&reppost=${firstPid}`);
+            await adminPage.goto(`http://127.0.0.1:8080/forum.php?mod=post&action=reply&fid=${forumFid}&tid=${tidOutput}&reppost=${firstPid}`);
             await adminPage.waitForLoadState('networkidle');
             await adminPage.evaluate((msg) => {
                 const textArea = document.querySelector('textarea[name="message"], #postmessage');
@@ -534,7 +538,7 @@ const { execSync } = require('child_process');
         await page.screenshot({ path: 'screenshot_desktop_other_user_profile.png' });
 
         console.log("Checking header for user custom avatar...");
-        await page.goto('http://127.0.0.1:8080/forum.php?mod=forumdisplay&fid=2');
+        await page.goto(`http://127.0.0.1:8080/forum.php?mod=forumdisplay&fid=${forumFid}`);
         await page.waitForLoadState('networkidle');
 
         const headerSnippet = await page.evaluate(() => {
@@ -556,7 +560,7 @@ const { execSync } = require('child_process');
 
         // 6. User Image Attachment Post Test
         console.log("Attempting to post thread with image attachment...");
-        await page.goto('http://127.0.0.1:8080/forum.php?mod=post&action=newthread&fid=2');
+        await page.goto(`http://127.0.0.1:8080/forum.php?mod=post&action=newthread&fid=${forumFid}`);
         await page.waitForLoadState('networkidle');
 
         const attachSubject = await page.$('input[name="subject"]');
@@ -653,7 +657,7 @@ const { execSync } = require('child_process');
 
         // 6b. Non-Image Attachment Post Test
         console.log("Attempting to post thread with non-image attachment...");
-        await page.goto('http://127.0.0.1:8080/forum.php?mod=post&action=newthread&fid=2');
+        await page.goto(`http://127.0.0.1:8080/forum.php?mod=post&action=newthread&fid=${forumFid}`);
         await page.waitForLoadState('networkidle');
 
         const nonImgSubject = await page.$('input[name="subject"]');
