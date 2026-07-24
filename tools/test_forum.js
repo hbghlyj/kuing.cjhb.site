@@ -706,6 +706,39 @@ const { execSync } = require('child_process');
             'Assertion Error: Non-image attachment thread page did not load content in viewthread.'
         );
 
+        // --- Test: Posting directly to a forum GROUP (gid) via REST is server-rejected ---
+        console.log("Test: Verify that POST to a forum group fid is rejected server-side...");
+        // fid=8 on this site maps to a group (gid=8), not a postable sub-board.
+        // Even with a valid formhash and authenticated session, the server must reject it.
+        const groupFid = 8;
+        const groupFormhash = await page.evaluate(() => window.FORMHASH);
+        assert.ok(groupFormhash, 'Assertion Error: Could not read window.FORMHASH for group-post REST test.');
+
+        const groupPostResponse = await page.evaluate(async ({ fid, formhash }) => {
+            const fd = new FormData();
+            fd.append('formhash', formhash);
+            fd.append('subject', 'Should-be-rejected group post');
+            fd.append('message', 'This post should be rejected because fid maps to a gid, not a sub-board.');
+            fd.append('topicsubmit', 'yes');
+            const resp = await fetch(`/forum.php?mod=post&action=newthread&fid=${fid}&extra=`, {
+                method: 'POST',
+                body: fd,
+                redirect: 'follow',
+            });
+            return { status: resp.status, url: resp.url, body: await resp.text() };
+        }, { fid: groupFid, formhash: groupFormhash });
+
+        console.log(`Group POST response: status=${groupPostResponse.status} url=${groupPostResponse.url}`);
+        // The server must NOT land on a viewthread page — it must show an error/redirect to group view.
+        const landedOnViewthread = groupPostResponse.url.includes('mod=viewthread');
+        const bodyIndicatesSuccess = groupPostResponse.body.includes('viewthread') && !groupPostResponse.body.includes('不存在') && !groupPostResponse.body.includes('gid=');
+        assert.ok(
+            !landedOnViewthread && !bodyIndicatesSuccess,
+            `Assertion Error: Server accepted a POST to forum group fid=${groupFid} — it should have rejected it. Final URL: ${groupPostResponse.url}`
+        );
+        report += `## Test: Group POST Rejection\n- fid=${groupFid} (maps to gid=${groupFid})\n- Fetch status: ${groupPostResponse.status}\n- Final URL: ${groupPostResponse.url}\n- Result: ✅ Server correctly rejected direct POST to forum group\n\n`;
+        console.log("✅ Server correctly rejected direct POST to forum group.");
+
     } catch (error) {
         console.error("Test execution failed:", error);
         process.exitCode = 1;
