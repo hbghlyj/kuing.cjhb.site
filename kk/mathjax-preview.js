@@ -163,7 +163,7 @@ var fastTexItems = [
 	{ "n": "$\\mathbf{v}$", "o": ["\\bm{", "}"] },
 
 	// 希腊字母
-	{ "n": "$\\alpha$", "o": "\\alpha ", "greek": true },
+	{ "n": "$\\alpha$", "o": "\\alpha", "greek": true },
 
 	// 几何符号
 	{ "n": "$\\triangle$", "o": "\\triangle " },
@@ -204,14 +204,14 @@ function createGreekMenu() {
 			return function(event) {
 				event.preventDefault();
 				event.stopPropagation();
-				insertTexToEditor(command === 'o' ? 'o' : '\\' + command + ' ');
+				insertTexToEditor(command === 'o' ? 'o' : '\\' + command);
 			};
 		})(name);
 		palette.appendChild(letter);
 	}
 	menu.appendChild(palette);
 	menu.onclick = function() {
-		insertTexToEditor('\\alpha ');
+		insertTexToEditor('\\alpha');
 	};
 	return menu;
 }
