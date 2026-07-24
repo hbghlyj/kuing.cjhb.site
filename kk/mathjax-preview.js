@@ -311,6 +311,25 @@ function initFastTexMode() {
 	update();
 }
 
-renderFastTexSmilies();
-initFastTexMode();
-initLivePreview();
+function initMathJaxPreview() {
+	renderFastTexSmilies();
+	initFastTexMode();
+	initLivePreview();
+}
+
+if (typeof bbcode2html === 'function') {
+	initMathJaxPreview();
+} else {
+	// Simple editors do not include bbcode.js, unlike the full post editor.
+	// Supply safe preview defaults before loading the shared converter.
+	window.EXTRAFUNC = window.EXTRAFUNC || [];
+	window.allowhtml = window.allowhtml || 0;
+	window.allowsmilies = window.allowsmilies || 0;
+	window.allowbbcode = typeof window.allowbbcode === 'undefined' ? 1 : window.allowbbcode;
+	window.allowimgcode = typeof window.allowimgcode === 'undefined' ? 1 : window.allowimgcode;
+
+	var bbcodeScript = document.createElement('script');
+	bbcodeScript.src = (typeof JSPATH !== 'undefined' ? JSPATH : 'static/js/') + 'bbcode.js';
+	bbcodeScript.onload = initMathJaxPreview;
+	document.head.appendChild(bbcodeScript);
+}
