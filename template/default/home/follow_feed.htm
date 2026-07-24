@@ -1,4 +1,4 @@
-﻿<!--{if $do == 'feed'}-->
+<!--{if $do == 'feed'}-->
 	<!--{template common/header}-->
 	<div id="pt" class="bm cl">
 		<div class="z">
@@ -116,9 +116,9 @@
 								<!--{if empty($_G['setting']['pluginhooks']['follow_upload_extend'])}-->
 									<!--{subtemplate common/upload}-->
 									<script type="text/javascript">
-										var upload = new SWFUpload({
+										var upload = new DiscuzUploader({
 											// Backend Settings
-											upload_url: "{$_G[siteurl]}misc.php?mod=swfupload&action=swfupload&operation=upload&fid={$dmfid}",
+											upload_url: "{$_G[siteurl]}misc.php?mod=upload&operation=upload&fid={$dmfid}",
 											post_params: {"formhash":"{FORMHASH}"},
 
 											// File Upload Settings
@@ -128,8 +128,6 @@
 											file_upload_limit : $swfconfig['limit'],
 											file_queue_limit : 0,
 											// Event Handler Settings (all my handlers are in the Handler.js file)
-											swfupload_preload_handler : preLoad,
-											swfupload_load_failed_handler : loadFailed,
 											file_dialog_start_handler : fileDialogStart,
 											file_queued_handler : fileQueued,
 											file_queue_error_handler : fileQueueError,
@@ -144,7 +142,7 @@
 											button_placeholder_id : "spanButtonPlaceholder",
 											button_width: 18,
 											button_height: 25,
-											button_cursor:SWFUpload.CURSOR.HAND,
+											button_cursor:DiscuzUploader.CURSOR.HAND,
 											button_window_mode: "transparent",
 											custom_settings : {
 												progressTarget : "attachlist",
@@ -292,7 +290,7 @@
 							$('fastpostform').action = 'home.php?mod=spacecp&ac=follow&op=newthread&topicsubmit=yes&infloat=yes&handlekey=fastnewpost&inajax=1&fid='+mfid;
 							if(upload) {
 								fid = mfid;
-								var uploadurl = '{$_G[siteroot]}misc.php?mod=swfupload&action=swfupload&operation=upload&fid='+mfid;
+								var uploadurl = '{$_G[siteroot]}misc.php?mod=upload&operation=upload&fid='+mfid;
 								upload.setUploadURL(uploadurl);
 							}
 							getthreadclass();

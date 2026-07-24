@@ -309,8 +309,8 @@ Created & Modified by Alice, Monkey, Lushnis, Pony, Dfox & DragonLee.
 			.atnu { width: 16px; }
 			/*.attachctrl { width: 40px; }*/
 			.atna {}
-				.atna p img, .attswf p img { vertical-align: middle; height: 16px; }
-				.atna .lighttxt, .attswf .lighttxt { color: {MIDTEXT} !important; }
+				.atna p img, .attach-upload p img { vertical-align: middle; height: 16px; }
+				.atna .lighttxt, .attach-upload .lighttxt { color: {MIDTEXT} !important; }
 			.attpr { width: 40px; text-align: center; }
 				.attv .px, .attp .px { width: 25px; }
 				.attv { width: 100px; }
@@ -2236,16 +2236,16 @@ body { background: none !important; }
 #flw_bar .fpd { position: relative; zoom: 1; }
 
 /*
-	Name:			mod_follow_flashupload
+	Name:			mod_follow_upload
 	Level:			Global
-	Explain:		重定义 follow 页面的 Flash 上传时的处理界面，结构参见 /static/js/fileprogress.js
+	Explain:		重定义 follow 页面的 HTML5 上传处理界面，结构参见 /static/js/discuz_uploader.js
 	Last Modify:	Pony 2012022813
 */
 .progressWrapper { overflow: hidden; float: left; width: auto; }
 	.progressWrapper table { float: left; margin: 5px 1px 0 0; width: 209px; border:  1px solid #C3DCEA; border-radius: 4px; background: #FFF; }
 	.progressWrapper td { border-radius: 4px; }
-.attswf p { padding-left: 5px; width: 170px; height: 26px; line-height: 26px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-	.attswf p img { width: 16px; height: 16px; }
+.attach-upload p { padding-left: 5px; width: 170px; height: 26px; line-height: 26px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+	.attach-upload p img { width: 16px; height: 16px; }
 .attc { padding-top: 3px; width: 20px; }
 	.attc .d { background-position-y: 0 !important; }
 

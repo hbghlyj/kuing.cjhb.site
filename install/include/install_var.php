@@ -94,7 +94,6 @@ $dirfile_items = array
 	'attach_group' => array('type' => 'dir', 'path' => './data/attachment/group'),
 	'attach_portal' => array('type' => 'dir', 'path' => './data/attachment/portal'),
 	'attach_profile' => array('type' => 'dir', 'path' => './data/attachment/profile'),
-	'attach_swfupload' => array('type' => 'dir', 'path' => './data/attachment/swfupload'),
 	'attach_temp' => array('type' => 'dir', 'path' => './data/attachment/temp'),
 );
 

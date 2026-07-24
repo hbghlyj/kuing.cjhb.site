@@ -53,8 +53,12 @@ const { execSync } = require('child_process');
         C::t('common_setting')->update('secqaa', serialize($secqaa));
         C::t('common_setting')->update('regname', 'register');
         C::t('common_setting')->update('floodctrl', '0');
+        C::t('common_setting')->update('albumstatus', '1');
+        C::t('common_setting')->update('portalstatus', '1');
+        C::t('common_setting')->update('editormodetype', '1');
+        C::t('common_usergroup_field')->update(1, array('allowpostattach' => '1', 'allowpostimage' => '1', 'allowpostpoll' => '1', 'allowpostarticle' => '1', 'allowmanagearticle' => '1'));
         require_once libfile('function/cache');
-        updatecache(array('setting', 'secqaa', 'styles'));
+        updatecache(array('setting', 'secqaa', 'styles', 'usergroups'));
         ?>`;
         fs.writeFileSync('disable_sec.php', phpConfig);
         execSync('php disable_sec.php');
@@ -169,6 +173,51 @@ const { execSync } = require('child_process');
         );
         await page.screenshot({ path: 'screenshot_forum_04_admin_logs.png' });
         report += '### 4. Admin Panel Logs Access\n- **Status**: Checked\n- **URL**: admin.php?action=logs\n\n';
+
+        console.log("Checking renamed uploader operations...");
+        await page.goto('http://127.0.0.1:8080/forum.php?mod=post&action=newthread&fid=2');
+        await page.waitForLoadState('networkidle');
+        const uploadFormhash = await page.evaluate(() => window.FORMHASH || document.querySelector('input[name="formhash"]')?.value || '');
+        assert.ok(uploadFormhash, 'Assertion Error: Uploader operation test could not obtain formhash.');
+
+        const uploadImage = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAIAAAAiOjnJAAACFUlEQVR4nO3SQQkAIADAQAP6sKkVLeEQ5OAC7LEx94LrxvMCvmQsEsYiYSwSxiJhLBLGImEsEsYiYSwSxiJhLBLGImEsEsYiYSwSxiJhLBLGImEsEsYiYSwSxiJhLBLGImEsEsYiYSwSxiJhLBLGImEsEsYiYSwSxiJhLBLGImEsEsYiYSwSxiJhLBLGImEsEsYiYSwSxiJhLBLGImEsEsYiYSwSxiJhLBLGImEsEsYiYSwSxiJhLBLGImEsEsYiYSwSxiJhLBLGImEsEsYiYSwSxiJhLBLGImEsEsYiYSwSxiJhLBLGImEsEsYiYSwSxiJhLBLGImEsEsYiYSwSxiJhLBLGImEsEsYiYSwSxiJhLBLGImEsEsYiYSwSxiJhLBLGImEsEsYiYSwSxiJhLBLGImEsEsYiYSwSxiJhLBLGImEsEsYiYSwSxiJhLBLGImEsEsYiYSwSxiJhLBLGImEsEsYiYSwSxiJhLBLGInEAuwUSl75bns4AAAAASUVORK5CYII=', 'base64');
+        const uploadOperation = async (operation, fields = {}, query = '') => {
+            const response = await page.request.post(`http://127.0.0.1:8080/misc.php?mod=upload&operation=${operation}${query}`, {
+                multipart: {
+                    formhash: uploadFormhash,
+                    ...fields,
+                    Filedata: {
+                        name: `${operation}_test.png`,
+                        mimeType: 'image/png',
+                        buffer: uploadImage,
+                    },
+                },
+            });
+            const body = await response.text();
+            assert.strictEqual(response.status(), 200, `Assertion Error: ${operation} upload returned HTTP ${response.status()}: ${body}`);
+            return body;
+        };
+
+        const pollUpload = JSON.parse(await uploadOperation('poll', {}, '&fid=2'));
+        assert.ok(pollUpload.aid > 0 && pollUpload.errorcode === 0, `Assertion Error: Poll image upload failed: ${JSON.stringify(pollUpload)}`);
+
+        const albumUpload = JSON.parse(await uploadOperation('album'));
+        assert.ok(parseInt(albumUpload.picid, 10) > 0, `Assertion Error: Album image upload failed: ${JSON.stringify(albumUpload)}`);
+
+        let portalCatid = execSync("sudo mysql -u root ultrax -N -s -e \"SELECT catid FROM pre_portal_category ORDER BY catid LIMIT 1;\"").toString().trim();
+        if (!portalCatid) {
+            portalCatid = execSync(`sudo mysql -u root ultrax -N -s -e "INSERT INTO pre_portal_category (catname, uid, username, dateline, description, seotitle, keyword) VALUES ('Uploader Test', (SELECT uid FROM pre_common_member WHERE username='${username}'), '${username}', UNIX_TIMESTAMP(), '', '', ''); SELECT LAST_INSERT_ID();"`).toString().trim();
+        }
+        const portalUpload = JSON.parse(await uploadOperation('portal', { catid: portalCatid, aid: '0' }));
+        assert.ok(portalUpload.aid > 0 && portalUpload.errorcode === 0, `Assertion Error: Portal attachment upload failed: ${JSON.stringify(portalUpload)}`);
+
+        const jsonEditorUpload = JSON.parse(await uploadOperation('jsoneditorupload', {}, '&fid=2'));
+        assert.ok(
+            jsonEditorUpload.success === 1 && jsonEditorUpload.file && jsonEditorUpload.file.aid > 0,
+            `Assertion Error: JSON editor upload failed: ${JSON.stringify(jsonEditorUpload)}`
+        );
+
+        report += '### 5. Renamed HTML5 Uploader Operations\n- **Status**: Checked\n- **Poll image**: Success\n- **Album image**: Success\n- **Portal attachment**: Success\n- **JSON editor attachment**: Success\n\n';
 
     } catch (error) {
         console.error("Admin test execution failed:", error);

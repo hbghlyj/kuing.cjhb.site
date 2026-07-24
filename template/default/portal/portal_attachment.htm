@@ -3,7 +3,7 @@
 	<table class="cp0" id="attach_list_$attach[attachid]" summary="post_attachbody" border="0" width="100%">
 		<tbody>
 			<tr>
-				<td class="attswf">
+				<td class="attach-upload">
 					<p id="attach$attach[attachid]">
 						<span>$attach[filetype] <a href="javascript:;" class="xi2" id="attachname$attach[attachid]" isimage="{if $attach['isimage']}1{else}0{/if}" onclick="{if $attach['isimage']}insertImage('$bigimg'){else}insertFile('$attach[filename]', 'portal.php?mod=attachment&id=$attach['attachid']'){/if};doane(event);">{$attach[filename]}</a></span>
 					</p>

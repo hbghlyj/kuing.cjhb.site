@@ -73,7 +73,7 @@ EOF;
         attaches: {
             class: AttachesTool,
             config: {
-                endpoint: 'misc.php?mod=swfupload&action=swfupload&operation=jsoneditorupload&fid='+editor_fid, // Your backend file uploader endpoint,
+                endpoint: 'misc.php?mod=upload&operation=jsoneditorupload&fid='+editor_fid, // Your backend file uploader endpoint,
                 field: 'Filedata',
                 types: '*',
                 additionalRequestData: {

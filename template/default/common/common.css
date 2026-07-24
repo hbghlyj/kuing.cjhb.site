@@ -1837,9 +1837,9 @@ Last Modify:	Pony
 	.uploadform { padding: 0 10px; border: 1px dashed {COMMONBORDER}; background: {COMMONBG}; }
 
 /*
-	Name:			mod_flashupload
+	Name:			mod_upload
 	Level:			Global
-	Explain:		Flash 上传时的处理界面，结构参见 /static/js/fileprogress.js
+	Explain:		HTML5 上传时的处理界面，结构参见 /static/js/discuz_uploader.js
 	Last Modify:	Pony 2012022813
 */
 .progressWrapper { overflow: hidden; width: 100%; }
@@ -1856,8 +1856,6 @@ Last Modify:	Pony
 a.progressCancel { display: block; float: right; width: 14px; height: 14px; line-height: 14px; text-align: center; background: #CB3D4D; border-radius: 2px; text-decoration: none; }
 	a.progressCancel:before { content: "\d7"; color: #FFF; font-weight: 700; }
 	a.progressCancel:hover { background: #E54557; }
-.swfupload { vertical-align: top; }
-
 /* ------------------------------------------------------------------------ 拖拽及页面 DIY */
 .frame, .frame-tab { margin-bottom: 10px; border: 1px solid {WRAPBORDERCOLOR}; background: {WRAPBG}; }
 	.title { padding: 0 10px; height: 32px; font-size: 14px; font-weight: 700; line-height: 32px; overflow: hidden; }

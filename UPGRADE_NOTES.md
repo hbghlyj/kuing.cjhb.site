@@ -317,6 +317,12 @@ $_config['output']['upgradeinsecure'] = 1;
 - `source/data/admincp/discuzfiles.md5` 按当前分支实际跟踪文件和 AdminCP 文件校验范围生成。
 - 分支新增的 RESTful、现代化模板和静态资源已纳入基线；已删除的旧模板镜像和子功能不再保留清单项。
 
+### HTML5 上传接口命名
+
+- Flash 上传运行时已经移除，上传接口统一使用 `misc.php?mod=upload`。
+- 原 `misc.php?mod=swfupload` 路由不再兼容；调用该接口的插件和自定义模板必须改用新路由。
+- HTML5 兼容封装由 `static/js/discuz_uploader.js` 提供，全局构造器为 `DiscuzUploader`。第三方 `static/js/webuploader/` 库名保持不变。
+
 ## Update Rule
 
 以下情况必须在同一个变更中同步更新 `UPGRADE_NOTES.md`：

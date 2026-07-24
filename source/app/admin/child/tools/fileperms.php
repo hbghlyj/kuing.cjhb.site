@@ -9,7 +9,6 @@
 if(!defined('IN_DISCUZ') || !defined('IN_ADMINCP')) {
 	exit('Access Denied');
 }
-
 $step = max(1, intval($_GET['step']));
 
 shownav('tools', 'nav_fileperms');
@@ -37,7 +36,6 @@ if($step == 1) {
 		'data/attachment/group',
 		'data/attachment/portal',
 		'data/attachment/profile',
-		'data/attachment/swfupload',
 		'data/attachment/temp',
 		'data/cache',
 		'data/log',
@@ -60,4 +58,3 @@ if($step == 1) {
 	$result = $result ? $result : '<li>'.$lang['fileperms_check_ok'].'</li>';
 	echo '<div class="colorbox"><ul class="fileperms">'.$result.'</ul></div>';
 }
-	

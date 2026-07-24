@@ -74,8 +74,8 @@ EOF;
             class: VideoTool,
             config: {
                 endpoints: {
-                    byFile: 'misc.php?mod=swfupload&action=swfupload&operation=jsoneditorupload&fid='+editor_fid, // Your backend file uploader endpoint
-                    byUrl: 'misc.php?mod=swfupload&action=swfupload&operation=jsoneditorupload&fid='+editor_fid, // Your endpoint that provides uploading by Url
+                    byFile: 'misc.php?mod=upload&operation=jsoneditorupload&fid='+editor_fid, // Your backend file uploader endpoint
+                    byUrl: 'misc.php?mod=upload&operation=jsoneditorupload&fid='+editor_fid, // Your endpoint that provides uploading by Url
                 },
                 field: 'Filedata',
                 types: 'video/*',

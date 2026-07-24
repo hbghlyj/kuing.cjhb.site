@@ -163,7 +163,7 @@ $(document).on('change', '#activityimg', function() {
 		if(typeof FileReader != 'undefined' && this.files[0]) {//note 支持html5上传新特性
 			
 			$.buildfileupload({
-				uploadurl:'misc.php?mod=swfupload&operation=upload&type=image&inajax=yes&infloat=yes&simple=2',
+				uploadurl:'misc.php?mod=upload&operation=upload&type=image&inajax=yes&infloat=yes&simple=2',
 				files:this.files,
 				uploadformdata:{formhash:"{FORMHASH}"},
 				uploadinputname:'Filedata',
@@ -175,7 +175,7 @@ $(document).on('change', '#activityimg', function() {
 			});
 		} else {
 			$.ajaxfileupload({
-				url:'misc.php?mod=swfupload&operation=upload&type=image&inajax=yes&infloat=yes&simple=2',
+				url:'misc.php?mod=upload&operation=upload&type=image&inajax=yes&infloat=yes&simple=2',
 				data:{formhash:"{FORMHASH}"},
 				dataType:'text',
 				fileElementId:'filedata',

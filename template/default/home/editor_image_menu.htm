@@ -130,9 +130,9 @@
 <!--{if $_G['basescript'] == 'home' && empty($_G['setting']['pluginhooks']['spacecp_blog_upload_extend']) || $_G['basescript'] == 'portal' && empty($_G['setting']['pluginhooks']['portalcp_top_upload_extend'])}-->
 	<!--{subtemplate common/upload}-->
 	<script type="text/javascript">
-		var attachUpload = new SWFUpload({
+		var attachUpload = new DiscuzUploader({
 			// Backend Settings
-			upload_url: "{$_G[siteurl]}misc.php?mod=swfupload&action=swfupload&operation=<!--{if $_G['basescript'] == 'portal'}-->portal<!--{else}-->album<!--{/if}-->",
+			upload_url: "{$_G[siteurl]}misc.php?mod=upload&operation=<!--{if $_G['basescript'] == 'portal'}-->portal<!--{else}-->album<!--{/if}-->",
 			post_params: {"formhash":"{FORMHASH}"<!--{if $_G['basescript'] == 'portal'}-->,"aid":$aid,"catid":$catid<!--{/if}-->},
 
 			// File Upload Settings
@@ -148,8 +148,6 @@
 			file_queue_limit : 0,
 
 			// Event Handler Settings (all my handlers are in the Handler.js file)
-			swfupload_preload_handler : preLoad,
-			swfupload_load_failed_handler : loadFailed,
 			file_dialog_start_handler : fileDialogStart,
 			file_queued_handler : fileQueued,
 			file_queue_error_handler : fileQueueError,
@@ -164,7 +162,7 @@
 			button_placeholder_id : "spanButtonPlaceholder",
 			button_width: 100,
 			button_height: 25,
-			button_cursor:SWFUpload.CURSOR.HAND,
+			button_cursor:DiscuzUploader.CURSOR.HAND,
 			button_window_mode: "transparent",
 
 			custom_settings : {
@@ -180,9 +178,9 @@
 			// Debug Settings
 			debug: false
 		});
-		var upload = new SWFUpload({
+		var upload = new DiscuzUploader({
 			// Backend Settings
-			upload_url: "{$_G[siteurl]}misc.php?mod=swfupload&action=swfupload&operation=<!--{if $_G['basescript'] == 'portal'}-->portal<!--{else}-->album<!--{/if}-->",
+			upload_url: "{$_G[siteurl]}misc.php?mod=upload&operation=<!--{if $_G['basescript'] == 'portal'}-->portal<!--{else}-->album<!--{/if}-->",
 			post_params: {"formhash":"{FORMHASH}"<!--{if $_G['basescript'] == 'portal'}-->,"aid":$aid,"catid":$catid<!--{/if}-->},
 
 			// File Upload Settings
@@ -193,8 +191,6 @@
 			file_queue_limit : 0,
 
 			// Event Handler Settings (all my handlers are in the Handler.js file)
-			swfupload_preload_handler : preLoad,
-			swfupload_load_failed_handler : loadFailed,
 			file_dialog_start_handler : fileDialogStart,
 			file_queued_handler : fileQueued,
 			file_queue_error_handler : fileQueueError,
@@ -209,7 +205,7 @@
 			button_placeholder_id : "imgSpanButtonPlaceholder",
 			button_width: 100,
 			button_height: 25,
-			button_cursor:SWFUpload.CURSOR.HAND,
+			button_cursor:DiscuzUploader.CURSOR.HAND,
 			button_window_mode: "transparent",
 
 			custom_settings : {

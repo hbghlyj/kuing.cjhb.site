@@ -17,7 +17,7 @@ require './source/class/class_core.php';
 $discuz = C::app();
 
 $modarray = ['seccode', 'secqaa', 'initsys', 'invite', 'faq', 'report',
-	'swfupload', 'stat', 'ranklist', 'buyinvitecode',
+	'upload', 'stat', 'ranklist', 'buyinvitecode',
 	'tag', 'diyhelp', 'mobile', 'patch', 'getatuser', 'imgcropper',
 	'userstatus', 'secmobseccode', 'secemailseccode', 'share', 'wechat', 'i18n', 'darkroom', 'image'];
 
@@ -28,7 +28,7 @@ $modcachelist = [
 $mod = getgpc('mod');
 $mod = (empty($mod) || !in_array($mod, $modarray)) ? 'error' : $mod;
 
-if(in_array($mod, ['seccode', 'secqaa', 'initsys', 'faq', 'swfupload', 'mobile', 'secmobseccode', 'secemailseccode'])) {
+if(in_array($mod, ['seccode', 'secqaa', 'initsys', 'faq', 'upload', 'mobile', 'secmobseccode', 'secemailseccode'])) {
 	define('ALLOWGUEST', 1);
 }
 
@@ -52,7 +52,7 @@ switch($mod) {
 
 $discuz->init();
 
-if($discuz->init_session && isset($_GET['mod']) && !in_array($_GET['mod'], ['tag', 'patch', 'swfupload'])) {
+if($discuz->init_session && isset($_GET['mod']) && !in_array($_GET['mod'], ['tag', 'patch', 'upload'])) {
 	$discuz->reject_robot();
 }
 

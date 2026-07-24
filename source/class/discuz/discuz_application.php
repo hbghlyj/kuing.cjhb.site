@@ -392,7 +392,7 @@ class discuz_application extends discuz_base {
 			return;
 		}
 
-		if($this->config['security']['attackevasive'] && (!defined('CURSCRIPT') || !in_array($this->var['mod'], ['seccode', 'secqaa', 'swfupload']) && !defined('DISABLEDEFENSE'))) {
+		if($this->config['security']['attackevasive'] && (!defined('CURSCRIPT') || !in_array($this->var['mod'], ['seccode', 'secqaa', 'upload']) && !defined('DISABLEDEFENSE'))) {
 			require_once childfile('security', 'global/core');
 		}
 

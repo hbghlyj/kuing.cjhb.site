@@ -332,7 +332,7 @@
         // 渲染
         upload.render({
             elem: '#upload-cover-drag',
-            url: 'misc.php?mod=swfupload&action=swfupload&operation=jsoneditorupload&fid='+editor_fid,
+            url: 'misc.php?mod=upload&operation=jsoneditorupload&fid='+editor_fid,
             field: 'Filedata',
             data: {
                 'formhash': editor_formhash,

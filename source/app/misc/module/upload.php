@@ -10,4 +10,12 @@ if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
-require_once DISCUZ_ROOT.'./source/app/misc/module/swfupload.php';
+if(!$_G['uid'] || !hash_equals(FORMHASH, (string)($_POST['formhash'] ?? ''))) {
+	http_response_code(403);
+	exit;
+}
+
+$file = childfile($_GET['operation']);
+if(file_exists($file)) {
+	require_once $file;
+}

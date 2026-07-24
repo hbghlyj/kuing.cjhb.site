@@ -239,7 +239,7 @@
 			for (let i = 0; i < validFiles.length; i++) {
 				const file = validFiles[i];
 				$.buildfileupload({
-					uploadurl: 'misc.php?mod=swfupload&action=swfupload&operation=album',
+					uploadurl: 'misc.php?mod=upload&operation=album',
 					files: [file],
 					uploadformdata: {
 						formhash: "{FORMHASH}"
