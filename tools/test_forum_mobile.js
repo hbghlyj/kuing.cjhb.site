@@ -282,30 +282,37 @@ const { execSync } = require('child_process');
         await page.waitForLoadState('networkidle');
         const mobileReplyBody = await page.textContent('body');
         assert.ok(
-            mobileReplyBody.includes(reply),
+            mobileReplyBody.includes(editedReply),
             'Assertion Error: Mobile view=me&type=reply user replies page did not load correctly.'
         );
         await page.screenshot({ path: 'screenshot_mobile_space_thread_reply.png' });
 
         console.log('Posting postcomment on mobile via UI and testing type=postcomment page...');
         const mobilePostCommentText = 'Mobile test postcomment text.';
-        await page.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${tid}`);
-        await page.waitForLoadState('networkidle');
+        const adminReplyPid = dbScalar("SELECT pid FROM pre_forum_post WHERE authorid=1 AND first=0 AND message LIKE '%Admin quote reply to user thread.%' ORDER BY pid DESC LIMIT 1");
+        const adminReplyTid = dbScalar(`SELECT tid FROM pre_forum_post WHERE pid='${adminReplyPid}'`);
+        assert.ok(adminReplyPid && adminReplyTid, 'Assertion Error: Admin reply target for the mobile post comment was not found.');
 
-        const mobileCommentLink = page.locator('a[href*="action=comment"]').first();
-        if (await mobileCommentLink.count() && await mobileCommentLink.isVisible().catch(() => false)) {
-            await mobileCommentLink.click();
-            await page.waitForLoadState('networkidle');
-            const mobileCommentMsgBox = page.locator('textarea[name="message"], #message, #needmessage').first();
-            if (await mobileCommentMsgBox.count()) {
-                await mobileCommentMsgBox.fill(mobilePostCommentText);
-                const mobileSubmitCommentBtn = page.locator('#commentsubmit, button[type="submit"]').first();
-                if (await mobileSubmitCommentBtn.count()) {
-                    await mobileSubmitCommentBtn.click();
-                    await page.waitForNavigation({ waitUntil: 'networkidle' }).catch(() => {});
-                }
-            }
-        }
+        await page.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${adminReplyTid}`);
+        await page.waitForLoadState('networkidle');
+        const mobileCommentLink = page.locator(`a.dialog[href*="action=comment"][href*="pid=${adminReplyPid}"]`);
+        assert.strictEqual(await mobileCommentLink.count(), 1, 'Assertion Error: Mobile comment control did not render for the admin reply.');
+        await mobileCommentLink.click();
+
+        const mobileCommentForm = page.locator('#floatlayout_comment form#commentform');
+        await mobileCommentForm.waitFor({ state: 'visible' });
+        const mobileCommentMsgBox = mobileCommentForm.locator('#commentmessage');
+        const mobileSubmitCommentBtn = mobileCommentForm.locator('#commentsubmit');
+        assert.strictEqual(await mobileCommentMsgBox.count(), 1, 'Assertion Error: Mobile post comment message input did not render.');
+        assert.strictEqual(await mobileSubmitCommentBtn.count(), 1, 'Assertion Error: Mobile post comment submit button did not render.');
+        await mobileCommentMsgBox.fill(mobilePostCommentText);
+        await Promise.all([
+            page.waitForResponse(response => response.request().method() === 'POST' && response.url().includes('mod=post') && response.url().includes('commentsubmit=yes')),
+            mobileSubmitCommentBtn.click()
+        ]);
+
+        const mobilePostCommentDbCheck = dbScalar(`SELECT COUNT(*) FROM pre_forum_postcomment WHERE authorid='${uid}' AND pid='${adminReplyPid}' AND comment='${mobilePostCommentText}'`);
+        assert.strictEqual(mobilePostCommentDbCheck, '1', 'Assertion Error: Mobile post comment was not created in database.');
 
         await page.goto('http://127.0.0.1:8080/home.php?mod=space&do=thread&view=me&type=postcomment');
         await page.waitForLoadState('networkidle');
