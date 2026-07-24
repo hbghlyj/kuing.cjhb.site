@@ -464,7 +464,7 @@ $data = [[
     'svalue' => '1',
   ],[
     'skey' => 'defaulteditormode',
-    'svalue' => '1',
+    'svalue' => '0',
   ],[
     'skey' => 'defaultindex',
     'svalue' => 'forum.php',

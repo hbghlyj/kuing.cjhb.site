@@ -69,6 +69,7 @@ DB::query("REPLACE INTO `{$tablepre}common_setting` SET skey='siteurl', svalue='
 DB::query("REPLACE INTO `{$tablepre}common_setting` SET skey='pmstatus', svalue='1';");
 DB::query("REPLACE INTO `{$tablepre}common_setting` SET skey='albumstatus', svalue='1';");
 DB::query("REPLACE INTO `{$tablepre}common_setting` SET skey='editormodetype', svalue='1';");
+DB::query("REPLACE INTO `{$tablepre}common_setting` SET skey='defaulteditormode', svalue='0';");
 
 require_once libfile('function/cache');
 cleartemplatecache();
