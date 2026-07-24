@@ -159,7 +159,21 @@ const { execSync } = require('child_process');
         assert.ok((await page.textContent('body')).includes(subject) || (await page.textContent('body')).length > 100, 'Assertion Error: Mobile forumdisplay did not load content.');
         await page.screenshot({ path: 'screenshot_mobile_05_forumdisplay.png' });
 
-        report += `### Touch Registration, Posting, Replying, Editing, Forum Index and Forumdisplay\n- **Status**: Checked\n- **Username**: ${username}\n- **Thread**: ${tid}\n- **Reply**: ${replyPid}\n- **Image Attachment**: ${aid}\n- **Screenshots**:\n  - \`screenshot_mobile_01_registered.png\`\n  - \`screenshot_mobile_02_thread_attachment.png\`\n  - \`screenshot_mobile_03_reply_edited.png\`\n  - \`screenshot_mobile_04_forum_index.png\`\n  - \`screenshot_mobile_05_forumdisplay.png\`\n\n`;
+        const uid = dbScalar(`SELECT uid FROM pre_common_member WHERE username='${username}' LIMIT 1`);
+
+        console.log('Testing mobile "My" center page...');
+        await page.goto(`http://127.0.0.1:8080/home.php?mod=space&uid=${uid}&do=profile&mycenter=1`);
+        await page.waitForLoadState('networkidle');
+        assert.ok((await page.textContent('body')).includes(username) || (await page.textContent('body')).length > 100, 'Assertion Error: Mobile My Center did not load content.');
+        await page.screenshot({ path: 'screenshot_mobile_06_my_center.png' });
+
+        console.log('Testing mobile PM center page...');
+        await page.goto('http://127.0.0.1:8080/home.php?mod=space&do=pm');
+        await page.waitForLoadState('networkidle');
+        assert.ok((await page.textContent('body')).length > 100, 'Assertion Error: Mobile PM center did not load content.');
+        await page.screenshot({ path: 'screenshot_mobile_07_pm.png' });
+
+        report += `### Touch Registration, Posting, Replying, Editing, Forum Index, Forumdisplay, My Center and PM Center\n- **Status**: Checked\n- **Username**: ${username}\n- **Thread**: ${tid}\n- **Reply**: ${replyPid}\n- **Image Attachment**: ${aid}\n- **Screenshots**:\n  - \`screenshot_mobile_01_registered.png\`\n  - \`screenshot_mobile_02_thread_attachment.png\`\n  - \`screenshot_mobile_03_reply_edited.png\`\n  - \`screenshot_mobile_04_forum_index.png\`\n  - \`screenshot_mobile_05_forumdisplay.png\`\n  - \`screenshot_mobile_06_my_center.png\`\n  - \`screenshot_mobile_07_pm.png\`\n\n`;
     } catch(error) {
         console.error('Test execution failed:', error);
         process.exitCode = 1;

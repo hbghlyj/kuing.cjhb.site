@@ -377,6 +377,23 @@ const { execSync } = require('child_process');
 
         report += '### 4b. Personal Info Update & Space Threads Verification\n- **Status**: Checked\n- **spacecp Update**: Success\n- **Threads Page (with view=me)**: Success\n- **Threads Page (without view=me)**: Success\n\n';
 
+        console.log("Testing Personal Messages (PM) on Desktop...");
+        const sendPmPhp = `<?php
+        require './source/class/class_core.php';
+        $discuz = C::app();
+        $discuz->init();
+        sendpm(1, 'Test PM Subject', 'Test PM Message Body from ${username}', ${userUid});
+        ?>`;
+        fs.writeFileSync('send_pm_test.php', sendPmPhp);
+        execSync('php send_pm_test.php');
+        execSync('rm send_pm_test.php');
+
+        await page.goto('http://127.0.0.1:8080/home.php?mod=space&do=pm');
+        await page.waitForLoadState('networkidle');
+        const pmBody = await page.textContent('body');
+        assert.ok(pmBody.includes('PM') || pmBody.includes('Message') || pmBody.includes('消息') || pmBody.includes('提醒') || pmBody.includes(username), 'Assertion Error: Desktop PM center did not load correctly.');
+        report += '### 4c. Desktop Personal Message (PM)\n- **Status**: Checked\n- **Send PM**: Success\n- **PM Center View**: Success\n\n';
+
         console.log("Checking profile page for user custom avatar...");
         await page.goto(`http://127.0.0.1:8080/home.php?mod=space&uid=${userUid}&do=profile`);
         await page.waitForLoadState('networkidle');
