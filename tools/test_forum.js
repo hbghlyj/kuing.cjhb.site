@@ -599,9 +599,12 @@ const { execSync } = require('child_process');
 
         const extraTagBtn = await page.$('#extra_tag_b, a[href*="extra_tag"], #extra_tag_b a');
         assert.ok(extraTagBtn, 'Assertion Error: Desktop tag control did not render.');
-        await extraTagBtn.click();
-        const tagsInput = await page.$('#keyword-input');
-        assert.ok(tagsInput, 'Assertion Error: Desktop tag input did not render.');
+        const tagsInput = page.locator('#keyword-input');
+        assert.strictEqual(await tagsInput.count(), 1, 'Assertion Error: Desktop tag input did not render.');
+        if(!await tagsInput.isVisible()) {
+            await extraTagBtn.click();
+            await tagsInput.waitFor({ state: 'visible' });
+        }
         await tagsInput.fill('sample_tag');
         await tagsInput.press('Enter');
 
