@@ -299,7 +299,7 @@ const { execSync } = require('child_process');
         assert.strictEqual(await mobileCommentLink.count(), 1, 'Assertion Error: Mobile comment control did not render for the admin reply.');
         await mobileCommentLink.click();
 
-        const mobileCommentForm = page.locator('#floatlayout_comment form#commentform');
+        const mobileCommentForm = page.locator('#ntcmsg_popmenu #floatlayout_comment form#commentform');
         await mobileCommentForm.waitFor({ state: 'visible' });
         const mobileCommentMsgBox = mobileCommentForm.locator('#commentmessage');
         const mobileSubmitCommentBtn = mobileCommentForm.locator('#commentsubmit');
