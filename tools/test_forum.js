@@ -492,9 +492,18 @@ const { execSync } = require('child_process');
             if (secqaa) secqaa.value = '2';
         }, { aidVal: aid, message: attachMsg });
 
+        const extraTagBtn = await page.$('#extra_tag_b, a[href*="extra_tag"], #extra_tag_b a');
+        if (extraTagBtn) {
+            await extraTagBtn.click().catch(() => {});
+        }
         const tagsInput = await page.$('#tags, input[name="tags"]');
         if (tagsInput) {
-            await tagsInput.fill('sample_tag');
+            await tagsInput.fill('sample_tag', { force: true }).catch(async () => {
+                await page.evaluate(() => {
+                    const input = document.querySelector('#tags, input[name="tags"]');
+                    if (input) input.value = 'sample_tag';
+                });
+            });
         }
 
         const attachSubmitBtn = await page.$('#postsubmit, button[name="topicsubmit"]');
