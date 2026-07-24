@@ -332,6 +332,10 @@ $_config['output']['upgradeinsecure'] = 1;
   - 主题内容中通过 `[attachimg]` 插入的图片附件会解析为 `.savephotop` 容器。已在 `template/default/touch/common/common.css` 中为 `.savephotop` 补充 `display: block; clear: both;` 以及 `.plc .pi .message` 的 BFC (`overflow: hidden`)，防止内联图片溢出导致主题标签（`.ptg`）在右侧同行错位。
 - **编辑器自动保存国际化键名修正**：
   - `EN_UTF8/lang_js.php` 补充了前端 `editor.js` 调用的 `second_save`（`Auto-save in {1}s`）、`last_save_time` 等国际化键名，修复了英文环境下自动保存倒计时 fallback 异常问题。
+- **访客/足迹列表去除空 Hot() 链接**：
+  - 空间好友与访客列表（`home.php?mod=space&do=friend`）在“最近访客”（`view=visitor`）和“我的足迹”（`view=trace`）视图下，由于数据源不包含好友热度积分（`$value['num']`），原模板会渲染出空括号的 `Hot()` 链接。现已在 `template/default/home/space_friend.htm` 中清理该链接，仅保留访客/足迹时间戳。
+- **英文语言包匿名用户 UI 词汇规范**：
+  - 将 `source/i18n/EN_UTF8/lang_space.php` 与 `home/lang_template.php` 中 `anonymity` 对应条目的英文翻译由抽象名词 `'Anonymity'` 修正为标准 UI 词汇 `'Anonymous'`。
 
 ## Update Rule
 
