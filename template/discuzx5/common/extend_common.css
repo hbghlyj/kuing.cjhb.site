@@ -71,9 +71,9 @@ img[src*="static/image/poke"] {max-width:22px !important;max-height:22px !import
 .pg_ranklist .ct2_a .dz_phbbox, #ct.wp .mn .bm.bw0 {box-shadow:none;overflow:hidden}
 .mn, .ct2 .sd {overflow:visible}
 .ct2_a, .ct3_a {background:none;border:none}
-.ct2_a:has(> .appl) {display:flex;flex-direction:row-reverse;justify-content:space-between;align-items:flex-start}
-.ct2_a:has(> .appl) .mn {flex:1;min-width:0}
-.ct2_a .appl {width:160px;margin-right:20px;flex-shrink:0}
+.ct2_a:has(> .appl) {display:flex;flex-direction:row;justify-content:space-between;align-items:flex-start}
+.ct2_a:has(> .appl) .appl {order:1;width:160px;margin-right:20px;margin-left:0 !important;flex-shrink:0}
+.ct2_a:has(> .appl) .mn {order:2;flex:1;min-width:0}
 .ct2 .sd {width:250px}
 .ct2 .mn {width:735px;margin-bottom:0}
 .ct2 .sd .bm_c {padding:10px 20px;overflow:hidden}
@@ -129,7 +129,7 @@ img[src*="static/image/poke"] {max-width:22px !important;max-height:22px !import
 .dz_wide .ct2 .mn {width:885px}
 .dz_wide .ct3_a .mn {width:720px}
 .dz_wide .ct2_a .mn, #nv_userapp.dz_wide .ct2_a .mn, .dz_wide .ct2_a_r .mn {width:calc(100% - 220px)}
-.dz_wide .appl {width:200px;margin-right:20px;flex-shrink:0}
+.dz_wide .appl {width:200px;margin-right:20px;margin-left:0 !important;flex-shrink:0}
 .dz_wide .pbm .ptw .ml li {padding:0 4px 5px}
 .dz_flex {display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-box-align:center;-webkit-align-items:center;-ms-flex-align:center;align-items:center}
 .flex {-webkit-box-flex:1;-webkit-flex:1;-ms-flex:1;flex:1}
