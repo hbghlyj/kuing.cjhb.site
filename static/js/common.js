@@ -5,14 +5,15 @@
  */
 
 function normalizeI18nKey(key) {
-	switch (key) {
-		case 'en':
-			return 'EN_UTF8';
-		case 'tc':
-			return 'TC_UTF8';
-		default:
-			return 'SC_UTF8';
+	if (!key) return 'SC_UTF8';
+	key = key.toLowerCase();
+	if (key === 'en' || key === 'en_utf8') {
+		return 'EN_UTF8';
 	}
+	if (key === 'tc' || key === 'tc_utf8') {
+		return 'TC_UTF8';
+	}
+	return 'SC_UTF8';
 }
 
 var _i18n_ = normalizeI18nKey(typeof DISCUZ_I18N != 'undefined' ? DISCUZ_I18N : '');
