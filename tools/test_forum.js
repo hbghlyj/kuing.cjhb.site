@@ -313,27 +313,23 @@ const { execSync } = require('child_process');
             console.log("Attempting to edit thread...");
             const pidOutput = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT pid FROM pre_forum_post WHERE tid='${tidOutput}' AND first=1 LIMIT 1;"`).toString().trim();
             if (pidOutput) {
-                if (!page.url().includes('mod=post&action=edit')) {
-                    const editPostBtn = page.locator(`a[href*="action=edit"][href*="pid=${pidOutput}"]`).first();
-                    assert.strictEqual(await editPostBtn.count(), 1, 'Assertion Error: Desktop edit control did not render.');
-                    await editPostBtn.click();
-                    await page.waitForLoadState('networkidle');
-                    assert.ok(page.url().includes('mod=post&action=edit'), 'Assertion Error: Desktop edit control did not navigate to the edit form.');
-                }
+                const editPostBtn = page.locator(`a[href*="action=edit"][href*="pid=${pidOutput}"]`).first();
+                assert.strictEqual(await editPostBtn.count(), 1, 'Assertion Error: Desktop edit control did not render.');
+                await editPostBtn.click();
+                const editForm = page.locator('#fwin_edit form#postform');
+                await editForm.waitFor({ state: 'visible' });
+                assert.strictEqual(await editForm.count(), 1, 'Assertion Error: Desktop edit modal did not render its form.');
 
-                const editSubject = page.locator('#postform input[name="subject"]:visible, input[name="subject"]:visible').first();
-                if (await editSubject.count()) {
-                    await editSubject.fill('Standard User Thread (Edited)');
-                }
+                const editSubject = editForm.locator('input[name="subject"]');
+                assert.strictEqual(await editSubject.count(), 1, 'Assertion Error: Desktop edit subject input did not render.');
+                await editSubject.fill('Standard User Thread (Edited)');
                 await fillPostEditor('Edited body text from unprivileged account.');
-                const editSecqaa = page.locator('input[name*="secanswer"]');
+                const editSecqaa = editForm.locator('input[name*="secanswer"]');
                 if(await editSecqaa.count()) await editSecqaa.fill('2');
-                const editBtn = await page.$('#postsubmit, button[name="editsubmit"]');
-                if (editBtn) {
-                    await editBtn.click();
-                    await page.waitForNavigation({ waitUntil: 'networkidle' }).catch(() => { });
-                    await page.waitForTimeout(2000);
-                }
+                const editBtn = editForm.locator('button[name="editsubmit"]');
+                assert.strictEqual(await editBtn.count(), 1, 'Assertion Error: Desktop edit submit button did not render.');
+                await editBtn.click();
+                await page.waitForTimeout(2000);
 
                 console.log("Checking if edited thread title exists in DB...");
                 const editDbCheck = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT COUNT(*) FROM pre_forum_thread WHERE tid='${tidOutput}' AND subject='Standard User Thread (Edited)';"`).toString().trim();
