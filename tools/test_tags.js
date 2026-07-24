@@ -59,36 +59,38 @@ const { execSync } = require('child_process');
         await page.waitForLoadState('networkidle');
         await page.locator('input[name="subject"]:visible').fill('Thread with Tags');
 
-        await page.evaluate(() => {
-            const textArea = document.querySelector('textarea[name="message"], #postmessage');
-            if (textArea) textArea.value = 'Posting thread content with tag via UI.';
-            if (window.editdoc && window.editdoc.body) window.editdoc.body.innerHTML = 'Posting thread content with tag via UI.';
-        });
-
-        const extraTagBtn = await page.$('#extra_tag_b, a[href*="extra_tag"], #extra_tag_b a');
-        assert.ok(extraTagBtn, 'Assertion Error: Tag control did not render.');
-        await extraTagBtn.click();
-        const tagsInput = await page.$('#tags, input[name="tags"]');
-        assert.ok(tagsInput, 'Assertion Error: Tag input did not render.');
-        await tagsInput.fill('playwright', { force: true });
-        const postsubmitBtn = await page.$('#postsubmit, button[name="topicsubmit"]');
-        if (postsubmitBtn) {
-            await postsubmitBtn.click();
-            await page.waitForNavigation({ waitUntil: 'networkidle' }).catch(() => {});
+        const editorFrame = page.locator('iframe[id$="_iframe"]');
+        if(await editorFrame.count()) {
+            await page.frameLocator('iframe[id$="_iframe"]').locator('body').fill('Posting thread content with tag via UI.');
+        } else {
+            const textArea = page.locator('textarea[name="message"]:visible');
+            assert.strictEqual(await textArea.count(), 1, 'Assertion Error: Tag post editor did not render.');
+            await textArea.fill('Posting thread content with tag via UI.');
         }
+
+        const tagInput = page.locator('#keyword-input:visible');
+        assert.strictEqual(await tagInput.count(), 1, 'Assertion Error: Visible tag input did not render.');
+        await tagInput.fill('playwright');
+        await tagInput.press('Enter');
+        assert.strictEqual(await page.locator('#tags').inputValue(), 'playwright', 'Assertion Error: Tag editor did not add the entered tag.');
+
+        const postsubmitBtn = page.locator('button[name="topicsubmit"]:visible');
+        assert.strictEqual(await postsubmitBtn.count(), 1, 'Assertion Error: Tag post submit button did not render.');
+        await Promise.all([
+            page.waitForNavigation({ waitUntil: 'networkidle' }),
+            postsubmitBtn.click()
+        ]);
 
         const tagidOutput = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT tagid FROM pre_common_tag WHERE tagname='playwright' LIMIT 1;"`).toString().trim();
 
-        // Test Tag Search
-        if (tagidOutput) {
-            console.log("Testing Tag Search...");
-            await page.goto(`http://127.0.0.1:8080/misc.php?mod=tag&id=${tagidOutput}`);
-            await page.waitForLoadState('networkidle');
-            const tagSearchText = await page.textContent('body');
-            assert.ok(tagSearchText.includes('Thread with Tags') || tagSearchText.includes('playwright'), 'Assertion Error: Tag search result did not list the created thread or tag.');
-            await page.screenshot({ path: 'screenshot_tags_03_search_result.png' });
-            report += `### Tag Search Result\n- **Status**: Checked\n- **Screenshot**: \`screenshot_tags_03_search_result.png\`\n\n`;
-        }
+        assert.ok(tagidOutput, 'Assertion Error: Submitted tag was not created in the database.');
+        console.log("Testing Tag Search...");
+        await page.goto(`http://127.0.0.1:8080/misc.php?mod=tag&id=${tagidOutput}`);
+        await page.waitForLoadState('networkidle');
+        const tagSearchText = await page.textContent('body');
+        assert.ok(tagSearchText.includes('Thread with Tags') || tagSearchText.includes('playwright'), 'Assertion Error: Tag search result did not list the created thread or tag.');
+        await page.screenshot({ path: 'screenshot_tags_03_search_result.png' });
+        report += `### Tag Search Result\n- **Status**: Checked\n- **Screenshot**: \`screenshot_tags_03_search_result.png\`\n\n`;
 
         // Admin Tag Management Check
         console.log("Testing Admin Panel Tag Management UI...");
