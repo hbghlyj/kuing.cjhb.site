@@ -968,7 +968,7 @@ ed4cc5874a66523f1d216b2b213b57f4 *source/app/home/child/space/thread.php
 7b63042c593b7ab2ef0a6f397e160673 *source/app/home/child/space/wall.php
 f547a566fd7efa5c9c623be2894d8b3c *source/app/home/child/spacecp/account.php
 58679294190d3e9b190f980429e7c8db *source/app/home/child/spacecp/album.php
-a05b9b9a6e5bde5ed389c905459eb35c *source/app/home/child/spacecp/avatar.php
+e74815025c2affea4fd15b83602dcf86 *source/app/home/child/spacecp/avatar.php
 69428ab082327282b5bb5fbafaee47d0 *source/app/home/child/spacecp/blog.php
 50e2986b86f14dedb299c645ed6a3e90 *source/app/home/child/spacecp/class.php
 4594c308482e5964acefa7c0caafe105 *source/app/home/child/spacecp/click.php
@@ -4837,7 +4837,7 @@ f3daafe3f9176749f0e2fff86bad24a4 *template/default/home/spacecp_account_security
 ede1657059250ee5dd342deaee17f5ae *template/default/home/spacecp_account_security_verify.php
 6df9df838b865474bfa975d7959fe8b2 *template/default/home/spacecp_account.php
 a6f1cd3c8da427a64b9270223a2f1796 *template/default/home/spacecp_album.htm
-e65f5b7e8f12da1a8c702da4b875de68 *template/default/home/spacecp_avatar_body.htm
+38fa721981dbc6e00b905247b7098bd6 *template/default/home/spacecp_avatar_body.htm
 4069fd267b50447f15f37c693e5f885a *template/default/home/spacecp_avatar.htm
 88a3c9b807e5fb50a6ac0b414b733c7d *template/default/home/spacecp_blog.htm
 3d827885e52071067e7256d6bcd14e4c *template/default/home/spacecp_class.htm
@@ -5157,7 +5157,7 @@ e41a7dc9c126036714c131df3d680ac6 *template/default/touch/home/spacecp_account_se
 584d48a73ed1998b06893802bb406f26 *template/default/touch/home/spacecp_account_security_verify.php
 2583fa066ebf92bffb764139451a7457 *template/default/touch/home/spacecp_account.php
 66dc95beb9e81f9ae7fea08f63bc423f *template/default/touch/home/spacecp_album.htm
-cc8e0af6c28695713f2860b9e18ef202 *template/default/touch/home/spacecp_avatar_body.htm
+db41f2983d9d1f824c85f4340b8e053a *template/default/touch/home/spacecp_avatar_body.htm
 ef28532ed6ff1063a85a86bd3d54c391 *template/default/touch/home/spacecp_avatar.htm
 5730057ecf5e1b45e38f3cc4d61be142 *template/default/touch/home/spacecp_blog.htm
 b6c976c5d4c1033de1794133cfc2c26f *template/default/touch/home/spacecp_comment.htm
