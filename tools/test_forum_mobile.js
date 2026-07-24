@@ -290,7 +290,7 @@ const { execSync } = require('child_process');
                     method: 'POST',
                     body: formData
                 });
-            }, { fid: 2, tid: tid, pid: firstMobilePid, text: mobilePostCommentText });
+            }, { fid: 2, tid: tid, pid: commentMobilePid, text: mobilePostCommentText });
             await page.waitForTimeout(500);
         }
 
