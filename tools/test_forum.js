@@ -671,8 +671,8 @@ const { execSync } = require('child_process');
         await nonImgInput.setInputFiles(nonImgFixture);
         const nonImgResp = await (await nonImgUploadResponse).text();
         assert.match(nonImgResp.trim(), /^\d+$/, `Assertion Error: Desktop non-image upload failed. Response: ${nonImgResp}`);
-        await page.waitForFunction(() => document.querySelector('#attachlist input[name^="attachnew["]'), null, { timeout: 5000 });
-        const nonImgAid = await page.locator('#attachlist input[name^="attachnew["]').evaluate(input => input.name.match(/^attachnew\[(\d+)\]/)[1]);
+        await page.waitForFunction(() => document.querySelector('#fsUploadProgress input[name^="attachnew["]'), null, { timeout: 5000 });
+        const nonImgAid = await page.locator('#fsUploadProgress input[name^="attachnew["]').evaluate(input => input.name.match(/^attachnew\[(\d+)\]/)[1]);
         console.log("Discovered non-image attachment AID:", nonImgAid);
 
         const nonImgAttachMsg = `Posting thread with non-image attachment document. [attach]${nonImgAid}[/attach]`;
