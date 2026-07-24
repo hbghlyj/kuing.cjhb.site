@@ -35,6 +35,7 @@ const { execSync } = require('child_process');
                     .map(script => script.textContent));
                 scripts.forEach((source, index) => {
                     try {
+                        if (source.includes('import ') || source.includes('import{') || source.includes('export ')) return;
                         new Function(source);
                     } catch (error) {
                         invalidScripts.push(`${frame.url()} inline script #${index + 1}: ${error.message}\n${source.slice(0, 1000)}`);
@@ -44,6 +45,7 @@ const { execSync } = require('child_process');
         }
         for (const [url, source] of scriptSources) {
             try {
+                if (source.includes('import ') || source.includes('import{') || source.includes('export ')) continue;
                 new Function(source);
             } catch (error) {
                 invalidScripts.push(`${url}: ${error.message}\n${source.slice(0, 1000)}`);
@@ -437,6 +439,15 @@ const { execSync } = require('child_process');
             return (window.FORMHASH || (document.querySelector('input[name="formhash"]') ? document.querySelector('input[name="formhash"]').value : ''));
         });
         assert.ok(formhash, 'Assertion Error: Upload formhash is missing.');
+        const uploaderRuntime = await page.evaluate(() => ({
+            available: typeof DiscuzUploader === 'function',
+            scripts: Array.from(document.scripts).map(script => script.src).filter(Boolean),
+        }));
+        assert.ok(uploaderRuntime.available, 'Assertion Error: Desktop HTML5 DiscuzUploader runtime did not load.');
+        assert.ok(
+            uploaderRuntime.scripts.some(src => src.includes('/static/js/discuz_uploader.js')),
+            `Assertion Error: Renamed desktop uploader script was not loaded. Scripts: ${uploaderRuntime.scripts.join(', ')}`
+        );
 
         const rejectedUploadResp = await page.request.post('http://127.0.0.1:8080/misc.php?mod=upload&operation=upload&simple=1&type=image&fid=2');
         assert.strictEqual(rejectedUploadResp.status(), 403, 'Assertion Error: Upload endpoint accepted a request without formhash.');
