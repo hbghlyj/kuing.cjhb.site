@@ -1246,6 +1246,7 @@ i.pstatus { display: block; margin-bottom: -30px; font-size: 12px; text-align: c
 	#post_controls.math_mode #fastsmiliesdiv { display: block; float: none; width: auto; }
 	#post_controls.math_mode #fastsmilies table { width: auto; height: 40px; }
 	#post_controls.math_mode #fastsmilies td { padding: 0 4px !important; line-height: 20px; white-space: nowrap; }
+	#post_math_entry a { width: auto; padding: 0 4px; text-indent: 0; background-image: none; white-space: nowrap; font-size: 11px; line-height: 18px; }
 /** end **/
 
 

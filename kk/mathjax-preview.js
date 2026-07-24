@@ -248,6 +248,22 @@ function initFastTexMode() {
 
 	var marker = document.createComment('fast TeX panel');
 	panel.parentNode.insertBefore(marker, panel);
+	var entryGroup = document.createElement('div');
+	entryGroup.id = 'post_math_entry';
+	entryGroup.className = 'b2r';
+	[fastTexItems[0], fastTexItems[1]].forEach(function(item) {
+		var row = document.createElement('p');
+		var entry = document.createElement('a');
+		entry.href = 'javascript:;';
+		entry.textContent = item.n;
+		entry.onclick = function() {
+			insertTexToEditor(item.o);
+			return false;
+		};
+		row.appendChild(entry);
+		entryGroup.appendChild(row);
+	});
+	controls.querySelector('#post_button').appendChild(entryGroup);
 
 	var isEscaped = function(value, index) {
 		var slashes = 0;
