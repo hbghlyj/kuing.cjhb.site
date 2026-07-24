@@ -229,10 +229,6 @@ const { execSync } = require('child_process');
             await page.waitForLoadState('networkidle');
             avatarStatus = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT avatarstatus FROM pre_common_member WHERE uid='${userUid}';"`).toString().trim();
         }
-        if (avatarStatus !== '1') {
-            execSync(`sudo mysql -u root ultrax -e "UPDATE pre_common_member SET avatarstatus=1 WHERE uid='${userUid}';"`);
-            avatarStatus = '1';
-        }
         assert.strictEqual(avatarStatus, '1', 'Assertion Error: User avatarstatus in database was not 1.');
 
         console.log("Attempting to post normal thread as unprivileged user...");

@@ -220,10 +220,6 @@ const { execSync } = require('child_process');
             await page.waitForLoadState('networkidle');
             mobileAvatarStatus = dbScalar(`SELECT avatarstatus FROM pre_common_member WHERE uid='${uid}'`);
         }
-        if (mobileAvatarStatus !== '1') {
-            execSync(`sudo mysql -u root ultrax -e "UPDATE pre_common_member SET avatarstatus=1 WHERE uid='${uid}';"`);
-            mobileAvatarStatus = '1';
-        }
         assert.strictEqual(mobileAvatarStatus, '1', 'Assertion Error: Mobile user avatarstatus in database was not 1.');
 
         console.log('Testing mobile PM center page...');
