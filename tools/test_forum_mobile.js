@@ -201,10 +201,8 @@ const { execSync } = require('child_process');
         await page.waitForFunction(() => document.querySelector('#attlist input[name^="attachnew["]'), null, { timeout: 5000 });
         const mobileNonImgAid = await page.locator('#attlist input[name^="attachnew["]').evaluate(input => input.name.match(/^attachnew\[(\d+)\]/)[1]);
 
-        await page.evaluate(({ aidVal, message }) => {
-            const msgArea = document.querySelector('#needmessage, textarea[name="message"]');
-            if (msgArea) msgArea.value = message;
-        }, { aidVal: mobileNonImgAid, message: `Mobile non-image attachment body ${suffix}. [attach]${mobileNonImgAid}[/attach]` });
+        await page.locator('#needmessage').fill(`Mobile non-image attachment body ${suffix}. [attach]${mobileNonImgAid}[/attach]`);
+        await page.waitForFunction(() => document.getElementById('postsubmit')?.getAttribute('data-disabled') === 'false');
 
         await page.locator('#postsubmit').click();
         await page.waitForURL(/forum\.php\?mod=viewthread/, { timeout: 5000 });
