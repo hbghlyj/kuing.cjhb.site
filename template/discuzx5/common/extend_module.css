@@ -5,13 +5,10 @@
 #an dt {display:block}
 .dz_ngbox {margin-bottom:15px;background:var(--dz-bgf);border:none;border-radius:var(--dz-radius-m);box-shadow:var(--dz-shadow)}
 .category_l1, .category_l2, .category_l3, .category_l4 {background:none}
-#category_grid {border:none;border-radius:var(--dz-radius-m)}
 #category_grid h4 span {height:50px;border-radius:0 var(--dz-radius-s) var(--dz-radius-s) 0}
 #category_grid .newimgbox:hover h4 span, #category_grid .subjectbox:hover h4 span, #category_grid .replaybox:hover h4 span, #category_grid .hottiebox:hover h4 span, #category_grid .goodtiebox:hover h4 span {display:none;width:4px;border-radius:0 2px 2px 0}
-#category_grid h4 {font-size:15px;font-weight:400;text-indent:15px;border-left:0px solid var(--dz-borderb);border-bottom:1px solid var(--dz-borderb)}
-#category_grid td {border-left:1px solid var(--dz-borderb)}
+#category_grid h4 {margin:0;position:relative}
 #category_grid .newimgbox h4 {border-left:none}
-.category_newlist {padding:10px 15px}
 .category_newlist li {white-space:nowrap}
 
 .flg .bm_c {padding:0 15px 15px}
