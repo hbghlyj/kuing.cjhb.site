@@ -687,7 +687,7 @@ $lang = array (
 	'view_newpm'		=> 'Click here to view <strong class="xi1">$newpmcount</strong> unread private messages',//'点击这里查看 <strong class="xi1">$newpmcount</strong> 条未读消息',
 	'view_privatepm'	=> 'View all private messages',//'查看全部私人消息',
 	'yes'			=> 'Yes',//'是',
-	'you_to'		=> 'wrote to',//'对',
+	'you_to'		=> 'to',//'对',
 	'pmreport'		=> 'Report',//'举报',
 	'create_new_poll'	=> 'Create new poll',//'发起新投票',
 	'friend_poll'		=> 'Friend Polls',//'好友发起的投票',
