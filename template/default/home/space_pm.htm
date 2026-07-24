@@ -182,7 +182,7 @@
 									<input type="text" name="username" id="username" autocomplete="off" />
 								</div>
 								<a href="home.php?mod=spacecp&ac=pm&op=appendmember&plid=$plid" id="a_appendmember" class="pn appendmb z" title="{lang appendchatpmmember_comment}" onclick="getchatpmappendmember();"><span class="z">{lang appendchatpmmember}</span></a>
-								<a href="javascript:;" id="showSelectBox" class="z mtn showmenu" onclick="showMenu({'showid':this.id, 'duration':3, 'pos':'34!'});fs.showPMFriend('showSelectBox_menu','selectorBox', this);" title="{lang selectfromfriendlist}">{lang select_friend}</a>
+								<!--{if $_G['setting']['friendstatus']}--><a href="javascript:;" id="showSelectBox" class="z mtn showmenu" onclick="showMenu({'showid':this.id, 'duration':3, 'pos':'34!'});fs.showPMFriend('showSelectBox_menu','selectorBox', this);" title="{lang selectfromfriendlist}">{lang select_friend}</a><!--{/if}-->
 							</div>
 							<p class="d">{lang sendpm_tip}</p>
 						</div>
@@ -247,7 +247,7 @@
 								}
 								getUser(page);
 							}
-							selector();
+							<!--{if $_G['setting']['friendstatus']}-->selector();<!--{/if}-->
 						</script>
 
 					<!--{/if}-->

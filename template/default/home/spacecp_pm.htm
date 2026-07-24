@@ -345,7 +345,7 @@
 									<div class="un_selector px z cl" onclick="$('username').focus();">
 										<input type="text" name="username" id="username" autocomplete="off" />
 									</div>
-									<a href="javascript:;" id="showSelectBox" class="z mtn xi2 showmenu" onclick="showMenu({'showid':this.id, 'duration':3, 'pos':'34!'});fs.showPMFriend('showSelectBox_menu','selectorBox', this);" title="{lang selectfromfriendlist}">{lang select_friend}</a>
+									<!--{if $_G['setting']['friendstatus']}--><a href="javascript:;" id="showSelectBox" class="z mtn xi2 showmenu" onclick="showMenu({'showid':this.id, 'duration':3, 'pos':'34!'});fs.showPMFriend('showSelectBox_menu','selectorBox', this);" title="{lang selectfromfriendlist}">{lang select_friend}</a><!--{/if}-->
 								</div>
 								<div id="username_menu" style="display: none;">
 									<ul id="friends" class="pmfrndl"></ul>
@@ -408,7 +408,7 @@
 										}
 										getUser(page);
 									}
-									selector();
+									<!--{if $_G['setting']['friendstatus']}-->selector();<!--{/if}-->
 								</script>
 
 								<p class="d">{lang sendpm_tip}</p>
@@ -478,7 +478,7 @@
 									<div class="un_selector px z cl" onclick="$('username').focus();">
 										<input type="text" name="username" id="username" autocomplete="off" />
 									</div>
-									<a href="javascript:;" id="showSelectBox" class="z mtn xi2 showmenu" onclick="showMenu({'showid':this.id, 'duration':3, 'pos':'34!'});fs.showPMFriend('showSelectBox_menu','selectorBox', this);" title="{lang selectfromfriendlist}">{lang select_friend}</a>
+									<!--{if $_G['setting']['friendstatus']}--><a href="javascript:;" id="showSelectBox" class="z mtn xi2 showmenu" onclick="showMenu({'showid':this.id, 'duration':3, 'pos':'34!'});fs.showPMFriend('showSelectBox_menu','selectorBox', this);" title="{lang selectfromfriendlist}">{lang select_friend}</a><!--{/if}-->
 								</div>
 								<div id="username_menu" style="display: none;">
 									<ul id="friends" class="pmfrndl"></ul>
@@ -541,7 +541,7 @@
 										}
 										getUser(page);
 									}
-									selector();
+									<!--{if $_G['setting']['friendstatus']}-->selector();<!--{/if}-->
 								</script>
 
 								<p class="d">{lang sendpm_tip}</p>
