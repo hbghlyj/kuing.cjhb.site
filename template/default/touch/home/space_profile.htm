@@ -47,7 +47,7 @@
 	<div class="myinfo_list_ico cl">
 		<ul>
 		<!--{if helper_access::check_module('forum')}-->
-			<li><a href="home.php?mod=space&uid={$space['uid']}&do=thread<!--{if $_G['uid'] == $space['uid']}-->&view=me<!--{/if}-->"><i class="dm-chat-s-fill"></i><!--{if $_G['uid'] == $space['uid']}-->{lang mythread}<!--{else}-->{lang mobta}{lang mobthread}<!--{/if}--></a></li>
+			<li><a href="home.php?mod=space&uid={$space['uid']}&do=thread<!--{if $_G['uid'] == $space['uid']}-->&view=me<!--{/if}-->"><i class="dm-chat-s-fill"></i><!--{if $_G['uid'] == $space['uid']}-->{lang mythread}<!--{else}-->{lang mobta} {lang mobthread}<!--{/if}--></a></li>
 		<!--{/if}-->
 		<li><a href="forum.php?mod=collection"><i class="dm-tag"></i><!--{if $_G['uid'] == $space['uid']}-->{lang mycollection}<!--{/if}--></a></li>
 		<!--{if helper_access::check_module('favorite') && $_G['uid'] == $space['uid']}-->

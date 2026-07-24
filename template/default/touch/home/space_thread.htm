@@ -5,7 +5,7 @@
 		<!--{if $_G['uid'] == $space['uid']}-->
 			<!--{if $_GET['type'] == 'reply'}-->{lang my_replies}<!--{elseif $_GET['type'] == 'postcomment'}-->{lang my_comments}<!--{else}-->{lang mythread}<!--{/if}-->
 		<!--{else}-->
-			{$space['username']} - <!--{if $_GET['type'] == 'reply'}-->{lang mobta}{lang reply}<!--{elseif $_GET['type'] == 'postcomment'}-->{lang mobta}{lang post_comment}<!--{else}-->{lang mobta}{lang mobthread}<!--{/if}-->
+			{$space['username']} - <!--{if $_GET['type'] == 'reply'}-->{lang mobta} {lang reply}<!--{elseif $_GET['type'] == 'postcomment'}-->{lang mobta} {lang post_comment}<!--{else}-->{lang mobta} {lang mobthread}<!--{/if}-->
 		<!--{/if}-->
 	</h2>
 	<div class="my"><a href="index.php"><i class="dm-house"></i></a></div>
