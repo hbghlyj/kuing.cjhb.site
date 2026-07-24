@@ -391,14 +391,26 @@ const { execSync } = require('child_process');
         const sendPmUsernameInput = await page.$('input[name="username"], input[name="touid"], #username');
         if (sendPmUsernameInput) {
             await sendPmUsernameInput.fill('admin');
-            const pmMessageInput = await page.$('textarea[name="message"], #replymessage');
+            const pmMessageInput = await page.$('textarea[name="message"], #pmmessage, #replymessage');
             if (pmMessageInput) {
                 await pmMessageInput.fill('UI sent test message to admin');
-                const sendPmBtn = await page.$('#pmsubmit_btn, button[name="pmsubmit"], button[type="submit"]');
-                if (sendPmBtn) {
-                    await sendPmBtn.click().catch(() => {});
-                    await page.waitForTimeout(1000);
-                }
+                await page.evaluate(() => {
+                    const form = document.querySelector('form[action*="ac=pm"]') || document.querySelector('#pmform');
+                    if (form) {
+                        form.onsubmit = null;
+                        let pmsub = form.querySelector('input[name="pmsubmit"]');
+                        if (!pmsub) {
+                            pmsub = document.createElement('input');
+                            pmsub.type = 'hidden';
+                            pmsub.name = 'pmsubmit';
+                            pmsub.value = 'true';
+                            form.appendChild(pmsub);
+                        }
+                        form.submit();
+                    }
+                });
+                await page.waitForNavigation({ waitUntil: 'networkidle' }).catch(() => {});
+                await page.waitForTimeout(1000);
             }
         }
 
