@@ -270,8 +270,8 @@ const { execSync } = require('child_process');
 
         console.log('Posting postcomment on mobile and testing type=postcomment page...');
         const mobilePostCommentText = 'Mobile test postcomment text.';
-        const firstMobilePid = dbScalar(`SELECT pid FROM pre_forum_post WHERE tid='${tid}' AND first=1 LIMIT 1`);
-        if (firstMobilePid) {
+        const commentMobilePid = dbScalar(`SELECT pid FROM pre_forum_post WHERE tid='${tid}' AND first=1 LIMIT 1`);
+        if (commentMobilePid) {
             await page.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${tid}`);
             await page.waitForLoadState('networkidle');
             await page.evaluate(async ({ fid, tid, pid, text }) => {
