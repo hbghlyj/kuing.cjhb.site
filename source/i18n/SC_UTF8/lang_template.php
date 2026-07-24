@@ -9,7 +9,7 @@
 $lang = [
 	'e_math_inline' => '行内',
 	'e_math_display' => '行间',
-	'e_math_hint' => '行内公式：$...$；行间公式：\\[ ... \\]',
+	'e_math_hint' => '行内公式：$...$；行间公式：\\\\[ ... \\\\]',
 	'activity_about_member' => '剩余名额',
 	'activity_already' => '已参加人数',
 	'additional' => '附加',
