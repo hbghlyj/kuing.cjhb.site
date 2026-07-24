@@ -61,6 +61,7 @@
 	<div id="output"></div>
 	</div>
 	<div style="clear:both"></div>
+	<script>window.MATH_EDITOR_LABELS = {inline: '{lang e_math_inline}', display: '{lang e_math_display}'};</script>
 	<script src="/kk/mathjax-preview.js?{VERHASH}"></script>
 	</div>
 	<!--{/if}-->

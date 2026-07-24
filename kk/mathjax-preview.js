@@ -130,8 +130,6 @@ function selectBracePair() {
 // 快捷 TeX 公式数据（按使用频率排序）
 var fastTexItems = [
 	// 基础结构
-	{ "n": "行内公式", "o": ["$", "$"] },
-	{ "n": "行间公式", "o": ["\\[\n", "\n\\]", 0, 0] },
 	{ "n": "{}", "o": selectBracePair },
 	{ "n": "$\\frac{a}{b}$", "o": ["\\frac{", "}{}", 2] },
 	{ "n": "$\\sqrt{x}$", "o": ["\\sqrt{", "}"] },
@@ -242,87 +240,43 @@ function renderFastTexSmilies() {
 	}
 }
 
-function initFastTexMode() {
+function initFullEditorMathEntry() {
 	var textarea = document.querySelector('.edt textarea[id$="_textarea"]');
 	if (!textarea || !textarea.id.endsWith('_textarea')) return;
 
 	var editorid = textarea.id.slice(0, -'_textarea'.length);
-	var controls = document.getElementById(editorid + '_controls');
 	var button = document.getElementById(editorid + '_button');
-	var panel = document.getElementById('fastsmiliesdiv');
-	if (!controls || !button || !panel) return;
+	if (!button || document.getElementById('post_math_entry')) return;
 
-	var marker = document.createComment('fast TeX panel');
-	panel.parentNode.insertBefore(marker, panel);
+	var labels = window.MATH_EDITOR_LABELS || {};
 	var entryGroup = document.createElement('div');
 	entryGroup.id = 'post_math_entry';
 	entryGroup.className = 'b2r';
-	[fastTexItems[0], fastTexItems[1]].forEach(function(item) {
-		var row = document.createElement('p');
+	[
+		{ label: labels.inline || 'Inline', code: ['$', '$'] },
+		{ label: labels.display || 'Display', code: ['\\[\n', '\n\\]', 0, 0] }
+	].forEach(function(item) {
 		var entry = document.createElement('a');
 		entry.href = 'javascript:;';
-		entry.textContent = item.n;
+		entry.textContent = item.label;
+		entry.title = item.label;
 		entry.onclick = function() {
-			insertTexToEditor(item.o);
+			insertTexToEditor(item.code);
 			return false;
 		};
-		row.appendChild(entry);
-		entryGroup.appendChild(row);
+		entryGroup.appendChild(entry);
 	});
-	button.appendChild(entryGroup);
-
-	var isEscaped = function(value, index) {
-		var slashes = 0;
-		while (index > 0 && value[--index] == '\\') slashes++;
-		return slashes % 2 == 1;
-	};
-
-	var isMathCursor = function(value, cursor) {
-		var before = value.slice(0, cursor);
-		if (before.lastIndexOf('\\[') > before.lastIndexOf('\\]') || before.lastIndexOf('\\(') > before.lastIndexOf('\\)')) return true;
-		if ((before.match(/\\begin\{[^}]+\}/g) || []).length > (before.match(/\\end\{[^}]+\}/g) || []).length) return true;
-
-		var inline = false, display = false;
-		for (var i = 0; i < before.length; i++) {
-			if (before[i] != '$' || isEscaped(before, i)) continue;
-			if (before[i + 1] == '$') {
-				display = !display;
-				i++;
-			} else if (!display) {
-				inline = !inline;
-			}
-		}
-		return inline || display;
-	};
-
-	var update = function() {
-		var active = isMathCursor(textarea.value, textarea.selectionStart);
-		if (active) {
-			controls.appendChild(panel);
-			controls.classList.add('math_mode');
-		} else {
-			marker.parentNode.insertBefore(panel, marker.nextSibling);
-			controls.classList.remove('math_mode');
-		}
-	};
-
-	['input', 'keyup', 'click', 'focus'].forEach(function(eventName) {
-		textarea.addEventListener(eventName, update);
-	});
-	document.addEventListener('selectionchange', function() {
-		if (document.activeElement == textarea) update();
-	});
-	update();
+	button.insertBefore(entryGroup, button.firstChild);
 }
 
-function initFullEditorMathControls() {
+function initMathJaxPreview() {
 	renderFastTexSmilies();
-	initFastTexMode();
+	initFullEditorMathEntry();
+	initLivePreview();
 }
 
 if (typeof bbcode2html === 'function') {
-	initFullEditorMathControls();
-	initLivePreview();
+	initMathJaxPreview();
 } else {
 	// Simple editors do not include bbcode.js, unlike the full post editor.
 	// Supply safe preview defaults before loading the shared converter.
@@ -334,6 +288,6 @@ if (typeof bbcode2html === 'function') {
 
 	var bbcodeScript = document.createElement('script');
 	bbcodeScript.src = (typeof JSPATH !== 'undefined' ? JSPATH : 'static/js/') + 'bbcode.js';
-	bbcodeScript.onload = initLivePreview;
+	bbcodeScript.onload = initMathJaxPreview;
 	document.head.appendChild(bbcodeScript);
 }
