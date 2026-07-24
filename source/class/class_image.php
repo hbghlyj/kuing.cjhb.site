@@ -343,7 +343,13 @@ class image {
 				if(!($this->imginfo['width'] <= $this->param['thumbwidth'] || $this->imginfo['height'] <= $this->param['thumbheight'])) {
 					list($startx, $starty, $cutw, $cuth) = $this->sizevalue(1);
 					$dst_photo = imagecreatetruecolor($cutw, $cuth);
-					imagecopymerge($dst_photo, $attach_photo, 0, 0, $startx, $starty, $cutw, $cuth, 100);
+					if($this->imginfo['mime'] == 'image/png') {
+						imagealphablending($dst_photo, false);
+						imagesavealpha($dst_photo, true);
+						imagecopy($dst_photo, $attach_photo, 0, 0, $startx, $starty, $cutw, $cuth);
+					} else {
+						imagecopymerge($dst_photo, $attach_photo, 0, 0, $startx, $starty, $cutw, $cuth, 100);
+					}
 					$thumb_photo = imagecreatetruecolor($this->param['thumbwidth'], $this->param['thumbheight']);
 					if($this->imginfo['mime'] == 'image/png') {
 						imagealphablending($thumb_photo, false);
@@ -352,15 +358,16 @@ class image {
 					imagecopyresampled($thumb_photo, $dst_photo, 0, 0, 0, 0, $this->param['thumbwidth'], $this->param['thumbheight'], $cutw, $cuth);
 				} else {
 					$thumb_photo = imagecreatetruecolor($this->param['thumbwidth'], $this->param['thumbheight']);
-					if($this->imginfo['mime'] == 'image/png') {
-						imagealphablending($thumb_photo, false);
-						imagesavealpha($thumb_photo, true);
-					}
 					$bgcolor = imagecolorallocate($thumb_photo, 255, 255, 255);
 					imagefill($thumb_photo, 0, 0, $bgcolor);
 					$startx = ($this->param['thumbwidth'] - $this->imginfo['width']) / 2;
 					$starty = ($this->param['thumbheight'] - $this->imginfo['height']) / 2;
-					imagecopymerge($thumb_photo, $attach_photo, $startx, $starty, 0, 0, $this->imginfo['width'], $this->imginfo['height'], 100);
+					if($this->imginfo['mime'] == 'image/png') {
+						imagealphablending($thumb_photo, true);
+						imagecopy($thumb_photo, $attach_photo, $startx, $starty, 0, 0, $this->imginfo['width'], $this->imginfo['height']);
+					} else {
+						imagecopymerge($thumb_photo, $attach_photo, $startx, $starty, 0, 0, $this->imginfo['width'], $this->imginfo['height'], 100);
+					}
 				}
 				break;
 		}
