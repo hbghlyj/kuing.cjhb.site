@@ -233,19 +233,6 @@
 					<!--{/if}-->
 				<!--{/if}-->
 			</div>
-			<!--{if $post['first'] && (!empty($post['tags']) || $relatedkeywords) && $_GET['from'] != 'preview'}-->
-				<div class="ptg mbm mtn cl">
-					<i class="dm-tag vm"></i>
-					<!--{if !empty($post['tags'])}-->
-						<!--{eval $tagi = 0;}-->
-						<!--{loop $post['tags'] $var}-->
-							<!--{if $tagi}-->, <!--{/if}--><a title="$var[1]" href="misc.php?mod=tag&id=$var[0]&name=<!--{echo rawurlencode($var[1])}-->">$var[1]</a>
-							<!--{eval $tagi++;}-->
-						<!--{/loop}-->
-					<!--{/if}-->
-					<!--{if $relatedkeywords}--><span>$relatedkeywords</span><!--{/if}-->
-				</div>
-			<!--{/if}-->
 			<!--{if $_G['setting']['mobile']['mobilesimpletype'] == 0}-->
 			<!--{if $post['attachment']}-->
 				<div class="quote">
@@ -259,6 +246,19 @@
 				<ul class="post_attlist">{echo showattach($post)}</ul>
 				<!--{/if}-->
 			<!--{/if}-->
+			<!--{/if}-->
+			<!--{if $post['first'] && (!empty($post['tags']) || $relatedkeywords) && $_GET['from'] != 'preview'}-->
+				<div class="ptg mbm mtn cl">
+					<i class="dm-tag vm"></i>
+					<!--{if !empty($post['tags'])}-->
+						<!--{eval $tagi = 0;}-->
+						<!--{loop $post['tags'] $var}-->
+							<!--{if $tagi}-->, <!--{/if}--><a title="$var[1]" href="misc.php?mod=tag&id=$var[0]&name=<!--{echo rawurlencode($var[1])}-->">$var[1]</a>
+							<!--{eval $tagi++;}-->
+						<!--{/loop}-->
+					<!--{/if}-->
+					<!--{if $relatedkeywords}--><span>$relatedkeywords</span><!--{/if}-->
+				</div>
 			<!--{/if}-->
 			<div id="comment_$post['pid']">
 			<!--{if $_GET['from'] != 'preview' && $_G['setting']['commentnumber'] && !empty($comments[$post['pid']])}-->
