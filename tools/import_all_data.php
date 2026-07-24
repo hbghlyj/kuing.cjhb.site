@@ -52,13 +52,19 @@ foreach(glob($dir.'/*.php') as $file) {
 }
 
 // Ensure the admin user and basic settings exist after importing
-$password = md5('Testpassword123!');
-DB::query("REPLACE INTO `{$tablepre}common_member` (uid, loginname, username, password, adminid, groupid, email, regdate) VALUES ('1', 'admin', 'admin', '$password', '1', '1', 'admin@admin.com', '".time()."');");
+require_once libfile('function/nativeuser');
+$adminPassword = 'Testpassword123!';
+$adminPasswordHash = native_user_generate_password($adminPassword);
+$passwordMd5 = md5($adminPassword);
+DB::query("REPLACE INTO `{$tablepre}common_member` (uid, loginname, username, password, adminid, groupid, email, regdate) VALUES ('1', 'admin', 'admin', '$passwordMd5', '1', '1', 'admin@admin.com', '".time()."');");
 DB::query("REPLACE INTO `{$tablepre}common_member_count` SET uid='1';");
 DB::query("REPLACE INTO `{$tablepre}common_member_status` SET uid='1';");
 DB::query("REPLACE INTO `{$tablepre}common_member_field_forum` SET uid='1';");
 DB::query("REPLACE INTO `{$tablepre}common_member_field_home` SET uid='1';");
 DB::query("REPLACE INTO `{$tablepre}common_member_profile` SET uid='1', fields='{}';");
+// Populate common_member_auth so native_user_login can verify the admin password
+// (native_user_login reads exclusively from common_member_auth, not common_member.password)
+C::t('common_member_auth')->upsert(1, $adminPasswordHash, '', '');
 DB::query("REPLACE INTO `{$tablepre}common_setting` SET skey='siteurl', svalue='';");
 DB::query("REPLACE INTO `{$tablepre}common_setting` SET skey='pmstatus', svalue='1';");
 

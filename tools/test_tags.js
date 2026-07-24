@@ -53,7 +53,8 @@ const { execSync } = require('child_process');
         console.log("Posting new thread with tags in Forum (fid=2) via UI...");
         await page.goto('http://127.0.0.1:8080/forum.php?mod=post&action=newthread&fid=2');
         await page.waitForLoadState('networkidle');
-        await page.locator('input[name="subject"]').fill('Thread with Tags');
+        await page.locator('input[name="subject"]:visible').fill('Thread with Tags');
+
         await page.evaluate(() => {
             const textArea = document.querySelector('textarea[name="message"], #postmessage');
             if (textArea) textArea.value = 'Posting thread content with tag via UI.';
