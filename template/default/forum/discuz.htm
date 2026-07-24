@@ -57,9 +57,7 @@
 			<button type="button" data-index-tab="boards" role="tab" aria-selected="true" class="a">{lang forumlist}</button>
 		</div>
 		<div id="forum-index-grid-panel" hidden>
-		<div class="fl bm">
-			<div class="bm bmw cl">
-				<div id="category_grid" class="bm_c xs0" >
+			<div id="category_grid">
 					<table class="cp0"><tr>
 					<td valign="top" class="category_l2" data-index-tab="latest">
 						<div class="subjectbox">
@@ -101,9 +99,7 @@
 				         </div>
 					</td>
 					</table>
-				</div>
 			</div>
-		</div>
 		</div>
 		<!--{/if}-->
 		<!--{hook/index_top}-->
@@ -425,19 +421,25 @@
 			var boards = document.getElementById('forum-index-boards');
 			var buttons = tabs.getElementsByTagName('button');
 			var cells = grid.querySelectorAll('[data-index-tab]');
+			function selectTab(tab) {
+				for(var j = 0; j < buttons.length; j++) {
+					var active = buttons[j].getAttribute('data-index-tab') == tab;
+					buttons[j].className = buttons[j].className.replace(/\s*a/g, '') + (active ? ' a' : '');
+					buttons[j].setAttribute('aria-selected', active ? 'true' : 'false');
+				}
+				boards.hidden = tab != 'boards';
+				grid.hidden = tab == 'boards';
+				for(var k = 0; k < cells.length; k++) {
+					cells[k].hidden = cells[k].getAttribute('data-index-tab') != tab;
+				}
+			}
 			for(var i = 0; i < buttons.length; i++) {
 				buttons[i].onclick = function() {
 					var tab = this.getAttribute('data-index-tab');
-					for(var j = 0; j < buttons.length; j++) {
-						buttons[j].className = buttons[j].className.replace(/\s*a/g, '');
-						buttons[j].setAttribute('aria-selected', 'false');
-					}
-					this.className += ' a';
-					this.setAttribute('aria-selected', 'true');
-					boards.hidden = tab != 'boards';
-					grid.hidden = tab == 'boards';
-					for(var k = 0; k < cells.length; k++) {
-						cells[k].hidden = cells[k].getAttribute('data-index-tab') != tab;
+					if(document.startViewTransition && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+						document.startViewTransition(function() { selectTab(tab); });
+					} else {
+						selectTab(tab);
 					}
 				};
 			}
