@@ -47,7 +47,9 @@ const { execSync } = require('child_process');
         }
         assert.ok(await page.$('#registerform'), 'Assertion Error: Mobile registration form did not render.');
 
-        await page.locator('input[name="username"], input[id^="username_"]').first().fill(username);
+        const registrationUsername = page.locator('#registerform input[name="username"]');
+        assert.strictEqual(await registrationUsername.count(), 1, 'Assertion Error: Mobile registration username field did not render.');
+        await registrationUsername.fill(username);
         const passInputs = page.locator('input[type="password"]');
         if (await passInputs.count() >= 2) {
             await passInputs.nth(0).fill(password);
