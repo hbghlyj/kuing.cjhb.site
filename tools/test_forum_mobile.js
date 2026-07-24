@@ -354,16 +354,16 @@ const { execSync } = require('child_process');
             const responseBody = avatarPageResponse ? await avatarPageResponse.text() : '';
             assert.fail(`Mobile avatar page failed: status=${avatarPageResponse ? avatarPageResponse.status() : 'missing'}; body=${responseBody.slice(0, 4000)}`);
         }
-        const mobileAvatarFileInput = await page.$('#avatarfile, input[name="Filedata"], input[type="file"]');
-        if (mobileAvatarFileInput && fs.existsSync('static/image/smiley/BQ2/alu1.jpg')) {
-            await mobileAvatarFileInput.setInputFiles('static/image/smiley/BQ2/alu1.jpg');
-            await page.waitForTimeout(1000);
-            const avConfirmBtn = await page.$('#avconfirm, input[name="confirm"], .saveAvatar, input[type="submit"]');
-            if (avConfirmBtn && await avConfirmBtn.isVisible().catch(() => false)) {
-                await avConfirmBtn.click();
-                await page.waitForLoadState('networkidle');
-            }
+        const mobileAvatarFixture = 'static/image/smiley/BQ2/alu1.jpg';
+        const mobileAvatarInputs = page.locator('.choose-file');
+        assert.strictEqual(await mobileAvatarInputs.count(), 3, 'Assertion Error: Mobile HTML5 avatar controls did not render.');
+        assert.ok(fs.existsSync(mobileAvatarFixture), 'Assertion Error: Mobile avatar fixture is missing.');
+        for(let i = 0; i < 3; i++) {
+            await mobileAvatarInputs.nth(i).setInputFiles(mobileAvatarFixture);
         }
+        await page.locator('.submit-btn').click();
+        await page.waitForLoadState('networkidle').catch(() => {});
+        await page.waitForTimeout(1000);
         const mobileAvatarStatus = dbScalar(`SELECT avatarstatus FROM pre_common_member WHERE uid='${uid}'`);
         assert.strictEqual(mobileAvatarStatus, '1', 'Assertion Error: Mobile user avatarstatus in database was not 1.');
 

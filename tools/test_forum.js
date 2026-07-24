@@ -225,17 +225,15 @@ const { execSync } = require('child_process');
         await page.waitForLoadState('networkidle');
 
         const avatarFixture = 'static/image/smiley/BQ2/alu1.jpg';
-        const avatarInput = await page.$('#avatarfile, input[name="Filedata"], input[type="file"]');
-        assert.ok(avatarInput && fs.existsSync(avatarFixture), 'Assertion Error: Avatar file input or fixture is missing.');
-        await avatarInput.setInputFiles(avatarFixture);
-        await page.waitForTimeout(1000);
-
-        const confirmBtn = await page.$('#avconfirm, input[name="confirm"], button[type="submit"]');
-        if (confirmBtn) {
-            await confirmBtn.click();
-            await page.waitForLoadState('networkidle').catch(() => {});
-            await page.waitForTimeout(1000);
+        const avatarInputs = page.locator('.choose-file');
+        assert.strictEqual(await avatarInputs.count(), 3, 'Assertion Error: HTML5 avatar controls did not render.');
+        assert.ok(fs.existsSync(avatarFixture), 'Assertion Error: Avatar fixture is missing.');
+        for(let i = 0; i < 3; i++) {
+            await avatarInputs.nth(i).setInputFiles(avatarFixture);
         }
+        await page.locator('.submit-btn').click();
+        await page.waitForLoadState('networkidle').catch(() => {});
+        await page.waitForTimeout(1000);
 
         const userUid = execSync("sudo mysql -u root ultrax -N -s -e \"SELECT uid FROM pre_common_member WHERE username='" + username + "';\"").toString().trim();
 
