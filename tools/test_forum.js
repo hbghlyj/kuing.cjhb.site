@@ -554,6 +554,11 @@ const { execSync } = require('child_process');
             const postCommentDbCheck = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT COUNT(*) FROM pre_forum_postcomment WHERE authorid='${userUid}' AND pid='${adminReplyPid}' AND comment='${postCommentText}';"`).toString().trim();
             assert.strictEqual(postCommentDbCheck, '1', 'Assertion Error: Post comment was not created in database.');
 
+            // Navigate back to viewthread to verify and screenshot the postcomment
+            await page.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${tidOutput}`);
+            await page.waitForLoadState('networkidle');
+            await page.screenshot({ path: 'screenshot_desktop_viewthread_commented.png' });
+
             await page.goto('http://127.0.0.1:8080/home.php?mod=space&do=thread&view=me&type=postcomment');
             await page.waitForLoadState('networkidle');
             await page.screenshot({ path: 'screenshot_desktop_space_thread_postcomment.png' });

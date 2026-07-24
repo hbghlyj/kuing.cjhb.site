@@ -314,6 +314,11 @@ const { execSync } = require('child_process');
         const mobilePostCommentDbCheck = dbScalar(`SELECT COUNT(*) FROM pre_forum_postcomment WHERE authorid='${uid}' AND pid='${adminReplyPid}' AND comment='${mobilePostCommentText}'`);
         assert.strictEqual(mobilePostCommentDbCheck, '1', 'Assertion Error: Mobile post comment was not created in database.');
 
+        // Navigate back to viewthread to verify and screenshot the postcomment
+        await page.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${adminReplyTid}`);
+        await page.waitForLoadState('networkidle');
+        await page.screenshot({ path: 'screenshot_mobile_viewthread_commented.png' });
+
         await page.goto('http://127.0.0.1:8080/home.php?mod=space&do=thread&view=me&type=postcomment');
         await page.waitForLoadState('networkidle');
         const mobilePostcommentBody = await page.textContent('body');
