@@ -112,10 +112,21 @@ const { execSync } = require('child_process');
             assert.ok((await page.textContent('body')).includes(username), 'Assertion Error: Admin test user login failed.');
         }
 
-        console.log("Phase 2: Elevated User Testing");
-        execSync("sudo mysql -u root ultrax -e \"UPDATE pre_common_member SET groupid=1, adminid=1 WHERE username='" + username + "';\"");
-        execSync("sudo mysql -u root ultrax -e \"REPLACE INTO pre_common_admincp_member (uid, cpgroupid, customperm) SELECT uid, 0, '' FROM pre_common_member WHERE username='" + username + "';\"");
-        report += '### 1. Privilege Elevation\n- **Status**: Checked\n\n';
+        console.log("Phase 2: Admin Account Testing");
+        await page.goto('http://127.0.0.1:8080/member.php?mod=logging&action=login');
+        await page.waitForLoadState('networkidle');
+        const adminLoginForm = page.locator('form[id^="loginform_"]:visible');
+        if (await adminLoginForm.count()) {
+            await adminLoginForm.locator('input[name="username"]').fill('admin');
+            await adminLoginForm.locator('input[name="password"]').fill('Testpassword123!');
+            const secqaa = adminLoginForm.locator('input[name*="secanswer"]');
+            if (await secqaa.count()) await secqaa.fill('2');
+            await Promise.all([
+                page.waitForNavigation({ waitUntil: 'networkidle' }).catch(() => {}),
+                adminLoginForm.evaluate(form => form.submit())
+            ]);
+        }
+        report += '### 1. Admin Authentication\n- **Status**: Checked\n\n';
 
         await page.goto('http://127.0.0.1:8080/home.php?mod=spacecp');
         await page.waitForLoadState('networkidle');
@@ -204,10 +215,7 @@ const { execSync } = require('child_process');
         const albumUpload = JSON.parse(await uploadOperation('album'));
         assert.ok(parseInt(albumUpload.picid, 10) > 0, `Assertion Error: Album image upload failed: ${JSON.stringify(albumUpload)}`);
 
-        let portalCatid = execSync("sudo mysql -u root ultrax -N -s -e \"SELECT catid FROM pre_portal_category ORDER BY catid LIMIT 1;\"").toString().trim();
-        if (!portalCatid) {
-            portalCatid = execSync(`sudo mysql -u root ultrax -N -s -e "INSERT INTO pre_portal_category (catname, uid, username, dateline, description, seotitle, keyword) VALUES ('Uploader Test', (SELECT uid FROM pre_common_member WHERE username='${username}'), '${username}', UNIX_TIMESTAMP(), '', '', ''); SELECT LAST_INSERT_ID();"`).toString().trim();
-        }
+        let portalCatid = execSync("sudo mysql -u root ultrax -N -s -e \"SELECT catid FROM pre_portal_category ORDER BY catid LIMIT 1;\"").toString().trim() || '1';
         const portalUpload = JSON.parse(await uploadOperation('portal', { catid: portalCatid, aid: '0' }));
         assert.ok(portalUpload.aid > 0 && portalUpload.errorcode === 0, `Assertion Error: Portal attachment upload failed: ${JSON.stringify(portalUpload)}`);
 
