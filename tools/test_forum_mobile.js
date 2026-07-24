@@ -229,7 +229,7 @@ const { execSync } = require('child_process');
 
         console.log('Editing mobile reply...');
         assert.ok(page.url().includes('viewthread'), 'Assertion Error: Mobile reply submit did not redirect to viewthread.');
-        const editLink = page.locator(`a[href*="action=edit"][href*="pid=${replyPid}"]`).first();
+        const editLink = page.locator(`a[href*="action=edit"][href*="pid=${replyPid}"]:visible`);
         assert.strictEqual(await editLink.count(), 1, 'Assertion Error: Mobile edit control did not render.');
         await editLink.click();
         await page.waitForLoadState('networkidle');
