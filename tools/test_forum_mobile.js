@@ -356,10 +356,18 @@ const { execSync } = require('child_process');
         assert.strictEqual(await mobileAvatarConfirm.count(), 1, 'Assertion Error: Mobile avatar confirmation control did not render.');
         assert.ok(fs.existsSync(mobileAvatarFixture), 'Assertion Error: Mobile avatar fixture is missing.');
         await mobileAvatarInput.setInputFiles(mobileAvatarFixture);
-        await mobileAvatarConfirm.click();
-        await page.waitForTimeout(1000);
-        const mobileAvatarStatus = dbScalar(`SELECT avatarstatus FROM pre_common_member WHERE uid='${uid}'`);
-        assert.strictEqual(mobileAvatarStatus, '1', 'Assertion Error: Mobile user avatarstatus in database was not 1.');
+        await page.locator('#avataradjuster2').waitFor({ state: 'visible' });
+        await Promise.all([
+            page.waitForResponse(response => response.request().method() === 'POST' && response.url().includes('/api/avatar/index.php')),
+            mobileAvatarConfirm.click()
+        ]);
+        const mobileAvatarFinished = page.locator('.finishbutton:visible');
+        await mobileAvatarFinished.waitFor({ state: 'visible' });
+        await Promise.all([
+            page.waitForNavigation({ waitUntil: 'networkidle' }),
+            mobileAvatarFinished.click()
+        ]);
+        await waitForDbValue(`SELECT avatarstatus FROM pre_common_member WHERE uid='${uid}'`, '1', 'Assertion Error: Mobile user avatarstatus in database was not 1');
 
         console.log('Testing mobile viewthread thread tag rendering...');
         await page.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${tid}`);
