@@ -1105,7 +1105,7 @@ Last Modify:	Pony
 		.bm_h .pn { margin-top: 4px; }
 		.bm_h { padding: 0 10px; height: 31px; border-top: 1px solid #FFF; border-bottom: 1px solid {CONTENTSEPARATE}; background: {COMMONBG}; line-height: 31px; white-space: nowrap; overflow: hidden; }
 		.bmw { border: 1px solid {COMMONBORDER}; }
-			.bmw .bm_h { border-top-color: {WRAPBG}; border-right: 1px solid {WRAPBG}; border-bottom-color: {CONTENTSEPARATE}; border-left: 1px solid {WRAPBG}; background: {SPECIALBG}; }
+			.bmw .bm_h { border-top-color: {WRAPBG}; border-right: 1px solid {WRAPBG}; border-bottom-color: {CONTENTSEPARATE}; border-left: 1px solid {WRAPBG}; }
 				.bmw .bm_h a { color: {HIGHLIGHTLINK}; }
 		.bml .bm_h { padding-top: 5px; border: none; background: transparent; }
 		.bml .bm_c { padding-top: 0; }
