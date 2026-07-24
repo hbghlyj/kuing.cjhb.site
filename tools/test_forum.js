@@ -109,9 +109,10 @@ const { execSync } = require('child_process');
         await page.goto('http://127.0.0.1:8080/member.php?mod=register');
         await page.waitForLoadState('networkidle');
 
-        const registrationUsername = page.locator('#registerform #username');
-        assert.strictEqual(await registrationUsername.count(), 1, 'Assertion Error: Desktop registration username field did not render.');
-        await registrationUsername.fill(username);
+        // reginput can rename the DOM id and name; the first text field is the username.
+        const registrationTextFields = page.locator('#registerform input[type="text"]');
+        assert.ok(await registrationTextFields.count() > 0, 'Assertion Error: Desktop registration username field did not render.');
+        await registrationTextFields.nth(0).fill(username);
         const passwordInputs = page.locator('input[type="password"]');
         if (await passwordInputs.count() >= 2) {
             await passwordInputs.nth(0).fill(password);
