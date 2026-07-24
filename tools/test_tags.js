@@ -32,7 +32,7 @@ const { execSync } = require('child_process');
         console.log("Logging in as admin to post thread with tags via UI...");
         await page.goto('http://127.0.0.1:8080/member.php?mod=logging&action=login');
         await page.waitForLoadState('networkidle');
-        await page.locator('input[name="username"]').fill('admin');
+        await page.locator('input[name="username"]:visible').fill('admin');
         await page.locator('input[name="password"]').fill('Testpassword123!');
         const secqaa = await page.$('input[name*="secanswer"]');
         if (secqaa) await secqaa.fill('2');
