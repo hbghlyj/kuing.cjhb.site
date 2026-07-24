@@ -368,6 +368,9 @@ select {-moz-appearance:none;}
 .header .myss a i {float:left;font-size:16px;margin-right:5px;color:rgba(255,255,255,0.7)}
 .header i {font-size:20px;color:var(--dz-FC-fff)}
 .header .my a {margin-left:10px}
+.header .pm_send {width:30%}
+.header .pm_send a {color:var(--dz-FC-fff);font-size:14px;white-space:nowrap}
+.header.pm_header h2 {width:50%}
 .header h2 {float:left;width:60%;text-align:center;font-size:18px;position:relative;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
 .header h2 img, .header .mzlogo img {max-height:30px;vertical-align:top;max-width:100%}
 .header h2 a {color:var(--dz-FC-fff)}

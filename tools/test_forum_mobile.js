@@ -92,6 +92,28 @@ const { execSync } = require('child_process');
             }
             assert.fail(`${message}. Found: ${dbScalar(sql)}`);
         };
+        const sendPrivateMessage = async (senderPage, recipient, message) => {
+            await senderPage.goto('http://127.0.0.1:8080/home.php?mod=spacecp&ac=pm');
+            await senderPage.waitForLoadState('networkidle');
+            const pmForm = senderPage.locator('form#pmform:visible');
+            assert.strictEqual(await pmForm.count(), 1, 'Assertion Error: Mobile PM compose form did not render.');
+            const recipientInput = pmForm.locator('input[name="username"]');
+            const messageInput = pmForm.locator('textarea[name="message"]');
+            const submitButton = pmForm.locator('#pmsubmit_btn');
+            assert.strictEqual(await recipientInput.count(), 1, 'Assertion Error: Mobile PM recipient field did not render.');
+            assert.strictEqual(await messageInput.count(), 1, 'Assertion Error: Mobile PM message field did not render.');
+            assert.strictEqual(await submitButton.count(), 1, 'Assertion Error: Mobile PM submit button did not render.');
+            await recipientInput.fill(recipient);
+            await messageInput.fill(message);
+            const responsePromise = senderPage.waitForResponse(response =>
+                response.request().method() === 'POST' &&
+                response.url().includes('home.php?mod=spacecp&ac=pm&op=send')
+            );
+            await submitButton.click();
+            const response = await responsePromise;
+            const responseText = await response.text();
+            assert.ok(response.ok(), `Assertion Error: Mobile PM send request failed: status=${response.status()}; body=${responseText.slice(0, 2000)}`);
+        };
         const subject = `Mobile thread ${suffix}`;
         const message = `Mobile thread body ${suffix}.`;
         const reply = `Mobile reply ${suffix}.`;
@@ -242,12 +264,6 @@ const { execSync } = require('child_process');
         }
         assert.strictEqual(mobileAvatarStatus, '1', 'Assertion Error: Mobile user avatarstatus in database was not 1.');
 
-        console.log('Testing mobile PM center page...');
-        await page.goto('http://127.0.0.1:8080/home.php?mod=space&do=pm');
-        await page.waitForLoadState('networkidle');
-        assert.ok((await page.textContent('body')).length > 100, 'Assertion Error: Mobile PM center did not load content.');
-        await page.screenshot({ path: 'screenshot_mobile_07_pm.png' });
-
         console.log('Testing mobile viewthread thread tag rendering...');
         await page.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${tid}`);
         await page.waitForLoadState('networkidle');
@@ -284,6 +300,13 @@ const { execSync } = require('child_process');
             0,
             'Assertion Error: Mobile admin login did not establish an authenticated session.'
         );
+        const adminPmToMobileUser = 'Admin PM for mobile inbox.';
+        await sendPrivateMessage(adminMobilePage, username, adminPmToMobileUser);
+        assert.strictEqual(
+            dbScalar(`SELECT COUNT(*) FROM pre_common_pm_message p INNER JOIN pre_common_pm_member m ON m.plid=p.plid WHERE m.uid='${uid}' AND p.authorid='1' AND p.message='${adminPmToMobileUser}'`),
+            '1',
+            'Assertion Error: Admin PM was not delivered to the mobile user inbox.'
+        );
         await adminMobilePage.goto(`http://127.0.0.1:8080/forum.php?mod=post&action=reply&fid=2&tid=${tid}&reppost=${firstMobilePid}`);
         await adminMobilePage.waitForLoadState('networkidle');
         const adminReply = 'Admin mobile quote reply to user thread.';
@@ -313,6 +336,13 @@ const { execSync } = require('child_process');
             `Assertion Error: Mobile quote reply was not stored. Response: ${adminReplyResponseText.slice(0, 2000)}`
         );
         await adminMobileContext.close();
+
+        console.log('Testing mobile PM center page...');
+        await page.goto('http://127.0.0.1:8080/home.php?mod=space&do=pm');
+        await page.waitForLoadState('networkidle');
+        const mobilePmBody = await page.textContent('body');
+        assert.ok(mobilePmBody.includes(adminPmToMobileUser), 'Assertion Error: Mobile PM center did not display the delivered admin message.');
+        await page.screenshot({ path: 'screenshot_mobile_07_pm.png' });
 
         await page.goto('http://127.0.0.1:8080/home.php?mod=space&do=notice');
         await page.waitForLoadState('networkidle');

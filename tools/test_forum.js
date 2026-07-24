@@ -80,6 +80,28 @@ const { execSync } = require('child_process');
         assert.strictEqual(await textEditor.count(), 1, 'Assertion Error: Visible post editor did not render.');
         await textEditor.fill(message);
     };
+    const sendPrivateMessage = async (senderPage, recipient, message) => {
+        await senderPage.goto('http://127.0.0.1:8080/home.php?mod=spacecp&ac=pm');
+        await senderPage.waitForLoadState('networkidle');
+        const pmForm = senderPage.locator('form[id^="pmform_"]:visible');
+        assert.strictEqual(await pmForm.count(), 1, 'Assertion Error: PM compose form did not render.');
+        const recipientInput = pmForm.locator('input[name="username"]');
+        const messageInput = pmForm.locator('textarea[name="message"]');
+        const submitButton = pmForm.locator('#pmsubmit_btn');
+        assert.strictEqual(await recipientInput.count(), 1, 'Assertion Error: PM recipient field did not render.');
+        assert.strictEqual(await messageInput.count(), 1, 'Assertion Error: PM message field did not render.');
+        assert.strictEqual(await submitButton.count(), 1, 'Assertion Error: PM submit button did not render.');
+        await recipientInput.fill(recipient);
+        await messageInput.fill(message);
+        const responsePromise = senderPage.waitForResponse(response =>
+            response.request().method() === 'POST' &&
+            response.url().includes('home.php?mod=spacecp&ac=pm&op=send')
+        );
+        await submitButton.click();
+        const response = await responsePromise;
+        const responseText = await response.text();
+        assert.ok(response.ok(), `Assertion Error: PM send request failed: status=${response.status()}; body=${responseText.slice(0, 2000)}`);
+    };
     console.log("Starting functional tests...");
 
     try {
@@ -377,21 +399,10 @@ const { execSync } = require('child_process');
         report += '### 4b. Personal Info Update & Space Threads Verification\n- **Status**: Checked\n- **spacecp Update**: Success\n- **Threads Page (with view=me)**: Success — `screenshot_space_thread_viewme.png`\n- **Threads Page (without view=me)**: Success — `screenshot_space_thread_default.png`\n\n';
 
         console.log("Testing Personal Messages (PM) on Desktop via UI...");
-        await page.goto('http://127.0.0.1:8080/home.php?mod=spacecp&ac=pm');
-        await page.waitForLoadState('networkidle');
-        const sendPmUsernameInput = await page.$('input[name="username"], input[name="touid"], #username');
-        if (sendPmUsernameInput) {
-            await sendPmUsernameInput.fill('admin');
-            const pmMessageInput = await page.$('textarea[name="message"], #pmmessage, #replymessage');
-            if (pmMessageInput) {
-                await pmMessageInput.fill('UI sent test message to admin');
-                const sendPmBtn = await page.$('#pmsubmit_btn, button[name="pmsubmit"], button[type="submit"]');
-                if (sendPmBtn) {
-                    await sendPmBtn.click();
-                    await page.waitForTimeout(1000);
-                }
-            }
-        }
+        const userPmToAdmin = 'UI sent test message to admin.';
+        await sendPrivateMessage(page, 'admin', userPmToAdmin);
+        const userPmDbCheck = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT COUNT(*) FROM pre_common_pm_message p INNER JOIN pre_common_pm_member m ON m.plid=p.plid WHERE m.uid='1' AND p.authorid='${userUid}' AND p.message='${userPmToAdmin}';"`).toString().trim();
+        assert.strictEqual(userPmDbCheck, '1', 'Assertion Error: User PM was not delivered to the admin inbox.');
 
         console.log("Testing Reply Quote & Notification (do=notice) and PM send back from admin via UI...");
         if (tidOutput) {
@@ -411,22 +422,10 @@ const { execSync } = require('child_process');
                 adminLoginForm.evaluate(form => form.submit())
             ]);
 
-            // Admin sends PM back to user
-            await adminPage.goto('http://127.0.0.1:8080/home.php?mod=spacecp&ac=pm');
-            await adminPage.waitForLoadState('networkidle');
-            const adminSendPmUserInput = await adminPage.$('input[name="username"], input[name="touid"], #username');
-            if (adminSendPmUserInput) {
-                await adminSendPmUserInput.fill(username);
-                const adminPmMessageInput = await adminPage.$('textarea[name="message"], #pmmessage, #replymessage');
-                if (adminPmMessageInput) {
-                    await adminPmMessageInput.fill('Admin reply PM to user via UI.');
-                    const adminSendPmBtn = await adminPage.$('#pmsubmit_btn, button[name="pmsubmit"], button[type="submit"]');
-                    if (adminSendPmBtn) {
-                        await adminSendPmBtn.click();
-                        await adminPage.waitForTimeout(1000);
-                    }
-                }
-            }
+            const adminPmToUser = 'Admin reply PM to user via UI.';
+            await sendPrivateMessage(adminPage, username, adminPmToUser);
+            const adminPmDbCheck = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT COUNT(*) FROM pre_common_pm_message p INNER JOIN pre_common_pm_member m ON m.plid=p.plid WHERE m.uid='${userUid}' AND p.authorid='1' AND p.message='${adminPmToUser}';"`).toString().trim();
+            assert.strictEqual(adminPmDbCheck, '1', 'Assertion Error: Admin PM was not delivered to the user inbox.');
 
             await adminPage.goto(`http://127.0.0.1:8080/forum.php?mod=post&action=reply&fid=2&tid=${tidOutput}&reppost=${firstPid}`);
             await adminPage.waitForLoadState('networkidle');
@@ -450,7 +449,7 @@ const { execSync } = require('child_process');
             await page.waitForLoadState('networkidle');
             await page.screenshot({ path: 'screenshot_desktop_pm.png' });
             const pmBody = await page.textContent('body');
-            assert.ok(pmBody.includes('PM') || pmBody.includes('Message') || pmBody.includes('admin') || pmBody.includes(username), 'Assertion Error: Desktop PM center did not load correctly.');
+            assert.ok(pmBody.includes(adminPmToUser), 'Assertion Error: Desktop PM center did not display the delivered admin message.');
             report += '### 4c. Desktop Personal Message (PM)\n- **Status**: Checked\n- **Send PM via UI**: Success\n- **Admin Send Back PM**: Success\n- **PM Center View**: Success\n- **Screenshot**: `screenshot_desktop_pm.png`\n\n';
 
             const adminReplyDbCheck = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT COUNT(*) FROM pre_forum_post WHERE tid='${tidOutput}' AND authorid=1 AND first=0 AND message LIKE '%Admin quote reply to user thread.%';"`).toString().trim();
