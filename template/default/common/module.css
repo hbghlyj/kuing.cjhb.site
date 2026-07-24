@@ -93,7 +93,6 @@ Created & Modified by Alice, Monkey, Lushnis, Pony, Dfox & DragonLee.
 	.heatl { padding-left: 15px; margin-left: 384px; border-left: 1px solid #DDD; }
 
 /* 论坛首页四格 by Alice */
-	#nv_forum.pg_index #ct.wp { width:min(calc(100% - 40px), 1200px); }
 	#category_grid { padding: 0; border-top:1px solid {COMMONBORDER}; font-size:14px; }
 	.forum-index-tabs { display:flex; gap:26px; margin:0 0 12px; padding:0 12px; border-bottom:1px solid {COMMONBORDER}; }
 	.forum-index-tabs button { position:relative; flex:0 0 auto; margin:0; padding:11px 0 10px; border:0; background:none; color:{TABLETEXT}; cursor:pointer; font-size:14px; }
