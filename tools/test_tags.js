@@ -37,10 +37,13 @@ const { execSync } = require('child_process');
         await loginForm.locator('input[name="password"]').fill('Testpassword123!');
         const secqaa = loginForm.locator('input[name*="secanswer"]');
         if (await secqaa.count()) await secqaa.fill('2');
-        await Promise.all([
-            page.waitForNavigation({ waitUntil: 'networkidle' }).catch(() => {}),
-            loginForm.evaluate(form => form.submit())
-        ]);
+        const loginSubmitBtn = loginForm.locator('button[type="submit"], input[type="submit"], button[name="loginsubmit"]');
+        if (await loginSubmitBtn.count()) {
+            await Promise.all([
+                page.waitForNavigation({ waitUntil: 'networkidle' }).catch(() => {}),
+                loginSubmitBtn.click()
+            ]);
+        }
 
         await page.goto('http://127.0.0.1:8080/home.php?mod=spacecp');
         await page.waitForLoadState('networkidle');

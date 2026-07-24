@@ -515,23 +515,27 @@ const { execSync } = require('child_process');
 
         const attachmentFixture = 'static/image/common/nosexbg.png';
         assert.ok(fs.existsSync(attachmentFixture), `Assertion Error: Attachment fixture is missing: ${attachmentFixture}`);
-        const rejectedUploadResp = await page.request.post('http://127.0.0.1:8080/misc.php?mod=upload&operation=upload&simple=1&type=image&fid=2');
-        assert.strictEqual(rejectedUploadResp.status(), 403, 'Assertion Error: Upload endpoint accepted a request without formhash.');
+        const rejectedUploadStatus = await page.evaluate(async () => {
+            const res = await fetch('misc.php?mod=upload&operation=upload&simple=1&type=image&fid=2', { method: 'POST' });
+            return res.status;
+        });
+        assert.strictEqual(rejectedUploadStatus, 403, 'Assertion Error: Upload endpoint accepted a request without formhash.');
 
         let aid = '';
         let lastUploadResp = '';
         try {
-            const uploadResp = await page.request.post('http://127.0.0.1:8080/misc.php?mod=upload&operation=upload&simple=1&type=image&fid=2', {
-                multipart: {
-                    formhash,
-                    Filedata: {
-                        name: 'sample_test_attachment.png',
-                        mimeType: 'image/png',
-                        buffer: fs.readFileSync(attachmentFixture)
-                    }
-                }
-            });
-            lastUploadResp = await uploadResp.text();
+            const validJpegBase64 = fs.readFileSync('static/image/smiley/BQ2/alu1.jpg').toString('base64');
+            lastUploadResp = await page.evaluate(async ({ fh, b64 }) => {
+                const blob = await fetch('data:image/jpeg;base64,' + b64).then(r => r.blob());
+                const formData = new FormData();
+                formData.append('formhash', fh);
+                formData.append('Filedata', blob, 'sample_test_attachment.jpg');
+                const res = await fetch('misc.php?mod=upload&operation=upload&simple=1&type=image&fid=2', {
+                    method: 'POST',
+                    body: formData
+                });
+                return await res.text();
+            }, { fh: formhash, b64: validJpegBase64 });
             console.log("Upload API response:", lastUploadResp);
             const match = lastUploadResp.match(/(?:DISCUZUPLOAD\|0\||^)(\d+)(?:\||$)/);
             if (match && match[1] !== '0') {

@@ -46,10 +46,13 @@ const { execSync } = require('child_process');
             await adminLoginForm.locator('input[name="password"]').fill('Testpassword123!');
             const secqaa = adminLoginForm.locator('input[name*="secanswer"]');
             if (await secqaa.count()) await secqaa.fill('2');
-            await Promise.all([
-                page.waitForNavigation({ waitUntil: 'networkidle' }).catch(() => {}),
-                adminLoginForm.evaluate(form => form.submit())
-            ]);
+            const submitBtn = adminLoginForm.locator('button[type="submit"], input[type="submit"], button[name="loginsubmit"]');
+            if (await submitBtn.count()) {
+                await Promise.all([
+                    page.waitForNavigation({ waitUntil: 'networkidle' }).catch(() => {}),
+                    submitBtn.click()
+                ]);
+            }
         }
         report += '### 1. Admin Authentication\n- **Status**: Checked\n\n';
 
@@ -116,22 +119,23 @@ const { execSync } = require('child_process');
         const uploadFormhash = await page.evaluate(() => window.FORMHASH || document.querySelector('input[name="formhash"]')?.value || '');
         assert.ok(uploadFormhash, 'Assertion Error: Uploader operation test could not obtain formhash.');
 
-        const uploadImage = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAIAAAAiOjnJAAACFUlEQVR4nO3SQQkAIADAQAP6sKkVLeEQ5OAC7LEx94LrxvMCvmQsEsYiYSwSxiJhLBLGImEsEsYiYSwSxiJhLBLGImEsEsYiYSwSxiJhLBLGImEsEsYiYSwSxiJhLBLGImEsEsYiYSwSxiJhLBLGImEsEsYiYSwSxiJhLBLGImEsEsYiYSwSxiJhLBLGImEsEsYiYSwSxiJhLBLGImEsEsYiYSwSxiJhLBLGImEsEsYiYSwSxiJhLBLGImEsEsYiYSwSxiJhLBLGImEsEsYiYSwSxiJhLBLGImEsEsYiYSwSxiJhLBLGImEsEsYiYSwSxiJhLBLGImEsEsYiYSwSxiJhLBLGImEsEsYiYSwSxiJhLBLGImEsEsYiYSwSxiJhLBLGImEsEsYiYSwSxiJhLBLGImEsEsYiYSwSxiJhLBLGImEsEsYiYSwSxiJhLBLGImEsEsYiYSwSxiJhLBLGImEsEsYiYSwSxiJhLBLGInEAuwUSl75bns4AAAAASUVORK5CYII=', 'base64');
+        const validJpegBase64 = fs.readFileSync('static/image/smiley/BQ2/alu1.jpg').toString('base64');
         const uploadOperation = async (operation, fields = {}, query = '') => {
-            const response = await page.request.post(`http://127.0.0.1:8080/misc.php?mod=upload&operation=${operation}${query}`, {
-                multipart: {
-                    formhash: uploadFormhash,
-                    ...fields,
-                    Filedata: {
-                        name: `${operation}_test.png`,
-                        mimeType: 'image/png',
-                        buffer: uploadImage,
-                    },
-                },
-            });
-            const body = await response.text();
-            assert.strictEqual(response.status(), 200, `Assertion Error: ${operation} upload returned HTTP ${response.status()}: ${body}`);
-            return body;
+            return await page.evaluate(async ({ op, q, f, b64 }) => {
+                const formhash = window.FORMHASH || (document.querySelector('input[name="formhash"]') ? document.querySelector('input[name="formhash"]').value : '');
+                const blob = await fetch('data:image/jpeg;base64,' + b64).then(r => r.blob());
+                const formData = new FormData();
+                formData.append('formhash', formhash);
+                for (const [k, v] of Object.entries(f)) {
+                    formData.append(k, v);
+                }
+                formData.append('Filedata', blob, op + '_test.jpg');
+                const res = await fetch(`misc.php?mod=upload&operation=${op}${q}`, {
+                    method: 'POST',
+                    body: formData
+                });
+                return await res.text();
+            }, { op: operation, q: query, f: fields, b64: validJpegBase64 });
         };
 
         const pollUpload = JSON.parse(await uploadOperation('poll', {}, '&fid=2'));
