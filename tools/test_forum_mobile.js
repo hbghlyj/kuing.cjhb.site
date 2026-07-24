@@ -249,7 +249,13 @@ const { execSync } = require('child_process');
 
         console.log('Testing mobile reply notification (do=notice) via UI quote reply...');
         const firstMobilePid = dbScalar(`SELECT pid FROM pre_forum_post WHERE tid='${tid}' AND first=1 LIMIT 1`);
-        const adminMobileContext = await browser.newContext();
+        const adminMobileContext = await browser.newContext({
+            viewport: { width: 390, height: 844 },
+            locale: 'en-US',
+        });
+        await adminMobileContext.addCookies([
+            { name: `discuz_${cookieSalt}_mobile`, value: '2', url: 'http://127.0.0.1:8080' },
+        ]);
         const adminMobilePage = await adminMobileContext.newPage();
         await adminMobilePage.goto('http://127.0.0.1:8080/member.php?mod=logging&action=login');
         await adminMobilePage.waitForLoadState('networkidle');
@@ -266,15 +272,19 @@ const { execSync } = require('child_process');
         }
         await adminMobilePage.goto(`http://127.0.0.1:8080/forum.php?mod=post&action=reply&fid=2&tid=${tid}&reppost=${firstMobilePid}`);
         await adminMobilePage.waitForLoadState('networkidle');
-        const adminMsgArea = await adminMobilePage.$('textarea[name="message"], #needmessage');
-        if (adminMsgArea) {
-            await adminMsgArea.fill('Admin mobile quote reply to user thread.');
-            const submitBtn = await adminMobilePage.$('#postsubmit, button[name="replysubmit"]');
-            if (submitBtn) {
-                await submitBtn.click();
-                await adminMobilePage.waitForNavigation({ waitUntil: 'networkidle' }).catch(() => {});
-            }
-        }
+        const adminReply = 'Admin mobile quote reply to user thread.';
+        const adminMsgArea = adminMobilePage.locator('textarea[name="message"]:visible, #needmessage:visible').first();
+        assert.strictEqual(await adminMsgArea.count(), 1, 'Assertion Error: Mobile quote reply editor did not render.');
+        await adminMsgArea.fill(adminReply);
+        const submitBtn = adminMobilePage.locator('#postsubmit:visible, button[name="replysubmit"]:visible').first();
+        assert.strictEqual(await submitBtn.count(), 1, 'Assertion Error: Mobile quote reply submit button did not render.');
+        await submitBtn.click();
+        await adminMobilePage.waitForNavigation({ waitUntil: 'networkidle' }).catch(() => {});
+        await waitForDbValue(
+            `SELECT COUNT(*) FROM pre_forum_post WHERE tid='${tid}' AND authorid='1' AND message LIKE '%${adminReply}%'`,
+            '1',
+            'Assertion Error: Mobile quote reply was not stored'
+        );
         await adminMobileContext.close();
 
         await page.goto('http://127.0.0.1:8080/home.php?mod=space&do=notice');
