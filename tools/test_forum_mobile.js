@@ -232,7 +232,7 @@ const { execSync } = require('child_process');
         const manageLink = page.locator(`a[href="#moption_${replyPid}"]`);
         assert.strictEqual(await manageLink.count(), 1, 'Assertion Error: Mobile post management control did not render.');
         await manageLink.click();
-        const editLink = page.locator(`#moption_${replyPid} a[href*="action=edit"][href*="pid=${replyPid}"]:visible`);
+        const editLink = page.locator(`#moption_${replyPid}_popmenu a[href*="action=edit"][href*="pid=${replyPid}"]:visible`);
         assert.strictEqual(await editLink.count(), 1, 'Assertion Error: Mobile edit control did not render.');
         await editLink.click();
         await page.waitForLoadState('networkidle');
