@@ -18,13 +18,8 @@ const { execSync } = require('child_process');
 
     page.on('console', msg => {
         if (msg.type() === 'error') {
-            const text = msg.text();
-            if (text.includes('unpkg.com') || text.includes('algolia') || text.includes('import statement')) {
-                console.warn(`[Browser Console Warning] ${text}`);
-                return;
-            }
             const loc = msg.location();
-            const detail = `text="${text}" at ${loc.url || 'unknown'}:${loc.lineNumber}`;
+            const detail = `text="${msg.text()}" at ${loc.url || 'unknown'}:${loc.lineNumber}`;
             console.error(`[Browser Console Error] ${detail}`);
             throw new Error(`Console error in browser: ${detail}`);
         }
