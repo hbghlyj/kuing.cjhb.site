@@ -39,8 +39,7 @@ foreach($queryf as $forum) {
 	table_forum_forum::t()->update($forum['fid'], ['archive' => $archive]);
 
 	$thread = table_forum_thread::t()->fetch_by_fid_displayorder($forum['fid']);
-	$subject = cutstr($thread['subject'], 80);
-	$lastpost = "{$thread['tid']}\t{$subject}\t{$thread['lastpost']}\t{$thread['lastposter']}";
+	$lastpost = table_forum_forum::t()->build_lastpost_string($thread['tid'], $thread['subject'], $thread['lastpost'], $thread['lastposter']);
 
 	table_forum_forum::t()->update($forum['fid'], ['threads' => $threads, 'posts' => $posts, 'lastpost' => $lastpost]);
 }
@@ -51,4 +50,3 @@ if($processed) {
 	table_forum_forum::t()->clear_forum_counter_for_group();
 	cpmsg('counter_forum_succeed', 'action=counter', 'succeed');
 }
-	
