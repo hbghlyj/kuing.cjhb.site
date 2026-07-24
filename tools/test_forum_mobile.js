@@ -179,7 +179,7 @@ const { execSync } = require('child_process');
         const threadAttach = dbScalar(`SELECT attachment FROM pre_forum_thread WHERE tid='${tid}'`);
         assert.strictEqual(threadAttach, '2', 'Assertion Error: Mobile thread attachment status was not set to 2.');
 
-        assert.ok(page.url().includes('viewthread'), 'Assertion Error: Mobile thread submit did not redirect to viewthread.');
+        await page.waitForURL(/forum\.php\?mod=viewthread/, { timeout: 5000 });
         await page.waitForLoadState('networkidle');
         await page.screenshot({ path: 'screenshot_mobile_02_thread_attachment.png' });
 
