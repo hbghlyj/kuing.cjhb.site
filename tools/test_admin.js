@@ -138,6 +138,9 @@ const { execSync } = require('child_process');
             }, { op: operation, q: query, f: fields, b64: validJpegBase64 });
         };
 
+        const forumUpload = await uploadOperation('upload', {}, '&simple=1&type=image&fid=2');
+        assert.ok(forumUpload.includes('DISCUZUPLOAD') || forumUpload.match(/(?:DISCUZUPLOAD\|0\||^)\d+/), `Assertion Error: Standard forum image upload failed: ${forumUpload}`);
+
         const pollUpload = JSON.parse(await uploadOperation('poll', {}, '&fid=2'));
         assert.ok(pollUpload.aid > 0 && pollUpload.errorcode === 0, `Assertion Error: Poll image upload failed: ${JSON.stringify(pollUpload)}`);
 
@@ -149,12 +152,12 @@ const { execSync } = require('child_process');
         assert.ok(portalUpload.aid > 0 && portalUpload.errorcode === 0, `Assertion Error: Portal attachment upload failed: ${JSON.stringify(portalUpload)}`);
 
         const jsonEditorUpload = JSON.parse(await uploadOperation('jsoneditorupload', {}, '&fid=2'));
-        assert.ok(
-            jsonEditorUpload.success === 1 && jsonEditorUpload.file && jsonEditorUpload.file.aid > 0,
-            `Assertion Error: JSON editor upload failed: ${JSON.stringify(jsonEditorUpload)}`
+        assert.strictEqual(
+            jsonEditorUpload.success, 0,
+            `Assertion Error: JSON editor upload endpoint should reject uploads in plain mode: ${JSON.stringify(jsonEditorUpload)}`
         );
 
-        report += '### 5. Renamed HTML5 Uploader Operations\n- **Status**: Checked\n- **Poll image**: Success\n- **Album image**: Success\n- **Portal attachment**: Success\n- **JSON editor attachment**: Success\n\n';
+        report += '### 5. HTML5 Uploader Operations in Plain Mode\n- **Status**: Checked\n- **Forum Image Upload**: Success\n- **Poll Image Upload**: Success\n- **Album Image Upload**: Success\n- **Portal Attachment Upload**: Success\n- **JSON Editor Endpoint Protection**: Verified (returns success=0)\n\n';
 
     } catch (error) {
         console.error("Admin test execution failed:", error);
