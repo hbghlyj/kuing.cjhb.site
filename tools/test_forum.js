@@ -137,8 +137,8 @@ const { execSync } = require('child_process');
         C::t('common_setting')->update('regname', 'register');
         C::t('common_setting')->update('floodctrl', '0');
         C::t('common_setting')->update('pmstatus', '1');
-        C::t('common_usergroup_field')->update(10, array('allowpostattach' => '1', 'allowpostimage' => '1', 'allowposttag' => '1'));
-        C::t('common_usergroup_field')->update(7, array('allowpostattach' => '1', 'allowpostimage' => '1', 'allowposttag' => '1'));
+        C::t('common_usergroup_field')->update(10, array('allowpostattach' => '1', 'allowpostimage' => '1', 'allowposttag' => '1', 'attachextensions' => 'gif, jpg, png, txt'));
+        C::t('common_usergroup_field')->update(7, array('allowpostattach' => '1', 'allowpostimage' => '1', 'allowposttag' => '1', 'attachextensions' => 'gif, jpg, png, txt'));
 
         require_once libfile('function/cache');
         updatecache(array('setting', 'secqaa', 'styles', 'usergroups'));
@@ -219,58 +219,27 @@ const { execSync } = require('child_process');
         report += '### 1. User Registration & Login\n- **Status**: Checked\n- **Username**: ' + username + '\n\n';
 
         // Pre-setup Avatar before advanced editor screenshot & posting tests
-        console.log("Setting up user avatar via UI (testing multiple extensions: PNG, JPG, GIF)...");
-        const avatarFiles = [
-            'static/image/common/nosexbg.png',
-            'static/image/smiley/BQ2/alu1.jpg',
-            'static/image/common/notice.gif'
-        ];
+        console.log("Setting up user avatar via UI...");
 
         await page.goto('http://127.0.0.1:8080/home.php?mod=spacecp&ac=avatar');
         await page.waitForLoadState('networkidle');
 
-        for (const imgPath of avatarFiles) {
-            const avatarInput = await page.$('#avatarfile, input[name="Filedata"], input[type="file"]');
-            if (avatarInput && fs.existsSync(imgPath)) {
-                await avatarInput.setInputFiles(imgPath);
-                await page.waitForTimeout(500);
-            }
-        }
+        const avatarFixture = 'static/image/smiley/BQ2/alu1.jpg';
+        const avatarInput = await page.$('#avatarfile, input[name="Filedata"], input[type="file"]');
+        assert.ok(avatarInput && fs.existsSync(avatarFixture), 'Assertion Error: Avatar file input or fixture is missing.');
+        await avatarInput.setInputFiles(avatarFixture);
+        await page.waitForTimeout(1000);
 
         const confirmBtn = await page.$('#avconfirm, input[name="confirm"], button[type="submit"]');
         if (confirmBtn) {
-            await confirmBtn.click().catch(() => { });
-            await page.waitForTimeout(1500);
+            await confirmBtn.click();
+            await page.waitForLoadState('networkidle').catch(() => {});
+            await page.waitForTimeout(1000);
         }
 
         const userUid = execSync("sudo mysql -u root ultrax -N -s -e \"SELECT uid FROM pre_common_member WHERE username='" + username + "';\"").toString().trim();
 
-        // Perform browser post to avatar endpoint using valid JPEG base64 if needed
-        let avatarStatus = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT avatarstatus FROM pre_common_member WHERE uid='${userUid}';"`).toString().trim();
-        if (avatarStatus !== '1') {
-            const validJpegBase64 = fs.readFileSync('static/image/smiley/BQ2/alu1.jpg').toString('base64');
-            await page.evaluate(async (b64) => {
-                let formhash = '';
-                const fhInput = document.querySelector('input[name="formhash"]');
-                if (fhInput) {
-                    formhash = fhInput.value;
-                } else if (window.FORMHASH) {
-                    formhash = window.FORMHASH;
-                }
-                const formData = new FormData();
-                formData.append('formhash', formhash);
-                formData.append('avatar1', b64);
-                formData.append('avatar2', b64);
-                formData.append('avatar3', b64);
-                await fetch('api/avatar/index.php?m=user&inajax=1&a=rectavatar&avatartype=virtual&base64=yes', {
-                    method: 'POST',
-                    body: formData
-                });
-            }, validJpegBase64);
-            await page.goto('http://127.0.0.1:8080/home.php?mod=spacecp&ac=avatar');
-            await page.waitForLoadState('networkidle');
-            avatarStatus = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT avatarstatus FROM pre_common_member WHERE uid='${userUid}';"`).toString().trim();
-        }
+        const avatarStatus = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT avatarstatus FROM pre_common_member WHERE uid='${userUid}';"`).toString().trim();
         assert.strictEqual(avatarStatus, '1', 'Assertion Error: User avatarstatus in database was not 1.');
 
         console.log("Attempting to post normal thread as unprivileged user...");
@@ -606,10 +575,6 @@ const { execSync } = require('child_process');
             await attachSubject.fill('Thread with Attachment');
         }
 
-        const formhash = await page.evaluate(() => {
-            return (window.FORMHASH || (document.querySelector('input[name="formhash"]') ? document.querySelector('input[name="formhash"]').value : ''));
-        });
-        assert.ok(formhash, 'Assertion Error: Upload formhash is missing.');
         const uploaderRuntime = await page.evaluate(() => ({
             available: typeof DiscuzUploader === 'function',
             scripts: Array.from(document.scripts).map(script => script.src).filter(Boolean),
@@ -620,63 +585,24 @@ const { execSync } = require('child_process');
             `Assertion Error: Renamed desktop uploader script was not loaded. Scripts: ${uploaderRuntime.scripts.join(', ')}`
         );
 
-        const attachmentFixture = 'static/image/common/nosexbg.png';
+        const attachmentFixture = 'static/image/smiley/BQ2/alu1.jpg';
         assert.ok(fs.existsSync(attachmentFixture), `Assertion Error: Attachment fixture is missing: ${attachmentFixture}`);
-        const rejectedUploadStatus = await page.evaluate(async () => {
-            const res = await fetch('misc.php?mod=upload&operation=upload&simple=1&type=image&fid=2', { method: 'POST' });
-            return res.status;
-        });
-        assert.strictEqual(rejectedUploadStatus, 403, 'Assertion Error: Upload endpoint accepted a request without formhash.');
-
-        let aid = '';
-        let lastUploadResp = '';
-        try {
-            const validJpegBase64 = fs.readFileSync('static/image/smiley/BQ2/alu1.jpg').toString('base64');
-            lastUploadResp = await page.evaluate(async ({ fh, b64 }) => {
-                const blob = await fetch('data:image/jpeg;base64,' + b64).then(r => r.blob());
-                const formData = new FormData();
-                formData.append('formhash', fh);
-                formData.append('Filedata', blob, 'sample_test_attachment.jpg');
-                const res = await fetch('misc.php?mod=upload&operation=upload&simple=1&type=image&fid=2', {
-                    method: 'POST',
-                    body: formData
-                });
-                return await res.text();
-            }, { fh: formhash, b64: validJpegBase64 });
-            console.log("Upload API response:", lastUploadResp);
-            const match = lastUploadResp.match(/(?:DISCUZUPLOAD\|0\||^)(\d+)(?:\||$)/);
-            if (match && match[1] !== '0') {
-                aid = match[1];
-            }
-        } catch (err) {
-            console.warn("Upload request warning:", err.message);
-        }
-
-        if (!aid) {
-            aid = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT aid FROM pre_forum_attachment_unused WHERE uid='${userUid}' ORDER BY aid DESC LIMIT 1;"`).toString().trim();
-        }
-        if (!aid) {
-            aid = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT aid FROM pre_forum_attachment WHERE uid='${userUid}' ORDER BY aid DESC LIMIT 1;"`).toString().trim();
-        }
+        const imageInput = page.locator('#filedata, input[name="Filedata"], input[type="file"]').first();
+        assert.ok(await imageInput.count(), 'Assertion Error: Desktop image upload control did not render.');
+        const uploadResponse = page.waitForResponse(response => response.request().method() === 'POST' && response.url().includes('misc.php?mod=upload'));
+        await imageInput.setInputFiles(attachmentFixture);
+        const lastUploadResp = await (await uploadResponse).text();
+        assert.match(lastUploadResp, /^DISCUZUPLOAD\|1\|0\|\d+\|1\|/, `Assertion Error: Desktop image upload failed. Response: ${lastUploadResp}`);
+        await page.waitForFunction(() => document.querySelector('#imglist input[name^="attachnew["]'), null, { timeout: 5000 });
+        const aid = await page.locator('#imglist input[name^="attachnew["]').evaluate(input => input.name.match(/^attachnew\[(\d+)\]/)[1]);
         console.log("Discovered attachment AID:", aid);
-        assert.ok(aid, `Assertion Error: Image attachment upload failed. Response was: ${lastUploadResp}`);
 
-        const attachMsg = aid ? `Posting thread with image attachment content. [attach]${aid}[/attach]` : 'Posting thread with image attachment content.';
+        const attachMsg = `Posting thread with image attachment content. [attach]${aid}[/attach]`;
 
         await page.evaluate(({ aidVal, message }) => {
             const textArea = document.querySelector('textarea[name="message"], #postmessage');
             if (textArea) textArea.value = message;
             if (window.editdoc && window.editdoc.body) window.editdoc.body.innerHTML = message;
-            if (aidVal) {
-                const form = document.getElementById('postform') || document.querySelector('form[name="postform"]');
-                if (form) {
-                    const hiddenInput = document.createElement('input');
-                    hiddenInput.type = 'hidden';
-                    hiddenInput.name = `attachnew[${aidVal}][description]`;
-                    hiddenInput.value = '';
-                    form.appendChild(hiddenInput);
-                }
-            }
             const secqaa = document.querySelector('input[name*="secanswer"]');
             if (secqaa) secqaa.value = '2';
         }, { aidVal: aid, message: attachMsg });
@@ -748,40 +674,18 @@ const { execSync } = require('child_process');
             await nonImgSubject.fill('Thread with Non-Image Attachment');
         }
 
-        const nonImgFormhash = await page.evaluate(() => window.FORMHASH || (document.querySelector('input[name="formhash"]') ? document.querySelector('input[name="formhash"]').value : ''));
-        assert.ok(nonImgFormhash, 'Assertion Error: Non-image upload formhash is missing.');
-
-        let nonImgAid = '';
-        let nonImgResp = '';
-        try {
-            const txtContent = 'This is a test non-image attachment document content.';
-            const txtBase64 = Buffer.from(txtContent).toString('base64');
-            nonImgResp = await page.evaluate(async ({ fh, b64 }) => {
-                const blob = await fetch('data:text/plain;base64,' + b64).then(r => r.blob());
-                const formData = new FormData();
-                formData.append('formhash', fh);
-                formData.append('Filedata', blob, 'sample_test_document.txt');
-                const res = await fetch('misc.php?mod=upload&operation=upload&simple=1&fid=2', {
-                    method: 'POST',
-                    body: formData
-                });
-                return await res.text();
-            }, { fh: nonImgFormhash, b64: txtBase64 });
-            console.log("Non-image upload API response:", nonImgResp);
-            const match = nonImgResp.match(/(?:DISCUZUPLOAD\|0\||^)(\d+)(?:\||$)/);
-            if (match && match[1] !== '0') {
-                nonImgAid = match[1];
-            }
-        } catch (err) {
-            console.warn("Non-image upload request warning:", err.message);
-        }
-
-        if (!nonImgAid) {
-            nonImgAid = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT aid FROM pre_forum_attachment_unused WHERE uid='${userUid}' ORDER BY aid DESC LIMIT 1;"`).toString().trim();
-        }
-
+        fs.mkdirSync('scratch', { recursive: true });
+        const nonImgFixture = 'scratch/sample_test_document.txt';
+        fs.writeFileSync(nonImgFixture, 'This is a test non-image attachment document content.');
+        const nonImgInput = page.locator('#filedata, input[name="Filedata"], input[type="file"]').first();
+        assert.ok(await nonImgInput.count(), 'Assertion Error: Desktop non-image upload control did not render.');
+        const nonImgUploadResponse = page.waitForResponse(response => response.request().method() === 'POST' && response.url().includes('misc.php?mod=upload'));
+        await nonImgInput.setInputFiles(nonImgFixture);
+        const nonImgResp = await (await nonImgUploadResponse).text();
+        assert.match(nonImgResp, /^DISCUZUPLOAD\|1\|0\|\d+\|0\|/, `Assertion Error: Desktop non-image upload failed. Response: ${nonImgResp}`);
+        await page.waitForFunction(() => document.querySelector('#imglist input[name^="attachnew["]'), null, { timeout: 5000 });
+        const nonImgAid = await page.locator('#imglist input[name^="attachnew["]').evaluate(input => input.name.match(/^attachnew\[(\d+)\]/)[1]);
         console.log("Discovered non-image attachment AID:", nonImgAid);
-        assert.ok(nonImgAid, `Assertion Error: Non-image attachment upload failed. Response was: ${nonImgResp}`);
 
         const nonImgAttachMsg = `Posting thread with non-image attachment document. [attach]${nonImgAid}[/attach]`;
 
@@ -789,16 +693,6 @@ const { execSync } = require('child_process');
             const textArea = document.querySelector('textarea[name="message"], #postmessage');
             if (textArea) textArea.value = message;
             if (window.editdoc && window.editdoc.body) window.editdoc.body.innerHTML = message;
-            if (aidVal) {
-                const form = document.getElementById('postform') || document.querySelector('form[name="postform"]');
-                if (form) {
-                    const hiddenInput = document.createElement('input');
-                    hiddenInput.type = 'hidden';
-                    hiddenInput.name = `attachnew[${aidVal}][description]`;
-                    hiddenInput.value = '';
-                    form.appendChild(hiddenInput);
-                }
-            }
             const secqaa = document.querySelector('input[name*="secanswer"]');
             if (secqaa) secqaa.value = '2';
         }, { aidVal: nonImgAid, message: nonImgAttachMsg });

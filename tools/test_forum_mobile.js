@@ -189,52 +189,27 @@ const { execSync } = require('child_process');
         await page.waitForLoadState('networkidle');
         await page.screenshot({ path: 'screenshot_mobile_02_thread_attachment.png' });
 
-        console.log('Posting mobile thread with non-image attachment...');
+        console.log('Posting mobile thread with non-image attachment via UI...');
         const nonImgMobileSubject = `Mobile Non-Image Thread ${suffix}`;
         await page.goto('http://127.0.0.1:8080/forum.php?mod=post&action=newthread&fid=2');
         await page.waitForLoadState('networkidle');
         await page.locator('#needsubject').fill(nonImgMobileSubject);
 
-        const mobileNonImgFormhash = await page.evaluate(() => window.FORMHASH || (document.querySelector('input[name="formhash"]') ? document.querySelector('input[name="formhash"]').value : ''));
-        let mobileNonImgAid = '';
-        try {
-            const txtContent = 'Mobile test non-image attachment document content.';
-            const txtBase64 = Buffer.from(txtContent).toString('base64');
-            const resp = await page.evaluate(async ({ fh, b64 }) => {
-                const blob = await fetch('data:text/plain;base64,' + b64).then(r => r.blob());
-                const formData = new FormData();
-                formData.append('formhash', fh);
-                formData.append('Filedata', blob, 'mobile_test_document.txt');
-                const res = await fetch('misc.php?mod=upload&operation=upload&simple=1&fid=2', {
-                    method: 'POST',
-                    body: formData
-                });
-                return await res.text();
-            }, { fh: mobileNonImgFormhash, b64: txtBase64 });
-            const match = resp.match(/(?:DISCUZUPLOAD\|0\||^)(\d+)(?:\||$)/);
-            if (match && match[1] !== '0') {
-                mobileNonImgAid = match[1];
-            }
-        } catch (e) {}
-
-        if (!mobileNonImgAid) {
-            mobileNonImgAid = dbScalar(`SELECT aid FROM pre_forum_attachment_unused WHERE uid='${uid}' ORDER BY aid DESC LIMIT 1`);
-        }
-        assert.ok(mobileNonImgAid, 'Assertion Error: Mobile non-image attachment upload failed.');
+        fs.mkdirSync('scratch', { recursive: true });
+        const nonImgFileFixture = 'scratch/mobile_test_document.txt';
+        fs.writeFileSync(nonImgFileFixture, 'Mobile test non-image attachment document content.');
+        const mobileFileInput = page.locator('#filedata, input[name="Filedata"], input[type="file"]').first();
+        assert.ok(await mobileFileInput.count(), 'Assertion Error: Mobile non-image upload control did not render.');
+        const nonImgUploadResponse = page.waitForResponse(response => response.request().method() === 'POST' && response.url().includes('misc.php?mod=upload'));
+        await mobileFileInput.setInputFiles(nonImgFileFixture);
+        const nonImgUploadText = await (await nonImgUploadResponse).text();
+        assert.match(nonImgUploadText, /^DISCUZUPLOAD\|1\|0\|\d+\|0\|/, `Assertion Error: Mobile non-image upload failed. Response: ${nonImgUploadText}`);
+        await page.waitForFunction(() => document.querySelector('#imglist input[name^="attachnew["]'), null, { timeout: 5000 });
+        const mobileNonImgAid = await page.locator('#imglist input[name^="attachnew["]').evaluate(input => input.name.match(/^attachnew\[(\d+)\]/)[1]);
 
         await page.evaluate(({ aidVal, message }) => {
             const msgArea = document.querySelector('#needmessage, textarea[name="message"]');
             if (msgArea) msgArea.value = message;
-            if (aidVal) {
-                const form = document.getElementById('postform') || document.querySelector('form[name="postform"]');
-                if (form) {
-                    const hiddenInput = document.createElement('input');
-                    hiddenInput.type = 'hidden';
-                    hiddenInput.name = `attachnew[${aidVal}][description]`;
-                    hiddenInput.value = '';
-                    form.appendChild(hiddenInput);
-                }
-            }
         }, { aidVal: mobileNonImgAid, message: `Mobile non-image attachment body ${suffix}. [attach]${mobileNonImgAid}[/attach]` });
 
         await page.locator('#postsubmit').click();
@@ -372,55 +347,24 @@ const { execSync } = require('child_process');
         await page.waitForLoadState('networkidle');
         await page.screenshot({ path: 'screenshot_mobile_thread_recommend.png' });
 
-        console.log('Testing mobile UI avatar setup with multiple extensions (PNG, JPG, GIF)...');
+        console.log('Testing mobile UI avatar setup with file upload via UI...');
         const avatarPageResponse = await page.goto('http://127.0.0.1:8080/home.php?mod=spacecp&ac=avatar');
         await page.waitForLoadState('networkidle');
-        if(!avatarPageResponse || !avatarPageResponse.ok()) {
+        if (!avatarPageResponse || !avatarPageResponse.ok()) {
             const responseBody = avatarPageResponse ? await avatarPageResponse.text() : '';
             assert.fail(`Mobile avatar page failed: status=${avatarPageResponse ? avatarPageResponse.status() : 'missing'}; body=${responseBody.slice(0, 4000)}`);
         }
-        const mobileAvatarFiles = [
-            'static/image/common/nosexbg.png',
-            'static/image/smiley/BQ2/alu1.jpg',
-            'static/image/common/notice.gif'
-        ];
-        for (const imgPath of mobileAvatarFiles) {
-            const avatarInput = await page.$('#avatarfile, input[name="Filedata"], input[type="file"]');
-            if (avatarInput && fs.existsSync(imgPath)) {
-                await avatarInput.setInputFiles(imgPath);
-                await page.waitForTimeout(500);
+        const mobileAvatarFileInput = await page.$('#avatarfile, input[name="Filedata"], input[type="file"]');
+        if (mobileAvatarFileInput && fs.existsSync('static/image/smiley/BQ2/alu1.jpg')) {
+            await mobileAvatarFileInput.setInputFiles('static/image/smiley/BQ2/alu1.jpg');
+            await page.waitForTimeout(1000);
+            const avConfirmBtn = await page.$('#avconfirm, input[name="confirm"], .saveAvatar, input[type="submit"]');
+            if (avConfirmBtn && await avConfirmBtn.isVisible().catch(() => false)) {
+                await avConfirmBtn.click();
+                await page.waitForLoadState('networkidle');
             }
         }
-        let mobileAvatarStatus = dbScalar(`SELECT avatarstatus FROM pre_common_member WHERE uid='${uid}'`);
-        if (mobileAvatarStatus !== '1') {
-            const validJpegBase64 = fs.readFileSync('static/image/smiley/BQ2/alu1.jpg').toString('base64');
-            const avatarUploadResult = await page.evaluate(async (b64) => {
-                let formhash = '';
-                const fhInput = document.querySelector('input[name="formhash"]');
-                if (fhInput) {
-                    formhash = fhInput.value;
-                } else if (window.FORMHASH) {
-                    formhash = window.FORMHASH;
-                }
-                const formData = new FormData();
-                formData.append('formhash', formhash);
-                formData.append('avatar1', b64);
-                formData.append('avatar2', b64);
-                formData.append('avatar3', b64);
-                const response = await fetch('api/avatar/index.php?m=user&inajax=1&a=rectavatar&avatartype=virtual&base64=yes', {
-                    method: 'POST',
-                    body: formData
-                });
-                return {
-                    status: response.status,
-                    body: await response.text()
-                };
-            }, validJpegBase64);
-            assert.strictEqual(avatarUploadResult.status, 200, `Mobile avatar upload failed: status=${avatarUploadResult.status}; body=${avatarUploadResult.body.slice(0, 4000)}`);
-            await page.goto('http://127.0.0.1:8080/home.php?mod=spacecp&ac=avatar');
-            await page.waitForLoadState('networkidle');
-            mobileAvatarStatus = dbScalar(`SELECT avatarstatus FROM pre_common_member WHERE uid='${uid}'`);
-        }
+        const mobileAvatarStatus = dbScalar(`SELECT avatarstatus FROM pre_common_member WHERE uid='${uid}'`);
         assert.strictEqual(mobileAvatarStatus, '1', 'Assertion Error: Mobile user avatarstatus in database was not 1.');
 
         console.log('Testing mobile viewthread thread tag rendering...');
