@@ -9,6 +9,7 @@ $targetHost = $options['host'] ?? '';
 if(!preg_match('/^[A-Za-z0-9.-]+(?::\d+)?$/', $targetHost)) {
 	exit("Usage: php tools/rebuild_styles.php --host=example.com\n");
 }
+define('STYLE_REBUILD_HOST', $targetHost);
 
 $root = dirname(__DIR__);
 chdir($root);
@@ -38,4 +39,4 @@ $discuz->init();
 require_once './source/function/function_cache.php';
 updatecache('styles');
 
-echo "Styles rebuilt for https://{$targetHost}/\n";
+echo 'Styles rebuilt for https://'.STYLE_REBUILD_HOST."/\n";
