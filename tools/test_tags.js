@@ -44,11 +44,12 @@ const { execSync } = require('child_process');
 
         await page.goto('http://127.0.0.1:8080/home.php?mod=spacecp');
         await page.waitForLoadState('networkidle');
-        const accountPage = await page.textContent('body');
+        const spaceUrl = page.url();
         assert.ok(
-            accountPage.includes('admin'),
-            `Assertion Error: Tags test login failed. URL=${page.url()}`
+            spaceUrl.includes('mod=spacecp') && !spaceUrl.includes('mod=logging'),
+            `Assertion Error: Tags test admin login failed — redirected to ${spaceUrl}`
         );
+
 
         console.log("Posting new thread with tags in Forum (fid=2) via UI...");
         await page.goto('http://127.0.0.1:8080/forum.php?mod=post&action=newthread&fid=2');
