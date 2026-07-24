@@ -338,7 +338,9 @@ function initFastTexMode() {
 	}
 
 	function update() {
-		if (isMathCursor(textarea.value, textarea.selectionStart)) {
+		var active = isMathCursor(textarea.value, textarea.selectionStart);
+		panel.classList.toggle('hover', active);
+		if (active) {
 			controls.appendChild(panel);
 			controls.classList.add('math_mode');
 		} else {
