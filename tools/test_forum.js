@@ -330,8 +330,16 @@ const { execSync } = require('child_process');
                 if(await editSecqaa.count()) await editSecqaa.fill('2');
                 const editBtn = editForm.locator('button[name="editsubmit"]');
                 assert.strictEqual(await editBtn.count(), 1, 'Assertion Error: Desktop edit submit button did not render.');
+                const editResponsePromise = page.waitForResponse(response =>
+                    response.request().method() === 'POST' &&
+                    response.url().includes('forum.php?mod=post') &&
+                    response.url().includes('editsubmit=yes')
+                );
                 await editBtn.click();
-                await page.waitForTimeout(2000);
+                const editResponse = await editResponsePromise;
+                const editResponseText = await editResponse.text();
+                assert.ok(editResponse.ok(), `Assertion Error: Desktop edit submit failed with HTTP ${editResponse.status()}: ${editResponseText.slice(0, 2000)}`);
+                assert.ok(editResponseText.includes('succeedhandle_'), `Assertion Error: Desktop edit submit did not return success: ${editResponseText.slice(0, 2000)}`);
 
                 console.log("Checking if edited thread title exists in DB...");
                 const editDbCheck = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT COUNT(*) FROM pre_forum_thread WHERE tid='${tidOutput}' AND subject='Standard User Thread (Edited)';"`).toString().trim();
