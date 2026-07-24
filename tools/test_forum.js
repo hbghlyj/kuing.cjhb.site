@@ -138,8 +138,8 @@ const { execSync } = require('child_process');
         C::t('common_setting')->update('floodctrl', '0');
         C::t('common_setting')->update('pmstatus', '1');
         C::t('common_setting')->update('commentpostself', '1');
-        C::t('common_usergroup_field')->update(10, array('allowpostattach' => '1', 'allowpostimage' => '1', 'allowposttag' => '1', 'attachextensions' => 'gif, jpg, png, txt'));
-        C::t('common_usergroup_field')->update(7, array('allowpostattach' => '1', 'allowpostimage' => '1', 'allowposttag' => '1', 'attachextensions' => 'gif, jpg, png, txt'));
+        C::t('common_usergroup_field')->update(10, array('allowpostattach' => '1', 'allowpostimage' => '1', 'allowposttag' => '1', 'allowcommentpost' => '3', 'attachextensions' => 'gif, jpg, png, txt'));
+        C::t('common_usergroup_field')->update(7, array('allowpostattach' => '1', 'allowpostimage' => '1', 'allowposttag' => '1', 'allowcommentpost' => '3', 'attachextensions' => 'gif, jpg, png, txt'));
 
         require_once libfile('function/cache');
         updatecache(array('setting', 'secqaa', 'styles', 'usergroups'));
