@@ -69,6 +69,7 @@ const { execSync } = require('child_process');
         await page.waitForLoadState('networkidle');
         assert.ok(await page.$('.header'), 'Assertion Error: Authenticated mobile page did not render the touch header.');
         assert.ok((await page.textContent('body')).includes(username), 'Assertion Error: Mobile registration did not establish a logged-in session.');
+        await page.screenshot({ path: 'screenshot_mobile_01_registered.png' });
 
         const dbScalar = sql => execSync(`sudo mysql -u root ultrax -N -s -e "${sql}"`).toString().trim();
         const waitForDbValue = async (sql, expected, message) => {
@@ -119,6 +120,10 @@ const { execSync } = require('child_process');
         assert.strictEqual(attachmentIndex, `${tid}:${tid.slice(-1)}`, 'Assertion Error: Mobile image attachment was not linked to its thread.');
         assert.strictEqual(isimage, '1', 'Assertion Error: Mobile image upload was not stored as an image.');
 
+        await page.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${tid}`);
+        await page.waitForLoadState('networkidle');
+        await page.screenshot({ path: 'screenshot_mobile_02_thread_attachment.png' });
+
         console.log('Replying to mobile thread...');
         await page.goto(`http://127.0.0.1:8080/forum.php?mod=post&action=reply&fid=2&tid=${tid}`);
         await page.waitForLoadState('networkidle');
@@ -141,8 +146,8 @@ const { execSync } = require('child_process');
         await page.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${tid}`);
         await page.waitForLoadState('networkidle');
         assert.ok((await page.textContent('body')).includes(editedReply), 'Assertion Error: Edited mobile reply was not rendered in the thread.');
-        await page.screenshot({ path: 'screenshot_mobile_register.png' });
-        report += `### Touch Registration, Posting, Replying and Editing\n- **Status**: Checked\n- **Username**: ${username}\n- **Thread**: ${tid}\n- **Reply**: ${replyPid}\n- **Image Attachment**: ${aid}\n- **Screenshot**: \`screenshot_mobile_register.png\`\n\n`;
+        await page.screenshot({ path: 'screenshot_mobile_03_reply_edited.png' });
+        report += `### Touch Registration, Posting, Replying and Editing\n- **Status**: Checked\n- **Username**: ${username}\n- **Thread**: ${tid}\n- **Reply**: ${replyPid}\n- **Image Attachment**: ${aid}\n- **Screenshots**:\n  - \`screenshot_mobile_01_registered.png\`\n  - \`screenshot_mobile_02_thread_attachment.png\`\n  - \`screenshot_mobile_03_reply_edited.png\`\n\n`;
     } catch(error) {
         console.error('Test execution failed:', error);
         process.exitCode = 1;
