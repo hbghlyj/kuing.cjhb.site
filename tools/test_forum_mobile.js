@@ -210,7 +210,7 @@ const { execSync } = require('child_process');
             await page.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${tid}`);
             await page.waitForLoadState('networkidle');
         }
-        const editLink = page.locator(`a[href*="action=edit"][href*="pid=${replyPid}"], a[href*="action=edit"]`).first();
+        const editLink = page.locator(`a[href*="action=edit"][href*="pid=${replyPid}"]`).first();
         if (await editLink.count() && await editLink.isVisible().catch(() => false)) {
             await editLink.click();
             await page.waitForLoadState('networkidle');

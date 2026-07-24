@@ -353,7 +353,7 @@ const { execSync } = require('child_process');
             const pidOutput = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT pid FROM pre_forum_post WHERE tid='${tidOutput}' AND first=1 LIMIT 1;"`).toString().trim();
             if (pidOutput) {
                 if (!page.url().includes('mod=post&action=edit')) {
-                    const editPostBtn = page.locator(`a[href*="action=edit"][href*="pid=${pidOutput}"], a[href*="action=edit"]`).first();
+                    const editPostBtn = page.locator(`a[href*="action=edit"][href*="pid=${pidOutput}"]`).first();
                     if (await editPostBtn.count() && await editPostBtn.isVisible().catch(() => false)) {
                         await editPostBtn.click();
                         await page.waitForLoadState('networkidle');
