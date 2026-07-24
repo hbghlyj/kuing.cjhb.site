@@ -2045,7 +2045,7 @@ fe9e64ab296627111255f778b3a266ec *source/i18n/EN_UTF8/lang_optimizer.php
 b6ec1863f43d39c9baf177c8b5aec838 *source/i18n/EN_UTF8/lang_setting.php
 b3668fa92929723039cf8cede809677f *source/i18n/EN_UTF8/lang_space.php
 36aff1870fd539f52d4a4ae438f40bd4 *source/i18n/EN_UTF8/lang_spacecp.php
-e1f349c5ad3eec844e8967a314bab8bb *source/i18n/EN_UTF8/lang_template.php
+7c5a9def3cc4d664483e06d8124f0d7f *source/i18n/EN_UTF8/lang_template.php
 ee8945a68e967f95e8cd5265fd166a9b *source/i18n/EN_UTF8/lang_update.php
 40e00b60d754c6d71b1b1852b0385a7b *source/i18n/EN_UTF8/lang.php
 d41d8cd98f00b204e9800998ecf8427e *source/i18n/EN_UTF8/magic/index.htm
@@ -2241,7 +2241,7 @@ abadedd10b74b9eb8013c74109f9c463 *source/i18n/SC_UTF8/lang_optimizer.php
 706dc229c3fa3ec3aa9a8dcc52a07a51 *source/i18n/SC_UTF8/lang_security.php
 e245ff6d76a31348c53f37300689924f *source/i18n/SC_UTF8/lang_space.php
 c6619717b30270d0a020a452872860e9 *source/i18n/SC_UTF8/lang_spacecp.php
-6edd6bcf614d7035928a33a483d3af54 *source/i18n/SC_UTF8/lang_template.php
+735b762ed5441bcf88586a0d128e64b9 *source/i18n/SC_UTF8/lang_template.php
 5e4162f6228dc0fbb2375d5139a0f2ae *source/i18n/SC_UTF8/lang.php
 d41d8cd98f00b204e9800998ecf8427e *source/i18n/SC_UTF8/magic/index.htm
 8daeba35f0651c31904c9d606d2f3ea9 *source/i18n/SC_UTF8/magic/lang_anonymouspost.php
@@ -2443,7 +2443,7 @@ be3ab669be6ee8def33b8e22cb5b5597 *source/i18n/TC_UTF8/lang_notification.php
 668e10671264775926c174d970a7edf3 *source/i18n/TC_UTF8/lang_security.php
 f084830958073468c72aaa4a581293d0 *source/i18n/TC_UTF8/lang_space.php
 a7b267e3c1a8b9f83108b670dac69f5a *source/i18n/TC_UTF8/lang_spacecp.php
-d4e8fc9774d8954ec3e7230db08db23a *source/i18n/TC_UTF8/lang_template.php
+e04d5809bd87433ace966a997f6dec87 *source/i18n/TC_UTF8/lang_template.php
 aa9085291f92c88593d7c4d5fda25aa7 *source/i18n/TC_UTF8/lang.php
 d41d8cd98f00b204e9800998ecf8427e *source/i18n/TC_UTF8/magic/index.htm
 e138ae55b3d2099079aa06470d3f87ad *source/i18n/TC_UTF8/magic/lang_anonymouspost.php
@@ -5283,7 +5283,7 @@ ce9b485feb1c1e06a60f6a11961e3e9f *template/discuzx5/common/footer.php
 107f3d5ef68757377818ee83ddbb7358 *template/discuzx5/common/forum_calendar.css
 4a55338ca4c3a2fc84f4e7632211fca3 *template/discuzx5/common/forum_moderator.css
 b3899ea5146f63dcaaa8003e7dcd1aa2 *template/discuzx5/common/header_common.php
-daa715e119177e271ba7f67a6010d8c4 *template/discuzx5/common/header_userstatus.php
+4cf2aeaf6e026e487b51b90fa3b8c0e3 *template/discuzx5/common/header_userstatus.php
 adcb46c7cad0971aaf55f1f7f98c5cf5 *template/discuzx5/common/header.php
 9d5cffba9d3ee3fd3bfbee95bcafdcea *template/discuzx5/common/pubsearchform.php
 afc1552c6beac0eb06113b32e1a158ab *template/discuzx5/common/upload.php
