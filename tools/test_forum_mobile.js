@@ -163,15 +163,14 @@ const { execSync } = require('child_process');
         if (extraTagBtn) {
             await extraTagBtn.click().catch(() => {});
         }
-        const tagsInput = await page.$('#tags, input[name="tags"]');
-        if (tagsInput) {
-            await tagsInput.fill('mobiletag', { force: true }).catch(async () => {
-                await page.evaluate(() => {
-                    const input = document.querySelector('#tags, input[name="tags"]');
-                    if (input) input.value = 'mobiletag';
-                });
-            });
-        }
+        await page.evaluate(() => {
+            const input = document.querySelector('#tags, input[name="tags"]');
+            if (input) {
+                input.value = 'mobiletag';
+                input.dispatchEvent(new Event('input', { bubbles: true }));
+                input.dispatchEvent(new Event('change', { bubbles: true }));
+            }
+        });
         await page.waitForTimeout(250);
         await page.locator('#postsubmit').click();
         await waitForDbValue(`SELECT COUNT(*) FROM pre_forum_thread WHERE subject='${subject}'`, '1', 'Assertion Error: Mobile thread was not created');
