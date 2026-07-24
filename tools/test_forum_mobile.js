@@ -147,7 +147,20 @@ const { execSync } = require('child_process');
         await page.waitForLoadState('networkidle');
         assert.ok((await page.textContent('body')).includes(editedReply), 'Assertion Error: Edited mobile reply was not rendered in the thread.');
         await page.screenshot({ path: 'screenshot_mobile_03_reply_edited.png' });
-        report += `### Touch Registration, Posting, Replying and Editing\n- **Status**: Checked\n- **Username**: ${username}\n- **Thread**: ${tid}\n- **Reply**: ${replyPid}\n- **Image Attachment**: ${aid}\n- **Screenshots**:\n  - \`screenshot_mobile_01_registered.png\`\n  - \`screenshot_mobile_02_thread_attachment.png\`\n  - \`screenshot_mobile_03_reply_edited.png\`\n\n`;
+
+        console.log('Testing mobile forum.php (forum index)...');
+        await page.goto('http://127.0.0.1:8080/forum.php');
+        await page.waitForLoadState('networkidle');
+        assert.ok((await page.textContent('body')).length > 100, 'Assertion Error: Mobile forum index did not load content.');
+        await page.screenshot({ path: 'screenshot_mobile_04_forum_index.png' });
+
+        console.log('Testing mobile forumdisplay.php (fid=2)...');
+        await page.goto('http://127.0.0.1:8080/forum.php?mod=forumdisplay&fid=2');
+        await page.waitForLoadState('networkidle');
+        assert.ok((await page.textContent('body')).includes(subject) || (await page.textContent('body')).length > 100, 'Assertion Error: Mobile forumdisplay did not load content.');
+        await page.screenshot({ path: 'screenshot_mobile_05_forumdisplay.png' });
+
+        report += `### Touch Registration, Posting, Replying, Editing, Forum Index and Forumdisplay\n- **Status**: Checked\n- **Username**: ${username}\n- **Thread**: ${tid}\n- **Reply**: ${replyPid}\n- **Image Attachment**: ${aid}\n- **Screenshots**:\n  - \`screenshot_mobile_01_registered.png\`\n  - \`screenshot_mobile_02_thread_attachment.png\`\n  - \`screenshot_mobile_03_reply_edited.png\`\n  - \`screenshot_mobile_04_forum_index.png\`\n  - \`screenshot_mobile_05_forumdisplay.png\`\n\n`;
     } catch(error) {
         console.error('Test execution failed:', error);
         process.exitCode = 1;
