@@ -46,7 +46,8 @@ if(dsign($id.'|'.$dw.'|'.$dh) != $_GET['key']) {
 }
 
 if($attach = table_forum_attachment_n::t()->fetch_attachment('aid:'.$daid, $daid, [2, 1, -1])) {
-	$isImage = abs($attach['isimage']) == 1;
+	$isSvg = strtolower(pathinfo($attach['attachment'], PATHINFO_EXTENSION)) === 'svg' || abs($attach['isimage']) == 2;
+	$isImage = abs($attach['isimage']) == 1 || $isSvg;
 	if($isImage && !$dw && !$dh && $attach['tid'] != $id) {
 		dheader('location: '.$_G['siteurl'].'static/image/common/none.gif');
 	}
@@ -55,6 +56,15 @@ if($attach = table_forum_attachment_n::t()->fetch_attachment('aid:'.$daid, $daid
 		$filename = $_G['setting']['ftp']['attachurl'].'forum/'.$attach['attachment'];
 	} else {
 		$filename = $_G['setting']['attachdir'].'forum/'.$attach['attachment'];
+	}
+	if($isSvg) {
+		dheader('Content-Type: image/svg+xml');
+		if($attach['remote']) {
+			dheader('location: '.$filename);
+		} else {
+			@readfile($filename);
+		}
+		exit;
 	}
 	if(!$isImage) {
 		$filename .= '.thumb.jpg';
