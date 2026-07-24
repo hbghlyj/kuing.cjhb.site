@@ -396,7 +396,7 @@ const { execSync } = require('child_process');
 
         const viewReplyBody = await page.textContent('body');
         assert.ok(
-            viewReplyBody.includes('Edited body text from unprivileged account.'),
+            viewReplyBody.includes('Reply text from unprivileged account.'),
             'Assertion Error: view=me&type=reply user replies page did not load correctly.'
         );
 
