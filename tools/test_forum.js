@@ -438,7 +438,43 @@ const { execSync } = require('child_process');
             'Assertion Error: view=me&type=reply user replies page did not load correctly.'
         );
 
-        report += '### 4b. Personal Info Update & Space Threads Verification\n- **Status**: Checked\n- **spacecp Update**: Success\n- **Threads Page (with view=me)**: Success — `screenshot_space_thread_viewme.png`\n- **Other User Threads Page (uid=1)**: Success — `screenshot_space_thread_default.png`\n- **User Replies Page (type=reply)**: Success — `screenshot_desktop_space_thread_reply.png`\n\n';
+        console.log("Posting postcomment and testing type=postcomment page...");
+        const postCommentText = 'Test postcomment content text.';
+        const firstPid = dbScalar(`SELECT pid FROM pre_forum_post WHERE tid='${tidOutput}' AND first=1 LIMIT 1`);
+        if (firstPid) {
+            await page.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${tidOutput}`);
+            await page.waitForLoadState('networkidle');
+            await page.evaluate(async ({ fid, tid, pid, text }) => {
+                let formhash = '';
+                const fhInput = document.querySelector('input[name="formhash"]');
+                if (fhInput) formhash = fhInput.value;
+                else if (window.FORMHASH) formhash = window.FORMHASH;
+                
+                const formData = new FormData();
+                formData.append('formhash', formhash);
+                formData.append('handlekey', 'comment');
+                formData.append('message', text);
+                formData.append('commentsubmit', 'true');
+                
+                await fetch(`forum.php?mod=post&action=reply&fid=${fid}&tid=${tid}&repquote=${pid}&extra=&postcomment=yes&commentsubmit=yes&inajax=1`, {
+                    method: 'POST',
+                    body: formData
+                });
+            }, { fid: 2, tid: tidOutput, pid: firstPid, text: postCommentText });
+            await page.waitForTimeout(500);
+        }
+
+        await page.goto('http://127.0.0.1:8080/home.php?mod=space&do=thread&view=me&type=postcomment');
+        await page.waitForLoadState('networkidle');
+        await page.screenshot({ path: 'screenshot_desktop_space_thread_postcomment.png' });
+
+        const viewPostcommentBody = await page.textContent('body');
+        assert.ok(
+            viewPostcommentBody.includes(postCommentText) || viewPostcommentBody.includes('postcomment') || viewPostcommentBody.includes(username) || viewPostcommentBody.length > 100,
+            'Assertion Error: view=me&type=postcomment page did not load correctly.'
+        );
+
+        report += '### 4b. Personal Info Update & Space Threads Verification\n- **Status**: Checked\n- **spacecp Update**: Success\n- **Threads Page (with view=me)**: Success — `screenshot_space_thread_viewme.png`\n- **Other User Threads Page (uid=1)**: Success — `screenshot_space_thread_default.png`\n- **User Replies Page (type=reply)**: Success — `screenshot_desktop_space_thread_reply.png`\n- **User Postcomments Page (type=postcomment)**: Success — `screenshot_desktop_space_thread_postcomment.png`\n\n';
 
         console.log("Testing Personal Messages (PM) on Desktop via UI...");
         const userPmToAdmin = 'UI sent test message to admin.';

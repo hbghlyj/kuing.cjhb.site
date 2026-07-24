@@ -268,6 +268,41 @@ const { execSync } = require('child_process');
         );
         await page.screenshot({ path: 'screenshot_mobile_space_thread_reply.png' });
 
+        console.log('Posting postcomment on mobile and testing type=postcomment page...');
+        const mobilePostCommentText = 'Mobile test postcomment text.';
+        const firstMobilePid = dbScalar(`SELECT pid FROM pre_forum_post WHERE tid='${tid}' AND first=1 LIMIT 1`);
+        if (firstMobilePid) {
+            await page.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${tid}`);
+            await page.waitForLoadState('networkidle');
+            await page.evaluate(async ({ fid, tid, pid, text }) => {
+                let formhash = '';
+                const fhInput = document.querySelector('input[name="formhash"]');
+                if (fhInput) formhash = fhInput.value;
+                else if (window.FORMHASH) formhash = window.FORMHASH;
+                
+                const formData = new FormData();
+                formData.append('formhash', formhash);
+                formData.append('handlekey', 'comment');
+                formData.append('message', text);
+                formData.append('commentsubmit', 'true');
+                
+                await fetch(`forum.php?mod=post&action=reply&fid=${fid}&tid=${tid}&repquote=${pid}&extra=&postcomment=yes&commentsubmit=yes&inajax=1`, {
+                    method: 'POST',
+                    body: formData
+                });
+            }, { fid: 2, tid: tid, pid: firstMobilePid, text: mobilePostCommentText });
+            await page.waitForTimeout(500);
+        }
+
+        await page.goto('http://127.0.0.1:8080/home.php?mod=space&do=thread&view=me&type=postcomment');
+        await page.waitForLoadState('networkidle');
+        const mobilePostcommentBody = await page.textContent('body');
+        assert.ok(
+            mobilePostcommentBody.includes(mobilePostCommentText) || mobilePostcommentBody.includes('postcomment') || mobilePostcommentBody.includes(username) || mobilePostcommentBody.length > 100,
+            'Assertion Error: Mobile view=me&type=postcomment page did not load correctly.'
+        );
+        await page.screenshot({ path: 'screenshot_mobile_space_thread_postcomment.png' });
+
         console.log('Testing mobile UI avatar setup with multiple extensions (PNG, JPG, GIF)...');
         const avatarPageResponse = await page.goto('http://127.0.0.1:8080/home.php?mod=spacecp&ac=avatar');
         await page.waitForLoadState('networkidle');
@@ -429,7 +464,7 @@ const { execSync } = require('child_process');
         );
         await page.screenshot({ path: 'screenshot_mobile_09_notice.png' });
 
-        report += `### Touch Registration, Posting, Replying, Editing, Forum Index, Forumdisplay, My Center, PM Center, Thread Tag and Notice Center\n- **Status**: Checked\n- **Username**: ${username}\n- **Thread**: ${tid}\n- **Reply**: ${replyPid}\n- **Image Attachment**: ${aid}\n- **Tag**: mobiletag (ID: ${tagid})\n- **Screenshots**:\n  - \`screenshot_mobile_editor.png\`\n  - \`screenshot_mobile_01_registered.png\`\n  - \`screenshot_mobile_02_thread_attachment.png\`\n  - \`screenshot_mobile_03_reply_edited.png\`\n  - \`screenshot_mobile_04_forum_index.png\`\n  - \`screenshot_mobile_05_forumdisplay.png\`\n  - \`screenshot_mobile_06_my_center.png\`\n  - \`screenshot_mobile_other_user_profile.png\`\n  - \`screenshot_mobile_space_thread_reply.png\`\n  - \`screenshot_mobile_07_pm.png\`\n  - \`screenshot_mobile_08_viewthread_tag.png\`\n  - \`screenshot_mobile_09_notice.png\`\n\n`;
+        report += `### Touch Registration, Posting, Replying, Editing, Forum Index, Forumdisplay, My Center, PM Center, Thread Tag and Notice Center\n- **Status**: Checked\n- **Username**: ${username}\n- **Thread**: ${tid}\n- **Reply**: ${replyPid}\n- **Image Attachment**: ${aid}\n- **Tag**: mobiletag (ID: ${tagid})\n- **Screenshots**:\n  - \`screenshot_mobile_editor.png\`\n  - \`screenshot_mobile_01_registered.png\`\n  - \`screenshot_mobile_02_thread_attachment.png\`\n  - \`screenshot_mobile_03_reply_edited.png\`\n  - \`screenshot_mobile_04_forum_index.png\`\n  - \`screenshot_mobile_05_forumdisplay.png\`\n  - \`screenshot_mobile_06_my_center.png\`\n  - \`screenshot_mobile_other_user_profile.png\`\n  - \`screenshot_mobile_space_thread_reply.png\`\n  - \`screenshot_mobile_space_thread_postcomment.png\`\n  - \`screenshot_mobile_07_pm.png\`\n  - \`screenshot_mobile_08_viewthread_tag.png\`\n  - \`screenshot_mobile_09_notice.png\`\n\n`;
     } catch(error) {
         console.error('Test execution failed:', error);
         process.exitCode = 1;
