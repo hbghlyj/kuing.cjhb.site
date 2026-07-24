@@ -5,16 +5,24 @@ if(PHP_SAPI !== 'cli') {
 }
 
 $options = getopt('', ['host:']);
-$host = $options['host'] ?? '';
-if(!preg_match('/^[A-Za-z0-9.-]+(?::\d+)?$/', $host)) {
+$targetHost = $options['host'] ?? '';
+if(!preg_match('/^[A-Za-z0-9.-]+(?::\d+)?$/', $targetHost)) {
 	exit("Usage: php tools/rebuild_styles.php --host=example.com\n");
 }
 
-chdir(dirname(__DIR__));
-$_SERVER['HTTP_HOST'] = $host;
+$root = dirname(__DIR__);
+chdir($root);
+
+// The CLI entry point is tools/rebuild_styles.php, but style URLs must be
+// generated as if the site's root index.php handled the request.
+$_SERVER['HTTP_HOST'] = $targetHost;
+$_SERVER['SERVER_NAME'] = $targetHost;
 $_SERVER['REQUEST_URI'] = '/';
 $_SERVER['REQUEST_METHOD'] = 'GET';
 $_SERVER['SCRIPT_NAME'] = '/index.php';
+$_SERVER['PHP_SELF'] = '/index.php';
+$_SERVER['SCRIPT_FILENAME'] = $root.'/index.php';
+$_SERVER['DOCUMENT_ROOT'] = $root;
 $_SERVER['HTTPS'] = 'on';
 $_SERVER['SERVER_PORT'] = '443';
 $_SERVER['HTTP_X_FORWARDED_PROTO'] = 'https';
@@ -30,4 +38,4 @@ $discuz->init();
 require_once './source/function/function_cache.php';
 updatecache('styles');
 
-echo "Styles rebuilt for https://{$host}/\n";
+echo "Styles rebuilt for https://{$targetHost}/\n";
