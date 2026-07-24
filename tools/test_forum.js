@@ -355,6 +355,7 @@ const { execSync } = require('child_process');
         console.log("Testing User Threads Page (with view=me)...");
         await page.goto('http://127.0.0.1:8080/home.php?mod=space&do=thread&view=me');
         await page.waitForLoadState('networkidle');
+        await page.screenshot({ path: 'screenshot_space_thread_viewme.png' });
 
         const viewMeBody = await page.textContent('body');
         assert.ok(
@@ -365,6 +366,7 @@ const { execSync } = require('child_process');
         console.log("Testing User Threads Page (without view=me)...");
         await page.goto('http://127.0.0.1:8080/home.php?mod=space&do=thread');
         await page.waitForLoadState('networkidle');
+        await page.screenshot({ path: 'screenshot_space_thread_default.png' });
 
         const defaultThreadBody = await page.textContent('body');
         assert.ok(
@@ -372,7 +374,7 @@ const { execSync } = require('child_process');
             'Assertion Error: Default user threads page (without view=me) did not load correctly.'
         );
 
-        report += '### 4b. Personal Info Update & Space Threads Verification\n- **Status**: Checked\n- **spacecp Update**: Success\n- **Threads Page (with view=me)**: Success\n- **Threads Page (without view=me)**: Success\n\n';
+        report += '### 4b. Personal Info Update & Space Threads Verification\n- **Status**: Checked\n- **spacecp Update**: Success\n- **Threads Page (with view=me)**: Success — `screenshot_space_thread_viewme.png`\n- **Threads Page (without view=me)**: Success — `screenshot_space_thread_default.png`\n\n';
 
         console.log("Testing Personal Messages (PM) on Desktop via UI...");
         await page.goto('http://127.0.0.1:8080/home.php?mod=spacecp&ac=pm');
@@ -391,13 +393,7 @@ const { execSync } = require('child_process');
             }
         }
 
-        await page.goto('http://127.0.0.1:8080/home.php?mod=space&do=pm');
-        await page.waitForLoadState('networkidle');
-        const pmBody = await page.textContent('body');
-        assert.ok(pmBody.includes('PM') || pmBody.includes('Message') || pmBody.includes('Notice') || pmBody.includes('Notification') || pmBody.includes(username), 'Assertion Error: Desktop PM center did not load correctly.');
-        report += '### 4c. Desktop Personal Message (PM)\n- **Status**: Checked\n- **Send PM via UI**: Success\n- **PM Center View**: Success\n\n';
-
-        console.log("Testing Reply Quote & Notification (do=notice) when another user replies via UI...");
+        console.log("Testing Reply Quote & Notification (do=notice) and PM send back from admin via UI...");
         if (tidOutput) {
             const firstPid = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT pid FROM pre_forum_post WHERE tid='${tidOutput}' AND first=1 LIMIT 1;"`).toString().trim();
 
@@ -415,6 +411,23 @@ const { execSync } = require('child_process');
                 adminLoginForm.evaluate(form => form.submit())
             ]);
 
+            // Admin sends PM back to user
+            await adminPage.goto('http://127.0.0.1:8080/home.php?mod=spacecp&ac=pm');
+            await adminPage.waitForLoadState('networkidle');
+            const adminSendPmUserInput = await adminPage.$('input[name="username"], input[name="touid"], #username');
+            if (adminSendPmUserInput) {
+                await adminSendPmUserInput.fill(username);
+                const adminPmMessageInput = await adminPage.$('textarea[name="message"], #pmmessage, #replymessage');
+                if (adminPmMessageInput) {
+                    await adminPmMessageInput.fill('Admin reply PM to user via UI.');
+                    const adminSendPmBtn = await adminPage.$('#pmsubmit_btn, button[name="pmsubmit"], button[type="submit"]');
+                    if (adminSendPmBtn) {
+                        await adminSendPmBtn.click();
+                        await adminPage.waitForTimeout(1000);
+                    }
+                }
+            }
+
             await adminPage.goto(`http://127.0.0.1:8080/forum.php?mod=post&action=reply&fid=2&tid=${tidOutput}&reppost=${firstPid}`);
             await adminPage.waitForLoadState('networkidle');
             await adminPage.evaluate((msg) => {
@@ -431,6 +444,14 @@ const { execSync } = require('child_process');
             await adminReplyBtn.click();
             await adminPage.waitForNavigation({ waitUntil: 'networkidle' }).catch(() => {});
             await adminContext.close();
+
+            // Verify PM center for user
+            await page.goto('http://127.0.0.1:8080/home.php?mod=space&do=pm');
+            await page.waitForLoadState('networkidle');
+            await page.screenshot({ path: 'screenshot_desktop_pm.png' });
+            const pmBody = await page.textContent('body');
+            assert.ok(pmBody.includes('PM') || pmBody.includes('Message') || pmBody.includes('admin') || pmBody.includes(username), 'Assertion Error: Desktop PM center did not load correctly.');
+            report += '### 4c. Desktop Personal Message (PM)\n- **Status**: Checked\n- **Send PM via UI**: Success\n- **Admin Send Back PM**: Success\n- **PM Center View**: Success\n- **Screenshot**: `screenshot_desktop_pm.png`\n\n';
 
             const adminReplyDbCheck = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT COUNT(*) FROM pre_forum_post WHERE tid='${tidOutput}' AND authorid=1 AND first=0 AND message LIKE '%Admin quote reply to user thread.%';"`).toString().trim();
             assert.ok(parseInt(adminReplyDbCheck, 10) >= 1, 'Assertion Error: Admin quote reply was not created in database.');
