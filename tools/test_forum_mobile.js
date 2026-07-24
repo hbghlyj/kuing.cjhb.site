@@ -181,6 +181,8 @@ const { execSync } = require('child_process');
         await waitForDbValue(`SELECT tableid FROM pre_forum_attachment WHERE aid='${aid}' AND tid='${tid}'`, expectedTableId, 'Assertion Error: Mobile image attachment was not linked to its thread.');
         const isimage = dbScalar(`SELECT isimage FROM pre_forum_attachment_${expectedTableId} WHERE aid='${aid}' AND tid='${tid}' LIMIT 1`);
         assert.strictEqual(isimage, '1', 'Assertion Error: Mobile image upload was not stored as an image.');
+        const threadAttach = dbScalar(`SELECT attachment FROM pre_forum_thread WHERE tid='${tid}'`);
+        assert.strictEqual(threadAttach, '2', 'Assertion Error: Mobile thread attachment status was not set to 2.');
 
         if (!page.url().includes('viewthread')) {
             await page.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${tid}`);
