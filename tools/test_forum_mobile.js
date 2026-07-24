@@ -109,16 +109,10 @@ const { execSync } = require('child_process');
         });
         const aid = await page.locator('#imglist input[name^="attachnew["]').evaluate(input => input.name.match(/^attachnew\[(\d+)\]/)[1]);
         await page.locator('#needmessage').fill(`${message} [attachimg]${aid}[/attachimg]`);
-        await page.evaluate(() => {
-            let tagsInput = document.querySelector('#tags, input[name="tags"]');
-            if (!tagsInput) {
-                tagsInput = document.createElement('input');
-                tagsInput.type = 'hidden';
-                tagsInput.name = 'tags';
-                document.getElementById('postform').appendChild(tagsInput);
-            }
-            tagsInput.value = 'mobiletag';
-        });
+        const tagsInput = await page.$('#tags, input[name="tags"]');
+        if (tagsInput) {
+            await tagsInput.fill('mobiletag');
+        }
         await page.waitForTimeout(250);
         await page.locator('#postsubmit').click();
         await waitForDbValue(`SELECT COUNT(*) FROM pre_forum_thread WHERE subject='${subject}'`, '1', 'Assertion Error: Mobile thread was not created');

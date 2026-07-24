@@ -486,20 +486,16 @@ const { execSync } = require('child_process');
                     hiddenInput.name = `attachnew[${aidVal}][description]`;
                     hiddenInput.value = '';
                     form.appendChild(hiddenInput);
-
-                    let tagsInput = form.querySelector('#tags, input[name="tags"]');
-                    if (!tagsInput) {
-                        tagsInput = document.createElement('input');
-                        tagsInput.type = 'hidden';
-                        tagsInput.name = 'tags';
-                        form.appendChild(tagsInput);
-                    }
-                    tagsInput.value = 'sample_tag';
                 }
             }
             const secqaa = document.querySelector('input[name*="secanswer"]');
             if (secqaa) secqaa.value = '2';
         }, { aidVal: aid, message: attachMsg });
+
+        const tagsInput = await page.$('#tags, input[name="tags"]');
+        if (tagsInput) {
+            await tagsInput.fill('sample_tag');
+        }
 
         const attachSubmitBtn = await page.$('#postsubmit, button[name="topicsubmit"]');
         if (attachSubmitBtn) {
