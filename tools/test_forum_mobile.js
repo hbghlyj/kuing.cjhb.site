@@ -47,21 +47,23 @@ const { execSync } = require('child_process');
         }
         assert.ok(await page.$('#registerform'), 'Assertion Error: Mobile registration form did not render.');
 
-        await page.evaluate(({ username, email, password }) => {
-            const form = document.getElementById('registerform');
-            const textInputs = form.querySelectorAll('input[type="text"]');
-            const passwordInputs = form.querySelectorAll('input[type="password"]');
-            const emailInput = form.querySelector('input[type="email"], input[name*="email"]');
-            if (textInputs[0]) textInputs[0].value = username;
-            if (passwordInputs[0]) passwordInputs[0].value = password;
-            if (passwordInputs[1]) passwordInputs[1].value = password;
-            if (emailInput) emailInput.value = email;
-            const secqaa = form.querySelector('input[name*="secanswer"]');
-            if (secqaa) secqaa.value = '2';
-            form.submit();
-        }, { username, email, password });
+        await page.locator('input[name="username"], input[id^="username_"]').first().fill(username);
+        const passInputs = page.locator('input[type="password"]');
+        if (await passInputs.count() >= 2) {
+            await passInputs.nth(0).fill(password);
+            await passInputs.nth(1).fill(password);
+        }
+        const emailInput = page.locator('input[type="email"], input[name*="email"]').first();
+        if (await emailInput.count()) await emailInput.fill(email);
 
-        await page.waitForNavigation({ waitUntil: 'networkidle' }).catch(() => {});
+        const secqaaInput = page.locator('input[name*="secanswer"]');
+        if (await secqaaInput.count()) await secqaaInput.fill('2');
+
+        const regSubmitBtn = page.locator('button[name="regsubmit"], #registerformsubmit, button[type="submit"]').first();
+        await Promise.all([
+            page.waitForNavigation({ waitUntil: 'networkidle' }).catch(() => {}),
+            regSubmitBtn.click()
+        ]);
         await page.waitForTimeout(1500);
 
         const memberCount = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT COUNT(*) FROM pre_common_member WHERE username='${username}';"`).toString().trim();

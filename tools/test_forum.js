@@ -109,34 +109,27 @@ const { execSync } = require('child_process');
         await page.goto('http://127.0.0.1:8080/member.php?mod=register');
         await page.waitForLoadState('networkidle');
 
-        await page.evaluate(({ username, password, email }) => {
-            const form = document.getElementById('registerform');
-            if (!form) return;
-            const inputs = form.querySelectorAll('input[type="text"]');
-            if (inputs.length > 0) inputs[0].value = username;
+        await page.locator('input[name="username"], input[id^="username_"]').first().fill(username);
+        const passwordInputs = page.locator('input[type="password"]');
+        if (await passwordInputs.count() >= 2) {
+            await passwordInputs.nth(0).fill(password);
+            await passwordInputs.nth(1).fill(password);
+        }
+        const emailInput = page.locator('input[type="email"], input[name*="email"]').first();
+        if (await emailInput.count()) await emailInput.fill(email);
 
-            const passwords = form.querySelectorAll('input[type="password"]');
-            if (passwords.length >= 2) {
-                passwords[0].value = password;
-                passwords[1].value = password;
-            }
+        const agreeCheckbox = page.locator('input[name="agree"]');
+        if (await agreeCheckbox.count()) await agreeCheckbox.check();
 
-            const emails = form.querySelectorAll('input[type="email"], input[name*="email"]');
-            if (emails.length > 0) {
-                emails[0].value = email;
-            }
+        const secqaaInput = page.locator('input[name*="secanswer"]');
+        if (await secqaaInput.count()) await secqaaInput.fill('2');
 
-            const agree = form.querySelector('input[name="agree"]');
-            if (agree) agree.checked = true;
-
-            const secqaa = form.querySelector('input[name*="secanswer"]');
-            if (secqaa) secqaa.value = '2';
-
-            form.submit();
-        }, { username, password, email });
-
-        await page.waitForNavigation({ waitUntil: 'networkidle' }).catch(() => { });
-        await page.waitForTimeout(3000);
+        const regSubmitBtn = page.locator('button[name="regsubmit"], #registerformsubmit, button[type="submit"]').first();
+        await Promise.all([
+            page.waitForNavigation({ waitUntil: 'networkidle' }).catch(() => {}),
+            regSubmitBtn.click()
+        ]);
+        await page.waitForTimeout(2000);
 
         console.log("Checking if user exists in DB...");
         const dbCheck = execSync("sudo mysql -u root ultrax -N -s -e \"SELECT COUNT(*) FROM pre_common_member WHERE username='" + username + "';\"").toString().trim();
@@ -238,30 +231,22 @@ const { execSync } = require('child_process');
         console.log("Capturing Advanced Editor Screenshot...");
         await page.screenshot({ path: 'screenshot_advanced_editor.png', fullPage: true }).catch(() => { });
 
-        await page.evaluate(({ title, body }) => {
-            const subject = document.querySelector('input[name="subject"]');
-            if (subject) subject.value = title;
+        const subjectInput = page.locator('input[name="subject"]');
+        if (await subjectInput.count()) await subjectInput.fill('Standard User Thread');
 
-            const message = document.querySelector('textarea[name="message"]');
-            if (message) message.value = body;
+        const messageInput = page.locator('textarea[name="message"], #postmessage');
+        if (await messageInput.count()) await messageInput.fill('Body text from unprivileged account.');
 
-            try {
-                if (typeof editdoc !== 'undefined' && editdoc && editdoc.body) {
-                    editdoc.body.innerHTML = body;
-                }
-            } catch (e) { }
+        const secqaaPost = page.locator('input[name*="secanswer"]');
+        if (await secqaaPost.count()) await secqaaPost.fill('2');
 
-            const secqaa = document.querySelector('input[name*="secanswer"]');
-            if (secqaa) secqaa.value = '2';
-
-            const postSubmitBtn = document.querySelector('button[name="topicsubmit"], #postsubmit');
-            if (postSubmitBtn) {
-                postSubmitBtn.click();
-            } else {
-                const form = document.getElementById('postform') || document.querySelector('form[name="postform"]');
-                if (form) form.submit();
-            }
-        }, { title: 'Standard User Thread', body: 'Body text from unprivileged account.' });
+        const postSubmitBtn = page.locator('button[name="topicsubmit"], #postsubmit');
+        if (await postSubmitBtn.count()) {
+            await Promise.all([
+                page.waitForNavigation({ waitUntil: 'networkidle' }).catch(() => {}),
+                postSubmitBtn.click()
+            ]);
+        }
 
         await page.waitForNavigation({ waitUntil: 'networkidle' }).catch(() => { });
         await page.waitForTimeout(3000);
