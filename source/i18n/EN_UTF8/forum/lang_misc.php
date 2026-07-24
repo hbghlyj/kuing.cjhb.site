@@ -35,7 +35,7 @@ $lang = array
 	'post_editnobbcode'		=> "[ Post edited by {editor} at {edittime} ]\n\n",
 	'post_editnobbcode_regexp'	=> '/^\[ Post edited by .*? at .*? \][\r\n][\r\n]/s',
 	'post_reply'			=> 'Reply',//'回复',
-	'post_thread'			=> 'Add Thread',//'的帖子',
+	'post_thread'			=> '\'s thread',//'的帖子',
 
 	'price'				=> 'Price',//'售价',
 	'pay_view'			=> 'Payments Log',//'记录',
