@@ -113,7 +113,7 @@ if($_GET['view'] == 'me') {
 		$posttable = getposttable();
 		require_once libfile('function/post');
 		$pids = $tids = [];
-		$postcommentarr = table_forum_postcomment::t()->fetch_all_by_authorid($space['uid'], $start, $perpage);
+		$postcommentarr = table_forum_postcomment::t()->fetch_all_by_authorid($space['uid'], $start, $perpage, $vfid);
 		foreach($postcommentarr as $value) {
 			$pids[] = $value['pid'];
 			$tids[] = $value['tid'];
@@ -152,7 +152,7 @@ if($_GET['view'] == 'me') {
 			}
 		}
 
-		$multi = simplepage(count($list), $perpage, $page, $theurl);
+		$multi = simplepage(table_forum_postcomment::t()->count_by_authorid($space['uid'], $vfid), $perpage, $page, $theurl);
 		$need_count = false;
 
 	} elseif($allowview) {

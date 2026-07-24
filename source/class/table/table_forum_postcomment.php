@@ -29,7 +29,10 @@ class table_forum_postcomment extends discuz_table {
 		parent::__construct();
 	}
 
-	public function count_by_authorid($authorid) {
+	public function count_by_authorid($authorid, $fid = 0) {
+		if($fid) {
+			return DB::result_first('SELECT COUNT(*) FROM %t c INNER JOIN %t t ON t.tid=c.tid WHERE c.authorid=%d AND t.fid=%d', [$this->_table, 'forum_thread', $authorid, $fid]);
+		}
 		return DB::result_first('SELECT COUNT(*) FROM %t WHERE authorid=%d', [$this->_table, $authorid]);
 	}
 
@@ -95,9 +98,13 @@ class table_forum_postcomment extends discuz_table {
 		return DB::fetch_all('SELECT * FROM %t WHERE authorid>-1 %i ORDER BY dateline ASC '.DB::limit($start, $limit), [$this->_table, $sql]);
 	}
 
-	public function fetch_all_by_authorid($authorid, $start = 0, $limit = 0) {
+	public function fetch_all_by_authorid($authorid, $start = 0, $limit = 0, $fid = 0) {
 		$result = array();
-		$data = DB::fetch_all('SELECT * FROM %t WHERE authorid=%d ORDER BY dateline DESC '.DB::limit($start, $limit), array($this->_table, $authorid));
+		if($fid) {
+			$data = DB::fetch_all('SELECT c.* FROM %t c INNER JOIN %t t ON t.tid=c.tid WHERE c.authorid=%d AND t.fid=%d ORDER BY c.dateline DESC '.DB::limit($start, $limit), [$this->_table, 'forum_thread', $authorid, $fid]);
+		} else {
+			$data = DB::fetch_all('SELECT * FROM %t WHERE authorid=%d ORDER BY dateline DESC '.DB::limit($start, $limit), [$this->_table, $authorid]);
+		}
 		foreach ($data as $row) {
 			$result[$row['id']] = $row;
 		}

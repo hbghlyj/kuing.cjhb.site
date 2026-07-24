@@ -963,7 +963,7 @@ fa33bd2ce5a2a230044ed3fb9e27ba5c *source/app/home/child/space/notice.php
 97f08adf9ee147d31b2f43f18e0a80e1 *source/app/home/child/space/profile.php
 5eefee7200b3695272ccbc848f15d502 *source/app/home/child/space/reward.php
 68e1cdd65fa69b1c22ed27d2c7eb8adf *source/app/home/child/space/share.php
-5ae001123950853b5a1d49d5e6912975 *source/app/home/child/space/thread.php
+4c7b03f0b184d824521ac016a5b984e8 *source/app/home/child/space/thread.php
 0808d6e38075aef3b5396df15442146e *source/app/home/child/space/trade.php
 7b63042c593b7ab2ef0a6f397e160673 *source/app/home/child/space/wall.php
 f547a566fd7efa5c9c623be2894d8b3c *source/app/home/child/spacecp/account.php
@@ -1664,7 +1664,7 @@ b78cd7a8283d6b388ed0664de035a82c *source/class/table/table_forum_post_location.p
 5d21edb36aeccf98ea54a05daa6d08e6 *source/class/table/table_forum_post_tableid.php
 2009ddf8c07a91faf7bc7f0c78dbc6ac *source/class/table/table_forum_post.php
 c47a92364c2764e0cf095a0210c4477c *source/class/table/table_forum_postcache.php
-af8fec2e0f4d0be2a239b1c7ce06cf17 *source/class/table/table_forum_postcomment.php
+7539586b28213aa0719b3602121eb21d *source/class/table/table_forum_postcomment.php
 f541968b6ab8f343b423d23fcebf21c8 *source/class/table/table_forum_poststick.php
 14b722e81e8193cd9574171550e03139 *source/class/table/table_forum_promotion.php
 97b1082d2e70c3fe29c30c197e404f1b *source/class/table/table_forum_ratelog.php
@@ -4822,7 +4822,7 @@ ee251822acd53a79a1377c3bc0570bc1 *template/default/home/space_task_detail.htm
 1d7030777422bafd03853e37593f722c *template/default/home/space_task_parter.htm
 3ff79b4c06a50c4697d6e787eba15baf *template/default/home/space_task.htm
 0ad307cdcbb37ea062fc2fa7117c9806 *template/default/home/space_thread_nav.htm
-224941b1f73b0eb61c77fa17bd3d1b7e *template/default/home/space_thread.htm
+9ad162c11c7aace40fb224c215420a75 *template/default/home/space_thread.htm
 ccdf68c853a24ccb19f95f1ac97aa6fc *template/default/home/space_trade.htm
 dc58e803ab7d18594bf19dd91b7a05d7 *template/default/home/space_userabout.htm
 e96b41fe13c01958f1479b68d86a5224 *template/default/home/space_wall.htm
