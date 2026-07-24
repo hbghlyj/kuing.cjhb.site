@@ -83,6 +83,9 @@ jobs:
           cp chat/php/config_default.php chat/php/config.php
           echo '<?php if (!class_exists("Pusher")) {     class Pusher {         public function __construct(...$args) {}         public function trigger($channel, $event, $data, $a = null, $b = null)         {             return true;         }     } } ?>'  > source/class/class_pusher.php
           DISCUZ_SEED_DATABASE=1 php tools/import_all_data.php
+
+          mysql ultrax -e "REPLACE INTO pre_common_setting SET skey='homestatus', svalue='1';"
+          php -r 'require "./source/class/class_core.php"; $discuz = C::app(); $discuz->init(); require_once libfile("function/cache"); updatecache("setting");'
       - name: Start PHP Server
         run: php -S 127.0.0.1:8080 > php_server.log 2>&1 &
 

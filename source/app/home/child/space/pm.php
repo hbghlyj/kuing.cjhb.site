@@ -112,14 +112,13 @@ if($_GET['subop'] == 'view') {
 
 } elseif($_GET['subop'] == 'viewg') {
 
-	$grouppm = table_common_grouppm::t()->fetch($_GET['pmid']);
-	if(!$grouppm) {
-		$grouppm = array_merge((array)table_common_member_grouppm::t()->fetch_gpm($_G['uid'], $_GET['pmid']), $grouppm);
-	}
+	$gpmuser = table_common_member_grouppm::t()->fetch_gpm($_G['uid'], $_GET['pmid']);
+	$grouppm = $gpmuser ? table_common_grouppm::t()->fetch($_GET['pmid']) : [];
 	if($grouppm) {
+		$grouppm = array_merge($grouppm, $gpmuser);
 		$grouppm['numbers'] = $grouppm['numbers'] - 1;
 	}
-	if(!$grouppm['status']) {
+	if($grouppm && !$grouppm['status']) {
 		table_common_member_grouppm::t()->update($_G['uid'], $_GET['pmid'], ['status' => 1, 'dateline' => TIMESTAMP]);
 	}
 	$actives['announcepm'] = ' class="a"';

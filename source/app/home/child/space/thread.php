@@ -20,7 +20,7 @@ if($page < 1) $page = 1;
 $id = empty($_GET['id']) ? 0 : intval($_GET['id']);
 $opactives['thread'] = 'class="a"';
 
-$_GET['view'] = in_array($_GET['view'], ['we', 'me', 'all']) ? $_GET['view'] : 'we';
+$_GET['view'] = in_array($_GET['view'], ['we', 'me', 'all']) ? $_GET['view'] : 'me';
 $_GET['order'] = in_array(getgpc('order'), ['hot', 'dateline']) ? $_GET['order'] : 'dateline';
 
 $allowviewuserthread = $_G['setting']['allowviewuserthread'];
