@@ -343,14 +343,13 @@ const { execSync } = require('child_process');
             assert.fail(`Mobile avatar page failed: status=${avatarPageResponse ? avatarPageResponse.status() : 'missing'}; body=${responseBody.slice(0, 4000)}`);
         }
         const mobileAvatarFixture = 'static/image/smiley/BQ2/alu1.jpg';
-        const mobileAvatarInputs = page.locator('.choose-file');
-        assert.strictEqual(await mobileAvatarInputs.count(), 3, 'Assertion Error: Mobile HTML5 avatar controls did not render.');
+        const mobileAvatarInput = page.locator('#avatarfile');
+        const mobileAvatarConfirm = page.locator('#avconfirm');
+        assert.strictEqual(await mobileAvatarInput.count(), 1, 'Assertion Error: Mobile avatar file control did not render.');
+        assert.strictEqual(await mobileAvatarConfirm.count(), 1, 'Assertion Error: Mobile avatar confirmation control did not render.');
         assert.ok(fs.existsSync(mobileAvatarFixture), 'Assertion Error: Mobile avatar fixture is missing.');
-        for(let i = 0; i < 3; i++) {
-            await mobileAvatarInputs.nth(i).setInputFiles(mobileAvatarFixture);
-        }
-        await page.locator('.submit-btn').click();
-        await page.waitForLoadState('networkidle').catch(() => {});
+        await mobileAvatarInput.setInputFiles(mobileAvatarFixture);
+        await mobileAvatarConfirm.click();
         await page.waitForTimeout(1000);
         const mobileAvatarStatus = dbScalar(`SELECT avatarstatus FROM pre_common_member WHERE uid='${uid}'`);
         assert.strictEqual(mobileAvatarStatus, '1', 'Assertion Error: Mobile user avatarstatus in database was not 1.');
