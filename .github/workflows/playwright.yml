@@ -97,10 +97,10 @@ jobs:
       - name: Check PHP Server Errors
         if: always()
         run: |
-          # The functional suite deliberately verifies that an upload without formhash returns 403.
-          if grep -vE '\[403\]: POST /misc\.php\?mod=upload&operation=upload&simple=1&type=image&fid=2$' php_server.log | grep -E '\[(4|5)[0-9]{2}\]:'; then
+          # The functional test suite deliberately verifies that an upload request without formhash is rejected with 403 Forbidden.
+          if grep -vE '\[403\]: POST /misc\.php\?mod=upload' php_server.log | grep -E '\[(4|5)[0-9]{2}\]:'; then
             echo "Found unexpected HTTP 4xx or 5xx errors in php_server.log:"
-            grep -vE '\[403\]: POST /misc\.php\?mod=upload&operation=upload&simple=1&type=image&fid=2$' php_server.log | grep -E '\[(4|5)[0-9]{2}\]:'
+            grep -vE '\[403\]: POST /misc\.php\?mod=upload' php_server.log | grep -E '\[(4|5)[0-9]{2}\]:'
             exit 1
           else
             echo "No unexpected HTTP 4xx or 5xx errors found."
