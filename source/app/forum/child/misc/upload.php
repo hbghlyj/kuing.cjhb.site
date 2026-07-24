@@ -17,10 +17,10 @@ $_G['group']['allowpostimage'] = $_G['forum']['allowpostimage'] != -1 && ($_G['f
 $_G['group']['attachextensions'] = $_G['forum']['attachextensions'] ? $_G['forum']['attachextensions'] : $_G['group']['attachextensions'];
 if($_G['group']['attachextensions']) {
 	$imgexts = explode(',', str_replace(' ', '', $_G['group']['attachextensions']));
-	$imgexts = array_intersect(['jpg', 'jpeg', 'gif', 'png', 'bmp', 'webp'], $imgexts);
+	$imgexts = array_intersect(['jpg', 'jpeg', 'gif', 'png', 'bmp', 'webp', 'svg'], $imgexts);
 	$imgexts = implode(', ', $imgexts);
 } else {
-	$imgexts = 'jpg, jpeg, gif, png, bmp, webp';
+	$imgexts = 'jpg, jpeg, gif, png, bmp, webp, svg';
 }
 if($type == 'image' && (!$_G['group']['allowpostimage'] || !$imgexts)) {
 	showmessage('no_privilege_postimage');
@@ -29,4 +29,3 @@ if($type == 'file' && !$_G['group']['allowpostattach']) {
 	showmessage('no_privilege_postattach');
 }
 include template('forum/upload');
-	

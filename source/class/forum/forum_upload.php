@@ -92,15 +92,16 @@ class forum_upload {
 			return $this->uploadmsg(7);
 		}
 
+		$isSvg = $upload->attach['ext'] == 'svg';
 		if($upload->attach['isimage']) {
-			$imageinfo = @getimagesize($upload->attach['tmp_name']);
+			$imageinfo = $isSvg ? discuz_upload::get_image_info($upload->attach['tmp_name']) : @getimagesize($upload->attach['tmp_name']);
 			list($width, $height, $type) = !empty($imageinfo) ? $imageinfo : [0, 0, 0];
 			$size = $width * $height;
 			// 新增 GD 图片像素点上限服务器侧拦截
 			if((!getglobal('setting/imagelib') && $size > (getglobal('setting/gdlimit') ? getglobal('setting/gdlimit') : 16777216)) || $size < 16) {
 				return $this->uploadmsg(13);
 			}
-			if(!in_array($type, [1, 2, 3, 6, 13, 18]) || ($upload->attach['ext'] == 'swf' && $type != 4 && $type != 13)) {
+			if(!$isSvg && (!in_array($type, [1, 2, 3, 6, 13, 18]) || ($upload->attach['ext'] == 'swf' && $type != 4 && $type != 13))) {
 				return $this->uploadmsg(7);
 			}
 		}
@@ -115,7 +116,7 @@ class forum_upload {
 		updatemembercount($_G['uid'], ['todayattachs' => 1, 'todayattachsize' => $upload->attach['size'], 'attachsize' => $upload->attach['size']]);
 
 		$thumb = $width = $height = 0;
-		if($upload->attach['isimage']) {
+		if($upload->attach['isimage'] && !$isSvg) {
 			if($_G['setting']['showexif']) {
 				require_once libfile('function/attachment');
 				$exif = getattachexif(0, $upload->attach['target']);
@@ -147,8 +148,11 @@ class forum_upload {
 			if($needupdate) {
 				$upload->ftpupload();
 			}
+		} elseif($isSvg) {
+			$width = $upload->attach['imageinfo'][0];
+			$height = $upload->attach['imageinfo'][1];
 		}
-		if($thumbBase64 != '' && preg_match('/^(data:\s*image\/(\w+);base64,)/', $thumbBase64, $_r)) {
+		if(!$isSvg && $thumbBase64 != '' && preg_match('/^(data:\s*image\/(\w+);base64,)/', $thumbBase64, $_r)) {
 			$content = base64_decode(str_replace($_r[1], '', $thumbBase64));
 			if(strlen($content) > 0) {
 				$thumbFile = getimgthumbname($upload->attach['target']);
@@ -188,7 +192,7 @@ class forum_upload {
 			'height' => $height
 		];
 		table_forum_attachment_unused::t()->insert($insert);
-		if($upload->attach['isimage'] && $_G['setting']['showexif']) {
+		if($upload->attach['isimage'] && !$isSvg && $_G['setting']['showexif']) {
 			table_forum_attachment_exif::t()->insert_exif($aid, $exif);
 		}
 		if($_G['setting']['ftp']['on'] == 2) {

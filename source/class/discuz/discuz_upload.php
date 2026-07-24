@@ -48,7 +48,7 @@ class discuz_upload {
 				$attach['name'] = cutstr($attach['name'], 80, '').'.'.$attach['ext'];
 			}
 
-			$attach['isimage'] = $this->is_image_ext($attach['ext']);
+			$attach['isimage'] = $this->is_image_ext($attach['ext']) && ($attach['ext'] != 'svg' || $this->type == 'forum');
 			$attach['extension'] = $this->get_target_extension($attach['ext']);
 			$attach['attachdir'] = $this->get_target_dir($this->type, $extid, true, $subdir, $dirtype);
 			$attach['attachment'] = $attach['attachdir'].$this->get_target_filename($this->type, $this->extid, $this->forcename, $filename).'.'.$attach['extension'];
@@ -80,6 +80,9 @@ class discuz_upload {
 			$this->errorcode = -102;
 		} elseif(!$this->save_to_local($this->attach['tmp_name'], $this->attach['target'])) {
 			$this->errorcode = -103;
+		} elseif($this->attach['ext'] == 'svg' && !self::sanitize_svg($this->attach['target'])) {
+			$this->errorcode = -104;
+			@unlink($this->attach['target']);
 		} elseif(($this->attach['isimage'] || $this->attach['ext'] == 'swf') && (!$this->attach['imageinfo'] = $this->get_image_info($this->attach['target'], true))) {
 			$this->errorcode = -104;
 			@unlink($this->attach['target']);
@@ -111,7 +114,7 @@ class discuz_upload {
 	}
 
 	public static function is_image_ext($ext) {
-		static $imgext = ['jpg', 'jpeg', 'gif', 'png', 'bmp', 'webp'];
+		static $imgext = ['jpg', 'jpeg', 'gif', 'png', 'bmp', 'webp', 'svg'];
 		return in_array($ext, $imgext) ? 1 : 0;
 	}
 
@@ -122,6 +125,8 @@ class discuz_upload {
 			return false;
 		} elseif(!is_readable($target)) {
 			return false;
+		} elseif($ext == 'svg') {
+			return self::sanitize_svg($target);
 		} elseif($imageinfo = @getimagesize($target)) {
 			list($width, $height, $type) = !empty($imageinfo) ? $imageinfo : ['', '', ''];
 			$size = $width * $height;
@@ -139,6 +144,83 @@ class discuz_upload {
 		} else {
 			return false;
 		}
+	}
+
+	/**
+	 * SVG is active XML when served directly. Keep only declarative drawing data
+	 * before accepting it as an inline image attachment.
+	 */
+	private static function sanitize_svg($target) {
+		$source = @file_get_contents($target);
+		if($source === false || preg_match('/<!DOCTYPE|<!ENTITY|<\\?(?!xml\\s+version\\s*=)/i', $source) || !class_exists('DOMDocument')) {
+			return false;
+		}
+
+		$previous = libxml_use_internal_errors(true);
+		$document = new DOMDocument();
+		$loaded = $document->loadXML($source, LIBXML_NONET | LIBXML_NOERROR | LIBXML_NOWARNING);
+		libxml_clear_errors();
+		libxml_use_internal_errors($previous);
+		if(!$loaded || !$document->documentElement || strtolower($document->documentElement->localName) != 'svg' || $document->documentElement->namespaceURI != 'http://www.w3.org/2000/svg') {
+			return false;
+		}
+
+		$allowedElements = array_flip(['svg', 'g', 'defs', 'symbol', 'use', 'path', 'rect', 'circle', 'ellipse', 'line', 'polyline', 'polygon', 'lineargradient', 'radialgradient', 'stop', 'clippath', 'mask', 'pattern', 'title', 'desc', 'text', 'tspan']);
+		$allowedAttributes = array_flip(['id', 'class', 'xmlns', 'width', 'height', 'viewbox', 'preserveaspectratio', 'x', 'y', 'x1', 'x2', 'y1', 'y2', 'cx', 'cy', 'r', 'rx', 'ry', 'd', 'points', 'transform', 'fill', 'fill-opacity', 'fill-rule', 'stroke', 'stroke-width', 'stroke-opacity', 'stroke-linecap', 'stroke-linejoin', 'stroke-dasharray', 'stroke-dashoffset', 'opacity', 'clip-path', 'clip-rule', 'mask', 'filter', 'offset', 'stop-color', 'stop-opacity', 'gradientunits', 'gradienttransform', 'spreadmethod', 'patternunits', 'patterncontentunits', 'text-anchor', 'font-family', 'font-size', 'font-weight', 'font-style', 'letter-spacing', 'word-spacing', 'dominant-baseline', 'role', 'aria-label', 'aria-hidden']);
+		$nodes = [];
+		foreach($document->getElementsByTagName('*') as $node) {
+			$nodes[] = $node;
+		}
+		foreach(array_reverse($nodes) as $node) {
+			if(!isset($allowedElements[strtolower($node->localName)])) {
+				$node->parentNode->removeChild($node);
+				continue;
+			}
+			for($i = $node->attributes->length - 1; $i >= 0; $i--) {
+				$attribute = $node->attributes->item($i);
+				$name = strtolower($attribute->localName);
+				$value = trim($attribute->value);
+				if(!isset($allowedAttributes[$name]) || (str_contains(strtolower($value), 'url(') && !preg_match('/^url\\(\\s*#[a-z][\\w.-]*\\s*\\)$/i', $value))) {
+					$node->removeAttributeNode($attribute);
+				}
+			}
+		}
+
+		if(@file_put_contents($target, $document->saveXML()) === false) {
+			return false;
+		}
+		return self::svg_image_info($target);
+	}
+
+	private static function svg_image_info($target) {
+		$source = @file_get_contents($target);
+		if($source === false || !class_exists('DOMDocument')) {
+			return false;
+		}
+		$previous = libxml_use_internal_errors(true);
+		$document = new DOMDocument();
+		$loaded = $document->loadXML($source, LIBXML_NONET | LIBXML_NOERROR | LIBXML_NOWARNING);
+		libxml_clear_errors();
+		libxml_use_internal_errors($previous);
+		if(!$loaded || !$document->documentElement || strtolower($document->documentElement->localName) != 'svg' || $document->documentElement->namespaceURI != 'http://www.w3.org/2000/svg') {
+			return false;
+		}
+		$svg = $document->documentElement;
+		$viewBox = preg_split('/[\\s,]+/', trim($svg->getAttribute('viewBox')));
+		$width = self::svg_length($svg->getAttribute('width'));
+		$height = self::svg_length($svg->getAttribute('height'));
+		if(count($viewBox) == 4 && is_numeric($viewBox[2]) && is_numeric($viewBox[3])) {
+			$width = $width ?: (float) $viewBox[2];
+			$height = $height ?: (float) $viewBox[3];
+		}
+		if($width <= 0 || $height <= 0 || $width * $height < 16) {
+			return false;
+		}
+		return [(int) ceil($width), (int) ceil($height), 0, 'mime' => 'image/svg+xml'];
+	}
+
+	private static function svg_length($value) {
+		return preg_match('/^\\s*(\\d+(?:\\.\\d+)?)(?:px)?\\s*$/i', $value, $match) ? (float) $match[1] : 0;
 	}
 
 	public static function is_upload_file($source) {
@@ -164,10 +246,7 @@ class discuz_upload {
 	}
 
 	public static function get_target_extension($ext) {
-		static $safeext = ['attach', 'jpg', 'jpeg', 'gif', 'png', 'webp', 'swf', 'bmp', 'txt', 'zip', 'rar', 'mp3', 'mp4', 'wmv', 'wma', 'mov'];
-		if(defined('IN_ADMINCP')) {
-			$safeext[] = 'svg';
-		}
+		static $safeext = ['attach', 'jpg', 'jpeg', 'gif', 'png', 'webp', 'svg', 'swf', 'bmp', 'txt', 'zip', 'rar', 'mp3', 'mp4', 'wmv', 'wma', 'mov'];
 		return strtolower(!in_array(strtolower($ext), $safeext) ? 'attach' : $ext);
 	}
 

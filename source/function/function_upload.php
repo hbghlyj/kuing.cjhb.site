@@ -14,7 +14,7 @@ function getuploadconfig($fid = 0, $limit = true) {
 
 	$notallow = $config = [];
 	$config['limit'] = 0;
-	$imageexts = ['jpg', 'jpeg', 'gif', 'png', 'bmp', 'webp'];
+	$imageexts = ['jpg', 'jpeg', 'gif', 'png', 'bmp', 'webp', 'svg'];
 	$forumattachextensions = '';
 	$fid = intval($fid);
 	if($fid) {
