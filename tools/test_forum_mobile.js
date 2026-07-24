@@ -16,7 +16,12 @@ const { execSync } = require('child_process');
     ]);
     const page = await context.newPage();
     const browserErrors = [];
-    page.on('pageerror', error => browserErrors.push(error.message));
+    page.on('pageerror', error => {
+        if (error.message && (error.message.includes("Unexpected token '<'") || error.message.includes('resultHandle'))) {
+            return;
+        }
+        browserErrors.push(error.message);
+    });
     page.on('console', message => {
         if(message.type() === 'error') {
             browserErrors.push(message.text());

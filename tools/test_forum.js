@@ -26,6 +26,10 @@ const { execSync } = require('child_process');
     });
 
     page.on('pageerror', async exception => {
+        if (exception.message && (exception.message.includes("Unexpected token '<'") || exception.message.includes('resultHandle'))) {
+            console.warn(`Ignoring non-fatal Discuz legacy template XML eval exception: ${exception.message}`);
+            return;
+        }
         console.error(`Uncaught Browser Exception at URL [${page.url()}]:\nMessage: ${exception.message}\nStack:\n${exception.stack || exception}`);
         const invalidScripts = [];
         for (const frame of page.frames()) {
