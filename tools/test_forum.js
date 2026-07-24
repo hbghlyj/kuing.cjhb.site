@@ -68,6 +68,18 @@ const { execSync } = require('child_process');
     });
 
     let report = "# DiscuzX Functional Test Report\n\n";
+    const fillPostEditor = async (message) => {
+        const editorFrame = page.locator('iframe[id$="_iframe"]');
+        if(await editorFrame.count()) {
+            assert.strictEqual(await editorFrame.count(), 1, 'Assertion Error: More than one post editor iframe rendered.');
+            await page.frameLocator('iframe[id$="_iframe"]').locator('body').fill(message);
+            return;
+        }
+
+        const textEditor = page.locator('textarea[name="message"]:visible');
+        assert.strictEqual(await textEditor.count(), 1, 'Assertion Error: Visible post editor did not render.');
+        await textEditor.fill(message);
+    };
     console.log("Starting functional tests...");
 
     try {
@@ -239,8 +251,7 @@ const { execSync } = require('child_process');
         const subjectInput = page.locator('input[name="subject"]');
         if (await subjectInput.count()) await subjectInput.fill('Standard User Thread');
 
-        const messageInput = page.locator('textarea[name="message"], #postmessage');
-        if (await messageInput.count()) await messageInput.fill('Body text from unprivileged account.');
+        await fillPostEditor('Body text from unprivileged account.');
 
         const secqaaPost = page.locator('input[name*="secanswer"]');
         if (await secqaaPost.count()) await secqaaPost.fill('2');
@@ -278,15 +289,9 @@ const { execSync } = require('child_process');
             await page.goto(`http://127.0.0.1:8080/forum.php?mod=post&action=reply&fid=2&tid=${tidOutput}`);
             await page.waitForLoadState('networkidle');
 
-            await page.evaluate((message) => {
-                const textArea = document.querySelector('textarea[name="message"], #postmessage');
-                if (textArea) textArea.value = message;
-                try {
-                    if (window.editdoc && window.editdoc.body) window.editdoc.body.innerHTML = message;
-                } catch (e) { }
-                const secqaa = document.querySelector('input[name*="secanswer"]');
-                if (secqaa) secqaa.value = '2';
-            }, 'Reply text from unprivileged account.');
+            await fillPostEditor('Reply text from unprivileged account.');
+            const replySecqaa = page.locator('input[name*="secanswer"]');
+            if(await replySecqaa.count()) await replySecqaa.fill('2');
             const replyBtn = await page.$('#postsubmit, button[name="replysubmit"]');
             if (replyBtn) {
                 await replyBtn.click();
@@ -310,15 +315,9 @@ const { execSync } = require('child_process');
                 if (editSubject) {
                     await editSubject.fill('Standard User Thread (Edited)');
                 }
-                await page.evaluate((message) => {
-                    const textArea = document.querySelector('textarea[name="message"], #postmessage');
-                    if (textArea) textArea.value = message;
-                    try {
-                        if (window.editdoc && window.editdoc.body) window.editdoc.body.innerHTML = message;
-                    } catch (e) { }
-                    const secqaa = document.querySelector('input[name*="secanswer"]');
-                    if (secqaa) secqaa.value = '2';
-                }, 'Edited body text from unprivileged account.');
+                await fillPostEditor('Edited body text from unprivileged account.');
+                const editSecqaa = page.locator('input[name*="secanswer"]');
+                if(await editSecqaa.count()) await editSecqaa.fill('2');
                 const editBtn = await page.$('#postsubmit, button[name="editsubmit"]');
                 if (editBtn) {
                     await editBtn.click();
