@@ -316,7 +316,7 @@ const { execSync } = require('child_process');
                 const editPostBtn = page.locator(`a[href*="action=edit"][href*="pid=${pidOutput}"]`).first();
                 assert.strictEqual(await editPostBtn.count(), 1, 'Assertion Error: Desktop edit control did not render.');
                 await editPostBtn.click();
-                const editForm = page.locator('#fwin_edit form#postform');
+                const editForm = page.locator('#fwin_edit form#postform_edit');
                 await editForm.waitFor({ state: 'visible' });
                 assert.strictEqual(await editForm.count(), 1, 'Assertion Error: Desktop edit modal did not render its form.');
 
