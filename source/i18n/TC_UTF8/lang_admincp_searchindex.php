@@ -3558,7 +3558,7 @@ $lang = array (
 		'index' =>
 		array (
 			'編輯器設置' => 'action=setting&operation=editor',
-			'Discuz! 代碼' => 'action=setting&operation=bbcode',
+			'Discuz! 代碼' => 'action=misc&operation=bbcode',
 		),
 		'text' =>
 		array (

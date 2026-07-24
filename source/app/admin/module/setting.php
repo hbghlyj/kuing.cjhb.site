@@ -24,6 +24,9 @@ $operation = $operation ? $operation : 'basic';
 
 $file = childfile('setting/'.$operation);
 if(!file_exists($file)) {
+	if(in_array($operation, ['bbcode', 'mediacode'])) {
+		dheader('Location: '.ADMINSCRIPT.'?action=misc&operation='.$operation.(!empty($_GET['highlight']) ? '&highlight='.urlencode($_GET['highlight']) : ''));
+	}
 	cpmsg('undefined_action');
 }
 

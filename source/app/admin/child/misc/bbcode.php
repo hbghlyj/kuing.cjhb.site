@@ -21,7 +21,7 @@ if(!submitcheck('bbcodessubmit') && !$edit) {
 		['setting_editor_block', 'editorblock&operation=list', 0]
 	]);
 
-	/*search={"setting_editor":"action=setting&operation=editor","setting_editor_code":"action=setting&operation=bbcode"}*/
+	/*search={"setting_editor":"action=setting&operation=editor","setting_editor_code":"action=misc&operation=bbcode"}*/
 	showtips('misc_bbcode_edit_tips');
 	showformheader('misc&operation=bbcode');
 	showtableheader('', 'fixpadding');
