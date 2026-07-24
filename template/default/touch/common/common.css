@@ -1216,7 +1216,7 @@ body.pg_logging, body.pg_register, body.pg_lostpasswd_mobile, body.pg_lostpasswd
 .plc .pi .authi li.mtime em.mgl a {color:var(--dz-BG-2)}
 .plc .pione {margin-left:0}
 .plc .pione .authi {margin-left:45px}
-.plc .pi .message {line-height:1.8;font-size:16px}
+.plc .pi .message {line-height:1.8;font-size:16px;overflow:hidden;clear:both}
 .message a:link,.message a:visited,.message a:hover {color:#0086CE;text-decoration:underline}
 i.pstatus {display:block;font-size:12px;text-align:center;color:#999}
 /* 标签 .ptg */
