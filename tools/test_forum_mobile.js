@@ -267,7 +267,7 @@ const { execSync } = require('child_process');
             if (await secqaa.count()) await secqaa.fill('2');
             await Promise.all([
                 adminMobilePage.waitForNavigation({ waitUntil: 'networkidle' }).catch(() => {}),
-                adminLoginForm.evaluate(form => form.submit())
+                adminLoginForm.locator('button[type="submit"]:visible').click()
             ]);
         }
         assert.strictEqual(
