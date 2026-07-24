@@ -274,7 +274,14 @@ const { execSync } = require('child_process');
         assert.strictEqual(avatarStatus, '1', 'Assertion Error: User avatarstatus in database was not 1.');
 
         console.log("Attempting to post normal thread as unprivileged user...");
-        await page.goto('http://127.0.0.1:8080/forum.php?mod=post&action=newthread&fid=2');
+        await page.goto('http://127.0.0.1:8080/forum.php?mod=forumdisplay&fid=2');
+        await page.waitForLoadState('networkidle');
+        const postNewThreadBtn = page.locator('#newspecial, a[href*="action=newthread"], #newspecialtmp').first();
+        if (await postNewThreadBtn.count()) {
+            await postNewThreadBtn.click();
+        } else {
+            await page.goto('http://127.0.0.1:8080/forum.php?mod=post&action=newthread&fid=2');
+        }
         await page.waitForLoadState('networkidle');
 
         console.log("Capturing Advanced Editor Screenshot...");
@@ -318,7 +325,12 @@ const { execSync } = require('child_process');
         if (tidOutput) {
             // Reply to Thread
             console.log("Attempting to reply to thread...");
-            await page.goto(`http://127.0.0.1:8080/forum.php?mod=post&action=reply&fid=2&tid=${tidOutput}`);
+            const desktopReplyBtn = page.locator('#post_reply, a[href*="action=reply"]').first();
+            if (await desktopReplyBtn.count()) {
+                await desktopReplyBtn.click();
+            } else {
+                await page.goto(`http://127.0.0.1:8080/forum.php?mod=post&action=reply&fid=2&tid=${tidOutput}`);
+            }
             await page.waitForLoadState('networkidle');
 
             await fillPostEditor('Reply text from unprivileged account.');
@@ -340,7 +352,16 @@ const { execSync } = require('child_process');
             console.log("Attempting to edit thread...");
             const pidOutput = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT pid FROM pre_forum_post WHERE tid='${tidOutput}' AND first=1 LIMIT 1;"`).toString().trim();
             if (pidOutput) {
-                await page.goto(`http://127.0.0.1:8080/forum.php?mod=post&action=edit&fid=2&tid=${tidOutput}&pid=${pidOutput}`);
+                if (!page.url().includes('viewthread')) {
+                    await page.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${tidOutput}`);
+                    await page.waitForLoadState('networkidle');
+                }
+                const editPostBtn = page.locator(`a[href*="action=edit"][href*="pid=${pidOutput}"], a[href*="action=edit"]`).first();
+                if (await editPostBtn.count()) {
+                    await editPostBtn.click();
+                } else {
+                    await page.goto(`http://127.0.0.1:8080/forum.php?mod=post&action=edit&fid=2&tid=${tidOutput}&pid=${pidOutput}`);
+                }
                 await page.waitForLoadState('networkidle');
 
                 const editSubject = await page.$('input[name="subject"]');

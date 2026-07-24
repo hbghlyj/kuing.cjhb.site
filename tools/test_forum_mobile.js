@@ -132,7 +132,14 @@ const { execSync } = require('child_process');
         fs.writeFileSync(imagePath, Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAIAAAAiOjnJAAACFUlEQVR4nO3SQQkAIADAQAP6sKkVLeEQ5OAC7LEx94LrxvMCvmQsEsYiYSwSxiJhLBLGImEsEsYiYSwSxiJhLBLGImEsEsYiYSwSxiJhLBLGImEsEsYiYSwSxiJhLBLGImEsEsYiYSwSxiJhLBLGImEsEsYiYSwSxiJhLBLGImEsEsYiYSwSxiJhLBLGImEsEsYiYSwSxiJhLBLGImEsEsYiYSwSxiJhLBLGImEsEsYiYSwSxiJhLBLGImEsEsYiYSwSxiJhLBLGImEsEsYiYSwSxiJhLBLGImEsEsYiYSwSxiJhLBLGImEsEsYiYSwSxiJhLBLGImEsEsYiYSwSxiJhLBLGImEsEsYiYSwSxiJhLBLGImEsEsYiYSwSxiJhLBLGImEsEsYiYSwSxiJhLBLGImEsEsYiYSwSxiJhLBLGImEsEsYiYSwSxiJhLBLGImEsEsYiYSwSxiJhLBLGImEsEsYiYSwSxiJhLBLGImEsEsYiYSwSxiJhLBLGImEsEsYiYSwSxiJhLBLGImEsEsYiYSwSxiJhLBLGImEsEsYiYSwSxiJhLBLGImEsEsYiYSwSxiJhLBLGImEsEsYiYSwSxiJhLBLGImEsEsYiYSwSxiJhLBLGImEsEsYiYSwSxiJhLBLGImEsEsYiYSwSxiJhLBLGInEAuwUSl75bns4AAAAASUVORK5CYII=', 'base64'));
 
         console.log('Posting mobile thread with image attachment...');
-        await page.goto('http://127.0.0.1:8080/forum.php?mod=post&action=newthread&fid=2');
+        await page.goto('http://127.0.0.1:8080/forum.php?mod=forumdisplay&fid=2');
+        await page.waitForLoadState('networkidle');
+        const postThreadBtn = page.locator('a[href*="action=newthread"]').first();
+        if (await postThreadBtn.count()) {
+            await postThreadBtn.click();
+        } else {
+            await page.goto('http://127.0.0.1:8080/forum.php?mod=post&action=newthread&fid=2');
+        }
         await page.waitForLoadState('networkidle');
         assert.ok(await page.$('#postform #needsubject'), 'Assertion Error: Mobile new-thread form did not render.');
         await page.screenshot({ path: 'screenshot_mobile_editor.png' });
@@ -176,12 +183,19 @@ const { execSync } = require('child_process');
         const isimage = dbScalar(`SELECT isimage FROM pre_forum_attachment_${expectedTableId} WHERE aid='${aid}' AND tid='${tid}' LIMIT 1`);
         assert.strictEqual(isimage, '1', 'Assertion Error: Mobile image upload was not stored as an image.');
 
-        await page.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${tid}`);
+        if (!page.url().includes('viewthread')) {
+            await page.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${tid}`);
+        }
         await page.waitForLoadState('networkidle');
         await page.screenshot({ path: 'screenshot_mobile_02_thread_attachment.png' });
 
         console.log('Replying to mobile thread...');
-        await page.goto(`http://127.0.0.1:8080/forum.php?mod=post&action=reply&fid=2&tid=${tid}`);
+        const replyBtn = page.locator('a[href*="action=reply"]').first();
+        if (await replyBtn.count()) {
+            await replyBtn.click();
+        } else {
+            await page.goto(`http://127.0.0.1:8080/forum.php?mod=post&action=reply&fid=2&tid=${tid}`);
+        }
         await page.waitForLoadState('networkidle');
         assert.ok(await page.$('#postform #needmessage'), 'Assertion Error: Mobile reply form did not render.');
         await page.locator('#needmessage').fill(reply);
@@ -192,14 +206,25 @@ const { execSync } = require('child_process');
         assert.ok(replyPid, 'Assertion Error: Mobile reply ID was not found.');
 
         console.log('Editing mobile reply...');
-        await page.goto(`http://127.0.0.1:8080/forum.php?mod=post&action=edit&fid=2&tid=${tid}&pid=${replyPid}`);
+        if (!page.url().includes('viewthread')) {
+            await page.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${tid}`);
+            await page.waitForLoadState('networkidle');
+        }
+        const editLink = page.locator(`a[href*="action=edit"][href*="pid=${replyPid}"], a[href*="action=edit"]`).first();
+        if (await editLink.count()) {
+            await editLink.click();
+        } else {
+            await page.goto(`http://127.0.0.1:8080/forum.php?mod=post&action=edit&fid=2&tid=${tid}&pid=${replyPid}`);
+        }
         await page.waitForLoadState('networkidle');
         assert.ok(await page.$('#postform #needmessage'), 'Assertion Error: Mobile edit form did not render.');
         await page.locator('#needmessage').fill(editedReply);
         await page.locator('#postsubmit').click();
         await waitForDbValue(`SELECT message FROM pre_forum_post WHERE pid='${replyPid}'`, editedReply, 'Assertion Error: Mobile reply edit was not saved');
 
-        await page.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${tid}`);
+        if (!page.url().includes('viewthread')) {
+            await page.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${tid}`);
+        }
         await page.waitForLoadState('networkidle');
         assert.ok((await page.textContent('body')).includes(editedReply), 'Assertion Error: Edited mobile reply was not rendered in the thread.');
         await page.screenshot({ path: 'screenshot_mobile_03_reply_edited.png' });
@@ -318,7 +343,14 @@ const { execSync } = require('child_process');
             '1',
             'Assertion Error: Admin PM was not delivered to the mobile user inbox.'
         );
-        await adminMobilePage.goto(`http://127.0.0.1:8080/forum.php?mod=post&action=reply&fid=2&tid=${tid}&reppost=${firstMobilePid}`);
+        await adminMobilePage.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${tid}`);
+        await adminMobilePage.waitForLoadState('networkidle');
+        const adminQuoteBtn = adminMobilePage.locator('a[href*="action=reply"]').first();
+        if (await adminQuoteBtn.count()) {
+            await adminQuoteBtn.click();
+        } else {
+            await adminMobilePage.goto(`http://127.0.0.1:8080/forum.php?mod=post&action=reply&fid=2&tid=${tid}&reppost=${firstMobilePid}`);
+        }
         await adminMobilePage.waitForLoadState('networkidle');
         const adminReply = 'Admin mobile quote reply to user thread.';
         const adminMsgArea = adminMobilePage.locator('textarea[name="message"]:visible, #needmessage:visible').first();
@@ -333,29 +365,43 @@ const { execSync } = require('child_process');
         );
         await submitBtn.click();
         const adminReplyResponse = await adminReplyResponsePromise;
-        const adminReplyResponseText = await adminReplyResponse.text();
-        assert.ok(adminReplyResponse.ok(), `Mobile quote reply request failed: status=${adminReplyResponse.status()}; body=${adminReplyResponseText.slice(0, 2000)}`);
-        for(let attempt = 0; attempt < 15; attempt++) {
-            if(dbScalar(`SELECT COUNT(*) FROM pre_forum_post WHERE tid='${tid}' AND authorid='1' AND message LIKE '%${adminReply}%'`) === '1') {
-                break;
+        const adminReplyStatus = adminReplyResponse.status();
+        let adminReplyResponseText = '';
+        if (adminReplyStatus < 300 || adminReplyStatus >= 400) {
+            try {
+                adminReplyResponseText = await adminReplyResponse.text();
+            } catch (e) {
+                adminReplyResponseText = `[Failed to read body: ${e.message}]`;
             }
-            await page.waitForTimeout(500);
+        } else {
+            adminReplyResponseText = `[Redirect response to ${adminReplyResponse.headers()['location'] || 'unknown'}]`;
         }
-        assert.strictEqual(
-            dbScalar(`SELECT COUNT(*) FROM pre_forum_post WHERE tid='${tid}' AND authorid='1' AND message LIKE '%${adminReply}%'`),
+        assert.ok(adminReplyResponse.ok() || (adminReplyStatus >= 300 && adminReplyStatus < 400), `Assertion Error: Mobile quote reply submit failed: status=${adminReplyStatus}; body=${adminReplyResponseText.slice(0, 2000)}`);
+        await waitForDbValue(
+            `SELECT COUNT(*) FROM pre_forum_post WHERE tid='${tid}' AND authorid='1' AND message LIKE '%${adminReply}%'`,
             '1',
             `Assertion Error: Mobile quote reply was not stored. Response: ${adminReplyResponseText.slice(0, 2000)}`
         );
         await adminMobileContext.close();
 
         console.log('Testing mobile PM center page...');
-        await page.goto('http://127.0.0.1:8080/home.php?mod=space&do=pm');
+        const pmNavLink = page.locator('a[href*="do=pm"]').first();
+        if (await pmNavLink.count()) {
+            await pmNavLink.click();
+        } else {
+            await page.goto('http://127.0.0.1:8080/home.php?mod=space&do=pm');
+        }
         await page.waitForLoadState('networkidle');
         const mobilePmBody = await page.textContent('body');
         assert.ok(mobilePmBody.includes(adminPmToMobileUser), 'Assertion Error: Mobile PM center did not display the delivered admin message.');
         await page.screenshot({ path: 'screenshot_mobile_07_pm.png' });
 
-        await page.goto('http://127.0.0.1:8080/home.php?mod=space&do=notice');
+        const noticeTabLink = page.locator('a[href*="do=notice"]').first();
+        if (await noticeTabLink.count()) {
+            await noticeTabLink.click();
+        } else {
+            await page.goto('http://127.0.0.1:8080/home.php?mod=space&do=notice');
+        }
         await page.waitForLoadState('networkidle');
         const mobileNoticeBody = await page.textContent('body');
         assert.ok(
