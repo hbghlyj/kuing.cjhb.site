@@ -6,15 +6,6 @@
 .dz_ngbox {margin-bottom:15px;background:var(--dz-bgf);border:none;border-radius:var(--dz-radius-m);box-shadow:var(--dz-shadow)}
 .category_l1, .category_l2, .category_l3, .category_l4 {background:none}
 #category_grid {border:none;border-radius:var(--dz-radius-m)}
-.forum-index-tabs {display:flex;gap:26px;margin:0 0 12px;padding:0 20px;border-bottom:1px solid var(--dz-borderb);overflow-x:auto}
-.forum-index-tabs button {position:relative;flex:0 0 auto;margin:0;padding:12px 0 11px;border:0;background:none;color:var(--dz-fc);cursor:pointer;font-size:14px}
-.forum-index-tabs button:hover, .forum-index-tabs button.a {color:var(--dz-ahot)}
-.forum-index-tabs button.a:after {content:'';position:absolute;right:0;bottom:-1px;left:0;height:3px;background:var(--dz-ahot);border-radius:3px 3px 0 0}
-#forum-index-grid-panel .fl {float:none}
-#forum-index-grid-panel .bm {margin-bottom:0}
-#category_grid td[hidden] {display:none}
-#category_grid td[data-index-tab] {width:100%;border-left:0}
-#category_grid td[data-index-tab] h4 {display:none}
 #category_grid h4 span {height:50px;border-radius:0 var(--dz-radius-s) var(--dz-radius-s) 0}
 #category_grid .newimgbox:hover h4 span, #category_grid .subjectbox:hover h4 span, #category_grid .replaybox:hover h4 span, #category_grid .hottiebox:hover h4 span, #category_grid .goodtiebox:hover h4 span {display:none;width:4px;border-radius:0 2px 2px 0}
 #category_grid h4 {font-size:15px;font-weight:400;text-indent:15px;border-left:0px solid var(--dz-borderb);border-bottom:1px solid var(--dz-borderb)}
