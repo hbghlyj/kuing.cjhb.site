@@ -51,7 +51,7 @@
 	<!--{ad/couplebanner/a_fl a_cb/1}--><!--{ad/couplebanner/a_fr a_cb/2}-->
 	<!--{ad/cornerbanner/a_cn}-->
 	<!--{hook/global_footer}-->
-	<!--{if in_array(CURMODULE, array('post', 'forumdisplay', 'viewthread')) && in_array($_G['fid'], array(5, 6, 7, 14)) && !isset($_GET['editsubmit'])}-->
+	<!--{if in_array(CURMODULE, array('post', 'forumdisplay', 'viewthread')) && !isset($_GET['editsubmit'])}-->
 	<div class="wp" id="cgb">
 	<style>
 	#outputWrap{background:#f8f8f5;width:100%;margin-top:10px;}
