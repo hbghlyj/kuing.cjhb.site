@@ -710,7 +710,8 @@ const { execSync } = require('child_process');
         console.log("Test: Verify that POST to a forum group fid is rejected server-side...");
         // fid=8 on this site maps to a group (gid=8), not a postable sub-board.
         // Even with a valid formhash and authenticated session, the server must reject it.
-        const groupFid = 8;
+        const groupFid = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT fid FROM pre_forum_forum WHERE type='group' LIMIT 1;"`).toString().trim();
+        assert.ok(groupFid, 'Assertion Error: No forum group (type=group) found in pre_forum_forum — cannot run group POST rejection test.');
         const groupFormhash = await page.evaluate(() => window.FORMHASH);
         assert.ok(groupFormhash, 'Assertion Error: Could not read window.FORMHASH for group-post REST test.');
 
