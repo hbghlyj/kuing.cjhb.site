@@ -113,7 +113,7 @@ if($_GET['view'] == 'me') {
 		$posttable = getposttable();
 		require_once libfile('function/post');
 		$pids = $tids = [];
-		$postcommentarr = table_forum_postcomment::t()->fetch_all_by_authorid($_G['uid'], $start, $perpage);
+		$postcommentarr = table_forum_postcomment::t()->fetch_all_by_authorid($space['uid'], $start, $perpage);
 		foreach($postcommentarr as $value) {
 			$pids[] = $value['pid'];
 			$tids[] = $value['tid'];
