@@ -710,6 +710,7 @@ $lang = [
 	'e_italic' => '文字斜体',
 	'e_math_inline' => '行内',
 	'e_math_display' => '行间',
+	'e_math_hint' => '行内公式：$...$；行间公式：\\[ ... \\]',
 	'e_left' => '居左',
 	'e_orderedlist' => '排序的列表',
 	'e_quote_title' => '添加引用文字',

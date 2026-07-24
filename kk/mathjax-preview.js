@@ -249,6 +249,7 @@ function initFullEditorMathEntry() {
 	if (!button || document.getElementById('post_math_entry')) return;
 
 	var labels = window.MATH_EDITOR_LABELS || {};
+	textarea.placeholder = labels.hint || 'Inline formula: $...$; display formula: \\[ ... \\]';
 	var entryGroup = document.createElement('div');
 	entryGroup.id = 'post_math_entry';
 	entryGroup.className = 'b2r';

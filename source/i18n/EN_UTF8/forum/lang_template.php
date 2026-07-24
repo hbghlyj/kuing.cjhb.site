@@ -711,6 +711,7 @@ $lang = array (
 	'e_italic'		=> 'Italic',//'文字斜体',
 	'e_math_inline'	=> 'Inline',
 	'e_math_display'	=> 'Display',
+	'e_math_hint'		=> 'Inline formula: $...$; display formula: \\[ ... \\]',
 	'e_left'		=> 'Align Left',//'居左',
 	'e_orderedlist'		=> 'Ordered List',//'排序的列表',
 	'e_quote_title'		=> 'Add Quote',//'添加引用文字',
