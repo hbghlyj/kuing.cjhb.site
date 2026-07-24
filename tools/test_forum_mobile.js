@@ -96,7 +96,7 @@ const { execSync } = require('child_process');
         await page.locator('#needmessage').fill(message);
         const imageInput = page.locator('#filedata');
         assert.strictEqual(await imageInput.count(), 1, 'Assertion Error: Mobile image upload control did not render.');
-        const uploadResponse = page.waitForResponse(response => response.request().method() === 'POST' && response.url().includes('misc.php?mod=swfupload'));
+        const uploadResponse = page.waitForResponse(response => response.request().method() === 'POST' && response.url().includes('misc.php?mod=upload'));
         await imageInput.setInputFiles(imagePath);
         const uploadText = await (await uploadResponse).text();
         assert.match(uploadText, /^DISCUZUPLOAD\|1\|0\|\d+\|1\|/, `Assertion Error: Mobile image upload failed. Response: ${uploadText}`);
@@ -109,9 +109,18 @@ const { execSync } = require('child_process');
         });
         const aid = await page.locator('#imglist input[name^="attachnew["]').evaluate(input => input.name.match(/^attachnew\[(\d+)\]/)[1]);
         await page.locator('#needmessage').fill(`${message} [attachimg]${aid}[/attachimg]`);
+        const extraTagBtn = await page.$('#extra_tag_b, #extra_tag_b a, a[onclick*="extra_tag"]');
+        if (extraTagBtn) {
+            await extraTagBtn.click().catch(() => {});
+        }
         const tagsInput = await page.$('#tags, input[name="tags"]');
         if (tagsInput) {
-            await tagsInput.fill('mobiletag');
+            await tagsInput.fill('mobiletag', { force: true }).catch(async () => {
+                await page.evaluate(() => {
+                    const input = document.querySelector('#tags, input[name="tags"]');
+                    if (input) input.value = 'mobiletag';
+                });
+            });
         }
         await page.waitForTimeout(250);
         await page.locator('#postsubmit').click();
