@@ -88,7 +88,7 @@
 		<!--{if $_GET['action'] == 'reply' && !empty($_GET['addtrade']) || $_GET['action'] == 'edit' && $thread['special'] == 2 && !$postinfo['first']}-->
 		<input name="subject" type="hidden" value="" />
 		<!--{elseif $_GET['action'] != 'reply'}-->
-		<li class="mli"><input type="text" class="px pl5" id="needsubject" autocomplete="off" value="$postinfo['subject']" name="subject" placeholder="{lang posts}{lang thread_subject}"></li>
+		<li class="mli"><input type="text" class="px pl5" id="needsubject" autocomplete="off" value="$postinfo['subject']" name="subject" placeholder="{lang posts} {lang thread_subject}"></li>
 		<!--{else}-->
 		<li class="mtext">
 			RE: $thread['subject']
@@ -112,7 +112,7 @@
 	<!--{template forum/post_editor_extra}-->
 	<ul class="cl">
 		<li class="mtext">
-			<textarea class="pt" id="needmessage" autocomplete="off" id="{$editorid}_textarea" name="$editor['textarea']" placeholder="<!--{if $_GET['action'] != 'reply'}-->{lang posts}<!--{/if}-->{lang thread_content}" fwin="reply"><!--{if $special != 127}-->$postinfo['message']<!--{/if}--></textarea>
+			<textarea class="pt" id="needmessage" autocomplete="off" id="{$editorid}_textarea" name="$editor['textarea']" placeholder="<!--{if $_GET['action'] != 'reply'}-->{lang posts} <!--{/if}-->{lang thread_content}" fwin="reply"><!--{if $special != 127}-->$postinfo['message']<!--{/if}--></textarea>
 				<!--{if ($allowpostimg || $_G['group']['allowpostattach']) && $allowuploadtoday}-->
 				<div class="mimg cl">
 					<!--{if $allowpostimg}-->
