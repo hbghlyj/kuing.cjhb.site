@@ -95,7 +95,7 @@ const { execSync } = require('child_process');
         const sendPrivateMessage = async (senderPage, recipient, message) => {
             await senderPage.goto('http://127.0.0.1:8080/home.php?mod=spacecp&ac=pm');
             await senderPage.waitForLoadState('networkidle');
-            const pmForm = senderPage.locator('form#pmform:visible');
+            const pmForm = senderPage.locator('form[id^="pmform_"]:visible');
             assert.strictEqual(await pmForm.count(), 1, 'Assertion Error: Mobile PM compose form did not render.');
             const recipientInput = pmForm.locator('input[name="username"]');
             const messageInput = pmForm.locator('textarea[name="message"]');
