@@ -159,6 +159,20 @@ const { execSync } = require('child_process');
     } catch (error) {
         console.error("Admin test execution failed:", error);
         process.exitCode = 1;
+        try {
+            const currentUrl = page.url();
+            const pageTitle = await page.title().catch(() => 'Unknown Title');
+            const pageSource = await page.content().catch(() => '');
+            if (pageSource) {
+                fs.writeFileSync('admin_page_source.html', pageSource);
+                fs.writeFileSync('browser_page_source.html', pageSource);
+            }
+            await page.screenshot({ path: 'screenshot_admin_failure.png', fullPage: true }).catch(() => {});
+            const errLog = `[Admin Failure] URL: ${currentUrl} | Title: ${pageTitle}\nError: ${error.stack || error.message}\nPage Source saved to admin_page_source.html\n---\n`;
+            fs.appendFileSync('browser_error.txt', errLog);
+        } catch (e) {
+            console.error('Failed to capture failure state:', e.message);
+        }
         report += "## Error Encountered in Admin Test\n```\n" + error.message + "\n```\n\n";
     } finally {
         await browser.close();

@@ -115,5 +115,6 @@ jobs:
             functional_test_report.md
             browser_error.txt
             *.png
+            *.html
             data/log/
           retention-days: 7
