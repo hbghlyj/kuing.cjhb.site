@@ -313,6 +313,56 @@ const { execSync } = require('child_process');
             assert.ok(parseInt(replyDbCheck, 10) >= 1, 'Assertion Error: Reply post was not found in database.');
             report += '### 3. Unprivileged User Reply\n- **Status**: Checked\n- **Reply Count**: ' + replyDbCheck + '\n\n';
 
+            // --- Test: Simple Editor (Fast Post / Fast Reply) ---
+            console.log("Testing Simple Editor (Fast Post / Fast Reply)...");
+            await page.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${tidOutput}`);
+            await page.waitForLoadState('networkidle');
+
+            const fastPostForm = page.locator('#fastpostform');
+            assert.strictEqual(await fastPostForm.count(), 1, 'Assertion Error: Simple Editor (Fast Post) form did not render on viewthread page.');
+
+            const fastPostTextarea = fastPostForm.locator('#fastpostmessage');
+            assert.strictEqual(await fastPostTextarea.count(), 1, 'Assertion Error: Simple Editor message field (#fastpostmessage) did not render.');
+            await fastPostTextarea.fill('Fast reply text from unprivileged account.');
+
+            // Focus and trigger potential onmouseover checkpostrule/loading of secqaa
+            await fastPostTextarea.focus();
+            await page.waitForTimeout(500);
+
+            // Screenshot the simple editor before submitting
+            await page.screenshot({ path: 'screenshot_desktop_simple_editor.png' });
+
+            const fastPostSecqaa = fastPostForm.locator('input[name*="secanswer"]');
+            if (await fastPostSecqaa.count() && await fastPostSecqaa.isVisible()) {
+                await fastPostSecqaa.fill('2');
+            } else {
+                await page.waitForTimeout(1000);
+                const lazySecqaa = fastPostForm.locator('input[name*="secanswer"]');
+                if (await lazySecqaa.count() && await lazySecqaa.isVisible()) {
+                    await lazySecqaa.fill('2');
+                }
+            }
+
+            const fastPostSubmitBtn = fastPostForm.locator('#fastpostsubmit');
+            assert.strictEqual(await fastPostSubmitBtn.count(), 1, 'Assertion Error: Simple Editor submit button (#fastpostsubmit) did not render.');
+
+            await Promise.all([
+                page.waitForResponse(response => 
+                    response.request().method() === 'POST' && 
+                    response.url().includes('mod=post') && 
+                    response.url().includes('action=reply') && 
+                    response.url().includes('replysubmit=yes')
+                ),
+                fastPostSubmitBtn.click()
+            ]);
+            await page.waitForTimeout(2000);
+
+            console.log("Checking if fast reply exists in DB...");
+            const fastReplyDbCheck = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT COUNT(*) FROM pre_forum_post WHERE tid='${tidOutput}' AND message='Fast reply text from unprivileged account.';"`).toString().trim();
+            assert.strictEqual(fastReplyDbCheck, '1', 'Assertion Error: Fast reply post was not found in database.');
+            report += '### Simple Editor (Fast Post / Fast Reply)\n- **Status**: Checked\n- **Fast Reply Created**: Fast reply text from unprivileged account.\n\n';
+
+
             // Edit Thread
             console.log("Attempting to edit thread...");
             const pidOutput = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT pid FROM pre_forum_post WHERE tid='${tidOutput}' AND first=1 LIMIT 1;"`).toString().trim();
