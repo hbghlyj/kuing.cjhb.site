@@ -287,6 +287,38 @@ const { execSync } = require('child_process');
         );
         await page.screenshot({ path: 'screenshot_mobile_space_thread_reply.png' });
 
+        console.log('Posting first-floor postcomment on mobile via UI...');
+        const mobileFirstFloorPid = dbScalar(`SELECT pid FROM pre_forum_post WHERE tid='${tid}' AND first=1 LIMIT 1`);
+        assert.ok(mobileFirstFloorPid, 'Assertion Error: Mobile first floor post ID was not found.');
+
+        await page.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${tid}`);
+        await page.waitForLoadState('networkidle');
+
+        const mobileFirstFloorCommentLink = page.locator(`a.dialog[href*="action=comment"][href*="pid=${mobileFirstFloorPid}"]`);
+        assert.strictEqual(await mobileFirstFloorCommentLink.count(), 1, 'Assertion Error: Mobile comment control did not render for the first floor post.');
+        await mobileFirstFloorCommentLink.click();
+
+        const mobileFirstFloorCommentForm = page.locator('#ntcmsg_popmenu #floatlayout_comment form#commentform');
+        await mobileFirstFloorCommentForm.waitFor({ state: 'visible' });
+        const mobileFirstFloorMsgBox = mobileFirstFloorCommentForm.locator('#commentmessage');
+        const mobileFirstFloorSubmitBtn = mobileFirstFloorCommentForm.locator('#commentsubmit');
+        assert.strictEqual(await mobileFirstFloorMsgBox.count(), 1, 'Assertion Error: Mobile first floor comment message input did not render.');
+        assert.strictEqual(await mobileFirstFloorSubmitBtn.count(), 1, 'Assertion Error: Mobile first floor comment submit button did not render.');
+
+        const mobileFirstFloorCommentText = 'Mobile test comment on first floor.';
+        await mobileFirstFloorMsgBox.fill(mobileFirstFloorCommentText);
+        await Promise.all([
+            page.waitForResponse(response => response.request().method() === 'POST' && response.url().includes('mod=post') && response.url().includes('commentsubmit=yes')),
+            mobileFirstFloorSubmitBtn.click()
+        ]);
+
+        const mobileFirstFloorDbCheck = dbScalar(`SELECT COUNT(*) FROM pre_forum_postcomment WHERE authorid='${uid}' AND pid='${mobileFirstFloorPid}' AND comment='${mobileFirstFloorCommentText}'`);
+        assert.strictEqual(mobileFirstFloorDbCheck, '1', 'Assertion Error: Mobile first floor comment was not created in database.');
+
+        await page.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${tid}`);
+        await page.waitForLoadState('networkidle');
+        await page.screenshot({ path: 'screenshot_mobile_viewthread_commented_first_floor.png' });
+
         console.log('Posting postcomment on mobile via UI and testing type=postcomment page...');
         const mobilePostCommentText = 'Mobile test postcomment text.';
         const adminReplyPid = dbScalar("SELECT pid FROM pre_forum_post WHERE authorid=1 AND first=0 AND message LIKE '%Admin quote reply to user thread.%' ORDER BY pid DESC LIMIT 1");
