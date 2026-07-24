@@ -325,7 +325,7 @@
 								</dt>
 								<!--{if empty($forum[redirect])}--><dd><em>{lang forum_todayposts} $forum['todayposts']</em>, <em>{lang forum_threads}: <!--{echo dnumber($forum[threads])}--></em>, <em>{lang forum_posts}: <!--{echo dnumber($forum[posts])}--></em></dd><!--{/if}-->
 								<!--{if $forum[description]}--><dd class="xg2">$forum[description]</dd><!--{/if}-->
-								<dd>
+								<dd class="fl_lastpost">
 								<!--{if $forum['permission'] == 1}-->
 									{lang private_forum}
 								<!--{else}-->
@@ -384,7 +384,7 @@
 									<!--{if $forum['redirect']}-->
 										<a href="$forumurl" class="xi2">{lang url_link}</a>
 									<!--{elseif is_array($forum['lastpost'])}-->
-										<a href="forum.php?mod=redirect&tid=$forum[lastpost][tid]&goto=lastpost#lastpost" class="xi2">$forum[lastpost][subject]</a> <cite><span class="xs0">$forum[lastpost][dateline] </span><!--{if $forum['lastpost']['author']}-->$forum['lastpost']['author']<!--{else}-->$_G[setting][anonymoustext]<!--{/if}--></cite>
+										<a href="forum.php?mod=redirect&tid=$forum[lastpost][tid]&goto=lastpost#lastpost" class="xi2">$forum[lastpost][subject]</a> <cite>$forum[lastpost][dateline] <!--{if $forum['lastpost']['author']}-->$forum['lastpost']['author']<!--{else}-->$_G[setting][anonymoustext]<!--{/if}--></cite>
 									<!--{else}-->
 										{lang never}
 									<!--{/if}-->
