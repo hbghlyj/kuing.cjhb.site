@@ -313,6 +313,42 @@ const { execSync } = require('child_process');
             assert.ok(parseInt(replyDbCheck, 10) >= 1, 'Assertion Error: Reply post was not found in database.');
             report += '### 3. Unprivileged User Reply\n- **Status**: Checked\n- **Reply Count**: ' + replyDbCheck + '\n\n';
 
+            // --- Test: Comment on first floor ---
+            console.log("Posting comment on first floor via UI...");
+            const firstFloorPid = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT pid FROM pre_forum_post WHERE tid='${tidOutput}' AND first=1 LIMIT 1;"`).toString().trim();
+            assert.ok(firstFloorPid, 'Assertion Error: First floor post ID was not found.');
+
+            await page.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${tidOutput}`);
+            await page.waitForLoadState('networkidle');
+
+            const firstFloorCommentBtn = page.locator(`a.cmmnt[href*="pid=${firstFloorPid}"]`);
+            assert.strictEqual(await firstFloorCommentBtn.count(), 1, 'Assertion Error: Comment control did not render for the first floor post.');
+            await firstFloorCommentBtn.click();
+
+            const firstFloorCommentForm = page.locator('#fwin_comment form#commentform');
+            await firstFloorCommentForm.waitFor({ state: 'visible' });
+            const firstFloorCommentMessage = firstFloorCommentForm.locator('#commentmessage');
+            const firstFloorSubmitCommentBtn = firstFloorCommentForm.locator('#commentsubmit');
+            assert.strictEqual(await firstFloorCommentMessage.count(), 1, 'Assertion Error: First floor comment message input did not render.');
+            assert.strictEqual(await firstFloorSubmitCommentBtn.count(), 1, 'Assertion Error: First floor comment submit button did not render.');
+
+            const firstFloorCommentText = 'Test comment on first floor.';
+            await firstFloorCommentMessage.fill(firstFloorCommentText);
+            await Promise.all([
+                page.waitForResponse(response => response.request().method() === 'POST' && response.url().includes('mod=post') && response.url().includes('commentsubmit=yes')),
+                firstFloorSubmitCommentBtn.click()
+            ]);
+
+            const firstFloorCommentDbCheck = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT COUNT(*) FROM pre_forum_postcomment WHERE authorid='${userUid}' AND pid='${firstFloorPid}' AND comment='${firstFloorCommentText}';"`).toString().trim();
+            assert.strictEqual(firstFloorCommentDbCheck, '1', 'Assertion Error: First floor comment was not created in database.');
+
+            // Navigate back to viewthread to verify and screenshot
+            await page.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${tidOutput}`);
+            await page.waitForLoadState('networkidle');
+            await page.screenshot({ path: 'screenshot_desktop_viewthread_commented_first_floor.png' });
+            console.log("✅ Comment on first floor posted successfully.");
+
+
             // --- Test: Simple Editor (Fast Post / Fast Reply) ---
             console.log("Testing Simple Editor (Fast Post / Fast Reply)...");
             await page.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${tidOutput}`);
