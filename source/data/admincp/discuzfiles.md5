@@ -983,7 +983,7 @@ a05b9b9a6e5bde5ed389c905459eb35c *source/app/home/child/spacecp/avatar.php
 5be1f2c937a7c7949eb1e9b6860c56d5 *source/app/home/child/spacecp/favorite.php
 a6d688cdd890ffceca02e0ad3923ff39 *source/app/home/child/spacecp/feed.php
 f8473769750d87f2789d9b2620949d88 *source/app/home/child/spacecp/follow.php
-8e7e733660b269934fa99b7fe264d1ea *source/app/home/child/spacecp/friend.php
+e37da2dfe32995a4da8d419b9e3096e4 *source/app/home/child/spacecp/friend.php
 d41d8cd98f00b204e9800998ecf8427e *source/app/home/child/spacecp/index.htm
 71fba672074f238ffffea009b39659fe *source/app/home/child/spacecp/index.php
 12fd49ce45754fc1bd6598dd4ded87ae *source/app/home/child/spacecp/invite.php
@@ -3986,7 +3986,7 @@ a2b5e1e981293a5cc8289045cafd5a1c *static/js/calendar.js
 230cb151baaa3ce4eade5f0f11deb449 *static/js/common_diy.js
 ab513309168ea45f7f394314911b22e5 *static/js/common_extra.js
 3f1db1ac22d3611a2be661f9a347b61d *static/js/common_m_diy.js
-6bd004d582fa03bf2ac1d6eb82b9dfff *static/js/common.js
+4d11bb5118dd30a01299b7e7a65db208 *static/js/common.js
 95081cd0e33ede64a17c6f59713db6ab *static/js/echarts/echarts.common.min.js
 d41d8cd98f00b204e9800998ecf8427e *static/js/echarts/index.htm
 2a87c6bd6a48eda3a21b984c4ef4929f *static/js/editor.js
@@ -4571,7 +4571,7 @@ d96a38b854a80b6a0716e006f09cf639 *template/default/common/header_qmenu.htm
 050b82f210155b25e7b70509d3194cef *template/default/common/header_userstatus.htm
 1caa6fd3171fb8da4e2f003fbfa7569a *template/default/common/header.htm
 d41d8cd98f00b204e9800998ecf8427e *template/default/common/index.htm
-110eee22eb494adde0cf3eeaa71f358a *template/default/common/invite.htm
+78d6194de4dae6102613adb751ebc402 *template/default/common/invite.htm
 c736fedbad3c2262bc21d58f46b99fef *template/default/common/ipnotice.htm
 ffe65acb8da8de6716c1b731bc68f1db *template/default/common/misc_imgcropper.htm
 2d3851d34282fc47bdb7aea3312b4fb6 *template/default/common/module.css
@@ -4634,7 +4634,7 @@ fdfb34df3d3bf6ec434840f673a55956 *template/default/forum/collection_comment.htm
 b050389414d5be0020dbef82d39447f7 *template/default/forum/collection_commentpop.htm
 67f187151aa4658c98c0e830767e5790 *template/default/forum/collection_followers.htm
 bd5214a1b9f6455ccba33e0e9291e4f5 *template/default/forum/collection_index.htm
-a8985caf3c6f3fb5d66a5b60720eb3d0 *template/default/forum/collection_invite.htm
+5279b61dd85a4549cd3f531bbc520d41 *template/default/forum/collection_invite.htm
 fb00d01d3243756c34c2bd0424d2eed1 *template/default/forum/collection_list.htm
 6a7f0bb6f387ec223808471b0d5101de *template/default/forum/collection_mycollection.htm
 d2b6c0956c87a071c5936d5fac6fc51c *template/default/forum/collection_nav.htm
@@ -4805,7 +4805,7 @@ ba4878582d496afa5c40ce457abf013e *template/default/home/space_medal_float.htm
 000a7cb9dc9a9acddae7c41b580bd3de *template/default/home/space_notice.htm
 5a43f927f838dcc6e4e3f7fdee86f14d *template/default/home/space_plugin.htm
 c1cc6a6e73934443a604f0081935728d *template/default/home/space_pm_node.htm
-712ca8e66d0ad27c500ee31ba2295718 *template/default/home/space_pm.htm
+91357e93310ec3a13e3bad69a2caa95e *template/default/home/space_pm.htm
 d348ce4b5868b28c6d59082139382093 *template/default/home/space_poll.htm
 dc9c0c0e8098d515d93f6cf868c21da4 *template/default/home/space_privacy.htm
 190fe40603314a47fc219805a7c1ab2b *template/default/home/space_profile_body.htm
@@ -4869,7 +4869,7 @@ cf3867f994def0a8cf23cd5dadd4c8ff *template/default/home/spacecp_payment_order.ht
 f65f437e605692b006c8e571b755b4c7 *template/default/home/spacecp_payment_pay.htm
 dd73b4b69f9cb8f6f8ccc20c88f2885a *template/default/home/spacecp_payment_redirect.htm
 e2538a02038370819679cd2521c02ce9 *template/default/home/spacecp_plugin.htm
-d5f055e549de9ea86867ee1a23f7dda3 *template/default/home/spacecp_pm.htm
+5bdaed95a3bc68b49bb5cb774964ad2f *template/default/home/spacecp_pm.htm
 109d6bf7bd7e096d88340ce4f16fbac0 *template/default/home/spacecp_poke_type.htm
 81d9e59bc2ec14a039a2261ae2f3aa35 *template/default/home/spacecp_poke.htm
 ca31e2bbcbf6361adaba02e4869624ab *template/default/home/spacecp_privacy.htm
