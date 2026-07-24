@@ -193,15 +193,17 @@ var fastTexItems = [
 function renderFastTexSmilies() {
 	var fs = $("fastsmilies");
 	if (fs) {
+		var controlPanel = fs.closest('.post_fasttex_panel');
+		var columns = controlPanel ? 10 : 3;
 		fs.innerHTML = '';
 		var table = document.createElement("table");
 		table.className = "cp0";
-		table.style.width = "160px";
+		table.style.width = controlPanel ? "auto" : "160px";
 		table.style.tableLayout = "auto";
 		var tr = document.createElement("tr");
 
 		for (var i = 0; i < fastTexItems.length; i++) {
-			if (i > 0 && i % 3 === 0) {
+			if (i > 0 && i % columns === 0) {
 				table.appendChild(tr);
 				tr = document.createElement("tr");
 			}
@@ -238,5 +240,59 @@ function renderFastTexSmilies() {
 	}
 }
 
+function initFastTexMode() {
+	var textarea = document.getElementById('postmessage');
+	var controls = document.getElementById('post_controls');
+	var panel = document.getElementById('fastsmiliesdiv');
+	if (!textarea || !controls || !panel) return;
+
+	var marker = document.createComment('fast TeX panel');
+	panel.parentNode.insertBefore(marker, panel);
+
+	var isEscaped = function(value, index) {
+		var slashes = 0;
+		while (index > 0 && value[--index] == '\\') slashes++;
+		return slashes % 2 == 1;
+	};
+
+	var isMathCursor = function(value, cursor) {
+		var before = value.slice(0, cursor);
+		if (before.lastIndexOf('\\[') > before.lastIndexOf('\\]') || before.lastIndexOf('\\(') > before.lastIndexOf('\\)')) return true;
+		if ((before.match(/\\begin\{[^}]+\}/g) || []).length > (before.match(/\\end\{[^}]+\}/g) || []).length) return true;
+
+		var inline = false, display = false;
+		for (var i = 0; i < before.length; i++) {
+			if (before[i] != '$' || isEscaped(before, i)) continue;
+			if (before[i + 1] == '$') {
+				display = !display;
+				i++;
+			} else if (!display) {
+				inline = !inline;
+			}
+		}
+		return inline || display;
+	};
+
+	var update = function() {
+		var active = isMathCursor(textarea.value, textarea.selectionStart);
+		if (active) {
+			controls.appendChild(panel);
+			controls.classList.add('math_mode');
+		} else {
+			marker.parentNode.insertBefore(panel, marker.nextSibling);
+			controls.classList.remove('math_mode');
+		}
+	};
+
+	['input', 'keyup', 'click', 'focus'].forEach(function(eventName) {
+		textarea.addEventListener(eventName, update);
+	});
+	document.addEventListener('selectionchange', function() {
+		if (document.activeElement == textarea) update();
+	});
+	update();
+}
+
 renderFastTexSmilies();
+initFastTexMode();
 initLivePreview();
