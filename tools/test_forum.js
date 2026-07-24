@@ -431,15 +431,20 @@ const { execSync } = require('child_process');
             await adminPage.evaluate((msg) => {
                 const textArea = document.querySelector('textarea[name="message"], #postmessage');
                 if (textArea) textArea.value = (textArea.value ? textArea.value + '\n' : '') + msg;
+                try {
+                    if (window.editdoc && window.editdoc.body) window.editdoc.body.innerHTML = msg;
+                } catch (e) { }
                 const secqaa = document.querySelector('input[name*="secanswer"]');
                 if (secqaa) secqaa.value = '2';
             }, 'Admin quote reply to user thread.');
             const adminReplyBtn = await adminPage.$('#postsubmit, button[name="replysubmit"]');
-            if (adminReplyBtn) {
-                await adminReplyBtn.click();
-                await adminPage.waitForNavigation({ waitUntil: 'networkidle' }).catch(() => {});
-            }
+            assert.ok(adminReplyBtn, 'Assertion Error: Admin reply submit button was not rendered.');
+            await adminReplyBtn.click();
+            await adminPage.waitForNavigation({ waitUntil: 'networkidle' }).catch(() => {});
             await adminContext.close();
+
+            const adminReplyDbCheck = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT COUNT(*) FROM pre_forum_post WHERE tid='${tidOutput}' AND authorid=1 AND first=0 AND message LIKE '%Admin quote reply to user thread.%';"`).toString().trim();
+            assert.ok(parseInt(adminReplyDbCheck, 10) >= 1, 'Assertion Error: Admin quote reply was not created in database.');
 
             await page.goto('http://127.0.0.1:8080/home.php?mod=space&do=notice');
             await page.waitForLoadState('networkidle');
