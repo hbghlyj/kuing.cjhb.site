@@ -4,7 +4,9 @@ function initLivePreview() {
 
 	var updatePreview = function(el) {
 		if (!el) return;
-		MathJax.texReset();
+		if (typeof MathJax !== 'undefined' && typeof MathJax.texReset === 'function') {
+			MathJax.texReset();
+		}
 		output.innerHTML = bbcode2html(el.value || '');
 		if (typeof MathJax !== 'undefined' && MathJax.typesetPromise) {
 			MathJax.typesetPromise([output]).catch(() => {});
