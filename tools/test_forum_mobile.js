@@ -197,9 +197,9 @@ const { execSync } = require('child_process');
         const nonImgUploadResponse = page.waitForResponse(response => response.request().method() === 'POST' && response.url().includes('misc.php?mod=upload'));
         await mobileFileInput.setInputFiles(nonImgFileFixture);
         const nonImgUploadText = await (await nonImgUploadResponse).text();
-        assert.match(nonImgUploadText, /^DISCUZUPLOAD\|1\|0\|\d+\|0\|/, `Assertion Error: Mobile non-image upload failed. Response: ${nonImgUploadText}`);
-        await page.waitForFunction(() => document.querySelector('#imglist input[name^="attachnew["]'), null, { timeout: 5000 });
-        const mobileNonImgAid = await page.locator('#imglist input[name^="attachnew["]').evaluate(input => input.name.match(/^attachnew\[(\d+)\]/)[1]);
+        assert.match(nonImgUploadText, /^DISCUZUPLOAD\|0\|0\|\d+\|0\|/, `Assertion Error: Mobile non-image upload failed. Response: ${nonImgUploadText}`);
+        await page.waitForFunction(() => document.querySelector('#attlist input[name^="attachnew["]'), null, { timeout: 5000 });
+        const mobileNonImgAid = await page.locator('#attlist input[name^="attachnew["]').evaluate(input => input.name.match(/^attachnew\[(\d+)\]/)[1]);
 
         await page.evaluate(({ aidVal, message }) => {
             const msgArea = document.querySelector('#needmessage, textarea[name="message"]');
@@ -207,11 +207,11 @@ const { execSync } = require('child_process');
         }, { aidVal: mobileNonImgAid, message: `Mobile non-image attachment body ${suffix}. [attach]${mobileNonImgAid}[/attach]` });
 
         await page.locator('#postsubmit').click();
-        await page.waitForNavigation({ waitUntil: 'networkidle' }).catch(() => {});
+        await page.waitForURL(/forum\.php\?mod=viewthread/, { timeout: 5000 });
+        await page.waitForLoadState('networkidle');
         const nonImgMobileTid = dbScalar(`SELECT tid FROM pre_forum_thread WHERE subject='${nonImgMobileSubject}' ORDER BY tid DESC LIMIT 1`);
         assert.ok(nonImgMobileTid, 'Assertion Error: Mobile thread with non-image attachment was not created.');
-        await page.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${nonImgMobileTid}`);
-        await page.waitForLoadState('networkidle');
+        assert.ok(page.url().includes(`tid=${nonImgMobileTid}`), 'Assertion Error: Mobile non-image post redirected to the wrong thread.');
         await page.screenshot({ path: 'screenshot_mobile_attachment_non_image_viewthread.png' });
 
         console.log('Replying to mobile thread...');
