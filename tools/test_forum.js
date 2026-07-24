@@ -90,8 +90,8 @@ const { execSync } = require('child_process');
         C::t('common_setting')->update('secqaa', serialize(\$secqaa));
         C::t('common_setting')->update('regname', 'register');
         C::t('common_setting')->update('floodctrl', '0');
-        C::t('common_usergroup_field')->update(10, array('allowpostattach' => '1', 'allowpostimage' => '1'));
-        C::t('common_usergroup_field')->update(7, array('allowpostattach' => '1', 'allowpostimage' => '1'));
+        C::t('common_usergroup_field')->update(10, array('allowpostattach' => '1', 'allowpostimage' => '1', 'allowposttag' => '1'));
+        C::t('common_usergroup_field')->update(7, array('allowpostattach' => '1', 'allowpostimage' => '1', 'allowposttag' => '1'));
 
         require_once libfile('function/cache');
         updatecache(array('setting', 'secqaa', 'styles', 'usergroups'));
@@ -486,6 +486,15 @@ const { execSync } = require('child_process');
                     hiddenInput.name = `attachnew[${aidVal}][description]`;
                     hiddenInput.value = '';
                     form.appendChild(hiddenInput);
+
+                    let tagsInput = form.querySelector('#tags, input[name="tags"]');
+                    if (!tagsInput) {
+                        tagsInput = document.createElement('input');
+                        tagsInput.type = 'hidden';
+                        tagsInput.name = 'tags';
+                        form.appendChild(tagsInput);
+                    }
+                    tagsInput.value = 'sample_tag';
                 }
             }
             const secqaa = document.querySelector('input[name*="secanswer"]');
@@ -512,7 +521,7 @@ const { execSync } = require('child_process');
 
         const viewthreadBody = await page.textContent('body');
         assert.ok(
-            viewthreadBody.includes('Thread with Attachment') && viewthreadBody.includes('Posting thread with image attachment content.'),
+            viewthreadBody.includes('Thread with Attachment') && viewthreadBody.includes('Posting thread with image attachment content.') && viewthreadBody.includes('sample_tag'),
             'Assertion Error: Attachment thread page did not load thread content cleanly in viewthread.'
         );
 
