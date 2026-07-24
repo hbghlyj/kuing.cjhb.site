@@ -1244,11 +1244,6 @@ i.pstatus { display: block; margin-bottom: -30px; font-size: 12px; text-align: c
 	#fastsmilies table { table-layout: auto; width: 160px; height: 133px; }
 	#fastsmilies td { text-align: right; vertical-align: middle; cursor: pointer; }
 		#fastsmilies img { vertical-align: middle; }
-	.post_fasttex_panel { display: none; }
-	#post_controls.math_mode > :not(#fastsmiliesdiv) { display: none !important; }
-	#post_controls.math_mode #fastsmiliesdiv { display: block !important; float: none; width: auto; }
-	#post_controls.math_mode #fastsmilies table { width: auto; height: 40px; }
-	#post_controls.math_mode #fastsmilies td { padding: 0 4px !important; line-height: 20px; white-space: nowrap; }
 	#post_math_entry a { width: auto; padding: 0 4px; text-indent: 0; background-image: none; white-space: nowrap; font-size: 11px; line-height: 18px; }
 /** end **/
 

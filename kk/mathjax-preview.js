@@ -243,10 +243,14 @@ function renderFastTexSmilies() {
 }
 
 function initFastTexMode() {
-	var textarea = document.getElementById('postmessage');
-	var controls = document.getElementById('post_controls');
+	var textarea = document.querySelector('.edt textarea[id$="_textarea"]');
+	if (!textarea || !textarea.id.endsWith('_textarea')) return;
+
+	var editorid = textarea.id.slice(0, -'_textarea'.length);
+	var controls = document.getElementById(editorid + '_controls');
+	var button = document.getElementById(editorid + '_button');
 	var panel = document.getElementById('fastsmiliesdiv');
-	if (!textarea || !controls || !panel) return;
+	if (!controls || !button || !panel) return;
 
 	var marker = document.createComment('fast TeX panel');
 	panel.parentNode.insertBefore(marker, panel);
@@ -265,7 +269,7 @@ function initFastTexMode() {
 		row.appendChild(entry);
 		entryGroup.appendChild(row);
 	});
-	controls.querySelector('#post_button').appendChild(entryGroup);
+	button.appendChild(entryGroup);
 
 	var isEscaped = function(value, index) {
 		var slashes = 0;
