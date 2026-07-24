@@ -10,6 +10,7 @@
  */
 
 $lang = array (
+	'tag' => 'Tag',
 	'no_tag'		=> 'Have no any tags',//'还没有任何标签',
 	'blog_read'		=> 'Views',//'次阅读',
 	'blog_replay'		=> 'Replies',//'个评论',

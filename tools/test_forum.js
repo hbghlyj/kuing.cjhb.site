@@ -90,6 +90,7 @@ const { execSync } = require('child_process');
         C::t('common_setting')->update('secqaa', serialize(\$secqaa));
         C::t('common_setting')->update('regname', 'register');
         C::t('common_setting')->update('floodctrl', '0');
+        C::t('common_setting')->update('pmstatus', '1');
         C::t('common_usergroup_field')->update(10, array('allowpostattach' => '1', 'allowpostimage' => '1', 'allowposttag' => '1'));
         C::t('common_usergroup_field')->update(7, array('allowpostattach' => '1', 'allowpostimage' => '1', 'allowposttag' => '1'));
 
@@ -437,13 +438,13 @@ const { execSync } = require('child_process');
         });
         assert.ok(formhash, 'Assertion Error: Upload formhash is missing.');
 
-        const rejectedUploadResp = await page.request.post('http://127.0.0.1:8080/misc.php?mod=swfupload&operation=upload&simple=1&type=image&fid=2');
+        const rejectedUploadResp = await page.request.post('http://127.0.0.1:8080/misc.php?mod=upload&operation=upload&simple=1&type=image&fid=2');
         assert.strictEqual(rejectedUploadResp.status(), 403, 'Assertion Error: Upload endpoint accepted a request without formhash.');
 
         let aid = '';
         let lastUploadResp = '';
         try {
-            const uploadResp = await page.request.post('http://127.0.0.1:8080/misc.php?mod=swfupload&operation=upload&simple=1&type=image&fid=2', {
+            const uploadResp = await page.request.post('http://127.0.0.1:8080/misc.php?mod=upload&operation=upload&simple=1&type=image&fid=2', {
                 multipart: {
                     formhash,
                     Filedata: {

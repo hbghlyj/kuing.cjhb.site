@@ -31,7 +31,7 @@ const { execSync } = require('child_process');
     try {
         console.log("Creating synthetic thread and tag...");
         // 1. Thread
-        execSync(`sudo mysql -u root ultrax -e "INSERT INTO pre_forum_thread (fid, author, authorid, subject, dateline, lastpost, lastposter) VALUES (1, 'admin', 1, 'Thread with Tags', UNIX_TIMESTAMP(), UNIX_TIMESTAMP(), 'admin');"`);
+        execSync(`sudo mysql -u root ultrax -e "INSERT INTO pre_forum_thread (fid, author, authorid, subject, dateline, lastpost, lastposter) VALUES (2, 'admin', 1, 'Thread with Tags', UNIX_TIMESTAMP(), UNIX_TIMESTAMP(), 'admin');"`);
         const tidOutput = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT tid FROM pre_forum_thread WHERE subject='Thread with Tags' ORDER BY tid DESC LIMIT 1;"`).toString().trim();
 
         // 2. Tag

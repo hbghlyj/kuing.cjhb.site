@@ -30,6 +30,7 @@ $lang = array (
 	'group_category_empty'		=> 'Please select the group category',//'请选择群组分类。',
 	'group_description_failed'	=> 'The group description contains disabled words',//'{_G/setting/navs/3/navname}简介含有敏感词语',
 	'group_setup_succeed'		=> 'Group settings updated successfully.',//'群组设置成功更新。',
+	'pm_status_off' => 'Sorry, private messaging function is disabled',
 	'to_login'			=> 'You need to login first',//'您需要先登录才能继续本操作',
 	'postcomment_closed'		=> 'Comments are disabled',//'点评功能已关闭',
 	'group_nopermission'		=> 'Your user group ({grouptitle}) does not allowed to do this operation.',//'您所在的用户组({grouptitle})无法进行此操作。',
