@@ -51,16 +51,18 @@
 		<h3 style="margin-bottom: 30px;text-align: center;font-size: 20px;">$cptitle</h3>
 		<!--{if $uid}-->
 			<!--{if !$mustlogin}-->
-			<select name="admin_type" onchange="$('admin_username').style.display = this.value > 0 ? 'none' : ''">
+			<select name="admin_type" onchange="if(this.value > 0) { $('admin_username').value = '{$username}'; $('admin_username').readOnly = true; } else { $('admin_username').value = ''; $('admin_username').readOnly = false; $('admin_username').focus(); }">
 				<option value="$uid">{$username}</option>
 				<option value="0">{$lang['other_loginname']}</option>
 			</select>
+			<input type="text" id="admin_username" name="admin_username" placeholder="{$lang['login_username']}" value="{$username}" readonly autocomplete="username">
 			<!--{else}-->
-				<h1>{$username}</h1>
+			<input type="text" id="admin_username" name="admin_username" placeholder="{$lang['login_username']}" value="{$username}" readonly autocomplete="username">
 			<!--{/if}-->
+		<!--{else}-->
+		<input type="text" id="admin_username" name="admin_username" placeholder="{$lang['login_username']}" autofocus autocomplete="username">
 		<!--{/if}-->
-		<input type="text" id="admin_username" name="admin_username" placeholder="{$lang['login_username']}" autofocus autocomplete="off"<!--{if $uid}--> style="display: none"<!--{/if}-->>
-		<input type="password" name="admin_password" placeholder="{$lang['login_password']}" autocomplete="off"<!--{if !$isguest}--> autofocus<!--{/if}-->>
+		<input type="password" name="admin_password" placeholder="{$lang['login_password']}" autocomplete="current-password"<!--{if !$isguest}--> autofocus<!--{/if}-->>
 		<p onclick="document.querySelectorAll('.loginqa').forEach(vf=>{vf.className=''});this.style.display='none';"><span tabindex="0" onkeydown="window.event.key!='Tab'&&this.parentNode.click()"></span>{$lang['security_question']}</p>
 		<select id="questionid" name="admin_questionid" class="loginqa">
 			$forcesecques
