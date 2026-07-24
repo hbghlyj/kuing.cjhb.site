@@ -441,16 +441,16 @@ Created & Modified by Alice, Monkey, Lushnis, Pony, Dfox & DragonLee.
 
 	/* 版块卡片网格（CSS Grid，替代旧版 table/inline-block 排版） */
 	.fl_grid { display: grid; grid-template-columns: repeat(var(--forumcolumns), minmax(0, 1fr)); gap: 16px; }
-		.fl_grid > .fl_g { display: grid; grid-template-columns: auto minmax(0, 1fr) 68px; padding: 8px 0; }
+		.fl_grid > .fl_g { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; padding: 8px 0; }
 		.fl_grid > .fl_g > .fl_icn_g { grid-column: 1; grid-row: 1; }
 		.fl_grid > .fl_g > dl { grid-column: 2; grid-row: 1; margin-left: 0 !important; padding-left: 12px !important; }
 		.fl_grid > .fl_g dd.fl_lastpost { display: flex; justify-content: space-between; gap: 8px; }
 			.fl_grid > .fl_g dd.fl_lastpost > a { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 			.fl_grid > .fl_g dd.fl_lastpost cite { flex-shrink: 0; }
 			.fl_grid > .fl_g > .fl_newpost { grid-column: 3; grid-row: 1; }
-		.fl_newpost { display: inline-flex; width: 68px; height: 68px; align-items: center; justify-content: center; color: {LIGHTTEXT}; }
+		.fl_newpost { display: inline-flex; width: 31px; height: 29px; align-items: center; justify-content: center; color: {LIGHTTEXT}; }
 			.fl_newpost:hover { color: {LINK}; }
-			.fl_newpost svg { width: 68px; height: 68px; vertical-align: middle; }
+			.fl_newpost svg { width: 31px; height: 29px; vertical-align: middle; }
 		@media only screen and (max-width: 768px) {
 			.fl_grid { grid-template-columns: 1fr; }
 		}
