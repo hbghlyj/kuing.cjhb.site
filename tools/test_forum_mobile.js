@@ -114,10 +114,9 @@ const { execSync } = require('child_process');
         await waitForDbValue(`SELECT COUNT(*) FROM pre_forum_thread WHERE subject='${subject}'`, '1', 'Assertion Error: Mobile thread was not created');
         const tid = dbScalar(`SELECT tid FROM pre_forum_thread WHERE subject='${subject}' ORDER BY tid DESC LIMIT 1`);
         assert.ok(tid, 'Assertion Error: Mobile thread ID was not found.');
-        const attachmentIndex = dbScalar(`SELECT CONCAT(tid, ':', tableid) FROM pre_forum_attachment WHERE aid='${aid}' LIMIT 1`);
-        const tableid = attachmentIndex.split(':')[1];
-        const isimage = tableid === undefined ? '' : dbScalar(`SELECT isimage FROM pre_forum_attachment_${tableid} WHERE aid='${aid}' AND tid='${tid}' LIMIT 1`);
-        assert.strictEqual(attachmentIndex, `${tid}:${tid.slice(-1)}`, 'Assertion Error: Mobile image attachment was not linked to its thread.');
+        const expectedTableId = (tid % 10).toString();
+        await waitForDbValue(`SELECT tableid FROM pre_forum_attachment WHERE aid='${aid}' AND tid='${tid}'`, expectedTableId, 'Assertion Error: Mobile image attachment was not linked to its thread.');
+        const isimage = dbScalar(`SELECT isimage FROM pre_forum_attachment_${expectedTableId} WHERE aid='${aid}' AND tid='${tid}' LIMIT 1`);
         assert.strictEqual(isimage, '1', 'Assertion Error: Mobile image upload was not stored as an image.');
 
         await page.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${tid}`);
