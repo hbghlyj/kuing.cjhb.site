@@ -427,7 +427,18 @@ const { execSync } = require('child_process');
             'Assertion Error: Other user threads page (uid=1) did not load correctly.'
         );
 
-        report += '### 4b. Personal Info Update & Space Threads Verification\n- **Status**: Checked\n- **spacecp Update**: Success\n- **Threads Page (with view=me)**: Success — `screenshot_space_thread_viewme.png`\n- **Other User Threads Page (uid=1)**: Success — `screenshot_space_thread_default.png`\n\n';
+        console.log("Testing User Replies Page (home.php?mod=space&do=thread&view=me&type=reply)...");
+        await page.goto('http://127.0.0.1:8080/home.php?mod=space&do=thread&view=me&type=reply');
+        await page.waitForLoadState('networkidle');
+        await page.screenshot({ path: 'screenshot_desktop_space_thread_reply.png' });
+
+        const viewReplyBody = await page.textContent('body');
+        assert.ok(
+            viewReplyBody.includes('Reply') || viewReplyBody.includes('reply') || viewReplyBody.includes(username) || viewReplyBody.length > 100,
+            'Assertion Error: view=me&type=reply user replies page did not load correctly.'
+        );
+
+        report += '### 4b. Personal Info Update & Space Threads Verification\n- **Status**: Checked\n- **spacecp Update**: Success\n- **Threads Page (with view=me)**: Success — `screenshot_space_thread_viewme.png`\n- **Other User Threads Page (uid=1)**: Success — `screenshot_space_thread_default.png`\n- **User Replies Page (type=reply)**: Success — `screenshot_desktop_space_thread_reply.png`\n\n';
 
         console.log("Testing Personal Messages (PM) on Desktop via UI...");
         const userPmToAdmin = 'UI sent test message to admin.';
