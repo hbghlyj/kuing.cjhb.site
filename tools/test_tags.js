@@ -32,12 +32,23 @@ const { execSync } = require('child_process');
         console.log("Logging in as admin to post thread with tags via UI...");
         await page.goto('http://127.0.0.1:8080/member.php?mod=logging&action=login');
         await page.waitForLoadState('networkidle');
-        await page.locator('input[name="username"]:visible').fill('admin');
-        await page.locator('input[name="password"]').fill('Testpassword123!');
-        const secqaa = await page.$('input[name*="secanswer"]');
+        const loginForm = page.locator('form[id^="loginform_"]:visible');
+        await loginForm.locator('input[name="username"]').fill('admin');
+        await loginForm.locator('input[name="password"]').fill('Testpassword123!');
+        const secqaa = await loginForm.$('input[name*="secanswer"]');
         if (secqaa) await secqaa.fill('2');
-        await page.locator('button[name="loginsubmit"]').click();
+        await Promise.all([
+            page.waitForNavigation({ waitUntil: 'networkidle' }).catch(() => {}),
+            loginForm.evaluate(form => form.submit())
+        ]);
+
+        await page.goto('http://127.0.0.1:8080/home.php?mod=spacecp');
         await page.waitForLoadState('networkidle');
+        const accountPage = await page.textContent('body');
+        assert.ok(
+            accountPage.includes('admin'),
+            `Assertion Error: Tags test login failed. URL=${page.url()}`
+        );
 
         console.log("Posting new thread with tags in Forum (fid=2) via UI...");
         await page.goto('http://127.0.0.1:8080/forum.php?mod=post&action=newthread&fid=2');
