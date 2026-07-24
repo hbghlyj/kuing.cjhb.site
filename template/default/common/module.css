@@ -94,7 +94,7 @@ Created & Modified by Alice, Monkey, Lushnis, Pony, Dfox & DragonLee.
 
 /* 论坛首页四格 by Alice */
 	#category_grid { padding: 0; border-top:1px solid {COMMONBORDER}; }
-	.forum-index-tabs { display:flex; gap:26px; margin:0 0 12px; padding:0 12px; border-bottom:1px solid {COMMONBORDER}; overflow-x:auto; }
+	.forum-index-tabs { display:flex; gap:26px; margin:0 0 12px; padding:0 12px; border-bottom:1px solid {COMMONBORDER}; }
 	.forum-index-tabs button { position:relative; flex:0 0 auto; margin:0; padding:11px 0 10px; border:0; background:none; color:{TABLETEXT}; cursor:pointer; font-size:14px; }
 	.forum-index-tabs button:hover, .forum-index-tabs button.a { color:{HIGHLIGHTLINK}; }
 	.forum-index-tabs button.a:after { content:''; position:absolute; right:0; bottom:-1px; left:0; height:3px; background:{HIGHLIGHTLINK}; }
