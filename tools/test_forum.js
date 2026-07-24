@@ -445,7 +445,7 @@ const { execSync } = require('child_process');
         }));
         assert.ok(uploaderRuntime.available, 'Assertion Error: Desktop HTML5 DiscuzUploader runtime did not load.');
         assert.ok(
-            uploaderRuntime.scripts.some(src => src.includes('/static/js/discuz_uploader.js')),
+            uploaderRuntime.scripts.some(src => /\/discuz_uploader\.js(?:\?|$)/.test(src)),
             `Assertion Error: Renamed desktop uploader script was not loaded. Scripts: ${uploaderRuntime.scripts.join(', ')}`
         );
 
