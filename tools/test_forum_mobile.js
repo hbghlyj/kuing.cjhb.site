@@ -100,7 +100,7 @@ const { execSync } = require('child_process');
         await imageInput.setInputFiles(imagePath);
         const uploadText = await (await uploadResponse).text();
         assert.match(uploadText, /^DISCUZUPLOAD\|1\|0\|\d+\|1\|/, `Assertion Error: Mobile image upload failed. Response: ${uploadText}`);
-        await page.waitForFunction(() => document.querySelector('#imglist input[name^="attachnew["]'), { timeout: 5000 }).catch(async () => {
+        await page.waitForFunction(() => document.querySelector('#imglist input[name^="attachnew["]'), null, { timeout: 5000 }).catch(async () => {
             const uploadListHtml = await page.$eval('#imglist', element => element.innerHTML).catch(() => 'missing');
             const callbackSource = await page.evaluate(() => typeof uploadsuccess === 'function' ? uploadsuccess.toString() : String(typeof uploadsuccess));
             throw new assert.AssertionError({

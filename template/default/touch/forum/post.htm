@@ -426,7 +426,7 @@
 					popup.open('{lang uploadpicfailed}', 'alert');
 				}
 				var dataarr = data.split('|');
-				if(dataarr[0] == 'DISCUZUPLOAD' && dataarr[1] == 0) {
+				if(dataarr[0] == 'DISCUZUPLOAD' && dataarr[2] == 0) {
 					popup.close();
 					var imageList = document.getElementById('imglist');
 					if(imageList) {
@@ -476,7 +476,7 @@
 					popup.open('{lang uploadpicfailed}', 'alert');
 				}
 				var dataarr = data.split('|');
-				if(dataarr[0] == 'DISCUZUPLOAD' && dataarr[1] == 0) {
+				if(dataarr[0] == 'DISCUZUPLOAD' && dataarr[2] == 0) {
 					popup.close();
 					var video_file = '';
 					var file_ex = 'unknown.gif';
