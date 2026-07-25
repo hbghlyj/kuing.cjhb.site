@@ -104,7 +104,6 @@ Created & Modified by Alice, Monkey, Lushnis, Pony, Dfox & DragonLee.
 		.category_l1, .category_l2, .category_l3, .category_l4 { line-height:25px; overflow:hidden; }
 			#category_grid h4 { margin:0; position:relative; }
 		.category_newlist { margin:0; list-style:none; }
-			.category_newlist li { height: 21px; line-height:21px; overflow: hidden; }
 			.category_newlist li::before { content: attr(n, "\2022"); margin: 0 4px 0 0; color: #BBB; }
 			#category_grid h4 span { background:transparent; width:1px; height:30px; display:inline-block; position:absolute; left:0; top:0; }
 			#category_grid .newimgbox:hover h4 span, #category_grid .subjectbox:hover h4 span, #category_grid .replaybox:hover h4 span, #category_grid .hottiebox:hover h4 span, #category_grid .goodtiebox:hover h4 span { width:6px; transition:width 0.2s ease 0s; overflow:hidden; }

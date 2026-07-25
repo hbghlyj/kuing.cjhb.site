@@ -1,9 +1,3 @@
-.category_newlist li {
-    height: auto;
-    line-height: 20px;
-    overflow: hidden;
-    white-space: nowrap;
-}
 .category_newlist li mjx-container[jax="SVG"] mjx-break {
     white-space: nowrap;
 }

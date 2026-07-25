@@ -9,7 +9,6 @@
 #category_grid .newimgbox:hover h4 span, #category_grid .subjectbox:hover h4 span, #category_grid .replaybox:hover h4 span, #category_grid .hottiebox:hover h4 span, #category_grid .goodtiebox:hover h4 span {display:none;width:4px;border-radius:0 2px 2px 0}
 #category_grid h4 {margin:0;position:relative}
 #category_grid .newimgbox h4 {border-left:none}
-.category_newlist li {white-space:nowrap}
 
 .flg .bm_c {padding:0 15px 15px}
 .fl_tb td.fl_g {padding:15px;border-radius:var(--dz-radius-l)}
