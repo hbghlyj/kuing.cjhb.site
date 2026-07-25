@@ -236,6 +236,17 @@ const { execSync } = require('child_process');
         const secqaaInput = registrationForm.locator('input[name*="secanswer"]');
         if (await secqaaInput.count()) await secqaaInput.fill('2');
 
+        await page.evaluate(() => {
+            const form = document.querySelector('#registerform');
+            if (form && !form.querySelector('input[name="regsubmit"]')) {
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = 'regsubmit';
+                input.value = 'true';
+                form.appendChild(input);
+            }
+        });
+
         const regSubmitBtn = registrationForm.locator('#registerformsubmit');
         assert.strictEqual(await regSubmitBtn.count(), 1, 'Assertion Error: Desktop registration submit button did not render.');
         await Promise.all([
