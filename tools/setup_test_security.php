@@ -45,6 +45,8 @@ $secqaa = [
 C::t('common_setting')->update('secqaa', $secqaa);
 C::t('common_setting')->update('seccodestatus', '0');
 C::t('common_setting')->update('floodctrl', '0');
+C::t('common_setting')->update('commentfirstpost', '1');
+C::t('common_setting')->update('commentpostself', '1');
 foreach([1, 7, 10] as $groupId) {
 	C::t('common_usergroup_field')->update($groupId, ['disablepostctrl' => '1']);
 }
@@ -57,6 +59,8 @@ $cached = C::t('common_syscache')->fetch_all_syscache(['setting', 'secqaa', 'use
 if(!empty($cached['setting']['secqaa']['allowcode'])
 	|| empty($cached['setting']['secqaa']['allowqa'])
 	|| (int)$cached['setting']['floodctrl'] !== 0
+	|| empty($cached['setting']['commentfirstpost'])
+	|| empty($cached['setting']['commentpostself'])
 	|| count($cached['secqaa']) !== 9
 	|| count(array_filter($cached['secqaa'], fn($question) => ($question['answer'] ?? '') !== md5('2')))
 	|| count(array_filter([1, 7, 10], fn($groupId) => empty($cached['usergroup_'.$groupId]['disablepostctrl'])))) {
