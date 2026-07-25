@@ -71,7 +71,7 @@ foreach(['register', 'post', 'login'] as $rule) {
 C::t('common_setting')->update('secqaa', $secqaa);
 C::t('common_setting')->update('seccodedata', $seccodedata);
 C::t('common_setting')->update('seccodestatus', '0');
-C::t('common_setting')->update('regname', '');
+C::t('common_setting')->update('regname', 'register');
 C::t('common_setting')->update('regstatus', '1');
 C::t('common_setting')->update('regclose', '0');
 C::t('common_setting')->update('regverify', '0');
@@ -177,43 +177,54 @@ if(!C::t('forum_thread')->exists_by_subject('Admin Seed Thread')) {
 test_security_setup_stage('cache rebuild');
 require_once libfile('function/cache');
 C::t('common_syscache')->delete_syscache(['setting', 'secqaa']);
-updatecache(['setting', 'secqaa', 'usergroups']);
+updatecache(['setting', 'secqaa', 'usergroups', 'smilies_js']);
 
 test_security_setup_stage('cache validation');
 $cached = C::t('common_syscache')->fetch_all_syscache(['setting', 'secqaa', 'usergroup_1', 'usergroup_7', 'usergroup_10'], true);
-if(!empty($cached['setting']['secqaa']['allowcode'])
-	|| empty($cached['setting']['secqaa']['allowqa'])
-	|| count(array_diff(['register', 'post', 'login'], $cached['setting']['secqaa']['statuses'] ?? []))
-	|| count(array_filter(['register', 'post', 'login'], fn($rule) =>
-		(int)($cached['setting']['seccodedata']['rule'][$rule]['allow'] ?? 0) !== 1
-	))
-	|| (int)$cached['setting']['regstatus'] !== 1
-	|| !empty($cached['setting']['regclose'])
-	|| (int)$cached['setting']['regverify'] !== 0
-	|| $cached['setting']['jspath'] !== 'static/js/'
-	|| (int)$cached['setting']['floodctrl'] !== 0
-	|| (int)$cached['setting']['pmstatus'] !== 1
-	|| (int)$cached['setting']['commentnumber'] !== 5
-	|| !is_array($cached['setting']['allowpostcomment'])
-	|| !in_array(1, $cached['setting']['allowpostcomment'])
-	|| empty($cached['setting']['commentfirstpost'])
-	|| empty($cached['setting']['commentpostself'])
-	|| empty($cached['setting']['profilegroup']['info']['available'])
-	|| !in_array('sightml', $cached['setting']['profilegroup']['info']['field'] ?? [], true)
-	|| !in_array('customstatus', $cached['setting']['profilegroup']['info']['field'] ?? [], true)
-	|| count($cached['secqaa']) !== 9
-	|| count(array_filter($cached['secqaa'], fn($question) => ($question['answer'] ?? '') !== md5('2')))
-	|| count(array_filter([1, 7, 10], fn($groupId) =>
-		empty($cached['usergroup_'.$groupId]['allowcstatus'])
-		|| empty($cached['usergroup_'.$groupId]['disablepostctrl'])
-		|| empty($cached['usergroup_'.$groupId]['allowrecommend'])
-		|| empty($cached['usergroup_'.$groupId]['allowpostattach'])
-		|| empty($cached['usergroup_'.$groupId]['allowpostimage'])
-		|| empty($cached['usergroup_'.$groupId]['allowposttag'])
-		|| (int)$cached['usergroup_'.$groupId]['allowcommentpost'] !== 3
-		|| $cached['usergroup_'.$groupId]['attachextensions'] !== 'gif, jpg, png, txt, svg'
-		|| (int)$cached['usergroup_'.$groupId]['maxsigsize'] !== 500
-	))) {
+$failures = [];
+$expect = function($condition, $label) use (&$failures) {
+	if(!$condition) {
+		$failures[] = $label;
+	}
+};
+$expect(empty($cached['setting']['secqaa']['allowcode']), 'secqaa.allowcode');
+$expect(!empty($cached['setting']['secqaa']['allowqa']), 'secqaa.allowqa');
+$expect(!array_diff(['register', 'post', 'login'], $cached['setting']['secqaa']['statuses'] ?? []), 'secqaa.statuses');
+foreach(['register', 'post', 'login'] as $rule) {
+	$expect((int)($cached['setting']['seccodedata']['rule'][$rule]['allow'] ?? 0) === 1, 'seccodedata.'.$rule);
+}
+$expect(($cached['setting']['regname'] ?? '') === 'register', 'regname');
+$expect((int)($cached['setting']['regstatus'] ?? 0) === 1, 'regstatus');
+$expect(empty($cached['setting']['regclose']), 'regclose');
+$expect((int)($cached['setting']['regverify'] ?? -1) === 0, 'regverify');
+$expect(($cached['setting']['jspath'] ?? '') === 'static/js/', 'jspath');
+$expect((int)($cached['setting']['floodctrl'] ?? -1) === 0, 'floodctrl');
+$expect((int)($cached['setting']['pmstatus'] ?? 0) === 1, 'pmstatus');
+$expect((int)($cached['setting']['commentnumber'] ?? 0) === 5, 'commentnumber');
+$expect(is_array($cached['setting']['allowpostcomment'] ?? null)
+	&& in_array(1, $cached['setting']['allowpostcomment'], true), 'allowpostcomment');
+$expect(!empty($cached['setting']['commentfirstpost']), 'commentfirstpost');
+$expect(!empty($cached['setting']['commentpostself']), 'commentpostself');
+$expect(!empty($cached['setting']['profilegroup']['info']['available']), 'profilegroup.info.available');
+$expect(in_array('sightml', $cached['setting']['profilegroup']['info']['field'] ?? [], true), 'profilegroup.info.sightml');
+$expect(in_array('customstatus', $cached['setting']['profilegroup']['info']['field'] ?? [], true), 'profilegroup.info.customstatus');
+$expect(count($cached['secqaa'] ?? []) === 9, 'secqaa cache count');
+$expect(!array_filter($cached['secqaa'] ?? [], fn($question) => ($question['answer'] ?? '') !== md5('2')), 'secqaa answers');
+foreach([1, 7, 10] as $groupId) {
+	$group = $cached['usergroup_'.$groupId] ?? [];
+	$expect(!empty($group['allowcstatus']), "usergroup_{$groupId}.allowcstatus");
+	$expect(!empty($group['disablepostctrl']), "usergroup_{$groupId}.disablepostctrl");
+	$expect(!empty($group['allowrecommend']), "usergroup_{$groupId}.allowrecommend");
+	$expect(!empty($group['allowpostattach']), "usergroup_{$groupId}.allowpostattach");
+	$expect(!empty($group['allowpostimage']), "usergroup_{$groupId}.allowpostimage");
+	$expect(!empty($group['allowposttag']), "usergroup_{$groupId}.allowposttag");
+	$expect((int)($group['allowcommentpost'] ?? 0) === 3, "usergroup_{$groupId}.allowcommentpost");
+	$expect(($group['attachextensions'] ?? '') === 'gif, jpg, png, txt, svg', "usergroup_{$groupId}.attachextensions");
+	$expect((int)($group['maxsigsize'] ?? 0) === 500, "usergroup_{$groupId}.maxsigsize");
+}
+$expect(is_file(DISCUZ_ROOT.'./data/cache/common_smilies_var.js'), 'common_smilies_var.js');
+if($failures) {
+	fwrite(STDERR, 'Test security setup validation failed: '.implode(', ', $failures).".\n");
 	throw new RuntimeException('Unable to initialize deterministic test security settings');
 }
 
