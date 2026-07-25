@@ -687,6 +687,13 @@ const { execSync } = require('child_process');
                 adminLoginResponse.ok() || (adminLoginResponse.status() >= 300 && adminLoginResponse.status() < 400),
                 `Assertion Error: Admin login POST failed with HTTP ${adminLoginResponse.status()}.`
             );
+            await adminPage.waitForURL(url => !url.href.includes('member.php?mod=logging'));
+            await adminPage.waitForLoadState('networkidle');
+            assert.strictEqual(
+                await adminPage.evaluate(() => Number(window.discuz_uid || 0)),
+                1,
+                'Assertion Error: Admin login did not establish the expected browser session.'
+            );
 
             const adminPmToUser = 'Admin reply PM to user via UI.';
             await sendPrivateMessage(adminPage, username, adminPmToUser);
