@@ -134,6 +134,7 @@ const { execSync } = require('child_process');
         \$secqaa = array('status' => 2, 'minposts' => 0, 'statuses' => array('register', 'post', 'login'), 'allowcode' => 0, 'allowqa' => 1);
         C::t('common_setting')->update('seccodedata', serialize(\$seccodedata));
         C::t('common_setting')->update('secqaa', serialize(\$secqaa));
+        C::t('common_setting')->update('seccodestatus', '0');
         C::t('common_setting')->update('regname', 'register');
         C::t('common_setting')->update('regstatus', '1');
         C::t('common_setting')->update('regclose', '0');
