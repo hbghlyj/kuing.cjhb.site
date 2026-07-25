@@ -34,15 +34,16 @@ try {
 } catch (e) {
 	_JSLANG_ = {};
 }
-if (!_JSLANG_ || !_JSLANG_['_verhash_'] || _JSLANG_['_verhash_'] != VERHASH) {
+var _verhash_ = typeof VERHASH !== 'undefined' ? VERHASH : '';
+if (!_JSLANG_ || !_JSLANG_['_verhash_'] || _JSLANG_['_verhash_'] != _verhash_) {
 	var _script_ = document.createElement("script");
 	_script_.type = "text/javascript";
 	var _cache_path_ = typeof (JSCACHEPATH) != 'undefined' && JSCACHEPATH ? JSCACHEPATH : 'data/cache/';
-	_script_.src = _cache_path_ + 'lang_' + _i18n_ + '.js?' + VERHASH;
+	_script_.src = _cache_path_ + 'lang_' + _i18n_ + '.js?' + _verhash_;
 	document.head.appendChild(_script_);
 	_script_.onload = function () {
 		_JSLANG_ = _JSLANG_ || {};
-		_JSLANG_['_verhash_'] = VERHASH;
+		_JSLANG_['_verhash_'] = _verhash_;
 		if (typeof saveUserdata === 'function') {
 			saveUserdata('i18n_' + _i18n_, JSON.stringify(_JSLANG_));
 		}
