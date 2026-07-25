@@ -89,15 +89,17 @@ const { execSync } = require('child_process');
     });
 
     let report = "# DiscuzX Functional Test Report\n\n";
-    const fillPostEditor = async (message, targetPage = page) => {
-        const editorFrame = targetPage.locator('iframe[id$="_iframe"]:visible');
+    const fillPostEditor = async (message, targetPage = page, root = targetPage) => {
+        const editorFrame = root.locator('iframe[id$="_iframe"]:visible');
         if(await editorFrame.count()) {
             assert.strictEqual(await editorFrame.count(), 1, 'Assertion Error: More than one post editor iframe rendered.');
-            await targetPage.frameLocator('iframe[id$="_iframe"]:visible').locator('body').fill(message);
+            const frameId = await editorFrame.getAttribute('id');
+            assert.ok(frameId, 'Assertion Error: Visible post editor iframe has no ID.');
+            await targetPage.frameLocator(`#${frameId}`).locator('body').fill(message);
             return;
         }
 
-        const textEditor = targetPage.locator('textarea[name="message"]:visible');
+        const textEditor = root.locator('textarea[name="message"]:visible');
         assert.strictEqual(await textEditor.count(), 1, 'Assertion Error: Visible post editor did not render.');
         await textEditor.fill(message);
     };
@@ -479,11 +481,12 @@ const { execSync } = require('child_process');
             const desktopReplyBtn = page.locator('#post_reply');
             assert.strictEqual(await desktopReplyBtn.count(), 1, 'Assertion Error: Desktop reply control did not render.');
             await desktopReplyBtn.click();
-            await page.waitForLoadState('networkidle');
+            const replyForm = page.locator('#fwin_reply form:visible');
+            await replyForm.waitFor({ state: 'visible' });
 
-            await fillPostEditor('Reply text from unprivileged account.');
-            await solveSecurityQuestion(page);
-            const replyBtn = page.locator('#postsubmit, button[name="replysubmit"]');
+            await fillPostEditor('Reply text from unprivileged account.', page, replyForm);
+            await solveSecurityQuestion(page, replyForm);
+            const replyBtn = replyForm.locator('#postsubmit, button[name="replysubmit"]');
             assert.strictEqual(await replyBtn.count(), 1, 'Assertion Error: Desktop reply submit button did not render.');
             const [replyResponse] = await Promise.all([
                 page.waitForResponse(response =>
@@ -797,9 +800,9 @@ const { execSync } = require('child_process');
             );
             assert.strictEqual(await adminQuoteLink.count(), 1, 'Assertion Error: Admin quote-reply link did not render.');
             await adminQuoteLink.click();
-            await adminPage.locator('#fwin_reply form:visible').waitFor({ state: 'visible' });
-            await fillPostEditor('Admin quote reply to user thread.', adminPage);
             const adminReplyForm = adminPage.locator('#fwin_reply form:visible');
+            await adminReplyForm.waitFor({ state: 'visible' });
+            await fillPostEditor('Admin quote reply to user thread.', adminPage, adminReplyForm);
             await solveSecurityQuestion(adminPage, adminReplyForm);
             const adminReplyBtn = adminReplyForm.locator('#postsubmit, button[name="replysubmit"]');
             assert.strictEqual(await adminReplyBtn.count(), 1, 'Assertion Error: Admin reply submit button was not rendered.');
