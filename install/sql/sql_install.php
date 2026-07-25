@@ -1973,38 +1973,6 @@ CREATE TABLE pre_common_payment_transfer
 	KEY `status` (`status`)
 ) ENGINE = InnoDB;
 
-DROP TABLE IF EXISTS pre_connect_disktask;
-CREATE TABLE pre_connect_disktask
-(
-	taskid       int(10) unsigned     NOT NULL AUTO_INCREMENT,
-	aid          int(10) unsigned     NOT NULL DEFAULT '0',
-	uid          int(10) unsigned     NOT NULL DEFAULT '0',
-	openid       char(32)             NOT NULL DEFAULT '',
-	filename     varchar(255)         NOT NULL DEFAULT '',
-	verifycode   char(32)             NOT NULL DEFAULT '',
-	`status`     smallint(6) unsigned NOT NULL DEFAULT '0',
-	dateline     int(10) unsigned     NOT NULL DEFAULT '0',
-	downloadtime int(10) unsigned     NOT NULL DEFAULT '0',
-	extra        text,
-	PRIMARY KEY (taskid),
-	KEY openid (openid),
-	KEY `status` (`status`)
-) ENGINE = InnoDB;
-
-DROP TABLE IF EXISTS pre_connect_feedlog;
-CREATE TABLE pre_connect_feedlog
-(
-	flid          mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
-	tid           int(10) unsigned      NOT NULL DEFAULT '0',
-	uid           mediumint(8) unsigned NOT NULL DEFAULT '0',
-	publishtimes  mediumint(8) unsigned NOT NULL DEFAULT '0',
-	lastpublished int(10) unsigned      NOT NULL DEFAULT '0',
-	dateline      int(10) unsigned      NOT NULL DEFAULT '0',
-	`status`      tinyint(1)            NOT NULL DEFAULT '1',
-	PRIMARY KEY (flid),
-	UNIQUE KEY tid (tid)
-) ENGINE = InnoDB;
-
 DROP TABLE IF EXISTS pre_forum_access;
 CREATE TABLE pre_forum_access
 (
