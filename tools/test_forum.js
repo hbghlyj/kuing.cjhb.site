@@ -503,17 +503,19 @@ const { execSync } = require('child_process');
         await page.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${tidOutput}`);
         await page.waitForLoadState('networkidle');
         const recommendBtn = page.locator('a[href*="action=recommend&do=add"]').first();
-        if (await recommendBtn.count() && await recommendBtn.isVisible().catch(() => false)) {
-            console.log("Clicking desktop thread recommend button via UI...");
-            await recommendBtn.click();
-            await page.waitForTimeout(1000);
-        }
+        assert.strictEqual(await recommendBtn.count(), 1, 'Assertion Error: Desktop thread recommend button did not render.');
+        assert.ok(await recommendBtn.isVisible(), 'Assertion Error: Desktop thread recommend button was not visible.');
+        console.log("Clicking desktop thread recommend button via UI...");
+        await recommendBtn.click();
+        await page.waitForTimeout(1000);
+
         const supportBtn = page.locator('a[href*="action=postreview&do=support"]').first();
-        if (await supportBtn.count() && await supportBtn.isVisible().catch(() => false)) {
-            console.log("Clicking desktop postreview support button via UI...");
-            await supportBtn.click();
-            await page.waitForTimeout(1000);
-        }
+        assert.strictEqual(await supportBtn.count(), 1, 'Assertion Error: Desktop postreview support button did not render.');
+        assert.ok(await supportBtn.isVisible(), 'Assertion Error: Desktop postreview support button was not visible.');
+        console.log("Clicking desktop postreview support button via UI...");
+        await supportBtn.click();
+        await page.waitForTimeout(1000);
+
         await page.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${tidOutput}`);
         await page.waitForLoadState('networkidle');
         await page.screenshot({ path: 'screenshot_desktop_thread_recommend.png' });
