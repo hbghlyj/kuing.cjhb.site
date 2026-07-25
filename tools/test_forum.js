@@ -17,6 +17,7 @@ const { execSync } = require('child_process');
 
     page.on('response', async response => {
         if (response.request().resourceType() === 'script') {
+            console.log(`[SCRIPT ${response.status()}] ${response.url()}`);
             try {
                 scriptSources.set(response.url(), await response.text());
             } catch (e) { }
