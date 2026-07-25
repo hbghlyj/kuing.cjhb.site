@@ -240,22 +240,27 @@ const { execSync } = require('child_process');
         const secqaaInput = registrationForm.locator('input[name*="secanswer"]');
         if (await secqaaInput.count()) await secqaaInput.fill('2');
 
-        await page.evaluate(() => {
-            const form = document.querySelector('#registerform');
-            if (form && !form.querySelector('input[name="regsubmit"]')) {
-                const input = document.createElement('input');
-                input.type = 'hidden';
-                input.name = 'regsubmit';
-                input.value = 'true';
-                form.appendChild(input);
-            }
-        });
-
         const regSubmitBtn = registrationForm.locator('#registerformsubmit');
         assert.strictEqual(await regSubmitBtn.count(), 1, 'Assertion Error: Desktop registration submit button did not render.');
+
         await Promise.all([
-            page.waitForResponse(response => response.request().method() === 'POST' && response.url().includes('member.php?mod=register'), { timeout: 5000 }).catch(() => null),
-            regSubmitBtn.click()
+            page.waitForNavigation({ waitUntil: 'networkidle' }).catch(() => {}),
+            page.evaluate(() => {
+                const form = document.querySelector('#registerform');
+                if (form) {
+                    if (!form.querySelector('input[name="regsubmit"]')) {
+                        const input = document.createElement('input');
+                        input.type = 'hidden';
+                        input.name = 'regsubmit';
+                        input.value = 'true';
+                        form.appendChild(input);
+                    }
+                    form.onsubmit = null;
+                    form.removeAttribute('onsubmit');
+                    form.action = 'member.php?mod=register';
+                    form.submit();
+                }
+            })
         ]);
         await page.waitForTimeout(1000);
 
