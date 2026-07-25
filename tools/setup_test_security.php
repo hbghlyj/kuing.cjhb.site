@@ -1,5 +1,28 @@
 <?php
 
+$options = getopt('', ['url:']);
+$siteUrl = $options['url'] ?? '';
+$parsedUrl = parse_url($siteUrl);
+if(!is_array($parsedUrl) || !in_array($parsedUrl['scheme'] ?? '', ['http', 'https'], true) || empty($parsedUrl['host'])) {
+	exit("Usage: php tools/setup_test_security.php --url=http://example.com\n");
+}
+
+$root = dirname(__DIR__);
+$host = $parsedUrl['host'].(isset($parsedUrl['port']) ? ':'.$parsedUrl['port'] : '');
+$_SERVER['HTTP_HOST'] = $host;
+$_SERVER['SERVER_NAME'] = $parsedUrl['host'];
+$_SERVER['REQUEST_URI'] = '/';
+$_SERVER['REQUEST_METHOD'] = 'GET';
+$_SERVER['SCRIPT_NAME'] = '/index.php';
+$_SERVER['PHP_SELF'] = '/index.php';
+$_SERVER['SCRIPT_FILENAME'] = $root.'/index.php';
+$_SERVER['DOCUMENT_ROOT'] = $root;
+$_SERVER['SERVER_PORT'] = (string)($parsedUrl['port'] ?? ($parsedUrl['scheme'] === 'https' ? 443 : 80));
+if($parsedUrl['scheme'] === 'https') {
+	$_SERVER['HTTPS'] = 'on';
+	$_SERVER['HTTP_X_FORWARDED_PROTO'] = 'https';
+}
+
 require './source/class/class_core.php';
 
 $discuz = C::app();
