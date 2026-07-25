@@ -24,10 +24,11 @@ const { execSync } = require('child_process');
 
     page.on('console', msg => {
         if (msg.type() === 'error') {
-            const txt = msg.text();
-            if (txt.includes('Failed to load resource')) return;
-            throw new Error(`Console error in browser: ${txt}`);
+            throw new Error(`Console error in browser: ${msg.text()}`);
         }
+    });
+    page.on('requestfailed', request => {
+        throw new Error(`Browser request failed: ${request.url()} (${request.failure()?.errorText || 'unknown error'})`);
     });
 
     let report = "\n\n## Admin Panel Functional Test Report\n\n";
@@ -41,34 +42,58 @@ const { execSync } = require('child_process');
         await page.goto('http://127.0.0.1:8080/member.php?mod=logging&action=login');
         await page.waitForLoadState('networkidle');
         const adminLoginForm = page.locator('form[id^="loginform_"]:visible');
-        if (await adminLoginForm.count()) {
-            await adminLoginForm.locator('input[name="username"]').fill('admin');
-            await adminLoginForm.locator('input[name="password"]').fill('Testpassword123!');
-            const secqaa = adminLoginForm.locator('input[name*="secanswer"]');
-            if (await secqaa.count()) await secqaa.fill('2');
-            const submitBtn = adminLoginForm.locator('button[type="submit"], input[type="submit"], button[name="loginsubmit"]');
-            if (await submitBtn.count()) {
-                await Promise.all([
-                    page.waitForNavigation({ waitUntil: 'networkidle' }).catch(() => {}),
-                    submitBtn.click()
-                ]);
-            }
-        }
-        report += '### 1. Admin Authentication\n- **Status**: Checked\n\n';
-
+        assert.strictEqual(await adminLoginForm.count(), 1, 'Assertion Error: Admin login form did not render.');
+        await adminLoginForm.locator('input[name="username"]').fill('admin');
+        await adminLoginForm.locator('input[name="password"]').fill('Testpassword123!');
+        const secqaa = adminLoginForm.locator('input[name*="secanswer"]');
+        if (await secqaa.count()) await secqaa.fill('2');
+        const submitBtn = adminLoginForm.locator('button[name="loginsubmit"], button[type="submit"], input[type="submit"]');
+        assert.strictEqual(await submitBtn.count(), 1, 'Assertion Error: Admin login submit control did not render.');
+        const [loginResponse] = await Promise.all([
+            page.waitForResponse(response =>
+                response.request().method() === 'POST' &&
+                response.url().includes('member.php?mod=logging')
+            ),
+            submitBtn.click()
+        ]);
+        assert.ok(
+            loginResponse.ok() || (loginResponse.status() >= 300 && loginResponse.status() < 400),
+            `Assertion Error: Admin login POST failed with HTTP ${loginResponse.status()}.`
+        );
         await page.goto('http://127.0.0.1:8080/home.php?mod=spacecp');
         await page.waitForLoadState('networkidle');
-        const bioInput = await page.$('textarea[name="bio"]');
-        if (bioInput) {
-            await bioInput.fill('Updated bio as admin');
-            const saveBtn = await page.$('button[name="profilesubmit"]');
-            if (saveBtn) {
-                await saveBtn.click();
-                await page.waitForTimeout(1000);
-                const savedMsg = await page.textContent('body');
-                assert.ok(savedMsg.includes('saved') || savedMsg.includes('success') || !page.url().includes('profilesubmit'), 'Assertion Error: Profile update failed.');
-            }
-        }
+        assert.strictEqual(
+            await page.locator('form[id^="loginform_"]:visible').count(),
+            0,
+            'Assertion Error: Admin frontend login did not establish an authenticated session.'
+        );
+        assert.ok((await page.textContent('body')).includes(username), 'Assertion Error: Authenticated account page did not render the admin username.');
+        report += '### 1. Admin Authentication\n- **Status**: Checked\n\n';
+
+        const bioInput = page.locator('textarea[name="bio"]');
+        assert.strictEqual(await bioInput.count(), 1, 'Assertion Error: Admin profile bio field did not render.');
+        await bioInput.fill('Updated bio as admin');
+        const saveBtn = page.locator('button[name="profilesubmit"]');
+        assert.strictEqual(await saveBtn.count(), 1, 'Assertion Error: Admin profile save control did not render.');
+        const [profileResponse] = await Promise.all([
+            page.waitForResponse(response =>
+                response.request().method() === 'POST' &&
+                response.url().includes('home.php?mod=spacecp')
+            ),
+            saveBtn.click()
+        ]);
+        assert.ok(
+            profileResponse.ok() || (profileResponse.status() >= 300 && profileResponse.status() < 400),
+            `Assertion Error: Admin profile POST failed with HTTP ${profileResponse.status()}.`
+        );
+        const savedBio = execSync("sudo mysql -u root ultrax -N -s -e \"SELECT bio FROM pre_common_member_profile WHERE uid=1;\"").toString().trim();
+        assert.strictEqual(savedBio, 'Updated bio as admin', 'Assertion Error: Admin profile bio was not persisted.');
+        await page.reload({ waitUntil: 'networkidle' });
+        assert.strictEqual(
+            await page.locator('textarea[name="bio"]').inputValue(),
+            'Updated bio as admin',
+            'Assertion Error: Reloaded Admin profile UI did not show the saved bio.'
+        );
         await page.screenshot({ path: 'screenshot_forum_02_admin_profile.png' });
         report += '### 2. Admin Profile Update\n- **Status**: Checked\n\n';
 
@@ -80,38 +105,40 @@ const { execSync } = require('child_process');
         if (adminPassInput) {
             // mustlogin=1 authenticates this already logged-in account by password.
             await adminPassInput.fill(password);
-            const adminSubmitBtn = await page.$('button[type="submit"], input[type="submit"], input[name="submit"]');
-            if (adminSubmitBtn) {
-                await adminSubmitBtn.click();
-                await page.waitForNavigation({ waitUntil: 'networkidle' }).catch(() => {});
-            }
-            await page.waitForTimeout(3000);
+            const adminSubmitBtn = page.locator('button[type="submit"], input[type="submit"], input[name="submit"]');
+            assert.strictEqual(await adminSubmitBtn.count(), 1, 'Assertion Error: AdminCP password submit control did not render.');
+            const [adminAuthResponse] = await Promise.all([
+                page.waitForResponse(response =>
+                    response.request().method() === 'POST' &&
+                    response.url().includes('admin.php')
+                ),
+                adminSubmitBtn.click()
+            ]);
+            assert.ok(
+                adminAuthResponse.ok() || (adminAuthResponse.status() >= 300 && adminAuthResponse.status() < 400),
+                `Assertion Error: AdminCP authentication POST failed with HTTP ${adminAuthResponse.status()}.`
+            );
+            await page.waitForTimeout(1000);
         }
 
         // Verify admin authentication success: password prompt must be gone and admin workspace/frames loaded
         const hasLoginPrompt = await page.$('input[name="admin_password"]');
-        const pageSource = await page.content();
-        const hasAdminWorkspace = pageSource.includes('admincpnav') ||
-            pageSource.includes('admincpframe') ||
-            pageSource.includes('action=logout') ||
-            pageSource.includes('action=header') ||
-            page.frames().some(f => f.url().includes('admin.php?action='));
-
-        assert.ok(!hasLoginPrompt && hasAdminWorkspace, 'Assertion Error: Admin panel authentication failed. Still on unauthorized login screen.');
+        assert.ok(!hasLoginPrompt, 'Assertion Error: Admin panel authentication failed. Still on unauthorized login screen.');
+        assert.strictEqual(await page.locator('#admincpnav').count(), 1, 'Assertion Error: Authenticated AdminCP workspace did not render.');
         await page.screenshot({ path: 'screenshot_forum_03_admin_panel.png' });
         report += '### 3. Admin Panel UI\n- **Status**: Checked\n\n';
 
         console.log("Checking Admin Panel Logs Page...");
-        await page.goto('http://127.0.0.1:8080/admin.php?action=logs');
+        await page.goto('http://127.0.0.1:8080/admin.php?action=logs&operation=cp');
         await page.waitForLoadState('networkidle');
 
-        const logsPageSource = await page.content();
-        assert.ok(
-            !logsPageSource.includes('action_noaccess') && (logsPageSource.includes('logs') || logsPageSource.includes('operation=') || page.url().includes('action=logs')),
-            'Assertion Error: Admin CP logs page failed due to insufficient permissions or access restriction.'
-        );
+        const logSearchForm = page.locator('#logsearchform');
+        assert.strictEqual(await logSearchForm.count(), 1, 'Assertion Error: AdminCP operation-log search form did not render.');
+        assert.strictEqual(await logSearchForm.locator('input[name="action"][value="logs"]').count(), 1, 'Assertion Error: AdminCP log form did not target the logs action.');
+        assert.strictEqual(await logSearchForm.locator('input[name="operation"][value="cp"]').count(), 1, 'Assertion Error: AdminCP log form did not render the operation-log view.');
+        assert.strictEqual(await logSearchForm.locator('#keywordraw').count(), 1, 'Assertion Error: AdminCP operation-log keyword field did not render.');
         await page.screenshot({ path: 'screenshot_forum_04_admin_logs.png' });
-        report += '### 4. Admin Panel Logs Access\n- **Status**: Checked\n- **URL**: admin.php?action=logs\n\n';
+        report += '### 4. Admin Panel Logs Access\n- **Status**: Checked\n- **URL**: admin.php?action=logs&operation=cp\n\n';
 
         console.log("Checking renamed uploader operations...");
         await page.goto('http://127.0.0.1:8080/forum.php?mod=post&action=newthread&fid=2');
@@ -139,7 +166,7 @@ const { execSync } = require('child_process');
         };
 
         const forumUpload = await uploadOperation('upload', {}, '&simple=1&type=image&fid=2');
-        assert.ok(forumUpload.includes('DISCUZUPLOAD') || forumUpload.match(/(?:DISCUZUPLOAD\|0\||^)\d+/), `Assertion Error: Standard forum image upload failed: ${forumUpload}`);
+        assert.match(forumUpload.trim(), /^DISCUZUPLOAD\|0\|\d+\|1\|0$/, `Assertion Error: Standard forum image upload failed: ${forumUpload}`);
 
         const pollUpload = JSON.parse(await uploadOperation('poll', {}, '&fid=2'));
         assert.ok(pollUpload.aid > 0 && pollUpload.errorcode === 0, `Assertion Error: Poll image upload failed: ${JSON.stringify(pollUpload)}`);
@@ -147,7 +174,8 @@ const { execSync } = require('child_process');
         const albumUpload = JSON.parse(await uploadOperation('album'));
         assert.ok(parseInt(albumUpload.picid, 10) > 0, `Assertion Error: Album image upload failed: ${JSON.stringify(albumUpload)}`);
 
-        let portalCatid = execSync("sudo mysql -u root ultrax -N -s -e \"SELECT catid FROM pre_portal_category ORDER BY catid LIMIT 1;\"").toString().trim() || '1';
+        const portalCatid = execSync("sudo mysql -u root ultrax -N -s -e \"SELECT catid FROM pre_portal_category ORDER BY catid LIMIT 1;\"").toString().trim();
+        assert.match(portalCatid, /^\d+$/, 'Assertion Error: No portal category exists for the portal upload test.');
         const portalUpload = JSON.parse(await uploadOperation('portal', { catid: portalCatid, aid: '0' }));
         assert.ok(portalUpload.aid > 0 && portalUpload.errorcode === 0, `Assertion Error: Portal attachment upload failed: ${JSON.stringify(portalUpload)}`);
 
@@ -157,7 +185,7 @@ const { execSync } = require('child_process');
             `Assertion Error: JSON editor upload endpoint should reject uploads in plain mode: ${JSON.stringify(jsonEditorUpload)}`
         );
 
-        report += '### 5. HTML5 Uploader Operations in Plain Mode\n- **Status**: Checked\n- **Forum Image Upload**: Success\n- **Poll Image Upload**: Success\n- **Album Image Upload**: Success\n- **Portal Attachment Upload**: Success\n- **JSON Editor Endpoint Protection**: Verified (returns success=0)\n\n';
+        report += '### 5. Uploader Endpoint Contracts in Plain Mode\n- **Status**: Checked\n- **Forum Image Endpoint**: Success\n- **Poll Image Endpoint**: Success\n- **Album Image Endpoint**: Success\n- **Portal Attachment Endpoint**: Success\n- **JSON Editor Endpoint Protection**: Verified (returns success=0)\n\n';
 
     } catch (error) {
         console.error("Admin test execution failed:", error);

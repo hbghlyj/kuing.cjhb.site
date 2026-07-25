@@ -13,7 +13,7 @@ const { execSync } = require('child_process');
     });
 
     page.on('requestfailed', request => {
-        console.error(`[Request Failed] URL: ${request.url()} | Type: ${request.resourceType()} | Error: ${request.failure() ? request.failure().errorText : 'unknown'}`);
+        throw new Error(`Browser request failed: ${request.url()} (${request.failure()?.errorText || 'unknown error'})`);
     });
 
     page.on('console', msg => {
@@ -33,17 +33,24 @@ const { execSync } = require('child_process');
         await page.goto('http://127.0.0.1:8080/member.php?mod=logging&action=login');
         await page.waitForLoadState('networkidle');
         const loginForm = page.locator('form[id^="loginform_"]:visible');
+        assert.strictEqual(await loginForm.count(), 1, 'Assertion Error: Tags test login form did not render.');
         await loginForm.locator('input[name="username"]').fill('admin');
         await loginForm.locator('input[name="password"]').fill('Testpassword123!');
         const secqaa = loginForm.locator('input[name*="secanswer"]');
         if (await secqaa.count()) await secqaa.fill('2');
         const loginSubmitBtn = loginForm.locator('button[type="submit"], input[type="submit"], button[name="loginsubmit"]');
-        if (await loginSubmitBtn.count()) {
-            await Promise.all([
-                page.waitForNavigation({ waitUntil: 'networkidle' }).catch(() => {}),
-                loginSubmitBtn.click()
-            ]);
-        }
+        assert.strictEqual(await loginSubmitBtn.count(), 1, 'Assertion Error: Tags test login submit control did not render.');
+        const [loginResponse] = await Promise.all([
+            page.waitForResponse(response =>
+                response.request().method() === 'POST' &&
+                response.url().includes('member.php?mod=logging')
+            ),
+            loginSubmitBtn.click()
+        ]);
+        assert.ok(
+            loginResponse.ok() || (loginResponse.status() >= 300 && loginResponse.status() < 400),
+            `Assertion Error: Tags test login POST failed with HTTP ${loginResponse.status()}.`
+        );
 
         await page.goto('http://127.0.0.1:8080/home.php?mod=spacecp');
         await page.waitForLoadState('networkidle');
@@ -61,6 +68,7 @@ const { execSync } = require('child_process');
 
         const editorFrame = page.locator('iframe[id$="_iframe"]');
         if(await editorFrame.count()) {
+            assert.strictEqual(await editorFrame.count(), 1, 'Assertion Error: More than one tag-post editor iframe rendered.');
             await page.frameLocator('iframe[id$="_iframe"]').locator('body').fill('Posting thread content with tag via UI.');
         } else {
             const textArea = page.locator('textarea[name="message"]:visible');
@@ -80,15 +88,19 @@ const { execSync } = require('child_process');
             page.waitForNavigation({ waitUntil: 'networkidle' }),
             postsubmitBtn.click()
         ]);
+        assert.match(page.url(), /mod=viewthread&tid=\d+/, 'Assertion Error: Tagged thread submission did not navigate to the new thread.');
+        const tagidOutput = execSync("sudo mysql -u root ultrax -N -s -e \"SELECT tagid FROM pre_common_tag WHERE tagname='playwright tag' LIMIT 1;\"").toString().trim();
+        assert.match(tagidOutput, /^\d+$/, 'Assertion Error: Submitted multi-word tag was not created in the database.');
 
-        const tagidOutput = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT tagid FROM pre_common_tag WHERE tagname='playwright tag' LIMIT 1;"`).toString().trim();
-
-        assert.ok(tagidOutput, 'Assertion Error: Submitted multi-word tag with space was not created in the database.');
         console.log("Testing Tag Search...");
-        await page.goto(`http://127.0.0.1:8080/misc.php?mod=tag&id=${tagidOutput}`);
-        await page.waitForLoadState('networkidle');
-        const tagSearchText = await page.textContent('body');
-        assert.ok(tagSearchText.includes('Thread with Tags') || tagSearchText.includes('playwright tag'), 'Assertion Error: Tag search result did not list the created thread or tag.');
+        const tagLink = page.locator('a[href*="misc.php?mod=tag"]').filter({ hasText: 'playwright tag' });
+        assert.strictEqual(await tagLink.count(), 1, 'Assertion Error: Submitted tag link did not render on the created thread.');
+        await Promise.all([
+            page.waitForNavigation({ waitUntil: 'networkidle' }),
+            tagLink.click()
+        ]);
+        const tagResultLink = page.locator('a').filter({ hasText: 'Thread with Tags' });
+        assert.strictEqual(await tagResultLink.count(), 1, 'Assertion Error: Tag search result did not link to the created thread.');
         await page.screenshot({ path: 'screenshot_tags_03_search_result.png' });
         report += `### Tag Search Result\n- **Status**: Checked\n- **Screenshot**: \`screenshot_tags_03_search_result.png\`\n\n`;
 
@@ -96,9 +108,27 @@ const { execSync } = require('child_process');
         console.log("Testing Admin Panel Tag Management UI...");
         await page.goto('http://127.0.0.1:8080/admin.php?action=tag');
         await page.waitForLoadState('networkidle');
-        const adminPageText = await page.textContent('body');
-        assert.ok(adminPageText.includes('Login') || adminPageText.includes('Tag') || adminPageText.includes('tag') || adminPageText.length > 50, 'Assertion Error: Admin panel tag management UI did not load correctly.');
-        report += `### Admin Tag Management UI\n- **Status**: Checked\n\n`;
+        const adminPassword = page.locator('input[name="admin_password"]');
+        if (await adminPassword.count()) {
+            await adminPassword.fill('Testpassword123!');
+            const adminSubmit = page.locator('button[type="submit"], input[type="submit"], input[name="submit"]');
+            assert.strictEqual(await adminSubmit.count(), 1, 'Assertion Error: AdminCP password submit control did not render.');
+            const [adminResponse] = await Promise.all([
+                page.waitForResponse(response =>
+                    response.request().method() === 'POST' &&
+                    response.url().includes('admin.php')
+                ),
+                adminSubmit.click()
+            ]);
+            assert.ok(
+                adminResponse.ok() || (adminResponse.status() >= 300 && adminResponse.status() < 400),
+                `Assertion Error: AdminCP authentication failed with HTTP ${adminResponse.status()}.`
+            );
+        }
+        const tagAdminForm = page.locator('form[action*="action=tag"]');
+        assert.strictEqual(await tagAdminForm.count(), 1, 'Assertion Error: Admin tag-management form did not render.');
+        assert.strictEqual(await tagAdminForm.locator('input[name="tagname"]').count(), 1, 'Assertion Error: Admin tag search field did not render.');
+        report += `### Admin Tag Management UI\n- **Status**: Passed\n\n`;
 
     } catch (error) {
         console.error("Test execution failed:", error);

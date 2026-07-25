@@ -16,14 +16,20 @@ const { execSync } = require('child_process');
     ]);
     const page = await context.newPage();
     const browserErrors = [];
-    page.on('pageerror', error => {
-        browserErrors.push(error.message);
-    });
-    page.on('console', message => {
-        if(message.type() === 'error') {
-            browserErrors.push(message.text());
-        }
-    });
+    const trackBrowserErrors = (targetPage, label) => {
+        targetPage.on('pageerror', error => {
+            browserErrors.push(`${label} page error: ${error.message}`);
+        });
+        targetPage.on('console', message => {
+            if(message.type() === 'error') {
+                browserErrors.push(`${label} console error: ${message.text()}`);
+            }
+        });
+        targetPage.on('requestfailed', request => {
+            browserErrors.push(`${label} request failed: ${request.url()} (${request.failure()?.errorText || 'unknown error'})`);
+        });
+    };
+    trackBrowserErrors(page, 'mobile user');
     let report = '\n\n## Mobile Registration Functional Test Report\n\n';
 
     try {
@@ -53,24 +59,25 @@ const { execSync } = require('child_process');
         assert.ok(await registrationTextFields.count() > 0, 'Assertion Error: Mobile registration username field did not render.');
         await registrationTextFields.nth(0).fill(username);
         const passInputs = registrationForm.locator('input[type="password"]');
-        if (await passInputs.count() >= 2) {
-            await passInputs.nth(0).fill(password);
-            await passInputs.nth(1).fill(password);
-        }
+        assert.strictEqual(await passInputs.count(), 2, 'Assertion Error: Mobile registration password and confirmation fields did not render.');
+        await passInputs.nth(0).fill(password);
+        await passInputs.nth(1).fill(password);
         const emailInput = registrationForm.locator('input[type="email"]');
-        if (await emailInput.count()) await emailInput.fill(email);
+        assert.strictEqual(await emailInput.count(), 1, 'Assertion Error: Mobile registration email field did not render.');
+        await emailInput.fill(email);
 
         const secqaaInput = registrationForm.locator('input[name*="secanswer"]');
         if (await secqaaInput.count()) await secqaaInput.fill('2');
 
-        let regSubmitBtn = registrationForm.locator('button[type="submit"], input[type="submit"], button[name="regsubmit"], #registerformsubmit, button.formdialog, .btn_register button').first();
-        if (await regSubmitBtn.count() === 0) {
-            regSubmitBtn = page.locator('button[name="regsubmit"], .btn_register button, button[type="submit"], input[type="submit"], button.formdialog, #registerformsubmit').first();
-        }
-        assert.ok(await regSubmitBtn.count() > 0, 'Assertion Error: Mobile registration submit button did not render.');
+        const regSubmitBtn = registrationForm.locator('.btn_register button[name="regsubmit"]');
+        assert.strictEqual(await regSubmitBtn.count(), 1, 'Assertion Error: Mobile registration submit button did not render.');
         const registrationResponse = page.waitForResponse(response => response.request().method() === 'POST' && response.url().includes('member.php?mod=register'));
         await regSubmitBtn.click();
-        await registrationResponse;
+        const submittedRegistration = await registrationResponse;
+        assert.ok(
+            submittedRegistration.ok() || (submittedRegistration.status() >= 300 && submittedRegistration.status() < 400),
+            `Assertion Error: Mobile registration POST failed with HTTP ${submittedRegistration.status()}.`
+        );
         await page.waitForTimeout(500);
 
         const memberCount = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT COUNT(*) FROM pre_common_member WHERE username='${username}';"`).toString().trim();
@@ -83,6 +90,18 @@ const { execSync } = require('child_process');
         await page.screenshot({ path: 'screenshot_mobile_01_registered.png' });
 
         const dbScalar = sql => execSync(`sudo mysql -u root ultrax -N -s -e "${sql}"`).toString().trim();
+        const clickForResponse = async (control, predicate, label) => {
+            assert.strictEqual(await control.count(), 1, `Assertion Error: ${label} control did not render exactly once.`);
+            const [response] = await Promise.all([
+                page.waitForResponse(predicate),
+                control.click(),
+            ]);
+            assert.ok(
+                response.ok() || (response.status() >= 300 && response.status() < 400),
+                `Assertion Error: ${label} request failed with HTTP ${response.status()}.`
+            );
+            return response;
+        };
         const waitForDbValue = async (sql, expected, message) => {
             for(let attempt = 0; attempt < 15; attempt++) {
                 if(dbScalar(sql) === expected) {
@@ -133,7 +152,7 @@ const { execSync } = require('child_process');
         console.log('Posting mobile thread with image attachment...');
         await page.goto('http://127.0.0.1:8080/forum.php?mod=forumdisplay&fid=2');
         await page.waitForLoadState('networkidle');
-        const postThreadBtn = page.locator('a[href*="action=newthread"]').first();
+        const postThreadBtn = page.locator('a[href*="action=newthread"]');
         assert.strictEqual(await postThreadBtn.count(), 1, 'Assertion Error: Mobile new-thread control did not render.');
         await postThreadBtn.click();
         await page.waitForLoadState('networkidle');
@@ -156,19 +175,19 @@ const { execSync } = require('child_process');
         });
         const aid = await page.locator('#imglist input[name^="attachnew["]').evaluate(input => input.name.match(/^attachnew\[(\d+)\]/)[1]);
         await page.locator('#needmessage').fill(`${message} [attachimg]${aid}[/attachimg]`);
-        const extraTagBtn = await page.$('#extra_tag_b, #extra_tag_b a, a[onclick*="extra_tag"]');
-        assert.ok(extraTagBtn, 'Assertion Error: Mobile tag control did not render.');
+        const extraTagBtn = page.locator('#extra_tag_b');
+        assert.strictEqual(await extraTagBtn.count(), 1, 'Assertion Error: Mobile tag control did not render.');
         await extraTagBtn.click();
-        await page.evaluate(() => {
-            const input = document.querySelector('#tags, input[name="tags"]');
-            if (input) {
-                input.value = 'mobile tag';
-                input.dispatchEvent(new Event('input', { bubbles: true }));
-                input.dispatchEvent(new Event('change', { bubbles: true }));
-            }
-        });
+        const tagInput = page.locator('#tags, input[name="tags"]:visible');
+        assert.strictEqual(await tagInput.count(), 1, 'Assertion Error: Mobile tag input did not render after opening tag controls.');
+        await tagInput.fill('mobile tag');
         await page.waitForTimeout(250);
-        await page.locator('#postsubmit').click();
+        const mobileThreadSubmit = page.locator('#postsubmit');
+        await clickForResponse(
+            mobileThreadSubmit,
+            response => response.request().method() === 'POST' && response.url().includes('forum.php?mod=post'),
+            'Mobile thread submit'
+        );
         await waitForDbValue(`SELECT COUNT(*) FROM pre_forum_thread WHERE subject='${subject}'`, '1', 'Assertion Error: Mobile thread was not created');
         const tid = dbScalar(`SELECT tid FROM pre_forum_thread WHERE subject='${subject}' ORDER BY tid DESC LIMIT 1`);
         assert.ok(tid, 'Assertion Error: Mobile thread ID was not found.');
@@ -181,6 +200,13 @@ const { execSync } = require('child_process');
 
         await page.waitForURL(/forum\.php\?mod=viewthread/, { timeout: 5000 });
         await page.waitForLoadState('networkidle');
+        assert.ok(page.url().includes(`tid=${tid}`), 'Assertion Error: Mobile image post redirected to the wrong thread.');
+        assert.ok((await page.textContent('body')).includes(subject), 'Assertion Error: Mobile image thread subject was not rendered after submission.');
+        const uploadedImagePath = uploadText.split('|')[5];
+        assert.ok(uploadedImagePath, `Assertion Error: Mobile upload response did not contain an attachment path: ${uploadText}`);
+        const renderedMobileImage = page.locator(`img[src$="${uploadedImagePath}"]`);
+        assert.strictEqual(await renderedMobileImage.count(), 1, 'Assertion Error: Mobile image attachment was not rendered in viewthread.');
+        assert.ok(await renderedMobileImage.evaluate(image => image.complete && image.naturalWidth > 0), 'Assertion Error: Mobile image attachment did not load.');
         await page.screenshot({ path: 'screenshot_mobile_02_thread_attachment.png' });
 
         console.log('Posting mobile thread with non-image attachment via UI...');
@@ -204,23 +230,34 @@ const { execSync } = require('child_process');
         await page.locator('#needmessage').fill(`Mobile non-image attachment body ${suffix}. [attach]${mobileNonImgAid}[/attach]`);
         await page.waitForFunction(() => document.getElementById('postsubmit')?.getAttribute('data-disabled') === 'false');
 
-        await page.locator('#postsubmit').click();
+        const mobileNonImageSubmit = page.locator('#postsubmit');
+        await clickForResponse(
+            mobileNonImageSubmit,
+            response => response.request().method() === 'POST' && response.url().includes('forum.php?mod=post'),
+            'Mobile non-image thread submit'
+        );
         await page.waitForURL(/forum\.php\?mod=viewthread/, { timeout: 5000 });
         await page.waitForLoadState('networkidle');
         const nonImgMobileTid = dbScalar(`SELECT tid FROM pre_forum_thread WHERE subject='${nonImgMobileSubject}' ORDER BY tid DESC LIMIT 1`);
         assert.ok(nonImgMobileTid, 'Assertion Error: Mobile thread with non-image attachment was not created.');
         assert.ok(page.url().includes(`tid=${nonImgMobileTid}`), 'Assertion Error: Mobile non-image post redirected to the wrong thread.');
+        assert.ok((await page.textContent('body')).includes('mobile_test_document.txt'), 'Assertion Error: Mobile non-image attachment was not rendered in viewthread.');
         await page.screenshot({ path: 'screenshot_mobile_attachment_non_image_viewthread.png' });
 
         console.log('Replying to mobile thread...');
-        const replyBtn = page.locator('a[href*="action=reply"]').first();
+        const replyBtn = page.locator('a.flex[href*="action=reply"][href*="reppost="]');
         assert.strictEqual(await replyBtn.count(), 1, 'Assertion Error: Mobile reply control did not render.');
         await replyBtn.click();
         await page.waitForLoadState('networkidle');
         assert.ok(await page.$('#postform #needmessage'), 'Assertion Error: Mobile reply form did not render.');
         await page.locator('#needmessage').fill(reply);
         await page.waitForFunction(() => document.getElementById('postsubmit')?.getAttribute('data-disabled') === 'false');
-        await page.locator('#postsubmit').click();
+        const mobileReplySubmit = page.locator('#postsubmit');
+        await clickForResponse(
+            mobileReplySubmit,
+            response => response.request().method() === 'POST' && response.url().includes('forum.php?mod=post&action=reply'),
+            'Mobile reply submit'
+        );
         await page.waitForURL(/forum\.php\?mod=viewthread/, { timeout: 5000 });
         await page.waitForLoadState('networkidle');
         await waitForDbValue(`SELECT COUNT(*) FROM pre_forum_post WHERE tid='${nonImgMobileTid}' AND message='${reply}'`, '1', 'Assertion Error: Mobile reply was not created');
@@ -240,7 +277,12 @@ const { execSync } = require('child_process');
         assert.ok(await page.$('#postform #needmessage'), 'Assertion Error: Mobile edit form did not render.');
         await page.locator('#needmessage').fill(editedReply);
         await page.waitForFunction(() => document.getElementById('postsubmit')?.getAttribute('data-disabled') === 'false');
-        await page.locator('#postsubmit').click();
+        const mobileEditSubmit = page.locator('#postsubmit');
+        await clickForResponse(
+            mobileEditSubmit,
+            response => response.request().method() === 'POST' && response.url().includes('forum.php?mod=post&action=edit'),
+            'Mobile edit submit'
+        );
         await page.waitForURL(/forum\.php\?mod=viewthread/, { timeout: 5000 });
         await page.waitForLoadState('networkidle');
         await waitForDbValue(`SELECT message FROM pre_forum_post WHERE pid='${replyPid}'`, editedReply, 'Assertion Error: Mobile reply edit was not saved');
@@ -307,16 +349,18 @@ const { execSync } = require('child_process');
 
         const mobileFirstFloorCommentText = 'Mobile test comment on first floor.';
         await mobileFirstFloorMsgBox.fill(mobileFirstFloorCommentText);
-        await Promise.all([
+        const [mobileFirstFloorResponse] = await Promise.all([
             page.waitForResponse(response => response.request().method() === 'POST' && response.url().includes('mod=post') && response.url().includes('commentsubmit=yes')),
             mobileFirstFloorSubmitBtn.click()
         ]);
+        assert.ok(mobileFirstFloorResponse.ok(), `Assertion Error: Mobile first-floor comment request failed with HTTP ${mobileFirstFloorResponse.status()}.`);
 
         const mobileFirstFloorDbCheck = dbScalar(`SELECT COUNT(*) FROM pre_forum_postcomment WHERE authorid='${uid}' AND pid='${mobileFirstFloorPid}' AND comment='${mobileFirstFloorCommentText}'`);
         assert.strictEqual(mobileFirstFloorDbCheck, '1', 'Assertion Error: Mobile first floor comment was not created in database.');
 
         await page.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${tid}`);
         await page.waitForLoadState('networkidle');
+        assert.ok((await page.textContent('body')).includes(mobileFirstFloorCommentText), 'Assertion Error: Mobile first-floor comment was not rendered in viewthread.');
         await page.screenshot({ path: 'screenshot_mobile_viewthread_commented_first_floor.png' });
 
         console.log('Posting postcomment on mobile via UI and testing type=postcomment page...');
@@ -338,10 +382,11 @@ const { execSync } = require('child_process');
         assert.strictEqual(await mobileCommentMsgBox.count(), 1, 'Assertion Error: Mobile post comment message input did not render.');
         assert.strictEqual(await mobileSubmitCommentBtn.count(), 1, 'Assertion Error: Mobile post comment submit button did not render.');
         await mobileCommentMsgBox.fill(mobilePostCommentText);
-        await Promise.all([
+        const [mobilePostCommentResponse] = await Promise.all([
             page.waitForResponse(response => response.request().method() === 'POST' && response.url().includes('mod=post') && response.url().includes('commentsubmit=yes')),
             mobileSubmitCommentBtn.click()
         ]);
+        assert.ok(mobilePostCommentResponse.ok(), `Assertion Error: Mobile post comment request failed with HTTP ${mobilePostCommentResponse.status()}.`);
 
         const mobilePostCommentDbCheck = dbScalar(`SELECT COUNT(*) FROM pre_forum_postcomment WHERE authorid='${uid}' AND pid='${adminReplyPid}' AND comment='${mobilePostCommentText}'`);
         assert.strictEqual(mobilePostCommentDbCheck, '1', 'Assertion Error: Mobile post comment was not created in database.');
@@ -349,6 +394,7 @@ const { execSync } = require('child_process');
         // Navigate back to viewthread to verify and screenshot the postcomment
         await page.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${adminReplyTid}`);
         await page.waitForLoadState('networkidle');
+        assert.ok((await page.textContent('body')).includes(mobilePostCommentText), 'Assertion Error: Mobile post comment was not rendered in viewthread.');
         await page.screenshot({ path: 'screenshot_mobile_viewthread_commented.png' });
 
         await page.goto('http://127.0.0.1:8080/home.php?mod=space&do=thread&view=me&type=postcomment');
@@ -361,26 +407,58 @@ const { execSync } = require('child_process');
         await page.screenshot({ path: 'screenshot_mobile_space_thread_postcomment.png' });
 
         console.log('Testing mobile Thread Recommendation and Hot Reply Voting via UI...');
-        const adminTid = dbScalar("SELECT tid FROM pre_forum_thread WHERE authorid=1 ORDER BY tid DESC LIMIT 1");
-        const targetMobileRecommendTid = adminTid || tid;
+        const targetMobileRecommendTid = dbScalar("SELECT tid FROM pre_forum_thread WHERE authorid=1 ORDER BY tid DESC LIMIT 1");
+        assert.match(targetMobileRecommendTid, /^\d+$/, 'Assertion Error: Seeded admin thread for mobile recommendation testing was not found.');
 
         await page.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${targetMobileRecommendTid}`);
         await page.waitForLoadState('networkidle');
-        const mobileRecommendBtn = page.locator('a[href*="action=recommend&do=add"]').first();
+        const mobileRecommendBtn = page.locator('a.dialog[href*="action=recommend&do=add"]');
         assert.strictEqual(await mobileRecommendBtn.count(), 1, 'Assertion Error: Mobile thread recommend button did not render.');
         assert.ok(await mobileRecommendBtn.isVisible(), 'Assertion Error: Mobile thread recommend button was not visible.');
+        const mobileRecommendCount = page.locator('#recommendv_add');
+        assert.strictEqual(await mobileRecommendCount.count(), 1, 'Assertion Error: Mobile recommendation count did not render.');
+        const mobileRecommendBefore = Number((await mobileRecommendCount.textContent()).trim() || '0');
         console.log("Clicking mobile thread recommend button via UI...");
-        await mobileRecommendBtn.click();
-        await page.waitForTimeout(1000);
+        await clickForResponse(
+            mobileRecommendBtn,
+            response => response.url().includes('action=recommend&do=add'),
+            'Mobile thread recommendation'
+        );
+        assert.strictEqual(
+            dbScalar(`SELECT COUNT(*) FROM pre_forum_memberrecommend WHERE tid='${targetMobileRecommendTid}' AND recommenduid='${uid}'`),
+            '1',
+            'Assertion Error: Mobile thread recommendation was not persisted.'
+        );
+        await page.reload({ waitUntil: 'networkidle' });
+        assert.ok(
+            Number((await page.locator('#recommendv_add').textContent()).trim() || '0') > mobileRecommendBefore,
+            'Assertion Error: Mobile recommendation count did not increase in the rendered UI.'
+        );
 
         await page.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${adminReplyTid}`);
         await page.waitForLoadState('networkidle');
-        const mobileSupportBtn = page.locator('a[href*="action=postreview&do=support"]').first();
+        const mobileSupportBtn = page.locator(`a.dialog[href*="action=postreview&do=support"][href*="pid=${adminReplyPid}"]`);
         assert.strictEqual(await mobileSupportBtn.count(), 1, 'Assertion Error: Mobile postreview support button did not render.');
         assert.ok(await mobileSupportBtn.isVisible(), 'Assertion Error: Mobile postreview support button was not visible.');
+        const mobileSupportCount = page.locator(`#review_support_${adminReplyPid}`);
+        assert.strictEqual(await mobileSupportCount.count(), 1, 'Assertion Error: Mobile postreview support count did not render.');
+        const mobileSupportBefore = Number((await mobileSupportCount.textContent()).trim() || '0');
         console.log("Clicking mobile postreview support button via UI...");
-        await mobileSupportBtn.click();
-        await page.waitForTimeout(1000);
+        await clickForResponse(
+            mobileSupportBtn,
+            response => response.url().includes('action=postreview&do=support'),
+            'Mobile postreview support'
+        );
+        assert.strictEqual(
+            dbScalar(`SELECT COUNT(*) FROM pre_forum_hotreply_member WHERE pid='${adminReplyPid}' AND uid='${uid}' AND attitude=1`),
+            '1',
+            'Assertion Error: Mobile postreview support vote was not persisted.'
+        );
+        await page.reload({ waitUntil: 'networkidle' });
+        assert.ok(
+            Number((await page.locator(`#review_support_${adminReplyPid}`).textContent()).trim() || '0') > mobileSupportBefore,
+            'Assertion Error: Mobile postreview support count did not increase in the rendered UI.'
+        );
 
         await page.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${adminReplyTid}`);
         await page.waitForLoadState('networkidle');
@@ -401,12 +479,14 @@ const { execSync } = require('child_process');
         assert.ok(fs.existsSync(mobileAvatarFixture), 'Assertion Error: Mobile avatar fixture is missing.');
         await mobileAvatarInput.setInputFiles(mobileAvatarFixture);
         await page.locator('#avataradjuster2').waitFor({ state: 'visible' });
-        await Promise.all([
+        const [mobileAvatarResponse] = await Promise.all([
             page.waitForResponse(response => response.request().method() === 'POST' && response.url().includes('/api/avatar/index.php')),
             mobileAvatarConfirm.click()
         ]);
+        assert.ok(mobileAvatarResponse.ok(), `Assertion Error: Mobile avatar upload failed with HTTP ${mobileAvatarResponse.status()}.`);
         const mobileAvatarFinished = page.locator('.finishbutton:visible');
         await mobileAvatarFinished.waitFor({ state: 'visible' });
+        assert.strictEqual(await mobileAvatarFinished.count(), 1, 'Assertion Error: Mobile avatar completion control did not render exactly once.');
         await Promise.all([
             page.waitForNavigation({ waitUntil: 'networkidle' }),
             mobileAvatarFinished.click()
@@ -417,6 +497,7 @@ const { execSync } = require('child_process');
         await page.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${tid}`);
         await page.waitForLoadState('networkidle');
         const tagid = dbScalar("SELECT tagid FROM pre_common_tag WHERE tagname='mobile tag' LIMIT 1");
+        assert.match(tagid, /^\d+$/, 'Assertion Error: Mobile thread tag was not stored in the database.');
         const viewthreadTagBody = await page.textContent('body');
         assert.ok(viewthreadTagBody.includes('mobile tag'), 'Assertion Error: Thread tag "mobile tag" submitted during thread creation was not rendered in mobile viewthread.');
         await page.screenshot({ path: 'screenshot_mobile_08_viewthread_tag.png' });
@@ -431,19 +512,29 @@ const { execSync } = require('child_process');
             { name: `discuz_${cookieSalt}_mobile`, value: '2', url: 'http://127.0.0.1:8080' },
         ]);
         const adminMobilePage = await adminMobileContext.newPage();
+        trackBrowserErrors(adminMobilePage, 'mobile admin');
+        trackBrowserErrors(adminMobilePage, 'mobile admin');
         await adminMobilePage.goto('http://127.0.0.1:8080/member.php?mod=logging&action=login');
         await adminMobilePage.waitForLoadState('networkidle');
         const adminLoginForm = adminMobilePage.locator('form[id^="loginform"]:visible');
-        if (await adminLoginForm.count()) {
-            await adminLoginForm.locator('input[name="username"]').fill('admin');
-            await adminLoginForm.locator('input[name="password"]').fill('Testpassword123!');
-            const secqaa = adminLoginForm.locator('input[name*="secanswer"]');
-            if (await secqaa.count()) await secqaa.fill('2');
-            await Promise.all([
-                adminMobilePage.waitForNavigation({ waitUntil: 'networkidle' }).catch(() => {}),
-                adminLoginForm.locator('button[type="submit"]:visible').click()
-            ]);
-        }
+        assert.strictEqual(await adminLoginForm.count(), 1, 'Assertion Error: Mobile admin login form did not render.');
+        await adminLoginForm.locator('input[name="username"]').fill('admin');
+        await adminLoginForm.locator('input[name="password"]').fill('Testpassword123!');
+        const secqaa = adminLoginForm.locator('input[name*="secanswer"]');
+        if (await secqaa.count()) await secqaa.fill('2');
+        const adminLoginSubmit = adminLoginForm.locator('button[type="submit"]:visible');
+        assert.strictEqual(await adminLoginSubmit.count(), 1, 'Assertion Error: Mobile admin login submit control did not render.');
+        const [adminLoginResponse] = await Promise.all([
+            adminMobilePage.waitForResponse(response =>
+                response.request().method() === 'POST' &&
+                response.url().includes('member.php?mod=logging')
+            ),
+            adminLoginSubmit.click()
+        ]);
+        assert.ok(
+            adminLoginResponse.ok() || (adminLoginResponse.status() >= 300 && adminLoginResponse.status() < 400),
+            `Assertion Error: Mobile admin login POST failed with HTTP ${adminLoginResponse.status()}.`
+        );
         assert.strictEqual(
             await adminMobilePage.locator('form[id^="loginform"]:visible').count(),
             0,
@@ -458,18 +549,19 @@ const { execSync } = require('child_process');
         );
         await adminMobilePage.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${tid}`);
         await adminMobilePage.waitForLoadState('networkidle');
-        const adminQuoteBtn = adminMobilePage.locator('a[href*="action=reply"]').first();
-        if (await adminQuoteBtn.count()) {
-            await adminQuoteBtn.click();
-        } else {
-            await adminMobilePage.goto(`http://127.0.0.1:8080/forum.php?mod=post&action=reply&fid=2&tid=${tid}&reppost=${firstMobilePid}`);
-        }
+        const adminQuoteBtn = adminMobilePage.locator(`a[href*="action=reply"][href*="repquote=${firstMobilePid}"]`);
+        assert.strictEqual(await adminQuoteBtn.count(), 1, 'Assertion Error: Mobile admin quote-reply control did not render.');
+        await adminQuoteBtn.click();
         await adminMobilePage.waitForLoadState('networkidle');
+        assert.ok(
+            adminMobilePage.url().includes('mod=post') && adminMobilePage.url().includes('action=reply'),
+            `Assertion Error: Mobile admin quote-reply control did not navigate to the reply form. URL=${adminMobilePage.url()}`
+        );
         const adminReply = 'Admin mobile quote reply to user thread.';
-        const adminMsgArea = adminMobilePage.locator('textarea[name="message"]:visible, #needmessage:visible').first();
+        const adminMsgArea = adminMobilePage.locator('#needmessage:visible');
         assert.strictEqual(await adminMsgArea.count(), 1, 'Assertion Error: Mobile quote reply editor did not render.');
         await adminMsgArea.fill(adminReply);
-        const submitBtn = adminMobilePage.locator('#postsubmit:visible, button[name="replysubmit"]:visible').first();
+        const submitBtn = adminMobilePage.locator('#postsubmit:visible');
         assert.strictEqual(await submitBtn.count(), 1, 'Assertion Error: Mobile quote reply submit button did not render.');
         await adminMobilePage.waitForFunction(() => document.getElementById('postsubmit')?.dataset.disabled === 'false');
         const adminReplyResponsePromise = adminMobilePage.waitForResponse(response =>
@@ -495,6 +587,11 @@ const { execSync } = require('child_process');
             '1',
             `Assertion Error: Mobile quote reply was not stored. Response: ${adminReplyResponseText.slice(0, 2000)}`
         );
+        await adminMobilePage.waitForURL(/forum\.php\?mod=viewthread/);
+        assert.ok(
+            (await adminMobilePage.textContent('body')).includes(adminReply),
+            'Assertion Error: Mobile admin quote reply was not rendered in viewthread.'
+        );
         await adminMobileContext.close();
 
         console.log('Testing mobile PM center page...');
@@ -504,17 +601,18 @@ const { execSync } = require('child_process');
         assert.ok(mobilePmBody.includes(adminPmToMobileUser), 'Assertion Error: Mobile PM center did not display the delivered admin message.');
         await page.screenshot({ path: 'screenshot_mobile_07_pm.png' });
 
-        const noticeTabLink = page.locator('a[href*="do=notice"]').first();
+        const noticeTabLink = page.locator('a[href*="do=notice"]');
         assert.strictEqual(await noticeTabLink.count(), 1, 'Assertion Error: Mobile notice navigation link did not render.');
         await noticeTabLink.click();
         await page.waitForLoadState('networkidle');
         const mobileNoticeBody = await page.textContent('body');
         assert.ok(
-            mobileNoticeBody.includes('admin') || mobileNoticeBody.includes(subject) || mobileNoticeBody.includes('reply') || mobileNoticeBody.includes('replied'),
-            'Assertion Error: Mobile notification page (do=notice) did not show an expected notification.'
+            mobileNoticeBody.includes('Admin mobile quote reply to user thread.'),
+            'Assertion Error: Mobile notification page did not render the exact admin reply notification.'
         );
         await page.screenshot({ path: 'screenshot_mobile_09_notice.png' });
 
+        assert.deepStrictEqual(browserErrors, [], `Assertion Error: Browser errors occurred during mobile UI tests:\n${browserErrors.join('\n')}`);
         report += `### Touch Registration, Posting, Replying, Editing, Forum Index, Forumdisplay, My Center, PM Center, Thread Tag and Notice Center\n- **Status**: Checked\n- **Username**: ${username}\n- **Thread**: ${tid}\n- **Reply**: ${replyPid}\n- **Image Attachment**: ${aid}\n- **Tag**: mobile tag (ID: ${tagid})\n- **Screenshots**:\n  - \`screenshot_mobile_editor.png\`\n  - \`screenshot_mobile_01_registered.png\`\n  - \`screenshot_mobile_02_thread_attachment.png\`\n  - \`screenshot_mobile_03_reply_edited.png\`\n  - \`screenshot_mobile_04_forum_index.png\`\n  - \`screenshot_mobile_05_forumdisplay.png\`\n  - \`screenshot_mobile_06_my_center.png\`\n  - \`screenshot_mobile_other_user_profile.png\`\n  - \`screenshot_mobile_space_thread_reply.png\`\n  - \`screenshot_mobile_space_thread_postcomment.png\`\n  - \`screenshot_mobile_07_pm.png\`\n  - \`screenshot_mobile_08_viewthread_tag.png\`\n  - \`screenshot_mobile_09_notice.png\`\n\n`;
     } catch(error) {
         console.error('Test execution failed:', error);

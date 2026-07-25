@@ -82,24 +82,23 @@ const { execSync } = require('child_process');
 
     page.on('console', msg => {
         if (msg.type() === 'error') {
-            const txt = msg.text();
-            if (txt.includes('Failed to load resource')) {
-                return;
-            }
-            throw new Error(`Console error in browser: ${txt}`);
+            throw new Error(`Console error in browser: ${msg.text()}`);
         }
+    });
+    page.on('requestfailed', request => {
+        throw new Error(`Browser request failed: ${request.url()} (${request.failure()?.errorText || 'unknown error'})`);
     });
 
     let report = "# DiscuzX Functional Test Report\n\n";
-    const fillPostEditor = async (message) => {
-        const editorFrame = page.locator('iframe[id$="_iframe"]');
+    const fillPostEditor = async (message, targetPage = page) => {
+        const editorFrame = targetPage.locator('iframe[id$="_iframe"]:visible');
         if(await editorFrame.count()) {
             assert.strictEqual(await editorFrame.count(), 1, 'Assertion Error: More than one post editor iframe rendered.');
-            await page.frameLocator('iframe[id$="_iframe"]').locator('body').fill(message);
+            await targetPage.frameLocator('iframe[id$="_iframe"]:visible').locator('body').fill(message);
             return;
         }
 
-        const textEditor = page.locator('textarea[name="message"]:visible');
+        const textEditor = targetPage.locator('textarea[name="message"]:visible');
         assert.strictEqual(await textEditor.count(), 1, 'Assertion Error: Visible post editor did not render.');
         await textEditor.fill(message);
     };
@@ -255,15 +254,12 @@ const { execSync } = require('child_process');
         await usernameInput.fill(username);
 
         const passwordInputs = registrationForm.locator('input[type="password"]');
-        if (await passwordInputs.count() >= 2) {
-            await passwordInputs.nth(0).fill(password);
-            await passwordInputs.nth(1).fill(password);
-        } else {
-            const pwdInput = registrationForm.locator('input[name="password"], input[type="password"]').first();
-            if (await pwdInput.count()) await pwdInput.fill(password);
-        }
-        const emailInput = registrationForm.locator('input[name="email"], input[type="email"]').first();
-        if (await emailInput.count()) await emailInput.fill(email);
+        assert.strictEqual(await passwordInputs.count(), 2, 'Assertion Error: Desktop registration password and confirmation fields did not render.');
+        await passwordInputs.nth(0).fill(password);
+        await passwordInputs.nth(1).fill(password);
+        const emailInput = registrationForm.locator('input[name="email"], input[type="email"]');
+        assert.strictEqual(await emailInput.count(), 1, 'Assertion Error: Desktop registration email field did not render.');
+        await emailInput.fill(email);
 
         const agreeCheckbox = registrationForm.locator('input[name="agree"]');
         if (await agreeCheckbox.count()) await agreeCheckbox.check();
@@ -288,25 +284,17 @@ const { execSync } = require('child_process');
         const regSubmitBtn = registrationForm.locator('#registerformsubmit');
         assert.strictEqual(await regSubmitBtn.count(), 1, 'Assertion Error: Desktop registration submit button did not render.');
 
-        await Promise.all([
-            page.waitForNavigation({ waitUntil: 'networkidle' }).catch(() => {}),
-            page.evaluate(() => {
-                const form = document.querySelector('#registerform');
-                if (form) {
-                    if (!form.querySelector('input[name="regsubmit"]')) {
-                        const input = document.createElement('input');
-                        input.type = 'hidden';
-                        input.name = 'regsubmit';
-                        input.value = 'true';
-                        form.appendChild(input);
-                    }
-                    form.onsubmit = null;
-                    form.removeAttribute('onsubmit');
-                    form.action = 'member.php?mod=register';
-                    form.submit();
-                }
-            })
+        const [registrationResponse] = await Promise.all([
+            page.waitForResponse(response =>
+                response.request().method() === 'POST' &&
+                response.url().includes('member.php?mod=register')
+            ),
+            regSubmitBtn.click()
         ]);
+        assert.ok(
+            registrationResponse.ok() || (registrationResponse.status() >= 300 && registrationResponse.status() < 400),
+            `Assertion Error: Desktop registration POST failed with HTTP ${registrationResponse.status()}.`
+        );
         await page.waitForTimeout(1000);
 
         console.log("Checking if user exists in DB...");
@@ -317,34 +305,14 @@ const { execSync } = require('child_process');
             console.log("Registration failed. Page source:");
             console.log(await page.innerHTML('body'));
         }
-        assert.ok(dbCheck === '1', 'Assertion Error: Registered user does not exist in database.');
+        assert.strictEqual(dbCheck, '1', 'Assertion Error: Registered user does not exist in database.');
         await page.screenshot({ path: 'screenshot_forum_01_registered.png' });
 
         await page.goto('http://127.0.0.1:8080/home.php?mod=spacecp');
         const spaceUrl = await page.url();
-        assert.ok(spaceUrl.includes('mod=spacecp') || spaceUrl.includes('member.php'), 'Assertion Error: Registration failed or login session not established.');
-
+        assert.ok(spaceUrl.includes('mod=spacecp') && !spaceUrl.includes('mod=logging'), 'Assertion Error: Registration did not establish an authenticated session.');
         const domContent = await page.textContent('body');
-        if (!domContent.includes(username)) {
-            console.log("DOM content doesn't contain username. Registration failed to auto-login.");
-            await page.goto('http://127.0.0.1:8080/member.php?mod=logging&action=login');
-            await page.waitForLoadState('networkidle');
-            const loginUser = await page.$('input[name="username"]');
-            if (loginUser) await loginUser.fill(username);
-            const loginPass = await page.$('input[name="password"]');
-            if (loginPass) await loginPass.fill(password);
-            const loginSecqaa = await page.$('input[name*="secanswer"]');
-            if (loginSecqaa) await loginSecqaa.fill('2');
-            const loginSubmitBtn = await page.$('button[name="loginsubmit"]');
-            if (loginSubmitBtn) {
-                await loginSubmitBtn.click();
-                await page.waitForNavigation({ waitUntil: 'networkidle' }).catch(() => { });
-            }
-
-            await page.goto('http://127.0.0.1:8080/home.php?mod=spacecp');
-            const loginDomContent = await page.textContent('body');
-            assert.ok(loginDomContent.includes(username), 'Assertion Error: Username not found on DOM after registration/login. Login failed.');
-        }
+        assert.ok(domContent.includes(username), 'Assertion Error: Registered username was not rendered in the authenticated account page.');
         report += '### 1. User Registration & Login\n- **Status**: Checked\n- **Username**: ' + username + '\n\n';
 
         // Pre-setup Avatar before advanced editor screenshot & posting tests
@@ -360,9 +328,20 @@ const { execSync } = require('child_process');
         for(let i = 0; i < 3; i++) {
             await avatarInputs.nth(i).setInputFiles(avatarFixture);
         }
-        await page.locator('.submit-btn').click();
-        await page.waitForLoadState('networkidle').catch(() => {});
-        await page.waitForTimeout(1000);
+        const avatarSubmit = page.locator('.submit-btn');
+        assert.strictEqual(await avatarSubmit.count(), 1, 'Assertion Error: Avatar submit control did not render.');
+        const [avatarResponse] = await Promise.all([
+            page.waitForResponse(response =>
+                response.request().method() === 'POST' &&
+                response.url().includes('home.php?mod=spacecp&ac=avatar')
+            ),
+            avatarSubmit.click()
+        ]);
+        assert.ok(
+            avatarResponse.ok() || (avatarResponse.status() >= 300 && avatarResponse.status() < 400),
+            `Assertion Error: Avatar upload POST failed with HTTP ${avatarResponse.status()}.`
+        );
+        await page.waitForTimeout(500);
 
         const userUid = execSync("sudo mysql -u root ultrax -N -s -e \"SELECT uid FROM pre_common_member WHERE username='" + username + "';\"").toString().trim();
 
@@ -372,11 +351,8 @@ const { execSync } = require('child_process');
         console.log("Testing Desktop Forum Front Page (forum.php)...");
         await page.goto('http://127.0.0.1:8080/forum.php');
         await page.waitForLoadState('networkidle');
-        const forumIndexBody = await page.textContent('body');
-        assert.ok(
-            forumIndexBody.includes('Discuz!') || (await page.locator('#category_grid, .fl, #chart, #pt').count()) > 0,
-            'Assertion Error: Desktop forum front page (forum.php) did not load correctly.'
-        );
+        assert.strictEqual(await page.locator('#ct').count(), 1, 'Assertion Error: Desktop forum index content container did not render.');
+        assert.ok(await page.locator('#category_grid, .fl').count() > 0, 'Assertion Error: Desktop forum index did not render a forum list.');
         await page.screenshot({ path: 'screenshot_desktop_forum_index.png', fullPage: true });
         console.log("✅ Desktop Forum Front Page loaded successfully.");
         report += '### Desktop Forum Front Page (forum.php)\n- **Status**: Checked\n- **Front Page Load**: Success\n- **Screenshot**: `screenshot_desktop_forum_index.png`\n\n';
@@ -388,16 +364,17 @@ const { execSync } = require('child_process');
         console.log("Attempting to post normal thread as unprivileged user...");
         await page.goto(`http://127.0.0.1:8080/forum.php?mod=forumdisplay&fid=${forumFid}`);
         await page.waitForLoadState('networkidle');
-        const postNewThreadBtn = page.locator('#newspecial, a[href*="action=newthread"], #newspecialtmp').first();
+        const postNewThreadBtn = page.locator('#newspecial');
         assert.strictEqual(await postNewThreadBtn.count(), 1, 'Assertion Error: Desktop new-thread control did not render.');
         await postNewThreadBtn.click();
         await page.waitForLoadState('networkidle');
 
         console.log("Capturing Advanced Editor Screenshot...");
-        await page.screenshot({ path: 'screenshot_advanced_editor.png', fullPage: true }).catch(() => { });
+        await page.screenshot({ path: 'screenshot_advanced_editor.png', fullPage: true });
 
         const subjectInput = page.locator('input[name="subject"]');
-        if (await subjectInput.count()) await subjectInput.fill('Standard User Thread');
+        assert.strictEqual(await subjectInput.count(), 1, 'Assertion Error: Desktop thread subject field did not render.');
+        await subjectInput.fill('Standard User Thread');
 
         await fillPostEditor('Body text from unprivileged account.');
 
@@ -405,15 +382,19 @@ const { execSync } = require('child_process');
         if (await secqaaPost.count()) await secqaaPost.fill('2');
 
         const postSubmitBtn = page.locator('button[name="topicsubmit"][type="submit"]');
-        if (await postSubmitBtn.count()) {
-            await Promise.all([
-                page.waitForNavigation({ waitUntil: 'networkidle' }).catch(() => {}),
-                postSubmitBtn.click()
-            ]);
-        }
-
-        await page.waitForNavigation({ waitUntil: 'networkidle' }).catch(() => { });
-        await page.waitForTimeout(3000);
+        assert.strictEqual(await postSubmitBtn.count(), 1, 'Assertion Error: Desktop thread submit button did not render.');
+        const [threadPostResponse] = await Promise.all([
+            page.waitForResponse(response =>
+                response.request().method() === 'POST' &&
+                response.url().includes('forum.php?mod=post')
+            ),
+            postSubmitBtn.click()
+        ]);
+        assert.ok(
+            threadPostResponse.ok() || (threadPostResponse.status() >= 300 && threadPostResponse.status() < 400),
+            `Assertion Error: Desktop thread POST failed with HTTP ${threadPostResponse.status()}.`
+        );
+        await page.waitForURL(/forum\.php\?mod=viewthread&tid=\d+/);
 
         console.log("Checking if posted thread exists in DB...");
         const threadDbCheck = execSync("sudo mysql -u root ultrax -N -s -e \"SELECT COUNT(*) FROM pre_forum_thread WHERE subject='Standard User Thread';\"").toString().trim();
@@ -423,18 +404,16 @@ const { execSync } = require('child_process');
         const postContent = await page.textContent('body');
 
         assert.ok(parseInt(threadDbCheck, 10) >= 1, 'Assertion Error: Normal user thread post was not found in database.');
-        assert.ok(
-            /mod=viewthread&tid=\d+/.test(currentUrl) || postContent.includes('Standard User Thread') || postContent.includes('Thread'),
-            'Assertion Error: Normal user posting did not result in thread view or success message. Final URL: ' + currentUrl
-        );
+        assert.match(currentUrl, /mod=viewthread&tid=\d+/, 'Assertion Error: Normal user posting did not redirect to the created thread.');
+        assert.ok(postContent.includes('Standard User Thread'), 'Assertion Error: Created thread subject was not rendered after submission.');
         report += '### 2. Unprivileged User Posting\n- **Status**: Checked\n- **Thread Created**: Standard User Thread\n\n';
 
         const tidOutput = execSync("sudo mysql -u root ultrax -N -s -e \"SELECT tid FROM pre_forum_thread WHERE subject='Standard User Thread' ORDER BY tid DESC LIMIT 1;\"").toString().trim();
+        assert.match(tidOutput, /^\d+$/, 'Assertion Error: Created thread ID was not found.');
 
-        if (tidOutput) {
-            // Reply to Thread
+        // Reply to Thread
             console.log("Attempting to reply to thread...");
-            const desktopReplyBtn = page.locator('#post_reply, a[href*="action=reply"]').first();
+            const desktopReplyBtn = page.locator('#post_reply');
             assert.strictEqual(await desktopReplyBtn.count(), 1, 'Assertion Error: Desktop reply control did not render.');
             await desktopReplyBtn.click();
             await page.waitForLoadState('networkidle');
@@ -442,12 +421,24 @@ const { execSync } = require('child_process');
             await fillPostEditor('Reply text from unprivileged account.');
             const replySecqaa = page.locator('input[name*="secanswer"]');
             if(await replySecqaa.count()) await replySecqaa.fill('2');
-            const replyBtn = await page.$('#postsubmit, button[name="replysubmit"]');
-            if (replyBtn) {
-                await replyBtn.click();
-                await page.waitForNavigation({ waitUntil: 'networkidle' }).catch(() => { });
-                await page.waitForTimeout(2000);
-            }
+            const replyBtn = page.locator('#postsubmit, button[name="replysubmit"]');
+            assert.strictEqual(await replyBtn.count(), 1, 'Assertion Error: Desktop reply submit button did not render.');
+            const [replyResponse] = await Promise.all([
+                page.waitForResponse(response =>
+                    response.request().method() === 'POST' &&
+                    response.url().includes('forum.php?mod=post')
+                ),
+                replyBtn.click()
+            ]);
+            assert.ok(
+                replyResponse.ok() || (replyResponse.status() >= 300 && replyResponse.status() < 400),
+                `Assertion Error: Desktop reply POST failed with HTTP ${replyResponse.status()}.`
+            );
+            await page.waitForURL(new RegExp(`mod=viewthread&tid=${tidOutput}`));
+            assert.ok(
+                (await page.textContent('body')).includes('Reply text from unprivileged account.'),
+                'Assertion Error: Submitted reply was not rendered in the thread.'
+            );
 
             console.log("Checking if reply exists in DB...");
             const replyDbCheck = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT COUNT(*) FROM pre_forum_post WHERE tid='${tidOutput}' AND first=0;"`).toString().trim();
@@ -475,10 +466,11 @@ const { execSync } = require('child_process');
 
             const firstFloorCommentText = 'Test comment on first floor.';
             await firstFloorCommentMessage.fill(firstFloorCommentText);
-            await Promise.all([
+            const [firstFloorCommentResponse] = await Promise.all([
                 page.waitForResponse(response => response.request().method() === 'POST' && response.url().includes('mod=post') && response.url().includes('commentsubmit=yes')),
                 firstFloorSubmitCommentBtn.click()
             ]);
+            assert.ok(firstFloorCommentResponse.ok(), `Assertion Error: First floor comment request failed with HTTP ${firstFloorCommentResponse.status()}.`);
 
             const firstFloorCommentDbCheck = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT COUNT(*) FROM pre_forum_postcomment WHERE authorid='${userUid}' AND pid='${firstFloorPid}' AND comment='${firstFloorCommentText}';"`).toString().trim();
             assert.strictEqual(firstFloorCommentDbCheck, '1', 'Assertion Error: First floor comment was not created in database.');
@@ -486,6 +478,7 @@ const { execSync } = require('child_process');
             // Navigate back to viewthread to verify and screenshot
             await page.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${tidOutput}`);
             await page.waitForLoadState('networkidle');
+            assert.ok((await page.textContent('body')).includes(firstFloorCommentText), 'Assertion Error: First floor comment was not rendered in viewthread.');
             await page.screenshot({ path: 'screenshot_desktop_viewthread_commented_first_floor.png' });
             console.log("✅ Comment on first floor posted successfully.");
 
@@ -523,7 +516,7 @@ const { execSync } = require('child_process');
             const fastPostSubmitBtn = fastPostForm.locator('#fastpostsubmit');
             assert.strictEqual(await fastPostSubmitBtn.count(), 1, 'Assertion Error: Simple Editor submit button (#fastpostsubmit) did not render.');
 
-            await Promise.all([
+            const [fastPostResponse] = await Promise.all([
                 page.waitForResponse(response => 
                     response.request().method() === 'POST' && 
                     response.url().includes('mod=post') && 
@@ -532,7 +525,11 @@ const { execSync } = require('child_process');
                 ),
                 fastPostSubmitBtn.click()
             ]);
-            await page.waitForTimeout(2000);
+            assert.ok(fastPostResponse.ok(), `Assertion Error: Fast reply request failed with HTTP ${fastPostResponse.status()}.`);
+            await page.waitForFunction(
+                message => document.body.innerText.includes(message),
+                'Fast reply text from unprivileged account.'
+            );
 
             console.log("Checking if fast reply exists in DB...");
             const fastReplyDbCheck = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT COUNT(*) FROM pre_forum_post WHERE tid='${tidOutput}' AND message='Fast reply text from unprivileged account.';"`).toString().trim();
@@ -543,8 +540,8 @@ const { execSync } = require('child_process');
             // Edit Thread
             console.log("Attempting to edit thread...");
             const pidOutput = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT pid FROM pre_forum_post WHERE tid='${tidOutput}' AND first=1 LIMIT 1;"`).toString().trim();
-            if (pidOutput) {
-                const editPostBtn = page.locator(`a[href*="action=edit"][href*="pid=${pidOutput}"]`).first();
+            assert.match(pidOutput, /^\d+$/, 'Assertion Error: Created thread first-post ID was not found.');
+                const editPostBtn = page.locator(`a[href*="action=edit"][href*="pid=${pidOutput}"]`);
                 assert.strictEqual(await editPostBtn.count(), 1, 'Assertion Error: Desktop edit control did not render.');
                 await editPostBtn.click();
                 const editForm = page.locator('#fwin_edit form#postform_edit');
@@ -570,29 +567,50 @@ const { execSync } = require('child_process');
                 console.log("Checking if edited thread title exists in DB...");
                 const editDbCheck = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT COUNT(*) FROM pre_forum_thread WHERE tid='${tidOutput}' AND subject='Standard User Thread (Edited)';"`).toString().trim();
                 assert.strictEqual(editDbCheck, '1', 'Assertion Error: Edited thread title was not updated in database.');
+                await page.reload({ waitUntil: 'networkidle' });
+                const editedThreadBody = await page.textContent('body');
+                assert.ok(editedThreadBody.includes('Standard User Thread (Edited)'), 'Assertion Error: Edited thread title was not rendered after reload.');
+                assert.ok(editedThreadBody.includes('Edited body text from unprivileged account.'), 'Assertion Error: Edited thread body was not rendered after reload.');
                 report += '### 4. Unprivileged User Edit\n- **Status**: Checked\n- **Edited Title**: Standard User Thread (Edited)\n\n';
-            }
-        }
 
         console.log("Testing Personal Info Update via spacecp...");
         await page.goto('http://127.0.0.1:8080/home.php?mod=spacecp&ac=profile');
         await page.waitForLoadState('networkidle');
 
-        await page.evaluate(() => {
-            const form = document.querySelector('form[action*="mod=spacecp"]') || document.forms[0];
-            if (form) {
-                const sightml = form.querySelector('textarea[name="sightml"], #sightmlmessage');
-                if (sightml) sightml.value = 'My Custom Test Signature';
-
-                const customstatus = form.querySelector('input[name="customstatus"]');
-                if (customstatus) customstatus.value = 'Custom Member Status';
-
-                const submitBtn = form.querySelector('button[type="submit"], input[type="submit"], #profilesubmitbtn');
-                if (submitBtn) submitBtn.click();
-                else form.submit();
-            }
-        });
-        await page.waitForTimeout(2000);
+        const profileForm = page.locator('form[action*="mod=spacecp"]');
+        assert.strictEqual(await profileForm.count(), 1, 'Assertion Error: Personal profile form did not render.');
+        const signatureInput = profileForm.locator('textarea[name="sightml"], #sightmlmessage');
+        const customStatusInput = profileForm.locator('input[name="customstatus"]');
+        const profileSubmit = profileForm.locator('button[type="submit"], input[type="submit"], #profilesubmitbtn');
+        assert.strictEqual(await signatureInput.count(), 1, 'Assertion Error: Personal signature field did not render.');
+        assert.strictEqual(await customStatusInput.count(), 1, 'Assertion Error: Custom status field did not render.');
+        assert.strictEqual(await profileSubmit.count(), 1, 'Assertion Error: Personal profile submit control did not render.');
+        await signatureInput.fill('My Custom Test Signature');
+        await customStatusInput.fill('Custom Member Status');
+        const [profileResponse] = await Promise.all([
+            page.waitForResponse(response =>
+                response.request().method() === 'POST' &&
+                response.url().includes('home.php?mod=spacecp')
+            ),
+            profileSubmit.click()
+        ]);
+        assert.ok(
+            profileResponse.ok() || (profileResponse.status() >= 300 && profileResponse.status() < 400),
+            `Assertion Error: Personal profile POST failed with HTTP ${profileResponse.status()}.`
+        );
+        const profileValues = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT CONCAT(COALESCE(sightml,''), '\\t', COALESCE(customstatus,'')) FROM pre_common_member_field_forum WHERE uid='${userUid}';"`).toString().trim();
+        assert.strictEqual(profileValues, 'My Custom Test Signature\tCustom Member Status', 'Assertion Error: Personal profile values were not persisted.');
+        await page.reload({ waitUntil: 'networkidle' });
+        assert.strictEqual(
+            await page.locator('textarea[name="sightml"], #sightmlmessage').inputValue(),
+            'My Custom Test Signature',
+            'Assertion Error: Reloaded profile UI did not show the saved signature.'
+        );
+        assert.strictEqual(
+            await page.locator('input[name="customstatus"]').inputValue(),
+            'Custom Member Status',
+            'Assertion Error: Reloaded profile UI did not show the saved custom status.'
+        );
 
         console.log("Testing User Threads Page (with view=me)...");
         await page.goto('http://127.0.0.1:8080/home.php?mod=space&do=thread&view=me');
@@ -600,10 +618,7 @@ const { execSync } = require('child_process');
         await page.screenshot({ path: 'screenshot_space_thread_viewme.png' });
 
         const viewMeBody = await page.textContent('body');
-        assert.ok(
-            viewMeBody.includes('Standard User Thread') || viewMeBody.includes('Thread') || viewMeBody.includes(username),
-            'Assertion Error: view=me user threads page did not load correctly.'
-        );
+        assert.ok(viewMeBody.includes('Standard User Thread (Edited)'), 'Assertion Error: view=me user threads page did not list the edited thread.');
 
         console.log("Testing Other User Threads Page (home.php?mod=space&uid=1&do=thread)...");
         await page.goto('http://127.0.0.1:8080/home.php?mod=space&uid=1&do=thread');
@@ -611,10 +626,7 @@ const { execSync } = require('child_process');
         await page.screenshot({ path: 'screenshot_space_thread_default.png' });
 
         const defaultThreadBody = await page.textContent('body');
-        assert.ok(
-            defaultThreadBody.includes('admin'),
-            'Assertion Error: Other user threads page (uid=1) did not load correctly.'
-        );
+        assert.ok(defaultThreadBody.includes('Admin Seed Thread'), 'Assertion Error: Other user threads page did not list the seeded admin thread.');
 
         console.log("Testing User Replies Page (home.php?mod=space&do=thread&view=me&type=reply)...");
         await page.goto('http://127.0.0.1:8080/home.php?mod=space&do=thread&view=me&type=reply');
@@ -630,32 +642,59 @@ const { execSync } = require('child_process');
         console.log("Testing Thread Recommendation and Hot Reply Voting via UI...");
         const adminTidOutput = execSync("sudo mysql -u root ultrax -N -s -e \"SELECT tid FROM pre_forum_thread WHERE authorid=1 ORDER BY tid DESC LIMIT 1;\"").toString().trim();
         const adminReplyPidOutput = execSync("sudo mysql -u root ultrax -N -s -e \"SELECT pid FROM pre_forum_post WHERE authorid=1 AND first=0 ORDER BY pid DESC LIMIT 1;\"").toString().trim();
-        const targetRecommendTid = adminTidOutput || tidOutput;
-        const targetSupportTid = adminReplyPidOutput ? execSync(`sudo mysql -u root ultrax -N -s -e "SELECT tid FROM pre_forum_post WHERE pid='${adminReplyPidOutput}' LIMIT 1;"`).toString().trim() : tidOutput;
+        assert.match(adminTidOutput, /^\d+$/, 'Assertion Error: Seeded admin thread for recommendation testing was not found.');
+        assert.match(adminReplyPidOutput, /^\d+$/, 'Assertion Error: Seeded admin reply for postreview testing was not found.');
+        const targetRecommendTid = adminTidOutput;
+        const targetSupportTid = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT tid FROM pre_forum_post WHERE pid='${adminReplyPidOutput}' LIMIT 1;"`).toString().trim();
+        assert.match(targetSupportTid, /^\d+$/, 'Assertion Error: Seeded admin reply thread ID was not found.');
 
         await page.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${targetRecommendTid}`);
         await page.waitForLoadState('networkidle');
-        const recommendBtn = page.locator('a[href*="action=recommend&do=add"]').first();
+        const recommendBtn = page.locator('a[href*="action=recommend&do=add"]');
         assert.strictEqual(await recommendBtn.count(), 1, 'Assertion Error: Desktop thread recommend button did not render.');
         assert.ok(await recommendBtn.isVisible(), 'Assertion Error: Desktop thread recommend button was not visible.');
+        const recommendCount = page.locator('#recommendv_add');
+        assert.strictEqual(await recommendCount.count(), 1, 'Assertion Error: Desktop recommendation count did not render.');
+        const recommendCountBefore = Number((await recommendCount.textContent()).trim() || '0');
         console.log("Clicking desktop thread recommend button via UI...");
-        await recommendBtn.click();
-        await page.waitForTimeout(1000);
+        const [recommendResponse] = await Promise.all([
+            page.waitForResponse(response => response.url().includes('action=recommend&do=add')),
+            recommendBtn.click()
+        ]);
+        assert.ok(recommendResponse.ok(), `Assertion Error: Thread recommendation request failed with HTTP ${recommendResponse.status()}.`);
+        await page.waitForFunction(
+            previous => Number(document.querySelector('#recommendv_add')?.textContent.trim() || '0') > previous,
+            recommendCountBefore
+        );
+        const recommendDbCheck = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT COUNT(*) FROM pre_forum_memberrecommend WHERE tid='${targetRecommendTid}' AND recommenduid='${userUid}';"`).toString().trim();
+        assert.strictEqual(recommendDbCheck, '1', 'Assertion Error: Thread recommendation was not persisted.');
 
         await page.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${targetSupportTid}`);
         await page.waitForLoadState('networkidle');
-        const supportBtn = page.locator('a[href*="action=postreview&do=support"]').first();
+        const supportBtn = page.locator(`a[href*="action=postreview&do=support"][href*="pid=${adminReplyPidOutput}"]`);
         assert.strictEqual(await supportBtn.count(), 1, 'Assertion Error: Desktop postreview support button did not render.');
         assert.ok(await supportBtn.isVisible(), 'Assertion Error: Desktop postreview support button was not visible.');
+        const supportCount = page.locator(`#review_support_${adminReplyPidOutput}`);
+        assert.strictEqual(await supportCount.count(), 1, 'Assertion Error: Desktop postreview support count did not render.');
+        const supportCountBefore = Number((await supportCount.textContent()).trim() || '0');
         console.log("Clicking desktop postreview support button via UI...");
-        await supportBtn.click();
-        await page.waitForTimeout(1000);
+        const [supportResponse] = await Promise.all([
+            page.waitForResponse(response => response.url().includes('action=postreview&do=support')),
+            supportBtn.click()
+        ]);
+        assert.ok(supportResponse.ok(), `Assertion Error: Postreview support request failed with HTTP ${supportResponse.status()}.`);
+        await page.waitForFunction(
+            ({ pid, previous }) => Number(document.getElementById(`review_support_${pid}`)?.textContent.trim() || '0') > previous,
+            { pid: adminReplyPidOutput, previous: supportCountBefore }
+        );
+        const supportDbCheck = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT COUNT(*) FROM pre_forum_hotreply_member WHERE pid='${adminReplyPidOutput}' AND uid='${userUid}' AND attitude=1;"`).toString().trim();
+        assert.strictEqual(supportDbCheck, '1', 'Assertion Error: Postreview support vote was not persisted.');
 
         await page.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${targetRecommendTid}`);
         await page.waitForLoadState('networkidle');
         await page.screenshot({ path: 'screenshot_desktop_thread_recommend.png' });
 
-        report += '### 4b. Personal Info Update & Space Threads Verification\n- **Status**: Checked\n- **spacecp Update**: Success\n- **Threads Page (with view=me)**: Success — `screenshot_space_thread_viewme.png`\n- **Other User Threads Page (uid=1)**: Success — `screenshot_space_thread_default.png`\n- **User Replies Page (type=reply)**: Success — `screenshot_desktop_space_thread_reply.png`\n- **User Postcomments Page (type=postcomment)**: Success — `screenshot_desktop_space_thread_postcomment.png`\n- **Thread Recommendation & Hot Reply Check**: Success — `screenshot_desktop_thread_recommend.png`\n\n';
+        report += '### 4b. Personal Info Update & Space Threads Verification\n- **Status**: Checked\n- **spacecp Update**: Success\n- **Threads Page (with view=me)**: Success — `screenshot_space_thread_viewme.png`\n- **Other User Threads Page (uid=1)**: Success — `screenshot_space_thread_default.png`\n- **User Replies Page (type=reply)**: Success — `screenshot_desktop_space_thread_reply.png`\n- **Thread Recommendation & Hot Reply Check**: Success — `screenshot_desktop_thread_recommend.png`\n\n';
 
         console.log("Testing Personal Messages (PM) on Desktop via UI...");
         const userPmToAdmin = 'UI sent test message to admin.';
@@ -664,43 +703,70 @@ const { execSync } = require('child_process');
         assert.strictEqual(userPmDbCheck, '1', 'Assertion Error: User PM was not delivered to the admin inbox.');
 
         console.log("Testing Reply Quote & Notification (do=notice) and PM send back from admin via UI...");
-        if (tidOutput) {
             const firstPid = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT pid FROM pre_forum_post WHERE tid='${tidOutput}' AND first=1 LIMIT 1;"`).toString().trim();
+            assert.match(firstPid, /^\d+$/, 'Assertion Error: First-post ID for the quote-reply test was not found.');
 
             const adminContext = await browser.newContext();
             const adminPage = await adminContext.newPage();
             await adminPage.goto('http://127.0.0.1:8080/member.php?mod=logging&action=login');
             await adminPage.waitForLoadState('networkidle');
             const adminLoginForm = adminPage.locator('form[id^="loginform_"]:visible');
+            assert.strictEqual(await adminLoginForm.count(), 1, 'Assertion Error: Admin quote-reply login form did not render.');
             await adminLoginForm.locator('input[name="username"]').fill('admin');
             await adminLoginForm.locator('input[name="password"]').fill('Testpassword123!');
             const adminSecqaa = adminLoginForm.locator('input[name*="secanswer"]');
             if (await adminSecqaa.count()) await adminSecqaa.fill('2');
-            await Promise.all([
-                adminPage.waitForNavigation({ waitUntil: 'networkidle' }).catch(() => {}),
-                adminLoginForm.evaluate(form => form.submit())
+            const adminLoginSubmit = adminLoginForm.locator('button[name="loginsubmit"], button[type="submit"], input[type="submit"]');
+            assert.strictEqual(await adminLoginSubmit.count(), 1, 'Assertion Error: Admin login submit control did not render.');
+            const [adminLoginResponse] = await Promise.all([
+                adminPage.waitForResponse(response =>
+                    response.request().method() === 'POST' &&
+                    response.url().includes('member.php?mod=logging')
+                ),
+                adminLoginSubmit.click()
             ]);
+            assert.ok(
+                adminLoginResponse.ok() || (adminLoginResponse.status() >= 300 && adminLoginResponse.status() < 400),
+                `Assertion Error: Admin login POST failed with HTTP ${adminLoginResponse.status()}.`
+            );
 
             const adminPmToUser = 'Admin reply PM to user via UI.';
             await sendPrivateMessage(adminPage, username, adminPmToUser);
             const adminPmDbCheck = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT COUNT(*) FROM pre_common_pm_message p INNER JOIN pre_common_pm_member m ON m.plid=p.plid WHERE m.uid='${userUid}' AND p.authorid='1' AND p.message='${adminPmToUser}';"`).toString().trim();
             assert.strictEqual(adminPmDbCheck, '1', 'Assertion Error: Admin PM was not delivered to the user inbox.');
 
-            await adminPage.goto(`http://127.0.0.1:8080/forum.php?mod=post&action=reply&fid=${forumFid}&tid=${tidOutput}&reppost=${firstPid}`);
+            await adminPage.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${tidOutput}`);
             await adminPage.waitForLoadState('networkidle');
-            await adminPage.evaluate((msg) => {
-                const textArea = document.querySelector('textarea[name="message"], #postmessage');
-                if (textArea) textArea.value = (textArea.value ? textArea.value + '\n' : '') + msg;
-                try {
-                    if (window.editdoc && window.editdoc.body) window.editdoc.body.innerHTML = msg;
-                } catch (e) { }
-                const secqaa = document.querySelector('input[name*="secanswer"]');
-                if (secqaa) secqaa.value = '2';
-            }, 'Admin quote reply to user thread.');
-            const adminReplyBtn = await adminPage.$('#postsubmit, button[name="replysubmit"]');
-            assert.ok(adminReplyBtn, 'Assertion Error: Admin reply submit button was not rendered.');
-            await adminReplyBtn.click();
-            await adminPage.waitForNavigation({ waitUntil: 'networkidle' }).catch(() => {});
+            const adminQuoteLink = adminPage.locator(
+                `a.fastre[href*="repquote=${firstPid}"], a.fastre[href*="reppost=${firstPid}"]`
+            );
+            assert.strictEqual(await adminQuoteLink.count(), 1, 'Assertion Error: Admin quote-reply link did not render.');
+            await adminQuoteLink.click();
+            await adminPage.locator('#fwin_reply form:visible').waitFor({ state: 'visible' });
+            await fillPostEditor('Admin quote reply to user thread.', adminPage);
+            const adminReplyForm = adminPage.locator('#fwin_reply form:visible');
+            const adminReplySecqaa = adminReplyForm.locator('input[name*="secanswer"]:visible');
+            if (await adminReplySecqaa.count()) {
+                assert.strictEqual(await adminReplySecqaa.count(), 1, 'Assertion Error: More than one visible admin reply security-answer input rendered.');
+                await adminReplySecqaa.fill('2');
+            }
+            const adminReplyBtn = adminReplyForm.locator('#postsubmit, button[name="replysubmit"]');
+            assert.strictEqual(await adminReplyBtn.count(), 1, 'Assertion Error: Admin reply submit button was not rendered.');
+            const [adminReplyResponse] = await Promise.all([
+                adminPage.waitForResponse(response =>
+                    response.request().method() === 'POST' &&
+                    response.url().includes('forum.php?mod=post')
+                ),
+                adminReplyBtn.click()
+            ]);
+            assert.ok(
+                adminReplyResponse.ok() || (adminReplyResponse.status() >= 300 && adminReplyResponse.status() < 400),
+                `Assertion Error: Admin reply POST failed with HTTP ${adminReplyResponse.status()}.`
+            );
+            await adminPage.waitForFunction(
+                message => document.body.innerText.includes(message),
+                'Admin quote reply to user thread.'
+            );
             await adminContext.close();
 
             // Verify PM center for user
@@ -732,10 +798,11 @@ const { execSync } = require('child_process');
             assert.strictEqual(await commentMessage.count(), 1, 'Assertion Error: Post comment message input did not render.');
             assert.strictEqual(await submitCommentBtn.count(), 1, 'Assertion Error: Post comment submit button did not render.');
             await commentMessage.fill(postCommentText);
-            await Promise.all([
+            const [postCommentResponse] = await Promise.all([
                 page.waitForResponse(response => response.request().method() === 'POST' && response.url().includes('mod=post') && response.url().includes('commentsubmit=yes')),
                 submitCommentBtn.click()
             ]);
+            assert.ok(postCommentResponse.ok(), `Assertion Error: Post comment request failed with HTTP ${postCommentResponse.status()}.`);
 
             const postCommentDbCheck = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT COUNT(*) FROM pre_forum_postcomment WHERE authorid='${userUid}' AND pid='${adminReplyPid}' AND comment='${postCommentText}';"`).toString().trim();
             assert.strictEqual(postCommentDbCheck, '1', 'Assertion Error: Post comment was not created in database.');
@@ -743,6 +810,9 @@ const { execSync } = require('child_process');
             // Navigate back to viewthread to verify and screenshot the postcomment
             await page.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${tidOutput}`);
             await page.waitForLoadState('networkidle');
+            const commentedThreadBody = await page.textContent('body');
+            assert.ok(commentedThreadBody.includes('Admin quote reply to user thread.'), 'Assertion Error: Admin quote reply was not rendered in viewthread.');
+            assert.ok(commentedThreadBody.includes(postCommentText), 'Assertion Error: Post comment was not rendered in viewthread.');
             await page.screenshot({ path: 'screenshot_desktop_viewthread_commented.png' });
 
             await page.goto('http://127.0.0.1:8080/home.php?mod=space&do=thread&view=me&type=postcomment');
@@ -763,18 +833,18 @@ const { execSync } = require('child_process');
 
             const noticeBody = await page.textContent('body');
             assert.ok(
-                noticeBody.includes('admin') || noticeBody.includes('Standard User Thread') || noticeBody.includes('reply') || noticeBody.includes('replied') || noticeBody.includes('Notice') || noticeBody.includes('Notification'),
-                'Assertion Error: Desktop reply notification page (do=notice) did not render notice content.'
+                noticeBody.includes('Admin quote reply to user thread.'),
+                'Assertion Error: Desktop reply notification page did not render the exact admin reply notification.'
             );
             report += '### 4d. Desktop Reply Quote & Notification (do=notice)\n- **Status**: Checked\n- **Admin Quote Reply via UI**: Success\n- **DB Notification Check**: Passed\n- **Notice Page Render**: Success\n- **Screenshot**: `screenshot_desktop_notice.png`\n\n';
-        }
 
         console.log("Checking profile page for user custom avatar...");
         await page.goto(`http://127.0.0.1:8080/home.php?mod=space&uid=${userUid}&do=profile`);
         await page.waitForLoadState('networkidle');
 
-        const profileAvatarImg = await page.$('#uhd .avt img, #uhd .icn.avt img, #uhd .avt');
-        assert.ok(profileAvatarImg !== null, 'Assertion Error: Avatar image element was not rendered on profile page.');
+        const profileAvatarImg = page.locator('#uhd .avt img, #uhd .icn.avt img').first();
+        assert.strictEqual(await profileAvatarImg.count(), 1, 'Assertion Error: Uploaded avatar image was not rendered on profile page.');
+        assert.ok(await profileAvatarImg.evaluate(image => image.complete && image.naturalWidth > 0), 'Assertion Error: Profile avatar image did not load.');
 
         console.log("Checking other user's profile page on desktop (admin uid=1)...");
         await page.goto('http://127.0.0.1:8080/home.php?mod=space&uid=1&do=profile');
@@ -792,15 +862,17 @@ const { execSync } = require('child_process');
             return hd ? hd.innerHTML.substring(0, 400) : '';
         });
 
-        const headerAvatarImg = await page.$('#um .avt img, #um .avt a, #um .avt, #hd .avt img, #um img, .avt img, .header-user-avatar img, .header-user-avatar .Avatar, .header-user-avatar, #um');
-        assert.ok(headerAvatarImg !== null, `Assertion Error: Avatar image element was not rendered in page header. Header HTML: ${headerSnippet}`);
+        const headerAvatarImg = page.locator('#um .avt img, #hd .avt img, .header-user-avatar img').first();
+        assert.strictEqual(await headerAvatarImg.count(), 1, `Assertion Error: Uploaded avatar image was not rendered in page header. Header HTML: ${headerSnippet}`);
+        assert.ok(await headerAvatarImg.evaluate(image => image.complete && image.naturalWidth > 0), 'Assertion Error: Header avatar image did not load.');
 
         console.log("Checking viewthread page for author custom avatar...");
         await page.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${tidOutput}`);
         await page.waitForLoadState('networkidle');
 
-        const viewthreadAvatarImg = await page.$('#postlist .pls .avatar img, #postlist .postauthor .avatar img, #postlist .pls .avatar');
-        assert.ok(viewthreadAvatarImg !== null, 'Assertion Error: Author avatar image element was not rendered on viewthread page.');
+        const viewthreadAvatarImg = page.locator('#postlist .pls .avatar img, #postlist .postauthor .avatar img').first();
+        assert.strictEqual(await viewthreadAvatarImg.count(), 1, 'Assertion Error: Uploaded author avatar image was not rendered on viewthread page.');
+        assert.ok(await viewthreadAvatarImg.evaluate(image => image.complete && image.naturalWidth > 0), 'Assertion Error: Viewthread avatar image did not load.');
 
         report += '### 5. Unprivileged User Avatar Setup & Verification\n- **Status**: Checked\n- **Avatar Status in DB**: 1\n- **Profile Avatar Check**: Passed\n- **Other User Profile Screenshot**: `screenshot_desktop_other_user_profile.png`\n- **Header Avatar Check**: Passed\n- **Viewthread Avatar Check**: Passed\n\n';
 
@@ -809,10 +881,9 @@ const { execSync } = require('child_process');
         await page.goto(`http://127.0.0.1:8080/forum.php?mod=post&action=newthread&fid=${forumFid}`);
         await page.waitForLoadState('networkidle');
 
-        const attachSubject = await page.$('input[name="subject"]');
-        if (attachSubject) {
-            await attachSubject.fill('Thread with Attachment');
-        }
+        const attachSubject = page.locator('input[name="subject"]');
+        assert.strictEqual(await attachSubject.count(), 1, 'Assertion Error: Image attachment subject field did not render.');
+        await attachSubject.fill('Thread with Attachment');
 
         const uploaderRuntime = await page.evaluate(() => ({
             available: typeof DiscuzUploader === 'function',
@@ -839,13 +910,12 @@ const { execSync } = require('child_process');
 
         const attachMsg = `Posting thread with image attachment content. [attach]${aid}[/attach]`;
 
-        await page.evaluate(({ aidVal, message }) => {
-            const textArea = document.querySelector('textarea[name="message"], #postmessage');
-            if (textArea) textArea.value = message;
-            if (window.editdoc && window.editdoc.body) window.editdoc.body.innerHTML = message;
-            const secqaa = document.querySelector('input[name*="secanswer"]');
-            if (secqaa) secqaa.value = '2';
-        }, { aidVal: aid, message: attachMsg });
+        await fillPostEditor(attachMsg);
+        const attachSecqaa = page.locator('input[name*="secanswer"]:visible');
+        if (await attachSecqaa.count()) {
+            assert.strictEqual(await attachSecqaa.count(), 1, 'Assertion Error: More than one visible image-post security-answer input rendered.');
+            await attachSecqaa.fill('2');
+        }
 
         const extraTagBtn = await page.$('#extra_tag_b, a[href*="extra_tag"], #extra_tag_b a');
         assert.ok(extraTagBtn, 'Assertion Error: Desktop tag control did not render.');
@@ -858,22 +928,30 @@ const { execSync } = require('child_process');
         await tagsInput.fill('sample tag');
         await tagsInput.press('Enter');
 
-        const attachSubmitBtn = await page.$('button[name="topicsubmit"]');
-        if (attachSubmitBtn) {
-            await attachSubmitBtn.click();
-            await page.waitForNavigation({ waitUntil: 'networkidle' }).catch(() => { });
-            await page.waitForTimeout(2000);
-        }
+        const attachSubmitBtn = page.locator('button[name="topicsubmit"]');
+        assert.strictEqual(await attachSubmitBtn.count(), 1, 'Assertion Error: Image attachment thread submit button did not render.');
+        const [attachPostResponse] = await Promise.all([
+            page.waitForResponse(response =>
+                response.request().method() === 'POST' &&
+                response.url().includes('forum.php?mod=post')
+            ),
+            attachSubmitBtn.click()
+        ]);
+        assert.ok(
+            attachPostResponse.ok() || (attachPostResponse.status() >= 300 && attachPostResponse.status() < 400),
+            `Assertion Error: Image attachment thread POST failed with HTTP ${attachPostResponse.status()}.`
+        );
+        await page.waitForURL(/forum\.php\?mod=viewthread&tid=\d+/);
 
         console.log("Checking if attachment thread exists in DB and loads in viewthread...");
         const attachTid = execSync("sudo mysql -u root ultrax -N -s -e \"SELECT tid FROM pre_forum_thread WHERE subject='Thread with Attachment' ORDER BY tid DESC LIMIT 1;\"").toString().trim();
         assert.ok(attachTid, 'Assertion Error: Thread with attachment was not created in database.');
+        assert.ok(page.url().includes(`tid=${attachTid}`), 'Assertion Error: Image attachment submission redirected to the wrong thread.');
 
         const attachDbRecord = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT COUNT(*) FROM pre_forum_attachment WHERE tid='${attachTid}';"`).toString().trim();
         console.log("DB count for pre_forum_attachment:", attachDbRecord);
         assert.ok(parseInt(attachDbRecord, 10) >= 1, 'Assertion Error: Image attachment record was not linked in pre_forum_attachment database table.');
 
-        await page.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${attachTid}`);
         await page.waitForLoadState('networkidle');
 
         const viewthreadBody = await page.textContent('body');
@@ -884,10 +962,14 @@ const { execSync } = require('child_process');
 
         const postImg = await page.$('#postlist .t_f img[id^="aimg_"], #postlist .t_f img[aid], #postlist .t_f img[file], #postlist .t_f img[zoomfile], #postlist .t_f .tattl img, #postlist .t_f img[src*="data/attachment/"]');
         // Verify the stored type as well as the browser's rendered image.
-        const tfSnippet = await page.$eval('#postlist .t_f', el => el.innerHTML.substring(0, 600)).catch(() => '');
+        const postContentNode = page.locator('#postlist .t_f');
+        assert.strictEqual(await postContentNode.count(), 1, 'Assertion Error: Attachment post content container did not render.');
+        const tfSnippet = await postContentNode.evaluate(el => el.innerHTML.substring(0, 600));
         const attachmentIndex = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT CONCAT(tid, ':', tableid) FROM pre_forum_attachment WHERE aid='${aid}' LIMIT 1;"`).toString().trim();
+        assert.ok(attachmentIndex, `Assertion Error: Attachment ${aid} was not present in pre_forum_attachment.`);
         const attachTableId = attachmentIndex.split(':')[1];
-        const attachIsimage = attachTableId === undefined ? '' : execSync(`sudo mysql -u root ultrax -N -s -e "SELECT isimage FROM pre_forum_attachment_${attachTableId} WHERE aid='${aid}' AND tid='${attachTid}' LIMIT 1;"`).toString().trim();
+        assert.match(attachTableId, /^\d+$/, `Assertion Error: Attachment ${aid} has an invalid tableid in ${attachmentIndex}.`);
+        const attachIsimage = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT isimage FROM pre_forum_attachment_${attachTableId} WHERE aid='${aid}' AND tid='${attachTid}' LIMIT 1;"`).toString().trim();
         const unusedAttachment = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT COUNT(*) FROM pre_forum_attachment_unused WHERE aid='${aid}';"`).toString().trim();
         assert.strictEqual(attachmentIndex, `${attachTid}:${attachTid.slice(-1)}`, `Assertion Error: Attachment index was not bound to thread ${attachTid}. Found: ${attachmentIndex}`);
         assert.strictEqual(unusedAttachment, '0', `Assertion Error: Attachment ${aid} remained in pre_forum_attachment_unused.`);
@@ -897,19 +979,18 @@ const { execSync } = require('child_process');
         const imageSize = await postImg.evaluate(img => ({ width: img.naturalWidth, height: img.naturalHeight }));
         assert.ok(imageSize.width > 0 && imageSize.height > 0, `Assertion Error: Attached image did not load (${imageSize.width}x${imageSize.height}).`);
 
-        await page.screenshot({ path: 'screenshot_attachment_viewthread.png' }).catch(() => { });
+        await page.screenshot({ path: 'screenshot_attachment_viewthread.png' });
 
-        report += '### 6. Unprivileged User Image Attachment Post\n- **Status**: Checked\n- **Thread Created**: Thread with Attachment (TID: ' + attachTid + ', AID: ' + (aid || 'N/A') + ')\n- **Image Attachment DOM Check**: Passed\n- **Viewthread Verification**: Success\n\n';
+        report += '### 6. Unprivileged User Image Attachment Post\n- **Status**: Checked\n- **Thread Created**: Thread with Attachment (TID: ' + attachTid + ', AID: ' + aid + ')\n- **Image Attachment DOM Check**: Passed\n- **Viewthread Verification**: Success\n\n';
 
         // 6b. Non-Image Attachment Post Test
         console.log("Attempting to post thread with non-image attachment...");
         await page.goto(`http://127.0.0.1:8080/forum.php?mod=post&action=newthread&fid=${forumFid}`);
         await page.waitForLoadState('networkidle');
 
-        const nonImgSubject = await page.$('input[name="subject"]');
-        if (nonImgSubject) {
-            await nonImgSubject.fill('Thread with Non-Image Attachment');
-        }
+        const nonImgSubject = page.locator('input[name="subject"]');
+        assert.strictEqual(await nonImgSubject.count(), 1, 'Assertion Error: Non-image attachment subject field did not render.');
+        await nonImgSubject.fill('Thread with Non-Image Attachment');
 
         fs.mkdirSync('scratch', { recursive: true });
         const nonImgFixture = 'scratch/sample_test_document.txt';
@@ -927,26 +1008,33 @@ const { execSync } = require('child_process');
 
         const nonImgAttachMsg = `Posting thread with non-image attachment document. [attach]${nonImgAid}[/attach]`;
 
-        await page.evaluate(({ aidVal, message }) => {
-            const textArea = document.querySelector('textarea[name="message"], #postmessage');
-            if (textArea) textArea.value = message;
-            if (window.editdoc && window.editdoc.body) window.editdoc.body.innerHTML = message;
-            const secqaa = document.querySelector('input[name*="secanswer"]');
-            if (secqaa) secqaa.value = '2';
-        }, { aidVal: nonImgAid, message: nonImgAttachMsg });
-
-        const nonImgSubmitBtn = await page.$('button[name="topicsubmit"]');
-        if (nonImgSubmitBtn) {
-            await nonImgSubmitBtn.click();
-            await page.waitForNavigation({ waitUntil: 'networkidle' }).catch(() => { });
-            await page.waitForTimeout(2000);
+        await fillPostEditor(nonImgAttachMsg);
+        const nonImgSecqaa = page.locator('input[name*="secanswer"]:visible');
+        if (await nonImgSecqaa.count()) {
+            assert.strictEqual(await nonImgSecqaa.count(), 1, 'Assertion Error: More than one visible non-image-post security-answer input rendered.');
+            await nonImgSecqaa.fill('2');
         }
+
+        const nonImgSubmitBtn = page.locator('button[name="topicsubmit"]');
+        assert.strictEqual(await nonImgSubmitBtn.count(), 1, 'Assertion Error: Non-image attachment thread submit button did not render.');
+        const [nonImgPostResponse] = await Promise.all([
+            page.waitForResponse(response =>
+                response.request().method() === 'POST' &&
+                response.url().includes('forum.php?mod=post')
+            ),
+            nonImgSubmitBtn.click()
+        ]);
+        assert.ok(
+            nonImgPostResponse.ok() || (nonImgPostResponse.status() >= 300 && nonImgPostResponse.status() < 400),
+            `Assertion Error: Non-image attachment thread POST failed with HTTP ${nonImgPostResponse.status()}.`
+        );
+        await page.waitForURL(/forum\.php\?mod=viewthread&tid=\d+/);
 
         console.log("Checking if non-image attachment thread exists in DB and loads in viewthread...");
         const nonImgTid = execSync("sudo mysql -u root ultrax -N -s -e \"SELECT tid FROM pre_forum_thread WHERE subject='Thread with Non-Image Attachment' ORDER BY tid DESC LIMIT 1;\"").toString().trim();
         assert.ok(nonImgTid, 'Assertion Error: Thread with non-image attachment was not created in database.');
+        assert.ok(page.url().includes(`tid=${nonImgTid}`), 'Assertion Error: Non-image attachment submission redirected to the wrong thread.');
 
-        await page.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${nonImgTid}`);
         await page.waitForLoadState('networkidle');
         await page.screenshot({ path: 'screenshot_attachment_non_image_viewthread.png' });
 
@@ -961,10 +1049,9 @@ const { execSync } = require('child_process');
         await page.goto(`http://127.0.0.1:8080/forum.php?mod=post&action=newthread&fid=${forumFid}`);
         await page.waitForLoadState('networkidle');
 
-        const svgSubject = await page.$('input[name="subject"]');
-        if (svgSubject) {
-            await svgSubject.fill('Thread with SVG Attachment');
-        }
+        const svgSubject = page.locator('input[name="subject"]');
+        assert.strictEqual(await svgSubject.count(), 1, 'Assertion Error: SVG attachment subject field did not render.');
+        await svgSubject.fill('Thread with SVG Attachment');
 
         fs.mkdirSync('scratch', { recursive: true });
         const svgFixture = 'scratch/sample_icon.svg';
@@ -983,29 +1070,36 @@ const { execSync } = require('child_process');
 
         const svgAttachMsg = `Posting thread with SVG image content. [attach]${svgAid}[/attach]`;
 
-        await page.evaluate(({ aidVal, message }) => {
-            const textArea = document.querySelector('textarea[name="message"], #postmessage');
-            if (textArea) textArea.value = message;
-            if (window.editdoc && window.editdoc.body) window.editdoc.body.innerHTML = message;
-            const secqaa = document.querySelector('input[name*="secanswer"]');
-            if (secqaa) secqaa.value = '2';
-        }, { aidVal: svgAid, message: svgAttachMsg });
-
-        const svgSubmitBtn = await page.$('button[name="topicsubmit"]');
-        if (svgSubmitBtn) {
-            await svgSubmitBtn.click();
-            await page.waitForNavigation({ waitUntil: 'networkidle' }).catch(() => { });
-            await page.waitForTimeout(2000);
+        await fillPostEditor(svgAttachMsg);
+        const svgSecqaa = page.locator('input[name*="secanswer"]:visible');
+        if (await svgSecqaa.count()) {
+            assert.strictEqual(await svgSecqaa.count(), 1, 'Assertion Error: More than one visible SVG-post security-answer input rendered.');
+            await svgSecqaa.fill('2');
         }
+
+        const svgSubmitBtn = page.locator('button[name="topicsubmit"]');
+        assert.strictEqual(await svgSubmitBtn.count(), 1, 'Assertion Error: SVG attachment thread submit button did not render.');
+        const [svgPostResponse] = await Promise.all([
+            page.waitForResponse(response =>
+                response.request().method() === 'POST' &&
+                response.url().includes('forum.php?mod=post')
+            ),
+            svgSubmitBtn.click()
+        ]);
+        assert.ok(
+            svgPostResponse.ok() || (svgPostResponse.status() >= 300 && svgPostResponse.status() < 400),
+            `Assertion Error: SVG attachment thread POST failed with HTTP ${svgPostResponse.status()}.`
+        );
+        await page.waitForURL(/forum\.php\?mod=viewthread&tid=\d+/);
 
         console.log("Checking if SVG attachment thread exists in DB and loads in viewthread...");
         const svgTid = execSync("sudo mysql -u root ultrax -N -s -e \"SELECT tid FROM pre_forum_thread WHERE subject='Thread with SVG Attachment' ORDER BY tid DESC LIMIT 1;\"").toString().trim();
         assert.ok(svgTid, 'Assertion Error: Thread with SVG attachment was not created in database.');
+        assert.ok(page.url().includes(`tid=${svgTid}`), 'Assertion Error: SVG attachment submission redirected to the wrong thread.');
 
         const svgDbRecord = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT COUNT(*) FROM pre_forum_attachment WHERE tid='${svgTid}';"`).toString().trim();
         assert.ok(parseInt(svgDbRecord, 10) >= 1, 'Assertion Error: SVG attachment record was not linked in pre_forum_attachment database table.');
 
-        await page.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${svgTid}`);
         await page.waitForLoadState('networkidle');
         await page.screenshot({ path: 'screenshot_attachment_svg_viewthread.png' });
 
