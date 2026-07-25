@@ -35,6 +35,22 @@ const { execSync } = require('child_process');
     page.on('pageerror', async exception => {
         console.error(`Uncaught Browser Exception at URL [${page.url()}]:\nMessage: ${exception.message}\nStack:\n${exception.stack || exception}`);
         const invalidScripts = [];
+        let sourceContext = '';
+        try {
+            const html = await page.content();
+            fs.writeFileSync('browser_error_page.html', html);
+            const location = String(exception.stack || exception).match(/:(\d+):\d+(?:\s|$)/);
+            if (location) {
+                const line = Number(location[1]);
+                const lines = html.split('\n');
+                const start = Math.max(0, line - 4);
+                const end = Math.min(lines.length, line + 3);
+                sourceContext = '\nRendered source near failing line:\n' + lines
+                    .slice(start, end)
+                    .map((text, index) => `${start + index + 1}: ${text}`)
+                    .join('\n');
+            }
+        } catch (e) { }
         for (const frame of page.frames()) {
             try {
                 const scripts = await frame.evaluate(() => Array.from(document.scripts)
@@ -59,7 +75,7 @@ const { execSync } = require('child_process');
             }
         }
         const diagnostic = invalidScripts.length ? `\nInvalid scripts:\n${invalidScripts.join('\n\n')}` : '';
-        const failure = `Uncaught exception in browser at [${page.url()}]: ${exception.message || exception}${diagnostic}`;
+        const failure = `Uncaught exception in browser at [${page.url()}]: ${exception.message || exception}${sourceContext}${diagnostic}`;
         fs.writeFileSync('browser_error.txt', failure);
         throw new Error(failure);
     });
