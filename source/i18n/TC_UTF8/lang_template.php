@@ -453,7 +453,7 @@ $lang = [
 	'post_tag' => '標籤',
 	'choosetag' => '選擇標籤',
 	'posttag_comment_forbidadd' => '，只能選擇已有標籤',
-	'posttag_comment' => '用逗號或空格隔開多個標籤',
+	'posttag_comment' => '用逗號隔開多個標籤',
 	'recent_use_tag' => '最近使用標籤:',
 
 	'm_loading' => '正在加載...',
