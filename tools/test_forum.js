@@ -181,7 +181,7 @@ const { execSync } = require('child_process');
         DB::query("TRUNCATE TABLE ".DB::table('common_secquestion'));
         C::t('common_secquestion')->insert(array('type' => 0, 'question' => '1+1=?', 'answer' => '2'));
 
-        \$seccodedata = array('rule' => array('register' => array('allow' => 0, 'numlimit' => '', 'timelimit' => 0),'login' => array('allow' => 0, 'nolocal' => 0, 'pwsimple' => 0, 'pwerror' => 0, 'outofday' => '', 'numiptry' => '', 'timeiptry' => 0),'post' => array('allow' => 0, 'numlimit' => '', 'timelimit' => 0, 'nplimit' => '', 'vplimit' => ''),'password' => array('allow' => 0),'card' => array('allow' => 0)),'minposts' => '','type' => 0,'width' => 150,'height' => 60,'scatter' => 0,'background' => 0,'adulterate' => 0,'ttf' => 0,'angle' => 0,'warping' => 0,'color' => 0,'size' => 0,'shadow' => 0,'animator' => 0);
+        \$seccodedata = array('rule' => array('register' => array('allow' => 1, 'numlimit' => '', 'timelimit' => 0),'login' => array('allow' => 1, 'nolocal' => 0, 'pwsimple' => 0, 'pwerror' => 0, 'outofday' => '', 'numiptry' => '', 'timeiptry' => 0),'post' => array('allow' => 1, 'numlimit' => '', 'timelimit' => 0, 'nplimit' => '', 'vplimit' => ''),'password' => array('allow' => 0),'card' => array('allow' => 0)),'minposts' => '','type' => 0,'width' => 150,'height' => 60,'scatter' => 0,'background' => 0,'adulterate' => 0,'ttf' => 0,'angle' => 0,'warping' => 0,'color' => 0,'size' => 0,'shadow' => 0,'animator' => 0);
         \$secqaa = array('status' => 3, 'minposts' => 0, 'statuses' => array('register', 'post', 'login'), 'allowcode' => 0, 'allowqa' => 1);
         C::t('common_setting')->update('seccodedata', \$seccodedata);
         C::t('common_setting')->update('secqaa', \$secqaa);
@@ -268,8 +268,11 @@ const { execSync } = require('child_process');
         \$storedSecqaa = C::t('common_setting')->fetch_setting('secqaa', true);
         \$cachedSettings = C::t('common_syscache')->fetch_all_syscache(array('setting', 'secqaa'), true);
         if(!empty(\$storedSecqaa['allowcode']) || empty(\$storedSecqaa['allowqa'])
+            || count(array_diff(array('register', 'post', 'login'), \$storedSecqaa['statuses'] ?? array()))
             || !empty(\$cachedSettings['setting']['secqaa']['allowcode'])
             || empty(\$cachedSettings['setting']['secqaa']['allowqa'])
+            || count(array_diff(array('register', 'post', 'login'), \$cachedSettings['setting']['secqaa']['statuses'] ?? array()))
+            || count(array_filter(array('register', 'post', 'login'), fn(\$rule) => (int)(\$cachedSettings['setting']['seccodedata']['rule'][\$rule]['allow'] ?? 0) !== 1))
             || count(\$cachedSettings['secqaa']) !== 9
             || count(array_filter(\$cachedSettings['secqaa'], fn(\$question) => (\$question['answer'] ?? '') !== md5('2')))) {
             throw new RuntimeException('Security setting cache mismatch: '.json_encode(array(\$storedSecqaa, \$cachedSettings)));
