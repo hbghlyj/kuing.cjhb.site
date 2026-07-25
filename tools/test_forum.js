@@ -216,7 +216,9 @@ const { execSync } = require('child_process');
         }
 
         require_once libfile('function/cache');
+        C::t('common_setting')->update('jspath', 'data/cache/');
         updatecache(array('setting', 'secqaa', 'styles', 'usergroups'));
+        writetojscache();
         if(function_exists('opcache_reset')) { @opcache_reset(); }
         ?>`;
         fs.writeFileSync('setup_test_sec.php', phpConfig);
