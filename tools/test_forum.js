@@ -360,10 +360,19 @@ const { execSync } = require('child_process');
         const [avatarResponse] = await Promise.all([
             page.waitForResponse(response =>
                 response.request().method() === 'POST' &&
-                response.url().includes('home.php?mod=spacecp&ac=avatar')
+                response.url().includes('/api/avatar/index.php') &&
+                response.url().includes('a=rectavatar')
             ),
             avatarSubmit.click()
         ]);
+        const avatarPostData = avatarResponse.request().postData() || '';
+        assert.ok(
+            avatarPostData.includes('name="avatar1"') &&
+            avatarPostData.includes('name="avatar2"') &&
+            avatarPostData.includes('name="avatar3"') &&
+            avatarPostData.includes('name="formhash"'),
+            'Assertion Error: Avatar form did not submit all image payloads and formhash.'
+        );
         assert.ok(
             avatarResponse.ok() || (avatarResponse.status() >= 300 && avatarResponse.status() < 400),
             `Assertion Error: Avatar upload POST failed with HTTP ${avatarResponse.status()}.`
