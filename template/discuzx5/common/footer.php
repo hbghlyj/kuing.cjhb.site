@@ -134,14 +134,14 @@
 	</a>
 	<!--{/if}-->
 	<!--{if $_G['setting']['site_qq']}--><a href="//wpa.qq.com/msgrd?v=3&uin=$_G['setting']['site_qq']&site=$_G['setting']['bbname']&menu=yes&from=discuz" class="dz_rqq" rel="nofollow" target="_blank"><span class="dz_tip_text">QQ {lang x5_customer_service}</span></a><!--{/if}-->
-	<a href="javascript:;" onclick="if(typeof jQuery!='undefined'){jQuery('body,html').animate({scrollTop:0},600);}else{window.scrollTo(0,0);}" title="{lang scrolltop}" id="dz_rtop" class="dz_rtop" rel="nofollow"><span class="dz_tip_text">{lang scrolltop}</span></a>
+	<a href="javascript:;" onclick="window.scrollTo({top:0,behavior:'smooth'});" title="{lang scrolltop}" id="dz_rtop" class="dz_rtop" rel="nofollow"><span class="dz_tip_text">{lang scrolltop}</span></a>
 </div>
 
 <div id="scrolltop" style="display: none;">
 	<!--{if $_G['fid'] && $_G['mod'] == 'viewthread'}-->
 	<span><a href="forum.php?mod=post&action=reply&fid=$_G['fid']&tid=$_G['tid']&extra=$_GET['extra']&page=$page{if $_GET['from']}&from=$_GET['from']{/if}" onclick="showWindow('reply', this.href)" class="replyfast" title="{lang fastreply}"><b>{lang fastreply}</b></a></span>
 	<!--{/if}-->
-	<span hidefocus="true"><a title="{lang scrolltop}" onclick="window.scrollTo('0','0')" class="scrolltopa" ><b>{lang scrolltop}</b></a></span>
+	<span hidefocus="true"><a title="{lang scrolltop}" onclick="window.scrollTo('0','0')" class="scrolltopa"><b>{lang scrolltop}</b></a></span>
 	<!--{if $_G['fid']}-->
 	<span>
 		<!--{if $_G['mod'] == 'viewthread'}-->
@@ -155,35 +155,28 @@
 <script type="text/javascript">_attachEvent(window, 'scroll', function () { new_showTopLink(); });
 _attachEvent(window, 'resize', function(){ new_showTopLink(); });checkBlind();</script>
 <script type="text/javascript">
-	function new_showTopLink() {
-		var ft = $('ft');
-		if(ft){
-			var dzscrolltop = $('dz_rnav');
-			var viewPortHeight = parseInt(document.documentElement.clientHeight);
-			var dzscrollHeight = parseInt(document.body.getBoundingClientRect().top);
-			var dzbasew = parseInt(ft.clientWidth);
-			var dzsw = dzscrolltop.clientWidth;
-			if (dzbasew < 1500) {
-				var left = parseInt(fetchOffset(ft)['left']);
-				left = left < dzsw ? left * 2 - dzsw : left;
-				dzscrolltop.style.left = ( dzbasew + left ) + 'px';
-			} else {
-				dzscrolltop.style.left = 'auto';
-				dzscrolltop.style.right = 0;
-			}
-			if (typeof jQuery !== 'undefined') {
-				if (dzscrollHeight < -100) {
-					jQuery(".dz_rtop").slideDown();
-				} else {
-					jQuery(".dz_rtop").slideUp();
-				}
-			} else {
-				var rtop = document.getElementById('dz_rtop');
-				if (rtop) rtop.style.display = dzscrollHeight < -100 ? '' : 'none';
-			}
+function new_showTopLink() {
+	var ft = $('ft');
+	if(ft){
+		var dzscrolltop = $('dz_rnav');
+		var viewPortHeight = parseInt(document.documentElement.clientHeight);
+		var dzscrollHeight = parseInt(document.body.getBoundingClientRect().top);
+		var dzbasew = parseInt(ft.clientWidth);
+		var dzsw = dzscrolltop.clientWidth;
+		if (dzbasew < 1500) {
+			var left = parseInt(fetchOffset(ft)['left']);
+			left = left < dzsw ? left * 2 - dzsw : left;
+			dzscrolltop.style.left = ( dzbasew + left ) + 'px';
+		} else {
+			dzscrolltop.style.left = 'auto';
+			dzscrolltop.style.right = 0;
 		}
+		var rtop = document.getElementById('dz_rtop');
+		if (rtop) {
+			rtop.style.display = dzscrollHeight < -100 ? 'block' : 'none';
 	}
-	new_showTopLink();
+}
+new_showTopLink();
 	function show_win(on) {
 		showMenu({
 			'ctrlid': "win_"+on+"_div",
