@@ -4,6 +4,7 @@
 <script src="/kk/mathjax-config.js?<?= filemtime(__DIR__ . '/mathjax-config.js')?>"></script>
 <script src="/kk/mathjax-copy.js?<?= filemtime(__DIR__ . '/mathjax-copy.js')?>"></script>
 <script>
+  window.MathJax = window.MathJax || {};
   window.MathJax.startup = {
     ready: function() {
       const {MmlMath} = MathJax._.core.MmlTree.MmlNodes.math;
