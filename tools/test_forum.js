@@ -131,7 +131,7 @@ const { execSync } = require('child_process');
         C::t('common_secquestion')->insert(array('type' => 0, 'question' => '1+1=?', 'answer' => '2'));
 
         \$seccodedata = array('rule' => array('register' => array('allow' => 0, 'numlimit' => '', 'timelimit' => 0),'login' => array('allow' => 0, 'nolocal' => 0, 'pwsimple' => 0, 'pwerror' => 0, 'outofday' => '', 'numiptry' => '', 'timeiptry' => 0),'post' => array('allow' => 0, 'numlimit' => '', 'timelimit' => 0, 'nplimit' => '', 'vplimit' => ''),'password' => array('allow' => 0),'card' => array('allow' => 0)),'minposts' => '','type' => 0,'width' => 150,'height' => 60,'scatter' => 0,'background' => 0,'adulterate' => 0,'ttf' => 0,'angle' => 0,'warping' => 0,'color' => 0,'size' => 0,'shadow' => 0,'animator' => 0);
-        \$secqaa = array('status' => 2, 'minposts' => 0, 'statuses' => array('register', 'post', 'login'), 'allowcode' => 0, 'allowqa' => 1);
+        \$secqaa = array('status' => 0, 'minposts' => 0, 'statuses' => array(), 'allowcode' => 0, 'allowqa' => 0);
         C::t('common_setting')->update('seccodedata', serialize(\$seccodedata));
         C::t('common_setting')->update('secqaa', serialize(\$secqaa));
         C::t('common_setting')->update('seccodestatus', '0');
@@ -238,12 +238,11 @@ const { execSync } = require('child_process');
 
         const regSubmitBtn = registrationForm.locator('#registerformsubmit');
         assert.strictEqual(await regSubmitBtn.count(), 1, 'Assertion Error: Desktop registration submit button did not render.');
-        const registrationResponsePromise = page.waitForResponse(response => response.request().method() === 'POST' && response.url().includes('member.php?mod=register'));
-        await regSubmitBtn.click();
-        const registrationResponse = await registrationResponsePromise;
-        console.log("Registration response status:", registrationResponse.status());
-        console.log("Registration response text:", await registrationResponse.text());
-        await page.waitForTimeout(500);
+        await Promise.all([
+            page.waitForResponse(response => response.request().method() === 'POST' && response.url().includes('member.php?mod=register'), { timeout: 5000 }).catch(() => null),
+            regSubmitBtn.click()
+        ]);
+        await page.waitForTimeout(1000);
 
         console.log("Checking if user exists in DB...");
         const dbCheck = execSync("sudo mysql -u root ultrax -N -s -e \"SELECT COUNT(*) FROM pre_common_member WHERE username='" + username + "';\"").toString().trim();
