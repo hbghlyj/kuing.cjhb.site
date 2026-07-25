@@ -375,7 +375,7 @@ function cpmsg($message, $url = '', $type = 'error', $values = [], $extra = '', 
 			"<p class=\"margintop\"><input type=\"submit\" class=\"btn\" name=\"confirmed\" value=\"".cplang('ok')."\"> &nbsp; \n".
 			($cancelurl ? "<input type=\"button\" class=\"btn\" value=\"".cplang('cancel')."\" onClick=\"location.href='$cancelurl'\">" :
 				"<script type=\"text/javascript\">".
-				"if(history.length > (BROWSER.ie ? 0 : 1)) document.write('<input type=\"button\" class=\"btn\" value=\"".cplang('cancel')."\" onClick=\"history.go(-1);\">');".
+				"if(history.length > 1) document.write('<input type=\"button\" class=\"btn\" value=\"".cplang('cancel')."\" onClick=\"history.go(-1);\">');".
 				'</script>').
 			'</p></form><br />';
 	} elseif($type == 'loadingform') {
@@ -394,7 +394,7 @@ function cpmsg($message, $url = '', $type = 'error', $values = [], $extra = '', 
 		} elseif($type != 'succeed') {
 			$message .= '<p class="marginbot">'.
 				"<script type=\"text/javascript\">".
-				"if(history.length > (BROWSER.ie ? 0 : 1)) document.write('<a href=\"javascript:history.go(-1);\" class=\"lightlink\">".cplang('message_return')."</a>');".
+				"if(history.length > 1) document.write('<a href=\"javascript:history.go(-1);\" class=\"lightlink\">".cplang('message_return')."</a>');".
 				'</script>'.
 				'</p>';
 		}
