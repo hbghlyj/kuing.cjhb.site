@@ -49,7 +49,19 @@ C::t('common_setting')->update('commentnumber', '5');
 C::t('common_setting')->update('allowpostcomment', [1]);
 C::t('common_setting')->update('commentfirstpost', '1');
 C::t('common_setting')->update('commentpostself', '1');
+C::t('common_setting')->update('profilegroup', [
+	'info' => [
+		'title' => 'Personal Info',
+		'available' => 1,
+		'displayorder' => 0,
+		'field' => [
+			'sightml' => 'sightml',
+			'customstatus' => 'customstatus',
+		],
+	],
+]);
 foreach([1, 7, 10] as $groupId) {
+	C::t('common_usergroup')->update($groupId, ['allowcstatus' => '1']);
 	C::t('common_usergroup_field')->update($groupId, [
 		'disablepostctrl' => '1',
 		'allowcommentpost' => '3',
@@ -70,10 +82,14 @@ if(!empty($cached['setting']['secqaa']['allowcode'])
 	|| !in_array(1, $cached['setting']['allowpostcomment'])
 	|| empty($cached['setting']['commentfirstpost'])
 	|| empty($cached['setting']['commentpostself'])
+	|| empty($cached['setting']['profilegroup']['info']['available'])
+	|| !in_array('sightml', $cached['setting']['profilegroup']['info']['field'] ?? [], true)
+	|| !in_array('customstatus', $cached['setting']['profilegroup']['info']['field'] ?? [], true)
 	|| count($cached['secqaa']) !== 9
 	|| count(array_filter($cached['secqaa'], fn($question) => ($question['answer'] ?? '') !== md5('2')))
 	|| count(array_filter([1, 7, 10], fn($groupId) =>
-		empty($cached['usergroup_'.$groupId]['disablepostctrl'])
+		empty($cached['usergroup_'.$groupId]['allowcstatus'])
+		|| empty($cached['usergroup_'.$groupId]['disablepostctrl'])
 		|| (int)$cached['usergroup_'.$groupId]['allowcommentpost'] !== 3
 		|| (int)$cached['usergroup_'.$groupId]['maxsigsize'] !== 500
 	))) {
