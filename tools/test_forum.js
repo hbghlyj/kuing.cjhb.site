@@ -532,6 +532,7 @@ const { execSync } = require('child_process');
 
             const firstFloorCommentText = 'Test comment on first floor.';
             await firstFloorCommentMessage.fill(firstFloorCommentText);
+            await solveSecurityQuestion(page, firstFloorCommentForm);
             const [firstFloorCommentResponse] = await Promise.all([
                 page.waitForResponse(response => response.request().method() === 'POST' && response.url().includes('mod=post') && response.url().includes('commentsubmit=yes')),
                 firstFloorSubmitCommentBtn.click()
