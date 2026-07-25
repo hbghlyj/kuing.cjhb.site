@@ -17,7 +17,7 @@ function build_cache_onlinelist() {
 		if(!$list['url']) {
 			continue;
 		}
-		$url = STATICURL.'image/common/online_'.$list['url'].'.svg';
+		$url = preg_match('/^https?:\/\//is', $list['url']) ? $list['url'] : STATICURL.'image/common/'.$list['url'];
 		$data[$list['groupid']] = $url;
 		$data['legend_en'] .= !empty($url) ? "<li><img src=\"".$url."\" /> {$list['url']}</li>" : '';
 		$data['legend'] .= !empty($url) ? "<li><img src=\"".$url."\" /> {$list['title']}</li>" : '';
