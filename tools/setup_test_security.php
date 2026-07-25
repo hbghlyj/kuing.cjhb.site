@@ -179,37 +179,47 @@ require_once libfile('function/cache');
 C::t('common_syscache')->delete_syscache(['setting', 'secqaa']);
 updatecache(['setting', 'secqaa', 'usergroups', 'smilies_js']);
 
-test_security_setup_stage('cache validation');
+test_security_setup_stage('cache read');
 $cached = C::t('common_syscache')->fetch_all_syscache(['setting', 'secqaa', 'usergroup_1', 'usergroup_7', 'usergroup_10'], true);
+test_security_setup_stage('cache validation');
+$setting = (array)($cached['setting'] ?? []);
+$secqaaSetting = (array)($setting['secqaa'] ?? []);
+$seccodeData = (array)($setting['seccodedata'] ?? []);
+$seccodeRules = (array)($seccodeData['rule'] ?? []);
+$profileGroup = (array)($setting['profilegroup'] ?? []);
+$profileInfo = (array)($profileGroup['info'] ?? []);
+$profileFields = (array)($profileInfo['field'] ?? []);
+$secqaaCache = (array)($cached['secqaa'] ?? []);
 $failures = [];
 $expect = function($condition, $label) use (&$failures) {
 	if(!$condition) {
 		$failures[] = $label;
 	}
 };
-$expect(empty($cached['setting']['secqaa']['allowcode']), 'secqaa.allowcode');
-$expect(!empty($cached['setting']['secqaa']['allowqa']), 'secqaa.allowqa');
-$expect(!array_diff(['register', 'post', 'login'], (array)($cached['setting']['secqaa']['statuses'] ?? [])), 'secqaa.statuses');
+$expect(empty($secqaaSetting['allowcode']), 'secqaa.allowcode');
+$expect(!empty($secqaaSetting['allowqa']), 'secqaa.allowqa');
+$expect(!array_diff(['register', 'post', 'login'], (array)($secqaaSetting['statuses'] ?? [])), 'secqaa.statuses');
 foreach(['register', 'post', 'login'] as $rule) {
-	$expect((int)($cached['setting']['seccodedata']['rule'][$rule]['allow'] ?? 0) === 1, 'seccodedata.'.$rule);
+	$ruleSetting = (array)($seccodeRules[$rule] ?? []);
+	$expect((int)($ruleSetting['allow'] ?? 0) === 1, 'seccodedata.'.$rule);
 }
-$expect(($cached['setting']['regname'] ?? '') === 'register', 'regname');
-$expect((int)($cached['setting']['regstatus'] ?? 0) === 1, 'regstatus');
-$expect(empty($cached['setting']['regclose']), 'regclose');
-$expect((int)($cached['setting']['regverify'] ?? -1) === 0, 'regverify');
-$expect(($cached['setting']['jspath'] ?? '') === 'static/js/', 'jspath');
-$expect((int)($cached['setting']['floodctrl'] ?? -1) === 0, 'floodctrl');
-$expect((int)($cached['setting']['pmstatus'] ?? 0) === 1, 'pmstatus');
-$expect((int)($cached['setting']['commentnumber'] ?? 0) === 5, 'commentnumber');
-$expect(is_array($cached['setting']['allowpostcomment'] ?? null)
-	&& in_array(1, $cached['setting']['allowpostcomment'], true), 'allowpostcomment');
-$expect(!empty($cached['setting']['commentfirstpost']), 'commentfirstpost');
-$expect(!empty($cached['setting']['commentpostself']), 'commentpostself');
-$expect(!empty($cached['setting']['profilegroup']['info']['available']), 'profilegroup.info.available');
-$expect(in_array('sightml', (array)($cached['setting']['profilegroup']['info']['field'] ?? []), true), 'profilegroup.info.sightml');
-$expect(in_array('customstatus', (array)($cached['setting']['profilegroup']['info']['field'] ?? []), true), 'profilegroup.info.customstatus');
-$expect(count((array)($cached['secqaa'] ?? [])) === 9, 'secqaa cache count');
-$expect(!array_filter((array)($cached['secqaa'] ?? []), fn($question) => (((array)$question)['answer'] ?? '') !== md5('2')), 'secqaa answers');
+$expect(($setting['regname'] ?? '') === 'register', 'regname');
+$expect((int)($setting['regstatus'] ?? 0) === 1, 'regstatus');
+$expect(empty($setting['regclose']), 'regclose');
+$expect((int)($setting['regverify'] ?? -1) === 0, 'regverify');
+$expect(($setting['jspath'] ?? '') === 'static/js/', 'jspath');
+$expect((int)($setting['floodctrl'] ?? -1) === 0, 'floodctrl');
+$expect((int)($setting['pmstatus'] ?? 0) === 1, 'pmstatus');
+$expect((int)($setting['commentnumber'] ?? 0) === 5, 'commentnumber');
+$expect(is_array($setting['allowpostcomment'] ?? null)
+	&& in_array(1, $setting['allowpostcomment'], true), 'allowpostcomment');
+$expect(!empty($setting['commentfirstpost']), 'commentfirstpost');
+$expect(!empty($setting['commentpostself']), 'commentpostself');
+$expect(!empty($profileInfo['available']), 'profilegroup.info.available');
+$expect(in_array('sightml', $profileFields, true), 'profilegroup.info.sightml');
+$expect(in_array('customstatus', $profileFields, true), 'profilegroup.info.customstatus');
+$expect(count($secqaaCache) === 9, 'secqaa cache count');
+$expect(!array_filter($secqaaCache, fn($question) => (((array)$question)['answer'] ?? '') !== md5('2')), 'secqaa answers');
 foreach([1, 7, 10] as $groupId) {
 	$group = $cached['usergroup_'.$groupId] ?? [];
 	$expect(!empty($group['allowcstatus']), "usergroup_{$groupId}.allowcstatus");
