@@ -93,6 +93,13 @@ function _updateseccode(idhash, tpl, modid) {
 
 function _checksec(type, idhash, showmsg, recall, modid) {
 	var showmsg = !showmsg ? 0 : showmsg;
+	var status = $('checksec' + type + 'verify_' + idhash);
+	if(status && status.getElementsByClassName('fico-check_right').length) {
+		if(showmsg) {
+			recall(1);
+		}
+		return;
+	}
 	var secverify = $('sec' + type + 'verify_' + idhash).value;
 	if(!secverify) {
 		return;
@@ -100,7 +107,7 @@ function _checksec(type, idhash, showmsg, recall, modid) {
 	var modid = !modid ? '' : modid;
 	var x = new Ajax('XML', 'checksec' + type + 'verify_' + idhash);
 	x.loading = '';
-	$('checksec' + type + 'verify_' + idhash).innerHTML = '<div class="loadicon vm"></div>';
+	status.innerHTML = '<div class="loadicon vm"></div>';
 	x.get('misc.php?mod=sec' + type + '&action=check&inajax=1&modid=' + modid + '&idhash=' + idhash + '&secverify=' + secverify, function(s){
 		var obj = $('checksec' + type + 'verify_' + idhash);
 		obj.style.display = '';
