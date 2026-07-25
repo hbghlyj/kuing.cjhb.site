@@ -134,7 +134,7 @@
 	</a>
 	<!--{/if}-->
 	<!--{if $_G['setting']['site_qq']}--><a href="//wpa.qq.com/msgrd?v=3&uin=$_G['setting']['site_qq']&site=$_G['setting']['bbname']&menu=yes&from=discuz" class="dz_rqq" rel="nofollow" target="_blank"><span class="dz_tip_text">QQ {lang x5_customer_service}</span></a><!--{/if}-->
-	<a href="javascript:;" onclick="jQuery('body,html').animate({scrollTop:0}, 600);" title="{lang scrolltop}" id="dz_rtop" class="dz_rtop" rel="nofollow"><span class="dz_tip_text">{lang scrolltop}</span></a>
+	<a href="javascript:;" onclick="if(typeof jQuery!='undefined'){jQuery('body,html').animate({scrollTop:0},600);}else{window.scrollTo(0,0);}" title="{lang scrolltop}" id="dz_rtop" class="dz_rtop" rel="nofollow"><span class="dz_tip_text">{lang scrolltop}</span></a>
 </div>
 
 <div id="scrolltop" style="display: none;">
@@ -171,10 +171,15 @@ _attachEvent(window, 'resize', function(){ new_showTopLink(); });checkBlind();</
 				dzscrolltop.style.left = 'auto';
 				dzscrolltop.style.right = 0;
 			}
-			if (dzscrollHeight < -100) {
-				jQuery(".dz_rtop").slideDown();
+			if (typeof jQuery !== 'undefined') {
+				if (dzscrollHeight < -100) {
+					jQuery(".dz_rtop").slideDown();
+				} else {
+					jQuery(".dz_rtop").slideUp();
+				}
 			} else {
-				jQuery(".dz_rtop").slideUp();
+				var rtop = document.getElementById('dz_rtop');
+				if (rtop) rtop.style.display = dzscrollHeight < -100 ? '' : 'none';
 			}
 		}
 	}
