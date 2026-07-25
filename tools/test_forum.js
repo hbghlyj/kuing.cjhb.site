@@ -148,6 +148,8 @@ const { execSync } = require('child_process');
         C::t('common_setting')->update('regname', '');
         C::t('common_setting')->update('regstatus', '1');
         C::t('common_setting')->update('regclose', '0');
+        C::t('common_setting')->update('jspath', 'static/js/');
+        $_G['setting']['jspath'] = 'static/js/';
         C::t('common_setting')->update('regverify', '0');
         C::t('common_setting')->update('floodctrl', '0');
         C::t('common_setting')->update('pmstatus', '1');
