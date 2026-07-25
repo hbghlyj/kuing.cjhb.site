@@ -174,6 +174,7 @@ function new_showTopLink() {
 		var rtop = document.getElementById('dz_rtop');
 		if (rtop) {
 			rtop.style.display = dzscrollHeight < -100 ? 'block' : 'none';
+		}
 	}
 }
 new_showTopLink();
