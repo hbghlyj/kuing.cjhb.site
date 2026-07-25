@@ -52,6 +52,7 @@ if (!_JSLANG_ || !_JSLANG_['_verhash_'] || _JSLANG_['_verhash_'] != VERHASH) {
 function $(id) {
 	return !id ? null : document.getElementById(id);
 }
+window.$ = $;
 
 function getID(id) {
 	return !id ? null : document.getElementById(id);
