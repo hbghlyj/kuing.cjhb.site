@@ -1,5 +1,17 @@
 <?php
 
+if(PHP_SAPI !== 'cli') {
+	exit("This tool must be run from the command line.\n");
+}
+
+$setupComplete = false;
+register_shutdown_function(function() use (&$setupComplete) {
+	if(!$setupComplete) {
+		fwrite(STDERR, "Test security setup terminated before completion.\n");
+		exit(1);
+	}
+});
+
 $options = getopt('', ['url:']);
 $siteUrl = $options['url'] ?? '';
 $parsedUrl = parse_url($siteUrl);
@@ -82,9 +94,9 @@ C::t('common_setting')->update('profilegroup', [
 	],
 ]);
 foreach([1, 7, 10] as $groupId) {
-	C::t('common_usergroup')->update($groupId, ['allowcstatus' => '1']);
 	C::t('common_usergroup_field')->update($groupId, [
 		'disablepostctrl' => '1',
+		'allowcstatus' => '1',
 		'allowrecommend' => '1',
 		'allowpostattach' => '1',
 		'allowpostimage' => '1',
@@ -95,8 +107,8 @@ foreach([1, 7, 10] as $groupId) {
 	]);
 }
 
-$adminThread = C::t('forum_thread')->fetch_by_subject('Admin Seed Thread');
-if(!$adminThread) {
+require_once libfile('function/forum');
+if(!C::t('forum_thread')->exists_by_subject('Admin Seed Thread')) {
 	$adminTid = C::t('forum_thread')->insert([
 		'fid' => 2,
 		'author' => 'admin',
@@ -109,8 +121,9 @@ if(!$adminThread) {
 		'views' => 1,
 		'replies' => 1,
 		'status' => 32,
+		'maxposition' => 2,
 	], true);
-	C::t('forum_post')->insert([
+	insertpost([
 		'fid' => 2,
 		'tid' => $adminTid,
 		'first' => 1,
@@ -119,7 +132,6 @@ if(!$adminThread) {
 		'subject' => 'Admin Seed Thread',
 		'dateline' => TIMESTAMP,
 		'message' => 'Admin Seed Thread Message Content',
-		'useip' => '127.0.0.1',
 		'invisible' => 0,
 		'anonymous' => 0,
 		'usesig' => 1,
@@ -128,8 +140,9 @@ if(!$adminThread) {
 		'smileyoff' => -1,
 		'parseurloff' => 0,
 		'attachment' => 0,
-	], true);
-	C::t('forum_post')->insert([
+		'bestanswer' => 0,
+	]);
+	insertpost([
 		'fid' => 2,
 		'tid' => $adminTid,
 		'first' => 0,
@@ -138,7 +151,6 @@ if(!$adminThread) {
 		'subject' => 'Admin Seed Reply',
 		'dateline' => TIMESTAMP,
 		'message' => 'Admin Seed Reply Message Content',
-		'useip' => '127.0.0.1',
 		'invisible' => 0,
 		'anonymous' => 0,
 		'usesig' => 1,
@@ -147,7 +159,8 @@ if(!$adminThread) {
 		'smileyoff' => -1,
 		'parseurloff' => 0,
 		'attachment' => 0,
-	], true);
+		'bestanswer' => 0,
+	]);
 }
 
 require_once libfile('function/cache');
@@ -190,3 +203,5 @@ if(!empty($cached['setting']['secqaa']['allowcode'])
 	))) {
 	throw new RuntimeException('Unable to initialize deterministic test security settings');
 }
+
+$setupComplete = true;
