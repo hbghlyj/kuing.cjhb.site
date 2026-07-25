@@ -14,10 +14,9 @@ function build_cache_groupicon() {
 	$data = [];
 	foreach(table_forum_onlinelist::t()->fetch_all_order_by_displayorder() as $list) {
 		if($list['url']) {
-			$data[$list['groupid']] = preg_match('/^https?:\/\//is', $list['url']) ? $list['url'] : STATICURL.'image/common/'.$list['url'];
+			$data[$list['groupid']] = STATICURL.'image/common/online_'.$list['url'].'.svg';
 		}
 	}
 
 	savecache('groupicon', $data);
 }
-

@@ -17,7 +17,7 @@ function build_cache_onlinelist() {
 		if(!$list['url']) {
 			continue;
 		}
-		$url = preg_match('/^https?:\/\//is', $list['url']) ? $list['url'] : STATICURL.'image/common/'.$list['url'];
+		$url = STATICURL.'image/common/online_'.$list['url'].'.svg';
 		$data[$list['groupid']] = $url;
 		$data['legend_en'] .= !empty($url) ? "<li><img src=\"".$url."\" /> {$list['url']}</li>" : '';
 		$data['legend'] .= !empty($url) ? "<li><img src=\"".$url."\" /> {$list['title']}</li>" : '';
@@ -28,4 +28,3 @@ function build_cache_onlinelist() {
 
 	savecache('onlinelist', $data);
 }
-

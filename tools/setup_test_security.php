@@ -42,7 +42,12 @@ $secqaa = [
 	'allowcode' => 0,
 	'allowqa' => 1,
 ];
+$seccodedata = C::t('common_setting')->fetch_setting('seccodedata', true);
+foreach(['register', 'post', 'login'] as $rule) {
+	$seccodedata['rule'][$rule]['allow'] = 1;
+}
 C::t('common_setting')->update('secqaa', $secqaa);
+C::t('common_setting')->update('seccodedata', $seccodedata);
 C::t('common_setting')->update('seccodestatus', '0');
 C::t('common_setting')->update('floodctrl', '0');
 C::t('common_setting')->update('commentnumber', '5');
@@ -76,6 +81,9 @@ updatecache(['setting', 'secqaa', 'usergroups']);
 $cached = C::t('common_syscache')->fetch_all_syscache(['setting', 'secqaa', 'usergroup_1', 'usergroup_7', 'usergroup_10'], true);
 if(!empty($cached['setting']['secqaa']['allowcode'])
 	|| empty($cached['setting']['secqaa']['allowqa'])
+	|| count(array_filter(['register', 'post', 'login'], fn($rule) =>
+		(int)($cached['setting']['seccodedata']['rule'][$rule]['allow'] ?? 0) !== 1
+	))
 	|| (int)$cached['setting']['floodctrl'] !== 0
 	|| (int)$cached['setting']['commentnumber'] !== 5
 	|| !is_array($cached['setting']['allowpostcomment'])

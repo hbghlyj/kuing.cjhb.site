@@ -10,21 +10,21 @@ $data = [[
     'groupid' => '1',
     'displayorder' => '1',
     'title' => '管理員',
-    'url' => 'online_admin.gif',
+    'url' => 'admin',
   ],[
     'groupid' => '2',
     'displayorder' => '2',
     'title' => '超級版主',
-    'url' => 'online_supermod.gif',
+    'url' => 'supermod',
   ],[
     'groupid' => '3',
     'displayorder' => '3',
     'title' => '版主',
-    'url' => 'online_moderator.gif',
+    'url' => 'moderator',
   ],[
     'groupid' => '0',
     'displayorder' => '4',
     'title' => '會員',
-    'url' => 'online_member.gif',
+    'url' => 'member',
   ],
 ];
