@@ -135,7 +135,7 @@ const { execSync } = require('child_process');
         C::t('common_setting')->update('seccodedata', \$seccodedata);
         C::t('common_setting')->update('secqaa', \$secqaa);
         C::t('common_setting')->update('seccodestatus', '0');
-        C::t('common_setting')->update('regname', 'register');
+        C::t('common_setting')->update('regname', '');
         C::t('common_setting')->update('regstatus', '1');
         C::t('common_setting')->update('regclose', '0');
         C::t('common_setting')->update('regverify', '0');
@@ -219,15 +219,19 @@ const { execSync } = require('child_process');
         const registrationForm = page.locator('#registerform');
         assert.strictEqual(await registrationForm.count(), 1, 'Assertion Error: Desktop registration form did not render.');
         // reginput can rename the DOM id and name; the first text field is the username.
-        const registrationTextFields = registrationForm.locator('input[type="text"]');
-        assert.ok(await registrationTextFields.count() > 0, 'Assertion Error: Desktop registration username field did not render.');
-        await registrationTextFields.nth(0).fill(username);
+        const usernameInput = registrationForm.locator('input[name="username"], input[type="text"]').first();
+        assert.ok(await usernameInput.count() > 0, 'Assertion Error: Desktop registration username field did not render.');
+        await usernameInput.fill(username);
+
         const passwordInputs = registrationForm.locator('input[type="password"]');
         if (await passwordInputs.count() >= 2) {
             await passwordInputs.nth(0).fill(password);
             await passwordInputs.nth(1).fill(password);
+        } else {
+            const pwdInput = registrationForm.locator('input[name="password"], input[type="password"]').first();
+            if (await pwdInput.count()) await pwdInput.fill(password);
         }
-        const emailInput = registrationForm.locator('input[type="email"]');
+        const emailInput = registrationForm.locator('input[name="email"], input[type="email"]').first();
         if (await emailInput.count()) await emailInput.fill(email);
 
         const agreeCheckbox = registrationForm.locator('input[name="agree"]');
