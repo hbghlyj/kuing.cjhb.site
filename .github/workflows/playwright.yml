@@ -84,6 +84,7 @@ jobs:
           echo '<?php if (!class_exists("Pusher")) {     class Pusher {         public function __construct(...$args) {}         public function trigger($channel, $event, $data, $a = null, $b = null)         {             return true;         }     } } ?>'  > source/class/class_pusher.php
           DISCUZ_SEED_DATABASE=1 php tools/import_all_data.php
 
+          mysql ultrax -e "CREATE TABLE IF NOT EXISTS chat (time TIMESTAMP DEFAULT CURRENT_TIMESTAMP, uid MEDIUMINT NOT NULL, author CHAR(30) NOT NULL, message TEXT NOT NULL, PRIMARY KEY (time));"
           mysql ultrax -e "REPLACE INTO pre_common_setting SET skey='homestatus', svalue='1';"
           php -r 'require "./source/class/class_core.php"; $discuz = C::app(); $discuz->init(); require_once libfile("function/cache"); updatecache("setting");'
           php tools/rebuild_styles.php --host=127.0.0.1:8080
