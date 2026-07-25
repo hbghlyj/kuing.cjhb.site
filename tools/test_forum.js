@@ -101,6 +101,34 @@ const { execSync } = require('child_process');
         assert.strictEqual(await textEditor.count(), 1, 'Assertion Error: Visible post editor did not render.');
         await textEditor.fill(message);
     };
+    const solveSecurityQuestion = async (targetPage = page, root = targetPage) => {
+        const input = root.locator('input[name*="secanswer"]:visible');
+        const count = await input.count();
+        if(!count) {
+            return false;
+        }
+
+        assert.strictEqual(count, 1, 'Assertion Error: More than one visible security-answer input rendered.');
+        const hashInput = root.locator('input[name="secqaahash"]');
+        assert.strictEqual(await hashInput.count(), 1, 'Assertion Error: Security-question hash input did not render.');
+        const hash = await hashInput.inputValue();
+        assert.ok(hash, 'Assertion Error: Security-question hash is empty.');
+        await input.fill('2');
+        const [response] = await Promise.all([
+            targetPage.waitForResponse(item =>
+                item.url().includes('misc.php?mod=secqaa') &&
+                item.url().includes('action=check')
+            ),
+            input.press('Tab')
+        ]);
+        const result = await response.text();
+        assert.ok(result.includes('succeed'), `Assertion Error: Security answer was rejected. Response: ${result}`);
+        await targetPage.locator(`#checksecqaaverify_${hash} .fico-check_right`).waitFor({
+            state: 'visible',
+            timeout: 5000
+        });
+        return true;
+    };
     const sendPrivateMessage = async (senderPage, recipient, message) => {
         await senderPage.goto('http://127.0.0.1:8080/home.php?mod=spacecp&ac=pm');
         await senderPage.waitForLoadState('networkidle');
@@ -414,8 +442,7 @@ const { execSync } = require('child_process');
 
         await fillPostEditor('Body text from unprivileged account.');
 
-        const secqaaPost = page.locator('input[name*="secanswer"]');
-        if (await secqaaPost.count()) await secqaaPost.fill('2');
+        await solveSecurityQuestion(page);
 
         const postSubmitBtn = page.locator('button[name="topicsubmit"][type="submit"]');
         assert.strictEqual(await postSubmitBtn.count(), 1, 'Assertion Error: Desktop thread submit button did not render.');
@@ -455,8 +482,7 @@ const { execSync } = require('child_process');
             await page.waitForLoadState('networkidle');
 
             await fillPostEditor('Reply text from unprivileged account.');
-            const replySecqaa = page.locator('input[name*="secanswer"]');
-            if(await replySecqaa.count()) await replySecqaa.fill('2');
+            await solveSecurityQuestion(page);
             const replyBtn = page.locator('#postsubmit, button[name="replysubmit"]');
             assert.strictEqual(await replyBtn.count(), 1, 'Assertion Error: Desktop reply submit button did not render.');
             const [replyResponse] = await Promise.all([
@@ -538,16 +564,11 @@ const { execSync } = require('child_process');
             // Screenshot the simple editor before submitting
             await page.screenshot({ path: 'screenshot_desktop_simple_editor.png' });
 
-            const fastPostSecqaa = fastPostForm.locator('input[name*="secanswer"]');
-            if (await fastPostSecqaa.count() && await fastPostSecqaa.isVisible()) {
-                await fastPostSecqaa.fill('2');
-            } else {
+            const fastPostSecqaa = fastPostForm.locator('input[name*="secanswer"]:visible');
+            if (!await fastPostSecqaa.count()) {
                 await page.waitForTimeout(1000);
-                const lazySecqaa = fastPostForm.locator('input[name*="secanswer"]');
-                if (await lazySecqaa.count() && await lazySecqaa.isVisible()) {
-                    await lazySecqaa.fill('2');
-                }
             }
+            await solveSecurityQuestion(page, fastPostForm);
 
             const fastPostSubmitBtn = fastPostForm.locator('#fastpostsubmit');
             assert.strictEqual(await fastPostSubmitBtn.count(), 1, 'Assertion Error: Simple Editor submit button (#fastpostsubmit) did not render.');
@@ -590,8 +611,7 @@ const { execSync } = require('child_process');
                 const editMessage = editForm.locator('textarea[name="message"]');
                 assert.strictEqual(await editMessage.count(), 1, 'Assertion Error: Desktop edit message input did not render.');
                 await editMessage.fill('Edited body text from unprivileged account.');
-                const editSecqaa = editForm.locator('input[name*="secanswer"]');
-                if(await editSecqaa.count()) await editSecqaa.fill('2');
+                await solveSecurityQuestion(page, editForm);
                 const editBtn = editForm.locator('button[name="editsubmit"]');
                 assert.strictEqual(await editBtn.count(), 1, 'Assertion Error: Desktop edit submit button did not render.');
                 await editBtn.click();
@@ -750,8 +770,7 @@ const { execSync } = require('child_process');
             assert.strictEqual(await adminLoginForm.count(), 1, 'Assertion Error: Admin quote-reply login form did not render.');
             await adminLoginForm.locator('input[name="username"]').fill('admin');
             await adminLoginForm.locator('input[name="password"]').fill('Testpassword123!');
-            const adminSecqaa = adminLoginForm.locator('input[name*="secanswer"]');
-            if (await adminSecqaa.count()) await adminSecqaa.fill('2');
+            await solveSecurityQuestion(adminPage, adminLoginForm);
             const adminLoginSubmit = adminLoginForm.locator('button[name="loginsubmit"], button[type="submit"], input[type="submit"]');
             assert.strictEqual(await adminLoginSubmit.count(), 1, 'Assertion Error: Admin login submit control did not render.');
             const [adminLoginResponse] = await Promise.all([
@@ -781,11 +800,7 @@ const { execSync } = require('child_process');
             await adminPage.locator('#fwin_reply form:visible').waitFor({ state: 'visible' });
             await fillPostEditor('Admin quote reply to user thread.', adminPage);
             const adminReplyForm = adminPage.locator('#fwin_reply form:visible');
-            const adminReplySecqaa = adminReplyForm.locator('input[name*="secanswer"]:visible');
-            if (await adminReplySecqaa.count()) {
-                assert.strictEqual(await adminReplySecqaa.count(), 1, 'Assertion Error: More than one visible admin reply security-answer input rendered.');
-                await adminReplySecqaa.fill('2');
-            }
+            await solveSecurityQuestion(adminPage, adminReplyForm);
             const adminReplyBtn = adminReplyForm.locator('#postsubmit, button[name="replysubmit"]');
             assert.strictEqual(await adminReplyBtn.count(), 1, 'Assertion Error: Admin reply submit button was not rendered.');
             const [adminReplyResponse] = await Promise.all([
@@ -947,11 +962,7 @@ const { execSync } = require('child_process');
         const attachMsg = `Posting thread with image attachment content. [attach]${aid}[/attach]`;
 
         await fillPostEditor(attachMsg);
-        const attachSecqaa = page.locator('input[name*="secanswer"]:visible');
-        if (await attachSecqaa.count()) {
-            assert.strictEqual(await attachSecqaa.count(), 1, 'Assertion Error: More than one visible image-post security-answer input rendered.');
-            await attachSecqaa.fill('2');
-        }
+        await solveSecurityQuestion(page);
 
         const extraTagBtn = await page.$('#extra_tag_b, a[href*="extra_tag"], #extra_tag_b a');
         assert.ok(extraTagBtn, 'Assertion Error: Desktop tag control did not render.');
@@ -1045,11 +1056,7 @@ const { execSync } = require('child_process');
         const nonImgAttachMsg = `Posting thread with non-image attachment document. [attach]${nonImgAid}[/attach]`;
 
         await fillPostEditor(nonImgAttachMsg);
-        const nonImgSecqaa = page.locator('input[name*="secanswer"]:visible');
-        if (await nonImgSecqaa.count()) {
-            assert.strictEqual(await nonImgSecqaa.count(), 1, 'Assertion Error: More than one visible non-image-post security-answer input rendered.');
-            await nonImgSecqaa.fill('2');
-        }
+        await solveSecurityQuestion(page);
 
         const nonImgSubmitBtn = page.locator('button[name="topicsubmit"]');
         assert.strictEqual(await nonImgSubmitBtn.count(), 1, 'Assertion Error: Non-image attachment thread submit button did not render.');
@@ -1107,11 +1114,7 @@ const { execSync } = require('child_process');
         const svgAttachMsg = `Posting thread with SVG image content. [attach]${svgAid}[/attach]`;
 
         await fillPostEditor(svgAttachMsg);
-        const svgSecqaa = page.locator('input[name*="secanswer"]:visible');
-        if (await svgSecqaa.count()) {
-            assert.strictEqual(await svgSecqaa.count(), 1, 'Assertion Error: More than one visible SVG-post security-answer input rendered.');
-            await svgSecqaa.fill('2');
-        }
+        await solveSecurityQuestion(page);
 
         const svgSubmitBtn = page.locator('button[name="topicsubmit"]');
         assert.strictEqual(await svgSubmitBtn.count(), 1, 'Assertion Error: SVG attachment thread submit button did not render.');
