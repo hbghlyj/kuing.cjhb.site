@@ -264,6 +264,7 @@ const { execSync } = require('child_process');
         if (await agreeCheckbox.count()) await agreeCheckbox.check();
 
         const secqaaInput = registrationForm.locator('input[name="secanswer"]');
+        await secqaaInput.waitFor({ state: 'attached', timeout: 5000 });
         assert.strictEqual(await secqaaInput.count(), 1, 'Assertion Error: Desktop registration security-answer field did not render.');
         const secqaaHash = await registrationForm.locator('input[name="secqaahash"]').inputValue();
         const secqaaCookies = await context.cookies();
