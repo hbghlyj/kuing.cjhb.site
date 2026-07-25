@@ -45,6 +45,8 @@ $secqaa = [
 C::t('common_setting')->update('secqaa', $secqaa);
 C::t('common_setting')->update('seccodestatus', '0');
 C::t('common_setting')->update('floodctrl', '0');
+C::t('common_setting')->update('commentnumber', '5');
+C::t('common_setting')->update('allowpostcomment', [1]);
 C::t('common_setting')->update('commentfirstpost', '1');
 C::t('common_setting')->update('commentpostself', '1');
 foreach([1, 7, 10] as $groupId) {
@@ -59,6 +61,9 @@ $cached = C::t('common_syscache')->fetch_all_syscache(['setting', 'secqaa', 'use
 if(!empty($cached['setting']['secqaa']['allowcode'])
 	|| empty($cached['setting']['secqaa']['allowqa'])
 	|| (int)$cached['setting']['floodctrl'] !== 0
+	|| (int)$cached['setting']['commentnumber'] !== 5
+	|| !is_array($cached['setting']['allowpostcomment'])
+	|| !in_array(1, $cached['setting']['allowpostcomment'])
 	|| empty($cached['setting']['commentfirstpost'])
 	|| empty($cached['setting']['commentpostself'])
 	|| count($cached['secqaa']) !== 9
