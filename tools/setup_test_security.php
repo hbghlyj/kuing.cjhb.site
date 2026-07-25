@@ -12,9 +12,16 @@ function test_security_setup_stage($stage = null) {
 	return $current;
 }
 
-$setupComplete = false;
-register_shutdown_function(function() use (&$setupComplete) {
-	if(!$setupComplete) {
+function test_security_setup_complete($complete = null) {
+	static $current = false;
+	if($complete !== null) {
+		$current = $complete;
+	}
+	return $current;
+}
+
+register_shutdown_function(function() {
+	if(!test_security_setup_complete()) {
 		fwrite(STDERR, 'Test security setup terminated during '.test_security_setup_stage().".\n");
 		exit(1);
 	}
@@ -248,4 +255,4 @@ if($failures) {
 	throw new RuntimeException('Unable to initialize deterministic test security settings');
 }
 
-$setupComplete = true;
+test_security_setup_complete(true);
