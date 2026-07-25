@@ -241,6 +241,18 @@ const { execSync } = require('child_process');
         const avatarStatus = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT avatarstatus FROM pre_common_member WHERE uid='${userUid}';"`).toString().trim();
         assert.strictEqual(avatarStatus, '1', 'Assertion Error: User avatarstatus in database was not 1.');
 
+        console.log("Testing Desktop Forum Front Page (forum.php)...");
+        await page.goto('http://127.0.0.1:8080/forum.php');
+        await page.waitForLoadState('networkidle');
+        const forumIndexBody = await page.textContent('body');
+        assert.ok(
+            forumIndexBody.includes('Discuz!') || (await page.locator('#category_grid, .fl, #chart, #pt').count()) > 0,
+            'Assertion Error: Desktop forum front page (forum.php) did not load correctly.'
+        );
+        await page.screenshot({ path: 'screenshot_desktop_forum_index.png', fullPage: true });
+        console.log("✅ Desktop Forum Front Page loaded successfully.");
+        report += '### Desktop Forum Front Page (forum.php)\n- **Status**: Checked\n- **Front Page Load**: Success\n- **Screenshot**: `screenshot_desktop_forum_index.png`\n\n';
+
         // Discover a real postable sub-board (type='forum') — never a group (type='group').
         const forumFid = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT fid FROM pre_forum_forum WHERE type='forum' LIMIT 1;"`).toString().trim();
         assert.ok(forumFid, 'Assertion Error: No postable sub-board (type=forum) found in pre_forum_forum.');
