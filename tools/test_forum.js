@@ -231,6 +231,7 @@ const { execSync } = require('child_process');
 
         require_once libfile('function/cache');
         C::t('common_setting')->update('jspath', 'static/js/');
+        C::t('common_syscache')->delete_syscache(array('setting', 'secqaa'));
         updatecache(array('setting', 'secqaa', 'styles', 'usergroups'));
         savecache('secqaa', array(1 => array('qid' => 1, 'question' => '1+1=?', 'answer' => md5('2'))));
         memory('rm', 'setting');
