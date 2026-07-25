@@ -127,7 +127,7 @@
 
 <script type="text/javascript" reload="1">
 function succeedhandle_$_GET[action](locationhref, message) {
-	<!--{if $_GET[action] == 'newthread'}-->
+	<!--{if in_array($_GET[action], array('newthread', 'reply'))}-->
 		location.href = locationhref;
 	<!--{/if}-->
 	hideWindow('$_GET[handlekey]' ? '$_GET[handlekey]' : '$_GET[action]');
