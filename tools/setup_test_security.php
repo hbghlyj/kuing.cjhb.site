@@ -44,15 +44,21 @@ $secqaa = [
 ];
 C::t('common_setting')->update('secqaa', $secqaa);
 C::t('common_setting')->update('seccodestatus', '0');
+C::t('common_setting')->update('floodctrl', '0');
+foreach([1, 7, 10] as $groupId) {
+	C::t('common_usergroup_field')->update($groupId, ['disablepostctrl' => '1']);
+}
 
 require_once libfile('function/cache');
 C::t('common_syscache')->delete_syscache(['setting', 'secqaa']);
-updatecache(['setting', 'secqaa']);
+updatecache(['setting', 'secqaa', 'usergroups']);
 
-$cached = C::t('common_syscache')->fetch_all_syscache(['setting', 'secqaa'], true);
+$cached = C::t('common_syscache')->fetch_all_syscache(['setting', 'secqaa', 'usergroup_1', 'usergroup_7', 'usergroup_10'], true);
 if(!empty($cached['setting']['secqaa']['allowcode'])
 	|| empty($cached['setting']['secqaa']['allowqa'])
+	|| (int)$cached['setting']['floodctrl'] !== 0
 	|| count($cached['secqaa']) !== 9
-	|| count(array_filter($cached['secqaa'], fn($question) => ($question['answer'] ?? '') !== md5('2')))) {
-	throw new RuntimeException('Unable to initialize deterministic security question');
+	|| count(array_filter($cached['secqaa'], fn($question) => ($question['answer'] ?? '') !== md5('2')))
+	|| count(array_filter([1, 7, 10], fn($groupId) => empty($cached['usergroup_'.$groupId]['disablepostctrl'])))) {
+	throw new RuntimeException('Unable to initialize deterministic test security settings');
 }
