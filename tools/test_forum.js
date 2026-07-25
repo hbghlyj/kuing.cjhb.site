@@ -159,7 +159,7 @@ const { execSync } = require('child_process');
                 'replies' => 1,
                 'status' => 32
             ), true);
-            C::t('forum_post')->insert('tid:' . \$adminTid, array(
+            C::t('forum_post')->insert(array(
                 'fid' => 2,
                 'tid' => \$adminTid,
                 'first' => 1,
@@ -178,7 +178,7 @@ const { execSync } = require('child_process');
                 'parseurloff' => 0,
                 'attachment' => 0
             ), true);
-            C::t('forum_post')->insert('tid:' . \$adminTid, array(
+            C::t('forum_post')->insert(array(
                 'fid' => 2,
                 'tid' => \$adminTid,
                 'first' => 0,
