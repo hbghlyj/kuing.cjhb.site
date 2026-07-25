@@ -19,7 +19,7 @@ function normalizeI18nKey(key) {
 var _i18n_ = normalizeI18nKey(typeof DISCUZ_I18N != 'undefined' ? DISCUZ_I18N : '');
 if (typeof IN_ADMINCP == 'undefined') {
 	try {
-		var _i18n_cookie_ = getcookie('i18n');
+		var _i18n_cookie_ = typeof getcookie === 'function' ? getcookie('i18n') : null;
 		_i18n_ = !_i18n_cookie_ ? _i18n_ : normalizeI18nKey(_i18n_cookie_);
 	} catch (e) {
 	}
