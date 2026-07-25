@@ -153,7 +153,7 @@ const { execSync } = require('child_process');
         C::t('common_secquestion')->insert(array('type' => 0, 'question' => '1+1=?', 'answer' => '2'));
 
         \$seccodedata = array('rule' => array('register' => array('allow' => 0, 'numlimit' => '', 'timelimit' => 0),'login' => array('allow' => 0, 'nolocal' => 0, 'pwsimple' => 0, 'pwerror' => 0, 'outofday' => '', 'numiptry' => '', 'timeiptry' => 0),'post' => array('allow' => 0, 'numlimit' => '', 'timelimit' => 0, 'nplimit' => '', 'vplimit' => ''),'password' => array('allow' => 0),'card' => array('allow' => 0)),'minposts' => '','type' => 0,'width' => 150,'height' => 60,'scatter' => 0,'background' => 0,'adulterate' => 0,'ttf' => 0,'angle' => 0,'warping' => 0,'color' => 0,'size' => 0,'shadow' => 0,'animator' => 0);
-        \$secqaa = array('status' => 2, 'minposts' => 0, 'statuses' => array('post', 'login'), 'allowcode' => 0, 'allowqa' => 1);
+        \$secqaa = array('status' => 3, 'minposts' => 0, 'statuses' => array('register', 'post', 'login'), 'allowcode' => 0, 'allowqa' => 1);
         C::t('common_setting')->update('seccodedata', \$seccodedata);
         C::t('common_setting')->update('secqaa', \$secqaa);
         C::t('common_setting')->update('seccodestatus', '0');
@@ -265,21 +265,20 @@ const { execSync } = require('child_process');
         if (await agreeCheckbox.count()) await agreeCheckbox.check();
 
         const secqaaInput = registrationForm.locator('input[name="secanswer"]');
-        if (await secqaaInput.count()) {
-            await secqaaInput.fill('2');
-            const [secqaaResponse] = await Promise.all([
-                page.waitForResponse(response =>
-                    response.url().includes('misc.php?mod=secqaa') &&
-                    response.url().includes('action=check')
-                ),
-                secqaaInput.press('Tab')
-            ]);
-            const secqaaResult = await secqaaResponse.text();
-            assert.ok(
-                secqaaResult.includes('succeed'),
-                `Assertion Error: Desktop registration security answer was rejected. Response: ${secqaaResult}`
-            );
-        }
+        assert.strictEqual(await secqaaInput.count(), 1, 'Assertion Error: Desktop registration security-answer field did not render.');
+        await secqaaInput.fill('2');
+        const [secqaaResponse] = await Promise.all([
+            page.waitForResponse(response =>
+                response.url().includes('misc.php?mod=secqaa') &&
+                response.url().includes('action=check')
+            ),
+            secqaaInput.press('Tab')
+        ]);
+        const secqaaResult = await secqaaResponse.text();
+        assert.ok(
+            secqaaResult.includes('succeed'),
+            `Assertion Error: Desktop registration security answer was rejected. Response: ${secqaaResult}`
+        );
 
         const regSubmitBtn = registrationForm.locator('#registerformsubmit');
         assert.strictEqual(await regSubmitBtn.count(), 1, 'Assertion Error: Desktop registration submit button did not render.');
@@ -295,6 +294,9 @@ const { execSync } = require('child_process');
             registrationResponse.ok() || (registrationResponse.status() >= 300 && registrationResponse.status() < 400),
             `Assertion Error: Desktop registration POST failed with HTTP ${registrationResponse.status()}.`
         );
+        const registrationPost = new URLSearchParams(registrationResponse.request().postData() || '');
+        assert.strictEqual(registrationPost.get('secanswer'), '2', 'Assertion Error: Desktop registration POST omitted the security answer.');
+        assert.ok(registrationPost.get('secqaahash'), 'Assertion Error: Desktop registration POST omitted the security-answer hash.');
         await page.waitForTimeout(1000);
 
         console.log("Checking if user exists in DB...");
