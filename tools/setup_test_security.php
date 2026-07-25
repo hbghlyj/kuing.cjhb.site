@@ -53,6 +53,7 @@ foreach([1, 7, 10] as $groupId) {
 	C::t('common_usergroup_field')->update($groupId, [
 		'disablepostctrl' => '1',
 		'allowcommentpost' => '3',
+		'maxsigsize' => '500',
 	]);
 }
 
@@ -74,6 +75,7 @@ if(!empty($cached['setting']['secqaa']['allowcode'])
 	|| count(array_filter([1, 7, 10], fn($groupId) =>
 		empty($cached['usergroup_'.$groupId]['disablepostctrl'])
 		|| (int)$cached['usergroup_'.$groupId]['allowcommentpost'] !== 3
+		|| (int)$cached['usergroup_'.$groupId]['maxsigsize'] !== 500
 	))) {
 	throw new RuntimeException('Unable to initialize deterministic test security settings');
 }
