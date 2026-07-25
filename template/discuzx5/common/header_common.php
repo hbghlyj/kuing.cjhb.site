@@ -72,6 +72,7 @@ font-style: italic;
 		if(typeof updateseccode !== 'function') { window.updateseccode = function() {}; }
 		if(typeof addFormEvent !== 'function') { window.addFormEvent = function() {}; }
 		if(typeof checkBlind !== 'function') { window.checkBlind = function() {}; }
+		if(typeof fetchOffset !== 'function') { window.fetchOffset = function(obj) { obj = typeof obj === 'string' ? document.getElementById(obj) : obj; if(!obj) return { left: 0, top: 0 }; var rect = obj.getBoundingClientRect(); return { left: rect.left + window.scrollX, top: rect.top + window.scrollY }; }; }
 	</script>
 	<script type="text/javascript" src="/static/js/common.js?{VERHASH}"></script>
 	<!--{if empty($_GET['diy'])}--><!--{eval $_GET['diy'] = '';}--><!--{/if}-->

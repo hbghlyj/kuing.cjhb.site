@@ -162,12 +162,13 @@ function new_showTopLink() {
 		var viewPortHeight = parseInt(document.documentElement.clientHeight);
 		var dzscrollHeight = parseInt(document.body.getBoundingClientRect().top);
 		var dzbasew = parseInt(ft.clientWidth);
-		var dzsw = dzscrolltop.clientWidth;
+		var dzsw = dzscrolltop ? dzscrolltop.clientWidth : 0;
 		if (dzbasew < 1500) {
-			var left = parseInt(fetchOffset(ft)['left']);
+			var offset = typeof fetchOffset === 'function' ? fetchOffset(ft) : { left: ft.offsetLeft, top: ft.offsetTop };
+			var left = parseInt(offset['left'] || 0);
 			left = left < dzsw ? left * 2 - dzsw : left;
-			dzscrolltop.style.left = ( dzbasew + left ) + 'px';
-		} else {
+			if (dzscrolltop) dzscrolltop.style.left = ( dzbasew + left ) + 'px';
+		} else if (dzscrolltop) {
 			dzscrolltop.style.left = 'auto';
 			dzscrolltop.style.right = 0;
 		}
