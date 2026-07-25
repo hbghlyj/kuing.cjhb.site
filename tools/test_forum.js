@@ -281,6 +281,15 @@ const { execSync } = require('child_process');
 
         const regSubmitBtn = registrationForm.locator('#registerformsubmit');
         assert.strictEqual(await regSubmitBtn.count(), 1, 'Assertion Error: Desktop registration submit button did not render.');
+        const registrationSecurityFields = await registrationForm.evaluate(form => {
+            const data = new FormData(form);
+            return {
+                answer: data.get('secanswer'),
+                hash: data.get('secqaahash')
+            };
+        });
+        assert.strictEqual(registrationSecurityFields.answer, '2', 'Assertion Error: Desktop registration form omitted the security answer.');
+        assert.ok(registrationSecurityFields.hash, 'Assertion Error: Desktop registration form omitted the security-answer hash.');
 
         const [registrationResponse] = await Promise.all([
             page.waitForResponse(response =>
@@ -293,9 +302,6 @@ const { execSync } = require('child_process');
             registrationResponse.ok() || (registrationResponse.status() >= 300 && registrationResponse.status() < 400),
             `Assertion Error: Desktop registration POST failed with HTTP ${registrationResponse.status()}.`
         );
-        const registrationPost = new URLSearchParams(registrationResponse.request().postData() || '');
-        assert.strictEqual(registrationPost.get('secanswer'), '2', 'Assertion Error: Desktop registration POST omitted the security answer.');
-        assert.ok(registrationPost.get('secqaahash'), 'Assertion Error: Desktop registration POST omitted the security-answer hash.');
         await page.waitForTimeout(1000);
 
         console.log("Checking if user exists in DB...");
