@@ -209,6 +209,7 @@ const { execSync } = require('child_process');
 
         require_once libfile('function/cache');
         updatecache(array('setting', 'secqaa', 'styles', 'usergroups'));
+        if(function_exists('opcache_reset')) { @opcache_reset(); }
         ?>`;
         fs.writeFileSync('setup_test_sec.php', phpConfig);
         execSync('php setup_test_sec.php');
