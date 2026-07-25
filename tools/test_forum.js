@@ -500,9 +500,10 @@ const { execSync } = require('child_process');
                 `Assertion Error: Desktop reply POST failed with HTTP ${replyResponse.status()}.`
             );
             await page.waitForURL(new RegExp(`mod=viewthread&tid=${tidOutput}`));
-            assert.ok(
-                (await page.textContent('body')).includes('Reply text from unprivileged account.'),
-                'Assertion Error: Submitted reply was not rendered in the thread.'
+            await page.waitForFunction(
+                message => document.body.innerText.includes(message),
+                'Reply text from unprivileged account.',
+                { timeout: 5000 }
             );
 
             console.log("Checking if reply exists in DB...");
