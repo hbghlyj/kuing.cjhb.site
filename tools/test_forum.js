@@ -638,6 +638,13 @@ const { execSync } = require('child_process');
         await page.goto('http://127.0.0.1:8080/home.php?mod=spacecp&ac=profile');
         await page.waitForLoadState('networkidle');
 
+        const personalInfoTab = page.locator('a[href*="mod=spacecp"][href*="ac=profile"][href*="op=info"]');
+        assert.strictEqual(await personalInfoTab.count(), 1, 'Assertion Error: Personal information profile tab did not render.');
+        await Promise.all([
+            page.waitForURL(url => url.searchParams.get('op') === 'info'),
+            personalInfoTab.click()
+        ]);
+
         const profileForm = page.locator('form[action*="mod=spacecp"]');
         assert.strictEqual(await profileForm.count(), 1, 'Assertion Error: Personal profile form did not render.');
         const signatureInput = profileForm.locator('textarea[name="sightml"], #sightmlmessage');
