@@ -49,11 +49,27 @@ foreach(['register', 'post', 'login'] as $rule) {
 C::t('common_setting')->update('secqaa', $secqaa);
 C::t('common_setting')->update('seccodedata', $seccodedata);
 C::t('common_setting')->update('seccodestatus', '0');
+C::t('common_setting')->update('regname', '');
+C::t('common_setting')->update('regstatus', '1');
+C::t('common_setting')->update('regclose', '0');
+C::t('common_setting')->update('regverify', '0');
+C::t('common_setting')->update('jspath', 'static/js/');
 C::t('common_setting')->update('floodctrl', '0');
+C::t('common_setting')->update('pmstatus', '1');
 C::t('common_setting')->update('commentnumber', '5');
 C::t('common_setting')->update('allowpostcomment', [1]);
 C::t('common_setting')->update('commentfirstpost', '1');
 C::t('common_setting')->update('commentpostself', '1');
+C::t('common_setting')->update('recommendthread', [
+	'status' => '1',
+	'addtext' => 'Recommend',
+	'subtracttext' => 'Oppose',
+	'defaultshow' => '1',
+	'daycount' => '5',
+	'ownthread' => '1',
+	'allow' => '1',
+]);
+C::t('common_setting')->update('repliesrank', '1');
 C::t('common_setting')->update('profilegroup', [
 	'info' => [
 		'title' => 'Personal Info',
@@ -69,9 +85,69 @@ foreach([1, 7, 10] as $groupId) {
 	C::t('common_usergroup')->update($groupId, ['allowcstatus' => '1']);
 	C::t('common_usergroup_field')->update($groupId, [
 		'disablepostctrl' => '1',
+		'allowrecommend' => '1',
+		'allowpostattach' => '1',
+		'allowpostimage' => '1',
+		'allowposttag' => '1',
 		'allowcommentpost' => '3',
+		'attachextensions' => 'gif, jpg, png, txt, svg',
 		'maxsigsize' => '500',
 	]);
+}
+
+$adminThread = C::t('forum_thread')->fetch_by_subject('Admin Seed Thread');
+if(!$adminThread) {
+	$adminTid = C::t('forum_thread')->insert([
+		'fid' => 2,
+		'author' => 'admin',
+		'authorid' => 1,
+		'subject' => 'Admin Seed Thread',
+		'dateline' => TIMESTAMP,
+		'lastpost' => TIMESTAMP,
+		'lastposter' => 'admin',
+		'displayorder' => 0,
+		'views' => 1,
+		'replies' => 1,
+		'status' => 32,
+	], true);
+	C::t('forum_post')->insert([
+		'fid' => 2,
+		'tid' => $adminTid,
+		'first' => 1,
+		'author' => 'admin',
+		'authorid' => 1,
+		'subject' => 'Admin Seed Thread',
+		'dateline' => TIMESTAMP,
+		'message' => 'Admin Seed Thread Message Content',
+		'useip' => '127.0.0.1',
+		'invisible' => 0,
+		'anonymous' => 0,
+		'usesig' => 1,
+		'htmlon' => 0,
+		'bbcodeoff' => 0,
+		'smileyoff' => -1,
+		'parseurloff' => 0,
+		'attachment' => 0,
+	], true);
+	C::t('forum_post')->insert([
+		'fid' => 2,
+		'tid' => $adminTid,
+		'first' => 0,
+		'author' => 'admin',
+		'authorid' => 1,
+		'subject' => 'Admin Seed Reply',
+		'dateline' => TIMESTAMP,
+		'message' => 'Admin Seed Reply Message Content',
+		'useip' => '127.0.0.1',
+		'invisible' => 0,
+		'anonymous' => 0,
+		'usesig' => 1,
+		'htmlon' => 0,
+		'bbcodeoff' => 0,
+		'smileyoff' => -1,
+		'parseurloff' => 0,
+		'attachment' => 0,
+	], true);
 }
 
 require_once libfile('function/cache');
@@ -81,10 +157,16 @@ updatecache(['setting', 'secqaa', 'usergroups']);
 $cached = C::t('common_syscache')->fetch_all_syscache(['setting', 'secqaa', 'usergroup_1', 'usergroup_7', 'usergroup_10'], true);
 if(!empty($cached['setting']['secqaa']['allowcode'])
 	|| empty($cached['setting']['secqaa']['allowqa'])
+	|| count(array_diff(['register', 'post', 'login'], $cached['setting']['secqaa']['statuses'] ?? []))
 	|| count(array_filter(['register', 'post', 'login'], fn($rule) =>
 		(int)($cached['setting']['seccodedata']['rule'][$rule]['allow'] ?? 0) !== 1
 	))
+	|| (int)$cached['setting']['regstatus'] !== 1
+	|| !empty($cached['setting']['regclose'])
+	|| (int)$cached['setting']['regverify'] !== 0
+	|| $cached['setting']['jspath'] !== 'static/js/'
 	|| (int)$cached['setting']['floodctrl'] !== 0
+	|| (int)$cached['setting']['pmstatus'] !== 1
 	|| (int)$cached['setting']['commentnumber'] !== 5
 	|| !is_array($cached['setting']['allowpostcomment'])
 	|| !in_array(1, $cached['setting']['allowpostcomment'])
@@ -98,7 +180,12 @@ if(!empty($cached['setting']['secqaa']['allowcode'])
 	|| count(array_filter([1, 7, 10], fn($groupId) =>
 		empty($cached['usergroup_'.$groupId]['allowcstatus'])
 		|| empty($cached['usergroup_'.$groupId]['disablepostctrl'])
+		|| empty($cached['usergroup_'.$groupId]['allowrecommend'])
+		|| empty($cached['usergroup_'.$groupId]['allowpostattach'])
+		|| empty($cached['usergroup_'.$groupId]['allowpostimage'])
+		|| empty($cached['usergroup_'.$groupId]['allowposttag'])
 		|| (int)$cached['usergroup_'.$groupId]['allowcommentpost'] !== 3
+		|| $cached['usergroup_'.$groupId]['attachextensions'] !== 'gif, jpg, png, txt, svg'
 		|| (int)$cached['usergroup_'.$groupId]['maxsigsize'] !== 500
 	))) {
 	throw new RuntimeException('Unable to initialize deterministic test security settings');
