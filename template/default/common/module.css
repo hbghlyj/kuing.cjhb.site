@@ -1238,6 +1238,7 @@ i.pstatus { display: block; margin-bottom: -30px; font-size: 12px; text-align: c
 	.previewPost .tindex li { cursor: pointer; height: 22px; padding-left: 22px; background: url({IMGDIR}/ico_mulu.png) no-repeat 10px center; overflow: hidden; }
 /** end **/
 
+/** home::space,forum::viewthread,forum::trade **/
 /* 快速表情 */
 #fastsmilies { text-align: right; }
 	#fastsmilies table { table-layout: auto; width: 160px; height: 133px; }
@@ -1249,10 +1250,6 @@ i.pstatus { display: block; margin-bottom: -30px; font-size: 12px; text-align: c
 	#fastsmilies .tex_greek_menu:hover .tex_greek_palette { display: grid; }
 	#fastsmilies .tex_greek_palette a { display: flex; align-items: center; justify-content: center; width: 22px; height: 20px; border: 1px solid transparent; color: inherit; line-height: 20px; text-align: center; text-decoration: none; box-sizing: border-box; }
 	#fastsmilies .tex_greek_palette a:hover { border-color: #09C; background: {COMMONBG}; }
-/** end **/
-
-
-/** home::space,forum::viewthread,forum::trade **/
 /*
 	Name:			mod_trade_list
 	Level:			Function
