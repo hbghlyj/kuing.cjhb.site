@@ -48,6 +48,16 @@ require './source/class/class_core.php';
 test_security_setup_stage('application initialization');
 $discuz = C::app();
 $discuz->init();
+set_exception_handler(function(Throwable $exception) {
+	fwrite(STDERR, sprintf(
+		"%s: %s in %s:%d\n",
+		get_class($exception),
+		$exception->getMessage(),
+		$exception->getFile(),
+		$exception->getLine()
+	));
+	exit(1);
+});
 
 test_security_setup_stage('security settings');
 DB::query('TRUNCATE TABLE '.DB::table('common_secquestion'));
