@@ -27,7 +27,7 @@ if (typeof IN_ADMINCP == 'undefined') {
 
 var _JSLANG_ = {};
 try {
-	var _parsed_ = JSON.parse(loadUserdata('i18n_' + _i18n_));
+	var _parsed_ = typeof loadUserdata === 'function' ? JSON.parse(loadUserdata('i18n_' + _i18n_)) : null;
 	if (_parsed_ && typeof _parsed_ === 'object') {
 		_JSLANG_ = _parsed_;
 	}
@@ -43,7 +43,9 @@ if (!_JSLANG_ || !_JSLANG_['_verhash_'] || _JSLANG_['_verhash_'] != VERHASH) {
 	_script_.onload = function () {
 		_JSLANG_ = _JSLANG_ || {};
 		_JSLANG_['_verhash_'] = VERHASH;
-		saveUserdata('i18n_' + _i18n_, JSON.stringify(_JSLANG_));
+		if (typeof saveUserdata === 'function') {
+			saveUserdata('i18n_' + _i18n_, JSON.stringify(_JSLANG_));
+		}
 	};
 }
 
