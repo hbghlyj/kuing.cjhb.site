@@ -265,6 +265,13 @@ const { execSync } = require('child_process');
 
         const secqaaInput = registrationForm.locator('input[name="secanswer"]');
         assert.strictEqual(await secqaaInput.count(), 1, 'Assertion Error: Desktop registration security-answer field did not render.');
+        const secqaaHash = await registrationForm.locator('input[name="secqaahash"]').inputValue();
+        const secqaaCookies = await context.cookies();
+        const secqaaCookie = secqaaCookies.find(cookie => cookie.name.endsWith('secqaa' + secqaaHash));
+        assert.ok(secqaaCookie, `Assertion Error: Desktop registration security-answer cookie was not set for ${secqaaHash}.`);
+        const secqaaSsid = secqaaCookie.value.split('.')[0];
+        const secqaaCode = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT code FROM pre_common_seccheck WHERE ssid='${secqaaSsid}';"`).toString().trim();
+        assert.strictEqual(secqaaCode, 'c81e72', `Assertion Error: Desktop registration security-answer challenge stored an unexpected code for ssid ${secqaaSsid}.`);
         await secqaaInput.fill('2');
         const [secqaaResponse] = await Promise.all([
             page.waitForResponse(response =>
