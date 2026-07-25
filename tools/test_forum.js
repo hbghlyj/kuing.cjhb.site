@@ -152,7 +152,7 @@ const { execSync } = require('child_process');
         C::t('common_secquestion')->insert(array('type' => 0, 'question' => '1+1=?', 'answer' => '2'));
 
         \$seccodedata = array('rule' => array('register' => array('allow' => 0, 'numlimit' => '', 'timelimit' => 0),'login' => array('allow' => 0, 'nolocal' => 0, 'pwsimple' => 0, 'pwerror' => 0, 'outofday' => '', 'numiptry' => '', 'timeiptry' => 0),'post' => array('allow' => 0, 'numlimit' => '', 'timelimit' => 0, 'nplimit' => '', 'vplimit' => ''),'password' => array('allow' => 0),'card' => array('allow' => 0)),'minposts' => '','type' => 0,'width' => 150,'height' => 60,'scatter' => 0,'background' => 0,'adulterate' => 0,'ttf' => 0,'angle' => 0,'warping' => 0,'color' => 0,'size' => 0,'shadow' => 0,'animator' => 0);
-        \$secqaa = array('status' => 1, 'minposts' => 1, 'statuses' => array('register'), 'allowcode' => 1, 'allowqa' => 1);
+        \$secqaa = array('status' => 1, 'minposts' => 1, 'statuses' => array('register'), 'allowcode' => 0, 'allowqa' => 1);
         C::t('common_setting')->update('seccodedata', \$seccodedata);
         C::t('common_setting')->update('secqaa', \$secqaa);
         C::t('common_setting')->update('seccodestatus', '0');
@@ -233,6 +233,7 @@ const { execSync } = require('child_process');
         C::t('common_setting')->update('jspath', 'static/js/');
         updatecache(array('setting', 'secqaa', 'styles', 'usergroups'));
         savecache('secqaa', array(1 => array('qid' => 1, 'question' => '1+1=?', 'answer' => md5('2'))));
+        memory('rm', 'secqaa');
         if(function_exists('opcache_reset')) { @opcache_reset(); }
         ?>`;
         fs.writeFileSync('setup_test_sec.php', phpConfig);
