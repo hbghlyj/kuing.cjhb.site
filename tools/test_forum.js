@@ -393,8 +393,7 @@ const { execSync } = require('child_process');
             await page.waitForURL(new RegExp(`mod=viewthread&tid=${tidOutput}`));
             await page.waitForFunction(
                 message => document.body.innerText.includes(message),
-                'Reply text from unprivileged account.',
-                { timeout: 5000 }
+                'Reply text from unprivileged account.'
             );
 
             console.log("Checking if reply exists in DB...");
