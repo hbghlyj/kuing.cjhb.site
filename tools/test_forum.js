@@ -200,9 +200,9 @@ const { execSync } = require('child_process');
         C::t('common_setting')->update('commentpostself', '1');
         C::t('common_setting')->update('recommendthread', array('status' => '1', 'addtext' => 'Recommend', 'subtracttext' => 'Oppose', 'defaultshow' => '1', 'daycount' => '5', 'ownthread' => '1', 'allow' => '1'));
         C::t('common_setting')->update('repliesrank', '1');
-        C::t('common_usergroup_field')->update(10, array('allowrecommend' => '1', 'allowpostattach' => '1', 'allowpostimage' => '1', 'allowposttag' => '1', 'allowcommentpost' => '3', 'attachextensions' => 'gif, jpg, png, txt, svg'));
-        C::t('common_usergroup_field')->update(7, array('allowrecommend' => '1', 'allowpostattach' => '1', 'allowpostimage' => '1', 'allowposttag' => '1', 'allowcommentpost' => '3', 'attachextensions' => 'gif, jpg, png, txt, svg'));
-        C::t('common_usergroup_field')->update(1, array('allowrecommend' => '1', 'allowpostattach' => '1', 'allowpostimage' => '1', 'allowposttag' => '1', 'allowcommentpost' => '3', 'attachextensions' => 'gif, jpg, png, txt, svg'));
+        C::t('common_usergroup_field')->update(10, array('disablepostctrl' => '1', 'allowrecommend' => '1', 'allowpostattach' => '1', 'allowpostimage' => '1', 'allowposttag' => '1', 'allowcommentpost' => '3', 'attachextensions' => 'gif, jpg, png, txt, svg'));
+        C::t('common_usergroup_field')->update(7, array('disablepostctrl' => '1', 'allowrecommend' => '1', 'allowpostattach' => '1', 'allowpostimage' => '1', 'allowposttag' => '1', 'allowcommentpost' => '3', 'attachextensions' => 'gif, jpg, png, txt, svg'));
+        C::t('common_usergroup_field')->update(1, array('disablepostctrl' => '1', 'allowrecommend' => '1', 'allowpostattach' => '1', 'allowpostimage' => '1', 'allowposttag' => '1', 'allowcommentpost' => '3', 'attachextensions' => 'gif, jpg, png, txt, svg'));
 
         \$adminThread = C::t('forum_thread')->fetch_by_subject('Admin Seed Thread');
         if(!\$adminThread) {
