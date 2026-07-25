@@ -508,7 +508,7 @@ function safescript(id, call, seconds, times, timeoutcall, endcall, index) {
 function $F(func, args, script) {
 	var run = function () {
 		var argc = args.length, s = '';
-		for (i = 0; i < argc; i++) {
+		for (var i = 0; i < argc; i++) {
 			s += ',args[' + i + ']';
 		}
 		eval('var check = typeof ' + func + ' == \'function\'');
@@ -521,7 +521,7 @@ function $F(func, args, script) {
 		}
 	};
 	var checkrun = function () {
-		if (JSLOADED[src]) {
+		if (typeof JSLOADED !== 'undefined' && JSLOADED[src]) {
 			run();
 		} else {
 			setTimeout(function () {
@@ -530,8 +530,10 @@ function $F(func, args, script) {
 		}
 	};
 	script = script || 'common_extra';
-	src = JSPATH + script + '.js?' + VERHASH;
-	if (!JSLOADED[src]) {
+	var _jspath = typeof JSPATH !== 'undefined' && JSPATH ? JSPATH : 'static/js/';
+	var _verhash = typeof VERHASH !== 'undefined' ? VERHASH : '';
+	var src = _jspath + script + '.js?' + _verhash;
+	if (typeof JSLOADED !== 'undefined' && !JSLOADED[src]) {
 		appendscript(src);
 	}
 	return checkrun();
