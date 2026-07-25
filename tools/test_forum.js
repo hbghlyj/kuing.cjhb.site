@@ -503,8 +503,10 @@ const { execSync } = require('child_process');
         );
 
         console.log("Testing Thread Recommendation and Hot Reply Voting via UI...");
+        const adminTidOutput = execSync("sudo mysql -u root ultrax -N -s -e \"SELECT tid FROM pre_forum_thread WHERE authorid=1 ORDER BY tid DESC LIMIT 1;\"").toString().trim();
         const adminReplyPidOutput = execSync("sudo mysql -u root ultrax -N -s -e \"SELECT pid FROM pre_forum_post WHERE authorid=1 AND first=0 ORDER BY pid DESC LIMIT 1;\"").toString().trim();
-        const targetRecommendTid = adminReplyPidOutput ? execSync(`sudo mysql -u root ultrax -N -s -e "SELECT tid FROM pre_forum_post WHERE pid='${adminReplyPidOutput}' LIMIT 1;"`).toString().trim() : tidOutput;
+        const targetRecommendTid = adminTidOutput || tidOutput;
+        const targetSupportTid = adminReplyPidOutput ? execSync(`sudo mysql -u root ultrax -N -s -e "SELECT tid FROM pre_forum_post WHERE pid='${adminReplyPidOutput}' LIMIT 1;"`).toString().trim() : tidOutput;
 
         await page.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${targetRecommendTid}`);
         await page.waitForLoadState('networkidle');
@@ -515,6 +517,8 @@ const { execSync } = require('child_process');
         await recommendBtn.click();
         await page.waitForTimeout(1000);
 
+        await page.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${targetSupportTid}`);
+        await page.waitForLoadState('networkidle');
         const supportBtn = page.locator('a[href*="action=postreview&do=support"]').first();
         assert.strictEqual(await supportBtn.count(), 1, 'Assertion Error: Desktop postreview support button did not render.');
         assert.ok(await supportBtn.isVisible(), 'Assertion Error: Desktop postreview support button was not visible.');
