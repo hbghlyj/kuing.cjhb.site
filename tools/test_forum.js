@@ -144,6 +144,61 @@ const { execSync } = require('child_process');
         C::t('common_usergroup_field')->update(7, array('allowrecommend' => '1', 'allowpostattach' => '1', 'allowpostimage' => '1', 'allowposttag' => '1', 'allowcommentpost' => '3', 'attachextensions' => 'gif, jpg, png, txt, svg'));
         C::t('common_usergroup_field')->update(1, array('allowrecommend' => '1', 'allowpostattach' => '1', 'allowpostimage' => '1', 'allowposttag' => '1', 'allowcommentpost' => '3', 'attachextensions' => 'gif, jpg, png, txt, svg'));
 
+        \$adminThread = C::t('forum_thread')->fetch_by_subject('Admin Seed Thread');
+        if(!\$adminThread) {
+            \$adminTid = C::t('forum_thread')->insert(array(
+                'fid' => 2,
+                'author' => 'admin',
+                'authorid' => 1,
+                'subject' => 'Admin Seed Thread',
+                'dateline' => TIMESTAMP,
+                'lastpost' => TIMESTAMP,
+                'lastposter' => 'admin',
+                'displayorder' => 0,
+                'views' => 1,
+                'replies' => 1,
+                'status' => 32
+            ), true);
+            C::t('forum_post')->insert('tid:' . \$adminTid, array(
+                'fid' => 2,
+                'tid' => \$adminTid,
+                'first' => 1,
+                'author' => 'admin',
+                'authorid' => 1,
+                'subject' => 'Admin Seed Thread',
+                'dateline' => TIMESTAMP,
+                'message' => 'Admin Seed Thread Message Content',
+                'useip' => '127.0.0.1',
+                'invisible' => 0,
+                'anonymous' => 0,
+                'usesig' => 1,
+                'htmlon' => 0,
+                'bbcodeoff' => 0,
+                'smileyoff' => -1,
+                'parseurloff' => 0,
+                'attachment' => 0
+            ), true);
+            C::t('forum_post')->insert('tid:' . \$adminTid, array(
+                'fid' => 2,
+                'tid' => \$adminTid,
+                'first' => 0,
+                'author' => 'admin',
+                'authorid' => 1,
+                'subject' => 'Admin Seed Reply',
+                'dateline' => TIMESTAMP,
+                'message' => 'Admin Seed Reply Message Content',
+                'useip' => '127.0.0.1',
+                'invisible' => 0,
+                'anonymous' => 0,
+                'usesig' => 1,
+                'htmlon' => 0,
+                'bbcodeoff' => 0,
+                'smileyoff' => -1,
+                'parseurloff' => 0,
+                'attachment' => 0
+            ), true);
+        }
+
         require_once libfile('function/cache');
         updatecache(array('setting', 'secqaa', 'styles', 'usergroups'));
         ?>`;
