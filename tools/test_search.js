@@ -25,10 +25,12 @@ const assert = require('assert');
         console.log('Checking guest search form...');
         await page.goto('http://127.0.0.1:8080/search.php?mod=forum');
         await page.waitForLoadState('networkidle');
-        const searchForm = page.locator('form[action*="search.php"]');
-        const keywordInput = searchForm.locator('input[name="srchtxt"]');
-        const submitButton = searchForm.locator('button[name="searchsubmit"], input[name="searchsubmit"]');
-        assert.strictEqual(await searchForm.count(), 1, 'Assertion Error: Forum search form did not render for a guest.');
+        const searchForm = page.locator('form.searchform[action*="search.php"]');
+        const advancedSearchForm = page.locator('.bm_c > form[action*="search.php"]');
+        const keywordInput = searchForm.locator('#scform_srchtxt');
+        const submitButton = searchForm.locator('#scform_submit');
+        assert.strictEqual(await searchForm.count(), 1, 'Assertion Error: Forum quick-search form did not render for a guest.');
+        assert.strictEqual(await advancedSearchForm.count(), 1, 'Assertion Error: Forum advanced-search form did not render for a guest.');
         assert.strictEqual(await keywordInput.count(), 1, 'Assertion Error: Forum search keyword field did not render.');
         assert.strictEqual(await submitButton.count(), 1, 'Assertion Error: Forum search submit control did not render.');
 
