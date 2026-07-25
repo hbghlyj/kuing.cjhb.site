@@ -557,7 +557,7 @@ const { execSync } = require('child_process');
             profileResponse.ok() || (profileResponse.status() >= 300 && profileResponse.status() < 400),
             `Assertion Error: Personal profile POST failed with HTTP ${profileResponse.status()}.`
         );
-        const profileValues = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT CONCAT(COALESCE(sightml,''), '\\t', COALESCE(customstatus,'')) FROM pre_common_member_field_forum WHERE uid='${userUid}';"`).toString().trim();
+        const profileValues = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT COALESCE(sightml,''), COALESCE(customstatus,'') FROM pre_common_member_field_forum WHERE uid='${userUid}';"`).toString().trim();
         assert.strictEqual(profileValues, 'My Custom Test Signature\tCustom Member Status', 'Assertion Error: Personal profile values were not persisted.');
         await page.reload({ waitUntil: 'networkidle' });
         assert.strictEqual(
