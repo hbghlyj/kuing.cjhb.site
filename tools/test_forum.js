@@ -283,7 +283,7 @@ const { execSync } = require('child_process');
         assert.ok(secqaaCookie, `Assertion Error: Desktop registration security-answer cookie was not set for ${secqaaHash}.`);
         const secqaaSsid = secqaaCookie.value.split('.')[0];
         const secqaaCode = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT code FROM pre_common_seccheck WHERE ssid='${secqaaSsid}';"`).toString().trim();
-        const secqaaRows = execSync('sudo mysql -u root ultrax -N -s -e "SELECT CONCAT(ssid, \\':\\', HEX(code), \\':\\', succeed, \\':\\', verified) FROM pre_common_seccheck ORDER BY ssid;"').toString().trim();
+        const secqaaRows = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT CONCAT(ssid, ':', HEX(code), ':', succeed, ':', verified) FROM pre_common_seccheck ORDER BY ssid;"`).toString().trim();
         assert.strictEqual(secqaaCode, 'c81e72', `Assertion Error: Desktop registration security-answer challenge stored an unexpected code; cookie=${secqaaCookie.value}; rows=${secqaaRows}.`);
         await secqaaInput.fill('2');
         const [secqaaResponse] = await Promise.all([
