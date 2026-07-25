@@ -1244,10 +1244,10 @@ i.pstatus { display: block; margin-bottom: -30px; font-size: 12px; text-align: c
 	#fastsmilies td { text-align: right; vertical-align: middle; cursor: pointer; }
 		#fastsmilies img { vertical-align: middle; }
 	#fastsmilies .tex_greek_cell { position: relative; overflow: visible !important; }
-	#fastsmilies .tex_greek_menu { position: relative; }
-	#fastsmilies .tex_greek_palette { display: none; grid-template-columns: repeat(8, 24px); gap: 1px; position: absolute; top: 100%; right: 0; z-index: 50; padding: 4px; border: 1px solid #CCC; background: {WRAPBG}; box-shadow: 0 2px 6px rgba(0, 0, 0, .15); }
+	#fastsmilies .tex_greek_menu { position: relative; display: inline-block; }
+	#fastsmilies .tex_greek_palette { display: none; grid-template-columns: repeat(8, 24px); gap: 1px; position: absolute; top: 100%; right: 0; width: 202px; box-sizing: border-box; white-space: normal; z-index: 100; padding: 4px; border: 1px solid #CCC; background: {WRAPBG}; box-shadow: 0 2px 6px rgba(0, 0, 0, .15); }
 	#fastsmilies .tex_greek_menu:hover .tex_greek_palette { display: grid; }
-	#fastsmilies .tex_greek_palette a { display: block; width: 22px; height: 20px; border: 1px solid transparent; color: inherit; line-height: 20px; text-align: center; text-decoration: none; }
+	#fastsmilies .tex_greek_palette a { display: flex; align-items: center; justify-content: center; width: 22px; height: 20px; border: 1px solid transparent; color: inherit; line-height: 20px; text-align: center; text-decoration: none; box-sizing: border-box; }
 	#fastsmilies .tex_greek_palette a:hover { border-color: #09C; background: {COMMONBG}; }
 /** end **/
 
