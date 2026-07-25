@@ -209,9 +209,6 @@ function emailMenuOp(op, e, id) {
 }
 
 function emailMenu(e, id) {
-	if(BROWSER.ie && BROWSER.ie < 7) {
-		return;
-	}
 	e = e ? e : window.event;
         var obj = $(id);
 	if(obj.value.indexOf('@') != -1) {
@@ -286,7 +283,7 @@ function checkusername(id) {
 	}
 	var x = new Ajax();
 	$('tip_' + id).parentNode.className = $('tip_' + id).parentNode.className.replace(/ p_right/, '');
-	x.get('forum.php?mod=ajax&inajax=yes&infloat=register&handlekey=register&ajaxmenu=1&action=checkusername&username=' + (BROWSER.ie && document.charset == 'utf-8' ? encodeURIComponent(username) : username.replace(/%/g, '%25').replace(/#/g, '%23')), function(s) {
+	x.get('forum.php?mod=ajax&inajax=yes&infloat=register&handlekey=register&ajaxmenu=1&action=checkusername&username=' + encodeURIComponent(username), function(s) {
 		errormessage(id, s);
 	});
 }
