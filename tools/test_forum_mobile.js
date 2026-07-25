@@ -361,7 +361,7 @@ const { execSync } = require('child_process');
         await page.screenshot({ path: 'screenshot_mobile_space_thread_postcomment.png' });
 
         console.log('Testing mobile Thread Recommendation and Hot Reply Voting via UI...');
-        await page.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${tid}`);
+        await page.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${adminReplyTid}`);
         await page.waitForLoadState('networkidle');
         const mobileRecommendBtn = page.locator('a[href*="action=recommend&do=add"]').first();
         assert.strictEqual(await mobileRecommendBtn.count(), 1, 'Assertion Error: Mobile thread recommend button did not render.');
@@ -371,13 +371,13 @@ const { execSync } = require('child_process');
         await page.waitForTimeout(1000);
 
         const mobileSupportBtn = page.locator('a[href*="action=postreview&do=support"]').first();
-        if (await mobileSupportBtn.count() && await mobileSupportBtn.isVisible().catch(() => false)) {
-            console.log("Clicking mobile postreview support button via UI...");
-            await mobileSupportBtn.click();
-            await page.waitForTimeout(1000);
-        }
+        assert.strictEqual(await mobileSupportBtn.count(), 1, 'Assertion Error: Mobile postreview support button did not render.');
+        assert.ok(await mobileSupportBtn.isVisible(), 'Assertion Error: Mobile postreview support button was not visible.');
+        console.log("Clicking mobile postreview support button via UI...");
+        await mobileSupportBtn.click();
+        await page.waitForTimeout(1000);
 
-        await page.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${tid}`);
+        await page.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${adminReplyTid}`);
         await page.waitForLoadState('networkidle');
         await page.screenshot({ path: 'screenshot_mobile_thread_recommend.png' });
 

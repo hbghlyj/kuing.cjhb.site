@@ -503,7 +503,10 @@ const { execSync } = require('child_process');
         );
 
         console.log("Testing Thread Recommendation and Hot Reply Voting via UI...");
-        await page.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${tidOutput}`);
+        const adminReplyPidOutput = execSync("sudo mysql -u root ultrax -N -s -e \"SELECT pid FROM pre_forum_post WHERE authorid=1 AND first=0 ORDER BY pid DESC LIMIT 1;\"").toString().trim();
+        const targetRecommendTid = adminReplyPidOutput ? execSync(`sudo mysql -u root ultrax -N -s -e "SELECT tid FROM pre_forum_post WHERE pid='${adminReplyPidOutput}' LIMIT 1;"`).toString().trim() : tidOutput;
+
+        await page.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${targetRecommendTid}`);
         await page.waitForLoadState('networkidle');
         const recommendBtn = page.locator('a[href*="action=recommend&do=add"]').first();
         assert.strictEqual(await recommendBtn.count(), 1, 'Assertion Error: Desktop thread recommend button did not render.');
@@ -513,13 +516,13 @@ const { execSync } = require('child_process');
         await page.waitForTimeout(1000);
 
         const supportBtn = page.locator('a[href*="action=postreview&do=support"]').first();
-        if (await supportBtn.count() && await supportBtn.isVisible().catch(() => false)) {
-            console.log("Clicking desktop postreview support button via UI...");
-            await supportBtn.click();
-            await page.waitForTimeout(1000);
-        }
+        assert.strictEqual(await supportBtn.count(), 1, 'Assertion Error: Desktop postreview support button did not render.');
+        assert.ok(await supportBtn.isVisible(), 'Assertion Error: Desktop postreview support button was not visible.');
+        console.log("Clicking desktop postreview support button via UI...");
+        await supportBtn.click();
+        await page.waitForTimeout(1000);
 
-        await page.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${tidOutput}`);
+        await page.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${targetRecommendTid}`);
         await page.waitForLoadState('networkidle');
         await page.screenshot({ path: 'screenshot_desktop_thread_recommend.png' });
 
