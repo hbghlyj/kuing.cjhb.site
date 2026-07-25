@@ -233,6 +233,7 @@ const { execSync } = require('child_process');
         C::t('common_setting')->update('jspath', 'static/js/');
         updatecache(array('setting', 'secqaa', 'styles', 'usergroups'));
         savecache('secqaa', array(1 => array('qid' => 1, 'question' => '1+1=?', 'answer' => md5('2'))));
+        memory('rm', 'setting');
         memory('rm', 'secqaa');
         if(function_exists('opcache_reset')) { @opcache_reset(); }
         ?>`;
