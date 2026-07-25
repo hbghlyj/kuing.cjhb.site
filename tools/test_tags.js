@@ -70,9 +70,9 @@ const { execSync } = require('child_process');
 
         const tagInput = page.locator('#keyword-input:visible');
         assert.strictEqual(await tagInput.count(), 1, 'Assertion Error: Visible tag input did not render.');
-        await tagInput.fill('playwright');
+        await tagInput.fill('playwright tag');
         await tagInput.press('Enter');
-        assert.strictEqual(await page.locator('#tags').inputValue(), 'playwright', 'Assertion Error: Tag editor did not add the entered tag.');
+        assert.strictEqual(await page.locator('#tags').inputValue(), 'playwright tag', 'Assertion Error: Tag editor did not preserve space in multi-word tag.');
 
         const postsubmitBtn = page.locator('button[name="topicsubmit"]:visible');
         assert.strictEqual(await postsubmitBtn.count(), 1, 'Assertion Error: Tag post submit button did not render.');
@@ -81,14 +81,14 @@ const { execSync } = require('child_process');
             postsubmitBtn.click()
         ]);
 
-        const tagidOutput = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT tagid FROM pre_common_tag WHERE tagname='playwright' LIMIT 1;"`).toString().trim();
+        const tagidOutput = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT tagid FROM pre_common_tag WHERE tagname='playwright tag' LIMIT 1;"`).toString().trim();
 
-        assert.ok(tagidOutput, 'Assertion Error: Submitted tag was not created in the database.');
+        assert.ok(tagidOutput, 'Assertion Error: Submitted multi-word tag with space was not created in the database.');
         console.log("Testing Tag Search...");
         await page.goto(`http://127.0.0.1:8080/misc.php?mod=tag&id=${tagidOutput}`);
         await page.waitForLoadState('networkidle');
         const tagSearchText = await page.textContent('body');
-        assert.ok(tagSearchText.includes('Thread with Tags') || tagSearchText.includes('playwright'), 'Assertion Error: Tag search result did not list the created thread or tag.');
+        assert.ok(tagSearchText.includes('Thread with Tags') || tagSearchText.includes('playwright tag'), 'Assertion Error: Tag search result did not list the created thread or tag.');
         await page.screenshot({ path: 'screenshot_tags_03_search_result.png' });
         report += `### Tag Search Result\n- **Status**: Checked\n- **Screenshot**: \`screenshot_tags_03_search_result.png\`\n\n`;
 

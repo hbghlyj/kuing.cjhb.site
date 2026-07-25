@@ -718,7 +718,7 @@ const { execSync } = require('child_process');
             await extraTagBtn.click();
             await tagsInput.waitFor({ state: 'visible' });
         }
-        await tagsInput.fill('sample_tag');
+        await tagsInput.fill('sample tag');
         await tagsInput.press('Enter');
 
         const attachSubmitBtn = await page.$('button[name="topicsubmit"]');
@@ -741,7 +741,7 @@ const { execSync } = require('child_process');
 
         const viewthreadBody = await page.textContent('body');
         assert.ok(
-            viewthreadBody.includes('Thread with Attachment') && viewthreadBody.includes('Posting thread with image attachment content.') && viewthreadBody.includes('sample_tag'),
+            viewthreadBody.includes('Thread with Attachment') && viewthreadBody.includes('Posting thread with image attachment content.') && viewthreadBody.includes('sample tag'),
             'Assertion Error: Attachment thread page did not load thread content cleanly in viewthread.'
         );
 
