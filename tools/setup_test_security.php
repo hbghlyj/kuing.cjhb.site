@@ -4,11 +4,18 @@ if(PHP_SAPI !== 'cli') {
 	exit("This tool must be run from the command line.\n");
 }
 
+function test_security_setup_stage($stage = null) {
+	static $current = 'bootstrap';
+	if($stage !== null) {
+		$current = $stage;
+	}
+	return $current;
+}
+
 $setupComplete = false;
-$setupStage = 'bootstrap';
-register_shutdown_function(function() use (&$setupComplete, &$setupStage) {
+register_shutdown_function(function() use (&$setupComplete) {
 	if(!$setupComplete) {
-		fwrite(STDERR, "Test security setup terminated during {$setupStage}.\n");
+		fwrite(STDERR, 'Test security setup terminated during '.test_security_setup_stage().".\n");
 		exit(1);
 	}
 });
@@ -38,11 +45,11 @@ if($parsedUrl['scheme'] === 'https') {
 
 require './source/class/class_core.php';
 
-$setupStage = 'application initialization';
+test_security_setup_stage('application initialization');
 $discuz = C::app();
 $discuz->init();
 
-$setupStage = 'security settings';
+test_security_setup_stage('security settings');
 DB::query('TRUNCATE TABLE '.DB::table('common_secquestion'));
 C::t('common_secquestion')->insert([
 	'type' => 0,
@@ -110,7 +117,7 @@ foreach([1, 7, 10] as $groupId) {
 	]);
 }
 
-$setupStage = 'seed thread';
+test_security_setup_stage('seed thread');
 require_once libfile('function/forum');
 if(!C::t('forum_thread')->exists_by_subject('Admin Seed Thread')) {
 	$adminTid = C::t('forum_thread')->insert([
@@ -167,12 +174,12 @@ if(!C::t('forum_thread')->exists_by_subject('Admin Seed Thread')) {
 	]);
 }
 
-$setupStage = 'cache rebuild';
+test_security_setup_stage('cache rebuild');
 require_once libfile('function/cache');
 C::t('common_syscache')->delete_syscache(['setting', 'secqaa']);
 updatecache(['setting', 'secqaa', 'usergroups']);
 
-$setupStage = 'cache validation';
+test_security_setup_stage('cache validation');
 $cached = C::t('common_syscache')->fetch_all_syscache(['setting', 'secqaa', 'usergroup_1', 'usergroup_7', 'usergroup_10'], true);
 if(!empty($cached['setting']['secqaa']['allowcode'])
 	|| empty($cached['setting']['secqaa']['allowqa'])
