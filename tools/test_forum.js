@@ -268,8 +268,22 @@ const { execSync } = require('child_process');
         const agreeCheckbox = registrationForm.locator('input[name="agree"]');
         if (await agreeCheckbox.count()) await agreeCheckbox.check();
 
-        const secqaaInput = registrationForm.locator('input[name*="secanswer"]');
-        if (await secqaaInput.count()) await secqaaInput.fill('2');
+        const secqaaInput = registrationForm.locator('input[name="secanswer"]');
+        if (await secqaaInput.count()) {
+            await secqaaInput.fill('2');
+            const [secqaaResponse] = await Promise.all([
+                page.waitForResponse(response =>
+                    response.url().includes('misc.php?mod=secqaa') &&
+                    response.url().includes('action=check')
+                ),
+                secqaaInput.press('Tab')
+            ]);
+            const secqaaResult = await secqaaResponse.text();
+            assert.ok(
+                secqaaResult.includes('succeed'),
+                `Assertion Error: Desktop registration security answer was rejected. Response: ${secqaaResult}`
+            );
+        }
 
         const regSubmitBtn = registrationForm.locator('#registerformsubmit');
         assert.strictEqual(await regSubmitBtn.count(), 1, 'Assertion Error: Desktop registration submit button did not render.');
