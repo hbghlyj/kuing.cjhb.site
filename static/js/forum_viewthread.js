@@ -279,8 +279,14 @@ function recommendupdate(n) {
 		objv.innerHTML = parseInt(objv.innerHTML ? objv.innerHTML : 0) + 1;
 	}
 	setTimeout(function () {
-		$('recommentc').innerHTML = parseInt($('recommentc').innerHTML) + n;
-		$('recommentv').style.display = 'none';
+		var count = $('recommentc');
+		var panel = $('recommentv');
+		if(count) {
+			count.innerHTML = parseInt(count.innerHTML) + n;
+		}
+		if(panel) {
+			panel.style.display = 'none';
+		}
 	}, 1000);
 }
 
