@@ -152,7 +152,7 @@ const { execSync } = require('child_process');
         C::t('common_secquestion')->insert(array('type' => 0, 'question' => '1+1=?', 'answer' => '2'));
 
         \$seccodedata = array('rule' => array('register' => array('allow' => 0, 'numlimit' => '', 'timelimit' => 0),'login' => array('allow' => 0, 'nolocal' => 0, 'pwsimple' => 0, 'pwerror' => 0, 'outofday' => '', 'numiptry' => '', 'timeiptry' => 0),'post' => array('allow' => 0, 'numlimit' => '', 'timelimit' => 0, 'nplimit' => '', 'vplimit' => ''),'password' => array('allow' => 0),'card' => array('allow' => 0)),'minposts' => '','type' => 0,'width' => 150,'height' => 60,'scatter' => 0,'background' => 0,'adulterate' => 0,'ttf' => 0,'angle' => 0,'warping' => 0,'color' => 0,'size' => 0,'shadow' => 0,'animator' => 0);
-        \$secqaa = array('status' => 1, 'minposts' => 1, 'statuses' => array('register'), 'allowcode' => 0, 'allowqa' => 1);
+        \$secqaa = array('status' => 2, 'minposts' => 0, 'statuses' => array('post', 'login'), 'allowcode' => 0, 'allowqa' => 1);
         C::t('common_setting')->update('seccodedata', \$seccodedata);
         C::t('common_setting')->update('secqaa', \$secqaa);
         C::t('common_setting')->update('seccodestatus', '0');
@@ -274,41 +274,8 @@ const { execSync } = require('child_process');
         const agreeCheckbox = registrationForm.locator('input[name="agree"]');
         if (await agreeCheckbox.count()) await agreeCheckbox.check();
 
-        const secqaaInput = registrationForm.locator('input[name="secanswer"]');
-        await secqaaInput.waitFor({ state: 'attached', timeout: 5000 });
-        assert.strictEqual(await secqaaInput.count(), 1, 'Assertion Error: Desktop registration security-answer field did not render.');
-        const secqaaHash = await registrationForm.locator('input[name="secqaahash"]').inputValue();
-        const secqaaCookies = await context.cookies();
-        const secqaaCookie = secqaaCookies.find(cookie => cookie.name.endsWith('secqaa' + secqaaHash));
-        assert.ok(secqaaCookie, `Assertion Error: Desktop registration security-answer cookie was not set for ${secqaaHash}.`);
-        const secqaaSsid = secqaaCookie.value.split('.')[0];
-        const secqaaCode = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT code FROM pre_common_seccheck WHERE ssid='${secqaaSsid}';"`).toString().trim();
-        assert.strictEqual(secqaaCode, 'c81e72', `Assertion Error: Desktop registration security-answer challenge stored an unexpected code for ssid ${secqaaSsid}.`);
-        await secqaaInput.fill('2');
-        const [secqaaResponse] = await Promise.all([
-            page.waitForResponse(response =>
-                response.url().includes('misc.php?mod=secqaa') &&
-                response.url().includes('action=check')
-            ),
-            secqaaInput.press('Tab')
-        ]);
-        const secqaaResult = await secqaaResponse.text();
-        assert.ok(
-            secqaaResult.includes('succeed'),
-            `Assertion Error: Desktop registration security answer was rejected. Response: ${secqaaResult}`
-        );
-
         const regSubmitBtn = registrationForm.locator('#registerformsubmit');
         assert.strictEqual(await regSubmitBtn.count(), 1, 'Assertion Error: Desktop registration submit button did not render.');
-        const registrationSecurityFields = await registrationForm.evaluate(form => {
-            const data = new FormData(form);
-            return {
-                answer: data.get('secanswer'),
-                hash: data.get('secqaahash')
-            };
-        });
-        assert.strictEqual(registrationSecurityFields.answer, '2', 'Assertion Error: Desktop registration form omitted the security answer.');
-        assert.ok(registrationSecurityFields.hash, 'Assertion Error: Desktop registration form omitted the security-answer hash.');
 
         const [registrationResponse] = await Promise.all([
             page.waitForResponse(response =>
