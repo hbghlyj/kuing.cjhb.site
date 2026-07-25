@@ -1130,12 +1130,6 @@ function loadcache($cachenames, $force = false) {
 			if(DISCUZ_LANG == 'EN/') {
 				if($cname == 'onlinelist'){
 					$data['legend'] = $data['legend_en'];
-				}elseif(str_starts_with($cname, 'usergroup_')) {
-					$data['grouptitle'] = $data['grouptitle_en'];
-				}elseif($cname == 'usergroups') {
-					foreach($data as &$value) {
-						$value['grouptitle'] = $value['grouptitle_en'];
-					}
 				}elseif($cname == 'setting') {
 					$data['bbname'] = $data['sitename'] = 'Discuz Math Forum';
 					$data['navs'][2]['navname'] = 'Forum';
