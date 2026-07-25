@@ -236,6 +236,14 @@ const { execSync } = require('child_process');
         savecache('secqaa', array(1 => array('qid' => 1, 'question' => '1+1=?', 'answer' => md5('2'))));
         memory('rm', 'setting');
         memory('rm', 'secqaa');
+        \$storedSecqaa = C::t('common_setting')->fetch_setting('secqaa', true);
+        \$cachedSettings = C::t('common_syscache')->fetch_all_syscache(array('setting', 'secqaa'), true);
+        if(!empty(\$storedSecqaa['allowcode']) || empty(\$storedSecqaa['allowqa'])
+            || !empty(\$cachedSettings['setting']['secqaa']['allowcode'])
+            || empty(\$cachedSettings['setting']['secqaa']['allowqa'])
+            || empty(\$cachedSettings['secqaa'])) {
+            throw new RuntimeException('Security setting cache mismatch: '.json_encode(array(\$storedSecqaa, \$cachedSettings)));
+        }
         if(function_exists('opcache_reset')) { @opcache_reset(); }
         ?>`;
         fs.writeFileSync('setup_test_sec.php', phpConfig);
