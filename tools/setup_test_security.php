@@ -189,7 +189,7 @@ $expect = function($condition, $label) use (&$failures) {
 };
 $expect(empty($cached['setting']['secqaa']['allowcode']), 'secqaa.allowcode');
 $expect(!empty($cached['setting']['secqaa']['allowqa']), 'secqaa.allowqa');
-$expect(!array_diff(['register', 'post', 'login'], $cached['setting']['secqaa']['statuses'] ?? []), 'secqaa.statuses');
+$expect(!array_diff(['register', 'post', 'login'], (array)($cached['setting']['secqaa']['statuses'] ?? [])), 'secqaa.statuses');
 foreach(['register', 'post', 'login'] as $rule) {
 	$expect((int)($cached['setting']['seccodedata']['rule'][$rule]['allow'] ?? 0) === 1, 'seccodedata.'.$rule);
 }
@@ -206,10 +206,10 @@ $expect(is_array($cached['setting']['allowpostcomment'] ?? null)
 $expect(!empty($cached['setting']['commentfirstpost']), 'commentfirstpost');
 $expect(!empty($cached['setting']['commentpostself']), 'commentpostself');
 $expect(!empty($cached['setting']['profilegroup']['info']['available']), 'profilegroup.info.available');
-$expect(in_array('sightml', $cached['setting']['profilegroup']['info']['field'] ?? [], true), 'profilegroup.info.sightml');
-$expect(in_array('customstatus', $cached['setting']['profilegroup']['info']['field'] ?? [], true), 'profilegroup.info.customstatus');
-$expect(count($cached['secqaa'] ?? []) === 9, 'secqaa cache count');
-$expect(!array_filter($cached['secqaa'] ?? [], fn($question) => ($question['answer'] ?? '') !== md5('2')), 'secqaa answers');
+$expect(in_array('sightml', (array)($cached['setting']['profilegroup']['info']['field'] ?? []), true), 'profilegroup.info.sightml');
+$expect(in_array('customstatus', (array)($cached['setting']['profilegroup']['info']['field'] ?? []), true), 'profilegroup.info.customstatus');
+$expect(count((array)($cached['secqaa'] ?? [])) === 9, 'secqaa cache count');
+$expect(!array_filter((array)($cached['secqaa'] ?? []), fn($question) => (((array)$question)['answer'] ?? '') !== md5('2')), 'secqaa answers');
 foreach([1, 7, 10] as $groupId) {
 	$group = $cached['usergroup_'.$groupId] ?? [];
 	$expect(!empty($group['allowcstatus']), "usergroup_{$groupId}.allowcstatus");
