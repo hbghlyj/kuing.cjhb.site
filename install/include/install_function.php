@@ -820,48 +820,11 @@ function secrandom($length, $numeric = 0, $strong = false) {
 	$chars = $numeric ? array('A', 'B', '+', '/', '=') : array('+', '/', '=');
 	$num_find = str_split('CDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz');
 	$num_repl = str_split('01234567890123456789012345678901234567890123456789');
-	$isstrong = false;
-	if(function_exists('random_bytes')) {
-		$isstrong = true;
-		$random_bytes = function($length) {
-			return random_bytes($length);
-		};
-	} elseif(extension_loaded('mcrypt') && function_exists('mcrypt_create_iv')) {
-		// for lower than PHP 7.0, Please Upgrade ASAP.
-		$isstrong = true;
-		$random_bytes = function($length) {
-			$rand = mcrypt_create_iv($length, MCRYPT_DEV_URANDOM);
-			if($rand !== false && strlen($rand) === $length) {
-				return $rand;
-			} else {
-				return false;
-			}
-		};
-	} elseif(extension_loaded('openssl') && function_exists('openssl_random_pseudo_bytes')) {
-		// for lower than PHP 7.0, Please Upgrade ASAP.
-		// openssl_random_pseudo_bytes() does not appear to cryptographically secure
-		// https://github.com/paragonie/random_compat/issues/5
-		$isstrong = true;
-		$random_bytes = function($length) {
-			$rand = openssl_random_pseudo_bytes($length, $secure);
-			if($secure === true) {
-				return $rand;
-			} else {
-				return false;
-			}
-		};
-	}
-	if(!$isstrong) {
-		return $strong ? false : random($length, $numeric);
-	}
 	$retry_times = 0;
 	$return = '';
 	while($retry_times < 128) {
 		$getlen = $length - strlen($return); // 33% extra bytes
-		$bytes = $random_bytes(max($getlen, 12));
-		if($bytes === false) {
-			return false;
-		}
+		$bytes = random_bytes(max($getlen, 12));
 		$bytes = str_replace($chars, '', base64_encode($bytes));
 		$return .= substr($bytes, 0, $getlen);
 		if(strlen($return) == $length) {
@@ -1350,9 +1313,8 @@ function dfopen($url, $limit = 0, $post = '', $cookie = '', $bysocket = FALSE, $
 		$ch = curl_init();
 		$ip && curl_setopt($ch, CURLOPT_HTTPHEADER, array("Host: ".$host));
 		curl_setopt($ch, CURLOPT_USERAGENT, $_SERVER['HTTP_USER_AGENT']);
-		// 在提供 IP 地址的同时, 当请求主机名并非一个合法 IP 地址, 且 PHP 版本 >= 5.5.0 时, 使用 CURLOPT_RESOLVE 设置固定的 IP 地址与域名关系
-		// 在不支持的 PHP 版本下, 继续采用原有不支持 SNI 的流程
-		if(!empty($ip) && filter_var($ip, FILTER_VALIDATE_IP) && !filter_var($host, FILTER_VALIDATE_IP) && version_compare(PHP_VERSION, '5.5.0', 'ge')) {
+		// 在提供 IP 地址的同时, 当请求主机名并非一个合法 IP 地址时, 使用 CURLOPT_RESOLVE 设置固定的 IP 地址与域名关系
+		if(!empty($ip) && filter_var($ip, FILTER_VALIDATE_IP) && !filter_var($host, FILTER_VALIDATE_IP)) {
 			curl_setopt($ch, CURLOPT_RESOLVE, array("$host:$port:$ip"));
 			curl_setopt($ch, CURLOPT_URL, $scheme.'://'.$host.':'.$port.$path);
 		} else {

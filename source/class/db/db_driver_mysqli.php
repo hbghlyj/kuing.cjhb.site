@@ -245,11 +245,7 @@ class db_driver_mysqli {
 	}
 
 	function rollback() {
-		$rr = $this->curlink->rollback();
-		if(PHP_VERSION < '5.5') {
-			$this->curlink->autocommit(true);
-		}
-		return $rr;
+		return $this->curlink->rollback();
 	}
 
 }

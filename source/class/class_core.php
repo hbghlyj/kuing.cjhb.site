@@ -16,7 +16,7 @@ const DISCUZ_CORE_DEBUG = false;
 const DISCUZ_TABLE_EXTENDABLE = false;
 
 if(PHP_VERSION_ID < 80000) {
-	exit('PHP version must be greater than 8.0, current version: '.PHP_VERSION);
+	exit('PHP version must be 8.0 or later, current version: '.PHP_VERSION);
 }
 
 set_exception_handler(['core', 'handleException']);
