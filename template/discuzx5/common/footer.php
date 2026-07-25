@@ -197,8 +197,9 @@ new_showTopLink();
 <!--{if !IS_ROBOT}-->
 <link href="/chat/pusher-chat-widget.css?{VERHASH}" rel="stylesheet" />
 <style>.pusher-chat-widget{bottom:5px;right:5px;z-index:700;position:fixed;width:300px;}.pusher-chat-widget ul.activity-stream{max-height:400px;}</style>
-<script type="text/javascript">var _dz_dollar = typeof $ !== 'undefined' ? $ : undefined;</script>
-<script src="{STATICURL}js/mobile/jquery.min.js"></script><script type="text/javascript">if(typeof jQuery !== 'undefined') { jQuery.noConflict(); } if(_dz_dollar) { window.$ = $ = _dz_dollar; }</script>
+<script type="text/javascript">var _dz_orig_dollar_ft = (typeof $ === 'function') ? $ : (typeof window.$ === 'function' ? window.$ : null);</script>
+<script src="{STATICURL}js/mobile/jquery.min.js"></script>
+<script type="text/javascript">if(typeof jQuery !== 'undefined') { jQuery.noConflict(); } if(_dz_orig_dollar_ft) { window.$ = _dz_orig_dollar_ft; }</script>
 <script src="/chat/pusher.min.js"></script>
 <script src="/chat/PusherChatWidget.js?{VERHASH}"></script>
 <!--{/if}-->

@@ -3,8 +3,9 @@
 	{cells common/header/meta}
 	{cells common/header/css}
 	{cells common/header/js}
-	<script type="text/javascript">var _dz_dollar_hdr = typeof $ !== 'undefined' ? $ : undefined;</script>
-	<script src="{STATICURL}js/mobile/jquery.min.js?{VERHASH}"></script><script type="text/javascript">if(typeof jQuery !== 'undefined') { jQuery.noConflict(); } if(_dz_dollar_hdr) { window.$ = $ = _dz_dollar_hdr; }</script>
+	<script type="text/javascript">var _dz_orig_dollar = (typeof $ === 'function') ? $ : (typeof window.$ === 'function' ? window.$ : null);</script>
+	<script src="{STATICURL}js/mobile/jquery.min.js?{VERHASH}"></script>
+	<script type="text/javascript">if(typeof jQuery !== 'undefined') { jQuery.noConflict(); } if(_dz_orig_dollar) { window.$ = _dz_orig_dollar; }</script>
 </head>
 
 <body id="nv_{$_G[basescript]}" class="pg_{CURMODULE} dz_pg_{CURMODULE}	dz_tbnvb {if $_G['basescript'] === 'portal' && CURMODULE === 'list' && !empty($cat)} {$cat['bodycss']}{/if} discuzx5" onkeydown="if(event.keyCode==27) return false;">
