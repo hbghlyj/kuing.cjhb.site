@@ -1425,7 +1425,6 @@ function writetojscache() {
 			$fp = fopen($jsfile, 'r');
 			$jsdata = fread($fp, filesize($jsfile));
 			fclose($fp);
-			$jsdata = preg_replace($remove[0], $remove[1], $jsdata);
 			if($entry == 'common.js') {
 				$jsdata = _appendjsvar().$jsdata;
 			}
