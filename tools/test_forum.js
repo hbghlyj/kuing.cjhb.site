@@ -233,7 +233,6 @@ const { execSync } = require('child_process');
         C::t('common_setting')->update('jspath', 'static/js/');
         C::t('common_syscache')->delete_syscache(array('setting', 'secqaa'));
         updatecache(array('setting', 'secqaa', 'styles', 'usergroups'));
-        savecache('secqaa', array(1 => array('qid' => 1, 'question' => '1+1=?', 'answer' => md5('2'))));
         memory('rm', 'setting');
         memory('rm', 'secqaa');
         \$storedSecqaa = C::t('common_setting')->fetch_setting('secqaa', true);
@@ -241,7 +240,8 @@ const { execSync } = require('child_process');
         if(!empty(\$storedSecqaa['allowcode']) || empty(\$storedSecqaa['allowqa'])
             || !empty(\$cachedSettings['setting']['secqaa']['allowcode'])
             || empty(\$cachedSettings['setting']['secqaa']['allowqa'])
-            || empty(\$cachedSettings['secqaa'])) {
+            || count(\$cachedSettings['secqaa']) !== 9
+            || count(array_filter(\$cachedSettings['secqaa'], fn(\$question) => (\$question['answer'] ?? '') !== md5('2')))) {
             throw new RuntimeException('Security setting cache mismatch: '.json_encode(array(\$storedSecqaa, \$cachedSettings)));
         }
         if(function_exists('opcache_reset')) { @opcache_reset(); }

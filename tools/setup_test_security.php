@@ -25,17 +25,11 @@ C::t('common_setting')->update('seccodestatus', '0');
 require_once libfile('function/cache');
 C::t('common_syscache')->delete_syscache(['setting', 'secqaa']);
 updatecache(['setting', 'secqaa']);
-savecache('secqaa', [
-	1 => [
-		'qid' => 1,
-		'question' => '1+1=?',
-		'answer' => md5('2'),
-	],
-]);
 
 $cached = C::t('common_syscache')->fetch_all_syscache(['setting', 'secqaa'], true);
 if(!empty($cached['setting']['secqaa']['allowcode'])
 	|| empty($cached['setting']['secqaa']['allowqa'])
-	|| empty($cached['secqaa'])) {
+	|| count($cached['secqaa']) !== 9
+	|| count(array_filter($cached['secqaa'], fn($question) => ($question['answer'] ?? '') !== md5('2')))) {
 	throw new RuntimeException('Unable to initialize deterministic security question');
 }
