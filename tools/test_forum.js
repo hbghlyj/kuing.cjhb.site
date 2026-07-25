@@ -238,9 +238,11 @@ const { execSync } = require('child_process');
 
         const regSubmitBtn = registrationForm.locator('#registerformsubmit');
         assert.strictEqual(await regSubmitBtn.count(), 1, 'Assertion Error: Desktop registration submit button did not render.');
-        const registrationResponse = page.waitForResponse(response => response.request().method() === 'POST' && response.url().includes('member.php?mod=register'));
+        const registrationResponsePromise = page.waitForResponse(response => response.request().method() === 'POST' && response.url().includes('member.php?mod=register'));
         await regSubmitBtn.click();
-        await registrationResponse;
+        const registrationResponse = await registrationResponsePromise;
+        console.log("Registration response status:", registrationResponse.status());
+        console.log("Registration response text:", await registrationResponse.text());
         await page.waitForTimeout(500);
 
         console.log("Checking if user exists in DB...");
