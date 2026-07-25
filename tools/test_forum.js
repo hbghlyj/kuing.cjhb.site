@@ -159,7 +159,6 @@ const { execSync } = require('child_process');
         \$_G['setting']['seccodedata'] = \$seccodedata;
         \$_G['setting']['secqaa'] = \$secqaa;
         \$_G['setting']['seccodestatus'] = '0';
-        savecache('secqaa', array(1 => array('qid' => 1, 'question' => '1+1=?', 'answer' => md5('2'))));
         C::t('common_setting')->update('regname', '');
         C::t('common_setting')->update('regstatus', '1');
         C::t('common_setting')->update('regclose', '0');
@@ -233,6 +232,7 @@ const { execSync } = require('child_process');
         require_once libfile('function/cache');
         C::t('common_setting')->update('jspath', 'static/js/');
         updatecache(array('setting', 'secqaa', 'styles', 'usergroups'));
+        savecache('secqaa', array(1 => array('qid' => 1, 'question' => '1+1=?', 'answer' => md5('2'))));
         if(function_exists('opcache_reset')) { @opcache_reset(); }
         ?>`;
         fs.writeFileSync('setup_test_sec.php', phpConfig);
