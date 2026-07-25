@@ -50,7 +50,10 @@ C::t('common_setting')->update('allowpostcomment', [1]);
 C::t('common_setting')->update('commentfirstpost', '1');
 C::t('common_setting')->update('commentpostself', '1');
 foreach([1, 7, 10] as $groupId) {
-	C::t('common_usergroup_field')->update($groupId, ['disablepostctrl' => '1']);
+	C::t('common_usergroup_field')->update($groupId, [
+		'disablepostctrl' => '1',
+		'allowcommentpost' => '3',
+	]);
 }
 
 require_once libfile('function/cache');
@@ -68,6 +71,9 @@ if(!empty($cached['setting']['secqaa']['allowcode'])
 	|| empty($cached['setting']['commentpostself'])
 	|| count($cached['secqaa']) !== 9
 	|| count(array_filter($cached['secqaa'], fn($question) => ($question['answer'] ?? '') !== md5('2')))
-	|| count(array_filter([1, 7, 10], fn($groupId) => empty($cached['usergroup_'.$groupId]['disablepostctrl'])))) {
+	|| count(array_filter([1, 7, 10], fn($groupId) =>
+		empty($cached['usergroup_'.$groupId]['disablepostctrl'])
+		|| (int)$cached['usergroup_'.$groupId]['allowcommentpost'] !== 3
+	))) {
 	throw new RuntimeException('Unable to initialize deterministic test security settings');
 }
