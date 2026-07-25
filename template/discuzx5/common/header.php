@@ -3,8 +3,6 @@
 	{cells common/header/meta}
 	{cells common/header/css}
 	{cells common/header/js}
-	<script src="{STATICURL}js/mobile/jquery.min.js?{VERHASH}"></script>
-	<script type="text/javascript">if(typeof jQuery !== 'undefined') { jQuery.noConflict(); } if(typeof $ === 'function') { window.$ = $; }</script>
 </head>
 
 <body id="nv_{$_G[basescript]}" class="pg_{CURMODULE} dz_pg_{CURMODULE}	dz_tbnvb {if $_G['basescript'] === 'portal' && CURMODULE === 'list' && !empty($cat)} {$cat['bodycss']}{/if} discuzx5" onkeydown="if(event.keyCode==27) return false;">
