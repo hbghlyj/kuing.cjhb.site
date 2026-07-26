@@ -20,7 +20,7 @@ if($refererhost['host'] != $_SERVER['HTTP_HOST']) {
 $message = '';
 $showid = 'secqaa_'.$idhash;
 if($_G['setting']['secqaa']) {
-	$question = make_secqaa();
+	$question = helper_seccheck::make_secqaa();
 }
 
 $seclang = lang('forum/misc');

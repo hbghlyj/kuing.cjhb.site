@@ -1992,10 +1992,6 @@ function make_seccode($seccode = '') {
 	return helper_seccheck::make_seccode($seccode);
 }
 
-function make_secqaa() {
-	return helper_seccheck::make_secqaa();
-}
-
 function adshow($parameter) {
 	global $_G;
 	if(getgpc('inajax') || $_G['group']['closead']) {

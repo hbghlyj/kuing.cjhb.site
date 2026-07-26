@@ -22,7 +22,7 @@ if(!defined('IN_RESTFUL')) {
 $message = $question = '';
 $showid = 'secqaa_'.$idhash;
 if($_G['setting']['secqaa']) {
-	$question = make_secqaa();
+	$question = helper_seccheck::make_secqaa();
 }
 if(defined('IN_RESTFUL')) {
 	echo $question;
