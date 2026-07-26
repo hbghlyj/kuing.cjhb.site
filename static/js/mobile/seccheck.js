@@ -10,8 +10,9 @@ function updatesecqaa(idhash, tpl) {
 	}
 	var id = 'seqaajs_' + idhash;
 	var src = 'misc.php?mod=secqaa&action=update&idhash=' + idhash + '&' + Math.random();
-	if(document.getElementById(id)) {
-		document.getElementsByTagName('head')[0].appendChild(document.getElementById(id));
+	var oldScript = document.getElementById(id);
+	if(oldScript) {
+		oldScript.remove();
 	}
 	var scriptNode = document.createElement('script');
 	scriptNode.type = 'text/javascript';
@@ -34,8 +35,9 @@ function updateseccode(idhash, tpl, modid) {
 	}
 	var id = 'seccodejs_' + idhash;
 	var src = 'misc.php?mod=seccode&action=update&idhash=' + idhash + '&' + Math.random() + '&modid=' + modid;
-	if(document.getElementById(id)) {
-		document.getElementsByTagName('head')[0].appendChild(document.getElementById(id));
+	var oldScript = document.getElementById(id);
+	if(oldScript) {
+		oldScript.remove();
 	}
 	var scriptNode = document.createElement('script');
 	scriptNode.type = 'text/javascript';

@@ -23,27 +23,48 @@ if($_G['setting']['secqaa']) {
 	$question = make_secqaa();
 }
 
-$message = preg_replace("/\r|\n/", '', $question);
-$message = str_replace("'", "\'", $message);
 $seclang = lang('forum/misc');
 header("Content-Type: application/javascript");
+$questionJson = json_encode(preg_replace("/\r|\n/", '', $question), JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_AMP);
+$placeholderJson = json_encode($seclang['secqaa'], JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_AMP);
 echo <<<EOF
-if(document.getElementById('$showid')) {
-	if(!document.getElementById('v$showid')) {
-		var sectpl = seccheck_tpl['$idhash'] != '' && typeof seccheck_tpl['$idhash'] != 'undefined' ? seccheck_tpl['$idhash'].replace(/<hash>/g, 'code$idhash') : '';
-		var sectplcode = sectpl != '' ? sectpl.split('<sec>') : Array('<br />',': ','','');
-		var string = '<input name="secqaahash" type="hidden" value="$idhash" /><input type="text" class="txt px vm" style="ime-mode:disabled;width:115px;background:white;" autocomplete="off" value="" name="secanswer" id="secqaaverify_$idhash" placeholder="$seclang[secqaa]" /><span id="v$showid"><a href="javascript:;" onclick="updatesecqaa(\'$idhash\');" class="xi2">' + '$message' + 
-			'</a></span>' +
-			'<span id="checksecqaaverify_$idhash"></span>';
-		evalscript(string);
-		document.getElementById('$showid').innerHTML = string;
-	} else {
-		var string = '<a href="javascript:;" onclick="updatesecqaa(\'$idhash\');" class="xi2">' + '$message' + 
-			'</a>';
-		evalscript(string);
-		document.getElementById('v$showid').innerHTML = string;
+var secqaaContainer = document.getElementById('$showid');
+if(secqaaContainer) {
+	var secqaaQuestion = $questionJson;
+	var secqaaQuestionLink = document.getElementById('v$showid');
+	if(!secqaaQuestionLink) {
+		var secqaaHash = document.createElement('input');
+		secqaaHash.type = 'hidden';
+		secqaaHash.name = 'secqaahash';
+		secqaaHash.value = '$idhash';
+		secqaaContainer.appendChild(secqaaHash);
+
+		var secqaaInput = document.createElement('input');
+		secqaaInput.type = 'text';
+		secqaaInput.className = 'txt px vm';
+		secqaaInput.style.width = '115px';
+		secqaaInput.autocomplete = 'off';
+		secqaaInput.name = 'secanswer';
+		secqaaInput.id = 'secqaaverify_$idhash';
+		secqaaInput.placeholder = $placeholderJson;
+		secqaaContainer.appendChild(secqaaInput);
+
+		secqaaQuestionLink = document.createElement('span');
+		secqaaQuestionLink.id = 'v$showid';
+		secqaaContainer.appendChild(secqaaQuestionLink);
+
+		var secqaaCheck = document.createElement('span');
+		secqaaCheck.id = 'checksecqaaverify_$idhash';
+		secqaaContainer.appendChild(secqaaCheck);
 	}
+
+	var secqaaRefresh = document.createElement('a');
+	secqaaRefresh.href = 'javascript:;';
+	secqaaRefresh.className = 'xi2';
+	secqaaRefresh.textContent = secqaaQuestion;
+	secqaaRefresh.addEventListener('click', function() {
+		updatesecqaa('$idhash');
+	});
+	secqaaQuestionLink.replaceChildren(secqaaRefresh);
 }
 EOF;
-
-	
