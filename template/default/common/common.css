@@ -469,8 +469,9 @@ Last Modify:	Pony
 		.pn em, .pn span, .pn strong { padding: 0 10px; line-height: 21px; }
 			.pn em, .pn strong  { font-weight: 700; }
 
-	a.pn { height: 21px; line-height: 21px; color: {TABLETEXT} !important; }
+	a.pn { display: inline-block; height: 21px; line-height: 21px; color: {TABLETEXT} !important; }
 		a.pn:hover { text-decoration: none; }
+	a.pn.github-login { border-radius: 999px; }
 
 	.pnc, a.pnc { border-color: #06C; background-color: #06C; color: #FFF !important; }
 		.pnc:active { background: #0059b3; }
