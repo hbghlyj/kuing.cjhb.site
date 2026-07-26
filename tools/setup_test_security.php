@@ -129,6 +129,15 @@ foreach([1, 7, 10] as $groupId) {
 
 test_security_setup_stage('seed thread');
 require_once libfile('function/forum');
+if(!C::t('portal_category')->fetch(1)) {
+	C::t('portal_category')->insert([
+		'catid' => 1,
+		'catname' => 'Test Portal Category',
+		'allowcomment' => 1,
+		'foldername' => 'test',
+		'dateline' => TIMESTAMP,
+	]);
+}
 if(!C::t('forum_thread')->exists_by_subject('Admin Seed Thread')) {
 	$adminTid = C::t('forum_thread')->insert([
 		'fid' => 2,
