@@ -564,15 +564,13 @@ const { execSync } = require('child_process');
         ]);
         const adminMobilePage = await adminMobileContext.newPage();
         trackBrowserErrors(adminMobilePage, 'mobile admin');
-        trackBrowserErrors(adminMobilePage, 'mobile admin');
         await adminMobilePage.goto('http://127.0.0.1:8080/member.php?mod=logging&action=login');
         await adminMobilePage.waitForLoadState('networkidle');
         const adminLoginForm = adminMobilePage.locator('form[id^="loginform"]:visible');
         assert.strictEqual(await adminLoginForm.count(), 1, 'Assertion Error: Mobile admin login form did not render.');
         await adminLoginForm.locator('input[name="username"]').fill('admin');
         await adminLoginForm.locator('input[name="password"]').fill('Testpassword123!');
-        const secqaa = adminLoginForm.locator('input[name*="secanswer"]');
-        if (await secqaa.count()) await secqaa.fill('2');
+        await solveVisibleSecurityQuestion(adminMobilePage);
         const adminLoginSubmit = adminLoginForm.locator('button[type="submit"]:visible');
         assert.strictEqual(await adminLoginSubmit.count(), 1, 'Assertion Error: Mobile admin login submit control did not render.');
         const [adminLoginResponse] = await Promise.all([
