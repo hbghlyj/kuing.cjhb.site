@@ -758,6 +758,7 @@ const { execSync } = require('child_process');
             assert.strictEqual(await commentMessage.count(), 1, 'Assertion Error: Post comment message input did not render.');
             assert.strictEqual(await submitCommentBtn.count(), 1, 'Assertion Error: Post comment submit button did not render.');
             await commentMessage.fill(postCommentText);
+            await solveSecurityQuestion(page, commentForm);
             const [postCommentResponse] = await Promise.all([
                 page.waitForResponse(response => response.request().method() === 'POST' && response.url().includes('mod=post') && response.url().includes('commentsubmit=yes')),
                 submitCommentBtn.click()
