@@ -80,7 +80,7 @@ const { execSync } = require('child_process');
         const bioInput = page.locator('textarea[name="bio"]');
         assert.strictEqual(await bioInput.count(), 1, 'Assertion Error: Admin profile bio field did not render.');
         await bioInput.fill('Updated bio as admin');
-        const saveBtn = page.locator('button[name="profilesubmit"]');
+        const saveBtn = page.locator('button[name="profilesubmitbtn"]');
         assert.strictEqual(await saveBtn.count(), 1, 'Assertion Error: Admin profile save control did not render.');
         const [profileResponse] = await Promise.all([
             page.waitForResponse(response =>
