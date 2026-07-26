@@ -115,13 +115,16 @@ const { execSync } = require('child_process');
         console.log("Testing Tag Search...");
         const tagLink = page.locator('a[href*="misc.php?mod=tag"]').filter({ hasText: 'playwright tag' });
         assert.strictEqual(await tagLink.count(), 1, 'Assertion Error: Submitted tag link did not render on the created thread.');
-        await Promise.all([
-            page.waitForNavigation({ waitUntil: 'networkidle' }),
+        assert.strictEqual(await tagLink.getAttribute('target'), '_blank', 'Assertion Error: Submitted tag link did not target a new tab.');
+        const [tagPage] = await Promise.all([
+            page.waitForEvent('popup'),
             tagLink.click()
         ]);
-        const tagResultLink = page.locator('a').filter({ hasText: 'Thread with Tags' });
+        await tagPage.waitForLoadState('networkidle');
+        const tagResultLink = tagPage.locator('a').filter({ hasText: 'Thread with Tags' });
         assert.strictEqual(await tagResultLink.count(), 1, 'Assertion Error: Tag search result did not link to the created thread.');
-        await page.screenshot({ path: 'screenshot_tags_03_search_result.png' });
+        await tagPage.screenshot({ path: 'screenshot_tags_03_search_result.png' });
+        await tagPage.close();
         report += `### Tag Search Result\n- **Status**: Checked\n- **Screenshot**: \`screenshot_tags_03_search_result.png\`\n\n`;
 
         // Admin Tag Management Check
