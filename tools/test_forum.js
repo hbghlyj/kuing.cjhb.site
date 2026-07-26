@@ -133,7 +133,11 @@ const { execSync } = require('child_process');
     };
     const solveSecurityQuestion = async (targetPage = page, root = targetPage) => {
         const input = root.locator('input[name*="secanswer"]:visible');
-        const count = await input.count();
+        let count = await input.count();
+        if(!count && await root.locator('[id^="secqaa_q"]').count()) {
+            await input.waitFor({ state: 'visible', timeout: 5000 });
+            count = await input.count();
+        }
         if(!count) {
             return false;
         }
