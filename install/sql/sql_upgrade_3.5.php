@@ -714,3 +714,15 @@ ALTER TABLE pre_forum_forum
 ALTER TABLE pre_forum_post
 	DROP COLUMN useip,
 	DROP COLUMN `port`;
+
+/* Restore the standalone site chat history table. */
+CREATE TABLE IF NOT EXISTS `chat`
+(
+	`time`    timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	uid       mediumint NOT NULL,
+	author    char(30)  NOT NULL,
+	message   text      NOT NULL,
+	PRIMARY KEY (`time`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_unicode_ci;

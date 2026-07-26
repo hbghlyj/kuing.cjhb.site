@@ -50,7 +50,6 @@ if ($result['status'] == 200) {
     exit("Delete failed: " . $conn->error);
   }
 
-  // CREATE TABLE chat (time TIMESTAMP DEFAULT CURRENT_TIMESTAMP, uid mediumint NOT NULL, author CHAR(30) NOT NULL, message TEXT NOT NULL, PRIMARY KEY (`time`) );
   $stmt = $conn->prepare("INSERT INTO chat (uid, author, message) VALUES (?, ?, ?)");
   if (!$stmt) {
     header('HTTP/1.1 500 Internal Server Error');
