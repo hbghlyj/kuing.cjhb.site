@@ -148,7 +148,9 @@ const { execSync } = require('child_process');
                 `Assertion Error: AdminCP authentication failed with HTTP ${adminResponse.status()}.`
             );
         }
-        const tagAdminForm = page.locator('form[action*="action=tag"]');
+        const adminContent = page.url().includes('frames=yes') ? page.frameLocator('#main') : page;
+        const tagAdminForm = adminContent.locator('form[action*="action=tag"]');
+        await tagAdminForm.waitFor({ state: 'visible' });
         assert.strictEqual(await tagAdminForm.count(), 1, 'Assertion Error: Admin tag-management form did not render.');
         assert.strictEqual(await tagAdminForm.locator('input[name="tagname"]').count(), 1, 'Assertion Error: Admin tag search field did not render.');
         report += `### Admin Tag Management UI\n- **Status**: Passed\n\n`;
