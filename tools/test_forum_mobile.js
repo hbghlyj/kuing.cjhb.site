@@ -604,7 +604,7 @@ const { execSync } = require('child_process');
             '1',
             'Assertion Error: Admin PM was not delivered to the mobile user inbox.'
         );
-        await adminMobilePage.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${tid}`);
+        await adminMobilePage.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${nonImgMobileTid}`);
         await adminMobilePage.waitForLoadState('networkidle');
         const adminQuoteBtn = adminMobilePage.locator(`a[href*="action=reply"][href*="repquote=${quoteMobilePid}"]`);
         assert.strictEqual(await adminQuoteBtn.count(), 1, 'Assertion Error: Mobile admin quote-reply control did not render.');
@@ -647,7 +647,7 @@ const { execSync } = require('child_process');
         }
         assert.ok(adminReplyResponse.ok() || (adminReplyStatus >= 300 && adminReplyStatus < 400), `Assertion Error: Mobile quote reply submit failed: status=${adminReplyStatus}; body=${adminReplyResponseText.slice(0, 2000)}`);
         await waitForDbValue(
-            `SELECT COUNT(*) FROM pre_forum_post WHERE tid='${tid}' AND authorid='1' AND message LIKE '%${adminReply}%'`,
+            `SELECT COUNT(*) FROM pre_forum_post WHERE tid='${nonImgMobileTid}' AND authorid='1' AND message LIKE '%${adminReply}%'`,
             '1',
             `Assertion Error: Mobile quote reply was not stored. Response: ${adminReplyResponseText.slice(0, 2000)}`
         );
