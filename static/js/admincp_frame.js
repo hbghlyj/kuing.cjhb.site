@@ -83,20 +83,22 @@ function switchdmvalue(ifdark, ifauto) {
 
 function switchframedmvalue(ifdark, ifauto) {
 	document.querySelectorAll('.ifmcontainer .mainframe').forEach(function (iframe) {
-		if (!iframe.contentWindow.document.body.classList) {
+		var frameDocument = iframe.contentDocument || iframe.contentWindow?.document;
+		var classList = frameDocument?.body?.classList;
+		if (!classList) {
 			return;
 		}
 		if (ifdark) {
-			iframe.contentWindow.document.body.classList.add('st-d');
-			iframe.contentWindow.document.body.classList.remove('st-l');
+			classList.add('st-d');
+			classList.remove('st-l');
 		} else {
-			iframe.contentWindow.document.body.classList.add('st-l');
-			iframe.contentWindow.document.body.classList.remove('st-d');
+			classList.add('st-l');
+			classList.remove('st-d');
 		}
 		if (ifauto) {
-			iframe.contentWindow.document.body.classList.add('st-a');
+			classList.add('st-a');
 		} else {
-			iframe.contentWindow.document.body.classList.remove('st-a');
+			classList.remove('st-a');
 		}
 	});
 }
