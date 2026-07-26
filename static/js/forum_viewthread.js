@@ -17,11 +17,11 @@ function attachimggroup(pid) {
 
 function attachimgshow(pid, onlyinpost) {
 	onlyinpost = !onlyinpost ? false : onlyinpost;
-	aimgs = aimgcount[pid];
-	aimgcomplete = 0;
-	loadingcount = 0;
-       for (let i = 0;i < aimgs.length;i++) {
-		obj = $('aimg_' + aimgs[i]);
+	const aimgs = aimgcount[pid];
+	let aimgcomplete = 0;
+	let loadingcount = 0;
+	for(let i = 0; i < aimgs.length; i++) {
+		const obj = document.getElementById('aimg_' + aimgs[i]);
 		if(!obj) {
 			aimgcomplete++;
 			continue;
