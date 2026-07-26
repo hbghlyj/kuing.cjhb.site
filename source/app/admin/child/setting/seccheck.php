@@ -10,17 +10,32 @@ if(!defined('IN_DISCUZ') || !defined('IN_ADMINCP')) {
 	exit('Access Denied');
 }
 
+$questionLocales = table_common_secquestion::question_locales();
+$prepareQuestion = function($values) use ($questionLocales) {
+	$question = [];
+	foreach($questionLocales as $locale) {
+		$value = cutstr(trim((string)($values[$locale] ?? '')), 255);
+		if($value !== '') {
+			$question[$locale] = $value;
+		}
+	}
+	return $question;
+};
+
 if(submitcheck('settingsubmit')) {
 	if(is_array($_GET['delete'])) {
 		table_common_secquestion::t()->delete($_GET['delete']);
 	}
 
 	if(is_array($_GET['question'])) {
-		foreach($_GET['question'] as $key => $q) {
-			$q = trim($q);
+		foreach($_GET['question'] as $key => $values) {
+			$q = $prepareQuestion($values);
 			$a = cutstr(dhtmlspecialchars(trim($_GET['answer'][$key])), 50);
-			if($q !== '' && $a !== '') {
-				table_common_secquestion::t()->update($key, ['question' => $q, 'answer' => $a]);
+			if($q && $a !== '') {
+				table_common_secquestion::t()->update($key, [
+					'question' => table_common_secquestion::encode_question($q),
+					'answer' => $a,
+				]);
 			}
 		}
 	}
@@ -34,11 +49,22 @@ if(submitcheck('settingsubmit')) {
 	}
 
 	if(is_array($_GET['newquestion']) && is_array($_GET['newanswer'])) {
-		foreach($_GET['newquestion'] as $key => $q) {
-			$q = trim($q);
+		$newQuestionKeys = [];
+		foreach($questionLocales as $locale) {
+			$newQuestionKeys = array_merge($newQuestionKeys, array_keys((array)($_GET['newquestion'][$locale] ?? [])));
+		}
+		foreach(array_unique($newQuestionKeys) as $key) {
+			$values = [];
+			foreach($questionLocales as $locale) {
+				$values[$locale] = $_GET['newquestion'][$locale][$key] ?? '';
+			}
+			$q = $prepareQuestion($values);
 			$a = cutstr(dhtmlspecialchars(trim($_GET['newanswer'][$key])), 50);
-			if($q !== '' && $a !== '') {
-				DB::insert('common_secquestion', ['question' => $q, 'answer' => $a]);
+			if($q && $a !== '') {
+				DB::insert('common_secquestion', [
+					'question' => table_common_secquestion::encode_question($q),
+					'answer' => $a,
+				]);
 			}
 		}
 	}
@@ -81,7 +107,7 @@ if(submitcheck('settingsubmit')) {
 	echo <<<EOT
 	<script type="text/JavaScript">
 		var rowtypedata = [
-			[[1,'<input class="checkbox" type="checkbox" disabled /> <input name="newquestion[]" type="text" class="txt">','td26'], [1, '<input name="newanswer[]" type="text" class="txt">','td24']],
+			[[1,'<input class="checkbox" type="checkbox" disabled /> <input name="newquestion[SC_UTF8][]" type="text" class="txt">','td26'], [1, '<input name="newquestion[TC_UTF8][]" type="text" class="txt">','td26'], [1, '<input name="newquestion[EN_UTF8][]" type="text" class="txt">','td26'], [1, '<input name="newanswer[]" type="text" class="txt">','td24']],
 		];
 		</script>
 	EOT;
@@ -139,18 +165,26 @@ if(submitcheck('settingsubmit')) {
 	], true);
 	showtablefooter();
 
-	showtableheader('', 'nobottom', 'id="qalist" style="width: 55%; margin-bottom: 0; margin-left: 20px; display: '.($allowqa ? '' : 'none').'"');
-	showsubtitle(['<input type="checkbox" name="chkall" class="checkbox" onclick="checkAll(\'prefix\', this.form, \'delete\')" title="'.cplang('del').'"> '.cplang('setting_sec_secqaa_q'), 'setting_sec_secqaa_answer']);
+	showtableheader('', 'nobottom', 'id="qalist" style="width: 90%; margin-bottom: 0; margin-left: 20px; display: '.($allowqa ? '' : 'none').'"');
+	showsubtitle([
+		'<input type="checkbox" name="chkall" class="checkbox" onclick="checkAll(\'prefix\', this.form, \'delete\')" title="'.cplang('del').'"> SC_UTF8',
+		'TC_UTF8',
+		'EN_UTF8',
+		'setting_sec_secqaa_answer',
+	]);
 	foreach($items as $item) {
 		if(!$item['type']) {
-			showtablerow('class="hover"', ['class="td26"', 'class="td24"'], [
+			$questions = table_common_secquestion::decode_question($item['question']);
+			showtablerow('class="hover"', ['class="td26"', 'class="td26"', 'class="td26"', 'class="td24"'], [
 				'<input class="checkbox" type="checkbox" name="delete[]" value="'.$item['id'].'"> '.
-				'<input type="text" class="txt" name="question['.$item['id'].']" value="'.dhtmlspecialchars($item['question']).'" class="txtnobd" onblur="this.className=\'txtnobd\'" onfocus="this.className=\'txt\'">',
+				'<input type="text" name="question['.$item['id'].'][SC_UTF8]" value="'.dhtmlspecialchars($questions['SC_UTF8'] ?? '').'" class="txtnobd" onblur="this.className=\'txtnobd\'" onfocus="this.className=\'txt\'">',
+				'<input type="text" name="question['.$item['id'].'][TC_UTF8]" value="'.dhtmlspecialchars($questions['TC_UTF8'] ?? '').'" class="txtnobd" onblur="this.className=\'txtnobd\'" onfocus="this.className=\'txt\'">',
+				'<input type="text" name="question['.$item['id'].'][EN_UTF8]" value="'.dhtmlspecialchars($questions['EN_UTF8'] ?? '').'" class="txtnobd" onblur="this.className=\'txtnobd\'" onfocus="this.className=\'txt\'">',
 				'<input type="text" class="txt" name="answer['.$item['id'].']" value="'.$item['answer'].'" class="txtnobd" onblur="this.className=\'txtnobd\'" onfocus="this.className=\'txt\'">'
 			]);
 		}
 	}
-	echo '<tr><td><div><a href="###" onclick="addrow(this, 0)" class="addtr">'.$lang['setting_sec_secqaa_add'].'</a></div></td><td></td></tr>';
+	echo '<tr><td><div><a href="###" onclick="addrow(this, 0)" class="addtr">'.$lang['setting_sec_secqaa_add'].'</a></div></td><td></td><td></td><td></td></tr>';
 	/*search*/
 	showtablefooter();
 

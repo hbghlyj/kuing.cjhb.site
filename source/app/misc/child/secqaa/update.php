@@ -36,20 +36,20 @@ if($_G['inajax']) {
 	exit;
 }
 
-$message = preg_replace("/\r|\n/", '', $question);
-$message = str_replace("'", "\'", $message);
 $seclang = lang('forum/misc');
 header('Content-Type: application/javascript');
+$messageJson = json_encode(dhtmlspecialchars(preg_replace("/\r|\n/", '', $question)), JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_AMP);
+$labelJson = json_encode($seclang['secqaa'], JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_AMP);
+$updateJson = json_encode($seclang['seccode_update'], JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_AMP);
 echo <<<EOF
 if($('$showid')) {
 	var sectpl = seccheck_tpl['$idhash'] != '' && typeof seccheck_tpl['$idhash'] != 'undefined' ? seccheck_tpl['$idhash'].replace(/<hash>/g, 'code$idhash') : '';
 	var sectplcode = sectpl != '' ? sectpl.split('<sec>') : Array('<br />',': ','<br />','');
-	var string = '<input name="secqaahash" type="hidden" value="$idhash" />' + sectplcode[0] + '{$seclang['secqaa']}' + sectplcode[1] + '<input name="secanswer" id="secqaaverify_$idhash" type="text" autocomplete="off" style="{$imemode}width:100px" class="txt px vm" onblur="checksec(\'qaa\', \'$idhash\')" />' +
-		' <a href="javascript:;" onclick="updatesecqaa(\'$idhash\');doane(event);" class="xi2">{$seclang['seccode_update']}</a>' +
+	var string = '<input name="secqaahash" type="hidden" value="$idhash" />' + sectplcode[0] + $labelJson + sectplcode[1] + '<input name="secanswer" id="secqaaverify_$idhash" type="text" autocomplete="off" style="{$imemode}width:100px" class="txt px vm" onblur="checksec(\'qaa\', \'$idhash\')" />' +
+		' <a href="javascript:;" onclick="updatesecqaa(\'$idhash\');doane(event);" class="xi2">' + $updateJson + '</a>' +
 		'<span id="checksecqaaverify_$idhash"><img src="' + STATICURL + 'image/common/none.gif" width="16" height="16" class="vm" /></span>' +
-		sectplcode[2] + '$message' + sectplcode[3];
+		sectplcode[2] + $messageJson + sectplcode[3];
 	evalscript(string);
 	$('$showid').innerHTML = string;
 }
 EOF;
-	

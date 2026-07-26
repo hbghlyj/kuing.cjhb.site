@@ -70,7 +70,11 @@ test_security_setup_stage('security settings');
 DB::query('TRUNCATE TABLE '.DB::table('common_secquestion'));
 C::t('common_secquestion')->insert([
 	'type' => 0,
-	'question' => '1+1=?',
+	'question' => table_common_secquestion::encode_question([
+		'SC_UTF8' => '1+1=?',
+		'TC_UTF8' => '1+1=?',
+		'EN_UTF8' => '1+1=?',
+	]),
 	'answer' => '2',
 ]);
 
@@ -222,6 +226,7 @@ foreach(['register', 'post', 'login'] as $rule) {
 }
 $expect(($setting['regname'] ?? '') === 'register', 'regname');
 $expect((int)($setting['regstatus'] ?? 0) === 1, 'regstatus');
+$expect((int)($setting['editoroptions'] ?? 0) === 2, 'editoroptions');
 $expect(empty($setting['regclose']), 'regclose');
 $expect((int)($setting['regverify'] ?? -1) === 0, 'regverify');
 $expect(($setting['jspath'] ?? '') === 'data/cache/', 'jspath');
@@ -237,7 +242,7 @@ $expect(in_array('sightml', $profileFields, true), 'profilegroup.info.sightml');
 $expect(in_array('customstatus', $profileFields, true), 'profilegroup.info.customstatus');
 $expect(count($secqaaCache) === 9, 'secqaa cache count');
 $expect(!array_filter($secqaaCache, fn($question) => (((array)$question)['answer'] ?? '') !== md5('2')), 'secqaa answers');
-$expect(!array_filter($secqaaCache, fn($question) => (((array)$question)['question'] ?? '') !== '1+1=?'), 'secqaa questions');
+$expect(!array_filter($secqaaCache, fn($question) => table_common_secquestion::localize_question(((array)$question)['question'] ?? '') !== '1+1=?'), 'secqaa questions');
 foreach([1, 7, 10] as $groupId) {
 	$group = $cached['usergroup_'.$groupId] ?? [];
 	$expect(!empty($group['allowcstatus']), "usergroup_{$groupId}.allowcstatus");

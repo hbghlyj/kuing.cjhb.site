@@ -109,11 +109,12 @@ class helper_seccheck {
 		global $_G;
 		loadcache('secqaa');
 		$secqaakey = max(1, random(1, 1));
+		$question = $_G['cache']['secqaa'][$secqaakey]['question'];
 		if($_G['cache']['secqaa'][$secqaakey]['type']) {
 			if(defined('IN_RESTFUL')) {
-				$_G['cache']['secqaa'][$secqaakey]['question'] = self::RESTFUL_QAA[array_rand(self::RESTFUL_QAA)];
+				$question = self::RESTFUL_QAA[array_rand(self::RESTFUL_QAA)];
 			}
-			$etype = explode(':', $_G['cache']['secqaa'][$secqaakey]['question']);
+			$etype = explode(':', $question);
 			if(count($etype) > 1) {
 				if(!preg_match('/^\w+$/', $etype[0]) || !preg_match('/^\w+$/', $etype[1])) {
 					return;
@@ -121,11 +122,11 @@ class helper_seccheck {
 				$qaafile = DISCUZ_PLUGIN($etype[0]).'/secqaa/secqaa_'.$etype[1].'.php';
 				$class = $etype[1];
 			} else {
-				if(!preg_match('/^\w+$/', $_G['cache']['secqaa'][$secqaakey]['question'])) {
+				if(!preg_match('/^\w+$/', $question)) {
 					return;
 				}
-				$qaafile = libfile('secqaa/'.$_G['cache']['secqaa'][$secqaakey]['question'], 'class');
-				$class = $_G['cache']['secqaa'][$secqaakey]['question'];
+				$qaafile = libfile('secqaa/'.$question, 'class');
+				$class = $question;
 			}
 			if(file_exists($qaafile)) {
 				@include_once $qaafile;
@@ -133,9 +134,9 @@ class helper_seccheck {
 				if(class_exists($class)) {
 					$qaa = new $class();
 					if(method_exists($qaa, 'make')) {
-						$_G['cache']['secqaa'][$secqaakey]['answer'] = md5($qaa->make($_G['cache']['secqaa'][$secqaakey]['question']));
+						$_G['cache']['secqaa'][$secqaakey]['answer'] = md5($qaa->make($question));
 					} elseif(method_exists($qaa, 'create')) {
-						$answer = $qaa->create($_G['cache']['secqaa'][$secqaakey]['question']);
+						$answer = $qaa->create($question);
 						$code = random(5);
 						memory('set', 'secqaa_'.$code, [
 							'answer' => $answer,
@@ -146,9 +147,11 @@ class helper_seccheck {
 					}
 				}
 			}
+		} else {
+			$question = table_common_secquestion::localize_question($question);
 		}
 		self::_create('qaa', substr($_G['cache']['secqaa'][$secqaakey]['answer'], 0, 6));
-		return $_G['cache']['secqaa'][$secqaakey]['question'];
+		return $question;
 	}
 
 	public static function check_seccode($value, $idhash, $fromjs = 0, $modid = '', $verifyonly = false) {
