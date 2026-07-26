@@ -8,6 +8,25 @@
     }
     return MathJax.typesetPromise(targets);
   }
+  function setVisible(element, visible){
+    element.hidden = !visible;
+  }
+  async function requestJSON(url, options = {}){
+    const response = await fetch(url, options);
+    let data = null;
+    try {
+      data = await response.json();
+    } catch (error) {
+      if(response.ok) throw error;
+    }
+    if(!response.ok){
+      const requestError = new Error(data?.error || response.statusText);
+      requestError.response = response;
+      requestError.data = data;
+      throw requestError;
+    }
+    return data;
+  }
   class PusherChatWidget {
     static instances = [];
     #pusher;
@@ -29,32 +48,36 @@
     constructor(pusher, options = {}) {
       PusherChatWidget.instances.push(this);
       this.#pusher = pusher;
-      this.settings = jQuery.extend({
+      this.settings = Object.assign({
         chatEndPoint: '/chat/php/chat.php',
         channelName: 'Chat',
         appendTo: document.body,
         debug: true
       }, options);
       this.#widget = PusherChatWidget._createHTML(this.settings.appendTo);
-      this.#messageInputEl = this.#widget.find('textarea');
-      this.#messagesEl = this.#widget.find('ul');
-      this.#loadMoreButton = this.#widget.find('.pusher-chat-widget-load-more');
+      this.#messageInputEl = this.#widget.querySelector('textarea');
+      this.#messagesEl = this.#widget.querySelector('ul');
+      this.#loadMoreButton = this.#widget.querySelector('.pusher-chat-widget-load-more');
       this.isCollapsed = document.cookie.replace(/(?:(?:^|.*;\s*)isCollapsed\s*=\s*([^;]*).*$)|^.*$/, '$1') == 'true';
       if(isMobile) this.isCollapsed = false;
       this.#chatChannel = this.#pusher.subscribe(this.settings.channelName);
       this.#pusher.connection.bind('connected', () => {
-        this.#widget.find('label').text(isChinese ? '已连接' : 'Connected');
+        this.#widget.querySelector('label').textContent = isChinese ? '已连接' : 'Connected';
       });
       this.#pusher.connection.bind('connecting', () => {
-        this.#widget.find('label').text(isChinese ? '连接中' : 'Connecting');
+        this.#widget.querySelector('label').textContent = isChinese ? '连接中' : 'Connecting';
       });
       this.#chatChannel.bind('pusher:subscription_succeeded', () => {
-        this.#widget.find('label').text((isChinese ? '快捷键' : 'Shortcut') + ' Ctrl+Enter');
-        this.#widget.find('.pusher-chat-widget-send-btn, .pusher-chat-widget-photo-btn').prop('disabled', false);
+        this.#widget.querySelector('label').textContent = (isChinese ? '快捷键' : 'Shortcut') + ' Ctrl+Enter';
+        this.#widget.querySelectorAll('.pusher-chat-widget-send-btn, .pusher-chat-widget-photo-btn').forEach(button => {
+          button.disabled = false;
+        });
       });
       this.#pusher.connection.bind('unavailable', () => {
-        this.#widget.find('label').text(isChinese ? '请检查网络连接' : 'Please check your network connection');
-        this.#widget.find('.pusher-chat-widget-send-btn, .pusher-chat-widget-photo-btn').prop('disabled', true);
+        this.#widget.querySelector('label').textContent = isChinese ? '请检查网络连接' : 'Please check your network connection';
+        this.#widget.querySelectorAll('.pusher-chat-widget-send-btn, .pusher-chat-widget-photo-btn').forEach(button => {
+          button.disabled = true;
+        });
       });
       this.#pusher.connection.bind('state_change', states => {
         if(states.current==='disconnected'||states.current==='unavailable'){
@@ -105,10 +128,10 @@
           }
         });
         this.#chatChannel.bind('editpost', data => {
-          if(data.tid==tid && jQuery(`#pid${data.pid}`).length){
+          if(data.tid==tid && document.getElementById(`pid${data.pid}`)){
             ajaxget(`forum.php?mod=viewthread&tid=${tid}&viewpid=${data.pid}`, `post_${data.pid}`, 'ajaxwaitid', '', null, "if (typeof MathJax !== 'undefined' && typeof MathJax.typesetPromise === 'function') {MathJax.texReset();MathJax.typesetPromise(['#pid"+data.pid+" :is(div.pcb>h2, td.t_f)'])}");
             if(data.subject){
-              jQuery('#thread_subject').html(data.subject);
+              document.getElementById('thread_subject').innerHTML = data.subject;
               typesetNodes(['#thread_subject']).catch(err => { showError('MathJax typesetting error:'+err); });
             }
             if(document.querySelector('input[name=pid]')?.value==data.pid && discuz_uid!=data.uid){
@@ -117,13 +140,13 @@
           }
         });
         this.#chatChannel.bind('commentadd', data => {
-          if(data.tid==tid && jQuery(`#pid${data.pid}`).length){
+          if(data.tid==tid && document.getElementById(`pid${data.pid}`)){
             ajaxget('forum.php?mod=misc&action=commentmore&tid='+tid+'&pid='+data.pid, 'comment_'+data.pid, 'ajaxwaitid', '', null, "if (typeof MathJax !== 'undefined' && typeof MathJax.typesetPromise === 'function') {MathJax.typesetPromise(['#comment_"+data.pid+"'])}");
           }
         });
         this.#chatChannel.bind('deletepost', data => {
-          if(data.tid==tid && jQuery(`#post_${data.pid}`).length){
-            jQuery(`#post_${data.pid}`).remove();
+          if(data.tid==tid && document.getElementById(`post_${data.pid}`)){
+            document.getElementById(`post_${data.pid}`).remove();
             if(typeof MULUSELECT !== 'undefined' && MULUSELECT){
               const option = MULUSELECT.querySelector(`option[value="post_${data.pid}"]`);
               if(option){
@@ -145,18 +168,18 @@
         document.cookie='isCollapsed=true; path=/home.php';
       }
       if(this.isCollapsed){
-        this.#widget.find('.pusher-chat-widget-messages').hide();
-        this.#widget.find('.pusher-chat-widget-input').hide();
-        this.#widget.find('.toggle-icon').html('<path d="M7 14l5-5 5 5z"/>');
+        setVisible(this.#widget.querySelector('.pusher-chat-widget-messages'), false);
+        setVisible(this.#widget.querySelector('.pusher-chat-widget-input'), false);
+        this.#widget.querySelector('.toggle-icon').innerHTML = '<path d="M7 14l5-5 5 5z"/>';
         if(!isMobile){
-          this.#widget.find('.pusher-chat-widget-header').one('click', () => {
-            this.#widget.find('.pusher-chat-widget-messages').slideToggle();
-            this.#widget.find('.pusher-chat-widget-input').slideToggle();
+          this.#widget.querySelector('.pusher-chat-widget-header').addEventListener('click', () => {
+            setVisible(this.#widget.querySelector('.pusher-chat-widget-messages'), true);
+            setVisible(this.#widget.querySelector('.pusher-chat-widget-input'), true);
             document.cookie = 'isCollapsed=false; path=' + location.pathname;
             this.isCollapsed = false;
-            this.#widget.find('.toggle-icon').html('<path d="M7 10l5 5 5-5z"/>');
+            this.#widget.querySelector('.toggle-icon').innerHTML = '<path d="M7 10l5 5 5-5z"/>';
             this.#init();
-          });
+          }, {once: true});
         }
       } else {
         this.#init();
@@ -169,93 +192,89 @@
         this.#processPendingMessages();
       });
       if(!isMobile){
-        this.#widget.find('.pusher-chat-widget-header').click(() => {
-          this.#widget.find('.pusher-chat-widget-messages').slideToggle();
-          this.#widget.find('.pusher-chat-widget-input').slideToggle();
+        this.#widget.querySelector('.pusher-chat-widget-header').addEventListener('click', () => {
           this.isCollapsed = !this.isCollapsed;
+          setVisible(this.#widget.querySelector('.pusher-chat-widget-messages'), !this.isCollapsed);
+          setVisible(this.#widget.querySelector('.pusher-chat-widget-input'), !this.isCollapsed);
           document.cookie = 'isCollapsed=' + this.isCollapsed + '; path=' + location.pathname;
-          this.#widget.find('.toggle-icon').html(this.isCollapsed ? '<path d="M7 14l5-5 5 5z"/>' : '<path d="M7 10l5 5 5-5z"/>');
+          this.#widget.querySelector('.toggle-icon').innerHTML = this.isCollapsed ? '<path d="M7 14l5-5 5 5z"/>' : '<path d="M7 10l5 5 5-5z"/>';
         });
       }
-      this.#widget.find('.pusher-chat-widget-send-btn').click(() => this.#sendChatButtonClicked());
-      this.#widget.find('.pusher-chat-widget-photo-btn').click(() => {
-        this.#widget.find('.pusher-chat-widget-photo-input').click();
+      this.#widget.querySelector('.pusher-chat-widget-send-btn').addEventListener('click', () => this.#sendChatButtonClicked());
+      this.#widget.querySelector('.pusher-chat-widget-photo-btn').addEventListener('click', () => {
+        this.#widget.querySelector('.pusher-chat-widget-photo-input').click();
       });
-      this.#widget.find('.pusher-chat-widget-photo-input').change(e => {
+      this.#widget.querySelector('.pusher-chat-widget-photo-input').addEventListener('change', e => {
         this.#handlePhotoUpload(e.target);
       });
-      this.#messageInputEl.keydown(e => {
+      this.#messageInputEl.addEventListener('keydown', e => {
         if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
           this.#sendChatButtonClicked();
         }
       });
       this.#startTimeMonitor();
-      this.#loadMoreButton.click(() => { this.#loadHistory(true); });
+      this.#loadMoreButton.addEventListener('click', () => { this.#loadHistory(true); });
     }
-    #loadHistory(isLoadingMore){
+    async #loadHistory(isLoadingMore){
       if(isLoadingMore){
-        this.#loadMoreButton.text(isChinese ? '加载中...' : 'Loading...').prop('disabled', true);
+        this.#loadMoreButton.textContent = isChinese ? '加载中...' : 'Loading...';
+        this.#loadMoreButton.disabled = true;
       }
-      jQuery.ajax({
-        url:'/chat/php/history.php',
-        type:'get',
-        dataType:'json',
-        data:{offset:this.#messagesLoaded},
-        success:response=>{
-          const data = response.messages;
-          this.#totalMessages = response.total;
-          if (data && data.length > 0) {
-            for (let i = 0; i < data.length; ++i) {
-              this.#chatMessageReceived(data[i],false,isLoadingMore);
-            }
-            if(!isLoadingMore){
-              this.#onQueueDrainedCallback=()=>{
-                this.#messagesEl.scrollTop(this.#messagesEl[0].scrollHeight);
-                this.#onQueueDrainedCallback=null;
-              };
-            }
-            this.#processPendingMessages();
-            this.#messagesLoaded += data.length;
-            if(this.#messagesLoaded >= this.#totalMessages){
-              this.#loadMoreButton.hide();
-            }else{
-              this.#loadMoreButton.show().text(isChinese ? '加载更多' : 'Load More').prop('disabled', false);
-            }
-          }else if(!isLoadingMore){
-            this.#loadMoreButton.hide();
-          }
-        },
-        error:(xhr,status,error)=>{
-          showError('Error fetching history:'+status+error);
-          if(isLoadingMore){
-            this.#loadMoreButton.text(isChinese ? '加载失败' : 'Failed to load').prop('disabled', false);
-          }
-        }
-      });
-    }
-    #fetchMissedMessages(){
-      if(!this.#lastMessageTimestamp) return;
-      jQuery.ajax({
-        url:'/chat/php/history.php',
-        type:'get',
-        dataType:'json',
-        data:{offset:0,limit:100},
-        success:response=>{
-          const data = response.messages || [];
-          const newMessages = [];
+      try {
+        const response = await requestJSON('/chat/php/history.php?offset=' + encodeURIComponent(this.#messagesLoaded));
+        const data = response.messages;
+        this.#totalMessages = response.total;
+        if (data && data.length > 0) {
           for (let i = 0; i < data.length; ++i) {
-            if (new Date(data[i].published) > new Date(this.#lastMessageTimestamp)) {
-              newMessages.push(data[i]);
-            }
+            this.#chatMessageReceived(data[i],false,isLoadingMore);
           }
-          if (newMessages.length > 0) {
-            for (let j = 0; j < newMessages.length; ++j) {
-              this.#chatMessageReceived(newMessages[j],true);
-            }
-            this.#processPendingMessages();
+          if(!isLoadingMore){
+            this.#onQueueDrainedCallback=()=>{
+              this.#messagesEl.scrollTop = this.#messagesEl.scrollHeight;
+              this.#onQueueDrainedCallback=null;
+            };
+          }
+          this.#processPendingMessages();
+          this.#messagesLoaded += data.length;
+          if(this.#messagesLoaded >= this.#totalMessages){
+            setVisible(this.#loadMoreButton, false);
+          }else{
+            setVisible(this.#loadMoreButton, true);
+            this.#loadMoreButton.textContent = isChinese ? '加载更多' : 'Load More';
+            this.#loadMoreButton.disabled = false;
           }
         }
-      });
+        else if(!isLoadingMore){
+          setVisible(this.#loadMoreButton, false);
+        }
+      } catch(error) {
+        showError('Error fetching history: ' + error.message);
+        if(isLoadingMore){
+          this.#loadMoreButton.textContent = isChinese ? '加载失败' : 'Failed to load';
+          this.#loadMoreButton.disabled = false;
+        }
+      }
+    }
+    async #fetchMissedMessages(){
+      if(!this.#lastMessageTimestamp) return;
+      try {
+        const response = await requestJSON('/chat/php/history.php?offset=0&limit=100');
+        const data = response.messages || [];
+        const newMessages = [];
+        for (let i = 0; i < data.length; ++i) {
+          if (new Date(data[i].published) > new Date(this.#lastMessageTimestamp)) {
+            newMessages.push(data[i]);
+          }
+        }
+        if (newMessages.length > 0) {
+          for (let j = 0; j < newMessages.length; ++j) {
+            this.#chatMessageReceived(newMessages[j],true);
+          }
+          this.#processPendingMessages();
+        }
+      } catch(error) {
+        showError('Error fetching missed messages: ' + error.message);
+      }
     }
     #chatMessageReceived(data,isLiveMessage,isPrepending=false){
       const messageEl = PusherChatWidget._buildListItem(data);
@@ -275,49 +294,54 @@
       this.#isProcessingPendingMessages=true;
       let currentEntry=this.#pendingMessages[0];
       let messageEl=currentEntry.messageEl;
-      let images=messageEl.find('img');
+      let images=messageEl.querySelectorAll('img');
       let oldScrollHeight=0;
       let oldScrollTop=0;
       if(currentEntry.isPrepending){
-        oldScrollHeight=this.#messagesEl[0].scrollHeight;
-        oldScrollTop=this.#messagesEl.scrollTop();
+        oldScrollHeight=this.#messagesEl.scrollHeight;
+        oldScrollTop=this.#messagesEl.scrollTop;
       }
       if(images.length===0){
         this.#actuallyAppendMessage(currentEntry,oldScrollHeight,oldScrollTop);
       }else{
         let loaded=0;
-        images.each((_,img)=>{
-          jQuery(img).on('load error',()=>{
+        images.forEach(img=>{
+          let handled = false;
+          const complete = ()=>{
+            if(handled) return;
+            handled = true;
             if(++loaded===images.length){
               this.#actuallyAppendMessage(currentEntry,oldScrollHeight,oldScrollTop);
             }
-          });
-          if(img.complete||img.naturalWidth>0){ jQuery(img).trigger('load'); }
+          };
+          img.addEventListener('load', complete, {once: true});
+          img.addEventListener('error', complete, {once: true});
+          if(img.complete||img.naturalWidth>0){ complete(); }
         });
       }
     }
     #actuallyAppendMessage(entry,oldScrollHeight,oldScrollTop){
       this.#pendingMessages.shift();
       if(entry.isPrepending){
-        entry.messageEl.insertAfter(this.#loadMoreButton);
+        this.#loadMoreButton.insertAdjacentElement('afterend', entry.messageEl);
       }else{
         this.#messagesEl.append(entry.messageEl);
       }
       this.#lastMessageTimestamp=entry.data.published;
       if(isMobile){ this.#addSwipeToDeleteHandlers(entry.messageEl, entry.data.published); }
-      typesetNodes([entry.messageEl[0]]).catch(err=>{ showError('MathJax typesetting error:'+err); });
+      typesetNodes([entry.messageEl]).catch(err=>{ showError('MathJax typesetting error:'+err); });
       this.#itemCount++;
       if(entry.isLiveMessage){
-        this.#messagesEl.animate({scrollTop:this.#messagesEl[0].scrollHeight},500);
+        this.#messagesEl.scrollTo({top:this.#messagesEl.scrollHeight,behavior:'smooth'});
       }else if(entry.isPrepending){
-        let newScrollHeight=this.#messagesEl[0].scrollHeight;
-        this.#messagesEl.scrollTop(oldScrollTop+(newScrollHeight-oldScrollHeight));
+        let newScrollHeight=this.#messagesEl.scrollHeight;
+        this.#messagesEl.scrollTop=oldScrollTop+(newScrollHeight-oldScrollHeight);
       }
       this.#isProcessingPendingMessages=false;
       this.#processPendingMessages();
     }
     #sendChatButtonClicked(){
-      const message = jQuery.trim(this.#messageInputEl.val());
+      const message = this.#messageInputEl.value.trim();
       if(!message){
         showError(isChinese ? '请输入聊天信息' : 'Please enter a chat message');
         this.#messageInputEl.focus();
@@ -326,32 +350,32 @@
       const chatInfo = {text: message};
       this.#sendChatMessage(chatInfo);
     }
-    #sendChatMessage(data){
-      this.#messageInputEl.attr('readonly','readonly');
-      const $btn = this.#widget.find('.pusher-chat-widget-send-btn');
-      $btn.prop('disabled',true).addClass('loading');
-      jQuery.ajax({
-        url:this.settings.chatEndPoint,
-        type:'post',
-        dataType:'json',
-        data:{'formhash': typeof FORMHASH !== 'undefined' ? FORMHASH : '', 'chat_info':data},
-        complete:(xhr)=>{
-          if(xhr.status===200){
-            this.#messageInputEl.val('');
-          }else if(xhr.status===413){
-            showError(isChinese ? '聊天信息过长' : 'Chat message too long');
-          }else{
-            showError(isChinese ? '发送失败' : 'Failed to send message');
-          }
-          this.#messageInputEl.removeAttr('readonly');
-          $btn.prop('disabled',false).removeClass('loading');
-        },
-        error:(xhr,status,error)=>{
-          showError(isChinese ? ('网络错误: '+error) : ('Network error: '+error));
-          this.#messageInputEl.removeAttr('readonly');
-          $btn.prop('disabled',false).removeClass('loading');
+    async #sendChatMessage(data){
+      this.#messageInputEl.readOnly = true;
+      const button = this.#widget.querySelector('.pusher-chat-widget-send-btn');
+      button.disabled = true;
+      button.classList.add('loading');
+      const body = new URLSearchParams();
+      body.set('formhash', typeof FORMHASH !== 'undefined' ? FORMHASH : '');
+      body.set('chat_info[text]', data.text);
+      try {
+        await requestJSON(this.settings.chatEndPoint, {
+          method: 'POST',
+          headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'},
+          body
+        });
+        this.#messageInputEl.value = '';
+      } catch(error) {
+        if(error.response?.status === 413){
+          showError(isChinese ? '聊天信息过长' : 'Chat message too long');
+        }else{
+          showError(isChinese ? ('网络错误: ' + error.message) : ('Network error: ' + error.message));
         }
-      });
+      } finally {
+        this.#messageInputEl.readOnly = false;
+        button.disabled = false;
+        button.classList.remove('loading');
+      }
     }
     #handlePhotoUpload(inputElement){
       if(!inputElement.files || !inputElement.files[0]) return;
@@ -367,43 +391,32 @@
       if(typeof FORMHASH !== 'undefined'){
         formData.append('formhash', FORMHASH);
       }
-      const $photoBtn = this.#widget.find('.pusher-chat-widget-photo-btn');
-      $photoBtn.prop('disabled', true).addClass('loading');
-
-      jQuery.ajax({
-        url: '/chat/php/upload.php',
-        type: 'POST',
-        data: formData,
-        contentType: false,
-        processData: false,
-        dataType: 'json',
-        success: response => {
+      const photoButton = this.#widget.querySelector('.pusher-chat-widget-photo-btn');
+      photoButton.disabled = true;
+      photoButton.classList.add('loading');
+      requestJSON('/chat/php/upload.php', {method: 'POST', body: formData})
+        .then(response => {
           if(response && response.status === 200 && response.url){
             this.#sendChatMessage({text: response.url});
           }else{
-            showError(response && response.error ? response.error : (isChinese ? '图片上传失败' : 'Failed to upload photo'));
+            showError(response?.error || (isChinese ? '图片上传失败' : 'Failed to upload photo'));
           }
-        },
-        error: (xhr, status, error) => {
-          let errDetail = error;
-          try {
-            const res = JSON.parse(xhr.responseText);
-            if(res.error) errDetail = res.error;
-          } catch(e){}
-          showError(isChinese ? ('图片上传错误: ' + errDetail) : ('Photo upload error: ' + errDetail));
-        },
-        complete: () => {
-          $photoBtn.prop('disabled', false).removeClass('loading');
+        })
+        .catch(error => {
+          showError(isChinese ? ('图片上传错误: ' + error.message) : ('Photo upload error: ' + error.message));
+        })
+        .finally(() => {
+          photoButton.disabled = false;
+          photoButton.classList.remove('loading');
           inputElement.value = '';
-        }
-      });
+        });
     }
     #startTimeMonitor(){
       setInterval(()=>{
-        this.#messagesEl.find('a.timestamp span[data-activity-published]').each((i,el)=>{
-          const time = jQuery(el).attr('data-activity-published');
+        this.#messagesEl.querySelectorAll('a.timestamp span[data-activity-published]').forEach(el=>{
+          const time = el.dataset.activityPublished;
           const desc = PusherChatWidget.timeToDescription(time);
-          jQuery(el).text(desc);
+          el.textContent = desc;
         });
       },10000);
     }
@@ -422,75 +435,113 @@
         '<button type="button" class="pusher-chat-widget-photo-btn" title="'+(isChinese?'发送图片':'Add Photo')+'" disabled>'+addPhotoSvg+'</button>'+
         '<button type="button" class="pusher-chat-widget-send-btn" title="'+(isChinese?'发送消息':'Send Message')+'" disabled>'+sendSvg+'</button>'+
         '</div></div>';
-      const widget=jQuery(html);
-      jQuery(appendTo).append(widget);
+      const holder = document.createElement('div');
+      holder.innerHTML = html;
+      const widget = holder.firstElementChild;
+      appendTo.append(widget);
       return widget;
     }
     static _buildListItem(activity){
-      const li = jQuery('<li></li>').addClass('message-item');
-      const contentWrapper = jQuery('<div class="message-content-wrapper"></div>');
-      const avatar = jQuery('<img class="user_avatar" width="24" height="24" />')
-        .attr('data-avatar-key', activity.actor.displayName)
-        .attr('data-avatar-name', activity.actor.displayName)
-        .attr('alt', activity.actor.displayName)
-        .on('error', function(){ renderInitialAvatar(this); });
-      const image = jQuery('<div class="image"></div>').append(avatar);
+      const li = document.createElement('li');
+      li.className = 'message-item';
+      const contentWrapper = document.createElement('div');
+      contentWrapper.className = 'message-content-wrapper';
+      const avatar = document.createElement('img');
+      avatar.className = 'user_avatar';
+      avatar.width = 24;
+      avatar.height = 24;
+      avatar.dataset.avatarKey = activity.actor.displayName;
+      avatar.dataset.avatarName = activity.actor.displayName;
+      avatar.alt = activity.actor.displayName;
+      avatar.addEventListener('error', function(){ renderInitialAvatar(this); });
+      const image = document.createElement('div');
+      image.className = 'image';
+      image.append(avatar);
       if(activity.actor.image){
-        avatar.attr('src', activity.actor.image);
+        avatar.src = activity.actor.image;
       }else{
-        renderInitialAvatar(avatar[0]);
+        renderInitialAvatar(avatar);
       }
-      const content = jQuery('<div class="content"></div>');
-      const user = jQuery('<div class="activity-row"><span class="user-name"><a class="screen-name">'+activity.actor.displayName.replace(/\\'/g,"'")+'</a><a '+(activity.link?'href="'+activity.link+'" ':'')+'class="timestamp"><span data-activity-published="'+activity.published+'">'+PusherChatWidget.timeToDescription(activity.published)+'</span></a></span></div>');
+      const content = document.createElement('div');
+      content.className = 'content';
+      const user = document.createElement('div');
+      user.className = 'activity-row';
+      const userName = document.createElement('span');
+      userName.className = 'user-name';
+      const screenName = document.createElement('a');
+      screenName.className = 'screen-name';
+      screenName.textContent = activity.actor.displayName.replace(/\\'/g,"'");
+      const timestamp = document.createElement('a');
+      timestamp.className = 'timestamp';
+      if(activity.link) timestamp.href = activity.link;
+      const timestampText = document.createElement('span');
+      timestampText.dataset.activityPublished = activity.published;
+      timestampText.textContent = PusherChatWidget.timeToDescription(activity.published);
+      timestamp.append(timestampText);
+      userName.append(screenName, timestamp);
+      user.append(userName);
       content.append(user);
       let bodyText = activity.body || '';
       if (window.location.protocol === 'https:') {
         bodyText = bodyText.replace(/http:\/\/([^\/]+)(\/data\/attachment\/)/gi, '$2');
       }
       const textHtml = bodyText.replace(/(https?:\/\/\S+\b|\/data\/attachment\/\S+\b)/gi,m=>(/\.(png|jpe?g|gif|bmp|svg|webp)$/i.test(m)?'<img src="'+m+'" />':'<a href="'+m+'">'+m+'</a>')).replace(/\n/g,'<br>');
-      const message = jQuery('<div class="activity-row"><div class="text">'+textHtml+'</div></div>');
+      const message = document.createElement('div');
+      message.className = 'activity-row';
+      const text = document.createElement('div');
+      text.className = 'text';
+      text.innerHTML = textHtml;
+      message.append(text);
       content.append(message);
-      contentWrapper.append(image).append(content);
-      const deleteAction = jQuery('<div class="delete-action"><button class="delete-button">'+(isChinese?'删除':'Delete')+'</button></div>');
-      li.append(contentWrapper).append(deleteAction);
+      contentWrapper.append(image, content);
+      const deleteAction = document.createElement('div');
+      deleteAction.className = 'delete-action';
+      const deleteButton = document.createElement('button');
+      deleteButton.className = 'delete-button';
+      deleteButton.textContent = isChinese ? '删除' : 'Delete';
+      deleteAction.append(deleteButton);
+      li.append(contentWrapper, deleteAction);
       return li;
     }
     #addSwipeToDeleteHandlers(liElement,published){
       const threshold = 50;
-      liElement.on('touchstart',e=>{
-        this.#messagesEl.find('li.slide-active').not(liElement).removeClass('slide-active');
-        const touchStartX = e.originalEvent.touches[0].clientX;
-        liElement.data('touchStartX', touchStartX);
+      liElement.addEventListener('touchstart',e=>{
+        this.#messagesEl.querySelectorAll('li.slide-active').forEach(item => {
+          if(item !== liElement) item.classList.remove('slide-active');
+        });
+        liElement.dataset.touchStartX = e.touches[0].clientX;
       });
-      liElement.on('touchend',e=>{
-        const touchStartX = liElement.data('touchStartX');
-        if(typeof touchStartX==='undefined') return;
-        const endX = e.originalEvent.changedTouches[0].clientX;
+      liElement.addEventListener('touchend',e=>{
+        const touchStartX = Number(liElement.dataset.touchStartX);
+        if(!Number.isFinite(touchStartX)) return;
+        const endX = e.changedTouches[0].clientX;
         const deltaX = endX - touchStartX;
-        if(jQuery(e.target).closest('.delete-button').length){
-          liElement.removeData('touchStartX');
+        if(e.target.closest('.delete-button')){
+          delete liElement.dataset.touchStartX;
           return;
         }
         if(deltaX<-threshold){
-          liElement.addClass('slide-active');
+          liElement.classList.add('slide-active');
         }else if(deltaX>threshold){
-          liElement.removeClass('slide-active');
+          liElement.classList.remove('slide-active');
         }
-        liElement.removeData('touchStartX');
+        delete liElement.dataset.touchStartX;
       });
-      liElement.find('.delete-button').on('click',e=>{
+      liElement.querySelector('.delete-button').addEventListener('click',async e=>{
         e.stopPropagation();
-        jQuery.ajax({
-          url:'/chat/php/delete.php',
-          type:'POST',
-          data:{'published_time':published},
-          success:()=>{
-            liElement.slideUp(() => { liElement.remove(); this.#itemCount--; });
-          },
-          error:(xhr,status,error)=>{
-            showError((isChinese?'删除消息失败':'Error deleting message: ')+status+error);
-          }
-        });
+        const body = new URLSearchParams({published_time: published});
+        try {
+          const response = await fetch('/chat/php/delete.php', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'},
+            body
+          });
+          if(!response.ok) throw new Error(await response.text() || response.statusText);
+          liElement.remove();
+          this.#itemCount--;
+        } catch(error) {
+          showError((isChinese?'删除消息失败: ':'Error deleting message: ')+error.message);
+        }
       });
     }
     static timeToDescription(time){
