@@ -805,6 +805,7 @@ const { execSync } = require('child_process');
                 await adminQuotedPost.locator('.quote, blockquote').count(),
                 'Assertion Error: Submitted admin reply did not render a quote container.'
             );
+            await adminQuotedPost.screenshot({ path: 'screenshot_desktop_quote_reply.png' });
             const commentBtn = page.locator(`a.cmmnt[href*="pid=${adminReplyPid}"]`);
             assert.strictEqual(await commentBtn.count(), 1, 'Assertion Error: Comment control did not render for the admin reply.');
             await commentBtn.click();
@@ -855,7 +856,7 @@ const { execSync } = require('child_process');
                 noticeBody.includes('Admin quote reply to user thread.'),
                 'Assertion Error: Desktop reply notification page did not render the exact admin reply notification.'
             );
-            report += '### 4d. Desktop Reply Quote & Notification (do=notice)\n- **Status**: Checked\n- **Admin Quote Reply via UI**: Success\n- **DB Notification Check**: Passed\n- **Notice Page Render**: Success\n- **Screenshot**: `screenshot_desktop_notice.png`\n\n';
+            report += '### 4d. Desktop Reply Quote & Notification (do=notice)\n- **Status**: Checked\n- **Admin Quote Reply via UI**: Success\n- **Rendered Quote Screenshot**: `screenshot_desktop_quote_reply.png`\n- **DB Notification Check**: Passed\n- **Notice Page Render**: Success\n- **Screenshot**: `screenshot_desktop_notice.png`\n\n';
 
         console.log("Checking profile page for user custom avatar...");
         await page.goto(`http://127.0.0.1:8080/home.php?mod=space&uid=${userUid}&do=profile`);

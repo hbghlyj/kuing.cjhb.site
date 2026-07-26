@@ -79,22 +79,23 @@ const { execSync } = require('child_process');
         const regSubmitBtn = registrationForm.locator('.btn_register button[name="regsubmit"]');
         assert.strictEqual(await regSubmitBtn.count(), 1, 'Assertion Error: Mobile registration submit button did not render.');
         let registrationPostData = '';
+        let registrationPostFields = {};
         page.on('request', request => {
             if(request.method() === 'POST' && request.url().includes('member.php?mod=register')) {
                 registrationPostData = request.postData() || '';
+                registrationPostFields = request.postDataJSON();
             }
         });
         const registrationResponse = page.waitForResponse(response => response.request().method() === 'POST' && response.url().includes('member.php?mod=register'));
         await regSubmitBtn.click();
         const submittedRegistration = await registrationResponse;
-        const submittedFields = new URLSearchParams(registrationPostData);
         assert.strictEqual(
-            submittedFields.get('secanswer'),
+            registrationPostFields.secanswer,
             '2',
             `Assertion Error: Mobile registration did not submit the security answer. POST=${registrationPostData}`
         );
         assert.ok(
-            submittedFields.get('secqaahash'),
+            registrationPostFields.secqaahash,
             `Assertion Error: Mobile registration did not submit the security-question hash. POST=${registrationPostData}`
         );
         assert.ok(
