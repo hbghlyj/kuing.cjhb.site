@@ -125,9 +125,11 @@ const { execSync } = require('child_process');
         const textEditor = root.locator('textarea[name="message"]:visible');
         assert.strictEqual(await textEditor.count(), 1, 'Assertion Error: Visible quoted post editor did not render.');
         const existingSource = await textEditor.inputValue();
-        assert.match(existingSource, /\[quote(?:=[^\]]+)?\][\s\S]*\[\/quote\]/i, 'Assertion Error: Quote action did not insert BBCode quote markup.');
-        assert.ok(existingSource.includes(quotedText), 'Assertion Error: Quote BBCode did not preserve the quoted post text.');
-        await textEditor.fill(`${existingSource}\n${message}`);
+        const hiddenQuote = root.locator('input[name="noticetrimstr"]');
+        const quoteSource = existingSource || (await hiddenQuote.count() ? await hiddenQuote.inputValue() : '');
+        assert.match(quoteSource, /\[quote(?:=[^\]]+)?\][\s\S]*\[\/quote\]/i, 'Assertion Error: Quote action did not insert BBCode quote markup.');
+        assert.ok(quoteSource.includes(quotedText), 'Assertion Error: Quote BBCode did not preserve the quoted post text.');
+        await textEditor.fill(existingSource ? `${existingSource}\n${message}` : message);
     };
     const solveSecurityQuestion = async (targetPage = page, root = targetPage) => {
         const input = root.locator('input[name*="secanswer"]:visible');
@@ -794,6 +796,15 @@ const { execSync } = require('child_process');
 
             await page.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${tidOutput}`);
             await page.waitForLoadState('networkidle');
+            const adminQuotedPost = page.locator(`#post_${adminReplyPid}`);
+            assert.ok(
+                (await adminQuotedPost.textContent()).includes('Reply text from unprivileged account.'),
+                'Assertion Error: Submitted admin reply did not render the quoted post text.'
+            );
+            assert.ok(
+                await adminQuotedPost.locator('.quote, blockquote').count(),
+                'Assertion Error: Submitted admin reply did not render a quote container.'
+            );
             const commentBtn = page.locator(`a.cmmnt[href*="pid=${adminReplyPid}"]`);
             assert.strictEqual(await commentBtn.count(), 1, 'Assertion Error: Comment control did not render for the admin reply.');
             await commentBtn.click();
