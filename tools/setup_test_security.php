@@ -113,17 +113,6 @@ C::t('common_setting')->update('recommendthread', [
 	'allow' => '1',
 ]);
 C::t('common_setting')->update('repliesrank', '1');
-C::t('common_setting')->update('profilegroup', [
-	'info' => [
-		'title' => 'Personal Info',
-		'available' => 1,
-		'displayorder' => 0,
-		'field' => [
-			'sightml' => 'sightml',
-			'customstatus' => 'customstatus',
-		],
-	],
-]);
 foreach([1, 7, 10] as $groupId) {
 	C::t('common_usergroup_field')->update($groupId, [
 		'disablepostctrl' => '1',
@@ -238,6 +227,7 @@ $expect(is_array($setting['allowpostcomment'] ?? null)
 $expect(!empty($setting['commentfirstpost']), 'commentfirstpost');
 $expect(!empty($setting['commentpostself']), 'commentpostself');
 $expect(!empty($profileInfo['available']), 'profilegroup.info.available');
+$expect(in_array('bio', $profileFields, true), 'profilegroup.info.bio');
 $expect(in_array('sightml', $profileFields, true), 'profilegroup.info.sightml');
 $expect(in_array('customstatus', $profileFields, true), 'profilegroup.info.customstatus');
 $expect(count($secqaaCache) === 9, 'secqaa cache count');
