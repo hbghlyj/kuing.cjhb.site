@@ -705,8 +705,8 @@ const { execSync } = require('child_process');
         assert.strictEqual(userPmDbCheck, '1', 'Assertion Error: User PM was not delivered to the admin inbox.');
 
         console.log("Testing Reply Quote & Notification (do=notice) and PM send back from admin via UI...");
-            const firstPid = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT pid FROM pre_forum_post WHERE tid='${tidOutput}' AND first=1 LIMIT 1;"`).toString().trim();
-            assert.match(firstPid, /^\d+$/, 'Assertion Error: First-post ID for the quote-reply test was not found.');
+            const quotePid = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT pid FROM pre_forum_post WHERE tid='${tidOutput}' AND authorid='${userUid}' AND first=0 AND message='Reply text from unprivileged account.' ORDER BY pid ASC LIMIT 1;"`).toString().trim();
+            assert.match(quotePid, /^\d+$/, 'Assertion Error: Reply post ID for the quote-reply test was not found.');
 
             const adminContext = await browser.newContext();
             const adminPage = await adminContext.newPage();
@@ -745,16 +745,14 @@ const { execSync } = require('child_process');
 
             await adminPage.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${tidOutput}`);
             await adminPage.waitForLoadState('networkidle');
-            const adminQuoteLink = adminPage.locator(
-                `a.fastre[href*="repquote=${firstPid}"], a.fastre[href*="reppost=${firstPid}"]`
-            );
+            const adminQuoteLink = adminPage.locator(`a.fastre[href*="repquote=${quotePid}"]`);
             assert.strictEqual(await adminQuoteLink.count(), 1, 'Assertion Error: Admin quote-reply link did not render.');
             await adminQuoteLink.click();
             const adminReplyForm = adminPage.locator('#fwin_reply form:visible');
             await adminReplyForm.waitFor({ state: 'visible' });
             await appendToQuotedPostEditor(
                 'Admin quote reply to user thread.',
-                'Edited body text from unprivileged account.',
+                'Reply text from unprivileged account.',
                 adminPage,
                 adminReplyForm
             );
