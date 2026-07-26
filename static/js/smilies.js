@@ -5,32 +5,26 @@
  */
 
 function _smilies_show(id, smcols, seditorkey) {
-	if(seditorkey && !$(seditorkey + 'sml_menu')) {
+	if(seditorkey && !document.getElementById(seditorkey + 'sml_menu')) {
 		var div = document.createElement("div");
 		div.id = seditorkey + 'sml_menu';
 		div.style.display = 'none';
 		div.className = 'sllt';
-		$('append_parent').appendChild(div);
+		document.getElementById('append_parent').appendChild(div);
 		div = document.createElement("div");
 		div.id = id;
 		div.style.overflow = 'hidden';
-		$(seditorkey + 'sml_menu').appendChild(div);
+		document.getElementById(seditorkey + 'sml_menu').appendChild(div);
 	}
 	if(typeof smilies_type == 'undefined') {
 		var scriptNode = document.createElement("script");
 		scriptNode.type = "text/javascript";
-		scriptNode.charset = charset ? charset : (BROWSER.firefox ? document.characterSet : document.charset);
+		scriptNode.charset = charset || document.characterSet;
 		scriptNode.src = JSPATH + 'common_smilies_var.js?' + VERHASH;
-		$('append_parent').appendChild(scriptNode);
-		if(BROWSER.ie) {
-			scriptNode.onreadystatechange = function() {
-				smilies_onload(id, smcols, seditorkey);
-			};
-		} else {
-			scriptNode.onload = function() {
-				smilies_onload(id, smcols, seditorkey);
-			};
-		}
+		document.getElementById('append_parent').appendChild(scriptNode);
+		scriptNode.onload = function() {
+			smilies_onload(id, smcols, seditorkey);
+		};
 	} else {
 		smilies_onload(id, smcols, seditorkey);
 	}
@@ -56,11 +50,11 @@ function smilies_onload(id, smcols, seditorkey) {
 		for(i in smilies_type) {
 			key = i.substring(1);
 			if(smilies_type[i][0]) {
-				smiliestype += '<li ' + (CURRENTSTYPE == key ? 'class="current"' : '') + ' id="' + seditorkey + 'stype_' + key + '" onclick="smilies_switch(\'' + id + '\', \'' + smcols + '\', ' + key + ', 1, \'' + seditorkey + '\');if(CURRENTSTYPE) {$(\'' + seditorkey + 'stype_\' + CURRENTSTYPE).className=\'\';}this.className=\'current\';CURRENTSTYPE=' + key + ';doane(event);"><a href="javascript:;" hidefocus="true">' + smilies_type[i][0] + '</a></li>';
+				smiliestype += '<li ' + (CURRENTSTYPE == key ? 'class="current"' : '') + ' id="' + seditorkey + 'stype_' + key + '" onclick="smilies_switch(\'' + id + '\', \'' + smcols + '\', ' + key + ', 1, \'' + seditorkey + '\');if(CURRENTSTYPE) {document.getElementById(\'' + seditorkey + 'stype_\' + CURRENTSTYPE).className=\'\';}this.className=\'current\';CURRENTSTYPE=' + key + ';doane(event);"><a href="javascript:;" hidefocus="true">' + smilies_type[i][0] + '</a></li>';
 			}
 		}
 		smiliestype += '</ul></div>';
-		$(id).innerHTML = smiliestype + '<div id="' + id + '_data"></div><div class="sllt_p" id="' + id + '_page"></div>';
+		document.getElementById(id).innerHTML = smiliestype + '<div id="' + id + '_data"></div><div class="sllt_p" id="' + id + '_page"></div>';
 		smilies_switch(id, smcols, CURRENTSTYPE, smile[1], seditorkey);
 	}
 }
@@ -109,8 +103,8 @@ function smilies_switch(id, smcols, type, page, seditorkey) {
 		page = getFirstSmileyPage(type);
 	}
 	if(!smilies_array[type][page] || !smilies_array[type][page].length) {
-		$(id + '_data').innerHTML = '';
-		$(id + '_page').innerHTML = '';
+		document.getElementById(id + '_data').innerHTML = '';
+		document.getElementById(id + '_page').innerHTML = '';
 		return;
 	}
 	setcookie('smile', type + 'D' + page, 31536000);
@@ -147,23 +141,24 @@ function smilies_switch(id, smcols, type, page, seditorkey) {
 			'<a href="javascript:;" onclick="smilies_switch(\'' + id + '\', \'' + smcols + '\', ' + type + ', ' + nextpage + ', \'' + seditorkey + '\');doane(event);">' + $L('next_page_s') + '</a></div>' +
 			page + '/' + (smilies_array[type].length - 1);
 	}
-	$(id + '_data').innerHTML = smiliesdata;
-	$(id + '_page').innerHTML = smiliespage;
-	$(id + '_tb').style.width = smcols * 36 + 'px';
+	document.getElementById(id + '_data').innerHTML = smiliesdata;
+	document.getElementById(id + '_page').innerHTML = smiliespage;
+	document.getElementById(id + '_tb').style.width = smcols * 36 + 'px';
 }
 
 function smilies_preview(seditorkey, id, obj, w) {
-	var menu = $('smilies_preview');
+	var menu = document.getElementById('smilies_preview');
 	if(!menu) {
 		menu = document.createElement('div');
 		menu.id = 'smilies_preview';
 		menu.className = 'sl_pv';
 		menu.style.display = 'none';
-		$('append_parent').appendChild(menu);
+		document.getElementById('append_parent').appendChild(menu);
 	}
 	menu.innerHTML = '<img width="' + w + '" src="' + obj.childNodes[0].src + '" />';
-	var mpos = fetchOffset($(id + '_data'));
+	var dataNode = document.getElementById(id + '_data');
+	var mpos = fetchOffset(dataNode);
 	var spos = fetchOffset(obj);
-	var pos = spos['left'] >= mpos['left'] + $(id + '_data').offsetWidth / 2 ? '13' : '24';
+	var pos = spos['left'] >= mpos['left'] + dataNode.offsetWidth / 2 ? '13' : '24';
 	showMenu({'ctrlid':obj.id,'showid':id + '_data','menuid':menu.id,'pos':pos,'layer':3});
 }
