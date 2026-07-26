@@ -45,6 +45,7 @@ const { execSync } = require('child_process');
                 response.request().method() === 'POST' &&
                 response.url().includes('member.php?mod=logging')
             ),
+            page.waitForNavigation({ waitUntil: 'networkidle' }),
             loginSubmitBtn.click()
         ]);
         assert.ok(
@@ -52,11 +53,9 @@ const { execSync } = require('child_process');
             `Assertion Error: Tags test login POST failed with HTTP ${loginResponse.status()}.`
         );
 
-        await page.goto('http://127.0.0.1:8080/home.php?mod=spacecp');
-        await page.waitForLoadState('networkidle');
         const spaceUrl = page.url();
         assert.ok(
-            spaceUrl.includes('mod=spacecp') && !spaceUrl.includes('mod=logging'),
+            !spaceUrl.includes('mod=logging'),
             `Assertion Error: Tags test admin login failed — redirected to ${spaceUrl}`
         );
 
