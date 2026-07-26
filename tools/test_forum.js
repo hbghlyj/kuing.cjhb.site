@@ -345,12 +345,9 @@ const { execSync } = require('child_process');
         const firstSmilie = page.locator('#smiliesdiv_data td[id*="smilie_"]').first();
         await firstSmilie.waitFor({ state: 'visible' });
         await firstSmilie.click();
-        const editorFrameAfterSmilie = page.locator('iframe[id$="_iframe"]:visible');
-        const insertedSmilieContent = await editorFrameAfterSmilie.count()
-            ? await page.frameLocator(`#${await editorFrameAfterSmilie.getAttribute('id')}`).locator('body').innerHTML()
-            : await page.locator('textarea[name="message"]:visible').inputValue();
+        const editorAfterSmilie = page.locator('textarea[name="message"]:visible');
         assert.ok(
-            insertedSmilieContent.length > 0,
+            (await editorAfterSmilie.inputValue()).length > 0,
             'Assertion Error: Clicking a smiley did not insert its code into the editor.'
         );
 

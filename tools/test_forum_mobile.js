@@ -66,16 +66,15 @@ const { execSync } = require('child_process');
         assert.strictEqual(await emailInput.count(), 1, 'Assertion Error: Mobile registration email field did not render.');
         await emailInput.fill(email);
 
-        const secqaaInput = registrationForm.locator('input[name*="secanswer"]');
-        if (await secqaaInput.count()) {
-            const secqaaQuestion = registrationForm.locator('[id^="vsecqaa_"]');
-            await secqaaQuestion.waitFor({ state: 'visible', timeout: 5000 });
-            assert.ok(
-                (await secqaaQuestion.innerText()).includes('1+1=?'),
-                'Assertion Error: Mobile registration security question was not visible.'
-            );
-            await secqaaInput.fill('2');
-        }
+        const secqaaInput = registrationForm.locator('input[name="secanswer"]');
+        await secqaaInput.waitFor({ state: 'visible', timeout: 5000 });
+        const secqaaQuestion = registrationForm.locator('[id^="vsecqaa_"]');
+        await secqaaQuestion.waitFor({ state: 'visible', timeout: 5000 });
+        assert.ok(
+            (await secqaaQuestion.innerText()).includes('1+1=?'),
+            'Assertion Error: Mobile registration security question was not visible.'
+        );
+        await secqaaInput.fill('2');
 
         const regSubmitBtn = registrationForm.locator('.btn_register button[name="regsubmit"]');
         assert.strictEqual(await regSubmitBtn.count(), 1, 'Assertion Error: Mobile registration submit button did not render.');
