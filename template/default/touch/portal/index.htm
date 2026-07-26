@@ -26,18 +26,7 @@ foreach($cates as $cate){
 		</div>
 	</div>
 </div>
-<script>
-	new Swiper('#dhnavs_li', {
-		freeMode : true,
-		slidesPerView : 'auto',
-		onTouchMove: function(swiper){
-			Discuz_Touch_on = 0;
-		},
-		onTouchEnd: function(swiper){
-			Discuz_Touch_on = 1;
-		},
-	});
-</script>
+<script>initdhnav();</script>
 <!--{/if}-->
 <!--{hook/portal_index_top_mobile}-->
 <!--{if $page == 1 && $_G['setting']['mobile']['portal']['wzpicture']}-->
