@@ -54,6 +54,7 @@ const { execSync } = require('child_process');
                 response.request().method() === 'POST' &&
                 response.url().includes('member.php?mod=logging')
             ),
+            page.waitForNavigation({ waitUntil: 'load' }),
             submitBtn.click()
         ]);
         assert.ok(
