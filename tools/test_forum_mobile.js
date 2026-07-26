@@ -79,9 +79,25 @@ const { execSync } = require('child_process');
 
         const regSubmitBtn = registrationForm.locator('.btn_register button[name="regsubmit"]');
         assert.strictEqual(await regSubmitBtn.count(), 1, 'Assertion Error: Mobile registration submit button did not render.');
+        let registrationPostData = '';
+        page.on('request', request => {
+            if(request.method() === 'POST' && request.url().includes('member.php?mod=register')) {
+                registrationPostData = request.postData() || '';
+            }
+        });
         const registrationResponse = page.waitForResponse(response => response.request().method() === 'POST' && response.url().includes('member.php?mod=register'));
         await regSubmitBtn.click();
         const submittedRegistration = await registrationResponse;
+        const submittedFields = new URLSearchParams(registrationPostData);
+        assert.strictEqual(
+            submittedFields.get('secanswer'),
+            '2',
+            `Assertion Error: Mobile registration did not submit the security answer. POST=${registrationPostData}`
+        );
+        assert.ok(
+            submittedFields.get('secqaahash'),
+            `Assertion Error: Mobile registration did not submit the security-question hash. POST=${registrationPostData}`
+        );
         assert.ok(
             submittedRegistration.ok() || (submittedRegistration.status() >= 300 && submittedRegistration.status() < 400),
             `Assertion Error: Mobile registration POST failed with HTTP ${submittedRegistration.status()}.`
@@ -89,7 +105,16 @@ const { execSync } = require('child_process');
         await page.waitForTimeout(500);
 
         const memberCount = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT COUNT(*) FROM pre_common_member WHERE username='${username}';"`).toString().trim();
-        assert.strictEqual(memberCount, '1', 'Assertion Error: Mobile registration did not create the member.');
+        if(memberCount !== '1') {
+            const responseText = await submittedRegistration.text();
+            const challengeRows = execSync('sudo mysql -u root ultrax -N -s -e "SELECT ssid, code, verified, succeed FROM pre_common_seccheck ORDER BY ssid DESC LIMIT 5;"').toString().trim();
+            throw new assert.AssertionError({
+                message: `Assertion Error: Mobile registration did not create the member. Response=${responseText}; POST=${registrationPostData}; challenges=${challengeRows}`,
+                actual: memberCount,
+                expected: '1',
+                operator: 'strictEqual',
+            });
+        }
 
         await page.goto('http://127.0.0.1:8080/home.php?mod=spacecp');
         await page.waitForLoadState('networkidle');

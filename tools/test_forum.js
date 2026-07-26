@@ -339,6 +339,18 @@ const { execSync } = require('child_process');
         assert.strictEqual(await subjectInput.count(), 1, 'Assertion Error: Desktop thread subject field did not render.');
         await subjectInput.fill('Standard User Thread');
 
+        const smilieButton = page.locator('#e_sml');
+        assert.strictEqual(await smilieButton.count(), 1, 'Assertion Error: Desktop smiley control did not render.');
+        await smilieButton.click();
+        const firstSmilie = page.locator('#smiliesdiv_data td[id*="smilie_"]').first();
+        await firstSmilie.waitFor({ state: 'visible' });
+        await firstSmilie.click();
+        const editorAfterSmilie = page.locator('textarea[name="message"]:visible');
+        assert.ok(
+            (await editorAfterSmilie.inputValue()).length > 0,
+            'Assertion Error: Clicking a smiley did not insert its code into the editor.'
+        );
+
         await fillPostEditor('Body text from unprivileged account.');
 
         await solveSecurityQuestion(page);
