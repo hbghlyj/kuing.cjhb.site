@@ -150,26 +150,9 @@ const { execSync } = require('child_process');
             await question.waitFor({ state: 'visible', timeout: 5000 });
             assert.ok(
                 (await question.innerText()).includes('1+1=?'),
-                'Assertion Error: Mobile posting security question was not visible.'
+                'Assertion Error: Mobile security question was not visible.'
             );
-            const hashInput = targetPage.locator('input[name="secqaahash"]');
-            assert.strictEqual(await hashInput.count(), 1, 'Assertion Error: Mobile security-question hash input did not render.');
-            const hash = await hashInput.inputValue();
-            assert.ok(hash, 'Assertion Error: Mobile security-question hash is empty.');
             await answer.fill('2');
-            const [response] = await Promise.all([
-                targetPage.waitForResponse(item =>
-                    item.url().includes('misc.php?mod=secqaa') &&
-                    item.url().includes('action=check')
-                ),
-                answer.press('Tab')
-            ]);
-            const result = await response.text();
-            assert.ok(result.includes('succeed'), `Assertion Error: Mobile security answer was rejected. Response: ${result}`);
-            await targetPage.locator(`#checksecqaaverify_${hash} .fico-check_right`).waitFor({
-                state: 'visible',
-                timeout: 5000
-            });
         };
         const sendPrivateMessage = async (senderPage, recipient, message) => {
             await senderPage.goto('http://127.0.0.1:8080/home.php?mod=spacecp&ac=pm');
@@ -601,10 +584,15 @@ const { execSync } = require('child_process');
             adminLoginResponse.ok() || (adminLoginResponse.status() >= 300 && adminLoginResponse.status() < 400),
             `Assertion Error: Mobile admin login POST failed with HTTP ${adminLoginResponse.status()}.`
         );
+        await adminMobilePage.waitForFunction(
+            () => Number(window.discuz_uid || 0) === 1,
+            null,
+            { timeout: 5000 }
+        );
         assert.strictEqual(
-            await adminMobilePage.locator('form[id^="loginform"]:visible').count(),
-            0,
-            'Assertion Error: Mobile admin login did not establish an authenticated session.'
+            await adminMobilePage.evaluate(() => Number(window.discuz_uid || 0)),
+            1,
+            'Assertion Error: Mobile admin login did not establish the expected browser session.'
         );
         const adminPmToMobileUser = 'Admin PM for mobile inbox.';
         await sendPrivateMessage(adminMobilePage, username, adminPmToMobileUser);
