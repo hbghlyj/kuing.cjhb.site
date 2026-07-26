@@ -48,8 +48,12 @@ foreach(glob($dir.'/*.php') as $file) {
             DB::query($sql);
         }
         echo "done.\n";
-    }
+	}
 }
+
+// The installer writes serialized defaults after importing the language data.
+require './install/include/install_var.php';
+C::t('common_setting')->update('profilegroup', $serialize_sql_setting['profilegroup']);
 
 // Ensure the admin user and basic settings exist after importing
 require_once libfile('function/nativeuser');
