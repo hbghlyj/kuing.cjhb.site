@@ -5,11 +5,14 @@ if(!defined('IN_DISCUZ')) {
 class plugin_googleconnect {
 	private function buildGoogleMarkup() {
 		global $_G;
+		if(!$_G['isHTTPS']) {
+			return '';
+		}
 		return '<script src="https://accounts.google.com/gsi/client" async></script>
 		<div id="g_id_onload"
 			data-client_id="'.$_G['setting']['connectappid'].'"
 			data-context="signin"
-			data-login_uri="connect.php?mod=login&op=callback"
+			data-login_uri="'.dhtmlspecialchars($_G['siteurl']).'connect.php?mod=login&op=callback"
 			data-auto_select="true"
 			data-itp_support="true">
 		</div>

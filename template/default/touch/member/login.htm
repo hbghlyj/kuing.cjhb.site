@@ -52,12 +52,12 @@
 	</div>
 	<div class="btn_login"><button value="true" name="submit" type="submit" class="formdialog pn">{lang login}</button></div>
 	</form>
-	<!--{if $_G['setting']['connect']['allow'] && !$_G['setting']['bbclosed']}-->
+	<!--{if $_G['isHTTPS'] && $_G['setting']['connect']['allow'] && !$_G['setting']['bbclosed']}-->
 		<script src="https://accounts.google.com/gsi/client" async></script>
 		<div id="g_id_onload"
 			data-client_id="{$_G['setting']['connectappid']}"
 			data-context="signin"
-			data-login_uri="connect.php?mod=login&op=callback"
+			data-login_uri="{$_G['siteurl']}connect.php?mod=login&op=callback"
 			data-auto_select="true"
 			data-itp_support="true">
 		</div>
