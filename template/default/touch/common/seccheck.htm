@@ -1,7 +1,7 @@
 {eval
 	$sechash = 'S'.random(4);
 	$sectpl = !empty($sectpl) ? explode("<sec>", $sectpl) : array('<br />',': ','<br />','');
-	$sectpljson = djson_encode($sectpl);
+	$sectpljson = json_encode($sectpl);
 }
 <!--{if $sectpl}-->
 	<!--{if $secqaacheck}-->
