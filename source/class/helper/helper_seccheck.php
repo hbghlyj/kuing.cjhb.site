@@ -194,9 +194,9 @@ class helper_seccheck {
 		} else {
 			$return = $seccheck['code'] == strtoupper($value);
 		}
-		if($return) {
+		if($return && !$verifyonly) {
 			table_common_seccheck::t()->update_succeed($ssid);
-		} else {
+		} elseif(!$return) {
 			table_common_seccheck::t()->update_verified($ssid);
 		}
 		if(!$verifyonly) {
@@ -232,9 +232,9 @@ class helper_seccheck {
 		} else {
 			$return = $seccheck['code'] == substr(md5($value), 0, 6);
 		}
-		if($return) {
+		if($return && !$verifyonly) {
 			table_common_seccheck::t()->update_succeed($ssid);
-		} else {
+		} elseif(!$return) {
 			table_common_seccheck::t()->update_verified($ssid);
 		}
 		if(!$verifyonly) {

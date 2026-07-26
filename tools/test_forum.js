@@ -103,6 +103,32 @@ const { execSync } = require('child_process');
         assert.strictEqual(await textEditor.count(), 1, 'Assertion Error: Visible post editor did not render.');
         await textEditor.fill(message);
     };
+    const appendToQuotedPostEditor = async (message, quotedText, targetPage = page, root = targetPage) => {
+        const editorFrame = root.locator('iframe[id$="_iframe"]:visible');
+        if(await editorFrame.count()) {
+            assert.strictEqual(await editorFrame.count(), 1, 'Assertion Error: More than one quoted post editor iframe rendered.');
+            const frameId = await editorFrame.getAttribute('id');
+            const editorBody = targetPage.frameLocator(`#${frameId}`).locator('body');
+            const existingText = await editorBody.innerText();
+            assert.ok(existingText.includes(quotedText), 'Assertion Error: Quote action did not preserve the quoted post text.');
+            assert.strictEqual(
+                await editorBody.locator('blockquote, [class*="quote"]').count(),
+                1,
+                'Assertion Error: Quote action did not render a quote container.'
+            );
+            await editorBody.press('Control+End');
+            await editorBody.press('Enter');
+            await editorBody.type(message);
+            return;
+        }
+
+        const textEditor = root.locator('textarea[name="message"]:visible');
+        assert.strictEqual(await textEditor.count(), 1, 'Assertion Error: Visible quoted post editor did not render.');
+        const existingSource = await textEditor.inputValue();
+        assert.match(existingSource, /\[quote(?:=[^\]]+)?\][\s\S]*\[\/quote\]/i, 'Assertion Error: Quote action did not insert BBCode quote markup.');
+        assert.ok(existingSource.includes(quotedText), 'Assertion Error: Quote BBCode did not preserve the quoted post text.');
+        await textEditor.fill(`${existingSource}\n${message}`);
+    };
     const solveSecurityQuestion = async (targetPage = page, root = targetPage) => {
         const input = root.locator('input[name*="secanswer"]:visible');
         const count = await input.count();
@@ -726,7 +752,12 @@ const { execSync } = require('child_process');
             await adminQuoteLink.click();
             const adminReplyForm = adminPage.locator('#fwin_reply form:visible');
             await adminReplyForm.waitFor({ state: 'visible' });
-            await fillPostEditor('Admin quote reply to user thread.', adminPage, adminReplyForm);
+            await appendToQuotedPostEditor(
+                'Admin quote reply to user thread.',
+                'Edited body text from unprivileged account.',
+                adminPage,
+                adminReplyForm
+            );
             await solveSecurityQuestion(adminPage, adminReplyForm);
             const adminReplyBtn = adminReplyForm.locator('#postsubmit, button[name="replysubmit"]');
             assert.strictEqual(await adminReplyBtn.count(), 1, 'Assertion Error: Admin reply submit button was not rendered.');
