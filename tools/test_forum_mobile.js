@@ -594,6 +594,9 @@ const { execSync } = require('child_process');
             1,
             'Assertion Error: Mobile admin login did not establish the expected browser session.'
         );
+        await adminMobileContext.addCookies([
+            { name: `discuz_${cookieSalt}_mobile`, value: '2', url: 'http://127.0.0.1:8080' },
+        ]);
         const adminPmToMobileUser = 'Admin PM for mobile inbox.';
         await sendPrivateMessage(adminMobilePage, username, adminPmToMobileUser);
         assert.strictEqual(
@@ -605,7 +608,14 @@ const { execSync } = require('child_process');
         await adminMobilePage.waitForLoadState('networkidle');
         const adminQuoteBtn = adminMobilePage.locator(`a[href*="action=reply"][href*="repquote=${firstMobilePid}"]`);
         assert.strictEqual(await adminQuoteBtn.count(), 1, 'Assertion Error: Mobile admin quote-reply control did not render.');
-        await adminQuoteBtn.click();
+        await Promise.all([
+            adminMobilePage.waitForURL(url =>
+                url.href.includes('mod=post') &&
+                url.href.includes('action=reply') &&
+                url.href.includes(`repquote=${firstMobilePid}`)
+            ),
+            adminQuoteBtn.click()
+        ]);
         await adminMobilePage.waitForLoadState('networkidle');
         assert.ok(
             adminMobilePage.url().includes('mod=post') && adminMobilePage.url().includes('action=reply'),
