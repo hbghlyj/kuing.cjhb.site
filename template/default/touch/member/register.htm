@@ -49,10 +49,10 @@
 				<!--{/loop}-->
 			<!--{/if}-->
 			<!--{hook/register_input_mobile}-->
+			<!--{if $secqaacheck || $seccodecheck}-->
+				<!--{subtemplate common/seccheck}-->
+			<!--{/if}-->
 		</ul>
-		<!--{if $secqaacheck || $seccodecheck}-->
-			<!--{subtemplate common/seccheck}-->
-		<!--{/if}-->
 		<!--{if $bbrules}-->
 			<label for="agreebbrule"><li class="mli"><input type="checkbox" class="pc" name="agreebbrule" value="{$bbrulehash}" id="agreebbrule" checked="checked" />{lang agree}<a href="javascript:;" onclick="showBBRule()">{lang rulemessage}</a></li></label>
 			<div id="layer_bbruletxt" popup="true" class="tip login_pop" style="display:none;">

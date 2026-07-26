@@ -599,7 +599,7 @@ $data = [[
     'svalue' => '0',
   ],[
     'skey' => 'editoroptions',
-    'svalue' => '6',
+    'svalue' => '2',
   ],[
     'skey' => 'editperdel',
     'svalue' => '0',
