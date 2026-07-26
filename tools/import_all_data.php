@@ -52,6 +52,7 @@ foreach(glob($dir.'/*.php') as $file) {
 }
 
 // The installer writes serialized defaults after importing the language data.
+require_once './source/discuz_version.php';
 require './install/include/install_var.php';
 C::t('common_setting')->update('profilegroup', $serialize_sql_setting['profilegroup']);
 
