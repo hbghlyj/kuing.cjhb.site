@@ -27,6 +27,26 @@ const { execSync } = require('child_process');
 
     let report = "\n\n## Tags Feature Functional Test Report\n\n";
     console.log("Starting Tags Feature tests...");
+    const solveSecurityQuestion = async root => {
+        const input = root.locator('input[name*="secanswer"]:visible');
+        if(!await input.count() && await root.locator('[id^="secqaa_q"]').count()) {
+            await input.waitFor({ state: 'visible', timeout: 5000 });
+        }
+        if(!await input.count()) {
+            return false;
+        }
+        assert.strictEqual(await input.count(), 1, 'Assertion Error: Tags test security-answer input did not render exactly once.');
+        await input.fill('2');
+        const [response] = await Promise.all([
+            page.waitForResponse(item =>
+                item.url().includes('misc.php?mod=secqaa') &&
+                item.url().includes('action=check')
+            ),
+            input.press('Tab')
+        ]);
+        assert.ok((await response.text()).includes('succeed'), 'Assertion Error: Tags test security answer was rejected.');
+        return true;
+    };
 
     try {
         console.log("Logging in as admin to post thread with tags via UI...");
@@ -80,6 +100,7 @@ const { execSync } = require('child_process');
         await tagInput.fill('playwright tag');
         await tagInput.press('Enter');
         assert.strictEqual(await page.locator('#tags').inputValue(), 'playwright tag', 'Assertion Error: Tag editor did not preserve space in multi-word tag.');
+        await solveSecurityQuestion(page);
 
         const postsubmitBtn = page.locator('button[name="topicsubmit"]:visible');
         assert.strictEqual(await postsubmitBtn.count(), 1, 'Assertion Error: Tag post submit button did not render.');
