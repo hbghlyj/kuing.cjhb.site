@@ -625,6 +625,7 @@ const { execSync } = require('child_process');
         const adminMsgArea = adminMobilePage.locator('#needmessage:visible');
         assert.strictEqual(await adminMsgArea.count(), 1, 'Assertion Error: Mobile quote reply editor did not render.');
         await adminMsgArea.fill(adminReply);
+        await solveVisibleSecurityQuestion(adminMobilePage);
         const submitBtn = adminMobilePage.locator('#postsubmit:visible');
         assert.strictEqual(await submitBtn.count(), 1, 'Assertion Error: Mobile quote reply submit button did not render.');
         await adminMobilePage.waitForFunction(() => document.getElementById('postsubmit')?.dataset.disabled === 'false');
