@@ -554,7 +554,7 @@ const { execSync } = require('child_process');
         await page.screenshot({ path: 'screenshot_mobile_08_viewthread_tag.png' });
 
         console.log('Testing mobile reply notification (do=notice) via UI quote reply...');
-        const firstMobilePid = dbScalar(`SELECT pid FROM pre_forum_post WHERE tid='${tid}' AND first=1 LIMIT 1`);
+        const quoteMobilePid = replyPid;
         const adminMobileContext = await browser.newContext({
             viewport: { width: 390, height: 844 },
             locale: 'en-US',
@@ -606,13 +606,13 @@ const { execSync } = require('child_process');
         );
         await adminMobilePage.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${tid}`);
         await adminMobilePage.waitForLoadState('networkidle');
-        const adminQuoteBtn = adminMobilePage.locator(`a[href*="action=reply"][href*="repquote=${firstMobilePid}"]`);
+        const adminQuoteBtn = adminMobilePage.locator(`a[href*="action=reply"][href*="repquote=${quoteMobilePid}"]`);
         assert.strictEqual(await adminQuoteBtn.count(), 1, 'Assertion Error: Mobile admin quote-reply control did not render.');
         await Promise.all([
             adminMobilePage.waitForURL(url =>
                 url.href.includes('mod=post') &&
                 url.href.includes('action=reply') &&
-                url.href.includes(`repquote=${firstMobilePid}`)
+                url.href.includes(`repquote=${quoteMobilePid}`)
             ),
             adminQuoteBtn.click()
         ]);
