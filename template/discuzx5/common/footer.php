@@ -152,8 +152,6 @@
 	</span>
 	<!--{/if}-->
 </div>
-<script type="text/javascript">_attachEvent(window, 'scroll', function () { new_showTopLink(); });
-_attachEvent(window, 'resize', function(){ new_showTopLink(); });checkBlind();</script>
 <script type="text/javascript">
 function new_showTopLink() {
 	var ft = $('ft');
@@ -178,7 +176,10 @@ function new_showTopLink() {
 		}
 	}
 }
+_attachEvent(window, 'scroll', new_showTopLink);
+_attachEvent(window, 'resize', new_showTopLink);
 new_showTopLink();
+checkBlind();
 	function show_win(on) {
 		showMenu({
 			'ctrlid': "win_"+on+"_div",
