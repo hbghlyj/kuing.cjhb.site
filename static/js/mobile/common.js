@@ -134,50 +134,62 @@ var scrolltop = {
 var img = {
 	init : function(is_err_t) {
 		var errhandle = this.errorhandle;
-		$('img').on('load', function() {
-			var obj = $(this);
-			obj.attr('zsrc', obj.attr('src'));
-			if(obj.width() < 5 && obj.height() < 10 && obj.css('display') != 'none') {
-				return errhandle(obj, is_err_t);
-			}
-			obj.css('display', 'inline');
-			obj.css('visibility', 'visible');
-			if(obj.width() > window.innerWidth) {
-				obj.css('width', window.innerWidth);
-			}
-			obj.parent().find('.loading').remove();
-			obj.parent().find('.error_text').remove();
-		})
-		.on('error', function() {
-			var obj = $(this);
-			obj.attr('zsrc', obj.attr('src'));
-			errhandle(obj, is_err_t);
+		document.querySelectorAll('img').forEach(function(obj) {
+			obj.addEventListener('load', function() {
+				obj.dataset.zsrc = obj.src;
+				if(obj.offsetWidth < 5 && obj.offsetHeight < 10 && getComputedStyle(obj).display != 'none') {
+					return errhandle(obj, is_err_t);
+				}
+				obj.style.display = 'inline';
+				obj.style.visibility = 'visible';
+				if(obj.offsetWidth > window.innerWidth) {
+					obj.style.width = window.innerWidth + 'px';
+				}
+				obj.parentElement.querySelectorAll('.loading, .error_text').forEach(function(element) {
+					element.remove();
+				});
+			});
+			obj.addEventListener('error', function() {
+				obj.dataset.zsrc = obj.src;
+				errhandle(obj, is_err_t);
+			});
 		});
 	},
 	errorhandle : function(obj, is_err_t) {
-		if(obj.attr('noerror') == 'true') {
+		if(obj.getAttribute('noerror') == 'true') {
 			return;
 		}
-		obj.css('visibility', 'hidden');
-		obj.css('display', 'none');
-		var parentnode = obj.parent();
-		parentnode.find('.loading').remove();
-		parentnode.append('<div class="loading" style="background:url('+ IMGDIR +'/imageloading.gif) no-repeat center center;width:'+parentnode.width()+'px;height:'+parentnode.height()+'px"></div>');
-		var loadnums = parseInt(obj.attr('load')) || 0;
+		obj.style.visibility = 'hidden';
+		obj.style.display = 'none';
+		var parentnode = obj.parentElement;
+		parentnode.querySelectorAll('.loading').forEach(function(element) {
+			element.remove();
+		});
+		var loading = document.createElement('div');
+		loading.className = 'loading';
+		loading.style.cssText = 'background:url(' + IMGDIR + '/imageloading.gif) no-repeat center center;width:' + parentnode.offsetWidth + 'px;height:' + parentnode.offsetHeight + 'px';
+		parentnode.append(loading);
+		var loadnums = parseInt(obj.dataset.load) || 0;
 		if(loadnums < 3) {
-			obj.attr('src', obj.attr('zsrc'));
-			obj.attr('load', ++loadnums);
+			obj.src = obj.dataset.zsrc;
+			obj.dataset.load = ++loadnums;
 			return false;
 		}
 		if(is_err_t) {
-			var parentnode = obj.parent();
-			parentnode.find('.loading').remove();
-			parentnode.append('<div class="error_text">' + $L('click_reload') + '</div>');
-			parentnode.find('.error_text').one('click', function() {
-				obj.attr('load', 0).find('.error_text').remove();
-				parentnode.append('<div class="loading" style="background:url('+ IMGDIR +'/imageloading.gif) no-repeat center center;width:'+parentnode.width()+'px;height:'+parentnode.height()+'px"></div>');
-				obj.attr('src', obj.attr('zsrc'));
+			parentnode.querySelectorAll('.loading').forEach(function(element) {
+				element.remove();
 			});
+			var errorText = document.createElement('div');
+			errorText.className = 'error_text';
+			errorText.textContent = $L('click_reload');
+			errorText.addEventListener('click', function retry() {
+				errorText.removeEventListener('click', retry);
+				errorText.remove();
+				obj.dataset.load = 0;
+				parentnode.append(loading);
+				obj.src = obj.dataset.zsrc;
+			});
+			parentnode.append(errorText);
 		}
 		return false;
 	}
@@ -187,14 +199,13 @@ var POPMENU = new Object;
 var popup = {
 	init : function() {
 		var $this = this;
-		$('.popup').each(function(index, obj) {
-			obj = $(obj);
-			var pop = $(obj.attr('href'));
-			if(pop && pop.attr('popup')) {
-				pop.css({'display':'none'});
-				obj.on('click', function(e) {
+		document.querySelectorAll('.popup').forEach(function(obj) {
+			var pop = document.querySelector(obj.getAttribute('href'));
+			if(pop && pop.hasAttribute('popup')) {
+				pop.style.display = 'none';
+				obj.addEventListener('click', function(e) {
 					$this.open(pop);
-					return false;
+					e.preventDefault();
 				});
 			}
 		});
@@ -202,55 +213,70 @@ var popup = {
 	},
 	maskinit : function() {
 		var $this = this;
-		$('#mask').off().on('click', function() {
+		var mask = document.getElementById('mask');
+		mask.onclick = function() {
 			$this.close();
-		});
+		};
 	},
 
 	open : function(pop, type, url) {
 		this.close();
 		this.maskinit();
 		if(typeof pop == 'string') {
-			$('#ntcmsg').remove();
+			document.getElementById('ntcmsg')?.remove();
 			if(type == 'alert') {
 				pop = '<div class="tip"><dt>'+ pop +'</dt><dd><input class="button2" type="button" value="' + $L('confirm') + '" onclick="popup.close();"></dd></div>'
 			} else if(type == 'confirm') {
 				pop = '<div class="tip"><dt>'+ pop +'</dt><dd><a class="button" href="'+ url +'">' + $L('confirm') + '</a> <button onclick="popup.close();" class="button">' + $L('cancel') + '</a></dd></div>'
 			}
-			$('body').append('<div id="ntcmsg" style="display:none;">'+ pop +'</div>');
-			pop = $('#ntcmsg');
+			document.body.insertAdjacentHTML('beforeend', '<div id="ntcmsg" style="display:none;">'+ pop +'</div>');
+			pop = document.getElementById('ntcmsg');
 		}
-		if(POPMENU[pop.attr('id')]) {
-			$('#' + pop.attr('id') + '_popmenu').html(pop.html()).css({'height':pop.height()+'px', 'width':pop.width()+'px'});
+		var popid = pop.id;
+		var popupobj = document.getElementById(popid + '_popmenu');
+		if(POPMENU[popid]) {
+			popupobj.innerHTML = pop.innerHTML;
+			popupobj.style.height = pop.offsetHeight + 'px';
+			popupobj.style.width = pop.offsetWidth + 'px';
 		} else {
-			pop.parent().append('<div class="dialogbox" id="'+ pop.attr('id') +'_popmenu" style="height:'+ pop.height() +'px;width:'+ pop.width() +'px;">'+ pop.html() +'</div>');
+			pop.insertAdjacentHTML('afterend', '<div class="dialogbox" id="'+ popid +'_popmenu" style="height:'+ pop.offsetHeight +'px;width:'+ pop.offsetWidth +'px;">'+ pop.innerHTML +'</div>');
+			popupobj = document.getElementById(popid + '_popmenu');
 		}
-		var popupobj = $('#' + pop.attr('id') + '_popmenu');
-		var left = (window.innerWidth - popupobj.width()) / 2;
-		var top = (document.documentElement.clientHeight - popupobj.height()) / 2;
-		popupobj.css({'display':'block','position':'fixed','left':left,'top':top,'z-index':120,'opacity':1});
-		$('#mask').css({'display':'block','width':'100%','height':'100%','position':'fixed','top':'0','left':'0','background':'black','opacity':'0.2','z-index':'100'});
-		POPMENU[pop.attr('id')] = pop;
+		var left = (window.innerWidth - popupobj.offsetWidth) / 2;
+		var top = (document.documentElement.clientHeight - popupobj.offsetHeight) / 2;
+		Object.assign(popupobj.style, {display:'block',position:'fixed',left:left+'px',top:top+'px',zIndex:120,opacity:1});
+		Object.assign(document.getElementById('mask').style, {display:'block',width:'100%',height:'100%',position:'fixed',top:0,left:0,background:'black',opacity:'0.2',zIndex:100});
+		POPMENU[popid] = pop;
 	},
 	close : function() {
-		$('#mask').css('display', 'none');
-		$.each(POPMENU, function(index, obj) {
-			$('#' + index + '_popmenu').css('display','none');
+		document.getElementById('mask').style.display = 'none';
+		Object.keys(POPMENU).forEach(function(index) {
+			document.getElementById(index + '_popmenu').style.display = 'none';
 		});
 	}
 };
 
+function parseAjaxXML(text) {
+	var xml = new DOMParser().parseFromString(text, 'application/xml');
+	var parserError = xml.querySelector('parsererror');
+	if(parserError) throw new Error(parserError.textContent);
+	return xml;
+}
+
 var dialog = {
 	init : function() {
-		$(document).on('click', '.dialog', function() {
-			var obj = $(this);
+		document.addEventListener('click', function(event) {
+			var obj = event.target.closest('.dialog');
+			if(!obj) return;
+			event.preventDefault();
 			popup.open('<img src="' + IMGDIR + '/imageloading.gif">');
-			$.ajax({
-				type : 'GET',
-				url : obj.attr('href') + '&inajax=1',
-				dataType : 'xml'
+			fetch(obj.href + '&inajax=1')
+			.then(function(response) {
+				if(!response.ok) throw new Error(response.statusText);
+				return response.text();
 			})
-			.success(function(s) {
+			.then(function(text) {
+				var s = parseAjaxXML(text);
 				popup.open(s.lastChild.firstChild.nodeValue);
 				evalscript(s.lastChild.firstChild.nodeValue);
 				if(typeof window.initAllSortSel == 'function') {
@@ -259,11 +285,10 @@ var dialog = {
 					}, 300);
 				}
 			})
-			.error(function() {
-				window.location.href = obj.attr('href');
+			.catch(function() {
+				window.location.href = obj.href;
 				popup.close();
 			});
-			return false;
 		});
 	},
 
@@ -271,20 +296,20 @@ var dialog = {
 
 var formdialog = {
 	init : function() {
-		$(document).on('click', '.formdialog', function() {
+		document.addEventListener('click', function(event) {
+			var obj = event.target.closest('.formdialog');
+			if(!obj) return;
+			event.preventDefault();
 			popup.open('<img src="' + IMGDIR + '/imageloading.gif">');
-			var obj = $(this);
-			var formobj = $(this.form);
-			var isFormData = formobj.find("input[type='file']").length > 0;
-			$.ajax({
-				type:'POST',
-				url:formobj.attr('action') + '&handlekey='+ formobj.attr('id') +'&inajax=1',
-				data:isFormData ? new FormData(formobj[0]) : formobj.serialize(),
-				dataType:'xml',
-				processData:isFormData ? false : true,
-				contentType:isFormData ? false : 'application/x-www-form-urlencoded; charset=UTF-8'
+			var formobj = obj.form;
+			var body = new FormData(formobj);
+			fetch(formobj.action + '&handlekey='+ formobj.id +'&inajax=1', {method:'POST', body:body})
+			.then(function(response) {
+				if(!response.ok) throw new Error(response.statusText);
+				return response.text();
 			})
-			.success(function(s) {
+			.then(function(text) {
+				var s = parseAjaxXML(text);
 				popup.open(s.lastChild.firstChild.nodeValue);
 				evalscript(s.lastChild.firstChild.nodeValue);
 				if(typeof window.initAllSortSel == 'function') {
@@ -293,10 +318,9 @@ var formdialog = {
 					}, 300);
 				}
 			})
-			.error(function() {
+			.catch(function() {
 				popup.open($L('forum_submit_error'), 'alert');
 			});
-			return false;
 		});
 	}
 };
@@ -305,37 +329,36 @@ var DISMENU = new Object;
 var display = {
 	init : function() {
 		var $this = this;
-		$('.display').each(function(index, obj) {
-			obj = $(obj);
-			var dis = $(obj.attr('href'));
-			if(dis && dis.attr('display')) {
-				dis.css({'display':'none'});
-				dis.css({'z-index':'102'});
-				DISMENU[dis.attr('id')] = dis;
-				obj.on('click', function(e) {
+		document.querySelectorAll('.display').forEach(function(obj) {
+			var dis = document.querySelector(obj.getAttribute('href'));
+			if(dis && dis.hasAttribute('display')) {
+				dis.style.display = 'none';
+				dis.style.zIndex = 102;
+				DISMENU[dis.id] = dis;
+				obj.addEventListener('click', function(e) {
 					if(in_array(e.target.tagName, ['A', 'IMG', 'INPUT'])) return;
 					$this.maskinit();
-					if(dis.attr('display') == 'true') {
-						dis.css('display', 'block');
-						dis.attr('display', 'false');
-						$('#mask').css({'display':'block','width':'100%','height':'100%','position':'fixed','top':'0','left':'0','background':'transparent','z-index':'100'});
+					if(dis.getAttribute('display') == 'true') {
+						dis.style.display = 'block';
+						dis.setAttribute('display', 'false');
+						Object.assign(document.getElementById('mask').style, {display:'block',width:'100%',height:'100%',position:'fixed',top:0,left:0,background:'transparent',zIndex:100});
 					}
-					return false;
+					e.preventDefault();
 				});
 			}
 		});
 	},
 	maskinit : function() {
 		var $this = this;
-		$('#mask').off().on('click', function() {
+		document.getElementById('mask').onclick = function() {
 			$this.hide();
-		});
+		};
 	},
 	hide : function() {
-		$('#mask').css('display', 'none');
-		$.each(DISMENU, function(index, obj) {
-			obj.css('display', 'none');
-			obj.attr('display', 'true');
+		document.getElementById('mask').style.display = 'none';
+		Object.values(DISMENU).forEach(function(obj) {
+			obj.style.display = 'none';
+			obj.setAttribute('display', 'true');
 		});
 	}
 };
@@ -490,7 +513,7 @@ function zoom(imgObj, zoomfile, nocover, pn, showexif) {
 		zoomContainer.parentNode.removeChild(zoomContainer);
 	}
 	document.body.insertAdjacentHTML('beforeend', zoomHtml);
-	popup.open($('#imgzoom_pop'));
+	popup.open(document.getElementById('imgzoom_pop'));
 
 	setTimeout(function() {
 		var actualImg = document.querySelector('#imgzoom_pop_popmenu #imgzoom_img');
@@ -587,7 +610,7 @@ function rotateImage() {
 	img.style.transform = 'scale(' + scale + ') rotate(' + newRotate + 'deg)';
 }
 
-$(document).ready(function() {
+document.addEventListener('DOMContentLoaded', function() {
 
 	if(qSel('div.pg')) {
 		page.converthtml();
@@ -595,36 +618,41 @@ $(document).ready(function() {
 	if(qSel('.scrolltop')) {
 		scrolltop.init(qSel('.scrolltop'));
 	}
-	if($('img').length > 0) {
+	if(document.images.length > 0) {
 		img.init(1);
 	}
-	if($('.popup').length > 0) {
+	if(document.querySelector('.popup')) {
 		popup.init();
 	}
-	if($('.display').length > 0) {
+	if(document.querySelector('.display')) {
 		display.init();
 	}
 	dialog.init();
 	formdialog.init();
 
-	$(document).on('click', 'img[zoomfile]', function() {
-		zoom(this);
-		return false;
+	document.addEventListener('click', function(event) {
+		var target = event.target.closest('img[zoomfile]');
+		if(!target) return;
+		zoom(target);
+		event.preventDefault();
 	});
 });
 
 function ajaxget(url, showid, waitid, loading, display, recall) {
 	var url = url + '&inajax=1&ajaxtarget=' + showid;
-	$.ajax({
-		type : 'GET',
-		url : url,
-		dataType : 'xml',
-	}).success(function(s) {
-		$('#'+showid).html(s.lastChild.firstChild.nodeValue);
-		$("[ajaxtarget]").off('touchstart').on('touchstart', function(e) {
-			var id = $(this);
-			ajaxget(id.attr('href'), id.attr('ajaxtarget'));
-			return false;
+	fetch(url)
+	.then(function(response) {
+		if(!response.ok) throw new Error(response.statusText);
+		return response.text();
+	})
+	.then(function(text) {
+		var s = parseAjaxXML(text);
+		document.getElementById(showid).innerHTML = s.lastChild.firstChild.nodeValue;
+		document.querySelectorAll('[ajaxtarget]').forEach(function(element) {
+			element.ontouchstart = function(e) {
+				ajaxget(element.getAttribute('href'), element.getAttribute('ajaxtarget'));
+				e.preventDefault();
+			};
 		});
 	});
 	return false;
