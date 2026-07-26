@@ -143,6 +143,17 @@ const { execSync } = require('child_process');
             }
             assert.fail(`${message}. Found: ${dbScalar(sql)}`);
         };
+        const solveVisibleSecurityQuestion = async targetPage => {
+            const answer = targetPage.locator('input[name="secanswer"]:visible');
+            await answer.waitFor({ state: 'visible', timeout: 5000 });
+            const question = targetPage.locator('[id^="vsecqaa_"]:visible');
+            await question.waitFor({ state: 'visible', timeout: 5000 });
+            assert.ok(
+                (await question.innerText()).includes('1+1=?'),
+                'Assertion Error: Mobile posting security question was not visible.'
+            );
+            await answer.fill('2');
+        };
         const sendPrivateMessage = async (senderPage, recipient, message) => {
             await senderPage.goto('http://127.0.0.1:8080/home.php?mod=spacecp&ac=pm');
             await senderPage.waitForLoadState('networkidle');
@@ -217,6 +228,7 @@ const { execSync } = require('child_process');
         assert.strictEqual(await tagInput.count(), 1, 'Assertion Error: Mobile tag input did not render after opening tag controls.');
         await tagInput.fill('mobile tag');
         await page.waitForTimeout(250);
+        await solveVisibleSecurityQuestion(page);
         const mobileThreadSubmit = page.locator('#postsubmit');
         await clickForResponse(
             mobileThreadSubmit,
@@ -264,6 +276,7 @@ const { execSync } = require('child_process');
 
         await page.locator('#needmessage').fill(`Mobile non-image attachment body ${suffix}. [attach]${mobileNonImgAid}[/attach]`);
         await page.waitForFunction(() => document.getElementById('postsubmit')?.getAttribute('data-disabled') === 'false');
+        await solveVisibleSecurityQuestion(page);
 
         const mobileNonImageSubmit = page.locator('#postsubmit');
         await clickForResponse(
@@ -287,6 +300,7 @@ const { execSync } = require('child_process');
         assert.ok(await page.$('#postform #needmessage'), 'Assertion Error: Mobile reply form did not render.');
         await page.locator('#needmessage').fill(reply);
         await page.waitForFunction(() => document.getElementById('postsubmit')?.getAttribute('data-disabled') === 'false');
+        await solveVisibleSecurityQuestion(page);
         const mobileReplySubmit = page.locator('#postsubmit');
         await clickForResponse(
             mobileReplySubmit,
@@ -384,6 +398,7 @@ const { execSync } = require('child_process');
 
         const mobileFirstFloorCommentText = 'Mobile test comment on first floor.';
         await mobileFirstFloorMsgBox.fill(mobileFirstFloorCommentText);
+        await solveVisibleSecurityQuestion(page);
         const [mobileFirstFloorResponse] = await Promise.all([
             page.waitForResponse(response => response.request().method() === 'POST' && response.url().includes('mod=post') && response.url().includes('commentsubmit=yes')),
             mobileFirstFloorSubmitBtn.click()
@@ -417,6 +432,7 @@ const { execSync } = require('child_process');
         assert.strictEqual(await mobileCommentMsgBox.count(), 1, 'Assertion Error: Mobile post comment message input did not render.');
         assert.strictEqual(await mobileSubmitCommentBtn.count(), 1, 'Assertion Error: Mobile post comment submit button did not render.');
         await mobileCommentMsgBox.fill(mobilePostCommentText);
+        await solveVisibleSecurityQuestion(page);
         const [mobilePostCommentResponse] = await Promise.all([
             page.waitForResponse(response => response.request().method() === 'POST' && response.url().includes('mod=post') && response.url().includes('commentsubmit=yes')),
             mobileSubmitCommentBtn.click()
