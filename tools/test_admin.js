@@ -71,6 +71,12 @@ const { execSync } = require('child_process');
         assert.ok((await page.textContent('body')).includes(username), 'Assertion Error: Authenticated account page did not render the admin username.');
         report += '### 1. Admin Authentication\n- **Status**: Checked\n\n';
 
+        const profileInfoLink = page.locator('a[href*="ac=profile"][href*="op=info"]');
+        assert.strictEqual(await profileInfoLink.count(), 1, 'Assertion Error: Admin profile information tab did not render.');
+        await Promise.all([
+            page.waitForNavigation({ waitUntil: 'load' }),
+            profileInfoLink.click()
+        ]);
         const bioInput = page.locator('textarea[name="bio"]');
         assert.strictEqual(await bioInput.count(), 1, 'Assertion Error: Admin profile bio field did not render.');
         await bioInput.fill('Updated bio as admin');
