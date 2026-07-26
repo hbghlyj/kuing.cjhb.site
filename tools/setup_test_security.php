@@ -237,6 +237,7 @@ $expect(in_array('sightml', $profileFields, true), 'profilegroup.info.sightml');
 $expect(in_array('customstatus', $profileFields, true), 'profilegroup.info.customstatus');
 $expect(count($secqaaCache) === 9, 'secqaa cache count');
 $expect(!array_filter($secqaaCache, fn($question) => (((array)$question)['answer'] ?? '') !== md5('2')), 'secqaa answers');
+$expect(!array_filter($secqaaCache, fn($question) => (((array)$question)['question'] ?? '') !== '1+1=?'), 'secqaa questions');
 foreach([1, 7, 10] as $groupId) {
 	$group = $cached['usergroup_'.$groupId] ?? [];
 	$expect(!empty($group['allowcstatus']), "usergroup_{$groupId}.allowcstatus");

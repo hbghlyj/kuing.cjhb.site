@@ -198,6 +198,12 @@ const { execSync } = require('child_process');
         const secqaaInput = registrationForm.locator('input[name="secanswer"]');
         await secqaaInput.waitFor({ state: 'attached', timeout: 5000 });
         assert.strictEqual(await secqaaInput.count(), 1, 'Assertion Error: Desktop registration security-answer field did not render.');
+        const secqaaQuestion = registrationForm.locator('span[id^="secqaa_"]');
+        await secqaaQuestion.waitFor({ state: 'visible', timeout: 5000 });
+        assert.ok(
+            (await secqaaQuestion.innerText()).includes('1+1=?'),
+            'Assertion Error: Desktop registration security question was not visible.'
+        );
         const secqaaHash = await registrationForm.locator('input[name="secqaahash"]').inputValue();
         const secqaaCookies = await context.cookies();
         const secqaaCookie = secqaaCookies.find(cookie => cookie.name.endsWith('secqaa' + secqaaHash));
@@ -231,6 +237,7 @@ const { execSync } = require('child_process');
         });
         assert.strictEqual(registrationSecurityFields.answer, '2', 'Assertion Error: Desktop registration form omitted the security answer.');
         assert.ok(registrationSecurityFields.hash, 'Assertion Error: Desktop registration form omitted the security-answer hash.');
+        await page.screenshot({ path: 'screenshot_desktop_registration_filled.png', fullPage: true });
 
         const [registrationResponse] = await Promise.all([
             page.waitForResponse(response =>
@@ -254,14 +261,13 @@ const { execSync } = require('child_process');
             console.log(await page.innerHTML('body'));
         }
         assert.strictEqual(dbCheck, '1', 'Assertion Error: Registered user does not exist in database.');
-        await page.screenshot({ path: 'screenshot_forum_01_registered.png' });
 
         await page.goto('http://127.0.0.1:8080/home.php?mod=spacecp');
         const spaceUrl = await page.url();
         assert.ok(spaceUrl.includes('mod=spacecp') && !spaceUrl.includes('mod=logging'), 'Assertion Error: Registration did not establish an authenticated session.');
         const domContent = await page.textContent('body');
         assert.ok(domContent.includes(username), 'Assertion Error: Registered username was not rendered in the authenticated account page.');
-        report += '### 1. User Registration & Login\n- **Status**: Checked\n- **Username**: ' + username + '\n\n';
+        report += '### 1. User Registration & Login\n- **Status**: Checked\n- **Username**: ' + username + '\n- **Filled Registration Form**: `screenshot_desktop_registration_filled.png`\n\n';
 
         // Pre-setup Avatar before advanced editor screenshot & posting tests
         console.log("Setting up user avatar via UI...");

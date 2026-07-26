@@ -1,18 +1,19 @@
 {eval
 	$sechash = 'S'.random(4);
-	$sectpl = !empty($sectpl) ? explode("<sec>", $sectpl) : array('<br />',': ','<br />','');	
+	$sectpl = !empty($sectpl) ? explode("<sec>", $sectpl) : array('<br />',': ','<br />','');
+	$sectpljson = djson_encode($sectpl);
 }
 <!--{if $sectpl}-->
 	<!--{if $secqaacheck}-->
 		<li class="sec_code vm">
 			<span id="secqaa_$sechash" class="flex-box"></span>
-			<script type="text/javascript" reload="1">updatesecqaa('$sechash', '$sectpl');</script>
+			<script type="text/javascript" reload="1">updatesecqaa('$sechash', $sectpljson);</script>
 		</li>
 	<!--{/if}-->
 	<!--{if $seccodecheck}-->
 		<li class="sec_code vm">
 			<span id="seccode_c$sechash" class="flex-box"></span>
-			<script type="text/javascript" reload="1">updateseccode('c$sechash', '$sectpl', '{$_G['basescript']}::{CURMODULE}');</script>
+			<script type="text/javascript" reload="1">updateseccode('c$sechash', $sectpljson, '{$_G['basescript']}::{CURMODULE}');</script>
 		</li>
 	<!--{/if}-->
 <!--{/if}-->
