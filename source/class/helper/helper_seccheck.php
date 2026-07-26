@@ -75,7 +75,7 @@ class helper_seccheck {
 
 	public static function make_seccode($seccode = '') {
 		global $_G;
-		if($_G['setting']['seccodedata']['type'] == 1 && defined('DISCUZ_LANG') && DISCUZ_LANG == 'EN/') {
+		if($_G['setting']['seccodedata']['type'] == 1 && defined('DISCUZ_LANG') && DISCUZ_LANG == 'EN') {
 			$_G['setting']['seccodedata']['type'] = 0;
 		}
 		if(!$seccode) {

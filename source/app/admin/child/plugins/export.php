@@ -35,7 +35,7 @@ $exportold = !empty($_GET['old']) && $_GET['old'] == 'yes';
 if($modules['extra']['langexists']) {
 	$languagefiles = [DISCUZ_DATA.'./plugindata/'.$pluginarray['plugin']['identifier'].'.lang.php'];
 	if($exportold) {
-		$languagefiles[] = DISCUZ_PLUGIN($pluginarray['plugin']['directory']).'./i18n/SC_UTF8/lang_plugin.php';
+		$languagefiles[] = DISCUZ_PLUGIN($pluginarray['plugin']['directory']).'./i18n/SC/lang_plugin.php';
 	}
 	foreach($languagefiles as $file) {
 		if(file_exists($file)) {

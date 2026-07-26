@@ -9,7 +9,7 @@ $discuz = C::app();
 $discuz->init();
 
 $tablepre = $_G['config']['db'][1]['tablepre'];
-$dir = './source/i18n/SC_UTF8/install/lang_sql_install';
+$dir = './source/i18n/SC/install/lang_sql_install';
 
 foreach(glob($dir.'/*.php') as $file) {
     $table = basename($file, '.php');

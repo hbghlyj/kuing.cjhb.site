@@ -719,7 +719,7 @@ function lang($file, $langvar = null, $vars = [], $default = null) {
 		if(!isset($_G['lang'][$key])) {
 			$f = ($path == '' ? '' : $path.'/').'lang_'.$file.'.php';
 			$lang = i18n::getLang($f);
-			if(currentlang() == 'EN_UTF8' && file_exists($loadfile = MITFRAME_APP(MITFRAME_APP).'/i18n/SC_UTF8/'.$f)) {
+			if(currentlang() == 'EN' && file_exists($loadfile = MITFRAME_APP(MITFRAME_APP).'/i18n/SC/'.$f)) {
 				include $loadfile;
 			}
 			if(!empty($_G['i18n']) && file_exists($loadfile = MITFRAME_APP(MITFRAME_APP).'/i18n/'.$_G['i18n'].'/'.$f)) {
@@ -732,7 +732,7 @@ function lang($file, $langvar = null, $vars = [], $default = null) {
 		if(defined('IN_MOBILE') && !defined('TPL_DEFAULT')) {
 			$f = 'touch/lang_template.php';
 			$lang = i18n::getLang($f);
-			if(currentlang() == 'EN_UTF8' && file_exists($loadfile = MITFRAME_APP(MITFRAME_APP).'/i18n/SC_UTF8/'.$f)) {
+			if(currentlang() == 'EN' && file_exists($loadfile = MITFRAME_APP(MITFRAME_APP).'/i18n/SC/'.$f)) {
 				include $loadfile;
 			}
 			if(!empty($_G['i18n']) && file_exists($loadfile = MITFRAME_APP(MITFRAME_APP).'/i18n/'.$_G['i18n'].'/'.$f)) {
@@ -754,7 +754,7 @@ function lang($file, $langvar = null, $vars = [], $default = null) {
 		$returnvalue = &$_G['lang'];
 	} else {
 		if(!isset($_G['cache']['pluginlanguage_script'][$file]) && preg_match('/^[a-z]+[a-z0-9_]*$/i', $file)) {
-			if(currentlang() == 'EN_UTF8' && file_exists($loadfile = DISCUZ_PLUGIN($file).'/i18n/SC_UTF8/lang_plugin.php')) {
+			if(currentlang() == 'EN' && file_exists($loadfile = DISCUZ_PLUGIN($file).'/i18n/SC/lang_plugin.php')) {
 				@include $loadfile;
 				$_G['cache']['pluginlanguage_script'][$file] = array_merge((array)($_G['cache']['pluginlanguage_script'][$file] ?? []), (array)$scriptlang[$file]);
 			}
@@ -1005,7 +1005,7 @@ function template($file, $templateid = 0, $tpldir = '', $gettplfile = 0, $primal
 	if(defined('CURMODULE') && CURMODULE && ($file == 'common/header' || $file == 'touch/common/header')) {
 		$append = '_'.$_G['basescript'].'_'.CURMODULE;
 	}
-	$cachefile = './template/'.DISCUZ_LANG.(defined('STYLEID') ? STYLEID.'_' : '_').$templateid.'_'.str_replace('/', '_', $file).$i18n.$append.'.tpl.php';
+	$cachefile = './template/'.DISCUZ_LANG.'_'.(defined('STYLEID') ? STYLEID.'_' : '_').$templateid.'_'.str_replace('/', '_', $file).$i18n.$append.'.tpl.php';
 	if($templateid != 1 && !tplfile::file_exists($tplfile) && !tplfile::file_exists(substr($tplfile, 0, -4).'.php')
 		&& !tplfile::file_exists(($tplfile = $tpldir.'/'.$filebak.'.htm'))) {
 		$defaulttplfile = DISCUZ_TEMPLATE('./template/default/'.$filebak.'.htm');
@@ -1101,7 +1101,7 @@ function loadcache($cachenames, $force = false) {
 				}
 				unset($value);
 			}
-			if(DISCUZ_LANG == 'EN/') {
+			if(DISCUZ_LANG == 'EN') {
 				if($cname == 'onlinelist'){
 					$data['legend'] = $data['legend_en'];
 				}elseif($cname == 'setting') {
@@ -2880,28 +2880,7 @@ function browserversion($type) {
 }
 
 function currentlang() {
-	$charset = strtoupper(CHARSET);
-	if($charset != 'UTF-8') {
-		return '';
-	}
-	if(defined('DISCUZ_LANG')) {
-		if(DISCUZ_LANG == 'TC/') {
-			return 'TC_UTF8';
-		}
-		if(DISCUZ_LANG == 'EN/') {
-			return 'EN_UTF8';
-		}
-		return 'SC_UTF8';
-	}
-	$acceptLang = $_SERVER['HTTP_ACCEPT_LANGUAGE'] ?? '';
-	if($acceptLang && ((stripos($acceptLang, 'zh-TW') !== false && (stripos($acceptLang, 'zh-CN') === false || stripos($acceptLang, 'zh-TW') < stripos($acceptLang, 'zh-CN')))
-		|| (stripos($acceptLang, 'zh-HK') !== false && (stripos($acceptLang, 'zh-CN') === false || stripos($acceptLang, 'zh-HK') < stripos($acceptLang, 'zh-CN'))))) {
-		return 'TC_UTF8';
-	}
-	if($acceptLang && stripos($acceptLang, 'zh') === false) {
-		return 'EN_UTF8';
-	}
-	return 'SC_UTF8';
+	return defined('DISCUZ_LANG') ? DISCUZ_LANG : 'SC';
 }
 
 function dpreg_replace($pattern, $replacement, $subject, $limit = -1, &$count = null) {

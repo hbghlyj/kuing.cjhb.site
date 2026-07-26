@@ -71,9 +71,9 @@ DB::query('TRUNCATE TABLE '.DB::table('common_secquestion'));
 C::t('common_secquestion')->insert([
 	'type' => 0,
 	'question' => table_common_secquestion::encode_question([
-		'SC_UTF8' => '1+1=?',
-		'TC_UTF8' => '1+1=?',
-		'EN_UTF8' => '1+1=?',
+		'SC' => '1+1=?',
+		'TC' => '1+1=?',
+		'EN' => '1+1=?',
 	]),
 	'answer' => '2',
 ]);

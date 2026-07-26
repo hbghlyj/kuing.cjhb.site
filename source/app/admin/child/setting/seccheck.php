@@ -107,7 +107,7 @@ if(submitcheck('settingsubmit')) {
 	echo <<<EOT
 	<script type="text/JavaScript">
 		var rowtypedata = [
-			[[1,'<input class="checkbox" type="checkbox" disabled /> <input name="newquestion[SC_UTF8][]" type="text" class="txt">','td26'], [1, '<input name="newquestion[TC_UTF8][]" type="text" class="txt">','td26'], [1, '<input name="newquestion[EN_UTF8][]" type="text" class="txt">','td26'], [1, '<input name="newanswer[]" type="text" class="txt">','td24']],
+			[[1,'<input class="checkbox" type="checkbox" disabled /> <input name="newquestion[SC][]" type="text" class="txt">','td26'], [1, '<input name="newquestion[TC][]" type="text" class="txt">','td26'], [1, '<input name="newquestion[EN][]" type="text" class="txt">','td26'], [1, '<input name="newanswer[]" type="text" class="txt">','td24']],
 		];
 		</script>
 	EOT;
@@ -167,9 +167,9 @@ if(submitcheck('settingsubmit')) {
 
 	showtableheader('', 'nobottom', 'id="qalist" style="width: 90%; margin-bottom: 0; margin-left: 20px; display: '.($allowqa ? '' : 'none').'"');
 	showsubtitle([
-		'<input type="checkbox" name="chkall" class="checkbox" onclick="checkAll(\'prefix\', this.form, \'delete\')" title="'.cplang('del').'"> SC_UTF8',
-		'TC_UTF8',
-		'EN_UTF8',
+		'<input type="checkbox" name="chkall" class="checkbox" onclick="checkAll(\'prefix\', this.form, \'delete\')" title="'.cplang('del').'"> SC',
+		'TC',
+		'EN',
 		'setting_sec_secqaa_answer',
 	]);
 	foreach($items as $item) {
@@ -177,9 +177,9 @@ if(submitcheck('settingsubmit')) {
 			$questions = table_common_secquestion::decode_question($item['question']);
 			showtablerow('class="hover"', ['class="td26"', 'class="td26"', 'class="td26"', 'class="td24"'], [
 				'<input class="checkbox" type="checkbox" name="delete[]" value="'.$item['id'].'"> '.
-				'<input type="text" name="question['.$item['id'].'][SC_UTF8]" value="'.dhtmlspecialchars($questions['SC_UTF8'] ?? '').'" class="txtnobd" onblur="this.className=\'txtnobd\'" onfocus="this.className=\'txt\'">',
-				'<input type="text" name="question['.$item['id'].'][TC_UTF8]" value="'.dhtmlspecialchars($questions['TC_UTF8'] ?? '').'" class="txtnobd" onblur="this.className=\'txtnobd\'" onfocus="this.className=\'txt\'">',
-				'<input type="text" name="question['.$item['id'].'][EN_UTF8]" value="'.dhtmlspecialchars($questions['EN_UTF8'] ?? '').'" class="txtnobd" onblur="this.className=\'txtnobd\'" onfocus="this.className=\'txt\'">',
+				'<input type="text" name="question['.$item['id'].'][SC]" value="'.dhtmlspecialchars($questions['SC'] ?? '').'" class="txtnobd" onblur="this.className=\'txtnobd\'" onfocus="this.className=\'txt\'">',
+				'<input type="text" name="question['.$item['id'].'][TC]" value="'.dhtmlspecialchars($questions['TC'] ?? '').'" class="txtnobd" onblur="this.className=\'txtnobd\'" onfocus="this.className=\'txt\'">',
+				'<input type="text" name="question['.$item['id'].'][EN]" value="'.dhtmlspecialchars($questions['EN'] ?? '').'" class="txtnobd" onblur="this.className=\'txtnobd\'" onfocus="this.className=\'txt\'">',
 				'<input type="text" class="txt" name="answer['.$item['id'].']" value="'.$item['answer'].'" class="txtnobd" onblur="this.className=\'txtnobd\'" onfocus="this.className=\'txt\'">'
 			]);
 		}

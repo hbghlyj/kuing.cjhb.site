@@ -43,17 +43,14 @@ class table_common_secquestion extends discuz_table {
 	}
 
 	public static function question_locales() {
-		return ['SC_UTF8', 'TC_UTF8', 'EN_UTF8'];
+		return ['SC', 'TC', 'EN'];
 	}
 
 	public static function question_locale() {
 		if(function_exists('currentlang')) {
-			return currentlang() ?: 'SC_UTF8';
+			return currentlang() ?: 'SC';
 		}
-		if(defined('DISCUZ_LANG')) {
-			return DISCUZ_LANG == 'EN/' ? 'EN_UTF8' : (DISCUZ_LANG == 'TC/' ? 'TC_UTF8' : 'SC_UTF8');
-		}
-		return 'SC_UTF8';
+		return defined('DISCUZ_LANG') ? DISCUZ_LANG : 'SC';
 	}
 
 	public static function decode_question($question) {
@@ -80,7 +77,7 @@ class table_common_secquestion extends discuz_table {
 	public static function localize_question($question) {
 		$questions = self::decode_question($question);
 		$locale = self::question_locale();
-		foreach(array_unique([$locale, 'SC_UTF8', 'EN_UTF8', 'TC_UTF8']) as $fallback) {
+		foreach(array_unique([$locale, 'SC', 'EN', 'TC']) as $fallback) {
 			if(isset($questions[$fallback])) {
 				return $questions[$fallback];
 			}

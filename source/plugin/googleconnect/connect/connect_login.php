@@ -78,8 +78,8 @@ $pluginLang = static function($key, $default = null) {
 	if($texts === null) {
 		$texts = [];
 		$langdirs = [];
-		if(currentlang() === 'EN_UTF8') {
-			$langdirs[] = 'SC_UTF8';
+		if(currentlang() === 'EN') {
+			$langdirs[] = 'SC';
 		}
 		if(!empty($_G['i18n'])) {
 			$langdirs[] = $_G['i18n'];

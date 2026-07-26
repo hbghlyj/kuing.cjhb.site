@@ -299,7 +299,7 @@ class template {
 				if(!empty(getglobal('style/templatelang'))) {
 					$lang = [];
 					$_tpldir = DISCUZ_TEMPLATE(getglobal('style/tpldir'));
-					if(currentlang() == 'EN_UTF8' && file_exists($_langext = $_tpldir.'/i18n/SC_UTF8/lang_template.php')) {
+					if(currentlang() == 'EN' && file_exists($_langext = $_tpldir.'/i18n/SC/lang_template.php')) {
 						@include $_langext;
 					}
 					if(!empty(getglobal('i18n')) && file_exists($_langext = $_tpldir.'/i18n/'.getglobal('i18n').'/lang_template.php')) {
@@ -316,7 +316,7 @@ class template {
 			} else {
 				global $_G;
 				if(!isset($_G['cache']['pluginlanguage_template'][$vars[0]]) && preg_match('/^[a-z]+[a-z0-9_]*$/i', $vars[0])) {
-					if(currentlang() == 'EN_UTF8' && file_exists($loadfile = DISCUZ_PLUGIN($vars[0]).'/i18n/SC_UTF8/lang_plugin.php')) {
+					if(currentlang() == 'EN' && file_exists($loadfile = DISCUZ_PLUGIN($vars[0]).'/i18n/SC/lang_plugin.php')) {
 						@include $loadfile;
 						$_G['cache']['pluginlanguage_template'][$vars[0]] = (array)$templatelang[$vars[0]];
 					}

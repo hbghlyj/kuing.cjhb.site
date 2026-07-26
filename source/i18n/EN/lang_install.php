@@ -10,12 +10,9 @@
 define('UC_VERNAME', 'International Version');
 
 $lang = array(
-	'SC_GBK'		=> 'Simplified Chinese GBK encoding',//'简体中文版',
-	'TC_BIG5'		=> 'Traditional Chinese BIG5 encoding',//'繁体中文版',
-	'SC_UTF8'		=> 'Simplified Chinese UTF8 encoding',//'简体中文 UTF8 版',
-	'TC_UTF8'		=> 'Traditional Chinese UTF8 encoding',//'繁体中文 UTF8 版',
-	'EN_ISO'		=> 'ENGLISH ISO8859',
-	'EN_UTF8'		=> 'ENGLISH UTF-8',
+	'SC'		=> 'Simplified Chinese',
+	'TC'		=> 'Traditional Chinese',
+	'EN'		=> 'English',
 
 	'title_install'		=> SOFT_NAME.' Setup Wizard',//SOFT_NAME.' 安装向导',
 	'agreement_yes'		=> 'I agree',//'我同意',

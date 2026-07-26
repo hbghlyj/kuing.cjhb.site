@@ -22,8 +22,8 @@ class i18n {
 
 	private static function getFallbackPath($file, $i18n = '') {
 		$requested = strtoupper((string)$i18n);
-		if($requested === 'EN' || $requested === 'EN_UTF8' || currentlang() === 'EN_UTF8') {
-			return DISCUZ_ROOT.'./source/i18n/SC_UTF8/'.$file;
+		if($requested === 'EN' || currentlang() === 'EN') {
+			return DISCUZ_ROOT.'./source/i18n/SC/'.$file;
 		}
 		return '';
 	}

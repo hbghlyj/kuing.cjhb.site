@@ -1308,7 +1308,7 @@ function init_i18n(&$data) {
 	foreach($jslangs as $langkey => $file) {
 		$lang_js = $lang = [];
 		$resolvedLangKey = $langkey == 'default' ? currentlang() : $langkey;
-		$fallbackLangKey = $resolvedLangKey == 'EN_UTF8' ? 'SC_UTF8' : '';
+		$fallbackLangKey = $resolvedLangKey == 'EN' ? 'SC' : '';
 		if($fallbackLangKey) {
 			$fallbackFile = DISCUZ_ROOT.'./source/i18n/'.$fallbackLangKey.'/lang_js.php';
 			if(file_exists($fallbackFile)) {

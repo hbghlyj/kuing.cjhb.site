@@ -11,7 +11,7 @@ if(!defined('IN_DISCUZ')) {
 }
 $defaultop = '';
 $profilegroup = table_common_setting::t()->fetch_setting('profilegroup', true);
-if(currentlang() == 'EN_UTF8') {
+if(currentlang() == 'EN') {
 	$defaultProfileGroupTitles = [
 		'基本资料' => lang('home/template', 'memcp_profile'),
 		'联系方式' => lang('home/template', 'memcp_contact'),

@@ -30,12 +30,9 @@ class table_forum_forum extends discuz_table {
 
 	public static function name_locale() {
 		if(function_exists('currentlang')) {
-			return currentlang() ?: 'SC_UTF8';
+			return currentlang() ?: 'SC';
 		}
-		if(defined('DISCUZ_LANG')) {
-			return DISCUZ_LANG == 'EN/' ? 'EN_UTF8' : (DISCUZ_LANG == 'TC/' ? 'TC_UTF8' : 'SC_UTF8');
-		}
-		return 'SC_UTF8';
+		return defined('DISCUZ_LANG') ? DISCUZ_LANG : 'SC';
 	}
 
 	public static function decode_name($name) {
@@ -44,13 +41,13 @@ class table_forum_forum extends discuz_table {
 		} elseif(is_string($name) && $name !== '') {
 			$names = json_decode($name, true);
 			if(!is_array($names)) {
-				$names = ['SC_UTF8' => $name];
+				$names = ['SC' => $name];
 			}
 		} else {
 			$names = [];
 		}
 		foreach($names as $locale => $value) {
-			if(!is_string($locale) || !preg_match('/^[A-Z]{2}_[A-Z0-9]+$/', $locale) || !is_scalar($value)) {
+			if(!in_array($locale, ['SC', 'TC', 'EN'], true) || !is_scalar($value)) {
 				unset($names[$locale]);
 				continue;
 			}
@@ -65,9 +62,9 @@ class table_forum_forum extends discuz_table {
 		$fallbacks = array_unique(array_filter([
 			$locale,
 			getglobal('setting/i18n_default'),
-			'SC_UTF8',
-			'EN_UTF8',
-			'TC_UTF8',
+			'SC',
+			'EN',
+			'TC',
 		]));
 		foreach($fallbacks as $fallback) {
 			if(isset($names[$fallback]) && $names[$fallback] !== '') {

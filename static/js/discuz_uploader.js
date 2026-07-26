@@ -722,10 +722,10 @@ function getFirstFrame(file, callback) {
 }
 function uploadFailedStatus() {
 	var lang = typeof _i18n_ != 'undefined' ? _i18n_ : (typeof DISCUZ_I18N != 'undefined' && typeof normalizeI18nKey == 'function' ? normalizeI18nKey(DISCUZ_I18N) : '');
-	if(lang == 'SC_UTF8') {
+	if(lang == 'SC') {
 		return '上传失败';
 	}
-	if(lang == 'TC_UTF8') {
+	if(lang == 'TC') {
 		return '上傳失敗';
 	}
 	if(typeof $L == 'function') {
