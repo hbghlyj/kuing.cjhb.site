@@ -10,6 +10,7 @@
   }
   function setVisible(element, visible){
     element.hidden = !visible;
+    element.style.display = visible ? '' : 'none';
   }
   async function requestJSON(url, options = {}){
     const response = await fetch(url, options);
