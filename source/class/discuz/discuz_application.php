@@ -88,7 +88,9 @@ class discuz_application extends discuz_base {
 				$_SERVER['QUERY_STRING'] = substr($_SERVER['QUERY_STRING'], $_p + 1);
 			} else {
 				$_platform_ = $_GET['platform'];
-				$_SERVER['QUERY_STRING'] = '';
+				parse_str($_SERVER['QUERY_STRING'], $_query);
+				unset($_query['platform']);
+				$_SERVER['QUERY_STRING'] = http_build_query($_query);
 			}
 			unset($_GET['platform']);
 		} else {
