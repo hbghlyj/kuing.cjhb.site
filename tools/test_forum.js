@@ -765,7 +765,7 @@ const { execSync } = require('child_process');
             ]);
             assert.ok(postCommentResponse.ok(), `Assertion Error: Post comment request failed with HTTP ${postCommentResponse.status()}.`);
 
-            const postCommentDbCheck = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT COUNT(*) FROM pre_forum_postcomment WHERE authorid='1' AND pid='${adminReplyPid}' AND comment='${postCommentText}';"`).toString().trim();
+            const postCommentDbCheck = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT COUNT(*) FROM pre_forum_postcomment WHERE authorid='${userUid}' AND pid='${adminReplyPid}' AND comment='${postCommentText}';"`).toString().trim();
             assert.strictEqual(postCommentDbCheck, '1', 'Assertion Error: Post comment was not created in database.');
 
             // Navigate back to viewthread to verify and screenshot the postcomment
