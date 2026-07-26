@@ -37,7 +37,7 @@ unset($query['app'], $query['platform']);
 if(getgpc('action') && getgpc('frames')) {
 	$query = ['frames' => 'yes'] + $query;
 }
-$extra = ADMINSCRIPT.($query ? '&'.http_build_query($query) : '');
+$extra = ADMINSCRIPT.($query ? '?'.http_build_query($query) : '');
 $forcesecques = '<option value="0">'.($_G['config']['admincp']['forcesecques'] || $_G['group']['forcesecques'] ? $lang['forcesecques'] : $lang['security_question_0']).'</option>';
 
 $version = getglobal('setting/version');
@@ -61,4 +61,3 @@ function get_userinfo() {
 
 	return [0, ''];
 }
-
