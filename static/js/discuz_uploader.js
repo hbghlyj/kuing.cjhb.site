@@ -246,25 +246,17 @@ DiscuzUploader.prototype.initSettings = function (userSettings) {
 
 	if (this.settings.file_types.indexOf('*.*') < 0) {
 		exts = this.settings.file_types.replace(/\*\./g, '').replace(/;/g, ',');
-		var extsArray = jQuery.grep(exts.split(','), function (s) {
-			return s.length > 0
+		var extsArray = exts.split(',').filter(function(s) {
+			return s.length > 0;
 		});
-		mimes = jQuery.grep(
-			jQuery.merge(
-				jQuery.map(extsArray, function (ext) {
-					return "." + ext;
-				}),
-				jQuery.map(extsArray, function (ext) {
-					return DiscuzUploader.EXT_MIME_MAP[ext];
-				})
-			),
-			function (s) {
-				return s.length > 0
-			}
-		);
-		mimes = jQuery.grep(mimes, function (m, i) {
-			return i === jQuery.inArray(m, mimes)
-		}).join(",");
+		mimes = extsArray.map(function(ext) {
+			return '.' + ext;
+		}).concat(extsArray.map(function(ext) {
+			return DiscuzUploader.EXT_MIME_MAP[ext];
+		})).filter(function(mime) {
+			return mime;
+		});
+		mimes = Array.from(new Set(mimes)).join(',');
 	}
 
 	var uploader = WebUploader.create({
