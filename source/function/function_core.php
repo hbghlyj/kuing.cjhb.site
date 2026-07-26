@@ -1993,7 +1993,12 @@ function make_seccode($seccode = '') {
 }
 
 function make_secqaa() {
-	return helper_seccheck::make_secqaa();
+	$secqaa = helper_seccheck::make_secqaa();
+	$separator = strpos($secqaa, '？');
+	if($separator === false) {
+		return $secqaa;
+	}
+	return DISCUZ_LANG == 'EN/' ? substr($secqaa, $separator + 3) : substr($secqaa, 0, $separator + 3);
 }
 
 function adshow($parameter) {

@@ -75,6 +75,17 @@ const { execSync } = require('child_process');
                 'Assertion Error: Mobile registration security question was not visible.'
             );
             await secqaaInput.fill('2');
+            const [secqaaResponse] = await Promise.all([
+                page.waitForResponse(response =>
+                    response.url().includes('misc.php?mod=secqaa') &&
+                    response.url().includes('action=check')
+                ),
+                secqaaInput.press('Tab')
+            ]);
+            assert.ok(
+                (await secqaaResponse.text()).includes('succeed'),
+                'Assertion Error: Mobile registration security answer was rejected.'
+            );
         }
 
         const regSubmitBtn = registrationForm.locator('.btn_register button[name="regsubmit"]');
