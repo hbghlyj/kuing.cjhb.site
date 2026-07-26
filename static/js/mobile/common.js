@@ -263,6 +263,49 @@ function parseAjaxXML(text) {
 	return xml;
 }
 
+function mobileUploadFiles(settings) {
+	Array.from(settings.files || []).forEach(function(file) {
+		var formData = new FormData();
+		Object.entries(settings.uploadformdata || {}).forEach(function(entry) {
+			formData.append(entry[0], entry[1]);
+		});
+		formData.append(settings.uploadinputname || 'Filedata', file);
+
+		var xhr = new XMLHttpRequest();
+		var completed = false;
+		var finish = function(success) {
+			if(completed) {
+				return;
+			}
+			completed = true;
+			var callback = success ? settings.success : settings.error;
+			if(typeof callback == 'function') {
+				callback(success ? xhr.responseText : xhr);
+			}
+		};
+		if(settings.uploadpercent) {
+			xhr.upload.addEventListener('progress', function(event) {
+				if(event.lengthComputable) {
+					var progress = document.getElementById(settings.uploadpercent);
+					if(progress) {
+						progress.textContent = Math.ceil(event.loaded / event.total * 100) + '%';
+					}
+				}
+			});
+		}
+		xhr.addEventListener('load', function() {
+			finish(xhr.status >= 200 && xhr.status < 300 && xhr.responseText !== '');
+		});
+		['error', 'abort', 'timeout'].forEach(function(eventName) {
+			xhr.addEventListener(eventName, function() {
+				finish(false);
+			});
+		});
+		xhr.open('POST', settings.uploadurl, true);
+		xhr.send(formData);
+	});
+}
+
 var dialog = {
 	init : function() {
 		document.addEventListener('click', function(event) {

@@ -120,12 +120,16 @@ foreach([1, 7, 10] as $groupId) {
 		'allowrecommend' => '1',
 		'allowpostattach' => '1',
 		'allowpostimage' => '1',
+		'allowpostactivity' => '1',
+		'allowposttrade' => '1',
 		'allowposttag' => '1',
 		'allowcommentpost' => '3',
+		'allowupload' => '1',
 		'attachextensions' => 'gif, jpg, png, txt, svg',
 		'maxsigsize' => '500',
 	]);
 }
+C::t('forum_forum')->update(2, ['allowpostspecial' => 31]);
 
 test_security_setup_stage('seed thread');
 require_once libfile('function/forum');
@@ -236,6 +240,7 @@ $expect(is_array($setting['allowpostcomment'] ?? null)
 $expect(!empty($setting['commentfirstpost']), 'commentfirstpost');
 $expect(!empty($setting['commentpostself']), 'commentpostself');
 $expect(!empty($profileInfo['available']), 'profilegroup.info.available');
+$expect((int)(C::t('forum_forum')->fetch(2)['allowpostspecial'] ?? 0) === 31, 'forum_2.allowpostspecial');
 $expect(in_array('bio', $profileFields, true), 'profilegroup.info.bio');
 $expect(in_array('sightml', $profileFields, true), 'profilegroup.info.sightml');
 $expect(in_array('customstatus', $profileFields, true), 'profilegroup.info.customstatus');

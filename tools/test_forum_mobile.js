@@ -203,6 +203,70 @@ const { execSync } = require('child_process');
         const editedReply = `Mobile reply edited ${suffix}.`;
         const imagePath = 'static/image/common/logo.png';
 
+        const uploadSpecialImage = async (url, inputSelector, valueSelector, label) => {
+            await page.goto(url);
+            await page.waitForLoadState('networkidle');
+            assert.strictEqual(
+                await page.evaluate(() => typeof mobileUploadFiles),
+                'function',
+                `Assertion Error: ${label} did not load the native mobile upload helper.`
+            );
+            const input = page.locator(inputSelector);
+            assert.strictEqual(await input.count(), 1, `Assertion Error: ${label} upload control did not render.`);
+            const responsePromise = page.waitForResponse(response =>
+                response.request().method() === 'POST' &&
+                response.url().includes('misc.php?mod=upload&operation=upload')
+            );
+            await input.setInputFiles(imagePath);
+            const responseText = await (await responsePromise).text();
+            assert.match(
+                responseText,
+                /^DISCUZUPLOAD\|1\|0\|\d+\|1\|/,
+                `Assertion Error: ${label} upload failed. Response: ${responseText}`
+            );
+            const aid = responseText.split('|')[3];
+            await page.waitForFunction(
+                ({ selector, expected }) => document.querySelector(selector)?.value === expected,
+                { selector: valueSelector, expected: aid },
+                { timeout: 5000 }
+            );
+        };
+
+        console.log('Testing native mobile special-post image uploads...');
+        await uploadSpecialImage(
+            'http://127.0.0.1:8080/forum.php?mod=post&action=newthread&fid=2&special=4',
+            '#activityimg',
+            '#activityaid',
+            'Mobile activity image'
+        );
+        await uploadSpecialImage(
+            'http://127.0.0.1:8080/forum.php?mod=post&action=newthread&fid=2&special=2',
+            '#tradeimg',
+            '#tradeaid',
+            'Mobile trade image'
+        );
+
+        console.log('Testing native mobile album image upload...');
+        await page.goto('http://127.0.0.1:8080/home.php?mod=spacecp&ac=upload');
+        await page.waitForLoadState('networkidle');
+        const albumImageInput = page.locator('#filedata');
+        assert.strictEqual(await albumImageInput.count(), 1, 'Assertion Error: Mobile album upload control did not render.');
+        const albumResponsePromise = page.waitForResponse(response =>
+            response.request().method() === 'POST' &&
+            response.url().includes('misc.php?mod=upload&operation=album')
+        );
+        await albumImageInput.setInputFiles(imagePath);
+        const albumResponseText = await (await albumResponsePromise).text();
+        const albumUpload = JSON.parse(albumResponseText);
+        assert.ok(parseInt(albumUpload.picid, 10) > 0, `Assertion Error: Mobile album upload failed. Response: ${albumResponseText}`);
+        await page.locator(`#imglist input[name="title[${albumUpload.picid}]"]`).waitFor({ state: 'attached', timeout: 5000 });
+
+        const sortOptionTemplate = fs.readFileSync('template/default/touch/forum/post_sortoption.htm', 'utf8');
+        assert.ok(
+            sortOptionTemplate.includes('mobileUploadFiles({') && !sortOptionTemplate.includes('$.buildfileupload('),
+            'Assertion Error: Mobile classified-information image upload still uses the legacy uploader.'
+        );
+
         console.log('Posting mobile thread with image attachment...');
         await page.goto('http://127.0.0.1:8080/forum.php?mod=forumdisplay&fid=2');
         await page.waitForLoadState('networkidle');

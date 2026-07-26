@@ -1,9 +1,5 @@
 <?php exit('Access Denied');?>
 <!--{template common/header}-->
-<script type="text/javascript" src="{STATICURL}js/mobile/buildfileupload.js?{VERHASH}"></script>
-<script type="text/javascript">
-	jqueryProperty();
-</script>
 <div class="header cl">
 	<div class="mz"><a href="javascript:history.back();"><i class="dm-c-left"></i></a></div>
 	<h2>
@@ -238,7 +234,7 @@
 			// 上传所有符合要求的文件
 			for (let i = 0; i < validFiles.length; i++) {
 				const file = validFiles[i];
-				$.buildfileupload({
+				mobileUploadFiles({
 					uploadurl: 'misc.php?mod=upload&operation=album',
 					files: [file],
 					uploadformdata: {
