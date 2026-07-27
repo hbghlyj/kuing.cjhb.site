@@ -1371,8 +1371,8 @@ Last Modify:	Pony
 */
 	.lk img { float: left; margin-right: 5px; margin-bottom: 5px; width: 88px; height: 31px; }
 	.lk p { color: {MIDTEXT}; }
-	.lk .m li { clear: left; padding: 0 0 10px 98px; }
-		.lk .m img { display: inline; margin-left: -98px; }
+	.lk .m li { clear: left; padding: 0 0 10px 45px; }
+		.lk .m img { display: inline; width: 31px; height: 31px; margin-left: -45px; }
 	.lk .x { column-count: auto; column-width: 7em; }
 	.lk_logo .lk_content { float: left; }
 
