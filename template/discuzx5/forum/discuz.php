@@ -49,7 +49,7 @@
 	<div class="mn">
 
 		<!--{if !empty($_G['setting']['grid']['showgrid'])}-->
-		<div id="forum-index-tabs" class="forum-index-tabs" role="tablist">
+		<div id="forum-index-tabs" role="tablist">
 			<button type="button" data-index-tab="latest" role="tab" aria-selected="false">{lang collection_lastthread}</button>
 			<button type="button" data-index-tab="top" role="tab" aria-selected="false">{lang show_newthreads}</button>
 			<button type="button" data-index-tab="hot" role="tab" aria-selected="false">{lang hot_thread}</button>

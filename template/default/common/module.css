@@ -94,10 +94,10 @@ Created & Modified by Alice, Monkey, Lushnis, Pony, Dfox & DragonLee.
 
 /* 论坛首页四格 by Alice */
 	#category_grid { padding:0; font-size:14px; }
-	.forum-index-tabs { display:flex; gap:26px; margin:0 0 12px; padding:0 12px; border-bottom:1px solid {COMMONBORDER}; }
-	.forum-index-tabs button { position:relative; flex:0 0 auto; margin:0; padding:11px 0 10px; border:0; background:none; color:{TABLETEXT}; cursor:pointer; font-size:14px; }
-	.forum-index-tabs button:hover, .forum-index-tabs button.a { color:{HIGHLIGHTLINK}; }
-	.forum-index-tabs button.a:after { content:''; position:absolute; right:0; bottom:-1px; left:0; height:3px; background:{HIGHLIGHTLINK}; }
+	#forum-index-tabs { display:flex; margin:0 0 12px; background-color:white; height:50px; border-bottom:1px solid rgb(238,238,238); box-sizing:border-box; }
+	div#forum-index-tabs button { height:100%; display:flex; align-items:center; padding:0px 20px; margin:0px; color:rgb(85,85,85); font-weight:400; background:none; border:none; cursor:pointer; position:relative; }
+	div#forum-index-tabs button.a { color:rgb(0,102,255); font-weight:600; }
+	div#forum-index-tabs button.a::after { content:""; position:absolute; bottom:0; left:20px; right:20px; height:3px; background-color:#0066ff; border-radius:3px 3px 0 0; }
 	#category_grid td[hidden] { display:none !important; }
 	#category_grid td[data-index-tab] { width:100%; border:0; }
 		#category_grid table { width:100%; table-layout:fixed; }
