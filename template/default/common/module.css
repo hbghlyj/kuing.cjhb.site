@@ -452,7 +452,8 @@ Created & Modified by Alice, Monkey, Lushnis, Pony, Dfox & DragonLee.
 			.fl_grid > .fl_g > .fl_newpost { grid-column: 3; grid-row: 1; }
 		.fl_newpost { display: inline-flex; width: 31px; height: 29px; align-items: center; justify-content: center; color: {LIGHTTEXT}; }
 			.fl_newpost:hover { color: {LINK}; }
-			.fl_newpost svg { width: 31px; height: 29px; vertical-align: middle; }
+			.fl_newpost svg {width:18px;height:18px;color:#dadce0}
+.fl_g:hover .fl_newpost svg {color:#1a73e8}
 		@media only screen and (max-width: 768px) {
 			.fl_grid { grid-template-columns: 1fr; }
 		}
