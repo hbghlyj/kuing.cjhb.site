@@ -804,7 +804,7 @@ body .colorwd {width:36px !important;height:36px !important;line-height:36px !im
 .forumportal_listc .kmmeta img[src*="verify"], .forumportal_listc .kmfoot img[src*="verify"] {max-height:14px !important;margin:-2px 0 0 -6px}
 .forumportal_listc .kmmeta .kmico_bk, .forumportal_listc .kmfoot .kmico_bk {padding:0 3px;background:var(--dz-bgc);line-height:20px;font-size:12px;font-weight:400;border-radius:2px}
 .forumportal_listc .kmcon {margin-top:8px;line-height:18px;font-size:12px;color:var(--dz-fc);overflow:hidden}
-.forumportal_listc p.kmtit {font-size:125%}
+.forumportal_listc p.kmtit {font-size:125%;margin-bottom:10px}
 .forumportal_listc .kmfoot .kmtxt, .forumportal_listc .kmfoot .kmtxt em, .forumportal_listc .kmfoot .kmtime {margin-right:12px}
 .forumportal_listc .kmfoot .kmtxt em a {float:none;margin-right:0}
 .forumportal_listc .kmfoot .pipe {float:left;margin-left:0}
