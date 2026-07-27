@@ -429,8 +429,7 @@ function toggleRatelogCollapse(tarId, ctrlObj) {
 }
 
 function copyThreadUrl(obj, bbname) {
-	bbname = bbname || SITEURL;
-	setCopy($('thread_subject').innerHTML.replace(/&amp;/g, '&') + '\n' + obj.href + '\n' + '(' + $L('copy_from', [bbname]) + ')' + '\n', $L('copy_thread_notice'));
+	setCopy(obj.href, $L('copy_thread_notice'));
 	return false;
 }
 
