@@ -797,6 +797,7 @@ body .colorwd {width:36px !important;height:36px !important;line-height:36px !im
 .forumportal_listc .kmtit .fico-image, .forumportal_listc .kmtit .fico-attachment {color:var(--dz-fc)}
 .forumportal_listc .kmtit span, .forumportal_listc .kmtit em, .forumportal_listc .kmtit i {margin-right:2px}
 .forumportal_listc .kmmeta, .forumportal_listc .kmfoot {font-size:12px;color:var(--dz-fc)}
+.forumportal_listc .kmfoot {display:flex;align-items:center;justify-content:space-between;padding-top:16px;border-top:1px solid #f3f4f6}
 .forumportal_listc .kmmeta a {float:left;margin-right:12px}
 .forumportal_listc .kmfoot a {margin-right:12px;color:var(--dz-fc)}
 .forumportal_listc .kmmeta a:hover, .forumportal_listc .kmfoot a:hover {color:var(--dz-ahover)}
