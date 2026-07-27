@@ -658,6 +658,9 @@ function avatar($uid, $size = 'middle', $returnsrc = 0, $real = FALSE, $ucenteru
 	}
 	$avatarattr = !$returnsrc ? ' data-avatar-key="'.dhtmlspecialchars($avatarname !== '' ? $avatarname : '?').'" data-avatar-size="'.$size.'"'.($avatarname !== '' ? ' data-avatar-name="'.dhtmlspecialchars($avatarname).'" alt="'.dhtmlspecialchars($avatarname).'"' : '') : '';
 	$avatarmissingattr = $avatarstatus === 0 ? ' data-avatar-missing="1"' : '';
+	if($avatarstatus === 1) {
+		$src = 'src';
+	}
 
 	if($avatarapi) {
 		$trandom = '';
