@@ -546,4 +546,8 @@ $lang = [
 	'fiction' => '',
 	'color_texts' => 'Black,Sienna,Dark Olive Green,Dark Green,Dark Gray Blue,Navy,Indigo,Dark Green,Dark Red,Dark Orange,Olive,Green,Teal,Blue,Limestone,Dark Gray,Red,Brown Sand,Yellow Green,Sea Green,Green emerald,Royal Blue,Purple,Gray,Red Purple,Orange,Yellow,Acid Orange,Blue Green,Deep Sky Blue,Dark Purple,Silver,Pink,Light Yellow,Lemon Silk,Cang Green,Cang gem Green,Bright blue,Plum color,White',
 	'email_domains' => 'aol.com,gmail.com,hotmail.com,msn.com,qq.com,yahoo.com',
+	'copy_thread_notice' => 'Thread URL has been copied to the clipboard',
+	'copy_to_clipboard' => 'Copy to clipboard',
+	'copy_clipboard_success' => 'Copied to clipboard',
+	'copy_failed2' => 'Copy failed',
 ];
