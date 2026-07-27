@@ -445,7 +445,7 @@ Created & Modified by Alice, Monkey, Lushnis, Pony, Dfox & DragonLee.
 		.fl_grid > .fl_g {display:grid;grid-template-columns:auto minmax(0,1fr) auto;padding:16px;border-radius:8px;background:#f8f9fa;transition:background .2s ease,box-shadow .2s ease;border:1px solid transparent}
 .fl_grid > .fl_g:hover {background:#fff;box-shadow:0 4px 12px rgba(0,0,0,.08);border-color:#e0e0e0}
 		.fl_grid > .fl_g > .fl_icn_g { grid-column: 1; grid-row: 1; }
-		.fl_grid > .fl_g > dl { grid-column: 2; grid-row: 1; margin-left: 0 !important; padding-left: 12px !important; }
+		.fl_grid > .fl_g > dl { grid-column: 2; grid-row: 1; margin-left: 0 !important; }
 		.fl_grid > .fl_g dd.fl_lastpost { display: flex; justify-content: space-between; gap: 8px; }
 			.fl_grid > .fl_g dd.fl_lastpost > a { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 			.fl_grid > .fl_g dd.fl_lastpost cite { flex-shrink: 0; }
