@@ -224,25 +224,25 @@
 									<dl{if !empty($forum[extra][iconwidth]) && !empty($forum[icon])} style="margin-left: {$forum[extra][iconwidth]}px;"{/if}>
 										<dt><a href="$forumurl"{if $forum[redirect]} target="_blank"{/if}{if $forum[extra][namecolor]} style="color: {$forum[extra][namecolor]};"{/if}>$forum[name]</a><!--{if $forum[todayposts] && !$forum['redirect']}--><em class="xw0 xi1">{lang forum_todayposts} $forum['todayposts']</em><!--{/if}--></dt>
 										<!--{if empty($forum[redirect])}--><dd><em>{lang forum_threads}: <!--{echo dnumber($forum[threads])}--></em>, <em>{lang forum_posts}: <!--{echo dnumber($forum[posts])}--></em></dd><!--{/if}-->
-										<dd class="fl_lastpost">
-										<!--{if $forum['permission'] == 1}-->
-											{lang private_forum}
+									<!--{hook/index_favforum_extra $forum['fid']}-->
+								</dl>
+								<div class="fl_lastpost">
+								<!--{if $forum['permission'] == 1}-->
+									{lang private_forum}
+								<!--{else}-->
+									<!--{if $forum['redirect']}-->
+										<a href="$forumurl" class="xi2">{lang url_link}</a>
+									<!--{elseif is_array($forum['lastpost'])}-->
+										<!--{if $forumcolumns < 3}-->
+											<a href="forum.php?mod=redirect&tid=$forum[lastpost][tid]&goto=lastpost#lastpost" class="xi2">$forum[lastpost][subject]</a> <cite>$forum[lastpost][dateline] <!--{if $forum['lastpost']['author']}-->$forum['lastpost']['author']<!--{else}-->$_G[setting][anonymoustext]<!--{/if}--></cite>
 										<!--{else}-->
-											<!--{if $forum['redirect']}-->
-												<a href="$forumurl" class="xi2">{lang url_link}</a>
-											<!--{elseif is_array($forum['lastpost'])}-->
-												<!--{if $forumcolumns < 3}-->
-													<a href="forum.php?mod=redirect&tid=$forum[lastpost][tid]&goto=lastpost#lastpost" class="xi2">$forum[lastpost][subject]</a> <cite>$forum[lastpost][dateline] <!--{if $forum['lastpost']['author']}-->$forum['lastpost']['author']<!--{else}-->$_G[setting][anonymoustext]<!--{/if}--></cite>
-												<!--{else}-->
-													<a href="forum.php?mod=redirect&tid=$forum[lastpost][tid]&goto=lastpost#lastpost">{lang forum_lastpost}: $forum[lastpost][dateline]</a>
-												<!--{/if}-->
-											<!--{else}-->
-												{lang never}
-											<!--{/if}-->
+											<a href="forum.php?mod=redirect&tid=$forum[lastpost][tid]&goto=lastpost#lastpost">{lang forum_lastpost}: $forum[lastpost][dateline]</a>
 										<!--{/if}-->
-										</dd>
-										<!--{hook/index_favforum_extra $forum['fid']}-->
-									</dl>
+									<!--{else}-->
+										{lang never}
+									<!--{/if}-->
+								<!--{/if}-->
+								</div>
 								</td>
 								<!--{eval $favorderid++;}-->
 							<!--{else}-->
@@ -316,26 +316,26 @@
 									<a href="$forumurl"{if $forum[redirect]} target="_blank"{/if}{if $forum[extra][namecolor]} style="color: {$forum[extra][namecolor]};"{/if}>$forum[name]</a>
 								</dt>
 								<!--{if empty($forum[redirect])}--><dd><em>{lang forum_todayposts} $forum['todayposts']</em>, <em>{lang forum_threads}: <!--{echo dnumber($forum[threads])}--></em>, <em>{lang forum_posts}: <!--{echo dnumber($forum[posts])}--></em></dd><!--{/if}-->
-								<!--{if $forum[description]}--><dd class="xg2">$forum[description]</dd><!--{/if}-->
-								<dd class="fl_lastpost">
-								<!--{if $forum['permission'] == 1}-->
-									{lang private_forum}
+							<!--{if $forum[description]}--><dd class="xg2">$forum[description]</dd><!--{/if}-->
+							<!--{hook/index_forum_extra $forum['fid']}-->
+						</dl>
+						<div class="fl_lastpost">
+						<!--{if $forum['permission'] == 1}-->
+							{lang private_forum}
+						<!--{else}-->
+							<!--{if $forum['redirect']}-->
+								<a href="$forumurl" class="xi2">{lang url_link}</a>
+							<!--{elseif is_array($forum['lastpost'])}-->
+								<!--{if $cat['forumcolumns'] < 3}-->
+								<a href="forum.php?mod=redirect&tid=$forum[lastpost][tid]&goto=lastpost#lastpost">$forum[lastpost][subject]</a> <cite>$forum[lastpost][dateline] <!--{if $forum['lastpost']['author']}-->$forum['lastpost']['author']<!--{else}-->$_G[setting][anonymoustext]<!--{/if}--></cite>
 								<!--{else}-->
-									<!--{if $forum['redirect']}-->
-										<a href="$forumurl" class="xi2">{lang url_link}</a>
-									<!--{elseif is_array($forum['lastpost'])}-->
-										<!--{if $cat['forumcolumns'] < 3}-->
-										<a href="forum.php?mod=redirect&tid=$forum[lastpost][tid]&goto=lastpost#lastpost">$forum[lastpost][subject]</a> <cite>$forum[lastpost][dateline] <!--{if $forum['lastpost']['author']}-->$forum['lastpost']['author']<!--{else}-->$_G[setting][anonymoustext]<!--{/if}--></cite>
-										<!--{else}-->
-											<a href="forum.php?mod=redirect&tid=$forum[lastpost][tid]&goto=lastpost#lastpost">{lang forum_lastpost}: $forum[lastpost][dateline]</a>
-										<!--{/if}-->
-									<!--{else}-->
-										{lang never}
-									<!--{/if}-->
+									<a href="forum.php?mod=redirect&tid=$forum[lastpost][tid]&goto=lastpost#lastpost">{lang forum_lastpost}: $forum[lastpost][dateline]</a>
 								<!--{/if}-->
-								</dd>
-								<!--{hook/index_forum_extra $forum['fid']}-->
-							</dl>
+							<!--{else}-->
+								{lang never}
+							<!--{/if}-->
+						<!--{/if}-->
+						</div>
 							<!--{if empty($forum['redirect']) && $forum['permission'] != 1}--><a class="fl_newpost" href="forum.php?mod=post&action=newthread&fid=$forum[fid]" title="{lang send_posts}"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor"><path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/><path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/></svg></a><!--{/if}-->
 						</div>
 					<!--{/loop}-->
