@@ -18,7 +18,7 @@
 
 .fl_icn img, .fl_icn_g img {width:68px !important;border-radius:var(--dz-radius-s)}
 .fl_g dl {margin-left:80px !important;padding-left:0;color:var(--dz-fc)}
-.fl_g dt, .fl_tb td h2 {margin-bottom:2px;height:22px;line-height:22px;font-size:16px;font-weight:400;overflow:hidden;text-overflow:ellipsis;-webkit-line-clamp:1;display:-webkit-box;-webkit-box-orient:vertical}
+.fl_g dt, .fl_tb td h2 {margin-bottom:2px;height:22px;line-height:22px;font-size:1.05rem;text-overflow:ellipsis;-webkit-line-clamp:1;display:-webkit-box;-webkit-box-orient:vertical}
 .fl_g dd {height:22px;line-height:22px;font-size:12px;overflow:hidden;text-overflow:ellipsis;-webkit-line-clamp:1;display:-webkit-box;-webkit-box-orient:vertical;margin-top:4px}
 .fl_lastpost {padding-top:8px;border-top:1px solid #eee}
 .fl_g dd a:hover, .fl_g dd a.dz_lastpost_ico:hover {color:var(--dz-ahover)}

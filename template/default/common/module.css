@@ -432,7 +432,6 @@ Created & Modified by Alice, Monkey, Lushnis, Pony, Dfox & DragonLee.
 		}
 			.fl .i_z { margin-right: 8px; padding-right: 8px; border-right: 1px solid {CONTENTSEPARATE}; }
 	.fl_icn_g { width: 40px; }
-	.fl_g { vertical-align: top; }
 		.fl_g dl { margin-left: 31px; padding-left: 10px; }
 			.fl_g dt { font-weight: 700; }
 	.fl_row td { border-top: 1px dashed {COMMONBORDER}; }
@@ -442,8 +441,8 @@ Created & Modified by Alice, Monkey, Lushnis, Pony, Dfox & DragonLee.
 
 	/* 版块卡片网格（CSS Grid，替代旧版 table/inline-block 排版） */
 	.fl_grid { display: grid; grid-template-columns: repeat(var(--forumcolumns), minmax(0, 1fr)); gap: 16px; }
-		.fl_grid > .fl_g {display:grid;grid-template-columns:auto minmax(0,1fr) auto;padding:16px;border-radius:8px;background:#f8f9fa;transition:background .2s ease,box-shadow .2s ease;border:1px solid transparent}
-.fl_grid > .fl_g:hover {background:#fff;box-shadow:0 4px 12px rgba(0,0,0,.08);border-color:#e0e0e0}
+		.fl_grid > .fl_g {display:grid;grid-template-columns:auto minmax(0,1fr) auto;padding:16px;border:1px solid #eaeaea;border-radius:12px;transition:all 0.3s cubic-bezier(0.25,0.8,0.25,1);box-shadow:0 1px 3px rgba(0,0,0,0.05)}
+.fl_grid > .fl_g:hover {border-color:#e0e0e0;transform:translateY(-4px);box-shadow:0 10px 20px rgba(0,0,0,0.08)}
 		.fl_grid > .fl_g > .fl_icn_g { grid-column: 1; grid-row: 1; }
 		.fl_grid > .fl_g > dl { grid-column: 2; grid-row: 1; margin-left: 0 !important; }
 		.fl_grid > .fl_g .fl_lastpost, .flg .fl_g .fl_lastpost { display: flex; justify-content: space-between; gap: 8px; grid-column: 2 / 4; grid-row: 3; }
