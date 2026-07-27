@@ -147,7 +147,7 @@
 								<!--{else}-->
 									<a href="javascript:;">$_G['setting']['anonymoustext']</a>
 								<!--{/if}-->
-								<span class="kmtime{if $thread['istoday'] && CURMODULE == 'forumdisplay'} xi1{/if}">{lang lastpost} $thread['lastpost']</span>
+								<cite><span class="kmtime{if $thread['istoday'] && CURMODULE == 'forumdisplay'} xi1{/if}">{lang lastpost} $thread['lastpost']</span></cite>
 								<!--{/if}-->
 								<!--{if $stemplate && $sortid}--><span class="kmbga kmico_xs">$stemplate[$sortid][$thread['tid']]</span><!--{/if}-->
 								<!--{if $thread['readperm']}--><span class="kmbgb kmico_qx">{lang readperm} <strong>{$thread['readperm']}</strong></span><!--{/if}-->	
