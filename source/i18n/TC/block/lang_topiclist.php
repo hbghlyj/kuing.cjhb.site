@@ -17,7 +17,7 @@ $lang =
 	'topiclist_uids' => '創建者UID',
 	'topiclist_uids_comment' => '填入指定專題創建者的ID(uid)，多個用戶之間用逗號(,)分隔',
 	'topiclist_startrow' => '起始數據行數',
-	'topiclist_startrow_comment' => '如需設定起始的數據行數，請輸入具體數值，0 為從第一行開始，以此類推',
+	'topiclist_startrow_comment' => '如需設定起始的數據行數，請輸入具體數值，0 爲從第一行開始，以此類推',
 	'topiclist_titlelength' => '標題長度',
 	'topiclist_titlelength_comment' => '指定專題標題最大長度',
 	'topiclist_summarylength' => '介紹長度',
@@ -25,7 +25,7 @@ $lang =
 	'topiclist_picrequired' => '過濾無封面專題',
 	'topiclist_picrequired_comment' => '是否過濾沒有封面圖片的專題',
 	'topiclist_orderby' => '專題排序方式',
-	'topiclist_orderby_comment' => '設置以哪一字段或方式對專題進行排序',
+	'topiclist_orderby_comment' => '設定以哪一字段或方式對專題進行排序',
 	'topiclist_orderby_dateline' => '按發佈時間倒序',
 	'topiclist_orderby_viewnum' => '按查看數倒序',
 	];

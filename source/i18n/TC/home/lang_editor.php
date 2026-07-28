@@ -71,9 +71,9 @@ $lang = [
 	'editor_prompt_textlink' => '請輸入選定文字鏈接地址',
 	'editor_prompt_imagelink' => '請輸入圖片 URL 地址',
 	'editor_prompt_pagetitle' => '請輸入分頁標題',
-	'editor_prompt_videolink' => '請輸入視頻 URL 地址',
-	'editor_prompt_video_media' => 'Media 視頻',
-	'editor_prompt_video_real' => 'Real 視頻',
+	'editor_prompt_videolink' => '請輸入影片 URL 地址',
+	'editor_prompt_video_media' => 'Media 影片',
+	'editor_prompt_video_real' => 'Real 影片',
 	'editor_prompt_mp3' => 'mp3 音樂',
 	'editor_full_screen' => '全屏',
 ];
