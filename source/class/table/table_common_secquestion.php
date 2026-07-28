@@ -46,13 +46,6 @@ class table_common_secquestion extends discuz_table {
 		return ['SC', 'TC', 'EN'];
 	}
 
-	public static function question_locale() {
-		if(function_exists('currentlang')) {
-			return currentlang() ?: 'SC';
-		}
-		return defined('DISCUZ_LANG') ? DISCUZ_LANG : 'SC';
-	}
-
 	public static function decode_question($question) {
 		$questions = is_array($question) ? $question : json_decode((string)$question, true);
 		if(!is_array($questions)) {
@@ -76,7 +69,7 @@ class table_common_secquestion extends discuz_table {
 
 	public static function localize_question($question) {
 		$questions = self::decode_question($question);
-		$locale = self::question_locale();
+		$locale = currentlang();
 		foreach(array_unique([$locale, 'SC', 'EN', 'TC']) as $fallback) {
 			if(isset($questions[$fallback])) {
 				return $questions[$fallback];
