@@ -780,7 +780,6 @@ body .colorwd {width:36px !important;height:36px !important;line-height:36px !im
 .forumportal_listc li.kmlist:hover {transform:translateY(-2px);box-shadow:0 10px 15px -3px rgba(0,0,0,.1),0 4px 6px -2px rgba(0,0,0,.05);border-color:#3b82f6}
 .forumportal_listc li.kmlist_hf {padding-bottom:20px}
 .forumportal_listc li .km_moderate {float:right}
-.forumportal_listc li:first-child {border-top:none}
 .forumportal_listb li .kmimg_onebox {min-width:400px;max-width:500px;margin:5px 0 10px 50px;font-size:0;overflow:hidden;position:relative}
 .forumportal_listc .kmmeta .kmimg img {width:20px;height:20px;overflow:hidden;object-fit:cover;transition:all .4s;z-index:50;vertical-align:text-bottom}
 .forumportal_listc .kmmeta .kmimg:hover img {transform:scale(1.1)}
