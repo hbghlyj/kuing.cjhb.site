@@ -56,6 +56,12 @@
 	<style>
 	#outputWrap{background:#f8f8f5;width:100%;margin-top:10px;}
 	#output{border:solid 6px #e8ece6;padding:6px;text-align:left;box-sizing:border-box;white-space:pre-wrap;}
+	#output ul{margin-left:14px;}
+	#output li{margin-left:2em;}
+	#output ul li{list-style-type:disc;}
+	#output ul.litype_1>li{list-style-type:decimal;}
+	#output ul.litype_2>li{list-style-type:lower-alpha;}
+	#output ul.litype_3>li{list-style-type:upper-alpha;}
 	</style>
 	<div id="outputWrap">
 	<div id="output" class="t_f"></div>
