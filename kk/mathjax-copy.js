@@ -13,6 +13,17 @@ function mjxReplaceWithTex(fragment) {
   return fragment;
 }
 
+// Extract rendered text so <br> and block boundaries remain line breaks.
+function fragmentToPlainText(fragment) {
+  const wrapper = document.createElement('div');
+  wrapper.style.cssText = 'position:fixed;left:-100000px;top:0;width:max-content;';
+  wrapper.appendChild(fragment);
+  document.body.appendChild(wrapper);
+  const text = wrapper.innerText;
+  wrapper.remove();
+  return text;
+}
+
 // Global copy handler to modify behavior on/within mjx-container elements.
 document.addEventListener('copy', function (event) {
   const selection = window.getSelection();
@@ -63,7 +74,7 @@ document.addEventListener('copy', function (event) {
   // Preserve usual HTML copy/paste behavior.
   clipboardData.setData('text/html', htmlContents);
   // Rewrite plain-text version, replacing rendered math with its raw TeX source.
-  clipboardData.setData('text/plain', mjxReplaceWithTex(fragment).textContent);
+  clipboardData.setData('text/plain', fragmentToPlainText(mjxReplaceWithTex(fragment)));
   // Prevent normal copy handling.
   event.preventDefault();
 });
