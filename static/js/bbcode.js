@@ -280,6 +280,13 @@ function fetchoptionvalue(option, text) {
 	}
 }
 
+function normalizefontvalue(value) {
+	return trim(value
+		.replace(/&quot;|&#0*34;|&#x0*22;/ig, '"')
+		.replace(/&apos;|&#0*39;|&#x0*27;/ig, "'")
+		.replace(/["']/g, ''));
+}
+
 function fonttag(fontoptions, text) {
 	var prepend = '';
 	var append = '';
@@ -288,6 +295,9 @@ function fonttag(fontoptions, text) {
 	for(bbcode in tags) {
 		optionvalue = fetchoptionvalue(tags[bbcode], fontoptions);
 		if(optionvalue) {
+			if(bbcode == 'font') {
+				optionvalue = normalizefontvalue(optionvalue);
+			}
 			prepend += '[' + bbcode + '=' + optionvalue + ']';
 			append = '[/' + bbcode + ']' + append;
 		}
@@ -532,6 +542,9 @@ function parsestyle(tagoptions, prepend, append) {
 	];
 	var sizealias = {'x-small':1,'small':2,'medium':3,'large':4,'x-large':5,'xx-large':6,'-webkit-xxx-large':7};
 	var style = getoptionvalue('style', tagoptions);
+	style = style
+		.replace(/&quot;|&#0*34;|&#x0*22;/ig, '"')
+		.replace(/&apos;|&#0*39;|&#x0*27;/ig, "'");
 	re = /^(?:\s|)color:\s*rgb\((\d+),\s*(\d+),\s*(\d+)\)(;?)/i;
 	style = style.replace(re, function($1, $2, $3, $4, $5) {return("color:#" + parseInt($2).toString(16) + parseInt($3).toString(16) + parseInt($4).toString(16) + $5);});
 	var len = searchlist.length;
@@ -543,6 +556,8 @@ function parsestyle(tagoptions, prepend, append) {
 			opnvalue = match[searchlist[i][3]];
 			if(searchlist[i][4] == 'size') {
 				opnvalue = sizealias[opnvalue];
+			} else if(searchlist[i][0] == 'font') {
+				opnvalue = normalizefontvalue(opnvalue);
 			}
 			prepend += '[' + searchlist[i][0] + (searchlist[i][1] == true ? '=' + opnvalue + ']' : ']');
 			append = '[/' + searchlist[i][0] + ']' + append;
