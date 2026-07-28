@@ -364,7 +364,6 @@ input:focus{border-color:var(--dz-nvbg);outline:0}
 a{text-decoration:none;}
 a:hover{text-decoration:none;}
 *{padding:0px;margin:0px;-webkit-font-smoothing:subpixel-antialiased;font-smoothing:subpixel-antialiased;}
-ul li{list-style:none;}
 img{border:none;}
 .clear{clear:both;}
 
