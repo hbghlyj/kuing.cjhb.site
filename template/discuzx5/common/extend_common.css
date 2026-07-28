@@ -782,7 +782,6 @@ body .colorwd {width:36px !important;height:36px !important;line-height:36px !im
 .forumportal_listc li .km_moderate {float:right}
 .forumportal_listc li:first-child {border-top:none}
 .forumportal_listb li .kmimg_onebox {min-width:400px;max-width:500px;margin:5px 0 10px 50px;font-size:0;overflow:hidden;position:relative}
-.forumportal_listc .kmmeta .kmimg {margin-right:15px;overflow:hidden}
 .forumportal_listc .kmmeta .kmimg img {width:20px;height:20px;overflow:hidden;object-fit:cover;transition:all .4s;z-index:50;vertical-align:text-bottom}
 .forumportal_listc .kmmeta .kmimg:hover img {transform:scale(1.1)}
 .forumportal_listc .kmtype em {float:left;margin-right:5px;font-size:14px}
@@ -798,7 +797,7 @@ body .colorwd {width:36px !important;height:36px !important;line-height:36px !im
 .forumportal_listc .kmtit span, .forumportal_listc .kmtit em, .forumportal_listc .kmtit i {margin-right:2px}
 .forumportal_listc .kmmeta, .forumportal_listc .kmfoot {font-size:12px;color:var(--dz-fc);text-align:right}
 .forumportal_listc .kmfoot {display:flex;align-items:center;justify-content:space-between;padding-top:16px;border-top:1px solid #f3f4f6}
-.forumportal_listc .kmfoot a {margin-right:12px;color:var(--dz-fc)}
+.forumportal_listc .kmmeta a, .forumportal_listc .kmfoot a {margin-right:4px;color:var(--dz-fc)}
 .forumportal_listc .kmmeta a:hover, .forumportal_listc .kmfoot a:hover {color:var(--dz-ahover)}
 .forumportal_listc .kmmeta img[src*="verify"], .forumportal_listc .kmfoot img[src*="verify"] {max-height:14px !important;margin:-2px 0 0 -6px}
 .forumportal_listc .kmmeta .kmico_bk, .forumportal_listc .kmfoot .kmico_bk {display:inline-block;float:left;background-color:#e1ecf4;color:#39739d;padding:2px 6px;border-radius:3px;margin-right:4px;font-size:12px}
