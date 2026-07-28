@@ -105,15 +105,17 @@
 									<!--{/if}-->
 								<!--{/if}-->
 							</p>
-							<div class="kmmeta">
-								<!--{if $thread['authorid'] && $thread['author']}-->
-									<a href="home.php?mod=space&uid=$thread['authorid']" target="_blank" class="kmimg"><!--{avatar($thread['authorid'],'small')}--></a>
-									<a href="home.php?mod=space&uid=$thread['authorid']" target="_blank"{if $groupcolor[$thread['authorid']]} style="color: $groupcolor[$thread['authorid']];"{/if}>$thread['author']</a>
-									<!--{if !empty($verify[$thread['authorid']])}-->$verify[$thread['authorid']]<!--{/if}-->
-								<!--{else}-->
-									<a href="javascript:;">$_G['setting']['anonymoustext']</a>
-								<!--{/if}-->
-								<span class="kmtime{if $thread['istoday'] && CURMODULE == 'forumdisplay'} xi1{/if}">{lang poston} $thread['dateline']</span>
+						<div class="kmmeta">
+							<cite>
+							<!--{if $thread['authorid'] && $thread['author']}-->
+								<a href="home.php?mod=space&uid=$thread['authorid']" target="_blank" class="kmimg"><!--{avatar($thread['authorid'],'small')}--></a>
+								<a href="home.php?mod=space&uid=$thread['authorid']" target="_blank"{if $groupcolor[$thread['authorid']]} style="color: $groupcolor[$thread['authorid']];"{/if}>$thread['author']</a>
+								<!--{if !empty($verify[$thread['authorid']])}-->$verify[$thread['authorid']]<!--{/if}-->
+							<!--{else}-->
+								<a href="javascript:;">$_G['setting']['anonymoustext']</a>
+							<!--{/if}-->
+							<span class="kmtime{if $thread['istoday'] && CURMODULE == 'forumdisplay'} xi1{/if}">{lang poston} $thread['dateline']</span>
+							</cite>
 								<!--{if $thread['typehtml'] || $thread['sorthtml']}-->
 									{echo str_replace(array('<em>[', ']</em>', '">'), array('', '', '" class="kmbg kmico_bk" target="_blank">'), $thread['typehtml'].$thread['sorthtml']);}
 								<!--{/if}-->
