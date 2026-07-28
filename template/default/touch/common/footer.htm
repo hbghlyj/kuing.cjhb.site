@@ -1,6 +1,7 @@
 <!--{hook/global_footer_mobile}-->
 <div id="mask" style="display:none;"></div>
 <!--{if $_G['setting']['statcode']}--><div id="statcode" style="display:none;">{$_G['setting']['statcode']}</div><!--{/if}-->
+<!--{if !($_G['basescript'] == 'forum' && $_GET['mod'] == 'find')}-->
 <div class="footer mt10 cl">
 	<div class="footer-nv">
 		<a href="javascript:;" class="mon">{lang mobile2version}</a>|<a href="javascript:;" onclick="setcookie('mobile', 'no', 31536000);location.reload();return false;">{lang nomobiletype}</a><!--{if !empty($_G['setting']['styles'][1])}-->|<a href="javascript:;" onclick="setcookie('styleid', '1', 31536000);setcookie('mobile', 'no', 31536000);location.reload();return false;">default style</a><!--{/if}--><!--{if !empty($clienturl)}-->|<a href="$clienturl">{lang clientversion}</a><!--{/if}-->
@@ -11,7 +12,9 @@
 		<p class="xs0">{lang copyright}</p>
 	</div>
 </div>
+<!--{/if}-->
 <!--{if !$nofooter}-->
+<!--{if !($_G['basescript'] == 'forum' && $_GET['mod'] == 'find')}-->
 <p class="xs0" style="text-align:center;margin:8px 0;">
 	<span id="debuginfo">
 	<!--{if debuginfo()}-->Processed in $_G[debuginfo][time] seconds, $_G[debuginfo][queries] queries
@@ -19,6 +22,7 @@
 	<!--{/if}-->
 	</span>
 </p>
+<!--{/if}-->
 <div class="foot_height"></div>
 <div class="foot flex-box">
 	<a href="index.php" class="flex{if (strpos($_SERVER['REQUEST_URI'], $_G['setting']['defaultindex']) && strpos('forum.php', $_G['setting']['defaultindex']) === false) || strpos($_SERVER['REQUEST_URI'], 'index.php') || (strpos('forum.php', $_G['setting']['defaultindex']) === 0 && $_G['basescript'] == 'forum' && $_GET['mod'] != 'find')} mon{/if}">
