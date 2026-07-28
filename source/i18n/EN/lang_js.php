@@ -42,7 +42,6 @@ $lang = [
 	'email_invalid' => 'Email address is invalid',
 	'export' => 'Export',
 	'full_editor_size' => 'Full screen edit',
-	'fullscreen' => 'Full Screen',
 	'height' => 'Height',
 	'images' => 'Images',
 	'input_code' => 'Insert the Code',

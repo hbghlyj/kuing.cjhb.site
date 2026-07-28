@@ -90,7 +90,6 @@ $lang = [
 	'switch_narrow' => '切換到窄版',
 	'shortcut_notice' => '1、點擊"<a href="javascript:;" class="xi2 xw1" onclick="this.href = \'forum.php?mod=misc&action=shortcut\';this.click();saveUserdata(\'setshortcut\', 1);">下載桌面快捷</a>"，下載完成後，可移動文件到系統桌面<br />2、點擊"<a href="forum.php?mod=misc&action=shortcut&type=ico" class="xi2 xw1">下載ICO圖標</a>，下載完成後，右擊桌面快捷文件->屬性->更改圖標，選擇已下載的ICO圖標即可',
 	'add_shortcut' => '添加桌面快捷',
-	'fullscreen' => '全屏',
 	'return' => '返回',
 	'restore_editor_size' => '恢復編輯器大小',
 	'full_editor_size' => '全屏方式編輯',

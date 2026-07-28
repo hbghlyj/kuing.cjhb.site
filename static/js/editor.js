@@ -59,7 +59,7 @@ function initEditor() {
 		if(buttons[i].id.indexOf(editorid + '_') != -1) {
 			buttons[i].href = 'javascript:;';
 			if(buttons[i].id.substr(buttons[i].id.indexOf('_') + 1) == 'fullswitcher') {
-				buttons[i].innerHTML = !editorisfull ? $L('fullscreen') : $L('return');
+				buttons[i].innerHTML = !editorisfull ? '⛶' : $L('return');
 				buttons[i].onmouseover = function(e) {setEditorTip(editorisfull ? $L('restore_editor_size') : $L('full_editor_size'));};
 				buttons[i].onclick = function(e) {editorfull();doane();}
 			} else if(buttons[i].id.substr(buttons[i].id.indexOf('_') + 1) == 'simple') {
@@ -310,7 +310,7 @@ function editorfull(op) {
 		editorisfull = 0;
 		editorcontrolpos();
 	}
-	$(editorid + '_fullswitcher').innerHTML = editorisfull ? $L('return') : $L('fullscreen');
+	$(editorid + '_fullswitcher').innerHTML = editorisfull ? $L('return') : '⛶';
 	initesbar();
 }
 

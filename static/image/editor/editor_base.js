@@ -622,7 +622,7 @@ function changeEditFull(flag, ev) {
 		parent.changeEditFull(flag);
 		ev = ev || event;
 		var ele = ev.target || ev.srcElement;
-		ele.innerHTML = flag ? parent.$L('return') : parent.$L('fullscreen');
+		ele.innerHTML = flag ? parent.$L('return') : '⛶';
 		ele.onclick = function() {changeEditFull(!flag, ev)};
 	}
 }
