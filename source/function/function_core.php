@@ -732,19 +732,6 @@ function lang($file, $langvar = null, $vars = [], $default = null) {
 			}
 			$_G['lang'][$key] = (array)$lang;
 		}
-		if(defined('IN_MOBILE') && !defined('TPL_DEFAULT')) {
-			$f = 'touch/lang_template.php';
-			$lang = i18n::getLang($f);
-			if(currentlang() == 'EN' && file_exists($loadfile = MITFRAME_APP(MITFRAME_APP).'/i18n/SC/'.$f)) {
-				include $loadfile;
-			}
-			if(!empty($_G['i18n']) && file_exists($loadfile = MITFRAME_APP(MITFRAME_APP).'/i18n/'.$_G['i18n'].'/'.$f)) {
-				include $loadfile;
-			} elseif(file_exists($loadfile = MITFRAME_APP(MITFRAME_APP).'/i18n/'.currentlang().'/'.$f)) {
-				include $loadfile;
-			}
-			$_G['lang'][$key] = array_merge((array)$_G['lang'][$key], (array)$lang);
-		}
 		if($file != 'error' && !isset($_G['cache']['pluginlanguage_system'])) {
 			loadcache('pluginlanguage_system');
 		}
