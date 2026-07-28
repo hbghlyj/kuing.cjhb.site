@@ -665,11 +665,11 @@ O
     'validate' => '',
     'encrypt' => '0',
   ],[
-    'fieldid' => 'msn',
+    'fieldid' => 'wechat',
     'available' => '1',
     'invisible' => '1',
     'needverify' => '0',
-    'title' => 'MSN',
+    'title' => '微信號',
     'description' => '',
     'displayorder' => '0',
     'required' => '0',

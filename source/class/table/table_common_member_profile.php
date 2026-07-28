@@ -30,7 +30,7 @@ class table_common_member_profile extends discuz_table_archive {
 			'zodiac', 'telephone', 'mobile', 'idcardtype', 'idcard', 'address', 'zipcode', 'nationality', 'birthcountry', 'birthprovince', 'birthcity', 'birthdist',
 			'birthcommunity', 'residecountry', 'resideprovince', 'residecity', 'residedist', 'residecommunity', 'residesuite', 'graduateschool', 'education', 'company',
 			'occupation', 'position', 'revenue', 'affectivestatus', 'lookingfor', 'bloodtype', 'height', 'weight', 'alipay', 'icq', 'qq',
-			'yahoo', 'msn', 'taobao', 'site', 'bio', 'interest', 'field1', 'field2', 'field3', 'field4', 'field5', 'field6', 'field7', 'field8', 'fields'];
+			'yahoo', 'wechat', 'taobao', 'site', 'bio', 'interest', 'field1', 'field2', 'field3', 'field4', 'field5', 'field6', 'field7', 'field8', 'fields'];
 
 		parent::__construct();
 	}

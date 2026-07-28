@@ -406,6 +406,21 @@ ALTER TABLE `pre_common_member_profile`
 ALTER TABLE `pre_common_member_profile_history`
 	ADD COLUMN fields json NOT NULL AFTER `field8`;
 
+ALTER TABLE `pre_common_member_profile`
+	CHANGE COLUMN `msn` `wechat` varchar(255) NOT NULL DEFAULT '';
+
+ALTER TABLE `pre_common_member_profile_history`
+	CHANGE COLUMN `msn` `wechat` varchar(255) NOT NULL DEFAULT '';
+
+ALTER TABLE `pre_common_member_profile_archive`
+	CHANGE COLUMN `msn` `wechat` varchar(255) NOT NULL DEFAULT '';
+
+UPDATE `pre_common_member_profile_setting`
+	SET `fieldid` = 'wechat', `title` = 'WeChat'
+	WHERE `fieldid` = 'msn';
+
+DELETE FROM `pre_common_setting` WHERE `skey` = 'msn';
+
 DROP TABLE IF EXISTS pre_common_stylevar_extra;
 CREATE TABLE pre_common_stylevar_extra
 (

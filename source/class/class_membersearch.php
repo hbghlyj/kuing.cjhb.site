@@ -36,7 +36,7 @@ class membersearch {
 			'occupation' => 'profile', 'company' => 'profile', 'position' => 'profile', 'revenue' => 'profile',
 			'affectivestatus' => 'profile', 'lookingfor' => 'profile', 'bloodtype' => 'profile',
 			'height' => 'profile', 'weight' => 'profile', 'alipay' => 'profile', 'icq' => 'profile',
-			'qq' => 'profile', 'yahoo' => 'profile', 'msn' => 'profile', 'taobao' => 'profile', 'site' => 'profile',
+			'qq' => 'profile', 'yahoo' => 'profile', 'wechat' => 'profile', 'taobao' => 'profile', 'site' => 'profile',
 			'bio' => 'profile', 'interest' => 'profile', 'field1' => 'profile', 'field2' => 'profile',
 			'field3' => 'profile', 'field4' => 'profile', 'field5' => 'profile', 'field6' => 'profile',
 			'field7' => 'profile', 'field8' => 'profile', 'fields' => 'profile', 'token' => 'token',

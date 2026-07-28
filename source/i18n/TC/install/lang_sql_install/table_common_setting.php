@@ -1206,9 +1206,6 @@ $data = [[
       ],
     ],
   ],[
-    'skey' => 'msn',
-    'svalue' => '',
-  ],[
     'skey' => 'my_closecheckupdate',
     'svalue' => '',
   ],[

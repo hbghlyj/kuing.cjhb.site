@@ -16,7 +16,7 @@ $lang =
 	'invite_guide' => '<strong>请按照以下的说明来完成本任务：</strong>
 		<ul class="task">
 		<li>在新窗口中打开<a href="home.php?mod=spacecp&ac=invite" target="_blank">好友邀请页面</a></li>
-		<li>通过 QQ、MSN 等 IM 工具，或者发送邮件，把邀请链接告诉您的好友，邀请他们加入进来吧</li>
+		<li>通过 QQ、微信等即时通讯工具，或者发送邮件，把邀请链接告诉您的好友，邀请他们加入进来吧</li>
 		<li>您需要邀请 10 个好友才算完成</li>
 		</ul>',
 
