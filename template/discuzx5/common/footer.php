@@ -58,7 +58,7 @@
 	#output{border:solid 6px #e8ece6;padding:6px;text-align:left;box-sizing:border-box;white-space:pre-wrap;}
 	</style>
 	<div id="outputWrap">
-	<div id="output"></div>
+	<div id="output" class="t_f"></div>
 	</div>
 	<div style="clear:both"></div>
 	<script>window.MATH_EDITOR_LABELS = {inline: '{lang e_math_inline}', display: '{lang e_math_display}', hint: '{lang e_math_hint}'};</script>

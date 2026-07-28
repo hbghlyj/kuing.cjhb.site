@@ -85,7 +85,12 @@ const { execSync } = require('child_process');
         }
     });
     page.on('requestfailed', request => {
-        throw new Error(`Browser request failed: ${request.url()} (${request.failure()?.errorText || 'unknown error'})`);
+        const errorText = request.failure()?.errorText || 'unknown error';
+        const requestPath = new URL(request.url()).pathname;
+        if(errorText === 'net::ERR_ABORTED' && requestPath === '/static/image/common/none.gif') {
+            return;
+        }
+        throw new Error(`Browser request failed: ${request.url()} (${errorText})`);
     });
 
     let report = "# DiscuzX Functional Test Report\n\n";
@@ -381,6 +386,15 @@ const { execSync } = require('child_process');
         assert.ok(
             (await editorAfterSmilie.inputValue()).length > 0,
             'Assertion Error: Clicking a smiley did not insert its code into the editor.'
+        );
+
+        await fillPostEditor('[list]\n[*]Bullet\n[/list]\n[list=1]\n[*]Number\n[/list]\n[list=a]\n[*]Letter\n[/list]');
+        const previewItems = page.locator('#output li');
+        await previewItems.nth(2).waitFor({ state: 'visible' });
+        assert.deepStrictEqual(
+            await previewItems.evaluateAll(items => items.map(item => getComputedStyle(item).listStyleType)),
+            ['disc', 'decimal', 'lower-alpha'],
+            'Assertion Error: BBCode preview list markers were suppressed by global UI list styles.'
         );
 
         await fillPostEditor('Body text from unprivileged account.');
