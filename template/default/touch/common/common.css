@@ -1594,7 +1594,7 @@ i.pstatus {display:block;font-size:12px;text-align:center;color:#999}
 			.tl .num { width: 60px; line-height: 14px; }
 			.tl .by { width: 105px; line-height: 14px; }
 				.tl cite, .tl .num em { display: block; }
-				.tl th em { margin-right: 4px; zoom: 1; }
+			.tl th em { margin-right: 4px; zoom: 1; }
 					.tl th em, .tl th em a { color: #007CD5; }
 				.tl td em { font-size: 11px; font-family: Arial, Psimsun, sans-serif; -webkit-text-size-adjust: none; }
 			/*.tl .th th, .tl .th td { padding: 8px 0; background: {SPECIALBG}; border-top: 1px solid var(--dz-BOR-ed); }*/
