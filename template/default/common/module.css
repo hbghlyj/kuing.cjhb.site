@@ -1090,7 +1090,6 @@ i.pstatus { display: block; margin-bottom: -30px; font-size: 12px; text-align: c
 	.pl .quote, .pl .blockcode { margin: 10px 0; zoom: 1; }
 	.quote::before {content:'\201C';font-family:'Times New Roman',Times,serif;font-size:40px;color:#B2B7F2;font-weight:bold;line-height:1rem;padding:10px;flex-shrink:0;display:block}
 	.quote::after {content:'\201D';font-family:'Times New Roman',Times,serif !important;font-size:40px !important;color:#B2B7F2 !important;font-weight:bold;line-height:0;margin:10px 0;flex-shrink:0;display:block;align-self:flex-end}
-		.pl .quote blockquote { margin: 0; padding: 0; background: none; line-height: 1.6; zoom: 1; display: block; }
 
 	.pl .blockcode { padding: 10px 0 5px 10px; border: 1px solid {WRAPBORDERCOLOR}; background: #F7F7F7 repeat-y 0 0; background-image: linear-gradient(90deg, #EDEDED, #EDEDED); background-size: 43px; overflow: hidden; text-shadow: none; }
 		.pl .blockcode ol { margin: 0 0 0 10px !important; padding: 0 !important; }
