@@ -12,7 +12,6 @@ if(!defined('IN_DISCUZ')) {
 
 $lang =
 	[
-	'discuz_lang' => 'misc',
 	'contact' => '联系方式:',
 	'anonymous' => '匿名',
 	'anonymoususer' => '匿名者',
