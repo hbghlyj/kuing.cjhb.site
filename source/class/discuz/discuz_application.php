@@ -828,6 +828,12 @@ class discuz_application extends discuz_base {
 				?: array_key_first($this->var['setting']['i18n']);
 		}
 		$this->var['i18n'] = $requested;
+		if(!empty($this->var['cache']['forums'])) {
+			foreach($this->var['cache']['forums'] as &$forum) {
+				$forum['name'] = table_forum_forum::localize_name($forum['name_i18n'] ?? $forum['name'], $requested);
+			}
+			unset($forum);
+		}
 		if(!empty($this->var['cookie']['d_i18n'])) {
 			dsetcookie('d_i18n', '', -1);
 		}
