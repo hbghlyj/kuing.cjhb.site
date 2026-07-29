@@ -114,8 +114,10 @@ https://www.discuz.vip
 		.b2r #e_attachn { left: 57px; }
 
 	#e_switcher.sw_toggle { display: inline-flex; border: 1px solid {INPUTBORDERDARKCOLOR}; border-radius: 3px; overflow: hidden; }
-	#e_switcher.sw_toggle a { float: none; display: inline-block; padding: 1px 6px; font-size: 12px; line-height: 18px; text-decoration: none; border: none; background: none; background-color: {WRAPBG}; color: {TEXT}; cursor: pointer; }
-	#e_switcher.sw_toggle a.sw_active { background-color: #09C; color: #FFF; }
+	#e_switcher.sw_toggle a { float: none; display: inline-block; background-image: none; background-color: {WRAPBG}; cursor: pointer; }
+	#e_switcher.sw_toggle .sw_visual { padding: 1px 6px; font-size: 12px; line-height: 18px; text-decoration: none; border: none; color: {TEXT}; }
+	#e_switcher.sw_toggle .sw_code { padding: 0; width: 22px; height: 22px; background-image: url({STATICURL}image/editor/editor.gif); background-position: -120px -20px; background-repeat: no-repeat; }
+	#e_switcher.sw_toggle a.sw_active { background-color: #09C; background-image: none; color: #FFF; }
 	#e_simple, #e_fullswitcher { padding: 0 2px; text-align: right; border: 1px solid {SPECIALBORDER}; background: url({IMGDIR}/card_btn.png) repeat-x 0 100%; }
 		#e_fullswitcher { margin-right: 3px; }
 
