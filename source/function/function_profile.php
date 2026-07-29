@@ -329,9 +329,6 @@ function profile_show($fieldid, $space = [], $getalone = false) {
 			.(!empty($space['residecity']) ? ' '.$space['residecity'] : '')
 			.(!empty($space['residedist']) ? ' '.$space['residedist'] : '')
 			.(!empty($space['residecommunity']) ? ' '.$space['residecommunity'] : '');
-	} elseif($fieldid == 'site') {
-		$url = str_replace('"', '\\"', $space[$fieldid]);
-		return "<a href=\"$url\" target=\"_blank\">$url</a>";
 	} elseif($fieldid == 'position') {
 		return nl2br($space['office'] ?: ($space['field_position'] ?: $space['position']));
 	} elseif($fieldid == 'qq') {
