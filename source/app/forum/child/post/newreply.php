@@ -209,7 +209,12 @@ if(!submitcheck('replysubmit', 0, $seccodecheck, $secqaacheck)) {
 
 		if(!($thread['price'] && !$thread['special'] && $thaquote['first'])) {
 			$quotefid = $thaquote['fid'];
-			$message = $thaquote['message'];
+			if(isset($_GET['quote'])) {
+				$message = trim(str_replace("\0", '', (string)$_GET['quote']));
+				$message = str_replace(['[', ']'], ['&#91;', '&#93;'], dhtmlspecialchars($message));
+			} else {
+				$message = $thaquote['message'];
+			}
 
 			if(str_contains($message, '[/password]')) {
 				$message = '';
@@ -225,8 +230,10 @@ if(!submitcheck('replysubmit', 0, $seccodecheck, $secqaacheck)) {
 			}
 
 			$time = dgmdate($thaquote['dateline']);
-			$message = messagecutstr($message, 100);
-			$message = implode("\n", array_slice(explode("\n", $message), 0, 3));
+			if(!isset($_GET['quote'])) {
+				$message = messagecutstr($message, 100);
+				$message = implode("\n", array_slice(explode("\n", $message), 0, 3));
+			}
 
 			if($thaquote['author'] && $thaquote['anonymous']) {
 				$thaquote['author'] = lang('forum/misc', 'anonymoususer');

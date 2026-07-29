@@ -6,6 +6,131 @@
 
 var replyreload = '', attachimgST = new Array(), zoomgroup = new Array(), zoomgroupinit = new Array();
 
+function initPostQuoteButton() {
+	const postSelector = '.t_f[id^="postmessage_"], .postmessage[id^="postmessage_"]';
+	if(!document.querySelector(postSelector)) {
+		return;
+	}
+
+	const portal = document.createElement('div');
+	portal.className = 'sshare';
+	portal.setAttribute('role', 'dialog');
+	portal.setAttribute('aria-label', $L('input_quote'));
+	portal.setAttribute('aria-hidden', 'true');
+
+	const inner = document.createElement('div');
+	inner.className = 'sshare__inner';
+	const button = document.createElement('button');
+	button.type = 'button';
+	button.setAttribute('aria-label', $L('input_quote'));
+	button.title = $L('input_quote');
+	button.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7.2 6C4.9 7.5 3.5 9.7 3.5 12.4V18h7v-7h-4c.3-1.4 1.2-2.6 2.7-3.6L7.2 6zm10 0c-2.3 1.5-3.7 3.7-3.7 6.4V18h7v-7h-4c.3-1.4 1.2-2.6 2.7-3.6L17.2 6z"/></svg>';
+	inner.appendChild(button);
+	portal.appendChild(inner);
+	document.body.appendChild(portal);
+
+	let selectedText = '';
+	let selectedPid = 0;
+	let hideTimer = 0;
+
+	const hide = () => {
+		clearTimeout(hideTimer);
+		portal.classList.remove('is-active');
+		portal.classList.add('is-hiding');
+		portal.setAttribute('aria-hidden', 'true');
+		hideTimer = window.setTimeout(() => {
+			portal.classList.remove('is-hiding', 'is-tacked');
+		}, 200);
+	};
+
+	const postForNode = node => {
+		const element = node && (node.nodeType === Node.ELEMENT_NODE ? node : node.parentElement);
+		return element ? element.closest(postSelector) : null;
+	};
+
+	const showForSelection = () => {
+		const selection = window.getSelection();
+		if(!selection || selection.isCollapsed || selection.rangeCount !== 1) {
+			hide();
+			return;
+		}
+
+		const range = selection.getRangeAt(0);
+		const startPost = postForNode(range.startContainer);
+		const endPost = postForNode(range.endContainer);
+		const text = selection.toString().trim();
+		if(!startPost || startPost !== endPost || !text) {
+			hide();
+			return;
+		}
+
+		const pidMatch = startPost.id.match(/^postmessage_(\d+)$/);
+		if(!pidMatch) {
+			hide();
+			return;
+		}
+
+		selectedText = text;
+		selectedPid = Number(pidMatch[1]);
+		const rect = range.getBoundingClientRect();
+		portal.classList.add('is-tacked');
+		portal.classList.remove('is-hiding');
+		portal.setAttribute('aria-hidden', 'false');
+
+		const portalRect = portal.getBoundingClientRect();
+		const left = Math.min(
+			window.scrollX + document.documentElement.clientWidth - portalRect.width - 8,
+			Math.max(window.scrollX + 8, window.scrollX + rect.left + rect.width / 2 - portalRect.width / 2)
+		);
+		const top = Math.max(window.scrollY + 8, window.scrollY + rect.top - portalRect.height - 10);
+		portal.style.left = left + 'px';
+		portal.style.top = top + 'px';
+		requestAnimationFrame(() => portal.classList.add('is-active'));
+	};
+
+	button.addEventListener('click', () => {
+		if(!selectedPid || !selectedText) {
+			return;
+		}
+		const url = new URL('forum.php', document.baseURI);
+		url.searchParams.set('mod', 'post');
+		url.searchParams.set('action', 'reply');
+		url.searchParams.set('fid', typeof fid === 'undefined' ? '' : fid);
+		url.searchParams.set('tid', typeof tid === 'undefined' ? '' : tid);
+		url.searchParams.set('repquote', selectedPid);
+		url.searchParams.set('quote', selectedText);
+		showWindow('reply', url.pathname + url.search);
+		hide();
+	});
+
+	document.addEventListener('mouseup', event => {
+		if(portal.contains(event.target)) {
+			return;
+		}
+		setTimeout(showForSelection);
+	});
+	document.addEventListener('keyup', event => {
+		if(event.key === 'Escape') {
+			hide();
+		} else {
+			showForSelection();
+		}
+	});
+	document.addEventListener('mousedown', event => {
+		if(!portal.contains(event.target)) {
+			hide();
+		}
+	});
+	window.addEventListener('blur', hide);
+	window.addEventListener('resize', hide);
+}
+
+if(document.readyState === 'loading') {
+	document.addEventListener('DOMContentLoaded', initPostQuoteButton);
+} else {
+	initPostQuoteButton();
+}
+
 function attachimggroup(pid) {
 	if(!zoomgroupinit[pid]) {
                for (let i = 0;i < aimgcount[pid].length;i++) {
