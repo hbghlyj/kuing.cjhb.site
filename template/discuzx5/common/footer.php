@@ -95,6 +95,10 @@
 				<!--{loop $_G['setting']['footernavs'] $nav}--><!--{if is_array($nav) && $nav['available'] && ($nav['type'] && (!$nav['level'] || ($nav['level'] == 1 && $_G['uid']) || ($nav['level'] == 2 && $_G['adminid'] > 0) || ($nav['level'] == 3 && $_G['adminid'] == 1)) ||
 						!$nav['type'] && ($nav['id'] == 'stat' && $_G['group']['allowstatdata'] || $nav['id'] == 'report' && $_G['uid'] || $nav['id'] == 'archiver' || $nav['id'] == 'mobile' || $nav['id'] == 'darkroom'))}--><!--{if $footerlinkindex}--><span class="pipe">|</span><!--{/if}-->$nav['code']<!--{eval $footerlinkindex++;}--><!--{/if}--><!--{/loop}-->
 						<!--{if !empty($_G['setting']['styles'][1])}--><!--{if $footerlinkindex}--><span class="pipe">|</span><!--{/if}--><a href="javascript:;" onclick="setcookie('styleid', '1', 31536000);location.reload();return false;">default style</a><!--{eval $footerlinkindex++;}--><!--{/if}-->
+						<!--{if !empty($_G['setting']['i18n'])}-->
+							<!--{eval $footerLocales = ['SC' => ['🇨🇳', '简体中文'], 'TC' => ['🇹🇼', '繁體中文'], 'EN' => ['🇬🇧', 'English']];}-->
+							<!--{loop $footerLocales $locale $localeMeta}--><!--{if !empty($_G['setting']['i18n'][$locale])}--><!--{if $footerlinkindex}--><span class="pipe">|</span><!--{/if}--><a href="misc.php?mod=i18n&key=$locale" title="$localeMeta[1]" aria-label="$localeMeta[1]"<!--{if currentlang() == $locale}--> class="xw1"<!--{/if}-->>$localeMeta[0]</a><!--{eval $footerlinkindex++;}--><!--{/if}--><!--{/loop}-->
+						<!--{/if}-->
 						<!--{hook/global_footerlink}-->
 						<!--{if $_G['setting']['statcode']}-->$_G['setting']['statcode']<!--{/if}-->
 			</div>
