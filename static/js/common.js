@@ -2296,6 +2296,7 @@ function $L(key, param) {
 		}
 		return value;
 	}
+	console.error('Missing JS language key: ' + key);
 	return key;
 }
 
