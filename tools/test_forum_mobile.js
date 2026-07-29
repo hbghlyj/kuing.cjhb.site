@@ -52,6 +52,8 @@ const { execSync } = require('child_process');
             });
         }
         assert.ok(await page.$('#registerform'), 'Assertion Error: Mobile registration form did not render.');
+        const footerLocaleLinks = page.locator('.footer-locales a[href^="misc.php?mod=i18n&key="]');
+        assert.strictEqual(await footerLocaleLinks.count(), 3, 'Assertion Error: Touch footer locale switcher did not render all three locales.');
 
         const registrationForm = page.locator('#registerform');
         // reginput can rename the DOM id and name; the first text field is the username.
