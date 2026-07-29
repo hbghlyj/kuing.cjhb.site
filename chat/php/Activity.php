@@ -27,6 +27,7 @@ class Activity {
   public function getMessage() {
     $activity = array(
       'id' => $this->id,
+      'message_time' => $this->id,
       'body' => $this->action_text,
       'published' => $this->date,
       'type' => $this->type,
