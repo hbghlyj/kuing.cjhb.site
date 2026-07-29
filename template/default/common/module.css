@@ -1236,7 +1236,7 @@ i.pstatus { display: block; margin-bottom: -30px; font-size: 12px; text-align: c
 	.previewPost .tindex li { cursor: pointer; height: 22px; padding-left: 22px; background: url({IMGDIR}/ico_mulu.png) no-repeat 10px center; overflow: hidden; }
 /** end **/
 
-/** home::space,forum::viewthread,forum::trade **/
+/** home::space,forum::forumdisplay,group::forumdisplay,forum::viewthread,forum::trade **/
 /* 快速表情 */
 #fastsmilies { text-align: right; }
 	#fastsmilies table { table-layout: auto; width: 160px; height: 133px; }
