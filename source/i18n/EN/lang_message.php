@@ -1038,7 +1038,7 @@ $lang = array (
 	'task_waiting_rt'		=> 'You do not start task, still leaving time {t}, please hurry!',//'您还没有开始执行任务，还有{t}时间，赶快哦！',
 	'task_waiting'			=> 'You do not start task, please hurry!',//'您还没有开始执行任务，赶快哦！',
 
-	'board_closed'			=> 'Sorry, the site is closed temporarily, contact <a href="mailto:'.$_G['setting']['adminemail'].'"> administrator</a> for details.',//'对不起，本站点暂时关闭，详情请 <a href="mailto:'.$_G['setting']['adminemail'].'">联系管理员</a>。',
+	'board_closed'			=> 'Sorry, the site is closed temporarily. Contact the <a href="mailto:{adminemail}">administrator</a> for details.',
 
 	'admin_cpanel_noaccess'		=> 'You are not allowed to access Admin-center, please re-login then try again',//'您无权访问管理面板，请重新登录站点，然后重试',
 	'admin_cpanel_locked'		=> 'Sorry, you have entered a wrong password several times, the Admin-center is temporarily blocked to access.<br />It will be unlocked automatically after 30 minutes.',//'对不起，由于您多次输入错误密码，所以管理面板暂时锁定，您现在无法进入管理面板。<br />30 分钟以后，锁定会自动解除',
