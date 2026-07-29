@@ -357,6 +357,7 @@ $lang = [
 	'rewarding' => '进行中',
 	'rushreply' => '抢楼',
 	'screening' => '筛选',
+	'search_all_date' => '全部时间',
 	'search_any_date' => '时间',
 	'show' => '查看',
 	'show_rewarded_only' => '只看已解决的',
