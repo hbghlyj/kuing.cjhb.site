@@ -243,11 +243,10 @@
 	<!--{hook/post_attribute_extra_body_mobile}-->
 </div>
 <script type="text/javascript">
-	if($("#dhnavs_li .mon").length > 0) {
-		var discuz_nav = $("#dhnavs_li .mon").offset().left + $("#dhnavs_li .mon").width() >= $(window).width() ? $("#dhnavs_li .mon").index() : 0;
-	}else{
-		var discuz_nav = 0;
-	}	
+	var activeExtraNav = document.querySelector('#dhnavs_li .mon');
+	var discuz_nav = activeExtraNav && activeExtraNav.getBoundingClientRect().right >= window.innerWidth
+		? Array.prototype.indexOf.call(activeExtraNav.parentElement.children, activeExtraNav)
+		: 0;
 	new Swiper('#dhnavs_li', {
 		freeMode : true,
 		slidesPerView : 'auto',
@@ -260,27 +259,28 @@
 		},
 	});
 	function showExtra(id) {
-		if ($('#'+id+'_c').css('display') == 'block') {
-			$('#'+id+'_b').attr("class","swiper-slide");
-			$('#'+id+'_c').css({'display':'none'});
+		var button = document.getElementById(id + '_b');
+		var panel = document.getElementById(id + '_c');
+		if(!button || !panel) {
+			return;
+		}
+		if(getComputedStyle(panel).display == 'block') {
+			button.className = 'swiper-slide';
+			panel.style.display = 'none';
 		} else {
-			var extraButton = $('#post_extra_tb').children('li');
-			var extraForm = $('#post_extra_c').children('div');
-			
-			$.each($('#post_extra_tb > li'), function(){
-				$(this).attr("class","swiper-slide");
+			document.querySelectorAll('#post_extra_tb > li').forEach(function(extraButton) {
+				extraButton.className = 'swiper-slide';
 			});
-
-			$.each($('#post_extra_c > div'), function(){
-				if($(this).hasClass('exfm')) {
-					$(this).css({'display':'none'});
+			document.querySelectorAll('#post_extra_c > div').forEach(function(extraPanel) {
+				if(extraPanel.classList.contains('exfm')) {
+					extraPanel.style.display = 'none';
 				}
 			});
-			$('#'+id+'_b').addClass('mon');
-			$('#'+id+'_c').css({'display':'block'});
+			button.classList.add('mon');
+			panel.style.display = 'block';
 		}
 	}
-	if ($('#extra_tag_b').length) {
+	if(document.getElementById('extra_tag_b')) {
 		showExtra('extra_tag');
 	}
 </script>
