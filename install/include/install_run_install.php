@@ -390,6 +390,19 @@ if($method == 'show_license') {
 		exit();
 	}
 
+	$logSettingRow = [];
+	$db->fetch_first("SELECT svalue FROM {$tablepre}common_setting WHERE skey='log'", $logSettingRow);
+	$logSetting = !empty($logSettingRow['svalue']) ? @unserialize($logSettingRow['svalue']) : [];
+	if(is_array($logSetting)) {
+		unset($logSetting['rate'], $logSetting['clearlogsdays']['rate']);
+		if(!empty($logSetting['clearlogstypes'])) {
+			$logSetting['clearlogstypes'] = array_values(array_diff($logSetting['clearlogstypes'], ['rate']));
+		}
+		$logSetting['credit'] = 1;
+		$serializedLogSetting = $db->escape_string(serialize($logSetting));
+		$db->query("UPDATE {$tablepre}common_setting SET svalue='{$serializedLogSetting}' WHERE skey='log'");
+	}
+
 	sleep(2);
 
 	rundatasql('lang_'.$upgrade_sqlfile, true);
