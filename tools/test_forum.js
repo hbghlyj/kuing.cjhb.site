@@ -1091,7 +1091,7 @@ const svgAttachmentSubject = `Thread with SVG Attachment ${testRunId}`;
 
         fs.mkdirSync('scratch', { recursive: true });
         const svgFixture = 'scratch/sample_icon.svg';
-        fs.writeFileSync(svgFixture, '<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><circle cx="50" cy="50" r="40" fill="blue" /></svg>');
+        fs.writeFileSync(svgFixture, '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="100" height="100"><defs><circle id="dot" cx="50" cy="50" r="40" fill="blue" /></defs><use xlink:href="#dot" /></svg>');
 
         const svgPickers = page.locator('div[id^="rt_"] input[type="file"]');
         assert.strictEqual(await svgPickers.count(), 2, 'Assertion Error: Desktop WebUploader pickers did not render.');
@@ -1139,6 +1139,10 @@ const svgAttachmentSubject = `Thread with SVG Attachment ${testRunId}`;
         const svgAttachTableId = svgAttachmentIndex.split(':')[1];
         const svgIsImage = svgAttachTableId === undefined ? '' : execSync(`sudo mysql -u root ultrax -N -s -e "SELECT isimage FROM pre_forum_attachment_${svgAttachTableId} WHERE aid='${svgAid}' AND tid='${svgTid}' LIMIT 1;"`).toString().trim();
         assert.ok(svgIsImage === '1' || svgIsImage === '2', `Assertion Error: Uploaded SVG was not stored as an image. isimage: ${svgIsImage}`);
+        const svgStoredFile = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT attachment FROM pre_forum_attachment_${svgAttachTableId} WHERE aid='${svgAid}' AND tid='${svgTid}' LIMIT 1;"`).toString().trim();
+        const svgStoredContent = fs.readFileSync(`data/attachment/forum/${svgStoredFile}`, 'utf8');
+        assert.match(svgStoredContent, /<use href="#dot"\s*\/?>/, 'Assertion Error: Stored SVG did not normalize xlink:href to href.');
+        assert.ok(!svgStoredContent.includes('xlink:href'), 'Assertion Error: Stored SVG retained legacy xlink:href.');
 
         const svgViewthreadBody = await page.textContent('body');
         assert.ok(

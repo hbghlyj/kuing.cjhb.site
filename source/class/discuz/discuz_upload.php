@@ -176,10 +176,23 @@ class discuz_upload {
 				$node->parentNode->removeChild($node);
 				continue;
 			}
+			$xlinkHref = $node->getAttributeNS('http://www.w3.org/1999/xlink', 'href');
+			if($xlinkHref !== '') {
+				$node->removeAttributeNS('http://www.w3.org/1999/xlink', 'href');
+				if(!$node->hasAttribute('href') && strtolower($node->localName) == 'use' && preg_match('/^#[A-Za-z_][\w:.-]*$/', $xlinkHref)) {
+					$node->setAttribute('href', $xlinkHref);
+				}
+			}
 			for($i = $node->attributes->length - 1; $i >= 0; $i--) {
 				$attribute = $node->attributes->item($i);
 				$name = strtolower($attribute->localName);
 				$value = trim($attribute->value);
+				if($name == 'href') {
+					if(strtolower($node->localName) != 'use' || $attribute->namespaceURI || !preg_match('/^#[A-Za-z_][\w:.-]*$/', $value)) {
+						$node->removeAttributeNode($attribute);
+					}
+					continue;
+				}
 				if(!isset($allowedAttributes[$name]) || (str_contains(strtolower($value), 'url(') && !preg_match('/^url\\(\\s*#[a-z][\\w.-]*\\s*\\)$/i', $value))) {
 					$node->removeAttributeNode($attribute);
 				}
