@@ -1323,7 +1323,7 @@ function init_i18n(&$data) {
 			}
 
 			require $file;
-			$lang_js = $lang;
+			$lang_js = array_merge($lang_js, $lang);
 		} else {
 			$lang_js = $file;
 		}
