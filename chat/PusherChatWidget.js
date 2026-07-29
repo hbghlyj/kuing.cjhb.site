@@ -38,7 +38,7 @@
     #itemCount = 0;
     #totalMessages = 0;
     #messagesLoaded = 0;
-    #lastMessageTimestamp = null;
+    #lastMessageTime = null;
     #wasDisconnected = false;
     #widget;
     #messageInputEl;
@@ -69,9 +69,11 @@
         this.#widget.querySelector('label').textContent = isChinese ? '连接中' : 'Connecting';
       });
       this.#chatChannel.bind('pusher:subscription_succeeded', () => {
-        this.#widget.querySelector('label').textContent = (isChinese ? '快捷键' : 'Shortcut') + ' Ctrl+Enter';
+        const canWrite = Number(window.discuz_uid || 0) > 0 && typeof FORMHASH !== 'undefined' && FORMHASH;
+        this.#widget.querySelector('label').textContent = canWrite ? (isChinese ? '快捷键' : 'Shortcut') + ' Ctrl+Enter' : (isChinese ? '登录后可发送消息' : 'Log in to send messages');
+        this.#messageInputEl.disabled = !canWrite;
         this.#widget.querySelectorAll('.pusher-chat-widget-send-btn, .pusher-chat-widget-photo-btn').forEach(button => {
-          button.disabled = false;
+          button.disabled = !canWrite;
         });
       });
       this.#pusher.connection.bind('unavailable', () => {
@@ -257,13 +259,13 @@
       }
     }
     async #fetchMissedMessages(){
-      if(!this.#lastMessageTimestamp) return;
+      if(!this.#lastMessageTime) return;
       try {
         const response = await requestJSON('/chat/php/history.php?offset=0&limit=100');
         const data = response.messages || [];
         const newMessages = [];
         for (let i = 0; i < data.length; ++i) {
-          if (new Date(data[i].published) > new Date(this.#lastMessageTimestamp)) {
+          if(String(data[i].message_time || '') > this.#lastMessageTime) {
             newMessages.push(data[i]);
           }
         }
@@ -328,8 +330,12 @@
       }else{
         this.#messagesEl.append(entry.messageEl);
       }
-      this.#lastMessageTimestamp=entry.data.published;
-      if(isMobile){ this.#addSwipeToDeleteHandlers(entry.messageEl, entry.data.published); }
+      if(!this.#lastMessageTime || String(entry.data.message_time || '') > this.#lastMessageTime) {
+        this.#lastMessageTime = String(entry.data.message_time || '');
+      }
+      if(Number(entry.data.actor?.id) === Number(window.discuz_uid || 0)) {
+        this.#addSwipeToDeleteHandlers(entry.messageEl, entry.data);
+      }
       typesetNodes([entry.messageEl]).catch(err=>{ showError('MathJax typesetting error:'+err); });
       this.#itemCount++;
       if(entry.isLiveMessage){
@@ -495,16 +501,19 @@
       message.append(text);
       content.append(message);
       contentWrapper.append(image, content);
-      const deleteAction = document.createElement('div');
-      deleteAction.className = 'delete-action';
-      const deleteButton = document.createElement('button');
-      deleteButton.className = 'delete-button';
-      deleteButton.textContent = isChinese ? '删除' : 'Delete';
-      deleteAction.append(deleteButton);
-      li.append(contentWrapper, deleteAction);
+      li.append(contentWrapper);
+      if(Number(activity.actor?.id) === Number(window.discuz_uid || 0)) {
+        const deleteAction = document.createElement('div');
+        deleteAction.className = 'delete-action';
+        const deleteButton = document.createElement('button');
+        deleteButton.className = 'delete-button';
+        deleteButton.textContent = isChinese ? '删除' : 'Delete';
+        deleteAction.append(deleteButton);
+        li.append(deleteAction);
+      }
       return li;
     }
-    #addSwipeToDeleteHandlers(liElement,published){
+    #addSwipeToDeleteHandlers(liElement,message){
       const threshold = 50;
       liElement.addEventListener('touchstart',e=>{
         this.#messagesEl.querySelectorAll('li.slide-active').forEach(item => {
@@ -528,9 +537,14 @@
         }
         delete liElement.dataset.touchStartX;
       });
-      liElement.querySelector('.delete-button').addEventListener('click',async e=>{
+      const deleteButton = liElement.querySelector('.delete-button');
+      if(!deleteButton) return;
+      deleteButton.addEventListener('click',async e=>{
         e.stopPropagation();
-        const body = new URLSearchParams({published_time: published});
+        const body = new URLSearchParams({
+          message_time: message.message_time,
+          formhash: typeof FORMHASH !== 'undefined' ? FORMHASH : ''
+        });
         try {
           const response = await fetch('/chat/php/delete.php', {
             method: 'POST',

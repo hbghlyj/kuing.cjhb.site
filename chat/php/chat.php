@@ -1,71 +1,79 @@
 <?php
-$discuzRoot = dirname(__DIR__, 2).DIRECTORY_SEPARATOR;
-chdir($discuzRoot);
-require $discuzRoot.'source/class/class_core.php';
-$discuz = C::app();
-$discuz->init_cron = false;
-$discuz->init();
+
+require_once __DIR__.'/bootstrap.php';
+$discuzRoot = chat_init();
+chat_require_write();
+
+$chatInfo = isset($_POST['chat_info']) && is_array($_POST['chat_info']) ? $_POST['chat_info'] : [];
+$text = isset($chatInfo['text']) && is_string($chatInfo['text']) ? trim($chatInfo['text']) : '';
+if($text === '') {
+	chat_json(400, ['error' => 'Chat text must be provided']);
+}
+if((function_exists('mb_strlen') ? mb_strlen($text, 'UTF-8') : strlen($text)) > 2000) {
+	chat_json(413, ['error' => 'Chat text is too long']);
+}
+
+$message = htmlspecialchars($text, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+$author = $_G['username'];
+$uid = (int)$_G['uid'];
+$conn = chat_database($discuzRoot);
+
+// Keep the short-lived history bounded before adding the new message.
+$conn->query('DELETE FROM chat WHERE time < DATE_SUB(NOW(), INTERVAL 2 DAY)');
+$timeResult = $conn->query("SELECT DATE_FORMAT(NOW(), '%Y-%m-%d %H:%i:%s') AS chat_time");
+$chatTime = $timeResult ? $timeResult->fetch_assoc()['chat_time'] : null;
+if(!$chatTime) {
+	$conn->close();
+	chat_json(500, ['error' => 'Unable to allocate chat message time']);
+}
+$stmt = $conn->prepare('INSERT INTO chat (time, uid, author, message) VALUES (?, ?, ?, ?)');
+if(!$stmt) {
+	$conn->close();
+	chat_json(500, ['error' => 'Unable to save chat message']);
+}
+$saved = false;
+for($attempt = 0; $attempt < 100; $attempt++) {
+	$stmt->bind_param('siss', $chatTime, $uid, $author, $message);
+	if($stmt->execute()) {
+		$saved = true;
+		break;
+	}
+	if($stmt->errno !== 1062) {
+		break;
+	}
+	$chatTime = date('Y-m-d H:i:s', strtotime($chatTime) + 1);
+}
+$stmt->close();
+if(!$saved) {
+	$conn->close();
+	chat_json(500, ['error' => 'Unable to save chat message']);
+}
 
 require_once $discuzRoot.'vendor/autoload.php';
 require_once __DIR__.'/Activity.php';
 require_once __DIR__.'/config.php';
 
-$chat_info = $_POST['chat_info'];
-
-$channel_name = 'Chat';
-
-if( !isset($_POST['chat_info']) ){
-  header("HTTP/1.0 400 Bad Request");
-  echo('chat_info must be provided');
-}
-if(empty($_G['uid'])) {
-  $_G['uid'] = 0;
-  $_G['username'] = explode("\n",$_G['member']['username'])[0].' '.$_SERVER['REMOTE_ADDR'];
-}
-
-$options = array();
-$options['displayName'] = $_G['username'];
-$options['text'] = htmlspecialchars($chat_info['text']);
-$options['image'] = !empty($_G['member']['avatarstatus']) ? avatar($_G['uid'], 'small', 1) : '';
-$activity = new Activity('chat-message', $options['text'], $options);
-
-$pusher = new Pusher(APP_KEY,APP_SECRET,APP_ID,array(
-  'cluster' => 'eu',
-  'useTLS' => true
-));
+$options = [
+	'displayName' => $author,
+	'image' => !empty($_G['member']['avatarstatus']) ? avatar($_G['uid'], 'small', 1) : '',
+	'actorId' => (int)$_G['uid'],
+	'messageTime' => $chatTime,
+];
+$activity = new Activity('chat-message', $message, $options);
 $data = $activity->getMessage();
-$result = $pusher->trigger($channel_name, 'chat_message', $data, null, true);
-if ($result['status'] == 200) {
-  include $discuzRoot.'config/config_global.php';
-  $conn = new mysqli($_config['db'][1]['dbhost'], $_config['db'][1]['dbuser'], $_config['db'][1]['dbpw'], $_config['db'][1]['dbname']);
-  if ($conn->connect_error) {
-    header('HTTP/1.1 500 Internal Server Error');
-    exit("Connection failed: " . $conn->connect_error);
-  }
 
-  // Delete messages older than 2 days.
-  $delete_sql = "DELETE FROM chat WHERE time < DATE_SUB(NOW(), INTERVAL 2 DAY)";
-  if (!$conn->query($delete_sql)) {
-    header('HTTP/1.1 500 Internal Server Error');
-    exit("Delete failed: " . $conn->error);
-  }
-
-  $stmt = $conn->prepare("INSERT INTO chat (uid, author, message) VALUES (?, ?, ?)");
-  if (!$stmt) {
-    header('HTTP/1.1 500 Internal Server Error');
-    exit("Prepare failed: " . $conn->error);
-  }
-  if (!$stmt->bind_param("iss", $_G['uid'], $_G['username'], $options['text'])) {
-    header('HTTP/1.1 500 Internal Server Error');
-    exit("Bind failed: " . $stmt->error);
-  }
-  if (!$stmt->execute()) {
-    header('HTTP/1.1 500 Internal Server Error');
-    exit("Execute failed: " . $stmt->error);
-  }
-  $stmt->close();
-  $conn->close();
+$pusher = new Pusher(APP_KEY, APP_SECRET, APP_ID, ['cluster' => 'eu', 'useTLS' => true]);
+$result = $pusher->trigger('Chat', 'chat_message', $data, null, true);
+if((int)($result['status'] ?? 500) !== 200) {
+	$stmt = $conn->prepare('DELETE FROM chat WHERE time = ?');
+	if($stmt) {
+		$stmt->bind_param('s', $chatTime);
+		$stmt->execute();
+		$stmt->close();
+	}
+	$conn->close();
+	chat_json(502, ['error' => 'Unable to publish chat message']);
 }
-header('HTTP/1.1 ' . $result['status']);
-echo $result['body'];
-?>
+
+$conn->close();
+chat_json(200, ['time' => $chatTime]);

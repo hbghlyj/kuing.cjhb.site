@@ -1,87 +1,43 @@
 <?php
-$discuzRoot = dirname(__DIR__, 2).DIRECTORY_SEPARATOR;
-chdir($discuzRoot);
-require $discuzRoot.'source/class/class_core.php';
-require $discuzRoot.'config/config_global.php';
 
-$discuz = C::app();
-$discuz->init_cron = false;
-$discuz->init();
+require_once __DIR__.'/bootstrap.php';
+$discuzRoot = chat_init();
+chat_require_write();
 
-if (!isset($_POST['published_time'])) {
-    header("HTTP/1.0 400 Bad Request");
-    echo('published_time must be provided');
-    exit;
-}
-if(empty($_G['uid'])) {
-  $_G['uid'] = 0;
-  $_G['username'] = explode("\n",$_G['member']['username'])[0].' '.$_SERVER['REMOTE_ADDR'];
+$messageTime = isset($_POST['message_time']) && is_string($_POST['message_time']) ? $_POST['message_time'] : '';
+if(!preg_match('/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/', $messageTime)) {
+	chat_json(400, ['error' => 'Invalid chat message key']);
 }
 
-$published_time = $_POST['published_time'];
-$published_timestamp = strtotime($published_time);
-if($published_timestamp === false) {
-    header("HTTP/1.0 400 Bad Request");
-    echo('published_time is invalid');
-    exit;
+$conn = chat_database($discuzRoot);
+$uid = (int)$_G['uid'];
+$stmt = $conn->prepare('SELECT message FROM chat WHERE time = ? AND uid = ?');
+$stmt->bind_param('si', $messageTime, $uid);
+$stmt->execute();
+$row = $stmt->get_result()->fetch_assoc();
+$stmt->close();
+if(!$row) {
+	$conn->close();
+	chat_json(403, ['error' => 'You cannot delete this chat message']);
 }
 
-$conn = new mysqli($_config['db'][1]['dbhost'], $_config['db'][1]['dbuser'], $_config['db'][1]['dbpw'], $_config['db'][1]['dbname']);
-
-if ($conn->connect_error) {
-    header("HTTP/1.0 500 Internal Server Error");
-    error_log("Database connection failed: " . $conn->connect_error);
-    echo("Failed to connect to the database.");
-    exit;
+$stmt = $conn->prepare('DELETE FROM chat WHERE time = ? AND uid = ?');
+$stmt->bind_param('si', $messageTime, $uid);
+if(!$stmt->execute()) {
+	$stmt->close();
+	$conn->close();
+	chat_json(500, ['error' => 'Unable to delete chat message']);
 }
-
-// 1. Fetch message before deleting to inspect for attached photos
-$selectStmt = $conn->prepare("SELECT message FROM chat WHERE UNIX_TIMESTAMP(time) = ? AND author = ?");
-$selectStmt->bind_param("is", $published_timestamp, $_G['username']);
-if ($selectStmt && $selectStmt->execute()) {
-    $res = $selectStmt->get_result();
-    if ($res && $row = $res->fetch_assoc()) {
-        $messageText = $row['message'];
-        // Match attached photos in data/attachment/chat/
-        if (preg_match_all('/\/data\/attachment\/chat\/[A-Za-z0-9_\-\.\/]+/i', $messageText, $matches)) {
-            $allowedBase = realpath($discuzRoot . 'data/attachment/chat');
-            foreach ($matches[0] as $relUrl) {
-                $cleanRelUrl = ltrim($relUrl, '/');
-                $photoPath = realpath($discuzRoot . $cleanRelUrl);
-                if ($photoPath && $allowedBase && strpos($photoPath, $allowedBase) === 0 && file_exists($photoPath)) {
-                    @unlink($photoPath);
-                }
-            }
-        }
-    }
-    $selectStmt->close();
-}
-
-// 2. Delete message from database
-$stmt = $conn->prepare("DELETE FROM chat WHERE UNIX_TIMESTAMP(time) = ? AND author = ?");
-$stmt->bind_param("is", $published_timestamp, $_G['username']);
-if (!$stmt) {
-    header("HTTP/1.0 500 Internal Server Error");
-    error_log("Prepare statement failed: (" . $conn->errno . ") " . $conn->error);
-    echo("Error preparing database query.");
-    $conn->close();
-    exit;
-}
-
-if ($stmt->execute()) {
-    if ($stmt->affected_rows > 0) {
-        header("HTTP/1.0 200 OK");
-        echo "Message deleted successfully.";
-    } else {
-        header("HTTP/1.0 403 Forbidden");
-        echo "No message was deleted.";
-    }
-} else {
-    header("HTTP/1.0 500 Internal Server Error");
-    error_log("Execute statement failed: (" . $stmt->errno . ") " . $stmt->error);
-    echo("Error deleting message from database.");
-}
-
 $stmt->close();
 $conn->close();
-?>
+
+if(preg_match_all('/\/data\/attachment\/chat\/[A-Za-z0-9_\-\.\/]+/i', $row['message'], $matches)) {
+	$allowedBase = realpath($discuzRoot.'data/attachment/chat');
+	foreach($matches[0] as $relativeUrl) {
+		$photoPath = realpath($discuzRoot.ltrim($relativeUrl, '/'));
+		if($allowedBase && $photoPath && ($photoPath === $allowedBase || str_starts_with($photoPath, $allowedBase.DIRECTORY_SEPARATOR)) && is_file($photoPath)) {
+			@unlink($photoPath);
+		}
+	}
+}
+chat_json(200, ['status' => 200]);
