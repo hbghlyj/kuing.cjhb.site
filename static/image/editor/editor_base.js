@@ -1,6 +1,5 @@
 var gSetColorType = "";
 var gIsIE = document.all;
-var gIEVer = fGetIEVer();
 var gLoaded = false;
 var ev = null;
 var gIsHtml = true;
@@ -11,16 +10,6 @@ function fGetEv(e){
 	ev = e;
 }
 
-function fGetIEVer(){
-	var iVerNo = 0;
-	var sVer = navigator.userAgent;
-	if(sVer.indexOf("MSIE")>-1){
-		var sVerNo = sVer.split(";")[1];
-		sVerNo = sVerNo.replace("MSIE","");
-		iVerNo = parseFloat(sVerNo);
-	}
-	return iVerNo;
-}
 function fSetEditable(){
 	var f = window.frames["HtmlEditor"];
 	f.document.designMode="on";
@@ -345,11 +334,6 @@ function fDisplayColorBoard(e){
 	if(gIsIE){
 		var e = window.event;
 	}
-	if(gIEVer<=5.01 && gIsIE){
-		var arr = showModalDialog("ColorSelect.htm", "", "font-family:Verdana; font-size:12; status:no; dialogWidth:21em; dialogHeight:21em");
-		if (arr != null) return arr;
-		return;
-	}
 	var dvForeColor =$("dvForeColor");
 	var iX = e.clientX;
 	var iY = e.clientY;
@@ -444,10 +428,6 @@ function fSetBorderMouseDown(obj) {
 	obj.style.borderLeft="1px #cccccc solid";
 }
 function fDisplayElement(element,displayValue) {
-	if(gIEVer<=5.01 && gIsIE){
-		parent.showDialog(parent.$L('editor_ie5'), 'notice');
-		return;
-	}
 	fHideMenu();
 	if ( typeof element == "string" )
 		element = $(element);

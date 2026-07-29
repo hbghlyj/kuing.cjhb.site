@@ -443,7 +443,6 @@ $lang = [
 	'editor_copy' => '您的瀏覽器安全設定不允許編輯器自動執行拷貝操作,請使用鍵盤快捷鍵(Ctrl+C)來完成',
 	'editor_paste' => '您的瀏覽器安全設定不允許編輯器自動執行粘貼操作,請使用鍵盤快捷鍵(Ctrl+V)來完成',
 	'nofatch_scrawl_data' => '找不到塗鴉板初始化數據',
-	'editor_ie5' => '只支持IE 5.01以上版本',
 	'edit_source' => '編輯源碼',
 	'confirm_to_txt' => '轉換爲純文本時將會遺失某些格式。<br />您確定要繼續嗎？',
 	'post_paste_error_tip' => '檢測到',
