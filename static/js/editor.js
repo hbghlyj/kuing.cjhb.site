@@ -708,6 +708,12 @@ function setEditorStyle() {
 	if($('at_menu')) {
 		$('at_menu').style.display = 'none';
 	}
+	var visualBtn = $(editorid + '_visual_btn');
+	var codeBtn = $(editorid + '_code_btn');
+	if(visualBtn && codeBtn) {
+		visualBtn.className = wysiwyg ? 'sw_visual sw_active' : 'sw_visual';
+		codeBtn.className = wysiwyg ? 'sw_code' : 'sw_code sw_active';
+	}
 }
 
 function setEditorEvents() {
@@ -1251,8 +1257,8 @@ function showEditorMenu(tag, params) {
 					for(var i = 1; i <= params; i++) {
 						if(i != params || !haveSel) {
 							str += (promptlang[i - 1] ? promptlang[i - 1] : $L('input_param_n', [i])) + '<br /><input type="text" id="' + ctrlid + '_param_' + i + '" style="width: 98%" value="" class="px" />' + (i < params ? '<br />' : '');
-						}
-					}
+	}
+				}
 				}
 				break;
 		}

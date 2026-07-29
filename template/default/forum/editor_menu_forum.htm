@@ -392,6 +392,11 @@
 	}
 	<!--{if !empty($_GET['cedit']) && $_GET['cedit'] == 'yes'}-->
 		loadData(1);
-		$(editorid + '_switchercheck').checked = !wysiwyg;
+		var visualBtn = $(editorid + '_visual_btn');
+		var codeBtn = $(editorid + '_code_btn');
+		if(visualBtn && codeBtn) {
+			visualBtn.className = wysiwyg ? 'sw_visual sw_active' : 'sw_visual';
+			codeBtn.className = wysiwyg ? 'sw_code' : 'sw_code sw_active';
+		}
 	<!--{/if}-->
 </script>
