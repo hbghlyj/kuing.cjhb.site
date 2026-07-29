@@ -445,9 +445,8 @@ Created & Modified by Alice, Monkey, Lushnis, Pony, Dfox & DragonLee.
 .fl_grid > .fl_g:hover {border-color:#e0e0e0;transform:translateY(-4px);box-shadow:0 10px 20px rgba(0,0,0,0.08)}
 		.fl_grid > .fl_g > .fl_icn_g { grid-column: 1; grid-row: 1; }
 		.fl_grid > .fl_g > dl { grid-column: 2; grid-row: 1; margin-left: 0 !important; }
-		.fl_grid > .fl_g .fl_lastpost, .flg .fl_g .fl_lastpost { display: flex; justify-content: space-between; gap: 8px; grid-column: 2 / 4; grid-row: 3; }
-			.fl_grid > .fl_g .fl_lastpost > a, .flg .fl_g .fl_lastpost > a { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-			.fl_grid > .fl_g .fl_lastpost cite, .flg .fl_g .fl_lastpost cite { flex-shrink: 0; }
+		.fl_grid > .fl_g .fl_lastpost, .flg .fl_g .fl_lastpost { overflow: hidden; -webkit-line-clamp: 2; display: -webkit-box; -webkit-box-orient: vertical; grid-column: 2 / 4; grid-row: 3; }
+			.fl_grid > .fl_g .fl_lastpost cite, .flg .fl_g .fl_lastpost cite { float: right; color: var(--dz-fc); }
 			.fl_grid > .fl_g > .fl_newpost { grid-column: 3; grid-row: 1; }
 		.fl_newpost { display: inline-flex; width: 31px; height: 29px; align-items: center; justify-content: center; color: {LIGHTTEXT}; }
 			.fl_newpost:hover { color: {LINK}; }
