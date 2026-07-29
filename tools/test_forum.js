@@ -1123,7 +1123,7 @@ const svgAttachmentSubject = `Thread with SVG Attachment ${testRunId}`;
 
         fs.mkdirSync('scratch', { recursive: true });
         const svgFixture = 'scratch/sample_icon.svg';
-        fs.writeFileSync(svgFixture, '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="100" height="100"><defs><circle id="dot" cx="50" cy="50" r="40" style="fill: blue; stroke: #fff; background-image: url(https://example.com/tracker.svg)" /></defs><use xlink:href="#dot" style="opacity: .8" /></svg>');
+        fs.writeFileSync(svgFixture, '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="100" height="100"><defs><linearGradient id="base"><stop offset="0" stop-color="blue" /></linearGradient><linearGradient id="derived" xlink:href="#base" /><circle id="dot" cx="50" cy="50" r="40" style="fill: url(#derived); stroke: #fff; background-image: url(https://example.com/tracker.svg)" /></defs><use xlink:href="#dot" style="opacity: .8" /></svg>');
 
         const svgPickers = page.locator('div[id^="rt_"] input[type="file"]');
         assert.strictEqual(await svgPickers.count(), 2, 'Assertion Error: Desktop WebUploader pickers did not render.');
@@ -1174,8 +1174,9 @@ const svgAttachmentSubject = `Thread with SVG Attachment ${testRunId}`;
         const svgStoredFile = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT attachment FROM pre_forum_attachment_${svgAttachTableId} WHERE aid='${svgAid}' AND tid='${svgTid}' LIMIT 1;"`).toString().trim();
         const svgStoredContent = fs.readFileSync(`data/attachment/forum/${svgStoredFile}`, 'utf8');
         assert.match(svgStoredContent, /<use[^>]* href="#dot"/, 'Assertion Error: Stored SVG did not normalize xlink:href to href.');
+        assert.match(svgStoredContent, /<linearGradient[^>]* href="#base"/, 'Assertion Error: Stored SVG did not preserve a local gradient inheritance reference.');
         assert.ok(!svgStoredContent.includes('xlink:href'), 'Assertion Error: Stored SVG retained legacy xlink:href.');
-        assert.match(svgStoredContent, /<circle[^>]* fill="blue"[^>]* stroke="#fff"/, 'Assertion Error: Stored SVG did not convert safe inline styles to presentation attributes.');
+        assert.match(svgStoredContent, /<circle[^>]* fill="url\(#derived\)"[^>]* stroke="#fff"/, 'Assertion Error: Stored SVG did not convert safe inline styles to presentation attributes.');
         assert.match(svgStoredContent, /<use[^>]* opacity=".8"/, 'Assertion Error: Stored SVG did not preserve a safe inline opacity.');
         assert.ok(!svgStoredContent.includes('style='), 'Assertion Error: Stored SVG retained an inline style attribute.');
         assert.ok(!svgStoredContent.includes('example.com'), 'Assertion Error: Stored SVG retained an external CSS resource.');

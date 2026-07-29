@@ -168,6 +168,7 @@ class discuz_upload {
 		$allowedElements = array_flip(['svg', 'g', 'defs', 'symbol', 'use', 'path', 'rect', 'circle', 'ellipse', 'line', 'polyline', 'polygon', 'lineargradient', 'radialgradient', 'stop', 'clippath', 'mask', 'pattern', 'title', 'desc', 'text', 'tspan']);
 		$allowedAttributes = array_flip(['id', 'class', 'xmlns', 'width', 'height', 'viewbox', 'preserveaspectratio', 'x', 'y', 'x1', 'x2', 'y1', 'y2', 'cx', 'cy', 'r', 'rx', 'ry', 'd', 'points', 'transform', 'fill', 'fill-opacity', 'fill-rule', 'stroke', 'stroke-width', 'stroke-opacity', 'stroke-linecap', 'stroke-linejoin', 'stroke-dasharray', 'stroke-dashoffset', 'opacity', 'clip-path', 'clip-rule', 'mask', 'filter', 'offset', 'stop-color', 'stop-opacity', 'gradientunits', 'gradienttransform', 'spreadmethod', 'patternunits', 'patterncontentunits', 'text-anchor', 'font-family', 'font-size', 'font-weight', 'font-style', 'letter-spacing', 'word-spacing', 'dominant-baseline', 'role', 'aria-label', 'aria-hidden']);
 		$allowedStyleProperties = array_intersect_key($allowedAttributes, array_flip(['fill', 'fill-opacity', 'fill-rule', 'stroke', 'stroke-width', 'stroke-opacity', 'stroke-linecap', 'stroke-linejoin', 'stroke-dasharray', 'stroke-dashoffset', 'opacity', 'clip-path', 'clip-rule', 'mask', 'filter', 'stop-color', 'stop-opacity', 'text-anchor', 'font-family', 'font-size', 'font-weight', 'font-style', 'letter-spacing', 'word-spacing', 'dominant-baseline']));
+		$referenceElements = array_flip(['use', 'lineargradient', 'radialgradient', 'pattern']);
 		$nodes = [];
 		foreach($document->getElementsByTagName('*') as $node) {
 			$nodes[] = $node;
@@ -180,7 +181,7 @@ class discuz_upload {
 			$xlinkHref = $node->getAttributeNS('http://www.w3.org/1999/xlink', 'href');
 			if($xlinkHref !== '') {
 				$node->removeAttributeNS('http://www.w3.org/1999/xlink', 'href');
-				if(!$node->hasAttribute('href') && strtolower($node->localName) == 'use' && preg_match('/^#[A-Za-z_][\w:.-]*$/', $xlinkHref)) {
+				if(!$node->hasAttribute('href') && isset($referenceElements[strtolower($node->localName)]) && preg_match('/^#[A-Za-z_][\w:.-]*$/', $xlinkHref)) {
 					$node->setAttribute('href', $xlinkHref);
 				}
 			}
@@ -203,7 +204,7 @@ class discuz_upload {
 				$name = strtolower($attribute->localName);
 				$value = trim($attribute->value);
 				if($name == 'href') {
-					if(strtolower($node->localName) != 'use' || $attribute->namespaceURI || !preg_match('/^#[A-Za-z_][\w:.-]*$/', $value)) {
+					if(!isset($referenceElements[strtolower($node->localName)]) || $attribute->namespaceURI || !preg_match('/^#[A-Za-z_][\w:.-]*$/', $value)) {
 						$node->removeAttributeNode($attribute);
 					}
 					continue;
