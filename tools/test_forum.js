@@ -2,6 +2,12 @@ const { chromium } = require('playwright');
 const fs = require('fs');
 const assert = require('assert');
 const { execSync } = require('child_process');
+const testRunId = process.env.TEST_RUN_ID || Date.now().toString();
+const standardSubject = `Standard User Thread ${testRunId}`;
+const editedStandardSubject = `${standardSubject} (Edited)`;
+const attachmentSubject = `Thread with Attachment ${testRunId}`;
+const nonImageAttachmentSubject = `Thread with Non-Image Attachment ${testRunId}`;
+const svgAttachmentSubject = `Thread with SVG Attachment ${testRunId}`;
 
 (async () => {
     const browser = await chromium.launch();
@@ -374,7 +380,7 @@ const { execSync } = require('child_process');
 
         const subjectInput = page.locator('input[name="subject"]');
         assert.strictEqual(await subjectInput.count(), 1, 'Assertion Error: Desktop thread subject field did not render.');
-        await subjectInput.fill('Standard User Thread');
+        await subjectInput.fill(standardSubject);
 
         const smilieButton = page.locator('#e_sml');
         assert.strictEqual(await smilieButton.count(), 1, 'Assertion Error: Desktop smiley control did not render.');
@@ -417,7 +423,7 @@ const { execSync } = require('child_process');
         await page.waitForURL(/forum\.php\?mod=viewthread&tid=\d+/);
 
         console.log("Checking if posted thread exists in DB...");
-        const threadDbCheck = execSync("sudo mysql -u root ultrax -N -s -e \"SELECT COUNT(*) FROM pre_forum_thread WHERE subject='Standard User Thread';\"").toString().trim();
+        const threadDbCheck = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT COUNT(*) FROM pre_forum_thread WHERE subject='${standardSubject}';"`).toString().trim();
         console.log("DB count for thread:", threadDbCheck);
 
         const currentUrl = page.url();
@@ -425,10 +431,10 @@ const { execSync } = require('child_process');
 
         assert.ok(parseInt(threadDbCheck, 10) >= 1, 'Assertion Error: Normal user thread post was not found in database.');
         assert.match(currentUrl, /mod=viewthread&tid=\d+/, 'Assertion Error: Normal user posting did not redirect to the created thread.');
-        assert.ok(postContent.includes('Standard User Thread'), 'Assertion Error: Created thread subject was not rendered after submission.');
-        report += '### 2. Unprivileged User Posting\n- **Status**: Checked\n- **Thread Created**: Standard User Thread\n\n';
+        assert.ok(postContent.includes(standardSubject), 'Assertion Error: Created thread subject was not rendered after submission.');
+        report += `### 2. Unprivileged User Posting\n- **Status**: Checked\n- **Thread Created**: ${standardSubject}\n\n`;
 
-        const tidOutput = execSync("sudo mysql -u root ultrax -N -s -e \"SELECT tid FROM pre_forum_thread WHERE subject='Standard User Thread' ORDER BY tid DESC LIMIT 1;\"").toString().trim();
+        const tidOutput = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT tid FROM pre_forum_thread WHERE subject='${standardSubject}' ORDER BY tid DESC LIMIT 1;"`).toString().trim();
         assert.match(tidOutput, /^\d+$/, 'Assertion Error: Created thread ID was not found.');
 
         // Reply to Thread
@@ -566,7 +572,7 @@ const { execSync } = require('child_process');
 
                 const editSubject = editForm.locator('input[name="subject"]');
                 assert.strictEqual(await editSubject.count(), 1, 'Assertion Error: Desktop edit subject input did not render.');
-                await editSubject.fill('Standard User Thread (Edited)');
+                await editSubject.fill(editedStandardSubject);
                 const editMessage = editForm.locator('textarea[name="message"]');
                 assert.strictEqual(await editMessage.count(), 1, 'Assertion Error: Desktop edit message input did not render.');
                 await editMessage.fill('Edited body text from unprivileged account.');
@@ -580,13 +586,13 @@ const { execSync } = require('child_process');
                 }, null, { timeout: 5000 });
 
                 console.log("Checking if edited thread title exists in DB...");
-                const editDbCheck = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT COUNT(*) FROM pre_forum_thread WHERE tid='${tidOutput}' AND subject='Standard User Thread (Edited)';"`).toString().trim();
+                const editDbCheck = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT COUNT(*) FROM pre_forum_thread WHERE tid='${tidOutput}' AND subject='${editedStandardSubject}';"`).toString().trim();
                 assert.strictEqual(editDbCheck, '1', 'Assertion Error: Edited thread title was not updated in database.');
                 await page.reload({ waitUntil: 'networkidle' });
                 const editedThreadBody = await page.textContent('body');
-                assert.ok(editedThreadBody.includes('Standard User Thread (Edited)'), 'Assertion Error: Edited thread title was not rendered after reload.');
+                assert.ok(editedThreadBody.includes(editedStandardSubject), 'Assertion Error: Edited thread title was not rendered after reload.');
                 assert.ok(editedThreadBody.includes('Edited body text from unprivileged account.'), 'Assertion Error: Edited thread body was not rendered after reload.');
-                report += '### 4. Unprivileged User Edit\n- **Status**: Checked\n- **Edited Title**: Standard User Thread (Edited)\n\n';
+                report += `### 4. Unprivileged User Edit\n- **Status**: Checked\n- **Edited Title**: ${editedStandardSubject}\n\n`;
 
         console.log("Testing Personal Info Update via spacecp...");
         await page.goto('http://127.0.0.1:8080/home.php?mod=spacecp&ac=profile');
@@ -640,7 +646,7 @@ const { execSync } = require('child_process');
         await page.screenshot({ path: 'screenshot_space_thread_viewme.png' });
 
         const viewMeBody = await page.textContent('body');
-        assert.ok(viewMeBody.includes('Standard User Thread (Edited)'), 'Assertion Error: view=me user threads page did not list the edited thread.');
+        assert.ok(viewMeBody.includes(editedStandardSubject), 'Assertion Error: view=me user threads page did not list the edited thread.');
 
         console.log("Testing Other User Threads Page (home.php?mod=space&uid=1&do=thread)...");
         await page.goto('http://127.0.0.1:8080/home.php?mod=space&uid=1&do=thread');
@@ -921,7 +927,7 @@ const { execSync } = require('child_process');
 
         const attachSubject = page.locator('input[name="subject"]');
         assert.strictEqual(await attachSubject.count(), 1, 'Assertion Error: Image attachment subject field did not render.');
-        await attachSubject.fill('Thread with Attachment');
+        await attachSubject.fill(attachmentSubject);
 
         const uploaderRuntime = await page.evaluate(() => ({
             available: typeof DiscuzUploader === 'function',
@@ -978,7 +984,7 @@ const { execSync } = require('child_process');
         await page.waitForURL(/forum\.php\?mod=viewthread&tid=\d+/);
 
         console.log("Checking if attachment thread exists in DB and loads in viewthread...");
-        const attachTid = execSync("sudo mysql -u root ultrax -N -s -e \"SELECT tid FROM pre_forum_thread WHERE subject='Thread with Attachment' ORDER BY tid DESC LIMIT 1;\"").toString().trim();
+        const attachTid = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT tid FROM pre_forum_thread WHERE subject='${attachmentSubject}' ORDER BY tid DESC LIMIT 1;"`).toString().trim();
         assert.ok(attachTid, 'Assertion Error: Thread with attachment was not created in database.');
         assert.ok(page.url().includes(`tid=${attachTid}`), 'Assertion Error: Image attachment submission redirected to the wrong thread.');
 
@@ -990,7 +996,7 @@ const { execSync } = require('child_process');
 
         const viewthreadBody = await page.textContent('body');
         assert.ok(
-            viewthreadBody.includes('Thread with Attachment') && viewthreadBody.includes('Posting thread with image attachment content.') && viewthreadBody.includes('sample tag'),
+            viewthreadBody.includes(attachmentSubject) && viewthreadBody.includes('Posting thread with image attachment content.') && viewthreadBody.includes('sample tag'),
             'Assertion Error: Attachment thread page did not load thread content cleanly in viewthread.'
         );
 
@@ -1015,7 +1021,7 @@ const { execSync } = require('child_process');
 
         await page.screenshot({ path: 'screenshot_attachment_viewthread.png' });
 
-        report += '### 6. Unprivileged User Image Attachment Post\n- **Status**: Checked\n- **Thread Created**: Thread with Attachment (TID: ' + attachTid + ', AID: ' + aid + ')\n- **Image Attachment DOM Check**: Passed\n- **Viewthread Verification**: Success\n\n';
+        report += `### 6. Unprivileged User Image Attachment Post\n- **Status**: Checked\n- **Thread Created**: ${attachmentSubject} (TID: ${attachTid}, AID: ${aid})\n- **Image Attachment DOM Check**: Passed\n- **Viewthread Verification**: Success\n\n`;
 
         // 6b. Non-Image Attachment Post Test
         console.log("Attempting to post thread with non-image attachment...");
@@ -1024,7 +1030,7 @@ const { execSync } = require('child_process');
 
         const nonImgSubject = page.locator('input[name="subject"]');
         assert.strictEqual(await nonImgSubject.count(), 1, 'Assertion Error: Non-image attachment subject field did not render.');
-        await nonImgSubject.fill('Thread with Non-Image Attachment');
+        await nonImgSubject.fill(nonImageAttachmentSubject);
 
         fs.mkdirSync('scratch', { recursive: true });
         const nonImgFixture = 'scratch/sample_test_document.txt';
@@ -1061,7 +1067,7 @@ const { execSync } = require('child_process');
         await page.waitForURL(/forum\.php\?mod=viewthread&tid=\d+/);
 
         console.log("Checking if non-image attachment thread exists in DB and loads in viewthread...");
-        const nonImgTid = execSync("sudo mysql -u root ultrax -N -s -e \"SELECT tid FROM pre_forum_thread WHERE subject='Thread with Non-Image Attachment' ORDER BY tid DESC LIMIT 1;\"").toString().trim();
+        const nonImgTid = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT tid FROM pre_forum_thread WHERE subject='${nonImageAttachmentSubject}' ORDER BY tid DESC LIMIT 1;"`).toString().trim();
         assert.ok(nonImgTid, 'Assertion Error: Thread with non-image attachment was not created in database.');
         assert.ok(page.url().includes(`tid=${nonImgTid}`), 'Assertion Error: Non-image attachment submission redirected to the wrong thread.');
 
@@ -1070,7 +1076,7 @@ const { execSync } = require('child_process');
 
         const nonImgViewthreadBody = await page.textContent('body');
         assert.ok(
-            nonImgViewthreadBody.includes('Thread with Non-Image Attachment') && nonImgViewthreadBody.includes('sample_test_document.txt'),
+            nonImgViewthreadBody.includes(nonImageAttachmentSubject) && nonImgViewthreadBody.includes('sample_test_document.txt'),
             'Assertion Error: Non-image attachment thread page did not load content in viewthread.'
         );
 
@@ -1081,7 +1087,7 @@ const { execSync } = require('child_process');
 
         const svgSubject = page.locator('input[name="subject"]');
         assert.strictEqual(await svgSubject.count(), 1, 'Assertion Error: SVG attachment subject field did not render.');
-        await svgSubject.fill('Thread with SVG Attachment');
+        await svgSubject.fill(svgAttachmentSubject);
 
         fs.mkdirSync('scratch', { recursive: true });
         const svgFixture = 'scratch/sample_icon.svg';
@@ -1119,7 +1125,7 @@ const { execSync } = require('child_process');
         await page.waitForURL(/forum\.php\?mod=viewthread&tid=\d+/);
 
         console.log("Checking if SVG attachment thread exists in DB and loads in viewthread...");
-        const svgTid = execSync("sudo mysql -u root ultrax -N -s -e \"SELECT tid FROM pre_forum_thread WHERE subject='Thread with SVG Attachment' ORDER BY tid DESC LIMIT 1;\"").toString().trim();
+        const svgTid = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT tid FROM pre_forum_thread WHERE subject='${svgAttachmentSubject}' ORDER BY tid DESC LIMIT 1;"`).toString().trim();
         assert.ok(svgTid, 'Assertion Error: Thread with SVG attachment was not created in database.');
         assert.ok(page.url().includes(`tid=${svgTid}`), 'Assertion Error: SVG attachment submission redirected to the wrong thread.');
 
@@ -1136,10 +1142,10 @@ const { execSync } = require('child_process');
 
         const svgViewthreadBody = await page.textContent('body');
         assert.ok(
-            svgViewthreadBody.includes('Thread with SVG Attachment') && svgViewthreadBody.includes('Posting thread with SVG image content.'),
+            svgViewthreadBody.includes(svgAttachmentSubject) && svgViewthreadBody.includes('Posting thread with SVG image content.'),
             'Assertion Error: SVG attachment thread page did not load content cleanly in viewthread.'
         );
-        report += '### 6c. SVG Attachment Post\n- **Status**: Checked\n- **Thread Created**: Thread with SVG Attachment (TID: ' + svgTid + ', AID: ' + svgAid + ')\n- **SVG Stored as Image (isimage)**: ' + svgIsImage + '\n- **Screenshot**: `screenshot_attachment_svg_viewthread.png`\n\n';
+        report += `### 6c. SVG Attachment Post\n- **Status**: Checked\n- **Thread Created**: ${svgAttachmentSubject} (TID: ${svgTid}, AID: ${svgAid})\n- **SVG Stored as Image (isimage)**: ${svgIsImage}\n- **Screenshot**: \`screenshot_attachment_svg_viewthread.png\`\n\n`;
 
     } catch (error) {
         console.error("Test execution failed:", error);

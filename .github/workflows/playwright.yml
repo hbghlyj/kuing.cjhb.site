@@ -97,6 +97,8 @@ jobs:
           curl --fail --silent --show-error 'http://127.0.0.1:8080/data/cache/style_2_common.css' > /dev/null
 
       - name: Run Playwright Tests
+        env:
+          TEST_RUN_ID: ${{ github.run_id }}-${{ github.run_attempt }}
         run: |
           node tools/test_forum.js
           node tools/test_forum_mobile.js

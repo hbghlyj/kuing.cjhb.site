@@ -1,6 +1,7 @@
 const { chromium } = require('playwright');
 const fs = require('fs');
 const assert = require('assert');
+const testRunId = process.env.TEST_RUN_ID || Date.now().toString();
 
 (async () => {
     const browser = await chromium.launch();
@@ -20,7 +21,7 @@ const assert = require('assert');
     let report = '\n\n## Forum Search Functional Test Report\n\n';
 
     try {
-        const existingSubject = 'Thread with Attachment';
+        const existingSubject = `Thread with Attachment ${testRunId}`;
 
         console.log('Checking guest search form...');
         await page.goto('http://127.0.0.1:8080/search.php?mod=forum');
