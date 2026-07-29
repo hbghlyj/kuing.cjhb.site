@@ -517,20 +517,43 @@ mobileDom.Collection.prototype.data = function(name, value) {
 	if(value === undefined) return this[0] ? this[0].dataset[name] : undefined;
 	return this.each(function() { this.dataset[name] = value; });
 };
-mobileDom.Collection.prototype.width = function() { return this[0] ? this[0].getBoundingClientRect().width : 0; };
+mobileDom.Collection.prototype.width = function() {
+	var element = this[0];
+	if(!element) return 0;
+	if(element === window) return window.innerWidth;
+	if(element === document) {
+		var body = document.body;
+		var root = document.documentElement;
+		return Math.max(root.clientWidth, root.scrollWidth, body ? body.clientWidth : 0, body ? body.scrollWidth : 0);
+	}
+	return typeof element.getBoundingClientRect === 'function' ? element.getBoundingClientRect().width : 0;
+};
 mobileDom.Collection.prototype.offset = function() {
-	if(!this[0]) return {left: 0, top: 0};
-	var rect = this[0].getBoundingClientRect();
+	var element = this[0];
+	if(!element || element === window || element === document || typeof element.getBoundingClientRect !== 'function') {
+		return {left: 0, top: 0};
+	}
+	var rect = element.getBoundingClientRect();
 	return {left: rect.left + window.scrollX, top: rect.top + window.scrollY};
 };
 mobileDom.Collection.prototype.index = function() {
 	return this[0] && this[0].parentElement ? Array.prototype.indexOf.call(this[0].parentElement.children, this[0]) : -1;
 };
-mobileDom.Collection.prototype.height = function() { return this[0] ? this[0].getBoundingClientRect().height : 0; };
+mobileDom.Collection.prototype.height = function() {
+	var element = this[0];
+	if(!element) return 0;
+	if(element === window) return window.innerHeight;
+	if(element === document) {
+		var body = document.body;
+		var root = document.documentElement;
+		return Math.max(root.clientHeight, root.scrollHeight, body ? body.clientHeight : 0, body ? body.scrollHeight : 0);
+	}
+	return typeof element.getBoundingClientRect === 'function' ? element.getBoundingClientRect().height : 0;
+};
 mobileDom.Collection.prototype.scrollTop = function(value) {
-	if(value === undefined) return this[0] === document ? window.scrollY : (this[0] ? this[0].scrollTop : 0);
+	if(value === undefined) return this[0] === document || this[0] === window ? window.scrollY : (this[0] ? this[0].scrollTop : 0);
 	return this.each(function() {
-		if(this === document) window.scrollTo(0, value);
+		if(this === document || this === window) window.scrollTo(0, value);
 		else this.scrollTop = value;
 	});
 };
