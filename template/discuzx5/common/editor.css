@@ -96,7 +96,6 @@
 #e_switcher.sw_toggle a {float:none;display:inline-block;padding:1px 8px;font-size:12px;line-height:20px;text-decoration:none;border:none;background:none;background-color:var(--dz-bgf);color:var(--dz-txt);cursor:pointer}
 #e_switcher.sw_toggle a.sw_active {background-color:var(--dz-link);color:#FFF}
 #e_switcher.sw_toggle .sw_code {overflow:hidden;text-indent:-9999px;width:28px;background:url({STYLEIMGDIR}/svg/dz_e_code.svg) no-repeat center;background-size:14px}
-#e_switcher.sw_toggle .sw_code.sw_active {filter:brightness(0) invert(1)}
 #e_simple, #e_fullswitcher {padding:3px 8px;line-height:20px;text-align:right;border:1px solid var(--dz-borderb);background:var(--dz-bgf)}
 #e_fullswitcher {margin-left:6px;margin-right:8px}
 #e_tbl_menu #tbltips {float:left;margin-right:6px}
