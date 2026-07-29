@@ -14,7 +14,7 @@
 	<script type="text/JavaScript">
 		var VERHASH = '$VERHASH', JSPATH = '{$_G['setting']['jspath']}';
 	</script>
-	<script src="{$_G['setting']['jscachepath']}lang_{echo currentlang();}.js?{$_G['style']['verhash']}"></script>
+	<script src="{echo $_G['setting']['jscachepath'] ?: 'data/cache/';}lang_{echo currentlang();}.js?{$_G['style']['verhash']}"></script>
 	<script src="{$staticurl}js/common.js"></script>
 	<script src="{$staticurl}js/admincp_base.js"></script>
 </head>

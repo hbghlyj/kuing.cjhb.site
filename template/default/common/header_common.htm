@@ -78,7 +78,7 @@ local('Songti TC');   /* 宋体 TC, macOS Traditional Chinese */
 		if(typeof addFormEvent !== 'function') { window.addFormEvent = function() {}; }
 		if(typeof checkBlind !== 'function') { window.checkBlind = function() {}; }
 	</script>
-	<script type="text/javascript" src="{$_G['setting']['jscachepath']}lang_{echo currentlang();}.js?{VERHASH}"></script>
+	<script type="text/javascript" src="{echo $_G['setting']['jscachepath'] ?: 'data/cache/';}lang_{echo currentlang();}.js?{VERHASH}"></script>
 	<script type="text/javascript" src="/static/js/common.js?{VERHASH}"></script>
 	<!--{if empty($_GET['diy'])}--><!--{eval $_GET['diy'] = '';}--><!--{/if}-->
 	<!--{if !isset($topic)}--><!--{eval $topic = array();}--><!--{/if}-->

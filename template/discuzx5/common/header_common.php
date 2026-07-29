@@ -74,7 +74,7 @@ font-style: italic;
 		if(typeof checkBlind !== 'function') { window.checkBlind = function() {}; }
 		if(typeof fetchOffset !== 'function') { window.fetchOffset = function(obj) { obj = typeof obj === 'string' ? document.getElementById(obj) : obj; if(!obj) return { left: 0, top: 0 }; var rect = obj.getBoundingClientRect(); return { left: rect.left + window.scrollX, top: rect.top + window.scrollY }; }; }
 	</script>
-	<script type="text/javascript" src="{$_G['setting']['jscachepath']}lang_{echo currentlang();}.js?{VERHASH}"></script>
+	<script type="text/javascript" src="{echo $_G['setting']['jscachepath'] ?: 'data/cache/';}lang_{echo currentlang();}.js?{VERHASH}"></script>
 	<script type="text/javascript" src="/static/js/common.js?{VERHASH}"></script>
 	<!--{if empty($_GET['diy'])}--><!--{eval $_GET['diy'] = '';}--><!--{/if}-->
 	<!--{if !isset($topic)}--><!--{eval $topic = array();}--><!--{/if}-->
