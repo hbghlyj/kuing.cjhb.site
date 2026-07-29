@@ -493,7 +493,7 @@ class table_forum_forum extends discuz_table {
 	}
 
 	/**
-	 * Build lastpost string with proper sanitization and truncation
+	 * Build the tab-delimited lastpost string.
 	 * @param int $tid Thread ID
 	 * @param string $subject Thread subject
 	 * @param int $dateline Post dateline timestamp
@@ -503,9 +503,6 @@ class table_forum_forum extends discuz_table {
 	public function build_lastpost_string($tid, $subject, $dateline, $author) {
 		$subject = str_replace("\t", ' ', $subject);
 		$author = str_replace("\t", ' ', $author);
-		if(function_exists('cutstr')) {
-			$subject = cutstr($subject, 80);
-		}
 		return $tid."\t".$dateline."\t".$author."\t".$subject;
 	}
 
