@@ -306,7 +306,6 @@ $lang = [
 	'notice' => '提醒',
 	'notice_pm' => '我的私訊',
 	'notice_mypost' => '我的帖子',
-	'notice_mypost_rate' => '評分',
 	'notice_mypost_at' => '提到我的',
 	'notice_mypost_post' => '帖子',
 	'notice_mypost_pcomment' => '點評',

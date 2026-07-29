@@ -1802,7 +1802,6 @@ CREATE TABLE pre_common_usergroup_field
 	maxthreadsperhour      tinyint(3) unsigned   NOT NULL DEFAULT '0',
 	maxpostsperhour        tinyint(3) unsigned   NOT NULL DEFAULT '0',
 	attachextensions       char(100)             NOT NULL DEFAULT '',
-	raterange              char(150)             NOT NULL DEFAULT '',
 	loginreward            char(150)             NOT NULL DEFAULT '',
 	mintradeprice          smallint(6) unsigned  NOT NULL DEFAULT '1',
 	maxtradeprice          smallint(6) unsigned  NOT NULL DEFAULT '0',
@@ -2994,8 +2993,6 @@ CREATE TABLE pre_forum_post
 	smileyoff   tinyint(1)            NOT NULL DEFAULT '0',
 	parseurloff tinyint(1)            NOT NULL DEFAULT '0',
 	attachment  tinyint(1)            NOT NULL DEFAULT '0',
-	rate        smallint(6)           NOT NULL DEFAULT '0',
-	ratetimes   tinyint(3) unsigned   NOT NULL DEFAULT '0',
 	`status`    int(10)               NOT NULL DEFAULT '0',
 	`comment`   tinyint(1)            NOT NULL DEFAULT '0',
 	replycredit int(10)               NOT NULL DEFAULT '0',
@@ -3048,7 +3045,6 @@ CREATE TABLE pre_forum_postcache
 (
 	pid       int(10) unsigned NOT NULL,
 	`comment` mediumtext       NOT NULL,
-	rate      mediumtext       NOT NULL,
 	dateline  int(10) unsigned NOT NULL DEFAULT '0',
 	PRIMARY KEY (pid),
 	KEY dateline (dateline)
@@ -3095,21 +3091,6 @@ CREATE TABLE pre_forum_promotion
 	uid      mediumint(8) unsigned NOT NULL DEFAULT '0',
 	username char(50)              NOT NULL DEFAULT '',
 	PRIMARY KEY (ip)
-) ENGINE = InnoDB;
-
-DROP TABLE IF EXISTS pre_forum_ratelog;
-CREATE TABLE pre_forum_ratelog
-(
-	pid        int(10) unsigned      NOT NULL DEFAULT '0',
-	uid        mediumint(8) unsigned NOT NULL DEFAULT '0',
-	username   char(50)              NOT NULL DEFAULT '',
-	extcredits tinyint(3) unsigned   NOT NULL DEFAULT '0',
-	dateline   int(10) unsigned      NOT NULL DEFAULT '0',
-	score      smallint(6)           NOT NULL DEFAULT '0',
-	reason     char(40)              NOT NULL DEFAULT '',
-	KEY pid (pid, dateline),
-	KEY dateline (dateline),
-	KEY uid (uid)
 ) ENGINE = InnoDB;
 
 DROP TABLE IF EXISTS pre_forum_replycredit;
@@ -3191,7 +3172,6 @@ CREATE TABLE pre_forum_thread
 	displayorder  tinyint(1)            NOT NULL DEFAULT '0',
 	highlight     tinyint(1)            NOT NULL DEFAULT '0',
 	digest        tinyint(1)            NOT NULL DEFAULT '0',
-	rate          tinyint(1)            NOT NULL DEFAULT '0',
 	special       tinyint(1)            NOT NULL DEFAULT '0',
 	attachment    tinyint(1)            NOT NULL DEFAULT '0',
 	moderated     tinyint(1)            NOT NULL DEFAULT '0',

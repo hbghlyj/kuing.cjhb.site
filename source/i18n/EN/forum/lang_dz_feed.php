@@ -27,7 +27,6 @@ $lang = array
 
 	'feed_thread_replies_title'	=> '{actor} thread <em>{subject}</em> was replied more than {count} times',//'{actor} 发表的主题 {subject} 回复数超过了 {count}',
 
-	'feed_thread_rate_title'	=> '{actor} thread <em>{subject}</em> was rated more than {count}',//'{actor} 发表的主题 {subject} 评分超过了 {count}',
 
 	'feed_thread_magic_title'	=> '{actor} thread <em>{subject}</em> was used {magiccard} by {operater}',//'{actor} 发表的主题 {subject} 被 {operater} 使用了 {magiccard}',
 

@@ -836,14 +836,6 @@ class table_forum_thread extends discuz_table {
 			$wherearr[] = $prefix.DB::field('attachment', 0);
 			$this->_urlparam[] = 'attach=2';
 		}
-		if(!isset($conditions['rate'])) {
-		} elseif($conditions['rate'] == 1) {
-			$wherearr[] = $prefix.DB::field('rate', 0, '>');
-			$this->_urlparam[] = 'rate=1';
-		} elseif($conditions['rate'] == 2) {
-			$wherearr[] = $prefix.DB::field('rate', 0);
-			$this->_urlparam[] = 'rate=2';
-		}
 		if(!isset($conditions['highlight'])) {
 		} elseif($conditions['highlight'] == 1) {
 			$wherearr[] = $prefix.DB::field('highlight', 0, '>');

@@ -94,7 +94,7 @@ if(!submitcheck('modsubmit')) {
 		}
 		$maxposition++;
 	}
-	table_forum_thread::t()->update($newtid, ['author' => $fpost['author'], 'authorid' => $fpost['authorid'], 'dateline' => $fpost['dateline'], 'rate' => intval(abs($fpost['rate']) ? ($fpost['rate'] / abs($fpost['rate'])) : 0), 'maxposition' => $maxposition]);
+	table_forum_thread::t()->update($newtid, ['author' => $fpost['author'], 'authorid' => $fpost['authorid'], 'dateline' => $fpost['dateline'], 'maxposition' => $maxposition]);
 	updatethreadcount($_G['tid']);
 	updatethreadcount($newtid);
 	updateforumcount($_G['fid']);

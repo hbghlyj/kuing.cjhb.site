@@ -15,8 +15,7 @@ if(!in_array($_GET['action'], ['paysucceed', 'showdarkroom']) && !$_G['setting']
 	showmessage('forum_status_off');
 }
 
-$after_actions = ['votepoll', 'viewvote', 'rate', 'removerate',
-	'viewratings', 'viewwarning', 'pay', 'viewpayments',
+$after_actions = ['votepoll', 'viewvote', 'viewwarning', 'pay', 'viewpayments',
 	'viewthreadmod', 'bestanswer', 'activityapplies', 'getactivityapplylist',
 	'activityapplylist', 'activityexport', 'tradeorder', 'debatevote',
 	'debateumpire', 'recommend', 'protectsort',
@@ -68,39 +67,4 @@ if(!in_array($_GET['action'], $after_actions)) {
 }
 
 require_once $file;
-
-function getratelist($raterange) {
-	global $_G;
-	$maxratetoday = getratingleft($raterange);
-
-	$ratelist = [];
-	foreach($raterange as $id => $rating) {
-		if(isset($_G['setting']['extcredits'][$id])) {
-			$ratelist[$id] = '';
-			$rating['max'] = $rating['max'] < $maxratetoday[$id] ? $rating['max'] : $maxratetoday[$id];
-			$rating['min'] = -$rating['min'] < $maxratetoday[$id] ? $rating['min'] : -$maxratetoday[$id];
-			$offset = abs(ceil(($rating['max'] - $rating['min']) / 10));
-			if($rating['max'] > $rating['min']) {
-				for($vote = $rating['max']; $vote >= $rating['min']; $vote -= $offset) {
-					$ratelist[$id] .= $vote ? '<li>'.($vote > 0 ? '+'.$vote : $vote).'</li>' : '';
-				}
-			}
-		}
-	}
-	return $ratelist;
-}
-
-function getratingleft($raterange) {
-	global $_G;
-	$maxratetoday = [];
-
-	foreach($raterange as $id => $rating) {
-		$maxratetoday[$id] = $rating['mrpd'];
-	}
-
-	foreach(table_forum_ratelog::t()->fetch_all_sum_score($_G['uid'], $_G['timestamp'] - 86400) as $rate) {
-		$maxratetoday[$rate['extcredits']] = $raterange[$rate['extcredits']]['mrpd'] - $rate['todayrate'];
-	}
-	return $maxratetoday;
-}
 

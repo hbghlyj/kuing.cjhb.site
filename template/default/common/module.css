@@ -963,22 +963,7 @@ a.thread_mod { height: 19px; line-height: 19px; display: inline-block; color: #4
 				#p_btn .tshare a, #p_btn .tshare i { padding: 0; background: none; }
 					#p_btn .tshare a { margin-right: 10px; color: {HIGHLIGHTLINK}; }
 					#p_btn .tshare a:hover { text-decoration: underline; }
-		.rate { margin: 20px 0; font-size: 12px; }
-			.rate dt { float: left; padding-top: 7px; width: 80px; text-align: center; }
-				.rate dt strong { padding: 12px 8px; height: 46px; font-size: 24px; background: #FFF4DD; }
-				.rate dt p { padding-top: 10px; }
-					.rate dt strong a, .rate dt strong a em { line-height: 48px; height: 48px; color: {NOTICETEXT}; }
-			.rate dd { margin-left: 80px; }
-				.rate dd ul li { float: left; overflow: hidden; margin:0 4px; width: 67px; height: 84px; text-align: center; }
-				.rate .ratt { border-bottom: 1px dotted {WRAPBORDERCOLOR}; padding: 6px 0; }
-				.ratl th, .ratl td, .ratc { overflow: hidden; padding: 5px 2px; height: 24px; line-height: 24px; border-bottom: 1px dashed {WRAPBORDERCOLOR}; white-space: nowrap; }
-				.ratl img { height: 24px; width: 24px; vertical-align: middle; }
-			.rate_collapse .ratl_l,.rate_collapse .ratc { display: none; }
-				.rate_collapse .txt_h { visibility: hidden; }
-				.rate .op { padding-right: 16px; background: url({IMGDIR}/arrow_top.gif) no-repeat 100% 50%; }
-					.rate_collapse .op { background-image: url({IMGDIR}/arrow_down.gif); }
-			.rate i { font-style: normal; }
-			.ratl .xw1 .xi1 { background:#FFF4DD; border-radius:3px; padding:2px 3px; }
+		.ratl img { height: 24px; width: 24px; vertical-align: middle; }
 
 			.icon_ring { background:#FFF4DD; float: left; width:8px; height:8px; margin-right:5px; margin-top: 3px; border:2px solid #F26C4F; -webkit-border-radius: 10px; -moz-border-radius: 10px; border-radius: 10px; box-shadow: 0px 0px 1px rgba(0, 0, 0, 0.2); overflow: hidden; }
 			.icon_ring:hover { background:#F26C4F; border:2px solid #FFF; }
@@ -1211,7 +1196,6 @@ i.pstatus { display: block; margin-bottom: -30px; font-size: 12px; text-align: c
 /* 门户 viewthread 显示 */
 .vw .pcb { margin-right: 0; }
 	.vw dd .pcb { width: 640px; }
-	.vw dd .rate { padding-left: 0; }
 	.vw .pcb table { table-layout: fixed; width: 100%; overflow: hidden; }
 		.vw .t_fsz { min-height: 30px; }
 	.vw .pstl { margin-bottom: 1.4em; }

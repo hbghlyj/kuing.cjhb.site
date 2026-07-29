@@ -107,14 +107,11 @@ if($_GET['from'] == 'portal') {
 	if($_G['forum']['status'] == 3) {
 		_checkviewgroup();
 	}
-	$_G['setting']['ratelogon'] = 1;
 	$navigation = ' <em>&rsaquo;</em> <a href="portal.php">'.lang('core', 'portal').'</a>';
 	$navsubject = $_G['forum_thread']['subject'];
 	$navtitle = $_G['forum_thread']['subject'];
 
 } elseif($_GET['from'] == 'preview') {
-
-	$_G['setting']['ratelogon'] = 1;
 
 } elseif($_G['forum']['status'] == 3) {
 	_checkviewgroup();
@@ -258,8 +255,6 @@ if($_G['forum_thread']['replycredit'] > 0) {
 } else {
 	$_G['forum_thread']['replycredit_rule']['extcreditstype'] = $_G['setting']['creditstransextra'][10];
 }
-$_G['group']['raterange'] = $_G['setting']['modratelimit'] && $adminid == 3 && !$_G['forum']['ismoderator'] ? [] : $_G['group']['raterange'];
-
 $_G['group']['allowgetattach'] = (!empty($_G['forum']['allowgetattach'])) ? $_G['forum']['allowgetattach'] == 1 : ($_G['forum']['getattachperm'] ? forumperm($_G['forum']['getattachperm']) : $_G['group']['allowgetattach']);
 $_G['group']['allowgetimage'] = (!empty($_G['forum']['allowgetimage'])) ? $_G['forum']['allowgetimage'] == 1 : ($_G['forum']['getattachperm'] ? forumperm($_G['forum']['getattachperm']) : $_G['group']['allowgetimage']);
 $_G['getattachcredits'] = '';
@@ -649,15 +644,9 @@ if($_G['setting']['vtonlinestatus'] == 2 && $_G['forum_onlineauthors']) {
 } else {
 	$_G['forum_onlineauthors'] = [];
 }
-$ratelogs = $comments = $commentcount = $totalcomment = [];
+$comments = $commentcount = $totalcomment = [];
 if($_G['forum_cachepid']) {
 	foreach(table_forum_postcache::t()->fetch_all($_G['forum_cachepid']) as $postcache) {
-		if($postcache['rate']) {
-			$postcache['rate'] = dunserialize($postcache['rate']);
-			$postlist[$postcache['pid']]['ratelog'] = dhtmlspecialchars($postcache['rate']['ratelogs']);
-			$postlist[$postcache['pid']]['ratelogextcredits'] = $postcache['rate']['extcredits'];
-			$postlist[$postcache['pid']]['totalrate'] = $postcache['rate']['totalrate'];
-		}
 		if($postcache['comment']) {
 			$postcache['comment'] = dunserialize($postcache['comment']);
 			$commentcount[$postcache['pid']] = $postcache['comment']['count'];
@@ -666,15 +655,7 @@ if($_G['forum_cachepid']) {
 		}
 		unset($_G['forum_cachepid'][$postcache['pid']]);
 	}
-	$postcache = $ratelogs = [];
-	if($_G['forum_cachepid']) {
-		list($ratelogs, $postlist, $postcache) = table_forum_ratelog::t()->fetch_postrate_by_pid($_G['forum_cachepid'], $postlist, $postcache, $_G['setting']['ratelogrecord']);
-	}
-	foreach($postlist as $key => $val) {
-		if(!empty($val['ratelogextcredits'])) {
-			ksort($postlist[$key]['ratelogextcredits']);
-		}
-	}
+	$postcache = [];
 
 	if($_G['forum_cachepid'] && $_G['setting']['commentnumber']) {
 		list($commentsnew, $postcache, $commentcount, $totalcomment) = table_forum_postcomment::t()->fetch_postcomment_by_pid($_G['forum_cachepid'], $postcache, $commentcount, $totalcomment, $_G['setting']['commentnumber']);
@@ -682,7 +663,7 @@ if($_G['forum_cachepid']) {
 	}
 
 	foreach($postcache as $pid => $data) {
-		table_forum_postcache::t()->insert(['pid' => $pid, 'rate' => serialize($data['rate']), 'comment' => serialize($data['comment']), 'dateline' => TIMESTAMP], false, true);
+		table_forum_postcache::t()->insert(['pid' => $pid, 'comment' => serialize($data['comment']), 'dateline' => TIMESTAMP], false, true);
 	}
 }
 
@@ -989,9 +970,6 @@ function viewthread_procpost($post, $lastvisit, $maxposition = 0) {
 		}
 	}
 
-	if($_G['setting']['ratelogrecord'] && $post['ratetimes']) {
-		$_G['forum_cachepid'][$post['pid']] = $post['pid'];
-	}
 	if($_G['setting']['commentnumber'] && ($post['first'] && $_G['setting']['commentfirstpost'] || !$post['first']) && $post['comment']) {
 		$_G['forum_cachepid'][$post['pid']] = $post['pid'];
 	}

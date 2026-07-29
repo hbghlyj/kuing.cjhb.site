@@ -534,9 +534,6 @@ $data = [[
     'skey' => 'doublee',
     'svalue' => '1',
   ],[
-    'skey' => 'dupkarmarate',
-    'svalue' => '0',
-  ],[
     'skey' => 'dynavt',
     'svalue' => '1',
   ],[
@@ -955,9 +952,6 @@ $data = [[
     'skey' => 'jswizard',
     'svalue' => '',
   ],[
-    'skey' => 'karmaratelimit',
-    'svalue' => '0',
-  ],[
     'skey' => 'lazyload',
     'svalue' => '0',
   ],[
@@ -991,7 +985,7 @@ $data = [[
       'error' => '1',
       'sendmail' => '1',
       'SMTP' => '1',
-      'rate' => '1',
+      'credit' => '1',
       'pmt' => '1',
     ],
   ],[
@@ -1157,9 +1151,6 @@ $data = [[
   ],[
     'skey' => 'moddisplay',
     'svalue' => 'flat',
-  ],[
-    'skey' => 'modratelimit',
-    'svalue' => '0',
   ],[
     'skey' => 'modreasons',
     'svalue' => '广告/SPAM
@@ -1440,12 +1431,6 @@ $data = [[
   ],[
     'skey' => 'rankliststatus',
     'svalue' => '0',
-  ],[
-    'skey' => 'ratelogon',
-    'svalue' => '1',
-  ],[
-    'skey' => 'ratelogrecord',
-    'svalue' => '20',
   ],[
     'skey' => 'realname',
     'svalue' => '0',

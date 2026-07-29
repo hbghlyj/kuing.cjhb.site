@@ -335,7 +335,6 @@ function native_user_sync_username($uid, $oldusername, $newusername) {
 		'forum_pollvoter' => ['uid', 'username'],
 		'forum_post' => ['authorid', 'author'],
 		'forum_postcomment' => ['authorid', 'author'],
-		'forum_ratelog' => ['uid', 'username'],
 		'home_album' => ['uid', 'username'],
 		'home_blog' => ['uid', 'username'],
 		'home_clickuser' => ['uid', 'username'],

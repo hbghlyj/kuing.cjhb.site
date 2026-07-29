@@ -61,7 +61,7 @@ $multipage = multi($num, $lpp, $page, $urlbase, 0, 3);
 
 $usergroup = [];
 
-if(in_array($operation, ['rate', 'mods', 'ban', 'cp', 'modcp'])) {
+if(in_array($operation, ['mods', 'ban', 'cp', 'modcp'])) {
 	foreach(table_common_usergroup::t()->range() as $group) {
 		$usergroup[$group['groupid']] = $group['grouptitle'];
 	}
@@ -88,7 +88,6 @@ $menu = [
 		['nav_logs_restful', 'logs&operation=restful'],
 	]], '', in_array($operation, ['cp', 'error', 'sendmail', 'SMTP'])],
 	[['menu' => 'nav_logs_extended', 'submenu' => [
-		['nav_logs_rate', 'logs&operation=rate'],
 		['nav_logs_warn', 'logs&operation=warn'],
 		['nav_logs_credit', 'logs&operation=credit'],
 		['nav_logs_magic', 'logs&operation=magic'],
@@ -96,7 +95,7 @@ $menu = [
 		['nav_logs_invite', 'logs&operation=invite'],
 		['nav_logs_payment', 'logs&operation=payment'],
 		['nav_logs_pmt', 'logs&operation=pmt'],
-	]], '', in_array($operation, ['rate', 'warn', 'credit', 'magic', 'medal', 'invite', 'payment', 'pmt'])],
+	]], '', in_array($operation, ['warn', 'credit', 'magic', 'medal', 'invite', 'payment', 'pmt'])],
 	[['menu' => 'nav_logs_crime', 'submenu' => [
 		['all', 'logs&operation=crime'],
 		['nav_logs_crime_delpost', 'logs&operation=crime&crimeactions=crime_delpost'],

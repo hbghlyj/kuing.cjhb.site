@@ -57,14 +57,6 @@ function codedisp($code) {
 	$_G['forum_discuzcode']['codecount']++;
 	return "[\tDISCUZ_CODE_".$_G['forum_discuzcode']['pcodecount']."\t]";
 }
-function karmaimg($rate, $ratetimes) {
-	if($rate && $ratetimes) {
-		$image = $rate > 0 ? 'agree.gif' : 'disagree.gif';
-		$karmaimg = str_repeat('<img src="'.$_G['style']['imgdir'].'/'.$image.'" border="0" alt="" />', ceil(abs($rate) / $ratetimes));
-	}
-	return $karmaimg;
-}
-
 function discuzcode($message, $smileyoff = false, $bbcodeoff = false, $htmlon = 0, $allowsmilies = 1, $allowbbcode = 1, $allowimgcode = 1, $allowhtml = 0, $jammer = 0, $parsetype = '0', $authorid = '0', $allowmediacode = '0', $pid = 0, $lazyload = 0, $pdateline = 0, $first = 0, $jsonEditorOn = 0) {
 	global $_G;
 

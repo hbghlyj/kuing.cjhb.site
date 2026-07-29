@@ -391,7 +391,7 @@ if(in_array($do, ['buy', 'exit'])) {
 	if($_G['setting']['portalstatus']) {
 		$bperms[] = 'allowpostarticle';
 	}
-	$pperms = ['allowpost', 'allowreply', 'allowpostpoll', 'allowvote', 'allowpostreward', 'allowpostactivity', 'allowpostdebate', 'allowposttrade', 'allowat', 'allowreplycredit', 'allowposttag', 'allowcreatecollection', 'maxsigsize', 'allowsigbbcode', 'allowsigimgcode', 'allowrecommend', 'raterange', 'allowcommentpost', 'allowmediacode'];
+	$pperms = ['allowpost', 'allowreply', 'allowpostpoll', 'allowvote', 'allowpostreward', 'allowpostactivity', 'allowpostdebate', 'allowposttrade', 'allowat', 'allowreplycredit', 'allowposttag', 'allowcreatecollection', 'maxsigsize', 'allowsigbbcode', 'allowsigimgcode', 'allowrecommend', 'allowcommentpost', 'allowmediacode'];
 	$aperms = ['allowgetattach', 'allowgetimage', 'allowpostattach', 'allowpostimage', 'allowsetattachperm', 'maxattachsize', 'maxsizeperday', 'maxattachnum', 'attachextensions'];
 	$sperms = ['allowpoke', 'allowclick', 'allowcomment', 'maxspacesize', 'maximagesize'];
 	if(helper_access::check_module('blog')) {

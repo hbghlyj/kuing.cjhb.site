@@ -71,32 +71,6 @@ if(!submitcheck('modsubmit')) {
 			deletepost($pids, 'pid', true, false, true);
 			manage_addnotify('verifyrecyclepost', $modpostsnum);
 		} else {
-			$logs = [];
-			$ratelog = table_forum_ratelog::t()->fetch_all_by_pid($pids);
-			$rposts = table_forum_post::t()->fetch_all_post('tid:'.$_G['tid'], $pids, false);
-			foreach(table_forum_ratelog::t()->fetch_all_by_pid($pids) as $rpid => $author) {
-				if($author['score'] > 0) {
-					$rpost = $rposts[$rpid];
-					updatemembercount($rpost['authorid'], [$author['extcredits'] => -$author['score']]);
-					$author['score'] = $_G['setting']['extcredits'][$id]['title'].' '.-$author['score'].' '.$_G['setting']['extcredits'][$id]['unit'];
-					if($_G['setting']['log']['rate']) {
-						$errorlog = [
-							'timestamp' => TIMESTAMP,
-							'operator_username' => $_G['member']['username'],
-							'operator_adminid' => $_G['adminid'],
-							'member_username' => $rpost['author'],
-							'extcredits' => $author['extcredits'],
-							'diff' => $author['score'],
-							'tid' => $thread['tid'],
-							'subject' => $thread['subject'],
-							'reason' => $delpostsubmit,
-							'd' => '',
-						];
-						$member_log = table_common_member::t()->fetch_by_username($rpost['author']);
-						logger('rate', $member_log, $_G['member']['uid'], $errorlog);
-					}
-				}
-			}
 			deletepost($pids, 'pid', true);
 		}
 

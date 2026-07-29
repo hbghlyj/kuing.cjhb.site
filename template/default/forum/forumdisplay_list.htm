@@ -196,11 +196,6 @@
 											<!--{if $thread[heatlevel]}-->
 												<span class="tbox theatlevel" title="{lang heats}: {$thread[heats]}">{lang heats_icon}{if $thread[heatlevel]>1}..{/if}{if $thread[heatlevel]>2}.{/if}</span>
 											<!--{/if}-->
-											<!--{if $thread['rate'] > 0}-->
-												<i class="fico-thumbup fic4 fc-l fnmr vm" title="{lang rate_credit_add}"></i>
-											<!--{elseif $thread['rate'] < 0}-->
-												<i class="fico-thumbdown fic4 fc-a fnmr vm" title="{lang posts_deducted}"></i>
-											<!--{/if}-->
 										<!--{/if}-->
 										<!--{if $thread['replycredit'] > 0}-->
 											- <span class="xi1">[{lang replycredit} <strong> $thread['replycredit']</strong> ]</span>

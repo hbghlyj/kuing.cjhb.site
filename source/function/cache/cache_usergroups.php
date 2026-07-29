@@ -62,14 +62,6 @@ function build_cache_usergroups_single() {
 	$data_ag = table_common_admingroup::t()->range();
 	foreach(table_common_usergroup::t()->range() as $gid => $data) {
 		$data = array_merge($data, (array)$data_uf[$gid], (array)$data_ag[$gid]);
-		$ratearray = [];
-		if($data['raterange']) {
-			foreach(explode("\n", $data['raterange']) as $rating) {
-				$rating = explode("\t", $rating);
-				$ratearray[$rating[0]] = ['isself' => $rating[1], 'min' => $rating[2], 'max' => $rating[3], 'mrpd' => $rating[4]];
-			}
-		}
-		$data['raterange'] = $ratearray;
 		$data['grouptitle'] = $data['color'] ? '<font color="'.$data['color'].'">'.$data['grouptitle'].'</font>' : $data['grouptitle'];
 		$data['grouptype'] = $data['type'];
 		$data['grouppublic'] = $data['system'] != 'private';

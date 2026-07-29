@@ -76,7 +76,6 @@ $lang = array (
 	'forum_viewall'			=> 'All',//'全部',
 	'heats'				=> 'Hot',//'级热门',
 	'price'				=> 'Price',//'售价',
-	'rate_credit_add'		=> 'Points Added',//'帖子被加分',
 	'readperm'			=> 'Read permissions',//'阅读权限',
 	'return_index'			=> 'Return home',//'返回首页',
 	'reward_solved'			=> 'Finished',//'已解决',

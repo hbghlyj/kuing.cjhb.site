@@ -369,7 +369,7 @@ global $_G, $bperms, $pperms, $sperms, $aperms;
 			<!--{elseif in_array($grouppperm, array('allowat', 'allowcreatecollection'))}-->
 				<!--{echo intval($maingroup[$grouppperm])}-->
 			<!--{else}-->
-				<!--{if $maingroup[$grouppperm] == 1 || (in_array($grouppperm, array('raterange', 'allowcommentpost')) && !empty($maingroup[$grouppperm]))}--><i class="fico-valid fc-v" title="data_valid"></i><!--{else}--><i class="fico-invalid fc-i" title="data_invalid"></i><!--{/if}-->
+				<!--{if $maingroup[$grouppperm] == 1 || ($grouppperm == 'allowcommentpost' && !empty($maingroup[$grouppperm]))}--><i class="fico-valid fc-v" title="data_valid"></i><!--{else}--><i class="fico-invalid fc-i" title="data_invalid"></i><!--{/if}-->
 			<!--{/if}-->
 		</td>
 	</tr>

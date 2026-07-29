@@ -21,9 +21,6 @@
 					<a href="javascript:;" onclick="setanswer($post['pid'], '$_GET[from]')">{lang reward_set_bestanswer}</a>
 				<!--{/if}-->
 
-				<!--{if $_G['group']['raterange'] && $post['authorid']}-->
-					<a href="javascript:;" onclick="showWindow('rate', 'forum.php?mod=misc&action=rate&tid=$_G[tid]&pid=$post[pid]{if $_GET[from]}&from=$_GET[from]{/if}', 'get', -1);return false;">{lang rate}</a>
-				<!--{/if}-->
 				<!--{if $allowpostreply && $post['invisible'] == 0}-->
 					<!--{if $post['allowcomment']}-->
 						<a href="javascript:;" onclick="showWindow('comment', 'forum.php?mod=misc&action=comment&tid=$post[tid]&pid=$post[pid]&extra=$_GET[extra]&page=$page{if $_GET[from]}&from=$_GET[from]{/if}{if $_G['forum_thread']['special'] == 127}&special=$specialextra{/if}', 'get', 0)">{lang comments}</a>

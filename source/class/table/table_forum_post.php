@@ -615,15 +615,6 @@ class table_forum_post extends discuz_table {
 	}
 
 
-	public function increase_rate_by_pid($tableid, $pid, $rate, $ratetimes) {
-		$return = DB::query('UPDATE %t SET rate=rate+\'%d\', ratetimes=ratetimes+\'%d\' WHERE pid=%d',
-			[self::get_tablename($tableid), $rate, $ratetimes, $pid]);
-		if($return && $this->_allowmem) {
-			$this->update_cache_post($tableid, $pid, 'pid', ['rate' => $rate, 'ratetimes' => $ratetimes], [], '+');
-		}
-		return $return;
-	}
-
 	public function increase_position_by_tid($tableid, $tid, $position) {
 		$return = DB::query('UPDATE %t SET position=position+\'%d\' WHERE '.DB::field('tid', $tid),
 			[self::get_tablename($tableid), $position]);

@@ -9,7 +9,6 @@
 if(!defined('IN_DISCUZ') || !defined('IN_ADMINCP')) {
 	exit('Access Denied');
 }
-
 if(!$_G['setting']['bbclosed'] && !IN_DEBUG) {
 	cpmsg('threadsplit_forum_must_be_closed', 'action=threadsplit&operation=manage', 'error');
 }
@@ -112,11 +111,6 @@ if(!submitcheck('threadsplit_move_submit') && !$_GET['moving']) {
 		[1, cplang('threads_search_include_yes')],
 		[2, cplang('threads_search_include_no')],
 	], TRUE], $_GET['attach'] ?? 0, 'mradio');
-	showsetting('threads_rate', ['rate', [
-		[0, cplang('unlimited')],
-		[1, cplang('threads_search_include_yes')],
-		[2, cplang('threads_search_include_no')],
-	], TRUE], $_GET['rate'] ?? 2, 'mradio');
 	showsetting('threads_highlight', ['highlight', [
 		[0, cplang('unlimited')],
 		[1, cplang('threads_search_include_yes')],
@@ -153,7 +147,6 @@ if(!submitcheck('threadsplit_move_submit') && !$_GET['moving']) {
 			'sticky' => $_GET['sticky'],
 			'digest' => $_GET['digest'],
 			'attach' => $_GET['attach'],
-			'rate' => $_GET['rate'],
 			'highlight' => $_GET['highlight'],
 		];
 		if($_GET['detail']) {
@@ -279,4 +272,3 @@ if(!submitcheck('threadsplit_move_submit') && !$_GET['moving']) {
 
 	cpmsg('threadsplit_move_succeed', 'action=threadsplit&operation=forumarchive', 'succeed');
 }
-	

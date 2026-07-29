@@ -75,7 +75,6 @@ $lang = [
 	'heats' => '級熱門',
 	'heats_icon' => '火',
 	'price' => '售價',
-	'rate_credit_add' => '帖子被加分',
 	'readperm' => '閱讀權限',
 	'return_index' => '返回首頁',
 	'reward_solved' => '已解決',

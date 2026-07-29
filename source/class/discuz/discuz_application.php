@@ -229,7 +229,7 @@ class discuz_application extends discuz_base {
 
 			'mobile' => '',
 			'notice_structure' => [
-				'mypost' => ['post', 'rate', 'pcomment', 'activity', 'reward', 'goods', 'at'],
+				'mypost' => ['post', 'pcomment', 'activity', 'reward', 'goods', 'at'],
 				'interactive' => ['poke', 'friend', 'wall', 'comment', 'click', 'sharenotice'],
 				'system' => ['system', 'credit', 'group', 'verify', 'magic', 'task', 'show', 'group', 'pusearticle', 'mod_member', 'blog', 'article'],
 				'manage' => ['mod_member', 'report', 'pmreport'],

@@ -26,7 +26,6 @@ $lang =
 
 	'feed_thread_replies_title' => '{actor} 發表的主題 {subject} 回覆數超過了 {count}',
 
-	'feed_thread_rate_title' => '{actor} 發表的主題 {subject} 評分超過了 {count}',
 
 	'feed_thread_magic_title' => '{actor} 發表的主題 {subject} 被 {operater} 使用了 {magiccard}',
 

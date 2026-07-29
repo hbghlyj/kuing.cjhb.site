@@ -9,7 +9,6 @@
 if(!defined('IN_DISCUZ') || !defined('IN_ADMINCP')) {
 	exit('Access Denied');
 }
-
 if($tableext) {
 	cpmsg('members_edit_credits_failure', '', 'error');
 }
@@ -88,7 +87,7 @@ EOT;
 	}
 
 	if($diffarray) {
-		if($_G['setting']['log']['rate']) {
+		if($_G['setting']['log']['credit']) {
 			foreach($diffarray as $id => $diff) {
 				$errorlog = [
 					'timestamp' => TIMESTAMP,
@@ -103,7 +102,7 @@ EOT;
 					'd' => '',
 				];
 				$member_log = $member;
-				logger('rate', $member_log, $_G['member']['uid'], $errorlog);
+				logger('credit', $member_log, $_G['member']['uid'], $errorlog);
 
 			}
 		}
@@ -124,4 +123,3 @@ EOT;
 	cpmsg('members_edit_credits_succeed', "action=members&operation=credit&uid={$_GET['uid']}", 'succeed');
 
 }
-	

@@ -9,7 +9,6 @@
 if(!defined('IN_DISCUZ') || !defined('IN_ADMINCP')) {
 	exit('Access Denied');
 }
-
 if(!submitcheck('searchsubmit', 1) && empty($_GET['search'])) {
 	$newlist = 1;
 	$_GET['intype'] = '';
@@ -123,11 +122,6 @@ showsetting('threads_search_attach', ['attach', [
 	[1, cplang('threads_search_include_yes')],
 	[2, cplang('threads_search_include_no')],
 ], TRUE], $_GET['attach'], 'mradio');
-showsetting('threads_rate', ['rate', [
-	[0, cplang('unlimited')],
-	[1, cplang('threads_search_include_yes')],
-	[2, cplang('threads_search_include_no')],
-], TRUE], $_GET['rate'], 'mradio');
 showsetting('threads_highlight', ['highlight', [
 	[0, cplang('unlimited')],
 	[1, cplang('threads_search_include_yes')],
@@ -188,11 +182,6 @@ if(submitcheck('searchsubmit', 1) || $newlist) {
 		$conditions['attach'] = 1;
 	} elseif($_GET['attach'] == 2) {
 		$conditions['attach'] = 2;
-	}
-	if($_GET['rate'] == 1) {
-		$conditions['rate'] = 1;
-	} elseif($_GET['rate'] == 2) {
-		$conditions['rate'] = 2;
 	}
 	if($_GET['highlight'] == 1) {
 		$conditions['highlight'] = 1;
@@ -345,4 +334,3 @@ if(submitcheck('searchsubmit', 1) || $newlist) {
 	showtagfooter('div');
 
 }
-	

@@ -112,11 +112,9 @@ $lang = array
 				<p class="summary">Payment: <span>{price} USD</span></p>
 				<p class="summary">Incoming points: <span>{value}</span></p>',
 
-	'rate_reason'		=> '{actor} have rated [{ratescore}] your post in the thread <a href="forum.php?mod=redirect&goto=findpost&pid={pid}&ptid={tid}">{subject}</a>. <div class="quote"><blockquote>{reason}</blockquote></div>',//'你在主题 <a href="forum.php?mod=redirect&goto=findpost&pid={pid}&ptid={tid}">{subject}</a> 的帖子被 {actor} 评分 {ratescore} <div class="quote"><blockquote>{reason}</blockquote></div>',
 
 	'recommend_note_post'	=> 'Congratulations, Your post <a href="forum.php?mod=viewthread&tid={tid}">{subject}</a> was recommended',//'恭喜，您的帖子 <a href="forum.php?mod=viewthread&tid={tid}">{subject}</a> 被编辑采用',
 
-	'rate_removereason'	=> '{actor} removed rating {ratescore} from your thread <a href="forum.php?mod=redirect&goto=findpost&pid={pid}&ptid={tid}">{subject}</a> <div class="quote"><blockquote>{reason}</blockquote></div>',//'{actor} 撤销了你在主题 <a href="forum.php?mod=redirect&goto=findpost&pid={pid}&ptid={tid}">{subject}</a> 中帖子的评分 {ratescore} <div class="quote"><blockquote>{reason}</blockquote></div>',
 
 	'trade_seller_send'	=> '<a href="home.php?mod=space&uid={buyerid}">{buyer}</a> has bought your product <a href="forum.php?mod=trade&orderid={orderid}">{subject}</a>, the other side has been paid, waiting for your delivery. &nbsp; <a href="forum.php?mod=trade&orderid={orderid}" class="lit">Click to view</a>',//'<a href="home.php?mod=space&uid={buyerid}">{buyer}</a> 购买你的商品 <a href="forum.php?mod=trade&orderid={orderid}">{subject}</a>，对方已经付款，等待你发货 &nbsp; <a href="forum.php?mod=trade&orderid={orderid}" class="lit">查看 &rsaquo;</a>',
 

@@ -50,7 +50,7 @@ if(!submitcheck('modsubmit')) {
 	$thread['dateline'] = $thread['lastpost'] = TIMESTAMP;
 	$thread['lastposter'] = $thread['author'];
 	$thread['views'] = $thread['replies'] = $thread['highlight'] = $thread['digest'] = 0;
-	$thread['rate'] = $thread['displayorder'] = $thread['attachment'] = 0;
+	$thread['displayorder'] = $thread['attachment'] = 0;
 	$thread['typeid'] = $_GET['threadtypeid'];
 	$thread = daddslashes($thread);
 
@@ -68,7 +68,7 @@ if(!submitcheck('modsubmit')) {
 		$post['fid'] = $copyto;
 		$post['dateline'] = $thread['dateline'];
 		$post['attachment'] = 0;
-		$post['invisible'] = $post['rate'] = $post['ratetimes'] = 0;
+		$post['invisible'] = 0;
 		$post['message'] .= "\n".lang('forum/thread', 'source').": [url=forum.php?mod=viewthread&tid={$sourcetid}]{$thread['subject']}[/url]";
 		$pid = insertpost($post);
 	}

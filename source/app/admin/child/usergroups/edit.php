@@ -455,12 +455,6 @@ EOF;
 		showtagfooter('div');
 		/*search*/
 
-		$raterangearray = [];
-		foreach(explode("\n", $group['raterange']) as $range) {
-			$range = explode("\t", $range);
-			$raterangearray[$range[0]] = ['isself' => $range[1], 'min' => $range[2], 'max' => $range[3], 'mrpd' => $range[4]];
-		}
-
 		if($multiset) {
 			showtagheader('div', 'credit', $anchor == 'credit');
 			showtableheader('', 'nobottom');
@@ -475,16 +469,6 @@ EOF;
 			showsetting(($group['radminid'] ? $lang['usergroups_edit_credit_exempt_outperm'] : '').$lang['usergroups_edit_credit_exempt_threadpay'], 'exemptnew[4]', $group['exempt'][4], 'radio', $exempttype == 2 ? 'readonly' : 0, '', '', '', 'm_threadpay');
 			showsetting($lang['usergroups_edit_credit_exempt_inperm'].$lang['usergroups_edit_credit_exempt_threadpay'], 'exemptnew[7]', $group['exempt'][7], 'radio', $exempttype == 1 ? 0 : 'readonly');
 
-			showtitle('usergroups_edit_credit_allowrate', '', 0);
-			for($i = 1; $i <= 8; $i++) {
-				if(isset($_G['setting']['extcredits'][$i])) {
-					showsetting($_G['setting']['extcredits'][$i]['title'], 'raterangenew['.$i.'][allowrate]', $raterangearray[$i], 'radio');
-					showsetting($_G['setting']['extcredits'][$i]['title'].' '.$lang['usergroups_edit_credit_rate_isself'], 'raterangenew['.$i.'][isself]', $raterangearray[$i]['isself'], 'radio');
-					showsetting($_G['setting']['extcredits'][$i]['title'].' '.$lang['usergroups_edit_credit_rate_min'], 'raterangenew['.$i.'][min]', $raterangearray[$i]['min'], 'text');
-					showsetting($_G['setting']['extcredits'][$i]['title'].' '.$lang['usergroups_edit_credit_rate_max'], 'raterangenew['.$i.'][max]', $raterangearray[$i]['max'], 'text');
-					showsetting($_G['setting']['extcredits'][$i]['title'].' '.$lang['usergroups_edit_credit_rate_mrpd'], 'raterangenew['.$i.'][mrpd]', $raterangearray[$i]['mrpd'], 'text');
-				}
-			}
 			showtablefooter();
 			showtagfooter('div');
 		} else {
@@ -515,36 +499,6 @@ EOF;
 			echo '<tr><td colspan="2">'.$lang['usergroups_edit_credit_exempt_comment'].'</td></tr>';
 			echo '<tr><td colspan="2" class="td27"><a href="'.ADMINSCRIPT.'?action=credits&operation=list&anchor=policytable&groupid='.$group['groupid'].'" target="_blank">'.$lang['usergroups_edit_credit_group_policy'].'</a></td></tr>';
 
-			showtablefooter();
-			showtableheader('usergroups_edit_credit_allowrate', 'nobottom');
-
-			$titlecolumn[0] = $lang['name'];
-			for($i = 1; $i <= 8; $i++) {
-				if(isset($_G['setting']['extcredits'][$i])) {
-					$titlecolumn[$i] = $_G['setting']['extcredits'][$i]['title'];
-				}
-			}
-			showsubtitle($titlecolumn);
-			$leftcolumn = ['enable', 'usergroups_edit_credit_rate_isself', 'usergroups_edit_credit_rate_min', 'usergroups_edit_credit_rate_max', 'usergroups_edit_credit_rate_mrpd'];
-			foreach($leftcolumn as $value) {
-				echo '<tr><td>'.$lang[$value].'</td>';
-				foreach($titlecolumn as $subkey => $subvalue) {
-					if(!$subkey) continue;
-					if($value == 'enable') {
-						echo '<td><input type="checkbox" class="checkbox" name="raterangenew['.$subkey.'][allowrate]" value="1" '.(empty($raterangearray[$subkey]) ? '' : 'checked').'></td>';
-					} elseif($value == 'usergroups_edit_credit_rate_isself') {
-						echo '<td><input type="checkbox" class="checkbox" name="raterangenew['.$subkey.'][isself]" value="1" '.(empty($raterangearray[$subkey]['isself']) ? '' : 'checked').'></td>';
-					} elseif($value == 'usergroups_edit_credit_rate_min') {
-						echo '<td class="td28"><input type="text" class="txt" name="raterangenew['.$subkey.'][min]" size="3" value="'.$raterangearray[$subkey]['min'].'"></td>';
-					} elseif($value == 'usergroups_edit_credit_rate_max') {
-						echo '<td class="td28"><input type="text" class="txt" name="raterangenew['.$subkey.'][max]" size="3" value="'.$raterangearray[$subkey]['max'].'"></td>';
-					} elseif($value == 'usergroups_edit_credit_rate_mrpd') {
-						echo '<td class="td28"><input type="text" class="txt" name="raterangenew['.$subkey.'][mrpd]" size="3" value="'.$raterangearray[$subkey]['mrpd'].'"></td>';
-					}
-				}
-				echo '</tr>';
-			}
-			echo '<tr><td class="lineheight" colspan="9">'.$lang['usergroups_edit_credit_rate_tips'].'</td></tr>';
 			showtablefooter();
 			showtagfooter('div');
 			/*search*/
@@ -745,25 +699,10 @@ EOF;
 			$radminidnew = in_array($group['groupid'], [1, 2, 3]) ? $group['groupid'] : 0;
 		}
 
-		if(is_array($_GET['raterangenew'])) {
-			foreach($_GET['raterangenew'] as $key => $rate) {
-				if($key >= 1 && $key <= 8 && $rate['allowrate']) {
-					if(!$rate['mrpd'] || $rate['max'] <= $rate['min'] || $rate['mrpd'] < max(abs($rate['min']), abs($rate['max']))) {
-						cpmsg('usergroups_edit_rate_invalid', '', 'error', ['frame' => $multiset]);
-					} else {
-						$_GET['raterangenew'][$key] = implode("\t", [$key, ($rate['isself'] ? $rate['isself'] : 0), $rate['min'], $rate['max'], $rate['mrpd']]);
-					}
-				} else {
-					unset($_GET['raterangenew'][$key]);
-				}
-			}
-		}
-
 		if($group['groupid'] == 1) {
 			$_GET['allowvisitnew'] = 2;
 		}
 
-		$raterangenew = $_GET['raterangenew'] ? implode("\n", $_GET['raterangenew']) : '';
 		$maxpricenew = $_GET['maxpricenew'] < 0 ? 0 : intval($_GET['maxpricenew']);
 		$maxpostsperhournew = $_GET['maxpostsperhournew'] > 255 ? 255 : intval($_GET['maxpostsperhournew']);
 		$maxthreadsperhournew = $_GET['maxthreadsperhournew'] > 255 ? 255 : intval($_GET['maxthreadsperhournew']);
@@ -951,7 +890,6 @@ EOF;
 			'allowcreatecollection' => intval($_GET['allowcreatecollectionnew']),
 			'allowfollowcollection' => intval($_GET['allowfollowcollectionnew']),
 			'exempt' => $exemptnew,
-			'raterange' => $raterangenew,
 			'ignorecensor' => intval($_GET['ignorecensornew']),
 			'allowsendallpm' => intval($_GET['allowsendallpmnew']),
 			'allowsendpmmaxnum' => intval($_GET['allowsendpmmaxnumnew']),

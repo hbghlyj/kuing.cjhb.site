@@ -29,9 +29,6 @@ ALTER TABLE pre_forum_pollvoter
 ALTER TABLE pre_forum_promotion
 	MODIFY username char (50) NOT NULL DEFAULT '';
 
-ALTER TABLE pre_forum_ratelog
-	MODIFY username char (50) NOT NULL DEFAULT '';
-
 ALTER TABLE pre_forum_threadmod
 	MODIFY username char (50) NOT NULL DEFAULT '';
 
@@ -741,3 +738,80 @@ CREATE TABLE IF NOT EXISTS `chat`
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_unicode_ci;
+
+/* Replace post ratings with comments and binary reply votes. */
+INSERT INTO pre_forum_postcomment
+	(tid, pid, author, authorid, dateline, `comment`, score, useip, `port`, rpid)
+SELECT
+	p.tid,
+	r.pid,
+	MAX(r.username),
+	r.uid,
+	r.dateline,
+	LEFT(CONCAT_WS(' ',
+		NULLIF(MAX(NULLIF(r.reason, '')), ''),
+		CONCAT('[', GROUP_CONCAT(CONCAT(
+			'extcredits', r.extcredits, ' ',
+			IF(r.score > 0, '+', ''), r.score
+		) ORDER BY r.extcredits SEPARATOR ', '), ']')
+	), 255),
+	0,
+	'',
+	0,
+	0
+FROM pre_forum_ratelog r
+INNER JOIN pre_forum_post p ON p.pid = r.pid
+WHERE NOT EXISTS (
+	SELECT 1
+	FROM pre_forum_postcomment c
+	WHERE c.pid = r.pid
+		AND c.authorid = r.uid
+		AND c.dateline = r.dateline
+)
+GROUP BY p.tid, r.pid, r.uid, r.dateline;
+
+INSERT IGNORE INTO pre_forum_hotreply_member (tid, pid, uid, attitude)
+SELECT p.tid, r.pid, r.uid, IF(SUM(r.score) > 0, 1, 0)
+FROM pre_forum_ratelog r
+INNER JOIN pre_forum_post p ON p.pid = r.pid AND p.first = 0
+GROUP BY p.tid, r.pid, r.uid
+HAVING SUM(r.score) <> 0;
+
+INSERT INTO pre_forum_hotreply_number (pid, tid, support, `against`, total)
+SELECT
+	pid,
+	MAX(tid),
+	SUM(attitude = 1),
+	SUM(attitude = 0),
+	COUNT(*)
+FROM pre_forum_hotreply_member
+GROUP BY pid
+ON DUPLICATE KEY UPDATE
+	tid = VALUES(tid),
+	support = VALUES(support),
+	`against` = VALUES(`against`),
+	total = VALUES(total);
+
+UPDATE pre_forum_post p
+INNER JOIN (SELECT DISTINCT pid FROM pre_forum_ratelog) r ON r.pid = p.pid
+SET p.`comment` = 1;
+
+DELETE FROM pre_forum_postcache
+WHERE pid IN (SELECT DISTINCT pid FROM pre_forum_ratelog);
+
+DELETE FROM pre_common_setting
+WHERE skey IN ('dupkarmarate', 'karmaratelimit', 'modratelimit', 'ratelogon', 'ratelogrecord');
+
+DELETE FROM pre_home_notification
+WHERE `type` = 'rate';
+
+ALTER TABLE pre_common_usergroup_field
+	DROP COLUMN raterange;
+ALTER TABLE pre_forum_post
+	DROP COLUMN rate,
+	DROP COLUMN ratetimes;
+ALTER TABLE pre_forum_postcache
+	DROP COLUMN rate;
+ALTER TABLE pre_forum_thread
+	DROP COLUMN rate;
+DROP TABLE pre_forum_ratelog;

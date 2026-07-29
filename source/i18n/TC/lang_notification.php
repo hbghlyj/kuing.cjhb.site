@@ -116,11 +116,9 @@ $lang =
 	'addfunds' => '您提交的積分充值請求已完成，相應數額的積分已存入您的積分賬戶 &nbsp; <a href="home.php?mod=spacecp&ac=credit&op=base" target="_blank" class="lit">查看 &rsaquo;</a>
 <p class="summary">訂單號：<span>{orderid}</span></p><p class="summary">支出：<span>人民幣 {price} 元</span></p><p class="summary">收入：<span>{value}</span></p>',
 
-	'rate_reason' => '您在主題 <a href="forum.php?mod=redirect&goto=findpost&pid={pid}&ptid={tid}" target="_blank">{subject}</a> 的帖子被 {actor} 評分 {ratescore} <div class="quote"><blockquote>{reason}</blockquote></div>',
 
 	'recommend_note_post' => '恭喜，您的帖子 <a href="forum.php?mod=viewthread&tid={tid}" target="_blank">{subject}</a> 被編輯採用',
 
-	'rate_removereason' => '您在主題 <a href="forum.php?mod=redirect&goto=findpost&pid={pid}&ptid={tid}" target="_blank">{subject}</a> 中帖子的評分 {ratescore} <div class="quote"><blockquote>{reason}</blockquote></div> 被 {actor} 撤銷',
 
 	'trade_seller_send' => '<a href="home.php?mod=space&uid={buyerid}" target="_blank">{buyer}</a> 購買您的商品 <a href="forum.php?mod=trade&orderid={orderid}" target="_blank">{subject}</a>，對方已付款，等待您發貨 &nbsp; <a href="forum.php?mod=trade&orderid={orderid}" target="_blank" class="lit">查看 &rsaquo;</a>',
 
