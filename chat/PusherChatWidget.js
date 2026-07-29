@@ -1,5 +1,4 @@
 (() => {
-  const isChinese = navigator.languages && navigator.languages.some(lang => ['zh','zh-CN','zh-TW','zh-HK','zh-SG'].includes(lang));
   const isMobile = typeof popup == 'object';
   function showError(msg){ if(isMobile){ popup.open(msg,'alert'); } else { alert(msg); } }
   function typesetNodes(targets){
@@ -63,21 +62,21 @@
       if(isMobile) this.isCollapsed = false;
       this.#chatChannel = this.#pusher.subscribe(this.settings.channelName);
       this.#pusher.connection.bind('connected', () => {
-        this.#widget.querySelector('label').textContent = isChinese ? '已连接' : 'Connected';
+        this.#widget.querySelector('label').textContent = $L('chat_connected');
       });
       this.#pusher.connection.bind('connecting', () => {
-        this.#widget.querySelector('label').textContent = isChinese ? '连接中' : 'Connecting';
+        this.#widget.querySelector('label').textContent = $L('chat_connecting');
       });
       this.#chatChannel.bind('pusher:subscription_succeeded', () => {
         const canWrite = Number(window.discuz_uid || 0) > 0 && typeof FORMHASH !== 'undefined' && FORMHASH;
-        this.#widget.querySelector('label').textContent = canWrite ? (isChinese ? '快捷键' : 'Shortcut') + ' Ctrl+Enter' : (isChinese ? '登录后可发送消息' : 'Log in to send messages');
+        this.#widget.querySelector('label').textContent = canWrite ? $L('chat_shortcut') + ' Ctrl+Enter' : $L('chat_login_to_send');
         this.#messageInputEl.disabled = !canWrite;
         this.#widget.querySelectorAll('.pusher-chat-widget-send-btn, .pusher-chat-widget-photo-btn').forEach(button => {
           button.disabled = !canWrite;
         });
       });
       this.#pusher.connection.bind('unavailable', () => {
-        this.#widget.querySelector('label').textContent = isChinese ? '请检查网络连接' : 'Please check your network connection';
+        this.#widget.querySelector('label').textContent = $L('chat_network_unavailable');
         this.#widget.querySelectorAll('.pusher-chat-widget-send-btn, .pusher-chat-widget-photo-btn').forEach(button => {
           button.disabled = true;
         });
@@ -108,12 +107,10 @@
             if(String(data.uid) === String(discuz_uid)){
               jumpToReply();
             }else{
-              const msg = isChinese
-                ? '本主题有新回复，是否跳转到最新回复？选择取消将留在当前页面。'
-                : 'There is a new reply in this thread. Jump to it now? Choose Cancel to stay on this page.';
-              const title = isChinese ? '新回复提醒' : 'New reply';
-              const confirmTxt = isChinese ? '跳转' : 'Jump';
-              const cancelTxt = isChinese ? '留在本页' : 'Stay';
+              const msg = $L('chat_new_reply_message');
+              const title = $L('chat_new_reply_title');
+              const confirmTxt = $L('chat_jump');
+              const cancelTxt = $L('chat_stay');
               if(typeof showDialog === 'function'){
                 showDialog(msg, 'confirm', title, jumpToReply, 1, function() {}, '', confirmTxt, cancelTxt);
               }else if(confirm(msg)){
@@ -135,10 +132,10 @@
             ajaxget(`forum.php?mod=viewthread&tid=${tid}&viewpid=${data.pid}`, `post_${data.pid}`, 'ajaxwaitid', '', null, "if (typeof MathJax !== 'undefined' && typeof MathJax.typesetPromise === 'function') {MathJax.texReset();MathJax.typesetPromise(['#pid"+data.pid+" :is(div.pcb>h2, td.t_f)'])}");
             if(data.subject){
               document.getElementById('thread_subject').innerHTML = data.subject;
-              typesetNodes(['#thread_subject']).catch(err => { showError('MathJax typesetting error:'+err); });
+              typesetNodes(['#thread_subject']).catch(err => { showError($L('chat_mathjax_error', [err])); });
             }
             if(document.querySelector('input[name=pid]')?.value==data.pid && discuz_uid!=data.uid){
-              showDialog(isChinese?'帖子已被编辑':'Post has been edited');
+              showDialog($L('chat_post_edited'));
             }
           }
         });
@@ -220,7 +217,7 @@
     }
     async #loadHistory(isLoadingMore){
       if(isLoadingMore){
-        this.#loadMoreButton.textContent = isChinese ? '加载中...' : 'Loading...';
+        this.#loadMoreButton.textContent = $L('chat_loading');
         this.#loadMoreButton.disabled = true;
       }
       try {
@@ -243,7 +240,7 @@
             setVisible(this.#loadMoreButton, false);
           }else{
             setVisible(this.#loadMoreButton, true);
-            this.#loadMoreButton.textContent = isChinese ? '加载更多' : 'Load More';
+            this.#loadMoreButton.textContent = $L('chat_load_more');
             this.#loadMoreButton.disabled = false;
           }
         }
@@ -251,9 +248,9 @@
           setVisible(this.#loadMoreButton, false);
         }
       } catch(error) {
-        showError('Error fetching history: ' + error.message);
+        showError($L('chat_history_error', [error.message]));
         if(isLoadingMore){
-          this.#loadMoreButton.textContent = isChinese ? '加载失败' : 'Failed to load';
+          this.#loadMoreButton.textContent = $L('chat_load_failed');
           this.#loadMoreButton.disabled = false;
         }
       }
@@ -276,7 +273,7 @@
           this.#processPendingMessages();
         }
       } catch(error) {
-        showError('Error fetching missed messages: ' + error.message);
+        showError($L('chat_missed_error', [error.message]));
       }
     }
     #chatMessageReceived(data,isLiveMessage,isPrepending=false){
@@ -336,7 +333,7 @@
       if(Number(entry.data.actor?.id) === Number(window.discuz_uid || 0)) {
         this.#addSwipeToDeleteHandlers(entry.messageEl, entry.data);
       }
-      typesetNodes([entry.messageEl]).catch(err=>{ showError('MathJax typesetting error:'+err); });
+      typesetNodes([entry.messageEl]).catch(err=>{ showError($L('chat_mathjax_error', [err])); });
       this.#itemCount++;
       if(entry.isLiveMessage){
         this.#messagesEl.scrollTo({top:this.#messagesEl.scrollHeight,behavior:'smooth'});
@@ -350,7 +347,7 @@
     #sendChatButtonClicked(){
       const message = this.#messageInputEl.value.trim();
       if(!message){
-        showError(isChinese ? '请输入聊天信息' : 'Please enter a chat message');
+        showError($L('chat_message_empty'));
         this.#messageInputEl.focus();
         return;
       }
@@ -374,9 +371,9 @@
         this.#messageInputEl.value = '';
       } catch(error) {
         if(error.response?.status === 413){
-          showError(isChinese ? '聊天信息过长' : 'Chat message too long');
+          showError($L('chat_message_too_long'));
         }else{
-          showError(isChinese ? ('网络错误: ' + error.message) : ('Network error: ' + error.message));
+          showError($L('chat_network_error', [error.message]));
         }
       } finally {
         this.#messageInputEl.readOnly = false;
@@ -389,7 +386,7 @@
       const file = inputElement.files[0];
       const validExtensions = /\.(jpe?g|png|gif|bmp|webp)$/i;
       if(!validExtensions.test(file.name)){
-        showError(isChinese ? '请选择有效的图片格式 (jpg, jpeg, png, gif, bmp, webp)' : 'Please select a valid image file (jpg, jpeg, png, gif, bmp, webp)');
+        showError($L('chat_invalid_image'));
         inputElement.value = '';
         return;
       }
@@ -406,11 +403,11 @@
           if(response && response.status === 200 && response.url){
             this.#sendChatMessage({text: response.url});
           }else{
-            showError(response?.error || (isChinese ? '图片上传失败' : 'Failed to upload photo'));
+            showError(response?.error || $L('chat_upload_failed'));
           }
         })
         .catch(error => {
-          showError(isChinese ? ('图片上传错误: ' + error.message) : ('Photo upload error: ' + error.message));
+          showError($L('chat_upload_error', [error.message]));
         })
         .finally(() => {
           photoButton.disabled = false;
@@ -434,13 +431,13 @@
       const html='<div class="pusher-chat-widget">'+
         (isMobile?'':'<div class="pusher-chat-widget-header"><svg class="toggle-icon" width="24" height="24" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg></div>')+
         '<div class="pusher-chat-widget-messages"><ul class="activity-stream">'+
-        '<li class="pusher-chat-widget-load-more" style="display:none;">'+(isChinese?'加载更多':'Load More')+'</li>'+
+        '<li class="pusher-chat-widget-load-more" style="display:none;">'+$L('chat_load_more')+'</li>'+
         '</ul></div>'+
         '<div class="pusher-chat-widget-input">'+
         '<label for="message"></label><textarea id="message"></textarea>'+
         '<input type="file" class="pusher-chat-widget-photo-input" accept="image/*" style="display:none;" />'+
-        '<button type="button" class="pusher-chat-widget-photo-btn" title="'+(isChinese?'发送图片':'Add Photo')+'" disabled>'+addPhotoSvg+'</button>'+
-        '<button type="button" class="pusher-chat-widget-send-btn" title="'+(isChinese?'发送消息':'Send Message')+'" disabled>'+sendSvg+'</button>'+
+        '<button type="button" class="pusher-chat-widget-photo-btn" title="'+$L('chat_add_photo')+'" disabled>'+addPhotoSvg+'</button>'+
+        '<button type="button" class="pusher-chat-widget-send-btn" title="'+$L('chat_send_message')+'" disabled>'+sendSvg+'</button>'+
         '</div></div>';
       const holder = document.createElement('div');
       holder.innerHTML = html;
@@ -507,7 +504,7 @@
         deleteAction.className = 'delete-action';
         const deleteButton = document.createElement('button');
         deleteButton.className = 'delete-button';
-        deleteButton.textContent = isChinese ? '删除' : 'Delete';
+        deleteButton.textContent = $L('delete');
         deleteAction.append(deleteButton);
         li.append(deleteAction);
       }
@@ -555,7 +552,7 @@
           liElement.remove();
           this.#itemCount--;
         } catch(error) {
-          showError((isChinese?'删除消息失败: ':'Error deleting message: ')+error.message);
+          showError($L('chat_delete_failed', [error.message]));
         }
       });
     }
@@ -567,17 +564,13 @@
       const min=Math.floor(sec/60);
       const hr=Math.floor(min/60);
       let desc;
-      if(sec<=0){ desc=isChinese?'刚刚':'just now'; }
-      else if(min<1){ desc=sec+' second'+(sec!==1?'s':'')+' ago'; if(isChinese){ desc=sec+(sec<10?' 秒':' 秒钟')+'前'; } }
-      else if(min<60){ desc=min+' minute'+(min!==1?'s':'')+' ago'; if(isChinese){ desc=min+(min<10?' 分':' 分钟')+'前'; } }
-      else if(hr<24){ desc=hr+' hour'+(hr!==1?'s':'')+' ago'; if(isChinese){ desc=hr+(hr<10?' 小时':' 小时')+'前'; } }
+      if(sec<=0){ desc=$L('chat_just_now'); }
+      else if(min<1){ desc=$L('chat_seconds_ago', [sec]); }
+      else if(min<60){ desc=$L('chat_minutes_ago', [min]); }
+      else if(hr<24){ desc=$L('chat_hours_ago', [hr]); }
       else {
-        if (isChinese) {
-          desc = (date.getMonth()+1)+'月'+date.getDate()+'日';
-        } else {
-          const monthName = new Intl.DateTimeFormat('en-US', {month:'short'}).format(date);
-          desc = date.getDate() + ' ' + monthName;
-        }
+        const locale = _i18n_ === 'TC' ? 'zh-TW' : (_i18n_ === 'SC' ? 'zh-CN' : 'en-US');
+        desc = new Intl.DateTimeFormat(locale, {month:'short', day:'numeric'}).format(date);
       }
       return desc;
     }

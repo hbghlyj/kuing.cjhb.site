@@ -11,6 +11,7 @@
 	<link rel="stylesheet" href="{$staticurl}image/admincp/minireset.css?{$_G['style']['verhash']}">
 	<link rel="stylesheet" href="{$staticurl}image/admincp/admincplogin.css?{$_G['style']['verhash']}">
 	<meta content="Discuz! Team" name="Copyright">
+	<script src="{$_G['setting']['jscachepath']}lang_{echo currentlang();}.js?{$_G['style']['verhash']}"></script>
 	<script src="{$staticurl}js/common.js"></script>
 	<script src="{$staticurl}js/admincp_base.js"></script>
 </head>

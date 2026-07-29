@@ -17,38 +17,7 @@ function normalizeI18nKey(key) {
 }
 
 var _i18n_ = normalizeI18nKey(typeof DISCUZ_I18N != 'undefined' ? DISCUZ_I18N : '');
-if (typeof IN_ADMINCP == 'undefined') {
-	try {
-		var _i18n_cookie_ = typeof getcookie === 'function' ? getcookie('i18n') : null;
-		_i18n_ = !_i18n_cookie_ ? _i18n_ : normalizeI18nKey(_i18n_cookie_);
-	} catch (e) {
-	}
-}
-
-var _JSLANG_ = {};
-try {
-	var _parsed_ = typeof loadUserdata === 'function' ? JSON.parse(loadUserdata('i18n_' + _i18n_)) : null;
-	if (_parsed_ && typeof _parsed_ === 'object') {
-		_JSLANG_ = _parsed_;
-	}
-} catch (e) {
-	_JSLANG_ = {};
-}
-var _verhash_ = typeof VERHASH !== 'undefined' ? VERHASH : '';
-if (!_JSLANG_ || !_JSLANG_['_verhash_'] || _JSLANG_['_verhash_'] != _verhash_) {
-	var _script_ = document.createElement("script");
-	_script_.type = "text/javascript";
-	var _cache_path_ = typeof (JSCACHEPATH) != 'undefined' && JSCACHEPATH ? JSCACHEPATH : 'data/cache/';
-	_script_.src = _cache_path_ + 'lang_' + _i18n_ + '.js?' + _verhash_;
-	document.head.appendChild(_script_);
-	_script_.onload = function () {
-		_JSLANG_ = _JSLANG_ || {};
-		_JSLANG_['_verhash_'] = _verhash_;
-		if (typeof saveUserdata === 'function') {
-			saveUserdata('i18n_' + _i18n_, JSON.stringify(_JSLANG_));
-		}
-	};
-}
+var _JSLANG_ = typeof window._JSLANG_ === 'object' && window._JSLANG_ ? window._JSLANG_ : {};
 
 function $(id) {
 	return !id ? null : document.getElementById(id);
