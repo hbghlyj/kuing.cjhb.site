@@ -687,7 +687,6 @@ $lang = [
 	'rushreply_time' => '抢楼时间:',
 	'total_credits' => '总积分',
 	'you_have' => '您有',
-	'code' => '纯文本',
 	'e_attach' => '附件',
 	'e_attach_title' => '添加附件',
 	'e_audio' => '音乐',
