@@ -1968,24 +1968,6 @@ function ipNotice() {
 	}
 }
 
-function noticeTitle() {
-	NOTICETITLE = {'State': 0, 'oldTitle': NOTICECURTITLE, flashNumber: 0, sleep: 15};
-	if (!getcookie('noticeTitle')) {
-		window.setInterval('noticeTitleFlash();', 500);
-	} else {
-		window.setTimeout('noticeTitleFlash();', 500);
-	}
-	setcookie('noticeTitle', 1, 600);
-}
-
-function noticeTitleFlash() {
-	if (NOTICETITLE.flashNumber < 5 || NOTICETITLE.flashNumber > 4 && !NOTICETITLE['State']) {
-		document.title = (NOTICETITLE['State'] ? $L('notice_flash_empty') : $L('notice_flash_new')) + NOTICETITLE['oldTitle'];
-		NOTICETITLE['State'] = !NOTICETITLE['State'];
-	}
-	NOTICETITLE.flashNumber = NOTICETITLE.flashNumber < NOTICETITLE.sleep ? ++NOTICETITLE.flashNumber : 0;
-}
-
 function relatedlinks(rlinkmsgid) {
 	$F('_relatedlinks', arguments);
 }

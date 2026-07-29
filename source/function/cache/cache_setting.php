@@ -1156,16 +1156,10 @@ function get_cachedata_topnav() {
 	$data['topnavs'] = [];
 	foreach(table_common_nav::t()->fetch_all_by_navtype(4) as $nav) {
 		$_nav = $nav;
-		if(!$nav['type'] && $nav['identifier'] == 'sethomepage') {
+		if(!$nav['type'] && in_array($nav['identifier'], ['setfavorite', 'sethomepage'], true)) {
 			continue;
 		}
 		$nav['extra'] = '';
-		if(!$nav['type']) {
-			if($nav['identifier'] == 'setfavorite') {
-				$nav['url'] = $_G['siteurl'];
-				$nav['extra'] = ' onclick="addFavorite(this.href, \''.addslashes($_G['setting']['bbname']).'\');return false;"';
-			}
-		}
 		$nav['code'] = '<a href="'.$nav['url'].'"'.($nav['title'] ? ' title="'.$nav['title'].'"' : '').($nav['target'] == 1 ? ' target="_blank"' : '').' '.parsehighlight($nav['highlight']).$nav['extra'].'>'.$nav['name'].'</a>';
 		$id = $nav['type'] == 0 ? $nav['identifier'] : 100 + $nav['id'];
 		$data['topnavs'][$nav['subtype']][$id] = ['data' => $_nav, 'available' => $nav['available'], 'navname' => $nav['name'], 'code' => $nav['code'], 'type' => $nav['type'], 'level' => $nav['level'], 'id' => $nav['identifier']];
