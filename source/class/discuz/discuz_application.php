@@ -74,6 +74,15 @@ class discuz_application extends discuz_base {
 		$this->initated = true;
 	}
 
+	private function _detect_i18n() {
+		$acceptLang = $_SERVER['HTTP_ACCEPT_LANGUAGE'] ?? '';
+		if($acceptLang && ((stripos($acceptLang, 'zh-TW') !== false && (stripos($acceptLang, 'zh-CN') === false || stripos($acceptLang, 'zh-TW') < stripos($acceptLang, 'zh-CN')))
+			|| (stripos($acceptLang, 'zh-HK') !== false && (stripos($acceptLang, 'zh-CN') === false || stripos($acceptLang, 'zh-HK') < stripos($acceptLang, 'zh-CN'))))) {
+			return 'TC';
+		}
+		return $acceptLang && stripos($acceptLang, 'zh') !== false ? 'SC' : 'EN';
+	}
+
 	private function _init_platform() {
 		if(!defined('IN_ADMINCP')) {
 			return '';
@@ -143,16 +152,6 @@ class discuz_application extends discuz_base {
 			define('CURSCRIPT', MITFRAME_APP);
 		}
 
-		$acceptLang = $_SERVER['HTTP_ACCEPT_LANGUAGE'] ?? '';
-		if($acceptLang && ((stripos($acceptLang, 'zh-TW') !== false && (stripos($acceptLang, 'zh-CN') === false || stripos($acceptLang, 'zh-TW') < stripos($acceptLang, 'zh-CN')))
-			|| (stripos($acceptLang, 'zh-HK') !== false && (stripos($acceptLang, 'zh-CN') === false || stripos($acceptLang, 'zh-HK') < stripos($acceptLang, 'zh-CN'))))) {
-			define('DISCUZ_LANG', 'TC');
-		} elseif($acceptLang && stripos($acceptLang, 'zh') !== false) {
-			define('DISCUZ_LANG', 'SC');
-		} else {
-			define('DISCUZ_LANG', 'EN');
-		}
-
 		global $_G;
 		$_G = [
 			'uid' => 0,
@@ -162,6 +161,7 @@ class discuz_application extends discuz_base {
 			'sid' => '',
 			'formhash' => '',
 			'connectguest' => 0,
+			'i18n' => $this->_detect_i18n(),
 			'timestamp' => TIMESTAMP,
 			'starttime' => microtime(true),
 			'clientip' => $this->_get_client_ip(),
@@ -793,13 +793,23 @@ class discuz_application extends discuz_base {
 	}
 
 	private function _init_i18n() {
-		$this->var['i18n'] = !empty($this->var['cookie']['i18n']) && preg_match('/^\w+$/', $this->var['cookie']['i18n']) ? $this->var['cookie']['i18n'] : '';
-		if(!$this->var['i18n']) {
-			$acceptLang = $_SERVER['HTTP_ACCEPT_LANGUAGE'] ?? '';
-			if($acceptLang && stripos($acceptLang, 'zh') === false && !empty($this->var['setting']['i18n']['en'])) {
-				$this->var['i18n'] = 'en';
-			}
+		$requested = !empty($this->var['cookie']['i18n']) && preg_match('/^\w+$/', $this->var['cookie']['i18n']) ? $this->var['cookie']['i18n'] : $this->_detect_i18n();
+		$requested = strtoupper($requested);
+		if(!empty($this->var['setting']['i18n'])) {
+			$resolve = function($candidate) {
+				foreach($this->var['setting']['i18n'] as $locale => $path) {
+					if(strcasecmp($locale, $candidate) === 0) {
+						return $locale;
+					}
+				}
+				return '';
+			};
+			$requested = $resolve($requested)
+				?: $resolve($this->_detect_i18n())
+				?: $resolve($this->var['setting']['i18n_default'] ?? 'SC')
+				?: array_key_first($this->var['setting']['i18n']);
 		}
+		$this->var['i18n'] = $requested;
 		if(!empty($this->var['cookie']['d_i18n'])) {
 			dsetcookie('d_i18n', '', -1);
 		}

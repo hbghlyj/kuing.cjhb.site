@@ -995,7 +995,7 @@ function template($file, $templateid = 0, $tpldir = '', $gettplfile = 0, $primal
 	if(defined('CURMODULE') && CURMODULE && ($file == 'common/header' || $file == 'touch/common/header')) {
 		$append = '_'.$_G['basescript'].'_'.CURMODULE;
 	}
-	$cachefile = './template/'.DISCUZ_LANG.'_'.(defined('STYLEID') ? STYLEID.'_' : '_').$templateid.'_'.str_replace('/', '_', $file).$i18n.$append.'.tpl.php';
+	$cachefile = './template/'.currentlang().'_'.(defined('STYLEID') ? STYLEID.'_' : '_').$templateid.'_'.str_replace('/', '_', $file).$i18n.$append.'.tpl.php';
 	if($templateid != 1 && !tplfile::file_exists($tplfile) && !tplfile::file_exists(substr($tplfile, 0, -4).'.php')
 		&& !tplfile::file_exists(($tplfile = $tpldir.'/'.$filebak.'.htm'))) {
 		$defaulttplfile = DISCUZ_TEMPLATE('./template/default/'.$filebak.'.htm');
@@ -1091,7 +1091,7 @@ function loadcache($cachenames, $force = false) {
 				}
 				unset($value);
 			}
-			if(DISCUZ_LANG == 'EN') {
+			if(currentlang() == 'EN') {
 				if($cname == 'onlinelist'){
 					$data['legend'] = $data['legend_en'];
 				}elseif($cname == 'setting') {
@@ -2870,7 +2870,8 @@ function browserversion($type) {
 }
 
 function currentlang() {
-	return defined('DISCUZ_LANG') ? DISCUZ_LANG : 'SC';
+	$lang = (string)getglobal('i18n');
+	return preg_match('/^\w+$/', $lang) ? $lang : 'SC';
 }
 
 function dpreg_replace($pattern, $replacement, $subject, $limit = -1, &$count = null) {

@@ -363,6 +363,26 @@ const svgAttachmentSubject = `Thread with SVG Attachment ${testRunId}`;
         console.log("✅ Desktop Forum Front Page loaded successfully.");
         report += '### Desktop Forum Front Page (forum.php)\n- **Status**: Checked\n- **Front Page Load**: Success\n- **Screenshot**: `screenshot_desktop_forum_index.png`\n\n';
 
+        console.log("Testing footer locale switcher and localized forum names...");
+        const scLocaleLink = page.locator('.dz_footc_nav a[href="misc.php?mod=i18n&key=SC"]');
+        assert.strictEqual(await scLocaleLink.count(), 1, 'Assertion Error: DiscuzX5 footer SC locale switch did not render.');
+        await Promise.all([
+            page.waitForNavigation({ waitUntil: 'networkidle' }),
+            scLocaleLink.click()
+        ]);
+        assert.strictEqual(await page.evaluate(() => DISCUZ_I18N), 'SC', 'Assertion Error: Footer locale switch did not select SC.');
+        assert.strictEqual(await page.getByText('默认版块', { exact: true }).count(), 1, 'Assertion Error: SC locale switch did not localize the forum name.');
+
+        const enLocaleLink = page.locator('.dz_footc_nav a[href="misc.php?mod=i18n&key=EN"]');
+        assert.strictEqual(await enLocaleLink.count(), 1, 'Assertion Error: DiscuzX5 footer EN locale switch did not render.');
+        await Promise.all([
+            page.waitForNavigation({ waitUntil: 'networkidle' }),
+            enLocaleLink.click()
+        ]);
+        assert.strictEqual(await page.evaluate(() => DISCUZ_I18N), 'EN', 'Assertion Error: Footer locale switch did not restore EN.');
+        assert.strictEqual(await page.getByText('Default Forum', { exact: true }).count(), 1, 'Assertion Error: EN locale switch did not localize the forum name.');
+        report += '### Footer Locale Switcher\n- **Status**: Checked\n- **Forum Names**: SC and EN switch with the UI locale\n\n';
+
         // Discover a real postable sub-board (type='forum') — never a group (type='group').
         const forumFid = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT fid FROM pre_forum_forum WHERE type='forum' LIMIT 1;"`).toString().trim();
         assert.ok(forumFid, 'Assertion Error: No postable sub-board (type=forum) found in pre_forum_forum.');

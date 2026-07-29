@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <head>
-<title><?php if(DISCUZ_LANG == 'EN') { ?>
+<title><?php if(currentlang() == 'EN') { ?>
 Open with Browser
-<?php } elseif(DISCUZ_LANG == 'TC') { ?>
+<?php } elseif(currentlang() == 'TC') { ?>
 在瀏覽器中開啟
 <?php } else { ?>
 用浏览器打开
@@ -113,8 +113,8 @@ Open with Browser
 </style>
 </head>
 <body>
-  <?php if(!defined('DISCUZ_LANG')) exit('Access Denied'); ?>
-<?php if(DISCUZ_LANG == 'EN') { ?>
+  <?php if(!defined('IN_DISCUZ')) exit('Access Denied'); ?>
+<?php if(currentlang() == 'EN') { ?>
   <div class="I0MG3p8Q">
     <div class="bhauZU7H">
       <div class="gqLswTFC">
@@ -125,7 +125,7 @@ Open with Browser
       </div>
     </div>
   </div>
-<?php } elseif(DISCUZ_LANG == 'TC') { ?>
+<?php } elseif(currentlang() == 'TC') { ?>
   <div class="I0MG3p8Q">
     <div class="bhauZU7H">
       <div class="gqLswTFC">

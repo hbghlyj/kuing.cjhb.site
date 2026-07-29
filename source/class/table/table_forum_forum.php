@@ -32,7 +32,7 @@ class table_forum_forum extends discuz_table {
 		if(function_exists('currentlang')) {
 			return currentlang() ?: 'SC';
 		}
-		return defined('DISCUZ_LANG') ? DISCUZ_LANG : 'SC';
+		return (string)getglobal('i18n') ?: 'SC';
 	}
 
 	public static function decode_name($name) {
