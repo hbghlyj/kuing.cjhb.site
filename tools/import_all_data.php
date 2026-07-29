@@ -7,6 +7,8 @@ if(PHP_SAPI !== 'cli' || getenv('DISCUZ_SEED_DATABASE') !== '1') {
 require './source/class/class_core.php';
 $discuz = C::app();
 $discuz->init();
+defined('ROOT_PATH') || define('ROOT_PATH', DISCUZ_ROOT);
+require_once './install/include/install_function.php';
 
 $tablepre = $_G['config']['db'][1]['tablepre'];
 $dir = './source/i18n/SC/install/lang_sql_install';
@@ -33,6 +35,7 @@ foreach(glob($dir.'/*.php') as $file) {
 
         $data = [];
         require $file;
+        $data = localize_install_data($table, $data);
         echo "Importing $name (" . count($data) . " rows)... ";
 
         foreach($data as $row) {
@@ -53,7 +56,6 @@ foreach(glob($dir.'/*.php') as $file) {
 
 // The installer writes serialized defaults after importing the language data.
 require_once './source/discuz_version.php';
-defined('ROOT_PATH') || define('ROOT_PATH', DISCUZ_ROOT);
 require './install/include/install_var.php';
 C::t('common_setting')->update('profilegroup', $serialize_sql_setting['profilegroup']);
 
