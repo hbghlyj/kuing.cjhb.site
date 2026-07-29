@@ -828,6 +828,10 @@ class discuz_application extends discuz_base {
 				?: array_key_first($this->var['setting']['i18n']);
 		}
 		$this->var['i18n'] = $requested;
+		$templateLang = i18n::getLang('lang_template.php', $requested);
+		if(isset($this->var['setting']['navs'][2], $templateLang['forum_home'])) {
+			$this->var['setting']['navs'][2]['navname'] = $templateLang['forum_home'];
+		}
 		if(!empty($this->var['cache']['forums'])) {
 			foreach($this->var['cache']['forums'] as &$forum) {
 				$forum['name'] = table_forum_forum::localize_name($forum['name_i18n'] ?? $forum['name'], $requested);

@@ -566,6 +566,7 @@ $lang = [
 	'post_sm_isnull' => '抱歉，您尚未輸入標題或內容',
   'fulltext' => '全文',
   'forum' => '版塊',
+  'forum_home' => '論壇',
   'replies' => '篇回復',
   'less' => '更少',
   'no_results' => '沒有找到相關結果',

@@ -152,6 +152,7 @@ $lang = array (
 	'fulltext'			=> 'Full text',//'全文',
 	'hot_search'			=> 'Hot search',//'热搜',
 	'forum'			=> 'Board',//'版块',
+	'forum_home'		=> 'Forum',
 	'replies'		=> 'Replies',//'篇回复',
 	'less'			=> 'Less',//'更少',
 	'no_results' 	=> 'No results found',//'没有找到相关结果',
