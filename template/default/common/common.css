@@ -1567,7 +1567,7 @@ Last Modify:	Pony
 				.pmd { float: left; padding: 5px 8px; background: #F0F0F0 repeat-x; border: 1px solid; border-color: #E7E7E7 #BBB #999 #E7E7E7; overflow-wrap: break-word; -moz-box-shadow: 2px 2px 4px #DDD; -webkit-box-shadow: 2px 2px 4px #DDD; box-shadow: 2px 2px 4px #DDD; -moz-border-radius: 10px 10px 10px 0; -webkit-border-radius: 10px 10px 10px 0; border-radius: 10px 10px 10px 0; }
 				.pmd, .pmd img { max-width: 292px; }
 				/* 短消息下的引用和代码样式 */
-					.quote { padding: 0; background: none; overflow: visible; display: inline-flex; color: #666; }
+					.quote { padding: 0; background: none; overflow: visible; display: flex; color: #666; }
 					.quote blockquote { margin: 0; padding: 0; background: none; line-height: 1.6; zoom: 1; display: block; }
 					.pmd .blockcode { overflow: hidden; margin: 0; padding: 0; background: transparent; color: {MIDTEXT}; }
 						.pmd .blockcode code { font-family: Monaco, Consolas, 'Lucida Console', 'Courier New', serif; font-size: 12px; line-height: 1.8em; }

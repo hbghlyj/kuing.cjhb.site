@@ -205,14 +205,6 @@ details summary { color:blue; cursor:pointer; }
     text-overflow: ellipsis;
   }
   .plc { padding: 0 5px; }/*帖子主体*/
-  .pl .quote {
-  	padding: 5px 5px 5px 40px;
-    background: url(/static/image/common/icon_quote_s.gif) no-repeat 5px 5px;
-  }
-  .pl .quote blockquote {
-  	line-height: 1.5;
-  	padding: 0;
-  }
   .ad .plc { height: 4px; }/*帖子分界线*/
   .m_c { width: 90vw; }/*浮动窗口*/
   .m_c .quote { width: 95%; }/*回帖浮动窗口引用那块*/
