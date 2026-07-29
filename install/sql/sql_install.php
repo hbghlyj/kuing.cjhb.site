@@ -1337,8 +1337,7 @@ CREATE TABLE pre_common_nav
 (
 	id           smallint(6) unsigned NOT NULL AUTO_INCREMENT,
 	parentid     smallint(6) unsigned NOT NULL DEFAULT '0',
-	`name`       varchar(255)         NOT NULL,
-	title        varchar(255)         NOT NULL,
+	`name`       text                 NOT NULL,
 	url          varchar(255)         NOT NULL,
 	identifier   varchar(255)         NOT NULL,
 	target       tinyint(1)           NOT NULL DEFAULT '0',
@@ -2881,7 +2880,7 @@ CREATE TABLE pre_forum_onlinelist
 (
 	groupid      smallint(6) unsigned NOT NULL DEFAULT '0',
 	displayorder tinyint(3)           NOT NULL DEFAULT '0',
-	title        varchar(30)          NOT NULL DEFAULT '',
+	title        varchar(255)         NOT NULL DEFAULT '',
 	url          varchar(30)          NOT NULL DEFAULT ''
 ) ENGINE = InnoDB;
 

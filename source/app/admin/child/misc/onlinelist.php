@@ -17,11 +17,10 @@ if(!submitcheck('onlinesubmit')) {
 	showtips('misc_onlinelist_tips');
 	showformheader('misc&operation=onlinelist&');
 	showtableheader('', 'fixpadding');
-	showsubtitle(['', 'display_order', 'usergroup', 'usergroups_title', 'misc_onlinelist_image']);
+	showsubtitle(['', 'display_order', 'usergroup', 'SC / TC / EN', 'misc_onlinelist_image']);
 
 	$listarray = [];
 	foreach(table_forum_onlinelist::t()->range() as $list) {
-		$list['title'] = dhtmlspecialchars($list['title']);
 		$listarray[$list['groupid']] = $list;
 	}
 
@@ -43,7 +42,10 @@ if(!submitcheck('onlinesubmit')) {
 			$listarray[$id]['url'] ? " <img src=\"$url\">" : '',
 			'<input type="text" class="txt" name="displayordernew['.$id.']" value="'.$listarray[$id]['displayorder'].'" size="3" />',
 			$group['groupid'] <= 8 ? cplang('usergroups_system_'.$id) : $group['grouptitle'],
-			'<input type="text" class="txt" name="titlenew['.$id.']" value="'.($listarray[$id]['title'] ? $listarray[$id]['title'] : $group['grouptitle']).'" size="15" />',
+			implode('<br />', array_map(
+				fn($locale) => '<label>'.$locale.' <input type="text" class="txt" name="titlenew['.$id.']['.$locale.']" value="'.dhtmlspecialchars($listarray[$id]['title_i18n'][$locale] ?? ($locale == 'SC' ? $group['grouptitle'] : '')).'" size="15" /></label>',
+				i18n::LOCALES
+			)),
 			'<input type="text" class="txt" name="urlnew['.$id.']" value="'.$listarray[$id]['url'].'" size="20" />'
 		]);
 
@@ -63,7 +65,7 @@ if(!submitcheck('onlinesubmit')) {
 				$data = [
 					'groupid' => $id,
 					'displayorder' => $_GET['displayordernew'][$id],
-					'title' => $_GET['titlenew'][$id],
+					'title' => array_map(fn($value) => trim(dhtmlspecialchars($value)), $_GET['titlenew'][$id]),
 					'url' => $url,
 				];
 				table_forum_onlinelist::t()->insert($data);

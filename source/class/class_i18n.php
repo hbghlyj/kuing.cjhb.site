@@ -8,6 +8,63 @@
 
 class i18n {
 
+	public const LOCALES = ['SC', 'TC', 'EN'];
+
+	public static function decodeValue($value) {
+		if(is_array($value)) {
+			$values = $value;
+		} elseif(is_string($value) && $value !== '') {
+			$values = json_decode($value, true);
+			if(!is_array($values)) {
+				$values = ['SC' => $value];
+			}
+		} else {
+			$values = [];
+		}
+		foreach($values as $locale => $text) {
+			if(!in_array($locale, self::LOCALES, true) || !is_scalar($text)) {
+				unset($values[$locale]);
+				continue;
+			}
+			$values[$locale] = (string)$text;
+		}
+		return $values;
+	}
+
+	public static function localizeValue($value, $locale = '') {
+		$values = self::decodeValue($value);
+		$locale = strtoupper($locale ?: (string)getglobal('i18n') ?: currentlang());
+		$fallbacks = array_unique(array_filter([
+			$locale,
+			getglobal('setting/i18n_default'),
+			'SC',
+			'EN',
+			'TC',
+		]));
+		foreach($fallbacks as $fallback) {
+			if(isset($values[$fallback]) && $values[$fallback] !== '') {
+				return $values[$fallback];
+			}
+		}
+		foreach($values as $text) {
+			if($text !== '') {
+				return $text;
+			}
+		}
+		return '';
+	}
+
+	public static function encodeValue($value, $existing = [], $locale = '') {
+		if(is_array($value)) {
+			$values = self::decodeValue($value);
+		} else {
+			$values = self::decodeValue($existing);
+			$locale = strtoupper($locale ?: (string)getglobal('i18n') ?: currentlang());
+			$values[in_array($locale, self::LOCALES, true) ? $locale : 'SC'] = (string)$value;
+		}
+		return json_encode($values, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR);
+	}
+
 	private static function getDefaultPath($file) {
 		return DISCUZ_ROOT.'./source/i18n/'.currentlang().'/'.$file;
 	}

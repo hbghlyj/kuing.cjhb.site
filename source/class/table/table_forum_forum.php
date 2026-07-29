@@ -36,47 +36,11 @@ class table_forum_forum extends discuz_table {
 	}
 
 	public static function decode_name($name) {
-		if(is_array($name)) {
-			$names = $name;
-		} elseif(is_string($name) && $name !== '') {
-			$names = json_decode($name, true);
-			if(!is_array($names)) {
-				$names = ['SC' => $name];
-			}
-		} else {
-			$names = [];
-		}
-		foreach($names as $locale => $value) {
-			if(!in_array($locale, ['SC', 'TC', 'EN'], true) || !is_scalar($value)) {
-				unset($names[$locale]);
-				continue;
-			}
-			$names[$locale] = (string)$value;
-		}
-		return $names;
+		return i18n::decodeValue($name);
 	}
 
 	public static function localize_name($name, $locale = '') {
-		$names = self::decode_name($name);
-		$locale = $locale ?: self::name_locale();
-		$fallbacks = array_unique(array_filter([
-			$locale,
-			getglobal('setting/i18n_default'),
-			'SC',
-			'EN',
-			'TC',
-		]));
-		foreach($fallbacks as $fallback) {
-			if(isset($names[$fallback]) && $names[$fallback] !== '') {
-				return $names[$fallback];
-			}
-		}
-		foreach($names as $value) {
-			if($value !== '') {
-				return $value;
-			}
-		}
-		return '';
+		return i18n::localizeValue($name, $locale ?: self::name_locale());
 	}
 
 	public static function localize_row($row) {
@@ -103,7 +67,7 @@ class table_forum_forum extends discuz_table {
 			$names = self::decode_name($existing);
 			$names[self::name_locale()] = (string)$name;
 		}
-		return json_encode($names, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR);
+		return i18n::encodeValue($names);
 	}
 
 	private function fetch_raw_name($fid) {

@@ -9,7 +9,6 @@
 if(!defined('IN_DISCUZ') || !defined('IN_ADMINCP')) {
 	exit('Access Denied');
 }
-
 if(!$do) {
 
 	if(!submitcheck('submit')) {
@@ -115,7 +114,9 @@ EOT;
 
 		showformheader("nav&operation=mfindnav&do=edit&id=$id");
 		showtableheader();
-		showsetting('misc_customnav_name', 'namenew', $nav['name'], 'text');
+		foreach(i18n::LOCALES as $locale) {
+			showsetting($locale, 'namenew['.$locale.']', $nav['name_i18n'][$locale] ?? '', 'text');
+		}
 		showsetting('misc_customnav_url', 'urlnew', $nav['url'], 'text', $nav['type'] == '0');
 		if($nav['type']) {
 			showsetting('misc_customnav_level', ['levelnew', [
@@ -132,7 +133,7 @@ EOT;
 
 	} else {
 
-		$namenew = trim(dhtmlspecialchars($_GET['namenew']));
+		$namenew = array_map(fn($value) => trim(dhtmlspecialchars($value)), (array)$_GET['namenew']);
 		$urlnew = str_replace(['&amp;'], ['&'], dhtmlspecialchars($_GET['urlnew']));
 		$levelnew = $nav['type'] ? (intval($_GET['levelnew']) && $_GET['levelnew'] > 0 && $_GET['levelnew'] < 4 ? intval($_GET['levelnew']) : 0) : 0;
 
@@ -151,4 +152,3 @@ EOT;
 	}
 
 }
-	

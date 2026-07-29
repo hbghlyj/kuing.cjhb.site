@@ -815,3 +815,31 @@ ALTER TABLE pre_forum_postcache
 ALTER TABLE pre_forum_thread
 	DROP COLUMN rate;
 DROP TABLE pre_forum_ratelog;
+
+ALTER TABLE pre_common_nav
+	MODIFY `name` text NOT NULL;
+ALTER TABLE pre_forum_onlinelist
+	MODIFY title varchar(255) NOT NULL DEFAULT '';
+
+UPDATE pre_common_setting
+SET svalue = JSON_OBJECT('SC', svalue, 'TC', svalue, 'EN', svalue)
+WHERE skey IN ('bbname', 'sitename') AND JSON_VALID(svalue) = 0;
+
+UPDATE pre_common_nav
+SET `name` = JSON_OBJECT(
+	'SC', `name`,
+	'TC', `name`,
+	'EN', COALESCE(NULLIF(title, ''), `name`)
+)
+WHERE JSON_VALID(`name`) = 0;
+
+ALTER TABLE pre_common_nav
+	DROP COLUMN title;
+
+UPDATE pre_forum_onlinelist
+SET title = JSON_OBJECT(
+	'SC', title,
+	'TC', title,
+	'EN', COALESCE(NULLIF(url, ''), title)
+)
+WHERE JSON_VALID(title) = 0;

@@ -245,9 +245,10 @@ EOT;
 
 		showformheader("nav&operation=headernav&do=edit&id=$id", 'enctype');
 		showtableheader();
-		showsetting('misc_customnav_name', 'namenew', $nav['name'], 'text', $nav['type'] == '4');
+		foreach(i18n::LOCALES as $locale) {
+			showsetting($locale, 'namenew['.$locale.']', $nav['name_i18n'][$locale] ?? '', 'text', $nav['type'] == '4');
+		}
 		showsetting('misc_customnav_parent', ['parentidnew', $parentselect], $nav['parentid'], 'select');
-		showsetting('misc_customnav_title', 'titlenew', $nav['title'], 'text');
 		showsetting('misc_customnav_url', 'urlnew', $nav['url'], 'text', ($nav['type'] == '0' || $nav['type'] == '4'));
 		showsetting('misc_customnav_style', ['stylenew', [cplang('misc_customnav_style_underline'), cplang('misc_customnav_style_italic'), cplang('misc_customnav_style_bold')]], $string[0], 'binmcheckbox');
 		showsetting('misc_customnav_style_color', ['colornew', [
@@ -288,8 +289,7 @@ EOT;
 
 	} else {
 
-		$namenew = trim(dhtmlspecialchars($_GET['namenew']));
-		$titlenew = trim(dhtmlspecialchars($_GET['titlenew']));
+		$namenew = array_map(fn($value) => trim(dhtmlspecialchars($value)), (array)$_GET['namenew']);
 		$urlnew = str_replace(['&amp;'], ['&'], dhtmlspecialchars($_GET['urlnew']));
 		$colornew = $_GET['colornew'];
 		$parentidnew = $_GET['parentidnew'];
@@ -334,7 +334,6 @@ EOT;
 		$data = [
 			'name' => $namenew,
 			'parentid' => $parentidnew,
-			'title' => $titlenew,
 			'highlight' => "$stylenew$colornew",
 			'target' => $targetnew,
 			'level' => $levelnew,

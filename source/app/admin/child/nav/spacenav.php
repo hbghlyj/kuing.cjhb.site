@@ -9,7 +9,6 @@
 if(!defined('IN_DISCUZ') || !defined('IN_ADMINCP')) {
 	exit('Access Denied');
 }
-
 if(!$do) {
 
 	if(!submitcheck('submit')) {
@@ -135,8 +134,9 @@ EOT;
 
 		showformheader("nav&operation=spacenav&do=edit&id=$id", 'enctype');
 		showtableheader();
-		showsetting('misc_customnav_name', 'namenew', $nav['name'], 'text');
-		showsetting('misc_customnav_title', 'titlenew', $nav['title'], 'text');
+		foreach(i18n::LOCALES as $locale) {
+			showsetting($locale, 'namenew['.$locale.']', $nav['name_i18n'][$locale] ?? '', 'text');
+		}
 		showsetting('misc_customnav_url', 'urlnew', $nav['url'], 'text', $nav['type'] == '0');
 		showsetting('misc_customnav_icon', 'iconnew', $nav['icon'], 'filetext', '', 0, cplang('misc_customnav_icon_comment').$naviconhtml);
 		showsetting('misc_customnav_allowsub', 'allowsubnew', $nav['allowsubnew'], 'radio', '', 1);
@@ -160,8 +160,7 @@ EOT;
 
 	} else {
 
-		$namenew = trim(dhtmlspecialchars($_GET['namenew']));
-		$titlenew = trim(dhtmlspecialchars($_GET['titlenew']));
+		$namenew = array_map(fn($value) => trim(dhtmlspecialchars($value)), (array)$_GET['namenew']);
 		$subnamenew = trim(dhtmlspecialchars($_GET['subnamenew']));
 		$urlnew = str_replace(['&amp;'], ['&'], dhtmlspecialchars($_GET['urlnew']));
 		$suburlnew = str_replace(['&amp;'], ['&'], dhtmlspecialchars($_GET['suburlnew']));
@@ -188,7 +187,6 @@ EOT;
 		$data = [
 			'name' => $namenew,
 			'subname' => $subnamenew,
-			'title' => $titlenew,
 			'target' => $targetnew,
 			'level' => $levelnew,
 			'icon' => $iconnew
@@ -206,4 +204,3 @@ EOT;
 	}
 
 }
-	

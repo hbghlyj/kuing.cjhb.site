@@ -353,15 +353,29 @@ function build_cache_setting() {
 	list($data['plugins'], $data['pluginlinks'], $data['hookscript'], $data['hookscriptmobile'], $data['threadplugins'], $data['specialicon']) = get_cachedata_setting_plugin();
 
 	if(empty($data['defaultindex'])) $data['defaultindex'] = '';
-	list($data['navs'], $data['subnavs'], $data['menunavs'], $data['navmns'], $data['navmn'], $data['navdms'], $data['navlogos']) = get_cachedata_mainnav();
-
-	$data['footernavs'] = get_cachedata_footernav();
-	$data['spacenavs'] = get_cachedata_spacenavs();
-	$data['mynavs'] = get_cachedata_mynavs();
-	$data['topnavs'] = get_cachedata_topnav();
+	$data['navigation_i18n'] = [];
+	foreach(i18n::LOCALES as $locale) {
+		list($navs, $subnavs, $menunavs, $navmns, $navmn, $navdms, $navlogos) = get_cachedata_mainnav($locale);
+		$data['navigation_i18n'][$locale] = [
+			'navs' => $navs,
+			'subnavs' => $subnavs,
+			'menunavs' => $menunavs,
+			'navmns' => $navmns,
+			'navmn' => $navmn,
+			'navdms' => $navdms,
+			'navlogos' => $navlogos,
+			'footernavs' => get_cachedata_footernav($locale),
+			'spacenavs' => get_cachedata_spacenavs($locale),
+			'mynavs' => get_cachedata_mynavs($locale),
+			'topnavs' => get_cachedata_topnav($locale),
+			'mfindnavs' => get_cachedata_mfindnav($locale),
+			'mnavs' => get_cachedata_mnav($locale),
+		];
+	}
+	foreach($data['navigation_i18n']['SC'] as $key => $value) {
+		$data[$key] = $value;
+	}
 	$data['profilenode'] = get_cachedata_threadprofile();
-	$data['mfindnavs'] = get_cachedata_mfindnav();
-	$data['mnavs'] = get_cachedata_mnav();
 
 	$data['ucapp'] = $data['ucappopen'] = [];
 	$data['uchomeurl'] = '';
@@ -437,50 +451,26 @@ function build_cache_setting() {
 			$output['preg'] = rewritedata(0);
 		}
 		if($output['preg']) {
-			foreach($data['footernavs'] as $id => $nav) {
-				foreach($output['preg']['search'] as $key => $value) {
-					$data['footernavs'][$id]['code'] = preg_replace_callback(
-						$value,
-						function($matches) use ($output, $key) {
-							return eval('return '.$output['preg']['replace'][$key].';');
-						},
-						$nav['code']
-					);
+			$rewriteNavigation = function(&$navigation) use ($output) {
+				foreach(['footernavs', 'spacenavs', 'mynavs', 'topnavs'] as $navType) {
+					foreach($navigation[$navType] as $id => $nav) {
+						foreach($output['preg']['search'] as $key => $value) {
+							$navigation[$navType][$id]['code'] = preg_replace_callback(
+								$value,
+								function($matches) use ($output, $key) {
+									return eval('return '.$output['preg']['replace'][$key].';');
+								},
+								$navigation[$navType][$id]['code']
+							);
+						}
+					}
 				}
+			};
+			$rewriteNavigation($data);
+			foreach($data['navigation_i18n'] as &$navigation) {
+				$rewriteNavigation($navigation);
 			}
-			foreach($data['spacenavs'] as $id => $nav) {
-				foreach($output['preg']['search'] as $key => $value) {
-					$data['spacenavs'][$id]['code'] = preg_replace_callback(
-						$value,
-						function($matches) use ($output, $key) {
-							return eval('return '.$output['preg']['replace'][$key].';');
-						},
-						$nav['code']
-					);
-				}
-			}
-			foreach($data['mynavs'] as $id => $nav) {
-				foreach($output['preg']['search'] as $key => $value) {
-					$data['mynavs'][$id]['code'] = preg_replace_callback(
-						$value,
-						function($matches) use ($output, $key) {
-							return eval('return '.$output['preg']['replace'][$key].';');
-						},
-						$nav['code']
-					);
-				}
-			}
-			foreach($data['topnavs'] as $id => $nav) {
-				foreach($output['preg']['search'] as $key => $value) {
-					$data['topnavs'][$id]['code'] = preg_replace_callback(
-						$value,
-						function($matches) use ($output, $key) {
-							return eval('return '.$output['preg']['replace'][$key].';');
-						},
-						$nav['code']
-					);
-				}
-			}
+			unset($navigation);
 			foreach($data['plugins']['jsmenu'] as $id => $nav) {
 				foreach($output['preg']['search'] as $key => $value) {
 					$data['plugins']['jsmenu'][$id]['url'] = preg_replace_callback(
@@ -493,6 +483,9 @@ function build_cache_setting() {
 				}
 			}
 		}
+	}
+	foreach(array_keys($data['navigation_i18n']['SC']) as $key) {
+		$data['navigation_i18n']['SC'][$key] = $data[$key];
 	}
 
 	$data['witframe_plugins'] = witframe_plugin::getSettingValue();
@@ -894,11 +887,11 @@ function get_cachedata_setting_plugin($method = '') {
 
 }
 
-function get_cachedata_mainnav() {
+function get_cachedata_mainnav($locale = '') {
 	global $_G;
 
 	$data['navs'] = $data['subnavs'] = $data['menunavs'] = $data['navmns'] = $data['navmn'] = $data['navdms'] = $navids = [];
-	foreach(table_common_nav::t()->fetch_all_mainnav() as $nav) {
+	foreach(table_common_nav::t()->fetch_all_mainnav($locale) as $nav) {
 		$_nav = $nav;
 		if($nav['available'] < 0) {
 			continue;
@@ -926,9 +919,8 @@ function get_cachedata_mainnav() {
 		$data['navs'][$id]['filename'] = $nav['url'];
 		$data['navs'][$id]['available'] = $nav['available'];
 		$data['navs'][$id]['icon'] = $nav['icon'];
-		$nav['name'] = $nav['name'].($nav['title'] ? '<span>'.$nav['title'].'</span>' : '');
 		$subnavs = '';
-		foreach(table_common_nav::t()->fetch_all_subnav($nav['id']) as $subnav) {
+		foreach(table_common_nav::t()->fetch_all_subnav($nav['id'], $locale) as $subnav) {
 			$item = "<a href=\"{$subnav['url']}\" hidefocus=\"true\" ".($subnav['title'] ? "title=\"{$subnav['title']}\" " : '').($subnav['target'] == 1 ? "target=\"_blank\" " : '').parsehighlight($subnav['highlight']).">{$subnav['name']}</a>";
 			$liparam = !$nav['subtype'] || !$nav['subcols'] ? '' : ' style="width:'.sprintf('%1.1f', (1 / $nav['subcols']) * 100).'%"';
 			$subnavs .= '<li'.$liparam.'>'.$item.'</li>';
@@ -1013,11 +1005,11 @@ function get_cachedata_mainnav() {
 
 }
 
-function get_cachedata_footernav() {
+function get_cachedata_footernav($locale = '') {
 	global $_G;
 
 	$data['footernavs'] = [];
-	foreach(table_common_nav::t()->fetch_all_by_navtype(1) as $nav) {
+	foreach(table_common_nav::t()->fetch_all_by_navtype(1, $locale) as $nav) {
 		$_nav = $nav;
 		$nav['extra'] = '';
 		if(!$nav['type']) {
@@ -1031,16 +1023,16 @@ function get_cachedata_footernav() {
 		}
 		$nav['code'] = '<a href="'.$nav['url'].'" title="'.$nav['title'].'"'.($nav['target'] == 1 ? ' target="_blank"' : '').' '.parsehighlight($nav['highlight']).$nav['extra'].'>'.$nav['name'].'</a>';
 		$id = $nav['type'] == 0 ? $nav['identifier'] : 100 + $nav['id'];
-		$data['footernavs'][$id] = ['data' => $_nav, 'available' => $nav['available'], 'navname' => $nav['title'], 'code' => $nav['code'], 'type' => $nav['type'], 'level' => $nav['level'], 'id' => $nav['identifier']];
+		$data['footernavs'][$id] = ['data' => $_nav, 'available' => $nav['available'], 'navname' => $nav['name'], 'code' => $nav['code'], 'type' => $nav['type'], 'level' => $nav['level'], 'id' => $nav['identifier']];
 	}
 	return $data['footernavs'];
 }
 
-function get_cachedata_mfindnav() {
+function get_cachedata_mfindnav($locale = '') {
 	global $_G;
 
 	$data['mfindnavs'] = [];
-	foreach(table_common_nav::t()->fetch_all_by_navtype(5) as $nav) {
+	foreach(table_common_nav::t()->fetch_all_by_navtype(5, $locale) as $nav) {
 		$_nav = $nav;
 		$nav['extra'] = '';
 		$id = $nav['type'] == 0 ? $nav['identifier'] : 100 + $nav['id'];
@@ -1049,10 +1041,10 @@ function get_cachedata_mfindnav() {
 	return $data['mfindnavs'];
 }
 
-function get_cachedata_spacenavs() {
+function get_cachedata_spacenavs($locale = '') {
 	global $_G;
 	$data['spacenavs'] = [];
-	foreach(table_common_nav::t()->fetch_all_by_navtype(2) as $nav) {
+	foreach(table_common_nav::t()->fetch_all_by_navtype(2, $locale) as $nav) {
 		$_nav = $nav;
 		if($nav['available'] < 0) {
 			continue;
@@ -1126,11 +1118,11 @@ function get_cachedata_spacenavs() {
 	return $data['spacenavs'];
 }
 
-function get_cachedata_mynavs() {
+function get_cachedata_mynavs($locale = '') {
 	global $_G;
 
 	$data['mynavs'] = [];
-	foreach(table_common_nav::t()->fetch_all_by_navtype(3) as $nav) {
+	foreach(table_common_nav::t()->fetch_all_by_navtype(3, $locale) as $nav) {
 		$_nav = $nav;
 		if($nav['available'] < 0) {
 			continue;
@@ -1150,11 +1142,11 @@ function get_cachedata_mynavs() {
 	return $data['mynavs'];
 }
 
-function get_cachedata_topnav() {
+function get_cachedata_topnav($locale = '') {
 	global $_G;
 
 	$data['topnavs'] = [];
-	foreach(table_common_nav::t()->fetch_all_by_navtype(4) as $nav) {
+	foreach(table_common_nav::t()->fetch_all_by_navtype(4, $locale) as $nav) {
 		$_nav = $nav;
 		if(!$nav['type'] && in_array($nav['identifier'], ['setfavorite', 'sethomepage'], true)) {
 			continue;
@@ -1167,11 +1159,11 @@ function get_cachedata_topnav() {
 	return $data['topnavs'];
 }
 
-function get_cachedata_mnav() {
+function get_cachedata_mnav($locale = '') {
 	global $_G;
 
 	$data['mnavs'] = [];
-	foreach(table_common_nav::t()->fetch_all_by_navtype(6) as $nav) {
+	foreach(table_common_nav::t()->fetch_all_by_navtype(6, $locale) as $nav) {
 		$_nav = $nav;
 		$id = $nav['type'] == 0 ? $nav['identifier'] : 100 + $nav['id'];
 		if(strpos($nav['icon'], 'http://') === 0 || strpos($nav['icon'], 'https://') === 0 || strpos($nav['icon'], './') === 0 || strpos($nav['icon'], '../') === 0 || strpos($nav['icon'], '/') === 0) {

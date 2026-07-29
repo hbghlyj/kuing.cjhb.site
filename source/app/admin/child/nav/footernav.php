@@ -9,7 +9,6 @@
 if(!defined('IN_DISCUZ') || !defined('IN_ADMINCP')) {
 	exit('Access Denied');
 }
-
 if(!$do) {
 
 	if(!submitcheck('submit')) {
@@ -117,8 +116,9 @@ EOT;
 
 		showformheader("nav&operation=footernav&do=edit&id=$id");
 		showtableheader();
-		showsetting('misc_customnav_name', 'namenew', $nav['name'], 'text');
-		showsetting('misc_customnav_title', 'titlenew', $nav['title'], 'text');
+		foreach(i18n::LOCALES as $locale) {
+			showsetting($locale, 'namenew['.$locale.']', $nav['name_i18n'][$locale] ?? '', 'text');
+		}
 		showsetting('misc_customnav_url', 'urlnew', $nav['url'], 'text', $nav['type'] == '0');
 		showsetting('misc_customnav_style', ['stylenew', [cplang('misc_customnav_style_underline'), cplang('misc_customnav_style_italic'), cplang('misc_customnav_style_bold')]], $string[0], 'binmcheckbox');
 		showsetting('misc_customnav_style_color', ['colornew', [
@@ -151,8 +151,7 @@ EOT;
 
 	} else {
 
-		$namenew = trim(dhtmlspecialchars($_GET['namenew']));
-		$titlenew = trim(dhtmlspecialchars($_GET['titlenew']));
+		$namenew = array_map(fn($value) => trim(dhtmlspecialchars($value)), (array)$_GET['namenew']);
 		$urlnew = str_replace(['&amp;'], ['&'], dhtmlspecialchars($_GET['urlnew']));
 		$colornew = $_GET['colornew'];
 		$stylebin = '';
@@ -166,7 +165,6 @@ EOT;
 
 		$data = [
 			'name' => $namenew,
-			'title' => $titlenew,
 			'highlight' => "$stylenew$colornew",
 			'target' => $targetnew,
 			'level' => $levelnew
@@ -182,4 +180,3 @@ EOT;
 	}
 
 }
-	

@@ -1091,32 +1091,9 @@ function loadcache($cachenames, $force = false) {
 				}
 				unset($value);
 			}
-			if(currentlang() == 'EN') {
-				if($cname == 'onlinelist'){
-					$data['legend'] = $data['legend_en'];
-				}elseif($cname == 'setting') {
-					$data['bbname'] = $data['sitename'] = 'Discuz Math Forum';
-					$data['navs'][2]['navname'] = 'Forum';
-					foreach($data['navs'] as $key => &$value) {
-						$value['nav'] = preg_replace(
-							'/<a([^>]*?)title="([^"]*?)"([^>]*?)>.*?<\/a/i',
-							'<a$1title="$2"$3>$2</a',
-							$value['nav']
-						);
-					}
-					$data['menunavs'] = preg_replace(
-						'/<a([^>]*?)title="([^"]*?)"([^>]*?)>.*?<\/a/i',
-						'<a$1title="$2"$3>$2</a',
-						$data['menunavs']
-					);
-					foreach($data['footernavs'] as $key => &$value) {
-						$value['code'] = preg_replace(
-							'/<a([^>]*?)>.*?<\/a>/i',
-							'<a$1>'.$value['navname'].'</a>',
-							$value['code']
-						);
-					}
-				}
+			if($cname == 'onlinelist' && !empty($data['legend_i18n'])) {
+				$data['legend'] = i18n::localizeValue($data['legend_i18n']);
+				$data['guest'] = i18n::localizeValue($data['guest_i18n'] ?? []);
 			}
 			if($cname == 'setting') {
 				$_G['setting'] = $data;

@@ -828,9 +828,20 @@ class discuz_application extends discuz_base {
 				?: array_key_first($this->var['setting']['i18n']);
 		}
 		$this->var['i18n'] = $requested;
-		$templateLang = i18n::getLang('lang_template.php', $requested);
-		if(isset($this->var['setting']['navs'][2], $templateLang['forum_home'])) {
-			$this->var['setting']['navs'][2]['navname'] = $templateLang['forum_home'];
+		foreach(['bbname', 'sitename'] as $settingName) {
+			if(isset($this->var['setting'][$settingName])) {
+				$this->var['setting'][$settingName.'_i18n'] = i18n::decodeValue($this->var['setting'][$settingName]);
+				$this->var['setting'][$settingName] = i18n::localizeValue($this->var['setting'][$settingName.'_i18n'], $requested);
+			}
+		}
+		if(!empty($this->var['setting']['navigation_i18n'][$requested])) {
+			foreach($this->var['setting']['navigation_i18n'][$requested] as $key => $value) {
+				$this->var['setting'][$key] = $value;
+			}
+		}
+		if(!empty($this->var['cache']['onlinelist']['legend_i18n'])) {
+			$this->var['cache']['onlinelist']['legend'] = i18n::localizeValue($this->var['cache']['onlinelist']['legend_i18n'], $requested);
+			$this->var['cache']['onlinelist']['guest'] = i18n::localizeValue($this->var['cache']['onlinelist']['guest_i18n'] ?? [], $requested);
 		}
 		if(!empty($this->var['cache']['forums'])) {
 			foreach($this->var['cache']['forums'] as &$forum) {

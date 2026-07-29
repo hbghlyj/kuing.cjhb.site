@@ -11,7 +11,16 @@ if(!defined('IN_DISCUZ') || !defined('IN_ADMINCP')) {
 }
 
 if(submitcheck('settingsubmit')) {
-	$nohtmlarray = ['bbname', 'regname', 'icp', 'sitemessage', 'site_qq'];
+	foreach(['bbname', 'sitename'] as $localizedSetting) {
+		if(isset($settingnew[$localizedSetting])) {
+			$localizedValues = array_map(
+				fn($value) => trim(dhtmlspecialchars($value)),
+				(array)$settingnew[$localizedSetting]
+			);
+			$settingnew[$localizedSetting] = i18n::encodeValue($localizedValues);
+		}
+	}
+	$nohtmlarray = ['regname', 'icp', 'sitemessage', 'site_qq'];
 	foreach($nohtmlarray as $k) {
 		if(isset($settingnew[$k])) {
 			$settingnew[$k] = dhtmlspecialchars($settingnew[$k]);
@@ -37,8 +46,20 @@ if(submitcheck('settingsubmit')) {
 
 	/*search={"setting_basic":"action=setting&operation=basic"}*/
 	showtableheader('', 'nobottom');
-	showsetting('setting_basic_bbname', 'settingnew[bbname]', $setting['bbname'], 'text');
-	showsetting('setting_basic_sitename', 'settingnew[sitename]', $setting['sitename'], 'text');
+	foreach(['bbname', 'sitename'] as $localizedSetting) {
+		$localizedValues = i18n::decodeValue($setting[$localizedSetting.'_i18n'] ?? $setting[$localizedSetting]);
+		foreach(i18n::LOCALES as $locale) {
+			showsetting(
+				$locale,
+				'settingnew['.$localizedSetting.']['.$locale.']',
+				$localizedValues[$locale] ?? '',
+				'text',
+				'',
+				0,
+				$localizedSetting == 'bbname' ? cplang('setting_basic_bbname') : cplang('setting_basic_sitename')
+			);
+		}
+	}
 	showsetting('setting_basic_siteurl', 'settingnew[siteurl]', $setting['siteurl'], 'text');
 	showsetting('setting_basic_adminemail', 'settingnew[adminemail]', $setting['adminemail'], 'text');
 	showsetting('setting_basic_site_qq', 'settingnew[site_qq]', $setting['site_qq'], 'text', $disabled = '', $hidden = 0, $comment = '', $extra = 'id="settingnew[site_qq]"');
