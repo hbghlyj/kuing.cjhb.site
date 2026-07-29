@@ -135,6 +135,21 @@ const { execSync } = require('child_process');
         await page.screenshot({ path: 'screenshot_forum_03_admin_panel.png' });
         report += '### 3. Admin Panel UI\n- **Status**: Checked\n\n';
 
+        console.log("Checking localized forum name fields...");
+        await page.goto('http://127.0.0.1:8080/admin.php?action=forums&operation=edit&fid=2');
+        await page.waitForLoadState('networkidle');
+        const storedForumNames = JSON.parse(execSync("sudo mysql -u root ultrax -N -s -e \"SELECT name FROM pre_forum_forum WHERE fid=2;\"").toString().trim());
+        for (const locale of ['SC', 'TC', 'EN']) {
+            const nameInput = page.locator(`input[name="namenew[${locale}]"]`);
+            assert.strictEqual(await nameInput.count(), 1, `Assertion Error: AdminCP ${locale} forum name field did not render.`);
+            assert.strictEqual(
+                await nameInput.inputValue(),
+                storedForumNames[locale] || '',
+                `Assertion Error: AdminCP ${locale} forum name field did not show the stored translation.`
+            );
+        }
+        report += '### 4. Localized Forum Names\n- **Status**: Checked\n- **Locales**: SC, TC, EN\n\n';
+
         console.log("Checking Admin Panel Logs Page...");
         await page.goto('http://127.0.0.1:8080/admin.php?action=logs&operation=cp');
         await page.waitForLoadState('networkidle');
@@ -145,7 +160,7 @@ const { execSync } = require('child_process');
         assert.strictEqual(await logSearchForm.locator('input[name="operation"][value="cp"]').count(), 1, 'Assertion Error: AdminCP log form did not render the operation-log view.');
         assert.strictEqual(await logSearchForm.locator('#keywordraw').count(), 1, 'Assertion Error: AdminCP operation-log keyword field did not render.');
         await page.screenshot({ path: 'screenshot_forum_04_admin_logs.png' });
-        report += '### 4. Admin Panel Logs Access\n- **Status**: Checked\n- **URL**: admin.php?action=logs&operation=cp\n\n';
+        report += '### 5. Admin Panel Logs Access\n- **Status**: Checked\n- **URL**: admin.php?action=logs&operation=cp\n\n';
 
         console.log("Checking renamed uploader operations...");
         await page.goto('http://127.0.0.1:8080/forum.php?mod=post&action=newthread&fid=2');
@@ -192,7 +207,7 @@ const { execSync } = require('child_process');
             `Assertion Error: JSON editor upload endpoint should reject uploads in plain mode: ${JSON.stringify(jsonEditorUpload)}`
         );
 
-        report += '### 5. Uploader Endpoint Contracts in Plain Mode\n- **Status**: Checked\n- **Forum Image Endpoint**: Success\n- **Poll Image Endpoint**: Success\n- **Album Image Endpoint**: Success\n- **Portal Attachment Endpoint**: Success\n- **JSON Editor Endpoint Protection**: Verified (returns success=0)\n\n';
+        report += '### 6. Uploader Endpoint Contracts in Plain Mode\n- **Status**: Checked\n- **Forum Image Endpoint**: Success\n- **Poll Image Endpoint**: Success\n- **Album Image Endpoint**: Success\n- **Portal Attachment Endpoint**: Success\n- **JSON Editor Endpoint Protection**: Verified (returns success=0)\n\n';
 
     } catch (error) {
         console.error("Admin test execution failed:", error);

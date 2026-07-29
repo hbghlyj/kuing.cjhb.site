@@ -191,7 +191,9 @@ if(!submitcheck('detailsubmit') && !submitcheck('multijssubmit')) {
 		/*search={"forums_admin":"action=forums","forums_edit_basic":"action=forums&operation=edit&anchor=basic"}*/
 		showtagheader('div', 'basic', $anchor == 'basic');
 		showtableheader();
-		showsetting('forums_edit_basic_cat_name', 'namenew', $mforum[0]['name'], 'text');
+		foreach(['SC', 'TC', 'EN'] as $locale) {
+			showsetting($locale, 'namenew['.$locale.']', $mforum[0]['name_i18n'][$locale] ?? '', 'text');
+		}
 		showsetting('forums_edit_basic_cat_name_color', 'extranew[namecolor]', $mforum[0]['extra']['namecolor'], 'color');
 		showsetting('forums_edit_basic_cat_style', '', '', $styleselect);
 		showsetting('forums_edit_extend_forum_horizontal', 'forumcolumnsnew', $mforum[0]['forumcolumns'], 'text');
@@ -364,7 +366,9 @@ if(!submitcheck('detailsubmit') && !submitcheck('multijssubmit')) {
 				showtips('forums_edit_tips');
 			}
 			showtableheader('forums_edit_basic');
-			showsetting('forums_edit_basic_name', 'namenew', $forum['name'], 'text');
+			foreach(['SC', 'TC', 'EN'] as $locale) {
+				showsetting($locale, 'namenew['.$locale.']', $forum['name_i18n'][$locale] ?? '', 'text');
+			}
 			showsetting('forums_edit_base_name_color', 'extranew[namecolor]', $forum['extra']['namecolor'], 'color');
 			if(!$multiset) {
 				if($forum['icon']) {
@@ -817,9 +821,18 @@ EOT;
 		}
 		$forum = $mforum[$k];
 
-		if(strlen($_GET['namenew']) > 50) {
-			cpmsg('forums_name_toolong', '', 'error', ['frame' => $multiset]);
+		$namenew = table_forum_forum::decode_name($_GET['namenew'] ?? []);
+		foreach($namenew as $locale => $name) {
+			$namenew[$locale] = trim($name);
+			if(strlen($namenew[$locale]) > 50) {
+				cpmsg('forums_name_toolong', '', 'error', ['frame' => $multiset]);
+			}
 		}
+		$forumname = table_forum_forum::localize_name($namenew);
+		if($forumname === '') {
+			cpmsg('forums_edit_name_invalid', '', 'error', ['frame' => $multiset]);
+		}
+		$_GET['namenew'] = $namenew;
 
 		$domain = '';
 		if(!empty($_GET['domainnew']) && !empty($_G['setting']['domain']['root']['forum'])) {
@@ -827,7 +840,7 @@ EOT;
 		}
 		require_once libfile('function/discuzcode');
 		if($_GET['type'] == 'group') {
-			if($_GET['namenew']) {
+			if($forumname !== '') {
 				$newstyleid = intval($_GET['styleidnew']);
 				$forumcolumnsnew = $_GET['forumcolumnsnew'] > 1 ? intval($_GET['forumcolumnsnew']) : 0;
 				$catforumcolumnsnew = $_GET['catforumcolumnsnew'] > 1 ? intval($_GET['catforumcolumnsnew']) : 0;
@@ -882,7 +895,7 @@ EOT;
 						'url' => 'forum.php?mod=forumdisplay&fid='.$fid,
 						'identifier' => $fid,
 						'parentid' => 0,
-						'name' => $_GET['namenew'],
+						'name' => $forumname,
 						'displayorder' => 0,
 						'subtype' => '',
 						'type' => 5,
@@ -1359,7 +1372,7 @@ EOT;
 				'url' => 'forum.php?mod=forumdisplay&fid='.$fid,
 				'identifier' => $fid,
 				'parentid' => 0,
-				'name' => $_GET['namenew'],
+				'name' => $forumname,
 				'displayorder' => 0,
 				'subtype' => '',
 				'type' => 5,
@@ -1387,4 +1400,3 @@ EOT;
 	cpmsg('forums_edit_succeed', 'mod=forum&action=forums&operation=edit&'.($multiset ? 'multi='.implode(',', $_GET['multi']) : "fid=$fid").($_GET['anchor'] ? "&anchor={$_GET['anchor']}" : ''), 'succeed', ['frame' => $multiset]);
 
 }
-	
