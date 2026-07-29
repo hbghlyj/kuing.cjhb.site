@@ -58,7 +58,9 @@ function initPostQuoteButton() {
 		const range = selection.getRangeAt(0);
 		const startPost = postForNode(range.startContainer);
 		const endPost = postForNode(range.endContainer);
-		const text = selection.toString().trim();
+		const text = (typeof rangeToPlainTextWithMathJax === 'function'
+			? rangeToPlainTextWithMathJax(range)
+			: selection.toString()).trim();
 		if(!startPost || startPost !== endPost || !text) {
 			hide();
 			return;

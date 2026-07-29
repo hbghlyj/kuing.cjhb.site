@@ -24,6 +24,41 @@ function fragmentToPlainText(fragment) {
   return text;
 }
 
+// Clone a range after tagging rendered formulas with their original TeX.
+function cloneRangeWithMathJaxSource(range) {
+  const sourceRange = range.cloneRange();
+  const startContainer = closestMjxContainer(sourceRange.startContainer);
+  if (startContainer) {
+    sourceRange.setStartBefore(startContainer);
+  }
+
+  const endContainer = closestMjxContainer(sourceRange.endContainer);
+  if (endContainer) {
+    sourceRange.setEndAfter(endContainer);
+  }
+
+  const doc = window.MathJax && window.MathJax.startup && window.MathJax.startup.document;
+  const taggedContainers = [];
+  if (doc) {
+    for (const math of doc.math) {
+      const container = math.typesetRoot;
+      if (container && sourceRange.intersectsNode(container)) {
+        container.setAttribute('data-mjx-copy-tex', math.start.delim + math.math.trim() + math.end.delim);
+        taggedContainers.push(container);
+      }
+    }
+  }
+
+  const fragment = sourceRange.cloneContents();
+  taggedContainers.forEach((container) => container.removeAttribute('data-mjx-copy-tex'));
+  return fragment;
+}
+
+// Public serializer used by copy handling and selected-fragment quoting.
+function rangeToPlainTextWithMathJax(range) {
+  return fragmentToPlainText(mjxReplaceWithTex(cloneRangeWithMathJaxSource(range)));
+}
+
 // Global copy handler to modify behavior on/within mjx-container elements.
 document.addEventListener('copy', function (event) {
   const selection = window.getSelection();
@@ -32,36 +67,7 @@ document.addEventListener('copy', function (event) {
   }
   const clipboardData = event.clipboardData;
   const range = selection.getRangeAt(0);
-
-  // When start point is within a formula, expand to entire formula.
-  const startContainer = closestMjxContainer(range.startContainer);
-  if (startContainer) {
-    range.setStartBefore(startContainer);
-  }
-
-  // Similarly, when end point is within a formula, expand to entire formula.
-  const endContainer = closestMjxContainer(range.endContainer);
-  if (endContainer) {
-    range.setEndAfter(endContainer);
-  }
-
-  // Tag each live mjx-container intersecting the range with its original
-  // TeX source, including delimiters, so it survives into the cloned
-  // fragment below.
-  const doc = window.MathJax && window.MathJax.startup && window.MathJax.startup.document;
-  const taggedContainers = [];
-  if (doc) {
-    for (const math of doc.math) {
-      const container = math.typesetRoot;
-      if (container && range.intersectsNode(container)) {
-        container.setAttribute('data-mjx-copy-tex', math.start.delim + math.math.trim() + math.end.delim);
-        taggedContainers.push(container);
-      }
-    }
-  }
-
-  const fragment = range.cloneContents();
-  taggedContainers.forEach((container) => container.removeAttribute('data-mjx-copy-tex'));
+  const fragment = cloneRangeWithMathJaxSource(range);
 
   if (!fragment.querySelector('mjx-container')) {
     return; // default action OK if no math elements
