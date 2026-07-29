@@ -39,6 +39,7 @@
     #messagesLoaded = 0;
     #lastMessageTime = null;
     #wasDisconnected = false;
+    #isSending = false;
     #widget;
     #messageInputEl;
     #messagesEl;
@@ -208,7 +209,7 @@
         this.#handlePhotoUpload(e.target);
       });
       this.#messageInputEl.addEventListener('keydown', e => {
-        if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+        if (!e.repeat && (e.ctrlKey || e.metaKey) && e.key === 'Enter') {
           this.#sendChatButtonClicked();
         }
       });
@@ -345,6 +346,7 @@
       this.#processPendingMessages();
     }
     #sendChatButtonClicked(){
+      if(this.#isSending) return;
       const message = this.#messageInputEl.value.trim();
       if(!message){
         showError($L('chat_message_empty'));
@@ -352,7 +354,10 @@
         return;
       }
       const chatInfo = {text: message};
-      this.#sendChatMessage(chatInfo);
+      this.#isSending = true;
+      this.#sendChatMessage(chatInfo).finally(() => {
+        this.#isSending = false;
+      });
     }
     async #sendChatMessage(data){
       this.#messageInputEl.readOnly = true;
