@@ -153,6 +153,8 @@ $lang =
 	'reward_bestanswer_moderator' => '您在悬赏主题 <a href="forum.php?mod=viewthread&tid={tid}" target="_blank">{subject}</a> 的回复被选为最佳答案 &nbsp; <a href="forum.php?mod=viewthread&tid={tid}" target="_blank" class="lit">查看 &rsaquo;</a>',
 
 	'comment_add' => '{actor} 点评了您曾经在主题 <a href="forum.php?mod=viewthread&tid={tid}" target="_blank">{subject}</a> 发表的帖子 &nbsp; <a href="forum.php?mod=redirect&goto=findpost&pid={pid}&ptid={tid}" target="_blank" class="lit">查看 &rsaquo;</a>',
+	'postreview_support' => '{actor} 赞成了您在主题 <a href="forum.php?mod=viewthread&tid={tid}" target="_blank">{subject}</a> 中的回复 &nbsp; <a href="forum.php?mod=redirect&goto=findpost&pid={pid}&ptid={tid}" target="_blank" class="lit">查看 &rsaquo;</a>',
+	'postreview_against' => '{actor} 反对了您在主题 <a href="forum.php?mod=viewthread&tid={tid}" target="_blank">{subject}</a> 中的回复 &nbsp; <a href="forum.php?mod=redirect&goto=findpost&pid={pid}&ptid={tid}" target="_blank" class="lit">查看 &rsaquo;</a>',
 
 	'reppost_noticeauthor' => '{actor} 回复了您的帖子 <a href="forum.php?mod=redirect&goto=findpost&ptid={tid}&pid={pid}" target="_blank">{subject}</a> &nbsp; <a href="forum.php?mod=redirect&goto=findpost&pid={pid}&ptid={tid}" target="_blank" class="lit">查看</a>',
 

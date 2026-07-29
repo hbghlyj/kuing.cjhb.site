@@ -749,6 +749,50 @@ const svgAttachmentSubject = `Thread with SVG Attachment ${testRunId}`;
         );
         const supportDbCheck = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT COUNT(*) FROM pre_forum_hotreply_member WHERE pid='${adminReplyPidOutput}' AND uid='${userUid}' AND attitude=1;"`).toString().trim();
         assert.strictEqual(supportDbCheck, '1', 'Assertion Error: Postreview support vote was not persisted.');
+        const supportNoticeCheck = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT CONCAT(COUNT(*), ':', COALESCE(MAX(from_num), 0)) FROM pre_home_notification WHERE uid='1' AND authorid='${userUid}' AND type='post' AND from_id='${adminReplyPidOutput}' AND from_idtype='postreview_support';"`).toString().trim();
+        assert.strictEqual(supportNoticeCheck, '1:1', 'Assertion Error: New postreview support vote did not notify the reply author exactly once.');
+
+        const againstBtn = page.locator(`a[href*="action=postreview&do=against"][href*="pid=${adminReplyPidOutput}"]`);
+        assert.strictEqual(await againstBtn.count(), 1, 'Assertion Error: Desktop postreview oppose button did not render.');
+        console.log("Changing desktop postreview support vote to oppose via UI...");
+        const [againstResponse] = await Promise.all([
+            page.waitForResponse(response => response.url().includes('action=postreview&do=against')),
+            againstBtn.click()
+        ]);
+        assert.ok(againstResponse.ok(), `Assertion Error: Postreview oppose request failed with HTTP ${againstResponse.status()}.`);
+        const changedVoteDbCheck = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT COUNT(*) FROM pre_forum_hotreply_member WHERE pid='${adminReplyPidOutput}' AND uid='${userUid}' AND attitude=0;"`).toString().trim();
+        assert.strictEqual(changedVoteDbCheck, '1', 'Assertion Error: Postreview vote change was not persisted.');
+        const changedVoteNoticeCheck = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT COUNT(*) FROM pre_home_notification WHERE uid='1' AND authorid='${userUid}' AND type='post' AND from_id='${adminReplyPidOutput}' AND from_idtype='postreview_against';"`).toString().trim();
+        assert.strictEqual(changedVoteNoticeCheck, '0', 'Assertion Error: Changing a postreview vote generated an unwanted notification.');
+
+        console.log("Cancelling desktop postreview oppose vote via UI...");
+        const [cancelVoteResponse] = await Promise.all([
+            page.waitForResponse(response => response.url().includes('action=postreview&do=against')),
+            againstBtn.click()
+        ]);
+        assert.ok(cancelVoteResponse.ok(), `Assertion Error: Postreview cancellation request failed with HTTP ${cancelVoteResponse.status()}.`);
+        const cancelledVoteDbCheck = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT COUNT(*) FROM pre_forum_hotreply_member WHERE pid='${adminReplyPidOutput}' AND uid='${userUid}';"`).toString().trim();
+        assert.strictEqual(cancelledVoteDbCheck, '0', 'Assertion Error: Postreview vote cancellation was not persisted.');
+        const finalVoteNoticeCheck = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT CONCAT(COUNT(*), ':', COALESCE(MAX(from_num), 0)) FROM pre_home_notification WHERE uid='1' AND authorid='${userUid}' AND type='post' AND from_id='${adminReplyPidOutput}';"`).toString().trim();
+        assert.strictEqual(finalVoteNoticeCheck, '1:1', 'Assertion Error: Changing or cancelling a postreview vote generated notification noise.');
+
+        console.log("Casting a new desktop postreview oppose vote via UI...");
+        const [newAgainstResponse] = await Promise.all([
+            page.waitForResponse(response => response.url().includes('action=postreview&do=against')),
+            againstBtn.click()
+        ]);
+        assert.ok(newAgainstResponse.ok(), `Assertion Error: New postreview oppose request failed with HTTP ${newAgainstResponse.status()}.`);
+        const againstNoticeCheck = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT CONCAT(COUNT(*), ':', COALESCE(MAX(from_num), 0)) FROM pre_home_notification WHERE uid='1' AND authorid='${userUid}' AND type='post' AND from_id='${adminReplyPidOutput}' AND from_idtype='postreview_against';"`).toString().trim();
+        assert.strictEqual(againstNoticeCheck, '1:1', 'Assertion Error: New postreview oppose vote did not notify the reply author exactly once.');
+
+        console.log("Cancelling the new desktop postreview oppose vote via UI...");
+        const [newAgainstCancelResponse] = await Promise.all([
+            page.waitForResponse(response => response.url().includes('action=postreview&do=against')),
+            againstBtn.click()
+        ]);
+        assert.ok(newAgainstCancelResponse.ok(), `Assertion Error: New postreview oppose cancellation failed with HTTP ${newAgainstCancelResponse.status()}.`);
+        const againstNoticeAfterCancel = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT CONCAT(COUNT(*), ':', COALESCE(MAX(from_num), 0)) FROM pre_home_notification WHERE uid='1' AND authorid='${userUid}' AND type='post' AND from_id='${adminReplyPidOutput}' AND from_idtype='postreview_against';"`).toString().trim();
+        assert.strictEqual(againstNoticeAfterCancel, '1:1', 'Assertion Error: Cancelling a new postreview oppose vote generated notification noise.');
 
         await page.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${targetRecommendTid}`);
         await page.waitForLoadState('networkidle');

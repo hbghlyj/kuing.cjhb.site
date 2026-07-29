@@ -149,6 +149,8 @@ $lang = array
 	'reward_bestanswer_moderator'	=> 'Your reply to the reward thread <a href="forum.php?mod=viewthread&tid={tid}">{subject}</a> was selected as the best answer &nbsp; <a href="forum.php?mod=viewthread&tid={tid}" class="lit">View &rsaquo;</a>',//'您在悬赏主题 <a href="forum.php?mod=viewthread&tid={tid}">{subject}</a> 的回复被选为最佳答案 &nbsp; <a href="forum.php?mod=viewthread&tid={tid}" class="lit">查看 &rsaquo;</a>',
 
 	'comment_add'		=> '{actor} commented your thread <a href="forum.php?mod=viewthread&tid={tid}">{subject}</a>. &nbsp; <a href="forum.php?mod=redirect&goto=findpost&pid={pid}&ptid={tid}" class="lit">View &rsaquo;</a>',
+	'postreview_support'	=> '{actor} supported your reply in <a href="forum.php?mod=viewthread&tid={tid}">{subject}</a>. &nbsp; <a href="forum.php?mod=redirect&goto=findpost&pid={pid}&ptid={tid}" class="lit">View &rsaquo;</a>',
+	'postreview_against'	=> '{actor} opposed your reply in <a href="forum.php?mod=viewthread&tid={tid}">{subject}</a>. &nbsp; <a href="forum.php?mod=redirect&goto=findpost&pid={pid}&ptid={tid}" class="lit">View &rsaquo;</a>',
 
 	'reppost_noticeauthor'	=> '{actor} replied your post in the thread <a href="forum.php?mod=redirect&goto=findpost&ptid={tid}&pid={pid}">{subject}</a><div class="quote"><blockquote>{message}</blockquote></div><a class="lit" href="forum.php?mod=redirect&goto=findpost&pid={pid}&ptid={tid}">View</a>',
 

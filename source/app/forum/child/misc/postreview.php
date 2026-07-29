@@ -70,6 +70,15 @@ table_forum_hotreply_member::t()->insert([
 ]);
 updatemembercount($post['authorid'], ['extcredits1' => $creditValue($typeid)]);
 
+$thread = table_forum_thread::t()->fetch($post['tid']);
+notification_add($post['authorid'], 'post', 'postreview_'.$_GET['do'], [
+	'from_id' => $post['pid'],
+	'from_idtype' => 'postreview_'.$_GET['do'],
+	'tid' => $post['tid'],
+	'pid' => $post['pid'],
+	'subject' => $thread['subject'],
+]);
+
 $hotreply[$_GET['do']]++;
 
 showmessage('thread_poll_succeed', '', [], ['msgtype' => 3, 'extrajs' => '<script type="text/javascript">postreviewupdate('.$post['pid'].', '.$typeid.', '.$username.');</script>']);
