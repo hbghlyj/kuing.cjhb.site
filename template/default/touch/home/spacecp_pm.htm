@@ -30,32 +30,37 @@
 </form>
 <script type="text/javascript">
 	(function() {
-		$('#sendmessage').on('keyup input', function() {
-			var obj = $(this);
-			if(obj.val()) {
-				$('.btn_pn').removeClass('mgrey').addClass('mblue');
-				$('.btn_pn').attr('disable', 'false');
+		var message = document.getElementById('sendmessage');
+		var form = document.getElementById('pmform_{$pmid}');
+		var button = document.getElementById('pmsubmit_btn');
+		message.addEventListener('input', function() {
+			if(message.value) {
+				document.querySelectorAll('.btn_pn').forEach(function(element) {
+					element.classList.remove('mgrey');
+					element.classList.add('mblue');
+					element.setAttribute('disable', 'false');
+				});
 			} else {
-				$('.btn_pn').removeClass('mblue').addClass('mgrey');
-				$('.btn_pn').attr('disable', 'true');
+				document.querySelectorAll('.btn_pn').forEach(function(element) {
+					element.classList.remove('mblue');
+					element.classList.add('mgrey');
+					element.setAttribute('disable', 'true');
+				});
 			}
 		});
-		var form = $('#pmform_{$pmid}');
-		$('#pmsubmit_btn').on('click', function() {
-			var obj = $(this);
-			if(obj.attr('disable') == 'true') {
+		button.addEventListener('click', function(event) {
+			event.preventDefault();
+			if(button.getAttribute('disable') == 'true') {
 				return false;
 			}
-			$.ajax({
-				type:'POST',
-				url:form.attr('action') + '&handlekey='+form.attr('id')+'&inajax=1',
-				data:form.serialize(),
+			mobileRequest({
+				method:'POST',
+				url:form.action + '&handlekey='+form.id+'&inajax=1',
+				data:new FormData(form),
 				dataType:'xml'
-			})
-			.success(function(s) {
+			}).then(function(s) {
 				popup.open(s.lastChild.firstChild.nodeValue);
-			})
-			.error(function() {
+			}).catch(function() {
 				popup.open('{lang networkerror}', 'alert');
 			});
 			return false;

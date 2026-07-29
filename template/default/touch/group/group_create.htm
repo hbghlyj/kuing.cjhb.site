@@ -79,11 +79,11 @@
     }
   }
   function group_ajaxget(url) {
-    $.ajax({
-      type:'GET',
+    mobileRequest({
+      method:'GET',
       url: url + '&inajax=1' ,
       dataType:'xml',
-    }).success(function(s) {
+    }).then(function(s) {
 		var sencondgroup = s.lastChild.firstChild.nodeValue.replace("class=\"ps\"", "class=\"sort_sel\" data-title=\"{lang group_category}\"");
 		$('#linkage').html(sencondgroup);
 		$('#secondgroup').css('display', '');

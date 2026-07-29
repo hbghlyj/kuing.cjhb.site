@@ -30,16 +30,16 @@
 <script type="text/javascript" reload="1">
 function changepolloptionid(id) {
 	popup.open('<img src="' + IMGDIR + '/imageloading.gif">');
-	$.ajax({
-		type : 'GET',
+	mobileRequest({
+		method : 'GET',
 		url : 'forum.php?mod=misc&action=viewvote&tid=$_G[tid]&polloptionid='+ id + '&inajax=1',
 		dataType : 'xml'
 	})
-	.success(function(s) {
+	.then(function(s) {
 		popup.open(s.lastChild.firstChild.nodeValue);
 		evalscript(s.lastChild.firstChild.nodeValue);
 	})
-	.error(function() {
+	.catch(function() {
 		window.location.href = 'forum.php?mod=misc&action=viewvote&tid=$_G[tid]';
 		popup.close();
 	});

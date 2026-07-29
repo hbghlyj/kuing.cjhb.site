@@ -203,13 +203,13 @@
 <input type="hidden" name="{if $_GET['action'] == 'newthread'}topicsubmit{elseif $_GET['action'] == 'reply'}replysubmit{elseif $_GET['action'] == 'edit'}editsubmit{/if}" value="yes">
 </form>
 <script type="text/javascript">
-(function($) {
+(function() {
 	'use strict';
 
-	var btn = $('#postsubmit'),
-	    form = $('#postform'),
-	    needsubject = $('#needsubject'),
-	    needmessage = $('#needmessage');
+	var btn = mobileDom('#postsubmit'),
+	    form = mobileDom('#postform'),
+	    needsubject = mobileDom('#needsubject'),
+	    needmessage = mobileDom('#needmessage');
 
 	var state = {
 		needsubject: false,
@@ -237,7 +237,7 @@
 	}
 
 	function isEmpty(el) {
-		return !el.length || $.trim(el.val() || '') === '';
+		return !el.length || String(el.val() || '').trim() === '';
 	}
 
 	var subjectTimer = null,
@@ -292,7 +292,7 @@
 			}
 
 			<!--{if $postinfo['first']}-->
-			if(!_needsubject || $.trim(_needsubject.value) === '' || $.trim(post_content) === '') {
+			if(!_needsubject || String(_needsubject.value).trim() === '' || String(post_content).trim() === '') {
 				popup.open('{lang post_sm_isnull}', 'alert');
 				return false;
 			}
@@ -330,17 +330,13 @@
 			return false;
 		}
 
-		$.ajax({
-			type: 'POST',
+		mobileRequest({
+			method: 'POST',
 			url: actionUrl + '&geoloc=' + postlocation + '&handlekey=' + form.attr('id') + '&inajax=1',
 			data: formdata,
-			cache: false,
-			contentType: false,
-			processData: false,
 			dataType: 'xml',
-			timeout: 30000
 		})
-		.done(function(s) {
+		.then(function(s) {
 			var msg = '';
 			if(s && s.lastChild && s.lastChild.firstChild) {
 				msg = s.lastChild.firstChild.nodeValue;
@@ -354,7 +350,7 @@
 				}, 1200);
 			}
 		})
-		.fail(function() {
+		.catch(function() {
 			state.submitting = false;
 			updateButton();
 			popup.open('{lang networkerror}', 'alert');
@@ -362,43 +358,19 @@
 
 		return false;
 	}
-})(jQuery);
+})();
 
-(function($){
-		$.fn.extend({
-			insertAtCaret: function(myValue){
-				var t = $(this)[0];
-				if (document.selection) {
-					this.focus();
-					sel = document.selection.createRange();
-					sel.text = myValue;
-					this.focus();
-				}
-				else
-				if (t.selectionStart || t.selectionStart == '0') {
-					var startPos = t.selectionStart;
-					var endPos = t.selectionEnd;
-					var scrollTop = t.scrollTop;
-					t.value = t.value.substring(0, startPos) + myValue + t.value.substring(endPos, t.value.length);
-					this.focus();
-					t.selectionStart = startPos + myValue.length;
-					t.selectionEnd = startPos + myValue.length;
-					t.scrollTop = scrollTop;
-				}
-				else {
-					this.value += myValue;
-					this.focus();
-				}
-			}
-		})
-	})(jQuery);
 	function addsmilies(a){
-		$('#needmessage').insertAtCaret(a);
+		var input = document.getElementById('needmessage');
+		if(!input) return;
+		var start = input.selectionStart || 0;
+		var end = input.selectionEnd || start;
+		input.value = input.value.slice(0, start) + a + input.value.slice(end);
+		input.focus();
+		input.selectionStart = input.selectionEnd = start + a.length;
 	}
 </script>
-<script type="text/javascript" src="{STATICURL}js/mobile/ajaxfileupload.js?{VERHASH}"></script>
 <script type="text/javascript">
-	jqueryProperty();
 	var imgexts = typeof imgexts == 'undefined' ? 'jpg, jpeg, gif, png, bmp, webp, svg' : imgexts;
 	var STATUSMSG = {
 		'-1' : '{lang uploadstatusmsgnag1}',
@@ -417,8 +389,10 @@
 		'12' : '{lang uploadstatusmsg12}',
 		'13' : '{lang uploadstatusmsg13}'
 	};
-	var form = $('#postform');
-	$(document).on('change', '#filedata', function() {
+	var form = mobileDom('#postform');
+	document.addEventListener('change', function(event) {
+		if(!event.target.matches('#filedata')) return;
+		var input = event.target;
 			popup.open('<img src="' + IMGDIR + '/imageloading.gif">');
 			uploadsuccess = function(data) {
 				if(data == '') {
@@ -445,8 +419,8 @@
 					popup.open(STATUSMSG[dataarr[2]] + sizelimit, 'alert');
 				}
 			};
-			if(window.fetch && this.files[0]) {
-				for (const file of this.files) {
+			if(input.files[0]) {
+				for (const file of input.files) {
 					var uploadData = new FormData();
 					uploadData.append('formhash', '{FORMHASH}');
 					uploadData.append('Filedata', file);
@@ -455,20 +429,11 @@
 						.then(uploadsuccess)
 						.catch(function() { popup.open('{lang uploadpicfailed}', 'alert'); });
 				}
-			} else {
-				$.ajaxfileupload({
-					url:'misc.php?mod=upload&operation=upload&type=image&inajax=yes&infloat=yes&simple=2',
-					data:{formhash:"{FORMHASH}"},
-					dataType:'text',
-					fileElementId:'filedata',
-					success:uploadsuccess,
-					error: function() {
-						popup.open('{lang uploadpicfailed}', 'alert');
-					}
-				});
 			}
 	});
-	$(document).on('change', '#attfiledata', function() {
+	document.addEventListener('change', function(event) {
+		if(!event.target.matches('#attfiledata')) return;
+		var input = event.target;
 			popup.open('<img src="' + IMGDIR + '/imageloading.gif">');
 			uploadsuccess = function(data) {
 				if(data == '') {
@@ -513,7 +478,7 @@
 						video_file = '<span class="btn" onclick="addsmilies(\'[media=x,500,375]attach://' + dataarr[3] + '.mp4[/media]\')">{lang forum_post_insert}{lang e_video}</span>';
 					}
 					<!--{/if}-->
-					$('#attlist').append('<li class="b_t"><div class="tit"><span aid="'+dataarr[3]+'" up="1" class="del btn f_f"><a href="javascript:;"><i class="dm-trash z"></i></a></span>'+video_file+'<span class="btn" onclick="addsmilies(\'[attach]'+dataarr[3]+'[/attach]\')">{lang forum_post_insert}</span><img src="static/image/filetype/'+file_ex+'" border="0" class="vm mimg" alt=""><span class="link">'+dataarr[6]+'</span></div><!--{if $_GET['result'] != 'simple'}--><div class="minput"><div class="attms flex-box"><span class="f_c">{lang description}</span><input type="text" name="attachnew['+dataarr[3]+'][description]" value="" class="input flex"></div></div><div class="minput"><!--{if $_G['group']['allowsetattachperm']}--><!--{if $_G['cache']['groupreadaccess']}--><div class="attqx flex-box"><span>{lang forum_post_perm}</span><div class="flex"><select name="attachnew['+dataarr[3]+'][readperm]" id="readperm'+dataarr[3]+'" class="sort_sel"><option value="" selected="selected">{lang unlimited}</option><!--{loop $_G['cache']['groupreadaccess'] $val}--><option value="$val['readaccess']">$val['grouptitle']({lang readperm}: $val['readaccess'])</option><!--{/loop}--><option value="255"{if $temp['readperm'] == 255} selected{/if}>{lang highest_right}</option></select></div></div><!--{/if}--><!--{/if}--><!--{if $_G['group']['maxprice']}--><div class="attjg flex-box"><span>{lang price}</span><input type="text" name="attachnew['+dataarr[3]+'][price]" value="0" class="input price flex"><em>{$_G['setting']['extcredits'][$_G['setting']['creditstransextra'][1]][title]}</em></div><!--{/if}--></div><!--{/if}--></li>');
+					document.getElementById('attlist').insertAdjacentHTML('beforeend', '<li class="b_t"><div class="tit"><span aid="'+dataarr[3]+'" up="1" class="del btn f_f"><a href="javascript:;"><i class="dm-trash z"></i></a></span>'+video_file+'<span class="btn" onclick="addsmilies(\'[attach]'+dataarr[3]+'[/attach]\')">{lang forum_post_insert}</span><img src="static/image/filetype/'+file_ex+'" border="0" class="vm mimg" alt=""><span class="link">'+dataarr[6]+'</span></div><!--{if $_GET['result'] != 'simple'}--><div class="minput"><div class="attms flex-box"><span class="f_c">{lang description}</span><input type="text" name="attachnew['+dataarr[3]+'][description]" value="" class="input flex"></div></div><div class="minput"><!--{if $_G['group']['allowsetattachperm']}--><!--{if $_G['cache']['groupreadaccess']}--><div class="attqx flex-box"><span>{lang forum_post_perm}</span><div class="flex"><select name="attachnew['+dataarr[3]+'][readperm]" id="readperm'+dataarr[3]+'" class="sort_sel"><option value="" selected="selected">{lang unlimited}</option><!--{loop $_G['cache']['groupreadaccess'] $val}--><option value="$val['readaccess']">$val['grouptitle']({lang readperm}: $val['readaccess'])</option><!--{/loop}--><option value="255"{if $temp['readperm'] == 255} selected{/if}>{lang highest_right}</option></select></div></div><!--{/if}--><!--{/if}--><!--{if $_G['group']['maxprice']}--><div class="attjg flex-box"><span>{lang price}</span><input type="text" name="attachnew['+dataarr[3]+'][price]" value="0" class="input price flex"><em>{$_G['setting']['extcredits'][$_G['setting']['creditstransextra'][1]][title]}</em></div><!--{/if}--></div><!--{/if}--></li>');
 				} else {
 					var sizelimit = '';
 					if(dataarr[7] == 'ban') {
@@ -526,8 +491,8 @@
 					popup.open(STATUSMSG[dataarr[2]] + sizelimit, 'alert');
 				}
 			};
-			if(window.fetch && this.files[0]) {
-				for (const file of this.files) {
+			if(input.files[0]) {
+				for (const file of input.files) {
 					var uploadData = new FormData();
 					uploadData.append('formhash', '{FORMHASH}');
 					uploadData.append('Filedata', file);
@@ -536,52 +501,26 @@
 						.then(uploadsuccess)
 						.catch(function() { popup.open('{lang uploadpicfailed}', 'alert'); });
 				}
-			} else {
-				$.ajaxfileupload({
-					url:'misc.php?mod=upload&operation=upload&fid={$_G['fid']}&inajax=yes&infloat=yes&simple=2',
-					data:{formhash:"{FORMHASH}"},
-					dataType:'text',
-					fileElementId:'attfiledata',
-					success:uploadsuccess,
-					error: function() {
-						popup.open('{lang uploadpicfailed}', 'alert');
-					}
-				});
 			}
 	});
-	$(document).ready(function(){
-		$('body').on('input', 'input[name="seccodeverify"]', function(){
-		var obj = $(this);
-			var btn = $('#postsubmit');
-			if (btn.attr('data-disabled') === 'true' && obj.val().length > 0){
-				btn.attr('data-disabled','false');
-				btn.removeClass('btn_pn_grey').addClass('btn_pn_blue');
-			}
-		});
+	document.addEventListener('input', function(event) {
+		if(!event.target.matches('input[name="seccodeverify"], input[name="secanswer"]')) return;
+		var button = mobileDom('#postsubmit');
+		if(button.attr('data-disabled') === 'true' && event.target.value.length > 0) {
+			button.attr('data-disabled', 'false').removeClass('btn_pn_grey').addClass('btn_pn_blue');
+		}
 	});
-	$(document).ready(function(){
-		$('body').on('input', 'input[name="secanswer"]', function(){
-		var obj = $(this);
-			var btn = $('#postsubmit');
-			if (btn.attr('data-disabled') === 'true' && obj.val().length > 0){
-				btn.attr('data-disabled','false');
-				btn.removeClass('btn_pn_grey').addClass('btn_pn_blue');
-			}
-		});
-	});
-	$(document).on('click', '.del', function() {
-		var obj = $(this);
-		$.ajax({
-			type:'GET',
-			url:'forum.php?mod=ajax&action=deleteattach&inajax=yes&aids[]=' + obj.attr('aid') + (obj.attr('up') == 1 ? '&tid={$postinfo['tid']}&pid={$postinfo['pid']}&formhash={FORMHASH}' : ''),
-		})
-		.success(function(s) {
-			obj.closest('li').remove();
-		})
-		.error(function() {
+	document.addEventListener('click', function(event) {
+		var target = event.target.closest('.del');
+		if(!target) return;
+		event.preventDefault();
+		mobileRequest({
+			url:'forum.php?mod=ajax&action=deleteattach&inajax=yes&aids[]=' + target.getAttribute('aid') + (target.getAttribute('up') == 1 ? '&tid={$postinfo['tid']}&pid={$postinfo['pid']}&formhash={FORMHASH}' : '')
+		}).then(function() {
+			target.closest('li').remove();
+		}).catch(function() {
 			popup.open('{lang networkerror}', 'alert');
 		});
-		return false;
 	});
 </script>
 <!--{eval $nofooter = true;}-->

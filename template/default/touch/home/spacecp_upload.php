@@ -150,7 +150,9 @@
 		'12' : '{lang uploadstatusmsg12}',
 		'13' : '{lang uploadstatusmsg13}'
 	};
-	$(document).on('change', '#filedata', function() {
+	document.addEventListener('change', function(event) {
+		if(!event.target.matches('#filedata')) return;
+		var input = event.target;
 		// 从PHP获取最大文件大小限制(KB)，转换为字节
 		var maxFileSizeKB = $swfconfig['max'];
 		var maxFileSizeBytes = maxFileSizeKB * 1024; // 转换为字节
@@ -178,7 +180,7 @@
 
 					if(dataobj.picid > 0 && dataobj.url) {
 						// 添加图片到列表
-						$('#imglist').append('<li><div><span class="p_img"><a href="javascript:;"><img style="max-height:54px;max-width:54px;" id="aimg_'+dataobj.picid+'" src="'+dataobj.url+'" /></a></span><input type="hidden" name="title[' + dataobj.picid + ']" value="'+dataobj.title+'" /><div></li>');
+						document.getElementById('imglist').insertAdjacentHTML('beforeend', '<li><div><span class="p_img"><a href="javascript:;"><img style="max-height:54px;max-width:54px;" id="aimg_'+dataobj.picid+'" src="'+dataobj.url+'" /></a></span><input type="hidden" name="title[' + dataobj.picid + ']" value="'+dataobj.title+'" /><div></li>');
 					} else {
 						var sizelimit = '';
 						if(dataarr[7] == 'ban') {
@@ -208,12 +210,11 @@
 			}
 		};
 
-		// 检查浏览器是否支持FileReader API
-		if(typeof FileReader != 'undefined' && this.files && this.files.length > 0) {
+		if(input.files.length > 0) {
 			// 先筛选出所有符合大小要求的文件
 			var validFiles = [];
-			for (let i = 0; i < this.files.length; i++) {
-				const file = this.files[i];
+			for (let i = 0; i < input.files.length; i++) {
+				const file = input.files[i];
 				// 检查文件大小（file.size单位是字节）
 				if(file.size > maxFileSizeBytes) {
 					oversizedFiles.push(file.name);
@@ -271,21 +272,18 @@
 	var check = false;
 	no_insert = 1;
 	function a_addOption() {
-		// 原生JS通过id获取元素，替代$(id)
 		var obj = document.getElementById('uploadalbum');
 		obj.value = 'addoption';
 		addOption(obj);
 	}
 
 	function album_op(id) {
-		// 替换所有jQuery选择器为原生getElementById
 		document.getElementById('selectalbum').style.display = 'none';
 		document.getElementById('creatalbum').style.display = 'none';
 		document.getElementById(id).style.display = '';
 		check = false;
 		if(id == 'creatalbum') {
 			check = true;
-			// 原生JS的select()方法与jQuery行为一致
 			document.getElementById('albumname').select();
 		}
 	}

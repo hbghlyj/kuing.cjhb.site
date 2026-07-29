@@ -48,8 +48,9 @@
 			</label>
 		</ul>
 		<script>
-			$(document).on('change', '.select_change', function(){
-				$('[for="' + $(this).attr('id')+'_change"]').val($(this).find('option:selected').val());
+			document.addEventListener('change', function(event) {
+				if(!event.target.matches('.select_change')) return;
+				document.querySelector('[for="' + event.target.id + '_change"]').value = event.target.value;
 			});
 		</script>
 		<button name="ratesubmit" type="submit" value="true" class="pn pnc formdialog"><span>{lang confirms}</span></button>

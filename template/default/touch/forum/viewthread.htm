@@ -431,27 +431,26 @@ $multipage
 </div>
 <div class="foot_height_view"></div>
 <script type="text/javascript">
-	$('.favbtn').on('click', function() {
-		var obj = $(this);
-		$.ajax({
-			type:'POST',
-			url:obj.attr('href') + '&handlekey=favbtn&inajax=1',
+	document.querySelectorAll('.favbtn').forEach(function(button) {
+		button.addEventListener('click', function(event) {
+			event.preventDefault();
+			mobileRequest({
+				method:'POST',
+				url:button.href + '&handlekey=favbtn&inajax=1',
 			data:{'favoritesubmit':'true', 'formhash':'{FORMHASH}'},
-			dataType:'xml',
-		})
-		.success(function(s) {
+				dataType:'xml'
+			}).then(function(s) {
 			popup.open(s.lastChild.firstChild.nodeValue);
 			evalscript(s.lastChild.firstChild.nodeValue);
-		})
-		.error(function() {
-			window.location.href = obj.attr('href');
+			}).catch(function() {
+				window.location.href = button.href;
 			popup.close();
+			});
 		});
-		return false;
 	});
 	function bumpthread() {
-		$.ajax({
-			type: 'POST',
+		mobileRequest({
+			method: 'POST',
 			url: 'forum.php?mod=topicadmin&action=moderate&optgroup=3&modsubmit=yes&infloat=yes&inajax=1',
 			data: {
 				'fid': '{$_G[fid]}',
@@ -462,7 +461,7 @@ $multipage
 				'redirect': 1
 			},
 			dataType: 'xml'
-		}).done(function(s) {
+		}).then(function(s) {
 			var msg = s.lastChild.firstChild.nodeValue;
 			if(msg.indexOf('succeedhandle_mods') != -1) {
 				popup.open('<img src="static/image/common/check_right.gif">');
@@ -476,7 +475,7 @@ $multipage
 			} else {
 				popup.open(msg);
 			}
-		}).fail(function() {
+		}).catch(function() {
 			popup.open('{lang error}');
 		});
 	}

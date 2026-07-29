@@ -66,28 +66,27 @@
         }
         sendurl = 'misc.php?mod=secmobseccode&action=send&svctype=' + memcp_svctype + '&secmobicc=' + memcp_secmobicc + '&secmobile=' + memcp_secmobile;
         popup.open('<img src="' + IMGDIR + '/imageloading.gif">');
-        $.ajax({
-            type: 'GET',
-            url: sendurl + '&inajax=1',
-            dataType: 'xml'
-        })
-                .success(function (s) {
+		mobileRequest({
+			method: 'GET',
+			url: sendurl + '&inajax=1',
+			dataType: 'xml'
+		})
+				.then(function (s) {
                     popup.open(s.lastChild.firstChild.nodeValue, null, null, false);
                     evalscript(s.lastChild.firstChild.nodeValue);
                 })
-                .error(function () {
-                    window.location.href = obj.attr('href');
+				.catch(function () {
                     popup.close();
                 });
     }
     function hideWindow_{$layerhash}(url, msg, values) {
-        $('#mask_popup').hide();
-        $('#secmobseccode_popup').hide();
+		document.getElementById('mask_popup').style.display = 'none';
+		document.getElementById('secmobseccode_popup').style.display = 'none';
     }
     (function() {
-        $('#mask_popup').on('click', function() {
-            $('#mask_popup').hide();
-            $('#secmobseccode_popup').hide();
+		document.getElementById('mask_popup').addEventListener('click', function() {
+			document.getElementById('mask_popup').style.display = 'none';
+			document.getElementById('secmobseccode_popup').style.display = 'none';
         });
     })();
 </script>

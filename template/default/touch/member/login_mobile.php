@@ -85,17 +85,16 @@
         }
         sendurl = 'misc.php?mod=secmobseccode&action=send&svctype=' + memcp_svctype + '&secmobicc=' + memcp_secmobicc + '&secmobile=' + memcp_secmobile;
         popup.open('<img src="' + IMGDIR + '/imageloading.gif">');
-        $.ajax({
-            type: 'GET',
+        mobileRequest({
+            method: 'GET',
             url: sendurl + '&inajax=1',
             dataType: 'xml'
         })
-                .success(function (s) {
+                .then(function (s) {
                     popup.open(s.lastChild.firstChild.nodeValue);
                     evalscript(s.lastChild.firstChild.nodeValue);
                 })
-                .error(function () {
-                    window.location.href = obj.attr('href');
+                .catch(function () {
                     popup.close();
                 });
 

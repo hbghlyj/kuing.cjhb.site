@@ -65,12 +65,10 @@
 									}
 									var url = 'home.php?mod=spacecp&ac=follow&op=getfeed&archiver='+archiver+'&page='+page+'&inajax=1'<!--{if $do == 'feed'}-->+'&viewtype=$view'<!--{elseif $do == 'view'}-->+'&uid=$uid&banavatar=1'<!--{/if}-->;
 
-									$.ajax({
+									mobileRequest({
 										url : url,
-										data : null,
 										dataType : "xml",
-										cache: false,
-										success : function(s) {
+									}).then(function(s) {
 											if($.trim(s.childNodes[0].textContent) == 'false') {
 												if(!archiver) {
 													feedInfo.primary = false;
@@ -90,7 +88,6 @@
 											}
 
 											feedInfo.query = true;
-										}
 									});
 									page++;
 									if(feedInfo.scrollNum) {

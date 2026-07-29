@@ -1,42 +1,8 @@
-var _J$ = jQuery.noConflict();
-window.$ = function () {
-	if (arguments.length === 1 && typeof arguments[0] === 'string') {
-		if (arguments[0] === '') {
-			return null;
-		}
-		if (arguments[0].match(/^[a-zA-Z_][a-zA-Z0-9-_]*$/) &&
-		    !isNativeHtmlTag(arguments[0])) {
-			return _D$.apply(null, arguments);
-		}
-	}
-	return _J$.apply(null, arguments);
-};
-
-function jqueryProperty() {
-	for (var _prop in _J$) {
-		if (_J$.hasOwnProperty(_prop) && typeof _J$[_prop] === 'function') {
-			$[_prop] = _J$[_prop];
-		}
-	}
-}
-
-function isNativeHtmlTag(tag) {
-	if (!tag || typeof tag !== 'string') return false;
-	var t = tag.trim().toLowerCase();
-	var el = document.createElement(t);
-	return el instanceof window.HTMLUnknownElement === false;
-}
-
-jqueryProperty();
+var _D$ = window.$;
 
 if (typeof _attachEvent == 'undefined') {
-	window._attachEvent = function(obj, evt, func, eventobj) {
-		eventobj = eventobj || obj;
-		if(obj.addEventListener) {
-			obj.addEventListener(evt, func, false);
-		} else if(eventobj.attachEvent) {
-			obj.attachEvent('on' + evt, func);
-		}
+	window._attachEvent = function(obj, evt, func) {
+		obj.addEventListener(evt, func, false);
 	};
 }
 
@@ -414,6 +380,184 @@ function qSelA(sel) {
 	return document.querySelectorAll(sel);
 }
 
+function mobileRequest(options) {
+	var method = (options.method || options.type || 'GET').toUpperCase();
+	var headers = options.headers || {};
+	var body = options.body || options.data || null;
+	if(body && !(body instanceof FormData) && typeof body === 'object') {
+		body = new URLSearchParams(body);
+	}
+	if((method === 'GET' || method === 'HEAD') && body) {
+		var separator = options.url.indexOf('?') === -1 ? '?' : '&';
+		options.url += separator + body.toString();
+		body = null;
+	} else if(body instanceof URLSearchParams) {
+		headers['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';
+	}
+	return fetch(options.url, {method: method, headers: headers, body: body})
+		.then(function(response) {
+			if(!response.ok) throw new Error(response.statusText || response.status);
+			return response.text();
+		})
+		.then(function(text) {
+			return options.dataType === 'xml' ? parseAjaxXML(text) : text;
+		});
+}
+
+function mobileDom(selector, context) {
+	var root = context || document;
+	var elements;
+	if(selector instanceof mobileDom.Collection) {
+		return selector;
+	}
+	if(selector instanceof Element || selector === document || selector === window) {
+		elements = [selector];
+	} else if(typeof selector === 'string') {
+		elements = Array.from(root.querySelectorAll(selector));
+	} else {
+		elements = Array.from(selector || []);
+	}
+	return new mobileDom.Collection(elements);
+}
+
+mobileDom.Collection = function(elements) {
+	this.elements = elements;
+	this.length = elements.length;
+	for(var i = 0; i < elements.length; i++) this[i] = elements[i];
+};
+
+mobileDom.Collection.prototype.each = function(callback) {
+	this.elements.forEach(function(element, index) { callback.call(element, index, element); });
+	return this;
+};
+mobileDom.Collection.prototype.on = function(events, selector, callback) {
+	if(typeof selector === 'function') {
+		callback = selector;
+		selector = null;
+	}
+	return this.each(function() {
+		events.split(/\s+/).forEach(function(eventName) {
+			this.addEventListener(eventName, function(event) {
+				var target = selector ? event.target.closest(selector) : this;
+				if(target && (!selector || this.contains(target))) callback.call(target, event);
+			}.bind(this));
+		}, this);
+	});
+};
+mobileDom.Collection.prototype.css = function(property, value) {
+	if(typeof property === 'string' && value === undefined) {
+		return this[0] ? (property.indexOf('-') !== -1 ? getComputedStyle(this[0]).getPropertyValue(property) : getComputedStyle(this[0])[property]) : undefined;
+	}
+	return this.each(function() {
+		if(typeof property === 'string') {
+			if(property.indexOf('-') !== -1) this.style.setProperty(property, value);
+			else this.style[property] = value;
+		} else {
+			Object.keys(property).forEach(function(name) {
+				if(name.indexOf('-') !== -1) this.style.setProperty(name, property[name]);
+				else this.style[name] = property[name];
+			}, this);
+		}
+	});
+};
+mobileDom.Collection.prototype.attr = function(name, value) {
+	if(value === undefined) return this[0] ? this[0].getAttribute(name) : undefined;
+	return this.each(function() {
+		if(value === false || value === null) {
+			this.removeAttribute(name);
+			if(name in this && typeof this[name] === 'boolean') this[name] = false;
+		} else {
+			this.setAttribute(name, value);
+			if(name in this && typeof this[name] === 'boolean') this[name] = true;
+		}
+	});
+};
+mobileDom.Collection.prototype.prop = function(name, value) {
+	if(value === undefined) return this[0] ? this[0][name] : undefined;
+	return this.each(function() { this[name] = value; });
+};
+mobileDom.Collection.prototype.val = function(value) {
+	if(value === undefined) return this[0] ? this[0].value : undefined;
+	return this.each(function() { this.value = value; });
+};
+mobileDom.Collection.prototype.html = function(value) {
+	if(value === undefined) return this[0] ? this[0].innerHTML : undefined;
+	return this.each(function() { this.innerHTML = value; });
+};
+mobileDom.Collection.prototype.text = function(value) {
+	if(value === undefined) return this[0] ? this[0].textContent : undefined;
+	return this.each(function() { this.textContent = value; });
+};
+mobileDom.Collection.prototype.append = function(value) {
+	return this.each(function() {
+		if(typeof value === 'string') this.insertAdjacentHTML('beforeend', value);
+		else this.append(value.cloneNode ? value.cloneNode(true) : value);
+	});
+};
+mobileDom.Collection.prototype.remove = function() { return this.each(function() { this.remove(); }); };
+mobileDom.Collection.prototype.show = function() { return this.css('display', ''); };
+mobileDom.Collection.prototype.hide = function() { return this.css('display', 'none'); };
+mobileDom.Collection.prototype.addClass = function(name) { return this.each(function() { this.classList.add.apply(this.classList, name.split(/\s+/)); }); };
+mobileDom.Collection.prototype.removeClass = function(name) { return this.each(function() { this.classList.remove.apply(this.classList, name.split(/\s+/)); }); };
+mobileDom.Collection.prototype.toggleClass = function(name, force) { return this.each(function() { this.classList.toggle(name, force); }); };
+mobileDom.Collection.prototype.hasClass = function(name) { return !!this[0] && this[0].classList.contains(name); };
+mobileDom.Collection.prototype.click = function(callback) { return callback ? this.on('click', callback) : this.each(function() { this.click(); }); };
+mobileDom.Collection.prototype.focus = function() { return this.each(function() { this.focus(); }); };
+mobileDom.Collection.prototype.children = function(selector) {
+	return mobileDom(Array.from(this[0] ? this[0].children : []).filter(function(element) { return !selector || element.matches(selector); }));
+};
+mobileDom.Collection.prototype.find = function(selector) { return mobileDom(selector, this[0] || document); };
+mobileDom.Collection.prototype.closest = function(selector) { return mobileDom(this[0] ? this[0].closest(selector) : []); };
+mobileDom.Collection.prototype.eq = function(index) { return mobileDom(this.elements[index < 0 ? this.length + index : index] || []); };
+mobileDom.Collection.prototype.siblings = function(selector) {
+	if(!this[0] || !this[0].parentElement) return mobileDom([]);
+	return mobileDom(Array.from(this[0].parentElement.children).filter(function(element) { return element !== this[0] && (!selector || element.matches(selector)); }, this));
+};
+mobileDom.Collection.prototype.data = function(name, value) {
+	if(value === undefined) return this[0] ? this[0].dataset[name] : undefined;
+	return this.each(function() { this.dataset[name] = value; });
+};
+mobileDom.Collection.prototype.width = function() { return this[0] ? this[0].getBoundingClientRect().width : 0; };
+mobileDom.Collection.prototype.offset = function() {
+	if(!this[0]) return {left: 0, top: 0};
+	var rect = this[0].getBoundingClientRect();
+	return {left: rect.left + window.scrollX, top: rect.top + window.scrollY};
+};
+mobileDom.Collection.prototype.index = function() {
+	return this[0] && this[0].parentElement ? Array.prototype.indexOf.call(this[0].parentElement.children, this[0]) : -1;
+};
+mobileDom.Collection.prototype.height = function() { return this[0] ? this[0].getBoundingClientRect().height : 0; };
+mobileDom.Collection.prototype.scrollTop = function(value) {
+	if(value === undefined) return this[0] === document ? window.scrollY : (this[0] ? this[0].scrollTop : 0);
+	return this.each(function() {
+		if(this === document) window.scrollTo(0, value);
+		else this.scrollTop = value;
+	});
+};
+mobileDom.Collection.prototype.ready = function(callback) {
+	if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', callback, {once: true});
+	else callback();
+	return this;
+};
+
+/* Keep legacy bare-ID calls working while selector calls use native mobileDom. */
+function isNativeHtmlTag(tag) {
+	return typeof tag === 'string' && document.createElement(tag).constructor !== window.HTMLUnknownElement;
+}
+
+window.$ = function(selector, context) {
+	if(typeof selector === 'string' && /^[a-zA-Z_][a-zA-Z0-9_-]*$/.test(selector) && !isNativeHtmlTag(selector)) {
+		return _D$(selector);
+	}
+	return mobileDom(selector, context);
+};
+window.$.trim = function(value) { return String(value || '').trim(); };
+window.$.each = function(collection, callback) {
+	Array.from(collection instanceof mobileDom.Collection ? collection.elements : collection).forEach(function(item, index) {
+		callback.call(item, index, item);
+	});
+};
+
 function mygetnativeevent(event) {
 
 	while(event && typeof event.originalEvent !== "undefined") {
@@ -736,13 +880,8 @@ function portal_flowlazyload() {
 		}
 		return retValue;
 	};
-	this.attachEvent = function (obj, evt, func, eventobj) {
-		eventobj = !eventobj ? obj : eventobj;
-		if(obj.addEventListener) {
-			obj.addEventListener(evt, func, false);
-		} else if(eventobj.attachEvent) {
-			obj.attachEvent('on' + evt, func);
-		}
+	this.attachEvent = function (obj, evt, func) {
+		obj.addEventListener(evt, func, false);
 	};
 	this.removeElement = function (_element) {
 		var _parentElement = _element.parentNode;
