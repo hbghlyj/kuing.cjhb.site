@@ -133,6 +133,7 @@ $lang = [
 	'upload_failed' => 'Upload failed',
 	'upload_pic' => 'Upload image',
 	'uploading' => 'Uploading...',
+	'waiting' => 'Please wait',
 	'video_url' => 'Input URL of video file',
 	'view_all' => 'View All',
 	'waiting_upload' => 'Wait for upload...',

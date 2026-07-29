@@ -279,6 +279,7 @@ $lang = [
 	'upload_zero_file' => '不能上传零字节文件',
 	'disallow_upload' => '禁止上传该类型的文件',
 	'uploading' => '上传中……',
+	'waiting' => '请稍候',
 	'cancel_upload' => '取消上传',
 	'img_desc' => '图片描述',
 	'img_upload_error' => '图片上传失败',
