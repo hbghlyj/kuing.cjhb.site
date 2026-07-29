@@ -75,12 +75,30 @@ class discuz_application extends discuz_base {
 	}
 
 	private function _detect_i18n() {
-		$acceptLang = $_SERVER['HTTP_ACCEPT_LANGUAGE'] ?? '';
-		if($acceptLang && ((stripos($acceptLang, 'zh-TW') !== false && (stripos($acceptLang, 'zh-CN') === false || stripos($acceptLang, 'zh-TW') < stripos($acceptLang, 'zh-CN')))
-			|| (stripos($acceptLang, 'zh-HK') !== false && (stripos($acceptLang, 'zh-CN') === false || stripos($acceptLang, 'zh-HK') < stripos($acceptLang, 'zh-CN'))))) {
-			return 'TC';
+		$languages = [];
+		foreach(explode(',', $_SERVER['HTTP_ACCEPT_LANGUAGE'] ?? '') as $position => $entry) {
+			if(!preg_match('/^\s*([a-zA-Z*][a-zA-Z0-9_-]*)(?:\s*;\s*q=([01](?:\.\d+)?))?\s*$/', $entry, $matches)) {
+				continue;
+			}
+			$languages[] = [
+				'tag' => strtolower(str_replace('_', '-', $matches[1])),
+				'quality' => isset($matches[2]) ? (float)$matches[2] : 1.0,
+				'position' => $position,
+			];
 		}
-		return $acceptLang && stripos($acceptLang, 'zh') !== false ? 'SC' : 'EN';
+		usort($languages, function($left, $right) {
+			return $right['quality'] <=> $left['quality'] ?: $left['position'] <=> $right['position'];
+		});
+		foreach($languages as $language) {
+			if($language['quality'] <= 0) {
+				continue;
+			}
+			if(str_starts_with($language['tag'], 'zh')) {
+				return preg_match('/(?:^|-)(?:tw|hk|mo|hant)(?:-|$)/', $language['tag']) ? 'TC' : 'SC';
+			}
+			return 'EN';
+		}
+		return 'EN';
 	}
 
 	private function _init_platform() {

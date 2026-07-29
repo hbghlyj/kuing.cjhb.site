@@ -381,7 +381,19 @@ const svgAttachmentSubject = `Thread with SVG Attachment ${testRunId}`;
         ]);
         assert.strictEqual(await page.evaluate(() => DISCUZ_I18N), 'EN', 'Assertion Error: Footer locale switch did not restore EN.');
         assert.strictEqual(await page.getByText('Default Forum', { exact: true }).count(), 1, 'Assertion Error: EN locale switch did not localize the forum name.');
-        report += '### Footer Locale Switcher\n- **Status**: Checked\n- **Forum Names**: SC and EN switch with the UI locale\n\n';
+
+        const tcContext = await browser.newContext({
+            userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+            extraHTTPHeaders: {
+                'Accept-Language': 'zh-CN;q=0.6,zh-TW;q=0.9,en;q=0.8'
+            }
+        });
+        const tcPage = await tcContext.newPage();
+        await tcPage.goto('http://127.0.0.1:8080/forum.php', { waitUntil: 'networkidle' });
+        assert.strictEqual(await tcPage.evaluate(() => DISCUZ_I18N), 'TC', 'Assertion Error: Accept-Language did not default a clean browser to TC.');
+        assert.strictEqual(await tcPage.getByText('默認版塊', { exact: true }).count(), 1, 'Assertion Error: Accept-Language TC default did not localize the forum name.');
+        await tcContext.close();
+        report += '### Footer Locale Switcher\n- **Status**: Checked\n- **Forum Names**: SC and EN switch with the UI locale\n- **Browser Default**: Weighted zh-TW Accept-Language selects TC\n\n';
 
         // Discover a real postable sub-board (type='forum') — never a group (type='group').
         const forumFid = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT fid FROM pre_forum_forum WHERE type='forum' LIMIT 1;"`).toString().trim();
