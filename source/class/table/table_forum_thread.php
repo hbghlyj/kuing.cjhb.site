@@ -31,12 +31,10 @@ class table_forum_thread extends discuz_table {
 	}
 
 	public function fetch($id, $force_from_db = false) {
-		if(defined('DISCUZ_DEPRECATED')) {
-			throw new Exception('UnsupportedOperationException');
-		} else {
+
 			$force_from_db = $force_from_db === false ? 0 : $force_from_db;
 			return $this->fetch_thread($id, $force_from_db);
-		}
+
 	}
 
 	public function fetch_thread($tid, $tableid = 0) {

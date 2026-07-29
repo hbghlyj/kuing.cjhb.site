@@ -68,13 +68,10 @@ class table_home_comment extends discuz_table {
 	}
 
 	public function update($val, $data, $unbuffered = false, $low_priority = false) {
-		if(defined('DISCUZ_DEPRECATED')) {
-			throw new Exception('NotImplementedException');
-			return parent::update($val, $data, $unbuffered, $low_priority);
-		} else {
+
 			$unbuffered = $unbuffered === false ? '' : $unbuffered;
 			return $this->update_comment($val, $data, $unbuffered);
-		}
+
 	}
 
 	public function update_comment($cids, $data, $authorid = '') {
@@ -122,13 +119,10 @@ class table_home_comment extends discuz_table {
 	}
 
 	public function fetch($id, $force_from_db = false) {
-		if(defined('DISCUZ_DEPRECATED')) {
-			throw new Exception('NotImplementedException');
-			return parent::fetch($id, $force_from_db);
-		} else {
+
 			$force_from_db = $force_from_db === false ? '' : $force_from_db;
 			return $this->fetch_comment($id, $force_from_db);
-		}
+
 	}
 
 	public function fetch_comment($cid, $authorid = '') {

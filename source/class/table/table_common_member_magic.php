@@ -42,24 +42,18 @@ class table_common_member_magic extends discuz_table {
 	}
 
 	public function fetch($id, $force_from_db = false) {
-		if(defined('DISCUZ_DEPRECATED')) {
-			throw new Exception('NotImplementedException');
-			return parent::fetch($id, $force_from_db);
-		} else {
+
 			return $this->fetch_magic($id, $force_from_db);
-		}
+
 	}
 
 	public function count($null1 = null, $null2 = null) {
-		if(defined('DISCUZ_DEPRECATED')) {
-			throw new Exception('NotImplementedException');
-			return parent::count();
-		} else {
+
 			if($null1 === null || $null2 === null) {
 				throw new Exception("Invalid Use C:t('common_member_magic')->count Function.");
 			}
 			return $this->count_magic($null1, $null2);
-		}
+
 	}
 
 	public function fetch_all_magic($uid, $magicid = '', $start = 0, $limit = 0) {

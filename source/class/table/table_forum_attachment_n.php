@@ -63,19 +63,15 @@ class table_forum_attachment_n extends discuz_table {
 	}
 
 	public function delete($val, $unbuffered = false) {
-		if(defined('DISCUZ_DEPRECATED')) {
-			throw new Exception('UnsupportedOperationException');
-		} else {
+
 			return $this->delete_attachment($val, $unbuffered);
-		}
+
 	}
 
 	public function update($val, $data, $unbuffered = false, $low_priority = false) {
-		if(defined('DISCUZ_DEPRECATED')) {
-			throw new Exception('UnsupportedOperationException');
-		} else {
+
 			return $this->update_attachment($val, $data, $unbuffered);
-		}
+
 	}
 
 	public function delete_attachment($tableid, $val) {

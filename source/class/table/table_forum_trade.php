@@ -78,12 +78,9 @@ class table_forum_trade extends discuz_table {
 	}
 
 	public function update($val, $data, $unbuffered = false, $low_priority = false) {
-		if(defined('DISCUZ_DEPRECATED')) {
-			throw new Exception('NotImplementedException');
-			return parent::update($val, $data, $unbuffered, $low_priority);
-		} else {
+
 			return $this->update_trade($val, $data, $unbuffered);
-		}
+
 	}
 
 	public function update_trade($tid, $pid, $data) {

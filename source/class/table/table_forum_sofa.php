@@ -28,12 +28,9 @@ class table_forum_sofa extends discuz_table {
 	}
 
 	public function range($start = 0, $limit = 0, $sort = '') {
-		if(defined('DISCUZ_DEPRECATED')) {
-			throw new Exception('NotImplementedException');
-			return parent::range($start, $limit, $sort);
-		} else {
+
 			return $this->range_sofa($start, $limit);
-		}
+
 	}
 
 	public function range_sofa($start = 0, $limit = 20) {

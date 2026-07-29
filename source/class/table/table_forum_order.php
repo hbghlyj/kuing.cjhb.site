@@ -60,13 +60,10 @@ class table_forum_order extends discuz_table {
 	}
 
 	public function fetch_all($ids, $force_from_db = false) {
-		if(defined('DISCUZ_DEPRECATED')) {
-			throw new Exception('NotImplementedException');
-			return parent::fetch_all($ids, $force_from_db);
-		} else {
+
 			$force_from_db = $force_from_db === false ? '' : $force_from_db;
 			return $this->fetch_all_order($ids, $force_from_db);
-		}
+
 	}
 
 	public function fetch_all_order($orderid, $status = '') {

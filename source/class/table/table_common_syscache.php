@@ -31,48 +31,33 @@ class table_common_syscache extends discuz_table {
 	}
 
 	public function fetch($id, $force_from_db = false) {
-		if(defined('DISCUZ_DEPRECATED')) {
-			throw new Exception('NotImplementedException');
-			return parent::fetch($id, $force_from_db);
-		} else {
+
 			return $this->fetch_syscache($id);
-		}
+
 	}
 
 	public function fetch_all($ids, $force_from_db = false) {
-		if(defined('DISCUZ_DEPRECATED')) {
-			throw new Exception('NotImplementedException');
-			return parent::fetch_all($ids, $force_from_db);
-		} else {
+
 			return $this->fetch_all_syscache($ids);
-		}
+
 	}
 
 	public function insert($data, $return_insert_id = false, $replace = false, $silent = false) {
-		if(defined('DISCUZ_DEPRECATED')) {
-			throw new Exception('NotImplementedException');
-			return parent::insert($data, $return_insert_id, $replace, $silent);
-		} else {
+
 			return $this->insert_syscache($data, $return_insert_id);
-		}
+
 	}
 
 	public function update($val, $data, $unbuffered = false, $low_priority = false) {
-		if(defined('DISCUZ_DEPRECATED')) {
-			throw new Exception('NotImplementedException');
-			return parent::update($val, $data, $unbuffered, $low_priority);
-		} else {
+
 			return $this->update_syscache($val, $data);
-		}
+
 	}
 
 	public function delete($val, $unbuffered = false) {
-		if(defined('DISCUZ_DEPRECATED')) {
-			throw new Exception('NotImplementedException');
-			return parent::delete($val, $unbuffered);
-		} else {
+
 			return $this->delete_syscache($val);
-		}
+
 	}
 
 	public function fetch_syscache($cachename) {

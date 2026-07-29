@@ -28,12 +28,9 @@ class table_portal_category_permission extends discuz_table {
 	}
 
 	public function fetch($id, $force_from_db = false) {
-		if(defined('DISCUZ_DEPRECATED')) {
-			throw new Exception('NotImplementedException');
-			return parent::fetch($id, $force_from_db);
-		} else {
+
 			return $this->fetch_permission($id, $force_from_db);
-		}
+
 	}
 
 	public function fetch_permission($catid, $uid) {

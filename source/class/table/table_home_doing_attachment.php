@@ -44,20 +44,16 @@ class table_home_doing_attachment extends discuz_table
 
 	public function delete($val, $unbuffered = false)
 	{
-		if (defined('DISCUZ_DEPRECATED')) {
-			throw new Exception('UnsupportedOperationException');
-		} else {
+
 			return $this->delete_attachment($val, $unbuffered);
-		}
+
 	}
 
 	public function update($val, $data, $unbuffered = false, $low_priority = false)
 	{
-		if (defined('DISCUZ_DEPRECATED')) {
-			throw new Exception('UnsupportedOperationException');
-		} else {
+
 			return $this->update_attachment($val, $data, $unbuffered);
-		}
+
 	}
 
 	public function delete_attachment($val)
@@ -172,12 +168,12 @@ class table_home_doing_attachment extends discuz_table
 		}
 		return $attachsize;
 	}
-	public function update_by_aid($aids, $data) 
+	public function update_by_aid($aids, $data)
 	{
 		if (empty($aids) || empty($data)) {
 			return false;
 		}
-		
+
 		return DB::update($this->_table, $data, DB::field($this->_pk, $aids));
 	}
 }

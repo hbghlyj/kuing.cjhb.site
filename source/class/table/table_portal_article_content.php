@@ -40,12 +40,9 @@ class table_portal_article_content extends discuz_table {
 	}
 
 	public function fetch_all($ids, $force_from_db = false) {
-		if(defined('DISCUZ_DEPRECATED')) {
-			throw new Exception('NotImplementedException');
-			return parent::fetch_all($ids, $force_from_db);
-		} else {
+
 			return $this->fetch_all_by_aid($ids);
-		}
+
 	}
 
 	public function fetch_all_by_aid($aid) {

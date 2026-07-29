@@ -28,30 +28,21 @@ class table_common_member_status_archive extends table_common_member_status {
 	}
 
 	public function fetch($id, $force_from_db = false, $fetch_archive = 0) {
-		if(defined('DISCUZ_DEPRECATED')) {
-			throw new Exception('NotImplementedException');
-			return parent::fetch($id, $force_from_db, $fetch_archive);
-		} else {
+
 			return $this->fetch_status($id);
-		}
+
 	}
 
 	public function fetch_all($ids, $force_from_db = false, $fetch_archive = 1) {
-		if(defined('DISCUZ_DEPRECATED')) {
-			throw new Exception('NotImplementedException');
-			return parent::fetch_all($ids, $force_from_db, $fetch_archive);
-		} else {
+
 			return $this->fetch_all_status($ids);
-		}
+
 	}
 
 	public function delete($val, $unbuffered = false, $fetch_archive = 0) {
-		if(defined('DISCUZ_DEPRECATED')) {
-			throw new Exception('NotImplementedException');
-			return parent::delete($val, $unbuffered, $fetch_archive);
-		} else {
+
 			return $this->delete_status($val, $unbuffered);
-		}
+
 	}
 
 	public function fetch_status($id) {

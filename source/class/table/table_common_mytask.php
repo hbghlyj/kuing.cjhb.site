@@ -28,39 +28,27 @@ class table_common_mytask extends discuz_table {
 	}
 
 	public function delete($val, $unbuffered = false) {
-		if(defined('DISCUZ_DEPRECATED')) {
-			throw new Exception('NotImplementedException');
-			return parent::delete($val, $unbuffered);
-		} else {
+
 			return $this->delete_mytask($val, $unbuffered);
-		}
+
 	}
 
 	public function update($val, $data, $unbuffered = false, $low_priority = false) {
-		if(defined('DISCUZ_DEPRECATED')) {
-			throw new Exception('NotImplementedException');
-			return parent::update($val, $data, $unbuffered, $low_priority);
-		} else {
+
 			return $this->update_mytask($val, $data, $unbuffered);
-		}
+
 	}
 
 	public function count($null1 = null, $null2 = false, $null3 = false) {
-		if(defined('DISCUZ_DEPRECATED')) {
-			throw new Exception('NotImplementedException');
-			return parent::count();
-		} else {
+
 			return $this->count_mytask($null1, $null2, $null3);
-		}
+
 	}
 
 	public function fetch($id, $force_from_db = false) {
-		if(defined('DISCUZ_DEPRECATED')) {
-			throw new Exception('NotImplementedException');
-			return parent::fetch($id, $force_from_db);
-		} else {
+
 			return $this->fetch_mytask($id, $force_from_db);
-		}
+
 	}
 
 	public function delete_mytask($uid, $taskid) {

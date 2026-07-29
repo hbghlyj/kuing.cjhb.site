@@ -93,16 +93,12 @@ class table_common_tag extends discuz_table {
 	 * @param bool $replace 是否使用REPLACE INTO
 	 * @param bool $silent 是否静默模式，忽略错误
 	 * @return int|bool 插入ID或布尔值（根据$return_insert_id参数决定）
-	 * @throws Exception 如果启用了DISCUZ_DEPRECATED常量
 	 */
 	public function insert($data, $return_insert_id = false, $replace = false, $silent = false) {
-		if(defined('DISCUZ_DEPRECATED')) {
-			throw new Exception('NotImplementedException');
-			return parent::insert($data, $return_insert_id, $replace, $silent);
-		} else {
+
 			$return_insert_id = $return_insert_id === false ? 0 : $return_insert_id;
 			return $this->insert_tag($data, $return_insert_id);
-		}
+
 	}
 
 	/**

@@ -28,40 +28,28 @@ class table_common_diy_data extends discuz_table {
 	}
 
 	public function fetch($id, $force_from_db = false) {
-		if(defined('DISCUZ_DEPRECATED')) {
-			throw new Exception('NotImplementedException');
-			return parent::fetch($id, $force_from_db);
-		} else {
+
 			return $this->fetch_diy($id, $force_from_db);
-		}
+
 	}
 
 	public function delete($val, $unbuffered = false) {
-		if(defined('DISCUZ_DEPRECATED')) {
-			throw new Exception('NotImplementedException');
-			return parent::delete($val, $unbuffered);
-		} else {
+
 			return $this->delete_diy($val, $unbuffered);
-		}
+
 	}
 
 	public function update($val, $data, $unbuffered = false, $low_priority = false) {
-		if(defined('DISCUZ_DEPRECATED')) {
-			throw new Exception('NotImplementedException');
-			return parent::update($val, $data, $unbuffered, $low_priority);
-		} else {
+
 			return $this->update_diy($val, $data, $unbuffered);
-		}
+
 	}
 
 	public function fetch_all($ids, $force_from_db = false) {
-		if(defined('DISCUZ_DEPRECATED')) {
-			throw new Exception('NotImplementedException');
-			return parent::fetch_all($ids, $force_from_db);
-		} else {
+
 			$force_from_db = $force_from_db === false ? null : $force_from_db;
 			return $this->fetch_all_diy($ids, $force_from_db);
-		}
+
 	}
 
 	public function fetch_diy($targettplname, $tpldirectory) {

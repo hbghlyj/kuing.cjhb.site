@@ -29,12 +29,9 @@ class table_forum_hotreply_member extends discuz_table {
 	}
 
 	public function fetch($id, $force_from_db = false) {
-		if(defined('DISCUZ_DEPRECATED')) {
-			throw new Exception('NotImplementedException');
-			return parent::fetch($id, $force_from_db);
-		} else {
+
 			return $this->fetch_member($id, $force_from_db);
-		}
+
 	}
 
 	public function fetch_member($pid, $uid) {

@@ -63,13 +63,10 @@ class table_common_usergroup extends discuz_table {
 	}
 
 	public function update($val, $data, $unbuffered = false, $low_priority = false) {
-		if(defined('DISCUZ_DEPRECATED')) {
-			throw new Exception('NotImplementedException');
-			return parent::update($val, $data, $unbuffered, $low_priority);
-		} else {
+
 			$unbuffered = $unbuffered === false ? '' : $unbuffered;
 			return $this->update_usergroup($val, $data, $unbuffered);
-		}
+
 	}
 
 	public function update_usergroup($id, $data, $type = '') {
@@ -84,13 +81,10 @@ class table_common_usergroup extends discuz_table {
 	}
 
 	public function delete($val, $unbuffered = false) {
-		if(defined('DISCUZ_DEPRECATED')) {
-			throw new Exception('NotImplementedException');
-			return parent::delete($val, $unbuffered);
-		} else {
+
 			$unbuffered = $unbuffered === false ? '' : $unbuffered;
 			return $this->delete_usergroup($val, $unbuffered);
-		}
+
 	}
 
 	public function delete_usergroup($id, $type = '') {
@@ -130,12 +124,9 @@ class table_common_usergroup extends discuz_table {
 	}
 
 	public function fetch_all($ids, $force_from_db = false) {
-		if(defined('DISCUZ_DEPRECATED')) {
-			throw new Exception('NotImplementedException');
-			return parent::fetch_all($ids, $force_from_db);
-		} else {
+
 			return $this->fetch_all_usergroup($ids);
-		}
+
 	}
 
 	public function fetch_all_usergroup($ids) {

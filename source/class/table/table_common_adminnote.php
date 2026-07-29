@@ -28,13 +28,10 @@ class table_common_adminnote extends discuz_table {
 	}
 
 	public function delete($val, $unbuffered = false) {
-		if(defined('DISCUZ_DEPRECATED')) {
-			throw new Exception('NotImplementedException');
-			return parent::delete($val, $unbuffered);
-		} else {
+
 			$unbuffered = $unbuffered === false ? '' : $unbuffered;
 			return $this->delete_note($val, $unbuffered);
-		}
+
 	}
 
 	public function delete_note($id, $admin = '') {

@@ -96,13 +96,10 @@ class table_home_album extends discuz_table {
 	}
 
 	public function fetch($id, $force_from_db = false) {
-		if(defined('DISCUZ_DEPRECATED')) {
-			throw new Exception('NotImplementedException');
-			return parent::fetch($id, $force_from_db);
-		} else {
+
 			$force_from_db = $force_from_db === false ? '' : $force_from_db;
 			return $this->fetch_album($id, $force_from_db);
-		}
+
 	}
 
 	public function fetch_album($albumid, $uid = '') {

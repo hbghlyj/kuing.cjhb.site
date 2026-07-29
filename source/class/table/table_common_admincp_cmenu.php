@@ -37,12 +37,9 @@ class table_common_admincp_cmenu extends discuz_table {
 	}
 
 	public function delete($val, $unbuffered = false) {
-		if(defined('DISCUZ_DEPRECATED')) {
-			throw new Exception('NotImplementedException');
-			return parent::delete($val, $unbuffered);
-		} else {
+
 			return $this->delete_cmenu($val, $unbuffered);
-		}
+
 	}
 
 	public function delete_cmenu($id, $uid = 0) {

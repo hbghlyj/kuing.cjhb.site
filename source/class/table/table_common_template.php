@@ -32,12 +32,9 @@ class table_common_template extends discuz_table {
 	}
 
 	public function delete($val, $unbuffered = false) {
-		if(defined('DISCUZ_DEPRECATED')) {
-			throw new Exception('NotImplementedException');
-			return parent::delete($val, $unbuffered);
-		} else {
+
 			return $this->delete_tpl($val);
-		}
+
 	}
 
 	public function delete_tpl($val) {

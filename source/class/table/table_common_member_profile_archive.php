@@ -29,30 +29,21 @@ class table_common_member_profile_archive extends table_common_member_profile {
 	}
 
 	public function fetch($id, $force_from_db = false, $fetch_archive = 0) {
-		if(defined('DISCUZ_DEPRECATED')) {
-			throw new Exception('NotImplementedException');
-			return parent::fetch($id, $force_from_db, $fetch_archive);
-		} else {
+
 			return $this->fetch_profile($id);
-		}
+
 	}
 
 	public function fetch_all($ids, $force_from_db = false, $fetch_archive = 1) {
-		if(defined('DISCUZ_DEPRECATED')) {
-			throw new Exception('NotImplementedException');
-			return parent::fetch_all($ids, $force_from_db, $fetch_archive);
-		} else {
+
 			return $this->fetch_all_profile($ids);
-		}
+
 	}
 
 	public function delete($val, $unbuffered = false, $fetch_archive = 0) {
-		if(defined('DISCUZ_DEPRECATED')) {
-			throw new Exception('NotImplementedException');
-			return parent::delete($val, $unbuffered, $fetch_archive);
-		} else {
+
 			return $this->delete_profile($val, $unbuffered);
-		}
+
 	}
 
 	public function fetch_profile($id) {

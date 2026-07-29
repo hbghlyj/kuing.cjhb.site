@@ -51,12 +51,9 @@ class table_forum_poststick extends discuz_table {
 	}
 
 	public function delete($val, $unbuffered = false) {
-		if(defined('DISCUZ_DEPRECATED')) {
-			throw new Exception('NotImplementedException');
-			return parent::delete($val, $unbuffered);
-		} else {
+
 			return $this->delete_stick($val, $unbuffered);
-		}
+
 	}
 
 	public function delete_stick($tid, $pid) {

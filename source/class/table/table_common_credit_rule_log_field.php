@@ -36,21 +36,15 @@ class table_common_credit_rule_log_field extends discuz_table {
 	}
 
 	public function update($val, $data, $unbuffered = false, $low_priority = false) {
-		if(defined('DISCUZ_DEPRECATED')) {
-			throw new Exception('NotImplementedException');
-			return parent::update($val, $data, $unbuffered, $low_priority);
-		} else {
+
 			return $this->update_field($val, $data, $unbuffered);
-		}
+
 	}
 
 	public function fetch($id, $force_from_db = false) {
-		if(defined('DISCUZ_DEPRECATED')) {
-			throw new Exception('NotImplementedException');
-			return parent::fetch($id, $force_from_db);
-		} else {
+
 			return $this->fetch_field($id, $force_from_db);
-		}
+
 	}
 
 	public function update_field($uid, $clid, $data) {

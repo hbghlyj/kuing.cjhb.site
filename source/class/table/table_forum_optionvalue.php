@@ -44,11 +44,9 @@ class table_forum_optionvalue extends discuz_table {
 	}
 
 	public function truncate($null = 0) {
-		if(defined('DISCUZ_DEPRECATED')) {
-			throw new Exception('UnsupportedOperationException');
-		} else {
+
 			return $this->truncate_by_sortid($null);
-		}
+
 	}
 
 	public function truncate_by_sortid($sortid) {
@@ -129,11 +127,9 @@ class table_forum_optionvalue extends discuz_table {
 	}
 
 	public function update($sortid, $tid, $fid = null, $fields = null) {
-		if(defined('DISCUZ_DEPRECATED')) {
-			throw new Exception('UnsupportedOperationException');
-		} else {
+
 			return $this->update_optionvalue($sortid, $tid, $fid, $fields);
-		}
+
 	}
 
 	public function update_optionvalue($sortid, $tid, $fid, $fields) {

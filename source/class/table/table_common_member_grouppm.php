@@ -36,12 +36,9 @@ class table_common_member_grouppm extends discuz_table {
 	}
 
 	public function fetch($id, $force_from_db = false) {
-		if(defined('DISCUZ_DEPRECATED')) {
-			throw new Exception('NotImplementedException');
-			return parent::fetch($id, $force_from_db);
-		} else {
+
 			return $this->fetch_gpm($id, $force_from_db);
-		}
+
 	}
 
 	public function fetch_gpm($uid, $gpmid) {
@@ -57,12 +54,9 @@ class table_common_member_grouppm extends discuz_table {
 	}
 
 	public function update($val, $data, $unbuffered = false, $low_priority = false) {
-		if(defined('DISCUZ_DEPRECATED')) {
-			throw new Exception('NotImplementedException');
-			return parent::update($val, $data, $unbuffered, $low_priority);
-		} else {
+
 			return $this->update_gpm($val, $data, $unbuffered);
-		}
+
 	}
 
 	public function update_gpm($uid, $gpmid, $data) {

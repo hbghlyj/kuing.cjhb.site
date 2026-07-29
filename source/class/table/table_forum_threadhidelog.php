@@ -28,12 +28,9 @@ class table_forum_threadhidelog extends discuz_table {
 	}
 
 	public function insert($data, $return_insert_id = false, $replace = false, $silent = false) {
-		if(defined('DISCUZ_DEPRECATED')) {
-			throw new Exception('NotImplementedException');
-			return parent::insert($data, $return_insert_id, $replace, $silent);
-		} else {
+
 			return $this->insert_hidelog($data, $return_insert_id);
-		}
+
 	}
 
 	public function insert_hidelog($tid, $uid) {

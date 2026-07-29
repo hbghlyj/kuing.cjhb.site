@@ -15,7 +15,7 @@ if(!defined('IN_DISCUZ') || !defined('IN_ADMINCP')) {
 require_once childfile('index/function');
 require_once childfile('index/operation');
 
-$sensitivedirs = ['./', './ucenter/'];
+$sensitivedirs = ['./'];
 
 foreach($sensitivedirs as $sdir) {
 	if(@file_exists(DISCUZ_ROOT.$sdir.'install/index.php') && !DISCUZ_DEBUG) {
