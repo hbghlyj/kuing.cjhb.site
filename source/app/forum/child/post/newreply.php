@@ -211,7 +211,6 @@ if(!submitcheck('replysubmit', 0, $seccodecheck, $secqaacheck)) {
 			$quotefid = $thaquote['fid'];
 			if(isset($_GET['quote'])) {
 				$message = trim(str_replace("\0", '', (string)$_GET['quote']));
-				$message = str_replace(['[', ']'], ['&#91;', '&#93;'], dhtmlspecialchars($message));
 			} else {
 				$message = $thaquote['message'];
 			}
