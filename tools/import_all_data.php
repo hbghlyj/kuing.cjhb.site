@@ -8,7 +8,7 @@ require './source/class/class_core.php';
 $discuz = C::app();
 $discuz->init();
 defined('ROOT_PATH') || define('ROOT_PATH', DISCUZ_ROOT);
-require_once './install/include/install_function.php';
+require_once './install/include/install_data.php';
 
 $tablepre = $_G['config']['db'][1]['tablepre'];
 $dir = './source/i18n/SC/install/lang_sql_install';
