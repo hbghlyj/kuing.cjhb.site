@@ -88,7 +88,6 @@ $lang = [
 	'notice_flash_empty' => '【　　　】',
 	'notice_flash_new' => '【新提醒】',
 	'addto_favorite' => '請按 Ctrl+D 鍵添加到收藏夾',
-	'noie_notice_sethome' => '非 IE 瀏覽器請手動將本站設爲首頁',
 	'open_blind' => '開啓輔助訪問',
 	'close_blind' => '關閉輔助訪問',
 	'edit' => '編輯',

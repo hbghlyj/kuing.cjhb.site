@@ -88,7 +88,6 @@ $lang = [
 	'notice_flash_empty' => '【　　　】',
 	'notice_flash_new' => '【新提醒】',
 	'addto_favorite' => '请按 Ctrl+D 键添加到收藏夹',
-	'noie_notice_sethome' => '非 IE 浏览器请手动将本站设为首页',
 	'open_blind' => '开启辅助访问',
 	'close_blind' => '关闭辅助访问',
 	'edit' => '编辑',

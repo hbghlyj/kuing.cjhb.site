@@ -382,7 +382,6 @@ $lang = [
 	'new_replay_thread' => 'This thread has new replies. Click to view them.',
 	'next_img' => 'Next',
 	'no_restore' => 'No data can be recovered!',
-	'noie_notice_sethome' => 'For non-IE browsers, please manually set this site as the homepage',
 	'notice_flash_empty' => '【　　　】',
 	'notice_flash_new' => '【New Reminder】',
 	'num_attachs' => 'Attachments',

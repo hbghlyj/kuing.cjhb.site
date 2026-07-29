@@ -2014,11 +2014,6 @@ function addFavorite(url, title) {
 	}
 }
 
-function setHomepage(sURL) {
-	showDialog($L('noie_notice_sethome'), 'notice');
-	doane();
-}
-
 function setShortcut() {
 	var scrollTop = Math.max(document.documentElement.scrollTop, document.body.scrollTop);
 	if (!loadUserdata('setshortcut') && !scrollTop) {

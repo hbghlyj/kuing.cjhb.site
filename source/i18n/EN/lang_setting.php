@@ -52,7 +52,6 @@ $lang = array (
 	'nav_task'	=> 'Tasks',//'任务',
 	'nav_feed'	=> 'Feeds',//'动态',
 
-	'nav_sethomepage'	=> '<img src="static/image/common/home.gif" title="Set as Homepage">',//'设为首页',
 	'nav_setfavorite'	=> '<img src="static/image/common/fav.gif" title="Add to Favorites">',//'收藏本站',
 	'nav_uchome'		=> 'UCHome',//'',
 

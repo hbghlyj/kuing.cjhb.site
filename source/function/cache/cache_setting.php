@@ -1156,12 +1156,12 @@ function get_cachedata_topnav() {
 	$data['topnavs'] = [];
 	foreach(table_common_nav::t()->fetch_all_by_navtype(4) as $nav) {
 		$_nav = $nav;
+		if(!$nav['type'] && $nav['identifier'] == 'sethomepage') {
+			continue;
+		}
 		$nav['extra'] = '';
 		if(!$nav['type']) {
-			if($nav['identifier'] == 'sethomepage') {
-				$nav['url'] = 'javascript:;';
-				$nav['extra'] = ' onclick="setHomepage(\''.$_G['siteurl'].'\');"';
-			} elseif($nav['identifier'] == 'setfavorite') {
+			if($nav['identifier'] == 'setfavorite') {
 				$nav['url'] = $_G['siteurl'];
 				$nav['extra'] = ' onclick="addFavorite(this.href, \''.addslashes($_G['setting']['bbname']).'\');return false;"';
 			}
