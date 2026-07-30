@@ -111,13 +111,10 @@ function cplog_diff($extralog) {
 	foreach($keys as $key) {
 		$hasget = array_key_exists($key, $get);
 		$haspost = array_key_exists($key, $post);
-		if($hasget && $haspost && $get[$key] === $post[$key]) {
-			continue;
-		}
 		$getvalue = $hasget ? dhtmlspecialchars($key.'='.htmlspecialchars_decode($get[$key], ENT_QUOTES)) : '';
 		$postvalue = $haspost ? dhtmlspecialchars($key.'='.htmlspecialchars_decode($post[$key], ENT_QUOTES)) : '';
 		$rows .= '<tr><td>'.$getvalue.'</td><td>'.$postvalue.'</td></tr>';
 	}
 
-	return $rows ? '<table class="tb"><tr class="header"><th>GET</th><th>POST</th></tr>'.$rows.'</table>' : '<em>GET = POST</em>';
+	return $rows ? '<table class="tb"><tr class="header"><th style="width:50%;">GET</th><th style="width:50%;">POST</th></tr>'.$rows.'</table>' : '<em>No parameters</em>';
 }
