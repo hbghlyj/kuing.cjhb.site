@@ -317,7 +317,7 @@ class table_forum_post extends discuz_table {
 		return $return;
 	}
 
-	public function fetch_all_by_authorid($tableid, $authorid, $outmsg = true, $order = '', $start = 0, $limit = 0, $first = null, $invisible = null, $fid = null, $filterfid = null) {
+	public function fetch_all_by_authorid($tableid, $authorid, $outmsg = true, $order = '', $start = 0, $limit = 0, $first = null, $invisible = null, $fid = null, $filterfid = null, $orderfield = '') {
 		$postlist = $sql = [];
 		if($first !== null && $invisible !== null) {
 			if($first == 1) {
@@ -339,7 +339,8 @@ class table_forum_post extends discuz_table {
 			$filterfid = dintval($filterfid, true);
 			$sql[] = DB::field('fid', $filterfid, is_array($filterfid) ? 'notin' : '<>');
 		}
-		$query = DB::query('SELECT * FROM %t WHERE '.DB::field('authorid', $authorid).' %i '.($order ? 'ORDER BY GREATEST(dateline, lastupdate) '.$order : '').' '.DB::limit($start, $limit),
+		$orderfield = $orderfield ?: 'GREATEST(dateline, lastupdate)';
+		$query = DB::query('SELECT * FROM %t WHERE '.DB::field('authorid', $authorid).' %i '.($order ? 'ORDER BY '.$orderfield.' '.$order : '').' '.DB::limit($start, $limit),
 			[self::get_tablename($tableid), ($sql ? 'AND '.implode(' AND ', $sql) : '')]);
 		while($post = DB::fetch($query)) {
 			if(!$outmsg) {
