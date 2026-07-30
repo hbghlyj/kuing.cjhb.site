@@ -703,19 +703,19 @@ const { execSync } = require('child_process');
             '1',
             'Assertion Error: Admin reply was not stored in database.'
         );
-        const adminReplyPid = dbScalar(`SELECT pid FROM pre_forum_post WHERE tid='${nonImgMobileTid}' AND authorid='1' AND message LIKE '%${adminReplyText}%' ORDER BY pid DESC LIMIT 1`);
-        assert.match(adminReplyPid, /^\d+$/, 'Assertion Error: Failed to retrieve Admin reply PID.');
+        const adminReplyPidNonImg = dbScalar(`SELECT pid FROM pre_forum_post WHERE tid='${nonImgMobileTid}' AND authorid='1' AND message LIKE '%${adminReplyText}%' ORDER BY pid DESC LIMIT 1`);
+        assert.match(adminReplyPidNonImg, /^\d+$/, 'Assertion Error: Failed to retrieve Admin reply PID.');
 
         console.log('Testing normal user quoting admin reply in touch template...');
         await page.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${nonImgMobileTid}`);
         await page.waitForLoadState('networkidle');
-        const userQuoteBtn = page.locator(`a[href*="action=reply"][href*="repquote=${adminReplyPid}"]`);
+        const userQuoteBtn = page.locator(`a[href*="action=reply"][href*="repquote=${adminReplyPidNonImg}"]`);
         assert.strictEqual(await userQuoteBtn.count(), 1, 'Assertion Error: Mobile user quote-reply control for admin reply did not render.');
         await Promise.all([
             page.waitForURL(url =>
                 url.href.includes('mod=post') &&
                 url.href.includes('action=reply') &&
-                url.href.includes(`repquote=${adminReplyPid}`)
+                url.href.includes(`repquote=${adminReplyPidNonImg}`)
             ),
             userQuoteBtn.click()
         ]);
