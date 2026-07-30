@@ -1234,7 +1234,7 @@ const svgAttachmentSubject = `Thread with SVG Attachment ${testRunId}`;
 
         // 7. Tag Edit Panel & Retagging Test
         console.log("Testing Tag Edit Panel & Retagging functionality...");
-        await page.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${standardTid}`);
+        await page.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${tidOutput}`);
         await page.waitForLoadState('networkidle');
 
         const editTagBtn = page.locator('a[onclick*="misc.php?mod=tag&op=manage"]');
@@ -1253,11 +1253,11 @@ const svgAttachmentSubject = `Thread with SVG Attachment ${testRunId}`;
             saveTagBtn.click()
         ]);
 
-        const dbTags = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT tags FROM pre_forum_thread WHERE tid='${standardTid}';"`, { encoding: 'utf-8' }).trim();
-        assert.ok(dbTags.includes('retagtest'), `Assertion Error: Database tags column for TID ${standardTid} was not updated. Actual: ${dbTags}`);
+        const dbTags = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT tags FROM pre_forum_thread WHERE tid='${tidOutput}';"`, { encoding: 'utf-8' }).trim();
+        assert.ok(dbTags.includes('retagtest'), `Assertion Error: Database tags column for TID ${tidOutput} was not updated. Actual: ${dbTags}`);
 
-        const dbModLog = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT action FROM pre_forum_threadmod WHERE tid='${standardTid}' AND action='TAG';"`, { encoding: 'utf-8' }).trim();
-        assert.strictEqual(dbModLog, 'TAG', `Assertion Error: Thread moderation history log did not record action TAG for TID ${standardTid}.`);
+        const dbModLog = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT action FROM pre_forum_threadmod WHERE tid='${tidOutput}' AND action='TAG';"`, { encoding: 'utf-8' }).trim();
+        assert.strictEqual(dbModLog, 'TAG', `Assertion Error: Thread moderation history log did not record action TAG for TID ${tidOutput}.`);
         console.log("Tag Edit Panel & Retagging test passed!");
         report += `### 7. Tag Edit Panel & Retagging\n- **Status**: Passed\n- **Tag Retagged**: retagtest\n- **Threadmod Log Action**: TAG\n- **Screenshot**: \`screenshot_tag_itembox_edit.png\`\n\n`;
 
