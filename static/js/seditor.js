@@ -124,6 +124,12 @@ function seditor_insertunit(key, text, textend, moveend, selappend) {
 		$(key + 'message').value += text;
 	}
 	hideMenu(2);
+	// Notify live-preview listeners (e.g. #outputWrap) that the textarea value changed,
+	// since programmatic .value assignment does not fire native input events.
+	var _ta = $(key + 'message');
+	if(_ta) {
+		_ta.dispatchEvent(new Event('input', { bubbles: true }));
+	}
 }
 
 function seditor_ctlent(event, script) {
