@@ -1,4 +1,5 @@
 config/config_global.php
+config/config_emailpost.php
 data/
 vendor/
 src/config/

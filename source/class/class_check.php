@@ -102,6 +102,7 @@ class check {
 		'filter' => ['filter_var'],
 		'ctype' => ['ctype_alnum'],
 		'spl' => ['spl_autoload_register'],
+		'imap' => ['imap_open', 'imap_search', 'imap_fetchbody'],
 	];
 
 	private static function extensionCheck($extension, $testFunctions = []) {

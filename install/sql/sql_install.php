@@ -2884,6 +2884,24 @@ CREATE TABLE pre_forum_onlinelist
 	url          varchar(30)          NOT NULL DEFAULT ''
 ) ENGINE = InnoDB;
 
+DROP TABLE IF EXISTS pre_forum_emailpost;
+CREATE TABLE pre_forum_emailpost
+(
+	messagekey  char(64)                 NOT NULL,
+	mailuid     bigint(20) unsigned      NOT NULL DEFAULT '0',
+	messageid   varchar(255)             NOT NULL DEFAULT '',
+	sender      varchar(255)             NOT NULL DEFAULT '',
+	uid         mediumint(8) unsigned    NOT NULL DEFAULT '0',
+	action      enum ('thread','reply')  NOT NULL,
+	relatedid   int(10) unsigned         NOT NULL DEFAULT '0',
+	status      tinyint(1)               NOT NULL DEFAULT '0',
+	dateline    int(10) unsigned         NOT NULL DEFAULT '0',
+	detail      varchar(255)             NOT NULL DEFAULT '',
+	PRIMARY KEY (messagekey),
+	KEY status (status, dateline),
+	KEY uid (uid, dateline)
+) ENGINE = InnoDB;
+
 DROP TABLE IF EXISTS pre_forum_order;
 CREATE TABLE pre_forum_order
 (
