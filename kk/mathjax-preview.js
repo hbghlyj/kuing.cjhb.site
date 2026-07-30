@@ -377,7 +377,7 @@ if (typeof bbcode2html === 'function') {
 	window.allowimgcode = typeof window.allowimgcode === 'undefined' ? 1 : window.allowimgcode;
 
 	var bbcodeScript = document.createElement('script');
-	bbcodeScript.src = (typeof JSPATH !== 'undefined' ? JSPATH : 'static/js/') + 'bbcode.js';
+	bbcodeScript.src = (typeof JSPATH !== 'undefined' ? JSPATH : 'static/js/') + 'bbcode.js?' + (typeof VERHASH !== 'undefined' ? VERHASH : '');
 	bbcodeScript.onload = initMathJaxPreview;
 	document.head.appendChild(bbcodeScript);
 }
