@@ -1597,7 +1597,9 @@ function parseurl(str, mode, parsecode) {
 	if(isUndefined(parsecode)) parsecode = true;
 	if(parsecode) {
 		str = str.replace(/\[code\]([\s\S]+?)\[\/code\]/ig, function($1, $2) {
-			return codetag($2, -1);
+			DISCUZCODE['num']++;
+			DISCUZCODE['html'][DISCUZCODE['num']] = '[code]' + $2 + '[/code]';
+			return '[\tDISCUZ_CODE_' + DISCUZCODE['num'] + '\t]';
 		});
 	}
 
