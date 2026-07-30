@@ -42,7 +42,7 @@ https://www.discuz.vip
 	.tex_greek_palette a { display: flex; align-items: center; justify-content: center; width: 22px; height: 20px; border: 1px solid transparent; color: inherit; line-height: 20px; text-align: center; text-decoration: none; box-sizing: border-box; }
 	.tex_greek_palette a:hover { border-color: #09C; background: {COMMONBG}; }
 
-	.edt a.cst { background-image: none; text-align: center; text-indent: 0; }
+	.edt a.cst { font-size: 11px; background-image: none; text-align: center; text-indent: 0; }
 		.edt a.cst img { vertical-align: middle; }
 
 	.simpleedt .bar, .simpleedt .b1r, .simpleedt .b2r { height: 22px; }
