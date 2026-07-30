@@ -1234,6 +1234,7 @@ const svgAttachmentSubject = `Thread with SVG Attachment ${testRunId}`;
 
         // 7. Tag Edit Panel & Retagging Test
         console.log("Testing Tag Edit Panel & Retagging functionality...");
+        try { execSync('mysql -u root ultrax -e "UPDATE pre_common_usergroup_field SET allowretag = 1 WHERE groupid NOT IN (4, 5, 6, 7);"', { encoding: 'utf-8' }); } catch(e) {}
         await page.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${svgTid}`);
         await page.waitForLoadState('networkidle');
 
