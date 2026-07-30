@@ -4,7 +4,7 @@ if(PHP_SAPI !== 'cli') {
 	exit("This tool must be run from the command line.\n");
 }
 
-if(get_current_user() !== 'www-data') {
+if(get_current_user() !== 'www-data' && !getenv('GITHUB_ACTIONS')) {
 	exit("This tool must be run as script owner www-data.\n");
 }
 
