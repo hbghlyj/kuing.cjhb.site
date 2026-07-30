@@ -332,6 +332,7 @@ EOF;
 		showsetting('usergroups_edit_basic_allowfollowcollection', 'allowfollowcollectionnew', intval($group['allowfollowcollection']), 'text');
 		showsetting('usergroups_edit_basic_close_ad', 'closeadnew', $group['closead'], 'radio');
 		showsetting('usergroups_edit_post_tag', 'allowposttagnew', $group['allowposttag'], 'radio');
+		showsetting('usergroups_edit_allowretag', 'allowretagnew', $group['allowretag'], 'radio');
 		showtablefooter();
 		showtagfooter('div');
 		/*search*/
@@ -811,6 +812,7 @@ EOF;
 			'allowsetattachperm' => $_GET['allowsetattachpermnew'],
 			'allowpostimage' => $_GET['allowpostimagenew'],
 			'allowposttag' => $_GET['allowposttagnew'],
+			'allowretag' => $_GET['allowretagnew'],
 			'allowhidecode' => $_GET['allowhidecodenew'],
 			'allowmediacode' => $_GET['allowmediacodenew'],
 			'allowhtml' => $_GET['allowhtmlnew'],

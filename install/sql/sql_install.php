@@ -1786,6 +1786,7 @@ CREATE TABLE pre_common_usergroup_field
 	allowsetreadperm       tinyint(1)            NOT NULL DEFAULT '0',
 	allowsetattachperm     tinyint(1)            NOT NULL DEFAULT '0',
 	allowposttag           tinyint(1)            NOT NULL DEFAULT '0',
+	allowretag             tinyint(1)            NOT NULL DEFAULT '0',
 	allowhidecode          tinyint(1)            NOT NULL DEFAULT '0',
 	allowhtml              tinyint(1)            NOT NULL DEFAULT '0',
 	allowanonymous         tinyint(1)            NOT NULL DEFAULT '0',
