@@ -1232,30 +1232,22 @@ const svgAttachmentSubject = `Thread with SVG Attachment ${testRunId}`;
         );
         report += `### 6c. SVG Attachment Post\n- **Status**: Checked\n- **Thread Created**: ${svgAttachmentSubject} (TID: ${svgTid}, AID: ${svgAid})\n- **SVG Stored as Image (isimage)**: ${svgIsImage}\n- **Screenshot**: \`screenshot_attachment_svg_viewthread.png\`\n\n`;
 
-        // 7. Interactive Tag Itembox & Retagging Test
-        console.log("Testing Interactive Tag Itembox & Retagging functionality...");
+        // 7. Tag Edit Panel & Retagging Test
+        console.log("Testing Tag Edit Panel & Retagging functionality...");
         await page.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${svgTid}`);
         await page.waitForLoadState('networkidle');
 
-        const tagItembox = page.locator('#tag_itembox');
-        assert.strictEqual(await tagItembox.count(), 1, 'Assertion Error: Tag Itembox (#tag_itembox) did not render in viewthread.');
-
-        const editTagBtn = page.locator('.cmty-edit-tag-btn');
-        assert.strictEqual(await editTagBtn.count(), 1, 'Assertion Error: Edit tag button (.cmty-edit-tag-btn) did not render.');
+        const editTagBtn = page.locator('a[onclick*="misc.php?mod=tag&op=manage"]');
+        assert.strictEqual(await editTagBtn.count(), 1, 'Assertion Error: Tag edit button (misc.php?mod=tag&op=manage) did not render in viewthread.');
         await editTagBtn.click();
 
-        const tagEditView = page.locator('#tag_edit_view');
-        assert.strictEqual(await tagEditView.isVisible(), true, 'Assertion Error: Tag edit view (#tag_edit_view) did not open upon clicking edit button.');
+        await page.waitForSelector('#fwin_mods #tags', { state: 'visible', timeout: 5000 });
         await page.screenshot({ path: 'screenshot_tag_itembox_edit.png' });
 
-        const tagInput = page.locator('#cmty_tag_input');
+        const tagInput = page.locator('#fwin_mods #tags');
         await tagInput.fill('retagtest');
-        await tagInput.press('Enter');
 
-        const tagPills = page.locator('.cmty-item-tag');
-        assert.strictEqual(await tagPills.count(), 1, 'Assertion Error: Tag pill was not added to container.');
-
-        const saveTagBtn = page.locator('#tag_edit_view button.cmty-editable-item-close');
+        const saveTagBtn = page.locator('#fwin_mods button[name="search_button"]');
         await Promise.all([
             page.waitForNavigation({ waitUntil: 'networkidle' }).catch(() => {}),
             saveTagBtn.click()
@@ -1266,8 +1258,8 @@ const svgAttachmentSubject = `Thread with SVG Attachment ${testRunId}`;
 
         const dbModLog = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT action FROM pre_forum_threadmod WHERE tid='${svgTid}' AND action='TAG';"`, { encoding: 'utf-8' }).trim();
         assert.strictEqual(dbModLog, 'TAG', `Assertion Error: Thread moderation history log did not record action TAG for TID ${svgTid}.`);
-        console.log("Interactive Tag Itembox & Retagging test passed!");
-        report += `### 7. Interactive Tag Itembox & Retagging\n- **Status**: Passed\n- **Tag Retagged**: retagtest\n- **Threadmod Log Action**: TAG\n- **Screenshot**: \`screenshot_tag_itembox_edit.png\`\n\n`;
+        console.log("Tag Edit Panel & Retagging test passed!");
+        report += `### 7. Tag Edit Panel & Retagging\n- **Status**: Passed\n- **Tag Retagged**: retagtest\n- **Threadmod Log Action**: TAG\n- **Screenshot**: \`screenshot_tag_itembox_edit.png\`\n\n`;
 
         // 8. WYSIWYG Mode & Preview Div Toggle Test
         console.log("Testing WYSIWYG mode & preview div (#outputWrap) toggle...");

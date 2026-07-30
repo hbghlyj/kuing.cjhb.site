@@ -10,7 +10,7 @@ if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
-if($_GET['formhash'] != FORMHASH || !$_G['group']['allowmanagetag']) {
+if($_GET['formhash'] != FORMHASH || (!$_G['group']['allowretag'] && !$_G['group']['allowmanagetag'] && !$_G['forum']['ismoderator'] && $_G['uid'] != $_G['thread']['authorid'])) {
 	showmessage('undefined_action');
 }
 $class_tag = new tag();

@@ -598,6 +598,16 @@ select {-moz-appearance:none;}
 .usergroup-form .perm-grid-row {display:flex;padding:10px 15px;border-bottom:1px solid var(--dz-BOR-ed);font-size:14px;color:var(--dz-FC-333);align-items:center;}
 .usergroup-form .perm-grid-row.alt {background:var(--dz-BG-5);}
 .usergroup-form .perm-grid-row:last-child {border-bottom:none;}
+
+/* Tag Itembox Component */
+.cmty-itembox { display: block; width: 100%; position: relative; min-height: 28px; line-height: 28px; }
+.cmty-itembox a { color: #376fc0; text-decoration: none; font-size: 14px; }
+.cmty-edit-tag-btn { margin-left: 10px; font-size: 12px; color: #029386 !important; cursor: pointer; }
+.cmty-items-input-box { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 6px; background-color: #FFFFFF; border: 1px solid #029386; border-radius: 4px; padding: 4px 60px 4px 8px; position: relative; min-width: 240px; margin-top: 6px; }
+.cmty-item-tag { background-color: #029386; color: #ffffff; border-radius: 0 12px 12px 0; padding: 3px 8px 3px 10px; display: inline-flex; align-items: center; font-size: 13px; line-height: 18px; }
+.cmty-item-tag .cmty-delete-item { cursor: pointer; margin-left: 6px; font-weight: bold; font-size: 12px; opacity: 0.8; }
+.cmty-tag-input { border: none; outline: none; background: transparent; font-size: 14px; min-width: 80px; flex: 1; padding: 2px 4px; }
+.cmty-editable-item-close { background-color: #136cce; color: #ffffff; position: absolute; right: 4px; top: 50%; transform: translateY(-50%); border-radius: 3px; border: none; padding: 4px 12px; font-size: 13px; cursor: pointer; }
 .usergroup-form .perm-cell {flex:1;text-align:center;}
 .usergroup-form .perm-cell-name {flex:2;text-align:left;}
 .usergroup-form .list-row {display:flex;padding:12px 15px;border-bottom:1px solid var(--dz-BOR-ed);align-items:center;font-size:14px;}

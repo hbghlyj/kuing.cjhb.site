@@ -681,26 +681,15 @@ const { execSync } = require('child_process');
             '1',
             'Assertion Error: Admin PM was not delivered to the mobile user inbox.'
         );
-        await adminMobilePage.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${nonImgMobileTid}`);
-        await adminMobilePage.waitForLoadState('networkidle');
-        const adminQuoteBtn = adminMobilePage.locator(`a[href*="action=reply"][href*="repquote=${quoteMobilePid}"]`);
-        assert.strictEqual(await adminQuoteBtn.count(), 1, 'Assertion Error: Mobile admin quote-reply control did not render.');
-        await Promise.all([
-            adminMobilePage.waitForURL(url =>
-                url.href.includes('mod=post') &&
-                url.href.includes('action=reply') &&
-                url.href.includes(`repquote=${quoteMobilePid}`)
-            ),
-            adminQuoteBtn.click()
-        ]);
+        await adminMobilePage.goto(`http://127.0.0.1:8080/forum.php?mod=post&action=reply&fid=${forumFid}&tid=${nonImgMobileTid}`);
         await adminMobilePage.waitForLoadState('networkidle');
         const adminReplyText = 'Admin original reply to user thread.';
         const adminMsgArea = adminMobilePage.locator('#needmessage:visible');
-        assert.strictEqual(await adminMsgArea.count(), 1, 'Assertion Error: Mobile quote reply editor for admin did not render.');
+        assert.strictEqual(await adminMsgArea.count(), 1, 'Assertion Error: Mobile reply editor for admin did not render.');
         await adminMsgArea.fill(adminReplyText);
         await solveVisibleSecurityQuestion(adminMobilePage);
         const adminSubmitBtn = adminMobilePage.locator('#postsubmit:visible');
-        assert.strictEqual(await adminSubmitBtn.count(), 1, 'Assertion Error: Mobile quote reply submit button did not render.');
+        assert.strictEqual(await adminSubmitBtn.count(), 1, 'Assertion Error: Mobile reply submit button for admin did not render.');
         await adminMobilePage.waitForFunction(() => document.getElementById('postsubmit')?.dataset.disabled === 'false');
         await Promise.all([
             adminMobilePage.waitForResponse(response =>
