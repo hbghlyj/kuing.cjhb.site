@@ -82,7 +82,7 @@ function url_implode($gets) {
 function ckstart($start, $perpage) {
 	global $_G;
 
-	$_G['setting']['maxpage'] = $_G['setting']['maxpage'] ? $_G['setting']['maxpage'] : 100;
+	$_G['setting']['maxpage'] = isset($_G['setting']['maxpage']) && $_G['setting']['maxpage'] !== '' ? intval($_G['setting']['maxpage']) : 0;
 	$maxstart = $perpage * intval($_G['setting']['maxpage']);
 	if($start < 0 || ($maxstart > 0 && $start >= $maxstart)) {
 		showmessage('length_is_not_within_the_scope_of');

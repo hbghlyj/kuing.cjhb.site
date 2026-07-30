@@ -152,7 +152,7 @@ if($_GET['view'] == 'me') {
 			}
 		}
 
-		$multi = multi(table_forum_postcomment::t()->count_by_authorid($space['uid'], $vfid), $perpage, $page, $theurl);
+		$multi = multi(table_forum_postcomment::t()->count_by_authorid($space['uid'], $vfid), $perpage, $page, $theurl, $_G['setting']['maxpage']);
 		$need_count = false;
 
 	} elseif($allowview) {
@@ -255,7 +255,7 @@ if($_GET['view'] == 'me') {
 		}
 
 
-		$multi = multi($listcount, $perpage, $page, $theurl);
+		$multi = multi($listcount, $perpage, $page, $theurl, $_G['setting']['maxpage']);
 
 		$need_count = false;
 	}
@@ -341,7 +341,7 @@ if($need_count) {
 
 
 	if($_GET['view'] != 'all') {
-		$multi = multi($totalcount, $perpage, $page, $theurl);
+		$multi = multi($totalcount, $perpage, $page, $theurl, $_G['setting']['maxpage']);
 	}
 }
 
