@@ -1241,11 +1241,12 @@ const svgAttachmentSubject = `Thread with SVG Attachment ${testRunId}`;
         assert.strictEqual(await editTagBtn.count(), 1, 'Assertion Error: Tag edit button (misc.php?mod=tag&op=manage) did not render in viewthread.');
         await editTagBtn.click();
 
-        await page.waitForSelector('#fwin_mods #tags', { state: 'visible', timeout: 5000 });
+        await page.waitForSelector('#fwin_mods #keyword-input', { state: 'visible', timeout: 5000 });
         await page.screenshot({ path: 'screenshot_tag_itembox_edit.png' });
 
-        const tagInput = page.locator('#fwin_mods #tags');
+        const tagInput = page.locator('#fwin_mods #keyword-input');
         await tagInput.fill('retagtest');
+        await tagInput.press('Enter');
 
         const saveTagBtn = page.locator('#fwin_mods button[name="search_button"]');
         await Promise.all([
