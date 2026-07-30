@@ -48,6 +48,7 @@ if($op === 'set') {
 	if(!$_G['adminid'] && !$_G['group']['allowretag'] && !$_G['forum']['ismoderator'] && $_G['uid'] != $_G['thread']['authorid']) {
 		showmessage('group_nopermission', NULL, array('grouptitle' => $_G['group']['grouptitle']), array('login' => 1));
 	}
+	require_once './source/function/function_post.php';
 	$file = appfile('child/tag/set', 'misc');
 	if(!$file || !file_exists($file)) {
 		showmessage('undefined_action');
