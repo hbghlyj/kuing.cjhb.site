@@ -666,6 +666,7 @@ $lang = array (
 	'post_price_income_comment'	=> 'Your thread highest price is {$_G[setting][maxincperthread]} {$_G[setting][extcredits][$_G[setting][creditstransextra][1]][unit]}&nbsp;&nbsp;&nbsp;&nbsp;',//'主题出售最高收入上限为 {$_G[setting][maxincperthread]} {$_G[setting][extcredits][$_G[setting][creditstransextra][1]][unit]}&nbsp;&nbsp;&nbsp;&nbsp;',
 	'post_rushreply_credit'		=> 'Larger than this set in order to participate in the grab floor, and from time filled',//'大于此设置才能参与抢楼，可不填',
 	'post_tag'			=> 'Tags',//'标签',
+	'edit_tag'			=> 'Edit Tags',
 	'tag_cannot_contain_comma_or_backslash'	=> 'Tags can not contain commas or backslashes',//'标签不能包含,或\\',
 	'tag_max_length_invalid' => 'Tag length should be between 3 and 30 characters, current length is ',//'标签长度最大为 30 字节，最小为 3 字节，当前长度为 ',
 	'input_a_new_tag_press_enter_submit' => 'Enter a new tag and press Enter',//'输入一个新标签，按回车键添加',

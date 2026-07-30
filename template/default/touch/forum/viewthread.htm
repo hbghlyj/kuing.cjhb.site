@@ -249,8 +249,8 @@
 							<a title="$var[1]" href="misc.php?mod=tag&id=$var[0]&name=<!--{echo rawurlencode($var[1])}-->">$var[1]</a>
 						<!--{/loop}-->
 					<!--{/if}-->
-					<!--{if ($_G['forum']['ismoderator'] || $_G['uid'] == $post['authorid'] || !empty($_G['group']['allowretag']) || !empty($_G['group']['allowmanagetag'])) && !$_G['forum_thread']['archiveid']}-->
-						<a href="misc.php?mod=tag&op=manage&tid=$_G['tid']" class="dialog cmty-edit-tag-btn" title="编辑标签">[编辑标签]</a>
+					<!--{if ($_G['adminid'] || $_G['forum']['ismoderator'] || $_G['uid'] == $post['authorid'] || !empty($_G['group']['allowretag'])) && !$_G['forum_thread']['archiveid']}-->
+						<a href="misc.php?mod=tag&op=manage&tid=$_G['tid']" class="dialog cmty-edit-tag-btn" title="{lang edit_tag}">[{lang edit_tag}]</a>
 					<!--{/if}-->
 					<!--{if $relatedkeywords}--><span>$relatedkeywords</span><!--{/if}-->
 				</div>

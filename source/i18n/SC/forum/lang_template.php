@@ -670,6 +670,7 @@ $lang = [
 	'post_price_income_comment' => '主题出售最高收入上限为 {$_G[\'setting\'][\'maxincperthread\']} {$_G[\'setting\'][\'extcredits\'][$_G[\'setting\'][\'creditstransextra\'][1]][\'unit\']}&nbsp;&nbsp;&nbsp;&nbsp;',
 	'post_rushreply_credit' => '大于此设置才能参与抢楼，可不填',
 	'post_tag' => '标签',
+	'edit_tag' => '编辑标签',
 	'post_timer' => '定时发布',
 	'posttag' => '主题标签',
 	'replycredit_empty' => '(留空或填 0 为不奖励)',

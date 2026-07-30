@@ -111,7 +111,7 @@
 					<!--{/loop}-->
 				<!--{/if}-->
 				<!--{if ($_G['forum']['ismoderator'] || $_G['uid'] == $post['authorid'] || !empty($_G['group']['allowretag'])) && !$_G['forum_thread']['archiveid']}-->
-					<a href="javascript:;" onclick="showWindow('mods', 'misc.php?mod=tag&op=manage&tid=$_G[tid]', 'get', 0)" class="cmty-edit-tag-btn" title="编辑标签">[编辑标签]</a>
+					<a href="javascript:;" onclick="showWindow('mods', 'misc.php?mod=tag&op=manage&tid=$_G[tid]', 'get', 0)" class="cmty-edit-tag-btn" title="{lang edit_tag}">[{lang edit_tag}]</a>
 				<!--{/if}-->
 				<!--{if $relatedkeywords}--><span>$relatedkeywords</span><!--{/if}-->
 			</div>
