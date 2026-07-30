@@ -113,6 +113,27 @@ class table_forum_post extends discuz_table {
 		return DB::result_first('SELECT COUNT(*) FROM %t WHERE authorid=%d AND invisible=0', [self::get_tablename($tableid), $authorid]);
 	}
 
+	public function count_all_by_authorid($tableid, $authorid, $first = null, $invisible = null, $fid = null, $filterfid = null) {
+		$sql = [];
+		if($first !== null && $invisible !== null) {
+			$sql[] = DB::field('invisible', $invisible);
+			$sql[] = DB::field('first', $first);
+		} elseif($invisible !== null) {
+			$sql[] = DB::field('invisible', $invisible);
+		} elseif($first !== null) {
+			$sql[] = DB::field('first', $first);
+		}
+		if($fid !== null) {
+			$sql[] = DB::field('fid', $fid);
+		}
+		if($filterfid !== null) {
+			$filterfid = dintval($filterfid, true);
+			$sql[] = DB::field('fid', $filterfid, is_array($filterfid) ? 'notin' : '<>');
+		}
+		return DB::result_first('SELECT COUNT(*) FROM %t WHERE '.DB::field('authorid', $authorid).' %i',
+			[self::get_tablename($tableid), ($sql ? 'AND '.implode(' AND ', $sql) : '')]);
+	}
+
 	public function count_group_authorid_by_fid($tableid, $fid) {
 		return DB::fetch_all('SELECT COUNT(*) as num, authorid FROM %t WHERE fid=%d AND first=0 GROUP BY authorid', [self::get_tablename($tableid), $fid]);
 	}

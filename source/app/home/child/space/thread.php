@@ -179,8 +179,8 @@ if($_GET['view'] == 'me') {
 			}
 		}
 		require_once libfile('function/post');
+		$listcount = table_forum_post::t()->count_all_by_authorid(0, $space['uid'], 0, $invisible, $vfid);
 		$posts = table_forum_post::t()->fetch_all_by_authorid(0, $space['uid'], true, 'DESC', $start, $perpage, 0, $invisible, $vfid);
-		$listcount = count($posts);
 		foreach($posts as $pid => $post) {
 			$delrow = false;
 			if($post['anonymous'] && $post['authorid'] != $_G['uid']) {
