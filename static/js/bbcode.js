@@ -380,15 +380,16 @@ function html2bbcode(str) {
 	str = str.replace(/<br[^\>]*>/ig, "\n");
 
 	if(!fetchCheckbox('bbcodeoff') && allowbbcode) {
+		str = str.replace(/<\/?(thead|tbody|tfoot)[^>]*>/ig, '');
 		str = preg_replace([
 			'<table[^>]*float:\\s*(left|right)[^>]*><tbody><tr><td>\\s*([\\s\\S]+?)\\s*</td></tr></tbody></table>',
 			'<table([^>]*(width|background|background-color|backcolor)[^>]*)>',
 			'<table[^>]*>',
 			'<tr[^>]*(?:background|background-color|backcolor)[:=]\\s*(["\']?)([()\\s%,#\\w]+)(\\1)[^>]*>',
 			'<tr[^>]*>',
-			'<t[dh]([^>]*(width|colspan|rowspan)[^>]*)>',
-			'<t[dh][^>]*>',
-			'<\/t[dh]>',
+			'<(td|th)\\b([^>]*(width|colspan|rowspan)[^>]*)>',
+			'<(td|th)\\b[^>]*>',
+			'<\\/(td|th)>',
 			'<\/tr>',
 			'<\/table>',
 		], [
@@ -397,12 +398,20 @@ function html2bbcode(str) {
 			'[table]\n',
 			function($1, $2, $3) {return '[tr=' + $3 + ']';},
 			'[tr]',
-			function($1, $2) {return tdtag($2);},
+			function($1, $2, $3, $4) {return tdtag($4);},
 			'[td]',
 			'[/td]',
 			'[/tr]\n',
 			'[/table]',
 		], str);
+
+		str = str.replace(/\[table\][\s\r\n]*/ig, '[table]\n');
+		str = str.replace(/[\s\r\n]*\[\/table\]/ig, '\n[/table]');
+		str = str.replace(/[\s\t]*\[tr\][\s\t]*/ig, '[tr]');
+		str = str.replace(/[\s\t]*\[\/tr\][\s\t]*/ig, '[/tr]');
+		str = str.replace(/\[\/tr\]\n*/ig, '[/tr]\n');
+		str = str.replace(/[\s\t]*\[td\][\s\t]*/ig, '[td]');
+		str = str.replace(/[\s\t]*\[\/td\][\s\t]*/ig, '[/td]');
 
 		str = str.replace(/<h([1-6])[^>]*>([\s\S]*?)<\/h\1>/ig, function ($1, $2, $3) {
 			let sizeValue = 7 - parseInt($2);
