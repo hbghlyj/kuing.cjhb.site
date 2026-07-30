@@ -949,7 +949,7 @@ $lang = array (
 	'post_thread_closed_by_dateline'	=> 'Sorry, Administrator sets threads posted {autoclose} days ago of this forum closed automatically, no longer allowed new replies.',//'对不起，管理员设置了本版块发表于 {autoclose} 天以前的主题自动关闭，不再接受新回复，请返回。',
 	'post_thread_closed_by_lastpost'	=> 'Sorry, Administrator sets threads whose last reply posted {autoclose} days ago closed automatically, stop accepting new replies.',//'对不起，管理员设置了本版块最后回复于 {autoclose} 天以前的主题自动关闭，不再接受新回复，请返回。',
 
-	'length_is_not_within_the_scope_of'	=> 'Sub-pages is not to the extent permitted',//'分页数不在允许的范围内',
+	'length_is_not_within_the_scope_of'	=> 'The number of pages is outside the permitted range.',//'分页数不在允许的范围内',
 
 	'magics_weight_range_invalid'		=> 'Sorry, magics package have insufficient capacity in excess of {less}.',//'对不起，道具包容量不足，超出 {less}，请返回。',
 	'magics_target_nonexistence'		=> 'Sorry, target does not exist.',//'对不起，您所指定的目标不存在，请返回。',
