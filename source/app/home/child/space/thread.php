@@ -252,7 +252,13 @@ if($_GET['view'] == 'me') {
 					}
 				}
 			}
-			$list = &$threads;
+			$ordered = [];
+			foreach($tids as $tid => $pids) {
+				if(isset($threads[$tid])) {
+					$ordered[$tid] = $threads[$tid];
+				}
+			}
+			$list = &$ordered;
 		}
 
 
