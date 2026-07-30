@@ -511,20 +511,27 @@ function updatethreadcount($tid, $updateattach = 0) {
 	table_forum_thread::t()->update($tid, $data);
 }
 
-function updatemodlog($tids, $action, $expiration = 0, $iscron = 0, $reason = '') {
+function updatemodlog($tids, $action, $expiration = 0, $iscron = 0, $reason = '', $pids = 0) {
 	global $_G;
 	if(is_array($tids)) {
 		$tids = implode(',', $tids);
+	}
+	if(is_array($pids)) {
+		$pids = implode(',', $pids);
 	}
 	$uid = empty($iscron) ? $_G['uid'] : 0;
 	$username = empty($iscron) ? $_G['member']['username'] : 0;
 	$expiration = empty($expiration) ? 0 : intval($expiration);
 
-	$data = $comma = '';
-	foreach(explode(',', str_replace(['\'', ' '], ['', ''], $tids)) as $tid) {
+	$tidarray = explode(',', str_replace(['\'', ' '], ['', ''], $tids));
+	$pidarray = $pids ? explode(',', str_replace(['\'', ' '], ['', ''], $pids)) : [];
+
+	foreach($tidarray as $k => $tid) {
 		if($tid) {
+			$pid = isset($pidarray[$k]) ? intval($pidarray[$k]) : (count($pidarray) == 1 ? intval($pidarray[0]) : 0);
 			$data = [
 				'tid' => $tid,
+				'pid' => $pid,
 				'uid' => $uid,
 				'username' => $username,
 				'dateline' => $_G['timestamp'],
@@ -536,8 +543,6 @@ function updatemodlog($tids, $action, $expiration = 0, $iscron = 0, $reason = ''
 			table_forum_threadmod::t()->insert($data);
 		}
 	}
-
-
 }
 
 function isopera() {

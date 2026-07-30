@@ -240,7 +240,13 @@ class tag {
 	 * @return string 更新后的标签字符串
 	 */
 	public function update_field($tags, $itemid, $idtype = 'tid', $typeinfo = []) {
-		$tagidarray = array_column(table_common_tagitem::t()->select(0, $itemid, $idtype), 'tagid');
+		$olditems = table_common_tagitem::t()->select(0, $itemid, $idtype);
+		$tagidarray = array_column($olditems, 'tagid');
+		$oldTagNames = [];
+		if($tagidarray) {
+			$oldTagsData = table_common_tag::t()->fetch_all($tagidarray);
+			$oldTagNames = array_column($oldTagsData, 'tagname');
+		}
 		$tags = $this->add_tag($tags, $itemid, $idtype, 1) ?? [];
 		$tagstr = '';
 		foreach($tags as $tagid => $tagname) {
@@ -255,6 +261,24 @@ class tag {
 			table_common_tag::t()->increase($tagid, ['related_count' => -1]);
 			self::update_tag_hot_score($tagid);
 		}
+
+		if($idtype == 'tid' && $itemid) {
+			$newTagNames = array_values($tags);
+			$added = array_diff($newTagNames, $oldTagNames);
+			$removed = array_diff($oldTagNames, $newTagNames);
+			if($added || $removed) {
+				$diffParts = [];
+				if($added) {
+					$diffParts[] = '+'.implode(',', $added);
+				}
+				if($removed) {
+					$diffParts[] = '-'.implode(',', $removed);
+				}
+				$diffStr = cutstr(implode(' ', $diffParts), 40);
+				updatemodlog($itemid, 'TAG', 0, 0, $diffStr);
+			}
+		}
+
 		return $tagstr;
 	}
 

@@ -83,5 +83,9 @@ $lang = array
 
 	'REB'	=> 'Get promotion',//'推送',
 
+	'TAG'	=> 'Modify tags',
+	'SRE'	=> 'Stick reply',
+	'USR'	=> 'Unstick reply',
+
 );
 

@@ -73,6 +73,8 @@ if(!submitcheck('modsubmit')) {
 		'redirect' => "forum.php?mod=viewthread&tid={$_G['tid']}&page=$page",
 		'reasonpm' => ($sendreasonpm ? ['data' => $authorids, 'var' => 'post', 'notictype' => 'post', 'item' => $_GET['stickreply'] ? 'reason_stickreply' : 'reason_stickdeletereply'] : []),
 		'reasonvar' => ['tid' => $thread['tid'], 'subject' => $thread['subject'], 'modaction' => $modaction, 'reason' => $reason],
+		'modtids' => $_G['tid'],
+		'modpids' => $topiclist,
 		'modlog' => $thread
 	];
 

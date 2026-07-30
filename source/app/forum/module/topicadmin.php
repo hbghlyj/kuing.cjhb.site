@@ -72,7 +72,7 @@ if(preg_match('/^\w+$/', $_GET['action']) && file_exists($topicadminfile = child
 if($resultarray) {
 
 	if($resultarray['modtids']) {
-		updatemodlog($resultarray['modtids'], $modaction, $resultarray['expiration']);
+		updatemodlog($resultarray['modtids'], $modaction, $resultarray['expiration'] ?? 0, 0, $reason ?? '', $resultarray['modpids'] ?? 0);
 	}
 
 	updatemodworks($modaction, $modpostsnum);

@@ -134,7 +134,8 @@ if(!submitcheck('modsubmit')) {
 		'reasonvar' => ['tid' => $thread['tid'], 'subject' => $thread['subject'], 'modaction' => $modaction, 'reason' => $reason,
 			'warningexpiration' => $_G['setting']['warningexpiration'], 'warninglimit' => $_G['setting']['warninglimit'],
 			'authorwarnings' => $authorwarnings],
-		'modtids' => 0,
+		'modtids' => $_G['tid'],
+		'modpids' => $pids,
 		'modlog' => $thread
 	];
 
