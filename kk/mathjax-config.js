@@ -1,6 +1,6 @@
 window.MathJax = {
   tex: {
-    inlineMath: [ ['$','$'], ['`','`'], ["\\(","\\)"] ],
+    inlineMath: [ ['$','$'], ["\\(","\\)"] ],
     processEscapes: true,
     tags: "ams",
     macros: {
