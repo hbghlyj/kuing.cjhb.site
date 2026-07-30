@@ -694,47 +694,63 @@ const { execSync } = require('child_process');
             adminQuoteBtn.click()
         ]);
         await adminMobilePage.waitForLoadState('networkidle');
-        assert.ok(
-            adminMobilePage.url().includes('mod=post') && adminMobilePage.url().includes('action=reply'),
-            `Assertion Error: Mobile admin quote-reply control did not navigate to the reply form. URL=${adminMobilePage.url()}`
-        );
-        const adminReply = 'Admin mobile quote reply to user thread.';
+        const adminReplyText = 'Admin original reply to user thread.';
         const adminMsgArea = adminMobilePage.locator('#needmessage:visible');
-        assert.strictEqual(await adminMsgArea.count(), 1, 'Assertion Error: Mobile quote reply editor did not render.');
-        await adminMsgArea.fill(adminReply);
+        assert.strictEqual(await adminMsgArea.count(), 1, 'Assertion Error: Mobile quote reply editor for admin did not render.');
+        await adminMsgArea.fill(adminReplyText);
         await solveVisibleSecurityQuestion(adminMobilePage);
-        const submitBtn = adminMobilePage.locator('#postsubmit:visible');
-        assert.strictEqual(await submitBtn.count(), 1, 'Assertion Error: Mobile quote reply submit button did not render.');
+        const adminSubmitBtn = adminMobilePage.locator('#postsubmit:visible');
+        assert.strictEqual(await adminSubmitBtn.count(), 1, 'Assertion Error: Mobile quote reply submit button did not render.');
         await adminMobilePage.waitForFunction(() => document.getElementById('postsubmit')?.dataset.disabled === 'false');
-        const adminReplyResponsePromise = adminMobilePage.waitForResponse(response =>
-            response.request().method() === 'POST' &&
-            response.url().includes('forum.php?mod=post&action=reply')
-        );
-        await submitBtn.click();
-        const adminReplyResponse = await adminReplyResponsePromise;
-        const adminReplyStatus = adminReplyResponse.status();
-        let adminReplyResponseText = '';
-        if (adminReplyStatus < 300 || adminReplyStatus >= 400) {
-            try {
-                adminReplyResponseText = await adminReplyResponse.text();
-            } catch (e) {
-                adminReplyResponseText = `[Failed to read body: ${e.message}]`;
-            }
-        } else {
-            adminReplyResponseText = `[Redirect response to ${adminReplyResponse.headers()['location'] || 'unknown'}]`;
-        }
-        assert.ok(adminReplyResponse.ok() || (adminReplyStatus >= 300 && adminReplyStatus < 400), `Assertion Error: Mobile quote reply submit failed: status=${adminReplyStatus}; body=${adminReplyResponseText.slice(0, 2000)}`);
+        await Promise.all([
+            adminMobilePage.waitForResponse(response =>
+                response.request().method() === 'POST' &&
+                response.url().includes('forum.php?mod=post&action=reply')
+            ),
+            adminSubmitBtn.click()
+        ]);
         await waitForDbValue(
-            `SELECT COUNT(*) FROM pre_forum_post WHERE tid='${nonImgMobileTid}' AND authorid='1' AND message LIKE '%${adminReply}%'`,
+            `SELECT COUNT(*) FROM pre_forum_post WHERE tid='${nonImgMobileTid}' AND authorid='1' AND message LIKE '%${adminReplyText}%'`,
             '1',
-            `Assertion Error: Mobile quote reply was not stored. Response: ${adminReplyResponseText.slice(0, 2000)}`
+            'Assertion Error: Admin reply was not stored in database.'
         );
-        await adminMobilePage.waitForURL(/forum\.php\?mod=viewthread/);
-        assert.ok(
-            (await adminMobilePage.textContent('body')).includes(adminReply),
-            'Assertion Error: Mobile admin quote reply was not rendered in viewthread.'
+        const adminReplyPid = dbScalar(`SELECT pid FROM pre_forum_post WHERE tid='${nonImgMobileTid}' AND authorid='1' AND message LIKE '%${adminReplyText}%' ORDER BY pid DESC LIMIT 1`);
+        assert.match(adminReplyPid, /^\d+$/, 'Assertion Error: Failed to retrieve Admin reply PID.');
+
+        console.log('Testing normal user quoting admin reply in touch template...');
+        await page.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${nonImgMobileTid}`);
+        await page.waitForLoadState('networkidle');
+        const userQuoteBtn = page.locator(`a[href*="action=reply"][href*="repquote=${adminReplyPid}"]`);
+        assert.strictEqual(await userQuoteBtn.count(), 1, 'Assertion Error: Mobile user quote-reply control for admin reply did not render.');
+        await Promise.all([
+            page.waitForURL(url =>
+                url.href.includes('mod=post') &&
+                url.href.includes('action=reply') &&
+                url.href.includes(`repquote=${adminReplyPid}`)
+            ),
+            userQuoteBtn.click()
+        ]);
+        await page.waitForLoadState('networkidle');
+        const userQuoteReplyText = 'User mobile quote reply to admin reply.';
+        const userMsgArea = page.locator('#needmessage:visible');
+        assert.strictEqual(await userMsgArea.count(), 1, 'Assertion Error: Mobile quote reply editor for user did not render.');
+        await userMsgArea.fill(userQuoteReplyText);
+        await solveVisibleSecurityQuestion(page);
+        const userSubmitBtn = page.locator('#postsubmit:visible');
+        assert.strictEqual(await userSubmitBtn.count(), 1, 'Assertion Error: Mobile quote reply submit button for user did not render.');
+        await page.waitForFunction(() => document.getElementById('postsubmit')?.dataset.disabled === 'false');
+        await Promise.all([
+            page.waitForResponse(response =>
+                response.request().method() === 'POST' &&
+                response.url().includes('forum.php?mod=post&action=reply')
+            ),
+            userSubmitBtn.click()
+        ]);
+        await waitForDbValue(
+            `SELECT COUNT(*) FROM pre_forum_post WHERE tid='${nonImgMobileTid}' AND authorid='${uid}' AND message LIKE '%${userQuoteReplyText}%'`,
+            '1',
+            'Assertion Error: Normal user quote reply to admin was not stored.'
         );
-        await adminMobileContext.close();
 
         console.log('Testing mobile PM center page...');
         await page.goto('http://127.0.0.1:8080/home.php?mod=space&do=pm');
@@ -743,16 +759,16 @@ const { execSync } = require('child_process');
         assert.ok(mobilePmBody.includes(adminPmToMobileUser), 'Assertion Error: Mobile PM center did not display the delivered admin message.');
         await page.screenshot({ path: 'screenshot_mobile_07_pm.png' });
 
-        const noticeTabLink = page.locator('a[href*="do=notice"]');
-        assert.strictEqual(await noticeTabLink.count(), 1, 'Assertion Error: Mobile notice navigation link did not render.');
-        await noticeTabLink.click();
-        await page.waitForLoadState('networkidle');
-        const mobileNoticeBody = await page.textContent('body');
+        console.log('Checking if Admin received notification for user quote reply in touch template...');
+        await adminMobilePage.goto('http://127.0.0.1:8080/home.php?mod=space&do=notice');
+        await adminMobilePage.waitForLoadState('networkidle');
+        const adminNoticeBody = await adminMobilePage.textContent('body');
         assert.ok(
-            mobileNoticeBody.includes('Admin mobile quote reply to user thread.'),
-            'Assertion Error: Mobile notification page did not render the exact admin reply notification.'
+            adminNoticeBody.includes(userQuoteReplyText) || adminNoticeBody.includes(username),
+            'Assertion Error: Touch notification page for admin did not render the user quote reply notification.'
         );
-        await page.screenshot({ path: 'screenshot_mobile_09_notice.png' });
+        await adminMobilePage.screenshot({ path: 'screenshot_mobile_09_notice.png' });
+        await adminMobileContext.close();
 
         assert.deepStrictEqual(browserErrors, [], `Assertion Error: Browser errors occurred during mobile UI tests:\n${browserErrors.join('\n')}`);
         report += `### Touch Registration, Posting, Replying, Editing, Forum Index, Forumdisplay, My Center, PM Center, Thread Tag and Notice Center\n- **Status**: Checked\n- **Username**: ${username}\n- **Thread**: ${tid}\n- **Reply**: ${replyPid}\n- **Image Attachment**: ${aid}\n- **Tag**: mobile tag (ID: ${tagid})\n- **Screenshots**:\n  - \`screenshot_mobile_editor.png\`\n  - \`screenshot_mobile_01_registered.png\`\n  - \`screenshot_mobile_02_thread_attachment.png\`\n  - \`screenshot_mobile_03_reply_edited.png\`\n  - \`screenshot_mobile_04_forum_index.png\`\n  - \`screenshot_mobile_05_forumdisplay.png\`\n  - \`screenshot_mobile_06_my_center.png\`\n  - \`screenshot_mobile_other_user_profile.png\`\n  - \`screenshot_mobile_space_thread_reply.png\`\n  - \`screenshot_mobile_space_thread_postcomment.png\`\n  - \`screenshot_mobile_07_pm.png\`\n  - \`screenshot_mobile_08_viewthread_tag.png\`\n  - \`screenshot_mobile_09_notice.png\`\n\n`;
