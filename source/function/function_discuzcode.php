@@ -106,11 +106,7 @@ function discuzcode($message, $smileyoff = false, $bbcodeoff = false, $htmlon = 
 
 	if($parsetype != 1 && !$bbcodeoff && $allowbbcode) {
 		if(str_contains($message, '`')) {
-			$message = preg_replace_callback('/`([^`\r\n]|[\r\n](?!\r?\n))+`/s', function($m) {
-				$content = substr($m[0], 1, -1);
-				$content = str_replace(["\r\n", "\r", "\n"], ' ', $content);
-				return '<code>' . $content . '</code>';
-			}, $message);
+			$message = preg_replace('/`([^`]+)`/s', '<code>$1</code>', $message);
 		}
 	}
 
