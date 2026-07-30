@@ -105,8 +105,7 @@ if($_G['setting']['commentnumber'] && !empty($_GET['comment'])) {
 	table_forum_post::t()->update_post('tid:'.$_G['tid'], $_GET['pid'], ['comment' => 1]);
 
 	$comments = $thread['comments'] ? $thread['comments'] + 1 : table_forum_postcomment::t()->count_by_tid($_G['tid']);
-	table_forum_thread::t()->update($_G['tid'], ['comments' => $comments]);
-	!empty($_G['uid']) && $thread['displayorder'] != -4 && updatepostcredits('+', $_G['uid'], 'reply', $_G['fid']);
+	table_forum_thread::t()->update($_G['tid'], ['comments' => $comments, 'lastpost' => TIMESTAMP]);
 	if(!empty($_G['uid']) && $_G['uid'] != $post['authorid']) {
 		notification_add($post['authorid'], 'pcomment', 'comment_add', [
 			'tid' => $_G['tid'],
@@ -116,6 +115,24 @@ if($_G['setting']['commentnumber'] && !empty($_GET['comment'])) {
 			'from_idtype' => 'pcomment',
 			'commentmsg' => cutstr(str_replace(['[b]', '[/b]', '[/color]'], '', preg_replace('/\[color=([#\w]+?)\]/i', '', $comment)), 200)
 		]);
+	}
+	$comment = cutstr(str_replace(['[b]', '[/b]', '[/color]'], '', preg_replace('/\[color=([#\w]+?)\]/i', '', $comment)), 200);
+	preg_match_all('/@([^\r\n]*?)\s/i', $comment.' ', $matches);
+	if(!empty($matches[1])) {
+		$atlist_tmp = array_unique($matches[1]);
+		foreach($atlist_tmp as $username) {
+			$stripped_username = str_replace(' ', '', $username);
+			$uid = DB::result_first("SELECT uid FROM ".DB::table('common_member')." WHERE REPLACE(username, ' ', '')='$stripped_username'");
+			if($uid && $uid != $_G['uid']) {
+				notification_add($uid, 'at', 'at_message', [
+					'tid' => $_G['tid'],
+					'pid' => $_GET['pid'],
+					'from_id' => $_G['tid'],
+					'from_idtype' => 'pcomment',
+					'subject' => $thread['subject']
+				]);
+			}
+		}
 	}
 	update_threadpartake($post['tid']);
 	$pcid = table_forum_postcomment::t()->fetch_standpoint_by_pid($_GET['pid']);
@@ -163,7 +180,7 @@ if($_G['setting']['commentnumber'] && !empty($_GET['comment'])) {
 		'uid' => $_G['uid']
 	]);
 
-	showmessage('comment_add_succeed', "forum.php?mod=viewthread&tid={$post['tid']}&pid={$post['pid']}".($_GET['page']>1?"&page={$_GET['page']}":'')."&extra=$extra#pid{$post['pid']}", ['tid' => $post['tid'], 'pid' => $post['pid']]);
+	showmessage('comment_add_succeed', "forum.php?mod=redirect&goto=findpost&tid={$post['tid']}&pid={$post['pid']}", ['tid' => $post['tid'], 'pid' => $post['pid']]);
 }
 
 if($special == 127) {
