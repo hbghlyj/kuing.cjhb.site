@@ -398,9 +398,9 @@ function html2bbcode(str) {
 			'[table]\n',
 			function($1, $2, $3) {return '[tr=' + $3 + ']';},
 			'[tr]',
-			function($1, $2, $3, $4) {return tdtag($4);},
-			'[td]',
-			'[/td]',
+			function($1, $2, $3, $4) {return tdtag($4, $2);},
+			function($1, $2) {return '[' + $2 + ']';},
+			function($1, $2) {return '[/' + $2 + ']';},
 			'[/tr]\n',
 			'[/table]',
 		], str);
@@ -410,8 +410,8 @@ function html2bbcode(str) {
 		str = str.replace(/[\s\t]*\[tr\][\s\t]*/ig, '[tr]');
 		str = str.replace(/[\s\t]*\[\/tr\][\s\t]*/ig, '[/tr]');
 		str = str.replace(/\[\/tr\]\n*/ig, '[/tr]\n');
-		str = str.replace(/[\s\t]*\[td\][\s\t]*/ig, '[td]');
-		str = str.replace(/[\s\t]*\[\/td\][\s\t]*/ig, '[/td]');
+		str = str.replace(/[\s\t]*\[(td|th)\][\s\t]*/ig, '[$1]');
+		str = str.replace(/[\s\t]*\[\/(td|th)\][\s\t]*/ig, '[/$1]');
 
 		str = str.replace(/<h([1-6])[^>]*>([\s\S]*?)<\/h\1>/ig, function ($1, $2, $3) {
 			let sizeValue = 7 - parseInt($2);
@@ -452,10 +452,10 @@ function html2bbcode(str) {
 }
 
 function tablesimple(s, table, str) {
-	if(strpos(str, '[tr=') || strpos(str, '[td=')) {
+	if(strpos(str, '[tr=') || strpos(str, '[td=') || strpos(str, '[th=')) {
 		return s;
 	} else {
-		return '[table=' + table + ']\n' + preg_replace(['\\[tr\\]', '\\[/td\\]\\s?\\[td\\]', '\\[/tr\\]\\s?', '\\[td\\]', '\\[/td\\]', '\\[/td\\]\\[/tr\\]'], ['', '|', '', '', '', '', ''], str) + '[/table]';
+		return '[table=' + table + ']\n' + preg_replace(['\\[tr\\]', '\\[/(td|th)\\]\\s*\\[(td|th)\\]', '\\[/tr\\]\\s?', '\\[(td|th)\\]', '\\[/(td|th)\\]', '\\[/(td|th)\\]\\[/tr\\]'], ['', '|', '', '', '', '', ''], str) + '[/table]';
 	}
 }
 
@@ -588,7 +588,7 @@ function parsetable(width, bgcolor, str) {
 		return;
 	}
 
-	if(strpos(str, '[/tr]') === false && strpos(str, '[/td]') === false) {
+	if(strpos(str, '[/tr]') === false && strpos(str, '[/td]') === false && strpos(str, '[/th]') === false) {
 		var rows = str.split('\n');
 		var s = '';
 		for(i = 0;i < rows.length;i++) {
@@ -598,20 +598,20 @@ function parsetable(width, bgcolor, str) {
 		simple = ' simpletable';
 	} else {
 		simple = '';
-		str = str.replace(/\[tr(?:=([\(\)\s%,#\w]+))?\]\s*\[td(?:=(\d{1,4}%?))?\]/ig, function($1, $2, $3) {
-			return '<tr' + ($2 ? ' style="background-color: ' + $2 + '"' : '') + '><td' + ($3 ? ' width="' + $3 + '"' : '') + '>';
+		str = str.replace(/\[tr(?:=([\(\)\s%,#\w]+))?\]\s*\[(td|th)(?:=(\d{1,4}%?))?\]/ig, function($1, $2, $3, $4) {
+			return '<tr' + ($2 ? ' style="background-color: ' + $2 + '"' : '') + '><' + $3 + ($4 ? ' width="' + $4 + '"' : '') + '>';
 		});
-		str = str.replace(/\[tr(?:=([\(\)\s%,#\w]+))?\]\s*\[td(?:=(\d{1,2}),(\d{1,2})(?:,(\d{1,4}%?))?)?\]/ig, function($1, $2, $3, $4, $5) {
-			return '<tr' + ($2 ? ' style="background-color: ' + $2 + '"' : '') + '><td' + ($3 ? ' colspan="' + $3 + '"' : '') + ($4 ? ' rowspan="' + $4 + '"' : '') + ($5 ? ' width="' + $5 + '"' : '') + '>';
+		str = str.replace(/\[tr(?:=([\(\)\s%,#\w]+))?\]\s*\[(td|th)(?:=(\d{1,2}),(\d{1,2})(?:,(\d{1,4}%?))?)?\]/ig, function($1, $2, $3, $4, $5, $6) {
+			return '<tr' + ($2 ? ' style="background-color: ' + $2 + '"' : '') + '><' + $3 + ($4 ? ' colspan="' + $4 + '"' : '') + ($5 ? ' rowspan="' + $5 + '"' : '') + ($6 ? ' width="' + $6 + '"' : '') + '>';
 		});
-		str = str.replace(/\[\/td\]\s*\[td(?:=(\d{1,4}%?))?\]/ig, function($1, $2) {
-			return '</td><td' + ($2 ? ' width="' + $2 + '"' : '') + '>';
+		str = str.replace(/\[\/(td|th)\]\s*\[(td|th)(?:=(\d{1,4}%?))?\]/ig, function($1, $2, $3, $4) {
+			return '</$2><' + $3 + ($4 ? ' width="' + $4 + '"' : '') + '>';
 		});
-		str = str.replace(/\[\/td\]\s*\[td(?:=(\d{1,2}),(\d{1,2})(?:,(\d{1,4}%?))?)?\]/ig, function($1, $2, $3, $4) {
-			return '</td><td' + ($2 ? ' colspan="' + $2 + '"' : '') + ($3 ? ' rowspan="' + $3 + '"' : '') + ($4 ? ' width="' + $4 + '"' : '') + '>';
+		str = str.replace(/\[\/(td|th)\]\s*\[(td|th)(?:=(\d{1,2}),(\d{1,2})(?:,(\d{1,4}%?))?)?\]/ig, function($1, $2, $3, $4, $5, $6) {
+			return '</$2><' + $3 + ($4 ? ' colspan="' + $4 + '"' : '') + ($5 ? ' rowspan="' + $5 + '"' : '') + ($6 ? ' width="' + $6 + '"' : '') + '>';
 		});
-		str = str.replace(/\[\/td\]\s*\[\/tr\]\s*/ig, '</td></tr>');
-		str = str.replace(/<td> <\/td>/ig, '<td>&nbsp;</td>');
+		str = str.replace(/\[\/(td|th)\]\s*\[\/tr\]\s*/ig, '</$1></tr>');
+		str = str.replace(/<td> <\/td>|<th> <\/th>/ig, '<td>&nbsp;</td>');
 	}
 	return '<table ' + (width == '' ? '' : 'width="' + width + '" ') + 'class="t_table"' + (isUndefined(bgcolor) ? '' : ' style="background-color: ' + bgcolor + '"') + simple +'>' + str + '</table>';
 }
@@ -768,7 +768,8 @@ function tabletag(attributes) {
 	return bgcolor ? '[table=' + width + ',' + bgcolor + ']\n' : (width ? '[table=' + width + ']\n' : '[table]\n');
 }
 
-function tdtag(attributes) {
+function tdtag(attributes, tagName) {
+	tagName = tagName || 'td';
 
 	var colspan = 1;
 	var rowspan = 1;
@@ -793,8 +794,8 @@ function tdtag(attributes) {
 	}
 
 	return in_array(width, ['', '0', '100%']) ?
-		(colspan == 1 && rowspan == 1 ? '[td]' : '[td=' + colspan + ',' + rowspan + ']') :
-		(colspan == 1 && rowspan == 1 ? '[td=' + width + ']' : '[td=' + colspan + ',' + rowspan + ',' + width + ']');
+		(colspan == 1 && rowspan == 1 ? '[' + tagName + ']' : '[' + tagName + '=' + colspan + ',' + rowspan + ']') :
+		(colspan == 1 && rowspan == 1 ? '[' + tagName + '=' + width + ']' : '[' + tagName + '=' + colspan + ',' + rowspan + ',' + width + ']');
 }
 
 if(typeof jsloaded == 'function') {
