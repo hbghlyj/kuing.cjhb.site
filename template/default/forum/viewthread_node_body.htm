@@ -110,7 +110,7 @@
 						<!--{eval $tagi++;}-->
 					<!--{/loop}-->
 				<!--{/if}-->
-				<!--{if ($_G['forum']['ismoderator'] || $_G['uid'] == $post['authorid'] || !empty($_G['group']['allowretag']) || !empty($_G['group']['allowmanagetag'])) && !$_G['forum_thread']['archiveid']}-->
+				<!--{if ($_G['forum']['ismoderator'] || $_G['uid'] == $post['authorid'] || !empty($_G['group']['allowretag'])) && !$_G['forum_thread']['archiveid']}-->
 					<a href="javascript:;" onclick="showWindow('mods', 'misc.php?mod=tag&op=manage&tid=$_G[tid]', 'get', 0)" class="cmty-edit-tag-btn" title="编辑标签">[编辑标签]</a>
 				<!--{/if}-->
 				<!--{if $relatedkeywords}--><span>$relatedkeywords</span><!--{/if}-->

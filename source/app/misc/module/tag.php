@@ -28,7 +28,7 @@ if($op === 'manage') {
 	if($_G['tid']) {
 		$_G['thread'] = table_forum_thread::t()->fetch_thread($_G['tid']);
 	}
-	if(!$_G['group']['allowretag'] && !$_G['group']['allowmanagetag'] && !$_G['forum']['ismoderator'] && $_G['uid'] != $_G['thread']['authorid']) {
+	if(!$_G['adminid'] && !$_G['group']['allowretag'] && !$_G['forum']['ismoderator'] && $_G['uid'] != $_G['thread']['authorid']) {
 		showmessage('group_nopermission', NULL, array('grouptitle' => $_G['group']['grouptitle']), array('login' => 1));
 	}
 	$file = appfile('child/tag/manage', 'misc');
@@ -45,7 +45,7 @@ if($op === 'set') {
 	if($_G['tid']) {
 		$_G['thread'] = table_forum_thread::t()->fetch_thread($_G['tid']);
 	}
-	if(!$_G['group']['allowretag'] && !$_G['group']['allowmanagetag'] && !$_G['forum']['ismoderator'] && $_G['uid'] != $_G['thread']['authorid']) {
+	if(!$_G['adminid'] && !$_G['group']['allowretag'] && !$_G['forum']['ismoderator'] && $_G['uid'] != $_G['thread']['authorid']) {
 		showmessage('group_nopermission', NULL, array('grouptitle' => $_G['group']['grouptitle']), array('login' => 1));
 	}
 	$file = appfile('child/tag/set', 'misc');

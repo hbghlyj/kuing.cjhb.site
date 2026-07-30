@@ -119,7 +119,6 @@ CREATE TABLE pre_common_admingroup
 	allowmanagetopic      tinyint(1)           NOT NULL DEFAULT '0',
 	allowdiy              tinyint(1)           NOT NULL DEFAULT '0',
 	allowclearrecycle     tinyint(1)           NOT NULL DEFAULT '0',
-	allowmanagetag        tinyint(1)           NOT NULL DEFAULT '0',
 	managefeed            tinyint(1)           NOT NULL DEFAULT '0',
 	managedoing           tinyint(1)           NOT NULL DEFAULT '0',
 	manageshare           tinyint(1)           NOT NULL DEFAULT '0',

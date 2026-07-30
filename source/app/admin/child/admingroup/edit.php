@@ -145,7 +145,6 @@ if(!$submitcheck) {
 		showsetting('admingroup_edit_ban_post', 'allowbanpostnew', $group['allowbanpost'], 'radio');
 		showsetting('admingroup_edit_del_post', 'allowdelpostnew', $group['allowdelpost'], 'radio');
 		showsetting('admingroup_edit_stick_post', 'allowstickreplynew', $group['allowstickreply'], 'radio');
-		showsetting('admingroup_edit_manage_tag', 'allowmanagetagnew', $group['allowmanagetag'], 'radio');
 		showtagfooter('tbody');
 		/*search*/
 
@@ -276,7 +275,6 @@ if(!$submitcheck) {
 			'allowmanagetopic' => $_GET['allowmanagetopicnew'],
 			'allowdiy' => $_GET['allowdiynew'],
 			'allowstickreply' => $_GET['allowstickreplynew'],
-			'allowmanagetag' => $_GET['allowmanagetagnew'],
 			'managefeed' => $_GET['managefeednew'],
 			'managedoing' => $_GET['managedoingnew'],
 			'manageshare' => $_GET['managesharenew'],

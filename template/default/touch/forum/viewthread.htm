@@ -118,7 +118,7 @@
 									<!--{if $_G['forum']['status'] == 3 && in_array($_G['adminid'], array('1','2')) && $_G['forum_thread']['closed'] < 1}-->
 										<input type="button" value="{lang modmenu_grouprecommend}" class="dialog button" href="forum.php?mod=topicadmin&action=moderate&fid={$_G['fid']}&moderate[]={$_G['tid']}&operation=recommend_group&optgroup=5&from={$_G['tid']}">
 									<!--{/if}-->
-									<!--{if $_G['group']['allowretag'] || $_G['group']['allowmanagetag']}-->
+									<!--{if !empty($_G['group']['allowretag'])}-->
 										<a href="misc.php?mod=tag&op=manage&tid=$_G['tid']" class="dialog button">{lang post_tag}</a>
 									<!--{/if}-->
 								<!--{/if}-->
