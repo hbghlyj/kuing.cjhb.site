@@ -22,7 +22,7 @@ $attachcount = table_forum_attachment_n::t()->count_by_id('tid:'.$_G['tid'], 'ti
 $attachment = $attachcount ? (table_forum_attachment_n::t()->count_image_by_id('tid:'.$_G['tid'], 'tid', $_G['tid']) ? 2 : 1) : 0;
 
 $firstpost = table_forum_post::t()->fetch_visiblepost_by_tid('tid:'.$_G['tid'], $_G['tid'], 0);
-$firstpost['subject'] = addslashes(cutstr($firstpost['subject'], 79));
+$firstpost['subject'] = cutstr($firstpost['subject'], 79);
 
 $lastpost = table_forum_post::t()->fetch_visiblepost_by_tid('tid:'.$_G['tid'], $_G['tid'], 0, 1);
 
