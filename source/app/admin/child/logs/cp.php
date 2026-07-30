@@ -107,8 +107,12 @@ function cplog_diff($extralog) {
 	$get = cplog_params($blocks['GET']);
 	$post = cplog_params($blocks['POST']);
 	$keys = array_unique(array_merge(array_keys($get), array_keys($post)));
+	$skip = ['app', 'formhash', 'scrolltop', 'anchor', 'inajax', 'ajaxdata', 'ajaxtarget'];
 	$rows = '';
 	foreach($keys as $key) {
+		if(in_array($key, $skip, true) || str_ends_with($key, 'submit')) {
+			continue;
+		}
 		$hasget = array_key_exists($key, $get);
 		$haspost = array_key_exists($key, $post);
 		$isdiff = (!$hasget || !$haspost || $get[$key] !== $post[$key]);
