@@ -681,7 +681,7 @@ const { execSync } = require('child_process');
             '1',
             'Assertion Error: Admin PM was not delivered to the mobile user inbox.'
         );
-        await adminMobilePage.goto(`http://127.0.0.1:8080/forum.php?mod=post&action=reply&fid=${forumFid}&tid=${nonImgMobileTid}`);
+        await adminMobilePage.goto(`http://127.0.0.1:8080/forum.php?mod=post&action=reply&fid=2&tid=${nonImgMobileTid}`);
         await adminMobilePage.waitForLoadState('networkidle');
         const adminReplyText = 'Admin original reply to user thread.';
         const adminMsgArea = adminMobilePage.locator('#needmessage:visible');
