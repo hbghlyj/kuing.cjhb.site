@@ -50,9 +50,6 @@ if(!submitcheck('modsubmit')) {
 	if($thread['comments']) {
 		table_forum_thread::t()->update($_G['tid'], ['comments' => $thread['comments'] - 1]);
 	}
-	if(!$postcomment['rpid']) {
-		updatepostcredits('-', $postcomment['authorid'], 'reply', $_G['fid']);
-	}
 
 	$totalcomment = [];
 	foreach(table_forum_postcomment::t()->fetch_all_by_pid_score($postcomment['pid'], 1) as $comment) {
