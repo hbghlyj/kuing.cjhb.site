@@ -3330,7 +3330,7 @@ CREATE TABLE pre_forum_threadmod
 	`action`   char(5)               NOT NULL DEFAULT '',
 	`status`   tinyint(1)            NOT NULL DEFAULT '0',
 	magicid    smallint(6) unsigned  NOT NULL DEFAULT '0',
-	reason     varchar(255)          NOT NULL DEFAULT '',
+	reason     varchar(40)           NOT NULL DEFAULT '',
 	KEY tid (tid, dateline),
 	KEY pid (pid),
 	KEY expiration (expiration, `status`)
