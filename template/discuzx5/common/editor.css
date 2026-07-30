@@ -72,6 +72,7 @@
 .b2r #e_attach {background:url({STYLEIMGDIR}/svg/dz_e_attach.svg) no-repeat center 2px;background-size:20px}
 #e_code {background:url({STYLEIMGDIR}/svg/dz_e_codeblock.svg) no-repeat center 4px;background-size:28px}
 .b2r #e_code {background:url({STYLEIMGDIR}/svg/dz_e_codeblock.svg) no-repeat center 2px;background-size:20px}
+#e_inlinecode {background:url({STYLEIMGDIR}/svg/dz_e_code.svg) no-repeat center 3px;background-size:18px}
 #e_quote {background:url({STYLEIMGDIR}/svg/dz_e_quote.svg) no-repeat center 5px;background-size:26px}
 .b2r #e_quote {background:url({STYLEIMGDIR}/svg/dz_e_quote.svg) no-repeat center 3px;background-size:18px}
 #e_pasteword {background:url({STYLEIMGDIR}/svg/dz_e_pasteword.svg) no-repeat center 2px;background-size:20px}

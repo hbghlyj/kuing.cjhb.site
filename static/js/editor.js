@@ -787,6 +787,20 @@ function wrapTags(tagname, useoption, selection) {
 }
 
 function applyFormat(cmd, dialog, argument) {
+	if(cmd == 'inlinecode') {
+		if(wysiwyg) {
+			var sel = getSel();
+			insertText('<code>' + (sel !== false ? sel : '') + '</code>', false);
+		} else {
+			var sel = getSel();
+			if(sel !== false && sel !== '') {
+				insertText('`' + sel + '`', strlen(sel) + 2, 0);
+			} else {
+				insertText('``', 1, 1);
+			}
+		}
+		return;
+	}
 	if(wysiwyg) {
 		editdoc.execCommand(cmd, (isUndefined(dialog) ? false : dialog), (isUndefined(argument) ? true : argument));
 		return;
@@ -1001,7 +1015,7 @@ function discuzcode(cmd, arg) {
 	if(wysiwyg) {
 		setContext(cmd);
 	}
-	if(in_array(cmd, ['bold', 'italic', 'underline', 'strikethrough', 'fontname', 'fontsize', 'forecolor', 'backcolor', 'justifyleft', 'justifycenter', 'justifyright', 'insertunorderedlist', 'floatleft', 'floatright', 'removeformat', 'unlink', 'undo', 'redo'])) {
+	if(in_array(cmd, ['bold', 'italic', 'inlinecode', 'underline', 'strikethrough', 'fontname', 'fontsize', 'forecolor', 'backcolor', 'justifyleft', 'justifycenter', 'justifyright', 'insertunorderedlist', 'floatleft', 'floatright', 'removeformat', 'unlink', 'undo', 'redo'])) {
 		hideMenu();
 	}
 	doane();

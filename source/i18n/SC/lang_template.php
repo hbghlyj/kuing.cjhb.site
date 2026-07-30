@@ -177,6 +177,7 @@ $lang = [
 	'e_at' => '@朋友',
 	'e_bold' => '文字加粗',
 	'e_code' => '代码',
+	'e_inlinecode' => '行内代码',
 	'e_forecolor' => '设置文字颜色',
 	'e_image' => '图片',
 	'e_quote' => '引用',

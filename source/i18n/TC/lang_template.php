@@ -177,6 +177,7 @@ $lang = [
 	'e_at' => '@朋友',
 	'e_bold' => '文字加粗',
 	'e_code' => '代碼',
+	'e_inlinecode' => '行內代碼',
 	'e_forecolor' => '設定文字顏色',
 	'e_image' => '圖片',
 	'e_quote' => '引用',

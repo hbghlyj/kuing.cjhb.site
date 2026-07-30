@@ -173,6 +173,7 @@ $lang = array (
 	'e_at'				=> '@user',//'@朋友',
 	'e_bold'			=> 'Bold',//'文字加粗',
 	'e_code'			=> 'Code',//'代码',
+	'e_inlinecode'		=> 'Inline code',
 	'e_forecolor'			=> 'Font Color',//'设置文字颜色',
 	'e_image'			=> 'Image',//'图片',
 	'e_quote'			=> 'Quote',//'引用',
