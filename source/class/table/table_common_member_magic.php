@@ -41,6 +41,13 @@ class table_common_member_magic extends discuz_table {
 		return DB::delete($this->_table, $where);
 	}
 
+	public function delete_by_uid($uids, $unbuffered = false) {
+		if(empty($uids)) {
+			return false;
+		}
+		return DB::delete($this->_table, DB::field('uid', $uids), null, $unbuffered);
+	}
+
 	public function fetch($id, $force_from_db = false) {
 
 			return $this->fetch_magic($id, $force_from_db);

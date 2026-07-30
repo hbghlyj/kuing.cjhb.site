@@ -37,9 +37,10 @@ function deletemember($uids, $delpost = true) {
 		C::t($table)->delete($arruids, true, 1);
 	}
 
-	foreach(['common_member_verify', 'common_member_validate', 'common_member_magic'] as $table) {
+	foreach(['common_member_verify', 'common_member_validate'] as $table) {
 		C::t($table)->delete($arruids, true);
 	}
+	table_common_member_magic::t()->delete_by_uid($arruids, true);
 
 	table_forum_access::t()->delete_by_uid($arruids);
 	table_common_member_verify_info::t()->delete_by_uid($arruids);
