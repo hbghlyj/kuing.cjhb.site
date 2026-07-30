@@ -112,6 +112,10 @@ details > summary {
   cursor: pointer;
 }
 
+details[open] > summary {
+  background-color: #ccf;
+}
+
 details > div {
   border-radius: 0 0 10px 10px;
   background-color: #ddd;
