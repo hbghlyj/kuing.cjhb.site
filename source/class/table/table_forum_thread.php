@@ -189,6 +189,45 @@ class table_forum_thread extends discuz_table {
 		return DB::fetch_all("SELECT * FROM %t $wheresql ORDER BY dateline DESC ".DB::limit($start, $limit), $parameter, $this->_pk);
 	}
 
+	public function count_all_by_authorid_displayorder($authorid, $displayorder = null, $dglue = '=', $closed = null, $subject = '', $replies = null, $fid = null, $rglue = '>=', $tableid = 0) {
+		$parameter = [$this->get_table_name($tableid)];
+		$wherearr = [];
+		if(!empty($authorid)) {
+			$authorid = dintval($authorid, true);
+			$parameter[] = $authorid;
+			$wherearr[] = is_array($authorid) && $authorid ? 'authorid IN(%n)' : 'authorid=%d';
+		}
+		if($fid !== null) {
+			$fid = dintval($fid, true);
+			$parameter[] = $fid;
+			$wherearr[] = is_array($fid) && $fid ? 'fid IN(%n)' : 'fid=%d';
+		}
+		if(getglobal('setting/followforumid')) {
+			$parameter[] = getglobal('setting/followforumid');
+			$wherearr[] = 'fid<>%d';
+		}
+		if($displayorder !== null) {
+			$parameter[] = $displayorder;
+			$dglue = helper_util::check_glue($dglue);
+			$wherearr[] = "displayorder{$dglue}%d";
+		}
+		if($closed !== null) {
+			$parameter[] = $closed;
+			$wherearr[] = 'closed=%d';
+		}
+		if($replies !== null) {
+			$parameter[] = $replies;
+			$rglue = helper_util::check_glue($rglue);
+			$wherearr[] = "replies{$rglue}%d";
+		}
+		if(!empty($subject)) {
+			$parameter[] = '%'.$subject.'%';
+			$wherearr[] = 'subject LIKE %s';
+		}
+		$wheresql = !empty($wherearr) && is_array($wherearr) ? ' WHERE '.implode(' AND ', $wherearr) : '';
+		return DB::result_first("SELECT COUNT(*) FROM %t $wheresql", $parameter);
+	}
+
 	public function fetch_all_by_tid($tids, $start = 0, $limit = 0, $tableid = 0) {
 		$data = [];
 		if(($data = $this->fetch_cache($tids)) === false || count($tids) != count($data)) {

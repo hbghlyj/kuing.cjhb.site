@@ -305,6 +305,7 @@ if($need_count) {
 
 	loadcache('forums');
 	$gids = $fids = $forums = [];
+	$totalcount = table_forum_thread::t()->count_all_by_authorid_displayorder($authorid, $displayorder, $dglue, $closed, $searchkey, $replies, $vfid);
 
 	foreach(table_forum_thread::t()->fetch_all_by_authorid_displayorder($authorid, $displayorder, $dglue, $closed, $searchkey, $start, $perpage, $replies, $vfid) as $tid => $value) {
 		if(empty($value['author']) && $value['authorid'] != $_G['uid']) {
@@ -340,8 +341,7 @@ if($need_count) {
 
 
 	if($_GET['view'] != 'all') {
-		$listcount = count($list) + $hiddennum;
-		$multi = multi($listcount, $perpage, $page, $theurl);
+		$multi = multi($totalcount, $perpage, $page, $theurl);
 	}
 }
 
