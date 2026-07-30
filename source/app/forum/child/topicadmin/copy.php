@@ -52,7 +52,6 @@ if(!submitcheck('modsubmit')) {
 	$thread['views'] = $thread['replies'] = $thread['highlight'] = $thread['digest'] = 0;
 	$thread['displayorder'] = $thread['attachment'] = 0;
 	$thread['typeid'] = $_GET['threadtypeid'];
-	$thread = daddslashes($thread);
 
 	$thread['posttableid'] = 0;
 	$threadid = table_forum_thread::t()->insert($thread, true);

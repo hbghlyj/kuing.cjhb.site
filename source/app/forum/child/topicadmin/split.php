@@ -58,6 +58,7 @@ if(!submitcheck('modsubmit')) {
 	$newtid = table_forum_thread::t()->insert(['fid' => $_G['fid'], 'posttableid' => $posttableid, 'subject' => $subject], true);
 
 	table_forum_post::t()->update_post('tid:'.$_G['tid'], explode(',', $pids), ['tid' => $newtid]);
+	table_forum_postcomment::t()->update_by_pid(explode(',', $pids), ['tid' => $newtid]);
 	updateattachtid('pid', (array)explode(',', $pids), $_G['tid'], $newtid);
 
 	$splitauthors = [];

@@ -30,7 +30,7 @@ $success = $write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n")
 	&& $write("<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n");
 
 if($success) {
-	$query = DB::query('SELECT tid, replies, lastpost FROM %t WHERE displayorder>=0 AND fid NOT IN (2, 9, 10) ORDER BY tid ASC', ['forum_thread']);
+	$query = DB::query('SELECT tid, replies, lastpost, fid IN (9, 10) AS excl FROM %t WHERE displayorder>=0 ORDER BY tid ASC', ['forum_thread']);
 	while($success && $thread = DB::fetch($query)) {
 		$pagecount = max(1, intval(ceil(($thread['replies'] + 1) / $postperpage)));
 		for($page = 1; $page <= $pagecount; $page++) {
@@ -42,6 +42,8 @@ if($success) {
 			$success = $write("\t<url>\n")
 				&& $write("\t\t<loc>".htmlspecialchars($url, ENT_QUOTES | ENT_XML1, 'UTF-8')."</loc>\n")
 				&& $write("\t\t<lastmod>".gmdate('Y-m-d', $thread['lastpost'])."</lastmod>\n")
+				&& $write("\t\t<priority>".($thread['excl'] ? '0' : ($thread['replies'] > 4 ? '0.9' : ($thread['replies'] > 3 ? '0.8' : ($thread['replies'] > 2 ? '0.7' : ($thread['replies'] > 1 ? '0.6' : '0.5')))))."</priority>\n")
+				&& $write("\t\t<changefreq>daily</changefreq>\n")
 				&& $write("\t</url>\n");
 			if(!$success) {
 				break;

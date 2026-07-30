@@ -10,7 +10,10 @@ if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
-if(!$_G['group']['allowdelpost'] || empty($_GET['topiclist'])) {
+$no_privilege = 0;
+if(!$_G['group']['allowdelpost']) {
+	$no_privilege = 1;
+} elseif(empty($_GET['topiclist'])) {
 	showmessage('no_privilege_delcomment');
 }
 
@@ -35,6 +38,9 @@ if(!submitcheck('modsubmit')) {
 	$postcomment = table_forum_postcomment::t()->fetch($commentid);
 	if(!$postcomment) {
 		showmessage('postcomment_not_found');
+	}
+	if($no_privilege && $postcomment['authorid'] != $_G['uid']) {
+		showmessage('no_privilege_delcomment');
 	}
 	table_forum_postcomment::t()->delete($commentid);
 	$result = table_forum_postcomment::t()->count_by_pid($postcomment['pid']);

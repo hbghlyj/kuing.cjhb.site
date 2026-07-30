@@ -38,6 +38,24 @@ if(!submitcheck('modsubmit')) {
 		showmessage('admin_merge_invalid');
 	}
 
+	$thread = table_forum_thread::t()->fetch($_G['tid']);
+	$taglist = [];
+	foreach([$thread['tags'], $other['tags']] as $tagstr) {
+		foreach(explode("\t", $tagstr) as $var) {
+			if($var) {
+				list($id, $name) = explode(',', $var);
+				$taglist[$id] = $name;
+				table_common_tagitem::t()->replace($id, $_G['tid'], 'tid');
+			}
+		}
+	}
+	table_common_tagitem::t()->delete_tagitem(0, $othertid, 'tid');
+	$newtagstr = '';
+	foreach($taglist as $id => $name) {
+		$newtagstr .= $id.','.$name."\t";
+	}
+	table_forum_thread::t()->update($_G['tid'], ['tags' => $newtagstr]);
+
 	$other['views'] = intval($other['views']);
 	$other['replies']++;
 	if(!$other['maxposition']) {
@@ -78,6 +96,7 @@ if(!submitcheck('modsubmit')) {
 	$postsmerged = table_forum_post::t()->update_by_tid('tid:'.$_G['tid'], $othertid, ['tid' => $_G['tid']]);
 
 	updateattachtid('tid', [$othertid], $othertid, $_G['tid']);
+	DB::update('forum_postcomment', ['tid' => $_G['tid']], DB::field('tid', $othertid), false, false);
 	table_forum_thread::t()->delete_by_tid($othertid);
 	table_forum_threadmod::t()->delete_by_tid($othertid);
 
@@ -88,6 +107,8 @@ if(!submitcheck('modsubmit')) {
 		'replies' => $other['replies'],
 	];
 	table_forum_thread::t()->increase($_G['tid'], $fieldarr);
+	$lastpost = max($thread['lastpost'], $other['lastpost']);
+	$lastposter = $lastpost == $thread['lastpost'] ? $thread['lastposter'] : $other['lastposter'];
 	$fieldarr = [
 		'authorid' => $firstpost['authorid'],
 		'author' => $firstpost['author'],
@@ -95,6 +116,8 @@ if(!submitcheck('modsubmit')) {
 		'dateline' => $firstpost['dateline'],
 		'moderated' => 1,
 		'maxposition' => $other['maxposition'] + $thread['maxposition'],
+		'lastpost' => $lastpost,
+		'lastposter' => $lastposter,
 	];
 	table_forum_thread::t()->update($_G['tid'], $fieldarr);
 	updateforumcount($other['fid']);

@@ -9,15 +9,15 @@
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
-$updateviews = [];
-$deltids = [];
-foreach(table_forum_threadaddviews::t()->fetch_all_order_by_tid(0, 500) as $tid => $addview) {
-	$deltids[$tid] = $updateviews[$addview['addviews']][] = $tid;
+$mergeviews = [];
+foreach(table_forum_threadaddviews::t()->fetch_all_order_by_tid(0, 5000) as $tid => $addview) {
+	$views = intval($addview['addviews']);
+	if($views > 0) {
+		$mergeviews[$tid] = $views;
+	}
 }
-if($deltids) {
-	table_forum_threadaddviews::t()->delete($deltids);
-}
-foreach($updateviews as $views => $tids) {
-	table_forum_thread::t()->increase($tids, ['views' => $views], true);
+if($mergeviews) {
+	table_forum_thread::t()->increase_views_by_tid_map($mergeviews, 0, true);
+	table_forum_threadaddviews::t()->delete(array_keys($mergeviews));
 }
 
