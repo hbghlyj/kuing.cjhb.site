@@ -38,11 +38,13 @@ class bbcode {
 				"/\s*\[quote\][\n\r]*(.+?)[\n\r]*\[\/quote\]\s*/is",
 				"/\[url\]\s*(https?:\/\/|ftp:\/\/|gopher:\/\/|news:\/\/|telnet:\/\/|rtsp:\/\/|mms:\/\/|callto:\/\/|ed2k:\/\/){1}([^\[\"']+?)\s*\[\/url\]/i",
 				'/\[em:([0-9]+):\]/i',
+				"/`([^`\r\n]+)`/",
 			];
 			$this->replace_exp = [
 				"<div class=\"quote\"><blockquote>\\1</blockquote></div>",
 				"<a href=\"\\1\\2\" target=\"_blank\">\\1\\2</a>",
-				" <img src=\"".STATICURL."image/smiley/comcom/\\1.gif\" class=\"vm\"> "
+				" <img src=\"".STATICURL."image/smiley/comcom/\\1.gif\" class=\"vm\"> ",
+				"<code>\\1</code>",
 			];
 			$this->replace_exp[] = '$this->bb_img(\'\\1\')';
 			$this->search_str = ['[b]', '[/b]', '[i]', '[/i]', '[u]', '[/u]'];
@@ -80,7 +82,8 @@ class bbcode {
 				"/(\r\n|\n|\r)/",
 				'/<br.*>/siU',
 				"/[ \t]*\<img src=\"static\/image\/smiley\/comcom\/(.+?).gif\".*?\>[ \t]*/is",
-				"/\s*\<img src=\"(.+?)\".*?\>\s*/is"
+				"/\s*\<img src=\"(.+?)\".*?\>\s*/is",
+				"/\<code\>(.*?)\<\/code\>/is",
 			];
 			$this->html_r_exp = [
 				"[quote]\\1[/quote]",
@@ -88,7 +91,8 @@ class bbcode {
 				'',
 				"\n",
 				"[em:\\1:]",
-				"\n[img]\\1[/img]\n"
+				"\n[img]\\1[/img]\n",
+				"`\\1`",
 			];
 			$this->html_s_str = ['<b>', '</b>', '<i>', '</i>', '<u>', '</u>', '&nbsp; &nbsp; &nbsp; &nbsp; ', '&nbsp; &nbsp;', '&nbsp;&nbsp;', '&lt;', '&gt;', '&amp;'];
 			$this->html_r_str = ['[b]', '[/b]', '[i]', '[/i]', '[u]', '[/u]', "\t", '   ', '  ', '<', '>', '&'];

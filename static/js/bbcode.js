@@ -104,6 +104,7 @@ function bbcode2html(str) {
 		str = str.replace(/\[float=right\]/ig, '<br style="clear: both"><span style="float: right; margin-left: 5px;">');
 		if(parsetype != 1) {
 			str = str.replace(/\[quote]([\s\S]*?)\[\/quote\]\s?\s?/ig, '<div class="quote"><blockquote>$1</blockquote></div>\n');
+			str = str.replace(/`([^`\r\n]+)`/g, '<code>$1</code>');
 		}
 
 		re = /\[table(?:=(\d{1,4}%?)(?:,([\(\)%,#\w ]+))?)?\]\s*([\s\S]+?)\s*\[\/table\]/ig;
@@ -415,6 +416,7 @@ function html2bbcode(str) {
 		str = str.replace(/<a\s+?name=(["']?)(.+?)(\1)[\s\S]*?>([\s\S]*?)<\/a>/ig, '$4');
 		str = str.replace(/<div[^>]*quote[^>]*><blockquote>([\s\S]*?)<\/blockquote><\/div>([\s\S]*?)(<br[^>]*>)?/ig, "[quote]$1[/quote]");
 		str = str.replace(/<div[^>]*blockcode[^>]*><blockquote>([\s\S]*?)<\/blockquote><\/div>([\s\S]*?)(<br[^>]*>)?/ig, "[code]$1[/code]");
+		str = str.replace(/<code[^>]*>([\s\S]*?)<\/code>/ig, "`$1`");
 
 		str = recursion('b', str, 'simpletag', 'b');
 		str = recursion('strong', str, 'simpletag', 'b');
