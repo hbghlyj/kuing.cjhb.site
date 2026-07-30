@@ -25,9 +25,8 @@ $_GET['order'] = in_array(getgpc('order'), ['hot', 'dateline']) ? $_GET['order']
 
 $allowviewuserthread = $_G['setting']['allowviewuserthread'];
 
-$perpage = 20;
+$perpage = 40;
 $start = ($page - 1) * $perpage;
-ckstart($start, $perpage);
 
 $list = [];
 $userlist = [];
@@ -67,13 +66,13 @@ $f_index = '';
 $ordersql = 't.dateline DESC';
 $need_count = true;
 $viewuserthread = false;
-$listcount = 0;
+$viewtype = in_array(getgpc('type'), ['reply', 'thread', 'postcomment']) ? $_GET['type'] : 'thread';
+$orderactives = [$viewtype => ' class="a"'];
 
 if($_GET['view'] == 'me') {
 
 	if($_GET['from'] == 'space') $diymode = 1;
 	$allowview = true;
-	$viewtype = in_array(getgpc('type'), ['reply', 'thread', 'postcomment']) ? $_GET['type'] : 'thread';
 	$filter = in_array(getgpc('filter'), ['recyclebin', 'ignored', 'save', 'aduit', 'close', 'common']) ? $_GET['filter'] : '';
 	if($space['uid'] != $_G['uid'] && in_array($viewtype, ['reply', 'thread'])) {
 		if($allowviewuserthread === -1 && $_G['adminid'] != 1) {
@@ -196,16 +195,28 @@ if($_GET['view'] == 'me') {
 				$hiddennum++;
 				continue;
 			} else {
-				$tids[$post['tid']][] = $pid;
-				$post['message'] = $post['status'] & 1 && $_G['adminid'] != 1 ? '' : (!getstatus($post['status'], 2) || $post['authorid'] == $_G['uid'] ? messagecutstr($post['message'], 100) : '');
-				$posts[$pid] = $post;
+				$posts[$pid]['message'] = $post['status'] & 1 && $_G['adminid'] != 1 ? '' : (!getstatus($post['status'], 2) || $post['authorid'] == $_G['uid'] ? (dhtmlspecialchars(messagecutstr($post['message'], 100, null, $post['htmlon']))?:'......') : '');
 			}
 		}
 
-		if(!empty($tids)) {
-
-			$threads = table_forum_thread::t()->fetch_all_by_tid_displayorder(array_keys($tids), $displayorder, $dglue, [], $closed);
-
+		if(!empty($posts)) {
+			$currentGroup = [];
+			$stid = 0;
+			foreach ($posts as $pid => &$post) {
+				if (empty($currentGroup)) {
+					$list[$stid] = $post['tid'];
+				}
+				if (empty($currentGroup) || end($list) === $post['tid']) {
+					$currentGroup[] = $pid;
+				} else {
+					$tids[$stid] = $currentGroup;
+					$list[++$stid] = $post['tid'];
+					$currentGroup = [$pid];
+				}
+			}
+			$tids[$stid] = $currentGroup;
+			unset($stid, $currentGroup);
+			$threads = table_forum_thread::t()->fetch_all_by_tid_displayorder($list, $displayorder, $dglue, [], $closed);
 			foreach($threads as $tid => $thread) {
 				$delrow = false;
 				if($_G['adminid'] != 1 && $thread['displayorder'] < 0) {
@@ -220,18 +231,12 @@ if($_GET['view'] == 'me') {
 					}
 				}
 				if($delrow) {
-					foreach($tids[$tid] as $pid) {
-						unset($posts[$pid]);
-						$hiddennum++;
-					}
-					unset($tids[$tid]);
 					unset($threads[$tid]);
 					continue;
 				} else {
 					$threads[$tid] = procthread($thread);
 					$forums[$thread['fid']] = $threads[$tid]['forumname'];
 				}
-
 			}
 			if(!empty($gids)) {
 				$groupforums = table_forum_forum::t()->fetch_all_name_by_fid(array_keys($gids));
@@ -240,25 +245,19 @@ if($_GET['view'] == 'me') {
 					$forums[$fid] = $groupforums[$fid]['name'];
 				}
 			}
-			if(!empty($tids)) {
-				foreach($tids as $tid => $pids) {
-					foreach($pids as $pid) {
-						if(!isset($threads[$tid])) {
-							unset($posts[$pid]);
-							unset($tids[$tid]);
-							$hiddennum++;
-							continue;
-						}
-					}
-				}
-			}
-			$ordered = [];
-			foreach($tids as $tid => $pids) {
+			foreach($list as $stid => $tid) {
 				if(isset($threads[$tid])) {
-					$ordered[$tid] = $threads[$tid];
+					$list[$stid] = $threads[$tid];
+				} else {
+					unset($list[$stid]);
+					foreach($tids[$stid] as $pid) {
+						unset($posts[$pid]);
+						$hiddennum++;
+					}
+					unset($tids[$stid]);
 				}
 			}
-			$list = &$ordered;
+			unset($threads);
 		}
 
 
@@ -269,8 +268,6 @@ if($_GET['view'] == 'me') {
 	if(!$allowview) {
 		$need_count = false;
 	}
-	$orderactives = [$viewtype => ' class="a"'];
-
 } else {
 
 	if(!$_G['setting']['friendstatus']) {

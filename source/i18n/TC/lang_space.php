@@ -231,7 +231,6 @@ $lang = [
 	'viewthread_userinfo_friends' => '好友',
 	'viewthread_userinfo_digest' => '精華',
 	'viewthread_userinfo_digestposts' => '精華',
-	'viewthread_userinfo_credits' => '積分',
 	'viewthread_userinfo_readperm' => '閱讀權限',
 	'viewthread_userinfo_regtime' => '註冊時間',
 	'viewthread_userinfo_lastdate' => '最後登入',
