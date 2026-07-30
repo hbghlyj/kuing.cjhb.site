@@ -434,7 +434,7 @@ function cpheader() {
 	}
 
 	$title = !empty($_G['cache']['admin']['platform'][PLATFORM]['name']) ? $_G['cache']['admin']['platform'][PLATFORM]['name'] :
-		cplang('home_welcome', ['bbname' => $_G['setting']['bbname']]);
+		cplang('home_welcome', ['bbname' => i18n::localizeValue($_G['setting']['bbname_i18n'] ?? $_G['setting']['bbname'])]);
 
 	$mnid = currentmenuid();
 	$mnidparent = currentmenuid(true);

@@ -223,7 +223,7 @@ class menu_default {
 
 		$return = [
 			'system' => [
-				'name' => cplang('home_welcome', ['bbname' => getglobal('setting/bbname')]),
+				'name' => cplang('home_welcome', ['bbname' => i18n::localizeValue(getglobal('setting/bbname_i18n') ?? getglobal('setting/bbname'))]),
 				'title' => cplang('admincp_title'),
 				'framecss' => '',
 				'pagecss' => '',

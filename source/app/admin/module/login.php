@@ -17,7 +17,7 @@ if($this->core->var['inajax']) {
 
 global $_G;
 $charset = CHARSET;
-$cptitle = !empty($_G['cache']['admin']['platform'][PLATFORM]['name']) ? $_G['cache']['admin']['platform'][PLATFORM]['name'] : lang('admincp_login', 'admincp_title', ['bbname' => $_G['setting']['bbname']]);
+$cptitle = !empty($_G['cache']['admin']['platform'][PLATFORM]['name']) ? $_G['cache']['admin']['platform'][PLATFORM]['name'] : lang('admincp_login', 'admincp_title', ['bbname' => i18n::localizeValue($_G['setting']['bbname_i18n'] ?? $_G['setting']['bbname'])]);
 $title = lang('admincp_login', 'login_title');
 $tips = !empty($_G['cache']['admin']['platform'][PLATFORM]['desc']) ? $_G['cache']['admin']['platform'][PLATFORM]['desc'] : lang('admincp_login', 'login_tips');
 $staticurl = STATICURL;

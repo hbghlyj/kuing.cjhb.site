@@ -13,7 +13,7 @@ if(!defined('IN_DISCUZ') || !defined('IN_ADMINCP')) {
 function show_user_bar() {
 	global $_G;
 
-	showsubmenu('home_welcome', [], isfounder() ? '<div id="user_bar">DIY</div>' : '', ['bbname' => $_G['setting']['bbname']]);
+	showsubmenu('home_welcome', [], isfounder() ? '<div id="user_bar">DIY</div>' : '', ['bbname' => i18n::localizeValue($_G['setting']['bbname_i18n'] ?? $_G['setting']['bbname'])]);
 }
 
 function show_todo() {
