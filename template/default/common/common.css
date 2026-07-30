@@ -106,7 +106,7 @@ Last Modify:	Pony
 	:where(.cp20) td, :where(.cp20) th { padding: 20px; }
 	ul li, .xl li { list-style: none; }
 	h1, h2, h3, h4, h5, h6 { font-size: 1.05em; }
-	em, cite, i { font-style: normal; }
+	em, cite, i[class] { font-style: normal; }
 	a { color: {LINK}; text-decoration: none; }
 		a:hover { text-decoration: underline; }
 		a img { border: none; }

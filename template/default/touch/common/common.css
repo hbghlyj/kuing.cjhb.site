@@ -122,7 +122,7 @@ caption, th {text-align:left;font-weight:400}
 :where(.cp0) td, :where(.cp0) th {padding:0}
 :where(.cp5) td, :where(.cp5) th {padding:5px}
 h1, h2, h3, h4, h5, h6 {font-weight:400}
-em, cite, i {font-style:normal}
+em, cite, i[class] {font-style:normal}
 label {cursor:pointer}
 a img {border:none}
 a:link, a:visited, a:hover {color:var(--dz-FC-333);text-decoration:none}

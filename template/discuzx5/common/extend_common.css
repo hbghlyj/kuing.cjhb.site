@@ -511,7 +511,7 @@ img{border:none;}
 .header-notice .notice-content .num{display:none;color:#ffb300;font-size:12px;}
 .header-notice .notice-content .notice-item{position:relative;word-break:keep-all}
 .header-notice .notice-content .notice-item .dot{position:absolute;top:50%;transform:translateY(-50%);width:5px;height:5px;border-radius:50%;background:#f35;margin-left:4px}
-.header-notice .notice-icon .dzicon {font-family:dzicon;font-size: 22px;color: var(--dz-fc);font-style: normal;}
+.header-notice .notice-icon .dzicon {font-family:dzicon;font-size: 22px;color: var(--dz-fc);}
 .header-notice .notice-icon .noticeicon:before{content: "\f145";}
 .header-notice .notice-icon .myrepeats:before{content: "\f113";}
 /* i18n */
