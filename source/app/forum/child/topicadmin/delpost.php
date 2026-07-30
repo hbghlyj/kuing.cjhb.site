@@ -112,7 +112,7 @@ if(!submitcheck('modsubmit')) {
 	$modaction = 'DLP';
 
 	$resultarray = [
-		'redirect' => "forum.php?mod=viewthread&tid={$_G['tid']}&page={$_GET['page']}",
+		'redirect' => "forum.php?mod=viewthread&tid={$_G['tid']}".($_GET['page']>1?"&page={$_GET['page']}":''),
 		'reasonpm' => ($sendreasonpm ? ['data' => $posts, 'var' => 'post', 'item' => 'reason_delete_post', 'notictype' => 'post'] : []),
 		'reasonvar' => ['tid' => $thread['tid'], 'subject' => $thread['subject'], 'modaction' => $modaction, 'reason' => $reason],
 		'modtids' => $_G['tid'],

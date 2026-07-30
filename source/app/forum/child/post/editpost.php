@@ -344,7 +344,7 @@ if(!$editsubmit) {
 	}
 	$modpost = C::m('\forum\model_post', $_G['tid'], $pid);
 
-	$modpost->param('redirecturl', "forum.php?mod=viewthread&tid={$_G['tid']}&page={$_GET['page']}&extra=$extra".($vid && $isfirstpost ? "&vid=$vid" : '')."#pid$pid");
+	$modpost->param('redirecturl', "forum.php?mod=viewthread&tid={$_G['tid']}".($_GET['page']>1?"&page={$_GET['page']}":'')."&extra=$extra".($vid && $isfirstpost ? "&vid=$vid" : '')."#pid$pid");
 
 	if(empty($_GET['delete'])) {
 
@@ -570,7 +570,7 @@ if(!$editsubmit) {
 		if(!empty($_GET['delete']) && $isfirstpost && !$thread['replies']) {
 			showmessage('post_edit_delete_succeed', "forum.php?mod=forumdisplay&fid={$_G['fid']}", $param);
 		} elseif(!empty($_GET['delete'])) {
-			showmessage('post_delete_succeed', "forum.php?mod=viewthread&tid={$_G['tid']}&page={$_GET['page']}&extra=$extra".($vid && $isfirstpost ? "&vid=$vid" : ''), $param);
+			showmessage('post_delete_succeed', "forum.php?mod=viewthread&tid={$_G['tid']}".($_GET['page']>1?"&page={$_GET['page']}":'')."&extra=$extra".($vid && $isfirstpost ? "&vid=$vid" : ''), $param);
 		} else {
 			if($isfirstpost && $modpost->param('modnewthreads')) {
 				table_forum_post::t()->update_post($thread['posttableid'], $pid, ['status' => 4], false, false, null, -2, null, 0);

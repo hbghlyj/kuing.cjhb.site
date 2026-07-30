@@ -163,7 +163,7 @@ if($_G['setting']['commentnumber'] && !empty($_GET['comment'])) {
 		'uid' => $_G['uid']
 	]);
 
-	showmessage('comment_add_succeed', "forum.php?mod=viewthread&tid={$post['tid']}&pid={$post['pid']}&page={$_GET['page']}&extra=$extra#pid{$post['pid']}", ['tid' => $post['tid'], 'pid' => $post['pid']]);
+	showmessage('comment_add_succeed', "forum.php?mod=viewthread&tid={$post['tid']}&pid={$post['pid']}".($_GET['page']>1?"&page={$_GET['page']}":'')."&extra=$extra#pid{$post['pid']}", ['tid' => $post['tid'], 'pid' => $post['pid']]);
 }
 
 if($special == 127) {
