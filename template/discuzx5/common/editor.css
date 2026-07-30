@@ -70,8 +70,8 @@
 .b2r #e_image {background:url({STYLEIMGDIR}/svg/dz_e_image.svg) no-repeat center 3px;background-size:20px}
 #e_attach {background:url({STYLEIMGDIR}/svg/dz_e_attach.svg) no-repeat center 4px;background-size:28px}
 .b2r #e_attach {background:url({STYLEIMGDIR}/svg/dz_e_attach.svg) no-repeat center 2px;background-size:20px}
-#e_code {background:url({STYLEIMGDIR}/svg/dz_e_code.svg) no-repeat center 4px;background-size:28px}
-.b2r #e_code {background:url({STYLEIMGDIR}/svg/dz_e_code.svg) no-repeat center 2px;background-size:20px}
+#e_code {background:url({STYLEIMGDIR}/svg/dz_e_codeblock.svg) no-repeat center 4px;background-size:28px}
+.b2r #e_code {background:url({STYLEIMGDIR}/svg/dz_e_codeblock.svg) no-repeat center 2px;background-size:20px}
 #e_quote {background:url({STYLEIMGDIR}/svg/dz_e_quote.svg) no-repeat center 5px;background-size:26px}
 .b2r #e_quote {background:url({STYLEIMGDIR}/svg/dz_e_quote.svg) no-repeat center 3px;background-size:18px}
 #e_pasteword {background:url({STYLEIMGDIR}/svg/dz_e_pasteword.svg) no-repeat center 2px;background-size:20px}
@@ -95,15 +95,16 @@
 #e_switcher.sw_toggle {margin-left:6px;border-radius:6px}
 #e_switcher.sw_toggle a {float:none;display:inline-block;padding:0 3px;font-size:14px;line-height:20px;text-decoration:none;border:none;color:var(--dz-txt);cursor:pointer}
 #e_switcher.sw_toggle a.sw_active {background-color:#FFF}
-#e_switcher.sw_toggle .sw_code {width:14px;background:url({STYLEIMGDIR}/svg/dz_e_code.svg) no-repeat center;background-size:14px}
+#e_switcher.sw_toggle .sw_code {width:14px;background:url({STYLEIMGDIR}/svg/dz_e_codeblock.svg) no-repeat center;background-size:14px}
 #e_simple, #e_fullswitcher {padding:3px 8px;line-height:20px;text-align:right;border:1px solid var(--dz-borderb);background:var(--dz-bgf)}
 #e_fullswitcher {margin-left:6px;margin-right:8px}
 #e_tbl_menu #tbltips {float:left;margin-right:6px}
 .popupfix .px {margin-bottom:4px}
 #e_body {display:block !important}
-#e_body_loading, #e_cst1_qq img, #e_cst1_fly img, #e_cst1_sup img, #e_cst1_sub img {display:none}
+#e_body_loading, #e_cst1_qq img, #e_cst1_fly img, #e_cst1_sup img, #e_cst1_sub img, #e_cst1_inlinecode img {display:none}
 #e_cst1_qq {background:url({STYLEIMGDIR}/svg/dz_e_kmqq.svg) no-repeat center 2px;background-size:20px}
 #e_cst1_fly {background:url({STYLEIMGDIR}/svg/dz_e_kmfly.svg) no-repeat center 2px;background-size:20px}
 #e_cst1_sup {background:url({STYLEIMGDIR}/svg/dz_e_kmsup.svg) no-repeat center 3px;background-size:18px}
 #e_cst1_sub {background:url({STYLEIMGDIR}/svg/dz_e_kmsub.svg) no-repeat center 3px;background-size:18px}
+#e_cst1_inlinecode, #e_cst1_code {background:url({STYLEIMGDIR}/svg/dz_e_code.svg) no-repeat center 3px;background-size:18px}
 .ie8 .editortoolbar .flbc {position:relative}
