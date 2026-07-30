@@ -110,10 +110,9 @@ details > summary {
   border: none;
   box-shadow: 3px 3px 4px black;
   cursor: pointer;
-  list-style: none;
 }
 
-details > p {
+details > div {
   border-radius: 0 0 10px 10px;
   background-color: #ddd;
   padding: 2px 6px;
