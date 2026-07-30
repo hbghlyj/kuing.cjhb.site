@@ -109,9 +109,6 @@ function discuzcode($message, $smileyoff = false, $bbcodeoff = false, $htmlon = 
 			$message = preg_replace_callback('/`([^`\r\n]|[\r\n](?!\r?\n))+`/s', function($m) {
 				$content = substr($m[0], 1, -1);
 				$content = str_replace(["\r\n", "\r", "\n"], ' ', $content);
-				if(strlen($content) >= 3 && str_starts_with($content, ' ') && str_ends_with($content, ' ') && trim($content) !== '') {
-					$content = substr($content, 1, -1);
-				}
 				return '<code>' . $content . '</code>';
 			}, $message);
 		}
