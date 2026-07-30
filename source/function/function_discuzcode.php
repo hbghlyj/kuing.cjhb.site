@@ -105,9 +105,6 @@ function discuzcode($message, $smileyoff = false, $bbcodeoff = false, $htmlon = 
 	}
 
 	if($parsetype != 1 && !$bbcodeoff && $allowbbcode) {
-		if(str_contains($msglower, '[/inlinecode]')) {
-			$message = preg_replace('/\[inlinecode\](.+?)\[\/inlinecode\]/is', '<code>$1</code>', $message);
-		}
 		if(str_contains($message, '`')) {
 			$message = preg_replace('/`([^`\r\n]+)`/', '<code>$1</code>', $message);
 		}
