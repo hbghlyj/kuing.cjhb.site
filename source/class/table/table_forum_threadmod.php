@@ -89,5 +89,22 @@ class table_forum_threadmod extends discuz_table {
 		return 0;
 	}
 
+	public function fetch_all_by_pid($pid, $start = 0, $limit = 0) {
+		$pid = dintval($pid, true);
+		if($pid) {
+			$where = is_array($pid) ? 'pid IN(%n)' : 'pid=%d';
+			return DB::fetch_all("SELECT * FROM %t WHERE $where ORDER BY dateline DESC ".DB::limit($start, $limit), [$this->_table, $pid]);
+		}
+		return [];
+	}
+
+	public function delete_by_pid($pids) {
+		$pids = dintval($pids, true);
+		if($pids) {
+			return DB::delete($this->_table, DB::field('pid', $pids));
+		}
+		return 0;
+	}
+
 }
 

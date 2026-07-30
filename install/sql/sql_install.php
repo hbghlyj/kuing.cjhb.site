@@ -3322,15 +3322,17 @@ DROP TABLE IF EXISTS pre_forum_threadmod;
 CREATE TABLE pre_forum_threadmod
 (
 	tid        int(10) unsigned      NOT NULL DEFAULT '0',
+	pid        int(10) unsigned      NOT NULL DEFAULT '0',
 	uid        mediumint(8) unsigned NOT NULL DEFAULT '0',
 	username   char(50)              NOT NULL DEFAULT '',
 	dateline   int(10) unsigned      NOT NULL DEFAULT '0',
 	expiration int(10) unsigned      NOT NULL DEFAULT '0',
 	`action`   char(5)               NOT NULL DEFAULT '',
 	`status`   tinyint(1)            NOT NULL DEFAULT '0',
-	magicid    smallint(6) unsigned  NOT NULL,
-	reason     char(40)              NOT NULL DEFAULT '',
+	magicid    smallint(6) unsigned  NOT NULL DEFAULT '0',
+	reason     varchar(255)          NOT NULL DEFAULT '',
 	KEY tid (tid, dateline),
+	KEY pid (pid),
 	KEY expiration (expiration, `status`)
 ) ENGINE = InnoDB;
 
