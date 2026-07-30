@@ -767,7 +767,12 @@ function lang($file, $langvar = null, $vars = [], $default = null) {
 		$key = &$file;
 	}
 	$return = $langvar !== null ? ($returnvalue[$key][$langvar] ?? null) : (is_array($returnvalue[$key]) ? $returnvalue[$key] : []);
-	$return = $return === null ? ($default !== null ? $default : ($path != 'plugin' ? '' : $file.':').$langvar) : $return;
+	if($return === null) {
+		if(!empty($_ENV['DISCUZ_STRICT_LANG'])) {
+			throw new \RuntimeException('Missing lang key: '.($path != 'plugin' ? '' : $file.':').$langvar);
+		}
+		$return = $default !== null ? $default : ($path != 'plugin' ? '' : $file.':').$langvar;
+	}
 	$searchs = $replaces = [];
 	if($vars && is_array($vars)) {
 		foreach($vars as $k => $v) {

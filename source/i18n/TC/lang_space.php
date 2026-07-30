@@ -239,6 +239,7 @@ $lang = [
 	'viewthread_userinfo_buyercredit' => '買家信用',
 	'viewthread_userinfo_follower' => '粉絲',
 	'viewthread_userinfo_following' => '關注',
+	'viewthread_userinfo_credits' => '積分',
 	'viewthread_userinfo_feeds' => '廣播',
 	'viewthread_userinfo_privacy' => '保密',
 	'follow_view_follow' => '我關注的',

@@ -261,6 +261,7 @@ $lang = array(
 	'viewthread_userinfo_buyercredit'	=> 'Buyer rating',//'买家信用',
 	'viewthread_userinfo_follower'		=> 'Followers',//'听众',
 	'viewthread_userinfo_following'		=> 'Listenings',//'收听',
+	'viewthread_userinfo_credits'		=> 'Karma',//'积分',
 	'viewthread_userinfo_feeds'		=> 'Feeds',//'广播',
 	'viewthread_userinfo_privacy'		=> 'Privacy',//'保密',
 	'follow_view_follow'			=> 'I follow',//'我关注的',

@@ -88,11 +88,11 @@ jobs:
           mysql ultrax -e "REPLACE INTO pre_common_setting SET skey='homestatus', svalue='1';"
           php -r 'require "./source/class/class_core.php"; $discuz = C::app(); $discuz->init(); require_once libfile("function/cache"); updatecache("setting");'
           php tools/rebuild_styles.php --host=127.0.0.1:8080
-          php tools/setup_test_security.php --url=http://127.0.0.1:8080
+          DISCUZ_STRICT_LANG=1 php tools/setup_test_security.php --url=http://127.0.0.1:8080
           test -s data/cache/style_2_common.css
       - name: Start PHP Server
         run: |
-          php -S 127.0.0.1:8080 > php_server.log 2>&1 &
+          DISCUZ_STRICT_LANG=1 php -S 127.0.0.1:8080 > php_server.log 2>&1 &
           sleep 1
           curl --fail --silent --show-error 'http://127.0.0.1:8080/data/cache/style_2_common.css' > /dev/null
 
