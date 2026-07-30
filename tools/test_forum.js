@@ -1234,20 +1234,18 @@ const svgAttachmentSubject = `Thread with SVG Attachment ${testRunId}`;
 
         // 7. Tag Edit Panel & Retagging Test
         console.log("Testing Tag Edit Panel & Retagging functionality...");
-        try { execSync('mysql -u root ultrax -e "UPDATE pre_common_usergroup_field SET allowretag = 1 WHERE groupid NOT IN (4, 5, 6, 7);"', { encoding: 'utf-8' }); } catch(e) {}
-        await page.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${svgTid}`);
+        await page.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${standardTid}`);
         await page.waitForLoadState('networkidle');
 
         const editTagBtn = page.locator('a[onclick*="misc.php?mod=tag&op=manage"]');
         assert.strictEqual(await editTagBtn.count(), 1, 'Assertion Error: Tag edit button (misc.php?mod=tag&op=manage) did not render in viewthread.');
         await editTagBtn.click();
 
-        await page.waitForSelector('#fwin_mods #keyword-input', { state: 'visible', timeout: 5000 });
+        await page.waitForSelector('#fwin_mods #tags', { state: 'visible', timeout: 5000 });
         await page.screenshot({ path: 'screenshot_tag_itembox_edit.png' });
 
-        const tagInput = page.locator('#fwin_mods #keyword-input');
+        const tagInput = page.locator('#fwin_mods #tags');
         await tagInput.fill('retagtest');
-        await tagInput.press('Enter');
 
         const saveTagBtn = page.locator('#fwin_mods button[name="search_button"]');
         await Promise.all([
@@ -1255,11 +1253,11 @@ const svgAttachmentSubject = `Thread with SVG Attachment ${testRunId}`;
             saveTagBtn.click()
         ]);
 
-        const dbTags = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT tags FROM pre_forum_thread WHERE tid='${svgTid}';"`, { encoding: 'utf-8' }).trim();
-        assert.ok(dbTags.includes('retagtest'), `Assertion Error: Database tags column for TID ${svgTid} was not updated. Actual: ${dbTags}`);
+        const dbTags = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT tags FROM pre_forum_thread WHERE tid='${standardTid}';"`, { encoding: 'utf-8' }).trim();
+        assert.ok(dbTags.includes('retagtest'), `Assertion Error: Database tags column for TID ${standardTid} was not updated. Actual: ${dbTags}`);
 
-        const dbModLog = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT action FROM pre_forum_threadmod WHERE tid='${svgTid}' AND action='TAG';"`, { encoding: 'utf-8' }).trim();
-        assert.strictEqual(dbModLog, 'TAG', `Assertion Error: Thread moderation history log did not record action TAG for TID ${svgTid}.`);
+        const dbModLog = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT action FROM pre_forum_threadmod WHERE tid='${standardTid}' AND action='TAG';"`, { encoding: 'utf-8' }).trim();
+        assert.strictEqual(dbModLog, 'TAG', `Assertion Error: Thread moderation history log did not record action TAG for TID ${standardTid}.`);
         console.log("Tag Edit Panel & Retagging test passed!");
         report += `### 7. Tag Edit Panel & Retagging\n- **Status**: Passed\n- **Tag Retagged**: retagtest\n- **Threadmod Log Action**: TAG\n- **Screenshot**: \`screenshot_tag_itembox_edit.png\`\n\n`;
 
