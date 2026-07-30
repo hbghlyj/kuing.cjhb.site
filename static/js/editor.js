@@ -1789,6 +1789,36 @@ function switchEditor(mode) {
 	setEditorStyle();
 	editwin.focus();
 	setCaretAtEnd();
+	if(mode && typeof MathJax !== 'undefined' && typeof MathJax.typesetPromise === 'function') {
+		// editdoc.body may not be ready yet if the iframe was freshly written;
+		// poll via requestAnimationFrame until the body exists, then typeset.
+		(function typesetWysiwyg() {
+			if(editdoc && editdoc.body) {
+				MathJax.typesetPromise([editdoc.body]);
+			} else {
+				requestAnimationFrame(typesetWysiwyg);
+			}
+		})();
+	}
+	// Hide the live-preview div while WYSIWYG is active (iframe is the preview),
+	// show it again when returning to BBCode source mode.
+	var outputWrap = document.getElementById('outputWrap');
+	if(outputWrap) {
+		outputWrap.style.display = mode ? 'none' : '';
+		if(!mode) {
+			// Re-sync BBCode preview on return to source mode.
+			var textarea = document.getElementById(editorid + '_textarea');
+			if(textarea && typeof bbcode2html === 'function') {
+				var output = document.getElementById('output');
+				if(output) {
+					output.innerHTML = bbcode2html(textarea.value || '');
+					if(typeof MathJax !== 'undefined' && MathJax.typesetPromise) {
+						MathJax.typesetPromise([output]).catch(function() {});
+					}
+				}
+			}
+		}
+	}
 }
 
 function setCaretAtEnd() {

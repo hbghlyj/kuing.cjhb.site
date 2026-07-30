@@ -1232,6 +1232,64 @@ const svgAttachmentSubject = `Thread with SVG Attachment ${testRunId}`;
         );
         report += `### 6c. SVG Attachment Post\n- **Status**: Checked\n- **Thread Created**: ${svgAttachmentSubject} (TID: ${svgTid}, AID: ${svgAid})\n- **SVG Stored as Image (isimage)**: ${svgIsImage}\n- **Screenshot**: \`screenshot_attachment_svg_viewthread.png\`\n\n`;
 
+        // 7. Interactive Tag Itembox & Retagging Test
+        console.log("Testing Interactive Tag Itembox & Retagging functionality...");
+        await page.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${svgTid}`);
+        await page.waitForLoadState('networkidle');
+
+        const tagItembox = page.locator('#tag_itembox');
+        assert.strictEqual(await tagItembox.count(), 1, 'Assertion Error: Tag Itembox (#tag_itembox) did not render in viewthread.');
+
+        const editTagBtn = page.locator('.cmty-edit-tag-btn');
+        assert.strictEqual(await editTagBtn.count(), 1, 'Assertion Error: Edit tag button (.cmty-edit-tag-btn) did not render.');
+        await editTagBtn.click();
+
+        const tagEditView = page.locator('#tag_edit_view');
+        assert.strictEqual(await tagEditView.isVisible(), true, 'Assertion Error: Tag edit view (#tag_edit_view) did not open upon clicking edit button.');
+        await page.screenshot({ path: 'screenshot_tag_itembox_edit.png' });
+
+        const tagInput = page.locator('#cmty_tag_input');
+        await tagInput.fill('retagtest');
+        await tagInput.press('Enter');
+
+        const tagPills = page.locator('.cmty-item-tag');
+        assert.strictEqual(await tagPills.count(), 1, 'Assertion Error: Tag pill was not added to container.');
+
+        const saveTagBtn = page.locator('#tag_edit_view button.cmty-editable-item-close');
+        await Promise.all([
+            page.waitForNavigation({ waitUntil: 'networkidle' }).catch(() => {}),
+            saveTagBtn.click()
+        ]);
+
+        const dbTags = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT tags FROM pre_forum_thread WHERE tid='${svgTid}';"`, { encoding: 'utf-8' }).trim();
+        assert.ok(dbTags.includes('retagtest'), `Assertion Error: Database tags column for TID ${svgTid} was not updated. Actual: ${dbTags}`);
+
+        const dbModLog = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT action FROM pre_forum_threadmod WHERE tid='${svgTid}' AND action='TAG';"`, { encoding: 'utf-8' }).trim();
+        assert.strictEqual(dbModLog, 'TAG', `Assertion Error: Thread moderation history log did not record action TAG for TID ${svgTid}.`);
+        console.log("Interactive Tag Itembox & Retagging test passed!");
+        report += `### 7. Interactive Tag Itembox & Retagging\n- **Status**: Passed\n- **Tag Retagged**: retagtest\n- **Threadmod Log Action**: TAG\n- **Screenshot**: \`screenshot_tag_itembox_edit.png\`\n\n`;
+
+        // 8. WYSIWYG Mode & Preview Div Toggle Test
+        console.log("Testing WYSIWYG mode & preview div (#outputWrap) toggle...");
+        await page.goto(`http://127.0.0.1:8080/forum.php?mod=post&action=newthread&fid=${forumFid}`);
+        await page.waitForLoadState('networkidle');
+
+        await page.evaluate(() => switchEditor(1));
+        const outputWrapWysiwyg = await page.evaluate(() => {
+            const el = document.getElementById('outputWrap');
+            return el ? el.style.display : null;
+        });
+        assert.strictEqual(outputWrapWysiwyg, 'none', 'Assertion Error: Preview div (#outputWrap) was not hidden when switching to WYSIWYG mode.');
+
+        await page.evaluate(() => switchEditor(0));
+        const outputWrapBbcode = await page.evaluate(() => {
+            const el = document.getElementById('outputWrap');
+            return el ? el.style.display : null;
+        });
+        assert.strictEqual(outputWrapBbcode, '', 'Assertion Error: Preview div (#outputWrap) was not revealed when switching back to BBCode mode.');
+        console.log("WYSIWYG mode & preview div toggle test passed!");
+        report += `### 8. WYSIWYG Mode & Preview Div Toggle\n- **Status**: Passed\n- **Hidden in WYSIWYG**: display: none\n- **Revealed in BBCode**: display: ''\n\n`;
+
     } catch (error) {
         console.error("Test execution failed:", error);
         process.exitCode = 1;
