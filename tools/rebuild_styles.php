@@ -4,6 +4,10 @@ if(PHP_SAPI !== 'cli') {
 	exit("This tool must be run from the command line.\n");
 }
 
+if(get_current_user() !== 'www-data') {
+	exit("This tool must be run as script owner www-data.\n");
+}
+
 $options = getopt('', ['host:']);
 $targetHost = $options['host'] ?? '';
 if(!preg_match('/^[A-Za-z0-9.-]+(?::\d+)?$/', $targetHost)) {
