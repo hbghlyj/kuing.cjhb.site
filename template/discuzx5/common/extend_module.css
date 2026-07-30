@@ -103,6 +103,12 @@
 #autopbn:after {display:none}
 /**end**/
 /**forum::viewthread**/
+code {
+  background-color: #eeeeee;
+  border-radius: 3px;
+  font-family: "Courier New", monospace;
+  padding: 0 3px;
+}
 details > summary {
   padding: 2px 6px;
   width: 15em;
