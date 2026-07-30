@@ -328,9 +328,6 @@ if(!submitcheck('modsubmit')) {
 				}
 
 			} elseif($operation == 'bump') {
-				if(!$_G['group']['allowbumpthread']) {
-					showmessage('no_privilege_bumpthread');
-				}
 				$modaction = 'BMP';
 				$thread = $threadlist;
 				$thread = array_pop($thread);
@@ -580,6 +577,8 @@ if(!submitcheck('modsubmit')) {
 				$_G['toforum'] = $toforum;
 				updateforumcount($moveto);
 				updateforumcount($_G['fid']);
+				table_forum_forum::t()->update_forum_counter($_G['fid'], 0, 0, -1);
+				table_forum_forum::t()->update_forum_counter($moveto, 0, 0, 1);
 			} elseif($operation == 'type') {
 				if(!$_G['group']['allowedittypethread']) {
 					showmessage('no_privilege_edittypethread');
