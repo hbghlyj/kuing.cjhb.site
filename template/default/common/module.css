@@ -930,9 +930,9 @@ a.thread_mod { height: 19px; line-height: 19px; display: inline-block; color: #4
 			.sshare.is-hiding { opacity: 0; }
 			.sshare__inner { position: relative; display: flex; overflow: visible; border-radius: 3px; color: #1A1A1A; background: currentColor; box-shadow: 0 3px 12px rgb(0 0 0 / 20%); }
 				.sshare__inner::before { content: ""; position: absolute; right: 0; bottom: 0; left: 0; width: 10px; height: 10px; margin: auto; background: currentColor; transform: translateY(40%) rotate(45deg); }
-				.sshare__inner button { position: relative; width: 35px; height: 35px; padding: 0; border: 0; border-radius: 3px; color: #FFF; background: transparent; cursor: pointer; transition: color .2s ease-in-out; }
+				.sshare__inner button { position: relative; display: flex; align-items: center; gap: 5px; height: 35px; padding: 0 12px; border: 0; border-radius: 3px; color: #FFF; background: transparent; cursor: pointer; transition: color .2s ease-in-out; }
 				.sshare__inner button:hover, .sshare__inner button:focus-visible { color: #FF8600; }
-					.sshare__inner button svg { position: absolute; inset: 0; width: 14px; height: 14px; margin: auto; fill: currentColor; }
+					.sshare__inner button svg { width: 14px; height: 14px; fill: currentColor; }
 		.sign { overflow: hidden; margin-bottom: 10px; padding-top: 16px; border-top: 1px dashed #CCC; line-height: 1.6em; }
 			.sign::before { content: "SIGNATURE"; float: left; margin-top: -20px; margin-left: -8px; color: #7FCCE5; transform: scale(0.8); letter-spacing: 2px; }
 			.sign * { line-height: normal; }
