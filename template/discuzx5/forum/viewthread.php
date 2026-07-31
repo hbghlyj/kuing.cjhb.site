@@ -403,17 +403,20 @@ $_G['forum_tagscript']
 <div class="wp mtn">
 	<!--[diy=diy3]--><div id="diy3" class="area"></div><!--[/diy]-->
 </div>
-<!--{if $_G['relatedlinks'] || !empty($_GET['highlight'])}-->
+<!--{if $_G['relatedlinks']}-->
 	<script type="text/javascript">
 		var relatedlink = [];
 		<!--{loop $_G['relatedlinks'] $key $link}-->
 		relatedlink.push({'sname':'$link[name]', 'surl':'$link[url]'});
 		<!--{/loop}-->
-		{eval $highlights = explode(' ', str_replace(array('\'', chr(125)), array('&#039;', '&#125;'), dhtmlspecialchars($_GET['highlight'])));}
-		<!--{loop $highlights $word}-->
-		relatedlink.push({'sname':'$word', 'surl':''});
-		<!--{/loop}-->
 		relatedlinks('postmessage_$_G[forum_firstpid]');
+	</script>
+<!--{/if}-->
+<!--{if !empty($_GET['highlight'])}-->
+	<script src="https://unpkg.com/mark.js@8.11.1/dist/mark.min.js"></script>
+	<script>
+		var instance = new Mark(document.querySelectorAll(".t_f,.postmessage,.message"));
+		instance.mark('$_GET['highlight']');
 	</script>
 <!--{/if}-->
 
