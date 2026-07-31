@@ -1259,26 +1259,6 @@ i.pstatus { margin-bottom: unset; }
 .aimginfo:before { content: "i"; }
 .tupian:hover .tuozt,.tupian:hover .aimginfo,.tuoing:hover .guiw { display: block; }
 .tuoing img { vertical-align: bottom; }
-@media screen and (orientation: portrait) {
-  #switchwidth,#diy-tg,#um p:last-child,.pls,#cgb,#fj,#mulu { display: none; }
-  #toptb { min-width: unset; }
-  .wp { width: 100%; }
-  #nv li a { padding: 0 5px; }
-  #scbar_txt { width: 130px; }
-  #pt .z a { max-width: 90vw; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .plc { padding: 0 5px; }
-  .ad .plc { height: 4px; }
-  .m_c { width: 90vw; }
-  .m_c .quote { width: 95%; }
-  #subjecthide { max-width: 80vw; }
-  .reason_slct { width: 100%; }
-  .reason_slct .pt, .reason_slct .px { width: 95% !important; }
-  input#tags { width: 90%; }
-  .relatedthreadlist li { margin-right: 0px; }
-}
-@media print {
-  .printhides,#mulu,#scrolltop,#modmenu2,.pgs.mtm.mbm.cl,#ft,#cgb { display:none; }
-}
 #thread_subject { white-space: pre-wrap; }
 .psti a { color: #369; text-decoration: underline; }
 .reply-btn { display: none; position: absolute; top: 5px; right: 5px; background: url(/static/image/mobile/images/icon_reply.png) no-repeat; border: none; padding: 5px 10px; cursor: pointer; border-radius: 3px; }
