@@ -2770,7 +2770,9 @@ CREATE TABLE pre_forum_hotreply_member
 	pid      int(10) unsigned      NOT NULL DEFAULT '0',
 	uid      mediumint(8) unsigned NOT NULL DEFAULT '0',
 	attitude tinyint(1)            NOT NULL DEFAULT '0',
-	PRIMARY KEY (pid, uid)
+	dateline int(10) unsigned      NOT NULL DEFAULT '0',
+	PRIMARY KEY (pid, uid),
+	KEY uid (uid, dateline)
 ) ENGINE = InnoDB;
 
 DROP TABLE IF EXISTS pre_forum_hotreply_number;

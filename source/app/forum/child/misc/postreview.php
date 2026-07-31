@@ -35,6 +35,27 @@ $creditValue = static function($attitude) {
 	return $attitude == 1 ? 1 : -1;
 };
 
+$vote = table_forum_hotreply_member::t()->fetch_member($post['pid'], $_G['uid']);
+if($vote) {
+	$oldtype = intval($vote['attitude']);
+	if($oldtype == $typeid) {
+		table_forum_hotreply_number::t()->adjust_num($post['pid'], $typeid, -1);
+		table_forum_hotreply_member::t()->delete_by_uid_pid($_G['uid'], $post['pid']);
+		updatemembercount($post['authorid'], ['extcredits1' => -$creditValue($typeid)]);
+		showmessage('follow_cancel_succeed', '', [], ['msgtype' => 3, 'extrajs' => '<script type="text/javascript">postreviewcancel('.$post['pid'].', '.$typeid.', '.$username.');</script>']);
+	}
+	table_forum_hotreply_number::t()->adjust_num($post['pid'], $oldtype, -1);
+	table_forum_hotreply_number::t()->adjust_num($post['pid'], $typeid, 1);
+	table_forum_hotreply_member::t()->update_attitude($post['pid'], $_G['uid'], $typeid, $_G['timestamp']);
+	updatemembercount($post['authorid'], ['extcredits1' => $creditValue($typeid) - $creditValue($oldtype)]);
+	showmessage('thread_poll_succeed', '', [], ['msgtype' => 3, 'extrajs' => '<script type="text/javascript">postreviewcancel('.$post['pid'].', '.$oldtype.', '.$username.');postreviewupdate('.$post['pid'].', '.$typeid.', '.$username.');</script>']);
+}
+
+$votecount = table_forum_hotreply_member::t()->count_by_uid_dateline($_G['uid'], $_G['timestamp'] - 86400);
+if($_G['setting']['recommendthread']['daycount'] && $votecount >= $_G['setting']['recommendthread']['daycount']) {
+	showmessage('recommend_outoftimes', '', [], ['msgtype' => 3]);
+}
+
 if(empty($hotreply)) {
 	$hotreply['pid'] = table_forum_hotreply_number::t()->insert([
 		'pid' => $post['pid'],
@@ -43,22 +64,6 @@ if(empty($hotreply)) {
 		'against' => 0,
 		'total' => 0,
 	], true);
-} else {
-	$vote = table_forum_hotreply_member::t()->fetch_member($post['pid'], $_G['uid']);
-	if($vote) {
-		$oldtype = intval($vote['attitude']);
-		if($oldtype == $typeid) {
-			table_forum_hotreply_number::t()->adjust_num($post['pid'], $typeid, -1);
-			table_forum_hotreply_member::t()->delete_by_uid_pid($_G['uid'], $post['pid']);
-			updatemembercount($post['authorid'], ['extcredits1' => -$creditValue($typeid)]);
-			showmessage('follow_cancel_succeed', '', [], ['msgtype' => 3, 'extrajs' => '<script type="text/javascript">postreviewcancel('.$post['pid'].', '.$typeid.', '.$username.');</script>']);
-		}
-		table_forum_hotreply_number::t()->adjust_num($post['pid'], $oldtype, -1);
-		table_forum_hotreply_number::t()->adjust_num($post['pid'], $typeid, 1);
-		table_forum_hotreply_member::t()->update_attitude($post['pid'], $_G['uid'], $typeid);
-		updatemembercount($post['authorid'], ['extcredits1' => $creditValue($typeid) - $creditValue($oldtype)]);
-		showmessage('thread_poll_succeed', '', [], ['msgtype' => 3, 'extrajs' => '<script type="text/javascript">postreviewcancel('.$post['pid'].', '.$oldtype.', '.$username.');postreviewupdate('.$post['pid'].', '.$typeid.', '.$username.');</script>']);
-	}
 }
 
 table_forum_hotreply_number::t()->update_num($post['pid'], $typeid);
@@ -67,6 +72,7 @@ table_forum_hotreply_member::t()->insert([
 	'pid' => $post['pid'],
 	'uid' => $_G['uid'],
 	'attitude' => $typeid,
+	'dateline' => $_G['timestamp'],
 ]);
 updatemembercount($post['authorid'], ['extcredits1' => $creditValue($typeid)]);
 
