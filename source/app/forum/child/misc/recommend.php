@@ -52,9 +52,10 @@ table_forum_memberrecommend::t()->insert(['tid' => $_G['tid'], 'recommenduid' =>
 
 dsetcookie('recommend', 1, 43200);
 $recommendv = $_G['group']['allowrecommend'] > 0 ? '+'.$_G['group']['allowrecommend'] : $_G['group']['allowrecommend'];
+$recommendjs = '<script type="text/javascript">recommendupdate('.intval($_G['group']['allowrecommend']).');</script>';
 if($_G['setting']['recommendthread']['daycount']) {
 	$daycount = $_G['setting']['recommendthread']['daycount'] - $recommendcount;
-	showmessage('recommend_daycount_succeed', '', ['recommendv' => $recommendv, 'recommendc' => $thread['recommends'], 'daycount' => $daycount], ['msgtype' => 3]);
+	showmessage('recommend_daycount_succeed', '', ['recommendv' => $recommendv, 'recommendc' => $thread['recommends'], 'daycount' => $daycount], ['msgtype' => 3, 'extrajs' => $recommendjs]);
 } else {
-	showmessage('recommend_succeed', '', ['recommendv' => $recommendv, 'recommendc' => $thread['recommends']], ['msgtype' => 3]);
+	showmessage('recommend_succeed', '', ['recommendv' => $recommendv, 'recommendc' => $thread['recommends']], ['msgtype' => 3, 'extrajs' => $recommendjs]);
 }
