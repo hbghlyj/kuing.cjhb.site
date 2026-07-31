@@ -315,7 +315,7 @@
 								<dt>
 									<a href="$forumurl"{if $forum[redirect]} target="_blank"{/if}{if $forum[extra][namecolor]} style="color: {$forum[extra][namecolor]};"{/if}>$forum[name]</a>
 								</dt>
-								<!--{if empty($forum[redirect])}--><dd><em>{lang forum_todayposts}: $forum['todayposts']</em> <em>{lang forum_threads}: <!--{echo dnumber($forum[threads])}--></em> <em>{lang forum_posts}: <!--{echo dnumber($forum[posts])}--></em></dd><!--{/if}-->
+								<!--{if empty($forum[redirect])}--><dd><!--{if $forum[todayposts]}--><em style="color: var(--dz-ahot);">{lang forum_todayposts}: $forum['todayposts']</em> <!--{/if}--><em>{lang forum_threads}: <!--{echo dnumber($forum[threads])}--></em> <em>{lang forum_posts}: <!--{echo dnumber($forum[posts])}--></em></dd><!--{/if}-->
 							<!--{if $forum[description]}--><dd class="xg2">$forum[description]</dd><!--{/if}-->
 							<!--{hook/index_forum_extra $forum['fid']}-->
 						</dl>
