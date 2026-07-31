@@ -348,10 +348,6 @@ function discuzcode($message, $smileyoff = false, $bbcodeoff = false, $htmlon = 
 		}
 	}
 
-	for($i = 0; $i <= $_G['forum_discuzcode']['pcodecount']; $i++) {
-		$message = str_replace("[\tDISCUZ_CODE_$i\t]", $_G['forum_discuzcode']['codehtml'][$i], $message);
-	}
-
 	unset($msglower);
 
 	if($jammer) {
@@ -366,6 +362,9 @@ function discuzcode($message, $smileyoff = false, $bbcodeoff = false, $htmlon = 
 
 	}
 	if($htmlon) {
+		for($i = 0; $i <= $_G['forum_discuzcode']['pcodecount']; $i++) {
+			$message = str_replace("[\tDISCUZ_CODE_$i\t]", $_G['forum_discuzcode']['codehtml'][$i], $message);
+		}
 		return $message;
 	}
 
@@ -389,6 +388,11 @@ function discuzcode($message, $smileyoff = false, $bbcodeoff = false, $htmlon = 
 			$result .= nl2br($seg);
 		}
 	}
+
+	for($i = 0; $i <= $_G['forum_discuzcode']['pcodecount']; $i++) {
+		$result = str_replace("[\tDISCUZ_CODE_$i\t]", $_G['forum_discuzcode']['codehtml'][$i], $result);
+	}
+
 	return $result;
 }
 
