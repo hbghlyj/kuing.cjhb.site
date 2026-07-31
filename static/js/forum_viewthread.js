@@ -15,16 +15,16 @@ function initPostQuoteButton() {
 	const portal = document.createElement('div');
 	portal.className = 'sshare';
 	portal.setAttribute('role', 'dialog');
-	portal.setAttribute('aria-label', $L('input_quote'));
+	portal.setAttribute('aria-label', $L('reply'));
 	portal.setAttribute('aria-hidden', 'true');
 
 	const inner = document.createElement('div');
 	inner.className = 'sshare__inner';
 	const button = document.createElement('button');
 	button.type = 'button';
-	button.setAttribute('aria-label', $L('input_quote'));
-	button.title = $L('input_quote');
-	button.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7.2 6C4.9 7.5 3.5 9.7 3.5 12.4V18h7v-7h-4c.3-1.4 1.2-2.6 2.7-3.6L7.2 6zm10 0c-2.3 1.5-3.7 3.7-3.7 6.4V18h7v-7h-4c.3-1.4 1.2-2.6 2.7-3.6L17.2 6z"/></svg>';
+	button.setAttribute('aria-label', $L('reply'));
+	button.title = $L('reply');
+	button.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 10 20 15l-5 5"/><path d="M4 4v7a4 4 0 0 0 4 4h12"/></svg>';
 	inner.appendChild(button);
 	portal.appendChild(inner);
 	document.body.appendChild(portal);
