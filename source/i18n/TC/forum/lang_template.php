@@ -1121,6 +1121,7 @@ $lang = [
 	'thread_moderations_cron' => '任務系統',
 	'thread_moderations_team' => '管理團隊',
 	'thread_moderations_username' => '操作者',
+	'viewthread_edited_by' => '本帖最後由 {username} 於 {time} 編輯 ',
 	'to' => '到',
 	'ban_member' => '禁止',
 	'clear' => '清理',

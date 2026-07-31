@@ -1126,6 +1126,7 @@ $lang = array (
 	'thread_moderations_cron'	=> 'Cron Tasks',//'任务系统',
 	'thread_moderations_team' => 'Moderation Team',//'管理团队',
 	'thread_moderations_username'	=> 'Moderator',//'操作者',
+	'viewthread_edited_by'		=> 'Last edited by {username} {time}',//'本帖最后由 {username} 于 {time} 编辑',
 	'to'				=> 'To',//'到',
 	'ban_member'			=> 'Ban',//'禁止',
 	'clear'				=> 'Clean',//'清理',
