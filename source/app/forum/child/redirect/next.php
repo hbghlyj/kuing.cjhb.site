@@ -19,8 +19,9 @@ if($_GET['goto'] == 'nextnewset') {
 	$sort = 'ASC';
 }
 $next = table_forum_thread::t()->fetch_next_tid_by_fid_lastpost($_G['fid'], $lastpost, $glue, $sort, $_G['thread']['threadtableid']);
+$highlightextra = !empty($_GET['highlight']) ? '&highlight='.rawurlencode($_GET['highlight']) : '';
 if($next) {
-	dheader("Location: forum.php?mod=viewthread&tid=$next");
+	dheader("Location: forum.php?mod=viewthread&tid=$next$highlightextra");
 } elseif($_GET['goto'] == 'nextnewset') {
 	showmessage('redirect_nextnewset_nonexistence');
 } else {

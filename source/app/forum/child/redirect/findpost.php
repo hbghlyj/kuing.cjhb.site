@@ -56,10 +56,12 @@ if(empty($pid)) {
 
 }
 
+$highlightextra = !empty($_GET['highlight']) ? '&highlight='.rawurlencode($_GET['highlight']) : '';
+
 if(empty($post)) {
 	if($ptid) {
 		header('HTTP/1.1 301 Moved Permanently');
-		dheader("Location: forum.php?mod=viewthread&tid=$ptid");
+		dheader("Location: forum.php?mod=viewthread&tid=$ptid$highlightextra");
 	} else {
 		showmessage('post_check', NULL, ['tid' => $ptid]);
 	}
@@ -82,9 +84,9 @@ $page = ceil($curpostnum / $_G['ppp']);
 
 if($thread['special'] == 2 && table_forum_trade::t()->check_goods($pid)) {
 	header('HTTP/1.1 301 Moved Permanently');
-	dheader("Location: forum.php?mod=viewthread&do=tradeinfo&tid=$tid&pid=$pid");
+	dheader("Location: forum.php?mod=viewthread&do=tradeinfo&tid=$tid&pid=$pid$highlightextra");
 }
 
 $authoridurl = $authorid ? '&authorid='.$authorid : '';
 header('HTTP/1.1 301 Moved Permanently');
-dheader("Location: forum.php?mod=viewthread&tid=$tid&page=$page$authoridurl".(isset($_GET['modthreadkey']) && ($modthreadkey = modauthkey($tid)) ? "&modthreadkey=$modthreadkey" : '')."#pid$pid");
+dheader("Location: forum.php?mod=viewthread&tid=$tid&page=$page$authoridurl$highlightextra".(isset($_GET['modthreadkey']) && ($modthreadkey = modauthkey($tid)) ? "&modthreadkey=$modthreadkey" : '')."#pid$pid");
