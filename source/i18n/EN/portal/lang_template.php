@@ -316,9 +316,6 @@ $lang = array (
 	'display_order'			=> 'Display order',//'显示位置',
 	'filename'			=> 'File name',//'文件名',
 
-// Added by Valery Votintsev
-	'select_all'	=> 'Select All',//'全选',
-	'select_mod'	=> 'Choose module',//'选择模块',
-	'select_page'	=> 'Select page',//'选择页面',
+	'select_all'	=	'Select All',//'全选',
 );
 
