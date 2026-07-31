@@ -28,12 +28,6 @@ $lang =
 	'post_single_banned' => '**** 該帖被屏蔽 ****',
 	'post_reply_quote' => '{author} 發表於 {time}',
 
-	'post_edit_regexp' => '/^\[i=s\] 本帖最後由 .*? 於 .*? 編輯 \[\/i\][\r\n][\r\n]/s',
-
-	'post_edithtml_regexp' => '/^\[i=s\] 本帖最後由 .*? 於 .*? 編輯 \[\/i\]&lt;br \/&gt;&lt;br \/&gt;/s',
-
-	'post_editnobbcode_regexp' => '/^\[ 本帖最後由 .*? 於 .*? 編輯 \][\r\n][\r\n]/s',
-
 	'price' => '售價',
 	'pay_view' => '記錄',
 	'attachment_buy' => '購買',

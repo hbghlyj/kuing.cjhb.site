@@ -28,9 +28,6 @@ $lang = array
 	'post_single_banned'	=> '**** This post was banned ****',//'**** 该帖被屏蔽 ****',
 	'post_sold'		=> 'Sold post',//'已售帖',
 	'post_reply_quote'		=> '{author} posted at {time}',//'{author} 发表于 {time}',
-	'post_edit_regexp'		=> '/^\[i=s\] Post edited by .*? at .*? \[\/i\][\r\n][\r\n]/s',
-	'post_edithtml_regexp'		=> '/^\[i=s\] Post edited by .*? at .*? \[\/i\]&lt;br \/&gt;&lt;br \/&gt;/s',
-	'post_editnobbcode_regexp'	=> '/^\[ Post edited by .*? at .*? \][\r\n][\r\n]/s',
 
 	'price'				=> 'Price',//'售价',
 	'pay_view'			=> 'Payments Log',//'记录',

@@ -223,8 +223,6 @@ if(!$editsubmit) {
 			}
 		}
 	}
-	$language = lang('forum/misc');
-	$postinfo['message'] = preg_replace($postinfo['htmlon'] ? $language['post_edithtml_regexp'] : (!$_G['forum']['allowbbcode'] || $postinfo['bbcodeoff'] ? $language['post_editnobbcode_regexp'] : $language['post_edit_regexp']), '', $postinfo['message']);
 
 	$quotemessage = '';
 	$noticetrimstr = '';

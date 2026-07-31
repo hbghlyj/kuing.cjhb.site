@@ -665,7 +665,6 @@ function portalcp_get_postmessage($post, $getauthorall = '') {
 	global $_G;
 	$forum = table_forum_forum::t()->fetch($post['fid']);
 	require_once libfile('function/discuzcode');
-	$language = lang('forum/misc');
 	if($forum['type'] == 'sub' && $forum['status'] == 3) {
 		loadcache('grouplevels');
 		$grouplevel = $_G['grouplevels'][$forum['level']];
@@ -674,7 +673,6 @@ function portalcp_get_postmessage($post, $getauthorall = '') {
 			$forum = array_merge($forum, $group_postpolicy);
 		}
 	}
-	$post['message'] = preg_replace($language['post_edit_regexp'], '', $post['message']);
 
 	$_message = '';
 	if($getauthorall) {

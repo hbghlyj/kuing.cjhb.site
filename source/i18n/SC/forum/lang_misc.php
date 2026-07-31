@@ -28,12 +28,6 @@ $lang =
 	'post_single_banned' => '**** 该帖被屏蔽 ****',
 	'post_reply_quote' => '{author} 发表于 {time}',
 
-	'post_edit_regexp' => '/^\[i=s\] 本帖最后由 .*? 于 .*? 编辑 \[\/i\][\r\n][\r\n]/s',
-
-	'post_edithtml_regexp' => '/^\[i=s\] 本帖最后由 .*? 于 .*? 编辑 \[\/i\]&lt;br \/&gt;&lt;br \/&gt;/s',
-
-	'post_editnobbcode_regexp' => '/^\[ 本帖最后由 .*? 于 .*? 编辑 \][\r\n][\r\n]/s',
-
 	'price' => '售价',
 	'pay_view' => '记录',
 	'attachment_buy' => '购买',
