@@ -33,9 +33,11 @@ export function initSearch(lang, forumlist, options = {}) {
 			templates: {
 				empty: lang['no_results'],
 				item(data) {
+					const query = search.helper && search.helper.state ? search.helper.state.query : '';
+					const highlight = query ? '&highlight=' + encodeURIComponent(query) : '';
 					return `<article>
 <div class="ais-hits--content">
-	<h2 itemprop="name headline"><a href="/forum.php?mod=redirect&goto=findpost&pid=${data.objectID}" target="_blank" class="ais-hits--title-link" itemprop="url">${data._highlightResult.title.value}</a> <span style="color: #666;font-weight:normal;">${data.author} (${data.totalposts - 1} ${lang['replies']}) ${data.date}</span></h2>
+	<h2 itemprop="name headline"><a href="/forum.php?mod=redirect&goto=findpost&pid=${data.objectID}${highlight}" target="_blank" class="ais-hits--title-link" itemprop="url">${data._highlightResult.title.value}</a> <span style="color: #666;font-weight:normal;">${data.author} (${data.totalposts - 1} ${lang['replies']}) ${data.date}</span></h2>
 	<div class="excerpt">
 		<p><span class="suggestion-post-content ais-hits--content-snippet">${data._snippetResult['content'].value}</span></p>
 	</div>
