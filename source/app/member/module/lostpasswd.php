@@ -16,10 +16,10 @@ $discuz_action = 141;
 
 if(submitcheck('lostpwsubmit')) {
 	loaducenter();
-	$_GET['email'] = strtolower(trim($_GET['email']));
+	$_GET['email'] = mb_strtolower(trim($_GET['email']), 'UTF-8');
 	if($_GET['username']) {
 		[$tmp['uid'], , $tmp['email']] = native_user_get(addslashes($_GET['username']));
-		$tmp['email'] = strtolower(trim($tmp['email']));
+		$tmp['email'] = mb_strtolower(trim($tmp['email']), 'UTF-8');
 		if($_GET['email'] != $tmp['email']) {
 			showmessage('getpasswd_account_notmatch');
 		}
@@ -34,7 +34,7 @@ if(submitcheck('lostpwsubmit')) {
 		}
 		$member = table_common_member::t()->fetch_by_email($_GET['email'], 1);
 		[$tmp['uid'], , $tmp['email']] = native_user_get(addslashes($member['username']));
-		$tmp['email'] = strtolower(trim($tmp['email']));
+		$tmp['email'] = mb_strtolower(trim($tmp['email']), 'UTF-8');
 	}
 	if(!$member) {
 		showmessage('getpasswd_account_notmatch');

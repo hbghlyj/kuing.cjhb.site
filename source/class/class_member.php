@@ -563,7 +563,7 @@ class register_ctl {
 					showmessage(lang('member/template', 'password_weak').implode(',', $strongpw_str));
 				}
 			}
-			$email = strtolower(trim($email));
+			$email = mb_strtolower(trim($email), 'UTF-8');
 			if(empty($this->setting['ignorepassword'])) {
 				if($_GET['password'] !== $_GET['password2']) {
 					showmessage('profile_passwd_notmatch');

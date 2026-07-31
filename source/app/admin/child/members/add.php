@@ -50,7 +50,7 @@ if(!submitcheck('addsubmit')) {
 
 	$newusername = trim($_GET['newusername']);
 	$newpassword = trim($_GET['newpassword']);
-	$newemail = strtolower(trim($_GET['newemail']));
+	$newemail = mb_strtolower(trim($_GET['newemail']), 'UTF-8');
 
 	if(!$newusername || !isset($_GET['confirmed']) && !$newpassword) {
 		cpmsg('members_add_invalid', '', 'error');

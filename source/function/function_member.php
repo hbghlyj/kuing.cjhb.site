@@ -263,7 +263,7 @@ function checkfollowfeed() {
 function checkemail($email) {
 	global $_G;
 
-	$email = strtolower(trim($email));
+	$email = mb_strtolower(trim($email), 'UTF-8');
 	if(strlen($email) > 255) {
 		showmessage('profile_email_illegal', '', [], ['handle' => false]);
 	}

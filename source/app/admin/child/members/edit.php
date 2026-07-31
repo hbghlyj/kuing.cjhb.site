@@ -188,7 +188,7 @@ if(!submitcheck('editsubmit')) {
 	if(!$isfounder && native_user_isprotected($member)) {
 		cpmsg('members_edit_protectedmembers', '', 'error');
 	}
-	$ucresult = native_user_edit(addslashes($member['loginname']), $_GET['passwordnew'], $_GET['passwordnew'], addslashes(strtolower(trim($_GET['emailnew']))), 1, $questionid, '', $secmobicc, $secmobile);
+	$ucresult = native_user_edit(addslashes($member['loginname']), $_GET['passwordnew'], $_GET['passwordnew'], addslashes(mb_strtolower(trim($_GET['emailnew']), 'UTF-8')), 1, $questionid, '', $secmobicc, $secmobile);
 	if($ucresult < 0) {
 		if($ucresult == -4) {
 			cpmsg('members_email_illegal', '', 'error');
@@ -281,7 +281,7 @@ if(!submitcheck('editsubmit')) {
 
 	$memberupdate = [];
 	if($ucresult >= 0) {
-		$memberupdate['email'] = strtolower(trim($_GET['emailnew']));
+		$memberupdate['email'] = mb_strtolower(trim($_GET['emailnew']), 'UTF-8');
 		$memberupdate['secmobicc'] = $secmobicc == 0 ? '' : $secmobicc;
 		$memberupdate['secmobile'] = $secmobile == 0 ? '' : $secmobile;
 	}

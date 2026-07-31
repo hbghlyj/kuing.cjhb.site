@@ -66,7 +66,7 @@ function native_user_fetch($username, $isuid = 0) {
 	if($isuid == 1) {
 		$user = getuserbyuid(intval($username), 1);
 	} elseif($isuid == 2) {
-		$user = table_common_member::t()->fetch_by_email(strtolower(trim($username)), 1);
+		$user = table_common_member::t()->fetch_by_email(mb_strtolower(trim($username), 'UTF-8'), 1);
 	} elseif($isuid == 4) {
 		$mobile = trim($username);
 		[$secmobicc, $secmobile] = str_contains($mobile, '-') ? explode('-', $mobile, 2) : [getglobal('setting/smsdefaultcc'), $mobile];
@@ -88,7 +88,7 @@ function native_user_get($username, $isuid = 0) {
 
 function native_user_register($username, $password, $email = '', $questionid = '', $answer = '', $regip = '', $secmobicc = '', $secmobile = '', $censor = true) {
 	$username = stripslashes(trim($username));
-	$email = strtolower(trim($email));
+	$email = mb_strtolower(trim($email), 'UTF-8');
 	if($censor) {
 		$ret = censor($username, NULL, TRUE, FALSE);
 		if(is_array($ret)) {
@@ -167,7 +167,7 @@ function native_user_edit($username, $oldpw, $newpw, $email = '', $ignoreoldpw =
 		return -1;
 	}
 	if($email !== '') {
-		$email = empty($email) ? '' : strtolower(trim($email));
+		$email = empty($email) ? '' : mb_strtolower(trim($email), 'UTF-8');
 		if($email !== '') {
 			$check = native_user_checkemail($email, $user['uid']);
 			if($check < 0) {
@@ -260,7 +260,7 @@ function native_user_checkname($username, $censor = true) {
 }
 
 function native_user_checkemail($email, $ignoreuid = 0) {
-	$email = strtolower(trim($email));
+	$email = mb_strtolower(trim($email), 'UTF-8');
 	if($email === '') {
 		return 1;
 	}
