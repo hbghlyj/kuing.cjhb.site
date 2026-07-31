@@ -1265,9 +1265,10 @@ i.pstatus {display:block;font-size:12px;text-align:center;color:#999}
 .plc .pi .message table {border: 1px solid var(--dz-BOR-ed);}
 .plc .pi .message table td {overflow-wrap: anywhere;}
 
-.plc .pi .message .blockcode { overflow: hidden; margin: 10px 0; padding: 5px 10px 5px 43px; font-size:12px; border-radius:var(--dz-radius-sm); background: var(--dz-BG-5) repeat-y 0 0;background-image: linear-gradient(90deg,#EDEDED,#EDEDED);background-size: 43px; color: var(--dz-FC-666); }
+.plc .pi .message .blockcode { overflow: hidden; margin: 10px 0; padding: 10px; font-size:12px; border-radius:var(--dz-radius-sm); background: var(--dz-BG-5); color: var(--dz-FC-666); }
 .plc .pi .message .blockcode code { font-family: Monaco, Consolas, 'Lucida Console', 'Courier New', serif; font-size: 12px; line-height: 1.8em; }
-.plc .pi .message .blockcode ol li {padding-left: 10px;list-style-type: decimal-leading-zero;line-height: 1.8em;}
+.plc .pi .message .blockcode ol { margin: 0 !important; padding: 0 !important; list-style: none !important; }
+.plc .pi .message .blockcode ol li { padding-left: 0; list-style-type: none !important; list-style: none !important; line-height: 1.8em; }
 
 /*----- 特殊主题-投票 -----*/
 .poll {margin:10px auto;padding:10px 15px;background-color:var(--dz-BG-5);font-size:14px;border-radius:var(--dz-radius-lg)}
