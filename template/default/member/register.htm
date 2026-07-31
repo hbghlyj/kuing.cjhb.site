@@ -253,7 +253,7 @@
 </div>
 
 <script type="text/javascript">
-var ignoreEmail = <!--{if !$_G['setting']['regverify']}-->true<!--{else}-->false<!--{/if}-->;
+var ignoreEmail = <!--{if $_G['setting']['regverify']}-->false<!--{else}-->true<!--{/if}-->;
 <!--{if $bbrules && $bbrulesforce}-->
 	showBBRule();
 <!--{/if}-->
