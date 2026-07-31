@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 /**
  *      [Discuz!] (C)2001-2099 Comsenz Inc.
@@ -1566,18 +1566,4 @@ $lang = array (
 	'action_account_security_verify_password' => 'Verify Account Password',
 	'action_account_security_verify_appeal' => 'Appeal',
 
-//---------------------------------------------------------------
-// Added by Valery Votintsev
-	'login_immediately'	=> 'Login Now',//'马上登录',
-	'nofollow'		=> 'Stop follow',//'不收听',
-	'views'			=> 'Views',//'空间查看数',
-	'in'			=> ' &nbsp;In',//'在',
-	'poston'		=> 'Post ',//'发表于',
-	'views'			=> 'Views',//'查看',
-	'reply_num'		=> 'Replies',//'回复',
-	'follow_intro1'		=> 'How to broadcast?',//'广播怎么玩？',
-	'follow_intro2'		=> 'Write your message here',//'在这里可以快速发广播',
-	'follow_intro3'		=> 'Check your followings and listeners',//'查看收听的人<br/>和听众',
-	'follow_intro4'		=> 'Your content will be shown here',//'您收听的人发的广播<br/>会在这里出现',
-	'say_to'		=> '',//'说',
 );
