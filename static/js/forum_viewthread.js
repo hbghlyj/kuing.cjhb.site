@@ -843,26 +843,91 @@ function bumpthread() {
 		}).then(response => {
 			response.text().then(text => {
 				if (text.includes('succeedhandle_mods')) {
-					showPrompt(null,null,'提升成功',1000);
-				} else {
-					showPrompt(null,null,text.match(/errorhandle_mods\('([^']+)'/)[1],1000,'popuptext');
-				}
-			});
-		});
-}
-function bumpthread() {
-	const formhash = document.querySelector('input[name="formhash"]')?.value;
-	fetch('forum.php?mod=topicadmin&action=moderate&optgroup=3&modsubmit=yes&infloat=yes&inajax=1', {
-		"headers": {"content-type": "application/x-www-form-urlencoded"},
-		"body": `fid=${fid}&moderate%5B%5D=${tid}&redirect=1&operations%5B%5D=bump&formhash=${formhash}&handlekey=mods`,
-		"method": "POST"
-		}).then(response => {
-			response.text().then(text => {
-				if (text.includes('succeedhandle_mods')) {
 					showDialog('提升成功', 'right', '提升成功', 'window.location.reload();');
 				} else {
 					showDialog(text.match(/errorhandle_mods\('([^']+)'/)[1], 'error', '提升失败');
 				}
 			});
 		});
+}
+
+//===支持tikz + asymptote
+function show_tikz_window(code){
+	$('tikz_window')?.remove();
+	var tikz_window=document.createElement('div');
+	tikz_window.id='tikz_window';
+	tikz_window.className='tikzww';
+	tikz_window.innerHTML='<div style="width:100%;height:26px;cursor:move;"><a href="javascript:$(\'tikz_window\')?.remove();" class="flbc" style="float:right;margin:3px 6px 0 0;"></a></div><div><textarea class="tikzta"></textarea></div>';
+	tikz_window.querySelector('textarea').value=code.replace(/\u00a0/g,' ');
+	tikz_window.setAttribute("onmousedown", "dragMenu($(\'tikz_window\'), event, 1)");
+	document.body.append(tikz_window);
+	tikz_window.style.left = (document.body.clientWidth - tikz_window.clientWidth) / 2 + 'px';
+	tikz_window.style.top = (document.documentElement.clientHeight - tikz_window.clientHeight) / 2 + 'px';
+}
+window.show_tikz_window = show_tikz_window;
+
+//===Html模式下用bbr免打br
+function processBbr(root) {
+	let container = (root && root.getElementsByTagName) ? root : document;
+	let bbrs = container.getElementsByTagName('bbr');
+	for (let item of bbrs) {
+		item.innerHTML = item.innerHTML.replace(/\r\n/g, "<br />").replace(/\n/g, "<br />").replace(/\r/g, "<br />");
+	}
+}
+window.processBbr = processBbr;
+
+//===去br等
+function cleanPostBr(target) {
+	const posts = new Set();
+	if (!target || target === document) {
+		document.querySelectorAll('.t_f, .postmessage, .message').forEach(p => posts.add(p));
+	} else {
+		let root = typeof target === 'string' ? document.getElementById(target) : target;
+		if (root) {
+			let el = root.nodeType === Node.ELEMENT_NODE ? root : root.parentElement;
+			if (el) {
+				let container = el.closest ? el.closest('.t_f, .postmessage, .message') : null;
+				if (container) posts.add(container);
+				if (el.querySelectorAll) {
+					if (el.matches && el.matches('.t_f, .postmessage, .message')) posts.add(el);
+					el.querySelectorAll('.t_f, .postmessage, .message').forEach(p => posts.add(p));
+				}
+			}
+		}
+	}
+	posts.forEach(post => {
+		post.querySelectorAll('br').forEach(br => {
+			if (br.nextSibling && br.nextSibling.nodeType === Node.TEXT_NODE) {
+				br.nextSibling.nodeValue = br.nextSibling.nodeValue.replace(/^\n/, '');
+			}
+			if (br.previousSibling && br.previousSibling.nodeType === Node.TEXT_NODE) {
+				if (/(\\\]|\\end\{(align|gather|equation|eqnarray|multline)\*?\}|\$\$)( |&nbsp;)*$/.test(br.previousSibling.nodeValue)) {
+					br.previousSibling.nodeValue = br.previousSibling.nodeValue.replace(/( |&nbsp;)*$/, '');
+					br.remove();
+				}
+			}
+			else if (br.previousSibling && br.previousSibling.nodeType === Node.ELEMENT_NODE && br.previousSibling.matches('div.quote,div.blockcode')) {
+				br.remove();
+			}
+		});
+	});
+}
+window.cleanPostBr = cleanPostBr;
+
+function initViewthreadEnhancements(root) {
+	processBbr(root);
+	cleanPostBr(root);
+}
+
+if (document.readyState === 'loading') {
+	document.addEventListener('DOMContentLoaded', function() { initViewthreadEnhancements(document); });
+} else {
+	initViewthreadEnhancements(document);
+}
+
+const postListObserver = document.getElementById('postlist') || document.body;
+if (postListObserver) {
+	new MutationObserver(mutations => {
+		mutations.forEach(mutation => mutation.addedNodes.forEach(node => initViewthreadEnhancements(node)));
+	}).observe(postListObserver, {childList: true, subtree: true});
 }
