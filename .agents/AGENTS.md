@@ -7,3 +7,6 @@
 - **Confirm Before Overwrite**: Always explicitly confirm with the user before overwriting any existing database table or data. Show clearly which tables/rows will be affected and get user approval before proceeding.
 
 - **Never Assume Tables Are Unchanged**: Never assume a table is still in the same state as when the last backup was taken. Always compare the current live table against the backup before performing any restore or overwrite — changes (user edits, new rows, updates) may have occurred since the backup.
+
+- **Deployment via Git Pull**: Always deploy code changes to the live server by committing, pushing to git, and executing `git pull` on the server. Never use `scp` to copy individual modified files to the live server.
+
