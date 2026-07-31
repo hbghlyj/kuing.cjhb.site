@@ -25,7 +25,7 @@ function tpl_codedisp($code) {
 	$randomid = 'code_'.random(3);
 -->
 <!--{/eval}-->
-<!--{block return}--><div class="blockcode"><div id="$randomid"><code>$code</code></div><em onclick="copycode($('$randomid'));">{lang discuzcode_copyclipboard}</em></div><!--{/block}-->
+<!--{block return}--><div class="blockcode"><div id="$randomid">$code</div><em onclick="copycode($('$randomid'));">{lang discuzcode_copyclipboard}</em></div><!--{/block}-->
 <!--{eval}-->
 <!--
 	return $return;

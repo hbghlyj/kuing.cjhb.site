@@ -13,7 +13,7 @@
 #p_btn i { min-height: 24px; }
 /*主楼收藏评分高度（为了赞的深度）*/
 
-.pl .blockcode code { font-size: 14px; word-break: break-word; background: none; }
+.pl .blockcode, .pl .blockcode code { font-size: 14px; word-break: break-word; background: none; }
 
 .blockcode { white-space: pre-wrap; }
 /*代码块调整*/
