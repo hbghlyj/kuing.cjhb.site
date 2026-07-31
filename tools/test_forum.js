@@ -1268,6 +1268,8 @@ const svgAttachmentSubject = `Thread with SVG Attachment ${testRunId}`;
         await page.goto(`http://127.0.0.1:8080/forum.php?mod=post&action=newthread&fid=${forumFid}`);
         await page.waitForLoadState('networkidle');
 
+        // Test that TeX formulas ($f$) are preserved across WYSIWYG mode toggles
+        await page.fill('#e_textarea', 'Test $f$ math content');
         await page.evaluate(() => switchEditor(1));
         const outputWrapWysiwyg = await page.evaluate(() => {
             const el = document.getElementById('outputWrap');
@@ -1281,8 +1283,11 @@ const svgAttachmentSubject = `Thread with SVG Attachment ${testRunId}`;
             return el ? el.style.display : null;
         });
         assert.strictEqual(outputWrapBbcode, '', 'Assertion Error: Preview div (#outputWrap) was not revealed when switching back to BBCode mode.');
+        const editorTextAfterToggle = await page.inputValue('#e_textarea');
+        assert.strictEqual(editorTextAfterToggle, 'Test $f$ math content', 'Assertion Error: TeX math formula $f$ was corrupted after toggling WYSIWYG mode.');
+
         console.log("WYSIWYG mode & preview div toggle test passed!");
-        report += `### 8. WYSIWYG Mode & Preview Div Toggle\n- **Status**: Passed\n- **Hidden in WYSIWYG**: display: none\n- **Revealed in BBCode**: display: ''\n\n`;
+        report += `### 8. WYSIWYG Mode & Preview Div Toggle\n- **Status**: Passed\n- **Hidden in WYSIWYG**: display: none\n- **Revealed in BBCode**: display: ''\n- **Math Preservation**: $f$ preserved intact\n\n`;
 
     } catch (error) {
         console.error("Test execution failed:", error);

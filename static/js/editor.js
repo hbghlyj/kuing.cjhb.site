@@ -1789,17 +1789,6 @@ function switchEditor(mode) {
 	setEditorStyle();
 	editwin.focus();
 	setCaretAtEnd();
-	if(mode && typeof MathJax !== 'undefined' && typeof MathJax.typesetPromise === 'function') {
-		// editdoc.body may not be ready yet if the iframe was freshly written;
-		// poll via requestAnimationFrame until the body exists, then typeset.
-		(function typesetWysiwyg() {
-			if(editdoc && editdoc.body) {
-				MathJax.typesetPromise([editdoc.body]);
-			} else {
-				requestAnimationFrame(typesetWysiwyg);
-			}
-		})();
-	}
 	// Hide the live-preview div while WYSIWYG is active (iframe is the preview),
 	// show it again when returning to BBCode source mode.
 	var outputWrap = document.getElementById('outputWrap');
