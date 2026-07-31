@@ -1266,7 +1266,7 @@ i.pstatus {display:block;font-size:12px;text-align:center;color:#999}
 .plc .pi .message table td {overflow-wrap: anywhere;}
 
 .plc .pi .message .blockcode { overflow: hidden; margin: 10px 0; padding: 10px; font-size:12px; border-radius:var(--dz-radius-sm); background: var(--dz-BG-5); color: var(--dz-FC-666); }
-.plc .pi .message .blockcode, .plc .pi .message .blockcode code { display: block; font-family: Monaco, Consolas, 'Lucida Console', 'Courier New', serif; font-size: 12px; line-height: 1.8em; white-space: pre-wrap; word-break: break-all; background: none; }
+.plc .pi .message .blockcode code { display: block; font-family: Monaco, Consolas, 'Lucida Console', 'Courier New', serif; font-size: 12px; line-height: 1.8em; white-space: pre-wrap; word-break: break-all; background: none; }
 
 /*----- 特殊主题-投票 -----*/
 .poll {margin:10px auto;padding:10px 15px;background-color:var(--dz-BG-5);font-size:14px;border-radius:var(--dz-radius-lg)}

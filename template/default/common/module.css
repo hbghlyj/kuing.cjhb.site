@@ -218,7 +218,7 @@ Created & Modified by Alice, Monkey, Lushnis, Pony, Dfox & DragonLee.
 		.quote::after {content:'\201D';font-family:'Times New Roman',Times,serif !important;font-size:40px !important;color:#B2B7F2 !important;font-weight:bold;line-height:0;margin:10px 0;flex-shrink:0;display:block;align-self:flex-end}
 		.m_c .quote { width: 585px; }
 		.blockcode { overflow: hidden; margin: 10px 0; padding: 5px 10px; background: #F7F7F7; color: {MIDTEXT}; }
-			.blockcode, .blockcode code { font-family: Monaco, Consolas, 'Lucida Console', 'Courier New', serif; font-size: 12px; line-height: 1.8em; background: none; }
+			.blockcode code { font-family: Monaco, Consolas, 'Lucida Console', 'Courier New', serif; font-size: 12px; line-height: 1.8em; background: none; }
 /** end **/
 
 /** forum::modcp,misc::stat **/
@@ -1086,7 +1086,7 @@ i.pstatus { display: block; margin-bottom: -30px; font-size: 12px; text-align: c
 	.pl .quote, .pl .blockcode { margin: 10px 0; zoom: 1; }
 
 	.pl .blockcode { padding: 10px; border: 1px solid {WRAPBORDERCOLOR}; background: #F7F7F7; overflow: hidden; text-shadow: none; }
-		.pl .blockcode, .pl .blockcode code { display: block; font-family: Monaco,Consolas,'Lucida Console','Courier New',serif; font-size: 12px; line-height: 1.8em; white-space: pre-wrap; word-break: break-all; background: none; }
+		.pl .blockcode code { display: block; font-family: Monaco,Consolas,'Lucida Console','Courier New',serif; font-size: 12px; line-height: 1.8em; white-space: pre-wrap; word-break: break-all; background: none; }
 		.pl .blockcode em { margin-left: 0; color: {HIGHLIGHTLINK} !important; font-size: 12px; cursor: pointer; user-select: none; }
 		.pl .tindex { padding: 5px; width: 500px; line-height: 22px; border: 1px solid {WRAPBORDERCOLOR}; }
 			.pl .tindex h3 { border-bottom: 1px #ccc dotted; margin-bottom: 10px; padding-left: 10px; }

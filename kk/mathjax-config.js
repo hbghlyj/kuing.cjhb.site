@@ -50,7 +50,6 @@ window.MathJax = {
     packages: {'[+]': ['noerrors','mathtools','xypic']}
   },
   options: {
-    ignoreHtmlClass: 'blockcode',
     menuOptions: {
       settings: {
         texHints: false,
