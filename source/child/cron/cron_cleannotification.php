@@ -16,5 +16,4 @@ table_home_notification::t()->delete_clear(1, 30);
 $deltime = $_G['timestamp'] - 7 * 3600 * 24;
 table_home_pokearchive::t()->delete_by_dateline($deltime);
 
-table_home_notification::t()->optimize();
 
