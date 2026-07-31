@@ -543,6 +543,10 @@ function updatemodlog($tids, $action, $expiration = 0, $iscron = 0, $reason = ''
 			table_forum_threadmod::t()->insert($data);
 		}
 	}
+	$tidarray = array_filter(array_map('intval', $tidarray));
+	if(!empty($tidarray)) {
+		table_forum_thread::t()->update($tidarray, ['moderated' => 1]);
+	}
 }
 
 function isopera() {

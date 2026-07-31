@@ -1258,10 +1258,17 @@ const svgAttachmentSubject = `Thread with SVG Attachment ${testRunId}`;
         const dbTags = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT tags FROM pre_forum_thread WHERE tid='${tidOutput}';"`, { encoding: 'utf-8' }).trim();
         assert.ok(dbTags.includes('retagtest'), `Assertion Error: Database tags column for TID ${tidOutput} was not updated. Actual: ${dbTags}`);
 
+        const dbModerated = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT moderated FROM pre_forum_thread WHERE tid='${tidOutput}';"`, { encoding: 'utf-8' }).trim();
+        assert.strictEqual(dbModerated, '1', `Assertion Error: Database moderated column for TID ${tidOutput} was not set to 1 after retagging.`);
+
         const dbModLog = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT action FROM pre_forum_threadmod WHERE tid='${tidOutput}' AND action='TAG';"`, { encoding: 'utf-8' }).trim();
         assert.strictEqual(dbModLog, 'TAG', `Assertion Error: Thread moderation history log did not record action TAG for TID ${tidOutput}.`);
+
+        const modActText = await page.locator('.modact').first().textContent().catch(() => '');
+        assert.ok(modActText.includes('admin') || modActText.length > 0, `Assertion Error: Moderation log bar (.modact) did not render in viewthread after retagging.`);
+
         console.log("Tag Edit Panel & Retagging test passed!");
-        report += `### 7. Tag Edit Panel & Retagging\n- **Status**: Passed\n- **Tag Retagged**: retagtest\n- **Threadmod Log Action**: TAG\n- **Screenshot**: \`screenshot_tag_itembox_edit.png\`\n\n`;
+        report += `### 7. Tag Edit Panel & Retagging\n- **Status**: Passed\n- **Tag Retagged**: retagtest\n- **Threadmod Log Action**: TAG\n- **Moderated Column**: 1\n- **Screenshot**: \`screenshot_tag_itembox_edit.png\`\n\n`;
 
         // 8. WYSIWYG Mode & Preview Div Toggle Test
         console.log("Testing WYSIWYG mode & preview div (#outputWrap) toggle...");
