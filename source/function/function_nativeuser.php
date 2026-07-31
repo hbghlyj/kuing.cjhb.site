@@ -261,9 +261,6 @@ function native_user_checkname($username, $censor = true) {
 
 function native_user_checkemail($email, $ignoreuid = 0) {
 	$email = mb_strtolower(trim($email), 'UTF-8');
-	if($email === '') {
-		return 1;
-	}
 	if(!isemail($email) || strlen($email) > 255) {
 		return -4;
 	}
