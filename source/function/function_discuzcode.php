@@ -381,8 +381,8 @@ function discuzcode($message, $smileyoff = false, $bbcodeoff = false, $htmlon = 
 				$seg
 			);
 			$seg = str_replace(
-				["\t", '   ', '  '],
-				['&nbsp; &nbsp; &nbsp; &nbsp; ', '&nbsp; &nbsp;', '&nbsp;&nbsp;'],
+				['   ', '  '],
+				['&nbsp; &nbsp;', '&nbsp;&nbsp;'],
 				$seg
 			);
 			$result .= nl2br($seg);
@@ -390,10 +390,7 @@ function discuzcode($message, $smileyoff = false, $bbcodeoff = false, $htmlon = 
 	}
 
 	for($i = 0; $i <= $_G['forum_discuzcode']['pcodecount']; $i++) {
-		$result = str_replace([
-			"[\tDISCUZ_CODE_$i\t]",
-			"[&nbsp; &nbsp; &nbsp; &nbsp; DISCUZ_CODE_$i&nbsp; &nbsp; &nbsp; &nbsp; ]"
-		], $_G['forum_discuzcode']['codehtml'][$i], $result);
+		$result = str_replace("[\tDISCUZ_CODE_$i\t]", $_G['forum_discuzcode']['codehtml'][$i], $result);
 	}
 
 	return $result;
