@@ -902,7 +902,7 @@ a.thread_mod { height: 19px; line-height: 19px; display: inline-block; color: #4
 			.pcb h2 em { float: right; font-size: 12px; font-weight: 400; }
 			#ph { padding: 17px 0 0; }
 				#ph h1 { font-size: 20px; }
-			#fj { margin-left: 5px; }
+			#fj { margin-left: 5px; padding-top: 4px; }
 				#fj label, #fj input { margin-right: 4px; padding: 0; height: 16px; line-height: 16px; }
 		.pcb .jammer { font-size: 10px; color: {WRAPBG}; }
 
@@ -911,7 +911,7 @@ a.thread_mod { height: 19px; line-height: 19px; display: inline-block; color: #4
 		.pcb span.t_tag { cursor: pointer; border-bottom: 1px solid red; white-space: nowrap; }
 			.pcb span.t_tag:hover { border-bottom: 1px solid {NOTICETEXT}; }
 		.pct { padding-bottom: 1em; }
-		.t_fsz { min-height: 100px; }
+		.t_fsz { min-height: unset; }
 		.t_f, .t_f td { font-size: {MSGFONTSIZE}; }
 			.t_f a { color: {HIGHLIGHTLINK}; text-decoration: underline; }
 		.t_f ul { margin-left: 14px; }
@@ -933,14 +933,14 @@ a.thread_mod { height: 19px; line-height: 19px; display: inline-block; color: #4
 				.sshare__inner button { position: relative; display: flex; align-items: center; gap: 5px; height: 35px; padding: 0 12px; border: 0; border-radius: 3px; color: #FFF; background: transparent; cursor: pointer; transition: color .2s ease-in-out; }
 				.sshare__inner button:hover, .sshare__inner button:focus-visible { color: #FF8600; }
 					.sshare__inner button svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
-		.sign { overflow: hidden; margin-bottom: 10px; padding-top: 16px; border-top: 1px dashed #CCC; line-height: 1.6em; }
+		.sign { overflow: hidden; font-size: 12px; margin-top: 10px; margin-bottom: 10px; padding-top: 16px; border-top: 1px dashed #CCC; line-height: 1.6em; }
 			.sign::before { content: "SIGNATURE"; float: left; margin-top: -20px; margin-left: -8px; color: #7FCCE5; transform: scale(0.8); letter-spacing: 2px; }
 			.sign * { line-height: normal; }
 		.po { border-top: 1px dashed {COMMONBORDER}; }
 			.po .y { margin: 8px 0 0 5px; }
 			.po p { float: right; }
 				.po p a, .po p label { margin-right: 6px; }
-		.hin { opacity: 0.2;}
+		.hin { opacity: 1; }
 			.plhin:hover .hin { opacity: 1; }
 		.pob { line-height: 36px; }
 			.pob em { float: left;}
@@ -964,12 +964,12 @@ a.thread_mod { height: 19px; line-height: 19px; display: inline-block; color: #4
 		.modact { display: block; height: 32px; text-align: center; padding:30px 0 0; }
 			.modact, .modact a { line-height: 32px !important; }
 		/* 按钮 by alice */
-		#p_btn { line-height: 24px; padding:3em 0; text-align:center; }
+		#p_btn { line-height: 24px; padding: 0 0; text-align:center; }
 			#p_btn a { display: inline-block; margin-right: 6px; padding-right: 4px; padding-left: 4px; background: #E6EDF2; vertical-align: top; white-space: nowrap; border-radius: 4px; }
 				#p_btn a:hover { text-decoration: none; }
-				#p_btn i { display: block; padding: 4px; font-style: normal; cursor: pointer; }
+				#p_btn i { display: block; padding: 4px; font-style: normal; cursor: pointer; min-height: 24px; }
 					#p_btn img { float: left; margin: 4px 4px 0 0; }
-					#p_btn em { float: left; margin-top: 1px; font-size: 14px; }
+					#p_btn em { float: left; margin-top: 1px; font-size: 1em; }
 					#p_btn span { padding-left: 2px; }
 			.tshare { padding-bottom: 10px; }
 				.tshare strong { float: left; margin-right: 10px; }
@@ -1086,7 +1086,7 @@ i.pstatus { display: block; margin-bottom: -30px; font-size: 12px; text-align: c
 	.pl .quote, .pl .blockcode { margin: 10px 0; zoom: 1; }
 
 	.pl .blockcode { padding: 10px; border: 1px solid {WRAPBORDERCOLOR}; background: #F7F7F7; overflow: hidden; text-shadow: none; }
-		.pl .blockcode code { display: block; font-family: Monaco,Consolas,'Lucida Console','Courier New',serif; font-size: 12px; line-height: 1.8em; white-space: pre-wrap; word-break: break-all; background: none; }
+		.pl .blockcode code { display: block; font-family: Monaco,Consolas,'Lucida Console','Courier New',serif; font-size: 14px; line-height: 1.8em; white-space: pre-wrap; word-break: break-word; background: none; }
 		.pl .blockcode em { margin-left: 0; color: {HIGHLIGHTLINK} !important; font-size: 12px; cursor: pointer; user-select: none; }
 		.pl .tindex { padding: 5px; width: 500px; line-height: 22px; border: 1px solid {WRAPBORDERCOLOR}; }
 			.pl .tindex h3 { border-bottom: 1px #ccc dotted; margin-bottom: 10px; padding-left: 10px; }
@@ -2332,14 +2332,7 @@ body { background: none !important; }
 .comment-form-left { display: flex; align-items: center; gap: 6px;}
 .comment-form-right { display: flex; align-items: center; gap: 6px;}
 
-/* Custom zdy3 styles */
-.pls .o .pm2,.pls .o .addflw { font-size: 12px; }
-#fj { padding-top: 4px; }
-#p_btn { padding: 0 0; }
-#p_btn em { font-size: 1em; }
-#p_btn i { min-height: 24px; }
-.pl .blockcode code { font-size: 14px; word-break: break-word; background: none; }
-.blockcode { white-space: pre-wrap; }
+/* Custom viewthread enhancements */
 .pattl { overflow: visible; }
 #newspecial_menu { width: auto; padding-right: 10px; }
 i.pstatus { margin-bottom: unset; }
@@ -2348,14 +2341,11 @@ i.pstatus { margin-bottom: unset; }
 .ptg { margin-top: 30px !important; }
 .relatedthreadlist { line-height: 1.3; column-count: 3; }
 .t_f img[smilieid] { vertical-align: text-bottom; }
-.t_fsz { min-height: unset; }
 .reason_slct .reasonselect { height: auto; overflow: auto !important; }
 .ratl th, .ratl td, .ratc { white-space: unset; }
 .psth { clear: both; margin-bottom: 1em; }
 .psta { width: unset; line-height: unset; padding-right: 2em; }
 .psti { margin-left: 60px; }
-.sign { font-size: 12px; margin-top: 10px; }
-.hin { opacity: 1; }
 #mulu { position:fixed; top: 50%; font-size:12px; transform: translate(calc(-100% - 4px), -50%);}
 #mulu>select{ font-family: sans-serif;padding: 0;overflow: hidden;border: none;box-shadow: 0 0 2px #2B7ACD; }
 .dspn{ display:none; }
