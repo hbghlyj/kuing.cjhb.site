@@ -108,6 +108,8 @@
 		<!--{elseif !empty($_GET['repquote'])}-->
 			<input type="hidden" name="reppost" value="$_GET[repquote]" />
 		<!--{/if}-->
+	<!--{elseif $_GET[action] == 'edit' && $quotemessage}-->
+		<input type="hidden" name="noticetrimstr" value="$noticetrimstr" />
 	<!--{/if}-->
 	<!--{if $_GET[action] == 'edit'}-->
 		<input type="hidden" name="fid" id="fid" value="$_G[fid]" />

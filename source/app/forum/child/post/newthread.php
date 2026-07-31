@@ -14,6 +14,8 @@ if(empty($_G['forum']['fid']) || $_G['forum']['type'] == 'group') {
 	showmessage('forum_nonexistence');
 }
 
+$quotemessage = '';
+
 if(($special == 1 && !$_G['group']['allowpostpoll']) || ($special == 2 && !$_G['group']['allowposttrade']) || ($special == 3 && !$_G['group']['allowpostreward']) || ($special == 4 && !$_G['group']['allowpostactivity']) || ($special == 5 && !$_G['group']['allowpostdebate'])) {
 	showmessage('group_nopermission', NULL, ['grouptitle' => $_G['group']['grouptitle']], ['login' => 1]);
 }

@@ -22,6 +22,9 @@
 			<input type="hidden" name="tid" value="$_G[tid]" />
 			<input type="hidden" name="pid" value="$pid" />
 			<input type="hidden" name="page" value="$_GET[page]" />
+			<!--{if $quotemessage}-->
+			<input type="hidden" name="noticetrimstr" value="$noticetrimstr" />
+			<!--{/if}-->
 			<!--{elseif $_GET[action] == 'reply'}-->
 			<input type="hidden" name="noticetrimstr" value="$noticetrimstr" />
 			<input type="hidden" name="usesig" value="{if $_G['group']['maxsigsize']}1{else}0{/if}"/>
@@ -83,7 +86,7 @@
 				<script type="text/javascript" reload="1">simulateSelect('stand');</script>
 			</div>
 			<!--{/if}-->
-			<!--{if $_GET[action] == 'reply' && $quotemessage}-->
+			<!--{if $quotemessage}-->
 				<div class="pbt cl">$quotemessage</div>
 			<!--{/if}-->
 

@@ -226,6 +226,33 @@ if(!$editsubmit) {
 	$language = lang('forum/misc');
 	$postinfo['message'] = preg_replace($postinfo['htmlon'] ? $language['post_edithtml_regexp'] : (!$_G['forum']['allowbbcode'] || $postinfo['bbcodeoff'] ? $language['post_editnobbcode_regexp'] : $language['post_edit_regexp']), '', $postinfo['message']);
 
+	$quotemessage = '';
+	$noticetrimstr = '';
+	if(!empty($postinfo['message']) && preg_match('/^[ \t\r\n]*\[quote\]/i', $postinfo['message'], $qm)) {
+		$qoffset = strlen($qm[0]);
+		$qlength = strlen($postinfo['message']);
+		$qdepth = 1;
+		$qend = 0;
+		while($qoffset < $qlength && preg_match('/\[(\/?)quote\]/i', $postinfo['message'], $qm2, PREG_OFFSET_CAPTURE, $qoffset)) {
+			$qoffset = $qm2[0][1] + strlen($qm2[0][0]);
+			if($qm2[1][0] === '') {
+				$qdepth++;
+			} else {
+				$qdepth--;
+				if($qdepth <= 0) {
+					$qend = $qoffset;
+					break;
+				}
+			}
+		}
+		if($qend > 0) {
+			$quoteblock = substr($postinfo['message'], 0, $qend);
+			$postinfo['message'] = trim(substr($postinfo['message'], $qend));
+			$quotemessage = discuzcode(htmlspecialchars_decode($quoteblock), 0, 0);
+			$noticetrimstr = $quoteblock;
+		}
+	}
+
 	if($special == 5) {
 		$standselected = [$firststand => 'selected="selected"'];
 	}

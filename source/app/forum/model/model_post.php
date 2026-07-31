@@ -527,6 +527,9 @@ class model_post extends discuz_model {
 			$pinvisible = $this->param['modnewreplies'] ? -2 : ($this->thread['displayorder'] == -4 ? -3 : 0);
 		}
 
+		if(!empty($this->param['noticetrimstr'])) {
+			$this->param['message'] = $this->param['noticetrimstr']."\n".$this->param['message'];
+		}
 		$this->param['message'] = preg_replace('/\[attachimg\](\d+)\[\/attachimg\]/is', '[attach]\1[/attach]', $this->param['message']);
 		$this->param['parseurloff'] = !empty($this->param['parseurloff']);
 
