@@ -552,7 +552,7 @@ function dstrpos($string, $arr, $returnvalue = false) {
 }
 
 function isemail($email) {
-	return strlen($email) > 6 && strlen($email) <= 255 && preg_match('/^([A-Za-z0-9\-_.+]+)@([A-Za-z0-9\-]+[.][A-Za-z0-9\-.]+)$/', $email);
+	return strlen($email) <= 255 && filter_var($email, FILTER_VALIDATE_EMAIL) !== false;
 }
 
 function quescrypt($questionid, $answer) {
