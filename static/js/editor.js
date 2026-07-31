@@ -98,6 +98,26 @@ function initEditor() {
 		savedatat = setInterval("savedataTime()", 10000);
 	}
 	checkFocus();
+	if(typeof postform !== 'undefined' && postform && postform.pid && postform.pid.value) {
+		var pid = postform.pid.value;
+		try {
+			var savedCursor = sessionStorage.getItem('discuz_edit_cursor_' + pid);
+			if(savedCursor) {
+				var cData = JSON.parse(savedCursor);
+				setTimeout(function() {
+					var tObj = typeof textobj !== 'undefined' && textobj ? textobj : $(editorid + '_textarea');
+					if(tObj) {
+						if(typeof tObj.setSelectionRange === 'function') {
+							tObj.setSelectionRange(cData.pos, cData.pos);
+						}
+						if(cData.scrollTop) {
+							tObj.scrollTop = cData.scrollTop;
+						}
+					}
+				}, 150);
+			}
+		} catch(e) {}
+	}
 }
 
 function initesbar() {

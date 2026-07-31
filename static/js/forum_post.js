@@ -106,6 +106,16 @@ function validate(theform) {
 		if(confirm($L('readperm_confirm')) == false) {
 			return false;
 		}
+	if(theform && theform.pid && theform.pid.value) {
+		var pid = theform.pid.value;
+		var tObj = typeof textobj !== 'undefined' && textobj ? textobj : (typeof editorid !== 'undefined' ? $(editorid + '_textarea') : theform.message);
+		if(tObj) {
+			var pos = typeof tObj.selectionStart !== 'undefined' ? tObj.selectionStart : 0;
+			var sTop = tObj.scrollTop || 0;
+			try {
+				sessionStorage.setItem('discuz_edit_cursor_' + pid, JSON.stringify({pos: pos, scrollTop: sTop}));
+			} catch(e) {}
+		}
 	}
 	theform.message.value = message;
 	if($('postsubmit').name == 'editsubmit') {
