@@ -20,7 +20,8 @@ if($postusers) {
 		$selfuids[] = $_G['uid'];
 	}
 	if(!(getglobal('setting/threadguestlite') && !$_G['uid'])) {
-		if($_G['setting']['verify']['enabled']) {
+		$is_leftinfo_closed = !empty($close_leftinfo) || !empty($GLOBALS['close_leftinfo']);
+		if(!$is_leftinfo_closed && $_G['setting']['verify']['enabled']) {
 			$member_verify = table_common_member_verify::t()->fetch_all($uids);
 			foreach($member_verify as $uid => $data) {
 				foreach($_G['setting']['verify'] as $vid => $verify) {
@@ -35,27 +36,29 @@ if($postusers) {
 			}
 		}
 		$member_count = table_common_member_count::t()->fetch_all($selfuids);
-		$member_status = table_common_member_status::t()->fetch_all($uids);
-		$member_field_forum = table_common_member_field_forum::t()->fetch_all($uids);
-		$member_profile = table_common_member_profile::t()->fetch_all($uids);
-		$member_field_home = table_common_member_field_home::t()->fetch_all($uids);
+		if(!$is_leftinfo_closed) {
+			$member_status = table_common_member_status::t()->fetch_all($uids);
+			$member_field_forum = table_common_member_field_forum::t()->fetch_all($uids);
+			$member_profile = table_common_member_profile::t()->fetch_all($uids);
+			$member_field_home = table_common_member_field_home::t()->fetch_all($uids);
+		}
 	}
 
-	if($_G['setting']['threadblacklist'] && $_G['uid'] && $member_count[$_G['uid']]['blacklist']) {
+	if($_G['setting']['threadblacklist'] && $_G['uid'] && !empty($member_count[$_G['uid']]['blacklist'])) {
 		$member_blackList = table_home_blacklist::t()->fetch_all_by_uid_buid($_G['uid'], $uids);
 	}
 
 	foreach(table_common_member::t()->fetch_all($uids) as $uid => $postuser) {
 		$member_field_home[$uid]['privacy'] = empty($member_field_home[$uid]['privacy']) ? [] : dunserialize($member_field_home[$uid]['privacy']);
 		$postuser['memberstatus'] = $postuser['status'];
-		$postuser['authorinvisible'] = $member_status[$uid]['invisible'];
-		$postuser['signature'] = $member_field_forum[$uid]['sightml'];
+		$postuser['authorinvisible'] = $member_status[$uid]['invisible'] ?? 0;
+		$postuser['signature'] = $member_field_forum[$uid]['sightml'] ?? '';
 		unset($member_field_home[$uid]['privacy']['feed'], $member_field_home[$uid]['privacy']['view'], $postuser['status'], $member_status[$uid]['invisible'], $member_field_forum[$uid]['sightml']);
 		$postusers[$uid] = array_merge((isset($member_verify[$uid]) ? (array)$member_verify[$uid] : []), (array)$member_field_home[$uid], (array)$member_profile[$uid], (array)$member_count[$uid], (array)$member_status[$uid], (array)$member_field_forum[$uid], $postuser);
 		if($postusers[$uid]['regdate'] + $postusers[$uid]['oltime'] * 3600 > TIMESTAMP) {
 			$postusers[$uid]['oltime'] = 0;
 		}
-		$postusers[$uid]['office'] = $postusers[$uid]['position'];
+		$postusers[$uid]['office'] = $postusers[$uid]['position'] ?? '';
 		$postusers[$uid]['inblacklist'] = !empty($member_blackList[$uid]);
 		$postusers[$uid]['groupcolor'] = $_G['cache']['usergroups'][$postuser['groupid']]['color'];
 		unset($postusers[$uid]['position']);
