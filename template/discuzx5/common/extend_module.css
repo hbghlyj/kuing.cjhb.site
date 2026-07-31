@@ -104,10 +104,12 @@
 /**end**/
 /**forum::viewthread**/
 code {
-  background-color: #eeeeee;
-  border-radius: 3px;
-  font-family: "Courier New", monospace;
-  padding: 0 3px;
+  font-family: Consolas, monospace;
+  font-size: 14.4px;
+  white-space-collapse: preserve;
+  border: 1px solid rgb(225, 228, 229);
+  padding: 2px;
+  color: rgb(231, 76, 60);
 }
 details > summary {
   padding: 2px 6px;
