@@ -18,13 +18,23 @@ for (let item of bbrs) {
 }
 
 //===去br等
-function cleanPostBr(root) {
-    const posts = [];
-    if(root.nodeType === Node.ELEMENT_NODE) {
-        if(root.matches && root.matches('.t_f,.postmessage,.message')) posts.push(root);
-        if(root.querySelectorAll) posts.push(...root.querySelectorAll('.t_f,.postmessage,.message'));
-    } else if(root === document) {
-        posts.push(...document.querySelectorAll('.t_f,.postmessage,.message'));
+function cleanPostBr(target) {
+    const posts = new Set();
+    if (!target || target === document) {
+        document.querySelectorAll('.t_f, .postmessage, .message').forEach(p => posts.add(p));
+    } else {
+        let root = typeof target === 'string' ? document.getElementById(target) : target;
+        if (root) {
+            let el = root.nodeType === Node.ELEMENT_NODE ? root : root.parentElement;
+            if (el) {
+                let container = el.closest ? el.closest('.t_f, .postmessage, .message') : null;
+                if (container) posts.add(container);
+                if (el.querySelectorAll) {
+                    if (el.matches && el.matches('.t_f, .postmessage, .message')) posts.add(el);
+                    el.querySelectorAll('.t_f, .postmessage, .message').forEach(p => posts.add(p));
+                }
+            }
+        }
     }
     posts.forEach(post => {
         post.querySelectorAll('br').forEach(br => {
@@ -46,9 +56,10 @@ function cleanPostBr(root) {
         });
     });
 }
+window.cleanPostBr = cleanPostBr;
 cleanPostBr(document);
 
-const postList = document.getElementById('postlist');
+const postList = document.getElementById('postlist') || document.body;
 if(postList) {
     new MutationObserver(mutations => {
         mutations.forEach(mutation => mutation.addedNodes.forEach(node => cleanPostBr(node)));

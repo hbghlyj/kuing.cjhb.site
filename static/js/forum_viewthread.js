@@ -392,6 +392,9 @@ function succeedhandle_comment(locationhref, message, param) {
 
 function succeedhandle_postappend(locationhref, message, param) {
 	ajaxget('forum.php?mod=viewthread&tid=' + param['tid'] + '&viewpid=' + param['pid'], 'post_' + param['pid'], 'ajaxwaitid', null, null, function() {
+		if(typeof cleanPostBr == 'function') {
+			cleanPostBr('post_' + param['pid']);
+		}
 		if(typeof updateMulu == 'function') {
 			updateMulu();
 		}
