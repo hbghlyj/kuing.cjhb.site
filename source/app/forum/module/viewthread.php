@@ -726,6 +726,13 @@ if(!empty($_G['setting']['recommendthread']['status']) && $_G['forum_thread']['r
 
 $_G['forum_thread']['userrecommended'] = $_G['uid'] && table_forum_memberrecommend::t()->fetch_by_recommenduid_tid($_G['uid'], $_G['tid']) ? 1 : 0;
 $_G['forum_thread']['userfavorited'] = $_G['uid'] && $_G['forum_thread']['favtimes'] && table_home_favorite::t()->fetch_by_id_idtype($_G['tid'], 'tid', $_G['uid']) ? 1 : 0;
+$_G['forum_thread']['recommendmembers'] = '';
+if($_G['forum_thread']['recommend_add'] || $_G['forum_thread']['recommend_sub']) {
+	$recommenduids = array_column(DB::fetch_all('SELECT recommenduid FROM '.DB::table('forum_memberrecommend').' WHERE tid='.$_G['tid']), 'recommenduid');
+	if($recommenduids) {
+		$_G['forum_thread']['recommendmembers'] = implode("\n", array_column(DB::fetch_all('SELECT username FROM '.DB::table('common_member').' WHERE uid IN ('.dimplode($recommenduids).')'), 'username'))."\n";
+	}
+}
 
 $allowblockrecommend = getglobal('group/allowdiy') || getstatus(getglobal('member/allowadmincp'), 4) || getstatus(getglobal('member/allowadmincp'), 5) || getstatus(getglobal('member/allowadmincp'), 6);
 if($_G['setting']['portalstatus']) {
