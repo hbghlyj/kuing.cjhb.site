@@ -98,7 +98,7 @@ if($_G['setting']['repliesrank'] && $postlist) {
 	$hotreply = table_forum_hotreply_number::t()->fetch_all_by_pids(array_keys($postlist));
 	if($hotreply) {
 		$pids_with_reviews = array_keys($hotreply);
-		$member_reviews = DB::fetch_all('SELECT m.pid, m.attitude, cm.username FROM '.DB::table('forum_hotreply_member').' m INNER JOIN '.DB::table('common_member').' cm ON m.uid = cm.uid WHERE m.pid IN ('.dimplode($pids_with_reviews).') AND m.uid > 0');
+		$member_reviews = DB::fetch_all('SELECT m.pid, m.attitude, m.uid, cm.username FROM '.DB::table('forum_hotreply_member').' m INNER JOIN '.DB::table('common_member').' cm ON m.uid = cm.uid WHERE m.pid IN ('.dimplode($pids_with_reviews).') AND m.uid > 0');
 
 		foreach($hotreply as $pid => $post) {
 			$postlist[$pid]['postreview']['support'] = dintval($post['support']);
@@ -111,8 +111,14 @@ if($_G['setting']['repliesrank'] && $postlist) {
 			$pid = $row['pid'];
 			if($row['attitude'] == 1) {
 				$postlist[$pid]['postreview']['support_member'] .= $row['username']."\n";
+				if($row['uid'] == $_G['uid']) {
+					$postlist[$pid]['postreview']['supported'] = 1;
+				}
 			} else {
 				$postlist[$pid]['postreview']['against_member'] .= $row['username']."\n";
+				if($row['uid'] == $_G['uid']) {
+					$postlist[$pid]['postreview']['opposed'] = 1;
+				}
 			}
 		}
 	}

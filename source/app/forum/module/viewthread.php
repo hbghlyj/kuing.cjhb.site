@@ -724,6 +724,9 @@ if(!empty($_G['setting']['recommendthread']['status']) && $_G['forum_thread']['r
 	}
 }
 
+$_G['forum_thread']['userrecommended'] = $_G['uid'] && table_forum_memberrecommend::t()->fetch_by_recommenduid_tid($_G['uid'], $_G['tid']) ? 1 : 0;
+$_G['forum_thread']['userfavorited'] = $_G['uid'] && table_home_favorite::t()->fetch_by_id_idtype($_G['tid'], 'tid', $_G['uid']) ? 1 : 0;
+
 $allowblockrecommend = getglobal('group/allowdiy') || getstatus(getglobal('member/allowadmincp'), 4) || getstatus(getglobal('member/allowadmincp'), 5) || getstatus(getglobal('member/allowadmincp'), 6);
 if($_G['setting']['portalstatus']) {
 	$allowpostarticle = $_G['group']['allowmanagearticle'] || $_G['group']['allowpostarticle'] || getstatus($_G['member']['allowadmincp'], 2) || getstatus($_G['member']['allowadmincp'], 3);

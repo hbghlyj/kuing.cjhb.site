@@ -960,7 +960,9 @@ a.thread_mod { height: 19px; line-height: 19px; display: inline-block; color: #4
 			.push:before { content: "\f10f"; }
 			.pob em a.replyadd:before { content: "\f110"; font-size: smaller; }
 			.pob em a.replysubtract:before { content: "\f111"; font-size: smaller; }
-			em:not(:hover)>.replysubtract { display: none; }
+			.pob em a.replyadd.active:before, .pob em a.replysubtract.active:before { color: #FF9C00; }
+			.pob em a.replyadd.active, .pob em a.replysubtract.active { color: #FF9C00; }
+			#k_favorite.active .fc-l, #k_favorite.active .xi1 { color: #FF9C00; }
 		.modact { display: block; height: 32px; text-align: center; padding:30px 0 0; }
 			.modact, .modact a { line-height: 32px !important; }
 		/* 按钮 by alice */
