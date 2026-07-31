@@ -106,6 +106,7 @@ function validate(theform) {
 		if(confirm($L('readperm_confirm')) == false) {
 			return false;
 		}
+	}
 	if(theform && theform.pid && theform.pid.value) {
 		var pid = theform.pid.value;
 		var tObj = typeof textobj !== 'undefined' && textobj ? textobj : (typeof editorid !== 'undefined' ? $(editorid + '_textarea') : theform.message);
