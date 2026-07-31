@@ -140,7 +140,7 @@ if($_GET['op'] == 'delete') {
 	$fav = table_home_favorite::t()->fetch_by_id_idtype($id, $idtype, $_G['uid']);
 	if($fav) {
 		$extrajs = '';
-		if(($type == 'forum' || $type == 'group' || $type == 'thread') && ($_GET['formhash'] == FORMHASH || $_POST['formhash'] == FORMHASH || submitcheck('favoritesubmit'))) {
+		if(submitcheck('favoritesubmit', 1)) {
 			deletefavorite($fav);
 			table_home_favorite::t()->delete($fav['favid']);
 			switch($type) {
@@ -159,7 +159,7 @@ if($_GET['op'] == 'delete') {
 	$description_show = nl2br($description);
 
 	$fav_count = table_home_favorite::t()->count_by_id_idtype($id, $idtype);
-	if(submitcheck('favoritesubmit') || ($type == 'forum' || $type == 'group' || $type == 'thread') && $_GET['formhash'] == FORMHASH) {
+	if(submitcheck('favoritesubmit', 1)) {
 		$arr = [
 			'uid' => intval($_G['uid']),
 			'idtype' => $idtype,
