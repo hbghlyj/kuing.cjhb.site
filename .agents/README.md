@@ -6,4 +6,5 @@
 - [Deployment](deployment.md)
 - [Runtime](runtime.md)
 - [Database](database.md)
+- [Logging](logging.md)
 
