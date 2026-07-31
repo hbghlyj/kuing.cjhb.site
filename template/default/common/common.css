@@ -527,7 +527,7 @@ Last Modify:	Pony
 
 /* 分享按钮 */ .oshr { float: right; margin-left: 5px; padding: 0 5px; border: 1px solid; border-color: #CCC #A9A9A9 #A9A9A9 #CCC; }
 				.oshr:hover { text-decoration: none; }
-				.oshr:before { font-family: dzicon; content: "\f114"; line-height: 14px; font-size: 16px; color: #FF9C00; margin-right: 2px; }
+				.oshr:before { font-family: dzicon; content: "\f114"; line-height: 14px; font-size: 16px; color: #888; margin-right: 2px; }
 /* 收藏按钮 with oshr */ .ofav:before { content: "\f12d"; }
 /* 邀请按钮 with oshr */ .oivt:before { content: "\f13e"; }
 
