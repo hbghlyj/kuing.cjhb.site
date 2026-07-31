@@ -1054,7 +1054,8 @@ function viewthread_procpost($post, $lastvisit, $maxposition = 0) {
 		} else {
 			$post['message'] = ' 于 '.dgmdate($post['lastupdate'], 'u').' 编辑 </i>'.$post['message'];
 		}
-		$post['message'] = DB::fetch_first('SELECT username FROM '.DB::table('common_member').' WHERE uid='.$post['updateuid'])['username'].$post['message'];
+		$updateusername = $post['updateuid'] == $post['authorid'] ? $post['username'] : ($postusers[$post['updateuid']]['username'] ?? DB::result_first('SELECT username FROM '.DB::table('common_member').' WHERE uid='.$post['updateuid']));
+		$post['message'] = $updateusername.$post['message'];
 		if(currentlang() == 'EN') {
 			$post['message'] = '<i class="pstatus">Last edited by '.$post['message'];
 		} else {

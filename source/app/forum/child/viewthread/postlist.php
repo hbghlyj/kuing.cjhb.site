@@ -92,19 +92,24 @@ if($postlist && !empty($rushids)) {
 }
 
 if($_G['setting']['repliesrank'] && $postlist) {
-	if($postlist) {
-		foreach(table_forum_hotreply_number::t()->fetch_all_by_pids(array_keys($postlist)) as $pid => $post) {
-			if($postlist[$pid]['postreview']['support'] = dintval($post['support'])) {
-				$postlist[$pid]['postreview']['support_member'] = '';
-				foreach(DB::fetch_all('SELECT uid FROM '.DB::table('forum_hotreply_member').' WHERE attitude=1 AND pid='.$pid) as $row) {
-					$postlist[$pid]['postreview']['support_member'] .= DB::result_first('SELECT username FROM '.DB::table('common_member').' WHERE uid='.$row['uid'].' LIMIT 1')."\n";
-				}
-			}
-			if($postlist[$pid]['postreview']['against'] = dintval($post['against'])) {
-				$postlist[$pid]['postreview']['against_member'] = '';
-				foreach(DB::fetch_all('SELECT uid FROM '.DB::table('forum_hotreply_member').' WHERE attitude=0 AND pid='.$pid) as $row) {
-					$postlist[$pid]['postreview']['against_member'] .= DB::result_first('SELECT username FROM '.DB::table('common_member').' WHERE uid='.$row['uid'].' LIMIT 1')."\n";
-				}
+	$hotreply = table_forum_hotreply_number::t()->fetch_all_by_pids(array_keys($postlist));
+	if($hotreply) {
+		$pids_with_reviews = array_keys($hotreply);
+		$member_reviews = DB::fetch_all('SELECT m.pid, m.attitude, cm.username FROM '.DB::table('forum_hotreply_member').' m INNER JOIN '.DB::table('common_member').' cm ON m.uid = cm.uid WHERE m.pid IN ('.dimplode($pids_with_reviews).') AND m.uid > 0');
+
+		foreach($hotreply as $pid => $post) {
+			$postlist[$pid]['postreview']['support'] = dintval($post['support']);
+			$postlist[$pid]['postreview']['against'] = dintval($post['against']);
+			$postlist[$pid]['postreview']['support_member'] = '';
+			$postlist[$pid]['postreview']['against_member'] = '';
+		}
+
+		foreach($member_reviews as $row) {
+			$pid = $row['pid'];
+			if($row['attitude'] == 1) {
+				$postlist[$pid]['postreview']['support_member'] .= $row['username']."\n";
+			} else {
+				$postlist[$pid]['postreview']['against_member'] .= $row['username']."\n";
 			}
 		}
 	}
