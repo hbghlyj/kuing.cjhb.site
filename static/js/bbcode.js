@@ -337,7 +337,7 @@ function html2bbcode(str) {
 		str = str.replace(/<\/div>((<br[^>]*>){1,})<div>/ig, '$1');
 	}
 
-	str = str.replace(/<div\sclass=["']?blockcode["']?>[\s\S]*?<blockquote><code>([\s\S]+?)<\/code><\/blockquote>[\s\S]*?<\/div>/ig, function($1, $2) {return codetag($2);});
+	str = str.replace(/<div\sclass=["']?blockcode["']?>[\s\S]*?<code>([\s\S]+?)<\/code>[\s\S]*?<\/div>/ig, function($1, $2) {return codetag($2);});
 
 	if(!fetchCheckbox('bbcodeoff') && allowbbcode) {
 		var postbg = '';
@@ -422,7 +422,7 @@ function html2bbcode(str) {
 		str = str.replace(/<img([^>]*src[^>]*)>/ig, function($1, $2) {return imgtag($2);});
 		str = str.replace(/<a\s+?name=(["']?)(.+?)(\1)[\s\S]*?>([\s\S]*?)<\/a>/ig, '$4');
 		str = str.replace(/<div[^>]*quote[^>]*><blockquote>([\s\S]*?)<\/blockquote><\/div>([\s\S]*?)(<br[^>]*>)?/ig, "[quote]$1[/quote]");
-		str = str.replace(/<div[^>]*blockcode[^>]*><blockquote><code>([\s\S]*?)<\/code><\/blockquote><\/div>([\s\S]*?)(<br[^>]*>)?/ig, "[code]$1[/code]");
+		str = str.replace(/<div[^>]*blockcode[^>]*><code>([\s\S]*?)<\/code><\/div>([\s\S]*?)(<br[^>]*>)?/ig, "[code]$1[/code]");
 		str = str.replace(/<code[^>]*>([\s\S]*?)<\/code>/ig, "`$1`");
 
 		str = recursion('b', str, 'simpletag', 'b');
@@ -531,7 +531,7 @@ function litag(listoptions, text) {
 function parsecode(text) {
 	DISCUZCODE['num']++;
 	text = text.replace(/\$/ig, '$$$$');
-	DISCUZCODE['html'][DISCUZCODE['num']] = '<div class="blockcode"><blockquote><code>' + htmlspecialchars(text) + '</code></blockquote></div>';
+	DISCUZCODE['html'][DISCUZCODE['num']] = '<div class="blockcode"><code>' + htmlspecialchars(text) + '</code></div>';
 	return "[\tDISCUZ_CODE_" + DISCUZCODE['num'] + "\t]";
 }
 

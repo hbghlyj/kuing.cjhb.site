@@ -1208,8 +1208,8 @@ function showEditorMenu(tag, params) {
 				break;
 			case 'code':
 				if(wysiwyg) {
-					opentag = '<div class="blockcode"><blockquote>';
-					closetag = '</blockquote></div><br />';
+					opentag = '<div class="blockcode"><code>';
+					closetag = '</code></div><br />';
 				}
 			case 'quote':
 				if(wysiwyg && tag == 'quote') {
@@ -1334,8 +1334,8 @@ function showEditorMenu(tag, params) {
 			case 'code':
 				if(wysiwyg) {
 					var isCodeTag = 1 ;
-					opentag = '<div class="blockcode"><blockquote>';
-					closetag = '</blockquote></div><br />';
+					opentag = '<div class="blockcode"><code>';
+					closetag = '</code></div><br />';
 					if(!BROWSER.ie) {
 						selection = selection ? selection : '\n';
 					}
