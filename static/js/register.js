@@ -350,7 +350,11 @@ function checkemail(id) {
 		errormessage(id, $L('email_invalid'));
 		return;
 	}
+	var x = new Ajax();
 	$('tip_' + id).parentNode.className = $('tip_' + id).parentNode.className.replace(/ p_right/, '');
+	x.get('forum.php?mod=ajax&inajax=yes&infloat=register&handlekey=register&ajaxmenu=1&action=checkemail&email=' + encodeURIComponent(email), function(s) {
+		errormessage(id, s);
+	});
 }
 
 function checkinvite() {
