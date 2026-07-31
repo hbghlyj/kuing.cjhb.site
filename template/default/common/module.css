@@ -1086,9 +1086,7 @@ i.pstatus { display: block; margin-bottom: -30px; font-size: 12px; text-align: c
 	.pl .quote, .pl .blockcode { margin: 10px 0; zoom: 1; }
 
 	.pl .blockcode { padding: 10px; border: 1px solid {WRAPBORDERCOLOR}; background: #F7F7F7; overflow: hidden; text-shadow: none; }
-		.pl .blockcode ol { margin: 0 !important; padding: 0 !important; list-style: none !important; }
-			.pl .blockcode ol li { padding-left: 0; list-style-type: none !important; list-style: none !important; font-family: Monaco,Consolas,'Lucida Console','Courier New',serif; font-size: 12px; line-height: 1.8em; }
-				.pl .blockcode ol li:hover { background: {WRAPBG}; color: {HIGHLIGHTLINK}; }
+		.pl .blockcode code { display: block; font-family: Monaco,Consolas,'Lucida Console','Courier New',serif; font-size: 12px; line-height: 1.8em; white-space: pre-wrap; word-break: break-all; }
 		.pl .blockcode em { margin-left: 0; color: {HIGHLIGHTLINK} !important; font-size: 12px; cursor: pointer; user-select: none; }
 		.pl .tindex { padding: 5px; width: 500px; line-height: 22px; border: 1px solid {WRAPBORDERCOLOR}; }
 			.pl .tindex h3 { border-bottom: 1px #ccc dotted; margin-bottom: 10px; padding-left: 10px; }
