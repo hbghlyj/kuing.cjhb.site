@@ -70,7 +70,16 @@ class table_forum_threadmod extends discuz_table {
 
 	public function delete_by_dateline($dateline) {
 		$dateline = dintval($dateline);
-		return DB::delete($this->_table, DB::field('tid', 0, '>').' AND '.DB::field('dateline', $dateline, '<'));
+		$tids = DB::fetch_all('SELECT DISTINCT tid FROM %t WHERE tid > 0 AND dateline < %d', [$this->_table, $dateline], 'tid');
+		$result = DB::delete($this->_table, DB::field('tid', 0, '>').' AND '.DB::field('dateline', $dateline, '<'));
+		if($tids) {
+			$remaining_tids = DB::fetch_all('SELECT DISTINCT tid FROM %t WHERE tid IN (%n)', [$this->_table, array_keys($tids)], 'tid');
+			$no_mod_tids = array_diff_key($tids, $remaining_tids);
+			if($no_mod_tids) {
+				table_forum_thread::t()->update(array_keys($no_mod_tids), ['moderated' => 0]);
+			}
+		}
+		return $result;
 	}
 
 	public function update_by_tid_action($tids, $action, $data) {
