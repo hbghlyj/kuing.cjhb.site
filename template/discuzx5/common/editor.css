@@ -1,5 +1,5 @@
 .edt {border:1px solid;border-color:var(--dz-borderb);border-radius:var(--dz-radius-s)}
-.edt .bar {padding:10px 10px 8px;height:56px;border-bottom:1px solid var(--dz-borderb);background:var(--dz-bgc);border-radius:var(--dz-radius-s) var(--dz-radius-s) 0 0}
+.edt .bar {height:56px;border-bottom:1px solid var(--dz-borderb);background:var(--dz-bgc);border-radius:var(--dz-radius-s) var(--dz-radius-s) 0 0}
 .edt .cst {background:var(--dz-bgc);border-bottom:1px solid var(--dz-borderb)}
 .edt .cst.nbb {border-bottom:none !important}
 .edt .bbar {height:34px;line-height:34px;border-top:1px solid var(--dz-borderb);text-align:right;background:none;border-radius:0 0 var(--dz-radius-s) var(--dz-radius-s)}
