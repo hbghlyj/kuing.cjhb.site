@@ -13,27 +13,27 @@ if(!defined('IN_DISCUZ')) {
 class discuz_application extends discuz_base {
 
 
-	var $mem = null;
+	public $mem = null;
 
-	var $session = null;
+	public $session = null;
 
-	var $config = [];
+	public $config = [];
 
-	var $var = [];
+	public $var = [];
 
-	var $cachelist = [];
+	public $cachelist = [];
 
-	var $init_db = true;
-	var $init_setting = true;
-	var $init_user = true;
-	var $init_session = true;
-	var $init_cron = true;
-	var $init_misc = true;
-	var $init_mobile = true;
+	public $init_db = true;
+	public $init_setting = true;
+	public $init_user = true;
+	public $init_session = true;
+	public $init_cron = true;
+	public $init_misc = true;
+	public $init_mobile = true;
 
-	var $initated = false;
+	protected $initated = false;
 
-	var $superglobal = [
+	protected $superglobal = [
 		'GLOBALS' => 1,
 		'_GET' => 1,
 		'_POST' => 1,
