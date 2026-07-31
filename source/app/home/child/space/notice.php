@@ -47,9 +47,9 @@ if($view) {
 			$category = $view;
 		} else {
 			$deftype = $_G['notice_structure'][$view][0];
-			if($_G['member']['newprompt_num']) {
+			if(!empty($_G['member']['newprompt_num']) && is_array($_G['member']['newprompt_num'])) {
 				foreach($_G['notice_structure'][$view] as $subtype) {
-					if($_G['member']['newprompt_num'][$subtype]) {
+					if(!empty($_G['member']['newprompt_num'][$subtype])) {
 						$deftype = $subtype;
 						break;
 					}

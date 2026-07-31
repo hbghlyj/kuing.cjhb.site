@@ -62,7 +62,7 @@ if(!empty($_G['cookie']['lastviewtime'])) {
 	$lastviewtime = getuserprofile('lastactivity');
 }
 dsetcookie('lastviewtime', $_G['uid'].'|'.TIMESTAMP, 31536000);
-if($_G['member']['newprompt_num']['follow']) {
+if(!empty($_G['member']['newprompt_num']['follow'])) {
 	table_home_notification::t()->delete_by_type('follow', $_G['uid']);
 	helper_notification::update_newprompt($_G['uid'], 'follow');
 }
