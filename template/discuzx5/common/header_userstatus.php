@@ -127,7 +127,7 @@
 
 				<!--{if $_G['uid'] && !empty($_G['style']['extstyle'])}-->
 				<div class="user-card-skin">
-					<!--{if !$_G[style][defaultextstyle]}-->
+					<!--{if empty($_G['style']['defaultextstyle'])}-->
 					<span onclick="extstyle('')" title="{lang default}"><i></i></span><!--{/if}-->
 					<!--{loop $_G['style']['extstyle'] $extstyle}-->
 					<span onclick="extstyle('$extstyle[0]')" title="$extstyle[1]"><i

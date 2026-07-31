@@ -69,7 +69,7 @@
 			<!--{/if}-->
 			<!--{if $_G['uid'] && !empty($_G['style']['extstyle'])}-->
 				<div id="sslct_menu" class="cl p_pop" style="display: none;">
-					<!--{if !$_G[style][defaultextstyle]}--><span class="sslct_btn" onClick="extstyle('')" title="{lang default}"><i></i></span><!--{/if}-->
+					<!--{if empty($_G['style']['defaultextstyle'])}--><span class="sslct_btn" onClick="extstyle('')" title="{lang default}"><i></i></span><!--{/if}-->
 					<!--{loop $_G['style']['extstyle'] $extstyle}-->
 						<span class="sslct_btn" onClick="extstyle('$extstyle[0]')" title="$extstyle[1]"><i style='background:$extstyle[2]'></i></span>
 					<!--{/loop}-->

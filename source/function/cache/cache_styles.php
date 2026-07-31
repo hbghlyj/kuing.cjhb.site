@@ -66,6 +66,7 @@ function build_cache_styles() {
 				}
 			}
 		}
+		$data['defaultextstyle'] = $data['defaultextstyle'] ?? '';
 		$data['templatelang'] = file_exists(DISCUZ_TEMPLATE($data['tpldir']).'/i18n/'.currentlang().'/lang_template.php');
 
 		foreach(table_common_stylevar_extra::t()->fetch_all_by_styleid($data['styleid']) as $var) {
