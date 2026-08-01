@@ -287,6 +287,37 @@ function getSelectedMathEquation() {
 	return wysiwyg && editdoc ? editdoc.querySelector('.math-editor-rendered.math-editor-selected') : null;
 }
 
+function createMathEditorCaret() {
+	var caret = editdoc.createElement('span');
+	caret.className = 'math-editor-caret';
+	caret.setAttribute('data-math-caret', '1');
+	caret.setAttribute('aria-hidden', 'true');
+	caret.textContent = '\u200B';
+	return caret;
+}
+
+function ensureMathEditorCarets(rendered) {
+	if (!rendered.parentNode) return;
+	if (!rendered.previousSibling || rendered.previousSibling.nodeType !== 1 || !rendered.previousSibling.hasAttribute('data-math-caret')) {
+		rendered.parentNode.insertBefore(createMathEditorCaret(), rendered);
+	}
+	if (!rendered.nextSibling || rendered.nextSibling.nodeType !== 1 || !rendered.nextSibling.hasAttribute('data-math-caret')) {
+		rendered.parentNode.insertBefore(createMathEditorCaret(), rendered.nextSibling);
+	}
+}
+
+function placeMathEditorCaret(rendered, after) {
+	ensureMathEditorCarets(rendered);
+	var caret = after ? rendered.nextSibling : rendered.previousSibling;
+	if (!caret || !caret.firstChild) return;
+	var range = editdoc.createRange();
+	range.setStart(caret.firstChild, after ? caret.firstChild.nodeValue.length : 0);
+	range.collapse(true);
+	var selection = editwin.getSelection();
+	selection.removeAllRanges();
+	selection.addRange(range);
+}
+
 function selectMathEquation(rendered) {
 	if (!editdoc) return;
 	var selected = editdoc.querySelectorAll('.math-editor-rendered.math-editor-selected, mjx-container.math-editor-selected');
@@ -325,6 +356,7 @@ function syncMathJaxEditorStyles() {
 }
 
 function renderMathEquation(rendered, math) {
+	ensureMathEditorCarets(rendered);
 	if (typeof MathJax !== 'undefined' && typeof MathJax.typesetClear === 'function') MathJax.typesetClear([rendered]);
 	rendered.setAttribute('data-math-source', math);
 	rendered.textContent = math;
@@ -342,6 +374,8 @@ function initRenderedMathEquation(rendered) {
 		event.preventDefault();
 		event.stopPropagation();
 		selectMathEquation(rendered);
+		var bounds = rendered.getBoundingClientRect();
+		placeMathEditorCaret(rendered, event.clientX >= bounds.left + bounds.width / 2);
 	});
 	rendered.addEventListener('dblclick', function(event) {
 		event.preventDefault();

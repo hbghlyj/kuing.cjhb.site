@@ -711,6 +711,10 @@ function getEditorBbcodeContents() {
 		for(var i = 0; i < formulas.length; i++) {
 			formulas[i].replaceWith(document.createTextNode(formulas[i].getAttribute('data-math-source') || ''));
 		}
+		var mathCarets = source.querySelectorAll('[data-math-caret]');
+		for(var j = 0; j < mathCarets.length; j++) {
+			mathCarets[j].remove();
+		}
 		html = source.innerHTML;
 	}
 	return wysiwygSourceBbcode !== null && wysiwygSourceHtml === html ? wysiwygSourceBbcode : html2bbcode(html);
