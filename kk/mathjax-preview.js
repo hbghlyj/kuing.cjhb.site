@@ -282,6 +282,23 @@ function getMathDialogValue(value) {
 	return { equation: value, wrap: 'inline' };
 }
 
+function insertMathEquation(math) {
+	if (!wysiwyg || !editdoc) {
+		insertText(math, false);
+		return;
+	}
+
+	var id = 'math_editor_render_' + Date.now() + '_' + Math.floor(Math.random() * 10000);
+	var formula = '<span id="' + id + '" class="math-editor-rendered" data-math-source="' + escapeMathHtml(math) + '" contenteditable="false">' + escapeMathHtml(math) + '</span>';
+	insertText(formula, false);
+	var rendered = editdoc.getElementById(id);
+	if (!rendered) return;
+	rendered.removeAttribute('id');
+	if (typeof MathJax !== 'undefined' && typeof MathJax.typesetPromise === 'function') {
+		MathJax.typesetPromise([rendered]).catch(function() {});
+	}
+}
+
 function showFullEditorMathDialog(labels) {
 	var selected = getMathDialogValue(getSel() || '');
 	var title = labels.title || 'Insert/Edit Math';
@@ -302,7 +319,7 @@ function showFullEditorMathDialog(labels) {
 		var wrap = document.getElementById('math_editor_wrap');
 		if (!equation || !wrap || equation.value === '') return;
 		var math = wrap.value === 'display' ? '$$' + equation.value + '$$' : '$' + equation.value + '$';
-		insertText(wysiwyg ? escapeMathHtml(math) : math, false);
+		insertMathEquation(math);
 	}, 1, null, '', labels.save || 'Save', labels.cancel || 'Cancel');
 
 	setTimeout(function() {

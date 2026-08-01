@@ -701,6 +701,15 @@ function getEditorBbcodeContents() {
 		return getEditorContents();
 	}
 	var html = getEditorContents();
+	if(html.indexOf('data-math-source=') !== -1) {
+		var source = document.createElement('div');
+		source.innerHTML = html;
+		var formulas = source.querySelectorAll('[data-math-source]');
+		for(var i = 0; i < formulas.length; i++) {
+			formulas[i].replaceWith(document.createTextNode(formulas[i].getAttribute('data-math-source') || ''));
+		}
+		html = source.innerHTML;
+	}
 	return wysiwygSourceBbcode !== null && wysiwygSourceHtml === html ? wysiwygSourceBbcode : html2bbcode(html);
 }
 
