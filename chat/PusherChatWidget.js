@@ -301,8 +301,10 @@
       }
     }
     #removeChatMessage(messageTime){
+      const key = String(messageTime);
+      this.#pendingMessages = this.#pendingMessages.filter(entry => String(entry.data.message_time || entry.data.id || '') !== key);
       this.#messagesEl.querySelectorAll('li.message-item').forEach(li => {
-        if(li.dataset.messageTime === String(messageTime)){
+        if(li.dataset.messageTime === key){
           li.remove();
           this.#itemCount--;
         }
