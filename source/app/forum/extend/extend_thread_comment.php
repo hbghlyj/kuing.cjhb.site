@@ -37,7 +37,7 @@ class extend_thread_comment extends extend_thread_base {
 			($replypost['authorid'] != $this->member['uid'] || $this->setting['commentpostself'])
 			? censor(trim(dhtmlspecialchars(messagecutstr($parameters['message'], 200, ' '))), '***')
 			: '';
-		$this->postcomment = strlen($postcomment) > 255 ? '' : $postcomment;
+		$this->postcomment = mb_strlen($postcomment, 'UTF-8') > 255 ? '' : $postcomment;
 	}
 
 	public function after_newreply() {
