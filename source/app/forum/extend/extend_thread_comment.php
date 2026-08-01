@@ -21,6 +21,7 @@ class extend_thread_comment extends extend_thread_base {
 	private $postcomment;
 
 	public function before_newreply($parameters) {
+		require_once libfile('function/post');
 		list(, $this->param['modnewreplies']) = threadmodstatus($this->param['subject']."\t".$this->param['message'].$this->param['extramessage']);
 		if($this->thread['displayorder'] == -4) {
 			$this->param['modnewreplies'] = 0;

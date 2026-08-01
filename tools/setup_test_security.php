@@ -262,6 +262,7 @@ foreach([1, 7, 10] as $groupId) {
 $expect(is_file(DISCUZ_ROOT.'./data/cache/common_smilies_var.js'), 'common_smilies_var.js');
 
 test_security_setup_stage('extend_thread_comment XSS sanitization');
+require_once DISCUZ_ROOT.'./source/function/function_post.php';
 require_once DISCUZ_ROOT.'./source/app/forum/extend/extend_thread_base.php';
 require_once DISCUZ_ROOT.'./source/app/forum/extend/extend_thread_comment.php';
 $seedThread = DB::fetch_first('SELECT * FROM %t WHERE subject=%s LIMIT 1', ['forum_thread', 'Admin Seed Thread']);
