@@ -21,23 +21,13 @@ class extend_thread_comment extends extend_thread_base {
 	private $postcomment;
 
 	public function before_newreply($parameters) {
-		require_once libfile('function/post');
 		list(, $this->param['modnewreplies']) = threadmodstatus($this->param['subject']."\t".$this->param['message'].$this->param['extramessage']);
 		if($this->thread['displayorder'] == -4) {
 			$this->param['modnewreplies'] = 0;
 		}
 		$pinvisible = $parameters['modnewreplies'] ? -2 : ($this->thread['displayorder'] == -4 ? -3 : 0);
 		$replypost = !empty($_GET['reppid']) ? table_forum_post::t()->fetch_post('tid:'.$this->thread['tid'], intval($_GET['reppid'])) : [];
-		// ✅ GOOD: HTML-escape and censor comment text before inserting into database to prevent Stored XSS
-		$postcomment = is_array($this->setting['allowpostcomment']) &&
-			in_array(2, $this->setting['allowpostcomment']) &&
-			$this->group['allowcommentreply'] &&
-			!$pinvisible &&
-			$replypost &&
-			($replypost['authorid'] != $this->member['uid'] || $this->setting['commentpostself'])
-			? censor(trim(dhtmlspecialchars(messagecutstr($parameters['message'], 200, ' '))), '***')
-			: '';
-		$this->postcomment = strlen($postcomment) > 255 ? '' : $postcomment;
+		$this->postcomment = is_array($this->setting['allowpostcomment']) && in_array(2, $this->setting['allowpostcomment']) && $this->group['allowcommentreply'] && !$pinvisible && $replypost && ($replypost['authorid'] != $this->member['uid'] || $this->setting['commentpostself']) ? messagecutstr($parameters['message'], 200, ' ') : '';
 	}
 
 	public function after_newreply() {
