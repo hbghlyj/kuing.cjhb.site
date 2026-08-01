@@ -298,12 +298,35 @@ function selectMathEquation(rendered) {
 	if (container) container.classList.add('math-editor-selected');
 }
 
+function syncMathJaxEditorStyles() {
+	if (!editdoc || !editdoc.head) return;
+
+	var sources = document.querySelectorAll('style[id^="MJX-"], link[id^="MJX-"]');
+	for (var i = 0; i < sources.length; i++) {
+		var source = sources[i];
+		var id = 'math_editor_' + source.id;
+		var target = editdoc.getElementById(id);
+		if (!target) {
+			target = editdoc.createElement(source.tagName.toLowerCase());
+			target.id = id;
+			editdoc.head.appendChild(target);
+		}
+		if (source.tagName === 'LINK') {
+			target.rel = source.rel;
+			target.href = source.href;
+		} else {
+			target.textContent = source.textContent;
+		}
+	}
+}
+
 function renderMathEquation(rendered, math) {
 	if (typeof MathJax !== 'undefined' && typeof MathJax.typesetClear === 'function') MathJax.typesetClear([rendered]);
 	rendered.setAttribute('data-math-source', math);
 	rendered.textContent = math;
 	if (typeof MathJax === 'undefined' || typeof MathJax.typesetPromise !== 'function') return;
 	MathJax.typesetPromise([rendered]).then(function() {
+		syncMathJaxEditorStyles();
 		if (rendered.classList.contains('math-editor-selected')) selectMathEquation(rendered);
 	}).catch(function() {});
 }
