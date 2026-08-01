@@ -171,7 +171,6 @@ function savedataTime() {
 		h = h < 10 ? '0' + h : h;
 		m = m < 10 ? '0' + m : m;
 		autosaveLastTime = $L('last_save_time', [h, m]);
-		setEditorTip(autosaveLastTime);
 	}
 	if(status) {
 		var autosaveText = (autosaveLastTime ? autosaveLastTime + ' · ' : '') + $L('second_save', [savedatac]);
