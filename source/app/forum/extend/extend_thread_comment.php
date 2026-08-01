@@ -27,7 +27,15 @@ class extend_thread_comment extends extend_thread_base {
 		}
 		$pinvisible = $parameters['modnewreplies'] ? -2 : ($this->thread['displayorder'] == -4 ? -3 : 0);
 		$replypost = !empty($_GET['reppid']) ? table_forum_post::t()->fetch_post('tid:'.$this->thread['tid'], intval($_GET['reppid'])) : [];
-		$this->postcomment = is_array($this->setting['allowpostcomment']) && in_array(2, $this->setting['allowpostcomment']) && $this->group['allowcommentreply'] && !$pinvisible && $replypost && ($replypost['authorid'] != $this->member['uid'] || $this->setting['commentpostself']) ? messagecutstr($parameters['message'], 200, ' ') : '';
+		// ✅ GOOD: HTML-escape and censor comment text before inserting into database to prevent Stored XSS
+		$this->postcomment = is_array($this->setting['allowpostcomment']) &&
+			in_array(2, $this->setting['allowpostcomment']) &&
+			$this->group['allowcommentreply'] &&
+			!$pinvisible &&
+			$replypost &&
+			($replypost['authorid'] != $this->member['uid'] || $this->setting['commentpostself'])
+			? censor(trim(dhtmlspecialchars(messagecutstr($parameters['message'], 200, ' '))), '***')
+			: '';
 	}
 
 	public function after_newreply() {

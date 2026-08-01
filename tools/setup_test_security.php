@@ -260,6 +260,36 @@ foreach([1, 7, 10] as $groupId) {
 	$expect((int)($group['maxsigsize'] ?? 0) === 500, "usergroup_{$groupId}.maxsigsize");
 }
 $expect(is_file(DISCUZ_ROOT.'./data/cache/common_smilies_var.js'), 'common_smilies_var.js');
+
+test_security_setup_stage('extend_thread_comment XSS sanitization');
+require_once libfile('extend/extend_thread_base', 'app/forum');
+require_once libfile('extend/extend_thread_comment', 'app/forum');
+$seedThread = C::t('forum_thread')->fetch_by_subject('Admin Seed Thread');
+if($seedThread) {
+	$seedPosts = C::t('forum_post')->fetch_all_by_tid('tid:'.$seedThread['tid'], $seedThread['tid'], true, 'ASC', 0, 0, null, 0);
+	$seedReplyPid = 0;
+	foreach($seedPosts as $p) {
+		if(empty($p['first'])) {
+			$seedReplyPid = (int)$p['pid'];
+			break;
+		}
+	}
+	if($seedReplyPid > 0) {
+		$commentExtend = new \forum\extend_thread_comment();
+		$commentExtend->setting = ['allowpostcomment' => [2], 'commentpostself' => 1];
+		$commentExtend->group = ['allowcommentreply' => 1];
+		$commentExtend->thread = ['tid' => $seedThread['tid'], 'displayorder' => 0];
+		$commentExtend->member = ['uid' => 1, 'username' => 'admin'];
+		$commentExtend->param = ['subject' => '', 'message' => '<script>alert("xss")</script>', 'extramessage' => '', 'modnewreplies' => 0];
+		$_GET['reppid'] = $seedReplyPid;
+		$commentExtend->before_newreply(['modnewreplies' => 0]);
+		$prop = new ReflectionProperty($commentExtend, 'postcomment');
+		$prop->setAccessible(true);
+		$expect($prop->getValue($commentExtend) === '&lt;script&gt;alert(&quot;xss&quot;)&lt;/script&gt;', 'extend_thread_comment XSS sanitization');
+		unset($_GET['reppid']);
+	}
+}
+
 if($failures) {
 	fwrite(STDERR, 'Test security setup validation failed: '.implode(', ', $failures).".\n");
 	throw new RuntimeException('Unable to initialize deterministic test security settings');
