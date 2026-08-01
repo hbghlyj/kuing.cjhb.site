@@ -4,7 +4,7 @@
 .edt .cst.nbb {border-bottom:none !important}
 .edt .bbar {height:34px;line-height:34px;border-top:1px solid var(--dz-borderb);text-align:right;background:none;border-radius:0 0 var(--dz-radius-s) var(--dz-radius-s)}
 .edt .bbar img {vertical-align:bottom;*margin-right:-4px;cursor:row-resize}
-.edt .bbar em {width:200px;height:30px;margin-left:8px;overflow:hidden;white-space:nowrap;float:left;text-align:left}
+.edt .bbar em {height:30px;margin-left:8px;overflow:hidden;white-space:nowrap;float:left;text-align:left}
 .edt .bbar, .edt .bbar a {color:#999}
 .edt .bbar .bbar-action {display:inline-block;width:20px;height:20px;padding:0!important;margin:0 2px!important;font-size:0;line-height:20px;text-indent:-9999px;vertical-align:middle}
 .edt .bbar .bbar-more {position:relative;display:inline-block;margin:0 4px;vertical-align:middle}

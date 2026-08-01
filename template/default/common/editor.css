@@ -9,7 +9,7 @@ https://www.discuz.vip
 		.edt .cst.nbb { border-bottom: none !important; }
 		.edt .bbar { height: 20px; border-top: 1px solid #DDD; text-align: right; background: {COMMONBG}; }
 			.edt .bbar img { vertical-align: bottom; *margin-right: -4px; cursor: row-resize; }
-		.edt .bbar em { width: 200px; height: 20px; overflow: hidden; white-space: nowrap; float: left; text-align: left; }
+		.edt .bbar em { height: 20px; overflow: hidden; white-space: nowrap; float: left; text-align: left; }
 		.edt .bbar .bbar-action { display: inline-block; width: 20px; height: 20px; padding: 0; margin: 0 2px; font-size: 0; line-height: 20px; text-indent: -9999px; vertical-align: middle; }
 		.edt .bbar .bbar-more { position: relative; display: inline-block; margin: 0 4px; vertical-align: middle; }
 		.edt .bbar .bbar-more summary { width: 20px; height: 20px; cursor: pointer; font-size: 20px; line-height: 16px; list-style: none; text-align: center; }
