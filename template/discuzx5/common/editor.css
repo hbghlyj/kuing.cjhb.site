@@ -36,7 +36,7 @@
 .edt a.cst {font-size:11px;line-height:1;background-image:none;text-align:center;text-indent:0}
 .edt a.cst img {vertical-align:middle}
 .simpleedt .bar, .simpleedt .b1r, .simpleedt .b2r {height:30px}
-.bar_swch {display:block;clear:both}
+.bar_swch {display:inline-block;clear:none;vertical-align:top}
 #e_bold {background:url({STYLEIMGDIR}/svg/dz_e_bold.svg) no-repeat center 4px;background-size:16px}
 #e_fontsize {width:65px}
 #e_italic {background:url({STYLEIMGDIR}/svg/dz_e_italic.svg) no-repeat center 4px;background-size:16px}

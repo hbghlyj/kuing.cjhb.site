@@ -69,7 +69,7 @@ https://www.discuz.vip
 		.edt a.cst img { vertical-align: middle; }
 
 	.simpleedt .bar, .simpleedt .b1r, .simpleedt .b2r { height: 22px; }
-	.bar_swch { display: block; clear: both; }
+	.bar_swch { display: inline-block; clear: none; vertical-align: top; }
 
 	#e_bold			{ background-position: 0 0; }
 	#e_fontsize		{ width: 45px; }
