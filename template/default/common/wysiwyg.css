@@ -16,6 +16,7 @@ src: local('Microsoft Yahei Bold');
 font-weight: bold;
 }  
 body { background: #FFF; font-size: {MSGFONTSIZE}; color: {TABLETEXT}; height: 400px; }
+mjx-container.math-editor-selected { cursor: not-allowed; outline: 3px solid #b4d7ff; }
 li { list-style-type: disc; margin-left: 2em; }
 ol { *margin: 0; padding: 0; }
 .litype_1 li, ol li { list-style-type: decimal; }

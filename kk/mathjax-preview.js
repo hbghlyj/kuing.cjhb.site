@@ -261,7 +261,7 @@ function initFullEditorMathEntry() {
 	entry.title = labels.title || 'Insert/Edit Math';
 	entry.onclick = function(event) {
 		if (event) event.preventDefault();
-		showFullEditorMathDialog(labels);
+		showFullEditorMathDialog(labels, getSelectedMathEquation());
 		return false;
 	};
 	entryGroup.appendChild(entry);
@@ -282,6 +282,46 @@ function getMathDialogValue(value) {
 	return { equation: value, wrap: 'inline' };
 }
 
+function getSelectedMathEquation() {
+	return wysiwyg && editdoc ? editdoc.querySelector('.math-editor-rendered.math-editor-selected') : null;
+}
+
+function selectMathEquation(rendered) {
+	if (!editdoc) return;
+	var selected = editdoc.querySelectorAll('.math-editor-rendered.math-editor-selected, mjx-container.math-editor-selected');
+	for (var i = 0; i < selected.length; i++) {
+		selected[i].classList.remove('math-editor-selected');
+	}
+	rendered.classList.add('math-editor-selected');
+	var container = rendered.querySelector('mjx-container');
+	if (container) container.classList.add('math-editor-selected');
+}
+
+function renderMathEquation(rendered, math) {
+	if (typeof MathJax !== 'undefined' && typeof MathJax.typesetClear === 'function') MathJax.typesetClear([rendered]);
+	rendered.setAttribute('data-math-source', math);
+	rendered.textContent = math;
+	if (typeof MathJax === 'undefined' || typeof MathJax.typesetPromise !== 'function') return;
+	MathJax.typesetPromise([rendered]).then(function() {
+		if (rendered.classList.contains('math-editor-selected')) selectMathEquation(rendered);
+	}).catch(function() {});
+}
+
+function initRenderedMathEquation(rendered) {
+	if (rendered._mathEditorInitialized) return;
+	rendered._mathEditorInitialized = true;
+	rendered.addEventListener('click', function(event) {
+		event.preventDefault();
+		event.stopPropagation();
+		selectMathEquation(rendered);
+	});
+	rendered.addEventListener('dblclick', function(event) {
+		event.preventDefault();
+		event.stopPropagation();
+		showFullEditorMathDialog(window.MATH_EDITOR_LABELS || {}, rendered);
+	});
+}
+
 function insertMathEquation(math) {
 	if (!wysiwyg || !editdoc) {
 		insertText(math, false);
@@ -294,13 +334,12 @@ function insertMathEquation(math) {
 	var rendered = editdoc.getElementById(id);
 	if (!rendered) return;
 	rendered.removeAttribute('id');
-	if (typeof MathJax !== 'undefined' && typeof MathJax.typesetPromise === 'function') {
-		MathJax.typesetPromise([rendered]).catch(function() {});
-	}
+	initRenderedMathEquation(rendered);
+	renderMathEquation(rendered, math);
 }
 
-function showFullEditorMathDialog(labels) {
-	var selected = getMathDialogValue(getSel() || '');
+function showFullEditorMathDialog(labels, rendered) {
+	var selected = getMathDialogValue(rendered ? rendered.getAttribute('data-math-source') : (getSel() || ''));
 	var title = labels.title || 'Insert/Edit Math';
 	var equationLabel = labels.equation || 'Math equation';
 	var wrapLabel = labels.wrap || 'Text wrap';
@@ -319,7 +358,11 @@ function showFullEditorMathDialog(labels) {
 		var wrap = document.getElementById('math_editor_wrap');
 		if (!equation || !wrap || equation.value === '') return;
 		var math = wrap.value === 'display' ? '$$' + equation.value + '$$' : '$' + equation.value + '$';
-		insertMathEquation(math);
+		if (rendered) {
+			renderMathEquation(rendered, math);
+		} else {
+			insertMathEquation(math);
+		}
 	}, 1, null, '', labels.save || 'Save', labels.cancel || 'Cancel');
 
 	setTimeout(function() {
