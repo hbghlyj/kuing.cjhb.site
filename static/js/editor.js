@@ -364,7 +364,7 @@ function editorsimple() {
 			$(editorid + '_adv_' + i).style.display = v;
 		}
 	}
-	var simpleHiddenButtons = ['fullswitcher', 'simple', 'forecolor', 'backcolor', 'autotypeset', 'justifyleft', 'justifycenter', 'justifyright'];
+	var simpleHiddenButtons = ['forecolor', 'backcolor', 'autotypeset', 'justifyleft', 'justifycenter', 'justifyright'];
 	for(i = 0; i < simpleHiddenButtons.length; i++) {
 		var button = $(editorid + '_' + simpleHiddenButtons[i]);
 		if(button) {
