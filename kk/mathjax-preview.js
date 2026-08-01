@@ -385,12 +385,44 @@ function syncMathJaxEditorStyles() {
 	}
 }
 
+var pendingMathEditorEquations = [];
+var mathEditorLoaderListening = false;
+
+function flushPendingMathEditorEquations() {
+	if (typeof MathJax === 'undefined' || typeof MathJax.typesetPromise !== 'function') return;
+	var pending = pendingMathEditorEquations;
+	pendingMathEditorEquations = [];
+	for (var i = 0; i < pending.length; i++) {
+		if (pending[i].rendered.isConnected) renderMathEquation(pending[i].rendered, pending[i].math);
+	}
+}
+
+function queueMathEditorEquation(rendered, math) {
+	var queued = false;
+	for (var i = 0; i < pendingMathEditorEquations.length; i++) {
+		if (pendingMathEditorEquations[i].rendered === rendered) {
+			pendingMathEditorEquations[i].math = math;
+			queued = true;
+			break;
+		}
+	}
+	if (!queued) pendingMathEditorEquations.push({ rendered: rendered, math: math });
+	if (mathEditorLoaderListening) return;
+	mathEditorLoaderListening = true;
+	var loader = document.querySelector('script[src*="/mathjax@4/tex-chtml.js"]');
+	if (loader) loader.addEventListener('load', flushPendingMathEditorEquations, { once: true });
+	window.addEventListener('load', flushPendingMathEditorEquations, { once: true });
+}
+
 function renderMathEquation(rendered, math) {
 	ensureMathEditorCarets(rendered);
 	if (typeof MathJax !== 'undefined' && typeof MathJax.typesetClear === 'function') MathJax.typesetClear([rendered]);
 	rendered.setAttribute('data-math-source', math);
 	rendered.textContent = math;
-	if (typeof MathJax === 'undefined' || typeof MathJax.typesetPromise !== 'function') return;
+	if (typeof MathJax === 'undefined' || typeof MathJax.typesetPromise !== 'function') {
+		queueMathEditorEquation(rendered, math);
+		return;
+	}
 	MathJax.typesetPromise([rendered]).then(function() {
 		syncMathJaxEditorStyles();
 		if (rendered.classList.contains('math-editor-selected')) selectMathEquation(rendered);
