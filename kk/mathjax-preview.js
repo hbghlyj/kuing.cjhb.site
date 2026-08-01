@@ -324,6 +324,8 @@ function selectMathEquation(rendered) {
 	rendered.classList.add('math-editor-selected');
 	var container = rendered.querySelector('mjx-container');
 	if (container) container.classList.add('math-editor-selected');
+	var button = document.querySelector('#post_math_button .mathfx');
+	if (button) button.classList.add('hover');
 	if (typeof setEditorTip === 'function') {
 		setEditorTip((window.MATH_EDITOR_LABELS && window.MATH_EDITOR_LABELS.selected) || 'Double-click the formula to edit it. Press Escape to deselect.');
 	}
@@ -335,7 +337,11 @@ function clearMathEquationSelection() {
 	for (var i = 0; i < selected.length; i++) {
 		selected[i].classList.remove('math-editor-selected');
 	}
-	if (selected.length && typeof setEditorTip === 'function') setEditorTip('');
+	if (selected.length) {
+		var button = document.querySelector('#post_math_button .mathfx');
+		if (button) button.classList.remove('hover');
+		if (typeof setEditorTip === 'function') setEditorTip('');
+	}
 }
 
 function initMathEditorSelection() {
