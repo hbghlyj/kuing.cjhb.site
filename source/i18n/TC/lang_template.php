@@ -73,6 +73,7 @@ $lang = [
 	'login_invisible_mode' => '隱身',
 	'login_normal_mode' => '在線',
 	'scrolltop' => '返回頂部',
+	'skip_to_content' => '跳到主要內容',
 	'thread_groupupgrade' => '距離下一級還需',
 	'time_now' => 'GMT{$_G[\'timenow\'][\'offset\']}, {$_G[\'timenow\'][\'time\']}',
 	'admincp' => '管理中心',

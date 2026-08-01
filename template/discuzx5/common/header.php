@@ -6,6 +6,8 @@
 </head>
 
 <body id="nv_{$_G[basescript]}" class="pg_{CURMODULE} dz_pg_{CURMODULE}	dz_tbnvb {if $_G['basescript'] === 'portal' && CURMODULE === 'list' && !empty($cat)} {$cat['bodycss']}{/if} discuzx5" onkeydown="if(event.keyCode==27) return false;">
+	<a class="dz-skip-link" href="#wp">{lang skip_to_content}</a>
+	<style>.dz-skip-link{position:absolute;top:-100px;left:50%;transform:translateX(-50%);z-index:9999;padding:8px 16px;background:var(--dz-nvbg,#333);color:var(--dz-ff,#fff);font-size:14px;border-radius:0 0 var(--dz-radius-m,6px) var(--dz-radius-m,6px);box-shadow:var(--dz-shadow,0 2px 8px rgba(0,0,0,.15));transition:top .2s ease-in-out}.dz-skip-link:focus,.dz-skip-link:focus-visible{top:0}</style>
 	<div id="append_parent"></div><div id="ajaxwaitid"></div>
 	<!--{if $_GET['diy'] == 'yes' && check_diy_perm($topic)}-->
 		<!--{template common/header_diy}-->
@@ -178,6 +180,6 @@
 		<!--{hook/global_header}-->
 	<!--{/if}-->
 
-	<div id="wp" class="wp">
+	<div id="wp" class="wp" tabindex="-1">
     
 		
