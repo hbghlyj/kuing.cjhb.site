@@ -463,7 +463,7 @@
         '<li class="pusher-chat-widget-load-more" style="display:none;">'+$L('chat_load_more')+'</li>'+
         '</ul></div>'+
         '<div class="pusher-chat-widget-input">'+
-        '<label for="message"></label><textarea id="message"></textarea>'+
+        '<label for="message"></label><textarea id="message" placeholder="'+$L('chat_message_placeholder')+'"></textarea>'+
         '<input type="file" class="pusher-chat-widget-photo-input" accept="image/*" style="display:none;" />'+
         '<button type="button" class="pusher-chat-widget-photo-btn" title="'+$L('chat_add_photo')+'" disabled>'+addPhotoSvg+'</button>'+
         '<button type="button" class="pusher-chat-widget-send-btn" title="'+$L('chat_send_message')+'" disabled>'+sendSvg+'</button>'+

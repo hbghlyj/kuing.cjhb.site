@@ -41,6 +41,7 @@ $lang = [
 	'chat_post_edited' => 'Post has been edited',
 	'chat_seconds_ago' => '{1} seconds ago',
 	'chat_send_message' => 'Send Message',
+	'chat_message_placeholder' => 'Write a message',
 	'chat_shortcut' => 'Shortcut',
 	'chat_stay' => 'Stay',
 	'chat_upload_error' => 'Photo upload error: {1}',

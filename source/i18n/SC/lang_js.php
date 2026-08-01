@@ -43,6 +43,7 @@ $lang = [
 	'chat_post_edited' => '帖子已被编辑',
 	'chat_seconds_ago' => '{1} 秒前',
 	'chat_send_message' => '发送消息',
+	'chat_message_placeholder' => '输入消息',
 	'chat_shortcut' => '快捷键',
 	'chat_stay' => '留在本页',
 	'chat_upload_error' => '图片上传错误：{1}',
