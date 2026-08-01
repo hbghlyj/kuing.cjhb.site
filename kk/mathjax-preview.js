@@ -338,9 +338,21 @@ function initMathEditorSelection() {
 	if (!editdoc || editdoc._mathEditorSelectionInitialized) return;
 	editdoc._mathEditorSelectionInitialized = true;
 	editdoc.addEventListener('click', function(event) {
-		if (!event.target.closest || !event.target.closest('.math-editor-rendered')) {
+		var rendered = event.target.closest ? event.target.closest('.math-editor-rendered') : null;
+		if (!rendered) {
 			clearMathEquationSelection();
+		} else if (!rendered._mathEditorInitialized) {
+			event.preventDefault();
+			selectMathEquation(rendered);
+			var bounds = rendered.getBoundingClientRect();
+			placeMathEditorCaret(rendered, event.clientX >= bounds.left + bounds.width / 2);
 		}
+	});
+	editdoc.addEventListener('dblclick', function(event) {
+		var rendered = event.target.closest ? event.target.closest('.math-editor-rendered') : null;
+		if (!rendered || rendered._mathEditorInitialized) return;
+		event.preventDefault();
+		showFullEditorMathDialog(window.MATH_EDITOR_LABELS || {}, rendered);
 	});
 	editdoc.addEventListener('keydown', function(event) {
 		if (event.key === 'Escape') clearMathEquationSelection();
