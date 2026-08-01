@@ -35,7 +35,7 @@ if($mime === false || $imageInfo === false || empty($imageInfo['mime'])
 	chat_json(400, ['error' => 'Uploaded file is not a valid image']);
 }
 
-$subDir = 'data/attachment/chat/'.date('Ym').'/';
+$subDir = 'data/attachment/chat/';
 $targetDir = $discuzRoot.$subDir;
 if(!is_dir($targetDir) && !mkdir($targetDir, 0755, true) && !is_dir($targetDir)) {
 	chat_json(500, ['error' => 'Unable to create upload directory']);
