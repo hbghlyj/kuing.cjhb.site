@@ -153,14 +153,36 @@ function syncMathJaxEditorStyles() {
 
 var pendingMathEditorEquations = [];
 var mathEditorLoaderListening = false;
+var mathEditorLoaderTimer = null;
+var mathEditorLoaderAttempts = 0;
 
 function flushPendingMathEditorEquations() {
-	if (typeof MathJax === 'undefined' || typeof MathJax.typesetPromise !== 'function') return;
+	if (typeof MathJax === 'undefined' || typeof MathJax.typeset !== 'function') return;
+	mathEditorLoaderListening = false;
+	mathEditorLoaderAttempts = 0;
+	if (mathEditorLoaderTimer) {
+		clearTimeout(mathEditorLoaderTimer);
+		mathEditorLoaderTimer = null;
+	}
 	var pending = pendingMathEditorEquations;
 	pendingMathEditorEquations = [];
 	for (var i = 0; i < pending.length; i++) {
 		if (pending[i].rendered.isConnected) renderMathEquation(pending[i].rendered, pending[i].math);
 	}
+}
+
+function waitForMathEditorLoader() {
+	if (typeof MathJax !== 'undefined' && typeof MathJax.typeset === 'function') {
+		flushPendingMathEditorEquations();
+		return;
+	}
+	if (++mathEditorLoaderAttempts >= 600) {
+		mathEditorLoaderListening = false;
+		mathEditorLoaderAttempts = 0;
+		mathEditorLoaderTimer = null;
+		return;
+	}
+	mathEditorLoaderTimer = setTimeout(waitForMathEditorLoader, 100);
 }
 
 function queueMathEditorEquation(rendered, math) {
@@ -178,6 +200,7 @@ function queueMathEditorEquation(rendered, math) {
 	var loader = document.querySelector('script[src*="/mathjax@4/tex-chtml.js"]');
 	if (loader) loader.addEventListener('load', flushPendingMathEditorEquations, { once: true });
 	window.addEventListener('load', flushPendingMathEditorEquations, { once: true });
+	waitForMathEditorLoader();
 }
 
 function removeMathEditorDisplayBreaks(rendered) {
@@ -196,15 +219,40 @@ function renderMathEquation(rendered, math) {
 	if (typeof MathJax !== 'undefined' && typeof MathJax.typesetClear === 'function') MathJax.typesetClear([rendered]);
 	rendered.setAttribute('data-math-source', math);
 	rendered.textContent = math;
-	if (typeof MathJax === 'undefined' || typeof MathJax.typesetPromise !== 'function') {
+	if (typeof MathJax === 'undefined' || typeof MathJax.typeset !== 'function') {
 		queueMathEditorEquation(rendered, math);
 		return;
 	}
-	MathJax.typesetPromise([rendered]).then(function() {
+	if (!rendered.isConnected) return;
+	var host = document.createElement('span');
+	host.className = 'tex2jax_process';
+	host.style.cssText = 'position:fixed;left:-100000px;top:0;visibility:hidden;';
+	var sourceNode = document.createElement('span');
+	sourceNode.textContent = math;
+	host.appendChild(sourceNode);
+	document.body.appendChild(host);
+	try {
+		MathJax.typeset([host]);
+		if (!rendered.isConnected) return;
+		rendered.textContent = '';
+		while (sourceNode.firstChild) {
+			rendered.appendChild(editdoc.importNode(sourceNode.firstChild, true));
+			sourceNode.firstChild.remove();
+		}
+		rendered._mathEditorTypesetRetries = 0;
 		syncMathJaxEditorStyles();
 		removeMathEditorDisplayBreaks(rendered);
 		if (rendered.classList.contains('math-editor-selected')) selectMathEquation(rendered);
-	}).catch(function() {});
+	} catch (error) {
+		var retries = rendered._mathEditorTypesetRetries || 0;
+		if (rendered.isConnected && retries < 50) {
+			rendered._mathEditorTypesetRetries = retries + 1;
+			setTimeout(function() { renderMathEquation(rendered, math); }, 100);
+		}
+	} finally {
+		if (typeof MathJax.typesetClear === 'function') MathJax.typesetClear([host]);
+		host.remove();
+	}
 }
 
 function initRenderedMathEquation(rendered) {
@@ -267,6 +315,16 @@ function findMathRanges(text) {
 function renderMathEditorContent() {
 	if (!wysiwyg || !editdoc || !editdoc.body) return;
 	initMathEditorSelection();
+	var renderedEquations = editdoc.querySelectorAll('.math-editor-rendered');
+	for (var renderedIndex = 0; renderedIndex < renderedEquations.length; renderedIndex++) {
+		var existing = renderedEquations[renderedIndex];
+		initRenderedMathEquation(existing);
+		ensureMathEditorCarets(existing);
+		if (!existing.querySelector('mjx-container')) {
+			var source = existing.getAttribute('data-math-source') || existing.textContent;
+			if (source) renderMathEquation(existing, source);
+		}
+	}
 
 	var nodes = [];
 	var walker = editdoc.createTreeWalker(editdoc.body, 4);
@@ -566,5 +624,9 @@ function showFullEditorMathDialog(labels, rendered) {
 
 initFullEditorMathEntry();
 window.renderMathEditorContent = renderMathEditorContent;
+document.addEventListener('discuz:editor-mode-changed', function(event) {
+	if (!event.detail || !event.detail.wysiwyg) return;
+	requestAnimationFrame(renderMathEditorContent);
+});
 // The editor may have initialized before this deferred script exposes the renderer.
 if (typeof wysiwyg !== 'undefined' && typeof editdoc !== 'undefined') renderMathEditorContent();

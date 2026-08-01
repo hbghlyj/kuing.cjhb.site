@@ -46,9 +46,6 @@ function newEditor(mode, initialtext, sourcebbcode) {
 	}
 	setEditorEvents();
 	initEditor();
-	if(wysiwyg && typeof window.renderMathEditorContent === 'function') {
-		window.renderMathEditorContent();
-	}
 }
 
 function setEditorTip(s) {
@@ -1850,6 +1847,7 @@ function switchEditor(mode) {
 	setEditorStyle();
 	editwin.focus();
 	setCaretAtEnd();
+	document.dispatchEvent(new CustomEvent('discuz:editor-mode-changed', { detail: { wysiwyg: !!wysiwyg } }));
 }
 
 function setCaretAtEnd() {

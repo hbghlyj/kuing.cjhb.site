@@ -1265,10 +1265,15 @@ const svgAttachmentSubject = `Thread with SVG Attachment ${testRunId}`;
         await page.goto(`http://127.0.0.1:8080/forum.php?mod=post&action=newthread&fid=${forumFid}`);
         await page.waitForLoadState('networkidle');
 
-        // Test that TeX formulas ($f$) are preserved across WYSIWYG mode toggles
+        // Test that TeX formulas render in WYSIWYG and survive a source round trip.
         await page.fill('#e_textarea', 'Test $f$ math content');
-        await page.evaluate(() => switchEditor(1));
-		await page.evaluate(() => switchEditor(0));
+		await page.locator('#e_visual_btn').click();
+		await page.waitForFunction(() => {
+			const frame = document.querySelector('#e_iframe');
+			return frame && frame.contentDocument
+				&& frame.contentDocument.querySelector('.math-editor-rendered[data-math-source="$f$"] mjx-container');
+		});
+		await page.locator('#e_code_btn').click();
 		const editorTextAfterToggle = await page.inputValue('#e_textarea');
 		assert.strictEqual(editorTextAfterToggle, 'Test $f$ math content', 'Assertion Error: TeX math formula $f$ was corrupted after toggling WYSIWYG mode.');
 
