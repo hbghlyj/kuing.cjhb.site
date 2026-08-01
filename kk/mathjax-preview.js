@@ -323,35 +323,75 @@ function initRenderedMathEquation(rendered) {
 	});
 }
 
+function isEscapedMathDelimiter(text, index) {
+	var slashCount = 0;
+	while (index > 0 && text[--index] === '\\') slashCount++;
+	return slashCount % 2 === 1;
+}
+
+function findMathDelimiter(text, start, opening, closing, standaloneDollar) {
+	var index = text.indexOf(closing, start + opening.length);
+	while (index !== -1) {
+		if (!isEscapedMathDelimiter(text, index) && (!standaloneDollar || (text[index - 1] !== '$' && text[index + 1] !== '$'))) return index + closing.length;
+		index = text.indexOf(closing, index + closing.length);
+	}
+	return -1;
+}
+
+function findMathRanges(text) {
+	var ranges = [];
+	for (var index = 0; index < text.length; index++) {
+		if (isEscapedMathDelimiter(text, index)) continue;
+		var end = -1;
+		if (text.slice(index, index + 2) === '$$') {
+			end = findMathDelimiter(text, index, '$$', '$$');
+		} else if (text[index] === '$' && text[index - 1] !== '$' && text[index + 1] !== '$') {
+			end = findMathDelimiter(text, index, '$', '$', true);
+		} else if (text.slice(index, index + 2) === '\\[') {
+			end = findMathDelimiter(text, index, '\\[', '\\]');
+		} else if (text.slice(index, index + 2) === '\\(') {
+			end = findMathDelimiter(text, index, '\\(', '\\)');
+		} else if (text.slice(index, index + 7) === '\\begin{') {
+			var environment = /^\\begin\{([A-Za-z0-9*]+)\}/.exec(text.slice(index));
+			if (environment) end = findMathDelimiter(text, index, environment[0], '\\end{' + environment[1] + '}');
+		}
+		if (end !== -1) {
+			ranges.push({ start: index, end: end });
+			index = end - 1;
+		}
+	}
+	return ranges;
+}
+
 function renderMathEditorContent() {
 	if (!wysiwyg || !editdoc || !editdoc.body) return;
 
-	var mathExpression = '\\$\\$[\\s\\S]+?\\$\\$|\\\\\\[[\\s\\S]+?\\\\\\]|\\\\\\([\\s\\S]+?\\\\\\)|\\\\begin\\{([A-Za-z0-9*]+)\\}[\\s\\S]*?\\\\end\\{\\1\\}|\\$(?:\\\\.|[^$])+?\\$';
 	var nodes = [];
 	var walker = editdoc.createTreeWalker(editdoc.body, 4);
 	var node;
 	while ((node = walker.nextNode())) {
 		if (node.parentNode.closest('.math-editor-rendered, code, pre, script, style')) continue;
-		if (new RegExp(mathExpression).test(node.nodeValue)) nodes.push(node);
+		if (findMathRanges(node.nodeValue).length) nodes.push(node);
 	}
 
 	for (var i = 0; i < nodes.length; i++) {
 		var text = nodes[i].nodeValue;
-		var expression = new RegExp(mathExpression, 'g');
+		var ranges = findMathRanges(text);
 		var fragment = editdoc.createDocumentFragment();
 		var formulas = [];
 		var index = 0;
-		var match;
-		while ((match = expression.exec(text))) {
-			if (match.index > index) fragment.appendChild(editdoc.createTextNode(text.slice(index, match.index)));
+		for (var rangeIndex = 0; rangeIndex < ranges.length; rangeIndex++) {
+			var range = ranges[rangeIndex];
+			if (range.start > index) fragment.appendChild(editdoc.createTextNode(text.slice(index, range.start)));
+			var math = text.slice(range.start, range.end);
 			var rendered = editdoc.createElement('span');
 			rendered.className = 'math-editor-rendered';
-			rendered.setAttribute('data-math-source', match[0]);
+			rendered.setAttribute('data-math-source', math);
 			rendered.setAttribute('contenteditable', 'false');
 			initRenderedMathEquation(rendered);
 			fragment.appendChild(rendered);
-			formulas.push({ rendered: rendered, math: match[0] });
-			index = match.index + match[0].length;
+			formulas.push({ rendered: rendered, math: math });
+			index = range.end;
 		}
 		if (index < text.length) fragment.appendChild(editdoc.createTextNode(text.slice(index)));
 		nodes[i].parentNode.replaceChild(fragment, nodes[i]);
