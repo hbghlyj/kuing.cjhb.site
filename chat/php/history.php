@@ -25,7 +25,7 @@ while($row = $result->fetch_assoc()) {
 		'actor' => [
 			'id' => (int)$row['uid'],
 			'displayName' => $row['author'],
-			'image' => !empty($row['avatarstatus']) ? avatar($row['uid'], 'small', 1) : '',
+			'image' => !(int)$row['uid'] ? '/static/image/common/online_guest.svg' : (!empty($row['avatarstatus']) ? avatar($row['uid'], 'small', 1) : ''),
 		],
 	];
 }

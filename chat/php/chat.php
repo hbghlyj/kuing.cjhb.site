@@ -59,7 +59,7 @@ require_once __DIR__.'/config.php';
 
 $options = [
 	'displayName' => $author,
-	'image' => !empty($_G['member']['avatarstatus']) ? avatar($_G['uid'], 'small', 1) : '',
+	'image' => !$uid ? '/static/image/common/online_guest.svg' : (!empty($_G['member']['avatarstatus']) ? avatar($uid, 'small', 1) : ''),
 	'actorId' => (int)$_G['uid'],
 	'messageTime' => $chatTime,
 ];
