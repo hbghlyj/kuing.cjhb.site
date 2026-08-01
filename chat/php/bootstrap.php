@@ -17,9 +17,12 @@ function chat_json($status, array $payload) {
 	exit;
 }
 
-function chat_require_write() {
+function chat_require_write($membersOnly = false) {
 	global $_G;
-	if($_SERVER['REQUEST_METHOD'] !== 'POST' || empty($_G['uid'])) {
+	if($_SERVER['REQUEST_METHOD'] !== 'POST') {
+		chat_json(405, ['error' => 'POST required']);
+	}
+	if($membersOnly && empty($_G['uid'])) {
 		chat_json(403, ['error' => 'Authentication required']);
 	}
 	$formhash = isset($_POST['formhash']) && is_string($_POST['formhash']) ? $_POST['formhash'] : '';

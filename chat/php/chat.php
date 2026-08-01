@@ -14,8 +14,12 @@ if((function_exists('mb_strlen') ? mb_strlen($text, 'UTF-8') : strlen($text)) > 
 }
 
 $message = htmlspecialchars($text, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
-$author = $_G['username'];
 $uid = (int)$_G['uid'];
+$author = $_G['username'];
+if(!$uid) {
+	$location = ip::format_session_location($_G['session']['location'] ?? '', $_G['session']['city'] ?? null);
+	$author = $location['compact'] ?: 'Guest';
+}
 $conn = chat_database($discuzRoot);
 
 // Keep the short-lived history bounded before adding the new message.

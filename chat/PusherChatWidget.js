@@ -69,7 +69,7 @@
         this.#widget.querySelector('label').textContent = $L('chat_connecting');
       });
       this.#chatChannel.bind('pusher:subscription_succeeded', () => {
-        const canWrite = Number(window.discuz_uid || 0) > 0 && typeof FORMHASH !== 'undefined' && FORMHASH;
+        const canWrite = typeof FORMHASH !== 'undefined' && FORMHASH;
         this.#widget.querySelector('label').textContent = canWrite ? $L('chat_shortcut') + ' Ctrl+Enter' : $L('chat_login_to_send');
         this.#messageInputEl.disabled = !canWrite;
         this.#widget.querySelectorAll('.pusher-chat-widget-send-btn, .pusher-chat-widget-photo-btn').forEach(button => {
@@ -331,7 +331,7 @@
       if(!this.#lastMessageTime || String(entry.data.message_time || '') > this.#lastMessageTime) {
         this.#lastMessageTime = String(entry.data.message_time || '');
       }
-      if(Number(entry.data.actor?.id) === Number(window.discuz_uid || 0)) {
+      if(Number(window.discuz_uid || 0) > 0 && Number(entry.data.actor?.id) === Number(window.discuz_uid)) {
         this.#addSwipeToDeleteHandlers(entry.messageEl, entry.data);
       }
       typesetNodes([entry.messageEl]).catch(err=>{ showError($L('chat_mathjax_error', [err])); });
@@ -504,7 +504,7 @@
       content.append(message);
       contentWrapper.append(image, content);
       li.append(contentWrapper);
-      if(Number(activity.actor?.id) === Number(window.discuz_uid || 0)) {
+      if(Number(window.discuz_uid || 0) > 0 && Number(activity.actor?.id) === Number(window.discuz_uid)) {
         const deleteAction = document.createElement('div');
         deleteAction.className = 'delete-action';
         const deleteButton = document.createElement('button');
