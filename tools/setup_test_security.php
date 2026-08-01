@@ -264,24 +264,27 @@ $expect(is_file(DISCUZ_ROOT.'./data/cache/common_smilies_var.js'), 'common_smili
 test_security_setup_stage('extend_thread_comment XSS sanitization');
 require_once DISCUZ_ROOT.'./source/app/forum/extend/extend_thread_base.php';
 require_once DISCUZ_ROOT.'./source/app/forum/extend/extend_thread_comment.php';
-$seedThread = C::t('forum_thread')->fetch_by_subject('Admin Seed Thread');
+$seedThread = DB::fetch_first('SELECT * FROM %t WHERE subject=%s LIMIT 1', ['forum_thread', 'Admin Seed Thread']);
 if($seedThread) {
-	$seedPosts = C::t('forum_post')->fetch_all_by_tid('tid:'.$seedThread['tid'], $seedThread['tid'], true, 'ASC', 0, 0, null, 0);
-	$seedReplyPid = 0;
-	foreach($seedPosts as $p) {
-		if(empty($p['first'])) {
-			$seedReplyPid = (int)$p['pid'];
-			break;
-		}
-	}
-	if($seedReplyPid > 0) {
+	$seedReply = DB::fetch_first('SELECT * FROM %t WHERE tid=%d AND first=0 LIMIT 1', ['forum_post', $seedThread['tid']]);
+	if($seedReply) {
 		$commentExtend = new \forum\extend_thread_comment();
 		$commentExtend->setting = ['allowpostcomment' => [2], 'commentpostself' => 1];
-		$commentExtend->group = ['allowcommentreply' => 1];
+		$commentExtend->group = ['allowcommentreply' => 1, 'ignorecensor' => 1];
+		$commentExtend->forum = ['modnewposts' => 0, 'status' => 1];
 		$commentExtend->thread = ['tid' => $seedThread['tid'], 'displayorder' => 0];
-		$commentExtend->member = ['uid' => 1, 'username' => 'admin'];
-		$commentExtend->param = ['subject' => '', 'message' => '<script>alert("xss")</script>', 'extramessage' => '', 'modnewreplies' => 0];
-		$_GET['reppid'] = $seedReplyPid;
+		$commentExtend->member = ['uid' => 1, 'username' => 'admin', 'adminid' => 1, 'groupid' => 1];
+		$commentExtend->param = [
+			'subject' => '',
+			'message' => '<script>alert("xss")</script>',
+			'extramessage' => '',
+			'modnewreplies' => 0,
+			'modstatus' => 0,
+			'special' => 0,
+			'noticetrimstr' => '',
+			'from' => '',
+		];
+		$_GET['reppid'] = (int)$seedReply['pid'];
 		$commentExtend->before_newreply(['modnewreplies' => 0]);
 		$prop = new ReflectionProperty($commentExtend, 'postcomment');
 		$prop->setAccessible(true);
