@@ -31,7 +31,6 @@ $lang = [
 	'chat_load_failed' => '加载失败',
 	'chat_load_more' => '加载更多',
 	'chat_loading' => '加载中……',
-	'chat_login_to_send' => '登录后可发送消息',
 	'chat_mathjax_error' => 'MathJax 排版错误：{1}',
 	'chat_message_empty' => '请输入聊天信息',
 	'chat_message_too_long' => '聊天信息过长',

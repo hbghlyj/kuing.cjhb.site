@@ -69,12 +69,7 @@
         this.#widget.querySelector('label').textContent = $L('chat_connecting');
       });
       this.#chatChannel.bind('pusher:subscription_succeeded', () => {
-        const canWrite = typeof FORMHASH !== 'undefined' && FORMHASH;
-        this.#widget.querySelector('label').textContent = canWrite ? $L('chat_shortcut') + ' Ctrl+Enter' : $L('chat_login_to_send');
-        this.#messageInputEl.disabled = !canWrite;
-        this.#widget.querySelectorAll('.pusher-chat-widget-send-btn, .pusher-chat-widget-photo-btn').forEach(button => {
-          button.disabled = !canWrite;
-        });
+        this.#widget.querySelector('label').textContent = $L('chat_shortcut') + ' Ctrl+Enter';
       });
       this.#pusher.connection.bind('unavailable', () => {
         this.#widget.querySelector('label').textContent = $L('chat_network_unavailable');

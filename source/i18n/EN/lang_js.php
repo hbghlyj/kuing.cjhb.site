@@ -29,7 +29,6 @@ $lang = [
 	'chat_load_failed' => 'Failed to load',
 	'chat_load_more' => 'Load More',
 	'chat_loading' => 'Loading...',
-	'chat_login_to_send' => 'Log in to send messages',
 	'chat_mathjax_error' => 'MathJax typesetting error: {1}',
 	'chat_message_empty' => 'Please enter a chat message',
 	'chat_message_too_long' => 'Chat message too long',
