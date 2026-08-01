@@ -259,7 +259,7 @@ $data = [[
     'hour' => '12',
     'minute' => '0',
   ],[
-    'cronid' => '24',
+    'cronid' => '25',
     'available' => '1',
     'type' => 'system',
     'name' => '處理郵件發帖',
