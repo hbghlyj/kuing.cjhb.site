@@ -91,7 +91,7 @@ window.MathJax = {
   loader: {
     load: ['[tex]/noerrors','[tex]/mathtools','[static]/xypic'],
     source: {
-      '[static]/xypic': window.KK_MATHJAX_XYPIC_URL || '/static/xypic.js'
+      '[static]/xypic': '/static/xypic.js'
     },
     failed: function (error) {
       showError(`MathJax(${error.package || '?'}): ${error.message}`);
