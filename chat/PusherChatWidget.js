@@ -78,6 +78,9 @@
       });
       this.#chatChannel.bind('pusher:subscription_succeeded', () => {
         this.#widget.querySelector('label').textContent = $L('chat_shortcut') + ' Ctrl+Enter';
+        this.#widget.querySelectorAll('.pusher-chat-widget-send-btn, .pusher-chat-widget-photo-btn').forEach(button => {
+          button.disabled = false;
+        });
       });
       this.#pusher.connection.bind('unavailable', () => {
         this.#widget.querySelector('label').textContent = $L('chat_network_unavailable');
