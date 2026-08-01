@@ -286,7 +286,7 @@ if($seedThread) {
 			'from' => '',
 		];
 		$_GET['reppid'] = (int)$seedReply['pid'];
-		$commentExtend->before_newreply(['modnewreplies' => 0]);
+		$commentExtend->before_newreply(['modnewreplies' => 0, 'message' => '<script>alert("xss")</script>']);
 		$prop = new ReflectionProperty($commentExtend, 'postcomment');
 		$prop->setAccessible(true);
 		$expect($prop->getValue($commentExtend) === '&lt;script&gt;alert(&quot;xss&quot;)&lt;/script&gt;', 'extend_thread_comment XSS sanitization');
