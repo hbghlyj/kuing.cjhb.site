@@ -364,6 +364,13 @@ function editorsimple() {
 			$(editorid + '_adv_' + i).style.display = v;
 		}
 	}
+	var simpleHiddenButtons = ['fullswitcher', 'simple', 'forecolor', 'backcolor', 'autotypeset', 'justifyleft', 'justifycenter', 'justifyright'];
+	for(i = 0; i < simpleHiddenButtons.length; i++) {
+		var button = $(editorid + '_' + simpleHiddenButtons[i]);
+		if(button) {
+			button.style.display = v;
+		}
+	}
 	var btns = $(editorid + '_adv_s3').getElementsByTagName('A');
 	for(i = 0;i < btns.length;i++) {
 		if(btns[i].getAttribute('adv')) {
