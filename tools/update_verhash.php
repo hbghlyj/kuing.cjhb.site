@@ -4,8 +4,9 @@ if(PHP_SAPI !== 'cli') {
 	exit("This tool must be run from the command line.\n");
 }
 
-if(get_current_user() !== 'www-data' && !getenv('GITHUB_ACTIONS')) {
-	exit("This tool must be run as script owner www-data.\n");
+$processUser = function_exists('posix_geteuid') && function_exists('posix_getpwuid') ? posix_getpwuid(posix_geteuid())['name'] : get_current_user();
+if($processUser !== 'www-data' && !getenv('GITHUB_ACTIONS')) {
+	exit("This tool must be run as process user www-data.\n");
 }
 
 $root = dirname(__DIR__);
