@@ -815,3 +815,5 @@ function initMathJaxPreview() {
 
 initMathJaxPreview();
 window.renderMathEditorContent = renderMathEditorContent;
+// The editor may have initialized before this deferred script exposes the renderer.
+if (typeof wysiwyg !== 'undefined' && typeof editdoc !== 'undefined') renderMathEditorContent();
