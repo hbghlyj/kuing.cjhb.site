@@ -2896,11 +2896,15 @@ CREATE TABLE pre_forum_emailpost
 	sender      varchar(255)             NOT NULL DEFAULT '',
 	uid         mediumint(8) unsigned    NOT NULL DEFAULT '0',
 	action      enum ('thread','reply')  NOT NULL,
-	relatedid   int(10) unsigned         NOT NULL DEFAULT '0',
+	parentkey   char(64)                  NOT NULL DEFAULT '',
+	fid         mediumint(8) unsigned    NOT NULL DEFAULT '0',
+	tid         mediumint(8) unsigned    NOT NULL DEFAULT '0',
+	pid         int(10) unsigned         NOT NULL DEFAULT '0',
 	status      tinyint(1)               NOT NULL DEFAULT '0',
 	dateline    int(10) unsigned         NOT NULL DEFAULT '0',
 	detail      varchar(255)             NOT NULL DEFAULT '',
 	PRIMARY KEY (messagekey),
+	KEY tid (tid, pid),
 	KEY status (status, dateline),
 	KEY uid (uid, dateline)
 ) ENGINE = InnoDB;

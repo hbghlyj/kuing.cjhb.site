@@ -258,5 +258,17 @@ $data = [[
     'day' => '-1',
     'hour' => '12',
     'minute' => '0',
+  ],[
+    'cronid' => '24',
+    'available' => '1',
+    'type' => 'system',
+    'name' => '處理郵件發帖',
+    'filename' => 'cron_emailpost.php',
+    'lastrun' => '0',
+    'nextrun' => '0',
+    'weekday' => '-1',
+    'day' => '-1',
+    'hour' => '-1',
+    'minute' => "0\t10\t20\t30\t40\t50",
   ],
 ];
