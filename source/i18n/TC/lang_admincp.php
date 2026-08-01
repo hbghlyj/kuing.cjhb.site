@@ -5529,7 +5529,6 @@ $lang =
 	'smilies_type' => '表情分類',
 	'smilies_nums' => '表情數量',
 	'smilies_update' => '更新',
-	'smilies_fast' => '推薦',
 	'smilies_update_confirm1' => '此操作將自動搜尋 static/image/smiley/ 目錄',
 	'smilies_update_confirm2' => ' 目錄下尚未啓用的表情，並自動添加到表情分類“',
 	'smilies_update_confirm3' => '”，請確認！',

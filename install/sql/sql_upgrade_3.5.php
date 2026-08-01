@@ -864,3 +864,5 @@ CREATE TABLE IF NOT EXISTS pre_forum_emailpost
 ALTER TABLE pre_forum_hotreply_member
 	ADD COLUMN dateline int(10) unsigned NOT NULL DEFAULT '0',
 	ADD KEY uid (uid, dateline);
+
+DELETE FROM pre_common_setting WHERE skey = 'fastsmiley';

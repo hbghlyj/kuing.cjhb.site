@@ -22,8 +22,6 @@ if($type['directory'] != ':emoji') {
 		cpmsg('smilies_directory_invalid', '', 'error', ['smurl' => $smurl]);
 	}
 }
-$fastsmiley = table_common_setting::t()->fetch_setting('fastsmiley', true);
-
 if(!$do) {
 
 	if(!submitcheck('editsubmit')) {
@@ -38,20 +36,18 @@ if(!$do) {
 		$smilies = '';
 		foreach(table_common_smiley::t()->fetch_all_by_typeid_type($id, 'smiley', $start_limit, $smiliesperpage) as $smiley) {
 			if($type['directory'] != ':emoji') {
-				$smilies .= showtablerow('', ['class="td25"', 'class="td28 td24"', 'class="td25"', 'class="td23"', 'class="td23"', 'class="td24"'], [
+				$smilies .= showtablerow('', ['class="td25"', 'class="td28 td24"', 'class="td23"', 'class="td23"', 'class="td24"'], [
 					"<input class=\"checkbox\" type=\"checkbox\" name=\"delete[]\" value=\"{$smiley['id']}\">",
 					"<input type=\"text\" class=\"txt\" size=\"2\" name=\"displayorder[{$smiley['id']}]\" value=\"{$smiley['displayorder']}\">",
-					"<input class=\"checkbox\" type=\"checkbox\" name=\"fast[]\" ".(is_array($fastsmiley[$id]) && in_array($smiley['id'], $fastsmiley[$id]) ? 'checked="checked"' : '')." value=\"{$smiley['id']}\">",
 					"<img src=\"$smurl/{$smiley['url']}\" border=\"0\" onload=\"if(this.height>30) {this.resized=true; this.height=30;}\" onmouseover=\"if(this.resized) this.style.cursor='pointer';\" onclick=\"if(!this.resized) {return false;} else {window.open(this.src);}\">",
 					$smiley['id'],
 					"<input type=\"text\" class=\"txt\" size=\"25\" name=\"code[{$smiley['id']}]\" value=\"".dhtmlspecialchars($smiley['code'])."\" id=\"code_$smileynum\" smileyid=\"{$smiley['id']}\" />",
 					"<input type=\"hidden\" value=\"{$smiley['url']}\" id=\"url_$smileynum\">{$smiley['url']}"
 				], TRUE);
 			} else {
-				$smilies .= showtablerow('', ['class="td25"', 'class="td28 td24"', 'class="td25"', 'class="td23"', ''], [
+				$smilies .= showtablerow('', ['class="td25"', 'class="td28 td24"', 'class="td23"', ''], [
 					"<input class=\"checkbox\" type=\"checkbox\" name=\"delete[]\" value=\"{$smiley['id']}\">",
 					"<input type=\"text\" class=\"txt\" size=\"2\" name=\"displayorder[{$smiley['id']}]\" value=\"{$smiley['displayorder']}\">",
-					"<input class=\"checkbox\" type=\"checkbox\" name=\"fast[]\" ".(is_array($fastsmiley[$id]) && in_array($smiley['id'], $fastsmiley[$id]) ? 'checked="checked"' : '')." value=\"{$smiley['id']}\">",
 					$smiley['id'],
 					"<input type=\"text\" class=\"txt\" size=\"25\" name=\"code[{$smiley['id']}]\" value=\"".dhtmlspecialchars($smiley['code'])."\" id=\"code_$smileynum\" smileyid=\"{$smiley['id']}\" />",
 				], TRUE);
@@ -106,9 +102,9 @@ EOT;
 		showhiddenfields(['page' => $_GET['page']]);
 		showtableheader('', 'nobottom');
 		if($type['directory'] != ':emoji') {
-			showsubtitle(['', 'display_order', 'smilies_fast', 'smilies_edit_image', 'smilies_id', 'smilies_edit_code', 'smilies_edit_filename']);
+			showsubtitle(['', 'display_order', 'smilies_edit_image', 'smilies_id', 'smilies_edit_code', 'smilies_edit_filename']);
 		} else {
-			showsubtitle(['', 'display_order', 'smilies_fast', 'smilies_id', 'smilies_edit_code']);
+			showsubtitle(['', 'display_order', 'smilies_id', 'smilies_edit_code']);
 		}
 		echo $smilies;
 		if($type['directory'] != ':emoji') {
@@ -117,7 +113,7 @@ EOT;
 				$lang['smilies_edit_add_code'].' <input type="text" class="txt" style="margin-right:0;width:40px;" size="2" value="{:" title="'.$lang['smilies_prefix'].'" id="prefix" onclick="clearinput(this, \''.$lang['smilies_prefix'].'\')" /> + <select id="middle"><option value="1">'.$lang['smilies_edit_order_file'].'</option><option value="2">'.$lang['smilies_edit_order_radom'].'</option><option value="3">'.$lang['smilies_id'].'</option></select> + <input type="text" class="txt" style="margin-right:0;width:40px;" size="2" value=":}" title="'.$lang['smilies_suffix'].'" id="suffix" onclick="clearinput(this, \''.$lang['smilies_suffix'].'\')" /> <input type="button" class="btn" onclick="addsmileycodes(\''.$smileynum.'\', \'\');" value="'.$lang['apply'].'" /> &nbsp;&nbsp; <input type="button" class="btn" onclick="autoaddsmileycodes(\''.$smileynum.'\');" value="'.$lang['smilies_edit_addcode_auto'].'" />'
 			]);
 		} else {
-			showtablerow('', ['', 'colspan="4"'], [
+			showtablerow('', ['', 'colspan="3"'], [
 				cplang('add'),
 				'<input type="text" class="txt" name="addNew" style="width: 200px" value="" /><input type="hidden" name="lastDisplayorder" value="'.$lastDisplayorder.'" />'.
 				cplang('smilies_emoij_tips'),
@@ -140,12 +136,8 @@ EOT;
 			}
 		}
 
-		$unsfast = [];
 		if(is_array($_GET['displayorder'])) {
 			foreach($_GET['displayorder'] as $key => $val) {
-				if(empty($_GET['fast']) || (is_array($_GET['fast']) && !in_array($key, $_GET['fast']))) {
-					$unsfast[] = $key;
-				}
 				$_GET['displayorder'][$key] = intval($_GET['displayorder'][$key]);
 				$_GET['code'][$key] = trim($_GET['code'][$key]);
 				$data = ['displayorder' => $_GET['displayorder'][$key]];
@@ -156,8 +148,6 @@ EOT;
 			}
 		}
 
-		$fastsmiley[$id] = array_diff(array_unique(array_merge((array)$fastsmiley[$id], (array)$_GET['fast'])), $unsfast);
-		table_common_setting::t()->update_setting('fastsmiley', $fastsmiley);
 		updatecache(['smilies', 'smileycodes', 'smilies_js']);
 		cpmsg('smilies_edit_succeed', "action=smilies&operation=edit&id=$id&page={$_GET['page']}", 'succeed');
 
@@ -239,4 +229,3 @@ EOT;
 		cpmsg('smilies_edit_succeed', "action=smilies&operation=edit&id=$id", 'succeed');
 	}
 }
-	

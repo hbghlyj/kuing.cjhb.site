@@ -13,11 +13,9 @@ if(!defined('IN_DISCUZ')) {
 function build_cache_smilies_js() {
 	global $_G;
 
-	$fastsmiley = table_common_setting::t()->fetch_setting('fastsmiley', true);
 	$return_type = 'var smilies_type = new Array();';
-	$return_array = 'var smilies_array = new Array();var smilies_fast = new Array();';
+	$return_array = 'var smilies_array = new Array();';
 	$spp = $_G['setting']['smcols'] * $_G['setting']['smrows'];
-	$fpre = '';
 	foreach(table_forum_imagetype::t()->fetch_all_by_type('smiley', 1) as $type) {
 		$return_data = [];
 		$return_datakey = '';
@@ -36,10 +34,6 @@ function build_cache_smilies_js() {
 			if($type['directory'] == ':emoji') {
 				$smileyid = $smiley['id'];
 				$return_data[$j] .= $pre.'[\''.$smileyid.'\', \''.$smiley['code'].'\']';
-				if(is_array($fastsmiley[$type['typeid']]) && in_array($smileyid, $fastsmiley[$type['typeid']])) {
-					$return_fast .= $fpre.'[\''.$type['typeid'].'\',\''.$j.'\',\''.$i.'\']';
-					$fpre = ',';
-				}
 				$pre = ',';
 			} elseif($size = @getimagesize(DISCUZ_ROOT.'./static/image/smiley/'.$type['directory'].'/'.$smiley['url'])) {
 				$smiley['code'] = str_replace('\'', '\\\'', $smiley['code']);
@@ -51,10 +45,6 @@ function build_cache_smilies_js() {
 				$smiley['lw'] = $l['w'];
 				unset($smiley['id'], $smiley['directory']);
 				$return_data[$j] .= $pre.'[\''.$smileyid.'\', \''.$smiley['code'].'\',\''.str_replace('\'', '\\\'', $smiley['url']).'\',\''.$smiley['w'].'\',\''.$smiley['h'].'\',\''.$smiley['lw'].'\']';
-				if(is_array($fastsmiley[$type['typeid']]) && in_array($smileyid, $fastsmiley[$type['typeid']])) {
-					$return_fast .= $fpre.'[\''.$type['typeid'].'\',\''.$j.'\',\''.$i.'\']';
-					$fpre = ',';
-				}
 				$pre = ',';
 			}
 			$i++;
@@ -66,7 +56,7 @@ function build_cache_smilies_js() {
 	if(!is_dir($cachedir)) {
 		dmkdir($cachedir);
 	}
-	$common_smilies_var_js = 'var smthumb = \''.$_G['setting']['smthumb'].'\';'.$return_type.$return_array.'var smilies_fast=['.$return_fast.'];';
+	$common_smilies_var_js = 'var smthumb = \''.$_G['setting']['smthumb'].'\';'.$return_type.$return_array;
 	if(file_put_contents($cachedir.'common_smilies_var.js', $common_smilies_var_js, LOCK_EX) === false) {
 		exit('Can not write to cache files, please check directory ./data/ and ./data/cache/ .');
 	}

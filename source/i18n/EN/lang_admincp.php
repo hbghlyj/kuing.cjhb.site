@@ -5185,7 +5185,6 @@ $lang = array
 	'smilies_type' => '表情分类',
 	'smilies_nums' => '表情数量',
 	'smilies_update' => '更新',
-	'smilies_fast' => '推荐',
 	'smilies_update_confirm1' => '此操作将自动搜索 static/image/smiley/ 目录',
 	'smilies_update_confirm2' => ' 目录下尚未启用的表情，并自动添加到表情分类“',
 	'smilies_update_confirm3' => '”，请确认！',

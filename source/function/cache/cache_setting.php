@@ -16,7 +16,7 @@ function build_cache_setting() {
 	$skipkeys = ['posttableids', 'mastermobile', 'masterqq', 'masteremail', 'closedreason',
 		'creditsnotify', 'backupdir', 'custombackup', 'jswizard', 'maxonlines', 'modreasons', 'newsletter',
 		'postno', 'postnocustom', 'customauthorinfo', 'domainwhitelist', 'ipregctrl',
-		'ipverifywhite', 'fastsmiley', 'defaultdoing', 'antitheftsetting',
+		'ipverifywhite', 'defaultdoing', 'antitheftsetting',
 	];
 	$serialized = ['reginput', 'memory', 'search', 'creditspolicy', 'ftp', 'secqaa', 'ec_credit', 'qihoo', 'spacedata',
 		'infosidestatus', 'uc', 'indexhot', 'relatedtag', 'sitemessage', 'uchome', 'heatthread', 'recommendthread',
