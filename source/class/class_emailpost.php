@@ -15,7 +15,7 @@ class emailpost_rejection extends RuntimeException {}
 class emailpost {
 
 	private array $config;
-	private $mailbox;
+	protected $mailbox;
 
 	public static function run() {
 		$default = require DISCUZ_ROOT.'config/config_emailpost_default.php';
@@ -32,7 +32,7 @@ class emailpost {
 		$this->config = $config;
 	}
 
-	private function consume() {
+	protected function consume() {
 		if(!function_exists('imap_open')) {
 			throw new RuntimeException('The PHP IMAP extension is required for email posting.');
 		}
@@ -53,27 +53,27 @@ class emailpost {
 		}
 
 		try {
-			$this->mailbox = imap_open($this->config['mailbox'], $this->config['username'], $this->config['password']);
+			$this->mailbox = $this->imapOpen($this->config['mailbox'], $this->config['username'], $this->config['password']);
 			if(!$this->mailbox) {
 				throw new RuntimeException('Unable to open the email posting mailbox: '.imap_last_error());
 			}
-			$uids = imap_search($this->mailbox, 'UNSEEN', SE_UID) ?: [];
+			$uids = $this->imapSearch($this->mailbox, 'UNSEEN', SE_UID) ?: [];
 			$uids = array_slice($uids, 0, max(1, intval($this->config['max_messages'])));
 			foreach($uids as $mailuid) {
 				$this->consumeMessage(intval($mailuid));
 			}
 		} finally {
 			if($this->mailbox) {
-				imap_close($this->mailbox, CL_EXPUNGE);
+				$this->imapClose($this->mailbox, CL_EXPUNGE);
 			}
 			flock($lock, LOCK_UN);
 			fclose($lock);
 		}
 	}
 
-	private function consumeMessage(int $mailuid) {
-		$rawHeaders = imap_fetchheader($this->mailbox, $mailuid, FT_UID) ?: '';
-		$headers = imap_headerinfo($this->mailbox, imap_msgno($this->mailbox, $mailuid));
+	protected function consumeMessage(int $mailuid) {
+		$rawHeaders = $this->imapFetchHeader($this->mailbox, $mailuid, FT_UID) ?: '';
+		$headers = $this->imapHeaderInfo($this->mailbox, $this->imapMsgNo($this->mailbox, $mailuid));
 		$messageid = $this->firstMessageId($rawHeaders, 'Message-ID');
 		if(!$messageid) {
 			$messageid = '<missing-'.hash('sha256', $rawHeaders).'@'.strtolower($this->config['recipient_domain']).'>';
@@ -146,10 +146,10 @@ class emailpost {
 		}
 	}
 
-	private function finishMessage(int $mailuid) {
-		imap_setflag_full($this->mailbox, (string)$mailuid, '\\Seen', ST_UID);
+	protected function finishMessage(int $mailuid) {
+		$this->imapSetFlagFull($this->mailbox, (string)$mailuid, '\\Seen', ST_UID);
 		if(!empty($this->config['delete_after_posting'])) {
-			imap_delete($this->mailbox, (string)$mailuid, FT_UID);
+			$this->imapDelete($this->mailbox, (string)$mailuid, FT_UID);
 		}
 	}
 
@@ -399,8 +399,8 @@ class emailpost {
 		}
 	}
 
-	private function messageBody(int $mailuid) {
-		$structure = imap_fetchstructure($this->mailbox, $mailuid, FT_UID);
+	protected function messageBody(int $mailuid) {
+		$structure = $this->imapFetchStructure($this->mailbox, $mailuid, FT_UID);
 		$plain = $this->findBodyPart($mailuid, $structure, '', 'PLAIN');
 		if($plain !== null) {
 			return dhtmlspecialchars(trim($plain));
@@ -421,8 +421,8 @@ class emailpost {
 			&& (!empty($part->dparameters) || !empty($part->parameters));
 		if(intval($part->type) === 0 && strtoupper($part->subtype ?? '') === $subtype && !$isAttachment) {
 			$body = $number === ''
-				? imap_body($this->mailbox, $mailuid, FT_UID | FT_PEEK)
-				: imap_fetchbody($this->mailbox, $mailuid, $number, FT_UID | FT_PEEK);
+				? $this->imapBody($this->mailbox, $mailuid, FT_UID | FT_PEEK)
+				: $this->imapFetchBody($this->mailbox, $mailuid, $number, FT_UID | FT_PEEK);
 			$body = $this->decodeBody($body ?: '', intval($part->encoding));
 			$charset = $this->partParameter($part, 'charset');
 			return $charset && strcasecmp($charset, 'UTF-8') !== 0 ? diconv($body, $charset, 'UTF-8') : $body;
@@ -490,5 +490,50 @@ class emailpost {
 		$unfolded = preg_replace("/\r?\n[\t ]+/", ' ', $headers);
 		preg_match_all('/^'.preg_quote($name, '/').':\s*([^\r\n]*)/im', $unfolded, $matches);
 		return $matches[1] ?? [];
+	}
+
+	// Kept as a narrow boundary so integration tests can supply a fixture mailbox.
+	protected function imapOpen(string $mailbox, string $username, string $password) {
+		return imap_open($mailbox, $username, $password);
+	}
+
+	protected function imapSearch($mailbox, string $criteria, int $flags) {
+		return imap_search($mailbox, $criteria, $flags);
+	}
+
+	protected function imapClose($mailbox, int $flags) {
+		return imap_close($mailbox, $flags);
+	}
+
+	protected function imapFetchHeader($mailbox, int $uid, int $flags) {
+		return imap_fetchheader($mailbox, $uid, $flags);
+	}
+
+	protected function imapHeaderInfo($mailbox, int $messageNumber) {
+		return imap_headerinfo($mailbox, $messageNumber);
+	}
+
+	protected function imapMsgNo($mailbox, int $uid) {
+		return imap_msgno($mailbox, $uid);
+	}
+
+	protected function imapSetFlagFull($mailbox, string $sequence, string $flag, int $options) {
+		return imap_setflag_full($mailbox, $sequence, $flag, $options);
+	}
+
+	protected function imapDelete($mailbox, string $sequence, int $options) {
+		return imap_delete($mailbox, $sequence, $options);
+	}
+
+	protected function imapFetchStructure($mailbox, int $uid, int $flags) {
+		return imap_fetchstructure($mailbox, $uid, $flags);
+	}
+
+	protected function imapBody($mailbox, int $uid, int $flags) {
+		return imap_body($mailbox, $uid, $flags);
+	}
+
+	protected function imapFetchBody($mailbox, int $uid, string $section, int $flags) {
+		return imap_fetchbody($mailbox, $uid, $section, $flags);
 	}
 }
