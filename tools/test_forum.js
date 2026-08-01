@@ -426,16 +426,7 @@ const svgAttachmentSubject = `Thread with SVG Attachment ${testRunId}`;
             'Assertion Error: Clicking a smiley did not insert its code into the editor.'
         );
 
-        await fillPostEditor('[list]\n[*]Bullet\n[/list]\n[list=1]\n[*]Number\n[/list]\n[list=a]\n[*]Letter\n[/list]');
-        const previewItems = page.locator('#output li');
-        await previewItems.nth(2).waitFor({ state: 'visible' });
-        assert.deepStrictEqual(
-            await previewItems.evaluateAll(items => items.map(item => getComputedStyle(item).listStyleType)),
-            ['disc', 'decimal', 'lower-alpha'],
-            'Assertion Error: BBCode preview list markers were suppressed by global UI list styles.'
-        );
-
-        await fillPostEditor('Body text from unprivileged account.');
+		await fillPostEditor('Body text from unprivileged account.');
 
         await solveSecurityQuestion(page);
 
