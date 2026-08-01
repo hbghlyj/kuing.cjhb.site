@@ -563,6 +563,194 @@ function insertMathEquation(math) {
 	renderMathEquation(rendered, math);
 }
 
+var mathSymbolRecentKey = 'Discuz_math_symbol_recent';
+var mathSymbolRecentLimit = 10;
+var mathSymbolCategories = [
+	{ key: 'greek', preview: 'α β γ', symbols: ['\\alpha', '\\beta', '\\gamma', '\\delta', '\\epsilon', '\\varepsilon', '\\zeta', '\\eta', '\\theta', '\\vartheta', '\\iota', '\\kappa', '\\lambda', '\\mu', '\\nu', '\\xi', '\\pi', '\\varpi', '\\rho', '\\sigma', '\\tau', '\\upsilon', '\\phi', '\\varphi', '\\chi', '\\psi', '\\omega', '\\Gamma', '\\Delta', '\\Theta', '\\Lambda', '\\Xi', '\\Pi', '\\Sigma', '\\Upsilon', '\\Phi', '\\Psi', '\\Omega'] },
+	{ key: 'operators', preview: '∑ ∫ ×', symbols: ['+', '-', '\\pm', '\\mp', '\\times', '\\div', '\\cdot', '\\ast', '\\star', '\\circ', '\\bullet', '\\oplus', '\\ominus', '\\otimes', '\\sum', '\\prod', '\\coprod', '\\int', '\\iint', '\\iiint', '\\oint', '\\partial', '\\nabla', '\\infty'] },
+	{ key: 'relations', preview: '= ≈ ≤', symbols: ['=', '\\ne', '\\approx', '\\equiv', '\\sim', '\\simeq', '\\cong', '<', '>', '\\leqslant', '\\geqslant', '\\ll', '\\gg', '\\propto', '\\in', '\\notin', '\\ni', '\\subset', '\\subseteq', '\\supset', '\\supseteq', '\\perp', '\\parallel', '\\mid', '\\nmid'] },
+	{ key: 'arrows', preview: '→ ⇒ ↦', symbols: ['\\leftarrow', '\\rightarrow', '\\leftrightarrow', '\\Leftarrow', '\\Rightarrow', '\\Leftrightarrow', '\\mapsto', '\\longmapsto', '\\hookleftarrow', '\\hookrightarrow', '\\uparrow', '\\downarrow', '\\updownarrow', '\\nearrow', '\\searrow', '\\swarrow', '\\nwarrow'] },
+	{ key: 'logic', preview: '∀ ∃ ∈', symbols: ['\\forall', '\\exists', '\\nexists', '\\neg', '\\land', '\\lor', '\\implies', '\\iff', '\\therefore', '\\because', '\\emptyset', '\\mathbb{N}', '\\mathbb{Z}', '\\mathbb{Q}', '\\mathbb{R}', '\\mathbb{C}', '\\cup', '\\cap', '\\setminus'] },
+	{ key: 'geometry', preview: '∠ △ ⟂', symbols: ['\\angle', '\\measuredangle', '\\triangle', '\\square', '\\diamond', '\\perp', '\\parallel', '\\cong', '\\sim', '\\odot', '\\circ', '^\\circ', '\\overline{}', '\\vec{}'] }
+];
+
+function getMathSymbolCatalog() {
+	var catalog = {};
+	for (var i = 0; i < mathSymbolCategories.length; i++) {
+		for (var j = 0; j < mathSymbolCategories[i].symbols.length; j++) catalog[mathSymbolCategories[i].symbols[j]] = true;
+	}
+	return catalog;
+}
+
+function loadRecentMathSymbols() {
+	var catalog = getMathSymbolCatalog();
+	try {
+		var stored = JSON.parse(localStorage.getItem(mathSymbolRecentKey) || '[]');
+		if (!Array.isArray(stored)) return [];
+		return stored.filter(function(symbol) { return typeof symbol === 'string' && catalog[symbol]; }).slice(-mathSymbolRecentLimit);
+	} catch (error) {
+		return [];
+	}
+}
+
+function saveRecentMathSymbols(symbols) {
+	try {
+		localStorage.setItem(mathSymbolRecentKey, JSON.stringify(symbols));
+	} catch (error) {}
+}
+
+function insertMathDialogSymbol(equation, symbol) {
+	var start = equation.selectionStart;
+	var end = equation.selectionEnd;
+	if (typeof start !== 'number' || typeof end !== 'number') start = end = equation.value.length;
+	equation.value = equation.value.slice(0, start) + symbol + equation.value.slice(end);
+	equation.focus();
+	equation.setSelectionRange(start + symbol.length, start + symbol.length);
+	equation.dispatchEvent(new Event('input', { bubbles: true }));
+}
+
+function typesetMathSymbolContainer(container) {
+	if (typeof MathJax === 'undefined' || typeof MathJax.typesetPromise !== 'function') return;
+	MathJax.typesetPromise([container]).catch(function() {});
+}
+
+function createMathSymbolButton(symbol, equation, onInsert) {
+	var button = document.createElement('button');
+	button.type = 'button';
+	button.className = 'math-symbol-cell';
+	button.title = symbol;
+	button.textContent = '$' + symbol + '$';
+	button.addEventListener('click', function(event) {
+		event.preventDefault();
+		insertMathDialogSymbol(equation, symbol);
+		onInsert(symbol);
+	});
+	return button;
+}
+
+function initMathSymbolPicker(container, equation, labels) {
+	var recentSymbols = loadRecentMathSymbols();
+	var initialCategory = null;
+	var initialCategoryButton = null;
+	var picker = document.createElement('div');
+	picker.className = 'math-symbol-picker';
+	var toggle = document.createElement('button');
+	toggle.type = 'button';
+	toggle.className = 'math-symbol-toggle';
+	toggle.setAttribute('aria-expanded', 'false');
+	toggle.innerHTML = '<span>' + escapeMathHtml(labels.symbols || 'Symbols') + '</span><span aria-hidden="true">▾</span>';
+	var menu = document.createElement('div');
+	menu.className = 'math-symbol-menu';
+	var categories = document.createElement('div');
+	categories.className = 'math-symbol-categories';
+	var grid = document.createElement('div');
+	grid.className = 'math-symbol-grid';
+	grid.id = 'math_symbol_grid';
+	menu.appendChild(categories);
+	menu.appendChild(grid);
+	picker.appendChild(toggle);
+	picker.appendChild(menu);
+	container.appendChild(picker);
+
+	var recentLabel = document.createElement('div');
+	recentLabel.className = 'math-symbol-recent-label';
+	recentLabel.textContent = labels.recent || 'Recently used';
+	var recent = document.createElement('div');
+	recent.className = 'math-symbol-recent';
+	container.appendChild(recentLabel);
+	container.appendChild(recent);
+
+	var closePicker = function() {
+		picker.classList.remove('is-open');
+		toggle.setAttribute('aria-expanded', 'false');
+	};
+	var rememberSymbol = function(symbol) {
+		if (recentSymbols.length >= mathSymbolRecentLimit) recentSymbols.shift();
+		recentSymbols.push(symbol);
+		saveRecentMathSymbols(recentSymbols);
+		renderRecent();
+		closePicker();
+	};
+	var renderRecent = function() {
+		if (typeof MathJax !== 'undefined' && typeof MathJax.typesetClear === 'function') MathJax.typesetClear([recent]);
+		recent.replaceChildren();
+		for (var i = 0; i < mathSymbolRecentLimit; i++) {
+			if (recentSymbols[i]) {
+				recent.appendChild(createMathSymbolButton(recentSymbols[i], equation, rememberSymbol));
+			} else {
+				var empty = document.createElement('button');
+				empty.type = 'button';
+				empty.className = 'math-symbol-cell is-empty';
+				empty.disabled = true;
+				recent.appendChild(empty);
+			}
+		}
+		typesetMathSymbolContainer(recent);
+	};
+	var selectCategory = function(category, categoryButton) {
+		var active = categories.querySelector('.is-active');
+		if (active) active.classList.remove('is-active');
+		categoryButton.classList.add('is-active');
+		if (typeof MathJax !== 'undefined' && typeof MathJax.typesetClear === 'function') MathJax.typesetClear([grid]);
+		grid.replaceChildren();
+		for (var i = 0; i < category.symbols.length; i++) grid.appendChild(createMathSymbolButton(category.symbols[i], equation, rememberSymbol));
+		typesetMathSymbolContainer(grid);
+	};
+
+	for (var i = 0; i < mathSymbolCategories.length; i++) {
+		(function(category, index) {
+			var categoryButton = document.createElement('button');
+			categoryButton.type = 'button';
+			categoryButton.className = 'math-symbol-category';
+			categoryButton.setAttribute('aria-controls', grid.id);
+			var name = document.createElement('span');
+			name.className = 'math-symbol-category-name';
+			name.textContent = labels[category.key] || category.key;
+			var preview = document.createElement('span');
+			preview.className = 'math-symbol-category-preview';
+			preview.textContent = category.preview;
+			var chevron = document.createElement('span');
+			chevron.className = 'math-symbol-category-chevron';
+			chevron.setAttribute('aria-hidden', 'true');
+			chevron.textContent = '›';
+			categoryButton.appendChild(name);
+			categoryButton.appendChild(preview);
+			categoryButton.appendChild(chevron);
+			categoryButton.addEventListener('mouseenter', function() { selectCategory(category, categoryButton); });
+			categoryButton.addEventListener('focus', function() { selectCategory(category, categoryButton); });
+			categoryButton.addEventListener('click', function(event) {
+				event.preventDefault();
+				selectCategory(category, categoryButton);
+			});
+			categories.appendChild(categoryButton);
+			if (index === 0) {
+				initialCategory = category;
+				initialCategoryButton = categoryButton;
+			}
+		})(mathSymbolCategories[i], i);
+	}
+
+	toggle.addEventListener('click', function(event) {
+		event.preventDefault();
+		var open = !picker.classList.contains('is-open');
+		picker.classList.toggle('is-open', open);
+		toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+		if (open && !grid.children.length && initialCategory) selectCategory(initialCategory, initialCategoryButton);
+	});
+	if (!document._mathSymbolPickerOutsideClick) {
+		document._mathSymbolPickerOutsideClick = true;
+		document.addEventListener('click', function(event) {
+			var openPicker = document.querySelector('.math-symbol-picker.is-open');
+			if (openPicker && !openPicker.contains(event.target)) {
+				openPicker.classList.remove('is-open');
+				var openToggle = openPicker.querySelector('.math-symbol-toggle');
+				if (openToggle) openToggle.setAttribute('aria-expanded', 'false');
+			}
+		});
+	}
+	renderRecent();
+}
+
 function showFullEditorMathDialog(labels, rendered) {
 	var selected = getMathDialogValue(rendered ? rendered.getAttribute('data-math-source') : (getSel() || ''));
 	var title = labels.title || 'Insert/Edit Math';
@@ -573,6 +761,7 @@ function showFullEditorMathDialog(labels, rendered) {
 	var content = '<div class="math-editor-dialog">' +
 		'<p><label for="math_editor_equation">' + escapeMathHtml(equationLabel) + '</label>' +
 		'<textarea id="math_editor_equation" class="pt" rows="8"></textarea></p>' +
+		'<div id="math_symbol_tools" class="math-symbol-tools"></div>' +
 		'<p><label for="math_editor_wrap">' + escapeMathHtml(wrapLabel) + '</label>' +
 		'<select id="math_editor_wrap"><option value="inline">' + escapeMathHtml(inlineLabel) + '</option>' +
 		'<option value="display">' + escapeMathHtml(displayLabel) + '</option></select></p>' +
@@ -595,7 +784,8 @@ function showFullEditorMathDialog(labels, rendered) {
 		var equation = document.getElementById('math_editor_equation');
 		var wrap = document.getElementById('math_editor_wrap');
 		var preview = document.getElementById('math_editor_preview');
-		if (!equation || !wrap || !preview) return;
+		var symbolTools = document.getElementById('math_symbol_tools');
+		if (!equation || !wrap || !preview || !symbolTools) return;
 		var previewVersion = 0;
 		var updatePreview = function() {
 			var math = wrap.value === 'display' ? '$$' + equation.value + '$$' : '$' + equation.value + '$';
@@ -609,6 +799,7 @@ function showFullEditorMathDialog(labels, rendered) {
 		};
 		equation.value = selected.equation;
 		wrap.value = selected.wrap;
+		initMathSymbolPicker(symbolTools, equation, labels);
 		equation.addEventListener('input', updatePreview);
 		wrap.addEventListener('change', updatePreview);
 		updatePreview();
