@@ -266,32 +266,34 @@ require_once DISCUZ_ROOT.'./source/function/function_post.php';
 require_once DISCUZ_ROOT.'./source/app/forum/extend/extend_thread_base.php';
 require_once DISCUZ_ROOT.'./source/app/forum/extend/extend_thread_comment.php';
 $seedThread = DB::fetch_first('SELECT * FROM %t WHERE subject=%s LIMIT 1', ['forum_thread', 'Admin Seed Thread']);
-if($seedThread) {
-	$seedReply = DB::fetch_first('SELECT * FROM %t WHERE tid=%d AND first=0 LIMIT 1', ['forum_post', $seedThread['tid']]);
-	if($seedReply) {
-		$commentExtend = new \forum\extend_thread_comment((object)[]);
-		$commentExtend->setting = ['allowpostcomment' => [2], 'commentpostself' => 1];
-		$commentExtend->group = ['allowcommentreply' => 1, 'ignorecensor' => 1];
-		$commentExtend->forum = ['modnewposts' => 0, 'status' => 1];
-		$commentExtend->thread = ['tid' => $seedThread['tid'], 'displayorder' => 0];
-		$commentExtend->member = ['uid' => 1, 'username' => 'admin', 'adminid' => 1, 'groupid' => 1];
-		$commentExtend->param = [
-			'subject' => '',
-			'message' => '<script>alert("xss")</script>',
-			'extramessage' => '',
-			'modnewreplies' => 0,
-			'modstatus' => 0,
-			'special' => 0,
-			'noticetrimstr' => '',
-			'from' => '',
-		];
-		$_GET['reppid'] = (int)$seedReply['pid'];
-		$commentExtend->before_newreply(['modnewreplies' => 0, 'message' => '<script>alert("xss")</script>']);
-		$prop = new ReflectionProperty($commentExtend, 'postcomment');
-		$prop->setAccessible(true);
-		$expect($prop->getValue($commentExtend) === '&lt;script&gt;alert(&quot;xss&quot;)&lt;/script&gt;', 'extend_thread_comment XSS sanitization');
-		unset($_GET['reppid']);
-	}
+$expect(!empty($seedThread), 'Admin Seed Thread exists');
+$seedReply = $seedThread ? DB::fetch_first('SELECT * FROM %t WHERE tid=%d AND first=0 LIMIT 1', ['forum_post', $seedThread['tid']]) : [];
+$expect(!empty($seedReply), 'Admin Seed Reply exists');
+if($seedThread && $seedReply) {
+	$commentExtend = new \forum\extend_thread_comment((object)[]);
+	$commentExtend->setting = ['allowpostcomment' => [2], 'commentpostself' => 1];
+	$commentExtend->group = ['allowcommentreply' => 1, 'ignorecensor' => 1];
+	$commentExtend->forum = ['modnewposts' => 0, 'status' => 1];
+	$commentExtend->thread = ['tid' => $seedThread['tid'], 'displayorder' => 0];
+	$commentExtend->member = ['uid' => 1, 'username' => 'admin', 'adminid' => 1, 'groupid' => 1];
+	$commentExtend->param = [
+		'subject' => '',
+		'message' => '<script>alert("xss")</script>',
+		'extramessage' => '',
+		'modnewreplies' => 0,
+		'modstatus' => 0,
+		'special' => 0,
+		'noticetrimstr' => '',
+		'from' => '',
+	];
+	$_GET['reppid'] = (int)$seedReply['pid'];
+	$commentExtend->before_newreply(['modnewreplies' => 0, 'message' => '<script>alert("xss")</script>']);
+	$prop = new ReflectionProperty($commentExtend, 'postcomment');
+	$expect($prop->getValue($commentExtend) === '&lt;script&gt;alert(&quot;xss&quot;)&lt;/script&gt;', 'extend_thread_comment XSS sanitization');
+	$commentExtend->param['message'] = str_repeat('&', 200);
+	$commentExtend->before_newreply(['modnewreplies' => 0, 'message' => str_repeat('&', 200)]);
+	$expect($prop->getValue($commentExtend) === '', 'extend_thread_comment overflow protection');
+	unset($_GET['reppid']);
 }
 
 if($failures) {
