@@ -51,7 +51,7 @@ function saveData(ignoreempty) {
 	var ignoreempty = isUndefined(ignoreempty) ? 0 : ignoreempty;
 	var obj = $('postform') && (($('fwin_newthread') && $('fwin_newthread').style.display == '') || ($('fwin_reply') && $('fwin_reply').style.display == '') || ($('fwin_edit') && $('fwin_edit').style.display == '')) ? $('postform') : ($('fastpostform') ? $('fastpostform') : $('postform'));
 	if(!obj) return;
-	var bbcode = (typeof wysiwyg != 'undefined' && wysiwyg == 1) ? html2bbcode(editdoc.body.innerHTML) : obj.message.value;
+	var bbcode = (typeof wysiwyg != 'undefined' && wysiwyg == 1) ? (typeof getEditorBbcodeContents == 'function' ? getEditorBbcodeContents() : html2bbcode(editdoc.body.innerHTML)) : obj.message.value;
 	if(typeof isfirstpost != 'undefined') {
 		if(typeof wysiwyg != 'undefined' && wysiwyg == 1) {
 			var messageisnull = trim(bbcode) === '';
@@ -193,6 +193,12 @@ function loadData(quiet, formobj) {
 								el.value = elvalue;
 							} else {
 								editdoc.body.innerHTML = bbcode2html(elvalue);
+								if(typeof setWysiwygSourceBuffer == 'function') {
+									setWysiwygSourceBuffer(elvalue);
+								}
+								if(typeof window.renderMathEditorContent == 'function') {
+									window.renderMathEditorContent();
+								}
 							}
 						} else {
 							el.value = elvalue;

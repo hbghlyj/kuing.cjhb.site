@@ -8,6 +8,7 @@ const editedStandardSubject = `${standardSubject} (Edited)`;
 const attachmentSubject = `Thread with Attachment ${testRunId}`;
 const nonImageAttachmentSubject = `Thread with Non-Image Attachment ${testRunId}`;
 const svgAttachmentSubject = `Thread with SVG Attachment ${testRunId}`;
+const mathDraftSubject = `Thread with Restored Math Draft ${testRunId}`;
 
 (async () => {
     const browser = await chromium.launch();
@@ -1265,9 +1266,20 @@ const svgAttachmentSubject = `Thread with SVG Attachment ${testRunId}`;
         await page.goto(`http://127.0.0.1:8080/forum.php?mod=post&action=newthread&fid=${forumFid}`);
         await page.waitForLoadState('networkidle');
 
-        // Test that TeX formulas render in WYSIWYG and survive a source round trip.
-        await page.fill('#e_textarea', 'Test $f$ math content');
+		// Test that TeX formulas render in WYSIWYG and survive save, restore, and submission.
+		await page.fill('#e_textarea', 'Test $f$ math content');
 		await page.locator('#e_visual_btn').click();
+		await page.waitForFunction(() => {
+			const frame = document.querySelector('#e_iframe');
+			return frame && frame.contentDocument
+				&& frame.contentDocument.querySelector('.math-editor-rendered[data-math-source="$f$"] mjx-container');
+		});
+		await page.locator('#e_svd').click();
+		await page.locator('#e_code_btn').click();
+		await page.fill('#e_textarea', 'Unsaved replacement content');
+		await page.locator('#e_visual_btn').click();
+		page.once('dialog', dialog => dialog.accept());
+		await page.locator('#e_rst').click();
 		await page.waitForFunction(() => {
 			const frame = document.querySelector('#e_iframe');
 			return frame && frame.contentDocument
@@ -1275,10 +1287,27 @@ const svgAttachmentSubject = `Thread with SVG Attachment ${testRunId}`;
 		});
 		await page.locator('#e_code_btn').click();
 		const editorTextAfterToggle = await page.inputValue('#e_textarea');
-		assert.strictEqual(editorTextAfterToggle, 'Test $f$ math content', 'Assertion Error: TeX math formula $f$ was corrupted after toggling WYSIWYG mode.');
+		assert.strictEqual(editorTextAfterToggle, 'Test $f$ math content', 'Assertion Error: TeX math formula $f$ was corrupted after saving and restoring editor data.');
+		await page.locator('#e_visual_btn').click();
+		await page.waitForFunction(() => {
+			const frame = document.querySelector('#e_iframe');
+			return frame && frame.contentDocument
+				&& frame.contentDocument.querySelector('.math-editor-rendered[data-math-source="$f$"] mjx-container');
+		});
+		await page.fill('input[name="subject"]', mathDraftSubject);
+		await solveSecurityQuestion(page);
+		const mathSubmitBtn = page.locator('button[name="topicsubmit"][type="submit"]');
+		const [mathPostResponse] = await Promise.all([
+			page.waitForResponse(response => response.request().method() === 'POST' && response.url().includes('forum.php?mod=post')),
+			mathSubmitBtn.click()
+		]);
+		assert.ok(mathPostResponse.ok() || (mathPostResponse.status() >= 300 && mathPostResponse.status() < 400), `Assertion Error: Restored math draft POST failed with HTTP ${mathPostResponse.status()}.`);
+		await page.waitForURL(/forum\.php\?mod=viewthread&tid=\d+/);
+		const mathDraftMessage = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT p.message FROM pre_forum_post p INNER JOIN pre_forum_thread t ON t.tid=p.tid WHERE t.subject='${mathDraftSubject}' AND p.first=1 LIMIT 1;"`, { encoding: 'utf-8' }).trim();
+		assert.strictEqual(mathDraftMessage, 'Test $f$ math content', 'Assertion Error: Submitted restored math draft did not preserve the original TeX source.');
 
 		console.log("WYSIWYG mode TeX preservation test passed!");
-		report += `### 8. WYSIWYG Mode TeX Preservation\n- **Status**: Passed\n- **Math Preservation**: $f$ preserved intact\n\n`;
+		report += `### 8. WYSIWYG Math Draft Preservation\n- **Status**: Passed\n- **Save/Restore**: $f$ rendered after restoration\n- **Submission**: Original TeX preserved in database\n\n`;
 
     } catch (error) {
         console.error("Test execution failed:", error);
