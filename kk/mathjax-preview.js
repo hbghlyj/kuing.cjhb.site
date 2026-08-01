@@ -266,6 +266,7 @@ function initFullEditorMathEntry() {
 	};
 	entryGroup.appendChild(entry);
 	button.insertBefore(entryGroup, button.firstChild);
+	renderMathEditorContent();
 }
 
 function escapeMathHtml(value) {
@@ -320,6 +321,43 @@ function initRenderedMathEquation(rendered) {
 		event.stopPropagation();
 		showFullEditorMathDialog(window.MATH_EDITOR_LABELS || {}, rendered);
 	});
+}
+
+function renderMathEditorContent() {
+	if (!wysiwyg || !editdoc || !editdoc.body) return;
+
+	var nodes = [];
+	var walker = editdoc.createTreeWalker(editdoc.body, 4);
+	var node;
+	while ((node = walker.nextNode())) {
+		if (node.parentNode.closest('.math-editor-rendered, code, pre, script, style')) continue;
+		if (/\$\$[\s\S]+?\$\$|\$(?:\\.|[^$])+?\$/.test(node.nodeValue)) nodes.push(node);
+	}
+
+	for (var i = 0; i < nodes.length; i++) {
+		var text = nodes[i].nodeValue;
+		var expression = /(\$\$[\s\S]+?\$\$|\$(?:\\.|[^$])+?\$)/g;
+		var fragment = editdoc.createDocumentFragment();
+		var formulas = [];
+		var index = 0;
+		var match;
+		while ((match = expression.exec(text))) {
+			if (match.index > index) fragment.appendChild(editdoc.createTextNode(text.slice(index, match.index)));
+			var rendered = editdoc.createElement('span');
+			rendered.className = 'math-editor-rendered';
+			rendered.setAttribute('data-math-source', match[0]);
+			rendered.setAttribute('contenteditable', 'false');
+			initRenderedMathEquation(rendered);
+			fragment.appendChild(rendered);
+			formulas.push({ rendered: rendered, math: match[0] });
+			index = match.index + match[0].length;
+		}
+		if (index < text.length) fragment.appendChild(editdoc.createTextNode(text.slice(index)));
+		nodes[i].parentNode.replaceChild(fragment, nodes[i]);
+		for (var j = 0; j < formulas.length; j++) {
+			renderMathEquation(formulas[j].rendered, formulas[j].math);
+		}
+	}
 }
 
 function insertMathEquation(math) {
@@ -382,3 +420,4 @@ function initMathJaxPreview() {
 }
 
 initMathJaxPreview();
+window.renderMathEditorContent = renderMathEditorContent;

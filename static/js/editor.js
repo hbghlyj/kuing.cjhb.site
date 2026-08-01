@@ -46,6 +46,9 @@ function newEditor(mode, initialtext, sourcebbcode) {
 	}
 	setEditorEvents();
 	initEditor();
+	if(wysiwyg && typeof window.renderMathEditorContent === 'function') {
+		window.renderMathEditorContent();
+	}
 }
 
 function setEditorTip(s) {
