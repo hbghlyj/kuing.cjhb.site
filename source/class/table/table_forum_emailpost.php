@@ -12,6 +12,14 @@ if(!defined('IN_DISCUZ')) {
 
 class table_forum_emailpost extends discuz_table {
 
+	public static function t() {
+		static $_instance;
+		if(!isset($_instance)) {
+			$_instance = new self();
+		}
+		return $_instance;
+	}
+
 	public function __construct() {
 		$this->_table = 'forum_emailpost';
 		$this->_pk = 'messagekey';
