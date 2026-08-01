@@ -15,10 +15,14 @@ if((function_exists('mb_strlen') ? mb_strlen($text, 'UTF-8') : strlen($text)) > 
 
 $message = htmlspecialchars($text, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
 $uid = (int)$_G['uid'];
+$sid = $uid ? '' : (string)($_G['sid'] ?? '');
 $author = $_G['username'];
 if(!$uid) {
 	$location = ip::format_session_location($_G['session']['location'] ?? '', $_G['session']['city'] ?? null);
 	$author = $location['compact'] ?: 'Guest';
+	if($sid !== '') {
+		$author .= ' #'.substr(md5($sid), 0, 4);
+	}
 }
 $conn = chat_database($discuzRoot);
 
@@ -30,14 +34,14 @@ if(!$chatTime) {
 	$conn->close();
 	chat_json(500, ['error' => 'Unable to allocate chat message time']);
 }
-$stmt = $conn->prepare('INSERT INTO chat (time, uid, author, message) VALUES (?, ?, ?, ?)');
+$stmt = $conn->prepare('INSERT INTO chat (time, uid, sid, author, message) VALUES (?, ?, ?, ?, ?)');
 if(!$stmt) {
 	$conn->close();
 	chat_json(500, ['error' => 'Unable to save chat message']);
 }
 $saved = false;
 for($attempt = 0; $attempt < 100; $attempt++) {
-	$stmt->bind_param('siss', $chatTime, $uid, $author, $message);
+	$stmt->bind_param('sisss', $chatTime, $uid, $sid, $author, $message);
 	if($stmt->execute()) {
 		$saved = true;
 		break;
@@ -62,6 +66,7 @@ $options = [
 	'image' => !$uid ? '/static/image/common/online_guest.svg' : (!empty($_G['member']['avatarstatus']) ? avatar($uid, 'small', 1) : ''),
 	'actorId' => (int)$_G['uid'],
 	'messageTime' => $chatTime,
+	'sessionId' => $sid,
 ];
 $activity = new Activity('chat-message', $message, $options);
 $data = $activity->getMessage();

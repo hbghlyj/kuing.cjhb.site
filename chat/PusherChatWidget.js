@@ -11,6 +11,14 @@
     element.hidden = !visible;
     element.style.display = visible ? '' : 'none';
   }
+  function isOwnMessage(activity){
+    const uid = Number(window.discuz_uid || 0);
+    if(uid > 0){
+      return Number(activity.actor?.id) === uid;
+    }
+    const mySid = window.discuz_sid || '';
+    return !!mySid && !!activity.actor?.sessionId && String(activity.actor.sessionId) === String(mySid);
+  }
   async function requestJSON(url, options = {}){
     const response = await fetch(url, options);
     let data = null;
@@ -218,6 +226,9 @@
       }
       try {
         const response = await requestJSON('/chat/php/history.php?offset=' + encodeURIComponent(this.#messagesLoaded));
+        if(!window.discuz_sid && response.sessionId){
+          window.discuz_sid = response.sessionId;
+        }
         const data = response.messages;
         this.#totalMessages = response.total;
         if (data && data.length > 0) {
@@ -326,7 +337,7 @@
       if(!this.#lastMessageTime || String(entry.data.message_time || '') > this.#lastMessageTime) {
         this.#lastMessageTime = String(entry.data.message_time || '');
       }
-      if(Number(window.discuz_uid || 0) > 0 && Number(entry.data.actor?.id) === Number(window.discuz_uid)) {
+      if(isOwnMessage(entry.data)) {
         this.#addSwipeToDeleteHandlers(entry.messageEl, entry.data);
       }
       typesetNodes([entry.messageEl]).catch(err=>{ showError($L('chat_mathjax_error', [err])); });
@@ -499,7 +510,7 @@
       content.append(message);
       contentWrapper.append(image, content);
       li.append(contentWrapper);
-      if(Number(window.discuz_uid || 0) > 0 && Number(activity.actor?.id) === Number(window.discuz_uid)) {
+      if(isOwnMessage(activity)) {
         const deleteAction = document.createElement('div');
         deleteAction.className = 'delete-action';
         const deleteButton = document.createElement('button');

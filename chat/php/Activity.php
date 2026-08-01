@@ -4,6 +4,7 @@ class Activity {
   private $display_name = '<em>Anon</em>';
   private $image = null;
   private $actor_id = 0;
+  private $session_id = null;
   private $action_text = null;
   private $date = null;
   private $id;
@@ -21,6 +22,7 @@ class Activity {
     $this->display_name = $options['displayName'];
     $this->image = $options['image'];
     $this->actor_id = $options['actorId'];
+    $this->session_id = $options['sessionId'];
     
   }
   
@@ -35,7 +37,8 @@ class Activity {
         'displayName' => $this->display_name,
         'objectType' => 'person',
         'id' => $this->actor_id,
-        'image' => $this->image
+        'image' => $this->image,
+        'sessionId' => $this->session_id
       )
     );
     return $activity;
@@ -46,6 +49,7 @@ class Activity {
                         'image' => null,
                         'actorId' => 0,
                         'messageTime' => gmdate('Y-m-d H:i:s'),
+                        'sessionId' => null,
                       );
     foreach ($defaults as $key => $value) {
       if(!isset($options[$key])) {

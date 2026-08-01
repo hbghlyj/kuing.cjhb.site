@@ -2,7 +2,7 @@
 
 require_once __DIR__.'/bootstrap.php';
 $discuzRoot = chat_init();
-chat_require_write(true);
+chat_require_write();
 
 $messageTime = isset($_POST['message_time']) && is_string($_POST['message_time']) ? $_POST['message_time'] : '';
 if(!preg_match('/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/', $messageTime)) {
@@ -11,8 +11,16 @@ if(!preg_match('/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/', $messageTime)) {
 
 $conn = chat_database($discuzRoot);
 $uid = (int)$_G['uid'];
-$stmt = $conn->prepare('SELECT message FROM chat WHERE time = ? AND uid = ?');
-$stmt->bind_param('si', $messageTime, $uid);
+if($uid) {
+	$types = 'si';
+	$match = ['time = ? AND uid = ?', [$messageTime, $uid]];
+} else {
+	$sid = (string)($_G['sid'] ?? '');
+	$types = 'ss';
+	$match = ['time = ? AND uid = 0 AND sid = ?', [$messageTime, $sid]];
+}
+$stmt = $conn->prepare('SELECT message FROM chat WHERE '.$match[0]);
+$stmt->bind_param($types, ...$match[1]);
 $stmt->execute();
 $row = $stmt->get_result()->fetch_assoc();
 $stmt->close();
@@ -21,8 +29,8 @@ if(!$row) {
 	chat_json(403, ['error' => 'You cannot delete this chat message']);
 }
 
-$stmt = $conn->prepare('DELETE FROM chat WHERE time = ? AND uid = ?');
-$stmt->bind_param('si', $messageTime, $uid);
+$stmt = $conn->prepare('DELETE FROM chat WHERE '.$match[0]);
+$stmt->bind_param($types, ...$match[1]);
 if(!$stmt->execute()) {
 	$stmt->close();
 	$conn->close();

@@ -9,7 +9,7 @@ $offset = max(0, (int)($_GET['offset'] ?? 0));
 $countResult = $conn->query('SELECT COUNT(*) AS total FROM chat');
 $totalRows = $countResult ? (int)$countResult->fetch_assoc()['total'] : 0;
 $tablepre = $_G['config']['db'][1]['tablepre'];
-$sql = "SELECT c.time AS message_time, UNIX_TIMESTAMP(c.time) AS published_ts, c.uid, c.author, c.message, m.avatarstatus FROM chat c LEFT JOIN {$tablepre}common_member m ON m.uid = c.uid ORDER BY c.time DESC LIMIT ? OFFSET ?";
+$sql = "SELECT c.time AS message_time, UNIX_TIMESTAMP(c.time) AS published_ts, c.uid, c.author, c.message, c.sid, m.avatarstatus FROM chat c LEFT JOIN {$tablepre}common_member m ON m.uid = c.uid ORDER BY c.time DESC LIMIT ? OFFSET ?";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param('ii', $limit, $offset);
 $stmt->execute();
@@ -26,10 +26,11 @@ while($row = $result->fetch_assoc()) {
 			'id' => (int)$row['uid'],
 			'displayName' => $row['author'],
 			'image' => !(int)$row['uid'] ? '/static/image/common/online_guest.svg' : (!empty($row['avatarstatus']) ? avatar($row['uid'], 'small', 1) : ''),
+			'sessionId' => (string)$row['sid'],
 		],
 	];
 }
 $stmt->close();
 $conn->close();
 
-chat_json(200, ['messages' => array_reverse($rows), 'total' => $totalRows]);
+chat_json(200, ['messages' => array_reverse($rows), 'total' => $totalRows, 'sessionId' => (string)($_G['sid'] ?? '')]);
