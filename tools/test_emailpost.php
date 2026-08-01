@@ -85,19 +85,16 @@ class emailpost_fixture_mailbox extends emailpost {
 	}
 }
 
-function emailpost_test_config(): array {
-	return [
-		'enabled' => true,
-		'mailbox' => '{fixture}INBOX',
-		'username' => 'fixture',
-		'password' => 'fixture',
-		'recipient_domain' => 'forum.example',
-		'trusted_authserv_id' => 'mx.example',
-		'require_dmarc' => true,
-		'max_messages' => 20,
-	];
-}
-$config = emailpost_test_config();
+$config = [
+	'enabled' => true,
+	'mailbox' => '{fixture}INBOX',
+	'username' => 'fixture',
+	'password' => 'fixture',
+	'recipient_domain' => 'forum.example',
+	'trusted_authserv_id' => 'mx.example',
+	'require_dmarc' => true,
+	'max_messages' => 20,
+];
 
 // Keep parser/security coverage runnable without a configured local database.
 $parser = new emailpost($config);
@@ -132,7 +129,6 @@ if(!is_file(DISCUZ_ROOT.'config/config_global.php')) {
 require DISCUZ_ROOT.'source/class/class_core.php';
 $discuz = C::app();
 $discuz->init();
-$config = emailpost_test_config();
 
 emailpost_assert(DB::result_first('SELECT COUNT(*) FROM %t', ['forum_emailpost']) !== false, 'forum_emailpost schema is missing.');
 DB::update('common_member', ['email' => 'admin@admin.com', 'emailstatus' => 1, 'freeze' => 0], 'uid=1');
