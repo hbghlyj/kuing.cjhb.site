@@ -4,6 +4,7 @@ CREATE TABLE `chat`
 (
 	`time`    timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	uid       mediumint NOT NULL,
+	sid       char(6)   NOT NULL DEFAULT '',
 	author    char(30)  NOT NULL,
 	message   text      NOT NULL,
 	PRIMARY KEY (`time`)
