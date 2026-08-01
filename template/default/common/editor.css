@@ -41,7 +41,7 @@ https://www.discuz.vip
 	.math-editor-dialog label { display: block; margin-bottom: 4px; font-weight: 700; }
 	.math-editor-dialog textarea { box-sizing: border-box; width: 360px; max-width: 100%; min-height: 140px; font-family: monospace; }
 	.math-editor-dialog select { min-width: 160px; }
-	.math-editor-dialog .math-editor-preview { box-sizing: border-box; min-height: 48px; max-height: 240px; overflow: auto; padding: 10px; border: 1px solid #ddd; background: #fafafa; }
+	.math-editor-dialog .math-editor-preview { box-sizing: border-box; min-height: 48px; max-height: 240px; overflow: auto; padding: 10px; border: 1px solid #ddd; background: #fafafa; color: #333; }
 	.math-editor-dialog .math-editor-preview mjx-container[display="true"] { margin: 0; }
 	.math-symbol-tools { margin: 0 0 10px; }
 	.math-symbol-picker { position: relative; display: inline-block; }
