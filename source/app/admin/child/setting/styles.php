@@ -10,7 +10,7 @@ if(!defined('IN_DISCUZ') || !defined('IN_ADMINCP')) {
 	exit('Access Denied');
 }
 
-$floatwinkeys = ['login', 'sendpm', 'newthread', 'reply', 'viewratings', 'viewwarning', 'viewthreadmod', 'viewvote', 'tradeorder', 'activity', 'debate', 'nav', 'usergroups', 'task'];
+$floatwinkeys = ['login', 'sendpm', 'newthread', 'reply', 'edit', 'viewratings', 'viewwarning', 'viewthreadmod', 'viewvote', 'tradeorder', 'activity', 'debate', 'nav', 'usergroups', 'task'];
 $floatwinarray = [];
 foreach($floatwinkeys as $k) {
 	$floatwinarray[] = [$k, $lang['setting_styles_global_allowfloatwin_'.$k]];

@@ -1001,6 +1001,7 @@ $lang =
 	'setting_styles_global_allowfloatwin_sendpm' => '發短訊',
 	'setting_styles_global_allowfloatwin_newthread' => '發帖',
 	'setting_styles_global_allowfloatwin_reply' => '回帖',
+	'setting_styles_global_allowfloatwin_edit' => '編輯',
 	'setting_styles_global_allowfloatwin_attachpay' => '購買附件',
 	'setting_styles_global_allowfloatwin_pay' => '購買主題',
 	'setting_styles_global_allowfloatwin_viewvote' => '投票主題',

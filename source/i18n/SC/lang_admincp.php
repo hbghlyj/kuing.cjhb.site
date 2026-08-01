@@ -999,6 +999,7 @@ $lang =
 	'setting_styles_global_allowfloatwin_sendpm' => '发短消息',
 	'setting_styles_global_allowfloatwin_newthread' => '发帖',
 	'setting_styles_global_allowfloatwin_reply' => '回帖',
+	'setting_styles_global_allowfloatwin_edit' => '编辑',
 	'setting_styles_global_allowfloatwin_attachpay' => '购买附件',
 	'setting_styles_global_allowfloatwin_pay' => '购买主题',
 	'setting_styles_global_allowfloatwin_viewvote' => '投票主题',
