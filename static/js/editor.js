@@ -4,7 +4,7 @@
  * https://license.discuz.vip
  */
 
-var editorcurrentheight = 400, editorminheight = 400, savedataInterval = 30, editbox = null, editwin = null, editdoc = null, editcss = null, savedatat = null, savedatac = 0, autosave = 1, framemObj = null, cursor = -1, stack = [], initialized = false, postSubmited = false, editorcontroltop = false, editorcontrolwidth = false, editorcontrolheight = false, editorisfull = 0, fulloldheight = 0, savesimplodemode = null, wysiwygSourceBbcode = null, wysiwygSourceHtml = null;
+var editorcurrentheight = 400, editorminheight = 400, savedataInterval = 30, editbox = null, editwin = null, editdoc = null, editcss = null, savedatat = null, savedatac = 0, autosave = 1, autosaveLastTime = '', framemObj = null, cursor = -1, stack = [], initialized = false, postSubmited = false, editorcontroltop = false, editorcontrolwidth = false, editorcontrolheight = false, editorisfull = 0, fulloldheight = 0, savesimplodemode = null, wysiwygSourceBbcode = null, wysiwygSourceHtml = null;
 EXTRAFUNC['keydown'] = [];
 EXTRAFUNC['keyup'] = [];
 EXTRAFUNC['mouseup'] = [];
@@ -157,8 +157,9 @@ function initesbar() {
 }
 
 function savedataTime() {
+	var status = $(editorid + '_svdsecond');
 	if(!autosave) {
-		$(editorid + '_svdsecond').innerHTML = '<a title="' + $L('click_open_autosave') + '" href="javascript:;" onclick="setAutosave()">' + $L('open_autosave') + '</a> ';
+		if(status) status.innerHTML = '<a title="' + $L('click_open_autosave') + '" href="javascript:;" onclick="setAutosave()">' + $L('open_autosave') + '</a>';
 		return;
 	}
 	if(!savedatac) {
@@ -169,9 +170,13 @@ function savedataTime() {
 		var m = d.getMinutes();
 		h = h < 10 ? '0' + h : h;
 		m = m < 10 ? '0' + m : m;
-		setEditorTip($L('last_save_time', [h, m]));
+		autosaveLastTime = $L('last_save_time', [h, m]);
+		setEditorTip(autosaveLastTime);
 	}
-	$(editorid + '_svdsecond').innerHTML = '<a title="' + $L('click_close_autosave') + '" href="javascript:;" onclick="setAutosave()">' + $L('second_save', [savedatac]) + '</a> ';
+	if(status) {
+		var autosaveText = (autosaveLastTime ? autosaveLastTime + ' · ' : '') + $L('second_save', [savedatac]);
+		status.innerHTML = '<a title="' + $L('click_close_autosave') + '" href="javascript:;" onclick="setAutosave()">' + autosaveText + '</a>';
+	}
 	savedatac -= 10;
 }
 

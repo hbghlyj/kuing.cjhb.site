@@ -6,6 +6,13 @@
 .edt .bbar img {vertical-align:bottom;*margin-right:-4px;cursor:row-resize}
 .edt .bbar em {width:200px;height:30px;margin-left:8px;overflow:hidden;white-space:nowrap;float:left;text-align:left}
 .edt .bbar, .edt .bbar a {color:#999}
+.edt .bbar .bbar-action {display:inline-block;width:20px;height:20px;padding:0!important;margin:0 2px!important;font-size:0;line-height:20px;text-indent:-9999px;vertical-align:middle}
+.edt .bbar .bbar-more {position:relative;display:inline-block;margin:0 4px;vertical-align:middle}
+.edt .bbar .bbar-more summary {width:20px;height:20px;cursor:pointer;font-size:20px;line-height:16px;list-style:none;text-align:center}
+.edt .bbar .bbar-more summary::-webkit-details-marker {display:none}
+.edt .bbar .bbar-more-menu {position:absolute;right:0;bottom:36px;z-index:10;min-width:110px;padding:4px;border:1px solid var(--dz-borderb);background:var(--dz-bgf);box-shadow:0 2px 8px rgba(0,0,0,.15);text-align:left}
+.edt .bbar .bbar-more-menu a {display:block;float:none;width:auto;height:26px;padding:0 8px;line-height:26px;background:none;text-indent:0;white-space:nowrap}
+.edt .bbar .bbar-more:not([open]) .bbar-more-menu {display:none}
 .edt .btn {float:left;border-right:1px solid var(--dz-borderb)}
 .edt .b1r, .edt .b2r {position:relative;float:left;padding:0 3px;height:56px;border-right:1px solid var(--dz-borderb)}
 .edt .b2r p, .edt .b2r br {clear:both}

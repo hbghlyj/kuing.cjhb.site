@@ -27,13 +27,16 @@
 <div id="{$editorid}_bbar" class="bbar">
 	<em id="{$editorid}_tip"></em>
 	<span id="{$editorid}_svdsecond"></span>
-	<a href="javascript:;" onclick="discuzcode('svd');return false;" id="{$editorid}_svd">{lang post_savedata}</a>
-	<a href="javascript:;" onclick="discuzcode('rst');return false;" id="{$editorid}_rst">{lang post_autosave_restore}</a>
-	<!--{if $editor['allowchecklength']}-->
-		<a href="javascript:;" onclick="discuzcode('chck');return false;" id="{$editorid}_chck">{lang post_check_length}</a>
-	<!--{/if}-->
-	<!--{if $editor['allowtopicreset']}-->
-		<a href="javascript:;" onclick="discuzcode('tpr');return false;" id="{$editorid}_tpr">{lang post_topicreset}</a>
+	<a class="bbar-action" href="javascript:;" onclick="discuzcode('svd');return false;" id="{$editorid}_svd" title="{lang post_savedata}" aria-label="{lang post_savedata}">{lang post_savedata}</a>
+	<a class="bbar-action" href="javascript:;" onclick="discuzcode('rst');return false;" id="{$editorid}_rst" title="{lang post_autosave_restore}" aria-label="{lang post_autosave_restore}">{lang post_autosave_restore}</a>
+	<!--{if $editor['allowchecklength'] || $editor['allowtopicreset']}-->
+		<details class="bbar-more">
+			<summary title="{lang post_additional_options}" aria-label="{lang post_additional_options}">⋯</summary>
+			<div class="bbar-more-menu">
+				<!--{if $editor['allowchecklength']}--><a href="javascript:;" onclick="discuzcode('chck');this.closest('details').open=false;return false;" id="{$editorid}_chck">{lang post_check_length}</a><!--{/if}-->
+				<!--{if $editor['allowtopicreset']}--><a href="javascript:;" onclick="discuzcode('tpr');this.closest('details').open=false;return false;" id="{$editorid}_tpr">{lang post_topicreset}</a><!--{/if}-->
+			</div>
+		</details>
 	<!--{/if}-->
 	<!--{if $editor['allowresize']}-->
 		<span id="{$editorid}_resize">
