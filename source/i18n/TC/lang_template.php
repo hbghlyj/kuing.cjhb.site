@@ -9,7 +9,9 @@
 $lang = [
 	'e_math_inline' => '行內',
 	'e_math_display' => '行間',
-	'e_math_hint' => '行內公式：$...$\\n行間公式：\\\\[ ... \\\\]',
+	'e_math_title' => '插入/編輯數學公式',
+	'e_math_equation' => '數學公式',
+	'e_math_wrap' => '文字環繞方式',
 	'activity_about_member' => '剩餘名額',
 	'activity_already' => '已參加人數',
 	'additional' => '附加',

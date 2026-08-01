@@ -53,7 +53,7 @@
 	<!--{hook/global_footer}-->
 	<!--{if in_array(CURMODULE, array('post', 'forumdisplay', 'viewthread')) && !isset($_GET['editsubmit'])}-->
 	<div class="wp" id="cgb">
-	<script>window.MATH_EDITOR_LABELS = {inline: '{lang e_math_inline}', display: '{lang e_math_display}', hint: '{lang e_math_hint}'};</script>
+	<script>window.MATH_EDITOR_LABELS = {inline: '{lang e_math_inline}', display: '{lang e_math_display}', title: '{lang e_math_title}', equation: '{lang e_math_equation}', wrap: '{lang e_math_wrap}', save: '{lang save}', cancel: '{lang cancel}'};</script>
 	<script src="/kk/mathjax-preview.js?{VERHASH}"></script>
 	</div>
 	<!--{/if}-->

@@ -12,7 +12,9 @@
 $lang = array (
 	'e_math_inline'		=> 'Inline',
 	'e_math_display'		=> 'Display',
-	'e_math_hint'			=> 'Inline formula: $...$\\nDisplay formula: \\\\[ ... \\\\]',
+	'e_math_title'			=> 'Insert/Edit Math',
+	'e_math_equation'		=> 'Math equation',
+	'e_math_wrap'			=> 'Text wrap',
 	'activity_about_member'		=> 'Remaining places',//'剩余名额',
 	'activity_already'		=> 'Participants number limit is reached already',//'已参加人数',
 	'additional'			=> 'Additional',//'附加',

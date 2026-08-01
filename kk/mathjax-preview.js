@@ -192,12 +192,11 @@ function createGreekMenu() {
 function renderFastTexSmilies() {
 	var fs = $("fastsmilies");
 	if (fs) {
-		var controlPanel = fs.closest('.post_fasttex_panel');
-		var columns = controlPanel ? 10 : 3;
+		var columns = 3;
 		fs.innerHTML = '';
 		var table = document.createElement("table");
 		table.className = "cp0";
-		table.style.width = controlPanel ? "auto" : "160px";
+		table.style.width = "160px";
 		table.style.tableLayout = "auto";
 		var tr = document.createElement("tr");
 
@@ -249,92 +248,77 @@ function initFullEditorMathEntry() {
 
 	var editorid = textarea.id.slice(0, -'_textarea'.length);
 	var button = document.getElementById(editorid + '_button');
-	if (!button || document.getElementById('post_math_entry')) return;
+	if (!button || document.getElementById('post_math_button')) return;
 
 	var labels = window.MATH_EDITOR_LABELS || {};
-	textarea.placeholder = labels.hint || 'Inline formula: $...$; display formula: \\[ ... \\]';
 	var entryGroup = document.createElement('div');
-	entryGroup.id = 'post_math_entry';
+	entryGroup.id = 'post_math_button';
 	entryGroup.className = 'b2r';
-	[
-		{ label: labels.inline || 'Inline', code: ['$', '$'] },
-		{ label: labels.display || 'Display', code: ['\\[\n', '\n\\]', 0, 0] }
-	].forEach(function(item) {
-		var entry = document.createElement('a');
-		entry.href = 'javascript:;';
-		entry.textContent = item.label;
-		entry.title = item.label;
-		entry.onclick = function() {
-			insertTexToEditor(item.code);
-			return false;
-		};
-		entryGroup.appendChild(entry);
-	});
+	var entry = document.createElement('a');
+	entry.href = 'javascript:;';
+	entry.className = 'mathfx';
+	entry.innerHTML = '<i>f</i>x';
+	entry.title = labels.title || 'Insert/Edit Math';
+	entry.onclick = function(event) {
+		if (event) event.preventDefault();
+		showFullEditorMathDialog(labels);
+		return false;
+	};
+	entryGroup.appendChild(entry);
 	button.insertBefore(entryGroup, button.firstChild);
 }
 
-function initFastTexMode() {
-	var textarea = document.querySelector('.edt textarea[id$="_textarea"]');
-	if (!textarea || !textarea.id.endsWith('_textarea')) return;
-
-	var editorid = textarea.id.slice(0, -'_textarea'.length);
-	var controls = document.getElementById(editorid + '_controls');
-	var panel = document.getElementById('fastsmiliesdiv');
-	if (!controls || !panel || !panel.classList.contains('post_fasttex_panel')) return;
-
-	var marker = document.createComment('fast TeX panel');
-	panel.parentNode.insertBefore(marker, panel);
-
-	function isEscaped(value, index) {
-		var slashes = 0;
-		while (index > 0 && value[--index] === '\\') slashes++;
-		return slashes % 2 === 1;
-	}
-
-	function isMathCursor(value, cursor) {
-		var before = value.slice(0, cursor);
-		if (before.lastIndexOf('\\[') > before.lastIndexOf('\\]') || before.lastIndexOf('\\(') > before.lastIndexOf('\\)')) return true;
-		if ((before.match(/\\begin\{[^}]+\}/g) || []).length > (before.match(/\\end\{[^}]+\}/g) || []).length) return true;
-
-		var inline = false;
-		var display = false;
-		for (var i = 0; i < before.length; i++) {
-			if (before[i] !== '$' || isEscaped(before, i)) continue;
-			if (before[i + 1] === '$') {
-				display = !display;
-				i++;
-			} else if (!display) {
-				inline = !inline;
-			}
-		}
-		return inline || display;
-	}
-
-	function update() {
-		var active = isMathCursor(textarea.value, textarea.selectionStart);
-		panel.classList.toggle('hover', active);
-		if (active) {
-			controls.appendChild(panel);
-			controls.classList.add('math_mode');
-		} else {
-			marker.parentNode.insertBefore(panel, marker.nextSibling);
-			controls.classList.remove('math_mode');
-		}
-	}
-
-	['input', 'keyup', 'click', 'focus'].forEach(function(eventName) {
-		textarea.addEventListener(eventName, update);
+function escapeMathHtml(value) {
+	return String(value).replace(/[&<>"']/g, function(character) {
+		return {'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[character];
 	});
-	document.addEventListener('selectionchange', function() {
-		if (document.activeElement === textarea) update();
-	});
-	update();
+}
+
+function getMathDialogValue(value) {
+	var display = /^\$\$([\s\S]*)\$\$$/.exec(value);
+	if (display) return { equation: display[1], wrap: 'display' };
+	var inline = /^\$([^$][\s\S]*?)\$$/.exec(value);
+	if (inline) return { equation: inline[1], wrap: 'inline' };
+	return { equation: value, wrap: 'inline' };
+}
+
+function showFullEditorMathDialog(labels) {
+	var selected = getMathDialogValue(getSel() || '');
+	var title = labels.title || 'Insert/Edit Math';
+	var equationLabel = labels.equation || 'Math equation';
+	var wrapLabel = labels.wrap || 'Text wrap';
+	var inlineLabel = (labels.inline || 'Inline') + ' ($...$)';
+	var displayLabel = (labels.display || 'Display') + ' ($$...$$)';
+	var content = '<div class="math-editor-dialog">' +
+		'<p><label for="math_editor_equation">' + escapeMathHtml(equationLabel) + '</label>' +
+		'<textarea id="math_editor_equation" class="pt" rows="8"></textarea></p>' +
+		'<p><label for="math_editor_wrap">' + escapeMathHtml(wrapLabel) + '</label>' +
+		'<select id="math_editor_wrap"><option value="inline">' + escapeMathHtml(inlineLabel) + '</option>' +
+		'<option value="display">' + escapeMathHtml(displayLabel) + '</option></select></p>' +
+		'</div>';
+
+	showDialog(content, 'confirm', title, function() {
+		var equation = document.getElementById('math_editor_equation');
+		var wrap = document.getElementById('math_editor_wrap');
+		if (!equation || !wrap || equation.value === '') return;
+		var math = wrap.value === 'display' ? '$$' + equation.value + '$$' : '$' + equation.value + '$';
+		insertText(wysiwyg ? escapeMathHtml(math) : math, false);
+	}, 1, null, '', labels.save || 'Save', labels.cancel || 'Cancel');
+
+	setTimeout(function() {
+		var equation = document.getElementById('math_editor_equation');
+		var wrap = document.getElementById('math_editor_wrap');
+		if (!equation || !wrap) return;
+		equation.value = selected.equation;
+		wrap.value = selected.wrap;
+		equation.focus();
+		equation.select();
+	}, 0);
 }
 
 function initMathJaxPreview() {
 	renderFastTexSmilies();
 	initFullEditorMathEntry();
-	initFastTexMode();
 }
 
 initMathJaxPreview();
