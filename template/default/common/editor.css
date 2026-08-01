@@ -43,6 +43,8 @@ https://www.discuz.vip
 	.math-editor-dialog select { min-width: 160px; }
 	.math-editor-dialog .math-editor-preview { box-sizing: border-box; min-height: 48px; max-height: 240px; overflow: auto; padding: 10px; border: 1px solid #ddd; background: #fafafa; }
 	.math-editor-dialog .math-editor-preview mjx-container[display="true"] { margin: 0; }
+	#fwin_dialog .alert_info:has(.math-editor-dialog) { padding: 0; min-height: 0; }
+	#fwin_dialog .alert_info:has(.math-editor-dialog)::before { display: none; }
 
 	.edt a.cst { font-size: 11px; background-image: none; text-align: center; text-indent: 0; }
 		.edt a.cst img { vertical-align: middle; }
