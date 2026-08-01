@@ -315,7 +315,11 @@ function syncMathJaxEditorStyles() {
 			target.rel = source.rel;
 			target.href = source.href;
 		} else {
-			target.textContent = source.textContent;
+			var cssText = source.textContent;
+			if (source.sheet && source.sheet.cssRules) {
+				cssText = Array.from(source.sheet.cssRules, function(rule) { return rule.cssText; }).join('\n');
+			}
+			target.textContent = cssText;
 		}
 	}
 }
