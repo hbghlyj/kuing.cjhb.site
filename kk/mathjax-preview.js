@@ -326,17 +326,18 @@ function initRenderedMathEquation(rendered) {
 function renderMathEditorContent() {
 	if (!wysiwyg || !editdoc || !editdoc.body) return;
 
+	var mathExpression = '\\$\\$[\\s\\S]+?\\$\\$|\\\\\\[[\\s\\S]+?\\\\\\]|\\\\\\([\\s\\S]+?\\\\\\)|\\\\begin\\{([A-Za-z0-9*]+)\\}[\\s\\S]*?\\\\end\\{\\1\\}|\\$(?:\\\\.|[^$])+?\\$';
 	var nodes = [];
 	var walker = editdoc.createTreeWalker(editdoc.body, 4);
 	var node;
 	while ((node = walker.nextNode())) {
 		if (node.parentNode.closest('.math-editor-rendered, code, pre, script, style')) continue;
-		if (/\$\$[\s\S]+?\$\$|\$(?:\\.|[^$])+?\$/.test(node.nodeValue)) nodes.push(node);
+		if (new RegExp(mathExpression).test(node.nodeValue)) nodes.push(node);
 	}
 
 	for (var i = 0; i < nodes.length; i++) {
 		var text = nodes[i].nodeValue;
-		var expression = /(\$\$[\s\S]+?\$\$|\$(?:\\.|[^$])+?\$)/g;
+		var expression = new RegExp(mathExpression, 'g');
 		var fragment = editdoc.createDocumentFragment();
 		var formulas = [];
 		var index = 0;
