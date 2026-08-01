@@ -380,7 +380,8 @@ function checkpost($subject, $message, $special = 0, $isJson = false) {
 }
 
 function checkbbcodes($message, $bbcodeoff) {
-	return !$bbcodeoff && (!strpos($message, '[/') && !strpos($message, '[hr]')) ? -1 : $bbcodeoff;
+	$hasinlinecode = str_contains($message, '`') && preg_match('/`[^`]+`/s', $message);
+	return !$bbcodeoff && !str_contains($message, '[/') && !str_contains($message, '[hr]') && !$hasinlinecode ? -1 : $bbcodeoff;
 }
 
 function checksmilies($message, $smileyoff) {
