@@ -414,6 +414,17 @@ function queueMathEditorEquation(rendered, math) {
 	window.addEventListener('load', flushPendingMathEditorEquations, { once: true });
 }
 
+function removeMathEditorDisplayBreaks(rendered) {
+	if (!rendered.querySelector('mjx-container[display="true"]')) return;
+	for (var direction = -1; direction <= 1; direction += 2) {
+		var sibling = direction < 0 ? rendered.previousSibling : rendered.nextSibling;
+		while (sibling && ((sibling.nodeType === 1 && sibling.hasAttribute('data-math-caret')) || (sibling.nodeType === 3 && !sibling.nodeValue.trim()))) {
+			sibling = direction < 0 ? sibling.previousSibling : sibling.nextSibling;
+		}
+		if (sibling && sibling.nodeType === 1 && sibling.matches('br')) sibling.remove();
+	}
+}
+
 function renderMathEquation(rendered, math) {
 	ensureMathEditorCarets(rendered);
 	if (typeof MathJax !== 'undefined' && typeof MathJax.typesetClear === 'function') MathJax.typesetClear([rendered]);
@@ -425,6 +436,7 @@ function renderMathEquation(rendered, math) {
 	}
 	MathJax.typesetPromise([rendered]).then(function() {
 		syncMathJaxEditorStyles();
+		removeMathEditorDisplayBreaks(rendered);
 		if (rendered.classList.contains('math-editor-selected')) selectMathEquation(rendered);
 	}).catch(function() {});
 }
