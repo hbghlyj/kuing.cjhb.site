@@ -12,6 +12,7 @@ $lang = [
 	'e_math_title' => '插入/编辑数学公式',
 	'e_math_equation' => '数学公式',
 	'e_math_wrap' => '文本环绕方式',
+	'e_math_selected' => '双击公式进行编辑，按 Esc 取消选择。',
 	'activity_about_member' => '剩余名额',
 	'activity_already' => '已参加人数',
 	'additional' => '附加',

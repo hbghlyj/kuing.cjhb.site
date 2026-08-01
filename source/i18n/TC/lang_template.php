@@ -12,6 +12,7 @@ $lang = [
 	'e_math_title' => '插入/編輯數學公式',
 	'e_math_equation' => '數學公式',
 	'e_math_wrap' => '文字環繞方式',
+	'e_math_selected' => '雙擊公式進行編輯，按 Esc 取消選取。',
 	'activity_about_member' => '剩餘名額',
 	'activity_already' => '已參加人數',
 	'additional' => '附加',

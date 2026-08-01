@@ -15,6 +15,7 @@ $lang = array (
 	'e_math_title'			=> 'Insert/Edit Math',
 	'e_math_equation'		=> 'Math equation',
 	'e_math_wrap'			=> 'Text wrap',
+	'e_math_selected'		=> 'Double-click the formula to edit it. Press Escape to deselect.',
 	'activity_about_member'		=> 'Remaining places',//'剩余名额',
 	'activity_already'		=> 'Participants number limit is reached already',//'已参加人数',
 	'additional'			=> 'Additional',//'附加',
