@@ -73,7 +73,7 @@ class pay_wechat extends pay_base {
 		if($this->settings['ec_wechat_version']) {
 			return $this->v3_wechat_refund($refund_no, $trade_no, $total_amount, $refund_amount, $refund_desc);
 		} else {
-			return $this->wechat_refund($refund_no, $trade_no, $total_amount, $refund_amount, $refund_desc);
+			return ['code' => 500, 'message' => 'API v2 not support refund.'];
 		}
 	}
 
@@ -84,7 +84,7 @@ class pay_wechat extends pay_base {
 		if($this->settings['ec_wechat_version']) {
 			return $this->v3_wechat_refund_query($refund_no);
 		} else {
-			return $this->wechat_refund_status($refund_no);
+			return ['code' => 500, 'message' => 'API v2 not support refund.'];
 		}
 	}
 
@@ -348,9 +348,9 @@ class pay_wechat extends pay_base {
 			$order['subject'] = diconv($order['subject'], $_G['charset'], 'UTF-8');
 			$order['description'] = diconv($order['description'], $_G['charset'], 'UTF-8');
 		}
-		$data = ['appid' => $this->settings['appid'], 'mchid' => $this->settings['mch_id'], 'description' => $order['subject'].': '.$order['description'], 'out_trade_no' => $order['out_biz_no'], 'notify_url' => $this->notify_url, 'amount' => ['total' => intval($order['amount']), 'currency' => 'CNY'], 'scene_info' => ['payer_client_ip' => $_G['clientip'], 'h5_info' => ['type' => checkmobile()]]];
+		$data = ['appid' => $this->settings['appid'], 'mchid' => $this->settings['mch_id'], 'description' => $order['subject'].': '.$order['description'], 'out_trade_no' => $order['out_biz_no'], 'notify_url' => $this->notify_url, 'amount' => ['total' => intval($order['amount']), 'currency' => 'CNY'], 'scene_info' => ['payer_client_ip' => $_G['clientip'], 'h5_info' => ['type' => 'Wap']]];
 
-		$api = SDK_WEIXIN_PAY_V3_TRANSACTIONS_H5;
+		$api = SDK_WEIXIN_PAY_V3_TRANSACTIONS_JSAPI;
 		$res = $this->v3_wechat_request_json($api, json_encode($data));
 		$res = json_decode($res, true);
 		if($res['h5_url']) {
@@ -414,7 +414,7 @@ class pay_wechat extends pay_base {
 		$res = json_decode($res, true);
 		if($res['status'] == 'SUCCESS') {
 			return ['code' => 200, 'data' => ['refund_time' => strtotime($res['success_time'])]];
-		} elseif($res['status']) {
+		} elseif($res['status'] == 'PROCESSING') {
 			return ['code' => 201, 'message' => $res['status']];
 		} elseif($res['status']) {
 			return ['code' => 500, 'message' => $res['status']];
@@ -433,7 +433,7 @@ class pay_wechat extends pay_base {
 		$res = json_decode($res, true);
 		if($res['status'] == 'SUCCESS') {
 			return ['code' => 200, 'data' => ['refund_time' => strtotime($res['success_time'])]];
-		} elseif($res['status']) {
+		} elseif($res['status'] == 'PROCESSING') {
 			return ['code' => 201, 'message' => $res['status']];
 		} elseif($res['status']) {
 			return ['code' => 500, 'message' => $res['status']];
@@ -487,7 +487,7 @@ class pay_wechat extends pay_base {
 	}
 
 	private function v3_wechat_jsapi_authorization($data) {
-		$message = $data['appId']."\n".$data['timeStamp']."\n".$data['nonceStr']."\n".$data['package'];
+		$message = $data['appId']."\n".$data['timeStamp']."\n".$data['nonceStr']."\n".$data['package']."\n";
 		openssl_sign($message, $sign, $this->settings['v3_private_key'], 'sha256WithRSAEncryption');
 		$sign = base64_encode($sign);
 		return $sign;
@@ -563,6 +563,8 @@ class pay_wechat extends pay_base {
 			'method' => $method,
 			'rawdata' => $json,
 			'encodetype' => 'JSON',
+			// APIv3 returns error details in JSON even for HTTP 4xx/5xx responses.
+			'failonerror' => false,
 			'header' => [
 				'Accept' => 'application/json',
 				'Authorization' => 'WECHATPAY2-SHA256-RSA2048 '.$this->v3_wechat_authorization($api, $method, $json)

@@ -9,7 +9,6 @@
 if(!defined('IN_DISCUZ') || !defined('IN_ADMINCP')) {
 	exit('Access Denied');
 }
-
 if(submitcheck('querysubmit')) {
 	$order_id = intval($_GET['order_id']);
 	$channel = daddslashes($_GET['channel']);
@@ -57,11 +56,20 @@ if(submitcheck('querysubmit')) {
 	showsubmit('querysubmit', 'ec_paymentorders_op_status', '', $lang['ec_paymentorders_query_submit_tips']);
 	showtablefooter();
 	showformfooter();
+} elseif($_GET['op'] == 'refundquery') {
+	$order_id = intval($_GET['order_id']);
+	$order = table_common_payment_order::t()->fetch($order_id);
+	$processing_refund_list = table_common_payment_refund::t()->fetch_all_processing_by_orders($order_id);
+	foreach($processing_refund_list as $refund) {
+		// refund_status() persists SUCCESS, PROCESSING, and terminal errors itself.
+		payment::refund_status($refund['out_biz_no'], $order_id);
+	}
+	cpmsg('operation_succeed', $_G['siteurl'].ADMINSCRIPT.'?action=ec&operation=paymentorders', 'succeed');
 } else {
 	$start_limit = ($page - 1) * $_G['tpp'];
 
 	/*search={"nav_ec":"action=ec&operation=base","nav_ec_orders":"action=ec&operation=paymentorders"}*/
-	echo '<style type="text/css">.order-status-0 td { color: #555; } .order-status-1 td { color: green; } .order-status-1 td a { color: #fe8080; } .order-status-2 td, .order-status-2 td a { color: #ccc; } .order-status-3 td { color: red; }</style>';
+	echo '<style type="text/css">.order-status-0 td { color: #555; } .order-status-1 td { color: green; } .order-status-1 td a { color: #fe8080; } .order-status-2 td, .order-status-2 td a { color: #ccc; } .order-status-3 td { color: red; } .order-status-4 td { color: #d80; }</style>';
 	echo '<script src="static/js/calendar.js" type="text/javascript"></script>';
 	$queryparams = [
 		'out_biz_no' => daddslashes($_GET['out_biz_no']),
@@ -148,6 +156,7 @@ if(submitcheck('querysubmit')) {
 	if($ordercount > 0) {
 		$order_list = table_common_payment_order::t()->fetch_all_by_search($queryparams['uid'], $queryparams['type'], $queryparams['starttime'], $queryparams['endtime'], $queryparams['out_biz_no'], $queryparams['channel'], $queryparams['status'], $start_limit, $_G['tpp']);
 		$refund_list = table_common_payment_refund::t()->sum_by_orders(array_keys($order_list));
+		$processing_refund_list = table_common_payment_refund::t()->sum_processing_by_orders(array_keys($order_list));
 		foreach($order_list as $order) {
 			$user = getuserbyuid($order['uid']);
 			if(!$order['status'] && $order['expire_time'] < time()) {
@@ -155,17 +164,24 @@ if(submitcheck('querysubmit')) {
 			} elseif($order['status'] == 1 && $refund_list[$order['id']]) {
 				$order['status'] = 3;
 				$order['refund_amount'] = $refund_list[$order['id']]['amount'];
+			} elseif($order['status'] == 1 && $processing_refund_list[$order['id']]) {
+				$order['status'] = 4;
+				$order['refund_amount'] = $processing_refund_list[$order['id']]['amount'];
 			}
 
 			$amountstr = number_format($order['amount'] / 100, 2, '.', ',');
 			if($order['status'] == 3) {
 				$amountstr .= '<br/>'.$lang['ec_paymentorders_refund_amount'].': '.number_format($order['refund_amount'] / 100, 2, '.', ',');
+			} elseif($order['status'] == 4) {
+				$amountstr .= '<br/>'.$lang['ec_paymentorders_status_'.$order['status']].': '.number_format($order['refund_amount'] / 100, 2, '.', ',');
 			}
 			$operations = '';
 			if(in_array($order['status'], [0, 2])) {
 				$operations .= '<a href="'.ADMINSCRIPT.'?action=ec&operation=paymentorders&op=query&order_id='.$order['id'].'">'.$lang['ec_paymentorders_op_status'].'</a>';
 			} elseif($order['status'] == 1 && !$order['callback_status']) {
 				$operations = '<a href="'.ADMINSCRIPT.'?action=ec&operation=paymentorders&op=retry&order_id='.$order['id'].'">'.$lang['ec_paymentorders_callback_tips'].'</a>';
+			} elseif($order['status'] == 4) {
+				$operations .= '<a href="'.ADMINSCRIPT.'?action=ec&operation=paymentorders&op=refundquery&order_id='.$order['id'].'">'.$lang['ec_paymentorders_op_status'].'</a>';
 			}
 
 			showtablerow('class="order-status-'.$order['status'].'"', $tdstyles, [
@@ -189,4 +205,4 @@ if(submitcheck('querysubmit')) {
 	showformfooter();
 	/*search*/
 }
-	
+
