@@ -53,8 +53,11 @@
 	<!--{hook/global_footer}-->
 	<!--{if in_array(CURMODULE, array('post', 'forumdisplay', 'viewthread')) && !isset($_GET['editsubmit'])}-->
 	<div class="wp" id="cgb">
+	<!--{if $_G['setting']['fastsmilies']}--><script src="/kk/mathjax-fastpost.js?{VERHASH}"></script><!--{/if}-->
+	<!--{if CURMODULE == 'post'}-->
 	<script>window.MATH_EDITOR_LABELS = {inline: '{lang e_math_inline}', display: '{lang e_math_display}', title: '{lang e_math_title}', equation: '{lang e_math_equation}', wrap: '{lang e_math_wrap}', selected: '{lang e_math_selected}', symbols: '{lang e_math_symbols}', recent: '{lang e_math_recent}', greek: '{lang e_math_greek}', operators: '{lang e_math_operators}', relations: '{lang e_math_relations}', arrows: '{lang e_math_arrows}', logic: '{lang e_math_logic}', geometry: '{lang e_math_geometry}', save: '{lang save}', cancel: '{lang cancel}'};</script>
-	<script src="/kk/mathjax-preview.js?{VERHASH}"></script>
+	<script src="/kk/mathjax-full-editor.js?{VERHASH}"></script>
+	<!--{/if}-->
 	</div>
 	<!--{/if}-->
 	<div class="dz_footc cl">
