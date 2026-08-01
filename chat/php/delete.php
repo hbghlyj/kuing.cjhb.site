@@ -48,4 +48,10 @@ if(preg_match_all('/\/data\/attachment\/chat\/[A-Za-z0-9_\-\.\/]+/i', $row['mess
 		}
 	}
 }
+
+require_once $discuzRoot.'vendor/autoload.php';
+require_once __DIR__.'/config.php';
+$pusher = new Pusher(APP_KEY, APP_SECRET, APP_ID, ['cluster' => 'eu', 'useTLS' => true]);
+$pusher->trigger('Chat', 'chat_delete', ['message_time' => $messageTime], null, true);
+
 chat_json(200, ['status' => 200]);

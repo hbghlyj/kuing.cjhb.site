@@ -198,6 +198,11 @@
         this.#chatMessageReceived(data,true);
         this.#processPendingMessages();
       });
+      this.#chatChannel.bind('chat_delete', data => {
+        if(data && data.message_time){
+          PusherChatWidget.instances.forEach(instance => instance.#removeChatMessage(data.message_time));
+        }
+      });
       if(!isMobile){
         this.#widget.querySelector('.pusher-chat-widget-header').addEventListener('click', () => {
           this.isCollapsed = !this.isCollapsed;
@@ -294,6 +299,14 @@
       }else{
         this.#pendingMessages.push(entry);
       }
+    }
+    #removeChatMessage(messageTime){
+      this.#messagesEl.querySelectorAll('li.message-item').forEach(li => {
+        if(li.dataset.messageTime === String(messageTime)){
+          li.remove();
+          this.#itemCount--;
+        }
+      });
     }
     #processPendingMessages(){
       if(this.#isProcessingPendingMessages) return;
@@ -462,6 +475,7 @@
     static _buildListItem(activity){
       const li = document.createElement('li');
       li.className = 'message-item';
+      li.dataset.messageTime = activity.message_time || activity.id || '';
       const contentWrapper = document.createElement('div');
       contentWrapper.className = 'message-content-wrapper';
       const avatar = document.createElement('img');
