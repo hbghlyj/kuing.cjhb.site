@@ -320,13 +320,31 @@ function placeMathEditorCaret(rendered, after) {
 
 function selectMathEquation(rendered) {
 	if (!editdoc) return;
+	clearMathEquationSelection();
+	rendered.classList.add('math-editor-selected');
+	var container = rendered.querySelector('mjx-container');
+	if (container) container.classList.add('math-editor-selected');
+}
+
+function clearMathEquationSelection() {
+	if (!editdoc) return;
 	var selected = editdoc.querySelectorAll('.math-editor-rendered.math-editor-selected, mjx-container.math-editor-selected');
 	for (var i = 0; i < selected.length; i++) {
 		selected[i].classList.remove('math-editor-selected');
 	}
-	rendered.classList.add('math-editor-selected');
-	var container = rendered.querySelector('mjx-container');
-	if (container) container.classList.add('math-editor-selected');
+}
+
+function initMathEditorSelection() {
+	if (!editdoc || editdoc._mathEditorSelectionInitialized) return;
+	editdoc._mathEditorSelectionInitialized = true;
+	editdoc.addEventListener('click', function(event) {
+		if (!event.target.closest || !event.target.closest('.math-editor-rendered')) {
+			clearMathEquationSelection();
+		}
+	});
+	editdoc.addEventListener('keydown', function(event) {
+		if (event.key === 'Escape') clearMathEquationSelection();
+	});
 }
 
 function syncMathJaxEditorStyles() {
@@ -426,6 +444,7 @@ function findMathRanges(text) {
 
 function renderMathEditorContent() {
 	if (!wysiwyg || !editdoc || !editdoc.body) return;
+	initMathEditorSelection();
 
 	var nodes = [];
 	var walker = editdoc.createTreeWalker(editdoc.body, 4);
