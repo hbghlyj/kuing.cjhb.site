@@ -341,9 +341,6 @@ function editorsimple() {
 		$(editorid + '_body').className = 'edt simpleedt';
 		$(editorid + '_adv_s1').className = 'b2r';
 		$(editorid + '_adv_s2').className = 'b2r nbl';
-		if(allowswitcheditor) {
-			$(editorid + '_switcher').style.display = 'none';
-		}
 		$(editorid + '_adv_s3').className = 'b2r esbs';
 		simplodemode = 1;
 	} else {
