@@ -268,7 +268,7 @@ $seedThread = DB::fetch_first('SELECT * FROM %t WHERE subject=%s LIMIT 1', ['for
 if($seedThread) {
 	$seedReply = DB::fetch_first('SELECT * FROM %t WHERE tid=%d AND first=0 LIMIT 1', ['forum_post', $seedThread['tid']]);
 	if($seedReply) {
-		$commentExtend = new \forum\extend_thread_comment();
+		$commentExtend = new \forum\extend_thread_comment((object)[]);
 		$commentExtend->setting = ['allowpostcomment' => [2], 'commentpostself' => 1];
 		$commentExtend->group = ['allowcommentreply' => 1, 'ignorecensor' => 1];
 		$commentExtend->forum = ['modnewposts' => 0, 'status' => 1];
