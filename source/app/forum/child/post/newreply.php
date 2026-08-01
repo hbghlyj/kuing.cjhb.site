@@ -26,42 +26,6 @@ if($special == 5) {
 	}
 }
 
-$_G['forum']['allowreply'] = $_G['forum']['allowreply'] ?? '';
-$hasreplyperm = $_G['forum']['replyperm'] && forumperm($_G['forum']['replyperm']);
-$allowreply = $_G['forum']['allowreply'] != -1 && (
-	(!$_G['forum']['replyperm'] && $_G['group']['allowreply']) ||
-	$hasreplyperm ||
-	($_G['forum']['allowreply'] == 1 && $_G['group']['allowreply'])
-);
-
-if(!$_G['uid']) {
-	showmessage('replyperm_login_nopermission', NULL, [], ['login' => 1]);
-} elseif(!$allowreply) {
-	if($_G['forum']['allowreply'] == -1) {
-		showmessage('post_forum_newreply_nopermission', NULL);
-	} elseif(!$_G['forum']['replyperm'] && !$_G['group']['allowreply']) {
-		showmessage('replyperm_none_nopermission', NULL, [], ['login' => 1]);
-	} elseif($_G['forum']['replyperm'] && !$hasreplyperm) {
-		showmessagenoperm('replyperm', $_G['forum']['fid']);
-	} else {
-		showmessage('replyperm_none_nopermission', NULL, [], ['login' => 1]);
-	}
-}
-
-if(!$_G['uid'] && ($_G['setting']['need_avatar'] || $_G['setting']['need_secmobile'] || $_G['setting']['need_email'] || $_G['setting']['need_friendnum'])) {
-	showmessage('replyperm_login_nopermission', NULL, [], ['login' => 1]);
-}
-
-if(empty($thread)) {
-	showmessage('thread_nonexistence');
-} elseif($thread['price'] > 0 && $thread['special'] == 0 && !$_G['uid']) {
-	showmessage('group_nopermission', NULL, ['grouptitle' => $_G['group']['grouptitle']], ['login' => 1]);
-} elseif($thread['readperm'] && $thread['readperm'] > $_G['group']['readaccess'] && $thread['authorid'] != $_G['uid']) {
-	showmessagenoperm('replyperm', $_G['forum']['fid']);
-}
-
-checklowerlimit('reply', 0, 1, $_G['forum']['fid']);
-
 if($_G['setting']['commentnumber'] && !empty($_GET['comment'])) {
 	if(!submitcheck('commentsubmit', 0, $seccodecheck, $secqaacheck)) {
 		showmessage('submitcheck_error', NULL);
@@ -360,6 +324,43 @@ if(!submitcheck('replysubmit', 0, $seccodecheck, $secqaacheck)) {
 	}
 
 } else {
+	check_allow_action('allowreply');
+
+	$_G['forum']['allowreply'] = $_G['forum']['allowreply'] ?? '';
+	$hasreplyperm = $_G['forum']['replyperm'] && forumperm($_G['forum']['replyperm']);
+	$allowreply = $_G['forum']['allowreply'] != -1 && (
+		(!$_G['forum']['replyperm'] && $_G['group']['allowreply']) ||
+		$hasreplyperm ||
+		($_G['forum']['allowreply'] == 1 && $_G['group']['allowreply'])
+	);
+
+	if(!$_G['uid']) {
+		showmessage('replyperm_login_nopermission', NULL, [], ['login' => 1]);
+	} elseif(!$allowreply) {
+		if($_G['forum']['allowreply'] == -1) {
+			showmessage('post_forum_newreply_nopermission', NULL);
+		} elseif(!$_G['forum']['replyperm'] && !$_G['group']['allowreply']) {
+			showmessage('replyperm_none_nopermission', NULL, [], ['login' => 1]);
+		} elseif($_G['forum']['replyperm'] && !$hasreplyperm) {
+			showmessagenoperm('replyperm', $_G['forum']['fid']);
+		} else {
+			showmessage('replyperm_none_nopermission', NULL, [], ['login' => 1]);
+		}
+	}
+
+	if(!$_G['uid'] && ($_G['setting']['need_avatar'] || $_G['setting']['need_secmobile'] || $_G['setting']['need_email'] || $_G['setting']['need_friendnum'])) {
+		showmessage('replyperm_login_nopermission', NULL, [], ['login' => 1]);
+	}
+
+	if(empty($thread)) {
+		showmessage('thread_nonexistence');
+	} elseif($thread['price'] > 0 && $thread['special'] == 0 && !$_G['uid']) {
+		showmessage('group_nopermission', NULL, ['grouptitle' => $_G['group']['grouptitle']], ['login' => 1]);
+	} elseif($thread['readperm'] && $thread['readperm'] > $_G['group']['readaccess'] && $thread['authorid'] != $_G['uid']) {
+		showmessagenoperm('replyperm', $_G['forum']['fid']);
+	}
+
+	checklowerlimit('reply', 0, 1, $_G['forum']['fid']);
 
 	$modpost = C::m('\forum\model_post', $_G['tid']);
 	$bfmethods = $afmethods = [];

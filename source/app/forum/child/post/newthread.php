@@ -16,40 +16,6 @@ if(empty($_G['forum']['fid']) || $_G['forum']['type'] == 'group') {
 
 $quotemessage = '';
 
-if(($special == 1 && !$_G['group']['allowpostpoll']) || ($special == 2 && !$_G['group']['allowposttrade']) || ($special == 3 && !$_G['group']['allowpostreward']) || ($special == 4 && !$_G['group']['allowpostactivity']) || ($special == 5 && !$_G['group']['allowpostdebate'])) {
-	showmessage('group_nopermission', NULL, ['grouptitle' => $_G['group']['grouptitle']], ['login' => 1]);
-}
-
-$_G['forum']['allowpost'] = $_G['forum']['allowpost'] ?? '';
-$haspostperm = $_G['forum']['postperm'] && forumperm($_G['forum']['postperm']);
-$allowpost = $_G['forum']['allowpost'] != -1 && (
-	(!$_G['forum']['postperm'] && $_G['group']['allowpost']) ||
-	$haspostperm ||
-	($_G['forum']['allowpost'] == 1 && $_G['group']['allowpost'])
-);
-
-if(!$_G['uid']) {
-	$loginMessage = defined('IN_MOBILE') ? 'postperm_login_nopermission_mobile' : 'postperm_login_nopermission';
-	$loginVars = defined('IN_MOBILE') ? ['referer' => rawurlencode(dreferer())] : [];
-	showmessage($loginMessage, NULL, $loginVars, ['login' => 1]);
-} elseif(!$allowpost) {
-	if($_G['forum']['allowpost'] == -1) {
-		showmessage('post_forum_newthread_nopermission', NULL);
-	} elseif(!$_G['forum']['postperm'] && !$_G['group']['allowpost']) {
-		showmessage('postperm_none_nopermission', NULL, [], ['login' => 1]);
-	} elseif($_G['forum']['postperm'] && !$haspostperm) {
-		showmessagenoperm('postperm', $_G['fid'], $_G['forum']['formulaperm']);
-	} else {
-		showmessage('postperm_none_nopermission', NULL, [], ['login' => 1]);
-	}
-}
-
-if(!$_G['uid'] && ($_G['setting']['need_avatar'] || $_G['setting']['need_secmobile'] || $_G['setting']['need_email'] || $_G['setting']['need_friendnum'])) {
-	showmessage('postperm_login_nopermission', NULL, [], ['login' => 1]);
-}
-
-checklowerlimit('post', 0, 1, $_G['forum']['fid']);
-
 if(!submitcheck('topicsubmit', 0, $seccodecheck, $secqaacheck)) {
 
 	$st_t = $_G['uid'].'|'.TIMESTAMP;
@@ -164,6 +130,42 @@ if(!submitcheck('topicsubmit', 0, $seccodecheck, $secqaacheck)) {
 	}
 
 } else {
+	check_allow_action('allowpost');
+
+	if(($special == 1 && !$_G['group']['allowpostpoll']) || ($special == 2 && !$_G['group']['allowposttrade']) || ($special == 3 && !$_G['group']['allowpostreward']) || ($special == 4 && !$_G['group']['allowpostactivity']) || ($special == 5 && !$_G['group']['allowpostdebate'])) {
+		showmessage('group_nopermission', NULL, ['grouptitle' => $_G['group']['grouptitle']], ['login' => 1]);
+	}
+
+	$_G['forum']['allowpost'] = $_G['forum']['allowpost'] ?? '';
+	$haspostperm = $_G['forum']['postperm'] && forumperm($_G['forum']['postperm']);
+	$allowpost = $_G['forum']['allowpost'] != -1 && (
+		(!$_G['forum']['postperm'] && $_G['group']['allowpost']) ||
+		$haspostperm ||
+		($_G['forum']['allowpost'] == 1 && $_G['group']['allowpost'])
+	);
+
+	if(!$_G['uid']) {
+		$loginMessage = defined('IN_MOBILE') ? 'postperm_login_nopermission_mobile' : 'postperm_login_nopermission';
+		$loginVars = defined('IN_MOBILE') ? ['referer' => rawurlencode(dreferer())] : [];
+		showmessage($loginMessage, NULL, $loginVars, ['login' => 1]);
+	} elseif(!$allowpost) {
+		if($_G['forum']['allowpost'] == -1) {
+			showmessage('post_forum_newthread_nopermission', NULL);
+		} elseif(!$_G['forum']['postperm'] && !$_G['group']['allowpost']) {
+			showmessage('postperm_none_nopermission', NULL, [], ['login' => 1]);
+		} elseif($_G['forum']['postperm'] && !$haspostperm) {
+			showmessagenoperm('postperm', $_G['fid'], $_G['forum']['formulaperm']);
+		} else {
+			showmessage('postperm_none_nopermission', NULL, [], ['login' => 1]);
+		}
+	}
+
+	if(!$_G['uid'] && ($_G['setting']['need_avatar'] || $_G['setting']['need_secmobile'] || $_G['setting']['need_email'] || $_G['setting']['need_friendnum'])) {
+		showmessage('postperm_login_nopermission', NULL, [], ['login' => 1]);
+	}
+
+	checklowerlimit('post', 0, 1, $_G['forum']['fid']);
+
 	if(trim($subject) !== '' && table_forum_thread::t()->exists_by_subject($subject)) {
 		showmessage('post_subject_duplicate');
 	}

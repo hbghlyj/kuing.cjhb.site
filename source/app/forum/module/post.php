@@ -96,10 +96,6 @@ if($_GET['action'] == 'edit' || $_GET['action'] == 'reply') {
 	}
 	if(!empty($thread)) {
 
-		if($thread['readperm'] && $thread['readperm'] > $_G['group']['readaccess'] && !$_G['forum']['ismoderator'] && $thread['authorid'] != $_G['uid']) {
-			showmessage('thread_nopermission', NULL, ['readperm' => $thread['readperm']], ['login' => 1]);
-		}
-
 		$_G['fid'] = $thread['fid'];
 		$special = $thread['special'];
 
@@ -352,12 +348,6 @@ $posturl = "action={$_GET['action']}&fid={$_G['fid']}".
 	(!empty($typeid) ? "&typeid=$typeid" : '').
 	(!empty($_GET['firstpid']) ? '&firstpid='.$_GET['firstpid'] : '').
 	(!empty($_GET['addtrade']) ? '&addtrade='.$_GET['addtrade'] : '');
-
-if($_GET['action'] == 'reply') {
-	check_allow_action('allowreply');
-} else {
-	check_allow_action('allowpost');
-}
 
 if($special == 4) {
 	$_G['setting']['activityfield'] = $_G['setting']['activityfield'] ? dunserialize($_G['setting']['activityfield']) : [];
