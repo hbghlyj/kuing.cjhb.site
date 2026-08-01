@@ -338,9 +338,21 @@ function initMathEditorSelection() {
 	if (!editdoc || editdoc._mathEditorSelectionInitialized) return;
 	editdoc._mathEditorSelectionInitialized = true;
 	editdoc.addEventListener('click', function(event) {
-		if (!event.target.closest || !event.target.closest('.math-editor-rendered')) {
+		var rendered = event.target.closest ? event.target.closest('.math-editor-rendered') : null;
+		if (!rendered) {
 			clearMathEquationSelection();
+			return;
 		}
+		event.preventDefault();
+		selectMathEquation(rendered);
+		var bounds = rendered.getBoundingClientRect();
+		placeMathEditorCaret(rendered, event.clientX >= bounds.left + bounds.width / 2);
+	});
+	editdoc.addEventListener('dblclick', function(event) {
+		var rendered = event.target.closest ? event.target.closest('.math-editor-rendered') : null;
+		if (!rendered) return;
+		event.preventDefault();
+		showFullEditorMathDialog(window.MATH_EDITOR_LABELS || {}, rendered);
 	});
 	editdoc.addEventListener('keydown', function(event) {
 		if (event.key === 'Escape') clearMathEquationSelection();
@@ -383,23 +395,6 @@ function renderMathEquation(rendered, math) {
 		syncMathJaxEditorStyles();
 		if (rendered.classList.contains('math-editor-selected')) selectMathEquation(rendered);
 	}).catch(function() {});
-}
-
-function initRenderedMathEquation(rendered) {
-	if (rendered._mathEditorInitialized) return;
-	rendered._mathEditorInitialized = true;
-	rendered.addEventListener('click', function(event) {
-		event.preventDefault();
-		event.stopPropagation();
-		selectMathEquation(rendered);
-		var bounds = rendered.getBoundingClientRect();
-		placeMathEditorCaret(rendered, event.clientX >= bounds.left + bounds.width / 2);
-	});
-	rendered.addEventListener('dblclick', function(event) {
-		event.preventDefault();
-		event.stopPropagation();
-		showFullEditorMathDialog(window.MATH_EDITOR_LABELS || {}, rendered);
-	});
 }
 
 function isEscapedMathDelimiter(text, index) {
@@ -468,7 +463,6 @@ function renderMathEditorContent() {
 			rendered.className = 'math-editor-rendered';
 			rendered.setAttribute('data-math-source', math);
 			rendered.setAttribute('contenteditable', 'false');
-			initRenderedMathEquation(rendered);
 			fragment.appendChild(rendered);
 			formulas.push({ rendered: rendered, math: math });
 			index = range.end;
@@ -493,7 +487,6 @@ function insertMathEquation(math) {
 	var rendered = editdoc.getElementById(id);
 	if (!rendered) return;
 	rendered.removeAttribute('id');
-	initRenderedMathEquation(rendered);
 	renderMathEquation(rendered, math);
 }
 
