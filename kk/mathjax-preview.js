@@ -566,6 +566,7 @@ function showFullEditorMathDialog(labels, rendered) {
 		'<p><label for="math_editor_wrap">' + escapeMathHtml(wrapLabel) + '</label>' +
 		'<select id="math_editor_wrap"><option value="inline">' + escapeMathHtml(inlineLabel) + '</option>' +
 		'<option value="display">' + escapeMathHtml(displayLabel) + '</option></select></p>' +
+		'<div id="math_editor_preview" class="math-editor-preview" aria-live="polite"></div>' +
 		'</div>';
 
 	showDialog(content, 'confirm', title, function() {
@@ -583,9 +584,24 @@ function showFullEditorMathDialog(labels, rendered) {
 	setTimeout(function() {
 		var equation = document.getElementById('math_editor_equation');
 		var wrap = document.getElementById('math_editor_wrap');
-		if (!equation || !wrap) return;
+		var preview = document.getElementById('math_editor_preview');
+		if (!equation || !wrap || !preview) return;
+		var previewVersion = 0;
+		var updatePreview = function() {
+			var math = wrap.value === 'display' ? '$$' + equation.value + '$$' : '$' + equation.value + '$';
+			preview.textContent = math;
+			if (typeof MathJax === 'undefined' || typeof MathJax.typesetPromise !== 'function') return;
+			if (typeof MathJax.typesetClear === 'function') MathJax.typesetClear([preview]);
+			var version = ++previewVersion;
+			MathJax.typesetPromise([preview]).catch(function() {
+				if (version === previewVersion) preview.textContent = math;
+			});
+		};
 		equation.value = selected.equation;
 		wrap.value = selected.wrap;
+		equation.addEventListener('input', updatePreview);
+		wrap.addEventListener('change', updatePreview);
+		updatePreview();
 		equation.focus();
 		equation.select();
 	}, 0);
