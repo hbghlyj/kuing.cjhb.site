@@ -11,3 +11,9 @@ php tools/rebuild_styles.php --host=kuing.cjhb.site
 ```
 
 Use the public host. The tool compiles scheme-relative asset URLs.
+
+After JavaScript or other versioned static asset changes, run:
+
+```sh
+php tools/update_verhash.php
+```

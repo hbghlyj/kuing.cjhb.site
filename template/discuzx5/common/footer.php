@@ -53,9 +53,8 @@
 	<!--{hook/global_footer}-->
 	<!--{if in_array(CURMODULE, array('post', 'forumdisplay', 'viewthread')) && !isset($_GET['editsubmit'])}-->
 	<div class="wp" id="cgb">
-	<!--{eval $mathjaxpreviewver = filemtime(DISCUZ_ROOT.'kk/mathjax-preview.js');}-->
 	<script>window.MATH_EDITOR_LABELS = {inline: '{lang e_math_inline}', display: '{lang e_math_display}', title: '{lang e_math_title}', equation: '{lang e_math_equation}', wrap: '{lang e_math_wrap}', save: '{lang save}', cancel: '{lang cancel}'};</script>
-	<script src="/kk/mathjax-preview.js?$mathjaxpreviewver"></script>
+	<script src="/kk/mathjax-preview.js?{VERHASH}"></script>
 	</div>
 	<!--{/if}-->
 	<div class="dz_footc cl">
