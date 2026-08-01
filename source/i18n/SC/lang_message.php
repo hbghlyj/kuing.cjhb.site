@@ -340,6 +340,7 @@ $lang = [
 	'no_privilege_postattach' => '抱歉，您目前没有权限上传附件，<a href="home.php?mod=spacecp&ac=usergroup" target="_blank">点击这里查看权限</a>',
 	'thread_closed' => '该帖子已被关闭，不能评论！',
 	'postcomment_error' => '抱歉，您不能点评此帖或帖子尚未找到',
+	'postcomment_too_long' => '点评最多 200 个字符，请改用回复发布更长内容',
 	'postappend_not_open' => '抱歉，站点没有开启帖子补充功能',
 	'postappend_only_yourself' => '只能在自己的帖子后补充内容',
 	'postdelete_only_yourself' => '只能删除自己的帖子',

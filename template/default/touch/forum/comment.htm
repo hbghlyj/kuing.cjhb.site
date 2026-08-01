@@ -1,6 +1,6 @@
 <!--{template common/header}-->
 <div class="tip loginbox loginpop p5" id="floatlayout_comment">
-	<form method="post" autocomplete="off" id="commentform" action="forum.php?mod=post&action=reply&comment=yes&tid=$post['tid']&pid=$_GET['pid']&extra=$extra{if !empty($_GET['page'])}&page=$_GET['page']{/if}&commentsubmit=yes&infloat=yes&inajax=1">
+	<form method="post" autocomplete="off" id="commentform" action="forum.php?mod=post&action=reply&comment=yes&tid=$post['tid']&pid=$_GET['pid']&extra=$extra{if !empty($_GET['page'])}&page=$_GET['page']{/if}&commentsubmit=yes&infloat=yes&inajax=1" onsubmit="return validatePostComment();">
 		<h2 class="log_tit" id="return_comment"><a href="javascript:;" onclick="popup.close();"><span class="icon_close y">&nbsp;</span></a>{lang comments}</h2>
 		<input type="hidden" name="formhash" id="formhash" value="{FORMHASH}" />
 		<input type="hidden" name="handlekey" value="$_GET['handlekey']" />
@@ -41,6 +41,23 @@
 </div>
 <script type="text/javascript" reload="1">
 getID('commentmessage').focus();
+function convertPostCommentToReply() {
+	var form = document.createElement('form');
+	var message = document.createElement('input');
+	form.method = 'post';
+	form.action = 'forum.php?mod=post&action=reply&fid=$_G[fid]&tid=$post[tid]&reppid=$_GET[pid]';
+	message.type = 'hidden';
+	message.name = 'message';
+	message.value = getID('commentmessage').value;
+	form.appendChild(message);
+	document.body.appendChild(form);
+	form.submit();
+}
+function validatePostComment() {
+	if(Array.from(getID('commentmessage').value).length <= 200) return true;
+	popup.open('{lang postcomment_too_long}<br /><a href="javascript:convertPostCommentToReply();" class="xi2">{lang postcomment_to_reply}</a>', 'alert');
+	return false;
+}
 function rateStarSet(target, level, input) {
 	if(input) getID(input).value = level;
 	var stars = getID(target).children;

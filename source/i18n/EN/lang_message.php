@@ -314,6 +314,7 @@ $lang = array (
 	'no_privilege_postattach'	=> 'Sorry, currently you are not have permission to upload attachments, <a href="home.php?mod=spacecp&ac=usergroup">Click here to view permissions</a>',//'抱歉，您目前没有权限上传附件，<a href="home.php?mod=spacecp&ac=usergroup">点击这里查看权限</a>',
 	'thread_closed'			=> 'This thread has been closed and can not be commented!',//'该帖子已被关闭，不能评论！',
 	'postcomment_error'		=> 'Sorry, you can not comment this post or the post not found',//'抱歉，您不能点评此帖或帖子尚未找到',
+	'postcomment_too_long'	=> 'Post comments are limited to 200 characters. Please use a reply for longer content.',
 	'postappend_not_open'		=> 'Sorry, the post append function is turned off',//'抱歉，站点没有开启帖子补充功能',
 	'postappend_only_yourself'	=> 'You can add posts only into your own content',//'只能在自己的帖子后补充内容',
 	'postappend_add_succeed'	=> 'Post added successfully',//'添加成功',

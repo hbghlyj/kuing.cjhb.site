@@ -51,7 +51,14 @@ if($_G['setting']['commentnumber'] && !empty($_GET['comment'])) {
 			}
 		}
 	}
-	$comment = cutstr(($commentscore ? $commentscore.'<br />' : '').censor(trim(dhtmlspecialchars($_GET['message'])), '***'), 200, ' ');
+	$commentmessage = censor(trim(dhtmlspecialchars($_GET['message'])), '***');
+	if(mb_strlen($commentmessage, 'UTF-8') > 200) {
+		showmessage('postcomment_too_long');
+	}
+	$comment = ($commentscore ? $commentscore.'<br />' : '').$commentmessage;
+	if(mb_strlen($comment, 'UTF-8') > 255) {
+		showmessage('postcomment_too_long');
+	}
 	if(!$comment) {
 		showmessage('post_sm_isnull');
 	}
