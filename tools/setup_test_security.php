@@ -262,8 +262,8 @@ foreach([1, 7, 10] as $groupId) {
 $expect(is_file(DISCUZ_ROOT.'./data/cache/common_smilies_var.js'), 'common_smilies_var.js');
 
 test_security_setup_stage('extend_thread_comment XSS sanitization');
-require_once libfile('extend/extend_thread_base', 'app/forum');
-require_once libfile('extend/extend_thread_comment', 'app/forum');
+require_once DISCUZ_ROOT.'./source/app/forum/extend/extend_thread_base.php';
+require_once DISCUZ_ROOT.'./source/app/forum/extend/extend_thread_comment.php';
 $seedThread = C::t('forum_thread')->fetch_by_subject('Admin Seed Thread');
 if($seedThread) {
 	$seedPosts = C::t('forum_post')->fetch_all_by_tid('tid:'.$seedThread['tid'], $seedThread['tid'], true, 'ASC', 0, 0, null, 0);
