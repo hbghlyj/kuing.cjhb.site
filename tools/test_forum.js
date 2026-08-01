@@ -1270,31 +1270,20 @@ const svgAttachmentSubject = `Thread with SVG Attachment ${testRunId}`;
         console.log("Tag Edit Panel & Retagging test passed!");
         report += `### 7. Tag Edit Panel & Retagging\n- **Status**: Passed\n- **Tag Retagged**: retagtest\n- **Threadmod Log Action**: TAG\n- **Moderated Column**: 1\n- **Screenshot**: \`screenshot_tag_itembox_edit.png\`\n\n`;
 
-        // 8. WYSIWYG Mode & Preview Div Toggle Test
-        console.log("Testing WYSIWYG mode & preview div (#outputWrap) toggle...");
+        // 8. WYSIWYG mode preserves TeX source through a round trip.
+        console.log("Testing WYSIWYG mode TeX preservation...");
         await page.goto(`http://127.0.0.1:8080/forum.php?mod=post&action=newthread&fid=${forumFid}`);
         await page.waitForLoadState('networkidle');
 
         // Test that TeX formulas ($f$) are preserved across WYSIWYG mode toggles
         await page.fill('#e_textarea', 'Test $f$ math content');
         await page.evaluate(() => switchEditor(1));
-        const outputWrapWysiwyg = await page.evaluate(() => {
-            const el = document.getElementById('outputWrap');
-            return el ? el.style.display : null;
-        });
-        assert.strictEqual(outputWrapWysiwyg, 'none', 'Assertion Error: Preview div (#outputWrap) was not hidden when switching to WYSIWYG mode.');
+		await page.evaluate(() => switchEditor(0));
+		const editorTextAfterToggle = await page.inputValue('#e_textarea');
+		assert.strictEqual(editorTextAfterToggle, 'Test $f$ math content', 'Assertion Error: TeX math formula $f$ was corrupted after toggling WYSIWYG mode.');
 
-        await page.evaluate(() => switchEditor(0));
-        const outputWrapBbcode = await page.evaluate(() => {
-            const el = document.getElementById('outputWrap');
-            return el ? el.style.display : null;
-        });
-        assert.strictEqual(outputWrapBbcode, '', 'Assertion Error: Preview div (#outputWrap) was not revealed when switching back to BBCode mode.');
-        const editorTextAfterToggle = await page.inputValue('#e_textarea');
-        assert.strictEqual(editorTextAfterToggle, 'Test $f$ math content', 'Assertion Error: TeX math formula $f$ was corrupted after toggling WYSIWYG mode.');
-
-        console.log("WYSIWYG mode & preview div toggle test passed!");
-        report += `### 8. WYSIWYG Mode & Preview Div Toggle\n- **Status**: Passed\n- **Hidden in WYSIWYG**: display: none\n- **Revealed in BBCode**: display: ''\n- **Math Preservation**: $f$ preserved intact\n\n`;
+		console.log("WYSIWYG mode TeX preservation test passed!");
+		report += `### 8. WYSIWYG Mode TeX Preservation\n- **Status**: Passed\n- **Math Preservation**: $f$ preserved intact\n\n`;
 
     } catch (error) {
         console.error("Test execution failed:", error);

@@ -1,30 +1,3 @@
-function initLivePreview() {
-	var output = $("output");
-	if (!output) return;
-
-	var updatePreview = function(el) {
-		if (!el) return;
-		if (typeof MathJax !== 'undefined' && typeof MathJax.texReset === 'function') {
-			MathJax.texReset();
-		}
-		output.innerHTML = bbcode2html(el.value || '');
-		if (typeof MathJax !== 'undefined' && MathJax.typesetPromise) {
-			MathJax.typesetPromise([output]).catch(() => {});
-		}
-	};
-
-	var textareas = document.querySelectorAll("#fastpostmessage, #postmessage, #e_textarea, #inputText");
-	textareas.forEach(function(textarea) {
-		textarea.addEventListener('input', function() {
-			updatePreview(this);
-		});
-		textarea.addEventListener('keyup', function() {
-			updatePreview(this);
-		});
-		updatePreview(textarea);
-	});
-}
-
 function insertTexToEditor(va) {
 	var textarea = (document.activeElement && (document.activeElement.id === 'fastpostmessage' || document.activeElement.id === 'postmessage' || document.activeElement.id === 'e_textarea' || document.activeElement.id === 'inputText'))
 		? document.activeElement
@@ -362,22 +335,6 @@ function initMathJaxPreview() {
 	renderFastTexSmilies();
 	initFullEditorMathEntry();
 	initFastTexMode();
-	initLivePreview();
 }
 
-if (typeof bbcode2html === 'function') {
-	initMathJaxPreview();
-} else {
-	// Simple editors do not include bbcode.js, unlike the full post editor.
-	// Supply safe preview defaults before loading the shared converter.
-	window.EXTRAFUNC = window.EXTRAFUNC || [];
-	window.allowhtml = window.allowhtml || 0;
-	window.allowsmilies = window.allowsmilies || 0;
-	window.allowbbcode = typeof window.allowbbcode === 'undefined' ? 1 : window.allowbbcode;
-	window.allowimgcode = typeof window.allowimgcode === 'undefined' ? 1 : window.allowimgcode;
-
-	var bbcodeScript = document.createElement('script');
-	bbcodeScript.src = (typeof JSPATH !== 'undefined' ? JSPATH : 'static/js/') + 'bbcode.js?' + (typeof VERHASH !== 'undefined' ? VERHASH : '');
-	bbcodeScript.onload = initMathJaxPreview;
-	document.head.appendChild(bbcodeScript);
-}
+initMathJaxPreview();
