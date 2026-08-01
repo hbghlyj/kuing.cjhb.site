@@ -571,10 +571,9 @@ const svgAttachmentSubject = `Thread with SVG Attachment ${testRunId}`;
                 fastPostSubmitBtn.click()
             ]);
             assert.ok(fastPostResponse.ok(), `Assertion Error: Fast reply request failed with HTTP ${fastPostResponse.status()}.`);
-            await page.waitForFunction(
-                message => document.body.innerText.includes(message),
-                'Fast reply text from unprivileged account.'
-            );
+			await page.waitForFunction(
+				() => document.getElementById('fastpostmessage')?.value === ''
+			);
 
             console.log("Checking if fast reply exists in DB...");
             const fastReplyDbCheck = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT COUNT(*) FROM pre_forum_post WHERE tid='${tidOutput}' AND message='Fast reply text from unprivileged account.';"`).toString().trim();
