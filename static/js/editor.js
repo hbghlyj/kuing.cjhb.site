@@ -432,6 +432,30 @@ function pasteWord(str) {
 	insertText(str, str.length, 0);
 }
 
+function sanitizePaste(event) {
+	if(!wysiwyg || (allowhtml && fetchCheckbox('htmlon'))) {
+		return;
+	}
+	var data = event.clipboardData || window.clipboardData;
+	if(!data) {
+		return;
+	}
+	var html = data.getData('text/html');
+	if(!html) {
+		return;
+	}
+	event.preventDefault();
+	try {
+		var div = document.createElement('div');
+		div.innerHTML = html;
+		var body = div.getElementsByTagName('body')[0];
+		var fragment = body ? body.innerHTML : div.innerHTML;
+		insertText(bbcode2html(html2bbcode(fragment)), 0, 0);
+	} catch(e) {
+		insertText(html.replace(/<[\/\!]*?[^<>]*?>/ig, ''), 0, 0);
+	}
+}
+
 var ctlent_enable = {8:1,9:1,13:1};
 function ctlent(event) {
 	if(postSubmited == false && (event.ctrlKey && event.keyCode == 13) || (event.altKey && event.keyCode == 83) && editorsubmit) {
@@ -768,6 +792,14 @@ function setEditorEvents() {
 			editdoc.attachEvent('onkeyup', keyUp);
 			editdoc.attachEvent('onkeydown', keyDown);
 		} catch(e) {}
+	}
+	if(editdoc.addEventListener) {
+		if(!editdoc._sanitizePasteBound) {
+			editdoc.addEventListener('paste', sanitizePaste, true);
+			editdoc._sanitizePasteBound = true;
+		}
+	} else if(editdoc.attachEvent) {
+		editdoc.attachEvent('onpaste', sanitizePaste);
 	}
 }
 

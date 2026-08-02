@@ -25,7 +25,7 @@
 .fl_g dd em:nth-child(n+2) {margin-left:12px}
 .fl_g dd a.dz_lastpost_ico {display:block;color:var(--dz-fc)}
 .bm_c .kmtoday {display:inline-block;margin-left:5px;padding:0 4px;min-width:12px;height:14px;line-height:14px;text-align:center;vertical-align:top;font-size:12px;color:var(--dz-ff);background:var(--dz-ahot);border-radius:var(--dz-radius-c)}
-.bm_h h3 strong {font-weight:400}
+.bm_h h3 strong {font-weight:normal}
 #category_lk {padding:15px 20px 10px !important}
 .slideouter {border-color:var(--dz-borderb) !important}
 .lk_logo .lk_content h5, .lk_logo .lk_content p {line-height:14px}
@@ -53,7 +53,7 @@
 .dz_bdl dl dd {display:none;margin:0;padding:0 15px;height:35px;line-height:35px;overflow:hidden}
 .dz_bdl dl dd a {color:var(--dz-fb)}
 .dz_bdl dl dd a:hover {color:var(--dz-ahover)}
-.dz_bdl dl dd.bdl_a, .dz_bdl dl dd.bdl_a a {color:var(--dz-ahover);font-weight:600}
+.dz_bdl dl dd.bdl_a, .dz_bdl dl dd.bdl_a a {color:var(--dz-ahover);font-weight:bold}
 .dz_bdl dl.a dd, .dz_bdl dl.bdl_fav dd {display:block;overflow:hidden}
 .dz_bdl dl.bdl_fav {margin-bottom:15px !important}
 
@@ -139,8 +139,8 @@ details > div {
 .posthead .pls {padding:20px 0;line-height:22px}
 .posthead .plc {padding:20px}
 
-.ts {font-size:18px;font-weight:400}
-.dz_postlist .ts {font-size:22px;font-weight:400}
+.ts {font-size:18px;font-weight:normal}
+.dz_postlist .ts {font-size:22px;font-weight:normal}
 
 .pbg2{background:var(--dz-bgc)}
 .pls .o li:before{float: none;}
@@ -185,7 +185,7 @@ details > div {
 
 .tdats .tfxf {width:560px}
 .tdats .tfx, .tdats .tb, .tscr, .tscr .tdat th, .tscr .tdat td {width:280px}
-.tdats th {font-weight:400}
+.tdats th {font-weight:normal}
 .tdats th, .tdats td {padding:0 10px}
 .tdats th, .tdats td, .tdats .h th {height:40px;font-size:13px}
 .tdats .h th {background-position:0;border-color:#fff}
@@ -198,7 +198,7 @@ details > div {
 .exfm .pn {height:34px;line-height:34px;font-size:14px}
 .exfm .lb {white-space:nowrap}
 .exfm caption {margin:5px 3px}
-.exfm caption h4, .mdcp h2 {font-size:14px;font-weight:400}
+.exfm caption h4, .mdcp h2 {font-size:14px;font-weight:normal}
 .exfm ul li, .exfm table td.ptm p {min-height:32px;line-height:32px}
 .exfm table th {text-align:right;padding-right:10px}
 .ct2_a .mn .dt th[width*="80"] {width:90px !important}
@@ -209,13 +209,13 @@ details > div {
 .ct2_a .sadd {width:400px}
 .sinf dl dt, .sadd dl dt {width:85px;text-align:right;padding-top:7px;padding-right:10px}
 .exfm .rq {float:none;padding-right:5px}
-.sinf h4 {font-size:14px;padding-top:0;height:32px;line-height:28px;font-weight:400}
+.sinf h4 {font-size:14px;padding-top:0;height:32px;line-height:28px;font-weight:normal}
 .sinf h4 span {font-size:12px}
-.tfm .d strong {margin-left:0;font-weight:400}
+.tfm .d strong {margin-left:0;font-weight:normal}
 .tl th, .tl td {padding:8px 0}
 .tl .common {font-size:14px}
 .pr, .pc {margin-bottom:0}
-.ptm h2 {line-height:30px;font-size:14px;font-weight:400}
+.ptm h2 {line-height:30px;font-size:14px;font-weight:normal}
 #signhtmlpreview img[src*="smiley"] {max-width:22px !important;max-height:22px;vertical-align:middle}
 #post_extra {margin-top:5px}
 #post_extra_tb label {height:30px;line-height:30px;margin-right:10px;border:1px solid var(--dz-borderb);border-radius:var(--dz-radius-s)}
@@ -231,7 +231,7 @@ details > div {
 .attc a.d {margin-top:5px;margin-left:5px}
 .dz_post_input {position:relative;z-index:30}
 .dz_post_input .ftid {margin-right:12px}
-.dz_post_input #subject {width:calc(100% - 22px);margin-right:0;padding:0 10px;height:44px;line-height:44px;font-size:18px;font-weight:600}
+.dz_post_input #subject {width:calc(100% - 22px);margin-right:0;padding:0 10px;height:44px;line-height:44px;font-size:18px;font-weight:bold}
 .dz_post_input #subject.kmall {width:calc(100% - 160px)}
 .dz_post_input .ftid select, .dz_post_input .ftid a {height:44px;line-height:44px}
 .dz_post_input .dz_post_input {position:relative;z-index:30}
@@ -249,7 +249,7 @@ details > div {
 #postbox dd.hasd input {width:124px !important}
 #activitynumber {width:84px !important}
 .oinf {width:272px !important}
-#realprice {color:var(--dz-ahot);font-size:14px;font-weight:400}
+#realprice {color:var(--dz-ahot);font-size:14px;font-weight:normal}
 .sppoll p a {color:var(--dz-ahot)}
 .sppoll .webuploader-container {width:34px !important;padding:0;margin-top:0;background:var(--dz-btnbg) url({STYLEIMGDIR}/svg/dz_ico_upimg.svg) no-repeat center center !important;background-size:24px !important}
 .sppoll .webuploader-container .webuploader-pick {text-indent:-999em !important}

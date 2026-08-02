@@ -13,6 +13,8 @@ if(!defined('IN_DISCUZ')) {
 require_once libfile('function/forumlist');
 require_once libfile('function/discuzcode');
 require_once libfile('function/post');
+require_once libfile('function/relateitem');
+require_once libfile('function/threadmod');
 
 $thread = &$_G['forum_thread'];
 $forum = &$_G['forum'];
@@ -1106,41 +1108,6 @@ function viewthread_loadcache() {
 	}
 }
 
-function viewthread_lastmod(&$thread) {
-	global $_G;
-	if(!$thread['moderated']) {
-		return [];
-	}
-	$lastmod = [];
-	$lastlog = table_forum_threadmod::t()->fetch_by_tid($thread['tid']);
-	if($lastlog) {
-		$lastmod = [
-			'moduid' => $lastlog['uid'],
-			'modusername' => $lastlog['username'],
-			'moddateline' => $lastlog['dateline'],
-			'modaction' => $lastlog['action'],
-			'magicid' => $lastlog['magicid'],
-			'reason' => $lastlog['reason']
-		];
-	}
-	if($lastmod) {
-		$modactioncode = lang('forum/modaction');
-		$lastmod['moduid'] = $_G['setting']['moduser_public'] ? $lastmod['moduid'] : 0;
-		$lastmod['modusername'] = $lastmod['modusername'] ? ($_G['setting']['moduser_public'] ? $lastmod['modusername'] : lang('forum/template', 'thread_moderations_team')) : lang('forum/template', 'thread_moderations_cron');
-		$lastmod['moddateline'] = dgmdate($lastmod['moddateline'], 'u');
-		$lastmod['modactiontype'] = $lastmod['modaction'];
-		$lastmod['modaction'] = $modactioncode[$lastmod['modaction']] ?? '';
-		if($lastmod['magicid']) {
-			loadcache('magics');
-			$lastmod['magicname'] = $_G['cache']['magics'][$lastmod['magicid']]['name'];
-		}
-	} else {
-		table_forum_thread::t()->update($thread['tid'], ['moderated' => 0], false, false, $thread['threadtableid']);
-		$thread['moderated'] = 0;
-	}
-	return $lastmod;
-}
-
 function viewthread_baseinfo($post, $extra) {
 	global $_G;
 	list($key, $type) = $extra;
@@ -1337,60 +1304,6 @@ function remaintime($time) {
 	$time -= $minutes * 60;
 	$seconds = $time;
 	return [(int)$days, (int)$hours, (int)$minutes, (int)$seconds];
-}
-
-function getrelateitem($tagarray, $tid, $relatenum, $relatetime, $relatecache = '', $type = 'tid') {
-	$tagidarray = $relatearray = $relateitem = [];
-	$updatecache = 0;
-	$limit = $relatenum;
-	if(!$limit) {
-		return '';
-	}
-	foreach($tagarray as $var) {
-		$tagidarray[] = $var['0'];
-	}
-	if(!$tagidarray) {
-		return '';
-	}
-	if(empty($relatecache)) {
-		$thread = table_forum_thread::t()->fetch_thread($tid);
-		$relatecache = $thread['relatebytag'];
-	}
-	if($relatecache) {
-		$relatecache = explode("\t", $relatecache);
-		if(TIMESTAMP > $relatecache[0] + $relatetime * 60) {
-			$updatecache = 1;
-		} else {
-			if(!empty($relatecache[1])) {
-				$relatearray = explode(',', $relatecache[1]);
-			}
-		}
-	} else {
-		$updatecache = 1;
-	}
-	if($updatecache) {
-		$query = table_common_tagitem::t()->select($tagidarray, $tid, $type, 'itemid', 'DESC', $limit, 0, '<>');
-		foreach($query as $result) {
-			if($result['itemid']) {
-				$relatearray[] = $result['itemid'];
-			}
-		}
-		if($relatearray) {
-			$relatebytag = implode(',', $relatearray);
-		}
-		table_forum_thread::t()->update($tid, ['relatebytag' => TIMESTAMP."\t".$relatebytag]);
-	}
-
-
-	if(!empty($relatearray)) {
-		rsort($relatearray);
-		foreach(table_forum_thread::t()->fetch_all_by_tid($relatearray) as $result) {
-			if($result['displayorder'] >= 0) {
-				$relateitem[] = $result;
-			}
-		}
-	}
-	return $relateitem;
 }
 
 function rushreply_rule() {

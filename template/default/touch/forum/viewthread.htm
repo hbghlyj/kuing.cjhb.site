@@ -244,11 +244,7 @@
 			<!--{if $post['first'] && ($_G['setting']['tagstatus'] || !empty($post['tags']) || $relatedkeywords) && $_GET['from'] != 'preview'}-->
 				<div class="ptg mbm mtn cl">
 					<i class="dm-tag vm"></i>
-					<!--{if !empty($post['tags'])}-->
-						<!--{loop $post['tags'] $var}-->
-							<a title="$var[1]" href="misc.php?mod=tag&id=$var[0]&name=<!--{echo rawurlencode($var[1])}-->">$var[1]</a>
-						<!--{/loop}-->
-					<!--{/if}-->
+					<span id="threadtags"><!--{if !empty($post['tags'])}--><!--{loop $post['tags'] $var}--><a title="$var[1]" href="misc.php?mod=tag&id=$var[0]&name=<!--{echo rawurlencode($var[1])}-->" target="_blank">$var[1]</a><!--{/loop}--><!--{/if}--></span>
 					<!--{if ($_G['adminid'] || $_G['forum']['ismoderator'] || $_G['uid'] == $post['authorid'] || !empty($_G['group']['allowretag'])) && !$_G['forum_thread']['archiveid']}-->
 						<a href="misc.php?mod=tag&op=manage&tid=$_G['tid']" class="dialog cmty-edit-tag-btn" title="{lang edit_tag}">[{lang edit_tag}]</a>
 					<!--{/if}-->

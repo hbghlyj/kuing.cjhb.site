@@ -24,7 +24,7 @@
 .llst .copt {height:auto}
 .tm_c .o {background:var(--dz-bgb)}
 .tpclg {padding:8px 0 4px}
-.tpclg h4 {font-weight:400}
+.tpclg h4 {font-weight:normal}
 .tpclg h4 span {float:left}
 .tpclg h4 .dpbtn {border-width:1px;border-radius:4px }
 .tpclg .pt {margin:5px 0;width:225px;overflow:hidden}
