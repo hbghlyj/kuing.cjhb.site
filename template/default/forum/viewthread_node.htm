@@ -128,7 +128,7 @@ $postshowavatars = !($_G['setting']['bannedmessages'] & 2 && ($post['memberstatu
 					<div id="fj" class="y">
 						<label class="z">{lang thread_redirect_postno}</label>
 						<input type="text" class="px p_fre z" size="2" onkeyup="$('fj_btn').href='forum.php?mod=redirect&ptid=$_G[tid]&authorid=$_GET[authorid]&postno='+this.value" onkeydown="if(event.keyCode==13) {window.location=$('fj_btn').href;return false;}" title="{lang thread_redirect_postno_tips}" />
-						<a href="javascript:;" id="fj_btn" class="z fico-down fc-n" title="{lang thread_redirect_postno_tips}"></a>
+						<a href="javascript:;" id="fj_btn" class="z" title="{lang thread_redirect_postno_tips}"><img src="{IMGDIR}/fj_btn.png" alt="" /></a>
 					</div>
 				<!--{/if}-->
 				<!--{if $post['warned']}-->

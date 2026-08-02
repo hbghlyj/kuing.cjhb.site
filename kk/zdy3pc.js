@@ -175,7 +175,9 @@ if ($('postlist') && $('ct')) {
                 const option = document.createElement('option');
                 option.value = lou.id;
                 const authorLink = lou.querySelector('td.plc > div.pi .authi > a.xi2:not(.avt)') || lou.querySelector('.favatar > .pi .authi > a');
-                option.text = floorLink.firstChild.textContent + (authorLink ? ' ' + authorLink.textContent : '');
+                const floorClone = floorLink.cloneNode(true);
+                floorClone.querySelectorAll('[aria-hidden="true"]').forEach(icon => icon.remove());
+                option.text = floorClone.textContent.replace('#', '').trim() + (authorLink ? ' ' + authorLink.textContent : '');
                 MULUSELECT.appendChild(option);
                 ++MULUSELECT.size;
             }
