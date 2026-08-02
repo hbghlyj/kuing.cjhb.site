@@ -1225,6 +1225,7 @@ i.pstatus { display: block; margin-bottom: -30px; font-size: 12px; text-align: c
 #modmenu { white-space: nowrap; }
 .chain-icon { color: transparent; text-shadow: #999 0 0 0; }
 .report-icon { color: transparent; text-shadow: #999 0 0 0; }
+.pob .report-action { font-size: 13px; }
 
 /* Custom viewthread enhancements */
 #k_favorite .fico-star.fav-has-count::before { content: "🌟"; font-family: emoji; }
