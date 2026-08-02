@@ -17,6 +17,15 @@
 	<div class="z">
 		<a href="./" class="nvhm" title="{lang homepage}"></a><em>&raquo;</em><a href="forum.php">{$_G[setting][navs][2][navname]}</a>$navigation <em>&rsaquo;</em> <a href="forum.php?mod=viewthread&tid=$_G[tid]">$_G[forum_thread][subject]</a>
 	</div>
+	<!--{if !IS_ROBOT}-->
+		<div class="y">
+			<!--{if $post['invisible'] == 0}--><a href="forum.php?mod=viewthread&action=printable&tid=$_G[tid]" title="{lang thread_printable}" target="_blank"><i class="fico-print fic4 fc-s vm"></i></a>
+			<!--{/if}-->
+			<a href="forum.php?mod=redirect&goto=nextoldset&tid=$_G[tid]" title="{lang last_thread}"><i class="fico-left fic4 fc-s vm"></i></a>
+			<a href="forum.php?mod=redirect&goto=nextnewset&tid=$_G[tid]" title="{lang next_thread}"><i class="fico-right fic4 fc-s vm"></i></a>
+			<a href="forum.php?mod=viewthread&tid=$_G[tid]$fromuid" onclick="return copyThreadUrl(this, '$_G[setting][bbname]')" {if $fromuid}title="{lang share_url_copy_comment}"{/if}><span aria-hidden="true">🔗</span> {lang share_url_copy}</a>
+		</div>
+	<!--{/if}-->
 </div>
 
 <!--{hook/viewthread_top}-->
@@ -30,7 +39,6 @@
 <div id="ct" class="wp cl">
 	<div id="pgt" class="pgs mbm cl {if $modmenu['thread']}pbm bbs{/if}">
 		<div class="pgt">$multipage</div>
-		<span class="y pgb"><a href="$upnavlink">{lang return_forumdisplay}</a></span>
 		<!--{if $_G['forum']['threadsorts'] && $_G['forum']['threadsorts']['templatelist']}-->
 			<!--{loop $_G['forum']['threadsorts']['types'] $id $name}-->
 				<button id="newspecial" class="pn pnc" onclick="location.href='forum.php?mod=post&action=newthread&fid=$_G[fid]&extra=$extra&sortid=$id'"><strong>{lang i_want}$name</strong></button>
@@ -167,14 +175,6 @@
 			</td>
 			<!--{/if}-->
 			<td class="plc vwthd">
-				<!--{if !IS_ROBOT}-->
-					<div class="y">
-						<!--{if $post['invisible'] == 0}--><a href="forum.php?mod=viewthread&action=printable&tid=$_G[tid]" title="{lang thread_printable}" target="_blank"><i class="fico-print fic4 fc-s vm"></i></a>
-						<!--{/if}-->
-						<a href="forum.php?mod=redirect&goto=nextoldset&tid=$_G[tid]" title="{lang last_thread}"><i class="fico-left fic4 fc-s vm"></i></a>
-						<a href="forum.php?mod=redirect&goto=nextnewset&tid=$_G[tid]" title="{lang next_thread}"><i class="fico-right fic4 fc-s vm"></i></a>
-					</div>
-				<!--{/if}-->
 				<!--{if !empty($_G['setting']['close_leftinfo_userctrl'])}-->
 					<span class="xg1 side_btn">
 					<!--{if !$close_leftinfo}-->
@@ -218,7 +218,6 @@
 					<!--{if $_G['forum_thread']['closed'] == 1}-->
 						&nbsp;<i class="fico-lock fc-s" title="{lang close}"></i>
 					<!--{/if}-->
-					{cells viewthread/title_extra}
 				</span>
 				<!--{hook/viewthread_title_extra}-->
 			</td>
@@ -358,7 +357,6 @@ $_G['forum_tagscript']
 
 <div class="pgs mtm mbm cl">
 	$multipage
-	<span class="pgb y"><a href="$upnavlink">{lang return_forumdisplay}</a></span>
 	<!--{if !$_G['forum_thread']['is_archived']}-->
 <a id="newspecialtmp"<!--{if $_G['group']['allowpost'] && ($_G['group']['allowposttrade'] || $_G['group']['allowpostpoll'] || $_G['group']['allowpostreward'] || $_G['group']['allowpostactivity'] || $_G['group']['allowpostdebate'] || $_G['setting']['threadplugins'] || $_G['forum']['threadsorts'])}--> onmouseover="$('newspecial').id = 'newspecialtmp';this.id = 'newspecial';showMenu({'ctrlid':this.id})"<!--{/if}-->{if !$_G['forum']['allowspecialonly'] && empty($_G['forum']['picstyle']) && empty($_G['forum']['threadsorts']['required'])} onclick="showWindow('newthread', 'forum.php?mod=post&action=newthread&fid=$_G[fid]')"{else} onclick="location.href='forum.php?mod=post&action=newthread&fid=$_G[fid]';return false;"{/if} href="javascript:;" title="{lang send_posts}" class="pgsbtn<!--{if $_G['group']['allowpost'] && ($_G['group']['allowposttrade'] || $_G['group']['allowpostpoll'] || $_G['group']['allowpostreward'] || $_G['group']['allowpostactivity'] || $_G['group']['allowpostdebate'] || $_G['setting']['threadplugins'] || $_G['forum']['threadsorts'])}--> showmenu<!--{/if}-->">{lang send_posts}</a>
 	<!--{/if}-->

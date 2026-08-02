@@ -559,7 +559,7 @@ function toggleRatelogCollapse(tarId, ctrlObj) {
 }
 
 function copyThreadUrl(obj, bbname) {
-	setCopy(obj.href, '<i class="fico-link" aria-hidden="true"></i> ' + $L('copy_thread_notice'));
+	setCopy(obj.href, '<span aria-hidden="true">🔗</span> ' + $L('copy_thread_notice'));
 	return false;
 }
 
