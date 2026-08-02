@@ -55,7 +55,6 @@ new Crawler({
                 $("table.plhin")
                     .get()
                     .map(function (a) {
-                        $(a).find("i.pstatus").remove();
                         $(a).find("div.quote > blockquote").has("font[size='2']").remove();
                         const content = $(a).find("td.t_f").text().trim();
                         if (content != "") {

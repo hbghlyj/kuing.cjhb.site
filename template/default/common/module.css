@@ -1020,7 +1020,6 @@ a.thread_mod { height: 19px; line-height: 19px; display: inline-block; color: #4
 	#f_pst .fpp label { zoom: 1; }
 	#f_pst .avatar { margin-top: 15px; }
 
-i.pstatus { display: block; margin-bottom: -30px; font-size: 12px; text-align: center; font-style: normal; line-height: 32px; color: {LIGHTTEXT}; }
 
 /* 用户详细信息 */
 	.bui { position: absolute; margin: -1px 0 0 -1px; padding: 15px 0 15px 20px; width: 430px !important; border: 1px solid {COMMONBORDER}; background: {WRAPBG}; box-shadow: 2px 2px 3px {WRAPBORDERCOLOR}; -webkit-box-shadow: 2px 2px 3px {WRAPBORDERCOLOR}; -moz-box-shadow: 2px 2px 3px {WRAPBORDERCOLOR}; }
@@ -1228,7 +1227,6 @@ i.pstatus { display: block; margin-bottom: -30px; font-size: 12px; text-align: c
 #k_favorite .fico-star.fav-has-count::before { content: "🌟"; font-family: emoji; }
 .pattl { overflow: visible; }
 #newspecial_menu { width: auto; padding-right: 10px; }
-i.pstatus { margin-bottom: unset; }
 .modact a { color: #999; font-size: 12px; }
 #modmenu>a,#modmenu2>a { color: #999; }
 .ptg { margin-top: 30px !important; }
