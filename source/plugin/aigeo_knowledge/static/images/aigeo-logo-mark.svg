@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" role="img" aria-labelledby="title">
+  <title id="title">AI Geo</title>
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ff6b35"/>
+      <stop offset="1" stop-color="#ffb400"/>
+    </linearGradient>
+  </defs>
+  <rect width="48" height="48" rx="14" fill="url(#g)"/>
+  <path d="M14 17h7l-5 7 5 7h-7l-5-7 5-7Zm20 0h-7l5 7-5 7h7l5-7-5-7Z" fill="#fff"/>
+  <path d="M24 13v22" stroke="#fff" stroke-width="3" stroke-linecap="round"/>
+</svg>

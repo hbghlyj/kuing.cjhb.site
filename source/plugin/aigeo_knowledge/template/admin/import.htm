@@ -1,0 +1,25 @@
+<div class="aigeo-knowledge-wrap aigeo-admin">
+  <div class="aigeo-panel">
+    <div class="aigeo-panel-head compact"><div><h3>导入文档</h3><div class="aigeo-panel-sub">上传或粘贴 Markdown，系统会自动识别标题并导入为待审核资料。</div></div></div>
+    <!--{if $preview}-->
+    <div class="aigeo-preview-grid">
+      <div><b>标题</b><span>{$metaSafe[title]}</span></div><div><b>类型</b><span>{$metaSafe[type]}</span></div><div><b>片段数</b><span>{$metaSafe[chunks]}</span></div>
+    </div>
+    <div class="aigeo-summary-box">{$metaSafe[summary]}</div>
+    <table class="aigeo-table">
+      <tr><th>预览片段</th><th>长度</th></tr>
+      <!--{loop $previewRows $row}-->
+      <tr><td>{$row[heading]}</td><td>{$row[length]}</td></tr>
+      <!--{/loop}-->
+    </table>
+    <form method="post" class="aigeo-actions"><input type="hidden" name="formhash" value="{FORMHASH}"><input type="hidden" name="markdown_payload" value="{$markdownSafe}"><input type="hidden" name="source_file" value="{$fileNameSafe}"><input type="submit" name="importsubmit" value="确认导入待审核" class="aigeo-btn aigeo-btn-primary"><a class="aigeo-btn" href="{$importUrl}">重新选择</a></form>
+    <!--{else}-->
+    <form method="post" enctype="multipart/form-data" class="aigeo-form">
+      <input type="hidden" name="formhash" value="{FORMHASH}">
+      <label class="aigeo-block-label">选择 Markdown 文件<input type="file" name="mdfile" accept=".md,.markdown,text/markdown"></label>
+      <label class="aigeo-block-label">或直接粘贴内容<textarea name="markdown" class="aigeo-md-editor" placeholder="粘贴 Markdown 内容；如包含 # 一级标题，会自动作为资料标题"></textarea></label>
+      <div class="aigeo-actions"><input type="submit" name="previewsubmit" value="解析预览" class="aigeo-btn aigeo-btn-primary"></div>
+    </form>
+    <!--{/if}-->
+  </div>
+</div>

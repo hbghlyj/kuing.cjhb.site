@@ -1,0 +1,48 @@
+<link rel="stylesheet" href="source/plugin/aigeo_knowledge/static/css/aigeo-knowledge.css?v=2026071901">
+<!--{if $useModelShell}-->
+<link rel="stylesheet" href="{$assetBase}css/common.css?v={$assetVersion}">
+<link rel="stylesheet" href="{$assetBase}css/pages/product-shell.css?v={$assetVersion}">
+<style>
+.aigeo-knowledge-model-content>.aigeo-content-inner{width:min(1120px,100%)}
+.aigeo-knowledge-model-content>.aigeo-content-inner>.aigeo-knowledge-wrap.aigeo-detail-page{width:100%!important;max-width:none!important;margin:0!important}
+@media (min-width:768px){
+  .aigeo-sidebar.is-collapsed~.aigeo-main .aigeo-knowledge-model-content>.aigeo-content-inner{margin-right:0;margin-left:0}
+}
+</style>
+<div class="aigeo-shell aigeo-knowledge-product-shell">
+<!--{subtemplate aigeo_model:touch/shell_sidebar}-->
+<section class="aigeo-main">
+<header class="aigeo-topbar">
+<!--{subtemplate aigeo_model:touch/shell_menu_button}-->
+<div><span class="aigeo-top-title">资料库</span><span class="aigeo-top-subtitle">查看完整资料内容</span></div>
+</header>
+<main class="aigeo-content aigeo-knowledge-model-content">
+<div class="aigeo-content-inner">
+<!--{/if}-->
+<div class="aigeo-knowledge-wrap aigeo-detail-page">
+  <header class="aigeo-doc-hero">
+    <div class="aigeo-brand">
+      <img src="{$brandLogoUrlSafe}">
+      <div>
+        <h1>{$itemTitle}</h1>
+        <div class="aigeo-brand-sub">{$itemDomain} · {$itemType} · {$itemUpdated}</div>
+      </div>
+    </div>
+    <a class="btn" href="{$returnUrl}">返回搜索</a>
+  </header>
+  <section class="aigeo-doc-summary">
+    <strong>资料摘要</strong>
+    <p>{$itemSummary}</p>
+  </section>
+  <div class="aigeo-doc-layout">
+    <article class="aigeo-doc-article">{$chunkHtml}</article>
+    {$tocHtml}
+  </div>
+</div>
+<!--{if $useModelShell}-->
+</div>
+</main>
+</section>
+</div>
+<!--{subtemplate aigeo_model:touch/shell_mobile_nav}-->
+<!--{/if}-->

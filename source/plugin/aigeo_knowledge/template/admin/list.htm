@@ -1,0 +1,65 @@
+<div class="aigeo-knowledge-wrap aigeo-admin">
+  <div class="aigeo-panel">
+    <div class="aigeo-panel-head compact">
+      <div>
+        <h3><!--{if $editing}-->编辑资料<!--{else}-->资料管理<!--{/if}--></h3>
+        <div class="aigeo-panel-sub">统一管理草稿、待审核、已发布资料；第一版先把资料发布和搜索闭环做稳。</div>
+      </div>
+      <!--{if !$editing}--><a class="aigeo-btn aigeo-btn-primary" href="{$newUrl}">新增资料</a><!--{/if}-->
+    </div>
+
+    <!--{if $editing}-->
+    <form method="post" class="aigeo-form">
+      <input type="hidden" name="formhash" value="{FORMHASH}">
+      <input type="hidden" name="id" value="{$item_id}">
+      <div class="aigeo-form-grid">
+        <label>标题<input type="text" name="title" value="{$item_title}"></label>
+        <label>类型
+          <select name="type">
+            <option value="doc"{$item_type_doc}>文档</option><option value="faq"{$item_type_faq}>FAQ</option><option value="compare"{$item_type_compare}>版本对比</option><option value="rule"{$item_type_rule}>规则</option><option value="case"{$item_type_case}>案例</option><option value="api"{$item_type_api}>API</option><option value="data_dictionary"{$item_type_data}>数据字典</option><option value="tool_spec"{$item_type_tool}>工具说明</option>
+          </select>
+        </label>
+        <label>状态
+          <select name="status">
+            <option value="draft"{$item_status_draft}>草稿</option><option value="pending"{$item_status_pending}>待审核</option><option value="published"{$item_status_published}>已发布</option><option value="private"{$item_status_private}>内部</option><option value="disabled"{$item_status_disabled}>停用</option>
+          </select>
+        </label>
+        <label>关键词<input type="text" name="keywords" value="{$item_keywords}"></label>
+        <label>检索优先级
+          <select name="priority">
+            <option value="high"{$item_priority_high}>高</option><option value="normal"{$item_priority_normal}>普通</option><option value="low"{$item_priority_low}>低</option>
+          </select>
+        </label>
+      </div>
+      <label class="aigeo-block-label">摘要<textarea name="summary">{$item_summary}</textarea></label>
+      <label class="aigeo-block-label">正文<textarea name="content" class="aigeo-md-editor">{$item_content}</textarea></label>
+      <div class="aigeo-inline-options">
+        <label><input type="checkbox" name="ai_access" value="1"{$item_ai_checked}> AI 可调用</label>
+        <label><input type="checkbox" name="public_access" value="1"{$item_public_checked}> 前台公开</label>
+        <input type="hidden" name="domain" value="{$item_domain}"><input type="hidden" name="module" value="{$item_module}"><input type="hidden" name="slug" value="{$item_slug}"><input type="hidden" name="category" value="{$item_category}"><input type="hidden" name="tags" value="{$item_tags}"><input type="hidden" name="version_scope" value="{$item_version_scope}"><input type="hidden" name="source_domain" value="{$item_source_domain}"><input type="hidden" name="source_module" value="{$item_source_module}"><input type="hidden" name="source_type" value="{$item_source_type}"><input type="hidden" name="source_table" value="{$item_source_table}"><input type="hidden" name="source_id" value="{$item_source_id}"><input type="hidden" name="source_sub_id" value="{$item_source_sub_id}"><input type="hidden" name="source_title" value="{$item_source_title}"><input type="hidden" name="source_file" value="{$item_source_file}"><input type="hidden" name="source_url" value="{$item_source_url}">
+      </div>
+      <div class="aigeo-actions"><input type="submit" name="itemsave" value="保存资料" class="aigeo-btn aigeo-btn-primary"><a class="aigeo-btn" href="{$returnUrl}">返回</a></div>
+    </form>
+    <!--{else}-->
+    <form class="aigeo-filter-line">
+      <input type="hidden" name="action" value="plugins"><input type="hidden" name="operation" value="config"><input type="hidden" name="identifier" value="aigeo_knowledge"><input type="hidden" name="pmod" value="admin_list">
+      <input type="text" name="keyword" value="{$keywordSafe}" placeholder="搜索标题、摘要或关键词">
+      <select name="status"><option value="">全部状态</option><option value="draft"{$status_draft}>草稿</option><option value="pending"{$status_pending}>待审核</option><option value="published"{$status_published}>已发布</option><option value="private"{$status_private}>内部</option></select>
+      <select name="type"><option value="">全部类型</option><option value="faq"{$type_faq}>FAQ</option><option value="doc"{$type_doc}>文档</option><option value="compare"{$type_compare}>版本对比</option><option value="rule"{$type_rule}>规则</option><option value="data_dictionary"{$type_data}>数据字典</option><option value="tool_spec"{$type_tool}>工具说明</option></select>
+      <input type="submit" value="筛选" class="aigeo-btn">
+    </form>
+    <!--{if $list}-->
+    <table class="aigeo-table">
+      <tr><th>ID</th><th>资料</th><th>业务域</th><th>类型</th><th>状态</th><th>访问</th><th>更新时间</th><th>操作</th></tr>
+      <!--{loop $list $row}-->
+      <tr>
+        <td>#{$row[id]}</td><td><a class="aigeo-link strong" href="{$row[edit_url]}">{$row[title]}</a></td><td>{$row[domain]}</td><td>{$row[type]}</td><td><span class="aigeo-badge">{$row[status]}</span></td><td>AI {$row[ai]} / 公开 {$row[public]}</td><td>{$row[time]}</td><td><a class="aigeo-link" href="{$row[edit_url]}">编辑</a> <!--{if $row[status_raw] != 'published'}--><a class="aigeo-link" href="{$row[publish_url]}">发布</a><!--{else}--><a class="aigeo-link" href="{$row[draft_url]}">转草稿</a><!--{/if}--> <a class="aigeo-link danger" href="{$row[delete_url]}" onclick="return confirm('确认删除这条资料？');">删除</a></td>
+      </tr>
+      <!--{/loop}-->
+    </table>
+    <!--{else}-->
+    <div class="aigeo-empty action"><strong>暂无资料</strong><span>建议先导入一份 Markdown 文档，或手动新增一条 FAQ。</span><a class="aigeo-btn aigeo-btn-primary" href="{$importUrl}">导入 Markdown</a></div>
+    <!--{/if}-->
+    <!--{/if}-->
+  </div>
+</div>

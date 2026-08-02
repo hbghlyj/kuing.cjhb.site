@@ -1,0 +1,48 @@
+<link rel="stylesheet" href="source/plugin/aigeo_knowledge/static/css/aigeo-knowledge.css?v=2026071901">
+<!--{if $useModelShell}-->
+<link rel="stylesheet" href="{$assetBase}css/common.css?v={$assetVersion}">
+<link rel="stylesheet" href="{$assetBase}css/pages/product-shell.css?v={$assetVersion}">
+<style>
+.aigeo-knowledge-model-content>.aigeo-content-inner{width:min(1180px,100%)}
+.aigeo-knowledge-model-content>.aigeo-content-inner>.aigeo-knowledge-wrap.aigeo-front{width:100%!important;max-width:none!important;margin:0!important}
+@media (min-width:768px){
+  .aigeo-sidebar.is-collapsed~.aigeo-main .aigeo-knowledge-model-content>.aigeo-content-inner{margin-right:0;margin-left:0}
+}
+</style>
+<div class="aigeo-shell aigeo-knowledge-product-shell">
+<!--{subtemplate aigeo_model:touch/shell_sidebar}-->
+<section class="aigeo-main">
+<header class="aigeo-topbar">
+<!--{subtemplate aigeo_model:touch/shell_menu_button}-->
+<div><span class="aigeo-top-title">资料库</span><span class="aigeo-top-subtitle">让资料同时服务用户和 AI</span></div>
+</header>
+<main class="aigeo-content aigeo-knowledge-model-content">
+<div class="aigeo-content-inner">
+<!--{else}-->
+<div class="aigeo-knowledge-wrap aigeo-topbar">
+  <div class="aigeo-brand">
+    <img src="{$brandLogoUrlSafe}">
+    <div><div class="aigeo-brand-title">{$pageTitle}</div><div class="aigeo-brand-sub">{$pageSlogan}</div></div>
+  </div>
+</div>
+<!--{/if}-->
+<div class="aigeo-knowledge-wrap aigeo-front">
+  <div class="aigeo-panel">
+    {$tabsHtml}
+    <form class="aigeo-searchbox" method="get">
+      <input type="hidden" name="id" value="aigeo_knowledge">
+      {$hiddenHtml}
+      <input type="text" name="keyword" value="{$keywordSafe}" placeholder="搜索问题、关键词、API、规则或文档">
+      <input type="submit" class="aigeo-primary" value="搜索">
+    </form>
+    {$listHtml}
+    {$multipage}
+  </div>
+</div>
+<!--{if $useModelShell}-->
+</div>
+</main>
+</section>
+</div>
+<!--{subtemplate aigeo_model:touch/shell_mobile_nav}-->
+<!--{/if}-->

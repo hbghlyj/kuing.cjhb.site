@@ -1,0 +1,81 @@
+<style>
+.ak-settings{--ak-accent:#ff572f;--ak-border:#e4eaf2;--ak-muted:#7c8799}
+.ak-settings-tabs{display:flex;gap:8px;padding:0 20px;border-bottom:1px solid var(--ak-border);background:#fff}
+.ak-settings-tab{appearance:none;border:0;background:transparent;padding:17px 20px 15px;color:#647189;font-weight:600;cursor:pointer;border-bottom:3px solid transparent}
+.ak-settings-tab.is-active{color:var(--ak-accent);border-bottom-color:var(--ak-accent)}
+.ak-settings-panel{display:none;padding:24px}.ak-settings-panel.is-active{display:block}
+.ak-settings-section{margin-bottom:26px}.ak-settings-section:last-child{margin-bottom:0}
+.ak-settings-section h4{margin:0 0 6px;font-size:15px;color:#222c3c}.ak-settings-section-note{margin:0 0 16px;color:var(--ak-muted)}
+.ak-settings .aigeo-form-row{border-bottom:1px solid #f0f3f7}.ak-settings .aigeo-form-row:last-child{border-bottom:0}
+.ak-settings .ak-wide{width:min(620px,100%)!important}.ak-settings .ak-short{width:150px!important}.ak-settings-unit{margin-left:8px;color:var(--ak-muted)}
+.ak-settings-warning{padding:12px 14px;border:1px solid #ffd6c9;border-radius:8px;background:#fff8f5;color:#a94a2f;margin-bottom:18px}
+.ak-settings-actions{padding:18px 24px;border-top:1px solid var(--ak-border);background:#fbfcfe}
+@media(max-width:700px){.ak-settings-tabs{overflow:auto;padding:0 8px}.ak-settings-tab{white-space:nowrap;padding:15px 13px}.ak-settings-panel{padding:16px}}
+</style>
+<div class="aigeo-knowledge-wrap">
+  <div class="aigeo-panel ak-settings">
+    <div class="aigeo-panel-head"><div><h3>资料库设置</h3><div class="aigeo-panel-sub">访问和导航放在首屏；导入默认值、API 与日志等低频项分组管理。</div></div></div>
+    <form method="post" action="{$formActionHtml}" class="aigeo-form">
+      <input type="hidden" name="formhash" value="{FORMHASH}">
+      <div class="ak-settings-tabs" role="tablist">
+        <button type="button" class="ak-settings-tab is-active" data-knowledge-setting-tab="general">常用设置</button>
+        <button type="button" class="ak-settings-tab" data-knowledge-setting-tab="content">前台与导入</button>
+        <button type="button" class="ak-settings-tab" data-knowledge-setting-tab="advanced">API 与日志</button>
+      </div>
+
+      <section class="ak-settings-panel is-active" data-knowledge-setting-panel="general">
+        <div class="ak-settings-section">
+          <h4>访问与导航</h4><p class="ak-settings-section-note">前台关闭不会影响管理员维护资料，也不会自动开放外部 API。</p>
+          <div class="aigeo-form-row"><div class="aigeo-form-label">工作台导航</div><div class="aigeo-form-field"><label><input type="checkbox" name="use_model_navigation" value="1"{$modelNavigationChecked}<!--{if !$modelShellAvailable}--> disabled<!--{/if}-->> 使用 aigeo_model 统一工作台导航</label><div class="aigeo-panel-sub">{$modelNavigationHint}</div></div></div>
+          <div class="aigeo-form-row"><div class="aigeo-form-label">前台访问</div><div class="aigeo-form-field"><select name="front_access_mode"><option value="public"{$frontPublicSelected}>所有访客</option><option value="login"{$frontLoginSelected}>仅登录用户</option><option value="closed"{$frontClosedSelected}>关闭前台</option></select></div></div>
+          <div class="aigeo-form-row"><div class="aigeo-form-label">每页资料数</div><div class="aigeo-form-field"><input class="ak-short" type="number" min="10" max="50" name="page_size" value="{$pageSizeSafe}"><span class="ak-settings-unit">10–50 条</span></div></div>
+        </div>
+      </section>
+
+      <section class="ak-settings-panel" data-knowledge-setting-panel="content">
+        <div class="ak-settings-section">
+          <h4>独立页面</h4><p class="ak-settings-section-note">工作台模式继续使用统一的“资料库”功能标题。</p>
+          <div class="aigeo-form-row"><div class="aigeo-form-label">页面标题</div><div class="aigeo-form-field"><input class="ak-wide" type="text" maxlength="80" name="page_title" value="{$pageTitleSafe}"></div></div>
+          <div class="aigeo-form-row"><div class="aigeo-form-label">页面副标题</div><div class="aigeo-form-field"><input class="ak-wide" type="text" maxlength="160" name="page_slogan" value="{$pageSloganSafe}"></div></div>
+        </div>
+        <div class="ak-settings-section">
+          <h4>Markdown 导入默认值</h4><p class="ak-settings-section-note">Front Matter 中的同名字段仍然优先；导入后固定进入待审核状态，不自动公开。</p>
+          <div class="aigeo-form-row"><div class="aigeo-form-label">默认业务域</div><div class="aigeo-form-field"><input class="ak-wide" type="text" maxlength="32" name="import_default_domain" value="{$importDomainSafe}"></div></div>
+          <div class="aigeo-form-row"><div class="aigeo-form-label">默认资料类型</div><div class="aigeo-form-field"><select name="import_default_type">{$typeOptions}</select></div></div>
+          <div class="aigeo-form-row"><div class="aigeo-form-label">默认 AI 权限</div><div class="aigeo-form-field"><label><input type="checkbox" name="import_default_ai_access" value="1"{$importAiChecked}> 导入资料默认允许 AI 调用</label></div></div>
+        </div>
+      </section>
+
+      <section class="ak-settings-panel" data-knowledge-setting-panel="advanced">
+        <div class="ak-settings-warning">外部 API 当前默认保持兼容开放。正式站点建议改为“令牌访问”或“关闭”，并配置高强度随机令牌。</div>
+        <div class="ak-settings-section">
+          <h4>外部 API</h4>
+          <div class="aigeo-form-row"><div class="aigeo-form-label">访问模式</div><div class="aigeo-form-field"><select name="api_mode"><option value="off"{$apiOffSelected}>关闭</option><option value="token"{$apiTokenSelected}>令牌访问</option><option value="login"{$apiLoginSelected}>仅登录用户</option><option value="public"{$apiPublicSelected}>公开访问（兼容模式）</option></select></div></div>
+          <div class="aigeo-form-row"><div class="aigeo-form-label">API 令牌</div><div class="aigeo-form-field"><input class="ak-wide" type="password" autocomplete="new-password" name="api_token" value="" placeholder="输入新令牌"><div class="aigeo-panel-sub">{$apiTokenHint} <!--{if $hasApiToken}--><label><input type="checkbox" name="clear_api_token" value="1"> 清除已保存令牌</label><!--{/if}--></div></div></div>
+          <div class="aigeo-form-row"><div class="aigeo-form-label">最大返回数量</div><div class="aigeo-form-field"><input class="ak-short" type="number" min="1" max="100" name="api_max_results" value="{$apiMaxSafe}"><span class="ak-settings-unit">条</span></div></div>
+        </div>
+        <div class="ak-settings-section">
+          <h4>搜索日志与 AI 边界</h4>
+          <div class="aigeo-form-row"><div class="aigeo-form-label">搜索日志</div><div class="aigeo-form-field"><label><input type="checkbox" name="search_log_enabled" value="1"{$searchLogChecked}> 记录前台和 API 搜索关键词及命中资料</label></div></div>
+          <div class="aigeo-form-row"><div class="aigeo-form-label">日志保留天数</div><div class="aigeo-form-field"><input class="ak-short" type="number" min="0" max="3650" name="search_log_retention_days" value="{$searchLogRetentionSafe}"><span class="ak-settings-unit">0 表示永久保留</span></div></div>
+          <div class="aigeo-form-row"><div class="aigeo-form-label">内部资料检索</div><div class="aigeo-form-field"><label><input type="checkbox" name="allow_private_ai" value="1"{$privateAiChecked}> 允许站内智能客服检索状态为“内部”且已开启 AI 权限的资料</label><div class="aigeo-panel-sub">仅影响站内直接调用，不会让公开前台或公开 API 返回内部资料。</div></div></div>
+        </div>
+      </section>
+      <div class="ak-settings-actions"><input type="submit" name="settingsubmit" value="保存设置" class="aigeo-primary"></div>
+    </form>
+  </div>
+</div>
+<script>
+(function(){
+  var key='aigeo_knowledge_setting_tab';
+  var tabs=document.querySelectorAll('[data-knowledge-setting-tab]');
+  var panels=document.querySelectorAll('[data-knowledge-setting-panel]');
+  function activate(name){
+    for(var i=0;i<tabs.length;i++) tabs[i].className='ak-settings-tab'+(tabs[i].getAttribute('data-knowledge-setting-tab')===name?' is-active':'');
+    for(var j=0;j<panels.length;j++) panels[j].className='ak-settings-panel'+(panels[j].getAttribute('data-knowledge-setting-panel')===name?' is-active':'');
+    try{localStorage.setItem(key,name);}catch(e){}
+  }
+  for(var i=0;i<tabs.length;i++) tabs[i].onclick=function(){activate(this.getAttribute('data-knowledge-setting-tab'));};
+  try{var saved=localStorage.getItem(key);if(saved)activate(saved);}catch(e){}
+})();
+</script>
