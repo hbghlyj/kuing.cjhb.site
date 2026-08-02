@@ -7,6 +7,7 @@
  */
 
 $lang = [
+	'post_revision_no_permission' => '只有作者和管理員可以查看帖子修訂歷史。',
 	'undefined_action' => '未定義操作',
 	'plugin_nonexistence' => '插件不存在或已關閉',
 	'profile_username_protect' => '用戶名包含被系統屏蔽的字符',

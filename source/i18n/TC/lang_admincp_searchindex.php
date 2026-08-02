@@ -5367,7 +5367,6 @@ $lang = array (
 			36 => 'setting_permissions_maxpolloptions',
 			37 => '投票最大選項數:',
 			38 => '設定發佈投票包含的最大選項數',
-			39 => 'setting_permissions_editby',
 			40 => '編輯帖子附加編輯記錄',
 			41 => '在 60 秒後編輯帖子添加「本帖由 xxx 於 xxxx-xx-xx 編輯」字樣。管理員編輯不受此限制',
 			42 => 'setting_permissions_profilehistory',

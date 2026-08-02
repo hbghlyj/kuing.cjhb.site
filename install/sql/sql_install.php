@@ -3003,8 +3003,6 @@ CREATE TABLE pre_forum_post
 	authorid    mediumint(8) unsigned NOT NULL DEFAULT '0',
 	`subject`   varchar(255)          NOT NULL DEFAULT '',
 	dateline    int(10) unsigned      NOT NULL DEFAULT '0',
-	lastupdate  int(10) unsigned      NOT NULL DEFAULT '0',
-	updateuid   mediumint(8) unsigned NOT NULL DEFAULT '0',
 	message     mediumtext            NOT NULL,
 	`content`   JSON                  DEFAULT NULL,
 	invisible   tinyint(1)            NOT NULL DEFAULT '0',
@@ -3092,6 +3090,26 @@ CREATE TABLE pre_forum_postcomment
 	KEY score (score),
 	KEY rpid (rpid),
 	KEY pid (pid, dateline)
+) ENGINE = InnoDB;
+
+DROP TABLE IF EXISTS pre_forum_editlog;
+CREATE TABLE pre_forum_editlog
+(
+	editid     bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+	tid        int(10) unsigned NOT NULL DEFAULT '0',
+	pid        int(10) unsigned NOT NULL DEFAULT '0',
+	authorid   mediumint(8) unsigned NOT NULL DEFAULT '0',
+	uid        mediumint(8) unsigned NOT NULL DEFAULT '0',
+	username   char(50) NOT NULL DEFAULT '',
+	dateline   int(10) unsigned NOT NULL DEFAULT '0',
+	action     enum('edit','delete') NOT NULL DEFAULT 'edit',
+	old_subject varchar(255) NOT NULL DEFAULT '',
+	old_message mediumtext NOT NULL,
+	old_content longtext NOT NULL,
+	PRIMARY KEY (editid),
+	KEY pid (pid, dateline),
+	KEY tid (tid, dateline),
+	KEY authorid (authorid)
 ) ENGINE = InnoDB;
 
 DROP TABLE IF EXISTS pre_forum_poststick;

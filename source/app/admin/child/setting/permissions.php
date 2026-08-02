@@ -60,7 +60,6 @@ if(submitcheck('settingsubmit')) {
 		cplang('thread_debate')
 	]], $setting['alloweditpost'], 'binmcheckbox');
 	showsetting('setting_permissions_editperdel', 'settingnew[editperdel]', $setting['editperdel'], 'radio');
-	showsetting('setting_permissions_editby', 'settingnew[editedby]', $setting['editedby'], 'radio');
 
 	showsubmit('settingsubmit', 'submit', '', $extbutton.(!empty($from) ? '<input type="hidden" name="from" value="'.$from.'">' : ''));
 	showtablefooter();

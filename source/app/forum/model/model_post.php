@@ -66,7 +66,6 @@ class model_post extends discuz_model {
 			'subject', 'special', 'sortid', 'typeid', 'isanonymous', 'cronpublish', 'cronpublishdate', 'save',
 			'readperm', 'price', 'audit', 'tags', 'bbcodeoff',
 			'smileyoff', 'parseurloff', 'usesig', 'htmlon', 'extramessage', 'contentType', 'contentEditor', 'repid',
-			'updateuid', 'lastupdate',
 		];
 		foreach($varname as $name) {
 			if(!isset($this->param[$name]) && isset($parameters[$name])) {
@@ -551,14 +550,6 @@ class model_post extends discuz_model {
 			'smileyoff' => $this->param['smileyoff'],
 			'subject' => $this->param['subject']
 		];
-		if(empty($_GET['minor'])) {
-			$setarr['lastupdate'] = $this->param['lastupdate'] ?? 0;
-			$setarr['updateuid'] = $this->param['updateuid'] ?? 0;
-		} else {
-			$setarr['lastupdate'] = 0;
-			$setarr['updateuid'] = 0;
-			$setarr['dateline'] = $this->param['lastupdate'] ?? TIMESTAMP;
-		}
 		if(!empty($this->param['timestamp'])) {
 			$setarr['dateline'] = $this->param['timestamp'];
 		}
@@ -581,6 +572,18 @@ class model_post extends discuz_model {
 		} else {
 			$setarr['invisible'] = $pinvisible;
 		}
+		table_forum_editlog::t()->insert([
+			'tid' => $this->thread['tid'],
+			'pid' => $this->post['pid'],
+			'authorid' => $this->post['authorid'],
+			'uid' => $this->member['uid'],
+			'username' => $this->member['username'],
+			'dateline' => TIMESTAMP,
+			'action' => 'edit',
+			'old_subject' => $this->post['subject'],
+			'old_message' => $this->post['message'],
+			'old_content' => $this->post['content'],
+		]);
 		table_forum_post::t()->update_post('tid:'.$this->thread['tid'], $this->post['pid'], $setarr);
 
 		$this->forum['lastpost'] = explode("\t", $this->forum['lastpost']);
@@ -644,6 +647,18 @@ class model_post extends discuz_model {
 			}
 		}
 
+		table_forum_editlog::t()->insert([
+			'tid' => $this->thread['tid'],
+			'pid' => $this->post['pid'],
+			'authorid' => $this->post['authorid'],
+			'uid' => $this->member['uid'],
+			'username' => $this->member['username'],
+			'dateline' => TIMESTAMP,
+			'action' => 'delete',
+			'old_subject' => $this->post['subject'],
+			'old_message' => $this->post['message'],
+			'old_content' => $this->post['content'],
+		]);
 
 		table_forum_post::t()->delete_post('tid:'.$this->thread['tid'], $this->post['pid']);
 		table_forum_postcomment::t()->delete_by_pid($this->post['pid']);

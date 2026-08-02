@@ -578,10 +578,6 @@ $data = [[
   ],[
     'skey' => 'ec_ratio',
     'svalue' => '0',
-  ],[
-    'skey' => 'editedby',
-    'svalue' => '1',
-  ],[
     'skey' => 'editorfids',
     'svalue' =>
     [

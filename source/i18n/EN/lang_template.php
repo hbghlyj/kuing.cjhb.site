@@ -10,6 +10,12 @@
  */
 
 $lang = array (
+	'post_revision_history' => 'Post revision history',
+	'post_revision_editor' => 'Editor',
+	'post_revision_time' => 'Time',
+	'post_revision_content' => 'Previous content',
+	'post_revision_view' => 'View previous version',
+	'post_revision_empty' => 'No revisions found.',
 	'e_math_inline'		=> 'Inline',
 	'e_math_display'		=> 'Display',
 	'e_math_title'			=> 'Insert/Edit Math',

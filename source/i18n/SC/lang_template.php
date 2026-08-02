@@ -7,6 +7,12 @@
  */
 
 $lang = [
+	'post_revision_history' => '帖子修订历史',
+	'post_revision_editor' => '编辑者',
+	'post_revision_time' => '时间',
+	'post_revision_content' => '修改前内容',
+	'post_revision_view' => '查看上一版本',
+	'post_revision_empty' => '暂无修订记录。',
 	'e_math_inline' => '行内',
 	'e_math_display' => '行间',
 	'e_math_title' => '插入/编辑数学公式',

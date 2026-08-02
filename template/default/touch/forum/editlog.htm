@@ -1,0 +1,12 @@
+<div class="bm_c">
+	<ul class="post_revision_list">
+		<!--{loop $editlogs $editlog}-->
+		<li class="mli">
+			<div class="cl"><strong>{if $editlog['action'] == 'delete'}{lang delete}{else}{lang edit}{/if}</strong><span class="z xg1">{echo dgmdate($editlog['dateline'])}</span></div>
+			<div class="xg1">{echo dhtmlspecialchars($editlog['username'])}</div>
+			<details><summary>{lang post_revision_view}</summary><pre style="white-space:pre-wrap;">{echo dhtmlspecialchars($editlog['old_content'] ?: $editlog['old_message'])}</pre></details>
+		</li>
+		<!--{/loop}-->
+		<!--{if !$editlogs}--><li>{lang post_revision_empty}</li><!--{/if}-->
+	</ul>
+</div>

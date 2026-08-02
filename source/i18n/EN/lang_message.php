@@ -10,6 +10,7 @@
  */
 
 $lang = array (
+	'post_revision_no_permission' => 'Only the author and administrators can view post revision history.',
 
 	'undefined_action'		=> 'Undefined action, please return.',//'未定义操作，请返回。',
 	'plugin_nonexistence'		=> 'Plug-in does not exist or has been closed',//'插件不存在或已关闭',

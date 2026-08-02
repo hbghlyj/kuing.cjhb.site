@@ -615,7 +615,36 @@ const mathDraftSubject = `Thread with Restored Math Draft ${testRunId}`;
                 const editedThreadBody = await page.textContent('body');
                 assert.ok(editedThreadBody.includes(editedStandardSubject), 'Assertion Error: Edited thread title was not rendered after reload.');
                 assert.ok(editedThreadBody.includes('Edited body text from unprivileged account.'), 'Assertion Error: Edited thread body was not rendered after reload.');
-                report += `### 4. Unprivileged User Edit\n- **Status**: Checked\n- **Edited Title**: ${editedStandardSubject}\n\n`;
+
+                console.log("Testing post revision history as the author...");
+                const editHistoryUrl = `forum.php?mod=misc&action=editlog&tid=${tidOutput}&pid=${pidOutput}`;
+                const editHistoryLink = page.locator(`a.editlog[href*="action=editlog"][href*="pid=${pidOutput}"]`);
+                assert.strictEqual(await editHistoryLink.count(), 1, 'Assertion Error: Author edit-history link did not render.');
+                const [editHistoryResponse] = await Promise.all([
+                    page.waitForResponse(response => response.url().includes('action=editlog') && response.status() === 200),
+                    editHistoryLink.click()
+                ]);
+                assert.ok(editHistoryResponse.ok(), 'Assertion Error: Author edit-history request failed.');
+                const editHistoryModal = page.locator('#fwin_editlog');
+                await editHistoryModal.waitFor({ state: 'visible' });
+                const editHistoryText = await editHistoryModal.textContent();
+                assert.ok(editHistoryText.includes('Body text from unprivileged account.'), 'Assertion Error: Author could not view the previous post content.');
+
+                const editHistoryDbCheck = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT CONCAT(uid, ':', IF(dateline > 0, '1', '0')) FROM pre_forum_editlog WHERE tid='${tidOutput}' AND pid='${pidOutput}' AND action='edit' AND old_message LIKE '%Body text from unprivileged account.%' ORDER BY editid DESC LIMIT 1;"`).toString().trim();
+                assert.strictEqual(editHistoryDbCheck, `${userUid}:1`, 'Assertion Error: Edit history did not persist the editor UID and edit time.');
+
+                console.log("Testing post revision history access control...");
+                const guestContext = await browser.newContext();
+                const guestPage = await guestContext.newPage();
+                await guestPage.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${tidOutput}`);
+                await guestPage.waitForLoadState('networkidle');
+                assert.strictEqual(await guestPage.locator(`a.editlog[href*="action=editlog"][href*="pid=${pidOutput}"]`).count(), 0, 'Assertion Error: Guest saw the author-only edit-history link.');
+                await guestPage.goto(`http://127.0.0.1:8080/${editHistoryUrl}`);
+                const guestHistoryText = await guestPage.textContent('body');
+                assert.ok(guestHistoryText.includes('Only the author and administrators can view post revision history.'), 'Assertion Error: Guest could access post revision history.');
+                await guestContext.close();
+
+                report += `### 4. Unprivileged User Edit & Revision History\n- **Status**: Checked\n- **Edited Title**: ${editedStandardSubject}\n- **Author History Access**: Success\n- **Guest Access Denied**: Success\n\n`;
 
         console.log("Testing Personal Info Update via spacecp...");
         await page.goto('http://127.0.0.1:8080/home.php?mod=spacecp&ac=profile');

@@ -1,0 +1,19 @@
+<div class="fwin">
+	<table class="tb" cellspacing="0" cellpadding="0">
+		<tr>
+			<th>{lang post_revision_history}</th>
+			<th>{lang post_revision_editor}</th>
+			<th>{lang post_revision_time}</th>
+			<th>{lang post_revision_content}</th>
+		</tr>
+		<!--{loop $editlogs $editlog}-->
+		<tr>
+			<td>{if $editlog['action'] == 'delete'}{lang delete}{else}{lang edit}{/if}</td>
+			<td>{echo dhtmlspecialchars($editlog['username'])}</td>
+			<td>{echo dgmdate($editlog['dateline'])}</td>
+			<td><details><summary>{lang post_revision_view}</summary><pre style="white-space:pre-wrap;max-width:640px;">{echo dhtmlspecialchars($editlog['old_content'] ?: $editlog['old_message'])}</pre></details></td>
+		</tr>
+		<!--{/loop}-->
+		<!--{if !$editlogs}--><tr><td colspan="4">{lang post_revision_empty}</td></tr><!--{/if}-->
+	</table>
+</div>

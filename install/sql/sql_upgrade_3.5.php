@@ -146,8 +146,33 @@ ALTER TABLE pre_forum_order
 ALTER TABLE pre_forum_post
 	MODIFY author varchar (50) NOT NULL DEFAULT '';
 
+ALTER TABLE pre_forum_post
+	DROP COLUMN lastupdate,
+	DROP COLUMN updateuid;
+
+DELETE FROM pre_common_setting WHERE skey = 'editedby';
+
 ALTER TABLE pre_forum_postcomment
 	MODIFY author varchar (50) NOT NULL DEFAULT '';
+
+CREATE TABLE IF NOT EXISTS pre_forum_editlog
+(
+	editid     bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+	tid        int(10) unsigned NOT NULL DEFAULT '0',
+	pid        int(10) unsigned NOT NULL DEFAULT '0',
+	authorid   mediumint(8) unsigned NOT NULL DEFAULT '0',
+	uid        mediumint(8) unsigned NOT NULL DEFAULT '0',
+	username   char(50) NOT NULL DEFAULT '',
+	dateline   int(10) unsigned NOT NULL DEFAULT '0',
+	action     enum('edit','delete') NOT NULL DEFAULT 'edit',
+	old_subject varchar(255) NOT NULL DEFAULT '',
+	old_message mediumtext NOT NULL,
+	old_content longtext NOT NULL,
+	PRIMARY KEY (editid),
+	KEY pid (pid, dateline),
+	KEY tid (tid, dateline),
+	KEY authorid (authorid)
+) ENGINE = InnoDB;
 
 ALTER TABLE pre_forum_rsscache
 	MODIFY author char (50) NOT NULL DEFAULT '';

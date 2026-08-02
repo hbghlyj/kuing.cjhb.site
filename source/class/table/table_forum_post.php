@@ -339,7 +339,7 @@ class table_forum_post extends discuz_table {
 			$filterfid = dintval($filterfid, true);
 			$sql[] = DB::field('fid', $filterfid, is_array($filterfid) ? 'notin' : '<>');
 		}
-		$orderfield = $orderfield ?: 'GREATEST(dateline, lastupdate)';
+		$orderfield = $orderfield ?: 'dateline';
 		$query = DB::query('SELECT * FROM %t WHERE '.DB::field('authorid', $authorid).' %i '.($order ? 'ORDER BY '.$orderfield.' '.$order : '').' '.DB::limit($start, $limit),
 			[self::get_tablename($tableid), ($sql ? 'AND '.implode(' AND ', $sql) : '')]);
 		while($post = DB::fetch($query)) {

@@ -18,6 +18,7 @@ $checklpp[$lpp] = 'selected="selected"';
 $extrainput = '';
 
 $operation = !empty($operation) ? $operation : 'setting';
+$filelog = $operation === 'editlog';
 
 $start = ($page - 1) * $lpp;
 $keyword = '';
@@ -29,18 +30,20 @@ if(isset($_GET['keywordenc']) && preg_match('/^[A-Za-z0-9_-]+$/', $_GET['keyword
 }
 
 $conditions = [];
-$conditions[] = ['type', '=', "'".$operation."'"];
-if(!empty($_GET['search']) && !empty($_GET['search']['field']) && in_array($_GET['search']['field'], ['data', 'device']) && preg_match('/^\w+$/', $_GET['search']['key'])
-	&& !empty($_GET['search']['key'])&& !empty($_GET['search'][$_GET['search']['key']])) {
-	$conditions[] = ['JSON_EXTRACT('.$_GET['search']['field'].', \'$.'.$_GET['search']['key'].'\')', '=', "'".$_GET['search'][$_GET['search']['key']]."'"];
-}
-if($keyword !== '') {
-	$conditions[] = ['keyword', 'LIKE', $keyword];
+if(!$filelog) {
+	$conditions[] = ['type', '=', "'".$operation."'"];
+	if(!empty($_GET['search']) && !empty($_GET['search']['field']) && in_array($_GET['search']['field'], ['data', 'device']) && preg_match('/^\w+$/', $_GET['search']['key'])
+		&& !empty($_GET['search']['key'])&& !empty($_GET['search'][$_GET['search']['key']])) {
+		$conditions[] = ['JSON_EXTRACT('.$_GET['search']['field'].', \'$.'.$_GET['search']['key'].'\')', '=', "'".$_GET['search'][$_GET['search']['key']]."'"];
+	}
+	if($keyword !== '') {
+		$conditions[] = ['keyword', 'LIKE', $keyword];
+	}
 }
 
 $keywordenc = $keyword !== '' ? rtrim(strtr(base64_encode($keyword), '+/', '-_'), '=') : '';
 $urlbase = ADMINSCRIPT."?action=logs&operation=$operation&lpp=$lpp".($keywordenc !== '' ? '&keywordenc='.$keywordenc : '').(!empty($_GET['day']) ? '&day='.$_GET['day'] : '');
-if(submitcheck('logbatchsubmit', true)) {
+if(!$filelog && submitcheck('logbatchsubmit', true)) {
 	$deleteids = !empty($_POST['deleteids']) ? dintval((array)$_POST['deleteids'], true) : [];
 	$deleted = 0;
 	if(!empty($_POST['deleteallfiltered'])) {
@@ -55,9 +58,13 @@ if(submitcheck('logbatchsubmit', true)) {
 }
 
 $logs = [];
-$num = table_common_log::t()->fetch_all_by_conditions($conditions, 0, 0, 1);
-$logs = table_common_log::t()->fetch_all_by_conditions($conditions, $start, $lpp, 0);
-$multipage = multi($num, $lpp, $page, $urlbase, 0, 3);
+$num = 0;
+$multipage = '';
+if(!$filelog) {
+	$num = table_common_log::t()->fetch_all_by_conditions($conditions, 0, 0, 1);
+	$logs = table_common_log::t()->fetch_all_by_conditions($conditions, $start, $lpp, 0);
+	$multipage = multi($num, $lpp, $page, $urlbase, 0, 3);
+}
 
 $usergroup = [];
 
@@ -72,6 +79,7 @@ shownav('tools', 'nav_logs', 'nav_logs_'.$operation);
 $sel = '';
 $menu = [
 	['nav_logs_setting', 'logs&operation=setting', $operation == 'setting'],
+	['nav_logs_editlog', 'logs&operation=editlog', $operation == 'editlog'],
 	[['menu' => 'nav_logs_member', 'submenu' => [
 		['nav_logs_illegal', 'logs&operation=illegal'],
 		['nav_logs_ban', 'logs&operation=ban'],
@@ -228,7 +236,7 @@ if(!file_exists($file)) {
 
 require_once $file;
 
-if($operation != 'setting') {
+if($operation != 'setting' && !$filelog) {
 	echo '<form id="logbatchform" method="post" action="'.$urlbase.'&page='.$page.'" onsubmit="return submitLogBatchDelete();">';
 	echo '<input type="hidden" name="formhash" value="'.FORMHASH.'" />';
 	echo '<input type="hidden" name="logbatchsubmit" value="yes" />';

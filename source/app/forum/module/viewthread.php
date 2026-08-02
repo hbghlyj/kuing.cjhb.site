@@ -676,8 +676,11 @@ if($_G['forum_attachpids'] && !defined('IN_ARCHIVER')) {
 	}
 	parseattach($_G['forum_attachpids'], $_G['forum_attachtags'], $postlist, $skipaids);
 }
+$editlogcounts = table_forum_editlog::t()->count_by_pids(array_keys($postlist));
 // 开始将json编辑器中的图片从未使用列表中移除
 foreach($postlist as $pid => $post) {
+	$post['editlogcount'] = $editlogcounts[$pid] ?? 0;
+	$post['allowvieweditlog'] = $post['editlogcount'] && ($_G['uid'] == $post['authorid'] || $_G['adminid'] > 0);
 	if(!empty($post) && is_valid_non_empty_json($post['content'], true)) {
 		$content = json_decode($post['content'], true);
 		if($content['type'] == 'json' && $content['editor'] == 'jsonEditor' && !empty($content['content'])) {
@@ -1059,10 +1062,6 @@ function viewthread_procpost($post, $lastvisit, $maxposition = 0) {
 		if(str_contains($post['message'], '[/index]')) {
 			$post['message'] = preg_replace('/\s?\[index\](.+?)\[\/index\]\s?/is', '', $post['message']);
 		}
-	}
-	if($_GET['from'] != 'preview' && ($_G['setting']['editedby'] && ($post['lastupdate'] && $post['lastupdate'] - $post['dbdateline'] > 300 || $post['updateuid'] && $post['updateuid'] != $post['authorid']))) {
-		$updateusername = $post['updateuid'] == $post['authorid'] ? $post['username'] : ($postusers[$post['updateuid']]['username'] ?? DB::result_first('SELECT username FROM '.DB::table('common_member').' WHERE uid='.$post['updateuid']));
-		$post['message'] = '<i class="pstatus">'.lang('forum/template', 'viewthread_edited_by', ['username' => $updateusername, 'time' => dgmdate($post['lastupdate'], 'u')]).'</i>'.$post['message'];
 	}
 	$_G['forum_firstpid'] = intval($_G['forum_firstpid']);
 	$post['numbercard'] = viewthread_numbercard($post);
