@@ -146,6 +146,12 @@ if(!submitcheck('modsubmit')) {
 
 	$tidsarr = array_keys($threadlist);
 	$moderatetids = dimplode($tidsarr);
+	if(in_array('move', $operations, true) && trim(strip_tags($_GET['reason'] ?? '')) === '') {
+		$toforum = table_forum_forum::t()->fetch_info_by_fid($_GET['moveto']);
+		if($toforum) {
+			$_GET['reason'] = strip_tags($_G['forum']['name']).'➝'.strip_tags($toforum['name']);
+		}
+	}
 	$reason = checkreasonpm();
 	if(empty($operations)) {
 		showmessage('admin_nonexistence');
