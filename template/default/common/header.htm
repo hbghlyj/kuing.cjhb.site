@@ -122,7 +122,7 @@
 						<!--{eval $recenttids = array_slice(array_values(array_diff(array_filter(array_map('intval', explode(',', $_G['cookie']['recentthreads']))), [intval($_G['tid'] ?? 0)])), 0, 5);}-->
 						<!--{eval $recentthreadlist = $recenttids ? table_forum_thread::t()->fetch_all_by_tid($recenttids) : [];}-->
 						<!--{if $recentthreadlist}-->
-						<span class="pg y"><a href="javascript:;" id="recentthreads" onmouseover="showMenu({'ctrlid':this.id,'pos':'34'})">{lang viewed_threads}</a></span>
+						<span class="pg"><a href="javascript:;" id="recentthreads" onmouseover="showMenu({'ctrlid':this.id,'pos':'34'})">{lang viewed_threads}</a></span>
 						<div id="recentthreads_menu" class="p_pop blk cl" style="display: none;">
 							<table class="cp0">
 								<tr>
@@ -142,7 +142,7 @@
 					<!--{if $_G['setting']['visitedforums']}-->
 						<!--{eval require_once libfile('function/forumlist'); empty($_G['cache']['forums']) && loadcache('forums'); $visitedforumsmenu = visitedforums();}-->
 						<!--{if $visitedforumsmenu}-->
-						<span class="pg y"><a href="javascript:;" id="visitedforums" onmouseover="showMenu({'ctrlid':this.id,'pos':'34'})">{lang viewed_forums}</a></span>
+						<span class="pg"><a href="javascript:;" id="visitedforums" onmouseover="showMenu({'ctrlid':this.id,'pos':'34'})">{lang viewed_forums}</a></span>
 						<div id="visitedforums_menu" class="p_pop blk cl" style="display: none;">
 							<table class="cp0">
 								<tr>

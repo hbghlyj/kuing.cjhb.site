@@ -962,7 +962,6 @@ a.thread_mod { height: 19px; line-height: 19px; display: inline-block; color: #4
 			.pob em a.replysubtract:before { content: "\f111"; font-size: smaller; }
 			.pob em a.replyadd.active:before, .pob em a.replysubtract.active:before { color: #FF9C00; }
 			.pob em a.replyadd.active, .pob em a.replysubtract.active { color: #FF9C00; }
-			#k_favorite.active .fc-l, #k_favorite.active .xi1 { color: #FF9C00; }
 		.modact { display: block; height: 32px; text-align: center; padding:30px 0 0; }
 			.modact, .modact a { line-height: 32px !important; }
 		/* 按钮 by alice */
@@ -1224,7 +1223,7 @@ i.pstatus { display: block; margin-bottom: -30px; font-size: 12px; text-align: c
 
 #modopt, #modopttmp { margin-left:5px; }
 #modmenu { white-space: nowrap; }
-.bumpthread a { color: #f26c4f !important; font-weight: 600; }
+.chain-icon { color: transparent; text-shadow: #999 0 0 0; }
 
 /* Custom viewthread enhancements */
 #k_favorite .fico-star.fav-has-count::before { content: "🌟"; font-family: emoji; }
