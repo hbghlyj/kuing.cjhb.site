@@ -8,7 +8,7 @@
 	</div>
 	<!--{if !empty($_G['setting']['i18n'])}-->
 	<div class="footer-locales mt10">
-		<!--{eval $footerLocales = ['SC' => ['🇨🇳', '简体中文'], 'TC' => ['🇹🇼', '繁體中文'], 'EN' => ['🇬🇧', 'English']];}-->
+		<!--{eval $footerLocales = ['SC' => ['🇨🇳', '简体中文'], 'TC' => ['🇭🇰', '繁體中文'], 'EN' => ['🇬🇧', 'English']];}-->
 		<!--{loop $footerLocales $locale $localeMeta}--><!--{if !empty($_G['setting']['i18n'][$locale])}--><a href="misc.php?mod=i18n&key=$locale" title="$localeMeta[1]" aria-label="$localeMeta[1]"<!--{if currentlang() == $locale}--> class="xw1"<!--{/if}-->>$localeMeta[0]</a> <!--{/if}--><!--{/loop}-->
 	</div>
 	<!--{/if}-->
