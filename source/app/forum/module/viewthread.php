@@ -14,6 +14,7 @@ require_once libfile('function/forumlist');
 require_once libfile('function/discuzcode');
 require_once libfile('function/post');
 require_once libfile('function/relateitem');
+require_once libfile('function/threadmod');
 
 $thread = &$_G['forum_thread'];
 $forum = &$_G['forum'];
@@ -1105,41 +1106,6 @@ function viewthread_loadcache() {
 			exit();
 		}
 	}
-}
-
-function viewthread_lastmod(&$thread) {
-	global $_G;
-	if(!$thread['moderated']) {
-		return [];
-	}
-	$lastmod = [];
-	$lastlog = table_forum_threadmod::t()->fetch_by_tid($thread['tid']);
-	if($lastlog) {
-		$lastmod = [
-			'moduid' => $lastlog['uid'],
-			'modusername' => $lastlog['username'],
-			'moddateline' => $lastlog['dateline'],
-			'modaction' => $lastlog['action'],
-			'magicid' => $lastlog['magicid'],
-			'reason' => $lastlog['reason']
-		];
-	}
-	if($lastmod) {
-		$modactioncode = lang('forum/modaction');
-		$lastmod['moduid'] = $_G['setting']['moduser_public'] ? $lastmod['moduid'] : 0;
-		$lastmod['modusername'] = $lastmod['modusername'] ? ($_G['setting']['moduser_public'] ? $lastmod['modusername'] : lang('forum/template', 'thread_moderations_team')) : lang('forum/template', 'thread_moderations_cron');
-		$lastmod['moddateline'] = dgmdate($lastmod['moddateline'], 'u');
-		$lastmod['modactiontype'] = $lastmod['modaction'];
-		$lastmod['modaction'] = $modactioncode[$lastmod['modaction']] ?? '';
-		if($lastmod['magicid']) {
-			loadcache('magics');
-			$lastmod['magicname'] = $_G['cache']['magics'][$lastmod['magicid']]['name'];
-		}
-	} else {
-		table_forum_thread::t()->update($thread['tid'], ['moderated' => 0], false, false, $thread['threadtableid']);
-		$thread['moderated'] = 0;
-	}
-	return $lastmod;
 }
 
 function viewthread_baseinfo($post, $extra) {

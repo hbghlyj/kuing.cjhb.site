@@ -11,6 +11,7 @@ if(!defined('IN_DISCUZ')) {
 }
 
 require_once libfile('function/relateitem');
+require_once libfile('function/threadmod');
 
 $tid = intval($_G['tid']);
 $thread = table_forum_thread::t()->fetch($tid);
@@ -57,7 +58,9 @@ if(submitcheck('retagsubmit') || $_GET['formhash'] == FORMHASH) {
 			$relatehtml .= '</ul></div>';
 		}
 		header('Content-Type: application/json');
-		echo json_encode(['status' => 'success', 'tags' => $posttags, 'related' => $relatehtml]);
+		$thread = table_forum_thread::t()->fetch($tid);
+		$modacthtml = threadmod_render($thread);
+		echo json_encode(['status' => 'success', 'tags' => $posttags, 'related' => $relatehtml, 'modact' => $modacthtml]);
 		exit;
 	}
 

@@ -33,6 +33,7 @@
 			if(s && s.status == 'success') {
 				updateThreadTags(s.tags);
 				updateRelatedThreads(s.related);
+				updateModact(s.modact);
 				hideWindow('$_GET[handlekey]');
 			}
 		});
@@ -89,6 +90,27 @@
 				MathJax.typesetClear([wrapper]);
 			}
 			wrapper.remove();
+		}
+	}
+	function updateModact(html) {
+		var existing = document.querySelector('.modact');
+		if(html) {
+			var holder = document.createElement('div');
+			holder.innerHTML = html;
+			var newBar = holder.firstElementChild;
+			if(!newBar) {
+				return;
+			}
+			if(existing) {
+				existing.replaceWith(newBar);
+			} else {
+				var ptg = document.querySelector('.ptg');
+				if(ptg) {
+					ptg.insertAdjacentElement('afterend', newBar);
+				}
+			}
+		} else if(existing) {
+			existing.remove();
 		}
 	}
 	</script>
