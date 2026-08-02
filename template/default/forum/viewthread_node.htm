@@ -273,7 +273,7 @@ $postshowavatars = !($_G['setting']['bannedmessages'] & 2 && ($post['memberstatu
 						</div>
 					<!--{/if}-->
 					<!--{if helper_access::check_module('favorite')}-->
-						<a href="home.php?mod=spacecp&ac=favorite&type=thread&id=$_G[tid]&favoritesubmit=true" id="k_favorite"{if $_G['forum_thread']['userfavorited']} class="active"{/if} onclick="showWindow(this.id, this.href, 'get', 0);" onmouseover="this.title = $('favoritenumber').innerHTML + ' {lang activity_member_unit}{lang thread_favorite}'" title="{lang fav_thread}"><i><em class="fico-star fc-l" title="{lang thread_favorite}"></em>{lang thread_favorite}<span class="xi1" id="favoritenumber"{if !$_G['forum_thread']['favtimes']} style="display:none"{/if}>{$_G['forum_thread']['favtimes']}</span></i></a>
+						<a href="home.php?mod=spacecp&ac=favorite&type=thread&id=$_G[tid]&favoritesubmit=true" id="k_favorite"{if $_G['forum_thread']['userfavorited']} class="active"{/if} onclick="showWindow(this.id, this.href, 'get', 0);" onmouseover="this.title = $('favoritenumber').innerHTML + ' {lang activity_member_unit}{lang thread_favorite}'" title="{lang fav_thread}"><i><em class="fico-star fc-l{if $_G['forum_thread']['favtimes']} fav-has-count{/if}" title="{lang thread_favorite}"></em>{lang thread_favorite}<span class="xi1" id="favoritenumber"{if !$_G['forum_thread']['favtimes']} style="display:none"{/if}>{$_G['forum_thread']['favtimes']}</span></i></a>
 					<!--{/if}-->
 					<!--{if !$post['anonymous'] && $post['first'] && helper_access::check_module('follow')}-->
 						<a class="followp" href="home.php?mod=spacecp&ac=follow&op=relay&tid=$_G[tid]&from=forum" onclick="showWindow('relaythread', this.href, 'get', 0);" title="{lang follow_spread}"><i><em class="fico-launch fc-p" title="{lang thread_realy}"></em>{lang thread_realy}<!--{if $_G['forum_thread']['relay']}--><span id="relaynumber" style="display:none">{$_G['forum_thread']['relay']}</span><!--{/if}--></i></a>
@@ -372,6 +372,9 @@ $postshowavatars = !($_G['setting']['bannedmessages'] & 2 && ($post['memberstatu
 							<a href="javascript:;" onclick="setanswer($post['pid'], '$_GET[from]')">{lang reward_set_bestanswer}</a>
 						<!--{/if}-->
 						<!--{if $post['first']}--><a href="javascript:bumpthread();"><font color="#888" face="dzicon"></font>{lang bump}</a><!--{/if}-->
+					<!--{if $post['authorid'] != $_G['uid']}-->
+						<a href="javascript:;" onclick="showWindow('miscreport$post[pid]', 'misc.php?mod=report&rtype=post&rid=$post[pid]&tid=$_G[tid]&fid=$_G[fid]', 'get', -1);return false;">{lang report}</a>
+					<!--{/if}-->
 					<!--{/if}-->
 					<!--{hook/viewthread_postaction $postcount}-->
 				</p>

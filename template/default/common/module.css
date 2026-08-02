@@ -1226,6 +1226,7 @@ i.pstatus { display: block; margin-bottom: -30px; font-size: 12px; text-align: c
 #modmenu { white-space: nowrap; }
 
 /* Custom viewthread enhancements */
+#k_favorite .fico-star.fav-has-count::before { content: "🌟"; font-family: emoji; }
 .pattl { overflow: visible; }
 #newspecial_menu { width: auto; padding-right: 10px; }
 i.pstatus { margin-bottom: unset; }

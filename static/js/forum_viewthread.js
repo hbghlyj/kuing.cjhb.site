@@ -440,6 +440,7 @@ function favoriteupdate() {
 	var obj = $('favoritenumber');
 	obj.style.display = '';
 	obj.innerHTML = parseInt(obj.innerHTML) + 1;
+	$('k_favorite')?.querySelector('.fico-star')?.classList.add('fav-has-count');
 }
 
 function switchrecommendv() {
