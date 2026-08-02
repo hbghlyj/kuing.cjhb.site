@@ -12,6 +12,7 @@ use DB;
 use discuz_model;
 use table_common_moderate;
 use table_forum_attachment_n;
+use table_forum_editlog;
 use table_forum_forum;
 use table_forum_forumfield;
 use table_forum_groupuser;
