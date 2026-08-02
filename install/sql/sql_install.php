@@ -3109,7 +3109,8 @@ CREATE TABLE pre_forum_editlog
 	PRIMARY KEY (editid),
 	KEY pid (pid, dateline),
 	KEY tid (tid, dateline),
-	KEY authorid (authorid)
+	KEY authorid (authorid),
+	KEY dateline (dateline)
 ) ENGINE = InnoDB;
 
 DROP TABLE IF EXISTS pre_forum_poststick;

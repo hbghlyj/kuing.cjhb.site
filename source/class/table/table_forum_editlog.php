@@ -52,6 +52,10 @@ class table_forum_editlog extends discuz_table {
 		return DB::result_first('SELECT COUNT(*) FROM %t'.$where, $params);
 	}
 
+	public function delete_by_dateline($dateline) {
+		return DB::delete($this->_table, DB::field('dateline', dintval($dateline), '<'));
+	}
+
 	public function fetch_all_for_admin($keyword = '', $start = 0, $limit = 20) {
 		$where = '';
 		$params = [$this->_table];

@@ -174,6 +174,9 @@ CREATE TABLE IF NOT EXISTS pre_forum_editlog
 	KEY authorid (authorid)
 ) ENGINE = InnoDB;
 
+ALTER TABLE pre_forum_editlog
+	ADD KEY dateline (dateline);
+
 ALTER TABLE pre_forum_rsscache
 	MODIFY author char (50) NOT NULL DEFAULT '';
 

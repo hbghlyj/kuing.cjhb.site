@@ -18,6 +18,7 @@ if(table_common_advertisement::t()->close_endtime()) {
 table_forum_threaddisablepos::t()->truncate();
 table_common_searchindex::t()->truncate();
 table_forum_threadmod::t()->delete_by_dateline($_G['timestamp'] - 31536000);
+table_forum_editlog::t()->delete_by_dateline($_G['timestamp'] - 2592000);
 table_forum_forumrecommend::t()->delete_old();
 table_home_visitor::t()->delete_by_dateline($_G['timestamp'] - 7776000);
 table_forum_postcache::t()->delete_by_dateline(TIMESTAMP - 86400);
