@@ -209,13 +209,6 @@ $polloptions = isset($polloptions) ? censor(trim($polloptions)) : '';
 $readperm = isset($_GET['readperm']) ? intval($_GET['readperm']) : 0;
 $price = isset($_GET['price']) ? intval($_GET['price']) : 0;
 $cover_aid = isset($_GET['cover_aid']) ? intval($_GET['cover_aid']) : 0;
-$original = isset($_GET['original']) ? intval($_GET['original']) : 0;
-$source_title = isset($_GET['source_title']) ? dhtmlspecialchars(censor(trim($_GET['source_title']), NULL, FALSE, FALSE)) : '';
-$source_url = isset($_GET['source_url']) ? censor(trim($_GET['source_url'])) : '';
-if(!empty($source_title) || !empty($source_url)) {
-	$source = json_encode(['title' => $source_title, 'url' => $source_url]);
-}
-
 if(empty($bbcodeoff) && !$_G['group']['allowhidecode'] && !empty($message) && preg_match('/\[hide=?d?\d*,?\d*\].*?\[\/hide\]/is', preg_replace('/(\[code\](.+?)\[\/code\])/is', ' ', $message))) {
 	showmessage('post_hide_nopermission');
 }

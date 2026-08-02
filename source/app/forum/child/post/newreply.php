@@ -389,7 +389,6 @@ if(!submitcheck('replysubmit', 0, $seccodecheck, $secqaacheck)) {
 		'content' => $content,
 		'contentType' => $contentType,
 		'contentEditor' => $contentEditor,
-		'source' => $source,
 		'tags' => $_GET['tags'],
 		'special' => $special,
 		'extramessage' => $extramessage ?? '',
@@ -405,15 +404,6 @@ if(!submitcheck('replysubmit', 0, $seccodecheck, $secqaacheck)) {
 		'geoloc' => diconv(getgpc('geoloc'), 'UTF-8'),
 		'repid' => getgpc('reppid'),
 	];
-
-	// 原创声明 0未声明、1声明原创、-1非原创
-	if(!empty($original)) {
-		$params['original'] = $original;
-	}
-	// 文章来源
-	if(!empty($source)) {
-		$params['source'] = $source;
-	}
 
 	if(!empty($_GET['trade']) && $thread['special'] == 2 && $_G['group']['allowposttrade']) {
 		$bfmethods[] = ['class' => 'forum\extend_thread_trade', 'method' => 'before_newreply'];

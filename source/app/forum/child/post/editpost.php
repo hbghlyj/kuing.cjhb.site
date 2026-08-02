@@ -321,10 +321,6 @@ if(!$editsubmit) {
 			}
 			$editorblocks[$ekey]['jspath'] = $jspath.'/tools/'.$evalue['identifier'].'/'.$evalue['filename'].'.js';
 		}
-		if(!empty($postinfo['source'])) {
-			$postinfo['source'] = json_decode($postinfo['source'], true);
-		}
-
 
 		$thread_cover = table_forum_thread::t()->fetch_thread($postinfo['tid']);
 		if($thread_cover && $thread_cover['cover']) {
@@ -429,12 +425,10 @@ if(!$editsubmit) {
 
 		$param = [
 			'subject' => $subject,
-			'original' => $original,
 			'message' => $message,
 			'content' => $content,
 			'contentType' => $contentType,
 			'contentEditor' => $contentEditor,
-			'source' => $source,
 			'special' => $special,
 			'sortid' => $sortid,
 			'typeid' => $typeid,
@@ -463,14 +457,6 @@ if(!$editsubmit) {
 
 		if($isfirstpost && $isorigauthor && $_G['group']['allowreplycredit']) {
 			$param['replycredit_rule'] = $replycredit_rule;
-		}
-		// 原创声明 0未声明、1声明原创、-1非原创
-		if(!empty($original)) {
-			$param['original'] = $original;
-		}
-		// 文章来源
-		if(!empty($source)) {
-			$param['source'] = $source;
 		}
 		if($thread['displayorder'] != -4) {
 			if(TIMESTAMP - $orig['dateline'] > 300 || !$isorigauthor) {

@@ -374,12 +374,6 @@ CREATE TABLE `pre_common_editorblock`
 ALTER TABLE `pre_forum_post`
 	ADD COLUMN `content` JSON DEFAULT NULL  AFTER `message`;
 
-ALTER TABLE `pre_forum_post`
-	ADD COLUMN `source` JSON DEFAULT NULL  AFTER `content`;
-
-ALTER TABLE `pre_forum_post`
-	ADD COLUMN `original` tinyint(1) NOT NULL DEFAULT '0'  AFTER `subject`;
-
 DROP TABLE IF EXISTS `pre_restful_source`;
 CREATE TABLE `pre_restful_source`
 (

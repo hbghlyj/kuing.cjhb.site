@@ -222,8 +222,6 @@ class model_thread extends discuz_model {
 		$content = $contentType == 'json'
 			? generate_content_json($contentType, $contentEditor, (!empty($this->param['content']) ? $this->param['content'] : '{}'))
 			: null;
-		$source = $contentType == 'json' && !empty($this->param['source']) ? $this->param['source'] : null;
-
 		$this->pid = insertpost([
 			'fid' => $this->forum['fid'],
 			'tid' => $this->tid,
@@ -231,11 +229,9 @@ class model_thread extends discuz_model {
 			'author' => $this->member['username'],
 			'authorid' => $this->member['uid'],
 			'subject' => $this->param['subject'],
-			'original' => !empty($this->param['original']) ? $this->param['original'] : 0,
 			'dateline' => $this->param['publishdate'],
 			'message' => $this->param['message'],
 			'content' => $content,
-			'source' => $source,
 			'invisible' => $this->param['pinvisible'],
 			'anonymous' => $this->param['isanonymous'],
 			'usesig' => $this->param['usesig'],
@@ -355,7 +351,7 @@ class model_thread extends discuz_model {
 			'publishdate', 'digest', 'moderated', 'tstatus', 'isgroup',
 			'replycredit', 'closed', 'special', 'tags',
 			'message', 'content', 'invisible', 'isanonymous', 'usesig',
-			'htmlon', 'bbcodeoff', 'smileyoff', 'parseurloff', 'pstatus', 'geoloc', 'original', 'source', 'contentType', 'contentEditor'
+			'htmlon', 'bbcodeoff', 'smileyoff', 'parseurloff', 'pstatus', 'geoloc', 'contentType', 'contentEditor'
 		];
 		foreach($varname as $name) {
 			if(!isset($this->param[$name])) {

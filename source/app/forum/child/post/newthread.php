@@ -249,15 +249,6 @@ if(!submitcheck('topicsubmit', 0, $seccodecheck, $secqaacheck)) {
 
 	$params['typeexpiration'] = getgpc('typeexpiration');
 
-	// 原创声明 0未声明、1声明原创、-1非原创
-	if(!empty($original)) {
-		$params['original'] = $original;
-	}
-	// 文章来源
-	if(!empty($source)) {
-		$params['source'] = $source;
-	}
-
 	$params['tags'] = $_GET['tags'];
 	$params['bbcodeoff'] = getgpc('bbcodeoff');
 	$params['smileyoff'] = getgpc('smileyoff');

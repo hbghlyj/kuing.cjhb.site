@@ -65,7 +65,7 @@ class model_post extends discuz_model {
 			'timestamp',
 			'subject', 'special', 'sortid', 'typeid', 'isanonymous', 'cronpublish', 'cronpublishdate', 'save',
 			'readperm', 'price', 'audit', 'tags', 'bbcodeoff',
-			'smileyoff', 'parseurloff', 'usesig', 'htmlon', 'extramessage', 'original', 'source', 'contentType', 'contentEditor', 'repid',
+			'smileyoff', 'parseurloff', 'usesig', 'htmlon', 'extramessage', 'contentType', 'contentEditor', 'repid',
 			'updateuid', 'lastupdate',
 		];
 		foreach($varname as $name) {
@@ -157,8 +157,6 @@ class model_post extends discuz_model {
 		$content = $contentType == 'json'
 			? generate_content_json($contentType, $contentEditor, (!empty($this->param['content']) ? $this->param['content'] : '{}'), $extend)
 			: null;
-		$source = $contentType == 'json' && !empty($this->param['source']) ? $this->param['source'] : null;
-
 		$this->pid = insertpost([
 			'fid' => $this->forum['fid'],
 			'tid' => $this->thread['tid'],
@@ -167,11 +165,9 @@ class model_post extends discuz_model {
 			'author' => $this->member['username'],
 			'authorid' => $this->member['uid'],
 			'subject' => $this->param['subject'],
-			'original' => !empty($this->param['original']) ? $this->param['original'] : 0,
 			'dateline' => $this->param['timestamp'] ? $this->param['timestamp'] : getglobal('timestamp'),
 			'message' => $this->param['message'],
 			'content' => $content,
-			'source' => $source,
 			'invisible' => $pinvisible,
 			'anonymous' => $this->param['isanonymous'],
 			'usesig' => $usesig,
@@ -544,14 +540,10 @@ class model_post extends discuz_model {
 		$content = $contentType == 'json'
 			? generate_content_json($contentType, $contentEditor, (!empty($this->param['content']) ? $this->param['content'] : '{}'), $extend)
 			: null;
-		$source = $contentType == 'json' && !empty($this->param['source']) ? $this->param['source'] : null;
-
 
 		$setarr = [
-			'original' => $this->param['original'],
 			'message' => $this->param['message'],
 			'content' => $content,
-			'source' => $source,
 			'usesig' => $this->param['usesig'],
 			'htmlon' => $this->param['htmlon'],
 			'bbcodeoff' => $this->param['bbcodeoff'],

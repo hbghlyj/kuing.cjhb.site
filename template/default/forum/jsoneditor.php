@@ -105,21 +105,6 @@
                 <!--{/if}-->
                 <div class="css-publish__div">
                     <div class="css-publish__div_content">
-                        <label class="css-publish__div_title">{lang json_editor_title_original}</label>
-                        <div class="layui-form layui-row layui-col-space16">
-                            <div class="layui-col-md12">
-                                <select name="original">
-                                    <option value="0" <!--{if $postinfo['original'] == '' || $postinfo['original'] == 0}-->selected="selected"<!--{/if}-->>{lang json_editor_title_original_0}</option>
-                                    <option value="1" <!--{if $postinfo['original'] == 1}-->selected="selected"<!--{/if}-->>{lang json_editor_title_original_1}</option>
-                                    <option value="-1" <!--{if $postinfo['original'] == -1}-->selected="selected"<!--{/if}-->>{lang json_editor_title_original_f1}</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="css-publish__div">
-                    <div class="css-publish__div_content">
                         <label class="css-publish__div_title">{lang json_editor_title_tags}</label>
                         <div class="layui-form layui-row">
                             <div class="layui-col-sm12 tags">
@@ -130,19 +115,6 @@
                     </div>
                 </div>
 
-                <div class="css-publish__div">
-                    <div class="css-publish__div_content">
-                        <label class="css-publish__div_title">{lang json_editor_title_source}</label>
-                        <div class="layui-form layui-row layui-col-space16">
-                            <div class="layui-col-sm4">
-                                <input type="text" name="source_title" placeholder="{lang json_editor_source_title}" class="layui-input" <!--{if $postinfo['source']['title']}-->value="{$postinfo['source']['title']}"<!--{/if}-->>
-                            </div>
-                            <div class="layui-col-sm8">
-                                <input type="text" name="source_url" placeholder="{lang json_editor_source_url}" class="layui-input" style="width: 305px;" <!--{if $postinfo['source']['url']}-->value="{$postinfo['source']['url']}"<!--{/if}-->>
-                            </div>
-                        </div>
-                    </div>
-                </div>
                 <!--{if $_GET[action] != 'edit'}-->
 	            {cell common/seccheck/code_start}
 	                <div class="css-publish__div">

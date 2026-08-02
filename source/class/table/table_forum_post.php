@@ -12,7 +12,7 @@ if(!defined('IN_DISCUZ')) {
 
 class table_forum_post extends discuz_table {
 	private static $_tableid_tablename = [];
-	private static $_text_fields = ['author', 'subject', 'message', 'content', 'source'];
+	private static $_text_fields = ['author', 'subject', 'message', 'content'];
 
 	public static function t() {
 		static $_instance;
@@ -738,7 +738,7 @@ class table_forum_post extends discuz_table {
 	}
 
 	private function has_nullable_json_null($data) {
-		foreach(['content', 'source'] as $field) {
+		foreach(['content'] as $field) {
 			if(array_key_exists($field, $data) && $data[$field] === null) {
 				return true;
 			}
@@ -758,7 +758,7 @@ class table_forum_post extends discuz_table {
 	private function build_field_assignments($data) {
 		$sql = [];
 		foreach($data as $field => $value) {
-			if(in_array($field, ['content', 'source'], true) && $value === null) {
+			if($field === 'content' && $value === null) {
 				$sql[] = DB::quote_field($field).'=NULL';
 			} else {
 				$sql[] = DB::quote_field($field).'='.DB::quote($value);
