@@ -48,6 +48,24 @@ html{overflow-y:scroll}
 	font-weight: normal;
 	font-style: normal;
 }
+@font-face {
+	font-family: 'Century';
+	src: local('Century Schoolbook Bold'), url('/static/image/common/SCHLBKB.TTF') format('truetype');
+	font-weight: bold;
+	font-style: normal;
+}
+@font-face {
+	font-family: 'Century';
+	src: local('Century Schoolbook Italic'), url('/static/image/common/SCHLBKI.TTF') format('truetype');
+	font-weight: normal;
+	font-style: italic;
+}
+@font-face {
+	font-family: 'Century';
+	src: local('Century Schoolbook Bold Italic'), url('/static/image/common/SCHLBKBI.TTF') format('truetype');
+	font-weight: bold;
+	font-style: italic;
+}
 body {background:var(--dz-bodybg)}
 body, button, select {font:1em/1.5 Century,"Yu Gothic",'Microsoft Yahei light',"Noto Colr Emoji Glyf","Twemoji Country Flags",system-ui;color:#000}
 input, textarea {font:1em/1.5 monospace,zh,"Noto Colr Emoji Glyf","Twemoji Country Flags"}
