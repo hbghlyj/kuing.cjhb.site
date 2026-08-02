@@ -28,7 +28,7 @@ a { color: {HIGHLIGHTLINK}; }
 hr.l { height: 1px; border: none; background: {COMMONBORDER}; color: {COMMONBORDER}; }
 table { empty-cells: show; border-collapse: collapse; }
 table td { padding: 4px; border: 1px solid {COMMONBORDER}; }
-th { font-weight: 400; }
+th { font-weight: normal; }
 div.quote { margin: 10px 0; padding: 0; overflow: visible; display: flex; color: #666; }
 	div.quote::before { content: '\201C'; font-family: 'Times New Roman', Times, serif; font-size: 40px; color: #B2B7F2; font-weight: bold; line-height: 1rem; padding: 10px; flex-shrink: 0; display: block; }
 	div.quote::after { content: '\201D'; font-family: 'Times New Roman', Times, serif; font-size: 40px; color: #B2B7F2; font-weight: bold; line-height: 0; margin: 10px 0; flex-shrink: 0; display: block; align-self: flex-end; }

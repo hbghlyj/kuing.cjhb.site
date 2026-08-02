@@ -64,7 +64,7 @@
 			border: none;
 			border-radius: 4px;
 			font-size: 16px;
-			font-weight: 500;
+			font-weight: normal;
 			cursor: pointer;
 			transition: background-color 0.2s ease-in-out;
 		}
