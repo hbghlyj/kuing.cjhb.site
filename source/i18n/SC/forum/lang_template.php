@@ -1061,7 +1061,6 @@ $lang = [
 	'modmenu_warn' => '警告',
 	'next_thread' => '下一主题',
 	'nofollow' => '不关注',
-	'return_forumdisplay' => '返回列表',
 	'rushreply_view' => '查看抢中楼层',
 	'share_url_copy' => '复制链接',
 	'share_url_copy_comment' => '您的朋友访问此链接后，您将获得相应的积分奖励',

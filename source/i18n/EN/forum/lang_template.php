@@ -1066,7 +1066,6 @@ $lang = array (
 	'modmenu_warn'			=> 'Warn',//'警告',
 	'next_thread'			=> 'Next thread',//'下一主题',
 	'nofollow'			=> 'Stop follow',//'不收听',
-	'return_forumdisplay'		=> 'Return to list',//'返回列表',
 	'rushreply_view'		=> 'View grab in the Floor',//'查看抢中楼层',
 	'share_url_copy'		=> 'Copy link',//'复制链接',
 	'share_url_copy_comment'	=> 'If your friend visit this link, you will receive the appropriate reward points',//'您的朋友访问此链接后，您将获得相应的积分奖励',
