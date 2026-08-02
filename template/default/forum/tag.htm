@@ -27,14 +27,69 @@
 		var tags = $('tags').value;
 		var tid = $('tid').value;
 		tags = BROWSER.ie && document.charset == 'utf-8' ? encodeURIComponent(tags) : tags;
-		var url = 'misc.php?mod=tag&op=set&inajax=1&tags='+tags+'&tid='+tid+'&formhash={FORMHASH}';
+		var url = 'forum.php?mod=misc&action=retag&inajax=1&tags='+encodeURIComponent(tags)+'&tid='+tid+'&formhash={FORMHASH}';
 		var x = new Ajax();
-		x.getHTML(url, function(s){
-			if(s) {
+		x.getJSON(url, function(s){
+			if(s && s.status == 'success') {
+				updateThreadTags(s.tags);
+				updateRelatedThreads(s.related);
 				hideWindow('$_GET[handlekey]');
-				window.location.reload();
 			}
 		});
+	}
+	function updateThreadTags(tags) {
+		var el = $('threadtags');
+		if(!el) {
+			return;
+		}
+		el.innerHTML = '';
+		if(tags && tags.length) {
+			var links = [];
+			for(var i = 0; i < tags.length; i++) {
+				var a = document.createElement('a');
+				a.title = tags[i].name;
+				a.href = 'misc.php?mod=tag&id=' + encodeURIComponent(tags[i].id) + '&name=' + encodeURIComponent(tags[i].name);
+				a.target = '_blank';
+				a.textContent = tags[i].name;
+				links.push(a);
+			}
+			for(var j = 0; j < links.length; j++) {
+				if(j) {
+					el.appendChild(document.createTextNode(', '));
+				}
+				el.appendChild(links[j]);
+			}
+		}
+	}
+	function updateRelatedThreads(html) {
+		var list = document.querySelector('.relatedthreadlist');
+		var wrapper = list ? list.closest('.mtw.mbw') : null;
+		if(html) {
+			var holder = document.createElement('div');
+			holder.innerHTML = html;
+			var newWrapper = holder.firstElementChild;
+			if(newWrapper) {
+				if(wrapper) {
+					if(typeof MathJax !== 'undefined' && MathJax.typesetClear) {
+						MathJax.typesetClear([wrapper]);
+					}
+					wrapper.replaceWith(newWrapper);
+				} else {
+					var plc = document.querySelector('.plc.plm');
+					if(plc) {
+						plc.appendChild(newWrapper);
+					}
+				}
+				if(typeof MathJax !== 'undefined' && MathJax.typesetPromise) {
+					MathJax.typesetPromise([newWrapper]).catch(function() {});
+				}
+			}
+		} else if(wrapper) {
+			if(typeof MathJax !== 'undefined' && MathJax.typesetClear) {
+				MathJax.typesetClear([wrapper]);
+			}
+			wrapper.remove();
+		}
 	}
 	</script>
 <!--{template common/footer}-->

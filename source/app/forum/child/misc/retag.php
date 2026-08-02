@@ -10,6 +10,8 @@ if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
+require_once libfile('function/relateitem');
+
 $tid = intval($_G['tid']);
 $thread = table_forum_thread::t()->fetch($tid);
 if(!$thread) {
@@ -41,8 +43,21 @@ if(submitcheck('retagsubmit') || $_GET['formhash'] == FORMHASH) {
 	}
 
 	if($_GET['inajax']) {
+		$relatehtml = '';
+		$relatetags = [];
+		foreach($posttags as $pt) {
+			$relatetags[] = [$pt['id'], $pt['name']];
+		}
+		$relateitem = getrelateitem($relatetags, $tid, $_G['setting']['relatenum'] ?? 0, $_G['setting']['relatetime'] ?? 0);
+		if($relateitem) {
+			$relatehtml = '<div class="mtw mbw"><h3 class="pbm mbm bbda">'.lang('forum/template', 'related_thread').'</h3><ul class="xl cl relatedthreadlist">';
+			foreach($relateitem as $var) {
+				$relatehtml .= '<li><a href="forum.php?mod=viewthread&tid='.intval($var['tid']).'" title="'.dhtmlspecialchars($var['subject']).'" target="_blank">'.dhtmlspecialchars($var['subject']).'</a></li>';
+			}
+			$relatehtml .= '</ul></div>';
+		}
 		header('Content-Type: application/json');
-		echo json_encode(['status' => 'success', 'tags' => $posttags]);
+		echo json_encode(['status' => 'success', 'tags' => $posttags, 'related' => $relatehtml]);
 		exit;
 	}
 
