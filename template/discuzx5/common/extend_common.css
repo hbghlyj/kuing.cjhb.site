@@ -43,7 +43,7 @@
 
 html{overflow-y:scroll}
 body {background:var(--dz-bodybg)}
-body, button, select {font:1em/1.5 Arial,"Yu Gothic",'Microsoft Yahei light',"Noto Colr Emoji Glyf","Twemoji Country Flags",system-ui;color:#000}
+body, button, select {font:1em/1.5 Century,"Yu Gothic",'Microsoft Yahei light',"Noto Colr Emoji Glyf","Twemoji Country Flags",system-ui;color:#000}
 input, textarea {font:1em/1.5 monospace,zh,"Noto Colr Emoji Glyf","Twemoji Country Flags"}
 textarea {color:var(--dz-fa)}
 ul,li{list-style:none}

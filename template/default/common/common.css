@@ -88,7 +88,6 @@ Last Modify:	Pony
 */
 	body { {BGCODE}; }
 	textarea { resize: vertical; }
-	body, button, select { font: {FONTSIZE} {FONT}; color: {TABLETEXT}; }
 	input, textarea { font: {FONTSIZE} monospace,zh, 'Noto Colr Emoji Glyf'; color: {TABLETEXT}; }
 	* { overflow-wrap: break-word; }
 	body, ul, ol, li, dl, dd, p, h1, h2, h3, h4, h5, h6, form, fieldset, .pr, .pc { margin: 0; padding: 0; }
