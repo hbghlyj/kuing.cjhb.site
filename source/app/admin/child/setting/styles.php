@@ -218,7 +218,8 @@ if(submitcheck('settingsubmit')) {
 	showsetting('setting_styles_index_indexhot_messagecut', 'settingnew[indexhot][messagecut]', $setting['indexhot']['messagecut'], 'text');
 	showtagfooter('tbody');
 	showsetting('setting_styles_index_subforumsindex', 'settingnew[subforumsindex]', $setting['subforumsindex'], 'radio');
-	showsetting('setting_styles_index_forumlinkstatus', 'settingnew[forumlinkstatus]', $setting['forumlinkstatus'], 'radio');
+	$forumlinkcomment = cplang('setting_styles_index_forumlinkstatus_comment').' <a href="'.ADMINSCRIPT.'?action=misc&amp;operation=link">'.cplang('misc_link').'</a>';
+	showsetting('setting_styles_index_forumlinkstatus', 'settingnew[forumlinkstatus]', $setting['forumlinkstatus'], 'radio', '', 0, $forumlinkcomment);
 	showsetting('setting_styles_index_forumallowside', 'settingnew[forumallowside]', $setting['forumallowside'], 'radio');
 	showsetting('setting_styles_index_whosonline', ['settingnew[whosonlinestatus]', [
 		[0, $lang['setting_styles_index_display_none']],
