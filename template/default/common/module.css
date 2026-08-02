@@ -1224,6 +1224,7 @@ i.pstatus { display: block; margin-bottom: -30px; font-size: 12px; text-align: c
 
 #modopt, #modopttmp { margin-left:5px; }
 #modmenu { white-space: nowrap; }
+.bumpthread a { color: #f26c4f !important; font-weight: 600; }
 
 /* Custom viewthread enhancements */
 #k_favorite .fico-star.fav-has-count::before { content: "🌟"; font-family: emoji; }
