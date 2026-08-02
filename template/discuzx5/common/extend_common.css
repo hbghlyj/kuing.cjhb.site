@@ -44,7 +44,7 @@
 html{overflow-y:scroll}
 @font-face {
 	font-family: 'Century';
-	src: local('Century'), local('Century Schoolbook'), url('/static/image/common/century.ttf') format('truetype');
+	src: local('Century Schoolbook'), url('/static/image/common/CENSCBK.TTF') format('truetype');
 	font-weight: normal;
 	font-style: normal;
 }
