@@ -11,6 +11,8 @@
 
 $lang = array (
 	'post_revision_no_permission' => 'Only the author and administrators can view post revision history.',
+	'post_revision_not_found' => 'The selected revision was not found.',
+	'post_revision_restored' => 'The post has been restored to the selected revision.',
 
 	'undefined_action'		=> 'Undefined action, please return.',//'未定义操作，请返回。',
 	'plugin_nonexistence'		=> 'Plug-in does not exist or has been closed',//'插件不存在或已关闭',

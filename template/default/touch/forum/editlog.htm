@@ -1,12 +1,73 @@
-<div class="bm_c">
-	<ul class="post_revision_list">
-		<!--{loop $editlogs $editlog}-->
-		<li class="mli">
-			<div class="cl"><strong>{if $editlog['action'] == 'delete'}{lang delete}{else}{lang edit}{/if}</strong><span class="z xg1">{echo dgmdate($editlog['dateline'])}</span></div>
-			<div class="xg1">{echo dhtmlspecialchars($editlog['username'])}</div>
-			<details><summary>{lang post_revision_view}</summary><pre style="white-space:pre-wrap;">{echo dhtmlspecialchars($editlog['old_content'] ?: $editlog['old_message'])}</pre></details>
-		</li>
-		<!--{/loop}-->
-		<!--{if !$editlogs}--><li>{lang post_revision_empty}</li><!--{/if}-->
-	</ul>
+<div class="bm_c revision-window">
+	<div class="revision-toolbar">
+		<label for="revision_select">{lang post_revision_history}</label>
+		<select id="revision_select" onchange="renderRevisionDiff(this.value)">
+			<!--{loop $versions $revision_index $revision}-->
+			<option value="$revision_index">$revision['label']</option>
+			<!--{/loop}-->
+		</select>
+		<form method="post" action="forum.php?mod=misc&action=editlog&tid=$post[tid]&pid=$pid" onsubmit="return confirm('{lang post_revision_restore_confirm}');">
+			<input type="hidden" name="formhash" value="{FORMHASH}">
+			<input type="hidden" name="do" value="rollback">
+			<input type="hidden" name="editid" id="revision_editid" value="0">
+			<button type="submit" id="revision_restore" disabled="disabled">{lang post_revision_restore}</button>
+		</form>
+	</div>
+	<div class="revision-diff-label">{lang post_revision_compare}</div>
+	<div id="revision_diff" class="revision-diff"></div>
 </div>
+<style>
+.revision-window { padding: 12px; box-sizing: border-box; }
+.revision-toolbar { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; margin-bottom: 10px; }
+.revision-toolbar label { font-weight: 700; }
+.revision-toolbar select { flex: 1; min-width: 150px; }
+.revision-toolbar form { margin: 0 0 0 auto; }
+.revision-toolbar button { padding: 4px 8px; }
+.revision-diff-label { margin-bottom: 5px; color: #888; }
+.revision-diff { max-height: 55vh; overflow: auto; border: 1px solid #ddd; background: #fafafa; font: 12px/1.5 monospace; }
+.revision-diff div { padding: 1px 6px; white-space: pre-wrap; overflow-wrap: anywhere; }
+.revision-diff .same { color: #555; }
+.revision-diff .removed { background: #ffe8e8; color: #900; }
+.revision-diff .added { background: #e8f7e8; color: #075b07; }
+</style>
+<script>
+(function() {
+	var revisions = {echo $versions_json};
+	var diff = document.getElementById('revision_diff');
+	var select = document.getElementById('revision_select');
+	var restore = document.getElementById('revision_restore');
+	var editid = document.getElementById('revision_editid');
+	function escapeHtml(value) {
+		return String(value == null ? '' : value).replace(/[&<>"']/g, function(char) {
+			return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[char];
+		});
+	}
+	function textOf(revision) {
+		var body = revision.message || revision.content || '';
+		return (revision.subject ? revision.subject + '\n\n' : '') + body;
+	}
+	window.renderRevisionDiff = function(index) {
+		index = parseInt(index, 10) || 0;
+		var selected = revisions[index] || revisions[0];
+		var newer = revisions[index - 1] || selected;
+		var oldLines = textOf(selected).split('\n');
+		var newLines = textOf(newer).split('\n');
+		var html = [];
+		var max = Math.max(oldLines.length, newLines.length);
+		for(var i = 0; i < max; i++) {
+			if(oldLines[i] === newLines[i]) html.push('<div class="same">&nbsp; ' + escapeHtml(oldLines[i] || '') + '</div>');
+			else {
+				if(i < oldLines.length) html.push('<div class="removed">- ' + escapeHtml(oldLines[i]) + '</div>');
+				if(i < newLines.length) html.push('<div class="added">+ ' + escapeHtml(newLines[i]) + '</div>');
+			}
+		}
+		diff.innerHTML = html.join('') || '<div class="same">&nbsp;</div>';
+		restore.disabled = !selected.id;
+		editid.value = selected.id || 0;
+	};
+	if(select && revisions.length) {
+		select.value = revisions.length > 1 ? '1' : '0';
+		renderRevisionDiff(select.value);
+	}
+})();
+</script>

@@ -8,6 +8,8 @@
 
 $lang = [
 	'post_revision_no_permission' => '只有作者和管理员可以查看帖子修订历史。',
+	'post_revision_not_found' => '找不到所选修订版本。',
+	'post_revision_restored' => '帖子已恢复到所选修订版本。',
 	'undefined_action' => '未定义操作',
 	'plugin_nonexistence' => '插件不存在或已关闭',
 	'profile_username_protect' => '用户名包含被系统屏蔽的字符',

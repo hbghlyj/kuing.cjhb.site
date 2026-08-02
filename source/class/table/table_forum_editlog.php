@@ -29,6 +29,10 @@ class table_forum_editlog extends discuz_table {
 		return DB::fetch_all('SELECT * FROM %t WHERE pid=%d ORDER BY dateline DESC, editid DESC', [$this->_table, dintval($pid)]);
 	}
 
+	public function fetch_by_editid_pid($editid, $pid) {
+		return DB::fetch_first('SELECT * FROM %t WHERE editid=%d AND pid=%d', [$this->_table, dintval($editid), dintval($pid)]);
+	}
+
 	public function count_by_pids($pids) {
 		if(empty($pids)) {
 			return [];
