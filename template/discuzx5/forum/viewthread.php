@@ -169,11 +169,11 @@
 			<td class="plc vwthd">
 				<!--{if !IS_ROBOT}-->
 					<div class="y">
+						<a href="forum.php?mod=viewthread&tid=$_G[tid]$fromuid" onclick="return copyThreadUrl(this, '$_G[setting][bbname]')" {if $fromuid}title="{lang share_url_copy_comment}"{/if}><span aria-hidden="true">🔗</span> {lang share_url_copy}</a>
 						<!--{if $post['invisible'] == 0}--><a href="forum.php?mod=viewthread&action=printable&tid=$_G[tid]" title="{lang thread_printable}" target="_blank"><i class="fico-print fic4 fc-s vm"></i></a>
 						<!--{/if}-->
 						<a href="forum.php?mod=redirect&goto=nextoldset&tid=$_G[tid]" title="{lang last_thread}"><i class="fico-left fic4 fc-s vm"></i></a>
 						<a href="forum.php?mod=redirect&goto=nextnewset&tid=$_G[tid]" title="{lang next_thread}"><i class="fico-right fic4 fc-s vm"></i></a>
-						<a href="forum.php?mod=viewthread&tid=$_G[tid]$fromuid" onclick="return copyThreadUrl(this, '$_G[setting][bbname]')" {if $fromuid}title="{lang share_url_copy_comment}"{/if}><span aria-hidden="true">🔗</span> {lang share_url_copy}</a>
 					</div>
 				<!--{/if}-->
 				<!--{if !empty($_G['setting']['close_leftinfo_userctrl'])}-->
