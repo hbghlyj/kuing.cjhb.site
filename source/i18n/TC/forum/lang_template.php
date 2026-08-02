@@ -309,6 +309,7 @@ $lang = [
 	'send_posts' => '發新帖',
 	'their' => '所屬分類',
 	'threads_all' => '全部主題',
+	'return_forumdisplay' => '返回列表',
 	'viewed_threads' => '瀏覽過的帖子',
 	'viewed_forums' => '瀏覽過的版塊',
 	'click_to_show_reason' => '點擊查看原因',

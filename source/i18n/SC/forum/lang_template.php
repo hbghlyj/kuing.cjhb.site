@@ -309,6 +309,7 @@ $lang = [
 	'send_posts' => '发新帖',
 	'their' => '所属分类',
 	'threads_all' => '全部主题',
+	'return_forumdisplay' => '返回列表',
 	'viewed_threads' => '浏览过的帖子',
 	'viewed_forums' => '浏览过的版块',
 	'click_to_show_reason' => '点击查看原因',
