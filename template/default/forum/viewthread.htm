@@ -212,9 +212,9 @@
 					<!--{if $_G['forum_thread']['closed'] == 1}-->
 						&nbsp;<i class="fico-lock fc-s" title="{lang close}"></i>
 					<!--{/if}-->
-					<a href="forum.php?mod=viewthread&tid=$_G[tid]" onclick="setCopy(this.href, '已复制帖子链接');return false;">[{lang share_url_copy}]</a><!-- kk edt -->
-				</span>
-                <div id="fzlj_menu" style="display:none; background:white; line-height:1.2; margin-left:5px;" class="xg1"><a href="forum.php?mod=viewthread&tid=$_G[tid]$fromuid" onclick="return copyThreadUrl(this, '$_G[setting][bbname]')" {if $fromuid}title="{lang share_url_copy_comment}"{/if}>[复制标题+链接+出处]</a></div><!-- kk add -->
+					<a href="forum.php?mod=viewthread&tid=$_G[tid]" onclick="return copyThreadUrl(this, '$_G[setting][bbname]');"><i class="fico-link" aria-hidden="true"></i> {lang share_url_copy}</a><!-- kk edt -->
+					</span>
+					<div id="fzlj_menu" style="display:none; background:white; line-height:1.2; margin-left:5px;" class="xg1"><a href="forum.php?mod=viewthread&tid=$_G[tid]$fromuid" onclick="return copyThreadUrl(this, '$_G[setting][bbname]')" {if $fromuid}title="{lang share_url_copy_comment}"{/if}><i class="fico-link" aria-hidden="true"></i> 复制标题+链接+出处</a></div><!-- kk add -->
 				<!--{hook/viewthread_title_extra}-->
 			</td>
 		</tr>
