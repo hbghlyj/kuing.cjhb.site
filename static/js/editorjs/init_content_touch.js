@@ -186,10 +186,6 @@ var editor = new EditorJS({
 		undo = new Undo({ editor, config });
 		new DragDrop(editor);
 
-		setTimeout(() => {
-			//saveButton.click();
-		}, 2000)
-
 	},
 	onChange: function (e) {
 		contentChanged = true;

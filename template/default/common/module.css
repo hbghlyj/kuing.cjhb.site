@@ -267,9 +267,6 @@ Created & Modified by Alice, Monkey, Lushnis, Pony, Dfox & DragonLee.
 
 #extra_additional_c label { float:left; width: 16%; }
 
-#draftlist { border-style: solid; border-width: 1px 1px 0; border-color: {WRAPBG}; }
-	#draftlist.a { position: relative; z-index: 302; border-color: {DROPMENUBORDER}; {DROPMENUBGCODE} }
-	#draftlist_menu { margin-top: -1px; padding: 10px; border: 1px solid {DROPMENUBORDER}; {DROPMENUBGCODE}; }
 /** end **/
 
 

@@ -616,7 +616,6 @@ $lang = array (
 	'modcp_thread_search_msg'	=> 'Found <strong>$total</strong> results.',//'共搜索出结果 <strong>$total</strong> 条',
 	'pay'				=> 'Payable thread',//'购买主题',
 	'pay_nobuyers'			=> 'No buyers for the moment',//'目前没有用户购买此主题',
-	'draftbox'			=> 'Draft box',//'草稿箱',
 	'edit_save'			=> 'Save',//'保存',
 	'edit_thread'			=> 'Edit post',//'编辑帖子',
 	'edit_trade'			=> 'Edit Product',//'编辑商品',
@@ -624,10 +623,8 @@ $lang = array (
 	'join_thread'			=> 'Reply the thread',//'参与/回复主题',
 	'post_latex_editor'		=> 'Interactive Equation Editor',
 	'post_message2'			=> 'Continue to add product',//'继续添加商品',
-	'post_message3'			=> 'View all drafts',//'查看所有草稿',
 	'reply_quote'			=> 'Quote',//'引用',
 	'replycredit_revenue'		=> 'Tax payment',//'税后支付',
-	'save_draft'			=> 'Save draft',//'保存草稿',
 	'trade_add_post'		=> 'Add',//'添加商品',
 	'activity_city'			=> 'Event city',//'所在城市',
 	'activity_need_member'		=> 'Required number',//'需要人数',
@@ -1307,4 +1304,3 @@ $lang = array (
 	'upload_time'			=> 'Upload Time',//'上传日期',
 	'online_list_load_error'	=> 'Unable to load online users list.',//'无法加载在线用户列表',
 );
-

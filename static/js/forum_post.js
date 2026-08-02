@@ -102,7 +102,7 @@ function validate(theform) {
 		AUTOPOST = 1;
 		return false;
 	}
-	if(isfirstpost && $('adddynamic') != null && $('adddynamic').checked && $('postsave') != null && isNaN(parseInt($('postsave').value)) && ($('readperm') != null && $('readperm').value || $('price') != null && $('price').value)) {
+	if(isfirstpost && $('adddynamic') != null && $('adddynamic').checked && ($('readperm') != null && $('readperm').value || $('price') != null && $('price').value)) {
 		if(confirm($L('readperm_confirm')) == false) {
 			return false;
 		}
@@ -666,13 +666,6 @@ function delpolloption(obj) {
 	if (curoptions < maxoptions) {
 		$('polloption_new').innerHTML = '';
 	}
-}
-
-function insertsave(pid) {
-	var x = new Ajax();
-	x.get('forum.php?mod=misc&action=loadsave&inajax=yes&pid=' + pid + '&type=' + wysiwyg, function(str, x) {
-		insertText(str, str.length, 0);
-	});
 }
 
 function userdataoption(op) {

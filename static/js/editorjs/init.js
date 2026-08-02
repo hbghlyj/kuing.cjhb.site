@@ -180,15 +180,8 @@ var editor = new EditorJS({
 	 */
 	data: content,
 	onReady: function () {
-		console.log("Delaying Save to launch Column Editors")
-
 		undo = new Undo({editor, config});
 		new DragDrop(editor);
-
-		setTimeout(() => {
-			//saveButton.click();
-		}, 2000)
-
 	},
 	onChange: function (e) {
 		console.log(e)
@@ -197,23 +190,10 @@ var editor = new EditorJS({
 });
 
 /**
- * Saving button
- */
-const saveButton = document.getElementById('saveButton');
-/**
  * Submit button
  */
 const submitButton = document.getElementById('submitButton');
 
-
-/**
- * Saving
- */
-saveButton.addEventListener('click', function (event) {
-	var postsave = document.getElementById("postsave");
-	postsave.value = 1;
-	saveContent(event);
-});
 
 /**
  * Submit

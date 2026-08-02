@@ -31,24 +31,6 @@ if(!submitcheck('topicsubmit', 0, $seccodecheck, $secqaacheck)) {
 		}
 	}
 
-	$savethreads = [];
-	$savethreadothers = [];
-	foreach(table_forum_post::t()->fetch_all_by_authorid(0, $_G['uid'], false, '', 0, 20, 1, -3) as $savethread) {
-		$savethread['dateline'] = dgmdate($savethread['dateline'], 'u');
-		if($_G['fid'] == $savethread['fid']) {
-			$savethreads[] = $savethread;
-		} else {
-			$savethreadothers[] = $savethread;
-		}
-	}
-	$savethreadcount = count($savethreads);
-	$savethreadothercount = count($savethreadothers);
-	if($savethreadothercount) {
-		loadcache('forums');
-	}
-	$savecount = $savethreadcount + $savethreadothercount;
-	unset($savethread);
-
 	$isfirstpost = 1;
 	$tagoffcheck = '';
 	$showthreadsorts = !empty($sortid) || getglobal('forum/threadsorts/required') && empty($special);
@@ -357,5 +339,4 @@ if(!submitcheck('topicsubmit', 0, $seccodecheck, $secqaacheck)) {
 
 
 }
-
 

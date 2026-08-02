@@ -30,7 +30,6 @@
     <!--{if $_GET['action'] == 'edit'}-->
     <input type="hidden" name="noticetrimstr" id="noticetrimstr" value="{$postinfo['noticetrimstr']}" />
     <!--{/if}-->
-    <input type="hidden" id="postsave" name="save" value="">
     <input type="hidden" id="mobileeditor" name="mobileeditor" value="0">
     <!--{if !empty($_GET['modthreadkey'])}--><input type="hidden" name="modthreadkey" id="modthreadkey" value="$_GET['modthreadkey']" /><!--{/if}-->
     <!--{if $_GET['action'] == 'reply'}-->
@@ -154,12 +153,6 @@
                 <svg width="1.2em" height="1.2em" class="icon" aria-hidden="true">
                     <use xlink:href="#icon-fangxiang-xiangshang"></use>
                 </svg>
-            </div>
-            <div class="css-publish__bar__draft__tip"></div>
-            <div class="css-publish__bar__save">
-                <div class="layui-btn-container">
-                    <button type="button" id="saveButton" class="layui-btn layui-btn-primary layui-border" <!--{if $_GET[action] == 'edit'}-->style="display: none;"<!--{/if}-->>{lang json_editor_save}</button>
-                </div>
             </div>
             <div class="layui-btn-container">
                 <button type="button" id="submitButton" class="layui-btn layui-bg-blue">{lang json_editor_submit}</button>

@@ -615,18 +615,6 @@ h6.ce-header {
     margin-right: 4px;
     font-size: 14px;
 }
-.css-publish__bar__draft__tip {
-    box-sizing: border-box;
-    margin: 0;
-    min-width: 0;
-    color: #8493a5;
-    font-size: 14px;
-    margin-left: auto;
-}
-.css-publish__bar__save {
-    margin-left: 20px;
-}
-
 .nice-select .nice-select-dropdown {
     overflow: scroll;
 }
