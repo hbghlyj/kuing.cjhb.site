@@ -1223,6 +1223,7 @@ i.pstatus { display: block; margin-bottom: -30px; font-size: 12px; text-align: c
 	.vw .dr .sr_2 h5, .vw .dr h5 { width: 172px; }
 
 #modopt, #modopttmp { margin-left:5px; }
+#modmenu { white-space: nowrap; }
 
 /* Custom viewthread enhancements */
 .pattl { overflow: visible; }
