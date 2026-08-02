@@ -453,7 +453,14 @@ function updateMuluSelect(postObj, pid) {
 	}
 	var floorObj = postObj.querySelector('.pi strong a') || postObj.querySelector('.pi strong');
 	var authorObj = postObj.querySelector('.authi a.xw1') || postObj.querySelector('.authi a');
-	var floorText = floorObj ? floorObj.textContent.replace('#', '').trim() : '';
+	var floorText = '';
+	if(floorObj) {
+		var floorClone = floorObj.cloneNode(true);
+		floorClone.querySelectorAll('[aria-hidden="true"]').forEach(function(icon) {
+			icon.remove();
+		});
+		floorText = floorClone.textContent.replace('#', '').trim();
+	}
 	var authorText = authorObj ? authorObj.textContent.trim() : '';
 	var optionText = (floorText + (authorText ? ' ' + authorText : '')).trim();
 	MULUSELECT.options.add(new Option(optionText, 'post_' + pid));
