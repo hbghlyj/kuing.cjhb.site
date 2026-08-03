@@ -1112,7 +1112,7 @@ body.pg_logging, body.pg_register, body.pg_lostpasswd_mobile, body.pg_lostpasswd
 .myinfo_list_ico li {float:left;width:50%;box-sizing:border-box}
 .myinfo_list_ico li a {display:block;background-color:var(--dz-BG-body);margin:5px;padding:10px;height:26px;line-height:26px;font-size:14px;overflow:hidden;border-radius:var(--dz-radius-md)}
 .myinfo_list_ico li a i {float:left;width:26px;height:26px;line-height:26px;font-size:14px;text-align:center;margin-right:8px;background-color:var(--dz-BG-4);color:var(--dz-FC-fff);overflow:hidden;border-radius:50%}
-.myinfo_list_ico li a i.thread-history-icon svg {display:block;width:18px;height:18px;margin:4px;fill:currentColor}
+.myinfo_list_ico li a i.thread-history-icon svg {display:block;width:18px;height:18px;margin:4px;color:var(--dz-FC-fff);fill:currentColor !important}
 .myinfo_list_ico li a.thread-history-link {display:flex;align-items:center;gap:8px}
 .myinfo_list_ico li a.thread-history-link .thread-history-icon {flex:0 0 26px;margin-right:0}
 .myinfo_list_ico li:nth-child(5n-4) a i {background-color:var(--dz-BG-4)}
