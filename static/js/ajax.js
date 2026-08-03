@@ -132,7 +132,10 @@ function _ajaxpost(formid, showid, waitid, showidclass, submitbtn, recall) {
 	fetch(action, {
 		method: 'POST',
 		body: requestBody,
-		credentials: 'same-origin'
+		credentials: 'same-origin',
+		headers: hasFile ? undefined : {
+			'Content-Type': 'application/x-www-form-urlencoded'
+		}
 	}).then(function(response) {
 		if(response.redirected) {
 			window.location.href = response.url;
