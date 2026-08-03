@@ -79,26 +79,6 @@
 				<!--{/if}-->
 				
 			</div>
-	<!--{/if}-->
-	<div class="dz_footc cl">
-		<div id="ft" class="wp dz_footc_bottom cl">
-			<div class="dz_footc_dico">
-				<!--{if $_G['style']['bottom_qrcode'] || $_G['style']['bottom_qrcodetxt']}-->
-					<div class="ewmimg">
-						<!--{if $_G['style']['bottom_qrcode']}-->
-							<img src="{$_G['style']['bottom_qrcode']}">   
-						<!--{else}-->
-							<img src="{STYLEIMGDIR}/img/ewm_b.jpg">
-						<!--{/if}-->
-						<!--{if $_G['style']['bottom_qrcodetxt']}-->
-							{$_G['style']['bottom_qrcodetxt']}
-						<!--{else}-->
-							{lang fllowwechat}
-						<!--{/if}-->
-					</div>
-				<!--{/if}-->
-				
-			</div>
 			<div class="dz_footc_nav">
 				<!--{eval $footerlinkindex = 0;}-->
 				<!--{loop $_G['setting']['footernavs'] $nav}--><!--{if is_array($nav) && $nav['available'] && ($nav['type'] && (!$nav['level'] || ($nav['level'] == 1 && $_G['uid']) || ($nav['level'] == 2 && $_G['adminid'] > 0) || ($nav['level'] == 3 && $_G['adminid'] == 1)) ||
@@ -140,6 +120,10 @@
 							<!--{eval $footerlinkindex++;}-->
 						<!--{/if}-->
 						<!--{hook/global_footerlink}-->
+						<!--{if $_G['setting']['statcode']}-->$_G['setting']['statcode']<!--{/if}-->
+			</div>
+			<div class="dz_footc_copy">
+				<!--{if $_G['style']['bottom_txt']}-->
 				<p>{$_G['style']['bottom_txt']}</p>
 				<!--{/if}-->
 				<p>{cells common/footer/copyright} {lang copyright}<!--{if $_G['setting']['icp'] || !empty($_G['setting']['mps'])}--><!--{if $_G['setting']['icp']}--><span class="pipe">|</span><a href="https://beian.miit.gov.cn/" target="_blank">$_G['setting']['icp']</a><!--{/if}--><!--{if !empty($_G['setting']['mps'])}--><!--{if $_G['setting']['icp']}--><span class="pipe">|</span><!--{/if}--><a href="https://beian.mps.gov.cn/#/query/webSearch?code=$_G['setting']['mpsid']" target="_blank"><img width="14" height="14" src="{STYLEIMGDIR}/img/ico_mps.png" />$_G['setting']['mps']</a><!--{/if}--><!--{/if}--></p>
