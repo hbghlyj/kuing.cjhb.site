@@ -79,19 +79,8 @@ function _ajaxpost(formid, showid, waitid, showidclass, submitbtn, recall) {
 		var evaled = false;
 
 		togglePostLoading('none');
-		try {
-			s = $(ajaxframeid).contentWindow.document.documentElement.firstChild.wholeText;
-		} catch(e) {
-			try {
-				s = $(ajaxframeid).contentWindow.document.documentElement.firstChild.nodeValue;
-			} catch(e) {
-				try {
-					s = $(ajaxframeid).contentWindow.document.documentElement.firstChild.nodeValue;
-				} catch(e) {
-					s = $L('ajax_inner_error') || 'Internal server error';
-				}
-			}
-		}
+		var responseDocument = $(ajaxframeid).contentWindow.document;
+		s = responseDocument.body ? responseDocument.body.innerHTML : responseDocument.documentElement.innerHTML;
 		s = typeof s == 'string' ? s : (s == null ? '' : String(s));
 		if(s != '' && s.indexOf('ajaxerror') != -1) {
 			evalscript(s);

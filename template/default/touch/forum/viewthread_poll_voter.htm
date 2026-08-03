@@ -33,11 +33,11 @@ function changepolloptionid(id) {
 	mobileRequest({
 		method : 'GET',
 		url : 'forum.php?mod=misc&action=viewvote&tid=$_G[tid]&polloptionid='+ id + '&inajax=1',
-		dataType : 'xml'
+		dataType : 'html'
 	})
 	.then(function(s) {
-		popup.open(s.lastChild.firstChild.nodeValue);
-		evalscript(s.lastChild.firstChild.nodeValue);
+        popup.open(s);
+        evalscript(s);
 	})
 	.catch(function() {
 		window.location.href = 'forum.php?mod=misc&action=viewvote&tid=$_G[tid]';

@@ -88,11 +88,11 @@
         mobileRequest({
             method: 'GET',
             url: sendurl + '&inajax=1',
-            dataType: 'xml'
+            dataType: 'html'
         })
                 .then(function (s) {
-                    popup.open(s.lastChild.firstChild.nodeValue);
-                    evalscript(s.lastChild.firstChild.nodeValue);
+                    popup.open(s);
+                    evalscript(s);
                 })
                 .catch(function () {
                     popup.close();

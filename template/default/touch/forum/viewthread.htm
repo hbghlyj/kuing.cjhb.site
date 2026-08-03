@@ -364,10 +364,10 @@ $multipage
 				method:'POST',
 				url:button.href + '&handlekey=favbtn&inajax=1',
 			data:{'favoritesubmit':'true', 'formhash':'{FORMHASH}'},
-				dataType:'xml'
+				dataType:'html'
 			}).then(function(s) {
-			popup.open(s.lastChild.firstChild.nodeValue);
-			evalscript(s.lastChild.firstChild.nodeValue);
+				popup.open(s);
+				evalscript(s);
 			}).catch(function() {
 				window.location.href = button.href;
 			popup.close();
@@ -386,9 +386,9 @@ $multipage
 				'formhash': '{FORMHASH}',
 				'redirect': 1
 			},
-			dataType: 'xml'
+			dataType: 'html'
 		}).then(function(s) {
-			var msg = s.lastChild.firstChild.nodeValue;
+			var msg = s;
 			if(msg.indexOf('succeedhandle_mods') != -1) {
 				popup.open('<img src="static/image/common/check_right.gif">');
 			} else if(msg.indexOf('errorhandle_mods') != -1) {

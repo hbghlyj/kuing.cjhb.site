@@ -415,30 +415,22 @@ function getstatvars_forumstat($fid) {
 		}
 		$statvars['month'] = $end_month;
 		$logs = [];
-		$xml .= '<xaxis>';
-		$xmlvalue = '';
-		$xaxisindex = 0;
+		$xaxis = [];
+		$values = [];
 		foreach(table_forum_statlog::t()->fetch_all_by_logdate($end_month_start, $end_date, $fid) as $log) {
 			$logs[] = $log;
 			[$yyyy, $mm, $dd] = explode('-', $log['logdate']);
-			$xaxisindex++;
-			$xml .= "<value xid=\"{$xaxisindex}\">{$mm}{$dd}</value>";
-			$xmlvalue .= "<value xid=\"{$xaxisindex}\">{$log['value']}</value>";
+			$xaxis[] = $mm.$dd;
+			$values[] = (int)$log['value'];
 		}
-		$xml .= '</xaxis>';
-		$xml .= '<graphs>';
-		$xml .= "<graph gid=\"0\" title=\"".diconv(lang('spacecp', 'do_stat_post_number'), CHARSET, 'UTF-8')."\">";
-		$xml .= $xmlvalue;
-		$xml .= '</graph>';
-		$xml .= '</graphs>';
-		$xml .= '</chart>';
-		if($_GET['xml']) {
-			@header('Expires: -1');
-			@header('Cache-Control: no-store, private, post-check=0, pre-check=0, max-age=0', FALSE);
-			@header('Pragma: no-cache');
-			@header('Content-type: application/xml; charset=utf-8');
-			echo $xml;
-			exit;
+		if($_GET['data']) {
+			helper_output::json([
+				'xaxis' => $xaxis,
+				'graphs' => [[
+					'title' => diconv(lang('spacecp', 'do_stat_post_number'), CHARSET, 'UTF-8'),
+					'data' => $values,
+				]],
+			]);
 		}
 		$statvars['logs'] = $logs;
 
@@ -467,7 +459,7 @@ function getstatvars_forumstat($fid) {
 		}
 		$statvars['monthposts'] = $monthposts;
 	}
-	$statvars['statuspara'] = "misc.php?mod=stat&op=forumstat&fid=$fid&month={getgpc('month')}&xml=1";
+	$statvars['statuspara'] = "misc.php?mod=stat&op=forumstat&fid=$fid&month={getgpc('month')}&data=1";
 	return $statvars;
 }
 

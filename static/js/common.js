@@ -240,11 +240,7 @@ function parseAjaxJSON(response) {
 	try {
 		return JSON.parse(response);
 	} catch (e) {
-		var match = response.match(/^<root><!\[CDATA\[([\s\S]*)\]\]><\/root>$/);
-		var message = match ? match[1] : response;
-		if (message) {
-			showDialog(message, 'alert');
-		}
+		showDialog(response, 'alert');
 		return null;
 	}
 }
@@ -252,7 +248,7 @@ function parseAjaxJSON(response) {
 function Ajax(recvType, waitId) {
 	var aj = new Object();
 	aj.loading = $L('waiting');
-	aj.recvType = recvType ? recvType : 'XML';
+	aj.recvType = recvType ? recvType : 'HTML';
 	aj.waitId = waitId ? $(waitId) : null;
 	aj.resultHandle = null;
 	aj.sendString = '';
@@ -266,28 +262,7 @@ function Ajax(recvType, waitId) {
 	aj.setWaitId = function (waitid) {
 		aj.waitId = typeof waitid == 'object' ? waitid : $(waitid);
 	};
-	aj.createXMLHttpRequest = function () {
-		var request = false;
-		if (window.XMLHttpRequest) {
-			request = new XMLHttpRequest();
-			if (request.overrideMimeType) {
-				request.overrideMimeType('text/xml');
-			}
-		} else if (window.ActiveXObject) {
-			var versions = ['Microsoft.XMLHTTP', 'MSXML.XMLHTTP', 'Microsoft.XMLHTTP', 'Msxml2.XMLHTTP.7.0', 'Msxml2.XMLHTTP.6.0', 'Msxml2.XMLHTTP.5.0', 'Msxml2.XMLHTTP.4.0', 'MSXML2.XMLHTTP.3.0', 'MSXML2.XMLHTTP'];
-			for (var i = 0; i < versions.length; i++) {
-				try {
-					request = new ActiveXObject(versions[i]);
-					if (request) {
-						return request;
-					}
-				} catch (e) {
-				}
-			}
-		}
-		return request;
-	};
-	aj.XMLHttpRequest = aj.createXMLHttpRequest();
+	aj.XMLHttpRequest = new XMLHttpRequest();
 	aj.showLoading = function () {
 		if (aj.waitId && (aj.XMLHttpRequest.readyState != 4 || aj.XMLHttpRequest.status != 200)) {
 			aj.waitId.style.display = '';
@@ -302,16 +277,9 @@ function Ajax(recvType, waitId) {
 			var s = null;
 			if (aj.recvType == 'HTML') {
 				s = aj.XMLHttpRequest.responseText;
-			} else if (aj.recvType == 'XML') {
-				if (!aj.XMLHttpRequest.responseXML || !aj.XMLHttpRequest.responseXML.lastChild || aj.XMLHttpRequest.responseXML.lastChild.localName == 'parsererror') {
-					// Some AJAX endpoints return an HTML fragment instead of the legacy XML wrapper.
-					s = aj.XMLHttpRequest.responseText;
-				} else {
-					s = aj.XMLHttpRequest.responseXML.lastChild.firstChild ? aj.XMLHttpRequest.responseXML.lastChild.firstChild.nodeValue : '';
-				}
 			} else if (aj.recvType == 'JSON') {
 				try {
-					s = (new Function("return (" + aj.XMLHttpRequest.responseText + ")"))();
+					s = JSON.parse(aj.XMLHttpRequest.responseText);
 				} catch (e) {
 					s = null;
 				}

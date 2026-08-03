@@ -12,7 +12,7 @@ if(!defined('IN_DISCUZ')) {
 
 class helper_output {
 
-	protected static function _header($type = 'text/xml') {
+	protected static function _header($type = 'text/html') {
 		global $_G;
 		ob_end_clean();
 		$_G['gzipcompress'] ? ob_start('ob_gzhandler') : ob_start();
@@ -20,12 +20,6 @@ class helper_output {
 		@header('Cache-Control: no-store, private, post-check=0, pre-check=0, max-age=0', FALSE);
 		@header('Pragma: no-cache');
 		@header('Content-Type: '.$type.'; charset='.CHARSET);
-	}
-
-	public static function xml($s) {
-		self::_header('text/xml');
-		echo '<?xml version="1.0" encoding="'.CHARSET.'"?>'."\r\n", '<root><![CDATA[', $s, ']]></root>';
-		exit();
 	}
 
 	public static function json($data) {

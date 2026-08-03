@@ -82,9 +82,7 @@ function securitymessage($subject, $message, $reload = TRUE, $form = FALSE) {
 	$message = $lang[$message] ?? $message;
 
 	if($_GET['inajax']) {
-		security_ajaxshowheader();
-		echo '<div id="attackevasive_1" class="popupmenu_option"><b style="font-size: 16px">'.$subject.'</b><br /><br />'.$message.'</div>';
-		security_ajaxshowfooter();
+		helper_output::html('<div id="attackevasive_1" class="popupmenu_option"><b style="font-size: 16px">'.$subject.'</b><br /><br />'.$message.'</div>');
 	} else {
 		$charset = getglobal('config/output/charset');
 		@header('Content-Type: text/html; charset='.$charset);
@@ -128,23 +126,6 @@ function securitymessage($subject, $message, $reload = TRUE, $form = FALSE) {
 		}
 		echo '</body>';
 		echo '</html>';
-	}
+}
 	exit();
 }
-
-
-function security_ajaxshowheader() {
-	$charset = getglobal('config/output/charset');
-	ob_end_clean();
-	@header('Expires: -1');
-	@header('Cache-Control: no-store, private, post-check=0, pre-check=0, max-age=0', FALSE);
-	@header('Pragma: no-cache');
-	@header('Content-type: application/xml; charset='.$charset);
-	echo "<?xml version=\"1.0\" encoding=\"".$charset."\"?>\n<root><![CDATA[";
-}
-
-function security_ajaxshowfooter() {
-	echo ']]></root>';
-	exit();
-}
-

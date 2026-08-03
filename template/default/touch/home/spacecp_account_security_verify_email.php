@@ -51,11 +51,11 @@
 		mobileRequest({
 			method: 'GET',
 			url: sendurl + '&inajax=1',
-			dataType: 'xml'
+			dataType: 'html'
 		})
 				.then(function (s) {
-                    popup.open(s.lastChild.firstChild.nodeValue, null, null, false);
-                    evalscript(s.lastChild.firstChild.nodeValue);
+                    popup.open(s, null, null, false);
+                    evalscript(s);
                 })
 				.catch(function () {
                     popup.close();

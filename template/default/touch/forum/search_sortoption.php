@@ -1,6 +1,6 @@
 <?php exit('Access Denied');?>
 <script type="text/javascript">
-	var forum_optionlist = <!--{if $forum_optionlist}-->'$forum_optionlist'<!--{else}-->''<!--{/if}-->;
+	var forum_optionlist = <!--{if $forum_optionlist}-->$forum_optionlist<!--{else}-->{}<!--{/if}-->;
 </script>
 <script type="text/javascript" src="{$_G['setting']['jspath']}threadsort.js?{VERHASH}"></script>
 

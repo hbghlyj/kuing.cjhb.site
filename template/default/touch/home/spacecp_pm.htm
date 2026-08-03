@@ -57,9 +57,9 @@
 				method:'POST',
 				url:form.action + '&handlekey='+form.id+'&inajax=1',
 				data:new FormData(form),
-				dataType:'xml'
+				dataType:'html'
 			}).then(function(s) {
-				popup.open(s.lastChild.firstChild.nodeValue);
+				popup.open(s);
 			}).catch(function() {
 				popup.open('{lang networkerror}', 'alert');
 			});

@@ -368,39 +368,24 @@ class rp {
 			}
 		}
 
-		$xaxis = '';
+		$xaxis = [];
 		$count = 0;
 		$graph = [];
 		for($i = TIMESTAMP - 30 * 86400; $i <= TIMESTAMP; $i += 86400) {
-			$xaxis .= "<value xid='$count'>".dgmdate($i, 'md').'</value>';
-			$graph['request'] .= "<value xid='$count'>".($statdata[intval(dgmdate($i, 'Ymd'))] + 0).'</value>';
+			$xaxis[] = dgmdate($i, 'md');
+			$graph['request'][] = $statdata[intval(dgmdate($i, 'Ymd'))] + 0;
 			$count++;
 		}
 
-		$xml = '';
-		$xml .= '<'."?xml version=\"1.0\" encoding=\"utf-8\"?>";
-		$xml .= '<chart><xaxis>';
-		$xml .= $xaxis;
-		$xml .= '</xaxis><graphs>';
-		$count = 0;
+		$graphs = [];
 		foreach($graph as $key => $value) {
 			$title = cplang('restful_graph_'.$key, [
 				'appid' => $appid,
 				'api' => $api == 'all' ? cplang('restful_graph_all') : dhtmlspecialchars($api)
 			]);
-			$xml .= "<graph gid='$count' title='".$title."'>";
-			$xml .= $value;
-			$xml .= '</graph>';
-			$count++;
+			$graphs[] = ['title' => $title, 'data' => $value];
 		}
-		$xml .= '</graphs></chart>';
-
-		@header('Expires: -1');
-		@header('Cache-Control: no-store, private, post-check=0, pre-check=0, max-age=0', FALSE);
-		@header('Pragma: no-cache');
-		@header('Content-type: application/xml; charset=utf-8');
-		echo $xml;
-		exit();
+		helper_output::json(['xaxis' => $xaxis, 'graphs' => $graphs]);
 	}
 
 	private static function _showList() {

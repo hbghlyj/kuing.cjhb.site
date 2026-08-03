@@ -4,11 +4,10 @@ function drawstatchart(url, height, titleOption, obj) {
 
 	height = height || 400;
 
-	var x = new Ajax();
-	x.recvType = 'HTML';
+	var x = new Ajax('JSON');
 	obj.style.width = '100%';
 	obj.style.height = height + 'px';
-	x.get(url, function (s, x) {
+	x.get(url, function (xdata) {
 		var myChart = echarts.init(obj);
 		option = {
 			grid: { left: 60, right: 20, top: 20 },
@@ -21,7 +20,7 @@ function drawstatchart(url, height, titleOption, obj) {
 		if(titleOption) {
 			option.title = titleOption;
 		}
-		var rex = x.XMLHttpRequest.responseXML, reax = rex.getElementsByTagName('xaxis')[0].childNodes;
+		var reax = xdata.xaxis;
 		if (!reax.length) {
 			option['title'] = {
 				text: 'There is no data for selected period', padding: [10, 50],
@@ -30,10 +29,10 @@ function drawstatchart(url, height, titleOption, obj) {
 			};
 		}
 		for (var i = 0; i < reax.length; i++) {
-			option.xAxis.data.push(reax[i].firstChild.nodeValue);
+			option.xAxis.data.push(reax[i]);
 		}
-		for (var i = 0, q = rex.getElementsByTagName('graphs')[0].childNodes; i < q.length; i++) {
-			qttl = q[i].getAttribute('title');
+		for (var i = 0, q = xdata.graphs; i < q.length; i++) {
+			qttl = q[i].title;
 			option.legend.data.push(qttl);
 			qdata = {
 				type: 'line',
@@ -41,9 +40,7 @@ function drawstatchart(url, height, titleOption, obj) {
 				name: qttl,
 				data: []
 			};
-			for (var j = 0; j < q[i].childNodes.length; j++) {
-				qdata.data.push(parseInt(q[i].childNodes[j].firstChild.nodeValue));
-			}
+			qdata.data = q[i].data.map(function (value) { return parseInt(value, 10); });
 			option.series.push(qdata);
 
 		}

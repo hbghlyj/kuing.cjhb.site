@@ -764,32 +764,23 @@ function getsortedoptionlist() {
 			$forum_optionlist[$key]['choices'] = $choicesarr;
 		}
 	}
-	$forum_optionlist = optionlistxml($forum_optionlist, 's');
-	$forum_optionlist = '<?xml version="1.0" encoding="'.CHARSET.'"?>'.''.'<forum_optionlist>'.$forum_optionlist.'</forum_optionlist>';
-	return $forum_optionlist;
+	return helper_json::encode(['forum_optionlist' => optionlistjson($forum_optionlist, 's')]);
 }
 
-function optionlistxml($input, $pre = '') {
-	$str = '';
+function optionlistjson($input, $pre = '') {
+	$data = [];
 	foreach($input as $key => $value) {
 		$key = $pre.strval($key);
 		if(is_array($value)) {
-			$str .= "<$key>";
-			$str .= optionlistxml($value, $pre);
-			$str .= "</$key>";
+			$data[$key] = optionlistjson($value, $pre);
 		} else {
 			if(is_bool($value)) {
 				$value = $value ? 'true' : 'false';
 			}
-			$value = str_replace("\r\n", '<br>', $value);
-			if(dhtmlspecialchars($value) != $value) {
-				$str .= "<$key><![CDATA[$value]]></$key>";
-			} else {
-				$str .= "<$key>$value</$key>";
-			}
+			$data[$key] = str_replace("\r\n", '<br>', $value);
 		}
 	}
-	return $str;
+	return $data;
 }
 
 function pluginthreadtype_show($option) {

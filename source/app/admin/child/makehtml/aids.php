@@ -22,5 +22,4 @@ if($starttime || $catids || $startid || $endid) {
 	$data = table_portal_article_title::t()->fetch_all_aid_by_dateline($starttime, $catids, $startid, $endid);
 }
 
-helper_output::xml($data ? implode(',', array_keys($data)) : '');
-	
+helper_output::html($data ? implode(',', array_keys($data)) : '');

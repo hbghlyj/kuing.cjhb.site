@@ -33,14 +33,14 @@ foreach(table_common_stat::t()->fetch_all_stat($begin, $end, '*') as $value) {
 // Build graph data series
 $graph = [];
 foreach($groups as $gk => $cols) {
-	$graph[$gk] = '';
+	$graph[$gk] = [];
 }
 
 $count = 0;
-$xaxis = '';
+$xaxis = [];
 for($i = time() - $days; $i <= time(); $i += 86400) {
 	$md = dgmdate($i, 'md');
-	$xaxis .= "<value xid='$count'>".$md.'</value>';
+	$xaxis[] = $md;
 	$row = $data[$md] ?? [];
 
 	foreach($groups as $gk => $cols) {
@@ -48,33 +48,17 @@ for($i = time() - $days; $i <= time(); $i += 86400) {
 		foreach($cols as $col) {
 			$num += intval($row[$col] ?? 0);
 		}
-		$graph[$gk] .= "<value xid='$count'>".$num.'</value>';
+		$graph[$gk][] = $num;
 	}
 	$count++;
 }
 
-// Build XML response
-$xml = '<'."?xml version=\"1.0\" encoding=\"utf-8\"?>";
-$xml .= '<chart><xaxis>';
-$xml .= $xaxis;
-$xml .= '</xaxis><graphs>';
-
-$gid = 0;
+$graphs = [];
 foreach($graph as $key => $values) {
 	$title = lang('spacecp', "do_stat_$key");
 	if($title == '') {
 		continue;
 	}
-	$xml .= "<graph gid='$gid' title='".$title."'>";
-	$xml .= $values;
-	$xml .= '</graph>';
-	$gid++;
+	$graphs[] = ['title' => $title, 'data' => $values];
 }
-$xml .= '</graphs></chart>';
-
-@header('Expires: -1');
-@header('Cache-Control: no-store, private, post-check=0, pre-check=0, max-age=0', FALSE);
-@header('Pragma: no-cache');
-@header('Content-type: application/xml; charset=utf-8');
-echo $xml;
-exit();
+helper_output::json(['xaxis' => $xaxis, 'graphs' => $graphs]);

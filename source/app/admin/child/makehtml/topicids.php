@@ -16,5 +16,4 @@ if($starttime) {
 	$data = table_portal_topic::t()->fetch_all_topicid_by_dateline($starttime);
 }
 
-helper_output::xml($data ? implode(',', array_keys($data)) : '');
-	
+helper_output::html($data ? implode(',', array_keys($data)) : '');

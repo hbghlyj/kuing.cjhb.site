@@ -222,13 +222,6 @@ var popup = {
 	}
 };
 
-function parseAjaxXML(text) {
-	var xml = new DOMParser().parseFromString(text, 'application/xml');
-	var parserError = xml.querySelector('parsererror');
-	if(parserError) throw new Error(parserError.textContent);
-	return xml;
-}
-
 function mobileUploadFiles(settings) {
 	Array.from(settings.files || []).forEach(function(file) {
 		var formData = new FormData();
@@ -285,9 +278,8 @@ var dialog = {
 				return response.text();
 			})
 			.then(function(text) {
-				var s = parseAjaxXML(text);
-				popup.open(s.lastChild.firstChild.nodeValue);
-				evalscript(s.lastChild.firstChild.nodeValue);
+				popup.open(text);
+				evalscript(text);
 				if(typeof window.initAllSortSel == 'function') {
 					setTimeout(function() {
 						window.initAllSortSel();
@@ -318,9 +310,8 @@ var formdialog = {
 				return response.text();
 			})
 			.then(function(text) {
-				var s = parseAjaxXML(text);
-				popup.open(s.lastChild.firstChild.nodeValue);
-				evalscript(s.lastChild.firstChild.nodeValue);
+				popup.open(text);
+				evalscript(text);
 				if(typeof window.initAllSortSel == 'function') {
 					setTimeout(function() {
 						window.initAllSortSel();
@@ -400,7 +391,7 @@ function mobileRequest(options) {
 			return response.text();
 		})
 		.then(function(text) {
-			return options.dataType === 'xml' ? parseAjaxXML(text) : text;
+			return options.dataType === 'json' ? JSON.parse(text) : text;
 		});
 }
 
@@ -856,8 +847,7 @@ function ajaxget(url, showid, waitid, loading, display, recall) {
 		return response.text();
 	})
 	.then(function(text) {
-		var s = parseAjaxXML(text);
-		document.getElementById(showid).innerHTML = s.lastChild.firstChild.nodeValue;
+		document.getElementById(showid).innerHTML = text;
 		document.querySelectorAll('[ajaxtarget]').forEach(function(element) {
 			element.ontouchstart = function(e) {
 				ajaxget(element.getAttribute('href'), element.getAttribute('ajaxtarget'));

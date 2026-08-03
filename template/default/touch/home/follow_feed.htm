@@ -67,7 +67,7 @@
 
 									mobileRequest({
 										url : url,
-										dataType : "xml",
+										dataType : "html",
 									}).then(function(s) {
 											if($.trim(s.childNodes[0].textContent) == 'false') {
 												if(!archiver) {

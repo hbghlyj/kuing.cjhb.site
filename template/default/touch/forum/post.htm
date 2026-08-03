@@ -334,12 +334,12 @@
 			method: 'POST',
 			url: actionUrl + '&geoloc=' + postlocation + '&handlekey=' + form.attr('id') + '&inajax=1',
 			data: formdata,
-			dataType: 'xml',
+			dataType: 'html',
 		})
 		.then(function(s) {
 			var msg = '';
-			if(s && s.lastChild && s.lastChild.firstChild) {
-				msg = s.lastChild.firstChild.nodeValue;
+			if(s) {
+				msg = s;
 			}
 			popup.open(msg);
 

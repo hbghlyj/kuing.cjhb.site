@@ -10,7 +10,6 @@ if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
-echo '<?xml version="1.0" encoding="utf-8"?><root><![CDATA[';
 foreach(table_home_notification::t()->fetch_all_by_uid($_G['uid'], -1, '', 0, 5, '') as $notice) {
 	$stripped = strip_tags($notice['note'], '<div><blockquote>');
 	if(preg_match_all('/(<a href="[^"]*")([^>]*>)/', $notice['note'], $matches)) {
@@ -23,4 +22,4 @@ foreach(table_home_notification::t()->fetch_all_by_uid($_G['uid'], -1, '', 0, 5,
 	}
 }
 table_common_member::t()->update($_G['uid'], ['newprompt' => 0]);
-exit(']]></root>');
+exit();

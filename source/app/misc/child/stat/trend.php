@@ -36,8 +36,8 @@ if($beginunixstr > $endunixstr) {
 } else if($beginunixstr == $endunixstr) {
 	showmessage('start_time_end_time_is_equal_to', NULL, [], ['return' => true]);
 }
-if(!empty($_GET['xml'])) {
-	$xaxis = '';
+if(!empty($_GET['data'])) {
+	$xaxis = [];
 	$graph = [];
 	$count = 1;
 	$begin = dgmdate($beginunixstr, 'Ymd');
@@ -54,55 +54,40 @@ if(!empty($_GET['xml'])) {
 		$type = 'statistic';
 	}
 	foreach(table_common_stat::t()->fetch_all_stat($begin, $end, $field) as $value) {
-		$xaxis .= "<value xid='$count'>".substr($value['daytime'], 4, 4).'</value>';
+		$xaxis[] = substr($value['daytime'], 4, 4);
 		if($type == 'all') {
 			foreach($cols as $ck => $cvs) {
 				if($ck == 'login') {
-					$graph['login'] .= "<value xid='$count'>{$value['login']}</value>";
-					$graph['register'] .= "<value xid='$count'>{$value['register']}</value>";
+					$graph['login'][] = (int)$value['login'];
+					$graph['register'][] = (int)$value['register'];
 				} else {
 					$num = 0;
 					foreach($cvs as $cvk) {
 						$num = $value[$cvk] + $num;
 					}
-					$graph[$ck] .= "<value xid='$count'>".$num.'</value>';
+					$graph[$ck][] = $num;
 				}
 			}
 		} else {
 			if(empty($_GET['types']) || !empty($_GET['merge'])) {
-				$graph[$type] .= "<value xid='$count'>".$value[$type].'</value>';
+				$graph[$type][] = (int)$value[$type];
 			} else {
 				foreach($_GET['types'] as $t) {
-					$graph[$t] .= "<value xid='$count'>".$value[$t].'</value>';
+					$graph[$t][] = (int)$value[$t];
 				}
 			}
 		}
 		$count++;
 	}
-	$xml = '';
-	$xml .= '<'."?xml version=\"1.0\" encoding=\"utf-8\"?>";
-	$xml .= '<chart><xaxis>';
-	$xml .= $xaxis;
-	$xml .= '</xaxis><graphs>';
-	$count = 0;
+	$graphs = [];
 	foreach($graph as $key => $value) {
 		$title = diconv(lang('spacecp', "do_stat_$key"), CHARSET, 'utf-8');
 		if($title == '') {
 			continue;
 		}
-		$xml .= "<graph gid='$count' title='".$title."'>";
-		$xml .= $value;
-		$xml .= '</graph>';
-		$count++;
+		$graphs[] = ['title' => $title, 'data' => $value];
 	}
-	$xml .= '</graphs></chart>';
-
-	@header('Expires: -1');
-	@header('Cache-Control: no-store, private, post-check=0, pre-check=0, max-age=0', FALSE);
-	@header('Pragma: no-cache');
-	@header('Content-type: application/xml; charset=utf-8');
-	echo $xml;
-	exit();
+	helper_output::json(['xaxis' => $xaxis, 'graphs' => $graphs]);
 }
 
 $actives = [];
@@ -123,6 +108,6 @@ if(is_array(getgpc('types'))) {
 		$actives[$value] = ' class="a"';
 	}
 }
-$statuspara = "misc.php?mod=stat&op=trend&xml=1&type=$type&primarybegin=$primarybegin&primaryend=$primaryend{$types}{$merge}";
+$statuspara = "misc.php?mod=stat&op=trend&data=1&type=$type&primarybegin=$primarybegin&primaryend=$primaryend{$types}{$merge}";
 
 include template('home/misc_stat');

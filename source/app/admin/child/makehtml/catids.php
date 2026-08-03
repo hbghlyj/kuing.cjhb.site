@@ -20,5 +20,4 @@ if($starttime) {
 		}
 	}
 }
-helper_output::xml($data ? implode(',', $data) : '');
-	
+helper_output::html($data ? implode(',', $data) : '');

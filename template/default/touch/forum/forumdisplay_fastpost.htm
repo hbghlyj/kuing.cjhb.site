@@ -59,9 +59,9 @@
 				method:'POST',
 				url:form.action + '&handlekey=fastpost&loc=1&inajax=1',
 				data:new FormData(form),
-				dataType:'xml'
+				dataType:'html'
 			}).then(function(s) {
-				evalscript(s.lastChild.firstChild.nodeValue);
+				evalscript(s);
 			}).catch(function() {
 				window.location.href = form.action;
 				popup.close();
@@ -84,9 +84,9 @@
 			mobileRequest({
 				method:'POST',
 				url:'forum.php?mod=viewthread&tid=' + tid + '&viewpid=' + pid,
-				dataType:'xml'
+				dataType:'html'
 			}).then(function(s) {
-				document.getElementById('post_new').insertAdjacentHTML('beforeend', s.lastChild.firstChild.nodeValue);
+				document.getElementById('post_new').insertAdjacentHTML('beforeend', s);
 			}).catch(function() {
 				window.location.href = 'forum.php?mod=viewthread&tid=' + tid;
 				popup.close();

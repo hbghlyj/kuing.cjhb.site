@@ -105,7 +105,7 @@ function _checksec(type, idhash, showmsg, recall, modid) {
 		return;
 	}
 	var modid = !modid ? '' : modid;
-	var x = new Ajax('XML', 'checksec' + type + 'verify_' + idhash);
+	var x = new Ajax('HTML', 'checksec' + type + 'verify_' + idhash);
 	x.loading = '';
 	status.innerHTML = '<div class="loadicon vm"></div>';
 	x.get('misc.php?mod=sec' + type + '&action=check&inajax=1&modid=' + modid + '&idhash=' + idhash + '&secverify=' + secverify, function(s){
