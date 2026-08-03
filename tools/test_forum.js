@@ -10,6 +10,28 @@ const nonImageAttachmentSubject = `Thread with Non-Image Attachment ${testRunId}
 const svgAttachmentSubject = `Thread with SVG Attachment ${testRunId}`;
 const mathDraftSubject = `Thread with Restored Math Draft ${testRunId}`;
 
+const PUSHER_STUB = `
+(() => {
+  const noopChannel = {
+    bind: function() {},
+    unbind: function() {}
+  };
+  window.Pusher = function() {
+    this.connection = { bind: function() {}, unbind: function() {} };
+    this.subscribe = function() { return noopChannel; };
+    this.unsubscribe = function() {};
+    this.disconnect = function() {};
+  };
+})();
+`;
+
+const stubPusher = async targetContext => {
+    await targetContext.route('**/chat/pusher.min.js', route => route.fulfill({
+        contentType: 'application/javascript',
+        body: PUSHER_STUB
+    }));
+};
+
 (async () => {
     const browser = await chromium.launch();
     const context = await browser.newContext({
@@ -18,6 +40,7 @@ const mathDraftSubject = `Thread with Restored Math Draft ${testRunId}`;
             'Accept-Language': 'en-US,en;q=0.9'
         }
     });
+    await stubPusher(context);
     const page = await context.newPage();
     const scriptSources = new Map();
 
@@ -393,6 +416,7 @@ const mathDraftSubject = `Thread with Restored Math Draft ${testRunId}`;
                 'Accept-Language': 'zh-CN;q=0.6,zh-TW;q=0.9,en;q=0.8'
             }
         });
+        await stubPusher(tcContext);
         const tcPage = await tcContext.newPage();
         await tcPage.goto('http://127.0.0.1:8080/forum.php', { waitUntil: 'networkidle' });
         assert.strictEqual(await tcPage.evaluate(() => DISCUZ_I18N), 'TC', 'Assertion Error: Accept-Language did not default a clean browser to TC.');
@@ -675,6 +699,7 @@ const mathDraftSubject = `Thread with Restored Math Draft ${testRunId}`;
 
                 console.log("Testing post revision history access control...");
                 const guestContext = await browser.newContext();
+                await stubPusher(guestContext);
                 const guestPage = await guestContext.newPage();
                 await guestPage.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${tidOutput}`);
                 await guestPage.waitForLoadState('networkidle');
@@ -888,6 +913,7 @@ const mathDraftSubject = `Thread with Restored Math Draft ${testRunId}`;
             assert.match(quotePid, /^\d+$/, 'Assertion Error: Reply post ID for the quote-reply test was not found.');
 
             const adminContext = await browser.newContext();
+            await stubPusher(adminContext);
             const adminPage = await adminContext.newPage();
             await adminPage.goto('http://127.0.0.1:8080/member.php?mod=logging&action=login');
             await adminPage.waitForLoadState('networkidle');

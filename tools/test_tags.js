@@ -3,9 +3,28 @@ const fs = require('fs');
 const assert = require('assert');
 const { execSync } = require('child_process');
 
+const PUSHER_STUB = `
+(() => {
+  const noopChannel = {
+    bind: function() {},
+    unbind: function() {}
+  };
+  window.Pusher = function() {
+    this.connection = { bind: function() {}, unbind: function() {} };
+    this.subscribe = function() { return noopChannel; };
+    this.unsubscribe = function() {};
+    this.disconnect = function() {};
+  };
+})();
+`;
+
 (async () => {
     const browser = await chromium.launch();
     const context = await browser.newContext();
+    await context.route('**/chat/pusher.min.js', route => route.fulfill({
+        contentType: 'application/javascript',
+        body: PUSHER_STUB
+    }));
     const page = await context.newPage();
 
     page.on('pageerror', exception => {
