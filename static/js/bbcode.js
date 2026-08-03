@@ -26,8 +26,16 @@ function atag(aoptions, text) {
 	}
 
 	var innerText = trim(recursion('a', text, 'atag'));
-	if(href === innerText) {
-		return pend['prepend'] + '[url]' + innerText + '[/url]' + pend['append'];
+	var decodedHref = href;
+	try {
+		decodedHref = decodeURIComponent(href);
+	} catch(e) {}
+
+	var cleanHref = decodedHref.replace(/^https?:\/\/(www\.)?|^www\./i, '').replace(/\/$/, '');
+	var cleanText = innerText.replace(/^https?:\/\/(www\.)?|^www\./i, '').replace(/\/$/, '');
+
+	if(href === innerText || decodedHref === innerText || cleanHref === cleanText) {
+		return pend['prepend'] + '[url]' + href + '[/url]' + pend['append'];
 	}
 
 	return pend['prepend'] + '[url=' + href + ']' + innerText + '[/url]' + pend['append'];
@@ -196,12 +204,16 @@ function parseurl_bbcode(url, text, scheme) {
 	if(!url) {
 		url = text;
 		var displaytext = text;
+		try {
+			displaytext = decodeURIComponent(displaytext);
+		} catch(e) {}
 		if(/^https?:\/\//i.test(displaytext)) {
 			link_rel_attribute = ' rel="external nofollow"';
 		} else if(/^www\./i.test(url)) {
 			url = '//' + url;
 			link_rel_attribute = ' rel="external nofollow"';
 		}
+		displaytext = displaytext.replace(/^https?:\/\/(www\.)?|^www\./i, '');
 		if(displaytext.length > 95) {
 			displaytext = displaytext.substring(0, 64) + ' &hellip; ' + displaytext.substring(displaytext.length - 20);
 		}
