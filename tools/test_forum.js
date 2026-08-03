@@ -88,7 +88,11 @@ const mathDraftSubject = `Thread with Restored Math Draft ${testRunId}`;
 
     page.on('console', msg => {
         if (msg.type() === 'error') {
-            throw new Error(`Console error in browser: ${msg.text()}`);
+            const text = msg.text();
+            if(/pusher\.com.*WebSocket|WebSocket.*pusher\.com/i.test(text)) {
+                return;
+            }
+            throw new Error(`Console error in browser: ${text}`);
         }
     });
     page.on('requestfailed', request => {
