@@ -8,9 +8,47 @@
 	</div>
 	<!--{if !empty($_G['setting']['i18n'])}-->
 	<div class="footer-locales mt10">
-		<!--{eval $footerLocales = ['SC' => ['🇨🇳', '简体中文'], 'TC' => ['🇭🇰', '繁體中文'], 'EN' => ['🇬🇧', 'English']];}-->
-		<!--{loop $footerLocales $locale $localeMeta}--><!--{if !empty($_G['setting']['i18n'][$locale])}--><a href="misc.php?mod=i18n&key=$locale" title="$localeMeta[1]" aria-label="$localeMeta[1]"<!--{if currentlang() == $locale}--> class="xw1"<!--{/if}-->>$localeMeta[0]</a> <!--{/if}--><!--{/loop}-->
+		<!--{eval 
+			$footerLocales = [
+				'SC' => '简体中文',
+				'TC' => '繁體中文',
+				'EN' => 'English'
+			];
+			$curLangKey = currentlang();
+			$curLangDisplay = isset($footerLocales[$curLangKey]) ? $curLangKey : 'EN';
+		}-->
+		<div class="lang-selector-wrap" style="float:none;display:inline-block;margin:0;">
+			<button type="button" class="lang-selector-trigger" id="touch_lang_select_btn" onclick="var m=document.getElementById('touch_lang_select_menu');m.style.display=m.style.display==='none'?'block':'none';event.stopPropagation();">
+				<span class="lang-code">{$curLangDisplay}</span>
+				<svg class="lang-chevron" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+			</button>
+			<div id="touch_lang_select_menu" class="lang-selector-dropdown p_pop" style="display:none;position:absolute;bottom:100%;left:50%;transform:translateX(-50%);margin-bottom:8px;">
+				<ul class="lang-menu-list">
+					<!--{loop $footerLocales $locale $localeName}-->
+						<!--{if !empty($_G['setting']['i18n'][$locale])}-->
+							<li class="lang-menu-item">
+								<a href="misc.php?mod=i18n&key=$locale" class="lang-menu-link{if $curLangKey == $locale} is-active{/if}">
+									<span class="lang-menu-name">$localeName</span>
+									<!--{if $curLangKey == $locale}-->
+										<svg class="lang-menu-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0066ff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+									<!--{/if}-->
+								</a>
+							</li>
+						<!--{/if}-->
+					<!--{/loop}-->
+				</ul>
+			</div>
+		</div>
 	</div>
+	<script type="text/javascript">
+		document.addEventListener('click', function(e) {
+			var m = document.getElementById('touch_lang_select_menu');
+			var b = document.getElementById('touch_lang_select_btn');
+			if(m && b && !b.contains(e.target) && !m.contains(e.target)) {
+				m.style.display = 'none';
+			}
+		});
+	</script>
 	<!--{/if}-->
 	<div class="footer-copy mt10">
 		<!--{if $_G['setting']['icp'] || $_G['setting']['mps']}--><!--{if $_G['setting']['icp']}--><a href="https://beian.miit.gov.cn/" target="_blank">$_G['setting']['icp']</a><!--{/if}--><!--{if $_G['setting']['mps']}--><a href="https://beian.mps.gov.cn/#/query/webSearch?code=$_G['setting']['mpsid']" target="_blank"><img width="14" height="14" src="{IMGDIR}/ico_mps.png" />$_G['setting']['mps']</a><!--{/if}--><br><!--{/if}-->
