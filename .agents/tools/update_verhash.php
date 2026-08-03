@@ -9,7 +9,7 @@ if($processUser !== 'www-data' && !getenv('GITHUB_ACTIONS')) {
 	exit("This tool must be run as process user www-data.\n");
 }
 
-$root = dirname(__DIR__);
+$root = dirname(__DIR__, 2);
 chdir($root);
 
 $_SERVER['HTTP_HOST'] = 'localhost';

@@ -16,7 +16,7 @@ if(!preg_match('/^[A-Za-z0-9.-]+(?::\d+)?$/', $targetHost)) {
 }
 define('STYLE_REBUILD_HOST', $targetHost);
 
-$root = dirname(__DIR__);
+$root = dirname(__DIR__, 2);
 chdir($root);
 
 // The CLI entry point is tools/rebuild_styles.php, but style URLs must be

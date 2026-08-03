@@ -4,6 +4,7 @@ if(PHP_SAPI !== 'cli' || getenv('DISCUZ_SEED_DATABASE') !== '1') {
 	exit(1);
 }
 
+chdir(dirname(__DIR__, 2));
 require './source/class/class_core.php';
 $discuz = C::app();
 $discuz->init();

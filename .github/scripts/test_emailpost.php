@@ -5,7 +5,7 @@ if(PHP_SAPI !== 'cli') {
 }
 
 define('IN_DISCUZ', true);
-define('DISCUZ_ROOT', dirname(__DIR__).'/');
+define('DISCUZ_ROOT', dirname(__DIR__, 2).'/');
 require DISCUZ_ROOT.'source/class/class_emailpost.php';
 
 function emailpost_assert($condition, string $message): void {

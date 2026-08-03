@@ -34,7 +34,7 @@ if(!is_array($parsedUrl) || !in_array($parsedUrl['scheme'] ?? '', ['http', 'http
 	exit("Usage: php tools/setup_test_security.php --url=http://example.com\n");
 }
 
-$root = dirname(__DIR__);
+$root = dirname(__DIR__, 2);
 $host = $parsedUrl['host'].(isset($parsedUrl['port']) ? ':'.$parsedUrl['port'] : '');
 $_SERVER['HTTP_HOST'] = $host;
 $_SERVER['SERVER_NAME'] = $parsedUrl['host'];

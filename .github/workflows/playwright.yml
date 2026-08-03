@@ -82,14 +82,14 @@ jobs:
 
           cp chat/php/config_default.php chat/php/config.php
           echo '<?php if (!class_exists("Pusher")) {     class Pusher {         public function __construct(...$args) {}         public function trigger($channel, $event, $data, $a = null, $b = null)         {             return true;         }     } } ?>'  > source/class/class_pusher.php
-          DISCUZ_SEED_DATABASE=1 php tools/import_all_data.php
-          php -d zend.assertions=1 -d assert.exception=1 tools/test_emailpost.php
+          DISCUZ_SEED_DATABASE=1 php .github/scripts/import_all_data.php
+          php -d zend.assertions=1 -d assert.exception=1 .github/scripts/test_emailpost.php
 
           test "$(mysql ultrax -Nse "SHOW TABLES LIKE 'chat';")" = "chat"
           mysql ultrax -e "REPLACE INTO pre_common_setting SET skey='homestatus', svalue='1';"
           php -r 'require "./source/class/class_core.php"; $discuz = C::app(); $discuz->init(); require_once libfile("function/cache"); updatecache("setting");'
-          php tools/rebuild_styles.php --host=127.0.0.1:8080
-          DISCUZ_STRICT_LANG=1 php tools/setup_test_security.php --url=http://127.0.0.1:8080
+          php .agents/tools/rebuild_styles.php --host=127.0.0.1:8080
+          DISCUZ_STRICT_LANG=1 php .github/scripts/setup_test_security.php --url=http://127.0.0.1:8080
           test -s data/cache/style_2_common.css
       - name: Start PHP Server
         run: |
@@ -101,11 +101,11 @@ jobs:
         env:
           TEST_RUN_ID: ${{ github.run_id }}-${{ github.run_attempt }}
         run: |
-          node tools/test_forum.js
-          node tools/test_forum_mobile.js
-          node tools/test_search.js
-          node tools/test_tags.js
-          node tools/test_admin.js
+          node .github/scripts/test_forum.js
+          node .github/scripts/test_forum_mobile.js
+          node .github/scripts/test_search.js
+          node .github/scripts/test_tags.js
+          node .github/scripts/test_admin.js
 
       - name: Check PHP Server Errors
         if: always()
