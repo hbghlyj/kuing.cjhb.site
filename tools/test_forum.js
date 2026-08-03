@@ -433,18 +433,13 @@ const mathDraftSubject = `Thread with Restored Math Draft ${testRunId}`;
 
         const postSubmitBtn = page.locator('button[name="topicsubmit"][type="submit"]');
         assert.strictEqual(await postSubmitBtn.count(), 1, 'Assertion Error: Desktop thread submit button did not render.');
-        const [threadPostRequest, threadPostResponse] = await Promise.all([
-            page.waitForRequest(request =>
-                request.method() === 'POST' &&
-                request.url().includes('forum.php?mod=post')
-            ),
+        const [threadPostResponse] = await Promise.all([
             page.waitForResponse(response =>
                 response.request().method() === 'POST' &&
                 response.url().includes('forum.php?mod=post')
             ),
             postSubmitBtn.click()
         ]);
-        console.log('Desktop thread POST payload:', threadPostRequest.postData() || '(empty)');
         assert.ok(
             threadPostResponse.ok() || (threadPostResponse.status() >= 300 && threadPostResponse.status() < 400),
             `Assertion Error: Desktop thread POST failed with HTTP ${threadPostResponse.status()}.`

@@ -348,6 +348,7 @@ class model_thread extends discuz_model {
                        'readperm', 'price', 'typeid', 'sortid',
 			'publishdate', 'digest', 'moderated', 'tstatus', 'isgroup',
 			'replycredit', 'closed', 'special', 'tags',
+			'message', 'content', 'isanonymous',
 			'htmlon', 'bbcodeoff', 'smileyoff', 'parseurloff', 'pstatus', 'geoloc', 'contentType', 'contentEditor'
 		];
 		foreach($varname as $name) {

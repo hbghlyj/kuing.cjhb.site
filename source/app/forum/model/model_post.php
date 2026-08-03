@@ -60,6 +60,7 @@ class model_post extends discuz_model {
 	protected function _init_parameters($parameters) {
 		$varname = [
 			'member', 'group', 'forum', 'thread', 'extramessage', 'special',//'nauthorid' 'modnewreplies' 'tid'
+			'message', 'content',
 			'htmlon', 'bbcodeoff', 'smileyoff', 'parseurloff', 'pstatus',
 			'noticetrimstr', 'from', 'sechash', 'geoloc',
 			'timestamp',
