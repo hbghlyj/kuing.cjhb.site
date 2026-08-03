@@ -17,7 +17,8 @@
 	<div id="revision_diff" class="revision-diff"></div>
 </div>
 <style>
-.revision-window { padding: 16px; max-width: 860px; box-sizing: border-box; }
+#fwin_editlog:has(.revision-window) .fwin { width: min(calc(100vw - 24px), 860px); }
+.revision-window { width: 100%; padding: 16px; box-sizing: border-box; }
 .revision-toolbar { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
 .revision-toolbar label { font-weight: 700; }
 .revision-toolbar select { flex: 1; min-width: 220px; max-width: 520px; }
