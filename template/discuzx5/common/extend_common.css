@@ -1231,3 +1231,6 @@ body .colorwd {width:36px !important;height:36px !important;line-height:36px !im
 .dz_rbox_btn:hover {cursor:pointer;opacity:0.8}
 #postbox .mbn, #psd .mbn {padding:0;height:36px;line-height:36px;font-size:14px}
 #pmsmiliesdiv_tb, #sendsmiliesdiv_tb {width:365px !important}
+#nv_forum .editlog {display:inline-flex;align-items:center;gap:4px;vertical-align:middle;}
+#nv_forum .editlog .thread-history-icon {width:18px;height:18px;fill:currentColor;flex:none;}
+#nv_forum .editlog-label {font-size:12px;line-height:18px;white-space:nowrap;}
