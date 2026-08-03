@@ -122,9 +122,16 @@ function _ajaxpost(formid, showid, waitid, showidclass, submitbtn, recall) {
 			formData.set(name, field.value);
 		}
 	});
+	var hasFile = false;
+	formData.forEach(function(value) {
+		if(typeof File != 'undefined' && value instanceof File && value.name) {
+			hasFile = true;
+		}
+	});
+	var requestBody = hasFile ? formData : new URLSearchParams(formData);
 	fetch(action, {
 		method: 'POST',
-		body: formData,
+		body: requestBody,
 		credentials: 'same-origin'
 	}).then(function(response) {
 		if(response.redirected) {
