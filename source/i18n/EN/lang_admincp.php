@@ -477,6 +477,7 @@ $lang = array
 	'logs_edit_original_author' => 'Original author',
 	'logs_edit_target' => 'Thread / post',
 	'logs_edit_previous_subject' => 'Previous subject',
+	'logs_edit_previous_message' => 'Previous message',
 	'logs_edit_previous_content' => 'Previous content',
 	'logs_edit_view_previous' => 'View previous content',
 	'logs_edit_none' => 'No edit history found.',

@@ -23,6 +23,7 @@ showtableheader('', 'fixpadding');
 		cplang('logs_edit_action'),
 		cplang('logs_edit_target'),
 		cplang('logs_edit_previous_subject'),
+		cplang('logs_edit_previous_message'),
 		cplang('logs_edit_previous_content'),
 	]);
 
@@ -34,7 +35,6 @@ foreach($logs as $data) {
 	$oldsubject = dhtmlspecialchars($data['old_subject']);
 	$oldmessage = dhtmlspecialchars($data['old_message']);
 	$oldcontent = dhtmlspecialchars($data['old_content']);
-	$previous = $oldcontent !== '' ? $oldcontent.'<hr />'.$oldmessage : $oldmessage;
 	showtablerow('', [], [
 		dgmdate($data['dateline']),
 		dhtmlspecialchars($authornames[$data['authorid']] ?? ('UID '.$data['authorid'])),
@@ -42,10 +42,11 @@ foreach($logs as $data) {
 		$action,
 		$target,
 		$oldsubject,
-		'<details><summary>'.cplang('logs_edit_view_previous').'</summary><pre style="white-space:pre-wrap;max-width:700px;">'.$previous.'</pre></details>',
+		'<pre style="white-space:pre-wrap;max-width:500px;">'.$oldmessage.'</pre>',
+		$oldcontent !== '' ? '<details><summary>'.cplang('logs_edit_view_previous').'</summary><pre style="white-space:pre-wrap;max-width:700px;">'.$oldcontent.'</pre></details>' : '-',
 	]);
 }
 if(!$logs) {
-	showtablerow('', [], ['-', '-', '-', '-', '-', '-', cplang('logs_edit_none')]);
+	showtablerow('', [], ['-', '-', '-', '-', '-', '-', '-', cplang('logs_edit_none')]);
 }
 showtablefooter();

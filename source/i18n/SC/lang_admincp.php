@@ -495,6 +495,7 @@ $lang =
 	'logs_edit_original_author' => '原作者',
 	'logs_edit_target' => '主题 / 帖子',
 	'logs_edit_previous_subject' => '原主题标题',
+	'logs_edit_previous_message' => '原消息',
 	'logs_edit_previous_content' => '原内容',
 	'logs_edit_view_previous' => '查看原内容',
 	'logs_edit_none' => '暂无编辑历史。',
