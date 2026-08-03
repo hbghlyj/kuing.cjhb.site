@@ -12,6 +12,7 @@
 							<strong>$editlog[action_label]</strong> <span class="xg1">$editlog[displaytime]</span>
 							<span class="editlog-subject">$editlog[title]</span>
 						</a>
+						<!--{if $editlog[pid]}--><a href="forum.php?mod=redirect&goto=findpost&ptid=$editlog[tid]&pid=$editlog[pid]" target="_blank" class="editlog-original">{lang post_revision_original}</a><!--{/if}-->
 						<div class="xg1">$editlog[old_message]</div>
 					</li>
 				<!--{/loop}-->
@@ -20,5 +21,5 @@
 		</div>
 	</div>
 </div></div>
-<style>.editlog-list{margin:0;padding:0;list-style:none}.editlog-item{padding:10px 0;border-bottom:1px solid #eee}.editlog-link{display:block}.editlog-subject{display:block;margin-top:4px;font-weight:700}.editlog-item>div{margin-top:4px;white-space:pre-wrap;overflow-wrap:anywhere}</style>
+<style>.editlog-list{margin:0;padding:0;list-style:none}.editlog-item{padding:10px 0;border-bottom:1px solid #eee}.editlog-link{display:block}.editlog-subject{display:block;margin-top:4px;font-weight:700}.editlog-original{display:inline-block;margin-top:6px}.editlog-item>div{margin-top:4px;white-space:pre-wrap;overflow-wrap:anywhere}</style>
 <!--{template common/footer}-->
