@@ -43,7 +43,19 @@
 		});
 	}
 	function textOf(revision) {
-		var body = revision.message || revision.content || '';
+		var body = revision.message || '';
+		if(!body && revision.content) {
+			body = revision.content;
+			try {
+				var outer = typeof body === 'string' ? JSON.parse(body) : body;
+				var inner = outer && outer.content ? (typeof outer.content === 'string' ? JSON.parse(outer.content) : outer.content) : outer;
+				if(inner && Array.isArray(inner.blocks)) {
+					body = inner.blocks.map(function(block) {
+						return block && block.data && (block.data.text || block.data.items) || '';
+					}).join('\n');
+				}
+			} catch(error) {}
+		}
 		return (revision.subject ? revision.subject + '\n\n' : '') + body;
 	}
 	window.renderRevisionDiff = function(index) {

@@ -526,9 +526,6 @@ const mathDraftSubject = `Thread with Restored Math Draft ${testRunId}`;
                 restoreButton.click()
             ]);
             assert.ok(restoreResponse.ok() || (restoreResponse.status() >= 300 && restoreResponse.status() < 400), `Assertion Error: Deleted reply restore POST failed with HTTP ${restoreResponse.status()}.`);
-            const restoreResponseBody = restoreResponse.status() >= 300 && restoreResponse.status() < 400 ? '' : await restoreResponse.text();
-            const restoreResponseText = restoreResponseBody.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
-            console.log(`Deleted reply restore response: status=${restoreResponse.status()}; text=${restoreResponseText.slice(-500)}`);
             const restoredPostCheck = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT COUNT(*) FROM pre_forum_post WHERE tid='${tidOutput}' AND pid='${deletableReplyPid}' AND message='Reply text from unprivileged account.';"`).toString().trim();
             assert.strictEqual(restoredPostCheck, '1', 'Assertion Error: Deleted reply was not restored with its original content and PID.');
             await page.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${tidOutput}`);
