@@ -26,6 +26,18 @@ if(submitcheck('postdeletesubmit')) {
 		updatethreadcount($post['tid']);
 		$url_forward = 'forum.php?mod=forumdisplay&fid=' .$post['fid'];
 	} else {
+		table_forum_editlog::t()->insert([
+			'tid' => $post['tid'],
+			'pid' => $post['pid'],
+			'authorid' => $post['authorid'],
+			'uid' => $_G['uid'],
+			'username' => $_G['username'],
+			'dateline' => TIMESTAMP,
+			'action' => 'delete',
+			'old_subject' => $post['subject'],
+			'old_message' => $post['message'],
+			'old_content' => $post['content'],
+		]);
 		deletepost([$post['pid']], 'pid', true);
 		updatethreadcount($post['tid']);
 	}
@@ -38,4 +50,3 @@ if(submitcheck('postdeletesubmit')) {
 } else {
 	include template('forum/postdelete');
 }
-	

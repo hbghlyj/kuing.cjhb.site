@@ -495,6 +495,47 @@ const mathDraftSubject = `Thread with Restored Math Draft ${testRunId}`;
             assert.ok(parseInt(replyDbCheck, 10) >= 1, 'Assertion Error: Reply post was not found in database.');
             report += '### 3. Unprivileged User Reply\n- **Status**: Checked\n- **Reply Count**: ' + replyDbCheck + '\n\n';
 
+            console.log("Testing deleted reply revision restore...");
+            const deletableReplyPid = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT pid FROM pre_forum_post WHERE tid='${tidOutput}' AND first=0 AND authorid='${userUid}' AND message='Reply text from unprivileged account.' ORDER BY pid DESC LIMIT 1;"`).toString().trim();
+            assert.match(deletableReplyPid, /^\d+$/, 'Assertion Error: Reply for deletion test was not found.');
+            await page.goto(`http://127.0.0.1:8080/forum.php?mod=misc&action=postdelete&tid=${tidOutput}&pid=${deletableReplyPid}`);
+            await page.waitForLoadState('networkidle');
+            const deleteForm = page.locator('#postdeleteform');
+            assert.strictEqual(await deleteForm.count(), 1, 'Assertion Error: Post deletion confirmation form did not render.');
+            const deleteSubmit = deleteForm.locator('#postdeletesubmit');
+            assert.strictEqual(await deleteSubmit.count(), 1, 'Assertion Error: Post deletion confirmation button did not render.');
+            await deleteSubmit.click();
+            await page.waitForURL(new RegExp(`mod=viewthread&tid=${tidOutput}`));
+
+            const deletedPostCheck = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT COUNT(*) FROM pre_forum_post WHERE tid='${tidOutput}' AND pid='${deletableReplyPid}';"`).toString().trim();
+            assert.strictEqual(deletedPostCheck, '0', 'Assertion Error: Deleted reply still exists in the post table.');
+            const deleteLogCheck = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT COUNT(*) FROM pre_forum_editlog WHERE tid='${tidOutput}' AND pid='${deletableReplyPid}' AND action='delete' AND old_message='Reply text from unprivileged account.';"`).toString().trim();
+            assert.strictEqual(deleteLogCheck, '1', 'Assertion Error: Deleted reply did not create a deletion revision.');
+
+            const deletedEditLogUrl = `forum.php?mod=misc&action=editlog&tid=${tidOutput}&pid=${deletableReplyPid}`;
+            await page.goto(`http://127.0.0.1:8080/${deletedEditLogUrl}`);
+            await page.waitForLoadState('networkidle');
+            const deletedHistory = page.locator('.revision-window');
+            assert.strictEqual(await deletedHistory.count(), 1, 'Assertion Error: Deleted reply revision history did not render.');
+            assert.ok((await deletedHistory.textContent()).includes('Reply text from unprivileged account.'), 'Assertion Error: Deleted reply content was not present in revision history.');
+            const restoreButton = deletedHistory.locator('#revision_restore');
+            assert.strictEqual(await restoreButton.isEnabled(), true, 'Assertion Error: Deleted reply revision was not restorable.');
+            page.once('dialog', dialog => dialog.accept());
+            const [restoreResponse] = await Promise.all([
+                page.waitForResponse(response => response.request().method() === 'POST' && response.url().includes('action=editlog')),
+                restoreButton.click()
+            ]);
+            assert.ok(restoreResponse.ok() || (restoreResponse.status() >= 300 && restoreResponse.status() < 400), `Assertion Error: Deleted reply restore POST failed with HTTP ${restoreResponse.status()}.`);
+            const restoreResponseBody = restoreResponse.status() >= 300 && restoreResponse.status() < 400 ? '' : await restoreResponse.text();
+            const restoreResponseText = restoreResponseBody.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
+            console.log(`Deleted reply restore response: status=${restoreResponse.status()}; text=${restoreResponseText.slice(-500)}`);
+            const restoredPostCheck = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT COUNT(*) FROM pre_forum_post WHERE tid='${tidOutput}' AND pid='${deletableReplyPid}' AND message='Reply text from unprivileged account.';"`).toString().trim();
+            assert.strictEqual(restoredPostCheck, '1', 'Assertion Error: Deleted reply was not restored with its original content and PID.');
+            await page.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${tidOutput}`);
+            await page.waitForLoadState('networkidle');
+            assert.ok((await page.textContent('body')).includes('Reply text from unprivileged account.'), 'Assertion Error: Restored reply was not rendered in viewthread.');
+            report += '### Deleted Reply Revision Restore\n- **Status**: Checked\n- **Deletion Log**: Success\n- **Restore**: Success\n\n';
+
             // --- Test: Comment on first floor ---
             console.log("Posting comment on first floor via UI...");
             const firstFloorPid = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT pid FROM pre_forum_post WHERE tid='${tidOutput}' AND first=1 LIMIT 1;"`).toString().trim();
@@ -534,56 +575,33 @@ const mathDraftSubject = `Thread with Restored Math Draft ${testRunId}`;
             console.log("✅ Comment on first floor posted successfully.");
 
 
-            // --- Test: Simple Editor (Fast Post / Fast Reply) ---
-            console.log("Testing Simple Editor (Fast Post / Fast Reply)...");
-            await page.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${tidOutput}`);
+            // --- Test: Full Advanced Editor ---
+            console.log("Testing full advanced editor...");
+            const advancedSubject = `Advanced User Thread ${testRunId}`;
+            await page.goto(`http://127.0.0.1:8080/forum.php?mod=post&action=newthread&fid=${forumFid}`);
             await page.waitForLoadState('networkidle');
-
-            const fastPostForm = page.locator('#fastpostform');
-            assert.strictEqual(await fastPostForm.count(), 1, 'Assertion Error: Simple Editor (Fast Post) form did not render on viewthread page.');
-
-            const fastPostTextarea = fastPostForm.locator('#fastpostmessage');
-            assert.strictEqual(await fastPostTextarea.count(), 1, 'Assertion Error: Simple Editor message field (#fastpostmessage) did not render.');
-            await fastPostTextarea.fill('Fast reply text from unprivileged account.');
-
-            // Focus and trigger potential onmouseover checkpostrule/loading of secqaa
-            await fastPostTextarea.focus();
-            await page.waitForTimeout(500);
-
-            // Screenshot the simple editor before submitting
-            await page.screenshot({ path: 'screenshot_desktop_simple_editor.png' });
-
-            const fastPostSecqaa = fastPostForm.locator('input[name*="secanswer"]:visible');
-            if (!await fastPostSecqaa.count()) {
-                await page.waitForTimeout(1000);
-            }
-            await solveSecurityQuestion(page, fastPostForm);
-
-            const fastPostSubmitBtn = fastPostForm.locator('#fastpostsubmit');
-            assert.strictEqual(await fastPostSubmitBtn.count(), 1, 'Assertion Error: Simple Editor submit button (#fastpostsubmit) did not render.');
-
-            const [fastPostResponse] = await Promise.all([
-                page.waitForResponse(response => 
-                    response.request().method() === 'POST' && 
-                    response.url().includes('mod=post') && 
-                    response.url().includes('action=reply') && 
-                    response.url().includes('replysubmit=yes')
-                ),
-                fastPostSubmitBtn.click()
+            const advancedForm = page.locator('#postform');
+            assert.strictEqual(await advancedForm.count(), 1, 'Assertion Error: Full advanced editor form did not render.');
+            await advancedForm.locator('input[name="subject"]').fill(advancedSubject);
+            await fillPostEditor('Body text from the full advanced editor.', page, advancedForm);
+            await solveSecurityQuestion(page, advancedForm);
+            const advancedSubmit = advancedForm.locator('button[name="topicsubmit"]');
+            assert.strictEqual(await advancedSubmit.count(), 1, 'Assertion Error: Full advanced editor submit button did not render.');
+            const [advancedResponse] = await Promise.all([
+                page.waitForResponse(response => response.request().method() === 'POST' && response.url().includes('forum.php?mod=post')),
+                advancedSubmit.click()
             ]);
-            assert.ok(fastPostResponse.ok(), `Assertion Error: Fast reply request failed with HTTP ${fastPostResponse.status()}.`);
-			await page.waitForFunction(
-				() => document.getElementById('fastpostmessage')?.value === ''
-			);
-
-            console.log("Checking if fast reply exists in DB...");
-            const fastReplyDbCheck = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT COUNT(*) FROM pre_forum_post WHERE tid='${tidOutput}' AND message='Fast reply text from unprivileged account.';"`).toString().trim();
-            assert.strictEqual(fastReplyDbCheck, '1', 'Assertion Error: Fast reply post was not found in database.');
-            report += '### Simple Editor (Fast Post / Fast Reply)\n- **Status**: Checked\n- **Fast Reply Created**: Fast reply text from unprivileged account.\n\n';
+            assert.ok(advancedResponse.ok() || (advancedResponse.status() >= 300 && advancedResponse.status() < 400), `Assertion Error: Full advanced editor POST failed with HTTP ${advancedResponse.status()}.`);
+            await page.waitForURL(/forum\.php\?mod=viewthread&tid=\d+/);
+            const advancedDbCheck = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT COUNT(*) FROM pre_forum_thread WHERE subject='${advancedSubject}';"`).toString().trim();
+            assert.strictEqual(advancedDbCheck, '1', 'Assertion Error: Full advanced editor thread was not found in database.');
+            report += '### Full Advanced Editor\n- **Status**: Checked\n- **Thread Created**: ' + advancedSubject + '\n\n';
 
 
             // Edit Thread
             console.log("Attempting to edit thread...");
+            await page.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${tidOutput}`);
+            await page.waitForLoadState('networkidle');
             const pidOutput = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT pid FROM pre_forum_post WHERE tid='${tidOutput}' AND first=1 LIMIT 1;"`).toString().trim();
             assert.match(pidOutput, /^\d+$/, 'Assertion Error: Created thread first-post ID was not found.');
                 const editPostBtn = page.locator(`a[href*="action=edit"][href*="pid=${pidOutput}"]`);

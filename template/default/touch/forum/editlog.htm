@@ -6,7 +6,7 @@
 			<option value="$revision_index">$revision['label']</option>
 			<!--{/loop}-->
 		</select>
-		<form method="post" action="forum.php?mod=misc&action=editlog&tid=$post[tid]&pid=$pid" onsubmit="return confirm('{lang post_revision_restore_confirm}');">
+		<form method="post" action="forum.php?mod=misc&action=editlog&tid=$revision_tid&pid=$pid" onsubmit="return confirm('{lang post_revision_restore_confirm}');">
 			<input type="hidden" name="formhash" value="{FORMHASH}">
 			<input type="hidden" name="do" value="rollback">
 			<input type="hidden" name="editid" id="revision_editid" value="0">
