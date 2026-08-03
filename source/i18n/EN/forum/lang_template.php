@@ -1282,6 +1282,15 @@ $lang = array (
 	'hiderecover_tips'		=> 'Click to recover the thread hidden status',//'点击恢复主题隐藏状态',
 	'hiderecover'			=> 'Restore hidden',//'恢复隐藏',
 	'content_actions'		=> 'More Actions',//'更多操作',
+	'postdelete'			=> 'Delete post',//'删除指定帖子',
+	'postdelete_tip'		=> 'Are you sure you want to delete this post?',//'确定删除该帖子吗？',
+	'json_editor_title_placeholder' => 'Enter title (max 60 characters)',//'请输入标题（最多 60 个字）',
+	'json_editor_title_publish' => 'Publish settings',//'发布设置',
+	'json_editor_title_cover' => 'Add cover image',//'添加封面',
+	'json_editor_upload_tip' => 'Click to upload or drag files here',//'点击上传，或将文件拖拽到此处',
+	'json_editor_upload_mobile_tip' => 'Click to upload',//'点击上传',
+	'json_editor_upload_desc' => 'Supported image formats: JPEG, JPG, PNG',//'图片上传格式支持 JPEG、JPG、PNG',
+
 
 // Added by Valery Votintsev
 	'view_thread_textmode'		=> 'Text mode',//'文字模式',
