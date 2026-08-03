@@ -179,7 +179,7 @@ function writetocsscache($data, $touch = false) {
 			foreach (['styleimgdir', 'imgdir', 'staticurl'] as $dirkey) {
 				if (!empty($data[$dirkey]) && !preg_match('/^(https?:)?\/\//i', $data[$dirkey])) {
 					$dirpath = rtrim(ltrim($data[$dirkey], './'), '/');
-					$cssdata = preg_replace("/url\(([\"'])?(?:\.\/)?".preg_quote($dirpath, '/').'\/+/i', "url(\\1{$siteurl}{$dirpath}/", $cssdata);
+					$cssdata = preg_replace("/url\(([\"'])?(?:\.\/|\/)?".preg_quote($dirpath, '/').'\/+/i', "url(\\1{$siteurl}{$dirpath}/", $cssdata);
 				}
 			}
 			if($entry == 'module.css') {
