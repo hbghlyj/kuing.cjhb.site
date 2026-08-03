@@ -50,9 +50,6 @@
 	.dz_footc{background: $_G['style']['bottom_bgc'];}
 	<!--{/if}-->
 	<!--{if $_G['style']['bottom_dark'] && $_G['style']['bottom_bgc']}-->
-	.dz_footc a,.dz_footc_nav .pipe{color: var(--dz-bgfglass);}
-	.dz_footc_copy{color: var(--dz-bgfglass);}
-	.dz_footc_nav{border-bottom: 1px solid var(--dz-bgfglass);}
 	.dz_footc_dico{background: none;}
 	<!--{/if}-->
 	<!--{if $_G['style']['viewthread_fastpost'] == 3}-->

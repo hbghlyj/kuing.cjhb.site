@@ -646,7 +646,7 @@ img{border:none;}
 #ft.dz_footc_bottom {border-top:none;padding:0}
 .dz_footc_nav {height:20px;line-height:20px;margin-right: 130px;}
 .dz_footc_nav a {float:left;font-size:14px;margin-right:15px}
-.dz_footc_nav .pipe {float:left;color:var(--dz-borderb);margin:0 15px 0 0}
+.dz_footc_nav .pipe {float:left;margin:0 15px 0 0}
 
 /* Minimalist Language Selector Dropdown */
 .lang-selector-wrap {
