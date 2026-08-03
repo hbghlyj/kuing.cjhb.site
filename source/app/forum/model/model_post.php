@@ -570,7 +570,20 @@ class model_post extends discuz_model {
 		$setarr['invisible'] = $pinvisible;
 	}
 	$historypost = table_forum_post::t()->fetch_post('tid:'.$this->thread['tid'], $this->post['pid']);
-	table_forum_editlog::t()->insert([
+	$old_subject = $historypost['subject'] ?? $this->post['subject'];
+	$old_message = $historypost['message'] ?? $this->post['message'];
+	$old_content = $historypost['content'] ?? $this->post['content'];
+	$new_subject = $setarr['subject'];
+	$new_message = $setarr['message'];
+	$new_content = $setarr['content'];
+	$strip_cr = function($value) {
+		return is_string($value) ? str_replace("\r", '', $value) : $value;
+	};
+	$has_diff = $strip_cr($new_subject) !== $strip_cr($old_subject)
+		|| $strip_cr($new_message) !== $strip_cr($old_message)
+		|| $strip_cr($new_content) !== $strip_cr($old_content);
+	if($has_diff) {
+		table_forum_editlog::t()->insert([
 			'tid' => $this->thread['tid'],
 			'pid' => $this->post['pid'],
 			'authorid' => $this->post['authorid'],
@@ -578,11 +591,13 @@ class model_post extends discuz_model {
 			'username' => $this->member['username'],
 			'dateline' => TIMESTAMP,
 			'action' => 'edit',
-			'old_subject' => $historypost['subject'] ?? $this->post['subject'],
-			'old_message' => $historypost['message'] ?? $this->post['message'],
-			'old_content' => $historypost['content'] ?? $this->post['content'],
+			'old_subject' => $old_subject,
+			'old_message' => $old_message,
+			'old_content' => $old_content,
 		]);
-		table_forum_post::t()->update_post('tid:'.$this->thread['tid'], $this->post['pid'], $setarr);
+	}
+
+	table_forum_post::t()->update_post('tid:'.$this->thread['tid'], $this->post['pid'], $setarr);
 
 		$this->forum['lastpost'] = explode("\t", $this->forum['lastpost']);
 		if($isfirstpost && $this->post['tid'] == $this->forum['lastpost'][0]) {

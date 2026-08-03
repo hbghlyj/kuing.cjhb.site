@@ -680,7 +680,32 @@ const mathDraftSubject = `Thread with Restored Math Draft ${testRunId}`;
                 assert.ok(guestHistoryText.includes('Only the author and administrators can view post revision history.'), 'Assertion Error: Guest could access post revision history.');
                 await guestContext.close();
 
-                report += `### 4. Unprivileged User Edit & Revision History\n- **Status**: Checked\n- **Edited Title**: ${editedStandardSubject}\n- **Author History Access**: Success\n- **Guest Access Denied**: Success\n\n`;
+                console.log("Testing no-op edit does not create a revision...");
+                const editlogCountBefore = Number(execSync(`sudo mysql -u root ultrax -N -s -e "SELECT COUNT(*) FROM pre_forum_editlog WHERE tid='${tidOutput}' AND pid='${pidOutput}' AND action='edit';"`).toString().trim());
+                await page.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${tidOutput}`);
+                await page.waitForLoadState('networkidle');
+                const noopEditBtn = page.locator(`a[href*="action=edit"][href*="pid=${pidOutput}"]`);
+                await noopEditBtn.click();
+                const noopEditForm = page.locator('#fwin_edit form#postform_edit');
+                await noopEditForm.waitFor({ state: 'visible' });
+                await solveSecurityQuestion(page, noopEditForm);
+                const [noopEditResponse] = await Promise.all([
+                    page.waitForResponse(response =>
+                        response.request().method() === 'POST' &&
+                        response.url().includes('forum.php?mod=post') &&
+                        response.url().includes('action=edit')
+                    ),
+                    noopEditForm.locator('button[name="editsubmit"]').click()
+                ]);
+                assert.ok(noopEditResponse.ok(), `Assertion Error: No-op edit POST failed with HTTP ${noopEditResponse.status()}.`);
+                await page.waitForFunction(() => {
+                    const modal = document.getElementById('fwin_edit');
+                    return !modal || modal.style.display === 'none';
+                }, null, { timeout: 5000 });
+                const editlogCountAfter = Number(execSync(`sudo mysql -u root ultrax -N -s -e "SELECT COUNT(*) FROM pre_forum_editlog WHERE tid='${tidOutput}' AND pid='${pidOutput}' AND action='edit';"`).toString().trim());
+                assert.strictEqual(editlogCountAfter, editlogCountBefore, 'Assertion Error: A no-op edit unexpectedly created a post revision.');
+
+                report += `### 4. Unprivileged User Edit & Revision History\n- **Status**: Checked\n- **Edited Title**: ${editedStandardSubject}\n- **Author History Access**: Success\n- **Guest Access Denied**: Success\n- **No-Op Edit Skipped Revision**: Success\n\n`;
 
         console.log("Testing Personal Info Update via spacecp...");
         await page.goto('http://127.0.0.1:8080/home.php?mod=spacecp&ac=profile');
