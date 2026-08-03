@@ -98,9 +98,6 @@ window.MathJax = {
     },
     paths: {static: '/static'}
   },
-  svg: {
-    fontCache: 'global'
-  },
   chtml: {
     matchFontHeight: true
   },

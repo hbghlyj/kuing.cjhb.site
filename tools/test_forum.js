@@ -444,22 +444,23 @@ const mathDraftSubject = `Thread with Restored Math Draft ${testRunId}`;
             threadPostResponse.ok() || (threadPostResponse.status() >= 300 && threadPostResponse.status() < 400),
             `Assertion Error: Desktop thread POST failed with HTTP ${threadPostResponse.status()}.`
         );
-        await page.waitForURL(/forum\.php\?mod=viewthread&tid=\d+/);
 
         console.log("Checking if posted thread exists in DB...");
         const threadDbCheck = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT COUNT(*) FROM pre_forum_thread WHERE subject='${standardSubject}';"`).toString().trim();
         console.log("DB count for thread:", threadDbCheck);
+        assert.ok(parseInt(threadDbCheck, 10) >= 1, 'Assertion Error: Normal user thread post was not found in database.');
+
+        const tidOutput = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT tid FROM pre_forum_thread WHERE subject='${standardSubject}' ORDER BY tid DESC LIMIT 1;"`).toString().trim();
+        assert.match(tidOutput, /^\d+$/, 'Assertion Error: Created thread ID was not found.');
+
+        await page.waitForURL(new RegExp(`forum\\.php\\?mod=viewthread&tid=${tidOutput}(&|$)`));
 
         const currentUrl = page.url();
         const postContent = await page.textContent('body');
 
-        assert.ok(parseInt(threadDbCheck, 10) >= 1, 'Assertion Error: Normal user thread post was not found in database.');
-        assert.match(currentUrl, /mod=viewthread&tid=\d+/, 'Assertion Error: Normal user posting did not redirect to the created thread.');
+        assert.match(currentUrl, new RegExp(`mod=viewthread&tid=${tidOutput}(&|$)`), `Assertion Error: Normal user posting did not redirect to the created thread (tid ${tidOutput}).`);
         assert.ok(postContent.includes(standardSubject), 'Assertion Error: Created thread subject was not rendered after submission.');
-        report += `### 2. Unprivileged User Posting\n- **Status**: Checked\n- **Thread Created**: ${standardSubject}\n\n`;
-
-        const tidOutput = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT tid FROM pre_forum_thread WHERE subject='${standardSubject}' ORDER BY tid DESC LIMIT 1;"`).toString().trim();
-        assert.match(tidOutput, /^\d+$/, 'Assertion Error: Created thread ID was not found.');
+        report += `### 2. Unprivileged User Posting\n- **Status**: Checked\n- **Thread Created**: ${standardSubject} (tid ${tidOutput})\n\n`;
 
         // Reply to Thread
             console.log("Attempting to reply to thread...");
@@ -589,10 +590,12 @@ const mathDraftSubject = `Thread with Restored Math Draft ${testRunId}`;
                 advancedSubmit.click()
             ]);
             assert.ok(advancedResponse.ok() || (advancedResponse.status() >= 300 && advancedResponse.status() < 400), `Assertion Error: Full advanced editor POST failed with HTTP ${advancedResponse.status()}.`);
-            await page.waitForURL(/forum\.php\?mod=viewthread&tid=\d+/);
+            const advancedTid = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT tid FROM pre_forum_thread WHERE subject='${advancedSubject}' ORDER BY tid DESC LIMIT 1;"`).toString().trim();
+            assert.match(advancedTid, /^\d+$/, 'Assertion Error: Full advanced editor thread ID was not found.');
+            await page.waitForURL(new RegExp(`forum\\.php\\?mod=viewthread&tid=${advancedTid}(&|$)`));
             const advancedDbCheck = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT COUNT(*) FROM pre_forum_thread WHERE subject='${advancedSubject}';"`).toString().trim();
             assert.strictEqual(advancedDbCheck, '1', 'Assertion Error: Full advanced editor thread was not found in database.');
-            report += '### Full Advanced Editor\n- **Status**: Checked\n- **Thread Created**: ' + advancedSubject + '\n\n';
+            report += `### Full Advanced Editor\n- **Status**: Checked\n- **Thread Created**: ${advancedSubject} (tid ${advancedTid})\n\n`;
 
 
             // Edit Thread
@@ -617,11 +620,25 @@ const mathDraftSubject = `Thread with Restored Math Draft ${testRunId}`;
                 await solveSecurityQuestion(page, editForm);
                 const editBtn = editForm.locator('button[name="editsubmit"]');
                 assert.strictEqual(await editBtn.count(), 1, 'Assertion Error: Desktop edit submit button did not render.');
-                await editBtn.click();
+
+                const [editPostResponse] = await Promise.all([
+                    page.waitForResponse(response =>
+                        response.request().method() === 'POST' &&
+                        response.url().includes('forum.php?mod=post') &&
+                        response.url().includes('action=edit')
+                    ),
+                    editBtn.click()
+                ]);
+                assert.ok(editPostResponse.ok(), `Assertion Error: Desktop edit POST failed with HTTP ${editPostResponse.status()}.`);
+
+                const editResponseBody = await editPostResponse.text();
+                assert.ok(editResponseBody.includes('succeedhandle_edit'), 'Assertion Error: Desktop edit POST response did not invoke the close-window callback succeedhandle_edit.');
+
                 await page.waitForFunction(() => {
                     const modal = document.getElementById('fwin_edit');
                     return !modal || modal.style.display === 'none';
                 }, null, { timeout: 5000 });
+                assert.match(page.url(), new RegExp(`mod=viewthread&tid=${tidOutput}(&|$)`), 'Assertion Error: Desktop edit submission navigated away from the thread instead of closing the float window via callback.');
 
                 console.log("Checking if edited thread title exists in DB...");
                 const editDbCheck = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT COUNT(*) FROM pre_forum_thread WHERE tid='${tidOutput}' AND subject='${editedStandardSubject}';"`).toString().trim();
@@ -1342,7 +1359,9 @@ const mathDraftSubject = `Thread with Restored Math Draft ${testRunId}`;
 			mathSubmitBtn.click()
 		]);
 		assert.ok(mathPostResponse.ok() || (mathPostResponse.status() >= 300 && mathPostResponse.status() < 400), `Assertion Error: Restored math draft POST failed with HTTP ${mathPostResponse.status()}.`);
-		await page.waitForURL(/forum\.php\?mod=viewthread&tid=\d+/);
+		const mathTid = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT tid FROM pre_forum_thread WHERE subject='${mathDraftSubject}' ORDER BY tid DESC LIMIT 1;"`).toString().trim();
+		assert.match(mathTid, /^\d+$/, 'Assertion Error: Restored math draft thread ID was not found.');
+		await page.waitForURL(new RegExp(`forum\\.php\\?mod=viewthread&tid=${mathTid}(&|$)`));
 		const mathDraftMessage = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT p.message FROM pre_forum_post p INNER JOIN pre_forum_thread t ON t.tid=p.tid WHERE t.subject='${mathDraftSubject}' AND p.first=1 LIMIT 1;"`, { encoding: 'utf-8' }).trim();
 		assert.strictEqual(mathDraftMessage, 'Test $f$ math content', 'Assertion Error: Submitted restored math draft did not preserve the original TeX source.');
 
