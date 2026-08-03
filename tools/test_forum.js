@@ -392,7 +392,9 @@ const stubPusher = async targetContext => {
         report += '### Desktop Forum Front Page (forum.php)\n- **Status**: Checked\n- **Front Page Load**: Success\n- **Screenshot**: `screenshot_desktop_forum_index.png`\n\n';
 
         console.log("Testing footer locale switcher and localized forum names...");
-        const scLocaleLink = page.locator('.dz_footc_nav a[href="misc.php?mod=i18n&key=SC"]');
+        const scLocaleLink = page.locator('#lang_selector_dropdown a[href="misc.php?mod=i18n&key=SC"]');
+        // Open the dropdown first so the link is clickable
+        await page.locator('#lang_select_btn').click();
         assert.strictEqual(await scLocaleLink.count(), 1, 'Assertion Error: DiscuzX5 footer SC locale switch did not render.');
         await Promise.all([
             page.waitForNavigation({ waitUntil: 'networkidle' }),
@@ -401,7 +403,8 @@ const stubPusher = async targetContext => {
         assert.strictEqual(await page.evaluate(() => DISCUZ_I18N), 'SC', 'Assertion Error: Footer locale switch did not select SC.');
         assert.strictEqual(await page.getByText('默认版块', { exact: true }).count(), 1, 'Assertion Error: SC locale switch did not localize the forum name.');
 
-        const enLocaleLink = page.locator('.dz_footc_nav a[href="misc.php?mod=i18n&key=EN"]');
+        const enLocaleLink = page.locator('#lang_selector_dropdown a[href="misc.php?mod=i18n&key=EN"]');
+        await page.locator('#lang_select_btn').click();
         assert.strictEqual(await enLocaleLink.count(), 1, 'Assertion Error: DiscuzX5 footer EN locale switch did not render.');
         await Promise.all([
             page.waitForNavigation({ waitUntil: 'networkidle' }),
