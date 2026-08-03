@@ -115,9 +115,16 @@ function _ajaxpost(formid, showid, waitid, showidclass, submitbtn, recall) {
 	if(submitbtn) {
 		submitbtn.disabled = true;
 	}
+	var formData = new FormData(curform);
+	['subject', 'message'].forEach(function(name) {
+		var field = curform.querySelector('[name="' + name + '"]');
+		if(field) {
+			formData.set(name, field.value);
+		}
+	});
 	fetch(action, {
 		method: 'POST',
-		body: new FormData(curform),
+		body: formData,
 		credentials: 'same-origin'
 	}).then(function(response) {
 		if(response.redirected) {
