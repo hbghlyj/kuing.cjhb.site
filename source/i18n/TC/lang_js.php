@@ -250,7 +250,6 @@ $lang = [
 	'unused' => '未使用的',
 	'reply_credit_over' => '回帖獎勵積分總額過大({1})',
 	'reply_credit_num' => '返還 {1}',
-	'delete_post_confirm' => '確定要刪除該帖子嗎？',
 	'delete' => '刪除',
 	'set_cover' => '設爲封面',
 	'click_zoom' => '點擊放大',

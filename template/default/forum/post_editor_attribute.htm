@@ -33,9 +33,6 @@
 	</div>
 
 	<div id="post_extra_c">
-		<!--{if $_GET[action] == 'edit' && ($_G['forum']['ismoderator'] || $isorigauthor) && !$rushreply && $_G['setting']['editperdel']}-->
-			<button type="button" class="pn xi1" onclick="deleteThread();" style="position: absolute;right:0;"><span>{lang post_delpost}</span></button><input type="hidden" name="delete" id="delete" value="0" />
-		<!--{/if}-->
 		<!--{if $_GET[action] == 'newthread' || $_GET[action] == 'edit' && $isfirstpost}-->
 			<!--{if !empty($userextcredit)}-->
 				<div id="extra_replycredit_c" class="exfm cl" style="display: none;">

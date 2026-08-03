@@ -866,14 +866,6 @@ function extraCheckall() {
 	}
 }
 
-function deleteThread() {
-	if(confirm($L('delete_post_confirm')) != 0){
-		$('delete').value = '1';
-		onbeforeunload = null;
-		$('postform').submit();
-	}
-}
-
 function hideAttachMenu(id) {
 	if($(editorid + '_' + id + '_menu')) {
 		$(editorid + '_' + id + '_menu').style.visibility = 'hidden';

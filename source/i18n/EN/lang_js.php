@@ -179,7 +179,6 @@ $lang = [
 	'data_clear_confirm' => 'Are you sure you want to clear everything?',
 	'delete_confirm' => 'Are you sure you want to delete this data?',
 	'delete_confirm_2' => 'Do you really want to delete it? Deletion will be irreversible.',
-	'delete_post_confirm' => 'Are you sure you want to delete this post?',
 	'digital_error' => 'Invalid number',
 	'dir' => 'Table of contents',
 	'diy_add_title' => 'Add new title',
