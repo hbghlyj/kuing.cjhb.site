@@ -90,7 +90,7 @@
 				<!--{/if}-->
 				<a id="{$editorid}_postbg" adv="1" title="{lang replybackground}">Background</a>
 				<!--{loop $_G['cache']['bbcodes_display'][$_G['groupid']] $tag $bbcode}-->
-					<a id="{$editorid}_cst{$bbcode[params]}_$tag" class="cst" title="$bbcode[explanation]"><!--{if $bbcode['icon']=="static/image/common/none"}-->$bbcode[explanation]<!--{else}--><img src="$bbcode['icon']" title="$bbcode[explanation]" alt="$tag" /><!--{/if}--></a>
+					<a id="{$editorid}_cst{$bbcode[params]}_$tag" class="cst" title="$bbcode[explanation]"><!--{if !$bbcode['icon'] || $bbcode['icon']=="static/image/common/none"}-->$tag<!--{else}--><img src="$bbcode['icon']" title="$bbcode[explanation]" alt="$tag" /><!--{/if}--></a>
 				<!--{/loop}-->
 
 				<a id="{$editorid}_cst1_tikz" class="cst" title="输入 TikZ 代码">tikz</a>

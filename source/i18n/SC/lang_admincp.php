@@ -5425,7 +5425,7 @@ $lang =
 
 	'misc_bbcode' => '自定义 Discuz! 代码',
 	'misc_bbcode_edit' => '编辑 Discuz! 代码',
-	'misc_bbcode_edit_tips' => '<li>只有在自定义 Discuz! 代码可用并设置了图标文件时，具有“允许使用自定义 Discuz! 代码”权限的用户组在发帖时才会看到相应自定义 Discuz! 代码按钮。</li>',
+	'misc_bbcode_edit_tips' => '<li>设置“显示”并勾选适用用户组后，自定义 Discuz! 代码按钮将在编辑器工具栏中显示。如果不填写图标文件，将默认显示标签名称文本按钮。</li>',
 	'misc_bbcode_tag' => '标签',
 	'misc_bbcode_edit_tag' => '标签',
 	'misc_bbcode_edit_tag_comment' => '方括号中的标签代码，如 [tag] 的标签为 "tag"(不含引号)',

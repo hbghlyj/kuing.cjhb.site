@@ -5429,7 +5429,7 @@ $lang =
 
 	'misc_bbcode' => '自定義 Discuz! 代碼',
 	'misc_bbcode_edit' => '編輯 Discuz! 代碼',
-	'misc_bbcode_edit_tips' => '<li>只有在自定義 Discuz! 代碼可用並設定了圖標檔案時，具有“允許使用自定義 Discuz! 代碼”權限的用戶組在發帖時纔會看到相應自定義 Discuz! 代碼按鈕。</li>',
+	'misc_bbcode_edit_tips' => '<li>設定“顯示”並勾選適用用戶組後，自訂 Discuz! 代碼按鈕將在編輯器工具列中顯示。如果不填寫圖標檔案，將預設顯示標籤名稱文字按鈕。</li>',
 	'misc_bbcode_tag' => '標籤',
 	'misc_bbcode_edit_tag' => '標籤',
 	'misc_bbcode_edit_tag_comment' => '方括號中的標籤代碼，如 [tag] 的標籤爲 "tag"(不含引號)',
