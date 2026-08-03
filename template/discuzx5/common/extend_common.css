@@ -749,7 +749,7 @@ img{border:none;}
 	flex-shrink: 0;
 	margin-left: 12px;
 }
-.dz_footc_copy {padding:10px 0 25px;line-height:26px;color:var(--dz-fc)}
+.dz_footc_copy {padding:0 0 25px;line-height:26px;color:var(--dz-fc)}
 .dz_footc_copy a {color:var(--dz-fc)}
 .dz_footc_copy .pipe {float:none;color:var(--dz-borderb);margin:0 10px}
 .dz_footc_copy img {vertical-align:top;margin:6px 5px 0 0}

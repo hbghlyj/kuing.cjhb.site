@@ -119,22 +119,22 @@
 				<p class="xs0">{lang time_now}</p>
 			</div>
 			<div id="frt">
+				<!--{if $_G['style']['bottom_qrcode'] || $_G['style']['bottom_qrcodetxt']}-->
 				<div class="dz_footc_dico">
-					<!--{if $_G['style']['bottom_qrcode'] || $_G['style']['bottom_qrcodetxt']}-->
-						<div class="ewmimg">
-							<!--{if $_G['style']['bottom_qrcode']}-->
-								<img src="{$_G['style']['bottom_qrcode']}">   
-							<!--{else}-->
-								<img src="{STYLEIMGDIR}/img/ewm_b.jpg">
-							<!--{/if}-->
-							<!--{if $_G['style']['bottom_qrcodetxt']}-->
-								{$_G['style']['bottom_qrcodetxt']}
-							<!--{else}-->
-								{lang fllowwechat}
-							<!--{/if}-->
-						</div>
-					<!--{/if}-->
+					<div class="ewmimg">
+						<!--{if $_G['style']['bottom_qrcode']}-->
+							<img src="{$_G['style']['bottom_qrcode']}">   
+						<!--{else}-->
+							<img src="{STYLEIMGDIR}/img/ewm_b.jpg">
+						<!--{/if}-->
+						<!--{if $_G['style']['bottom_qrcodetxt']}-->
+							{$_G['style']['bottom_qrcodetxt']}
+						<!--{else}-->
+							{lang fllowwechat}
+						<!--{/if}-->
+					</div>
 				</div>
+				<!--{/if}-->
 				<div class="dz_footc_copy">
 					<!--{if $_G['style']['bottom_txt']}-->
 					<p>{$_G['style']['bottom_txt']}</p>
