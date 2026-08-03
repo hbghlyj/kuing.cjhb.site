@@ -69,7 +69,8 @@
 										url : url,
 										dataType : "html",
 									}).then(function(s) {
-											if($.trim(s.childNodes[0].textContent) == 'false') {
+											var feedHtml = $.trim(s);
+											if(feedHtml == 'false') {
 												if(!archiver) {
 													feedInfo.primary = false;
 													loadmore();
@@ -79,7 +80,7 @@
 													page = 1;
 												}
 											} else {
-												$('#followlist').append($.trim(s.childNodes[0].textContent));
+												$('#followlist').append(feedHtml);
 											}
 
 											if(!feedInfo.primary && !feedInfo.archiver) {
