@@ -639,12 +639,15 @@ img{border:none;}
 /* 头部结束 */
 
 /* foot */
-#ft {background:none;padding:5px 0;line-height:24px;color:var(--dz-fc)}
+#ft {background:none;padding:5px 0;line-height:24px;color:var(--dz-fc);display:flex;justify-content:space-between;align-items:flex-start;gap:20px}
+#flk {flex:1}
+#frt {flex:1;text-align:right}
+.footer-row-1 {display:flex;flex-direction:row;align-items:center}
 .dz_footc {overflow:visible;box-shadow:var(--dz-shadow)}
 .dz_footc a {color:var(--dz-alink)}
 .dz_footc a:hover {color:var(--dz-ahover)}
 #ft.dz_footc_bottom {border-top:none;padding:0}
-.dz_footc_nav {height:20px;line-height:20px;margin-right: 130px;}
+.dz_footc_nav {height:20px;line-height:20px}
 .dz_footc_nav a {float:left;font-size:14px;margin-right:15px}
 .dz_footc_nav .pipe {float:left;margin:0 15px 0 0}
 

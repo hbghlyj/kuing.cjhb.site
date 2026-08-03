@@ -62,87 +62,92 @@
 	<!--{/if}-->
 	<div class="dz_footc cl">
 		<div id="ft" class="wp dz_footc_bottom cl">
-			<div class="dz_footc_dico">
-				<!--{if $_G['style']['bottom_qrcode'] || $_G['style']['bottom_qrcodetxt']}-->
-					<div class="ewmimg">
-						<!--{if $_G['style']['bottom_qrcode']}-->
-							<img src="{$_G['style']['bottom_qrcode']}">   
-						<!--{else}-->
-							<img src="{STYLEIMGDIR}/img/ewm_b.jpg">
-						<!--{/if}-->
-						<!--{if $_G['style']['bottom_qrcodetxt']}-->
-							{$_G['style']['bottom_qrcodetxt']}
-						<!--{else}-->
-							{lang fllowwechat}
-						<!--{/if}-->
+			<div id="flk">
+				<div class="footer-row-1">
+					<div class="dz_footc_nav">
+						<!--{eval $footerlinkindex = 0;}-->
+						<!--{loop $_G['setting']['footernavs'] $nav}--><!--{if is_array($nav) && $nav['available'] && ($nav['type'] && (!$nav['level'] || ($nav['level'] == 1 && $_G['uid']) || ($nav['level'] == 2 && $_G['adminid'] > 0) || ($nav['level'] == 3 && $_G['adminid'] == 1)) ||
+								!$nav['type'] && ($nav['id'] == 'stat' && $_G['group']['allowstatdata'] || $nav['id'] == 'report' && $_G['uid'] || $nav['id'] == 'archiver' || $nav['id'] == 'mobile' || $nav['id'] == 'darkroom'))}--><!--{if $footerlinkindex}--><span class="pipe">|</span><!--{/if}-->$nav['code']<!--{eval $footerlinkindex++;}--><!--{/if}--><!--{/loop}-->
+								<!--{if !empty($_G['setting']['styles'][1])}--><!--{if $footerlinkindex}--><span class="pipe">|</span><!--{/if}--><a href="javascript:;" onclick="setcookie('styleid', '1', 31536000);location.reload();return false;">default style</a><!--{eval $footerlinkindex++;}--><!--{/if}-->
+								<!--{if !empty($_G['setting']['i18n'])}-->
+									<!--{eval 
+										$footerLocales = [
+											'SC' => '简体中文',
+											'TC' => '繁體中文',
+											'EN' => 'English'
+										];
+										$curLangKey = currentlang();
+										$curLangDisplay = isset($footerLocales[$curLangKey]) ? $curLangKey : 'EN';
+									}-->
+									<!--{if $footerlinkindex}--><span class="pipe">|</span><!--{/if}-->
+									<div class="lang-selector-wrap" id="lang_selector_root">
+										<a href="javascript:;" class="lang-selector-trigger" id="lang_select_btn" onclick="(function(e){e.stopPropagation();var m=document.getElementById('lang_selector_dropdown');if(m){m.style.display=m.style.display==='none'?'block':'none';}}).call(this,event)" aria-haspopup="true" aria-expanded="false">
+											<span class="lang-code">{$curLangDisplay}</span>
+											<svg class="lang-chevron" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+										</a>
+										<div id="lang_selector_dropdown" class="lang-selector-dropdown" style="display:none;">
+											<ul class="lang-menu-list">
+												<!--{loop $footerLocales $locale $localeName}-->
+													<!--{if !empty($_G['setting']['i18n'][$locale])}-->
+														<li class="lang-menu-item">
+															<a href="misc.php?mod=i18n&key=$locale" class="lang-menu-link{if $curLangKey == $locale} is-active{/if}">
+																<span class="lang-menu-name">$localeName</span>
+																<!--{if $curLangKey == $locale}-->
+																	<svg class="lang-menu-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0066ff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+																<!--{/if}-->
+															</a>
+														</li>
+													<!--{/if}-->
+												<!--{/loop}-->
+											</ul>
+										</div>
+									</div>
+									<script type="text/javascript">
+									(function(){
+										document.addEventListener('click', function(){
+											var m = document.getElementById('lang_selector_dropdown');
+											if(m) m.style.display = 'none';
+										});
+									})();
+									</script>
+									<!--{eval $footerlinkindex++;}-->
+								<!--{if $_G['setting']['statcode']}-->$_G['setting']['statcode']<!--{/if}-->
+								<!--{/if}-->
+								<!--{hook/global_footerlink}-->
 					</div>
-				<!--{/if}-->
-				
-			</div>
-			<div class="dz_footc_nav">
-				<!--{eval $footerlinkindex = 0;}-->
-				<!--{loop $_G['setting']['footernavs'] $nav}--><!--{if is_array($nav) && $nav['available'] && ($nav['type'] && (!$nav['level'] || ($nav['level'] == 1 && $_G['uid']) || ($nav['level'] == 2 && $_G['adminid'] > 0) || ($nav['level'] == 3 && $_G['adminid'] == 1)) ||
-						!$nav['type'] && ($nav['id'] == 'stat' && $_G['group']['allowstatdata'] || $nav['id'] == 'report' && $_G['uid'] || $nav['id'] == 'archiver' || $nav['id'] == 'mobile' || $nav['id'] == 'darkroom'))}--><!--{if $footerlinkindex}--><span class="pipe">|</span><!--{/if}-->$nav['code']<!--{eval $footerlinkindex++;}--><!--{/if}--><!--{/loop}-->
-						<!--{if !empty($_G['setting']['styles'][1])}--><!--{if $footerlinkindex}--><span class="pipe">|</span><!--{/if}--><a href="javascript:;" onclick="setcookie('styleid', '1', 31536000);location.reload();return false;">default style</a><!--{eval $footerlinkindex++;}--><!--{/if}-->
-						<!--{if !empty($_G['setting']['i18n'])}-->
-							<!--{eval 
-								$footerLocales = [
-									'SC' => '简体中文',
-									'TC' => '繁體中文',
-									'EN' => 'English'
-								];
-								$curLangKey = currentlang();
-								$curLangDisplay = isset($footerLocales[$curLangKey]) ? $curLangKey : 'EN';
-							}-->
-							<!--{if $footerlinkindex}--><span class="pipe">|</span><!--{/if}-->
-							<div class="lang-selector-wrap" id="lang_selector_root">
-								<a href="javascript:;" class="lang-selector-trigger" id="lang_select_btn" onclick="(function(e){e.stopPropagation();var m=document.getElementById('lang_selector_dropdown');if(m){m.style.display=m.style.display==='none'?'block':'none';}}).call(this,event)" aria-haspopup="true" aria-expanded="false">
-									<span class="lang-code">{$curLangDisplay}</span>
-									<svg class="lang-chevron" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
-								</a>
-								<div id="lang_selector_dropdown" class="lang-selector-dropdown" style="display:none;">
-									<ul class="lang-menu-list">
-										<!--{loop $footerLocales $locale $localeName}-->
-											<!--{if !empty($_G['setting']['i18n'][$locale])}-->
-												<li class="lang-menu-item">
-													<a href="misc.php?mod=i18n&key=$locale" class="lang-menu-link{if $curLangKey == $locale} is-active{/if}">
-														<span class="lang-menu-name">$localeName</span>
-														<!--{if $curLangKey == $locale}-->
-															<svg class="lang-menu-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0066ff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-														<!--{/if}-->
-													</a>
-												</li>
-											<!--{/if}-->
-										<!--{/loop}-->
-									</ul>
-								</div>
-							</div>
-							<script type="text/javascript">
-							(function(){
-								document.addEventListener('click', function(){
-									var m = document.getElementById('lang_selector_dropdown');
-									if(m) m.style.display = 'none';
-								});
-							})();
-							</script>
-							<!--{eval $footerlinkindex++;}-->
-						<!--{/if}-->
-						<!--{hook/global_footerlink}-->
-						<!--{if $_G['setting']['statcode']}-->$_G['setting']['statcode']<!--{/if}-->
-			</div>
-			<div class="dz_footc_copy">
-				<!--{if $_G['style']['bottom_txt']}-->
-				<p>{$_G['style']['bottom_txt']}</p>
-				<!--{/if}-->
-				<p>{cells common/footer/copyright} {lang copyright}<!--{if $_G['setting']['icp'] || !empty($_G['setting']['mps'])}--><!--{if $_G['setting']['icp']}--><span class="pipe">|</span><a href="https://beian.miit.gov.cn/" target="_blank">$_G['setting']['icp']</a><!--{/if}--><!--{if !empty($_G['setting']['mps'])}--><!--{if $_G['setting']['icp']}--><span class="pipe">|</span><!--{/if}--><a href="https://beian.mps.gov.cn/#/query/webSearch?code=$_G['setting']['mpsid']" target="_blank"><img width="14" height="14" src="{STYLEIMGDIR}/img/ico_mps.png" />$_G['setting']['mps']</a><!--{/if}--><!--{/if}--></p>
+				</div>
 				<p class="xs0">{lang time_now}</p>
-				<p class="xs0">
-					<span id="debuginfo">
-					<!--{if debuginfo()}-->Processed in $_G[debuginfo][time] seconds, $_G[debuginfo][queries] queries
-						<!--{if $_G['gzipcompress']}-->, Gzip On<!--{/if}--><!--{if C::memory()->type}-->, <!--{echo C::memory()->type}--> On<!--{/if}-->
+			</div>
+			<div id="frt">
+				<div class="dz_footc_dico">
+					<!--{if $_G['style']['bottom_qrcode'] || $_G['style']['bottom_qrcodetxt']}-->
+						<div class="ewmimg">
+							<!--{if $_G['style']['bottom_qrcode']}-->
+								<img src="{$_G['style']['bottom_qrcode']}">   
+							<!--{else}-->
+								<img src="{STYLEIMGDIR}/img/ewm_b.jpg">
+							<!--{/if}-->
+							<!--{if $_G['style']['bottom_qrcodetxt']}-->
+								{$_G['style']['bottom_qrcodetxt']}
+							<!--{else}-->
+								{lang fllowwechat}
+							<!--{/if}-->
+						</div>
 					<!--{/if}-->
-					</span>
-				</p>
+				</div>
+				<div class="dz_footc_copy">
+					<!--{if $_G['style']['bottom_txt']}-->
+					<p>{$_G['style']['bottom_txt']}</p>
+					<!--{/if}-->
+					<p>{cells common/footer/copyright} {lang copyright}<!--{if $_G['setting']['icp'] || !empty($_G['setting']['mps'])}--><!--{if $_G['setting']['icp']}--><span class="pipe">|</span><a href="https://beian.miit.gov.cn/" target="_blank">$_G['setting']['icp']</a><!--{/if}--><!--{if !empty($_G['setting']['mps'])}--><!--{if $_G['setting']['icp']}--><span class="pipe">|</span><!--{/if}--><a href="https://beian.mps.gov.cn/#/query/webSearch?code=$_G['setting']['mpsid']" target="_blank"><img width="14" height="14" src="{STYLEIMGDIR}/img/ico_mps.png" />$_G['setting']['mps']</a><!--{/if}--><!--{/if}--></p>
+					<p class="xs0">
+						<span id="debuginfo">
+						<!--{if debuginfo()}-->Processed in $_G[debuginfo][time] seconds, $_G[debuginfo][queries] queries
+							<!--{if $_G['gzipcompress']}-->, Gzip On<!--{/if}--><!--{if C::memory()->type}-->, <!--{echo C::memory()->type}--> On<!--{/if}-->
+						<!--{/if}-->
+						</span>
+					</p>
+				</div>
 			</div>
 		</div>
 	</div>
