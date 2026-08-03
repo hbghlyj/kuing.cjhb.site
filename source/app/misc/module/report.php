@@ -17,6 +17,15 @@ $rid = intval($_GET['rid']);
 $tid = intval($_GET['tid']);
 $fid = intval($_GET['fid']);
 $uid = intval($_GET['uid']);
+if($rtype == 'post' && $rid && empty($tid)) {
+	$post = current(table_forum_post::t()->fetch_all_post(0, [$rid]));
+	if($post) {
+		$tid = intval($post['tid']);
+		if(empty($fid)) {
+			$fid = intval($post['fid']);
+		}
+	}
+}
 $default_url = [
 	'user' => 'home.php?mod=space&uid=',
 	'post' => 'forum.php?mod=redirect&goto=findpost&ptid='.$tid.'&pid=',
