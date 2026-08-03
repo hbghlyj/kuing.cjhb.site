@@ -632,7 +632,7 @@ const stubPusher = async targetContext => {
             await page.waitForLoadState('networkidle');
             const pidOutput = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT pid FROM pre_forum_post WHERE tid='${tidOutput}' AND first=1 LIMIT 1;"`).toString().trim();
             assert.match(pidOutput, /^\d+$/, 'Assertion Error: Created thread first-post ID was not found.');
-                const editPostBtn = page.locator(`a[href*="action=edit"][href*="pid=${pidOutput}"]`);
+                const editPostBtn = page.locator(`a.editp[href*="action=edit"][href*="pid=${pidOutput}"]`);
                 assert.strictEqual(await editPostBtn.count(), 1, 'Assertion Error: Desktop edit control did not render.');
                 await editPostBtn.click();
                 const editForm = page.locator('#fwin_edit form#postform_edit');
@@ -713,7 +713,7 @@ const stubPusher = async targetContext => {
                 const editlogCountBefore = Number(execSync(`sudo mysql -u root ultrax -N -s -e "SELECT COUNT(*) FROM pre_forum_editlog WHERE tid='${tidOutput}' AND pid='${pidOutput}' AND action='edit';"`).toString().trim());
                 await page.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${tidOutput}`);
                 await page.waitForLoadState('networkidle');
-                const noopEditBtn = page.locator(`a[href*="action=edit"][href*="pid=${pidOutput}"]`);
+                const noopEditBtn = page.locator(`a.editp[href*="action=edit"][href*="pid=${pidOutput}"]`);
                 await noopEditBtn.click();
                 const noopEditForm = page.locator('#fwin_edit form#postform_edit');
                 await noopEditForm.waitFor({ state: 'visible' });
