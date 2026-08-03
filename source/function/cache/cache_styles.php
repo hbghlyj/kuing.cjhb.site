@@ -182,6 +182,10 @@ function writetocsscache($data, $touch = false) {
 					$cssdata = preg_replace("/url\(([\"'])?(?:\.\/|\/)?".preg_quote($dirpath, '/').'\/+/i', "url(\\1{$siteurl}{$dirpath}/", $cssdata);
 				}
 			}
+			$cssdata = preg_replace_callback("/url\(([\"'])?(?:\.\/|\/)?((?:template|static)\/[^'\"\)]+)/i", function($m) use ($siteurl) {
+				$path = preg_replace('/\/+/', '/', $m[2]);
+				return 'url(' . $m[1] . $siteurl . $path;
+			}, $cssdata);
 			if($entry == 'module.css') {
 				$cssdata = preg_replace('/\/\*\*\s*(.+?)\s*\*\*\//', '[\\1]', $cssdata);
 			}
