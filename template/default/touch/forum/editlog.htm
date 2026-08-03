@@ -17,6 +17,7 @@
 	<div id="revision_diff" class="revision-diff"></div>
 </div>
 <style>
+.dialogbox:has(.revision-window) { width: min(calc(100vw - 24px), 860px); }
 .revision-window { width: 100%; padding: 12px; box-sizing: border-box; }
 .revision-toolbar { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 6px; margin-bottom: 10px; }
 .revision-toolbar label { grid-column: 1 / -1; font-weight: 700; }

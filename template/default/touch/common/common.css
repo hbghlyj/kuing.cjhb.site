@@ -208,6 +208,10 @@ select {-moz-appearance:none;}
 .fico-delete:before{content:"\f10c";}
 .fico-comment:before{content:"\f10d";}
 .fico-edit:before{content:"\f10e";}
+a.editlog {display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;margin-left:6px;border:1px solid var(--dz-BOR-ed);border-radius:50%;color:var(--dz-FC-666);background:var(--dz-BG-0);vertical-align:middle;box-sizing:border-box;}
+a.editlog .thread-history-icon {display:block;width:18px;height:18px;fill:currentColor;}
+a.editlog:hover,
+a.editlog:focus {color:var(--dz-BG-color);border-color:var(--dz-BG-color);}
 .fico-push:before{content:"\f10f";}
 .fico-thumbup:before{content:"\f110";}
 .fico-thumbdown:before{content:"\f111";}
