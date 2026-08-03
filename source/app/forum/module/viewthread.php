@@ -278,7 +278,6 @@ $exemptvalue = $_G['forum']['ismoderator'] ? 64 : 8;
 $_G['forum_attachmentdown'] = $_G['group']['exempt'] & $exemptvalue;
 
 list($seccodecheck, $secqaacheck) = seccheck('post', 'reply');
-$usesigcheck = $_G['uid'] && $_G['group']['maxsigsize'];
 
 $postlist = $_G['forum_attachtags'] = $attachlist = [];
 $aimgcount = 0;
@@ -293,7 +292,6 @@ $lastmod = viewthread_lastmod($_G['forum_thread']);
 
 $showsettings = str_pad(decbin($_G['setting']['showsettings']), 3, '0', STR_PAD_LEFT);
 
-$showsignatures = $showsettings[0];
 $showavatars = $showsettings[1];
 $_G['setting']['showimages'] = $showsettings[2];
 
@@ -992,7 +990,6 @@ function viewthread_procpost($post, $lastvisit, $maxposition = 0) {
 		($post['first'] && $_G['setting']['commentfirstpost'] && in_array($_G['group']['allowcommentpost'], [1, 3]) ||
 			(!$post['first'] && in_array($_G['group']['allowcommentpost'], [2, 3])));
 	$forum_allowbbcode = $_G['forum']['allowbbcode'] ? -$post['groupid'] : 0;
-	$post['signature'] = $post['usesig'] ? ($_G['setting']['sigviewcond'] ? (strlen($post['message']) > $_G['setting']['sigviewcond'] ? $post['signature'] : '') : $post['signature']) : '';
 	if(!defined('IN_ARCHIVER')) {
 		if($post['first']) {
 			if(!defined('IN_MOBILE')) {

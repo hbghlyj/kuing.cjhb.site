@@ -83,7 +83,6 @@ class extend_thread_trade extends extend_thread_base {
 			'content' => $this->tradecontent,
 			'invisible' => 0,
 			'anonymous' => $this->param['isanonymous'],
-			'usesig' => $_GET['usesig'],
 			'htmlon' => $this->param['htmlon'],
 			'bbcodeoff' => 0,
 			'smileyoff' => $this->param['smileyoff'],

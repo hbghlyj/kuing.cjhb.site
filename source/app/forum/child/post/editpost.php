@@ -60,7 +60,6 @@ if(!$editsubmit) {
 		$postinfo = [];
 	}
 
-	$usesigcheck = $postinfo['usesig'] ? 'checked="checked"' : '';
 	$urloffcheck = $postinfo['parseurloff'] ? 'checked="checked"' : '';
 	$smileyoffcheck = $postinfo['smileyoff'] == 1 ? 'checked="checked"' : '';
 	$codeoffcheck = $postinfo['bbcodeoff'] == 1 ? 'checked="checked"' : '';
@@ -448,7 +447,6 @@ if(!$editsubmit) {
 			'bbcodeoff' => $_GET['bbcodeoff'],
 			'smileyoff' => $_GET['smileyoff'],
 			'parseurloff' => $_GET['parseurloff'],
-			'usesig' => $_GET['usesig'],
 			'htmlon' => $_GET['htmlon'],
 
 			'extramessage' => $extramessage,

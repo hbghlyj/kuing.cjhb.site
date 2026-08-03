@@ -235,7 +235,6 @@ if(!submitcheck('topicsubmit', 0, $seccodecheck, $secqaacheck)) {
 	$params['bbcodeoff'] = getgpc('bbcodeoff');
 	$params['smileyoff'] = getgpc('smileyoff');
 	$params['parseurloff'] = getgpc('parseurloff');
-	$params['usesig'] = $_GET['usesig'];
 	$params['htmlon'] = getgpc('htmlon');
 	$params['geoloc'] = diconv(getgpc('geoloc'), 'UTF-8');
 

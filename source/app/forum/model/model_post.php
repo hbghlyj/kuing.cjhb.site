@@ -60,13 +60,11 @@ class model_post extends discuz_model {
 	protected function _init_parameters($parameters) {
 		$varname = [
 			'member', 'group', 'forum', 'thread', 'extramessage', 'special',//'nauthorid' 'modnewreplies' 'tid'
-			'message', 'content', 'invisible', 'isanonymous', 'usesig',
 			'htmlon', 'bbcodeoff', 'smileyoff', 'parseurloff', 'pstatus',
 			'noticetrimstr', 'from', 'sechash', 'geoloc',
 			'timestamp',
 			'subject', 'special', 'sortid', 'typeid', 'isanonymous', 'cronpublish', 'cronpublishdate', 'save',
 			'readperm', 'price', 'audit', 'tags', 'bbcodeoff',
-			'smileyoff', 'parseurloff', 'usesig', 'htmlon', 'extramessage', 'contentType', 'contentEditor', 'repid',
 		];
 		foreach($varname as $name) {
 			if(!isset($this->param[$name]) && isset($parameters[$name])) {
@@ -119,7 +117,6 @@ class model_post extends discuz_model {
 		$smileyoff = checksmilies($this->param['message'], !empty($this->param['smileyoff']));
 		$parseurloff = !empty($this->param['parseurloff']);
 		$htmlon = $this->group['allowhtml'] && !empty($this->param['htmlon']) ? 1 : 0;
-		$usesig = !empty($this->param['usesig']) && $this->group['maxsigsize'] ? 1 : 0;
 
 		$this->param['isanonymous'] = $this->group['allowanonymous'] && !empty($this->param['isanonymous']) ? 1 : 0;
 		$author = empty($this->param['isanonymous']) ? $this->member['username'] : '';
@@ -170,7 +167,6 @@ class model_post extends discuz_model {
 			'content' => $content,
 			'invisible' => $pinvisible,
 			'anonymous' => $this->param['isanonymous'],
-			'usesig' => $usesig,
 			'htmlon' => $htmlon,
 			'bbcodeoff' => $bbcodeoff,
 			'smileyoff' => $smileyoff,
@@ -544,7 +540,6 @@ class model_post extends discuz_model {
 		$setarr = [
 			'message' => $this->param['message'],
 			'content' => $content,
-			'usesig' => $this->param['usesig'],
 			'htmlon' => $this->param['htmlon'],
 			'bbcodeoff' => $this->param['bbcodeoff'],
 			'parseurloff' => $this->param['parseurloff'],

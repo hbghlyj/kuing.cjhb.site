@@ -3007,7 +3007,6 @@ CREATE TABLE pre_forum_post
 	`content`   JSON                  DEFAULT NULL,
 	invisible   tinyint(1)            NOT NULL DEFAULT '0',
 	anonymous   tinyint(1)            NOT NULL DEFAULT '0',
-	usesig      tinyint(1)            NOT NULL DEFAULT '0',
 	htmlon      tinyint(1)            NOT NULL DEFAULT '0',
 	bbcodeoff   tinyint(1)            NOT NULL DEFAULT '0',
 	smileyoff   tinyint(1)            NOT NULL DEFAULT '0',

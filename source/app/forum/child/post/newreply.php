@@ -396,7 +396,6 @@ if(!submitcheck('replysubmit', 0, $seccodecheck, $secqaacheck)) {
 		'smileyoff' => getgpc('smileyoff'),
 		'htmlon' => getgpc('htmlon'),
 		'parseurloff' => getgpc('parseurloff'),
-		'usesig' => getgpc('usesig'),
 		'isanonymous' => getgpc('isanonymous'),
 		'noticetrimstr' => getgpc('noticetrimstr'),
 		'from' => getgpc('from'),

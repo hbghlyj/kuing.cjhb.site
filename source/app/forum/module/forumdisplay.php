@@ -834,7 +834,6 @@ if($fastpost) {
 	if(in_array($_G['adminid'], [0, -1]) && (!cknewuser(1) || $_G['setting']['newbiespan'] && (!getuserprofile('lastpost') || TIMESTAMP - getuserprofile('lastpost') < $_G['setting']['newbiespan'] * 60) && TIMESTAMP - getglobal('member/regdate') < $_G['setting']['newbiespan'] * 60)) {
 		$allowfastpost = false;
 	}
-	$usesigcheck = $_G['uid'] && $_G['group']['maxsigsize'];
 	list($seccodecheck, $secqaacheck) = seccheck('post', 'newthread');
 } elseif(!$_G['uid']) {
 	$fastpostdisabled = true;

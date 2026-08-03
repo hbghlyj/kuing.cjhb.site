@@ -52,7 +52,6 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && getgpc('do') == 'rollback') {
 			'content' => $content,
 			'invisible' => 0,
 			'anonymous' => 0,
-			'usesig' => 1,
 			'htmlon' => 0,
 			'bbcodeoff' => 0,
 			'smileyoff' => 0,

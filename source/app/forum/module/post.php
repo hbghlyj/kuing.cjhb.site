@@ -213,8 +213,7 @@ if(empty($bbcodeoff) && !$_G['group']['allowhidecode'] && !empty($message) && pr
 	showmessage('post_hide_nopermission');
 }
 
-
-$urloffcheck = $usesigcheck = $smileyoffcheck = $codeoffcheck = $htmloncheck = $emailcheck = '';
+$urloffcheck = $smileyoffcheck = $codeoffcheck = $htmloncheck = $emailcheck = '';
 
 list($seccodecheck, $secqaacheck) = seccheck('post', $_GET['action']);
 
@@ -223,7 +222,6 @@ $_G['group']['allowposttrade'] = $_G['group']['allowpost'] && $_G['group']['allo
 $_G['group']['allowpostreward'] = $_G['group']['allowpost'] && $_G['group']['allowpostreward'] && ($_G['forum']['allowpostspecial'] & 4);
 $_G['group']['allowpostactivity'] = $_G['group']['allowpost'] && $_G['group']['allowpostactivity'] && ($_G['forum']['allowpostspecial'] & 8);
 $_G['group']['allowpostdebate'] = $_G['group']['allowpost'] && $_G['group']['allowpostdebate'] && ($_G['forum']['allowpostspecial'] & 16);
-$usesigcheck = $_G['uid'] && $_G['group']['maxsigsize'] ? 'checked="checked"' : '';
 $specialextra = !empty($_GET['specialextra']) ? $_GET['specialextra'] : '';
 $_G['forum']['threadplugin'] = dunserialize($_G['forum']['threadplugin']);
 

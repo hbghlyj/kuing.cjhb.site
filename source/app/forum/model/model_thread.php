@@ -207,7 +207,6 @@ class model_thread extends discuz_model {
 		$this->param['smileyoff'] = checksmilies($this->param['message'], !empty($this->param['smileyoff']));
 		$this->param['parseurloff'] = !empty($this->param['parseurloff']);
 		$this->param['htmlon'] = $this->group['allowhtml'] && !empty($this->param['htmlon']) ? 1 : 0;
-		$this->param['usesig'] = !empty($this->param['usesig']) && $this->group['maxsigsize'] ? 1 : 0;
 		$class_tag = new tag();
 		table_forum_thread::t()->update($this->tid, array('tags' => $class_tag->add_tag($this->param['tags'], $this->tid, 'tid')));
 
@@ -234,7 +233,6 @@ class model_thread extends discuz_model {
 			'content' => $content,
 			'invisible' => $this->param['pinvisible'],
 			'anonymous' => $this->param['isanonymous'],
-			'usesig' => $this->param['usesig'],
 			'htmlon' => $this->param['htmlon'],
 			'bbcodeoff' => $this->param['bbcodeoff'],
 			'smileyoff' => $this->param['smileyoff'],
@@ -350,7 +348,6 @@ class model_thread extends discuz_model {
                        'readperm', 'price', 'typeid', 'sortid',
 			'publishdate', 'digest', 'moderated', 'tstatus', 'isgroup',
 			'replycredit', 'closed', 'special', 'tags',
-			'message', 'content', 'invisible', 'isanonymous', 'usesig',
 			'htmlon', 'bbcodeoff', 'smileyoff', 'parseurloff', 'pstatus', 'geoloc', 'contentType', 'contentEditor'
 		];
 		foreach($varname as $name) {

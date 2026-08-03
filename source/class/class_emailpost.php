@@ -281,7 +281,6 @@ class emailpost {
 				'smileyoff' => 0,
 				'htmlon' => 0,
 				'parseurloff' => 0,
-				'usesig' => 0,
 				'isanonymous' => 0,
 				'geoloc' => '',
 			];
