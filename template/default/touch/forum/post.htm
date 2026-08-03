@@ -162,14 +162,6 @@
 				</ul>
 			</div>
 		</li>
-		<!--{if $_GET['action'] == 'edit' && $isorigauthor && ($isfirstpost && $thread['replies'] < 1 || !$isfirstpost) && !$rushreply && $_G['setting']['editperdel']}-->
-		<label>
-		<li class="flex-box mli">
-			<div class="flex-3 xg1"><span class="z">{lang post_delpost}</span></div>
-			<div class="flex"><span class="y"><input type="checkbox" name="delete" id="delete" class="pc" value="1"></span></div>
-		</li>
-		</label>
-		<!--{/if}-->
 		<!--{hook/post_middle_mobile}-->
 		<!--{subtemplate forum/post_editor_attribute}-->
 	</ul>
