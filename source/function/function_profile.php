@@ -402,9 +402,6 @@ function countprofileprogress($uid = 0) {
 				$fields[$key] = $field;
 			}
 		}
-		if(isset($fields['sightml']) && empty($_G['group']['maxsigsize'])) {
-			unset($fields['sightml']);
-		}
 		if(isset($fields['customstatus']) && empty($_G['group']['allowcstatus'])) {
 			unset($fields['customstatus']);
 		}
@@ -413,7 +410,7 @@ function countprofileprogress($uid = 0) {
 		$complete = 0;
 		$profile = array_merge(table_common_member_profile::t()->fetch($uid), table_common_member_field_forum::t()->fetch($uid));
 		foreach($fields as $key) {
-			if((!isset($_G['cache']['profilesetting'][$key]) || !$_G['cache']['profilesetting'][$key]['available']) && !in_array($key, ['sightml', 'customstatus'])) {
+			if((!isset($_G['cache']['profilesetting'][$key]) || !$_G['cache']['profilesetting'][$key]['available']) && $key != 'customstatus') {
 				unset($fields[$key]);
 				continue;
 			}

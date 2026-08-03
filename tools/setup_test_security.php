@@ -240,7 +240,6 @@ $expect(!empty($setting['commentpostself']), 'commentpostself');
 $expect(!empty($profileInfo['available']), 'profilegroup.info.available');
 $expect((int)(C::t('forum_forum')->fetch(2)['allowpostspecial'] ?? 0) === 31, 'forum_2.allowpostspecial');
 $expect(in_array('bio', $profileFields, true), 'profilegroup.info.bio');
-$expect(in_array('sightml', $profileFields, true), 'profilegroup.info.sightml');
 $expect(in_array('customstatus', $profileFields, true), 'profilegroup.info.customstatus');
 $expect(count($secqaaCache) === 9, 'secqaa cache count');
 $expect(!array_filter($secqaaCache, fn($question) => (((array)$question)['answer'] ?? '') !== md5('2')), 'secqaa answers');

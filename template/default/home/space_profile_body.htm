@@ -34,7 +34,6 @@
 		<ul>
 			<!--{if $space[spacenote]}--><li><em class="xg1">{lang spacenote}&nbsp;&nbsp;</em>$space[spacenote]</li><!--{/if}-->
 			<!--{if $space[customstatus]}--><li class="xg1"><em>{lang permission_basic_status}&nbsp;&nbsp;</em>$space[customstatus]</li><!--{/if}-->
-			<!--{if $space[group][maxsigsize] && $space[sightml]}--><li><em class="xg1">{lang personal_signature}&nbsp;&nbsp;</em><table><tr><td>$space[sightml]</td></tr></table></li><!--{/if}-->
 		</ul>
 		<h2 class="mbn">{lang stat_info}</h2>
 		<ul class="cl bbda pbm mbm">
@@ -200,8 +199,6 @@
 					{lang crime_banstatus}
 				<!--{elseif $crime[action] == 'crime_avatar'}-->
 					{lang crime_avatar}
-				<!--{elseif $crime[action] == 'crime_sightml'}-->
-					{lang crime_sightml}
 				<!--{elseif $crime[action] == 'crime_customstatus'}-->
 					{lang crime_customstatus}
 				<!--{/if}-->

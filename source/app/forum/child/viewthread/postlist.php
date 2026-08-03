@@ -52,8 +52,7 @@ if($postusers) {
 		$member_field_home[$uid]['privacy'] = empty($member_field_home[$uid]['privacy']) ? [] : dunserialize($member_field_home[$uid]['privacy']);
 		$postuser['memberstatus'] = $postuser['status'];
 		$postuser['authorinvisible'] = $member_status[$uid]['invisible'] ?? 0;
-		$postuser['signature'] = $member_field_forum[$uid]['sightml'] ?? '';
-		unset($member_field_home[$uid]['privacy']['feed'], $member_field_home[$uid]['privacy']['view'], $postuser['status'], $member_status[$uid]['invisible'], $member_field_forum[$uid]['sightml']);
+		unset($member_field_home[$uid]['privacy']['feed'], $member_field_home[$uid]['privacy']['view'], $postuser['status'], $member_status[$uid]['invisible']);
 		$postusers[$uid] = array_merge((isset($member_verify[$uid]) ? (array)$member_verify[$uid] : []), (array)$member_field_home[$uid], (array)$member_profile[$uid], (array)$member_count[$uid], (array)$member_status[$uid], (array)$member_field_forum[$uid], $postuser);
 		if($postusers[$uid]['regdate'] + $postusers[$uid]['oltime'] * 3600 > TIMESTAMP) {
 			$postusers[$uid]['oltime'] = 0;

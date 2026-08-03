@@ -133,7 +133,6 @@ $lang = array
 
 
 	'avatar'		=> 'Avatar',//'头像',
-	'signature'		=> 'Signature',//'签名',
 	'custom_title'		=> 'Custom Title',//'自定义头衔',
 
 

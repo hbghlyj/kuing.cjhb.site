@@ -869,7 +869,7 @@ class register_ctl {
 
 class crime_action_ctl {
 
-	static $actions = ['all', 'crime_delpost', 'crime_warnpost', 'crime_banpost', 'crime_banspeak', 'crime_banvisit', 'crime_banstatus', 'crime_avatar', 'crime_sightml', 'crime_customstatus', 'members_ban_none'];
+	static $actions = ['all', 'crime_delpost', 'crime_warnpost', 'crime_banpost', 'crime_banspeak', 'crime_banvisit', 'crime_banstatus', 'crime_avatar', 'crime_customstatus', 'members_ban_none'];
 
 	function __construct() {
 	}

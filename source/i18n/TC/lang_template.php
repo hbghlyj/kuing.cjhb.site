@@ -578,7 +578,6 @@ $lang = [
 	'crime_operator' => '操作者',
 	'crime_reason' => '操作理由',
 	'crime_record' => '違規記錄',
-	'crime_sightml' => '清除簽名',
 	'crime_warnpost' => '警告帖子',
 	'expire_dateline' => '過期時間',
 	'darkroom' => '小黑屋',

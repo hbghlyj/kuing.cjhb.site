@@ -62,10 +62,6 @@
 				<td><textarea name="bionew" class="pt" rows="4" cols="80">$member['bio']</textarea></td>
 			</tr>
 			<tr>
-				<th>{lang signature}</th>
-				<td><textarea name="signaturenew" class="pt" rows="4" cols="80">$member[signature]</textarea></td>
-			</tr>
-			<tr>
 				<th>&nbsp;</th>
 				<td><button type="submit" name="editsubmit" id="submit" class="pn" value="true"><strong>{lang submit}</strong></button></td>
 			</tr>
@@ -123,8 +119,6 @@
 										{lang crime_banstatus}
 										<!--{elseif $crime[action] == 'crime_avatar'}-->
 										{lang crime_avatar}
-										<!--{elseif $crime[action] == 'crime_sightml'}-->
-										{lang crime_sightml}
 										<!--{elseif $crime[action] == 'crime_customstatus'}-->
 										{lang crime_customstatus}
 										<!--{/if}-->

@@ -217,24 +217,11 @@
 					<td>&nbsp;</td>
 				</tr>
 				<!--{/if}-->
-				<!--{if $_G['group']['maxsigsize'] && is_array($allowitems) && in_array('sightml', $allowitems)}-->
-				<tr>
-					<th id="th_sightml">{lang personal_signature}</th>
-					<td id="td_sightml">
-						<div class="tedt">
-							<div class="area">
-								<textarea rows="3" cols="80" name="sightml" id="sightmlmessage" class="pt" onkeydown="ctrlEnter(event, 'profilesubmitbtn');">$space[sightml]</textarea>
-							</div>
-						</div>
-					</td>
-					<td>&nbsp;</td>
-				</tr>
-				<!--{/if}-->
 
 				<!--{if $operation == 'contact'}-->
 				<tr>
-					<th id="th_sightml">Email</th>
-					<td id="td_sightml">$space[email]&nbsp;(<a href="home.php?mod=spacecp&ac=profile&op=password&from=contact#contact">{lang modify}</a>)</td>
+					<th id="th_email">Email</th>
+					<td id="td_email">$space[email]&nbsp;(<a href="home.php?mod=spacecp&ac=profile&op=password&from=contact#contact">{lang modify}</a>)</td>
 					<td>&nbsp;</td>
 				</tr>
 				<!--{/if}-->

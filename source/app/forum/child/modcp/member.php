@@ -27,19 +27,10 @@ if($op == 'edit') {
 				native_user_deleteavatar($member['uid']);
 			}
 
-			require_once libfile('function/discuzcode');
-
 			if($_GET['bionew']) {
 				$biohtmlnew = nl2br(dhtmlspecialchars($_GET['bionew']));
 			} else {
 				$biohtmlnew = '';
-			}
-
-			if($_GET['signaturenew']) {
-				$signaturenew = censor($_GET['signaturenew']);
-				$sightmlnew = discuzcode($signaturenew, 1, 0, 0, 0, $member['allowsigbbcode'], $member['allowsigimgcode'], 0, 0, 1);
-			} else {
-				$sightmlnew = $signaturenew = '';
 			}
 
 			!empty($_GET['locationnew']) && $locationnew = dhtmlspecialchars($_GET['locationnew']);
@@ -49,7 +40,6 @@ if($op == 'edit') {
 				table_common_member_profile_history::t()->insert(array_merge(table_common_member_profile::t()->fetch(intval($member['uid'])), ['dateline' => time()]));
 			}
 			table_common_member_profile::t()->update($member['uid'], ['bio' => $biohtmlnew]);
-			table_common_member_field_forum::t()->update($member['uid'], ['sightml' => $sightmlnew]);
 		}
 		acpmsg('members_edit_succeed', "$cpscript?mod=modcp&action={$_GET['action']}&op=$op");
 
@@ -59,7 +49,6 @@ if($op == 'edit') {
 		$bio = explode("\t\t\t", $member['bio']);
 		$member['bio'] = html2bbcode($bio[0]);
 		$member['biotrade'] = !empty($bio[1]) ? html2bbcode($bio[1]) : '';
-		$member['signature'] = html2bbcode($member['sightml']);
 		$username = !empty($_GET['username']) ? $member['username'] : '';
 
 	}

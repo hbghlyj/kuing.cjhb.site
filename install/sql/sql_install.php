@@ -999,7 +999,6 @@ CREATE TABLE pre_common_member_field_forum
 	customshow     tinyint(3) unsigned   NOT NULL DEFAULT '26',
 	customstatus   varchar(30)           NOT NULL DEFAULT '',
 	medals         text                  NOT NULL,
-	sightml        text                  NOT NULL,
 	groupterms     text                  NOT NULL,
 	authstr        varchar(255)          NOT NULL DEFAULT '',
 	`groups`       mediumtext            NOT NULL,

@@ -78,7 +78,6 @@ if(submitcheck('settingsubmit')) {
 				$varname[1][] = [$value['fieldid'], $value['title'], $value['fieldid']];
 			}
 		}
-		$varname[1][] = ['sightml', $lang['setting_profile_personal_signature'], 'sightml'];
 		$varname[1][] = ['customstatus', $lang['setting_profile_permission_basic_status'], 'customstatus'];
 
 		showsetting('setting_profile_field', $varname, $groupinfo['field'], 'omcheckbox');

@@ -678,13 +678,10 @@ const mathDraftSubject = `Thread with Restored Math Draft ${testRunId}`;
 
         const profileForm = page.locator('form[action*="mod=spacecp"]');
         assert.strictEqual(await profileForm.count(), 1, 'Assertion Error: Personal profile form did not render.');
-        const signatureInput = profileForm.locator('textarea[name="sightml"], #sightmlmessage');
         const customStatusInput = profileForm.locator('input[name="customstatus"]');
         const profileSubmit = profileForm.locator('button[type="submit"], input[type="submit"], #profilesubmitbtn');
-        assert.strictEqual(await signatureInput.count(), 1, 'Assertion Error: Personal signature field did not render.');
         assert.strictEqual(await customStatusInput.count(), 1, 'Assertion Error: Custom status field did not render.');
         assert.strictEqual(await profileSubmit.count(), 1, 'Assertion Error: Personal profile submit control did not render.');
-        await signatureInput.fill('My Custom Test Signature');
         await customStatusInput.fill('Custom Member Status');
         const [profileResponse] = await Promise.all([
             page.waitForResponse(response =>
@@ -697,14 +694,9 @@ const mathDraftSubject = `Thread with Restored Math Draft ${testRunId}`;
             profileResponse.ok() || (profileResponse.status() >= 300 && profileResponse.status() < 400),
             `Assertion Error: Personal profile POST failed with HTTP ${profileResponse.status()}.`
         );
-        const profileValues = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT COALESCE(sightml,''), COALESCE(customstatus,'') FROM pre_common_member_field_forum WHERE uid='${userUid}';"`).toString().trim();
-        assert.strictEqual(profileValues, 'My Custom Test Signature\tCustom Member Status', 'Assertion Error: Personal profile values were not persisted.');
+        const profileValues = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT COALESCE(customstatus,'') FROM pre_common_member_field_forum WHERE uid='${userUid}';"`).toString().trim();
+        assert.strictEqual(profileValues, 'Custom Member Status', 'Assertion Error: Personal profile custom status was not persisted.');
         await page.reload({ waitUntil: 'networkidle' });
-        assert.strictEqual(
-            await page.locator('textarea[name="sightml"], #sightmlmessage').inputValue(),
-            'My Custom Test Signature',
-            'Assertion Error: Reloaded profile UI did not show the saved signature.'
-        );
         assert.strictEqual(
             await page.locator('input[name="customstatus"]').inputValue(),
             'Custom Member Status',

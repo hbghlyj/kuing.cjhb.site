@@ -548,7 +548,6 @@ $lang =
 	'nav_logs_crime_banvisit' => '禁止访问',
 	'nav_logs_crime_banstatus' => '锁定用户',
 	'nav_logs_crime_avatar' => '清除头像',
-	'nav_logs_crime_sightml' => '清除签名',
 	'nav_logs_crime_customstatus' => '清除自定义头衔',
 	'nav_logs_restful' => 'RESTful 接口',
 	'nav_logs_plugin' => '其他记录',
@@ -1454,7 +1453,6 @@ $lang =
 	'setting_profile_group_name' => '栏目分组名称',
 	'setting_profile_group_list' => '列表',
 	'setting_profile_permission_basic_status' => '自定义头衔',
-	'setting_profile_personal_signature' => '个人签名',
 	'setting_profile_tips' => '<li>用户栏目分组至少必须启用一项，如果都不启用，默认为全部启用</li>',
 
 	'setting_threadprofile_tpl_tpls' => '<li>{<b>标记</b>} 不含参数的贴内用户信息标记调用。</li><li>{<b>标记</b>=<b>参数</b>} 含参数的贴内用户信息标记调用，多个参数用","分割</li><li>{<b>标记</b>}<b>HTML</b>{<b>*</b>}<b>HTML</b>{/<b>标记</b>} 当有调用内容有值时显示 {*} 前后的 HTML 内容</li><li>“<b>plugin:插件标识</b>”格式的<b>标记</b>为插件增加的贴内用户信息标记调用。插件开发人员在设计新的贴内用户信息标记前请务必仔细阅读《<a href="https://open.dismall.com/?!devdoc" target="_blank">Discuz! 技术文档</a>》中的内容。</li>',
@@ -3850,7 +3848,6 @@ $lang =
 	'members_edit_location' => '来自',
 	'members_edit_bday' => '生日',
 	'members_edit_bio' => '自我介绍',
-	'members_edit_signature' => '签名',
 	'members_edit_fields' => '更多自定义资料',
 	'members_edit_fields_comment' => '需要在 用户栏目 - 更多自定义资料 - 表单类型 - 可选值 中，填写预设JSON数据结构，此处填写的内容，要与预设JSON数据结构保持一致。<br/>可以从 $_G["cache"]["profilesetting"]["fields"]["choices"] 取到预设JSON数据结构内容。',
 
@@ -6849,7 +6846,6 @@ URL转换绝对网址：<pre>
 	'crime_banvisit' => '禁止访问',
 	'crime_banstatus' => '锁定用户',
 	'crime_avatar' => '清除头像',
-	'crime_sightml' => '清除签名',
 	'crime_customstatus' => '清除自定义头衔',
 	'crime_checkrecord' => '查看违规记录',
 

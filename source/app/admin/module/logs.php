@@ -113,7 +113,6 @@ $menu = [
 		['nav_logs_crime_banvisit', 'logs&operation=crime&crimeactions=crime_banvisit'],
 		['nav_logs_crime_banstatus', 'logs&operation=crime&crimeactions=crime_banstatus'],
 		['nav_logs_crime_avatar', 'logs&operation=crime&crimeactions=crime_avatar'],
-		['nav_logs_crime_sightml', 'logs&operation=crime&crimeactions=crime_sightml'],
 		['nav_logs_crime_customstatus', 'logs&operation=crime&crimeactions=crime_customstatus'],
 	]], '', $operation == 'crime'],
 ];

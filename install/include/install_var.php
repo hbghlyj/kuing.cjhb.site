@@ -376,7 +376,6 @@ $serialize_sql_setting = array(
 							'site' => 'site',
 							'bio' => 'bio',
 							'interest' => 'interest',
-							'sightml' => 'sightml',
 							'customstatus' => 'customstatus',
 						),
 				),

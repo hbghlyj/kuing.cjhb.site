@@ -383,7 +383,7 @@ EOF;
 		if(in_array('profile', $_GET['clear'])) {
 			C::t('common_member_profile'.$tableext)->delete($member['uid']);
 			C::t('common_member_profile'.$tableext)->insert(['uid' => $member['uid']]);
-			C::t('common_member_field_forum'.$tableext)->update($member['uid'], ['customstatus' => '', 'sightml' => '']);
+			C::t('common_member_field_forum'.$tableext)->update($member['uid'], ['customstatus' => '']);
 			C::t('common_member_field_home'.$tableext)->update($member['uid'], ['spacename' => '', 'spacedescription' => '']);
 		}
 

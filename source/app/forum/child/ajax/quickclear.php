@@ -19,7 +19,6 @@ include_once libfile('function/member');
 
 if(!submitcheck('qclearsubmit')) {
 	$crimenum_avatar = crime('getcount', $uid, 'crime_avatar');
-	$crimenum_sightml = crime('getcount', $uid, 'crime_sightml');
 	$crimenum_customstatus = crime('getcount', $uid, 'crime_customstatus');
 	$crimeauthor = getuserbyuid($uid);
 	$crimeauthor = $crimeauthor['username'];
@@ -30,7 +29,7 @@ if(!submitcheck('qclearsubmit')) {
 		showmessage('quickclear_need_operation');
 	}
 	$reason = checkreasonpm();
-	$allowop = ['avatar', 'sightml', 'customstatus'];
+	$allowop = ['avatar', 'customstatus'];
 	$cleartype = [];
 	if(in_array('avatar', $_GET['operations'])) {
 		table_common_member::t()->update($uid, ['avatarstatus' => 0]);
@@ -38,11 +37,6 @@ if(!submitcheck('qclearsubmit')) {
 		native_user_deleteavatar($uid);
 		$cleartype[] = lang('forum/misc', 'avatar');
 		crime('recordaction', $uid, 'crime_avatar', lang('forum/misc', 'crime_reason', ['reason' => $reason]));
-	}
-	if(in_array('sightml', $_GET['operations'])) {
-		table_common_member_field_forum::t()->update($uid, ['sightml' => ''], 'UNBUFFERED');
-		$cleartype[] = lang('forum/misc', 'signature');
-		crime('recordaction', $uid, 'crime_sightml', lang('forum/misc', 'crime_reason', ['reason' => $reason]));
 	}
 	if(in_array('customstatus', $_GET['operations'])) {
 		table_common_member_field_forum::t()->update($uid, ['customstatus' => ''], 'UNBUFFERED');

@@ -128,7 +128,6 @@ $lang =
 	'crime_reason' => '{reason}',
 
 	'avatar' => '头像',
-	'signature' => '签名',
 	'custom_title' => '自定义头衔',
 
 	'patch_close' => '关闭',

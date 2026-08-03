@@ -549,7 +549,6 @@ $lang =
 	'nav_logs_crime_banvisit' => '禁止訪問',
 	'nav_logs_crime_banstatus' => '鎖定用戶',
 	'nav_logs_crime_avatar' => '清除頭像',
-	'nav_logs_crime_sightml' => '清除簽名',
 	'nav_logs_crime_customstatus' => '清除自定義頭銜',
 	'nav_logs_restful' => 'RESTful 接口',
 	'nav_logs_plugin' => '其他記錄',
@@ -1456,7 +1455,6 @@ $lang =
 	'setting_profile_group_name' => '欄目分組名稱',
 	'setting_profile_group_list' => '列表',
 	'setting_profile_permission_basic_status' => '自定義頭銜',
-	'setting_profile_personal_signature' => '個人簽名',
 	'setting_profile_tips' => '<li>用戶欄目分組至少必須啓用一項，如果都不啓用，預設爲全部啓用</li>',
 
 	'setting_threadprofile_tpl_tpls' => '<li>{<b>標記</b>} 不含參數的貼內用戶資訊標記調用。</li><li>{<b>標記</b>=<b>參數</b>} 含參數的貼內用戶資訊標記調用，多個參數用","分割</li><li>{<b>標記</b>}<b>HTML</b>{<b>*</b>}<b>HTML</b>{/<b>標記</b>} 當有調用內容有值時顯示 {*} 前後的 HTML 內容</li><li>“<b>plugin:插件標識</b>”格式的<b>標記</b>爲插件增加的貼內用戶資訊標記調用。插件開發人員在設計新的貼內用戶資訊標記前請務必仔細閱讀《<a href="https://open.dismall.com/?!devdoc" target="_blank">Discuz! 技術文檔</a>》中的內容。</li>',
@@ -3852,7 +3850,6 @@ $lang =
 	'members_edit_location' => '來自',
 	'members_edit_bday' => '生日',
 	'members_edit_bio' => '自我介紹',
-	'members_edit_signature' => '簽名',
 	'members_edit_fields' => '更多自定義資料',
 	'members_edit_fields_comment' => '需要在 用戶欄目 - 更多自定義資料 - 表單類型 - 可選值 中，填寫預設JSON數據結構，此處填寫的內容，要與預設JSON數據結構保持一致。<br/>可以從 $_G["cache"]["profilesetting"]["fields"]["choices"] 取到預設JSON數據結構內容。',
 
@@ -6853,7 +6850,6 @@ URL轉換絕對網址：<pre>
 	'crime_banvisit' => '禁止訪問',
 	'crime_banstatus' => '鎖定用戶',
 	'crime_avatar' => '清除頭像',
-	'crime_sightml' => '清除簽名',
 	'crime_customstatus' => '清除自定義頭銜',
 	'crime_checkrecord' => '查看違規記錄',
 

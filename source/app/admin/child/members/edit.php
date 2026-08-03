@@ -85,7 +85,6 @@ if(!submitcheck('editsubmit')) {
 	$member['lastvisit'] = dgmdate($member['lastvisit'], 'Y-n-j h:i A');
 
 	$member['bio'] = html2bbcode($member['bio']);
-	$member['signature'] = html2bbcode($member['sightml']);
 
 	shownav('user', 'members_edit');
 	/*search={"members_edit":"action=members&operation=edit"}*/
@@ -137,7 +136,6 @@ if(!submitcheck('editsubmit')) {
 
 	showtitle('members_edit_option');
 	showsetting('members_edit_cstatus', 'cstatusnew', $member['customstatus'], 'text');
-	showsetting('members_edit_signature', 'signaturenew', $member['signature'], 'textarea');
 
 	if($fields) {
 		showtitle('members_profile');
@@ -163,7 +161,6 @@ if(!submitcheck('editsubmit')) {
 } else {
 
 	loaducenter();
-	require_once libfile('function/discuzcode');
 
 	$questionid = $_GET['clearquestion'] ? 0 : '';
 	$secmobicc = $_GET['secmobiccnew'];
@@ -214,10 +211,6 @@ if(!submitcheck('editsubmit')) {
 	$lastvisitnew = strtotime($_GET['lastvisitnew']);
 
 	$secquesadd = $_GET['clearquestion'] ? ", secques=''" : '';
-
-	$signaturenew = censor($_GET['signaturenew']);
-	$sigstatusnew = $signaturenew ? 1 : 0;
-	$sightmlnew = discuzcode($signaturenew, 1, 0, 0, 0, ($member['allowsigbbcode'] ? ($member['allowcusbbcode'] ? 2 : 1) : 0), $member['allowsigimgcode'], 0);
 
 	$oltimenew = round($_GET['totalnew'] / 60);
 
@@ -302,7 +295,7 @@ if(!submitcheck('editsubmit')) {
 	C::t('common_member_field_home'.$tableext)->update($uid, ['addsize' => $addsize, 'addfriend' => $addfriend]);
 	C::t('common_member_count'.$tableext)->update($uid, ['posts' => $_GET['postsnew'], 'digestposts' => $_GET['digestpostsnew']]);
 	C::t('common_member_status'.$tableext)->update($uid, ['regip' => $_GET['regipnew'], 'regport' => $_GET['regportnew'], 'lastvisit' => $lastvisitnew, 'lastip' => $_GET['lastipnew'], 'port' => $_GET['portnew'], 'invisible' => $_GET['invisiblenew']]);
-	C::t('common_member_field_forum'.$tableext)->update($uid, ['customstatus' => $_GET['cstatusnew'], 'sightml' => $sightmlnew]);
+	C::t('common_member_field_forum'.$tableext)->update($uid, ['customstatus' => $_GET['cstatusnew']]);
 	if(!empty($fieldarr)) {
 		C::t('common_member_profile'.$tableext)->update($uid, $fieldarr);
 	}

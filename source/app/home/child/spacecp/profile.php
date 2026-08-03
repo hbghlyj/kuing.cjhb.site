@@ -76,10 +76,8 @@ if($_G['setting']['regverify'] == 2 && $_G['groupid'] == 8) {
 
 if(submitcheck('profilesubmit')) {
 
-	require_once libfile('function/discuzcode');
-
 	$forum = $setarr = $verifyarr = $errorarr = [];
-	$forumfield = ['customstatus', 'sightml'];
+	$forumfield = ['customstatus'];
 
 	$censor = discuz_censor::instance();
 
@@ -125,15 +123,7 @@ if(submitcheck('profilesubmit')) {
 			}
 		}
 		if(in_array($key, $forumfield)) {
-			if($key == 'sightml') {
-				loadcache(['smilies', 'smileytypes']);
-				$value = cutstr($value, $_G['group']['maxsigsize'], '');
-				foreach($_G['cache']['smilies']['replacearray'] as $skey => $smiley) {
-					$_G['cache']['smilies']['replacearray'][$skey] = '[img]'.$_G['siteurl'].'static/image/smiley/'.$_G['cache']['smileytypes'][$_G['cache']['smilies']['typearray'][$skey]]['directory'].'/'.$smiley.'[/img]';
-				}
-				$value = preg_replace($_G['cache']['smilies']['searcharray'], $_G['cache']['smilies']['replacearray'], trim($value));
-				$forum[$key] = discuzcode($value, 1, 0, 0, 0, $_G['group']['allowsigbbcode'], $_G['group']['allowsigimgcode'], 0, 0, 1);
-			} elseif($key == 'customstatus' && $allowcstatus) {
+			if($key == 'customstatus' && $allowcstatus) {
 				$forum[$key] = dhtmlspecialchars(trim($value));
 			}
 			continue;
@@ -266,11 +256,7 @@ if(submitcheck('profilesubmit')) {
 		}
 	}
 	if($forum) {
-		if(!$_G['group']['maxsigsize']) {
-			$forum['sightml'] = '';
-		}
 		table_common_member_field_forum::t()->update($_G['uid'], $forum);
-
 	}
 
 	if(isset($_POST['birthmonth']) && ($space['birthmonth'] != $_POST['birthmonth'] || $space['birthday'] != $_POST['birthday'])) {
@@ -572,7 +558,6 @@ if($operation == 'password') {
 	space_merge($space, 'field_forum');
 
 	require_once libfile('function/editor');
-	$space['sightml'] = html2bbcode($space['sightml']);
 
 	$vid = getgpc('vid') ? intval($_GET['vid']) : 0;
 
@@ -626,7 +611,7 @@ if($operation == 'password') {
 	}
 	$htmls = $settings = [];
 	foreach($allowitems as $fieldid) {
-		if(!in_array($fieldid, ['sightml', 'customstatus'])) {
+		if($fieldid != 'customstatus') {
 			$html = profile_setting($fieldid, $space, true);
 			if($html) {
 				$settings[$fieldid] = $_G['cache']['profilesetting'][$fieldid];
