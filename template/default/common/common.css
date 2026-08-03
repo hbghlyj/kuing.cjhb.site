@@ -1065,7 +1065,7 @@ Last Modify:	Pony
 
 /* 页尾 */
 	#ft { padding: 10px 0 50px; line-height: 1.8; color: {FOOTERTEXT}; position: relative; }
-		#flk { text-align: right; }
+		#flk { text-align: left; }
 			#flk img { vertical-align: middle; }
 		#scrolltop { position: fixed; top: 50%;transform: translateY(-50%); display: block; margin-left: 2px; width: 40px; background: #f4f4f4; border: 1px #cdcdcd solid; border-radius: 3px; border-top: 0; cursor: pointer; }
 			#scrolltop:hover { text-decoration: none; }
