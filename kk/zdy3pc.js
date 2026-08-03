@@ -170,21 +170,21 @@ if ($('postlist') && $('ct')) {
         if (!elem) return;
         elem.querySelectorAll('#postlist > div[id^="post_"]').forEach((lou, index) => {
             const floorLink = lou.querySelector('td.plc>div.pi>strong>a');
+            if (!floorLink || !floorLink.firstChild) return;
+            const floorClone = floorLink.cloneNode(true);
+            floorClone.querySelectorAll('[aria-hidden="true"]').forEach(icon => icon.remove());
             if (!MULUSELECT.querySelector('option[value="' + lou.id + '"]')) {
-                if (!floorLink || !floorLink.firstChild) return;
                 const option = document.createElement('option');
                 option.value = lou.id;
                 const authorLink = lou.querySelector('td.plc > div.pi .authi > a.xi2:not(.avt)') || lou.querySelector('.favatar > .pi .authi > a');
-                const floorClone = floorLink.cloneNode(true);
-                floorClone.querySelectorAll('[aria-hidden="true"]').forEach(icon => icon.remove());
                 option.text = floorClone.textContent.replace('#', '').trim() + (authorLink ? ' ' + authorLink.textContent : '');
                 MULUSELECT.appendChild(option);
                 ++MULUSELECT.size;
             }
             const pidRef = lou.id.replace('post_', '&pid=');
             document.querySelectorAll("td.t_f > div.quote > blockquote > font > a[href$='" + pidRef + "&ptid=" + tid + "']").forEach(a => {
-                if (a.firstElementChild && floorLink) {
-                    a.firstElementChild.innerHTML = floorLink.innerHTML + ' ' + a.firstElementChild.innerHTML;
+                if (a.firstElementChild) {
+                    a.firstElementChild.innerHTML = floorClone.innerHTML + ' ' + a.firstElementChild.innerHTML;
                 }
             });
             document.querySelectorAll("td.t_f a[href$='" + pidRef + "&ptid=" + tid + "']").forEach(a => {
