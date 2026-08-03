@@ -1297,6 +1297,7 @@ $lang = array (
 	'in'				=> ' &nbsp;In',//'在',
 	'reply_num'			=> 'Replies',//'回复',
 	'loading'			=> 'Loading...',//'加载中...',
+	'new_reply_notice'		=> 'New replies below',
 	'follow_add'			=> 'Listen',//'收听',//Subscribe
 	'modmenu'			=> 'Thread Menu',//'本主题菜单',
 //	'e_paste'			=> 'Paste',//'粘贴',

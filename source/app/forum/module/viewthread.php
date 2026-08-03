@@ -485,6 +485,7 @@ if(empty($_GET['viewpid'])) {
 }
 
 $_G['forum_newpostanchor'] = $_G['forum_postcount'] = 0;
+$_G['fromfind'] = !empty($_GET['fromfind']) ? (is_numeric($_GET['fromfind']) ? intval($_GET['fromfind']) : 1) : 0;
 
 $_G['forum_onlineauthors'] = $_G['forum_cachepid'] = $_G['blockedpids'] = [];
 
@@ -876,6 +877,14 @@ function viewthread_procpost($post, $lastvisit, $maxposition = 0) {
 		$_G['forum_newpostanchor'] = 1;
 	} else {
 		$post['newpostanchor'] = '';
+	}
+
+	if(!empty($_G['fromfind'])) {
+		if($_G['fromfind'] == 1 && $post['newpostanchor']) {
+			$post['notice_jump'] = true;
+		} elseif($_G['fromfind'] == $post['pid']) {
+			$post['notice_jump'] = true;
+		}
 	}
 
 	$post['lastpostanchor'] = $post['position'] == $_G['forum_thread']['maxposition'] ? '<a name="lastpost"></a>' : '';

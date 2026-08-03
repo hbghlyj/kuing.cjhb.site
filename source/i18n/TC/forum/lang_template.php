@@ -1298,6 +1298,7 @@ $lang = [
 
 	'collection_no_image' => '不使用圖片',
 	'collection_cover' => '淘帖封面',
+	'new_reply_notice' => '以下是新回覆',
 	'collection_cover_resize' => '自動縮略成 1000×250 像素大小的圖片',
 	'collection_icon' => '淘帖圖標',
 	'collection_icon_resize' => '自動縮略成 200×200 像素大小的圖片',
