@@ -10,23 +10,16 @@ $postshowavatars = !($_G['setting']['bannedmessages'] & 2 && ($post['memberstatu
 <!--{/loop}-->
 <!--{/block}-->
 <!--{if empty($post['deleted'])}-->
-<table id="pid$post[pid]" class="plhin cp0" summary="pid$post[pid]">
 <!--{if !empty($post['notice_jump'])}-->
-<tr class="threadad">
-	<td class="pls"></td>
-	<td class="plc">
-		<div class="adcontent">
-			<div id="ntc_jp">
-				<div class="s_clear">
-					<a class="deloption" href="javascript:;" onclick="var el=document.getElementById('ntc_jp');if(el)el.parentNode.removeChild(el);" title="{lang close}">{lang close}</a>
-					<em>{lang new_reply_notice}</em>
-					<h2><!--{if !empty($_G['forum_thread']['typename'])}--><a href="forum.php?mod=forumdisplay&fid=$_G[fid]&filter=typeid&typeid={$_G['forum_thread']['typeid']}">[{$_G['forum_thread']['typename']}]</a> <!--{/if}--><a href="forum.php?mod=viewthread&tid=$_G[tid]">{$_G['forum_thread']['subject']}</a></h2>
-				</div>
-			</div>
-		</div>
-	</td>
-</tr>
+<div id="ntc_jp">
+	<div class="s_clear">
+		<a class="deloption" href="javascript:;" onclick="var el=document.getElementById('ntc_jp');if(el)el.parentNode.removeChild(el);" title="{lang close}">{lang close}</a>
+		<em>{lang new_reply_notice}</em>
+		<h2><!--{if !empty($_G['forum_thread']['typename'])}--><a href="forum.php?mod=forumdisplay&fid=$_G[fid]&filter=typeid&typeid={$_G['forum_thread']['typeid']}">[{$_G['forum_thread']['typename']}]</a> <!--{/if}--><a href="forum.php?mod=viewthread&tid=$_G[tid]">{$_G['forum_thread']['subject']}</a></h2>
+	</div>
+</div>
 <!--{/if}-->
+<table id="pid$post[pid]" class="plhin cp0" summary="pid$post[pid]">
 <tr>
 	$post[newpostanchor] $post[lastpostanchor]
 	<!--{if !$close_leftinfo}-->
