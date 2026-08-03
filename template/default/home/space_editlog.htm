@@ -1,0 +1,24 @@
+<!--{template common/header}-->
+<div id="pt" class="bm cl"><div class="z"><a href="./" class="nvhm" title="{lang homepage}"></a><em>&rsaquo;</em><a href="home.php?mod=space&uid=$space[uid]">$space[username]</a><em>&rsaquo;</em>{lang post_revision_history}</div></div>
+<div id="ct" class="ct1 wp cl"><div class="mn">
+	<div class="bm">
+		<div class="bm_h"><h1>{lang post_revision_history}</h1></div>
+		<div class="bm_c">
+			<!--{if $editlogs}-->
+				<ul class="editlog-list">
+				<!--{loop $editlogs $editlog}-->
+					<li class="editlog-item">
+						<a href="forum.php?mod=misc&action=editlog&tid=$editlog[tid]&pid=$editlog[pid]" onclick="showWindow('editlog', this.href, 'get', 0);return false;" class="editlog-link">
+							<strong>$editlog[action_label]</strong> <span class="xg1">$editlog[displaytime]</span>
+							<span class="editlog-subject">$editlog[title]</span>
+						</a>
+						<div class="xg1">$editlog[old_message]</div>
+					</li>
+				<!--{/loop}-->
+				</ul>
+			<!--{else}--><p class="emp">{lang post_revision_empty}</p><!--{/if}-->
+		</div>
+	</div>
+</div></div>
+<style>.editlog-list{margin:0;padding:0;list-style:none}.editlog-item{padding:10px 0;border-bottom:1px solid #eee}.editlog-link{display:block}.editlog-subject{display:block;margin-top:4px;font-weight:700}.editlog-item>div{margin-top:4px;white-space:pre-wrap;overflow-wrap:anywhere}</style>
+<!--{template common/footer}-->

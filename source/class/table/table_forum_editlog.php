@@ -29,6 +29,10 @@ class table_forum_editlog extends discuz_table {
 		return DB::fetch_all('SELECT * FROM %t WHERE pid=%d ORDER BY dateline DESC, editid DESC', [$this->_table, dintval($pid)]);
 	}
 
+	public function fetch_all_by_authorid($authorid, $limit = 100) {
+		return DB::fetch_all('SELECT e.*, t.subject AS thread_subject, t.fid FROM %t e LEFT JOIN %t t ON t.tid=e.tid WHERE e.authorid=%d ORDER BY e.dateline DESC, e.editid DESC '.DB::limit(0, $limit), [$this->_table, 'forum_thread', dintval($authorid)]);
+	}
+
 	public function fetch_by_editid_pid($editid, $pid) {
 		return DB::fetch_first('SELECT * FROM %t WHERE editid=%d AND pid=%d', [$this->_table, dintval($editid), dintval($pid)]);
 	}

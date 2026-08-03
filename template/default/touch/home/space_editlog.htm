@@ -1,0 +1,13 @@
+<!--{template common/header}-->
+<div class="header cl"><div class="mz"><a href="javascript:history.back();"><i class="dm-c-left"></i></a></div><h2>{lang post_revision_history}</h2><div class="my"><a href="index.php"><i class="dm-house"></i></a></div></div>
+<div class="thread-editlog-list">
+	<!--{if $editlogs}-->
+	<!--{loop $editlogs $editlog}-->
+		<a class="thread-editlog-item" href="forum.php?mod=misc&action=editlog&tid=$editlog[tid]&pid=$editlog[pid]" onclick="showWindow('editlog', this.href, 'get', 0);return false;">
+			<strong>$editlog[action_label]</strong><span class="xg1">$editlog[displaytime]</span><b>$editlog[title]</b><em>$editlog[old_message]</em>
+		</a>
+	<!--{/loop}-->
+	<!--{else}--><p class="emp">{lang post_revision_empty}</p><!--{/if}-->
+</div>
+<style>.thread-editlog-list{padding:10px}.thread-editlog-item{display:block;padding:12px 10px;margin-bottom:8px;background:#fff;border-radius:4px}.thread-editlog-item strong,.thread-editlog-item span{margin-right:8px}.thread-editlog-item b,.thread-editlog-item em{display:block;margin-top:6px;font-style:normal;white-space:pre-wrap;overflow-wrap:anywhere}.thread-editlog-item em{color:#888}</style>
+<!--{template common/footer}-->

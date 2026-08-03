@@ -66,10 +66,25 @@ $f_index = '';
 $ordersql = 't.dateline DESC';
 $need_count = true;
 $viewuserthread = false;
-$viewtype = in_array(getgpc('type'), ['reply', 'thread', 'postcomment']) ? $_GET['type'] : 'thread';
+$viewtype = in_array(getgpc('type'), ['reply', 'thread', 'postcomment', 'editlog']) ? $_GET['type'] : 'thread';
 $orderactives = [$viewtype => ' class="a"'];
+$editlogs = [];
 
 if($_GET['view'] == 'me') {
+	$authorid = $space['uid'];
+	if($viewtype == 'editlog') {
+		if($_G['uid'] == $space['uid'] || $_G['adminid'] > 0) {
+			$editlogs = table_forum_editlog::t()->fetch_all_by_authorid($authorid);
+			foreach($editlogs as &$editlog) {
+				$editlog['action_label'] = lang('template', $editlog['action'] == 'delete' ? 'delete' : 'edit');
+				$editlog['displaytime'] = dgmdate($editlog['dateline']);
+				$editlog['title'] = $editlog['old_subject'] ?: $editlog['thread_subject'];
+			}
+			unset($editlog);
+		}
+		include_once template('home/space_editlog');
+		return;
+	}
 
 	if($_GET['from'] == 'space') $diymode = 1;
 	$allowview = true;
@@ -88,9 +103,6 @@ if($_GET['view'] == 'me') {
 	}
 
 	if($viewtype == 'thread' && $allowview) {
-		$authorid = $space['uid'];
-
-
 		if($filter == 'recyclebin') {
 			$displayorder = -1;
 		} elseif($filter == 'aduit') {

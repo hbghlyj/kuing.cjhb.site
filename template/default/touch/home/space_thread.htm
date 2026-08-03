@@ -10,6 +10,9 @@
 	</h2>
 	<div class="my"><a href="index.php"><i class="dm-house"></i></a></div>
 </div>
+<!--{if $_GET['type'] != 'editlog' && ($_G['uid'] == $space['uid'] || $_G['adminid'] > 0)}-->
+	<div class="thread-history-action"><a href="home.php?mod=space&uid=$space[uid]&do=thread&view=me&type=editlog" class="button">{lang post_revision_history}</a></div>
+<!--{/if}-->
 <!--{if $list}-->
 	<!--{eval $threadlist_data = get_attach($list);}-->
 	<div class="threadlist cl">
