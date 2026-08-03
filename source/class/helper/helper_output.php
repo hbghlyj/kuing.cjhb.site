@@ -15,7 +15,7 @@ class helper_output {
 	protected static function _header($type = 'text/html') {
 		global $_G;
 		ob_end_clean();
-		$_G['gzipcompress'] ? ob_start('ob_gzhandler') : ob_start();
+		ob_start();
 		@header('Expires: -1');
 		@header('Cache-Control: no-store, private, post-check=0, pre-check=0, max-age=0', FALSE);
 		@header('Pragma: no-cache');

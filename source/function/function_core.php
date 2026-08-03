@@ -1543,7 +1543,7 @@ function output() {
 
 
 		ob_end_clean();
-		$_G['gzipcompress'] ? ob_start('ob_gzhandler') : ob_start();
+		ob_start();
 
 		echo $content;
 	}

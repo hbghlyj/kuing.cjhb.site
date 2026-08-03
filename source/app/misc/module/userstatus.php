@@ -33,17 +33,17 @@ if($output['uid']) {
 	}
 	$output['diynav'] = str_replace(["\r", "\n"], '', ob_get_contents());
 	ob_end_clean();
-	$_G['gzipcompress'] ? ob_start('ob_gzhandler') : ob_start();
+	ob_start();
 
 	require template('common/header_userstatus');
 	$output['userstatus'] = str_replace(["\r", "\n"], '', ob_get_contents());
 	ob_end_clean();
-	$_G['gzipcompress'] ? ob_start('ob_gzhandler') : ob_start();
+	ob_start();
 
 	require template('common/header_qmenu');
 	$output['qmenu'] = str_replace(["\r", "\n"], '', ob_get_contents());
 	ob_end_clean();
-	$_G['gzipcompress'] ? ob_start('ob_gzhandler') : ob_start();
+	ob_start();
 }
 
 header('Content-Type: application/json');

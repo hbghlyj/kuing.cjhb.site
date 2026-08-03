@@ -143,7 +143,7 @@
 					<p class="xs0">
 						<span id="debuginfo">
 						<!--{if debuginfo()}-->Processed in $_G[debuginfo][time] seconds, $_G[debuginfo][queries] queries
-							<!--{if $_G['gzipcompress']}-->, Gzip On<!--{/if}--><!--{if C::memory()->type}-->, <!--{echo C::memory()->type}--> On<!--{/if}-->
+							<!--{if C::memory()->type}-->, <!--{echo C::memory()->type}--> On<!--{/if}-->
 						<!--{/if}-->
 						</span>
 					</p>
