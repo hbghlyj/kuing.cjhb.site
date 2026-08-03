@@ -21,7 +21,7 @@
 	<div class="user_box cl" onclick="window.location.href='home.php?mod=spacecp&ac=credit&op=log'">
 		<ul>
 			<li><span>$space['credits']</span>{lang credits}</li>
-			<li><span>$space['threads']</span>{lang threads}</li>
+			<li><span>$space['threads']</span><!--{eval echo lang('space', 'threads');}--></li>
 			<!--{loop $_G['setting']['extcredits'] $key $value}-->
 			<!--{if $value['title']}-->
 			<li><span>{$space["extcredits$key"]} $value['unit']</span>$value['title']</li>
