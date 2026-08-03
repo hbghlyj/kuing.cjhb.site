@@ -271,7 +271,22 @@ function discuzcode($message, $smileyoff = false, $bbcodeoff = false, $htmlon = 
 		}
 
 		if($parsetype != 1 && $allowbbcode < 0 && isset($_G['cache']['bbcodes'][-$allowbbcode])) {
-			$message = preg_replace($_G['cache']['bbcodes'][-$allowbbcode]['searcharray'], $_G['cache']['bbcodes'][-$allowbbcode]['replacearray'], $message);
+			foreach($_G['cache']['bbcodes'][-$allowbbcode]['searcharray'] as $i => $search) {
+				$replace = $_G['cache']['bbcodes'][-$allowbbcode]['replacearray'][$i];
+				if(str_contains($replace, '{RANDOM}') || str_contains($replace, '{MD5}')) {
+					$message = preg_replace_callback($search, function($matches) use ($replace) {
+						$randVal = random(6);
+						$md5Val = md5(random(16).microtime(true).mt_rand());
+						$rep = str_replace('{RANDOM}', $randVal, str_replace('{MD5}', $md5Val, $replace));
+						return preg_replace_callback('/\\\\(\d+)/', function($m) use ($matches) {
+							$idx = intval($m[1]);
+							return isset($matches[$idx]) ? $matches[$idx] : '';
+						}, $rep);
+					}, $message);
+				} else {
+					$message = preg_replace($search, $replace, $message);
+				}
+			}
 		}
 		if($parsetype != 1 && str_contains($msglower, '[/hide]') && $pid) {
 			if($_G['setting']['hideexpiration'] && $pdateline && (TIMESTAMP - $pdateline) / 86400 > $_G['setting']['hideexpiration']) {
