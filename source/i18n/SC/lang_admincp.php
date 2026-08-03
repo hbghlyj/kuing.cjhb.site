@@ -1965,8 +1965,6 @@ $lang =
 	'setting_functions_other_darkroom_comment' => '选择“是”将开启小黑屋，用户可以在右下角导航中进入小黑屋，查看被禁言禁止访问用户',
 	'setting_functions_other_disableipnotice' => '关闭登录安全提醒',
 	'setting_functions_other_disableipnotice_comment' => '选择“是”将关闭用户登录地区异常安全提醒功能',
-	'setting_functions_other_global_sign' => '全局签名内容',
-	'setting_functions_other_global_sign_comment' => '该设置必须开启签名后有效，如果用户没有设置签名就显示该签名内容',
 	'setting_functions_other_shortcut' => '提醒添加桌面快捷的积分下限',
 	'setting_functions_other_shortcut_comment' => '大于等于设置积分的用户将看到添加桌面快捷的顶部提醒，0或不填为关闭此功能',
 

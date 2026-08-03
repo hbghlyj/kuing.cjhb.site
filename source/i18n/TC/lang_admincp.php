@@ -1967,8 +1967,6 @@ $lang =
 	'setting_functions_other_darkroom_comment' => '選擇“是”將開啓小黑屋，用戶可以在右下角導航中進入小黑屋，查看被禁言禁止訪問用戶',
 	'setting_functions_other_disableipnotice' => '關閉登入安全提醒',
 	'setting_functions_other_disableipnotice_comment' => '選擇“是”將關閉用戶登入地區異常安全提醒功能',
-	'setting_functions_other_global_sign' => '全局簽名內容',
-	'setting_functions_other_global_sign_comment' => '該設定必須開啓簽名後有效，如果用戶沒有設定簽名就顯示該簽名內容',
 	'setting_functions_other_shortcut' => '提醒添加桌面快捷的積分下限',
 	'setting_functions_other_shortcut_comment' => '大於等於設定積分的用戶將看到添加桌面快捷的頂部提醒，0或不填爲關閉此功能',
 
