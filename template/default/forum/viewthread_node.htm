@@ -319,7 +319,7 @@ $postshowavatars = !($_G['setting']['bannedmessages'] & 2 && ($post['memberstatu
 	<!--{/if}-->
 	<td class="plc" style="overflow:visible;<!--{if $close_leftinfo}--> width:100%<!--{/if}-->">
 		<div class="po hin">
-			<!--{if !$post['first'] && $modmenu['post']}-->
+			<!--{if $modmenu['post']}-->
 				<span class="y">
 				<label for="manage$post[pid]">
 				<input type="checkbox" id="manage$post[pid]" class="pc" {if !empty($modclick)}checked="checked" {/if}onclick="pidchecked(this);modclick(this, $post[pid])" value="$post[pid]" autocomplete="off" />
