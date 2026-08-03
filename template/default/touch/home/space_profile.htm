@@ -51,7 +51,7 @@
 			<li><a href="home.php?mod=space&uid={$space['uid']}&do=thread<!--{if $_G['uid'] == $space['uid']}-->&view=me<!--{/if}-->"><i class="dm-chat-s-fill"></i><!--{if $_G['uid'] == $space['uid']}-->{lang mythread}<!--{else}-->{lang mobta_thread}<!--{/if}--></a></li>
 		<!--{/if}-->
 		<!--{if $_G['uid'] == $space['uid']}-->
-			<li><a class="thread-history-link" href="home.php?mod=space&uid={$space['uid']}&do=thread&view=me&type=editlog" title="{lang post_revision_history}" aria-label="{lang post_revision_history}"><i class="thread-history-icon"><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M13 3a9 9 0 1 1-6.36 2.64L4.5 3.5V9H10L8.06 7.06A7 7 0 1 0 13 5V3Zm-1 4v6.41l4.29 4.3 1.42-1.42L14 12.59V7h-2Z"/></svg></i>{lang post_revision_history}</a></li>
+			<li><a class="thread-history-link" href="home.php?mod=space&uid={$space['uid']}&do=thread&view=me&type=editlog" title="{lang post_revision_history}" aria-label="{lang post_revision_history}"><i class="thread-history-icon"><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M13 3c-4.97 0-9 4.03-9 9H1l3.89 3.89.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42C8.27 19.99 10.51 21 13 21c4.97 0 9-4.03 9-9s-4.03-9-9-9zm-1 5v5l4.28 2.54.72-1.21-3.5-2.08V8H12z"/></svg></i>{lang post_revision_history}</a></li>
 		<!--{/if}-->
 		<!--{if helper_access::check_module('favorite') && $_G['uid'] == $space['uid']}-->
 			<li><a href="home.php?mod=space&uid={$space['uid']}&do=favorite&view=me&type=thread"><i class="dm-star-fill"></i>{lang myfavorite}</a></li>
