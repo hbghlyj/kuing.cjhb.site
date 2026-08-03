@@ -1258,7 +1258,7 @@ body.pg_logging, body.pg_register, body.pg_lostpasswd_mobile, body.pg_lostpasswd
 .plc .pi .img_list li a {display:block}
 .plc .pi .img_list li img {margin:8px 0;max-width:100%;border-radius:var(--dz-radius-md)}
 .plc .psth {margin: 2em 0 2em -15px;padding: 5px 45px 5px 15px;width: 70%;background: var(--dz-BOR-ed);color: var(--dz-FC-666);font-size: 14px;border-radius: 0 14px 14px 0;}
-.mtime .manage, .mtime .dialogbox {width:90%;padding:10px;background-color:var(--dz-BG-0);overflow:hidden;border-radius:8px;max-height:305px;overflow-y:auto;}
+.mtime .manage, .mtime .dialogbox {width:min(90vw,560px);box-sizing:border-box;padding:10px;background-color:var(--dz-BG-0);overflow:hidden;border-radius:8px;max-height:305px;overflow-y:auto;}
 .mtime .manage .button, .mtime .dialogbox .button {float:left;width:46%;margin:2%}
 .myinfo_list_ico .i18n_box ,.myinfo_list_ico .dialogbox {width:80%;margin-left: -2%; padding:10px;background-color:var(--dz-BG-0);overflow:hidden;border-radius:8px;max-height:305px;overflow-y:auto;}
 .replybtn {display:none;position:absolute;right:0;top:12px}
