@@ -47,10 +47,7 @@ function _ajaxget(url, showid, waitid, loading, display, recall) {
 function _ajaxpost(formid, showid, waitid, showidclass, submitbtn, recall) {
 	waitid = waitid || 'ajaxwaitid';
 	showidclass = showidclass || '';
-	var ajaxframeid = 'ajaxframe';
-	var ajaxframe = $(ajaxframeid);
 	var curform = $(formid);
-	var formtarget = curform.target;
 	var waitObj = $(waitid);
 
 	var togglePostLoading = function(display) {
@@ -74,13 +71,10 @@ function _ajaxpost(formid, showid, waitid, showidclass, submitbtn, recall) {
 		}
 	};
 
-	var handleResult = function() {
-		var s = '';
+	var handleResult = function(s) {
 		var evaled = false;
 
 		togglePostLoading('none');
-		var responseDocument = $(ajaxframeid).contentWindow.document;
-		s = responseDocument.body ? responseDocument.body.innerHTML : responseDocument.documentElement.innerHTML;
 		s = typeof s == 'string' ? s : (s == null ? '' : String(s));
 		if(s != '' && s.indexOf('ajaxerror') != -1) {
 			evalscript(s);
@@ -101,46 +95,36 @@ function _ajaxpost(formid, showid, waitid, showidclass, submitbtn, recall) {
 			ajaxinnerhtml($(showid), s);
 		}
 		ajaxerror = null;
-		if(curform) curform.target = formtarget;
 		if(typeof recall == 'function') {
 			recall();
 		} else {
 			eval(recall);
 		}
 		if(!evaled) evalscript(s);
-		ajaxframe.loading = 0;
-		if(!BROWSER.firefox || BROWSER.safari) {
-			$('append_parent').removeChild(ajaxframe.parentNode);
-		} else {
-			setTimeout(
-				function(){
-					$('append_parent').removeChild(ajaxframe.parentNode);
-				},
-				100
-			);
-		}
 	};
-	if(!ajaxframe) {
-		var div = document.createElement('div');
-		div.style.display = 'none';
-		div.innerHTML = '<iframe name="' + ajaxframeid + '" id="' + ajaxframeid + '" loading="1"></iframe>';
-		$('append_parent').appendChild(div);
-		ajaxframe = $(ajaxframeid);
-	} else if(ajaxframe.loading) {
-		return false;
-	}
-
-	_attachEvent(ajaxframe, 'load', handleResult);
 
 	togglePostLoading();
-	curform.target = ajaxframeid;
 	var action = curform.getAttribute('action');
 	action = hostconvert(action);
-	curform.action = action.replace(/\&inajax\=1/g, '')+'&inajax=1';
-	curform.submit();
+	action = action.replace(/\&inajax\=1/g, '')+'&inajax=1';
 	if(submitbtn) {
 		submitbtn.disabled = true;
 	}
+	fetch(action, {
+		method: 'POST',
+		body: new FormData(curform),
+		credentials: 'same-origin'
+	}).then(function(response) {
+		return response.text();
+	}).then(handleResult).catch(function() {
+		togglePostLoading('none');
+		if(submitbtn) {
+			submitbtn.disabled = false;
+		}
+		if(typeof showError == 'function') {
+			showError($L('networkerror'));
+		}
+	});
 	doane();
 	return false;
 }
