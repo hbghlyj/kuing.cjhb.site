@@ -350,6 +350,9 @@ class tag {
 			}
 			table_common_tagitem::t()->merge_by_tagids($newid, $tagidarray);
 			table_common_tag::t()->delete_byids($tagidarray);
+			$relatedCount = table_common_tagitem::t()->count_by_tagid($newid);
+			table_common_tag::t()->update($newid, ['related_count' => $relatedCount]);
+			self::update_tag_hot_score($newid);
 
 			if($tidarray) {
 				foreach($tidarray as $key => $var) {
