@@ -9,18 +9,29 @@ if($processUser !== 'www-data' && !getenv('GITHUB_ACTIONS')) {
 	exit("This tool must be run as process user www-data.\n");
 }
 
-$options = getopt('', ['host:']);
-$targetHost = $options['host'] ?? '';
+$options = getopt('', ['host:', 'action:', 'rebuild', 'verhash']);
+$targetHost = $options['host'] ?? 'localhost';
 if(!preg_match('/^[A-Za-z0-9.-]+(?::\d+)?$/', $targetHost)) {
-	exit("Usage: php tools/rebuild_styles.php --host=example.com\n");
+	exit("Usage: php .agents/tools/rebuild_styles.php [--host=example.com] [--action=all|rebuild|verhash]\n");
 }
-define('STYLE_REBUILD_HOST', $targetHost);
+
+$action = $options['action'] ?? 'all';
+if(isset($options['rebuild']) && !isset($options['verhash'])) {
+	$action = 'rebuild';
+} elseif(isset($options['verhash']) && !isset($options['rebuild'])) {
+	$action = 'verhash';
+}
+
+$doRebuild = in_array($action, ['all', 'both', 'rebuild'], true);
+$doVerhash = in_array($action, ['all', 'both', 'verhash'], true);
+
+if(!defined('STYLE_REBUILD_HOST')) {
+	define('STYLE_REBUILD_HOST', $targetHost);
+}
 
 $root = dirname(__DIR__, 2);
 chdir($root);
 
-// The CLI entry point is tools/rebuild_styles.php, but style URLs must be
-// generated as if the site's root index.php handled the request.
 $_SERVER['HTTP_HOST'] = $targetHost;
 $_SERVER['SERVER_NAME'] = $targetHost;
 $_SERVER['REQUEST_URI'] = '/';
@@ -33,7 +44,7 @@ $_SERVER['HTTPS'] = 'on';
 $_SERVER['SERVER_PORT'] = '443';
 $_SERVER['HTTP_X_FORWARDED_PROTO'] = 'https';
 
-require './source/class/class_core.php';
+require_once './source/class/class_core.php';
 $discuz = C::app();
 $discuz->init_user = false;
 $discuz->init_session = false;
@@ -41,7 +52,43 @@ $discuz->init_cron = false;
 $discuz->init_misc = false;
 $discuz->init();
 
-require_once './source/function/function_cache.php';
-updatecache('styles');
+if($doRebuild) {
+	require_once './source/function/function_cache.php';
+	updatecache('styles');
+	echo 'Styles rebuilt for https://'.STYLE_REBUILD_HOST."/\n";
+}
 
-echo 'Styles rebuilt for https://'.STYLE_REBUILD_HOST."/\n";
+if($doVerhash) {
+	$cacheNames = ['style_default'];
+	foreach(table_common_style::t()->fetch_all_data() as $style) {
+		$cacheNames[] = 'style_'.$style['styleid'];
+	}
+
+	$styles = table_common_syscache::t()->fetch_all_syscache($cacheNames, true);
+	$currentHashes = [];
+	foreach($styles as $style) {
+		if(is_array($style) && !empty($style['verhash'])) {
+			$currentHashes[] = $style['verhash'];
+		}
+	}
+
+	do {
+		$verhash = random(3);
+	} while(in_array($verhash, $currentHashes, true));
+
+	$updated = 0;
+	foreach($styles as $cacheName => $style) {
+		if(!is_array($style)) {
+			continue;
+		}
+		$style['verhash'] = $verhash;
+		savecache($cacheName, $style);
+		$updated++;
+	}
+
+	if(!$updated) {
+		echo "No style caches were found to update verhash.\n";
+	} else {
+		echo "Updated VERHASH to {$verhash} in {$updated} style caches.\n";
+	}
+}
