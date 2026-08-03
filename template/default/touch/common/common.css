@@ -1232,7 +1232,7 @@ body.pg_logging, body.pg_register, body.pg_lostpasswd_mobile, body.pg_lostpasswd
 .plc .pi .authi li.mtit {height:18px;line-height:16px;padding-top:2px;overflow:hidden}
 .plc .pi .authi li span.z, .plc .pi .authi li span.z a {font-size:14px}
 .plc .pi .authi li span.y {float:right;color:var(--dz-FC-999)}
-.plc .pi .authi li.mtime {height:16px;line-height:16px;color:var(--dz-FC-999);overflow:hidden}
+.plc .pi .authi li.mtime {line-height:16px;color:var(--dz-FC-999);overflow:hidden}
 .plc .pi .authi li.mtime span {float:right;font-size:12px}
 .plc .pi .authi li.mtime span i {float:left;margin-left:8px;margin-right:2px;color:var(--dz-FC-bbb)}
 .plc .pi .authi li.mtime span em {float:left}
