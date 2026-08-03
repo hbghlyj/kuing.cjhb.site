@@ -68,7 +68,7 @@ function initEditor() {
 			} else {
 				_attachEvent(buttons[i], 'mouseover', function(e) {setEditorTip(BROWSER.ie ? window.event.srcElement.title : e.target.title);});
 				if(buttons[i].id.substr(buttons[i].id.indexOf('_') + 1) == 'url') {
-					buttons[i].onclick = function(e) {discuzcode('unlink');discuzcode('url');doane();};
+					buttons[i].onclick = function(e) {discuzcode('url');doane();};
 				} else {
 					if(!buttons[i].getAttribute('init')) {
 						buttons[i].onclick = function(e) {discuzcode(this.id.substr(this.id.indexOf('_') + 1));doane();};
@@ -141,7 +141,7 @@ function initesbar() {
 			} else {
 				_attachEvent(buttons[i], 'mouseover', function(e) {setEditorTip(BROWSER.ie ? window.event.srcElement.title : e.target.title);});
 				if(buttons[i].id.substr(buttons[i].id.indexOf('_') + 1) == 'url') {
-					buttons[i].onclick = function(e) {discuzcode('unlink');discuzcode('url');doane();};
+					buttons[i].onclick = function(e) {discuzcode('url');doane();};
 				} else {
 					if(!buttons[i].getAttribute('init')) {
 						buttons[i].onclick = function(e) {discuzcode(this.id.substr(this.id.indexOf('_') + 1));doane();};
@@ -1269,10 +1269,69 @@ function showEditorMenu(tag, params) {
 
 
 	} else {
+		var linknode = null, urlrange = null, linkhref = '', linktext = '';
+		if(tag == 'url') {
+			if(selection) {
+				linktext = selection;
+			}
+			if(wysiwyg) {
+				var node = null;
+				try {
+					if(editdoc.selection && editdoc.selection.createRange) {
+						node = editdoc.selection.createRange().parentElement();
+					} else {
+						var wsel = editwin.getSelection();
+						if(wsel.rangeCount > 0) {
+							node = wsel.getRangeAt(0).commonAncestorContainer;
+							if(node.nodeType == 3) {
+								node = node.parentNode;
+							}
+						}
+					}
+				} catch(e) {node = null;}
+				while(node && node != editdoc.body) {
+					if(node.tagName == 'A') {
+						linknode = node;
+						break;
+					}
+					node = node.parentNode;
+				}
+				if(linknode) {
+					linkhref = linknode.getAttribute('href', 2) ? linknode.getAttribute('href', 2) : '';
+					linktext = linknode.innerHTML;
+					try {
+						if(editdoc.body.createTextRange) {
+							sel = editdoc.body.createTextRange();
+							sel.moveToElementText(linknode);
+							sel.select();
+						} else {
+							var wrange = editdoc.createRange();
+							wrange.selectNode(linknode);
+							var wsel2 = editwin.getSelection();
+							wsel2.removeAllRanges();
+							wsel2.addRange(wrange);
+							sel = wrange;
+						}
+						selection = linknode.innerHTML;
+					} catch(e) {}
+				}
+			} else if(!isUndefined(editdoc.selectionStart)) {
+				var content = editdoc.value, selstart = editdoc.selectionStart, selend = editdoc.selectionEnd;
+				var umatch, ure = /\[url(=([^\]\["'\r\n]+))?\]([\s\S]*?)\[\/url\]/ig;
+				while((umatch = ure.exec(content))) {
+					if(umatch.index <= selstart && umatch.index + umatch[0].length >= selend) {
+						urlrange = [umatch.index, umatch.index + umatch[0].length];
+						linkhref = umatch[2] ? umatch[2] : trim(umatch[3]);
+						linktext = umatch[3];
+						break;
+					}
+				}
+			}
+		}
 		switch(tag) {
 			case 'url':
-				str = $L('input_link_href') + ':<br /><input type="text" id="' + ctrlid + '_param_1" style="width: 98%" value="" class="px" />'+
-					(selection ? '' : '<br />' + $L('input_link_text') + ':<br /><input type="text" id="' + ctrlid + '_param_2" style="width: 98%" value="" class="px" />');
+				str = $L('input_link_href') + ':<br /><input type="text" id="' + ctrlid + '_param_1" style="width: 98%" value="' + htmlspecialchars(linkhref) + '" class="px" />'+
+					'<br />' + $L('input_link_text') + ':<br /><input type="text" id="' + ctrlid + '_param_2" style="width: 98%" value="' + htmlspecialchars(linktext) + '" class="px" />';
 				break;
 			case 'forecolor':
 				showColorBox(ctrlid, 1);
@@ -1412,10 +1471,14 @@ function showEditorMenu(tag, params) {
 				var href = $(ctrlid + '_param_1').value;
 				href = (isEmail(href) ? 'mailto:' : '') + href;
 				if(href != '') {
-					var v = selection ? selection : ($(ctrlid + '_param_2').value ? $(ctrlid + '_param_2').value : href);
+					var v = $(ctrlid + '_param_2').value ? $(ctrlid + '_param_2').value : (selection ? selection : href);
 					str = wysiwyg ? ('<a href="' + href + '">' + v + '</a>') : '[url=' + squarestrip(href) + ']' + v + '[/url]';
 					if(wysiwyg) {
 						insertText(str, str.length - v.length, 0, (selection ? true : false), sel);
+					} else if(urlrange) {
+						editdoc._selectionStart = urlrange[0];
+						editdoc._selectionEnd = urlrange[1];
+						insertText(str, str.length - v.length - 6, 6, false, sel);
 					} else {
 						insertText(str, str.length - v.length - 6, 6, (selection ? true : false), sel);
 					}
@@ -1709,7 +1772,7 @@ function insertText(text, movestart, moveend, select, sel) {
 		}
 	} else {
 		if(!isUndefined(editdoc.selectionStart)) {
-			if(editdoc._selectionStart) {
+			if(!isUndefined(editdoc._selectionStart) && (editdoc._selectionStart || editdoc._selectionEnd)) {
 				editdoc.selectionStart = editdoc._selectionStart;
 				editdoc.selectionEnd = editdoc._selectionEnd;
 				editdoc._selectionStart = 0;
