@@ -176,9 +176,12 @@ function writetocsscache($data, $touch = false) {
 			} else {
 				$siteurl = preg_replace('/^https?:/i', '', $siteurl);
 			}
-			$cssdata = !preg_match('/^(https?:)?\/\//i', $data['styleimgdir']) ? preg_replace("/url\(([\"'])?".preg_quote($data['styleimgdir'], '/').'/i', "url(\\1{$siteurl}{$data['styleimgdir']}", $cssdata) : $cssdata;
-			$cssdata = !preg_match('/^(https?:)?\/\//i', $data['imgdir']) ? preg_replace("/url\(([\"'])?".preg_quote($data['imgdir'], '/').'/i', "url(\\1{$siteurl}{$data['imgdir']}", $cssdata) : $cssdata;
-			$cssdata = !preg_match('/^(https?:)?\/\//i', $data['staticurl']) ? preg_replace("/url\(([\"'])?".preg_quote($data['staticurl'], '/').'/i', "url(\\1{$siteurl}{$data['staticurl']}", $cssdata) : $cssdata;
+			foreach (['styleimgdir', 'imgdir', 'staticurl'] as $dirkey) {
+				if (!empty($data[$dirkey]) && !preg_match('/^(https?:)?\/\//i', $data[$dirkey])) {
+					$dirpath = ltrim($data[$dirkey], './');
+					$cssdata = preg_replace("/url\(([\"'])?(?:\.\/)?".preg_quote($dirpath, '/').'/i', "url(\\1{$siteurl}{$dirpath}", $cssdata);
+				}
+			}
 			if($entry == 'module.css') {
 				$cssdata = preg_replace('/\/\*\*\s*(.+?)\s*\*\*\//', '[\\1]', $cssdata);
 			}
