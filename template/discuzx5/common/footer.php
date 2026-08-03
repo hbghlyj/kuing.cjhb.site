@@ -145,7 +145,6 @@
 				</p>
 			</div>
 		</div>
-		<script src="/kk/footer-night-sky.js?{VERHASH}"></script>
 	</div>
 <!--{/if}-->
 
