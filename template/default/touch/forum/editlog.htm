@@ -17,11 +17,11 @@
 	<div id="revision_diff" class="revision-diff"></div>
 </div>
 <style>
-.revision-window { padding: 12px; box-sizing: border-box; }
-.revision-toolbar { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; margin-bottom: 10px; }
-.revision-toolbar label { font-weight: 700; }
-.revision-toolbar select { flex: 1; min-width: 150px; }
-.revision-toolbar form { margin: 0 0 0 auto; }
+.revision-window { width: 100%; padding: 12px; box-sizing: border-box; }
+.revision-toolbar { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 6px; margin-bottom: 10px; }
+.revision-toolbar label { grid-column: 1 / -1; font-weight: 700; }
+.revision-toolbar select { width: 100%; min-width: 0; }
+.revision-toolbar form { margin: 0; }
 .revision-toolbar button { padding: 4px 8px; }
 .revision-diff-label { margin-bottom: 5px; color: #888; }
 .revision-diff { max-height: 55vh; overflow: auto; border: 1px solid #ddd; background: #fafafa; font: 12px/1.5 monospace; }
