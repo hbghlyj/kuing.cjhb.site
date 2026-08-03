@@ -640,7 +640,7 @@ img{border:none;}
 
 /* foot */
 #ft {background:none;padding:5px 0;line-height:24px;color:var(--dz-fc)}
-.dz_footc {background:var(--dz-bgf);overflow:hidden;box-shadow:var(--dz-shadow)}
+.dz_footc {background:var(--dz-bgf);overflow:visible;box-shadow:var(--dz-shadow)}
 .dz_footc a {color:var(--dz-alink)}
 .dz_footc a:hover {color:var(--dz-ahover)}
 #ft.dz_footc_bottom {border-top:none;padding:0}
