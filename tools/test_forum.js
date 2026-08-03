@@ -642,6 +642,10 @@ const mathDraftSubject = `Thread with Restored Math Draft ${testRunId}`;
                 assert.ok(editHistoryResponse.ok(), 'Assertion Error: Author edit-history request failed.');
                 const editHistoryModal = page.locator('#fwin_editlog');
                 await editHistoryModal.waitFor({ state: 'visible' });
+                await page.waitForFunction(message => {
+                    const diff = document.querySelector('#fwin_editlog #revision_diff');
+                    return diff && diff.textContent.includes(message);
+                }, 'Body text from unprivileged account.');
                 const editHistoryText = await editHistoryModal.textContent();
                 assert.ok(editHistoryText.includes('Body text from unprivileged account.'), 'Assertion Error: Author could not view the previous post content.');
 
