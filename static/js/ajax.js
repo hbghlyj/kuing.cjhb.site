@@ -49,6 +49,10 @@ function _ajaxpost(formid, showid, waitid, showidclass, submitbtn, recall) {
 	showidclass = showidclass || '';
 	var curform = $(formid);
 	var waitObj = $(waitid);
+	if(curform.ajaxLoading) {
+		return false;
+	}
+	curform.ajaxLoading = true;
 
 	var togglePostLoading = function(display) {
 		if(!waitObj) {
@@ -75,6 +79,7 @@ function _ajaxpost(formid, showid, waitid, showidclass, submitbtn, recall) {
 		var evaled = false;
 
 		togglePostLoading('none');
+		curform.ajaxLoading = false;
 		s = typeof s == 'string' ? s : (s == null ? '' : String(s));
 		if(s != '' && s.indexOf('ajaxerror') != -1) {
 			evalscript(s);
@@ -126,6 +131,7 @@ function _ajaxpost(formid, showid, waitid, showidclass, submitbtn, recall) {
 		}
 	}).catch(function() {
 		togglePostLoading('none');
+		curform.ajaxLoading = false;
 		if(submitbtn) {
 			submitbtn.disabled = false;
 		}
