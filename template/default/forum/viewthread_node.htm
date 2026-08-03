@@ -19,7 +19,7 @@ $postshowavatars = !($_G['setting']['bannedmessages'] & 2 && ($post['memberstatu
 			<div class="s_clear">
 				<a class="deloption" href="javascript:;" onclick="var el=document.getElementById('ntc_jp');if(el)el.parentNode.removeChild(el);" title="{lang close}">{lang close}</a>
 				<em>{lang new_reply_notice}</em>
-				<h2><!--{if $_G['forum_thread']['typename']}--><a href="forum.php?mod=forumdisplay&fid=$_G[fid]&filter=typeid&typeid=$_G[forum_thread][typeid]">[$_G[forum_thread][typename]]</a> <!--{/if}--><a href="forum.php?mod=viewthread&tid=$_G[tid]">$_G[forum_thread][subject]</a></h2>
+				<h2><!--{if !empty($_G['forum_thread']['typename'])}--><a href="forum.php?mod=forumdisplay&fid=$_G[fid]&filter=typeid&typeid=$_G[forum_thread][typeid]">[$_G['forum_thread']['typename']]</a> <!--{/if}--><a href="forum.php?mod=viewthread&tid=$_G[tid]">$_G[forum_thread][subject]</a></h2>
 			</div>
 		</div>
 	</td>
