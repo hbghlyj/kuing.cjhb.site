@@ -522,6 +522,7 @@ class model_post extends discuz_model {
 
 		if(!empty($this->param['noticetrimstr'])) {
 			$this->param['message'] = $this->param['noticetrimstr']."\n".$this->param['message'];
+			$this->param['bbcodeoff'] = false;
 		}
 		$this->param['message'] = preg_replace('/\[attachimg\](\d+)\[\/attachimg\]/is', '[attach]\1[/attach]', $this->param['message']);
 		$this->param['parseurloff'] = !empty($this->param['parseurloff']);
