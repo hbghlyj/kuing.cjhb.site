@@ -145,7 +145,7 @@ if($_GET['op'] == 'delete') {
 			table_home_favorite::t()->delete($fav['favid']);
 			switch($type) {
 				case 'thread':
-					$extrajs = '<script type="text/javascript">if($("k_favorite")){$("k_favorite").className="";}if($("favoritenumber")){var n=parseInt($("favoritenumber").innerHTML)-1;if(n>0){$("favoritenumber").innerHTML=n;$("favoritenumber").style.display="";}else{$("favoritenumber").innerHTML=0;$("favoritenumber").style.display="none";}}</script>';
+					$extrajs = '<script type="text/javascript">if($("k_favorite")){var f=$("k_favorite");f.classList.remove("active");var i=f.querySelector(".fico-star");if(i)i.classList.remove("fav-has-count");}if($("favoritenumber")){var n=parseInt($("favoritenumber").innerHTML)-1;if(n>0){$("favoritenumber").innerHTML=n;$("favoritenumber").style.display="";}else{$("favoritenumber").innerHTML=0;$("favoritenumber").style.display="none";}}</script>';
 					break;
 				case 'forum':
 					$extrajs = '<script type="text/javascript">if($("number_favorite_num")){var n=parseInt($("number_favorite_num").innerHTML)-1;if(n>0){$("number_favorite_num").innerHTML=n;$("number_favorite").style.display="";}else{$("number_favorite_num").innerHTML=0;$("number_favorite").style.display="none";}}</script>';
@@ -176,7 +176,7 @@ if($_GET['op'] == 'delete') {
 				table_forum_thread::t()->increase($id, ['favtimes' => 1]);
 				require_once libfile('function/forum');
 				update_threadpartake($id);
-				$extrajs = '<script type="text/javascript">if($("k_favorite")){$("k_favorite").className="active";}if($("favoritenumber")){$("favoritenumber").innerHTML=parseInt($("favoritenumber").innerHTML)+1;$("favoritenumber").style.display="";}</script>';
+				$extrajs = '<script type="text/javascript">if($("k_favorite")){var f=$("k_favorite");f.classList.add("active");var i=f.querySelector(".fico-star");if(i)i.classList.add("fav-has-count");}if($("favoritenumber")){$("favoritenumber").innerHTML=parseInt($("favoritenumber").innerHTML||0)+1;$("favoritenumber").style.display="";}</script>';
 				break;
 			case 'forum':
 				table_forum_forum::t()->update_forum_counter($id, 0, 0, 0, 0, 1);

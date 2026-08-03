@@ -438,9 +438,18 @@ function postreviewcancel(pid, n, username) {
 
 function favoriteupdate() {
 	var obj = $('favoritenumber');
-	obj.style.display = '';
-	obj.innerHTML = parseInt(obj.innerHTML) + 1;
-	$('k_favorite')?.querySelector('.fico-star')?.classList.add('fav-has-count');
+	if(obj) {
+		obj.style.display = '';
+		obj.innerHTML = parseInt(obj.innerHTML || 0) + 1;
+	}
+	var favorite = $('k_favorite');
+	if(favorite) {
+		favorite.classList.add('active');
+		var icon = favorite.querySelector('.fico-star');
+		if(icon) {
+			icon.classList.add('fav-has-count');
+		}
+	}
 }
 
 function switchrecommendv() {
