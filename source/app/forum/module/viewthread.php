@@ -879,11 +879,15 @@ function viewthread_procpost($post, $lastvisit, $maxposition = 0) {
 		$post['newpostanchor'] = '';
 	}
 
-	if(!empty($_G['fromfind'])) {
-		if($_G['fromfind'] == 1 && $post['newpostanchor']) {
-			$post['notice_jump'] = true;
+	if(!empty($_G['fromfind']) && empty($_G['forum_notice_jump_shown'])) {
+		if($_G['fromfind'] == 1) {
+			if(!empty($post['newpostanchor']) || !empty($post['first']) || empty($_G['forum_newpostanchor'])) {
+				$post['notice_jump'] = true;
+				$_G['forum_notice_jump_shown'] = true;
+			}
 		} elseif($_G['fromfind'] == $post['pid']) {
 			$post['notice_jump'] = true;
+			$_G['forum_notice_jump_shown'] = true;
 		}
 	}
 
