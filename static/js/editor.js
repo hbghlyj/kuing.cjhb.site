@@ -1368,7 +1368,7 @@ function showEditorMenu(tag, params) {
 			case 'hide':
 			case 'free':
 				if(selection) {
-					return insertText((opentag + selection + closetag), strlen(opentag), strlen(closetag), true, sel);
+					return insertBlockTag((opentag + selection + closetag), strlen(opentag), strlen(closetag), true, sel);
 				}
 				var lang = {'quote' : $L('input_quote'), 'code' : $L('input_code'), 'hide' : $L('input_hide'), 'free' : $L('input_free')};
 				str += lang[tag] + ':<br /><textarea id="' + ctrlid + '_param_1" style="width: 98%" cols="50" rows="5" class="txtarea"></textarea>' +
@@ -1528,7 +1528,7 @@ function showEditorMenu(tag, params) {
 					str = str.replace(/\r?\n/g, '<br />');
 				}
 				str = opentag + str + closetag;
-				insertText(str, strlen(opentag), strlen(closetag), false, sel);
+				insertBlockTag(str, strlen(opentag), strlen(closetag), false, sel);
 				break;
 			case 'insertorderedlist':
 				var listtype = document.querySelector('input[name="' + ctrlid + '_param_1"]:checked').value;
@@ -1809,6 +1809,22 @@ function insertText(text, movestart, moveend, select, sel) {
 		}
 	}
 	checkFocus();
+}
+
+function insertBlockTag(text, movestart, moveend, select, sel) {
+	if(wysiwyg && (BROWSER.chrome || BROWSER.safari) && /<div\s[^>]*class\s*=\s*["'](blockcode|quote)["']/i.test(text)) {
+		var breaktag = '<div><br /></div>';
+		insertText(breaktag + text, movestart + strlen(breaktag), moveend, select, sel);
+		var block = editdoc.body.querySelector('.blockcode, .quote');
+		if(block) {
+			var prev = block.previousElementSibling;
+			if(prev && (prev.tagName == 'DIV' || prev.tagName == 'P') && !prev.getAttribute('class') && !prev.getAttribute('id') && prev.textContent.trim() == '' && (!prev.firstChild || (prev.childNodes.length == 1 && prev.firstChild.tagName == 'BR'))) {
+				prev.remove();
+			}
+		}
+	} else {
+		insertText(text, movestart, moveend, select, sel);
+	}
 }
 
 function stripSimple(tag, str, iterations) {
