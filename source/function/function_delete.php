@@ -250,6 +250,10 @@ function deletepost($ids, $idtype = 'pid', $credit = false, $posttableid = false
 	}
 	if($tids) {
 		foreach($tids as $tid) {
+			$firstpost = table_forum_post::t()->fetch_visiblepost_by_tid('tid:'.$tid, $tid, 0, 0);
+			if($firstpost && !$firstpost['first']) {
+				table_forum_post::t()->update_post('tid:'.$tid, $firstpost['pid'], ['first' => 1]);
+			}
 			updatethreadcount($tid, 1);
 		}
 	}

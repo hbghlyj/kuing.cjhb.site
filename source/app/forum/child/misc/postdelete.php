@@ -18,7 +18,9 @@ if(submitcheck('postdeletesubmit')) {
 	$url_forward = 'forum.php?mod=viewthread&tid=' .$post['tid'];
 	require_once libfile('function/delete');
 
-	if($post['first']) {
+	$visible_count = table_forum_post::t()->count_visiblepost_by_tid($post['tid']);
+
+	if($post['first'] && $visible_count <= 1) {
 		deletethread([$post['tid']], true, true);
 		updateforumcount($post['fid']);
 
@@ -39,6 +41,12 @@ if(submitcheck('postdeletesubmit')) {
 			'old_content' => $post['content'],
 		]);
 		deletepost([$post['pid']], 'pid', true);
+		if($post['first']) {
+			$nextpost = table_forum_post::t()->fetch_visiblepost_by_tid('tid:'.$post['tid'], $post['tid'], 0, 0);
+			if($nextpost) {
+				table_forum_post::t()->update_post('tid:'.$post['tid'], $nextpost['pid'], ['first' => 1, 'subject' => $post['subject']]);
+			}
+		}
 		updatethreadcount($post['tid']);
 	}
 
