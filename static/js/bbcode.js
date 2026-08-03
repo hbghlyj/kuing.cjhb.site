@@ -370,6 +370,8 @@ function getoptionvalue(option, text) {
 
 function html2bbcode(str) {
 
+	var codespanRe = /<span\b[^>]*\bstyle=(["'])(?=[^"']*font-family:[^"']*Monaco)(?=[^"']*white-space:[^"']*pre-wrap)[^"']*\1[^>]*>([\s\S]*?)<\/span>/ig;
+
 	if((allowhtml && fetchCheckbox('htmlon')) || trim(str) == '') {
 		for(i in EXTRAFUNC['html2bbcode']) {
 			EXTRASTR = str;
@@ -377,6 +379,7 @@ function html2bbcode(str) {
 				eval('str = ' + EXTRAFUNC['html2bbcode'][i] + '()');
 			} catch(e) {}
 		}
+		str = str.replace(codespanRe, function($0, $1, $2) {return codetag($2);});
 		str = str.replace(/<img[^>]+smilieid=(["']?)(\d+)(\1)[^>]*>/ig, function($1, $2, $3) {return smileycode($3);});
 		str = str.replace(/<img([^>]*aid=[^>]*)>/ig, function($1, $2) {return imgtag($2);});
 		return str;
@@ -388,7 +391,11 @@ function html2bbcode(str) {
 		str = str.replace(/<\/div>((<br[^>]*>){1,})<div>/ig, '$1');
 	}
 
-	str = str.replace(/<div\sclass=["']?blockcode["']?>[\s\S]*?<pre[^>]*>([\s\S]+?)<\/pre>[\s\S]*?<\/div>/ig, function($1, $2) {return codetag($2);});
+	str = str.replace(/<div\sclass=["']?blockcode["']?>[\s\S]*?<pre[^>]*>([\s\S]+?)<\/pre>[\s\S]*?<\/div>/ig, function($1, $2) {
+		return codetag($2.replace(codespanRe, function($0, $1, $2) {return $2;}));
+	});
+
+	str = str.replace(codespanRe, function($0, $1, $2) {return codetag($2);});
 
 	if(!fetchCheckbox('bbcodeoff') && allowbbcode) {
 		var postbg = '';
