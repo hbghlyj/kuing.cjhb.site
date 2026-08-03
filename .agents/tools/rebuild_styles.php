@@ -34,11 +34,11 @@ chdir($root);
 
 $_SERVER['HTTP_HOST'] = $targetHost;
 $_SERVER['SERVER_NAME'] = $targetHost;
-$_SERVER['REQUEST_URI'] = '/';
+$_SERVER['REQUEST_URI'] = '/index.php';
 $_SERVER['REQUEST_METHOD'] = 'GET';
 $_SERVER['SCRIPT_NAME'] = '/index.php';
 $_SERVER['PHP_SELF'] = '/index.php';
-$_SERVER['SCRIPT_FILENAME'] = $root.'/index.php';
+$_SERVER['SCRIPT_FILENAME'] = $root.DIRECTORY_SEPARATOR.'index.php';
 $_SERVER['DOCUMENT_ROOT'] = $root;
 
 require_once './source/class/class_core.php';
@@ -48,6 +48,8 @@ $discuz->init_session = false;
 $discuz->init_cron = false;
 $discuz->init_misc = false;
 $discuz->init();
+$_G['siteurl'] = 'http://'.$targetHost.'/';
+$_G['siteroot'] = '/';
 
 if($doRebuild) {
 	require_once './source/function/function_cache.php';
