@@ -202,15 +202,17 @@ var popup = {
 		var popupobj = document.getElementById(popid + '_popmenu');
 		if(POPMENU[popid]) {
 			popupobj.innerHTML = pop.innerHTML;
-			popupobj.style.height = pop.offsetHeight + 'px';
-			popupobj.style.width = pop.offsetWidth + 'px';
 		} else {
-			pop.insertAdjacentHTML('afterend', '<div class="dialogbox" id="'+ popid +'_popmenu" style="height:'+ pop.offsetHeight +'px;width:'+ pop.offsetWidth +'px;">'+ pop.innerHTML +'</div>');
+			pop.insertAdjacentHTML('afterend', '<div class="dialogbox" id="'+ popid +'_popmenu">'+ pop.innerHTML +'</div>');
 			popupobj = document.getElementById(popid + '_popmenu');
 		}
+		popupobj.style.width = '';
+		popupobj.style.height = '';
+		popupobj.style.visibility = 'hidden';
+		popupobj.style.display = 'block';
 		var left = (window.innerWidth - popupobj.offsetWidth) / 2;
 		var top = (document.documentElement.clientHeight - popupobj.offsetHeight) / 2;
-		Object.assign(popupobj.style, {display:'block',position:'fixed',left:left+'px',top:top+'px',zIndex:120,opacity:1});
+		Object.assign(popupobj.style, {position:'fixed',left:left+'px',top:top+'px',zIndex:120,opacity:1,visibility:'visible'});
 		Object.assign(document.getElementById('mask').style, {display:'block',width:'100%',height:'100%',position:'fixed',top:0,left:0,background:'black',opacity:'0.2',zIndex:100});
 		POPMENU[popid] = pop;
 	},
