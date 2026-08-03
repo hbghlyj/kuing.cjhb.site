@@ -304,7 +304,8 @@ function Ajax(recvType, waitId) {
 				s = aj.XMLHttpRequest.responseText;
 			} else if (aj.recvType == 'XML') {
 				if (!aj.XMLHttpRequest.responseXML || !aj.XMLHttpRequest.responseXML.lastChild || aj.XMLHttpRequest.responseXML.lastChild.localName == 'parsererror') {
-					s = '';
+					// Some AJAX endpoints return an HTML fragment instead of the legacy XML wrapper.
+					s = aj.XMLHttpRequest.responseText;
 				} else {
 					s = aj.XMLHttpRequest.responseXML.lastChild.firstChild ? aj.XMLHttpRequest.responseXML.lastChild.firstChild.nodeValue : '';
 				}
