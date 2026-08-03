@@ -31,6 +31,7 @@
 				</li>
 				<li class="grey rela">
 					$post['dateline']
+					<!--{if $post['allowvieweditlog']}--><a class="editlog" href="forum.php?mod=misc&action=editlog&tid=$post[tid]&pid=$post[pid]" onclick="showWindow('editlog', this.href, 'get', 0);return false;" title="{lang post_revision_history}" aria-label="{lang post_revision_history}"><i class="dm-edit" aria-hidden="true"></i></a><!--{/if}-->
 				</li>
 			</ul>
 			<div class="message">
