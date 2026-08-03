@@ -82,8 +82,9 @@ function bbcode2html(str) {
 
 	if(!fetchCheckbox('bbcodeoff') && allowbbcode) {
 		str = clearcode(str);
-		str = str.replace(/\[url\]\s*((https?|ftp|gopher|news|telnet|rtsp|mms|callto|bctp|thunder|qqdl|synacast){1}:\/\/|www\.)([^\[\"']+?)\s*\[\/url\]/ig, function($1, $2, $3, $4) {return cuturl($2 + $4);});
-		str = str.replace(/\[url=((https?|ftp|gopher|news|telnet|rtsp|mms|callto|bctp|thunder|qqdl|synacast){1}:\/\/|www\.|mailto:|tel:|magnet:)?([^\r\n\[\"']+?)\]([\s\S]+?)\[\/url\]/ig, '<a href="$1$3" target="_blank">$4</a>');
+		str = str.replace(/\[url(=((https?|ftp|gopher|news|telnet|rtsp|mms|callto|bctp|thunder|qqdl|synacast){1}:\/\/|www\.|mailto:|tel:|magnet:)?([^\r\n\[\"']+?))?\]([\s\S]*?)\[\/url\]/ig, function($0, $1, $2, $3, $4, $5) {
+			return parseurl_bbcode($1, $5, $2);
+		});
 		str = str.replace(/\[email\](.[^\\=[]*)\[\/email\]/ig, '<a href="mailto:$1">$1</a>');
 		str = str.replace(/\[email=(.[^\\=[]*)\](.*?)\[\/email\]/ig, '<a href="mailto:$1" target="_blank">$2</a>');
 		str = str.replace(/\[postbg\]\s*([^\[\<\r\n;'\"\?\(\)]+?)\s*\[\/postbg\]/ig, function($1, $2) {
@@ -183,6 +184,44 @@ function clearcode(str) {
 	str= str.replace(/\[i\]\[\/i]/ig, '', str);
 	str= str.replace(/\[s\]\[\/s]/ig, '', str);
 	return str;
+}
+
+function parseurl_bbcode(url, text, scheme) {
+	var link_rel_attribute = '';
+	if(!url) {
+		url = text;
+		try {
+			url = decodeURIComponent(url);
+		} catch(e) {}
+		var displaytext = text;
+		if(/^https?:\/\//i.test(displaytext)) {
+			link_rel_attribute = ' rel="external nofollow"';
+		} else if(/^www\./i.test(url)) {
+			url = '//' + url;
+			link_rel_attribute = ' rel="external nofollow"';
+		}
+		displaytext = displaytext.replace(/^https?:\/\/(www\.)?|^www\./i, '');
+		if(displaytext.length > 95) {
+			displaytext = displaytext.substring(0, 64) + ' &hellip; ' + displaytext.substring(displaytext.length - 20);
+		}
+		return '<a href="' + url + '"' + link_rel_attribute + ' target="_blank">' + displaytext + '</a>';
+	} else {
+		url = url.substr(1);
+		if(!text) {
+			return '<a name="' + url + '"></a>';
+		}
+		if(url.charAt(0) == '#') {
+			return '<a href="' + url + '">' + text + '</a>';
+		} else {
+			if(/^https?:\/\//i.test(url)) {
+				link_rel_attribute = ' rel="external nofollow"';
+			} else if(/^www\./i.test(url)) {
+				url = '//' + url;
+				link_rel_attribute = ' rel="external nofollow"';
+			}
+			return '<a href="' + url + '"' + link_rel_attribute + ' target="_blank">' + text + '</a>';
+		}
+	}
 }
 
 function cuturl(url) {
