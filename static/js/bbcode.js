@@ -25,7 +25,12 @@ function atag(aoptions, text) {
 		return trim(recursion('a', text, 'atag'));
 	}
 
-	return pend['prepend'] + '[url=' + href + ']' + trim(recursion('a', text, 'atag')) + '[/url]' + pend['append'];
+	var innerText = trim(recursion('a', text, 'atag'));
+	if(href === innerText) {
+		return pend['prepend'] + '[url]' + innerText + '[/url]' + pend['append'];
+	}
+
+	return pend['prepend'] + '[url=' + href + ']' + innerText + '[/url]' + pend['append'];
 }
 
 function bbcode2html(str) {
@@ -82,7 +87,7 @@ function bbcode2html(str) {
 
 	if(!fetchCheckbox('bbcodeoff') && allowbbcode) {
 		str = clearcode(str);
-		str = str.replace(/\[url(=((https?|ftp|gopher|news|telnet|rtsp|mms|callto|bctp|thunder|qqdl|synacast){1}:\/\/|www\.|mailto:|tel:|magnet:)?([^\r\n\[\"']+?))?\]([\s\S]*?)\[\/url\]/ig, function($0, $1, $2, $3, $4, $5) {
+		str = str.replace(/\[url(=((https?|ftp){1}:\/\/|www\.|mailto:|tel:|magnet:)?([^\r\n\[\"']+?))?\]([\s\S]*?)\[\/url\]/ig, function($0, $1, $2, $3, $4, $5) {
 			return parseurl_bbcode($1, $5, $2);
 		});
 		str = str.replace(/\[email\](.[^\\=[]*)\[\/email\]/ig, '<a href="mailto:$1">$1</a>');
@@ -190,9 +195,6 @@ function parseurl_bbcode(url, text, scheme) {
 	var link_rel_attribute = '';
 	if(!url) {
 		url = text;
-		try {
-			url = decodeURIComponent(url);
-		} catch(e) {}
 		var displaytext = text;
 		if(/^https?:\/\//i.test(displaytext)) {
 			link_rel_attribute = ' rel="external nofollow"';
@@ -200,7 +202,6 @@ function parseurl_bbcode(url, text, scheme) {
 			url = '//' + url;
 			link_rel_attribute = ' rel="external nofollow"';
 		}
-		displaytext = displaytext.replace(/^https?:\/\/(www\.)?|^www\./i, '');
 		if(displaytext.length > 95) {
 			displaytext = displaytext.substring(0, 64) + ' &hellip; ' + displaytext.substring(displaytext.length - 20);
 		}
