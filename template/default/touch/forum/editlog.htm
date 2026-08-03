@@ -33,10 +33,6 @@
 <script type="text/javascript" reload="1">
 (function() {
 	var revisions = {echo $versions_json};
-	var diff = document.getElementById('revision_diff');
-	var select = document.getElementById('revision_select');
-	var restore = document.getElementById('revision_restore');
-	var editid = document.getElementById('revision_editid');
 	function escapeHtml(value) {
 		return String(value == null ? '' : value).replace(/[&<>"']/g, function(char) {
 			return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[char];
@@ -67,19 +63,28 @@
 		var html = [];
 		var max = Math.max(oldLines.length, newLines.length);
 		for(var i = 0; i < max; i++) {
-			if(oldLines[i] === newLines[i]) html.push('<div class="same">&nbsp; ' + escapeHtml(oldLines[i] || '') + '</div>');
-			else {
+			if(oldLines[i] === newLines[i]) {
+				html.push('<div class="same">&nbsp; ' + escapeHtml(oldLines[i] || '') + '</div>');
+			} else {
 				if(i < oldLines.length) html.push('<div class="removed">- ' + escapeHtml(oldLines[i]) + '</div>');
 				if(i < newLines.length) html.push('<div class="added">+ ' + escapeHtml(newLines[i]) + '</div>');
 			}
 		}
-		diff.innerHTML = html.join('') || '<div class="same">&nbsp;</div>';
-		restore.disabled = !selected.id;
-		editid.value = selected.id || 0;
+		var diff = document.getElementById('revision_diff');
+		var restore = document.getElementById('revision_restore');
+		var editid = document.getElementById('revision_editid');
+		if(diff) diff.innerHTML = html.join('') || '<div class="same">&nbsp;</div>';
+		if(restore) restore.disabled = !selected.id;
+		if(editid) editid.value = selected.id || 0;
 	};
-	if(select && revisions.length) {
-		select.value = revisions.length > 1 ? '1' : '0';
-		renderRevisionDiff(select.value);
-	}
+	setTimeout(function() {
+		var select = document.getElementById('revision_select');
+		if(select && revisions.length) {
+			select.value = revisions.length > 1 ? '1' : '0';
+			renderRevisionDiff(select.value);
+		} else if(revisions.length) {
+			renderRevisionDiff(0);
+		}
+	}, 20);
 })();
 </script>
