@@ -46,9 +46,6 @@
 	.header-notice .notice-icon:hover, .header-notice.open .notice-icon {background: var(--dz-bgfglass);}
 	.dz_menumore::after{color: var(--dz-ff);}
 	<!--{/if}-->
-	<!--{if $_G['style']['bottom_bgc']}-->
-	.dz_footc{background: $_G['style']['bottom_bgc'];}
-	<!--{/if}-->
 	<!--{if $_G['style']['bottom_dark'] && $_G['style']['bottom_bgc']}-->
 	.dz_footc_dico{background: none;}
 	<!--{/if}-->
