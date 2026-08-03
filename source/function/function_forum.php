@@ -708,7 +708,7 @@ function get_post_by_pid($pid, $fields = '*', $addcondiction = '', $forcetable =
 function get_post_by_tid_pid($tid, $pid) {
 	static $postlist = [];
 	if(empty($postlist[$pid])) {
-		$postlist[$pid] = table_forum_post::t()->fetch_post('tid:'.$tid, $pid, false);
+		$postlist[$pid] = table_forum_post::t()->fetch_post('tid:'.$tid, $pid);
 		if($postlist[$pid] && $postlist[$pid]['tid'] == $tid) {
 			$user = getuserbyuid($postlist[$pid]['authorid']);
 			$postlist[$pid]['adminid'] = $user['adminid'];
