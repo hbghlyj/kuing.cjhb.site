@@ -171,7 +171,6 @@ var disablepostctrl = parseInt('{$_G['group']['disablepostctrl']}');
 	<!--{/if}-->
 
 	<input type="hidden" name="formhash" value="{FORMHASH}" />
-	<input type="hidden" name="usesig" value="$usesigcheck" />
 	<p class="ptm pnpost">
 		<a href="https://mathslate.pages.dev" class="y" target="_blank">{lang post_latex_editor}</a>
 		<button {if $allowpostreply}type="submit" {elseif !$_G['uid']}type="button" onclick="showWindow('login', 'member.php?mod=logging&action=login&guestmessage=yes')" {/if}{if !$seccodecheck && !$secqaacheck} onmouseover="checkpostrule('seccheck_fastpost', 'ac=reply');this.onmouseover=null" {/if}name="replysubmit" id="fastpostsubmit" class="pn pnc vm" value="replysubmit"><strong>{lang post_newreply}</strong></button>

@@ -192,7 +192,6 @@
 			<!--{if $_GET['action'] != 'edit' && helper_access::check_module('feed') && $_G['forum']['allowfeed']}-->
 			<li class="mli flex-half"><label for="addfeed"><input type="checkbox" name="addfeed" id="addfeed" class="pc" value="1" $addfeedcheck>{lang addfeed}</label></li>
 			<!--{/if}-->
-			<li class="mli flex-half"><label for="usesig"><input type="checkbox" name="usesig" id="usesig" class="pc" value="1" {if !$_G['group']['maxsigsize']}disabled {else}$usesigcheck {/if}/>{lang post_show_sig}</label></li>
 		</ul>
 		<li class="mtit">{lang text_feature}</li>
 		<ul class="flex-box flex-wrap p10 cl">
