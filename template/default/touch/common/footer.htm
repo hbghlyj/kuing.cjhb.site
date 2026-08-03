@@ -50,6 +50,13 @@
 		});
 	</script>
 	<!--{/if}-->
+	<p class="xs0" style="text-align:center;margin:8px 0;">
+		<span id="debuginfo">
+		<!--{if debuginfo()}-->Processed in $_G[debuginfo][time] seconds, $_G[debuginfo][queries] queries
+			<!--{if $_G['gzipcompress']}-->, Gzip On<!--{/if}--><!--{if C::memory()->type}-->, <!--{echo C::memory()->type}--> On<!--{/if}-->
+		<!--{/if}-->
+		</span>
+	</p>
 	<div class="footer-copy mt10">
 		<!--{if $_G['setting']['icp'] || $_G['setting']['mps']}--><!--{if $_G['setting']['icp']}--><a href="https://beian.miit.gov.cn/" target="_blank">$_G['setting']['icp']</a><!--{/if}--><!--{if $_G['setting']['mps']}--><a href="https://beian.mps.gov.cn/#/query/webSearch?code=$_G['setting']['mpsid']" target="_blank"><img width="14" height="14" src="{IMGDIR}/ico_mps.png" />$_G['setting']['mps']</a><!--{/if}--><br><!--{/if}-->
 		Powered by Discuz! <em>$_G['setting']['version']</em>
@@ -58,15 +65,6 @@
 </div>
 <!--{/if}-->
 <!--{if !$nofooter}-->
-<!--{if !($_G['basescript'] == 'forum' && $_GET['mod'] == 'find')}-->
-<p class="xs0" style="text-align:center;margin:8px 0;">
-	<span id="debuginfo">
-	<!--{if debuginfo()}-->Processed in $_G[debuginfo][time] seconds, $_G[debuginfo][queries] queries
-		<!--{if $_G['gzipcompress']}-->, Gzip On<!--{/if}--><!--{if C::memory()->type}-->, <!--{echo C::memory()->type}--> On<!--{/if}-->
-	<!--{/if}-->
-	</span>
-</p>
-<!--{/if}-->
 <div class="foot_height"></div>
 <div class="foot flex-box">
 	<a href="index.php" class="flex{if (strpos($_SERVER['REQUEST_URI'], $_G['setting']['defaultindex']) && strpos('forum.php', $_G['setting']['defaultindex']) === false) || strpos($_SERVER['REQUEST_URI'], 'index.php') || (strpos('forum.php', $_G['setting']['defaultindex']) === 0 && $_G['basescript'] == 'forum' && $_GET['mod'] != 'find')} mon{/if}">
