@@ -570,10 +570,11 @@ class model_post extends discuz_model {
 		}
 		if(getglobal('forum_auditstatuson') && $this->param['audit'] == 1) {
 			$setarr['invisible'] = 0;
-		} else {
-			$setarr['invisible'] = $pinvisible;
-		}
-		table_forum_editlog::t()->insert([
+	} else {
+		$setarr['invisible'] = $pinvisible;
+	}
+	$historypost = table_forum_post::t()->fetch_post('tid:'.$this->thread['tid'], $this->post['pid']);
+	table_forum_editlog::t()->insert([
 			'tid' => $this->thread['tid'],
 			'pid' => $this->post['pid'],
 			'authorid' => $this->post['authorid'],
@@ -581,9 +582,9 @@ class model_post extends discuz_model {
 			'username' => $this->member['username'],
 			'dateline' => TIMESTAMP,
 			'action' => 'edit',
-			'old_subject' => $this->post['subject'],
-			'old_message' => $this->post['message'],
-			'old_content' => $this->post['content'],
+			'old_subject' => $historypost['subject'] ?? $this->post['subject'],
+			'old_message' => $historypost['message'] ?? $this->post['message'],
+			'old_content' => $historypost['content'] ?? $this->post['content'],
 		]);
 		table_forum_post::t()->update_post('tid:'.$this->thread['tid'], $this->post['pid'], $setarr);
 
@@ -648,6 +649,7 @@ class model_post extends discuz_model {
 			}
 		}
 
+		$historypost = table_forum_post::t()->fetch_post('tid:'.$this->thread['tid'], $this->post['pid']);
 		table_forum_editlog::t()->insert([
 			'tid' => $this->thread['tid'],
 			'pid' => $this->post['pid'],
@@ -656,9 +658,9 @@ class model_post extends discuz_model {
 			'username' => $this->member['username'],
 			'dateline' => TIMESTAMP,
 			'action' => 'delete',
-			'old_subject' => $this->post['subject'],
-			'old_message' => $this->post['message'],
-			'old_content' => $this->post['content'],
+			'old_subject' => $historypost['subject'] ?? $this->post['subject'],
+			'old_message' => $historypost['message'] ?? $this->post['message'],
+			'old_content' => $historypost['content'] ?? $this->post['content'],
 		]);
 
 		table_forum_post::t()->delete_post('tid:'.$this->thread['tid'], $this->post['pid']);
