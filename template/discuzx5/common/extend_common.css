@@ -42,7 +42,7 @@
 
 
 
-html{overflow-y:scroll}
+
 @font-face {
 	font-family: 'Century';
 	src: local('Century Schoolbook'), url('/static/image/common/CENSCBK.TTF') format('truetype');
@@ -67,8 +67,8 @@ html{overflow-y:scroll}
 	font-weight: bold;
 	font-style: italic;
 }
-body {background:var(--dz-bodybg)}
-input, textarea {font:1em/1.5 monospace,zh}
+body {background:var(--dz-bodybg);background-image: url({STYLEIMGDIR}/images/cubes.png);}
+input, textarea {font:1em/1.5 monospace}
 textarea {color:var(--dz-fa)}
 ul,li{list-style:none}
 :where(a, a[class]) {color:var(--dz-alink)}
