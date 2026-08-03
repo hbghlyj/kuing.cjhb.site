@@ -3,7 +3,7 @@
 <div class="thread-editlog-list">
 	<!--{if $editlogs}-->
 	<!--{loop $editlogs $editlog}-->
-		<a class="thread-editlog-item" href="forum.php?mod=misc&action=editlog&tid=$editlog[tid]&pid=$editlog[pid]" onclick="showWindow('editlog', this.href, 'get', 0);return false;">
+		<a class="thread-editlog-item dialog" href="forum.php?mod=misc&action=editlog&tid=$editlog[tid]&pid=$editlog[pid]">
 			<strong>$editlog[action_label]</strong><span class="xg1">$editlog[displaytime]</span><b>$editlog[title]</b><em>$editlog[old_message]</em>
 		</a>
 	<!--{/loop}-->
