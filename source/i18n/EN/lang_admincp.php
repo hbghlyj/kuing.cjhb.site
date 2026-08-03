@@ -474,6 +474,7 @@ $lang = array
 	'nav_logs' => '运行记录',
 	'nav_logs_editlog' => 'Post edit history',
 	'logs_edit_action' => 'Action',
+	'logs_edit_original_author' => 'Original author',
 	'logs_edit_target' => 'Thread / post',
 	'logs_edit_previous_subject' => 'Previous subject',
 	'logs_edit_previous_content' => 'Previous content',

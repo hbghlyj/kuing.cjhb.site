@@ -493,6 +493,7 @@ $lang =
 	'nav_logs' => '操作日誌',
 	'nav_logs_editlog' => '帖子編輯歷史',
 	'logs_edit_action' => '操作',
+	'logs_edit_original_author' => '原作者',
 	'logs_edit_target' => '主題 / 帖子',
 	'logs_edit_previous_subject' => '原主題標題',
 	'logs_edit_previous_content' => '原內容',

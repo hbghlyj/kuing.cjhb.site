@@ -12,11 +12,13 @@ if(!defined('IN_DISCUZ') || !defined('IN_ADMINCP')) {
 
 $num = table_forum_editlog::t()->count_for_admin($keyword);
 $logs = table_forum_editlog::t()->fetch_all_for_admin($keyword, $start, $lpp);
+$authornames = table_common_member::t()->fetch_all_username_by_uid(array_column($logs, 'authorid'));
 $multipage = multi($num, $lpp, $page, $urlbase, 0, 3);
 
 showtableheader('', 'fixpadding');
 	showsubtitle([
 		cplang('time'),
+		cplang('logs_edit_original_author'),
 		cplang('username'),
 		cplang('logs_edit_action'),
 		cplang('logs_edit_target'),
@@ -35,6 +37,7 @@ foreach($logs as $data) {
 	$previous = $oldcontent !== '' ? $oldcontent.'<hr />'.$oldmessage : $oldmessage;
 	showtablerow('', [], [
 		dgmdate($data['dateline']),
+		dhtmlspecialchars($authornames[$data['authorid']] ?? ('UID '.$data['authorid'])),
 		dhtmlspecialchars($data['username']),
 		$action,
 		$target,
@@ -43,6 +46,6 @@ foreach($logs as $data) {
 	]);
 }
 if(!$logs) {
-	showtablerow('', [], ['-', '-', '-', '-', '-', cplang('logs_edit_none')]);
+	showtablerow('', [], ['-', '-', '-', '-', '-', '-', cplang('logs_edit_none')]);
 }
 showtablefooter();
