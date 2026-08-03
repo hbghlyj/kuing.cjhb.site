@@ -466,7 +466,6 @@ function parseurl($url, $text, $scheme) {
 			$url = '//' . $url;
 			$link_rel_attribute = '" rel="external nofollow';
 		}
-		$text = preg_replace("/^https?:\/\/(www\.)?|^www\./i", '', $text);
 		if(mb_strlen($text, 'UTF-8') > 95) {
 			$text = mb_substr($text, 0, 64, 'UTF-8') . ' &hellip; ' . mb_substr($text, -20, null, 'UTF-8');
 		}

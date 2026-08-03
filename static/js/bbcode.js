@@ -213,7 +213,6 @@ function parseurl_bbcode(url, text, scheme) {
 			url = '//' + url;
 			link_rel_attribute = ' rel="external nofollow"';
 		}
-		displaytext = displaytext.replace(/^https?:\/\/(www\.)?|^www\./i, '');
 		if(displaytext.length > 95) {
 			displaytext = displaytext.substring(0, 64) + ' &hellip; ' + displaytext.substring(displaytext.length - 20);
 		}
