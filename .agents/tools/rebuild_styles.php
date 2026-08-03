@@ -40,9 +40,6 @@ $_SERVER['SCRIPT_NAME'] = '/index.php';
 $_SERVER['PHP_SELF'] = '/index.php';
 $_SERVER['SCRIPT_FILENAME'] = $root.'/index.php';
 $_SERVER['DOCUMENT_ROOT'] = $root;
-$_SERVER['HTTPS'] = 'on';
-$_SERVER['SERVER_PORT'] = '443';
-$_SERVER['HTTP_X_FORWARDED_PROTO'] = 'https';
 
 require_once './source/class/class_core.php';
 $discuz = C::app();
