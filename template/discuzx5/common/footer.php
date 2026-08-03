@@ -95,12 +95,12 @@
 								$curLangDisplay = isset($footerLocales[$curLangKey]) ? $curLangKey : 'EN';
 							}-->
 							<!--{if $footerlinkindex}--><span class="pipe">|</span><!--{/if}-->
-							<div class="lang-selector-wrap">
-								<a href="javascript:;" class="lang-selector-trigger" id="lang_select_btn" onclick="showMenu(this.id);return false;" aria-haspopup="true" aria-expanded="false">
+							<div class="lang-selector-wrap" id="lang_selector_root">
+								<a href="javascript:;" class="lang-selector-trigger" id="lang_select_btn" onclick="(function(e){e.stopPropagation();var m=document.getElementById('lang_selector_dropdown');if(m){m.style.display=m.style.display==='none'?'block':'none';}}).call(this,event)" aria-haspopup="true" aria-expanded="false">
 									<span class="lang-code">{$curLangDisplay}</span>
 									<svg class="lang-chevron" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
 								</a>
-								<div id="lang_select_btn_menu" class="lang-selector-dropdown p_pop" style="display:none;">
+								<div id="lang_selector_dropdown" class="lang-selector-dropdown" style="display:none;">
 									<ul class="lang-menu-list">
 										<!--{loop $footerLocales $locale $localeName}-->
 											<!--{if !empty($_G['setting']['i18n'][$locale])}-->
@@ -117,6 +117,14 @@
 									</ul>
 								</div>
 							</div>
+							<script type="text/javascript">
+							(function(){
+								document.addEventListener('click', function(){
+									var m = document.getElementById('lang_selector_dropdown');
+									if(m) m.style.display = 'none';
+								});
+							})();
+							</script>
 							<!--{eval $footerlinkindex++;}-->
 						<!--{/if}-->
 						<!--{hook/global_footerlink}-->
