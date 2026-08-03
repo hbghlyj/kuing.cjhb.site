@@ -1435,6 +1435,8 @@ Last Modify:	Pony
 			.sslct_btn i { float: left; display: inline; margin: 1px; width: 10px; height: 10px; background: #2E80D1; overflow: hidden; font-style: normal; }
 	#toptb a.switchblind{ width: 10px; background-image: none; text-indent: -9999px; }
 .adcontent { background: #F5F5F5; position: relative; overflow: visible; }
+.threadad td.pls, .threadad td.plc { padding: 0 !important; height: 6px; }
+.threadad td.pls { background: #E9E9E9; }
 /* 弹出菜单、弹出层及弹出窗口 */
 	.p_pop, .p_pof, .sllt { padding: 4px; border: 1px solid; min-width: 60px; border-color: {DROPMENUBORDER}; {DROPMENUBGCODE}; box-shadow: 2px 4px 4px rgba(0,0,0,0.2); max-width: 400px;}
 		.p_pof .p_pop { padding: 0; border: none; box-shadow: none; }
