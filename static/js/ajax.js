@@ -115,8 +115,16 @@ function _ajaxpost(formid, showid, waitid, showidclass, submitbtn, recall) {
 		body: new FormData(curform),
 		credentials: 'same-origin'
 	}).then(function(response) {
+		if(response.redirected) {
+			window.location.href = response.url;
+			return null;
+		}
 		return response.text();
-	}).then(handleResult).catch(function() {
+	}).then(function(s) {
+		if(s !== null) {
+			handleResult(s);
+		}
+	}).catch(function() {
 		togglePostLoading('none');
 		if(submitbtn) {
 			submitbtn.disabled = false;
