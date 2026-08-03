@@ -377,7 +377,7 @@ select {-moz-appearance:none;}
 
 /*----- 底部Copyright -----*/
 .footer 
-{background-color:var(--dz-BG-1);color:var(--dz-FC-fff);padding:15px;text-align:center;overflow:visible}
+{background-color:var(--dz-BG-1);padding:15px;text-align:center;overflow:visible}
 .footer-nv, .footer-locales, .footer-copy {color:var(--dz-FC-999);line-height:22px;font-size:13px;text-align:center}
 .footer-nv a, .footer-locales a {color:var(--dz-FC-fff);margin:0 6px}
 .footer-copy a, .footer-nv a.mon {color:var(--dz-FC-999)}
