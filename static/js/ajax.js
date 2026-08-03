@@ -124,6 +124,9 @@ function _ajaxpost(formid, showid, waitid, showidclass, submitbtn, recall) {
 			window.location.href = response.url;
 			return null;
 		}
+		if(!response.ok) {
+			throw new Error('AJAX request failed with HTTP ' + response.status);
+		}
 		return response.text();
 	}).then(function(s) {
 		if(s !== null) {
