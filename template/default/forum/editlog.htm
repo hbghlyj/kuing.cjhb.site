@@ -54,22 +54,45 @@
 		}
 		return (revision.subject ? revision.subject + '\n\n' : '') + body;
 	}
+	function diffLines(oldLines, newLines) {
+		var lcs = [];
+		for(var i = 0; i <= oldLines.length; i++) lcs[i] = [];
+		for(var i = oldLines.length - 1; i >= 0; i--) {
+			for(var j = newLines.length - 1; j >= 0; j--) {
+				lcs[i][j] = oldLines[i] === newLines[j] ? lcs[i + 1][j + 1] + 1 : Math.max(lcs[i + 1][j] || 0, lcs[i][j + 1] || 0);
+			}
+		}
+		var lines = [];
+		var i = 0;
+		var j = 0;
+		while(i < oldLines.length || j < newLines.length) {
+			if(i < oldLines.length && j < newLines.length && oldLines[i] === newLines[j]) {
+				lines.push('<div class="same">&nbsp; ' + escapeHtml(oldLines[i] || '') + '</div>');
+				i++;
+				j++;
+			} else if(i < oldLines.length && j < newLines.length && oldLines[i + 1] === newLines[j]) {
+				lines.push('<div class="removed">- ' + escapeHtml(oldLines[i]) + '</div>');
+				i++;
+			} else if(i < oldLines.length && j < newLines.length && oldLines[i] === newLines[j + 1]) {
+				lines.push('<div class="added">+ ' + escapeHtml(newLines[j]) + '</div>');
+				j++;
+			} else if(j < newLines.length && (i === oldLines.length || (lcs[i][j + 1] || 0) > (lcs[i + 1][j] || 0))) {
+				lines.push('<div class="added">+ ' + escapeHtml(newLines[j]) + '</div>');
+				j++;
+			} else if(i < oldLines.length) {
+				lines.push('<div class="removed">- ' + escapeHtml(oldLines[i]) + '</div>');
+				i++;
+			}
+		}
+		return lines;
+	}
 	window.renderRevisionDiff = function(index) {
 		index = parseInt(index, 10) || 0;
 		var selected = revisions[index] || revisions[0];
 		var newer = revisions[index - 1] || selected;
 		var oldLines = textOf(selected).split('\n');
 		var newLines = textOf(newer).split('\n');
-		var html = [];
-		var max = Math.max(oldLines.length, newLines.length);
-		for(var i = 0; i < max; i++) {
-			if(oldLines[i] === newLines[i]) {
-				html.push('<div class="same">&nbsp; ' + escapeHtml(oldLines[i] || '') + '</div>');
-			} else {
-				if(i < oldLines.length) html.push('<div class="removed">- ' + escapeHtml(oldLines[i]) + '</div>');
-				if(i < newLines.length) html.push('<div class="added">+ ' + escapeHtml(newLines[i]) + '</div>');
-			}
-		}
+		var html = diffLines(oldLines, newLines);
 		var diff = document.getElementById('revision_diff');
 		var restore = document.getElementById('revision_restore');
 		var editid = document.getElementById('revision_editid');
