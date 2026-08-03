@@ -96,11 +96,11 @@
 							}-->
 							<!--{if $footerlinkindex}--><span class="pipe">|</span><!--{/if}-->
 							<div class="lang-selector-wrap">
-								<button type="button" class="lang-selector-trigger" id="lang_select_btn" onclick="showMenu({'ctrlid':this.id,'mtype':'menu'});" aria-haspopup="true" aria-expanded="false">
+								<button type="button" class="lang-selector-trigger" id="lang_select_btn" onclick="var m=document.getElementById('lang_select_btn_menu');if(m){m.style.display=m.style.display==='none'?'block':'none';}if(event){event.stopPropagation();}" aria-haspopup="true" aria-expanded="false">
 									<span class="lang-code">{$curLangDisplay}</span>
 									<svg class="lang-chevron" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
 								</button>
-								<div id="lang_select_btn_menu" class="lang-selector-dropdown p_pop" style="display:none;">
+								<div id="lang_select_btn_menu" class="lang-selector-dropdown p_pop" style="display:none;position:absolute;bottom:100%;left:0;margin-bottom:6px;">
 									<ul class="lang-menu-list">
 										<!--{loop $footerLocales $locale $localeName}-->
 											<!--{if !empty($_G['setting']['i18n'][$locale])}-->
@@ -117,6 +117,15 @@
 									</ul>
 								</div>
 							</div>
+							<script type="text/javascript">
+								document.addEventListener('click', function(e) {
+									var m = document.getElementById('lang_select_btn_menu');
+									var b = document.getElementById('lang_select_btn');
+									if(m && b && !b.contains(e.target) && !m.contains(e.target)) {
+										m.style.display = 'none';
+									}
+								});
+							</script>
 							<!--{eval $footerlinkindex++;}-->
 						<!--{/if}-->
 						<!--{hook/global_footerlink}-->
