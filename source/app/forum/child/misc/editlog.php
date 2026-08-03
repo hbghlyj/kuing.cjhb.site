@@ -88,7 +88,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && getgpc('do') == 'rollback') {
 	table_forum_post::t()->update_post('tid:'.$post['tid'], $post['pid'], [
 		'subject' => $revision['old_subject'],
 		'message' => $revision['old_message'],
-		'content' => $revision['old_content'],
+		'content' => $revision['old_content'] !== '' && $revision['old_content'] !== null ? $revision['old_content'] : null,
 	]);
 	if($post['first']) {
 		table_forum_thread::t()->update($post['tid'], ['subject' => $revision['old_subject']]);
