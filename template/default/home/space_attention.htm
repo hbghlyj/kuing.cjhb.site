@@ -1,0 +1,68 @@
+<!--{template common/header}-->
+<div id="pt" class="bm cl">
+	<div class="z">
+		<a href="./" class="nvhm" title="{lang homepage}"></a> <em>&rsaquo;</em>
+		<a href="home.php?mod=space&do=attention">{lang attention}</a>
+	</div>
+</div>
+
+<style id="diy_style" type="text/css"></style>
+<div class="wp">
+	<!--[diy=diy1]--><div id="diy1" class="area"></div><!--[/diy]-->
+</div>
+
+<div id="ct" class="ct2_a wp cl">
+	<div class="mn">
+		<!--[diy=diycontenttop]--><div id="diycontenttop" class="area"></div><!--[/diy]-->
+		<div class="bm bw0">
+			<h1 class="mt bbs">
+				<img alt="attention" src="{STATICURL}image/feed/thread.gif" class="vm" />
+				{lang attention_thread}
+			</h1>
+			<!--{if $list}-->
+			<form method="post" autocomplete="off" name="delform" id="delform" action="home.php?mod=spacecp&ac=attention&op=delall" onsubmit="showDialog('{lang del_select_attention_confirm}', 'confirm', '', function() { $('delform').submit(); }); return false;">
+				<input type="hidden" name="formhash" value="{FORMHASH}" />
+				<ul id="attention_ul" class="">
+					<!--{loop $list $k $value}-->
+					<li id="atn_$k" class="bbda ptm pbm">
+						<a class="y" id="a_delete_$k" href="home.php?mod=spacecp&ac=attention&op=del&tid=$value[tid]&hash={FORMHASH}" onclick="showWindow(this.id, this.href, 'get', 0);">{lang delete}</a>
+						<input type="checkbox" name="delete[]" class="pc" value="$value[tid]" />
+						<!--{if $value[newreplies]}--><strong><!--{/if}-->
+						<a href="forum.php?mod=viewthread&tid=$value[tid]" target="_blank">$value[subject]</a>
+						<!--{if $value[newreplies]}--></strong><!--{/if}-->
+						<!--{if $value[newreplies]}-->
+						<span class="xi1">{lang attention_new_replies}: $value[newreplies]</span>
+						<!--{/if}-->
+						<span class="xg1">$value[forumname]</span>
+						<span class="xg1 xw0"><!--{date($value['dateline'], 'u')}--></span>
+						<div class="xg1">{lang lastpost}: $value[lastposter] &middot; $value[lastpost]</div>
+					</li>
+					<!--{/loop}-->
+				</ul>
+				<p class="mtm pns">
+					<label for="chkall" onclick="checkall(this.form, 'delete')"><input type="checkbox" name="chkall" id="chkall" class="pc vm" />{lang select_all}</label>
+					<button type="submit" name="delsubmit" value="true" class="pn vm"><em>{lang del_attention}</em></button>
+				</p>
+			</form>
+			<!--{if $multi}--><div class="pgs cl mtm">$multi</div><!--{/if}-->
+			<!--{else}-->
+			<p class="emp">{lang no_attention_yet}</p>
+			<!--{/if}-->
+		</div>
+		<!--[diy=diycontentbottom]--><div id="diycontentbottom" class="area"></div><!--[/diy]-->
+	</div>
+	<div class="appl">
+		<div class="tbn">
+			<h2 class="mt bbda">{lang attention}</h2>
+			<ul>
+				<li><a href="home.php?mod=space&uid=$space[uid]&do=attention"{if $filter != 'new'} class="a"{/if}>{lang attention_all}</a></li>
+				<li><a href="home.php?mod=space&uid=$space[uid]&do=attention&filter=new"{if $filter == 'new'} class="a"{/if}>{lang attention_new}</a></li>
+			</ul>
+		</div>
+	</div>
+</div>
+
+<div class="wp mtn">
+	<!--[diy=diy3]--><div id="diy3" class="area"></div><!--[/diy]-->
+</div>
+<!--{template common/footer}-->

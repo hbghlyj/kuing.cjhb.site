@@ -11,7 +11,7 @@ if(!defined('IN_DISCUZ')) {
 }
 
 $dos = ['index', 'doing', 'blog', 'album', 'friend', 'wall',
-	'notice', 'share', 'home', 'pm', 'favorite',
+	'notice', 'share', 'home', 'pm', 'favorite', 'attention',
 	'thread', 'trade', 'poll', 'activity', 'debate', 'reward', 'profile', 'plugin', 'follow'];
 
 $do = (!empty($_GET['do']) && in_array($_GET['do'], $dos)) ? $_GET['do'] : (!$_G['setting']['homepagestyle'] ? 'profile' : 'index');

@@ -299,6 +299,7 @@ $lang = array (
 	'portal'			=> 'Portal',//'门户',
 	'reward_answer'			=> 'I answered',//'我来回答',
 	'favorite'			=> 'Favorites',//'收藏',
+	'attention'			=> 'Follow',//'关注',
 	'choose_please'			=> 'Please select',//'请选择',
 	'create'			=> 'Create',//'创建',
 	'finished'			=> 'Finished',//'完成',

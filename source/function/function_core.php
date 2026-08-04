@@ -2301,6 +2301,15 @@ function notification_add($touid, $type, $note, $notevars = [], $system = 0) {
 	return helper_notification::notification_add($touid, $type, $note, $notevars, $system);
 }
 
+function threadattention_sendnotice($uids, $note, $notevars = []) {
+	if(empty($uids)) {
+		return;
+	}
+	foreach($uids as $uid) {
+		notification_add($uid, 'post', $note, $notevars);
+	}
+}
+
 function manage_addnotify($type, $from_num = 0, $langvar = []) {
 	$f = childfile('manage_addnotify', 'global/core');
 	if($f) {

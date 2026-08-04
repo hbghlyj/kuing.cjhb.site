@@ -153,6 +153,7 @@ $lang = array
 	'postreview_against'	=> '{actor} downvoted your reply in <a href="forum.php?mod=viewthread&tid={tid}">{subject}</a>. &nbsp; <a href="forum.php?mod=redirect&goto=findpost&pid={pid}&ptid={tid}" class="lit">View &rsaquo;</a>',
 
 	'reppost_noticeauthor'	=> '{actor} replied your post in the thread <a href="forum.php?mod=redirect&goto=findpost&ptid={tid}&pid={pid}">{subject}</a><div class="quote"><blockquote>{message}</blockquote></div><a class="lit" href="forum.php?mod=redirect&goto=findpost&pid={pid}&ptid={tid}">View</a>',
+	'thread_attention_reply'	=> '{actor} replied to the thread you are following <a href="forum.php?mod=redirect&goto=findpost&ptid={tid}&pid={pid}">{subject}</a> &nbsp; <a class="lit" href="forum.php?mod=redirect&goto=findpost&pid={pid}&ptid={tid}">View</a>',//'{actor} 回复了您关注的主题',
 
 	'task_reward_credit'	=> 'Congratulation! You have completed the task: <a href="home.php?mod=task&do=view&id={taskid}">{name}</a>, and get bonus {creditbonus} points. &nbsp; <a href="home.php?mod=spacecp&ac=credit&op=base" class="lit">View my points &rsaquo;</a></p>',//'恭喜你完成任务：<a href="home.php?mod=task&do=view&id={taskid}">{name}</a>，获得积分 {creditbonus} &nbsp; <a href="home.php?mod=spacecp&ac=credit&op=base" class="lit">查看我的积分 &rsaquo;</a></p>',
 

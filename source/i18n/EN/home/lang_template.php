@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 
 /**
  *      [Discuz!] (C)2001-2099 Comsenz Inc.
@@ -286,6 +286,11 @@ $lang = array (
 	'upload_at'		=> 'Uploaded at',//'上传于',
 	'album_pics'		=> 'Images',//'张图片',
 	'favorite'		=> 'Favorites',//'收藏',
+	'attention'		=> 'Follow',//'关注',
+	'attention_thread'	=> 'Followed threads',//'关注的主题',
+	'attention_all'		=> 'All followed',//'全部关注',
+	'attention_new'		=> 'With new replies',//'有新回复的关注',
+	'attention_new_replies'	=> 'New replies',//'新回复',
 	'next_album'		=> 'Next album',//'下一组',
 	'no_pics'		=> 'No images in this album.',//'该相册下还没有图片',
 	'previous_album'	=> 'Prev album',//'上一组',
@@ -405,6 +410,8 @@ $lang = array (
 	'recyclebin'		=> 'Recycle Bin',//'回收站',
 	'taobao'		=> 'Taobao',//'阿里旺旺',
 	'del_favorite'		=> 'Delete selected favorites',//'删除选中收藏',
+	'del_attention'		=> 'Delete selected followed threads',//'删除选中关注',
+	'del_select_attention_confirm'	=> 'Are you sure to delete the selected followed threads',//'确定要删除选中的关注吗？',
 	'collection_favorite'	=> 'Add to Favorites',//'添加到淘帖',
 	'del_select_favorite_confirm'	=> 'Are you sure to delete the selected from favorites',//'确定要删除选中的收藏吗？',
 	'favorite_album'	=> 'Albums',//'相册',
@@ -415,6 +422,8 @@ $lang = array (
 	'favorite_group'	=> 'Groups',//'{$_G[setting][navs][3][navname]}',
 	'favorite_thread'	=> 'Threads',//'帖子',
 	'no_favorite_yet'	=> 'You have not added any Favorites',//'您还没有添加任何收藏',
+	'no_attention_yet'	=> 'You have not followed any threads yet',//'您还没有关注任何主题',
+	'lastpost'		=> 'Last post',//'最后发表',
 	'select_all'		=> 'Select all',//'全选',
 	'click_play'		=> 'Click to Play',//'点击播放',
 	'click_view'		=> 'Click to view',//'点击查看',
