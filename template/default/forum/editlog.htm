@@ -30,7 +30,11 @@
 .revision-close:hover { background: #f2f2f2; color: #333; }
 .revision-diff-label { margin-bottom: 5px; color: #888; }
 .revision-diff { max-height: 55vh; overflow: auto; border: 1px solid #ddd; background: #fafafa; font: 13px/1.5 monospace; }
-.revision-diff div { padding: 1px 8px; white-space: pre-wrap; overflow-wrap: anywhere; }
+.revision-diff div { position: relative; padding: 1px 8px 1px 2.2em; white-space: pre-wrap; overflow-wrap: anywhere; }
+.revision-diff div::before { position: absolute; left: 0; top: 0; bottom: 0; width: 2em; text-align: right; padding-right: 0.5em; user-select: none; }
+.revision-diff .same::before { content: '\00a0'; }
+.revision-diff .removed::before { content: '-'; }
+.revision-diff .added::before { content: '+'; }
 .revision-diff .same { color: #555; }
 .revision-diff .removed { background: #ffe8e8; color: #900; }
 .revision-diff .added { background: #e8f7e8; color: #075b07; }
@@ -72,20 +76,20 @@
 		var j = 0;
 		while(i < oldLines.length || j < newLines.length) {
 			if(i < oldLines.length && j < newLines.length && oldLines[i] === newLines[j]) {
-				lines.push('<div class="same">&nbsp; ' + escapeHtml(oldLines[i] || '') + '</div>');
+				lines.push('<div class="same">' + escapeHtml(oldLines[i] || '') + '</div>');
 				i++;
 				j++;
 			} else if(i < oldLines.length && j < newLines.length && oldLines[i + 1] === newLines[j]) {
-				lines.push('<div class="removed">- ' + escapeHtml(oldLines[i]) + '</div>');
+				lines.push('<div class="removed">' + escapeHtml(oldLines[i]) + '</div>');
 				i++;
 			} else if(i < oldLines.length && j < newLines.length && oldLines[i] === newLines[j + 1]) {
-				lines.push('<div class="added">+ ' + escapeHtml(newLines[j]) + '</div>');
+				lines.push('<div class="added">' + escapeHtml(newLines[j]) + '</div>');
 				j++;
 			} else if(j < newLines.length && (i === oldLines.length || (lcs[i][j + 1] || 0) > (lcs[i + 1][j] || 0))) {
-				lines.push('<div class="added">+ ' + escapeHtml(newLines[j]) + '</div>');
+				lines.push('<div class="added">' + escapeHtml(newLines[j]) + '</div>');
 				j++;
 			} else if(i < oldLines.length) {
-				lines.push('<div class="removed">- ' + escapeHtml(oldLines[i]) + '</div>');
+				lines.push('<div class="removed">' + escapeHtml(oldLines[i]) + '</div>');
 				i++;
 			}
 		}
