@@ -48,7 +48,7 @@ window.MathJax = {
       colorv2: ['color'],
       // Map the extension to its triggering macros and environments
       '[custom]/xypic': [
-        ['xymatrix', 'xy', 'xybox', 'xyimport', 'xyshowAST'],   // Macros that trigger autoload
+        ['xymatrix', 'xybox', 'xyimport', 'xyshowAST'],   // Macros that trigger autoload
         ['xymatrix']          // Environments that trigger autoload
       ]
     },
