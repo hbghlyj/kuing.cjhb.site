@@ -1722,6 +1722,7 @@ function setCopy(text, msg) {
 	} else {
 		showDialog('<div class="c"><div>' + $L('copy_to_clipboard') + '</div><textarea class="pt" readonly onclick="this.select()">' + htmlspecialchars(text) + '</textarea></div>', 'info');
 	}
+	return success;
 }
 
 function copycode(obj) {
