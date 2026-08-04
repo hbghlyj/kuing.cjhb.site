@@ -125,6 +125,10 @@ const stubPusher = async targetContext => {
         if(errorText === 'net::ERR_ABORTED' && requestPath === '/static/image/common/none.gif') {
             return;
         }
+        if(errorText === 'net::ERR_ABORTED' && request.isNavigationRequest()) {
+            console.log(`Ignoring aborted navigation request: ${request.url()}`);
+            return;
+        }
         throw new Error(`Browser request failed: ${request.url()} (${errorText})`);
     });
 
