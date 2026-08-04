@@ -710,6 +710,8 @@ class model_post extends discuz_model {
 			}
 		}
 
+		table_forum_post::t()->renumber_positions_by_tid($this->thread['tid']);
+
 		$this->forum['lastpost'] = explode("\t", $this->forum['lastpost']);
 		if($this->post['dateline'] == $this->forum['lastpost'][1] && ($this->post['author'] == $this->forum['lastpost'][2] || ($this->forum['lastpost'][2] == '' && $this->post['anonymous']))) {
 			$lastthread = C::t('forum_thread')->fetch_by_fid_displayorder($this->forum['fid']);

@@ -80,22 +80,9 @@ if(!submitcheck('modsubmit')) {
 	foreach($query as $row) {
 		$fpost = $row;
 	}
-	$maxposition = 1;
-	foreach(table_forum_post::t()->fetch_all_by_tid('tid:'.$_G['tid'], $_G['tid'], false, 'ASC') as $row) {
-		if($row['position'] != $maxposition) {
-			table_forum_post::t()->update_post('tid:'.$_G['tid'], $row['pid'], ['position' => $maxposition]);
-		}
-		$maxposition++;
-	}
-	table_forum_thread::t()->update($_G['tid'], ['maxposition' => $maxposition]);
-	$maxposition = 1;
-	foreach(table_forum_post::t()->fetch_all_by_tid('tid:'.$_G['tid'], $newtid, false, 'ASC') as $row) {
-		if($row['position'] != $maxposition) {
-			table_forum_post::t()->update_post('tid:'.$_G['tid'], $row['pid'], ['position' => $maxposition]);
-		}
-		$maxposition++;
-	}
-	table_forum_thread::t()->update($newtid, ['author' => $fpost['author'], 'authorid' => $fpost['authorid'], 'dateline' => $fpost['dateline'], 'maxposition' => $maxposition]);
+	table_forum_post::t()->renumber_positions_by_tid($_G['tid']);
+	table_forum_post::t()->renumber_positions_by_tid($newtid);
+	table_forum_thread::t()->update($newtid, ['author' => $fpost['author'], 'authorid' => $fpost['authorid'], 'dateline' => $fpost['dateline']]);
 	updatethreadcount($_G['tid']);
 	updatethreadcount($newtid);
 	updateforumcount($_G['fid']);
