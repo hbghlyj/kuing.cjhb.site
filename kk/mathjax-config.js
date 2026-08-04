@@ -94,7 +94,7 @@ window.MathJax = {
     }
   },
   loader: {
-    load: ['[tex]/noerrors','[tex]/mathtools'],
+    load: ['ui/lazy','[tex]/noerrors','[tex]/mathtools'],
     source: {
       '[custom]/xypic': '/static/xypic.js'
     },
