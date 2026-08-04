@@ -896,7 +896,7 @@ function viewthread_procpost($post, $lastvisit, $maxposition = 0) {
 
 	if(!empty($_G['fromfind']) && empty($_G['forum_notice_jump_shown'])) {
 		if($_G['fromfind'] == 1) {
-			if(!empty($post['newpostanchor']) || !empty($post['lastpostanchor'])) {
+			if(!empty($post['lastpostanchor'])) {
 				$post['notice_jump'] = true;
 				$_G['forum_notice_jump_shown'] = true;
 			}
