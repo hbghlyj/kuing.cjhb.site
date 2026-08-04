@@ -91,15 +91,6 @@ window.MathJax = {
         },
         ''
       ],
-      //排版前整理bbr换行及冗余br（替代原MutationObserver方案）
-      processBbrBr: [10,
-        () => {
-          if (typeof initViewthreadEnhancements === 'function') {
-            initViewthreadEnhancements(document);
-          }
-        },
-        ''
-      ],
     }
   },
   loader: {

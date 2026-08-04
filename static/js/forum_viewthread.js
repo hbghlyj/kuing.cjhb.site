@@ -877,22 +877,6 @@ function show_tikz_window(code){
 }
 window.show_tikz_window = show_tikz_window;
 
-//===Html模式下用bbr免打br
-function processBbr(root) {
-	let container = (root && root.getElementsByTagName) ? root : document;
-	let bbrs = container.getElementsByTagName('bbr');
-	for (let item of bbrs) {
-		if (item.querySelector('mjx-container, br')) {
-			continue;
-		}
-		let html = item.innerHTML.replace(/\r\n/g, "<br />").replace(/\n/g, "<br />").replace(/\r/g, "<br />");
-		if (html !== item.innerHTML) {
-			item.innerHTML = html;
-		}
-	}
-}
-window.processBbr = processBbr;
-
 //===去br等
 function cleanPostBr(target) {
 	const posts = new Set();
@@ -932,13 +916,11 @@ function cleanPostBr(target) {
 window.cleanPostBr = cleanPostBr;
 
 function initViewthreadEnhancements(root) {
-	processBbr(root);
 	cleanPostBr(root);
 }
 window.initViewthreadEnhancements = initViewthreadEnhancements;
 
-//MathJax会在其启动时(文档就绪后)捕捉全部公式的锚点，
-//必须在它初始化之前完成bbr换行转换，故这里一次性清理，不再使用MutationObserver。
+//一次性清理冗余br，避免与MathJax排版互相干扰。
 if (document.readyState === 'loading') {
 	document.addEventListener('DOMContentLoaded', () => initViewthreadEnhancements(document));
 } else {
