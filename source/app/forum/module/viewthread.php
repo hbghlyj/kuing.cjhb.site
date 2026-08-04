@@ -729,6 +729,19 @@ if(!empty($_G['setting']['recommendthread']['status']) && $_G['forum_thread']['r
 
 $_G['forum_thread']['userrecommended'] = $_G['uid'] && table_forum_memberrecommend::t()->fetch_by_recommenduid_tid($_G['uid'], $_G['tid']) ? 1 : 0;
 $_G['forum_thread']['userfavorited'] = $_G['uid'] && $_G['forum_thread']['favtimes'] && table_home_favorite::t()->fetch_by_id_idtype($_G['tid'], 'tid', $_G['uid']) ? 1 : 0;
+$_G['forum_thread']['userattention'] = 0;
+$_G['forum_thread']['attentionreplies'] = 0;
+if($_G['uid']) {
+	$attention = table_forum_threadattention::t()->fetch_by_tid_uid($_G['tid'], $_G['uid']);
+	if(!empty($attention)) {
+		$_G['forum_thread']['userattention'] = 1;
+		$_G['forum_thread']['attentionreplies'] = $attention['newreplies'];
+		if($attention['newreplies'] > 0) {
+			table_forum_threadattention::t()->clear_newreplies($_G['tid'], $_G['uid']);
+			$_G['forum_thread']['attentionreplies'] = 0;
+		}
+	}
+}
 $_G['forum_thread']['recommendmembers'] = '';
 if($_G['forum_thread']['recommend_add'] || $_G['forum_thread']['recommend_sub']) {
 	$recommenduids = array_column(DB::fetch_all('SELECT recommenduid FROM '.DB::table('forum_memberrecommend').' WHERE tid='.$_G['tid']), 'recommenduid');

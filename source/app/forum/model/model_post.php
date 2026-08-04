@@ -23,6 +23,7 @@ use table_forum_thread;
 use table_forum_threadaddviews;
 use table_forum_threadclosed;
 use table_forum_threadmod;
+use table_forum_threadattention;
 use tag;
 
 if(!defined('IN_DISCUZ')) {
@@ -211,6 +212,31 @@ class model_post extends discuz_model {
 				'from_idtype' => 'post',
 				'message' => dhtmlspecialchars(messagecutstr($this->param['message'], 150, null, $this->param['htmlon'])),
 			]]];
+		}
+
+		$attentionuids = table_forum_threadattention::t()->fetch_all_uid_by_tid($this->thread['tid']);
+		if(!empty($attentionuids)) {
+			if(!$this->param['isanonymous']) {
+				$attentionnoticeuids = [];
+				foreach($attentionuids as $attention) {
+					if($attention['uid'] != $this->member['uid'] && $attention['uid'] != $this->thread['authorid']) {
+						$attentionnoticeuids[] = $attention['uid'];
+					}
+				}
+				if($attentionnoticeuids) {
+					$notice_funcs[] = ['threadattention_sendnotice', [$attentionnoticeuids, 'thread_attention_reply', [
+						'tid' => $this->thread['tid'],
+						'subject' => $this->thread['subject'],
+						'fid' => $this->forum['fid'],
+						'pid' => $this->pid,
+						'from_uid' => $this->member['uid'],
+						'from_id' => $this->thread['tid'],
+						'from_idtype' => 'threadattention',
+						'message' => dhtmlspecialchars(messagecutstr($this->param['message'], 150, null, $this->param['htmlon'])),
+					]]];
+				}
+			}
+			table_forum_threadattention::t()->increase_newreplies($this->thread['tid'], $this->member['uid'], $this->thread['authorid']);
 		}
 
 

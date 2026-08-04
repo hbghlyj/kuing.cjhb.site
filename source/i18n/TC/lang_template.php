@@ -304,6 +304,7 @@ $lang = [
 	'portal' => '門戶',
 	'reward_answer' => '我來回答',
 	'favorite' => '收藏',
+	'attention' => '關注',
 	'choose_please' => '請選擇',
 	'create' => '創建',
 	'finished' => '完成',

@@ -89,6 +89,7 @@ $lang =
 	'title_me_friend_doing' => '我和好友的记录',
 	'title_doing_view_me' => '我的记录',
 	'title_thread_favorite' => '帖子收藏',
+	'title_attention' => '我的关注',
 	'title_forum_favorite' => '帖子收藏',
 	'title_group_favorite' => '{gorup}收藏',
 	'title_blog_favorite' => '日志收藏',

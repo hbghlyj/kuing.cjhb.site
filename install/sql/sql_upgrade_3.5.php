@@ -892,3 +892,15 @@ ALTER TABLE pre_forum_hotreply_member
 	ADD KEY uid (uid, dateline);
 
 DELETE FROM pre_common_setting WHERE skey = 'fastsmiley';
+
+CREATE TABLE IF NOT EXISTS pre_forum_threadattention
+(
+	tid        int(10) unsigned      NOT NULL DEFAULT '0',
+	uid        mediumint(8) unsigned NOT NULL DEFAULT '0',
+	dateline   int(10) unsigned      NOT NULL DEFAULT '0',
+	newreplies smallint(6) unsigned  NOT NULL DEFAULT '0',
+	PRIMARY KEY (tid, uid),
+	KEY uid (uid)
+) ENGINE = InnoDB;
+
+REPLACE INTO pre_common_setting (skey, svalue) VALUES ('attentionstatus', '1');
