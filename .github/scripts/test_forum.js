@@ -1434,6 +1434,7 @@ const stubPusher = async targetContext => {
 		const mathTid = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT tid FROM pre_forum_thread WHERE subject='${mathDraftSubject}' ORDER BY tid DESC LIMIT 1;"`).toString().trim();
 		assert.match(mathTid, /^\d+$/, 'Assertion Error: Restored math draft thread ID was not found.');
 		await page.waitForURL(new RegExp(`forum\\.php\\?mod=viewthread&tid=${mathTid}(&|$)`));
+		await page.waitForLoadState('load');
 		const mathDraftMessage = execSync(`sudo mysql --raw -u root ultrax -N -s -e "SELECT p.message FROM pre_forum_post p INNER JOIN pre_forum_thread t ON t.tid=p.tid WHERE t.subject='${mathDraftSubject}' AND p.first=1 LIMIT 1;"`, { encoding: 'utf-8' }).trim();
 		assert.strictEqual(mathDraftMessage, mathContent, `Assertion Error: Submitted restored math draft did not preserve the original TeX source.\nExpected: ${JSON.stringify(mathContent)}\nActual:   ${JSON.stringify(mathDraftMessage)}`);
 
