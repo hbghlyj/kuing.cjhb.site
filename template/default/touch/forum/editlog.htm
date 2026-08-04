@@ -46,6 +46,13 @@
 			return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[char];
 		});
 	}
+	function decodeEntities(value) {
+		return String(value == null ? '' : value).replace(/&(?:amp|lt|gt|quot|apos|#39|#x39);|&#(\d+);|&#x([0-9a-fA-F]+);/g, function(match, dec, hex) {
+			if(dec) return String.fromCharCode(parseInt(dec, 10));
+			if(hex) return String.fromCharCode(parseInt(hex, 16));
+			return {'&amp;':'&','&lt;':'<','&gt;':'>','&quot;':'"','&apos;':"'",'&#39;':"'",'&#x39;':"'"}[match];
+		});
+	}
 	function textOf(revision) {
 		var body = revision.message || '';
 		if(!body && revision.content) {
@@ -60,7 +67,7 @@
 				}
 			} catch(error) {}
 		}
-		return (revision.subject ? revision.subject + '\n\n' : '') + body;
+		return decodeEntities((revision.subject ? revision.subject + '\n\n' : '') + body);
 	}
 	function charSegments(oldText, newText) {
 		var oldChars = oldText.split('');
