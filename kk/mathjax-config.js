@@ -103,7 +103,7 @@ window.MathJax = {
     }
   },
   loader: {
-    load: ['ui/lazy','[tex]/noerrors','[tex]/mathtools'],
+    load: ['[tex]/noerrors','[tex]/mathtools'],
     source: {
       '[custom]/xypic': '/static/xypic.js'
     },
