@@ -89,6 +89,7 @@ $lang = array
 	'title_me_friend_doing'		=> 'Friend Doings',//'我和好友的记录',
 	'title_doing_view_me'		=> 'My Doings',//'我的记录',
 	'title_thread_favorite'		=> 'Favorite Threads',//'帖子收藏',
+	'title_attention'		=> 'My Followed Threads',//'我的关注',
 	'title_forum_favorite'		=> 'Favorite Forums',//'帖子收藏',
 	'title_group_favorite'		=> 'Favorite Groups &quot;{gorup}&quot;',//'{gorup}收藏',
 	'title_blog_favorite'		=> 'Favorite Blogs',//'日志收藏',

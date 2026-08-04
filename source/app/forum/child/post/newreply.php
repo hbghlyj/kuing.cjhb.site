@@ -173,6 +173,8 @@ if(getstatus($thread['status'], 3)) {
 
 if(!submitcheck('replysubmit', 0, $seccodecheck, $secqaacheck)) {
 
+	$has_attention = $_G['uid'] ? (table_forum_threadattention::t()->fetch_by_tid_uid($_G['tid'], $_G['uid']) ? 1 : 0) : 0;
+
 	$st_p = $_G['uid'].'|'.TIMESTAMP;
 	dsetcookie('st_p', $st_p.'|'.md5($st_p.$_G['config']['security']['authkey']));
 
@@ -444,8 +446,8 @@ if(!submitcheck('replysubmit', 0, $seccodecheck, $secqaacheck)) {
 	// 结束处理json编辑器内容中的图片、视频等附件
 
 
-	$attentionon = empty($_GET['attention_add']) ? 0 : 1;
-	$attentionoff = empty($attention_remove) ? 0 : 1;
+	$attentionon = getgpc('attention_add') ? 1 : 0;
+	$attentionoff = getgpc('attention_remove') ? 1 : 0;
 	$bfmethods[] = ['class' => 'forum\extend_thread_rushreply', 'method' => 'before_newreply'];
 	if($_G['group']['allowat']) {
 		$bfmethods[] = ['class' => 'forum\extend_thread_allowat', 'method' => 'before_newreply'];
@@ -513,6 +515,14 @@ if(!submitcheck('replysubmit', 0, $seccodecheck, $secqaacheck)) {
 
 	$return = $modpost->newreply($params);
 	$pid = $modpost->pid;
+
+	if($pid && $thread['authorid'] != $_G['uid']) {
+		if($attentionon) {
+			table_forum_threadattention::t()->insert_attention($_G['tid'], $_G['uid']);
+		} elseif($attentionoff) {
+			table_forum_threadattention::t()->delete_by_tid_uid($_G['tid'], $_G['uid']);
+		}
+	}
 
 	if($specialextra) {
 

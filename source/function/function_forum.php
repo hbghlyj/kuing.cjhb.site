@@ -794,6 +794,8 @@ function loadarchiver($path) {
 	return childfile($path, 'forum/archiver');
 }
 
+
+
 function update_threadpartake($tid, $getsetarr = false) {
 	global $_G;
 	$setarr = [];

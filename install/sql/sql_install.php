@@ -3367,6 +3367,19 @@ CREATE TABLE pre_forum_threadpartake
 	KEY tid (tid, uid)
 ) ENGINE = InnoDB;
 
+DROP TABLE IF EXISTS pre_forum_threadattention;
+CREATE TABLE pre_forum_threadattention
+(
+	tid        int(10) unsigned      NOT NULL DEFAULT '0',
+	uid        mediumint(8) unsigned NOT NULL DEFAULT '0',
+	dateline   int(10) unsigned      NOT NULL DEFAULT '0',
+	newreplies smallint(6) unsigned  NOT NULL DEFAULT '0',
+	PRIMARY KEY (tid, uid),
+	KEY uid (uid)
+) ENGINE = InnoDB;
+
+REPLACE INTO pre_common_setting (skey, svalue) VALUES ('attentionstatus', '1');
+
 DROP TABLE IF EXISTS pre_forum_threadpreview;
 CREATE TABLE pre_forum_threadpreview
 (

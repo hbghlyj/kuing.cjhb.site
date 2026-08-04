@@ -1227,6 +1227,8 @@ a.thread_mod { height: 19px; line-height: 19px; display: inline-block; color: #4
 
 /* Custom viewthread enhancements */
 #k_favorite .fico-star.fav-has-count::before { content: "🌟"; font-family: emoji; }
+#k_attention .fico-bell.fav-has-count::before { content: "🔔"; font-family: emoji; }
+#k_attention.active { color: #007700; }
 .pattl { overflow: visible; }
 #newspecial_menu { width: auto; padding-right: 10px; }
 .modact a { color: #999; font-size: 12px; }

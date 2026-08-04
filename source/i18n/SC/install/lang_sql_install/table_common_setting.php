@@ -617,6 +617,9 @@ $data = [[
     'skey' => 'favoritestatus',
     'svalue' => '0',
   ],[
+    'skey' => 'attentionstatus',
+    'svalue' => '1',
+  ],[
     'skey' => 'feedday',
     'svalue' => '7',
   ],[

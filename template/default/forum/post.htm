@@ -203,6 +203,13 @@
 				<!--{if helper_access::check_module('follow') && $_GET[action] != 'edit'}-->
 				<span id="adddynamicspan"><label><input type="checkbox" name="adddynamic" id="adddynamic" value="true" class="pc" {if $_G['forum']['allowfeed'] && !$_G[tid] && empty($_G['forum']['viewperm'])}checked="checked"{/if} />{lang post_relay}</label></span>
 				<!--{/if}-->
+				<!--{if $_G['setting']['attentionstatus'] && $_GET[action] == 'reply' && $thread['authorid'] != $_G['uid']}-->
+					<!--{if $has_attention}-->
+					<span id="attentionspan"><label><input type="checkbox" name="attention_remove" id="attention_remove" value="1" class="pc" />{lang post_no_attention}</label></span>
+					<!--{else}-->
+					<span id="attentionspan"><label><input type="checkbox" name="attention_add" id="attention_add" value="1" class="pc" />{lang post_attention}</label></span>
+					<!--{/if}-->
+				<!--{/if}-->
 				<!--{if !empty($_G['setting']['pluginhooks']['post_sync_method'])}-->
 					<span>
 						{lang post_sync_method}:
