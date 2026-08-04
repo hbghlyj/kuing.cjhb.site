@@ -1435,7 +1435,7 @@ const stubPusher = async targetContext => {
 		assert.match(mathTid, /^\d+$/, 'Assertion Error: Restored math draft thread ID was not found.');
 		await page.waitForURL(new RegExp(`forum\\.php\\?mod=viewthread&tid=${mathTid}(&|$)`));
 		const mathDraftMessage = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT p.message FROM pre_forum_post p INNER JOIN pre_forum_thread t ON t.tid=p.tid WHERE t.subject='${mathDraftSubject}' AND p.first=1 LIMIT 1;"`, { encoding: 'utf-8' }).trim();
-		assert.strictEqual(mathDraftMessage, mathContent, 'Assertion Error: Submitted restored math draft did not preserve the original TeX source.');
+		assert.strictEqual(mathDraftMessage, mathContent, `Assertion Error: Submitted restored math draft did not preserve the original TeX source.\nExpected: ${JSON.stringify(mathContent)}\nActual:   ${JSON.stringify(mathDraftMessage)}`);
 
 		console.log("WYSIWYG mode TeX preservation test passed!");
 		report += `### 8. WYSIWYG Math Draft Preservation\n- **Status**: Passed\n- **Rendering**: inline \`$f$\` and display \`$$...$$\` rendered as \`mjx-container\`\n- **Idempotency**: no nested/duplicate formulas and source unchanged after repeated renders and mode round trips\n- **Save/Restore**: formulas rendered after restoration\n- **Submission**: Original TeX preserved in database\n\n`;
