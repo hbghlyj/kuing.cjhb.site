@@ -99,9 +99,11 @@ if(!submitcheck('modsubmit')) {
 	DB::update('forum_postcomment', ['tid' => $_G['tid']], DB::field('tid', $othertid), false, false);
 	table_forum_thread::t()->delete_by_tid($othertid);
 	table_forum_threadmod::t()->delete_by_tid($othertid);
+	table_forum_threaddisablepos::t()->delete($othertid);
 
 	table_forum_post::t()->update_by_tid('tid:'.$_G['tid'], $_G['tid'], ['first' => 0, 'fid' => $_G['forum']['fid']]);
 	table_forum_post::t()->update_post('tid:'.$_G['tid'], $firstpost['pid'], ['first' => 1]);
+	table_forum_post::t()->renumber_positions_by_tid($_G['tid']);
 	$fieldarr = [
 		'views' => $other['views'],
 		'replies' => $other['replies'],
@@ -115,7 +117,6 @@ if(!submitcheck('modsubmit')) {
 		'subject' => $firstpost['subject'],
 		'dateline' => $firstpost['dateline'],
 		'moderated' => 1,
-		'maxposition' => $other['maxposition'] + $thread['maxposition'],
 		'lastpost' => $lastpost,
 		'lastposter' => $lastposter,
 	];

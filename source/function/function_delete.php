@@ -147,34 +147,39 @@ function deletepost($ids, $idtype = 'pid', $credit = false, $posttableid = false
 	$count = count($ids);
 	$idsstr = dimplode($ids);
 
+	$tids = [];
 	if($credit) {
 		$replycredit_list = $tuidarray = $ruidarray = $_G['deleteauthorids'] = [];
-		foreach($posttableids as $id) {
-			$postlist = [];
-			if($idtype == 'pid') {
-				$postlist = table_forum_post::t()->fetch_all_post($id, $ids, false);
-			} elseif($idtype == 'tid') {
-				$postlist = table_forum_post::t()->fetch_all_by_tid($id, $ids, false);
-			} elseif($idtype == 'authorid') {
-				$postlist = table_forum_post::t()->fetch_all_by_authorid($id, $ids, false);
-			}
-			foreach($postlist as $post) {
-				if($post['invisible'] != -1 && $post['invisible'] != -5) {
-                                       if($post['first']) {
-                                               $tuidarray[$post['fid']][] = array('uid' => $post['authorid'], 'dateline' => $post['dateline']);
-                                       } else {
-                                               $ruidarray[$post['fid']][] = array('uid' => $post['authorid'], 'dateline' => $post['dateline']);
-						if($post['authorid'] > 0 && $post['replycredit'] > 0) {
-							$replycredit_list[$post['authorid']][$post['tid']] += $post['replycredit'];
-						}
-					}
-					$tids[$post['tid']] = $post['tid'];
-					$_G['deleteauthorids'][$post['authorid']] = $post['authorid'];
-				}
-			}
-			unset($postlist);
+	}
+	foreach($posttableids as $id) {
+		$postlist = [];
+		if($idtype == 'pid') {
+			$postlist = table_forum_post::t()->fetch_all_post($id, $ids, false);
+		} elseif($idtype == 'tid') {
+			$postlist = table_forum_post::t()->fetch_all_by_tid($id, $ids, false);
+		} elseif($idtype == 'authorid') {
+			$postlist = table_forum_post::t()->fetch_all_by_authorid($id, $ids, false);
 		}
+		foreach($postlist as $post) {
+			if(!$recycle && $idtype != 'tid') {
+				$tids[$post['tid']] = $post['tid'];
+			}
+			if($credit && $post['invisible'] != -1 && $post['invisible'] != -5) {
+				if($post['first']) {
+					$tuidarray[$post['fid']][] = array('uid' => $post['authorid'], 'dateline' => $post['dateline']);
+				} else {
+					$ruidarray[$post['fid']][] = array('uid' => $post['authorid'], 'dateline' => $post['dateline']);
+					if($post['authorid'] > 0 && $post['replycredit'] > 0) {
+						$replycredit_list[$post['authorid']][$post['tid']] += $post['replycredit'];
+					}
+				}
+				$_G['deleteauthorids'][$post['authorid']] = $post['authorid'];
+			}
+		}
+		unset($postlist);
+	}
 
+	if($credit) {
 		if($tuidarray || $ruidarray) {
 			require_once libfile('function/post');
 		}
@@ -207,6 +212,11 @@ function deletepost($ids, $idtype = 'pid', $credit = false, $posttableid = false
 			}
 			table_forum_trade::t()->delete_by_id_idtype($ids, ($idtype == 'authorid' ? 'sellerid' : $idtype));
 			table_home_feed::t()->delete_by_id_idtype($ids, ($idtype == 'authorid' ? 'uid' : $idtype));
+		}
+	}
+	if($tids && !$recycle && $idtype != 'tid') {
+		foreach($tids as $tid) {
+			table_forum_post::t()->renumber_positions_by_tid($tid);
 		}
 	}
 	if(!$recycle && $idtype != 'authorid') {

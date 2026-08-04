@@ -484,6 +484,21 @@ class table_forum_post extends discuz_table {
 			WHERE dateline>=%d AND %i AND invisible=0 GROUP BY authorid', [self::get_tablename($tableid), $dateline, DB::field('authorid', $authorid)]);
 	}
 
+	public function renumber_positions_by_tid($tid) {
+		$tablename = DB::table(self::get_tablename('tid:'.$tid));
+		$posts = DB::fetch_all('SELECT pid, position FROM '.$tablename.' WHERE tid=%d ORDER BY position ASC, pid ASC', [$tid]);
+		$maxposition = 1;
+		foreach($posts as $row) {
+			if($row['position'] != $maxposition) {
+				$this->update_post('tid:'.$tid, $row['pid'], ['position' => $maxposition]);
+			}
+			$maxposition++;
+		}
+		table_forum_thread::t()->update($tid, ['maxposition' => $maxposition - 1]);
+		table_forum_threaddisablepos::t()->delete($tid);
+		memory('rm', 'forum_post_position_'.$tid);
+	}
+
 	public function update_post($tableid, $pid, $data, $unbuffered = false, $low_priority = false, $first = null, $invisible = null, $fid = null, $status = null) {
 		$data = $this->normalize_text_fields($data);
 		$where = [];
