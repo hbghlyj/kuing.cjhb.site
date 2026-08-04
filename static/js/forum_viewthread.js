@@ -888,7 +888,13 @@ function processBbr(root) {
 	let container = (root && root.getElementsByTagName) ? root : document;
 	let bbrs = container.getElementsByTagName('bbr');
 	for (let item of bbrs) {
-		item.innerHTML = item.innerHTML.replace(/\r\n/g, "<br />").replace(/\n/g, "<br />").replace(/\r/g, "<br />");
+		if (item.querySelector('mjx-container, br')) {
+			continue;
+		}
+		let html = item.innerHTML.replace(/\r\n/g, "<br />").replace(/\n/g, "<br />").replace(/\r/g, "<br />");
+		if (html !== item.innerHTML) {
+			item.innerHTML = html;
+		}
 	}
 }
 window.processBbr = processBbr;
@@ -935,16 +941,12 @@ function initViewthreadEnhancements(root) {
 	processBbr(root);
 	cleanPostBr(root);
 }
+window.initViewthreadEnhancements = initViewthreadEnhancements;
 
+//MathJax会在其启动时(文档就绪后)捕捉全部公式的锚点，
+//必须在它初始化之前完成bbr换行转换，故这里一次性清理，不再使用MutationObserver。
 if (document.readyState === 'loading') {
-	document.addEventListener('DOMContentLoaded', function() { initViewthreadEnhancements(document); });
+	document.addEventListener('DOMContentLoaded', () => initViewthreadEnhancements(document));
 } else {
 	initViewthreadEnhancements(document);
-}
-
-const postListObserver = document.getElementById('postlist') || document.body;
-if (postListObserver) {
-	new MutationObserver(mutations => {
-		mutations.forEach(mutation => mutation.addedNodes.forEach(node => initViewthreadEnhancements(node)));
-	}).observe(postListObserver, {childList: true, subtree: true});
 }
