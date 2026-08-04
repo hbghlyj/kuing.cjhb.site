@@ -14,7 +14,7 @@
 .edt .bbar .bbar-more-menu a {display:block;float:none;width:auto;height:26px;padding:0 8px;line-height:26px;background:none;text-indent:0;white-space:nowrap}
 .edt .bbar .bbar-more:not([open]) .bbar-more-menu {display:none}
 .edt .btn {float:left;border-right:1px solid var(--dz-borderb)}
-.edt .b1r, .edt .b2r {position:relative;float:left;padding:0 3px;height:56px;border-right:1px solid var(--dz-borderb)}
+.edt .b1r, .edt .b2r {position:relative;float:left;padding:0;height:56px;border-right:1px solid var(--dz-borderb)}
 .edt .b2r p, .edt .b2r br {clear:both}
 .edt .esb p {float:left;width:28px;clear:none}
 .edt .esbs p {float:left;clear:none}

@@ -1382,34 +1382,47 @@ const stubPusher = async targetContext => {
         await page.goto(`http://127.0.0.1:8080/forum.php?mod=post&action=newthread&fid=${forumFid}`);
         await page.waitForLoadState('networkidle');
 
-		// Test that TeX formulas render in WYSIWYG and survive save, restore, and submission.
-		await page.fill('#e_textarea', 'Test $f$ math content');
-		await page.locator('#e_visual_btn').click();
-		await page.waitForFunction(() => {
+		// Test that inline and display TeX formulas render in WYSIWYG and survive save, restore, and submission.
+		const inlineMathSource = '$f$';
+		const displayMathSource = '$$A(p) = \\#\\{q \\in E : \\text{on}(q, p)\\}$$';
+		const mathContent = 'Inline ' + inlineMathSource + ' and display ' + displayMathSource + ' math';
+		const waitForMathRendered = () => page.waitForFunction(expectedSources => {
 			const frame = document.querySelector('#e_iframe');
-			return frame && frame.contentDocument
-				&& frame.contentDocument.querySelector('.math-editor-rendered[data-math-source="$f$"] mjx-container');
-		});
+			if (!frame || !frame.contentDocument) return false;
+			const rendered = Array.from(frame.contentDocument.querySelectorAll('.math-editor-rendered'));
+			if (rendered.length !== expectedSources.length) return false;
+			const sources = rendered.map(el => el.getAttribute('data-math-source'));
+			if (!expectedSources.every(source => sources.includes(source))) return false;
+			if (frame.contentDocument.querySelector('.math-editor-rendered .math-editor-rendered')) return false;
+			return rendered.every(el => el.querySelector('mjx-container'));
+		}, [inlineMathSource, displayMathSource]);
+		await page.fill('#e_textarea', mathContent);
+		await page.locator('#e_visual_btn').click();
+		await waitForMathRendered();
+
+		// Idempotency: re-running the renderer must not nest or duplicate formulas.
+		await page.evaluate(() => window.renderMathEditorContent());
+		await waitForMathRendered();
+
+		// Idempotency: the TeX source must survive repeated WYSIWYG round trips unchanged.
+		for (let roundTrip = 1; roundTrip <= 2; roundTrip++) {
+			await page.locator('#e_code_btn').click();
+			assert.strictEqual(await page.inputValue('#e_textarea'), mathContent, `Assertion Error: TeX math source was corrupted after WYSIWYG round trip ${roundTrip}.`);
+			await page.locator('#e_visual_btn').click();
+			await waitForMathRendered();
+		}
 		await page.locator('#e_svd').click();
 		await page.locator('#e_code_btn').click();
 		await page.fill('#e_textarea', 'Unsaved replacement content');
 		await page.locator('#e_visual_btn').click();
 		page.once('dialog', dialog => dialog.accept());
 		await page.locator('#e_rst').click();
-		await page.waitForFunction(() => {
-			const frame = document.querySelector('#e_iframe');
-			return frame && frame.contentDocument
-				&& frame.contentDocument.querySelector('.math-editor-rendered[data-math-source="$f$"] mjx-container');
-		});
+		await waitForMathRendered();
 		await page.locator('#e_code_btn').click();
 		const editorTextAfterToggle = await page.inputValue('#e_textarea');
-		assert.strictEqual(editorTextAfterToggle, 'Test $f$ math content', 'Assertion Error: TeX math formula $f$ was corrupted after saving and restoring editor data.');
+		assert.strictEqual(editorTextAfterToggle, mathContent, 'Assertion Error: TeX math formulas were corrupted after saving and restoring editor data.');
 		await page.locator('#e_visual_btn').click();
-		await page.waitForFunction(() => {
-			const frame = document.querySelector('#e_iframe');
-			return frame && frame.contentDocument
-				&& frame.contentDocument.querySelector('.math-editor-rendered[data-math-source="$f$"] mjx-container');
-		});
+		await waitForMathRendered();
 		await page.fill('input[name="subject"]', mathDraftSubject);
 		await solveSecurityQuestion(page);
 		const mathSubmitBtn = page.locator('button[name="topicsubmit"][type="submit"]');
@@ -1422,10 +1435,10 @@ const stubPusher = async targetContext => {
 		assert.match(mathTid, /^\d+$/, 'Assertion Error: Restored math draft thread ID was not found.');
 		await page.waitForURL(new RegExp(`forum\\.php\\?mod=viewthread&tid=${mathTid}(&|$)`));
 		const mathDraftMessage = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT p.message FROM pre_forum_post p INNER JOIN pre_forum_thread t ON t.tid=p.tid WHERE t.subject='${mathDraftSubject}' AND p.first=1 LIMIT 1;"`, { encoding: 'utf-8' }).trim();
-		assert.strictEqual(mathDraftMessage, 'Test $f$ math content', 'Assertion Error: Submitted restored math draft did not preserve the original TeX source.');
+		assert.strictEqual(mathDraftMessage, mathContent, 'Assertion Error: Submitted restored math draft did not preserve the original TeX source.');
 
 		console.log("WYSIWYG mode TeX preservation test passed!");
-		report += `### 8. WYSIWYG Math Draft Preservation\n- **Status**: Passed\n- **Save/Restore**: $f$ rendered after restoration\n- **Submission**: Original TeX preserved in database\n\n`;
+		report += `### 8. WYSIWYG Math Draft Preservation\n- **Status**: Passed\n- **Rendering**: inline \`$f$\` and display \`$$...$$\` rendered as \`mjx-container\`\n- **Idempotency**: no nested/duplicate formulas and source unchanged after repeated renders and mode round trips\n- **Save/Restore**: formulas rendered after restoration\n- **Submission**: Original TeX preserved in database\n\n`;
 
         // 9. Existing math is rendered when the WYSIWYG editor opens (6178d4e8).
         // Without the feature, math already present in the editor content on entering
