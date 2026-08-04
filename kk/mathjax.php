@@ -47,4 +47,11 @@
     }
   }
 </script>
+<?php if(CURMODULE === 'viewthread'): ?>
+<script>
+  window.MathJax = window.MathJax || {};
+  window.MathJax.loader = window.MathJax.loader || {};
+  window.MathJax.loader.load = ['ui/lazy'].concat(window.MathJax.loader.load || []);
+</script>
+<?php endif; ?>
 <script src="https://unpkg.com/mathjax@4/tex-chtml.js" async></script>
