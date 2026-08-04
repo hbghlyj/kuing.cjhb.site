@@ -110,4 +110,46 @@
   cursor: pointer;
   padding: 10px;
 }
+/* Touch: deleting uses the swipe-to-reveal .delete-action panel above.
+   Desktop (hover-capable): delete is a small icon in the message's top-right
+   corner that only fades in while hovering the message, keeping the UI clean. */
+.pusher-chat-widget ul.activity-stream li.message-item .delete-hover-button {
+  display: none;
+}
+@media (hover: hover) and (pointer: fine) {
+  .pusher-chat-widget ul.activity-stream li.message-item .delete-hover-button {
+    position: absolute;
+    top: 3px;
+    right: 5px;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    padding: 0;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    background: none;
+    color: #999;
+    cursor: pointer;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.15s ease-out, background-color 0.2s, color 0.2s;
+  }
+  .pusher-chat-widget ul.activity-stream li.message-item:hover .delete-hover-button,
+  .pusher-chat-widget ul.activity-stream li.message-item .delete-hover-button:focus {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .pusher-chat-widget ul.activity-stream li.message-item.own-message:hover .timestamp,
+  .pusher-chat-widget ul.activity-stream li.message-item.own-message:focus-within .timestamp {
+    visibility: hidden;
+  }
+  .pusher-chat-widget ul.activity-stream li.message-item .delete-hover-button:hover {
+    background-color: #e53935;
+    border-color: #d32f2f;
+    color: #fff;
+  }
+}
 mjx-container[jax="SVG"][display="true"]{overflow-x:auto}

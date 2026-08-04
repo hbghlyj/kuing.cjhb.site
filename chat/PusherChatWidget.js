@@ -356,7 +356,7 @@
         this.#lastMessageTime = String(entry.data.message_time || '');
       }
       if(isOwnMessage(entry.data)) {
-        this.#addSwipeToDeleteHandlers(entry.messageEl, entry.data);
+        this.#addDeleteHandlers(entry.messageEl, entry.data);
       }
       typesetNodes([entry.messageEl]).catch(err=>{ showError($L('chat_mathjax_error', [err])); });
       this.#itemCount++;
@@ -530,18 +530,26 @@
       contentWrapper.append(image, content);
       li.append(contentWrapper);
       if(isOwnMessage(activity)) {
+        li.classList.add('own-message');
         const deleteAction = document.createElement('div');
         deleteAction.className = 'delete-action';
         const deleteButton = document.createElement('button');
         deleteButton.className = 'delete-button';
         deleteButton.textContent = $L('delete');
         deleteAction.append(deleteButton);
-        li.append(deleteAction);
+        const hoverDeleteButton = document.createElement('button');
+        hoverDeleteButton.type = 'button';
+        hoverDeleteButton.className = 'delete-hover-button';
+        hoverDeleteButton.title = $L('delete');
+        hoverDeleteButton.setAttribute('aria-label', $L('delete'));
+        hoverDeleteButton.innerHTML = '<svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>';
+        li.append(deleteAction, hoverDeleteButton);
       }
       return li;
     }
-    #addSwipeToDeleteHandlers(liElement,message){
+    #addDeleteHandlers(liElement,message){
       const threshold = 50;
+      // Touch: swipe left to reveal the red .delete-action panel, swipe right/tap away to dismiss.
       liElement.addEventListener('touchstart',e=>{
         this.#messagesEl.querySelectorAll('li.slide-active').forEach(item => {
           if(item !== liElement) item.classList.remove('slide-active');
@@ -553,7 +561,7 @@
         if(!Number.isFinite(touchStartX)) return;
         const endX = e.changedTouches[0].clientX;
         const deltaX = endX - touchStartX;
-        if(e.target.closest('.delete-button')){
+        if(e.target.closest('.delete-button, .delete-hover-button')){
           delete liElement.dataset.touchStartX;
           return;
         }
@@ -564,27 +572,32 @@
         }
         delete liElement.dataset.touchStartX;
       });
-      const deleteButton = liElement.querySelector('.delete-button');
-      if(!deleteButton) return;
-      deleteButton.addEventListener('click',async e=>{
-        e.stopPropagation();
-        const body = new URLSearchParams({
-          message_time: message.message_time,
-          formhash: typeof FORMHASH !== 'undefined' ? FORMHASH : ''
+      // Desktop: the hover-revealed .delete-hover-button sits in the top-right corner;
+      // both buttons trigger the same deletion.
+      liElement.querySelectorAll('.delete-button, .delete-hover-button').forEach(deleteButton => {
+        deleteButton.addEventListener('click',async e=>{
+          e.stopPropagation();
+          await this.#deleteChatMessage(liElement,message);
         });
-        try {
-          const response = await fetch('/chat/php/delete.php', {
-            method: 'POST',
-            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'},
-            body
-          });
-          if(!response.ok) throw new Error(await response.text() || response.statusText);
-          liElement.remove();
-          this.#itemCount--;
-        } catch(error) {
-          showError($L('chat_delete_failed', [error.message]));
-        }
       });
+    }
+    async #deleteChatMessage(liElement,message){
+      const body = new URLSearchParams({
+        message_time: message.message_time,
+        formhash: typeof FORMHASH !== 'undefined' ? FORMHASH : ''
+      });
+      try {
+        const response = await fetch('/chat/php/delete.php', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'},
+          body
+        });
+        if(!response.ok) throw new Error(await response.text() || response.statusText);
+        liElement.remove();
+        this.#itemCount--;
+      } catch(error) {
+        showError($L('chat_delete_failed', [error.message]));
+      }
     }
     static timeToDescription(time){
       const now=new Date();
