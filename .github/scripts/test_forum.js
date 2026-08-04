@@ -9,6 +9,7 @@ const attachmentSubject = `Thread with Attachment ${testRunId}`;
 const nonImageAttachmentSubject = `Thread with Non-Image Attachment ${testRunId}`;
 const svgAttachmentSubject = `Thread with SVG Attachment ${testRunId}`;
 const mathDraftSubject = `Thread with Restored Math Draft ${testRunId}`;
+const existingMathSubject = `Thread with WYSIWYG Existing Math ${testRunId}`;
 
 const PUSHER_STUB = `
 (() => {
@@ -1425,6 +1426,99 @@ const stubPusher = async targetContext => {
 
 		console.log("WYSIWYG mode TeX preservation test passed!");
 		report += `### 8. WYSIWYG Math Draft Preservation\n- **Status**: Passed\n- **Save/Restore**: $f$ rendered after restoration\n- **Submission**: Original TeX preserved in database\n\n`;
+
+        // 9. Existing math is rendered when the WYSIWYG editor opens (6178d4e8).
+        // Without the feature, math already present in the editor content on entering
+        // WYSIWYG mode is left as raw $...$ / $$...$$ text instead of being typeset.
+        console.log("Testing WYSIWYG editor rendering existing math on open...");
+        const existingInlineMath = '$x^2 + y^2 = z^2$';
+        const existingDisplayMath = '$$\\sum_{k=1}^{n} k = \\frac{n(n+1)}{2}$$';
+        const existingMathMessage = `Before ${existingInlineMath} and before ${existingDisplayMath} after.`;
+
+        // Create a thread whose first post contains math while the forum still uses the source editor.
+        await page.goto(`http://127.0.0.1:8080/forum.php?mod=post&action=newthread&fid=${forumFid}`);
+        await page.waitForLoadState('networkidle');
+        await page.fill('input[name="subject"]', existingMathSubject);
+        await page.fill('#e_textarea', existingMathMessage);
+        await solveSecurityQuestion(page);
+        const existingMathSubmitBtn = page.locator('button[name="topicsubmit"][type="submit"]');
+        assert.strictEqual(await existingMathSubmitBtn.count(), 1, 'Assertion Error: Existing-math thread submit button did not render.');
+        const [existingMathPostResponse] = await Promise.all([
+            page.waitForResponse(response => response.request().method() === 'POST' && response.url().includes('forum.php?mod=post')),
+            existingMathSubmitBtn.click()
+        ]);
+        assert.ok(existingMathPostResponse.ok() || (existingMathPostResponse.status() >= 300 && existingMathPostResponse.status() < 400), `Assertion Error: Existing-math thread POST failed with HTTP ${existingMathPostResponse.status()}.`);
+        const existingMathTid = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT tid FROM pre_forum_thread WHERE subject='${existingMathSubject}' ORDER BY tid DESC LIMIT 1;"`).toString().trim();
+        assert.match(existingMathTid, /^\d+$/, 'Assertion Error: Existing-math thread ID was not found.');
+        const existingMathPid = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT pid FROM pre_forum_post WHERE tid='${existingMathTid}' AND first=1 LIMIT 1;"`).toString().trim();
+        assert.match(existingMathPid, /^\d+$/, 'Assertion Error: Existing-math first post ID was not found.');
+        const storedExistingMath = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT message FROM pre_forum_post WHERE pid='${existingMathPid}';"`, { encoding: 'utf-8' }).trim();
+        assert.strictEqual(storedExistingMath, existingMathMessage, 'Assertion Error: Existing-math thread stored an unexpected message.');
+
+        try {
+            // Force this forum's editor to open directly in WYSIWYG mode.
+            execSync(`sudo mysql -u root ultrax -e "UPDATE pre_forum_forum SET editormode=1 WHERE fid='${forumFid}';"`);
+
+            // The full-page edit loads the post content into the WYSIWYG editor without any mode toggle.
+            await page.goto(`http://127.0.0.1:8080/forum.php?mod=post&action=edit&fid=${forumFid}&tid=${existingMathTid}&pid=${existingMathPid}&extra=page%3D1`);
+            await page.waitForLoadState('networkidle');
+
+            assert.strictEqual(await page.evaluate(() => wysiwyg), 1, 'Assertion Error: Edit page did not open the editor in WYSIWYG mode.');
+            assert.strictEqual(await page.locator('#e_iframe:visible').count(), 1, 'Assertion Error: WYSIWYG editor iframe was not visible.');
+
+            await page.waitForFunction(({ inline, display }) => {
+                const frame = document.querySelector('#e_iframe');
+                if (!frame || !frame.contentDocument || !frame.contentDocument.body) return false;
+                const rendered = frame.contentDocument.querySelectorAll('.math-editor-rendered');
+                if (rendered.length !== 2) return false;
+                const sources = Array.from(rendered).map(node => node.getAttribute('data-math-source'));
+                return sources.includes(inline) && sources.includes(display)
+                    && Array.from(rendered).every(node => node.querySelector('mjx-container'))
+                    && Array.from(rendered).every(node => node.getAttribute('contenteditable') === 'false');
+            }, { inline: existingInlineMath, display: existingDisplayMath });
+
+            const renderedDetails = await page.frameLocator('#e_iframe').locator('.math-editor-rendered').evaluateAll(nodes => nodes.map(node => ({
+                source: node.getAttribute('data-math-source'),
+                editable: node.getAttribute('contenteditable'),
+                typeset: !!node.querySelector('mjx-container')
+            })));
+            assert.strictEqual(renderedDetails.length, 2, `Assertion Error: Expected 2 rendered formulas, found ${renderedDetails.length}.`);
+            for (const detail of renderedDetails) {
+                assert.ok(detail.source === existingInlineMath || detail.source === existingDisplayMath, `Assertion Error: Unexpected rendered formula source ${detail.source}.`);
+                assert.strictEqual(detail.editable, 'false', 'Assertion Error: Rendered formula span was not marked contenteditable=false.');
+                assert.strictEqual(detail.typeset, true, 'Assertion Error: Rendered formula span had no typeset output.');
+            }
+
+            // Re-running the renderer over already-rendered content must not double-wrap formulas.
+            await page.evaluate(() => window.renderMathEditorContent());
+            await page.waitForFunction(() => {
+                const frame = document.querySelector('#e_iframe');
+                if (!frame || !frame.contentDocument) return false;
+                return frame.contentDocument.querySelectorAll('.math-editor-rendered').length === 2;
+            });
+            const afterReRender = await page.frameLocator('#e_iframe').locator('.math-editor-rendered').count();
+            assert.strictEqual(afterReRender, 2, `Assertion Error: Re-rendering wrapped existing math ${afterReRender} times instead of once.`);
+
+            // Round trip: source mode must recover the original TeX, then WYSIWYG re-renders exactly once.
+            await page.locator('#e_code_btn').click();
+            const sourceAfterRoundTrip = await page.inputValue('#e_textarea');
+            assert.strictEqual(sourceAfterRoundTrip, existingMathMessage, 'Assertion Error: Existing math was corrupted after switching back to source.');
+            await page.locator('#e_visual_btn').click();
+            await page.waitForFunction(({ inline, display }) => {
+                const frame = document.querySelector('#e_iframe');
+                if (!frame || !frame.contentDocument) return false;
+                const rendered = frame.contentDocument.querySelectorAll('.math-editor-rendered');
+                const sources = Array.from(rendered).map(node => node.getAttribute('data-math-source'));
+                return rendered.length === 2 && sources.includes(inline) && sources.includes(display)
+                    && Array.from(rendered).every(node => node.querySelector('mjx-container'));
+            }, { inline: existingInlineMath, display: existingDisplayMath });
+            await page.screenshot({ path: 'screenshot_wysiwyg_existing_math.png', fullPage: true });
+
+            report += `### 9. WYSIWYG Editor Renders Existing Math on Open\n- **Status**: Passed\n- **Inline Math**: ${existingInlineMath}\n- **Display Math**: ${existingDisplayMath}\n- **Direct WYSIWYG Open**: rendered without interaction\n- **Idempotent Re-Render**: Passed\n- **TeX Round Trip**: Passed\n- **Screenshot**: \`screenshot_wysiwyg_existing_math.png\`\n\n`;
+        } finally {
+            execSync(`sudo mysql -u root ultrax -e "UPDATE pre_forum_forum SET editormode=-1 WHERE fid='${forumFid}';"`);
+        }
+        console.log("WYSIWYG editor existing-math rendering test passed!");
 
     } catch (error) {
         console.error("Test execution failed:", error);
