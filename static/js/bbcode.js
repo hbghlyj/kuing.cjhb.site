@@ -350,8 +350,10 @@ function fonttag(fontoptions, text) {
 			if(bbcode == 'font') {
 				optionvalue = normalizefontvalue(optionvalue);
 			}
-			prepend += '[' + bbcode + '=' + optionvalue + ']';
-			append = '[/' + bbcode + ']' + append;
+			if(!isDefaultFontAttr(bbcode, optionvalue)) {
+				prepend += '[' + bbcode + '=' + optionvalue + ']';
+				append = '[/' + bbcode + ']' + append;
+			}
 		}
 	}
 
@@ -593,6 +595,21 @@ function parsecode(text) {
 	return "[\tDISCUZ_CODE_" + DISCUZCODE['num'] + "\t]";
 }
 
+function isDefaultFontAttr(type, value) {
+	if(!value) return true;
+	var val = String(value).trim().toLowerCase();
+	if(type === 'font') {
+		return ['times new roman', 'times', 'serif', 'sans-serif', 'inherit', 'initial', '-webkit-standard', 'var(--dz-ff)'].indexOf(val) !== -1;
+	}
+	if(type === 'size') {
+		return ['3', 3, '14px', '16px', 'medium', '13.3333px', '13px', '100%', '1em', '1.5em', 'inherit', 'initial'].indexOf(val) !== -1;
+	}
+	if(type === 'color') {
+		return ['#066eff', '#066ff', '#0066ff', '#0000ee', '#0000ff', '#000000', '#000', '#333333', '#333', 'inherit', 'initial', 'rgb(6, 110, 255)', 'rgb(6,110,255)', 'rgb(0, 0, 238)', 'rgb(0,0,238)', 'rgb(0, 0, 255)', 'rgb(0,0,255)', 'rgb(0, 0, 0)', 'rgb(51, 51, 51)'].indexOf(val) !== -1;
+	}
+	return false;
+}
+
 function parsestyle(tagoptions, prepend, append) {
 	var searchlist = [
 		['align', true, 'text-align:\\s*(left|center|right);?', 1],
@@ -612,8 +629,13 @@ function parsestyle(tagoptions, prepend, append) {
 	style = style
 		.replace(/&quot;|&#0*34;|&#x0*22;/ig, '"')
 		.replace(/&apos;|&#0*39;|&#x0*27;/ig, "'");
-	re = /^(?:\s|)color:\s*rgb\((\d+),\s*(\d+),\s*(\d+)\)(;?)/i;
-	style = style.replace(re, function($1, $2, $3, $4, $5) {return("color:#" + parseInt($2).toString(16) + parseInt($3).toString(16) + parseInt($4).toString(16) + $5);});
+	re = /(^|[;\s])color:\s*rgb\((\d+),\s*(\d+),\s*(\d+)\)(;?)/ig;
+	style = style.replace(re, function($1, $2, $3, $4, $5, $6) {
+		var r = parseInt($3).toString(16); if(r.length < 2) r = '0' + r;
+		var g = parseInt($4).toString(16); if(g.length < 2) g = '0' + g;
+		var b = parseInt($5).toString(16); if(b.length < 2) b = '0' + b;
+		return $2 + "color:#" + r + g + b + $6;
+	});
 	var len = searchlist.length;
 	for(var i = 0; i < len; i++) {
 		searchlist[i][4] = !searchlist[i][4] ? '' : searchlist[i][4];
@@ -626,8 +648,10 @@ function parsestyle(tagoptions, prepend, append) {
 			} else if(searchlist[i][0] == 'font') {
 				opnvalue = normalizefontvalue(opnvalue);
 			}
-			prepend += '[' + searchlist[i][0] + (searchlist[i][1] == true ? '=' + opnvalue + ']' : ']');
-			append = '[/' + searchlist[i][0] + ']' + append;
+			if(!isDefaultFontAttr(searchlist[i][0], opnvalue)) {
+				prepend += '[' + searchlist[i][0] + (searchlist[i][1] == true ? '=' + opnvalue + ']' : ']');
+				append = '[/' + searchlist[i][0] + ']' + append;
+			}
 		}
 	}
 	return {'prepend' : prepend, 'append' : append};
