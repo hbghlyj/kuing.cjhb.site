@@ -484,7 +484,7 @@ if(empty($_GET['viewpid'])) {
 	$pageadd = "AND p.pid='{$_GET['viewpid']}'";
 }
 
-$_G['forum_newpostanchor'] = $_G['forum_postcount'] = $_G['forum_notice_jump_shown'] = 0;
+$_G['forum_postcount'] = $_G['forum_notice_jump_shown'] = 0;
 $_G['fromfind'] = !empty($_GET['fromfind']) ? (is_numeric($_GET['fromfind']) ? intval($_GET['fromfind']) : 1) : 0;
 
 $_G['forum_onlineauthors'] = $_G['forum_cachepid'] = $_G['blockedpids'] = [];
@@ -884,13 +884,6 @@ function viewthread_updateviews($tableid) {
 
 function viewthread_procpost($post, $lastvisit, $maxposition = 0) {
 	global $_G, $rushreply;
-
-	if(!$_G['forum_newpostanchor'] && $post['dateline'] > $lastvisit) {
-		$post['newpostanchor'] = '<a name="newpost"></a>';
-		$_G['forum_newpostanchor'] = 1;
-	} else {
-		$post['newpostanchor'] = '';
-	}
 
 	$post['lastpostanchor'] = ($post['position'] == $_G['forum_thread']['maxposition'] || ($maxposition && $post['position'] == $maxposition)) ? '<a name="lastpost"></a>' : '';
 
