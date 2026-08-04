@@ -45,9 +45,14 @@ window.MathJax = {
     },
     autoload: {
       color: [],
-      colorv2: ['color']
+      colorv2: ['color'],
+      // Map the extension to its triggering macros and environments
+      '[custom]/xypic': [
+        ['xymatrix', 'xy', 'xybox', 'xyimport', 'xyshowAST'],   // Macros that trigger autoload
+        ['xymatrix']          // Environments that trigger autoload
+      ]
     },
-    packages: {'[+]': ['noerrors','mathtools','xypic']}
+    packages: {'[+]': ['noerrors','mathtools']}
   },
   options: {
     menuOptions: {
@@ -89,14 +94,14 @@ window.MathJax = {
     }
   },
   loader: {
-    load: ['[tex]/noerrors','[tex]/mathtools','[static]/xypic'],
+    load: ['[tex]/noerrors','[tex]/mathtools'],
     source: {
-      '[static]/xypic': '/static/xypic.js'
+      '[custom]/xypic': '/static/xypic.js'
     },
     failed: function (error) {
       showError(`MathJax(${error.package || '?'}): ${error.message}`);
     },
-    paths: {static: '/static'}
+    paths: {custom: '/static'}
   },
   chtml: {
     matchFontHeight: true
