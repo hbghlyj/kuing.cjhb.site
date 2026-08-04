@@ -236,6 +236,8 @@ class model_post extends discuz_model {
 					]]];
 				}
 			}
+			// Anonymous replies count as thread activity (unread count increments)
+			// but do not dispatch notifications to protect anonymity.
 			table_forum_threadattention::t()->increase_newreplies($this->thread['tid'], $this->member['uid'], $this->thread['authorid']);
 		}
 
