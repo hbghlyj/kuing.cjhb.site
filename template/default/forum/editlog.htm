@@ -38,6 +38,8 @@
 .revision-diff .same { color: #555; }
 .revision-diff .removed { background: #ffe8e8; color: #900; }
 .revision-diff .added { background: #e8f7e8; color: #075b07; }
+.revision-diff .removed .removed-inline { background: #f4c2c2; }
+.revision-diff .added .added-inline { background: #b7e5b7; }
 </style>
 <script type="text/javascript" reload="1">
 (function() {
@@ -63,37 +65,187 @@
 		}
 		return (revision.subject ? revision.subject + '\n\n' : '') + body;
 	}
+	function charSegments(oldText, newText) {
+		var oldChars = oldText.split('');
+		var newChars = newText.split('');
+		var lcs = [];
+		for(var i = 0; i <= oldChars.length; i++) lcs[i] = [];
+		for(var i = oldChars.length - 1; i >= 0; i--) {
+			for(var j = newChars.length - 1; j >= 0; j--) {
+				lcs[i][j] = oldChars[i] === newChars[j] ? (lcs[i + 1][j + 1] || 0) + 1 : Math.max(lcs[i + 1][j] || 0, lcs[i][j + 1] || 0);
+			}
+		}
+		var oldSegments = [];
+		var newSegments = [];
+		var oldRun = '';
+		var newRun = '';
+		var i = 0;
+		var j = 0;
+		while(i < oldChars.length || j < newChars.length) {
+			if(i < oldChars.length && j < newChars.length && oldChars[i] === newChars[j]) {
+				if(oldRun) { oldSegments.push([oldRun, true]); oldRun = ''; }
+				if(newRun) { newSegments.push([newRun, true]); newRun = ''; }
+				oldSegments.push([oldChars[i], false]);
+				newSegments.push([newChars[j], false]);
+				i++;
+				j++;
+			} else if(j < newChars.length && (i >= oldChars.length || (lcs[i][j + 1] || 0) > (lcs[i + 1][j] || 0))) {
+				newRun += newChars[j];
+				j++;
+			} else if(i < oldChars.length) {
+				oldRun += oldChars[i];
+				i++;
+			}
+		}
+		if(oldRun) oldSegments.push([oldRun, true]);
+		if(newRun) newSegments.push([newRun, true]);
+		return {old: oldSegments, new: newSegments};
+	}
+	function tokenize(text) {
+		return text.match(/\w+|\s+|[^\w\s]+/g) || [];
+	}
+	function refinable(text) {
+		return text.length <= 100 && !/^\s+$/.test(text) && (/\w/.test(text) || /[\u4e00-\u9fff]/.test(text));
+	}
+	function diffSegments(oldText, newText) {
+		if(oldText === newText) {
+			return {old: [[oldText, false]], new: [[newText, false]]};
+		}
+		var oldTokens = tokenize(oldText);
+		var newTokens = tokenize(newText);
+		if(!oldTokens.length) return {old: [], new: [[newText, true]]};
+		if(!newTokens.length) return {old: [[oldText, true]], new: []};
+		var lcs = [];
+		for(var i = 0; i <= oldTokens.length; i++) lcs[i] = [];
+		for(var i = oldTokens.length - 1; i >= 0; i--) {
+			for(var j = newTokens.length - 1; j >= 0; j--) {
+				lcs[i][j] = oldTokens[i] === newTokens[j] ? (lcs[i + 1][j + 1] || 0) + 1 : Math.max(lcs[i + 1][j] || 0, lcs[i][j + 1] || 0);
+			}
+		}
+		var ops = [];
+		var i = 0;
+		var j = 0;
+		while(i < oldTokens.length || j < newTokens.length) {
+			if(i < oldTokens.length && j < newTokens.length && oldTokens[i] === newTokens[j]) {
+				ops.push({t: 'same', text: oldTokens[i]});
+				i++;
+				j++;
+			} else if(j < newTokens.length && (i >= oldTokens.length || (lcs[i][j + 1] || 0) > (lcs[i + 1][j] || 0))) {
+				ops.push({t: 'add', text: newTokens[j]});
+				j++;
+			} else if(i < oldTokens.length) {
+				ops.push({t: 'del', text: oldTokens[i]});
+				i++;
+			}
+		}
+		var oldSegments = [];
+		var newSegments = [];
+		var block = null;
+		function flushBlock() {
+			if(!block) return;
+			var pairs = Math.min(block.del.length, block.add.length);
+			for(var k = 0; k < pairs; k++) {
+				if(refinable(block.del[k]) && refinable(block.add[k])) {
+					var segs = charSegments(block.del[k], block.add[k]);
+					for(var a = 0; a < segs.old.length; a++) oldSegments.push(segs.old[a]);
+					for(var b = 0; b < segs.new.length; b++) newSegments.push(segs.new[b]);
+				} else {
+					oldSegments.push([block.del[k], true]);
+					newSegments.push([block.add[k], true]);
+				}
+			}
+			for(var m = pairs; m < block.del.length; m++) oldSegments.push([block.del[m], true]);
+			for(var n = pairs; n < block.add.length; n++) newSegments.push([block.add[n], true]);
+			block = null;
+		}
+		for(var k = 0; k < ops.length; k++) {
+			if(ops[k].t === 'same') {
+				flushBlock();
+				oldSegments.push([ops[k].text, false]);
+				newSegments.push([ops[k].text, false]);
+			} else {
+				if(!block) block = {del: [], add: []};
+				(ops[k].t === 'del' ? block.del : block.add).push(ops[k].text);
+			}
+		}
+		flushBlock();
+		return {old: oldSegments, new: newSegments};
+	}
+	function renderSegments(segments, cls) {
+		var html = '';
+		for(var i = 0; i < segments.length; i++) {
+			html += segments[i][1] ? '<span class="' + cls + '">' + escapeHtml(segments[i][0]) + '</span>' : escapeHtml(segments[i][0]);
+		}
+		return html;
+	}
 	function diffLines(oldLines, newLines) {
 		var lcs = [];
 		for(var i = 0; i <= oldLines.length; i++) lcs[i] = [];
 		for(var i = oldLines.length - 1; i >= 0; i--) {
 			for(var j = newLines.length - 1; j >= 0; j--) {
-				lcs[i][j] = oldLines[i] === newLines[j] ? lcs[i + 1][j + 1] + 1 : Math.max(lcs[i + 1][j] || 0, lcs[i][j + 1] || 0);
+				lcs[i][j] = oldLines[i] === newLines[j] ? (lcs[i + 1][j + 1] || 0) + 1 : Math.max(lcs[i + 1][j] || 0, lcs[i][j + 1] || 0);
 			}
 		}
-		var lines = [];
+		var ops = [];
 		var i = 0;
 		var j = 0;
 		while(i < oldLines.length || j < newLines.length) {
 			if(i < oldLines.length && j < newLines.length && oldLines[i] === newLines[j]) {
-				lines.push('<div class="same">' + escapeHtml(oldLines[i] || '') + '</div>');
+				ops.push({t: 'same', text: oldLines[i]});
 				i++;
 				j++;
 			} else if(i < oldLines.length && j < newLines.length && oldLines[i + 1] === newLines[j]) {
-				lines.push('<div class="removed">' + escapeHtml(oldLines[i]) + '</div>');
+				ops.push({t: 'removed', text: oldLines[i]});
 				i++;
 			} else if(i < oldLines.length && j < newLines.length && oldLines[i] === newLines[j + 1]) {
-				lines.push('<div class="added">' + escapeHtml(newLines[j]) + '</div>');
+				ops.push({t: 'added', text: newLines[j]});
 				j++;
 			} else if(j < newLines.length && (i === oldLines.length || (lcs[i][j + 1] || 0) > (lcs[i + 1][j] || 0))) {
-				lines.push('<div class="added">' + escapeHtml(newLines[j]) + '</div>');
+				ops.push({t: 'added', text: newLines[j]});
 				j++;
 			} else if(i < oldLines.length) {
-				lines.push('<div class="removed">' + escapeHtml(oldLines[i]) + '</div>');
+				ops.push({t: 'removed', text: oldLines[i]});
 				i++;
 			}
 		}
-		return lines;
+		var html = [];
+		var block = null;
+		function flushBlock() {
+			if(!block) return;
+			if(block.removed.length && block.added.length) {
+				var pairs = Math.min(block.removed.length, block.added.length);
+				for(var k = 0; k < pairs; k++) {
+					var segments = diffSegments(block.removed[k], block.added[k]);
+					html.push('<div class="removed">' + renderSegments(segments.old, 'removed-inline') + '</div>');
+					html.push('<div class="added">' + renderSegments(segments.new, 'added-inline') + '</div>');
+				}
+				for(var m = pairs; m < block.removed.length; m++) {
+					html.push('<div class="removed">' + escapeHtml(block.removed[m]) + '</div>');
+				}
+				for(var n = pairs; n < block.added.length; n++) {
+					html.push('<div class="added">' + escapeHtml(block.added[n]) + '</div>');
+				}
+			} else {
+				for(var p = 0; p < block.removed.length; p++) {
+					html.push('<div class="removed">' + escapeHtml(block.removed[p]) + '</div>');
+				}
+				for(var q = 0; q < block.added.length; q++) {
+					html.push('<div class="added">' + escapeHtml(block.added[q]) + '</div>');
+				}
+			}
+			block = null;
+		}
+		for(var k = 0; k < ops.length; k++) {
+			if(ops[k].t === 'same') {
+				flushBlock();
+				html.push('<div class="same">' + escapeHtml(ops[k].text || '') + '</div>');
+			} else {
+				if(!block) block = {removed: [], added: []};
+				(ops[k].t === 'removed' ? block.removed : block.added).push(ops[k].text);
+			}
+		}
+		flushBlock();
+		return html;
 	}
 	window.renderRevisionDiff = function(index) {
 		index = parseInt(index, 10) || 0;
