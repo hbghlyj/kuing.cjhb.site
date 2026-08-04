@@ -1084,9 +1084,14 @@ a.thread_mod { height: 19px; line-height: 19px; display: inline-block; color: #4
 	*/
 	.pl .quote, .pl .blockcode { margin: 10px 0; zoom: 1; }
 
-	.pl .blockcode { padding: 10px; border: 1px solid {WRAPBORDERCOLOR}; background: #F7F7F7; overflow: hidden; text-shadow: none; }
+	.blockcode em { font-style: normal; font-size: 0; line-height: 0; cursor: pointer; user-select: none; }
+		.blockcode em svg { width: 15px; height: 15px; display: inline-block; vertical-align: middle; }
+	.pl .blockcode { position: relative; padding: 10px; border: 1px solid {WRAPBORDERCOLOR}; background: #F7F7F7; overflow: hidden; text-shadow: none; }
 		.pl .blockcode pre { font-family: Monaco,Consolas,'Lucida Console','Courier New',serif; font-size: 14px; line-height: 1.8em; white-space: pre-wrap; word-break: break-word; margin: 0; }
-		.pl .blockcode em { margin-left: 0; color: {HIGHLIGHTLINK} !important; font-size: 12px; cursor: pointer; user-select: none; }
+		.pl .blockcode em { margin-left: 0; position: absolute; top: 8px; right: 8px; width: 26px; height: 26px; display: flex; align-items: center; justify-content: center; color: #999; background: rgba(255,255,255,.9); border: 1px solid #DDD; border-radius: 6px; opacity: 0; transition: opacity .2s ease; }
+		.pl .blockcode em svg { width: 15px; height: 15px; display: block; }
+		.pl .blockcode:hover em { opacity: 1; }
+		.pl .blockcode em:hover { color: {HIGHLIGHTLINK}; border-color: {HIGHLIGHTLINK}; }
 		.pl .tindex { padding: 5px; width: 500px; line-height: 22px; border: 1px solid {WRAPBORDERCOLOR}; }
 			.pl .tindex h3 { border-bottom: 1px #ccc dotted; margin-bottom: 10px; padding-left: 10px; }
 			.pl .tindex li { cursor: pointer; height: 22px; padding-left: 22px; background: url({IMGDIR}/ico_mulu.png) no-repeat 10px center; overflow: hidden; }
