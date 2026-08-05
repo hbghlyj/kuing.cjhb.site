@@ -9,20 +9,11 @@ if($processUser !== 'www-data' && !getenv('GITHUB_ACTIONS')) {
 	exit("This tool must be run as process user www-data.\n");
 }
 
-$options = getopt('', ['host:', 'action:', 'rebuild', 'verhash']);
-$targetHost = $options['host'] ?? getenv('STYLE_REBUILD_HOST') ?: 'localhost';
-if(!preg_match('/^[A-Za-z0-9.-]+(?::\d+)?$/', $targetHost)) {
-	exit("Usage: php .agents/tools/rebuild_styles.php [--host=example.com] [--action=all|rebuild|verhash]\n");
-}
-if(!defined('STYLE_REBUILD_HOST')) {
-	define('STYLE_REBUILD_HOST', $targetHost);
-}
-
 $root = dirname(__DIR__, 2);
 chdir($root);
 
-$_SERVER['HTTP_HOST'] = $targetHost;
-$_SERVER['SERVER_NAME'] = $targetHost;
+$_SERVER['HTTP_HOST'] = 'localhost';
+$_SERVER['SERVER_NAME'] = 'localhost';
 $_SERVER['REQUEST_URI'] = '/index.php';
 $_SERVER['REQUEST_METHOD'] = 'GET';
 $_SERVER['SCRIPT_NAME'] = '/index.php';
@@ -37,10 +28,10 @@ $discuz->init_session = false;
 $discuz->init_cron = false;
 $discuz->init_misc = false;
 $discuz->init();
-$_G['siteurl'] = 'http://'.STYLE_REBUILD_HOST.'/';
+$_G['siteurl'] = '/';
 $_G['siteroot'] = '/';
 
-$options = getopt('', ['host:', 'action:', 'rebuild', 'verhash']);
+$options = getopt('', ['action:', 'rebuild', 'verhash']);
 $action = $options['action'] ?? 'all';
 if(isset($options['rebuild']) && !isset($options['verhash'])) {
 	$action = 'rebuild';
