@@ -54,7 +54,7 @@ $doVerhash = in_array($action, ['all', 'both', 'verhash'], true);
 if($doRebuild) {
 	require_once './source/function/function_cache.php';
 	updatecache('styles');
-	echo 'Styles rebuilt for https://'.STYLE_REBUILD_HOST."/\n";
+	echo 'Styles rebuilt (root-relative URLs)'."\n";
 }
 
 if($doVerhash) {
