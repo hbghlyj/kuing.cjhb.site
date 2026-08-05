@@ -344,7 +344,7 @@
 	<input type="hidden" name="formhash" value="{FORMHASH}" />
 	<input type="hidden" name="optgroup" />
 	<input type="hidden" name="operation" />
-	<input type="hidden" name="listextra" value="$_GET[extra]" />
+	<input type="hidden" name="listextra" value="{echo dhtmlspecialchars((string)$_GET['extra'])}" />
 	<input type="hidden" name="page" value="$page" />
 </form>
 
@@ -415,7 +415,7 @@ $_G['forum_tagscript']
 	<script src="https://unpkg.com/mark.js@8.11.1/dist/mark.min.js"></script>
 	<script>
 		var instance = new Mark(document.querySelectorAll(".t_f,.postmessage,.message"));
-		instance.mark('$_GET['highlight']');
+		instance.mark({echo json_encode($_GET['highlight'], JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT)});
 	</script>
 <!--{/if}-->
 

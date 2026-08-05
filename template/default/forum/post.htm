@@ -24,7 +24,7 @@
 	var sortid = parseInt('$sortid');
 	var special = parseInt('$special');
 	var fid = {echo intval($_G['fid'])};
-	var postaction = '{$_GET['action']}';
+	var postaction = {echo json_encode(isset($_GET['action']) ? (string)$_GET['action'] : '', JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT)};
 	var ispicstyleforum = <!--{if $_G['forum']['picstyle']}-->1<!--{else}-->0<!--{/if}-->;
 </script>
 
@@ -96,7 +96,7 @@
 	<!--{if $_GET['action'] == 'edit'}-->
 		<input type="hidden" name="delattachop" id="delattachop" value="0" />
 	<!--{/if}-->
-	<!--{if !empty($_GET['modthreadkey'])}--><input type="hidden" name="modthreadkey" id="modthreadkey" value="$_GET['modthreadkey']" /><!--{/if}-->
+	<!--{if !empty($_GET['modthreadkey'])}--><input type="hidden" name="modthreadkey" id="modthreadkey" value="{echo dhtmlspecialchars((string)$_GET['modthreadkey'])}" /><!--{/if}-->
 	<input type="hidden" name="wysiwyg" id="{$editorid}_mode" value="$editormode" />
 	<!--{if $_GET[action] == 'reply'}-->
 		<input type="hidden" name="noticetrimstr" value="$noticetrimstr" />
@@ -104,9 +104,9 @@
 			<input type="hidden" name="reppid" value="$reppid" />
 		<!--{/if}-->
 		<!--{if !empty($_GET['reppost'])}-->
-			<input type="hidden" name="reppost" value="$_GET[reppost]" />
+			<input type="hidden" name="reppost" value="{echo dhtmlspecialchars((string)$_GET['reppost'])}" />
 		<!--{elseif !empty($_GET['repquote'])}-->
-			<input type="hidden" name="reppost" value="$_GET[repquote]" />
+			<input type="hidden" name="reppost" value="{echo dhtmlspecialchars((string)$_GET['repquote'])}" />
 		<!--{/if}-->
 	<!--{elseif $_GET[action] == 'edit' && $quotemessage}-->
 		<input type="hidden" name="noticetrimstr" value="$noticetrimstr" />
