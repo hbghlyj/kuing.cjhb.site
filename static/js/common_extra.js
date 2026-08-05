@@ -1044,14 +1044,19 @@ function _showTip(ctrlobj) {
 }
 
 function _showCreditPrompt() {
-	var notice = getcookie('creditnotice').split('D');
-	var basev = getcookie('creditbase').split('D');
-	var creditrule = decodeURI(getcookie('creditrule', 1)).replace(String.fromCharCode(9), ' ');
-	if(!discuz_uid || notice.length < 2 || notice[9] != discuz_uid) {
+	var data = null;
+	try {
+		data = JSON.parse(getcookie('creditnotice') || 'null');
+	} catch (e) {
+		data = null;
+	}
+	if(!discuz_uid || !data || !data.a || data.u != discuz_uid) {
 		setcookie('creditnotice', '');
 		setcookie('creditrule', '');
+		setcookie('creditbase', '');
 		return;
 	}
+	var notice = data.a, basev = data.b, creditrule = (data.r || []).join(' ');
 	var creditnames = creditnotice.split(',');
 	var creditinfo = [];
 	var e;
@@ -1066,7 +1071,7 @@ function creditShow(creditinfo, notice, basev, bk, first, creditrule) {
 	var s = '', check = 0;
 	for(i = 1; i <= 8; i++) {
 		v = parseInt(Math.abs(parseInt(notice[i])) / 5) + 1;
-		if(notice[i] !== '0' && creditinfo[i]) {
+		if(notice[i] != 0 && creditinfo[i]) {
 			s += '<span>' + creditinfo[i][0] + (notice[i] != 0 ? (notice[i] > 0 ? '<em>+' : '<em class="desc">') + notice[i] + '</em>' : '') + creditinfo[i][1] + '</span>';
 		}
 		if(notice[i] > 0) {

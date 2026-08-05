@@ -306,7 +306,8 @@ class credit {
 					$extra[] = 'gid:'.$rule['groupid'];
 				}
 				$extra = !empty($extra) ? '('.implode(',', $extra).')' : '';
-				$this->updatemembercount($creditarr, $uids, $checkgroup, $this->coef > 0 ? urldecode($rule['rulenameuni']) : '');
+				$rulename = $this->coef > 0 && !empty($rule['action']) ? lang('creditrule', 'creditrule_'.$rule['action']) : '';
+				$this->updatemembercount($creditarr, $uids, $checkgroup, $rulename);
 				credit_log($uids, 'RUL', $rule['rid'], $creditarr, $rule['rulename'].$extra);
 			}
 		}
@@ -342,7 +343,14 @@ class credit {
 			$creditnotice = $_G['setting']['creditnotice'] && $_G['uid'] && $uids == [$_G['uid']];
 			if($creditnotice) {
 				if(!isset($_G['cookiecredits'])) {
-					$_G['cookiecredits'] = !empty($_COOKIE['creditnotice']) ? explode('D', $_COOKIE['creditnotice']) : array_fill(0, 9, 0);
+					$notice = !empty($_COOKIE['creditnotice']) ? @json_decode($_COOKIE['creditnotice'], true) : null;
+					$_G['cookiecredits'] = is_array($notice) && !empty($notice['a']) ? array_map('intval', $notice['a']) : array_fill(0, 9, 0);
+					if(is_array($notice) && !empty($notice['r'])) {
+						$_G['cookiecreditsrule'] = [];
+						foreach((array)$notice['r'] as $name) {
+							$_G['cookiecreditsrule'][$name] = $name;
+						}
+					}
 					for($i = 1; $i <= 8; $i++) {
 						$_G['cookiecreditsbase'][$i] = getuserprofile('extcredits'.$i);
 					}
@@ -361,11 +369,16 @@ class credit {
 				}
 			}
 			if($creditnotice) {
-				dsetcookie('creditnotice', implode('D', $_G['cookiecredits']).'D'.$_G['uid']);
-				dsetcookie('creditbase', '0D'.implode('D', $_G['cookiecreditsbase']));
-				if(!empty($_G['cookiecreditsrule'])) {
-					dsetcookie('creditrule', strip_tags(implode("\t", $_G['cookiecreditsrule'])));
-				}
+				$base = array_merge([0], array_values((array)$_G['cookiecreditsbase']));
+				$rule = !empty($_G['cookiecreditsrule']) ? array_values($_G['cookiecreditsrule']) : [];
+				dsetcookie('creditnotice', json_encode([
+					'a' => array_values($_G['cookiecredits']),
+					'b' => $base,
+					'r' => $rule,
+					'u' => $_G['uid'],
+				], JSON_UNESCAPED_UNICODE));
+				dsetcookie('creditbase', '');
+				dsetcookie('creditrule', '');
 			}
 			if($sql) {
 				table_common_member_count::t()->increase($uids, $sql);
