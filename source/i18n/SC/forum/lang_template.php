@@ -74,6 +74,7 @@ $lang = [
 	'save_to_album' => '保存到相册',
 	'post_meanwhile_relay' => '同时转播',
 	'reply' => '回复',
+	'postreply' => '回复帖子',
 	'view_all_replies' => '去论坛查看所有回复',
 	'all' => '全部',
 	'all_replies' => '全部回复',
