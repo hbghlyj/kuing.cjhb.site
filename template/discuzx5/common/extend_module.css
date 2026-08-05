@@ -27,6 +27,13 @@
 .bm_c .kmtoday {display:inline-block;margin-left:5px;padding:0 4px;min-width:12px;height:14px;line-height:14px;text-align:center;vertical-align:top;font-size:12px;color:var(--dz-ff);background:var(--dz-ahot);border-radius:var(--dz-radius-c)}
 .bm_h h3 strong {font-weight:normal}
 #category_lk {padding:15px 20px 10px !important}
+#category_lk .lk_cat {padding:0 0 8px}
+#category_lk .lk_cat + .lk_cat {border-top:1px solid var(--dz-borderb);padding-top:8px}
+#category_lk summary {list-style:none;cursor:pointer;user-select:none;font-weight:bold}
+#category_lk summary::-webkit-details-marker {display:none}
+#category_lk summary:before {content:"\25B8";display:inline-block;width:14px;color:var(--dz-ahot);transition:transform .15s}
+#category_lk details[open] > summary:before {transform:rotate(90deg)}
+#category_lk .lk_cat_count {margin-left:6px;font-weight:normal;color:var(--dz-fa)}
 .slideouter {border-color:var(--dz-borderb) !important}
 .lk_logo .lk_content h5, .lk_logo .lk_content p {line-height:14px}
 .lk_logo .lk_content h5 {margin-bottom:3px}

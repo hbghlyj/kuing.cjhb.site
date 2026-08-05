@@ -27,11 +27,15 @@ class table_common_friendlink extends discuz_table {
 		parent::__construct();
 	}
 
-	public function fetch_all_by_displayorder($type = '') {
+	public function fetch_all_by_displayorder($type = []) {
 		$args = [$this->_table];
-		if($type) {
-			$sql = 'WHERE (`type` & %s > 0)';
-			$args[] = $type;
+		$sql = '';
+		$types = is_array($type) ? $type : [$type];
+		$types = array_values(array_unique(array_filter(array_map('intval', $types), function($t) {
+			return in_array($t, [1, 2, 3, 4], true);
+		})));
+		if($types) {
+			$sql = 'WHERE type IN ('.dimplode($types).')';
 		}
 		return DB::fetch_all("SELECT * FROM %t $sql ORDER BY displayorder", $args, $this->_pk);
 	}

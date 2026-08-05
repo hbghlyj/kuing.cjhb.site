@@ -5400,14 +5400,15 @@ $lang =
 	'misc_onlinelist_tips' => '<li>本功能用於自定義首頁及主題列表頁顯示的在線會員分組及圖例，只在在線列表功能打開時有效。</li><li>用戶組圖例處空白爲不區分該組用戶，所有未區分的用戶組將統一歸入第一行的“普通用戶”項。</li><li>用戶組圖例中請填寫圖片檔案名，並將相應圖片檔案上傳到 static/image/common/ 目錄中。</li>',
 	'misc_onlinelist_image' => '用戶組圖例',
 
+	'misc_link_group' => '分組',
 	'misc_link_group1' => '分組1',
 	'misc_link_group2' => '分組2',
 	'misc_link_group3' => '分組3',
 	'misc_link_group4' => '分組4',
 	'misc_link' => '友情鏈接',
 	'misc_link_add' => '添加友情鏈接',
-	'misc_link_tips' => '<li>如果您不想在論壇首頁顯示友情鏈接，可以在“<a href="'.ADMINSCRIPT.'?action=setting&operation=styles&anchor=index">界面設定</a>”中關閉。</li><li>未填寫文字說明的項目將以緊湊型顯示。</li>
-						<li>友情鏈接分組只供 DIY 的展示類模塊使用。</li>',
+	'misc_link_tips' => '<li>如果您不想在論壇首頁顯示友情鏈接，可以在「<a href="'.ADMINSCRIPT.'?action=setting&operation=styles&anchor=index">界面設定</a>」中關閉。</li><li>未填寫文字說明的項目將以緊湊型顯示。</li>
+						<li>每個鏈接屬於一個分組，論壇首頁按分組摺疊展示。</li>',
 	'misc_link_edit' => '友情鏈接編輯',
 	'misc_link_edit_name' => '站點名稱',
 	'misc_link_edit_url' => '站點 URL',
