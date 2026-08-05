@@ -107,7 +107,7 @@
 							<!--{else}-->
 								<a href="javascript:;">$_G['setting']['anonymoustext']</a>
 							<!--{/if}-->
-							<span class="kmtime{if $thread['istoday'] && CURMODULE == 'forumdisplay'} xi1{/if}">{lang poston} $thread['dateline']</span>
+							<span class="kmtime{if $thread['istoday'] && CURMODULE == 'forumdisplay'} xi1{/if}">{lang started} $thread['dateline']</span>
 							</cite>
 								<!--{if $thread['typehtml'] || $thread['sorthtml']}-->
 									{echo str_replace(array('<em>[', ']</em>', '">'), array('', '', '" class="kmbg kmico_bk" target="_blank">'), $thread['typehtml'].$thread['sorthtml']);}

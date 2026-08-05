@@ -63,6 +63,7 @@ $lang = [
 	'follow_quickreply' => '回复',
 	'follow_relay' => '转播',
 	'poston' => '发表于',
+	'started' => '发帖于',
 	'forumlist' => '版块列表',
 	'forumlist_allforum' => '所有版块',
 	'forumlist_myfav' => '收藏版块',
