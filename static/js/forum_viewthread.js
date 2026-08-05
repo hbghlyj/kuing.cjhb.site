@@ -921,8 +921,39 @@ function initViewthreadEnhancements(root) {
 window.initViewthreadEnhancements = initViewthreadEnhancements;
 
 //一次性清理冗余br，避免与MathJax排版互相干扰。
+function initJumpCallout() {
+	var hash = window.location.hash || '';
+	if(!hash) {
+		return;
+	}
+	var target = null;
+	if(hash === '#lastpost') {
+		var anchor = document.querySelector('a[name="lastpost"]');
+		target = anchor && anchor.closest ? anchor.closest('table[id^="pid"]') : null;
+	} else {
+		var m = hash.match(/^#pid(\d+)$/);
+		if(!m) {
+			return;
+		}
+		target = document.getElementById('pid' + m[1]);
+	}
+	if(!target || !target.id) {
+		return;
+	}
+	var callout = document.getElementById('ntc_jp_' + target.id);
+	if(!callout) {
+		return;
+	}
+	callout.style.display = '';
+}
+window.initJumpCallout = initJumpCallout;
+
 if (document.readyState === 'loading') {
-	document.addEventListener('DOMContentLoaded', () => initViewthreadEnhancements(document));
+	document.addEventListener('DOMContentLoaded', () => {
+		initViewthreadEnhancements(document);
+		initJumpCallout();
+	});
 } else {
 	initViewthreadEnhancements(document);
+	initJumpCallout();
 }

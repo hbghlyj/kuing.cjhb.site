@@ -484,8 +484,7 @@ if(empty($_GET['viewpid'])) {
 	$pageadd = "AND p.pid='{$_GET['viewpid']}'";
 }
 
-$_G['forum_postcount'] = $_G['forum_notice_jump_shown'] = 0;
-$_G['fromfind'] = !empty($_GET['fromfind']) ? (is_numeric($_GET['fromfind']) ? intval($_GET['fromfind']) : 1) : 0;
+$_G['forum_postcount'] = 0;
 
 $_G['forum_onlineauthors'] = $_G['forum_cachepid'] = $_G['blockedpids'] = [];
 
@@ -886,18 +885,6 @@ function viewthread_procpost($post, $lastvisit, $maxposition = 0) {
 	global $_G, $rushreply;
 
 	$post['lastpostanchor'] = ($post['position'] == $_G['forum_thread']['maxposition'] || ($maxposition && $post['position'] == $maxposition)) ? '<a name="lastpost"></a>' : '';
-
-	if(!empty($_G['fromfind']) && empty($_G['forum_notice_jump_shown'])) {
-		if($_G['fromfind'] == 1) {
-			if(!empty($post['lastpostanchor'])) {
-				$post['notice_jump'] = true;
-				$_G['forum_notice_jump_shown'] = true;
-			}
-		} elseif($_G['fromfind'] == $post['pid']) {
-			$post['notice_jump'] = true;
-			$_G['forum_notice_jump_shown'] = true;
-		}
-	}
 
 	if(empty($post['hotrecommended']) && $post['incurpage']) {
 		if($_G['forum_pagebydesc']) {

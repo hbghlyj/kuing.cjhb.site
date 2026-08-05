@@ -15,4 +15,4 @@ $page = ceil(($_G['thread']['special'] ? $_G['thread']['replies'] : $_G['thread'
 $pageadd = $page > 1 ? '&page='.$page : '';
 
 $highlightextra = !empty($_GET['highlight']) ? '&highlight='.rawurlencode($_GET['highlight']) : '';
-dheader('Location: forum.php?mod=viewthread&tid='.$_G['tid'].$pageadd.$highlightextra.'&fromfind=1#lastpost');
+dheader('Location: forum.php?mod=viewthread&tid='.$_G['tid'].$pageadd.$highlightextra.'#lastpost');

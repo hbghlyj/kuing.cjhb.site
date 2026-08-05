@@ -10,14 +10,12 @@ $postshowavatars = !($_G['setting']['bannedmessages'] & 2 && ($post['memberstatu
 <!--{/loop}-->
 <!--{/block}-->
 <!--{if empty($post['deleted'])}-->
-<!--{if !empty($post['notice_jump'])}-->
-<div id="ntc_jp">
+<div id="ntc_jp_pid$post[pid]" class="ntc_jp" style="display:none">
 	<div class="s_clear">
-		<a class="deloption" href="javascript:;" onclick="var el=document.getElementById('ntc_jp');if(el)el.parentNode.removeChild(el);" title="{lang close}">{lang close}</a>
+		<a class="deloption" href="javascript:;" onclick="this.closest('.ntc_jp').remove();" title="{lang close}">{lang close}</a>
 		<em>{lang new_reply_notice}</em>
 	</div>
 </div>
-<!--{/if}-->
 <table id="pid$post[pid]" class="plhin cp0" summary="pid$post[pid]">
 <tr>
 	$post[lastpostanchor]
