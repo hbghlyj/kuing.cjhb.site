@@ -34,6 +34,7 @@ $_G['siteroot'] = '/';
 $options = getopt('', ['cachename:']);
 $cachename = $options['cachename'] ?? '';
 if($cachename) {
+	require_once './source/function/function_cache.php';
 	echo 'Rebuilding cache: '.$cachename.PHP_EOL;
 	updatecache($cachename);
 	echo 'Done.'.PHP_EOL;
