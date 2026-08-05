@@ -224,17 +224,17 @@
 					html.push('<div class="added">' + renderSegments(segments.new, 'added-inline') + '</div>');
 				}
 				for(var m = pairs; m < block.removed.length; m++) {
-					html.push('<div class="removed">' + escapeHtml(block.removed[m]) + '</div>');
+					html.push('<div class="removed">' + escapeHtml(block.removed[m] || ' ') + '</div>');
 				}
 				for(var n = pairs; n < block.added.length; n++) {
-					html.push('<div class="added">' + escapeHtml(block.added[n]) + '</div>');
+					html.push('<div class="added">' + escapeHtml(block.added[n] || ' ') + '</div>');
 				}
 			} else {
 				for(var p = 0; p < block.removed.length; p++) {
-					html.push('<div class="removed">' + escapeHtml(block.removed[p]) + '</div>');
+					html.push('<div class="removed">' + escapeHtml(block.removed[p] || ' ') + '</div>');
 				}
 				for(var q = 0; q < block.added.length; q++) {
-					html.push('<div class="added">' + escapeHtml(block.added[q]) + '</div>');
+					html.push('<div class="added">' + escapeHtml(block.added[q] || ' ') + '</div>');
 				}
 			}
 			block = null;
@@ -242,7 +242,7 @@
 		for(var k = 0; k < ops.length; k++) {
 			if(ops[k].t === 'same') {
 				flushBlock();
-				html.push('<div class="same">' + escapeHtml(ops[k].text || '') + '</div>');
+				html.push('<div class="same">' + escapeHtml(ops[k].text || ' ') + '</div>');
 			} else {
 				if(!block) block = {removed: [], added: []};
 				(ops[k].t === 'removed' ? block.removed : block.added).push(ops[k].text);
