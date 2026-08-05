@@ -67,6 +67,7 @@ $lang = array (
 	'follow_relay'		=> 'Repost',//'转播',//Broadcast
 	'poston'		=> 'on',//'发表于',
 	'started'		=> 'Started',
+	'lastposted'		=> 'Last posted',
 	'forumlist'		=> 'Forum list',//'版块列表',
 	'forumlist_allforum'	=> 'All forums',//'所有版块',
 	'forumlist_myfav'	=> 'My favorites',//'我的收藏',

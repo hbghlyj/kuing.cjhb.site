@@ -64,6 +64,7 @@ $lang = [
 	'follow_relay' => '轉播',
 	'poston' => '發表於',
 	'started' => '發帖於',
+	'lastposted' => '最後發表於',
 	'forumlist' => '版塊列表',
 	'forumlist_allforum' => '所有版塊',
 	'forumlist_myfav' => '收藏版塊',
