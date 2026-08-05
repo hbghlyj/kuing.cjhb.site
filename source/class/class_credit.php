@@ -343,14 +343,7 @@ class credit {
 			$creditnotice = $_G['setting']['creditnotice'] && $_G['uid'] && $uids == [$_G['uid']];
 			if($creditnotice) {
 				if(!isset($_G['cookiecredits'])) {
-					$notice = !empty($_COOKIE['creditnotice']) ? @json_decode($_COOKIE['creditnotice'], true) : null;
-					$_G['cookiecredits'] = is_array($notice) && !empty($notice['a']) ? array_map('intval', $notice['a']) : array_fill(0, 9, 0);
-					if(is_array($notice) && !empty($notice['r'])) {
-						$_G['cookiecreditsrule'] = [];
-						foreach((array)$notice['r'] as $name) {
-							$_G['cookiecreditsrule'][$name] = $name;
-						}
-					}
+					$_G['cookiecredits'] = !empty($_COOKIE['creditnotice']) ? explode('D', $_COOKIE['creditnotice']) : array_fill(0, 9, 0);
 					for($i = 1; $i <= 8; $i++) {
 						$_G['cookiecreditsbase'][$i] = getuserprofile('extcredits'.$i);
 					}
@@ -369,16 +362,11 @@ class credit {
 				}
 			}
 			if($creditnotice) {
-				$base = array_merge([0], array_values((array)$_G['cookiecreditsbase']));
-				$rule = !empty($_G['cookiecreditsrule']) ? array_values($_G['cookiecreditsrule']) : [];
-				dsetcookie('creditnotice', json_encode([
-					'a' => array_values($_G['cookiecredits']),
-					'b' => $base,
-					'r' => $rule,
-					'u' => $_G['uid'],
-				], JSON_UNESCAPED_UNICODE));
-				dsetcookie('creditbase', '');
-				dsetcookie('creditrule', '');
+				dsetcookie('creditnotice', implode('D', $_G['cookiecredits']).'D'.$_G['uid']);
+				dsetcookie('creditbase', '0D'.implode('D', $_G['cookiecreditsbase']));
+				if(!empty($_G['cookiecreditsrule'])) {
+					dsetcookie('creditrule', strip_tags(implode("\t", $_G['cookiecreditsrule'])));
+				}
 			}
 			if($sql) {
 				table_common_member_count::t()->increase($uids, $sql);
