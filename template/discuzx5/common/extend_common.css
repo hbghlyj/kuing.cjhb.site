@@ -875,6 +875,7 @@ body .colorwd {width:36px !important;height:36px !important;line-height:36px !im
 .pgsbtn {padding:12px 28px;letter-spacing:0;background:var(--dz-btnbga);color:var(--dz-btntxta);border-radius:var(--dz-radius-b)}
 .pgsbtn:hover {opacity:0.8;background:var(--dz-btnbga);color:var(--dz-btntxta)}
 .pgsbtn:active {box-shadow:none}
+a#newspecial, a#newspecialtmp {padding-left:32px;padding-right:16px;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' viewBox='0 0 16 16'%3E%3Cpath d='M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:10px center}
 .pgs {margin-top:10px !important}
 .pg, .pgb {line-height:30px;overflow:visible}
 .pg a, .pg strong, .pgb a, .pg label {border:1px solid var(--dz-borderb);margin-left:6px;min-width:14px;height:30px;line-height:30px;text-align:center;display:inline;border-radius:var(--dz-radius-s);background-color:var(--dz-bgf);color:var(--dz-fa)}
