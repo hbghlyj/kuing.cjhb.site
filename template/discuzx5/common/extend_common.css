@@ -37,36 +37,13 @@
     --dz-radius-b:4px;
     --dz-radius-c:40px;
     --dz-shadow:0 0 2px 0 rgba(88,118,138,.1);
-    font:1em/1.5 Century,"Yu Gothic UI","Yu Gothic",'Microsoft Yahei UI light','Microsoft Yahei light',system-ui;
+    font-size:1em;
+    line-height:1.5;
     }
 
 
 
 
-@font-face {
-	font-family: 'Century';
-	src: local('Century Schoolbook'), url('/static/image/common/CENSCBK.TTF') format('truetype');
-	font-weight: normal;
-	font-style: normal;
-}
-@font-face {
-	font-family: 'Century';
-	src: local('Century Schoolbook Bold'), url('/static/image/common/SCHLBKB.TTF') format('truetype');
-	font-weight: bold;
-	font-style: normal;
-}
-@font-face {
-	font-family: 'Century';
-	src: local('Century Schoolbook Italic'), url('/static/image/common/SCHLBKI.TTF') format('truetype');
-	font-weight: normal;
-	font-style: italic;
-}
-@font-face {
-	font-family: 'Century';
-	src: local('Century Schoolbook Bold Italic'), url('/static/image/common/SCHLBKBI.TTF') format('truetype');
-	font-weight: bold;
-	font-style: italic;
-}
 body {background:var(--dz-bodybg);background-image: url({STYLEIMGDIR}/images/cubes.png);}
 input, textarea {font:1em/1.5 monospace}
 textarea {color:var(--dz-fa)}
