@@ -16,37 +16,27 @@ class emailpost {
 
 	private const EMAIL_POST_STATUS = (1 << 4) | (1 << 9);
 	private array $config;
-	protected $mailbox;
 
-	public static function run() {
-		$default = require DISCUZ_ROOT.'config/config_emailpost_default.php';
-		$localfile = DISCUZ_ROOT.'config/config_emailpost.php';
-		$local = is_file($localfile) ? require $localfile : [];
-		$config = array_merge($default, is_array($local) ? $local : []);
+	public static function importRaw(string $raw, string $recipient = '') {
+		$config = self::loadConfig();
 		if(empty($config['enabled'])) {
 			return;
 		}
-		(new self($config))->consume();
+		(new self($config))->consumeRaw($raw, $recipient);
+	}
+
+	private static function loadConfig(): array {
+		$default = require DISCUZ_ROOT.'config/config_emailpost_default.php';
+		$localfile = DISCUZ_ROOT.'config/config_emailpost.php';
+		$local = is_file($localfile) ? require $localfile : [];
+		return array_merge($default, is_array($local) ? $local : []);
 	}
 
 	public function __construct(array $config) {
 		$this->config = $config;
 	}
 
-	protected function consume() {
-		if(!function_exists('imap_open')) {
-			throw new RuntimeException('The PHP IMAP extension is required for email posting.');
-		}
-		if(empty($this->config['mailbox']) || empty($this->config['username']) || empty($this->config['password'])) {
-			throw new RuntimeException('Email posting mailbox credentials are incomplete.');
-		}
-		if(empty($this->config['recipient_domain'])) {
-			throw new RuntimeException('Email posting recipient_domain is required.');
-		}
-		if(!empty($this->config['require_dmarc']) && empty($this->config['trusted_authserv_id'])) {
-			throw new RuntimeException('trusted_authserv_id is required when DMARC validation is enabled.');
-		}
-
+	protected function consumeRaw(string $raw, string $recipient = '') {
 		$lockfile = DISCUZ_ROOT.'data/sysdata/emailpost.lock';
 		$lock = fopen($lockfile, 'c');
 		if(!$lock || !flock($lock, LOCK_EX | LOCK_NB)) {
@@ -54,41 +44,28 @@ class emailpost {
 		}
 
 		try {
-			$this->mailbox = $this->imapOpen($this->config['mailbox'], $this->config['username'], $this->config['password']);
-			if(!$this->mailbox) {
-				throw new RuntimeException('Unable to open the email posting mailbox: '.imap_last_error());
-			}
-			$uids = $this->imapSearch($this->mailbox, 'UNSEEN', SE_UID) ?: [];
-			$uids = array_slice($uids, 0, max(1, intval($this->config['max_messages'])));
-			foreach($uids as $mailuid) {
-				$this->consumeMessage(intval($mailuid));
-			}
+			$this->processMessage($raw, $recipient);
 		} finally {
-			if($this->mailbox) {
-				$this->imapClose($this->mailbox, CL_EXPUNGE);
-			}
 			flock($lock, LOCK_UN);
 			fclose($lock);
 		}
 	}
 
-	protected function consumeMessage(int $mailuid) {
-		$rawHeaders = $this->imapFetchHeader($this->mailbox, $mailuid, FT_UID) ?: '';
-		$headers = $this->imapHeaderInfo($this->mailbox, $this->imapMsgNo($this->mailbox, $mailuid));
-		$messageid = $this->firstMessageId($rawHeaders, 'Message-ID');
+	protected function processMessage(string $raw, string $recipient = '') {
+		[$headers, $body] = $this->splitMessage($raw);
+		$messageid = $this->firstMessageId($headers, 'Message-ID');
 		if(!$messageid) {
-			$messageid = '<missing-'.hash('sha256', $rawHeaders).'@'.strtolower($this->config['recipient_domain']).'>';
+			$messageid = '<missing-'.hash('sha256', $headers).'@'.strtolower($this->config['recipient_domain']).'>';
 		}
 		$messagekey = hash('sha256', $messageid);
 		if(table_forum_emailpost::t()->fetch($messagekey)) {
-			$this->finishMessage($mailuid);
 			return;
 		}
 
 		$sender = $this->senderAddress($headers);
 		$reserved = table_forum_emailpost::t()->reserve([
 			'messagekey' => $messagekey,
-			'mailuid' => $mailuid,
+			'mailuid' => 0,
 			'messageid' => cutstr($messageid, 255),
 			'sender' => cutstr($sender, 255),
 			'uid' => 0,
@@ -96,29 +73,28 @@ class emailpost {
 			'dateline' => TIMESTAMP,
 		]);
 		if(!$reserved) {
-			$this->finishMessage($mailuid);
 			return;
 		}
 
 		try {
-			$this->validateAutomatedHeaders($rawHeaders);
-			$this->validateDmarc($rawHeaders);
+			$this->validateAutomatedHeaders($headers);
+			$this->validateDmarc($headers);
 			$member = $this->memberForSender($sender);
 			table_forum_emailpost::t()->update($messagekey, ['uid' => $member['uid']]);
 
-			$parent = $this->findParent($rawHeaders);
+			$parent = $this->findParent($headers);
 			if($parent) {
 				$fid = intval($parent['fid']);
 				$tid = intval($parent['tid']);
 				$action = 'reply';
 			} else {
-				$fid = $this->forumIdFromRecipient($rawHeaders);
+				$fid = $this->forumIdFromRecipient($headers, $recipient);
 				$tid = 0;
 				$action = 'thread';
 			}
 
-			$subject = dhtmlspecialchars(trim($this->decodeHeader($headers->subject ?? '')));
-			$message = $this->messageBody($mailuid);
+			$subject = dhtmlspecialchars(trim($this->decodeHeader($this->headerValue($headers, 'Subject'))));
+			$message = $this->messageBody($body);
 			if($message === '') {
 				throw new emailpost_rejection('Email body is empty.');
 			}
@@ -135,22 +111,13 @@ class emailpost {
 				$result['pid'],
 				$parent['messagekey'] ?? ''
 			);
-			$this->finishMessage($mailuid);
 			runlog('emailpost', 'Accepted '.$messageid.' as pid '.$result['pid']);
 		} catch(emailpost_rejection $e) {
 			table_forum_emailpost::t()->reject($messagekey, $e->getMessage());
-			$this->finishMessage($mailuid);
 			runlog('emailpost', 'Rejected '.$messageid.': '.$e->getMessage());
 		} catch(Throwable $e) {
 			table_forum_emailpost::t()->delete($messagekey);
 			runlog('error', 'Email posting failed for '.$messageid.': '.$e->getMessage());
-		}
-	}
-
-	protected function finishMessage(int $mailuid) {
-		$this->imapSetFlagFull($this->mailbox, (string)$mailuid, '\\Seen', ST_UID);
-		if(!empty($this->config['delete_after_posting'])) {
-			$this->imapDelete($this->mailbox, (string)$mailuid, FT_UID);
 		}
 	}
 
@@ -229,13 +196,14 @@ class emailpost {
 		];
 	}
 
-	private function forumIdFromRecipient(string $headers) {
+	private function forumIdFromRecipient(string $headers, string $recipient = '') {
 		$domain = preg_quote(strtolower(trim($this->config['recipient_domain'])), '/');
 		$recipients = implode(' ', array_merge(
 			$this->headerValues($headers, 'To'),
 			$this->headerValues($headers, 'Delivered-To'),
 			$this->headerValues($headers, 'X-Original-To'),
-			$this->headerValues($headers, 'Envelope-To')
+			$this->headerValues($headers, 'Envelope-To'),
+			$recipient !== '' ? [$recipient] : []
 		));
 		preg_match_all('/\bforum\+(\d+)@'.$domain.'\b/i', strtolower($recipients), $matches);
 		$fids = array_values(array_unique(array_map('intval', $matches[1] ?? [])));
@@ -400,13 +368,12 @@ class emailpost {
 		}
 	}
 
-	protected function messageBody(int $mailuid) {
-		$structure = $this->imapFetchStructure($this->mailbox, $mailuid, FT_UID);
-		$plain = $this->findBodyPart($mailuid, $structure, '', 'PLAIN');
+	private function messageBody(string $raw) {
+		$plain = $this->findBodyPart($raw, 'PLAIN');
 		if($plain !== null) {
 			return dhtmlspecialchars(trim($plain));
 		}
-		$html = $this->findBodyPart($mailuid, $structure, '', 'HTML');
+		$html = $this->findBodyPart($raw, 'HTML');
 		if($html === null) {
 			return '';
 		}
@@ -414,63 +381,78 @@ class emailpost {
 		return trim(html2bbcode($html));
 	}
 
-	private function findBodyPart(int $mailuid, $part, string $number, string $subtype) {
-		if(!$part) {
+	private function findBodyPart(string $raw, string $subtype) {
+		[$headers, $body] = $this->splitMessage($raw);
+		$contentType = $this->headerValue($headers, 'Content-Type');
+		$type = $contentType !== '' ? strtolower(trim(explode(';', $contentType, 2)[0])) : '';
+		$boundary = '';
+		if(preg_match('/boundary\s*=\s*"?([^";\s]+)"?/i', $contentType, $matches)) {
+			$boundary = $matches[1];
+		}
+		$disposition = strtolower($this->headerValue($headers, 'Content-Disposition'));
+		$filename = '';
+		if(preg_match('/filename\s*=\s*"?([^";\s]+)"?/i', $contentType.'; '.$this->headerValue($headers, 'Content-Disposition'), $matches)) {
+			$filename = $matches[1];
+		}
+		$isAttachment = str_contains($disposition, 'attachment') || $filename !== '';
+
+		if($type !== '' && str_starts_with($type, 'multipart/')) {
+			if($boundary === '' || $body === '') {
+				return null;
+			}
+			$parts = preg_split('/--'.preg_quote($boundary, '/').'-{0,2}[ \t]*(?:\r\n|\r|\n|$)/', $body);
+			foreach($parts as $part) {
+				if(trim($part) === '') {
+					continue;
+				}
+				if(($found = $this->findBodyPart($part, $subtype)) !== null) {
+					return $found;
+				}
+			}
 			return null;
 		}
-		$isAttachment = !empty($part->disposition) && in_array(strtoupper($part->disposition), ['ATTACHMENT', 'INLINE'], true)
-			&& (!empty($part->dparameters) || !empty($part->parameters));
-		if(intval($part->type) === 0 && strtoupper($part->subtype ?? '') === $subtype && !$isAttachment) {
-			$body = $number === ''
-				? $this->imapBody($this->mailbox, $mailuid, FT_UID | FT_PEEK)
-				: $this->imapFetchBody($this->mailbox, $mailuid, $number, FT_UID | FT_PEEK);
-			$body = $this->decodeBody($body ?: '', intval($part->encoding));
-			$charset = $this->partParameter($part, 'charset');
-			return $charset && strcasecmp($charset, 'UTF-8') !== 0 ? diconv($body, $charset, 'UTF-8') : $body;
-		}
-		foreach($part->parts ?? [] as $index => $child) {
-			$childNumber = $number === '' ? (string)($index + 1) : $number.'.'.($index + 1);
-			if(($body = $this->findBodyPart($mailuid, $child, $childNumber, $subtype)) !== null) {
-				return $body;
-			}
-		}
-		return null;
-	}
 
-	private function decodeBody(string $body, int $encoding) {
-		return match($encoding) {
-			3 => base64_decode($body, true) ?: '',
-			4 => quoted_printable_decode($body),
+		if($isAttachment || $type !== 'text/'.strtolower($subtype)) {
+			return null;
+		}
+		$encoding = strtolower(trim(explode(';', $this->headerValue($headers, 'Content-Transfer-Encoding'), 2)[0]));
+		$text = match($encoding) {
+			'base64' => base64_decode($body, true) ?: '',
+			'quoted-printable' => quoted_printable_decode($body),
 			default => $body,
 		};
-	}
-
-	private function partParameter($part, string $name) {
-		foreach(array_merge($part->parameters ?? [], $part->dparameters ?? []) as $parameter) {
-			if(strcasecmp($parameter->attribute ?? '', $name) === 0) {
-				return $parameter->value ?? '';
+		if(preg_match('/charset\s*=\s*"?([^";\s]+)"?/i', $contentType, $matches)) {
+			$charset = trim($matches[1]);
+			if(strcasecmp($charset, 'UTF-8') !== 0) {
+				$text = diconv($text, $charset, 'UTF-8');
 			}
 		}
-		return '';
+		return $text;
 	}
 
-	private function senderAddress($headers) {
-		$from = $headers->from[0] ?? null;
-		return $from && !empty($from->mailbox) && !empty($from->host)
-			? mb_strtolower($from->mailbox.'@'.$from->host, 'UTF-8')
-			: '';
+	private function splitMessage(string $raw): array {
+		$parts = preg_split("/\r?\n\r?\n/", $raw, 2);
+		return [$parts[0] ?? '', $parts[1] ?? ''];
+	}
+
+	private function senderAddress(string $headers) {
+		$value = $this->headerValue($headers, 'From');
+		if($value === '') {
+			return '';
+		}
+		preg_match('/<([^<>@\s]+@[^<>@\s]+)>|\b([^<>@\s]+@[^<>@\s]+)\b/', $value, $matches);
+		$address = trim($matches[1] !== '' ? $matches[1] : ($matches[2] ?? ''));
+		return $address !== '' ? mb_strtolower($address, 'UTF-8') : '';
 	}
 
 	private function decodeHeader(string $value) {
-		$result = '';
-		foreach(imap_mime_header_decode($value) ?: [] as $part) {
-			$text = $part->text ?? '';
-			$charset = $part->charset ?? 'default';
-			$result .= $charset && strcasecmp($charset, 'default') !== 0 && strcasecmp($charset, 'UTF-8') !== 0
-				? diconv($text, $charset, 'UTF-8')
-				: $text;
-		}
-		return $result;
+		$decoded = mb_decode_mimeheader($value);
+		return $decoded !== false ? $decoded : $value;
+	}
+
+	private function headerValue(string $headers, string $name) {
+		$values = $this->headerValues($headers, $name);
+		return $values[0] ?? '';
 	}
 
 	private function firstMessageId(string $headers, string $name) {
@@ -491,50 +473,5 @@ class emailpost {
 		$unfolded = preg_replace("/\r?\n[\t ]+/", ' ', $headers);
 		preg_match_all('/^'.preg_quote($name, '/').':\s*([^\r\n]*)/im', $unfolded, $matches);
 		return $matches[1] ?? [];
-	}
-
-	// Kept as a narrow boundary so integration tests can supply a fixture mailbox.
-	protected function imapOpen(string $mailbox, string $username, string $password) {
-		return imap_open($mailbox, $username, $password);
-	}
-
-	protected function imapSearch($mailbox, string $criteria, int $flags) {
-		return imap_search($mailbox, $criteria, $flags);
-	}
-
-	protected function imapClose($mailbox, int $flags) {
-		return imap_close($mailbox, $flags);
-	}
-
-	protected function imapFetchHeader($mailbox, int $uid, int $flags) {
-		return imap_fetchheader($mailbox, $uid, $flags);
-	}
-
-	protected function imapHeaderInfo($mailbox, int $messageNumber) {
-		return imap_headerinfo($mailbox, $messageNumber);
-	}
-
-	protected function imapMsgNo($mailbox, int $uid) {
-		return imap_msgno($mailbox, $uid);
-	}
-
-	protected function imapSetFlagFull($mailbox, string $sequence, string $flag, int $options) {
-		return imap_setflag_full($mailbox, $sequence, $flag, $options);
-	}
-
-	protected function imapDelete($mailbox, string $sequence, int $options) {
-		return imap_delete($mailbox, $sequence, $options);
-	}
-
-	protected function imapFetchStructure($mailbox, int $uid, int $flags) {
-		return imap_fetchstructure($mailbox, $uid, $flags);
-	}
-
-	protected function imapBody($mailbox, int $uid, int $flags) {
-		return imap_body($mailbox, $uid, $flags);
-	}
-
-	protected function imapFetchBody($mailbox, int $uid, string $section, int $flags) {
-		return imap_fetchbody($mailbox, $uid, $section, $flags);
 	}
 }

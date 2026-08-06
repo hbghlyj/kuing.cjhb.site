@@ -14,87 +14,12 @@ function emailpost_assert($condition, string $message): void {
 	}
 }
 
-class emailpost_fixture_mailbox extends emailpost {
-	private array $messages;
-	public array $seen = [];
-	public array $deleted = [];
-
-	public function __construct(array $config, array $messages) {
-		parent::__construct($config);
-		$this->messages = $messages;
-	}
-
-	public function consumeFixtures(): void {
-		$this->consume();
-	}
-
-	protected function imapOpen(string $mailbox, string $username, string $password) {
-		return (object)['fixture' => true];
-	}
-
-	protected function imapSearch($mailbox, string $criteria, int $flags) {
-		return array_keys($this->messages);
-	}
-
-	protected function imapClose($mailbox, int $flags) {
-		return true;
-	}
-
-	protected function imapFetchHeader($mailbox, int $uid, int $flags) {
-		return $this->messages[$uid]['headers'];
-	}
-
-	protected function imapHeaderInfo($mailbox, int $messageNumber) {
-		$raw = $this->messages[$messageNumber]['headers'];
-		preg_match('/^From:\s*.*?<([^>]+)>/im', $raw, $from);
-		if(empty($from[1])) {
-			preg_match('/^From:\s*([^\s\r\n]+)/im', $raw, $from);
-		}
-		[$mailboxPart, $host] = array_pad(explode('@', trim($from[1] ?? ''), 2), 2, '');
-		preg_match('/^Subject:\s*(.*)$/im', $raw, $subject);
-		return (object)[
-			'from' => [(object)['mailbox' => $mailboxPart, 'host' => $host]],
-			'subject' => trim($subject[1] ?? ''),
-		];
-	}
-
-	protected function imapMsgNo($mailbox, int $uid) {
-		return $uid;
-	}
-
-	protected function imapSetFlagFull($mailbox, string $sequence, string $flag, int $options) {
-		$this->seen[] = intval($sequence);
-		return true;
-	}
-
-	protected function imapDelete($mailbox, string $sequence, int $options) {
-		$this->deleted[] = intval($sequence);
-		return true;
-	}
-
-	protected function imapFetchStructure($mailbox, int $uid, int $flags) {
-		return $this->messages[$uid]['structure'];
-	}
-
-	protected function imapBody($mailbox, int $uid, int $flags) {
-		return $this->messages[$uid]['bodies'][''] ?? '';
-	}
-
-	protected function imapFetchBody($mailbox, int $uid, string $section, int $flags) {
-		return $this->messages[$uid]['bodies'][$section] ?? '';
-	}
-}
-
 function emailpost_test_config(): array {
 	return [
 		'enabled' => true,
-		'mailbox' => '{fixture}INBOX',
-		'username' => 'fixture',
-		'password' => 'fixture',
 		'recipient_domain' => 'forum.example',
 		'trusted_authserv_id' => 'mx.example',
 		'require_dmarc' => true,
-		'max_messages' => 20,
 	];
 }
 $config = emailpost_test_config();
@@ -132,11 +57,10 @@ if(!is_file(DISCUZ_ROOT.'config/config_global.php')) {
 require DISCUZ_ROOT.'source/class/class_core.php';
 $discuz = C::app();
 $discuz->init();
-$config = emailpost_test_config();
+require_once libfile('function/forum');
 
 emailpost_assert(DB::result_first('SELECT COUNT(*) FROM %t', ['forum_emailpost']) !== false, 'forum_emailpost schema is missing.');
 DB::update('common_member', ['email' => 'admin@admin.com', 'emailstatus' => 1, 'freeze' => 0], 'uid=1');
-require_once libfile('function/forum');
 
 $token = 'emailpost-fixture-'.bin2hex(random_bytes(6));
 $rootId = '<'.$token.'-root@example.net>';
@@ -144,68 +68,66 @@ $replyId = '<'.$token.'-reply@example.net>';
 $referenceId = '<'.$token.'-reference@example.net>';
 $htmlId = '<'.$token.'-html@example.net>';
 $attachmentId = '<'.$token.'-attachment@example.net>';
-$missingIdHeaders = "To: forum+2@forum.example\r\nFrom: Admin <admin@admin.com>\r\nSubject: {$token} missing id\r\nAuthentication-Results: mx.example; dmarc=pass\r\n";
-$base = "From: Admin <admin@admin.com>\r\nAuthentication-Results: mx.example; dmarc=pass\r\n";
-$plain = static fn(int $encoding = 0) => (object)['type' => 0, 'subtype' => 'PLAIN', 'encoding' => $encoding];
+$base = "From: Admin <admin@admin.com>\r\nAuthentication-Results: mx.example; dkim=pass; dmarc=pass\r\n";
+$boundary = 'boundary-'.$token;
 $messages = [
-	101 => [
-		'headers' => "To: forum+2@forum.example\r\n{$base}Message-ID: {$rootId}\r\nSubject: {$token} root\r\n",
-		'structure' => $plain(4),
-		'bodies' => ['' => 'Root=20email=20body=2E'],
+	[
+		'headers' => "To: forum+2@forum.example\r\n{$base}Message-ID: {$rootId}\r\nSubject: {$token} root\r\nContent-Type: text/plain; charset=UTF-8\r\nContent-Transfer-Encoding: quoted-printable\r\n",
+		'body' => 'Root=20email=20body=2E',
 	],
-	102 => [
-		'headers' => "{$base}Message-ID: {$replyId}\r\nIn-Reply-To: {$rootId}\r\nSubject: Re: {$token} root\r\n",
-		'structure' => $plain(),
-		'bodies' => ['' => 'Direct reply fixture body.'],
+	[
+		'headers' => "{$base}Message-ID: {$replyId}\r\nIn-Reply-To: {$rootId}\r\nSubject: Re: {$token} root\r\nContent-Type: text/plain; charset=UTF-8\r\n",
+		'body' => 'Direct reply fixture body.',
 	],
-	103 => [
-		'headers' => "{$base}Message-ID: {$referenceId}\r\nReferences: <unrelated@example.net> {$rootId}\r\nSubject: Re: {$token} root\r\n",
-		'structure' => $plain(),
-		'bodies' => ['' => 'References fallback fixture body.'],
+	[
+		'headers' => "{$base}Message-ID: {$referenceId}\r\nReferences: <unrelated@example.net> {$rootId}\r\nSubject: Re: {$token} root\r\nContent-Type: text/plain; charset=UTF-8\r\n",
+		'body' => 'References fallback fixture body.',
 	],
-	104 => [
-		'headers' => "{$base}Message-ID: {$replyId}\r\nIn-Reply-To: {$rootId}\r\nSubject: Re: {$token} root\r\n",
-		'structure' => $plain(),
-		'bodies' => ['' => 'Duplicate message must not post.'],
+	[
+		'headers' => "{$base}Message-ID: {$replyId}\r\nIn-Reply-To: {$rootId}\r\nSubject: Re: {$token} root\r\nContent-Type: text/plain; charset=UTF-8\r\n",
+		'body' => 'Duplicate message must not post.',
 	],
-	105 => [
-		'headers' => "To: forum+2@forum.example\r\n{$base}Message-ID: <{$token}-auto@example.net>\r\nAuto-Submitted: auto-replied\r\nSubject: {$token} automatic\r\n",
-		'structure' => $plain(),
-		'bodies' => ['' => 'Automatic response body.'],
+	[
+		'headers' => "To: forum+2@forum.example\r\n{$base}Message-ID: <{$token}-auto@example.net>\r\nAuto-Submitted: auto-replied\r\nSubject: {$token} automatic\r\nContent-Type: text/plain; charset=UTF-8\r\n",
+		'body' => 'Automatic response body.',
 	],
-	106 => [
-		'headers' => "To: forum+2@forum.example\r\nFrom: Unknown <unknown@example.net>\r\nAuthentication-Results: mx.example; dmarc=pass\r\nMessage-ID: <{$token}-unknown@example.net>\r\nSubject: {$token} unknown\r\n",
-		'structure' => $plain(),
-		'bodies' => ['' => 'Unknown sender body.'],
+	[
+		'headers' => "To: forum+2@forum.example\r\nFrom: Unknown <unknown@example.net>\r\nAuthentication-Results: mx.example; dmarc=pass\r\nMessage-ID: <{$token}-unknown@example.net>\r\nSubject: {$token} unknown\r\nContent-Type: text/plain; charset=UTF-8\r\n",
+		'body' => 'Unknown sender body.',
 	],
-	107 => [
-		'headers' => "To: forum+2@forum.example\r\nFrom: Admin <admin@admin.com>\r\nAuthentication-Results: attacker.example; dmarc=pass\r\nMessage-ID: <{$token}-dmarc@example.net>\r\nSubject: {$token} dmarc\r\n",
-		'structure' => $plain(),
-		'bodies' => ['' => 'Untrusted DMARC body.'],
+	[
+		'headers' => "To: forum+2@forum.example\r\nFrom: Admin <admin@admin.com>\r\nAuthentication-Results: attacker.example; dmarc=pass\r\nMessage-ID: <{$token}-dmarc@example.net>\r\nSubject: {$token} dmarc\r\nContent-Type: text/plain; charset=UTF-8\r\n",
+		'body' => 'Untrusted DMARC body.',
 	],
-	108 => [
-		'headers' => "{$base}Message-ID: {$htmlId}\r\nIn-Reply-To: {$rootId}\r\nSubject: Re: {$token} root\r\n",
-		'structure' => (object)['type' => 0, 'subtype' => 'HTML', 'encoding' => 0],
-		'bodies' => ['' => '<p>HTML fixture <strong>body</strong>.</p>'],
+	[
+		'headers' => "{$base}Message-ID: {$htmlId}\r\nIn-Reply-To: {$rootId}\r\nSubject: Re: {$token} root\r\nContent-Type: text/html; charset=UTF-8\r\n",
+		'body' => '<p>HTML fixture <strong>body</strong>.</p>',
 	],
-	109 => [
-		'headers' => "{$base}Message-ID: {$attachmentId}\r\nIn-Reply-To: {$rootId}\r\nSubject: Re: {$token} root\r\n",
-		'structure' => (object)['type' => 1, 'subtype' => 'MIXED', 'parts' => [
-			$plain(),
-			(object)['type' => 0, 'subtype' => 'PLAIN', 'encoding' => 0, 'disposition' => 'ATTACHMENT', 'dparameters' => [(object)['attribute' => 'filename', 'value' => 'ignored.txt']]],
-		]],
-		'bodies' => ['1' => 'Multipart body; the attachment must be ignored.', '2' => 'not an attachment upload'],
+	[
+		'headers' => "{$base}Message-ID: {$attachmentId}\r\nIn-Reply-To: {$rootId}\r\nSubject: Re: {$token} root\r\nContent-Type: multipart/mixed; boundary=\"{$boundary}\"\r\n",
+		'body' => "--{$boundary}\r\n"
+			."Content-Type: text/plain; charset=UTF-8\r\n\r\n"
+			."Multipart body; the attachment must be ignored.\r\n"
+			."--{$boundary}\r\n"
+			."Content-Type: text/plain; charset=UTF-8\r\n"
+			."Content-Disposition: attachment; filename=ignored.txt\r\n\r\n"
+			."not an attachment upload\r\n"
+			."--{$boundary}--\r\n",
 	],
-	110 => [
-		'headers' => $missingIdHeaders,
-		'structure' => $plain(),
-		'bodies' => ['' => 'A message without a Message-ID still has a stable dedupe key.'],
+	[
+		'headers' => "To: forum+2@forum.example\r\nFrom: Admin <admin@admin.com>\r\nSubject: {$token} missing id\r\nAuthentication-Results: mx.example; dmarc=pass\r\nContent-Type: text/plain; charset=UTF-8\r\n",
+		'body' => 'A message without a Message-ID still has a stable dedupe key.',
 	],
 ];
 
-$fixture = new emailpost_fixture_mailbox($config, $messages);
-$fixture->consumeFixtures();
-emailpost_assert(count($fixture->seen) === count($messages), 'Every fixture message must be marked seen.');
+$instance = new emailpost($config);
+$process = static function(string $raw) use ($instance) {
+	$reflection = new ReflectionMethod($instance, 'processMessage');
+	$reflection->invoke($instance, $raw);
+};
+foreach($messages as $message) {
+	$process($message['headers']."\r\n".$message['body']);
+}
 
 $rowFor = static fn(string $id) => table_forum_emailpost::t()->fetch_by_message_id($id);
 $root = $rowFor($rootId);
@@ -231,6 +153,7 @@ foreach(['<'.$token.'-auto@example.net>', '<'.$token.'-unknown@example.net>', '<
 	$row = $rowFor($rejectedId);
 	emailpost_assert($row && intval($row['status']) === -1, "Rejected message {$rejectedId} was not recorded as rejected.");
 }
+$missingIdHeaders = $messages[9]['headers'];
 $missingId = '<missing-'.hash('sha256', $missingIdHeaders).'@forum.example>';
 $missing = $rowFor($missingId);
 emailpost_assert($missing && intval($missing['status']) === 1 && intval($missing['tid']) > 0, 'Message without Message-ID was not deterministically imported.');
