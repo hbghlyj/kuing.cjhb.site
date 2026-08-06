@@ -14,6 +14,7 @@ class emailpost_rejection extends RuntimeException {}
 
 class emailpost {
 
+	private const EMAIL_POST_STATUS = (1 << 4) | (1 << 9);
 	private array $config;
 	protected $mailbox;
 
@@ -312,6 +313,7 @@ class emailpost {
 				$container->attach_after_method('newreply', ['class' => 'forum\\extend_thread_image', 'method' => 'after_newreply']);
 				$container->attach_after_method('newreply', ['class' => 'forum\\extend_thread_filter', 'method' => 'after_newreply']);
 				$params['timestamp'] = TIMESTAMP;
+				$params['modstatus'] = [4 => 1, 9 => 1];
 				$container->newreply($params);
 				return ['fid' => $model->forum['fid'], 'tid' => $model->thread['tid'], 'pid' => $model->pid];
 			}
@@ -338,6 +340,7 @@ class emailpost {
 				'readperm' => 0,
 				'price' => 0,
 				'tags' => '',
+				'pstatus' => self::EMAIL_POST_STATUS,
 			];
 			$container->newthread($params);
 			return ['fid' => $model->forum['fid'], 'tid' => $model->tid, 'pid' => $model->pid];

@@ -1129,6 +1129,7 @@ $lang = [
 	'collection_related' => '本帖被以下淘專輯推薦:',
 	'debate_filter' => '按立場篩選',
 	'follower' => '粉絲',
+	'from_email' => '來自郵件',
 	'from_mobile' => '來自手機',
 	'member_avatar_banned' => '頭像被屏蔽',
 	'member_deleted' => '該用戶已被刪除',

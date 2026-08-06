@@ -188,6 +188,8 @@ $postshowavatars = !($_G['setting']['bannedmessages'] & 2 && ($post['memberstatu
 					{lang poston} $post[dateline]
 					<!--{if $post['status'] & 8}-->
 						&nbsp;<span class="xg1"><!--{if $_G['setting']['mobile']['mobilecomefrom']}-->{$_G['setting']['mobile']['mobilecomefrom']}<!--{else}-->{lang from_mobile}<!--{/if}--></span>
+					<!--{elseif $post[mobiletype] == 2}-->
+						&nbsp;<span class="xg1">{lang from_email}</span>
 					<!--{/if}-->
 				<!--{elseif getstatus($post['status'], 5)}-->
 					<!--{if !$_G['setting']['authoronleft'] || $close_leftinfo}--><a href="javascript:;" class="xi2">$post[author]</a><!--{/if}-->

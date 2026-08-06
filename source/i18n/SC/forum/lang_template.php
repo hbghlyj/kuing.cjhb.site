@@ -1129,6 +1129,7 @@ $lang = [
 	'collection_related' => '本帖被以下淘专辑推荐:',
 	'debate_filter' => '按立场筛选',
 	'follower' => '粉丝',
+	'from_email' => '来自邮件',
 	'from_mobile' => '来自手机',
 	'member_avatar_banned' => '头像被屏蔽',
 	'member_deleted' => '该用户已被删除',
