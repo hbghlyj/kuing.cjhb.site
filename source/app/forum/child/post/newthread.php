@@ -114,6 +114,12 @@ if(!submitcheck('topicsubmit', 0, $seccodecheck, $secqaacheck)) {
 } else {
 	check_allow_action('allowpost');
 
+	$loginParam = defined('IN_MOBILE') ? ['login' => 1] : [
+		'login' => 1,
+		'showmsg' => false,
+		'extrajs' => '<script type="text/javascript" reload="1">showWindow(\'login\', \'member.php?mod=logging&action=login&guestmessage=yes&referer=\'+encodeURIComponent(\''.$_G['siteurl'].'forum.php?mod=forumdisplay&fid='.$_G['fid'].'\'));</script>',
+	];
+
 	if(($special == 1 && !$_G['group']['allowpostpoll']) || ($special == 2 && !$_G['group']['allowposttrade']) || ($special == 3 && !$_G['group']['allowpostreward']) || ($special == 4 && !$_G['group']['allowpostactivity']) || ($special == 5 && !$_G['group']['allowpostdebate'])) {
 		showmessage('group_nopermission', NULL, ['grouptitle' => $_G['group']['grouptitle']], ['login' => 1]);
 	}
@@ -127,9 +133,11 @@ if(!submitcheck('topicsubmit', 0, $seccodecheck, $secqaacheck)) {
 	);
 
 	if(!$_G['uid']) {
-		$loginMessage = defined('IN_MOBILE') ? 'postperm_login_nopermission_mobile' : 'postperm_login_nopermission';
-		$loginVars = defined('IN_MOBILE') ? ['referer' => rawurlencode(dreferer())] : [];
-		showmessage($loginMessage, NULL, $loginVars, ['login' => 1]);
+		if(defined('IN_MOBILE')) {
+			showmessage('postperm_login_nopermission_mobile', NULL, ['referer' => rawurlencode(dreferer())], ['login' => 1]);
+		} else {
+			showmessage('postperm_login_nopermission', NULL, [], $loginParam);
+		}
 	} elseif(!$allowpost) {
 		if($_G['forum']['allowpost'] == -1) {
 			showmessage('post_forum_newthread_nopermission', NULL);
@@ -143,7 +151,7 @@ if(!submitcheck('topicsubmit', 0, $seccodecheck, $secqaacheck)) {
 	}
 
 	if(!$_G['uid'] && ($_G['setting']['need_avatar'] || $_G['setting']['need_secmobile'] || $_G['setting']['need_email'] || $_G['setting']['need_friendnum'])) {
-		showmessage('postperm_login_nopermission', NULL, [], ['login' => 1]);
+		showmessage('postperm_login_nopermission', NULL, [], $loginParam);
 	}
 
 	checklowerlimit('post', 0, 1, $_G['forum']['fid']);
