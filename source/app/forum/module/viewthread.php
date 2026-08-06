@@ -252,7 +252,7 @@ if(!empty($_GET['emailcopy'])) {
 		'Message-ID: <thread-'.$tid.'@'.$domain.'>',
 		'Reply-To: forum+'.$fid.'@'.$domain,
 		'X-Emailpost-Copy: 1',
-	], true);
+	]);
 	if(!$result) {
 		showmessage('emailpost_copy_failed');
 	}
