@@ -25,6 +25,20 @@ function deletemember($uids, $delpost = true) {
 	if($delpost) {
 		deleteattach($uids, 'uid');
 		deletepost($uids, 'authorid');
+	} else {
+		loadcache('posttableids');
+		$posttableids = !empty($_G['cache']['posttableids']) ? $_G['cache']['posttableids'] : ['0'];
+		foreach($posttableids as $id) {
+			DB::query('UPDATE %t SET authorid=0 WHERE authorid IN(%n)', [table_forum_post::getposttable(intval($id)), $uids]);
+		}
+		DB::query('UPDATE %t SET authorid=0 WHERE authorid IN(%n)', ['forum_thread', $uids]);
+		$shardids = DB::fetch_all('SELECT DISTINCT tableid AS k FROM %t WHERE uid IN(%n)', ['forum_attachment', $uids], 'k');
+		foreach(array_keys($shardids) as $tid) {
+			if($tid != 127) {
+				DB::query('UPDATE %t SET uid=0 WHERE uid IN(%n)', ['forum_attachment_'.$tid, $uids]);
+			}
+		}
+		DB::query('UPDATE %t SET uid=0 WHERE uid IN(%n)', ['forum_attachment', $uids]);
 	}
 
 	$arruids = $uids;
