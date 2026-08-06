@@ -49,6 +49,20 @@ try {
 } catch(emailpost_rejection) {
 }
 
+$plainRaw = "Hello headerless body.\n";
+emailpost_assert($call('findBodyPart', $plainRaw, 'PLAIN') === "Hello headerless body.\n", 'Headerless plain-text body parsing failed.');
+$multipartAlt = "Content-Type: multipart/alternative; boundary=XMAILBOUND\r\n\r\n"
+	."--XMAILBOUND\r\nContent-Type: text/plain; charset=UTF-8\r\n\r\n"
+	."Plain alternative body.\r\n"
+	."--XMAILBOUND\r\nContent-Type: text/html; charset=UTF-8\r\n\r\n"
+	."<b>HTML alternative</b>\r\n"
+	."--XMAILBOUND--\r\n";
+emailpost_assert($call('findBodyPart', $multipartAlt, 'PLAIN') === "Plain alternative body.\r\n", 'Multipart/alternative plain extraction failed.');
+emailpost_assert($call('findBodyPart', $multipartAlt, 'HTML') === "<b>HTML alternative</b>\r\n", 'Multipart/alternative HTML extraction failed.');
+emailpost_assert($call('findBodyPart', "Content-Type: text/plain; charset=UTF-8\r\nContent-Transfer-Encoding: base64\r\n\r\nUm9vdCBiYXNlNjQgYm9keS4=", 'PLAIN') === 'Root base64 body.', 'Base64 plain body decoding failed.');
+emailpost_assert($call('findBodyPart', "Content-Type: text/plain; charset=UTF-8\r\nContent-Transfer-Encoding: quoted-printable\r\n\r\nquoted printable body =C3=A9", 'PLAIN') === 'quoted printable body é', 'Quoted-printable decoding failed.');
+emailpost_assert($call('findBodyPart', '', 'PLAIN') === '', 'Empty body should decode to an empty string.');
+
 if(!is_file(DISCUZ_ROOT.'config/config_global.php')) {
 	echo "Email posting parser tests passed (database integration skipped: config/config_global.php is absent).\n";
 	exit;

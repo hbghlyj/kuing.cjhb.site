@@ -32,6 +32,10 @@ class emailpost {
 		return array_merge($default, is_array($local) ? $local : []);
 	}
 
+	public static function config(): array {
+		return self::loadConfig();
+	}
+
 	public function __construct(array $config) {
 		$this->config = $config;
 	}
@@ -94,7 +98,7 @@ class emailpost {
 			}
 
 			$subject = dhtmlspecialchars(trim($this->decodeHeader($this->headerValue($headers, 'Subject'))));
-			$message = $this->messageBody($body);
+			$message = $this->messageBody($raw);
 			if($message === '') {
 				throw new emailpost_rejection('Email body is empty.');
 			}
@@ -330,7 +334,15 @@ class emailpost {
 	}
 
 	private function assertForumAccess(array $forum, array $group) {
-		if(!empty($forum['password']) || !empty($forum['formulaperm'])) {
+		if(!empty($forum['password'])) {
+			throw new emailpost_rejection('Password- and formula-protected forums do not accept email posts.');
+		}
+		$formula = is_string($forum['formulaperm'] ?? null) ? dunserialize($forum['formulaperm']) : [];
+		if(!is_array($formula)) {
+			$formula = [];
+		}
+		if(!empty($formula['medal']) || !empty($formula['users']) || !empty($formula['viewtype'])
+			|| !empty(trim((string)($formula[0] ?? ''))) || !empty(trim((string)($formula[1] ?? '')))) {
 			throw new emailpost_rejection('Password- and formula-protected forums do not accept email posts.');
 		}
 		if((!empty($forum['simple']) && (intval($forum['simple']) & 1)) || !empty($forum['redirect'])) {
@@ -383,8 +395,12 @@ class emailpost {
 
 	private function findBodyPart(string $raw, string $subtype) {
 		[$headers, $body] = $this->splitMessage($raw);
+		if(!preg_match("/\r?\n\r?\n/", $raw)) {
+			$body = $headers;
+			$headers = '';
+		}
 		$contentType = $this->headerValue($headers, 'Content-Type');
-		$type = $contentType !== '' ? strtolower(trim(explode(';', $contentType, 2)[0])) : '';
+		$type = $contentType !== '' ? strtolower(trim(explode(';', $contentType, 2)[0])) : 'text/plain';
 		$boundary = '';
 		if(preg_match('/boundary\s*=\s*"?([^";\s]+)"?/i', $contentType, $matches)) {
 			$boundary = $matches[1];

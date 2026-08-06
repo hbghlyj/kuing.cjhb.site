@@ -13,10 +13,7 @@ if(PHP_SAPI !== 'cli') {
 	exit;
 }
 
-define('IN_DISCUZ', true);
-define('DISCUZ_ROOT', dirname(__DIR__).'/');
-
-require_once DISCUZ_ROOT.'source/class/class_core.php';
+require_once dirname(__DIR__).'/source/class/class_core.php';
 $discuz = C::app();
 $discuz->init();
 
