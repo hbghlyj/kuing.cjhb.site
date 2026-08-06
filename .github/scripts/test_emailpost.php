@@ -137,7 +137,7 @@ $replyFixtures = [
 		'body' => 'Duplicate message must not post.',
 	],
 	[
-		'headers' => "{$base}Message-ID: {$htmlId}\r\nIn-Reply-To: {$threadId}\r\nSubject: Re: {$token} root\r\nContent-Type: text/html; charset=UTF-8\r\n",
+		'headers' => "{$base}Message-ID: {$htmlId}\r\nIn-Reply-To: {$threadId}\r\nSubject: 回复：{$token} root\r\nContent-Type: text/html; charset=UTF-8\r\n",
 		'body' => '<p>HTML fixture <strong>body</strong>.</p>',
 	],
 	[
