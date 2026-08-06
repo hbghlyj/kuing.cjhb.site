@@ -63,12 +63,14 @@ class model_post extends discuz_model {
 			'message', 'content',
 			'htmlon', 'bbcodeoff', 'smileyoff', 'parseurloff', 'pstatus',
 			'noticetrimstr', 'from', 'sechash',
-			'timestamp',
+			'timestamp', 'modstatus',
 			'subject', 'special', 'sortid', 'typeid', 'isanonymous', 'cronpublish', 'cronpublishdate', 'save',
 			'readperm', 'price', 'audit', 'tags', 'bbcodeoff',
 		];
 		foreach($varname as $name) {
-			if(!isset($this->param[$name]) && isset($parameters[$name])) {
+			if($name === 'modstatus' && isset($this->param[$name]) && isset($parameters[$name])) {
+				$this->param[$name] = (array)$parameters[$name] + (array)$this->param[$name];
+			} elseif(!isset($this->param[$name]) && isset($parameters[$name])) {
 				$this->param[$name] = $parameters[$name];
 			}
 		}
