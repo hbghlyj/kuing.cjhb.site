@@ -11,12 +11,16 @@ if(!defined('IN_DISCUZ')) {
 }
 
 set_time_limit(0);
-function sendmail($toemail, $subject, $message = '', $from = '') {
+function sendmail($toemail, $subject, $message = '', $from = '', $extraheaders = []) {
 	global $_G;
 	// 使用 \@m.invalid 作为保留域名
 	if(preg_match('/@m\.invalid$/i', $toemail)) {
 		return false;
 	}
+	$extraheaders = array_values(array_filter(array_map(static function($header) {
+		$header = trim((string)$header);
+		return $header !== '' ? preg_replace('/[\r\n]+/', ' ', $header) : '';
+	}, (array)$extraheaders)));
 	if(!is_array($_G['setting']['mail'])) {
 		$_G['setting']['mail'] = dunserialize($_G['setting']['mail']);
 	}
@@ -85,6 +89,9 @@ function sendmail($toemail, $subject, $message = '', $from = '') {
 	if($_G['setting']['mail']['mailsend'] == 1) {
 		$maildelimiter = $_G['setting']['mail']['maildelimiter'] == 1 ? "\r\n" : ($_G['setting']['mail']['maildelimiter'] == 2 ? "\r" : "\n");
 		$headers = "From: $email_from{$maildelimiter}X-Mailer: Discuz! $version {$maildelimiter}MIME-Version: 1.0{$maildelimiter}Content-type: text/html; charset=".CHARSET."{$maildelimiter}Content-Transfer-Encoding: base64{$maildelimiter}";
+		foreach($extraheaders as $header) {
+			$headers .= $header.$maildelimiter;
+		}
 		if(function_exists('mail') && @mail($email_to, $email_subject, $email_message, $headers)) {
 			return true;
 		}
@@ -195,7 +202,16 @@ function sendmail($toemail, $subject, $message = '', $from = '') {
 		$maildomain = substr(strrchr($email_from, '@'), 1);
 		$maildelimiter = "\r\n";
 		$headers = "From: $email_from{$maildelimiter}X-Mailer: Discuz! $version {$maildelimiter}MIME-Version: 1.0{$maildelimiter}Content-type: text/html; charset=".CHARSET."{$maildelimiter}Content-Transfer-Encoding: base64{$maildelimiter}";
-		$headers .= 'Message-ID: <'.date('YmdHs').'.'.substr(md5($email_message.microtime()), 0, 6).rand(100000, 999999).'@'.$maildomain.">{$maildelimiter}";
+		$hasmessageid = false;
+		foreach($extraheaders as $header) {
+			if(stripos($header, 'Message-ID:') === 0) {
+				$hasmessageid = true;
+			}
+			$headers .= $header.$maildelimiter;
+		}
+		if(!$hasmessageid) {
+			$headers .= 'Message-ID: <'.date('YmdHs').'.'.substr(md5($email_message.microtime()), 0, 6).rand(100000, 999999).'@'.$maildomain.">{$maildelimiter}";
+		}
 
 		fputs($fp, 'Date: ' .date('r')."\r\n");
 		fputs($fp, 'To: ' .$email_to."\r\n");
@@ -221,6 +237,9 @@ function sendmail($toemail, $subject, $message = '', $from = '') {
 
 		$maildelimiter = "\r\n";
 		$headers = "From: $email_from{$maildelimiter}X-Mailer: Discuz! $version {$maildelimiter}MIME-Version: 1.0{$maildelimiter}Content-type: text/html; charset=".CHARSET."{$maildelimiter}Content-Transfer-Encoding: base64{$maildelimiter}";
+		foreach($extraheaders as $header) {
+			$headers .= $header.$maildelimiter;
+		}
 
 		if(function_exists('mail') && @mail($email_to, $email_subject, $email_message, $headers)) {
 			return true;

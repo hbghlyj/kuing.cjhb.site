@@ -204,29 +204,19 @@ class emailpost {
 	}
 
 	private function acceptedMessage(string $messageid) {
-		$row = table_forum_emailpost::t()->fetch_by_message_id($messageid);
-		if($row && intval($row['status']) === 1 && !empty($row['tid'])) {
-			return $row;
-		}
-
 		$domain = preg_quote(strtolower(trim($this->config['recipient_domain'])), '/');
-		if(!preg_match('/^<post-(\d+)@'.$domain.'>$/i', $messageid, $match)) {
+		if(!preg_match('/^<thread-(\d+)@'.$domain.'>$/i', $messageid, $match)) {
 			return [];
 		}
-		require_once libfile('function/forum');
-		$post = get_post_by_pid(intval($match[1]));
-		if(!$post || intval($post['invisible']) !== 0) {
-			return [];
-		}
-		$thread = table_forum_thread::t()->fetch($post['tid']);
-		if(!$thread || intval($thread['displayorder']) < 0) {
+		$thread = table_forum_thread::t()->fetch(intval($match[1]));
+		if(!$thread || intval($thread['displayorder']) < 0 || intval($thread['isgroup'])) {
 			return [];
 		}
 		return [
 			'messagekey' => hash('sha256', $messageid),
-			'fid' => $post['fid'],
-			'tid' => $post['tid'],
-			'pid' => $post['pid'],
+			'fid' => intval($thread['fid']),
+			'tid' => intval($thread['tid']),
+			'pid' => 0,
 		];
 	}
 

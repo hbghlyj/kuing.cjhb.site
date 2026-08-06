@@ -30,10 +30,6 @@ class table_forum_emailpost extends discuz_table {
 		return $this->insert($data, false, false, true);
 	}
 
-	public function fetch_by_message_id($messageid) {
-		return $this->fetch(hash('sha256', trim($messageid)));
-	}
-
 	public function delete_by_pid($pids) {
 		$pids = dintval((array)$pids, true);
 		if(!$pids) {

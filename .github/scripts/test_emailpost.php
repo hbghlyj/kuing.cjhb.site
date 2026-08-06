@@ -84,22 +84,18 @@ $htmlId = '<'.$token.'-html@example.net>';
 $attachmentId = '<'.$token.'-attachment@example.net>';
 $base = "From: Admin <admin@admin.com>\r\nAuthentication-Results: mx.example; dkim=pass; dmarc=pass\r\n";
 $boundary = 'boundary-'.$token;
-$messages = [
+$instance = new emailpost($config);
+$process = static function(string $raw) use ($instance) {
+	$reflection = new ReflectionMethod($instance, 'processMessage');
+	$reflection->invoke($instance, $raw);
+};
+$rowFor = static fn(string $id) => table_forum_emailpost::t()->fetch(hash('sha256', $id));
+
+// Messages that do not depend on the thread reply identity.
+$standalone = [
 	[
 		'headers' => "To: forum+2@forum.example\r\n{$base}Message-ID: {$rootId}\r\nSubject: {$token} root\r\nContent-Type: text/plain; charset=UTF-8\r\nContent-Transfer-Encoding: quoted-printable\r\n",
 		'body' => 'Root=20email=20body=2E',
-	],
-	[
-		'headers' => "{$base}Message-ID: {$replyId}\r\nIn-Reply-To: {$rootId}\r\nSubject: Re: {$token} root\r\nContent-Type: text/plain; charset=UTF-8\r\n",
-		'body' => 'Direct reply fixture body.',
-	],
-	[
-		'headers' => "{$base}Message-ID: {$referenceId}\r\nReferences: <unrelated@example.net> {$rootId}\r\nSubject: Re: {$token} root\r\nContent-Type: text/plain; charset=UTF-8\r\n",
-		'body' => 'References fallback fixture body.',
-	],
-	[
-		'headers' => "{$base}Message-ID: {$replyId}\r\nIn-Reply-To: {$rootId}\r\nSubject: Re: {$token} root\r\nContent-Type: text/plain; charset=UTF-8\r\n",
-		'body' => 'Duplicate message must not post.',
 	],
 	[
 		'headers' => "To: forum+2@forum.example\r\n{$base}Message-ID: <{$token}-auto@example.net>\r\nAuto-Submitted: auto-replied\r\nSubject: {$token} automatic\r\nContent-Type: text/plain; charset=UTF-8\r\n",
@@ -114,11 +110,38 @@ $messages = [
 		'body' => 'Untrusted DMARC body.',
 	],
 	[
-		'headers' => "{$base}Message-ID: {$htmlId}\r\nIn-Reply-To: {$rootId}\r\nSubject: Re: {$token} root\r\nContent-Type: text/html; charset=UTF-8\r\n",
+		'headers' => "To: forum+2@forum.example\r\nFrom: Admin <admin@admin.com>\r\nSubject: {$token} missing id\r\nAuthentication-Results: mx.example; dmarc=pass\r\nContent-Type: text/plain; charset=UTF-8\r\n",
+		'body' => 'A message without a Message-ID still has a stable dedupe key.',
+	],
+];
+foreach($standalone as $message) {
+	$process($message['headers']."\r\n".$message['body']);
+}
+
+$root = $rowFor($rootId);
+emailpost_assert($root && intval($root['status']) === 1 && intval($root['fid']) === 2 && intval($root['tid']) > 0 && intval($root['pid']) > 0, 'New-thread email was not persisted as a post.');
+
+// Replies route only via the deterministic <thread-{tid}@domain> identity.
+$threadId = '<thread-'.intval($root['tid']).'@forum.example>';
+$replyFixtures = [
+	[
+		'headers' => "{$base}Message-ID: {$replyId}\r\nIn-Reply-To: {$threadId}\r\nSubject: Re: {$token} root\r\nContent-Type: text/plain; charset=UTF-8\r\n",
+		'body' => 'Direct reply fixture body.',
+	],
+	[
+		'headers' => "{$base}Message-ID: {$referenceId}\r\nReferences: <unrelated@example.net> {$threadId}\r\nSubject: Re: {$token} root\r\nContent-Type: text/plain; charset=UTF-8\r\n",
+		'body' => 'References fallback fixture body.',
+	],
+	[
+		'headers' => "{$base}Message-ID: {$replyId}\r\nIn-Reply-To: {$threadId}\r\nSubject: Re: {$token} root\r\nContent-Type: text/plain; charset=UTF-8\r\n",
+		'body' => 'Duplicate message must not post.',
+	],
+	[
+		'headers' => "{$base}Message-ID: {$htmlId}\r\nIn-Reply-To: {$threadId}\r\nSubject: Re: {$token} root\r\nContent-Type: text/html; charset=UTF-8\r\n",
 		'body' => '<p>HTML fixture <strong>body</strong>.</p>',
 	],
 	[
-		'headers' => "{$base}Message-ID: {$attachmentId}\r\nIn-Reply-To: {$rootId}\r\nSubject: Re: {$token} root\r\nContent-Type: multipart/mixed; boundary=\"{$boundary}\"\r\n",
+		'headers' => "{$base}Message-ID: {$attachmentId}\r\nIn-Reply-To: {$threadId}\r\nSubject: Re: {$token} root\r\nContent-Type: multipart/mixed; boundary=\"{$boundary}\"\r\n",
 		'body' => "--{$boundary}\r\n"
 			."Content-Type: text/plain; charset=UTF-8\r\n\r\n"
 			."Multipart body; the attachment must be ignored.\r\n"
@@ -128,32 +151,26 @@ $messages = [
 			."not an attachment upload\r\n"
 			."--{$boundary}--\r\n",
 	],
-	[
-		'headers' => "To: forum+2@forum.example\r\nFrom: Admin <admin@admin.com>\r\nSubject: {$token} missing id\r\nAuthentication-Results: mx.example; dmarc=pass\r\nContent-Type: text/plain; charset=UTF-8\r\n",
-		'body' => 'A message without a Message-ID still has a stable dedupe key.',
-	],
 ];
-
-$instance = new emailpost($config);
-$process = static function(string $raw) use ($instance) {
-	$reflection = new ReflectionMethod($instance, 'processMessage');
-	$reflection->invoke($instance, $raw);
-};
-foreach($messages as $message) {
+foreach($replyFixtures as $message) {
 	$process($message['headers']."\r\n".$message['body']);
 }
 
-$rowFor = static fn(string $id) => table_forum_emailpost::t()->fetch_by_message_id($id);
-$root = $rowFor($rootId);
 $reply = $rowFor($replyId);
 $reference = $rowFor($referenceId);
 $html = $rowFor($htmlId);
 $attachment = $rowFor($attachmentId);
-emailpost_assert($root && intval($root['status']) === 1 && intval($root['fid']) === 2 && intval($root['tid']) > 0 && intval($root['pid']) > 0, 'New-thread email was not persisted as a post.');
-emailpost_assert($reply && intval($reply['status']) === 1 && intval($reply['tid']) === intval($root['tid']) && $reply['parentkey'] === hash('sha256', $rootId), 'In-Reply-To did not create a mapped reply.');
-emailpost_assert($reference && intval($reference['status']) === 1 && intval($reference['tid']) === intval($root['tid']) && $reference['parentkey'] === hash('sha256', $rootId), 'References fallback did not create a mapped reply.');
+$parentkey = hash('sha256', $threadId);
+emailpost_assert($reply && intval($reply['status']) === 1 && intval($reply['tid']) === intval($root['tid']) && $reply['parentkey'] === $parentkey, 'In-Reply-To to the thread identity did not create a mapped reply.');
+emailpost_assert($reference && intval($reference['status']) === 1 && intval($reference['tid']) === intval($root['tid']) && $reference['parentkey'] === $parentkey, 'References fallback to the thread identity did not create a mapped reply.');
 emailpost_assert($html && intval($html['status']) === 1 && intval($html['tid']) === intval($root['tid']), 'HTML-only email was not converted into a reply.');
 emailpost_assert($attachment && intval($attachment['status']) === 1 && intval($attachment['tid']) === intval($root['tid']), 'Multipart email was not posted.');
+
+// A reply referencing only an arbitrary Message-ID (e.g. the original email) is not routed.
+$orphanHeaders = "{$base}Message-ID: <{$token}-orphan@example.net>\r\nIn-Reply-To: {$rootId}\r\nSubject: Re: {$token} root\r\nContent-Type: text/plain; charset=UTF-8\r\n";
+$process($orphanHeaders."\r\nOrphaned reply body.");
+$orphan = $rowFor('<'.$token.'-orphan@example.net>');
+emailpost_assert($orphan && intval($orphan['status']) === -1, 'Reply referencing a non-thread Message-ID must be rejected (no forum+FID recipient for a new thread).');
 
 $post = get_post_by_pid(intval($root['pid']));
 $htmlPost = get_post_by_pid(intval($html['pid']));
@@ -169,7 +186,7 @@ foreach(['<'.$token.'-auto@example.net>', '<'.$token.'-unknown@example.net>', '<
 	$row = $rowFor($rejectedId);
 	emailpost_assert($row && intval($row['status']) === -1, "Rejected message {$rejectedId} was not recorded as rejected.");
 }
-$missingIdHeaders = $messages[9]['headers'];
+$missingIdHeaders = $standalone[4]['headers'];
 $missingId = '<missing-'.hash('sha256', $missingIdHeaders).'@forum.example>';
 $missing = $rowFor($missingId);
 emailpost_assert($missing && intval($missing['status']) === 1 && intval($missing['tid']) > 0, 'Message without Message-ID was not deterministically imported.');
