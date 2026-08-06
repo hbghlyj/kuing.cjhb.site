@@ -147,7 +147,11 @@ class emailpost {
 		if(!$sender || !filter_var($sender, FILTER_VALIDATE_EMAIL)) {
 			throw new emailpost_rejection('The sender address is invalid.');
 		}
-		$member = table_common_member::t()->fetch_by_email(mb_strtolower($sender, 'UTF-8'), 1);
+		$sender = mb_strtolower($sender, 'UTF-8');
+		$member = table_common_member::t()->fetch_by_email($sender, 1);
+		if(!$member) {
+			$member = $this->memberByBoundEmail($sender);
+		}
 		if(!$member || empty($member['emailstatus'])) {
 			throw new emailpost_rejection('The sender is not a verified forum member.');
 		}
@@ -155,6 +159,32 @@ class emailpost {
 			throw new emailpost_rejection('The member account cannot post.');
 		}
 		return $member;
+	}
+
+	private function memberByBoundEmail(string $sender) {
+		$atype = $this->googleConnectAtype();
+		if(!$atype) {
+			return [];
+		}
+		$row = DB::fetch_first('SELECT uid FROM %t WHERE LOWER(bindname)=%s AND atype=%d', ['common_member_account', $sender, $atype]);
+		if(!$row) {
+			return [];
+		}
+		$member = table_common_member::t()->fetch(intval($row['uid']));
+		return $member ? $member : [];
+	}
+
+	private function googleConnectAtype() {
+		global $_G;
+		if(!empty($_G['setting']['account_plugin_atypes']['googleconnect'])) {
+			return intval($_G['setting']['account_plugin_atypes']['googleconnect']);
+		}
+		$row = DB::fetch_first('SELECT svalue FROM %t WHERE skey=%s', ['common_setting', 'account_plugin_atypes']);
+		if(!$row) {
+			return 0;
+		}
+		$map = @dunserialize($row['svalue']);
+		return is_array($map) ? intval($map['googleconnect'] ?? 0) : 0;
 	}
 
 	private function findParent(string $headers) {
