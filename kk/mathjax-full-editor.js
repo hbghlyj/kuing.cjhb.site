@@ -225,7 +225,6 @@ function renderMathEquation(rendered, math) {
 	}
 	if (!rendered.isConnected) return;
 	var host = document.createElement('span');
-	host.className = 'mathjax_process';
 	host.style.cssText = 'position:fixed;left:-100000px;top:0;visibility:hidden;';
 	var sourceNode = document.createElement('span');
 	sourceNode.textContent = math;

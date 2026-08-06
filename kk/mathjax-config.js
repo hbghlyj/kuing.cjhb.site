@@ -60,7 +60,6 @@ window.MathJax = {
         zoom: "DoubleClick"
       }
     },
-    processHtmlClass: 'mathjax_process',
     renderActions: {
       //去掉MathML节点上的data-latex/data-latex-item属性
       removeLatex: [101,
