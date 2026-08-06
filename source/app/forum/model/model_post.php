@@ -18,7 +18,6 @@ use table_forum_forumfield;
 use table_forum_groupuser;
 use table_forum_post;
 use table_forum_postcomment;
-use table_forum_post_location;
 use table_forum_thread;
 use table_forum_threadaddviews;
 use table_forum_threadclosed;
@@ -63,7 +62,7 @@ class model_post extends discuz_model {
 			'member', 'group', 'forum', 'thread', 'extramessage', 'special',//'nauthorid' 'modnewreplies' 'tid'
 			'message', 'content',
 			'htmlon', 'bbcodeoff', 'smileyoff', 'parseurloff', 'pstatus',
-			'noticetrimstr', 'from', 'sechash', 'geoloc',
+			'noticetrimstr', 'from', 'sechash',
 			'timestamp',
 			'subject', 'special', 'sortid', 'typeid', 'isanonymous', 'cronpublish', 'cronpublishdate', 'save',
 			'readperm', 'price', 'audit', 'tags', 'bbcodeoff',
@@ -184,20 +183,6 @@ class model_post extends discuz_model {
 
 
 		useractionlog($this->member['uid'], 'pid');
-
-		if($this->param['geoloc'] && defined('IN_MOBILE') && constant('IN_MOBILE') == 2) {
-			list($mapx, $mapy, $location) = explode('|', $this->param['geoloc']);
-			if($mapx && $mapy && $location) {
-				table_forum_post_location::t()->insert([
-					'pid' => $this->pid,
-					'tid' => $this->thread['tid'],
-					'uid' => $this->member['uid'],
-					'mapx' => $mapx,
-					'mapy' => $mapy,
-					'location' => $location,
-				]);
-			}
-		}
 
 		$notice_funcs = [];
 		if($this->thread['authorid'] != $this->member['uid'] && !$this->param['isanonymous']) {

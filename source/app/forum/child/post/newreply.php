@@ -408,7 +408,6 @@ if(!submitcheck('replysubmit', 0, $seccodecheck, $secqaacheck)) {
 		'noticetrimstr' => getgpc('noticetrimstr'),
 		'from' => getgpc('from'),
 		'sechash' => getgpc('sechash'),
-		'geoloc' => diconv(getgpc('geoloc'), 'UTF-8'),
 		'repid' => getgpc('reppid'),
 	];
 

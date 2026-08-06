@@ -260,9 +260,6 @@ $postshowavatars = !($_G['setting']['bannedmessages'] & 2 && ($post['memberstatu
 		<!--{/if}-->
 	</td></tr>
 	<tr><td class="plc plm">
-		<!--{if !empty($locations[$post[pid]])}-->
-			<div class="mobile-location">$locations[$post[pid]][location]</div>
-		<!--{/if}-->
 		<!--{if !IS_ROBOT && $post['first'] && !$_G['forum_thread']['archiveid']}-->
 
 			<!--{if $post['invisible'] == 0}-->

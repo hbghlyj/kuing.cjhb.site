@@ -3027,20 +3027,6 @@ CREATE TABLE pre_forum_post
 	KEY `bestanswer` (`bestanswer`)
 ) ENGINE = InnoDB;
 
-DROP TABLE IF EXISTS pre_forum_post_location;
-CREATE TABLE pre_forum_post_location
-(
-	pid      int(10) unsigned NOT NULL DEFAULT '0',
-	tid      int(10) unsigned          DEFAULT '0',
-	uid      mediumint(8) unsigned     DEFAULT '0',
-	mapx     varchar(255)     NOT NULL,
-	mapy     varchar(255)     NOT NULL,
-	location varchar(255)     NOT NULL,
-	PRIMARY KEY (pid),
-	KEY tid (tid),
-	KEY uid (uid)
-) ENGINE = InnoDB;
-
 DROP TABLE IF EXISTS pre_forum_post_moderate;
 CREATE TABLE pre_forum_post_moderate
 (

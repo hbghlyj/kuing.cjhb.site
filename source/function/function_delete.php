@@ -46,7 +46,6 @@ function deletemember($uids, $delpost = true) {
 	table_common_member_verify_info::t()->delete_by_uid($arruids);
 	table_common_member_action_log::t()->delete_by_uid($arruids);
 	table_forum_moderator::t()->delete_by_uid($arruids);
-	table_forum_post_location::t()->delete_by_uid($arruids);
 	$doids = [];
 	$query = table_home_doing::t()->fetch_all_by_uid_doid($arruids);
 	foreach($query as $value) {
@@ -230,18 +229,14 @@ function deletepost($ids, $idtype = 'pid', $credit = false, $posttableid = false
 	if($idtype == 'pid') {
 		table_forum_postcomment::t()->delete_by_rpid($ids);
 		table_common_moderate::t()->delete_moderate($ids, 'pid');
-		table_forum_post_location::t()->delete($ids);
 		table_forum_filter_post::t()->delete_by_pid($ids);
 		table_forum_hotreply_number::t()->delete_by_pid($ids);
 		table_forum_hotreply_member::t()->delete_by_pid($ids);
 	} elseif($idtype == 'tid') {
-		table_forum_post_location::t()->delete_by_tid($ids);
 		table_forum_filter_post::t()->delete_by_tid($ids);
 		table_forum_hotreply_number::t()->delete_by_tid($ids);
 		table_forum_hotreply_member::t()->delete_by_tid($ids);
 		table_forum_sofa::t()->delete($ids);
-	} elseif($idtype == 'authorid') {
-		table_forum_post_location::t()->delete_by_uid($ids);
 	}
 	if($replycredit_list) {
 		foreach(table_forum_replycredit::t()->fetch_all($tids) as $rule) {
@@ -464,7 +459,6 @@ function deletethread($tids, $membercount = false, $credit = false, $ponly = fal
 	}
 
 	table_forum_replycredit::t()->delete($arrtids);
-	table_forum_post_location::t()->delete_by_tid($arrtids);
 	table_common_credit_log::t()->delete_by_operation_relatedid(['RCT', 'RCA', 'RCB'], $arrtids);
 	table_forum_threadhidelog::t()->delete_by_tid($arrtids);
 	deletethreadcover($arrtids);

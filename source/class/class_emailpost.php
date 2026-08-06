@@ -283,7 +283,6 @@ class emailpost {
 				'htmlon' => 0,
 				'parseurloff' => 0,
 				'isanonymous' => 0,
-				'geoloc' => '',
 			];
 			$fail = static function($key) {
 				throw new emailpost_rejection((string)$key);

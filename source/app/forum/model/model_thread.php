@@ -15,7 +15,6 @@ use table_forum_forum;
 use table_forum_forumfield;
 use table_forum_groupuser;
 use table_forum_newthread;
-use table_forum_post_location;
 use table_forum_sofa;
 use table_forum_thread;
 use tag;
@@ -246,21 +245,6 @@ class model_thread extends discuz_model {
 		include_once libfile('function/stat');
 		updatestat($this->param['isgroup'] ? 'groupthread' : $statarr[$this->param['special']]);
 
-
-		if($this->param['geoloc'] && defined('IN_MOBILE') && constant('IN_MOBILE') == 2) {
-			list($mapx, $mapy, $location) = explode('|', $this->param['geoloc']);
-			if($mapx && $mapy && $location) {
-				table_forum_post_location::t()->insert([
-					'pid' => $this->pid,
-					'tid' => $this->tid,
-					'uid' => $this->member['uid'],
-					'mapx' => $mapx,
-					'mapy' => $mapy,
-					'location' => $location,
-				]);
-			}
-		}
-
 		if($this->param['modnewthreads']) {
 			updatemoderate('tid', $this->tid);
 			table_forum_forum::t()->update_forum_counter($this->forum['fid'], 0, 0, 1);
@@ -349,7 +333,7 @@ class model_thread extends discuz_model {
 			'publishdate', 'digest', 'moderated', 'tstatus', 'isgroup',
 			'replycredit', 'closed', 'special', 'tags',
 			'message', 'content', 'isanonymous',
-			'htmlon', 'bbcodeoff', 'smileyoff', 'parseurloff', 'pstatus', 'geoloc', 'contentType', 'contentEditor'
+			'htmlon', 'bbcodeoff', 'smileyoff', 'parseurloff', 'pstatus', 'contentType', 'contentEditor'
 		];
 		foreach($varname as $name) {
 			if(!isset($this->param[$name])) {

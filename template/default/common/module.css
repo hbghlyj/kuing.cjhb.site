@@ -395,14 +395,6 @@ Created & Modified by Alice, Monkey, Lushnis, Pony, Dfox & DragonLee.
 		#f_pst .upfl td { padding: 4px 0; }
 		#f_pst .atds { width: 100px; }
 		#f_pst .px { padding: 2px; }
-	/*
-		Name:			mod_mobile-type
-		Level:			Function
-		Explain:		手机发帖的相关样式
-		Author:			Lushnis
-		Last Modify:	Pony 1204111343
-	*/
-	.mobile-location { padding-left: 20px; background: url({IMGDIR}/mobile-attach-2.png) no-repeat 0 0; }
 /** end **/
 
 

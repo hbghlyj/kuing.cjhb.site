@@ -65,9 +65,6 @@ if($postusers) {
 	unset($member_field_forum, $member_status, $member_count, $member_profile, $member_field_home, $member_blackList);
 	$_G['medal_list'] = [];
 	foreach($postlist as $pid => $post) {
-		if(getstatus($post['status'], 6)) {
-			$locationpids[] = $pid;
-		}
 		$postusers[$post['authorid']]['field_position'] = $postusers[$post['authorid']]['position'];
 		if(!defined('IN_RESTFUL')) {
 			$post = array_merge($postlist[$pid], (array)$postusers[$post['authorid']]);
@@ -80,10 +77,6 @@ if($postusers) {
 
 if($_G['allblocked']) {
 	$_G['blockedpids'] = [];
-}
-
-if($locationpids) {
-	$locations = table_forum_post_location::t()->fetch_all($locationpids);
 }
 
 if($postlist && !empty($rushids)) {

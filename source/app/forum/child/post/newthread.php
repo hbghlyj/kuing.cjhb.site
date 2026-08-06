@@ -244,7 +244,6 @@ if(!submitcheck('topicsubmit', 0, $seccodecheck, $secqaacheck)) {
 	$params['smileyoff'] = getgpc('smileyoff');
 	$params['parseurloff'] = getgpc('parseurloff');
 	$params['htmlon'] = getgpc('htmlon');
-	$params['geoloc'] = diconv(getgpc('geoloc'), 'UTF-8');
 
 
 	// 开始处理json编辑器内容中的图片、视频等附件
