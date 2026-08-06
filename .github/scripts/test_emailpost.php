@@ -159,6 +159,8 @@ $post = get_post_by_pid(intval($root['pid']));
 $htmlPost = get_post_by_pid(intval($html['pid']));
 $attachmentPost = get_post_by_pid(intval($attachment['pid']));
 emailpost_assert(str_contains($post['message'], 'Root email body.'), 'Quoted-printable plain-text body was not decoded.');
+emailpost_assert(intval($post['status']) === 264, 'Email-posted thread was not marked with the via-email status bits.');
+emailpost_assert(intval($htmlPost['status']) === 264, 'Email reply was not marked with the via-email status bits.');
 emailpost_assert(str_contains($htmlPost['message'], 'HTML fixture') && str_contains($htmlPost['message'], 'body'), 'HTML body was not converted.');
 emailpost_assert(empty($attachmentPost['attachment']), 'Email attachment was imported as a forum attachment.');
 emailpost_assert(intval(DB::result_first('SELECT COUNT(*) FROM %t WHERE tid=%d', ['forum_post', $root['tid']])) === 5, 'Duplicate or rejected email created an unexpected post.');

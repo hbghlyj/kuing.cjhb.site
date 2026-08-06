@@ -14,7 +14,7 @@ class emailpost_rejection extends RuntimeException {}
 
 class emailpost {
 
-	private const EMAIL_POST_STATUS = (1 << 4) | (1 << 9);
+	private const EMAIL_POST_STATUS = (1 << 3) | (1 << 8);
 	private array $config;
 
 	public static function importRaw(string $raw, string $recipient = '') {
