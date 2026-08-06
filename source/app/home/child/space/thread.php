@@ -74,13 +74,14 @@ if($_GET['view'] == 'me') {
 	$authorid = $space['uid'];
 	if($viewtype == 'editlog') {
 		if($_G['uid'] == $space['uid'] || $_G['adminid'] > 0) {
-			$editlogs = table_forum_editlog::t()->fetch_all_by_authorid($authorid);
+			$editlogs = table_forum_editlog::t()->fetch_all_by_authorid($authorid, $start, $perpage);
 			foreach($editlogs as &$editlog) {
 				$editlog['action_label'] = lang('template', $editlog['action'] == 'delete' ? 'delete' : 'edit');
 				$editlog['displaytime'] = dgmdate($editlog['dateline']);
 				$editlog['title'] = $editlog['old_subject'] ?: $editlog['thread_subject'];
 			}
 			unset($editlog);
+			$multi = multi(table_forum_editlog::t()->count_by_authorid($authorid), $perpage, $page, $theurl, $_G['setting']['maxpage']);
 		}
 		include_once template('home/space_editlog');
 		return;
