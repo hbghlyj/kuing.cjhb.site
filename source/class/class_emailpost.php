@@ -98,6 +98,9 @@ class emailpost {
 			}
 
 			$subject = dhtmlspecialchars(trim($this->decodeHeader($this->headerValue($headers, 'Subject'))));
+			if($action === 'reply' && preg_match('/^re(\[[0-9]+\])?:/i', $subject)) {
+				$subject = '';
+			}
 			$message = $this->messageBody($raw);
 			if($message === '') {
 				throw new emailpost_rejection('Email body is empty.');
