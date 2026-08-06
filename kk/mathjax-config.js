@@ -51,7 +51,7 @@ window.MathJax = {
         ['xymatrix', 'xybox', 'xyimport', 'xyshowAST'],   // Macros that trigger autoload
         ['xymatrix']          // Environments that trigger autoload
       ],
-      '[img]/img': [
+      '[custom]/img': [
         ['img'],
         ['tikzpicture']
       ]
@@ -101,14 +101,13 @@ window.MathJax = {
     load: ['[tex]/noerrors','[tex]/mathtools'],
     source: {
       '[custom]/xypic': '/static/xypic.js',
-      '[img]/img': '/static/img.js'
+      '[custom]/img': '/static/img.js'
     },
     failed: function (error) {
       showError(`MathJax(${error.package || '?'}): ${error.message}`);
     },
     paths: {
-      custom: '/static',
-      img: '/static'
+      custom: '/static'
     }
   },
   chtml: {
