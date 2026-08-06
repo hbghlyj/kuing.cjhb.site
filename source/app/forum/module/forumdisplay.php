@@ -875,7 +875,7 @@ require_once libfile('function/upload');
 $swfconfig = getuploadconfig($_G['fid']);
 
 $emailpost_mailto = '';
-if($_G['uid'] && empty($_GET['archiveid']) && in_array($_G['forum']['type'], ['forum', 'sub'], true) && !empty($_G['member']['emailstatus'])) {
+if($_G['uid'] && empty($_GET['archiveid']) && !empty($_G['group']['allowpost']) && in_array($_G['forum']['type'], ['forum', 'sub'], true)) {
 	require_once libfile('class/emailpost');
 	$emailpost_config = emailpost::config();
 	if(!empty($emailpost_config['enabled']) && !empty($emailpost_config['recipient_domain'])) {
