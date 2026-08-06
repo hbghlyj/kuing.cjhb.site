@@ -45,12 +45,7 @@ window.MathJax = {
     },
     autoload: {
       color: [],
-      colorv2: ['color'],
-      // Map the extension to its triggering macros and environments
-      '[custom]/xypic': [
-        ['xymatrix', 'xybox', 'xyimport', 'xyshowAST'],   // Macros that trigger autoload
-        ['xymatrix']          // Environments that trigger autoload
-      ]
+      colorv2: ['color']
     },
     packages: {'[+]': ['noerrors','mathtools','img']}
   },
@@ -96,7 +91,6 @@ window.MathJax = {
   loader: {
     load: ['[tex]/noerrors','[tex]/mathtools','[custom]/img'],
     source: {
-      '[custom]/xypic': '/static/xypic.js',
       '[custom]/img': '/static/img.js'
     },
     failed: function (error) {
