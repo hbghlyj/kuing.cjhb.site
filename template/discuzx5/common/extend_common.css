@@ -849,7 +849,7 @@ body .colorwd {width:36px !important;height:36px !important;line-height:36px !im
 .dpbtn {margin-left:-3px;width:34px !important;height:34px;line-height:34px;margin-right:0 !important;border:1px solid var(--dz-borderc);background:var(--dz-bgf) url({STYLEIMGDIR}/images/newarow.gif) no-repeat 100% 0;border-radius:0 var(--dz-radius-s) var(--dz-radius-s) 0}
 .dpbtn:hover {background:var(--dz-bgf) url({STYLEIMGDIR}/images/newarow.gif) no-repeat 100% -34px}
 
-.pgsbtn {padding:12px 28px;letter-spacing:0;background:var(--dz-btnbga);color:var(--dz-btntxta);border-radius:var(--dz-radius-b)}
+.pgsbtn {padding:12px 28px;letter-spacing:0;background:var(--dz-btnbga);color:var(--dz-btntxta);border-radius:var(--dz-radius-b);white-space:nowrap}
 .pgsbtn:hover {opacity:0.8;background:var(--dz-btnbga);color:var(--dz-btntxta)}
 .pgsbtn:active {box-shadow:none}
 a#newspecial, a#newspecialtmp {padding-left:32px;padding-right:16px;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='white' viewBox='0 0 16 16'%3E%3Cpath d='M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:10px center}
