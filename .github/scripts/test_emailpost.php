@@ -95,7 +95,7 @@ $rowFor = static fn(string $id) => table_forum_emailpost::t()->fetch(hash('sha25
 $standalone = [
 	[
 		'headers' => "To: forum+2@forum.example\r\n{$base}Message-ID: {$rootId}\r\nSubject: {$token} root\r\nContent-Type: text/plain; charset=UTF-8\r\nContent-Transfer-Encoding: quoted-printable\r\n",
-		'body' => 'Root=20email=20body=2E',
+		'body' => 'Root=20"email"=20body=2E',
 	],
 	[
 		'headers' => "To: forum+2@forum.example\r\n{$base}Message-ID: <{$token}-auto@example.net>\r\nAuto-Submitted: auto-replied\r\nSubject: {$token} automatic\r\nContent-Type: text/plain; charset=UTF-8\r\n",
@@ -175,7 +175,7 @@ emailpost_assert($orphan && intval($orphan['status']) === -1, 'Reply referencing
 $post = get_post_by_pid(intval($root['pid']));
 $htmlPost = get_post_by_pid(intval($html['pid']));
 $attachmentPost = get_post_by_pid(intval($attachment['pid']));
-emailpost_assert(str_contains($post['message'], 'Root email body.'), 'Quoted-printable plain-text body was not decoded.');
+emailpost_assert(str_contains($post['message'], 'Root "email" body.') && str_contains($post['message'], '"email"'), 'Quoted-printable plain-text body was not decoded or was double-escaped.');
 $replyPost = get_post_by_pid(intval($reply['pid']));
 $referencePost = get_post_by_pid(intval($reference['pid']));
 emailpost_assert($replyPost['subject'] === '' && $referencePost['subject'] === '' && $htmlPost['subject'] === '', 'Reply subjects starting with "Re:" were not stored as empty.');

@@ -406,7 +406,7 @@ class emailpost {
 	private function messageBody(string $raw) {
 		$plain = $this->findBodyPart($raw, 'PLAIN');
 		if($plain !== null) {
-			return dhtmlspecialchars(trim($plain));
+			return trim($plain);
 		}
 		$html = $this->findBodyPart($raw, 'HTML');
 		if($html === null) {
