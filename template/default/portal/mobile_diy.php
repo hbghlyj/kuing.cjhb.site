@@ -1,6 +1,6 @@
 <?php exit('Access Denied');?>
 <!DOCTYPE html>
-<html>
+<html lang="{echo lang_attr();}">
 	<head>
 	<meta charset="{CHARSET}" />
 	<meta name="renderer" content="webkit" />

@@ -1,6 +1,6 @@
 <?php exit('Access Denied');?>
 <!DOCTYPE html>
-<html>
+<html lang="{echo lang_attr();}">
 <head>
 	<title>$title</title>
 	<meta charset="$charset">

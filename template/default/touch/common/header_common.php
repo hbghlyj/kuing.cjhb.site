@@ -1,6 +1,6 @@
 <?php exit('Access Denied');?>
 <!DOCTYPE html>
-<html>
+<html lang="{echo lang_attr();}">
 <head>
 	<title><!--{if !empty($navtitle)}-->$navtitle - <!--{/if}--><!--{if empty($nobbname)}--> $_G['setting']['bbname'] - <!--{/if}--> {lang waptitle}</title>
 	$_G['setting']['seohead_mobile']
