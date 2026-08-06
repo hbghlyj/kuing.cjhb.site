@@ -233,19 +233,27 @@ if(!empty($_GET['emailcopy'])) {
 	$tid = intval($thread['tid']);
 	$fid = intval($thread['fid']);
 	$domain = strtolower(trim($emailpost_config['recipient_domain']));
-	$firstpost = DB::fetch_first('SELECT m.username, p.message FROM %t p LEFT JOIN %t m ON m.uid=p.authorid WHERE p.tid=%d AND p.first=1 ORDER BY p.dateline LIMIT 1', [$posttable, 'common_member', $tid]);
-	$bodytext = trim(isset($firstpost['message']) ? $firstpost['message'] : '');
-	$bodytext = preg_replace('/\[[^\[\]]*\]/', '', $bodytext);
-	$bodytext = nl2br(dhtmlspecialchars(trim($bodytext)));
-	$author = dhtmlspecialchars($firstpost['username'] ?? '');
+	$firstpost = DB::fetch_first('SELECT p.*, m.username FROM %t p LEFT JOIN %t m ON m.uid=p.authorid WHERE p.tid=%d AND p.first=1 ORDER BY p.dateline LIMIT 1', [$posttable, 'common_member', $tid]);
+	$bodyhtml = trim(isset($firstpost['message']) ? $firstpost['message'] : '');
+	$bodyhtml = preg_replace('/\[attach\]\d+\[\/attach\]/is', '', $bodyhtml);
+	$bodyhtml = discuzcode(
+		$bodyhtml,
+		!empty($firstpost['smileyoff']) ? 1 : 0,
+		!empty($firstpost['bbcodeoff']) ? 1 : 0,
+		intval($firstpost['htmlon'] ?? 0),
+		1, 1, 1,
+		intval($firstpost['htmlon'] ?? 0),
+		0, 0,
+		intval($firstpost['authorid']),
+		1,
+		intval($firstpost['pid']),
+		0,
+		intval($firstpost['dbdateline']),
+		intval($firstpost['first'])
+	);
 	$subject = dhtmlspecialchars($thread['subject']);
-	$threadurl = $_G['setting']['securesiteurl'].rewriteoutput('forum_viewthread', 1, '', $tid, 1, '', '');
 	$bbname = dhtmlspecialchars($_G['setting']['bbname']);
-	$copy = '<p><a href="'.$threadurl.'" style="font-size:16px;font-weight:bold;">'.$subject.'</a></p>'
-		.'<p><a href="'.$threadurl.'">'.$threadurl.'</a></p>'
-		.'<hr>'
-		.'<p><strong>'.$author.'</strong></p>'
-		.'<blockquote style="margin:0;padding:0 0 0 1em;border-left:3px solid #ccc;">'.$bodytext.'</blockquote>'
+	$copy = $bodyhtml
 		.'<hr>'
 		.'<p style="color:#888;">'.lang('forum/template', 'emailpost_copy_email_footer', ['bbname' => $bbname]).'</p>';
 	$result = sendmail($toemail, $subject, $copy, '', [
