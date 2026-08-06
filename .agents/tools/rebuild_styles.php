@@ -32,7 +32,7 @@ $_G['siteurl'] = '/';
 $_G['siteroot'] = '/';
 
 $options = getopt('', ['action:', 'rebuild', 'verhash']);
-$action = $options['action'] ?? 'all';
+$action = $options['action'] ?? (defined('APP_ACTION') ? APP_ACTION : 'all');
 if(isset($options['rebuild']) && !isset($options['verhash'])) {
 	$action = 'rebuild';
 } elseif(isset($options['verhash']) && !isset($options['rebuild'])) {
