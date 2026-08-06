@@ -34,6 +34,14 @@ class table_forum_emailpost extends discuz_table {
 		return $this->fetch(hash('sha256', trim($messageid)));
 	}
 
+	public function delete_by_pid($pids) {
+		$pids = dintval((array)$pids, true);
+		if(!$pids) {
+			return 0;
+		}
+		return DB::delete($this->_table, 'pid IN ('.dimplode($pids).') AND status=1');
+	}
+
 	public function complete($messagekey, $fid, $tid, $pid, $parentkey = '') {
 		return $this->update($messagekey, [
 			'parentkey' => $parentkey,

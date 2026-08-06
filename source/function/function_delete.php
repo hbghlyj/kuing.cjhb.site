@@ -147,6 +147,7 @@ function deletepost($ids, $idtype = 'pid', $credit = false, $posttableid = false
 	$idsstr = dimplode($ids);
 
 	$tids = [];
+	$emailpostpids = [];
 	if($credit) {
 		$replycredit_list = $tuidarray = $ruidarray = $_G['deleteauthorids'] = [];
 	}
@@ -162,6 +163,9 @@ function deletepost($ids, $idtype = 'pid', $credit = false, $posttableid = false
 		foreach($postlist as $post) {
 			if(!$recycle && $idtype != 'tid') {
 				$tids[$post['tid']] = $post['tid'];
+			}
+			if(!$recycle && getstatus($post['status'], 4) && getstatus($post['status'], 9)) {
+				$emailpostpids[$post['pid']] = $post['pid'];
 			}
 			if($credit && $post['invisible'] != -1 && $post['invisible'] != -5) {
 				if($post['first']) {
@@ -252,6 +256,9 @@ function deletepost($ids, $idtype = 'pid', $credit = false, $posttableid = false
 	}
 	if(!$recycle) {
 		deleteattach($ids, $idtype);
+	}
+	if($emailpostpids) {
+		table_forum_emailpost::t()->delete_by_pid($emailpostpids);
 	}
 	if($tids) {
 		foreach($tids as $tid) {
