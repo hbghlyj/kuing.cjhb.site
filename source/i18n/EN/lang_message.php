@@ -397,7 +397,7 @@ $lang = array (
 	'trade_by_myself'		=> 'You can not buy products of yourself.',//'您无法购买自己的商品，请返回修改。',
 	'trade_order_created'		=> 'Single transaction has been created and will now turn to deal a single page.',//'交易单已创建，现在将转入交易单页面。',
 
-	'post_not_found'		=> 'The post not found',//'没有找到帖子',
+	'post_not_found'		=> 'Post not found',//'没有找到帖子',
 
 	'setup_finished'		=> 'Setup Successfully',//'设置完成',
 
