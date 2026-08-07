@@ -903,3 +903,9 @@ CREATE TABLE IF NOT EXISTS pre_forum_threadattention
 ) ENGINE = InnoDB;
 
 REPLACE INTO pre_common_setting (skey, svalue) VALUES ('attentionstatus', '1');
+
+-- Ensure blockstyle hash is unique so upgrade data inserts are deduped by
+-- runquery()/rundatasql(), which skip rows that raise a 'Duplicate' error.
+ALTER TABLE pre_common_block_style
+	DROP KEY hash,
+	ADD UNIQUE KEY hash (hash);
