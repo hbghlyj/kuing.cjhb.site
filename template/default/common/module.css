@@ -941,7 +941,7 @@ a.thread_mod { height: 19px; line-height: 19px; display: inline-block; color: #4
 			.editp:before { content: "\f10e"; }
 			.appendp:before { content: "\f120"; }
 			.removep:before { content: "\f10c"; }
-			.pob a.removep { display: inline-flex; align-items: center; line-height: 1; vertical-align: middle; text-decoration: none; }
+			.pob a.removep { display: inline-flex; align-items: center; line-height: 1; vertical-align: middle; text-decoration: none; font-size: 13px; }
 			.pob a.removep:hover { color: #d33; }
 			.pob a.removep:before { content: ""; display: inline-block; width: 16px; height: 16px; margin: 0 6px 0 0; transform: none; background-color: currentColor; -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='none' stroke='black' stroke-width='2' d='M6 7v12c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7M4 7h16M10 4h4a1 1 0 0 1 1 1v2H9V5a1 1 0 0 1 1-1z'/%3E%3Cpath fill='none' stroke='black' stroke-width='1.5' stroke-linecap='round' d='M10 11v6M14 11v6'/%3E%3C/svg%3E") center / contain no-repeat; mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='none' stroke='black' stroke-width='2' d='M6 7v12c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7M4 7h16M10 4h4a1 1 0 0 1 1 1v2H9V5a1 1 0 0 1 1-1z'/%3E%3Cpath fill='none' stroke='black' stroke-width='1.5' stroke-linecap='round' d='M10 11v6M14 11v6'/%3E%3C/svg%3E") center / contain no-repeat; }
 			.psave { background: url({IMGDIR}/pubsave.gif) no-repeat 4px 50%; padding: 3px 10px 3px 25px; border:1px dotted {COMMONBORDER}; margin-left:5px; }
