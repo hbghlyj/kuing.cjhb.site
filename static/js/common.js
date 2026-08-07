@@ -1937,12 +1937,7 @@ function dstrLenCalcUsed(obj, checklen, maxlen = 255) {
 		checklenElem.innerHTML = curlen;
 		checklenElem.style.color = curlen <= maxlen ? '' : 'red';
 	}
-	if(curlen <= maxlen) {
-		return true;
-	}
-
-	obj.value = dcutstr(v, maxlen, 0);
-	return false;
+	return curlen <= maxlen;
 }
 
 function pluginNotice() {
