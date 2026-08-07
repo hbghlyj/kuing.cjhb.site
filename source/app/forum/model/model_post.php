@@ -18,7 +18,6 @@ use table_forum_forumfield;
 use table_forum_groupuser;
 use table_forum_post;
 use table_forum_postcomment;
-use table_forum_post_location;
 use table_forum_thread;
 use table_forum_threadaddviews;
 use table_forum_threadclosed;
@@ -63,17 +62,33 @@ class model_post extends discuz_model {
 			'member', 'group', 'forum', 'thread', 'extramessage', 'special',//'nauthorid' 'modnewreplies' 'tid'
 			'message', 'content',
 			'htmlon', 'bbcodeoff', 'smileyoff', 'parseurloff', 'pstatus',
-			'noticetrimstr', 'from', 'sechash', 'geoloc',
-			'timestamp',
+			'noticetrimstr', 'from', 'sechash',
+			'timestamp', 'modstatus',
 			'subject', 'special', 'sortid', 'typeid', 'isanonymous', 'cronpublish', 'cronpublishdate', 'save',
 			'readperm', 'price', 'audit', 'tags', 'bbcodeoff',
 		];
 		foreach($varname as $name) {
-			if(!isset($this->param[$name]) && isset($parameters[$name])) {
+			if($name === 'modstatus' && isset($this->param[$name]) && isset($parameters[$name])) {
+				$this->param[$name] = (array)$parameters[$name] + (array)$this->param[$name];
+			} elseif(!isset($this->param[$name]) && isset($parameters[$name])) {
 				$this->param[$name] = $parameters[$name];
 			}
 		}
 
+	}
+
+	private function emailReplyCopyNotice(): array {
+		require_once libfile('class/emailpost');
+		try {
+			return \emailpost::authorReplyNotice($this->thread, [
+				'pid' => $this->pid,
+				'author' => $this->member['username'],
+				'authorid' => $this->member['uid'],
+				'message' => $this->param['message'],
+			]);
+		} catch(Throwable $e) {
+			return [];
+		}
 	}
 
 	protected function trigger_chat_activity($event, array $payload) {
@@ -185,24 +200,10 @@ class model_post extends discuz_model {
 
 		useractionlog($this->member['uid'], 'pid');
 
-		if($this->param['geoloc'] && defined('IN_MOBILE') && constant('IN_MOBILE') == 2) {
-			list($mapx, $mapy, $location) = explode('|', $this->param['geoloc']);
-			if($mapx && $mapy && $location) {
-				table_forum_post_location::t()->insert([
-					'pid' => $this->pid,
-					'tid' => $this->thread['tid'],
-					'uid' => $this->member['uid'],
-					'mapx' => $mapx,
-					'mapy' => $mapy,
-					'location' => $location,
-				]);
-			}
-		}
-
 		$notice_funcs = [];
 		if($this->thread['authorid'] != $this->member['uid'] && !$this->param['isanonymous']) {
 			$thapost = table_forum_post::t()->fetch_threadpost_by_tid_invisible($this->thread['tid'], 0);
-			$notice_funcs[] = ['notification_add', [$thapost['authorid'], 'post', 'reppost_noticeauthor', [
+			$notice_funcs[] = $this->emailReplyCopyNotice() ?: ['notification_add', [$thapost['authorid'], 'post', 'reppost_noticeauthor', [
 				'tid' => $this->thread['tid'],
 				'subject' => $this->thread['subject'],
 				'fid' => $this->forum['fid'],

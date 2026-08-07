@@ -868,20 +868,19 @@ WHERE JSON_VALID(title) = 0;
 
 CREATE TABLE IF NOT EXISTS pre_forum_emailpost
 (
-	messagekey  char(64)                 NOT NULL,
+	messageid   varchar(255)             NOT NULL,
 	mailuid     bigint(20) unsigned      NOT NULL DEFAULT '0',
-	messageid   varchar(255)             NOT NULL DEFAULT '',
 	sender      varchar(255)             NOT NULL DEFAULT '',
 	uid         mediumint(8) unsigned    NOT NULL DEFAULT '0',
 	action      enum ('thread','reply')  NOT NULL,
-	parentkey   char(64)                  NOT NULL DEFAULT '',
+	parentid    varchar(255)             NOT NULL DEFAULT '',
 	fid         mediumint(8) unsigned    NOT NULL DEFAULT '0',
 	tid         mediumint(8) unsigned    NOT NULL DEFAULT '0',
 	pid         int(10) unsigned         NOT NULL DEFAULT '0',
 	status      tinyint(1)               NOT NULL DEFAULT '0',
 	dateline    int(10) unsigned         NOT NULL DEFAULT '0',
 	detail      varchar(255)             NOT NULL DEFAULT '',
-	PRIMARY KEY (messagekey),
+	PRIMARY KEY (messageid),
 	KEY tid (tid, pid),
 	KEY status (status, dateline),
 	KEY uid (uid, dateline)
@@ -904,3 +903,9 @@ CREATE TABLE IF NOT EXISTS pre_forum_threadattention
 ) ENGINE = InnoDB;
 
 REPLACE INTO pre_common_setting (skey, svalue) VALUES ('attentionstatus', '1');
+
+-- Ensure blockstyle hash is unique so upgrade data inserts are deduped by
+-- runquery()/rundatasql(), which skip rows that raise a 'Duplicate' error.
+ALTER TABLE pre_common_block_style
+	DROP KEY hash,
+	ADD UNIQUE KEY hash (hash);

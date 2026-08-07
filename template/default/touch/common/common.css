@@ -112,8 +112,8 @@ ul, ol, li, span, p, form, h1, h2, h3, h4, h5, h6, dl, dt, dd {margin:0;padding:
 img, a img {border:0;margin:0;padding:0}
 ul, ol, li {list-style:none}
 * {margin:0;padding:0}
-html, body {font:12px/1.5 sans-serif;color:var(--dz-FC-333);min-height:100%}
-input, select, textarea, button {font:14px/1.5 sans-serif;outline:none}
+html, body {font-size:12px;line-height:1.5;color:var(--dz-FC-333);min-height:100%}
+input, select, textarea, button {font-size:14px;line-height:1.5;outline:none}
 body, ul, ol, li, dl, dd, p, h1, h2, h3, h4, h5, h6, form, fieldset, .pr, .pc {margin:0;padding:0}
 body {background-color:var(--dz-BG-body)}
 table {empty-cells:show;border-collapse:collapse}
@@ -155,7 +155,7 @@ input[type="submit"]::-moz-focus-inner,
 input[type="file"] > input[type="button"]::-moz-focus-inner {border:none;padding:0}
 input[type="submit"], input[type="reset"], input[type="button"], button {-webkit-appearance:none;outline:none}
 
-input, select, textarea {font:14px/1.5 sans-serif;border:1px solid var(--dz-BOR-ed);border-radius:var(--dz-radius-sm);-webkit-appearance:none;}
+input, select, textarea {font-size:14px;line-height:1.5;border:1px solid var(--dz-BOR-ed);border-radius:var(--dz-radius-sm);-webkit-appearance:none;}
 input, textarea, select, button, a {outline:none;}
 input:focus, textarea:focus, select:focus {box-shadow:0 0 0 3px rgba(0,0,0,0.04) inset;transition:border-color 0.2s ease, box-shadow 0.2s ease;}
 input[type="radio"], input[type="checkbox"] {box-shadow:none;vertical-align:middle;width:16px !important;height:16px !important;margin:0px 5px 1px 0px;padding:0px;background:var(--dz-BG-0);}
@@ -1242,6 +1242,11 @@ body.pg_logging, body.pg_register, body.pg_lostpasswd_mobile, body.pg_lostpasswd
 .plc .pione .authi {margin-left:45px}
 .plc .pi .message {line-height:1.8;font-size:16px;overflow:hidden;clear:both}
 .message a:link,.message a:visited,.message a:hover {color:#0086CE;text-decoration:underline}
+.plc .pi .message li {margin-left:2em}
+.plc .pi .message ul li {list-style-type:disc}
+.plc .pi .message ul.litype_1 > li {list-style-type:decimal}
+.plc .pi .message ul.litype_2 > li {list-style-type:lower-alpha}
+.plc .pi .message ul.litype_3 > li {list-style-type:upper-alpha}
 /* 标签 .ptg */
 .ptg { clear: both; display: block; width: 100%; margin-top: 12px; margin-bottom: 8px; font-size: 13px; color: var(--dz-FC-666); box-sizing: border-box; }
 .ptg i { display: inline-block; margin-right: 6px; font-size: 14px; color: var(--dz-FC-color, #2B7ACD); font-style: normal; vertical-align: middle; }
@@ -1275,6 +1280,9 @@ body.pg_logging, body.pg_register, body.pg_lostpasswd_mobile, body.pg_lostpasswd
 
 .plc .pi .message .blockcode { overflow: hidden; margin: 10px 0; padding: 10px; font-size:12px; border-radius:var(--dz-radius-sm); background: var(--dz-BG-5); color: var(--dz-FC-666); }
 .plc .pi .message .blockcode pre { font-family: Monaco, Consolas, 'Lucida Console', 'Courier New', serif; font-size: 12px; line-height: 1.8em; white-space: pre-wrap; word-break: break-all; margin: 0; }
+.plc .pi .message .blockcode { position: relative; }
+.plc .pi .message .blockcode em { position: absolute; top: 8px; right: 8px; width: 26px; height: 26px; display: flex; align-items: center; justify-content: center; font-style: normal; font-size: 0; line-height: 0; color: #666; background: rgba(255,255,255,.9); border: 1px solid var(--dz-BOR-ed); border-radius: 6px; cursor: pointer; user-select: none; }
+.plc .pi .message .blockcode em svg { width: 15px; height: 15px; display: block; }
 
 /*----- 特殊主题-投票 -----*/
 .poll {margin:10px auto;padding:10px 15px;background-color:var(--dz-BG-5);font-size:14px;border-radius:var(--dz-radius-lg)}

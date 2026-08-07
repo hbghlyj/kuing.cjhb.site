@@ -225,7 +225,6 @@ function renderMathEquation(rendered, math) {
 	}
 	if (!rendered.isConnected) return;
 	var host = document.createElement('span');
-	host.className = 'tex2jax_process';
 	host.style.cssText = 'position:fixed;left:-100000px;top:0;visibility:hidden;';
 	var sourceNode = document.createElement('span');
 	sourceNode.textContent = math;
@@ -278,10 +277,10 @@ function isEscapedMathDelimiter(text, index) {
 	return slashCount % 2 === 1;
 }
 
-function findMathDelimiter(text, start, opening, closing, standaloneDollar) {
+function findMathDelimiter(text, start, opening, closing) {
 	var index = text.indexOf(closing, start + opening.length);
 	while (index !== -1) {
-		if (!isEscapedMathDelimiter(text, index) && (!standaloneDollar || (text[index - 1] !== '$' && text[index + 1] !== '$'))) return index + closing.length;
+		if (!isEscapedMathDelimiter(text, index)) return index + closing.length;
 		index = text.indexOf(closing, index + closing.length);
 	}
 	return -1;
@@ -294,8 +293,12 @@ function findMathRanges(text) {
 		var end = -1;
 		if (text.slice(index, index + 2) === '$$') {
 			end = findMathDelimiter(text, index, '$$', '$$');
-		} else if (text[index] === '$' && text[index - 1] !== '$' && text[index + 1] !== '$') {
-			end = findMathDelimiter(text, index, '$', '$', true);
+			if (end === -1) {
+				index += 1;
+				continue;
+			}
+		} else if (text[index] === '$') {
+			end = findMathDelimiter(text, index, '$', '$');
 		} else if (text.slice(index, index + 2) === '\\[') {
 			end = findMathDelimiter(text, index, '\\[', '\\]');
 		} else if (text.slice(index, index + 2) === '\\(') {
@@ -326,38 +329,137 @@ function renderMathEditorContent() {
 		}
 	}
 
-	var nodes = [];
-	var walker = editdoc.createTreeWalker(editdoc.body, 4);
+	var entries = [];
+	var text = '';
+	var walker = editdoc.createTreeWalker(editdoc.body, NodeFilter.SHOW_ELEMENT | NodeFilter.SHOW_TEXT);
 	var node;
 	while ((node = walker.nextNode())) {
 		if (node.parentNode.closest('.math-editor-rendered, code, pre, script, style')) continue;
-		if (findMathRanges(node.nodeValue).length) nodes.push(node);
+		if (node.nodeType === Node.TEXT_NODE) {
+			var parentNode = node.parentNode;
+			if (parentNode.hasAttribute && parentNode.hasAttribute('data-math-caret')) continue;
+			if (parentNode.className && typeof parentNode.className === 'string' && parentNode.className.indexOf('math-editor-caret') !== -1) continue;
+			entries.push({ node: node, parent: parentNode, start: text.length, value: node.nodeValue });
+			text += node.nodeValue;
+		} else if (node.nodeName === 'BR') {
+			entries.push({ node: node, parent: node.parentNode, start: text.length, value: '\n' });
+			text += '\n';
+		}
+	}
+	if (!entries.length) return;
+
+	var runs = [];
+	var runStart = 0;
+	var runParent = entries[0].parent;
+	for (var i = 1; i <= entries.length; i++) {
+		if (i === entries.length || entries[i].parent !== runParent ||
+				(entries[i - 1].node.nodeType === Node.TEXT_NODE && entries[i].node.nodeType === Node.TEXT_NODE)) {
+			runs.push({ start: runStart, end: i - 1 });
+			if (i < entries.length) {
+				runParent = entries[i].parent;
+				runStart = i;
+			}
+		}
+	}
+	for (var r = 0; r < runs.length; r++) {
+		rebuildEditorMathRun(entries, runs[r].start, runs[r].end);
+	}
+}
+
+function rebuildEditorMathRun(entries, startIdx, endIdx) {
+	var runStart = entries[startIdx].start;
+	var parent = entries[startIdx].parent;
+	var entryCount = endIdx - startIdx + 1;
+	var localText = '';
+	var localStarts = new Array(entryCount);
+	for (var e = 0; e < entryCount; e++) {
+		localStarts[e] = localText.length;
+		localText += entries[startIdx + e].value;
+	}
+	var ranges = findMathRanges(localText);
+	if (!ranges.length) return;
+	var localRanges = [];
+	for (var i = 0; i < ranges.length; i++) {
+		var firstEntry = -1;
+		var lastEntry = -1;
+		for (var e = 0; e < entryCount; e++) {
+			var entryEnd = localStarts[e] + entries[startIdx + e].value.length;
+			if (localStarts[e] < ranges[i].end && entryEnd > ranges[i].start) {
+				if (firstEntry === -1) firstEntry = e;
+				lastEntry = e;
+			}
+		}
+		if (firstEntry === -1) continue;
+		var consecutive = true;
+		for (var c = firstEntry + 1; c <= lastEntry; c++) {
+			if (entries[startIdx + c].node.previousSibling !== entries[startIdx + c - 1].node) {
+				consecutive = false;
+				break;
+			}
+		}
+		if (consecutive) localRanges.push({ start: ranges[i].start + runStart, end: ranges[i].end + runStart });
+	}
+	if (!localRanges.length) return;
+
+	var anchor = entries[startIdx].node.previousSibling;
+	for (var k = startIdx; k <= endIdx; k++) {
+		entries[k].node.remove();
 	}
 
-	for (var i = 0; i < nodes.length; i++) {
-		var text = nodes[i].nodeValue;
-		var ranges = findMathRanges(text);
-		var fragment = editdoc.createDocumentFragment();
-		var formulas = [];
-		var index = 0;
-		for (var rangeIndex = 0; rangeIndex < ranges.length; rangeIndex++) {
-			var range = ranges[rangeIndex];
-			if (range.start > index) fragment.appendChild(editdoc.createTextNode(text.slice(index, range.start)));
-			var math = text.slice(range.start, range.end);
-			var rendered = editdoc.createElement('span');
-			rendered.className = 'math-editor-rendered';
-			rendered.setAttribute('data-math-source', math);
-			rendered.setAttribute('contenteditable', 'false');
-			initRenderedMathEquation(rendered);
-			fragment.appendChild(rendered);
-			formulas.push({ rendered: rendered, math: math });
-			index = range.end;
+	var fragment = editdoc.createDocumentFragment();
+	var appendPlain = function(entry, from, to) {
+		if (to <= from) return;
+		if (entry.node.nodeName === 'BR') {
+			fragment.appendChild(entry.node);
+			return;
 		}
-		if (index < text.length) fragment.appendChild(editdoc.createTextNode(text.slice(index)));
-		nodes[i].parentNode.replaceChild(fragment, nodes[i]);
-		for (var j = 0; j < formulas.length; j++) {
-			renderMathEquation(formulas[j].rendered, formulas[j].math);
+		fragment.appendChild(editdoc.createTextNode(entry.value.slice(from - entry.start, to - entry.start)));
+	};
+
+	var rangeIndex = 0;
+	var pending = null;
+	var formulas = [];
+	for (var idx = startIdx; idx <= endIdx; idx++) {
+		var entry = entries[idx];
+		var entryStart = entry.start;
+		var entryEnd = entry.start + entry.value.length;
+		while (rangeIndex < localRanges.length && localRanges[rangeIndex].end <= entryStart) rangeIndex++;
+		var cursor = entryStart;
+		while (rangeIndex < localRanges.length) {
+			var range = localRanges[rangeIndex];
+			if (pending === null && range.start >= entryEnd) break;
+			if (pending === null && range.start < cursor) {
+				rangeIndex++;
+				continue;
+			}
+			var accFrom = pending !== null ? cursor : range.start;
+			var accTo = range.end < entryEnd ? range.end : entryEnd;
+			if (accFrom > cursor) appendPlain(entry, cursor, accFrom);
+			if (pending === null) pending = { end: range.end, math: '' };
+			pending.math += entry.value.slice(accFrom - entry.start, accTo - entry.start);
+			if (range.end <= entryEnd) {
+				var rendered = editdoc.createElement('span');
+				rendered.className = 'math-editor-rendered';
+				rendered.setAttribute('data-math-source', pending.math);
+				rendered.setAttribute('contenteditable', 'false');
+				initRenderedMathEquation(rendered);
+				fragment.appendChild(rendered);
+				formulas.push({ rendered: rendered, math: pending.math });
+				pending = null;
+				rangeIndex++;
+				cursor = range.end;
+			} else {
+				cursor = entryEnd;
+				break;
+			}
 		}
+		if (cursor < entryEnd) appendPlain(entry, cursor, entryEnd);
+	}
+
+	var reference = anchor ? anchor.nextSibling : parent.firstChild;
+	parent.insertBefore(fragment, reference);
+	for (var j = 0; j < formulas.length; j++) {
+		renderMathEquation(formulas[j].rendered, formulas[j].math);
 	}
 }
 

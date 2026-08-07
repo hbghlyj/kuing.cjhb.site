@@ -71,7 +71,6 @@ if(TIMESTAMP - $_G['cache']['grids']['cachetime'] < $cachelife) {
 				$gridthread['highlight'] = '';
 			}
 			if($_G['setting']['grid']['textleng']) {
-				$gridthread['oldsubject'] = dhtmlspecialchars($gridthread['subject']);
 				$gridthread['subject'] = cutstr($gridthread['subject'], $_G['setting']['grid']['textleng']);
 			}
 

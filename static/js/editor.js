@@ -649,8 +649,9 @@ function writeEditorContents(text) {
 		if(initialized && !(BROWSER.firefox && BROWSER.firefox >= '3' || BROWSER.opera)) {
 			editdoc.body.innerHTML = text;
 		} else {
+			var editorHtmlLang = document.documentElement ? document.documentElement.lang : '';
 			text = '<!DOCTYPE html>' +
-				'<html><head id="editorheader"><meta charset="' + charset + '" />' +
+				'<html' + (editorHtmlLang ? ' lang="' + editorHtmlLang + '"' : '') + '><head id="editorheader"><meta charset="' + charset + '" />' +
 				'<meta name="renderer" content="webkit" /><meta http-equiv="X-UA-Compatible" content="IE=edge" />' +
 				'<base href="' + document.baseURI + '" />' +
 				'<link rel="stylesheet" type="text/css" href="' + CSSPATH + STYLEID + '_wysiwyg.css?' + VERHASH + '" />' +

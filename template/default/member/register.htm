@@ -44,7 +44,7 @@
 			<input type="hidden" name="formhash" value="{FORMHASH}" />
 			<input type="hidden" name="referer" value="$dreferer" />
 			<!--{if $_G['setting']['sendregisterurl']}-->
-				<input type="hidden" name="hash" value="$_GET[hash]" />
+				<input type="hidden" name="hash" value="{echo dhtmlspecialchars((string)$_GET['hash'])}" />
 			<!--{/if}-->
 			<div class="mtw">
 				<div id="reginfo_a">
@@ -91,7 +91,7 @@
 								<table>
 									<tr>
 										<th><label for="invitecode">{lang invite_code}:</label></th>
-										<td>$_GET[invitecode]<input type="hidden" id="invitecode" name="invitecode" value="$_GET[invitecode]" /></td>
+										<td>{echo dhtmlspecialchars((string)$_GET['invitecode'])}<input type="hidden" id="invitecode" name="invitecode" value="{echo dhtmlspecialchars((string)$_GET['invitecode'])}" /></td>
 									</tr>
 								</table>
 							</div>

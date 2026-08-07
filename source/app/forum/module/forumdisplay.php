@@ -874,6 +874,15 @@ $leftsideswitch = $allowleftside ? "forum.php?mod=forumdisplay&fid={$_G['fid']}&
 require_once libfile('function/upload');
 $swfconfig = getuploadconfig($_G['fid']);
 
+$emailpost_mailto = '';
+if($_G['uid'] && empty($_GET['archiveid']) && !empty($_G['group']['allowpost']) && in_array($_G['forum']['type'], ['forum', 'sub'], true)) {
+	require_once libfile('class/emailpost');
+	$emailpost_config = emailpost::config();
+	if(!empty($emailpost_config['enabled']) && !empty($emailpost_config['recipient_domain'])) {
+		$emailpost_mailto = 'mailto:forum+'.intval($_G['fid']).'@'.strtolower(trim($emailpost_config['recipient_domain']));
+	}
+}
+
 $template = 'diy:forum/forumdisplay:'.$_G['fid'];
 
 if($_G['forum']['status'] == 3) {

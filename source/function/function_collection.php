@@ -98,7 +98,7 @@ function collectionThread(&$threadlist, $foruminfo = false, $lastvisit = null, &
 		}
 		$curvalue['istoday'] = $curvalue['dateline'] > $todaytime ? 1 : 0;
 		$curvalue['dbdateline'] = $curvalue['dateline'];
-		$curvalue['htmlsubject'] = dhtmlspecialchars($curvalue['subject']);
+		$curvalue['htmlsubject'] = $curvalue['subject'];
 		$curvalue['cutsubject'] = $curvalue['subject'];
 		$curvalue['dateline'] = dgmdate($curvalue['dateline'], 'u', '9999', getglobal('setting/dateformat'));
 		$curvalue['dblastpost'] = $curvalue['lastpost'];

@@ -1,6 +1,6 @@
 <!--{template common/header}-->
 <div class="header cl"><div class="mz"><a href="javascript:history.back();"><i class="dm-c-left"></i></a></div><h2>{lang post_revision_history}</h2><div class="my"><a href="index.php"><i class="dm-house"></i></a></div></div>
-<div class="thread-editlog-list">
+<div class="thread-editlog-list mathjax_ignore">
 	<!--{if $editlogs}-->
 	<!--{loop $editlogs $editlog}-->
 		<div class="thread-editlog-item">
@@ -11,6 +11,7 @@
 		</div>
 	<!--{/loop}-->
 	<!--{else}--><p class="emp">{lang post_revision_empty}</p><!--{/if}-->
+	<!--{if $multi}--><div class="pgs cl mtm">$multi</div><!--{/if}-->
 </div>
 <style>.thread-editlog-list{padding:10px}.thread-editlog-item{display:block;padding:12px 10px;margin-bottom:8px;background:#fff;border-radius:4px}.thread-editlog-item strong,.thread-editlog-item span{margin-right:8px}.thread-editlog-item b,.thread-editlog-item em{display:block;margin-top:6px;font-style:normal;white-space:pre-wrap;overflow-wrap:anywhere}.thread-editlog-item em{color:#888}.thread-editlog-original{display:inline-block;margin-top:8px}</style>
 <!--{template common/footer}-->

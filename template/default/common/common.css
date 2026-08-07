@@ -1738,8 +1738,8 @@ Last Modify:	Pony
 
 /* pgs --> pages & postbutton 分页、发帖按钮, pgb -->返回首页, nxt -->下一页 */
 .pgs { clear: both; }
-	.pgs #newspecial, .pgs #newspecialtmp, .pgs #post_reply, .pgs #post_replytmp { float: left; margin-right: 5px; }
-	.pgsbtn { color: #FFF; padding: 10px 16px; line-height: 10px; border-radius: 4px; background: #2B7ACD; letter-spacing: 2px; transition: .2s background ease; border: 0; border: outset var(--dise); }
+	.pgs #newspecial, .pgs #newspecialtmp, .pgs #post_reply, .pgs #post_replytmp, .pgs #post_email { float: left; margin-right: 5px; }
+	.pgsbtn { color: #FFF; padding: 10px 16px; line-height: 10px; border-radius: 4px; background: #2B7ACD; letter-spacing: 2px; transition: .2s background ease; border: 0; border: outset var(--dise); white-space: nowrap; }
 		.pgsbtn:hover { background: {MENUCURBGCOLOR}; text-decoration: none; }
 		.pgsbtn:active { box-shadow: 0 0 0 3px rgba(36,88,167,0.25); }
 		.pgsbtn:focus { outline: 0; }
@@ -2006,13 +2006,13 @@ a.progressCancel { display: block; float: right; width: 14px; height: 14px; line
 	.fcs dd, .fcs dd a { color: {MIDTEXT}; }
 
 /* Notice Jump Callout Banner */
-#ntc_jp { margin-left: -9px; margin-top: -33px; width: 460px; height: 43px; background: url({STATICURL}image/common/notice_jump.png) no-repeat 0 0; line-height: 35px; position: absolute; z-index: 10; }
-#ntc_jp div { margin: 0 11px 0 9px; background: #3285D6; }
-#ntc_jp em { float: left; padding-left: 15px; color: #47E8FF; font-weight: 700; font-style: normal; }
-#ntc_jp h2 { float: right; display: inline; margin-right: 10px; width: 300px; font-weight: 400; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: #EAF2F9; text-align: right; font-size: 12px; }
-#ntc_jp h2 a { color: #EAF2F9; text-decoration: underline; }
-#ntc_jp .deloption { float: right; margin-top: 12px !important; width: 12px; height: 12px; background: url({STATICURL}image/common/close.gif) no-repeat 0 0; overflow: hidden; text-indent: -9999px; }
-#ntc_jp .deloption:hover { background-position: 0 -12px; }
+.ntc_jp { margin-left: -9px; margin-top: -33px; width: 460px; height: 43px; background: url({STATICURL}image/common/notice_jump.png) no-repeat 0 0; line-height: 35px; position: absolute; z-index: 10; }
+.ntc_jp div { margin: 0 11px 0 9px; background: #3285D6; }
+.ntc_jp em { float: left; padding-left: 15px; color: #47E8FF; font-weight: 700; font-style: normal; }
+.ntc_jp h2 { float: right; display: inline; margin-right: 10px; width: 300px; font-weight: 400; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: #EAF2F9; text-align: right; font-size: 12px; }
+.ntc_jp h2 a { color: #EAF2F9; text-decoration: underline; }
+.ntc_jp .deloption { float: right; margin-top: 12px !important; width: 12px; height: 12px; background: url({STATICURL}image/common/close.gif) no-repeat 0 0; overflow: hidden; text-indent: -9999px; }
+.ntc_jp .deloption:hover { background-position: 0 -12px; }
 
 /* 幻灯片 */
 .slideblock { position: relative; }

@@ -333,6 +333,10 @@ class discuz_application extends discuz_base {
 			unset($_GET['handlekey']);
 		}
 
+		if(isset($_GET['modthreadkey']) && !preg_match('/^\w+$/', $_GET['modthreadkey'])) {
+			unset($_GET['modthreadkey']);
+		}
+
 		$this->var['mod'] = empty($_GET['mod']) ? '' : dhtmlspecialchars($_GET['mod']);
 		$this->var['inajax'] = empty($_GET['inajax']) ? 0 : (empty($this->var['config']['output']['ajaxvalidate']) ? 1 : ($_SERVER['REQUEST_METHOD'] == 'GET' && $_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest' || $_SERVER['REQUEST_METHOD'] == 'POST' ? 1 : 0));
 		$this->var['page'] = empty($_GET['page']) ? 1 : max(1, intval($_GET['page']));
@@ -438,7 +442,7 @@ class discuz_application extends discuz_base {
 	}
 
 	private function _xss_check() {
-		static $check = ['"', '>', '<', '\'', 'CONTENT-TRANSFER-ENCODING'];
+		static $check = ['CONTENT-TRANSFER-ENCODING'];
 		$formhashchecked = false;
 
 		if(isset($_GET['formhash']) && $_GET['formhash'] !== formhash()) {

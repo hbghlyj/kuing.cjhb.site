@@ -39,7 +39,7 @@
 <!--{if !$_G['forum_thread']['is_archived']}--><a id="newspecial"<!--{if $_G['group']['allowpost'] && ($_G['group']['allowposttrade'] || $_G['group']['allowpostpoll'] || $_G['group']['allowpostreward'] || $_G['group']['allowpostactivity'] || $_G['group']['allowpostdebate'] || $_G['setting']['threadplugins'] || $_G['forum']['threadsorts'])}--> onmouseover="$('newspecial').id = 'newspecialtmp';this.id = 'newspecial';showMenu({'ctrlid':this.id})"<!--{/if}-->{if !$_G['forum']['allowspecialonly'] && empty($_G['forum']['picstyle']) && empty($_G['forum']['threadsorts']['required'])} onclick="showWindow('newthread', 'forum.php?mod=post&action=newthread&fid=$_G[fid]')"{else} onclick="location.href='forum.php?mod=post&action=newthread&fid=$_G[fid]';return false;"{/if} href="javascript:;" title="{lang send_posts}" class="pgsbtn<!--{if $_G['group']['allowpost'] && ($_G['group']['allowposttrade'] || $_G['group']['allowpostpoll'] || $_G['group']['allowpostreward'] || $_G['group']['allowpostactivity'] || $_G['group']['allowpostdebate'] || $_G['setting']['threadplugins'] || $_G['forum']['threadsorts'])}--> showmenu<!--{/if}-->">{lang send_posts}</a><!--{/if}-->
 		<!--{/if}-->
 		<!--{if $allowpostreply && !$_G['forum_thread']['archiveid']}-->
-			<a id="post_reply" onclick="showWindow('reply', 'forum.php?mod=post&action=reply&fid=$_G[fid]&tid=$_G[tid]')" href="javascript:;" title="{lang reply}" class="pgsbtn">{lang reply}</a>
+			<a id="post_reply" onclick="showWindow('reply', 'forum.php?mod=post&action=reply&fid=$_G[fid]&tid=$_G[tid]')" href="javascript:;" title="{lang reply}" class="pgsbtn">{lang postreply}</a>
 		<!--{/if}-->
 		<!--{hook/viewthread_postbutton_top}-->
 	</div>
@@ -344,7 +344,7 @@
 	<input type="hidden" name="formhash" value="{FORMHASH}" />
 	<input type="hidden" name="optgroup" />
 	<input type="hidden" name="operation" />
-	<input type="hidden" name="listextra" value="$_GET[extra]" />
+	<input type="hidden" name="listextra" value="{echo dhtmlspecialchars((string)$_GET['extra'])}" />
 	<input type="hidden" name="page" value="$page" />
 </form>
 
@@ -362,7 +362,7 @@ $_G['forum_tagscript']
 <a id="newspecialtmp"<!--{if $_G['group']['allowpost'] && ($_G['group']['allowposttrade'] || $_G['group']['allowpostpoll'] || $_G['group']['allowpostreward'] || $_G['group']['allowpostactivity'] || $_G['group']['allowpostdebate'] || $_G['setting']['threadplugins'] || $_G['forum']['threadsorts'])}--> onmouseover="$('newspecial').id = 'newspecialtmp';this.id = 'newspecial';showMenu({'ctrlid':this.id})"<!--{/if}-->{if !$_G['forum']['allowspecialonly'] && empty($_G['forum']['picstyle']) && empty($_G['forum']['threadsorts']['required'])} onclick="showWindow('newthread', 'forum.php?mod=post&action=newthread&fid=$_G[fid]')"{else} onclick="location.href='forum.php?mod=post&action=newthread&fid=$_G[fid]';return false;"{/if} href="javascript:;" title="{lang send_posts}" class="pgsbtn<!--{if $_G['group']['allowpost'] && ($_G['group']['allowposttrade'] || $_G['group']['allowpostpoll'] || $_G['group']['allowpostreward'] || $_G['group']['allowpostactivity'] || $_G['group']['allowpostdebate'] || $_G['setting']['threadplugins'] || $_G['forum']['threadsorts'])}--> showmenu<!--{/if}-->">{lang send_posts}</a>
 	<!--{/if}-->
 	<!--{if $allowpostreply && !$_G['forum_thread']['archiveid']}-->
-		<a id="post_replytmp" onclick="showWindow('reply', 'forum.php?mod=post&action=reply&fid=$_G[fid]&tid=$_G[tid]')" href="javascript:;" title="{lang reply}" class="pgsbtn">{lang reply}</a>
+		<a id="post_replytmp" onclick="showWindow('reply', 'forum.php?mod=post&action=reply&fid=$_G[fid]&tid=$_G[tid]')" href="javascript:;" title="{lang reply}" class="pgsbtn">{lang postreply}</a>
 	<!--{/if}-->
 </div>
 
@@ -415,7 +415,7 @@ $_G['forum_tagscript']
 	<script src="https://unpkg.com/mark.js@8.11.1/dist/mark.min.js"></script>
 	<script>
 		var instance = new Mark(document.querySelectorAll(".t_f,.postmessage,.message"));
-		instance.mark('$_GET['highlight']');
+		instance.mark({echo json_encode($_GET['highlight'], JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT)});
 	</script>
 <!--{/if}-->
 

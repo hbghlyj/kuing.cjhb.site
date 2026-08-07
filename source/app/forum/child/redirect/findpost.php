@@ -89,4 +89,4 @@ if($thread['special'] == 2 && table_forum_trade::t()->check_goods($pid)) {
 
 $authoridurl = $authorid ? '&authorid='.$authorid : '';
 header('HTTP/1.1 301 Moved Permanently');
-dheader("Location: forum.php?mod=viewthread&tid=$tid&page=$page$authoridurl$highlightextra".(isset($_GET['modthreadkey']) && ($modthreadkey = modauthkey($tid)) ? "&modthreadkey=$modthreadkey" : '')."&fromfind=$pid#pid$pid");
+dheader("Location: forum.php?mod=viewthread&tid=$tid&page=$page$authoridurl$highlightextra".(isset($_GET['modthreadkey']) && ($modthreadkey = modauthkey($tid)) ? "&modthreadkey=$modthreadkey" : '')."#pid$pid");

@@ -1722,6 +1722,7 @@ function setCopy(text, msg) {
 	} else {
 		showDialog('<div class="c"><div>' + $L('copy_to_clipboard') + '</div><textarea class="pt" readonly onclick="this.select()">' + htmlspecialchars(text) + '</textarea></div>', 'info');
 	}
+	return success;
 }
 
 function copycode(obj) {
@@ -1925,6 +1926,18 @@ function dstrLenCalc(obj, checklen, maxlen = 255) {
 
 	obj.value = dcutstr(v, maxlen, 0);
 	return false;
+}
+
+function dstrLenCalcUsed(obj, checklen, maxlen = 255) {
+	var v = obj.value;
+	var curlen = Array.from(v).length;
+	var checklenElem = $(checklen);
+
+	if(checklenElem) {
+		checklenElem.innerHTML = curlen;
+		checklenElem.style.color = curlen <= maxlen ? '' : 'red';
+	}
+	return curlen <= maxlen;
 }
 
 function pluginNotice() {

@@ -395,19 +395,6 @@ Created & Modified by Alice, Monkey, Lushnis, Pony, Dfox & DragonLee.
 		#f_pst .upfl td { padding: 4px 0; }
 		#f_pst .atds { width: 100px; }
 		#f_pst .px { padding: 2px; }
-	/*
-		Name:			mod_mobile-type
-		Level:			Function
-		Explain:		手机发帖的相关样式
-		Author:			Lushnis
-		Last Modify:	Pony 1204111343
-	*/
-	.mobile-type { position: absolute; margin: -5px 0 -85px 103px; width: 58px; height: 80px; background: url({IMGDIR}/mobile-type.png) no-repeat 100% 100%; }
-		.mobile-type a { display: block; width: 46px; height: 80px; background: url({IMGDIR}/mobile-type.png) no-repeat 0 0; }
-			.mobile-type-2 a { background-position: 0 -80px; }
-			.mobile-type-3 a { background-position: 0 -160px; }
-			.mobile-type-4 a { background-position: 0 -240px; }
-	.mobile-location { padding-left: 20px; background: url({IMGDIR}/mobile-attach-2.png) no-repeat 0 0; }
 /** end **/
 
 
@@ -936,6 +923,7 @@ a.thread_mod { height: 19px; line-height: 19px; display: inline-block; color: #4
 			.sign * { line-height: normal; }
 		.po { border-top: 1px dashed {COMMONBORDER}; }
 			.po .y { margin: 8px 0 0 5px; }
+			.po .y label { font-size: 13px; }
 			.po p { float: right; }
 				.po p a, .po p label { margin-right: 6px; }
 		.hin { opacity: 0.2; }
@@ -954,12 +942,13 @@ a.thread_mod { height: 19px; line-height: 19px; display: inline-block; color: #4
 			.editp:before { content: "\f10e"; }
 			.appendp:before { content: "\f120"; }
 			.removep:before { content: "\f10c"; }
-			.pob a.removep:before { content: ""; display: inline-block; width: 14px; height: 14px; margin: 0 4px 0 0; vertical-align: -2px; transform: none; background-color: currentColor; -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM8 9h8v10H8V9zm7.5-5-1-1h-5l-1 1H5v2h14V4z'/%3E%3C/svg%3E") center / contain no-repeat; mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM8 9h8v10H8V9zm7.5-5-1-1h-5l-1 1H5v2h14V4z'/%3E%3C/svg%3E") center / contain no-repeat; }
+			.pob a.removep { display: inline-flex; align-items: center; line-height: 1; vertical-align: middle; text-decoration: none; font-size: 13px; }
+			.pob a.removep:hover { color: #d33; }
+			.pob a.removep:before { content: ""; display: inline-block; width: 16px; height: 16px; margin: 0 6px 0 0; transform: none; background-color: currentColor; -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='none' stroke='black' stroke-width='2' d='M6 7v12c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7M4 7h16M10 4h4a1 1 0 0 1 1 1v2H9V5a1 1 0 0 1 1-1z'/%3E%3Cpath fill='none' stroke='black' stroke-width='1.5' stroke-linecap='round' d='M10 11v6M14 11v6'/%3E%3C/svg%3E") center / contain no-repeat; mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='none' stroke='black' stroke-width='2' d='M6 7v12c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7M4 7h16M10 4h4a1 1 0 0 1 1 1v2H9V5a1 1 0 0 1 1-1z'/%3E%3Cpath fill='none' stroke='black' stroke-width='1.5' stroke-linecap='round' d='M10 11v6M14 11v6'/%3E%3C/svg%3E") center / contain no-repeat; }
 			.psave { background: url({IMGDIR}/pubsave.gif) no-repeat 4px 50%; padding: 3px 10px 3px 25px; border:1px dotted {COMMONBORDER}; margin-left:5px; }
 			.push:before { content: "\f10f"; }
-			.pob em a.replyadd:before { content: "\f110"; font-size: smaller; }
-			.pob em a.replysubtract:before { content: "\f111"; font-size: smaller; }
-			.pob em a.replyadd.active:before, .pob em a.replysubtract.active:before { color: #FF9C00; }
+			.pob em a.replyadd, .pob em a.replysubtract { display: inline-flex; align-items: center; text-decoration: none; }
+			.pob em a.replyadd svg, .pob em a.replysubtract svg { margin-right: 4px; flex-shrink: 0; }
 			.pob em a.replyadd.active, .pob em a.replysubtract.active { color: #FF9C00; }
 		.modact { display: block; height: 32px; text-align: center; padding:30px 0 0; }
 			.modact, .modact a { line-height: 32px !important; }
@@ -1084,9 +1073,14 @@ a.thread_mod { height: 19px; line-height: 19px; display: inline-block; color: #4
 	*/
 	.pl .quote, .pl .blockcode { margin: 10px 0; zoom: 1; }
 
-	.pl .blockcode { padding: 10px; border: 1px solid {WRAPBORDERCOLOR}; background: #F7F7F7; overflow: hidden; text-shadow: none; }
+	.blockcode em { font-style: normal; font-size: 0; line-height: 0; cursor: pointer; user-select: none; }
+		.blockcode em svg { width: 15px; height: 15px; display: inline-block; vertical-align: middle; }
+	.pl .blockcode { position: relative; padding: 10px; border: 1px solid {WRAPBORDERCOLOR}; background: #F7F7F7; overflow: hidden; text-shadow: none; }
 		.pl .blockcode pre { font-family: Monaco,Consolas,'Lucida Console','Courier New',serif; font-size: 14px; line-height: 1.8em; white-space: pre-wrap; word-break: break-word; margin: 0; }
-		.pl .blockcode em { margin-left: 0; color: {HIGHLIGHTLINK} !important; font-size: 12px; cursor: pointer; user-select: none; }
+		.pl .blockcode em { margin-left: 0; position: absolute; top: 8px; right: 8px; width: 26px; height: 26px; display: flex; align-items: center; justify-content: center; color: #999; background: rgba(255,255,255,.9); border: 1px solid #DDD; border-radius: 6px; opacity: 0; transition: opacity .2s ease; }
+		.pl .blockcode em svg { width: 15px; height: 15px; display: block; }
+		.pl .blockcode:hover em { opacity: 1; }
+		.pl .blockcode em:hover { color: {HIGHLIGHTLINK}; border-color: {HIGHLIGHTLINK}; }
 		.pl .tindex { padding: 5px; width: 500px; line-height: 22px; border: 1px solid {WRAPBORDERCOLOR}; }
 			.pl .tindex h3 { border-bottom: 1px #ccc dotted; margin-bottom: 10px; padding-left: 10px; }
 			.pl .tindex li { cursor: pointer; height: 22px; padding-left: 22px; background: url({IMGDIR}/ico_mulu.png) no-repeat 10px center; overflow: hidden; }
@@ -1222,8 +1216,9 @@ a.thread_mod { height: 19px; line-height: 19px; display: inline-block; color: #4
 #modopt, #modopttmp { margin-left:5px; }
 #modmenu, #modmenu2 { white-space: nowrap; }
 .chain-icon { color: transparent; text-shadow: #999 0 0 0; }
-.report-icon { color: transparent; text-shadow: #999 0 0 0; }
-.pob .report-action { font-size: 13px; }
+.report-icon { color: #999; }
+.pob .report-action { display: inline-flex; align-items: center; font-size: 13px; text-decoration: none; }
+.pob .report-action svg { margin-right: 4px; flex-shrink: 0; }
 
 /* Custom viewthread enhancements */
 #k_favorite .fico-star.fav-has-count::before { content: "🌟"; font-family: emoji; }

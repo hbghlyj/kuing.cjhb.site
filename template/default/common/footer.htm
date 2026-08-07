@@ -22,7 +22,7 @@
 			<div id="scrolltop">
 				<a onclick="this.parentNode.style.display='none';" style="height:2ex; line-height:2ex; padding:0 5px;">×</a>
 				<!--{if $_G[fid] && $_G['mod'] == 'viewthread'}-->
-				<span><a href="forum.php?mod=post&action=reply&fid=$_G[fid]&tid=$_G[tid]&extra=$_GET[extra]&page=$page{if $_GET[from]}&from=$_GET[from]{/if}" onclick="showWindow('reply', this.href)" class="replyfast" title="{lang fastreply}"><b>{lang fastreply}</b></a></span>
+				<span><a href="forum.php?mod=post&action=reply&fid=$_G[fid]&tid=$_G[tid]&extra={echo dhtmlspecialchars((string)$_GET['extra'])}&page=$page{if $_GET[from]}&from={echo dhtmlspecialchars((string)$_GET['from'])}{/if}" onclick="showWindow('reply', this.href)" class="replyfast" title="{lang fastreply}"><b>{lang fastreply}</b></a></span>
 				<!--{/if}-->
 				<span hidefocus="true"><a title="{lang scrolltop}" onclick="window.scrollTo('0','0')" class="scrolltopa"><b>{lang scrolltop}</b></a></span>
 				<!--{if $_G[fid]}-->

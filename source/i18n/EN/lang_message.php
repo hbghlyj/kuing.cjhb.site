@@ -13,6 +13,10 @@ $lang = array (
 	'post_revision_no_permission' => 'Only the author and administrators can view post revision history.',
 	'post_revision_not_found' => 'The selected revision was not found.',
 	'post_revision_restored' => 'The post has been restored to the selected revision.',
+	'emailpost_copy_sent' => 'A copy of this thread has been sent to your verified email. Simply reply to that email to reply in-thread.',
+	'emailpost_copy_failed' => 'The email could not be sent. Please try again later.',
+	'emailpost_copy_unavailable' => 'The email copy feature is currently unavailable.',
+	'emailpost_copy_noemail' => 'Your account has no verified email address, so the email copy feature cannot be used.',
 
 	'undefined_action'		=> 'Undefined action, please return.',//'未定义操作，请返回。',
 	'plugin_nonexistence'		=> 'Plug-in does not exist or has been closed',//'插件不存在或已关闭',
@@ -397,7 +401,7 @@ $lang = array (
 	'trade_by_myself'		=> 'You can not buy products of yourself.',//'您无法购买自己的商品，请返回修改。',
 	'trade_order_created'		=> 'Single transaction has been created and will now turn to deal a single page.',//'交易单已创建，现在将转入交易单页面。',
 
-	'post_not_found'		=> 'The post not found',//'没有找到帖子',
+	'post_not_found'		=> 'Post not found',//'没有找到帖子',
 
 	'setup_finished'		=> 'Setup Successfully',//'设置完成',
 

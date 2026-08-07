@@ -12,7 +12,7 @@
 		<!--{eval $dreferer = str_replace('&amp;', '&', dreferer());}-->
 		<input type="hidden" name="referer" value="$dreferer" />
 		<!--{if $_G['setting']['sendregisterurl']}-->
-			<input type="hidden" name="hash" value="$_GET['hash']" />
+			<input type="hidden" name="hash" value="{echo dhtmlspecialchars((string)$_GET['hash'])}" />
 		<!--{/if}-->
 		<ul>
 			<!--{if $sendurl}-->

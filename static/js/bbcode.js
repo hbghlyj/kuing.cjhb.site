@@ -508,7 +508,7 @@ function html2bbcode(str) {
 	}
 	str = clearcode(str);
 
-	return preg_replace(['&nbsp;', '&lt;', '&gt;', '&amp;'], [' ', '<', '>', '&'], str);
+	return preg_replace(['&nbsp;', '&lt;', '&gt;', '&amp;'], [' ', '<', '>', '&'], str).trim();
 }
 
 function tablesimple(s, table, str) {

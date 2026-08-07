@@ -167,18 +167,7 @@ function writetocsscache($data, $touch = false) {
 
 			$cssdata = preg_replace_callback('/\{([A-Z0-9]+)\}/', 'writetocsscache_callback_1', $cssdata);
 			$cssdata = preg_replace('/<\?.+?\?>\s*/', '', $cssdata);
-			$siteurl = $_G['siteurl'];
-			if(empty($_SERVER['HTTP_HOST']) || str_contains($siteurl, '.github/scripts') || str_starts_with(parse_url($siteurl, PHP_URL_HOST) ?? '', '.')) {
-				$siteurl = !empty($_G['setting']['siteurl']) ? $_G['setting']['siteurl'] : '/';
-			}
-			if(empty(parse_url($siteurl, PHP_URL_HOST)) && !empty($_G['setting']['siteurl'])) {
-				$siteurl = rtrim($_G['setting']['siteurl'], '/').'/';
-			}
-			if(empty(parse_url($siteurl, PHP_URL_HOST))) {
-				$siteurl = '/';
-			} else {
-				$siteurl = preg_replace('/^https?:/i', '', $siteurl);
-			}
+			$siteurl = '/';
 			foreach (['styleimgdir', 'imgdir', 'staticurl'] as $dirkey) {
 				if (!empty($data[$dirkey]) && !preg_match('/^(https?:)?\/\//i', $data[$dirkey])) {
 					$dirpath = rtrim(ltrim($data[$dirkey], './'), '/');

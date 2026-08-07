@@ -335,6 +335,12 @@ if(!submitcheck('replysubmit', 0, $seccodecheck, $secqaacheck)) {
 } else {
 	check_allow_action('allowreply');
 
+	$loginParam = defined('IN_MOBILE') ? ['login' => 1] : [
+		'login' => 1,
+		'showmsg' => false,
+		'extrajs' => '<script type="text/javascript" reload="1">showWindow(\'login\', \'member.php?mod=logging&action=login&guestmessage=yes&referer=\'+encodeURIComponent(\''.$_G['siteurl'].'forum.php?mod=viewthread&tid='.$_G['tid'].'\'));</script>',
+	];
+
 	$_G['forum']['allowreply'] = $_G['forum']['allowreply'] ?? '';
 	$hasreplyperm = $_G['forum']['replyperm'] && forumperm($_G['forum']['replyperm']);
 	$allowreply = $_G['forum']['allowreply'] != -1 && (
@@ -344,7 +350,7 @@ if(!submitcheck('replysubmit', 0, $seccodecheck, $secqaacheck)) {
 	);
 
 	if(!$_G['uid']) {
-		showmessage('replyperm_login_nopermission', NULL, [], ['login' => 1]);
+		showmessage('replyperm_login_nopermission', NULL, [], $loginParam);
 	} elseif(!$allowreply) {
 		if($_G['forum']['allowreply'] == -1) {
 			showmessage('post_forum_newreply_nopermission', NULL);
@@ -358,7 +364,7 @@ if(!submitcheck('replysubmit', 0, $seccodecheck, $secqaacheck)) {
 	}
 
 	if(!$_G['uid'] && ($_G['setting']['need_avatar'] || $_G['setting']['need_secmobile'] || $_G['setting']['need_email'] || $_G['setting']['need_friendnum'])) {
-		showmessage('replyperm_login_nopermission', NULL, [], ['login' => 1]);
+		showmessage('replyperm_login_nopermission', NULL, [], $loginParam);
 	}
 
 	if(empty($thread)) {
@@ -402,7 +408,6 @@ if(!submitcheck('replysubmit', 0, $seccodecheck, $secqaacheck)) {
 		'noticetrimstr' => getgpc('noticetrimstr'),
 		'from' => getgpc('from'),
 		'sechash' => getgpc('sechash'),
-		'geoloc' => diconv(getgpc('geoloc'), 'UTF-8'),
 		'repid' => getgpc('reppid'),
 	];
 

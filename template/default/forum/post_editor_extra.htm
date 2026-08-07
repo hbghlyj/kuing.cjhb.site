@@ -23,13 +23,13 @@
 			<input name="subject" type="hidden" value="" />
 		<!--{else}-->
 			<!--{if $_GET[action] != 'reply'}-->
-				<input type="text" name="subject" id="subject" class="px" value="$postinfo[subject]" onkeyup="dstrLenCalc(this, 'checklen', $_G['setting']['maxsubjectsize']);" size="40" />
+				<input type="text" name="subject" id="subject" class="px" value="$postinfo[subject]" onkeyup="dstrLenCalcUsed(this, 'checklen', $_G['setting']['maxsubjectsize']);" size="40" />
 			<!--{else}-->
 				<span id="subjecthide" class="z">RE: $thread[subject] [<a href="javascript:;" onclick="display('subjecthide');display('subjectchk');display('subjectbox');return false;">{lang modify}</a>]</span>
-				<span id="subjectbox" style="display:none"><input type="text" name="subject" id="subject" class="px" value="" onkeyup="dstrLenCalc(this, 'checklen', $_G['setting']['maxsubjectsize']);" size="40" /></span>
-			<!--{/if}-->			
-			<span id="subjectchk"{if $_GET[action] == 'reply'} style="display:none"{/if}>{lang comment_message1} <strong id="checklen">{$_G['setting']['maxsubjectsize']}</strong> {lang comment_message2}</span>
-			<script type="text/javascript">dstrLenCalc($('subject'), 'checklen', $_G['setting']['maxsubjectsize'])</script>
+				<span id="subjectbox" style="display:none"><input type="text" name="subject" id="subject" class="px" value="" onkeyup="dstrLenCalcUsed(this, 'checklen', $_G['setting']['maxsubjectsize']);" size="40" /></span>
+			<!--{/if}-->
+			<span id="subjectchk"{if $_GET[action] == 'reply'} style="display:none"{/if} class="xg1"><strong id="checklen">0</strong> / {echo intval($_G['setting']['maxsubjectsize'])}</span>
+			<script type="text/javascript">dstrLenCalcUsed($('subject'), 'checklen', $_G['setting']['maxsubjectsize'])</script>
 		<!--{/if}-->
 		<!--{if $_GET[action] == 'newthread' && !empty($modnewthreads)}--> <span class="xg1 xw0">({lang approve})</span><!--{/if}-->
 		<!--{if $_GET[action] == 'reply' && !empty($modnewreplies)}--> <span class="xg1 xw0">({lang approve})</span><!--{/if}-->

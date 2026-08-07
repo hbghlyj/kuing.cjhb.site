@@ -10,14 +10,12 @@ $postshowavatars = !($_G['setting']['bannedmessages'] & 2 && ($post['memberstatu
 <!--{/loop}-->
 <!--{/block}-->
 <!--{if empty($post['deleted'])}-->
-<!--{if !empty($post['notice_jump'])}-->
-<div id="ntc_jp">
+<div id="ntc_jp_pid$post[pid]" class="ntc_jp" style="display:none">
 	<div class="s_clear">
-		<a class="deloption" href="javascript:;" onclick="var el=document.getElementById('ntc_jp');if(el)el.parentNode.removeChild(el);" title="{lang close}">{lang close}</a>
-		<em>{lang new_reply_notice}</em>
+		<a class="deloption" href="javascript:;" onclick="this.closest('.ntc_jp').remove();" title="{lang close}">{lang close}</a>
+		<em>{lang jump_post_notice}</em>
 	</div>
 </div>
-<!--{/if}-->
 <table id="pid$post[pid]" class="plhin cp0" summary="pid$post[pid]">
 <tr>
 	$post[lastpostanchor]
@@ -75,11 +73,6 @@ $postshowavatars = !($_G['setting']['bannedmessages'] & 2 && ($post['memberstatu
 				<!--{if !$postshowavatars}-->
 					<div class="avatar">{lang member_avatar_banned}</div>
 				<!--{elseif $post['avatar'] && $showavatars}-->
-					<!--{if $post[mobiletype]}-->
-					<div class="mobile-type mobile-type-$post[mobiletype]">
-						<a></a>
-					</div>
-					<!--{/if}-->
 					<div class="avatar"><a href="home.php?mod=space&uid=$post[authorid]" class="avtm" target="_blank">$post[avatar]</a></div>
 				<!--{/if}-->
 				<!--{hook/viewthread_avatar $postcount}-->
@@ -188,9 +181,11 @@ $postshowavatars = !($_G['setting']['bannedmessages'] & 2 && ($post['memberstatu
     <!--{if $post['authorid'] && !$post['anonymous']}-->
         <!--{if !$_G['setting']['authoronleft'] || $close_leftinfo}--><a href="home.php?mod=space&uid=$post[authorid]" target="_blank" class="xi2">$post[author]</a>$authorverifys<!--{/if}-->
 					{lang poston} $post[dateline]
-					<!--{if $post['status'] & 8}-->
-						&nbsp;<span class="xg1"><!--{if $_G['setting']['mobile']['mobilecomefrom']}-->{$_G['setting']['mobile']['mobilecomefrom']}<!--{else}-->{lang from_mobile}<!--{/if}--></span>
-					<!--{/if}-->
+				<!--{if $post[mobiletype] == 2}-->
+					&nbsp;<span class="xg1"><i class="fico-email vm" title="{lang from_email}"></i>&nbsp;{lang from_email}</span>
+				<!--{elseif $post['status'] & 8}-->
+					&nbsp;<span class="xg1"><!--{if $_G['setting']['mobile']['mobilecomefrom']}-->{$_G['setting']['mobile']['mobilecomefrom']}<!--{else}-->{lang from_mobile}<!--{/if}--></span>
+				<!--{/if}-->
 				<!--{elseif getstatus($post['status'], 5)}-->
 					<!--{if !$_G['setting']['authoronleft'] || $close_leftinfo}--><a href="javascript:;" class="xi2">$post[author]</a><!--{/if}-->
 					&nbsp;{lang poston} $post[dateline]
@@ -265,9 +260,6 @@ $postshowavatars = !($_G['setting']['bannedmessages'] & 2 && ($post['memberstatu
 		<!--{/if}-->
 	</td></tr>
 	<tr><td class="plc plm">
-		<!--{if !empty($locations[$post[pid]])}-->
-			<div class="mobile-location">$locations[$post[pid]][location]</div>
-		<!--{/if}-->
 		<!--{if !IS_ROBOT && $post['first'] && !$_G['forum_thread']['archiveid']}-->
 
 			<!--{if $post['invisible'] == 0}-->
@@ -284,6 +276,7 @@ $postshowavatars = !($_G['setting']['bannedmessages'] & 2 && ($post['memberstatu
 					<!--{if helper_access::check_module('attention') && $_G['forum_thread']['authorid'] != $_G['uid']}-->
 						<a href="home.php?mod=spacecp&ac=attention&op={if $_G['forum_thread']['userattention']}del{else}add{/if}&tid=$_G[tid]&hash={FORMHASH}" id="k_attention"{if $_G['forum_thread']['userattention']} class="active"{/if} onclick="showWindow(this.id, this.href, 'get', 0);" title="{lang thread_attention}"><i><em class="fico-bell fc-n{if $_G['forum_thread']['attentionreplies']} fav-has-count{/if}" title="{lang thread_attention}"></em>{lang thread_attention}<!--{if $_G['forum_thread']['attentionreplies']}--><span class="xi1" id="attentionnumber">{$_G['forum_thread']['attentionreplies']}</span><!--{/if}--></i></a>
 					<!--{/if}-->
+					<!--{if $emailcopy_url}--><a href="$emailcopy_url" id="k_emailcopy" title="{lang emailpost_copy_title}"><i><em class="fico-email fc-n" title="{lang emailpost_copy_title}"></em>{lang emailpost_copy}</i></a><!--{/if}-->
 					<!--{if !$post['anonymous'] && $post['first'] && helper_access::check_module('follow')}-->
 						<a class="followp" href="home.php?mod=spacecp&ac=follow&op=relay&tid=$_G[tid]&from=forum" onclick="showWindow('relaythread', this.href, 'get', 0);" title="{lang follow_spread}"><i><em class="fico-launch fc-p" title="{lang thread_realy}"></em>{lang thread_realy}<!--{if $_G['forum_thread']['relay']}--><span id="relaynumber" style="display:none">{$_G['forum_thread']['relay']}</span><!--{/if}--></i></a>
 					<!--{/if}-->
@@ -344,9 +337,9 @@ $postshowavatars = !($_G['setting']['bannedmessages'] & 2 && ($post['memberstatu
 					<!--{/if}-->
 					<a class="editp" href="forum.php?mod=post&action=edit&fid=$_G[fid]&tid=$_G[tid]&pid=$post[pid]{if !empty($_GET[modthreadkey])}&modthreadkey=$_GET[modthreadkey]{/if}{if $page>1}&page=$page{/if}" onclick="showWindow('edit', this.href, 'get', 0)"><!--{if $_G['forum_thread']['special'] == 2 && !$post['message']}-->{lang post_add_aboutcounter}<!--{else}-->{lang edit}<!--{/if}--></a>
 					<!--{if $post['first'] && ($_G['group']['allowrecommend'] || !$_G['uid']) && !empty($_G['setting']['recommendthread']['status']) && !empty($_G['setting']['recommendthread']['addtext'])}-->
-						<a class="replyadd{if $_G['forum_thread']['userrecommended']} active{/if}" href="forum.php?mod=misc&action=recommend&do=add&tid=$_G[tid]&pid=$post[pid]&hash={FORMHASH}" {if $_G['uid']}onclick="ajaxmenu(this, 3000, 0, 0, '43', '');return false;"{else} onclick="showWindow('login', this.href)"{/if} {if $_G['forum_thread']['recommend_add']}title="$_G[forum_thread][recommend_add] {lang activity_member_unit}&#13;$_G[forum_thread][recommendmembers]"{/if}><span id="recommendv_add"{if !$_G['forum_thread']['recommend_add']} style="display:none"{/if} class="xi1">$_G[forum_thread][recommend_add]</span></a>
+						<a class="replyadd{if $_G['forum_thread']['userrecommended']} active{/if}" href="forum.php?mod=misc&action=recommend&do=add&tid=$_G[tid]&pid=$post[pid]&hash={FORMHASH}" {if $_G['uid']}onclick="ajaxmenu(this, 3000, 0, 0, '43', '');return false;"{else} onclick="showWindow('login', this.href)"{/if} {if $_G['forum_thread']['recommend_add']}title="$_G[forum_thread][recommend_add] {lang activity_member_unit}&#13;$_G[forum_thread][recommendmembers]"{/if}><svg class="fico-thumbup" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path></svg><span id="recommendv_add"{if !$_G['forum_thread']['recommend_add']} style="display:none"{/if} class="xi1">$_G[forum_thread][recommend_add]</span></a>
 						<!--{if !empty($_G['setting']['recommendthread']['subtracttext'])}-->
-						<a class="replysubtract{if $_G['forum_thread']['userrecommended']} active{/if}" href="forum.php?mod=misc&action=recommend&do=subtract&tid=$_G[tid]&pid=$post[pid]&hash={FORMHASH}" {if $_G['uid']}onclick="ajaxmenu(this, 3000, 0, 0, '43', '');return false;"{else} onclick="showWindow('login', this.href)"{/if} {if $_G['forum_thread']['recommend_sub']}title="$_G[forum_thread][recommend_sub] {lang activity_member_unit}&#13;$_G[forum_thread][recommendmembers]"{/if}><span id="recommendv_subtract"{if !$_G['forum_thread']['recommend_sub']} style="display:none"{/if} class="xi1">$_G[forum_thread][recommend_sub]</span></a>
+						<a class="replysubtract{if $_G['forum_thread']['userrecommended']} active{/if}" href="forum.php?mod=misc&action=recommend&do=subtract&tid=$_G[tid]&pid=$post[pid]&hash={FORMHASH}" {if $_G['uid']}onclick="ajaxmenu(this, 3000, 0, 0, '43', '');return false;"{else} onclick="showWindow('login', this.href)"{/if} {if $_G['forum_thread']['recommend_sub']}title="$_G[forum_thread][recommend_sub] {lang activity_member_unit}&#13;$_G[forum_thread][recommendmembers]"{/if}><svg class="fico-thumbdown" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm7-13h3a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2h-3"></path></svg><span id="recommendv_subtract"{if !$_G['forum_thread']['recommend_sub']} style="display:none"{/if} class="xi1">$_G[forum_thread][recommend_sub]</span></a>
 						<!--{/if}-->
 					<!--{/if}-->
 					<!--{if $post['first'] && $post['invisible'] == -3}-->
@@ -357,8 +350,8 @@ $postshowavatars = !($_G['setting']['bannedmessages'] & 2 && ($post['memberstatu
 					<!--{/if}-->
 					<!--{if $post['first'] && $allowblockrecommend}--><a class="push" href="javascript:;" onclick="modaction('recommend', '$_G[forum_firstpid]', 'op=recommend&idtype={if $_G[forum_thread][isgroup]}gtid{else}tid{/if}&id=$_G[tid]&pid=$post[pid]', 'portal.php?mod=portalcp&ac=portalblock')">{lang modmenu_blockrecommend}</a><!--{/if}-->
 					<!--{if !$_G['forum_thread']['special'] && !$rushreply && $_G['setting']['repliesrank'] && !$post['first'] && !($post['isWater'] && $_G['setting']['filterednovote'])}-->
-					<a class="replyadd{if $post[postreview][supported]} active{/if}" {if $_G['uid']}href="forum.php?mod=misc&action=postreview&do=support&tid=$_G[tid]&pid=$post[pid]&hash={FORMHASH}" onclick="ajaxmenu(this, 3000, 0, 0, '43', '');return false;"{else} onclick="showWindow('login','member.php?mod=logging&action=login')"{/if}{if $post[postreview][support]} title="$post[postreview][support] {lang activity_member_unit}&#13;$post[postreview]['support_member']"{/if}><span id="review_support_$post[pid]" class="xi1">$post[postreview][support]</span></a>
-					<a class="replysubtract{if $post[postreview][opposed]} active{/if}" {if $_G['uid']}href="forum.php?mod=misc&action=postreview&do=against&tid=$_G[tid]&pid=$post[pid]&hash={FORMHASH}" onclick="ajaxmenu(this, 3000, 0, 0, '43', '');return false;"{else} onclick="showWindow('login','member.php?mod=logging&action=login')"{/if}{if $post[postreview][against]} title="$post[postreview][against] {lang activity_member_unit}&#13;$post[postreview]['against_member']"{/if}><span id="review_against_$post[pid]" class="xi1">$post[postreview][against]</span></a>
+					<a class="replyadd{if $post[postreview][supported]} active{/if}" {if $_G['uid']}href="forum.php?mod=misc&action=postreview&do=support&tid=$_G[tid]&pid=$post[pid]&hash={FORMHASH}" onclick="ajaxmenu(this, 3000, 0, 0, '43', '');return false;"{else} onclick="showWindow('login','member.php?mod=logging&action=login')"{/if}{if $post[postreview][support]} title="$post[postreview][support] {lang activity_member_unit}&#13;$post[postreview]['support_member']"{/if}><svg class="fico-thumbup" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path></svg><span id="review_support_$post[pid]" class="xi1">$post[postreview][support]</span></a>
+					<a class="replysubtract{if $post[postreview][opposed]} active{/if}" {if $_G['uid']}href="forum.php?mod=misc&action=postreview&do=against&tid=$_G[tid]&pid=$post[pid]&hash={FORMHASH}" onclick="ajaxmenu(this, 3000, 0, 0, '43', '');return false;"{else} onclick="showWindow('login','member.php?mod=logging&action=login')"{/if}{if $post[postreview][against]} title="$post[postreview][against] {lang activity_member_unit}&#13;$post[postreview]['against_member']"{/if}><svg class="fico-thumbdown" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm7-13h3a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2h-3"></path></svg><span id="review_against_$post[pid]" class="xi1">$post[postreview][against]</span></a>
 					<!--{/if}-->
 					<!--{hook/viewthread_postfooter $postcount}-->
 				</em>
@@ -375,7 +368,7 @@ $postshowavatars = !($_G['setting']['bannedmessages'] & 2 && ($post['memberstatu
 						<!--{if $_G['uid'] && $post['authorid'] == $_G['uid']}-->
 							<a class="removep" href="forum.php?mod=misc&action=postdelete&tid=$post[tid]&pid=$post[pid]&extra=$_GET[extra]&page=$page&infloat=yes&handlekey=postdelete$post[pid]" onclick="showWindow('postdelete$post[pid]', this.href, 'get', 0);return false;">{lang delete}</a>
 						<!--{else}-->
-							<a class="report-action" href="javascript:;" onclick="showWindow('miscreport$post[pid]', 'misc.php?mod=report&rtype=post&rid=$post[pid]&tid=$_G[tid]&fid=$_G[fid]', 'get', -1);return false;"><span class="report-icon" aria-hidden="true">🚩</span> {lang report}</a>
+							<a class="report-action" href="javascript:;" onclick="showWindow('miscreport$post[pid]', 'misc.php?mod=report&rtype=post&rid=$post[pid]&tid=$_G[tid]&fid=$_G[fid]', 'get', -1);return false;"><svg class="report-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path><path d="M12 8v4"></path><path d="M12 16h.01"></path></svg> {lang report}</a>
 						<!--{/if}-->
 					<!--{/if}-->
 					<!--{hook/viewthread_postaction $postcount}-->

@@ -17,23 +17,30 @@ function build_cache_forumlinks() {
 	$query = table_common_friendlink::t()->fetch_all_by_displayorder();
 
 	if($_G['setting']['forumlinkstatus']) {
-		$tightlink_content = $tightlink_text = $tightlink_logo = $comma = '';
 		foreach($query as $flink) {
+			$group = (int)$flink['type'];
+			if(!in_array($group, [1, 2, 3, 4], true)) {
+				$group = 1;
+			}
+			if(!isset($data[$group])) {
+				$data[$group] = ['content' => '', 'logo' => '', 'text' => '', 'count' => 0];
+			}
+			$data[$group]['count']++;
 			if($flink['description']) {
 				if($flink['logo']) {
-					$tightlink_content .= '<li class="lk_logo mbm bbda cl"><img src="'.$flink['logo'].'" border="0" alt="'.strip_tags($flink['name']).'" /><div class="lk_content z"><h5><a href="'.$flink['url'].'" target="_blank" rel="external nofollow">'.$flink['name'].'</a></h5><p>'.$flink['description'].'</p></div></li>';
+					$data[$group]['content'] .= '<li class="lk_logo mbm bbda cl"><img src="'.$flink['logo'].'" border="0" alt="'.strip_tags($flink['name']).'" /><div class="lk_content z"><h5><a href="'.$flink['url'].'" target="_blank" rel="external nofollow">'.$flink['name'].'</a></h5><p>'.$flink['description'].'</p></div></li>';
 				} else {
-					$tightlink_content .= '<li class="mbm bbda"><div class="lk_content"><h5><a href="'.$flink['url'].'" target="_blank" rel="external nofollow">'.$flink['name'].'</a></h5><p>'.$flink['description'].'</p></div></li>';
+					$data[$group]['content'] .= '<li class="mbm bbda"><div class="lk_content"><h5><a href="'.$flink['url'].'" target="_blank" rel="external nofollow">'.$flink['name'].'</a></h5><p>'.$flink['description'].'</p></div></li>';
 				}
 			} else {
 				if($flink['logo']) {
-					$tightlink_logo .= '<a href="'.$flink['url'].'" target="_blank" rel="external nofollow"><img src="'.$flink['logo'].'" border="0" alt="'.strip_tags($flink['name']).'" /></a> ';
+					$data[$group]['logo'] .= '<a href="'.$flink['url'].'" target="_blank" rel="external nofollow"><img src="'.$flink['logo'].'" border="0" alt="'.strip_tags($flink['name']).'" /></a> ';
 				} else {
-					$tightlink_text .= '<li><a href="'.$flink['url'].'" target="_blank" rel="external nofollow" title="'.strip_tags($flink['name']).'">'.$flink['name'].'</a></li>';
+					$data[$group]['text'] .= '<li><a href="'.$flink['url'].'" target="_blank" rel="external nofollow" title="'.strip_tags($flink['name']).'">'.$flink['name'].'</a></li>';
 				}
 			}
 		}
-		$data = [$tightlink_content, $tightlink_logo, $tightlink_text];
+		ksort($data, SORT_NUMERIC);
 	}
 
 	savecache('forumlinks', $data);

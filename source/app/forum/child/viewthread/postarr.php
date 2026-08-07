@@ -105,7 +105,7 @@ $curpagepids = [];
 foreach($postarr as $post) {
 	$curpagepids[] = $post['pid'];
 }
-$tagnames = $locationpids = $hotpostarr = $hotpids = $member_blackList = [];
+$tagnames = $hotpostarr = $hotpids = $member_blackList = [];
 
 $remainhots = ($_G['page'] == 1 && !$rushreply && !$_G['forum_thread']['special'] && !$_G['forum']['noforumrecommend'] && empty($_GET['authorid'])) ? $_G['setting']['threadhotreplies'] : 0;
 if($remainhots) {

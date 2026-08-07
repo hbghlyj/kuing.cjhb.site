@@ -7,13 +7,13 @@
 - After CSS changes, run:
 
 ```sh
-php tools/rebuild_styles.php --host=kuing.cjhb.site
+php .agents/tools/rebuild_styles.php
 ```
 
-Use the public host. The tool compiles scheme-relative asset URLs.
+The tool compiles root-relative asset URLs.
 
 After JavaScript or other versioned static asset changes, run:
 
 ```sh
-php tools/update_verhash.php
+php .agents/tools/update_verhash.php
 ```

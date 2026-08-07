@@ -7,16 +7,16 @@
 			{/if}>
 	<input type="hidden" name="formhash" id="formhash" value="{FORMHASH}" />
 	<input type="hidden" name="posttime" id="posttime" value="{TIMESTAMP}" />
-<!--{if !empty($_GET['modthreadkey'])}--><input type="hidden" name="modthreadkey" id="modthreadkey" value="$_GET['modthreadkey']" /><!--{/if}-->
+<!--{if !empty($_GET['modthreadkey'])}--><input type="hidden" name="modthreadkey" id="modthreadkey" value="{echo dhtmlspecialchars((string)$_GET['modthreadkey'])}" /><!--{/if}-->
 <!--{if $_GET['action'] == 'reply'}-->
 	<input type="hidden" name="noticetrimstr" value="$noticetrimstr" />
 	<!--{if $reppid}-->
 		<input type="hidden" name="reppid" value="$reppid" />
 	<!--{/if}-->
 	<!--{if $_GET['reppost']}-->
-		<input type="hidden" name="reppost" value="$_GET['reppost']" />
+		<input type="hidden" name="reppost" value="{echo dhtmlspecialchars((string)$_GET['reppost'])}" />
 	<!--{elseif $_GET['repquote']}-->
-		<input type="hidden" name="reppost" value="$_GET['repquote']" />
+		<input type="hidden" name="reppost" value="{echo dhtmlspecialchars((string)$_GET['repquote'])}" />
 	<!--{/if}-->
 <!--{/if}-->
 <!--{if $_GET['action'] == 'edit'}-->
@@ -307,11 +307,6 @@
 		updateButton();
 		popup.open('<img src="' + IMGDIR + '/imageloading.gif">');
 
-		var postlocation = '';
-		if(typeof geo !== 'undefined' && geo && geo.errmsg === '' && geo.loc) {
-			postlocation = encodeURIComponent(geo.longitude + '|' + geo.latitude + '|' + geo.loc);
-		}
-
 		var myform = document.getElementById('postform');
 		var formdata = new FormData(myform);
 		var actionUrl = form.attr('action');
@@ -324,7 +319,7 @@
 
 		mobileRequest({
 			method: 'POST',
-			url: actionUrl + '&geoloc=' + postlocation + '&handlekey=' + form.attr('id') + '&inajax=1',
+			url: actionUrl + '&handlekey=' + form.attr('id') + '&inajax=1',
 			data: formdata,
 			dataType: 'html',
 		})

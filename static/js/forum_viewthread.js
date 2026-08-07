@@ -395,6 +395,9 @@ function succeedhandle_postappend(locationhref, message, param) {
 		if(typeof cleanPostBr == 'function') {
 			cleanPostBr('post_' + param['pid']);
 		}
+		if(typeof initCodeCopyButton == 'function') {
+			initCodeCopyButton('post_' + param['pid']);
+		}
 		if(typeof updateMulu == 'function') {
 			updateMulu();
 		}
@@ -877,22 +880,6 @@ function show_tikz_window(code){
 }
 window.show_tikz_window = show_tikz_window;
 
-//===Html模式下用bbr免打br
-function processBbr(root) {
-	let container = (root && root.getElementsByTagName) ? root : document;
-	let bbrs = container.getElementsByTagName('bbr');
-	for (let item of bbrs) {
-		if (item.querySelector('mjx-container, br')) {
-			continue;
-		}
-		let html = item.innerHTML.replace(/\r\n/g, "<br />").replace(/\n/g, "<br />").replace(/\r/g, "<br />");
-		if (html !== item.innerHTML) {
-			item.innerHTML = html;
-		}
-	}
-}
-window.processBbr = processBbr;
-
 //===去br等
 function cleanPostBr(target) {
 	const posts = new Set();
@@ -931,16 +918,76 @@ function cleanPostBr(target) {
 }
 window.cleanPostBr = cleanPostBr;
 
+function initCodeCopyButton(root) {
+	const container = typeof root === 'string' ? document.getElementById(root) : (root || document);
+	if (!container) {
+		return;
+	}
+	const blocks = container.querySelectorAll('div.blockcode');
+	for (const block of blocks) {
+		if (block.querySelector('em[onclick^="copycode"]')) {
+			continue;
+		}
+		const pre = block.querySelector('pre');
+		if (!pre) {
+			continue;
+		}
+		if (!pre.id) {
+			pre.id = 'code_' + Math.random().toString(36).slice(2, 10);
+		}
+		const label = $L('copy_to_clipboard');
+		const button = document.createElement('em');
+		button.title = label;
+		button.setAttribute('aria-label', label);
+		button.onclick = function() {
+			copycode($(pre.id));
+		};
+		button.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path></svg>';
+		block.appendChild(button);
+	}
+}
+window.initCodeCopyButton = initCodeCopyButton;
+
 function initViewthreadEnhancements(root) {
-	processBbr(root);
 	cleanPostBr(root);
+	initCodeCopyButton(root);
 }
 window.initViewthreadEnhancements = initViewthreadEnhancements;
 
-//MathJax会在其启动时(文档就绪后)捕捉全部公式的锚点，
-//必须在它初始化之前完成bbr换行转换，故这里一次性清理，不再使用MutationObserver。
+//一次性清理冗余br，避免与MathJax排版互相干扰。
+function initJumpCallout() {
+	var hash = window.location.hash || '';
+	if(!hash) {
+		return;
+	}
+	var target = null;
+	if(hash === '#lastpost') {
+		var anchor = document.querySelector('a[name="lastpost"]');
+		target = anchor && anchor.closest ? anchor.closest('table[id^="pid"]') : null;
+	} else {
+		var m = hash.match(/^#pid(\d+)$/);
+		if(!m) {
+			return;
+		}
+		target = document.getElementById('pid' + m[1]);
+	}
+	if(!target || !target.id) {
+		return;
+	}
+	var callout = document.getElementById('ntc_jp_' + target.id);
+	if(!callout) {
+		return;
+	}
+	callout.style.display = '';
+}
+window.initJumpCallout = initJumpCallout;
+
 if (document.readyState === 'loading') {
-	document.addEventListener('DOMContentLoaded', () => initViewthreadEnhancements(document));
+	document.addEventListener('DOMContentLoaded', () => {
+		initViewthreadEnhancements(document);
+		initJumpCallout();
+	});
 } else {
 	initViewthreadEnhancements(document);
+	initJumpCallout();
 }

@@ -107,7 +107,7 @@
 							<!--{else}-->
 								<a href="javascript:;">$_G['setting']['anonymoustext']</a>
 							<!--{/if}-->
-							<span class="kmtime{if $thread['istoday'] && CURMODULE == 'forumdisplay'} xi1{/if}">{lang poston} $thread['dateline']</span>
+							<span class="kmtime{if $thread['istoday'] && CURMODULE == 'forumdisplay'} xi1{/if}">{lang started} $thread['dateline']</span>
 							</cite>
 								<!--{if $thread['typehtml'] || $thread['sorthtml']}-->
 									{echo str_replace(array('<em>[', ']</em>', '">'), array('', '', '" class="kmbg kmico_bk" target="_blank">'), $thread['typehtml'].$thread['sorthtml']);}
@@ -117,7 +117,7 @@
 								<!--{/if}-->
 							</div>
 							<!--{if $threadlist_data[$thread['tid']]['message'] && !in_array($thread['displayorder'], array(1,2,3,4))}--><div class="kmtxt">{$threadlist_data[$thread['tid']]['message']}</div><!--{/if}-->										
-							<!--{if is_array($threadlist_data[$thread['tid']]['attachment'])}-->
+							<!--{if is_array($threadlist_data[$thread['tid']]['attachment']) && !in_array($thread['displayorder'], array(1,2,3,4))}-->
 								<!--{if count($threadlist_data[$thread['tid']]['attachment']) == 1}-->
 								<div class="kmimg_onebox">
 								<!--{else}-->
@@ -142,7 +142,7 @@
 								<!--{else}-->
 									<a href="javascript:;">$_G['setting']['anonymoustext']</a>
 								<!--{/if}-->
-								<span class="kmtime{if $thread['istoday'] && CURMODULE == 'forumdisplay'} xi1{/if}">{lang lastpost} $thread['lastpost']</span></cite>
+								<span class="kmtime{if $thread['istoday'] && CURMODULE == 'forumdisplay'} xi1{/if}">{lang lastposted} $thread['lastpost']</span></cite>
 								<!--{/if}-->
 								<!--{if $stemplate && $sortid}--><span class="kmbga kmico_xs">$stemplate[$sortid][$thread['tid']]</span><!--{/if}-->
 								<!--{if $thread['readperm']}--><span class="kmbgb kmico_qx">{lang readperm} <strong>{$thread['readperm']}</strong></span><!--{/if}-->	

@@ -2865,6 +2865,11 @@ function currentlang() {
 	return preg_match('/^\w+$/', $lang) ? $lang : 'SC';
 }
 
+function lang_attr() {
+	$map = ['SC' => 'zh-CN', 'TC' => 'zh-TW', 'EN' => 'en'];
+	return $map[currentlang()] ?? currentlang();
+}
+
 function dpreg_replace($pattern, $replacement, $subject, $limit = -1, &$count = null) {
 	require_once libfile('function/preg');
 	return _dpreg_replace($pattern, $replacement, $subject, $limit, $count);

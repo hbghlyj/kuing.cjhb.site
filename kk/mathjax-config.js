@@ -45,14 +45,9 @@ window.MathJax = {
     },
     autoload: {
       color: [],
-      colorv2: ['color'],
-      // Map the extension to its triggering macros and environments
-      '[custom]/xypic': [
-        ['xymatrix', 'xybox', 'xyimport', 'xyshowAST'],   // Macros that trigger autoload
-        ['xymatrix']          // Environments that trigger autoload
-      ]
+      colorv2: ['color']
     },
-    packages: {'[+]': ['noerrors','mathtools']}
+    packages: {'[+]': ['noerrors','mathtools','img']}
   },
   options: {
     menuOptions: {
@@ -65,7 +60,6 @@ window.MathJax = {
         zoom: "DoubleClick"
       }
     },
-    processHtmlClass: 'tex2jax_process',
     renderActions: {
       //去掉MathML节点上的data-latex/data-latex-item属性
       removeLatex: [101,
@@ -91,26 +85,19 @@ window.MathJax = {
         },
         ''
       ],
-      //排版前整理bbr换行及冗余br（替代原MutationObserver方案）
-      processBbrBr: [10,
-        () => {
-          if (typeof initViewthreadEnhancements === 'function') {
-            initViewthreadEnhancements(document);
-          }
-        },
-        ''
-      ],
     }
   },
   loader: {
-    load: ['[tex]/noerrors','[tex]/mathtools'],
+    load: ['[tex]/noerrors','[tex]/mathtools','[custom]/img'],
     source: {
-      '[custom]/xypic': '/static/xypic.js'
+      '[custom]/img': '/static/img.js'
     },
     failed: function (error) {
       showError(`MathJax(${error.package || '?'}): ${error.message}`);
     },
-    paths: {custom: '/static'}
+    paths: {
+      custom: '/static'
+    }
   },
   chtml: {
     matchFontHeight: true

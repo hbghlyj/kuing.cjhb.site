@@ -2000,8 +2000,8 @@ $lang =
 	'setting_editor_mode_type_json' => 'JSON 编辑器',
 	'setting_editor_mode_type_default' => '默认编辑器',
 	'setting_editor_mode_default' => '默认的编辑器模式',
-	'setting_editor_swtich_enable' => '是否允许切换编辑器模式',
-	'setting_editor_swtich_enable_comment' => '选择否将禁止用户在纯文本模式和所见即所得模式之间切换',
+	'setting_editor_switch_enable' => '是否允许切换编辑器模式',
+	'setting_editor_switch_enable_comment' => '选择否将禁止用户在纯文本模式和所见即所得模式之间切换',
 	'setting_editor_simplemode' => '编辑栏样式',
 	'setting_editor_simplemode_comment' => '设置默认的编辑栏样式',
 	'setting_editor_simplemode_1' => '高级',
@@ -5396,6 +5396,7 @@ $lang =
 	'misc_onlinelist_tips' => '<li>本功能用于自定义首页及主题列表页显示的在线会员分组及图例，只在在线列表功能打开时有效。</li><li>用户组图例处空白为不区分该组用户，所有未区分的用户组将统一归入第一行的“普通用户”项。</li><li>用户组图例中请填写图片文件名，并将相应图片文件上传到 static/image/common/ 目录中。</li>',
 	'misc_onlinelist_image' => '用户组图例',
 
+	'misc_link_group' => '分组',
 	'misc_link_group1' => '分组1',
 	'misc_link_group2' => '分组2',
 	'misc_link_group3' => '分组3',
@@ -5403,7 +5404,7 @@ $lang =
 	'misc_link' => '友情链接',
 	'misc_link_add' => '添加友情链接',
 	'misc_link_tips' => '<li>如果您不想在论坛首页显示友情链接，可以在“<a href="'.ADMINSCRIPT.'?action=setting&operation=styles&anchor=index">界面设置</a>”中关闭。</li><li>未填写文字说明的项目将以紧凑型显示。</li>
-						<li>友情链接分组只供 DIY 的展示类模块使用。</li>',
+						<li>每个链接属于一个分组，论坛首页按分组折叠展示。</li>',
 	'misc_link_edit' => '友情链接编辑',
 	'misc_link_edit_name' => '站点名称',
 	'misc_link_edit_url' => '站点 URL',

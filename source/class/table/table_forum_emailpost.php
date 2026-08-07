@@ -22,7 +22,7 @@ class table_forum_emailpost extends discuz_table {
 
 	public function __construct() {
 		$this->_table = 'forum_emailpost';
-		$this->_pk = 'messagekey';
+		$this->_pk = 'messageid';
 		parent::__construct();
 	}
 
@@ -30,13 +30,17 @@ class table_forum_emailpost extends discuz_table {
 		return $this->insert($data, false, false, true);
 	}
 
-	public function fetch_by_message_id($messageid) {
-		return $this->fetch(hash('sha256', trim($messageid)));
+	public function delete_by_pid($pids) {
+		$pids = dintval((array)$pids, true);
+		if(!$pids) {
+			return 0;
+		}
+		return DB::delete($this->_table, 'pid IN ('.dimplode($pids).') AND status=1');
 	}
 
-	public function complete($messagekey, $fid, $tid, $pid, $parentkey = '') {
-		return $this->update($messagekey, [
-			'parentkey' => $parentkey,
+	public function complete($messageid, $fid, $tid, $pid, $parentid = '') {
+		return $this->update($messageid, [
+			'parentid' => $parentid,
 			'fid' => intval($fid),
 			'tid' => intval($tid),
 			'pid' => intval($pid),
@@ -45,8 +49,8 @@ class table_forum_emailpost extends discuz_table {
 		]);
 	}
 
-	public function reject($messagekey, $detail) {
-		return $this->update($messagekey, [
+	public function reject($messageid, $detail) {
+		return $this->update($messageid, [
 			'status' => -1,
 			'detail' => cutstr(strip_tags($detail), 255),
 		]);

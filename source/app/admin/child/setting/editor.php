@@ -61,7 +61,7 @@ if(submitcheck('settingsubmit')) {
 	]], $setting['defaulteditormode'], 'mradio');
 
 	showtitle('setting_editor_mode_type_wysiwyg');
-	showsetting('setting_editor_swtich_enable', 'settingnew[allowswitcheditor]', $setting['allowswitcheditor'], 'radio');
+	showsetting('setting_editor_switch_enable', 'settingnew[allowswitcheditor]', $setting['allowswitcheditor'], 'radio');
 	showsetting('setting_editor_simplemode', ['settingnew[simplemode]', [
 		[1, $lang['setting_editor_simplemode_1']],
 		[0, $lang['setting_editor_simplemode_0']]], 1], $setting['simplemode'], 'mradio');

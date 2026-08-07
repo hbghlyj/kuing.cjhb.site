@@ -31,9 +31,9 @@
 			<input type="hidden" name="reppid" value="$reppid" />
 			<!--{/if}-->
 			<!--{if !empty($_GET['reppost'])}-->
-			<input type="hidden" name="reppost" value="$_GET[reppost]" />
+			<input type="hidden" name="reppost" value="{echo dhtmlspecialchars((string)$_GET['reppost'])}" />
 			<!--{elseif !empty($_GET['repquote'])}-->
-				<input type="hidden" name="reppost" value="$_GET[repquote]" />
+				<input type="hidden" name="reppost" value="{echo dhtmlspecialchars((string)$_GET['repquote'])}" />
 			<!--{/if}-->
 			<!--{/if}-->
 			<input type="hidden" name="handlekey" value="$_GET['handlekey']" />

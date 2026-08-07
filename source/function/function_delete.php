@@ -25,6 +25,20 @@ function deletemember($uids, $delpost = true) {
 	if($delpost) {
 		deleteattach($uids, 'uid');
 		deletepost($uids, 'authorid');
+	} else {
+		loadcache('posttableids');
+		$posttableids = !empty($_G['cache']['posttableids']) ? $_G['cache']['posttableids'] : ['0'];
+		foreach($posttableids as $id) {
+			DB::query('UPDATE %t SET authorid=0 WHERE authorid IN(%n)', [table_forum_post::getposttable(intval($id)), $uids]);
+		}
+		DB::query('UPDATE %t SET authorid=0 WHERE authorid IN(%n)', ['forum_thread', $uids]);
+		$shardids = DB::fetch_all('SELECT DISTINCT tableid AS k FROM %t WHERE uid IN(%n)', ['forum_attachment', $uids], 'k');
+		foreach(array_keys($shardids) as $tid) {
+			if($tid != 127) {
+				DB::query('UPDATE %t SET uid=0 WHERE uid IN(%n)', ['forum_attachment_'.$tid, $uids]);
+			}
+		}
+		DB::query('UPDATE %t SET uid=0 WHERE uid IN(%n)', ['forum_attachment', $uids]);
 	}
 
 	$arruids = $uids;
@@ -46,7 +60,6 @@ function deletemember($uids, $delpost = true) {
 	table_common_member_verify_info::t()->delete_by_uid($arruids);
 	table_common_member_action_log::t()->delete_by_uid($arruids);
 	table_forum_moderator::t()->delete_by_uid($arruids);
-	table_forum_post_location::t()->delete_by_uid($arruids);
 	$doids = [];
 	$query = table_home_doing::t()->fetch_all_by_uid_doid($arruids);
 	foreach($query as $value) {
@@ -148,6 +161,7 @@ function deletepost($ids, $idtype = 'pid', $credit = false, $posttableid = false
 	$idsstr = dimplode($ids);
 
 	$tids = [];
+	$emailpostpids = [];
 	if($credit) {
 		$replycredit_list = $tuidarray = $ruidarray = $_G['deleteauthorids'] = [];
 	}
@@ -163,6 +177,9 @@ function deletepost($ids, $idtype = 'pid', $credit = false, $posttableid = false
 		foreach($postlist as $post) {
 			if(!$recycle && $idtype != 'tid') {
 				$tids[$post['tid']] = $post['tid'];
+			}
+			if(!$recycle && getstatus($post['status'], 4) && getstatus($post['status'], 9)) {
+				$emailpostpids[$post['pid']] = $post['pid'];
 			}
 			if($credit && $post['invisible'] != -1 && $post['invisible'] != -5) {
 				if($post['first']) {
@@ -230,18 +247,14 @@ function deletepost($ids, $idtype = 'pid', $credit = false, $posttableid = false
 	if($idtype == 'pid') {
 		table_forum_postcomment::t()->delete_by_rpid($ids);
 		table_common_moderate::t()->delete_moderate($ids, 'pid');
-		table_forum_post_location::t()->delete($ids);
 		table_forum_filter_post::t()->delete_by_pid($ids);
 		table_forum_hotreply_number::t()->delete_by_pid($ids);
 		table_forum_hotreply_member::t()->delete_by_pid($ids);
 	} elseif($idtype == 'tid') {
-		table_forum_post_location::t()->delete_by_tid($ids);
 		table_forum_filter_post::t()->delete_by_tid($ids);
 		table_forum_hotreply_number::t()->delete_by_tid($ids);
 		table_forum_hotreply_member::t()->delete_by_tid($ids);
 		table_forum_sofa::t()->delete($ids);
-	} elseif($idtype == 'authorid') {
-		table_forum_post_location::t()->delete_by_uid($ids);
 	}
 	if($replycredit_list) {
 		foreach(table_forum_replycredit::t()->fetch_all($tids) as $rule) {
@@ -257,6 +270,9 @@ function deletepost($ids, $idtype = 'pid', $credit = false, $posttableid = false
 	}
 	if(!$recycle) {
 		deleteattach($ids, $idtype);
+	}
+	if($emailpostpids) {
+		table_forum_emailpost::t()->delete_by_pid($emailpostpids);
 	}
 	if($tids) {
 		foreach($tids as $tid) {
@@ -464,7 +480,6 @@ function deletethread($tids, $membercount = false, $credit = false, $ponly = fal
 	}
 
 	table_forum_replycredit::t()->delete($arrtids);
-	table_forum_post_location::t()->delete_by_tid($arrtids);
 	table_common_credit_log::t()->delete_by_operation_relatedid(['RCT', 'RCA', 'RCB'], $arrtids);
 	table_forum_threadhidelog::t()->delete_by_tid($arrtids);
 	deletethreadcover($arrtids);

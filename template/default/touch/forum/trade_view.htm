@@ -11,7 +11,7 @@
 	<form method="post" autocomplete="off" id="tradepost" name="tradepost" action="forum.php?mod=trade&orderid=$orderid">
 	<div class="plc p15 cl">
 	<!--{if !empty($_GET['modthreadkey']) && daddslashes($_GET['modthreadkey'])}-->
-		<input type="hidden" name="modthreadkey" value="$_GET['modthreadkey']" />
+		<input type="hidden" name="modthreadkey" value="{echo dhtmlspecialchars((string)$_GET['modthreadkey'])}" />
 	<!--{/if}-->
 	<!--{if !empty($_GET['tid']) && daddslashes($_GET['tid'])}-->
 		<input type="hidden" name="tid" value="$_GET['tid']" />

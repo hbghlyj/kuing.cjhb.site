@@ -50,14 +50,7 @@ class block_friendlink extends commonblock_html {
 	}
 
 	function getdata($style, $parameter) {
-		$type = !empty($parameter['type']) && is_array($parameter) ? $parameter['type'] : [];
-		$b = '0000';
-		for($i = 1; $i <= 4; $i++) {
-			if(in_array($i, $type)) {
-				$b[$i - 1] = '1';
-			}
-		}
-		$type = intval($b, '2');
+		$type = !empty($parameter['type']) && is_array($parameter['type']) ? $parameter['type'] : [];
 		$query = table_common_friendlink::t()->fetch_all_by_displayorder($type);
 		$group1 = $group2 = $group3 = [];
 		foreach($query as $value) {

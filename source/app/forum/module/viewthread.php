@@ -202,6 +202,85 @@ if($_G['forum_thread']['readperm'] && $_G['forum_thread']['readperm'] > $_G['gro
 	showmessage('thread_nopermission', NULL, ['readperm' => $_G['forum_thread']['readperm']], ['login' => 1]);
 }
 
+require_once libfile('function/mail');
+$mailcfg = $_G['setting']['mail'] ?? [];
+if(!is_array($mailcfg)) {
+	$mailcfg = dunserialize($mailcfg);
+}
+$emailcopy_url = '';
+if($_G['uid'] && !empty($mailcfg['mailsend'])) {
+	require_once libfile('class/emailpost');
+	$emailpost_config = emailpost::config();
+	$member = table_common_member::t()->fetch($_G['uid']);
+	if(!empty($emailpost_config['enabled']) && !empty($emailpost_config['recipient_domain']) && !empty($member['email']) && !empty($member['emailstatus'])) {
+		$emailcopy_url = 'forum.php?mod=viewthread&tid='.$_G['tid'].'&emailcopy=1';
+	}
+}
+
+if(!empty($_GET['emailcopy'])) {
+	if(!$emailcopy_url) {
+		if(!$_G['uid']) {
+			showmessage('to_login', NULL, [], ['login' => 1]);
+		}
+		showmessage('emailpost_copy_unavailable');
+	}
+	$member = table_common_member::t()->fetch($_G['uid']);
+	$toemail = $member['email'];
+	if(!filter_var($toemail, FILTER_VALIDATE_EMAIL)) {
+		showmessage('emailpost_copy_noemail');
+	}
+	$thread = $_G['forum_thread'];
+	$tid = intval($thread['tid']);
+	$fid = intval($thread['fid']);
+	$domain = strtolower(trim($emailpost_config['recipient_domain']));
+	$firstpost = DB::fetch_first('SELECT p.*, m.username FROM %t p LEFT JOIN %t m ON m.uid=p.authorid WHERE p.tid=%d AND p.first=1 ORDER BY p.dateline LIMIT 1', [$posttable, 'common_member', $tid]);
+	$bodyhtml = trim(isset($firstpost['message']) ? $firstpost['message'] : '');
+	$bodyhtml = preg_replace('/\[attach\]\d+\[\/attach\]/is', '', $bodyhtml);
+	$bodyhtml = discuzcode(
+		$bodyhtml,
+		!empty($firstpost['smileyoff']) ? 1 : 0,
+		!empty($firstpost['bbcodeoff']) ? 1 : 0,
+		intval($firstpost['htmlon'] ?? 0),
+		1, 1, 1,
+		intval($firstpost['htmlon'] ?? 0),
+		0, 0,
+		intval($firstpost['authorid']),
+		1,
+		intval($firstpost['pid']),
+		0,
+		intval($firstpost['dbdateline']),
+		intval($firstpost['first'])
+	);
+	$subject = htmlspecialchars_decode(trim((string)$thread['subject']), ENT_QUOTES);
+	$threadurl = $_G['setting']['securesiteurl'].rewriteoutput('forum_viewthread', 1, '', $tid, 1, '', '');
+	$copy = $bodyhtml
+		.'<hr>'
+		.'<p style="color:#888;">'.lang('forum/template', 'emailpost_copy_email_footer', ['threadurl' => $threadurl]).'</p>';
+	$from = trim((string)($firstpost['username'] ?? ''));
+	$result = sendmail($toemail, $subject, $copy, $from !== '' ? $from.' <forum+'.$fid.'@'.$domain.'>' : '', [
+		'Message-ID: <thread-'.$tid.'@'.$domain.'>',
+		'Reply-To: forum+'.$fid.'@'.$domain,
+		'X-Emailpost-Copy: 1',
+	]);
+	if(!$result) {
+		showmessage('emailpost_copy_failed');
+	}
+	if(intval($thread['authorid']) === intval($_G['uid'])) {
+		table_forum_emailpost::t()->reserve([
+			'messageid' => '<thread-'.$tid.'@'.$domain.'>',
+			'mailuid' => 0,
+			'uid' => intval($_G['uid']),
+			'action' => 'thread',
+			'fid' => $fid,
+			'tid' => $tid,
+			'pid' => 0,
+			'status' => 1,
+			'dateline' => TIMESTAMP,
+		]);
+	}
+	showmessage('emailpost_copy_sent', 'forum.php?mod=viewthread&tid='.$tid);
+}
+
 $usemagic = ['user' => [], 'thread' => []];
 
 $rushreply = getstatus($_G['forum_thread']['status'], 3);
@@ -484,8 +563,7 @@ if(empty($_GET['viewpid'])) {
 	$pageadd = "AND p.pid='{$_GET['viewpid']}'";
 }
 
-$_G['forum_postcount'] = $_G['forum_notice_jump_shown'] = 0;
-$_G['fromfind'] = !empty($_GET['fromfind']) ? (is_numeric($_GET['fromfind']) ? intval($_GET['fromfind']) : 1) : 0;
+$_G['forum_postcount'] = 0;
 
 $_G['forum_onlineauthors'] = $_G['forum_cachepid'] = $_G['blockedpids'] = [];
 
@@ -887,18 +965,6 @@ function viewthread_procpost($post, $lastvisit, $maxposition = 0) {
 
 	$post['lastpostanchor'] = ($post['position'] == $_G['forum_thread']['maxposition'] || ($maxposition && $post['position'] == $maxposition)) ? '<a name="lastpost"></a>' : '';
 
-	if(!empty($_G['fromfind']) && empty($_G['forum_notice_jump_shown'])) {
-		if($_G['fromfind'] == 1) {
-			if(!empty($post['lastpostanchor'])) {
-				$post['notice_jump'] = true;
-				$_G['forum_notice_jump_shown'] = true;
-			}
-		} elseif($_G['fromfind'] == $post['pid']) {
-			$post['notice_jump'] = true;
-			$_G['forum_notice_jump_shown'] = true;
-		}
-	}
-
 	if(empty($post['hotrecommended']) && $post['incurpage']) {
 		if($_G['forum_pagebydesc']) {
 			$post['number'] = $_G['forum_numpost'] + $_G['forum_ppp2']--;
@@ -1043,7 +1109,7 @@ function viewthread_procpost($post, $lastvisit, $maxposition = 0) {
 						$post['message'] = preg_replace('/\s?\[page\]\s?/is', '', $post['message']);
 					}
 					if($_GET['cp'] != 'all' && !str_contains($post['message'], '[/index]') && empty($_GET['threadindex']) && !$messageindex) {
-						$_G['forum_posthtml']['footer'][$post['pid']] .= '<div id="threadpage"></div><script type="text/javascript" reload="1">show_threadpage('.$post['pid'].', '.$cp.', '.count($messagearray).', '.($_GET['from'] == 'preview' ? '1' : '0').', \''.(isset($_GET['modthreadkey']) ? $_GET['modthreadkey'] : '').'\');</script>';
+						$_G['forum_posthtml']['footer'][$post['pid']] .= '<div id="threadpage"></div><script type="text/javascript" reload="1">show_threadpage('.$post['pid'].', '.$cp.', '.count($messagearray).', '.($_GET['from'] == 'preview' ? '1' : '0').', '.json_encode(isset($_GET['modthreadkey']) ? (string)$_GET['modthreadkey'] : '', JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT).');</script>';
 					}
 				}
 			}

@@ -53,7 +53,7 @@ if(submitcheck('retagsubmit') || $_GET['formhash'] == FORMHASH) {
 		if($relateitem) {
 			$relatehtml = '<div class="mtw mbw"><h3 class="pbm mbm bbda">'.lang('forum/template', 'related_thread').'</h3><ul class="xl cl relatedthreadlist">';
 			foreach($relateitem as $var) {
-				$relatehtml .= '<li><a href="forum.php?mod=viewthread&tid='.intval($var['tid']).'" title="'.dhtmlspecialchars($var['subject']).'" target="_blank">'.dhtmlspecialchars($var['subject']).'</a></li>';
+				$relatehtml .= '<li><a href="forum.php?mod=viewthread&tid='.intval($var['tid']).'" title="'.$var['subject'].'" target="_blank">'.$var['subject'].'</a></li>';
 			}
 			$relatehtml .= '</ul></div>';
 		}

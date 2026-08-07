@@ -1,6 +1,8 @@
 <?php
 
-// Wrapper for backward compatibility - delegates to merged rebuild_styles.php
-$argv = array_merge([$argv[0], '--action=verhash'], array_slice($argv, 1));
+// Wrapper for verhash-only operation - delegates to merged rebuild_styles.php
+if(!defined('APP_ACTION')) {
+	define('APP_ACTION', 'verhash');
+}
 require __DIR__.'/rebuild_styles.php';
 

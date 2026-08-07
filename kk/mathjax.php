@@ -47,7 +47,7 @@
     }
   }
 </script>
-<?php if(CURMODULE === 'viewthread'): ?>
+<?php if(in_array(CURMODULE, ['viewthread', 'forumdisplay'])): ?>
 <script>
   window.MathJax = window.MathJax || {};
   window.MathJax.loader = window.MathJax.loader || {};

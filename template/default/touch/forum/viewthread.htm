@@ -1,7 +1,7 @@
 <!--{template common/header}-->
 <div class="header cl">
 	<div class="mz"><a href="javascript:history.back();"><i class="dm-c-left"></i></a></div>
-	<h2><a href="<!--{if $_GET['fromguid'] == 'hot' && $_G['setting']['guidestatus']}-->forum.php?mod=guide&view=hot&page=$_GET['page']<!--{else}-->forum.php?mod=forumdisplay&fid=$_G['fid']&<!--{eval echo rawurldecode($_GET['extra']);}--><!--{/if}-->"><!--{eval echo strip_tags($_G['forum']['name']) ? strip_tags($_G['forum']['name']) : $_G['forum']['name'];}--></a></h2>
+	<h2><a href="<!--{if $_GET['fromguid'] == 'hot' && $_G['setting']['guidestatus']}-->forum.php?mod=guide&view=hot&page=$_GET['page']<!--{else}-->forum.php?mod=forumdisplay&fid=$_G['fid']&<!--{echo dhtmlspecialchars((string)$_GET['extra'])}--><!--{/if}-->"><!--{eval echo strip_tags($_G['forum']['name']) ? strip_tags($_G['forum']['name']) : $_G['forum']['name'];}--></a></h2>
 	<div class="my"><a href="index.php"><i class="dm-house"></i></a></div>
 </div>
 <!--{hook/viewthread_top_mobile}-->
@@ -57,7 +57,7 @@
 							<div id="moption_$post['pid']" popup="true" class="manage" style="display:none;">
 								<div class="manage_popup pb10 cl">
 								<!--{if !$_G['forum_thread']['special']}-->
-									<a class="button" href="forum.php?mod=post&action=edit&fid=$_G['fid']&tid=$_G['tid']&pid=$post['pid']<!--{if $_G['forum_thread']['sortid']}--><!--{if $post['first']}-->&sortid={$_G['forum_thread']['sortid']}<!--{/if}--><!--{/if}-->{if !empty($_GET['modthreadkey'])}&modthreadkey=$_GET['modthreadkey']{/if}&page=$page">{lang edit}</a>
+									<a class="button" href="forum.php?mod=post&action=edit&fid=$_G['fid']&tid=$_G['tid']&pid=$post['pid']<!--{if $_G['forum_thread']['sortid']}--><!--{if $post['first']}-->&sortid={$_G['forum_thread']['sortid']}<!--{/if}--><!--{/if}-->{if !empty($_GET['modthreadkey'])}&modthreadkey={echo dhtmlspecialchars((string)$_GET['modthreadkey'])}{/if}&page=$page">{lang edit}</a>
 								<!--{/if}-->
 								<!--{if $_G['forum']['ismoderator']}-->
 									<!--{if $_G['group']['allowdelpost']}-->
@@ -131,7 +131,7 @@
 							<em class="mgl"><a href="#moption_$post['pid']" class="popup">{lang manage}</a></em>
 							<div id="moption_$post['pid']" popup="true" class="manage" style="display:none">
 								<div class="manage_popup">
-								<a class="button" href="forum.php?mod=post&action=edit&fid=$_G['fid']&tid=$_G['tid']&pid=$post['pid']{if !empty($_GET['modthreadkey'])}&modthreadkey=$_GET['modthreadkey']{/if}&page=$page">{lang edit}</a>
+								<a class="button" href="forum.php?mod=post&action=edit&fid=$_G['fid']&tid=$_G['tid']&pid=$post['pid']{if !empty($_GET['modthreadkey'])}&modthreadkey={echo dhtmlspecialchars((string)$_GET['modthreadkey'])}{/if}&page=$page">{lang edit}</a>
 								<!--{if $_G['group']['allowdelpost']}-->
 									<input type="button" value="{lang modmenu_deletepost}" class="dialog button" href="forum.php?mod=topicadmin&action=delpost&fid={$_G['fid']}&tid={$_G['tid']}&operation=&optgroup=&page=&topiclist[]={$post['pid']}">
 								<!--{/if}-->
@@ -150,7 +150,7 @@
 								</div>
 							</div>
 						<!--{else}-->
-							<em class="mgl"><a href="forum.php?mod=post&action=edit&fid={$_G['fid']}&tid={$_G['tid']}&pid={$post['pid']}{if !empty($_GET['modthreadkey'])}&modthreadkey={$_GET['modthreadkey']}{/if}&page={$page}"><!--{if $_G['forum_thread']['special'] == 2 && !$post['message']}-->{lang post_add_aboutcounter}<!--{else}-->{lang edit}<!--{/if}--></a></em>
+							<em class="mgl"><a href="forum.php?mod=post&action=edit&fid={$_G['fid']}&tid={$_G['tid']}&pid={$post['pid']}{if !empty($_GET['modthreadkey'])}&modthreadkey={echo dhtmlspecialchars((string)$_GET['modthreadkey'])}{/if}&page={$page}"><!--{if $_G['forum_thread']['special'] == 2 && !$post['message']}-->{lang post_add_aboutcounter}<!--{else}-->{lang edit}<!--{/if}--></a></em>
 						<!--{/if}-->
 						<!--{if $_G['uid'] && $post['authorid'] == $_G['uid']}-->
 							<em class="mgl"><a class="dialog" href="forum.php?mod=misc&action=postdelete&tid=$post['tid']&pid=$post['pid']&extra=$_GET['extra']&page=$page&infloat=yes&handlekey=postdelete$post['pid']"><i class="fico-delete" aria-hidden="true"></i>{lang delete}</a></em>

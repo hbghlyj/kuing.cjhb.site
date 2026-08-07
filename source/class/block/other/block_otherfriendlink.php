@@ -67,13 +67,6 @@ class block_otherfriendlink extends discuz_block {
 		$titlelength = isset($parameter['titlelength']) ? intval($parameter['titlelength']) : 40;
 		$summarylength = isset($parameter['summarylength']) ? intval($parameter['summarylength']) : 80;
 		$type = !empty($parameter['type']) && is_array($parameter['type']) ? $parameter['type'] : [];
-		$b = '0000';
-		for($i = 1; $i <= 4; $i++) {
-			if(in_array($i, $type)) {
-				$b[$i - 1] = '1';
-			}
-		}
-		$type = intval($b, '2');
 		$list = [];
 		$query = table_common_friendlink::t()->fetch_all_by_displayorder($type);
 		foreach($query as $data) {

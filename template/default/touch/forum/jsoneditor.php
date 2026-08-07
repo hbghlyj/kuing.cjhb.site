@@ -35,16 +35,16 @@
     <input type="hidden" name="noticetrimstr" id="noticetrimstr" value="{$postinfo['noticetrimstr']}" />
     <!--{/if}-->
     <input type="hidden" id="mobileeditor" name="mobileeditor" value="1">
-    <!--{if !empty($_GET['modthreadkey'])}--><input type="hidden" name="modthreadkey" id="modthreadkey" value="$_GET['modthreadkey']" /><!--{/if}-->
+    <!--{if !empty($_GET['modthreadkey'])}--><input type="hidden" name="modthreadkey" id="modthreadkey" value="{echo dhtmlspecialchars((string)$_GET['modthreadkey'])}" /><!--{/if}-->
     <!--{if $_GET['action'] == 'reply'}-->
     <input type="hidden" name="noticetrimstr" value="$noticetrimstr" />
     <!--{if $reppid}-->
     <input type="hidden" name="reppid" value="$reppid" />
     <!--{/if}-->
     <!--{if $_GET['reppost']}-->
-    <input type="hidden" name="reppost" value="$_GET['reppost']" />
+    <input type="hidden" name="reppost" value="{echo dhtmlspecialchars((string)$_GET['reppost'])}" />
     <!--{elseif $_GET['repquote']}-->
-    <input type="hidden" name="reppost" value="$_GET['repquote']" />
+    <input type="hidden" name="reppost" value="{echo dhtmlspecialchars((string)$_GET['repquote'])}" />
     <!--{/if}-->
     <!--{/if}-->
     <!--{if $_GET[action] == 'edit'}-->
