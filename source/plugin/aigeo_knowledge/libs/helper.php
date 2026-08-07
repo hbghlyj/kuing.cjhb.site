@@ -3,6 +3,8 @@
 
 if(!defined('IN_DISCUZ')) exit('Access Denied');
 
+require_once dirname(__FILE__).'/markdown.php';
+
 if(!function_exists('aigeo_html')) {
 function aigeo_html($s){ return dhtmlspecialchars((string)$s); }
 }
@@ -23,7 +25,7 @@ function aigeo_th($cells){ $html='<tr>'; foreach($cells as $c){ $html.='<th>'.ai
 }
 
 function aigeo_k_static_url($path) { return 'source/plugin/aigeo_knowledge/' . ltrim($path, '/'); }
-function aigeo_k_admin_head() { static $p=false; if($p) return; $p=true; echo '<link rel="stylesheet" href="'.dhtmlspecialchars(aigeo_k_static_url('static/css/aigeo-knowledge.css')).'?v=2026071901" />'; }
+function aigeo_k_admin_head() { static $p=false; if($p) return; $p=true; echo '<link rel="stylesheet" href="'.dhtmlspecialchars(aigeo_k_static_url('static/css/aigeo-knowledge.css')).'?v=2026080801" />'; }
 function aigeo_k_admin_query($pmod='admin_dashboard', $extra='') { $pluginid=intval(DB::result_first("SELECT pluginid FROM %t WHERE identifier=%s", array('common_plugin','aigeo_knowledge'))); $frame=isset($_GET['frame']) && $_GET['frame']==='no'?'&frame=no':''; return 'action=plugins&operation=config&do='.$pluginid.'&identifier=aigeo_knowledge&pmod='.$pmod.$extra.$frame; }
 function aigeo_k_admin_url($pmod='admin_dashboard', $extra='') { return ADMINSCRIPT.'?'.aigeo_k_admin_query($pmod,$extra); }
 function aigeo_k_pluginid(){ static $id=null; if($id===null) $id=intval(DB::result_first("SELECT pluginid FROM %t WHERE identifier=%s", array('common_plugin','aigeo_knowledge'))); return $id; }
@@ -62,123 +64,34 @@ function aigeo_k_type_label($t) { $map=array('faq'=>'FAQ','doc'=>'文档','compa
 function aigeo_k_domain_label($d) { $map=array('discuz'=>'Discuz!','mall'=>'商城','local'=>'同城','plugin'=>'插件','operation'=>'运营','system'=>'系统','common'=>'通用'); return isset($map[$d])?$map[$d]:'通用'; }
 function aigeo_k_clean($v,$len=0){ $v=trim((string)$v); if($len>0) $v=cutstr($v,$len,''); return $v; }
 function aigeo_k_parse_front_matter($md) { $meta=array(); $body=$md; if(preg_match('/^---\s*\n(.*?)\n---\s*\n/s',$md,$m)){ $body=substr($md, strlen($m[0])); $lines=preg_split('/\r?\n/',$m[1]); $key=''; $mode=''; $buf=array(); $flush=function() use (&$meta,&$key,&$mode,&$buf){ if($key==='') return; if($mode==='array'){ $meta[$key]=implode(',', $buf); } elseif($mode==='block'){ $meta[$key]=trim(implode(' ', $buf)); } $key=''; $mode=''; $buf=array(); }; foreach($lines as $line){ if(preg_match('/^([a-zA-Z0-9_\-]+):\s*(.*)$/',$line,$mm)){ $flush(); $key=$mm[1]; $val=trim($mm[2]); if($val==='>-' || $val==='|' || $val==='>-'){ $mode='block'; $buf=array(); } elseif($val===''){ $mode='array'; $buf=array(); } else { $meta[$key]=trim($val," \t\"'"); $key=''; $mode=''; $buf=array(); } } elseif($mode==='array' && preg_match('/^\s*-\s*(.+)$/',$line,$mm)){ $buf[]=trim($mm[1]," \t\"'"); } elseif($mode==='block' && preg_match('/^\s+(.+)$/',$line,$mm)){ $buf[]=trim($mm[1]); } } $flush(); } return array($meta,$body); }
-function aigeo_k_extract_summary($body){ $plain=trim(strip_tags(preg_replace('/```.*?```/s','',$body))); $plain=preg_replace('/[#>*`\-\[\]\(\)]/','',$plain); $plain=preg_replace('/\s+/',' ',$plain); return cutstr($plain,220,''); }
+function aigeo_k_extract_summary($body){
+    $plain=preg_replace('/```.*?```/s','',(string)$body);
+    $plain=preg_replace('/<!--.*?-->/s','',$plain);
+    $plain=preg_replace('/^---\s*\n.*?\n---\s*\n/s','',$plain);
+    $plain=preg_replace('/!\[[^\]]*\]\([^)]*\)/','',$plain);
+    $plain=preg_replace('/\[([^\]]*)\]\([^)]*\)/','$1',$plain);
+    $plain=preg_replace('/^\s*\|?\s*:?-{3,}:?\s*(\|\s*:?-{3,}:?\s*)+\|?\s*$/m','',$plain);
+    $plain=str_replace('|',' ',$plain);
+    $plain=str_replace('~~','',$plain);
+    $plain=trim(strip_tags($plain));
+    $plain=preg_replace('/[#>*`\-\[\]\(\)]/','',$plain);
+    $plain=preg_replace('/\s+/',' ',$plain);
+    return cutstr(trim($plain),220,'');
+}
 function aigeo_k_inline_markdown($text){
-    $html=dhtmlspecialchars((string)$text);
-    $html=preg_replace('/`([^`]+)`/','<code>$1</code>',$html);
-    $html=preg_replace('/\*\*([^*]+)\*\*/','<strong>$1</strong>',$html);
-    $html=preg_replace_callback('/https:\/\/[^\s<>"\']+/i', function($m){
-        $url=rtrim($m[0], '.,;:!?)');
-        $tail=substr($m[0], strlen($url));
-        return '<a class="aigeo-link" href="'.$url.'" target="_blank" rel="noopener noreferrer">'.$url.'</a>'.$tail;
-    }, $html);
-    return $html;
-}
-function aigeo_k_is_table_separator($line){
-    return preg_match('/^\s*\|?\s*:?-{3,}:?\s*(\|\s*:?-{3,}:?\s*)+\|?\s*$/', (string)$line);
-}
-function aigeo_k_table_cells($line){
-    $line=trim((string)$line);
-    $line=trim($line, '|');
-    $cells=explode('|', $line);
-    foreach($cells as $k=>$v){ $cells[$k]=trim($v); }
-    return $cells;
-}
-function aigeo_k_render_table($rows){
-    if(count($rows)<2) return '';
-    $head=aigeo_k_table_cells($rows[0]);
-    $html='<div class="aigeo-doc-table"><table><thead><tr>';
-    foreach($head as $cell){ $html.='<th>'.aigeo_k_inline_markdown($cell).'</th>'; }
-    $html.='</tr></thead><tbody>';
-    for($i=2;$i<count($rows);$i++){
-        $cells=aigeo_k_table_cells($rows[$i]);
-        $html.='<tr>';
-        for($j=0;$j<count($head);$j++){
-            $html.='<td>'.aigeo_k_inline_markdown(isset($cells[$j])?$cells[$j]:'').'</td>';
-        }
-        $html.='</tr>';
-    }
-    $html.='</tbody></table></div>';
-    return $html;
+    $text=(string)$text;
+    if(trim($text)==='') return '';
+    return aigeo_k_markdown_parser()->line($text);
 }
 function aigeo_k_render_markdown($text){
     $text=str_replace(array("\r\n","\r"), "\n", (string)$text);
+    // Authors use HTML comments to hide editorial notes. Raw HTML is escaped
+    // rather than rendered, so strip comments before parsing or they would
+    // show up as literal text on the page.
     $text=preg_replace('/<!--.*?-->/s','',$text);
     $text=preg_replace('/^---\s*\n.*?\n---\s*\n/s','',$text);
-    $lines=preg_split('/\n/',$text);
-    $html='';
-    $paragraph=array();
-    $list=array();
-    $listType='';
-    $flushParagraph=function() use (&$html,&$paragraph){
-        if(!$paragraph) return;
-        $body=trim(implode("\n",$paragraph));
-        if($body!=='') $html.='<p>'.aigeo_k_inline_markdown(preg_replace('/\s*\n\s*/',' ',$body)).'</p>';
-        $paragraph=array();
-    };
-    $flushList=function() use (&$html,&$list,&$listType){
-        if(!$list) return;
-        $tag=$listType==='ol'?'ol':'ul';
-        $html.='<'.$tag.'>';
-        foreach($list as $item){ $html.='<li>'.aigeo_k_inline_markdown($item).'</li>'; }
-        $html.='</'.$tag.'>';
-        $list=array();
-        $listType='';
-    };
-    $count=count($lines);
-    for($i=0;$i<$count;$i++){
-        $line=rtrim($lines[$i]);
-        if(preg_match('/^```/', trim($line))){
-            $flushParagraph(); $flushList();
-            $code=array();
-            for($i=$i+1;$i<$count;$i++){
-                if(preg_match('/^```/', trim($lines[$i]))) break;
-                $code[]=$lines[$i];
-            }
-            $html.='<pre><code>'.dhtmlspecialchars(rtrim(implode("\n",$code))).'</code></pre>';
-            continue;
-        }
-        if(trim($line)===''){ $flushParagraph(); $flushList(); continue; }
-        if(preg_match('/^\s*>\s*$/',$line)){ $flushParagraph(); $flushList(); continue; }
-        if($i+1<$count && strpos($line,'|')!==false && aigeo_k_is_table_separator($lines[$i+1])){
-            $flushParagraph(); $flushList();
-            $tableRows=array($line,$lines[$i+1]);
-            for($i=$i+2;$i<$count;$i++){
-                if(strpos($lines[$i],'|')===false || trim($lines[$i])==='') { $i--; break; }
-                $tableRows[]=$lines[$i];
-            }
-            $html.=aigeo_k_render_table($tableRows);
-            continue;
-        }
-        if(preg_match('/^(#{1,4})\s+(.+)$/',$line,$m)){
-            $flushParagraph(); $flushList();
-            $level=min(4, max(2, strlen($m[1])));
-            $html.='<h'.$level.'>'.aigeo_k_inline_markdown(trim($m[2])).'</h'.$level.'>';
-            continue;
-        }
-        if(preg_match('/^\s*>\s*(.+)$/',$line,$m)){
-            $flushParagraph(); $flushList();
-            $html.='<blockquote>'.aigeo_k_inline_markdown(trim($m[1])).'</blockquote>';
-            continue;
-        }
-        if(preg_match('/^\s*[-*]\s+(.+)$/',$line,$m)){
-            $flushParagraph();
-            if($listType && $listType!=='ul') $flushList();
-            $listType='ul';
-            $list[]=trim($m[1]);
-            continue;
-        }
-        if(preg_match('/^\s*\d+\.\s+(.+)$/',$line,$m)){
-            $flushParagraph();
-            if($listType && $listType!=='ol') $flushList();
-            $listType='ol';
-            $list[]=trim($m[1]);
-            continue;
-        }
-        $paragraph[]=$line;
-    }
-    $flushParagraph(); $flushList();
-    return $html;
+    if(trim($text)==='') return '';
+    return aigeo_k_markdown_parser()->text($text);
 }
 function aigeo_k_strip_chunk_heading($content,$heading){
     $content=ltrim((string)$content);
