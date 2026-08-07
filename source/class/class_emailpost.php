@@ -74,7 +74,7 @@ class emailpost {
 		}
 		global $_G;
 		$fid = intval($thread['fid']);
-		$subject = trim((string)$thread['subject']);
+		$subject = htmlspecialchars_decode(trim((string)$thread['subject']), ENT_QUOTES);
 		$replier = trim((string)($reply['author'] ?? ''));
 		$bodytext = trim((string)($reply['message'] ?? ''));
 		$bodytext = preg_replace('/\[attach\]\d+\[\/attach\]/is', '', $bodytext);

@@ -251,7 +251,7 @@ if(!empty($_GET['emailcopy'])) {
 		intval($firstpost['dbdateline']),
 		intval($firstpost['first'])
 	);
-	$subject = dhtmlspecialchars($thread['subject']);
+	$subject = htmlspecialchars_decode(trim((string)$thread['subject']), ENT_QUOTES);
 	$threadurl = $_G['setting']['securesiteurl'].rewriteoutput('forum_viewthread', 1, '', $tid, 1, '', '');
 	$copy = $bodyhtml
 		.'<hr>'
