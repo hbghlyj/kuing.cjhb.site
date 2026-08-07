@@ -77,6 +77,20 @@ class model_post extends discuz_model {
 
 	}
 
+	private function emailReplyCopyNotice(): array {
+		require_once libfile('class/emailpost');
+		try {
+			return \emailpost::authorReplyNotice($this->thread, [
+				'pid' => $this->pid,
+				'author' => $this->member['username'],
+				'authorid' => $this->member['uid'],
+				'message' => $this->param['message'],
+			]);
+		} catch(Throwable $e) {
+			return [];
+		}
+	}
+
 	protected function trigger_chat_activity($event, array $payload) {
 		require_once DISCUZ_ROOT.'/vendor/autoload.php';
 		require_once DISCUZ_ROOT.'/chat/php/config.php';
@@ -189,7 +203,7 @@ class model_post extends discuz_model {
 		$notice_funcs = [];
 		if($this->thread['authorid'] != $this->member['uid'] && !$this->param['isanonymous']) {
 			$thapost = table_forum_post::t()->fetch_threadpost_by_tid_invisible($this->thread['tid'], 0);
-			$notice_funcs[] = ['notification_add', [$thapost['authorid'], 'post', 'reppost_noticeauthor', [
+			$notice_funcs[] = $this->emailReplyCopyNotice() ?: ['notification_add', [$thapost['authorid'], 'post', 'reppost_noticeauthor', [
 				'tid' => $this->thread['tid'],
 				'subject' => $this->thread['subject'],
 				'fid' => $this->forum['fid'],

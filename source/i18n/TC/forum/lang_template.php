@@ -317,6 +317,7 @@ $lang = [
 	'emailpost_copy' => '郵件副本',
 	'emailpost_copy_title' => '將本帖內容發送到您的已驗證信箱，回覆該郵件即可回覆本帖',
 	'emailpost_copy_email_footer' => '您收到本帖副本，因為您請求了郵件副本。直接回覆本郵件即可回覆本帖。本帖連結：<a href="{threadurl}" style="color:#888;">{threadurl}</a>',
+	'emailpost_reply_copy_email_footer' => '您收到本回覆副本，因為您透過郵件建立了該主題。回覆本郵件即可回覆本帖。',
 	'their' => '所屬分類',
 	'threads_all' => '全部主題',
 	'viewed_threads' => '瀏覽過的帖子',

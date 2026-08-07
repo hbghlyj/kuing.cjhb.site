@@ -118,7 +118,7 @@ $process = static function(string $raw) use ($instance) {
 	$reflection = new ReflectionMethod($instance, 'processMessage');
 	$reflection->invoke($instance, $raw);
 };
-$rowFor = static fn(string $id) => table_forum_emailpost::t()->fetch(hash('sha256', $id));
+$rowFor = static fn(string $id) => table_forum_emailpost::t()->fetch($id);
 
 // Messages that do not depend on the thread reply identity.
 $standalone = [
@@ -149,6 +149,12 @@ foreach($standalone as $message) {
 
 $root = $rowFor($rootId);
 emailpost_assert($root && intval($root['status']) === 1 && intval($root['fid']) === 2 && intval($root['tid']) > 0 && intval($root['pid']) > 0, 'New-thread email was not persisted as a post.');
+
+emailpost_assert(emailpost::threadWasCreatedByEmail(intval($root['tid'])) === true, 'Email-created thread was not detected as email-created.');
+emailpost_assert(emailpost::threadWasCreatedByEmail(999999999) === false, 'Non-email thread was detected as email-created.');
+$copyNotice = emailpost::authorReplyNotice(['tid' => intval($root['tid'])], ['author' => 'Admin', 'message' => 'x']);
+emailpost_assert(is_array($copyNotice) && ($copyNotice[0] ?? null) === ['emailpost', 'sendReplyCopy'] && intval($copyNotice[1][0]['tid']) === intval($root['tid']), 'Reply-copy notice was not built for an email-created thread.');
+emailpost_assert(emailpost::authorReplyNotice(['tid' => 999999999], []) === [], 'Reply-copy notice was built for a non-email thread.');
 
 // Replies route only via the deterministic <thread-{tid}@domain> identity.
 $threadId = '<thread-'.intval($root['tid']).'@forum.example>';
@@ -205,13 +211,13 @@ $html = $rowFor($htmlId);
 $attachment = $rowFor($attachmentId);
 $alt = $rowFor($altId);
 $ownReply = $rowFor($ownReplyId);
-$parentkey = hash('sha256', $threadId);
-emailpost_assert($reply && intval($reply['status']) === 1 && intval($reply['tid']) === intval($root['tid']) && $reply['parentkey'] === $parentkey, 'In-Reply-To to the thread identity did not create a mapped reply.');
-emailpost_assert($reference && intval($reference['status']) === 1 && intval($reference['tid']) === intval($root['tid']) && $reference['parentkey'] === $parentkey, 'References fallback to the thread identity did not create a mapped reply.');
+$parentid = $threadId;
+emailpost_assert($reply && intval($reply['status']) === 1 && intval($reply['tid']) === intval($root['tid']) && $reply['parentid'] === $parentid, 'In-Reply-To to the thread identity did not create a mapped reply.');
+emailpost_assert($reference && intval($reference['status']) === 1 && intval($reference['tid']) === intval($root['tid']) && $reference['parentid'] === $parentid, 'References fallback to the thread identity did not create a mapped reply.');
 emailpost_assert($html && intval($html['status']) === 1 && intval($html['tid']) === intval($root['tid']), 'HTML-only email was not converted into a reply.');
 emailpost_assert($attachment && intval($attachment['status']) === 1 && intval($attachment['tid']) === intval($root['tid']), 'Multipart email was not posted.');
 emailpost_assert($alt && intval($alt['status']) === 1 && intval($alt['tid']) === intval($root['tid']), 'multipart/alternative email was not posted.');
-emailpost_assert($ownReply && intval($ownReply['status']) === 1 && intval($ownReply['tid']) === intval($root['tid']) && $ownReply['parentkey'] === hash('sha256', $rootId), 'Reply to the original thread email Message-ID was not routed to the thread.');
+emailpost_assert($ownReply && intval($ownReply['status']) === 1 && intval($ownReply['tid']) === intval($root['tid']) && $ownReply['parentid'] === $rootId, 'Reply to the original thread email Message-ID was not routed to the thread.');
 
 // A reply referencing only an unknown Message-ID is not routed.
 $orphanHeaders = "{$base}Message-ID: <{$token}-orphan@example.net>\r\nIn-Reply-To: <{$token}-never-sent@example.net>\r\nSubject: Re: {$token} root\r\nContent-Type: text/plain; charset=UTF-8\r\n";

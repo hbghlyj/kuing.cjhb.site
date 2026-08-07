@@ -36,6 +36,78 @@ class emailpost {
 		return self::loadConfig();
 	}
 
+	public static function threadWasCreatedByEmail(int $tid): bool {
+		if($tid <= 0) {
+			return false;
+		}
+		return (bool)DB::result_first('SELECT 1 FROM %t WHERE tid=%d AND action=%s AND status=1 LIMIT 1', ['forum_emailpost', $tid, 'thread']);
+	}
+
+	public static function authorReplyNotice(array $thread, array $reply): array {
+		if(!self::threadWasCreatedByEmail(intval($thread['tid'] ?? 0))) {
+			return [];
+		}
+		return [
+			[self::class, 'sendReplyCopy'],
+			[$thread, $reply],
+		];
+	}
+
+	public static function sendReplyCopy(array $thread, array $reply): bool {
+		$config = self::loadConfig();
+		$domain = strtolower(trim($config['recipient_domain'] ?? ''));
+		if(empty($config['enabled']) || $domain === '') {
+			return false;
+		}
+		$tid = intval($thread['tid'] ?? 0);
+		if($tid <= 0) {
+			return false;
+		}
+		$thread = table_forum_thread::t()->fetch($tid);
+		if(!$thread) {
+			return false;
+		}
+		$member = table_common_member::t()->fetch(intval($thread['authorid']));
+		$email = $member['email'] ?? '';
+		if(!$member || empty($member['emailstatus']) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+			return false;
+		}
+		global $_G;
+		$fid = intval($thread['fid']);
+		$subject = trim((string)$thread['subject']);
+		$replier = trim((string)($reply['author'] ?? ''));
+		$bodytext = trim((string)($reply['message'] ?? ''));
+		$bodytext = preg_replace('/\[attach\]\d+\[\/attach\]/is', '', $bodytext);
+		require_once libfile('function/discuzcode');
+		$bodytext = discuzcode(
+			$bodytext,
+			0, 0, 0,
+			1, 1, 1,
+			0,
+			0, 0,
+			intval($reply['authorid'] ?? 0),
+			1,
+			intval($reply['pid'] ?? 0),
+			0, 0, 0, 0
+		);
+		$copy = $bodytext
+			.'<hr>'
+			.'<p style="color:#888;">'.lang('forum/template', 'emailpost_reply_copy_email_footer').'</p>';
+		require_once libfile('function/mail');
+		$from = ($replier !== '' ? $replier : $_G['setting']['sitename']).' <forum+'.$fid.'@'.$domain.'>';
+		$extraheaders = [
+			'Message-ID: <thread-'.$tid.'@'.$domain.'>',
+			'Reply-To: forum+'.$fid.'@'.$domain,
+			'X-Emailpost-Reply-Copy: 1',
+		];
+		$original = trim((string)DB::result_first('SELECT messageid FROM %t WHERE tid=%d AND action=%s AND status=1 LIMIT 1', ['forum_emailpost', $tid, 'thread']));
+		if($original !== '') {
+			$extraheaders[] = 'In-Reply-To: '.$original;
+			$extraheaders[] = 'References: '.$original;
+		}
+		return sendmail($email, 'Re: '.$subject, $copy, $from, $extraheaders);
+	}
+
 	public function __construct(array $config) {
 		$this->config = $config;
 	}
@@ -61,16 +133,15 @@ class emailpost {
 		if(!$messageid) {
 			$messageid = '<missing-'.hash('sha256', $headers).'@'.strtolower($this->config['recipient_domain']).'>';
 		}
-		$messagekey = hash('sha256', $messageid);
-		if(table_forum_emailpost::t()->fetch($messagekey)) {
+		$messageid = cutstr($messageid, 255);
+		if(table_forum_emailpost::t()->fetch($messageid)) {
 			return;
 		}
 
 		$sender = $this->senderAddress($headers);
 		$reserved = table_forum_emailpost::t()->reserve([
-			'messagekey' => $messagekey,
+			'messageid' => $messageid,
 			'mailuid' => 0,
-			'messageid' => cutstr($messageid, 255),
 			'sender' => cutstr($sender, 255),
 			'uid' => 0,
 			'action' => 'thread',
@@ -84,7 +155,7 @@ class emailpost {
 			$this->validateAutomatedHeaders($headers);
 			$this->validateDmarc($headers);
 			$member = $this->memberForSender($sender);
-			table_forum_emailpost::t()->update($messagekey, ['uid' => $member['uid']]);
+			table_forum_emailpost::t()->update($messageid, ['uid' => $member['uid']]);
 
 			$parent = $this->findParent($headers);
 			if($parent) {
@@ -109,21 +180,21 @@ class emailpost {
 				throw new emailpost_rejection('A subject is required for a new thread.');
 			}
 
-			table_forum_emailpost::t()->update($messagekey, ['action' => $action, 'fid' => $fid, 'tid' => $tid]);
+			table_forum_emailpost::t()->update($messageid, ['action' => $action, 'fid' => $fid, 'tid' => $tid]);
 			$result = $this->postAsMember($member, $fid, $tid, $subject, $message, $raw);
 			table_forum_emailpost::t()->complete(
-				$messagekey,
+				$messageid,
 				$result['fid'],
 				$result['tid'],
 				$result['pid'],
-				$parent['messagekey'] ?? ''
+				$parent['messageid'] ?? ''
 			);
 			runlog('emailpost', 'Accepted '.$messageid.' as pid '.$result['pid']);
 		} catch(emailpost_rejection $e) {
-			table_forum_emailpost::t()->reject($messagekey, $e->getMessage());
+			table_forum_emailpost::t()->reject($messageid, $e->getMessage());
 			runlog('emailpost', 'Rejected '.$messageid.': '.$e->getMessage());
 		} catch(Throwable $e) {
-			table_forum_emailpost::t()->delete($messagekey);
+			table_forum_emailpost::t()->delete($messageid);
 			runlog('error', 'Email posting failed for '.$messageid.': '.$e->getMessage());
 		}
 	}
@@ -212,7 +283,7 @@ class emailpost {
 		if(preg_match('/^<thread-(\d+)@'.$domain.'>$/i', $messageid, $match)) {
 			$tid = intval($match[1]);
 		} else {
-			$row = table_forum_emailpost::t()->fetch(hash('sha256', $messageid));
+			$row = table_forum_emailpost::t()->fetch(cutstr($messageid, 255));
 			if(!$row || intval($row['status']) !== 1 || intval($row['tid']) <= 0) {
 				return [];
 			}
@@ -223,7 +294,7 @@ class emailpost {
 			return [];
 		}
 		return [
-			'messagekey' => hash('sha256', $messageid),
+			'messageid' => cutstr($messageid, 255),
 			'fid' => intval($thread['fid']),
 			'tid' => intval($thread['tid']),
 			'pid' => 0,
