@@ -344,14 +344,12 @@ function renderMathEditorContent() {
 	}
 	if (!entries.length) return;
 
-	var ranges = findMathRanges(text);
-	if (!ranges.length) return;
-
+	var runs = [];
 	var runStart = 0;
 	var runParent = entries[0].parent;
-	var runs = [];
 	for (var i = 1; i <= entries.length; i++) {
-		if (i === entries.length || entries[i].parent !== runParent) {
+		if (i === entries.length || entries[i].parent !== runParent ||
+				(entries[i - 1].node.nodeType === Node.TEXT_NODE && entries[i].node.nodeType === Node.TEXT_NODE)) {
 			runs.push({ start: runStart, end: i - 1 });
 			if (i < entries.length) {
 				runParent = entries[i].parent;
@@ -360,24 +358,29 @@ function renderMathEditorContent() {
 		}
 	}
 	for (var r = 0; r < runs.length; r++) {
-		rebuildEditorMathRun(entries, runs[r].start, runs[r].end, ranges);
+		rebuildEditorMathRun(entries, runs[r].start, runs[r].end);
 	}
 }
 
-function rebuildEditorMathRun(entries, startIdx, endIdx, ranges) {
+function rebuildEditorMathRun(entries, startIdx, endIdx) {
 	var runStart = entries[startIdx].start;
-	var runEnd = entries[endIdx].start + entries[endIdx].value.length;
 	var parent = entries[startIdx].parent;
+	var entryCount = endIdx - startIdx + 1;
+	var localText = '';
+	var localStarts = new Array(entryCount);
+	for (var e = 0; e < entryCount; e++) {
+		localStarts[e] = localText.length;
+		localText += entries[startIdx + e].value;
+	}
+	var ranges = findMathRanges(localText);
+	if (!ranges.length) return;
 	var localRanges = [];
 	for (var i = 0; i < ranges.length; i++) {
-		if (ranges[i].end <= runStart) continue;
-		if (ranges[i].start >= runEnd) break;
-		if (ranges[i].start < runStart || ranges[i].end > runEnd) continue;
 		var firstEntry = -1;
 		var lastEntry = -1;
-		for (var e = startIdx; e <= endIdx; e++) {
-			var entryEnd = entries[e].start + entries[e].value.length;
-			if (entries[e].start < ranges[i].end && entryEnd > ranges[i].start) {
+		for (var e = 0; e < entryCount; e++) {
+			var entryEnd = localStarts[e] + entries[startIdx + e].value.length;
+			if (localStarts[e] < ranges[i].end && entryEnd > ranges[i].start) {
 				if (firstEntry === -1) firstEntry = e;
 				lastEntry = e;
 			}
@@ -385,12 +388,12 @@ function rebuildEditorMathRun(entries, startIdx, endIdx, ranges) {
 		if (firstEntry === -1) continue;
 		var consecutive = true;
 		for (var c = firstEntry + 1; c <= lastEntry; c++) {
-			if (entries[c].node.previousSibling !== entries[c - 1].node) {
+			if (entries[startIdx + c].node.previousSibling !== entries[startIdx + c - 1].node) {
 				consecutive = false;
 				break;
 			}
 		}
-		if (consecutive) localRanges.push(ranges[i]);
+		if (consecutive) localRanges.push({ start: ranges[i].start + runStart, end: ranges[i].end + runStart });
 	}
 	if (!localRanges.length) return;
 
