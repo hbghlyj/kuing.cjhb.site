@@ -110,7 +110,7 @@ class emailpost {
 			}
 
 			table_forum_emailpost::t()->update($messagekey, ['action' => $action, 'fid' => $fid, 'tid' => $tid]);
-			$result = $this->postAsMember($member, $fid, $tid, $subject, $message);
+			$result = $this->postAsMember($member, $fid, $tid, $subject, $message, $raw);
 			table_forum_emailpost::t()->complete(
 				$messagekey,
 				$result['fid'],
@@ -208,10 +208,17 @@ class emailpost {
 
 	private function acceptedMessage(string $messageid) {
 		$domain = preg_quote(strtolower(trim($this->config['recipient_domain'])), '/');
-		if(!preg_match('/^<thread-(\d+)@'.$domain.'>$/i', $messageid, $match)) {
-			return [];
+		$tid = 0;
+		if(preg_match('/^<thread-(\d+)@'.$domain.'>$/i', $messageid, $match)) {
+			$tid = intval($match[1]);
+		} else {
+			$row = table_forum_emailpost::t()->fetch(hash('sha256', $messageid));
+			if(!$row || intval($row['status']) !== 1 || intval($row['tid']) <= 0) {
+				return [];
+			}
+			$tid = intval($row['tid']);
 		}
-		$thread = table_forum_thread::t()->fetch(intval($match[1]));
+		$thread = table_forum_thread::t()->fetch($tid);
 		if(!$thread || intval($thread['displayorder']) < 0 || intval($thread['isgroup'])) {
 			return [];
 		}
@@ -240,7 +247,7 @@ class emailpost {
 		return $fids[0];
 	}
 
-	private function postAsMember(array $member, int $fid, int $tid, string $subject, string $message) {
+	private function postAsMember(array $member, int $fid, int $tid, string $subject, string $message, string $raw = '') {
 		global $_G;
 		$app = C::app();
 		$keys = ['member', 'group', 'forum', 'thread', 'forum_thread', 'uid', 'username', 'adminid', 'groupid', 'fid', 'tid'];
@@ -309,7 +316,10 @@ class emailpost {
 				$params['timestamp'] = TIMESTAMP;
 				$params['modstatus'] = [4 => 1, 9 => 1];
 				$container->newreply($params);
-				return ['fid' => $model->forum['fid'], 'tid' => $model->thread['tid'], 'pid' => $model->pid];
+				$result = ['fid' => $model->forum['fid'], 'tid' => $model->thread['tid'], 'pid' => $model->pid];
+				$cidToAid = $this->saveAttachments($member, $group, $result['fid'], $result['tid'], $result['pid'], $raw);
+				$this->applyInlineAttachments($result['tid'], $result['pid'], $message, $cidToAid);
+				return $result;
 			}
 
 			$model = new \forum\model_thread($fid);
@@ -337,7 +347,10 @@ class emailpost {
 				'pstatus' => self::EMAIL_POST_STATUS,
 			];
 			$container->newthread($params);
-			return ['fid' => $model->forum['fid'], 'tid' => $model->tid, 'pid' => $model->pid];
+			$result = ['fid' => $model->forum['fid'], 'tid' => $model->tid, 'pid' => $model->pid];
+			$cidToAid = $this->saveAttachments($member, $group, $result['fid'], $result['tid'], $result['pid'], $raw);
+			$this->applyInlineAttachments($result['tid'], $result['pid'], $message, $cidToAid);
+			return $result;
 		} finally {
 			foreach($saved as $key => $value) {
 				$app->var[$key] = $value;
@@ -405,15 +418,26 @@ class emailpost {
 
 	private function messageBody(string $raw) {
 		$plain = $this->findBodyPart($raw, 'PLAIN');
-		if($plain !== null) {
+		if($plain !== null && !$this->hasAlternativePart($raw)) {
 			return trim($plain);
 		}
 		$html = $this->findBodyPart($raw, 'HTML');
 		if($html === null) {
-			return '';
+			return $plain !== null ? trim($plain) : '';
 		}
-		require_once libfile('function/editor');
-		return trim(html2bbcode($html));
+		return $this->htmlToText($html);
+	}
+
+	private function htmlToText(string $html): string {
+		$text = preg_replace('/<br\s*\/?>/i', "\n", $html);
+		$text = preg_replace('/<\/(p|div|li|tr|table|blockquote|h[1-6])>/i', "\n", $text);
+		$text = preg_replace('/<img\b[^>]*\bsrc\s*=\s*["\']cid:([^"\'>]+)["\'][^>]*>/i', '[[cid:$1]]', $text);
+		$text = preg_replace('/<[^>]+>/', '', $text);
+		$text = html_entity_decode($text, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+		$text = str_replace("\xC2\xA0", ' ', $text);
+		$text = preg_replace('/[ \t]+(?=\r?\n)/', '', $text);
+		$text = preg_replace('/\n{3,}/', "\n\n", $text);
+		return trim($text);
 	}
 
 	private function findBodyPart(string $raw, string $subtype) {
@@ -467,6 +491,312 @@ class emailpost {
 			}
 		}
 		return $text;
+	}
+
+	private function hasAlternativePart(string $raw): bool {
+		[$headers, $body] = $this->splitMessage($raw);
+		if(!preg_match("/\r?\n\r?\n/", $raw)) {
+			$body = $headers;
+			$headers = '';
+		}
+		$contentType = $this->headerValue($headers, 'Content-Type');
+		$type = $contentType !== '' ? strtolower(trim(explode(';', $contentType, 2)[0])) : 'text/plain';
+		if($type === 'multipart/alternative') {
+			return true;
+		}
+		if(!str_starts_with($type, 'multipart/')) {
+			return false;
+		}
+		$boundary = '';
+		if(preg_match('/boundary\s*=\s*"?([^";\s]+)"?/i', $contentType, $matches)) {
+			$boundary = $matches[1];
+		}
+		if($boundary === '' || $body === '') {
+			return false;
+		}
+		$parts = preg_split('/--'.preg_quote($boundary, '/').'-{0,2}[ \t]*(?:\r\n|\r|\n|$)/', $body);
+		foreach($parts as $part) {
+			if(trim($part) === '') {
+				continue;
+			}
+			if($this->hasAlternativePart($part)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private function findAttachments(string $raw, array $referencedCids = []): array {
+		[$headers, $body] = $this->splitMessage($raw);
+		if(!preg_match("/\r?\n\r?\n/", $raw)) {
+			$body = $headers;
+			$headers = '';
+		}
+		if(!$referencedCids) {
+			$referencedCids = $this->referencedCids($raw);
+		}
+		$contentType = $this->headerValue($headers, 'Content-Type');
+		$type = $contentType !== '' ? strtolower(trim(explode(';', $contentType, 2)[0])) : 'text/plain';
+		$boundary = '';
+		if(preg_match('/boundary\s*=\s*"?([^";\s]+)"?/i', $contentType, $matches)) {
+			$boundary = $matches[1];
+		}
+		$filename = $this->partFilename($headers, $contentType);
+		$disposition = strtolower($this->headerValue($headers, 'Content-Disposition'));
+		$cid = $this->normalizeCid($this->headerValue($headers, 'Content-ID'));
+		$isInlineImage = $cid !== '' && in_array($cid, $referencedCids, true);
+
+		if($type !== '' && str_starts_with($type, 'multipart/')) {
+			if($boundary === '' || $body === '') {
+				return [];
+			}
+			$attachments = [];
+			$parts = preg_split('/--'.preg_quote($boundary, '/').'-{0,2}[ \t]*(?:\r\n|\r|\n|$)/', $body);
+			foreach($parts as $part) {
+				if(trim($part) === '') {
+					continue;
+				}
+				foreach($this->findAttachments($part, $referencedCids) as $found) {
+					$attachments[] = $found;
+				}
+			}
+			return $attachments;
+		}
+
+		if($filename === '' && !str_contains($disposition, 'attachment') && !$isInlineImage) {
+			return [];
+		}
+		$encoding = strtolower(trim(explode(';', $this->headerValue($headers, 'Content-Transfer-Encoding'), 2)[0]));
+		$data = match($encoding) {
+			'base64' => base64_decode($body, true) ?: '',
+			'quoted-printable' => quoted_printable_decode($body),
+			default => $body,
+		};
+		if($data === '') {
+			return [];
+		}
+		$name = $filename !== '' ? $filename : ($isInlineImage ? $this->inlineImageName($cid, $type) : 'attachment');
+		$result = ['name' => $name, 'data' => $data];
+		if($isInlineImage) {
+			$result['cid'] = $cid;
+		}
+		return [$result];
+	}
+
+	private function normalizeCid(string $cid): string {
+		return strtolower(trim(trim($cid), '<>'));
+	}
+
+	private function referencedCids(string $raw): array {
+		$html = $this->findBodyPart($raw, 'HTML');
+		if($html === null) {
+			return [];
+		}
+		preg_match_all('/\bsrc\s*=\s*["\']cid:([^"\'>]+)["\']/i', $html, $matches);
+		$cids = [];
+		foreach($matches[1] ?? [] as $cid) {
+			$normalized = $this->normalizeCid($cid);
+			if($normalized !== '') {
+				$cids[] = $normalized;
+			}
+		}
+		return array_values(array_unique($cids));
+	}
+
+	private function inlineImageName(string $cid, string $type): string {
+		$basename = $this->cleanFilename(preg_replace('/@.*$/', '', $cid));
+		$basename = preg_replace('/\.[a-z0-9]{1,10}$/', '', $basename);
+		$ext = preg_replace('/^image\//', '', $type);
+		if(!in_array($ext, ['jpeg', 'jpg', 'png', 'gif', 'webp', 'bmp'], true)) {
+			$ext = 'bin';
+		}
+		if($ext === 'jpeg') {
+			$ext = 'jpg';
+		}
+		return ($basename !== '' ? $basename : 'attachment').'.'.$ext;
+	}
+
+	private function partFilename(string $headers, string $contentType): string {
+		if(preg_match('/filename\s*=\s*"?([^";\s]+)"?/i', $contentType.'; '.$this->headerValue($headers, 'Content-Disposition'), $matches)) {
+			return $matches[1];
+		}
+		return '';
+	}
+
+	private function cleanFilename(string $filename): string {
+		$filename = basename(str_replace(['\\', '/'], '/', $filename));
+		$filename = preg_replace('/[\x00-\x1F\x7F]/', '', $filename);
+		$filename = trim($filename, " \t.");
+		if($filename === '' || $filename === '.' || $filename === '..') {
+			$filename = 'attachment';
+		}
+		return $filename;
+	}
+
+	private function saveAttachments(array $member, array $group, int $fid, int $tid, int $pid, string $raw): array {
+		global $_G;
+		if($tid <= 0 || $pid <= 0) {
+			return [];
+		}
+		try {
+			$attachments = $this->findAttachments($raw, $this->referencedCids($raw));
+		} catch(Throwable $e) {
+			runlog('emailpost', 'Attachment parsing failed: '.$e->getMessage());
+			return [];
+		}
+		if(!$attachments) {
+			return [];
+		}
+
+		$savedglobals = [];
+		foreach(['group', 'forum', 'fid', 'uid', 'username', 'groupid', 'adminid', 'member'] as $key) {
+			$savedglobals[$key] = $_G[$key] ?? null;
+		}
+		$_G['group'] = $group;
+		$_G['forum'] = ['fid' => $fid];
+		$_G['fid'] = $fid;
+		$_G['uid'] = $member['uid'];
+		$_G['username'] = $member['username'];
+		$_G['groupid'] = $member['groupid'];
+		$_G['adminid'] = $member['adminid'];
+		$_G['member'] = $member;
+
+		if(!(($group['allowpostattach'] ?? false) || ($group['allowpostimage'] ?? false))
+			|| (intval($group['maxattachnum']) && intval($group['maxattachnum']) <= intval(getuserprofile('todayattachs')))) {
+			foreach($savedglobals as $key => $value) {
+				if($value === null) {
+					unset($_G[$key]);
+				} else {
+					$_G[$key] = $value;
+				}
+			}
+			return [];
+		}
+
+		$attachnew = [];
+		$cidToAid = [];
+		try {
+			foreach($attachments as $attachment) {
+				try {
+					if(($aid = $this->saveAttachment($attachment, $group, $fid)) > 0) {
+						$attachnew[$aid] = ['readperm' => 0, 'price' => 0, 'description' => ''];
+						if(!empty($attachment['cid'])) {
+							$cidToAid[$attachment['cid']] = $aid;
+						}
+					}
+				} catch(Throwable $e) {
+					runlog('emailpost', 'Attachment skipped: '.$e->getMessage());
+				}
+			}
+			if($attachnew) {
+				try {
+					if(!function_exists('updateattach')) {
+						require_once libfile('function/post');
+					}
+					if(!function_exists('dunlink')) {
+						require_once libfile('function/forum');
+					}
+					updateattach(0, $tid, $pid, $attachnew, [], intval($member['uid']));
+				} catch(Throwable $e) {
+					runlog('emailpost', 'Attachment finalization failed: '.$e->getMessage());
+				}
+			}
+		} finally {
+			foreach($savedglobals as $key => $value) {
+				if($value === null) {
+					unset($_G[$key]);
+				} else {
+					$_G[$key] = $value;
+				}
+			}
+		}
+		return $cidToAid;
+	}
+
+	private function applyInlineAttachments(int $tid, int $pid, string $message, array $cidToAid) {
+		$final = $message;
+		$changed = false;
+		if(preg_match_all('/\[\[cid:([^\]]+)\]\]/', $final, $markers)) {
+			foreach(array_unique($markers[1]) as $markerCid) {
+				$marker = '[[cid:'.$markerCid.']]';
+				$aid = $cidToAid[$this->normalizeCid($markerCid)] ?? 0;
+				$final = str_replace($marker, $aid ? '[attach]'.$aid.'[/attach]' : '', $final);
+				$changed = true;
+			}
+		}
+		if($changed && $final !== $message) {
+			DB::update(getposttablebytid($tid), ['message' => $final], 'pid='.intval($pid));
+		}
+	}
+
+	private function saveAttachment(array $attachment, array $group, int $fid): int {
+		global $_G;
+		$name = $this->cleanFilename($attachment['name']);
+		$ext = discuz_upload::fileext($name);
+		if($ext === '' || $ext === 'none') {
+			return 0;
+		}
+		if($group['attachextensions'] && !preg_match('/(^|\s|,)'.preg_quote($ext, '/').'($|\s|,)/i', $group['attachextensions'])) {
+			return 0;
+		}
+		$size = strlen($attachment['data']);
+		if(!$size) {
+			return 0;
+		}
+		if($group['maxattachsize'] && $size > $group['maxattachsize']) {
+			return 0;
+		}
+		loadcache('attachtype');
+		if($fid && isset($_G['cache']['attachtype'][$fid][$ext])) {
+			$maxsize = $_G['cache']['attachtype'][$fid][$ext];
+			if(!$maxsize || $size > $maxsize) {
+				return 0;
+			}
+		} elseif(isset($_G['cache']['attachtype'][0][$ext])) {
+			$maxsize = $_G['cache']['attachtype'][0][$ext];
+			if(!$maxsize || $size > $maxsize) {
+				return 0;
+			}
+		}
+		if($group['maxsizeperday'] && intval(getuserprofile('todayattachsize')) + $size >= intval($group['maxsizeperday'])) {
+			return 0;
+		}
+
+		$tmpfile = tempnam(sys_get_temp_dir(), 'du');
+		if($tmpfile === false) {
+			return 0;
+		}
+		if(@file_put_contents($tmpfile, $attachment['data']) === false) {
+			@unlink($tmpfile);
+			return 0;
+		}
+		$_ENV['DFILES'][$tmpfile] = ['tmp_name' => $tmpfile];
+
+		$upload = new discuz_upload();
+		$upload->ftpcmd = ftpperm($ext, $size) ? 1 : 0;
+		if(!$upload->init(['tmp_name' => $tmpfile, 'name' => $name, 'size' => $size], 'forum') || !$upload->save()) {
+			@unlink($tmpfile);
+			unset($_ENV['DFILES'][$tmpfile]);
+			return 0;
+		}
+
+		$uid = intval($_G['uid']);
+		updatemembercount($uid, ['todayattachs' => 1, 'todayattachsize' => $upload->attach['size'], 'attachsize' => $upload->attach['size']]);
+		$aid = getattachnewaid($uid);
+		table_forum_attachment_unused::t()->insert([
+			'aid' => $aid,
+			'dateline' => TIMESTAMP,
+			'filename' => $upload->attach['name'],
+			'filesize' => $upload->attach['size'],
+			'attachment' => $upload->attach['attachment'],
+			'isimage' => $upload->attach['isimage'],
+			'uid' => $uid,
+			'thumb' => 0,
+			'remote' => $upload->remote,
+			'width' => $upload->attach['imageinfo'][0] ?? 0,
+			'height' => $upload->attach['imageinfo'][1] ?? 0,
+		]);
+		return $aid;
 	}
 
 	private function splitMessage(string $raw): array {
