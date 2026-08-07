@@ -252,10 +252,10 @@ if(!empty($_GET['emailcopy'])) {
 		intval($firstpost['first'])
 	);
 	$subject = dhtmlspecialchars($thread['subject']);
-	$bbname = dhtmlspecialchars($_G['setting']['bbname']);
+	$threadurl = $_G['setting']['securesiteurl'].rewriteoutput('forum_viewthread', 1, '', $tid, 1, '', '');
 	$copy = $bodyhtml
 		.'<hr>'
-		.'<p style="color:#888;">'.lang('forum/template', 'emailpost_copy_email_footer', ['bbname' => $bbname]).'</p>';
+		.'<p style="color:#888;">'.lang('forum/template', 'emailpost_copy_email_footer', ['threadurl' => $threadurl]).'</p>';
 	$result = sendmail($toemail, $subject, $copy, '', [
 		'Message-ID: <thread-'.$tid.'@'.$domain.'>',
 		'Reply-To: forum+'.$fid.'@'.$domain,

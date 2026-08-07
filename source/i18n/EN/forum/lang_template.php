@@ -316,7 +316,7 @@ $lang = array (
 	'emailpost_newthread_title'			=> 'Start a new thread by email; the sender must be your verified registered email',
 	'emailpost_copy'			=> 'Email a copy',
 	'emailpost_copy_title'			=> 'Send this thread to your verified email; replying to that email replies in-thread',
-	'emailpost_copy_email_footer'			=> 'You received this copy because you requested it on {bbname}. Reply to this email to reply in this thread.',
+	'emailpost_copy_email_footer'			=> 'You received this copy because you requested it. Reply to this email to reply in this thread. Thread: <a href="{threadurl}" style="color:#888;">{threadurl}</a>',
 	'their'				=> 'Category',//'所属分类',
 	'threads_all'			=> 'All threads',//'全部主题',
 	'viewed_threads'		=> 'Viewed threads',//'浏览过的帖子',

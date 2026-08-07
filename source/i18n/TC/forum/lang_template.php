@@ -316,7 +316,7 @@ $lang = [
 	'emailpost_newthread_title' => '用郵件發表新主題，發件人需為已驗證的註冊信箱',
 	'emailpost_copy' => '郵件副本',
 	'emailpost_copy_title' => '將本帖內容發送到您的已驗證信箱，回覆該郵件即可回覆本帖',
-	'emailpost_copy_email_footer' => '您收到本帖副本，因為您在 {bbname} 請求了郵件副本。直接回覆本郵件即可回覆本帖。',
+	'emailpost_copy_email_footer' => '您收到本帖副本，因為您請求了郵件副本。直接回覆本郵件即可回覆本帖。本帖連結：<a href="{threadurl}" style="color:#888;">{threadurl}</a>',
 	'their' => '所屬分類',
 	'threads_all' => '全部主題',
 	'viewed_threads' => '瀏覽過的帖子',
