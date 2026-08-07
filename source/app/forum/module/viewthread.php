@@ -264,6 +264,20 @@ if(!empty($_GET['emailcopy'])) {
 	if(!$result) {
 		showmessage('emailpost_copy_failed');
 	}
+	if(intval($thread['authorid']) === intval($_G['uid'])) {
+		table_forum_emailpost::t()->reserve([
+			'messageid' => '<thread-'.$tid.'@'.$domain.'>',
+			'mailuid' => 0,
+			'sender' => cutstr($member['email'], 255),
+			'uid' => intval($_G['uid']),
+			'action' => 'thread',
+			'fid' => $fid,
+			'tid' => $tid,
+			'pid' => 0,
+			'status' => 1,
+			'dateline' => TIMESTAMP,
+		]);
+	}
 	showmessage('emailpost_copy_sent', 'forum.php?mod=viewthread&tid='.$tid);
 }
 

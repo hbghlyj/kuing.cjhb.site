@@ -36,7 +36,7 @@ class emailpost {
 		return self::loadConfig();
 	}
 
-	public static function threadWasCreatedByEmail(int $tid): bool {
+	public static function threadHasEmailCopy(int $tid): bool {
 		if($tid <= 0) {
 			return false;
 		}
@@ -44,7 +44,7 @@ class emailpost {
 	}
 
 	public static function authorReplyNotice(array $thread, array $reply): array {
-		if(!self::threadWasCreatedByEmail(intval($thread['tid'] ?? 0))) {
+		if(!self::threadHasEmailCopy(intval($thread['tid'] ?? 0))) {
 			return [];
 		}
 		return [

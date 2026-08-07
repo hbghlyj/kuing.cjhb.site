@@ -150,8 +150,8 @@ foreach($standalone as $message) {
 $root = $rowFor($rootId);
 emailpost_assert($root && intval($root['status']) === 1 && intval($root['fid']) === 2 && intval($root['tid']) > 0 && intval($root['pid']) > 0, 'New-thread email was not persisted as a post.');
 
-emailpost_assert(emailpost::threadWasCreatedByEmail(intval($root['tid'])) === true, 'Email-created thread was not detected as email-created.');
-emailpost_assert(emailpost::threadWasCreatedByEmail(999999999) === false, 'Non-email thread was detected as email-created.');
+emailpost_assert(emailpost::threadHasEmailCopy(intval($root['tid'])) === true, 'Email-created thread was not detected as having an email copy relationship.');
+emailpost_assert(emailpost::threadHasEmailCopy(999999999) === false, 'Non-email thread was detected as having an email copy relationship.');
 $copyNotice = emailpost::authorReplyNotice(['tid' => intval($root['tid'])], ['author' => 'Admin', 'message' => 'x']);
 emailpost_assert(is_array($copyNotice) && ($copyNotice[0] ?? null) === ['emailpost', 'sendReplyCopy'] && intval($copyNotice[1][0]['tid']) === intval($root['tid']), 'Reply-copy notice was not built for an email-created thread.');
 emailpost_assert(emailpost::authorReplyNotice(['tid' => 999999999], []) === [], 'Reply-copy notice was built for a non-email thread.');
