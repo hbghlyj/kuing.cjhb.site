@@ -167,13 +167,6 @@
 			<!--{subtemplate forum/post_editor_body}-->
 			</div>
 
-			<!--{if !($_GET[action] == 'reply' && !empty($_GET['addtrade']) || $_GET[action] == 'edit' && $thread['special'] == 2 && !$postinfo['first'])}-->
-			<div class="cl mbm">
-				<span id="subjectchk"{if $_GET[action] == 'reply'} style="display:none"{/if} class="y xg1"><strong id="checklen">0</strong> / {echo intval($_G['setting']['maxsubjectsize'])}</span>
-			</div>
-			<script type="text/javascript">dstrLenCalcUsed($('subject'), 'checklen', $_G['setting']['maxsubjectsize'])</script>
-			<!--{/if}-->
-
 			<!--{hook/post_middle}-->
 
 			<!--{subtemplate forum/post_editor_attribute}-->
