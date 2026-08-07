@@ -1928,6 +1928,27 @@ function dstrLenCalc(obj, checklen, maxlen = 255) {
 	return false;
 }
 
+function dstrLenCalcUsed(obj, checklen, maxlen = 255) {
+	var v = obj.value;
+	var curlen = Array.from(v).length;
+	var checklenElem = $(checklen);
+
+	if(curlen <= maxlen) {
+		if(checklenElem) {
+			checklenElem.innerHTML = curlen + ' / ' + maxlen;
+			checklenElem.style.color = '';
+		}
+		return true;
+	}
+
+	if(checklenElem) {
+		checklenElem.innerHTML = maxlen + ' / ' + maxlen;
+		checklenElem.style.color = 'red';
+	}
+	obj.value = dcutstr(v, maxlen, 0);
+	return false;
+}
+
 function pluginNotice() {
 	if ($('plugin_notice')) {
 		ajaxget('misc.php?mod=patch&action=pluginnotice', 'plugin_notice', '');
