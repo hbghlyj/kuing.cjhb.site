@@ -268,7 +268,6 @@ if(!empty($_GET['emailcopy'])) {
 		table_forum_emailpost::t()->reserve([
 			'messageid' => '<thread-'.$tid.'@'.$domain.'>',
 			'mailuid' => 0,
-			'sender' => cutstr($member['email'], 255),
 			'uid' => intval($_G['uid']),
 			'action' => 'thread',
 			'fid' => $fid,
