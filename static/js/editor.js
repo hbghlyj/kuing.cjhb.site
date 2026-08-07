@@ -484,6 +484,105 @@ function ctlent(event) {
 	}
 }
 
+var WYSIWYG_HEADING_RE = /^H[1-6]$/;
+
+function getWysiwygBlock(node) {
+	while(node && node !== editdoc.body) {
+		var tag = node.nodeType === 1 ? node.tagName : '';
+		if(tag === 'P' || tag === 'DIV' || WYSIWYG_HEADING_RE.test(tag) || tag === 'PRE' || tag === 'BLOCKQUOTE' || tag === 'LI') {
+			return node;
+		}
+		node = node.parentNode;
+	}
+	return null;
+}
+
+function isBlockEmptyish(node) {
+	for(var i = 0; i < node.childNodes.length; i++) {
+		var c = node.childNodes[i];
+		if(c.nodeType === 3) {
+			if(c.nodeValue.replace(/\s/g, '') !== '') {
+				return false;
+			}
+		} else if(c.nodeType === 1) {
+			if(c.tagName !== 'BR') {
+				return false;
+			}
+		}
+	}
+	return true;
+}
+
+function isCaretAtBlockStart(range, block) {
+	var r = editdoc.createRange();
+	r.setStart(block, 0);
+	r.setEnd(range.startContainer, range.startOffset);
+	return isBlockEmptyish(r.cloneContents());
+}
+
+function replaceWysiwygBlock(block, replacement) {
+	var sel = editwin.getSelection();
+	var caretInside = false;
+	if(sel && sel.rangeCount) {
+		var r = sel.getRangeAt(0);
+		caretInside = block.contains(r.startContainer);
+	}
+	block.parentNode.replaceChild(replacement, block);
+	if(caretInside) {
+		var r2 = editdoc.createRange();
+		r2.setStart(replacement, 0);
+		r2.collapse(true);
+		sel.removeAllRanges();
+		sel.addRange(r2);
+	}
+}
+
+function keyDownNormalizeBlockMerge(event) {
+	if(!wysiwyg || event.keyCode !== 8 || event.ctrlKey || event.metaKey || event.altKey || event.shiftKey) {
+		return;
+	}
+	var sel = editwin.getSelection();
+	if(!sel || !sel.rangeCount || !sel.isCollapsed) {
+		return;
+	}
+	var range = sel.getRangeAt(0);
+	var block = getWysiwygBlock(range.startContainer);
+	if(!block) {
+		return;
+	}
+	var prev = block.previousSibling;
+	while(prev && prev.nodeType === 3 && !prev.nodeValue.replace(/\s/g, '')) {
+		prev = prev.previousSibling;
+	}
+	if(prev && prev.nodeType === 1 && WYSIWYG_HEADING_RE.test(prev.tagName) && isBlockEmptyish(prev) && isCaretAtBlockStart(range, block)) {
+		doane(event);
+		prev.parentNode.removeChild(prev);
+		var r2 = editdoc.createRange();
+		r2.setStart(block, 0);
+		r2.collapse(true);
+		sel.removeAllRanges();
+		sel.addRange(r2);
+	}
+}
+
+function normalizeWysiwygEmptyHeadings() {
+	if(!wysiwyg) {
+		return;
+	}
+	for(var h = 1; h <= 6; h++) {
+		var els = editdoc.body.getElementsByTagName('h' + h);
+		for(var i = els.length - 1; i >= 0; i--) {
+			var el = els[i];
+			if(!isBlockEmptyish(el)) {
+				continue;
+			}
+			var p = editdoc.createElement('p');
+			p.innerHTML = '<br>';
+			replaceWysiwygBlock(el, p);
+		}
+	}
+}
+
 function keyBackspace() {
 	if(!wysiwyg) {
 		return;
@@ -819,6 +918,9 @@ function mouseUp(event) {
 function keyUp(event) {
 	if(wysiwyg) {
 		setContext();
+		if(event.keyCode == 8 || event.keyCode == 46) {
+			normalizeWysiwygEmptyHeadings();
+		}
 	}
 	for(i in EXTRAFUNC['keyup']) {
 		EXTRAEVENT = event;
@@ -830,6 +932,7 @@ function keyUp(event) {
 
 function keyDown(event) {
 	ctlent(event);
+	keyDownNormalizeBlockMerge(event);
 	if(wysiwyg && event.keyCode == 13 && !event.shiftKey && !event.ctrlKey && !event.altKey) {
 		var sel = editwin.getSelection();
 		if(sel && sel.rangeCount) {
