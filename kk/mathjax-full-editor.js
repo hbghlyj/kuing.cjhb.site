@@ -277,10 +277,10 @@ function isEscapedMathDelimiter(text, index) {
 	return slashCount % 2 === 1;
 }
 
-function findMathDelimiter(text, start, opening, closing, standaloneDollar) {
+function findMathDelimiter(text, start, opening, closing) {
 	var index = text.indexOf(closing, start + opening.length);
 	while (index !== -1) {
-		if (!isEscapedMathDelimiter(text, index) && (!standaloneDollar || (text[index - 1] !== '$' && text[index + 1] !== '$'))) return index + closing.length;
+		if (!isEscapedMathDelimiter(text, index)) return index + closing.length;
 		index = text.indexOf(closing, index + closing.length);
 	}
 	return -1;
@@ -293,8 +293,12 @@ function findMathRanges(text) {
 		var end = -1;
 		if (text.slice(index, index + 2) === '$$') {
 			end = findMathDelimiter(text, index, '$$', '$$');
-		} else if (text[index] === '$' && text[index - 1] !== '$' && text[index + 1] !== '$') {
-			end = findMathDelimiter(text, index, '$', '$', true);
+			if (end === -1) {
+				index += 1;
+				continue;
+			}
+		} else if (text[index] === '$') {
+			end = findMathDelimiter(text, index, '$', '$');
 		} else if (text.slice(index, index + 2) === '\\[') {
 			end = findMathDelimiter(text, index, '\\[', '\\]');
 		} else if (text.slice(index, index + 2) === '\\(') {
