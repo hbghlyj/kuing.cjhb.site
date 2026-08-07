@@ -1933,18 +1933,14 @@ function dstrLenCalcUsed(obj, checklen, maxlen = 255) {
 	var curlen = Array.from(v).length;
 	var checklenElem = $(checklen);
 
+	if(checklenElem) {
+		checklenElem.innerHTML = curlen;
+		checklenElem.style.color = curlen <= maxlen ? '' : 'red';
+	}
 	if(curlen <= maxlen) {
-		if(checklenElem) {
-			checklenElem.innerHTML = curlen + ' / ' + maxlen;
-			checklenElem.style.color = '';
-		}
 		return true;
 	}
 
-	if(checklenElem) {
-		checklenElem.innerHTML = maxlen + ' / ' + maxlen;
-		checklenElem.style.color = 'red';
-	}
 	obj.value = dcutstr(v, maxlen, 0);
 	return false;
 }
