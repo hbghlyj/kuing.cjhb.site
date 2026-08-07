@@ -50,7 +50,8 @@ if($action=='detail'){
         $anchor='aigeo-doc-sec-'.intval($c['id']);
         if(trim(strip_tags($bodyHtml))==='') continue;
         $levelClass=' level-'.$level;
-        $chunkHtml.='<section class="aigeo-doc-section'.$levelClass.'" id="'.$anchor.'"><h2>'.aigeo_html($heading?$heading:'正文').'</h2><div class="aigeo-doc-body">'.$bodyHtml.'</div></section>';
+        $headingTag='h'.$level;
+        $chunkHtml.='<section class="aigeo-doc-section'.$levelClass.'" id="'.$anchor.'"><'.$headingTag.'>'.aigeo_html($heading?$heading:'正文').'</'.$headingTag.'><div class="aigeo-doc-body">'.$bodyHtml.'</div></section>';
         $tocRows[]='<a class="level-'.$level.'" href="#'.$anchor.'">'.aigeo_html($heading?$heading:'正文').'</a>';
     }
     if(!$chunkHtml && trim((string)$item['content'])!==''){
