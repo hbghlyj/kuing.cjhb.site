@@ -256,7 +256,8 @@ if(!empty($_GET['emailcopy'])) {
 	$copy = $bodyhtml
 		.'<hr>'
 		.'<p style="color:#888;">'.lang('forum/template', 'emailpost_copy_email_footer', ['threadurl' => $threadurl]).'</p>';
-	$result = sendmail($toemail, $subject, $copy, '', [
+	$from = trim((string)($firstpost['username'] ?? ''));
+	$result = sendmail($toemail, $subject, $copy, $from !== '' ? $from.' <forum+'.$fid.'@'.$domain.'>' : '', [
 		'Message-ID: <thread-'.$tid.'@'.$domain.'>',
 		'Reply-To: forum+'.$fid.'@'.$domain,
 		'X-Emailpost-Copy: 1',
