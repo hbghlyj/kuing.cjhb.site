@@ -958,6 +958,26 @@ a#newspecial, a#newspecialtmp {padding-left:32px;padding-right:16px;background-i
 .forumportal_listc li .km_4img .kmshowimg:nth-child(2n) {margin-right:0}
 .forumportal_listc li .km_4img .kmshowimg:nth-child(3n) {margin-right:1.6%}
 
+@media (hover: hover) {
+	.forumportal_listc li[id*="thread_"] .kmtxt,
+	.forumportal_listc li[id*="thread_"] .kmimg_box,
+	.forumportal_listc li[id*="thread_"] .kmimg_onebox {
+		visibility: hidden;
+		opacity: 0;
+	}
+	.forumportal_listc li[id*="thread_"]:hover .kmtxt,
+	.forumportal_listc li[id*="thread_"]:hover .kmimg_box,
+	.forumportal_listc li[id*="thread_"]:hover .kmimg_onebox {
+		visibility: visible;
+		opacity: 1;
+		animation: kmfadeIn .4s ease forwards;
+	}
+}
+@keyframes kmfadeIn {
+	from {opacity:0;transform:translateY(-5px)}
+	to {opacity:1;transform:translateY(0)}
+}
+
 
 .forumportal_page {margin:10px 20px 0;padding:20px 0;border-top:1px solid var(--dz-borderb)}
 .forumportal_pages .forumportal_listc li:first-child, .forumportal_pages .forumportal_listc li:first-child {border-top:1px solid var(--dz-borderb)}
