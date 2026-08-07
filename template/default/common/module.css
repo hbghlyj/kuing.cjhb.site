@@ -923,6 +923,7 @@ a.thread_mod { height: 19px; line-height: 19px; display: inline-block; color: #4
 			.sign * { line-height: normal; }
 		.po { border-top: 1px dashed {COMMONBORDER}; }
 			.po .y { margin: 8px 0 0 5px; }
+			.po .y label { font-size: 13px; }
 			.po p { float: right; }
 				.po p a, .po p label { margin-right: 6px; }
 		.hin { opacity: 0.2; }
