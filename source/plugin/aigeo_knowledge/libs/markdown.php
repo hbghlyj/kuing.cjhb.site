@@ -8,8 +8,9 @@
  *      The renderer is wrapped in a subclass so the emitted markup keeps
  *      matching source/plugin/aigeo_knowledge/static/css/aigeo-knowledge.css:
  *
- *        - headings are clamped to h2..h4  (.aigeo-doc-body h2,h3,h4 are styled;
- *          h1/h5/h6 have no styles and would render unstyled)
+ *        - heading levels are emitted as authored (h1..h6). The stylesheet
+ *          styles the full range inside .aigeo-doc-body, so no clamping is
+ *          needed and the document outline stays semantically correct.
  *        - tables are wrapped in <div class="aigeo-doc-table">  (.aigeo-doc-table table)
  *        - links get class="aigeo-link", and external links get
  *          target="_blank" rel="noopener noreferrer"
@@ -27,34 +28,6 @@ if(!class_exists('AigeoKnowledgeParsedown')) {
 
 class AigeoKnowledgeParsedown extends Parsedown
 {
-	/**
-	 * Heading levels are clamped into the range the stylesheet actually styles.
-	 * Mirrors the previous min(4, max(2, $level)) behaviour.
-	 */
-	protected function blockHeader($Line)
-	{
-		$Block = parent::blockHeader($Line);
-		return $this->clampHeading($Block);
-	}
-
-	protected function blockSetextHeader($Line, array $Block = null)
-	{
-		$Block = parent::blockSetextHeader($Line, $Block);
-		return $this->clampHeading($Block);
-	}
-
-	protected function clampHeading($Block)
-	{
-		if(!isset($Block['element']['name'])) {
-			return $Block;
-		}
-		if(!preg_match('/^h([1-6])$/', $Block['element']['name'], $m)) {
-			return $Block;
-		}
-		$Block['element']['name'] = 'h'.min(4, max(2, (int)$m[1]));
-		return $Block;
-	}
-
 	/**
 	 * Wrap tables so the existing .aigeo-doc-table styles (border, radius,
 	 * horizontal scroll on narrow screens) keep applying. Done in the

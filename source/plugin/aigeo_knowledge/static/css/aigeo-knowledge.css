@@ -50,12 +50,13 @@
 .aigeo-knowledge-wrap.aigeo-detail-page .aigeo-doc-article{min-width:0;max-width:100%;background:#fff;border:1px solid var(--aigeo-border-soft);border-radius:12px;box-shadow:var(--aigeo-shadow-1);padding:6px 0}
 .aigeo-knowledge-wrap.aigeo-detail-page .aigeo-doc-section{min-width:0;padding:24px 26px;border-bottom:1px solid var(--aigeo-border-soft)}
 .aigeo-knowledge-wrap.aigeo-detail-page .aigeo-doc-section:last-child{border-bottom:0}
-.aigeo-knowledge-wrap.aigeo-detail-page .aigeo-doc-section>h2{margin:0 0 14px;color:var(--aigeo-text-strong);font-size:21px;line-height:1.4;font-weight:900;letter-spacing:0}
-.aigeo-knowledge-wrap.aigeo-detail-page .aigeo-doc-section.level-3>h2{font-size:18px;color:#344054}
-.aigeo-knowledge-wrap.aigeo-detail-page .aigeo-doc-section.level-4>h2{font-size:16px;color:#4e5969}
+.aigeo-knowledge-wrap.aigeo-detail-page .aigeo-doc-section>h2,.aigeo-knowledge-wrap.aigeo-detail-page .aigeo-doc-section>h3,.aigeo-knowledge-wrap.aigeo-detail-page .aigeo-doc-section>h4{margin:0 0 14px;color:var(--aigeo-text-strong);font-size:21px;line-height:1.4;font-weight:900;letter-spacing:0}
+.aigeo-knowledge-wrap.aigeo-detail-page .aigeo-doc-section.level-3>h3{font-size:18px;color:#344054}
+.aigeo-knowledge-wrap.aigeo-detail-page .aigeo-doc-section.level-4>h4{font-size:16px;color:#4e5969}
 .aigeo-knowledge-wrap.aigeo-detail-page .aigeo-doc-body{min-width:0;color:#344054;font-size:15px;line-height:1.9;word-break:break-word;overflow-wrap:anywhere}
-.aigeo-knowledge-wrap.aigeo-detail-page .aigeo-doc-body h2,.aigeo-knowledge-wrap.aigeo-detail-page .aigeo-doc-body h3,.aigeo-knowledge-wrap.aigeo-detail-page .aigeo-doc-body h4{margin:24px 0 10px;color:var(--aigeo-text-strong);line-height:1.45;font-weight:900;letter-spacing:0}
-.aigeo-knowledge-wrap.aigeo-detail-page .aigeo-doc-body h2{font-size:20px}.aigeo-knowledge-wrap.aigeo-detail-page .aigeo-doc-body h3{font-size:17px}.aigeo-knowledge-wrap.aigeo-detail-page .aigeo-doc-body h4{font-size:15px}
+.aigeo-knowledge-wrap.aigeo-detail-page .aigeo-doc-body h1,.aigeo-knowledge-wrap.aigeo-detail-page .aigeo-doc-body h2,.aigeo-knowledge-wrap.aigeo-detail-page .aigeo-doc-body h3,.aigeo-knowledge-wrap.aigeo-detail-page .aigeo-doc-body h4,.aigeo-knowledge-wrap.aigeo-detail-page .aigeo-doc-body h5,.aigeo-knowledge-wrap.aigeo-detail-page .aigeo-doc-body h6{margin:24px 0 10px;color:var(--aigeo-text-strong);line-height:1.45;font-weight:900;letter-spacing:0}
+.aigeo-knowledge-wrap.aigeo-detail-page .aigeo-doc-body h1{font-size:23px}.aigeo-knowledge-wrap.aigeo-detail-page .aigeo-doc-body h2{font-size:20px}.aigeo-knowledge-wrap.aigeo-detail-page .aigeo-doc-body h3{font-size:17px}.aigeo-knowledge-wrap.aigeo-detail-page .aigeo-doc-body h4{font-size:15px}
+.aigeo-knowledge-wrap.aigeo-detail-page .aigeo-doc-body h5{font-size:14px;color:#4e5969}.aigeo-knowledge-wrap.aigeo-detail-page .aigeo-doc-body h6{font-size:13px;color:#667085;text-transform:none}
 .aigeo-knowledge-wrap.aigeo-detail-page .aigeo-doc-body p{margin:0 0 14px}
 .aigeo-knowledge-wrap.aigeo-detail-page .aigeo-doc-body ul,.aigeo-knowledge-wrap.aigeo-detail-page .aigeo-doc-body ol{margin:0 0 16px 22px;padding:0}
 .aigeo-knowledge-wrap.aigeo-detail-page .aigeo-doc-body li{margin:5px 0;padding-left:2px}
