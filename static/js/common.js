@@ -479,18 +479,9 @@ function $F(func, args, script) {
 
 function appendscript(src, text, reload, charset, recall) {
 	if (src && !reload) {
-		if (typeof JSLOADED !== 'undefined' && JSLOADED[src]) {
+		if (typeof JSLOADED !== 'undefined' && (JSLOADED[src] || src.indexOf('common.js') !== -1)) {
 			if (recall) recall();
 			return;
-		}
-		var scripts = document.getElementsByTagName('script');
-		var baseSrc = src.split('?')[0];
-		for (var i = 0; i < scripts.length; i++) {
-			if (scripts[i].src && scripts[i].src.indexOf(baseSrc) !== -1) {
-				JSLOADED[src] = 1;
-				if (recall) recall();
-				return;
-			}
 		}
 	}
 	var id = hash(src + text);
