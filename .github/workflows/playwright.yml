@@ -9,6 +9,10 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+      issues: write
 
     services:
       mariadb:
@@ -100,12 +104,39 @@ jobs:
       - name: Run Playwright Tests
         env:
           TEST_RUN_ID: ${{ github.run_id }}-${{ github.run_attempt }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          node .github/scripts/test_forum.js
-          node .github/scripts/test_forum_mobile.js
-          node .github/scripts/test_search.js
-          node .github/scripts/test_tags.js
-          node .github/scripts/test_admin.js
+          # Phase 1: Independent suites run in parallel
+          node .github/scripts/test_forum.js &
+          P1=$!
+          node .github/scripts/test_forum_mobile.js &
+          P2=$!
+          node .github/scripts/test_admin.js &
+          P3=$!
+
+          FAIL=0
+          wait $P1 || FAIL=1
+          wait $P2 || FAIL=1
+          wait $P3 || FAIL=1
+
+          if [ $FAIL -ne 0 ]; then
+            echo "Phase 1 test suites failed."
+            exit 1
+          fi
+
+          # Phase 2: Suites that search or inspect forum.js output
+          node .github/scripts/test_search.js &
+          P4=$!
+          node .github/scripts/test_tags.js &
+          P5=$!
+
+          wait $P4 || FAIL=1
+          wait $P5 || FAIL=1
+
+          if [ $FAIL -ne 0 ]; then
+            echo "Phase 2 test suites failed."
+            exit 1
+          fi
 
       - name: Check PHP Server Errors
         if: always()

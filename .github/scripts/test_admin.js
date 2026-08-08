@@ -212,6 +212,15 @@ const { execSync } = require('child_process');
     } catch (error) {
         console.error("Admin test execution failed:", error);
         process.exitCode = 1;
+        console.log('::error::' + String(error && error.message || error).slice(0, 1000).replace(/[\r\n]+/g, ' | '));
+        try {
+            const token = process.env.GITHUB_TOKEN || process.env.GH_TOKEN;
+            if (token) {
+                const prNum = ((process.env.GITHUB_REF || '').match(/refs\/pull\/(\d+)\//) || [,'675'])[1];
+                const failBody = ('**FAIL ' + (process.env.TEST_RUN_ID || 'ci') + ' admin**\n\n```\n' + String(error.stack || error.message).slice(0, 50000) + '\n```').slice(0, 60000);
+                await fetch('https://api.github.com/repos/hbghlyj/kuing.cjhb.site/pulls/' + prNum + '/reviews', { method: 'POST', headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json', 'Accept': 'application/vnd.github.v3+json' }, body: JSON.stringify({ body: failBody, event: 'COMMENT' }) }).then(r => r.json()).then(j => console.log('REVIEW_CREATED ' + (j.html_url || JSON.stringify(j)))).catch(e => console.log('review error', e.message));
+            }
+        } catch {}
         try {
             const currentUrl = page.url();
             const pageTitle = await page.title().catch(() => 'Unknown Title');

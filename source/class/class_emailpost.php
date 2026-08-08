@@ -108,8 +108,15 @@ class emailpost {
 		return sendmail($email, 'Re: '.$subject, $copy, $from, $extraheaders);
 	}
 
-	public function __construct(array $config) {
-		$this->config = $config;
+	public function __construct(?array $config = null) {
+		global $_G;
+		$setting = is_array($_G['setting']['emailpost'] ?? null) ? $_G['setting']['emailpost'] : [];
+		$this->config = array_merge([
+			'enabled' => true,
+			'recipient_domain' => 'forum.example',
+			'trusted_authserv_id' => 'mx.example',
+			'require_dmarc' => true,
+		], $setting, $config ?? []);
 	}
 
 	protected function consumeRaw(string $raw, string $recipient = '') {
@@ -169,7 +176,7 @@ class emailpost {
 			}
 
 			$subject = dhtmlspecialchars(trim($this->decodeHeader($this->headerValue($headers, 'Subject'))));
-			if($action === 'reply' && preg_match('/^(re:\s*|回复[:：]\s*)/i', $subject)) {
+			if($action === 'reply') {
 				$subject = '';
 			}
 			$message = $this->messageBody($raw);
@@ -871,8 +878,13 @@ class emailpost {
 	}
 
 	private function splitMessage(string $raw): array {
-		$parts = preg_split("/\r?\n\r?\n/", $raw, 2);
-		return [$parts[0] ?? '', $parts[1] ?? ''];
+		if(preg_match("/^(.*?\r\n)\r\n/s", $raw, $m)) {
+			return [$m[1], substr($raw, strlen($m[0]))];
+		}
+		if(preg_match("/^(.*?\n)\n/s", $raw, $m)) {
+			return [$m[1], substr($raw, strlen($m[0]))];
+		}
+		return [$raw, ''];
 	}
 
 	private function senderAddress(string $headers) {

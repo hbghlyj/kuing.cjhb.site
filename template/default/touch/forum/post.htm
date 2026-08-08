@@ -271,7 +271,7 @@
 		var _content = document.getElementById('content');
 		var post_content = '';
 		<!--{if $_GET['action'] == 'edit' && $isJsonContent}-->
-		post_content = `{$postinfo['content']}`;
+		post_content = '$postinfo[content]';
 		<!--{/if}-->
 
 		var savePromise = (typeof saveJsonContent === 'function')
@@ -359,6 +359,7 @@
 </script>
 <script type="text/javascript">
 	var imgexts = typeof imgexts == 'undefined' ? 'jpg, jpeg, gif, png, bmp, webp, svg' : imgexts;
+	window.imgexts = imgexts;
 	var STATUSMSG = {
 		'-1' : '{lang uploadstatusmsgnag1}',
 		'0' : '{lang uploadstatusmsg0}',
@@ -376,52 +377,59 @@
 		'12' : '{lang uploadstatusmsg12}',
 		'13' : '{lang uploadstatusmsg13}'
 	};
+	window.STATUSMSG = STATUSMSG;
 	var form = mobileDom('#postform');
 	document.addEventListener('change', function(event) {
-		if(!event.target.matches('#filedata')) return;
-		var input = event.target;
-			popup.open('<img src="' + IMGDIR + '/imageloading.gif">');
-			uploadsuccess = function(data) {
-				if(data == '') {
-					popup.open('{lang uploadpicfailed}', 'alert');
-				}
-				var dataarr = data.split('|');
-				if(dataarr[0] == 'DISCUZUPLOAD' && dataarr[2] == 0) {
-					popup.close();
-					var imageList = document.getElementById('imglist');
-					if(imageList) {
-						var imageItem = document.createElement('li');
-						imageItem.innerHTML = '<span aid="'+dataarr[3]+'" class="del"><a href="javascript:;"><i class="dm-error"></i></a></span><span class="p_img"><a href="javascript:;" onclick="addsmilies(\'[attachimg]'+dataarr[3]+'[/attachimg]\')"><img style="height:54px;width:54px;" id="aimg_'+dataarr[3]+'" src="{$_G['setting']['attachurl']}forum/'+dataarr[5]+'" /></a></span><input type="hidden" name="attachnew['+dataarr[3]+'][description]" />';
-						imageList.appendChild(imageItem);
-					}
-				} else {
-					var sizelimit = '';
-					if(dataarr[7] == 'ban') {
-						sizelimit = '{lang uploadpicatttypeban}';
-					} else if(dataarr[7] == 'perday') {
-						sizelimit = '{lang donotcross}'+Math.ceil(dataarr[8]/1024)+'K)';
-					} else if(dataarr[7] > 0) {
-						sizelimit = '{lang donotcross}'+Math.ceil(dataarr[7]/1024)+'K)';
-					}
-					popup.open(STATUSMSG[dataarr[2]] + sizelimit, 'alert');
-				}
-			};
-			if(input.files[0]) {
-				for (const file of input.files) {
-					var uploadData = new FormData();
-					uploadData.append('formhash', '{FORMHASH}');
-					uploadData.append('Filedata', file);
-					fetch('misc.php?mod=upload&operation=upload&type=image&inajax=yes&infloat=yes&simple=2', {method:'POST', body:uploadData})
-						.then(function(response) { return response.text(); })
-						.then(uploadsuccess)
-						.catch(function() { popup.open('{lang uploadpicfailed}', 'alert'); });
-				}
+		var target = event.target;
+		if(!target || !target.closest) return;
+		var input = target.closest('#filedata, input[name="Filedata"]:not(#attfiledata)');
+		if(!input) return;
+		if (typeof popup !== 'undefined' && typeof popup.open === 'function') {
+			popup.open('<img src="' + (typeof IMGDIR !== 'undefined' ? IMGDIR : 'static/image/common') + '/imageloading.gif">');
+		}
+		window.uploadsuccess = uploadsuccess = function(data) {
+			if(data == '') {
+				if (typeof popup !== 'undefined' && typeof popup.open === 'function') popup.open('{lang uploadpicfailed}', 'alert');
 			}
+			var dataarr = data.split('|');
+			if(dataarr[0] == 'DISCUZUPLOAD' && dataarr[2] == 0) {
+				if (typeof popup !== 'undefined' && typeof popup.close === 'function') popup.close();
+				var imageList = document.getElementById('imglist');
+				if(imageList) {
+					var imageItem = document.createElement('li');
+					imageItem.innerHTML = '<span aid="'+dataarr[3]+'" class="del"><a href="javascript:;"><i class="dm-error"></i></a></span><span class="p_img"><a href="javascript:;" onclick="addsmilies(\'[attachimg]'+dataarr[3]+'[/attachimg]\')"><img style="height:54px;width:54px;" id="aimg_'+dataarr[3]+'" src="{$_G['setting']['attachurl']}forum/'+dataarr[5]+'" /></a></span><input type="hidden" name="attachnew['+dataarr[3]+'][description]" />';
+					imageList.appendChild(imageItem);
+				}
+			} else {
+				var sizelimit = '';
+				if(dataarr[7] == 'ban') {
+					sizelimit = '{lang uploadpicatttypeban}';
+				} else if(dataarr[7] == 'perday') {
+					sizelimit = '{lang donotcross}'+Math.ceil(dataarr[8]/1024)+'K)';
+				} else if(dataarr[7] > 0) {
+					sizelimit = '{lang donotcross}'+Math.ceil(dataarr[7]/1024)+'K)';
+				}
+				if (typeof popup !== 'undefined' && typeof popup.open === 'function') popup.open((STATUSMSG[dataarr[2]] || '') + sizelimit, 'alert');
+			}
+		};
+		if(input.files && input.files[0]) {
+			for (const file of input.files) {
+				var uploadData = new FormData();
+				uploadData.append('formhash', '{FORMHASH}');
+				uploadData.append('Filedata', file);
+				fetch('misc.php?mod=upload&operation=upload&type=image&inajax=yes&infloat=yes&simple=2', {method:'POST', body:uploadData})
+					.then(function(response) { return response.text(); })
+					.then(uploadsuccess)
+					.catch(function() { if (typeof popup !== 'undefined' && typeof popup.open === 'function') popup.open('{lang uploadpicfailed}', 'alert'); });
+			}
+		}
 	});
 	document.addEventListener('change', function(event) {
 		if(!event.target.matches('#attfiledata')) return;
 		var input = event.target;
-			popup.open('<img src="' + IMGDIR + '/imageloading.gif">');
+			if (typeof popup !== 'undefined' && typeof popup.open === 'function') {
+				popup.open('<img src="' + (typeof IMGDIR !== 'undefined' ? IMGDIR : 'static/image/common') + '/imageloading.gif">');
+			}
 			uploadsuccess = function(data) {
 				if(data == '') {
 					popup.open('{lang uploadpicfailed}', 'alert');
@@ -465,7 +473,25 @@
 						video_file = '<span class="btn" onclick="addsmilies(\'[media=x,500,375]attach://' + dataarr[3] + '.mp4[/media]\')">{lang forum_post_insert}{lang e_video}</span>';
 					}
 					<!--{/if}-->
-					document.getElementById('attlist').insertAdjacentHTML('beforeend', '<li class="b_t"><div class="tit"><span aid="'+dataarr[3]+'" up="1" class="del btn f_f"><a href="javascript:;"><i class="dm-trash z"></i></a></span>'+video_file+'<span class="btn" onclick="addsmilies(\'[attach]'+dataarr[3]+'[/attach]\')">{lang forum_post_insert}</span><img src="static/image/filetype/'+file_ex+'" border="0" class="vm mimg" alt=""><span class="link">'+dataarr[6]+'</span></div><!--{if $_GET['result'] != 'simple'}--><div class="minput"><div class="attms flex-box"><span class="f_c">{lang description}</span><input type="text" name="attachnew['+dataarr[3]+'][description]" value="" class="input flex"></div></div><div class="minput"><!--{if $_G['group']['allowsetattachperm']}--><!--{if $_G['cache']['groupreadaccess']}--><div class="attqx flex-box"><span>{lang forum_post_perm}</span><div class="flex"><select name="attachnew['+dataarr[3]+'][readperm]" id="readperm'+dataarr[3]+'" class="sort_sel"><option value="" selected="selected">{lang unlimited}</option><!--{loop $_G['cache']['groupreadaccess'] $val}--><option value="$val['readaccess']">$val['grouptitle']({lang readperm}: $val['readaccess'])</option><!--{/loop}--><option value="255"{if $temp['readperm'] == 255} selected{/if}>{lang highest_right}</option></select></div></div><!--{/if}--><!--{/if}--><!--{if $_G['group']['maxprice']}--><div class="attjg flex-box"><span>{lang price}</span><input type="text" name="attachnew['+dataarr[3]+'][price]" value="0" class="input price flex"><em>{$_G['setting']['extcredits'][$_G['setting']['creditstransextra'][1]][title]}</em></div><!--{/if}--></div><!--{/if}--></li>');
+					var attHtml = '<li class="b_t"><div class="tit"><span aid="' + dataarr[3] + '" up="1" class="del btn f_f"><a href="javascript:;"><i class="dm-trash z"></i></a></span>' + video_file + '<span class="btn" onclick="addsmilies(\'[attach]' + dataarr[3] + '[/attach]\')">{lang forum_post_insert}</span><img src="static/image/filetype/' + file_ex + '" border="0" class="vm mimg" alt=""><span class="link">' + dataarr[6] + '</span></div>';
+					<!--{if $_GET['result'] != 'simple'}-->
+					attHtml += '<div class="minput"><div class="attms flex-box"><span class="f_c">{lang description}</span><input type="text" name="attachnew[' + dataarr[3] + '][description]" value="" class="input flex"></div></div><div class="minput">';
+					<!--{if $_G['group']['allowsetattachperm']}-->
+					<!--{if $_G['cache']['groupreadaccess']}-->
+					attHtml += '<div class="attqx flex-box"><span>{lang forum_post_perm}</span><div class="flex"><select name="attachnew[' + dataarr[3] + '][readperm]" id="readperm' + dataarr[3] + '" class="sort_sel"><option value="" selected="selected">{lang unlimited}</option>';
+					<!--{loop $_G['cache']['groupreadaccess'] $val}-->
+					attHtml += '<option value="$val[readaccess]">$val[grouptitle]({lang readperm}: $val[readaccess])</option>';
+					<!--{/loop}-->
+					attHtml += '<option value="255">{lang highest_right}</option></select></div></div>';
+					<!--{/if}-->
+					<!--{/if}-->
+					<!--{if $_G['group']['maxprice']}-->
+					attHtml += '<div class="attjg flex-box"><span>{lang price}</span><input type="text" name="attachnew[' + dataarr[3] + '][price]" value="0" class="input price flex"><em>{$_G['setting']['extcredits'][$_G['setting']['creditstransextra'][1]][title]}</em></div>';
+					<!--{/if}-->
+					attHtml += '</div>';
+					<!--{/if}-->
+					attHtml += '</li>';
+					document.getElementById('attlist').insertAdjacentHTML('beforeend', attHtml);
 				} else {
 					var sizelimit = '';
 					if(dataarr[7] == 'ban') {

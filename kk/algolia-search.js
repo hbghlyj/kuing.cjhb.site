@@ -12,23 +12,27 @@ export function initSearch(lang, forumlist, options = {}) {
 		searchBoxCssClasses.submit = options.submitClassName;
 	}
 
+	if (document.querySelector('#facet-totalposts') && typeof instantsearch.widgets.rangeInput !== 'function') {
+		console.warn('Algolia rangeInput widget unavailable for #facet-totalposts container');
+	}
+
 	search.addWidgets([
 		/* Search box widget */
-		instantsearch.widgets.searchBox({
+		document.querySelector('#algolia-search-box') ? instantsearch.widgets.searchBox({
 			container: '#algolia-search-box',
 			placeholder: lang['search'],
 			showReset: !!options.showReset,
 			showSubmit: !!options.showSubmit,
 			showLoadingIndicator: false,
 			cssClasses: searchBoxCssClasses,
-		}),
+		}) : null,
 
 		instantsearch.widgets.configure({
 			hitsPerPage: 15,
 		}),
 
 		/* Hits widget */
-		instantsearch.widgets.hits({
+		document.querySelector('#algolia-hits') ? instantsearch.widgets.hits({
 			container: '#algolia-hits',
 			templates: {
 				empty: lang['no_results'],
@@ -45,15 +49,15 @@ export function initSearch(lang, forumlist, options = {}) {
 </article>`;
 				}
 			}
-		}),
+		}) : null,
 
 		/* Pagination widget */
-		instantsearch.widgets.pagination({
+		document.querySelector('#algolia-pagination') ? instantsearch.widgets.pagination({
 			container: '#algolia-pagination'
-		}),
+		}) : null,
 
 		/* Keywords refinement widget */
-		instantsearch.widgets.refinementList({
+		document.querySelector('#facet-keywords') ? instantsearch.widgets.refinementList({
 			container: '#facet-keywords',
 			attribute: 'keywords',
 			operator: 'and',
@@ -67,10 +71,10 @@ export function initSearch(lang, forumlist, options = {}) {
 					return isShowingMore ? lang['less'] : lang['more'];
 				}
 			}
-		}),
+		}) : null,
 
 		/* Author refinement widget */
-		instantsearch.widgets.refinementList({
+		document.querySelector('#facet-author') ? instantsearch.widgets.refinementList({
 			container: '#facet-author',
 			attribute: 'author',
 			searchable: true,
@@ -83,10 +87,10 @@ export function initSearch(lang, forumlist, options = {}) {
 					return isShowingMore ? lang['less'] : lang['more'];
 				}
 			}
-		}),
+		}) : null,
 
 		/* Forum refinement widget */
-		instantsearch.widgets.refinementList({
+		document.querySelector('#facet-forum') ? instantsearch.widgets.refinementList({
 			container: '#facet-forum',
 			attribute: 'forum',
 			templates: {
@@ -98,18 +102,18 @@ export function initSearch(lang, forumlist, options = {}) {
 </label>`;
 				}
 			}
-		}),
+		}) : null,
 
 		/* Total posts range input widget */
-		instantsearch.widgets.rangeInput({
+		(document.querySelector('#facet-totalposts') && typeof instantsearch.widgets.rangeInput === 'function') ? instantsearch.widgets.rangeInput({
 			container: '#facet-totalposts',
 			attribute: 'totalposts',
 			min: 0,
 			max: 10000
-		}),
+		}) : null,
 
 		/* Clear all filters button */
-		instantsearch.widgets.clearRefinements({
+		document.querySelector('#ais-clear-refinements') ? instantsearch.widgets.clearRefinements({
 			container: '#ais-clear-refinements',
 			cssClasses: {
 				root: 'ais-clear-refinements'
@@ -117,8 +121,8 @@ export function initSearch(lang, forumlist, options = {}) {
 			templates: {
 				resetLabel: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 21 21"><g fill="none" fill-rule="evenodd" stroke-width="2" stroke="#000" stroke-linecap="round" stroke-linejoin="round" transform="matrix(0 1 1 0 2.5 2.5)"><path d="m3.98652376 1.07807068c-2.38377179 1.38514556-3.98652376 3.96636605-3.98652376 6.92192932 0 4.418278 3.581722 8 8 8s8-3.581722 8-8-3.581722-8-8-8"/><path d="m4 1v4h-4" transform="matrix(1 0 0 -1 0 6)"/></g></svg>'
 			}
-		})
-	]);
+		}) : null
+	].filter(Boolean));
 	search._initialResults = {
 		kuing: {}
 	};

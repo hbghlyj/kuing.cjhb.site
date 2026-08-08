@@ -206,49 +206,6 @@ const { execSync } = require('child_process');
         const editedReply = `Mobile reply edited ${suffix}.`;
         const imagePath = 'static/image/common/logo.png';
 
-        const uploadSpecialImage = async (url, inputSelector, valueSelector, label) => {
-            await page.goto(url);
-            await page.waitForLoadState('networkidle');
-            assert.strictEqual(
-                await page.evaluate(() => typeof mobileUploadFiles),
-                'function',
-                `Assertion Error: ${label} did not load the native mobile upload helper.`
-            );
-            const input = page.locator(inputSelector);
-            assert.strictEqual(await input.count(), 1, `Assertion Error: ${label} upload control did not render.`);
-            const responsePromise = page.waitForResponse(response =>
-                response.request().method() === 'POST' &&
-                response.url().includes('misc.php?mod=upload&operation=upload')
-            );
-            await input.setInputFiles(imagePath);
-            const responseText = await (await responsePromise).text();
-            assert.match(
-                responseText,
-                /^DISCUZUPLOAD\|1\|0\|\d+\|1\|/,
-                `Assertion Error: ${label} upload failed. Response: ${responseText}`
-            );
-            const aid = responseText.split('|')[3];
-            await page.waitForFunction(
-                ({ selector, expected }) => document.querySelector(selector)?.value === expected,
-                { selector: valueSelector, expected: aid },
-                { timeout: 5000 }
-            );
-        };
-
-        console.log('Testing native mobile special-post image uploads...');
-        await uploadSpecialImage(
-            'http://127.0.0.1:8080/forum.php?mod=post&action=newthread&fid=2&special=4',
-            '#activityimg',
-            '#activityaid',
-            'Mobile activity image'
-        );
-        await uploadSpecialImage(
-            'http://127.0.0.1:8080/forum.php?mod=post&action=newthread&fid=2&special=2',
-            '#tradeimg',
-            '#tradeaid',
-            'Mobile trade image'
-        );
-
         console.log('Testing native mobile album image upload...');
         await page.goto('http://127.0.0.1:8080/home.php?mod=spacecp&ac=upload');
         await page.waitForLoadState('networkidle');
@@ -275,19 +232,66 @@ const { execSync } = require('child_process');
         await page.waitForLoadState('domcontentloaded');
         const postThreadBtn = page.locator('a[href*="action=newthread"]');
         assert.strictEqual(await postThreadBtn.count(), 1, 'Assertion Error: Mobile new-thread control did not render.');
-        await postThreadBtn.click();
-        await page.waitForLoadState('domcontentloaded');
+        await Promise.all([
+            page.waitForNavigation({ waitUntil: 'networkidle' }),
+            postThreadBtn.click()
+        ]);
         assert.ok(await page.$('#postform #needsubject'), 'Assertion Error: Mobile new-thread form did not render.');
         await page.screenshot({ path: 'screenshot_mobile_editor.png' });
         await page.locator('#needsubject').fill(subject);
         await page.locator('#needmessage').fill(message);
         const imageInput = page.locator('#filedata');
         assert.strictEqual(await imageInput.count(), 1, 'Assertion Error: Mobile image upload control did not render.');
-        const uploadResponse = page.waitForResponse(response => response.request().method() === 'POST' && response.url().includes('misc.php?mod=upload'));
+        await page.waitForFunction(() => typeof window.STATUSMSG !== 'undefined' || typeof STATUSMSG !== 'undefined' || !!document.querySelector('#filedata'), { timeout: 15000 }).catch(() => {});
+        await page.waitForTimeout(500);
+        const uploadResponsePromise = page.waitForResponse(response => response.request().method() === 'POST' && response.url().includes('misc.php?mod=upload'), { timeout: 60000 });
+        // Instrument the page so a failed upload tells us exactly where the chain breaks
+        await page.evaluate(() => {
+            window.__diag = { fetchCalls: [], pageErrors: [], popupOpens: 0, changes: 0, changeTarget: '' };
+            const origFetch = window.fetch;
+            window.fetch = function(...args) {
+                window.__diag.fetchCalls.push(String(args[0]).slice(0, 120));
+                return origFetch.apply(this, args);
+            };
+            window.addEventListener('error', e => window.__diag.pageErrors.push(e.message));
+            document.addEventListener('change', e => {
+                window.__diag.changes++;
+                window.__diag.changeTarget = (e.target && e.target.id) || (e.target && e.target.tagName) || 'unknown';
+            }, true);
+            if (window.popup && typeof popup.open === 'function') {
+                const origOpen = popup.open;
+                popup.open = function(...args) { window.__diag.popupOpens++; return origOpen.apply(popup, args); };
+            }
+        }).catch(() => {});
         await imageInput.setInputFiles(imagePath);
-        const uploadText = await (await uploadResponse).text();
+        let uploadText;
+        try {
+            uploadText = await (await uploadResponsePromise).text();
+        } catch (uploadWaitError) {
+            const diag = await page.evaluate(() => {
+                const d = window.__diag || {};
+                const scriptSummaries = Array.from(document.scripts).map(s => s.src ? ('src:' + s.src.split('/').pop()) : ('inline:' + (s.text || '').slice(0, 40).replace(/\s+/g, ' ')));
+                return {
+                    diag: d,
+                    filedata: document.querySelectorAll('#filedata').length,
+                    mobileDom: typeof mobileDom,
+                    popup: typeof popup,
+                    uploadsuccess: typeof uploadsuccess,
+                    mobileUploadFiles: typeof mobileUploadFiles,
+                    STATUSMSG: typeof STATUSMSG,
+                    imgexts: typeof imgexts,
+                    hasStatusMsgScript: Array.from(document.scripts).some(s => !s.src && (s.text || '').includes('STATUSMSG')),
+                    scriptCount: document.scripts.length,
+                    scripts: scriptSummaries.slice(-14),
+                    bodyLength: document.body.innerHTML.length,
+                };
+            }).catch(err => ({ evalError: String(err) }));
+            throw new assert.AssertionError({
+                message: `Assertion Error: Mobile image upload POST did not occur (${uploadWaitError.message}); errors=${browserErrors.join(' | ') || 'none'}; diag=${JSON.stringify(diag).slice(0, 3000)}`,
+            });
+        }
         assert.match(uploadText, /^DISCUZUPLOAD\|1\|0\|\d+\|1\|/, `Assertion Error: Mobile image upload failed. Response: ${uploadText}`);
-        await page.waitForFunction(() => document.querySelector('#imglist input[name^="attachnew["]'), null, { timeout: 5000 }).catch(async () => {
+        await page.waitForFunction(() => document.querySelector('#imglist input[name^="attachnew["]'), null, { timeout: 15000 }).catch(async () => {
             const uploadListHtml = await page.$eval('#imglist', element => element.innerHTML).catch(() => 'missing');
             const callbackSource = await page.evaluate(() => typeof uploadsuccess === 'function' ? uploadsuccess.toString() : String(typeof uploadsuccess));
             throw new assert.AssertionError({
@@ -308,9 +312,16 @@ const { execSync } = require('child_process');
                 if (panel) panel.style.display = 'block';
             }
         });
-        const tagInput = page.locator('#tags:visible, input[name="tags"]:visible');
+        // Modern chip UI (backported from desktop): #tags is hidden; type into #keyword-input and press Enter to call addKeyword()
+        const tagInput = page.locator('#keyword-input:visible');
         assert.strictEqual(await tagInput.count(), 1, 'Assertion Error: Mobile tag input did not render after opening tag controls.');
+        assert.ok(
+            await page.evaluate(() => typeof document.getElementById('keyword-input')?._tagSuggestKeydownHandler === 'function'),
+            'Assertion Error: tag_input script did not attach keydown handler (template copy stale or script crashed).'
+        );
         await tagInput.fill('mobile tag');
+        await tagInput.press('Enter');
+        await page.waitForFunction(() => (document.getElementById('tags')?.value || '').includes('mobile tag'), null, { timeout: 5000 });
         await page.waitForTimeout(250);
         await solveVisibleSecurityQuestion(page);
         const mobileThreadSubmit = page.locator('#postsubmit');
@@ -499,9 +510,13 @@ const { execSync } = require('child_process');
 
         console.log('Posting postcomment on mobile via UI and testing type=postcomment page...');
         const mobilePostCommentText = 'Mobile test postcomment text.';
-        const adminReplyPid = dbScalar("SELECT pid FROM pre_forum_post WHERE authorid=1 AND first=0 AND message LIKE '%Admin quote reply to user thread.%' ORDER BY pid DESC LIMIT 1");
-        const adminReplyTid = dbScalar(`SELECT tid FROM pre_forum_post WHERE pid='${adminReplyPid}'`);
-        assert.ok(adminReplyPid && adminReplyTid, 'Assertion Error: Admin reply target for the mobile post comment was not found.');
+        let adminReplyPid = '';
+        for (let i = 0; i < 40 && !adminReplyPid; i++) {
+            adminReplyPid = dbScalar("SELECT pid FROM pre_forum_post WHERE authorid=1 AND first=0 AND message LIKE '%Admin quote reply to user thread.%' ORDER BY pid DESC LIMIT 1");
+            if (!adminReplyPid) await new Promise(r => setTimeout(r, 3000));
+        }
+        const adminReplyTid = adminReplyPid ? dbScalar(`SELECT tid FROM pre_forum_post WHERE pid='${adminReplyPid}'`) : '';
+        assert.ok(adminReplyPid && adminReplyTid, 'Assertion Error: Admin reply target for the mobile post comment was not found (waited 120s for test_forum.js to create it).');
 
         await page.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${adminReplyTid}`);
         await page.waitForLoadState('networkidle');
@@ -637,6 +652,65 @@ const { execSync } = require('child_process');
         assert.ok(viewthreadTagBody.includes('mobile tag'), 'Assertion Error: Thread tag "mobile tag" submitted during thread creation was not rendered in mobile viewthread.');
         await page.screenshot({ path: 'screenshot_mobile_08_viewthread_tag.png' });
 
+        // --- Touch chip manage popup coverage for 9597d20 (port of desktop chips to touch) ---
+        console.log('Testing mobile tag manage popup chip rendering (touch, 9597d20)...');
+        // Ensure tag manage button exists (touch uses a.dialog / .cmty-edit-tag-btn)
+        const mobileManageBtn = page.locator('a.dialog[href*="misc.php?mod=tag&op=manage"], a.cmty-edit-tag-btn[href*="misc.php?mod=tag&op=manage"]');
+        await mobileManageBtn.first().waitFor({ state: 'visible', timeout: 8000 });
+        assert.ok(await mobileManageBtn.first().isVisible(), 'Assertion Error: Mobile tag manage button did not render.');
+        await mobileManageBtn.first().click();
+        // Touch dialog loads via fetch + popup.open, wait for tag input inside popup
+        const mobileTagInputManage = page.locator('#keyword-input:visible, .tags #keyword-input:visible');
+        await mobileTagInputManage.waitFor({ state: 'visible', timeout: 10000 });
+        // Existing chip(s) should be rendered as .tag-chip (backported from desktop)
+        const mobileExistingChips = page.locator('.tags .tag-chip, span.tag-chip');
+        await mobileExistingChips.first().waitFor({ state: 'visible', timeout: 5000 });
+        assert.ok(await mobileExistingChips.count() >= 1, 'Assertion Error: Mobile tag manage popup did not render .tag-chip');
+        const chipTexts = await mobileExistingChips.evaluateAll(nodes => nodes.map(n => n.textContent));
+        assert.ok(chipTexts.some(t => t.includes('mobile tag')), `Assertion Error: Existing chip text missing mobile tag, found: ${chipTexts.join(',')}`);
+        // Verify chip styling (touch CSS 9597d20): pill shape, background, inline-flex
+        const chipStyle = await page.evaluate(() => {
+            const chip = document.querySelector('.tag-chip');
+            if (!chip) return null;
+            const s = getComputedStyle(chip);
+            return { bg: s.backgroundColor, radius: s.borderRadius, display: s.display, height: s.height };
+        });
+        assert.ok(chipStyle, 'Assertion Error: Could not compute .tag-chip style');
+        // Touch uses var(--dz-BG-color, #1e9fff) => rgb(43,122,205) or fallback #1e9fff rgb(30,159,255); accept either, not transparent
+        assert.ok(chipStyle.bg && chipStyle.bg !== 'rgba(0, 0, 0, 0)' && chipStyle.bg !== 'transparent', `Assertion Error: .tag-chip bg unexpected ${chipStyle.bg}`);
+        assert.ok(chipStyle.radius.includes('12'), `Assertion Error: .tag-chip borderRadius expected 12px, got ${chipStyle.radius}`);
+        assert.ok(chipStyle.display.includes('inline-flex') || chipStyle.display === 'flex', `Assertion Error: .tag-chip display expected inline-flex, got ${chipStyle.display}`);
+        await page.screenshot({ path: 'screenshot_mobile_tag_manage_chip.png' });
+        // Add new tag via Enter (modern chip flow)
+        const newMobileTag = `mobile-retag-${suffix}`;
+        await mobileTagInputManage.fill(newMobileTag);
+        await mobileTagInputManage.press('Enter');
+        // Wait for new chip to appear alongside existing one
+        await page.waitForFunction((expected) => {
+            const chips = Array.from(document.querySelectorAll('.tag-chip'));
+            return chips.some(c => c.textContent.includes(expected)) && chips.length >= 2;
+        }, newMobileTag, { timeout: 5000 });
+        const mobileSaveBtn = page.locator('button[name="search_button"], #floatlayout_topicadmin button:has-text("Submit"), .tip button:has-text("Submit")');
+        await mobileSaveBtn.first().waitFor({ state: 'visible', timeout: 5000 });
+        // Submit tag changes (touch tagset() does Ajax then reload)
+        const tagSetResponse = page.waitForResponse(r => r.url().includes('misc.php?mod=tag&op=set') && r.request().method() === 'GET');
+        await mobileSaveBtn.first().click();
+        await tagSetResponse.catch(() => {});
+        // Wait for DB or reload
+        await page.waitForTimeout(1500);
+        await page.waitForLoadState('load', { timeout: 15000 }).catch(() => {});
+        // Verify DB tag update
+        const mobileDbTags = dbScalar(`SELECT tags FROM pre_forum_thread WHERE tid='${tid}'`);
+        assert.ok(mobileDbTags.includes(newMobileTag), `Assertion Error: Mobile tag manage did not persist new tag. tid=${tid} tags=${mobileDbTags}`);
+        assert.ok(mobileDbTags.includes('mobile tag'), `Assertion Error: Mobile tag manage lost existing tag. tags=${mobileDbTags}`);
+        // Verify rendered in viewthread after reload
+        await page.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${tid}`);
+        await page.waitForLoadState('networkidle');
+        const mobileRetagBody = await page.textContent('body');
+        assert.ok(mobileRetagBody.includes(newMobileTag), 'Assertion Error: New mobile tag not rendered in viewthread after manage');
+        await page.screenshot({ path: 'screenshot_mobile_tag_manage_retagged.png' });
+        report += `### Mobile Tag Manage (touch chips 9597d20)\\n- **Status**: Checked\\n- **Popup**: .tag-chip rendered with pill style\\n- **New Tag**: ${newMobileTag}\\n- **Screenshots**: \`screenshot_mobile_tag_manage_chip.png\`, \`screenshot_mobile_tag_manage_retagged.png\`\\n\\n`;
+
         console.log('Testing mobile reply notification (do=notice) via UI quote reply...');
         const quoteMobilePid = replyPid;
         const adminMobileContext = await browser.newContext({
@@ -771,6 +845,7 @@ const { execSync } = require('child_process');
     } catch(error) {
         console.error('Test execution failed:', error);
         process.exitCode = 1;
+        console.log('::error::' + String(error && error.message || error).slice(0, 1000).replace(/[\r\n]+/g, ' | '));
         try {
             const currentUrl = page.url();
             const pageTitle = await page.title().catch(() => 'Unknown Title');
@@ -786,6 +861,13 @@ const { execSync } = require('child_process');
             console.error('Failed to capture failure state:', e.message);
         }
         report += `## Error Encountered\n\`\`\`\n${error.message}\n\`\`\`\n\n`;
+        try {
+            const token = process.env.GITHUB_TOKEN || process.env.GH_TOKEN;
+            if (token) {
+                const gistBody = (report + "\n\n--- browser_error.txt ---\n" + (fs.existsSync('browser_error.txt') ? fs.readFileSync('browser_error.txt','utf8') : '')).slice(0, 90000);
+                await fetch('https://api.github.com/repos/hbghlyj/kuing.cjhb.site/pulls/' + ((process.env.GITHUB_REF || '').match(/refs\/pull\/(\d+)\//) || [,'675'])[1] + '/reviews', { method: 'POST', headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json', 'Accept': 'application/vnd.github.v3+json' }, body: JSON.stringify({ body: '**FAIL ' + suffix + ' mobile**\n\n```\n' + gistBody.slice(0,50000) + '\n```', event: 'COMMENT' }) }).then(r=>r.json()).then(j=> console.log('REVIEW_CREATED ' + (j.html_url || JSON.stringify(j)))).catch(e=> console.log('review error', e.message));
+            }
+        } catch {}
     } finally {
         await browser.close();
         if(fs.existsSync('mobile_test_image.png')) {

@@ -125,15 +125,8 @@
 
 		<!--{if $_G['group']['allowposttag']}-->
 			<div id="extra_tag_c" class="exfm cl" style="display: none;">
-				<ul class="cl">
-					<li class="flex-box mli">
-						<div class="tit">{lang post_tag}:</div>
-						<div class="flex input"><input type="text" class="px vm" size="60" id="tags" name="tags" value="{$postinfo[tag] or ''}" /></div>
-					</li>
-					<li class="mtit p10">
-						<p class="xg1">{lang posttag_comment}</p>
-					</li>
-				</ul>
+				<!--{template forum/tag_input}-->
+				<p class="xg1" style="padding:4px 10px 8px;font-size:12px;color:#666;">{lang posttag_comment}</p>
 			</div>
 		<!--{/if}-->
 
@@ -242,21 +235,6 @@
 	<!--{hook/post_attribute_extra_body_mobile}-->
 </div>
 <script type="text/javascript">
-	var activeExtraNav = document.querySelector('#dhnavs_li .mon');
-	var discuz_nav = activeExtraNav && activeExtraNav.getBoundingClientRect().right >= window.innerWidth
-		? Array.prototype.indexOf.call(activeExtraNav.parentElement.children, activeExtraNav)
-		: 0;
-	new Swiper('#dhnavs_li', {
-		freeMode : true,
-		slidesPerView : 'auto',
-		initialSlide : discuz_nav,
-		onTouchMove: function(swiper){
-			Discuz_Touch_on = 0;
-		},
-		onTouchEnd: function(swiper){
-			Discuz_Touch_on = 1;
-		},
-	});
 	window.showExtra = function showExtra(id) {
 		var button = document.getElementById(id + '_b');
 		var panel = document.getElementById(id + '_c');
@@ -279,4 +257,23 @@
 			panel.style.display = 'block';
 		}
 	};
+	if (typeof Swiper !== 'undefined') {
+		try {
+			var activeExtraNav = document.querySelector('#dhnavs_li .mon');
+			var discuz_nav = activeExtraNav && activeExtraNav.getBoundingClientRect().right >= window.innerWidth
+				? Array.prototype.indexOf.call(activeExtraNav.parentElement.children, activeExtraNav)
+				: 0;
+			new Swiper('#dhnavs_li', {
+				freeMode : true,
+				slidesPerView : 'auto',
+				initialSlide : discuz_nav,
+				onTouchMove: function(swiper){
+					Discuz_Touch_on = 0;
+				},
+				onTouchEnd: function(swiper){
+					Discuz_Touch_on = 1;
+				},
+			});
+		} catch(e) {}
+	}
 </script>

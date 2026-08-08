@@ -478,6 +478,12 @@ function $F(func, args, script) {
 }
 
 function appendscript(src, text, reload, charset, recall) {
+	if (src && !reload) {
+		if (typeof JSLOADED !== 'undefined' && (JSLOADED[src] || src.indexOf('common.js') !== -1)) {
+			if (recall) recall();
+			return;
+		}
+	}
 	var id = hash(src + text);
 	if (!reload && in_array(id, evalscripts)) return;
 	if (reload && $(id)) {
@@ -1560,9 +1566,8 @@ function ctrlEnter(event, btnId, onlyEnter) {
 	return true;
 }
 
-const urlSuffixRegex = "(?:[\\/:?][\\w.=%\\-&;~`@'+!#*]*)";
-
 function parseurl(str, mode, parsecode) {
+	const urlSuffixRegex = "(?:[\\/:?][\\w.=%\\-&;~`@'+!#*]*)";
 	if(isUndefined(parsecode)) parsecode = true;
 	if(parsecode) {
 		str = str.replace(/\[code\]([\s\S]+?)\[\/code\]/ig, function($1, $2) {
