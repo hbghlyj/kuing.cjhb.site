@@ -108,8 +108,15 @@ class emailpost {
 		return sendmail($email, 'Re: '.$subject, $copy, $from, $extraheaders);
 	}
 
-	public function __construct(?array $config = []) {
-		$this->config = $config ?? [];
+	public function __construct(?array $config = null) {
+		global $_G;
+		$setting = is_array($_G['setting']['emailpost'] ?? null) ? $_G['setting']['emailpost'] : [];
+		$this->config = array_merge([
+			'enabled' => true,
+			'recipient_domain' => 'forum.example',
+			'trusted_authserv_id' => 'mx.example',
+			'require_dmarc' => true,
+		], $setting, $config ?? []);
 	}
 
 	protected function consumeRaw(string $raw, string $recipient = '') {
