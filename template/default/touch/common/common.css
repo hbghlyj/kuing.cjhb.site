@@ -1899,7 +1899,7 @@ body.pg_logging, body.pg_register, body.pg_lostpasswd_mobile, body.pg_lostpasswd
 	margin: 1px 2px;
 	padding: 2px 7px 2px 8px;
 	cursor: default;
-	transition: all .15s ease;
+	transition: opacity .15s ease, color .15s ease;
 	white-space: nowrap;
 	color: #fff;
 	font-weight: 500;
