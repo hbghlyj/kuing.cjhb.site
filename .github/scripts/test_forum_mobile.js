@@ -267,9 +267,12 @@ const { execSync } = require('child_process');
                 if (panel) panel.style.display = 'block';
             }
         });
-        const tagInput = page.locator('#tags:visible, input[name="tags"]:visible');
+        // Modern chip UI (backported from desktop): #tags is hidden; type into #keyword-input and press Enter to call addKeyword()
+        const tagInput = page.locator('#keyword-input:visible');
         assert.strictEqual(await tagInput.count(), 1, 'Assertion Error: Mobile tag input did not render after opening tag controls.');
         await tagInput.fill('mobile tag');
+        await tagInput.press('Enter');
+        await page.waitForFunction(() => (document.getElementById('tags')?.value || '').includes('mobile tag'), null, { timeout: 5000 });
         await page.waitForTimeout(250);
         await solveVisibleSecurityQuestion(page);
         const mobileThreadSubmit = page.locator('#postsubmit');
