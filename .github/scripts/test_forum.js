@@ -233,6 +233,8 @@ const stubPusher = async targetContext => {
         assert.strictEqual(await messageInput.count(), 1, 'Assertion Error: PM message field in float window did not render.');
         assert.strictEqual(await submitButton.count(), 1, 'Assertion Error: PM submit button in float window did not render.');
         await messageInput.fill(message);
+        const msgListPmd = senderPage.locator('#fwin_showMsgBox #msglist li .pmd');
+        const beforeMsgCount = await msgListPmd.count();
         const responsePromise = senderPage.waitForResponse(response =>
             response.request().method() === 'POST' &&
             response.url().includes('home.php?mod=spacecp&ac=pm&op=send')
@@ -251,6 +253,15 @@ const stubPusher = async targetContext => {
             responseText = `[Redirect response to ${response.headers()['location'] || 'unknown'}]`;
         }
         assert.ok(response.ok() || (status >= 300 && status < 400), `Assertion Error: PM send request failed: status=${status}; body=${responseText.slice(0, 2000)}`);
+        await senderPage.waitForFunction(
+            ([before, text]) => {
+                const pmds = Array.from(document.querySelectorAll('#fwin_showMsgBox #msglist li .pmd'));
+                const matching = pmds.filter(el => el.textContent.includes(text));
+                return pmds.length === before + 1 && matching.length === 1;
+            },
+            [beforeMsgCount, message],
+            { timeout: 10000 }
+        );
     };
     console.log("Starting functional tests...");
 
