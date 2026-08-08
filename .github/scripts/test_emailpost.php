@@ -22,10 +22,10 @@ function emailpost_test_config(): array {
 		'require_dmarc' => true,
 	];
 }
-$config = emailpost_test_config();
+$emailConfig = emailpost_test_config();
 
 // Keep parser/security coverage runnable without a configured local database.
-$parser = new emailpost($config);
+$parser = new emailpost($emailConfig);
 $call = static function($method, ...$arguments) use ($parser) {
 	$reflection = new ReflectionMethod($parser, $method);
 	return $reflection->invoke($parser, ...$arguments);
@@ -113,7 +113,7 @@ $altId = '<'.$token.'-alt@example.net>';
 $ownReplyId = '<'.$token.'-ownreply@example.net>';
 $base = "From: Admin <admin@admin.com>\r\nAuthentication-Results: mx.example; dkim=pass; dmarc=pass\r\n";
 $boundary = 'boundary-'.$token;
-$instance = new emailpost($config);
+$instance = new emailpost($emailConfig);
 $process = static function(string $raw) use ($instance) {
 	$reflection = new ReflectionMethod($instance, 'processMessage');
 	$reflection->invoke($instance, $raw);
