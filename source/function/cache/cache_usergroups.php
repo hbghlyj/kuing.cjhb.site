@@ -17,7 +17,8 @@ function build_cache_usergroups() {
 
 	$data = [];
 	foreach(table_common_usergroup::t()->range_orderby_creditshigher() as $key => $value) {
-		$group = array_merge(['groupid' => $value['groupid'], 'upgroupid' => $value['upgroupid'], 'type' => $value['type'], 'grouptitle' => $value['grouptitle'], 'creditshigher' => $value['creditshigher'], 'creditslower' => $value['creditslower'], 'stars' => $value['stars'], 'color' => $value['color'], 'icon' => $value['icon'], 'system' => $value['system']], (array)($data_uf[$key] ?? []));
+		$grouptitle_i18n = i18n::decodeValue($value['grouptitle']);
+		$group = array_merge(['groupid' => $value['groupid'], 'upgroupid' => $value['upgroupid'], 'type' => $value['type'], 'grouptitle' => i18n::localizeValue($grouptitle_i18n), 'grouptitle_i18n' => $grouptitle_i18n, 'creditshigher' => $value['creditshigher'], 'creditslower' => $value['creditslower'], 'stars' => $value['stars'], 'icon' => $value['icon'], 'system' => $value['system']], (array)($data_uf[$key] ?? []));
 	    if($group['type'] == 'special') {
 			if($group['system'] != 'private') {
 				list($dailyprice) = explode("\t", $group['system']);
@@ -26,7 +27,6 @@ function build_cache_usergroups() {
 		}
 		unset($group['system']);
 		$groupid = $group['groupid'];
-		$group['grouptitle'] = $group['color'] ? '<font color="'.$group['color'].'">'.$group['grouptitle'].'</font>' : $group['grouptitle'];
 		if($_G['setting']['userstatusby'] == 1) {
 			$group['userstatusby'] = 1;
 		} elseif($_G['setting']['userstatusby'] == 2) {
@@ -62,7 +62,9 @@ function build_cache_usergroups_single() {
 	$data_ag = table_common_admingroup::t()->range();
 	foreach(table_common_usergroup::t()->range() as $gid => $data) {
 		$data = array_merge($data, (array)$data_uf[$gid], (array)$data_ag[$gid]);
-		$data['grouptitle'] = $data['color'] ? '<font color="'.$data['color'].'">'.$data['grouptitle'].'</font>' : $data['grouptitle'];
+		$grouptitle_i18n = i18n::decodeValue($data['grouptitle']);
+		$data['grouptitle'] = i18n::localizeValue($grouptitle_i18n);
+		$data['grouptitle_i18n'] = $grouptitle_i18n;
 		$data['grouptype'] = $data['type'];
 		$data['grouppublic'] = $data['system'] != 'private';
 		$data['groupcreditshigher'] = $data['creditshigher'];

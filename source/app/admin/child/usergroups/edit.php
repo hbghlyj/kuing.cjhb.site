@@ -253,7 +253,7 @@ EOF;
 		showtagheader('div', 'basic', $anchor == 'basic');
 		showtableheader('', 'nobottom');
 		showtitle('usergroups_edit_basic');
-		showsetting('usergroups_edit_basic_title', 'grouptitlenew', $group['grouptitle'], 'text');
+		showsetting('usergroups_edit_basic_title', 'grouptitlenew', i18n::localizeValue($group['grouptitle']), 'text');
 		$group['exempt'] = strrev(sprintf('%0'.strlen($group['exempt']).'b', $group['exempt']));
 		if(!$multiset) {
 			if($group['icon']) {
