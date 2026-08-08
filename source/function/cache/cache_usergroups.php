@@ -17,7 +17,7 @@ function build_cache_usergroups() {
 
 	$data = [];
 	foreach(table_common_usergroup::t()->range_orderby_creditshigher() as $key => $value) {
-		$grouptitle_i18n = i18n::decodeValue($value['grouptitle']);
+		$grouptitle_i18n = i18n::decodeValue($value['grouptitle_i18n'] ?? $value['grouptitle']);
 		$group = array_merge(['groupid' => $value['groupid'], 'upgroupid' => $value['upgroupid'], 'type' => $value['type'], 'grouptitle' => i18n::localizeValue($grouptitle_i18n), 'grouptitle_i18n' => $grouptitle_i18n, 'creditshigher' => $value['creditshigher'], 'creditslower' => $value['creditslower'], 'stars' => $value['stars'], 'icon' => $value['icon'], 'system' => $value['system']], (array)($data_uf[$key] ?? []));
 	    if($group['type'] == 'special') {
 			if($group['system'] != 'private') {
@@ -62,7 +62,7 @@ function build_cache_usergroups_single() {
 	$data_ag = table_common_admingroup::t()->range();
 	foreach(table_common_usergroup::t()->range() as $gid => $data) {
 		$data = array_merge($data, (array)$data_uf[$gid], (array)$data_ag[$gid]);
-		$grouptitle_i18n = i18n::decodeValue($data['grouptitle']);
+		$grouptitle_i18n = i18n::decodeValue($data['grouptitle_i18n'] ?? $data['grouptitle']);
 		$data['grouptitle'] = i18n::localizeValue($grouptitle_i18n);
 		$data['grouptitle_i18n'] = $grouptitle_i18n;
 		$data['grouptype'] = $data['type'];
