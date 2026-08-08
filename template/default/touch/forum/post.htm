@@ -427,7 +427,9 @@
 	document.addEventListener('change', function(event) {
 		if(!event.target.matches('#attfiledata')) return;
 		var input = event.target;
-			popup.open('<img src="' + IMGDIR + '/imageloading.gif">');
+			if (typeof popup !== 'undefined' && typeof popup.open === 'function') {
+				popup.open('<img src="' + (typeof IMGDIR !== 'undefined' ? IMGDIR : 'static/image/common') + '/imageloading.gif">');
+			}
 			uploadsuccess = function(data) {
 				if(data == '') {
 					popup.open('{lang uploadpicfailed}', 'alert');
