@@ -1100,6 +1100,16 @@ function loadcache($cachenames, $force = false) {
 				$data['legend'] = i18n::localizeValue($data['legend_i18n']);
 				$data['guest'] = i18n::localizeValue($data['guest_i18n'] ?? []);
 			}
+			if($cname == 'usergroups') {
+				foreach($data as &$usergroup) {
+					if(!empty($usergroup['grouptitle_i18n'])) {
+						$usergroup['grouptitle'] = i18n::localizeValue($usergroup['grouptitle_i18n']);
+					}
+				}
+				unset($usergroup);
+			} elseif(str_starts_with($cname, 'usergroup_') && !empty($data['grouptitle_i18n'])) {
+				$data['grouptitle'] = i18n::localizeValue($data['grouptitle_i18n']);
+			}
 			if($cname == 'setting') {
 				$_G['setting'] = $data;
 			} elseif($cname == 'usergroup_'.$_G['groupid']) {

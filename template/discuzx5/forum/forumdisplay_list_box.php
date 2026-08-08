@@ -102,7 +102,7 @@
 							<cite>
 							<!--{if $thread['authorid'] && $thread['author']}-->
 								<a href="home.php?mod=space&uid=$thread['authorid']" target="_blank" class="kmimg"><!--{avatar($thread['authorid'],'small')}--></a>
-								<a href="home.php?mod=space&uid=$thread['authorid']" target="_blank"{if $groupcolor[$thread['authorid']]} style="color: $groupcolor[$thread['authorid']];"{/if}>$thread['author']</a>
+								<a href="home.php?mod=space&uid=$thread['authorid']" target="_blank">$thread['author']</a>
 								<!--{if !empty($verify[$thread['authorid']])}-->$verify[$thread['authorid']]<!--{/if}-->
 							<!--{else}-->
 								<a href="javascript:;">$_G['setting']['anonymoustext']</a>

@@ -853,6 +853,17 @@ class discuz_application extends discuz_base {
 			}
 			unset($forum);
 		}
+		if(!empty($this->var['cache']['usergroups'])) {
+			foreach($this->var['cache']['usergroups'] as &$usergroup) {
+				if(!empty($usergroup['grouptitle_i18n'])) {
+					$usergroup['grouptitle'] = i18n::localizeValue($usergroup['grouptitle_i18n'], $requested);
+				}
+			}
+			unset($usergroup);
+		}
+		if(!empty($this->var['group']['grouptitle_i18n'])) {
+			$this->var['group']['grouptitle'] = i18n::localizeValue($this->var['group']['grouptitle_i18n'], $requested);
+		}
 		if(!empty($this->var['cookie']['d_i18n'])) {
 			dsetcookie('d_i18n', '', -1);
 		}

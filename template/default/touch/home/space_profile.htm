@@ -88,8 +88,8 @@
 			<!--{hook/space_profile_baseinfo_top_mobile}-->
 			<li><b>{lang memcp_profile}</b><!--{if $_G['uid'] == $space['uid']}--><span class="mtxt"><a href="home.php?mod=spacecp" style="color: #fff;">{lang setup}</a></span><!--{else}--><!--{if $_G['ols'][$space['uid']]}--><span class="mtxt">{lang online}</span><!--{/if}--><!--{/if}--></li>
 			<li>UID<span>{$space['uid']}</span></li>
-			<li>{lang usergroup}<!--{if !empty($space['groupexpiry'])}--><em>{lang group_useful_life}<!--{date($space['groupexpiry'], 'Y-m-d H:i')}--></em><!--{/if}--><span style="color:{$space['group']['color']}">{$space['group']['grouptitle']}</span></li>
-			<!--{if $space['adminid']}--><li>{lang management_team}<span style="color:{$space['admingroup']['color']}">{$space['admingroup']['grouptitle']}</span></li><!--{/if}-->
+			<li>{lang usergroup}<!--{if !empty($space['groupexpiry'])}--><em>{lang group_useful_life}<!--{date($space['groupexpiry'], 'Y-m-d H:i')}--></em><!--{/if}--><span>{$space['group']['grouptitle']}</span></li>
+			<!--{if $space['adminid']}--><li>{lang management_team}<span>{$space['admingroup']['grouptitle']}</span></li><!--{/if}-->
 			<!--{if $space['extgroupids']}--><li>{lang group_expiry_type_ext}<span>$space['extgroupids']</span></li><!--{/if}-->
 			<!--{loop $profiles $value}-->
 			<li>$value['title']<span>$value['value']</span></li>
