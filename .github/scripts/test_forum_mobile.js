@@ -233,7 +233,7 @@ const { execSync } = require('child_process');
         const postThreadBtn = page.locator('a[href*="action=newthread"]');
         assert.strictEqual(await postThreadBtn.count(), 1, 'Assertion Error: Mobile new-thread control did not render.');
         await Promise.all([
-            page.waitForNavigation({ waitUntil: 'domcontentloaded' }),
+            page.waitForNavigation({ waitUntil: 'networkidle' }),
             postThreadBtn.click()
         ]);
         assert.ok(await page.$('#postform #needsubject'), 'Assertion Error: Mobile new-thread form did not render.');
@@ -242,6 +242,7 @@ const { execSync } = require('child_process');
         await page.locator('#needmessage').fill(message);
         const imageInput = page.locator('#filedata');
         assert.strictEqual(await imageInput.count(), 1, 'Assertion Error: Mobile image upload control did not render.');
+        await page.waitForFunction(() => typeof window.STATUSMSG !== 'undefined', { timeout: 15000 });
         const uploadResponsePromise = page.waitForResponse(response => response.request().method() === 'POST' && response.url().includes('misc.php?mod=upload'), { timeout: 60000 });
         // Instrument the page so a failed upload tells us exactly where the chain breaks
         await page.evaluate(() => {
