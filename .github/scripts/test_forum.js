@@ -207,18 +207,31 @@ const stubPusher = async targetContext => {
         });
         return true;
     };
-    const sendPrivateMessage = async (senderPage, recipient, message) => {
-        await senderPage.goto('http://127.0.0.1:8080/home.php?mod=spacecp&ac=pm');
+    const sendPrivateMessage = async (senderPage, recipientUid, message) => {
+        await senderPage.goto(`http://127.0.0.1:8080/home.php?mod=space&uid=${recipientUid}&do=profile`);
         await senderPage.waitForLoadState('networkidle');
-        const pmForm = senderPage.locator('form[id^="pmform_"]:visible');
-        assert.strictEqual(await pmForm.count(), 1, 'Assertion Error: PM compose form did not render.');
-        const recipientInput = pmForm.locator('input[name="username"]');
-        const messageInput = pmForm.locator('textarea[name="message"]');
-        const submitButton = pmForm.locator('#pmsubmit_btn');
-        assert.strictEqual(await recipientInput.count(), 1, 'Assertion Error: PM recipient field did not render.');
-        assert.strictEqual(await messageInput.count(), 1, 'Assertion Error: PM message field did not render.');
-        assert.strictEqual(await submitButton.count(), 1, 'Assertion Error: PM submit button did not render.');
-        await recipientInput.fill(recipient);
+        const sendPmLink = senderPage.locator(`#a_sendpm_${recipientUid}`);
+        assert.strictEqual(await sendPmLink.count(), 1, 'Assertion Error: Send message link did not render on the space page.');
+        const showmsgResponsePromise = senderPage.waitForResponse(response =>
+            response.url().includes('home.php?mod=spacecp&ac=pm&op=showmsg')
+        );
+        await sendPmLink.click();
+        const showmsgResponse = await showmsgResponsePromise;
+        assert.ok(showmsgResponse.ok(), `Assertion Error: PM float window load failed with HTTP ${showmsgResponse.status()}.`);
+        const floatForm = senderPage.locator('#fwin_showMsgBox form[id^="pmform_"]:visible');
+        await floatForm.waitFor({ state: 'visible', timeout: 10000 });
+        await senderPage.evaluate(() => {
+            if (typeof refresh !== 'undefined') {
+                refresh = false;
+            }
+            if (typeof refreshHandle !== 'undefined') {
+                window.clearInterval(refreshHandle);
+            }
+        });
+        const messageInput = floatForm.locator('textarea[name="message"]');
+        const submitButton = floatForm.locator('#pmsubmit_btn');
+        assert.strictEqual(await messageInput.count(), 1, 'Assertion Error: PM message field in float window did not render.');
+        assert.strictEqual(await submitButton.count(), 1, 'Assertion Error: PM submit button in float window did not render.');
         await messageInput.fill(message);
         const responsePromise = senderPage.waitForResponse(response =>
             response.request().method() === 'POST' &&
@@ -912,7 +925,7 @@ const stubPusher = async targetContext => {
 
         console.log("Testing Personal Messages (PM) on Desktop via UI...");
         const userPmToAdmin = 'UI sent test message to admin.';
-        await sendPrivateMessage(page, 'admin', userPmToAdmin);
+        await sendPrivateMessage(page, 1, userPmToAdmin);
         const userPmDbCheck = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT COUNT(*) FROM pre_common_pm_message p INNER JOIN pre_common_pm_member m ON m.plid=p.plid WHERE m.uid='1' AND p.authorid='${userUid}' AND p.message='${userPmToAdmin}';"`).toString().trim();
         assert.strictEqual(userPmDbCheck, '1', 'Assertion Error: User PM was not delivered to the admin inbox.');
 
@@ -952,7 +965,7 @@ const stubPusher = async targetContext => {
             );
 
             const adminPmToUser = 'Admin reply PM to user via UI.';
-            await sendPrivateMessage(adminPage, username, adminPmToUser);
+            await sendPrivateMessage(adminPage, userUid, adminPmToUser);
             const adminPmDbCheck = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT COUNT(*) FROM pre_common_pm_message p INNER JOIN pre_common_pm_member m ON m.plid=p.plid WHERE m.uid='${userUid}' AND p.authorid='1' AND p.message='${adminPmToUser}';"`).toString().trim();
             assert.strictEqual(adminPmDbCheck, '1', 'Assertion Error: Admin PM was not delivered to the user inbox.');
 
@@ -992,10 +1005,9 @@ const stubPusher = async targetContext => {
             // Verify PM center for user
             await page.goto('http://127.0.0.1:8080/home.php?mod=space&do=pm');
             await page.waitForLoadState('networkidle');
-            await page.screenshot({ path: 'screenshot_desktop_pm.png' });
             const pmBody = await page.textContent('body');
             assert.ok(pmBody.includes(adminPmToUser), 'Assertion Error: Desktop PM center did not display the delivered admin message.');
-            report += '### 4c. Desktop Personal Message (PM)\n- **Status**: Checked\n- **Send PM via UI**: Success\n- **Admin Send Back PM**: Success\n- **PM Center View**: Success\n- **Screenshot**: `screenshot_desktop_pm.png`\n\n';
+            report += '### 4c. Desktop Personal Message (PM)\n- **Status**: Checked\n- **Send PM via UI**: Success\n- **Admin Send Back PM**: Success\n- **PM Center View**: Success\n\n';
 
             const adminReplyDbCheck = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT COUNT(*) FROM pre_forum_post WHERE tid='${tidOutput}' AND authorid=1 AND first=0 AND message LIKE '%Admin quote reply to user thread.%';"`).toString().trim();
             assert.ok(parseInt(adminReplyDbCheck, 10) >= 1, 'Assertion Error: Admin quote reply was not created in database.');
