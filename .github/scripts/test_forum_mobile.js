@@ -33,7 +33,7 @@ const { execSync } = require('child_process');
     let report = '\n\n## Mobile Registration Functional Test Report\n\n';
 
     try {
-        execSync("sudo mysql -u root ultrax -e \"UPDATE pre_usergroup_field SET allowposttag=1;\"").toString();
+        execSync("sudo mysql -u root ultrax -e \"UPDATE pre_common_usergroup_field SET allowposttag=1;\"").toString();
         const suffix = Date.now().toString().slice(-8);
         const username = `m ${suffix}`;
         const email = `m${suffix}@example.com`;
