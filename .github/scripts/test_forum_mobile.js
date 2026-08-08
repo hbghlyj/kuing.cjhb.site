@@ -315,6 +315,10 @@ const { execSync } = require('child_process');
         // Modern chip UI (backported from desktop): #tags is hidden; type into #keyword-input and press Enter to call addKeyword()
         const tagInput = page.locator('#keyword-input:visible');
         assert.strictEqual(await tagInput.count(), 1, 'Assertion Error: Mobile tag input did not render after opening tag controls.');
+        assert.ok(
+            await page.evaluate(() => typeof document.getElementById('keyword-input')?._tagSuggestKeydownHandler === 'function'),
+            'Assertion Error: tag_input script did not attach keydown handler (template copy stale or script crashed).'
+        );
         await tagInput.fill('mobile tag');
         await tagInput.press('Enter');
         await page.waitForFunction(() => (document.getElementById('tags')?.value || '').includes('mobile tag'), null, { timeout: 5000 });
