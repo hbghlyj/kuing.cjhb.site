@@ -5,7 +5,7 @@
 	<title><!--{if !empty($navtitle)}-->$navtitle - <!--{/if}--><!--{if empty($nobbname)}--> $_G['setting']['bbname']<!--{/if}--></title>
 	$_G['setting']['seohead']
 	<style>
-	:root { text-autospace: normal; font-variant-east-asian: <!--{if $_G['i18n'] == 'TC'}-->traditional<!--{else}-->simplified<!--{/if}--> proportional-width !important; }
+	:root { text-autospace: normal; }
 	</style>
 	<!--{hook/global_meta}-->
 	<!--{eval include './kk/mathjax.php';}-->
