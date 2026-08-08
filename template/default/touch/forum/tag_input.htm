@@ -213,7 +213,11 @@
             if (e.key === 'Enter') {
                 window.addKeyword(this.value.trim());
                 this.value = '';
-                doane(e);
+                if (typeof doane === 'function') {
+                    doane(e);
+                } else if (e && e.preventDefault) {
+                    e.preventDefault();
+                }
             }
         };
         keywordInput.addEventListener('keydown', keywordInput._tagSuggestKeydownHandler);
@@ -226,7 +230,7 @@
                 window.addKeyword(this.value.trim());
                 this.value = '';
             }
-            hideMenu('tagmore_menu');
+            if (typeof hideMenu === 'function') hideMenu('tagmore_menu');
         };
         keywordInput.addEventListener('blur', keywordInput._tagSuggestBlurHandler);
 
