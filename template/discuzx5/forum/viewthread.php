@@ -105,7 +105,7 @@
 <!--{/if}-->
 
 <!--{if $modmenu['thread']}-->
-	<div id="modmenu" class="xi2 pbm">
+	<div id="modmenu" class="pbm">
 		<!--{eval $modopt=0;}-->
 		<!--{if $_G['forum']['ismoderator']}-->
 			<!--{if $_G['group']['allowdelpost']}--><!--{eval $modopt++}--><a href="javascript:;" onclick="modthreads(3, 'delete')">{lang modmenu_deletethread}</a><span class="pipe">|</span><!--{/if}-->
