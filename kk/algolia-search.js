@@ -13,6 +13,10 @@ export function initSearch(lang, forumlist, options = {}) {
 		searchBoxCssClasses.submit = options.submitClassName;
 	}
 
+	if (typeof instantsearch.widgets.rangeInput !== 'function') {
+		console.warn('Algolia rangeInput widget unavailable');
+	}
+
 	search.addWidgets([
 		/* Search box widget */
 		instantsearch.widgets.searchBox({
