@@ -15,9 +15,11 @@ try {
     }
     const tagsContainer = document.querySelector('.tags');
     const hiddenTags = document.getElementById('tags');
+    const keywordInput = document.getElementById('keyword-input');
+    if (!tagsContainer || !hiddenTags || !keywordInput) return;
+
     // Simplified initialization (addresses reviewer point #3)
     let keywords = (hiddenTags.value || '').split(',').filter(Boolean);
-    const keywordInput = document.getElementById('keyword-input');
     const tagMenu = document.getElementById('tagmore_menu');
     const tagCannotContainCommaOrBackslash = {eval echo json_encode(lang('forum/template', 'tag_cannot_contain_comma_or_backslash'));};
     let tagMenui = -1;
