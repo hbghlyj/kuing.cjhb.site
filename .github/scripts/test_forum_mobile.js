@@ -271,11 +271,11 @@ const { execSync } = require('child_process');
 
         console.log('Posting mobile thread with image attachment...');
         await page.goto('http://127.0.0.1:8080/forum.php?mod=forumdisplay&fid=2');
-        await page.waitForLoadState('networkidle');
+        await page.waitForLoadState('domcontentloaded');
         const postThreadBtn = page.locator('a[href*="action=newthread"]');
         assert.strictEqual(await postThreadBtn.count(), 1, 'Assertion Error: Mobile new-thread control did not render.');
         await postThreadBtn.click();
-        await page.waitForLoadState('networkidle');
+        await page.waitForLoadState('domcontentloaded');
         assert.ok(await page.$('#postform #needsubject'), 'Assertion Error: Mobile new-thread form did not render.');
         await page.screenshot({ path: 'screenshot_mobile_editor.png' });
         await page.locator('#needsubject').fill(subject);
