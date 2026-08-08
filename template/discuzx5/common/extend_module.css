@@ -233,7 +233,7 @@ details > div {
 #post_extra_tb label.a {background:var(--dz-bgf);border-bottom-color:var(--dz-bgf);position:relative;z-index:3}
 #post_extra_tb label.a span:before, #post_extra_tb label.pn span:before {background-color:var(--dz-ahot)}
 #post_extra_c {position:relative;z-index:1}
-#post_extra_c .exfm {margin-top:0;border:1px solid var(--dz-borderb);border-top:none;background:var(--dz-bgf);border-radius:0 0 var(--dz-radius-s) var(--dz-radius-s)}
+#post_extra_c .exfm {border-top:none;background:var(--dz-bgf);border-radius:0 0 var(--dz-radius-s) var(--dz-radius-s)}
 #taglistarea a {margin:8px 8px 5px 0;font-size:14px}
 .p_opt input.pxs + br {display:none}
 .p_opt .px {margin:5px 0;min-width:30px;height:30px;line-height:30px}
