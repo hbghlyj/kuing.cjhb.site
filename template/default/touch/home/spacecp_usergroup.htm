@@ -131,13 +131,13 @@
 						<td>
 							<!--{if !empty($verifyperm[$fid][$perm])}-->
 								<!--{if $myverifyperm[$fid][$perm] || $forumperm[$fid][$perm]}-->
-								<i class="fico-valid fc-v" title="data_valid"></i>
+								<i class="fico-valid fc-v"></i>
 								<!--{else}-->
-								<i class="fico-invalid fc-i" title="data_invalid"></i>
+								<i class="fico-invalid fc-i"></i>
 								<!--{/if}-->
 								&nbsp;$verifyperm[$fid][$perm]
 							<!--{else}-->
-								<!--{if $forumperm[$fid][$perm]}--><i class="fico-valid fc-v" title="data_valid"></i><!--{else}--><i class="fico-invalid fc-i" title="data_invalid"></i><!--{/if}-->
+								<!--{if $forumperm[$fid][$perm]}--><i class="fico-valid fc-v"></i><!--{else}--><i class="fico-invalid fc-i"></i><!--{/if}-->
 							<!--{/if}-->
 						</td>
 					<!--{/loop}-->
@@ -145,8 +145,8 @@
 				<!--{/if}-->
 			<!--{/loop}-->
 			</table>
-			<i class="fico-valid fc-v" title="data_valid"></i> {lang usergroup_right_message1}&nbsp;
-			<i class="fico-invalid fc-i" title="data_invalid"></i> {lang usergroup_right_message2}&nbsp;
+			<i class="fico-valid fc-v"></i> {lang usergroup_right_message1}&nbsp;
+			<i class="fico-invalid fc-i"></i> {lang usergroup_right_message2}&nbsp;
 			<!--{if $_G['setting']['verify']['enabled']}-->
 				<!--{echo implode('', $verifyicon)}--> {lang usergroup_right_message3}
 			<!--{/if}-->
@@ -324,8 +324,8 @@
 					</div>
 				<!--{/if}-->
 			</div>
-			<i class="fico-valid fc-v" title="data_valid"></i> {lang usergroup_right_message1}&nbsp;
-			<i class="fico-invalid fc-i" title="data_invalid"></i> {lang usergroup_right_message2}
+			<i class="fico-valid fc-v"></i> {lang usergroup_right_message1}&nbsp;
+			<i class="fico-invalid fc-i"></i> {lang usergroup_right_message2}
 			<div id="gmy_menu" class="p_pop" style="display:none">$usergroups[my]</div>
 			<div id="gupgrade_menu" class="p_pop" style="display:none">$usergroups[upgrade]</div>
 			<div id="guser_menu" class="p_pop" style="display:none">$usergroups[user]</div>
@@ -348,7 +348,7 @@ global $_G, $bperms, $pperms, $sperms, $aperms;
 			<!--{elseif $groupbperm == 'allowsearch'}-->
 				<!--{if $maingroup['allowsearch'] == '0'}-->{lang permission_basic_disable_sarch}<!--{elseif $maingroup['allowsearch'] == '1'}-->{lang permission_basic_search_title}<!--{else}-->{lang permission_basic_search_content}<!--{/if}-->
 			<!--{else}-->
-				<!--{if $maingroup[$groupbperm] >= 1}--><i class="fico-valid fc-v" title="data_valid"></i><!--{else}--><i class="fico-invalid fc-i" title="data_invalid"></i><!--{/if}-->
+				<!--{if $maingroup[$groupbperm] >= 1}--><i class="fico-valid fc-v"></i><!--{else}--><i class="fico-invalid fc-i"></i><!--{/if}-->
 			<!--{/if}-->
 		</td>
 	</tr>
@@ -365,11 +365,11 @@ global $_G, $bperms, $pperms, $sperms, $aperms;
 			<!--{if in_array($grouppperm, array('maxsigsize', 'maxbiosize'))}-->
 				$maingroup[$grouppperm] {lang bytes}
 			<!--{elseif $grouppperm == 'allowrecommend'}-->
-				<!--{if $maingroup[allowrecommend] > 0}-->+$maingroup[allowrecommend]<!--{else}--><i class="fico-invalid fc-i" title="data_invalid"></i><!--{/if}-->
+				<!--{if $maingroup[allowrecommend] > 0}-->+$maingroup[allowrecommend]<!--{else}--><i class="fico-invalid fc-i"></i><!--{/if}-->
 			<!--{elseif in_array($grouppperm, array('allowat', 'allowcreatecollection'))}-->
 				<!--{echo intval($maingroup[$grouppperm])}-->
 			<!--{else}-->
-				<!--{if $maingroup[$grouppperm] == 1 || ($grouppperm == 'allowcommentpost' && !empty($maingroup[$grouppperm]))}--><i class="fico-valid fc-v" title="data_valid"></i><!--{else}--><i class="fico-invalid fc-i" title="data_invalid"></i><!--{/if}-->
+				<!--{if $maingroup[$grouppperm] == 1 || ($grouppperm == 'allowcommentpost' && !empty($maingroup[$grouppperm]))}--><i class="fico-valid fc-v"></i><!--{else}--><i class="fico-invalid fc-i"></i><!--{/if}-->
 			<!--{/if}-->
 		</td>
 	</tr>
@@ -386,7 +386,7 @@ global $_G, $bperms, $pperms, $sperms, $aperms;
 			<!--{if in_array($perm, array('maxspacesize', 'maximagesize'))}-->
 				<!--{if $maingroup[$perm]}-->$maingroup[$perm]<!--{else}-->{lang permission_attachment_nopermission}<!--{/if}-->
 			<!--{else}-->
-				<!--{if $maingroup[$perm] == 1}--><i class="fico-valid fc-v" title="data_valid"></i><!--{else}--><i class="fico-invalid fc-i" title="data_invalid"></i><!--{/if}-->
+				<!--{if $maingroup[$perm] == 1}--><i class="fico-valid fc-v"></i><!--{else}--><i class="fico-invalid fc-i"></i><!--{/if}-->
 			<!--{/if}-->
 		</td>
 	</tr>
@@ -403,9 +403,9 @@ global $_G, $bperms, $pperms, $sperms, $aperms;
 			<!--{if in_array($groupaperm, array('maxattachsize', 'maxsizeperday', 'maxattachnum'))}-->
 				<!--{if $maingroup[$groupaperm]}-->$maingroup[$groupaperm]<!--{else}-->{lang permission_attachment_nopermission}<!--{/if}-->
 			<!--{elseif $groupaperm == 'attachextensions'}-->
-				<!--{if $maingroup[allowpostattach] == 1}--><!--{if $maingroup[attachextensions]}--><p class="nwp" title="$maingroup[attachextensions]">$maingroup[attachextensions]</p><!--{else}-->{lang permission_attachment_nopermission}<!--{/if}--><!--{else}--><i class="fico-invalid fc-i" title="data_invalid"></i><!--{/if}-->
+				<!--{if $maingroup[allowpostattach] == 1}--><!--{if $maingroup[attachextensions]}--><p class="nwp" title="$maingroup[attachextensions]">$maingroup[attachextensions]</p><!--{else}-->{lang permission_attachment_nopermission}<!--{/if}--><!--{else}--><i class="fico-invalid fc-i"></i><!--{/if}-->
 			<!--{else}-->
-				<!--{if $maingroup[$groupaperm] == 1}--><i class="fico-valid fc-v" title="data_valid"></i><!--{else}--><i class="fico-invalid fc-i" title="data_invalid"></i><!--{/if}-->
+				<!--{if $maingroup[$groupaperm] == 1}--><i class="fico-valid fc-v"></i><!--{else}--><i class="fico-invalid fc-i"></i><!--{/if}-->
 			<!--{/if}-->
 		</td>
 	</tr>
