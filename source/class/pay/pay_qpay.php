@@ -26,28 +26,28 @@ class pay_qpay extends pay_base {
 
 	public function pay($order) {
 		if(!$this->enable()) {
-			return ['code' => 500, 'message' => 'This payment method is not open yet.'];
+			return ['code' => 500, 'message' => 'This payment method is not available yet.'];
 		}
 		return $this->qpay_unifiedorder_pay($order);
 	}
 
 	public function status($out_biz_no) {
 		if(!$this->enable()) {
-			return ['code' => 500, 'message' => 'This payment method is not open yet.'];
+			return ['code' => 500, 'message' => 'This payment method is not available yet.'];
 		}
 		return $this->qpay_order_query($out_biz_no);
 	}
 
 	public function refund($refund_no, $trade_no, $total_amount, $refund_amount, $refund_desc) {
 		if(!$this->enable()) {
-			return ['code' => 500, 'message' => 'This payment method is not open yet.'];
+			return ['code' => 500, 'message' => 'This payment method is not available yet.'];
 		}
 		return $this->qpay_refund($refund_no, $trade_no, $total_amount, $refund_amount, $refund_desc);
 	}
 
 	public function refund_status($refund_no, $trade_no) {
 		if(!$this->enable()) {
-			return ['code' => 500, 'message' => 'This payment method is not open yet.'];
+			return ['code' => 500, 'message' => 'This payment method is not available yet.'];
 		}
 		return $this->qpay_refund_status($refund_no);
 	}
@@ -62,7 +62,7 @@ class pay_qpay extends pay_base {
 
 	public function pay_jsapi($order) {
 		if(!$this->enable()) {
-			return ['code' => 500, 'message' => 'This payment method is not open yet.'];
+			return ['code' => 500, 'message' => 'This payment method is not available yet.'];
 		}
 		return $this->qpay_unifiedorder_pay($order, 'JSAPI');
 	}

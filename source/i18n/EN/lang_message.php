@@ -84,7 +84,7 @@ $lang = array (
 	'medal_apply_existence'		=> 'You have already applied for or received any medals, please do not repeat the application or to receive.',//'您已经申请过或领取过勋章，请不要重复申请或领取。',
 	'space_does_not_exist'		=> 'Sorry, specified user space does not exist',//'对不起，您指定的用户空间不存在。',
 	'login_before_enter_home'	=> 'Please login to continue viewing',//'请先登录后才能继续浏览',
-	'home_status_off'		=> 'Sorry, the Home feature is not open',//'抱歉，家园功能尚未开启',
+	'home_status_off'		=> 'Sorry, the Home feature is currently disabled',//'抱歉，家园功能尚未开启',
 	'space_has_been_locked'		=> 'The space has been locked, please contact administrator',//'空间已被锁定无法访问，如有疑问请联系管理员',
 	'activate_illegal'		=> 'Your UID does not exist or you are not members those needed to verify Does not exist or you are not waiting for verification members.',//'您所用的 ID 不存在或您不是等待验证会员。',
 	'getpasswd_account_notmatch'	=> 'You have filled not enough account information, so you can not use a retrieve password feature. If in doubt, please contact your administrator.',//'你填写的账户资料不匹配，不能使用取回密码功能，如有疑问请与管理员联系。',
@@ -256,7 +256,7 @@ $lang = array (
 	'magicuse_has_no_valid_friend'	=> 'Magic use is failed, there is no valid friends',//'道具使用失败，没有任何合法的好友',
 	'mobile_template_no_found' => 'You have visited a page without a mobile template. Would you like to continue with the desktop version?<br /><br /><a href="{url}">Continue</a><br /><br />',
 
-	'portal_status_off'		=> 'Sorry, the portal feature is not open',//'抱歉，门户功能尚未开启',
+	'portal_status_off'		=> 'Sorry, the portal feature is currently disabled',//'抱歉，门户功能尚未开启',
 
 	'no_privilege_my_app_status'	=> 'Sorry, this site closed apps service.',//'对不起，当前站点已经关闭了用户多应用服务。',
 
@@ -507,7 +507,7 @@ $lang = array (
 	'list_category_noexist'		=> 'Specified category does not exist',//'指定要查看的分类不存在',
 	'list_category_is_closed'	=> 'Specified category is closed',//'指定要查看的分类已经关闭',
 
-	'topic_is_closed'		=> 'This topic is not open',//'此专题当前未开放',
+	'topic_is_closed'		=> 'This topic is currently not open',//'此专题当前未开放',
 
 	'view_no_article_id'		=> 'You did not select the article to view',//'没有正确指定要查看文章ID',
 	'view_article_no_exist'		=> 'Specified article does not exist',//'指定要查看的文章不存在',
@@ -838,7 +838,7 @@ $lang = array (
 	'send_activate_mail_succeed'	=> 'E-mail has been sent, you may need a few minutes to receive e-mail',//'邮件已经送出，可能需要几分钟后才能收到邮件',
 	'send_activate_mail_error'	=> 'E-mail sending failed. Please try to resend the activation email again after 5 minutes',//'邮件发送失败，请过5分钟后重试发送验证激活邮件',
 
-	'no_privilege_sendmailday'	=> 'The current site is not open e-mail alerts',//'当前站点尚未开启邮件提醒功能',
+	'no_privilege_sendmailday'	=> 'Email alerts are currently disabled for this site.',//'当前站点尚未开启邮件提醒功能',
 	'email_input'			=> 'You have not set your mailbox. Please <a href="home.php?mod=spacecp&ac=profile&op=contact">Contact</a>Fill in your E-mail',//'您还没有设置邮箱，请在<a href="home.php?mod=spacecp&ac=profile&op=contact">联系方式</a>中准确填写您的邮箱',
 
 	'no_privilege_edithot_share'	=> 'Sorry, you do not have permission to adjust the share heat',//'抱歉，您没有权限调整此分享的热度',

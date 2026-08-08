@@ -1235,8 +1235,8 @@ $lang = array
 	'setting_home_base_feedread_comment' => '如果选择是，该条动态被点击的时候，会变成灰色，以表示已经阅读。(注意，该功能对热点动态无效)',
 	'setting_home_base_maxpage' => '列表最大分页数',
 	'setting_home_base_maxpage_comment' => '(默认为 100)允许用户查看的最大分页数。当用户查看的分页数越大的时候，对服务器的负载压力就越大',
-	'setting_home_base_sendmailday' => '邮件通知更新天数',
-	'setting_home_base_sendmailday_comment' => '(默认 0) 单位：天，当用户多少天没有登录站点的时候才会给其发送邮件通知；<br>设置为0，则不启用邮件通知功能；<br>启用本功能将会轻微增加服务器负载',
+	'setting_home_base_sendmailday' => 'Email notification threshold (days)',
+	'setting_home_base_sendmailday_comment' => '(Default 0) Unit: days. Email notifications are only sent to users who have not logged in for this many days.<br>Set to 0 to disable email notifications.<br>Enabling this feature may slightly increase server load.',
 	'setting_home_base_recycle_bin' => '开启日志回收站',
 	'setting_home_base_recycle_bin_comment' => '打开此功能后，所有被删除日志将被放在回收站中，而不会被直接删除',
 
