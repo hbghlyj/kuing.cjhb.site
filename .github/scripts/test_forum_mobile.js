@@ -510,9 +510,13 @@ const { execSync } = require('child_process');
 
         console.log('Posting postcomment on mobile via UI and testing type=postcomment page...');
         const mobilePostCommentText = 'Mobile test postcomment text.';
-        const adminReplyPid = dbScalar("SELECT pid FROM pre_forum_post WHERE authorid=1 AND first=0 AND message LIKE '%Admin quote reply to user thread.%' ORDER BY pid DESC LIMIT 1");
-        const adminReplyTid = dbScalar(`SELECT tid FROM pre_forum_post WHERE pid='${adminReplyPid}'`);
-        assert.ok(adminReplyPid && adminReplyTid, 'Assertion Error: Admin reply target for the mobile post comment was not found.');
+        let adminReplyPid = '';
+        for (let i = 0; i < 40 && !adminReplyPid; i++) {
+            adminReplyPid = dbScalar("SELECT pid FROM pre_forum_post WHERE authorid=1 AND first=0 AND message LIKE '%Admin quote reply to user thread.%' ORDER BY pid DESC LIMIT 1");
+            if (!adminReplyPid) await new Promise(r => setTimeout(r, 3000));
+        }
+        const adminReplyTid = adminReplyPid ? dbScalar(`SELECT tid FROM pre_forum_post WHERE pid='${adminReplyPid}'`) : '';
+        assert.ok(adminReplyPid && adminReplyTid, 'Assertion Error: Admin reply target for the mobile post comment was not found (waited 120s for test_forum.js to create it).');
 
         await page.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${adminReplyTid}`);
         await page.waitForLoadState('networkidle');
