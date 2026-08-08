@@ -108,8 +108,8 @@ class emailpost {
 		return sendmail($email, 'Re: '.$subject, $copy, $from, $extraheaders);
 	}
 
-	public function __construct(array $config) {
-		$this->config = $config;
+	public function __construct(?array $config = []) {
+		$this->config = $config ?? [];
 	}
 
 	protected function consumeRaw(string $raw, string $recipient = '') {
