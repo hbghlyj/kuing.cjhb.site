@@ -225,13 +225,15 @@ details > div {
 .ptm h2 {line-height:30px;font-size:14px;font-weight:normal}
 #signhtmlpreview img[src*="smiley"] {max-width:22px !important;max-height:22px;vertical-align:middle}
 #post_extra {margin-top:5px}
-#post_extra_tb label {height:30px;line-height:30px;margin-right:10px;border:1px solid var(--dz-borderb);border-radius:var(--dz-radius-s)}
-#post_extra_tb label.pn {padding:0;background:none;border:1px solid var(--dz-borderb);color:var(--dz-fa) !important}
-#post_extra_tb label span {padding:0 10px;background:none;font-size:12px;line-height:30px}
+#post_extra_tb {border-bottom:1px solid var(--dz-borderb);height:31px;position:relative;z-index:2}
+#post_extra_tb label {height:30px;line-height:30px;margin:0 6px -1px 0;padding:0 15px;cursor:pointer;border:1px solid var(--dz-borderb);border-radius:var(--dz-radius-s) var(--dz-radius-s) 0 0;background:transparent}
+#post_extra_tb label.pn {padding:0 15px;background:none;border:1px solid var(--dz-borderb);color:var(--dz-fa) !important}
+#post_extra_tb label span {padding:0;background:none;font-size:12px;line-height:30px}
 #post_extra_tb span.a {background:none}
-#post_extra_tb label.a {background:none;border-bottom-color:var(--dz-borderb)}
+#post_extra_tb label.a {background:var(--dz-bgf);border-bottom-color:var(--dz-bgf);position:relative;z-index:3}
 #post_extra_tb label.a span:before, #post_extra_tb label.pn span:before {background-color:var(--dz-ahot)}
-#post_extra_c .exfm {margin-top:10px;border:1px solid var(--dz-borderb);border-radius:var(--dz-radius-s)}
+#post_extra_c {position:relative;z-index:1}
+#post_extra_c .exfm {margin-top:0;border:1px solid var(--dz-borderb);border-top:none;background:var(--dz-bgf);border-radius:0 0 var(--dz-radius-s) var(--dz-radius-s)}
 #taglistarea a {margin:8px 8px 5px 0;font-size:14px}
 .p_opt input.pxs + br {display:none}
 .p_opt .px {margin:5px 0;min-width:30px;height:30px;line-height:30px}
