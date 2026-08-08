@@ -1,239 +1,222 @@
+
 <div class="tags">
-    <input name="tags" type="hidden" id="tags" value="<!--{echo $tags or $postinfo['tag']}-->">
-    <input id="keyword-input" size="30" placeholder="{lang input_a_new_tag_press_enter_submit}" autocomplete="off">
+<input name="tags" type="hidden" id="tags" value="<!--{echo $tags or $postinfo['tag']}-->">
+<input id="keyword-input" size="30" placeholder="{lang input_a_new_tag_press_enter_submit}" autocomplete="off">
 </div>
 <script reload="1">
-    (function () {
-        try {
-            if (!document.getElementById('tagmore_menu')) {
-                const menuDiv = document.createElement('div');
-                menuDiv.id = 'tagmore_menu';
-                menuDiv.className = 'p_pop';
-                menuDiv.style.display = 'none';
-                menuDiv.setAttribute('disautofocus', 'true');
-                const appendParent = document.getElementById('append_parent');
-                if (appendParent) appendParent.appendChild(menuDiv);
-            }
-            const tagsContainer = document.querySelector('.tags');
-            const hiddenTags = document.getElementById('tags');
-            const keywordInput = document.getElementById('keyword-input');
-            if (!tagsContainer || !hiddenTags || !keywordInput) return;
+(function() {
+try {
+    if (!document.getElementById('tagmore_menu')) {
+        const menuDiv = document.createElement('div');
+        menuDiv.id = 'tagmore_menu';
+        menuDiv.className = 'p_pop';
+        menuDiv.style.display = 'none';
+        menuDiv.setAttribute('disautofocus', 'true');
+        const appendParent = document.getElementById('append_parent');
+        if (appendParent) appendParent.appendChild(menuDiv);
+    }
+    const tagsContainer = document.querySelector('.tags');
+    const hiddenTags = document.getElementById('tags');
+    const keywordInput = document.getElementById('keyword-input');
+    if (!tagsContainer || !hiddenTags || !keywordInput) return;
 
-            // Simplified initialization (addresses reviewer point #3)
-            let keywords = (hiddenTags.value || '').split(',').filter(Boolean);
-            const tagMenu = document.getElementById('tagmore_menu');
-            const tagCannotContainCommaOrBackslash = {eval echo json_encode(lang('forum/template', 'tag_cannot_contain_comma_or_backslash'));};
-        let tagMenui = -1;
-        let tagMenuLength = 0;
-        let debounceTimeout = null;
+    // Simplified initialization (addresses reviewer point #3)
+    let keywords = (hiddenTags.value || '').split(',').filter(Boolean);
+    const tagMenu = document.getElementById('tagmore_menu');
+    const tagCannotContainCommaOrBackslash = {eval echo json_encode(lang('forum/template', 'tag_cannot_contain_comma_or_backslash'));};
+    let tagMenui = -1;
+    let tagMenuLength = 0;
+    let debounceTimeout = null;
 
-        // Modern render: insert tag chips inside .tags div before the input (backport of JSON editor chips)
-        function renderTags() {
-            // Remove old chips
-            const oldChips = tagsContainer.querySelectorAll('span.tag-chip');
-            oldChips.forEach(el => el.parentNode && el.parentNode.removeChild(el));
+    // Modern render: insert tag chips inside .tags div before the input (backport of JSON editor chips)
+    function renderTags() {
+        // Remove old chips
+        const oldChips = tagsContainer.querySelectorAll('span.tag-chip');
+        oldChips.forEach(el => el.parentNode && el.parentNode.removeChild(el));
 
-            keywords.forEach(keyword => {
-                const chip = document.createElement('span');
-                chip.className = 'tag-chip';
+        keywords.forEach(keyword => {
+            const chip = document.createElement('span');
+            chip.className = 'tag-chip';
 
-                // Safe DOM construction (XSS-safe - addresses reviewer concern #2)
-                const em = document.createElement('em');
-                em.textContent = keyword;
-                chip.appendChild(em);
+            // Safe DOM construction (XSS-safe - addresses reviewer concern #2)
+            const em = document.createElement('em');
+            em.textContent = keyword;
+            chip.appendChild(em);
 
-                const closeBtn = document.createElement('button');
-                closeBtn.type = 'button';
-                closeBtn.className = 'close';
-                closeBtn.setAttribute('aria-label', 'remove');
-                closeBtn.textContent = '×';
-                closeBtn.addEventListener('click', function (ev) {
-                    ev.preventDefault();
-                    window.removeKeyword(keyword);
-                });
-                chip.appendChild(closeBtn);
-
-                // Insert tag chip just before the input
-                tagsContainer.insertBefore(chip, keywordInput);
+            const closeBtn = document.createElement('button');
+            closeBtn.type = 'button';
+            closeBtn.className = 'close';
+            closeBtn.setAttribute('aria-label', 'remove');
+            closeBtn.textContent = '×';
+            closeBtn.addEventListener('click', function(ev) {
+                ev.preventDefault();
+                window.removeKeyword(keyword);
             });
+            chip.appendChild(closeBtn);
 
-            hiddenTags.value = keywords.join(',');
-        }
+            // Insert tag chip just before the input
+            tagsContainer.insertBefore(chip, keywordInput);
+        });
 
-        window.tagMenuOp = function (op, index) {
-            if (op === 5) {
-                tagMenui = index;
-                const as = tagMenu.getElementsByTagName('a');
-                for (let i = 0; i < as.length; i++) {
-                    as[i].className = (i === index) ? 'a' : '';
-                }
-            }
-        };
+        hiddenTags.value = keywords.join(',');
+    }
 
-        function getStrLen(str) {
-            return typeof mb_strlen === 'function' ? mb_strlen(str) : str.length;
-        }
-
-        function displayError(msg) {
-            if (typeof showError === 'function') {
-                showError(msg);
-            } else if (typeof popup !== 'undefined' && typeof popup.open === 'function') {
-                popup.open(msg, 'alert');
-            } else {
-                alert(msg);
+    window.tagMenuOp = function(op, index) {
+        if (op === 5) {
+            tagMenui = index;
+            const as = tagMenu.getElementsByTagName('a');
+            for (let i = 0; i < as.length; i++) {
+                as[i].className = (i === index) ? 'a' : '';
             }
         }
+    };
 
-        window.addKeyword = function (value) {
-            if (value.indexOf(',') !== -1 || value.indexOf('\\') !== -1) {
-                displayError(tagCannotContainCommaOrBackslash);
-                return;
-            }
+    window.addKeyword = function(value) {
+        if (value.indexOf(',') !== -1 || value.indexOf('\\') !== -1) {
+            showError(tagCannotContainCommaOrBackslash);
+            return;
+        }
 
-            if (keywords.length >= 5) {
-                displayError('{lang tag_count_limit}');
-                return;
-            }
+        if(keywords.length >= 5) {
+            showError('{lang tag_count_limit}');
+            return;
+        }
 
-            const taglength = getStrLen(value);
+        const taglength = mb_strlen(value);
 
-            if (taglength > 30 || taglength < 3) {
-                displayError('{lang tag_max_length_invalid}' + taglength);
-                return;
-            }
+        if(taglength > 30 || taglength < 3) {
+            showError('{lang tag_max_length_invalid}' + taglength);
+            return;
+        }
 
-            if (value && !keywords.includes(value)) {
-                keywords.push(value);
-                renderTags();
-            }
-        };
+        if (value && !keywords.includes(value)) {
+            keywords.push(value);
+            renderTags();
+        }
+    };
 
-        window.removeKeyword = function (keyword) {
-            const index = keywords.indexOf(keyword);
-            if (index > -1) {
-                keywords.splice(index, 1);
-                renderTags();
-            }
-        };
+    window.removeKeyword = function(keyword) {
+        const index = keywords.indexOf(keyword);
+        if (index > -1) {
+            keywords.splice(index, 1);
+            renderTags();
+        }
+    };
 
-        window.selectTagSuggestion = function (value) {
-            keywordInput.value = value;
-            window.addKeyword(value);
-            keywordInput.value = '';
+    window.selectTagSuggestion = function(value) {
+        keywordInput.value = value;
+        window.addKeyword(value);
+        keywordInput.value = '';
+        hideMenu('tagmore_menu');
+    };
+
+    if (keywordInput._tagSuggestInputHandler) {
+        keywordInput.removeEventListener('input', keywordInput._tagSuggestInputHandler);
+    }
+    keywordInput._tagSuggestInputHandler = function() {
+        const query = this.value.trim();
+        if (mb_strlen(query) < 2) {
             hideMenu('tagmore_menu');
-        };
-
-        if (keywordInput._tagSuggestInputHandler) {
-            keywordInput.removeEventListener('input', keywordInput._tagSuggestInputHandler);
+            return;
         }
-        keywordInput._tagSuggestInputHandler = function () {
-            const query = this.value.trim();
-            if (getStrLen(query) < 2) {
-                if (typeof hideMenu === 'function') hideMenu('tagmore_menu');
-                return;
-            }
 
-            if (debounceTimeout) {
-                clearTimeout(debounceTimeout);
-            }
-
-            debounceTimeout = setTimeout(async function () {
-                try {
-                    const response = await fetch('misc.php?mod=tag&op=search&inajax=1&searchkey=' + encodeURIComponent(query));
-                    const suggestions = await response.json();
-
-                    if (keywordInput.value.trim() !== query) {
-                        return;
-                    }
-
-                    if (suggestions.length > 0) {
-                        tagMenu.innerHTML = '';
-                        const ul = document.createElement('ul');
-                        tagMenuLength = suggestions.length;
-                        tagMenui = -1;
-
-                        suggestions.forEach((tag, i) => {
-                            const li = document.createElement('li');
-                            const a = document.createElement('a');
-                            a.href = 'javascript:;';
-                            a.id = 'tagmenu_item_' + i;
-                            a.textContent = tag;
-                            a.dataset.tag = tag;
-                            a.onmouseover = function () { tagMenuOp(5, i); };
-                            a.onmousedown = function (e) {
-                                doane(e);
-                                window.selectTagSuggestion(tag);
-                            };
-                            a.onclick = function (e) {
-                                return doane(e);
-                            };
-
-                            li.appendChild(a);
-                            ul.appendChild(li);
-                        });
-
-                        tagMenu.appendChild(ul);
-                        showMenu({ 'ctrlid': 'keyword-input', 'menuid': 'tagmore_menu', 'pos': '43' });
-                    } else {
-                        hideMenu('tagmore_menu');
-                    }
-                } catch (error) {
-                    hideMenu('tagmore_menu');
-                }
-            }, 300);
-        };
-        keywordInput.addEventListener('input', keywordInput._tagSuggestInputHandler);
-
-        if (keywordInput._tagSuggestKeydownHandler) {
-            keywordInput.removeEventListener('keydown', keywordInput._tagSuggestKeydownHandler);
+        if (debounceTimeout) {
+            clearTimeout(debounceTimeout);
         }
-        keywordInput._tagSuggestKeydownHandler = function (e) {
-            if (tagMenu.style.display !== 'none' && tagMenuLength > 0) {
-                if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
-                    if (e.key === 'ArrowDown') {
-                        tagMenui++;
-                        if (tagMenui >= tagMenuLength) tagMenui = 0;
-                    } else {
-                        tagMenui--;
-                        if (tagMenui < 0) tagMenui = tagMenuLength - 1;
-                    }
-                    tagMenuOp(5, tagMenui);
-                    const selectedItem = document.getElementById('tagmenu_item_' + tagMenui);
-                    if (selectedItem) {
-                        this.value = selectedItem.innerText;
-                    }
-                    e.preventDefault();
+
+        debounceTimeout = setTimeout(async function() {
+            try {
+                const response = await fetch('misc.php?mod=tag&op=search&inajax=1&searchkey=' + encodeURIComponent(query));
+                const suggestions = await response.json();
+
+                if (keywordInput.value.trim() !== query) {
                     return;
-                } else if (e.key === 'Enter') {
+                }
+
+                if (suggestions.length > 0) {
+                    tagMenu.innerHTML = '';
+                    const ul = document.createElement('ul');
+                    tagMenuLength = suggestions.length;
+                    tagMenui = -1;
+
+                    suggestions.forEach((tag, i) => {
+                        const li = document.createElement('li');
+                        const a = document.createElement('a');
+                        a.href = 'javascript:;';
+                        a.id = 'tagmenu_item_' + i;
+                        a.textContent = tag;
+                        a.dataset.tag = tag;
+                        a.onmouseover = function() { tagMenuOp(5, i); };
+                        a.onmousedown = function(e) {
+                            doane(e);
+                            window.selectTagSuggestion(tag);
+                        };
+                        a.onclick = function(e) {
+                            return doane(e);
+                        };
+
+                        li.appendChild(a);
+                        ul.appendChild(li);
+                    });
+
+                    tagMenu.appendChild(ul);
+                    showMenu({'ctrlid':'keyword-input', 'menuid':'tagmore_menu', 'pos':'43'});
+                } else {
                     hideMenu('tagmore_menu');
                 }
+            } catch (error) {
+                hideMenu('tagmore_menu');
             }
+        }, 300);
+    };
+    keywordInput.addEventListener('input', keywordInput._tagSuggestInputHandler);
 
-            if (e.key === 'Enter') {
-                window.addKeyword(this.value.trim());
-                this.value = '';
-                if (typeof doane === 'function') {
-                    doane(e);
-                } else if (e && e.preventDefault) {
-                    e.preventDefault();
+    if (keywordInput._tagSuggestKeydownHandler) {
+        keywordInput.removeEventListener('keydown', keywordInput._tagSuggestKeydownHandler);
+    }
+    keywordInput._tagSuggestKeydownHandler = function(e) {
+        if (tagMenu.style.display !== 'none' && tagMenuLength > 0) {
+            if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+                if (e.key === 'ArrowDown') {
+                    tagMenui++;
+                    if (tagMenui >= tagMenuLength) tagMenui = 0;
+                } else {
+                    tagMenui--;
+                    if (tagMenui < 0) tagMenui = tagMenuLength - 1;
                 }
+                tagMenuOp(5, tagMenui);
+                const selectedItem = document.getElementById('tagmenu_item_' + tagMenui);
+                if (selectedItem) {
+                    this.value = selectedItem.innerText;
+                }
+                e.preventDefault();
+                return;
+            } else if (e.key === 'Enter') {
+                hideMenu('tagmore_menu');
             }
-        };
-        keywordInput.addEventListener('keydown', keywordInput._tagSuggestKeydownHandler);
-
-        if (keywordInput._tagSuggestBlurHandler) {
-            keywordInput.removeEventListener('blur', keywordInput._tagSuggestBlurHandler);
         }
-        keywordInput._tagSuggestBlurHandler = function () {
-            if (this.value.trim()) {
-                window.addKeyword(this.value.trim());
-                this.value = '';
-            }
-            if (typeof hideMenu === 'function') hideMenu('tagmore_menu');
-        };
-        keywordInput.addEventListener('blur', keywordInput._tagSuggestBlurHandler);
 
-        renderTags();
-    } catch (e) { if (window.console) console.warn('tag_input init error:', e.message); }
-}) ();
+        if (e.key === 'Enter') {
+            window.addKeyword(this.value.trim());
+            this.value = '';
+            doane(e);
+        }
+    };
+    keywordInput.addEventListener('keydown', keywordInput._tagSuggestKeydownHandler);
+
+    if (keywordInput._tagSuggestBlurHandler) {
+        keywordInput.removeEventListener('blur', keywordInput._tagSuggestBlurHandler);
+    }
+    keywordInput._tagSuggestBlurHandler = function() {
+        if (this.value.trim()) {
+            window.addKeyword(this.value.trim());
+            this.value = '';
+        }
+        hideMenu('tagmore_menu');
+    };
+    keywordInput.addEventListener('blur', keywordInput._tagSuggestBlurHandler);
+
+    renderTags();
+} catch(e) { if(window.console) console.warn('tag_input init error:', e.message); }
+})();
 </script>
