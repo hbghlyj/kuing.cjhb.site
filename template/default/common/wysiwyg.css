@@ -4,16 +4,6 @@ wysiwyg CSS file for Discuz! X
 https://www.discuz.vip
 */
 body { margin: 0 !important; overflow: auto; }
-@font-face {
-font-family: zh;
-src: local(SimSun);
-font-weight: normal;
-}
-@font-face {
-font-family: zh;
-src: local('Microsoft Yahei Bold');
-font-weight: bold;
-}  
 mjx-container.math-editor-selected { cursor: not-allowed; outline: 3px solid #b4d7ff; }
 li { list-style-type: disc; margin-left: 2em; }
 ol { margin: 0; padding: 0; }
