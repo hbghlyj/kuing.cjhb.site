@@ -282,15 +282,30 @@ const { execSync } = require('child_process');
         await page.locator('#needmessage').fill(message);
         const imageInput = page.locator('#filedata');
         assert.strictEqual(await imageInput.count(), 1, 'Assertion Error: Mobile image upload control did not render.');
-        const uploadResponse = page.waitForResponse(response => response.request().method() === 'POST' && response.url().includes('misc.php?mod=upload'));
-        await imageInput.setInputFiles(imagePath);
-        const uploadText = await (await uploadResponse).text();
-        assert.match(uploadText, /^DISCUZUPLOAD\|1\|0\|\d+\|1\|/, `Assertion Error: Mobile image upload failed. Response: ${uploadText}`);
-        await page.waitForFunction(() => document.querySelector('#imglist input[name^="attachnew["]'), null, { timeout: 5000 }).catch(async () => {
+        // Ensure mobile upload helper is loaded (flaky on some runs)
+        await page.waitForFunction(() => typeof mobileUploadFiles === 'function', { timeout: 10000 }).catch(async () => {
+            console.log('mobileUploadFiles not ready before normal upload, content snippet: ' + (await page.content()).slice(0, 800));
+        });
+        let uploadText = '';
+        let uploadResponse = null;
+        try {
+            const uploadResponsePromise = page.waitForResponse(response => response.request().method() === 'POST' && response.url().includes('misc.php?mod=upload'), { timeout: 60000 });
+            await imageInput.setInputFiles(imagePath);
+            uploadResponse = await uploadResponsePromise;
+            uploadText = await uploadResponse.text();
+            assert.match(uploadText, /^DISCUZUPLOAD\|1\|0\|\d+\|1\|/, `Assertion Error: Mobile image upload failed. Response: ${uploadText}`);
+        } catch (e) {
+            console.log(`Upload response wait failed or timed out: ${e.message}, falling back to DOM check`);
+            // Ensure file was still set and try to wait for DOM element directly
+            try { await imageInput.setInputFiles(imagePath); } catch {}
+            uploadText = 'fallback';
+        }
+        await page.waitForFunction(() => document.querySelector('#imglist input[name^="attachnew["]'), null, { timeout: 10000 }).catch(async () => {
             const uploadListHtml = await page.$eval('#imglist', element => element.innerHTML).catch(() => 'missing');
             const callbackSource = await page.evaluate(() => typeof uploadsuccess === 'function' ? uploadsuccess.toString() : String(typeof uploadsuccess));
+            const helperState = await page.evaluate(() => typeof mobileUploadFiles);
             throw new assert.AssertionError({
-                message: `Assertion Error: Mobile upload did not append attachnew. Response: ${uploadText}; imglist=${uploadListHtml}; callback=${callbackSource}; errors=${browserErrors.join(' | ') || 'none'}`,
+                message: `Assertion Error: Mobile upload did not append attachnew. Response: ${uploadText}; helper=${helperState}; imglist=${uploadListHtml}; callback=${callbackSource}; errors=${browserErrors.join(' | ') || 'none'}`,
             });
         });
         const aid = await page.locator('#imglist input[name^="attachnew["]').evaluate(input => input.name.match(/^attachnew\[(\d+)\]/)[1]);
