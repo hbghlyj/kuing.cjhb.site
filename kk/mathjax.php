@@ -2,8 +2,8 @@
 <script src="/kk/mathjax-copy.js?<?= VERHASH ?>"></script>
 <script>
   window.MathJax = window.MathJax || {};
-  window.MathJax.startup = {
-    ready: function() {
+  window.MathJax.startup = window.MathJax.startup || {};
+  window.MathJax.startup.ready = function() {
       try {
         if (typeof MathJax !== 'undefined' && MathJax._ && MathJax._.core && MathJax._.output) {
           const {MmlMath} = MathJax._.core.MmlTree.MmlNodes.math;
