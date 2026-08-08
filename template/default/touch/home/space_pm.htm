@@ -32,9 +32,9 @@
 					<span class="pm-list-name">
 					<!--{if $value['touid']}-->
 						<!--{if $value['msgfromid'] == $_G['uid']}-->
-							<!--{eval echo lang('template', 'pm_me_to_user_say', ['username' => $value['tousername']]);}-->
+							<!--{eval echo lang('touch/template', 'pm_me_to_user_say', ['username' => $value['tousername']]);}-->
 						<!--{else}-->
-							<!--{eval echo lang('template', 'pm_user_to_me_say', ['username' => $value['tousername']]);}-->
+							<!--{eval echo lang('touch/template', 'pm_user_to_me_say', ['username' => $value['tousername']]);}-->
 						<!--{/if}-->
 					<!--{elseif $value['pmtype'] == 2}-->
 						{lang chatpm_author}: $value['firstauthor']
