@@ -1,7 +1,16 @@
 import "https://unpkg.com/instantsearch.js";
 import liteClient from "https://unpkg.com/algoliasearch@4.25.3/dist/algoliasearch-lite.esm.browser.js";
 export function initSearch(lang, forumlist, options = {}) {
-	if (!document.querySelector('#algolia-search-box') && !document.querySelector('#algolia-hits')) return;
+	var search = instantsearch({
+		indexName: 'kuing',
+		searchClient: liteClient('KZZUGXICHQ', 'cfaa3668ecea0bce830d62fc30f4d0dd')
+	});
+	const searchBoxCssClasses = {
+		input: options.inputClassName || 'ais-SearchBox-input'
+	};
+	if(options.submitClassName) {
+		searchBoxCssClasses.submit = options.submitClassName;
+	}
 
 	if (document.querySelector('#facet-totalposts') && typeof instantsearch.widgets.rangeInput !== 'function') {
 		console.warn('Algolia rangeInput widget unavailable for #facet-totalposts container');
