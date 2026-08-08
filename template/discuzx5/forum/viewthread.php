@@ -168,7 +168,6 @@
 			<td class="plc vwthd">
 				<!--{if !IS_ROBOT}-->
 					<div class="y">
-						<a href="forum.php?mod=viewthread&tid=$_G[tid]$fromuid" id="threadshare" onclick="return shareThreadUrl(this, '$_G[setting][bbname]')" title="{lang share_url_share}"><i class="fico-share fic4 fc-s vm"></i></a>
 						<!--{if $post['invisible'] == 0}--><a href="forum.php?mod=viewthread&action=printable&tid=$_G[tid]" title="{lang thread_printable}" target="_blank"><i class="fico-print fic4 fc-s vm"></i></a>
 						<!--{/if}-->
 						<a href="forum.php?mod=redirect&goto=nextoldset&tid=$_G[tid]" title="{lang last_thread}"><i class="fico-left fic4 fc-s vm"></i></a>
