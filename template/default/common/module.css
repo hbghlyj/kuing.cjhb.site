@@ -1215,7 +1215,6 @@ a.thread_mod { height: 19px; line-height: 19px; display: inline-block; color: #4
 
 #modopt, #modopttmp { margin-left:5px; }
 #modmenu, #modmenu2 { white-space: nowrap; }
-.chain-icon { color: transparent; text-shadow: #999 0 0 0; }
 .report-icon { color: #999; }
 .pob .report-action { display: inline-flex; align-items: center; font-size: 13px; text-decoration: none; }
 .pob .report-action svg { margin-right: 4px; flex-shrink: 0; }

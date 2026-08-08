@@ -579,7 +579,7 @@ function toggleRatelogCollapse(tarId, ctrlObj) {
 }
 
 function copyThreadUrl(obj, bbname) {
-	setCopy(obj.href, '<span class="chain-icon" aria-hidden="true">🔗</span> ' + $L('copy_thread_notice'));
+	setCopy(obj.href, '<i class="fico-link fic4 fc-s vm"></i> ' + $L('copy_thread_notice'));
 	return false;
 }
 
