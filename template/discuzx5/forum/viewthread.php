@@ -331,7 +331,7 @@
 </div>
 
 <!--{if $modmenu['thread']}-->
-	<div class="xi2 mbm pbm bbs">
+	<div id="modmenu2" class="mbm pbm bbs">
 	<script type="text/javascript">
 		$('modmenu').lastChild.style.visibility = 'hidden';
 		document.write($('modmenu').innerHTML);
