@@ -47,7 +47,7 @@ const stubPusher = async targetContext => {
 
     page.on('response', async response => {
         if (response.request().resourceType() === 'script') {
-            console.log(`[SCRIPT ${response.status()}] ${response.url()}`);
+            if (response.status() >= 400) console.log(`[SCRIPT ${response.status()}] ${response.url()}`);
             try {
                 scriptSources.set(response.url(), await response.text());
             } catch (e) { }
