@@ -1872,3 +1872,77 @@ body.pg_logging, body.pg_register, body.pg_lostpasswd_mobile, body.pg_lostpasswd
 	flex-shrink: 0;
 	margin-left: 12px;
 }
+
+/* ============================================================
+   Forum tag input chips - backported from desktop/common/common.css
+   Modern chip styles were missing in touch; this mirrors the
+   desktop .tags / .tag-chip implementation for touch popups.
+   ============================================================ */
+.tags {
+	border: 1px solid var(--dz-BOR-ed, #d2d2d2);
+	background-color: var(--dz-BG-0, #fff);
+	padding: 4px 8px;
+	min-height: 36px;
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 4px;
+	border-radius: var(--dz-radius-sm, 4px);
+	box-shadow: inset 0 1px 2px rgba(0,0,0,0.03);
+}
+.tags .tag-chip {
+	font-size: 12px;
+	line-height: 18px;
+	position: relative;
+	display: inline-flex;
+	align-items: center;
+	margin: 1px 2px;
+	padding: 2px 7px 2px 8px;
+	cursor: default;
+	transition: all .15s ease;
+	white-space: nowrap;
+	color: #fff;
+	font-weight: 500;
+	background-color: var(--dz-BG-color, #1e9fff);
+	border-radius: 12px;
+	height: 22px;
+	box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+.tags .tag-chip em {
+	font-style: normal;
+	padding-right: 1px;
+}
+.tags .close,
+.tags .tag-chip .close {
+	font-size: 18px;
+	line-height: 1;
+	margin-left: 2px;
+	padding: 0 0 0 3px;
+	cursor: pointer;
+	color: rgba(255,255,255,0.9);
+	border: 0;
+	background: transparent;
+	vertical-align: middle;
+	font-weight: bold;
+	opacity: 0.9;
+}
+.tags .close:hover,
+.tags .tag-chip .close:hover {
+	color: #ffdddd;
+	opacity: 1;
+}
+.tags input,
+.tags input:focus {
+	border: 0 none !important;
+	outline: none !important;
+	box-shadow: none !important;
+	padding: 2px 6px;
+	margin: 1px 0;
+	min-width: 110px;
+	flex: 1 1 auto;
+	font-size: 13px;
+	background: transparent;
+	line-height: 20px;
+	color: var(--dz-FC-333, #333);
+	-webkit-appearance: none;
+}
