@@ -835,6 +835,7 @@ const { execSync } = require('child_process');
     } catch(error) {
         console.error('Test execution failed:', error);
         process.exitCode = 1;
+        console.log('::error::' + String(error && error.message || error).slice(0, 1000).replace(/[\r\n]+/g, ' | '));
         try {
             const currentUrl = page.url();
             const pageTitle = await page.title().catch(() => 'Unknown Title');

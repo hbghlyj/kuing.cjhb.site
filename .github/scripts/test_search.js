@@ -50,6 +50,7 @@ const testRunId = process.env.TEST_RUN_ID || Date.now().toString();
     } catch(error) {
         console.error('Test execution failed:', error);
         process.exitCode = 1;
+        console.log('::error::' + String(error && error.message || error).slice(0, 1000).replace(/[\r\n]+/g, ' | '));
         try {
             const token = process.env.GITHUB_TOKEN || process.env.GH_TOKEN;
             if (token) {

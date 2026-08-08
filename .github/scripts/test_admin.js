@@ -212,6 +212,7 @@ const { execSync } = require('child_process');
     } catch (error) {
         console.error("Admin test execution failed:", error);
         process.exitCode = 1;
+        console.log('::error::' + String(error && error.message || error).slice(0, 1000).replace(/[\r\n]+/g, ' | '));
         try {
             const token = process.env.GITHUB_TOKEN || process.env.GH_TOKEN;
             if (token) {
