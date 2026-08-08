@@ -136,9 +136,10 @@ class emailpost {
 
 	protected function processMessage(string $raw, string $recipient = '') {
 		[$headers, $body] = $this->splitMessage($raw);
+		$normalizedHeaders = str_replace("\r", '', $headers);
 		$messageid = $this->firstMessageId($headers, 'Message-ID');
 		if(!$messageid) {
-			$messageid = '<missing-'.hash('sha256', $headers).'@'.strtolower($this->config['recipient_domain']).'>';
+			$messageid = '<missing-'.hash('sha256', $normalizedHeaders).'@'.strtolower($this->config['recipient_domain']).'>';
 		}
 		$messageid = cutstr($messageid, 255);
 		if(table_forum_emailpost::t()->fetch($messageid)) {
