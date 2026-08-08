@@ -2403,3 +2403,76 @@ DIY图片幻灯片未加载时隐藏,模块标识隐藏
     .imgl img { border: 1px solid {LIGHTTEXT}; max-width: 110px; }
 
     .imgf .px { width: 106px; padding: 2px; height: 14px; line-height: 14px; }
+
+/* ============================================================
+   Forum tag input (backported from JSON editor)
+   Used by tag_input.htm in default post editor
+   ============================================================ */
+.tags {
+    border: 1px solid #d2d2d2;
+    background-color: #fff;
+    padding: 4px 8px;
+    min-height: 36px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 4px;
+    border-radius: 4px;
+    box-shadow: inset 0 1px 2px rgba(0,0,0,0.03);
+}
+.tags span,
+.tags span.tag-chip {
+    font-size: 12px;
+    line-height: 18px;
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    margin: 1px 2px;
+    padding: 2px 7px 2px 8px;
+    cursor: default;
+    transition: all .15s ease;
+    white-space: nowrap;
+    color: #fff;
+    font-weight: 500;
+    background-color: #1e9fff;
+    border-radius: 12px;
+    height: 22px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+.tags span em {
+    font-style: normal;
+    padding-right: 1px;
+}
+.tags .close,
+.tags span .close {
+    font-size: 18px;
+    line-height: 1;
+    margin-left: 2px;
+    padding: 0 0 0 3px;
+    cursor: pointer;
+    color: rgba(255,255,255,0.9);
+    border: 0;
+    background: transparent;
+    vertical-align: middle;
+    font-weight: bold;
+    opacity: 0.9;
+}
+.tags .close:hover,
+.tags span .close:hover {
+    color: #ffdddd;
+    opacity: 1;
+}
+.tags input,
+.tags input:focus {
+    border: 0 none;
+    outline: none;
+    box-shadow: none;
+    padding: 2px 6px;
+    margin: 1px 0;
+    min-width: 110px;
+    flex: 1 1 auto;
+    font-size: 13px;
+    background: transparent;
+    line-height: 20px;
+    color: #333;
+}
