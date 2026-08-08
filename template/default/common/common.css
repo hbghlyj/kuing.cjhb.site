@@ -2405,8 +2405,7 @@ DIY图片幻灯片未加载时隐藏,模块标识隐藏
     .imgf .px { width: 106px; padding: 2px; height: 14px; line-height: 14px; }
 
 /* ============================================================
-   Forum tag input (backported from JSON editor)
-   Used by tag_input.htm in default post editor
+   Forum tag input chips
    ============================================================ */
 .tags {
     border: 1px solid #d2d2d2;
@@ -2420,8 +2419,7 @@ DIY图片幻灯片未加载时隐藏,模块标识隐藏
     border-radius: 4px;
     box-shadow: inset 0 1px 2px rgba(0,0,0,0.03);
 }
-.tags span,
-.tags span.tag-chip {
+.tags .tag-chip {
     font-size: 12px;
     line-height: 18px;
     position: relative;
@@ -2439,12 +2437,12 @@ DIY图片幻灯片未加载时隐藏,模块标识隐藏
     height: 22px;
     box-shadow: 0 1px 2px rgba(0,0,0,0.1);
 }
-.tags span em {
+.tags .tag-chip em {
     font-style: normal;
     padding-right: 1px;
 }
 .tags .close,
-.tags span .close {
+.tags .tag-chip .close {
     font-size: 18px;
     line-height: 1;
     margin-left: 2px;
@@ -2458,7 +2456,7 @@ DIY图片幻灯片未加载时隐藏,模块标识隐藏
     opacity: 0.9;
 }
 .tags .close:hover,
-.tags span .close:hover {
+.tags .tag-chip .close:hover {
     color: #ffdddd;
     opacity: 1;
 }
