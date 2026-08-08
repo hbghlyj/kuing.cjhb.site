@@ -4,6 +4,7 @@ wysiwyg CSS file for Discuz! X
 https://www.discuz.vip
 */
 html, body { border: 0 !important; margin: 0 !important; }
+body { overflow: auto; }
 @font-face {
 font-family: zh;
 src: local(SimSun);
