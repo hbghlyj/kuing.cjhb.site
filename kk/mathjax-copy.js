@@ -39,14 +39,16 @@ function cloneRangeWithMathJaxSource(range) {
 
   const doc = window.MathJax && window.MathJax.startup && window.MathJax.startup.document;
   const taggedContainers = [];
-  if (doc) {
-    for (const math of doc.math) {
-      const container = math.typesetRoot;
-      if (container && sourceRange.intersectsNode(container)) {
-        container.setAttribute('data-mjx-copy-tex', math.start.delim + math.math.trim() + math.end.delim);
-        taggedContainers.push(container);
+  if (doc && doc.math) {
+    try {
+      for (const math of doc.math) {
+        const container = math.typesetRoot;
+        if (container && sourceRange.intersectsNode(container)) {
+          container.setAttribute('data-mjx-copy-tex', math.start.delim + math.math.trim() + math.end.delim);
+          taggedContainers.push(container);
+        }
       }
-    }
+    } catch(e) {}
   }
 
   const fragment = sourceRange.cloneContents();
