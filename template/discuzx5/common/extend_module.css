@@ -225,7 +225,7 @@ details > div {
 .ptm h2 {line-height:30px;font-size:14px;font-weight:normal}
 #signhtmlpreview img[src*="smiley"] {max-width:22px !important;max-height:22px;vertical-align:middle}
 #post_extra {margin-top:5px}
-#post_extra_tb {border-bottom:1px solid var(--dz-borderb);height:31px;position:relative;z-index:2}
+#post_extra_tb {border-bottom:1px solid var(--dz-borderb);position:relative;z-index:2}
 #post_extra_tb label {height:30px;line-height:30px;margin:0 6px -1px 0;padding:0 15px;cursor:pointer;border:1px solid var(--dz-borderb);border-radius:var(--dz-radius-s) var(--dz-radius-s) 0 0;background:transparent}
 #post_extra_tb label.pn {padding:0 15px;background:none;border:1px solid var(--dz-borderb);color:var(--dz-fa) !important}
 #post_extra_tb label span {padding:0;background:none;font-size:12px;line-height:30px}
