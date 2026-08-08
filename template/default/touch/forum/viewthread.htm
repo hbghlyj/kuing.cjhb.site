@@ -354,11 +354,30 @@ $multipage
 	<!--{if helper_access::check_module('share')}-->
 		<a href="home.php?mod=spacecp&ac=share&type=thread&id={$_G['tid']}" class="dialog flex mx"><i class="dm-star"></i><!--{if $_G['forum_thread']['sharetimes']}-->{$_G['forum_thread']['sharetimes']}<!--{/if}-->{lang thread_share}</a>
 	<!--{/if}-->
+	<!--{if !IS_ROBOT}-->
+		<a href="forum.php?mod=viewthread&tid={$_G['tid']}" id="th_share_btn" class="flex mx"><i class="fico-share"></i>{lang share_url_share}</a>
+	<!--{/if}-->
 	<!--{if !$_G['forum']['disablecollect'] && helper_access::check_module('collection')}-->
 		<a href="forum.php?mod=collection&action=edit&op=addthread&tid={$_G['tid']}" class="dialog flex mx"><i class="fico-collection"></i><!--{if $post['releatcollectionnum']}-->{$post['releatcollectionnum']}<!--{/if}-->{lang collection}</a>
 	<!--{/if}-->
 </div>
 <div class="foot_height_view"></div>
+<script type="text/javascript">
+	var thShareBtn = document.getElementById('th_share_btn');
+	if(thShareBtn) {
+		if(navigator.share) {
+			thShareBtn.addEventListener('click', function(event) {
+				event.preventDefault();
+				navigator.share({
+					title: document.title,
+					url: window.location.href
+				}).catch(function() {});
+			});
+		} else {
+			thShareBtn.parentNode.removeChild(thShareBtn);
+		}
+	}
+</script>
 <script type="text/javascript">
 	document.querySelectorAll('.favbtn').forEach(function(button) {
 		button.addEventListener('click', function(event) {

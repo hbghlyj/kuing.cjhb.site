@@ -1069,6 +1069,7 @@ $lang = [
 	'rushreply_view' => '查看抢中楼层',
 	'share_url_copy' => '复制链接',
 	'share_url_copy_comment' => '您的朋友访问此链接后，您将获得相应的积分奖励',
+	'share_url_share' => '分享',
 	'thread_author' => '楼主',
 	'thread_printable' => '打印',
 	'thread_replycredit_tips1' => '回复本帖可获得 {$_G[\'forum_thread\'][\'replycredit_rule\'][\'extcredits\']} {$_G[\'setting\'][\'extcredits\'][$_G[\'forum_thread\'][\'replycredit_rule\'][\'extcreditstype\']][\'unit\']}{$_G[\'setting\'][\'extcredits\'][$_G[\'forum_thread\'][\'replycredit_rule\'][\'extcreditstype\']][\'title\']}奖励!',

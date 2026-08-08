@@ -583,6 +583,18 @@ function copyThreadUrl(obj, bbname) {
 	return false;
 }
 
+function shareThreadUrl(obj, bbname) {
+	if(navigator.share) {
+		navigator.share({
+			title: document.title,
+			url: obj.href
+		}).catch(function() {});
+	} else {
+		return copyThreadUrl(obj, bbname);
+	}
+	return false;
+}
+
 function lazyload(className) {
 	var obj = this;
 	lazyload.className = className;

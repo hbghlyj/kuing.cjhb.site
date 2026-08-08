@@ -1074,6 +1074,7 @@ $lang = array (
 	'rushreply_view'		=> 'View grab in the Floor',//'查看抢中楼层',
 	'share_url_copy'		=> 'Copy link',//'复制链接',
 	'share_url_copy_comment'	=> 'If your friend visit this link, you will receive the appropriate reward points',//'您的朋友访问此链接后，您将获得相应的积分奖励',
+	'share_url_share'		=> 'Share',//'分享',
 	'thread_author'			=> 'original poster',//'楼主',
 	'thread_printable'		=> 'Print',//'打印',
 	'thread_replycredit_tips1'	=> 'Reply available {$_G[forum_thread][replycredit_rule][extcredits]} {$_G[setting][extcredits][$_G[forum_thread][replycredit_rule][extcreditstype]][unit]} {$_G[setting][extcredits][$_G[forum_thread][replycredit_rule][extcreditstype]][title]} Award acrion!',//'回复本帖可获得 {$_G[forum_thread][replycredit_rule][extcredits]} {$_G[setting][extcredits][$_G[forum_thread][replycredit_rule][extcreditstype]][unit]}{$_G[setting][extcredits][$_G[forum_thread][replycredit_rule][extcreditstype]][title]}奖励!',
