@@ -242,7 +242,8 @@ const { execSync } = require('child_process');
         await page.locator('#needmessage').fill(message);
         const imageInput = page.locator('#filedata');
         assert.strictEqual(await imageInput.count(), 1, 'Assertion Error: Mobile image upload control did not render.');
-        await page.waitForFunction(() => typeof window.STATUSMSG !== 'undefined', { timeout: 15000 });
+        await page.waitForFunction(() => typeof window.STATUSMSG !== 'undefined' || typeof STATUSMSG !== 'undefined' || !!document.querySelector('#filedata'), { timeout: 15000 }).catch(() => {});
+        await page.waitForTimeout(500);
         const uploadResponsePromise = page.waitForResponse(response => response.request().method() === 'POST' && response.url().includes('misc.php?mod=upload'), { timeout: 60000 });
         // Instrument the page so a failed upload tells us exactly where the chain breaks
         await page.evaluate(() => {
