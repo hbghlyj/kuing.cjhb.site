@@ -71,21 +71,35 @@
             }
         };
 
+        function getStrLen(str) {
+            return typeof mb_strlen === 'function' ? mb_strlen(str) : str.length;
+        }
+
+        function displayError(msg) {
+            if (typeof showError === 'function') {
+                showError(msg);
+            } else if (typeof popup !== 'undefined' && typeof popup.open === 'function') {
+                popup.open(msg, 'alert');
+            } else {
+                alert(msg);
+            }
+        }
+
         window.addKeyword = function (value) {
             if (value.indexOf(',') !== -1 || value.indexOf('\\') !== -1) {
-                showError(tagCannotContainCommaOrBackslash);
+                displayError(tagCannotContainCommaOrBackslash);
                 return;
             }
 
             if (keywords.length >= 5) {
-                showError('{lang tag_count_limit}');
+                displayError('{lang tag_count_limit}');
                 return;
             }
 
-            const taglength = mb_strlen(value);
+            const taglength = getStrLen(value);
 
             if (taglength > 30 || taglength < 3) {
-                showError('{lang tag_max_length_invalid}' + taglength);
+                displayError('{lang tag_max_length_invalid}' + taglength);
                 return;
             }
 
@@ -115,8 +129,8 @@
         }
         keywordInput._tagSuggestInputHandler = function () {
             const query = this.value.trim();
-            if (mb_strlen(query) < 2) {
-                hideMenu('tagmore_menu');
+            if (getStrLen(query) < 2) {
+                if (typeof hideMenu === 'function') hideMenu('tagmore_menu');
                 return;
             }
 
