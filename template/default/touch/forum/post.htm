@@ -271,7 +271,7 @@
 		var _content = document.getElementById('content');
 		var post_content = '';
 		<!--{if $_GET['action'] == 'edit' && $isJsonContent}-->
-		post_content = `{$postinfo['content']}`;
+		post_content = '$postinfo[content]';
 		<!--{/if}-->
 
 		var savePromise = (typeof saveJsonContent === 'function')

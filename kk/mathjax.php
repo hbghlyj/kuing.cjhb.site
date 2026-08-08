@@ -6,10 +6,10 @@
   window.MathJax.startup.ready = function() {
       try {
         if (typeof MathJax !== 'undefined' && MathJax._ && MathJax._.core && MathJax._.output) {
-          const {MmlMath} = MathJax._.core.MmlTree.MmlNodes.math;
-          const {MmlMstyle} = MathJax._.core.MmlTree.MmlNodes.mstyle;
-          const {FONTSIZE} = MathJax._.output.chtml.Wrapper;
-          const {CHTML} = MathJax._.output.chtml_ts;
+          const {MmlMath} = MathJax._?.core?.MmlTree?.MmlNodes?.math || {};
+          const {MmlMstyle} = MathJax._?.core?.MmlTree?.MmlNodes?.mstyle || {};
+          const {FONTSIZE} = MathJax._?.output?.chtml?.Wrapper || {};
+          const {CHTML} = MathJax._?.output?.chtml_ts || {};
           if (MmlMath && MmlMath.defaults) {
             MmlMath.defaults.scriptminsize = '0px';
             MmlMath.defaults.scriptsizemultiplier = 0.8;
