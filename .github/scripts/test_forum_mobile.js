@@ -283,9 +283,11 @@ const { execSync } = require('child_process');
         await page.locator('#needmessage').fill(message);
         const imageInput = page.locator('#filedata');
         assert.strictEqual(await imageInput.count(), 1, 'Assertion Error: Mobile image upload control did not render.');
-        const uploadResponse = page.waitForResponse(response => response.request().method() === 'POST' && response.url().includes('misc.php?mod=upload'));
-        await imageInput.setInputFiles(imagePath);
-        const uploadText = await (await uploadResponse).text();
+        const [uploadResponse] = await Promise.all([
+            page.waitForResponse(response => response.request().method() === 'POST' && response.url().includes('misc.php?mod=upload'), { timeout: 30000 }),
+            imageInput.setInputFiles(imagePath),
+        ]);
+        const uploadText = await uploadResponse.text();
         assert.match(uploadText, /^DISCUZUPLOAD\|1\|0\|\d+\|1\|/, `Assertion Error: Mobile image upload failed. Response: ${uploadText}`);
         await page.waitForFunction(() => document.querySelector('#imglist input[name^="attachnew["]'), null, { timeout: 15000 }).catch(async () => {
             const uploadListHtml = await page.$eval('#imglist', element => element.innerHTML).catch(() => 'missing');
