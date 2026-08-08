@@ -92,13 +92,40 @@ class table_common_usergroup extends discuz_table {
 
 	}
 
+	public function fetch($id, $force_from_db = false) {
+		return self::localize_row(parent::fetch($id, $force_from_db));
+	}
+
+	public function fetch_all($ids, $force_from_db = false) {
+		return self::localize_rows(parent::fetch_all($ids, $force_from_db));
+	}
+
+	public function range($start = 0, $limit = 0, $sort = '') {
+		return self::localize_rows(parent::range($start, $limit, $sort));
+	}
+
 	public function update_usergroup($id, $data, $type = '') {
-		if(!is_array($data) || !$data || !is_array($data) || !$id) {
+		if(!is_array($data) || !$data || !$id) {
 			return null;
 		}
 		if(array_key_exists('grouptitle', $data)) {
-			$existing = DB::result_first('SELECT grouptitle FROM %t WHERE groupid=%d', [$this->_table, $id]);
-			$data['grouptitle'] = i18n::encodeValue($data['grouptitle'], $existing);
+			if(is_array($id)) {
+				$res = 0;
+				foreach($id as $single_id) {
+					$single_data = $data;
+					$existing = DB::result_first('SELECT grouptitle FROM %t WHERE groupid=%d', [$this->_table, $single_id]);
+					$single_data['grouptitle'] = i18n::encodeValue($data['grouptitle'], $existing);
+					$condition = DB::field('groupid', $single_id);
+					if($type) {
+						$condition .= ' AND '.DB::field('type', $type);
+					}
+					$res += DB::update($this->_table, $single_data, $condition);
+				}
+				return $res;
+			} else {
+				$existing = DB::result_first('SELECT grouptitle FROM %t WHERE groupid=%d', [$this->_table, $id]);
+				$data['grouptitle'] = i18n::encodeValue($data['grouptitle'], $existing);
+			}
 		}
 		$condition = DB::field('groupid', $id);
 		if($type) {
