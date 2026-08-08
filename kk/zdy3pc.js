@@ -172,7 +172,7 @@ if ($('postlist') && $('ct')) {
             const floorLink = lou.querySelector('td.plc>div.pi>strong>a');
             if (!floorLink || !floorLink.firstChild) return;
             const floorClone = floorLink.cloneNode(true);
-            floorClone.querySelectorAll('[aria-hidden="true"]').forEach(icon => icon.remove());
+            floorClone.querySelectorAll('i, svg, img, [aria-hidden="true"]').forEach(icon => icon.remove());
             if (!MULUSELECT.querySelector('option[value="' + lou.id + '"]')) {
                 const option = document.createElement('option');
                 option.value = lou.id;
@@ -184,7 +184,7 @@ if ($('postlist') && $('ct')) {
             const pidRef = lou.id.replace('post_', '&pid=');
             document.querySelectorAll("td.t_f > div.quote > blockquote > font > a[href$='" + pidRef + "&ptid=" + tid + "']").forEach(a => {
                 if (a.firstElementChild) {
-                    a.firstElementChild.innerHTML = floorClone.innerHTML + ' ' + a.firstElementChild.innerHTML;
+                    a.firstElementChild.innerHTML = floorClone.innerHTML.trim() + ' ' + a.firstElementChild.innerHTML;
                 }
             });
             document.querySelectorAll("td.t_f a[href$='" + pidRef + "&ptid=" + tid + "']").forEach(a => {
