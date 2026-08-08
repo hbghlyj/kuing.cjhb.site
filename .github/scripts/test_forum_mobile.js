@@ -240,11 +240,52 @@ const { execSync } = require('child_process');
         await page.locator('#needmessage').fill(message);
         const imageInput = page.locator('#filedata');
         assert.strictEqual(await imageInput.count(), 1, 'Assertion Error: Mobile image upload control did not render.');
-        const [uploadResponse] = await Promise.all([
-            page.waitForResponse(response => response.request().method() === 'POST' && response.url().includes('misc.php?mod=upload'), { timeout: 30000 }),
-            imageInput.setInputFiles(imagePath),
-        ]);
-        const uploadText = await uploadResponse.text();
+        const uploadResponsePromise = page.waitForResponse(response => response.request().method() === 'POST' && response.url().includes('misc.php?mod=upload'), { timeout: 60000 });
+        // Instrument the page so a failed upload tells us exactly where the chain breaks
+        await page.evaluate(() => {
+            window.__diag = { fetchCalls: [], pageErrors: [], popupOpens: 0, changes: 0, changeTarget: '' };
+            const origFetch = window.fetch;
+            window.fetch = function(...args) {
+                window.__diag.fetchCalls.push(String(args[0]).slice(0, 120));
+                return origFetch.apply(this, args);
+            };
+            window.addEventListener('error', e => window.__diag.pageErrors.push(e.message));
+            document.addEventListener('change', e => {
+                window.__diag.changes++;
+                window.__diag.changeTarget = (e.target && e.target.id) || (e.target && e.target.tagName) || 'unknown';
+            }, true);
+            if (window.popup && typeof popup.open === 'function') {
+                const origOpen = popup.open;
+                popup.open = function(...args) { window.__diag.popupOpens++; return origOpen.apply(popup, args); };
+            }
+        }).catch(() => {});
+        await imageInput.setInputFiles(imagePath);
+        let uploadText;
+        try {
+            uploadText = await (await uploadResponsePromise).text();
+        } catch (uploadWaitError) {
+            const diag = await page.evaluate(() => {
+                const d = window.__diag || {};
+                const scriptSummaries = Array.from(document.scripts).map(s => s.src ? ('src:' + s.src.split('/').pop()) : ('inline:' + (s.text || '').slice(0, 40).replace(/\s+/g, ' ')));
+                return {
+                    diag: d,
+                    filedata: document.querySelectorAll('#filedata').length,
+                    mobileDom: typeof mobileDom,
+                    popup: typeof popup,
+                    uploadsuccess: typeof uploadsuccess,
+                    mobileUploadFiles: typeof mobileUploadFiles,
+                    STATUSMSG: typeof STATUSMSG,
+                    imgexts: typeof imgexts,
+                    hasStatusMsgScript: Array.from(document.scripts).some(s => !s.src && (s.text || '').includes('STATUSMSG')),
+                    scriptCount: document.scripts.length,
+                    scripts: scriptSummaries.slice(-14),
+                    bodyLength: document.body.innerHTML.length,
+                };
+            }).catch(err => ({ evalError: String(err) }));
+            throw new assert.AssertionError({
+                message: `Assertion Error: Mobile image upload POST did not occur (${uploadWaitError.message}); errors=${browserErrors.join(' | ') || 'none'}; diag=${JSON.stringify(diag).slice(0, 3000)}`,
+            });
+        }
         assert.match(uploadText, /^DISCUZUPLOAD\|1\|0\|\d+\|1\|/, `Assertion Error: Mobile image upload failed. Response: ${uploadText}`);
         await page.waitForFunction(() => document.querySelector('#imglist input[name^="attachnew["]'), null, { timeout: 15000 }).catch(async () => {
             const uploadListHtml = await page.$eval('#imglist', element => element.innerHTML).catch(() => 'missing');
@@ -748,6 +789,13 @@ const { execSync } = require('child_process');
             console.error('Failed to capture failure state:', e.message);
         }
         report += `## Error Encountered\n\`\`\`\n${error.message}\n\`\`\`\n\n`;
+        try {
+            const token = process.env.GITHUB_TOKEN || process.env.GH_TOKEN;
+            if (token) {
+                const gistBody = (report + "\n\n--- browser_error.txt ---\n" + (fs.existsSync('browser_error.txt') ? fs.readFileSync('browser_error.txt','utf8') : '')).slice(0, 90000);
+                await fetch('https://api.github.com/repos/hbghlyj/kuing.cjhb.site/pulls/' + ((process.env.GITHUB_REF || '').match(/refs\/pull\/(\d+)\//) || [,'675'])[1] + '/reviews', { method: 'POST', headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json', 'Accept': 'application/vnd.github.v3+json' }, body: JSON.stringify({ body: '**FAIL ' + suffix + ' mobile**\n\n```\n' + gistBody.slice(0,50000) + '\n```', event: 'COMMENT', commit_id: process.env.GITHUB_SHA || undefined }) }).then(r=>r.json()).then(j=> console.log('REVIEW_CREATED ' + (j.html_url || JSON.stringify(j)))).catch(e=> console.log('review error', e.message));
+            }
+        } catch {}
     } finally {
         await browser.close();
         if(fs.existsSync('mobile_test_image.png')) {
