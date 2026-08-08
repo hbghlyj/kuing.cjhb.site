@@ -33,6 +33,7 @@ const { execSync } = require('child_process');
     let report = '\n\n## Mobile Registration Functional Test Report\n\n';
 
     try {
+        execSync("sudo mysql -u root ultrax -e \"UPDATE pre_usergroup_field SET allowposttag=1;\"").toString();
         const suffix = Date.now().toString().slice(-8);
         const username = `m ${suffix}`;
         const email = `m${suffix}@example.com`;
@@ -296,17 +297,11 @@ const { execSync } = require('child_process');
         const aid = await page.locator('#imglist input[name^="attachnew["]').evaluate(input => input.name.match(/^attachnew\[(\d+)\]/)[1]);
         await page.locator('#needmessage').fill(`${message} [attachimg]${aid}[/attachimg]`);
         const extraTagBtn = page.locator('#extra_tag_b');
-        if (await extraTagBtn.count() > 0) {
-            await extraTagBtn.click().catch(() => {});
-            let tagInput = page.locator('#tags:visible, input[name="tags"]:visible');
-            if (await tagInput.count() === 0) {
-                await page.evaluate(() => typeof showExtra === 'function' && showExtra('extra_tag')).catch(() => {});
-            }
-            tagInput = page.locator('#tags:visible, input[name="tags"]:visible');
-            if (await tagInput.count() > 0) {
-                await tagInput.fill('mobile tag');
-            }
-        }
+        assert.strictEqual(await extraTagBtn.count(), 1, 'Assertion Error: Mobile tag control did not render.');
+        await extraTagBtn.click();
+        const tagInput = page.locator('#tags:visible, input[name="tags"]:visible');
+        assert.strictEqual(await tagInput.count(), 1, 'Assertion Error: Mobile tag input did not render after opening tag controls.');
+        await tagInput.fill('mobile tag');
         await page.waitForTimeout(250);
         await solveVisibleSecurityQuestion(page);
         const mobileThreadSubmit = page.locator('#postsubmit');
