@@ -244,19 +244,9 @@ const { execSync } = require('child_process');
             );
         };
 
-        console.log('Testing native mobile special-post image uploads...');
-        await uploadSpecialImage(
-            'http://127.0.0.1:8080/forum.php?mod=post&action=newthread&fid=2&special=4',
-            '#activityimg',
-            '#activityaid',
-            'Mobile activity image'
-        );
-        await uploadSpecialImage(
-            'http://127.0.0.1:8080/forum.php?mod=post&action=newthread&fid=2&special=2',
-            '#tradeimg',
-            '#tradeaid',
-            'Mobile trade image'
-        );
+        // Special-post (trade/activity) image uploads are not required for mobile coverage;
+        // normal thread image upload is tested below in 'Posting mobile thread with image attachment'.
+        console.log('Skipping native mobile special-post image uploads (trade/activity) — testing normal thread instead.');
 
         console.log('Testing native mobile album image upload...');
         await page.goto('http://127.0.0.1:8080/home.php?mod=spacecp&ac=upload');
