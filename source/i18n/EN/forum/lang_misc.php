@@ -28,6 +28,12 @@ $lang = array
 	'post_single_banned'	=> '**** This post was banned ****',//'**** 该帖被屏蔽 ****',
 	'post_sold'		=> 'Sold post',//'已售帖',
 	'post_reply_quote'		=> '{author} posted at {time}',//'{author} 发表于 {time}',
+	'perms_viewperm'		=> 'Allow viewing',//'允许查看',
+	'perms_postperm'		=> 'Allow posting',//'允许发新主题',
+	'perms_replyperm'		=> 'Allow replying',//'允许回复',
+	'perms_getattachperm'	=> 'Allow downloading attachments',//'允许下载附件',
+	'perms_postattachperm'	=> 'Allow uploading attachments',//'允许上传附件',
+	'perms_postimageperm'	=> 'Allow uploading images',//'允许上传图片',
 
 	'price'				=> 'Price',//'售价',
 	'pay_view'			=> 'Payments Log',//'记录',

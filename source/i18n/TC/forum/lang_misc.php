@@ -28,6 +28,13 @@ $lang =
 	'post_single_banned' => '**** 該帖被屏蔽 ****',
 	'post_reply_quote' => '{author} 發表於 {time}',
 
+	'perms_viewperm' => '允許查看',
+	'perms_postperm' => '允許發新主題',
+	'perms_replyperm' => '允許回覆',
+	'perms_getattachperm' => '允許下載附件',
+	'perms_postattachperm' => '允許上傳附件',
+	'perms_postimageperm' => '允許上傳圖片',
+
 	'price' => '售價',
 	'pay_view' => '記錄',
 	'attachment_buy' => '購買',
