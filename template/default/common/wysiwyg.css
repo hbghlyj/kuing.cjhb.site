@@ -3,7 +3,7 @@ wysiwyg CSS file for Discuz! X
 (C) Comsenz Inc.
 https://www.discuz.vip
 */
-html, body { border: 0 !important; }
+html, body { border: 0 !important; margin: 0 !important; }
 @font-face {
 font-family: zh;
 src: local(SimSun);
