@@ -251,6 +251,15 @@ function g_name($groupid) {
 	echo $_G['cache']['usergroups'][$groupid]['grouptitle'];
 }
 
+function g_color($groupid) {
+	global $_G;
+	if(empty($_G['cache']['usergroups'][$groupid]['color'])) {
+		echo '';
+	} else {
+		echo ' style="color:'.$_G['cache']['usergroups'][$groupid]['color'].';"';
+	}
+}
+
 function mob_perpage($perpage) {
 	global $_G;
 
@@ -652,3 +661,4 @@ function tousername(&$list) {
 		}
 	}
 }
+

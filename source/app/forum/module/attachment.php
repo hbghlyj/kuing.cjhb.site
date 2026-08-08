@@ -37,6 +37,7 @@ if($_GET['uid'] != $_G['uid'] && $_GET['uid']) {
 	loadcache('usergroup_'.$member['groupid']);
 	$_G['group'] = $_G['cache']['usergroup_'.$member['groupid']];
 	$_G['group']['grouptitle'] = $_G['cache']['usergroup_'.$_G['groupid']]['grouptitle'];
+	$_G['group']['color'] = $_G['cache']['usergroup_'.$_G['groupid']]['color'];
 }
 
 
@@ -220,3 +221,4 @@ function ext_to_mimetype($path) {
 	if(!$mime) $mime = 'application/octet-stream';
 	return $mime;
 }
+

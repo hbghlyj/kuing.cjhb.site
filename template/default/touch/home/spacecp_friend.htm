@@ -137,7 +137,7 @@
 							<span class="mimg"><a href="home.php?mod=space&uid=$value['uid']"><!--{avatar($value['uid'], 'small')}--></a></span>
 							<p class="mtit">
 								<input type="checkbox" name="fuids[]" value="$value['uid']" class="mico y pc" />
-								<a href="home.php?mod=space&uid=$value['uid']"><span>$value['username']</span></a>
+								<a href="home.php?mod=space&uid=$value['uid']"><span{eval g_color($value['groupid']);}>$value['username']</span></a>
 							</p>
 							<p class="mtxt">{lang hot}:$value['num']<em class="pipe"></em>$value['group']</p>
 						</li>

@@ -28,10 +28,6 @@ if(submitcheck('groupsubmit') && $ids = dimplode($_GET['delete'])) {
 
 $grouplist = table_common_admingroup::t()->fetch_all_merge_usergroup();
 if(!submitcheck('groupsubmit')) {
-	foreach($grouplist as &$group) {
-		$group = table_common_usergroup::localize_row($group);
-	}
-	unset($group);
 
 	shownav('user', 'nav_admingroups');
 	showsubmenu('nav_admingroups');
@@ -39,7 +35,7 @@ if(!submitcheck('groupsubmit')) {
 
 	showformheader('admingroup');
 	showtableheader('', 'fixpadding');
-	showsubtitle(['', 'usergroups_title', '', 'type', 'admingroup_level', 'usergroups_stars',
+	showsubtitle(['', 'usergroups_title', '', 'type', 'admingroup_level', 'usergroups_stars', 'usergroups_color',
 		'<input class="checkbox" type="checkbox" name="gbcmember" onclick="checkAll(\'value\', this.form, \'gbmember\', \'gbcmember\', 1)" /> <a href="javascript:;" onclick="if(getmultiids()) window.open(\''.ADMINSCRIPT.'?action=usergroups&operation=edit&multi=\' + getmultiids());return false;">'.$lang['multiedit'].'</a>',
 		'<input class="checkbox" type="checkbox" name="gpcmember" onclick="checkAll(\'value\', this.form, \'gpmember\', \'gpcmember\', 1)" /> <a href="javascript:;" onclick="if(getmultiids()) window.open(\''.ADMINSCRIPT.'?action=admingroup&operation=edit&multi=\' + getmultiids());return false;">'.$lang['multiedit'].'</a>',
 	]);
@@ -50,13 +46,15 @@ if(!submitcheck('groupsubmit')) {
 			$adminidselect .= '<option value="'.$i.'"'.($i == $group['radminid'] ? ' selected="selected"' : '').'>'.$lang['usergroups_system_'.$i].'</option>';
 		}
 		$adminidselect .= '</select>';
+		$staticurl = STATICURL;
 		showtablerow('', ['', '', 'class="td23 lightfont"', 'class="td25"', '', 'class="td25"'], [
 			$group['type'] == 'system' ? '<input type="checkbox" class="checkbox" disabled="disabled" />' : "<input class=\"checkbox\" type=\"checkbox\" name=\"delete[]\" value=\"{$group['groupid']}\">",
-			$group['grouptitle'],
+			'<span style="color:'.$group['color'].'">'.$group['grouptitle'].'</span>',
 			"(groupid:{$group['groupid']})",
 			$group['type'] == 'system' ? cplang('inbuilt') : cplang('custom'),
 			$group['type'] == 'system' ? $lang['usergroups_system_'.$group['radminid']] : $adminidselect,
 			"<input type=\"text\" class=\"txt\" size=\"2\" name=\"group_stars[{$group['groupid']}]\" value=\"{$group['stars']}\">",
+			"<input type=\"text\" id=\"group_color_{$group['groupid']}_v\" class=\"left txt\" size=\"6\" name=\"group_color[{$group['groupid']}]\" value=\"{$group['color']}\" onchange=\"updatecolorpreview('group_color_P{$group['groupid']}')\"><input type=\"button\" id=\"group_color_{$group['groupid']}\"  class=\"colorwd\" onclick=\"group_color_{$group['groupid']}_frame.location='{$staticurl}image/admincp/getcolor.htm?group_color_{$group['groupid']}|group_color_{$group['groupid']}_v';showMenu({'ctrlid':'group_color_{$group['groupid']}'})\" style=\"background: {$group['color']}\" /><span id=\"group_color_{$group['groupid']}_menu\" style=\"display: none\"><iframe name=\"group_color_{$group['groupid']}_frame\" src=\"\" frameborder=\"0\" width=\"210\" height=\"148\" scrolling=\"no\"></iframe></span>",
 			"<input class=\"checkbox\" type=\"checkbox\" chkvalue=\"gbmember\" value=\"{$group['groupid']}\" onclick=\"multiupdate(this)\" /><a href=\"".ADMINSCRIPT."?action=usergroups&operation=edit&id={$group['admingid']}\" class=\"act\">{$lang['admingroup_setting_user']}</a>",
 			"<input class=\"checkbox\" type=\"checkbox\" chkvalue=\"gpmember\" value=\"{$group['groupid']}\" onclick=\"multiupdate(this)\" /><a href=\"".ADMINSCRIPT."?action=admingroup&operation=edit&id={$group['admingid']}\" class=\"act\">{$lang['admingroup_setting_admin']}</a>"
 		]);
@@ -76,8 +74,9 @@ if(!submitcheck('groupsubmit')) {
 
 	foreach($grouplist as $gid => $group) {
 		$stars = intval($_GET['group_stars'][$gid]);
-		if($group['stars'] != $stars) {
-			table_common_usergroup::t()->update_usergroup($gid, ['stars' => $stars]);
+		$color = dhtmlspecialchars($_GET['group_color'][$gid]);
+		if($group['color'] != $color || $group['stars'] != $stars || $group['icon'] != $avatar) {
+			table_common_usergroup::t()->update_usergroup($gid, ['stars' => $stars, 'color' => $color]);
 		}
 	}
 
@@ -133,3 +132,4 @@ if(!submitcheck('groupsubmit')) {
 	cpmsg('admingroups_edit_succeed', 'action=admingroup', 'succeed');
 
 }
+	

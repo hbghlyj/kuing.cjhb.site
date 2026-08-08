@@ -1744,6 +1744,7 @@ CREATE TABLE pre_common_usergroup
 	creditshigher   int(10)                            NOT NULL DEFAULT '0',
 	creditslower    int(10)                            NOT NULL DEFAULT '0',
 	stars           tinyint(3)                         NOT NULL DEFAULT '0',
+	color           varchar(255)                       NOT NULL DEFAULT '',
 	icon            varchar(255)                       NOT NULL DEFAULT '',
 	allowvisit      tinyint(1)                         NOT NULL DEFAULT '0',
 	allowsendpm     tinyint(1)                         NOT NULL DEFAULT '1',

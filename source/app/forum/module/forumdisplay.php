@@ -777,6 +777,10 @@ if($_G['setting']['verify']['enabled'] && $verifyuids) {
 
 if($authorids) {
 	loadcache('usergroups');
+	$groupcolor = [];
+	foreach(table_common_member::t()->fetch_all($authorids) as $value) {
+		$groupcolor[$value['uid']] = $_G['cache']['usergroups'][$value['groupid']]['color'];
+	}
 }
 $_G['forum_threadnum'] = count($_G['forum_threadlist']) - $separatepos;
 

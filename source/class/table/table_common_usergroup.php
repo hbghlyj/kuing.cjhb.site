@@ -27,29 +27,6 @@ class table_common_usergroup extends discuz_table {
 		parent::__construct();
 	}
 
-	public static function localize_row($row, $locale = '') {
-		if(!is_array($row)) {
-			return $row;
-		}
-		$row['grouptitle_i18n'] = i18n::decodeValue($row['grouptitle']);
-		$row['grouptitle'] = i18n::localizeValue($row['grouptitle_i18n'], $locale);
-		return $row;
-	}
-
-	public static function localize_rows($rows, $locale = '') {
-		foreach((array)$rows as $key => $row) {
-			$rows[$key] = self::localize_row($row, $locale);
-		}
-		return $rows;
-	}
-
-	public function insert($data, $return_insert_id = false, $replace = false, $silent = false) {
-		if(array_key_exists('grouptitle', $data)) {
-			$data['grouptitle'] = i18n::encodeValue($data['grouptitle']);
-		}
-		return parent::insert($data, $return_insert_id, $replace, $silent);
-	}
-
 	public function fetch_by_credits($credits, $type = 'member') {
 		if(is_array($credits)) {
 			$creditsf = intval($credits[0]);
@@ -57,7 +34,7 @@ class table_common_usergroup extends discuz_table {
 		} else {
 			$creditsf = $creditse = intval($credits);
 		}
-		return self::localize_row(DB::fetch_first('SELECT grouptitle, groupid FROM %t WHERE '.($type ? DB::field('type', $type).' AND ' : '').'%d>=creditshigher AND %d<creditslower LIMIT 1', [$this->_table, $creditsf, $creditse]));
+		return DB::fetch_first('SELECT grouptitle, groupid FROM %t WHERE '.($type ? DB::field('type', $type).' AND ' : '').'%d>=creditshigher AND %d<creditslower LIMIT 1', [$this->_table, $creditsf, $creditse]);
 	}
 
 	public function fetch_by_credits_special($credits, $groupid) {
@@ -67,7 +44,7 @@ class table_common_usergroup extends discuz_table {
 		} else {
 			$creditsf = $creditse = intval($credits);
 		}
-		return self::localize_row(DB::fetch_first('SELECT grouptitle, groupid FROM %t WHERE upgroupid=%d AND %d>=creditshigher AND %d<creditslower LIMIT 1', [$this->_table, $groupid, $creditsf, $creditse]));
+		return DB::fetch_first('SELECT grouptitle, groupid FROM %t WHERE upgroupid=%d AND %d>=creditshigher AND %d<creditslower LIMIT 1', [$this->_table, $groupid, $creditsf, $creditse]);
 	}
 
 	public function fetch_all_by_type($type = '', $radminid = null, $allfields = false) {
@@ -82,7 +59,7 @@ class table_common_usergroup extends discuz_table {
 			$wherearr[] = 'radminid=%d';
 		}
 		$wheresql = !empty($wherearr) ? ' WHERE '.implode(' AND ', $wherearr) : '';
-		return self::localize_rows(DB::fetch_all('SELECT '.($allfields ? '*' : 'groupid, grouptitle').' FROM %t '.$wheresql, $parameter, $this->_pk));
+		return DB::fetch_all('SELECT '.($allfields ? '*' : 'groupid, grouptitle').' FROM %t '.$wheresql, $parameter, $this->_pk);
 	}
 
 	public function update($val, $data, $unbuffered = false, $low_priority = false) {
@@ -95,10 +72,6 @@ class table_common_usergroup extends discuz_table {
 	public function update_usergroup($id, $data, $type = '') {
 		if(!is_array($data) || !$data || !is_array($data) || !$id) {
 			return null;
-		}
-		if(array_key_exists('grouptitle', $data)) {
-			$existing = DB::result_first('SELECT grouptitle FROM %t WHERE groupid=%d', [$this->_table, $id]);
-			$data['grouptitle'] = i18n::encodeValue($data['grouptitle'], $existing);
 		}
 		$condition = DB::field('groupid', $id);
 		if($type) {
@@ -134,17 +107,17 @@ class table_common_usergroup extends discuz_table {
 	}
 
 	public function fetch_all_by_not_groupid($gid) {
-		return self::localize_rows(DB::fetch_all('SELECT groupid, type, grouptitle, creditshigher, radminid FROM %t WHERE type=\'member\' AND creditshigher=\'0\' OR (groupid NOT IN (%n) AND radminid<>\'1\' AND type<>\'member\') ORDER BY (creditshigher<>\'0\' || creditslower<>\'0\'), creditslower, groupid', [$this->_table, $gid], $this->_pk));
+		return DB::fetch_all('SELECT groupid, type, grouptitle, creditshigher, radminid FROM %t WHERE type=\'member\' AND creditshigher=\'0\' OR (groupid NOT IN (%n) AND radminid<>\'1\' AND type<>\'member\') ORDER BY (creditshigher<>\'0\' || creditslower<>\'0\'), creditslower, groupid', [$this->_table, $gid], $this->_pk);
 	}
 
 	public function fetch_all_not($gid, $creditnotzero = false) {
-		return self::localize_rows(DB::fetch_all('SELECT groupid, radminid, type, grouptitle, creditshigher, creditslower FROM %t WHERE groupid NOT IN (%n) ORDER BY '.($creditnotzero ? "(creditshigher<>'0' || creditslower<>'0'), " : '').'creditshigher, groupid', [$this->_table, $gid], $this->_pk));
+		return DB::fetch_all('SELECT groupid, radminid, type, grouptitle, creditshigher, creditslower FROM %t WHERE groupid NOT IN (%n) ORDER BY '.($creditnotzero ? "(creditshigher<>'0' || creditslower<>'0'), " : '').'creditshigher, groupid', [$this->_table, $gid], $this->_pk);
 	}
 
 	public function fetch_new_groupid($fetch = false) {
 		$sql = 'SELECT groupid, grouptitle FROM '.DB::table($this->_table)." WHERE type='member' AND creditslower>'0' ORDER BY creditslower LIMIT 1";
 		if($fetch) {
-			return self::localize_row(DB::fetch_first($sql));
+			return DB::fetch_first($sql);
 		} else {
 			return DB::result_first($sql);
 		}
@@ -160,14 +133,14 @@ class table_common_usergroup extends discuz_table {
 		if(!$ids) {
 			return null;
 		}
-		return self::localize_rows(DB::fetch_all('SELECT * FROM %t WHERE '.DB::field('groupid', $ids).' ORDER BY type, radminid, creditshigher', [$this->_table], $this->_pk));
+		return DB::fetch_all('SELECT * FROM %t WHERE '.DB::field('groupid', $ids).' ORDER BY type, radminid, creditshigher', [$this->_table], $this->_pk);
 	}
 
 	public function fetch_all_switchable($ids) {
 		if(!$ids) {
 			return null;
 		}
-		return self::localize_rows(DB::fetch_all('SELECT * FROM %t WHERE (type=\'special\' AND `system`<>\'private\' AND radminid=\'0\') OR groupid IN (%n) ORDER BY type, `system`', [$this->_table, $ids], $this->_pk));
+		return DB::fetch_all('SELECT * FROM %t WHERE (type=\'special\' AND `system`<>\'private\' AND radminid=\'0\') OR groupid IN (%n) ORDER BY type, `system`', [$this->_table, $ids], $this->_pk);
 	}
 
 	public function range_orderby_credit() {
@@ -199,3 +172,4 @@ class table_common_usergroup extends discuz_table {
 		return DB::result_first("SELECT COUNT(*) FROM %t WHERE type='special' and `system`>0", [$this->_table]);
 	}
 }
+

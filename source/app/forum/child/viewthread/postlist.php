@@ -59,6 +59,7 @@ if($postusers) {
 		}
 		$postusers[$uid]['office'] = $postusers[$uid]['position'] ?? '';
 		$postusers[$uid]['inblacklist'] = !empty($member_blackList[$uid]);
+		$postusers[$uid]['groupcolor'] = $_G['cache']['usergroups'][$postuser['groupid']]['color'];
 		unset($postusers[$uid]['position']);
 	}
 	unset($member_field_forum, $member_status, $member_count, $member_profile, $member_field_home, $member_blackList);

@@ -20,7 +20,7 @@ if(empty($sourceusergroup)) {
 }
 
 $delfields = [
-	'usergroups' => ['groupid', 'radminid', 'type', 'system', 'grouptitle', 'creditshigher', 'creditslower', 'stars', 'icon', 'groupavatar'],
+	'usergroups' => ['groupid', 'radminid', 'type', 'system', 'grouptitle', 'creditshigher', 'creditslower', 'stars', 'color', 'icon', 'groupavatar'],
 ];
 $fields = [
 	'usergroups' => table_common_usergroup::t()->fetch_table_struct(),
