@@ -68,6 +68,25 @@ class table_forum_editlog extends discuz_table {
 		return DB::delete($this->_table, DB::field('dateline', dintval($dateline), '<'));
 	}
 
+	public function delete_by_ids($ids) {
+		$ids = dintval((array)$ids, true);
+		if(empty($ids)) {
+			return 0;
+		}
+		return DB::query('DELETE FROM %t WHERE editid IN(%n)', [$this->_table, $ids]);
+	}
+
+	public function delete_by_keyword($keyword = '') {
+		$where = '';
+		$params = [$this->_table];
+		if($keyword !== '') {
+			$like = '%'.$keyword.'%';
+			$where = ' WHERE username LIKE %s OR old_subject LIKE %s OR old_message LIKE %s OR old_content LIKE %s';
+			$params = array_merge($params, [$like, $like, $like, $like]);
+		}
+		return DB::query('DELETE FROM %t'.$where, $params);
+	}
+
 	public function fetch_all_for_admin($keyword = '', $start = 0, $limit = 20) {
 		$where = '';
 		$params = [$this->_table];

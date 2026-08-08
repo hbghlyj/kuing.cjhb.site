@@ -17,6 +17,7 @@ $multipage = multi($num, $lpp, $page, $urlbase, 0, 3);
 
 showtableheader('', 'fixpadding');
 	showsubtitle([
+		'ID',
 		cplang('time'),
 		cplang('logs_edit_original_author'),
 		cplang('username'),
@@ -36,6 +37,7 @@ foreach($logs as $data) {
 	$oldmessage = dhtmlspecialchars($data['old_message']);
 	$oldcontent = dhtmlspecialchars($data['old_content']);
 	showtablerow('', [], [
+		$data['editid'],
 		dgmdate($data['dateline']),
 		dhtmlspecialchars($authornames[$data['authorid']] ?? ('UID '.$data['authorid'])),
 		dhtmlspecialchars($data['username']),
@@ -47,6 +49,6 @@ foreach($logs as $data) {
 	]);
 }
 if(!$logs) {
-	showtablerow('', [], ['-', '-', '-', '-', '-', '-', '-', cplang('logs_edit_none')]);
+	showtablerow('', [], ['-', '-', '-', '-', '-', '-', '-', '-', cplang('logs_edit_none')]);
 }
 showtablefooter();
