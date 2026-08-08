@@ -1560,9 +1560,8 @@ function ctrlEnter(event, btnId, onlyEnter) {
 	return true;
 }
 
-const urlSuffixRegex = "(?:[\\/:?][\\w.=%\\-&;~`@'+!#*]*)";
-
 function parseurl(str, mode, parsecode) {
+	const urlSuffixRegex = "(?:[\\/:?][\\w.=%\\-&;~`@'+!#*]*)";
 	if(isUndefined(parsecode)) parsecode = true;
 	if(parsecode) {
 		str = str.replace(/\[code\]([\s\S]+?)\[\/code\]/ig, function($1, $2) {
