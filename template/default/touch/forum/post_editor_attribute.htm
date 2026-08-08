@@ -235,21 +235,6 @@
 	<!--{hook/post_attribute_extra_body_mobile}-->
 </div>
 <script type="text/javascript">
-	var activeExtraNav = document.querySelector('#dhnavs_li .mon');
-	var discuz_nav = activeExtraNav && activeExtraNav.getBoundingClientRect().right >= window.innerWidth
-		? Array.prototype.indexOf.call(activeExtraNav.parentElement.children, activeExtraNav)
-		: 0;
-	new Swiper('#dhnavs_li', {
-		freeMode : true,
-		slidesPerView : 'auto',
-		initialSlide : discuz_nav,
-		onTouchMove: function(swiper){
-			Discuz_Touch_on = 0;
-		},
-		onTouchEnd: function(swiper){
-			Discuz_Touch_on = 1;
-		},
-	});
 	window.showExtra = function showExtra(id) {
 		var button = document.getElementById(id + '_b');
 		var panel = document.getElementById(id + '_c');
@@ -272,4 +257,23 @@
 			panel.style.display = 'block';
 		}
 	};
+	if (typeof Swiper !== 'undefined') {
+		try {
+			var activeExtraNav = document.querySelector('#dhnavs_li .mon');
+			var discuz_nav = activeExtraNav && activeExtraNav.getBoundingClientRect().right >= window.innerWidth
+				? Array.prototype.indexOf.call(activeExtraNav.parentElement.children, activeExtraNav)
+				: 0;
+			new Swiper('#dhnavs_li', {
+				freeMode : true,
+				slidesPerView : 'auto',
+				initialSlide : discuz_nav,
+				onTouchMove: function(swiper){
+					Discuz_Touch_on = 0;
+				},
+				onTouchEnd: function(swiper){
+					Discuz_Touch_on = 1;
+				},
+			});
+		} catch(e) {}
+	}
 </script>
