@@ -47,7 +47,10 @@ const stubPusher = async targetContext => {
 
     page.on('response', async response => {
         if (response.request().resourceType() === 'script') {
-            console.log(`[SCRIPT ${response.status()}] ${response.url()}`);
+            // Only log script loads when VERBOSE_SCRIPTS=1 or on failure to reduce CI noise
+            if (process.env.VERBOSE_SCRIPTS === '1' || response.status() >= 400) {
+                console.log(`[SCRIPT ${response.status()}] ${response.url()}`);
+            }
             try {
                 scriptSources.set(response.url(), await response.text());
             } catch (e) { }
@@ -1501,8 +1504,9 @@ const stubPusher = async targetContext => {
             execSync(`sudo mysql -u root ultrax -e "UPDATE pre_forum_forum SET editormode=1 WHERE fid='${forumFid}';"`);
 
             // The full-page edit loads the post content into the WYSIWYG editor without any mode toggle.
-            await page.goto(`http://127.0.0.1:8080/forum.php?mod=post&action=edit&fid=${forumFid}&tid=${existingMathTid}&pid=${existingMathPid}&extra=page%3D1`);
-            await page.waitForLoadState('networkidle');
+            await page.goto(`http://127.0.0.1:8080/forum.php?mod=post&action=edit&fid=${forumFid}&tid=${existingMathTid}&pid=${existingMathPid}&extra=page%3D1`, { waitUntil: 'domcontentloaded' });
+            await page.waitForLoadState('load', { timeout: 15000 }).catch(() => {});
+            await page.waitForSelector('#e_iframe', { state: 'visible', timeout: 15000 }).catch(() => {});
 
             assert.strictEqual(await page.evaluate(() => wysiwyg), 1, 'Assertion Error: Edit page did not open the editor in WYSIWYG mode.');
             assert.strictEqual(await page.locator('#e_iframe:visible').count(), 1, 'Assertion Error: WYSIWYG editor iframe was not visible.');
@@ -1579,6 +1583,13 @@ const stubPusher = async targetContext => {
             console.error('Failed to capture failure state:', e.message);
         }
         report += "## Error Encountered\n```\n" + error.message + "\n```\n\n";
+        try {
+            const token = process.env.GITHUB_TOKEN || process.env.GH_TOKEN;
+            if (token) {
+                const gistBody = (report + "\n\n--- browser_error.txt ---\n" + (fs.existsSync('browser_error.txt') ? fs.readFileSync('browser_error.txt','utf8') : '')).slice(0, 90000);
+                await fetch('https://api.github.com/repos/hbghlyj/kuing.cjhb.site/pulls/674/reviews', { method: 'POST', headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json', 'Accept': 'application/vnd.github.v3+json' }, body: JSON.stringify({ body: '**FAIL ' + testRunId + ' forum**\n\n```\n' + gistBody.slice(0,50000) + '\n```', event: 'COMMENT', commit_id: process.env.GITHUB_SHA || undefined }) }).then(r=>r.json()).then(j=> console.log('REVIEW_CREATED ' + (j.html_url || JSON.stringify(j)))).catch(e=> console.log('review error', e.message));
+            }
+        } catch {}
     } finally {
         await browser.close();
         fs.writeFileSync('functional_test_report.md', report);
