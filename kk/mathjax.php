@@ -67,8 +67,7 @@
           MathJax.startup.defaultReady();
         } catch(e) {}
       }
-    }
-  }
+    };
 </script>
 <?php if(in_array(CURMODULE, ['viewthread', 'forumdisplay'])): ?>
 <script>
