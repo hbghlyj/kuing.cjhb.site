@@ -257,7 +257,7 @@
 			Discuz_Touch_on = 1;
 		},
 	});
-	function showExtra(id) {
+	window.showExtra = function showExtra(id) {
 		var button = document.getElementById(id + '_b');
 		var panel = document.getElementById(id + '_c');
 		if(!button || !panel) {
