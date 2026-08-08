@@ -359,29 +359,15 @@
 </script>
 <script type="text/javascript">
 	var imgexts = typeof imgexts == 'undefined' ? 'jpg, jpeg, gif, png, bmp, webp, svg' : imgexts;
-	var STATUSMSG = {
-		'-1' : '{lang uploadstatusmsgnag1}',
-		'0' : '{lang uploadstatusmsg0}',
-		'1' : '{lang uploadstatusmsg1}',
-		'2' : '{lang uploadstatusmsg2}',
-		'3' : '{lang uploadstatusmsg3}',
-		'4' : '{lang uploadstatusmsg4}',
-		'5' : '{lang uploadstatusmsg5}',
-		'6' : '{lang uploadstatusmsg6}',
-		'7' : '{lang uploadstatusmsg7}(' + imgexts + ')',
-		'8' : '{lang uploadstatusmsg8}',
-		'9' : '{lang uploadstatusmsg9}',
-		'10' : '{lang uploadstatusmsg10}',
-		'11' : '{lang uploadstatusmsg11}',
-		'12' : '{lang uploadstatusmsg12}',
-		'13' : '{lang uploadstatusmsg13}'
-	};
+	window.imgexts = imgexts;
+	var STATUSMSG = {eval echo json_encode(array('-1' => lang('touch/template', 'uploadstatusmsgnag1'), '0' => lang('touch/template', 'uploadstatusmsg0'), '1' => lang('touch/template', 'uploadstatusmsg1'), '2' => lang('touch/template', 'uploadstatusmsg2'), '3' => lang('touch/template', 'uploadstatusmsg3'), '4' => lang('touch/template', 'uploadstatusmsg4'), '5' => lang('touch/template', 'uploadstatusmsg5'), '6' => lang('touch/template', 'uploadstatusmsg6'), '7' => lang('touch/template', 'uploadstatusmsg7') . '(' . 'jpg, jpeg, gif, png, bmp, webp, svg' . ')', '8' => lang('touch/template', 'uploadstatusmsg8'), '9' => lang('touch/template', 'uploadstatusmsg9'), '10' => lang('touch/template', 'uploadstatusmsg10'), '11' => lang('touch/template', 'uploadstatusmsg11'), '12' => lang('touch/template', 'uploadstatusmsg12'), '13' => lang('touch/template', 'uploadstatusmsg13')));};
+	window.STATUSMSG = STATUSMSG;
 	var form = mobileDom('#postform');
 	document.addEventListener('change', function(event) {
-		if(!event.target.matches('#filedata')) return;
-		var input = event.target;
+		var input = event.target.closest('#filedata, input[name="Filedata"]:not(#attfiledata)');
+		if(!input) return;
 			popup.open('<img src="' + IMGDIR + '/imageloading.gif">');
-			uploadsuccess = function(data) {
+			window.uploadsuccess = uploadsuccess = function(data) {
 				if(data == '') {
 					popup.open('{lang uploadpicfailed}', 'alert');
 				}
