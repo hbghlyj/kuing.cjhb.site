@@ -471,7 +471,25 @@
 						video_file = '<span class="btn" onclick="addsmilies(\'[media=x,500,375]attach://' + dataarr[3] + '.mp4[/media]\')">{lang forum_post_insert}{lang e_video}</span>';
 					}
 					<!--{/if}-->
-					document.getElementById('attlist').insertAdjacentHTML('beforeend', `<li class="b_t"><div class="tit"><span aid="${dataarr[3]}" up="1" class="del btn f_f"><a href="javascript:;"><i class="dm-trash z"></i></a></span>${video_file}<span class="btn" onclick="addsmilies('[attach]${dataarr[3]}[/attach]')">{lang forum_post_insert}</span><img src="static/image/filetype/${file_ex}" border="0" class="vm mimg" alt=""><span class="link">${dataarr[6]}</span></div><!--{if $_GET['result'] != 'simple'}--><div class="minput"><div class="attms flex-box"><span class="f_c">{lang description}</span><input type="text" name="attachnew[${dataarr[3]}][description]" value="" class="input flex"></div></div><div class="minput"><!--{if $_G['group']['allowsetattachperm']}--><!--{if $_G['cache']['groupreadaccess']}--><div class="attqx flex-box"><span>{lang forum_post_perm}</span><div class="flex"><select name="attachnew[${dataarr[3]}][readperm]" id="readperm${dataarr[3]}" class="sort_sel"><option value="" selected="selected">{lang unlimited}</option><!--{loop $_G['cache']['groupreadaccess'] $val}--><option value="$val['readaccess']">$val['grouptitle']({lang readperm}: $val['readaccess'])</option><!--{/loop}--><option value="255"{if $temp['readperm'] == 255} selected{/if}>{lang highest_right}</option></select></div></div><!--{/if}--><!--{/if}--><!--{if $_G['group']['maxprice']}--><div class="attjg flex-box"><span>{lang price}</span><input type="text" name="attachnew[${dataarr[3]}][price]" value="0" class="input price flex"><em>{$_G['setting']['extcredits'][$_G['setting']['creditstransextra'][1]][title]}</em></div><!--{/if}--></div><!--{/if}--></li>`);
+					var attHtml = '<li class="b_t"><div class="tit"><span aid="' + dataarr[3] + '" up="1" class="del btn f_f"><a href="javascript:;"><i class="dm-trash z"></i></a></span>' + video_file + '<span class="btn" onclick="addsmilies(\'[attach]' + dataarr[3] + '[/attach]\')">{lang forum_post_insert}</span><img src="static/image/filetype/' + file_ex + '" border="0" class="vm mimg" alt=""><span class="link">' + dataarr[6] + '</span></div>'
+					<!--{if $_GET['result'] != 'simple'}-->
+					+ '<div class="minput"><div class="attms flex-box"><span class="f_c">{lang description}</span><input type="text" name="attachnew[' + dataarr[3] + '][description]" value="" class="input flex"></div></div><div class="minput">'
+					<!--{if $_G['group']['allowsetattachperm']}-->
+					<!--{if $_G['cache']['groupreadaccess']}-->
+					+ '<div class="attqx flex-box"><span>{lang forum_post_perm}</span><div class="flex"><select name="attachnew[' + dataarr[3] + '][readperm]" id="readperm' + dataarr[3] + '" class="sort_sel"><option value="" selected="selected">{lang unlimited}</option>'
+					<!--{loop $_G['cache']['groupreadaccess'] $val}-->
+					+ '<option value="$val[\'readaccess\']">$val[\'grouptitle\']({lang readperm}: $val[\'readaccess\'])</option>'
+					<!--{/loop}-->
+					+ '<option value="255"{if $temp[\'readperm\'] == 255} selected{/if}>{lang highest_right}</option></select></div></div>'
+					<!--{/if}-->
+					<!--{/if}-->
+					<!--{if $_G['group']['maxprice']}-->
+					+ '<div class="attjg flex-box"><span>{lang price}</span><input type="text" name="attachnew[' + dataarr[3] + '][price]" value="0" class="input price flex"><em>{$_G[\'setting\'][\'extcredits\'][$_G[\'setting\'][\'creditstransextra\'][1]][\'title\']}</em></div>'
+					<!--{/if}-->
+					+ '</div>'
+					<!--{/if}-->
+					+ '</li>';
+					document.getElementById('attlist').insertAdjacentHTML('beforeend', attHtml);
 				} else {
 					var sizelimit = '';
 					if(dataarr[7] == 'ban') {
