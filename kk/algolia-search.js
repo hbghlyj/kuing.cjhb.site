@@ -1,6 +1,7 @@
 import "https://unpkg.com/instantsearch.js";
 import liteClient from "https://unpkg.com/algoliasearch@4.25.3/dist/algoliasearch-lite.esm.browser.js";
 export function initSearch(lang, forumlist, options = {}) {
+	if (!document.querySelector('#algolia-search-box')) return;
 	var search = instantsearch({
 		indexName: 'kuing',
 		searchClient: liteClient('KZZUGXICHQ', 'cfaa3668ecea0bce830d62fc30f4d0dd')
@@ -101,12 +102,12 @@ export function initSearch(lang, forumlist, options = {}) {
 		}),
 
 		/* Total posts range input widget */
-		instantsearch.widgets.rangeInput({
+		typeof instantsearch.widgets.rangeInput === 'function' ? instantsearch.widgets.rangeInput({
 			container: '#facet-totalposts',
 			attribute: 'totalposts',
 			min: 0,
 			max: 10000
-		}),
+		}) : null,
 
 		/* Clear all filters button */
 		instantsearch.widgets.clearRefinements({
@@ -118,7 +119,7 @@ export function initSearch(lang, forumlist, options = {}) {
 				resetLabel: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 21 21"><g fill="none" fill-rule="evenodd" stroke-width="2" stroke="#000" stroke-linecap="round" stroke-linejoin="round" transform="matrix(0 1 1 0 2.5 2.5)"><path d="m3.98652376 1.07807068c-2.38377179 1.38514556-3.98652376 3.96636605-3.98652376 6.92192932 0 4.418278 3.581722 8 8 8s8-3.581722 8-8-3.581722-8-8-8"/><path d="m4 1v4h-4" transform="matrix(1 0 0 -1 0 6)"/></g></svg>'
 			}
 		})
-	]);
+	].filter(Boolean));
 	search._initialResults = {
 		kuing: {}
 	};
