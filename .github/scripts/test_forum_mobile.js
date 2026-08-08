@@ -136,7 +136,8 @@ const { execSync } = require('child_process');
 
         // Ensure newly registered mobile user can post special threads (activity/trade) — default group may lack permission
         try {
-            execSync(`sudo mysql -u root ultrax -e "UPDATE pre_common_usergroup SET allowpostactivity=1, allowposttrade=1, allowpostpoll=1, allowpostdebate=1, allowpostreward=1 WHERE groupid=(SELECT groupid FROM pre_common_member WHERE username='${username}')"`);
+            execSync(`sudo mysql -u root ultrax -e "UPDATE pre_common_usergroup_field SET allowpostactivity=1, allowposttrade=1, allowpostpoll=1, allowpostdebate=1, allowpostreward=1 WHERE groupid=(SELECT groupid FROM pre_common_member WHERE username='${username}')"`);
+            execSync(`sudo mysql -u root ultrax -e "UPDATE pre_forum_forum SET allowpostspecial=15 WHERE fid=2"`);
         } catch(e) {}
 
         const dbScalar = sql => execSync(`sudo mysql -u root ultrax -N -s -e "${sql}"`).toString().trim();
