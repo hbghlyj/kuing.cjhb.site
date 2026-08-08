@@ -365,17 +365,19 @@ $multipage
 <script type="text/javascript">
 	var thShareBtn = document.getElementById('th_share_btn');
 	if(thShareBtn) {
-		if(navigator.share) {
-			thShareBtn.addEventListener('click', function(event) {
-				event.preventDefault();
+		thShareBtn.addEventListener('click', function(event) {
+			event.preventDefault();
+			if(navigator.share) {
 				navigator.share({
 					title: document.title,
 					url: window.location.href
 				}).catch(function() {});
-			});
-		} else {
-			thShareBtn.parentNode.removeChild(thShareBtn);
-		}
+			} else if(typeof setCopy === 'function') {
+				setCopy(window.location.href, '{lang post_copied}');
+			} else if(typeof popup != 'undefined' && popup.open) {
+				popup.open('{lang post_copied}');
+			}
+		});
 	}
 </script>
 <script type="text/javascript">
