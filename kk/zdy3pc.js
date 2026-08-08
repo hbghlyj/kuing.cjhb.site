@@ -172,7 +172,7 @@ if ($('postlist') && $('ct')) {
             const floorLink = lou.querySelector('td.plc>div.pi>strong>a');
             if (!floorLink || !floorLink.firstChild) return;
             const floorClone = floorLink.cloneNode(true);
-            floorClone.querySelectorAll('i, svg, img, [aria-hidden="true"]').forEach(icon => icon.remove());
+            floorClone.querySelectorAll('[aria-hidden="true"]').forEach(icon => icon.remove());
             if (!MULUSELECT.querySelector('option[value="' + lou.id + '"]')) {
                 const option = document.createElement('option');
                 option.value = lou.id;
