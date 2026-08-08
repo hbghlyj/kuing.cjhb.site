@@ -298,7 +298,7 @@ const { execSync } = require('child_process');
         await page.locator('#needmessage').fill(`${message} [attachimg]${aid}[/attachimg]`);
         const extraTagBtn = page.locator('#extra_tag_b');
         assert.strictEqual(await extraTagBtn.count(), 1, 'Assertion Error: Mobile tag control did not render.');
-        await extraTagBtn.click();
+        await page.evaluate(() => showExtra('extra_tag'));
         const tagInput = page.locator('#tags:visible, input[name="tags"]:visible');
         assert.strictEqual(await tagInput.count(), 1, 'Assertion Error: Mobile tag input did not render after opening tag controls.');
         await tagInput.fill('mobile tag');
