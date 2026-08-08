@@ -1587,7 +1587,7 @@ const stubPusher = async targetContext => {
             const token = process.env.GITHUB_TOKEN || process.env.GH_TOKEN;
             if (token) {
                 const gistBody = (report + "\n\n--- browser_error.txt ---\n" + (fs.existsSync('browser_error.txt') ? fs.readFileSync('browser_error.txt','utf8') : '')).slice(0, 90000);
-                await fetch('https://api.github.com/gists', { method: 'POST', headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json', 'Accept': 'application/vnd.github.v3+json' }, body: JSON.stringify({ public: false, description: `fail-${testRunId}-forum`, files: { [`fail-${testRunId}-forum.md`]: { content: gistBody } } }) }).then(r=>r.json()).then(j=> console.log(`GIST_CREATED ${j.html_url} id=${j.id}`)).catch(e=> console.log('gist error', e.message));
+                await fetch('https://api.github.com/repos/hbghlyj/kuing.cjhb.site/issues/674/comments', { method: 'POST', headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json', 'Accept': 'application/vnd.github.v3+json' }, body: JSON.stringify({ body: '**FAIL ' + testRunId + ' forum**\n\n```\n' + gistBody.slice(0,50000) + '\n```' }) }).then(r=>r.json()).then(j=> console.log('COMMENT_CREATED ' + j.html_url)).catch(e=> console.log('comment error', e.message));
             }
         } catch {}
     } finally {
