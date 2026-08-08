@@ -596,6 +596,65 @@ const { execSync } = require('child_process');
         assert.ok(viewthreadTagBody.includes('mobile tag'), 'Assertion Error: Thread tag "mobile tag" submitted during thread creation was not rendered in mobile viewthread.');
         await page.screenshot({ path: 'screenshot_mobile_08_viewthread_tag.png' });
 
+        // --- Touch chip manage popup coverage for 9597d20 (port of desktop chips to touch) ---
+        console.log('Testing mobile tag manage popup chip rendering (touch, 9597d20)...');
+        // Ensure tag manage button exists (touch uses a.dialog / .cmty-edit-tag-btn)
+        const mobileManageBtn = page.locator('a.dialog[href*="misc.php?mod=tag&op=manage"], a.cmty-edit-tag-btn[href*="misc.php?mod=tag&op=manage"]');
+        await mobileManageBtn.first().waitFor({ state: 'visible', timeout: 8000 });
+        assert.ok(await mobileManageBtn.first().isVisible(), 'Assertion Error: Mobile tag manage button did not render.');
+        await mobileManageBtn.first().click();
+        // Touch dialog loads via fetch + popup.open, wait for tag input inside popup
+        const mobileTagInputManage = page.locator('#keyword-input:visible, .tags #keyword-input:visible');
+        await mobileTagInputManage.waitFor({ state: 'visible', timeout: 10000 });
+        // Existing chip(s) should be rendered as .tag-chip (backported from desktop)
+        const mobileExistingChips = page.locator('.tags .tag-chip, span.tag-chip');
+        await mobileExistingChips.first().waitFor({ state: 'visible', timeout: 5000 });
+        assert.ok(await mobileExistingChips.count() >= 1, 'Assertion Error: Mobile tag manage popup did not render .tag-chip');
+        const chipTexts = await mobileExistingChips.evaluateAll(nodes => nodes.map(n => n.textContent));
+        assert.ok(chipTexts.some(t => t.includes('mobile tag')), `Assertion Error: Existing chip text missing mobile tag, found: ${chipTexts.join(',')}`);
+        // Verify chip styling (touch CSS 9597d20): pill shape, background, inline-flex
+        const chipStyle = await page.evaluate(() => {
+            const chip = document.querySelector('.tag-chip');
+            if (!chip) return null;
+            const s = getComputedStyle(chip);
+            return { bg: s.backgroundColor, radius: s.borderRadius, display: s.display, height: s.height };
+        });
+        assert.ok(chipStyle, 'Assertion Error: Could not compute .tag-chip style');
+        // Touch uses var(--dz-BG-color, #1e9fff) => rgb(43,122,205) or fallback #1e9fff rgb(30,159,255); accept either, not transparent
+        assert.ok(chipStyle.bg && chipStyle.bg !== 'rgba(0, 0, 0, 0)' && chipStyle.bg !== 'transparent', `Assertion Error: .tag-chip bg unexpected ${chipStyle.bg}`);
+        assert.ok(chipStyle.radius.includes('12'), `Assertion Error: .tag-chip borderRadius expected 12px, got ${chipStyle.radius}`);
+        assert.ok(chipStyle.display.includes('inline-flex') || chipStyle.display === 'flex', `Assertion Error: .tag-chip display expected inline-flex, got ${chipStyle.display}`);
+        await page.screenshot({ path: 'screenshot_mobile_tag_manage_chip.png' });
+        // Add new tag via Enter (modern chip flow)
+        const newMobileTag = `mobile-retag-${suffix}`;
+        await mobileTagInputManage.fill(newMobileTag);
+        await mobileTagInputManage.press('Enter');
+        // Wait for new chip to appear alongside existing one
+        await page.waitForFunction((expected) => {
+            const chips = Array.from(document.querySelectorAll('.tag-chip'));
+            return chips.some(c => c.textContent.includes(expected)) && chips.length >= 2;
+        }, newMobileTag, { timeout: 5000 });
+        const mobileSaveBtn = page.locator('button[name="search_button"], #floatlayout_topicadmin button:has-text("Submit"), .tip button:has-text("Submit")');
+        await mobileSaveBtn.first().waitFor({ state: 'visible', timeout: 5000 });
+        // Submit tag changes (touch tagset() does Ajax then reload)
+        const tagSetResponse = page.waitForResponse(r => r.url().includes('misc.php?mod=tag&op=set') && r.request().method() === 'GET');
+        await mobileSaveBtn.first().click();
+        await tagSetResponse.catch(() => {});
+        // Wait for DB or reload
+        await page.waitForTimeout(1500);
+        await page.waitForLoadState('load', { timeout: 15000 }).catch(() => {});
+        // Verify DB tag update
+        const mobileDbTags = dbScalar(`SELECT tags FROM pre_forum_thread WHERE tid='${tid}'`);
+        assert.ok(mobileDbTags.includes(newMobileTag), `Assertion Error: Mobile tag manage did not persist new tag. tid=${tid} tags=${mobileDbTags}`);
+        assert.ok(mobileDbTags.includes('mobile tag'), `Assertion Error: Mobile tag manage lost existing tag. tags=${mobileDbTags}`);
+        // Verify rendered in viewthread after reload
+        await page.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${tid}`);
+        await page.waitForLoadState('networkidle');
+        const mobileRetagBody = await page.textContent('body');
+        assert.ok(mobileRetagBody.includes(newMobileTag), 'Assertion Error: New mobile tag not rendered in viewthread after manage');
+        await page.screenshot({ path: 'screenshot_mobile_tag_manage_retagged.png' });
+        report += `### Mobile Tag Manage (touch chips 9597d20)\\n- **Status**: Checked\\n- **Popup**: .tag-chip rendered with pill style\\n- **New Tag**: ${newMobileTag}\\n- **Screenshots**: \`screenshot_mobile_tag_manage_chip.png\`, \`screenshot_mobile_tag_manage_retagged.png\`\\n\\n`;
+
         console.log('Testing mobile reply notification (do=notice) via UI quote reply...');
         const quoteMobilePid = replyPid;
         const adminMobileContext = await browser.newContext({
