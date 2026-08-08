@@ -70,12 +70,10 @@ if(getglobal('setting/close_leftinfo_userctrl')) {
 	}
 }
 $_GET['authorid'] = !empty($_GET['authorid']) ? intval($_GET['authorid']) : 0;
-$_GET['from'] = in_array(getgpc('from'), ['preview', 'portal', 'album']) ? getgpc('from') : '';
+$_GET['from'] = in_array(getgpc('from'), ['preview', 'portal']) ? getgpc('from') : '';
 if($_GET['from'] == 'portal' && !$_G['setting']['portalstatus']) {
 	$_GET['from'] = '';
 } elseif($_GET['from'] == 'preview' && !$_G['inajax']) {
-	$_GET['from'] = '';
-} elseif($_GET['from'] == 'album' && ($_G['setting']['guestviewthumb']['flag'] && !$_G['uid'] && (!defined('IN_MOBILE') || constant('IN_MOBILE') != 2) || !$_G['group']['allowgetimage'])) {
 	$_GET['from'] = '';
 }
 
@@ -888,14 +886,6 @@ if(empty($_GET['viewpid'])) {
 		$_G['disabledwidthauto'] = 1;
 		$_G['widthauto'] = 0;
 		$sufix = '_preview';
-	} elseif($_GET['from'] == 'album') {
-		$_G['disabledwidthauto'] = 1;
-		$_G['widthauto'] = 0;
-		$sufix = '_album';
-		$post = &$postlist[$_G['forum_firstpid']];
-		// 暂不确认对于 JS 类内容是否都需要添加 ignore_js_op 标签供 _relatedlinks 和只看大图模式正文摘要过滤用
-		$post['message'] = cutstr(strip_tags(preg_replace('/(<ignore_js_op>.*<\/ignore_js_op>)/is', '', $post['message'])), 200);
-		require_once childfile('album', 'forum/thread');;
 	}
 	include template('diy:forum/viewthread'.$sufix.':'.$_G['fid']);
 } else {
