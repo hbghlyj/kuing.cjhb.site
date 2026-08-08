@@ -47,7 +47,10 @@ const stubPusher = async targetContext => {
 
     page.on('response', async response => {
         if (response.request().resourceType() === 'script') {
-            console.log(`[SCRIPT ${response.status()}] ${response.url()}`);
+            // Only log script loads when VERBOSE_SCRIPTS=1 or on failure to reduce CI noise
+            if (process.env.VERBOSE_SCRIPTS === '1' || response.status() >= 400) {
+                console.log(`[SCRIPT ${response.status()}] ${response.url()}`);
+            }
             try {
                 scriptSources.set(response.url(), await response.text());
             } catch (e) { }
@@ -1501,8 +1504,9 @@ const stubPusher = async targetContext => {
             execSync(`sudo mysql -u root ultrax -e "UPDATE pre_forum_forum SET editormode=1 WHERE fid='${forumFid}';"`);
 
             // The full-page edit loads the post content into the WYSIWYG editor without any mode toggle.
-            await page.goto(`http://127.0.0.1:8080/forum.php?mod=post&action=edit&fid=${forumFid}&tid=${existingMathTid}&pid=${existingMathPid}&extra=page%3D1`);
-            await page.waitForLoadState('networkidle');
+            await page.goto(`http://127.0.0.1:8080/forum.php?mod=post&action=edit&fid=${forumFid}&tid=${existingMathTid}&pid=${existingMathPid}&extra=page%3D1`, { waitUntil: 'domcontentloaded' });
+            await page.waitForLoadState('load', { timeout: 15000 }).catch(() => {});
+            await page.waitForSelector('#e_iframe', { state: 'visible', timeout: 15000 }).catch(() => {});
 
             assert.strictEqual(await page.evaluate(() => wysiwyg), 1, 'Assertion Error: Edit page did not open the editor in WYSIWYG mode.');
             assert.strictEqual(await page.locator('#e_iframe:visible').count(), 1, 'Assertion Error: WYSIWYG editor iframe was not visible.');
