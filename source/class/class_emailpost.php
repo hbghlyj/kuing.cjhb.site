@@ -176,7 +176,7 @@ class emailpost {
 			}
 
 			$subject = dhtmlspecialchars(trim($this->decodeHeader($this->headerValue($headers, 'Subject'))));
-			if($action === 'reply' && preg_match('/^(re:\s*|回复[:：]\s*)/i', $subject)) {
+			if($action === 'reply' && preg_match('/^(re\b|fwd\b|回复)/iu', $subject)) {
 				$subject = '';
 			}
 			$message = $this->messageBody($raw);
