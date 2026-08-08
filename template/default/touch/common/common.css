@@ -111,7 +111,7 @@ input:focus, textarea:focus, select:focus {transition:border-color 0.2s ease, bo
 ul, ol, li, span, p, form, h1, h2, h3, h4, h5, h6, dl, dt, dd {margin:0;padding:0;border:0;z-index:inherit}
 img, a img {border:0;margin:0;padding:0}
 ul, ol, li {list-style:none}
-html, body {font-size:12px;line-height:1.5;color:var(--dz-FC-333);min-height:100%}
+html, body {font-size:12px;line-height:1.5;color:var(--dz-FC-333);min-height:100%;font-family:"Google Sans"}
 input, select, textarea, button {font-size:14px;line-height:1.5;outline:none}
 body, ul, ol, li, dl, dd, p, h1, h2, h3, h4, h5, h6, form, fieldset, .pr, .pc {margin:0;padding:0}
 body {background-color:var(--dz-BG-body)}

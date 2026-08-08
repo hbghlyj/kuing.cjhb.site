@@ -88,6 +88,7 @@ Last Modify:	Pony
 */
 	body { {BGCODE}; }
 	textarea { resize: vertical; }
+	body, button, select { font: {FONTSIZE} "Google Sans"; color: {TABLETEXT}; }
 	input, textarea { font: {FONTSIZE} monospace,zh; color: {TABLETEXT}; }
 	* { overflow-wrap: break-word; }
 	body, ul, ol, li, dl, dd, p, h1, h2, h3, h4, h5, h6, form, fieldset, .pr, .pc { margin: 0; padding: 0; }
@@ -694,8 +695,8 @@ Last Modify:	Pony
 		float: right;
 	}
 
+
 	.algolia-search-box-wrapper .ais-SearchBox-input {
-		background: #fff url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24'%3e%3cpath fill='%23444' d='M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z'/%3e%3c/svg%3e") no-repeat right 50%;
 		margin-top: 2px;
 		margin-right: 2px;
 		border-radius: 14px;
@@ -1615,7 +1616,7 @@ Last Modify:	Pony
 		.rfm th { padding-right: 10px; text-align: right; }
 		.rfm .px { width: 220px; }
 		.rfm .p_tip { position: absolute; z-index: 2; display: none; padding-left: 10px; width: 390px; background: {WRAPBG}; color: {MIDTEXT}; font-style: normal; }
-		.rfm .p_chk { position: absolute; z-index: 1; padding-left: 10px; width: 390px; color: red; font-weight: bold; font-family: {FONT}; }
+		.rfm .p_chk { position: absolute; z-index: 1; padding-left: 10px; width: 390px; color: red; font-weight: bold; font-family: "Google Sans"; }
 		.rfm #emailmore { position: absolute; }
 		.p_right { width: 30px; }
 		.p_right:after { content: "\f115"; font-family: dzicon; font-size: 16px; margin-left: 8px; color: #7CBE00; line-height: 16px; }
@@ -1643,7 +1644,7 @@ Last Modify:	Pony
 
 .blr { width: 580px; margin: 20px auto 30px; }
 	.m_c .blr { margin: 0 auto; }
-.lgfm { font: {FONTSIZE} {FONT}; float: left; margin-bottom: 10px; padding: 20px 0; width: 280px; border-right: 1px solid #CCC; }
+.lgfm { font: {FONTSIZE} "Google Sans"; float: left; margin-bottom: 10px; padding: 20px 0; width: 280px; border-right: 1px solid #CCC; }
 	.rgs { margin-bottom: 10px; }
 	.lgfm label, .lgfm p, .reginfo { clear: both; display: block; margin-bottom: 10px; line-height: 22px; }
 		/* 自定义的注册信息 */
