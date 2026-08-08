@@ -232,8 +232,10 @@ const { execSync } = require('child_process');
         await page.waitForLoadState('domcontentloaded');
         const postThreadBtn = page.locator('a[href*="action=newthread"]');
         assert.strictEqual(await postThreadBtn.count(), 1, 'Assertion Error: Mobile new-thread control did not render.');
-        await postThreadBtn.click();
-        await page.waitForLoadState('domcontentloaded');
+        await Promise.all([
+            page.waitForNavigation({ waitUntil: 'domcontentloaded' }),
+            postThreadBtn.click()
+        ]);
         assert.ok(await page.$('#postform #needsubject'), 'Assertion Error: Mobile new-thread form did not render.');
         await page.screenshot({ path: 'screenshot_mobile_editor.png' });
         await page.locator('#needsubject').fill(subject);
