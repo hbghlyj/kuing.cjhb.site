@@ -363,7 +363,6 @@ input:focus{border-color:var(--dz-nvbg);outline:0}
 .move-span .content{background-color:transparent !important;background-image:none !important;border:0 none !important;margin:0 !important;padding:0 !important;border-width:0px;height:auto;} */
 a{text-decoration:none;}
 a:hover{text-decoration:none;}
-*{padding:0px;margin:0px;-webkit-font-smoothing:subpixel-antialiased;font-smoothing:subpixel-antialiased;}
 img{border:none;}
 .clear{clear:both;}
 
