@@ -136,10 +136,9 @@ class emailpost {
 
 	protected function processMessage(string $raw, string $recipient = '') {
 		[$headers, $body] = $this->splitMessage($raw);
-		$normalizedHeaders = str_replace("\r", '', $headers);
 		$messageid = $this->firstMessageId($headers, 'Message-ID');
 		if(!$messageid) {
-			$messageid = '<missing-'.hash('sha256', $normalizedHeaders).'@'.strtolower($this->config['recipient_domain']).'>';
+			$messageid = '<missing-'.hash('sha256', $headers).'@'.strtolower($this->config['recipient_domain']).'>';
 		}
 		$messageid = cutstr($messageid, 255);
 		if(table_forum_emailpost::t()->fetch($messageid)) {
@@ -879,8 +878,13 @@ class emailpost {
 	}
 
 	private function splitMessage(string $raw): array {
-		$parts = preg_split("/\r?\n\r?\n/", $raw, 2);
-		return [$parts[0] ?? '', $parts[1] ?? ''];
+		if(preg_match("/^(.*?\r\n)\r\n/s", $raw, $m)) {
+			return [$m[1], substr($raw, strlen($m[0]))];
+		}
+		if(preg_match("/^(.*?\n)\n/s", $raw, $m)) {
+			return [$m[1], substr($raw, strlen($m[0]))];
+		}
+		return [$raw, ''];
 	}
 
 	private function senderAddress(string $headers) {
