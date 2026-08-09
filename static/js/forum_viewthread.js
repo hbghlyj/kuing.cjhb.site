@@ -465,7 +465,6 @@ function updateMuluSelect(postObj, pid) {
 		return;
 	}
 	var floorObj = postObj.querySelector('.pi strong a') || postObj.querySelector('.pi strong');
-	var authorObj = postObj.querySelector('.authi a.xw1') || postObj.querySelector('.authi a');
 	var floorText = '';
 	if(floorObj) {
 		var floorClone = floorObj.cloneNode(true);
@@ -474,8 +473,8 @@ function updateMuluSelect(postObj, pid) {
 		});
 		floorText = floorClone.textContent.replace('#', '').trim();
 	}
-	var authorText = authorObj ? authorObj.textContent.trim() : '';
-	var optionText = (floorText + (authorText ? ' ' + authorText : '')).trim();
+	var dateText = postObj.querySelector('.authi[data-datetime]')?.dataset.datetime || '';
+	var optionText = (floorText + (dateText ? ' ' + dateText : '')).trim();
 	MULUSELECT.options.add(new Option(optionText, 'post_' + pid));
 	MULUSELECT.size = MULUSELECT.options.length;
 	if(MULUSELECT.firstChild && MULUSELECT.lastChild) {
@@ -1151,8 +1150,8 @@ function initMulu() {
 			if (!MULUSELECT.querySelector('option[value="' + lou.id + '"]')) {
 				const option = document.createElement('option');
 				option.value = lou.id;
-				const authorLink = lou.querySelector('td.plc > div.pi .authi > a.xi2:not(.avt)') || lou.querySelector('.favatar > .pi .authi > a');
-				option.text = floorClone.textContent.replace('#', '').trim() + (authorLink ? ' ' + authorLink.textContent : '');
+				const dateText = lou.querySelector('.authi[data-datetime]')?.dataset.datetime || '';
+				option.text = floorClone.textContent.replace('#', '').trim() + (dateText ? ' ' + dateText : '');
 				MULUSELECT.appendChild(option);
 				++MULUSELECT.size;
 			}
