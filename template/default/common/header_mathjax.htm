@@ -6,10 +6,10 @@
   window.MathJax.startup.ready = function() {
       try {
         if (typeof MathJax !== 'undefined' && MathJax._ && MathJax._.core && MathJax._.output) {
-          const {MmlMath} = MathJax._?.core?.MmlTree?.MmlNodes?.math || {};
-          const {MmlMstyle} = MathJax._?.core?.MmlTree?.MmlNodes?.mstyle || {};
-          const {FONTSIZE} = MathJax._?.output?.chtml?.Wrapper || {};
-          const {CHTML} = MathJax._?.output?.chtml_ts || {};
+          const MmlMath = (MathJax._?.core?.MmlTree?.MmlNodes?.math || {}).MmlMath;
+          const MmlMstyle = (MathJax._?.core?.MmlTree?.MmlNodes?.mstyle || {}).MmlMstyle;
+          const FONTSIZE = (MathJax._?.output?.chtml?.Wrapper || {}).FONTSIZE;
+          const CHTML = (MathJax._?.output?.chtml_ts || {}).CHTML;
           if (MmlMath && MmlMath.defaults) {
             MmlMath.defaults.scriptminsize = '0px';
             MmlMath.defaults.scriptsizemultiplier = 0.8;
@@ -31,7 +31,7 @@
           }
           <!--{if !empty($_GET['highlight'])}-->
             if (MathJax._.handlers && MathJax._.handlers.html) {
-              const {HTMLDomStrings} = MathJax._.handlers.html.HTMLDomStrings;
+              const HTMLDomStrings = MathJax._.handlers.html.HTMLDomStrings.HTMLDomStrings;
               HTMLDomStrings.OPTIONS.includeHtmlTags['mark'] = '';
               var handleTag = HTMLDomStrings.prototype.handleTag;
               HTMLDomStrings.prototype.handleTag = function (node, ignore) {
@@ -45,9 +45,9 @@
             }
           <!--{/if}-->
           if (MathJax._.input && MathJax._.input.tex) {
-            const { TEXCLASS } = MathJax._.core.MmlTree.MmlNode;
+            const TEXCLASS = MathJax._.core.MmlTree.MmlNode.TEXCLASS;
             const Macro = MathJax._.input.tex.Token.Macro;
-            const {MakeBig} = MathJax._.input.tex.base.BaseMethods.default;
+            const MakeBig = MathJax._.input.tex.base.BaseMethods.default.MakeBig;
             const mapHandler = MathJax._.input.tex.MapHandler.MapHandler.getMap('macros');
             if (mapHandler && mapHandler.map && typeof mapHandler.map.set === 'function') {
               mapHandler.map.set('big',new Macro('big', MakeBig, [TEXCLASS.ORD, .84]));

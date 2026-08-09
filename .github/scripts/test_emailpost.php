@@ -1,7 +1,8 @@
 <?php
 
-if(PHP_SAPI !== 'cli') {
-	exit("This test must run from the command line.\n");
+if(PHP_SAPI !== 'cli' || getenv('GITHUB_ACTIONS') !== 'true') {
+	fwrite(STDERR, "Refusing to run tests. This script is for automated CI only.\n");
+	exit(1);
 }
 
 define('IN_DISCUZ', true);
@@ -102,7 +103,6 @@ require_once libfile('function/forum');
 
 emailpost_assert(DB::result_first('SELECT COUNT(*) FROM %t', ['forum_emailpost']) !== false, 'forum_emailpost schema is missing.');
 DB::update('common_member', ['email' => 'admin@admin.com', 'emailstatus' => 1, 'freeze' => 0], 'uid=1');
-C::t('common_usergroup')->update(1, ['allowpost' => 1, 'allowreply' => 1]);
 C::t('common_usergroup_field')->update(1, ['allowpost' => 1, 'allowreply' => 1, 'disablepostctrl' => 1]);
 require_once libfile('function/cache');
 updatecache('usergroups');

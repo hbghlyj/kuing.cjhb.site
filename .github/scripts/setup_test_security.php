@@ -1,7 +1,8 @@
 <?php
 
-if(PHP_SAPI !== 'cli') {
-	exit("This tool must be run from the command line.\n");
+if(PHP_SAPI !== 'cli' || getenv('GITHUB_ACTIONS') !== 'true') {
+	fwrite(STDERR, "Refusing to run. This script is for automated CI only.\n");
+	exit(1);
 }
 
 function test_security_setup_stage($stage = null) {
