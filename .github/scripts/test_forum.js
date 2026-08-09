@@ -63,7 +63,10 @@ const testPusherLeaderCoordination = async browser => {
         await leaderPage.goto('http://127.0.0.1:8080/forum.php', { waitUntil: 'networkidle' });
         await leaderPage.waitForFunction(() => window.__pusherStubInstances?.length === 1, null, { timeout: 5000 });
         await followerPage.goto('http://127.0.0.1:8080/forum.php', { waitUntil: 'networkidle' });
-        await followerPage.waitForTimeout(800);
+        await followerPage.waitForFunction(async () => {
+            const locks = await navigator.locks.query();
+            return locks.pending.some(lock => lock.name === 'kuing-pusher-leader-v1' && lock.mode === 'exclusive');
+        }, null, { timeout: 5000 });
         assert.strictEqual(await followerPage.evaluate(() => window.__pusherStubInstances?.length || 0), 0, 'Assertion Error: Follower tab opened a second Pusher connection.');
 
         await leaderPage.close();
