@@ -1,16 +1,1 @@
-@media screen and (orientation: portrait) {
-  #switchwidth,#diy-tg,#um p:last-child,.fl_i { display: none; }
-  #toptb { min-width: unset; }
-  .fl_by {
-    width: 150px;
-    max-width: 150px;
-  }
-  .fl_by div {
-    width: 140px;
-    padding-left: 0;
-  }
-  #nv li a { padding: 0 5px; }
-  #onlinelist dd ul li {
-    width: 10em;
-  }
-}
+
