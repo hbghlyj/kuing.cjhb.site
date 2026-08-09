@@ -621,9 +621,9 @@ Created & Modified by Alice, Monkey, Lushnis, Pony, Dfox & DragonLee.
 			.tl .lastp { text-align: right; }
 			.tl cite { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 			.tl th em { margin-right: 4px; zoom: 1; }
-					.tl th em, .tl th em a { color: #007CD5; }
+					.tl th em, .tl th em a, .tl th em a:visited { color: #007CD5; }
 				.tl td em { font-size: 11px; font-family: Arial, Psimsun, sans-serif; -webkit-text-size-adjust: none; }
-					.tl td em, .tl td em a { color: {LIGHTTEXT}; }
+					.tl td em, .tl td em a, .tl td em a:visited { color: {LIGHTTEXT}; }
 			/*.tl .th th, .tl .th td { padding: 8px 0; background: {SPECIALBG}; border-top: 1px solid {SPECIALBORDER}; }*/
 			.tl .ts th, .tl .ts td { padding: 3px 0; border-bottom-color: {COMMONBORDER}; background: {COMMONBG}; }
 	.tl .th { margin-top: 1px; padding: 0 10px; border-bottom: 1px solid {COMMONBORDER}; background: {COMMONBG}; }
