@@ -245,7 +245,7 @@ const { reportCiFailure } = require('./report_ci_failure');
         await page.locator('#needmessage').fill(message);
         const imageInput = page.locator('#filedata');
         assert.strictEqual(await imageInput.count(), 1, 'Assertion Error: Mobile image upload control did not render.');
-        await page.waitForFunction(() => typeof window.STATUSMSG !== 'undefined' || typeof STATUSMSG !== 'undefined' || !!document.querySelector('#filedata'), { timeout: 15000 }).catch(() => {});
+        await page.waitForFunction(() => typeof window.STATUSMSG !== 'undefined' || typeof STATUSMSG !== 'undefined' || !!document.querySelector('#filedata'), { timeout: 15000 });
         await page.waitForTimeout(500);
         const uploadResponsePromise = page.waitForResponse(response => response.request().method() === 'POST' && response.url().includes('misc.php?mod=upload'), { timeout: 60000 });
         // Instrument the page so a failed upload tells us exactly where the chain breaks
@@ -704,10 +704,10 @@ const { reportCiFailure } = require('./report_ci_failure');
         // Submit tag changes (touch tagset() does Ajax then reload)
         const tagSetResponse = page.waitForResponse(r => r.url().includes('misc.php?mod=tag&op=set') && r.request().method() === 'GET');
         await mobileSaveBtn.first().click();
-        await tagSetResponse.catch(() => {});
+        await tagSetResponse;
         // Wait for DB or reload
         await page.waitForTimeout(1500);
-        await page.waitForLoadState('load', { timeout: 15000 }).catch(() => {});
+        await page.waitForLoadState('load', { timeout: 15000 });
         // Verify DB tag update
         const mobileDbTags = dbScalar(`SELECT tags FROM pre_forum_thread WHERE tid='${tid}'`);
         assert.ok(mobileDbTags.includes(newMobileTag), `Assertion Error: Mobile tag manage did not persist new tag. tid=${tid} tags=${mobileDbTags}`);

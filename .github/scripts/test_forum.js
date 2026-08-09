@@ -1388,7 +1388,7 @@ const stubPusher = async targetContext => {
 
         const saveTagBtn = page.locator('#fwin_mods button[name="search_button"]');
         await Promise.all([
-            page.waitForNavigation({ waitUntil: 'networkidle' }).catch(() => {}),
+            page.waitForNavigation({ waitUntil: 'networkidle' }),
             saveTagBtn.click()
         ]);
 
