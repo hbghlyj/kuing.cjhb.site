@@ -14,15 +14,18 @@ const existingMathSubject = `Thread with WYSIWYG Existing Math ${testRunId}`;
 
 const PUSHER_STUB = `
 (() => {
-  const noopChannel = {
-    bind: function() {},
-    unbind: function() {}
-  };
+  function Emitter(){ this.listeners = Object.create(null); }
+  Emitter.prototype.bind = function(event, callback){ (this.listeners[event] ||= []).push(callback); };
+  Emitter.prototype.unbind = function(event, callback){ this.listeners[event] = (this.listeners[event] || []).filter(listener => listener !== callback); };
+  Emitter.prototype.emit = function(event, data){ (this.listeners[event] || []).forEach(listener => listener(data)); };
   window.Pusher = function() {
-    this.connection = { bind: function() {}, unbind: function() {} };
-    this.subscribe = function() { return noopChannel; };
+    this.connection = new Emitter();
+    this.connection.socket_id = 'stub.' + (window.__pusherStubInstances?.length || 0);
+    this.channels = Object.create(null);
+    this.subscribe = function(name) { return this.channels[name] ||= new Emitter(); };
     this.unsubscribe = function() {};
     this.disconnect = function() {};
+    (window.__pusherStubInstances ||= []).push(this);
   };
 })();
 `;
@@ -32,6 +35,30 @@ const stubPusher = async targetContext => {
         contentType: 'application/javascript',
         body: PUSHER_STUB
     }));
+};
+
+const testPusherLeaderCoordination = async browser => {
+    const pusherContext = await browser.newContext();
+    await pusherContext.addCookies([{ name: 'isCollapsed', value: 'true', url: 'http://127.0.0.1:8080/forum.php' }]);
+    await stubPusher(pusherContext);
+    const leaderPage = await pusherContext.newPage();
+    const followerPage = await pusherContext.newPage();
+    try {
+        await leaderPage.goto('http://127.0.0.1:8080/forum.php', { waitUntil: 'networkidle' });
+        await leaderPage.waitForFunction(() => window.__pusherStubInstances?.length === 1, null, { timeout: 5000 });
+        await followerPage.goto('http://127.0.0.1:8080/forum.php', { waitUntil: 'networkidle' });
+        await followerPage.waitForTimeout(800);
+        assert.strictEqual(await followerPage.evaluate(() => window.__pusherStubInstances?.length || 0), 0, 'Assertion Error: Follower tab opened a second Pusher connection.');
+
+        await leaderPage.close();
+        await followerPage.waitForFunction(() => window.__pusherStubInstances?.length === 1, null, { timeout: 5000 });
+        await followerPage.evaluate(() => {
+            window.__pusherStubInstances[0].channels.Chat.emit('pusher:subscription_succeeded', {});
+        });
+        await followerPage.waitForFunction(() => document.querySelector('.pusher-chat-widget-send-btn')?.disabled === false, null, { timeout: 5000 });
+    } finally {
+        await pusherContext.close();
+    }
 };
 
 (async () => {
@@ -422,6 +449,9 @@ const stubPusher = async targetContext => {
         await page.screenshot({ path: 'screenshot_desktop_forum_index.png', fullPage: true });
         console.log("✅ Desktop Forum Front Page loaded successfully.");
         report += '### Desktop Forum Front Page (forum.php)\n- **Status**: Checked\n- **Front Page Load**: Success\n- **Screenshot**: `screenshot_desktop_forum_index.png`\n\n';
+
+        console.log('Testing Pusher leader coordination across tabs...');
+        await testPusherLeaderCoordination(browser);
 
         const requestSubmitMetadata = await page.evaluate(() => {
             const form = document.createElement('form');
