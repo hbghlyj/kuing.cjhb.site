@@ -146,6 +146,17 @@ const { reportCiFailure } = require('./report_ci_failure');
             assert.strictEqual(await control.count(), 1, `Assertion Error: ${label} control did not render exactly once.`);
             const expectedPusherTabId = verifyPusherTabId ? await page.evaluate(() => window.KK_PUSHER_TAB_ID || '') : '';
             if(verifyPusherTabId) assert.ok(expectedPusherTabId, `Assertion Error: ${label} page did not provide a Pusher tab token.`);
+            if(verifyPusherTabId) await page.evaluate(() => {
+                window.__testPusherTabId = '';
+                const nativeFetch = window.fetch;
+                window.fetch = function(input, init) {
+                    const url = typeof input === 'string' ? input : input.url;
+                    if(url && url.includes('forum.php?mod=post') && init?.body instanceof FormData) {
+                        window.__testPusherTabId = init.body.get('pusher_tab_id') || '';
+                    }
+                    return nativeFetch.apply(this, arguments);
+                };
+            });
             const [response] = await Promise.all([
                 page.waitForResponse(predicate),
                 control.click(),
@@ -155,8 +166,7 @@ const { reportCiFailure } = require('./report_ci_failure');
                 `Assertion Error: ${label} request failed with HTTP ${response.status()}.`
             );
             if(verifyPusherTabId) {
-                const requestBody = (response.request().postDataBuffer() || Buffer.from(response.request().postData() || '')).toString();
-                assert.ok(requestBody.includes('pusher_tab_id') && requestBody.includes(expectedPusherTabId), `Assertion Error: ${label} request did not send the Pusher tab token to PHP.`);
+                assert.strictEqual(await page.evaluate(() => window.__testPusherTabId), expectedPusherTabId, `Assertion Error: ${label} request did not send the Pusher tab token to PHP.`);
             }
             return response;
         };
