@@ -6,15 +6,6 @@
 </head>
 
 <body id="nv_{$_G[basescript]}" class="pg_{CURMODULE} dz_pg_{CURMODULE}	dz_tbnvb {if $_G['basescript'] === 'portal' && CURMODULE === 'list' && !empty($cat)} {$cat['bodycss']}{/if} discuzx5" onkeydown="if(event.keyCode==27) return false;">
-<svg style="position: absolute; width: 0px; height: 0px;">
-  <filter id="roughPaper">
-    <feTurbulence type="fractalNoise" baseFrequency="0.05" numOctaves="3" result="noise"></feTurbulence>
-    <feDiffuseLighting in="noise" lighting-color="#fffaf0" surfaceScale="1" result="diffuse">
-      <feDistantLight azimuth="45" elevation="60"></feDistantLight>
-    </feDiffuseLighting>
-    <feComposite operator="arithmetic" k1="1" k2="0" k3="0" k4="0" in="SourceGraphic" in2="diffuse"></feComposite>
-  </filter>
-</svg>
 	<a class="dz-skip-link" href="#wp">{lang skip_to_content}</a>
 	<style>.dz-skip-link{position:absolute;top:-100px;left:50%;transform:translateX(-50%);z-index:9999;padding:8px 16px;background:var(--dz-nvbg,#333);color:var(--dz-ff,#fff);font-size:14px;border-radius:0 0 var(--dz-radius-m,6px) var(--dz-radius-m,6px);box-shadow:var(--dz-shadow,0 2px 8px rgba(0,0,0,.15));transition:top .2s ease-in-out}.dz-skip-link:focus,.dz-skip-link:focus-visible{top:0}</style>
 	<div id="append_parent"></div><div id="ajaxwaitid"></div>

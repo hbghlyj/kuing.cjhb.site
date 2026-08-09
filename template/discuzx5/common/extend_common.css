@@ -43,8 +43,7 @@
 
 
 
-body {background:var(--dz-bodybg);}
-body::before {content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background:var(--dz-bodybg);filter:url("#roughPaper");}
+body {background:var(--dz-bodybg) url({STATICURL}image/common/roughPaper.svg?{VERHASH});}
 input, textarea {font:1em/1.5 monospace}
 textarea {color:var(--dz-fa)}
 ul,li{list-style:none}
