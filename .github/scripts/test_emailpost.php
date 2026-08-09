@@ -102,7 +102,8 @@ require_once libfile('function/forum');
 
 emailpost_assert(DB::result_first('SELECT COUNT(*) FROM %t', ['forum_emailpost']) !== false, 'forum_emailpost schema is missing.');
 DB::update('common_member', ['email' => 'admin@admin.com', 'emailstatus' => 1, 'freeze' => 0], 'uid=1');
-C::t('common_usergroup_field')->update(1, ['allowpost' => 1, 'disablepostctrl' => 1]);
+C::t('common_usergroup')->update(1, ['allowpost' => 1, 'allowreply' => 1]);
+C::t('common_usergroup_field')->update(1, ['disablepostctrl' => 1]);
 require_once libfile('function/cache');
 updatecache('usergroups');
 
