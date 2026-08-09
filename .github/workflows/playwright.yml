@@ -98,6 +98,7 @@ jobs:
       - name: Start PHP Server
         run: |
           DISCUZ_STRICT_LANG=1 php -S 127.0.0.1:8080 > php_server.log 2>&1 &
+          echo $! > php_server.pid
           sleep 1
           curl --fail --silent --show-error 'http://127.0.0.1:8080/data/cache/style_2_common.css' > /dev/null
 
@@ -106,15 +107,33 @@ jobs:
           TEST_RUN_ID: ${{ github.run_id }}-${{ github.run_attempt }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          # Phase 1: Run suites serially because they share the PHP server,
-          # template cache, and database. Parallel first requests can compile
-          # the same template concurrently and exhaust the PHP memory limit.
+          restart_php_server() {
+            kill "$(cat php_server.pid)" 2>/dev/null || true
+            for _ in {1..10}; do
+              kill -0 "$(cat php_server.pid)" 2>/dev/null || break
+              sleep 0.2
+            done
+            DISCUZ_STRICT_LANG=1 php -S 127.0.0.1:8080 >> php_server.log 2>&1 &
+            echo $! > php_server.pid
+            for _ in {1..10}; do
+              curl --fail --silent 'http://127.0.0.1:8080/data/cache/style_2_common.css' > /dev/null && return
+              sleep 0.2
+            done
+            return 1
+          }
+
+          # Suites share a database, but each needs a fresh PHP process.
+          # The built-in server otherwise retains request state between suites.
           node .github/scripts/test_forum.js
+          restart_php_server
           node .github/scripts/test_forum_mobile.js
+          restart_php_server
           node .github/scripts/test_admin.js
 
           # Phase 2: Suites that search or inspect forum.js output
+          restart_php_server
           node .github/scripts/test_search.js
+          restart_php_server
           node .github/scripts/test_tags.js
 
       - name: Check PHP Server Errors
