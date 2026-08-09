@@ -1214,7 +1214,7 @@ a#newspecial, a#newspecialtmp {padding-left:32px;padding-right:16px;background-i
 .fpd a.fmg {background:url({STYLEIMGDIR}/svg/dz_e_image.svg) no-repeat center 3px;background-size:20px}
 .fpd a.flnk {background:url({STYLEIMGDIR}/svg/dz_e_url.svg) no-repeat center 3px;background-size:18px}
 .fpd a.fqt {background:url({STYLEIMGDIR}/svg/dz_e_quote.svg) no-repeat center 2px;background-size:20px}
-.fpd a.fcd {background:url({STYLEIMGDIR}/svg/dz_e_codeblock.svg) no-repeat center 2px;background-size:20px}
+.fpd a.fcd {background:url({STATICURL}image/editor/dz_e_codeblock.svg?{VERHASH}) no-repeat center 2px;background-size:20px}
 .fpd a.fsml {background:url({STYLEIMGDIR}/svg/dz_e_sml.svg) no-repeat center 2px;background-size:20px}
 .fpd a.fat {background:url({STYLEIMGDIR}/svg/dz_e_at.svg) no-repeat center 2px;background-size:20px}
 .tedt .bar .webuploader-container {margin:1px 8px 0 0 !important;padding:0 !important;width:24px !important;height:24px !important;background:url({STYLEIMGDIR}/svg/dz_e_attach.svg) no-repeat center 2px !important;background-size:20px !important}
