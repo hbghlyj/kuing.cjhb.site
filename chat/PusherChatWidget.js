@@ -1,8 +1,5 @@
 (() => {
   const isMobile = typeof popup == 'object';
-  if(typeof window.KK_addPusherMetadata !== 'function') {
-    console.error('PusherForumMetadata.js must load before PusherChatWidget.js');
-  }
   function showError(msg){ if(isMobile){ popup.open(msg,'alert'); } else { alert(msg); } }
   function typesetNodes(targets){
     if(typeof MathJax === 'undefined' || typeof MathJax.typesetPromise !== 'function'){
