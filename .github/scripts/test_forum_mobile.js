@@ -3,6 +3,7 @@ const crypto = require('crypto');
 const fs = require('fs');
 const assert = require('assert');
 const { execSync } = require('child_process');
+const { reportCiFailure } = require('./report_ci_failure');
 
 (async () => {
     const browser = await chromium.launch();
@@ -869,13 +870,8 @@ const { execSync } = require('child_process');
             console.error('Failed to capture failure state:', e.message);
         }
         report += `## Error Encountered\n\`\`\`\n${error.message}\n\`\`\`\n\n`;
-        try {
-            const token = process.env.GITHUB_TOKEN || process.env.GH_TOKEN;
-            if (token) {
-                const gistBody = (report + "\n\n--- browser_error.txt ---\n" + (fs.existsSync('browser_error.txt') ? fs.readFileSync('browser_error.txt','utf8') : '')).slice(0, 90000);
-                await fetch('https://api.github.com/repos/hbghlyj/kuing.cjhb.site/pulls/' + ((process.env.GITHUB_REF || '').match(/refs\/pull\/(\d+)\//) || [,'675'])[1] + '/reviews', { method: 'POST', headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json', 'Accept': 'application/vnd.github.v3+json' }, body: JSON.stringify({ body: '**FAIL ' + suffix + ' mobile**\n\n```\n' + gistBody.slice(0,50000) + '\n```', event: 'COMMENT' }) }).then(r=>r.json()).then(j=> console.log('REVIEW_CREATED ' + (j.html_url || JSON.stringify(j)))).catch(e=> console.log('review error', e.message));
-            }
-        } catch {}
+        const gistBody = (report + "\n\n--- browser_error.txt ---\n" + (fs.existsSync('browser_error.txt') ? fs.readFileSync('browser_error.txt','utf8') : '')).slice(0, 90000);
+        await reportCiFailure({ label: 'mobile', body: '**FAIL ' + suffix + ' mobile**\n\n```\n' + gistBody.slice(0, 50000) + '\n```' });
     } finally {
         await browser.close();
         if(fs.existsSync('mobile_test_image.png')) {
