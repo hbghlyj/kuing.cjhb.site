@@ -262,7 +262,6 @@ function attachinpost($attach, $post) {
 				<!--{/if}-->
 			<div class="tip tip_4 aimg_tip" id="aimg2_$attach[aid]_menu" style="position: absolute; display: none" disautofocus="true"><!-- kk add id 2 -->
 				<div class="xs0">
-                    <!--<div style="float:right; border:1px solid; border-radius:3px; width:1em; height:1em; line-height:1em; text-align:center; cursor:pointer;" onclick="this.parentNode.parentNode.style.visibility='hidden';">×</div>--><!-- kk add -->
 					<p><strong>$attach[filename]</strong> <em class="xg1">($attach[attachsize]<!--{if !$_G['setting']['hideattachdown']}-->, {lang downloads}: $attach['downloads']<!--{/if}-->)</em></p>
 					<p>
 						<a href="forum.php?mod=attachment{$is_archive}&aid=$aidencode&nothumb=yes" target="_blank">{lang download}</a>
