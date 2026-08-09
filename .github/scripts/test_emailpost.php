@@ -102,6 +102,8 @@ require_once libfile('function/forum');
 
 emailpost_assert(DB::result_first('SELECT COUNT(*) FROM %t', ['forum_emailpost']) !== false, 'forum_emailpost schema is missing.');
 DB::update('common_member', ['email' => 'admin@admin.com', 'emailstatus' => 1, 'freeze' => 0], 'uid=1');
+C::t('common_usergroup_field')->update(1, ['allowpost' => 1, 'disablepostctrl' => 1]);
+updatecache('usergroups');
 
 $token = 'emailpost-fixture-'.bin2hex(random_bytes(6));
 $rootId = '<'.$token.'-root@example.net>';
