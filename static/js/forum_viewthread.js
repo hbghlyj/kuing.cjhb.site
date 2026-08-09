@@ -474,7 +474,7 @@ function updateMuluSelect(postObj, pid) {
 		floorText = floorClone.textContent.replace('#', '').trim();
 	}
 	var dateText = postObj.querySelector('.authi[data-datetime]')?.dataset.datetime || '';
-	var optionText = (floorText + (dateText ? ' ' + dateText : '')).trim();
+	var optionText = (floorText ? floorText + '# ' : '') + (dateText ? '| ' + dateText : '');
 	MULUSELECT.options.add(new Option(optionText, 'post_' + pid));
 	MULUSELECT.size = MULUSELECT.options.length;
 	if(MULUSELECT.firstChild && MULUSELECT.lastChild) {
@@ -1151,7 +1151,8 @@ function initMulu() {
 				const option = document.createElement('option');
 				option.value = lou.id;
 				const dateText = lou.querySelector('.authi[data-datetime]')?.dataset.datetime || '';
-				option.text = floorClone.textContent.replace('#', '').trim() + (dateText ? ' ' + dateText : '');
+				const floorText = floorClone.textContent.replace('#', '').trim();
+				option.text = (floorText ? floorText + '# ' : '') + (dateText ? '| ' + dateText : '');
 				MULUSELECT.appendChild(option);
 				++MULUSELECT.size;
 			}
