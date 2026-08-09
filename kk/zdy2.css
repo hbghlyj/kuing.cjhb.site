@@ -15,9 +15,6 @@
     font-size: 12px;
 }
 
-.tl th a:visited { color: unset; }
-/*访问过的链接不要变浅*/
-
 #newspecial_menu {
     width: auto;
     padding-right: 10px;
