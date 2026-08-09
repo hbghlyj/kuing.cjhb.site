@@ -72,7 +72,8 @@ window.MathJax = {
             });
           }
         },
-        ''
+        '',
+        false
       ],
       //去行间公式后的1个br
       removeBr: [202,
@@ -83,7 +84,8 @@ window.MathJax = {
             }
           }
         },
-        ''
+        '',
+        false
       ],
     }
   },
