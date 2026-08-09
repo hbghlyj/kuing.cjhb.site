@@ -155,7 +155,7 @@ const { reportCiFailure } = require('./report_ci_failure');
                 `Assertion Error: ${label} request failed with HTTP ${response.status()}.`
             );
             if(verifyPusherTabId) {
-                const requestBody = response.request().postData() || '';
+                const requestBody = (response.request().postDataBuffer() || Buffer.from(response.request().postData() || '')).toString();
                 assert.ok(requestBody.includes('pusher_tab_id') && requestBody.includes(expectedPusherTabId), `Assertion Error: ${label} request did not send the Pusher tab token to PHP.`);
             }
             return response;
