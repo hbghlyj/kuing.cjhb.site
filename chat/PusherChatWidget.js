@@ -59,7 +59,6 @@
     #peers = new Map();
     #heartbeatTimer = null;
     #fallbackDiscoveryTimers = [];
-    #pusherHealthTimer = null;
     #subscriptionReady = false;
     #connectionState = 'disconnected';
     connection = new EventDispatcher();
@@ -183,7 +182,6 @@
     #becomeFollower(){
       if(!this.#isLeader) return;
       this.#isLeader = false;
-      this.#clearPusherHealthTimer();
       this.#realPusher?.disconnect();
       this.#realPusher = null;
       this.#subscriptionReady = false;
@@ -193,27 +191,13 @@
       if(event === 'connected') {
         this.#connectionState = 'connected';
         this.connection.socket_id = this.#isLeader ? (this.#realPusher.connection.socket_id || '') : '';
-        this.#clearPusherHealthTimer();
       } else if(event === 'connecting' || event === 'unavailable') {
         this.#connectionState = event;
-        if(event === 'unavailable') this.#scheduleLeaderFailover();
       } else if(event === 'state_change') {
         this.#connectionState = data.current;
-        if(data.current === 'disconnected' || data.current === 'unavailable') this.#scheduleLeaderFailover();
       }
       this.connection.emit(event, data);
       if(broadcast) this.#post({type: 'connection', event, data, state: this.#connectionState, tabId: this.#tabId});
-    }
-    #clearPusherHealthTimer(){
-      if(this.#pusherHealthTimer) window.clearTimeout(this.#pusherHealthTimer);
-      this.#pusherHealthTimer = null;
-    }
-    #scheduleLeaderFailover(){
-      if(!this.#isLeader || this.#pusherHealthTimer) return;
-      this.#pusherHealthTimer = window.setTimeout(() => {
-        this.#pusherHealthTimer = null;
-        if(this.#isLeader && (this.#connectionState === 'disconnected' || this.#connectionState === 'unavailable')) this.#releaseLeader(true);
-      }, 15000);
     }
     #receive(message){
       if(!message || message.tabId === this.#tabId) return;
