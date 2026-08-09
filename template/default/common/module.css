@@ -1231,7 +1231,7 @@ a.thread_mod { height: 19px; line-height: 19px; display: inline-block; color: #4
 #newspecial_menu { width: auto; padding-right: 10px; }
 .modact a { color: #999; font-size: 12px; }
 #modmenu>a,#modmenu2>a { color: #999; }
-a.editlog { display: inline-flex; align-items: center; text-decoration: none; color: #888; margin-left: 6px; font-size: 12px; vertical-align: middle; }
+a.editlog { display: inline-flex; align-items: center; text-decoration: none; color: #888; margin-left: 6px; font-size: 12px; }
 a.editlog:hover { color: #333; }
 .thread-history-icon { width: 14px; height: 14px; fill: currentColor; flex-shrink: 0; margin-right: 3px; }
 .editlog-label { font-size: 12px; }

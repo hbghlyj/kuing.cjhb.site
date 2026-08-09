@@ -175,7 +175,7 @@ $postshowavatars = !($_G['setting']['bannedmessages'] & 2 && ($post['memberstatu
 					<a href="home.php?mod=space&uid=$post[authorid]" target="_blank" class="xi2 z avt">{echo avatar($post['authorid'], 'small', ['username' => $post['author']])}</a>
 				<!--{/if}-->
 				<!--{if $post['authorself']}-->
-					<em class="authicn fico-person fic4 fnmr vm" id="authicon$post[pid]" title="{lang thread_author}">{lang thread_author}</em>
+					<em class="authicn fico-person fic4 fnmr" id="authicon$post[pid]" title="{lang thread_author}">{lang thread_author}</em>
 				<!--{/if}-->
 
     <!--{if $post['authorid'] && !$post['anonymous']}-->
