@@ -212,7 +212,7 @@
         this.#emitConnection(message.event, message.data, false);
       } else if(message.type === 'leader-released') {
         this.#peers.delete(message.tabId);
-        this.#emitConnection('state_change', {previous: this.#connectionState, current: 'disconnected'}, false);
+        this.#emitConnection('connecting', {}, false);
         this.#electFallbackLeader();
       } else if(message.type === 'state-request') {
         this.#announcePresence();
