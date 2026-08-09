@@ -671,6 +671,8 @@ Created & Modified by Alice, Monkey, Lushnis, Pony, Dfox & DragonLee.
 
 
 /** forum::forumdisplay,group::forumdisplay,group::my **/
+.thread-tags { margin-top: 5px; clear: both; }
+.thread-tags .tag-item { display: inline-block; background-color: #e1ecf4; color: #39739d; padding: 2px 6px; border-radius: 3px; margin-right: 4px; font-size: 12px; }
 /*
 	Name:			mod_thread_type
 	Level:			Function
