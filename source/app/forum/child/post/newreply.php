@@ -144,7 +144,7 @@ if($_G['setting']['commentnumber'] && !empty($_GET['comment'])) {
 		'tid' => $post['tid'],
 		'pid' => $post['pid'],
 		'uid' => $_G['uid']
-	], getgpc('pusher_socket_id'));
+	], getgpc('pusher_tab_id'));
 
 	showmessage('comment_add_succeed', "forum.php?mod=redirect&goto=findpost&tid={$post['tid']}&pid={$post['pid']}", ['tid' => $post['tid'], 'pid' => $post['pid']]);
 }
@@ -404,7 +404,7 @@ if(!submitcheck('replysubmit', 0, $seccodecheck, $secqaacheck)) {
 		'from' => getgpc('from'),
 		'sechash' => getgpc('sechash'),
 		'repid' => getgpc('reppid'),
-		'pusher_socket_id' => getgpc('pusher_socket_id'),
+		'pusher_tab_id' => getgpc('pusher_tab_id'),
 	];
 
 	if(!empty($_GET['trade']) && $thread['special'] == 2 && $_G['group']['allowposttrade']) {

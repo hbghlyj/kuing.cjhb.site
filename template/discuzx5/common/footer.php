@@ -240,9 +240,11 @@ checkBlind();
 {cells common/footer/js}
 
 <!--{if !IS_ROBOT}-->
+<!--{eval $pusher_tab_nonce = random(24); $pusher_tab_token = $_G['uid'].'.'.$pusher_tab_nonce.'.'.hash_hmac('sha256', $_G['uid'].'|'.$pusher_tab_nonce, $_G['config']['security']['authkey']);}-->
 <link href="/chat/pusher-chat-widget.css?{VERHASH}" rel="stylesheet" />
 <style>.pusher-chat-widget{bottom:5px;right:5px;z-index:700;position:fixed;width:300px;}.pusher-chat-widget ul.activity-stream{max-height:400px;}</style>
 <script src="/chat/pusher.min.js"></script>
+<script>window.KK_PUSHER_TAB_ID = '$pusher_tab_token';</script>
 <script src="/chat/PusherChatWidget.js?{VERHASH}"></script>
 <!--{/if}-->
 

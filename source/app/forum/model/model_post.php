@@ -65,7 +65,7 @@ class model_post extends discuz_model {
 			'noticetrimstr', 'from', 'sechash',
 			'timestamp', 'modstatus',
 			'subject', 'special', 'sortid', 'typeid', 'isanonymous', 'cronpublish', 'cronpublishdate', 'save',
-			'readperm', 'price', 'audit', 'tags', 'bbcodeoff', 'pusher_socket_id',
+			'readperm', 'price', 'audit', 'tags', 'bbcodeoff', 'pusher_tab_id',
 		];
 		foreach($varname as $name) {
 			if($name === 'modstatus' && isset($this->param[$name]) && isset($parameters[$name])) {
@@ -93,7 +93,7 @@ class model_post extends discuz_model {
 
 	protected function trigger_chat_activity($event, array $payload) {
 		require_once libfile('function/pusher');
-		pusher_trigger_forum($event, $payload, $this->param['pusher_socket_id'] ?? null);
+		pusher_trigger_forum($event, $payload, $this->param['pusher_tab_id'] ?? null);
 	}
 
 	public function newreply($parameters) {

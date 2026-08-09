@@ -48,7 +48,7 @@ if(submitcheck('postdeletesubmit')) {
 			'tid' => $post['tid'],
 			'pid' => $post['pid'],
 			'uid' => $_G['uid']
-		], getgpc('pusher_socket_id'));
+		], getgpc('pusher_tab_id'));
 		if($post['first']) {
 			$nextpost = table_forum_post::t()->fetch_visiblepost_by_tid('tid:'.$post['tid'], $post['tid'], 0, 0);
 			if($nextpost) {

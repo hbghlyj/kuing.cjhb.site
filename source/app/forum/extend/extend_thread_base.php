@@ -30,7 +30,7 @@ class extend_thread_base extends discuz_extend {
 
 	protected function trigger_chat_activity($event, array $payload) {
 		require_once libfile('function/pusher');
-		pusher_trigger_forum($event, $payload, $this->param['pusher_socket_id'] ?? null);
+		pusher_trigger_forum($event, $payload, $this->param['pusher_tab_id'] ?? null);
 	}
 
 }

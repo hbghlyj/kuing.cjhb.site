@@ -309,9 +309,6 @@
 
 		var myform = document.getElementById('postform');
 		var formdata = new FormData(myform);
-		if(window.KK_PUSHER_SOCKET_ID) {
-			formdata.set('pusher_socket_id', window.KK_PUSHER_SOCKET_ID);
-		}
 		var actionUrl = form.attr('action');
 		if(!actionUrl) {
 			state.submitting = false;

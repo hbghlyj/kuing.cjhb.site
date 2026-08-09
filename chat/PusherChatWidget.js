@@ -1,5 +1,45 @@
 (() => {
   const isMobile = typeof popup == 'object';
+  function isForumMutationRequest(url){
+    try {
+      const requestUrl = new URL(url, window.location.href);
+      if(!requestUrl.pathname.endsWith('/forum.php')) return false;
+      return requestUrl.searchParams.get('mod') === 'post' ||
+        (requestUrl.searchParams.get('mod') === 'misc' && requestUrl.searchParams.get('action') === 'postdelete');
+    } catch(error) {
+      return false;
+    }
+  }
+  // All forum mutation transports use this instead of maintaining per-template fields.
+  window.KK_addPusherMetadata = function(target, url){
+    if(!target || !isForumMutationRequest(url)) return target;
+    const metadata = [
+      ['pusher_tab_id', window.KK_PUSHER_TAB_ID || '']
+    ];
+    if(target instanceof HTMLFormElement) {
+      metadata.forEach(([name, value]) => {
+        let field = target.querySelector('input[name="' + name + '"]');
+        if(!field) {
+          field = document.createElement('input');
+          field.type = 'hidden';
+          field.name = name;
+          target.appendChild(field);
+        }
+        field.value = value;
+      });
+    } else if(typeof target.set === 'function') {
+      metadata.forEach(([name, value]) => target.set(name, value));
+    }
+    return target;
+  };
+  if(!window.KK_pusherSubmitPatched) {
+    const nativeSubmit = HTMLFormElement.prototype.submit;
+    HTMLFormElement.prototype.submit = function(){
+      window.KK_addPusherMetadata(this, this.action);
+      return nativeSubmit.call(this);
+    };
+    window.KK_pusherSubmitPatched = true;
+  }
   function showError(msg){ if(isMobile){ popup.open(msg,'alert'); } else { alert(msg); } }
   function typesetNodes(targets){
     if(typeof MathJax === 'undefined' || typeof MathJax.typesetPromise !== 'function'){
@@ -34,6 +74,155 @@
       throw requestError;
     }
     return data;
+  }
+  class EventDispatcher {
+    #listeners = new Map();
+    bind(event, callback){
+      if(!this.#listeners.has(event)) this.#listeners.set(event, []);
+      this.#listeners.get(event).push(callback);
+    }
+    emit(event, data){
+      (this.#listeners.get(event) || []).forEach(callback => callback(data));
+    }
+  }
+  class LeaderTabPusher {
+    #appKey;
+    #options;
+    #tabId;
+    #channel = new EventDispatcher();
+    #broadcast;
+    #realPusher = null;
+    #isLeader = false;
+    #leaseTimer;
+    #subscriptionReady = false;
+    #connectionState = 'disconnected';
+    connection = new EventDispatcher();
+    constructor(appKey, options){
+      this.#appKey = appKey;
+      this.#options = options;
+      this.#tabId = this.#getTabId();
+      window.KK_PUSHER_TAB_ID = this.#tabId;
+      this.connection.socket_id = '';
+      if(!('BroadcastChannel' in window)) {
+        this.#becomeLeader();
+        return;
+      }
+      this.#broadcast = new BroadcastChannel('kuing-pusher-events-v1');
+      this.#broadcast.addEventListener('message', event => this.#receive(event.data));
+      window.addEventListener('storage', event => {
+        if(event.key === 'kuing-pusher-leader-v1') this.#electLeader();
+      });
+      window.addEventListener('beforeunload', () => this.#releaseLeader());
+      this.#electLeader();
+      this.#leaseTimer = window.setInterval(() => this.#electLeader(), 2000);
+      this.#post({type: 'state-request', tabId: this.#tabId});
+    }
+    subscribe(){
+      return this.#channel;
+    }
+    #getTabId(){
+		const serverToken = typeof window.KK_PUSHER_TAB_ID == 'string' ? window.KK_PUSHER_TAB_ID : '';
+		if(serverToken) return serverToken;
+      const key = 'kuing-pusher-tab-v1';
+      let tabId = '';
+      try {
+        tabId = sessionStorage.getItem(key) || '';
+        if(!tabId) {
+          const bytes = new Uint32Array(4);
+          crypto.getRandomValues(bytes);
+          tabId = Array.from(bytes, value => value.toString(36).padStart(7, '0')).join('');
+          sessionStorage.setItem(key, tabId);
+        }
+      } catch(error) {
+        tabId = String(Date.now()) + Math.random().toString(36).slice(2);
+      }
+      return tabId;
+    }
+    #post(message){
+      this.#broadcast?.postMessage(message);
+    }
+    #readLease(){
+      try {
+        return JSON.parse(localStorage.getItem('kuing-pusher-leader-v1') || 'null');
+      } catch(error) {
+        return null;
+      }
+    }
+    #electLeader(){
+      const now = Date.now();
+      const lease = this.#readLease();
+      if(!lease || lease.expires <= now || lease.tabId === this.#tabId) {
+        try {
+          localStorage.setItem('kuing-pusher-leader-v1', JSON.stringify({tabId: this.#tabId, expires: now + 5000}));
+        } catch(error) {
+          this.#becomeLeader();
+          return;
+        }
+      }
+      const current = this.#readLease();
+      if(current?.tabId === this.#tabId) {
+        this.#becomeLeader();
+      } else {
+        this.#becomeFollower();
+      }
+    }
+    #becomeLeader(){
+      if(this.#isLeader) return;
+      this.#isLeader = true;
+      this.#realPusher = new Pusher(this.#appKey, this.#options);
+      ['connected', 'connecting', 'unavailable', 'state_change'].forEach(event => {
+        this.#realPusher.connection.bind(event, data => this.#emitConnection(event, data, true));
+      });
+      const realChannel = this.#realPusher.subscribe('Chat');
+      ['pusher:subscription_succeeded', 'newreply', 'editpost', 'commentadd', 'deletepost', 'chat_message', 'chat_delete'].forEach(event => {
+        realChannel.bind(event, data => {
+          if(event === 'pusher:subscription_succeeded') this.#subscriptionReady = true;
+          this.#channel.emit(event, data);
+          this.#post({type: 'event', event, data, tabId: this.#tabId});
+        });
+      });
+    }
+    #becomeFollower(){
+      if(!this.#isLeader) return;
+      this.#isLeader = false;
+      this.#realPusher?.disconnect();
+      this.#realPusher = null;
+      this.#subscriptionReady = false;
+      this.connection.socket_id = '';
+    }
+    #emitConnection(event, data, broadcast){
+      if(event === 'connected') {
+        this.#connectionState = 'connected';
+        this.connection.socket_id = this.#isLeader ? (this.#realPusher.connection.socket_id || '') : '';
+      } else if(event === 'connecting' || event === 'unavailable') {
+        this.#connectionState = event;
+      } else if(event === 'state_change') {
+        this.#connectionState = data.current;
+      }
+      this.connection.emit(event, data);
+      if(broadcast) this.#post({type: 'connection', event, data, state: this.#connectionState, tabId: this.#tabId});
+    }
+    #receive(message){
+      if(!message || message.tabId === this.#tabId) return;
+      if(message.type === 'event') {
+        if(message.event === 'pusher:subscription_succeeded') this.#subscriptionReady = true;
+        this.#channel.emit(message.event, message.data);
+      } else if(message.type === 'connection') {
+        this.#connectionState = message.state;
+        this.#emitConnection(message.event, message.data, false);
+      } else if(message.type === 'state-request' && this.#isLeader) {
+        this.#post({type: 'connection', event: this.#connectionState === 'connected' ? 'connected' : this.#connectionState, data: this.#connectionState === 'connected' ? {} : {current: this.#connectionState}, state: this.#connectionState, tabId: this.#tabId});
+        if(this.#subscriptionReady) this.#post({type: 'event', event: 'pusher:subscription_succeeded', data: {}, tabId: this.#tabId});
+      }
+    }
+    #releaseLeader(){
+      if(!this.#isLeader) return;
+      const lease = this.#readLease();
+      if(lease?.tabId === this.#tabId) localStorage.removeItem('kuing-pusher-leader-v1');
+    }
+  }
+  function isOriginatingForumTab(data){
+    return !!data?.origin_tab_id && data.origin_tab_id === window.KK_PUSHER_TAB_ID;
   }
   class PusherChatWidget {
     static instances = [];
@@ -71,21 +260,11 @@
       if(isMobile) this.isCollapsed = false;
       this.#chatChannel = this.#pusher.subscribe(this.settings.channelName);
       this.#pusher.connection.bind('connected', () => {
-        window.KK_PUSHER_SOCKET_ID = this.#pusher.connection.socket_id || '';
         this.#widget.querySelector('label').textContent = $L('chat_connected');
       });
       document.addEventListener('submit', event => {
         const form = event.target;
-        if(window.KK_PUSHER_SOCKET_ID && form.matches('form[action*="forum.php?mod=post"]')) {
-          let field = form.querySelector('input[name="pusher_socket_id"]');
-          if(!field) {
-            field = document.createElement('input');
-            field.type = 'hidden';
-            field.name = 'pusher_socket_id';
-            form.appendChild(field);
-          }
-          field.value = window.KK_PUSHER_SOCKET_ID;
-        }
+        if(form instanceof HTMLFormElement) window.KK_addPusherMetadata(form, form.action);
       }, true);
       this.#pusher.connection.bind('connecting', () => {
         this.#widget.querySelector('label').textContent = $L('chat_connecting');
@@ -112,6 +291,7 @@
       });
       if(typeof tid!=='undefined'){
         this.#chatChannel.bind('newreply', data => {
+          if(isOriginatingForumTab(data)) return;
           const pageNumberElement=document.querySelector('div.pg>strong');
           const pageNumber=pageNumberElement?pageNumberElement.textContent.trim():'1';
           const postId = `post_${data.pid}`;
@@ -149,6 +329,7 @@
           }
         });
         this.#chatChannel.bind('editpost', data => {
+          if(isOriginatingForumTab(data)) return;
           if(data.tid==tid && document.getElementById(`pid${data.pid}`)){
             ajaxget(`forum.php?mod=viewthread&tid=${tid}&viewpid=${data.pid}`, `post_${data.pid}`, 'ajaxwaitid', '', null, "if (typeof MathJax !== 'undefined' && typeof MathJax.typesetPromise === 'function') {MathJax.texReset();MathJax.typesetPromise(['#pid"+data.pid+" :is(div.pcb>h2, td.t_f)'])}");
             if(data.subject){
@@ -161,11 +342,13 @@
           }
         });
         this.#chatChannel.bind('commentadd', data => {
+          if(isOriginatingForumTab(data)) return;
           if(data.tid==tid && document.getElementById(`pid${data.pid}`)){
             ajaxget('forum.php?mod=misc&action=commentmore&tid='+tid+'&pid='+data.pid, 'comment_'+data.pid, 'ajaxwaitid', '', null, "if (typeof MathJax !== 'undefined' && typeof MathJax.typesetPromise === 'function') {MathJax.typesetPromise(['#comment_"+data.pid+"'])}");
           }
         });
         this.#chatChannel.bind('deletepost', data => {
+          if(isOriginatingForumTab(data)) return;
           if(data.tid==tid){
             const post = document.getElementById(`pid${data.pid}`) || document.getElementById(`post_${data.pid}`);
             if(!post) return;
@@ -634,5 +817,5 @@
       return desc;
     }
   }
-  new PusherChatWidget(new Pusher('91983fb955c5da073f3d',{cluster:'eu'}),{appendTo:document.body});
+  new PusherChatWidget(new LeaderTabPusher('91983fb955c5da073f3d',{cluster:'eu'}),{appendTo:document.body});
 })();

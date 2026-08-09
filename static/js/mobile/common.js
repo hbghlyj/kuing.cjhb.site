@@ -306,10 +306,11 @@ var formdialog = {
 			popup.open('<img src="' + IMGDIR + '/imageloading.gif">');
 			var formobj = obj.form;
 			var body = new FormData(formobj);
-			fetch(formobj.action + '&handlekey='+ formobj.id +'&inajax=1', {method:'POST', body:body})
-			.then(function(response) {
-				if(!response.ok) throw new Error(response.statusText);
-				return response.text();
+			mobileRequest({
+				method: 'POST',
+				url: formobj.action + '&handlekey=' + formobj.id + '&inajax=1',
+				data: body,
+				dataType: 'html'
 			})
 			.then(function(text) {
 				popup.open(text);
@@ -386,6 +387,9 @@ function mobileRequest(options) {
 		body = null;
 	} else if(body instanceof URLSearchParams) {
 		headers['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';
+	}
+	if(typeof window.KK_addPusherMetadata == 'function') {
+		window.KK_addPusherMetadata(body, options.url);
 	}
 	return fetch(options.url, {method: method, headers: headers, body: body})
 		.then(function(response) {

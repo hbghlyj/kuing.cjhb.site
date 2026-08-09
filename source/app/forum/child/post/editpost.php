@@ -451,7 +451,7 @@ if(!$editsubmit) {
 
 			'extramessage' => $extramessage,
 			'noticetrimstr' => $_GET['noticetrimstr'],
-			'pusher_socket_id' => getgpc('pusher_socket_id'),
+			'pusher_tab_id' => getgpc('pusher_tab_id'),
 		];
 
 		if($isfirstpost && $isorigauthor && $_G['group']['allowreplycredit']) {

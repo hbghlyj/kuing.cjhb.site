@@ -116,8 +116,8 @@ function _ajaxpost(formid, showid, waitid, showidclass, submitbtn, recall) {
 		submitbtn.disabled = true;
 	}
 	var formData = new FormData(curform);
-	if(typeof window.KK_PUSHER_SOCKET_ID == 'string' && window.KK_PUSHER_SOCKET_ID) {
-		formData.set('pusher_socket_id', window.KK_PUSHER_SOCKET_ID);
+	if(typeof window.KK_addPusherMetadata == 'function') {
+		window.KK_addPusherMetadata(formData, action);
 	}
 	['subject', 'message'].forEach(function(name) {
 		var field = curform.querySelector('[name="' + name + '"]');

@@ -58,7 +58,7 @@
 			mobileRequest({
 				method:'POST',
 				url:form.action + '&handlekey=fastpost&loc=1&inajax=1',
-				data:(function() { var data = new FormData(form); if(window.KK_PUSHER_SOCKET_ID) data.set('pusher_socket_id', window.KK_PUSHER_SOCKET_ID); return data; })(),
+				data:new FormData(form),
 				dataType:'html'
 			}).then(function(s) {
 				evalscript(s);
