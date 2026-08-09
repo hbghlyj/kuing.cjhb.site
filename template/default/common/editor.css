@@ -25,7 +25,6 @@ https://www.discuz.vip
 		.edt .esbs p { float: left; clear: none; }
 		.edt .bar a { float: left; border: 1px solid {COMMONBG}; background: transparent url({STATICURL}image/editor/editor.gif) no-repeat 0 0; overflow: hidden; }
 			.edt .b1r a { padding-top: 27px; width: 35px; height: 15px; text-align: center; font-size: 11px; font-family: Arial, PMingLiU, sans-serif; -webkit-text-size-adjust: none; }
-			.edt .bar { font-size: 12px; }
 			.edt .b2r a { width: 20px; height: 20px; text-indent: -9999px; }
 				.edt .b2r a.dp { margin-right: 1px; padding-left: 2px; width: 78px; height: 20px; text-indent: 0; border-color: {INPUTBORDERDARKCOLOR} {INPUTBORDER} {INPUTBORDER} {INPUTBORDERDARKCOLOR}; background: #FFF url({STATICURL}image/common/newarow.gif) no-repeat 100% 0; }
 				.edt .b2r a:hover.dp { border-color: #09C; background-position: 100% -23px; }
@@ -111,9 +110,8 @@ https://www.discuz.vip
 		.b2r #e_image	{ background-position: 0 -20px; }
 	#e_attach		{ background-position: -83px -80px; }
 		.b2r #e_attach	{ background-position: -200px -20px; }
-	#e_code			{ background-position: -123px -80px; }
-		.b2r #e_code	{ background-position: -120px -20px; }
-	#e_inlinecode	{ background-position: -123px -80px; }
+	#e_code			{ background-image: none; text-indent: 0; font-family: monospace; font-size: 13px; line-height: 20px; }
+	#e_inlinecode	{ background-image: none; text-indent: 0; font-family: monospace; font-size: 18px; line-height: 20px; }
 	#e_quote		{ background-position: -163px -80px; }
 		.b2r #e_quote	{ background-position: -140px -20px; }
 	#e_pasteword		{ background-position: -60px -60px; }
