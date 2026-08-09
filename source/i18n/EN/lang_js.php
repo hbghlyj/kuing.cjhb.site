@@ -438,7 +438,7 @@ $lang = [
 	'switch_narrow' => 'Switch to narrow version',
 	'switch_wide' => 'Switch to wide version',
 	'table_bgcolor' => 'Background color',
-	'table_cols' => 'Number of table columns',
+	'table_cols' => 'Table Columns',
 	'table_fast_tip' => 'Quick form writing tips',
 	'table_tip' => '"[tr=color]" defines the row background <br />"[td=width]" defines the column width <br />"[td=column span, row span, width]" defines row and column span <br /><br />Quick writing table example: <div class=\'xs0\' style=\'margin:0 5px\'>[table]<br />Name:|Discuz!<br />Version:|X1<br />[/table]</div>Use "|" to separate each column, if there is "|" in the table, use "\|" instead, and use "\n" instead of line breaks.',
 	'tag_custom_check_error' => 'Custom content error, HTML code: {1} tag mismatch',
