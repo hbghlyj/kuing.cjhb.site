@@ -3,7 +3,7 @@ wysiwyg CSS file for Discuz! X
 (C) Comsenz Inc.
 https://www.discuz.vip
 */
-body { margin: 0 !important; overflow: auto; }
+html, body { margin: 0; overflow: auto; }
 mjx-container.math-editor-selected { cursor: not-allowed; outline: 3px solid #b4d7ff; }
 li { list-style-type: disc; margin-left: 2em; }
 ol { margin: 0; padding: 0; }
