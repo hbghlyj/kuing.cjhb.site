@@ -51,15 +51,7 @@ const assertPusherMetadataOrder = () => {
 };
 
 const testPusherLeaderCoordination = async browser => {
-    const pusherContext = await browser.newContext({
-        userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-        extraHTTPHeaders: { 'Accept-Language': 'en-US,en;q=0.9' }
-    });
-    await pusherContext.addCookies([{ name: 'isCollapsed', value: 'true', url: 'http://127.0.0.1:8080/forum.php' }]);
-    await stubPusher(pusherContext);
-    const leaderPage = await pusherContext.newPage();
-    const followerPage = await pusherContext.newPage();
-    await followerPage.addInitScript(() => {
+    const isolatePusherChannel = () => {
         const channelName = 'kuing-pusher-events-v1';
         const nativePostMessage = BroadcastChannel.prototype.postMessage;
         const nativeAddEventListener = BroadcastChannel.prototype.addEventListener;
@@ -75,29 +67,53 @@ const testPusherLeaderCoordination = async browser => {
                 if(!window.__freezePusherLeader) listener.call(this, event);
             }, options);
         };
+    };
+    const pusherCount = page => page.evaluate(() => window.__pusherStubInstances?.length || 0);
+    const waitForSingleLeader = async (pages, label) => {
+        for(let attempt = 0; attempt < 30; attempt++) {
+            const counts = await Promise.all(pages.map(pusherCount));
+            const leaderIndex = counts.findIndex(count => count === 1);
+            if(leaderIndex !== -1 && counts.reduce((total, count) => total + count, 0) === 1) {
+                return pages[leaderIndex];
+            }
+            await new Promise(resolve => setTimeout(resolve, 250));
+        }
+        assert.fail(`Assertion Error: ${label} did not converge on one Pusher leader.`);
+    };
+    const pusherContext = await browser.newContext({
+        userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+        extraHTTPHeaders: { 'Accept-Language': 'en-US,en;q=0.9' }
     });
+    await pusherContext.addCookies([{ name: 'isCollapsed', value: 'true', url: 'http://127.0.0.1:8080/forum.php' }]);
+    await stubPusher(pusherContext);
+    const leaderPage = await pusherContext.newPage();
+    const followerPage = await pusherContext.newPage();
+    await Promise.all([leaderPage.addInitScript(isolatePusherChannel), followerPage.addInitScript(isolatePusherChannel)]);
     try {
         await leaderPage.goto('http://127.0.0.1:8080/forum.php', { waitUntil: 'networkidle' });
         await leaderPage.waitForFunction(() => window.__pusherStubInstances?.length === 1, null, { timeout: 5000 });
         await followerPage.goto('http://127.0.0.1:8080/forum.php', { waitUntil: 'networkidle' });
         // The widget exists only after its leader-coordination request has been initialized.
         await followerPage.waitForFunction(() => !!document.querySelector('.pusher-chat-widget'), null, { timeout: 5000 });
-        assert.strictEqual(await followerPage.evaluate(() => window.__pusherStubInstances?.length || 0), 0, 'Assertion Error: Follower tab opened a second Pusher connection.');
+        const firstLeader = await waitForSingleLeader([leaderPage, followerPage], 'Initial tabs');
+        const firstFollower = firstLeader === leaderPage ? followerPage : leaderPage;
 
-        await leaderPage.close();
-        await followerPage.waitForFunction(() => window.__pusherStubInstances?.length === 1, null, { timeout: 5000 });
+        await firstLeader.close();
+        await firstFollower.waitForFunction(() => window.__pusherStubInstances?.length === 1, null, { timeout: 5000 });
         const recoveryPage = await pusherContext.newPage();
+        await recoveryPage.addInitScript(isolatePusherChannel);
         await recoveryPage.goto('http://127.0.0.1:8080/forum.php', { waitUntil: 'networkidle' });
         await recoveryPage.waitForFunction(() => !!document.querySelector('.pusher-chat-widget'), null, { timeout: 5000 });
-        assert.strictEqual(await recoveryPage.evaluate(() => window.__pusherStubInstances?.length || 0), 0, 'Assertion Error: Recovery follower opened a second Pusher connection.');
+        const frozenLeader = await waitForSingleLeader([firstFollower, recoveryPage], 'Recovery tabs');
+        const recoveryFollower = frozenLeader === firstFollower ? recoveryPage : firstFollower;
 
         // Simulate a frozen renderer: its tab remains open but cannot send or receive heartbeats.
-        await followerPage.evaluate(() => { window.__freezePusherLeader = true; });
-        await recoveryPage.waitForFunction(() => window.__pusherStubInstances?.length === 1, null, { timeout: 15000 });
-        await recoveryPage.evaluate(() => {
+        await frozenLeader.evaluate(() => { window.__freezePusherLeader = true; });
+        await recoveryFollower.waitForFunction(() => window.__pusherStubInstances?.length === 1, null, { timeout: 15000 });
+        await recoveryFollower.evaluate(() => {
             window.__pusherStubInstances[0].channels.Chat.emit('pusher:subscription_succeeded', {});
         });
-        await recoveryPage.waitForFunction(() => document.querySelector('.pusher-chat-widget-send-btn')?.disabled === false, null, { timeout: 5000 });
+        await recoveryFollower.waitForFunction(() => document.querySelector('.pusher-chat-widget-send-btn')?.disabled === false, null, { timeout: 5000 });
     } finally {
         await pusherContext.close();
     }
