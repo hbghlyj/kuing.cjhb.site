@@ -20,12 +20,13 @@ const PUSHER_STUB = `
   Emitter.prototype.unbind = function(event, callback){ this.listeners[event] = (this.listeners[event] || []).filter(listener => listener !== callback); };
   Emitter.prototype.emit = function(event, data){ (this.listeners[event] || []).forEach(listener => listener(data)); };
   window.Pusher = function() {
+    this.disconnected = false;
     this.connection = new Emitter();
     this.connection.socket_id = 'stub.' + (window.__pusherStubInstances?.length || 0);
     this.channels = Object.create(null);
     this.subscribe = function(name) { return this.channels[name] ||= new Emitter(); };
     this.unsubscribe = function() {};
-    this.disconnect = function() {};
+    this.disconnect = function() { this.disconnected = true; };
     (window.__pusherStubInstances ||= []).push(this);
   };
 })();
@@ -68,7 +69,7 @@ const testPusherLeaderCoordination = async browser => {
             }, options);
         };
     };
-    const pusherCount = page => page.evaluate(() => window.__pusherStubInstances?.length || 0);
+    const pusherCount = page => page.evaluate(() => (window.__pusherStubInstances || []).filter(instance => !instance.disconnected).length);
     const waitForSingleLeader = async (pages, label) => {
         for(let attempt = 0; attempt < 30; attempt++) {
             const counts = await Promise.all(pages.map(pusherCount));
@@ -91,7 +92,7 @@ const testPusherLeaderCoordination = async browser => {
     await Promise.all([leaderPage.addInitScript(isolatePusherChannel), followerPage.addInitScript(isolatePusherChannel)]);
     try {
         await leaderPage.goto('http://127.0.0.1:8080/forum.php', { waitUntil: 'networkidle' });
-        await leaderPage.waitForFunction(() => window.__pusherStubInstances?.length === 1, null, { timeout: 5000 });
+        await leaderPage.waitForFunction(() => (window.__pusherStubInstances || []).some(instance => !instance.disconnected), null, { timeout: 5000 });
         await followerPage.goto('http://127.0.0.1:8080/forum.php', { waitUntil: 'networkidle' });
         // The widget exists only after its leader-coordination request has been initialized.
         await followerPage.waitForFunction(() => !!document.querySelector('.pusher-chat-widget'), null, { timeout: 5000 });
@@ -99,7 +100,7 @@ const testPusherLeaderCoordination = async browser => {
         const firstFollower = firstLeader === leaderPage ? followerPage : leaderPage;
 
         await firstLeader.close();
-        await firstFollower.waitForFunction(() => window.__pusherStubInstances?.length === 1, null, { timeout: 5000 });
+        await firstFollower.waitForFunction(() => (window.__pusherStubInstances || []).some(instance => !instance.disconnected), null, { timeout: 5000 });
         const recoveryPage = await pusherContext.newPage();
         await recoveryPage.addInitScript(isolatePusherChannel);
         await recoveryPage.goto('http://127.0.0.1:8080/forum.php', { waitUntil: 'networkidle' });
@@ -109,9 +110,9 @@ const testPusherLeaderCoordination = async browser => {
 
         // Simulate a frozen renderer: its tab remains open but cannot send or receive heartbeats.
         await frozenLeader.evaluate(() => { window.__freezePusherLeader = true; });
-        await recoveryFollower.waitForFunction(() => window.__pusherStubInstances?.length === 1, null, { timeout: 15000 });
+        await recoveryFollower.waitForFunction(() => (window.__pusherStubInstances || []).some(instance => !instance.disconnected), null, { timeout: 15000 });
         await recoveryFollower.evaluate(() => {
-            window.__pusherStubInstances[0].channels.Chat.emit('pusher:subscription_succeeded', {});
+            window.__pusherStubInstances.find(instance => !instance.disconnected).channels.Chat.emit('pusher:subscription_succeeded', {});
         });
         await recoveryFollower.waitForFunction(() => document.querySelector('.pusher-chat-widget-send-btn')?.disabled === false, null, { timeout: 5000 });
     } finally {
