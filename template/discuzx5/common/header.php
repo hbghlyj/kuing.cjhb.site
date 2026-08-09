@@ -101,19 +101,13 @@
 				<!--{eval $recentthreadlist = $recenttids ? table_forum_thread::t()->fetch_all_by_tid($recenttids) : [];}-->
 				<!--{if $recentthreadlist}-->
 				<span class="pg"><a href="javascript:;" id="recentthreads" onmouseover="showMenu({'ctrlid':this.id,'pos':'34'})">{lang viewed_threads}</a></span>
-				<div id="recentthreads_menu" class="p_pop blk cl" style="display: none;">
-					<table class="cp0">
-						<tr>
-							<td id="v_threads">
-								<h3 class="mbn pbn bbda xg1">{lang viewed_threads}</h3>
-								<ul class="xl xl1">
+				<div id="recentthreads_menu" class="p_pop h_pop navs_menu" style="display: none;">
+					<ul id="v_threads">
+						<li class="navs_menu_title">{lang viewed_threads}</li>
 								<!--{loop $recenttids $rtid}-->
-									<!--{if $recentthreadlist[$rtid]}--><li><a href="forum.php?mod=viewthread&tid=$rtid" title="{$recentthreadlist[$rtid]['subject']}"><!--{echo cutstr($recentthreadlist[$rtid]['subject'], 30)}--></a></li><!--{/if}-->
+						<!--{if $recentthreadlist[$rtid]}--><li><a href="forum.php?mod=viewthread&tid=$rtid" title="{$recentthreadlist[$rtid]['subject']}">{$recentthreadlist[$rtid]['subject']}</a></li><!--{/if}-->
 								<!--{/loop}-->
-								</ul>
-							</td>
-						</tr>
-					</table>
+					</ul>
 				</div>
 				<!--{/if}-->
 			<!--{/if}-->
@@ -121,17 +115,11 @@
 				<!--{eval require_once libfile('function/forumlist'); empty($_G['cache']['forums']) && loadcache('forums'); $visitedforumsmenu = visitedforums();}-->
 				<!--{if $visitedforumsmenu}-->
 				<span class="pg"><a href="javascript:;" id="visitedforums" onmouseover="showMenu({'ctrlid':this.id,'pos':'34'})">{lang viewed_forums}</a></span>
-				<div id="visitedforums_menu" class="p_pop blk cl" style="display: none;">
-					<table class="cp0">
-						<tr>
-							<td id="v_forums">
-								<h3 class="mbn pbn bbda xg1">{lang viewed_forums}</h3>
-								<ul class="xl xl1">
-									$visitedforumsmenu
-								</ul>
-							</td>
-						</tr>
-					</table>
+				<div id="visitedforums_menu" class="p_pop h_pop navs_menu" style="display: none;">
+					<ul id="v_forums">
+						<li class="navs_menu_title">{lang viewed_forums}</li>
+						$visitedforumsmenu
+					</ul>
 				</div>
 				<!--{/if}-->
 			<!--{/if}-->
