@@ -680,7 +680,7 @@ class discuz_application extends discuz_base {
 			}
 
 			if(dstrpos($_SERVER['HTTP_USER_AGENT'],array('MQQBrowser',' qq','MicroMessenger'))) {
-				include(DISCUZ_ROOT.'kk/MicroMessenger.php');
+				include template('common/micromessenger');
 				exit;
 			}
 			if(ip::checkbanned($this->var['clientip'])) {

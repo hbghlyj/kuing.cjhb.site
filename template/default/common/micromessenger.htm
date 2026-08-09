@@ -1,12 +1,7 @@
 <!DOCTYPE html>
+<html>
 <head>
-<title><?php if(currentlang() == 'EN') { ?>
-Open with Browser
-<?php } elseif(currentlang() == 'TC') { ?>
-在瀏覽器中開啟
-<?php } else { ?>
-用浏览器打开
-<?php } ?></title>
+<title><!--{if currentlang() == 'EN'}-->Open with Browser<!--{elseif currentlang() == 'TC'}-->在瀏覽器中開啟<!--{else}-->用浏览器打开<!--{/if}--></title>
 <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0">
 <style>
   .gqLswTFC {
@@ -113,8 +108,7 @@ Open with Browser
 </style>
 </head>
 <body>
-  <?php if(!defined('IN_DISCUZ')) exit('Access Denied'); ?>
-<?php if(currentlang() == 'EN') { ?>
+<!--{if currentlang() == 'EN'}-->
   <div class="I0MG3p8Q">
     <div class="bhauZU7H">
       <div class="gqLswTFC">
@@ -125,7 +119,7 @@ Open with Browser
       </div>
     </div>
   </div>
-<?php } elseif(currentlang() == 'TC') { ?>
+<!--{elseif currentlang() == 'TC'}-->
   <div class="I0MG3p8Q">
     <div class="bhauZU7H">
       <div class="gqLswTFC">
@@ -136,7 +130,7 @@ Open with Browser
       </div>
     </div>
   </div>
-<?php } else { ?>
+<!--{else}-->
   <div class="I0MG3p8Q">
     <div class="bhauZU7H">
       <div class="gqLswTFC">
@@ -147,6 +141,6 @@ Open with Browser
       </div>
     </div>
   </div>
-<?php } ?>
+<!--{/if}-->
 </body>
 </html>
