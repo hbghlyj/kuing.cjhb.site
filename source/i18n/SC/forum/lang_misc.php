@@ -190,7 +190,7 @@ $lang =
 	'plugin_link' => '现在更新',
 
 	'seccode' => '验证码',
-	'seccode_update' => '换一个',
+	'seccode_update' => '🔄',
 
 	'secqaa' => '安全验证',
 

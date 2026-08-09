@@ -309,9 +309,6 @@ function build_cache_setting() {
 		$data['creditstransextra'][$i] = $data['creditstrans'] ? (!$data['creditstransextra'][$i] ? $data['creditstrans'] : $data['creditstransextra'][$i]) : 0;
 	}
 	$data['exchangestatus'] = $allowexchangein && $allowexchangeout;
-		$data['seccodedata']['width'] = 32;
-		$data['seccodedata']['height'] = 24;
-	}
 
 	$data['watermarktype'] = !empty($data['watermarktype']) ? dunserialize($data['watermarktype']) : [];
 	$data['watermarktext'] = !empty($data['watermarktext']) ? dunserialize($data['watermarktext']) : [];
@@ -345,6 +342,7 @@ function build_cache_setting() {
 
 	$exchcredits = [];
 	$allowexchangein = $allowexchangeout = FALSE;
+	$data['creditnames'] = [];
 	foreach((array)$data['extcredits'] as $id => $credit) {
 		$data['extcredits'][$id]['img'] = $credit['img'] ? '<img style="vertical-align:middle" src="'.$credit['img'].'" />' : '';
 		if(!empty($credit['ratio'])) {

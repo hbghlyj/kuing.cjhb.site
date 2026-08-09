@@ -195,8 +195,8 @@ $lang = array
 	'plugin_link'		=> 'Update Now',//'现在更新',
 
 	'seccode'		=> 'Verification code',//'验证码',
-	'seccode_update'	=> 'Renew captcha',//'换一个',
-	'secqaa'		=> 'Security answer',//'验证问答',
+	'seccode_update'	=> '🔄',//'换一个',
+	'secqaa'		=> 'Security Question',//'验证问答',
 
 
 // Added by Valery Votintsev, codersclub.org

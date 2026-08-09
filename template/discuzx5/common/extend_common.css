@@ -1232,3 +1232,20 @@ a#newspecial, a#newspecialtmp {padding-left:32px;padding-right:16px;background-i
 .dz_rbox_btn:hover {cursor:pointer;opacity:0.8}
 #postbox .mbn, #psd .mbn {padding:0;height:36px;line-height:36px;font-size:14px}
 #pmsmiliesdiv_tb, #sendsmiliesdiv_tb {width:365px !important}
+
+/* Form Field Error Tip Alignment */
+.rfm td.tipcol {
+	display: block;
+	clear: both;
+	padding-top: 4px;
+	padding-left: 0;
+}
+.rfm .p_tip, .rfm .p_chk, .rfm kbd.p_chk {
+	position: relative !important;
+	display: block;
+	float: none;
+	width: auto !important;
+	max-width: 360px;
+	margin-top: 2px;
+}
+
