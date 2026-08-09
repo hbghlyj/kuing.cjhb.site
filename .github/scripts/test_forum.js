@@ -69,10 +69,20 @@ const testPusherLeaderCoordination = async browser => {
 
         await leaderPage.close();
         await followerPage.waitForFunction(() => window.__pusherStubInstances?.length === 1, null, { timeout: 5000 });
-        await followerPage.evaluate(() => {
+        const recoveryPage = await pusherContext.newPage();
+        await recoveryPage.goto('http://127.0.0.1:8080/forum.php', { waitUntil: 'networkidle' });
+        await recoveryPage.waitForFunction(() => !!document.querySelector('.pusher-chat-widget'), null, { timeout: 5000 });
+        assert.strictEqual(await recoveryPage.evaluate(() => window.__pusherStubInstances?.length || 0), 0, 'Assertion Error: Recovery follower opened a second Pusher connection.');
+
+        // Freeze the lock holder without closing it: its lock remains held but heartbeats stop.
+        const leaderSession = await pusherContext.newCDPSession(followerPage);
+        await leaderSession.send('Page.setWebLifecycleState', { state: 'frozen' });
+        await recoveryPage.waitForFunction(() => window.__pusherStubInstances?.length === 1, null, { timeout: 15000 });
+        await recoveryPage.evaluate(() => {
             window.__pusherStubInstances[0].channels.Chat.emit('pusher:subscription_succeeded', {});
         });
-        await followerPage.waitForFunction(() => document.querySelector('.pusher-chat-widget-send-btn')?.disabled === false, null, { timeout: 5000 });
+        await recoveryPage.waitForFunction(() => document.querySelector('.pusher-chat-widget-send-btn')?.disabled === false, null, { timeout: 5000 });
+        await leaderSession.send('Page.setWebLifecycleState', { state: 'active' });
     } finally {
         await pusherContext.close();
     }
