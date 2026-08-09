@@ -93,7 +93,8 @@
     #broadcast;
     #realPusher = null;
     #isLeader = false;
-    #leaseTimer;
+    #lockRelease = null;
+    #lockRequested = false;
     #subscriptionReady = false;
     #connectionState = 'disconnected';
     connection = new EventDispatcher();
@@ -103,26 +104,23 @@
       this.#tabId = this.#getTabId();
       window.KK_PUSHER_TAB_ID = this.#tabId;
       this.connection.socket_id = '';
-      if(!('BroadcastChannel' in window)) {
+      // Without both primitives, preserve the previous independent-tab behavior.
+      if(!('BroadcastChannel' in window) || !('locks' in navigator)) {
         this.#becomeLeader();
         return;
       }
       this.#broadcast = new BroadcastChannel('kuing-pusher-events-v1');
       this.#broadcast.addEventListener('message', event => this.#receive(event.data));
-      window.addEventListener('storage', event => {
-        if(event.key === 'kuing-pusher-leader-v1') this.#electLeader();
-      });
       window.addEventListener('beforeunload', () => this.#releaseLeader());
       this.#electLeader();
-      this.#leaseTimer = window.setInterval(() => this.#electLeader(), 2000);
       this.#post({type: 'state-request', tabId: this.#tabId});
     }
     subscribe(){
       return this.#channel;
     }
     #getTabId(){
-		const serverToken = typeof window.KK_PUSHER_TAB_ID == 'string' ? window.KK_PUSHER_TAB_ID : '';
-		if(serverToken) return serverToken;
+      const serverToken = typeof window.KK_PUSHER_TAB_ID == 'string' ? window.KK_PUSHER_TAB_ID : '';
+      if(serverToken) return serverToken;
       const key = 'kuing-pusher-tab-v1';
       let tabId = '';
       try {
@@ -141,30 +139,26 @@
     #post(message){
       this.#broadcast?.postMessage(message);
     }
-    #readLease(){
-      try {
-        return JSON.parse(localStorage.getItem('kuing-pusher-leader-v1') || 'null');
-      } catch(error) {
-        return null;
-      }
-    }
     #electLeader(){
-      const now = Date.now();
-      const lease = this.#readLease();
-      if(!lease || lease.expires <= now || lease.tabId === this.#tabId) {
-        try {
-          localStorage.setItem('kuing-pusher-leader-v1', JSON.stringify({tabId: this.#tabId, expires: now + 5000}));
-        } catch(error) {
-          this.#becomeLeader();
-          return;
-        }
-      }
-      const current = this.#readLease();
-      if(current?.tabId === this.#tabId) {
+      this.#requestLeaderLock();
+    }
+    #requestLeaderLock(){
+      if(this.#isLeader || this.#lockRequested) return;
+      this.#lockRequested = true;
+      navigator.locks.request('kuing-pusher-leader-v1', {mode: 'exclusive'}, lock => {
         this.#becomeLeader();
-      } else {
+        return new Promise(resolve => {
+          this.#lockRelease = () => {
+            this.#lockRelease = null;
+            this.#lockRequested = false;
+            this.#becomeFollower();
+            resolve();
+          };
+        });
+      }).catch(() => {
+        this.#lockRequested = false;
         this.#becomeFollower();
-      }
+      });
     }
     #becomeLeader(){
       if(this.#isLeader) return;
@@ -210,15 +204,19 @@
       } else if(message.type === 'connection') {
         this.#connectionState = message.state;
         this.#emitConnection(message.event, message.data, false);
+      } else if(message.type === 'leader-released') {
+        this.#emitConnection('state_change', {previous: this.#connectionState, current: 'disconnected'}, false);
       } else if(message.type === 'state-request' && this.#isLeader) {
         this.#post({type: 'connection', event: this.#connectionState === 'connected' ? 'connected' : this.#connectionState, data: this.#connectionState === 'connected' ? {} : {current: this.#connectionState}, state: this.#connectionState, tabId: this.#tabId});
         if(this.#subscriptionReady) this.#post({type: 'event', event: 'pusher:subscription_succeeded', data: {}, tabId: this.#tabId});
       }
     }
     #releaseLeader(){
-      if(!this.#isLeader) return;
-      const lease = this.#readLease();
-      if(lease?.tabId === this.#tabId) localStorage.removeItem('kuing-pusher-leader-v1');
+      if(this.#lockRelease) {
+        this.#post({type: 'leader-released', tabId: this.#tabId});
+        this.#lockRelease();
+        return;
+      }
     }
   }
   function isOriginatingForumTab(data){
@@ -284,6 +282,7 @@
       this.#pusher.connection.bind('state_change', states => {
         if(states.current==='disconnected'||states.current==='unavailable'){
           this.#wasDisconnected = true;
+          this.#widget.querySelector('label').textContent = $L('chat_connecting');
         }else if(states.current==='connected' && this.#wasDisconnected){
           this.#fetchMissedMessages();
           this.#wasDisconnected = false;

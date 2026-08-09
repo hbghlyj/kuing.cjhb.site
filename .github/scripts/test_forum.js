@@ -423,6 +423,22 @@ const stubPusher = async targetContext => {
         console.log("✅ Desktop Forum Front Page loaded successfully.");
         report += '### Desktop Forum Front Page (forum.php)\n- **Status**: Checked\n- **Front Page Load**: Success\n- **Screenshot**: `screenshot_desktop_forum_index.png`\n\n';
 
+        const requestSubmitMetadata = await page.evaluate(() => {
+            const form = document.createElement('form');
+            form.action = 'forum.php?mod=post&action=reply';
+            document.body.appendChild(form);
+            let metadata = '';
+            form.addEventListener('submit', event => {
+                event.preventDefault();
+                metadata = form.querySelector('input[name="pusher_tab_id"]')?.value || '';
+            });
+            form.requestSubmit();
+            form.remove();
+            return metadata;
+        });
+        assert.ok(requestSubmitMetadata, 'Assertion Error: requestSubmit did not add Pusher tab metadata before forum form submission.');
+        assert.strictEqual(requestSubmitMetadata, await page.evaluate(() => window.KK_PUSHER_TAB_ID), 'Assertion Error: requestSubmit Pusher metadata did not match the current tab token.');
+
         console.log("Testing footer locale switcher and localized forum names...");
         const scLocaleLink = page.locator('#lang_selector_dropdown a[href="misc.php?mod=i18n&key=SC"]');
         // Open the dropdown first so the link is clickable
