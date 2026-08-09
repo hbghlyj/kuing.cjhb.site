@@ -1500,9 +1500,8 @@ const stubPusher = async targetContext => {
             // Force this forum's editor to open directly in WYSIWYG mode.
             execSync(`sudo mysql -u root ultrax -e "UPDATE pre_forum_forum SET editormode=1 WHERE fid='${forumFid}';"`);
 
-            // The full-page edit loads the post content into the WYSIWYG editor without any mode toggle.
             await page.goto(`http://127.0.0.1:8080/forum.php?mod=post&action=edit&fid=${forumFid}&tid=${existingMathTid}&pid=${existingMathPid}&extra=page%3D1`);
-            await page.waitForLoadState('networkidle');
+            await page.waitForLoadState('domcontentloaded');
 
             assert.strictEqual(await page.evaluate(() => wysiwyg), 1, 'Assertion Error: Edit page did not open the editor in WYSIWYG mode.');
             assert.strictEqual(await page.locator('#e_iframe:visible').count(), 1, 'Assertion Error: WYSIWYG editor iframe was not visible.');
