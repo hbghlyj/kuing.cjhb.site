@@ -131,11 +131,14 @@ const { reportCiFailure } = require('./report_ci_failure');
                 operator: 'strictEqual',
             });
         }
+        const memberUid = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT uid FROM pre_common_member WHERE username='${username}';"`).toString().trim();
+        assert.ok(memberUid && memberUid !== '0', 'Assertion Error: Mobile registration did not return the new member UID.');
 
         await page.waitForURL(url => url.pathname === '/' || url.href.includes('home.php?mod=spacecp'));
         await page.waitForLoadState('networkidle');
         assert.ok(await page.$('.header'), 'Assertion Error: Authenticated mobile page did not render the touch header.');
-        assert.ok((await page.textContent('body')).includes(username), 'Assertion Error: Mobile registration did not establish a logged-in session.');
+        const currentUid = await page.evaluate(() => String(window.discuz_uid || '0'));
+        assert.strictEqual(currentUid, memberUid, 'Assertion Error: Mobile registration did not establish a logged-in session.');
         await page.screenshot({ path: 'screenshot_mobile_01_registered.png' });
 
         const dbScalar = sql => execSync(`sudo mysql -u root ultrax -N -s -e "${sql}"`).toString().trim();

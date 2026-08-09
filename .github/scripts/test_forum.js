@@ -1387,10 +1387,12 @@ const stubPusher = async targetContext => {
         await tagInput.press('Enter');
 
         const saveTagBtn = page.locator('#fwin_mods button[name="search_button"]');
-        await Promise.all([
-            page.waitForNavigation({ waitUntil: 'networkidle' }),
-            saveTagBtn.click()
-        ]);
+        const tagSetResponse = page.waitForResponse(response =>
+            response.request().method() === 'GET' &&
+            response.url().includes('forum.php?mod=misc&action=retag')
+        );
+        await saveTagBtn.click();
+        await tagSetResponse;
 
         const dbTags = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT tags FROM pre_forum_thread WHERE tid='${tidOutput}';"`, { encoding: 'utf-8' }).trim();
         assert.ok(dbTags.includes('retagtest'), `Assertion Error: Database tags column for TID ${tidOutput} was not updated. Actual: ${dbTags}`);
