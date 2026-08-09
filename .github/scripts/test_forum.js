@@ -87,26 +87,17 @@ const testPusherLeaderCoordination = async browser => {
     });
     await pusherContext.addCookies([{ name: 'isCollapsed', value: 'true', url: 'http://127.0.0.1:8080/forum.php' }]);
     await stubPusher(pusherContext);
-    const leaderPage = await pusherContext.newPage();
-    const followerPage = await pusherContext.newPage();
-    await Promise.all([leaderPage.addInitScript(isolatePusherChannel), followerPage.addInitScript(isolatePusherChannel)]);
+    const pusherPages = await Promise.all([pusherContext.newPage(), pusherContext.newPage(), pusherContext.newPage()]);
+    await Promise.all(pusherPages.map(page => page.addInitScript(isolatePusherChannel)));
     try {
-        await leaderPage.goto('http://127.0.0.1:8080/forum.php', { waitUntil: 'networkidle' });
-        await leaderPage.waitForFunction(() => (window.__pusherStubInstances || []).some(instance => !instance.disconnected), null, { timeout: 5000 });
-        await followerPage.goto('http://127.0.0.1:8080/forum.php', { waitUntil: 'networkidle' });
-        // The widget exists only after its leader-coordination request has been initialized.
-        await followerPage.waitForFunction(() => !!document.querySelector('.pusher-chat-widget'), null, { timeout: 5000 });
-        const firstLeader = await waitForSingleLeader([leaderPage, followerPage], 'Initial tabs');
-        const firstFollower = firstLeader === leaderPage ? followerPage : leaderPage;
+        await Promise.all(pusherPages.map(page => page.goto('http://127.0.0.1:8080/forum.php', { waitUntil: 'networkidle' })));
+        await Promise.all(pusherPages.map(page => page.waitForFunction(() => !!document.querySelector('.pusher-chat-widget'), null, { timeout: 5000 })));
+        const firstLeader = await waitForSingleLeader(pusherPages, 'Three simultaneous tabs');
+        const remainingPages = pusherPages.filter(page => page !== firstLeader);
 
         await firstLeader.close();
-        await firstFollower.waitForFunction(() => (window.__pusherStubInstances || []).some(instance => !instance.disconnected), null, { timeout: 5000 });
-        const recoveryPage = await pusherContext.newPage();
-        await recoveryPage.addInitScript(isolatePusherChannel);
-        await recoveryPage.goto('http://127.0.0.1:8080/forum.php', { waitUntil: 'networkidle' });
-        await recoveryPage.waitForFunction(() => !!document.querySelector('.pusher-chat-widget'), null, { timeout: 5000 });
-        const frozenLeader = await waitForSingleLeader([firstFollower, recoveryPage], 'Recovery tabs');
-        const recoveryFollower = frozenLeader === firstFollower ? recoveryPage : firstFollower;
+        const frozenLeader = await waitForSingleLeader(remainingPages, 'Close handover');
+        const recoveryFollower = remainingPages.find(page => page !== frozenLeader);
 
         // Simulate a frozen renderer: its tab remains open but cannot send or receive heartbeats.
         await frozenLeader.evaluate(() => { window.__freezePusherLeader = true; });
