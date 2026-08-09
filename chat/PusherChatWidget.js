@@ -58,6 +58,7 @@
     #usesLockManager = false;
     #peers = new Map();
     #heartbeatTimer = null;
+    #fallbackDiscoveryTimers = [];
     #pusherHealthTimer = null;
     #subscriptionReady = false;
     #connectionState = 'disconnected';
@@ -80,8 +81,7 @@
       if(this.#usesLockManager) {
         this.#electLeader();
       } else {
-        this.#announcePresence();
-        window.setTimeout(() => this.#electFallbackLeader(), 100);
+        this.#startFallbackDiscovery();
         this.#heartbeatTimer = window.setInterval(() => {
           this.#announcePresence();
           this.#electFallbackLeader();
@@ -118,6 +118,18 @@
     }
     #announcePresence(){
       this.#post({type: 'leader-presence', tabId: this.#tabId});
+    }
+    #startFallbackDiscovery(){
+      this.#announcePresence();
+      this.#fallbackDiscoveryTimers = [250, 500].map(delay => window.setTimeout(() => this.#announcePresence(), delay));
+      this.#fallbackDiscoveryTimers.push(window.setTimeout(() => {
+        this.#fallbackDiscoveryTimers = [];
+        this.#electFallbackLeader();
+      }, 600));
+    }
+    #clearFallbackDiscovery(){
+      this.#fallbackDiscoveryTimers.forEach(timer => window.clearTimeout(timer));
+      this.#fallbackDiscoveryTimers = [];
     }
     #electFallbackLeader(){
       if(this.#usesLockManager) return;
@@ -227,7 +239,10 @@
       }
     }
     #releaseLeader(requeue = false){
-      if(!requeue && this.#heartbeatTimer) window.clearInterval(this.#heartbeatTimer);
+      if(!requeue) {
+        if(this.#heartbeatTimer) window.clearInterval(this.#heartbeatTimer);
+        this.#clearFallbackDiscovery();
+      }
       if(this.#isLeader) this.#post({type: 'leader-released', tabId: this.#tabId});
       if(this.#lockRelease) {
         this.#lockRelease();
