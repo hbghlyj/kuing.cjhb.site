@@ -1021,7 +1021,6 @@ function initializePostImages(root) {
 
 		const finishLoading = function() {
 			wrapper.classList.add('jiazed');
-			if(!img.hasAttribute('width')) img.setAttribute('width', img.width);
 			wrapper.style.display = 'inline-block';
 		};
 		if(img.complete && img.naturalWidth) {
@@ -1053,6 +1052,9 @@ function initPostZoomAndWheel(root) {
 			});
 		} else if(!item.hasAttribute('onclick')) {
 			item.addEventListener("click", function() {
+				delete this.dataset.imageScale;
+				this.style.transform = '';
+				this.style.transformOrigin = '';
 				if(this.getAttribute('width')) {
 					this.setAttribute('savewidth', this.getAttribute('width'));
 					this.removeAttribute('width');
@@ -1076,12 +1078,11 @@ function initPostZoomAndWheel(root) {
 		item.addEventListener("wheel", function(e) {
 			if(!e.shiftKey) return;
 			e.preventDefault();
-			let scale = e.deltaY > 0 ? 0.9 : 1.11,
-				temp_w = parseFloat(this.getBoundingClientRect().width),
-				temp_h = parseFloat(this.getBoundingClientRect().height);
-			this.classList.remove('mw100');
-			this.setAttribute("width", temp_w * scale);
-			this.setAttribute("height", temp_h * scale);
+			const currentScale = parseFloat(this.dataset.imageScale || '1');
+			const nextScale = Math.min(4, Math.max(0.3, currentScale * (e.deltaY > 0 ? 0.9 : 1.11)));
+			this.dataset.imageScale = nextScale.toFixed(2);
+			this.style.transformOrigin = 'top left';
+			this.style.transform = 'scale(' + nextScale + ')';
 		});
 	});
 }
