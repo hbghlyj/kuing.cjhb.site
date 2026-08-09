@@ -48,6 +48,14 @@ if(strlen($code) > ASY_MAX_CODE_BYTES) {
 }
 
 $etag = hash('sha256', $format."\0".$code);
+$cacheFile = __DIR__ . '/' . $etag . '.' . $format;
+
+if(file_exists($cacheFile)) {
+	$body = file_get_contents($cacheFile);
+	if($body !== false && $body !== '') {
+		asySend($body, $format, $etag);
+	}
+}
 
 $response = '';
 $curl = curl_init('http://asymptote.ualberta.ca:10007?f='.$format);
@@ -75,5 +83,7 @@ curl_close($curl);
 if(!$success || $error || $status !== 200 || $response === '') {
 	asyError($error === CURLE_OPERATION_TIMEDOUT ? 504 : 502, 'Asymptote renderer unavailable');
 }
+
+@file_put_contents($cacheFile, $response);
 
 asySend($response, $format, $etag);
