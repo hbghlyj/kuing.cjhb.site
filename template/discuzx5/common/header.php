@@ -103,7 +103,6 @@
 				<span class="pg"><a href="javascript:;" id="recentthreads" onmouseover="showMenu({'ctrlid':this.id,'pos':'34'})">{lang viewed_threads}</a></span>
 				<div id="recentthreads_menu" class="p_pop h_pop navs_menu" style="display: none;">
 					<ul id="v_threads">
-						<li class="navs_menu_title">{lang viewed_threads}</li>
 								<!--{loop $recenttids $rtid}-->
 						<!--{if $recentthreadlist[$rtid]}--><li><a href="forum.php?mod=viewthread&tid=$rtid" title="{$recentthreadlist[$rtid]['subject']}">{$recentthreadlist[$rtid]['subject']}</a></li><!--{/if}-->
 								<!--{/loop}-->
@@ -117,7 +116,6 @@
 				<span class="pg"><a href="javascript:;" id="visitedforums" onmouseover="showMenu({'ctrlid':this.id,'pos':'34'})">{lang viewed_forums}</a></span>
 				<div id="visitedforums_menu" class="p_pop h_pop navs_menu" style="display: none;">
 					<ul id="v_forums">
-						<li class="navs_menu_title">{lang viewed_forums}</li>
 						$visitedforumsmenu
 					</ul>
 				</div>

@@ -424,7 +424,6 @@ img{border:none;}
 #recentthreads:after, #visitedforums:after{display:inline-block;margin-left:6px;vertical-align:2px;content:"";border-top:4px solid currentColor;border-right:4px solid transparent;border-bottom:0;border-left:4px solid transparent;}
 .navs_menu{width:260px;max-width:calc(100vw - 32px);padding:0;font-size:12px;overflow:hidden;}
 .navs_menu > li{display:block;float:none;}
-.navs_menu .navs_menu_title{padding:8px 12px;color:var(--dz-fc);font-weight:600;border-bottom:1px solid var(--dz-borderb);}
 .navs_menu a{display:block;padding:7px 12px;overflow:hidden;color:var(--dz-alink);font-size:12px;line-height:1.4;white-space:nowrap;text-overflow:ellipsis;}
 .navs_menu a:hover{color:var(--dz-color);background:var(--dz-bgc);}
 
