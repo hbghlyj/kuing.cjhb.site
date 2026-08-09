@@ -1268,10 +1268,10 @@ const testPusherLeaderCoordination = async browser => {
             ),
             attachSubmitBtn.click()
         ]);
-        assert.ok(
-            attachPostResponse.ok() || (attachPostResponse.status() >= 300 && attachPostResponse.status() < 400),
-            `Assertion Error: Image attachment thread POST failed with HTTP ${attachPostResponse.status()}.`
-        );
+        if (!(attachPostResponse.ok() || (attachPostResponse.status() >= 300 && attachPostResponse.status() < 400))) {
+            const responseText = (await attachPostResponse.text()).replace(/\s+/g, ' ').slice(0, 2000);
+            assert.fail(`Assertion Error: Image attachment thread POST failed with HTTP ${attachPostResponse.status()}. Response: ${responseText}`);
+        }
         await page.waitForURL(/forum\.php\?mod=viewthread&tid=\d+/);
 
         console.log("Checking if attachment thread exists in DB and loads in viewthread...");
