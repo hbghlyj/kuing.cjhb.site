@@ -95,6 +95,10 @@
     #isLeader = false;
     #lockRelease = null;
     #lockRequested = false;
+    #usesLockManager = false;
+    #peers = new Map();
+    #heartbeatTimer = null;
+    #pusherHealthTimer = null;
     #subscriptionReady = false;
     #connectionState = 'disconnected';
     connection = new EventDispatcher();
@@ -104,15 +108,25 @@
       this.#tabId = this.#getTabId();
       window.KK_PUSHER_TAB_ID = this.#tabId;
       this.connection.socket_id = '';
-      // Without both primitives, preserve the previous independent-tab behavior.
-      if(!('BroadcastChannel' in window) || !('locks' in navigator)) {
+      // BroadcastChannel is required to relay events to follower tabs.
+      if(!('BroadcastChannel' in window)) {
         this.#becomeLeader();
         return;
       }
+      this.#usesLockManager = 'locks' in navigator;
       this.#broadcast = new BroadcastChannel('kuing-pusher-events-v1');
       this.#broadcast.addEventListener('message', event => this.#receive(event.data));
       window.addEventListener('beforeunload', () => this.#releaseLeader());
-      this.#electLeader();
+      if(this.#usesLockManager) {
+        this.#electLeader();
+      } else {
+        this.#announcePresence();
+        window.setTimeout(() => this.#electFallbackLeader(), 100);
+        this.#heartbeatTimer = window.setInterval(() => {
+          this.#announcePresence();
+          this.#electFallbackLeader();
+        }, 1000);
+      }
       this.#post({type: 'state-request', tabId: this.#tabId});
     }
     subscribe(){
@@ -142,6 +156,22 @@
     #electLeader(){
       this.#requestLeaderLock();
     }
+    #announcePresence(){
+      this.#post({type: 'leader-presence', tabId: this.#tabId});
+    }
+    #electFallbackLeader(){
+      if(this.#usesLockManager) return;
+      const cutoff = Date.now() - 3500;
+      this.#peers.forEach((seenAt, tabId) => {
+        if(seenAt < cutoff) this.#peers.delete(tabId);
+      });
+      const leaderId = [this.#tabId, ...this.#peers.keys()].sort()[0];
+      if(leaderId === this.#tabId) {
+        this.#becomeLeader();
+      } else {
+        this.#becomeFollower();
+      }
+    }
     #requestLeaderLock(){
       if(this.#isLeader || this.#lockRequested) return;
       this.#lockRequested = true;
@@ -167,6 +197,8 @@
       ['connected', 'connecting', 'unavailable', 'state_change'].forEach(event => {
         this.#realPusher.connection.bind(event, data => this.#emitConnection(event, data, true));
       });
+      // A leader may be elected after followers have already requested state.
+      this.#emitConnection('connecting', {}, true);
       const realChannel = this.#realPusher.subscribe('Chat');
       ['pusher:subscription_succeeded', 'newreply', 'editpost', 'commentadd', 'deletepost', 'chat_message', 'chat_delete'].forEach(event => {
         realChannel.bind(event, data => {
@@ -179,6 +211,7 @@
     #becomeFollower(){
       if(!this.#isLeader) return;
       this.#isLeader = false;
+      this.#clearPusherHealthTimer();
       this.#realPusher?.disconnect();
       this.#realPusher = null;
       this.#subscriptionReady = false;
@@ -188,35 +221,61 @@
       if(event === 'connected') {
         this.#connectionState = 'connected';
         this.connection.socket_id = this.#isLeader ? (this.#realPusher.connection.socket_id || '') : '';
+        this.#clearPusherHealthTimer();
       } else if(event === 'connecting' || event === 'unavailable') {
         this.#connectionState = event;
+        if(event === 'unavailable') this.#scheduleLeaderFailover();
       } else if(event === 'state_change') {
         this.#connectionState = data.current;
+        if(data.current === 'disconnected' || data.current === 'unavailable') this.#scheduleLeaderFailover();
       }
       this.connection.emit(event, data);
       if(broadcast) this.#post({type: 'connection', event, data, state: this.#connectionState, tabId: this.#tabId});
     }
+    #clearPusherHealthTimer(){
+      if(this.#pusherHealthTimer) window.clearTimeout(this.#pusherHealthTimer);
+      this.#pusherHealthTimer = null;
+    }
+    #scheduleLeaderFailover(){
+      if(!this.#isLeader || this.#pusherHealthTimer) return;
+      this.#pusherHealthTimer = window.setTimeout(() => {
+        this.#pusherHealthTimer = null;
+        if(this.#isLeader && (this.#connectionState === 'disconnected' || this.#connectionState === 'unavailable')) this.#releaseLeader(true);
+      }, 15000);
+    }
     #receive(message){
       if(!message || message.tabId === this.#tabId) return;
-      if(message.type === 'event') {
+      if(message.type === 'leader-presence') {
+        this.#peers.set(message.tabId, Date.now());
+        this.#electFallbackLeader();
+      } else if(message.type === 'event') {
         if(message.event === 'pusher:subscription_succeeded') this.#subscriptionReady = true;
         this.#channel.emit(message.event, message.data);
       } else if(message.type === 'connection') {
         this.#connectionState = message.state;
         this.#emitConnection(message.event, message.data, false);
       } else if(message.type === 'leader-released') {
+        this.#peers.delete(message.tabId);
         this.#emitConnection('state_change', {previous: this.#connectionState, current: 'disconnected'}, false);
-      } else if(message.type === 'state-request' && this.#isLeader) {
-        this.#post({type: 'connection', event: this.#connectionState === 'connected' ? 'connected' : this.#connectionState, data: this.#connectionState === 'connected' ? {} : {current: this.#connectionState}, state: this.#connectionState, tabId: this.#tabId});
-        if(this.#subscriptionReady) this.#post({type: 'event', event: 'pusher:subscription_succeeded', data: {}, tabId: this.#tabId});
+        this.#electFallbackLeader();
+      } else if(message.type === 'state-request') {
+        this.#announcePresence();
+        if(this.#isLeader) {
+          this.#post({type: 'connection', event: this.#connectionState === 'connected' ? 'connected' : this.#connectionState, data: this.#connectionState === 'connected' ? {} : {current: this.#connectionState}, state: this.#connectionState, tabId: this.#tabId});
+          if(this.#subscriptionReady) this.#post({type: 'event', event: 'pusher:subscription_succeeded', data: {}, tabId: this.#tabId});
+        }
       }
     }
-    #releaseLeader(){
+    #releaseLeader(requeue = false){
+      if(!requeue && this.#heartbeatTimer) window.clearInterval(this.#heartbeatTimer);
+      if(this.#isLeader) this.#post({type: 'leader-released', tabId: this.#tabId});
       if(this.#lockRelease) {
-        this.#post({type: 'leader-released', tabId: this.#tabId});
         this.#lockRelease();
+        if(requeue) window.setTimeout(() => this.#electLeader(), 0);
         return;
       }
+      this.#becomeFollower();
+      if(requeue) window.setTimeout(() => this.#electFallbackLeader(), 0);
     }
   }
   function isOriginatingForumTab(data){

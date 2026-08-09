@@ -512,6 +512,8 @@ const stubPusher = async targetContext => {
 
         const postSubmitBtn = page.locator('button[name="topicsubmit"][type="submit"]');
         assert.strictEqual(await postSubmitBtn.count(), 1, 'Assertion Error: Desktop thread submit button did not render.');
+        const expectedPusherTabId = await page.evaluate(() => window.KK_PUSHER_TAB_ID || '');
+        assert.ok(expectedPusherTabId, 'Assertion Error: Desktop forum page did not provide a Pusher tab token.');
         const [threadPostResponse] = await Promise.all([
             page.waitForResponse(response =>
                 response.request().method() === 'POST' &&
@@ -523,6 +525,8 @@ const stubPusher = async targetContext => {
             threadPostResponse.ok() || (threadPostResponse.status() >= 300 && threadPostResponse.status() < 400),
             `Assertion Error: Desktop thread POST failed with HTTP ${threadPostResponse.status()}.`
         );
+        const threadPostBody = threadPostResponse.request().postData() || '';
+        assert.ok(threadPostBody.includes('pusher_tab_id') && threadPostBody.includes(expectedPusherTabId), 'Assertion Error: Desktop thread POST did not send the Pusher tab token to PHP.');
 
         console.log("Checking if posted thread exists in DB...");
         const threadDbCheck = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT COUNT(*) FROM pre_forum_thread WHERE subject='${standardSubject}';"`).toString().trim();
@@ -584,7 +588,17 @@ const stubPusher = async targetContext => {
             assert.strictEqual(await deleteForm.count(), 1, 'Assertion Error: Post deletion confirmation form did not render.');
             const deleteSubmit = deleteForm.locator('#postdeletesubmit');
             assert.strictEqual(await deleteSubmit.count(), 1, 'Assertion Error: Post deletion confirmation button did not render.');
-            await deleteSubmit.click();
+            const expectedDeletePusherTabId = await page.evaluate(() => window.KK_PUSHER_TAB_ID || '');
+            assert.ok(expectedDeletePusherTabId, 'Assertion Error: Post deletion page did not provide a Pusher tab token.');
+            const [deleteRequest] = await Promise.all([
+                page.waitForRequest(request =>
+                    request.method() === 'POST' &&
+                    request.url().includes('forum.php?mod=misc&action=postdelete')
+                ),
+                deleteSubmit.click()
+            ]);
+            const deleteRequestBody = deleteRequest.postData() || '';
+            assert.ok(deleteRequestBody.includes('pusher_tab_id') && deleteRequestBody.includes(expectedDeletePusherTabId), 'Assertion Error: Post deletion request did not send the Pusher tab token to PHP.');
             await page.waitForURL(new RegExp(`mod=viewthread&tid=${tidOutput}`));
 
             const deletedPostCheck = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT COUNT(*) FROM pre_forum_post WHERE tid='${tidOutput}' AND pid='${deletableReplyPid}';"`).toString().trim();

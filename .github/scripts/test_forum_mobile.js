@@ -142,8 +142,10 @@ const { reportCiFailure } = require('./report_ci_failure');
         await page.screenshot({ path: 'screenshot_mobile_01_registered.png' });
 
         const dbScalar = sql => execSync(`sudo mysql -u root ultrax -N -s -e "${sql}"`).toString().trim();
-        const clickForResponse = async (control, predicate, label) => {
+        const clickForResponse = async (control, predicate, label, verifyPusherTabId = false) => {
             assert.strictEqual(await control.count(), 1, `Assertion Error: ${label} control did not render exactly once.`);
+            const expectedPusherTabId = verifyPusherTabId ? await page.evaluate(() => window.KK_PUSHER_TAB_ID || '') : '';
+            if(verifyPusherTabId) assert.ok(expectedPusherTabId, `Assertion Error: ${label} page did not provide a Pusher tab token.`);
             const [response] = await Promise.all([
                 page.waitForResponse(predicate),
                 control.click(),
@@ -152,6 +154,10 @@ const { reportCiFailure } = require('./report_ci_failure');
                 response.ok() || (response.status() >= 300 && response.status() < 400),
                 `Assertion Error: ${label} request failed with HTTP ${response.status()}.`
             );
+            if(verifyPusherTabId) {
+                const requestBody = response.request().postData() || '';
+                assert.ok(requestBody.includes('pusher_tab_id') && requestBody.includes(expectedPusherTabId), `Assertion Error: ${label} request did not send the Pusher tab token to PHP.`);
+            }
             return response;
         };
         const waitForDbValue = async (sql, expected, message) => {
@@ -334,7 +340,8 @@ const { reportCiFailure } = require('./report_ci_failure');
         await clickForResponse(
             mobileThreadSubmit,
             response => response.request().method() === 'POST' && response.url().includes('forum.php?mod=post'),
-            'Mobile thread submit'
+            'Mobile thread submit',
+            true
         );
         await waitForDbValue(`SELECT COUNT(*) FROM pre_forum_thread WHERE subject='${subject}'`, '1', 'Assertion Error: Mobile thread was not created');
         const tid = dbScalar(`SELECT tid FROM pre_forum_thread WHERE subject='${subject}' ORDER BY tid DESC LIMIT 1`);
@@ -383,7 +390,8 @@ const { reportCiFailure } = require('./report_ci_failure');
         await clickForResponse(
             mobileNonImageSubmit,
             response => response.request().method() === 'POST' && response.url().includes('forum.php?mod=post'),
-            'Mobile non-image thread submit'
+            'Mobile non-image thread submit',
+            true
         );
         await page.waitForURL(/forum\.php\?mod=viewthread/, { timeout: 5000 });
         await page.waitForLoadState('networkidle');
@@ -406,7 +414,8 @@ const { reportCiFailure } = require('./report_ci_failure');
         await clickForResponse(
             mobileReplySubmit,
             response => response.request().method() === 'POST' && response.url().includes('forum.php?mod=post&action=reply'),
-            'Mobile reply submit'
+            'Mobile reply submit',
+            true
         );
         await page.waitForURL(/forum\.php\?mod=viewthread/, { timeout: 5000 });
         await page.waitForLoadState('networkidle');
@@ -431,7 +440,8 @@ const { reportCiFailure } = require('./report_ci_failure');
         await clickForResponse(
             mobileEditSubmit,
             response => response.request().method() === 'POST' && response.url().includes('forum.php?mod=post&action=edit'),
-            'Mobile edit submit'
+            'Mobile edit submit',
+            true
         );
         await page.waitForURL(/forum\.php\?mod=viewthread/, { timeout: 5000 });
         await page.waitForLoadState('networkidle');
