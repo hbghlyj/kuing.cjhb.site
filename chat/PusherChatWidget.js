@@ -53,18 +53,9 @@
     #broadcast;
     #realPusher = null;
     #isLeader = false;
-    #lockRelease = null;
-    #lockRequested = false;
-    #lockAbortController = null;
-    #lockRequestId = 0;
-    #stealRequested = false;
-    #usesLockManager = false;
     #peers = new Map();
     #heartbeatTimer = null;
     #fallbackDiscoveryTimers = [];
-    #leaderHeartbeatTimer = null;
-    #leaderLivenessTimer = null;
-    #lastLeaderHeartbeat = Date.now();
     #subscriptionReady = false;
     #connectionState = 'disconnected';
     connection = new EventDispatcher();
@@ -79,20 +70,14 @@
         this.#becomeLeader();
         return;
       }
-      this.#usesLockManager = 'locks' in navigator;
       this.#broadcast = new BroadcastChannel('kuing-pusher-events-v1');
       this.#broadcast.addEventListener('message', event => this.#receive(event.data));
       window.addEventListener('beforeunload', () => this.#releaseLeader());
-      if(this.#usesLockManager) {
-        this.#leaderLivenessTimer = window.setInterval(() => this.#checkLockLeaderLiveness(), 2000);
-        this.#electLeader();
-      } else {
-        this.#startFallbackDiscovery();
-        this.#heartbeatTimer = window.setInterval(() => {
-          this.#announcePresence();
-          this.#electFallbackLeader();
-        }, 1000);
-      }
+      this.#startFallbackDiscovery();
+      this.#heartbeatTimer = window.setInterval(() => {
+        this.#announcePresence();
+        this.#electFallbackLeader();
+      }, 1000);
       this.#post({type: 'state-request', tabId: this.#tabId});
     }
     subscribe(){
@@ -119,9 +104,6 @@
     #post(message){
       this.#broadcast?.postMessage(message);
     }
-    #electLeader(){
-      this.#requestLeaderLock();
-    }
     #announcePresence(){
       this.#post({type: 'leader-presence', tabId: this.#tabId});
     }
@@ -138,7 +120,6 @@
       this.#fallbackDiscoveryTimers = [];
     }
     #electFallbackLeader(){
-      if(this.#usesLockManager) return;
       const cutoff = Date.now() - 3500;
       this.#peers.forEach((seenAt, tabId) => {
         if(seenAt < cutoff) this.#peers.delete(tabId);
@@ -150,60 +131,9 @@
         this.#becomeFollower();
       }
     }
-    #requestLeaderLock(){
-      if(this.#isLeader || this.#lockRequested) return;
-      this.#lockRequested = true;
-      this.#lockAbortController = new AbortController();
-      this.#claimLeaderLock({mode: 'exclusive', signal: this.#lockAbortController.signal});
-    }
-    #claimLeaderLock(options){
-      const requestId = ++this.#lockRequestId;
-      navigator.locks.request('kuing-pusher-leader-v1', options, lock => {
-        if(requestId !== this.#lockRequestId) return;
-        const stoleLeadership = this.#stealRequested;
-        this.#stealRequested = false;
-        this.#lockAbortController = null;
-        this.#lockRequested = true;
-        this.#becomeLeader();
-        if(stoleLeadership) this.#post({type: 'leader-stolen', tabId: this.#tabId});
-        return new Promise(resolve => {
-          this.#lockRelease = () => {
-            this.#lockRelease = null;
-            this.#lockRequested = false;
-            this.#becomeFollower();
-            resolve();
-          };
-        });
-      }).catch(() => {
-        if(requestId !== this.#lockRequestId) return;
-        this.#lockAbortController = null;
-        this.#lockRequested = false;
-        this.#becomeFollower();
-      });
-    }
-    #checkLockLeaderLiveness(){
-      if(!this.#usesLockManager || this.#isLeader || this.#stealRequested || Date.now() - this.#lastLeaderHeartbeat < 8000) return;
-      this.#lastLeaderHeartbeat = Date.now();
-      this.#stealRequested = true;
-      this.#lockAbortController?.abort();
-      this.#lockAbortController = null;
-      this.#lockRequested = false;
-      this.#claimLeaderLock({mode: 'exclusive', steal: true});
-    }
-    #startLeaderHeartbeat(){
-      if(!this.#usesLockManager) return;
-      const beat = () => this.#post({type: 'leader-heartbeat', tabId: this.#tabId});
-      beat();
-      this.#leaderHeartbeatTimer = window.setInterval(beat, 2000);
-    }
-    #stopLeaderHeartbeat(){
-      if(this.#leaderHeartbeatTimer) window.clearInterval(this.#leaderHeartbeatTimer);
-      this.#leaderHeartbeatTimer = null;
-    }
     #becomeLeader(){
       if(this.#isLeader) return;
       this.#isLeader = true;
-      this.#startLeaderHeartbeat();
       this.#realPusher = new Pusher(this.#appKey, this.#options);
       ['connected', 'connecting', 'unavailable', 'state_change'].forEach(event => {
         this.#realPusher.connection.bind(event, data => this.#emitConnection(event, data, true));
@@ -222,7 +152,6 @@
     #becomeFollower(){
       if(!this.#isLeader) return;
       this.#isLeader = false;
-      this.#stopLeaderHeartbeat();
       this.#realPusher?.disconnect();
       this.#realPusher = null;
       this.#subscriptionReady = false;
@@ -242,25 +171,19 @@
     }
     #receive(message){
       if(!message || message.tabId === this.#tabId) return;
-      if(message.type === 'leader-heartbeat') {
-        this.#lastLeaderHeartbeat = Date.now();
-      } else if(message.type === 'leader-presence') {
+      if(message.type === 'leader-presence') {
         this.#peers.set(message.tabId, Date.now());
         this.#electFallbackLeader();
       } else if(message.type === 'event') {
-        this.#lastLeaderHeartbeat = Date.now();
         if(message.event === 'pusher:subscription_succeeded') this.#subscriptionReady = true;
         this.#channel.emit(message.event, message.data);
       } else if(message.type === 'connection') {
-        this.#lastLeaderHeartbeat = Date.now();
         this.#connectionState = message.state;
         this.#emitConnection(message.event, message.data, false);
       } else if(message.type === 'leader-released') {
         this.#peers.delete(message.tabId);
         this.#emitConnection('connecting', {}, false);
         this.#electFallbackLeader();
-      } else if(message.type === 'leader-stolen' && this.#usesLockManager && this.#isLeader) {
-        this.#releaseLeader();
       } else if(message.type === 'state-request') {
         this.#announcePresence();
         if(this.#isLeader) {
@@ -272,15 +195,9 @@
     #releaseLeader(requeue = false){
       if(!requeue) {
         if(this.#heartbeatTimer) window.clearInterval(this.#heartbeatTimer);
-        if(this.#leaderLivenessTimer) window.clearInterval(this.#leaderLivenessTimer);
         this.#clearFallbackDiscovery();
       }
       if(this.#isLeader) this.#post({type: 'leader-released', tabId: this.#tabId});
-      if(this.#lockRelease) {
-        this.#lockRelease();
-        if(requeue) window.setTimeout(() => this.#electLeader(), 0);
-        return;
-      }
       this.#becomeFollower();
       if(requeue) window.setTimeout(() => this.#electFallbackLeader(), 0);
     }
