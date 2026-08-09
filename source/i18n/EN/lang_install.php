@@ -237,7 +237,6 @@ $lang = array(
 	'init_link'		=> 'Discuz! Official forum',//'Discuz! 官方论坛',
 	'init_link_note'	=> 'To provide the latest Discuz! Product news, software downloads and technical exchanges',//'提供最新 Discuz! 产品新闻、软件下载与技术交流',
 
-	'init_promotion_task'	=> 'Website promotion task',//'网站推广任务',
 	'init_gift_task'	=> 'Init Gift Task',//'红包类任务',
 	'init_avatar_task'	=> 'Avatar Task',//'头像类任务',
 

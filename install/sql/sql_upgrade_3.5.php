@@ -1,4 +1,20 @@
 <?php exit('Access Denied');?>
+
+DELETE FROM pre_common_credit_rule
+WHERE action IN ('promotion_visit', 'promotion_register');
+
+DELETE FROM pre_common_cron
+WHERE filename = 'cron_promotion_hourly.php';
+
+DELETE taskvar
+FROM pre_common_taskvar AS taskvar
+INNER JOIN pre_common_task AS task ON task.taskid = taskvar.taskid
+WHERE task.scriptname = 'promotion';
+
+DELETE FROM pre_common_task
+WHERE scriptname = 'promotion';
+
+DROP TABLE IF EXISTS pre_forum_promotion;
 ALTER TABLE pre_common_member
 	MODIFY username char (50) NOT NULL DEFAULT '';
 
@@ -25,9 +41,6 @@ ALTER TABLE pre_forum_groupuser
 
 ALTER TABLE pre_forum_pollvoter
 	MODIFY username varchar (50) NOT NULL DEFAULT '';
-
-ALTER TABLE pre_forum_promotion
-	MODIFY username char (50) NOT NULL DEFAULT '';
 
 ALTER TABLE pre_forum_threadmod
 	MODIFY username char (50) NOT NULL DEFAULT '';

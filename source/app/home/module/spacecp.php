@@ -16,7 +16,7 @@ require_once libfile('function/magic');
 $acs = ['doing', 'upload', 'comment', 'blog', 'album', 'common', 'class',
 	'poke', 'friend', 'eccredit', 'favorite', 'follow', 'attention',
 	'avatar', 'profile', 'theme', 'feed', 'privacy', 'pm', 'share', 'invite', 'sendmail',
-	'credit', 'payment', 'usergroup', 'domain', 'click', 'magic', 'top', 'index', 'plugin', 'search', 'promotion', 'account'];
+	'credit', 'payment', 'usergroup', 'domain', 'click', 'magic', 'top', 'index', 'plugin', 'search', 'account'];
 
 $_GET['ac'] = $ac = (empty($_GET['ac']) || !in_array($_GET['ac'], $acs)) ? 'profile' : $_GET['ac'];
 $op = empty($_GET['op']) ? '' : $_GET['op'];

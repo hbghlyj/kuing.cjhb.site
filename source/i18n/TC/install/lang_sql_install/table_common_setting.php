@@ -362,12 +362,6 @@ $data = [[
       'search' => 
       [
       ],
-      'promotion_visit' => 
-      [
-      ],
-      'promotion_register' => 
-      [
-      ],
       'tradefinished' => 
       [
       ],

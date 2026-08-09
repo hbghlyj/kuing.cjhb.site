@@ -119,12 +119,6 @@ if(!empty($_SERVER['QUERY_STRING']) && is_numeric($_SERVER['QUERY_STRING'])) {
 	}
 }
 if(!empty($url)) {
-	$delimiter = strrpos($url, '?') ? '&' : '?';
-	if(isset($_GET['fromuid']) && $_GET['fromuid']) {
-		$url .= sprintf('%sfromuid=%d', $delimiter, $_GET['fromuid']);
-	} elseif(isset($_GET['fromuser']) && $_GET['fromuser']) {
-		$url .= sprintf('%sfromuser=%s', $delimiter, rawurlencode($_GET['fromuser']));
-	}
 	$parse = parse_url($url);
 	if(!$jump && !isset($parse['host']) && preg_match('/^[\w-]+\.php$/i', $parse['path'])) {
 		$app = str_replace('.php', '', $parse['path']);

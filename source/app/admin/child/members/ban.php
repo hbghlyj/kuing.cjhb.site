@@ -404,8 +404,6 @@ EOF;
 			// 打招呼清理
 			table_home_poke::t()->delete_by_uid_or_fromuid($member['uid']);
 			table_home_pokearchive::t()->delete_by_uid_or_fromuid($member['uid']);
-			// 论坛推广清理
-			table_forum_promotion::t()->delete_by_uid($member['uid']);
 		}
 
 		if(in_array('avatar', $_GET['clear'])) {

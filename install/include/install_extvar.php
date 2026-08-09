@@ -29,10 +29,6 @@ $settings = array(
 	),
 
 	'tasktypes' => array(
-		'promotion' => array(
-			'name' => $lang['init_promotion_task'],
-			'version' => '1.0',
-		),
 		'gift' => array(
 			'name' => $lang['init_gift_task'],
 			'version' => '1.0',

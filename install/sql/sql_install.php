@@ -3106,16 +3106,6 @@ CREATE TABLE pre_forum_poststick
 	KEY dateline (tid, dateline)
 ) ENGINE = InnoDB;
 
-DROP TABLE IF EXISTS pre_forum_promotion;
-CREATE TABLE pre_forum_promotion
-(
-	ip       varchar(45)           NOT NULL DEFAULT '',
-	`port`   smallint(6) unsigned  NOT NULL DEFAULT '0',
-	uid      mediumint(8) unsigned NOT NULL DEFAULT '0',
-	username char(50)              NOT NULL DEFAULT '',
-	PRIMARY KEY (ip)
-) ENGINE = InnoDB;
-
 DROP TABLE IF EXISTS pre_forum_replycredit;
 CREATE TABLE pre_forum_replycredit
 (

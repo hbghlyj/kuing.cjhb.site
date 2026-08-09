@@ -67,18 +67,6 @@ $data = [[
     'hour' => '-1',
     'minute' => '0',
   ],[
-    'cronid' => '7',
-    'available' => '1',
-    'type' => 'system',
-    'name' => '論壇推廣清理',
-    'filename' => 'cron_promotion_hourly.php',
-    'lastrun' => '1269746629',
-    'nextrun' => '1269792000',
-    'weekday' => '-1',
-    'day' => '-1',
-    'hour' => '0',
-    'minute' => '00',
-  ],[
     'cronid' => '8',
     'available' => '1',
     'type' => 'system',

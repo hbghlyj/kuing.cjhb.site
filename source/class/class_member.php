@@ -427,7 +427,6 @@ class register_ctl {
 		}
 
 		list($seccodecheck, $secqaacheck) = seccheck('register');
-		$fromuid = !empty($_G['cookie']['promotion']) && $this->setting['creditspolicy']['promotion_register'] ? intval($_G['cookie']['promotion']) : 0;
 		$username = $_GET['username'] ?? '';
 		$bbrulehash = $bbrules ? substr(md5(FORMHASH), 0, 8) : '';
 
@@ -455,15 +454,6 @@ class register_ctl {
 		if(!submitcheck('regsubmit', 0, $seccodecheck, $secqaacheck)) {
 
 			if(!$sendurl) {
-
-				if($fromuid) {
-					$member = getuserbyuid($fromuid);
-					if(!empty($member)) {
-						$fromuser = dhtmlspecialchars($member['username']);
-					} else {
-						dsetcookie('promotion');
-					}
-				}
 
 				if($seccodecheck) {
 					$seccode = random(6, 1);
@@ -816,10 +806,6 @@ class register_ctl {
 				}
 			}
 
-			if($fromuid) {
-				updatecreditbyaction('promotion_register', $fromuid);
-				dsetcookie('promotion', '');
-			}
 			dsetcookie('loginuser', '');
 			dsetcookie('invite_auth', '');
 

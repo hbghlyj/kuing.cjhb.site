@@ -170,7 +170,6 @@ $lang = array
 	'title_memcp_videophoto'	=> 'Video Authentication',//'视频认证',
 	'title_memcp_comment'		=> 'Comments',//'评论',
 	'title_memcp_eccredit'		=> 'Points Transactions',//'信用评价',
-	'title_memcp_promotion'		=> 'Access Promotion',//'访问推广',
 	'title_task'			=> 'Tasks',//'任务',
 	'title_login'			=> 'Login',//'登录',
 	'title_ranklist_picture'	=> 'Image Ranks',//'图片排行',

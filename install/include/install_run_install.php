@@ -390,6 +390,22 @@ if($method == 'show_license') {
 		exit();
 	}
 
+	foreach(['creditspolicy', 'tasktypes'] as $settingKey) {
+		$settingRow = [];
+		$db->fetch_first("SELECT svalue FROM {$tablepre}common_setting WHERE skey='{$settingKey}'", $settingRow);
+		$settingValue = !empty($settingRow['svalue']) ? @unserialize($settingRow['svalue']) : [];
+		if(!is_array($settingValue)) {
+			continue;
+		}
+		if($settingKey == 'creditspolicy') {
+			unset($settingValue['promotion_visit'], $settingValue['promotion_register']);
+		} else {
+			unset($settingValue['promotion']);
+		}
+		$serializedSetting = $db->escape_string(serialize($settingValue));
+		$db->query("UPDATE {$tablepre}common_setting SET svalue='{$serializedSetting}' WHERE skey='{$settingKey}'");
+	}
+
 	$logSettingRow = [];
 	$db->fetch_first("SELECT svalue FROM {$tablepre}common_setting WHERE skey='log'", $logSettingRow);
 	$logSetting = !empty($logSettingRow['svalue']) ? @unserialize($logSettingRow['svalue']) : [];

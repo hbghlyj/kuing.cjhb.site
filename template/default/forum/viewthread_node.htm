@@ -136,7 +136,7 @@ $postshowavatars = !($_G['setting']['bannedmessages'] & 2 && ($post['memberstatu
 					<a href="forum.php?mod=misc&action=viewwarning&tid=$_G[tid]&uid=$post[authorid]" title="{lang warn_get}" class="y warnicon" onclick="showWindow('viewwarning', this.href)"></a>
 				<!--{/if}-->
 				<strong>
-					<a href="forum.php?mod=redirect&goto=findpost&pid=$post[pid]&ptid=$_G[tid]$fromuid"  {if $fromuid}title="{lang share_url_copy_comment}"{/if} id="postnum$post[pid]" onclick="setCopy(this.href, '<i class=&quot;fico-link fic4 fc-s vm&quot; aria-hidden=&quot;true&quot;></i> {lang post_copied}');return false;"><i class="fico-link fic4 fc-s vm" aria-hidden="true"></i>
+					<a href="forum.php?mod=redirect&goto=findpost&pid=$post[pid]&ptid=$_G[tid]" id="postnum$post[pid]" onclick="setCopy(this.href, '<i class=&quot;fico-link fic4 fc-s vm&quot; aria-hidden=&quot;true&quot;></i> {lang post_copied}');return false;"><i class="fico-link fic4 fc-s vm" aria-hidden="true"></i>
 						<!--{if isset($post[isstick])}-->
 							<em title="{lang replystick}" class="replystick vm">{lang replystick_icon}</em> {lang from} {$post[number]}{$postnostick}
 						<!--{elseif $post[number] == -1}-->
@@ -279,7 +279,7 @@ $postshowavatars = !($_G['setting']['bannedmessages'] & 2 && ($post['memberstatu
 						<a class="sharep" href="home.php?mod=spacecp&ac=share&type=thread&id=$_G[tid]" onclick="showWindow('sharethread', this.href, 'get', 0);" title="{lang share_digest}"><i><em class="fico-share fc-p" title="{lang thread_share}"></em>{lang thread_share}<!--{if $_G['forum_thread']['sharetimes']}--><span id="sharenumber">{$_G['forum_thread']['sharetimes']}</span><!--{/if}--></i></a>
 					<!--{/if}-->
 					<!--{if $post['first'] && !IS_ROBOT}-->
-						<a href="forum.php?mod=viewthread&tid=$_G[tid]$fromuid" id="threadshare" onclick="return shareThreadUrl(this, '$_G[setting][bbname]')" title="{lang share_url_share}"><i><em class="fico-share fc-p" title="{lang share_url_share}"></em>{lang share_url_share}</i></a>
+						<a href="forum.php?mod=viewthread&tid=$_G[tid]" id="threadshare" onclick="return shareThreadUrl(this, '$_G[setting][bbname]')" title="{lang share_url_share}"><i><em class="fico-share fc-p" title="{lang share_url_share}"></em>{lang share_url_share}</i></a>
 					<!--{/if}-->
 
 					<!--{if !$_G['forum']['disablecollect'] && helper_access::check_module('collection')}-->

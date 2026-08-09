@@ -168,7 +168,6 @@ $lang =
 	'title_memcp_poke' => '打招呼',
 	'title_memcp_comment' => '評論',
 	'title_memcp_eccredit' => '信用評價',
-	'title_memcp_promotion' => '訪問推廣',
 	'title_task' => '任務',
 	'title_login' => '登入',
 	'title_getpasswd' => '找回密碼',

@@ -250,7 +250,6 @@ $lang = [
 	'init_link' => 'Discuz! 官方论坛',
 	'init_link_note' => '提供最新 Discuz! 产品新闻、软件下载与技术交流',
 
-	'init_promotion_task' => '网站推广任务',
 	'init_gift_task' => '红包类任务',
 	'init_avatar_task' => '头像类任务',
 

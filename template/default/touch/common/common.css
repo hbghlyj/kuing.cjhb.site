@@ -646,17 +646,6 @@ a.editlog:focus {color:var(--dz-BG-color);border-color:var(--dz-BG-color);}
 .usergroup-form .perm-compare-val .nwp {margin:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:100%;}
 .usergroup-form .perm-compare-val p {margin:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:100%;}
 
-/*----- 推广表单 -----*/
-.promotion-form .promotion-info {padding:15px;background:var(--dz-BG-0);border-bottom:1px solid var(--dz-BOR-ed);}
-.promotion-form .promotion-info-item {padding:10px 12px;background:var(--dz-BG-5);border:1px dashed var(--dz-BOR-ed);border-radius:var(--dz-radius-sm);font-size:13px;color:var(--dz-FC-666);line-height:1.6;margin-bottom:8px;}
-.promotion-form .promotion-info-item:last-child {margin-bottom:0;}
-.promotion-form .promotion-info-item .xi1 {color:var(--dz-BG-2);}
-.promotion-form .promotion-row-block {flex-direction:column;align-items:flex-start;}
-.promotion-form .promotion-row-block .form-label {width:100%;line-height:1.4;margin-bottom:8px;}
-.promotion-form .promotion-row-block .form-field {width:100%;}
-.promotion-form .promotion-row-block .px {width:100%;margin-bottom:8px;}
-.promotion-form .promotion-row-block .pn {width:100%;height:40px;line-height:40px;font-size:14px;border-radius:var(--dz-radius-sm);}
-
 /*----- 验证表单 -----*/
 .validate-form .form-row {padding:12px 15px;}
 .validate-form .form-label {width:100px;}

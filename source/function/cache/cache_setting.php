@@ -120,8 +120,6 @@ function build_cache_setting() {
 		}
 	}
 
-	$data['creditspolicy'] = array_merge($data['creditspolicy'], get_cachedata_setting_creditspolicy());
-
 	if($data['heatthread']['iconlevels']) {
 		$data['heatthread']['iconlevels'] = explode(',', $data['heatthread']['iconlevels']);
 		arsort($data['heatthread']['iconlevels']);
@@ -584,20 +582,6 @@ function build_cache_setting() {
 
 function build_cache_setting_callback_hexdec_123($matches) {
 	return hexdec($matches[1]).','.hexdec($matches[2]).','.hexdec($matches[3]);
-}
-
-function get_cachedata_setting_creditspolicy() {
-	$data = [];
-	foreach(table_common_credit_rule::t()->fetch_all_by_action(['promotion_visit', 'promotion_register']) as $creditrule) {
-		$ruleexist = false;
-		for($i = 1; $i <= 8; $i++) {
-			if($creditrule['extcredits'.$i]) {
-				$ruleexist = true;
-			}
-		}
-		$data[$creditrule['action']] = $ruleexist;
-	}
-	return $data;
 }
 
 function child_data($pluginid, &$childSetting) {
