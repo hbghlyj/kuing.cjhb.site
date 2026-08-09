@@ -344,6 +344,7 @@ const stubPusher = async targetContext => {
                 response.request().method() === 'POST' &&
                 response.url().includes('member.php?mod=register')
             ),
+            page.waitForNavigation({ waitUntil: 'domcontentloaded' }),
             regSubmitBtn.click()
         ]);
         assert.ok(
@@ -362,7 +363,7 @@ const stubPusher = async targetContext => {
         }
         assert.strictEqual(dbCheck, '1', 'Assertion Error: Registered user does not exist in database.');
 
-        await page.goto('http://127.0.0.1:8080/home.php?mod=spacecp');
+        await page.waitForURL(url => url.href.includes('home.php?mod=spacecp'));
         const spaceUrl = await page.url();
         assert.ok(spaceUrl.includes('mod=spacecp') && !spaceUrl.includes('mod=logging'), 'Assertion Error: Registration did not establish an authenticated session.');
         const domContent = await page.textContent('body');

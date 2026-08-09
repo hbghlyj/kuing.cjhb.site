@@ -89,9 +89,11 @@ const { execSync } = require('child_process');
                 registrationContentType = request.headers()['content-type'] || '';
             }
         });
-        const registrationResponse = page.waitForResponse(response => response.request().method() === 'POST' && response.url().includes('member.php?mod=register'));
-        await regSubmitBtn.click();
-        const submittedRegistration = await registrationResponse;
+        const [submittedRegistration] = await Promise.all([
+            page.waitForResponse(response => response.request().method() === 'POST' && response.url().includes('member.php?mod=register')),
+            page.waitForNavigation({ waitUntil: 'domcontentloaded' }),
+            regSubmitBtn.click(),
+        ]);
         const getSubmittedField = name => {
             if(registrationContentType.includes('multipart/form-data')) {
                 const escapedName = name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -129,7 +131,7 @@ const { execSync } = require('child_process');
             });
         }
 
-        await page.goto('http://127.0.0.1:8080/home.php?mod=spacecp');
+        await page.waitForURL(url => url.href.includes('home.php?mod=spacecp'));
         await page.waitForLoadState('networkidle');
         assert.ok(await page.$('.header'), 'Assertion Error: Authenticated mobile page did not render the touch header.');
         assert.ok((await page.textContent('body')).includes(username), 'Assertion Error: Mobile registration did not establish a logged-in session.');
