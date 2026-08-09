@@ -90,7 +90,7 @@ Last Modify:	Pony
 */
 	body { {BGCODE}; }
 	textarea { resize: vertical; }
-	body, button, select { font: {FONTSIZE} "Google Sans"; color: {TABLETEXT}; }
+	body, button, select { font: {FONTSIZE} "Google Sans", sans-serif; color: {TABLETEXT}; }
 	input, textarea { font: {FONTSIZE} monospace,zh; color: {TABLETEXT}; }
 	* { overflow-wrap: break-word; }
 	body, ul, ol, li, dl, dd, p, h1, h2, h3, h4, h5, h6, form, fieldset, .pr, .pc { margin: 0; padding: 0; }
@@ -1618,7 +1618,7 @@ Last Modify:	Pony
 		.rfm th { padding-right: 10px; text-align: right; }
 		.rfm .px { width: 220px; }
 		.rfm .p_tip { position: absolute; z-index: 2; display: none; padding-left: 10px; width: 390px; background: {WRAPBG}; color: {MIDTEXT}; font-style: normal; }
-		.rfm .p_chk { position: absolute; z-index: 1; padding-left: 10px; width: 390px; color: red; font-weight: bold; font-family: "Google Sans"; }
+		.rfm .p_chk { position: absolute; z-index: 1; padding-left: 10px; width: 390px; color: red; font-weight: bold; font-family: "Google Sans", sans-serif; }
 		.rfm #emailmore { position: absolute; }
 		.p_right { width: 30px; }
 		.p_right:after { content: "\f115"; font-family: dzicon; font-size: 16px; margin-left: 8px; color: #7CBE00; line-height: 16px; }
@@ -1646,7 +1646,7 @@ Last Modify:	Pony
 
 .blr { width: 580px; margin: 20px auto 30px; }
 	.m_c .blr { margin: 0 auto; }
-.lgfm { font: {FONTSIZE} "Google Sans"; float: left; margin-bottom: 10px; padding: 20px 0; width: 280px; border-right: 1px solid #CCC; }
+.lgfm { font: {FONTSIZE} "Google Sans", sans-serif; float: left; margin-bottom: 10px; padding: 20px 0; width: 280px; border-right: 1px solid #CCC; }
 	.rgs { margin-bottom: 10px; }
 	.lgfm label, .lgfm p, .reginfo { clear: both; display: block; margin-bottom: 10px; line-height: 22px; }
 		/* 自定义的注册信息 */
