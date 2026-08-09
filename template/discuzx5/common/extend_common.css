@@ -643,7 +643,7 @@ img{border:none;}
 	display: inline-flex;
 	align-items: center;
 	gap: 4px;
-	background: rgba(0, 0, 0, 0.03);
+	background: var(--dz-bgf, #fff);
 	border: 1px solid var(--dz-borderb, #e5e7eb);
 	border-radius: 6px;
 	padding: 2px 10px;
@@ -661,7 +661,6 @@ img{border:none;}
 .lang-selector-trigger:focus {
 	border-color: #0066ff;
 	color: #0066ff;
-	background: rgba(0, 102, 255, 0.06);
 }
 
 .lang-selector-trigger .lang-chevron {
