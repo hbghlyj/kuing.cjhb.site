@@ -184,8 +184,7 @@ function parseattach($attachpids, $attachtags, &$postlist, $skipaids = array()) 
 function attachwidth($width) {
 	global $_G;
 	if($_G['setting']['imagemaxwidth'] && $width) {
-		//return 'class="mw100 zoom" onclick="zoom(this, this.src, 0, 0, '.($_G['setting']['showexif'] ? 1 : 0).')" width="'.($width > $_G['setting']['imagemaxwidth'] ? $_G['setting']['imagemaxwidth'] : $width).'"';// kk add mw100 
-        return 'class="mw100 zoom"';// kk test jiaz onload="this.classList.remove(\'jiaz\')"
+		return 'class="mw100 zoom"';
 	} else {
 		return 'thumbImg="1"';
 	}
