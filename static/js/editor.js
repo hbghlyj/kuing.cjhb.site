@@ -1533,7 +1533,7 @@ function showEditorMenu(tag, params) {
 		var menu = document.createElement('div');
 		menu.id = ctrlid + '_menu';
 		menu.style.display = 'none';
-		menu.className = 'p_pof upf';
+		menu.className = 'p_pof' + (in_array(tag, ['attach', 'img']) ? ' upf' : '');
 		menu.style.width = menuwidth + 'px';
 		if(menupos == '00') {
 			menu.className = 'fwinmask';
