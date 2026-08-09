@@ -8,10 +8,11 @@
 <body id="nv_{$_G[basescript]}" class="pg_{CURMODULE} dz_pg_{CURMODULE}	dz_tbnvb {if $_G['basescript'] === 'portal' && CURMODULE === 'list' && !empty($cat)} {$cat['bodycss']}{/if} discuzx5" onkeydown="if(event.keyCode==27) return false;">
 <svg style="position: absolute; width: 0px; height: 0px;">
   <filter id="roughPaper">
-    <feTurbulence type="fractalNoise" baseFrequency="0.5" numOctaves="3" result="noise"></feTurbulence>
-    <feDiffuseLighting in="noise" lighting-color="#fffaf0" surfaceScale="0.5">
+    <feTurbulence type="fractalNoise" baseFrequency="0.05" numOctaves="3" result="noise"></feTurbulence>
+    <feDiffuseLighting in="noise" lighting-color="#fffaf0" surfaceScale="1" result="diffuse">
       <feDistantLight azimuth="45" elevation="60"></feDistantLight>
     </feDiffuseLighting>
+    <feComposite operator="arithmetic" k1="1" k2="0" k3="0" k4="0" in="SourceGraphic" in2="diffuse"></feComposite>
   </filter>
 </svg>
 	<a class="dz-skip-link" href="#wp">{lang skip_to_content}</a>
