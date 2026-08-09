@@ -28,10 +28,12 @@ class table_common_usergroup extends discuz_table {
 	}
 
 	public static function localize_row($row, $locale = '') {
-		if(!is_array($row)) {
+		if(!is_array($row) || !isset($row['grouptitle'])) {
 			return $row;
 		}
-		$row['grouptitle_i18n'] = i18n::decodeValue($row['grouptitle']);
+		if(empty($row['grouptitle_i18n']) || !is_array($row['grouptitle_i18n'])) {
+			$row['grouptitle_i18n'] = i18n::decodeValue($row['grouptitle']);
+		}
 		$row['grouptitle'] = i18n::localizeValue($row['grouptitle_i18n'], $locale);
 		return $row;
 	}
@@ -175,12 +177,6 @@ class table_common_usergroup extends discuz_table {
 		} else {
 			return DB::result_first($sql);
 		}
-	}
-
-	public function fetch_all($ids, $force_from_db = false) {
-
-			return $this->fetch_all_usergroup($ids);
-
 	}
 
 	public function fetch_all_usergroup($ids) {

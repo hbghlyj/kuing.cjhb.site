@@ -15,8 +15,8 @@ class helper_log {
 	public static function runlog($file, $message, $halt = 0) {
 		global $_G;
 
-		$nowurl = $_SERVER['REQUEST_URI'] ? $_SERVER['REQUEST_URI'] : ($_SERVER['PHP_SELF'] ? $_SERVER['PHP_SELF'] : $_SERVER['SCRIPT_NAME']);
-		if($_G['setting']['log'][$file]) {
+		$nowurl = $_SERVER['REQUEST_URI'] ?? ($_SERVER['PHP_SELF'] ?? ($_SERVER['SCRIPT_NAME'] ?? ''));
+		if(!empty($_G['setting']['log'][$file])) {
 			$errorlog = [
 				'timestamp' => TIMESTAMP,
 				'clientip' => $_G['clientip'],

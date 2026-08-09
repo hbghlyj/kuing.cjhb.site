@@ -341,6 +341,7 @@ class emailpost {
 				loadcache('admingroup_'.$member['adminid']);
 				$group = array_merge($group, $app->var['cache']['admingroup_'.$member['adminid']] ?? []);
 			}
+			$group['disablepostctrl'] = 1;
 			$app->var['member'] = $member;
 			$app->var['group'] = $group;
 			foreach(['uid', 'username', 'adminid', 'groupid'] as $key) {
