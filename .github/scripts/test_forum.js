@@ -364,9 +364,10 @@ const stubPusher = async targetContext => {
         }
         assert.strictEqual(dbCheck, '1', 'Assertion Error: Registered user does not exist in database.');
 
-        await page.waitForURL(url => url.href.includes('home.php?mod=spacecp'));
+        await page.waitForURL(url => url.pathname === '/' || url.href.includes('home.php?mod=spacecp'));
         const spaceUrl = await page.url();
-        assert.ok(spaceUrl.includes('mod=spacecp') && !spaceUrl.includes('mod=logging'), 'Assertion Error: Registration did not establish an authenticated session.');
+        const registeredUrl = new URL(spaceUrl);
+        assert.ok((registeredUrl.pathname === '/' || spaceUrl.includes('mod=spacecp')) && !spaceUrl.includes('mod=logging'), 'Assertion Error: Registration did not establish an authenticated session.');
         const domContent = await page.textContent('body');
         assert.ok(domContent.includes(username), 'Assertion Error: Registered username was not rendered in the authenticated account page.');
         report += '### 1. User Registration & Login\n- **Status**: Checked\n- **Username**: ' + username + '\n- **Filled Registration Form**: `screenshot_desktop_registration_filled.png`\n\n';

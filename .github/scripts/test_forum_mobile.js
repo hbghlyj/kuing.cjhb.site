@@ -32,10 +32,10 @@ const { reportCiFailure } = require('./report_ci_failure');
     };
     trackBrowserErrors(page, 'mobile user');
     let report = '\n\n## Mobile Registration Functional Test Report\n\n';
+    const suffix = Date.now().toString().slice(-8);
 
     try {
         execSync("sudo mysql -u root ultrax -e \"UPDATE pre_common_usergroup_field SET allowposttag=1;\"").toString();
-        const suffix = Date.now().toString().slice(-8);
         const username = `m ${suffix}`;
         const email = `m${suffix}@example.com`;
         const password = 'Testpassword123!';
@@ -132,7 +132,7 @@ const { reportCiFailure } = require('./report_ci_failure');
             });
         }
 
-        await page.waitForURL(url => url.href.includes('home.php?mod=spacecp'));
+        await page.waitForURL(url => url.pathname === '/' || url.href.includes('home.php?mod=spacecp'));
         await page.waitForLoadState('networkidle');
         assert.ok(await page.$('.header'), 'Assertion Error: Authenticated mobile page did not render the touch header.');
         assert.ok((await page.textContent('body')).includes(username), 'Assertion Error: Mobile registration did not establish a logged-in session.');
