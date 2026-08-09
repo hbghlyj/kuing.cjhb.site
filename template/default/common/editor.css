@@ -110,8 +110,8 @@ https://www.discuz.vip
 		.b2r #e_image	{ background-position: 0 -20px; }
 	#e_attach		{ background-position: -83px -80px; }
 		.b2r #e_attach	{ background-position: -200px -20px; }
-	#e_code			{ background-image: none; text-indent: 0; font-family: monospace; font-size: 13px; line-height: 20px; }
-	#e_inlinecode	{ background-image: none; text-indent: 0; font-family: monospace; font-size: 18px; line-height: 20px; }
+	#e_code			{ background: url({STATICURL}image/editor/dz_e_codeblock.svg) no-repeat center 3px; background-size: 18px; }
+	#e_inlinecode	{ background: url({STATICURL}image/editor/dz_e_code.svg) no-repeat center 3px; background-size: 18px; }
 	#e_quote		{ background-position: -163px -80px; }
 		.b2r #e_quote	{ background-position: -140px -20px; }
 	#e_pasteword		{ background-position: -60px -60px; }
