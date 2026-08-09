@@ -1,5 +1,6 @@
 const { chromium } = require('playwright');
 const fs = require('fs');
+const path = require('path');
 const assert = require('assert');
 const { execSync } = require('child_process');
 const { reportCiFailure } = require('./report_ci_failure');
@@ -37,6 +38,18 @@ const stubPusher = async targetContext => {
     }));
 };
 
+const assertPusherMetadataOrder = () => {
+    const templateFiles = fs.readdirSync('template', { recursive: true })
+        .filter(file => /\.(?:htm|php)$/.test(file));
+    for(const file of templateFiles) {
+        const source = fs.readFileSync(path.join('template', file), 'utf8');
+        const widgetIndex = source.indexOf('/chat/PusherChatWidget.js');
+        if(widgetIndex === -1) continue;
+        const metadataIndex = source.indexOf('/chat/PusherForumMetadata.js');
+        assert.ok(metadataIndex !== -1 && metadataIndex < widgetIndex, `Assertion Error: ${file} loads PusherChatWidget.js without preceding PusherForumMetadata.js.`);
+    }
+};
+
 const testPusherLeaderCoordination = async browser => {
     const pusherContext = await browser.newContext({
         userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
@@ -65,6 +78,7 @@ const testPusherLeaderCoordination = async browser => {
 };
 
 (async () => {
+    assertPusherMetadataOrder();
     const browser = await chromium.launch();
     const context = await browser.newContext({
         userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
