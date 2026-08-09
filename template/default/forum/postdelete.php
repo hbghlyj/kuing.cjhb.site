@@ -25,6 +25,18 @@
 		</div>
 	</div>
 </form>
+<!--{if !empty($_GET['infloat'])}-->
+<script type="text/javascript" reload="1">
+function succeedhandle_$_GET['handlekey'](locationhref, message, values) {
+	var post = $('pid' + values.pid);
+	if(post) {
+		post.remove();
+	}
+	hideWindow('$_GET['handlekey']');
+	showPrompt(null, null, message, 1500);
+}
+</script>
+<!--{/if}-->
 
 <!--{if empty($_GET['infloat'])}-->
 		</div>

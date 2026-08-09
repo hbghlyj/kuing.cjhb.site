@@ -19,8 +19,10 @@ if(submitcheck('postdeletesubmit')) {
 	require_once libfile('function/delete');
 
 	$visible_count = table_forum_post::t()->count_visiblepost_by_tid($post['tid']);
+	$thread_deleted = false;
 
 	if($post['first'] && $visible_count <= 1) {
+		$thread_deleted = true;
 		deletethread([$post['tid']], true, true);
 		updateforumcount($post['fid']);
 
@@ -51,7 +53,7 @@ if(submitcheck('postdeletesubmit')) {
 	}
 
 	if(!empty($_G['inajax'])) {
-		showmessage('postdelete_succeed', $url_forward, [], ['location' => true]);
+		showmessage('postdelete_succeed', $url_forward, ['pid' => $post['pid']], $thread_deleted ? ['location' => true] : []);
 	} else {
 		showmessage('postdelete_succeed', $url_forward);
 	}

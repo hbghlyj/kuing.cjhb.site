@@ -10,4 +10,13 @@
 		<dd><input type="submit" name="postdeletesubmit" id="postdeletesubmit"  value="{lang confirms}" class="formdialog button z"><a href="javascript:;" onclick="popup.close();" class="button y">{lang cancel}</a></dd>
 	</form>
 </div>
+<script type="text/javascript" reload="1">
+function succeedhandle_postdeleteform(locationhref, message, values) {
+	var post = document.getElementById('pid' + values.pid);
+	if(post) {
+		post.remove();
+	}
+	popup.open(message, 'alert');
+}
+</script>
 <!--{template common/footer}-->
