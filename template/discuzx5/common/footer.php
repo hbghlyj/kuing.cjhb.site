@@ -245,6 +245,7 @@ checkBlind();
 <style>.pusher-chat-widget{bottom:5px;right:5px;z-index:700;position:fixed;width:300px;}.pusher-chat-widget ul.activity-stream{max-height:400px;}</style>
 <script src="/chat/pusher.min.js"></script>
 <script>window.KK_PUSHER_TAB_ID = '$pusher_tab_token';</script>
+<script src="/chat/PusherForumMetadata.js?{VERHASH}"></script>
 <script src="/chat/PusherChatWidget.js?{VERHASH}"></script>
 <!--{/if}-->
 
