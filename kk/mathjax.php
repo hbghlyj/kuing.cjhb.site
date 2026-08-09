@@ -1,5 +1,5 @@
-<script src="/kk/mathjax-config.js?<?= VERHASH ?>"></script>
-<script src="/kk/mathjax-copy.js?<?= VERHASH ?>"></script>
+<script src="/static/js/mathjax-config.js?<?= VERHASH ?>"></script>
+<script src="/static/js/mathjax-copy.js?<?= VERHASH ?>"></script>
 <script>
   window.MathJax = window.MathJax || {};
   window.MathJax.startup = window.MathJax.startup || {};

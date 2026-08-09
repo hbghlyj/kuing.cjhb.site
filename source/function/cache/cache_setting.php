@@ -309,18 +309,68 @@ function build_cache_setting() {
 		$data['creditstransextra'][$i] = $data['creditstrans'] ? (!$data['creditstransextra'][$i] ? $data['creditstrans'] : $data['creditstransextra'][$i]) : 0;
 	}
 	$data['exchangestatus'] = $allowexchangein && $allowexchangeout;
+		$data['seccodedata']['width'] = 32;
+		$data['seccodedata']['height'] = 24;
+	}
+
+	$data['watermarktype'] = !empty($data['watermarktype']) ? dunserialize($data['watermarktype']) : [];
+	$data['watermarktext'] = !empty($data['watermarktext']) ? dunserialize($data['watermarktext']) : [];
+	foreach($data['watermarktype'] as $k => $v) {
+		if($data['watermarktype'][$k] == 'text' && $data['watermarktext']['text'][$k]) {
+			if($data['watermarktext']['text'][$k] && strtoupper(CHARSET) != 'UTF-8') {
+				$data['watermarktext']['text'][$k] = diconv($data['watermarktext']['text'][$k], CHARSET, 'UTF-8', true);
+			}
+			$data['watermarktext']['text'][$k] = bin2hex($data['watermarktext']['text'][$k]);
+			if(file_exists('source/data/seccode/font/en/'.$data['watermarktext']['fontpath'][$k])) {
+				$data['watermarktext']['fontpath'][$k] = 'source/data/seccode/font/en/'.$data['watermarktext']['fontpath'][$k];
+			} elseif(file_exists('source/data/seccode/font/ch/'.$data['watermarktext']['fontpath'][$k])) {
+				$data['watermarktext']['fontpath'][$k] = 'source/data/seccode/font/ch/'.$data['watermarktext']['fontpath'][$k];
+			} else {
+				$data['watermarktext']['fontpath'][$k] = 'source/data/seccode/font/'.$data['watermarktext']['fontpath'][$k];
+			}
+			$data['watermarktext']['color'][$k] = preg_replace_callback('/#?([0-9a-fA-F]{2})([0-9a-fA-F]{2})([0-9a-fA-F]{2})/', 'build_cache_setting_callback_hexdec_123', $data['watermarktext']['color'][$k]);
+			$data['watermarktext']['shadowcolor'][$k] = preg_replace_callback('/#?([0-9a-fA-F]{2})([0-9a-fA-F]{2})([0-9a-fA-F]{2})/', 'build_cache_setting_callback_hexdec_123', $data['watermarktext']['shadowcolor'][$k]);
+		} else {
+			$data['watermarktext']['text'][$k] = '';
+			$data['watermarktext']['fontpath'][$k] = '';
+			$data['watermarktext']['color'][$k] = '';
+			$data['watermarktext']['shadowcolor'][$k] = '';
+		}
+	}
+
+	$data['styles'] = [];
+	foreach(table_common_style::t()->fetch_all_data(false, 1) as $style) {
+		$data['styles'][$style['styleid']] = dhtmlspecialchars($style['name']);
+	}
+
+	$exchcredits = [];
+	$allowexchangein = $allowexchangeout = FALSE;
+	foreach((array)$data['extcredits'] as $id => $credit) {
+		$data['extcredits'][$id]['img'] = $credit['img'] ? '<img style="vertical-align:middle" src="'.$credit['img'].'" />' : '';
+		if(!empty($credit['ratio'])) {
+			$exchcredits[$id] = $credit;
+			$credit['allowexchangein'] && $allowexchangein = TRUE;
+			$credit['allowexchangeout'] && $allowexchangeout = TRUE;
+		}
+		$data['creditnotice'] && $data['creditnames'][] = str_replace("'", "\'", dhtmlspecialchars($id.'|'.$credit['title'].'|'.$credit['unit']));
+	}
+	$data['creditnames'] = $data['creditnotice'] ? @implode(',', $data['creditnames']) : '';
+
+	$creditstranssi = explode(',', $data['creditstrans']);
+	$data['creditstrans'] = $creditstranssi[0];
+	unset($creditstranssi[0]);
+	$data['creditstransextra'] = $creditstranssi;
+	for($i = 1; $i < 14; $i++) {
+		$data['creditstransextra'][$i] = $data['creditstrans'] ? (!$data['creditstransextra'][$i] ? $data['creditstrans'] : $data['creditstransextra'][$i]) : 0;
+	}
+	$data['exchangestatus'] = $allowexchangein && $allowexchangeout;
 	$data['transferstatus'] = isset($data['extcredits'][$data['creditstrans']]);
 
 	list($data['zoomstatus'], $data['imagemaxwidth']) = explode("\t", $data['zoomstatus']);
 	$data['imagemaxwidth'] = intval($data['imagemaxwidth']);
 
-	$siteurl = $_G['siteurl'];
-	$parsedSiteUrl = parse_url($siteurl);
-	if(empty($parsedSiteUrl['host']) && !empty($data['siteurl'])) {
-		$siteurl = $data['siteurl'];
-	}
-	$data['ucenterurl'] = rtrim($siteurl, '/').'/api/avatar';
-	$data['avatarurl'] = rtrim($siteurl, '/').'/data/avatar';
+	$data['ucenterurl'] = '/api/avatar';
+	$data['avatarurl'] = '/data/avatar';
 	$data['avatarpath'] = 'data/avatar/';
 
 	if($data['ftp']['on'] == 2 && $data['oss']['oss_avatar']) {
