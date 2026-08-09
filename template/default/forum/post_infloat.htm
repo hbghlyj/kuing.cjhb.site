@@ -124,6 +124,8 @@
 function succeedhandle_$_GET[action](locationhref, message) {
 	<!--{if in_array($_GET[action], array('newthread', 'reply'))}-->
 		location.href = locationhref;
+	<!--{elseif $_GET[action] == 'edit'}-->
+		ajaxget('forum.php?mod=viewthread&tid=$_G[tid]&viewpid=$pid', 'post_$pid', 'ajaxwaitid', '', null, "if (typeof MathJax !== 'undefined' && typeof MathJax.typesetPromise === 'function') {MathJax.texReset();MathJax.typesetPromise(['#pid$pid :is(div.pcb>h2, td.t_f)'])}");
 	<!--{/if}-->
 	hideWindow('$_GET[handlekey]' ? '$_GET[handlekey]' : '$_GET[action]');
 }

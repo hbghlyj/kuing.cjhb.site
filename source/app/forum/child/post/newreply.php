@@ -139,17 +139,12 @@ if($_G['setting']['commentnumber'] && !empty($_GET['comment'])) {
 		}
 	}
 	table_forum_postcache::t()->delete($post['pid']);
-	require_once DISCUZ_ROOT.'/vendor/autoload.php';
-	require_once DISCUZ_ROOT.'/chat/php/config.php';
-	$pusher = new \Pusher(APP_KEY, APP_SECRET, APP_ID, [
-		'cluster' => 'eu',
-		'useTLS' => true
-	]);
-	$pusher->trigger('Chat', 'commentadd', [
+	require_once libfile('function/pusher');
+	pusher_trigger_forum('commentadd', [
 		'tid' => $post['tid'],
 		'pid' => $post['pid'],
 		'uid' => $_G['uid']
-	]);
+	], getgpc('pusher_socket_id'));
 
 	showmessage('comment_add_succeed', "forum.php?mod=redirect&goto=findpost&tid={$post['tid']}&pid={$post['pid']}", ['tid' => $post['tid'], 'pid' => $post['pid']]);
 }
@@ -409,6 +404,7 @@ if(!submitcheck('replysubmit', 0, $seccodecheck, $secqaacheck)) {
 		'from' => getgpc('from'),
 		'sechash' => getgpc('sechash'),
 		'repid' => getgpc('reppid'),
+		'pusher_socket_id' => getgpc('pusher_socket_id'),
 	];
 
 	if(!empty($_GET['trade']) && $thread['special'] == 2 && $_G['group']['allowposttrade']) {

@@ -29,14 +29,8 @@ class extend_thread_base extends discuz_extend {
 	}
 
 	protected function trigger_chat_activity($event, array $payload) {
-		require_once DISCUZ_ROOT.'/vendor/autoload.php';
-		require_once DISCUZ_ROOT.'/chat/php/config.php';
-
-		$pusher = new \Pusher(APP_KEY, APP_SECRET, APP_ID, [
-			'cluster' => 'eu',
-			'useTLS' => true
-		]);
-		$pusher->trigger('Chat', $event, $payload);
+		require_once libfile('function/pusher');
+		pusher_trigger_forum($event, $payload, $this->param['pusher_socket_id'] ?? null);
 	}
 
 }

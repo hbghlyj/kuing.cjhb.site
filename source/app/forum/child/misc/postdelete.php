@@ -43,6 +43,12 @@ if(submitcheck('postdeletesubmit')) {
 			'old_content' => $post['content'],
 		]);
 		deletepost([$post['pid']], 'pid', true);
+		require_once libfile('function/pusher');
+		pusher_trigger_forum('deletepost', [
+			'tid' => $post['tid'],
+			'pid' => $post['pid'],
+			'uid' => $_G['uid']
+		], getgpc('pusher_socket_id'));
 		if($post['first']) {
 			$nextpost = table_forum_post::t()->fetch_visiblepost_by_tid('tid:'.$post['tid'], $post['tid'], 0, 0);
 			if($nextpost) {

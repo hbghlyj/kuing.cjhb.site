@@ -65,7 +65,7 @@ class model_post extends discuz_model {
 			'noticetrimstr', 'from', 'sechash',
 			'timestamp', 'modstatus',
 			'subject', 'special', 'sortid', 'typeid', 'isanonymous', 'cronpublish', 'cronpublishdate', 'save',
-			'readperm', 'price', 'audit', 'tags', 'bbcodeoff',
+			'readperm', 'price', 'audit', 'tags', 'bbcodeoff', 'pusher_socket_id',
 		];
 		foreach($varname as $name) {
 			if($name === 'modstatus' && isset($this->param[$name]) && isset($parameters[$name])) {
@@ -92,14 +92,8 @@ class model_post extends discuz_model {
 	}
 
 	protected function trigger_chat_activity($event, array $payload) {
-		require_once DISCUZ_ROOT.'/vendor/autoload.php';
-		require_once DISCUZ_ROOT.'/chat/php/config.php';
-
-		$pusher = new \Pusher(APP_KEY, APP_SECRET, APP_ID, [
-			'cluster' => 'eu',
-			'useTLS' => true
-		]);
-		$pusher->trigger('Chat', $event, $payload);
+		require_once libfile('function/pusher');
+		pusher_trigger_forum($event, $payload, $this->param['pusher_socket_id'] ?? null);
 	}
 
 	public function newreply($parameters) {
@@ -750,7 +744,8 @@ class model_post extends discuz_model {
 
 		$this->trigger_chat_activity('deletepost', [
 			'tid' => $this->thread['tid'],
-			'pid' => $this->post['pid']
+			'pid' => $this->post['pid'],
+			'uid' => $this->member['uid']
 		]);
 
 	}

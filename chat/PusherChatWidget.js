@@ -71,8 +71,22 @@
       if(isMobile) this.isCollapsed = false;
       this.#chatChannel = this.#pusher.subscribe(this.settings.channelName);
       this.#pusher.connection.bind('connected', () => {
+        window.KK_PUSHER_SOCKET_ID = this.#pusher.connection.socket_id || '';
         this.#widget.querySelector('label').textContent = $L('chat_connected');
       });
+      document.addEventListener('submit', event => {
+        const form = event.target;
+        if(window.KK_PUSHER_SOCKET_ID && form.matches('form[action*="forum.php?mod=post"]')) {
+          let field = form.querySelector('input[name="pusher_socket_id"]');
+          if(!field) {
+            field = document.createElement('input');
+            field.type = 'hidden';
+            field.name = 'pusher_socket_id';
+            form.appendChild(field);
+          }
+          field.value = window.KK_PUSHER_SOCKET_ID;
+        }
+      }, true);
       this.#pusher.connection.bind('connecting', () => {
         this.#widget.querySelector('label').textContent = $L('chat_connecting');
       });
@@ -152,8 +166,10 @@
           }
         });
         this.#chatChannel.bind('deletepost', data => {
-          if(data.tid==tid && document.getElementById(`post_${data.pid}`)){
-            document.getElementById(`post_${data.pid}`).remove();
+          if(data.tid==tid){
+            const post = document.getElementById(`pid${data.pid}`) || document.getElementById(`post_${data.pid}`);
+            if(!post) return;
+            post.remove();
             if(typeof MULUSELECT !== 'undefined' && MULUSELECT){
               const option = MULUSELECT.querySelector(`option[value="post_${data.pid}"]`);
               if(option){
