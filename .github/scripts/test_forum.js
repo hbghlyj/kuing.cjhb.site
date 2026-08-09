@@ -59,6 +59,23 @@ const testPusherLeaderCoordination = async browser => {
     await stubPusher(pusherContext);
     const leaderPage = await pusherContext.newPage();
     const followerPage = await pusherContext.newPage();
+    await followerPage.addInitScript(() => {
+        const channelName = 'kuing-pusher-events-v1';
+        const nativePostMessage = BroadcastChannel.prototype.postMessage;
+        const nativeAddEventListener = BroadcastChannel.prototype.addEventListener;
+        BroadcastChannel.prototype.postMessage = function(message) {
+            if(window.__freezePusherLeader && this.name === channelName) return;
+            return nativePostMessage.call(this, message);
+        };
+        BroadcastChannel.prototype.addEventListener = function(type, listener, options) {
+            if(this.name !== channelName || type !== 'message') {
+                return nativeAddEventListener.call(this, type, listener, options);
+            }
+            return nativeAddEventListener.call(this, type, event => {
+                if(!window.__freezePusherLeader) listener.call(this, event);
+            }, options);
+        };
+    });
     try {
         await leaderPage.goto('http://127.0.0.1:8080/forum.php', { waitUntil: 'networkidle' });
         await leaderPage.waitForFunction(() => window.__pusherStubInstances?.length === 1, null, { timeout: 5000 });
@@ -74,15 +91,13 @@ const testPusherLeaderCoordination = async browser => {
         await recoveryPage.waitForFunction(() => !!document.querySelector('.pusher-chat-widget'), null, { timeout: 5000 });
         assert.strictEqual(await recoveryPage.evaluate(() => window.__pusherStubInstances?.length || 0), 0, 'Assertion Error: Recovery follower opened a second Pusher connection.');
 
-        // Freeze the lock holder without closing it: its lock remains held but heartbeats stop.
-        const leaderSession = await pusherContext.newCDPSession(followerPage);
-        await leaderSession.send('Page.setWebLifecycleState', { state: 'frozen' });
+        // Simulate a frozen renderer: its tab remains open but cannot send or receive heartbeats.
+        await followerPage.evaluate(() => { window.__freezePusherLeader = true; });
         await recoveryPage.waitForFunction(() => window.__pusherStubInstances?.length === 1, null, { timeout: 15000 });
         await recoveryPage.evaluate(() => {
             window.__pusherStubInstances[0].channels.Chat.emit('pusher:subscription_succeeded', {});
         });
         await recoveryPage.waitForFunction(() => document.querySelector('.pusher-chat-widget-send-btn')?.disabled === false, null, { timeout: 5000 });
-        await leaderSession.send('Page.setWebLifecycleState', { state: 'active' });
     } finally {
         await pusherContext.close();
     }
