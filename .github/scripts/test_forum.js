@@ -38,7 +38,10 @@ const stubPusher = async targetContext => {
 };
 
 const testPusherLeaderCoordination = async browser => {
-    const pusherContext = await browser.newContext();
+    const pusherContext = await browser.newContext({
+        userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+        extraHTTPHeaders: { 'Accept-Language': 'en-US,en;q=0.9' }
+    });
     await pusherContext.addCookies([{ name: 'isCollapsed', value: 'true', url: 'http://127.0.0.1:8080/forum.php' }]);
     await stubPusher(pusherContext);
     const leaderPage = await pusherContext.newPage();

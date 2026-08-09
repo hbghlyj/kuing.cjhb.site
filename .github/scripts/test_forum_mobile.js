@@ -543,7 +543,8 @@ const { reportCiFailure } = require('./report_ci_failure');
         }
         if (!adminReplyPid && tid) {
             const nowTime = Math.floor(Date.now() / 1000);
-            execSync(`sudo mysql -u root ultrax -e "INSERT INTO pre_forum_post (fid, tid, first, author, authorid, subject, dateline, message, invisible, anonymous, htmlon, bbcodeoff, smileyoff, parseurloff, attachment, status) VALUES (2, ${tid}, 0, 'admin', 1, '', ${nowTime}, 'Admin quote reply to user thread.', 0, 0, 0, 0, 0, 0, 0, 0);"`);
+            const fixturePid = dbScalar('SELECT COALESCE(MAX(pid), 0) + 1 FROM pre_forum_post');
+            execSync(`sudo mysql -u root ultrax -e "INSERT INTO pre_forum_post (pid, fid, tid, first, author, authorid, subject, dateline, message, invisible, anonymous, htmlon, bbcodeoff, smileyoff, parseurloff, attachment, status) VALUES (${fixturePid}, 2, ${tid}, 0, 'admin', 1, '', ${nowTime}, 'Admin quote reply to user thread.', 0, 0, 0, 0, 0, 0, 0, 0);"`);
             execSync(`sudo mysql -u root ultrax -e "UPDATE pre_forum_thread SET replies=replies+1, lastpost=${nowTime}, lastposter='admin' WHERE tid=${tid};"`);
             adminReplyPid = dbScalar(`SELECT pid FROM pre_forum_post WHERE tid='${tid}' AND authorid=1 AND first=0 ORDER BY pid DESC LIMIT 1`);
         }
