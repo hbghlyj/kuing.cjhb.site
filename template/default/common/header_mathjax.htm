@@ -1,5 +1,5 @@
-<script src="/static/js/mathjax-config.js?<?= VERHASH ?>"></script>
-<script src="/static/js/mathjax-copy.js?<?= VERHASH ?>"></script>
+<script src="/static/js/mathjax-config.js?{VERHASH}"></script>
+<script src="/static/js/mathjax-copy.js?{VERHASH}"></script>
 <script>
   window.MathJax = window.MathJax || {};
   window.MathJax.startup = window.MathJax.startup || {};
@@ -29,7 +29,7 @@
             if (CHTML.commonStyles['mjx-container [size="s"]']) CHTML.commonStyles['mjx-container [size="s"]']['font-size'] = '80%';
             if (CHTML.commonStyles['mjx-container [size="ss"]']) CHTML.commonStyles['mjx-container [size="ss"]']['font-size'] = '64%';
           }
-          <?php if(!empty($_GET['highlight'])): ?>
+          <!--{if !empty($_GET['highlight'])}-->
             if (MathJax._.handlers && MathJax._.handlers.html) {
               const {HTMLDomStrings} = MathJax._.handlers.html.HTMLDomStrings;
               HTMLDomStrings.OPTIONS.includeHtmlTags['mark'] = '';
@@ -43,7 +43,7 @@
                 return handleTag.call(this, node, ignore);
               };
             }
-          <?php endif; ?>
+          <!--{/if}-->
           if (MathJax._.input && MathJax._.input.tex) {
             const { TEXCLASS } = MathJax._.core.MmlTree.MmlNode;
             const Macro = MathJax._.input.tex.Token.Macro;
@@ -69,11 +69,11 @@
       }
     };
 </script>
-<?php if(in_array(CURMODULE, ['viewthread', 'forumdisplay'])): ?>
+<!--{if in_array(CURMODULE, ['viewthread', 'forumdisplay'])}-->
 <script>
   window.MathJax = window.MathJax || {};
   window.MathJax.loader = window.MathJax.loader || {};
   window.MathJax.loader.load = ['ui/lazy'].concat(window.MathJax.loader.load || []);
 </script>
-<?php endif; ?>
+<!--{/if}-->
 <script src="https://unpkg.com/mathjax@4/tex-chtml.js" async></script>

@@ -3,12 +3,8 @@
 <html lang="{echo lang_attr();}">
 	<head>
 	<title><!--{if !empty($navtitle)}-->$navtitle - <!--{/if}--><!--{if empty($nobbname)}--> $_G['setting']['bbname']<!--{/if}--></title>
-	$_G['setting']['seohead']
-	<style>
-	:root { text-autospace: normal; }
-	</style>
 	<!--{hook/global_meta}-->
-	<!--{eval include './kk/mathjax.php';}-->
+	<!--{subtemplate common/header_mathjax}-->
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans&display=swap">
