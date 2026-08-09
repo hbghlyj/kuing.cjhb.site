@@ -41,34 +41,4 @@
 .fl_i { width: 280px; }
 /*子版块主题加宽*/
 
-@media screen and (orientation: portrait) {
-  #switchwidth,#diy-tg,#um p:last-child,.fl_i,#ct .bm.bml.pbn,#fd_page_top,.tl .num em,.tl .icn,.tl .o,.tl .th,#cgb,#separatorline td:first-child { display: none; }
-  #toptb { min-width: unset; }
-  .wp { width: 100%; }
-  #nv li a { padding: 0 5px; }
-  #scbar_txt { width: 130px;}
-  .bm_c { padding: 0; }
-  .fl_by {
-    width: 150px;
-    max-width: 150px;
-  }
-  .fl_by div {
-    width: 140px;
-    padding-left: 0;
-  }
-  .tl .common {
-    max-width: calc(100vw - 120px);
-  }
-  .tl .lastp { padding-right: 5px; }
-  .tl .by {
-    width: 60px;
-    font-size: 14px;
-  }
-  .tl .num {
-    width: 1.2em;
-    font-size: 14px;
-  }
-  .new, .common {
-    padding-right: 5px !important;
-  }
-}
+
