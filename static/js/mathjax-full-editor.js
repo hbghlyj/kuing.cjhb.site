@@ -157,7 +157,7 @@ var mathEditorLoaderTimer = null;
 var mathEditorLoaderAttempts = 0;
 
 function flushPendingMathEditorEquations() {
-	if (typeof MathJax === 'undefined' || typeof MathJax.typeset !== 'function') return;
+	if (typeof MathJax === 'undefined' || typeof MathJax.typesetPromise !== 'function') return;
 	mathEditorLoaderListening = false;
 	mathEditorLoaderAttempts = 0;
 	if (mathEditorLoaderTimer) {
@@ -172,7 +172,7 @@ function flushPendingMathEditorEquations() {
 }
 
 function waitForMathEditorLoader() {
-	if (typeof MathJax !== 'undefined' && typeof MathJax.typeset === 'function') {
+	if (typeof MathJax !== 'undefined' && typeof MathJax.typesetPromise === 'function') {
 		flushPendingMathEditorEquations();
 		return;
 	}
@@ -219,7 +219,7 @@ function renderMathEquation(rendered, math) {
 	if (typeof MathJax !== 'undefined' && typeof MathJax.typesetClear === 'function') MathJax.typesetClear([rendered]);
 	rendered.setAttribute('data-math-source', math);
 	rendered.textContent = math;
-	if (typeof MathJax === 'undefined' || typeof MathJax.typeset !== 'function') {
+	if (typeof MathJax === 'undefined' || typeof MathJax.typesetPromise !== 'function') {
 		queueMathEditorEquation(rendered, math);
 		return;
 	}
@@ -230,8 +230,18 @@ function renderMathEquation(rendered, math) {
 	sourceNode.textContent = math;
 	host.appendChild(sourceNode);
 	document.body.appendChild(host);
-	try {
-		MathJax.typeset([host]);
+	var cleanup = function() {
+		if (typeof MathJax.typesetClear === 'function') MathJax.typesetClear([host]);
+		host.remove();
+	};
+	var retry = function(error) {
+		var retries = rendered._mathEditorTypesetRetries || 0;
+		if (rendered.isConnected && retries < 50) {
+			rendered._mathEditorTypesetRetries = retries + 1;
+			setTimeout(function() { renderMathEquation(rendered, math); }, 100);
+		}
+	};
+	var finish = function() {
 		if (!rendered.isConnected) return;
 		rendered.textContent = '';
 		while (sourceNode.firstChild) {
@@ -242,15 +252,18 @@ function renderMathEquation(rendered, math) {
 		syncMathJaxEditorStyles();
 		removeMathEditorDisplayBreaks(rendered);
 		if (rendered.classList.contains('math-editor-selected')) selectMathEquation(rendered);
-	} catch (error) {
-		var retries = rendered._mathEditorTypesetRetries || 0;
-		if (rendered.isConnected && retries < 50) {
-			rendered._mathEditorTypesetRetries = retries + 1;
-			setTimeout(function() { renderMathEquation(rendered, math); }, 100);
+	};
+	try {
+		var typeset = MathJax.typesetPromise([host]);
+		if (typeset && typeof typeset.then === 'function') {
+			typeset.then(finish, retry).then(cleanup, cleanup);
+		} else {
+			finish();
+			cleanup();
 		}
-	} finally {
-		if (typeof MathJax.typesetClear === 'function') MathJax.typesetClear([host]);
-		host.remove();
+	} catch (error) {
+		retry(error);
+		cleanup();
 	}
 }
 
