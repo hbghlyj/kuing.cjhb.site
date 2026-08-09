@@ -1205,6 +1205,9 @@ body.pg_logging, body.pg_register, body.pg_lostpasswd_mobile, body.pg_lostpasswd
 
 /*----- 帖子内容页 -----*/
 .quote, .showhide, .locked {padding:10px 12px;margin:8px 0;background-color:var(--dz-BG-5);border-radius:var(--dz-radius-md)}
+.quote {position:relative;padding:12px 14px 12px 20px;border-left:3px solid var(--dz-BG-3);color:var(--dz-FC-777)}
+.quote::before {content:'\201C';position:absolute;top:4px;left:7px;color:var(--dz-BG-3);font-size:20px;line-height:1;opacity:.65}
+.quote blockquote {margin:0;line-height:1.55;color:inherit}
 .quote a, .showhide a, .locked a {color:var(--dz-BG-3)}
 .viewthread {background-color:var(--dz-BG-0);overflow:hidden}
 .viewthread .view_tit {padding:15px 15px 0;line-height:1.4;font-size:22px;font-weight:bold;letter-spacing:-0.01em}
