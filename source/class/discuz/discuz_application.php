@@ -243,8 +243,6 @@ class discuz_application extends discuz_base {
 		$sitepath = substr($_G['PHP_SELF'], 0, strrpos($_G['PHP_SELF'], '/'));
 		if(defined('IN_API')) {
 			$sitepath = preg_replace('/\/api\/?.*?$/i', '', $sitepath);
-		} elseif(defined('IN_ARCHIVER')) {
-			$sitepath = preg_replace('/\/archiver/i', '', $sitepath);
 		}
 		if(defined('IN_NEWMOBILE')) {
 			$sitepath = preg_replace('/\/m/i', '', $sitepath);
@@ -902,9 +900,7 @@ class discuz_application extends discuz_base {
 						($this->var['member']['groupexpiry'] > 0) ? $this->_restful_output('user_banned_has_expiry') : $this->_restful_output('user_banned');
 					}
 				} elseif((!defined('ALLOWGUEST') || !ALLOWGUEST) && !in_array(CURSCRIPT, ['admin', 'member', 'api'])) {
-					if(defined('IN_ARCHIVER')) {
-						dheader('location: ../member.php?mod=logging&action=login&referer='.rawurlencode($this->var['siteurl'].'archiver/'.$this->var['basefilename'].($_SERVER['QUERY_STRING'] ? '?'.$_SERVER['QUERY_STRING'] : '')));
-					} else if(!defined('IN_MOBILE_API')) {
+					if(!defined('IN_MOBILE_API')) {
 						dheader('location: member.php?mod=logging&action=login&referer='.rawurlencode($this->var['siteurl'].$this->var['basefilename'].($_SERVER['QUERY_STRING'] ? '?'.$_SERVER['QUERY_STRING'] : '')));
 					} else {
 						$this->_restful_output('to_login');

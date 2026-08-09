@@ -3,6 +3,12 @@
 DELETE FROM pre_common_credit_rule
 WHERE action IN ('promotion_visit', 'promotion_register');
 
+DELETE FROM pre_common_setting
+WHERE skey IN ('archiver', 'archiverredirect', 'robotarchiver');
+
+DELETE FROM pre_common_nav
+WHERE identifier = 'archiver' OR url = 'archiver/';
+
 DELETE FROM pre_common_cron
 WHERE filename = 'cron_promotion_hourly.php';
 

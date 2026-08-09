@@ -22,7 +22,7 @@ foreach($rewritedata['rulesearch'] as $k => $v) {
 	$vkeys = array_keys($rewritedata['rulevars'][$k]);
 	$rewritedata['rulereplace'][$k] = pvsort($vkeys, $v, $rewritedata['rulereplace'][$k]);
 	$v = str_replace($vkeys, $rewritedata['rulevars'][$k], addcslashes($v, '?*+^$.[]()|'));
-	$rulepath = $k != 'forum_archiver' ? '' : 'archiver/';
+	$rulepath = '';
 	$rule['{apache1}'] .= "\t".'RewriteCond %{QUERY_STRING} ^(.*)$'."\n\t".'RewriteRule ^(.*)/'.$rulepath.$v.'$ $1/'.$rulepath.pvadd($rewritedata['rulereplace'][$k])."&%1\n";
 	$rule['{apache2}'] .= 'RewriteCond %{QUERY_STRING} ^(.*)$'."\n".'RewriteRule ^'.$rulepath.$v.'$ '.$rulepath.$rewritedata['rulereplace'][$k]."&%1\n";
 	$rule['{iis}'] .= 'RewriteRule ^(.*)/'.$rulepath.$v.'(\?(.*))*$ $1/'.$rulepath.addcslashes(pvadd($rewritedata['rulereplace'][$k]).'&$'.($pvmaxv + 1), '.?')."\n";
@@ -34,4 +34,3 @@ foreach($rewritedata['rulesearch'] as $k => $v) {
 $rule['{nginx}'] .= "if (!-e \$request_filename) {\n\treturn 404;\n}";
 $rule['{siteroot}'] = !empty($_G['siteroot']) ? $_G['siteroot'] : '/';
 echo str_replace(array_keys($rule), $rule, cplang('rewrite_message'));
-	

@@ -77,7 +77,7 @@ if($uids) {
 	$userinfo = table_common_member::t()->fetch_all($uids);
 }
 
-if($_G['forum_attachpids'] && !defined('IN_ARCHIVER')) {
+if($_G['forum_attachpids']) {
 	require_once libfile('function/attachment');
 	if(is_array($threadsortshow) && !empty($threadsortshow['sortaids'])) {
 		$skipaids = array_merge($skipaids, $threadsortshow['sortaids']);

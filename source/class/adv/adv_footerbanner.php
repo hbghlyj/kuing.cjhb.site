@@ -51,7 +51,6 @@ class adv_footerbanner {
 		loadcache(['forums', 'grouptype']);
 		$settings['fids']['value'][] = $settings['groups']['value'][] = [0, '&nbsp;'];
 		$settings['fids']['value'][] = $settings['groups']['value'][] = [-1, 'footerbanner_index'];
-		$settings['fids']['value'][] = [-2, 'Archiver'];
 		if(empty($_G['cache']['forums'])) $_G['cache']['forums'] = [];
 		foreach($_G['cache']['forums'] as $fid => $forum) {
 			$settings['fids']['value'][] = [$fid, ($forum['type'] == 'forum' ? str_repeat('&nbsp;', 4) : ($forum['type'] == 'sub' ? str_repeat('&nbsp;', 8) : '')).$forum['name']];
@@ -101,7 +100,7 @@ class adv_footerbanner {
 		return [
 			'check' => '
 			if($params[2] != $parameter[\'position\']
-			|| $_G[\'basescript\'] == \'forum\' && $parameter[\'fids\'] && !(!defined(\'IN_ARCHIVER\') && (in_array($_G[\'fid\'], $parameter[\'fids\']) || CURMODULE == \'index\' && in_array(-1, $parameter[\'fids\'])) || defined(\'IN_ARCHIVER\') && in_array(-2, $parameter[\'fids\']))
+			|| $_G[\'basescript\'] == \'forum\' && $parameter[\'fids\'] && !(in_array($_G[\'fid\'], $parameter[\'fids\']) || CURMODULE == \'index\' && in_array(-1, $parameter[\'fids\']))
 			|| $_G[\'basescript\'] == \'group\' && $parameter[\'groups\'] && !(in_array($_G[\'grouptypeid\'], $parameter[\'groups\']) || CURMODULE == \'index\' && in_array(-1, $parameter[\'groups\']))
 			|| $_G[\'basescript\'] == \'portal\' && $parameter[\'category\'] && !(!empty($_G[\'catid\']) && in_array($_G[\'catid\'], $parameter[\'category\']) || empty($_G[\'catid\']) && in_array(-1, $parameter[\'category\']))
 			) {

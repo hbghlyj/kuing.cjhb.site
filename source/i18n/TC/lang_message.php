@@ -999,7 +999,6 @@ $lang = [
 	'postattachperm_upgrade_nopermission' => '抱歉，您需要升級您所在的用戶組後才能上傳附件，詳細請 <a href="home.php?mod=spacecp&ac=usergroup&do=forum" target="_blank">點擊這裡查看</a>。</p></div><div><p><b>有權上傳附件的用戶組或認證用戶爲：</b><br />&nbsp;&nbsp;&nbsp; {permgroups}',
 	'postattachperm_login_nopermission' => '抱歉，您尚未登入，沒有權限上傳附件',
 	'file_size_overflow' => '抱歉，檔案不能大於 {size} 字節',
-	'forum_archiver_disabled' => '抱歉，論壇 Archiver 功能尚未開啓',
 
 	'post_thread_closed_by_dateline' => '抱歉，管理員設定了本版塊發表於 {autoclose} 天以前的主題自動關閉，不再接受新回覆',
 	'post_thread_closed_by_lastpost' => '抱歉，管理員設定了本版塊最後回覆於 {autoclose} 天以前的主題自動關閉，不再接受新回覆',

@@ -447,18 +447,6 @@ function loadforum($fid = null, $tid = null) {
 	if(isset($_G['forum']['fid']) && $_G['forum']['fid'] == $fid || isset($_G['thread']['tid']) && $_G['thread']['tid'] == $tid) {
 		return null;
 	}
-	if(!empty($_GET['archiver'])) {//X1.5的Archiver兼容
-		if($fid) {
-			dheader('location: archiver/?fid-'.$fid.'.html');
-		} elseif($tid) {
-			dheader('location: archiver/?tid-'.$tid.'.html');
-		} else {
-			dheader('location: archiver/');
-		}
-	}
-	if(defined('IN_ARCHIVER') && $_G['setting']['archiverredirect'] && !IS_ROBOT) {
-		dheader('location: ../forum.php'.($_G['mod'] ? '?mod='.$_G['mod'].(!empty($_GET['fid']) ? '&fid='.$_GET['fid'] : (!empty($_GET['tid']) ? '&tid='.$_GET['tid'] : '')) : ''));
-	}
 	if(isset($_G['setting']['forumpicstyle'])) {
 		$_G['setting']['forumpicstyle'] = dunserialize($_G['setting']['forumpicstyle']);
 		empty($_G['setting']['forumpicstyle']['thumbwidth']) && $_G['setting']['forumpicstyle']['thumbwidth'] = 203;
@@ -768,33 +756,6 @@ function upload_icon_banner(&$data, $file, $type) {
 	}
 	return $upload->attach['attachment'];
 }
-
-function arch_multi($total, $perpage, $page, $link) {
-	$pages = @ceil($total / $perpage) + 1;
-	$pagelink = '';
-	if($pages > 1) {
-		$pagelink .= lang('forum/archiver', 'page').": \n";
-		$pagestart = $page - 10 < 1 ? 1 : $page - 10;
-		$pageend = $page + 10 >= $pages ? $pages : $page + 10;
-		for($i = $pagestart; $i < $pageend; $i++) {
-			$pagelink .= ($i == $page ? "<strong>[$i]</strong>" : "<a href=\"$link&page=$i\">$i</a>")." \n";
-		}
-	}
-	return $pagelink;
-}
-
-function loadarchiver($path) {
-	global $_G;
-	if(!$_G['setting']['archiver']) {
-		require_once childfile('header', 'forum/archiver');
-		echo '<div id="content">'.lang('message', 'forum_archiver_disabled').'</div>';
-		require_once libfile('footer', 'forum/archiver');
-		exit;
-	}
-	return childfile($path, 'forum/archiver');
-}
-
-
 
 function update_threadpartake($tid, $getsetarr = false) {
 	global $_G;

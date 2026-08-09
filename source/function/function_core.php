@@ -1491,16 +1491,6 @@ function rewriteoutput($type, $returntype, $host) {
 			'{id}' => $id,
 			'{page}' => $page ? $page : 1,
 		];
-	} elseif($type == 'forum_archiver') {
-		[, , $action, $value, $page, $extra] = func_get_args();
-		$host = '';
-		$r = [
-			'{action}' => $action,
-			'{value}' => $value,
-		];
-		if($page) {
-			$fextra = '?page='.$page;
-		}
 	} elseif($type == 'plugin') {
 		[, , $pluginid, $module, , $param, $extra] = func_get_args();
 		$host = '';

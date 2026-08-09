@@ -406,6 +406,15 @@ if($method == 'show_license') {
 		$db->query("UPDATE {$tablepre}common_setting SET svalue='{$serializedSetting}' WHERE skey='{$settingKey}'");
 	}
 
+	$rewriteSettingRow = [];
+	$db->fetch_first("SELECT svalue FROM {$tablepre}common_setting WHERE skey='rewritestatus'", $rewriteSettingRow);
+	$rewriteSetting = !empty($rewriteSettingRow['svalue']) ? @unserialize($rewriteSettingRow['svalue']) : [];
+	if(is_array($rewriteSetting)) {
+		$rewriteSetting = array_values(array_diff($rewriteSetting, ['forum_archiver']));
+		$serializedRewriteSetting = $db->escape_string(serialize($rewriteSetting));
+		$db->query("UPDATE {$tablepre}common_setting SET svalue='{$serializedRewriteSetting}' WHERE skey='rewritestatus'");
+	}
+
 	$logSettingRow = [];
 	$db->fetch_first("SELECT svalue FROM {$tablepre}common_setting WHERE skey='log'", $logSettingRow);
 	$logSetting = !empty($logSettingRow['svalue']) ? @unserialize($logSettingRow['svalue']) : [];

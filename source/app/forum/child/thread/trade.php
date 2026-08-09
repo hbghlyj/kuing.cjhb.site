@@ -95,7 +95,7 @@ if(empty($_GET['do']) || $_GET['do'] == 'tradeinfo') {
 
 		}
 
-		if($_G['forum_attachpids'] && !defined('IN_ARCHIVER')) {
+		if($_G['forum_attachpids']) {
 			require_once libfile('function/attachment');
 			parseattach($_G['forum_attachpids'], $_G['forum_attachtags'], $postlist, [$trade['aid']]);
 		}

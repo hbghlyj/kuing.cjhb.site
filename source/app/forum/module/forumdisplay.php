@@ -278,11 +278,7 @@ $simplestyle = !$_G['forum']['allowside'] || $page > 1;
 if($subforumonly) {
 	$_G['setting']['fastpost'] = false;
 	$_GET['orderby'] = '';
-	if(!defined('IN_ARCHIVER')) {
-		include template('diy:forum/forumdisplay:'.$_G['fid']);
-	} else {
-		include loadarchiver('forum/forumdisplay');
-	}
+	include template('diy:forum/forumdisplay:'.$_G['fid']);
 	exit();
 }
 if(getgpc('filter') != 'hot') {
@@ -909,11 +905,7 @@ if(!empty($_G['forum']['threadsorts']['suptypeid']) && !empty($_G['cache']['thre
 	exit;
 }
 
-if(!defined('IN_ARCHIVER')) {
-	include template($template);
-} else {
-	include loadarchiver('forum/forumdisplay');
-}
+include template($template);
 
 
 function forumdisplay_verify_author($ids) {

@@ -36,7 +36,7 @@ if($page === 1 && !empty($_G['setting']['antitheft']['allow']) && empty($_G['set
 	helper_antitheft::check($_G['forum_thread']['tid'], 'tid');
 }
 
-if($_G['setting']['cachethreadlife'] && $_G['forum']['threadcaches'] && !$_G['uid'] && $page == 1 && !$_G['forum']['special'] && empty($_GET['authorid']) && empty($_GET['action']) && empty($_GET['do']) && empty($_GET['from']) && empty($_GET['threadindex']) && !defined('IN_ARCHIVER') && !defined('IN_MOBILE') && !IS_ROBOT) {
+if($_G['setting']['cachethreadlife'] && $_G['forum']['threadcaches'] && !$_G['uid'] && $page == 1 && !$_G['forum']['special'] && empty($_GET['authorid']) && empty($_GET['action']) && empty($_GET['do']) && empty($_GET['from']) && empty($_GET['threadindex']) && !defined('IN_MOBILE') && !IS_ROBOT) {
 	viewthread_loadcache();
 }
 
@@ -743,7 +743,7 @@ if($_G['forum_cachepid']) {
 	}
 }
 
-if($_G['forum_attachpids'] && !defined('IN_ARCHIVER')) {
+if($_G['forum_attachpids']) {
 	require_once libfile('function/attachment');
 	if(is_array($threadsortshow) && !empty($threadsortshow['sortaids'])) {
 		$skipaids = $threadsortshow['sortaids'];
@@ -777,11 +777,6 @@ if(empty($postlist)) {
 		dheader('Location:'.$_G['siteurl'].$canonical);
 	}
 	showmessage('post_not_found');
-}
-
-if(defined('IN_ARCHIVER')) {
-	include loadarchiver('forum/viewthread');
-	exit();
 }
 
 $_G['forum_thread']['heatlevel'] = $_G['forum_thread']['recommendlevel'] = 0;
@@ -1064,8 +1059,7 @@ function viewthread_procpost($post, $lastvisit, $maxposition = 0) {
 		($post['first'] && $_G['setting']['commentfirstpost'] && in_array($_G['group']['allowcommentpost'], [1, 3]) ||
 			(!$post['first'] && in_array($_G['group']['allowcommentpost'], [2, 3])));
 	$forum_allowbbcode = $_G['forum']['allowbbcode'] ? -$post['groupid'] : 0;
-	if(!defined('IN_ARCHIVER')) {
-		if($post['first']) {
+	if($post['first']) {
 			if(!defined('IN_MOBILE')) {
 				$messageindex = false;
 				if(str_contains($post['message'], '[/index]')) {
@@ -1124,9 +1118,8 @@ function viewthread_procpost($post, $lastvisit, $maxposition = 0) {
 			} else {
 				$post['message'] = parse_related_link($post['message'], $relatedtype);
 			}
-		}
 	}
-	if(defined('IN_ARCHIVER') || defined('IN_MOBILE') || !$post['first']) {
+	if(defined('IN_MOBILE') || !$post['first']) {
 		if(str_contains($post['message'], '[page]')) {
 			$post['message'] = preg_replace('/\s?\[page\]\s?/is', '', $post['message']);
 		}

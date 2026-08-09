@@ -133,12 +133,6 @@ $data = [[
       'max' => 200,
     ],
   ],[
-    'skey' => 'archiver',
-    'svalue' => '1',
-  ],[
-    'skey' => 'archiverredirect',
-    'svalue' => '0',
-  ],[
     'skey' => 'attachbanperiods',
     'svalue' => '',
   ],[
@@ -1499,9 +1493,6 @@ $data = [[
     'svalue' => '',
   ],[
     'skey' => 'rewritestatus',
-    'svalue' => '0',
-  ],[
-    'skey' => 'robotarchiver',
     'svalue' => '0',
   ],[
     'skey' => 'rssstatus',

@@ -1778,11 +1778,6 @@ function rewritedata($alldata = 1) {
 			$data['replace']['home_blog'] = 'rewriteoutput(\'home_blog\', 0, $matches[1], $matches[3], $matches[6], $matches[7])';
 		}
 
-		if(is_array($_G['setting']['rewritestatus']) && in_array('forum_archiver', $_G['setting']['rewritestatus'])) {
-			$data['search']['forum_archiver'] = "/<a href\=\"\?(fid|tid)\-(\d+)\.html(&page\=(\d+))?\"([^\>]*)\>/";
-			$data['replace']['forum_archiver'] = 'rewriteoutput(\'forum_archiver\', 0, $matches[1], $matches[2], $matches[4], $matches[5])';
-		}
-
 		if(is_array($_G['setting']['rewritestatus']) && in_array('plugin', $_G['setting']['rewritestatus'])) {
 			$data['search']['plugin'] = "/<a href\=\"plugin\.php\?id=([a-z]+[a-z0-9_]*):([a-z0-9_\-]+)(&amp;|&)?(.*?)?\"([^\>]*)\>/";
 			$data['replace']['plugin'] = 'rewriteoutput(\'plugin\', 0, $matches[1], $matches[2], $matches[3], $matches[4], $matches[5])';
@@ -1822,11 +1817,6 @@ function rewritedata($alldata = 1) {
 		$data['rulereplace']['home_blog'] = 'home.php?mod=space&uid={uid}&do=blog&id={blogid}';
 		$data['rulevars']['home_blog']['{uid}'] = '([0-9]+)';
 		$data['rulevars']['home_blog']['{blogid}'] = '([0-9]+)';
-
-		$data['rulesearch']['forum_archiver'] = '{action}-{value}.html';
-		$data['rulereplace']['forum_archiver'] = 'index.php?action={action}&value={value}';
-		$data['rulevars']['forum_archiver']['{action}'] = '(fid|tid)';
-		$data['rulevars']['forum_archiver']['{value}'] = '([0-9]+)';
 
 		$data['rulesearch']['plugin'] = '{pluginid}-{module}.html';
 		$data['rulereplace']['plugin'] = 'plugin.php?id={pluginid}:{module}';

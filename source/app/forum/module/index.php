@@ -15,7 +15,7 @@ require_once libfile('function/forumlist');
 $gid = intval(getgpc('gid'));
 $showoldetails = get_index_online_details();
 
-if(!$_G['uid'] && !$gid && $_G['setting']['cacheindexlife'] && !defined('IN_ARCHIVER') && !defined('IN_MOBILE') && !IS_ROBOT) {
+if(!$_G['uid'] && !$gid && $_G['setting']['cacheindexlife'] && !defined('IN_MOBILE') && !IS_ROBOT) {
 	get_index_page_guest_cache();
 }
 
@@ -59,11 +59,7 @@ if(empty($gid) && empty($_G['member']['accessmasks']) && empty($showoldetails) &
 	extract($memindex);
 	if(defined('FORUM_INDEX_PAGE_MEMORY') && FORUM_INDEX_PAGE_MEMORY) {
 		categorycollapse();
-		if(!defined('IN_ARCHIVER')) {
-			include template('diy:forum/discuz');
-		} else {
-			include loadarchiver('forum/discuz');
-		}
+		include template('diy:forum/discuz');
 		dexit();
 	}
 }
@@ -79,10 +75,6 @@ if(!$gid && (!defined('FORUM_INDEX_PAGE_MEMORY') || !FORUM_INDEX_PAGE_MEMORY)) {
 	require_once childfile('category');
 }
 
-if(defined('IN_ARCHIVER')) {
-	include loadarchiver('forum/discuz');
-	exit();
-}
 categorycollapse();
 
 if($gid && !empty($catlist)) {
