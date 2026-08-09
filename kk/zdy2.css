@@ -1,9 +1,3 @@
-.tl .num { width: 3.5em; line-height: 1.25; text-align: center;}
-.tl .by { line-height: 1.25; }
-.tl .lastp { text-align: right; }
-.tl cite { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-/*主题列表作者、回复数、最后发表调整*/
-
 .thread-tags { margin-top: 5px; clear: both; }
 .thread-tags .tag-item {
     display: inline-block;

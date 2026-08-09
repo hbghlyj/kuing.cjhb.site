@@ -616,8 +616,10 @@ Created & Modified by Alice, Monkey, Lushnis, Pony, Dfox & DragonLee.
 			.tl .comm {}
 			.tl .frm { width: 150px; }
 			.tl .o { width: 20px; }
-			.tl .num { width: 60px; line-height: 14px; }
-			.tl .by { width: 105px; line-height: 14px; }
+			.tl .num { width: 3.5em; line-height: 1.25; text-align: center; }
+			.tl .by { width: 105px; line-height: 1.25; }
+			.tl .lastp { text-align: right; }
+			.tl cite { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 			.tl th em { margin-right: 4px; zoom: 1; }
 					.tl th em, .tl th em a { color: #007CD5; }
 				.tl td em { font-size: 11px; font-family: Arial, Psimsun, sans-serif; -webkit-text-size-adjust: none; }
