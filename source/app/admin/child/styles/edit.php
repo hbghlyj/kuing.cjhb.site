@@ -145,28 +145,37 @@ if(!submitcheck('editsubmit')) {
 		}
 
 		function imgpre_update(id, obj) {
-			url = obj.value;
+			var url = obj.value;
+			var fullurl = url;
 			if (url) {
-				re = /^(https?:)?\/\//i;
-				var matches = re.exec(url);
-				if (matches == null) {
-					url = ($('styleimgdir').value ? $('styleimgdir').value : ($('imgdir').value ? $('imgdir').value : '<?php echo STATICURL; ?>image/common')) + '/' + url;
+				var re = /^(https?:)?\/\//i;
+				if (!re.test(url)) {
+					fullurl = ($('styleimgdir').value ? $('styleimgdir').value : ($('imgdir').value ? $('imgdir').value : '<?php echo STATICURL; ?>image/common')) + '/' + url;
 				}
-				$('bgpre_' + id).style.backgroundImage = 'url(' + url + ')';
 			} else {
-				$('bgpre_' + id).style.backgroundImage = 'url(<?php echo STATICURL; ?>image/common/none.gif)';
+				fullurl = '<?php echo STATICURL; ?>image/common/none.gif';
+			}
+			var bgStyle = 'url(' + fullurl + ')';
+			var el = $('bgpre_' + id);
+			el.style.backgroundImage = bgStyle;
+			el.backgroundImage = bgStyle;
+			var img = el.getElementsByTagName('img')[0];
+			if (img) {
+				img.src = fullurl;
 			}
 		}
 
 		function imgpre_switch(id) {
-			if ($('bgpre_' + id).innerHTML == '') {
-				url = $('bgpre_' + id).style.backgroundImage.substring(4, $('bgpre_' + id).style.backgroundImage.length - 1);
-				$('bgpre_' + id).innerHTML = '<img onload="imgpre_onload(this)" src="' + url + '" />';
-				$('bgpre_' + id).backgroundImage = $('bgpre_' + id).style.backgroundImage;
-				$('bgpre_' + id).style.backgroundImage = '';
+			var el = $('bgpre_' + id);
+			if (el.innerHTML == '') {
+				var bg = el.style.backgroundImage || el.backgroundImage || '';
+				var url = bg.replace(/^url\((['"]?)(.*?)\1\)$/i, '$2');
+				el.innerHTML = '<img onload="imgpre_onload(this)" src="' + url + '" />';
+				el.backgroundImage = bg;
+				el.style.backgroundImage = '';
 			} else {
-				$('bgpre_' + id).style.backgroundImage = $('bgpre_' + id).backgroundImage;
-				$('bgpre_' + id).innerHTML = '';
+				el.style.backgroundImage = el.backgroundImage || '';
+				el.innerHTML = '';
 			}
 		}
 	</script>
