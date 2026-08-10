@@ -660,8 +660,9 @@ const testPusherLeaderCoordination = async browser => {
             const advancedReplyLink = replyForm.locator('a[href*="action=reply"]');
             assert.strictEqual(await advancedReplyLink.count(), 1, 'Assertion Error: Reply advanced-editor link did not render.');
             await advancedReplyLink.click();
-            await page.locator('#postform:visible').waitFor({ state: 'visible' });
-            replyForm = page.locator('#postform:visible');
+            await page.waitForURL(/forum\.php\?mod=post&action=reply/);
+            replyForm = page.locator('#postform');
+            await replyForm.waitFor({ state: 'attached' });
 
             const replyUploadInput = replyForm.locator('div[id^="rt_"] input[type="file"]').first();
             await replyUploadInput.waitFor({ state: 'attached' });
