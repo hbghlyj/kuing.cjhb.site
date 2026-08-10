@@ -654,8 +654,14 @@ const testPusherLeaderCoordination = async browser => {
             const desktopReplyBtn = page.locator('#post_reply');
             assert.strictEqual(await desktopReplyBtn.count(), 1, 'Assertion Error: Desktop reply control did not render.');
             await desktopReplyBtn.click();
-            const replyForm = page.locator('#fwin_reply form:visible');
+            let replyForm = page.locator('#fwin_reply form:visible');
             await replyForm.waitFor({ state: 'visible' });
+
+            const advancedReplyLink = replyForm.locator('a[href*="action=reply"]');
+            assert.strictEqual(await advancedReplyLink.count(), 1, 'Assertion Error: Reply advanced-editor link did not render.');
+            await advancedReplyLink.click();
+            await page.locator('#postform:visible').waitFor({ state: 'visible' });
+            replyForm = page.locator('#postform:visible');
 
             const replyUploadInput = replyForm.locator('div[id^="rt_"] input[type="file"]').first();
             await replyUploadInput.waitFor({ state: 'attached' });

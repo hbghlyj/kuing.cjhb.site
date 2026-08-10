@@ -58,6 +58,7 @@ global $_G;
 function attachlist($attach) {
 global $_G;
 $attach['refcheck'] = (!$attach['remote'] && $_G['setting']['attachrefcheck']) || ($attach['remote'] && ($_G['setting']['ftp']['hideurl'] || ($attach['isimage'] && $_G['setting']['attachimgpost'] && strtolower(substr($_G['setting']['ftp']['attachurl'], 0, 3)) == 'ftp')));
+$displaywidthcode = !empty($attach['displaywidth']) ? 'width="'.$attach['displaywidth'].'"' : '';
 $aidencode = packaids($attach);
 $is_archive = $_G['forum_thread']['is_archived'] ? "&fid=".$_G['fid']."&archiveid=".$_G['forum_thread']['archiveid'] : '';
 $pluginhook = !empty($_G['setting']['pluginhooks']['viewthread_attach_extra'][$attach['aid']]) ? $_G['setting']['pluginhooks']['viewthread_attach_extra'][$attach['aid']] : '';
@@ -93,6 +94,7 @@ global $_G, $post;
 $fix = count($post['imagelist']) == 1 ? 1000 : 1500;
 $fixtype = count($post['imagelist']) == 1 ? 'fixnone' : 'fixwr';
 $attach['refcheck'] = (!$attach['remote'] && $_G['setting']['attachrefcheck']) || ($attach['remote'] && ($_G['setting']['ftp']['hideurl'] || ($attach['isimage'] && $_G['setting']['attachimgpost'] && strtolower(substr($_G['setting']['ftp']['attachurl'], 0, 3)) == 'ftp')));
+$displaywidthcode = !empty($attach['displaywidth']) ? 'width="'.$attach['displaywidth'].'"' : '';
 $mobilethumburl = $attach['attachimg'] && $_G['setting']['showimages'] && (!$attach['price'] || $attach['payed']) && ($_G['group']['allowgetimage'] || $_G['uid'] == $attach['uid']) ? getforumimg($attach['aid'], 0, $fix, 99999, 1) : '' ;
 $aidencode = packaids($attach);
 $is_archive = $_G['forum_thread']['is_archived'] ? "&fid=".$_G['fid']."&archiveid=".$_G['forum_thread']['archiveid'] : '';
@@ -104,12 +106,12 @@ $noimagethumb = $attach['isimage'] == 2 ? attachlist($attach) : '';
 <!--{block return}-->
 	<!--{if $attach['isimage'] == 2}-->
 		{$noimagethumb}
-		<li><img id="aimg_$attach['aid']" src="{if $guestviewthumb}$mobileguestviewthumburl{else}{$attach['url']}{$attach['attachment']}.thumb.jpg{/if}" zoomfile="{$attach['url']}{$attach['attachment']}.thumb.jpg" alt="$attach['imgalt']" />
+		<li><img id="aimg_$attach['aid']" $displaywidthcode src="{if $guestviewthumb}$mobileguestviewthumburl{else}{$attach['url']}{$attach['attachment']}.thumb.jpg{/if}" zoomfile="{$attach['url']}{$attach['attachment']}.thumb.jpg" alt="$attach['imgalt']" />
 			$pluginhook
 		</li>
 	<!--{elseif $attach['attachimg'] && $_G['setting']['showimages'] && (((!$attach['price'] || $attach['payed']) && ($_G['group']['allowgetimage'] || $_G['uid'] == $attach['uid'])) || ($guestviewthumb))}-->
 		<!--{if $_G['setting']['mobile']['mobilesimpletype'] == 0}-->
-			<li><a href="forum.php?mod=viewthread&tid=$attach['tid']&aid=$attach['aid']&page=$_G['page']" class="orange"><img id="aimg_$attach['aid']" src="{if $guestviewthumb}$mobileguestviewthumburl{elseif $attach['refcheck']}forum.php?mod=attachment{$is_archive}&aid=$aidencode&noupdate=yes&nothumb=yes{else}{$attach['url']}{$attach['attachment']}{/if}" alt="$attach['imgalt']" /></a>
+			<li><a href="forum.php?mod=viewthread&tid=$attach['tid']&aid=$attach['aid']&page=$_G['page']" class="orange"><img id="aimg_$attach['aid']" $displaywidthcode src="{if $guestviewthumb}$mobileguestviewthumburl{elseif $attach['refcheck']}forum.php?mod=attachment{$is_archive}&aid=$aidencode&noupdate=yes&nothumb=yes{else}{$attach['url']}{$attach['attachment']}{/if}" alt="$attach['imgalt']" /></a>
 			$pluginhook
 			</li>
 		<!--{/if}-->
@@ -122,6 +124,7 @@ $noimagethumb = $attach['isimage'] == 2 ? attachlist($attach) : '';
 function attachinpost($attach, $post) {
 global $_G;
 $attach['refcheck'] = (!$attach['remote'] && $_G['setting']['attachrefcheck']) || ($attach['remote'] && ($_G['setting']['ftp']['hideurl'] || ($attach['isimage'] && $_G['setting']['attachimgpost'] && strtolower(substr($_G['setting']['ftp']['attachurl'], 0, 3)) == 'ftp')));
+$displaywidthcode = !empty($attach['displaywidth']) ? 'width="'.$attach['displaywidth'].'"' : '';
 $mobilethumburl = $attach['attachimg'] && $_G['setting']['showimages'] && (!$attach['price'] || $attach['payed']) && ($_G['group']['allowgetimage'] || $_G['uid'] == $attach['uid']) ? getforumimg($attach['aid'], 0, 200, 200, 'fixnone') : '' ;
 $aidencode = packaids($attach);
 $is_archive = $_G['forum_thread']['is_archived'] ? '&fid='.$_G['fid'].'&archiveid='.$_G['forum_thread']['archiveid'] : '';
@@ -131,7 +134,7 @@ $mobileguestviewthumburl = $guestviewthumb ? ($attach['attachimg'] && $_G['setti
 <!--{block return}-->
 	<!--{if $attach['attachimg'] && $_G['setting']['showimages'] && abs($attach['isimage']) == 1 && (((!$attach['price'] || $attach['payed']) && ($_G['group']['allowgetimage'] || $_G['uid'] == $attach['uid'])) || ($guestviewthumb))}-->
 		<!--{if $_G['setting']['mobile']['mobilesimpletype'] == 0}-->
-		<a href="forum.php?mod=viewthread&tid=$attach['tid']&aid=$attach['aid']&page=$_G['page']" class="orange"><img id="aimg_$attach['aid']" src="{if $guestviewthumb}$mobileguestviewthumburl{elseif $attach['refcheck']}forum.php?mod=attachment{$is_archive}&aid=$aidencode&noupdate=yes&nothumb=yes{else}{$attach['url']}{$attach['attachment']}{/if}" alt="$attach['imgalt']" /></a>
+		<a href="forum.php?mod=viewthread&tid=$attach['tid']&aid=$attach['aid']&page=$_G['page']" class="orange"><img id="aimg_$attach['aid']" $displaywidthcode src="{if $guestviewthumb}$mobileguestviewthumburl{elseif $attach['refcheck']}forum.php?mod=attachment{$is_archive}&aid=$aidencode&noupdate=yes&nothumb=yes{else}{$attach['url']}{$attach['attachment']}{/if}" alt="$attach['imgalt']" /></a>
 		<!--{/if}-->
 	<!--{else}-->
 	<ul id="attach_$attach['aid']" class="quote post_attlist cl" >
