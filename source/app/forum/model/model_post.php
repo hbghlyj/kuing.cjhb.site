@@ -505,7 +505,7 @@ class model_post extends discuz_model {
 				}
 			}
 			$class_tag = new tag();
-			$tagstr = $class_tag->update_field($this->param['tags'], $this->thread['tid'], 'tid', $this->thread);
+			$tagstr = $class_tag->update_field($this->param['tags'], $this->thread['tid'], 'tid', $this->thread, false);
 			table_forum_thread::t()->update($this->thread['tid'], ['tags' => $tagstr]);
 
 		} else {

@@ -240,7 +240,7 @@ class tag {
 	 * @param array $typeinfo 类型信息
 	 * @return string 更新后的标签字符串
 	 */
-	public function update_field($tags, $itemid, $idtype = 'tid', $typeinfo = []) {
+	public function update_field($tags, $itemid, $idtype = 'tid', $typeinfo = [], $logMod = true) {
 		$olditems = table_common_tagitem::t()->select(0, $itemid, $idtype);
 		$tagidarray = array_column($olditems, 'tagid');
 		$oldTagNames = [];
@@ -263,7 +263,7 @@ class tag {
 			self::update_tag_hot_score($tagid);
 		}
 
-		if($idtype == 'tid' && $itemid) {
+		if($logMod && $idtype == 'tid' && $itemid) {
 			$newTagNames = array_values($tags);
 			$added = array_diff($newTagNames, $oldTagNames);
 			$removed = array_diff($oldTagNames, $newTagNames);
