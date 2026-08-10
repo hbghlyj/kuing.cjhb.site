@@ -500,7 +500,7 @@ img{border:none;}
 /* */
 .header-notice .poptip-popper .poptip-arrow{right: 22px;}
 .header-notice .notice-dropdown{display:none;top:55px;right:-6px;}
-.header-notice.open .notice-dropdown{display:block}
+.header-notice:hover .notice-dropdown, .header-notice:focus-within .notice-dropdown, .header-notice.open .notice-dropdown{display:block}
 .header-notice .notice-icon{position:relative;width:24px;height:24px;cursor:pointer;padding:6px;line-height: 24px;text-align: center;}
 .header-notice .notice-icon:hover, .header-notice.open .notice-icon{background:var(--dz-bgfglass);border-radius:50%}
 .header-notice .notice-icon .dot{position:absolute;top:0;right: -6px;min-width:16px;height:16px;line-height: 16px; border-radius:8px;background:#f35;text-align: center;color: var(--dz-ff);padding: 0 5px;}

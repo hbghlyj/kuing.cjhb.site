@@ -342,6 +342,25 @@ const testPusherLeaderCoordination = async browser => {
             { timeout: 10000 }
         );
     };
+    const openPmFromNotice = async targetPage => {
+        const x5Notice = targetPage.locator('.header-notice:has(.notice-dropdown) .notice-icon');
+        let pmLink;
+        if(await x5Notice.count()) {
+            await x5Notice.hover();
+            pmLink = targetPage.locator('.header-notice:has(.notice-dropdown) .notice-dropdown a[href*="home.php?mod=space&do=pm"]');
+        } else {
+            const noticeLink = targetPage.locator('#myprompt');
+            assert.strictEqual(await noticeLink.count(), 1, 'Assertion Error: Notice control did not render.');
+            await noticeLink.hover();
+            pmLink = targetPage.locator('#myprompt_menu a#pm_ntc');
+        }
+        await pmLink.waitFor({ state: 'visible', timeout: 10000 });
+        await Promise.all([
+            targetPage.waitForURL(url => url.href.includes('home.php?mod=space&do=pm')),
+            pmLink.click()
+        ]);
+        await targetPage.waitForLoadState('networkidle');
+    };
     console.log("Starting functional tests...");
 
     try {
@@ -1127,9 +1146,8 @@ const testPusherLeaderCoordination = async browser => {
             );
             await adminContext.close();
 
-            // Verify PM center for user
-            await page.goto('http://127.0.0.1:8080/home.php?mod=space&do=pm');
-            await page.waitForLoadState('networkidle');
+            // Verify PM center for user through the header notice dropdown.
+            await openPmFromNotice(page);
             const pmBody = await page.textContent('body');
             assert.ok(pmBody.includes(adminPmToUser), 'Assertion Error: Desktop PM center did not display the delivered admin message.');
             report += '### 4c. Desktop Personal Message (PM)\n- **Status**: Checked\n- **Send PM via UI**: Success\n- **Admin Send Back PM**: Success\n- **PM Center View**: Success\n\n';
