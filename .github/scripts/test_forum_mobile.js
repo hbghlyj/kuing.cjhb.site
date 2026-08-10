@@ -331,16 +331,7 @@ const { reportCiFailure } = require('./report_ci_failure');
         await page.locator('#needmessage').fill(`${message} [attachimg]${aid}[/attachimg]`);
         const extraTagBtn = page.locator('#extra_tag_b');
         assert.strictEqual(await extraTagBtn.count(), 1, 'Assertion Error: Mobile tag control did not render.');
-        await page.evaluate(() => {
-            if (typeof window.showExtra === 'function') {
-                window.showExtra('extra_tag');
-            } else {
-                const btn = document.getElementById('extra_tag_b');
-                const panel = document.getElementById('extra_tag_c');
-                if (btn) btn.classList.add('mon');
-                if (panel) panel.style.display = 'block';
-            }
-        });
+        await extraTagBtn.click();
         // Modern chip UI (backported from desktop): #tags is hidden; type into #keyword-input and press Enter to call addKeyword()
         const tagInput = page.locator('#keyword-input:visible');
         assert.strictEqual(await tagInput.count(), 1, 'Assertion Error: Mobile tag input did not render after opening tag controls.');

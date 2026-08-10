@@ -426,15 +426,10 @@ const testPusherLeaderCoordination = async browser => {
 
         const regSubmitBtn = registrationForm.locator('#registerformsubmit');
         assert.strictEqual(await regSubmitBtn.count(), 1, 'Assertion Error: Desktop registration submit button did not render.');
-        const registrationSecurityFields = await registrationForm.evaluate(form => {
-            const data = new FormData(form);
-            return {
-                answer: data.get('secanswer'),
-                hash: data.get('secqaahash')
-            };
-        });
-        assert.strictEqual(registrationSecurityFields.answer, '2', 'Assertion Error: Desktop registration form omitted the security answer.');
-        assert.ok(registrationSecurityFields.hash, 'Assertion Error: Desktop registration form omitted the security-answer hash.');
+        const registrationAnswer = await registrationForm.locator('input[name="secanswer"]').inputValue();
+        const registrationHash = await registrationForm.locator('input[name="secqaahash"]').inputValue();
+        assert.strictEqual(registrationAnswer, '2', 'Assertion Error: Desktop registration form omitted the security answer.');
+        assert.ok(registrationHash, 'Assertion Error: Desktop registration form omitted the security-answer hash.');
         await page.screenshot({ path: 'screenshot_desktop_registration_filled.png', fullPage: true });
 
         const [registrationResponse] = await Promise.all([
