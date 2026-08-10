@@ -953,6 +953,7 @@ a.thread_mod { height: 19px; line-height: 19px; display: inline-block; color: #4
 			.push:before { content: "\f10f"; }
 			.pob em a.replyadd, .pob em a.replysubtract { display: inline-flex; align-items: center; text-decoration: none; }
 			.pob em a.replyadd svg, .pob em a.replysubtract svg { margin-right: 4px; flex-shrink: 0; }
+			.pob em a.replyadd.active svg, .pob em a.replysubtract.active svg { fill: currentColor; stroke: none; }
 			.pob em a.replyadd.active, .pob em a.replysubtract.active { color: #FF9C00; }
 		.modact { display: block; height: 32px; text-align: center; padding:30px 0 0; }
 			.modact, .modact a { line-height: 32px !important; }
