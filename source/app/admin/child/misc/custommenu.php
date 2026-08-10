@@ -19,14 +19,14 @@ if(!$do) {
 		$multipage = multi($num, $mpp, $page, ADMINSCRIPT.'?action=misc&operation=custommenu');
 		$optionlist = $ajaxoptionlist = '';
 		foreach(table_common_admincp_cmenu::t()->fetch_all_by_uid($_G['uid'], $startlimit, $mpp) as $custom) {
-			$custom['url'] = rawurldecode($custom['url']);
+			$custom['url'] = htmlspecialchars_decode(rawurldecode($custom['url']), ENT_QUOTES);
 			$optionlist .= showtablerow('', ['class="td25"', 'class="td28"', '', 'class="td26"'], [
 				"<input type=\"checkbox\" class=\"checkbox\" name=\"delete[]\" value=\"{$custom['id']}\">",
 				"<input type=\"text\" class=\"txt\" size=\"3\" name=\"displayordernew[{$custom['id']}]\" value=\"{$custom['displayorder']}\">",
 				"<input type=\"text\" class=\"txt\" size=\"25\" name=\"titlenew[{$custom['id']}]\" value=\"".cplang($custom['title'])."\"><input type=\"hidden\" name=\"langnew[{$custom['id']}]\" value=\"{$custom['title']}\">",
-				"<input type=\"text\" class=\"txt\" size=\"40\" name=\"urlnew[{$custom['id']}]\" value=\"{$custom['url']}\">"
+				"<input type=\"text\" class=\"txt\" size=\"40\" name=\"urlnew[{$custom['id']}]\" value=\"".dhtmlspecialchars($custom['url'])."\">"
 			], TRUE);
-			$ajaxoptionlist .= '<li><a href="'.$custom['url'].'" target="'.(substr(rawurldecode($custom['url']), 0, 17) == ADMINSCRIPT.'?action=' ? 'main' : '_blank').'">'.cplang($custom['title']).'</a></li>';
+			$ajaxoptionlist .= '<li><a href="'.dhtmlspecialchars($custom['url']).'" target="'.(substr($custom['url'], 0, 17) == ADMINSCRIPT.'?action=' ? 'main' : '_blank').'">'.cplang($custom['title']).'</a></li>';
 		}
 
 		echo <<<EOT
@@ -108,7 +108,7 @@ EOT;
 	show_custommenu();
 } elseif($do == 'redirect') {
 	if($cmenu = table_common_admincp_cmenu::t()->fetch(intval($_GET['mid']))) {
-		$url = rawurldecode($cmenu['url']);
+		$url = htmlspecialchars_decode(rawurldecode($cmenu['url']), ENT_QUOTES);
 		if(strpos($url, 'platform=system') !== false) {
 			dheader('location: '.$url);
 		} else {
