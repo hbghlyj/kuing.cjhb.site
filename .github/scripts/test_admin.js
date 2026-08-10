@@ -154,7 +154,9 @@ const { reportCiFailure } = require('./report_ci_failure');
         console.log("Checking AdminCP tag rename...");
         const tagRenameSuffix = Date.now().toString();
         const oldTagName = `admin_rename_${tagRenameSuffix}`;
+        const name34 = `${'重'.repeat(21)}${tagRenameSuffix}`;
         const newTagName = `${'重'.repeat(22)}${tagRenameSuffix}`;
+        const name36 = `${'重'.repeat(23)}${tagRenameSuffix}`;
         const taggedTid = execSync("sudo mysql -u root ultrax -N -s -e \"SELECT tid FROM pre_forum_thread ORDER BY tid LIMIT 1;\"").toString().trim();
         assert.match(taggedTid, /^\d+$/, 'Assertion Error: AdminCP tag rename test could not find a thread to associate with the tag.');
         const decoyTid = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT tid FROM pre_forum_thread WHERE tid <> ${taggedTid} ORDER BY tid LIMIT 1;"`).toString().trim();
@@ -166,30 +168,37 @@ const { reportCiFailure } = require('./report_ci_failure');
         assert.match(taggedDoid, /^\d+$/, 'Assertion Error: AdminCP tag rename test could not seed a doing record.');
         execSync(`sudo mysql -u root ultrax -e "INSERT INTO pre_common_tagitem (tagid, itemid, idtype, created_at) VALUES (${tagId}, ${taggedTid}, 'tid', UNIX_TIMESTAMP()), (${tagId}, ${taggedDoid}, 'doid', UNIX_TIMESTAMP()); UPDATE pre_forum_thread SET tags=CONCAT(tags, '${tagId},${oldTagName}', CHAR(9)) WHERE tid=${taggedTid}; UPDATE pre_forum_thread SET tags=CONCAT(tags, '${tagId},${decoyTagName}', CHAR(9)) WHERE tid=${decoyTid};"`);
 
-        await page.goto(`http://127.0.0.1:8080/admin.php?action=tag&operation=admin&searchsubmit=yes&perpage=20&tagname=${encodeURIComponent(oldTagName)}`);
-        await page.waitForLoadState('networkidle');
-        const tagRenameForm = page.locator('form[action*="action=tag"]');
-        assert.strictEqual(await tagRenameForm.count(), 1, 'Assertion Error: AdminCP tag management form did not render.');
-        const seededTagCheckbox = tagRenameForm.locator(`input[name="tagidarray[]"][value="${tagId}"]`);
-        assert.strictEqual(await seededTagCheckbox.count(), 1, 'Assertion Error: Seeded tag did not render in AdminCP tag results.');
-        await seededTagCheckbox.check();
-        const renameOperation = tagRenameForm.locator('input[name="operate_type"][value="rename"]');
-        assert.strictEqual(await renameOperation.count(), 1, 'Assertion Error: AdminCP tag rename operation did not render.');
-        await renameOperation.check();
-        await tagRenameForm.locator('input[name="renametag"]').fill(newTagName);
-        const tagRenameSubmit = tagRenameForm.locator('input[name="submit"], button[name="submit"]');
-        assert.strictEqual(await tagRenameSubmit.count(), 1, 'Assertion Error: AdminCP tag rename submit control did not render.');
-        const [tagRenameResponse] = await Promise.all([
-            page.waitForResponse(response =>
-                response.request().method() === 'POST' &&
-                response.url().includes('admin.php?action=tag&operation=admin')
-            ),
-            tagRenameSubmit.click()
-        ]);
-        assert.ok(
-            tagRenameResponse.ok() || (tagRenameResponse.status() >= 300 && tagRenameResponse.status() < 400),
-            `Assertion Error: AdminCP tag rename POST failed with HTTP ${tagRenameResponse.status()}.`
-        );
+        const renameTagViaAdmin = async (fromName, toName) => {
+            await page.goto(`http://127.0.0.1:8080/admin.php?action=tag&operation=admin&searchsubmit=yes&perpage=20&tagname=${encodeURIComponent(fromName)}`);
+            await page.waitForLoadState('networkidle');
+            const tagRenameForm = page.locator('form[action*="action=tag"]');
+            assert.strictEqual(await tagRenameForm.count(), 1, 'Assertion Error: AdminCP tag management form did not render.');
+            const seededTagCheckbox = tagRenameForm.locator(`input[name="tagidarray[]"][value="${tagId}"]`);
+            assert.strictEqual(await seededTagCheckbox.count(), 1, 'Assertion Error: Seeded tag did not render in AdminCP tag results.');
+            await seededTagCheckbox.check();
+            const renameOperation = tagRenameForm.locator('input[name="operate_type"][value="rename"]');
+            assert.strictEqual(await renameOperation.count(), 1, 'Assertion Error: AdminCP tag rename operation did not render.');
+            await renameOperation.check();
+            await tagRenameForm.locator('input[name="renametag"]').fill(toName);
+            const tagRenameSubmit = tagRenameForm.locator('input[name="submit"], button[name="submit"]');
+            assert.strictEqual(await tagRenameSubmit.count(), 1, 'Assertion Error: AdminCP tag rename submit control did not render.');
+            const [tagRenameResponse] = await Promise.all([
+                page.waitForResponse(response =>
+                    response.request().method() === 'POST' &&
+                    response.url().includes('admin.php?action=tag&operation=admin')
+                ),
+                tagRenameSubmit.click()
+            ]);
+            assert.ok(
+                tagRenameResponse.ok() || (tagRenameResponse.status() >= 300 && tagRenameResponse.status() < 400),
+                `Assertion Error: AdminCP tag rename POST failed with HTTP ${tagRenameResponse.status()}.`
+            );
+        };
+
+        await renameTagViaAdmin(oldTagName, name34);
+        await renameTagViaAdmin(name34, newTagName);
+        await renameTagViaAdmin(newTagName, name36);
+        assert.ok((await page.textContent('body')).includes('2 to 35'), 'Assertion Error: AdminCP did not reject the 36-character tag name.');
         const renamedTag = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT tagid, tagname FROM pre_common_tag WHERE tagid=${tagId};"`).toString().trim();
         assert.strictEqual(renamedTag, `${tagId}\t${newTagName}`, 'Assertion Error: AdminCP tag rename did not preserve the tag ID and update its name.');
         const renamedThreadReference = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT COUNT(*) FROM pre_forum_thread WHERE tid=${taggedTid} AND tags LIKE CONCAT('%', '${tagId},${newTagName}', CHAR(9), '%');"`).toString().trim();
