@@ -664,7 +664,7 @@ const testPusherLeaderCoordination = async browser => {
             replyForm = page.locator('#postform');
             await replyForm.waitFor({ state: 'attached' });
 
-            const replyUploadInput = replyForm.locator('div[id^="rt_"] input[type="file"]').first();
+            const replyUploadInput = replyForm.locator('#imgattachform input[type="file"]').first();
             await replyUploadInput.waitFor({ state: 'attached' });
             assert.strictEqual(await replyUploadInput.count(), 1, 'Assertion Error: Reply image uploader did not render.');
             const replyUploadResponse = page.waitForResponse(response => response.request().method() === 'POST' && response.url().includes('misc.php?mod=upload'));

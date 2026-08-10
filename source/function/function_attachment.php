@@ -115,18 +115,17 @@ function parseattach($attachpids, $attachtags, &$postlist, $skipaids = array()) 
 		$hideattachs = $_G['adminid'] != 1 && $_G['setting']['bannedmessages'] & 1 && (($postlist[$attach['pid']]['authorid'] && !$postlist[$attach['pid']]['username'])
 				|| ($postlist[$attach['pid']]['groupid'] == 4 || $postlist[$attach['pid']]['groupid'] == 5) || $postlist[$attach['pid']]['status'] == -1 || $postlist[$attach['pid']]['memberstatus'])
 				|| $_G['adminid'] != 1 && $postlist[$attach['pid']]['status'] & 1 || $postlist[$attach['pid']]['first'] && $_G['forum_threadpay'];
+		if(!defined('IN_MOBILE_API') && isset($attachtags[$attach['pid']][$attach['aid']])) {
+			$attach['displaywidth'] = min(4096, max(0, intval($attachtags[$attach['pid']][$attach['aid']])));
+			$findattach[$attach['pid']][$attach['aid']] = "/\[attach(?:=\\d{1,4})?\]{$attach['aid']}\[\/attach\]/i";
+			$attached = 1;
+		}
 		if(!$hideattachs) {
 			if(defined('IN_MOBILE_API')) {
 				$attach['aidencode'] = packaids($attach);
 			}
 			$postlist[$attach['pid']]['attachments'][$attach['aid']] = $attach;
 		}
-		if(!defined('IN_MOBILE_API') && isset($attachtags[$attach['pid']][$attach['aid']])) {
-			$attach['displaywidth'] = min(4096, max(0, intval($attachtags[$attach['pid']][$attach['aid']])));
-			$findattach[$attach['pid']][$attach['aid']] = "/\[attach(?:=\\d{1,4})?\]{$attach['aid']}\[\/attach\]/i";
-			$attached = 1;
-		}
-
 		if(!$attached) {
 			if(abs($attach['isimage']) == 1) {
 				if(!$hideattachs) {
