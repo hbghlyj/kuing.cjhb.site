@@ -43,7 +43,7 @@
 
 
 
-body {background:var(--dz-bodybg) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='roughpaper' x='0%25' y='0%25' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.04' result='noise' numOctaves='5' stitchTiles='stitch'/%3E%3CfeDiffuseLighting in='noise' lighting-color='%23fffaf0' surfaceScale='2'%3E%3CfeDistantLight azimuth='45' elevation='60'/%3E%3C/feDiffuseLighting%3E%3C/filter%3E%3Crect x='0' y='0' width='100%25' height='100%25' filter='url(%23roughpaper)'/%3E%3C/svg%3E");}
+body {background-color:#87CEEB;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1024' height='1024' viewBox='0 0 1024 1024'%3E%3Cdefs%3E%3Cfilter id='less_smeared_cloud_filter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.008 0.04' numOctaves='4' seed='42' result='noise'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 5 -2.5' result='cloudAlpha'/%3E%3C/filter%3E%3C/defs%3E%3Crect width='100%25' height='100%25' fill='%2387CEEB'/%3E%3Crect width='100%25' height='100%25' fill='white' filter='url(%23less_smeared_cloud_filter)' opacity='0.8'/%3E%3C/svg%3E");background-size:cover;background-attachment:fixed;background-repeat:no-repeat;}
 input, textarea {font:1em/1.5 monospace}
 textarea {color:var(--dz-fa)}
 ul,li{list-style:none}
