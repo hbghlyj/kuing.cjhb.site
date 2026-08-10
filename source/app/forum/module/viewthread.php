@@ -1044,11 +1044,11 @@ function viewthread_procpost($post, $lastvisit, $maxposition = 0) {
 		if((!empty($_G['setting']['guestviewthumb']['flag']) && !$_G['uid']) || $_G['group']['allowgetattach'] || $_G['group']['allowgetimage']) {
 			$_G['forum_attachpids'][] = $post['pid'];
 			$post['attachment'] = 0;
-			if(preg_match_all('/\[attach\](\d+)\[\/attach\]/i', $post['message'], $matchaids)) {
-				$_G['forum_attachtags'][$post['pid']] = $matchaids[1];
+			if(preg_match_all('/\[attach(?:=(\d{1,4}))?\](\d+)\[\/attach\]/i', $post['message'], $matchaids)) {
+				$_G['forum_attachtags'][$post['pid']] = array_combine($matchaids[2], $matchaids[1]);
 			}
 		} else {
-			$post['message'] = preg_replace('/\[attach\](\d+)\[\/attach\]/i', '', $post['message']);
+			$post['message'] = preg_replace('/\[attach(?:=\d{1,4})?\](\d+)\[\/attach\]/i', '', $post['message']);
 		}
 	}
 

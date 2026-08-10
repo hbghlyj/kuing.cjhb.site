@@ -65,7 +65,8 @@ class table_forum_editlog extends discuz_table {
 	}
 
 	public function delete_by_dateline($dateline) {
-		return DB::delete($this->_table, DB::field('dateline', dintval($dateline), '<'));
+		$rows = DB::fetch_all('SELECT editid FROM %t WHERE dateline<%d', [$this->_table, dintval($dateline)]);
+		return $this->delete_with_attachments(array_column($rows, 'editid'));
 	}
 
 	public function delete_by_ids($ids) {
@@ -73,7 +74,7 @@ class table_forum_editlog extends discuz_table {
 		if(empty($ids)) {
 			return 0;
 		}
-		return DB::query('DELETE FROM %t WHERE editid IN(%n)', [$this->_table, $ids]);
+		return $this->delete_with_attachments($ids);
 	}
 
 	public function delete_by_keyword($keyword = '') {
@@ -84,7 +85,8 @@ class table_forum_editlog extends discuz_table {
 			$where = ' WHERE username LIKE %s OR old_subject LIKE %s OR old_message LIKE %s OR old_content LIKE %s';
 			$params = array_merge($params, [$like, $like, $like, $like]);
 		}
-		return DB::query('DELETE FROM %t'.$where, $params);
+		$rows = DB::fetch_all('SELECT editid FROM %t'.$where, $params);
+		return $this->delete_with_attachments(array_column($rows, 'editid'));
 	}
 
 	public function fetch_all_for_admin($keyword = '', $start = 0, $limit = 20) {
@@ -96,5 +98,28 @@ class table_forum_editlog extends discuz_table {
 			$params = array_merge($params, [$like, $like, $like, $like]);
 		}
 		return DB::fetch_all('SELECT * FROM %t'.$where.' ORDER BY dateline DESC, editid DESC '.DB::limit($start, $limit), $params);
+	}
+
+	private function delete_with_attachments(array $editids) {
+		$editids = dintval($editids, true);
+		if(empty($editids)) {
+			return 0;
+		}
+		$attachments = table_forum_editlog_attachment::t()->delete_by_editids($editids);
+		$result = DB::delete($this->_table, DB::field('editid', $editids));
+		if(!$attachments) {
+			return $result;
+		}
+		require_once libfile('function/forum');
+		foreach($attachments as $revisionAttachments) {
+			foreach($revisionAttachments as $aid => $attachment) {
+				if(DB::result_first('SELECT aid FROM %t WHERE aid=%d', ['forum_attachment', $aid])
+					|| table_forum_editlog_attachment::t()->count_by_aid($aid)) {
+					continue;
+				}
+				dunlink($attachment);
+			}
+		}
+		return $result;
 	}
 }

@@ -657,7 +657,17 @@ const testPusherLeaderCoordination = async browser => {
             const replyForm = page.locator('#fwin_reply form:visible');
             await replyForm.waitFor({ state: 'visible' });
 
-            await fillPostEditor('Reply text from unprivileged account.', page, replyForm);
+            const replyUploadInput = replyForm.locator('div[id^="rt_"] input[type="file"]').first();
+            await replyUploadInput.waitFor({ state: 'attached' });
+            assert.strictEqual(await replyUploadInput.count(), 1, 'Assertion Error: Reply image uploader did not render.');
+            const replyUploadResponse = page.waitForResponse(response => response.request().method() === 'POST' && response.url().includes('misc.php?mod=upload'));
+            await replyUploadInput.setInputFiles('static/image/smiley/BQ2/alu1.jpg');
+            assert.match((await (await replyUploadResponse).text()).trim(), /^\d+$/, 'Assertion Error: Reply image upload failed.');
+            const replyAttachmentInput = replyForm.locator('input[name^="attachnew["]').first();
+            await replyAttachmentInput.waitFor({ state: 'attached' });
+            const replyAttachmentAid = await replyAttachmentInput.evaluate(input => input.name.match(/^attachnew\[(\d+)\]/)[1]);
+
+            await fillPostEditor(`Reply text from unprivileged account. [attach]${replyAttachmentAid}[/attach]`, page, replyForm);
             await solveSecurityQuestion(page, replyForm);
             const replyBtn = replyForm.locator('#postsubmit, button[name="replysubmit"]');
             assert.strictEqual(await replyBtn.count(), 1, 'Assertion Error: Desktop reply submit button did not render.');
@@ -684,7 +694,7 @@ const testPusherLeaderCoordination = async browser => {
             report += '### 3. Unprivileged User Reply\n- **Status**: Checked\n- **Reply Count**: ' + replyDbCheck + '\n\n';
 
             console.log("Testing deleted reply revision restore...");
-            const deletableReplyPid = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT pid FROM pre_forum_post WHERE tid='${tidOutput}' AND first=0 AND authorid='${userUid}' AND message='Reply text from unprivileged account.' ORDER BY pid DESC LIMIT 1;"`).toString().trim();
+            const deletableReplyPid = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT pid FROM pre_forum_post WHERE tid='${tidOutput}' AND first=0 AND authorid='${userUid}' AND message='Reply text from unprivileged account. [attach]${replyAttachmentAid}[/attach]' ORDER BY pid DESC LIMIT 1;"`).toString().trim();
             assert.match(deletableReplyPid, /^\d+$/, 'Assertion Error: Reply for deletion test was not found.');
             await page.goto(`http://127.0.0.1:8080/forum.php?mod=misc&action=postdelete&tid=${tidOutput}&pid=${deletableReplyPid}`);
             await page.waitForLoadState('networkidle');
@@ -707,8 +717,10 @@ const testPusherLeaderCoordination = async browser => {
 
             const deletedPostCheck = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT COUNT(*) FROM pre_forum_post WHERE tid='${tidOutput}' AND pid='${deletableReplyPid}';"`).toString().trim();
             assert.strictEqual(deletedPostCheck, '0', 'Assertion Error: Deleted reply still exists in the post table.');
-            const deleteLogCheck = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT COUNT(*) FROM pre_forum_editlog WHERE tid='${tidOutput}' AND pid='${deletableReplyPid}' AND action='delete' AND old_message='Reply text from unprivileged account.';"`).toString().trim();
-            assert.strictEqual(deleteLogCheck, '1', 'Assertion Error: Deleted reply did not create a deletion revision.');
+            const deleteLogId = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT editid FROM pre_forum_editlog WHERE tid='${tidOutput}' AND pid='${deletableReplyPid}' AND action='delete' AND old_message='Reply text from unprivileged account. [attach]${replyAttachmentAid}[/attach]' ORDER BY editid DESC LIMIT 1;"`).toString().trim();
+            assert.match(deleteLogId, /^\d+$/, 'Assertion Error: Deleted reply did not create a deletion revision.');
+            const archivedAttachment = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT COUNT(*) FROM pre_forum_editlog_attachment WHERE editid='${deleteLogId}' AND aid='${replyAttachmentAid}';"`).toString().trim();
+            assert.strictEqual(archivedAttachment, '1', 'Assertion Error: Deleted reply attachment was not archived with its revision.');
 
             const deletedEditLogUrl = `forum.php?mod=misc&action=editlog&tid=${tidOutput}&pid=${deletableReplyPid}`;
             await page.goto(`http://127.0.0.1:8080/${deletedEditLogUrl}`);
@@ -716,6 +728,7 @@ const testPusherLeaderCoordination = async browser => {
             const deletedHistory = page.locator('.revision-window');
             assert.strictEqual(await deletedHistory.count(), 1, 'Assertion Error: Deleted reply revision history did not render.');
             assert.ok((await deletedHistory.textContent()).includes('Reply text from unprivileged account.'), 'Assertion Error: Deleted reply content was not present in revision history.');
+            assert.ok((await deletedHistory.textContent()).includes('alu1.jpg'), 'Assertion Error: Deleted reply attachment was not shown in revision history.');
             const restoreButton = deletedHistory.locator('#revision_restore');
             assert.strictEqual(await restoreButton.isEnabled(), true, 'Assertion Error: Deleted reply revision was not restorable.');
             page.once('dialog', dialog => dialog.accept());
@@ -724,11 +737,14 @@ const testPusherLeaderCoordination = async browser => {
                 restoreButton.click()
             ]);
             assert.ok(restoreResponse.ok() || (restoreResponse.status() >= 300 && restoreResponse.status() < 400), `Assertion Error: Deleted reply restore POST failed with HTTP ${restoreResponse.status()}.`);
-            const restoredPostCheck = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT COUNT(*) FROM pre_forum_post WHERE tid='${tidOutput}' AND pid='${deletableReplyPid}' AND message='Reply text from unprivileged account.';"`).toString().trim();
+            const restoredPostCheck = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT COUNT(*) FROM pre_forum_post WHERE tid='${tidOutput}' AND pid='${deletableReplyPid}' AND message='Reply text from unprivileged account. [attach]${replyAttachmentAid}[/attach]';"`).toString().trim();
             assert.strictEqual(restoredPostCheck, '1', 'Assertion Error: Deleted reply was not restored with its original content and PID.');
+            const restoredAttachment = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT COUNT(*) FROM pre_forum_attachment WHERE aid='${replyAttachmentAid}' AND tid='${tidOutput}' AND pid='${deletableReplyPid}';"`).toString().trim();
+            assert.strictEqual(restoredAttachment, '1', 'Assertion Error: Deleted reply attachment was not rebound during restore.');
             await page.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${tidOutput}`);
             await page.waitForLoadState('networkidle');
             assert.ok((await page.textContent('body')).includes('Reply text from unprivileged account.'), 'Assertion Error: Restored reply was not rendered in viewthread.');
+            assert.strictEqual(await page.locator(`#post_${deletableReplyPid} .t_f img[aid="${replyAttachmentAid}"], #post_${deletableReplyPid} .t_f img[id="aimg_${replyAttachmentAid}"]`).count(), 1, 'Assertion Error: Restored reply image was not rendered in viewthread.');
             report += '### Deleted Reply Revision Restore\n- **Status**: Checked\n- **Deletion Log**: Success\n- **Restore**: Success\n\n';
 
             // --- Test: Comment on first floor ---
@@ -1078,7 +1094,7 @@ const testPusherLeaderCoordination = async browser => {
         assert.strictEqual(userPmDbCheck, '1', 'Assertion Error: User PM was not delivered to the admin inbox.');
 
         console.log("Testing Reply Quote & Notification (do=notice) and PM send back from admin via UI...");
-            const quotePid = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT pid FROM pre_forum_post WHERE tid='${tidOutput}' AND authorid='${userUid}' AND first=0 AND message='Reply text from unprivileged account.' ORDER BY pid ASC LIMIT 1;"`).toString().trim();
+            const quotePid = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT pid FROM pre_forum_post WHERE tid='${tidOutput}' AND authorid='${userUid}' AND first=0 AND message LIKE 'Reply text from unprivileged account.%' ORDER BY pid ASC LIMIT 1;"`).toString().trim();
             assert.match(quotePid, /^\d+$/, 'Assertion Error: Reply post ID for the quote-reply test was not found.');
 
             const adminContext = await browser.newContext();
@@ -1297,6 +1313,9 @@ const testPusherLeaderCoordination = async browser => {
         await page.waitForFunction(() => document.querySelector('#imgattachlist input[name^="attachnew["]'), null, { timeout: 5000 });
         const aid = await page.locator('#imgattachlist input[name^="attachnew["]').evaluate(input => input.name.match(/^attachnew\[(\d+)\]/)[1]);
         console.log("Discovered attachment AID:", aid);
+        const displayWidthInput = page.locator(`#imgattachlist input[name="attachnew[${aid}][displaywidth]"]`);
+        assert.strictEqual(await displayWidthInput.count(), 1, 'Assertion Error: Image attachment display-width control did not render.');
+        await displayWidthInput.fill('64');
 
         const attachMsg = `Posting thread with image attachment content. [attach]${aid}[/attach]`;
 
@@ -1334,6 +1353,9 @@ const testPusherLeaderCoordination = async browser => {
         assert.ok(attachTid, 'Assertion Error: Thread with attachment was not created in database.');
         assert.ok(page.url().includes(`tid=${attachTid}`), 'Assertion Error: Image attachment submission redirected to the wrong thread.');
 
+        const storedAttachMessage = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT message FROM pre_forum_post WHERE tid='${attachTid}' AND first=1 ORDER BY pid ASC LIMIT 1;"`).toString().trim();
+        assert.ok(storedAttachMessage.includes(`[attach=64]${aid}[/attach]`), `Assertion Error: Attachment display width was not stored in post BBCode. Message: ${storedAttachMessage}`);
+
         const attachDbRecord = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT COUNT(*) FROM pre_forum_attachment WHERE tid='${attachTid}';"`).toString().trim();
         console.log("DB count for pre_forum_attachment:", attachDbRecord);
         assert.ok(parseInt(attachDbRecord, 10) >= 1, 'Assertion Error: Image attachment record was not linked in pre_forum_attachment database table.');
@@ -1362,6 +1384,7 @@ const testPusherLeaderCoordination = async browser => {
 
         assert.strictEqual(attachIsimage, '1', `Assertion Error: Uploaded PNG was not stored as an image. isimage: ${attachIsimage}`);
         assert.ok(postImg !== null, `Assertion Error: Attached image <img> element was not rendered inside post content (.t_f). .t_f: ${tfSnippet.substring(0, 200)}. isimage: ${attachIsimage}`);
+        assert.strictEqual(await postImg.getAttribute('width'), '64', 'Assertion Error: Attached image display width was not rendered.');
         const imageSize = await postImg.evaluate(img => ({ width: img.naturalWidth, height: img.naturalHeight }));
         assert.ok(imageSize.width > 0 && imageSize.height > 0, `Assertion Error: Attached image did not load (${imageSize.width}x${imageSize.height}).`);
 

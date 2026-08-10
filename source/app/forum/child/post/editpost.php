@@ -263,6 +263,8 @@ if(!$editsubmit) {
 		if(!empty($attachs['used'])) {
 			foreach($attachs['used'] as $attach) {
 				if($attach['isimage']) {
+					$attachfind[] = "/\[attach=(\\d{1,4})\]{$attach['aid']}\[\/attach\]/i";
+					$attachreplace[] = '[attachimg=$1]'.$attach['aid'].'[/attachimg]';
 					$attachfind[] = "/\[attach\]{$attach['aid']}\[\/attach\]/i";
 					$attachreplace[] = '[attachimg]'.$attach['aid'].'[/attachimg]';
 				}
@@ -270,6 +272,8 @@ if(!$editsubmit) {
 		}
 		if(!empty($imgattachs['used'])) {
 			foreach($imgattachs['used'] as $attach) {
+				$attachfind[] = "/\[attach=(\\d{1,4})\]{$attach['aid']}\[\/attach\]/i";
+				$attachreplace[] = '[attachimg=$1]'.$attach['aid'].'[/attachimg]';
 				$attachfind[] = "/\[attach\]{$attach['aid']}\[\/attach\]/i";
 				$attachreplace[] = '[attachimg]'.$attach['aid'].'[/attachimg]';
 			}

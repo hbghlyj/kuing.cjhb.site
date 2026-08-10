@@ -12,7 +12,6 @@ use DB;
 use discuz_model;
 use table_common_moderate;
 use table_forum_attachment_n;
-use table_forum_editlog;
 use table_forum_forum;
 use table_forum_forumfield;
 use table_forum_groupuser;
@@ -138,7 +137,9 @@ class model_post extends discuz_model {
 			$this->param['modnewreplies'] = 0;
 		}
 		$pinvisible = $this->param['modnewreplies'] ? -2 : ($this->thread['displayorder'] == -4 ? -3 : 0);
-		$this->param['message'] = preg_replace('/\[attachimg\](\d+)\[\/attachimg\]/is', '[attach]\1[/attach]', $this->param['message']);
+		$this->param['message'] = applyattachdisplaywidths($this->param['message'], (array)getgpc('attachnew'));
+		$this->param['message'] = preg_replace('/\[attachimg=(\d{1,4})\](\d+)\[\/attachimg\]/is', '[attach=$1]$2[/attach]', $this->param['message']);
+		$this->param['message'] = preg_replace('/\[attachimg\](\d+)\[\/attachimg\]/is', '[attach]$1[/attach]', $this->param['message']);
 
 
 		if(!empty($this->param['noticetrimstr'])) {
@@ -547,7 +548,9 @@ class model_post extends discuz_model {
 			$this->param['message'] = $this->param['noticetrimstr']."\n".$this->param['message'];
 			$this->param['bbcodeoff'] = false;
 		}
-		$this->param['message'] = preg_replace('/\[attachimg\](\d+)\[\/attachimg\]/is', '[attach]\1[/attach]', $this->param['message']);
+		$this->param['message'] = applyattachdisplaywidths($this->param['message'], (array)getgpc('attachnew'));
+		$this->param['message'] = preg_replace('/\[attachimg=(\d{1,4})\](\d+)\[\/attachimg\]/is', '[attach=$1]$2[/attach]', $this->param['message']);
+		$this->param['message'] = preg_replace('/\[attachimg\](\d+)\[\/attachimg\]/is', '[attach]$1[/attach]', $this->param['message']);
 		$this->param['parseurloff'] = !empty($this->param['parseurloff']);
 
 		$contentType = $this->param['contentType'] ?? 'text';
@@ -606,19 +609,18 @@ class model_post extends discuz_model {
 	$has_diff = $strip_cr($new_subject) !== $strip_cr($old_subject)
 		|| $strip_cr($new_message) !== $strip_cr($old_message)
 		|| $strip_cr($new_content) !== $strip_cr($old_content);
-	if($has_diff) {
-		table_forum_editlog::t()->insert([
+	$old_attachments = $this->param['revision_attachments'] ?? geteditlogattachments($this->thread['tid'], $this->post['pid']);
+	$attachment_changed = isset($this->param['revision_attachments'])
+		&& json_encode($old_attachments) !== json_encode(geteditlogattachments($this->thread['tid'], $this->post['pid']));
+	if($has_diff || $attachment_changed) {
+		createposteditlog([
 			'tid' => $this->thread['tid'],
 			'pid' => $this->post['pid'],
 			'authorid' => $this->post['authorid'],
-			'uid' => $this->member['uid'],
-			'username' => $this->member['username'],
-			'dateline' => TIMESTAMP,
-			'action' => 'edit',
-			'old_subject' => $old_subject,
-			'old_message' => $old_message,
-			'old_content' => $old_content,
-		]);
+			'subject' => $old_subject,
+			'message' => $old_message,
+			'content' => $old_content,
+		], $this->member['uid'], $this->member['username'], 'edit', $old_attachments);
 	}
 
 	table_forum_post::t()->update_post('tid:'.$this->thread['tid'], $this->post['pid'], $setarr);
@@ -685,18 +687,8 @@ class model_post extends discuz_model {
 		}
 
 		$historypost = table_forum_post::t()->fetch_post('tid:'.$this->thread['tid'], $this->post['pid']);
-		table_forum_editlog::t()->insert([
-			'tid' => $this->thread['tid'],
-			'pid' => $this->post['pid'],
-			'authorid' => $this->post['authorid'],
-			'uid' => $this->member['uid'],
-			'username' => $this->member['username'],
-			'dateline' => TIMESTAMP,
-			'action' => 'delete',
-			'old_subject' => $historypost['subject'] ?? $this->post['subject'],
-			'old_message' => $historypost['message'] ?? $this->post['message'],
-			'old_content' => $historypost['content'] ?? $this->post['content'],
-		]);
+		$historypost = $historypost ?: $this->post;
+		createposteditlog($historypost, $this->member['uid'], $this->member['username'], 'delete', $this->param['revision_attachments'] ?? null);
 
 		table_forum_post::t()->delete_post('tid:'.$this->thread['tid'], $this->post['pid']);
 		table_forum_postcomment::t()->delete_by_pid($this->post['pid']);

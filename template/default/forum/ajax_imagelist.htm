@@ -24,6 +24,7 @@
 					<input type="text" class="px xg2" value="{lang description}" onclick="this.style.display='none';$('image_desc_$image[aid]').style.display='';$('image_desc_$image[aid]').focus();" />
 					<input type="text" name="attachnew[{$image[aid]}][description]" class="px" style="display: none" id="image_desc_$image[aid]" />
 				<!--{/if}-->
+				<input type="number" name="attachnew[{$image[aid]}][displaywidth]" class="px attach-display-width" min="1" max="4096" value="" placeholder="{lang e_img_width}" title="{lang e_img_width}" />
 			</p>
 			<!--{if helper_access::check_module('album') && $_G['group']['allowupload']}-->
 				<p class="mtn"><!--{if !$attach[pid]}--><input type="hidden" class="pc" id="albumaid_$image[aid]" name="albumaid[]" value="" /><label for="albumaidchk_$image[aid]"><input id="albumaidchk_$image[aid]" type="checkbox" class="pc" onclick="$('albumaid_$image[aid]').value=this.checked?this.value:''" value="$image[aid]" />{lang save_to_album}</label><!--{/if}--></p>

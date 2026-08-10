@@ -30,18 +30,12 @@ if(submitcheck('postdeletesubmit')) {
 		updatethreadcount($post['tid']);
 		$url_forward = 'forum.php?mod=forumdisplay&fid=' .$post['fid'];
 	} else {
-		table_forum_editlog::t()->insert([
-			'tid' => $post['tid'],
-			'pid' => $post['pid'],
-			'authorid' => $post['authorid'],
-			'uid' => $_G['uid'],
-			'username' => $_G['username'],
-			'dateline' => TIMESTAMP,
-			'action' => 'delete',
-			'old_subject' => $post['subject'],
-			'old_message' => $post['message'],
-			'old_content' => $post['content'],
-		]);
+		require_once libfile('function/post');
+		$attachments = geteditlogattachments($post['tid'], $post['pid']);
+		createposteditlog($post, $_G['uid'], $_G['username'], 'delete', $attachments);
+		foreach($attachments as $attachment) {
+			$_G['editlog_preserve_attachment_aids'][$attachment['aid']] = true;
+		}
 		deletepost([$post['pid']], 'pid', true);
 		require_once libfile('function/pusher');
 		pusher_trigger_forum('deletepost', [

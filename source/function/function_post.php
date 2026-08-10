@@ -138,6 +138,92 @@ function ftpupload($aids, $uid = 0) {
 	}
 }
 
+function geteditlogattachments($tid, $pid) {
+	$attachments = table_forum_attachment_n::t()->fetch_all_by_id('tid:'.$tid, 'pid', $pid);
+	$indexes = table_forum_attachment::t()->fetch_all_by_id('pid', [$pid]);
+	foreach($attachments as $aid => &$attachment) {
+		$attachment['downloads'] = $indexes[$aid]['downloads'] ?? 0;
+	}
+	unset($attachment);
+	return $attachments;
+}
+
+function applyattachdisplaywidths($message, array $attachments) {
+	foreach($attachments as $aid => $attachment) {
+		if(!$aid || !array_key_exists('displaywidth', $attachment)) {
+			continue;
+		}
+		$width = min(4096, max(0, intval($attachment['displaywidth'])));
+		$widthsuffix = $width ? '='.$width : '';
+		$message = preg_replace('/\[attachimg(?:=\d{1,4})?\]'.intval($aid).'\[\/attachimg\]/i', '[attachimg'.$widthsuffix.']'.intval($aid).'[/attachimg]', $message);
+		$message = preg_replace('/\[attach(?:=\d{1,4})?\]'.intval($aid).'\[\/attach\]/i', '[attach'.$widthsuffix.']'.intval($aid).'[/attach]', $message);
+	}
+	return $message;
+}
+
+function createposteditlog(array $post, $uid, $username, $action = 'edit', $attachments = null) {
+	$attachments = $attachments === null ? geteditlogattachments($post['tid'], $post['pid']) : $attachments;
+	$editid = table_forum_editlog::t()->insert([
+		'tid' => $post['tid'],
+		'pid' => $post['pid'],
+		'authorid' => $post['authorid'],
+		'uid' => $uid,
+		'username' => $username,
+		'dateline' => TIMESTAMP,
+		'action' => $action,
+		'old_subject' => $post['subject'],
+		'old_message' => $post['message'],
+		'old_content' => $post['content'],
+		'attachments_saved' => 1,
+	], true);
+	table_forum_editlog_attachment::t()->insert_all($editid, $attachments);
+	return $editid;
+}
+
+function restoreposteditlogattachments($editid, $tid, $pid) {
+	global $_G;
+	$snapshots = table_forum_editlog_attachment::t()->fetch_all_by_editid($editid);
+	$attachments = $snapshots[$editid] ?? [];
+	$current = table_forum_attachment::t()->fetch_all_by_id('pid', [$pid]);
+	foreach($current as $attachment) {
+		table_forum_attachment_n::t()->delete_attachment($attachment['tableid'], $attachment['aid']);
+	}
+	if($current) {
+		table_forum_attachment::t()->delete_by_id('aid', array_keys($current));
+	}
+
+	$restored = 0;
+	foreach($attachments as $aid => $attachment) {
+		if(empty($attachment['attachment'])) {
+			continue;
+		}
+		if(empty($attachment['remote']) && !is_file($_G['setting']['attachdir'].'/forum/'.$attachment['attachment'])) {
+			continue;
+		}
+		$existing = table_forum_attachment::t()->fetch($aid, true);
+		if($existing && ($existing['tid'] != $tid || $existing['pid'] != $pid)) {
+			continue;
+		}
+		$attachment['tid'] = $tid;
+		$attachment['pid'] = $pid;
+		$attachment['tableid'] = getattachtableid($tid);
+		$downloads = $attachment['downloads'] ?? 0;
+		unset($attachment['downloads'], $attachment['tableid']);
+		table_forum_attachment_n::t()->insert_attachment('tid:'.$tid, $attachment, false, true);
+		table_forum_attachment::t()->insert([
+			'aid' => $aid,
+			'tid' => $tid,
+			'pid' => $pid,
+			'uid' => $attachment['uid'],
+			'tableid' => getattachtableid($tid),
+			'downloads' => $downloads,
+		], false, true);
+		$restored++;
+	}
+	updateattach(false, $tid, $pid, []);
+	return $restored;
+}
+
 function updateattach($modnewthreads, $tid, $pid, $attachnew, $attachupdate = [], $uid = 0) {
 	global $_G;
 	$thread = table_forum_thread::t()->fetch_thread($tid);
@@ -275,7 +361,9 @@ function updateattach($modnewthreads, $tid, $pid, $attachnew, $attachupdate = []
 		foreach($attachs as $attach) {
 			if(array_key_exists($attach['aid'], $attachupdate) && $attachupdate[$attach['aid']]) {
 				updatemembercount($attach['uid'], array('todayattachs' => -1, 'todayattachsize' => -$attach['filesize'], 'attachsize' => -$attach['filesize']), false);
-				dunlink($attach);
+				if(empty($_G['editlog_preserve_attachment_aids'][$attach['aid']])) {
+					dunlink($attach);
+				}
 			}
 		}
 		$unusedattachs = table_forum_attachment_unused::t()->fetch_all($attachupdate);

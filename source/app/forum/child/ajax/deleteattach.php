@@ -14,8 +14,21 @@ $count = 0;
 if(isset($_GET['aids']) && isset($_GET['formhash']) && formhash() == $_GET['formhash']) {
 	$_GET['aids'] = (array)$_GET['aids'];
 	$updatedtids = [];
+	$revisionPids = [];
 	foreach($_GET['aids'] as $aid) {
 		$attach = table_forum_attachment_n::t()->fetch_attachment('aid:'.$aid, $aid);
+		if($attach && $attach['tid'] && $attach['pid'] && empty($revisionPids[$attach['pid']]) && ($_G['uid'] == $attach['uid'] || $_G['forum']['ismoderator'])) {
+			require_once libfile('function/post');
+			$post = table_forum_post::t()->fetch_post('tid:'.$attach['tid'], $attach['pid']);
+			if($post) {
+				$attachments = geteditlogattachments($attach['tid'], $attach['pid']);
+				createposteditlog($post, $_G['uid'], $_G['username'], 'edit', $attachments);
+				foreach($attachments as $revisionAttachment) {
+					$_G['editlog_preserve_attachment_aids'][$revisionAttachment['aid']] = true;
+				}
+			}
+			$revisionPids[$attach['pid']] = true;
+		}
 		if($attach && ($attach['pid'] && $attach['pid'] == $_GET['pid'] && $_G['uid'] == $attach['uid'])) {
 			updatecreditbyaction('postattach', $attach['uid'], [], '', -1, 1, $_G['fid']);
 		}
@@ -23,8 +36,10 @@ if(isset($_GET['aids']) && isset($_GET['formhash']) && formhash() == $_GET['form
 			table_forum_attachment_n::t()->delete_attachment('aid:'.$aid, $aid);
 			table_forum_attachment::t()->delete($aid);
 			updatemembercount($attach['uid'], ['todayattachs' => -1, 'todayattachsize' => -$attach['filesize'], 'attachsize' => -$attach['filesize']], false);
-			dunlink($attach);
-			if($_G['setting']['ftp']['on'] == 2) {
+			if(empty($_G['editlog_preserve_attachment_aids'][$attach['aid']])) {
+				dunlink($attach);
+			}
+			if(empty($_G['editlog_preserve_attachment_aids'][$attach['aid']]) && $_G['setting']['ftp']['on'] == 2) {
 				ftpcmd('delete', 'forum/'.$attach['attachment']);
 				ftpcmd('delete', 'forum/'.getimgthumbname($attach['attachment']));
 			}

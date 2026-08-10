@@ -4,6 +4,8 @@ if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
+require_once libfile('function/post');
+
 $pid = dintval($_GET['pid']);
 $post = table_forum_post::t()->fetch_post('tid:'.$_G['tid'], $pid);
 $editlogs = table_forum_editlog::t()->fetch_all_by_pid($pid);
@@ -71,25 +73,20 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && getgpc('do') == 'rollback') {
 			'lastposter' => $member['username'],
 		]);
 		table_forum_forum::t()->update_forum_counter($thread['fid'], 0, 1);
+		if($revision['attachments_saved']) {
+			restoreposteditlogattachments($revision['editid'], $thread['tid'], $pid);
+		}
 		showmessage('post_revision_restored', 'forum.php?mod=viewthread&tid='.$thread['tid']);
 	}
-	table_forum_editlog::t()->insert([
-		'tid' => $post['tid'],
-		'pid' => $post['pid'],
-		'authorid' => $post['authorid'],
-		'uid' => $_G['uid'],
-		'username' => $_G['username'],
-		'dateline' => TIMESTAMP,
-		'action' => 'edit',
-		'old_subject' => $post['subject'],
-		'old_message' => $post['message'],
-		'old_content' => $post['content'],
-	]);
+	createposteditlog($post, $_G['uid'], $_G['username']);
 	table_forum_post::t()->update_post('tid:'.$post['tid'], $post['pid'], [
 		'subject' => $revision['old_subject'],
 		'message' => $revision['old_message'],
 		'content' => $revision['old_content'] !== '' && $revision['old_content'] !== null ? $revision['old_content'] : null,
 	]);
+	if($revision['attachments_saved']) {
+		restoreposteditlogattachments($revision['editid'], $post['tid'], $post['pid']);
+	}
 	if($post['first']) {
 		table_forum_thread::t()->update($post['tid'], ['subject' => $revision['old_subject']]);
 	}
@@ -97,6 +94,12 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && getgpc('do') == 'rollback') {
 }
 
 $versions = [];
+$editlogAttachmentRows = table_forum_editlog_attachment::t()->fetch_all_by_editids(array_column($editlogs, 'editid'));
+$attachmentNames = static function($attachments) {
+	return array_values(array_map(static function($attachment) {
+		return $attachment['filename'].(!empty($attachment['description']) ? ' - '.$attachment['description'] : '');
+	}, $attachments));
+};
 if($post) {
 	$versions[] = [
 		'id' => 0,
@@ -105,6 +108,7 @@ if($post) {
 		'subject' => $post['subject'],
 		'message' => $post['message'],
 		'content' => $post['content'],
+		'attachments' => $attachmentNames(geteditlogattachments($post['tid'], $post['pid'])),
 	];
 }
 foreach($editlogs as $editlog) {
@@ -115,7 +119,9 @@ foreach($editlogs as $editlog) {
 		'subject' => $editlog['old_subject'],
 		'message' => $editlog['old_message'],
 		'content' => $editlog['old_content'],
+		'attachments' => $editlog['attachments_saved'] ? $attachmentNames($editlogAttachmentRows[$editlog['editid']] ?? []) : null,
 	];
 }
 $versions_json = json_encode($versions, JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT);
+$attachment_label_json = json_encode(lang('template', 'attachment'), JSON_UNESCAPED_UNICODE | JSON_HEX_APOS | JSON_HEX_QUOT);
 include template('forum/editlog');

@@ -140,19 +140,19 @@ function bbcode2html(str) {
 	if(!fetchCheckbox('bbcodeoff')) {
 		if(allowimgcode) {
 			str = str.replace(/\[img\]\s*([^\[\"\<\r\n]+?)\s*\[\/img\]/ig, '<img src="$1" border="0" alt="" style="max-width:400px" />');
-			str = str.replace(/\[attachimg\](\d+)\[\/attachimg\]/ig, function ($1, $2) {
-				if(!$('image_' + $2)) {
+			str = str.replace(/\[attachimg(?:=(\d{1,4}))?\](\d+)\[\/attachimg\]/ig, function ($1, $2, $3) {
+				if(!$('image_' + $3)) {
 					return '';
 				}
-				width = $('image_' + $2).getAttribute('cwidth');
+				width = $2 || $('image_' + $3).getAttribute('cwidth');
 				if(!width) {
 					re = /cwidth=(["']?)(\d+)(\1)/i;
-					var matches = re.exec($('image_' + $2).outerHTML);
+					var matches = re.exec($('image_' + $3).outerHTML);
 					if(matches != null) {
 						width = matches[2];
 					}
 				}
-				return '<img src="' + $('image_' + $2).src + '" border="0" aid="attachimg_' + $2 + '" width="' + width + '" alt="" />';
+				return '<img src="' + $('image_' + $3).src + '" border="0" aid="attachimg_' + $3 + '" width="' + width + '" alt="" />';
 			});
 			str = str.replace(/\[img=(\d{1,4})[x|\,](\d{1,4})\]\s*([^\[\"\<\r\n]+?)\s*\[\/img\]/ig, function ($1, $2, $3, $4) {return '<img' + ($2 > 0 ? ' width="' + $2 + '"' : '') + ($3 > 0 ? ' _height="' + $3 + '"' : '') + ' src="' + $4 + '" border="0" alt="" />'});
 		} else {
@@ -562,7 +562,7 @@ function imgtag(attributes) {
 	re = /aid=(["']?)attachimg_(\d+)(\1)/i;
 	var matches = re.exec(attributes);
 	if(matches != null) {
-		return '[attachimg]' + matches[2] + '[/attachimg]';
+		return '[attachimg' + (width > 0 ? '=' + width : '') + ']' + matches[2] + '[/attachimg]';
 	}
 
 	width = width > 0 ? width : 0;

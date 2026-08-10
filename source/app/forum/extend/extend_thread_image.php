@@ -102,6 +102,7 @@ class extend_thread_image extends extend_thread_base {
 		$attachupdate = !empty($_GET['delattachop']) || ($this->group['allowpostattach'] || $this->group['allowpostimage']) && (getgpc('attachnew') || $parameters['special'] == 2 && $_GET['tradeaid'] || $parameters['special'] == 4 && $_GET['activityaid'] || $isfirstpost && $parameters['sortid']);
 
 		if($attachupdate) {
+			$this->snapshot_revision_attachments();
 			updateattach($this->thread['displayorder'] == -4 || $_G['forum_auditstatuson'], $this->thread['tid'], $this->post['pid'], getgpc('attachnew'), getgpc('attachupdate'), $this->post['authorid']);
 		}
 
@@ -133,6 +134,8 @@ class extend_thread_image extends extend_thread_base {
 	}
 
 	public function before_deletepost($parameters) {
+		global $_G;
+		$this->snapshot_revision_attachments();
 		$thread_attachment = $post_attachment = 0;
 		foreach(table_forum_attachment_n::t()->fetch_all_by_id('tid:'.$this->thread['tid'], 'tid', $this->thread['tid']) as $attach) {
 			if($attach['pid'] == $this->post['pid']) {
@@ -140,7 +143,9 @@ class extend_thread_image extends extend_thread_base {
 					$post_attachment++;
 				}
 				updatemembercount($attach['uid'], ['todayattachs' => -1, 'todayattachsize' => -$attach['filesize'], 'attachsize' => -$attach['filesize']], false);
-				dunlink($attach);
+				if(empty($_G['editlog_preserve_attachment_aids'][$attach['aid']])) {
+					dunlink($attach);
+				}
 			} else {
 				if($attach['isimage']) {
 					$thread_attachment = 2;
@@ -157,6 +162,14 @@ class extend_thread_image extends extend_thread_base {
 			table_forum_attachment::t()->delete_by_id('pid', $this->post['pid']);
 			DB::query('DELETE FROM '.DB::table(getattachtablebytid($this->thread['tid']))." WHERE pid='".$this->post['pid']."'", 'UNBUFFEREED');
 			updatecreditbyaction('postattach', $this->post['authorid'], [], '', -$post_attachment);
+		}
+	}
+
+	private function snapshot_revision_attachments() {
+		global $_G;
+		$this->param['revision_attachments'] = geteditlogattachments($this->thread['tid'], $this->post['pid']);
+		foreach($this->param['revision_attachments'] as $attachment) {
+			$_G['editlog_preserve_attachment_aids'][$attachment['aid']] = true;
 		}
 	}
 }

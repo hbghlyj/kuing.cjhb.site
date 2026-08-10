@@ -121,8 +121,9 @@ function parseattach($attachpids, $attachtags, &$postlist, $skipaids = array()) 
 			}
 			$postlist[$attach['pid']]['attachments'][$attach['aid']] = $attach;
 		}
-		if(!defined('IN_MOBILE_API') && !empty($attachtags[$attach['pid']]) && is_array($attachtags[$attach['pid']]) && in_array($attach['aid'], $attachtags[$attach['pid']])) {
-			$findattach[$attach['pid']][$attach['aid']] = "/\[attach\]{$attach['aid']}\[\/attach\]/i";
+		if(!defined('IN_MOBILE_API') && isset($attachtags[$attach['pid']][$attach['aid']])) {
+			$attach['displaywidth'] = min(4096, max(0, intval($attachtags[$attach['pid']][$attach['aid']])));
+			$findattach[$attach['pid']][$attach['aid']] = "/\[attach(?:=\\d{1,4})?\]{$attach['aid']}\[\/attach\]/i";
 			$attached = 1;
 		}
 

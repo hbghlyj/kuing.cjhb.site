@@ -3088,11 +3088,22 @@ CREATE TABLE pre_forum_editlog
 	old_subject varchar(255) NOT NULL DEFAULT '',
 	old_message mediumtext NOT NULL,
 	old_content longtext NOT NULL,
+	attachments_saved tinyint(1) unsigned NOT NULL DEFAULT '0',
 	PRIMARY KEY (editid),
 	KEY pid (pid, dateline),
 	KEY tid (tid, dateline),
 	KEY authorid (authorid),
 	KEY dateline (dateline)
+) ENGINE = InnoDB;
+
+DROP TABLE IF EXISTS pre_forum_editlog_attachment;
+CREATE TABLE pre_forum_editlog_attachment
+(
+	editid          bigint(20) unsigned NOT NULL,
+	aid             int(10) unsigned NOT NULL,
+	attachment_data mediumtext NOT NULL,
+	PRIMARY KEY (editid, aid),
+	KEY aid (aid)
 ) ENGINE = InnoDB;
 
 DROP TABLE IF EXISTS pre_forum_poststick;

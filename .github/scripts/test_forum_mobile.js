@@ -328,7 +328,7 @@ const { reportCiFailure } = require('./report_ci_failure');
             });
         });
         const aid = await page.locator('#imglist input[name^="attachnew["]').evaluate(input => input.name.match(/^attachnew\[(\d+)\]/)[1]);
-        await page.locator('#needmessage').fill(`${message} [attachimg]${aid}[/attachimg]`);
+        await page.locator('#needmessage').fill(`${message} [attachimg=64]${aid}[/attachimg]`);
         const extraTagBtn = page.locator('#extra_tag_b');
         assert.strictEqual(await extraTagBtn.count(), 1, 'Assertion Error: Mobile tag control did not render.');
         await extraTagBtn.click();
@@ -358,6 +358,8 @@ const { reportCiFailure } = require('./report_ci_failure');
         await waitForDbValue(`SELECT tableid FROM pre_forum_attachment WHERE aid='${aid}' AND tid='${tid}'`, expectedTableId, 'Assertion Error: Mobile image attachment was not linked to its thread.');
         const isimage = dbScalar(`SELECT isimage FROM pre_forum_attachment_${expectedTableId} WHERE aid='${aid}' AND tid='${tid}' LIMIT 1`);
         assert.strictEqual(isimage, '1', 'Assertion Error: Mobile image upload was not stored as an image.');
+        const mobileAttachMessage = dbScalar(`SELECT message FROM pre_forum_post WHERE tid='${tid}' AND first=1 ORDER BY pid ASC LIMIT 1`);
+        assert.ok(mobileAttachMessage.includes(`[attach=64]${aid}[/attach]`), `Assertion Error: Mobile attachment display width was not stored in post BBCode. Message: ${mobileAttachMessage}`);
         const threadAttach = dbScalar(`SELECT attachment FROM pre_forum_thread WHERE tid='${tid}'`);
         assert.strictEqual(threadAttach, '2', 'Assertion Error: Mobile thread attachment status was not set to 2.');
 
@@ -370,6 +372,7 @@ const { reportCiFailure } = require('./report_ci_failure');
         const renderedMobileImage = page.locator(`img[src$="${uploadedImagePath}"]`);
         assert.strictEqual(await renderedMobileImage.count(), 1, 'Assertion Error: Mobile image attachment was not rendered in viewthread.');
         assert.ok(await renderedMobileImage.evaluate(image => image.complete && image.naturalWidth > 0), 'Assertion Error: Mobile image attachment did not load.');
+        assert.strictEqual(await renderedMobileImage.getAttribute('width'), '64', 'Assertion Error: Mobile attachment display width was not rendered.');
         await page.screenshot({ path: 'screenshot_mobile_02_thread_attachment.png' });
 
         console.log('Posting mobile thread with non-image attachment via UI...');

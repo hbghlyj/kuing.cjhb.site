@@ -194,7 +194,17 @@ CREATE TABLE IF NOT EXISTS pre_forum_editlog
 ) ENGINE = InnoDB;
 
 ALTER TABLE pre_forum_editlog
-	ADD KEY dateline (dateline);
+	ADD KEY dateline (dateline),
+	ADD COLUMN attachments_saved tinyint(1) unsigned NOT NULL DEFAULT '0' AFTER old_content;
+
+CREATE TABLE IF NOT EXISTS pre_forum_editlog_attachment
+(
+	editid          bigint(20) unsigned NOT NULL,
+	aid             int(10) unsigned NOT NULL,
+	attachment_data mediumtext NOT NULL,
+	PRIMARY KEY (editid, aid),
+	KEY aid (aid)
+) ENGINE = InnoDB;
 
 ALTER TABLE pre_forum_rsscache
 	MODIFY author char (50) NOT NULL DEFAULT '';

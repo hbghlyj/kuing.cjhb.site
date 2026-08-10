@@ -210,7 +210,9 @@ class model_thread extends discuz_model {
 		table_forum_thread::t()->update($this->tid, array('tags' => $class_tag->add_tag($this->param['tags'], $this->tid, 'tid')));
 
 		$this->param['pinvisible'] = $this->param['modnewthreads'] ? -2 : (empty($this->param['save']) ? 0 : -3);
-		$this->param['message'] = preg_replace('/\[attachimg\](\d+)\[\/attachimg\]/is', '[attach]\1[/attach]', $this->param['message']);
+		$this->param['message'] = applyattachdisplaywidths($this->param['message'], (array)getgpc('attachnew'));
+		$this->param['message'] = preg_replace('/\[attachimg=(\d{1,4})\](\d+)\[\/attachimg\]/is', '[attach=$1]$2[/attach]', $this->param['message']);
+		$this->param['message'] = preg_replace('/\[attachimg\](\d+)\[\/attachimg\]/is', '[attach]$1[/attach]', $this->param['message']);
 
 		$this->param['pstatus'] = intval($this->param['pstatus']);
 		defined('IN_MOBILE') && $this->param['pstatus'] = setstatus(4, 1, $this->param['pstatus']);

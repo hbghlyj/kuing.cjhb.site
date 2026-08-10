@@ -75,6 +75,7 @@ function attachlist($attach) {
 	$attach['refcheck'] = (!$attach['remote'] && $_G['setting']['attachrefcheck']) || ($attach['remote'] && ($_G['setting']['ftp']['hideurl'] || ($attach['isimage'] && $_G['setting']['attachimgpost'] && strtolower(substr($_G['setting']['ftp']['attachurl'], 0, 3)) == 'ftp')));
 	$aidencode = packaids($attach);
 	$widthcode = attachwidth($attach['width']);
+	$displaywidthcode = !empty($attach['displaywidth']) ? 'width="'.$attach['displaywidth'].'"' : '';
 	$is_archive = $_G['forum_thread']['is_archived'] ? "&fid=".$_G['fid']."&archiveid=".$_G['forum_thread']['archiveid'] : '';
 	$pluginhook = !empty($_G['setting']['pluginhooks']['viewthread_attach_extra'][$attach['aid']]) ? $_G['setting']['pluginhooks']['viewthread_attach_extra'][$attach['aid']] : '';
 -->
@@ -126,6 +127,7 @@ function imagelist($attach, $firstpost = 0) {
 	$attach['refcheck'] = (!$attach['remote'] && $_G['setting']['attachrefcheck']) || ($attach['remote'] && ($_G['setting']['ftp']['hideurl'] || ($attach['isimage'] && $_G['setting']['attachimgpost'] && strtolower(substr($_G['setting']['ftp']['attachurl'], 0, 3)) == 'ftp')));
 	$aidencode = packaids($attach);
 	$widthcode = attachwidth($attach['width']);
+	$displaywidthcode = !empty($attach['displaywidth']) ? 'width="'.$attach['displaywidth'].'"' : '';
 	$is_archive = $_G['forum_thread']['is_archived'] ? "&fid=".$_G['fid']."&archiveid=".$_G['forum_thread']['archiveid'] : '';
 	$attachthumb = getimgthumbname($attach['attachment']);
 	$pluginhook = !empty($_G['setting']['pluginhooks']['viewthread_attach_extra'][$attach['aid']]) ? $_G['setting']['pluginhooks']['viewthread_attach_extra'][$attach['aid']] : '';
@@ -193,13 +195,13 @@ function imagelist($attach, $firstpost = 0) {
 					<!--{elseif !$attach['price'] || $attach['payed']}-->
 						<div class="mbn savephotop">
 						<!--{if $_G['setting']['thumbstatus'] && $attach['thumb']}-->
-							<a href="javascript:;"><img id="aimg_$attach[aid]" aid="$attach[aid]" src="{STATICURL}image/common/none.gif" onclick="zoom(this, this.getAttribute('zoomfile'), 0, 0, '{$_G[setting][showexif]}')" zoomfile="{if $attach[refcheck]}forum.php?mod=attachment{$is_archive}&aid=$aidencode&noupdate=yes&nothumb=yes{else}{$attach[url]}$attach[attachment]{/if}" file="{if $attach[refcheck]}forum.php?mod=attachment{$is_archive}&aid=$aidencode{else}{$attach[url]}$attachthumb{/if}" alt="$attach[imgalt]" title="$attach[imgalt]" w="$attach[width]" /></a>
+							<a href="javascript:;"><img id="aimg_$attach[aid]" aid="$attach[aid]" src="{STATICURL}image/common/none.gif" onclick="zoom(this, this.getAttribute('zoomfile'), 0, 0, '{$_G[setting][showexif]}')" zoomfile="{if $attach[refcheck]}forum.php?mod=attachment{$is_archive}&aid=$aidencode&noupdate=yes&nothumb=yes{else}{$attach[url]}$attach[attachment]{/if}" file="{if $attach[refcheck]}forum.php?mod=attachment{$is_archive}&aid=$aidencode{else}{$attach[url]}$attachthumb{/if}" $displaywidthcode alt="$attach[imgalt]" title="$attach[imgalt]" w="$attach[width]" /></a>
 						<!--{else}-->
 							<div class="tupian">
 								<div class="jiaz"></div>
 								<div class="tuozt" onmousedown="tuozhuai2(event,this.parentNode);return false;"></div>
 								<div class="guiw" onclick="guiwei(this.parentNode);return false;"></div>
-								<img id="aimg_$attach[aid]" aid="$attach[aid]" src="{STATICURL}image/common/none.gif" zoomfile="{if $attach[refcheck]}forum.php?mod=attachment{$is_archive}&aid=$aidencode&noupdate=yes&nothumb=yes{else}{$attach[url]}$attach[attachment]{/if}" file="{if $attach[refcheck]}forum.php?mod=attachment{$is_archive}&aid=$aidencode&noupdate=yes{else}{$attach[url]}$attach[attachment]{/if}" $widthcode alt="$attach[imgalt]" title="$attach[imgalt]" w="$attach[width]" />
+								<img id="aimg_$attach[aid]" aid="$attach[aid]" src="{STATICURL}image/common/none.gif" zoomfile="{if $attach[refcheck]}forum.php?mod=attachment{$is_archive}&aid=$aidencode&noupdate=yes&nothumb=yes{else}{$attach[url]}$attach[attachment]{/if}" file="{if $attach[refcheck]}forum.php?mod=attachment{$is_archive}&aid=$aidencode&noupdate=yes{else}{$attach[url]}$attach[attachment]{/if}" $widthcode $displaywidthcode alt="$attach[imgalt]" title="$attach[imgalt]" w="$attach[width]" />
 							</div>
 						<!--{/if}-->
 						</div>
@@ -287,7 +289,7 @@ function attachinpost($attach, $post) {
 					<p class="xg1 y">$attach[dateline] {lang upload}</p>
 		<!--{else}-->
 			<!--{if $attach['description']}--><p>{$attach[description]}</p><!--{/if}-->
-			<img src="{if $attach[refcheck]}forum.php?mod=attachment{$is_archive}&aid=$aidencode&noupdate=yes{else}{$attach[url]}$attach[attachment]{/if}" alt="$attach[imgalt]" title="$attach[imgalt]" />
+					<img src="{if $attach[refcheck]}forum.php?mod=attachment{$is_archive}&aid=$aidencode&noupdate=yes{else}{$attach[url]}$attach[attachment]{/if}" alt="$attach[imgalt]" title="$attach[imgalt]" />
 		<!--{/if}-->
 	<!--{else}-->
 		<!--{if $musiccode}-->

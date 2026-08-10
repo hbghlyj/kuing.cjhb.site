@@ -41,6 +41,7 @@
 <script type="text/javascript" reload="1">
 (function() {
 	var revisions = {echo $versions_json};
+	var attachmentLabel = {echo $attachment_label_json};
 	function escapeHtml(value) {
 		return String(value == null ? '' : value).replace(/[&<>"']/g, function(char) {
 			return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[char];
@@ -66,6 +67,9 @@
 					}).join('\n');
 				}
 			} catch(error) {}
+		}
+		if(Array.isArray(revision.attachments)) {
+			body += (body ? '\n\n' : '') + attachmentLabel + ':\n' + (revision.attachments.length ? revision.attachments.join('\n') : '-');
 		}
 		return decodeEntities((revision.subject ? revision.subject + '\n\n' : '') + body);
 	}
