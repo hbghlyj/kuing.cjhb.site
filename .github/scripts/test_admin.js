@@ -151,6 +151,49 @@ const { reportCiFailure } = require('./report_ci_failure');
         }
         report += '### 4. Localized Forum Names\n- **Status**: Checked\n- **Locales**: SC, TC, EN\n\n';
 
+        console.log("Checking AdminCP tag rename...");
+        const tagRenameSuffix = Date.now().toString();
+        const oldTagName = `admin_rename_${tagRenameSuffix}`;
+        const newTagName = `renamed_admin_${tagRenameSuffix}`;
+        const taggedTid = execSync("sudo mysql -u root ultrax -N -s -e \"SELECT tid FROM pre_forum_thread ORDER BY tid LIMIT 1;\"").toString().trim();
+        assert.match(taggedTid, /^\d+$/, 'Assertion Error: AdminCP tag rename test could not find a thread to associate with the tag.');
+        const tagId = execSync(`sudo mysql -u root ultrax -N -s -e "INSERT INTO pre_common_tag (tagname, status, related_count, hot_score, created_at, updated_at) VALUES ('${oldTagName}', 0, 1, 0, UNIX_TIMESTAMP(), UNIX_TIMESTAMP()); SELECT LAST_INSERT_ID();"`).toString().trim();
+        assert.match(tagId, /^\d+$/, 'Assertion Error: AdminCP tag rename test could not seed a tag.');
+        execSync(`sudo mysql -u root ultrax -e "INSERT INTO pre_common_tagitem (tagid, itemid, idtype, created_at) VALUES (${tagId}, ${taggedTid}, 'tid', UNIX_TIMESTAMP()); UPDATE pre_forum_thread SET tags=CONCAT(tags, '${tagId},${oldTagName}', CHAR(9)) WHERE tid=${taggedTid};"`);
+
+        await page.goto(`http://127.0.0.1:8080/admin.php?action=tag&operation=admin&searchsubmit=yes&tagname=${encodeURIComponent(oldTagName)}`);
+        await page.waitForLoadState('networkidle');
+        const tagRenameForm = page.locator('form[action*="action=tag"]');
+        assert.strictEqual(await tagRenameForm.count(), 1, 'Assertion Error: AdminCP tag management form did not render.');
+        const seededTagCheckbox = tagRenameForm.locator(`input[name="tagidarray[]"][value="${tagId}"]`);
+        assert.strictEqual(await seededTagCheckbox.count(), 1, 'Assertion Error: Seeded tag did not render in AdminCP tag results.');
+        await seededTagCheckbox.check();
+        const renameOperation = tagRenameForm.locator('input[name="operate_type"][value="rename"]');
+        assert.strictEqual(await renameOperation.count(), 1, 'Assertion Error: AdminCP tag rename operation did not render.');
+        await renameOperation.check();
+        await tagRenameForm.locator('input[name="renametag"]').fill(newTagName);
+        const tagRenameSubmit = tagRenameForm.locator('input[name="submit"], button[name="submit"]');
+        assert.strictEqual(await tagRenameSubmit.count(), 1, 'Assertion Error: AdminCP tag rename submit control did not render.');
+        const [tagRenameResponse] = await Promise.all([
+            page.waitForResponse(response =>
+                response.request().method() === 'POST' &&
+                response.url().includes('admin.php?action=tag&operation=admin')
+            ),
+            tagRenameSubmit.click()
+        ]);
+        assert.ok(
+            tagRenameResponse.ok() || (tagRenameResponse.status() >= 300 && tagRenameResponse.status() < 400),
+            `Assertion Error: AdminCP tag rename POST failed with HTTP ${tagRenameResponse.status()}.`
+        );
+        const renamedTag = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT tagid, tagname FROM pre_common_tag WHERE tagid=${tagId};"`).toString().trim();
+        assert.strictEqual(renamedTag, `${tagId}\t${newTagName}`, 'Assertion Error: AdminCP tag rename did not preserve the tag ID and update its name.');
+        const renamedThreadReference = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT COUNT(*) FROM pre_forum_thread WHERE tid=${taggedTid} AND tags LIKE CONCAT('%', '${tagId},${newTagName}', CHAR(9), '%');"`).toString().trim();
+        assert.strictEqual(renamedThreadReference, '1', 'Assertion Error: AdminCP tag rename did not update the thread tag reference.');
+        const retainedTagItem = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT COUNT(*) FROM pre_common_tagitem WHERE tagid=${tagId} AND itemid=${taggedTid} AND idtype='tid';"`).toString().trim();
+        assert.strictEqual(retainedTagItem, '1', 'Assertion Error: AdminCP tag rename did not preserve the tag association.');
+        execSync(`sudo mysql -u root ultrax -e "UPDATE pre_forum_thread SET tags=REPLACE(tags, '${tagId},${newTagName}', '') WHERE tid=${taggedTid}; DELETE FROM pre_common_tagitem WHERE tagid=${tagId}; DELETE FROM pre_common_tag WHERE tagid=${tagId};"`);
+        report += '### 5. AdminCP Tag Rename\n- **Status**: Checked\n- **Tag ID Preserved**: Yes\n- **Thread Reference Updated**: Yes\n\n';
+
         console.log("Checking Admin Panel Logs Page...");
         await page.goto('http://127.0.0.1:8080/admin.php?action=logs&operation=cp');
         await page.waitForLoadState('networkidle');
@@ -161,7 +204,7 @@ const { reportCiFailure } = require('./report_ci_failure');
         assert.strictEqual(await logSearchForm.locator('input[name="operation"][value="cp"]').count(), 1, 'Assertion Error: AdminCP log form did not render the operation-log view.');
         assert.strictEqual(await logSearchForm.locator('#keywordraw').count(), 1, 'Assertion Error: AdminCP operation-log keyword field did not render.');
         await page.screenshot({ path: 'screenshot_forum_04_admin_logs.png' });
-        report += '### 5. Admin Panel Logs Access\n- **Status**: Checked\n- **URL**: admin.php?action=logs&operation=cp\n\n';
+        report += '### 6. Admin Panel Logs Access\n- **Status**: Checked\n- **URL**: admin.php?action=logs&operation=cp\n\n';
 
         console.log("Checking renamed uploader operations...");
         await page.goto('http://127.0.0.1:8080/forum.php?mod=post&action=newthread&fid=2');
@@ -208,7 +251,7 @@ const { reportCiFailure } = require('./report_ci_failure');
             `Assertion Error: JSON editor upload endpoint should reject uploads in plain mode: ${JSON.stringify(jsonEditorUpload)}`
         );
 
-        report += '### 6. Uploader Endpoint Contracts in Plain Mode\n- **Status**: Checked\n- **Forum Image Endpoint**: Success\n- **Poll Image Endpoint**: Success\n- **Album Image Endpoint**: Success\n- **Portal Attachment Endpoint**: Success\n- **JSON Editor Endpoint Protection**: Verified (returns success=0)\n\n';
+        report += '### 7. Uploader Endpoint Contracts in Plain Mode\n- **Status**: Checked\n- **Forum Image Endpoint**: Success\n- **Poll Image Endpoint**: Success\n- **Album Image Endpoint**: Success\n- **Portal Attachment Endpoint**: Success\n- **JSON Editor Endpoint Protection**: Verified (returns success=0)\n\n';
 
     } catch (error) {
         console.error("Admin test execution failed:", error);

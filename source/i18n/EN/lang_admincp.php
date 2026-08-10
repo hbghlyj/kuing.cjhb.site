@@ -31,6 +31,7 @@ $lang = array
 	'ok' => '确定',
 	'cancel' => '取消',
 	'modify' => '修改',
+	'rename' => 'Rename',
 	'start' => '开始',
 	'tips' => '技巧提示',
 	'setseotips' => 'SEO优化设置提示',

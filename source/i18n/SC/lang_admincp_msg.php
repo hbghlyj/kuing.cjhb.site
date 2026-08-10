@@ -567,6 +567,10 @@ $lang = [
 
 
 	'tag_admin_updated' => '标签更新成功 ',
+	'tag_rename_invalid' => '标签名称须为 2 至 50 个字符，且不能包含逗号',
+	'tag_rename_exists' => '该标签名称已存在，请使用合并操作',
+	'tag_rename_select_one' => '一次只能重命名一个标签',
+	'tag_rename_not_found' => '指定标签不存在',
 
 	'tasks_setting_invalid' => '部分任务设置不合理无法启用，请重新设置',
 	'tasks_del_confirm' => '您确定要删除当前任务吗？',

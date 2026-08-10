@@ -567,6 +567,10 @@ $lang = [
 
 
 	'tag_admin_updated' => '標籤更新成功 ',
+	'tag_rename_invalid' => '標籤名稱須為 2 至 50 個字元，且不能包含逗號',
+	'tag_rename_exists' => '該標籤名稱已存在，請使用合併操作',
+	'tag_rename_select_one' => '一次只能重新命名一個標籤',
+	'tag_rename_not_found' => '指定標籤不存在',
 
 	'tasks_setting_invalid' => '部分任務設定不合理無法啓用，請重新設定',
 	'tasks_del_confirm' => '您確定要刪除當前任務嗎？',

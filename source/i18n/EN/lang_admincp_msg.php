@@ -551,6 +551,10 @@ $lang = array (
   'styles_validator_noupdate' => '没有检测到新版本风格',
 
   'tag_admin_updated' => '标签更新成功 ',
+  'tag_rename_invalid' => 'A tag name must contain 2 to 50 characters and cannot include commas.',
+  'tag_rename_exists' => 'That tag name already exists. Use Merge instead.',
+  'tag_rename_select_one' => 'Select exactly one tag to rename.',
+  'tag_rename_not_found' => 'The selected tag no longer exists.',
 
   'tasks_setting_invalid' => '部分任务设置不合理无法启用，请重新设置',
   'tasks_del_confirm' => '您确定要删除当前任务吗？',

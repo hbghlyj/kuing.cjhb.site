@@ -294,6 +294,42 @@ class tag {
 		}
 	}
 
+	public function rename_tag($tagidarray, $newtag) {
+		$tagidarray = array_values(array_unique(array_map('intval', (array)$tagidarray)));
+		if(count($tagidarray) !== 1) {
+			return 'tag_rename_select_one';
+		}
+
+		$tagid = $tagidarray[0];
+		$tag = table_common_tag::t()->fetch_by_tagid($tagid);
+		if(!$tag) {
+			return 'tag_rename_not_found';
+		}
+
+		$newtag = trim(str_replace(',', '', $newtag));
+		if(!preg_match('/^([\x7f-\xff_-]|\w|\s){2,50}$/', $newtag)) {
+			return 'tag_rename_invalid';
+		}
+		if($newtag === $tag['tagname']) {
+			return 'succeed';
+		}
+
+		$existing = table_common_tag::t()->fetch_by_tagname($newtag);
+		if($existing && intval($existing['tagid']) !== $tagid) {
+			return 'tag_rename_exists';
+		}
+
+		$oldTagRef = $tagid.','.$tag['tagname']."\t";
+		$newTagRef = $tagid.','.$newtag."\t";
+		$likeOldTagRef = '%'.$oldTagRef.'%';
+		DB::query('UPDATE %t SET tags=REPLACE(tags, %s, %s) WHERE tags LIKE %s', ['forum_thread', $oldTagRef, $newTagRef, $likeOldTagRef]);
+		DB::query('UPDATE %t SET tag=REPLACE(tag, %s, %s) WHERE tag LIKE %s', ['home_blogfield', $oldTagRef, $newTagRef, $likeOldTagRef]);
+		DB::query('UPDATE %t SET tags=REPLACE(tags, %s, %s) WHERE tags LIKE %s', ['portal_article_title', $oldTagRef, $newTagRef, $likeOldTagRef]);
+		table_common_tag::t()->update($tagid, ['tagname' => $newtag, 'updated_at' => TIMESTAMP]);
+
+		return 'succeed';
+	}
+
 	public function merge_tag($tagidarray, $newtag, $idtype = '') {
 		$newtag = str_replace(',', '', $newtag);
 		$newtag = trim($newtag);

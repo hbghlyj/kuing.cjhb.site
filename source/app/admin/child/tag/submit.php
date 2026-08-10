@@ -21,8 +21,13 @@ if($operate_type == 'delete') {
 	table_common_tag::t()->update($tagidarray, ['status' => 0]);
 } elseif($operate_type == 'close') {
 	table_common_tag::t()->update($tagidarray, ['status' => 1]);
+} elseif($operate_type == 'rename') {
+	$data = $class_tag->rename_tag($tagidarray, $_GET['renametag']);
+	if($data != 'succeed') {
+		cpmsg($data);
+	}
 } elseif($operate_type == 'merge') {
-	$data = $class_tag->merge_tag($tagidarray, $_GET['newtag']);
+	$data = $class_tag->merge_tag($tagidarray, $_GET['mergetag']);
 	if($data != 'succeed') {
 		cpmsg($data);
 	}

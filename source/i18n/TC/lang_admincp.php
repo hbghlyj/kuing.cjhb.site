@@ -37,6 +37,7 @@ $lang =
 	'ok' => '確定',
 	'cancel' => '取消',
 	'modify' => '修改',
+	'rename' => '重新命名',
 	'start' => '開始',
 	'tips' => '技巧提示',
 	'setseotips' => 'SEO優化設定提示',

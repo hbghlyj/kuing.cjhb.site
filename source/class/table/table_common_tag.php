@@ -57,6 +57,13 @@ class table_common_tag extends discuz_table {
 		return DB::fetch_first('SELECT * FROM %t WHERE tagid=%d', [$this->_table, $tagid]);
 	}
 
+	public function fetch_by_tagname($tagname) {
+		if($tagname === '') {
+			return [];
+		}
+		return DB::fetch_first('SELECT * FROM %t WHERE tagname=%s', [$this->_table, $tagname]);
+	}
+
 	/**
 	 * 根据状态获取标签列表
 	 *
