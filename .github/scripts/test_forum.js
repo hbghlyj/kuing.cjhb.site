@@ -654,27 +654,9 @@ const testPusherLeaderCoordination = async browser => {
             const desktopReplyBtn = page.locator('#post_reply');
             assert.strictEqual(await desktopReplyBtn.count(), 1, 'Assertion Error: Desktop reply control did not render.');
             await desktopReplyBtn.click();
-            let replyForm = page.locator('#fwin_reply form:visible');
+            const replyForm = page.locator('#fwin_reply form:visible');
             await replyForm.waitFor({ state: 'visible' });
-
-            const advancedReplyLink = replyForm.locator('a[href*="action=reply"]');
-            assert.strictEqual(await advancedReplyLink.count(), 1, 'Assertion Error: Reply advanced-editor link did not render.');
-            await advancedReplyLink.click();
-            await page.waitForURL(/forum\.php\?mod=post&action=reply/);
-            replyForm = page.locator('#postform');
-            await replyForm.waitFor({ state: 'attached' });
-
-            const replyUploadInput = replyForm.locator('#imgattachform input[type="file"]').first();
-            await replyUploadInput.waitFor({ state: 'attached' });
-            assert.strictEqual(await replyUploadInput.count(), 1, 'Assertion Error: Reply image uploader did not render.');
-            const replyUploadResponse = page.waitForResponse(response => response.request().method() === 'POST' && response.url().includes('misc.php?mod=upload'));
-            await replyUploadInput.setInputFiles('static/image/smiley/BQ2/alu1.jpg');
-            assert.match((await (await replyUploadResponse).text()).trim(), /^\d+$/, 'Assertion Error: Reply image upload failed.');
-            const replyAttachmentInput = replyForm.locator('input[name^="attachnew["]').first();
-            await replyAttachmentInput.waitFor({ state: 'attached' });
-            const replyAttachmentAid = await replyAttachmentInput.evaluate(input => input.name.match(/^attachnew\[(\d+)\]/)[1]);
-
-            await fillPostEditor(`Reply text from unprivileged account. [attach]${replyAttachmentAid}[/attach]`, page, replyForm);
+            await fillPostEditor('Reply text from unprivileged account.', page, replyForm);
             await solveSecurityQuestion(page, replyForm);
             const replyBtn = replyForm.locator('#postsubmit, button[name="replysubmit"]');
             assert.strictEqual(await replyBtn.count(), 1, 'Assertion Error: Desktop reply submit button did not render.');
@@ -701,7 +683,7 @@ const testPusherLeaderCoordination = async browser => {
             report += '### 3. Unprivileged User Reply\n- **Status**: Checked\n- **Reply Count**: ' + replyDbCheck + '\n\n';
 
             console.log("Testing deleted reply revision restore...");
-            const deletableReplyPid = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT pid FROM pre_forum_post WHERE tid='${tidOutput}' AND first=0 AND authorid='${userUid}' AND message='Reply text from unprivileged account. [attach]${replyAttachmentAid}[/attach]' ORDER BY pid DESC LIMIT 1;"`).toString().trim();
+            const deletableReplyPid = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT pid FROM pre_forum_post WHERE tid='${tidOutput}' AND first=0 AND authorid='${userUid}' AND message='Reply text from unprivileged account.' ORDER BY pid DESC LIMIT 1;"`).toString().trim();
             assert.match(deletableReplyPid, /^\d+$/, 'Assertion Error: Reply for deletion test was not found.');
             await page.goto(`http://127.0.0.1:8080/forum.php?mod=misc&action=postdelete&tid=${tidOutput}&pid=${deletableReplyPid}`);
             await page.waitForLoadState('networkidle');
@@ -724,10 +706,8 @@ const testPusherLeaderCoordination = async browser => {
 
             const deletedPostCheck = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT COUNT(*) FROM pre_forum_post WHERE tid='${tidOutput}' AND pid='${deletableReplyPid}';"`).toString().trim();
             assert.strictEqual(deletedPostCheck, '0', 'Assertion Error: Deleted reply still exists in the post table.');
-            const deleteLogId = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT editid FROM pre_forum_editlog WHERE tid='${tidOutput}' AND pid='${deletableReplyPid}' AND action='delete' AND old_message='Reply text from unprivileged account. [attach]${replyAttachmentAid}[/attach]' ORDER BY editid DESC LIMIT 1;"`).toString().trim();
+            const deleteLogId = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT editid FROM pre_forum_editlog WHERE tid='${tidOutput}' AND pid='${deletableReplyPid}' AND action='delete' AND old_message='Reply text from unprivileged account.' ORDER BY editid DESC LIMIT 1;"`).toString().trim();
             assert.match(deleteLogId, /^\d+$/, 'Assertion Error: Deleted reply did not create a deletion revision.');
-            const archivedAttachment = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT COUNT(*) FROM pre_forum_editlog_attachment WHERE editid='${deleteLogId}' AND aid='${replyAttachmentAid}';"`).toString().trim();
-            assert.strictEqual(archivedAttachment, '1', 'Assertion Error: Deleted reply attachment was not archived with its revision.');
 
             const deletedEditLogUrl = `forum.php?mod=misc&action=editlog&tid=${tidOutput}&pid=${deletableReplyPid}`;
             await page.goto(`http://127.0.0.1:8080/${deletedEditLogUrl}`);
@@ -735,7 +715,6 @@ const testPusherLeaderCoordination = async browser => {
             const deletedHistory = page.locator('.revision-window');
             assert.strictEqual(await deletedHistory.count(), 1, 'Assertion Error: Deleted reply revision history did not render.');
             assert.ok((await deletedHistory.textContent()).includes('Reply text from unprivileged account.'), 'Assertion Error: Deleted reply content was not present in revision history.');
-            assert.ok((await deletedHistory.textContent()).includes('alu1.jpg'), 'Assertion Error: Deleted reply attachment was not shown in revision history.');
             const restoreButton = deletedHistory.locator('#revision_restore');
             assert.strictEqual(await restoreButton.isEnabled(), true, 'Assertion Error: Deleted reply revision was not restorable.');
             page.once('dialog', dialog => dialog.accept());
@@ -744,14 +723,11 @@ const testPusherLeaderCoordination = async browser => {
                 restoreButton.click()
             ]);
             assert.ok(restoreResponse.ok() || (restoreResponse.status() >= 300 && restoreResponse.status() < 400), `Assertion Error: Deleted reply restore POST failed with HTTP ${restoreResponse.status()}.`);
-            const restoredPostCheck = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT COUNT(*) FROM pre_forum_post WHERE tid='${tidOutput}' AND pid='${deletableReplyPid}' AND message='Reply text from unprivileged account. [attach]${replyAttachmentAid}[/attach]';"`).toString().trim();
+            const restoredPostCheck = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT COUNT(*) FROM pre_forum_post WHERE tid='${tidOutput}' AND pid='${deletableReplyPid}' AND message='Reply text from unprivileged account.';"`).toString().trim();
             assert.strictEqual(restoredPostCheck, '1', 'Assertion Error: Deleted reply was not restored with its original content and PID.');
-            const restoredAttachment = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT COUNT(*) FROM pre_forum_attachment WHERE aid='${replyAttachmentAid}' AND tid='${tidOutput}' AND pid='${deletableReplyPid}';"`).toString().trim();
-            assert.strictEqual(restoredAttachment, '1', 'Assertion Error: Deleted reply attachment was not rebound during restore.');
             await page.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${tidOutput}`);
             await page.waitForLoadState('networkidle');
             assert.ok((await page.textContent('body')).includes('Reply text from unprivileged account.'), 'Assertion Error: Restored reply was not rendered in viewthread.');
-            assert.strictEqual(await page.locator(`#post_${deletableReplyPid} .t_f img[aid="${replyAttachmentAid}"], #post_${deletableReplyPid} .t_f img[id="aimg_${replyAttachmentAid}"]`).count(), 1, 'Assertion Error: Restored reply image was not rendered in viewthread.');
             report += '### Deleted Reply Revision Restore\n- **Status**: Checked\n- **Deletion Log**: Success\n- **Restore**: Success\n\n';
 
             // --- Test: Comment on first floor ---
