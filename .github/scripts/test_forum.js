@@ -346,7 +346,16 @@ const testPusherLeaderCoordination = async browser => {
         const x5Notice = targetPage.locator('.header-notice:has(.notice-dropdown) .notice-icon');
         let pmLink;
         if(await x5Notice.count()) {
+            const noticeResponse = targetPage.waitForResponse(response =>
+                response.url().includes('forum.php?mod=ajax&action=markAsRead') &&
+                response.request().method() === 'GET'
+            );
             await x5Notice.hover();
+            const response = await noticeResponse;
+            assert.ok(response.ok(), `Assertion Error: X5 notice request failed with HTTP ${response.status()}.`);
+            const noticeItems = targetPage.locator('#myprompt_menu li');
+            await noticeItems.first().waitFor({ state: 'visible', timeout: 10000 });
+            assert.ok(await noticeItems.count() > 0, 'Assertion Error: X5 notice dropdown did not render notification entries.');
             pmLink = targetPage.locator('.header-notice:has(.notice-dropdown) .notice-dropdown a[href*="home.php?mod=space&do=pm"]');
         } else {
             const noticeLink = targetPage.locator('#myprompt');

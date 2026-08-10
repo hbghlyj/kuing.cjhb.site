@@ -26,29 +26,18 @@
 			<i class="dzicon noticeicon"></i>
 			<!--{if $_G['member']['newprompt'] || $_G['member']['newpm']}-->
 			{eval $newprompt = $_G['member']['newprompt'] + $_G['member']['newpm'];}
-			<span class="dot">{if $newprompt >99}99{else}$newprompt{/if}</span>
+			<span class="dot" data-newpm="{if $_G['member']['newpm']}$_G['member']['newpm']{else}0{/if}">{if $newprompt >99}99{else}$newprompt{/if}</span>
 			<!--{/if}-->
 		</div>
 
 		<div class="notice-dropdown poptip-popper">
 			<div class="poptip-arrow"></div>
-			<ul class="notice-content">
-				<li class="notice-item"><a href="home.php?mod=space&do=notice">{lang remind}<!--{if $_G[member][newprompt]}--><span class="num">($_G[member][newprompt])</span><span class="dot"></span><!--{/if}--></a>
+			<div class="notice-content">
 				<!--{if !empty($_G['setting']['pmstatus'])}-->
-					<li class="notice-item"><a href="home.php?mod=space&do=pm">{lang pm_center}{if $_G[member][newpm]}<span class="dot"></span>{/if}</a></li>
+				<a class="notice-item" href="home.php?mod=space&do=pm">{lang pm_center}{if $_G[member][newpm]}<span class="dot"></span>{/if}</a>
 				<!--{/if}-->
-				<!--{if $_G['setting']['followerstatus']}-->
-				<li class="notice-item"><a href="home.php?mod=follow&do=follower"><!--{lang notice_interactive_follower}-->{if !empty($_G[member][newprompt_num][follower])} <span class="num">$_G[member][newprompt_num][follower]</span>{/if}{if !empty($_G[member][newprompt_num][follower])}<span class="dot"></span>{/if}</a></li>
-				<!--{if !empty($_G[member][newprompt]) && !empty($_G[member][newprompt_num][follow])}-->
-					<li class="notice-item"><a href="home.php?mod=follow"><!--{lang notice_interactive_follow}-->($_G[member][newprompt_num][follow])<span class="dot"></span></a></li>
-				<!--{/if}-->
-				<!--{/if}-->
-				<!--{if $_G[member][newprompt]}-->
-				<!--{loop $_G['member']['category_num'] $key $val}-->
-					<li class="notice-item"><a href="home.php?mod=space&do=notice&view=$key"><!--{echo lang('template', 'notice_'.$key)}--><span class="num">$val</span><span class="dot"></span></a></li>
-				<!--{/loop}-->
-				<!--{/if}-->
-			</ul>
+				<ul id="myprompt_menu" class="notice-list"></ul>
+			</div>
 		</div>
 	</div>
 	<div class="header-user">
@@ -150,6 +139,24 @@
 </div>
 <script type="text/javascript">
 document.querySelectorAll('.header-user, .header-notice, .header-i18n, .header-client').forEach(function(element) {
+	if(element.classList.contains('header-notice')) {
+		var noticeMenu = element.querySelector('#myprompt_menu');
+		if(noticeMenu) {
+			element.addEventListener('mouseenter', function() {
+				if(noticeMenu.dataset.loaded || typeof ajaxget !== 'function') return;
+				noticeMenu.dataset.loaded = '1';
+				ajaxget('forum.php?mod=ajax&action=markAsRead', 'myprompt_menu', 'ajaxwaitid', null, null, function() {
+					var dot = element.querySelector('.notice-icon > .dot');
+					var newPm = dot ? parseInt(dot.dataset.newpm || '0', 10) : 0;
+					if(dot && newPm) {
+						dot.textContent = newPm > 99 ? '99' : newPm;
+					} else if(dot) {
+						dot.remove();
+					}
+				});
+			});
+		}
+	}
     element.addEventListener('mouseenter', function() {
         this.classList.add('open');
     });

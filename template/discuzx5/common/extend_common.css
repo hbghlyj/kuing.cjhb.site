@@ -505,6 +505,7 @@ img{border:none;}
 .header-notice .notice-icon:hover, .header-notice.open .notice-icon{background:var(--dz-bgfglass);border-radius:50%}
 .header-notice .notice-icon .dot{position:absolute;top:0;right: -6px;min-width:16px;height:16px;line-height: 16px; border-radius:8px;background:#f35;text-align: center;color: var(--dz-ff);padding: 0 5px;}
 .header-notice .notice-content{padding:5px 0;background:var(--dz-bgf);border-radius:4px;box-shadow:0 8px 20px 0 rgba(28,54,108,.05),0 4px 12px 0 rgba(28,54,108,.08);min-width: 120px;}
+.header-notice .notice-list{list-style:none;margin:0;padding:0;}
 .header-notice .notice-content a{font-size:14px;font-weight:normal;color:var(--dz-alink);line-height:20px;text-align:center;padding:12px 20px;display: block; word-break: keep-all;}
 .header-notice .notice-content a:hover{background:var(--dz-borderb)}
 .header-notice .notice-content .num{display:none;color:#ffb300;font-size:12px;}
