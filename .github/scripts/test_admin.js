@@ -161,7 +161,7 @@ const { reportCiFailure } = require('./report_ci_failure');
         assert.match(tagId, /^\d+$/, 'Assertion Error: AdminCP tag rename test could not seed a tag.');
         execSync(`sudo mysql -u root ultrax -e "INSERT INTO pre_common_tagitem (tagid, itemid, idtype, created_at) VALUES (${tagId}, ${taggedTid}, 'tid', UNIX_TIMESTAMP()); UPDATE pre_forum_thread SET tags=CONCAT(tags, '${tagId},${oldTagName}', CHAR(9)) WHERE tid=${taggedTid};"`);
 
-        await page.goto(`http://127.0.0.1:8080/admin.php?action=tag&operation=admin&searchsubmit=yes&tagname=${encodeURIComponent(oldTagName)}`);
+        await page.goto(`http://127.0.0.1:8080/admin.php?action=tag&operation=admin&searchsubmit=yes&perpage=20&tagname=${encodeURIComponent(oldTagName)}`);
         await page.waitForLoadState('networkidle');
         const tagRenameForm = page.locator('form[action*="action=tag"]');
         assert.strictEqual(await tagRenameForm.count(), 1, 'Assertion Error: AdminCP tag management form did not render.');
