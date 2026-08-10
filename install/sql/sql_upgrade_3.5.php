@@ -570,7 +570,7 @@ ALTER TABLE `pre_forum_collection`
 	ADD COLUMN icon tinyint(1) unsigned NOT NULL DEFAULT '0';
 
 ALTER TABLE `pre_common_tag`
-	MODIFY `tagname` char (50) NOT NULL DEFAULT '';
+	MODIFY `tagname` char (35) NOT NULL DEFAULT '';
 
 ALTER TABLE `pre_common_tag`
 	ADD COLUMN `related_count` mediumint(8) unsigned NOT NULL DEFAULT '0'  AFTER `status`,

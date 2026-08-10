@@ -63,7 +63,7 @@ class tag {
 		foreach($tagarray as $tagname) {
 			$tagname = trim($tagname);
 			$tagLength = mb_strlen($tagname, 'UTF-8');
-			if($tagname !== '' && $tagLength >= 2 && $tagLength <= 50 && preg_match('/^([\x7f-\xff_-]|\w|\s)+$/', $tagname)) {
+			if($tagname !== '' && $tagLength >= 2 && $tagLength <= 35 && preg_match('/^([\x7f-\xff_-]|\w|\s)+$/', $tagname)) {
 				$status = 0;
 				$result = table_common_tag::t()->get_bytagname($tagname, $idtype);
 				if($result['tagid']) {
@@ -348,7 +348,7 @@ class tag {
 		}
 
 		$newtag = trim($newtag);
-		if($newtag === '' || strpos($newtag, ',') !== false || mb_strlen($newtag, 'UTF-8') < 2 || mb_strlen($newtag, 'UTF-8') > 50 || !preg_match('/^([\x7f-\xff_-]|\w|\s)+$/', $newtag)) {
+		if($newtag === '' || strpos($newtag, ',') !== false || mb_strlen($newtag, 'UTF-8') < 2 || mb_strlen($newtag, 'UTF-8') > 35 || !preg_match('/^([\x7f-\xff_-]|\w|\s)+$/', $newtag)) {
 			return 'tag_rename_invalid';
 		}
 		if($newtag === $tag['tagname']) {
@@ -369,7 +369,7 @@ class tag {
 	public function merge_tag($tagidarray, $newtag, $idtype = '') {
 		$newtag = trim($newtag);
 		$newtagLength = mb_strlen($newtag, 'UTF-8');
-		if($newtag === '' || strpos($newtag, ',') !== false || $newtagLength < 2 || $newtagLength > 50 || !preg_match('/^([\x7f-\xff_-]|\w|\s)+$/', $newtag)) {
+		if($newtag === '' || strpos($newtag, ',') !== false || $newtagLength < 2 || $newtagLength > 35 || !preg_match('/^([\x7f-\xff_-]|\w|\s)+$/', $newtag)) {
 			return 'tag_empty';
 		}
 		if($newtag !== '') {

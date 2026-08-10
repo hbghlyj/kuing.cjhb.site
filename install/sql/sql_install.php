@@ -1625,7 +1625,7 @@ DROP TABLE IF EXISTS pre_common_tag;
 CREATE TABLE `pre_common_tag`
 (
 	`tagid`         mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
-	`tagname`       char(50) NOT NULL DEFAULT '',
+	`tagname`       char(35) NOT NULL DEFAULT '',
 	`status`        tinyint(1) NOT NULL DEFAULT '0',
 	`related_count` mediumint(8) unsigned NOT NULL DEFAULT '0',
 	`hot_score`     float    NOT NULL DEFAULT '0',

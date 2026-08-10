@@ -154,7 +154,7 @@ const { reportCiFailure } = require('./report_ci_failure');
         console.log("Checking AdminCP tag rename...");
         const tagRenameSuffix = Date.now().toString();
         const oldTagName = `admin_rename_${tagRenameSuffix}`;
-        const newTagName = `${'重'.repeat(37)}${tagRenameSuffix}`;
+        const newTagName = `${'重'.repeat(22)}${tagRenameSuffix}`;
         const taggedTid = execSync("sudo mysql -u root ultrax -N -s -e \"SELECT tid FROM pre_forum_thread ORDER BY tid LIMIT 1;\"").toString().trim();
         assert.match(taggedTid, /^\d+$/, 'Assertion Error: AdminCP tag rename test could not find a thread to associate with the tag.');
         const decoyTid = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT tid FROM pre_forum_thread WHERE tid <> ${taggedTid} ORDER BY tid LIMIT 1;"`).toString().trim();
