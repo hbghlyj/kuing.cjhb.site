@@ -566,7 +566,13 @@ $maxpage = ($_G['setting']['threadmaxpages'] && $_G['setting']['threadmaxpages']
 $nextpage = ($page + 1) > $maxpage ? 1 : ($page + 1);
 $multipage_more = "forum.php?mod=forumdisplay&fid={$_G['fid']}".$forumdisplayadd['page'].($multiadd ? '&'.implode('&', $multiadd) : '')."$multipage_archive".'&page='.$nextpage;
 
-$extra = rawurlencode(!IS_ROBOT ? 'page='.$page.($forumdisplayadd['page'] ? '&filter='.$filter.$forumdisplayadd['page'] : '') : 'page=1');
+$extraadd = $forumdisplayadd['page'];
+foreach($multiadd as $param) {
+	if(strpos($param, 'sortid=') !== 0) {
+		$extraadd .= '&'.$param;
+	}
+}
+$extra = rawurlencode(!IS_ROBOT ? 'page='.$page.$extraadd : 'page=1');
 
 $separatepos = 0;
 $_G['forum_threadlist'] = $threadids = [];
