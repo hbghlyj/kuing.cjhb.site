@@ -1294,7 +1294,7 @@ const testPusherLeaderCoordination = async browser => {
         const lastUploadResp = await (await uploadResponse).text();
         assert.match(lastUploadResp.trim(), /^\d+$/, `Assertion Error: Desktop image upload failed. Response: ${lastUploadResp}`);
         await page.waitForFunction(() => document.querySelector('#imgattachlist input[name^="attachnew["]'), null, { timeout: 5000 });
-        const aid = await page.locator('#imgattachlist input[name^="attachnew["]').evaluate(input => input.name.match(/^attachnew\[(\d+)\]/)[1]);
+        const aid = await page.locator('#imgattachlist input[name$="[displaywidth]"]').evaluate(input => input.name.match(/^attachnew\[(\d+)\]/)[1]);
         console.log("Discovered attachment AID:", aid);
         const displayWidthInput = page.locator(`#imgattachlist input[name="attachnew[${aid}][displaywidth]"]`);
         assert.strictEqual(await displayWidthInput.count(), 1, 'Assertion Error: Image attachment display-width control did not render.');
