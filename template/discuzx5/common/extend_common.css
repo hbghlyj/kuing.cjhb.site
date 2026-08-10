@@ -43,7 +43,7 @@
 
 
 
-body { background-image: linear-gradient(to bottom, #002366 0%, #002366 10%, #7FB3D5 30%, #7FB3D5 85%, #D6EAF8 100%); background-attachment: fixed; }
+body { background-image: linear-gradient(rgb(0, 35, 102) 0%, rgb(0, 35, 102) 5%, rgb(64, 107, 158) 25%, rgb(127, 179, 213) 50%, rgb(127, 179, 213) 85%, rgb(214, 234, 248) 100%); background-attachment: fixed; }
 input, textarea {font:1em/1.5 monospace}
 textarea {color:var(--dz-fa)}
 ul,li{list-style:none}
