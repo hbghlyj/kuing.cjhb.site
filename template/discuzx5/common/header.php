@@ -23,7 +23,7 @@
 	oDefs.appendChild(oFilter);
 	oSvg.appendChild(oDefs);
 	oSvg.appendChild(newSVGElem("rect", { width: "100%", height: "100%", fill: "#87CEEB" }));
-	oSvg.appendChild(newSVGElem("rect", { width: "100%", height: "100%", fill: "white", filter: "url(#less_smeared_cloud_filter)", opacity: "0.6" }));
+	oSvg.appendChild(newSVGElem("rect", { width: "100%", height: "100%", fill: "white", filter: "url(#less_smeared_cloud_filter)", opacity: "0.8" }));
 	var svgString = (new XMLSerializer()).serializeToString(oSvg);
 	var svgDataUrl = "data:image/svg+xml;base64," + btoa(svgString);
 	document.body.style.backgroundImage = 'url("' + svgDataUrl + '")';
