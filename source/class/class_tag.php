@@ -62,7 +62,8 @@ class tag {
 		$return = null;
 		foreach($tagarray as $tagname) {
 			$tagname = trim($tagname);
-			if(preg_match('/^([\x7f-\xff_-]|\w|\s){2,50}$/', $tagname)) {
+			$tagLength = mb_strlen($tagname, 'UTF-8');
+			if($tagname !== '' && $tagLength >= 2 && $tagLength <= 50 && preg_match('/^([\x7f-\xff_-]|\w|\s)+$/', $tagname)) {
 				$status = 0;
 				$result = table_common_tag::t()->get_bytagname($tagname, $idtype);
 				if($result['tagid']) {
@@ -294,6 +295,46 @@ class tag {
 		}
 	}
 
+	/**
+	 * Update denormalized tag references without changing tag associations.
+	 *
+	 * @param int $tagid
+	 * @param string $oldtag
+	 * @param string $newtag
+	 * @return void
+	 */
+	private function update_tag_references($tagid, $oldtag, $newtag) {
+		$oldTagRef = $tagid.','.$oldtag."\t";
+		$newTagRef = $tagid.','.$newtag."\t";
+
+		$referenceFields = [
+			['table' => 'forum_thread', 'field' => 'tags'],
+			['table' => 'home_blogfield', 'field' => 'tag'],
+			['table' => 'portal_article_title', 'field' => 'tags'],
+		];
+		foreach($referenceFields as $reference) {
+			DB::query('UPDATE %t SET '.$reference['field'].'=REPLACE('.$reference['field'].', %s, %s) WHERE INSTR('.$reference['field'].', %s) > 0', [
+				$reference['table'], $oldTagRef, $newTagRef, $oldTagRef
+			]);
+		}
+
+		// Doing tags are stored as a JSON object in home_doing.fields.
+		$doingItems = table_common_tagitem::t()->select($tagid, 0, 'doid');
+		$doids = array_values(array_unique(array_map('intval', array_column($doingItems, 'itemid'))));
+		if(!$doids) {
+			return;
+		}
+		$doings = DB::fetch_all('SELECT doid, fields FROM %t WHERE doid IN (%n)', ['home_doing', $doids]);
+		foreach($doings as $doing) {
+			$fields = json_decode($doing['fields'], true);
+			if(!is_array($fields) || !isset($fields['tags']) || !is_array($fields['tags']) || !array_key_exists($tagid, $fields['tags'])) {
+				continue;
+			}
+			$fields['tags'][$tagid] = $newtag;
+			table_home_doing::t()->update($doing['doid'], ['fields' => json_encode($fields, JSON_UNESCAPED_UNICODE)]);
+		}
+	}
+
 	public function rename_tag($tagidarray, $newtag) {
 		$tagidarray = array_values(array_unique(array_map('intval', (array)$tagidarray)));
 		if(count($tagidarray) !== 1) {
@@ -306,8 +347,8 @@ class tag {
 			return 'tag_rename_not_found';
 		}
 
-		$newtag = trim(str_replace(',', '', $newtag));
-		if(!preg_match('/^([\x7f-\xff_-]|\w|\s){2,50}$/', $newtag)) {
+		$newtag = trim($newtag);
+		if($newtag === '' || strpos($newtag, ',') !== false || mb_strlen($newtag, 'UTF-8') < 2 || mb_strlen($newtag, 'UTF-8') > 50 || !preg_match('/^([\x7f-\xff_-]|\w|\s)+$/', $newtag)) {
 			return 'tag_rename_invalid';
 		}
 		if($newtag === $tag['tagname']) {
@@ -319,24 +360,19 @@ class tag {
 			return 'tag_rename_exists';
 		}
 
-		$oldTagRef = $tagid.','.$tag['tagname']."\t";
-		$newTagRef = $tagid.','.$newtag."\t";
-		$likeOldTagRef = '%'.$oldTagRef.'%';
-		DB::query('UPDATE %t SET tags=REPLACE(tags, %s, %s) WHERE tags LIKE %s', ['forum_thread', $oldTagRef, $newTagRef, $likeOldTagRef]);
-		DB::query('UPDATE %t SET tag=REPLACE(tag, %s, %s) WHERE tag LIKE %s', ['home_blogfield', $oldTagRef, $newTagRef, $likeOldTagRef]);
-		DB::query('UPDATE %t SET tags=REPLACE(tags, %s, %s) WHERE tags LIKE %s', ['portal_article_title', $oldTagRef, $newTagRef, $likeOldTagRef]);
+		$this->update_tag_references($tagid, $tag['tagname'], $newtag);
 		table_common_tag::t()->update($tagid, ['tagname' => $newtag, 'updated_at' => TIMESTAMP]);
 
 		return 'succeed';
 	}
 
 	public function merge_tag($tagidarray, $newtag, $idtype = '') {
-		$newtag = str_replace(',', '', $newtag);
 		$newtag = trim($newtag);
-		if(!$newtag) {
+		$newtagLength = mb_strlen($newtag, 'UTF-8');
+		if($newtag === '' || strpos($newtag, ',') !== false || $newtagLength < 2 || $newtagLength > 50 || !preg_match('/^([\x7f-\xff_-]|\w|\s)+$/', $newtag)) {
 			return 'tag_empty';
 		}
-		if(preg_match('/^([\x7f-\xff_-]|\w|\s){2,50}$/', $newtag)) {
+		if($newtag !== '') {
 			$tidarray = $blogidarray = $articleidarray = [];
 			$newtaginfo = $this->add_tag($newtag, 0, $idtype, 1);
 			foreach($newtaginfo as $tagid => $tagname) {

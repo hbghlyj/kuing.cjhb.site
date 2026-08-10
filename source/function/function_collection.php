@@ -142,7 +142,8 @@ function parse_keyword($keywords, $string = false, $filter = true) {
 	$tagcount = 0;
 	foreach($tagarray as $tagname) {
 		$tagname = trim($tagname);
-		if(preg_match('/^([\x7f-\xff_-]|\w|\s){3,30}$/', $tagname)) {
+		$tagLength = mb_strlen($tagname, 'UTF-8');
+		if($tagname !== '' && $tagLength >= 3 && $tagLength <= 30 && preg_match('/^([\x7f-\xff_-]|\w|\s)+$/', $tagname)) {
 			$tagcount++;
 			$return[] = $tagname;
 			if($tagcount > 4) {

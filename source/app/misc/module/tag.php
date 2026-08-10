@@ -85,7 +85,8 @@ if(!empty($id) || $name !== '') {
 		$id = [];
 		$html_title = [];
 		foreach($nameparts as $value) {
-			if(!preg_match('/^([\x7f-\xff_-]|\w|\s)+$/', $value) || strlen($value) > 30 || strlen($value) < 3) {
+			$tagLength = mb_strlen($value, 'UTF-8');
+			if($value === '' || $tagLength > 30 || $tagLength < 3 || !preg_match('/^([\x7f-\xff_-]|\w|\s)+$/', $value)) {
 				showmessage('tag_does_not_exist', '', ['tag' => $value]);
 			}
 			$result = table_common_tag::t()->get_bytagname($value, 'tid');
