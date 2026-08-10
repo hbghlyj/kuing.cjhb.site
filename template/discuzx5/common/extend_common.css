@@ -43,7 +43,7 @@
 
 
 
-body {background-color:#87CEEB;background-size:cover;background-attachment:fixed;background-repeat:no-repeat;}
+body {background-color:skyblue;}
 input, textarea {font:1em/1.5 monospace}
 textarea {color:var(--dz-fa)}
 ul,li{list-style:none}

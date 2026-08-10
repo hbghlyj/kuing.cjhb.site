@@ -89,6 +89,7 @@ Explain:		重定义浏览器默认样式
 Last Modify:	Pony
 */
 	body { {BGCODE}; }
+	body::before { content: ""; position: fixed; top: 0; left: -200%; width: 500%; height: 500%; z-index: -9999; background-image: var(--cloud-bg, none); background-size: 1024px 1024px; background-repeat: repeat; transform: perspective(1200px) rotateX(-45deg); transform-origin: center top; will-change: transform; pointer-events: none; mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.8) 30%, rgba(0,0,0,0) 60%); -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.8) 30%, rgba(0,0,0,0) 60%); }
 	textarea { resize: vertical; }
 	body, button, select { font: {FONTSIZE} "Google Sans", sans-serif; color: {TABLETEXT}; }
 	input, textarea { font: {FONTSIZE} monospace,zh; color: {TABLETEXT}; }
@@ -2477,3 +2478,8 @@ DIY图片幻灯片未加载时隐藏,模块标识隐藏
     line-height: 20px;
     color: #333;
 }
+
+/* Skip Link Accessibility Style */
+.dz-skip-link { position: absolute; top: -100px; left: 50%; transform: translateX(-50%); z-index: 9999; padding: 8px 16px; background: var(--dz-nvbg, #333); color: var(--dz-ff, #fff); font-size: 14px; border-radius: 0 0 var(--dz-radius-m, 6px) var(--dz-radius-m, 6px); box-shadow: var(--dz-shadow, 0 2px 8px rgba(0,0,0,.15)); transition: top .2s ease-in-out; }
+.dz-skip-link:focus, .dz-skip-link:focus-visible { top: 0; }
+
