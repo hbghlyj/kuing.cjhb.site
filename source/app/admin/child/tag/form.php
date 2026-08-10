@@ -36,7 +36,7 @@ foreach($query as $result) {
 	}
 	showtablerow('', ['class="td25"', 'width=400', ''], [
 		"<input class=\"checkbox\" type=\"checkbox\" name=\"tagidarray[]\" value=\"{$result['tagid']}\" />",
-		$result['tagname'],
+		'<a href="misc.php?mod=tag&id='.intval($result['tagid']).'" target="_blank">'.dhtmlspecialchars($result['tagname']).'</a>',
 		$tagstatus,
 		$result['related_count'],
 		sprintf("%.2f", $result['hot_score']),
