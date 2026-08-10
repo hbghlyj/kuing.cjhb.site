@@ -19,11 +19,11 @@
 	var oDefs = newSVGElem("defs");
 	var oFilter = newSVGElem("filter", { id: "less_smeared_cloud_filter" });
 	oFilter.appendChild(newSVGElem("feTurbulence", { type: "fractalNoise", baseFrequency: "0.008 0.04", numOctaves: "4", seed: seed, result: "noise" }));
-	oFilter.appendChild(newSVGElem("feColorMatrix", { type: "matrix", values: "0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 5 -2.5", result: "cloudAlpha" }));
+	oFilter.appendChild(newSVGElem("feColorMatrix", { type: "matrix", values: "0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 7 -4", result: "cloudAlpha" }));
 	oDefs.appendChild(oFilter);
 	oSvg.appendChild(oDefs);
 	oSvg.appendChild(newSVGElem("rect", { width: "100%", height: "100%", fill: "#87CEEB" }));
-	oSvg.appendChild(newSVGElem("rect", { width: "100%", height: "100%", fill: "white", filter: "url(#less_smeared_cloud_filter)", opacity: "0.8" }));
+	oSvg.appendChild(newSVGElem("rect", { width: "100%", height: "100%", fill: "white", filter: "url(#less_smeared_cloud_filter)", opacity: "0.6" }));
 	var svgString = (new XMLSerializer()).serializeToString(oSvg);
 	var svgDataUrl = "data:image/svg+xml;base64," + btoa(svgString);
 	document.body.style.backgroundImage = 'url("' + svgDataUrl + '")';
