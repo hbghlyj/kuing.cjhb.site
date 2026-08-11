@@ -43,7 +43,7 @@
 
 
 
-body { isolation: isolate; position: relative; background-image: radial-gradient(120vw 90vh at 78% 12%, rgba(255, 246, 224, 0.95) 0%, rgba(255, 236, 200, 0.45) 18%, rgba(255, 230, 205, 0.0) 42%), linear-gradient(180deg, #0b2e7c 0%, #123d93 12%, #1d55b8 26%, #2f6fc8 40%, #4f90d8 54%, #79b3e2 68%, #aad0ec 80%, #d6e7f2 90%, #eef3f5 100%); }
+body { isolation: isolate; position: relative; overflow-x: clip; background-image: radial-gradient(120vw 90vh at 78% 12%, rgba(255, 246, 224, 0.95) 0%, rgba(255, 236, 200, 0.45) 18%, rgba(255, 230, 205, 0.0) 42%), linear-gradient(180deg, #0b2e7c 0%, #123d93 12%, #1d55b8 26%, #2f6fc8 40%, #4f90d8 54%, #79b3e2 68%, #aad0ec 80%, #d6e7f2 90%, #eef3f5 100%); }
 body::after { content: ""; position: absolute; left: -50%; bottom: -12vh; width: 200%; height: 57vh; z-index: -10000; background: var(--ocean-bg, linear-gradient(180deg, #2e8fb3, #0b426d)); background-size: 1024px 1024px; background-repeat: repeat; transform: perspective(1200px) rotateX(45deg); transform-origin: center bottom; pointer-events: none; will-change: transform; }
 input, textarea {font:1em/1.5 monospace}
 textarea {color:var(--dz-fa)}
