@@ -28,6 +28,10 @@ try {
     let tagMenuLength = 0;
     let debounceTimeout = null;
 
+    function updateHiddenTags() {
+        hiddenTags.value = keywords.join(',');
+    }
+
     // Modern render: insert tag chips inside .tags div before the input (backport of JSON editor chips)
     function renderTags() {
         // Remove old chips
@@ -57,8 +61,6 @@ try {
             // Insert tag chip just before the input
             tagsContainer.insertBefore(chip, keywordInput);
         });
-
-        hiddenTags.value = keywords.join(',');
     }
 
     window.tagMenuOp = function(op, index) {
@@ -93,6 +95,7 @@ try {
         if (!keywords.includes(value)) {
             keywords.push(value);
             renderTags();
+            updateHiddenTags();
         }
         return true;
     };
@@ -102,6 +105,7 @@ try {
         if (index > -1) {
             keywords.splice(index, 1);
             renderTags();
+            updateHiddenTags();
         }
     };
 
@@ -222,14 +226,22 @@ try {
     if (tagForm) {
         tagForm.addEventListener('submit', function(e) {
             const pendingTag = keywordInput.value.trim();
-            if (pendingTag && !window.addKeyword(pendingTag)) {
+            const acceptedPendingTag = pendingTag && window.addKeyword(pendingTag);
+            if (pendingTag && !acceptedPendingTag) {
                 e.preventDefault();
             }
-            keywordInput.value = '';
+            if (acceptedPendingTag) {
+                queueMicrotask(function() {
+                    if (!e.defaultPrevented) {
+                        keywordInput.value = '';
+                    }
+                });
+            }
         });
     }
 
     renderTags();
+    updateHiddenTags();
 } catch(e) { if(window.console) console.warn('tag_input init error:', e.message); }
 })();
 </script>
