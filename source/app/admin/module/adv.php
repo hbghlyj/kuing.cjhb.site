@@ -24,7 +24,6 @@ if(!empty($_GET['preview'])) {
 	<head>
 		<meta charset="<?php echo CHARSET; ?>"/>
 		<meta name="renderer" content="webkit"/>
-		<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 		<script type="text/javascript">var IMGDIR = '<?php echo $_G['style']['imgdir']; ?>',
                         cookiepre = '<?php echo $_G['config']['cookie']['cookiepre'];?>',
                         cookiedomain = '<?php echo $_G['config']['cookie']['cookiedomain'];?>',

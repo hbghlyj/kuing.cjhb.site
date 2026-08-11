@@ -176,7 +176,6 @@ class discuz_error {
 	<title>$host - $title Error</title>
 	<meta charset="{$_G['config']['output']['charset']}" />
 	<meta name="renderer" content="webkit" />
-	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 	<meta name="ROBOTS" content="NOINDEX,NOFOLLOW,NOARCHIVE" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<style type="text/css">

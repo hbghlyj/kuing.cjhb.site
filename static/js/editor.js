@@ -751,7 +751,7 @@ function writeEditorContents(text) {
 			var editorHtmlLang = document.documentElement ? document.documentElement.lang : '';
 			text = '<!DOCTYPE html>' +
 				'<html' + (editorHtmlLang ? ' lang="' + editorHtmlLang + '"' : '') + '><head id="editorheader"><meta charset="' + charset + '" />' +
-				'<meta name="renderer" content="webkit" /><meta http-equiv="X-UA-Compatible" content="IE=edge" />' +
+				'<meta name="renderer" content="webkit" />' +
 				'<base href="' + document.baseURI + '" />' +
 				'<link rel="stylesheet" type="text/css" href="' + CSSPATH + STYLEID + '_wysiwyg.css?' + VERHASH + '" />' +
 				'</head><body>' + text + '</body></html>';

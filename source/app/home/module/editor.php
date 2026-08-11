@@ -20,7 +20,6 @@ if(empty($_GET['op'])) {
 	<head>
 		<meta charset="<?php echo $_GET['charset']; ?>"/>
 		<meta name="renderer" content="webkit"/>
-		<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 		<title>Editor</title>
 		<script type="text/javascript" src="<?php echo STATICURL; ?>js/common.js"></script>
 		<script type="text/javascript" src="<?php echo STATICURL; ?>js/home.js"></script>
@@ -844,7 +843,6 @@ if(empty($_GET['op'])) {
 	<head>
 		<meta charset="<?php echo $_GET['charset']; ?>"/>
 		<meta name="renderer" content="webkit"/>
-		<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 		<title>Editor</title>
 		<style>
 			body {

@@ -1179,13 +1179,13 @@ function _widthauto(obj) {
 		} else {
 			$('css_widthauto').disabled = false;
 		}
-		HTMLNODE.className += ' widthauto';
+		document.documentElement.className += ' widthauto';
 		setcookie('widthauto', 1, 86400 * 30);
 		obj.innerHTML = strs[1];
 		obj.title = strs[1];
 	} else {
 		$('css_widthauto').disabled = true;
-		HTMLNODE.className = HTMLNODE.className.replace(' widthauto', '');
+		document.documentElement.className = document.documentElement.className.replace(' widthauto', '');
 		setcookie('widthauto', -1, 86400 * 30);
 		obj.innerHTML = strs[0];
 		obj.title = strs[0];

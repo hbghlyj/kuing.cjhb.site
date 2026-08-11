@@ -6,7 +6,6 @@
 	<meta charset="$charset">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<meta name="renderer" content="webkit">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="color-scheme" content="light dark">
 	<link href="{$staticurl}image/admincp/minireset.css?{$_G['style']['verhash']}" rel="stylesheet" />
 	<link href="{$staticurl}image/admincp/admincppage.css?{$_G['style']['verhash']}" rel="stylesheet" />

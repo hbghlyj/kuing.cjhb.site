@@ -2396,9 +2396,6 @@ if (BROWSER.safari || BROWSER.rv) {
 }
 BROWSER.opera = BROWSER.opera ? opera.version() : 0;
 
-HTMLNODE = document.getElementsByTagName('head')[0].parentNode;
-
-
 var CSSLOADED = [];
 var JSLOADED = [];
 var JSMENU = [];

@@ -149,6 +149,12 @@
 					<em $thread['highlight']>{$thread['subject']}</em>
 				</div>
 				</a>
+				<!--{if !empty($thread['taglist'])}-->
+				<div class="ptg mbm mtn cl">
+					<i class="dm-tag vm"></i>
+					<span class="threadtags"><!--{loop $thread['taglist'] $tag}--><a title="$tag['tagname']" href="misc.php?mod=tag&id=$tag['tagid']&name=<!--{echo rawurlencode($tag['tagname'])}-->" target="_blank">$tag['tagname']</a><!--{/loop}--></span>
+				</div>
+				<!--{/if}-->
 				<a href="forum.php?mod=viewthread&tid=$thread['tid']&extra=$extra"><div class="threadlist_mes cl">{$threadlist_data[$thread['tid']]['message']}</div></a>
 				<!--{if $threadlist_data[$thread['tid']]['attachment']}-->
 				<!--{eval $attach_on = 0;}-->

@@ -90,7 +90,6 @@ function securitymessage($subject, $message, $reload = TRUE, $form = FALSE) {
 		echo '<head>';
 		echo '<meta charset="'.$_G['charset'].'" />';
 		echo '<meta name="renderer" content="webkit" />';
-		echo '<meta http-equiv="X-UA-Compatible" content="IE=edge" />';
 		echo '<title>'.$subject.'</title>';
 		echo '<style>table.cp0 td, table.cp0 th { padding: 0; } table.cp0 { border-collapse: collapse; } table.cp10 td, table.cp10 th { padding: 10px; } table.cp10 { border-collapse: collapse; }</style>';
 		echo '</head>';
