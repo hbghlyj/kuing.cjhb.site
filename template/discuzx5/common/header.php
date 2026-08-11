@@ -25,10 +25,8 @@
 	oFilter.appendChild(newSVGElem("feColorMatrix", { type: "matrix", values: "0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 7 -3.5" }));
 	oDefs.appendChild(oFilter);
 	oSvg.appendChild(oDefs);
-	var oLayer = newSVGElem("g", { style: "transform: perspective(1200px) rotateX(-45deg); transform-origin: 50% 0%; transform-box: fill-box;" });
-	oLayer.appendChild(newSVGElem("rect", { width: "100%", height: "100%", fill: "transparent" }));
-	oLayer.appendChild(newSVGElem("rect", { width: "100%", height: "100%", fill: "white", filter: "url(#seamless)", opacity: "0.8" }));
-	oSvg.appendChild(oLayer);
+	oSvg.appendChild(newSVGElem("rect", { width: "100%", height: "100%", fill: "transparent" }));
+	oSvg.appendChild(newSVGElem("rect", { width: "100%", height: "100%", fill: "white", filter: "url(#seamless)", opacity: "0.8" }));
 	var svgString = (new XMLSerializer()).serializeToString(oSvg);
 	var svgDataUrl = "data:image/svg+xml;base64," + btoa(svgString);
 
