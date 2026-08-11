@@ -55,35 +55,49 @@
 	oceanGradient.appendChild(newSVGElem("stop", { offset: "0", "stop-color": "#2e8fb3" }));
 	oceanGradient.appendChild(newSVGElem("stop", { offset: "1", "stop-color": "#0b426d" }));
 	oceanDefs.appendChild(oceanGradient);
-	var fSway = newSVGElem("filter", { id: "fSway", x: "-10%", y: "-20%", width: "120%", height: "140%" });
-	fSway.appendChild(newSVGElem("feTurbulence", { type: "fractalNoise", baseFrequency: "0.004 0.018", numOctaves: "2", seed: seed + 17, result: "swellNoise" }));
-	fSway.appendChild(newSVGElem("feDisplacementMap", { in: "SourceGraphic", in2: "swellNoise", scale: "22", xChannelSelector: "R", yChannelSelector: "B", result: "swayed" }));
-	var fSwell = newSVGElem("feDiffuseLighting", { in: "swellNoise", surfaceScale: "2.5", diffuseConstant: "0.75", "lighting-color": "#b9e8f4", result: "swellLight" });
-	fSwell.appendChild(newSVGElem("feDistantLight", { azimuth: "228", elevation: "48" }));
-	fSway.appendChild(fSwell);
-	fSway.appendChild(newSVGElem("feComposite", { in: "swellLight", in2: "swayed", operator: "in", result: "swellShade" }));
-	fSway.appendChild(newSVGElem("feBlend", { in: "swayed", in2: "swellShade", mode: "soft-light" }));
+	var fSway = newSVGElem("filter", { id: "fSway", x: "-8%", y: "-10%", width: "116%", height: "120%" });
+	fSway.appendChild(newSVGElem("feTurbulence", { type: "fractalNoise", baseFrequency: "0.003 0.018", numOctaves: "1", seed: seed + 17, result: "swellNoise" }));
+	fSway.appendChild(newSVGElem("feDisplacementMap", { in: "SourceGraphic", in2: "swellNoise", scale: "15", xChannelSelector: "R", yChannelSelector: "G" }));
 	oceanDefs.appendChild(fSway);
-	var oceanFilter = newSVGElem("filter", { id: "ocean-waves", x: "-10%", y: "-20%", width: "120%", height: "140%" });
-	oceanFilter.appendChild(newSVGElem("feTurbulence", { type: "fractalNoise", baseFrequency: "0.012 0.065", numOctaves: "2", seed: seed + 23, result: "ocean-noise" }));
-	oceanFilter.appendChild(newSVGElem("feDisplacementMap", { in: "SourceGraphic", in2: "ocean-noise", scale: "24", xChannelSelector: "R", yChannelSelector: "B" }));
-	oceanDefs.appendChild(oceanFilter);
-	function rippleFilter(id, frequency, exponent, constant) {
-		var filter = newSVGElem("filter", { id: id, x: "-10%", y: "-30%", width: "120%", height: "160%" });
+	var fSwell = newSVGElem("filter", { id: "fSwell", x: "-4%", y: "-4%", width: "108%", height: "108%" });
+	fSwell.appendChild(newSVGElem("feTurbulence", { type: "fractalNoise", baseFrequency: "0.0025 0.009", numOctaves: "2", seed: seed + 23, result: "swellNoise" }));
+	var swellLight = newSVGElem("feDiffuseLighting", { in: "swellNoise", surfaceScale: "3", diffuseConstant: "0.9", "lighting-color": "#d9f2f8", result: "swellLight" });
+	swellLight.appendChild(newSVGElem("feDistantLight", { azimuth: "300", elevation: "55" }));
+	fSwell.appendChild(swellLight);
+	fSwell.appendChild(newSVGElem("feComposite", { in: "swellLight", in2: "SourceAlpha", operator: "in" }));
+	oceanDefs.appendChild(fSwell);
+	function rippleFilter(id, frequency, surfaceScale, exponent, constant) {
+		var filter = newSVGElem("filter", { id: id, x: "-4%", y: "-10%", width: "108%", height: "120%" });
 		filter.appendChild(newSVGElem("feTurbulence", { type: "fractalNoise", baseFrequency: frequency, numOctaves: "2", seed: seed + 31, result: "rippleNoise" }));
-		var specular = newSVGElem("feSpecularLighting", { in: "rippleNoise", surfaceScale: "1.4", specularConstant: constant, specularExponent: exponent, "lighting-color": "#f4ffff", result: "rippleLight" });
-		specular.appendChild(newSVGElem("feDistantLight", { azimuth: "235", elevation: "62" }));
-		filter.appendChild(specular);
-		filter.appendChild(newSVGElem("feComposite", { in: "rippleLight", in2: "SourceGraphic", operator: "in", result: "rippleHighlight" }));
-		filter.appendChild(newSVGElem("feBlend", { in: "SourceGraphic", in2: "rippleHighlight", mode: "screen" }));
+		var rippleLight = newSVGElem("feSpecularLighting", { in: "rippleNoise", surfaceScale: surfaceScale, specularConstant: constant, specularExponent: exponent, "lighting-color": "#f4faff", result: "rippleLight" });
+		rippleLight.appendChild(newSVGElem("feDistantLight", { azimuth: "300", elevation: "58" }));
+		filter.appendChild(rippleLight);
+		filter.appendChild(newSVGElem("feComposite", { in: "rippleLight", in2: "SourceAlpha", operator: "in" }));
 		return filter;
 	}
-	oceanDefs.appendChild(rippleFilter("fRippleHorizon", "0.014 0.12", "18", "0.32"));
-	oceanDefs.appendChild(rippleFilter("fRippleForeground", "0.009 0.085", "12", "0.22"));
+	oceanDefs.appendChild(rippleFilter("fRippleFar", "0.014 0.12", "1.3", "16", "0.8"));
+	oceanDefs.appendChild(rippleFilter("fRippleNear", "0.009 0.06", "2.4", "13", "0.7"));
+	oceanDefs.appendChild(rippleFilter("fSpecFar", "0.010 0.09", "1.6", "16", "1.0"));
+	oceanDefs.appendChild(rippleFilter("fSpecNear", "0.006 0.05", "2.6", "13", "0.9"));
+	function maskGradient(id, start, end, reverse) {
+		var gradient = newSVGElem("linearGradient", { id: id, gradientUnits: "userSpaceOnUse", x1: "0", y1: start, x2: "0", y2: end });
+		gradient.appendChild(newSVGElem("stop", { offset: "0", "stop-color": "#fff", "stop-opacity": reverse ? "0" : "1" }));
+		gradient.appendChild(newSVGElem("stop", { offset: "0.65", "stop-color": "#fff", "stop-opacity": "0.45" }));
+		gradient.appendChild(newSVGElem("stop", { offset: "1", "stop-color": "#fff", "stop-opacity": reverse ? "1" : "0" }));
+		oceanDefs.appendChild(gradient);
+		var mask = newSVGElem("mask", { id: id + "Mask" });
+		mask.appendChild(newSVGElem("rect", { x: "-80", y: start, width: size + 160, height: end - start, fill: "url(#" + id + ")" }));
+		oceanDefs.appendChild(mask);
+	}
+	maskGradient("farFade", "0", "360");
+	maskGradient("nearFade", "360", String(size), true);
 	oceanSvg.appendChild(oceanDefs);
-	oceanSvg.appendChild(newSVGElem("rect", { width: size, height: size, fill: "url(#ocean-gradient)", filter: "url(#fSway)" }));
-	oceanSvg.appendChild(newSVGElem("rect", { y: "35", width: size, height: "285", fill: "#d7f7ff", opacity: "0.32", filter: "url(#fRippleHorizon)" }));
-	oceanSvg.appendChild(newSVGElem("rect", { y: "500", width: size, height: "524", fill: "#8ed4e4", opacity: "0.18", filter: "url(#fRippleForeground)" }));
+	oceanSvg.appendChild(newSVGElem("rect", { x: "-80", y: "-80", width: size + 160, height: size + 160, fill: "url(#ocean-gradient)", filter: "url(#fSway)" }));
+	oceanSvg.appendChild(newSVGElem("rect", { x: "-40", y: "0", width: size + 80, height: size, fill: "#d9f2f8", filter: "url(#fSwell)", opacity: "0.32", style: "mix-blend-mode: soft-light" }));
+	oceanSvg.appendChild(newSVGElem("rect", { x: "-40", y: "0", width: size + 80, height: "360", fill: "#d9f7ff", filter: "url(#fRippleFar)", opacity: "0.28", mask: "url(#farFadeMask)", style: "mix-blend-mode: overlay" }));
+	oceanSvg.appendChild(newSVGElem("rect", { x: "-40", y: "360", width: size + 80, height: size - 360, fill: "#d9f7ff", filter: "url(#fRippleNear)", opacity: "0.24", mask: "url(#nearFadeMask)", style: "mix-blend-mode: overlay" }));
+	oceanSvg.appendChild(newSVGElem("rect", { x: "-40", y: "0", width: size + 80, height: "360", fill: "#f0fbff", filter: "url(#fSpecFar)", opacity: "0.42", mask: "url(#farFadeMask)", style: "mix-blend-mode: screen" }));
+	oceanSvg.appendChild(newSVGElem("rect", { x: "-40", y: "360", width: size + 80, height: size - 360, fill: "#f0fbff", filter: "url(#fSpecNear)", opacity: "0.2", mask: "url(#nearFadeMask)", style: "mix-blend-mode: screen" }));
 	var waveGroup = newSVGElem("g", { filter: "url(#ocean-waves)", fill: "none", stroke: "#9ed8e3", "stroke-linecap": "round", opacity: "0.42" });
 	for(var wave = 0; wave < 9; wave++) {
 		var y = 90 + wave * 102;
