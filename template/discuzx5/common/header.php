@@ -18,7 +18,7 @@
 	var freqY = 8 / size;
 	var seed = Math.floor(Math.random() * 255);
 
-	var oSvg = newSVGElem("svg", { xmlns: "http://www.w3.org/2000/svg", width: size, height: size, viewBox: "0 0 " + size + " " + size });
+	var oSvg = newSVGElem("svg", { xmlns: "http://www.w3.org/2000/svg", width: size, height: size, viewBox: "0 0 " + size + " " + size, preserveAspectRatio: "none", overflow: "hidden" });
 	var oDefs = newSVGElem("defs");
 	var oFilter = newSVGElem("filter", { id: "seamless", x: "0", y: "0", width: "100%", height: "100%" });
 	oFilter.appendChild(newSVGElem("feTurbulence", { type: "fractalNoise", baseFrequency: freqX + " " + freqY, numOctaves: "5", seed: seed, stitchTiles: "stitch" }));
@@ -29,23 +29,30 @@
 	oSvg.appendChild(newSVGElem("rect", { width: "100%", height: "100%", fill: "white", filter: "url(#seamless)", opacity: "0.8" }));
 	var svgString = (new XMLSerializer()).serializeToString(oSvg);
 	var svgDataUrl = "data:image/svg+xml;base64," + btoa(svgString);
-
 	var img = new Image();
 	img.onload = function() {
 		try {
 			var canvas = document.createElement('canvas');
 			canvas.width = size;
 			canvas.height = size;
-			var ctx = canvas.getContext('2d');
-			ctx.drawImage(img, 0, 0);
-			var pngDataUrl = canvas.toDataURL('image/png');
-			document.body.style.setProperty('--cloud-bg', 'url("' + pngDataUrl + '")');
+			canvas.getContext('2d').drawImage(img, 0, 0);
+			var skySvg = newSVGElem("svg", { xmlns: "http://www.w3.org/2000/svg", class: "sky-layer", width: "100%", height: "100%", viewBox: "0 0 " + size + " " + size, preserveAspectRatio: "none", overflow: "hidden" });
+			var skyImage = newSVGElem("image", { x: "0", y: "0", width: size, height: size, preserveAspectRatio: "none" });
+			skyImage.setAttribute("href", canvas.toDataURL('image/png'));
+			skySvg.appendChild(skyImage);
+			document.body.appendChild(skySvg);
 		} catch(e) {
-			document.body.style.setProperty('--cloud-bg', 'url("' + svgDataUrl + '")');
+			oSvg.setAttribute("class", "sky-layer");
+			oSvg.setAttribute("width", "100%");
+			oSvg.setAttribute("height", "100%");
+			document.body.appendChild(oSvg);
 		}
 	};
 	img.onerror = function() {
-		document.body.style.setProperty('--cloud-bg', 'url("' + svgDataUrl + '")');
+		oSvg.setAttribute("class", "sky-layer");
+		oSvg.setAttribute("width", "100%");
+		oSvg.setAttribute("height", "100%");
+		document.body.appendChild(oSvg);
 	};
 	img.src = svgDataUrl;
 
