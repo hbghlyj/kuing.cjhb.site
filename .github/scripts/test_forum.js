@@ -1285,7 +1285,8 @@ const testPusherLeaderCoordination = async browser => {
 
         console.log("Checking other user's profile page on desktop (admin uid=1)...");
         await page.goto('http://127.0.0.1:8080/home.php?mod=space&uid=1&do=profile');
-        await page.waitForLoadState('networkidle');
+        await page.waitForLoadState('domcontentloaded');
+        await page.locator('body').waitFor({ state: 'visible' });
         const otherProfileBody = await page.textContent('body');
         assert.ok(otherProfileBody.includes('admin'), 'Assertion Error: Desktop other user profile page did not load.');
         await page.screenshot({ path: 'screenshot_desktop_other_user_profile.png' });
