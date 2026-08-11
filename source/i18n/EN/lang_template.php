@@ -470,6 +470,7 @@ $lang = array (
 	'viewed_threads'		=> 'Viewed threads',//'浏览过的帖子',
 	'viewed_forums'			=> 'Viewed boards',//'浏览过的版块',
 	'post_tag'			=> 'Tags',//'标签',
+	'input_a_new_tag_press_enter_submit' => 'Enter a new tag and press Enter',
 	'choosetag'			=> 'Select tags',//'选择标签',
 	'posttag_comment_forbidadd'	=> ', only existing tags can be selected',//'，只能选择已有标签',
 	'posttag_comment'		=> 'Separate multiple tags with commas',//'用逗号隔开多个标签',

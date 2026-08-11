@@ -475,6 +475,7 @@ $lang = [
 	'viewed_threads' => '浏览过的帖子',
 	'viewed_forums' => '浏览过的版块',
 	'post_tag' => '标签',
+	'input_a_new_tag_press_enter_submit' => '输入一个新标签，按回车键添加',
 	'choosetag' => '选择标签',
 	'posttag_comment_forbidadd' => '，只能选择已有标签',
 	'posttag_comment' => '用逗号隔开多个标签',
