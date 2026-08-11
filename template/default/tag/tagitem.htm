@@ -16,6 +16,7 @@
 <div id="ct" class="wp cl">
 	<h1 class="mt"><i class="fico-tag fc-s" alt="tag"></i> {lang tag}: $html_title</h1>
 	<!--{if empty($showtype) || $showtype == 'thread'}-->
+		<!--{if $threadlist}-->
 		<table class="bm tl cp0" width="100%">
 				<thead class="th">
 					<tr>
@@ -27,7 +28,6 @@
 					<td class="by">{lang lastpost}</td>
 					</tr>
 				</thead>
-			<!--{if $threadlist}-->
 				<tbody>
 					<!--{loop $threadlist $thread}-->
 						<tr>
@@ -102,10 +102,10 @@
 				<!--{else}-->
 				<!--{if $multipage}--><div class="pgs mtm cl">$multipage</div><!--{/if}-->
 				<!--{/if}-->
-				<!--{else}-->
-				<p class="emp">{lang no_content}</p>
-				<!--{/if}-->
-			</table>
+		</table>
+		<!--{else}-->
+		<p class="emp">{lang no_content}</p>
+		<!--{/if}-->
 	<!--{/if}-->
 
 	<!--{if helper_access::check_module('blog') && (empty($showtype) || $showtype == 'blog')}-->
