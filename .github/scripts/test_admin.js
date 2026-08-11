@@ -198,7 +198,11 @@ const { reportCiFailure } = require('./report_ci_failure');
         await renameTagViaAdmin(oldTagName, name34);
         await renameTagViaAdmin(name34, newTagName);
         await renameTagViaAdmin(newTagName, name36);
-        assert.ok((await page.textContent('body')).includes('2 to 35'), 'Assertion Error: AdminCP did not reject the 36-character tag name.');
+        const invalidTagMessage = await page.textContent('body');
+        assert.ok(
+            /2 to 35|2\s*至\s*35/.test(invalidTagMessage),
+            'Assertion Error: AdminCP did not show the localized 35-character tag limit.'
+        );
         const renamedTag = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT tagid, tagname FROM pre_common_tag WHERE tagid=${tagId};"`).toString().trim();
         assert.strictEqual(renamedTag, `${tagId}\t${newTagName}`, 'Assertion Error: AdminCP tag rename did not preserve the tag ID and update its name.');
         const renamedThreadReference = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT COUNT(*) FROM pre_forum_thread WHERE tid=${taggedTid} AND tags LIKE CONCAT('%', '${tagId},${newTagName}', CHAR(9), '%');"`).toString().trim();
