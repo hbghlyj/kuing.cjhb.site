@@ -5,8 +5,11 @@ if(PHP_SAPI !== 'cli' || getenv('GITHUB_ACTIONS') !== 'true') {
 	exit(1);
 }
 
-define('IN_DISCUZ', true);
 define('DISCUZ_ROOT', dirname(__DIR__, 2).'/');
+if(!isset($_SERVER['REQUEST_URI'])) {
+	$_SERVER['REQUEST_URI'] = '/.github/scripts/test_emailpost.php';
+}
+require DISCUZ_ROOT.'source/class/class_core.php';
 require DISCUZ_ROOT.'source/class/class_emailpost.php';
 
 function emailpost_assert($condition, string $message): void {
@@ -96,7 +99,6 @@ if(!is_file(DISCUZ_ROOT.'config/config_global.php')) {
 	exit;
 }
 
-require DISCUZ_ROOT.'source/class/class_core.php';
 $discuz = C::app();
 $discuz->init();
 require_once libfile('function/forum');

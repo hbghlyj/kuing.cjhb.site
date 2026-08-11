@@ -13,6 +13,10 @@ if(PHP_SAPI !== 'cli') {
 	exit;
 }
 
+if(!isset($_SERVER['REQUEST_URI'])) {
+	$_SERVER['REQUEST_URI'] = '/api/emailpost_pipe.php';
+}
+
 require_once dirname(__DIR__).'/source/class/class_core.php';
 $discuz = C::app();
 $discuz->init();
