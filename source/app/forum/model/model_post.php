@@ -696,12 +696,17 @@ class model_post extends discuz_model {
 
 		$forumcounter = [];
 		if($this->thread['replies'] == 0) {
+			$tagitems = table_common_tagitem::t()->select(0, $this->thread['tid'], 'tid') ?: [];
 			$forumcounter['threads'] = $forumcounter['posts'] = -1;
 			$tablearray = ['forum_debate', 'forum_debatepost', 'forum_polloption', 'forum_poll'];
 			foreach($tablearray as $table) {
 				C::t($table)->delete_by_tid($this->thread['tid']);
 			}
 			table_forum_thread::t()->delete_by_tid($this->thread['tid']);
+			table_common_tagitem::t()->delete_tagitem(0, $this->thread['tid'], 'tid');
+			foreach($tagitems as $tagitem) {
+				table_common_tag::t()->increase($tagitem['tagid'], ['related_count' => -1]);
+			}
 			table_common_moderate::t()->delete_moderate($this->thread['tid'], 'tid');
 			table_forum_threadmod::t()->delete_by_tid($this->thread['tid']);
 			if($this->setting['globalstick'] && in_array($this->thread['displayorder'], [2, 3])) {

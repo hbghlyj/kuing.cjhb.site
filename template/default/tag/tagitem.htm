@@ -162,7 +162,8 @@
 		<h1 class="mt"><i class="fico-tag fc-s" alt="tag"></i> {lang tag}: $tagname</h1>
 		<div class="bm">
 			<div class="bm_c">
-				<form method="post" action="misc.php?mod=tag" class="pns">
+				<form method="get" action="misc.php" class="pns">
+					<input type="hidden" name="mod" value="tag" />
 					<input type="text" name="name" class="px vm" size="30" />&nbsp;
 					<button type="submit" class="pn vm"><em>{lang search}</em></button>
 				</form>

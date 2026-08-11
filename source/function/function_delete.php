@@ -535,7 +535,15 @@ function deletethread($tids, $membercount = false, $credit = false, $ponly = fal
 	table_forum_hotreply_member::t()->delete_by_tid($arrtids);
 	table_forum_hotreply_number::t()->delete_by_tid($arrtids);
 	table_home_feed::t()->delete_by_id_idtype($arrtids, 'tid');
+	$tagitems = table_common_tagitem::t()->select(0, $arrtids, 'tid') ?: [];
+	$tagcounts = [];
+	foreach($tagitems as $tagitem) {
+		$tagcounts[$tagitem['tagid']] = ($tagcounts[$tagitem['tagid']] ?? 0) + 1;
+	}
 	table_common_tagitem::t()->delete_tagitem(0, $arrtids, 'tid');
+	foreach($tagcounts as $tagid => $count) {
+		table_common_tag::t()->increase($tagid, ['related_count' => -$count]);
+	}
 	table_forum_threadrush::t()->delete($arrtids);
 	if($_G['setting']['plugins']['func'][HOOKTYPE]['deletethread']) {
 		hookscript('deletethread', 'global', 'funcs', ['param' => $hookparam, 'step' => 'delete'], 'deletethread');
