@@ -17,7 +17,6 @@ $lang = [
 	'post_revision_compare' => '与较新版本比较',
 	'post_revision_restore' => '恢复此版本',
 	'post_revision_restore_confirm' => '恢复此版本？当前内容会先保存到修订历史。',
-	'post_revision_original' => '查看帖子',
 	'e_math_inline' => '行内',
 	'e_math_display' => '行间',
 	'e_math_title' => '插入/编辑数学公式',
