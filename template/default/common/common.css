@@ -89,7 +89,7 @@ Explain:		重定义浏览器默认样式
 Last Modify:	Pony
 */
 	body { {BGCODE}; }
-	body::before { content: ""; position: absolute; top: 0; left: -100%; width: 300%; height: 100vh; z-index: -9999; background-image: var(--cloud-bg, none); background-size: 1024px 1024px; background-repeat: repeat; transform: perspective(1200px) rotateX(-45deg); transform-origin: center top; will-change: transform; pointer-events: none; mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.8) 30%, rgba(0,0,0,0) 100%); -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.8) 30%, rgba(0,0,0,0) 100%); }
+	body::before { content: ""; position: absolute; top: 0; left: -50%; width: 200%; height: 100vh; z-index: -9999; background-image: var(--cloud-bg, none); background-size: 1024px 1024px; background-repeat: repeat; transform: perspective(1200px) rotateX(-45deg); transform-origin: center top; will-change: transform; pointer-events: none; mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.8) 30%, rgba(0,0,0,0) 100%); -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.8) 30%, rgba(0,0,0,0) 100%); }
 	textarea { resize: vertical; }
 	body, button, select { font: {FONTSIZE} "Google Sans", sans-serif; color: {TABLETEXT}; }
 	input, textarea { font: {FONTSIZE} monospace,zh; color: {TABLETEXT}; }
