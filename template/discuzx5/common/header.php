@@ -71,7 +71,6 @@
 	document.body.style.setProperty('--ocean-bg', 'url("data:image/svg+xml;base64,' + btoa(oceanString) + '")');
 })();
 </script>
-	<div class="dz-ocean-bg" aria-hidden="true"></div>
 	<a class="dz-skip-link" href="#wp">{lang skip_to_content}</a>
 	<div id="append_parent"></div><div id="ajaxwaitid"></div>
 	<!--{if $_GET['diy'] == 'yes' && check_diy_perm($topic)}-->
