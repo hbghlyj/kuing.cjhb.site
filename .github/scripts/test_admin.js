@@ -63,7 +63,7 @@ const { reportCiFailure } = require('./report_ci_failure');
             `Assertion Error: Admin login POST failed with HTTP ${loginResponse.status()}.`
         );
         await page.goto('http://127.0.0.1:8080/home.php?mod=spacecp');
-        await page.waitForLoadState('networkidle');
+        await page.waitForLoadState('domcontentloaded');
         assert.strictEqual(
             await page.locator('form[id^="loginform_"]:visible').count(),
             0,
