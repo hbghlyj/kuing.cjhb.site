@@ -535,8 +535,6 @@ img{border:none;}
 .header-user-login .user-login-separate{margin:0 1rem;color:#c0c5cc;font-size:16px;line-height:1;}
 .header-user-login .login_btn {background:var(--dz-nvbg);margin-right:24px;padding:5.5px 14px;font-size:14px;color:var(--dz-ff);border-radius:4px;}
 .header-user-login .login_btn a {color:var(--dz-ff);margin:0 1px;}
-.header-user-login .register_btn {border:1px solid var(--dz-nvbg);padding:4.5px 13px;font-size:14px;border-radius:4px;}
-.header-user-login .register_btn a {color:var(--dz-nvbg);}
 /* */
 .header-button {display:-webkit-box;display:-ms-flexbox;display:flex;margin-right:10px;padding:0 15px;height:34px;border-radius:4px;font-weight:normal;font-size:14px;line-height:1;cursor:pointer;justify-content:center;align-items:center;}
 .header-button i{margin-right:2px;width:18px;height:18px;}
