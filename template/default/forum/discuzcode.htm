@@ -74,7 +74,7 @@ function attachlist($attach) {
 	global $_G;
 	$attach['refcheck'] = (!$attach['remote'] && $_G['setting']['attachrefcheck']) || ($attach['remote'] && ($_G['setting']['ftp']['hideurl'] || ($attach['isimage'] && $_G['setting']['attachimgpost'] && strtolower(substr($_G['setting']['ftp']['attachurl'], 0, 3)) == 'ftp')));
 	$aidencode = packaids($attach);
-	$widthcode = attachwidth($attach['width']);
+	$widthcode = !empty($attach['displaywidth']) ? '' : attachwidth($attach['width']);
 	$displaywidthcode = !empty($attach['displaywidth']) ? 'width="'.$attach['displaywidth'].'"' : '';
 	$is_archive = $_G['forum_thread']['is_archived'] ? "&fid=".$_G['fid']."&archiveid=".$_G['forum_thread']['archiveid'] : '';
 	$pluginhook = !empty($_G['setting']['pluginhooks']['viewthread_attach_extra'][$attach['aid']]) ? $_G['setting']['pluginhooks']['viewthread_attach_extra'][$attach['aid']] : '';
@@ -126,7 +126,7 @@ function imagelist($attach, $firstpost = 0) {
 	global $_G;
 	$attach['refcheck'] = (!$attach['remote'] && $_G['setting']['attachrefcheck']) || ($attach['remote'] && ($_G['setting']['ftp']['hideurl'] || ($attach['isimage'] && $_G['setting']['attachimgpost'] && strtolower(substr($_G['setting']['ftp']['attachurl'], 0, 3)) == 'ftp')));
 	$aidencode = packaids($attach);
-	$widthcode = attachwidth($attach['width']);
+	$widthcode = !empty($attach['displaywidth']) ? '' : attachwidth($attach['width']);
 	$displaywidthcode = !empty($attach['displaywidth']) ? 'width="'.$attach['displaywidth'].'"' : '';
 	$is_archive = $_G['forum_thread']['is_archived'] ? "&fid=".$_G['fid']."&archiveid=".$_G['forum_thread']['archiveid'] : '';
 	$attachthumb = getimgthumbname($attach['attachment']);
@@ -231,7 +231,7 @@ function attachinpost($attach, $post) {
 	$firstpost = $post['first'];
 	$attach['refcheck'] = (!$attach['remote'] && $_G['setting']['attachrefcheck']) || ($attach['remote'] && ($_G['setting']['ftp']['hideurl'] || ($attach['isimage'] && $_G['setting']['attachimgpost'] && strtolower(substr($_G['setting']['ftp']['attachurl'], 0, 3)) == 'ftp')));
 	$aidencode = packaids($attach);
-	$widthcode = attachwidth($attach['width']);
+	$widthcode = !empty($attach['displaywidth']) ? '' : attachwidth($attach['width']);
 	$displaywidthcode = !empty($attach['displaywidth']) ? 'width="'.$attach['displaywidth'].'"' : '';
 	$is_archive = $_G['forum_thread']['is_archived'] ? '&fid='.$_G['fid'].'&archiveid='.$_G['forum_thread']['archiveid'] : '';
 	$attachthumb = getimgthumbname($attach['attachment']);
