@@ -51,7 +51,7 @@
 
 	var oceanSvg = newSVGElem("svg", { xmlns: "http://www.w3.org/2000/svg", width: size, height: size, viewBox: "0 0 " + size + " " + size });
 	oceanSvg.innerHTML = '<defs>' +
-		'<linearGradient id="sea" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="1024"><stop stop-color="#c3d9e6"/><stop offset=".14" stop-color="#a2c5da"/><stop offset=".38" stop-color="#6598b8"/><stop offset=".68" stop-color="#33607e"/><stop offset="1" stop-color="#16364f"/></linearGradient>' +
+		'<linearGradient id="sea" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="1024"><stop stop-color="#b8dbe8"/><stop offset=".14" stop-color="#7fbad4"/><stop offset=".38" stop-color="#3c8eb5"/><stop offset=".68" stop-color="#0b5b82"/><stop offset="1" stop-color="#033550"/></linearGradient>' +
 		'<linearGradient id="refl" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="360"><stop stop-color="#fff" stop-opacity=".18"/><stop offset=".6" stop-color="#eaf4f8" stop-opacity=".07"/><stop offset="1" stop-color="#eaf4f8" stop-opacity="0"/></linearGradient>' +
 		'<linearGradient id="farMask" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="360"><stop stop-color="#fff"/><stop offset=".55" stop-color="#fff" stop-opacity=".45"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>' +
 		'<linearGradient id="nearMask" gradientUnits="userSpaceOnUse" x1="0" y1="360" x2="0" y2="1024"><stop stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#fff"/></linearGradient>' +
