@@ -15,14 +15,14 @@
 	<form id="loginform" method="post" action="member.php?mod=logging&action=login&loginsubmit=yes&loginhash=$loginhash">
 	<input type="hidden" name="formhash" id="formhash" value='{FORMHASH}' />
 	<input type="hidden" name="referer" id="referer" value="<!--{if dreferer()}-->{echo dreferer()}<!--{else}-->forum.php<!--{/if}-->" />
-	<input type="hidden" name="fastloginfield" value="username">
+	<input type="hidden" name="fastloginfield" value="auto">
 	<input type="hidden" name="cookietime" value="2592000">
 	<!--{if $auth}-->
 		<input type="hidden" name="auth" value="$auth" />
 	<!--{/if}-->
 	<div class="login_from">
 		<ul>
-			<li><input type="text" value="" class="px" autocomplete="off" value="" name="username" placeholder="{lang inputyourname}" fwin="login"></li>
+			<li><input type="text" value="" class="px" autocomplete="off" name="username" placeholder="{lang login_id}" fwin="login"></li>
 			<li><input type="password" class="px" value="" name="password" placeholder="{lang login_password}" fwin="login"></li>
 			<li class="questionli">
 				<div class="login_select">

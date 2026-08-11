@@ -471,7 +471,55 @@ const testPusherLeaderCoordination = async browser => {
         assert.ok((registeredUrl.pathname === '/' || spaceUrl.includes('mod=spacecp')) && !spaceUrl.includes('mod=logging'), 'Assertion Error: Registration did not establish an authenticated session.');
         const domContent = await page.textContent('body');
         assert.ok(domContent.includes(username), 'Assertion Error: Registered username was not rendered in the authenticated account page.');
-        report += '### 1. User Registration & Login\n- **Status**: Checked\n- **Username**: ' + username + '\n- **Filled Registration Form**: `screenshot_desktop_registration_filled.png`\n\n';
+
+        console.log("Testing login with the registered email address...");
+        const emailLoginContext = await browser.newContext({
+            userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+            extraHTTPHeaders: { 'Accept-Language': 'en-US,en;q=0.9' }
+        });
+        const emailLoginPage = await emailLoginContext.newPage();
+        try {
+            await emailLoginPage.goto('http://127.0.0.1:8080/member.php?mod=logging&action=login');
+            await emailLoginPage.waitForLoadState('networkidle');
+            const emailLoginForm = emailLoginPage.locator('form[id^="loginform_"]:visible');
+            assert.strictEqual(await emailLoginForm.count(), 1, 'Assertion Error: Email login form did not render.');
+            assert.strictEqual(
+                await emailLoginForm.locator('input[name="fastloginfield"][value="auto"]').count(),
+                1,
+                'Assertion Error: Login form did not enable automatic username/email detection.'
+            );
+            await emailLoginForm.locator('input[name="username"]').fill(email);
+            await emailLoginForm.locator('input[name="password"]').fill(password);
+            await solveSecurityQuestion(emailLoginPage, emailLoginForm);
+            const emailLoginSubmit = emailLoginForm.locator('button[name="loginsubmit"], button[type="submit"], input[type="submit"]');
+            assert.strictEqual(await emailLoginSubmit.count(), 1, 'Assertion Error: Email login submit control did not render.');
+            const [emailLoginResponse] = await Promise.all([
+                emailLoginPage.waitForResponse(response =>
+                    response.request().method() === 'POST' &&
+                    response.url().includes('member.php?mod=logging')
+                ),
+                emailLoginSubmit.click()
+            ]);
+            assert.ok(
+                emailLoginResponse.ok() || (emailLoginResponse.status() >= 300 && emailLoginResponse.status() < 400),
+                `Assertion Error: Email login POST failed with HTTP ${emailLoginResponse.status()}.`
+            );
+            await emailLoginPage.waitForTimeout(1000);
+            await emailLoginPage.goto('http://127.0.0.1:8080/home.php?mod=spacecp');
+            await emailLoginPage.waitForLoadState('domcontentloaded');
+            assert.strictEqual(
+                await emailLoginPage.locator('form[id^="loginform_"]:visible').count(),
+                0,
+                'Assertion Error: Email login did not establish an authenticated session.'
+            );
+            assert.ok(
+                (await emailLoginPage.textContent('body')).includes(username),
+                'Assertion Error: Email login authenticated the wrong account or did not render the username.'
+            );
+        } finally {
+            await emailLoginContext.close();
+        }
+        report += '### 1. User Registration & Login\n- **Status**: Checked\n- **Username**: ' + username + '\n- **Email login**: Verified\n- **Filled Registration Form**: `screenshot_desktop_registration_filled.png`\n\n';
 
         // Pre-setup Avatar before advanced editor screenshot & posting tests
         console.log("Setting up user avatar via UI...");
