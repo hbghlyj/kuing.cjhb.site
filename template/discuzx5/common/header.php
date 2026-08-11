@@ -50,60 +50,23 @@
 	img.src = svgDataUrl;
 
 	var oceanSvg = newSVGElem("svg", { xmlns: "http://www.w3.org/2000/svg", width: size, height: size, viewBox: "0 0 " + size + " " + size });
-	var oceanDefs = newSVGElem("defs");
-	var oceanGradient = newSVGElem("linearGradient", { id: "ocean-gradient", x1: "0", y1: "0", x2: "0", y2: "1" });
-	oceanGradient.appendChild(newSVGElem("stop", { offset: "0", "stop-color": "#2e8fb3" }));
-	oceanGradient.appendChild(newSVGElem("stop", { offset: "1", "stop-color": "#0b426d" }));
-	oceanDefs.appendChild(oceanGradient);
-	var fSway = newSVGElem("filter", { id: "fSway", x: "-8%", y: "-10%", width: "116%", height: "120%" });
-	fSway.appendChild(newSVGElem("feTurbulence", { type: "fractalNoise", baseFrequency: "0.003 0.018", numOctaves: "1", seed: seed + 17, result: "swellNoise" }));
-	fSway.appendChild(newSVGElem("feDisplacementMap", { in: "SourceGraphic", in2: "swellNoise", scale: "15", xChannelSelector: "R", yChannelSelector: "G" }));
-	oceanDefs.appendChild(fSway);
-	var fSwell = newSVGElem("filter", { id: "fSwell", x: "-4%", y: "-4%", width: "108%", height: "108%" });
-	fSwell.appendChild(newSVGElem("feTurbulence", { type: "fractalNoise", baseFrequency: "0.0025 0.009", numOctaves: "2", seed: seed + 23, result: "swellNoise" }));
-	var swellLight = newSVGElem("feDiffuseLighting", { in: "swellNoise", surfaceScale: "3", diffuseConstant: "0.9", "lighting-color": "#d9f2f8", result: "swellLight" });
-	swellLight.appendChild(newSVGElem("feDistantLight", { azimuth: "300", elevation: "55" }));
-	fSwell.appendChild(swellLight);
-	fSwell.appendChild(newSVGElem("feComposite", { in: "swellLight", in2: "SourceAlpha", operator: "in" }));
-	oceanDefs.appendChild(fSwell);
-	function rippleFilter(id, frequency, surfaceScale, exponent, constant) {
-		var filter = newSVGElem("filter", { id: id, x: "-4%", y: "-10%", width: "108%", height: "120%" });
-		filter.appendChild(newSVGElem("feTurbulence", { type: "fractalNoise", baseFrequency: frequency, numOctaves: "2", seed: seed + 31, result: "rippleNoise" }));
-		var rippleLight = newSVGElem("feSpecularLighting", { in: "rippleNoise", surfaceScale: surfaceScale, specularConstant: constant, specularExponent: exponent, "lighting-color": "#f4faff", result: "rippleLight" });
-		rippleLight.appendChild(newSVGElem("feDistantLight", { azimuth: "300", elevation: "58" }));
-		filter.appendChild(rippleLight);
-		filter.appendChild(newSVGElem("feComposite", { in: "rippleLight", in2: "SourceAlpha", operator: "in" }));
-		return filter;
-	}
-	oceanDefs.appendChild(rippleFilter("fRippleFar", "0.014 0.12", "1.3", "16", "0.8"));
-	oceanDefs.appendChild(rippleFilter("fRippleNear", "0.009 0.06", "2.4", "13", "0.7"));
-	oceanDefs.appendChild(rippleFilter("fSpecFar", "0.010 0.09", "1.6", "16", "1.0"));
-	oceanDefs.appendChild(rippleFilter("fSpecNear", "0.006 0.05", "2.6", "13", "0.9"));
-	function maskGradient(id, start, end, reverse) {
-		var gradient = newSVGElem("linearGradient", { id: id, gradientUnits: "userSpaceOnUse", x1: "0", y1: start, x2: "0", y2: end });
-		gradient.appendChild(newSVGElem("stop", { offset: "0", "stop-color": "#fff", "stop-opacity": reverse ? "0" : "1" }));
-		gradient.appendChild(newSVGElem("stop", { offset: "0.65", "stop-color": "#fff", "stop-opacity": "0.45" }));
-		gradient.appendChild(newSVGElem("stop", { offset: "1", "stop-color": "#fff", "stop-opacity": reverse ? "1" : "0" }));
-		oceanDefs.appendChild(gradient);
-		var mask = newSVGElem("mask", { id: id + "Mask" });
-		mask.appendChild(newSVGElem("rect", { x: "-80", y: start, width: size + 160, height: end - start, fill: "url(#" + id + ")" }));
-		oceanDefs.appendChild(mask);
-	}
-	maskGradient("farFade", "0", "360");
-	maskGradient("nearFade", "360", String(size), true);
-	oceanSvg.appendChild(oceanDefs);
-	oceanSvg.appendChild(newSVGElem("rect", { x: "-80", y: "-80", width: size + 160, height: size + 160, fill: "url(#ocean-gradient)", filter: "url(#fSway)" }));
-	oceanSvg.appendChild(newSVGElem("rect", { x: "-40", y: "0", width: size + 80, height: size, fill: "#d9f2f8", filter: "url(#fSwell)", opacity: "0.32", style: "mix-blend-mode: soft-light" }));
-	oceanSvg.appendChild(newSVGElem("rect", { x: "-40", y: "0", width: size + 80, height: "360", fill: "#d9f7ff", filter: "url(#fRippleFar)", opacity: "0.14", mask: "url(#farFadeMask)", style: "mix-blend-mode: overlay" }));
-	oceanSvg.appendChild(newSVGElem("rect", { x: "-40", y: "360", width: size + 80, height: size - 360, fill: "#d9f7ff", filter: "url(#fRippleNear)", opacity: "0.24", mask: "url(#nearFadeMask)", style: "mix-blend-mode: overlay" }));
-	oceanSvg.appendChild(newSVGElem("rect", { x: "-40", y: "0", width: size + 80, height: "360", fill: "#f0fbff", filter: "url(#fSpecFar)", opacity: "0.18", mask: "url(#farFadeMask)", style: "mix-blend-mode: screen" }));
-	oceanSvg.appendChild(newSVGElem("rect", { x: "-40", y: "360", width: size + 80, height: size - 360, fill: "#f0fbff", filter: "url(#fSpecNear)", opacity: "0.2", mask: "url(#nearFadeMask)", style: "mix-blend-mode: screen" }));
-	var waveGroup = newSVGElem("g", { filter: "url(#ocean-waves)", fill: "none", stroke: "#9ed8e3", "stroke-linecap": "round", opacity: "0.42" });
-	for(var wave = 0; wave < 9; wave++) {
-		var y = 90 + wave * 102;
-		waveGroup.appendChild(newSVGElem("path", { d: "M-40 " + y + " C180 " + (y - 45) + ", 360 " + (y + 45) + ", 560 " + y + " S940 " + (y - 45) + ", 1064 " + y, "stroke-width": wave % 3 === 0 ? "9" : "5" }));
-	}
-	oceanSvg.appendChild(waveGroup);
+	oceanSvg.innerHTML = '<defs>' +
+		'<linearGradient id="sea" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="1024"><stop stop-color="#c3d9e6"/><stop offset=".14" stop-color="#a2c5da"/><stop offset=".38" stop-color="#6598b8"/><stop offset=".68" stop-color="#33607e"/><stop offset="1" stop-color="#16364f"/></linearGradient>' +
+		'<linearGradient id="refl" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="360"><stop stop-color="#fff" stop-opacity=".18"/><stop offset=".6" stop-color="#eaf4f8" stop-opacity=".07"/><stop offset="1" stop-color="#eaf4f8" stop-opacity="0"/></linearGradient>' +
+		'<linearGradient id="farMask" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="360"><stop stop-color="#fff"/><stop offset=".55" stop-color="#fff" stop-opacity=".45"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>' +
+		'<linearGradient id="nearMask" gradientUnits="userSpaceOnUse" x1="0" y1="360" x2="0" y2="1024"><stop stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#fff"/></linearGradient>' +
+		'<mask id="mFar"><rect x="-40" y="0" width="1104" height="360" fill="url(#farMask)"/></mask><mask id="mNear"><rect x="-40" y="360" width="1104" height="664" fill="url(#nearMask)"/></mask>' +
+		'<filter id="sway" x="-8%" y="-10%" width="116%" height="120%"><feTurbulence type="fractalNoise" baseFrequency=".003 .018" numOctaves="1" seed="' + (seed + 17) + '" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="15" xChannelSelector="R" yChannelSelector="G"/></filter>' +
+		'<filter id="swell" x="-4%" y="-4%" width="108%" height="108%"><feTurbulence type="fractalNoise" baseFrequency=".0025 .009" numOctaves="2" seed="' + (seed + 23) + '" result="n"/><feGaussianBlur in="n" stdDeviation="2" result="b"/><feDiffuseLighting in="b" surfaceScale="3" diffuseConstant=".9" lighting-color="#fff" result="l"><feDistantLight azimuth="300" elevation="55"/></feDiffuseLighting><feComposite in="l" in2="SourceAlpha" operator="in"/></filter>' +
+		'<filter id="ripFar" x="-4%" y="-4%" width="108%" height="108%"><feTurbulence type="fractalNoise" baseFrequency=".014 .12" numOctaves="2" seed="' + (seed + 31) + '" result="n"/><feGaussianBlur in="n" stdDeviation=".35" result="b"/><feDiffuseLighting in="b" surfaceScale="1.3" diffuseConstant=".85" lighting-color="#f4faff"><feDistantLight azimuth="300" elevation="60"/></feDiffuseLighting><feComposite in2="SourceAlpha" operator="in"/></filter>' +
+		'<filter id="ripNear" x="-4%" y="-4%" width="108%" height="108%"><feTurbulence type="fractalNoise" baseFrequency=".009 .06" numOctaves="2" seed="' + (seed + 33) + '" result="n"/><feGaussianBlur in="n" stdDeviation=".5" result="b"/><feDiffuseLighting in="b" surfaceScale="2.4" diffuseConstant=".95" lighting-color="#f4faff"><feDistantLight azimuth="300" elevation="55"/></feDiffuseLighting><feComposite in2="SourceAlpha" operator="in"/></filter>' +
+		'<filter id="specFar" x="-4%" y="-5%" width="108%" height="112%"><feTurbulence type="fractalNoise" baseFrequency=".010 .09" numOctaves="2" seed="' + (seed + 42) + '" result="n"/><feGaussianBlur in="n" stdDeviation=".5" result="b"/><feSpecularLighting in="b" surfaceScale="1.6" specularConstant="1.15" specularExponent="16" lighting-color="#f0f8ff"><feDistantLight azimuth="300" elevation="58"/></feSpecularLighting><feComposite in2="SourceAlpha" operator="in"/></filter>' +
+		'<filter id="specNear" x="-4%" y="-5%" width="108%" height="112%"><feTurbulence type="fractalNoise" baseFrequency=".006 .05" numOctaves="2" seed="' + (seed + 77) + '" result="n"/><feGaussianBlur in="n" stdDeviation=".7" result="b"/><feSpecularLighting in="b" surfaceScale="2.6" specularConstant="1.05" specularExponent="13" lighting-color="#f2f9ff"><feDistantLight azimuth="300" elevation="52"/></feSpecularLighting><feComposite in2="SourceAlpha" operator="in"/></filter>' +
+	'</defs><g filter="url(#sway)"><rect x="-60" y="-60" width="1144" height="1144" fill="url(#sea)"/><rect x="-60" y="0" width="1144" height="360" fill="url(#refl)"/></g>' +
+	'<rect x="-40" y="0" width="1104" height="1024" fill="#d9f2f8" filter="url(#swell)" opacity=".35" style="mix-blend-mode:soft-light"/>' +
+	'<rect x="-40" y="0" width="1104" height="360" fill="#f4faff" filter="url(#ripFar)" mask="url(#mFar)" opacity=".28" style="mix-blend-mode:overlay"/><rect x="-40" y="360" width="1104" height="664" fill="#f4faff" filter="url(#ripNear)" mask="url(#mNear)" opacity=".24" style="mix-blend-mode:overlay"/>' +
+	'<rect x="-40" y="0" width="1104" height="360" fill="#f0f8ff" filter="url(#specFar)" mask="url(#mFar)" opacity=".32" style="mix-blend-mode:screen"/><rect x="-40" y="360" width="1104" height="664" fill="#f2f9ff" filter="url(#specNear)" mask="url(#mNear)" opacity=".18" style="mix-blend-mode:screen"/>' +
+	'<rect x="0" y="0" width="1024" height="18" fill="#fff" opacity=".12"/>';
 	var oceanString = (new XMLSerializer()).serializeToString(oceanSvg);
 	document.body.style.setProperty('--ocean-bg', 'url("data:image/svg+xml;base64,' + btoa(oceanString) + '")');
 })();
