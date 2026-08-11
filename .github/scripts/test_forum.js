@@ -1453,7 +1453,7 @@ const testPusherLeaderCoordination = async browser => {
         const svgResp = await (await svgUploadResponse).text();
         assert.match(svgResp.trim(), /^\d+$/, `Assertion Error: Desktop SVG upload failed. Response: ${svgResp}`);
         await page.waitForFunction(() => document.querySelector('#imgattachlist input[name^="attachnew["]'), null, { timeout: 5000 });
-        const svgAid = await page.locator('#imgattachlist input[name^="attachnew["]').evaluate(input => input.name.match(/^attachnew\[(\d+)\]/)[1]);
+        const svgAid = await page.locator('#imgattachlist input[name$="[description]"]').evaluate(input => input.name.match(/^attachnew\[(\d+)\]/)[1]);
         console.log("Discovered SVG attachment AID:", svgAid);
 
         const svgAttachMsg = `Posting thread with SVG image content. [attach]${svgAid}[/attach]`;
