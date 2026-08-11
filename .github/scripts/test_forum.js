@@ -382,7 +382,7 @@ const testPusherLeaderCoordination = async browser => {
 
         console.log("Testing UI Registration...");
         await page.goto('http://127.0.0.1:8080/member.php?mod=register');
-        await page.waitForLoadState('networkidle');
+        await page.waitForLoadState('domcontentloaded');
 
         const registrationForm = page.locator('#registerform');
         assert.strictEqual(await registrationForm.count(), 1, 'Assertion Error: Desktop registration form did not render.');
@@ -480,7 +480,7 @@ const testPusherLeaderCoordination = async browser => {
         const emailLoginPage = await emailLoginContext.newPage();
         try {
             await emailLoginPage.goto('http://127.0.0.1:8080/member.php?mod=logging&action=login');
-            await emailLoginPage.waitForLoadState('networkidle');
+            await emailLoginPage.waitForLoadState('domcontentloaded');
             const emailLoginForm = emailLoginPage.locator('form[id^="loginform_"]:visible');
             assert.strictEqual(await emailLoginForm.count(), 1, 'Assertion Error: Email login form did not render.');
             assert.strictEqual(
@@ -1132,7 +1132,7 @@ const testPusherLeaderCoordination = async browser => {
             await stubPusher(adminContext);
             const adminPage = await adminContext.newPage();
             await adminPage.goto('http://127.0.0.1:8080/member.php?mod=logging&action=login');
-            await adminPage.waitForLoadState('networkidle');
+            await adminPage.waitForLoadState('domcontentloaded');
             const adminLoginForm = adminPage.locator('form[id^="loginform_"]:visible');
             assert.strictEqual(await adminLoginForm.count(), 1, 'Assertion Error: Admin quote-reply login form did not render.');
             await adminLoginForm.locator('input[name="username"]').fill('admin');

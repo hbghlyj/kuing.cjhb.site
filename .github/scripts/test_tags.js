@@ -71,7 +71,7 @@ const PUSHER_STUB = `
     try {
         console.log("Logging in as admin to post thread with tags via UI...");
         await page.goto('http://127.0.0.1:8080/member.php?mod=logging&action=login');
-        await page.waitForLoadState('networkidle');
+        await page.waitForLoadState('domcontentloaded');
         const loginForm = page.locator('form[id^="loginform_"]:visible');
         assert.strictEqual(await loginForm.count(), 1, 'Assertion Error: Tags test login form did not render.');
         await loginForm.locator('input[name="username"]').fill('admin');

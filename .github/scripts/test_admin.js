@@ -41,7 +41,7 @@ const { reportCiFailure } = require('./report_ci_failure');
 
         console.log("Phase 2: Admin Account Testing");
         await page.goto('http://127.0.0.1:8080/member.php?mod=logging&action=login');
-        await page.waitForLoadState('networkidle');
+        await page.waitForLoadState('domcontentloaded');
         const adminLoginForm = page.locator('form[id^="loginform_"]:visible');
         assert.strictEqual(await adminLoginForm.count(), 1, 'Assertion Error: Admin login form did not render.');
         await adminLoginForm.locator('input[name="username"]').fill('admin');
