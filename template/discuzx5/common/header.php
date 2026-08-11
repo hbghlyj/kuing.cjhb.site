@@ -48,8 +48,30 @@
 		document.body.style.setProperty('--cloud-bg', 'url("' + svgDataUrl + '")');
 	};
 	img.src = svgDataUrl;
+
+	var oceanSvg = newSVGElem("svg", { xmlns: "http://www.w3.org/2000/svg", width: size, height: size, viewBox: "0 0 " + size + " " + size });
+	var oceanDefs = newSVGElem("defs");
+	var oceanGradient = newSVGElem("linearGradient", { id: "ocean-gradient", x1: "0", y1: "0", x2: "0", y2: "1" });
+	oceanGradient.appendChild(newSVGElem("stop", { offset: "0", "stop-color": "#2e8fb3" }));
+	oceanGradient.appendChild(newSVGElem("stop", { offset: "1", "stop-color": "#0b426d" }));
+	oceanDefs.appendChild(oceanGradient);
+	var oceanFilter = newSVGElem("filter", { id: "ocean-waves", x: "-10%", y: "-20%", width: "120%", height: "140%" });
+	oceanFilter.appendChild(newSVGElem("feTurbulence", { type: "fractalNoise", baseFrequency: "0.012 0.065", numOctaves: "2", seed: seed + 17, result: "ocean-noise" }));
+	oceanFilter.appendChild(newSVGElem("feDisplacementMap", { in: "SourceGraphic", in2: "ocean-noise", scale: "24", xChannelSelector: "R", yChannelSelector: "B" }));
+	oceanDefs.appendChild(oceanFilter);
+	oceanSvg.appendChild(oceanDefs);
+	oceanSvg.appendChild(newSVGElem("rect", { width: size, height: size, fill: "url(#ocean-gradient)" }));
+	var waveGroup = newSVGElem("g", { filter: "url(#ocean-waves)", fill: "none", stroke: "#9ed8e3", "stroke-linecap": "round", opacity: "0.42" });
+	for(var wave = 0; wave < 9; wave++) {
+		var y = 90 + wave * 102;
+		waveGroup.appendChild(newSVGElem("path", { d: "M-40 " + y + " C180 " + (y - 45) + ", 360 " + (y + 45) + ", 560 " + y + " S940 " + (y - 45) + ", 1064 " + y, "stroke-width": wave % 3 === 0 ? "9" : "5" }));
+	}
+	oceanSvg.appendChild(waveGroup);
+	var oceanString = (new XMLSerializer()).serializeToString(oceanSvg);
+	document.body.style.setProperty('--ocean-bg', 'url("data:image/svg+xml;base64,' + btoa(oceanString) + '")');
 })();
 </script>
+	<div class="dz-ocean-bg" aria-hidden="true"></div>
 	<a class="dz-skip-link" href="#wp">{lang skip_to_content}</a>
 	<div id="append_parent"></div><div id="ajaxwaitid"></div>
 	<!--{if $_GET['diy'] == 'yes' && check_diy_perm($topic)}-->
