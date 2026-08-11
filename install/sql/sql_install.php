@@ -3101,7 +3101,7 @@ CREATE TABLE pre_forum_editlog_attachment
 (
 	editid          bigint(20) unsigned NOT NULL,
 	aid             int(10) unsigned NOT NULL,
-	attachment_data mediumtext NOT NULL,
+	attachment_json mediumtext NOT NULL COMMENT 'JSON snapshot of attachment metadata; file remains in normal attachment storage',
 	PRIMARY KEY (editid, aid),
 	KEY aid (aid)
 ) ENGINE = InnoDB;

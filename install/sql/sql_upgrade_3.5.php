@@ -201,10 +201,13 @@ CREATE TABLE IF NOT EXISTS pre_forum_editlog_attachment
 (
 	editid          bigint(20) unsigned NOT NULL,
 	aid             int(10) unsigned NOT NULL,
-	attachment_data mediumtext NOT NULL,
+	attachment_json mediumtext NOT NULL COMMENT 'JSON snapshot of attachment metadata; file remains in normal attachment storage',
 	PRIMARY KEY (editid, aid),
 	KEY aid (aid)
 ) ENGINE = InnoDB;
+
+ALTER TABLE pre_forum_editlog_attachment
+	CHANGE attachment_data attachment_json mediumtext NOT NULL COMMENT 'JSON snapshot of attachment metadata; file remains in normal attachment storage';
 
 ALTER TABLE pre_forum_rsscache
 	MODIFY author char (50) NOT NULL DEFAULT '';

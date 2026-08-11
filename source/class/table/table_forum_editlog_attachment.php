@@ -34,7 +34,7 @@ class table_forum_editlog_attachment extends discuz_table {
 			DB::insert($this->_table, [
 				'editid' => dintval($editid),
 				'aid' => $aid,
-				'attachment_data' => json_encode($attachment, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES),
+				'attachment_json' => json_encode($attachment, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES),
 			], false, true);
 		}
 	}
@@ -46,7 +46,7 @@ class table_forum_editlog_attachment extends discuz_table {
 	public function fetch_all_by_editids(array $editids) {
 		$rows = [];
 		foreach(DB::fetch_all('SELECT * FROM %t WHERE editid IN(%n) ORDER BY aid', [$this->_table, dintval($editids, true)]) as $row) {
-			$data = json_decode($row['attachment_data'], true);
+			$data = json_decode($row['attachment_json'], true);
 			if(is_array($data)) {
 				$rows[$row['editid']][$row['aid']] = $data;
 			}
