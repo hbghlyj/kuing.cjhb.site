@@ -198,7 +198,8 @@ const { reportCiFailure } = require('./report_ci_failure');
         await renameTagViaAdmin(oldTagName, name34);
         await renameTagViaAdmin(name34, newTagName);
         await renameTagViaAdmin(newTagName, name36);
-        const invalidTagMessage = await page.textContent('body');
+        await page.locator('.infotitle3').waitFor({state: 'visible'});
+        const invalidTagMessage = await page.locator('.infotitle3').textContent();
         assert.ok(
             /2 to 35|2\s*至\s*35/.test(invalidTagMessage),
             'Assertion Error: AdminCP did not show the localized 35-character tag limit.'
