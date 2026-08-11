@@ -473,7 +473,6 @@ $lang = array (
 	'input_a_new_tag_press_enter_submit' => 'Enter a new tag and press Enter',
 	'choosetag'			=> 'Select tags',//'选择标签',
 	'posttag_comment_forbidadd'	=> ', only existing tags can be selected',//'，只能选择已有标签',
-	'posttag_comment'		=> 'Separate multiple tags with commas',//'用逗号隔开多个标签',
 	'recent_use_tag'		=> 'Recently used tags:',//'最近使用标签:',
 
 'm_loading' => 'Loading...',//'正在加载...',
