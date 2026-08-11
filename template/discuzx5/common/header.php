@@ -94,9 +94,9 @@
 	oceanSvg.appendChild(oceanDefs);
 	oceanSvg.appendChild(newSVGElem("rect", { x: "-80", y: "-80", width: size + 160, height: size + 160, fill: "url(#ocean-gradient)", filter: "url(#fSway)" }));
 	oceanSvg.appendChild(newSVGElem("rect", { x: "-40", y: "0", width: size + 80, height: size, fill: "#d9f2f8", filter: "url(#fSwell)", opacity: "0.32", style: "mix-blend-mode: soft-light" }));
-	oceanSvg.appendChild(newSVGElem("rect", { x: "-40", y: "0", width: size + 80, height: "360", fill: "#d9f7ff", filter: "url(#fRippleFar)", opacity: "0.28", mask: "url(#farFadeMask)", style: "mix-blend-mode: overlay" }));
+	oceanSvg.appendChild(newSVGElem("rect", { x: "-40", y: "0", width: size + 80, height: "360", fill: "#d9f7ff", filter: "url(#fRippleFar)", opacity: "0.14", mask: "url(#farFadeMask)", style: "mix-blend-mode: overlay" }));
 	oceanSvg.appendChild(newSVGElem("rect", { x: "-40", y: "360", width: size + 80, height: size - 360, fill: "#d9f7ff", filter: "url(#fRippleNear)", opacity: "0.24", mask: "url(#nearFadeMask)", style: "mix-blend-mode: overlay" }));
-	oceanSvg.appendChild(newSVGElem("rect", { x: "-40", y: "0", width: size + 80, height: "360", fill: "#f0fbff", filter: "url(#fSpecFar)", opacity: "0.42", mask: "url(#farFadeMask)", style: "mix-blend-mode: screen" }));
+	oceanSvg.appendChild(newSVGElem("rect", { x: "-40", y: "0", width: size + 80, height: "360", fill: "#f0fbff", filter: "url(#fSpecFar)", opacity: "0.18", mask: "url(#farFadeMask)", style: "mix-blend-mode: screen" }));
 	oceanSvg.appendChild(newSVGElem("rect", { x: "-40", y: "360", width: size + 80, height: size - 360, fill: "#f0fbff", filter: "url(#fSpecNear)", opacity: "0.2", mask: "url(#nearFadeMask)", style: "mix-blend-mode: screen" }));
 	var waveGroup = newSVGElem("g", { filter: "url(#ocean-waves)", fill: "none", stroke: "#9ed8e3", "stroke-linecap": "round", opacity: "0.42" });
 	for(var wave = 0; wave < 9; wave++) {
