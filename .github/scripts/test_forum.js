@@ -1104,7 +1104,7 @@ const testPusherLeaderCoordination = async browser => {
                 `Assertion Error: Admin login POST failed with HTTP ${adminLoginResponse.status()}.`
             );
             await adminPage.waitForURL(url => !url.href.includes('member.php?mod=logging'));
-            await adminPage.waitForLoadState('networkidle');
+            await adminPage.waitForLoadState('domcontentloaded');
             assert.strictEqual(
                 await adminPage.evaluate(() => Number(window.discuz_uid || 0)),
                 1,
