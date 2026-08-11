@@ -11,9 +11,10 @@
 						<a href="forum.php?mod=misc&action=editlog&tid=$editlog[tid]&pid=$editlog[pid]" onclick="showWindow('editlog', this.href, 'get', 0);return false;" class="editlog-link">
 							<strong>$editlog[action_label]</strong> <span class="xg1">$editlog[displaytime]</span>
 							<span class="editlog-subject">$editlog[title]</span>
+							<span class="editlog-compare">{lang post_revision_compare}</span>
 						</a>
 						<!--{if $editlog[pid]}--><a href="forum.php?mod=redirect&goto=findpost&ptid=$editlog[tid]&pid=$editlog[pid]" target="_blank" class="editlog-original">{lang post_revision_original}</a><!--{/if}-->
-						<div class="xg1">$editlog[old_message]</div>
+						<div class="editlog-previous"><strong>{lang post_revision_content}:</strong><div class="xg1">$editlog[old_message]</div></div>
 					</li>
 				<!--{/loop}-->
 				</ul>
@@ -22,5 +23,5 @@
 		</div>
 	</div>
 </div></div>
-<style>.editlog-list{margin:0;padding:0;list-style:none}.editlog-item{padding:10px 0;border-bottom:1px solid #eee}.editlog-link{display:block}.editlog-subject{display:block;margin-top:4px;font-weight:700}.editlog-original{display:inline-block;margin-top:6px}.editlog-item>div{margin-top:4px;white-space:pre-wrap;overflow-wrap:anywhere}</style>
+<style>.editlog-list{margin:0;padding:0;list-style:none}.editlog-item{padding:10px 0;border-bottom:1px solid #eee}.editlog-link{display:block}.editlog-subject{display:block;margin-top:4px;font-weight:700}.editlog-compare{display:block;margin-top:4px;color:var(--dz-color)}.editlog-original{display:inline-block;margin-top:6px}.editlog-previous{margin-top:6px}.editlog-previous>div{margin-top:4px;white-space:pre-wrap;overflow-wrap:anywhere}</style>
 <!--{template common/footer}-->
