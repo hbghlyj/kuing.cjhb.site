@@ -476,6 +476,7 @@ $lang = [
 	'viewed_forums' => '瀏覽過的版塊',
 	'post_tag' => '標籤',
 	'input_a_new_tag_press_enter_submit' => '輸入新標籤，按回車鍵添加',
+	'tag_max_length_invalid' => '標籤長度應為 3 至 35 個字元，目前長度為 ',
 	'choosetag' => '選擇標籤',
 	'recent_use_tag' => '最近使用標籤:',
 

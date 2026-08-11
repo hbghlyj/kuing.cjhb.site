@@ -476,6 +476,7 @@ $lang = [
 	'viewed_forums' => '浏览过的版块',
 	'post_tag' => '标签',
 	'input_a_new_tag_press_enter_submit' => '输入一个新标签，按回车键添加',
+	'tag_max_length_invalid' => '标签长度应为 3 至 35 个字符，当前长度为 ',
 	'choosetag' => '选择标签',
 	'recent_use_tag' => '最近使用标签:',
 

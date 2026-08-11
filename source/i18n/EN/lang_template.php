@@ -471,6 +471,7 @@ $lang = array (
 	'viewed_forums'			=> 'Viewed boards',//'浏览过的版块',
 	'post_tag'			=> 'Tags',//'标签',
 	'input_a_new_tag_press_enter_submit' => 'Enter a new tag and press Enter',
+	'tag_max_length_invalid' => 'Tag length must be between 3 and 35 characters; current length is ',
 	'choosetag'			=> 'Select tags',//'选择标签',
 	'recent_use_tag'		=> 'Recently used tags:',//'最近使用标签:',
 
