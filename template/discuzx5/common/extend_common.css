@@ -529,7 +529,7 @@ img{border:none;}
 .header-i18n .i18n-icon .dzicon {color: var(--dz-fc); background-image: url({STYLEIMGDIR}/svg/i18n.svg); width: 22px; height: 22px; display: inline-block; background-size: cover; background-repeat: no-repeat;}
 
 /* */
-.header-user-login{display:flex;margin-left:.8rem;height:100%;font-size:14px;align-items:center;}
+.header-user-login{margin-left:.8rem;font-size:14px;}
 .header-user-login a{color:#494b4d;}
 .header-user-login a img{display:flex;width:26px;height:26px;object-fit:contain;}
 .header-user-login .user-login-separate{margin:0 1rem;color:#c0c5cc;font-size:16px;line-height:1;}
