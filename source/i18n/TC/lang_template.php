@@ -477,7 +477,6 @@ $lang = [
 	'post_tag' => '標籤',
 	'input_a_new_tag_press_enter_submit' => '輸入新標籤，按回車鍵添加',
 	'choosetag' => '選擇標籤',
-	'posttag_comment_forbidadd' => '，只能選擇已有標籤',
 	'recent_use_tag' => '最近使用標籤:',
 
 	'm_loading' => '正在加載...',
