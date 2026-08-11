@@ -1198,14 +1198,14 @@ const testPusherLeaderCoordination = async browser => {
 
             // Navigate back to viewthread to verify and screenshot the postcomment
             await page.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${tidOutput}`);
-            await page.waitForLoadState('networkidle');
+            await page.waitForLoadState('domcontentloaded');
             const commentedThreadBody = await page.textContent('body');
             assert.ok(commentedThreadBody.includes('Admin quote reply to user thread.'), 'Assertion Error: Admin quote reply was not rendered in viewthread.');
             assert.ok(commentedThreadBody.includes(postCommentText), 'Assertion Error: Post comment was not rendered in viewthread.');
             await page.screenshot({ path: 'screenshot_desktop_viewthread_commented.png' });
 
             await page.goto('http://127.0.0.1:8080/home.php?mod=space&do=thread&view=me&type=postcomment');
-            await page.waitForLoadState('networkidle');
+            await page.waitForLoadState('domcontentloaded');
             await page.screenshot({ path: 'screenshot_desktop_space_thread_postcomment.png' });
             const viewPostcommentBody = await page.textContent('body');
             assert.ok(
@@ -1214,7 +1214,7 @@ const testPusherLeaderCoordination = async browser => {
             );
 
             await page.goto('http://127.0.0.1:8080/home.php?mod=space&do=notice');
-            await page.waitForLoadState('networkidle');
+            await page.waitForLoadState('domcontentloaded');
             await page.screenshot({ path: 'screenshot_desktop_notice.png' });
 
             const noticeDbCheck = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT COUNT(*) FROM pre_home_notification WHERE uid='${userUid}';"`).toString().trim();
