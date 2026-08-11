@@ -64,9 +64,9 @@
 		'<filter id="specNear" x="-4%" y="-5%" width="108%" height="112%"><feTurbulence type="fractalNoise" baseFrequency=".006 .05" numOctaves="2" seed="' + (seed + 77) + '" result="n"/><feGaussianBlur in="n" stdDeviation=".7" result="b"/><feSpecularLighting in="b" surfaceScale="2.6" specularConstant="1.05" specularExponent="13" lighting-color="#f2f9ff"><feDistantLight azimuth="300" elevation="52"/></feSpecularLighting><feComposite in2="SourceAlpha" operator="in"/></filter>' +
 	'</defs><g filter="url(#sway)"><rect x="-60" y="-60" width="1144" height="1144" fill="url(#sea)"/><rect x="-60" y="0" width="1144" height="360" fill="url(#refl)"/></g>' +
 	'<rect x="-40" y="0" width="1104" height="1024" fill="#d9f2f8" filter="url(#swell)" opacity=".35" style="mix-blend-mode:soft-light"/>' +
-	'<rect x="-40" y="0" width="1104" height="360" fill="#f4faff" filter="url(#ripFar)" mask="url(#mFar)" opacity=".28" style="mix-blend-mode:overlay"/><rect x="-40" y="360" width="1104" height="664" fill="#f4faff" filter="url(#ripNear)" mask="url(#mNear)" opacity=".24" style="mix-blend-mode:overlay"/>' +
-	'<rect x="-40" y="0" width="1104" height="360" fill="#f0f8ff" filter="url(#specFar)" mask="url(#mFar)" opacity=".32" style="mix-blend-mode:screen"/><rect x="-40" y="360" width="1104" height="664" fill="#f2f9ff" filter="url(#specNear)" mask="url(#mNear)" opacity=".18" style="mix-blend-mode:screen"/>' +
-	'<rect x="0" y="0" width="1024" height="18" fill="#fff" opacity=".12"/>';
+		'<rect x="-40" y="0" width="1104" height="360" fill="#f4faff" filter="url(#ripFar)" mask="url(#mFar)" opacity=".45" style="mix-blend-mode:overlay"/><rect x="-40" y="360" width="1104" height="664" fill="#f4faff" filter="url(#ripNear)" mask="url(#mNear)" opacity=".38" style="mix-blend-mode:overlay"/>' +
+		'<rect x="-40" y="0" width="1104" height="360" fill="#f0f8ff" filter="url(#specFar)" mask="url(#mFar)" opacity=".75" style="mix-blend-mode:screen"/><rect x="-40" y="360" width="1104" height="664" fill="#f2f9ff" filter="url(#specNear)" mask="url(#mNear)" opacity=".4" style="mix-blend-mode:screen"/>' +
+		'<rect x="0" y="0" width="1024" height="18" fill="url(#refl)" opacity=".8"/>';
 	var oceanString = (new XMLSerializer()).serializeToString(oceanSvg);
 	document.body.style.setProperty('--ocean-bg', 'url("data:image/svg+xml;base64,' + btoa(oceanString) + '")');
 })();
