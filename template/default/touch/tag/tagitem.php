@@ -23,13 +23,13 @@
 	<!--{if helper_access::check_module('forum') && (empty($showtype) || $showtype == 'thread')}-->
 	<div class="discuz_x cl"></div>
 	<div class="threadlist_box cl">
+		<!--{if $threadlist}-->
 		<h2 class="xs3">
 			<b>{lang related_thread}</b>
 			<!--{if empty($showtype) && $threadlist}-->
 			<a class="y" href="misc.php?mod=tag&id=$id&type=thread">{lang more}</a>
 			<!--{/if}-->
 		</h2>
-		<!--{if $threadlist}-->
 		<div class="threadlist cl">
 			<!--{loop $threadlist $thread}-->
 			<li class="list mt0 cl">
@@ -97,13 +97,13 @@
 	<!--{if helper_access::check_module('blog') && (empty($showtype) || $showtype == 'blog')}-->
 	<div class="discuz_x cl"></div>
 	<div class="threadlist_box cl">
+		<!--{if $bloglist}-->
 		<h2 class="xs3">
 			<b>{lang related_blog}</b>
 			<!--{if empty($showtype) && $bloglist}-->
 			<a class="y" href="misc.php?mod=tag&id=$id&type=blog">{lang more}</a>
 			<!--{/if}-->
 		</h2>
-		<!--{if $bloglist}-->
 		<div class="threadlist cl">
 			<!--{loop $bloglist $blog}-->
 			<li class="list mt0 cl">
