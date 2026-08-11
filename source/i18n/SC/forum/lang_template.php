@@ -1325,7 +1325,6 @@ $lang = [
   'collection_sortby_commentnum' => '按评论数排序',
   'choosetag' => '检索标签',
   'tag_max_length_invalid' => '标签长度应为 3 至 35 个字符，当前长度为 ',
-  'tag_length_invalid' => '标签长度必须在 2 到 30 个字符之间',
 	'tag_cannot_contain_comma_or_backslash'	=> '标签不能包含,或\\',
   'tag_count_limit' => '最多可填写 5 个标签',
   'suggest_tags' => '建议标签',

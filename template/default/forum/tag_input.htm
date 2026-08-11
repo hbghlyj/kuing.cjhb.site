@@ -74,25 +74,27 @@ try {
     window.addKeyword = function(value) {
         if (value.indexOf(',') !== -1 || value.indexOf('\\') !== -1) {
             showError(tagCannotContainCommaOrBackslash);
-            return;
+            return false;
         }
 
         if(keywords.length >= 5) {
             showError('{lang tag_count_limit}');
-            return;
+            return false;
         }
 
         const taglength = mb_strlen(value);
 
         if(taglength > 35 || taglength < 3) {
             showError('{lang tag_max_length_invalid}' + taglength);
-            return;
+            return false;
         }
 
-        if (value && !keywords.includes(value)) {
+        if (!value) return false;
+        if (!keywords.includes(value)) {
             keywords.push(value);
             renderTags();
         }
+        return true;
     };
 
     window.removeKeyword = function(keyword) {
@@ -215,6 +217,17 @@ try {
         hideMenu('tagmore_menu');
     };
     keywordInput.addEventListener('blur', keywordInput._tagSuggestBlurHandler);
+
+    const tagForm = keywordInput.closest('form');
+    if (tagForm) {
+        tagForm.addEventListener('submit', function(e) {
+            const pendingTag = keywordInput.value.trim();
+            if (pendingTag && !window.addKeyword(pendingTag)) {
+                e.preventDefault();
+            }
+            keywordInput.value = '';
+        });
+    }
 
     renderTags();
 } catch(e) { if(window.console) console.warn('tag_input init error:', e.message); }
