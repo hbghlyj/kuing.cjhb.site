@@ -18,7 +18,7 @@ if($op === 'search') {
 		showmessage('undefined_action');
 	}
 	require_once $file;
-	echo json_encode(array_column($taglist ?? [], 'tagname'));
+	echo json_encode(array_column($taglist ?? [], 'tagname'), JSON_UNESCAPED_UNICODE);
 	exit;
 }
 

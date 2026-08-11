@@ -1,6 +1,6 @@
 
 <div class="tags">
-<input name="tags" type="hidden" id="tags" value="<!--{echo $tags or $postinfo['tag']}-->">
+<input name="<!--{echo empty($taginputname) ? 'tags' : $taginputname}-->" type="hidden" id="tags" value="<!--{echo $tags ?? ($postinfo['tag'] ?? '')}-->">
 <input id="keyword-input" size="30" placeholder="{lang input_a_new_tag_press_enter_submit}" autocomplete="off">
 </div>
 <script reload="1">

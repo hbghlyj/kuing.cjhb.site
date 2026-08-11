@@ -4,16 +4,10 @@
 	<h1 class="mt"><i class="fico-tag fc-s" alt="tag"></i> {lang tag}</h1>
 	<div class="bm">
 		<div class="bm_c">
-			<form action="forum.php" method="get">
-				<input type="text" name="mod" value="tag" style="display:none;">
-				<input type="text" name="op" value="search" style="display:none;">
-				<label for="searchkey">包含:</label>
-				<input type="text" id="searchkey" class="px vm" name="searchkey" required>&nbsp;
-				<button type="submit" class="pn"><em>{lang search}</em></button>
-			</form>
+			<!--{eval $taginputname = 'name'; $tags = '';}-->
 			<form method="post" action="misc.php?mod=tag" class="pns">
-				<label for="name">精确:</label>
-				<input type="text" name="name" class="px vm" required>&nbsp;
+				<label for="keyword-input">{lang tag}:</label>
+				<!--{subtemplate forum/tag_input}-->
 				<button type="submit" class="pn"><em>{lang search}</em></button>
 				<i class="fico-help fc-n vm" tip="用,分隔多个标签可以取它们的交集" onmouseover="showTip(this)"></i>
 				<div class="tbmu">
