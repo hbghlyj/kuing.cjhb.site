@@ -133,7 +133,7 @@
 	<!--{else}-->
 	<!--{hook/global_usernav_extra1}-->
 	<div class="header-user-login">
-		<div class="login_btn"><a href="member.php?mod=logging&action=login" onclick="showWindow('login', this.href)">{lang login}</a></div>
+		<a class="pn" href="member.php?mod=logging&action=login" onclick="showWindow('login', this.href)">{lang login}</a>
 		<!--{if $_G['setting']['regstatus']}-->
 		<a class="pn pnc" href="member.php?mod={$_G['setting']['regname']}">{lang m_login_reg}</a>
 		<!--{/if}-->
