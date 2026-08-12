@@ -18,14 +18,35 @@ function tagset() {
 	var tags = tagsEl ? tagsEl.value : '';
 	var tid = getID('tid').value;
 	tags = BROWSER.ie && document.charset == 'utf-8' ? encodeURIComponent(tags) : tags;
-	var url = 'misc.php?mod=tag&op=set&inajax=1&tags='+tags+'&tid='+tid+'&formhash={FORMHASH}';
+	var url = 'forum.php?mod=misc&action=retag&inajax=1&tags='+encodeURIComponent(tags)+'&tid='+tid+'&formhash={FORMHASH}';
 	var x = new Ajax();
-	x.getHTML(url, function(s){
-		if(s) {
-			hideWindow('$_GET[handlekey]');
-			window.location.reload();
+	x.getJSON(url, function(s){
+		if(s && s.status == 'success') {
+			updateThreadTags(s.tags);
+			popup.close();
 		}
 	});
+}
+
+function updateThreadTags(tags) {
+	var el = getID('threadtags');
+	if(!el) {
+		return;
+	}
+	el.innerHTML = '';
+	if(tags && tags.length) {
+		for(var i = 0; i < tags.length; i++) {
+			if(i) {
+				el.appendChild(document.createTextNode(', '));
+			}
+			var link = document.createElement('a');
+			link.title = tags[i].name;
+			link.href = 'misc.php?mod=tag&id=' + encodeURIComponent(tags[i].id) + '&name=' + encodeURIComponent(tags[i].name);
+			link.target = '_blank';
+			link.textContent = tags[i].name;
+			el.appendChild(link);
+		}
+	}
 }
 </script>
 <!--{template common/footer}-->
