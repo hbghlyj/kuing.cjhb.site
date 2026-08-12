@@ -2500,3 +2500,39 @@ if (typeof IN_ADMINCP == 'undefined') {
 
 document.addEventListener('DOMContentLoaded', loadAvatar);
 document.addEventListener('DOMContentLoaded', initZoom);
+
+function initPasswordToggles() {
+	function enhance(input) {
+		if (!input || input.type != 'password' || input.disabled || input.dataset.passwordToggle) {
+			return;
+		}
+		var wrapper = document.createElement('span');
+		var button = document.createElement('button');
+		wrapper.className = 'password-toggle-field';
+		button.type = 'button';
+		button.className = 'password-toggle';
+		button.setAttribute('aria-label', 'Show password');
+		button.setAttribute('title', 'Show password');
+		input.dataset.passwordToggle = '1';
+		input.parentNode.insertBefore(wrapper, input);
+		wrapper.appendChild(input);
+		wrapper.appendChild(button);
+		button.addEventListener('click', function() {
+			var visible = input.type == 'text';
+			input.type = visible ? 'password' : 'text';
+			button.setAttribute('aria-label', visible ? 'Show password' : 'Hide password');
+			button.setAttribute('title', visible ? 'Show password' : 'Hide password');
+			button.setAttribute('aria-pressed', visible ? 'false' : 'true');
+			input.focus();
+		});
+	}
+
+	Array.prototype.forEach.call(document.querySelectorAll('input[type="password"]'), enhance);
+	document.addEventListener('focusin', function(event) {
+		if (event.target && event.target.matches && event.target.matches('input[type="password"]')) {
+			enhance(event.target);
+		}
+	});
+}
+
+document.addEventListener('DOMContentLoaded', initPasswordToggles);
