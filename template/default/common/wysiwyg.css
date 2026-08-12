@@ -5,6 +5,7 @@ https://www.discuz.vip
 */
 html, body { margin: 0; overflow: auto; }
 mjx-container.math-editor-selected { cursor: not-allowed; outline: 3px solid #b4d7ff; }
+.math-editor-rendered img[src*="upmath.me/svgb/"] { width: auto !important; height: auto !important; }
 ol { margin: 0; padding: 0; }
 .litype_1 li, ol li { list-style-type: decimal; }
 .litype_2 li { list-style-type: lower-alpha; }

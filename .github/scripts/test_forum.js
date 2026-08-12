@@ -288,7 +288,7 @@ const testPusherLeaderCoordination = async browser => {
     };
     const sendPrivateMessage = async (senderPage, recipientUid, message) => {
         await senderPage.goto(`http://127.0.0.1:8080/home.php?mod=space&uid=${recipientUid}&do=profile`);
-        await senderPage.waitForLoadState('networkidle');
+        await senderPage.waitForLoadState('domcontentloaded');
         const sendPmLink = senderPage.locator(`#a_sendpm_${recipientUid}`);
         assert.strictEqual(await sendPmLink.count(), 1, 'Assertion Error: Send message link did not render on the space page.');
         const showmsgResponsePromise = senderPage.waitForResponse(response =>
