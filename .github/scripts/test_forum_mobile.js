@@ -727,20 +727,19 @@ const { reportCiFailure } = require('./report_ci_failure');
         }, newMobileTag, { timeout: 5000 });
         const mobileSaveBtn = page.locator('button[name="search_button"], #floatlayout_topicadmin button:has-text("Submit"), .tip button:has-text("Submit")');
         await mobileSaveBtn.first().waitFor({ state: 'visible', timeout: 5000 });
-        // Submit tag changes (touch tagset() does Ajax then reload)
-        const tagSetResponse = page.waitForResponse(r => r.url().includes('misc.php?mod=tag&op=set') && r.request().method() === 'GET');
+        // Submit tag changes through the shared JSON retag endpoint without reloading.
+        const tagSetResponse = page.waitForResponse(r => r.url().includes('forum.php?mod=misc&action=retag') && r.request().method() === 'GET');
+        const retagUrl = page.url();
         await mobileSaveBtn.first().click();
-        await tagSetResponse;
-        // Wait for DB or reload
-        await page.waitForTimeout(1500);
-        await page.waitForLoadState('load', { timeout: 15000 });
+        const retagResponse = await tagSetResponse;
+        assert.strictEqual(retagResponse.status(), 200, 'Assertion Error: Mobile retag request failed.');
+        await page.waitForFunction((expected) => document.body.textContent.includes(expected), newMobileTag, { timeout: 5000 });
+        assert.strictEqual(page.url(), retagUrl, 'Assertion Error: Mobile retag unexpectedly navigated away.');
         // Verify DB tag update
         const mobileDbTags = dbScalar(`SELECT tags FROM pre_forum_thread WHERE tid='${tid}'`);
         assert.ok(mobileDbTags.includes(newMobileTag), `Assertion Error: Mobile tag manage did not persist new tag. tid=${tid} tags=${mobileDbTags}`);
         assert.ok(mobileDbTags.includes('mobile tag'), `Assertion Error: Mobile tag manage lost existing tag. tags=${mobileDbTags}`);
-        // Verify rendered in viewthread after reload
-        await page.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${tid}`);
-        await page.waitForLoadState('networkidle');
+        // Verify the new tag is already rendered in the current viewthread.
         const mobileRetagBody = await page.textContent('body');
         assert.ok(mobileRetagBody.includes(newMobileTag), 'Assertion Error: New mobile tag not rendered in viewthread after manage');
         await page.screenshot({ path: 'screenshot_mobile_tag_manage_retagged.png' });

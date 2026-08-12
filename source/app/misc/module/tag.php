@@ -10,7 +10,7 @@ if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
-$op = in_array(getgpc('op'), ['search', 'manage', 'set']) ? getgpc('op') : '';
+$op = in_array(getgpc('op'), ['search', 'manage']) ? getgpc('op') : '';
 
 if($op === 'search') {
 	$file = appfile('child/tag/search', 'misc');
@@ -38,23 +38,6 @@ if($op === 'manage') {
 	require_once $file;
 	include template('forum/tag');
 	exit;
-}
-
-if($op === 'set') {
-	$_G['tid'] = intval(getgpc('tid'));
-	if($_G['tid']) {
-		$_G['thread'] = table_forum_thread::t()->fetch_thread($_G['tid']);
-	}
-	if(!$_G['adminid'] && !$_G['group']['allowretag'] && !$_G['forum']['ismoderator'] && $_G['uid'] != $_G['thread']['authorid']) {
-		showmessage('group_nopermission', NULL, array('grouptitle' => $_G['group']['grouptitle']), array('login' => 1));
-	}
-	require_once './source/function/function_post.php';
-	$file = appfile('child/tag/set', 'misc');
-	if(!$file || !file_exists($file)) {
-		showmessage('undefined_action');
-	}
-	require_once $file;
-	exit('1');
 }
 
 $id = array_filter(array_map('intval', explode(',', getgpc('id'))), function($value) {
