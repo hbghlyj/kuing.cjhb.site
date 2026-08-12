@@ -1159,6 +1159,85 @@ function _toggle_collapse(objname, noimg, complex, lang) {
 
 }
 
+function _toggleOnlinePanel(panelId, cookieKey, trigger, errorText) {
+	var panel = $(panelId);
+	if(!panel) {
+		return false;
+	}
+	var open = trigger ? panel.style.display == 'none' : true;
+	if(trigger) {
+		panel.style.display = open ? '' : 'none';
+	}
+	var icon = trigger ? trigger.querySelector('em') : null;
+	if(icon) {
+		icon.className = open ? 'tg_no' : 'tg_yes';
+	}
+	document.cookie = cookiepre + cookieKey + '=' + (open ? '1' : '') + '; path=' + (cookiepath || '/') + '; max-age=' + (open ? 31536000 : 0);
+	if(open && panel.getAttribute('data-loaded') != '1' && panel.getAttribute('data-loading') != '1') {
+		panel.setAttribute('data-loading', '1');
+		var request = new XMLHttpRequest();
+		request.open('GET', 'forum.php?mod=ajax&action=getOnlineUserListHtml&inajax=1&ajaxdata=json&t=' + new Date().getTime(), true);
+		request.onreadystatechange = function() {
+			if(request.readyState != 4) {
+				return;
+			}
+			panel.removeAttribute('data-loading');
+			var list = panel.querySelector('#whosonline_list_container');
+			var payload = null;
+			if(request.status == 200) {
+				try {
+					payload = JSON.parse(request.responseText);
+				} catch(e) {
+				}
+			}
+			if(list) {
+				list.innerHTML = payload && typeof payload.html == 'string' ? payload.html : '<li style="width: auto">' + errorText + '</li>';
+			}
+			if(payload) {
+				var values = {
+					whosonline_count_total: payload.onlinenum,
+					whosonline_count_member: payload.membercount,
+					whosonline_count_guest: payload.guestcount,
+					whosonline_count_invisible: payload.invisiblecount
+				};
+				for(var id in values) {
+					var node = $(id);
+					if(node) {
+						node.textContent = values[id];
+					}
+				}
+				var segments = {
+					whosonline_member_segment: payload.membercount,
+					whosonline_guest_segment: payload.guestcount,
+					whosonline_invisible_segment: payload.invisiblecount
+				};
+				for(var segmentId in segments) {
+					var segment = $(segmentId);
+					if(segment) {
+						segment.style.display = segments[segmentId] ? '' : 'none';
+					}
+				}
+				panel.setAttribute('data-loaded', '1');
+			}
+		};
+		request.send();
+		if(!panel.onlineRefreshTimer) {
+			panel.onlineRefreshTimer = setInterval(function() {
+				if(!document.documentElement.contains(panel)) {
+					clearInterval(panel.onlineRefreshTimer);
+					panel.onlineRefreshTimer = null;
+					return;
+				}
+				if(panel.style.display != 'none') {
+					panel.removeAttribute('data-loaded');
+					toggleOnlinePanel(panelId, cookieKey, null, errorText);
+				}
+			}, 30000);
+		}
+	}
+	return false;
+}
+
 function _extstyle(css) {
 	if(!$('css_extstyle')) {
 		loadcss('extstyle');

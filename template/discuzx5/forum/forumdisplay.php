@@ -269,32 +269,18 @@
 
 				<!--{if !($_G['forum']['simple'] & 1) && $_G[setting][whosonlinestatus]}-->
 					<div class="bm">
-						<!--{if $detailstatus}-->
 						<div class="bm_h cl">
-							<span class="o y"><a href="forum.php?mod=forumdisplay&fid=$_G[fid]&page=$page&showoldetails=no#online"><em class="tg_no"></em></a></span>
+							<span class="o y"><a href="#online" onclick="return toggleOnlinePanel('online_forum_panel', 'onlineforum', this, '{lang online_list_load_error}');"><em class="<!--{if $detailstatus}-->tg_no<!--{else}-->tg_yes<!--{/if}-->"></em></a></span>
 							<h2>{lang forum_activeusers} ($onlinenum)</h2>
 						</div>
-						<div class="bm_c">
-							<ul class="ml mls cl">
-							<!--{loop $whosonline $key $online}-->
-								<li>
-								<a href="home.php?mod=space&uid=$online[uid]" class="avt"><!--{avatar($online['uid'], 'small')}--></a>
-								<!--{if $online['uid']}-->
-									<p><a href="home.php?mod=space&uid=$online[uid]">$online[username]</a></p>
-								<!--{else}-->
-									<p title="$online[network_title]">$online[username]</p>
-								<!--{/if}-->
-								<span>$online[lastactivity]{LF}</span>
-								</li>
-							<!--{/loop}-->
-							</ul>
+						<div id="online_forum_panel" class="bm_c" data-loaded="0"<!--{if !$detailstatus}--> style="display:none"<!--{/if}-->>
+							<ul id="whosonline_list_container" class="ml mls cl"><li style="width:auto">{lang m_loading}</li></ul>
 						</div>
-						<!--{else}-->
-						<div class="bm_h cl">
-							<span class="o y"><a href="forum.php?mod=forumdisplay&fid=$_G[fid]&page=$page&showoldetails=yes#online" class="nobdr"><em class="tg_yes"></em></a></span>
-							<h2>{lang forum_activeusers} ($onlinenum)</h2>
-						</div>
-						<!--{/if}-->
+						<script type="text/javascript">
+							if(document.getElementById('online_forum_panel').style.display != 'none') {
+								toggleOnlinePanel('online_forum_panel', 'onlineforum', null, '{lang online_list_load_error}');
+							}
+						</script>
 					</div>
 				<!--{/if}-->
 			<!--{/if}-->

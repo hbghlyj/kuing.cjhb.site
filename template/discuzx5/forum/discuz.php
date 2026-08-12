@@ -484,7 +484,7 @@
 			<div id="online" class="bm bmw">
 				<div class="bm_h">
 				<!--{if $detailstatus}-->
-					<span class="o"><a href="forum.php?showoldetails=no#online" title="{lang spread}"><em class="tg_no" title="{lang spread}"></em></a></span>
+					<span class="o"><a href="#online" onclick="return toggleOnlinePanel('online_index_panel', 'onlineindex', this, '{lang online_list_load_error}');" title="{lang spread}"><em class="tg_no" title="{lang spread}"></em></a></span>
 					<h3>
 						<strong><a href="home.php?mod=space&do=friend&view=online">{lang onlinemember}</a></strong>
 						<span class="xs1">- <strong id="whosonline_count_total">$onlinenum</strong> {lang onlines}
@@ -494,7 +494,7 @@
 					</h3>
 				<!--{else}-->
 					<!--{if empty($_G['setting']['sessionclose'])}-->
-						<span class="o"><a href="forum.php?showoldetails=yes#online" title="{lang spread}"><em class="tg_yes" title="{lang spread}"></em></a></span>
+						<span class="o"><a href="#online" onclick="return toggleOnlinePanel('online_index_panel', 'onlineindex', this, '{lang online_list_load_error}');" title="{lang spread}"><em class="tg_yes" title="{lang spread}"></em></a></span>
 					<!--{/if}-->
 					<h3>
 						<strong>
@@ -510,78 +510,20 @@
 					</h3>
 				<!--{/if}-->
 				</div>
-			<!--{if $_G['setting']['whosonlinestatus'] && $detailstatus}-->
-				<dl id="onlinelist" class="bm_c">
+			<!--{if $_G['setting']['whosonlinestatus']}-->
+				<dl id="online_index_panel" class="bm_c"<!--{if !$detailstatus}--> style="display:none"<!--{/if}--> >
 					<ul style="text-transform: capitalize" class="cl ptm pbm bbda">$_G[cache][onlinelist][legend]</ul>
-					<!--{if $detailstatus}-->
 						<dd class="ptm pbm cl">
 							<ul id="whosonline_list_container">
 								<li style="width: auto">{lang m_loading}</li>
 							</ul>
 						</dd>
-						<script type="text/javascript">
-							function fetchWhosOnlineList() {
-								var ajaxurl = 'forum.php?mod=ajax&action=getOnlineUserListHtml&inajax=1&ajaxdata=json&t=' + new Date().getTime();
-								var x = new XMLHttpRequest();
-								x.open('GET', ajaxurl, true);
-								x.onreadystatechange = function () {
-									if (x.readyState == 4 && x.status == 200) {
-										var listContainer = document.getElementById('whosonline_list_container');
-										var totalCount = document.getElementById('whosonline_count_total');
-										var memberCount = document.getElementById('whosonline_count_member');
-										var guestCount = document.getElementById('whosonline_count_guest');
-										var invisibleCount = document.getElementById('whosonline_count_invisible');
-										var memberSegment = document.getElementById('whosonline_member_segment');
-										var guestSegment = document.getElementById('whosonline_guest_segment');
-										var invisibleSegment = document.getElementById('whosonline_invisible_segment');
-										var payload = null;
-										try {
-											payload = JSON.parse(x.responseText);
-										} catch (e) {
-										}
-										if (listContainer) {
-											listContainer.innerHTML = payload && typeof payload.html === 'string' ? payload.html : '<li style="width: auto">{lang online_list_load_error}</li>';
-										}
-										if (payload) {
-											if (totalCount) {
-												totalCount.textContent = payload.onlinenum;
-											}
-											if (memberCount) {
-												memberCount.textContent = payload.membercount;
-											}
-											if (guestCount) {
-												guestCount.textContent = payload.guestcount;
-											}
-											if (invisibleCount) {
-												invisibleCount.textContent = payload.invisiblecount;
-											}
-											if (memberSegment) {
-												memberSegment.style.display = payload.membercount ? '' : 'none';
-											}
-											if (guestSegment) {
-												guestSegment.style.display = payload.guestcount ? '' : 'none';
-											}
-											if (invisibleSegment) {
-												invisibleSegment.style.display = payload.invisiblecount ? '' : 'none';
-											}
-										}
-									} else if (x.readyState == 4) {
-										var listContainer = document.getElementById('whosonline_list_container');
-										if (listContainer) {
-											listContainer.innerHTML = '<li style="width: auto">{lang online_list_load_error}</li>';
-										}
-									}
-								};
-								x.send();
-							}
-
-							if (document.getElementById('whosonline_list_container')) {
-								fetchWhosOnlineList();
-								setInterval(fetchWhosOnlineList, 30000);
-							}
-						</script>
-					<!--{/if}-->
 				</dl>
+				<script type="text/javascript">
+					if(document.getElementById('online_index_panel').style.display != 'none') {
+						toggleOnlinePanel('online_index_panel', 'onlineindex', null, '{lang online_list_load_error}');
+					}
+				</script>
 			<!--{/if}-->
 			</div>
 		<!--{/if}-->

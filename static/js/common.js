@@ -1692,6 +1692,10 @@ function toggle_collapse(objname, noimg, complex, lang) {
 	$F('_toggle_collapse', arguments);
 }
 
+function toggleOnlinePanel(panelId, cookieKey, trigger, errorText) {
+	$F('_toggleOnlinePanel', arguments);
+}
+
 function updatestring(str1, str2, clear) {
 	str2 = '_' + str2 + '_';
 	return clear ? str1.replace(str2, '') : (str1.indexOf(str2) == -1 ? str1 + str2 : str1);
