@@ -295,12 +295,9 @@ DiscuzUploader.prototype.initSettings = function (userSettings) {
 		}else{
 			self.queueEvent("file_queued_handler", file);
 		}
-		if(self.customSettings.uploadType == 'image' && /^image\//i.test(file.type || '') && typeof uploader.makeThumb == 'function') {
-			uploader.makeThumb(file, function(error, dataUrl) {
-				if(!error) {
-					setUploadPreview(file, self.customSettings.progressTarget, dataUrl);
-				}
-			}, 64, 64);
+		if(self.customSettings.uploadType == 'image' && /^image\//i.test(file.type || '') && typeof URL != 'undefined' && typeof URL.createObjectURL == 'function') {
+			file.previewObjectUrl = URL.createObjectURL(file.source.source);
+			setUploadPreview(file, self.customSettings.progressTarget, file.previewObjectUrl);
 		}
 
 	});
@@ -718,6 +715,14 @@ function uploadSuccess(file, serverData) {
 
 function uploadComplete(file) {
 }
+
+function releaseUploadPreview(file) {
+	if(file && file.previewObjectUrl && typeof URL != 'undefined' && typeof URL.revokeObjectURL == 'function') {
+		URL.revokeObjectURL(file.previewObjectUrl);
+		file.previewObjectUrl = null;
+	}
+}
+
 function getFirstFrame(file, callback) {
 	const video = document.createElement('video');
 	video.preload = 'metadata';
@@ -812,6 +817,7 @@ function getInsertTdId(boxObj, tdId) {
 }
 
 function FileProgress(file, targetID) {
+	this.file = file;
 	this.fileProgressID = file.id;
 
 	this.opacity = 100;
@@ -1020,6 +1026,7 @@ FileProgress.prototype.disappear = function() {
 		rate));
 	} else {
 		this.fileProgressWrapper.style.display = "none";
+		releaseUploadPreview(this.file);
 		this.setTimer(null);
 	}
 };
