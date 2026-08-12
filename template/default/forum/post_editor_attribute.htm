@@ -89,7 +89,7 @@
 						<p id="recent_tags" class="mtn" style="margin-top:6px;font-size:12px;color:#666;">{lang recent_use_tag}&nbsp;
 							<!--{eval $tagi = 0;}-->
 							<!--{loop $recent_use_tag $var}-->
-								<!--{if $tagi}-->, <!--{/if}--><a class="xi2" onclick="addKeyword('$var')" style="cursor:pointer;">$var</a>
+								<!--{if $tagi}-->, <!--{/if}--><a class="xi2 recent-tag" onclick="addKeyword('$var')">$var</a>
 								<!--{eval $tagi++;}-->
 							<!--{/loop}-->
 						</p>

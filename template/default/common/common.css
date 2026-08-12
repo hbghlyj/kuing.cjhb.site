@@ -248,6 +248,7 @@ Last Modify:	Pony
 */
 	.xi1, .onerror { color: {NOTICETEXT}; }
 	.xi2, .xi2 a, .xi3 a { color: {HIGHLIGHTLINK} ; }
+	.recent-tag { cursor: pointer; }
 /*
 	Name:			mod_text_weight_level
 	Level:			Global
