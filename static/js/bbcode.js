@@ -167,7 +167,7 @@ function bbcode2html(str) {
 
 	if(!allowhtml || !fetchCheckbox('htmlon')) {
 		str = str.replace(/(^|>)([^<]+)(?=<|$)/ig, function($1, $2, $3) {
-			return $2 + preg_replace(['\t', '   ', '  ', '(\r\n|\n|\r)'], ['&nbsp; &nbsp; &nbsp; &nbsp; ', '&nbsp; &nbsp;', '&nbsp;&nbsp;', '<br />'], $3);
+			return $2 + preg_replace(['(\r\n|\n|\r)'], ['<br />'], $3);
 		});
 	} else {
 		str = str.replace(/<script[^\>]*?>([^\x00]*?)<\/script>/ig, '');
