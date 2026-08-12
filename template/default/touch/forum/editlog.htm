@@ -68,8 +68,8 @@
 				}
 			} catch(error) {}
 		}
-		if(Array.isArray(revision.attachments)) {
-			body += (body ? '\n\n' : '') + attachmentLabel + ':\n' + (revision.attachments.length ? revision.attachments.join('\n') : '-');
+		if(Array.isArray(revision.attachments) && revision.attachments.length) {
+			body += (body ? '\n\n' : '') + attachmentLabel + ':\n' + revision.attachments.join('\n');
 		}
 		return decodeEntities((revision.subject ? revision.subject + '\n\n' : '') + body);
 	}
