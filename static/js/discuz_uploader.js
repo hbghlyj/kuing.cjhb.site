@@ -969,15 +969,7 @@ FileProgress.prototype.appear = function() {
 		this.setTimer(null);
 	}
 
-	if (this.fileProgressWrapper.filters) {
-		try {
-			this.fileProgressWrapper.filters.item("DXImageTransform.Microsoft.Alpha").opacity = 100;
-		} catch(e) {
-			this.fileProgressWrapper.style.filter = "progid:DXImageTransform.Microsoft.Alpha(opacity=100)";
-		}
-	} else {
-		this.fileProgressWrapper.style.opacity = 1;
-	}
+	this.fileProgressWrapper.style.opacity = 1;
 
 	this.fileProgressWrapper.style.height = "";
 
@@ -998,15 +990,7 @@ FileProgress.prototype.disappear = function() {
 			this.opacity = 0;
 		}
 
-		if (this.fileProgressWrapper.filters) {
-			try {
-				this.fileProgressWrapper.filters.item("DXImageTransform.Microsoft.Alpha").opacity = this.opacity;
-			} catch(e) {
-				this.fileProgressWrapper.style.filter = "progid:DXImageTransform.Microsoft.Alpha(opacity=" + this.opacity + ")";
-			}
-		} else {
-			this.fileProgressWrapper.style.opacity = this.opacity / 100;
-		}
+		this.fileProgressWrapper.style.opacity = this.opacity / 100;
 	}
 
 	if (this.height > 0) {

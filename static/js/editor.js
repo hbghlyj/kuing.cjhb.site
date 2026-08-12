@@ -437,7 +437,7 @@ function sanitizePaste(event) {
 	if(!data) {
 		return;
 	}
-	if(uploadEditorImageFiles(data.files)) {
+	if(uploadEditorImageFiles(data.files).handled) {
 		event.preventDefault();
 		return;
 	}
@@ -461,20 +461,27 @@ function sanitizePaste(event) {
 }
 
 function uploadEditorImageFiles(files) {
+	var status = {uploadedCount: 0, failedCount: 0, ignoredCount: 0};
 	if(!files || !files.length || typeof imgUpload == 'undefined' || !imgUpload.customSettings || !imgUpload.customSettings.pasteEditor) {
-		return false;
+		return status;
 	}
-	var uploaded = false;
 	for(var i = 0; i < files.length; i++) {
-		if(/^image\//i.test(files[i].type || '') && imgUpload.uploadFile(files[i])) {
-			uploaded = true;
+		if(!/^image\//i.test(files[i].type || '')) {
+			status.ignoredCount++;
+			continue;
+		}
+		if(imgUpload.uploadFile(files[i])) {
+			status.uploadedCount++;
+		} else {
+			status.failedCount++;
 		}
 	}
-	return uploaded;
+	status.handled = status.uploadedCount > 0;
+	return status;
 }
 
 function handleEditorImageDrop(event) {
-	if(uploadEditorImageFiles(event.dataTransfer && event.dataTransfer.files)) {
+	if(uploadEditorImageFiles(event.dataTransfer && event.dataTransfer.files).handled) {
 		event.preventDefault();
 		event.stopPropagation();
 	}
@@ -497,12 +504,27 @@ function insertUploadedImage(aid) {
 	holder.id = 'pasted_image_' + aid + '_' + (+new Date());
 	holder.style.display = 'none';
 	document.body.appendChild(holder);
+	var cleanedUp = false;
+	var cleanup = function() {
+		if(cleanedUp) {
+			return;
+		}
+		cleanedUp = true;
+		clearTimeout(cleanupTimer);
+		if(holder.parentNode) {
+			holder.parentNode.removeChild(holder);
+		}
+	};
+	var cleanupTimer = setTimeout(cleanup, 15000);
 	ajaxget('forum.php?mod=ajax&action=imagelist&type=single&pid=' + (typeof pid == 'undefined' ? 0 : pid) + '&aids=' + aid + (typeof fid == 'undefined' || !fid ? '' : '&fid=' + fid), holder.id, null, null, 'none', function() {
+		if(cleanedUp || !holder.parentNode) {
+			return;
+		}
 		var image = holder.querySelector('#image_' + aid);
 		if(image) {
 			insertText('<img src="' + image.src + '" border="0" aid="attachimg_' + aid + '" alt="" />', false);
 		}
-		holder.parentNode.removeChild(holder);
+		cleanup();
 	});
 }
 
