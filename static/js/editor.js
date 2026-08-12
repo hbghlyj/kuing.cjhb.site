@@ -433,11 +433,19 @@ function pasteWord(str) {
 }
 
 function sanitizePaste(event) {
-	if(!wysiwyg || (allowhtml && fetchCheckbox('htmlon'))) {
-		return;
-	}
 	var data = event.clipboardData || window.clipboardData;
 	if(!data) {
+		return;
+	}
+	if(data.files && data.files.length && typeof imgUpload != 'undefined' && imgUpload.customSettings && imgUpload.customSettings.pasteEditor) {
+		for(var i = 0; i < data.files.length; i++) {
+			if(/^image\//i.test(data.files[i].type || '') && imgUpload.uploadFile(data.files[i])) {
+				event.preventDefault();
+				return;
+			}
+		}
+	}
+	if(!wysiwyg || (allowhtml && fetchCheckbox('htmlon'))) {
 		return;
 	}
 	var html = data.getData('text/html');
@@ -454,6 +462,24 @@ function sanitizePaste(event) {
 	} catch(e) {
 		insertText(html.replace(/<[\/\!]*?[^<>]*?>/ig, ''), 0, 0);
 	}
+}
+
+function insertUploadedImage(aid) {
+	if(!wysiwyg) {
+		insertAttachimgTag(aid);
+		return;
+	}
+	var holder = document.createElement('div');
+	holder.id = 'pasted_image_' + aid + '_' + (+new Date());
+	holder.style.display = 'none';
+	document.body.appendChild(holder);
+	ajaxget('forum.php?mod=ajax&action=imagelist&type=single&pid=' + (typeof pid == 'undefined' ? 0 : pid) + '&aids=' + aid + (typeof fid == 'undefined' || !fid ? '' : '&fid=' + fid), holder.id, null, null, 'none', function() {
+		var image = holder.querySelector('#image_' + aid);
+		if(image) {
+			insertText('<img src="' + image.src + '" border="0" aid="attachimg_' + aid + '" alt="" />', false);
+		}
+		holder.parentNode.removeChild(holder);
+	});
 }
 
 var ctlent_enable = {8:1,9:1,13:1};

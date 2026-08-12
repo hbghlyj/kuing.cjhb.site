@@ -340,6 +340,17 @@ DiscuzUploader.prototype.addPostParam = function (name, value) {
 	this.uploader.options.formData[name] = value;
 };
 
+DiscuzUploader.prototype.uploadFile = function (file) {
+	if(!file || !this.uploader || !/^image\//i.test(file.type || '')) {
+		return false;
+	}
+	if(!file.name) {
+		file = new File([file], 'pasted-image.' + ((file.type || 'image/png').split('/')[1] || 'png'), {type: file.type || 'image/png'});
+	}
+	this.uploader.addFile(file);
+	return true;
+};
+
 DiscuzUploader.prototype.queueEvent = function (handlerName, argumentArray) {
 	var self = this;
 
@@ -603,6 +614,9 @@ function uploadSuccess(file, serverData) {
 					if(this.customSettings.uploadType == 'attach') {
 						ajaxget('forum.php?mod=ajax&action=attachlist&aids=' + aid + (!fid ? '' : '&fid=' + fid)+(typeof resulttype == 'undefined' ? '' : '&result=simple'), file.id);
 					} else if(this.customSettings.uploadType == 'image') {
+						if(this.customSettings.pasteEditor && typeof insertUploadedImage == 'function') {
+							insertUploadedImage(aid);
+						}
 						var tdObj = getInsertTdId(this.customSettings.imgBoxObj, 'image_td_'+aid);
 						ajaxget('forum.php?mod=ajax&action=imagelist&type=single&pid=' + pid + '&aids=' + aid + (!fid ? '' : '&fid=' + fid), tdObj.id);
 						$(file.id).style.display = 'none';
