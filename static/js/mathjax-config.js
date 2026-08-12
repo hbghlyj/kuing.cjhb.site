@@ -105,6 +105,7 @@ window.MathJax = {
     matchFontHeight: true
   },
   output: {
+    mtextInheritFont: true,
     displayOverflow: 'scroll',
     fontPath: 'https://unpkg.com/@mathjax/mathjax-newcm-font'
   }
