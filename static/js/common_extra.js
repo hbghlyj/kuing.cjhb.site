@@ -1176,13 +1176,60 @@ function _toggleOnlinePanel(panelId, cookieKey, trigger, errorText) {
 	if(open && panel.getAttribute('data-loaded') != '1' && panel.getAttribute('data-loading') != '1') {
 		panel.setAttribute('data-loading', '1');
 		var request = new XMLHttpRequest();
+		var completed = false;
+		var timeoutHandle = setTimeout(function() {
+			if(!completed) {
+				try {
+					request.abort();
+				} catch(e) {
+				}
+				finish(null);
+			}
+		}, 10000);
+		var finish = function(payload) {
+			if(completed) {
+				return;
+			}
+			completed = true;
+			clearTimeout(timeoutHandle);
+			panel.removeAttribute('data-loading');
+			var list = panel.querySelector('#whosonline_list_container');
+			if(list) {
+				list.innerHTML = payload && typeof payload.html == 'string' ? payload.html : '<li style="width: auto">' + errorText + '</li>';
+			}
+			if(!payload) {
+				return;
+			}
+			var values = {
+				whosonline_count_total: payload.onlinenum,
+				whosonline_count_member: payload.membercount,
+				whosonline_count_guest: payload.guestcount,
+				whosonline_count_invisible: payload.invisiblecount
+			};
+			for(var id in values) {
+				var node = $(id);
+				if(node) {
+					node.textContent = values[id];
+				}
+			}
+			var segments = {
+				whosonline_member_segment: payload.membercount,
+				whosonline_guest_segment: payload.guestcount,
+				whosonline_invisible_segment: payload.invisiblecount
+			};
+			for(var segmentId in segments) {
+				var segment = $(segmentId);
+				if(segment) {
+					segment.style.display = segments[segmentId] ? '' : 'none';
+				}
+			}
+			panel.setAttribute('data-loaded', '1');
+		};
 		request.open('GET', 'forum.php?mod=ajax&action=getOnlineUserListHtml&inajax=1&ajaxdata=json&t=' + new Date().getTime(), true);
 		request.onreadystatechange = function() {
 			if(request.readyState != 4) {
 				return;
 			}
-			panel.removeAttribute('data-loading');
-			var list = panel.querySelector('#whosonline_list_container');
 			var payload = null;
 			if(request.status == 200) {
 				try {
@@ -1190,35 +1237,13 @@ function _toggleOnlinePanel(panelId, cookieKey, trigger, errorText) {
 				} catch(e) {
 				}
 			}
-			if(list) {
-				list.innerHTML = payload && typeof payload.html == 'string' ? payload.html : '<li style="width: auto">' + errorText + '</li>';
-			}
-			if(payload) {
-				var values = {
-					whosonline_count_total: payload.onlinenum,
-					whosonline_count_member: payload.membercount,
-					whosonline_count_guest: payload.guestcount,
-					whosonline_count_invisible: payload.invisiblecount
-				};
-				for(var id in values) {
-					var node = $(id);
-					if(node) {
-						node.textContent = values[id];
-					}
-				}
-				var segments = {
-					whosonline_member_segment: payload.membercount,
-					whosonline_guest_segment: payload.guestcount,
-					whosonline_invisible_segment: payload.invisiblecount
-				};
-				for(var segmentId in segments) {
-					var segment = $(segmentId);
-					if(segment) {
-						segment.style.display = segments[segmentId] ? '' : 'none';
-					}
-				}
-				panel.setAttribute('data-loaded', '1');
-			}
+			finish(payload);
+		};
+		request.onerror = function() {
+			finish(null);
+		};
+		request.onabort = function() {
+			finish(null);
 		};
 		request.send();
 		if(!panel.onlineRefreshTimer) {
