@@ -143,6 +143,7 @@ DiscuzUploader.prototype.initSettings = function (userSettings) {
 	this.ensureDefault("file_size_limit", 0);
 	this.ensureDefault("file_upload_limit", 0);
 	this.ensureDefault("file_queue_limit", 0);
+	this.ensureDefault("upload_threads", 3);
 
 	this.ensureDefault("button_image_url", "");
 	this.ensureDefault("button_image_text", $L('upload_pic'));
@@ -264,7 +265,7 @@ DiscuzUploader.prototype.initSettings = function (userSettings) {
 		server: this.settings.upload_url,
 		pick: '#' + this.settings.button_placeholder_id,
 		compress: false,
-		threads: 1,
+		threads: this.settings.upload_threads,
 		accept: {
 			title: this.settings.file_types_description,
 			extensions: exts,
