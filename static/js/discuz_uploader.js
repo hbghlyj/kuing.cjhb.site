@@ -858,7 +858,7 @@ function FileProgress(file, targetID) {
 
 		document.getElementById(targetID).appendChild(this.fileProgressWrapper);
 	} else {
-		this.fileProgressElement = this.fileProgressWrapper.firstChild;
+		this.fileProgressElement = this.fileProgressWrapper.querySelector('.progressContainer');
 		this.reset();
 	}
 

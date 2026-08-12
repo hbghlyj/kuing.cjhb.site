@@ -461,7 +461,8 @@ function sanitizePaste(event) {
 }
 
 function uploadEditorImageFiles(files) {
-	var status = {uploadedCount: 0, failedCount: 0, ignoredCount: 0};
+	var status = {uploadedCount: 0, failedCount: 0, ignoredCount: 0, duplicateCount: 0};
+	var seen = Object.create(null);
 	if(!files || !files.length || typeof imgUpload == 'undefined' || !imgUpload.customSettings || !imgUpload.customSettings.pasteEditor) {
 		return status;
 	}
@@ -470,6 +471,17 @@ function uploadEditorImageFiles(files) {
 			status.ignoredCount++;
 			continue;
 		}
+		var fileKey = JSON.stringify([
+			files[i].name || '',
+			files[i].type || '',
+			files[i].size || 0,
+			files[i].lastModified || 0
+		]);
+		if(seen[fileKey]) {
+			status.duplicateCount++;
+			continue;
+		}
+		seen[fileKey] = true;
 		if(imgUpload.uploadFile(files[i])) {
 			status.uploadedCount++;
 		} else {
