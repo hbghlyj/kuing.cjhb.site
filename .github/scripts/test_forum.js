@@ -724,7 +724,7 @@ const testPusherLeaderCoordination = async browser => {
             );
             await page.waitForURL(new RegExp(`mod=viewthread&tid=${tidOutput}`));
             await page.waitForFunction(
-                message => document.body.innerText.includes(message),
+                message => document.body && document.body.innerText.includes(message),
                 'Reply text from unprivileged account.'
             );
 
@@ -1195,7 +1195,7 @@ const testPusherLeaderCoordination = async browser => {
                 `Assertion Error: Admin reply POST failed with HTTP ${adminReplyResponse.status()}.`
             );
             await adminPage.waitForFunction(
-                message => document.body.innerText.includes(message),
+                message => document.body && document.body.innerText.includes(message),
                 'Admin quote reply to user thread.'
             );
             await adminContext.close();
@@ -1338,15 +1338,167 @@ const testPusherLeaderCoordination = async browser => {
 
         const attachmentFixture = 'static/image/smiley/BQ2/alu1.jpg';
         assert.ok(fs.existsSync(attachmentFixture), `Assertion Error: Attachment fixture is missing: ${attachmentFixture}`);
+        fs.mkdirSync('scratch', { recursive: true });
+        const attachmentFixtures = [
+            attachmentFixture,
+            'scratch/parallel_image_2.jpg',
+            'scratch/parallel_image_3.jpg'
+        ];
+        fs.copyFileSync(attachmentFixture, attachmentFixtures[1]);
+        fs.copyFileSync(attachmentFixture, attachmentFixtures[2]);
+        const editorTarget = await page.evaluate(() => {
+            const iframe = Array.from(document.querySelectorAll('iframe[id$="_iframe"]')).find(node => {
+                const style = getComputedStyle(node);
+                return style.display !== 'none' && style.visibility !== 'hidden';
+            });
+            if(iframe) {
+                return { type: 'iframe', id: iframe.id };
+            }
+            const textarea = document.querySelector('textarea[name="message"]');
+            return textarea ? { type: 'textarea', id: textarea.id } : null;
+        });
+        assert.ok(editorTarget, 'Assertion Error: No active forum editor was available for paste/drop upload tests.');
+        const fixtureBase64 = fs.readFileSync(attachmentFixture).toString('base64');
+        const dispatchEditorImageEvent = async (eventType, files) => {
+            return page.evaluate(({target, eventType, files}) => {
+                const createEvent = (type, dataTransfer) => {
+                    let event;
+                    if(type === 'paste') {
+                        try {
+                            event = new ClipboardEvent(type, { bubbles: true, cancelable: true, clipboardData: dataTransfer });
+                        } catch(error) {}
+                        if(!event || !event.clipboardData) {
+                            event = new Event(type, { bubbles: true, cancelable: true });
+                            Object.defineProperty(event, 'clipboardData', { value: dataTransfer });
+                        }
+                    } else {
+                        try {
+                            event = new DragEvent(type, { bubbles: true, cancelable: true, dataTransfer });
+                        } catch(error) {}
+                        if(!event || !event.dataTransfer) {
+                            event = new Event(type, { bubbles: true, cancelable: true });
+                            Object.defineProperty(event, 'dataTransfer', { value: dataTransfer });
+                        }
+                    }
+                    return event;
+                };
+                const dataTransfer = new DataTransfer();
+                for(const file of files) {
+                    const bytes = Uint8Array.from(atob(file.base64), character => character.charCodeAt(0));
+                    dataTransfer.items.add(new File([bytes], file.name, {
+                        type: file.type,
+                        lastModified: file.lastModified
+                    }));
+                }
+                let targetDocument = document;
+                let targetNode;
+                if(target.type === 'iframe') {
+                    const iframe = document.getElementById(target.id);
+                    targetDocument = iframe.contentDocument;
+                    targetNode = targetDocument.body;
+                } else {
+                    targetNode = document.getElementById(target.id);
+                }
+                if(!targetNode) {
+                    throw new Error('Editor event target was not found');
+                }
+                const cancelled = !targetNode.dispatchEvent(createEvent(eventType, dataTransfer));
+                return { cancelled };
+            }, {
+                target: editorTarget,
+                eventType,
+                files
+            });
+        };
+        const waitForEditorUploads = async (expected, action, label) => {
+            const responses = [];
+            const result = new Promise((resolve, reject) => {
+                let timer;
+                const cleanup = () => {
+                    clearTimeout(timer);
+                    page.off('response', onResponse);
+                };
+                const onResponse = response => {
+                    if(response.request().method() === 'POST' && response.url().includes('misc.php?mod=upload')) {
+                        responses.push(response);
+                        if(responses.length === expected) {
+                            cleanup();
+                            resolve(responses);
+                        }
+                    }
+                };
+                timer = setTimeout(() => {
+                    cleanup();
+                    reject(new Error(`Timed out waiting for ${expected} ${label} uploads; received ${responses.length}.`));
+                }, 60000);
+                page.on('response', onResponse);
+            });
+            const dispatchResult = await action();
+            const uploadResults = await result;
+            for(const response of uploadResults) {
+                const responseText = await response.text();
+                assert.match(responseText.trim(), /^\d+$/, `Assertion Error: ${label} image upload failed. Response: ${responseText}`);
+            }
+            return dispatchResult;
+        };
+        const pasteFiles = [
+            { name: 'paste-image.jpg', type: 'image/jpeg', lastModified: 1, base64: fixtureBase64 },
+            { name: 'paste-image.jpg', type: 'image/jpeg', lastModified: 1, base64: fixtureBase64 }
+        ];
+        const pasteResult = await waitForEditorUploads(1, () => dispatchEditorImageEvent('paste', pasteFiles), 'paste');
+        assert.ok(pasteResult.cancelled, 'Assertion Error: Image paste event was not cancelled after upload handling.');
+        const dropFiles = [
+            { name: 'drop-image-1.jpg', type: 'image/jpeg', lastModified: 2, base64: fixtureBase64 },
+            { name: 'drop-image-2.jpg', type: 'image/jpeg', lastModified: 3, base64: fixtureBase64 }
+        ];
+        const dropResult = await waitForEditorUploads(2, () => dispatchEditorImageEvent('drop', dropFiles), 'drop');
+        assert.ok(dropResult.cancelled, 'Assertion Error: Image drop event was not cancelled after upload handling.');
+        await page.waitForFunction(target => {
+            if(target.type === 'iframe') {
+                const iframe = document.getElementById(target.id);
+                return iframe && iframe.contentDocument && iframe.contentDocument.querySelectorAll('img[aid^="attachimg_"]').length >= 3;
+            }
+            const textarea = document.getElementById(target.id);
+            return textarea && (textarea.value.match(/\[attachimg\]/g) || []).length >= 3;
+        }, editorTarget, { timeout: 10000 });
+        console.log('Verified paste and drag-and-drop image uploads, duplicate suppression, and editor insertion.');
         const uploadPickers = page.locator('div[id^="rt_"] input[type="file"]');
         assert.strictEqual(await uploadPickers.count(), 2, 'Assertion Error: Desktop WebUploader pickers did not render.');
         const imageInput = uploadPickers.nth(0);
-        const uploadResponse = page.waitForResponse(response => response.request().method() === 'POST' && response.url().includes('misc.php?mod=upload'));
-        await imageInput.setInputFiles(attachmentFixture);
-        const lastUploadResp = await (await uploadResponse).text();
-        assert.match(lastUploadResp.trim(), /^\d+$/, `Assertion Error: Desktop image upload failed. Response: ${lastUploadResp}`);
-        await page.waitForFunction(() => document.querySelector('#imgattachlist input[name^="attachnew["]'), null, { timeout: 5000 });
-        const aid = await page.locator('#imgattachlist input[name$="[displaywidth]"]').evaluate(input => input.name.match(/^attachnew\[(\d+)\]/)[1]);
+        const uploadResponses = [];
+        let finishParallelUploadWait;
+        const parallelUploadWait = new Promise((resolve, reject) => {
+            finishParallelUploadWait = () => {
+                clearTimeout(timeoutId);
+                page.off('response', onUploadResponse);
+                resolve(uploadResponses);
+            };
+            const timeoutId = setTimeout(() => {
+                page.off('response', onUploadResponse);
+                reject(new Error(`Timed out waiting for 3 parallel image uploads; received ${uploadResponses.length}.`));
+            }, 60000);
+            const onUploadResponse = response => {
+                if(response.request().method() === 'POST' && response.url().includes('misc.php?mod=upload')) {
+                    uploadResponses.push(response);
+                    if(uploadResponses.length === attachmentFixtures.length) {
+                        finishParallelUploadWait();
+                    }
+                }
+            };
+            page.on('response', onUploadResponse);
+        });
+        await imageInput.setInputFiles(attachmentFixtures);
+        const parallelResponses = await parallelUploadWait;
+        for(const response of parallelResponses) {
+            const responseText = await response.text();
+            assert.match(responseText.trim(), /^\d+$/, `Assertion Error: Desktop parallel image upload failed. Response: ${responseText}`);
+        }
+        await page.waitForFunction(
+            expected => document.querySelectorAll('#imgattachlist input[name^="attachnew["]').length >= expected,
+            attachmentFixtures.length,
+            { timeout: 10000 }
+        );
+        const aid = await page.locator('#imgattachlist input[name$="[displaywidth]"]').last().evaluate(input => input.name.match(/^attachnew\[(\d+)\]/)[1]);
         console.log("Discovered attachment AID:", aid);
         const displayWidthInput = page.locator(`#imgattachlist input[name="attachnew[${aid}][displaywidth]"]`);
         assert.strictEqual(await displayWidthInput.count(), 1, 'Assertion Error: Image attachment display-width control did not render.');
