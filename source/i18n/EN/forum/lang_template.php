@@ -204,6 +204,7 @@ $lang = array (
 	'postcomment_too_long'	=> 'Post comments are limited to 200 characters. Convert it to a reply?',
 	'postcomment_to_reply'	=> 'Convert to reply',
 	'comments'		=> 'Comment',//'点评',
+	'comment_tip'		=> 'Use comments to ask for more information or suggest improvements. Avoid comments like “+1” or “thanks”.',
 	'more'			=> 'More',//'更多',
 	'publish'		=> 'Publish',//'发布',
 	'detail'		=> 'Details',//'详情',

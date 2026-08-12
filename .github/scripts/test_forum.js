@@ -87,6 +87,11 @@ const testPusherLeaderCoordination = async browser => {
     });
     await pusherContext.addCookies([{ name: 'isCollapsed', value: 'true', url: 'http://127.0.0.1:8080/forum.php' }]);
     await stubPusher(pusherContext);
+    // Exercise heartbeat failover deterministically; Web Locks cannot be stolen
+    // from a live but frozen browsing context.
+    await pusherContext.addInitScript(() => {
+        Object.defineProperty(navigator, 'locks', { configurable: true, value: undefined });
+    });
     const pusherPages = await Promise.all([pusherContext.newPage(), pusherContext.newPage(), pusherContext.newPage()]);
     await Promise.all(pusherPages.map(page => page.addInitScript(isolatePusherChannel)));
     try {

@@ -202,6 +202,7 @@ $lang = [
 	'postcomment_too_long' => '点评最多 200 个字符，是否转为回复？',
 	'postcomment_to_reply' => '转为回复',
 	'comments' => '点评',
+	'comment_tip' => '使用点评询问更多信息或提出改进建议。避免只写“+1”或“谢谢”。',
 	'more' => '更多',
 	'publish' => '发布',
 	'detail' => '详情',

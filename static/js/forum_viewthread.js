@@ -425,6 +425,9 @@ function recommendupdate(n) {
 
 function postreviewupdate(pid, n, username) {
 	var objv = n > 0 ? $('review_support_'+pid) : $('review_against_'+pid);
+	var action = objv.parentNode;
+	action.classList.add('active');
+	objv.style.display = '';
 	objv.innerHTML = parseInt(objv.innerHTML ? objv.innerHTML : 0) + 1;
 	if(username) {
 		objv.parentNode.title = (objv.parentNode.title || '') + username + '\n';
@@ -433,7 +436,11 @@ function postreviewupdate(pid, n, username) {
 
 function postreviewcancel(pid, n, username) {
 	var objv = n > 0 ? $('review_support_'+pid) : $('review_against_'+pid);
-	objv.innerHTML = parseInt(objv.innerHTML ? objv.innerHTML : 0) - 1;
+	var action = objv.parentNode;
+	action.classList.remove('active');
+	var count = parseInt(objv.innerHTML ? objv.innerHTML : 0) - 1;
+	objv.innerHTML = count;
+	objv.style.display = count > 0 ? '' : 'none';
 	if(username) {
 		objv.parentNode.title = (objv.parentNode.title || '').replace(username + '\n', '');
 	}

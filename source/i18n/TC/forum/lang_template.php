@@ -202,6 +202,7 @@ $lang = [
 	'postcomment_too_long' => '點評最多 200 個字元，是否轉為回覆？',
 	'postcomment_to_reply' => '轉為回覆',
 	'comments' => '點評',
+	'comment_tip' => '使用點評詢問更多資訊或提出改進建議。避免只寫「+1」或「謝謝」。',
 	'more' => '更多',
 	'publish' => '發佈',
 	'detail' => '詳情',
