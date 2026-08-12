@@ -930,8 +930,6 @@ a.thread_mod { height: 19px; line-height: 19px; display: inline-block; color: #4
 			.po .y label { font-size: 13px; }
 			.po p { float: right; }
 				.po p a, .po p label { margin-right: 6px; }
-		.hin { opacity: 0.2; }
-			.plhin:hover .hin { opacity: 1; }
 		.pob { line-height: 36px; }
 			.pob em { float: left;}
 				.pob em a { display: block; float: left; height: 36px; margin-right: 12px; font-size: 13px; color: #666; transition: color 0.2s ease; }
