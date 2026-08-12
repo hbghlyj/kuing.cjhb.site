@@ -622,7 +622,7 @@ img{border:none;}
 #frt {text-align:right}
 .footer-row-1 {display:flex;flex-direction:row;align-items:center}
 .dz_footc {overflow:visible;box-shadow:var(--dz-shadow)}
-.dz_footc a {color:var(--dz-alink)}
+.dz_footc a {color:var(--dz-fc)}
 .dz_footc a:hover {color:var(--dz-ahover)}
 #ft.dz_footc_bottom {border-top:none;padding:0}
 .dz_footc_nav {height:20px;line-height:20px}
