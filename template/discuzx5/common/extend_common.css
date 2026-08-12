@@ -733,7 +733,8 @@ img{border:none;}
 .dz_footc_dico .ewmimg {float:right;margin-left:10px;width:100px;text-align:center}
 .dz_footc_dico .ewmimg img {width:100%;margin-bottom:0;display:block}
 .dz_rnav {position:fixed;bottom:100px;z-index:300;margin-left:15px}
-.dz_rnav a {display:block;margin-top:15px;background-color:var(--dz-bgf);color:var(--dz-fc);width:50px;height:50px;line-height:50px;font-family:dzicon;font-size:26px;text-align:center;box-shadow:var(--dz-shadow);border-radius:var(--dz-radius-b);position:relative}
+.dz_rnav a {display:block;margin-top:15px;background-color:var(--dz-bgf);color:var(--dz-fc);width:50px;height:50px;line-height:50px;font-family:dzicon;font-size:26px;text-align:center;box-shadow:var(--dz-shadow);border-radius:50%;position:relative}
+.dz_rnav a.dz_light_auto {border-radius:var(--dz-radius-b)}
 .dz_rnav a:hover, .dz_rnav a.dz_light_on {background-color:var(--dz-btnbg);color:var(--dz-btntxt)}
 .dz_rnav a.dz_rwx:before {content:"\f138"}
 .dz_rnav a.dz_rqq:before {content:"\f118"}
