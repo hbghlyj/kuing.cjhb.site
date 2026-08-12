@@ -295,6 +295,13 @@ DiscuzUploader.prototype.initSettings = function (userSettings) {
 		}else{
 			self.queueEvent("file_queued_handler", file);
 		}
+		if(self.customSettings.uploadType == 'image' && /^image\//i.test(file.type || '') && typeof uploader.makeThumb == 'function') {
+			uploader.makeThumb(file, function(error, dataUrl) {
+				if(!error) {
+					setUploadPreview(file, self.customSettings.progressTarget, dataUrl);
+				}
+			}, 64, 64);
+		}
 
 	});
 
@@ -852,6 +859,23 @@ function FileProgress(file, targetID) {
 	this.height = this.fileProgressWrapper.offsetHeight;
 	this.setTimer(null);
 
+}
+
+function setUploadPreview(file, targetID, dataUrl) {
+	var progressWrapper = document.getElementById(file.id);
+	if(!progressWrapper) {
+		progressWrapper = new FileProgress(file, targetID).fileProgressWrapper;
+	}
+	var preview = progressWrapper.querySelector('.progressPreview');
+	if(!preview) {
+		preview = document.createElement('img');
+		preview.className = 'progressPreview';
+		preview.width = 48;
+		preview.height = 48;
+		preview.style.cssText = 'float:left;margin:4px 8px 4px 4px;width:48px;height:48px;object-fit:cover;border-radius:3px;';
+		progressWrapper.insertBefore(preview, progressWrapper.firstChild);
+	}
+	preview.src = dataUrl;
 }
 
 FileProgress.prototype.setTimer = function(timer) {
