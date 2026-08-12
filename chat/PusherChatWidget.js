@@ -79,7 +79,7 @@
         this.#becomeLeader();
         return;
       }
-      this.#usesLockManager = 'locks' in navigator;
+      this.#usesLockManager = !window.KK_PUSHER_FORCE_FALLBACK && 'locks' in navigator;
       this.#broadcast = new BroadcastChannel('kuing-pusher-events-v1');
       this.#broadcast.addEventListener('message', event => this.#receive(event.data));
       window.addEventListener('beforeunload', () => this.#releaseLeader());

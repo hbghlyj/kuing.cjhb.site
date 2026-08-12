@@ -89,9 +89,7 @@ const testPusherLeaderCoordination = async browser => {
     await stubPusher(pusherContext);
     // Exercise heartbeat failover deterministically; Web Locks cannot be stolen
     // from a live but frozen browsing context.
-    await pusherContext.addInitScript(() => {
-        Object.defineProperty(navigator, 'locks', { configurable: true, value: undefined });
-    });
+    await pusherContext.addInitScript(() => { window.KK_PUSHER_FORCE_FALLBACK = true; });
     const pusherPages = await Promise.all([pusherContext.newPage(), pusherContext.newPage(), pusherContext.newPage()]);
     await Promise.all(pusherPages.map(page => page.addInitScript(isolatePusherChannel)));
     try {
