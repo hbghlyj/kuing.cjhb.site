@@ -15,7 +15,7 @@
 				'EN' => 'English'
 			];
 			$curLangKey = currentlang();
-			$curLangDisplay = isset($footerLocales[$curLangKey]) ? $curLangKey : 'EN';
+			$curLangDisplay = $footerLocales[$curLangKey] ?? $footerLocales['EN'];
 		}-->
 		<div class="lang-selector-wrap" style="float:none;display:inline-block;margin:0;">
 			<button type="button" class="lang-selector-trigger" id="touch_lang_select_btn" onclick="var m=document.getElementById('touch_lang_select_menu');m.style.display=m.style.display==='none'?'block':'none';event.stopPropagation();">

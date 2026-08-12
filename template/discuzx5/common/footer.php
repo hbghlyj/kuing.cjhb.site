@@ -77,7 +77,7 @@
 											'EN' => 'English'
 										];
 										$curLangKey = currentlang();
-										$curLangDisplay = isset($footerLocales[$curLangKey]) ? $curLangKey : 'EN';
+										$curLangDisplay = $footerLocales[$curLangKey] ?? $footerLocales['EN'];
 									}-->
 									<!--{if $footerlinkindex}--><span class="pipe">|</span><!--{/if}-->
 									<div class="lang-selector-wrap" id="lang_selector_root">
