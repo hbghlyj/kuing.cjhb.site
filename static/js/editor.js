@@ -437,13 +437,9 @@ function sanitizePaste(event) {
 	if(!data) {
 		return;
 	}
-	if(data.files && data.files.length && typeof imgUpload != 'undefined' && imgUpload.customSettings && imgUpload.customSettings.pasteEditor) {
-		for(var i = 0; i < data.files.length; i++) {
-			if(/^image\//i.test(data.files[i].type || '') && imgUpload.uploadFile(data.files[i])) {
-				event.preventDefault();
-				return;
-			}
-		}
+	if(uploadEditorImageFiles(data.files)) {
+		event.preventDefault();
+		return;
 	}
 	if(!wysiwyg || (allowhtml && fetchCheckbox('htmlon'))) {
 		return;
@@ -461,6 +457,34 @@ function sanitizePaste(event) {
 		insertText(bbcode2html(html2bbcode(fragment)), 0, 0);
 	} catch(e) {
 		insertText(html.replace(/<[\/\!]*?[^<>]*?>/ig, ''), 0, 0);
+	}
+}
+
+function uploadEditorImageFiles(files) {
+	if(!files || !files.length || typeof imgUpload == 'undefined' || !imgUpload.customSettings || !imgUpload.customSettings.pasteEditor) {
+		return false;
+	}
+	var uploaded = false;
+	for(var i = 0; i < files.length; i++) {
+		if(/^image\//i.test(files[i].type || '') && imgUpload.uploadFile(files[i])) {
+			uploaded = true;
+		}
+	}
+	return uploaded;
+}
+
+function handleEditorImageDrop(event) {
+	if(uploadEditorImageFiles(event.dataTransfer && event.dataTransfer.files)) {
+		event.preventDefault();
+		event.stopPropagation();
+	}
+}
+
+function allowEditorImageDrop(event) {
+	var files = event.dataTransfer && event.dataTransfer.files;
+	if(files && Array.prototype.some.call(files, function(file) { return /^image\//i.test(file.type || ''); })) {
+		event.preventDefault();
+		event.dataTransfer.dropEffect = 'copy';
 	}
 }
 
@@ -922,6 +946,8 @@ function setEditorEvents() {
 	if(editdoc.addEventListener) {
 		if(!editdoc._sanitizePasteBound) {
 			editdoc.addEventListener('paste', sanitizePaste, true);
+			editdoc.addEventListener('dragover', allowEditorImageDrop, true);
+			editdoc.addEventListener('drop', handleEditorImageDrop, true);
 			editdoc._sanitizePasteBound = true;
 		}
 	} else if(editdoc.attachEvent) {
