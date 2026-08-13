@@ -1634,6 +1634,11 @@ Last Modify:	Pony
 	.login_slct a:after {content: ":";}
 	.fwin .rfm, .nfl .f_c .rfm { width: 500px; }
 	.fwin .rfm th, .fwin .rfm td, .nfl .f_c .rfm th, .nfl .f_c .rfm td { padding: 6px 2px; }
+	@media screen and (max-width: 760px) {
+		.rfm { width: 100%; }
+		.rfm td.tipcol { display: block; width: auto; padding-left: 0; }
+		.rfm .p_tip, .rfm .p_chk { position: relative; width: auto; max-width: 100%; padding-left: 0; }
+	}
 	.fwin .loginb button { margin-left: 11.3em; }
 	.nfl .f_c .loginb button { margin-left: 12em; }
 
