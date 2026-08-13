@@ -816,8 +816,11 @@ const testPusherLeaderCoordination = async browser => {
             const restoredPostCheck = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT COUNT(*) FROM pre_forum_post WHERE tid='${tidOutput}' AND pid='${deletableReplyPid}' AND message='Reply text from unprivileged account.';"`).toString().trim();
             assert.strictEqual(restoredPostCheck, '1', 'Assertion Error: Deleted reply was not restored with its original content and PID.');
             await page.goto(`http://127.0.0.1:8080/forum.php?mod=viewthread&tid=${tidOutput}`);
-            await page.waitForLoadState('networkidle');
-            assert.ok((await page.textContent('body')).includes('Reply text from unprivileged account.'), 'Assertion Error: Restored reply was not rendered in viewthread.');
+            await page.waitForLoadState('domcontentloaded');
+            await page.waitForFunction(
+                message => document.body && document.body.innerText.includes(message),
+                'Reply text from unprivileged account.'
+            );
             report += '### Deleted Reply Revision Restore\n- **Status**: Checked\n- **Deletion Log**: Success\n- **Restore**: Success\n\n';
 
             // --- Test: Comment on first floor ---
