@@ -45,7 +45,7 @@ tbody,td,tfoot,th,thead,tr{border-color:inherit;border-style:solid;border-width:
 
 
 
-@font-face { font-family: "dzicon"; src: url('{IMGDIR}/dzicon.eot'); src: url('{IMGDIR}/dzicon.eot?#iefix') format('eot'), url('{IMGDIR}/dzicon.woff2') format('woff2'), url('{IMGDIR}/dzicon.woff') format('woff'); font-weight: normal; font-style: normal; }
+@font-face { font-family: "dzicon"; src: url('{IMGDIR}/dzicon.woff2') format('woff2'), url('{IMGDIR}/dzicon.woff') format('woff'); font-weight: normal; font-style: normal; }
 	[class^="fico-"]:before, [class*=" fico-"]:before { font-family: "dzicon"; font-style: normal; font-weight: normal; speak: none; display: inline-block; text-decoration: inherit; width: 1em; margin-right: .2em; text-align: center; font-variant: normal; text-transform: none; line-height: 1em; font-size: 120%; }
 	/* font icon size */
 	.fic4 { font-size: 14px; }.fic6 { font-size: 16px; }.fic8 { font-size: 18px; }
