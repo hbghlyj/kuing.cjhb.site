@@ -577,7 +577,7 @@ const testPusherLeaderCoordination = async browser => {
 
         console.log('Testing desktop online member list toggle...');
         const onlinePanel = page.locator('#online_index_panel');
-        const onlineToggle = page.locator('a[href="#online"][onclick*="online_index_panel"]').first();
+        const onlineToggle = page.locator('a[href="#online"][onclick*="online_index_panel"]:visible').first();
         assert.strictEqual(await onlinePanel.count(), 1, 'Assertion Error: Desktop online member panel did not render.');
         assert.strictEqual(await onlineToggle.count(), 1, 'Assertion Error: Desktop online member toggle did not render.');
         if(await onlinePanel.isVisible()) {
