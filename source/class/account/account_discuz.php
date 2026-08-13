@@ -54,7 +54,12 @@ class account_discuz extends account_base {
 			exit;
 		}
 
-		dsetcookie('authtoken', authcode($this->token."\t".$ret['data']['authtoken']."\t".$referer, 'ENCODE', $_G['config']['security']['authkey']));
+		$authPayload = json_encode([
+			'token' => $this->token,
+			'authtoken' => $ret['data']['authtoken'],
+			'referer' => $referer,
+		], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+		dsetcookie('authtoken', authcode($authPayload, 'ENCODE', $_G['config']['security']['authkey']));
 
 		dheader('Location: '.$ret['data']['locationUrl']['url'], true, 302);
 	}
@@ -66,8 +71,14 @@ class account_discuz extends account_base {
 	public function getLoginUser() {
 		global $_G;
 		$account = new account();
-		$authtoken = authcode($_G['cookie']['authtoken'], 'DECODE', $_G['config']['security']['authkey']);
-		[$this->token, $authtoken, $_GET['referer']] = explode("\t", $authtoken);
+		$authPayload = authcode($_G['cookie']['authtoken'], 'DECODE', $_G['config']['security']['authkey']);
+		$authPayload = json_decode($authPayload, true);
+		if(!is_array($authPayload) || empty($authPayload['token']) || empty($authPayload['authtoken'])) {
+			return false;
+		}
+		$this->token = $authPayload['token'];
+		$authtoken = $authPayload['authtoken'];
+		$_GET['referer'] = $authPayload['referer'] ?? '';
 
 		$ret = $this->_request('/authtoken', array('authtoken' => $authtoken));
 		if(!$ret || $ret['ret'] > 0) {
