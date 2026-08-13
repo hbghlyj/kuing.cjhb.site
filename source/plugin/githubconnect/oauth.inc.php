@@ -67,7 +67,7 @@ $normalizeReferer = static function($referer) {
 
 $setPending = static function($data) {
 	global $_G;
-	$payload = authcode(serialize($data), 'ENCODE', $_G['config']['security']['authkey']);
+	$payload = authcode(json_encode($data, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES), 'ENCODE', $_G['config']['security']['authkey']);
 	dsetcookie('githubconnect_pending', rawurlencode($payload), GITHUBCONNECT_PENDING_TTL);
 };
 
@@ -80,10 +80,7 @@ $getPending = static function() {
 	if(!$payload) {
 		return [];
 	}
-	$data = @dunserialize($payload);
-	if(!is_array($data)) {
-		$data = @unserialize($payload, ['allowed_classes' => false]);
-	}
+	$data = json_decode($payload, true);
 	return is_array($data) ? $data : [];
 };
 
