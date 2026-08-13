@@ -77,20 +77,36 @@
 
 		<div id="hd">
 		<div class="wp">
-			<!--{if !empty($_G['cookie']['recentthreads'])}-->
-				<!--{eval $recenttids = array_slice(array_values(array_diff(array_filter(array_map('intval', explode(',', $_G['cookie']['recentthreads']))), [intval($_G['tid'] ?? 0)])), 0, 5);}-->
-				<!--{eval $recentthreadlist = $recenttids ? table_forum_thread::t()->fetch_all_by_tid($recenttids) : [];}-->
-				<!--{if $recentthreadlist}-->
-				<span class="pg"><a href="javascript:;" id="recentthreads" onmouseover="showMenu({'ctrlid':this.id,'pos':'34'})">{lang viewed_threads}</a></span>
-				<div id="recentthreads_menu" class="p_pop h_pop navs_menu" style="display: none;">
-					<ul id="v_threads">
-								<!--{loop $recenttids $rtid}-->
-						<!--{if $recentthreadlist[$rtid]}--><li><a href="forum.php?mod=viewthread&tid=$rtid" title="{$recentthreadlist[$rtid]['subject']}">{$recentthreadlist[$rtid]['subject']}</a></li><!--{/if}-->
-								<!--{/loop}-->
-					</ul>
-				</div>
-				<!--{/if}-->
-			<!--{/if}-->
+			<span class="pg" id="recentthreads_wrap" style="display:none"><a href="javascript:;" id="recentthreads" onmouseover="showMenu({'ctrlid':this.id,'pos':'34'})">{lang viewed_threads}</a></span>
+			<div id="recentthreads_menu" class="p_pop h_pop navs_menu" style="display:none">
+				<ul id="v_threads"></ul>
+			</div>
+			<script>
+			(function() {
+				var storageKey = 'kuing-recent-threads-v1';
+				var currentThread = <!--{if CURMODULE == 'viewthread' && !empty($_G['tid'])}-->{tid:$_G['tid'],title:<!--{echo json_encode($_G['forum_thread']['subject'] ?? '', JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT)}-->}<!--{else}-->null<!--{/if}-->;
+				var wrap = document.getElementById('recentthreads_wrap');
+				var list = document.getElementById('v_threads');
+				if(!wrap || !list || !window.localStorage) return;
+				var items = [];
+				try { items = JSON.parse(localStorage.getItem(storageKey) || '[]'); } catch(e) {}
+				if(currentThread && currentThread.tid && currentThread.title) {
+					items = items.filter(function(item) { return item.tid != currentThread.tid; });
+					items.unshift({tid: currentThread.tid, title: currentThread.title});
+					try { localStorage.setItem(storageKey, JSON.stringify(items.slice(0, 8))); } catch(e) {}
+				}
+				items.slice(0, 5).forEach(function(item) {
+					var li = document.createElement('li');
+					var link = document.createElement('a');
+					link.href = 'forum.php?mod=viewthread&tid=' + encodeURIComponent(item.tid);
+					link.title = item.title;
+					link.textContent = item.title;
+					li.appendChild(link);
+					list.appendChild(li);
+				});
+				if(list.children.length) wrap.style.display = '';
+			})();
+			</script>
 			<!--{if CURMODULE == 'index' && $_G['uid'] && $_G['setting']['forumstatus']}-->
 				<span class="pg"><a href="home.php?mod=space&do=thread&view=me">{lang my_posts}</a></span>
 			<!--{/if}-->
