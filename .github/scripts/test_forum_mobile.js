@@ -537,18 +537,16 @@ const { reportCiFailure } = require('./report_ci_failure');
 
         console.log('Posting postcomment on mobile via UI and testing type=postcomment page...');
         const mobilePostCommentText = 'Mobile test postcomment text.';
-        let adminReplyPid = '';
-        for (let i = 0; i < 10 && !adminReplyPid; i++) {
-            adminReplyPid = dbScalar("SELECT pid FROM pre_forum_post WHERE authorid=1 AND first=0 AND message LIKE '%Admin quote reply to user thread.%' ORDER BY pid DESC LIMIT 1");
-            if (!adminReplyPid) await new Promise(r => setTimeout(r, 3000));
-        }
+        const mobilePostreviewFixtureMessage = `Mobile postreview fixture ${String(process.env.TEST_RUN_ID || Date.now()).replace(/[^A-Za-z0-9_-]/g, '')}`;
+        const mobilePostreviewFixtureSqlMessage = mobilePostreviewFixtureMessage.replace(/'/g, "''");
+        let adminReplyPid = dbScalar(`SELECT pid FROM pre_forum_post WHERE tid='${tid}' AND authorid=1 AND first=0 AND message='${mobilePostreviewFixtureSqlMessage}' LIMIT 1`);
         if (!adminReplyPid && tid) {
             const nowTime = Math.floor(Date.now() / 1000);
             const fixturePid = dbScalar('INSERT INTO pre_forum_post_tableid (pid) VALUES (NULL); SELECT LAST_INSERT_ID()');
             const fixturePosition = dbScalar(`SELECT maxposition + 1 FROM pre_forum_thread WHERE tid=${tid}`);
-            execSync(`sudo mysql -u root ultrax -e "INSERT INTO pre_forum_post (pid, fid, tid, first, author, authorid, subject, dateline, message, invisible, anonymous, htmlon, bbcodeoff, smileyoff, parseurloff, attachment, status, position, bestanswer) VALUES (${fixturePid}, 2, ${tid}, 0, 'admin', 1, '', ${nowTime}, 'Admin quote reply to user thread.', 0, 0, 0, 0, 0, 0, 0, 0, ${fixturePosition}, 0);"`);
+            execSync(`sudo mysql -u root ultrax -e "INSERT INTO pre_forum_post (pid, fid, tid, first, author, authorid, subject, dateline, message, invisible, anonymous, htmlon, bbcodeoff, smileyoff, parseurloff, attachment, status, position, bestanswer) VALUES (${fixturePid}, 2, ${tid}, 0, 'admin', 1, '', ${nowTime}, '${mobilePostreviewFixtureSqlMessage}', 0, 0, 0, 0, 0, 0, 0, 0, ${fixturePosition}, 0);"`);
             execSync(`sudo mysql -u root ultrax -e "UPDATE pre_forum_thread SET replies=replies+1, maxposition=${fixturePosition}, lastpost=${nowTime}, lastposter='admin' WHERE tid=${tid};"`);
-            adminReplyPid = dbScalar(`SELECT pid FROM pre_forum_post WHERE tid='${tid}' AND authorid=1 AND first=0 ORDER BY pid DESC LIMIT 1`);
+            adminReplyPid = fixturePid;
         }
         const adminReplyTid = adminReplyPid ? dbScalar(`SELECT tid FROM pre_forum_post WHERE pid='${adminReplyPid}'`) : '';
         assert.ok(adminReplyPid && adminReplyTid, 'Assertion Error: Admin reply target for the mobile post comment was not found.');

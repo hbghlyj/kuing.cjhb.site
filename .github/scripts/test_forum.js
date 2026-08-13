@@ -1064,10 +1064,20 @@ const testPusherLeaderCoordination = async browser => {
 
         console.log("Testing Thread Recommendation and Hot Reply Voting via UI...");
         const adminTidOutput = execSync("sudo mysql -u root ultrax -N -s -e \"SELECT tid FROM pre_forum_thread WHERE authorid=1 ORDER BY tid DESC LIMIT 1;\"").toString().trim();
-        const adminReplyPidOutput = execSync("sudo mysql -u root ultrax -N -s -e \"SELECT pid FROM pre_forum_post WHERE authorid=1 AND first=0 ORDER BY pid DESC LIMIT 1;\"").toString().trim();
         assert.match(adminTidOutput, /^\d+$/, 'Assertion Error: Seeded admin thread for recommendation testing was not found.');
-        assert.match(adminReplyPidOutput, /^\d+$/, 'Assertion Error: Seeded admin reply for postreview testing was not found.');
         const targetRecommendTid = adminTidOutput;
+        const postreviewFixtureMessage = `Desktop postreview fixture ${String(testRunId).replace(/[^A-Za-z0-9_-]/g, '')}`;
+        const postreviewFixtureSqlMessage = postreviewFixtureMessage.replace(/'/g, "''");
+        let adminReplyPidOutput = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT pid FROM pre_forum_post WHERE tid='${targetRecommendTid}' AND authorid=1 AND first=0 AND message='${postreviewFixtureSqlMessage}' LIMIT 1;"`).toString().trim();
+        if(!adminReplyPidOutput) {
+            const fixtureFid = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT fid FROM pre_forum_thread WHERE tid='${targetRecommendTid}' LIMIT 1;"`).toString().trim();
+            const fixturePosition = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT maxposition + 1 FROM pre_forum_thread WHERE tid='${targetRecommendTid}';"`).toString().trim();
+            const fixturePid = execSync("sudo mysql -u root ultrax -N -s -e \"INSERT INTO pre_forum_post_tableid (pid) VALUES (NULL); SELECT LAST_INSERT_ID();\"").toString().trim().split(/\s+/).pop();
+            const fixtureDateline = Math.floor(Date.now() / 1000);
+            execSync(`sudo mysql -u root ultrax -e "INSERT INTO pre_forum_post (pid, fid, tid, first, author, authorid, subject, dateline, message, invisible, anonymous, htmlon, bbcodeoff, smileyoff, parseurloff, attachment, status, position, bestanswer) VALUES (${fixturePid}, ${fixtureFid}, ${targetRecommendTid}, 0, 'admin', 1, '', ${fixtureDateline}, '${postreviewFixtureSqlMessage}', 0, 0, 0, 0, 0, 0, 0, 0, ${fixturePosition}, 0); UPDATE pre_forum_thread SET replies=replies+1, maxposition=${fixturePosition}, lastpost=${fixtureDateline}, lastposter='admin' WHERE tid=${targetRecommendTid};"`);
+            adminReplyPidOutput = fixturePid;
+        }
+        assert.match(adminReplyPidOutput, /^\d+$/, 'Assertion Error: Isolated admin reply for postreview testing was not created.');
         const targetSupportTid = execSync(`sudo mysql -u root ultrax -N -s -e "SELECT tid FROM pre_forum_post WHERE pid='${adminReplyPidOutput}' LIMIT 1;"`).toString().trim();
         assert.match(targetSupportTid, /^\d+$/, 'Assertion Error: Seeded admin reply thread ID was not found.');
 
