@@ -66,7 +66,7 @@ $options = [
 	'image' => !$uid ? '/static/image/common/online_guest.svg' : (!empty($_G['member']['avatarstatus']) ? avatar($uid, 'small', 1) : ''),
 	'actorId' => (int)$_G['uid'],
 	'messageTime' => $chatTime,
-	'sessionId' => $sid,
+	'sessionId' => chat_session_token($sid),
 ];
 $activity = new Activity('chat-message', $message, $options);
 $data = $activity->getMessage();

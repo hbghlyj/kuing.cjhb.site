@@ -90,8 +90,8 @@ if($api[0] == 'token') {
 			echo lang('core', 'restful_auth_error');
 		}
 	} else {
-		header('location: '.base64_decode($_ENV['returntype']));
-		exit;
+		$redirect = restful_safe_redirect(base64_decode((string)$_ENV['returntype'], true));
+		dheader('location: '.$redirect);
 	}
 } elseif($api[0] == 'authtoken') {
 	require_once '../../source/class/class_core.php';
@@ -193,4 +193,28 @@ if($api[0] == 'token') {
 	} catch (Exception $e) {
 		$_ENV['restful']->error(-100);
 	}
+}
+
+function restful_safe_redirect($url) {
+	global $_G;
+	$fallback = $_G['siteurl'] ?? '/';
+	if(!is_string($url) || $url === '') {
+		return $fallback;
+	}
+	$url = trim(str_replace(["\r", "\n"], '', $url));
+	$parts = @parse_url($url);
+	$site = @parse_url($fallback);
+	if(!$parts || !empty($parts['user']) || !empty($parts['pass'])) {
+		return $fallback;
+	}
+	if(empty($parts['scheme']) && empty($parts['host'])) {
+		return (isset($url[0]) && $url[0] === '/' && !str_starts_with($url, '//')) ? $url : $fallback;
+	}
+	if(empty($parts['scheme']) || empty($parts['host']) || empty($site['host'])) {
+		return $fallback;
+	}
+	if(!in_array(strtolower($parts['scheme']), ['http', 'https'], true)) {
+		return $fallback;
+	}
+	return strcasecmp($parts['host'], $site['host']) === 0 ? $url : $fallback;
 }

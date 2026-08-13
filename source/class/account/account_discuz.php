@@ -92,7 +92,7 @@ class account_discuz extends account_base {
 		}
 
 		if(!$ret) {
-			dheader('Location: '.(!empty($_GET['referer']) ? $_GET['referer'] : $_G['siteurl']), true, 302);
+			dheader('Location: '.account::safeRedirect($_GET['referer'] ?? ''), true, 302);
 		}
 
 		$paramBase = ['type' => 'discuz', 'atype' => account::aType_discuz, 'account' => $ret['data']['user']['uid'], 'bindname' => $ret['data']['user']['username']];
@@ -103,7 +103,7 @@ class account_discuz extends account_base {
 					showmessage('account_bind_exists');
 				}
 				$account->userBind($_G['uid'], $paramBase);
-				dheader('Location: '.(!empty($_GET['referer']) ? $_GET['referer'] : $_G['siteurl']), true, 302);
+				dheader('Location: '.account::safeRedirect($_GET['referer'] ?? ''), true, 302);
 			}
 
 			if($this->conf['loginUsernameRule'] == 2) {
@@ -132,12 +132,12 @@ class account_discuz extends account_base {
 			}
 		} else {
 			if($_G['uid']) {
-				showmessage('account_bind_other_exists', (!empty($_GET['referer']) ? $_GET['referer'] : $_G['siteurl']));
+				showmessage('account_bind_other_exists', account::safeRedirect($_GET['referer'] ?? ''));
 			} else {
 				$account->userLogin();
 			}
 		}
-		dheader('Location: '.(!empty($_GET['referer']) ? $_GET['referer'] : $_G['siteurl']), true, 302);
+		dheader('Location: '.account::safeRedirect($_GET['referer'] ?? ''), true, 302);
 	}
 
 	private function _getToken() {

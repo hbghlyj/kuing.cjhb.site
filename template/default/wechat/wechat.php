@@ -25,11 +25,8 @@
 					}
 				}else if(s == '1'){
 					clearTimeout(wechat_checkST);
-					<!--{if strpos($_G['cookie']['wechat_referer'], 'wechat') === false}-->
-					location.href="$_G['cookie']['wechat_referer']";
-					<!--{else}-->
-					location.href="$_G['siteurl']";
-					<!--{/if}-->
+					<!--{eval $wechat_goto = account::safeRedirect(!empty($_G['cookie']['wechat_referer']) && strpos($_G['cookie']['wechat_referer'], 'wechat') === false ? $_G['cookie']['wechat_referer'] : $_G['siteurl']);}-->
+					location.href = {echo json_encode($wechat_goto, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_UNESCAPED_SLASHES);};
 					return false;
 				}else{
 					clearTimeout(wechat_checkST);

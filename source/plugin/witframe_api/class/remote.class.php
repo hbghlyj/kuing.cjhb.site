@@ -17,7 +17,7 @@ class Remote {
 			return array();
 		}
 
-		return $this->iconv(!is_array($_POST[$key]) ? unserialize($_POST[$key]) : $_POST[$key], 'UTF-8', $this->charset);
+		return $this->iconv(!is_array($_POST[$key]) ? unserialize($_POST[$key], ['allowed_classes' => false]) : $_POST[$key], 'UTF-8', $this->charset);
 	}
 
 	public function check($hash) {
@@ -67,7 +67,7 @@ class Remote {
 	}
 
 	public function sessionDecode($v) {
-		return unserialize(base64_decode($v));
+		return unserialize(base64_decode($v), ['allowed_classes' => false]);
 	}
 
 	private function _sessionEncode($v) {

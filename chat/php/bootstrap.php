@@ -40,3 +40,13 @@ function chat_database($root) {
 	$conn->set_charset('utf8mb4');
 	return $conn;
 }
+
+function chat_session_token($sid) {
+	global $_G;
+	$sid = (string)$sid;
+	if($sid === '') {
+		return '';
+	}
+	$key = (string)($_G['config']['security']['authkey'] ?? '');
+	return hash_hmac('sha256', $sid, $key);
+}

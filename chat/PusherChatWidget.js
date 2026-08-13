@@ -350,6 +350,10 @@
       if(typeof tid!=='undefined'){
         this.#chatChannel.bind('newreply', data => {
           if(isOriginatingForumTab(data)) return;
+          data.pid = Number(data.pid);
+          data.tid = Number(data.tid);
+          data.page = Number(data.page);
+          if(!Number.isInteger(data.pid) || data.pid <= 0 || !Number.isInteger(data.tid) || data.tid <= 0) return;
           const pageNumberElement=document.querySelector('div.pg>strong');
           const pageNumber=pageNumberElement?pageNumberElement.textContent.trim():'1';
           const postId = `post_${data.pid}`;
@@ -388,11 +392,17 @@
         });
         this.#chatChannel.bind('editpost', data => {
           if(isOriginatingForumTab(data)) return;
+          data.pid = Number(data.pid);
+          data.tid = Number(data.tid);
+          if(!Number.isInteger(data.pid) || data.pid <= 0 || !Number.isInteger(data.tid) || data.tid <= 0) return;
           if(data.tid==tid && document.getElementById(`pid${data.pid}`)){
             ajaxget(`forum.php?mod=viewthread&tid=${tid}&viewpid=${data.pid}`, `post_${data.pid}`, 'ajaxwaitid', '', null, "if (typeof MathJax !== 'undefined' && typeof MathJax.typesetPromise === 'function') {MathJax.texReset();MathJax.typesetPromise(['#pid"+data.pid+" :is(div.pcb>h2, td.t_f)'])}");
             if(data.subject){
-              document.getElementById('thread_subject').innerHTML = data.subject;
-              typesetNodes(['#thread_subject']).catch(err => { showError($L('chat_mathjax_error', [err])); });
+              const subjectEl = document.getElementById('thread_subject');
+              if(subjectEl){
+                subjectEl.textContent = PusherChatWidget._decodeHtml(data.subject);
+                typesetNodes(['#thread_subject']).catch(err => { showError($L('chat_mathjax_error', [err])); });
+              }
             }
             if(document.querySelector('input[name=pid]')?.value==data.pid && discuz_uid!=data.uid){
               showDialog($L('chat_post_edited'));
@@ -401,12 +411,18 @@
         });
         this.#chatChannel.bind('commentadd', data => {
           if(isOriginatingForumTab(data)) return;
+          data.pid = Number(data.pid);
+          data.tid = Number(data.tid);
+          if(!Number.isInteger(data.pid) || data.pid <= 0 || !Number.isInteger(data.tid) || data.tid <= 0) return;
           if(data.tid==tid && document.getElementById(`pid${data.pid}`)){
             ajaxget('forum.php?mod=misc&action=commentmore&tid='+tid+'&pid='+data.pid, 'comment_'+data.pid, 'ajaxwaitid', '', null, "if (typeof MathJax !== 'undefined' && typeof MathJax.typesetPromise === 'function') {MathJax.typesetPromise(['#comment_"+data.pid+"'])}");
           }
         });
         this.#chatChannel.bind('deletepost', data => {
           if(isOriginatingForumTab(data)) return;
+          data.pid = Number(data.pid);
+          data.tid = Number(data.tid);
+          if(!Number.isInteger(data.pid) || data.pid <= 0 || !Number.isInteger(data.tid) || data.tid <= 0) return;
           if(data.tid==tid){
             const post = document.getElementById(`pid${data.pid}`) || document.getElementById(`post_${data.pid}`);
             if(!post) return;
@@ -731,6 +747,59 @@
       appendTo.append(widget);
       return widget;
     }
+    static _decodeHtml(text){
+      return String(text)
+        .replace(/&lt;/g, '<')
+        .replace(/&gt;/g, '>')
+        .replace(/&quot;/g, '"')
+        .replace(/&#039;/g, "'")
+        .replace(/&amp;/g, '&');
+    }
+    static _appendTextWithBreaks(el, text){
+      const parts = String(text).split('\n');
+      parts.forEach((part, index) => {
+        if(index) el.append(document.createElement('br'));
+        if(part) el.append(document.createTextNode(part));
+      });
+    }
+    static _appendChatBody(textEl, bodyText){
+      const decoded = PusherChatWidget._decodeHtml(bodyText || '');
+      const re = /(https?:\/\/[^\s<]+|\/data\/attachment\/[^\s<]+)/gi;
+      const chatImage = /^\/data\/attachment\/chat\/[a-f0-9]{32}\.(?:jpe?g|png|gif|bmp|webp)$/i;
+      let last = 0;
+      let match;
+      while((match = re.exec(decoded)) !== null){
+        if(match.index > last){
+          PusherChatWidget._appendTextWithBreaks(textEl, decoded.slice(last, match.index));
+        }
+        const url = match[0];
+        if(chatImage.test(url)){
+          const img = document.createElement('img');
+          img.src = url;
+          textEl.append(img);
+        } else {
+          try {
+            const parsed = new URL(url, window.location.origin);
+            if(parsed.protocol === 'http:' || parsed.protocol === 'https:'){
+              const a = document.createElement('a');
+              a.href = parsed.href;
+              a.rel = 'noopener noreferrer nofollow';
+              a.target = '_blank';
+              a.textContent = url;
+              textEl.append(a);
+            } else {
+              PusherChatWidget._appendTextWithBreaks(textEl, url);
+            }
+          } catch(error) {
+            PusherChatWidget._appendTextWithBreaks(textEl, url);
+          }
+        }
+        last = match.index + match[0].length;
+      }
+      if(last < decoded.length){
+        PusherChatWidget._appendTextWithBreaks(textEl, decoded.slice(last));
+      }
+    }
     static _buildListItem(activity){
       const li = document.createElement('li');
       li.className = 'message-item';
@@ -776,12 +845,11 @@
       if (window.location.protocol === 'https:') {
         bodyText = bodyText.replace(/http:\/\/([^\/]+)(\/data\/attachment\/)/gi, '$2');
       }
-      const textHtml = bodyText.replace(/(https?:\/\/\S+\b|\/data\/attachment\/\S+\b)/gi,m=>(/\.(png|jpe?g|gif|bmp|svg|webp)$/i.test(m)?'<img src="'+m+'" />':'<a href="'+m+'">'+m+'</a>')).replace(/\n/g,'<br>');
       const message = document.createElement('div');
       message.className = 'activity-row';
       const text = document.createElement('div');
       text.className = 'text';
-      text.innerHTML = textHtml;
+      PusherChatWidget._appendChatBody(text, bodyText);
       message.append(text);
       content.append(message);
       contentWrapper.append(image, content);

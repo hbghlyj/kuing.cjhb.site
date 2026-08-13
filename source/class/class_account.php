@@ -260,6 +260,30 @@ class account {
 		return $_G['siteurl'].substr($_SERVER['REQUEST_URI'], 1);
 	}
 
+	public static function safeRedirect($url) {
+		global $_G;
+		$fallback = $_G['siteurl'] ?? '/';
+		$url = trim(str_replace(["\r", "\n"], '', (string)$url));
+		if($url === '') {
+			return $fallback;
+		}
+		$parts = @parse_url($url);
+		$site = @parse_url($fallback);
+		if(!$parts || !empty($parts['user']) || !empty($parts['pass'])) {
+			return $fallback;
+		}
+		if(empty($parts['scheme']) && empty($parts['host'])) {
+			return (isset($url[0]) && $url[0] === '/' && !str_starts_with($url, '//')) ? $url : $fallback;
+		}
+		if(empty($parts['scheme']) || empty($parts['host']) || empty($site['host'])) {
+			return $fallback;
+		}
+		if(!in_array(strtolower($parts['scheme']), ['http', 'https'], true)) {
+			return $fallback;
+		}
+		return strcasecmp($parts['host'], $site['host']) === 0 ? $url : $fallback;
+	}
+
 	public static function method_loginAuto() {
 		foreach(self::getSwitch('loginAuto') as $_interface) {
 			if(account_base::callClass($_interface, 'inEnv')) {
