@@ -91,6 +91,7 @@ $lang = [
 	'templates_edit_identifier_invalid' => '您輸入的唯一標識符不合法或與現有模板重複',
 	'templates_add_succeed' => '模板已成功添加，請繼續完成模板開發',
 	'plugin_not_found' => '插件未找到',
+	'plugin_directory_invalid' => '插件目錄不合法',
 	'plugins_install_succeed' => '插件成功安裝！<br />爲了正常使用此插件，您可能還需要上傳或修改相應的檔案或模板，詳情請查看本插件的安裝說明<br /><br /><a href="https://addon.dismall.com/?view=plugins" target="_top">點擊這裡返回應用中心</a><br />',
 	'plugin_file_error' => '插件檔案缺失',
 	'plugins_edit_identifier_invalid' => '您輸入的唯一標識符不合法或與現有插件重複',
