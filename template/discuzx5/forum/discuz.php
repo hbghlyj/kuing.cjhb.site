@@ -510,7 +510,7 @@
 				<!--{/if}-->
 				</div>
 			<!--{if $_G['setting']['whosonlinestatus']}-->
-				<dl id="online_index_panel" class="bm_c" data-expanded="<!--{if $detailstatus}-->1<!--{else}-->0<!--{/if}-->"<!--{if !$detailstatus}--> style="display:none"<!--{/if}--> >
+				<dl id="online_index_panel" class="bm_c" data-expanded="<!--{if $detailstatus}-->1<!--{else}-->0<!--{/if}-->"<!--{if !$detailstatus}--> hidden<!--{/if}--> >
 					<ul style="text-transform: capitalize" class="cl ptm pbm bbda">$_G[cache][onlinelist][legend]</ul>
 						<dd class="ptm pbm cl">
 							<ul id="whosonline_list_container">

@@ -1164,9 +1164,9 @@ function _toggleOnlinePanel(panelId, cookieKey, trigger, errorText) {
 	if(!panel) {
 		return false;
 	}
-	var open = trigger ? panel.style.display == 'none' : true;
+	var open = trigger ? panel.hidden : true;
 	if(trigger) {
-		panel.style.display = open ? '' : 'none';
+		panel.hidden = !open;
 		panel.setAttribute('data-expanded', open ? '1' : '0');
 	}
 	var icon = trigger ? trigger.querySelector('em') : null;
@@ -1254,7 +1254,7 @@ function _toggleOnlinePanel(panelId, cookieKey, trigger, errorText) {
 					panel.onlineRefreshTimer = null;
 					return;
 				}
-				if(panel.style.display != 'none') {
+				if(!panel.hidden) {
 					panel.removeAttribute('data-loaded');
 					toggleOnlinePanel(panelId, cookieKey, null, errorText);
 				}
