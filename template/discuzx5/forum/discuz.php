@@ -483,8 +483,10 @@
 		<!--{if empty($gid) && $_G['setting']['whosonlinestatus']}-->
 			<div id="online" class="bm bmw">
 				<div class="bm_h">
+				<!--{if $detailstatus || empty($_G['setting']['sessionclose'])}-->
+					<span class="o"><a href="#online" onclick="return toggleOnlinePanel('online_index_panel', 'onlineindex', this, '{lang online_list_load_error}');" title="{lang spread}"><em class="<!--{if $detailstatus}-->tg_no<!--{else}-->tg_yes<!--{/if}-->" title="{lang spread}"></em></a></span>
+				<!--{/if}-->
 				<!--{if $detailstatus}-->
-					<span class="o"><a href="#online" onclick="return toggleOnlinePanel('online_index_panel', 'onlineindex', this, '{lang online_list_load_error}');" title="{lang spread}"><em class="tg_no" title="{lang spread}"></em></a></span>
 					<h3>
 						<strong><a href="home.php?mod=space&do=friend&view=online">{lang onlinemember}</a></strong>
 						<span class="xs1">- <strong id="whosonline_count_total">$onlinenum</strong> {lang onlines}
@@ -493,9 +495,6 @@
 						- {lang index_members_today} <strong>$onlineinfo[0]</strong></span>
 					</h3>
 				<!--{else}-->
-					<!--{if empty($_G['setting']['sessionclose'])}-->
-						<span class="o"><a href="#online" onclick="return toggleOnlinePanel('online_index_panel', 'onlineindex', this, '{lang online_list_load_error}');" title="{lang spread}"><em class="tg_yes" title="{lang spread}"></em></a></span>
-					<!--{/if}-->
 					<h3>
 						<strong>
 							<!--{if !empty($_G['setting']['whosonlinestatus'])}-->
