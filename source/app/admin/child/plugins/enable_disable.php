@@ -20,6 +20,9 @@ if(!$plugin) {
 	cpmsg('plugin_not_found', '', 'error');
 }
 $dir = substr($plugin['directory'], 0, -1);
+if(!ispluginkey($dir)) {
+	cpmsg('plugin_directory_invalid', '', 'error');
+}
 $modules = dunserialize($plugin['modules']);
 $file = getimportfilename(DISCUZ_PLUGIN($dir).'/discuz_plugin_'.$dir.($modules['extra']['installtype'] ? '_'.$modules['extra']['installtype'] : ''));
 if(!$file) {

@@ -73,6 +73,9 @@ function plugininstall($pluginarray, $installtype = '', $available = 0) {
 	foreach($pluginarray['plugin'] as $key => $val) {
 		if($key == 'directory') {
 			$val .= (!empty($val) && !str_ends_with($val, '/')) ? '/' : '';
+			if(!preg_match('/^[a-z]+[a-z0-9_]*\/$/i', $val)) {
+				$val = preg_match('/^[a-z]+[a-z0-9_]*$/i', (string)$pluginarray['plugin']['identifier']) ? $pluginarray['plugin']['identifier'].'/' : '';
+			}
 		} elseif($key == 'available') {
 			$val = $available;
 		}
@@ -188,6 +191,9 @@ function pluginupgrade($pluginarray, $installtype) {
 	foreach($pluginarray['plugin'] as $key => $val) {
 		if($key == 'directory') {
 			$val .= (!empty($val) && !str_ends_with($val, '/')) ? '/' : '';
+			if(!preg_match('/^[a-z]+[a-z0-9_]*\/$/i', $val)) {
+				$val = preg_match('/^[a-z]+[a-z0-9_]*$/i', (string)$pluginarray['plugin']['identifier']) ? $pluginarray['plugin']['identifier'].'/' : '';
+			}
 		} elseif($key == 'available') {
 			continue;
 		}
