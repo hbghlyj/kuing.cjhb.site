@@ -177,11 +177,11 @@ class seccode {
 
 	function adulteratefont() {
 		$seccodeunits = 'BCEFGHJKMPQRTVWXY2346789';
-		$x = $this->width / 4;
+		$x = $this->width / max(1, strlen($this->code));
 		$y = $this->height / 10;
 		$text_color = imagecolorallocate($this->im, $this->fontcolor[0], $this->fontcolor[1], $this->fontcolor[2]);
-		for($i = 0; $i <= 3; $i++) {
-			$adulteratecode = $seccodeunits[mt_rand(0, 23)];
+		for($i = 0, $length = strlen($this->code); $i < $length; $i++) {
+			$adulteratecode = $seccodeunits[mt_rand(0, strlen($seccodeunits) - 1)];
 			imagechar($this->im, 5, $x * $i + mt_rand(0, $x - 10), mt_rand($y, $this->height - 10 - $y), $adulteratecode, $text_color);
 		}
 	}
@@ -203,7 +203,7 @@ class seccode {
 			$this->giffont();
 			return;
 		}
-		$seccodelength = 4;
+		$seccodelength = strlen($seccode);
 		if($this->type && !empty($seccodettf)) {
 			if(strtoupper(CHARSET) != 'UTF-8') {
 				include $this->includepath.'class_chinese.php';
@@ -332,18 +332,21 @@ class seccode {
 			}
 		}
 		$widthtotal = 0;
-		for($i = 0; $i <= 3; $i++) {
+		$seccodelength = strlen($seccode);
+		$slotwidth = max(1, (int)floor($this->width / max(1, $seccodelength)));
+		for($i = 0; $i < $seccodelength; $i++) {
 			$this->imcodefile = $seccodedir ? $seccoderoot.$seccodedir[array_rand($seccodedir)].'/'.strtolower($seccode[$i]).'.gif' : '';
 			if(!empty($this->imcodefile) && file_exists($this->imcodefile)) {
 				$font[$i]['file'] = $this->imcodefile;
 				$font[$i]['data'] = getimagesize($this->imcodefile);
 				$font[$i]['width'] = $font[$i]['data'][0] + mt_rand(0, 6) - 4;
 				$font[$i]['height'] = $font[$i]['data'][1] + mt_rand(0, 6) - 4;
-				$font[$i]['width'] += mt_rand(0, max(0, $this->width / 5 - $font[$i]['width']));
+				$font[$i]['width'] += mt_rand(0, max(0, $slotwidth - $font[$i]['width']));
+				$font[$i]['width'] = min($font[$i]['width'], $slotwidth);
 				$widthtotal += $font[$i]['width'];
 			} else {
 				$font[$i]['file'] = '';
-				$font[$i]['width'] = 8 + mt_rand(0, $this->width / 5 - 5);
+				$font[$i]['width'] = max(4, $slotwidth - mt_rand(0, min(4, max(0, $slotwidth - 4))));
 				$widthtotal += $font[$i]['width'];
 			}
 		}
@@ -416,23 +419,23 @@ class seccode {
 			}
 		}
 
-		$bitmap = [];
-		for($i = 0; $i < 20; $i++) {
-			for($j = 0; $j <= 3; $j++) {
-				$bytes = $numbers[$this->code[$j]][$i];
-				$a = mt_rand(0, 14);
-				array_push($bitmap, $bytes);
+		$length = strlen($this->code);
+		$width = $length * 8;
+		$rowSize = (int)ceil($width / 32) * 4;
+		$data = '';
+		for($row = 0; $row < 24; $row++) {
+			$rowdata = '';
+			for($column = 0; $column < $length; $column++) {
+				$glyph = $numbers[$this->code[$column]][$row % count($numbers[$this->code[$column]])];
+				$rowdata .= $glyph;
 			}
+			$data .= pack('H*', $rowdata).str_repeat("\x00", $rowSize - $length);
 		}
-
-		for($i = 0; $i < 8; $i++) {
-			$a = substr('012345', mt_rand(0, 2), 1).substr('012345', mt_rand(0, 5), 1);
-			array_unshift($bitmap, $a);
-			array_push($bitmap, $a);
-		}
-
-		$image = pack('H*', '424d9e000000000000003e000000280000002000000018000000010001000000'.
-			'0000600000000000000000000000000000000000000000000000FFFFFF00'.implode('', $bitmap));
+		$fileSize = 14 + 40 + 8 + strlen($data);
+		$header = 'BM'.pack('VvvV', $fileSize, 0, 0, 62).
+			pack('V3v2V6', 40, $width, 24, 1, 1, 0, strlen($data), 0, 0, 0, 0).
+			"\x00\x00\x00\x00\xff\xff\xff\x00";
+		$image = $header.$data;
 
 		header('Content-Type: image/bmp');
 		echo $image;

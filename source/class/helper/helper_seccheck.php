@@ -90,14 +90,12 @@ class helper_seccheck {
 					$seccode .= substr($lang['chn'], $code[$i] * $len, $len);
 				}
 			} else {
-				$s = sprintf('%04s', base_convert($seccode, 10, 24));
 				$seccodeunits = 'BCEFGHJKMPQRTVWXY2346789';
 			}
 			if($seccodeunits) {
 				$seccode = '';
-				for($i = 0; $i < 4; $i++) {
-					$unit = ord($s[$i]);
-					$seccode .= ($unit >= 0x30 && $unit <= 0x39) ? $seccodeunits[$unit - 0x30] : $seccodeunits[$unit - 0x57];
+				for($i = 0, $length = 6; $i < $length; $i++) {
+					$seccode .= $seccodeunits[random_int(0, strlen($seccodeunits) - 1)];
 				}
 			}
 		}
