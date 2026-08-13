@@ -64,6 +64,7 @@ if($_G['setting']['whosonlinestatus'] == 1 || $_G['setting']['whosonlinestatus']
 			$whosonline[] = $online_user;
 		}
 	}
+	$membercount = count($whosonline);
 
 	foreach($sessions_guests as $online) {
 		$online_user = [];
@@ -89,10 +90,9 @@ if($_G['setting']['whosonlinestatus'] == 1 || $_G['setting']['whosonlinestatus']
 		$whosonline[] = $online_user;
 	}
 
-	$membercount = C::app()->session->count(1);
 	$guestcount = C::app()->session->count(2);
 	$invisiblecount = C::app()->session->count_invisible();
-	$onlinenum = $membercount + $guestcount;
+	$onlinenum = $membercount + $invisiblecount + $guestcount;
 }
 
 ob_start();
