@@ -21,7 +21,6 @@ $lang = [
 	'blockclass_html_script_vedio' => '網絡影片',
 	'blockclass_html_script_stat' => '數據統計',
 	'blockclass_html_script_forumtree' => '版塊列表',
-	'blockclass_html_script_google' => 'GOOGLE',
 	'blockclass_html_script_adv' => '站點廣告',
 	'blockclass_html_script_friendlink' => '友情鏈接',
 	'blockclass_html_script_sort' => '分類資訊',

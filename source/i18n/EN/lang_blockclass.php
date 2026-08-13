@@ -22,7 +22,6 @@ $lang = array(
 	'blockclass_html_script_vedio'		=> 'Video',//'网络视频',
 	'blockclass_html_script_stat'		=> 'Statistics',//'数据统计',
 	'blockclass_html_script_forumtree'	=> 'Forum List',//'版块列表',
-	'blockclass_html_script_google'		=> 'GOOGLE',
 	'blockclass_html_script_adv'		=> 'Site Advertising',//'站点广告',
 	'blockclass_html_script_friendlink'	=> 'Friend Links',//'友情链接',
 	'blockclass_html_script_sort'		=> 'Script types(order?)',//'分类信息',

@@ -21,7 +21,6 @@ $lang = [
 	'blockclass_html_script_vedio' => '网络视频',
 	'blockclass_html_script_stat' => '数据统计',
 	'blockclass_html_script_forumtree' => '版块列表',
-	'blockclass_html_script_google' => 'GOOGLE',
 	'blockclass_html_script_adv' => '站点广告',
 	'blockclass_html_script_friendlink' => '友情链接',
 	'blockclass_html_script_sort' => '分类信息',
