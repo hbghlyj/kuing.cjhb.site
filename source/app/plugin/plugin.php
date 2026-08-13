@@ -10,21 +10,8 @@ if(!defined('MITFRAME_APP')) {
 	exit('Access Denied');
 }
 
-if(!empty($_GET['redirect'])) {
-	[$identifier, $module] = explode(':', $_GET['redirect'].':');
-
-	if(!preg_match('/^[\w\_]+$/', $identifier) || !preg_match('/^[a-z0-9_\-]+$/i', $module)) {
-		header('HTTP/1.1 404 Not Found');
-		exit;
-	}
-
-	$f = dirname(__DIR__, 3).'/source/plugin/'.$identifier.'/'.$module.'.inc.php';
-	if(!file_exists($f)) {
-		header('HTTP/1.1 404 Not Found');
-		exit;
-	}
-	require_once $f;
-	exit;
+if(!empty($_GET['redirect']) && empty($_GET['id'])) {
+	$_GET['id'] = $_GET['redirect'];
 }
 
 const APPTYPEID = 127;
@@ -64,4 +51,3 @@ define('CURMODULE', $identifier);
 runhooks();
 
 include $modfile;
-

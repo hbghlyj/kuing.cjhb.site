@@ -223,7 +223,7 @@ class restful {
 		if(is_array($this->apiParam[$key])) {
 			$v = $this->apiParam[$key];
 		} else {
-			$_tmp = unserialize($this->apiParam[$key]);
+			$_tmp = unserialize($this->apiParam[$key], ['allowed_classes' => false]);
 			$v = $_tmp === false ? $this->apiParam[$key] : $_tmp;
 		}
 		return $this->_replacePostParams($v);
@@ -402,7 +402,7 @@ class restful {
 	}
 
 	public function sessionDecode() {
-		$session = unserialize(base64_decode($this->tokenData['_session']));
+		$session = unserialize(base64_decode($this->tokenData['_session']), ['allowed_classes' => false]);
 		if(!empty($this->postParam['_authSign'])) {
 			$this->decodeAuthSign($session);
 		}

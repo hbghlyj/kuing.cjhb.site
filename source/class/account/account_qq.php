@@ -98,12 +98,12 @@ class account_qq extends account_base {
 
 		$openid = $user->getOpenid();
 		if(!$openid) {
-			dheader('Location: '.(!empty($_G['cookie']['qq_referer']) ? $_G['cookie']['qq_referer'] : $_G['siteurl']), true, 302);
+			dheader('Location: '.account::safeRedirect($_G['cookie']['qq_referer'] ?? ''), true, 302);
 		}
 		//获取访问用户身份
 		$userInfo = $user->getAuthUser($openid);
 		if(!$userInfo) {
-			dheader('Location: '.(!empty($_G['cookie']['qq_referer']) ? $_G['cookie']['qq_referer'] : $_G['siteurl']), true, 302);
+			dheader('Location: '.account::safeRedirect($_G['cookie']['qq_referer'] ?? ''), true, 302);
 		}
 
 		$paramBase = ['type' => 'qq', 'atype' => account::aType_qq, 'account' => $openid['openid'], 'bindname' => $userInfo['nickname']];
@@ -135,7 +135,7 @@ class account_qq extends account_base {
 						}
 					}
 				}
-				dheader('Location: '.(!empty($_G['cookie']['qq_referer']) ? $_G['cookie']['qq_referer'] : $_G['siteurl']), true, 302);
+				dheader('Location: '.account::safeRedirect($_G['cookie']['qq_referer'] ?? ''), true, 302);
 			}
 
 			if($this->conf['loginUsernameRule'] == 2) {
@@ -187,7 +187,7 @@ class account_qq extends account_base {
 			}
 		} else {
 			if($_G['uid']) {
-				showmessage('account_bind_other_exists', (!empty($_G['cookie']['qq_referer']) ? $_G['cookie']['qq_referer'] : $_G['siteurl']));
+				showmessage('account_bind_other_exists', account::safeRedirect($_G['cookie']['qq_referer'] ?? ''));
 			} else {
 				$account->userLogin();
 				// 登录时同步头像
@@ -213,7 +213,7 @@ class account_qq extends account_base {
 				}
 			}
 		}
-		dheader('Location: '.(!empty($_G['cookie']['qq_referer']) ? $_G['cookie']['qq_referer'] : $_G['siteurl']), true, 302);
+		dheader('Location: '.account::safeRedirect($_G['cookie']['qq_referer'] ?? ''), true, 302);
 	}
 
 	private function _getToken() {

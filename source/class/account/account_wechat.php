@@ -171,7 +171,7 @@ class account_wechat extends account_base {
 		//获取访问用户身份
 		$userInfo = $user->getAuthUser();
 		if(!$userInfo) {
-			dheader('Location: '.(!empty($_GET['referer_url']) ? $_GET['referer_url'] : $_G['siteurl']), true, 302);
+			dheader('Location: '.account::safeRedirect($_GET['referer_url'] ?? ''), true, 302);
 		}
 		if(!$userInfo['success']) {
 			showmessage($userInfo['errmsg']);
@@ -216,7 +216,7 @@ class account_wechat extends account_base {
 					dheader('Location: '.$_G['siteurl'].'misc.php?mod=wechat&ac=confirm&authcode='.$confirm_authcode);
 				}
 
-				dheader('Location: '.(!empty($_GET['referer_url']) ? $_GET['referer_url'] : $_G['siteurl']), true, 302);
+				dheader('Location: '.account::safeRedirect($_GET['referer_url'] ?? ''), true, 302);
 			}
 
 			if($this->conf['loginUsernameRule'] == 2) {
@@ -269,7 +269,7 @@ class account_wechat extends account_base {
 
 		} else {
 			if(!$authcode && $_G['uid']) {
-				showmessage('account_bind_other_exists', (!empty($_GET['referer_url']) ? $_GET['referer_url'] : $_G['siteurl']));
+				showmessage('account_bind_other_exists', account::safeRedirect($_GET['referer_url'] ?? ''));
 			} elseif($authcode && $account->getUid() > 0 && $_G['uid'] && $account->getUid() != $_G['uid']) {
 				showmessage('account_bind_other_exists', 'home.php?mod=spacecp&ac=account');
 			} else {
@@ -325,7 +325,7 @@ class account_wechat extends account_base {
 			}
 		}
 
-		dheader('Location: '.(!empty($_GET['referer_url']) ? $_GET['referer_url'] : $_G['siteurl']), true, 302);
+		dheader('Location: '.account::safeRedirect($_GET['referer_url'] ?? ''), true, 302);
 	}
 
 	private function _getToken() {

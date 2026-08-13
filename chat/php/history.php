@@ -26,11 +26,11 @@ while($row = $result->fetch_assoc()) {
 			'id' => (int)$row['uid'],
 			'displayName' => $row['author'],
 			'image' => !(int)$row['uid'] ? '/static/image/common/online_guest.svg' : (!empty($row['avatarstatus']) ? avatar($row['uid'], 'small', 1) : ''),
-			'sessionId' => (string)$row['sid'],
+			'sessionId' => chat_session_token($row['sid']),
 		],
 	];
 }
 $stmt->close();
 $conn->close();
 
-chat_json(200, ['messages' => array_reverse($rows), 'total' => $totalRows, 'sessionId' => (string)($_G['sid'] ?? '')]);
+chat_json(200, ['messages' => array_reverse($rows), 'total' => $totalRows, 'sessionId' => chat_session_token($_G['sid'] ?? '')]);

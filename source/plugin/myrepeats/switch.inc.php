@@ -37,7 +37,7 @@ if(!empty($_GET['list'])) {
 		if(!$user) {
 			continue;
 		}
-		$list .= '<li><a href="plugin.php?id=myrepeats:switch&username='.rawurlencode($user).'&formhash='.FORMHASH.'" onclick="showWindow(\'myrepeat\', this.href);return false;">'.$user.'</a></li>';
+		$list .= '<li><a href="plugin.php?id=myrepeats:switch&username='.rawurlencode($user).'&formhash='.FORMHASH.'" onclick="showWindow(\'myrepeat\', this.href);return false;">'.dhtmlspecialchars($user).'</a></li>';
 	}
 	$list .= '<li><a href="home.php?mod=spacecp&ac=plugin&id=myrepeats:memcp">'.lang('plugin/myrepeats', 'memcp').'</a></li>';
 	include template('common/header_ajax');
