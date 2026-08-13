@@ -337,7 +337,7 @@ form[action*="ac=privacy&op="] .tfm caption h2.ptw {padding-top:0px !important}
 .bm_h .o {float:right;position:relative;z-index:2}
 .bm_h .o img, .bm_h .o em {margin-top:20px;background:none}
 .bm_h .o em {font-size:26px}
-.bm_h .o em.tg_no {color:var(--dz-ahot)}
+.bm_h .o em.tg_no::before {color:var(--dz-ahot)}
 .bm_h .y {position:relative;z-index:10}
 .bm_h .y a {color:var(--dz-fc)}
 .bm {background:var(--dz-bgf);border-color:var(--dz-borderb);}
