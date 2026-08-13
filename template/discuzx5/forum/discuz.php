@@ -510,7 +510,7 @@
 				<!--{/if}-->
 				</div>
 			<!--{if $_G['setting']['whosonlinestatus']}-->
-				<dl id="online_index_panel" class="bm_c"<!--{if !$detailstatus}--> style="display:none"<!--{/if}--> >
+				<dl id="online_index_panel" class="bm_c" data-expanded="<!--{if $detailstatus}-->1<!--{else}-->0<!--{/if}-->"<!--{if !$detailstatus}--> style="display:none"<!--{/if}--> >
 					<ul style="text-transform: capitalize" class="cl ptm pbm bbda">$_G[cache][onlinelist][legend]</ul>
 						<dd class="ptm pbm cl">
 							<ul id="whosonline_list_container">
@@ -519,7 +519,7 @@
 						</dd>
 				</dl>
 				<script type="text/javascript">
-					if(document.getElementById('online_index_panel').style.display != 'none') {
+					if(document.getElementById('online_index_panel').getAttribute('data-expanded') == '1') {
 						toggleOnlinePanel('online_index_panel', 'onlineindex', null, '{lang online_list_load_error}');
 					}
 				</script>

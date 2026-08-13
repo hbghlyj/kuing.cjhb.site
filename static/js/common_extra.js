@@ -1167,6 +1167,7 @@ function _toggleOnlinePanel(panelId, cookieKey, trigger, errorText) {
 	var open = trigger ? panel.style.display == 'none' : true;
 	if(trigger) {
 		panel.style.display = open ? '' : 'none';
+		panel.setAttribute('data-expanded', open ? '1' : '0');
 	}
 	var icon = trigger ? trigger.querySelector('em') : null;
 	if(icon) {
