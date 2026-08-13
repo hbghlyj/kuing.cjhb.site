@@ -576,6 +576,7 @@ $extra = rawurlencode(!IS_ROBOT ? 'page='.$page.$extraadd : 'page=1');
 
 $separatepos = 0;
 $_G['forum_threadlist'] = $threadids = [];
+$forum_tags = [];
 $_G['forum_colorarray'] = ['', '#EE1B2E', '#EE5023', '#996600', '#3C9D40', '#2897C5', '#2B65B7', '#8F2A90', '#EC1282'];
 
 $filterarr['sticky'] = 4;
@@ -744,6 +745,10 @@ foreach($threadlist as $thread) {
 	$_G['forum_threadlist'][$threadindex] = $thread;
 	$threadindex++;
 
+}
+
+foreach(recent_use_tag($_G['fid']) as $tagid => $tagname) {
+	$forum_tags[] = ['tagid' => $tagid, 'tagname' => $tagname];
 }
 
 $_G['hiddenexists'] = !$_G['forum']['ismoderator'] && $_G['hiddenexists'] && $_G['showrows'] >= $_G['hiddenexists'];

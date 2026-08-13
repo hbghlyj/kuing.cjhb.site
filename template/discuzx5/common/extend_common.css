@@ -161,6 +161,8 @@ select::-ms-expand {display:none}
 .ftid a:hover, .ftid a:focus {background:var(--dz-bgf) url({STYLEIMGDIR}/svg/ico_jt.svg) no-repeat 100% 50%;background-size:auto 20px}
 .p_pop, .p_pof, .sllt {padding:9px;background:var(--dz-bgf);border-radius:var(--dz-radius-s);border-color:var(--dz-borderb);min-width:58px;font-size:14px;box-shadow:none}
 .p_pop .pbn label {margin-right:5px}
+.thread-type-filter {display:flex;align-items:center;gap:8px;margin-bottom:10px;padding-top:10px}
+.thread-type-filter select {min-width:220px;margin-right:0}
 .p_pop a {padding:8px 10px;font-size:14px;border-bottom:none}
 #newspecial_menu.p_pop a {padding:8px 10px;font-size:14px;border-bottom:none}
 .p_pop .ignore_noticeli a {padding:0}

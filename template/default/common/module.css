@@ -566,6 +566,8 @@ Created & Modified by Alice, Monkey, Lushnis, Pony, Dfox & DragonLee.
 			.ttp a:hover { border-color: {HIGHLIGHTLINK}; color: {HIGHLIGHTLINK}; text-decoration: none; }
 		.ttp .a a { padding-right: 12px;  padding-left: 12px; border-color: {HIGHLIGHTLINK}; background: {SPECIALBG}; color: {HIGHLIGHTLINK}; }
 		.ttp .pipe { float: left; margin-right: 10px; padding: 0; width: 2px; height: 27px; background: {SPECIALBORDER}; text-indent: -9999px; }
+	.thread-type-filter { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; padding-top: 10px; }
+	.thread-type-filter select { min-width: 180px; }
 	/* 版块有大量主题分类时的展开收起样式 by Pony */
 	.cttp { overflow: hidden; padding-right:0px; height: 32px; }
 		.cttp .unfold, .cttp .fold { float: right; display: inline; margin: 5px -35px 9px 0; padding: 0 0 0 10px; width: 25px; height: 18px; background-color: transparent; color: {HIGHLIGHTLINK}; font-weight: normal; }

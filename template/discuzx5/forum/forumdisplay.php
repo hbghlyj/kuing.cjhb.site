@@ -186,33 +186,31 @@
 					<!--{if $emailpost_mailto}--><a id="post_email" href="$emailpost_mailto" title="{lang emailpost_newthread_title}" class="pgsbtn">{lang emailpost_newthread}</a><!--{/if}-->
 					<!--{hook/forumdisplay_postbutton_top}-->
 				</div>
-				<!--{if ($_G['forum']['threadtypes'] && $_G['forum']['threadtypes']['listable']) || (isset($_G['forum']['threadsorts']['types']) && is_array($_G['forum']['threadsorts']['types']) && count($_G['forum']['threadsorts']['types']) > 0)}-->
-					<ul id="thread_types" class="ttp bm cl">
-						<!--{hook/forumdisplay_threadtype_inner}-->
-						<li id="ttp_all" {if !$_GET['typeid'] && !$_GET['sortid']}class="xw1 a"{/if}><a href="forum.php?mod=forumdisplay&fid=$_G[fid]{if $_G['forum']['threadsorts']['defaultshow']}&filter=sortall&sortall=1{/if}{if $_GET['archiveid']}&archiveid={$_GET['archiveid']}{/if}">{lang forum_viewall}</a></li>
+				<!--{if ($_G['forum']['threadtypes'] && $_G['forum']['threadtypes']['listable']) || (isset($_G['forum']['threadsorts']['types']) && is_array($_G['forum']['threadsorts']['types']) && count($_G['forum']['threadsorts']['types']) > 0) || !empty($forum_tags)}-->
+					<div id="thread_types" class="thread-type-filter">
+						<select id="thread_types_select" aria-label="{lang forum_viewall}" onchange="if(this.value) { location.href = this.value; }">
+							<option value="forum.php?mod=forumdisplay&fid=$_G[fid]{if $_G['forum']['threadsorts']['defaultshow']}&filter=sortall&sortall=1{/if}{if $_GET['archiveid']}&archiveid={$_GET['archiveid']}{/if}"{if !$_GET['typeid'] && !$_GET['sortid']} selected="selected"{/if}>{lang forum_viewall}</option>
 						<!--{if $_G['forum']['threadtypes']}-->
 							<!--{loop $_G['forum']['threadtypes']['types'] $id $name}-->
-								<!--{if $_GET['typeid'] == $id}-->
-								<li class="xw1 a"><a href="forum.php?mod=forumdisplay&fid=$_G[fid]{if $_GET['sortid']}&filter=sortid&sortid=$_GET['sortid']{/if}{if $_GET['archiveid']}&archiveid={$_GET['archiveid']}{/if}"><!--{if $_G[forum][threadtypes][icons][$id] && $_G['forum']['threadtypes']['prefix'] == 2}--><img class="vm" src="$_G[forum][threadtypes][icons][$id]" alt="" /> <!--{/if}-->$name<!--{if $showthreadclasscount[typeid][$id]}--><span class="xg1 num">$showthreadclasscount[typeid][$id]</span><!--{/if}--></a></li>
-								<!--{else}-->
-								<li><a href="forum.php?mod=forumdisplay&fid=$_G[fid]&filter=typeid&typeid=$id$forumdisplayadd[typeid]{if $_GET['archiveid']}&archiveid={$_GET['archiveid']}{/if}"><!--{if $_G[forum][threadtypes][icons][$id] && $_G['forum']['threadtypes']['prefix'] == 2}--><img class="vm" src="$_G[forum][threadtypes][icons][$id]" alt="" /> <!--{/if}-->$name<!--{if $showthreadclasscount[typeid][$id]}--><span class="xg1 num">$showthreadclasscount[typeid][$id]</span><!--{/if}--></a></li>
-								<!--{/if}-->
+								<option value="forum.php?mod=forumdisplay&fid=$_G[fid]&filter=typeid&typeid=$id$forumdisplayadd[typeid]{if $_GET['archiveid']}&archiveid={$_GET['archiveid']}{/if}"{if $_GET['typeid'] == $id} selected="selected"{/if}><!--{echo strip_tags($name);}--><!--{if $showthreadclasscount[typeid][$id]}--> ($showthreadclasscount[typeid][$id])<!--{/if}--></option>
 							<!--{/loop}-->
 						<!--{/if}-->
 
 						<!--{if $_G['forum']['threadsorts']}-->
-							<!--{if $_G['forum']['threadtypes']}--><li><span class="pipe">|</span></li><!--{/if}-->
 							<!--{loop $_G['forum']['threadsorts']['types'] $id $name}-->
-								<!--{if $_GET['sortid'] == $id}-->
-								<li class="xw1 a"><a href="forum.php?mod=forumdisplay&fid=$_G[fid]{if $_GET['typeid']}&filter=typeid&typeid=$_GET['typeid']{/if}{if $_GET['archiveid']}&archiveid={$_GET['archiveid']}{/if}">$name<!--{if $showthreadclasscount[sortid][$id]}--><span class="xg1 num">$showthreadclasscount[sortid][$id]</span><!--{/if}--></a></li>
-								<!--{else}-->
-								<li><a href="forum.php?mod=forumdisplay&fid=$_G[fid]&filter=sortid&sortid=$id$forumdisplayadd[sortid]{if $_GET['archiveid']}&archiveid={$_GET['archiveid']}{/if}">$name<!--{if $showthreadclasscount[sortid][$id]}--><span class="xg1 num">$showthreadclasscount[sortid][$id]</span><!--{/if}--></a></li>
-								<!--{/if}-->
+								<option value="forum.php?mod=forumdisplay&fid=$_G[fid]&filter=sortid&sortid=$id$forumdisplayadd[sortid]{if $_GET['archiveid']}&archiveid={$_GET['archiveid']}{/if}"{if $_GET['sortid'] == $id} selected="selected"{/if}><!--{echo strip_tags($name);}--><!--{if $showthreadclasscount[sortid][$id]}--> ($showthreadclasscount[sortid][$id])<!--{/if}--></option>
 							<!--{/loop}-->
 						<!--{/if}-->
+						</select>
+						<!--{if $forum_tags}-->
+						<select id="forum_tags_select" aria-label="{lang post_tag}" onchange="if(this.value) { location.href = this.value; }">
+							<option value="">{lang post_tag}</option>
+							<!--{loop $forum_tags $tag}--><option value="misc.php?mod=tag&id=$tag[tagid]&name={echo rawurlencode($tag[tagname])}"><!--{echo strip_tags($tag['tagname']);}--></option><!--{/loop}-->
+						</select>
+						<!--{/if}-->
+						<!--{hook/forumdisplay_threadtype_inner}-->
 						<!--{hook/forumdisplay_filter_extra}-->
-					</ul>
-					<script type="text/javascript">showTypes('thread_types');</script>
+					</div>
 				<!--{/if}-->
 				<!--{hook/forumdisplay_threadtype_extra}-->
 				<!--{if empty($_G['forum']['sortmode'])}-->
