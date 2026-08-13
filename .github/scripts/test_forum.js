@@ -583,15 +583,22 @@ const testPusherLeaderCoordination = async browser => {
             console.log('Online member toggle is disabled by the current session settings; skipping interaction check.');
             report += '- **Online Member List**: Panel rendered; toggle disabled by session settings\n\n';
         } else {
+            // Verify that the cookie-backed collapsed state survives a full page reload.
             if(await onlinePanel.isVisible()) {
                 await onlineToggle.click();
                 await onlinePanel.waitFor({ state: 'hidden' });
             }
+            assert.ok(await onlinePanel.isHidden(), 'Assertion Error: Online member panel did not collapse.');
+            await page.reload({ waitUntil: 'networkidle' });
+            const reloadedOnlinePanel = page.locator('#online_index_panel');
+            assert.ok(await reloadedOnlinePanel.isHidden(), 'Assertion Error: Collapsed online member panel reopened after reload.');
+
+            const reloadedOnlineToggle = page.locator('a[href="#online"][onclick*="online_index_panel"]:visible').first();
             const onlineResponsePromise = page.waitForResponse(response =>
                 response.request().method() === 'GET' &&
                 response.url().includes('forum.php?mod=ajax&action=getOnlineUserListHtml')
             );
-            await onlineToggle.click();
+            await reloadedOnlineToggle.click();
             const onlineResponse = await onlineResponsePromise;
             assert.ok(onlineResponse.ok(), `Assertion Error: Online member list request failed with HTTP ${onlineResponse.status()}.`);
             await page.waitForFunction(() => {
@@ -601,6 +608,9 @@ const testPusherLeaderCoordination = async browser => {
                     panel.getAttribute('data-loaded') === '1' && list &&
                     !/Loading\.\.\./i.test(list.textContent);
             }, null, { timeout: 15000 });
+            assert.ok(await reloadedOnlinePanel.isVisible(), 'Assertion Error: Online member panel did not open.');
+            await page.reload({ waitUntil: 'networkidle' });
+            assert.ok(await page.locator('#online_index_panel').isVisible(), 'Assertion Error: Open online member panel collapsed after reload.');
             report += '- **Online Member List**: Toggle and AJAX loading verified\n\n';
         }
 
