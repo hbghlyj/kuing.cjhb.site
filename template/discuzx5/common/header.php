@@ -31,7 +31,7 @@
 				<a href="javascript:;" id="shortcuttip">{lang shortcut_add}</a>
 
 			</div>
-			<script type="text/javascript">setTimeout(setShortcut, 2000);</script>
+			<script>setTimeout(setShortcut, 2000);</script>
 		<!--{/if}-->
 		<div id="toptb" class="cl" style="display:none;">
 			<!--{hook/global_cpnav_top}-->

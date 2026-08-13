@@ -9,7 +9,7 @@
 
 <!--{template common/header}-->
 
-<script type="text/javascript">var fid = parseInt('$_G[fid]'), tid = parseInt('$_G[tid]');</script>
+<script>var fid = parseInt('$_G[fid]'), tid = parseInt('$_G[tid]');</script>
 
 <form method="post" autocomplete="off" name="modactions" id="modactions">
 <input type="hidden" name="formhash" value="{FORMHASH}" />
@@ -18,7 +18,7 @@
 <input type="hidden" name="listextra" value="$_GET[extra]" />
 </form>
 
-<script type="text/javascript">zoomstatus = parseInt($_G['setting']['zoomstatus']);var imagemaxwidth = '{$_G['setting']['imagemaxwidth']}';var aimgcount = new Array();</script>
+<script>zoomstatus = parseInt($_G['setting']['zoomstatus']);var imagemaxwidth = '{$_G['setting']['imagemaxwidth']}';var aimgcount = new Array();</script>
 
 <!--{if in_array($thread['displayorder'], array(1, 2, 3, 4))}-->
 	<!--{eval $thread['id'] = 'stickthread_'.$thread['tid'];}-->
@@ -60,7 +60,7 @@
 					</table>
 				</form>
 			</div>
-			<script type="text/javascript">
+			<script>
 				//$('note_{$tid}').focus();
 				function succeedhandle_vfastpost_{$_G['tid']}(url, message, param) {
 					$('vmessage_{$_G['tid']}').value = '';
@@ -75,7 +75,7 @@
 
 
 
-<script type="text/javascript">
+<script>
 var rnd='{TIMESTAMP}';{if $_G['page'] > 1}window.scrollTo('0',getElementOffset($('threadPreviewTR_{$_G['tid']}')).top);{/if}
 <!--{if !IS_ROBOT && !empty($_G[setting][lazyload])}-->
 new lazyload();

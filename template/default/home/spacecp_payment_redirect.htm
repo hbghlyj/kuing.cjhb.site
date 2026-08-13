@@ -22,7 +22,7 @@
         </tbody>
     </table>
 </div>
-<script type="text/javascript">
+<script>
     var isShowPaymentQrcodeWin = false, paymentStatusCheckTimer;
     function wxpay_order_status() {
         ajaxget('{$_G['siteurl']}home.php?mod=spacecp&ac=payment&op=pay&sop=status&order_id={$order_id}&handlekey=paystatus', 'pay_order_status', '', '', '', function(a) {
@@ -48,7 +48,7 @@
         }, 3000);
     }
 </script>
-<script type="text/javascript" reload="1">
+<script reload="1">
     new QRCode(document.getElementById('wx-pay-qrcode'), {
         text: '{$pay_url}',
         width: 150,
@@ -62,7 +62,7 @@
     paymentStatusCheckTimer = setTimeout(wxpay_order_status, 5000);
 </script>
 <!--{elseif $pay_channel == 'alipay'}-->
-<script type="text/javascript">
+<script>
     window.location.href = '{$pay_url}';
 </script>
 <!--{else}-->

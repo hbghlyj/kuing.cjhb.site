@@ -1,12 +1,12 @@
-﻿<!--{template common/header}-->
+<!--{template common/header}-->
 <div id="pt" class="bm cl">
 	<div class="z"><a href="./" class="nvhm" title="{lang homepage}"></a> <em>&rsaquo;</em> {lang trade_confirm_buy}</div>
 </div>
 <div id="ct" class="ct2 wp cl">
 	<h1 class="mt">{lang trade_confirm_goods}</h1>
 	<div class="mn">
-		<script type="text/javascript" src="{$_G[setting][jspath]}forum_viewthread.js?{VERHASH}"></script>
-		<script type="text/javascript">
+		<script src="{$_G[setting][jspath]}forum_viewthread.js?{VERHASH}"></script>
+		<script>
 		zoomstatus = parseInt($_G[setting][zoomstatus]);
 		var feevalue = 0;
 		<!--{if $trade[price] > 0}-->var price = $trade[price];<!--{/if}-->
@@ -63,9 +63,9 @@
 								<!--{if $trade['transport'] == 4}--><input type="hidden" name="transport" value="4">{lang post_trade_transport_physical}<!--{/if}-->
 								</p>
 								<!--{if $trade['transport'] == 1 or $trade['transport'] == 2 or $trade['transport'] == 4}-->
-									<!--{if !empty($trade['ordinaryfee'])}--><label class="lb"><input class="pr" type="radio" name="fee" value="1" checked="checked" {if $trade['transport'] == 2}onclick="feevalue = $trade[ordinaryfee];calcsum()"{/if} />{lang post_trade_transport_mail} $trade[ordinaryfee] {lang payment_unit}</label><!--{if $trade['transport'] == 2}--><script type="text/javascript">feevalue = $trade[ordinaryfee]</script><!--{/if}--><!--{/if}-->
-									<!--{if !empty($trade['expressfee'])}--><label class="lb"><input class="pr" type="radio" name="fee" value="3" checked="checked" {if $trade['transport'] == 2}onclick="feevalue = $trade[expressfee];calcsum()"{/if} />{lang post_trade_transport_express} $trade[expressfee] {lang payment_unit}</label><!--{if $trade['transport'] == 2}--><script type="text/javascript">feevalue = $trade[expressfee]</script><!--{/if}--><!--{/if}-->
-									<!--{if !empty($trade['emsfee'])}--><label class="lb"><input class="pr" type="radio" name="fee" value="2" checked="checked" {if $trade['transport'] == 2}onclick="feevalue = $trade[emsfee];calcsum()"{/if} /> EMS $trade[emsfee] {lang payment_unit}</label><!--{if $trade['transport'] == 2}--><script type="text/javascript">feevalue = $trade[emsfee]</script><!--{/if}--><!--{/if}-->
+									<!--{if !empty($trade['ordinaryfee'])}--><label class="lb"><input class="pr" type="radio" name="fee" value="1" checked="checked" {if $trade['transport'] == 2}onclick="feevalue = $trade[ordinaryfee];calcsum()"{/if} />{lang post_trade_transport_mail} $trade[ordinaryfee] {lang payment_unit}</label><!--{if $trade['transport'] == 2}--><script>feevalue = $trade[ordinaryfee]</script><!--{/if}--><!--{/if}-->
+									<!--{if !empty($trade['expressfee'])}--><label class="lb"><input class="pr" type="radio" name="fee" value="3" checked="checked" {if $trade['transport'] == 2}onclick="feevalue = $trade[expressfee];calcsum()"{/if} />{lang post_trade_transport_express} $trade[expressfee] {lang payment_unit}</label><!--{if $trade['transport'] == 2}--><script>feevalue = $trade[expressfee]</script><!--{/if}--><!--{/if}-->
+									<!--{if !empty($trade['emsfee'])}--><label class="lb"><input class="pr" type="radio" name="fee" value="2" checked="checked" {if $trade['transport'] == 2}onclick="feevalue = $trade[emsfee];calcsum()"{/if} /> EMS $trade[emsfee] {lang payment_unit}</label><!--{if $trade['transport'] == 2}--><script>feevalue = $trade[emsfee]</script><!--{/if}--><!--{/if}-->
 								<!--{/if}-->
 							</td>
 						</tr>
@@ -129,7 +129,7 @@
 			</div>
 		</form>
 
-		<script type="text/javascript">
+		<script>
 		function calcsum() {
 			<!--{if $trade[price] > 0}-->$('caculate').innerHTML = (price * $('tradepost').number.value + feevalue);<!--{/if}-->
 			<!--{if $_G['setting']['creditstransextra'][5] != -1 && $trade[credit]}-->

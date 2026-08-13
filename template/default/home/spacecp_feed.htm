@@ -26,7 +26,7 @@
 			<!--{if $_G[inajax]}--><input type="hidden" name="handlekey" value="$_GET[handlekey]" /><!--{/if}-->
 		</form>
 	</div>
-	<script type="text/javascript">
+	<script>
 		var elems = selector('dd[class~=magicflicker]');
 		for(var i=0; i<elems.length; i++){
 			magicColor(elems[i]);
@@ -94,7 +94,7 @@
 		</p>
 	</form>
 	<!--{/if}-->
-	<script type="text/javascript">
+	<script>
 		function succeedhandle_$_GET[handlekey](url, msg, values) {
 			var obj = $('feed_'+ values['feedid'] +'_li');
 			obj.style.display = "none";

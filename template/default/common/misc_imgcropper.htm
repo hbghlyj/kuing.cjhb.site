@@ -6,10 +6,10 @@
 		<meta name="renderer" content="webkit" />
 		<title><!--{if !empty($navtitle)}-->$navtitle - <!--{/if}--><!--{if empty($nobbname)}--> $_G['setting']['bbname']<!--{/if}--></title>
 
-		<script type="text/javascript">var STYLEID = '{STYLEID}', STATICURL = '{STATICURL}', IMGDIR = '{IMGDIR}', VERHASH = '{VERHASH}', charset = '{CHARSET}', discuz_uid = '$_G[uid]', cookiepre = '{$_G[config][cookie][cookiepre]}', cookiedomain = '{$_G[config][cookie][cookiedomain]}', cookiepath = '{$_G[config][cookie][cookiepath]}', showusercard = '{$_G[setting][showusercard]}', attackevasive = '{$_G[config][security][attackevasive]}', disallowfloat = '{$_G[setting][disallowfloat]}', creditnotice = '<!--{if $_G['setting']['creditnotice']}-->$_G['setting']['creditnames']<!--{/if}-->', defaultstyle = '$_G[style][defaultextstyle]', REPORTURL = '$_G[currenturl_encode]', SITEURL = '$_G[siteurl]', JSPATH = '$_G[setting][jspath]';</script>
-		<script type="text/javascript" src="{echo $_G['setting']['jscachepath'] ?: 'data/cache/';}lang_{echo currentlang();}.js?{VERHASH}"></script>
-		<script type="text/javascript" src="{$_G[setting][jspath]}common.js?{VERHASH}"></script>
-		<script type="text/javascript" src="{$_G[setting][jspath]}imgcropper.js?{VERHASH}"></script>
+		<script>var STYLEID = '{STYLEID}', STATICURL = '{STATICURL}', IMGDIR = '{IMGDIR}', VERHASH = '{VERHASH}', charset = '{CHARSET}', discuz_uid = '$_G[uid]', cookiepre = '{$_G[config][cookie][cookiepre]}', cookiedomain = '{$_G[config][cookie][cookiedomain]}', cookiepath = '{$_G[config][cookie][cookiepath]}', showusercard = '{$_G[setting][showusercard]}', attackevasive = '{$_G[config][security][attackevasive]}', disallowfloat = '{$_G[setting][disallowfloat]}', creditnotice = '<!--{if $_G['setting']['creditnotice']}-->$_G['setting']['creditnames']<!--{/if}-->', defaultstyle = '$_G[style][defaultextstyle]', REPORTURL = '$_G[currenturl_encode]', SITEURL = '$_G[siteurl]', JSPATH = '$_G[setting][jspath]';</script>
+		<script src="{echo $_G['setting']['jscachepath'] ?: 'data/cache/';}lang_{echo currentlang();}.js?{VERHASH}"></script>
+		<script src="{$_G[setting][jspath]}common.js?{VERHASH}"></script>
+		<script src="{$_G[setting][jspath]}imgcropper.js?{VERHASH}"></script>
 
 		<style type="text/css">
 			body{margin: 0; padding: 0}
@@ -36,7 +36,7 @@
 			</div>
 			<div id="rightDown"></div>
 		</div>
-		<script type="text/javascript">
+		<script>
 
 			var cropper = new ImgCropper("bgDiv", "dragDiv", "$_GET[img]", {
 				width: $cbgboxwidth, height: $cbgboxheight, color: "#000", min:true, minWidth:$cboxwidth, minHeight:{$cboxheight},
@@ -78,7 +78,7 @@
 				<button type="submit" name="groupnamesubmit_btn" value="true" class="pn pnc"><strong>{lang imgcropper_crop}</strong></button>
 			</p>
 		</form>
-		<script type="text/javascript">
+		<script>
 			function setWinHeight(obj){
 				var win = obj;
 				if (document.getElementById) {

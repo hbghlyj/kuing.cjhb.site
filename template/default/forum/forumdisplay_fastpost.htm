@@ -1,4 +1,4 @@
-<script type="text/javascript">
+<script>
 var postminchars = parseInt('$_G['setting']['minpostsize']');
 var postmaxchars = parseInt('$_G['setting']['maxpostsize']');
 var postminsubjectchars = parseInt('$_G['setting']['minsubjectsize']');
@@ -28,7 +28,7 @@ var fid = parseInt('$_G[fid]');
 						<!--{/loop}-->
 						</select>
 					</div>
-					<script type="text/javascript" reload="1">simulateSelect('typeid_fast');</script>
+					<script reload="1">simulateSelect('typeid_fast');</script>
 				<!--{/if}-->
 				<input type="text" id="subject" name="subject" class="px" value="" onkeyup="dstrLenCalc(this, 'checklen', $_G['setting']['maxsubjectsize']);" size="40" />
 				<span>{lang comment_message1} <strong id="checklen">{$_G['setting']['maxsubjectsize']}</strong> {lang comment_message2}</span>
@@ -80,7 +80,7 @@ var fid = parseInt('$_G[fid]');
 			</div>
 
 			<!--{if $allowpostattach}-->
-				<script type="text/javascript">
+				<script>
 				var editorid = '';
 				var ATTACHNUM = {'imageused':0,'imageunused':0,'attachused':0,'attachunused':0}, ATTACHUNUSEDAID = new Array(), IMGUNUSEDAID = new Array();
 				</script>
@@ -104,7 +104,7 @@ var fid = parseInt('$_G[fid]');
 					<div class="fieldset flash" id="attachlist"></div>
 					<!--{if empty($_G['setting']['pluginhooks']['forumdisplay_fastpost_upload_extend'])}-->
 						<!--{subtemplate common/upload}-->
-						<script type="text/javascript">
+						<script>
 							var upload = new DiscuzUploader({
 								upload_url: "{$_G[siteurl]}misc.php?mod=upload&operation=upload&fid=$_G[fid]",
 								post_params: {"formhash":"{FORMHASH}"},

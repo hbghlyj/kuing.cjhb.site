@@ -32,7 +32,7 @@
 					<dd><button type="submit" name="changenumsubmit" class="formdialog pn pnc" value="true"><strong>{lang determine}</strong></button></dd>
 				</div>
 			</form>
-			<script type="text/javascript" reload="1">
+			<script reload="1">
 				function succeedhandle_$_GET[handlekey](url, msg, values) {
 					friend_delete(values['uid']);
 					$('spannum_'+values['fid']).innerHTML = values['num'];
@@ -67,7 +67,7 @@
 					</dd>
 				</div>
 			</form>
-			<script type="text/javascript">
+			<script>
 				function succeedhandle_$_GET[handlekey](url, msg, values) {
 					friend_changegroup(values['gid']);
 				}
@@ -95,7 +95,7 @@
 					</dd>
 				</div>
 			</form>
-			<script type="text/javascript">
+			<script>
 				function succeedhandle_$_GET[handlekey](url, msg, values) {
 					var uid=values['uid'];
 					var elem = $('friend_note_'+uid);
@@ -182,7 +182,7 @@
 				<button type="submit" name="groupnamesubmit_btn" value="true" class="dialog pn pnc"><strong>{lang determine}</strong></button>
 			</dd>
 		</form>
-		<script type="text/javascript">
+		<script>
 			function succeedhandle_$_GET[handlekey](url, msg, values) {
 				friend_changegroupname(values['gid']);
 			}
@@ -245,7 +245,7 @@
 	<!--{else}-->
 		<div class="empty-box"><h4>{lang no_new_friend_application}</h4></div>
 	<!--{/if}-->
-	<script type="text/javascript">
+	<script>
 		function succeedhandle_$_GET[handlekey](url, msg, values) {
 			parent.location.reload();
 		}
@@ -346,7 +346,7 @@
 			<button type="submit" name="add2submit_btn" value="true" class="formdialog pn pnc mt10"><strong>{lang approval}</strong></button>
 		</div>
 	</form>
-	<script type="text/javascript">
+	<script>
 		function succeedhandle_$_GET[handlekey](url, msg, values) {
 			if(values['from'] == 'notice') {
 				deleteQueryNotice(values['uid'], 'pendingFriend');

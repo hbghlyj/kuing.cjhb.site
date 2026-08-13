@@ -1,4 +1,4 @@
-﻿<!--{template common/header}-->
+<!--{template common/header}-->
 <!--{if empty($_GET['infloat'])}-->
 <div id="pt" class="bm cl">
 	<div class="z"><a href="./" class="nvhm" title="{lang homepage}"></a> <em>&rsaquo;</em> $navigation</div>
@@ -220,7 +220,7 @@
 										<td>
 											<label class="labeltxt">&nbsp;</label>
 											<img id="selectimg" src="{STATICURL}image/common/none.gif"  width="120" height="80" />
-											<script type="text/javascript" reload="1">
+											<script reload="1">
 											var imgk = new Array();
 											<!--{loop $imgattach $imginfo}-->
 												<!--{eval $a = '\"\'\t\\""\\\''."\\\\";$k = getforumimg($imginfo['aid'], 1, 120, 80);}-->
@@ -394,9 +394,9 @@
 	</form>
 </div>
 
-<script type="text/javascript" src="{$_G[setting][jspath]}calendar.js?{VERHASH}" reload="1"></script>
+<script src="{$_G[setting][jspath]}calendar.js?{VERHASH}" reload="1"></script>
 
-<script type="text/javascript" reload="1">
+<script reload="1">
 function succeedhandle_mods(locationhref) {
 	hideWindow('mods');
 	<!--{if !empty($_GET[from])}-->

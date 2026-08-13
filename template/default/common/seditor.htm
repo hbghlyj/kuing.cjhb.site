@@ -1,4 +1,4 @@
-<script type="text/javascript" src="{$_G[setting][jspath]}seditor.js?{VERHASH}"></script>
+<script src="{$_G[setting][jspath]}seditor.js?{VERHASH}"></script>
 <div class="fpd">
 	<!--{if in_array('bold', $seditor[1])}-->
 		<a href="javascript:;" title="{lang e_bold}" class="fbld"{if empty($seditor[2])} onclick="seditor_insertunit('$seditor[0]', '[b]', '[/b]');doane(event);"{/if}>B</a>
@@ -27,11 +27,11 @@
 	<!--{if in_array('smilies', $seditor[1])}-->
 		<a href="javascript:;" class="fsml" id="{$seditor[0]}sml"{if empty($seditor[2])} onclick="showMenu({'ctrlid':this.id,'evt':'click','layer':2});return false;"{/if}>Smilies</a>
 		<!--{if empty($seditor[2])}-->
-			<script type="text/javascript" reload="1">smilies_show('{$seditor[0]}smiliesdiv', $_G['setting']['smcols'], '$seditor[0]');</script>
+			<script reload="1">smilies_show('{$seditor[0]}smiliesdiv', $_G['setting']['smcols'], '$seditor[0]');</script>
 		<!--{/if}-->
 	<!--{/if}-->
 	<!--{if in_array('at', $seditor[1]) && $_G['group']['allowat']}-->
-		<script type="text/javascript" src="{$_G['setting']['jspath']}at.js?{VERHASH}"></script>
+		<script src="{$_G['setting']['jspath']}at.js?{VERHASH}"></script>
 		<a id="{$seditor[0]}at" href="javascript:;" title="{lang e_at}" class="fat"{if empty($seditor[2])} onclick="seditor_menu('$seditor[0]', 'at');doane(event);"{/if}>{lang at_friend}</a>
 	<!--{/if}-->
 	{$seditor[3] or ''}

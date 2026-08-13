@@ -1,4 +1,4 @@
-﻿<!--{template common/header}-->
+<!--{template common/header}-->
 <!--{if $_GET['op'] == 'resend'}-->
 
 <h3 class="flb">
@@ -15,7 +15,7 @@
 		<button type="submit" name="btnsubmit" value="true" class="pn pnc"><strong>{lang resend}</strong></button>
 	</p>
 </form>
-<script type="text/javascript">
+<script>
 	function succeedhandle_$_GET[handlekey](url, msg, values) {
 		if(typeof resend_mail == 'function' && parseInt(values['id'])) {
 			resend_mail(values['id']);
@@ -37,7 +37,7 @@
 		<button type="submit" name="btnsubmit" value="true" class="pn pnc"><strong>{lang delete}</strong></button>
 	</p>
 </form>
-<script type="text/javascript">
+<script>
 	function succeedhandle_$_GET[handlekey](url, msg, values) {
 		if(typeof resend_mail == 'function' && parseInt(values['id'])) {
 			resend_mail(values['id']);
@@ -152,7 +152,7 @@
 								<input type="text" name="invitenum" value="1" size="10" class="px vm" style="width: auto;" />
 								<button type="submit" name="invitesubmit_btn" value="true" class="pn vm"><em>{lang get_invitation_code}</em></button>
 								<span id="return_newinvite" style="display:none;"></span>
-								<script type="text/javascript">
+								<script>
 									function succeedhandle_newinvite(url, message, values) {
 										if(values['deduction']) {
 											var allCreditObj = $('haveallcredit');

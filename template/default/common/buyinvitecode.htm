@@ -14,7 +14,7 @@
 						<p class="mtn">{lang invitecode_email}</p>
 						<p class="mtm cl"><a href="member.php?mod={$_G[setting][regname]}&invitecode=$codes[0]" class="pn pnc z"><strong>{lang reg_continue}</strong></a></p>
 					</div>
-					<script type="text/javascript">
+					<script>
 						function copyinvitecode(obj) {
 							setCopy($('invitecode').innerHTML, '{lang copycode_invite_succeed}');
 							return false;
@@ -66,7 +66,7 @@
 								</tr>
 							</table>
 						</div>
-						<script type="text/javascript">
+						<script>
 							function addamount() {
 								var amount = $('amount').value.replace(/^0/, '');
 								amount = parseInt(amount);

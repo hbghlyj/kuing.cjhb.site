@@ -1,5 +1,5 @@
 <!--{if $_G['uid'] && $_G['group']['allowinvisible']}-->
-<script type="text/javascript">
+<script>
     var invisiblestatus = '<!--{if $_G['session']['invisible']}-->{lang login_invisible_mode}<!--{else}-->{lang login_normal_mode}<!--{/if}-->';
     var loginstatusobj = $('loginstatusid');
     if(loginstatusobj != undefined && loginstatusobj != null) loginstatusobj.innerHTML = invisiblestatus;
@@ -8,38 +8,38 @@
 
 <!--{if !$_G['setting']['bbclosed'] && empty($_G['member']['freeze'] && $_G['member']['groupid'] != 5)}-->
 	<!--{if !empty($_G['setting']['pmstatus']) && $_G[uid] && !isset($_G['cookie']['checkpm'])}-->
-	<script type="text/javascript" src="home.php?mod=spacecp&ac=pm&op=checknewpm&rand=$_G[timestamp]"></script>
+	<script src="home.php?mod=spacecp&ac=pm&op=checknewpm&rand=$_G[timestamp]"></script>
 	<!--{/if}-->
 
 	<!--{if $_G[uid] && helper_access::check_module('follow') && !isset($_G['cookie']['checkfollow'])}-->
-	<script type="text/javascript" src="home.php?mod=spacecp&ac=follow&op=checkfeed&rand=$_G[timestamp]"></script>
+	<script src="home.php?mod=spacecp&ac=follow&op=checkfeed&rand=$_G[timestamp]"></script>
 	<!--{/if}-->
 
 	<!--{if !isset($_G['cookie']['sendmail'])}-->
-	<script type="text/javascript" src="home.php?mod=misc&ac=sendmail&rand=$_G[timestamp]"></script>
+	<script src="home.php?mod=misc&ac=sendmail&rand=$_G[timestamp]"></script>
 	<!--{/if}-->
 <!--{/if}-->
 <!--{if $_GET['diy'] == 'yes'}-->
 <!--{if check_diy_perm($topic) && (empty($do) || $do != 'index')}-->
-	<script type="text/javascript" src="{$_G[setting][jspath]}common_diy.js?{VERHASH}"></script>
-	<script type="text/javascript" src="{$_G[setting][jspath]}portal_diy{if !check_diy_perm($topic, 'layout')}_data{/if}.js?{VERHASH}"></script>
+	<script src="{$_G[setting][jspath]}common_diy.js?{VERHASH}"></script>
+	<script src="{$_G[setting][jspath]}portal_diy{if !check_diy_perm($topic, 'layout')}_data{/if}.js?{VERHASH}"></script>
 <!--{/if}-->
 <!--{if $space['self'] && CURMODULE == 'space' && $do == 'index'}-->
-	<script type="text/javascript" src="{$_G[setting][jspath]}common_diy.js?{VERHASH}"></script>
-	<script type="text/javascript" src="{$_G[setting][jspath]}space_diy.js?{VERHASH}"></script>
+	<script src="{$_G[setting][jspath]}common_diy.js?{VERHASH}"></script>
+	<script src="{$_G[setting][jspath]}space_diy.js?{VERHASH}"></script>
 <!--{/if}-->
 <!--{/if}-->
 <!--{if $_G['uid'] && $_G['member']['allowadmincp'] == 1 && empty($_G['cookie']['pluginnotice'])}-->
 	<div class="focus plugin" id="plugin_notice"></div>
-	<script type="text/javascript">pluginNotice();</script>
+	<script>pluginNotice();</script>
 <!--{/if}-->
 <!--{if !$_G['setting']['bbclosed'] && empty($_G['member']['freeze']) && $_G['member']['groupid'] != 5 && (empty($_G['setting']['disableipnotice']) || $_G['setting']['disableipnotice'] != 1) && $_G['uid'] && !empty($_G['cookie']['lip'])}-->
 	<div class="focus plugin" id="ip_notice"></div>
-	<script type="text/javascript">ipNotice();</script>
+	<script>ipNotice();</script>
 <!--{/if}-->
 <!--{if !empty($_G['setting']['pmstatus']) && (!empty($_G[member][newpm]) || !empty($_G[member][newprompt])) && empty($_G['cookie']['ignore_notice']) && empty($_G['member']['freeze']) && $_G['member']['groupid'] != 5}-->
-	<script type="text/javascript" src="{$_G[setting][jspath]}html5notification.js?{VERHASH}"></script>
-	<script type="text/javascript">
+	<script src="{$_G[setting][jspath]}html5notification.js?{VERHASH}"></script>
+	<script>
 	    var h5n = new Html5notification();
 	    if(h5n.issupport()) {
 	        <!--{if $_G[member][newpm] && $_GET[do] != 'pm'}-->
@@ -55,10 +55,10 @@
 	</script>
 <!--{/if}-->
 
-<script type="text/javascript">checkBlind();</script>
+<script>checkBlind();</script>
 <!--{if isset($_G['makehtml'])}-->
-<script type="text/javascript" src="{$_G[setting][jspath]}html2dynamic.js?{VERHASH}"></script>
-<script type="text/javascript">
+<script src="{$_G[setting][jspath]}html2dynamic.js?{VERHASH}"></script>
+<script>
     var html_lostmodify = {TIMESTAMP};
     htmlGetUserStatus();
     <!--{if isset($_G['htmlcheckupdate'])}-->

@@ -1,4 +1,4 @@
-﻿<!--{template common/header}-->
+<!--{template common/header}-->
 <!--{if !$_G[inajax]}-->
 <div id="pt" class="bm cl">
 	<div class="z">
@@ -24,7 +24,7 @@
 			<em id="return_$_GET[handlekey]">{lang push}</em>
 			<!--{if $_G[inajax]}--><span><a href="javascript:;" onclick="hideWindow('$_GET[handlekey]');" class="flbc" title="{lang close}">{lang close}</a></span><!--{/if}-->
 		</h3>
-		<script type="text/javascript" src="{$_G[setting][jspath]}portal.js?{VERHASH}"></script>
+		<script src="{$_G[setting][jspath]}portal.js?{VERHASH}"></script>
 		<form id="recommendform" method="post" enctype="multipart/form-data" action="portal.php?mod=portalcp&ac=block&op=recommend&id=$_GET[id]&idtype=$_GET[idtype]" onsubmit="if(recommenditem_check()) { ajaxpost('recommendform','return_$_GET[handlekey]','return_$_GET[handlekey]','onerror');} return false;">
 			<div class="c">
 				<p{if $_G[inajax]} style="width:520px;"{/if}>
@@ -63,7 +63,7 @@
 				<button type="submit" class="pn pnc" value="true"><strong>{lang submit}</strong></button>
 			</p>
 		</form>
-		<script type="text/javascript" reload="1">
+		<script reload="1">
 			function errorhandle_recommenditem(message) {
 				var editarea = $('itemeditarea');
 				ajaxinnerhtml(editarea, '<tr><td>&nbsp;</td><td>' + message + '</td></tr>');

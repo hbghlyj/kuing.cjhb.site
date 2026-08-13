@@ -1,7 +1,7 @@
 <!--{template common/header}-->
 	<!--{subtemplate home/spacecp_header}-->
 			<!--{hook/spacecp_avatar_top}-->
-			<script type="text/javascript">
+			<script>
 				function updateavatar() {
 					window.location.href = document.location.href.replace('&reload=1', '') + '&reload=1';
 				}
@@ -42,7 +42,7 @@
 			<!--{hook/spacecp_avatar_bottom}-->
 		</div>
 	</div>
-	<script type="text/javascript">
+	<script>
 		var redirecturl = loadUserdata('avatar_redirect');
 		if(redirecturl) {
 			document.getElementById('retpre').innerHTML = '<a href="' + redirecturl + '">{lang previous_page}</a>';

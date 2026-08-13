@@ -24,8 +24,8 @@
 		</div>
 		<div class="btn_login"><button type="submit" name="getpwsubmit" value="true" class="pn">{lang submit}</button></div>
 	</form>
-	<script type="text/javascript" src="{$_G['setting']['jspath']}register.js?{VERHASH}"></script>
-	<script type="text/javascript">
+	<script src="{$_G['setting']['jspath']}register.js?{VERHASH}"></script>
+	<script>
 		var strongpw = new Array();
 		<!--{if $_G['setting']['strongpw']}-->
 			<!--{loop $_G['setting']['strongpw'] $key $val}-->

@@ -5,7 +5,7 @@
 		<h1 class="mt">{lang announcement}</h1>
 	<!--{/if}-->
 		<div class="exfm">
-			<script type="text/javascript" src="{$_G[setting][jspath]}calendar.js?{VERHASH}"></script>
+			<script src="{$_G[setting][jspath]}calendar.js?{VERHASH}"></script>
 			<form method="post" autocomplete="off" action="{$cpscript}?mod=modcp&action=announcement&op={if $op == 'edit'}edit{else}add{/if}">
 				<input type="hidden" name="formhash" value="{FORMHASH}">
 				<input type="hidden" name="id" value="$announce[id]">
@@ -22,7 +22,7 @@
 									<option value="1" $announce[checked][1]>{lang mod_announce_type_url}</option>
 								</select>
 							</span>
-							<script type="text/javascript">
+							<script>
 							function changeinput(v){
 								if(v == 0) {
 									$('annomessage').style.display = $('annomessage_editor').style.display = '';
@@ -126,6 +126,6 @@
 		<!--{/if}-->
 </div>
 
-<script type="text/javascript" reload="1">
+<script reload="1">
 	simulateSelect('type');
 </script>

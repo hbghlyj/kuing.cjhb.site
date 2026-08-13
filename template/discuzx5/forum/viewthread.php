@@ -3,13 +3,13 @@
 
 {cells viewthread/header}
 
-<script type="text/javascript">var fid = parseInt('$_G[fid]'), tid = parseInt('$_G[tid]');</script>
+<script>var fid = parseInt('$_G[fid]'), tid = parseInt('$_G[tid]');</script>
 <!--{if $modmenu['thread'] || $modmenu['post']}-->
-	<script type="text/javascript" src="{$_G['setting']['jspath']}forum_moderate.js?{VERHASH}"></script>
+	<script src="{$_G['setting']['jspath']}forum_moderate.js?{VERHASH}"></script>
 <!--{/if}-->
 
-<script type="text/javascript" src="{$_G['setting']['jspath']}forum_viewthread.js?{VERHASH}"></script>
-<script type="text/javascript">zoomstatus = parseInt($_G['setting']['zoomstatus']);var imagemaxwidth = '{$_G['setting']['imagemaxwidth']}';var aimgcount = new Array();</script>
+<script src="{$_G['setting']['jspath']}forum_viewthread.js?{VERHASH}"></script>
+<script>zoomstatus = parseInt($_G['setting']['zoomstatus']);var imagemaxwidth = '{$_G['setting']['imagemaxwidth']}';var aimgcount = new Array();</script>
 
 <style id="diy_style" type="text/css"></style>
 <!--[diy=diynavtop]--><div id="diynavtop" class="area"></div><!--[/diy]-->
@@ -332,7 +332,7 @@
 
 <!--{if $modmenu['thread']}-->
 	<div id="modmenu2" class="mbm pbm bbs">
-	<script type="text/javascript">
+	<script>
 		$('modmenu').lastChild.style.visibility = 'hidden';
 		document.write($('modmenu').innerHTML);
 	</script>
@@ -386,13 +386,13 @@ $_G['forum_tagscript']
 <!--{/if}-->
 
 <!--{if !IS_ROBOT && !empty($_G[setting][lazyload])}-->
-	<script type="text/javascript">
+	<script>
 	new lazyload();
 	</script>
 <!--{/if}-->
 
 <!--{if !IS_ROBOT && $_G['setting']['threadmaxpages'] > 1}-->
-	<script type="text/javascript">document.onkeyup = function(e){keyPageScroll(e, <!--{if $page > 1}-->1<!--{else}-->0<!--{/if}-->, <!--{if $page < $_G['setting']['threadmaxpages'] && isset($_G['page_next']) && $page < $_G['page_next']}-->1<!--{else}-->0<!--{/if}-->, 'forum.php?mod=viewthread&tid=$_G[tid]{$multipageparam}', $page);}</script>
+	<script>document.onkeyup = function(e){keyPageScroll(e, <!--{if $page > 1}-->1<!--{else}-->0<!--{/if}-->, <!--{if $page < $_G['setting']['threadmaxpages'] && isset($_G['page_next']) && $page < $_G['page_next']}-->1<!--{else}-->0<!--{/if}-->, 'forum.php?mod=viewthread&tid=$_G[tid]{$multipageparam}', $page);}</script>
 <!--{/if}-->
 </div>
 
@@ -400,7 +400,7 @@ $_G['forum_tagscript']
 	<!--[diy=diy3]--><div id="diy3" class="area"></div><!--[/diy]-->
 </div>
 <!--{if $_G['relatedlinks']}-->
-	<script type="text/javascript">
+	<script>
 		var relatedlink = [];
 		<!--{loop $_G['relatedlinks'] $key $link}-->
 		relatedlink.push({'sname':'$link[name]', 'surl':'$link[url]'});
@@ -417,10 +417,10 @@ $_G['forum_tagscript']
 <!--{/if}-->
 
 <!--{if !empty($_G['cookie']['clearUserdata']) && $_G['cookie']['clearUserdata'] == 'forum'}-->
-	<script type="text/javascript">saveUserdata('forum_'+discuz_uid, '')</script>
+	<script>saveUserdata('forum_'+discuz_uid, '')</script>
 <!--{/if}-->
 
-<script type="text/javascript">
+<script>
 <!--{if $_G['forum']['picstyle'] && ($_G['forum']['ismoderator'] || $_G['uid'] == $_G['thread']['authorid'])}-->
 function showsetcover(obj) {
 	if(obj.parentNode.id == 'postmessage_$_G[forum_firstpid]') {

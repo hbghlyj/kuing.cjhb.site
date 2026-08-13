@@ -61,7 +61,7 @@
 
 
 <!--{if !empty($aimgs[$post[pid]])}-->
-<script type="text/javascript" reload="1">
+<script reload="1">
 	aimgcount[{$post[pid]}] = [<!--{echo dimplode($aimgs[$post[pid]]);}-->];
 	attachimggroup($post['pid']);
 	<!--{if empty($_G['setting']['lazyload'])}-->

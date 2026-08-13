@@ -127,11 +127,11 @@
 </div>
 
 <div class="discuz_x cl"></div>
-<script type="text/javascript">
+<script>
 	initdhnav('#dhnavs_li', 'mon');
 </script>
 <!--{if empty($_G['setting']['pluginhooks']['spacecp_upload_extend'])}-->
-	<script type="text/javascript">
+	<script>
 	var imgexts = typeof imgexts == 'undefined' ? 'jpg, jpeg, gif, png' : imgexts;
 	var STATUSMSG = {
 		'-1' : '{lang uploadstatusmsgnag1}',
@@ -268,7 +268,7 @@
 <!--{else}-->
 	<!--{hook/spacecp_upload_extend}-->
 <!--{/if}-->
-<script type="text/javascript">
+<script>
 	var check = false;
 	no_insert = 1;
 	function a_addOption() {
@@ -288,7 +288,7 @@
 		}
 	}
 </script>
-<script type="text/javascript">
+<script>
 	<!--{if empty($albums)}-->
 	if(typeof getID('albumname') == 'object') {
 		getID('albumname').select();

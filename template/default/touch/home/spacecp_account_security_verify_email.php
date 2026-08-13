@@ -37,7 +37,7 @@
     </form>
 </div>
 
-<script type="text/javascript">
+<script>
     function memcp_sendsecemailseccode_{$layerhash}(url, msg, values) {
         memcp_svctype = 1;
         memcp_secemail = document.getElementById("secemail").value;

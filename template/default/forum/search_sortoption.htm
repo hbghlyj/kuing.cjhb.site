@@ -1,7 +1,7 @@
-<script type="text/javascript">
+<script>
 	var forum_optionlist = <!--{if $forum_optionlist}-->$forum_optionlist<!--{else}-->{}<!--{/if}-->;
 </script>
-<script type="text/javascript" src="{$_G['setting']['jspath']}threadsort.js?{VERHASH}"></script>
+<script src="{$_G['setting']['jspath']}threadsort.js?{VERHASH}"></script>
 
 <!--{loop $quicksearchlist $optionid $option}-->
 		<!--{eval $formsearch = '';}-->
@@ -13,7 +13,7 @@
 	                    <span id="select_$option[identifier]">
 	                    <!--{if $option[type] == 'select'}-->
 	                        <!--{if $_GET[searchoption][$optionid][value]}-->
-	                            <script type="text/javascript">
+	                            <script>
 	                                changeselectthreadsort('$_GET[searchoption][$optionid][value]', $optionid, 'search');
 	                            </script>
 	                        <!--{else}-->
@@ -44,7 +44,7 @@
 	                    </span>
 	                <!--{else}-->
 	                    <!--{if $option['type'] == 'calendar'}-->
-	                        <script type="text/javascript" src="{$_G[setting][jspath]}calendar.js?{VERHASH}"></script>
+	                        <script src="{$_G[setting][jspath]}calendar.js?{VERHASH}"></script>
 	                        <input type="text" name="searchoption[$optionid][value]" size="15" class="px vm" value="{if is_array($_GET[searchoption][$optionid])}$_GET[searchoption][$optionid][value]{/if}" onclick="showcalendar(event, this, false)" />
 	                    <!--{else}-->
 	                        <input type="text" name="searchoption[$optionid][value]" size="15" class="px vm" value="{if is_array($_GET[searchoption][$optionid])}$_GET[searchoption][$optionid][value]{/if}" />

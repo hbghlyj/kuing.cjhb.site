@@ -66,7 +66,7 @@
         </div>
 
     </form>
-    <script type="text/javascript">
+    <script>
         function memcp_sendsecmobseccode() {
             if (!document.getElementById("secmobicc").value) {
                 document.getElementById("secmobicc").value = $_G['setting']['smsdefaultcc'];

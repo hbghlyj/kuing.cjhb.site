@@ -122,7 +122,7 @@
 			<input type="hidden" name="formhash" value="{FORMHASH}" />
 		</form>
 		<!--{if $multi}--><div class="pgs cl">$multi</div><!--{/if}-->
-		<script type="text/javascript">
+		<script>
 			var picObj = {{$ids}};
 			function succeedhandle_setpichk(url, msg, values) {
 				for(var id in picObj) {
@@ -188,7 +188,7 @@
 			<button type="submit" name="editpicsubmit_btn" class="pn pnc" value="true"><strong>{lang update}</strong></button>
 		</p>
 	</form>
-	<script type="text/javascript">
+	<script>
 		function succeedhandle_$_GET['handlekey'] (url, message, values) {
 			$('$_GET['handlekey']').innerHTML = values['title'];
 		}
@@ -232,7 +232,7 @@
 			<button type="submit" name="btnsubmit" value="true" class="pn pnc"><strong>{lang determine}</strong></button>
 		</p>
 	</form>
-	<script type="text/javascript">
+	<script>
 		function succeedhandle_$_GET['handlekey'] (url, message, values) {
 			
 		}

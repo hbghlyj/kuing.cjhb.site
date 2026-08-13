@@ -11,14 +11,14 @@
 	<meta name="description" content="{if !empty($metadescription)}{echo dhtmlspecialchars($metadescription)} {/if}{if empty($nobbname)},$_G['setting']['bbname']{/if}" />
 	<meta name="generator" content="Discuz! $_G['setting']['version']" />
 
-	<script type="text/javascript">var STYLEID = '{STYLEID}', STATICURL = '{STATICURL}', IMGDIR = '{IMGDIR}', VERHASH = '{VERHASH}', charset = '{CHARSET}', discuz_uid = '$_G[uid]', cookiepre = '{$_G[config][cookie][cookiepre]}', cookiedomain = '{$_G[config][cookie][cookiedomain]}', cookiepath = '{$_G[config][cookie][cookiepath]}', showusercard = '{$_G[setting][showusercard]}', attackevasive = '{$_G[config][security][attackevasive]}', disallowfloat = '{$_G[setting][disallowfloat]}', creditnotice = '<!--{if $_G['setting']['creditnotice']}-->$_G['setting']['creditnames']<!--{/if}-->', defaultstyle = '$_G[style][defaultextstyle]', REPORTURL = '$_G[currenturl_encode]', SITEURL = '$_G[siteurl]', JSPATH = '$_G[setting][jspath]', CSSPATH = '$_G[setting][csspath]', DYNAMICURL = '{$_G[dynamicurl] or ''}';</script>
-	<script type="text/javascript" src="{echo $_G['setting']['jscachepath'] ?: 'data/cache/';}lang_{echo currentlang();}.js?{VERHASH}"></script>
-	<script type="text/javascript" src="{$_G[setting][jspath]}common.js?{VERHASH}"></script>
+	<script>var STYLEID = '{STYLEID}', STATICURL = '{STATICURL}', IMGDIR = '{IMGDIR}', VERHASH = '{VERHASH}', charset = '{CHARSET}', discuz_uid = '$_G[uid]', cookiepre = '{$_G[config][cookie][cookiepre]}', cookiedomain = '{$_G[config][cookie][cookiedomain]}', cookiepath = '{$_G[config][cookie][cookiepath]}', showusercard = '{$_G[setting][showusercard]}', attackevasive = '{$_G[config][security][attackevasive]}', disallowfloat = '{$_G[setting][disallowfloat]}', creditnotice = '<!--{if $_G['setting']['creditnotice']}-->$_G['setting']['creditnames']<!--{/if}-->', defaultstyle = '$_G[style][defaultextstyle]', REPORTURL = '$_G[currenturl_encode]', SITEURL = '$_G[siteurl]', JSPATH = '$_G[setting][jspath]', CSSPATH = '$_G[setting][csspath]', DYNAMICURL = '{$_G[dynamicurl] or ''}';</script>
+	<script src="{echo $_G['setting']['jscachepath'] ?: 'data/cache/';}lang_{echo currentlang();}.js?{VERHASH}"></script>
+	<script src="{$_G[setting][jspath]}common.js?{VERHASH}"></script>
 	<!--{if empty($_GET['diy'])}--><!--{eval $_GET['diy'] = '';}--><!--{/if}-->
 	<!--{if !isset($topic)}--><!--{eval $topic = array();}--><!--{/if}-->
 
 	{cells common/header/meta}
-	<script type="text/javascript" src="{$_G[setting][jspath]}portal.js?{VERHASH}"></script>
+	<script src="{$_G[setting][jspath]}portal.js?{VERHASH}"></script>
 </head>
 
 <link rel="stylesheet" type="text/css" href="{$_G['setting']['csspath']}{STYLEID}_css_mobile_diy.css?{VERHASH}" />

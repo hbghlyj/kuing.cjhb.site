@@ -28,7 +28,7 @@
 	</div>
 </div>
 
-<script type="text/javascript" reload="1">
+<script reload="1">
 	<!--{if $albumlist}-->
 	ajaxget('forum.php?mod=post&action=albumphoto&aid={$albumlist[0][albumid]}&from=albumWin&ajaxtarget=albumlist_photo', 'albumlist_photo');
 	<!--{/if}-->

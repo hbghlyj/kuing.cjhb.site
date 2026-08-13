@@ -9,8 +9,8 @@
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap">
 	<!--{csstemplate}-->
-	<script type="text/javascript">var STYLEID = '{STYLEID}', STATICURL = '{STATICURL}', IMGDIR = '{IMGDIR}', VERHASH = '{VERHASH}', FORMHASH = '{FORMHASH}', charset = '{CHARSET}', discuz_uid = '$_G[uid]', cookiepre = '{$_G[config][cookie][cookiepre]}', cookiedomain = '{$_G[config][cookie][cookiedomain]}', cookiepath = '{$_G[config][cookie][cookiepath]}', showusercard = '{$_G[setting][showusercard]}', attackevasive = '{$_G[config][security][attackevasive]}', disallowfloat = '{$_G[setting][disallowfloat]}', creditnotice = '<!--{if $_G['setting']['creditnotice']}-->$_G['setting']['creditnames']<!--{/if}-->', defaultstyle = '$_G[style][defaultextstyle]', REPORTURL = '$_G[currenturl_encode]', SITEURL = '$_G[siteurl]', JSCACHEPATH = '{$_G[setting][jscachepath]}', JSPATH = '$_G[setting][jspath]', CSSPATH = '$_G[setting][csspath]', DYNAMICURL = '{$_G[dynamicurl] or ''}', DISCUZ_I18N = '{echo currentlang();}', AVATARURL = '$_G[setting][avatarbase]';</script>
-	<script type="text/javascript">
+	<script>var STYLEID = '{STYLEID}', STATICURL = '{STATICURL}', IMGDIR = '{IMGDIR}', VERHASH = '{VERHASH}', FORMHASH = '{FORMHASH}', charset = '{CHARSET}', discuz_uid = '$_G[uid]', cookiepre = '{$_G[config][cookie][cookiepre]}', cookiedomain = '{$_G[config][cookie][cookiedomain]}', cookiepath = '{$_G[config][cookie][cookiepath]}', showusercard = '{$_G[setting][showusercard]}', attackevasive = '{$_G[config][security][attackevasive]}', disallowfloat = '{$_G[setting][disallowfloat]}', creditnotice = '<!--{if $_G['setting']['creditnotice']}-->$_G['setting']['creditnames']<!--{/if}-->', defaultstyle = '$_G[style][defaultextstyle]', REPORTURL = '$_G[currenturl_encode]', SITEURL = '$_G[siteurl]', JSCACHEPATH = '{$_G[setting][jscachepath]}', JSPATH = '$_G[setting][jspath]', CSSPATH = '$_G[setting][csspath]', DYNAMICURL = '{$_G[dynamicurl] or ''}', DISCUZ_I18N = '{echo currentlang();}', AVATARURL = '$_G[setting][avatarbase]';</script>
+	<script>
 		if(typeof $ !== 'function') { window.$ = function(id) { return typeof id === 'string' ? document.getElementById(id) : id; }; }
 		if(typeof _attachEvent !== 'function') { window._attachEvent = function(target, event, handler) { if(target && target.addEventListener) { target.addEventListener(event, handler, false); } else if(target && target.attachEvent) { target.attachEvent('on' + event, handler); } }; }
 		if(typeof updatesecqaa !== 'function') { window.updatesecqaa = function() {}; }
@@ -19,8 +19,8 @@
 		if(typeof checkBlind !== 'function') { window.checkBlind = function() {}; }
 		if(typeof fetchOffset !== 'function') { window.fetchOffset = function(obj) { obj = typeof obj === 'string' ? document.getElementById(obj) : obj; if(!obj) return { left: 0, top: 0 }; var rect = obj.getBoundingClientRect(); return { left: rect.left + window.scrollX, top: rect.top + window.scrollY }; }; }
 	</script>
-	<script type="text/javascript" src="{echo $_G['setting']['jscachepath'] ?: 'data/cache/';}lang_{echo currentlang();}.js?{VERHASH}"></script>
-	<script type="text/javascript" src="/static/js/common.js?{VERHASH}"></script>
+	<script src="{echo $_G['setting']['jscachepath'] ?: 'data/cache/';}lang_{echo currentlang();}.js?{VERHASH}"></script>
+	<script src="/static/js/common.js?{VERHASH}"></script>
 	<!--{if empty($_GET['diy'])}--><!--{eval $_GET['diy'] = '';}--><!--{/if}-->
 	<!--{if !isset($topic)}--><!--{eval $topic = array();}--><!--{/if}-->
 	<style>

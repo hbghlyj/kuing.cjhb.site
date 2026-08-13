@@ -61,7 +61,7 @@
 			<script src="{STATICURL}js/echarts/echarts.common.min.js"></script>
 			<script src="{$_G['setting']['jspath']}stat.js"></script>
 			<div id="statchart"></div>
-			<script type="text/javascript">
+			<script>
 				drawstatchart('{ADMINSCRIPT}?action=index&operation=chart', 300);
 			</script>
 		</div>

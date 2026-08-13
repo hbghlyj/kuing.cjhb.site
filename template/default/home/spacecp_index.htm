@@ -39,7 +39,7 @@
 	</ul>
 	<div id="diyimg_next" class="z">$multi</div>
 	<!--{if $albumlist[$albumid]['friend']}-->
-	<script type="text/javascript">showDialog('{lang the_album_pic}{$friendsname[$albumlist[$albumid][friend]]}','alert');</script>
+	<script>showDialog('{lang the_album_pic}{$friendsname[$albumlist[$albumid][friend]]}','alert');</script>
 	<!--{/if}-->
 <!--{elseif $_GET['op'] == 'diy'}-->
 <dl class='diy'>
@@ -280,7 +280,7 @@
 			<button type="submit" class="pn pnc" id="editnvsubmitbtn"><strong>{lang determine}</strong></button>
 		</div>
 	</form>
-<script type="text/javascript" reload="1">
+<script reload="1">
 function succeedhandle_$_GET['handlekey'] (url, message, values) {
 	spaceDiy.getPersonalNv();
 	hideWindow('{$_GET['handlekey']}');}
@@ -346,8 +346,8 @@ function succeedhandle_$_GET['handlekey'] (url, message, values) {
 										<textarea name="content" id="contentmessage" style="width: 100%;"cols="40" rows="3" class="pt" onkeydown="ctrlEnter(event, 'blocksubmitbtn');">$para[content]</textarea>
 									</div>
 								</div>
-								<script type="text/javascript" src="{$_G[setting][jspath]}bbcode.js?{VERHASH}"></script>
-								<script type="text/javascript">var forumallowhtml = 0,allowhtml = parseInt('{$_G[group][allowspacediyhtml]}'),allowsmilies = 0,allowbbcode = parseInt('{$_G[group][allowspacediybbcode]}'),allowimgcode = parseInt('{$_G[group][allowspacediyimgcode]}');var DISCUZCODE = [];DISCUZCODE['num'] = '-1';DISCUZCODE['html'] = [];
+								<script src="{$_G[setting][jspath]}bbcode.js?{VERHASH}"></script>
+								<script>var forumallowhtml = 0,allowhtml = parseInt('{$_G[group][allowspacediyhtml]}'),allowsmilies = 0,allowbbcode = parseInt('{$_G[group][allowspacediybbcode]}'),allowimgcode = parseInt('{$_G[group][allowspacediyimgcode]}');var DISCUZCODE = [];DISCUZCODE['num'] = '-1';DISCUZCODE['html'] = [];
 								</script>
 							</td>
 						</tr>
@@ -438,7 +438,7 @@ function succeedhandle_$_GET['handlekey'] (url, message, values) {
 	</div>
 
 	<div id="musicadd_content" style="display:$addshow;">
-		<script type="text/javascript">
+		<script>
 			function addMenu() {
 				newnode = $("tb_menu_new").rows[0].cloneNode(true);
 				tags = newnode.getElementsByTagName('input');
@@ -605,7 +605,7 @@ function succeedhandle_$_GET['handlekey'] (url, message, values) {
 		<!--{/if}-->
 	</div>
 	<!--{/if}-->
-<script type="text/javascript" reload="1">
+<script reload="1">
 function succeedhandle_$_GET['handlekey'] (url, message, values) {
 	var x = new Ajax();
 	x.get('home.php?mod=spacecp&ac=index&op=getblock&blockname='+values['blockname']+'&inajax=1', function(s) {
@@ -621,7 +621,7 @@ function succeedhandle_$_GET['handlekey'] (url, message, values) {
 <strong id="spacename"><!--{if $space[spacename]}-->$space[spacename]<!--{else}-->$space[username]{lang somebody_space}<!--{/if}--></strong>
 <a id="domainurl" href="$space[domainurl]" onclick="setCopy('$space[domainurl]', '{lang copy_space_address}');return false;" class="xs0 xw0">$space[domainurl]</a>
 <span id="spacedescription" class="xw0">$space[spacedescription]</span>
-<script type="text/javascript" reload="1">spaceDiy.initSpaceInfo();</script>
+<script reload="1">spaceDiy.initSpaceInfo();</script>
 
 <!--{elseif $_GET['op'] == 'getspaceinfo'}-->
 

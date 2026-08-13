@@ -20,7 +20,7 @@
 			<!--{hook/forumdisplay_filter_extra}-->
 			<!--{if isset($_GET['filter']) && $_GET['filter'] == 'hot'}-->
 				<span class="pipe z">|</span>
-				<script type="text/javascript" src="{$_G['setting']['jspath']}calendar.js?{VERHASH}"></script>
+				<script src="{$_G['setting']['jspath']}calendar.js?{VERHASH}"></script>
 				<span class="xg1" style="font-size:12px">$ctime</span>
 				<em class="fico-search cur1 xi2 vm" alt="" id="hottime" value="$ctime" fid="$_G['fid']" onclick="showcalendar(event, this, false, false, false, false, function(){viewhot(this);});"></em>
 			<!--{/if}-->
@@ -30,7 +30,7 @@
   	</div>
 	<div class="bm_c">
 		<!--{if empty($_G['forum']['picstyle']) || $_G['cookie']['forumdefstyle']}-->
-			<script type="text/javascript">var lasttime = $_G['timestamp'];var listcolspan= '{if !$_GET['archiveid'] && $_G['forum']['ismoderator']}6{else}5{/if}';</script>
+			<script>var lasttime = $_G['timestamp'];var listcolspan= '{if !$_GET['archiveid'] && $_G['forum']['ismoderator']}6{else}5{/if}';</script>
 		<!--{/if}-->
 		<div id="forumnew" style="display:none"></div>
 		<form method="post" autocomplete="off" name="moderate" id="moderate" action="forum.php?mod=topicadmin&action=moderate&fid=$_G[fid]&infloat=yes&nopost=yes">
@@ -97,7 +97,7 @@
 <!--{if $multipage && $filter != 'hot'}-->
 	<!--{if !($_G['forum']['picstyle'] && !$_G['cookie']['forumdefstyle'])}-->
 		<a class="bm_h" href="javascript:;" rel="$multipage_more" curpage="$page" id="autopbn" totalpage="$maxpage" picstyle="$_G['forum']['picstyle']" forumdefstyle="$_G['cookie']['forumdefstyle']">{lang next_page_extra}</a>
-		<script type="text/javascript" src="{$_G[setting][jspath]}autoloadpage.js?{VERHASH}"></script>
+		<script src="{$_G[setting][jspath]}autoloadpage.js?{VERHASH}"></script>
 	<!--{else}-->
 		<div id="pgbtn" class="pgbtn"><a href="$multipage_more" hidefocus="true">{lang next_page_extra}</a></div>
 	<!--{/if}-->

@@ -77,9 +77,9 @@
 					</div>
 					<!--{/if}-->
 
-					<script type="text/javascript" src="{$_G[setting][jspath]}forum.js?{VERHASH}"></script>
-					<script type="text/javascript" src="{$_G[setting][jspath]}forum_moderate.js?{VERHASH}"></script>
-					<script type="text/javascript">
+					<script src="{$_G[setting][jspath]}forum.js?{VERHASH}"></script>
+					<script src="{$_G[setting][jspath]}forum_moderate.js?{VERHASH}"></script>
+					<script>
 						var postminchars = parseInt('$_G['setting']['minpostsize']');
 						var postmaxchars = parseInt('$_G['setting']['maxpostsize']');
 						var postminsubjectchars = parseInt('$_G['setting']['minsubjectsize']');
@@ -106,7 +106,7 @@
 									</div>
 								</div>
 							</div>
-							<script type="text/javascript">
+							<script>
 							var editorid = '';
 							var ATTACHNUM = {'imageused':0,'imageunused':0,'attachused':0,'attachunused':0}, ATTACHUNUSEDAID = new Array(), IMGUNUSEDAID = new Array();
 							</script>
@@ -115,7 +115,7 @@
 								<div id="attachlist" class="fieldset flash cl"><span style="font-size:0"></span></div>
 								<!--{if empty($_G['setting']['pluginhooks']['follow_upload_extend'])}-->
 									<!--{subtemplate common/upload}-->
-									<script type="text/javascript">
+									<script>
 										var upload = new DiscuzUploader({
 											// Backend Settings
 											upload_url: "{$_G[siteurl]}misc.php?mod=upload&operation=upload&fid={$dmfid}",
@@ -164,7 +164,7 @@
 								<!--{else}-->
 									<!--{hook/follow_upload_extend}-->
 								<!--{/if}-->
-								<script type="text/javascript">
+								<script>
 									var fid = <!--{if $_G['setting']['followforumid']}-->$_G['setting']['followforumid']<!--{else}-->0<!--{/if}-->;
 									var resulttype = 'follow';
 									var attachBtn = $('flw_bar').getElementsByTagName('object')[0];
@@ -211,7 +211,7 @@
 						</div>
 					</form>
 
-					<script type="text/javascript">
+					<script>
 					var nofollowfeed = <!--{if !empty($list['feed'])}-->0<!--{else}-->1<!--{/if}-->;
 					var userdatakey = cookiepre+'fastpost{$_G[uid]}';
 					function showSyncInfo(flag) {
@@ -418,7 +418,7 @@
 						<div id="loadingfeed"></div>
 						<!--{/if}-->
 						<iframe id="downloadframe" name="downloadframe" width="0" height="0" marginwidth="0" frameborder="0" src="about:blank"></iframe>
-						<script type="text/javascript">
+						<script>
 							function succeedhandle_attachpay(url, msg, values) {
 								hideWindow('attachpay');
 								window.location.href = url;
@@ -455,7 +455,7 @@
 					</div>
 				<!--{/if}-->
 				<!--{if is_array($list['feed']) && count($list['feed']) > 19 && ($archiver || $primary)}-->
-					<script type="text/javascript">
+					<script>
 						var scrollY = 0;
 						var page = 2;
 						var feedInfo = {scrollY: 0, archiver: $archiver, primary: $primary, query: true, scrollNum:1};
@@ -518,7 +518,7 @@
 				<!--{/if}-->
 			<!--{/if}-->
 
-			<script type="text/javascript">
+			<script>
 				var boxflag = {};
 				var parentReplyId = '';
 				function quickreply(fid, tid, feedid) {
@@ -664,12 +664,12 @@
 		<button class="pn pnc" style="margin: -50px 0 20px 430px;" onclick="hideMenu()"><span>{lang follow_i_know}</span></button>
 	</div>
 </div>
-<script type="text/javascript">
+<script>
 	showMenu({'ctrlid':'nv','pos':'13','cover':'1'});
 </script>
 <!--{/if}-->
 
-<script type="text/javascript" reload="1">
+<script reload="1">
 	function succeedhandle_followmod(url, msg, values) {
 		var numObj = $('followernum_'+values['fuid']);
 		if(numObj) {followernum = parseInt(numObj.innerHTML);}

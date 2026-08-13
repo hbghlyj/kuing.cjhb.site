@@ -2,7 +2,7 @@
 	<!--{subtemplate home/spacecp_header}-->
 		<!--{hook/spacecp_payment_top}-->
 		<!--{subtemplate home/spacecp_payment_header}-->
-			<script type="text/javascript" src="{STATICURL}js/qrcode/qrcode.min.js?{VERHASH}"></script>
+			<script src="{STATICURL}js/qrcode/qrcode.min.js?{VERHASH}"></script>
 			<form id="payform" method="post" autocomplete="off" action="home.php?mod=spacecp&ac=payment&op=pay" onsubmit="ajaxpost(this.id, 'return_payform');return false;">
 				<input type="hidden" name="order_id" value="{$order['id']}">
 				<input type="hidden" name="formhash" value="{FORMHASH}" />

@@ -1,6 +1,6 @@
 <input type="hidden" name="selectsortid" size="45" value="$_G['forum_selectsortid']" />
 <!--{if $isfirstpost && $sortid}-->
-	<script type="text/javascript">
+	<script>
 		var forum_optionlist = <!--{if $forum_optionlist}-->$forum_optionlist<!--{else}-->{}<!--{/if}-->;
 	</script>
 <!--{/if}-->
@@ -88,7 +88,7 @@
 					<!--{if $option['type'] == 'select'}-->
 						<!--{loop $option['value'] $selectedkey $selectedvalue}-->
 							<!--{if $selectedkey}-->
-								<script type="text/javascript">
+								<script>
 									changeselectthreadsort('$selectedkey', $optionid, 'update');
 								</script>
 							<!--{else}-->
@@ -157,7 +157,7 @@
 	<div class="discuz_x cl"></div>
 <!--{/if}-->
 
-<script type="text/javascript" reload="1">
+<script reload="1">
 var CHECKALLSORT = false;
 
 function warning(obj, msg) {

@@ -6,7 +6,7 @@
 				<a{if $_GET[suboperation] != 'creditrulelog'} class="a"{/if} href="home.php?mod=spacecp&ac=credit&op=log" hidefocus="true">{lang credit_log}</a><span class="pipe">|</span><a{if $_GET[suboperation] == 'creditrulelog'} class="a"{/if} href="home.php?mod=spacecp&ac=credit&op=log&suboperation=creditrulelog" hidefocus="true">{lang credit_log_sys}</a>
 			</p>
 			<!--{if $_GET[suboperation] != 'creditrulelog'}-->
-			<script type="text/javascript" src="{$_G[setting][jspath]}calendar.js?{VERHASH}"></script>
+			<script src="{$_G[setting][jspath]}calendar.js?{VERHASH}"></script>
 			<form method="post" action="home.php?mod=spacecp&ac=credit&op=log">
 				<div class="exfm" style="margin-top: 0;">
 					<table class="cp0">
@@ -37,7 +37,7 @@
 							<td><button type="submit" class="pn" name="search" value="true"><strong>{lang srch}</strong></button></td>
 						</tr>
 					</table>
-					<script type="text/javascript">
+					<script>
 						simulateSelect('income');
 						simulateSelect('optype');
 					</script>

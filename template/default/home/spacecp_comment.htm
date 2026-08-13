@@ -1,4 +1,4 @@
-﻿<!--{template common/header}-->
+<!--{template common/header}-->
 
 <!--{if !$_G[inajax]}-->
 	<div id="pt" class="bm cl">
@@ -30,7 +30,7 @@
 			<button type="submit" name="editsubmit_btn" id="editsubmit_btn" value="true" class="pn pnc"><strong>{lang submit}</strong></button>
 		</p>
 	</form>
-	<script type="text/javascript">
+	<script>
 		function succeedhandle_$_GET['handlekey'] (url, message, values) {
 			comment_edit(values['cid']);
 		}
@@ -51,7 +51,7 @@
 			<button type="submit" name="deletesubmitbtn" value="true" class="pn pnc"><strong>{lang determine}</strong></button>
 		</p>
 	</form>
-	<script type="text/javascript">
+	<script>
 		function succeedhandle_$_GET['handlekey'] (url, message, values) {
 			comment_delete(values['cid']);
 		}
@@ -86,7 +86,7 @@
 			</p>
 		</div>
 	</form>
-	<script type="text/javascript">
+	<script>
 		function succeedhandle_$_GET['handlekey'] (url, message, values) {
 			<!--{if $comment['idtype']!='uid'}-->
 				<!--{if $_GET['feedid']}-->

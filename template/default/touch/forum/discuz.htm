@@ -120,7 +120,7 @@
 				</div>
 			</div>
 		</div>
-		<script type="text/javascript">
+		<script>
 		window.onload = function() {
 			var tabsSwiper = new Swiper('#tabs-box', {
 				speed: 500,
@@ -147,7 +147,7 @@
 				<div class="mtit">{lang announcements}</div>
 				<div id="ann"><ul>$announcements</ul></div>
 			</div>
-			<script type="text/javascript">discuz_loop(24, 30, 3000, 'ann');</script>
+			<script>discuz_loop(24, 30, 3000, 'ann');</script>
 		<!--{/if}-->
 		<!--{if $_G['setting']['mobile']['forum']['statshow']}-->
 		<div class="stat cl">
@@ -193,7 +193,7 @@
 			</a>
 		</div>
 		<!--{/if}-->
-		<script type="text/javascript">
+		<script>
 			(function() {
 				<!--{if !$_G['setting']['mobile']['forum']['forumview']}-->
 					$('.sub-forum').css('display', 'block');

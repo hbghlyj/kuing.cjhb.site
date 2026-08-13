@@ -51,7 +51,7 @@
     </form>
 </div>
 
-<script type="text/javascript">
+<script>
     function memcp_sendsecmobseccode_{$layerhash}(url, msg, values) {
         if (!document.getElementById("secmobicc").value) {
             document.getElementById("secmobicc").value = $_G['setting']['smsdefaultcc'];

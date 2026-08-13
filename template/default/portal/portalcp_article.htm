@@ -1,4 +1,4 @@
-﻿<!--{template common/header}-->
+<!--{template common/header}-->
 
 <!--{if $op == 'delete'}-->
 
@@ -94,8 +94,8 @@
 		</div>
 	</div>
 </div>
-<script src="{STATICURL}js/makehtml.js" type="text/javascript"></script>
-<script type="text/javascript">
+<script src="{STATICURL}js/makehtml.js"></script>
+<script>
 <!--{if !empty($_G['cookie']['clearUserdata']) && $_G['cookie']['clearUserdata'] == 'home'}-->
 	saveUserdata('home', '')
 <!--{/if}-->
@@ -122,7 +122,7 @@ make_html('portal.php?mod=view&aid={$aid}', $('makehtml_'));
 	<div class="mn">
 		<div class="bm bw0">
 			<h1 class="mbm bbs mt"><!--{if !empty($aid)}-->{lang article_edit}<!--{else}-->{lang article_publish}<!--{/if}--></h1>
-			<script type="text/javascript" src="{$_G[setting][jspath]}calendar.js?{VERHASH}"></script>
+			<script src="{$_G[setting][jspath]}calendar.js?{VERHASH}"></script>
 			<form method="post" autocomplete="off" id="articleform" action="portal.php?mod=portalcp&ac=article{if $_GET[modarticlekey]}&modarticlekey=$_GET[modarticlekey]{/if}" enctype="multipart/form-data">
 				<!--{hook/portalcp_top}-->
 				<div class="dopt cl">
@@ -153,7 +153,7 @@ make_html('portal.php?mod=view&aid={$aid}', $('makehtml_'));
 						<dl>
 							<!--{if $_G['cache']['portalcategory'] && $categoryselect}-->
 								<dt>{lang article_category}</dt>
-								<dd><div class="ftid">$categoryselect</div><script type="text/javascript">simulateSelect('catid', 158);</script></dd>
+								<dd><div class="ftid">$categoryselect</div><script>simulateSelect('catid', 158);</script></dd>
 							<!--{/if}-->
 
 							<dt>{lang article_source}</dt>
@@ -187,7 +187,7 @@ make_html('portal.php?mod=view&aid={$aid}', $('makehtml_'));
 										</select>
 
 									</span>
-									<script type="text/javascript">simulateSelect('from_idtype', 81);</script>
+									<script>simulateSelect('from_idtype', 81);</script>
 									<input type="text" name="from_id" id="from_id" value="$_GET[from_id]" size="8" class="px p_fre vm" />&nbsp;
 									<!--{if $_GET['from_idtype'] == 'tid'}-->
 										<span id="ele_getauthorall">
@@ -214,7 +214,7 @@ make_html('portal.php?mod=view&aid={$aid}', $('makehtml_'));
 				</div>
 
 				<div class="pbw">
-					<script type="text/javascript" language="javascript" src="{STATICURL}image/editor/editor_function.js?{VERHASH}"></script>
+					<script language="javascript" src="{STATICURL}image/editor/editor_function.js?{VERHASH}"></script>
 					<!--{subtemplate home/editor_image_menu}-->
 					<textarea class="userData" name="content" id="uchome-ttHtmlEditor" style="height: 100%; width: 100%; display: none; border: 0px">$article_content[content]</textarea>
 					<div style="border:1px solid #C5C5C5;height:400px;"><iframe src="home.php?mod=editor&charset={CHARSET}&allowhtml=1&isportal=1" name="uchome-ifrHtmlEditor" id="uchome-ifrHtmlEditor" scrolling="no" border="0" frameborder="0" style="width:100%;height:100%;position:relative;"></iframe></div>
@@ -274,7 +274,7 @@ make_html('portal.php?mod=view&aid={$aid}', $('makehtml_'));
 	</div>
 </div>
 <iframe id="uploadframe" name="uploadframe" width="0" height="0" marginwidth="0" frameborder="0" src="about:blank"></iframe>
-<script type="text/javascript">
+<script>
 function from_get() {
 	var el = $('catid');
 	var catid = el ? el.value : 0;

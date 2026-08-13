@@ -1,4 +1,4 @@
-﻿<!--{template common/header}-->
+<!--{template common/header}-->
 
 <!--{if $_GET['op'] == 'delete'}-->
 	<!--{if !$_G[inajax]}-->
@@ -45,7 +45,7 @@
 		</form>
 		<span id="return_$_GET[handlekey]"></span>
 	</div>
-	<script type="text/javascript">
+	<script>
 		function succeedhandle_$_GET[handlekey](url, msg, values) {
 			docomment_get(values['doid'], '$_GET[key]');
 		}

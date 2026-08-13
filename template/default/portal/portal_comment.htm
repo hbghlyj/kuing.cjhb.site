@@ -13,7 +13,7 @@
 		<!--{loop $commentlist $comment}-->
 		<!--{template portal/comment_li}-->
 		<!--{if !empty($aimgs[$comment[cid]])}-->
-			<script type="text/javascript" reload="1">aimgcount[{$comment[cid]}] = [<!--{echo implode(',', $aimgs[$comment[cid]]);}-->];attachimgshow($comment[cid]);</script>
+			<script reload="1">aimgcount[{$comment[cid]}] = [<!--{echo implode(',', $aimgs[$comment[cid]]);}-->];attachimgshow($comment[cid]);</script>
 		<!--{/if}-->
 		<!--{/loop}-->
 		<!--{if !empty($pricount)}-->

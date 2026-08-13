@@ -1,4 +1,4 @@
-﻿<!--{template common/header}-->
+<!--{template common/header}-->
 <!--{eval
 	$space_uid = $space['uid'];
 	$_G['home_tpl_spacemenus'][] = "<a href=\"home.php?mod=space&do=trade\">{lang trade}</a>";
@@ -101,7 +101,7 @@
 								<option value="$key" {if $filter == $key} selected="selected"{/if}>$langstr</option>
 								<!--{/loop}-->
 							</select>
-							<script type="text/javascript">
+							<script>
 								function filterTrade(value) {
 									window.location = 'home.php?mod=space&do=trade&view=tradelog&type=$viewtype&filter='+value;
 								}
@@ -223,7 +223,7 @@
 	<!--[diy=diy3]--><div id="diy3" class="area"></div><!--[/diy]-->
 </div>
 
-<script type="text/javascript">
+<script>
 function fuidgoto(fuid) {
 	var parameter = fuid != '' ? '&fuid='+fuid : '';
 	window.location.href = 'home.php?mod=space&do=trade&view=we'+parameter;

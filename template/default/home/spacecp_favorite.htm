@@ -1,4 +1,4 @@
-﻿<!--{template common/header}-->
+<!--{template common/header}-->
 <!--{if !$_G[inajax]}-->
 	<div id="pt" class="bm cl">
 		<div class="z"><a href="./" class="nvhm" title="{lang homepage}"></a> <em>&rsaquo;</em> <a href="home.php">$_G[setting][navs][4][navname]</a></div>
@@ -23,7 +23,7 @@
 		</p>
 	</form>
 	<!--{if $_G[inajax] && $_GET[type]!='view'}-->
-	<script type="text/javascript">
+	<script>
 		function favorite_delete(favid) {
 			var el = $('fav_' + favid);
 			if(el) {
@@ -56,7 +56,7 @@
 		</p>
 	</form>
 	<!--{if $_G[inajax]}-->
-	<script type="text/javascript">
+	<script>
 		function favorite_delete(favid) {
 			var el = $('fav_' + favid);
 			if(el) {

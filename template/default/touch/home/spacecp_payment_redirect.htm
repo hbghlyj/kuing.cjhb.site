@@ -1,13 +1,13 @@
 <!--{template common/header}-->
 
 <!--{if $pay_channel == 'wechat'}-->
-<script type="text/javascript">
+<script>
     window.location.href = '{$pay_url}';
 </script>
 
 <!--{elseif $pay_channel == 'alipay'}-->
 
-<script type="text/javascript">
+<script>
     window.location.href = '{$pay_url}';
 </script>
 <!--{else}-->

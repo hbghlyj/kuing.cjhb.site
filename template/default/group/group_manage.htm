@@ -40,11 +40,11 @@
 					<tr>
 						<th>{lang group_description}</th>
 						<td>
-							<script type="text/javascript">
+							<script>
 								var allowbbcode = allowimgcode = parsetype = 1;
 								var allowhtml = forumallowhtml = allowsmilies = 0;
 							</script>
-							<script type="text/javascript" src="{$_G[setting][jspath]}bbcode.js?{VERHASH}"></script>
+							<script src="{$_G[setting][jspath]}bbcode.js?{VERHASH}"></script>
 							<div id="descriptionpreview"></div>
 							<div class="tedt">
 								<div class="bar">
@@ -157,7 +157,7 @@
 		<p class="emp">{lang group_no_member_moderated}</p>
 	<!--{/if}-->
 <!--{elseif $_GET['op'] == 'manageuser'}-->
-	<script type="text/javascript">
+	<script>
 		function groupManageUser(targetlevel_val) {
 			$('targetlevel').value = targetlevel_val;
 			$('manageuser').submit();

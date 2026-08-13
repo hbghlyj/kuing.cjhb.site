@@ -6,7 +6,7 @@
 		<li><a href="{$cpscript}?mod=modcp&action=recyclebin{$forcefid}" hidefocus="true">{lang mod_option_subject_recyclebin}</a></li>
 		<li><a href="{$cpscript}?mod=modcp&action=recyclebinpost{$forcefid}" hidefocus="true">{lang mod_option_subject_recyclebinpost}</a></li>
 	</ul>
-	<script type="text/javascript" src="{$_G[setting][jspath]}calendar.js?{VERHASH}"></script>
+	<script src="{$_G[setting][jspath]}calendar.js?{VERHASH}"></script>
 	<form method="post" autocomplete="off" action="{$cpscript}?mod=modcp&action=$_GET[action]&op=$op">
 		<input type="hidden" name="do" value="search">
 		<input type="hidden" name="formhash" value="{FORMHASH}">
@@ -135,7 +135,7 @@
 		<!--{/if}-->
 	<!--{/if}-->
 </div>
-<script type="text/javascript" reload="1">
+<script reload="1">
 	simulateSelect('fid');
 	simulateSelect('threadoption');
 	simulateSelect('posttableid');

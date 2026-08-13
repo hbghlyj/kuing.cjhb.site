@@ -1,4 +1,4 @@
-﻿<?php exit('Access Denied');?>
+<?php exit('Access Denied');?>
 <!--{template common/header}-->
 <div id="pt" class="bm cl">
 	<div class="y" style="margin-top: 5px; margin-right: 10px;">
@@ -59,7 +59,7 @@
 <!--{/if}-->
 </div>
 
-<script type="text/javascript">
+<script>
 	(function() {
 		const darkroommore = document.getElementById('darkroommore');
 

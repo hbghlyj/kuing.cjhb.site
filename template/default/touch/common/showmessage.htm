@@ -17,7 +17,7 @@
 		</p>
         <!--{/if}-->
 		<!--{if $url_forward && !$_GET['loc']}-->
-		<script type="text/javascript">
+		<script>
 			setTimeout(function() {
 				window.location.href = '$url_forward';
 			}, '3000');
@@ -44,7 +44,7 @@
 	<!--{if $url_forward}-->
 	<p><a href="$url_forward" class="grey">{lang message_forward_mobile}</a></p>
 	<!--{if !$_GET['loc']}-->
-	<script type="text/javascript">
+	<script>
 		setTimeout(function() {
 			window.location.href = '$url_forward';
 		}, '3000');

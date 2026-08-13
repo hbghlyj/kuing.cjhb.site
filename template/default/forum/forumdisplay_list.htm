@@ -22,7 +22,7 @@
 							<a href="javascript:;" onclick="checkForumnew_btn('{$_G['fid']}')" title="{lang showupgrade}" class="forumrefresh"></a>
 						<!--{/if}-->
 						<!--{if isset($_GET['filter']) && $_GET['filter'] == 'hot'}-->
-							<script type="text/javascript" src="{$_G[setting][jspath]}calendar.js?{VERHASH}"></script>
+							<script src="{$_G[setting][jspath]}calendar.js?{VERHASH}"></script>
 							<span>$ctime</span>
 							<em class="fico-search cur1 vm" alt="" id="hottime" value="$ctime" fid="$_G[fid]" onclick="showcalendar(event, this, false, false, false, false, function(){viewhot(this);});"></em>
 						<!--{/if}-->
@@ -52,7 +52,7 @@
 	</div>
 	<div class="bm_c">
 		<!--{if empty($_G['forum']['picstyle']) || $_G['cookie']['forumdefstyle']}-->
-			<script type="text/javascript">var lasttime = $_G['timestamp'];var listcolspan= '{if !$_GET['archiveid'] && $_G['forum']['ismoderator']}6{else}5{/if}';</script>
+			<script>var lasttime = $_G['timestamp'];var listcolspan= '{if !$_GET['archiveid'] && $_G['forum']['ismoderator']}6{else}5{/if}';</script>
 		<!--{/if}-->
 		<div id="forumnew" style="display:none"></div>
 		<form method="post" autocomplete="off" name="moderate" id="moderate" action="forum.php?mod=topicadmin&action=moderate&fid=$_G[fid]&infloat=yes&nopost=yes">
@@ -89,7 +89,7 @@
 										<th><!--{if empty($_G['forum']['picstyle']) && $_GET['orderby'] == 'lastpost' && !$_GET['filter']}--><a href="javascript:;" onclick="checkForumnew_btn('{$_G['fid']}')" title="{lang showupgrade}" class="forumrefresh">{lang forum_thread}</a><!--{else}-->&nbsp;<!--{/if}--></th><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
 									</tr>
 								</tbody>
-								<script type="text/javascript">hideStickThread();</script>
+								<script>hideStickThread();</script>
 							<!--{/if}-->
 							<!--{if $separatepos <= $key + 1}-->
 								<!--{ad/threadlist}-->
@@ -306,8 +306,8 @@
 							<!--{/loop}-->
 						</ul>
 						<div id="tmppic" style="display: none;"></div>
-						<script type="text/javascript" src="{$_G[setting][jspath]}redef.js?{VERHASH}"></script>
-						<script type="text/javascript" reload="1">
+						<script src="{$_G[setting][jspath]}redef.js?{VERHASH}"></script>
+						<script reload="1">
 						var wf = {};
 
 						_attachEvent(window, "load", function () {
@@ -464,7 +464,7 @@
 <!--{if $multipage && $filter != 'hot'}-->
 	<!--{if !($_G['forum']['picstyle'] && !$_G['cookie']['forumdefstyle'])}-->
 		<a class="bm_h" href="javascript:;" rel="$multipage_more" curpage="$page" id="autopbn" totalpage="$maxpage" picstyle="$_G['forum']['picstyle']" forumdefstyle="$_G['cookie']['forumdefstyle']">{lang next_page_extra}</a>
-		<script type="text/javascript" src="{$_G[setting][jspath]}autoloadpage.js?{VERHASH}"></script>
+		<script src="{$_G[setting][jspath]}autoloadpage.js?{VERHASH}"></script>
 	<!--{else}-->
 		<div id="pgbtn" class="pgbtn"><a href="$multipage_more" hidefocus="true">{lang next_page_extra}</a></div>
 	<!--{/if}-->

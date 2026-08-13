@@ -140,7 +140,7 @@
 	</div>
 	<!--{/if}-->
 </div>
-<script type="text/javascript">
+<script>
 document.querySelectorAll('.header-user, .header-notice, .header-i18n, .header-client').forEach(function(element) {
 	if(element.classList.contains('header-notice')) {
 		var noticeMenu = element.querySelector('#myprompt_menu');

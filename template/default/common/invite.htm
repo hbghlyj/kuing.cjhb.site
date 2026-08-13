@@ -1,4 +1,4 @@
-﻿<!--{template common/header}-->
+<!--{template common/header}-->
 <!--{if !$_G['inajax']}-->
 <div id="pt" class="bm cl">
 	<div class="z"><a href="./" class="nvhm" title="{lang homepage}"></a> <em>&rsaquo;</em> {lang invite}</div>
@@ -22,7 +22,7 @@
 					<li>
 						<p>{lang invite_orderby_name}</p>
 						<p class="mtn"><input type="text" name="username" size="25" id="username" class="px" value="" autocomplete="off" /> <button class="pn pnc" onclick="clearlist=1;getUser();"><span>{lang find}</span></button></p>
-						<script type="text/javascript">
+						<script>
 							var invitefs;
 							var clearlist = 0;
 						</script>
@@ -50,7 +50,7 @@
 				</div>
 			</div>
 			<ul class="usl cl{if empty($_G['inajax'])} usl2{/if}" id="friends"></ul>
-			<script type="text/javascript" reload="1">
+			<script reload="1">
 				var page = 1;
 				var gid = -1;
 				var showNum = 0;

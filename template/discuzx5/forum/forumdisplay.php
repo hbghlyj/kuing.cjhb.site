@@ -2,7 +2,7 @@
 <!--{template common/header}-->
 
 <!--{if $_G['forum']['ismoderator']}-->
-	<script type="text/javascript" src="{$_G[setting][jspath]}forum_moderate.js?{VERHASH}"></script>
+	<script src="{$_G[setting][jspath]}forum_moderate.js?{VERHASH}"></script>
 <!--{/if}-->
 <style id="diy_style" type="text/css"></style>
 <!--[diy=diynavtop]--><div id="diynavtop" class="area"></div><!--[/diy]-->
@@ -274,7 +274,7 @@
 						<div id="online_forum_panel" class="bm_c" data-loaded="0" data-expanded="<!--{if $detailstatus}-->1<!--{else}-->0<!--{/if}-->"<!--{if !$detailstatus}--> hidden<!--{/if}-->>
 							<ul id="whosonline_list_container" class="ml mls cl"><li style="width:auto">{lang m_loading}</li></ul>
 						</div>
-						<script type="text/javascript">
+						<script>
 							if(!document.getElementById('online_forum_panel').hidden) {
 								toggleOnlinePanel('online_forum_panel', 'onlineforum', null, '{lang online_list_load_error}');
 							}
@@ -316,11 +316,11 @@
 <!--{/if}-->
 
 <!--{if $_G['setting']['threadmaxpages'] > 1 && $page && !$subforumonly}-->
-	<script type="text/javascript">document.onkeyup = function(e){keyPageScroll(e, <!--{if $page > 1}-->1<!--{else}-->0<!--{/if}-->, <!--{if $page < $_G['setting']['threadmaxpages'] && isset($_G['page_next']) && $page < $_G['page_next']}-->1<!--{else}-->0<!--{/if}-->, 'forum.php?mod=forumdisplay&fid={$_G[fid]}&filter={$filter}&orderby={$_GET[orderby]}{$forumdisplayadd[page]}&{$multipage_archive}', $page);}</script>
+	<script>document.onkeyup = function(e){keyPageScroll(e, <!--{if $page > 1}-->1<!--{else}-->0<!--{/if}-->, <!--{if $page < $_G['setting']['threadmaxpages'] && isset($_G['page_next']) && $page < $_G['page_next']}-->1<!--{else}-->0<!--{/if}-->, 'forum.php?mod=forumdisplay&fid={$_G[fid]}&filter={$filter}&orderby={$_GET[orderby]}{$forumdisplayadd[page]}&{$multipage_archive}', $page);}</script>
 <!--{/if}-->
 
 <!--{if empty($_G['forum']['picstyle']) && $_GET['orderby'] == 'lastpost' && empty($_GET['filter']) }-->
-	<script type="text/javascript">checkForumnew_handle = setTimeout(function () {checkForumnew($_G[fid], lasttime);}, checkForumtimeout);</script>
+	<script>checkForumnew_handle = setTimeout(function () {checkForumnew($_G[fid], lasttime);}, checkForumtimeout);</script>
 <!--{/if}-->
 <div class="wp mtn">
 	<!--[diy=diy3]--><div id="diy3" class="area"></div><!--[/diy]-->

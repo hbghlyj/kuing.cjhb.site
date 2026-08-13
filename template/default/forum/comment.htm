@@ -25,7 +25,7 @@
 				<div class="area">
 					<textarea rows="2" cols="50" name="message" id="commentmessage" onKeyUp="updatePostCommentLength(this)" onKeyDown="seditor_ctlent(event, '$(\'commentsubmit\').click();')" class="pt" style="overflow: auto"></textarea>
 				</div>
-				<script type="text/javascript" reload="1">
+				<script reload="1">
 				<!--{if $commentitem}-->
 					var items = itemrow = itemcmm = '';
 					<!--{eval $items = range(0, 5);$itemlang = array('{lang comment_1}', '{lang comment_2}', '{lang comment_3}', '{lang comment_4}', '{lang comment_5}', '{lang comment_6}');$i = $cmm = 0;}-->

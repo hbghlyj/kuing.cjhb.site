@@ -1,4 +1,4 @@
-<script type="text/javascript" src="{$_G[setting][jspath]}forum_moderate.js?{VERHASH}"></script>
+<script src="{$_G[setting][jspath]}forum_moderate.js?{VERHASH}"></script>
 <div class="bm bw0 mdcp">
 	<h1 class="mt">{lang mod_option_subject}</h1>
 	<ul class="tb cl">
@@ -7,7 +7,7 @@
 		<li class="a"><a href="{$cpscript}?mod=modcp&action=recyclebin{$forcefid}" hidefocus="true">{lang mod_option_subject_recyclebin}</a></li>
 		<li><a href="{$cpscript}?mod=modcp&action=recyclebinpost{$forcefid}" hidefocus="true">{lang mod_option_subject_recyclebinpost}</a></li>
 	</ul>
-	<script type="text/javascript" src="{$_G[setting][jspath]}calendar.js?{VERHASH}"></script>
+	<script src="{$_G[setting][jspath]}calendar.js?{VERHASH}"></script>
 	<div class="datalist">
 		<form method="post" autocomplete="off" action="{$cpscript}?mod=modcp&action=$_GET[action]&op=search">
 			<input type="hidden" name="formhash" value="{FORMHASH}">
@@ -194,7 +194,7 @@
 		<!--{if !$total}-->
 			<p class="emp">{lang modcp_thread_msg}</p>
 		<!--{/if}-->
-		<script type="text/javascript">
+		<script>
 			function modthreads(operation) {
 				document.moderate.op.value = operation;
 				document.moderate.submit();
@@ -205,7 +205,7 @@
 		<p class="xi1">{lang modcp_forum_select_msg}</p>
 	<!--{/if}-->
 </div>
-<script type="text/javascript" reload="1">
+<script reload="1">
 	simulateSelect('fid');
 	simulateSelect('typeid');
 	simulateSelect('threadoption');

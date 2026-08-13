@@ -6,8 +6,8 @@
 </div>
 
 <!--{if $_G['forum']['ismoderator']}-->
-	<script type="text/javascript">var fid = parseInt('$_G[fid]'), tid = parseInt('$_G[tid]');</script>
-	<script type="text/javascript" src="{$_G['setting']['jspath']}forum_moderate.js?{VERHASH}"></script>
+	<script>var fid = parseInt('$_G[fid]'), tid = parseInt('$_G[tid]');</script>
+	<script src="{$_G['setting']['jspath']}forum_moderate.js?{VERHASH}"></script>
 	<form method="post" autocomplete="off" name="modactions" id="modactions">
 	<input type="hidden" name="formhash" value="{FORMHASH}" />
 	<input type="hidden" name="optgroup" />
@@ -244,7 +244,7 @@
 </div>
 
 <!--{if !IS_ROBOT && !empty($_G['setting']['lazyload'])}-->
-	<script type="text/javascript">
+	<script>
 	new lazyload();
 	</script>
 <!--{/if}-->

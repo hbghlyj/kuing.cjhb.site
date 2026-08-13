@@ -1,9 +1,9 @@
 <?PHP exit('Access Denied');?>
 <link rel="stylesheet" type="text/css" href='{$_G['setting']['csspath']}{STYLEID}_editor.css?{VERHASH}' />
-<script type="text/javascript" src="{$_G['setting']['jspath']}editor.js?{VERHASH}"></script>
-<script type="text/javascript" src="{$_G['setting']['jspath']}bbcode.js?{VERHASH}"></script>
-<script type="text/javascript" src="data/cache/common_postimg.js?{VERHASH}"></script>
-<script type="text/javascript">
+<script src="{$_G['setting']['jspath']}editor.js?{VERHASH}"></script>
+<script src="{$_G['setting']['jspath']}bbcode.js?{VERHASH}"></script>
+<script src="data/cache/common_postimg.js?{VERHASH}"></script>
+<script>
 	var editorid = '$editorid';
 	var textobj = $(editorid + '_textarea');
 	var wysiwyg = (BROWSER.ie || BROWSER.firefox || (BROWSER.opera >= 9)) && parseInt('$editor['editormode']') == 1 ? 1 : 0;

@@ -180,7 +180,7 @@
 		<dd><input type="button" onclick="popup.close();" value="{lang confirms}" /></dd>
 <!--{/if}-->
 </div>
-<script type="text/javascript" reload="1">
+<script reload="1">
 if(getID('copyto')) {
 	ajaxget('forum.php?mod=ajax&action=getthreadtypes&fid=' + getID('copyto').value + '&selectclass=sort_sel', 'threadtypes', null, null, null, function() {if(typeof window.initAllSortSel == 'function') {window.initAllSortSel(getID('threadtypes'));}});
 }

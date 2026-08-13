@@ -52,7 +52,7 @@
         </div>
 
     </form>
-    <script type="text/javascript">
+    <script>
         function memcp_sendseccode() {
             memcp_svctype = 1;
             memcp_email = document.getElementById("email").value;

@@ -26,7 +26,7 @@
 	</div>
 </form>
 <!--{if !empty($_GET['infloat'])}-->
-<script type="text/javascript" reload="1">
+<script reload="1">
 function succeedhandle_$_GET['handlekey'](locationhref, message, values) {
 	var post = $('pid' + values.pid);
 	if(post) {

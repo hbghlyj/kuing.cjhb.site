@@ -1,6 +1,6 @@
 <!--{if $_G['forum']['recommendlist']['images'] && $_G['forum']['modrecommend']['imagenum']}-->
 	<div class="cl" style="width: {$_G[forum][modrecommend][imagewidth]}px; margin: 0 auto; float:left;">
-		<script type="text/javascript">
+		<script>
 		var slideSpeed = 5000;
 		var slideImgsize = [{$_G[forum][modrecommend][imagewidth]},{$_G['forum'][modrecommend][imageheight]}];
 		var slideBorderColor = '{$_G['style']['specialborder']}';
@@ -17,7 +17,7 @@
 			slideImgTexts[<!--{echo $k+1}-->] = '$imginfo[subject]';
 		<!--{/loop}-->
 		</script>
-		<script language="javascript" type="text/javascript" src="{$_G[setting][jspath]}forum_slide.js?{VERHASH}"></script>
+		<script language="javascript" src="{$_G[setting][jspath]}forum_slide.js?{VERHASH}"></script>
 	</div>
 <!--{/if}-->
 <div class="cl"{if $_G['forum']['recommendlist']['images'] && $_G['forum']['modrecommend']['imagenum']} style="margin-left: {$_G[forum][modrecommend][imagewidth]}px; padding-left: 20px;"{/if}>

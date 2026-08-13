@@ -14,7 +14,7 @@
 							<div id="separatorline" class="forumportal_separator">
 								<!--{if empty($_G['forum']['picstyle']) && $_GET['orderby'] == 'lastpost' && !$_GET['filter']}--><a href="javascript:;" onclick="checkForumnew_btn('{$_G['fid']}')" title="{lang showupgrade}" class="forumrefresh">{lang forum_thread}</a><!--{/if}-->
 							</div>
-							<script type="text/javascript">hideStickThread();</script>
+							<script>hideStickThread();</script>
 						<!--{/if}-->
 						<!--{if $separatepos <= $key + 1}-->
 							<!--{ad/threadlist}-->

@@ -28,7 +28,7 @@
 	<span class="cur1 xi2" onclick="deleteAttach('$attach['attachid']', 'portal.php?mod=attachment&id=$attach['attachid']&op=delete&formhash={FORMHASH}');">{lang delete}</span>
 
 <!--{/if}-->
-<script type="text/javascript">
+<script>
 	parent.$('attach_ids').value += ',' + '$attach['attachid']';
 	<!--{if $coverstr}-->
 		if(parent.$('conver').value == '') {

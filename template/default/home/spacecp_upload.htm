@@ -44,7 +44,7 @@
 				<div class="hm"><span id="imgSpanButtonPlaceholder"></span></div>
 				<!--{if empty($_G['setting']['pluginhooks']['spacecp_upload_extend'])}-->
 					<!--{subtemplate common/upload}-->
-					<script type="text/javascript">
+					<script>
 						var upload = new DiscuzUploader({
 							// Backend Settings
 							upload_url: "{$_G[siteurl]}misc.php?mod=upload&operation=album",
@@ -93,7 +93,7 @@
 
 			</div>
 
-				<script type="text/javascript">
+				<script>
 					var check = false;
 					no_insert = 1;
 					function a_addOption() {
@@ -206,7 +206,7 @@
 				</div>
 			</form>
 
-			<script type="text/javascript">
+			<script>
 				<!--{if empty($albums)}-->
 					if(typeof $('albumname') == 'object') {
 						$('albumname').select();

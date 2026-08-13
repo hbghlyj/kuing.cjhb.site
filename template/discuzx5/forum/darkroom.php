@@ -60,7 +60,7 @@
 <!--{/if}-->
 </div>
 
-<script type="text/javascript">
+<script>
 	(function() {
 	 if($('darkroommore')) {
 		$('darkroommore').onclick = function() {

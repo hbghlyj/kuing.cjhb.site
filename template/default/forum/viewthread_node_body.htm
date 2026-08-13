@@ -129,7 +129,7 @@
 				<!--{if $post['imagelist'] && $_G['setting']['imagelistthumb'] && $post['imagelistcount'] >= $_G['setting']['imagelistthumb']}-->
 					<!--{if !isset($imagelistkey)}-->
 						<!--{eval $imagelistkey = rawurlencode(dsign($_G['tid'].'|100|100'))}-->
-						<script type="text/javascript" reload="1">var imagelistkey = '$imagelistkey';</script>
+						<script reload="1">var imagelistkey = '$imagelistkey';</script>
 					<!--{/if}-->
 					<!--{eval $post['imagelistthumb'] = true;}-->
 					<div class="bbda cl mtw mbm pbm">
@@ -166,7 +166,7 @@
 			</div>
 			<div id="vfastpostseccheck"></div>				
 			</form>
-			<script type="text/javascript">vmessage();</script>
+			<script>vmessage();</script>
 		<!--{/if}-->
 		
 	</div>

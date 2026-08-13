@@ -16,8 +16,8 @@
 		var headers = $headers, admincpfilename = {echo json_encode($basescript)}, admincpextra = {echo json_encode($extra)};
 		var ADMIN_COLOR_VARS = ['--root-base-value'];
 	</script>
-	<script src="{echo $_G['setting']['jscachepath'] ?: 'data/cache/';}lang_{echo currentlang();}.js?{$_G['style']['verhash']}" type="text/javascript"></script>
-	<script src="{$_G['setting']['jspath']}common.js?{$_G['style']['verhash']}" type="text/javascript"></script>
+	<script src="{echo $_G['setting']['jscachepath'] ?: 'data/cache/';}lang_{echo currentlang();}.js?{$_G['style']['verhash']}"></script>
+	<script src="{$_G['setting']['jspath']}common.js?{$_G['style']['verhash']}"></script>
 </head>
 <body>
 <div id="append_parent"></div><div id="ajaxwaitid" style="display:none"></div>
@@ -143,7 +143,7 @@ $shownotice
 	{/if}
 	var defaultUrl = '{ADMINSCRIPT}?action=index&blank';
 </script>
-<script src="{$_G['setting']['jspath']}admincp_frame.js?{$_G['style']['verhash']}" type="text/javascript"></script>
+<script src="{$_G['setting']['jspath']}admincp_frame.js?{$_G['style']['verhash']}"></script>
 <script>
 	init_darkmode();
 </script>

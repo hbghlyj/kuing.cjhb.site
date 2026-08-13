@@ -60,17 +60,17 @@
 			<li class="flex-box mli mtext">
 				<!--{if !empty($trade['ordinaryfee'])}-->
 				<div class="flex-2 xs1">
-					<label class="pl5"><input class="pr" type="radio" name="fee" value="1" checked="checked" {if $trade['transport'] == 2}onclick="feevalue = $trade['ordinaryfee'];calcsum()"{/if} />{lang post_trade_transport_mail} $trade['ordinaryfee'] {lang payment_unit}</label><!--{if $trade['transport'] == 2}--><script type="text/javascript">feevalue = $trade['ordinaryfee']</script><!--{/if}-->
+					<label class="pl5"><input class="pr" type="radio" name="fee" value="1" checked="checked" {if $trade['transport'] == 2}onclick="feevalue = $trade['ordinaryfee'];calcsum()"{/if} />{lang post_trade_transport_mail} $trade['ordinaryfee'] {lang payment_unit}</label><!--{if $trade['transport'] == 2}--><script>feevalue = $trade['ordinaryfee']</script><!--{/if}-->
 				</div>
 				<!--{/if}-->
 				<!--{if !empty($trade['expressfee'])}-->
 				<div class="flex-2 xs1">
-					<label class="pl5"><input class="pr" type="radio" name="fee" value="3" checked="checked" {if $trade['transport'] == 2}onclick="feevalue = $trade['expressfee'];calcsum()"{/if} />{lang post_trade_transport_express} $trade['expressfee'] {lang payment_unit}</label><!--{if $trade['transport'] == 2}--><script type="text/javascript">feevalue = $trade['expressfee']</script><!--{/if}-->
+					<label class="pl5"><input class="pr" type="radio" name="fee" value="3" checked="checked" {if $trade['transport'] == 2}onclick="feevalue = $trade['expressfee'];calcsum()"{/if} />{lang post_trade_transport_express} $trade['expressfee'] {lang payment_unit}</label><!--{if $trade['transport'] == 2}--><script>feevalue = $trade['expressfee']</script><!--{/if}-->
 				</div>
 				<!--{/if}-->
 				<!--{if !empty($trade['emsfee'])}-->
 				<div class="flex-2 xs1">
-					<label class="pl5"><input class="pr" type="radio" name="fee" value="2" checked="checked" {if $trade['transport'] == 2}onclick="feevalue = $trade['emsfee'];calcsum()"{/if} /> EMS $trade['emsfee'] {lang payment_unit}</label><!--{if $trade['transport'] == 2}--><script type="text/javascript">feevalue = $trade['emsfee']</script><!--{/if}-->
+					<label class="pl5"><input class="pr" type="radio" name="fee" value="2" checked="checked" {if $trade['transport'] == 2}onclick="feevalue = $trade['emsfee'];calcsum()"{/if} /> EMS $trade['emsfee'] {lang payment_unit}</label><!--{if $trade['transport'] == 2}--><script>feevalue = $trade['emsfee']</script><!--{/if}-->
 				</div>
 				<!--{/if}-->
 			</li>
@@ -136,7 +136,7 @@
 		<!--{/if}-->
 	</form>
 	</div>
-	<script type="text/javascript">
+	<script>
 	zoomstatus = parseInt($_G['setting']['zoomstatus']);
 	var feevalue = 0;
 	<!--{if $trade['price'] > 0}-->var price = $trade['price'];<!--{/if}-->

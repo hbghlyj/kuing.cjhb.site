@@ -145,7 +145,7 @@
 				<!--{/if}-->
 				[<a href="javascript:;" onclick="setCopy($('group_link').href, '{lang group_url_copy_finished}')" class="xi2">{lang copy}</a>]
 			</p>
-			<script type="text/javascript">$('group_link').innerHTML = $('group_link').href</script>
+			<script>$('group_link').innerHTML = $('group_link').href</script>
 			<p class="ptn xg1">$_G[forum][foundername] {lang create_on} $_G[forum][dateline]</p>
 			<!--{if $status == 'isgroupuser'}--><p class="ptn"><form action="forum.php?mod=group&action=out&fid=$_G[fid]" id="groupexitform_{$_G['fid']}" method="post" autocomplete="off"><input type="hidden" name="formhash" value="{FORMHASH}"><input type="hidden" name="groupexit" value="1"><button type="button" onclick="showDialog('{lang group_exit_confirm}', 'confirm', '', function(){$('groupexitform_{$_G['fid']}').submit();});doane();" class="pn"><strong>{lang group_exit}</strong></button></form><p><!--{/if}-->
 		</div>

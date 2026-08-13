@@ -1,4 +1,4 @@
-﻿<!--{template common/header}-->
+<!--{template common/header}-->
 
 <!--{if !$_G[inajax]}-->
 <div id="pt" class="bm cl">
@@ -50,7 +50,7 @@
 					<button type="submit" name="friendsubmit_btn" class="pn pnc" value="true"><strong>{lang determine}</strong></button>
 				</p>
 			</form>
-			<script type="text/javascript">
+			<script>
 				function succeedhandle_{$_GET[handlekey]}(url, msg, values) {
 					if(values['from'] == 'notice') {
 						deleteQueryNotice(values['uid'], 'pendingFriend');
@@ -143,7 +143,7 @@
 					<button type="submit" name="changenumsubmit" class="pn pnc" value="true"><strong>{lang determine}</strong></button>
 				</p>
 			</form>
-			<script type="text/javascript" reload="1">
+			<script reload="1">
 				function succeedhandle_$_GET[handlekey](url, msg, values) {
 					friend_delete(values['uid']);
 					$('spannum_'+values['fid']).innerHTML = values['num'];
@@ -175,7 +175,7 @@
 					<button type="submit" name="changegroupsubmit_btn" class="pn pnc" value="true"><strong>{lang determine}</strong></button>
 				</p>
 			</form>
-			<script type="text/javascript">
+			<script>
 				function succeedhandle_$_GET[handlekey](url, msg, values) {
 					friend_changegroup(values['gid']);
 				}
@@ -200,7 +200,7 @@
 					<button type="submit" name="editnotesubmit_btn" class="pn pnc" value="true"><strong>{lang determine}</strong></button>
 				</p>
 			</form>
-			<script type="text/javascript">
+			<script>
 				function succeedhandle_$_GET[handlekey](url, msg, values) {
 					var uid=values['uid'];
 					var elem = $('friend_note_'+uid);
@@ -271,7 +271,7 @@
 						<button type="submit" name="groupnamesubmit_btn" value="true" class="pn pnc"><strong>{lang determine}</strong></button>
 					</p>
 				</form>
-				<script type="text/javascript">
+				<script>
 					function succeedhandle_$_GET[handlekey](url, msg, values) {
 						friend_changegroupname(values['gid']);
 					}
@@ -448,7 +448,7 @@
 					<button type="submit" name="add2submit_btn" value="true" class="pn pnc"><strong>{lang approval}</strong></button>
 				</p>
 			</form>
-			<script type="text/javascript">
+			<script>
 				function succeedhandle_$_GET[handlekey](url, msg, values) {
 					if(values['from'] == 'notice') {
 						deleteQueryNotice(values['uid'], 'pendingFriend');

@@ -8,15 +8,15 @@
 body 	   {margin: 10px 80px;}
 body,table {font-size: {$_G['style']['fontsize']}; font-family: {$_G['style']['font']};}
 </style>
-<script type="text/javascript">var STYLEID = '{STYLEID}', STATICURL = '{STATICURL}', IMGDIR = '{IMGDIR}', VERHASH = '{VERHASH}', charset = '{CHARSET}', discuz_uid = '$_G[uid]', cookiepre = '{$_G[config][cookie][cookiepre]}', cookiedomain = '{$_G[config][cookie][cookiedomain]}', cookiepath = '{$_G[config][cookie][cookiepath]}', showusercard = '{$_G[setting][showusercard]}', attackevasive = '{$_G[config][security][attackevasive]}', disallowfloat = '{$_G[setting][disallowfloat]}', creditnotice = '<!--{if $_G['setting']['creditnotice']}-->$_G['setting']['creditnames']<!--{/if}-->', defaultstyle = '$_G[style][defaultextstyle]', REPORTURL = '$_G[currenturl_encode]', SITEURL = '$_G[siteurl]', JSPATH = '$_G[setting][jspath]';</script>
-<script type="text/javascript" src="{echo $_G['setting']['jscachepath'] ?: 'data/cache/';}lang_{echo currentlang();}.js?{VERHASH}"></script>
-<script type="text/javascript" src="{$_G['setting']['jspath']}common.js?{VERHASH}"></script>
-<script type="text/javascript" src="{$_G['setting']['jspath']}forum_viewthread.js?{VERHASH}"></script>
+<script>var STYLEID = '{STYLEID}', STATICURL = '{STATICURL}', IMGDIR = '{IMGDIR}', VERHASH = '{VERHASH}', charset = '{CHARSET}', discuz_uid = '$_G[uid]', cookiepre = '{$_G[config][cookie][cookiepre]}', cookiedomain = '{$_G[config][cookie][cookiedomain]}', cookiepath = '{$_G[config][cookie][cookiepath]}', showusercard = '{$_G[setting][showusercard]}', attackevasive = '{$_G[config][security][attackevasive]}', disallowfloat = '{$_G[setting][disallowfloat]}', creditnotice = '<!--{if $_G['setting']['creditnotice']}-->$_G['setting']['creditnames']<!--{/if}-->', defaultstyle = '$_G[style][defaultextstyle]', REPORTURL = '$_G[currenturl_encode]', SITEURL = '$_G[siteurl]', JSPATH = '$_G[setting][jspath]';</script>
+<script src="{echo $_G['setting']['jscachepath'] ?: 'data/cache/';}lang_{echo currentlang();}.js?{VERHASH}"></script>
+<script src="{$_G['setting']['jspath']}common.js?{VERHASH}"></script>
+<script src="{$_G['setting']['jspath']}forum_viewthread.js?{VERHASH}"></script>
 </head>
 
 <body>
 <b>{lang subject}: </b>$_G[forum_thread][subject] <b><a href="###" onclick="this.style.visibility='hidden';window.print();this.style.visibility='visible'">[{lang thread_print}]</a></b><br />
-<script type="text/javascript">var zoomstatus = 0;var aimgcount = new Array();</script>
+<script>var zoomstatus = 0;var aimgcount = new Array();</script>
 <!--{loop $postlist $post}-->
 	<hr noshade size="2" width="100%" color="#808080">
 	<b>{lang author}: </b><!--{if $post['author'] && !$post['anonymous']}-->$post[author]<!--{else}-->{$_G['setting']['anonymoustext']}<!--{/if}-->&nbsp; &nbsp; <b>{lang time}: </b>$post[dateline]
@@ -38,7 +38,7 @@ body,table {font-size: {$_G['style']['fontsize']}; font-family: {$_G['style']['f
 		<!--{/if}-->
 	<!--{/if}-->
 	<!--{if !empty($aimgs[$post[pid]])}-->
-	<script type="text/javascript" reload="1">
+	<script reload="1">
 		aimgcount[{$post[pid]}] = [<!--{echo dimplode($aimgs[$post[pid]]);}-->];
 		attachimggroup($post['pid']);
 		<!--{if empty($_G['setting']['lazyload'])}-->

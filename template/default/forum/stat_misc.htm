@@ -1,4 +1,4 @@
-﻿<!--{template common/header}-->
+<!--{template common/header}-->
 <div id="pt" class="bm cl">
 	<div class="z">
 		<a href="./" class="nvhm" title="{lang homepage}"></a><em>&rsaquo;</em>
@@ -79,7 +79,7 @@
 				<script src="{STATICURL}js/echarts/echarts.common.min.js"></script>
 				<script src="{$_G['setting']['jspath']}stat.js"></script>
 				<div id="statchart"></div>
-				<script type="text/javascript">drawstatchart('{$statuspara}');</script>
+				<script>drawstatchart('{$statuspara}');</script>
 				<!--{if $logs}-->
 				<table summary="{lang stats_forum_stat_log}" class="dt bm mtw mbw">
 					<tr>
@@ -118,7 +118,7 @@
 					$link
 					<!--{/loop}-->
 					<li>
-						<script src="{$_G[setting][jspath]}calendar.js?{VERHASH}" type="text/javascript"></script>
+						<script src="{$_G[setting][jspath]}calendar.js?{VERHASH}"></script>
 						<form action="misc.php?mod=stat&op=modworks&uid=$uid" method="post">
 							<input type="hidden" name="formhash" value="{FORMHASH}" />
 							{lang stats_modworks_timerange}: <input type="text" name="modworks_starttime" class="px vm" size="10" onclick="showcalendar(event, this, false)" autocomplete="off" /> {lang stats_modworks_to} <input type="text" name="modworks_endtime" class="px vm" size="10" onclick="showcalendar(event, this, false)" autocomplete="off" />
@@ -177,7 +177,7 @@
 					$link
 					<!--{/loop}-->
 					<li>
-						<script src="{$_G[setting][jspath]}calendar.js?{VERHASH}" type="text/javascript"></script>
+						<script src="{$_G[setting][jspath]}calendar.js?{VERHASH}"></script>
 						<form action="misc.php?mod=stat&op=modworks" method="post">
 							<input type="hidden" name="formhash" value="{FORMHASH}" />
 							{lang stats_modworks_timerange}: <input type="text" name="modworks_starttime" class="px vm" size="10" onclick="showcalendar(event, this, false)" autocomplete="off" /> {lang stats_modworks_to} <input type="text" name="modworks_endtime" class="px vm" size="10" onclick="showcalendar(event, this, false)" autocomplete="off" />

@@ -39,14 +39,14 @@
 					<!--{/if}-->
 					<iframe id="downloadframe" name="downloadframe" width="0" height="0" marginwidth="0" frameborder="0" src="about:blank"></iframe>
 
-					<script type="text/javascript">
+					<script>
 						function succeedhandle_attachpay(url, msg, values) {
 							hideWindow('attachpay');
 							window.location.href = url;
 						}
 					</script>
 					<!--{if is_array($list['feed']) && count($list['feed']) > 19 && ($archiver || $primary)}-->
-						<script type="text/javascript">
+						<script>
 							var scrollY = 0;
 							var page = 2;
 							var feedInfo = {scrollY: 0, archiver: $archiver, primary: $primary, query: true, scrollNum:1};
@@ -228,7 +228,7 @@
 	<!--{/if}-->
 </div>
 
-<script type="text/javascript">
+<script>
 	var boxflag = {};
 	var parentReplyId = '';
 	function quickreply(fid, tid, feedid) {

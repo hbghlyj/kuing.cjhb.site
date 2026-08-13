@@ -1,8 +1,8 @@
-﻿<!--{template common/header}-->
+<!--{template common/header}-->
 <!--[name]{lang portalcategory_viewtplname}[/name]-->
 
-<script type="text/javascript" src="{$_G['setting']['jspath']}forum_viewthread.js?{VERHASH}"></script>
-<script type="text/javascript">zoomstatus = parseInt($_G['setting']['zoomstatus']), imagemaxwidth = '{$_G['setting']['imagemaxwidth']}', aimgcount = new Array();</script>
+<script src="{$_G['setting']['jspath']}forum_viewthread.js?{VERHASH}"></script>
+<script>zoomstatus = parseInt($_G['setting']['zoomstatus']), imagemaxwidth = '{$_G['setting']['imagemaxwidth']}', aimgcount = new Array();</script>
 <div id="pt" class="bm cl">
 	<div class="z">
 		<a href="./" class="nvhm" title="{lang homepage}"></a> <em>&rsaquo;</em>
@@ -77,7 +77,7 @@
 				<!--{/if}-->
 				<!--[diy=diycontentbottom]--><div id="diycontentbottom" class="area"></div><!--[/diy]-->
 
-				<script type="text/javascript" src="{$_G[setting][jspath]}home.js?{VERHASH}"></script>
+				<script src="{$_G[setting][jspath]}home.js?{VERHASH}"></script>
 				<div id="click_div">
 					<!--{template home/space_click}-->
 				</div>
@@ -99,7 +99,7 @@
 
 			</div>
 			<!--{if !empty($aimgs[$content[pid]])}-->
-				<script type="text/javascript" reload="1">aimgcount[{$content[pid]}] = [<!--{echo implode(',', $aimgs[$content[pid]]);}-->];attachimgshow($content[pid]);</script>
+				<script reload="1">aimgcount[{$content[pid]}] = [<!--{echo implode(',', $aimgs[$content[pid]]);}-->];attachimgshow($content[pid]);</script>
 			<!--{/if}-->
 
 			<!--{if !empty($_G['setting']['pluginhooks']['view_share_method'])}-->
@@ -221,7 +221,7 @@
 </div>
 
 <!--{if $_G['relatedlinks']}-->
-	<script type="text/javascript">
+	<script>
 		var relatedlink = [];
 		<!--{loop $_G['relatedlinks'] $key $link}-->
 		relatedlink.push({'sname':'$link[name]', 'surl':'$link[url]'});

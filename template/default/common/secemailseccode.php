@@ -17,7 +17,7 @@
             <button type="submit" name="funcsubmit_btn" class="btn pn pnc" ><strong>{lang confirms}</strong></button>
 		</p>
 	</form>
-	<script type="text/javascript">
+	<script>
 		function succeedhandle_$_GET['handlekey'](url, msg, values) {
 			disable_sendsecbtn();
 		}

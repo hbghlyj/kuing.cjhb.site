@@ -1,7 +1,7 @@
 <!--{block creditstring}--><!--{loop $postattachcredits $id $credit}--><!--{if $credit != ''}-->{$_G['setting']['extcredits'][$id][title]} <!--{if $credit >= 0}-->+$credit<!--{else}-->$credit<!--{/if}--> {$_G['setting']['extcredits'][$id][unit]} &nbsp;<!--{/if}--><!--{/loop}--><!--{/block}-->
 
 
-<script type="text/javascript">
+<script>
 	function switchImagebutton(btn) {
 		switchButton(btn, 'image');
 		$(editorid + '_image_menu').style.height = '';
@@ -133,7 +133,7 @@
 
 				<div class="fieldset flash" id="imgUploadProgress"></div>
 
-				<script type="text/javascript">
+				<script>
 					function createNewAlbum() {
 						var inputObj = $('newalbum');
 						if(inputObj.value == '' || inputObj.value == '{lang input_album_name}') {
@@ -331,7 +331,7 @@
 
 <iframe name="attachframe" id="attachframe" style="display: none;" onload="uploadNextAttach();"></iframe>
 
-<script type="text/javascript">
+<script>
 	if(wysiwyg) {
 		newEditor(1, bbcode2html(textobj.value), textobj.value);
 	} else {

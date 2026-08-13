@@ -1,4 +1,4 @@
-﻿<!--{template common/header}-->
+<!--{template common/header}-->
 
 <!--{if !$_G[inajax]}-->
 <div id="pt" class="bm cl">
@@ -86,7 +86,7 @@
 			</div>
 		<!--{/if}-->
 		<!--{if $_G[inajax]}-->
-			<script type="text/javascript">
+			<script>
 				function succeedhandle_$_GET[handlekey](url, msg, values) {
 					if($('pmlist_'+values['plid'])) {
 						$('pmlist_'+values['plid']).style.display = 'none';
@@ -233,7 +233,7 @@
 				<!--{/loop}-->
 				<!--{/loop}-->
 			</ul>
-			<script type="text/javascript">
+			<script>
 			var refresh = true;
 			var refreshHandle = -1;
 			</script>
@@ -254,7 +254,7 @@
 						<div class="area">
 							<textarea rows="3" cols="80" name="message" class="pt" id="pmmessage" onkeydown="ctrlEnter(event, 'pmsubmit_btn');" autofocus></textarea>
 							<input type="hidden" name="messageappend" id="messageappend" value="$messageappend" />
-							<script type="text/javascript">$('pmmessage').focus();</script>
+							<script>$('pmmessage').focus();</script>
 						</div>
 					</div>
 					<div class="mtn pns cl">
@@ -264,9 +264,9 @@
 	 					</div>
 					</div>
 				</form>
-				<script type="text/javascript">var forumallowhtml = 0,allowhtml = 0,allowsmilies = true,allowbbcode = parseInt('{$_G[group][allowsigbbcode]}'),allowimgcode = parseInt('{$_G[group][allowsigimgcode]}');var DISCUZCODE = [];DISCUZCODE['num'] = '-1';DISCUZCODE['html'] = [];</script>
-				<script type="text/javascript" src="{$_G[setting][jspath]}bbcode.js?{VERHASH}"></script>
-				<script type="text/javascript">
+				<script>var forumallowhtml = 0,allowhtml = 0,allowsmilies = true,allowbbcode = parseInt('{$_G[group][allowsigbbcode]}'),allowimgcode = parseInt('{$_G[group][allowsigimgcode]}');var DISCUZCODE = [];DISCUZCODE['num'] = '-1';DISCUZCODE['html'] = [];</script>
+				<script src="{$_G[setting][jspath]}bbcode.js?{VERHASH}"></script>
+				<script>
 					var msgListObj = $('msglist');
 					msgListObj.scrollTop = msgListObj.scrollHeight;
 					function succeedhandle_$_GET[handlekey](url, msg, values) {
@@ -331,8 +331,8 @@
 					<input type="hidden" name="handlekey" value="$_GET[handlekey]" />
 				<!--{/if}-->
 				<div class="c">
-					<script type="text/javascript" src="{$_G[setting][jspath]}home_friendselector.js?{VERHASH}"></script>
-					<script type="text/javascript">
+					<script src="{$_G[setting][jspath]}home_friendselector.js?{VERHASH}"></script>
+					<script>
 						var fs;
 						var clearlist = 0;
 					</script>
@@ -367,7 +367,7 @@
 									</div>
 								</div>
 
-								<script type="text/javascript">
+								<script>
 
 									var page = 1;
 									var gid = -1;
@@ -456,8 +456,8 @@
 				<input type="hidden" name="type" value="1" />
 				<input type="hidden" name="formhash" value="{FORMHASH}" />
 				<div class="c">
-					<script type="text/javascript" src="{$_G[setting][jspath]}home_friendselector.js?{VERHASH}"></script>
-					<script type="text/javascript">
+					<script src="{$_G[setting][jspath]}home_friendselector.js?{VERHASH}"></script>
+					<script>
 						var fs;
 						var clearlist = 0;
 					</script>
@@ -500,7 +500,7 @@
 									</div>
 								</div>
 
-								<script type="text/javascript">
+								<script>
 
 									var page = 1;
 									var gid = -1;

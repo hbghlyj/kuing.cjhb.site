@@ -5,7 +5,7 @@
     <div class="loadicon"></div>
 </h3>
 <!--{/if}-->
-<script type="text/javascript" reload="1">
+<script reload="1">
 	location.href = '$url';
 </script>
 <!--{template common/footer}-->

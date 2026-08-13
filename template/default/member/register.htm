@@ -1,5 +1,5 @@
 <!--{template common/header}-->
-<script type="text/javascript">
+<script>
 	var strongpw = new Array();
 	<!--{if $_G['setting']['strongpw']}-->
 		<!--{loop $_G['setting']['strongpw'] $key $val}-->
@@ -9,7 +9,7 @@
 	var pwlength = <!--{if $_G['setting']['pwlength']}-->$_G['setting']['pwlength']<!--{else}-->0<!--{/if}-->;
 </script>
 
-<script type="text/javascript" src="/static/js/register.js?{VERHASH}"></script>
+<script src="/static/js/register.js?{VERHASH}"></script>
 
 <div id="ct" class="ptm wp cl">
 	<div class="nfl" id="main_succeed" style="display: none">
@@ -69,7 +69,7 @@
 									</td>
 								</tr>
 							</table>
-							<script type="text/javascript">
+							<script>
 								function succeedhandle_sendregister(url, msg, values) {
 									showDialog(msg, 'notice');
 								}
@@ -252,7 +252,7 @@
 </p>
 </div>
 
-<script type="text/javascript">
+<script>
 var ignoreEmail = <!--{if $_G['setting']['regverify']}-->false<!--{else}-->true<!--{/if}-->;
 <!--{if $bbrules && $bbrulesforce}-->
 	showBBRule();

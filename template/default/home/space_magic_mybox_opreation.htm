@@ -1,4 +1,4 @@
-﻿<!--{template common/header}-->
+<!--{template common/header}-->
 <!--{if empty($_GET['infloat'])}-->
 <div id="pt" class="bm cl">
 	<div class="z"><a href="./" class="nvhm" title="{lang homepage}"></a> <em>&rsaquo;</em> $navigation</div>
@@ -138,7 +138,7 @@
 <!--{if empty($_GET['infloat'])}--></div><!--{/if}-->
 </form>
 
-<script type="text/javascript" reload="1">
+<script reload="1">
 	function confirmMagicOp(e) {
 		e = e ? e : window.event;
 		showDialog('{lang magics_confirm}', 'confirm', '', 'ajaxpost(\'magicform\', \'return_magics\', \'return_magics\', \'onerror\');');

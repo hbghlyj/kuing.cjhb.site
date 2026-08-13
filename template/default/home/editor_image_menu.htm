@@ -129,7 +129,7 @@
 
 <!--{if $_G['basescript'] == 'home' && empty($_G['setting']['pluginhooks']['spacecp_blog_upload_extend']) || $_G['basescript'] == 'portal' && empty($_G['setting']['pluginhooks']['portalcp_top_upload_extend'])}-->
 	<!--{subtemplate common/upload}-->
-	<script type="text/javascript">
+	<script>
 		var attachUpload = new DiscuzUploader({
 			// Backend Settings
 			upload_url: "{$_G[siteurl]}misc.php?mod=upload&operation=<!--{if $_G['basescript'] == 'portal'}-->portal<!--{else}-->album<!--{/if}-->",
@@ -229,7 +229,7 @@
 		<!--{hook/portalcp_top_upload_extend}-->
 	<!--{/if}-->
 <!--{/if}-->
-<script type="text/javascript">
+<script>
 	function switchImagebutton(btn) {
 		switchButton(btn, 'image');
 		$('icoImg_image_menu').style.height = '';

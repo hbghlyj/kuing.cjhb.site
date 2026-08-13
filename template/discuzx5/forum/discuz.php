@@ -13,7 +13,7 @@
 				</dd>
 			</dl>
 		</div>
-		<script type="text/javascript">announcement();</script>
+		<script>announcement();</script>
 	</div>
 	<!--{/if}-->
 	<div class="z">
@@ -373,7 +373,7 @@
 			<!--{ad/intercat/bm a_c/$cat[fid]}-->
 		<!--{/loop}-->
 		</div>
-		<script type="text/javascript">
+		<script>
 		(function() {
 			var tabs = document.getElementById('forum-index-tabs');
 			if(!tabs) return;
@@ -518,7 +518,7 @@
 							</ul>
 						</dd>
 				</dl>
-				<script type="text/javascript">
+				<script>
 					if(document.getElementById('online_index_panel').getAttribute('data-expanded') == '1') {
 						toggleOnlinePanel('online_index_panel', 'onlineindex', null, '{lang online_list_load_error}');
 					}

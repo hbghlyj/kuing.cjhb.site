@@ -1,4 +1,4 @@
-﻿<!--{template common/header}-->
+<!--{template common/header}-->
 <!--{if empty($_GET['infloat'])}-->
 <div id="pt" class="bm cl">
 	<div class="z"><a href="./" class="nvhm" title="{lang homepage}"></a> <em>&rsaquo;</em> $navigation</div>
@@ -68,7 +68,7 @@
 </form>
 
 <!--{if !empty($_GET['infloat'])}-->
-<script type="text/javascript" reload="1">
+<script reload="1">
 function succeedhandle_$_GET['handlekey'](locationhref) {
 	ajaxget('forum.php?mod=viewthread&tid=$attach[tid]&viewpid=$attach[pid]', 'post_$attach[pid]');
 	hideWindow('$_GET['handlekey']');

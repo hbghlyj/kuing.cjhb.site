@@ -1,4 +1,4 @@
-﻿{eval
+{eval
 	$space_uid = $space['uid'];
 	$filter = array( 'common' => '{lang have_posted}', 'save' => '{lang draft}', 'close' => '{lang closed}', 'aduit' => '{lang pending}', 'recyclebin' => '{lang recyclebin}');
 	$_G['home_tpl_spacemenus'][] = "<a href=\"home.php?mod=space&uid=$space_uid&do=thread&view=me\">{lang credit_rating}</a>";
@@ -71,10 +71,10 @@
 				<!--[diy=diy1]--><div id="diy1" class="area"></div><!--[/diy]-->
 			</div>
 
-			<script type="text/javascript" src="{$_G[setting][jspath]}forum.js?{VERHASH}"></script>
+			<script src="{$_G[setting][jspath]}forum.js?{VERHASH}"></script>
 
 			<p class="mtm mbw">
-				<!--{if $member['taobao']}--><script type="text/javascript">document.write('<a target="_blank" href="https://amos1.taobao.com/msg.ww?v=2&uid='+encodeURIComponent('$member[taobaoas]')+'&s=2"><img src="https://amos1.taobao.com/online.ww?v=2&uid='+encodeURIComponent('$member[taobaoas]')+'&s=1" alt="{lang taobao}" class="vm" /></a>&nbsp;');</script>&nbsp;&nbsp;<!--{/if}-->
+				<!--{if $member['taobao']}--><script>document.write('<a target="_blank" href="https://amos1.taobao.com/msg.ww?v=2&uid='+encodeURIComponent('$member[taobaoas]')+'&s=2"><img src="https://amos1.taobao.com/online.ww?v=2&uid='+encodeURIComponent('$member[taobaoas]')+'&s=1" alt="{lang taobao}" class="vm" /></a>&nbsp;');</script>&nbsp;&nbsp;<!--{/if}-->
 				{lang eccredit_buyerpercent}: $sellerpercent%;&nbsp;&nbsp;
 				{lang eccredit_sellerpercent}: $buyerpercent%;&nbsp;&nbsp;
 				{lang regdate}: $member[regdate]
@@ -167,7 +167,7 @@
 			</table>
 			<div id="ajaxrate"></div>
 			<!--{if $_G['uid']}-->
-				<script type="text/javascript">ajaxget('home.php?mod=spacecp&ac=eccredit&op=list&uid=$uid', 'ajaxrate');var explainmenu='ajax_explain_menu';</script>
+				<script>ajaxget('home.php?mod=spacecp&ac=eccredit&op=list&uid=$uid', 'ajaxrate');var explainmenu='ajax_explain_menu';</script>
 			<!--{/if}-->
 
 			</div>

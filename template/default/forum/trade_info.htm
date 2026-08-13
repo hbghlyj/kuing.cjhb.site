@@ -1,4 +1,4 @@
-﻿<!--{template common/header}-->
+<!--{template common/header}-->
 <!--{if $postlist[$post[pid]]['invisible'] != 0}-->
 	<div class="trdb">{lang post_trade_removed}</div>
 	<!--{template common/footer}-->
@@ -6,7 +6,7 @@
 <!--{/if}-->
 <!--{if !$_G[inajax]}-->
 
-<script type="text/javascript" src="{$_G[setting][jspath]}forum_viewthread.js?{VERHASH}"></script>
+<script src="{$_G[setting][jspath]}forum_viewthread.js?{VERHASH}"></script>
 
 <div id="pt" class="bm cl">
 	<div class="z">
@@ -15,8 +15,8 @@
 </div>
 
 <!--{if $_G['forum']['ismoderator']}-->
-	<script type="text/javascript">var fid = parseInt('$_G[fid]'), tid = parseInt('$_G[tid]');</script>
-	<script type="text/javascript" src="{$_G['setting']['jspath']}forum_moderate.js?{VERHASH}"></script>
+	<script>var fid = parseInt('$_G[fid]'), tid = parseInt('$_G[tid]');</script>
+	<script src="{$_G['setting']['jspath']}forum_moderate.js?{VERHASH}"></script>
 	<form method="post" autocomplete="off" name="modactions" id="modactions">
 	<input type="hidden" name="formhash" value="{FORMHASH}" />
 	<input type="hidden" name="optgroup" />
@@ -188,7 +188,7 @@
 </td></tr></table></div>
 
 <!--{if !empty($aimgs[$post[pid]])}-->
-<script type="text/javascript" reload="1">
+<script reload="1">
 	var aimgcount = new Array();
 	aimgcount[{$post[pid]}] = [<!--{echo dimplode($aimgs[$post[pid]]);}-->];
 	attachimggroup($post['pid']);
@@ -198,7 +198,7 @@
 </script>
 <!--{/if}-->
 <!--{if !$_G[inajax] && $post[comment]}-->
-<script type="text/javascript" reload="1">ajaxget('forum.php?mod=misc&action=commentmore&tid=$post[tid]&pid=$post[pid]', 'comment_$post[pid]');</script>
+<script reload="1">ajaxget('forum.php?mod=misc&action=commentmore&tid=$post[tid]&pid=$post[pid]', 'comment_$post[pid]');</script>
 <!--{/if}-->
 
 <!--{if !$_G[inajax]}-->
@@ -264,7 +264,7 @@
 	</div>
 
 	<!--{if !IS_ROBOT && !empty($_G[setting][lazyload])}-->
-		<script type="text/javascript">
+		<script>
 		new lazyload();
 		</script>
 	<!--{/if}-->

@@ -31,7 +31,7 @@
 	</div>
 	<!--{else}-->
 		<!--{if $operation == 'password'}-->
-			<script type="text/javascript" src="{$_G[setting][jspath]}register.js?{VERHASH}"></script>
+			<script src="{$_G[setting][jspath]}register.js?{VERHASH}"></script>
 			<p class="bbda pbm mbm">
 				<!--{if !$_G['member']['freeze']}-->
 					<!--{if $wechatuser}-->{lang wechat_config_newpassword_comment}<!--{elseif $conisregister}-->{lang connect_config_newpassword_comment}<!--{/if}-->
@@ -154,7 +154,7 @@
 				</table>
 				<input type="hidden" name="passwordsubmit" value="true" />
 			</form>
-			<script type="text/javascript">
+			<script>
 				var strongpw = new Array();
 				<!--{if $_G['setting']['strongpw']}-->
 					<!--{loop $_G['setting']['strongpw'] $key $val}-->
@@ -165,7 +165,7 @@
 				checkPwdComplexity($('newpassword'), $('newpassword2'), true);
 			</script>
 			<!--{if $_G['setting']['smsstatus']}-->
-			<script type="text/javascript">
+			<script>
 			function memcp_sendsecmobseccode() {
 				if (!document.getElementById("secmobiccnew").value) {
 					document.getElementById("secmobiccnew").value = $_G['setting']['smsdefaultcc'];
@@ -252,7 +252,7 @@
 				</table>
 				<!--{hook/spacecp_profile_bottom}-->
 			</form>
-			<script type="text/javascript">
+			<script>
 				function show_error(fieldid, extrainfo) {
 					var elem = $('th_'+fieldid);
 					if(elem) {

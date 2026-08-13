@@ -1,4 +1,4 @@
-﻿<!--{template common/header}-->
+<!--{template common/header}-->
 <!--{if empty($_GET['infloat'])}-->
 <div id="pt" class="bm cl">
 	<div class="z"><a href="./" class="nvhm" title="{lang homepage}"></a> <em>&rsaquo;</em> $navigation</div>
@@ -146,7 +146,7 @@
 		</div>
 	</form>
 </div>
-<script type="text/javascript" reload="1">
+<script reload="1">
 function succeedhandle_mods(locationhref) {
 	<!--{if $_GET[action] == 'delcomment'}-->
 		ajaxget('forum.php?mod=misc&action=commentmore&tid=$_G[tid]&pid=$pid', 'comment_$pid');

@@ -50,7 +50,7 @@
 						<!--{/loop}-->
 						</select>
 					</div>
-					<script type="text/javascript" reload="1">simulateSelect('sortid');</script>
+					<script reload="1">simulateSelect('sortid');</script>
 				<!--{/if}-->
 				<!--{if $isfirstpost && $_G['forum'][threadtypes][types]}-->
 					<div class="ftid">
@@ -63,7 +63,7 @@
 						<!--{/loop}-->
 						</select>
 					</div>
-					<script type="text/javascript" reload="1">simulateSelect('typeid_float');</script>
+					<script reload="1">simulateSelect('typeid_float');</script>
 				<!--{/if}-->
 				<!--{if $_GET[action] == 'newthread' || ($_GET[action] == 'edit' && ($isfirstpost || $postinfo['subject'] != ''))}-->
 					<input name="subject" id="subject" class="px" value="$postinfo[subject]" size="40" />
@@ -82,7 +82,7 @@
 						<option value="2"{if $stand == 2} selected{/if}>{lang debate_opponent}</option>
 					</select>
 				</div>
-				<script type="text/javascript" reload="1">simulateSelect('stand');</script>
+				<script reload="1">simulateSelect('stand');</script>
 			</div>
 			<!--{/if}-->
 			<!--{if $quotemessage}-->
@@ -120,7 +120,7 @@
 	</div>
 </form>
 
-<script type="text/javascript" reload="1">
+<script reload="1">
 function succeedhandle_$_GET[action](locationhref, message) {
 	<!--{if in_array($_GET[action], array('newthread', 'reply'))}-->
 		location.href = locationhref;

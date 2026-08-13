@@ -20,8 +20,8 @@
 		var VERHASH = {echo json_encode($VERHASH)}, IN_ADMINCP = true, SITEURL = {echo json_encode($_G['siteurl'])}, JSPATH = {echo json_encode($_G['setting']['jspath'])}, JSCACHEPATH = {echo json_encode($_G['setting']['jscachepath'])}, cookiepre = {echo json_encode($_G['config']['cookie']['cookiepre'])}, cookiedomain = {echo json_encode($_G['config']['cookie']['cookiedomain'])}, cookiepath = {echo json_encode($_G['config']['cookie']['cookiepath'])};
 		var headers = $headers, admincpfilename = {echo json_encode($basescript)}, admincpextra = {echo json_encode($extra)};
 	</script>
-	<script src="{echo $_G['setting']['jscachepath'] ?: 'data/cache/';}lang_{echo currentlang();}.js?{$_G['style']['verhash']}" type="text/javascript"></script>
-	<script src="{$_G['setting']['jspath']}common.js?{$_G['style']['verhash']}" type="text/javascript"></script>
+	<script src="{echo $_G['setting']['jscachepath'] ?: 'data/cache/';}lang_{echo currentlang();}.js?{$_G['style']['verhash']}"></script>
+	<script src="{$_G['setting']['jspath']}common.js?{$_G['style']['verhash']}"></script>
 </head>
 <body>
 <div id="append_parent"></div>
@@ -140,7 +140,7 @@ $shownotice
 	{/if}
 	var defaultUrl = '{ADMINSCRIPT}?action=index&blank';
 </script>
-<script src="{$_G['setting']['jspath']}admincp_frame.js?{$_G['style']['verhash']}" type="text/javascript"></script>
+<script src="{$_G['setting']['jspath']}admincp_frame.js?{$_G['style']['verhash']}"></script>
 <script>
 	init_darkmode();
 </script>

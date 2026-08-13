@@ -33,7 +33,7 @@
 				</div>
 		<!--{eval $focusi ++;}-->
 		<!--{/loop}-->
-		<script type="text/javascript">
+		<script>
 			var focusnum = $focusnum;
 			if(focusnum < 2) {
 				$('focus_ctrl').style.display = 'none';
@@ -102,7 +102,7 @@
 											</ul>
 										</div>
 									</div>
-									<script type="text/javascript">
+									<script>
 									(function(){
 										document.addEventListener('click', function(){
 											var m = document.getElementById('lang_selector_dropdown');
@@ -195,7 +195,7 @@
 	</span>
 	<!--{/if}-->
 </div>
-<script type="text/javascript">
+<script>
 function new_showTopLink() {
 	var ft = $('ft');
 	if(ft){

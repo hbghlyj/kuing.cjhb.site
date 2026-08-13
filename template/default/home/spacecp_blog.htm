@@ -41,7 +41,7 @@
 	<p class="o pns">
 		<button type="button" name="btnsubmit" value="true" class="pn pnc" onclick="if(blogAddOption('newsort', '$_GET[oid]'))hideWindow('$_GET[handlekey]');"><strong>{lang create}</strong></button>
 	</p>
-	<script type="text/javascript">
+	<script>
 		$('newsort').focus();
 	</script>
 
@@ -90,7 +90,7 @@
 				</h1>
 			</div>
 			<div class="bm_c">
-			<script type="text/javascript" src="{STATICURL}image/editor/editor_function.js?{VERHASH}"></script>
+			<script src="{STATICURL}image/editor/editor_function.js?{VERHASH}"></script>
 			<form id="ttHtmlEditor" method="post" autocomplete="off" action="home.php?mod=spacecp&ac=blog&blogid=$blog[blogid]{if $_GET[modblogkey]}&modblogkey=$_GET[modblogkey]{/if}" onsubmit="validate(this);" enctype="multipart/form-data">
 
 				<!--{hook/spacecp_blog_top}-->
@@ -226,7 +226,7 @@
 
 				<input type="hidden" name="formhash" value="{FORMHASH}" />
 			</form>
-			<script type="text/javascript">
+			<script>
 				function validate(obj) {
 					<!--{if $_G['setting']['blogcategorystat'] && $_G['setting']['blogcategoryrequired']}-->
 					var catObj = $("catid");
@@ -274,7 +274,7 @@
 		</div>
 	</div>
 </div>
-<script type="text/javascript">
+<script>
 if($('subject')) {
 	$('subject').focus();
 }

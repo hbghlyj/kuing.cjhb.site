@@ -48,7 +48,7 @@
 					<script src="{STATICURL}js/echarts/echarts.common.min.js"></script>
 					<script src="{$_G['setting']['jspath']}stat.js"></script>
 					<div id="statchart"></div>
-					<script type="text/javascript">
+					<script>
 						drawstatchart('{ADMINSCRIPT}?action=stat&operation=chart&primarybegin=$primarybegin&primaryend=$primaryend&key=$key&type=$type$append', 400);
 					</script>
 				</div>
@@ -57,7 +57,7 @@
 	</div>
 </div>
 
-<script type="text/javascript">
+<script>
 var currentKey = document.getElementById('currentkey');
 if (currentKey) {
 	var keysContainer = document.querySelector('.keys');

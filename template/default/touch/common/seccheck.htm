@@ -7,13 +7,13 @@
 	<!--{if $secqaacheck}-->
 		<li class="sec_code vm">
 			<span id="secqaa_$sechash" class="flex-box"></span>
-			<script type="text/javascript" reload="1">updatesecqaa('$sechash', $sectpljson);</script>
+			<script reload="1">updatesecqaa('$sechash', $sectpljson);</script>
 		</li>
 	<!--{/if}-->
 	<!--{if $seccodecheck}-->
 		<li class="sec_code vm">
 			<span id="seccode_c$sechash" class="flex-box"></span>
-			<script type="text/javascript" reload="1">updateseccode('c$sechash', $sectpljson, '{$_G['basescript']}::{CURMODULE}');</script>
+			<script reload="1">updateseccode('c$sechash', $sectpljson, '{$_G['basescript']}::{CURMODULE}');</script>
 		</li>
 	<!--{/if}-->
 <!--{/if}-->

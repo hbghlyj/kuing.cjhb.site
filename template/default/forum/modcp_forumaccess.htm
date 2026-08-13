@@ -2,7 +2,7 @@
 	<h1 class="mt">{lang mod_option_member_access}</h1>
 	<div class="mbm">{lang mod_notice_access}</div>
 	<!--{if $modforums['fids']}-->
-		<script type="text/javascript">
+		<script>
 		function chkallaccess(obj) {
 			$('new_post').checked
 				= $('new_post').disabled
@@ -104,7 +104,7 @@
 					</tr>
 				</table>
 			</div>
-			<script type="text/javascript">
+			<script>
 			<!--{if !empty($deleteaccess)}-->
 				var obj = $('deleteaccess');
 				obj.checked = true;
@@ -170,7 +170,7 @@
 	</table>
 	<!--{if !empty($list[pagelink])}--><div class="pgs cl mtm">$list[pagelink]</div><!--{/if}-->
 </div>
-<script type="text/javascript" reload="1">
+<script reload="1">
 	if($('fid')) {
 		simulateSelect('fid');
 	}

@@ -1,6 +1,6 @@
 <?php exit('Access Denied');?>
 <!--{template common/header}-->
-    <script type="text/javascript" src="{$_G[setting][iconfont]}?{VERHASH}"></script>
+    <script src="{$_G[setting][iconfont]}?{VERHASH}"></script>
 	<!--{subtemplate home/spacecp_header}-->
 
             <caption>

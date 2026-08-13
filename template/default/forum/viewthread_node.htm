@@ -409,7 +409,7 @@ $postshowavatars = !($_G['setting']['bannedmessages'] & 2 && ($post['memberstatu
 					<!--{/if}-->
 					<!--{hook/viewthread_magic_post $postcount}-->
 					</ul>
-					<script type="text/javascript" reload="1">checkmgcmn('post_$post[pid]')</script>
+					<script reload="1">checkmgcmn('post_$post[pid]')</script>
 				<!--{/if}-->
 			</div>
 		</div>
@@ -436,7 +436,7 @@ $postshowavatars = !($_G['setting']['bannedmessages'] & 2 && ($post['memberstatu
 </tr>
 </table>
 <!--{if !empty($aimgs[$post[pid]])}-->
-<script type="text/javascript" reload="1">
+<script reload="1">
 	aimgcount[{$post[pid]}] = [<!--{echo dimplode($aimgs[$post[pid]]);}-->];
 	attachimggroup($post['pid']);
 	<!--{if empty($_G['setting']['lazyload'])}-->

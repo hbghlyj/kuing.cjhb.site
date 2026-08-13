@@ -39,7 +39,7 @@
 		<button type="submit" id="commentsubmit" class="pn pnc formdialog" value="true" name="commentsubmit"{if !$seccodecheck && !$secqaacheck} onmouseover="checkpostrule('seccheck_comment', 'ac=reply&infloat=yes&handlekey=$_GET[handlekey]');this.onmouseover=null"{/if}><span>{lang publish}</span></button>
 	</form>
 </div>
-<script type="text/javascript" reload="1">
+<script reload="1">
 getID('commentmessage').focus();
 function convertPostCommentToReply() {
 	var form = document.createElement('form');

@@ -1,4 +1,4 @@
-﻿<!--{template common/header}-->
+<!--{template common/header}-->
 <!--{if empty($_GET['infloat'])}-->
 <div id="pt" class="bm cl">
 	<div class="z"><a href="./" class="nvhm" title="{lang homepage}"></a> <em>&rsaquo;</em> $navigation</div>
@@ -8,7 +8,7 @@
 		<div class="bm bw0">
 <!--{/if}-->
 
-<script type="text/javascript" reload="1">
+<script reload="1">
 	var max_obj = {$_G['group']['tradestick']};
 	var p = $stickcount;
 	function checkbox(obj) {
@@ -92,7 +92,7 @@
 <!--{if empty($_GET['infloat'])}--></div><!--{/if}-->
 </form>
 
-<script type="text/javascript" reload="1">
+<script reload="1">
 function succeedhandle_$_GET['handlekey'](locationhref) {
 	location.href = locationhref;
 }

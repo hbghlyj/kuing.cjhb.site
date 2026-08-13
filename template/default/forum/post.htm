@@ -1,6 +1,6 @@
 <!--{template common/header}-->
 
-<script type="text/javascript">
+<script>
 	var allowpostattach = parseInt('{$_G['group']['allowpostattach']}');
 	var allowpostimg = parseInt('$allowpostimg');
 	var pid = parseInt('$pid');
@@ -29,13 +29,13 @@
 </script>
 
 <!--{if $_GET[action] == 'edit'}--><!--{eval $editor['value'] = $postinfo['message'];}--><!--{else}--><!--{eval $editor['value'] = $message;}--><!--{/if}-->
-<script type="text/javascript" src="{$_G['setting']['jspath']}forum_post.js?{VERHASH}"></script>
+<script src="{$_G['setting']['jspath']}forum_post.js?{VERHASH}"></script>
 
 <!--{if $isfirstpost && $sortid}-->
-	<script type="text/javascript">
+	<script>
 		var forum_optionlist = <!--{if $forum_optionlist}-->$forum_optionlist<!--{else}-->{}<!--{/if}-->;
 	</script>
-	<script type="text/javascript" src="{$_G['setting']['jspath']}threadsort.js?{VERHASH}"></script>
+	<script src="{$_G['setting']['jspath']}threadsort.js?{VERHASH}"></script>
 <!--{/if}-->
 
 <!--{block actiontitle}-->
@@ -237,13 +237,13 @@
 </div>
 
 <!--{if $special || ($_G['group']['allowsetpublishdate'] && ($_GET[action] == 'newthread' || ($_GET[action] == 'edit' && $isfirstpost && $thread['displayorder'] == -4))) || ($_GET[action] == 'newthread' && $_G['group']['allowpostrushreply'] && $special != 2) || ($_GET[action] == 'edit' && getstatus($thread['status'], 3))}-->
-	<script type="text/javascript" src="{$_G['setting']['jspath']}calendar.js?{VERHASH}"></script>
+	<script src="{$_G['setting']['jspath']}calendar.js?{VERHASH}"></script>
 <!--{/if}-->
 
 <!--{if $allowuploadtoday || $special == 1}-->
 	<!--{if empty($_G['setting']['pluginhooks']['post_upload_extend'])}-->
 		<!--{subtemplate common/upload}-->
-		<script type="text/javascript">
+		<script>
 		<!--{if $allowpostimg}-->
 			var imgUpload = new DiscuzUploader({
 				upload_url: "{$_G[siteurl]}misc.php?mod=upload&operation=upload&fid=$_G[fid]",
@@ -335,7 +335,7 @@
 	<!--{/if}-->
 <!--{/if}-->
 
-<script type="text/javascript">
+<script>
 	var editorsubmit = $('postsubmit');
 	var editorform = $('postform');
 	<!--{if $isfirstpost && !empty($_G[forum][threadtypes][types])}-->
@@ -394,7 +394,7 @@
 	<!--{/if}-->
 </script>
 <!--{if ($_GET['action'] == 'newthread' || $_GET['action'] == 'reply' || $_GET['action'] == 'edit') && $_G['group']['allowat']}-->
-<script type="text/javascript" src="{$_G['setting']['jspath']}at.js?{VERHASH}"></script>
+<script src="{$_G['setting']['jspath']}at.js?{VERHASH}"></script>
 <!--{/if}-->
 
 <!--{template common/footer}-->

@@ -1,4 +1,4 @@
-﻿<!--{template common/header}-->
+<!--{template common/header}-->
 <!--{subtemplate home/spacecp_poke_type}-->
 <!--{if !$_G[inajax]}-->
 <div id="pt" class="bm cl">
@@ -47,7 +47,7 @@
 					<button type="submit" name="pokesubmit_btn" id="pokesubmit_btn" value="true" class="pn pnc"><strong>{lang send}</strong></button>
 				</p>
 			</form>
-			<script type="text/javascript">
+			<script>
 				function succeedhandle_{$_GET[handlekey]}(url, msg, values) {
 					if(values['from'] == 'notice') {
 						deleteQueryNotice(values['uid'], 'pokeQuery');
@@ -115,7 +115,7 @@
 				<!--{/loop}-->
 			</div>
 			<!--{if $multi}--><div class="pgs cl mtm">$multi</div><!--{/if}-->
-			<script type="text/javascript">
+			<script>
 			function view_poke(uid) {
 				ajaxget('home.php?mod=spacecp&ac=poke&op=view&uid='+uid, 'poke_td_'+uid);
 			}
@@ -127,7 +127,7 @@
 				<div class="emp">{lang no_new_poke}</div>
 			<!--{/if}-->
 
-			<script type="text/javascript">
+			<script>
 				function succeedhandle_pokereply(url, msg, values) {
 					if(parseInt(values['uid'])) {
 						$('poke_'+values['uid']).style.display = "none";

@@ -26,7 +26,7 @@
 		<button id="postbtn" class="pn" onclick="window.location.href='forum.php?mod=post&action=newthread&fid=' + selectfid" disabled="disabled">{lang send_posts}</button>
 </div>
 <!--{/if}-->
-<script type="text/javascript" reload="1">
+<script reload="1">
 var s = '<!--{if $commonfids}--><p><a id="commonforum" href="javascript:;" onclick="switchforums(this, 1, \'common\')" class="pbsb lightlink">{lang nav_forum_frequently}</a></p><!--{/if}-->';
 var lis = document.getElementById('fs_group').getElementsByTagName('LI');
 for(i = 0;i < lis.length;i++) {

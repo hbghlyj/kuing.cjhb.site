@@ -170,7 +170,7 @@
 </div>
 
 <!-- 常量 -->
-<script type="text/javascript">
+<script>
     const editor_fid = "{$_G['fid']}";
     const editor_formhash = "{FORMHASH}";
     const editor_remote_attachurl = "{$_G['setting']['ftp']['attachurl']}";
@@ -208,7 +208,7 @@
 <!--{loop $editorblocks $eblock}-->
 <script src="$eblock['jspath']?{VERHASH}"></script>
 <!--{/loop}-->
-<script type="text/javascript">
+<script>
     let column_available = false;
     EDITOR_TOOLS = Object.assign(EDITOR_TOOLS, {
         tools_anchor: {
@@ -265,7 +265,7 @@
 <!--  Load Layui -->
 <script src="{STATICURL}js/layui/layui.js?{VERHASH}"></script>
 <!-- 标签输入框 -->
-<script type="text/javascript">
+<script>
     layui.config({
         base: '{STATICURL}js/layui/extend/'
     }).extend({

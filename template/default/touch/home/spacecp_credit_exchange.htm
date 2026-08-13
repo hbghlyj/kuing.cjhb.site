@@ -48,7 +48,7 @@
 						<!--{/loop}-->
 						</select>
 					<!--{/loop}-->
-					<script type="text/javascript">
+					<script>
 						var tocredits = getID('tocredits');
 						var fromcredits = getID('fromcredits_0');
 						if(fromcredits.length > 1 && tocredits.value == fromcredits.value) {
@@ -77,7 +77,7 @@
 	</div>
 </form>
 
-			<script type="text/javascript">
+			<script>
 				function exchangecalcredit() {
 					with(getID('exchangeform')) {
 						tocredit = tocredits[tocredits.selectedIndex];

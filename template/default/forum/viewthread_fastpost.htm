@@ -1,4 +1,4 @@
-<script type="text/javascript">
+<script>
 var postminchars = parseInt('$_G['setting']['minpostsize']');
 var postmaxchars = parseInt('$_G['setting']['maxpostsize']');
 var postminsubjectchars = parseInt('$_G['setting']['minsubjectsize']');
@@ -36,7 +36,7 @@ var disablepostctrl = parseInt('{$_G['group']['disablepostctrl']}');
 				<option value="2">{lang debate_opponent}</option>
 			</select>
 		</div>
-		<script type="text/javascript">simulateSelect('stand');</script>
+		<script>simulateSelect('stand');</script>
 	</div>
 	<!--{/if}-->
 
@@ -101,7 +101,7 @@ var disablepostctrl = parseInt('{$_G['group']['disablepostctrl']}');
 	</div>
 
 	<!--{if $allowpostattach && $_GET['from'] != 'preview'}-->
-		<script type="text/javascript">
+		<script>
 		var editorid = '';
 		var ATTACHNUM = {'imageused':0,'imageunused':0,'attachused':0,'attachunused':0}, ATTACHUNUSEDAID = new Array(), IMGUNUSEDAID = new Array();
 		</script>
@@ -125,7 +125,7 @@ var disablepostctrl = parseInt('{$_G['group']['disablepostctrl']}');
 			<div class="fieldset flash" id="attachlist"></div>
 			<!--{if empty($_G['setting']['pluginhooks']['viewthread_fastpost_upload_extend'])}-->
 				<!--{subtemplate common/upload}-->
-				<script type="text/javascript">
+				<script>
 					var upload = new DiscuzUploader({
 						upload_url: "{$_G[siteurl]}misc.php?mod=upload&operation=upload&fid=$_G[fid]",
 						post_params: {"formhash":"{FORMHASH}"},

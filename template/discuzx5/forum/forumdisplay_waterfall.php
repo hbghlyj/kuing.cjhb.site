@@ -50,8 +50,8 @@
 	<!--{/loop}-->
 </ul>
 <div id="tmppic" style="display: none;"></div>
-<script type="text/javascript" src="{$_G['setting']['jspath']}redef.js?{VERHASH}"></script>
-<script type="text/javascript" reload="1">
+<script src="{$_G['setting']['jspath']}redef.js?{VERHASH}"></script>
+<script reload="1">
 var wf = {};
 _attachEvent(window, "load", function () {
 	if($("waterfall")) {

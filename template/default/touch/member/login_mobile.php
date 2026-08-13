@@ -66,11 +66,11 @@
     <!--{hook/logging_bottom_mobile}-->
 </div>
 <!--{if $_G['setting']['pwdsafety']}-->
-<script type="text/javascript" src="{$_G['setting']['jspath']}md5.js?{VERHASH}" reload="1"></script>
+<script src="{$_G['setting']['jspath']}md5.js?{VERHASH}" reload="1"></script>
 <!--{/if}-->
 <!--{eval updatesession();}-->
 
-<script type="text/javascript">
+<script>
     function memcp_sendsecmobseccode_{$layerhash}(url, msg, values) {
         if (!document.getElementById("secmobicc").value) {
             document.getElementById("secmobicc").value = $_G['setting']['smsdefaultcc'];

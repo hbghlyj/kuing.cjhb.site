@@ -1,4 +1,4 @@
-﻿<!--{template common/header}-->
+<!--{template common/header}-->
 <!--{if !$_G[inajax]}-->
 	<div id="pt" class="bm cl">
 		<div class="z"><a href="./" class="nvhm" title="{lang homepage}"></a> <em>&rsaquo;</em> <a href="home.php">$_G[setting][navs][4][navname]</a></div>
@@ -48,7 +48,7 @@
 			<button type="submit" name="unitpriceysubmit" value="true" class="pn pnc"><strong>{lang determine}</strong></button>
 		</p>
 	</form>
-	<script type="text/javascript">
+	<script>
 		function succeedhandle_$_GET['handlekey'] (url, message, values) {
 			var priceObj = $('show_unitprice');
 			if(priceObj) {
