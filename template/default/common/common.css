@@ -1106,7 +1106,7 @@ Last Modify:	Pony
 			.tg_yes:before {content: "\f108";}
 			.tg_no:before {
 				content: "\f109";
-				color: lightgray;
+				color: inherit;
 			}
 		.bm_h .i { padding-left: 10px; }
 		.bm_h .pn { margin-top: 4px; }
