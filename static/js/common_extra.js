@@ -1173,7 +1173,7 @@ function _toggleOnlinePanel(panelId, cookieKey, trigger, errorText) {
 	if(icon) {
 		icon.className = open ? 'tg_no' : 'tg_yes';
 	}
-	document.cookie = cookiepre + cookieKey + '=' + (open ? '1' : '') + '; path=' + (cookiepath || '/') + '; max-age=' + (open ? 31536000 : 0);
+	document.cookie = cookiepre + cookieKey + '=' + (open ? '1' : '0') + '; path=' + (cookiepath || '/') + '; max-age=31536000';
 	if(open && panel.getAttribute('data-loaded') != '1' && panel.getAttribute('data-loading') != '1') {
 		panel.setAttribute('data-loading', '1');
 		var request = new XMLHttpRequest();
