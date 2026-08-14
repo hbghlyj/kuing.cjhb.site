@@ -271,7 +271,7 @@
 							<span class="o y"><a href="#online" onclick="return toggleOnlinePanel('online_forum_panel', 'onlineforum', this, '{lang online_list_load_error}');"><em class="<!--{if $detailstatus}-->tg_no<!--{else}-->tg_yes<!--{/if}-->"></em></a></span>
 							<h2>{lang forum_activeusers} ($onlinenum)</h2>
 						</div>
-						<div id="online_forum_panel" class="bm_c" data-loaded="0" data-expanded="<!--{if $detailstatus}-->1<!--{else}-->0<!--{/if}-->"<!--{if !$detailstatus}--> hidden<!--{/if}-->>
+						<div id="online_forum_panel" class="bm_c" data-fid="$_G[fid]" data-loaded="0" data-expanded="<!--{if $detailstatus}-->1<!--{else}-->0<!--{/if}-->"<!--{if !$detailstatus}--> hidden<!--{/if}-->>
 							<ul id="whosonline_list_container" class="ml mls cl"><li style="width:auto">{lang m_loading}</li></ul>
 						</div>
 						<script>

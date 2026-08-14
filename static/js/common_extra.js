@@ -1226,7 +1226,8 @@ function _toggleOnlinePanel(panelId, cookieKey, trigger, errorText) {
 			}
 			panel.setAttribute('data-loaded', '1');
 		};
-		request.open('GET', 'forum.php?mod=ajax&action=getOnlineUserListHtml&inajax=1&ajaxdata=json&t=' + new Date().getTime(), true);
+		var fid = panel.getAttribute('data-fid');
+		request.open('GET', 'forum.php?mod=ajax&action=getOnlineUserListHtml&inajax=1&ajaxdata=json' + (fid ? '&fid=' + encodeURIComponent(fid) : '') + '&t=' + new Date().getTime(), true);
 		request.onreadystatechange = function() {
 			if(request.readyState != 4) {
 				return;

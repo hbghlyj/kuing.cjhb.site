@@ -20,29 +20,38 @@ if($_G['setting']['whosonlinestatus'] == 1 || $_G['setting']['whosonlinestatus']
 
 	$actioncode = lang('action');
 	loadcache('onlinelist');
+	$fid = dintval(getgpc('fid'));
 	$maxonlinelist = isset($_G['setting']['maxonlinelist']) && $_G['setting']['maxonlinelist'] !== '' ? intval($_G['setting']['maxonlinelist']) : 500;
-	$memberlimit = $maxonlinelist > 0 ? $maxonlinelist : 0;
+	if($fid) {
+		$forumlimit = $maxonlinelist > 0 ? min($maxonlinelist, 12) : 12;
+		$sessions = C::app()->session->fetch_all_by_fid($fid, $forumlimit);
+		$sessions_guests = [];
+	} else {
+		$memberlimit = $maxonlinelist > 0 ? $maxonlinelist : 0;
+		$sessions = C::app()->session->fetch_member(1, 0, $memberlimit);
 
-	$sessions = C::app()->session->fetch_member(1, 0, $memberlimit);
-
-	$membercount_fetched = count($sessions);
-	$sessions_guests = [];
-	if($maxonlinelist == 0 || $maxonlinelist > $membercount_fetched) {
-		$guestlimit = $maxonlinelist > 0 ? ($maxonlinelist - $membercount_fetched) : 0;
-		$sessions_guests = C::app()->session->fetch_member(2, 0, $guestlimit);
-	}
-	$forumIds = [];
-	foreach($sessions as $online) {
-		if(!empty($online['fid'])) {
-			$forumIds[$online['fid']] = $online['fid'];
+		$membercount_fetched = count($sessions);
+		$sessions_guests = [];
+		if($maxonlinelist == 0 || $maxonlinelist > $membercount_fetched) {
+			$guestlimit = $maxonlinelist > 0 ? ($maxonlinelist - $membercount_fetched) : 0;
+			$sessions_guests = C::app()->session->fetch_member(2, 0, $guestlimit);
 		}
 	}
-	foreach($sessions_guests as $online) {
-		if(!empty($online['fid'])) {
-			$forumIds[$online['fid']] = $online['fid'];
+	$forumlist = [];
+	if(!$fid) {
+		$forumIds = [];
+		foreach($sessions as $online) {
+			if(!empty($online['fid'])) {
+				$forumIds[$online['fid']] = $online['fid'];
+			}
 		}
+		foreach($sessions_guests as $online) {
+			if(!empty($online['fid'])) {
+				$forumIds[$online['fid']] = $online['fid'];
+			}
+		}
+		$forumlist = $forumIds ? table_forum_forum::t()->fetch_all_info_by_fids(array_values($forumIds)) : [];
 	}
-	$forumlist = $forumIds ? table_forum_forum::t()->fetch_all_info_by_fids(array_values($forumIds)) : [];
 
 	foreach($sessions as $online) {
 		if(!$online['invisible']) {
@@ -50,16 +59,16 @@ if($_G['setting']['whosonlinestatus'] == 1 || $_G['setting']['whosonlinestatus']
 			$online_user['uid'] = $online['uid'];
 			$online_user['username'] = htmlspecialchars($online['username']);
 			$online_user['icon'] = !empty($_G['cache']['onlinelist'][$online['groupid']]) ? $_G['cache']['onlinelist'][$online['groupid']] : (!empty($_G['cache']['onlinelist'][0]) ? $_G['cache']['onlinelist'][0] : STATICURL.'image/common/online_member.svg');
-			$online_user['tid'] = $online['tid'];
+			$online_user['tid'] = $online['tid'] ?? 0;
 			$titleLabel = '';
 			if(!empty($online['fid']) && !empty($forumlist[$online['fid']])) {
 				$titleLabel = $forumlist[$online['fid']]['name'];
-			} elseif(!empty($actioncode[$online['action']])) {
-				$titleLabel = $actioncode[$online['action']];
+			} elseif(!empty($actioncode[$online['action'] ?? ''])) {
+				$titleLabel = $actioncode[$online['action'] ?? ''];
 			}
 			$online_user['title_label'] = htmlspecialchars($titleLabel);
-			$online_user['ip'] = htmlspecialchars($online['ip']);
-			$online_user['ip_location'] = htmlspecialchars(ip::convert($online['ip']));
+			$online_user['ip'] = htmlspecialchars($online['ip'] ?? '');
+			$online_user['ip_location'] = htmlspecialchars(!empty($online['ip']) ? ip::convert($online['ip']) : '');
 			$online_user['lastactivity'] = htmlspecialchars(dgmdate($online['lastactivity'], 'u'));
 			$whosonline[] = $online_user;
 		}
@@ -76,23 +85,29 @@ if($_G['setting']['whosonlinestatus'] == 1 || $_G['setting']['whosonlinestatus']
 		$online_user['icon'] = $isRobot
 			? ($_G['cache']['onlinelist'][8] ?? STATICURL.'image/common/online_bot.svg')
 			: $_G['cache']['onlinelist'][7];
-		$online_user['tid'] = $online['tid'];
+		$online_user['tid'] = $online['tid'] ?? 0;
 		$titleLabel = '';
 		if(!empty($online['fid']) && !empty($forumlist[$online['fid']])) {
 			$titleLabel = $forumlist[$online['fid']]['name'];
-		} elseif(!empty($actioncode[$online['action']])) {
-			$titleLabel = $actioncode[$online['action']];
+		} elseif(!empty($actioncode[$online['action'] ?? ''])) {
+			$titleLabel = $actioncode[$online['action'] ?? ''];
 		}
 		$online_user['title_label'] = htmlspecialchars($titleLabel);
-		$online_user['ip'] = htmlspecialchars($online['ip']);
+		$online_user['ip'] = htmlspecialchars($online['ip'] ?? '');
 		$online_user['ip_location'] = '';
 		$online_user['lastactivity'] = htmlspecialchars(dgmdate($online['lastactivity'], 'u'));
 		$whosonline[] = $online_user;
 	}
 
-	$guestcount = C::app()->session->count(2);
-	$invisiblecount = C::app()->session->count_invisible();
-	$onlinenum = $membercount + $invisiblecount + $guestcount;
+	if($fid) {
+		$guestcount = 0;
+		$invisiblecount = 0;
+		$onlinenum = C::app()->session->count_by_fid($fid);
+	} else {
+		$guestcount = C::app()->session->count(2);
+		$invisiblecount = C::app()->session->count_invisible();
+		$onlinenum = $membercount + $invisiblecount + $guestcount;
+	}
 }
 
 ob_start();

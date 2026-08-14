@@ -406,6 +406,7 @@ if(!empty($_GET['orderby']) && empty($_G['setting']['closeforumorderby']) && in_
 $_GET['ascdesc'] = $_G['cache']['forums'][$_G['fid']]['ascdesc'] ?? 'DESC';
 
 $check = [];
+$whosonline = [];
 $check[$filter] = $check[$_GET['orderby']] = $check[$_GET['ascdesc']] = 'selected="selected"';
 
 if(($_G['forum']['status'] != 3 && $_G['forum']['allowside'])) {
@@ -414,15 +415,6 @@ if(($_G['forum']['status'] != 3 && $_G['forum']['allowside'])) {
 	if(!IS_ROBOT && ($_G['setting']['whosonlinestatus'] == 2 || $_G['setting']['whosonlinestatus'] == 3)) {
 		$_G['setting']['whosonlinestatus'] = 1;
 		$detailstatus = $showoldetails == 'yes' || (((!isset($_G['cookie']['onlineforum']) && !$_G['setting']['whosonline_contract']) || $_G['cookie']['onlineforum']) && !$showoldetails);
-
-		if($detailstatus) {
-			$actioncode = lang('forum/action');
-			$whosonline = [];
-			$forumname = strip_tags($_G['forum']['name']);
-
-			$whosonline = C::app()->session->fetch_all_by_fid($_G['fid'], 12);
-			$_G['setting']['whosonlinestatus'] = 1;
-		}
 	} else {
 		$_G['setting']['whosonlinestatus'] = 0;
 	}

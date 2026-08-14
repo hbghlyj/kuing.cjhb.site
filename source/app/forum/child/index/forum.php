@@ -131,6 +131,7 @@ if(!IS_ROBOT && ($_G['setting']['whosonlinestatus'] == 1 || $_G['setting']['whos
 	$guestcount = C::app()->session->count(2);
 	$invisiblecount = C::app()->session->count_invisible();
 	$onlinenum = $membercount + $guestcount;
+	$whosonline = [];
 	dsetcookie('onlineusernum', intval($onlinenum), 300);
 
 	$detailstatus = $showoldetails == 'yes' || (((!isset($_G['cookie']['onlineindex']) && !$_G['setting']['whosonline_contract']) || $_G['cookie']['onlineindex']) && $onlinenum < 500 && !$showoldetails);
@@ -139,46 +140,8 @@ if(!IS_ROBOT && ($_G['setting']['whosonlinestatus'] == 1 || $_G['setting']['whos
 		$detailstatus = false;
 	}
 
-	if($detailstatus) {
-		$actioncode = lang('action');
-
-		updatesession();
-		$whosonline = [];
-
-		$maxonlinelist = isset($_G['setting']['maxonlinelist']) && $_G['setting']['maxonlinelist'] !== '' ? intval($_G['setting']['maxonlinelist']) : 500;
-		$memberlimit = $maxonlinelist > 0 ? $maxonlinelist : 0;
-
-		foreach(C::app()->session->fetch_member(1, 0, $memberlimit) as $online) {
-			if($online['invisible']) {
-				continue;
-			} else {
-				$online['icon'] = !empty($_G['cache']['onlinelist'][$online['groupid']]) ? $_G['cache']['onlinelist'][$online['groupid']] : (!empty($_G['cache']['onlinelist'][0]) ? $_G['cache']['onlinelist'][0] : STATICURL.'image/common/online_member.svg');
-			}
-			$online['lastactivity'] = dgmdate($online['lastactivity'], 't');
-			$whosonline[] = $online;
-		}
-
-		$membercount = count($whosonline);
-		if($maxonlinelist == 0 || $maxonlinelist > $membercount) {
-			$guestlimit = $maxonlinelist > 0 ? ($maxonlinelist - $membercount) : 0;
-			foreach(C::app()->session->fetch_member(2, 0, $guestlimit) as $online) {
-				$isRobot = intval($online['groupid']) === 8;
-				$online['icon'] = $isRobot
-					? ($_G['cache']['onlinelist'][8] ?? STATICURL.'image/common/online_bot.svg')
-					: ($_G['cache']['onlinelist'][7] ?? STATICURL.'image/common/online_guest.svg');
-				$location = ip::format_session_location($online['location'] ?? '', $online['city'] ?? null);
-				$online['username'] = $isRobot ? $location['organization'] : $location['compact'];
-				$online['network_title'] = $isRobot ? $location['asn'] : $location['network'];
-				$online['lastactivity'] = dgmdate($online['lastactivity'], 't');
-				$whosonline[] = $online;
-			}
-		}
-		unset($actioncode, $online);
-
-		unset($online);
-	}
-
 } else {
+	$whosonline = [];
 	$_G['setting']['whosonlinestatus'] = 0;
 }
 
