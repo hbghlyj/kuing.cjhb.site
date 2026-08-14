@@ -116,6 +116,10 @@ function bbcode2html(str) {
 		str = str.replace(/\[p=(\d{1,2}|null), (\d{1,2}|null), (left|center|right)\]/ig, '<p style="line-height: $1px; text-indent: $2em; text-align: $3;">');
 		str = str.replace(/\[float=left\]/ig, '<br style="clear: both"><span style="float: left; margin-right: 5px;">');
 		str = str.replace(/\[float=right\]/ig, '<br style="clear: both"><span style="float: right; margin-left: 5px;">');
+		str = replacePairedBbcode(str, '[b]', '[/b]', '<strong>', '</strong>');
+		str = replacePairedBbcode(str, '[s]', '[/s]', '<strike>', '</strike>');
+		str = replacePairedBbcode(str, '[i]', '[/i]', '<i>', '</i>');
+		str = replacePairedBbcode(str, '[u]', '[/u]', '<u>', '</u>');
 		if(parsetype != 1) {
 			str = str.replace(/\[quote]([\s\S]*?)\[\/quote\]\s?\s?/ig, '<div class="quote"><blockquote>$1</blockquote></div>\n');
 			str = str.replace(/`([^`]+)`/g, '<code>$1</code>');
@@ -127,12 +131,10 @@ function bbcode2html(str) {
 		}
 
 		str = preg_replace([
-			'\\\[\\\/color\\\]', '\\\[\\\/backcolor\\\]', '\\\[\\\/size\\\]', '\\\[\\\/font\\\]', '\\\[\\\/align\\\]', '\\\[\\\/p\\\]', '\\\[b\\\]', '\\\[\\\/b\\\]',
-			'\\\[i\\\]', '\\\[\\\/i\\\]', '\\\[u\\\]', '\\\[\\\/u\\\]', '\\\[s\\\]', '\\\[\\\/s\\\]', '\\\[hr\\\]', '\\\[list\\\]', '\\\[list=1\\\]', '\\\[list=a\\\]',
+			'\\\[\\\/color\\\]', '\\\[\\\/backcolor\\\]', '\\\[\\\/size\\\]', '\\\[\\\/font\\\]', '\\\[\\\/align\\\]', '\\\[\\\/p\\\]', '\\\[hr\\\]', '\\\[list\\\]', '\\\[list=1\\\]', '\\\[list=a\\\]',
 			'\\\[list=A\\\]', '\\s?\\\[\\\*\\\]', '\\\[\\\/list\\\]', '\\\[indent\\\]', '\\\[\\\/indent\\\]', '\\\[\\\/float\\\]'
 			], [
-			'</span>', '</font>', '</font>', '</font>', '</div>', '</p>', '<b>', '</b>', '<i>',
-			'</i>', '<u>', '</u>', '<strike>', '</strike>', '<hr class="l" />', '<ul>', '<ul type=1 class="litype_1">', '<ul type=a class="litype_2">',
+			'</span>', '</font>', '</font>', '</font>', '</div>', '</p>', '<hr class="l" />', '<ul>', '<ul type=1 class="litype_1">', '<ul type=a class="litype_2">',
 			'<ul type=A class="litype_3">', '<li>', '</ul>', '<blockquote>', '</blockquote>', '</span>'
 			], str, 'g');
 	}
@@ -174,6 +176,19 @@ function bbcode2html(str) {
 	}
 
 	return str;
+}
+
+function replacePairedBbcode(str, openTag, closeTag, openHtml, closeHtml) {
+	var parts = str.split(closeTag), result = '', count = parts.length;
+	for(var i = 0; i < count - 1; i++) {
+		var part = parts[i], pos = part.lastIndexOf(openTag);
+		if(pos < 0) {
+			result += part + closeTag;
+		} else {
+			result += part.substring(0, pos) + openHtml + part.substring(pos + openTag.length) + closeHtml;
+		}
+	}
+	return result + parts[count - 1];
 }
 
 function clearcode(str) {

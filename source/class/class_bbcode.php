@@ -14,8 +14,6 @@ class bbcode {
 
 	var $search_exp = [];
 	var $replace_exp = [];
-	var $search_str = [];
-	var $replace_str = [];
 	var $html_s_exp = [];
 	var $html_r_exp = [];
 	var $html_s_str = [];
@@ -47,8 +45,6 @@ class bbcode {
 				"<code>\\1</code>",
 			];
 			$this->replace_exp[] = '$this->bb_img(\'\\1\')';
-			$this->search_str = ['[b]', '[/b]', '[i]', '[/i]', '[u]', '[/u]'];
-			$this->replace_str = ['<b>', '</b>', '<i>', '</i>', '<u>', '</u>'];
 		}
 
 		if($parseurl == 2) {
@@ -61,8 +57,31 @@ class bbcode {
 			@$message = preg_replace_callback("/\[img\]\s*([^\[\<\r\n]+?)\s*\[\/img\]/is", [$this, 'bbcode2html_callback_bb_img_1'], $message, 20);
 		}
 
-		@$message = str_replace($this->search_str, $this->replace_str, $message);
+		foreach([
+			['[b]', '[/b]', '<strong>', '</strong>'],
+			['[s]', '[/s]', '<strike>', '</strike>'],
+			['[i]', '[/i]', '<i>', '</i>'],
+			['[u]', '[/u]', '<u>', '</u>'],
+		] as $tag_pair) {
+			$message = $this->replace_paired_bbcode($message, $tag_pair[0], $tag_pair[1], $tag_pair[2], $tag_pair[3]);
+		}
 		return nl2br($message);
+	}
+
+	function replace_paired_bbcode($message, $open_tag, $close_tag, $open_html, $close_html) {
+		$parts = explode($close_tag, $message);
+		$message = '';
+		$count = count($parts);
+		for($i = 0; $i < $count - 1; $i++) {
+			$part = $parts[$i];
+			$pos = strrpos($part, $open_tag);
+			if($pos === false) {
+				$message .= $part.$close_tag;
+			} else {
+				$message .= substr_replace($part, $open_html, $pos, strlen($open_tag)).$close_html;
+			}
+		}
+		return $message.$parts[$count - 1];
 	}
 
 	function bbcode2html_callback_bb_img_1($matches) {
