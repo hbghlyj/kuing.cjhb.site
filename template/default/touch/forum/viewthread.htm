@@ -6,7 +6,7 @@
 </div>
 <!--{hook/viewthread_top_mobile}-->
 <div class="viewthread">
-	<div class="view_tit">
+	<h1 class="view_tit">
 		<!--{if $_G['forum_thread']['typeid'] && $_G['forum']['threadtypes']['types'][$_G['forum_thread']['typeid']]}-->
 			<em>[{$_G['forum']['threadtypes']['types'][$_G['forum_thread']['typeid']]}]</em>
 		<!--{/if}-->
@@ -18,7 +18,7 @@
 		<!--{elseif $_G['forum_thread']['displayorder'] == -3}--> <span>({lang have_ignored})</span>
 		<!--{elseif $_G['forum_thread']['displayorder'] == -4}--> <span>({lang draft})</span>
 		<!--{/if}-->
-	</div>
+	</h1>
 	<!--{eval $postcount = 0;}-->
 	<!--{loop $postlist $post}-->
 	<!--{hook/viewthread_posttop_mobile $postcount}-->

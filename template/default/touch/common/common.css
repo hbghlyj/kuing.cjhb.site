@@ -1241,6 +1241,7 @@ body.pg_logging, body.pg_register, body.pg_lostpasswd_mobile, body.pg_lostpasswd
 .plc .pione {margin-left:0}
 .plc .pione .authi {margin-left:45px}
 .plc .pi .message {line-height:1.8;font-size:16px;overflow:hidden;clear:both}
+.plc .pi .message > h2 { font-size:18px; line-height:1.5; font-weight:bold; }
 .message a:link,.message a:visited,.message a:hover {color:#0086CE;text-decoration:underline}
 .plc .pi .message li {margin-left:2em}
 .plc .pi .message ul li {list-style-type:disc}
