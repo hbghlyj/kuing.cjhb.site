@@ -6,7 +6,6 @@
 </head>
 
 <body id="nv_{$_G[basescript]}" class="pg_{CURMODULE} dz_pg_{CURMODULE}	dz_tbnvb {if $_G['basescript'] === 'portal' && CURMODULE === 'list' && !empty($cat)} {$cat['bodycss']}{/if} discuzx5" onkeydown="if(event.keyCode==27) return false;">
-<script src="{STATICURL}js/discuzx5-background.js?{VERHASH}"></script>
 	<a class="dz-skip-link" href="#wp">{lang skip_to_content}</a>
 	<div id="append_parent"></div><div id="ajaxwaitid"></div>
 	<!--{if $_GET['diy'] == 'yes' && check_diy_perm($topic)}-->
