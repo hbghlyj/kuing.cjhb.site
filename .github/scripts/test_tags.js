@@ -129,6 +129,8 @@ const PUSHER_STUB = `
             postsubmitBtn.click()
         ]);
         assert.match(page.url(), /mod=viewthread&tid=\d+/, 'Assertion Error: Tagged thread submission did not navigate to the new thread.');
+        const createdTid = new URL(page.url()).searchParams.get('tid');
+        assert.match(createdTid || '', /^\d+$/, 'Assertion Error: Tagged thread submission did not provide a thread ID.');
         const tagidOutput = execSync("sudo mysql -u root ultrax -N -s -e \"SELECT tagid FROM pre_common_tag WHERE tagname='playwright tag' LIMIT 1;\"").toString().trim();
         assert.match(tagidOutput, /^\d+$/, 'Assertion Error: Submitted multi-word tag was not created in the database.');
 
@@ -141,7 +143,7 @@ const PUSHER_STUB = `
             tagLink.click()
         ]);
         await tagPage.waitForLoadState('networkidle');
-        const tagResultLink = tagPage.locator('a').filter({ hasText: 'Thread with Tags' });
+        const tagResultLink = tagPage.locator('a[href^="forum.php?mod=viewthread&tid=' + createdTid + '"]').filter({ hasText: 'Thread with Tags' });
         assert.strictEqual(await tagResultLink.count(), 1, 'Assertion Error: Tag search result did not link to the created thread.');
         await tagPage.screenshot({ path: 'screenshot_tags_03_search_result.png' });
         await tagPage.close();
