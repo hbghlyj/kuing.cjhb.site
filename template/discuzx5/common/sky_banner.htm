@@ -41,6 +41,11 @@
         <feGaussianBlur stdDeviation="7" result="blur"/>
         <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
       </filter>
+      <filter id="dz-wispy-organic" x="-32%" y="-70%" width="168%" height="245%" color-interpolation-filters="sRGB">
+        <feTurbulence type="fractalNoise" baseFrequency=".009 .04" numOctaves="3" seed="11" stitchTiles="stitch" result="noise"/>
+        <feDisplacementMap in="SourceGraphic" in2="noise" scale="38" xChannelSelector="R" yChannelSelector="G" result="wisp"/>
+        <feGaussianBlur in="wisp" stdDeviation="5"/>
+      </filter>
     </defs>
     <rect width="1600" height="520" fill="url(#dz-sky-gradient)"/>
     <g aria-hidden="true">
@@ -49,6 +54,10 @@
       <path d="M95 -10L338 -10L772 430L520 430Z" fill="#fff" opacity=".16"/>
       <path d="M-40 34L40 -30L565 373L438 430Z" fill="#fff" opacity=".08"/>
       <circle cx="171" cy="59" r="13" fill="#fff" opacity=".48" filter="url(#dz-sky-glow)"/>
+    </g>
+    <g filter="url(#dz-wispy-organic)" opacity=".42" aria-hidden="true">
+      <path d="M505 294C660 235 815 279 950 244C1085 208 1190 190 1390 236C1240 245 1110 286 930 302C760 318 636 317 505 294Z" fill="#fff" opacity=".58"/>
+      <path d="M154 360C305 305 423 326 545 306C680 284 766 273 879 297C725 315 612 347 484 363C351 378 248 374 154 360Z" fill="#fff" opacity=".42"/>
     </g>
     <g mask="url(#dz-cloud-mask)" filter="url(#dz-cloud-organic)">
       <path d="M-70 455C-10 392 70 382 130 402C155 347 215 320 275 343C310 284 390 263 450 305C495 260 580 266 615 329C675 310 735 342 750 397C815 404 850 440 860 490V550H-70Z" fill="url(#dz-cloud-shade)" opacity=".84"/>
