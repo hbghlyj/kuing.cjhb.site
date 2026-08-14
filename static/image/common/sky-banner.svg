@@ -1,8 +1,4 @@
-<header class="sky-banner dz-sky-banner" aria-label="A bright blue morning sky with soft white clouds">
-    <svg viewBox="0 0 1600 520" preserveAspectRatio="xMidYMid slice" role="img" aria-labelledby="sky-title sky-desc">
-      <title id="sky-title">Airy morning sky</title>
-      <desc id="sky-desc">A blue-to-white sky, warm sunlight, small geometric stars, and realistic wispy clouds.</desc>
-
+    <svg viewBox="0 0 1600 520" preserveAspectRatio="xMidYMid slice">
       <defs>
         <!-- The final stops are true #fff so the SVG disappears into the page. -->
         <linearGradient id="skyGradient" x1="0" y1="0" x2="0" y2="1">
@@ -134,7 +130,6 @@
         <path d="M1055 90 L1059 104 L1074 109 L1059 114 L1055 129 L1050 114 L1036 109 L1050 104 Z" opacity="0.64"/>
         <path d="M1149 48 L1152 59 L1164 63 L1152 67 L1149 79 L1145 67 L1134 63 L1145 59 Z" opacity="0.88"/>
         <path d="M1228 112 L1231 121 L1240 124 L1231 127 L1228 137 L1225 127 L1216 124 L1225 121 Z" opacity="0.52"/>
-        <circle cx="1100" cy="38" r="3.5" opacity="0.55"/>
       </g>
 
       <!-- Distant transparent vapor ribbons -->
@@ -188,4 +183,3 @@
       <rect x="0" y="410" width="1600" height="110" fill="url(#bottomFade)"/>
       <rect x="0" y="510" width="1600" height="10" fill="#fff"/>
     </svg>
-  </header>
