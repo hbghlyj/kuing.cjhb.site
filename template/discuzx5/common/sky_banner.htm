@@ -1,5 +1,5 @@
 <div class="dz-sky-banner" role="img" aria-label="A bright blue morning sky with soft white clouds">
-  <svg viewBox="0 0 1600 520" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+  <svg viewBox="0 0 1600 520" preserveAspectRatio="xMidYMin slice" aria-hidden="true">
     <defs>
       <linearGradient id="dz-sky-gradient" x1="0" y1="0" x2="0" y2="1">
         <stop offset="0" stop-color="#69CDFF"/>
@@ -32,9 +32,19 @@
       <mask id="dz-cloud-mask" maskUnits="userSpaceOnUse" x="0" y="120" width="1600" height="400">
         <rect x="0" y="120" width="1600" height="400" fill="url(#dz-cloud-fade)"/>
       </mask>
+      <filter id="dz-sky-glow" x="-250%" y="-250%" width="600%" height="600%">
+        <feGaussianBlur stdDeviation="7" result="blur"/>
+        <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+      </filter>
     </defs>
     <rect width="1600" height="520" fill="url(#dz-sky-gradient)"/>
-    <ellipse cx="250" cy="65" rx="430" ry="330" fill="url(#dz-sky-halo)" opacity=".9"/>
+    <g aria-hidden="true">
+      <ellipse cx="250" cy="65" rx="430" ry="330" fill="url(#dz-sky-halo)" opacity=".96"/>
+      <ellipse cx="178" cy="38" rx="176" ry="144" fill="url(#dz-sky-halo)" opacity=".78" filter="url(#dz-sky-glow)"/>
+      <path d="M95 -10L338 -10L772 430L520 430Z" fill="#fff" opacity=".16"/>
+      <path d="M-40 34L40 -30L565 373L438 430Z" fill="#fff" opacity=".08"/>
+      <circle cx="171" cy="59" r="13" fill="#fff" opacity=".48" filter="url(#dz-sky-glow)"/>
+    </g>
     <g mask="url(#dz-cloud-mask)" filter="url(#dz-cloud-organic)">
       <path d="M-70 455C-10 392 70 382 130 402C155 347 215 320 275 343C310 284 390 263 450 305C495 260 580 266 615 329C675 310 735 342 750 397C815 404 850 440 860 490V550H-70Z" fill="url(#dz-cloud-shade)" opacity=".84"/>
       <path d="M735 465C780 408 838 390 900 404C925 340 992 304 1058 330C1095 245 1208 215 1285 282C1360 228 1485 250 1512 344C1580 338 1635 378 1660 432V552H735Z" fill="url(#dz-cloud-shade)"/>
