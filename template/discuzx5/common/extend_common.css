@@ -43,8 +43,7 @@
 
 
 
-body { background-color: #fff; background-image: url({STATICURL}image/common/sky-banner.svg?{VERHASH}); background-repeat: no-repeat; background-position: top center; background-size: min(100%, 960px) auto; }
-.dz_wide { background-size: min(100%, 1200px) auto; }
+body { background-color: #fff; background-image: url({STATICURL}image/common/sky-banner.svg?{VERHASH}); background-repeat: no-repeat; background-position: top center; background-size: 100% auto; }
 @media (prefers-reduced-motion:reduce) { .dz-sky-banner * { animation: none !important; } }
 input, textarea {font:1em/1.5 monospace}
 textarea {color:var(--dz-fa)}
