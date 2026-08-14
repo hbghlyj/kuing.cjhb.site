@@ -19,6 +19,20 @@ $t = $_GET['t'];
 $authk = !$requestmode ? substr(md5($aid.md5($_G['config']['security']['authkey']).$t.$_GET['uid']), 0, 8) : md5($aid.md5($_G['config']['security']['authkey']).$t);
 $sameuser = !empty($_GET['uid']) && $_GET['uid'] == $_G['uid'];
 
+function fetch_forum_attachment_by_aid($aid) {
+	$metadata = table_forum_attachment::t()->fetch($aid);
+	if(empty($metadata) || !isset($metadata['tableid'])) {
+		return [];
+	}
+
+	$tableid = intval($metadata['tableid']);
+	if($tableid < 0 || $tableid > 9) {
+		return [];
+	}
+
+	return table_forum_attachment_n::t()->fetch_attachment($tableid, $aid);
+}
+
 if($k !== $authk || $t > TIMESTAMP + 3600) {
 	if(!$requestmode) {
 		showmessage('attachment_nonexistence');
@@ -40,13 +54,11 @@ if($_GET['uid'] != $_G['uid'] && $_GET['uid']) {
 }
 
 
-$tableid = 'aid:'.$aid;
-
 if($_G['setting']['attachexpire']) {
 
 	if(TIMESTAMP - $t > $_G['setting']['attachexpire'] * 3600) {
 		$aid = intval($aid);
-		if($attach = table_forum_attachment_n::t()->fetch_attachment($tableid, $aid)) {
+		if($attach = fetch_forum_attachment_by_aid($aid)) {
 			if($attach['isimage']) {
 				dheader('location: '.$_G['siteurl'].'static/image/common/none.gif');
 			} else {
@@ -97,19 +109,19 @@ $archiveid = in_array($_GET['archiveid'], $threadtableids) ? intval($_GET['archi
 // 检查附件 aid 数据记录，取得附件和主题信息
 $attachexists = FALSE;
 if(!empty($aid) && is_numeric($aid)) {
-	$attach = table_forum_attachment_n::t()->fetch_attachment($tableid, $aid);
-	$thread = table_forum_thread::t()->fetch_by_tid_displayorder($attach['tid'], 0, '>=', null, $archiveid);
-	if($_G['uid'] && $attach['uid'] != $_G['uid']) {
-		if($attach) {
+	$attach = fetch_forum_attachment_by_aid($aid);
+	if($attach) {
+		$thread = table_forum_thread::t()->fetch_by_tid_displayorder($attach['tid'], 0, '>=', null, $archiveid);
+		if($thread && $_G['uid'] && $attach['uid'] != $_G['uid']) {
 			$attachpost = table_forum_post::t()->fetch_post($thread['posttableid'], $attach['pid'], false);
 			$attach['invisible'] = $attachpost['invisible'];
 			unset($attachpost);
+			if($attach['invisible'] == 0) {
+				$thread && $attachexists = TRUE;
+			}
+		} elseif($thread) {
+			$attachexists = TRUE;
 		}
-		if($attach && $attach['invisible'] == 0) {
-			$thread && $attachexists = TRUE;
-		}
-	} else {
-		$attachexists = TRUE;
 	}
 }
 
