@@ -1,72 +1,190 @@
-<div class="dz-sky-banner" role="img" aria-label="A bright blue morning sky with soft white clouds">
-  <svg viewBox="0 0 1600 520" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-    <defs>
-      <linearGradient id="dz-sky-gradient" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0" stop-color="#69CDFF"/>
-        <stop offset=".34" stop-color="#9BDDFF"/>
-        <stop offset=".68" stop-color="#DDF3FF"/>
-        <stop offset=".9" stop-color="#F8FDFF"/>
-        <stop offset="1" stop-color="#FFFFFF"/>
-      </linearGradient>
-      <radialGradient id="dz-sky-halo" cx=".5" cy=".5" r=".5">
-        <stop offset="0" stop-color="#FFFFFF" stop-opacity=".98"/>
-        <stop offset=".2" stop-color="#FFFDF0" stop-opacity=".78"/>
-        <stop offset=".55" stop-color="#EFFFFF" stop-opacity=".2"/>
-        <stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>
-      </radialGradient>
-      <linearGradient id="dz-cloud-shade" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0" stop-color="#FFFFFF" stop-opacity=".98"/>
-        <stop offset=".5" stop-color="#F7FCFF" stop-opacity=".9"/>
-        <stop offset="1" stop-color="#CBE9F7" stop-opacity=".18"/>
-      </linearGradient>
-      <filter id="dz-cloud-organic" x="-18%" y="-30%" width="136%" height="170%" color-interpolation-filters="sRGB">
-        <feTurbulence type="fractalNoise" baseFrequency=".006 .021" numOctaves="4" seed="23" stitchTiles="stitch" result="noise"/>
-        <feDisplacementMap in="SourceGraphic" in2="noise" scale="28" xChannelSelector="R" yChannelSelector="B" result="cloud"/>
-        <feGaussianBlur in="cloud" stdDeviation="2.2"/>
-      </filter>
-      <linearGradient id="dz-cloud-fade" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0" stop-color="#fff"/>
-        <stop offset=".68" stop-color="#fff"/>
-        <stop offset="1" stop-color="#fff" stop-opacity="0"/>
-      </linearGradient>
-      <linearGradient id="dz-sky-bottom-fade" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0" stop-color="#fff" stop-opacity="0"/>
-        <stop offset=".68" stop-color="#fff" stop-opacity=".72"/>
-        <stop offset="1" stop-color="#fff"/>
-      </linearGradient>
-      <mask id="dz-cloud-mask" maskUnits="userSpaceOnUse" x="0" y="120" width="1600" height="400">
-        <rect x="0" y="120" width="1600" height="400" fill="url(#dz-cloud-fade)"/>
-      </mask>
-      <filter id="dz-sky-glow" x="-250%" y="-250%" width="600%" height="600%">
-        <feGaussianBlur stdDeviation="7" result="blur"/>
-        <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-      </filter>
-      <filter id="dz-wispy-organic" x="-32%" y="-70%" width="168%" height="245%" color-interpolation-filters="sRGB">
-        <feTurbulence type="fractalNoise" baseFrequency=".009 .04" numOctaves="3" seed="11" stitchTiles="stitch" result="noise"/>
-        <feDisplacementMap in="SourceGraphic" in2="noise" scale="38" xChannelSelector="R" yChannelSelector="G" result="wisp"/>
-        <feGaussianBlur in="wisp" stdDeviation="5"/>
-      </filter>
-    </defs>
-    <rect width="1600" height="520" fill="url(#dz-sky-gradient)"/>
-    <g aria-hidden="true">
-      <ellipse cx="250" cy="65" rx="430" ry="330" fill="url(#dz-sky-halo)" opacity=".96"/>
-      <ellipse cx="178" cy="38" rx="176" ry="144" fill="url(#dz-sky-halo)" opacity=".78" filter="url(#dz-sky-glow)"/>
-      <path d="M95 -10L338 -10L772 430L520 430Z" fill="#fff" opacity=".16"/>
-      <path d="M-40 34L40 -30L565 373L438 430Z" fill="#fff" opacity=".08"/>
-      <circle cx="171" cy="59" r="13" fill="#fff" opacity=".48" filter="url(#dz-sky-glow)"/>
-    </g>
-    <g filter="url(#dz-wispy-organic)" opacity=".42" aria-hidden="true">
-      <path d="M505 294C660 235 815 279 950 244C1085 208 1190 190 1390 236C1240 245 1110 286 930 302C760 318 636 317 505 294Z" fill="#fff" opacity=".58"/>
-      <path d="M154 360C305 305 423 326 545 306C680 284 766 273 879 297C725 315 612 347 484 363C351 378 248 374 154 360Z" fill="#fff" opacity=".42"/>
-    </g>
-    <g mask="url(#dz-cloud-mask)" filter="url(#dz-cloud-organic)">
-      <path d="M-70 455C-10 392 70 382 130 402C155 347 215 320 275 343C310 284 390 263 450 305C495 260 580 266 615 329C675 310 735 342 750 397C815 404 850 440 860 490V550H-70Z" fill="url(#dz-cloud-shade)" opacity=".84"/>
-      <path d="M735 465C780 408 838 390 900 404C925 340 992 304 1058 330C1095 245 1208 215 1285 282C1360 228 1485 250 1512 344C1580 338 1635 378 1660 432V552H735Z" fill="url(#dz-cloud-shade)"/>
-      <ellipse cx="338" cy="354" rx="182" ry="85" fill="#fff" opacity=".62"/>
-      <ellipse cx="1155" cy="330" rx="176" ry="104" fill="#fff" opacity=".7"/>
-      <ellipse cx="1365" cy="337" rx="192" ry="100" fill="#fff" opacity=".78"/>
-    </g>
-    <rect y="410" width="1600" height="110" fill="url(#dz-sky-bottom-fade)"/>
-    <rect y="510" width="1600" height="10" fill="#fff"/>
-  </svg>
-</div>
+<header class="sky-banner dz-sky-banner" aria-label="A bright blue morning sky with soft white clouds">
+    <svg viewBox="0 0 1600 520" preserveAspectRatio="xMidYMid slice" role="img" aria-labelledby="sky-title sky-desc">
+      <title id="sky-title">Airy morning sky</title>
+      <desc id="sky-desc">A blue-to-white sky, warm sunlight, small geometric stars, and realistic wispy clouds.</desc>
+
+      <defs>
+        <!-- The final stops are true #fff so the SVG disappears into the page. -->
+        <linearGradient id="skyGradient" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#69CDFF"/>
+          <stop offset="0.34" stop-color="#9BDDFF"/>
+          <stop offset="0.68" stop-color="#DDF3FF"/>
+          <stop offset="0.90" stop-color="#F8FDFF"/>
+          <stop offset="1" stop-color="#FFFFFF"/>
+        </linearGradient>
+
+        <radialGradient id="sunHalo" cx="0.5" cy="0.5" r="0.5">
+          <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.98"/>
+          <stop offset="0.13" stop-color="#FFFDF0" stop-opacity="0.88"/>
+          <stop offset="0.38" stop-color="#EFFFFF" stop-opacity="0.42"/>
+          <stop offset="0.72" stop-color="#D9F4FF" stop-opacity="0.12"/>
+          <stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>
+        </radialGradient>
+
+        <linearGradient id="sunRay" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.46"/>
+          <stop offset="0.72" stop-color="#FFFFFF" stop-opacity="0.08"/>
+          <stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>
+        </linearGradient>
+
+        <linearGradient id="cloudShade" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.98"/>
+          <stop offset="0.48" stop-color="#F7FCFF" stop-opacity="0.92"/>
+          <stop offset="1" stop-color="#CBE9F7" stop-opacity="0.20"/>
+        </linearGradient>
+
+        <linearGradient id="cloudLight" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.96"/>
+          <stop offset="1" stop-color="#FFFFFF" stop-opacity="0.10"/>
+        </linearGradient>
+
+        <linearGradient id="bottomFade" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#FFFFFF" stop-opacity="0"/>
+          <stop offset="0.68" stop-color="#FFFFFF" stop-opacity="0.72"/>
+          <stop offset="1" stop-color="#FFFFFF" stop-opacity="1"/>
+        </linearGradient>
+
+        <!--
+          Two-scale cloud edge pipeline:
+          1) dense multi-octave noise breaks up the large silhouette;
+          2) a second, high-frequency field erodes only the outer edge band;
+          3) a very small blur and alpha lift remove digital speckle without
+             polishing away the newly created detail.
+        -->
+        <filter id="cloudOrganic" x="-28%" y="-42%" width="158%" height="205%" color-interpolation-filters="sRGB">
+          <!-- Broad billows and medium-sized edge variation. -->
+          <feTurbulence type="fractalNoise" baseFrequency="0.009 0.032" numOctaves="7" seed="23" stitchTiles="stitch" result="macroNoise"/>
+          <feGaussianBlur in="macroNoise" stdDeviation="0.35" result="coherentNoise"/>
+          <feDisplacementMap in="SourceGraphic" in2="coherentNoise" scale="47" xChannelSelector="R" yChannelSelector="B" result="macroDistorted"/>
+
+          <!-- Short-wavelength detail: roughly 8–24 px across in this viewBox. -->
+          <feTurbulence type="fractalNoise" baseFrequency="0.042 0.115" numOctaves="5" seed="67" result="microNoise"/>
+          <feColorMatrix in="microNoise" type="luminanceToAlpha" result="microAlpha"/>
+          <feComponentTransfer in="microAlpha" result="microMask">
+            <feFuncA type="table" tableValues="0 0.03 0.16 0.43 0.76 0.94 1"/>
+          </feComponentTransfer>
+
+          <!-- Preserve a solid interior while letting noise eat into the rim. -->
+          <feMorphology in="macroDistorted" operator="erode" radius="7" result="cloudCore"/>
+          <feComposite in="macroDistorted" in2="cloudCore" operator="out" result="edgeBand"/>
+          <feComposite in="edgeBand" in2="microMask" operator="in" result="granularEdge"/>
+          <feMerge result="texturedCloud">
+            <feMergeNode in="cloudCore"/>
+            <feMergeNode in="granularEdge"/>
+          </feMerge>
+
+          <!-- Feather just enough for vapor, then clean near-transparent fringe. -->
+          <feGaussianBlur in="texturedCloud" stdDeviation="1.15" result="feathered"/>
+          <feColorMatrix in="feathered" type="matrix" values="
+            1 0 0 0 0
+            0 1 0 0 0
+            0 0 1 0 0
+            0 0 0 1.14 -0.038" result="cleaned"/>
+          <feGaussianBlur in="cleaned" stdDeviation="0.32"/>
+        </filter>
+
+        <!-- Dense anisotropic noise makes the detached vapor trails finely shredded. -->
+        <filter id="wispyOrganic" x="-36%" y="-76%" width="176%" height="258%" color-interpolation-filters="sRGB">
+          <feTurbulence type="fractalNoise" baseFrequency="0.014 0.058" numOctaves="7" seed="11" result="wispMacro"/>
+          <feDisplacementMap in="SourceGraphic" in2="wispMacro" scale="56" xChannelSelector="R" yChannelSelector="G" result="wispBroad"/>
+          <feTurbulence type="fractalNoise" baseFrequency="0.065 0.17" numOctaves="4" seed="89" result="wispMicro"/>
+          <feDisplacementMap in="wispBroad" in2="wispMicro" scale="11" xChannelSelector="B" yChannelSelector="R" result="wispDetailed"/>
+          <feGaussianBlur in="wispDetailed" stdDeviation="2.6" result="wispSoft"/>
+          <feColorMatrix in="wispSoft" type="matrix" values="
+            1 0 0 0 0
+            0 1 0 0 0
+            0 0 1 0 0
+            0 0 0 1.02 -0.028"/>
+        </filter>
+
+        <filter id="softGlow" x="-250%" y="-250%" width="600%" height="600%">
+          <feGaussianBlur stdDeviation="7" result="blur"/>
+          <feMerge>
+            <feMergeNode in="blur"/>
+            <feMergeNode in="SourceGraphic"/>
+          </feMerge>
+        </filter>
+
+        <!-- Makes cloud cover dissolve naturally before the guaranteed white edge. -->
+        <linearGradient id="cloudMaskGradient" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#fff"/>
+          <stop offset="0.65" stop-color="#fff"/>
+          <stop offset="1" stop-color="#000" stop-opacity="0.08"/>
+        </linearGradient>
+        <mask id="cloudFadeMask" maskUnits="userSpaceOnUse" x="0" y="130" width="1600" height="390">
+          <rect x="0" y="130" width="1600" height="390" fill="url(#cloudMaskGradient)"/>
+        </mask>
+      </defs>
+
+      <!-- Sky field -->
+      <rect width="1600" height="520" fill="url(#skyGradient)"/>
+
+      <!-- Morning flare, kept broad and diffuse rather than drawn as a hard sun. -->
+      <g aria-hidden="true">
+        <ellipse cx="250" cy="65" rx="430" ry="330" fill="url(#sunHalo)" opacity="0.96"/>
+        <ellipse cx="178" cy="38" rx="176" ry="144" fill="url(#sunHalo)" opacity="0.78" filter="url(#softGlow)"/>
+        <path d="M95 -10 L338 -10 L772 430 L520 430 Z" fill="url(#sunRay)" opacity="0.34"/>
+        <path d="M-40 34 L40 -30 L565 373 L438 430 Z" fill="url(#sunRay)" opacity="0.18"/>
+        <circle cx="171" cy="59" r="13" fill="#fff" opacity="0.48" filter="url(#softGlow)"/>
+      </g>
+
+      <!-- Sharp whimsical star accents -->
+      <g fill="#fff" aria-hidden="true">
+        <path d="M942 48 L948 68 L968 74 L948 80 L942 101 L936 80 L916 74 L936 68 Z" opacity="0.82" filter="url(#softGlow)"/>
+        <path d="M1055 90 L1059 104 L1074 109 L1059 114 L1055 129 L1050 114 L1036 109 L1050 104 Z" opacity="0.64"/>
+        <path d="M1149 48 L1152 59 L1164 63 L1152 67 L1149 79 L1145 67 L1134 63 L1145 59 Z" opacity="0.88"/>
+        <path d="M1228 112 L1231 121 L1240 124 L1231 127 L1228 137 L1225 127 L1216 124 L1225 121 Z" opacity="0.52"/>
+        <circle cx="1100" cy="38" r="3.5" opacity="0.55"/>
+      </g>
+
+      <!-- Distant transparent vapor ribbons -->
+      <g filter="url(#wispyOrganic)" opacity="0.46" aria-hidden="true">
+        <path d="M505 294 C660 235 815 279 950 244 C1085 208 1190 190 1390 236 C1240 245 1110 286 930 302 C760 318 636 317 505 294Z" fill="url(#cloudLight)"/>
+        <path d="M154 360 C305 305 423 326 545 306 C680 284 766 273 879 297 C725 315 612 347 484 363 C351 378 248 374 154 360Z" fill="#fff" opacity="0.40"/>
+      </g>
+
+      <!-- Main cloud system -->
+      <g mask="url(#cloudFadeMask)" aria-hidden="true">
+        <!-- Middle cloud bank -->
+        <g filter="url(#cloudOrganic)" opacity="0.75">
+          <path d="M-62 452
+                   C-11 395 64 382 126 401
+                   C151 347 213 320 273 343
+                   C306 283 390 262 450 305
+                   C491 258 581 264 615 329
+                   C672 310 735 342 748 397
+                   C809 404 850 438 857 489
+                   L857 550 L-62 550 Z" fill="url(#cloudShade)"/>
+          <ellipse cx="337" cy="354" rx="182" ry="85" fill="url(#cloudLight)" opacity="0.64"/>
+          <ellipse cx="515" cy="375" rx="160" ry="79" fill="#fff" opacity="0.54"/>
+        </g>
+
+        <!-- Large right cloud bank, built from overlapping irregular masses. -->
+        <g filter="url(#cloudOrganic)">
+          <path d="M746 463
+                   C778 410 837 389 900 404
+                   C922 340 992 303 1058 329
+                   C1092 244 1208 215 1284 282
+                   C1357 227 1484 249 1511 344
+                   C1577 338 1632 377 1656 432
+                   L1656 552 L746 552 Z" fill="url(#cloudShade)" opacity="0.95"/>
+          <ellipse cx="1156" cy="330" rx="176" ry="104" fill="#fff" opacity="0.73"/>
+          <ellipse cx="1366" cy="337" rx="192" ry="100" fill="url(#cloudLight)" opacity="0.84"/>
+          <ellipse cx="1502" cy="402" rx="166" ry="86" fill="#fff" opacity="0.72"/>
+          <ellipse cx="1008" cy="403" rx="154" ry="73" fill="#F6FCFF" opacity="0.62"/>
+        </g>
+
+        <!-- Fine detached puffs avoid a hard, clip-art silhouette. -->
+        <g filter="url(#wispyOrganic)" fill="#fff">
+          <ellipse cx="714" cy="390" rx="113" ry="32" opacity="0.30"/>
+          <ellipse cx="846" cy="343" rx="106" ry="38" opacity="0.34"/>
+          <ellipse cx="1024" cy="277" rx="106" ry="33" opacity="0.38"/>
+          <ellipse cx="1428" cy="237" rx="132" ry="38" opacity="0.38"/>
+          <ellipse cx="1550" cy="292" rx="112" ry="32" opacity="0.31"/>
+        </g>
+      </g>
+
+      <!-- Final optical merge into a completely flat white page. -->
+      <rect x="0" y="410" width="1600" height="110" fill="url(#bottomFade)"/>
+      <rect x="0" y="510" width="1600" height="10" fill="#fff"/>
+    </svg>
