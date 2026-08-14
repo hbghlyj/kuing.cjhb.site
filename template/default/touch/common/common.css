@@ -1018,8 +1018,9 @@ a.flw_readfull {color: var(--dz-BG-2);}
 .threadlist_foot li.mr {margin-right:0;background:none;padding:0}
 .threadlist_foot li.mr a {display:inline-flex;align-items:center;gap:3px;color:var(--dz-FC-color);font-size:12px;font-weight:normal;padding:2px 8px;background:var(--dz-BG-5);border-radius:var(--dz-radius-sm);transition:var(--dz-transition)}
 .threadlist_foot li.mr a:active {background:var(--dz-BG-5);transform:scale(0.96)}
-.threadlist_foot li.thread-tags { flex: 0 0 100%; display: block; }
-.threadlist_foot li.thread-tags .ptg { margin: 0; }
+.threadlist_foot li.thread-tags .ptg a { display:inline-flex; align-items:center; gap:3px; color:var(--dz-FC-color); font-size:12px; font-weight:normal; padding:2px 8px; margin:0 4px 4px 0; background:var(--dz-BG-5); border-radius:var(--dz-radius-sm); transition:var(--dz-transition); }
+.threadlist_foot li.thread-tags { flex: 0 1 auto; display: block; min-width: 0; }
+.threadlist_foot li.thread-tags .ptg { width: auto; margin: 0; }
 .threadlist_foot li.stats {margin-left:auto}
 .threadlist_foot li.stats ~ li.stats {margin-left:0}
 .threadlist_foot li.stats a {display:inline-flex;align-items:center;gap:4px;color:var(--dz-FC-999)}
