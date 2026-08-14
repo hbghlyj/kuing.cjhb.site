@@ -187,6 +187,49 @@ body.st-d {
     background: #fff;
 }
 
+.password-toggle-field {
+    position: relative;
+    display: block;
+    width: 100%;
+}
+
+.password-toggle-field > input {
+    box-sizing: border-box;
+    width: 100%;
+    padding-right: 40px;
+}
+
+.password-toggle-field > .password-toggle {
+    position: absolute;
+    top: 50%;
+    right: 4px;
+    width: 30px;
+    height: 30px;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: #777;
+    cursor: pointer;
+    transform: translateY(-50%);
+}
+
+.password-toggle-field > .password-toggle::before {
+    content: '';
+    display: block;
+    width: 18px;
+    height: 18px;
+    margin: 6px;
+    background-color: currentColor;
+    -webkit-mask: url(../common/password-eye.svg) no-repeat center / contain;
+    mask: url(../common/password-eye.svg) no-repeat center / contain;
+}
+
+.password-toggle-field > .password-toggle:hover,
+.password-toggle-field > .password-toggle:focus {
+    color: #333;
+}
+
 .st-d .loginbox {
     background: #181818;
 }
