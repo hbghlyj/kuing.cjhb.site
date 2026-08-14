@@ -1250,6 +1250,7 @@ body.pg_logging, body.pg_register, body.pg_lostpasswd_mobile, body.pg_lostpasswd
 .ptg i:before { font-family: "dzmicon" !important; content: "\f11d"; }
 .ptg a { display: inline-block; padding: 2px 8px; margin-right: 6px; margin-bottom: 4px; background: var(--dz-BG-5, #f3f3f3); color: var(--dz-FC-color, #2B7ACD); border-radius: var(--dz-radius-sm, 4px); font-size: 12px; text-decoration: none; vertical-align: middle; }
 .ptg a:hover { background: var(--dz-BG-n, #A0C8EA); color: #fff; }
+.ml .ptg { display: inline-block; width: auto; max-width: 100%; }
 .plc .pi .message .jammer {font-size:12px;color:var(--dz-BG-0)}
 .plc .pi .message  hr.l { height: 1px; border: none; background: var(--dz-BOR-ed); color:var(--dz-BOR-ed)}
 .savephotop { display: block; clear: both; width: 100%; margin: 8px 0; box-sizing: border-box; }
