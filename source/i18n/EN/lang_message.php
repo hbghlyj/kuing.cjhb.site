@@ -388,8 +388,8 @@ $lang = array (
 	'forum_access_disallow'			=> 'Sorry, you are not allowed to do this operation is this forum',//'对不起，您在本版无权进行此操作，请返回',
 
 	'post_check'				=> 'Specified post does not exist or has been removed or are under moderation.<br /><a href="forum.php?mod=viewthread&tid={tid}">[Click here to thread content page of this post]</a>',//'指定的帖子不存在或已被删除或正在被审核。<br /><a href="forum.php?mod=viewthread&tid={tid}">[ 尝试转入主题请点击这里 ]</a>',
-	'redirect_nextnewset_nonexistence'	=> 'No thread newer than current.',//'没有比当前更新的主题，请返回。',
-	'redirect_nextoldset_nonexistence'	=> 'No thread earlier than current.',//'没有比当前更早的主题，请返回。',
+	'redirect_nextnewset_nonexistence'	=> 'There are no newer threads.',
+	'redirect_nextoldset_nonexistence'	=> 'There are no older threads.',
 
 	'trade_credits_no_enough'	=> 'Your {credittitle} is not ennough, can not {credittitle} benefits in exchange for products.',//'您的 {credittitle} 不足，无法用 {credittitle} 换取商品的优惠，请返回修改。',
 	'trade_directtopay'		=> 'Order submitted successfully and will now jump to the payment page.',//'订单提交成功，现在将跳转到支付页面。',
