@@ -149,12 +149,6 @@
 					<em $thread['highlight']>{$thread['subject']}</em>
 				</div>
 				</a>
-				<!--{if !empty($thread['taglist'])}-->
-				<div class="ptg mbm mtn cl">
-					<i class="dm-tag vm"></i>
-					<span class="threadtags"><!--{loop $thread['taglist'] $tag}--><a title="$tag['tagname']" href="misc.php?mod=tag&id=$tag['tagid']&name=<!--{echo rawurlencode($tag['tagname'])}-->" target="_blank">$tag['tagname']</a><!--{/loop}--></span>
-				</div>
-				<!--{/if}-->
 				<a href="forum.php?mod=viewthread&tid=$thread['tid']&extra=$extra"><div class="threadlist_mes cl">{$threadlist_data[$thread['tid']]['message']}</div></a>
 				<!--{if $threadlist_data[$thread['tid']]['attachment']}-->
 				<!--{eval $attach_on = 0;}-->
@@ -175,6 +169,9 @@
 					<ul>
 						<!--{if $thread['typeid']}-->
 						<li class="mr"><a href="forum.php?mod=forumdisplay&fid=$thread['fid']&filter=typeid&typeid=$thread['typeid']">{$_G['forum']['threadtypes']['types'][$thread['typeid']]}</a></li>
+						<!--{/if}-->
+						<!--{if !empty($thread['taglist'])}-->
+						<li class="thread-tags"><span class="ptg"><span class="threadtags"><!--{loop $thread['taglist'] $tag}--><a title="$tag['tagname']" href="misc.php?mod=tag&id=$tag['tagid']&name=<!--{echo rawurlencode($tag['tagname'])}-->" target="_blank">$tag['tagname']</a><!--{/loop}--></span></span></li>
 						<!--{/if}-->
 						<li class="stats"><i class="dm-eye-fill"></i>{$thread['views']}</li>
 						<li class="stats"><i class="dm-chat-s-fill"></i>{$thread['replies']}</li>
