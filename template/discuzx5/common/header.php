@@ -73,10 +73,10 @@
 		<!--{/if}-->
 
 		<!--{ad/headerbanner/wp a_h}-->
-		<!--{template common/sky_banner}-->
 
 		<div id="hd">
 		<div class="wp">
+			<!--{template common/sky_banner}-->
 			<span class="pg" id="recentthreads_wrap" style="display:none"><a href="javascript:;" id="recentthreads" onmouseover="showMenu({'ctrlid':this.id,'pos':'34'})">{lang viewed_threads}</a></span>
 			<div id="recentthreads_menu" class="p_pop h_pop navs_menu" style="display:none">
 				<ul id="v_threads"></ul>
