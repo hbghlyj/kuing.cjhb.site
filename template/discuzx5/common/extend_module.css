@@ -142,6 +142,7 @@ details > div {
 .plc .authi a.kmico {margin:0 1px}
 .pls p, .pls .pil, .pls .o {margin:8px 20px}
 .ad .pls, .ad .plc {height:1px;background:var(--dz-borderb)}
+.t_f ul, .t_f ol { margin-top: 1em; margin-bottom: 1em; }
 .t_f ul{    margin-left: 0px;}
 .posthead .pls {padding:20px 0;line-height:22px}
 .posthead .plc {padding:20px}

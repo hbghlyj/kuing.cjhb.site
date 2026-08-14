@@ -905,6 +905,7 @@ a.thread_mod { height: 19px; line-height: 19px; display: inline-block; color: #4
 		.t_fsz { min-height: unset; }
 		.t_f, .t_f td { font-size: {MSGFONTSIZE}; }
 			.t_f a { color: {HIGHLIGHTLINK}; text-decoration: underline; }
+		.t_f ul, .t_f ol { margin-top: 1em; margin-bottom: 1em; }
 		.t_f ul { margin-left: 14px; }
 			.t_f li { margin-left: 2em; }
 			.t_f ul li { list-style-type: disc; }
