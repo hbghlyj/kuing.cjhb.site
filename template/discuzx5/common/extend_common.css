@@ -44,8 +44,8 @@
 
 
 body { isolation: isolate; position: relative; background-color: #c9dce8; }
-body.discuzx5::before { content: ""; position: fixed; inset: 0 0 auto; width: 100%; height: 45vh; z-index: -9999; background-image: var(--cloud-bg, none), linear-gradient(180deg, #0b2e7c 0%, #123d93 14%, #2f6fc8 38%, #6fa8d8 62%, #bcd3e1 86%, #c9dce8 100%); background-size: 100% auto, 100% 100%; background-position: top left; background-repeat: no-repeat; pointer-events: none; mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.8) 30%, rgba(0,0,0,0) 100%); -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.8) 30%, rgba(0,0,0,0) 100%); }
-body.discuzx5::after { content: ""; position: absolute; left: 0; bottom: -12vh; width: 100%; height: 57vh; z-index: -10000; background: linear-gradient(180deg, #4b9fba 0%, #217d9c 28%, #07516d 68%, #022f47 100%); pointer-events: none; }
+body.discuzx5::before { content: ""; position: fixed; inset: 0 0 auto; width: 100%; height: 55vh; z-index: -9999; background-image: var(--cloud-bg, none), linear-gradient(180deg, #0b2e7c 0%, #123d93 14%, #2f6fc8 38%, #6fa8d8 62%, #bcd3e1 86%, #c9dce8 100%); background-size: 100% auto, 100% 100%; background-position: top left; background-repeat: no-repeat; pointer-events: none; mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 52%, rgba(0,0,0,.72) 72%, rgba(0,0,0,0) 100%); -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 52%, rgba(0,0,0,.72) 72%, rgba(0,0,0,0) 100%); }
+body.discuzx5::after { content: ""; position: absolute; left: 0; bottom: -12vh; width: 100%; height: 67vh; z-index: -10000; background: linear-gradient(180deg, #4b9fba 0%, #217d9c 28%, #07516d 68%, #022f47 100%); pointer-events: none; mask-image: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,.28) 12%, rgba(0,0,0,1) 32%, rgba(0,0,0,1) 100%); -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,.28) 12%, rgba(0,0,0,1) 32%, rgba(0,0,0,1) 100%); }
 input, textarea {font:1em/1.5 monospace}
 textarea {color:var(--dz-fa)}
 ul,li{list-style:none}
