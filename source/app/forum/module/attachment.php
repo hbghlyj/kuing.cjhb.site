@@ -20,7 +20,7 @@ $authk = !$requestmode ? substr(md5($aid.md5($_G['config']['security']['authkey'
 $sameuser = !empty($_GET['uid']) && $_GET['uid'] == $_G['uid'];
 
 function fetch_forum_attachment_by_aid($aid) {
-	$metadata = table_forum_attachment::t()->fetch($aid);
+	$metadata = table_forum_attachment::t()->fetch($aid, true);
 	if(empty($metadata) || !isset($metadata['tableid'])) {
 		return [];
 	}
