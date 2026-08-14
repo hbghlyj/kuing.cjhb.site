@@ -1,0 +1,48 @@
+<div class="dz-sky-banner" role="img" aria-label="A bright blue morning sky with soft white clouds">
+  <svg viewBox="0 0 1600 520" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    <defs>
+      <linearGradient id="dz-sky-gradient" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#69CDFF"/>
+        <stop offset=".34" stop-color="#9BDDFF"/>
+        <stop offset=".68" stop-color="#DDF3FF"/>
+        <stop offset=".9" stop-color="#F8FDFF"/>
+        <stop offset="1" stop-color="#FFFFFF"/>
+      </linearGradient>
+      <radialGradient id="dz-sky-halo" cx=".5" cy=".5" r=".5">
+        <stop offset="0" stop-color="#FFFFFF" stop-opacity=".98"/>
+        <stop offset=".2" stop-color="#FFFDF0" stop-opacity=".78"/>
+        <stop offset=".55" stop-color="#EFFFFF" stop-opacity=".2"/>
+        <stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>
+      </radialGradient>
+      <linearGradient id="dz-cloud-shade" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#FFFFFF" stop-opacity=".98"/>
+        <stop offset=".5" stop-color="#F7FCFF" stop-opacity=".9"/>
+        <stop offset="1" stop-color="#CBE9F7" stop-opacity=".18"/>
+      </linearGradient>
+      <filter id="dz-cloud-organic" x="-18%" y="-30%" width="136%" height="170%" color-interpolation-filters="sRGB">
+        <feTurbulence type="fractalNoise" baseFrequency=".006 .021" numOctaves="4" seed="23" stitchTiles="stitch" result="noise"/>
+        <feDisplacementMap in="SourceGraphic" in2="noise" scale="28" xChannelSelector="R" yChannelSelector="B" result="cloud"/>
+        <feGaussianBlur in="cloud" stdDeviation="2.2"/>
+      </filter>
+      <linearGradient id="dz-cloud-fade" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#fff"/>
+        <stop offset=".68" stop-color="#fff"/>
+        <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+      </linearGradient>
+      <mask id="dz-cloud-mask" maskUnits="userSpaceOnUse" x="0" y="120" width="1600" height="400">
+        <rect x="0" y="120" width="1600" height="400" fill="url(#dz-cloud-fade)"/>
+      </mask>
+    </defs>
+    <rect width="1600" height="520" fill="url(#dz-sky-gradient)"/>
+    <ellipse cx="250" cy="65" rx="430" ry="330" fill="url(#dz-sky-halo)" opacity=".9"/>
+    <g mask="url(#dz-cloud-mask)" filter="url(#dz-cloud-organic)">
+      <path d="M-70 455C-10 392 70 382 130 402C155 347 215 320 275 343C310 284 390 263 450 305C495 260 580 266 615 329C675 310 735 342 750 397C815 404 850 440 860 490V550H-70Z" fill="url(#dz-cloud-shade)" opacity=".84"/>
+      <path d="M735 465C780 408 838 390 900 404C925 340 992 304 1058 330C1095 245 1208 215 1285 282C1360 228 1485 250 1512 344C1580 338 1635 378 1660 432V552H735Z" fill="url(#dz-cloud-shade)"/>
+      <ellipse cx="338" cy="354" rx="182" ry="85" fill="#fff" opacity=".62"/>
+      <ellipse cx="1155" cy="330" rx="176" ry="104" fill="#fff" opacity=".7"/>
+      <ellipse cx="1365" cy="337" rx="192" ry="100" fill="#fff" opacity=".78"/>
+    </g>
+    <rect y="410" width="1600" height="110" fill="url(#dz-cloud-fade)"/>
+    <rect y="510" width="1600" height="10" fill="#fff"/>
+  </svg>
+</div>

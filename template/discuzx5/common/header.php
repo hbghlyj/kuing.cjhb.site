@@ -74,6 +74,7 @@
 		<!--{/if}-->
 
 		<!--{ad/headerbanner/wp a_h}-->
+		<!--{template common/sky_banner}-->
 
 		<div id="hd">
 		<div class="wp">
