@@ -300,6 +300,7 @@ $lang = [
 	'forum_recommend' => '推薦主題',
 	'forum_recyclebin' => '回收站',
 	'forum_viewall' => '全部',
+	'thread_types' => '主題類型',
 	'index_threads' => '主題',
 	'modcp' => '管理面板',
 	'exit_forum' => '登出版塊',

@@ -301,6 +301,7 @@ $lang = array (
 	'forum_recommend'		=> 'Recommend',//'推荐主题',
 	'forum_recyclebin'		=> 'Trash',//'回收站',
 	'forum_viewall'			=> 'All',//'全部',
+	'thread_types'			=> 'Thread types',
 	'index_threads'			=> 'Threads',//'主题',
 	'modcp'				=> 'Moderator CP',//'管理面板',
 	'post_newthread'		=> 'New Thread',//'发表帖子',
