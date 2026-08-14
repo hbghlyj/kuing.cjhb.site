@@ -148,7 +148,7 @@ showsubmenu('nav_logs', $menu, $sel);
 $filters = '';
 if($operation != 'setting') {
 	$keywordhtml = dhtmlspecialchars($keyword);
-	echo '<form name="logsearchform" method="get" autocomplete="on" action="./" id="logsearchform" onsubmit="return encodeLogKeywordSearch();">';
+	echo '<form name="logsearchform" method="get" autocomplete="on" action="'.ADMINSCRIPT.'" id="logsearchform" onsubmit="return encodeLogKeywordSearch();">';
 	showtableheader('', 'fixpadding');
 	echo '<input type="hidden" name="app" value="admin" />';
 	echo '<input type="hidden" name="platform" value="'.dhtmlspecialchars(PLATFORM).'" />';
