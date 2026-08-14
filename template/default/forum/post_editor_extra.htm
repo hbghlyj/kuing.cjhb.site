@@ -6,7 +6,7 @@
 		<div class="ftid">
 			<!--{if $_G['forum']['ismoderator'] || empty($_G['forum']['threadtypes']['moderators'][$thread[typeid]])}-->
 			<select name="typeid" id="typeid" width="80">
-			<option value="0">{lang select_thread_catgory}</option>
+			<option value="0">{lang select_thread_category}</option>
 			<!--{loop $_G['forum'][threadtypes][types] $typeid $name}-->
 				<!--{if empty($_G['forum']['threadtypes']['moderators'][$typeid]) || $_G['forum']['ismoderator']}-->
 				<option value="$typeid"{if (isset($thread['typeid']) && $thread['typeid'] == $typeid) || getgpc('typeid') == $typeid} selected="selected"{/if}><!--{echo strip_tags($name)}--></option>
