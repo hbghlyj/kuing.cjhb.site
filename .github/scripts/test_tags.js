@@ -143,7 +143,7 @@ const PUSHER_STUB = `
             tagLink.click()
         ]);
         await tagPage.waitForLoadState('networkidle');
-        const tagResultLink = tagPage.locator('a[href^="forum.php?mod=viewthread&tid=' + createdTid + '"]').filter({ hasText: 'Thread with Tags' });
+        const tagResultLink = tagPage.locator('table.tl tbody th > a[href^="forum.php?mod=viewthread&tid=' + createdTid + '"]').filter({ hasText: 'Thread with Tags' });
         assert.strictEqual(await tagResultLink.count(), 1, 'Assertion Error: Tag search result did not link to the created thread.');
         await tagPage.screenshot({ path: 'screenshot_tags_03_search_result.png' });
         await tagPage.close();
