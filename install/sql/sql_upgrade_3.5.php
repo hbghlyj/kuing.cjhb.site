@@ -852,6 +852,10 @@ INSERT IGNORE INTO pre_common_credit_rule
 	(rulename, action, cycletype, cycletime, rewardnum, norepeat, extcredits1, extcredits2, extcredits3, extcredits4, extcredits5, extcredits6, extcredits7, extcredits8, fids)
 VALUES ('Hot reply vote', 'postreview', 4, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, '');
 
+/* Require Karma before EXP can advance beyond the initial level score. */
+UPDATE pre_common_setting SET svalue = 'min(extcredits1,max(10,extcredits2))' WHERE skey = 'creditsformula';
+UPDATE pre_common_setting SET svalue = '<u>{credits_CREDITS}</u>=min(<u>EXP</u>,max(10,<u>Karma</u>))' WHERE skey = 'creditsformulaexp';
+
 INSERT INTO pre_forum_hotreply_number (pid, tid, support, `against`, total)
 SELECT
 	pid,

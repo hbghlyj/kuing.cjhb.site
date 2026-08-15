@@ -1808,6 +1808,7 @@ function formula_tokenize($formula, $operators, $tokens, $values, $funcs) {
 	$fexp = token_get_all('<?php '.$formula);
 	$prevseg = 1; // 1左括号2右括号3变量4运算符5函数
 	$isclose = 0;
+	$functionstack = [];
 	$tks = implode('|', $tokens);
 	$op1 = $op2 = [];
 	foreach($operators as $orts) {
@@ -1854,13 +1855,20 @@ function formula_tokenize($formula, $operators, $tokens, $values, $funcs) {
 				if(!in_array($prevseg, [1, 4, 5])) {
 					return false;
 				}
+				$functionstack[] = $prevseg === 5;
 				$prevseg = 1;
 				$isclose++;
+			} elseif($val === ',') {
+				if(empty($functionstack) || !end($functionstack) || !in_array($prevseg, [2, 3])) {
+					return false;
+				}
+				$prevseg = 4;
 			} elseif($val === ')') {
 				// 是右括号
 				if(!in_array($prevseg, [2, 3])) {
 					return false;
 				}
+				array_pop($functionstack);
 				$prevseg = 2;
 				$isclose--;
 				if($isclose < 0) {
@@ -1884,7 +1892,9 @@ function checkformulacredits($formula) {
 	return checkformulasyntax(
 		$formula,
 		['+', '-', '*', '/'],
-		['extcredits[1-8]', 'digestposts', 'posts', 'threads', 'oltime', 'friends', 'doings', 'polls', 'blogs', 'albums', 'sharings']
+		['extcredits[1-8]', 'digestposts', 'posts', 'threads', 'oltime', 'friends', 'doings', 'polls', 'blogs', 'albums', 'sharings'],
+		'',
+		['min', 'max']
 	);
 }
 

@@ -323,10 +323,10 @@ $data = [[
     'svalue' => '1',
   ],[
     'skey' => 'creditsformula',
-    'svalue' => 'posts+digestposts*5+extcredits1*2+extcredits2+extcredits3',
+    'svalue' => 'min(extcredits1,max(10,extcredits2))',
   ],[
     'skey' => 'creditsformulaexp',
-    'svalue' => '<u>{credits_CREDITS}</u>=<u>{credits_POSTS}</u>+<u>{credits_DIGESTPOSTS}</u>*5+<u>威望</u>*2+<u>金錢</u>+<u>貢獻</u>',
+    'svalue' => '<u>{credits_CREDITS}</u>=min(<u>EXP</u>,max(10,<u>Karma</u>))',
   ],[
     'skey' => 'creditsnotify',
     'svalue' => '',

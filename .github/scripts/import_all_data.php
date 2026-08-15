@@ -61,6 +61,8 @@ require './install/include/install_var.php';
 C::t('common_setting')->update('profilegroup', $serialize_sql_setting['profilegroup']);
 C::t('common_setting')->update('extcredits', $serialize_sql_setting['extcredits']);
 C::t('common_setting')->update('creditnotice', 1);
+C::t('common_setting')->update('creditsformula', 'min(extcredits1,max(10,extcredits2))');
+C::t('common_setting')->update('creditsformulaexp', '<u>{credits_CREDITS}</u>=min(<u>EXP</u>,max(10,<u>Karma</u>))');
 
 // Keep posting EXP separate from hot-reply Karma in the seeded database.
 DB::query("UPDATE `{$tablepre}common_credit_rule` SET extcredits1='0', extcredits2='0' WHERE action <> 'postreview'");
