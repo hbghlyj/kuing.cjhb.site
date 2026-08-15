@@ -15,6 +15,7 @@ $lang = array
 (
 	'creditrule_post' => '发表主题',
 	'creditrule_reply' => '发表回复',
+	'creditrule_postreview' => '热评投票',
 	'creditrule_digest' => '加精华',
 	'creditrule_postattach' => '上传附件',
 	'creditrule_getattach' => '下载附件',

@@ -845,6 +845,12 @@ WHERE c.authorid > 0
 GROUP BY p.tid, c.pid, c.authorid
 HAVING SUM(c.comment REGEXP '[[]extcredits[0-9]+ [+][0-9]+[]]') <> SUM(c.comment REGEXP '[[]extcredits[0-9]+ [-][0-9]+[]]');
 
+/* Keep posting EXP separate from hot-reply Karma. */
+UPDATE pre_common_credit_rule SET extcredits2 = 0 WHERE action <> 'postreview';
+INSERT IGNORE INTO pre_common_credit_rule
+	(rulename, action, cycletype, cycletime, rewardnum, norepeat, extcredits1, extcredits2, extcredits3, extcredits4, extcredits5, extcredits6, extcredits7, extcredits8, fids)
+VALUES ('Hot reply vote', 'postreview', 4, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, '');
+
 INSERT INTO pre_forum_hotreply_number (pid, tid, support, `against`, total)
 SELECT
 	pid,

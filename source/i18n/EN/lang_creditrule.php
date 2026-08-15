@@ -15,6 +15,7 @@ $lang = array
 (
 	'creditrule_post' => 'Post new thread',
 	'creditrule_reply' => 'Post reply',
+	'creditrule_postreview' => 'Hot reply vote',
 	'creditrule_digest' => 'Add digest',
 	'creditrule_postattach' => 'Upload attachment',
 	'creditrule_getattach' => 'Download attachment',
