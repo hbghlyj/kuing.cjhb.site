@@ -831,6 +831,20 @@ INNER JOIN pre_forum_post p ON p.pid = r.pid AND p.first = 0
 GROUP BY p.tid, r.pid, r.uid
 HAVING SUM(r.score) <> 0;
 
+/* Preserve binary votes encoded in legacy rating comments. */
+INSERT IGNORE INTO pre_forum_hotreply_member (tid, pid, uid, attitude)
+SELECT
+	p.tid,
+	c.pid,
+	c.authorid,
+	IF(SUM(c.comment REGEXP '[[]extcredits[0-9]+ [+][0-9]+[]]') > SUM(c.comment REGEXP '[[]extcredits[0-9]+ [-][0-9]+[]]'), 1, 0)
+FROM pre_forum_postcomment c
+INNER JOIN pre_forum_post p ON p.pid = c.pid AND p.first = 0
+WHERE c.authorid > 0
+	AND (c.comment REGEXP '[[]extcredits[0-9]+ [+][0-9]+[]]' OR c.comment REGEXP '[[]extcredits[0-9]+ [-][0-9]+[]]')
+GROUP BY p.tid, c.pid, c.authorid
+HAVING SUM(c.comment REGEXP '[[]extcredits[0-9]+ [+][0-9]+[]]') <> SUM(c.comment REGEXP '[[]extcredits[0-9]+ [-][0-9]+[]]');
+
 INSERT INTO pre_forum_hotreply_number (pid, tid, support, `against`, total)
 SELECT
 	pid,
