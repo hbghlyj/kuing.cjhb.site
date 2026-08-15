@@ -177,6 +177,12 @@ const { reportCiFailure } = require('./report_ci_failure');
                 });
             }
         };
+        const waitForViewThread = async () => {
+            if(!/forum\.php\?mod=viewthread/.test(page.url())) {
+                await page.waitForURL(/forum\.php\?mod=viewthread/);
+            }
+            await page.waitForLoadState('networkidle');
+        };
         const waitForDbValue = async (sql, expected, message) => {
             for(let attempt = 0; attempt < 15; attempt++) {
                 if(dbScalar(sql) === expected) {
@@ -363,8 +369,7 @@ const { reportCiFailure } = require('./report_ci_failure');
         const threadAttach = dbScalar(`SELECT attachment FROM pre_forum_thread WHERE tid='${tid}'`);
         assert.strictEqual(threadAttach, '2', 'Assertion Error: Mobile thread attachment status was not set to 2.');
 
-        await page.waitForURL(/forum\.php\?mod=viewthread/, { timeout: 5000 });
-        await page.waitForLoadState('networkidle');
+        await waitForViewThread();
         assert.ok(page.url().includes(`tid=${tid}`), 'Assertion Error: Mobile image post redirected to the wrong thread.');
         assert.ok((await page.textContent('body')).includes(subject), 'Assertion Error: Mobile image thread subject was not rendered after submission.');
         const uploadedImagePath = uploadText.split('|')[5];
@@ -404,8 +409,7 @@ const { reportCiFailure } = require('./report_ci_failure');
             'Mobile non-image thread submit',
             true
         );
-        await page.waitForURL(/forum\.php\?mod=viewthread/, { timeout: 5000 });
-        await page.waitForLoadState('networkidle');
+        await waitForViewThread();
         const nonImgMobileTid = dbScalar(`SELECT tid FROM pre_forum_thread WHERE subject='${nonImgMobileSubject}' ORDER BY tid DESC LIMIT 1`);
         assert.ok(nonImgMobileTid, 'Assertion Error: Mobile thread with non-image attachment was not created.');
         assert.ok(page.url().includes(`tid=${nonImgMobileTid}`), 'Assertion Error: Mobile non-image post redirected to the wrong thread.');
@@ -428,8 +432,7 @@ const { reportCiFailure } = require('./report_ci_failure');
             'Mobile reply submit',
             true
         );
-        await page.waitForURL(/forum\.php\?mod=viewthread/, { timeout: 5000 });
-        await page.waitForLoadState('networkidle');
+        await waitForViewThread();
         await waitForDbValue(`SELECT COUNT(*) FROM pre_forum_post WHERE tid='${nonImgMobileTid}' AND message='${reply}'`, '1', 'Assertion Error: Mobile reply was not created');
         const replyPid = dbScalar(`SELECT pid FROM pre_forum_post WHERE tid='${nonImgMobileTid}' AND message='${reply}' ORDER BY pid DESC LIMIT 1`);
         assert.ok(replyPid, 'Assertion Error: Mobile reply ID was not found.');
@@ -454,8 +457,7 @@ const { reportCiFailure } = require('./report_ci_failure');
             'Mobile edit submit',
             true
         );
-        await page.waitForURL(/forum\.php\?mod=viewthread/, { timeout: 5000 });
-        await page.waitForLoadState('networkidle');
+        await waitForViewThread();
         await waitForDbValue(`SELECT message FROM pre_forum_post WHERE pid='${replyPid}'`, editedReply, 'Assertion Error: Mobile reply edit was not saved');
 
         assert.ok(page.url().includes('viewthread'), 'Assertion Error: Mobile edit submit did not redirect to viewthread.');
