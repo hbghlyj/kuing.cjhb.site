@@ -58,8 +58,6 @@
 		</div>
 	</div>
 	<div style="width:280px;margin-top:15px;background-color:#232323;border-radius: 100px;color:#fff;
-    -moz-border-radius: 100px;
-    -webkit-border-radius: 100px;
     box-shadow: inset 0 5px 10px -5px #191919,0 1px 0 0 #444;
     -moz-box-shadow: inset 0 5px 10px -5px #191919,0 1px 0 0 #444;
     -webkit-box-shadow: inset 0 5px 10px -5px #191919,0 1px 0 0 #444;

@@ -172,10 +172,10 @@ Created & Modified by Alice, Monkey, Lushnis, Pony, Dfox & DragonLee.
 
 /** forum::viewthread,group::viewthread,home::task,misc::stat,home::space **/
 	/* 进度条 */
-		.pbg { height: 16px; border: 1px solid #CCC; background: #EEE; -webkit-border-radius: 8px; -moz-border-radius: 8px; border-radius: 8px; overflow: hidden; }
-		.pbr { height: 16px; width: 470px; background-color: #5AAF4A; -webkit-border-radius: 0; -moz-border-radius: 0; border-radius: 0; overflow: hidden; }
-		.pbg2 { display: block; height: 10px; width: 130px; margin: 0 auto; background: #FFF; -webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px; overflow: hidden; }
-		.pbr2 { display: block; height: 10px; background: #F155C8; -webkit-border-radius: 0; -moz-border-radius: 0; border-radius: 0; overflow: hidden; }
+		.pbg { height: 16px; border: 1px solid #CCC; background: #EEE; border-radius: 8px; overflow: hidden; }
+		.pbr { height: 16px; width: 470px; background-color: #5AAF4A; border-radius: 0; overflow: hidden; }
+		.pbg2 { display: block; height: 10px; width: 130px; margin: 0 auto; background: #FFF; border-radius: 5px; overflow: hidden; }
+		.pbr2 { display: block; height: 10px; background: #F155C8; border-radius: 0; overflow: hidden; }
 
 	/* 勋章链接hover时不显示下划线 by Pony 20110519 */
 	.md_ctrl a:hover { text-decoration: none; }
@@ -973,7 +973,7 @@ a.thread_mod { height: 19px; line-height: 19px; display: inline-block; color: #4
 					#p_btn .tshare a:hover { text-decoration: underline; }
 		.ratl img { height: 24px; width: 24px; vertical-align: middle; }
 
-			.icon_ring { background:#FFF4DD; float: left; width:8px; height:8px; margin-right:5px; margin-top: 3px; border:2px solid #F26C4F; -webkit-border-radius: 10px; -moz-border-radius: 10px; border-radius: 10px; box-shadow: 0px 0px 1px rgba(0, 0, 0, 0.2); overflow: hidden; }
+			.icon_ring { background:#FFF4DD; float: left; width:8px; height:8px; margin-right:5px; margin-top: 3px; border:2px solid #F26C4F; border-radius: 10px; box-shadow: 0px 0px 1px rgba(0, 0, 0, 0.2); overflow: hidden; }
 			.icon_ring:hover { background:#F26C4F; border:2px solid #FFF; }
 
 /* 回帖推荐 post sticklist by dfox */
@@ -1855,7 +1855,7 @@ a.editlog:hover { color: #333; }
 			.nwp { overflow-wrap: normal; white-space: nowrap; }
 		.tdats .c0 { padding: 0; height: 46px; text-align: center; vertical-align: bottom; background: transparent; }
 			.tdats .c0 h4 { line-height: 38px; background-color: #F60; color: {LIGHTLINK}; }
-		 	.tdats .c0 h4, .tdats .tb li { -moz-border-radius: 4px 4px 0 0; -webkit-border-radius: 4px 4px 0 0; border-radius: 4px 4px 0 0; }
+		.tdats .c0 h4, .tdats .tb li { border-radius: 4px 4px 0 0; }
 		.tdats .tb { float: left; margin-top: 8px; padding-left: 0; width: 470px; border-bottom-width: 4px; }
 			.tdats .tb li { padding: 0 10px; line-height: 33px; font-weight: bold; color: {LIGHTLINK}; }
 			.tdats .c1 { border-color: #158B00; }

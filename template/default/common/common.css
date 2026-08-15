@@ -305,9 +305,9 @@ Last Modify:	Pony
 			.ntc_l .d:hover { background: #F99; }
 
 /* 圆角 [!]此处考虑弃用 */
-	.brs, .avt img, .avt .Avatar, .oshr { -moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px; }
-	.brm { -moz-border-radius: 10px; -webkit-border-radius: 10px;  border-radius: 10px; }
-	.brw { -moz-border-radius: 20px; -webkit-border-radius: 20px; border-radius: 20px;  }
+	.brs, .avt img, .avt .Avatar, .oshr { border-radius: 5px; }
+	.brm { border-radius: 10px; }
+	.brw { border-radius: 20px; }
 /*
 	Name:			mod_margin
 	Level:			Global
@@ -1482,10 +1482,10 @@ Last Modify:	Pony
 	/* 左右两条边 */
 	.m_l, .m_r { width: 8px; }
 
-	.t_l { -moz-border-radius: 8px 0 0 0; -webkit-border-radius: 8px 0 0 0; border-radius: 8px 0 0 0; }
-	.t_r { -moz-border-radius: 0 8px 0 0; -webkit-border-radius: 0 8px 0 0; border-radius: 0 8px 0 0; }
-	.b_l { -moz-border-radius: 0 0 0 8px; -webkit-border-radius: 0 0 0 8px; border-radius: 0 0 0 8px; }
-	.b_r { -moz-border-radius: 0 0 8px 0; -webkit-border-radius: 0 0 8px 0; border-radius: 0 0 8px 0; }
+	.t_l { border-radius: 8px 0 0 0; }
+	.t_r { border-radius: 0 8px 0 0; }
+	.b_l { border-radius: 0 0 0 8px; }
+	.b_r { border-radius: 0 0 8px 0; }
 	.m_c { {FLOATBGCODE}; }
 
 /* 弹出层内容区 by Pony */
@@ -1571,7 +1571,7 @@ Last Modify:	Pony
 		.pmb { position: relative; padding: 20px 20px 0; width: 360px; height: 280px; overflow: auto; overflow-x: hidden; }
 			.pmb li { position: relative; margin-bottom: 10px; }
 				.pmt { overflow: hidden; position: absolute; bottom: 1px; left: -5px; text-indent: -999px; width: 0; height: 0; zoom: 1; border-bottom: 6px solid #F0F0F0; border-left: 6px solid transparent; box-shadow: 0px 1px 0 0px #999; }
-				.pmd { float: left; padding: 5px 8px; background: #F0F0F0 repeat-x; border: 1px solid; border-color: #E7E7E7 #BBB #999 #E7E7E7; overflow-wrap: break-word; -moz-box-shadow: 2px 2px 4px #DDD; -webkit-box-shadow: 2px 2px 4px #DDD; box-shadow: 2px 2px 4px #DDD; -moz-border-radius: 10px 10px 10px 0; -webkit-border-radius: 10px 10px 10px 0; border-radius: 10px 10px 10px 0; }
+				.pmd { float: left; padding: 5px 8px; background: #F0F0F0 repeat-x; border: 1px solid; border-color: #E7E7E7 #BBB #999 #E7E7E7; overflow-wrap: break-word; -moz-box-shadow: 2px 2px 4px #DDD; -webkit-box-shadow: 2px 2px 4px #DDD; box-shadow: 2px 2px 4px #DDD; border-radius: 10px 10px 10px 0; }
 				.pmd, .pmd img { max-width: 292px; }
 				/* 短消息下的引用和代码样式 */
 					.quote { padding: 0; background: none; overflow: visible; display: flex; color: #666; }
@@ -1579,7 +1579,7 @@ Last Modify:	Pony
 					.pmd .blockcode { overflow: hidden; margin: 0; padding: 0; background: transparent; color: {MIDTEXT}; }
 						.pmd .blockcode pre { font-family: Monaco, Consolas, 'Lucida Console', 'Courier New', serif; font-size: 12px; line-height: 1.8em; margin: 0; white-space: pre-wrap; word-break: break-word; }
 				.pmm .pmt { right: -6px; bottom: 0; left: auto; border: 0; width: 7px; height: 7px; box-shadow: none; background: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='7' height='7'%3e%3cpath fill='%23fef5e7' stroke='%23f3bb65' d='M-.7 0L5.8 6.5H0'/%3e%3c/svg%3e"); }
-				.pmm .pmd { float: right; background: #FEF5E7 repeat-x; border-color: #FFC68C #F3BB65 #F3BB65 #DDC4A9; -moz-box-shadow: -2px 2px 4px #DDD; -webkit-box-shadow: -2px 2px 4px #DDD; box-shadow: -2px 2px 4px #DDD; -moz-border-radius: 10px 10px 0 10px; -webkit-border-radius: 10px 10px 0 10px; border-radius: 10px 10px 0 10px; }
+				.pmm .pmd { float: right; background: #FEF5E7 repeat-x; border-color: #FFC68C #F3BB65 #F3BB65 #DDC4A9; -moz-box-shadow: -2px 2px 4px #DDD; -webkit-box-shadow: -2px 2px 4px #DDD; box-shadow: -2px 2px 4px #DDD; border-radius: 10px 10px 0 10px; }
 			.pmb h4 { text-align: center; }
 		.pmfm { padding: 0 15px 15px; }
 			.pmfm .tedt { width: 365px; }
@@ -1920,7 +1920,7 @@ a.progressCancel { display: block; float: right; width: 14px; height: 14px; line
 		.tab-title { padding: 0; width: 100% !important; border: none; }
 		.frame-tab .tb { margin-top: 0; padding-left: 15px; line-height: 32px; border: none; }
 			.frame-tab .tb li { margin: 0; margin-left: -1px; font-weight: normal; }
-			.frame-tab .tb li, .frame-tab .tb li a { -moz-border-radius: 0; -webkit-border-radius: 0; border-radius: 0; border-top: none; background: transparent none; }
+			.frame-tab .tb li, .frame-tab .tb li a { border-radius: 0; border-top: none; background: transparent none; }
 				.frame-tab .tb .a a { background: #FFF; font-weight: bold; }
 		.frame-tab .tb-c { padding: 10px 16px; }
 

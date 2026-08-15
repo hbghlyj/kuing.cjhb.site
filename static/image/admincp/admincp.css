@@ -471,10 +471,10 @@ a.faq { background: url(faq.gif) no-repeat 0 2px; padding:1px; margin-left:10px;
 .t_l, .t_r, .b_l, .b_r { width: 10px; height: 10px; line-height: 10px; font-size: 0; }
 .t_c, .b_c { height: 10px; }
 .m_l, .m_r { width: 10px; }
-.t_l { border-radius: 10px 0 0 0; -moz-border-radius: 10px 0 0 0; -webkit-border-radius: 10px 0 0 0; -o-border-radius: 10px 0 0 0; }
-.t_r { border-radius: 0 10px 0 0; -moz-border-radius: 0 10px 0 0; -webkit-border-radius: 0 10px 0 0; -o-border-radius: 0 10px 0 0; }
-.b_l { border-radius: 0 0 0 10px; -moz-border-radius: 0 0 0 10px; -webkit-border-radius: 0 0 0 10px; -o-border-radius: 0 0 0 10px; }
-.b_r { border-radius: 0 0 10px 0; -moz-border-radius: 0 0 10px 0; -webkit-border-radius: 0 0 10px 0; -o-border-radius: 0 0 10px 0; }
+.t_l { border-radius: 10px 0 0 0; -o-border-radius: 10px 0 0 0; }
+.t_r { border-radius: 0 10px 0 0; -o-border-radius: 0 10px 0 0; }
+.b_l { border-radius: 0 0 0 10px; -o-border-radius: 0 0 0 10px; }
+.b_r { border-radius: 0 0 10px 0; -o-border-radius: 0 0 10px 0; }
 .m_c { background: #FFF; }
 .m_c .tb { margin: 0 0 10px; padding: 0 10px; }
 .m_c .c { padding: 0 10px 10px; }
