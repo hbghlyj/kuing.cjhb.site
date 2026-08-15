@@ -59,6 +59,8 @@ foreach(glob($dir.'/*.php') as $file) {
 require_once './source/discuz_version.php';
 require './install/include/install_var.php';
 C::t('common_setting')->update('profilegroup', $serialize_sql_setting['profilegroup']);
+C::t('common_setting')->update('extcredits', $serialize_sql_setting['extcredits']);
+C::t('common_setting')->update('creditnotice', 1);
 
 // Ensure the admin user and basic settings exist after importing
 require_once libfile('function/nativeuser');

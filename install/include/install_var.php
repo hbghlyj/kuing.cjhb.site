@@ -124,7 +124,7 @@ $serialize_sql_setting = array(
 			1 =>
 				array(
 					'img' => '',
-					'title' => '威望',
+					'title' => 'EXP',
 					'unit' => '',
 					'ratio' => 0,
 					'available' => '1',
@@ -135,7 +135,7 @@ $serialize_sql_setting = array(
 			2 =>
 				array(
 					'img' => '',
-					'title' => '金钱',
+					'title' => 'Karma',
 					'unit' => '',
 					'ratio' => 0,
 					'available' => '1',
@@ -146,10 +146,10 @@ $serialize_sql_setting = array(
 			3 =>
 				array(
 					'img' => '',
-					'title' => '贡献',
+					'title' => '',
 					'unit' => '',
 					'ratio' => 0,
-					'available' => '1',
+					'available' => NULL,
 					'showinthread' => NULL,
 					'allowexchangein' => NULL,
 					'allowexchangeout' => NULL,
