@@ -216,6 +216,12 @@ function makecreditlog($log, $otherinfo = []) {
 		case 'RPR':
 			$log['opinfo'] = lang('spacecp', 'admincp_op_credit');
 			break;
+		case 'RUL':
+			loadcache('creditrule');
+			$rule = $_G['cache']['creditrule'][$log['relatedid']] ?? [];
+			$rulelang = !empty($rule['action']) ? lang('creditrule', 'creditrule_'.$rule['action']) : '';
+			$log['opinfo'] = $rulelang && $rulelang !== 'creditrule_'.$rule['action'] ? $rulelang : ($log['title'] ?? '');
+			break;
 		case 'FCP':
 			$log['opinfo'] = '<a href="forum.php?mod=forumdisplay&fid='.$log['relatedid'].'" target="_blank">'.lang('spacecp', 'buy_forum').'</a>';
 			break;

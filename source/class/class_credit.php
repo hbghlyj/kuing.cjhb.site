@@ -308,7 +308,7 @@ class credit {
 				$extra = !empty($extra) ? '('.implode(',', $extra).')' : '';
 				$rulename = $this->coef > 0 && !empty($rule['action']) ? lang('creditrule', 'creditrule_'.$rule['action']) : '';
 				$this->updatemembercount($creditarr, $uids, $checkgroup, $rulename);
-				credit_log($uids, 'RUL', $rule['rid'], $creditarr, $rule['rulename'].$extra);
+				credit_log($uids, 'RUL', $rule['rid'], $creditarr, ($rulename ?: $rule['rulename']).$extra);
 			}
 		}
 	}
