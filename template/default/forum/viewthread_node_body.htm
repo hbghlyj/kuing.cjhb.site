@@ -156,7 +156,7 @@
 				<table class="cp0" id="vfastposttb">
 					<tr>
 						<td id="vf_l"></td>
-						<td id="vf_m"><input type="text" name="message" id="vmessage" onKeyDown="seditor_ctlent(event, '$(\'vfastpostform\').submit()');"/></td>
+						<td id="vf_m"><input type="text" name="message" id="vmessage" onKeyDown="if((event.ctrlKey && event.keyCode == 13) || (event.altKey && event.keyCode == 83)){event.preventDefault();$('vfastpostform').submit();}"/></td>
 						<td id="vf_r"></td>						
 						<td id="vf_b">
 							<button type="submit" class="pn pnc" name="replysubmit" id="vreplysubmit" value="true" style="">{lang fastreply}</button>								
