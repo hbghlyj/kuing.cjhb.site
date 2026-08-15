@@ -734,6 +734,14 @@ const testPusherLeaderCoordination = async browser => {
 
         assert.match(currentUrl, new RegExp(`mod=viewthread&tid=${tidOutput}(&|$)`), `Assertion Error: Normal user posting did not redirect to the created thread (tid ${tidOutput}).`);
         assert.ok(postContent.includes(standardSubject), 'Assertion Error: Created thread subject was not rendered after submission.');
+        const creditNames = await page.evaluate(() => window.creditnotice || '');
+        assert.match(creditNames, /1\|EXP\|/, 'Assertion Error: Credit prompt metadata did not localize extcredits1 as EXP.');
+        assert.match(creditNames, /2\|Karma\|/, 'Assertion Error: Credit prompt metadata did not localize extcredits2 as Karma.');
+        const creditPrompt = page.locator('#creditpromptdiv');
+        await creditPrompt.waitFor({ state: 'visible', timeout: 5000 });
+        const creditPromptText = (await creditPrompt.textContent()).trim();
+        assert.ok(creditPromptText.includes('EXP'), 'Assertion Error: Credit update prompt did not show EXP.');
+        assert.ok(!creditPromptText.includes('|'), 'Assertion Error: Credit update prompt exposed internal credit-name separators.');
         report += `### 2. Unprivileged User Posting\n- **Status**: Checked\n- **Thread Created**: ${standardSubject} (tid ${tidOutput})\n\n`;
 
         // Reply to Thread
@@ -1341,6 +1349,8 @@ const testPusherLeaderCoordination = async browser => {
         await page.locator('body').waitFor({ state: 'visible' });
         const otherProfileBody = await page.textContent('body');
         assert.ok(otherProfileBody.includes('admin'), 'Assertion Error: Desktop other user profile page did not load.');
+        assert.ok(otherProfileBody.includes('EXP'), 'Assertion Error: Profile did not label extcredits1 as EXP.');
+        assert.ok(otherProfileBody.includes('Karma'), 'Assertion Error: Profile did not label extcredits2 as Karma.');
         await page.screenshot({ path: 'screenshot_desktop_other_user_profile.png' });
 
         console.log("Checking header for user custom avatar...");
