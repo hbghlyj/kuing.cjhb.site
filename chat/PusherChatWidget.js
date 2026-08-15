@@ -765,7 +765,6 @@
     static _appendChatBody(textEl, bodyText){
       const decoded = PusherChatWidget._decodeHtml(bodyText || '');
       const re = /(https?:\/\/[^\s<]+|\/data\/attachment\/[^\s<]+)/gi;
-      const chatImage = /^\/data\/attachment\/chat\/[a-f0-9]{32}\.(?:jpe?g|png|gif|bmp|webp)$/i;
       let last = 0;
       let match;
       while((match = re.exec(decoded)) !== null){
@@ -773,26 +772,26 @@
           PusherChatWidget._appendTextWithBreaks(textEl, decoded.slice(last, match.index));
         }
         const url = match[0];
-        if(chatImage.test(url)){
-          const img = document.createElement('img');
-          img.src = url;
-          textEl.append(img);
-        } else {
-          try {
-            const parsed = new URL(url, window.location.origin);
-            if(parsed.protocol === 'http:' || parsed.protocol === 'https:'){
+        try {
+          const parsed = new URL(url, window.location.origin);
+          if(parsed.protocol === 'http:' || parsed.protocol === 'https:'){
+            if(/\.(?:jpe?g|png|gif|bmp|svg|webp)$/i.test(parsed.pathname)){
+              const img = document.createElement('img');
+              img.src = parsed.href;
+              textEl.append(img);
+            } else {
               const a = document.createElement('a');
               a.href = parsed.href;
               a.rel = 'noopener noreferrer nofollow';
               a.target = '_blank';
               a.textContent = url;
               textEl.append(a);
-            } else {
-              PusherChatWidget._appendTextWithBreaks(textEl, url);
             }
-          } catch(error) {
+          } else {
             PusherChatWidget._appendTextWithBreaks(textEl, url);
           }
+        } catch(error) {
+          PusherChatWidget._appendTextWithBreaks(textEl, url);
         }
         last = match.index + match[0].length;
       }
